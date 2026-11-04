@@ -58,10 +58,10 @@ It leaves to other roadmaps, by section:
   class sums; the pinned kernel criterion `Representation.char_eq_finrank_iff` decides
   `χ(g) = χ(1)`. The character formula for structure constants is derived here (§2.5).
 - InductionRestriction Layer 2 owns induced characters and Frobenius reciprocity.
-- OddOrderTheorem F2 owns the general Dade isometry and its comparison with ordinary induction
-  when every complement `H_a` is trivial, on `TauCeti.IsTISet` data. Layer 2 consumes that
-  comparison alone; it does not consume the cyclic-factor coherence theorems of F2 nor anything of
-  F0 or F3–F6, and no odd-order hypothesis enters.
+- OddOrderTheorem F2 owns the general Dade isometry (its §2.3) and its comparison with ordinary
+  induction when every complement `H_a` is trivial, on `TauCeti.IsTISet` data (its §2.4). Layer 2
+  consumes that comparison alone; it does not consume the cyclic-factor coherence theorems of F2
+  nor anything of F0 or F3–F6, and no odd-order hypothesis enters.
 
 Not in scope: isolated elements of odd prime order (the `Z*_p` theorem, which rests on the
 classification of finite simple groups), the classification of groups with dihedral or
@@ -170,8 +170,8 @@ Layer 2: induced class functions and characters, Frobenius reciprocity.
 
 ### From `TauCetiRoadmap.OddOrderTheorem`
 
-F2: for a subgroup `L ≤ G`, an `L`-invariant subset `A ⊆ L ∖ {1}` whose `G`-fusion is controlled
-by `L`, with every complement `H_a` trivial (`C_G(a) ≤ L` for `a ∈ A`), the Dade map on class
+F2, Layer 2 §2.4: for a subgroup `L ≤ G`, an `L`-invariant subset `A ⊆ L ∖ {1}` whose
+`G`-fusion is controlled by `L`, with every complement `H_a` trivial (`C_G(a) ≤ L` for `a ∈ A`), the Dade map on class
 functions of `L` vanishing off `A` equals ordinary induction, and induction is then an isometry
 for the normalized pairing on that domain. No cyclic-factor, coherence or odd-order hypothesis is
 part of this contract.
@@ -568,7 +568,7 @@ irreducibles, and the degree and value constraints these impose: the degrees sat
 `1 ± ψ₁(1) ± ψ₂(1) (± ψ₃(1)) = 0`, the values at `z` the same relation, and the values on `K`
 the relations read off from `β_j` and `f`. Use the Galois action of CharacterTheory §4.4 to move
 between the `χ_j` of a fixed parity and to compare the constituents of different `α_{j,j'}`.
-*Needs:* §2.3; OddOrderTheorem F2; InductionRestriction Layer 2; ModularCharactersAndBlocks M8;
+*Needs:* §2.3; OddOrderTheorem F2 §2.4; InductionRestriction Layer 2; ModularCharactersAndBlocks M8;
 CharacterTheory §4.4; Tau Ceti `TauCeti.ClassFunction.characterPairing`.
 
 **Checks.**
