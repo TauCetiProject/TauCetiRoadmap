@@ -308,8 +308,9 @@ by any bijection `V ≃ W`. *Needs:* 2.2, 1.1.
 
 ### 2.4 Gauge invariance
 
-`defect (β • α) = defect α`; `cost (β • α) γ = cost α (β * γ)`, hence
-`gaugeDist (β • α) = gaugeDist α`; a coboundary has `defect = 0`. *Needs:* 2.2, 2.3.
+For every group norm `ℓ`, `cost (β • α) γ = cost α (β * γ)`, hence
+`gaugeDist (β • α) = gaugeDist α`. For conjugation-invariant `ℓ`, `defect (β • α) = defect α`;
+a coboundary has `defect = 0`. *Needs:* 2.2, 2.3.
 
 **Checks.**
 
@@ -319,11 +320,16 @@ by any bijection `V ≃ W`. *Needs:* 2.2, 1.1.
 - A gauge that is constant on the vertices does not change the cost of any cochain under a
   conjugation-invariant norm: on the seed, the constant gauge `c` costs `6`.
 - A coboundary has each holonomy `e` and `defect = 0`.
+- Negative control: the weighted word norm of 1.1 (`t ↦ 1`, `s ↦ 2`, so `ℓ = 0, 1, 2, 3, 3, 4` on
+  `e, t, s, c, c⁻¹, (2 1 0)`) is a group norm that is not conjugation invariant. On
+  `complete (Fin 3)` with `α 0 2 = s⁻¹` and identity elsewhere, the holonomy is `s` and
+  `defect α = 2`; the constant gauge `c` gives holonomy `c⁻¹ * s * c = t` and
+  `defect (β • α) = 1 ≠ 2`. Under the moved-point norm both defects are `2`.
 
 ### 2.5 Finite coefficients
 
 For `[Finite G]` the infimum defining `gaugeDist` is attained, and
-`gaugeDist α = 0 ↔ IsCoboundary α` (`Cochain.gaugeDist_eq_zero_iff`). For a vertex `v₀`, the
+`gaugeDist α = 0 ↔ IsCoboundary α`. For conjugation-invariant `ℓ` and a vertex `v₀`, the
 minimum over gauges with `β v₀ = 1` equals `gaugeDist`, because a constant right factor
 conjugates every edge term. *Needs:* 2.4; Mathlib `Finset.inf'`.
 
@@ -333,6 +339,9 @@ conjugates every edge term. *Needs:* 2.4; Mathlib `Finset.inf'`.
   coboundary; on a tree with one `t` edge, `gaugeDist = 0` and it is a coboundary.
 - The seed has minimum `6` both over all gauges and over gauges with `β 0 = e`.
 - The empty vertex type has `gaugeDist = 0`, attained by the unique gauge.
+- Negative control: for the cochain and weighted word norm of the last 2.4 Check, the minimum
+  cost over all `216` gauges is `1`, while the minimum over gauges with `β 0 = e` is `2`. Under
+  the moved-point norm both minima are `2`.
 
 ### 2.6 Change of coefficients
 
@@ -375,9 +384,9 @@ whenever some cochain has positive gauge distance. *Needs:* 2.2, 2.5; Mathlib `R
 
 ### 3.2 Invariance
 
-`h1` is unchanged by multiplying `ℓ` by a positive real and by relabelling the vertices of
-`complete V`; in particular `h1 (complete V) ℓ` depends only on `Fintype.card V`. *Needs:* 3.1,
-2.3, 1.2.
+`h1` is unchanged by multiplying `ℓ` by a positive real, and, for conjugation-invariant `ℓ`, by
+relabelling the vertices of `complete V`; in particular `h1 (complete V) ℓ` then depends only on
+`Fintype.card V`. *Needs:* 3.1, 2.3, 1.2.
 
 **Checks.**
 

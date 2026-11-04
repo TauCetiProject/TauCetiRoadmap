@@ -12,6 +12,10 @@ finishes neither a milestone nor the roadmap.
 
 The headline theorems are:
 
+* `card_div_three_le_h1` (Layer 4): the star bound `k/3 ≤ h1 (complete V) ℓ` for every
+  conjugation-invariant group norm;
+* `Cochain.defect_replicate` and `Cochain.gaugeDist_replicate` (Layer 5): balanced replication
+  multiplies the defect by `q³` and the gauge distance by `q²`;
 * `h1_complete_movedNorm_fin_two` (Layer 7, Kozlov): the binary constant of the complete
   complex is `k/3` when `k ≥ 3` is not a power of two;
 * `h1_complete_movedNorm_fin_three` (Layer 8): the `Sym(3)` constant of the complete complex is
@@ -19,7 +23,8 @@ The headline theorems are:
 * `h1Norm_complete_movedNorm_fin_three` (Layer 8): the same constant in the normalized
   convention is `k/(k-2)`;
 * `h1Sym_complete` (Layer 8): the infimum over all degrees `≥ 2` is `k/3`;
-* `h1Err_complete` (Layer 9): the Chapman–Lubotzky cross-degree constant is `k/3`.
+* `h1Err_complete` (Layer 9): the Chapman–Lubotzky cross-degree constant is `k/3` in the
+  counting convention.
 
 These prototypes pin the counting convention (sums of a group norm, not means), the gauge
 convention `β u⁻¹ * α u v * β v`, the orientation `u < v < w` used to evaluate edges and
@@ -65,13 +70,6 @@ def movedNorm : GroupNorm (Equiv.Perm α) where
   eq_one_of_map_eq_zero' σ h := by
     have h' : (σ.support.card : ℝ) = 0 := h
     exact Equiv.Perm.support_eq_empty_iff.mp (Finset.card_eq_zero.mp (by exact_mod_cast h'))
-
-variable {α}
-
-/-- Hamming distance between permutations is the moved-point count of the quotient. -/
-theorem hammingDist_eq_movedNorm (σ τ : Equiv.Perm α) :
-    (hammingDist (⇑σ) (⇑τ) : ℝ) = movedNorm α (σ⁻¹ * τ) := by
-  sorry
 
 end Moved
 
@@ -138,12 +136,6 @@ def gaugeDist (ℓ : GroupNorm G) (α : Cochain X G) : ℝ :=
 def IsCoboundary (α : Cochain X G) : Prop :=
   ∃ β : V → G, ∀ u v, ({u, v} : Finset V) ∈ X.edges → α.toFun u v = β u * (β v)⁻¹
 
-/-- For finite coefficients the infimum is attained, so the gauge distance vanishes exactly on
-coboundaries. -/
-theorem gaugeDist_eq_zero_iff [Finite G] (ℓ : GroupNorm G) (α : Cochain X G) :
-    α.gaugeDist ℓ = 0 ↔ α.IsCoboundary := by
-  sorry
-
 end Cochain
 
 /-! ## Layer 3: the Cheeger constant -/
@@ -164,12 +156,6 @@ def h1Norm (X : TwoComplex V) (ℓ : GroupNorm G) : ℝ :=
 trivial, so its ratio set is empty and `sInf ∅ = 0` would force the infimum to `0`. -/
 def h1Sym (X : TwoComplex V) : ℝ :=
   ⨅ n : ℕ, h1 X (movedNorm (Fin (n + 2)))
-
-/-- The permutation constant is at most the binary (degree-2) constant. Each `h1` is
-nonnegative, so the infimum defining `h1Sym` is bounded below. -/
-theorem h1Sym_le_h1_fin_two (X : TwoComplex V) :
-    h1Sym X ≤ h1 X (movedNorm (Fin 2)) := by
-  sorry
 
 /-! ## Layer 4: the star bound on the complete complex -/
 
@@ -273,7 +259,9 @@ def h1Err (X : TwoComplex V) : ℝ :=
   sInf {r : ℝ | ∃ (n : ℕ) (α : Cochain X (Equiv.Perm (Fin (n + 2)))), 0 < α.gaugeDistErr ∧
     r = α.defect (movedNorm (Fin (n + 2))) / (n + 2 : ℕ) / α.gaugeDistErr}
 
-/-- Chapman–Lubotzky's cross-degree constant of the complete complex is `k/3` for `k ≥ 4`. -/
+/-- Chapman–Lubotzky's cross-degree constant of the complete complex is `k/3` for `k ≥ 4`, in
+the counting convention of the README. In Chapman–Lubotzky's normalized convention
+(Proposition 3.2 and Remark 3.3 of their paper II) the value is `k/(k-2)`, by README 3.3. -/
 theorem h1Err_complete (hV : 4 ≤ Fintype.card V) :
     h1Err (complete V) = (Fintype.card V : ℝ) / 3 := by
   sorry
