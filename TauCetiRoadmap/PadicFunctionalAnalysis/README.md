@@ -915,12 +915,14 @@ they agree when both sets of hypotheses hold. A coefficient sup-norm on
 integral series must not replace the profinite source topology.
 Prove the supporting fact `isLinearTopology_padicInt` for integral examples.
 
-Import the general measure/completed-group-algebra comparison from
-PadicMeasuresIwasawaAlgebras §1.7, whose construction is independent of
-Amice. Prove that it agrees with §3.4's Amice coordinate after the
-principal-unit identification. This is the requested specialised
+State the specialised measure/completed-group-algebra comparison on `ℤ_p`
+here: compose §3.4's integral Amice equivalence with the procyclic
+coordinate of ProfiniteProPGroups Layer 9 after the principal-unit
+identification `a↦γ^a`, so that `δ_a` goes to `[γ^a]` and `T=[γ]−1`.
+This is the requested specialised
 `amiceTransform_completedGroupAlgebra_compat` comparison, not a second
-construction of the general comparison.
+construction of the general comparison. PadicMeasuresIwasawaAlgebras §4.5
+consumes it to check its general comparison against the Amice coordinate.
 
 Finally use the general coefficient-extension interface to view an integral
 measure `ν` on `ℤ_pˣ` as a `ℂ_p`-valued measure, and set
@@ -1037,9 +1039,8 @@ vanishes at the trivial weight but has value `a−b≠0` at `κ(x)=x`.
 Every Dirac measure attains the bound: its extended norm and every
 `|κ(a)|` are one.
 
-**Dependencies.** Layers 0–4, RestrictedPowerSeries, LocalFieldsRamification,
-ProfiniteProPGroups Layer 9 and the independent general comparison in
-PadicMeasuresIwasawaAlgebras Layer 1. Sources: [Col], [RJW] §§3–4,
+**Dependencies.** Layers 0–4, RestrictedPowerSeries, LocalFieldsRamification
+and ProfiniteProPGroups Layer 9. Sources: [Col], [RJW] §§3–4,
 [JN] and [LWX] §§2–3.
 
 ## Dependency order and completion
@@ -1052,9 +1053,10 @@ cycles must be resolved at the stated interfaces:
   construction and its functoriality. Only the last corollary of §2.4
   consumes it. Countable-type splitting itself is independent of tensors
   and of the later distribution layers.
-* PadicMeasuresIwasawaAlgebras §1.7 supplies the general measure/group-algebra
-  comparison without Amice. Section 5.3 then proves coordinate compatibility.
-  The consumer's later Amice and weight-space layers may use that result.
+* Section 5.3 states the specialised Amice/completed-group-algebra comparison
+  on `ℤ_p` from §3.4 and ProfiniteProPGroups Layer 9 alone; the general
+  comparison without Amice is not an input here. PadicMeasuresIwasawaAlgebras
+  consumes that specialised comparison in its Amice and weight-space layers.
 
 A layer is complete when its definitions use native structures, its targets
 and comparison maps are proved, its stated checks are formalised, and its
