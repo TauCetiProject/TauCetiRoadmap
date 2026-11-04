@@ -528,6 +528,9 @@ Layer 5P: characteristic-zero polynomial matrix exp/log and their geometric rest
 SR.5.2 compares its arbitrary-ℚ-algebra finite evaluation with these maps.
 Layer 2: the Lie algebra of an algebraic group and the differential of a morphism, for the
 composites of SR.5.2 *wd-algebraic-composition*.
+Layer 4: the Jordan decomposition of elements and its functoriality under representations,
+which SR.5.2 *wd-algebraic-composition* uses for the unipotence of ρ(exp N) and for the
+preservation of Frobenius semisimplicity.
 Layer 9: the pinned Chevalley–Demazure group schemes over ℤ, carrying the finite-wild cocycle
 scheme.
 
@@ -695,12 +698,18 @@ has smooth-vector submodule ⊤.
 **Smooth representations form an abelian category** (*smooth-rep-abelian*). For a commutative
 ring A and a topological group G, prove that the property 'smooth' on Rep A G contains 0 and is
 closed under kernels, cokernels, subobjects, quotients, finite products, arbitrary direct sums and
-filtered colimits. Conclude that SmoothRep A G is an abelian category with all colimits (computed
-in Rep A G) and all limits (the smooth parts of limits in Rep A G), that the inclusion into
-Rep A G is exact and preserves all colimits, that kernels and cokernels are computed on underlying
-A-modules, and that a morphism is a monomorphism (epimorphism) iff it is injective (surjective).
-It is not closed under extensions in Rep A G ([Ber87] §1.1, p. 3). *Needs:*
-*smooth-rep-category*.
+filtered colimits: a subobject or a quotient keeps open stabilisers, a finite sum of vectors is
+fixed by the finite intersection of their stabilisers, and every element of a direct sum or of a
+filtered colimit is the image of a finite sum. Conclude that SmoothRep A G is an abelian category
+with all colimits (computed in Rep A G) and all limits (the smooth parts of limits in Rep A G),
+that the inclusion into Rep A G is exact and preserves all colimits, that kernels and cokernels
+are computed on underlying A-modules, and that a morphism is a monomorphism (epimorphism) iff it
+is injective (surjective). Smoothness is not closed under extensions in Rep A G in general: for
+G = (ℤ_2, +), A = ℚ_2 and `ρ(t) = [[1, t], [0, 1]]` on ℚ_2² the subline spanned by e_1 and the
+quotient line carry the trivial action and are smooth, while e_2 has stabiliser {0}, which is not
+open; for discrete G every representation is smooth. The same statements for nondegenerate
+modules over an idempotented ring, with limits given by the nondegenerate part of the module
+limit, are [Ber87] §1.1, p. 3. *Needs:* *smooth-rep-category*.
 
 The abelian structure extends the preadditive structure inherited from `Rep A G`:
 addition and scalar multiplication of morphisms are the underlying operations on
@@ -708,6 +717,19 @@ intertwining maps. In particular its zero morphisms agree with those used in coc
 
 The monomorphism and epimorphism criteria accompany exactness of the inclusion and its
 preservation of all colimits.
+
+**Checks.**
+
+- The unipotent representation `ρ(t) = [[1, t], [0, 1]]` of ℤ_2 on ℚ_2² has smooth part the
+  line spanned by e_1, of dimension 1, not 2: an extension of two smooth representations need
+  not be smooth, so a definition closing SmoothRep A G under extensions would be wrong.
+- For G = ℤ_p the product in SmoothRep A G of the permutation representations A[ℤ/p^n], n ≥ 1,
+  is strictly smaller than the module product: the vector whose n-th component is the indicator
+  of the class of 0 in ℤ/p^n has stabiliser ⋂ p^nℤ_p = {0}, so the module product is not smooth
+  and the limit is its smooth part. For discrete G the two products agree.
+- For the sum-of-coefficients map A[ℤ/p] → A of ℤ_p-representations, the kernel is the
+  augmentation submodule with its induced action and the cokernel is 0, both computed on the
+  underlying A-modules; a non-surjective map of smooth representations has nonzero cokernel.
 
 **Smooth representations as discrete continuous representations** (*smooth-discrete-comparison*).
 Give the commutative ring A the discrete topology and let G be a
@@ -4549,50 +4571,67 @@ RepresentationTheory/InductionRestriction layers 0 and 2; Mathlib linear duals a
 Over a characteristic-zero field E, for raw parameters (V_1,r_1,N_1), …, (V_k,r_k,N_k) of
 *wd-raw-parameters* and a morphism of algebraic groups ρ : GL(V_1) × ⋯ × GL(V_k) → GL(W) over E
 with differential dρ : 𝔤𝔩(V_1) × ⋯ × 𝔤𝔩(V_k) → 𝔤𝔩(W) (ReductiveGroups Layer 2), define
-`ρ∘(r,N) := (W, ρ∘(r_1,…,r_k), dρ(N_1,…,N_k))` and prove that it is a raw parameter on W:
-its kernel contains ⋂ ker r_i and is open, dρ(N_1,…,N_k) is nilpotent because morphisms of
-algebraic groups preserve Jordan decompositions, and
-`ρ(r(w)) dρ(N) ρ(r(w))⁻¹ = dρ(r(w) N r(w)⁻¹) = q^{deg w} dρ(N)`, with the same arithmetic
-degree and ω(w) = q^{deg w} as *wd-parameter-operations*. Prove functoriality in ρ (identity and
+`ρ∘(r,N) := (W, ρ∘(r_1,…,r_k), dρ(N_1,…,N_k))` and prove that it is a raw parameter on W.
+Its kernel contains ⋂ ker r_i and is open. Prove the nilpotency of dρ(N_1,…,N_k) together with
+the identity `ρ(exp(tN_1),…,exp(tN_k)) = exp(t·dρ(N_1,…,N_k))` for every t ∈ E as follows:
+u := ρ(exp N_1,…,exp N_k) is unipotent, because each exp N_i is unipotent and a morphism of
+algebraic groups preserves Jordan decompositions (ReductiveGroups Layer 4); Y := log u is
+nilpotent by *nilpotent-exp-log*; the two one-parameter subgroups t ↦ ρ(exp(tN_1),…,exp(tN_k))
+and t ↦ exp(tY) are morphisms of algebraic groups 𝔾_a → GL(W) with polynomial entries that
+agree at every t ∈ ℤ, where both equal u^t, so they agree identically because E has
+characteristic zero (the polynomial one-parameter subgroup u^t of ReductiveGroups Layer 5P);
+differentiating at t = 0 gives dρ(N_1,…,N_k) = Y. The conjugation relation
+`ρ(r(w)) dρ(N) ρ(r(w))⁻¹ = dρ(r(w) N r(w)⁻¹) = q^{deg w} dρ(N)` follows from
+`ρ(g) dρ(X) ρ(g)⁻¹ = dρ(Ad(g) X)` (ReductiveGroups Layer 2), with the same arithmetic
+degree and `ω(w) = q^{deg w}` as *wd-parameter-operations*. Prove functoriality in ρ (identity and
 composition), that an isomorphism of parameters on the V_i given by (g_i) induces the
-isomorphism ρ(g_1,…,g_k), that Frobenius semisimplicity is preserved
-(ρ preserves the multiplicative Jordan decomposition
-`LinearMap.GeneralLinearGroup.jordanDecomposition`), and that
-`ρ(exp(tN_1),…,exp(tN_k)) = exp(t·dρ(N_1,…,N_k))` for every t ∈ E, by *nilpotent-exp-log*
-and the unipotent restriction of ReductiveGroups Layer 5P. Show that the direct sum, tensor
+isomorphism ρ(g_1,…,g_k), and that Frobenius semisimplicity is preserved: ρ carries the
+semisimple part of the multiplicative Jordan decomposition
+`LinearMap.GeneralLinearGroup.jordanDecomposition` of (r_1(Φ),…,r_k(Φ)) to the semisimple
+part of ρ(r_1(Φ),…,r_k(Φ)) (ReductiveGroups Layer 4). Show that the direct sum, tensor
 product, dual, character twist and determinant of *wd-parameter-operations* are the
 instances ρ = ⊕, ⊗, g ↦ (gᵗ)⁻¹, tensoring with a line and det, whose differentials give the
 monodromies N⊕N', N⊗1+1⊗N', −Nᵗ, N and 0.
-For m ≥ 0 let Sym^m V be the m-th symmetric power of V (Mathlib's symmetric tensor power
-`Sym[E]^m V`, or the degree-m piece `TauCeti.SymmetricAlgebra.homogeneousSubmodule`; over E
-these are isomorphic GL(V)-modules), with the algebraic representation
+For m ≥ 0 let Sym^m V be the m-th symmetric power of V. Mathlib's symmetric tensor power
+`Sym[E]^m V` and the degree-m piece `TauCeti.SymmetricAlgebra.homogeneousSubmodule` are both
+quotients of the m-th tensor power `⨂^m V` by the relations identifying a pure tensor with each
+of its permutations, so they are isomorphic over every commutative ring, with no characteristic
+hypothesis; the submodule of symmetric tensors inside `⨂^m V` is a different carrier, which this
+target does not use. Give Sym^m V the algebraic representation
 Sym^m : GL(V) → GL(Sym^m V), g(v_1⋯v_m) = gv_1⋯gv_m, whose differential is
 `d Sym^m(X)(v_1⋯v_m) = Σ_j v_1⋯(Xv_j)⋯v_m`. Define the m-th symmetric power
 `Sym^m∘(r,N) := (Sym^m V, Sym^m∘r, d Sym^m(N))` as the instance ρ = Sym^m, of dimension
 binom(dim V + m − 1, m), functorial in V and compatible with transport along linear
 equivalences. Prove Sym^0∘(r,N) is the trivial parameter, Sym^1∘(r,N) = (r,N),
 `Sym^m((r,N)⊗χ) ≅ Sym^m(r,N) ⊗ χ^m` for a character χ, `Sym^m∘(r,0) = (Sym^m∘r, 0)`, and
-`Sym^{n−1}∘Sp(2) ≅ Sp(n)` for n ≥ 1 with the Sp(n) of *wd-parameter-operations*
+`Sym^{n−1}∘Sp(2) ≅ Sp(n)` for n ≥ 1 with the Sp(n) of *wd-parameter-operations*; this
+last isomorphism uses the characteristic-zero hypothesis of the raw fields, through the
+invertibility of the integers 1, …, n−1 in E
 ([Del73] §8.4.1, p. 568; [Tat79] §4.1).
 *Needs:* *wd-raw-parameters*, *wd-parameter-operations*, *nilpotent-exp-log*;
-ReductiveGroups Layers 2 and 5P; Mathlib `Sym[E]^m V` and `PiTensorProduct`;
+ReductiveGroups Layers 2, 4 and 5P; Mathlib `Sym[E]^m V` and `PiTensorProduct`;
 Tau Ceti `TauCeti.SymmetricAlgebra.homogeneousSubmodule` and
 `LinearMap.GeneralLinearGroup.jordanDecomposition`.
 
 **Checks.**
 
-- For dim V = 2 with basis e_1, e_2, Ne_2 = e_1, Ne_1 = 0 and f_j = e_1^{n−1−j} e_2^j,
+- For dim V = 2 with basis e_1, e_2, Ne_2 = e_1, Ne_1 = 0 and `f_j = e_1^{n−1−j} e_2^j`,
   `d Sym^{n−1}(N) f_j = j·f_{j−1}`: a single Jordan block of size n.
 - In the basis of Sp(2) with `r(w)e_0 = e_0`, `r(w)e_1 = ω(w)e_1`, `Ne_0 = e_1`, the monomials
-  e_0^{n−1−j} e_1^j have weights ω(w)^j and `d Sym^{n−1}(N)` sends the j-th to (n−1−j) times
+  `e_0^{n−1−j} e_1^j` have weights `ω(w)^j` and `d Sym^{n−1}(N)` sends the j-th to (n−1−j) times
   the (j+1)-st; rescaling the basis gives Sp(n) exactly, with no twist, and the arithmetic
   conjugation relation raises each weight by one as required.
 - The dual instance g ↦ (gᵗ)⁻¹ has differential X ↦ −Xᵗ and recovers (r∨, −Nᵗ); the
   determinant has differential the trace, which vanishes on nilpotent N, recovering zero
   monodromy. Tensoring two rank-one parameters gives the product character with N = 0.
-- Over a field of characteristic p ≤ m the symmetric tensors and the symmetric power are not
-  isomorphic GL(V)-modules, since (e_1+e_2)^p = e_1^p + e_2^p in the latter; the
-  characteristic-zero hypothesis of the raw fields is used for the identification.
+- For ρ = Sym² and N with N² = 0 on E², the unipotent element Sym²(exp N) = Sym²(1 + N) has a
+  single Jordan block of size 3, so its logarithm d Sym²(N) is nilpotent of order 3, not 2: the
+  nilpotency order of dρ(N) is not that of N, and only the unipotence of ρ(exp N) is transported.
+- Over 𝔽_3 with n = 4 and the basis of the first Check, `d Sym^3(N) f_3 = 3·f_2 = 0` and
+  `d Sym^3(N) f_0 = 0`, so the monodromy of Sym^3∘Sp(2) has two Jordan blocks, of sizes 3 and 1,
+  and the parameter is not Sp(4): the characteristic-zero hypothesis is used for
+  `Sym^{n−1}∘Sp(2) ≅ Sp(n)` and for the single-Jordan-block Check, not for the identification
+  of the two quotient carriers, which holds over every commutative ring.
 
 #### Grothendieck monodromy
 ##### WD complete coefficients
