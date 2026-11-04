@@ -93,8 +93,9 @@ elsewhere and cited here.
   and the projective resolution it gives. That is the simplicial-set model of `EG`; it is a
   different object from the spaces built here, and the name is Mathlib's, so the spaces below
   take names in the `TauCeti` namespace. Stage 4 relates the two.
-- **Singular homology.** `Mathlib/AlgebraicTopology/SingularHomology/` supplies
-  `singularHomologyFunctor` and its homotopy invariance.
+- **Singular homology.** Mathlib supplies the singular homology functor on topological spaces,
+  with values in modules over a commutative ring, together with its homotopy invariance; this
+  roadmap consumes it from Mathlib as it stands.
 - **Simplicial complexes.** `TauCeti/AlgebraicTopology/SimplicialComplex/` has abstract complexes,
   their realization with the weak topology, the combinatorial join and cone, subdivision and
   collapse. The realization theory this roadmap needs on top of that belongs to Layer 11 of the
