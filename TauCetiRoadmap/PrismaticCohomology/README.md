@@ -330,7 +330,7 @@ On the existing ring `R`, a `δ` structure is a function `δ:R→R` with `δ(0)=
 
 **§0.4 Ordinary Frobenius lift.**
 
-A FrobeniusLift is a unital endomorphism `f` of `R` such that for each `x` there exists `y` with `f(x)=x^p+p y`. Equivalently its reduction modulo `(p)` is Frobenius. The witnesses form a proposition, not a chosen `δ` operation or a derived homotopy.
+A Frobenius lift is a unital endomorphism `f` of `R` such that for each `x` there exists `y` with `f(x)=x^p+p y`. Equivalently its reduction modulo `(p)` is Frobenius. The witnesses form a proposition, not a chosen `δ` operation or a derived homotopy.
 
 (BS22, Remarks 2.2 and 2.5; pp. 13, 14.)
 
@@ -564,7 +564,7 @@ no p-torsionfreeness hypothesis on `R`.
 
 **§0.18 Coefficient map on length-two Witt vectors.**
 
-For a ring map `f:R→T` construct `witt2Map(f):W_2(R)→W_2(T)` with both Witt coordinates mapped by `f`, using the existing TruncatedWittVector `p 2` carrier.
+For a ring map `f:R→T` construct the coefficient map `W_2(f):W_2(R)→W_2(T)` induced by `f`, with both Witt coordinates mapped by `f`, using the existing TruncatedWittVector `p 2` carrier.
 
 `R,T` are commutative rings. No torsion-freeness or condition on the Jacobson radical.
 
@@ -572,20 +572,20 @@ For a ring map `f:R→T` construct `witt2Map(f):W_2(R)→W_2(T)` with both Witt 
 
 *Needs:* §0.12 and Mathlib `WittVector.map`, `WittVector.map_coeff`, `WittVector.truncate`, `WittVector.truncate_surjective`, `WittVector.coeff_truncate`.
 
-- The jth coordinate of `witt2Map(f)(z)` equals `f(z_j)`; the separate lemma target supplies this API.
+- The jth coordinate of `W_2(f)(z)` equals `f(z_j)`; the separate lemma target supplies this API.
 - The identity ring map induces the identity Witt map.
-- `witt2Map(g` composed with `f)=witt2Map(g`) composed with `witt2Map(f)`.
-- For a ring map `f:R→S` and `x∈W(R)`, `witt2Map(f)(truncate₂(x)) = truncate₂(WittVector.map(f)(x))`.
+- `W_2(g∘f)=W_2(g)∘W_2(f)`.
+- For a ring map `f:R→S` and `x∈W(R)`, `W_2(f)(truncate₂(x)) = truncate₂(WittVector.map(f)(x))`.
 
 **Checks.**
 
-- `witt2Map(id)(z)=z`.
+- `W_2(id)(z)=z`.
 - The image of (0,1) in `W_2(Z)` under reduction to `W_2(F_2)` has coordinates (0,1), although both target ghost coordinates vanish.
 - Any coefficient map to the zero ring sends every length-two Witt vector to zero.
 
 **§0.19 Coordinates of the Witt coefficient map.**
 
-For `j` in Fin `2`, `(witt2Map(f)(z))_j=f(z_j)`. This is the projection API promoted for consumers.
+For `j` in Fin `2`, `(W_2(f)(z))_j=f(z_j)`. This is the projection API promoted for consumers.
 
 `f` is a unital map of commutative rings.
 
@@ -885,8 +885,8 @@ A and `B` are commutative rings; `B` has Algebra A `B` and IsLocalization `S B`;
 *Needs:* §§0.22–0.26, 0.40–0.41 and Mathlib `IsLocalization.map_units`.
 
 - The operation on `i(a)` is `i(delta_A(a))`.
-- Every compatible `δ` structure equals localizeJacobson.
-- For any proof of the original Frobenius image-unit condition, localizeJacobson equals localize with that proof.
+- Every compatible `δ` structure equals the one constructed here.
+- For any proof of the original Frobenius image-unit condition, the structure constructed here equals the localized structure of §0.22 with that proof.
 
 **Checks.**
 
@@ -896,7 +896,7 @@ A and `B` are commutative rings; `B` has Algebra A `B` and IsLocalization `S B`;
 
 **§0.43 Frobenius of the integer delta structure.**
 
-The associated Frobenius of intDelta `p` on `Z` is the identity ring endomorphism, as specified by §0.8.
+The associated Frobenius of the canonical integer δ-structure on `Z` is the identity ring endomorphism, as specified by §0.8.
 
 (BS22, Example 2.6; integral restriction of its formula; p. 14.)
 
@@ -912,10 +912,10 @@ Use the prime-ideal instance from `Nat.prime_iff_prime_int` and `Ideal.isPrime_s
 
 *Needs:* §§0.8, 0.25, 0.27–0.28, 0.43 and Mathlib `Nat.prime_iff_prime_int`, `Ideal.isPrime_span_singleton_of_prime`, `Localization.AtPrime`, `IsLocalization.AtPrime.isLocalRing`.
 
-- Delta of the image of a in `Z` equals the image of `intDelta(a)`.
+- Delta of the image of `a` in `Z` equals the image of `δ(a)` for the canonical integer δ-structure.
 - The associated ring endomorphism is the identity.
 - For `x`, `p*δ(x)=x-x^p`.
-- Every δ-structure on `Z_(p)` agrees with intAtPrime; equality follows on integers and then on inverses of integers prime to `p`.
+- Every δ-structure on `Z_(p)` agrees with the p-local integer δ-structure; equality follows on integers and then on inverses of integers prime to `p`.
 
 **Checks.**
 
@@ -926,7 +926,7 @@ Use the prime-ideal instance from `Nat.prime_iff_prime_int` and `Ideal.isPrime_s
 
 **§0.45 Restriction to the integer operation.**
 
-The canonical map `Z→Z_(p)` commutes with intDelta and intAtPrime.
+The canonical map `Z→Z_(p)` commutes with the δ operations of the canonical integer δ-structure and the p-local integer δ-structure.
 
 use the existing algebra map to Localization.AtPrime `(p)`.
 
@@ -1053,7 +1053,7 @@ The quotient structure and this unique factorization use the ordinary ideal quot
 
 ### 0.55 Free δ-rings
 
-Extend the p-local free object of PerfectoidSpaces §P4.15.2 integrally: `Delta.Free(S)=Z[x_(s,n)]`, `δx_(s,n)=x_(s,n+1)`, `φx_(s,n)=x_(s,n)^p+px_(s,n+1)`, for any set `S`. Its universal map sends `x_(s,n)` to `δ^n(f_s)`; `φ` is faithfully flat, and after inverting `p` the `φ^n(x_(s,0))` are polynomial generators.
+Extend the p-local free object of PerfectoidSpaces §P4.15.2 integrally: the free δ-ring on `S` is `Z[x_(s,n)]`, `δx_(s,n)=x_(s,n+1)`, `φx_(s,n)=x_(s,n)^p+px_(s,n+1)`, for any set `S`. Its universal map sends `x_(s,n)` to `δ^n(f_s)`; `φ` is faithfully flat, and after inverting `p` the `φ^n(x_(s,0))` are polynomial generators.
 
 `S` is any set. The source states the one-generator case over `Z_(p)` (all rings there are `Z_(p)-algebras`); the statement over `Z` has the same proof, since `Z[x_{s,n}]` is p-torsion-free and the displayed `φ` lifts Frobenius, and it base-changes to the p-local statement.
 
@@ -1361,7 +1361,7 @@ A is a δ-ring, p-torsion-free and classically p-adically complete.
 
 - The crystalline prism of a p-regular p-complete δ-ring.
 - Its ideal is `(p)`.
-- It satisfies IsCrystalline.
+- It is crystalline.
 - Specialization `A=Z_p`.
 - Specialization `A=W(k)`, `k` perfect of characteristic `p`.
 - `Z_p` prism ideal `(p)`.
@@ -1437,7 +1437,7 @@ It is universal among oriented prisms, not among orientable ones. This is the Fr
 - Prism plus a chosen ideal generator.
 - Its generator is distinguished.
 - Its generator is regular.
-- Forgetting the generator gives IsOrientable.
+- Forgetting the generator gives an orientable prism.
 - Universal oriented prism.
 - Unique orientation-preserving δ-lift to any oriented prism.
 - The lift sends the universal generator to the specified generator.
@@ -2144,7 +2144,7 @@ The global qcqs restriction is necessary for base change of products; BS22 Theor
 
 ### 1.22 The de Rham comparison (W(A/I) p-torsion-free)
 
-Assume `W(A/I)` is p-regular. For smooth formal `X/A/I`, `Δ_(X/A)⊗̂^L_(A,φ_A)A/I≃Ωhat*_(X/(A/I))`, multiplicatively. Let `q:A→A/I` be the quotient and put `ψ=F∘WittVector.map(q)∘w_A:A→W(A/I)`, equivalently `F∘Delta.wittLift(q)`. This gives `Δ_(R/A)⊗̂^L_(A,ψ)W(A/I)≃RΓ_crys((R/p)/W(A/I))`, relative to the PD ideal `ker(W(A/I)→A/(I,p))`; reduction is the de Rham iso. For qcqs `X` it holds on `RΓ`. All reductions are derived p-completed.
+Assume `W(A/I)` is p-regular. For smooth formal `X/A/I`, `Δ_(X/A)⊗̂^L_(A,φ_A)A/I≃Ωhat*_(X/(A/I))`, multiplicatively. Let `q:A→A/I` be the quotient and put `ψ=F∘WittVector.map(q)∘w_A:A→W(A/I)`, equivalently `F` composed with the δ-lift `A→W(A/I)` of `q`. This gives `Δ_(R/A)⊗̂^L_(A,ψ)W(A/I)≃RΓ_crys((R/p)/W(A/I))`, relative to the PD ideal `ker(W(A/I)→A/(I,p))`; reduction is the de Rham iso. For qcqs `X` it holds on `RΓ`. All reductions are derived p-completed.
 
 Assume `W(A/I)` p-torsion-free, as when `A/I` is p-torsion-free or `I=(p)` with `A/p` reduced. The reduction is along `A→_(φ)A/I`; untwisted reduction is Hodge–Tate, with `Ω^i{−i}` cohomology. In the proof `ψ(I)⊂FVW(A/I)=pW(A/I)`.
 
@@ -2384,7 +2384,7 @@ Filtered objects use `(N,≤)→D(R)` with completed tensor and graded pieces (D
 - `Fil_0^conj Δ̄_{R/A} ≃` R[0].
 - For `R = A/I` the map `Fil_i^conj → Δ̄_{R/A}` is an isomorphism for every `i`.
 - For `R` smooth over `A/I`, `H^n(Fil_i^conj Δ̄_{R/A}) = 0` for `n > i`: the filtration is the canonical one.
-- For `f` a nonzerodivisor of `A/I`, put `R=(A/I)/(f)` and assume R nonzero with bounded p-power torsion. Then `Fil_i^conjΔ̄_(R/A)→Δ̄_(R/A)` is not an isomorphism for any `i`, although `Δ̄_(R/A)` is discrete. In contrast, for `(A,I)=(Z_p[[u]],(u−p))`, `f=p` and `R=A/I`, the base Check gives an isomorphism at every stage.
+- For `f` a nonzerodivisor of `A/I`, put `R=(A/I)/(f)` and assume R nonzero with bounded p-power torsion. Then `Fil_i^conjΔ̄_(R/A)→Δ̄_(R/A)` is not an isomorphism for any `i`, although `Δ̄_(R/A)` is discrete. In contrast, for `(A,I)=(Z_p[[u]],(u−p))` and `R=A/I`, the base Check gives an isomorphism at every stage.
 
 **Proof route.** Left Kan extend the smooth truncation filtration, then glue its canonical ideal twists (BS22 Construction 7.6, p.56).
 
@@ -2478,7 +2478,7 @@ The hypothesis quasi-compact quasi-separated is part of the statement in the arX
 
 ### 2.10 The comparison map from derived prismatic cohomology to prisms and to site cohomology
 
-For each prism `(B,J)` under `(A,I)` with `R→B/J`, construct the natural Frobenius-compatible evaluation `Δ_(R/A)→B`. Their coherent limit gives `toSite:Δ_(R/A)→RΓ((R/A)_Δ,O)`, compatible with augmentation on smooth algebras and then with completed left Kan extension; it is an equivalence in the smooth range. The Hodge–Tate evaluations and reduction square are part of the construction, not an inference that arbitrary singular site cohomology is left Kan extended.
+For each prism `(B,J)` under `(A,I)` with `R→B/J`, construct the natural Frobenius-compatible evaluation `Δ_(R/A)→B`. Their coherent limit gives the comparison map to site cohomology `Δ_(R/A)→RΓ((R/A)_Δ,O)`, compatible with augmentation on smooth algebras and then with completed left Kan extension; it is an equivalence in the smooth range. The Hodge–Tate evaluations and reduction square are part of the construction, not an inference that arbitrary singular site cohomology is left Kan extended.
 
 The cohomology of `O_Δ` on the site of bounded prisms is the limit over the category, because `O_Δ` is a sheaf with vanishing higher Čech cohomology (Layer `1`, BS22 Corollary 3.12 and Remark 4.5). When `Δ_{R/A}` is discrete, `ev_{(B,J)}` is a map of δ-rings (§2.12).
 
@@ -2490,7 +2490,7 @@ The cohomology of `O_Δ` on the site of bounded prisms is the limit over the cat
 - Evaluation commutes with Frobenius.
 - Naturality in `R` and the prism object.
 - Limit of the structure sheaf over the relative site.
-- Canonical `Δ→siteCohomology`.
+- The canonical comparison map to site cohomology.
 - It is an equivalence for p-completely smooth `R`.
 
 **Checks.**
@@ -2649,7 +2649,7 @@ The argument uses polynomial crystalline comparison and `φ`, avoiding the later
 
 (ALB23, Lemma 3.4.2 (published: Lemma 3.27); p. 24; ALB23, Remark 3.4.3 (published: Remark 3.28); p. 25; ALB23, Remark 3.1.8 (2) (published: Remark 3.8); p. 17; BMS2, Proposition 8.12 and Theorem 8.14; pp. 59, 60.)
 
-*Needs:* §2.15, §2.19, §2.13, §2.17, §0.69, §0.74, §0.65, DerivedDeRhamCohomology §§PD.6–PD.7, CrystallineCohomology §§CR.DDR.4.5, CR.DDR.5.18–CR.DDR.5.22, DerivedDeRhamCohomology §§5.1–5.7, 5.17, Mathlib `WittVector`, Mathlib `PerfectRing`.
+*Needs:* §2.15, §2.19, §2.13, §2.17, §0.69, §0.74, §0.65, DerivedDeRhamCohomology §§PD.6–PD.7, CrystallineCohomology §§CR.DDR.4.5, CR.DDR.5.18, CR.DDR.5.20–CR.DDR.5.22, DerivedDeRhamCohomology §§5.1–5.7, 5.17, Mathlib `WittVector`, Mathlib `PerfectRing`.
 
 **Proof route.** Apply the preceding PD identification with its Frobenius coefficient transport; the root-quotient computation removes any Nygaard dependency (ALB23 Lemma 3.4.2, p.24).
 
@@ -2865,11 +2865,11 @@ For `S=k[x]`, the right side is the p-completed de Rham complex of the ordinary 
 
 ### Dependencies
 
-Layers `0`, `1`; DerivedDeRhamCohomology §§PD.6–PD.7, CrystallineCohomology §§CR.2.1–CR.2.3, DerivedModuleAlgebra §§0.1–0.17, 0.25, DerivedModuleAlgebra §§1.1–1.9; DerivedDeRhamCohomology §§1.10–1.23, DerivedDeRhamCohomology §§2.7–2.26, 5.8, DerivedDeRhamCohomology §3.4, CrystallineCohomology §§CR.DDR.4.5, CR.DDR.5.18–CR.DDR.5.22, DerivedDeRhamCohomology §§5.1–5.7, 5.17, EnhancedDerivedSheaves Layer E3 (relative Kan extensions), EnhancedDerivedSheaves Layers E5:abstract and E5:descent, EnhancedDerivedSheaves §E5:abstract.2, EnhancedDerivedSheaves §E5:abstract.1, EnhancedDerivedSheaves §§E5:animation.1, E5:animation.4, EnhancedDerivedSheaves §E5:animation.1, PerfectoidSpaces §§P1.16–P1.18, P1.24–P1.25, SchemeAndStackFoundations §1.1. Exact inputs are given in the supplier contracts; internal construction dependencies are linked above.
+Layers `0`, `1`; DerivedDeRhamCohomology §§PD.6–PD.7, CrystallineCohomology §§CR.2.1–CR.2.3, DerivedModuleAlgebra §§0.1–0.17, 0.25, DerivedModuleAlgebra §§1.1–1.9; DerivedDeRhamCohomology §§1.10–1.23, DerivedDeRhamCohomology §§2.7–2.26, 5.8, DerivedDeRhamCohomology §3.4, CrystallineCohomology §§CR.DDR.4.5, CR.DDR.5.18, CR.DDR.5.20–CR.DDR.5.22, DerivedDeRhamCohomology §§5.1–5.7, 5.17, EnhancedDerivedSheaves Layer E3 (relative Kan extensions), EnhancedDerivedSheaves Layers E5:abstract and E5:descent, EnhancedDerivedSheaves §E5:abstract.2, EnhancedDerivedSheaves §E5:abstract.1, EnhancedDerivedSheaves §§E5:animation.1, E5:animation.4, EnhancedDerivedSheaves §E5:animation.1, PerfectoidSpaces §§P1.16–P1.18, P1.24–P1.25, SchemeAndStackFoundations §1.1. Exact inputs are given in the supplier contracts; internal construction dependencies are linked above.
 
 ## Downstream consumers
 
-[PrismaticCohomologyPartII](../PrismaticCohomologyPartII/README.md) consumes Layers 0–2. PadicHodgeTheory and CohomologyComparisons consume the completed comparisons.
+PrismaticCohomologyPartII consumes Layers 0–2. PadicHodgeTheory and CohomologyComparisons consume the completed comparisons.
 
 ## References
 
