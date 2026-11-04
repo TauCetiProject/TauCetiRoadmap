@@ -266,7 +266,7 @@ and of a quotient by a pro-`p` kernel.
 | C1 | Pushforward comparisons and base change, with the separate coefficient and geometric cases |
 | C2 | `v`-local étaleness, `D_ét`, its stable enhancement, hyperdescent and étale coreflection |
 | C3 | Pullback, direct image, tensor, internal Hom and coefficient change |
-| C4 | Re-exported properness API, partial properness and canonical compactification |
+| C4 | Imported properness API, partial properness and canonical compactification |
 | C5 | Étale extension by zero and proper base change |
 | C6 | Algebraically closed base-field invariance |
 | C7 | Constructible sheaves, perfect local systems and perfect-constructible complexes |
@@ -1644,7 +1644,7 @@ Build usable sheaf and complex predicates, their descent and filtration APIs, an
 
 Let `Λ` be a noetherian ring and `X` a spectral space. A sheaf `F` of `Λ`-modules on `X` is constructible if there is a finite stratification `X = ⊔ S_i` into constructible locally closed subsets `S_i` such that each `F|_{S_i}` is the constant sheaf on `S_i` associated with a finitely generated `Λ`-module. Constructible refers to the constructible subsets of the spectral space (finite Boolean combinations of quasicompact opens).
 
-Write `IsConstFGOn(F,Z)` for the restriction of `F` to `Z` being isomorphic to the constant sheaf
+Say that `F` is constant finitely generated on `Z` when the restriction of `F` to `Z` is isomorphic to the constant sheaf
 of a finitely generated `Λ`-module. This light predicate is defined for every ring `Λ` and every
 topological `X` and subset `Z`, with the subspace topology; spectrality, constructibility of `Z`
 and noetherianity of `Λ` enter the stratification theorem, not this restriction predicate.
@@ -1828,7 +1828,7 @@ Require the following API.
 
 Let `Λ` be noetherian and `Y` a spatial diamond. An étale sheaf `F` of `Λ`-modules on `Y` is constructible if and only if `F` has a finite filtration whose graded pieces are of the form `j_!(L|_Z)`, where `j : U → Y` is a quasicompact separated étale map, `Z ⊂ |U|` a constructible closed subset, and `L` a local system of finitely generated `Λ`-modules on `U`.
 
-Use `HasFiltrationBy(P,F)` for the finite-filtration condition in an abelian category:
+Say that an object `F` of an abelian category has a finite filtration by an object property `P` when:
 there are `n`, objects `G₀,…,Gₙ` and monomorphisms `Gᵢ→Gᵢ₊₁`, with `G₀` zero, `Gₙ` isomorphic to `F`,
 and `P` holding on every cokernel. When `P` is invariant under isomorphism, require that the zero object
 has such a filtration, that every object satisfying `P` has one, that the predicate is invariant under
@@ -1877,7 +1877,7 @@ Require the following API.
 
 Let `Λ` be any commutative ring and `X` a strictly totally disconnected perfectoid space. `A ∈ D_ét(X, Λ) ≅ D(|X|, Λ)` is perfect-constructible if there is a stratification of `X` into constructible locally closed subsets `S_i ⊂ |X|` such that `A|_{S_i}` is the constant complex on `S_i` attached to a perfect complex of `Λ`-modules.
 
-The spectral-space form is `IsPerfectConstructibleTop(A)` for
+The spectral-space form is perfect-constructibility of `A` for
 `A∈D(Sh(X,Λ)), X` spectral: a finite constructible locally closed stratification has restrictions
 isomorphic to constant complexes of supplied perfect module complexes. Its intended signature
 uses the enhanced constant and restriction functors from the supplier; require invariance
@@ -2242,7 +2242,7 @@ In this statement, all field inclusions preserve the given nonarchimedean valuat
 
 #### C8.10 Modified topological transcendence degree
 
-For complete algebraically closed nonarchimedean fields `K⊆L, modifiedTopologicalTrdeg(K,L)` is the minimum in `ENat` of `topologicalTrdeg(K,E)` over further complete algebraically closed valued extensions `E` of `L`, with compatible continuous embeddings. Equivalently it is the infimum of finite `n` admitting such `E` and a dense intermediate field of `E` over `K` of algebraic transcendence degree `≤n`. Prove a universe bound for finite witnesses, so that the infimum is taken over a set.
+For complete algebraically closed nonarchimedean fields `K⊆L`, the modified topological transcendence degree `trdeg.mod(K,L)` is the minimum in `ENat` of `topologicalTrdeg(K,E)` over further complete algebraically closed valued extensions `E` of `L`, with compatible continuous embeddings. Equivalently it is the infimum of finite `n` admitting such `E` and a dense intermediate field of `E` over `K` of algebraic transcendence degree `≤n`. Prove a universe bound for finite witnesses, so that the infimum is taken over a set.
 
 Bundle a fixed-universe witness as a complete algebraically closed extension of `L` over `K`: a field `E` with an actual
 nontrivial `ultrametric` norm, completeness and algebraic closedness, `K`- and `L`-algebra structures,
@@ -2269,18 +2269,18 @@ Require the extension API:
 Require the following API.
 
 - A finite bound `n` is equivalent to a further extension with `topologicalTrdeg` at most `n`.
-- `modifiedTopologicalTrdeg(K,L)≤topologicalTrdeg(K,L)`, using `E=L`.
-- For `K⊆L⊆M, modifiedTopologicalTrdeg(K,L)≤modifiedTopologicalTrdeg(K,M)`.
+- `trdeg.mod(K,L)≤topologicalTrdeg(K,L)`, using `E=L`.
+- For `K⊆L⊆M, trdeg.mod(K,L)≤trdeg.mod(K,M)`.
 - Compatible topological valued-field equivalences preserve the invariant, independently of the real-valued normalization: simultaneous positive-power rescaling preserves closures and finite witnesses, and transports isometric extension data after compatible normalization.
 
 **Checks.**
 
 - The identity extension has value zero.
-- Any further extension `E` with `topologicalTrdeg(K,E)=0` forces `modifiedTopologicalTrdeg(K,L)=0`.
+- Any further extension `E` with `topologicalTrdeg(K,E)=0` forces `trdeg.mod(K,L)=0`.
 - If every further extension has infinite `topologicalTrdeg` over `K`, the modified invariant is infinity.
 - When every further extension `E` satisfies `topologicalTrdeg(K,L)≤topologicalTrdeg(K,E)`, the modified and original invariants agree; this monotonicity is an explicit hypothesis, not an unconditional theorem.
-- For an isometric extension `K⊆L` of complete algebraically closed nonarchimedean fields, `modifiedTopologicalTrdeg(K,L)=0` iff `L=K`: a further extension `E` with `topologicalTrdeg(K,E)=0` is `K` and contains `L`.
-- If `topologicalTrdeg(K,L)=1` then `modifiedTopologicalTrdeg(K,L)=1`, without Temkin's theorem: the value is at most `1` because the modified degree is at most the original one, and is not `0` because `L≠K`. A definition that is always zero, or that takes a supremum over further extensions, fails this test.
+- For an isometric extension `K⊆L` of complete algebraically closed nonarchimedean fields, `trdeg.mod(K,L)=0` iff `L=K`: a further extension `E` with `topologicalTrdeg(K,E)=0` is `K` and contains `L`.
+- If `topologicalTrdeg(K,L)=1` then `trdeg.mod(K,L)=1`, without Temkin's theorem: the value is at most `1` because the modified degree is at most the original one, and is not `0` because `L≠K`. A definition that is always zero, or that takes a supremum over further extensions, fails this test.
 
 *Needs:* `C8.3`; `DiamondsAndVStacks`, Layer D0.
 
@@ -2288,7 +2288,7 @@ Require the following API.
 
 #### C8.11 The modified and original finite degrees agree
 
-For a complete algebraically closed nonarchimedean extension `K⊆L` with finite `topologicalTrdeg(K,L), modifiedTopologicalTrdeg(K,L)=topologicalTrdeg(K,L)`.
+For a complete algebraically closed nonarchimedean extension `K⊆L` with finite `topologicalTrdeg(K,L), trdeg.mod(K,L)=topologicalTrdeg(K,L)`.
 
 In this statement, all field inclusions preserve the given nonarchimedean valuations.
 
@@ -2323,7 +2323,7 @@ of C8.10 for the resulting amalgam before using it in that fixed-universe infimu
 
 #### C8.12 Modified transcendence degree in a tower
 
-For complete algebraically closed nonarchimedean fields `K⊆L⊆M, modifiedTopologicalTrdeg(K,M)≤modifiedTopologicalTrdeg(L,M)+modifiedTopologicalTrdeg(K,L)`.
+For complete algebraically closed nonarchimedean fields `K⊆L⊆M, trdeg.mod(K,M)≤trdeg.mod(L,M)+trdeg.mod(K,L)`.
 
 *Needs:* `C8.10`; `C8.11a`; `AdicSpacesPartII`, R0.7; `C8.7`; `C8.8`.
 
@@ -2331,7 +2331,7 @@ For complete algebraically closed nonarchimedean fields `K⊆L⊆M, modifiedTopo
 
 #### C8.13 Modified transcendence degree after base change
 
-In the commutative square and dense-algebraic-compositum situation of 21.3(ii), `modifiedTopologicalTrdeg(L,L′)≤modifiedTopologicalTrdeg(K,K′)`.
+In the commutative square and dense-algebraic-compositum situation of 21.3(ii), `trdeg.mod(L,L′)≤trdeg.mod(K,K′)`.
 
 *Needs:* `C8.10`; `C8.11a`; `AdicSpacesPartII`, R0.7; `C8.8`.
 
@@ -2339,11 +2339,11 @@ In the commutative square and dense-algebraic-compositum situation of 21.3(ii), 
 
 #### C8.14 Geometric transcendence dimension of an analytic map
 
-For a map `f:X′→X` of analytic adic spaces, `analyticDimTrg(f)∈WithBot ENat` is the supremum over `x′∈X′` of `modifiedTopologicalTrdeg(C(f(x′)),C(x′))`, where `C(x)` is a completed algebraic closure of the completed residue field. The comparison embeddings must lie over the residue-field map.
+For a map `f:X′→X` of analytic adic spaces, the geometric transcendence dimension `dim.trg(f)∈WithBot ENat` is the supremum over `x′∈X′` of `trdeg.mod(C(f(x′)),C(x′))`, where `C(x)` is a completed algebraic closure of the completed residue field. The comparison embeddings must lie over the residue-field map.
 
 Require the following API.
 
-- `analyticDimTrg(f)≤d` iff every displayed completed residue-field contribution is `≤d`.
+- `dim.trg(f)≤d` iff every displayed completed residue-field contribution is `≤d`.
 - Isomorphic analytic morphisms have the same invariant.
 - A map with empty source has dimension bottom.
 - For a map of rank-one algebraically closed field spectra, the invariant equals the modified topological transcendence degree of the field extension.
@@ -2360,7 +2360,7 @@ Require the following API.
 
 #### C8.15 Topological dimension bounded by geometric transcendence dimension
 
-For a morphism `f` of analytic adic spaces, `AdicSpace.relDim(f)≤analyticDimTrg(f)`.
+For a morphism `f` of analytic adic spaces, `AdicSpace.relDim(f)≤dim.trg(f)`.
 
 *Needs:* `C8.2`; `C8.14`.
 
@@ -2368,7 +2368,7 @@ For a morphism `f` of analytic adic spaces, `AdicSpace.relDim(f)≤analyticDimTr
 
 #### C8.16 Geometric transcendence dimension of a diamond map
 
-For `f:Y′→Y` of diamonds, choose at each `y′` over `y` a quasi-pro-étale field point `Spa(C(y),C(y)+)→Y` and a quasi-pro-étale point `Spa(C(y′),C(y′)+)` of its pullback through `y′`. `diamondDimTrg(f)` is the supremum of `modifiedTopologicalTrdeg(C(y),C(y′))` over `y′` in `WithBot ENat`. Independence of choices is required. For `f` representable in diamonds between `v`-stacks, take the supremum over all diamond base changes `X→Y`.
+For `f:Y′→Y` of diamonds, choose at each `y′` over `y` a quasi-pro-étale field point `Spa(C(y),C(y)+)→Y` and a quasi-pro-étale point `Spa(C(y′),C(y′)+)` of its pullback through `y′`. The geometric transcendence dimension `dim.trg(f)` is the supremum of `trdeg.mod(C(y),C(y′))` over `y′` in `WithBot ENat`. Independence of choices is required. For `f` representable in diamonds between `v`-stacks, take the supremum over all diamond base changes `X→Y`.
 
 Require the following API.
 
@@ -2382,7 +2382,7 @@ Require the following API.
 
 - Empty source gives bottom.
 - The identity of `Spa(C,O_C)` has value zero.
-- `Spa(D,O_D)→Spa(C,O_C)` gives `modifiedTopologicalTrdeg(C,D)`.
+- `Spa(D,O_D)→Spa(C,O_C)` gives `trdeg.mod(C,D)`.
 - Nonempty source has value at least zero, never bottom.
 
 *Needs:* `C8.10` (normalization independence of the modified degree); `C8.13`; `DiamondsAndVStacks`, Layer D5.
@@ -2391,7 +2391,7 @@ Require the following API.
 
 #### C8.17 Geometric transcendence dimension under pullback
 
-For `f` representable in diamonds and any base change `g, diamondDimTrg(g* f)≤diamondDimTrg(f)`.
+For `f` representable in diamonds and any base change `g, dim.trg(g* f)≤dim.trg(f)`.
 
 *Needs:* `C8.16`; `C8.13`.
 
@@ -2399,7 +2399,7 @@ For `f` representable in diamonds and any base change `g, diamondDimTrg(g* f)≤
 
 #### C8.18 Geometric transcendence dimension of a composite
 
-For composable maps `g:Z→Y` and `f:Y→X` representable in diamonds with nonempty `Z, diamondDimTrg(f∘g)≤diamondDimTrg(g)+diamondDimTrg(f)`. For empty `Z` the composite has bottom dimension; this separates the empty case from arithmetic involving infinity.
+For composable maps `g:Z→Y` and `f:Y→X` representable in diamonds with nonempty `Z, dim.trg(f∘g)≤dim.trg(g)+dim.trg(f)`. For empty `Z` the composite has bottom dimension; this separates the empty case from arithmetic involving infinity.
 
 *Needs:* `C8.16`; `C8.12`.
 
@@ -2407,7 +2407,7 @@ For composable maps `g:Z→Y` and `f:Y→X` representable in diamonds with nonem
 
 #### C8.19 Local finiteness of geometric transcendence dimension
 
-For `f` representable in locally spatial diamonds, `LocallyFiniteDimTrg(f)` means that after every locally spatial diamond test `X→Y`, each point of `Y′×_Y X` has an open neighborhood `W` and a natural number `d` with `diamondDimTrg(W→X)≤d`. Bounds depend on the neighborhood. For maps of locally spatial diamonds, base-change stability makes this equivalent to the source-neighborhood condition before testing.
+For `f` representable in locally spatial diamonds, `f` has locally finite geometric transcendence dimension when after every locally spatial diamond test `X→Y`, each point of `Y′×_Y X` has an open neighborhood `W` and a natural number `d` with `dim.trg(W→X)≤d`. Bounds depend on the neighborhood. For maps of locally spatial diamonds, base-change stability makes this equivalent to the source-neighborhood condition before testing.
 
 Require the following API.
 
@@ -2500,11 +2500,11 @@ Under C8.26, `Hⁱ(Y_et,F)` is naturally isomorphic to the underlying abelian gr
 
 #### C8.28 Cohomological dimension at a maximal point
 
-For a prime `ℓ` and a maximal point `y` of a quasiseparated diamond `Y, pointCd(ℓ,y)∈ENat` is `cd_ℓ(G_y)` for any faithful presentation `Y_y=Spa(C_y,O_Cy)/G_y` of the one-point subdiamond `Y_y` with `|Y_y|={y}`. The same definition applies at a maximal point of a locally spatial diamond, because `Y_y` lies in a spatial open neighbourhood and is quasiseparated; 21.16 uses it in that form, and the value does not depend on the neighbourhood. The invariant quantifies over all discrete `ℓ`-primary torsion modules; no fixed common exponent is imposed.
+For a prime `ℓ` and a maximal point `y` of a quasiseparated diamond `Y`, the point cohomological dimension `cd_ℓ(y)∈ENat` is `cd_ℓ(G_y)` for any faithful presentation `Y_y=Spa(C_y,O_Cy)/G_y` of the one-point subdiamond `Y_y` with `|Y_y|={y}`. The same definition applies at a maximal point of a locally spatial diamond, because `Y_y` lies in a spatial open neighbourhood and is quasiseparated; 21.16 uses it in that form, and the value does not depend on the neighbourhood. The invariant quantifies over all discrete `ℓ`-primary torsion modules; no fixed common exponent is imposed.
 
 Require the following API.
 
-- For every faithful presentation, `pointCd(ℓ,y)=cd_ℓ(G_y)`.
+- For every faithful presentation, `cd_ℓ(y)=cd_ℓ(G_y)`.
 - The finite bound `n` is equivalent to vanishing in degrees `>n` for all `ℓ`-primary torsion étale sheaves on `Y_y`.
 - Isomorphisms of pointed diamonds preserve the invariant.
 - For an open subdiamond `V⊆Y` containing the maximal point `y`, the invariant computed in `V` equals the invariant computed in `Y`.
@@ -2512,7 +2512,7 @@ Require the following API.
 **Checks.**
 
 - The algebraically closed field point `Spa(C,O_C)` has value zero.
-- Let `p` be prime and `K` be the `t`-adic completion of `⋃ₙ 𝔽_p((t^{1/pⁿ}))`. This is a perfectoid field with residue field `𝔽_p`. For the unique point `y` of `Y=Spa(K,O_K), pointCd(p,y)=1`. The Artin–Schreier class of `1` in `K/(Frob−1)K` is nonzero: any solution of `x^p−x=1` would have `|x|≤1`, and reduction to the residue field `𝔽_p` would give `0=1`. The characteristic-`p` field bound `cd_p(K)≤1` gives equality through C8.27. Thus a one-point underlying space need not have point cohomological dimension zero. For the upper bound, apply `SchemeAndStackFoundations`, §§2.11 and 2.15 (Artin–Schreier and field/Galois comparison), to the fixed field of a `p`-Sylow subgroup of `G_K`, then use the completed `ProfiniteProPGroups`, Layer `6` (`TauCeti.IsProP.cohomologicalDimensionAt_le_iff_subsingleton_cohomFp` and `TauCeti.IsProPSylow.cohomologicalDimensionAt_eq`), with `ProfiniteCohomology`, Layer `11`.
+- Let `p` be prime and `K` be the `t`-adic completion of `⋃ₙ 𝔽_p((t^{1/pⁿ}))`. This is a perfectoid field with residue field `𝔽_p`. For the unique point `y` of `Y=Spa(K,O_K), cd_p(y)=1`. The Artin–Schreier class of `1` in `K/(Frob−1)K` is nonzero: any solution of `x^p−x=1` would have `|x|≤1`, and reduction to the residue field `𝔽_p` would give `0=1`. The characteristic-`p` field bound `cd_p(K)≤1` gives equality through C8.27. Thus a one-point underlying space need not have point cohomological dimension zero. For the upper bound, apply `SchemeAndStackFoundations`, §§2.11 and 2.15 (Artin–Schreier and field/Galois comparison), to the fixed field of a `p`-Sylow subgroup of `G_K`, then use the completed `ProfiniteProPGroups`, Layer `6` (`TauCeti.IsProP.cohomologicalDimensionAt_le_iff_subsingleton_cohomFp` and `TauCeti.IsProPSylow.cohomologicalDimensionAt_eq`), with `ProfiniteCohomology`, Layer `11`.
 - Nonzero `ℓ`-primary torsion cohomology in arbitrarily high degrees forces infinite point cohomological dimension.
 
 *Needs:* `C8.24`; `C8.25`; `C8.27`; `DiamondsAndVStacks`, Layer D5; `SchemeAndStackFoundations`, §§2.11 and 2.15 (`artinSchreier_sequence`, `etale_galois_comparison`); Tau Ceti `ProfiniteCohomology`, Layer 11; completed `ProfiniteProPGroups`, Layer 6 (`TauCeti.IsProPSylow.cohomologicalDimensionAt_eq`, `TauCeti.IsProP.cohomologicalDimensionAt_le_iff_subsingleton_cohomFp`).
@@ -2537,7 +2537,7 @@ In 21.15, an abelian étale sheaf `F` with zero restriction to `Y` minus `{s}` c
 
 #### C8.31 Closed-point support and generic-point cohomological dimension
 
-For spatial `Y` with local underlying space, closed point `s` and generic point `η`, an `ℓ`-torsion étale sheaf `F` vanishing off `s` satisfies `Hⁱ(Y,F)=0` for `i>pointCd(ℓ,η)`.
+For spatial `Y` with local underlying space, closed point `s` and generic point `η`, an `ℓ`-torsion étale sheaf `F` vanishing off `s` satisfies `Hⁱ(Y,F)=0` for `i>cd_ℓ(η)`.
 
 *Needs:* `C8.30`; `C8.29`; `C8.28`; Tau Ceti `ProfiniteCohomology`, Layer 11.
 
@@ -2625,7 +2625,7 @@ For `ℓ≠p` and finite `r=dim_ℚ(Γ′/Γ)` in 21.16, `cd_ℓ(I/P)≤r`.
 
 #### C8.40 Residue and value-group transcendence inequality
 
-For complete algebraically closed nonarchimedean `C⊆C′`, with residue fields `k⊆k′` and value groups `Γ⊆Γ′, trdeg(k′/k)+dim_ℚ(Γ′/Γ)≤modifiedTopologicalTrdeg(C,C′)`, with finite-cardinal ranks interpreted in `ENat` and infinite ranks as infinity.
+For complete algebraically closed nonarchimedean `C⊆C′`, with residue fields `k⊆k′` and value groups `Γ⊆Γ′, trdeg(k′/k)+dim_ℚ(Γ′/Γ)≤trdeg.mod(C,C′)`, with finite-cardinal ranks interpreted in `ENat` and infinite ranks as infinity.
 
 *Needs:* `C8.10`; `Algebra.trdeg`.
 
@@ -2633,7 +2633,7 @@ For complete algebraically closed nonarchimedean `C⊆C′`, with residue fields
 
 #### C8.41 Maximal-point cohomological dimension bound
 
-Let `f:Y→Spa(C,C+)` be a map of locally spatial diamonds, `C complete` algebraically closed of characteristic `p` and `C+` an open bounded valuation subring. For a maximal point `y` and prime `ℓ≠p, pointCd(ℓ,y)≤diamondDimTrg(f)`.
+Let `f:Y→Spa(C,C+)` be a map of locally spatial diamonds, `C complete` algebraically closed of characteristic `p` and `C+` an open bounded valuation subring. For a maximal point `y` and prime `ℓ≠p, cd_ℓ(y)≤dim.trg(f)`.
 
 *Needs:* `C8.24`; `C8.28`; `C8.16`; `C8.17`; `C8.34`; `C8.35`; `C8.36`; `C8.37`; `C8.39`; `C8.40`; `C8.32`.
 
@@ -2645,7 +2645,7 @@ Let `f:Y→Spa(C,C+)` be a map of locally spatial diamonds, `C complete` algebra
 
 For spectral `X`, form `sp_n(X)` from tuples `(x0,…,xn)` for which `xi` generalizes `xj` when `i≤j`, allowing repetitions, with the subspace topology from the product constructible topology. Deleting and repeating coordinates gives a simplicial topological space. The projection `γ_n` to `x0` takes values in the original topology; `γ_0` is the quasi-augmentation and the projections are not an ordinary simplicial augmentation. This chain orientation matches KST; reversing chains preserves the dimension convention of ECD 21.1.
 
-The light carrier `SpecializationChain(X,n)` is the subtype of
+The light carrier of `sp_n(X)` is the subtype of
 `Fin(n+1)→WithConstructibleTopology X` consisting of tuples whose original `X`-points specialize
 in the displayed order. Give it the subspace topology. The intended construction is a
 `SimplicialObject TopCat` with degree-`n` object this carrier and
@@ -2710,7 +2710,7 @@ To prove the 21.11 bound for an `ℓ`-primary torsion sheaf `F` vanishing on ope
 
 #### C8.47 The local stalk bound for topological direct image
 
-In ECD Proposition 21.11, after C8.46 and replacement by a closed support `Z`, for `g:Y_et→|Y|` the sheaves `R^i g_*F` vanish for `i>sup_y pointCd(ℓ,y)`, with `y` ranging over maximal points.
+In ECD Proposition 21.11, after C8.46 and replacement by a closed support `Z`, for `g:Y_et→|Y|` the sheaves `R^i g_*F` vanish for `i>sup_y cd_ℓ(y)`, with `y` ranging over maximal points.
 
 *Needs:* `C8.46`; `C8.23`; `C8.31`; `C0.18`; `C0.6`; `C0.7`; `DiamondsAndVStacks`, Layer D5.
 
@@ -2718,7 +2718,7 @@ In ECD Proposition 21.11, after C8.46 and replacement by a closed support `Z`, f
 
 #### C8.48 Cohomological dimension of a spatial diamond
 
-Fix a spatial diamond `Y`, a prime `ℓ`, an open `U ⊂ Y` and an étale sheaf `F` of `ℓ`-primary torsion groups whose restriction to `U` is zero. If `d` bounds the topological dimension of `|Y| ∖ |U|` and `e` bounds `pointCd(ℓ, y)` at every maximal point, prove `Hⁱ(Y, F) = 0` for `i > d + e`. Equivalently the bound is the support dimension plus the supremum of maximal-point dimensions. Empty support gives `F = 0`; infinite values give no finite vanishing range.
+Fix a spatial diamond `Y`, a prime `ℓ`, an open `U ⊂ Y` and an étale sheaf `F` of `ℓ`-primary torsion groups whose restriction to `U` is zero. If `d` bounds the topological dimension of `|Y| ∖ |U|` and `e` bounds `cd_ℓ(y)` at every maximal point, prove `Hⁱ(Y, F) = 0` for `i > d + e`. Equivalently the bound is the support dimension plus the supremum of maximal-point dimensions. Empty support gives `F = 0`; infinite values give no finite vanishing range.
 
 *Needs:* `C8.46`; `C8.45`; `C8.23`; `C8.47`; `C8.44`; `DiamondsAndVStacks`, Layer D0.
 
@@ -3019,7 +3019,7 @@ For spatial `Y` with one bound `N` on `Hⁱ(Y,F)` for all `ℓ`-torsion étale s
 
 #### C9.14 Compact generation from finite dimension bounds
 
-Let `Y` be a spatial diamond over `Spa(C,C+), C complete` algebraically closed perfectoid of characteristic `p`. Let `ℓ≠p` be prime and `d,e` natural with `dim |Y|≤d` and `diamondDimTrg(Y→Spa(C,C+))≤e`. Then one bound `d+e` works for all `ℓ`-torsion étale sheaves on `Y` and every qc separated étale test `U→Y`. Consequently `D_et(Y,𝔽_ℓ)` is left-complete and compactly generated, with compact objects precisely the bounded constructible complexes.
+Let `Y` be a spatial diamond over `Spa(C,C+), C complete` algebraically closed perfectoid of characteristic `p`. Let `ℓ≠p` be prime and `d,e` natural with `dim |Y|≤d` and `dim.trg(Y→Spa(C,C+))≤e`. Then one bound `d+e` works for all `ℓ`-torsion étale sheaves on `Y` and every qc separated étale test `U→Y`. Consequently `D_et(Y,𝔽_ℓ)` is left-complete and compactly generated, with compact objects precisely the bounded constructible complexes.
 
 *Needs:* `C8.41`; `C8.48`; `C9.2`; `C9.8`; `C9.13`.
 
