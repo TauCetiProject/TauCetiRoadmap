@@ -159,8 +159,9 @@ At [`333c9e49`](https://github.com/TauCetiProject/TauCeti/tree/333c9e49143de812e
 - [CharacteristicClasses](../CharacteristicClasses/README.md) C2.3 (the diagonal trace
   comparison with the alternating Betti sum) and C3.2 (`c₁ = e` in rank one, the Whitney sum
   formula and the determinant-line comparison).
-- [ComplexKahlerGeometry](../ComplexKahlerGeometry/README.md) K6.1 (Hodge decomposition on
-  compact Kähler manifolds).
+- [ModularForms](../ModularForms/README.md) Layer 10B (iv)–(v) (`dim H⁰(Ω¹) = g_an` and
+  `analyticGenus_eq_topologicalGenus` on compact Riemann surfaces), and
+  [FuchsianOrbifolds](../FuchsianOrbifolds/README.md) Layer 5's `RiemannSurface.genus`.
 - [PseudodifferentialOperators](../PseudodifferentialOperators/README.md)
   P5.2 (bundle `W^{k,p}` on compact boundaryless bases) and P6 (for PH6.4).
 - [AlgebraicTopology](../AlgebraicTopology/README.md) Stages 6.1 (universal coefficients over a
@@ -682,20 +683,30 @@ The closed case follows these steps.
    is multiplication by `s_x`, and the second is evaluation at `x`. The connecting map sends a
    value `c` to the class of `∂̄(χ σ_c)/s_x`, for a local holomorphic section `σ_c` with value
    `c` and a cutoff `χ`. Prove exactness from PH6.3's identification of cokernels with adjoint
-   kernels and from unique continuation.
+   kernels and from unique continuation. This is the operator form of the induction in
+   [ModularForms](../ModularForms/README.md) Layer 10B (iii) along
+   `0 → 𝒪_D → 𝒪_{D+P} → ℂ_P → 0`. It is stated for arbitrary holomorphic line bundles because
+   it is needed before any line bundle is known to be `𝒪(D)` for a divisor `D`.
 5. *Reduction to the trivial bundle.* A generic smooth section of `L` has finitely many
    transverse zeros `xᵢ` with signs `εᵢ`, whose signed count is `c₁(L)[Σ]` by
    CharacteristicClasses C3.2's `c₁ = e`. Twisting the trivial holomorphic bundle at those
    points, by `𝒪(xᵢ)` for `εᵢ = 1` and its dual for `εᵢ = −1`, gives a holomorphic bundle.
    Prove it is smoothly isomorphic to `L`, using the section to build the isomorphism. So
    `ind_ℝ ∂̄_L = ind_ℝ ∂̄_ℂ + 2c₁(L)[Σ]`.
-6. *Trivial bundle.* The kernel of `∂̄` on functions is the constants, of real dimension 2. By
-   PH6.3, the cokernel is the space of antiholomorphic `(0,1)`-forms, of real dimension
-   `2h^{1,0}`. ComplexKahlerGeometry K6.1's Hodge decomposition on the compact Kähler curve
-   `(Σ, j, area form)` gives `2h^{1,0} = b₁`, using PH2.4's comparison of `(Σ, j)` with
-   analytic charted spaces. Hence `ind_ℝ ∂̄_ℂ = 2 − b₁ = χ(Σ)`.
+6. *Trivial bundle.* The kernel of `∂̄` on functions is the constants, of real dimension 2.
+   By PH6.3, the cokernel is the space of antiholomorphic `(0,1)`-forms, which conjugation
+   identifies with the holomorphic 1-forms. Consume ModularForms Layer 10B (iv)–(v):
+   `dim_ℂ H⁰(Ω¹) = g_an`, and `analyticGenus_eq_topologicalGenus`, which says that `g_an` equals
+   FuchsianOrbifolds Layer 5's `RiemannSurface.genus`, defined by `χ = 2 − 2·genus`. Transport
+   through PH2.4's comparison of `(Σ, j)` with analytic charted spaces, and prove that the
+   holomorphic 1-forms of PH6 agree with ModularForms' holomorphic differentials. Hence
+   `ind_ℝ ∂̄_ℂ = 2 − 2·genus = χ(Σ)`.
 
 Combining the steps gives `ind_ℝ D = (n − 1)χ + χ + 2c₁(E)[Σ]`.
+
+The comparison of this formula with divisor Riemann–Roch, `ind_ℂ ∂̄_{𝒪(D)} = deg D + 1 − g`
+against ModularForms Layer 10B (iii), belongs to ComplexCurveModuli, which consumes PH7.2 for
+it. It is not repeated here.
 
 The bordered case follows from the closed case.
 
