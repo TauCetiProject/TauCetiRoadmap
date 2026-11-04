@@ -316,7 +316,7 @@ and apply the positive-time formula to the remaining increments; do not introduc
 an undefined Φ_(0,0). Consume native density-product and convolution APIs from
 `Mathlib.Probability.Density`, constructing their joint-density hypotheses from
 independence and the marginal densities. S1.3 specializes these general law adapters
-to Brownian increments. [IndependentLaws.lean](IndependentLaws.lean) suggests the native
+to Brownian increments. [Suggested.lean](Suggested.lean) suggests the native
 law adapters; the cumulative-sum density formula remains the explicit target above.
 
 For scalar real simple approximations, prove the expanding dyadic rounding formula's
@@ -640,7 +640,7 @@ Construct the progressive sigma algebra and its
 ### 0.3 augmentation
 
 Complete a probability space and transport laws and processes.
-   In `RawLocalization.lean`, define `ambientNullAugmentation F P`
+   In `Suggested.lean`, define `ambientNullAugmentation F P`
    on the original measurable space by adjoining every *ambient-measurable* P-null set to
    each `F_t`; prove `measurableSet_null_ambientNullAugmentation` at time zero and its
    filtration, leastness, transport and process-agreement laws. Then form the right-continuous
@@ -1249,7 +1249,7 @@ Define local/local-L² martingales through native `Locally`.
    while stopping at U gives 1_(U≤t), which is not a martingale.
 
    Own the following raw-filtration bounded-localization and descent targets separately;
-   [RawLocalization.lean](RawLocalization.lean) suggests their native Lean interfaces.
+   [Suggested.lean](Suggested.lean) suggests their native Lean interfaces.
    Throughout, path continuity means continuity outside one common null set, and not
    existence of a continuous modification at each fixed time.
 
@@ -1276,7 +1276,7 @@ Define local/local-L² martingales through native `Locally`.
      sequence τ, martingales Y_n, and simultaneous-time a.e. equality of Y_n with the native
      stopped stages `1_{0<τ_n}X`, prove `Locally (fun Z => Martingale Z F P) F X P`.
      This is the exact target `locally_martingale_of_ae_stopped_eq_of_progressive` in
-     `RawLocalization.lean`; retain its probability, filtration, localizing-sequence, and
+     `Suggested.lean`; retain its probability, filtration, localizing-sequence, and
      strong-progressive hypotheses. It is separate from the weaker continuous-surrogate lemma.
    - **Raw bounded localizers.** If M is already a native raw-F local martingale with
      almost-sure continuous paths, construct raw-F localizers ρ_n for which
@@ -2664,7 +2664,7 @@ Polygonal interpolation through finite grids,
    density D and the inverse-shift density with u replaced by −u, proving equivalence
    from strict positivity. This constructs S8.2's Wiener density without assuming it
    in the conditional-expectation step. At T=0 both laws are the point mass at the
-   zero path and the density is1. [CameronMartinGridTargets.lean](CameronMartinGridTargets.lean)
+   zero path and the density is1. [Suggested.lean](Suggested.lean)
    records the finite independent-Gaussian density and moment signatures.
 
    The source's stronger
@@ -2944,7 +2944,7 @@ For the scalar OU equation `dX_t=−λX_tdt+σdB_t`, state and prove
    the arcsin–sech branch representation therefore still has its stated interval.
    The Brownian-clock representation above uses the random ODE for K with W_u in
    its coefficient; the autonomous formula supplies the separate deterministic ODE target.
-   [AutonomousODE.lean](AutonomousODE.lean) suggests its scalar derivative and solution interfaces.
+   [Suggested.lean](Suggested.lean) suggests its scalar derivative and solution interfaces.
    In the arcsin–sech case, f′∘g is nonconstant on every open branch interval, so the
    failed `h(X,[X])` calculation rules out a C² function satisfying the displayed
    coefficient equations on an open state region. This obstruction is not asserted for
