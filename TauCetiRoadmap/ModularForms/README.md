@@ -48,7 +48,14 @@ the algebraicity of holomorphic sections of the powers of ω. It is stated for t
 level curves and this line bundle only, with no analytification functor and no coherent
 GAGA for arbitrary complex schemes. ModularCurves lists the uniformisation of its twisted
 curve among its external contracts and AlgebraicCurves leaves the compact-Riemann-surface
-comparison to a GAGA development; neither supplies the comparison used here. Integral
+comparison to a GAGA development; neither supplies the comparison used here.
+ModularCurvesPartII §§1.1, 1.3, 1.4, 3.13–3.14, 4.8 and 7.1 and EllipticPeriods §2.4 plan the
+same objects under the same conventions (the Weierstrass curve with a₄ = −g₂/4 and
+a₆ = −g₃/4, the marked point 1/N, the frame 2πi du = dt/t and the multiplier (cz+d)⁻¹);
+ModularCurvesPartII consumes Layers 2–8 and 10A–10C of this roadmap and EllipticPeriods
+consumes ModularCurvesPartII, so both take the lattice uniformisation, the lattice–modular
+comparison, the moduli bijection, the complex Tate curve and the automorphy of ω from §10D,
+and nothing of either is cited here. Integral
 geometric modular forms and characteristic-p operations belong to
 AlgebraicModularFormsAndSerreWeights Layers 1–3, which consume this rational theory.
 
@@ -242,9 +249,10 @@ Layers 1–2 supply elliptic curves over schemes, Weierstrass models and their v
 Weierstrass presentation, rigidifying descent (§4C, with the effective descent of sections of
 §0E) and, for N ≥ 4, the fine affine curve Y₁(N) of §5A in Tate normal form, relatively finite
 étale over elliptic curves; §§9A–9B supply the quotient-level moduli and their actions, and
-§9E the coarse j-line. Layer 10 supplies the Tate curve over ℤ((q)) with its subgroup schemes;
-that layer carries a prime-level standing hypothesis which the curve itself does not use, and
-§8.0 base-changes the curve to K((q)) and adds the canonical μ_N-embedding for every N. Over
+§9E the coarse j-line. Layer 10 supplies the Tate curve over ℤ[1/N₀]((q)) with its subgroup
+schemes, for the prime level N₀ ≥ 5 of that layer; its coefficient series lie in ℤ[[q]] and do
+not depend on N₀, and §8.0 base-changes the curve from ℤ[1/N₀]((q)) to K((q)), which contains
+1/N₀ because K has characteristic zero, and adds the canonical μ_N-embedding for every N. Over
 characteristic-zero fields, the μ_N-marked moduli used in §8.0 are obtained from these level
 problems by finite étale descent. The ordinary point marking and the μ_N marking are identified
 after choosing a primitive N-th root of unity, not over ℚ without that choice.
@@ -624,9 +632,10 @@ parameter. The cusp subspace additionally has constant term zero in every such
 expansion. Denote these spaces by M_k^arith(N,K) and S_k^arith(N,K)
 (Deligne–Serre §2.1, p.510, including its Laurent-expansion formulation).
 
-Take the Tate curve over ℤ((q)) with its subgroup schemes from ModularCurves Layer 10 and
-base-change it to K((q)); that layer carries a prime-level standing hypothesis which the
-curve itself does not use. Construct here, for every N ≥ 1, the canonical embedding
+Take the Tate curve over ℤ[1/N₀]((q)) with its subgroup schemes from ModularCurves Layer 10,
+for the prime level N₀ ≥ 5 of that layer, and base-change it from ℤ[1/N₀]((q)) to K((q)),
+which contains 1/N₀ because K has characteristic zero; the coefficient series of the curve
+lie in ℤ[[q]] and do not depend on N₀. Construct here, for every N ≥ 1, the canonical embedding
 μ_N ↪ Tate(q)[N] induced by μ_N ⊂ 𝔾_m and the parametrization 𝔾_m/q^ℤ, the differential
 dt/t, and the evaluation of rules on these data: the Tate expansion at the standard cusp,
 and the expansions at all other cusps using the level structures ζ ↦ ζ^a q^(b/N), for (a,b)
@@ -705,7 +714,7 @@ The arithmetic-form API includes:
 
 *Needs:* ModularCurves Layers 1–5 and §§9A–9B for elliptic families, level moduli,
 isogenies and descent, §4C and §0E for the auxiliary-level descent, and Layer 10 for the
-Tate curve over ℤ((q)); §10D for the uniformisation, the complex Tate curve and the
+Tate curve over ℤ[1/N₀]((q)); §10D for the uniformisation, the complex Tate curve and the
 algebraicity of holomorphic sections; Mathlib differential, tensor and power-series carriers;
 §0.1 for the analytic character action. The canonical μ_N-embedding and Tate evaluation,
 all-cusp Laurent criterion, analytic comparison and field-base-change theorem are targets of
@@ -1154,8 +1163,8 @@ of an injective holomorphic function), so Γ₁(N)\ℍ ≅ Y₁(N)(ℂ) as Riema
 analytic order of a regular function at a point equals its algebraic order.
 
 Prove the complex Tate curve: for z ∈ ℍ, u ↦ t = exp(2πiu) induces E_z ≅ ℂˣ/q^ℤ, and the
-Tate curve of ModularCurves Layer 10 evaluated at q, whose coefficient series converge for
-|q| < 1, is isomorphic to E_Λ at Λ = Λ_z through (2πi)⁻²℘(u; Λ_z) − 1/12 = X_Tate(t), with
+Tate curve of ModularCurves Layer 10, base-changed to ℂ((q)) and evaluated at q, whose
+coefficient series converge for |q| < 1, is isomorphic to E_Λ at Λ = Λ_z through (2πi)⁻²℘(u; Λ_z) − 1/12 = X_Tate(t), with
 dt/t = 2πi du and the canonical μ_N ⊂ ℂˣ corresponding to α_z (Silverman, Advanced Topics,
 Theorem V.1.1; deligne-serre lines 168–194). Consequently the Tate expansion of a rule of
 §8.0 at the standard cusp is the q-expansion of its analytic avatar, coefficient by
@@ -1322,10 +1331,14 @@ The classical forms, primitive conductors, twisting and orbit theory supply auto
 representations, modularity and arithmetic applications. NoncongruenceModularForms consumes
 the order dictionary and analytic Riemann–Roch; it extends the congruence dimension theory
 to finite-index groups. The rank-n local comparison supplies the spherical Hecke algebra
-input for automorphic representations. AlgebraicModularFormsAndSerreWeights consumes the
-rational coefficient theory of Layer 8 and the uniformisation and algebraicity of §10D for its
-geometric forms; ModularCurves' external uniformisation contract concerns its twisted curve
-and is not discharged by §10D. LeanBridge consumes finite-coefficient uniqueness and
+input for automorphic representations. ModularCurvesPartII §§1.1, 1.3, 1.4, 3.13–3.14, 4.8
+and 7.1 consume the lattice uniformisation, the homotheties, the differential dictionary, the
+moduli bijection for Γ₁(N), the complex Tate curve and the automorphy of ω of §10D, and
+EllipticPeriods §2.4 consumes its lattice–modular comparison g₂ = (4π⁴/3)E₄, g₃ = (8π⁶/27)E₆.
+AlgebraicModularFormsAndSerreWeights consumes the rational coefficient theory of Layer 8 and
+reaches §10D through ModularCurvesPartII §7.1 for its geometric forms. ModularCurves'
+external uniformisation contract concerns its twisted curve and is not discharged by §10D.
+LeanBridge consumes finite-coefficient uniqueness and
 newform invariants for its explicit examples; its computations are not library targets here.
 
 ## Worked examples
