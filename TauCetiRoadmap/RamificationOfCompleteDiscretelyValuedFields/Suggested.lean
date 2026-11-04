@@ -37,17 +37,19 @@ namespace TauCetiRoadmap.RamificationOfCompleteDiscretelyValuedFields
 
 /-! ## Layer 3a: ramification over a complete discretely valued field -/
 
-/-- **§3a.1, Hilbert's different formula.** For a finite extension of complete DVRs with
-separable residue extension and a faithful finite Galois action with invariants the base ring,
-the different ideal is the power of the maximal ideal with exponent `∑ (|G_i| - 1)`
-(Serre, *Local Fields*, IV §1, Proposition 4). The sum is finite because the lower groups
-are eventually trivial. No residue finiteness and no commutativity of the Galois group is
-required. -/
+/-- **§3a.1, Hilbert's different formula.** Let a finite group `G` act faithfully on a discrete
+valuation ring `B` by `A`-algebra automorphisms with invariants the discrete valuation ring `A`,
+with separable residue extension. Then the different ideal is the power of the maximal ideal with
+exponent `∑ (|G_i| - 1)` (Serre, *Local Fields*, IV §1, Proposition 4). The invariant hypothesis
+makes `B` the integral closure of `A` in `Frac B`, finite over `A`; it also implies
+`FaithfulSMul A B` and `IsLocalHom (algebraMap A B)`, which are carried because they provide the
+different ideal and the residue-field algebra of the statement. The sum is finite because the
+lower groups are eventually trivial. Neither completeness of `A`, nor residue finiteness, nor
+commutativity of `G` is required. -/
 theorem differentIdeal_eq_pow_maximalIdeal_of_separable_residue
     (A B : Type*) [CommRing A] [IsDomain A] [IsDiscreteValuationRing A]
-    [IsAdicComplete (IsLocalRing.maximalIdeal A) A]
     [CommRing B] [IsDomain B] [IsDiscreteValuationRing B] [Algebra A B]
-    [Module.Finite A B] [FaithfulSMul A B] [IsLocalHom (algebraMap A B)]
+    [FaithfulSMul A B] [IsLocalHom (algebraMap A B)]
     [Algebra.IsSeparable (IsLocalRing.ResidueField A) (IsLocalRing.ResidueField B)]
     (G : Type*) [Group G] [Finite G] [MulSemiringAction G B] [SMulCommClass G A B]
     [Algebra.IsInvariant A B G] [FaithfulSMul G B] :
@@ -56,15 +58,16 @@ theorem differentIdeal_eq_pow_maximalIdeal_of_separable_residue
   sorry
 
 /-- **§3a.3, Hasse–Arf without residue finiteness**, in Serre's lower-numbering form
-(Serre, *Local Fields*, V §7, Theorem 1). `A` is a complete discrete valuation ring and `B` a
-discrete valuation ring on which a finite abelian group `G` acts faithfully by `A`-algebra
-automorphisms with invariants `A`, so that `Frac B / Frac A` is Galois with group `G`, and the
-residue extension is separable. If `G_j ≠ G_(j+1)` for a natural number `j`, then
-`φ(j) = (#G_1 + ⋯ + #G_j) / #G_0` is an integer, that is, every upper jump is integral. The upper
-numbering itself on this carrier is a `README.md` target. -/
+(Serre, *Local Fields*, V §7, Theorem 1). `A` and `B` are discrete valuation rings, a finite
+abelian group `G` acts faithfully on `B` by `A`-algebra automorphisms with invariants `A`, so that
+`Frac B / Frac A` is Galois with group `G`, and the residue extension is separable;
+`IsLocalHom (algebraMap A B)` follows from the invariant hypothesis and provides the residue-field
+algebra. `A` need not be complete: completing `A` and `B` changes neither `G` nor its lower
+groups. If `G_j ≠ G_(j+1)` for a natural number `j`, then `φ(j) = (#G_1 + ⋯ + #G_j) / #G_0` is an
+integer, that is, every upper jump is integral. The upper numbering itself on this carrier is a
+`README.md` target. -/
 theorem hasseArf_dvd_sum_card_ramificationGroup
     (A B : Type*) [CommRing A] [IsDomain A] [IsDiscreteValuationRing A]
-    [IsAdicComplete (IsLocalRing.maximalIdeal A) A]
     [CommRing B] [IsDomain B] [IsDiscreteValuationRing B] [Algebra A B]
     [IsLocalHom (algebraMap A B)]
     [Algebra.IsSeparable (IsLocalRing.ResidueField A) (IsLocalRing.ResidueField B)]
