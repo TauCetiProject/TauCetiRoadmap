@@ -38,8 +38,10 @@ This roadmap owns:
 Outside this roadmap:
 
 - [PDE](../PDE/README.md) Lane A owns the scalar Sobolev spaces `W^{k,p}(Ω)` of Euclidean
-  domains, their embeddings, extension, trace and Rellich theory. PDE Lane E owns scalar
-  second-order elliptic regularity. This roadmap consumes Lane A and never restates it.
+  domains and their first-order embedding, extension, trace and Rellich theory. PDE Lane E owns
+  scalar second-order elliptic regularity. This roadmap consumes Lane A and never restates it.
+  The higher-order theory it needs, for vector-valued maps on planar domains and half-discs,
+  is PH1.
 - [HeegaardFloer](../HeegaardFloer/README.md) owns:
   - Banach manifolds of `W^{k,p}` maps and Fredholm sections (Layer 2);
   - spectral flow, Conley–Zehnder indices and determinant lines (F1.3–F1.4);
@@ -160,8 +162,11 @@ which postdates the pin:
 
 ### From other roadmaps
 
-- [PDE](../PDE/README.md) Lane A: `W^{k,p}` of Lipschitz domains, Sobolev and Morrey
-  embeddings, Rellich–Kondrachov, extension and trace; Lane A7's Hölder spaces.
+- [PDE](../PDE/README.md) Lane A: the scalar spaces `Wkp` and `W1p`, and at first order the
+  Sobolev and Morrey embeddings, Rellich–Kondrachov, extension (`W1p.extendByReflectionL` on a
+  half-space) and trace (`W1p.halfSpaceTrace`); Lane A7's Hölder spaces. Higher-order
+  extension, change of variables and local compactness on planar domains and half-discs are PH1
+  targets.
 - [CharacteristicClasses](../CharacteristicClasses/README.md) C2.3 (the diagonal trace
   comparison with the alternating Betti sum) and C3.2 (`c₁ = e` in rank one, the Whitney sum
   formula and the determinant-line comparison).
@@ -200,12 +205,12 @@ restriction to smaller opens and the sheaf property: membership on each set of a
 gives membership on the union.
 
 Do the same for half-discs. For a relatively open `U ⊆ ℍ̄`, the weak derivatives are taken on
-the interior `U ∖ ℝ`, and the `Lᵖ` bounds are required on `K ∖ ℝ` for every compact `K ⊆ U`.
-So the bounds reach the boundary, while the test functions are those of the interior. Prove
-that a `W^{k,p}`
-map on `D⁺_r` extends to a `W^{k,p}` map on `D_r` by higher-order reflection, with a bound.
-Use PDE Lane A's extension theorem where it applies, and give the explicit reflection formula
-for the half-disc.
+the interior `U ∖ ℝ`, and the `Lᵖ` bounds are required on `K ∖ ℝ` for every compact `K ⊆ U`. So
+the bounds reach the boundary, while the test functions are those of the interior. Prove that a
+`W^{k,p}` map on `D⁺_r` extends to a `W^{k,p}` map on `D_r`, with a bound, by the higher-order
+reflection `u(s, −t) = Σ_{j=1}^{k} c_j u(s, t/j)` for `t > 0`. The coefficients solve the
+Vandermonde system `Σ_j c_j (−1/j)^i = 1` for `0 ≤ i < k`, which matches the normal derivatives
+of order `< k` across `ℝ`. At `k = 1` this is PDE Lane A's `W1p.extendByReflectionL`.
 
 ### 1.2 Embeddings, products and composition
 
@@ -239,8 +244,8 @@ Prove local Rellich for these classes: a sequence bounded in `W^{k+1,p}` on comp
 `Ω` (or of a half-disc) has a subsequence converging in `W^{k,p}` on compact subsets. Deduce
 `C^{k}` convergence on compact subsets when `p > 2`.
 
-*Needs:* Tau Ceti `HasWeakFDerivOn`, `W1p`, `Wkp`; PDE Lane A's extension, embeddings and
-Rellich.
+*Needs:* Tau Ceti `HasWeakFDerivOn`, `W1p`, `Wkp`; PDE Lane A's first-order extension,
+embeddings and Rellich.
 
 ## Layer 2: almost complex structures, totally real submanifolds and isothermal coordinates (PH2)
 
