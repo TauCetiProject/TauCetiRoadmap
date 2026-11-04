@@ -19,10 +19,11 @@ lower-numbering form (§3a.3). The finite-local-field Hasse–Arf is the complet
 `hasseArf` (Layer 3 of the completed roadmap LocalFieldsRamification), consumed and not restated.
 
 Not statable at the pins, and therefore README targets only: the Herbrand function, its inverse
-and the upper numbering on the local-ring filtration with their quotient, tower and agreement
-theorems (§3a.2), which lack a Herbrand function on `TauCeti.IsLocalRing.ramificationGroup`
-(Tau Ceti's `TauCeti.LocalFieldsRamification.herbrandOrderIso`, `herbrand`, `inverseHerbrand`,
-`psiNat` and `upperRamificationGroup` assume `IsNonarchimedeanLocalField` on both fields); the
+and the upper numbering on the local-ring filtration with their quotient and tower theorems (for
+separable residue extension) and their agreement theorem (§3a.2), which lack a Herbrand function
+on `TauCeti.IsLocalRing.ramificationGroup` (Tau Ceti's
+`TauCeti.LocalFieldsRamification.herbrandOrderIso`, `herbrand`, `inverseHerbrand`, `psiNat` and
+`upperRamificationGroup` assume `IsNonarchimedeanLocalField` on both fields); the
 residue-enlargement, proalgebraic-unit and graded-norm targets of §3a.3, which lack perfect
 quasialgebraic groups and their pro-category; and, over a perfect residue field, the absolute
 upper filtration of `Field.absoluteGaloisGroup K` with inertia and wild inertia (§4a.1), the

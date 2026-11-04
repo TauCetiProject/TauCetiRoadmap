@@ -5,17 +5,17 @@
 nonarchimedean local fields it treats. It builds the finite ramification package over every
 field complete for a discrete valuation, in equal and mixed characteristic and with a residue
 field that need not be finite: the lower filtration on the integral closure, the lower index,
-Hilbert's different formula, the Herbrand functions and the upper numbering with Herbrand's
-quotient theorem and tower transitivity, and the Hasse–Arf theorem for abelian extensions with
-separable residue extension, together with the residue-enlargement, proalgebraic-unit and
-graded-norm targets its proof needs. Over a perfect residue field it then builds the absolute
-upper filtration of the absolute Galois group, with inertia and wild inertia as its terms at `0`
-and `0+`, the transition function `ψ_(L/K)` of a finite separable extension with the
-open-subgroup identity, and the comparison with the completed maximal unramified extension. On a
-nonarchimedean local field each object is the completed roadmap's, and the agreement is a target
-here. The package is the ramification theory that `p`-adic Hodge theory, integral `p`-adic Hodge
-theory and the unit-filtration form of local class field theory consume over bases such as
-`F̄_p((t))` and `Frac W(F̄_p)`.
+Hilbert's different formula, the Herbrand functions and the upper numbering, with Herbrand's
+quotient theorem and tower transitivity for separable residue extension, and the Hasse–Arf
+theorem for abelian extensions with separable residue extension, together with the
+residue-enlargement, proalgebraic-unit and graded-norm targets its proof needs. Over a perfect
+residue field it then builds the absolute upper filtration of the absolute Galois group, with
+inertia and wild inertia as its terms at `0` and `0+`, the transition function `ψ_(L/K)` of a
+finite separable extension with the open-subgroup identity, and the comparison with the
+completed maximal unramified extension. On a nonarchimedean local field each object is the
+completed roadmap's, and the agreement is a target here. The package is the ramification theory
+that `p`-adic Hodge theory, integral `p`-adic Hodge theory and the unit-filtration form of local
+class field theory consume over bases such as `F̄_p((t))` and `Frac W(F̄_p)`.
 
 | Layer | Title | What it builds |
 |---|---|---|
@@ -38,11 +38,12 @@ and residue field `k`:
   antitonicity and eventual triviality of the lower groups `G_i` on Tau Ceti's local-ring
   carrier, the subgroup formula, the graded embeddings of `G_0/G_1` and `G_i/G_(i+1)` and their
   consequences for `G_0` and `G_1`; Hilbert's different formula; the Herbrand functions `φ`, `ψ`
-  and the upper groups of a finite group acting on a local ring, with their analytic properties,
-  Herbrand's theorem, tower transitivity, the intersection formula and the correspondence of
-  jumps; Hasse–Arf for abelian `G` and separable residue extension, with the residue-enlargement
-  construction, the proalgebraic unit groups with their norm-kernel components, and the graded
-  norms with filtered norm-kernel components, all over an algebraically closed residue field; and
+  and the upper groups of a finite group acting on a local ring, with their analytic properties
+  and the correspondence of jumps, and, for separable residue extension, Herbrand's theorem,
+  tower transitivity and the intersection formula; Hasse–Arf for abelian `G` and separable
+  residue extension, with the residue-enlargement construction, the proalgebraic unit groups
+  with their norm-kernel components, and the graded norms with filtered norm-kernel components,
+  all over an algebraically closed residue field; and
   the agreement of every one of these objects with the completed roadmap's on a nonarchimedean
   local field.
 - 4a: over a perfect residue field, the absolute upper filtration `G_K^u` and `G_K^(u+)` of
@@ -311,12 +312,15 @@ strictly increasing, piecewise linear and concave, the identity on `[−1, 0]`, 
 every natural number `n`; the two inverse identities; and `G^(φ(u)) = G_u`. In the setting of
 3a.1, with `S = B` and `φ_(L/K)`, `ψ_(L/K)` for these functions, prove:
 
-- Herbrand's theorem: for `H` normal in `G`, `(G/H)^v = G^v H/H`, and its field form through
-  Mathlib's `IsGalois.normalAutEquivQuotient` for `K′ = L^H`;
-- tower transitivity: for `M/K` finite Galois and `L` intermediate with `L/K` Galois,
+- `ψ` carries the jumps of the upper filtration to those of the lower one;
+- when the residue extension of `L/K` is separable (a hypothesis the residue extensions of
+  `L/K′` and `K′/K` inherit for every intermediate field `K′`), Herbrand's theorem: for `H`
+  normal in `G`, `(G/H)^v = G^v H/H`, and its field form through Mathlib's
+  `IsGalois.normalAutEquivQuotient` for `K′ = L^H`;
+- under the same separability hypothesis, tower transitivity: for `M/K` finite Galois with
+  separable residue extension and `L` intermediate with `L/K` Galois,
   `φ_(M/K) = φ_(L/K) ∘ φ_(M/L)` and `ψ_(M/K) = ψ_(M/L) ∘ ψ_(L/K)`;
 - for the same tower, `Gal(M/L) ∩ Gal(M/K)^v = Gal(M/L)^(ψ_(L/K)(v))` for `v ≥ −1`;
-- `ψ` carries the jumps of the upper filtration to those of the lower one;
 - agreement: for nonarchimedean local fields, `G = L ≃ₐ[K] L` and `S = 𝒪[L]`, these are
   `TauCeti.LocalFieldsRamification.herbrandOrderIso K L`,
   `TauCeti.LocalFieldsRamification.herbrand K L`,
@@ -341,7 +345,9 @@ local-ring carrier, and agreement holds because
 Integrality of `ψ(n)` is the finite-sum formula together with Lagrange's theorem, as in
 `TauCeti.LocalFieldsRamification.coe_psiNat`. For Herbrand's theorem, the lower index of a class
 `s ∈ G/H` is `(1/e(L/K′)) Σ_(σ ∈ s) lowerIndex B σ`, computed at generators of `B` over `A` and
-of the integer ring of `K′` over `A` (3a.1); the truncated count
+of the integer ring of `K′` over `A`, which exist because the residue extensions are separable
+(3a.1); this is where the separability hypothesis enters, and the Check below shows the class
+formula and all three statements fail without it. The truncated count
 `TauCeti.IsLocalRing.sum_min_lowerIndex_natCast` turns this into Herbrand's lemma
 `(G/H)_(φ_(L/K′)(u)) = G_u H/H`. Comparing the slopes of both sides of the lemma gives tower
 transitivity, and the lemma with transitivity gives the theorem in upper numbering. The
@@ -365,6 +371,26 @@ instance).
 - For `M = ℚ_2(ζ_8)` and `L = ℚ_2(√2)` over `K = ℚ_2`, `ψ_(L/K)(3) = 4` and
   `ψ_(M/L)(4) = 7 = ψ_(M/K)(3)`, while `ψ_(L/K)(ψ_(M/L)(3)) = ψ_(L/K)(5) = 8`: composing in the
   other order is wrong.
+- Separability of the residue extension cannot be dropped from Herbrand's theorem, tower
+  transitivity or the intersection formula. Over `K = F_2(s)((t))`, let `M = K(y, w)` with
+  `y² − y = s·t^(−2)` and `w² − w = t^(−1)`. The classes `t^(−1)`, `s·t^(−2)` and their sum are
+  not of the form `a² − a` with `a ∈ K` (the first has odd valuation; for the other two, `a`
+  would have valuation `−1` and leading coefficient squaring to `s`), so `G = C_2 × C_2`. Put
+  `L₁ = K(y)`, the inseparable-residue extension of the 3a.1 Check, `H = Gal(M/L₁)`,
+  `π₀ = 1/w` and `z = t·y`. Then `π₀` is a root of the Eisenstein polynomial `X² + tX − t` over
+  `A`, `z² − tz = s`, and the integer ring of `M` is `A[π₀, z]`, with residue field
+  `F_2(s^(1/2))`, `e(M/K) = 2` and `v_M(t) = 2`; it is not generated over `A` by one element,
+  since every element of `A[π₀, z]/(t)` has its square in `F_2(s)`. The element with
+  `y ↦ y + 1` fixes `π₀` and moves `z` by `t`; the element with `w ↦ w + 1` fixes `z` and moves
+  `π₀` by `−π₀²/(1 + π₀)`; both displacements have valuation `2`, so every nontrivial element of
+  `G` has lower index `2`, `G_0 = G_1 = G`, `G_2 = 1`, and `G^v = G` for `v ≤ 1`. In the
+  quotient `Gal(L₁/K)`, the generator moves `z` by `t`, of `v_(L₁)`-valuation `1`, so
+  `(G/H)_1 = 1`, `φ_(L₁/K)(u) = u/2` for `u ≥ 0` and `(G/H)^(1/2) = 1`, whereas
+  `G^(1/2)H/H = G/H`. Likewise `φ_(M/K)(1) = 1` but `φ_(L₁/K)(φ_(M/L₁)(1)) = φ_(L₁/K)(1) = 1/2`,
+  since `M/L₁` has `H_0 = H_1 = H`, `H_2 = 1`; and `H ∩ G^1 = H` but
+  `H^(ψ_(L₁/K)(1)) = H^2 = H_(ψ_(M/L₁)(2)) = H_3 = 1`. The class formula of the proof would give
+  `(2 + 2)/2 = 2` for the lower index of the generator of `Gal(L₁/K)`, whose value is `1`. The
+  subgroup formula `H_i = H ∩ G_i` of 3a.1 does hold here, with `H_1 = H` and `H_2 = 1`.
 
 ### 3a.3 Hasse–Arf over a separable residue extension
 
