@@ -20,9 +20,10 @@ S9 and its word121 acceptance calculation own the incidence threefold, its flag 
 complex realization. Layer 3 owns its symplectic form and moment image.
 OperatorTheory/Majorization Part A, MAJ-A18–A25, owns forward diagonal inequalities;
 Layer 3 adds realization of every majorized diagonal and the exact unitary-orbit image.
-LieGroups Layer 6 owns maximal tori, conjugacy and the Weyl comparison. The
-normalized compact rank-one construction and its period/character comparison belong
-to Layer 1. HamiltonianReduction R2 owns coadjoint orbits, R2a.2–4 owns their
+LieGroups Layer 6 owns maximal tori, conjugacy, the Weyl comparison and the compact real
+root adapter: adjoint root characters, invariant-metric coroots and rank-one SU(2)
+representatives. Layer 1 adds only the integral period/character/isogeny normalization
+of those real data. HamiltonianReduction R2 owns coadjoint orbits, R2a.2–4 owns their
 root-plane Hessians, generic isolated-critical-point heights and even-cell consequences,
 and R3 owns reduction;
 MorseTheory M1–M5 owns ordinary Morse–Bott attachments. Algebraic/analytic toric varieties,
@@ -55,11 +56,6 @@ and reduced symplectic classes use ℝ. Lean carriers have arbitrary type univer
   `convexHull`, `Set.extremePoints`, `Representation.invariants`, `mfderiv`,
   `LieGroup`, `IsZLattice` and `Basis.addHaar`. These give matrices, fixed subspaces,
   derivatives, convex sets and lattice-normalized Haar measure, without Hamiltonian hypotheses.
-  For the complexified semisimple summand use
-  `LieAlgebra.IsKilling.exists_isSl2Triple_of_weight_isNonZero` and
-  `LieAlgebra.IsKilling.finrank_rootSpace_eq_one` in
-  `Mathlib/Algebra/Lie/Weights/Killing.lean`, after proving the finite-dimensional,
-  characteristic-zero, Killing, Cartan and split-weight hypotheses in §1.1.
 - **From Tau Ceti:** `TauCeti.SmoothTwoForm` in
   `TauCeti/Geometry/Manifold/TwoForm/Basic.lean`, with
   `TauCeti.SmoothTwoForm.IsSymplectic` in
@@ -77,10 +73,17 @@ and reduced symplectic classes use ℝ. Lean carriers have arbitrary type univer
   values and even-cell consequences on compact connected coadjoint orbits, R3's free and
   locally free reduction, and R3.1's proper-orbit symplectic slice normal form.
 - **From TauCetiRoadmap.LieGroups:** Layer 1's smooth adjoint representation, its
-  differential ad and conjugation/exponential identities; Layer 6's maximal tori, conjugacy, normalizer/Weyl
-  comparison and exponential surjectivity; Layer 4's integration of Lie algebra
-  maps from simply connected groups. From TauCetiRoadmap.RootSystems, Layer 4's
-  abstract Weyl chambers, transported through the compact comparison.
+  differential ad and conjugation/exponential identities; Layer 6's maximal tori, conjugacy,
+  normalizer/Weyl comparison, exponential surjectivity and compact real root adapter. For
+  compact connected G with maximal torus T that adapter is assumed to provide: an
+  Ad-invariant inner product on g with the orthogonal splitting g=z(g)⊕[g,g]; the
+  adjoint root characters χ_α:T→S¹ with dχ_α=iα and their real root planes; the
+  invariant-metric coroot α∨=2α♯/‖α‖² with α(α∨)=2; a smooth homomorphism
+  φ_α:SU(2)→G with dφ_α(diag(i,−i))=α∨, ker(φ_α)⊆{I,−I} and
+  φ_α(diag(e^(it),e^(−it)))=exp_G(tα∨); a normalizer representative acting on t
+  by X↦X−α(X)α∨; and transport of all of these under torus conjugation and change
+  of unit root vector. Layer 1 constructs none of these. From TauCetiRoadmap.RootSystems,
+  Layer 4's abstract Weyl chambers, transported through the compact comparison.
 - **From TauCetiRoadmap.SmoothBundlesConnections:** B2.4's Liouville density measure
   and integral comparison, principal connections in Layers 1–4, and B6.2–B6.3's
   dual-character Chern class and curvature convention.
@@ -116,44 +119,35 @@ native carriers; its docstring identifies the missing carriers for the other hea
 
 ### 1.1 Periods, characters and rank-one normalization
 
-For every compact connected real Lie group G with maximal torus T, construct the
-normalized compact rank-one comparison on its actual Lie algebra. Average an inner
-product under the adjoint action, split off the center, and prove that the complexified
-semisimple summand [g,g] is Killing-semisimple and that the complexification of
-t∩[g,g] is Cartan with a split adjoint weight decomposition. Decompose the adjoint
-T-representation on this summand into actual characters χ_α:T→S¹,
-with real differentials dχ_α=iα. Compare its weight spaces with Mathlib's root spaces;
-use their one-dimensionality and sl₂ triples to construct the compact real root planes.
-For each nonzero root define α∨=2α♯/‖α‖², with the norm and dual taken in the
-invariant metric on t; prove ‖α‖²>0 and independence from the chosen invariant metric.
-Construct a real Lie homomorphism su(2)→g taking H=diag(i,−i) to α∨. With
-A=((0,1),(−1,0)) and B=((0,i),(i,0)), prove that its images satisfy
-[H,A]=2B, [A,B]=2H and [B,H]=2A, and identify its complexified root lines.
-Integrate using LieGroups Layer 4 to a smooth homomorphism φ_α:SU(2)→G.
-Prove that its diagonal circle lands in T and
-φ_α(diag(e^(it),e^(−it)))=exp_G(tα∨), with α(α∨)=2 and
-ker(φ_α) contained in {I,−I}. Transport the construction under torus conjugation;
-changing the chosen unit root vector conjugates the map by its diagonal torus,
-so no choice-independent map is asserted. For a torus the root family is empty.
-Compare the resulting coroot cocharacter and reflection with the abstract root
-pairing (Conrad–Landesman, *Compact Lie Groups*, Appendix R, Proposition R.2.1
-and its proof, pp. 254–256; Appendix Q, pp. 248–253, for the compact rank-one reduction).
+For every compact connected real Lie group G with maximal torus T, consume LieGroups
+Layer 6's compact real root adapter: the adjoint root characters χ_α:T→S¹ with
+dχ_α=iα, the invariant-metric coroots α∨ with α(α∨)=2, the rank-one homomorphisms
+φ_α:SU(2)→G with dφ_α(diag(i,−i))=α∨, ker(φ_α)⊆{I,−I} and
+φ_α(diag(e^(it),e^(−it)))=exp_G(tα∨), and their transport under torus conjugation.
+None of these real data is constructed here; changing the unit root vector conjugates
+φ_α by its diagonal torus, so no choice-independent map is assumed. For a torus the
+root family is empty. This subsection adds only the integral normalization of those data.
 
 Build the 2π-normalized period/weight dictionary: compare T with t/ker(exp), put
 Λ_Z=(2π)⁻¹ker(exp), and identify a character with (1/i)dχ. Prove duality, restriction,
-quotient and integral basis-change formulas. For λ∈ker(exp), prove α_χ(λ)/(2π)∈ℤ;
-prove exp_G(2πα∨)=1 by the homomorphism identity and identify the resulting
-character/coroot pairing with the Cartan integer. Under a central isogeny prove the
-finite-index lattice comparison, retaining the full torus lattice rather than an
-integral center/semisimple splitting (Conrad–Landesman, Appendix R, §§R.1–R.2).
+quotient and integral basis-change formulas. For λ∈ker(exp), prove α_χ(λ)/(2π)∈ℤ.
+Evaluate the consumed identity φ_α(diag(e^(it),e^(−it)))=exp_G(tα∨) at t=2π to prove
+exp_G(2πα∨)=1, so that α∨∈Λ_Z is an integral cocharacter, and identify the pairing of
+every character differential with α∨ as the Cartan integer, so that the consumed
+reflection X↦X−α(X)α∨ preserves the weight lattice (Conrad–Landesman, *Compact Lie
+Groups*, Appendix R, Proposition R.2.1 and its proof, pp. 254–256). Under a central
+isogeny prove the finite-index lattice comparison, retaining the full torus lattice
+rather than an integral center/semisimple splitting (Conrad–Landesman, Appendix Q,
+pp. 248–253, for the isogeny formalism; Appendix R, §§R.1–R.2).
 
 - Characters add under multiplication, and their real differentials pair integrally with Λ_Z.
 - Restriction of characters is dual to inclusion of cocharacters; quotient tori use the quotient lattice.
-- The constructed rank-one homomorphism intertwines exponentials, so its diagonal circle
-  yields the normalized period 2πα∨; its normalizer representative acts by
-  X↦X−α(X)α∨, agreeing with the abstract root reflection.
-- Torus conjugation transports characters, coroots and rank-one maps; central quotients
-  compose the maps and transport their differentials, retaining any order-two kernel.
+- The consumed rank-one homomorphism intertwines exponentials, so its diagonal circle
+  has period 2πα∨ in ker(exp): the coroot is an integral cocharacter and the consumed
+  normalizer representative preserves the weight and cocharacter lattices.
+- Torus conjugation transports the consumed characters, coroots and rank-one maps together
+  with their period lattices; central quotients compose the maps, transport their
+  differentials, retain any order-two kernel and compare the two lattices with finite index.
 
 **Checks.**
 
@@ -171,10 +165,8 @@ integral center/semisimple splitting (Conrad–Landesman, Appendix R, §§R.1–
 - In U(2), the central and semisimple generators (1,1),(1,−1) span index 2 in ℤ²;
   the lattice vector (1,0) is not their integral combination. In rank zero all lattices vanish.
 
-*Needs:* LieGroups Layers 1–4 and 6 (adjoint representation, Lie integration and maximal tori);
-Mathlib Haar integration and complex Killing root-space/sl₂ theory;
-RootSystems Layer 4; Tau Ceti's integral lattice API. The compact-real comparison
-and verification of the complex Killing hypotheses are targets of this subsection.
+*Needs:* LieGroups Layers 1 and 6 (adjoint representation, maximal tori and the compact
+real root adapter); RootSystems Layer 4; Mathlib `IsZLattice`; Tau Ceti's integral lattice API.
 
 Define `HamiltonianTorusData` on a smooth two-form σ, a torus action and a map
 μ:M→t* by smoothness of both maps, preservation of σ, invariance of μ and
@@ -283,7 +275,7 @@ from the preserved-metric hypothesis. The weight +1 and −1 planes pin the mome
 
 ### Dependencies
 
-LieGroups Layers 1–4 and 6, RootSystems Layer 4, HamiltonianReduction R1/R3.1,
+LieGroups Layers 1 and 6, RootSystems Layer 4, HamiltonianReduction R1/R3.1,
 HopfRinow Layers 1 and 4, HeegaardFloer §4.1 and GeometricTopology Layer 1.
 
 ## Layer 2: Morse–Bott and moment-map topology
@@ -380,10 +372,15 @@ Torus orbits are isotropic, hence dim T≤½dim M for effective actions. A regul
 is coisotropic; quotient dimension is dim M−2dim T, with an orbifold if only locally free.
 
 For compact connected K acting on compact connected M prove **Kirwan convexity**
-(Lerman–Meinrenken–Tolman–Woodward, arXiv:dg-ga/9603015v1, Theorem 1.1): μ(M)∩t*_+ is a compact convex rational polytope
-in a chosen closed positive Weyl chamber (rational facet directions in the weight lattice,
-with real support constants), and the fibers of the orbit-projected map to t*_+ are
-connected. The full K-moment image in k* need not be convex. The cited source uses
+(Lerman–Meinrenken–Tolman–Woodward, arXiv:dg-ga/9603015v1, Theorem 1.1, for convexity,
+polyhedrality and connected fibers): μ(M)∩t*_+ is a compact convex polytope
+in a chosen closed positive Weyl chamber, and the fibers of the orbit-projected map to t*_+ are
+connected. The polytope is rational, with facet directions in the weight lattice and real
+support constants, because on the symplectic cross-section the local cone of the image at
+the value of a point m is t₀^⊥ plus the cone on the t-weights of the symplectic slice at m,
+where t₀ is the Lie algebra of the stabilizer of m (Hilgert–Neeb–Plank, Theorem 4.1(v),
+p. 151): the slice weights lie in the weight lattice and t₀^⊥ is a rational subspace.
+The full K-moment image in k* need not be convex. Lerman–Meinrenken–Tolman–Woodward use
 ι_(ξ_M)ω=−dΦ_ξ; transport by Φ=−μ and the corresponding opposite chamber. Consume
 [HamiltonianReduction R2](../HamiltonianReduction/README.md#r2-coadjoint-orbits-and-kks)'s compact
 coadjoint-orbit, closed-chamber and centralizer theorems, including
@@ -627,7 +624,7 @@ local finiteness even when M is noncompact. For compact connected M and an effec
 absolute continuity with respect to the lattice-normalized Lebesgue measure on t*, with polynomial
 density on each connected chamber of regular values of degree at most n−m. For a noneffective action
 state absolute continuity on its affine support, not full ambient t*. Prove density from reduced volume
-and orbit period, including finite generic stabilizers when applicable. For each locally-free Hamiltonian chamber use R3's actual possibly ineffective proper étale slice presentation S and restricted symplectic form. Construct the actual level principal-torus orbibundle using O4.1: for the left T-action on Z and a slice object x, put P=S₀×T, with right action (x,t)·k=(x,tk), and let a retained arrow h:x→y act by (x,t)↦(y,ht). The map (x,t)↦t⁻¹x is arrow-invariant and right-equivariant for z·k=k⁻¹z; prove these formulas and their slice-refinement comparisons. Construct a T-invariant connection on the locally-free level by an invariant orbit/horizontal splitting, with α(ξ_right)=ξ; its pullback gives the arrow-invariant principal connection on P. This is a CT specialization of O4's generic bundle/connection API, not an additional object assumed from R3. Consume [Orbifolds O1–O5](../../Orbifolds/README.md)'s generic presentations, invariant forms, represented bundles, classifying/coarse/de Rham comparisons and full-isotropy integration. O4-T supplies the normalized thin/CW and principal-torus comparison on the same model, with T1's actual character-basis/period datum. Prove that T4's concrete level bundle and R3's restricted symplectic form identify with these carriers before evaluating classes or integrals. O7's later completed-model comparison is not a prerequisite.
+and orbit period, including finite generic stabilizers when applicable. For each locally-free Hamiltonian chamber use R3's actual possibly ineffective proper étale slice presentation S and restricted symplectic form. Construct the actual level principal-torus orbibundle using Orbifolds O4, item 1 (orbibundles and principal bundles): for the left T-action on Z and a slice object x, put P=S₀×T, with right action (x,t)·k=(x,tk), and let a retained arrow h:x→y act by (x,t)↦(y,ht). The map (x,t)↦t⁻¹x is arrow-invariant and right-equivariant for z·k=k⁻¹z; prove these formulas and their slice-refinement comparisons. Construct a T-invariant connection on the locally-free level by an invariant orbit/horizontal splitting, with α(ξ_right)=ξ; its pullback gives the arrow-invariant principal connection on P. This is a CT specialization of O4's generic bundle/connection API, not an additional object assumed from R3. Consume [Orbifolds O1–O5](../../Orbifolds/README.md)'s generic presentations, invariant forms, represented bundles, classifying/coarse/de Rham comparisons and full-isotropy integration. O4-T supplies the normalized thin/CW and principal-torus comparison on the same model, with T1's actual character-basis/period datum. Prove that T4's concrete level bundle and R3's restricted symplectic form identify with these carriers before evaluating classes or integrals. O7's later completed-model comparison is not a prerequisite.
 
 Construct the application classifier κ on O4-T's diagonal-Sing CW model `BS` from that theorem's intrinsic represented bundle, with its object/refinement comparisons. For every dual character χ pull back the normalized integral class `h_χ=-u_χ` to `H²(BS;ℤ)`, take its rational image and use O4-S for coarse rational cohomology. Prove O4-W/O4-T identifies its real image with the actual connection curvature `[F_χ/(2π)]` in R3's invariant-form complex. The arbitrary reduced symplectic class lies in real `H²(Ω(S))≃H²(BS;ℝ)` and need not be rational. Retain actual character-basis, atlas, connection and refinement maps; agreement on small charts alone does not identify these classes.
 
@@ -650,7 +647,7 @@ The pushforward and level-bundle API includes:
   full-isotropy integral of 1 is 1/k; for k=1 both are the ordinary point model.
 
 *Needs:* SmoothBundlesConnections B2.4; HamiltonianReduction R3;
-Orbifolds O4.1, O4-N/S/R/K/W/T and O5; Layer 1's character lattice.
+Orbifolds O4, item 1 (orbibundles and principal bundles), O4-N/S/R/K/W/T and O5; Layer 1's character lattice.
 
 ### 4.2 Reduced classes and chamberwise density
 
@@ -928,7 +925,7 @@ uses its comparison on the actual Hamiltonian level bundle.
 
 Conrad–Landesman, [*Compact Lie Groups*, Spring 2018](https://math.stanford.edu/~conrad/210CPage/handouts/lie_groups_notes.pdf),
 Appendix Q, pp. 248–253, and Appendix R, Proposition R.2.1, pp. 254–256,
-for the compact rank-one and coroot comparison.
+for the integral coroot cocharacter and the isogeny lattice comparison.
 Escobar, [*Brick manifolds and toric varieties of brick polytopes*](https://www.combinatorics.org/ojs/index.php/eljc/article/download/v23i2p25/pdf/),
 Electronic Journal of Combinatorics 23(2) (2016), P2.25, §3.2 p. 8 and §4.1 pp. 12–13.
 Hilgert–Neeb–Plank, *Symplectic convexity theorems and coadjoint orbits*, Compositio
