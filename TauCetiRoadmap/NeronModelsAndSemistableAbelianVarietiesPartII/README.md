@@ -523,6 +523,10 @@ finiteness and closedness of the canonical maps, is `ferrand_scheme_pushout_exis
 **Checks.**
 
 - The (AF) version of Ferrand5.4 is a corollary, not an unconditional global scheme theorem.
+- With Z=∅ the pushout is the disjoint union P=Y⊔Z′: Y→P is an open-and-closed immersion, hence finite, Z′→P
+  is closed and Y×_P Z′=∅.
+- With Z=Y, so that i is the identity, the pushout is P=Z′ with Y→P the finite map g itself; Y∖Z is empty and
+  the isomorphism statement is vacuous.
 
 *Needs:* §1.4; §1.3; SchemeAndStackFoundations SF.1, scheme/étale-space contracts.
 
@@ -4823,6 +4827,10 @@ properties.
 **Checks.**
 
 - When E=k and i is a closed rational point, pinching is the identity and C≅Y is proper.
+- For Y=P¹, k=F₂(a) and E=k(√a) purely inseparable of degree two, C is the proper curve that is geometrically
+  the cusp y²=x³ of §2.7's last Check; its properness comes from this target and not from separability of E/k.
+- For Y=A¹ the pinch along Spec E→Spec k still exists by §1.5 but is affine and not proper, so properness of Y
+  cannot be dropped from the hypotheses.
 
 *Needs:* §1.5; §1.1; `AlgebraicGeometry.UniversallyClosed.of_comp_surjective`; `AlgebraicGeometry.IsProper`;
 SchemeAndStackFoundations SF.0, quotient/localization/flat-module contracts; SchemeAndStackFoundations
@@ -8505,6 +8513,9 @@ divisor globally. The base parameter has valuation m, so the schematic fiber can
 **Checks.**
 
 - For m>1 the special fiber is nonreduced of length m, even though the residue extension has degree1.
+- For m=1, R′/πR′=k and D⊗_R k=D∩X_red=Spec k has length one: D is a section through the chosen rational point.
+- For m=2, π=u v² gives R′/πR′=R′/(v²) of length two, while D∩X_red is still the single point of residue degree
+  one; D is not a section.
 
 *Needs:* `TauCeti.Model`; §2.2; SchemeAndStackFoundations SF.0, quotient/localization/flat-module
 contracts; StableReduction Layer 4.
@@ -9239,6 +9250,11 @@ operations; identify the image with the minimal cubic.
 **Checks.**
 
 - A component disjoint from O has degree0 under `O_J(3O)`, obstructing very ampleness on J.
+- On a fibre of type I₂ the component not meeting O has degree0 and is contracted to a rational double point of
+  type A₁ on Z, where the fibre of Z is a nodal plane cubic; on a fibre of type I₁ nothing is contracted and the
+  fibre embeds as a nodal cubic.
+- When every fibre is irreducible, as for the product E×P¹ with its projection (the fibrewise computation does
+  not use rationality), no component is contracted, `O_J(3O)` is relatively very ample and J→Z is an isomorphism.
 
 *Needs:* §4.12; §4.11; AlgebraicModuliForArithmeticGeometry Layer 1 §1.1, relative Proj contract;
 StableReduction Layer 4.
@@ -9472,6 +9488,12 @@ splitting have been proved. Enumerate the three F₂ rational base points and su
 **Checks.**
 
 - The formula2r+2 is used only after establishing nonsplit incidence.
+- Negative control for the split formula: the configurations III*, E₂, nonsplit I₂ and I₃*, E₄, nonsplit I₁
+  (models 4 and 13 of §6.1) sum to 17+2+6=25 and 17+4+4=25; using 2r_a for every multiplicative fibre would
+  give 17+2+4=23 and 17+4+2=23, so the term 2r_a+2 is what reaches 25.
+- Positive control over F₂: n_a is 1 for E₁, 3 for II, 2 for split I₁ and 4 for nonsplit I₁, the fibre counts
+  1, q+1, q and q+2 of §2.22 and §§2.10–2.13 at q=2; the additive formula 2r_a+1 applied to the smooth fibre E₁
+  would give 3 instead of 1.
 
 *Needs:* §2.10; §2.11; §2.12; §2.13; §2.14; §2.22; §2.9.
 
@@ -9868,7 +9890,7 @@ closed points. The count column is the sum of the three resolved rational-fibre 
 StableReduction Layers 2, 4 and 5; AlgebraicModuliForArithmeticGeometry Layer 7 §7.3 cohomological flatness;
 the rational-surface and intersection constructions of Layer 4 here.
 
-### 6.16 nonrational bad fibres in the eleven nonzero-j models
+### 6.2 nonrational bad fibres in the eleven nonzero-j models
 
 For the eleven nonzero-j models, prove all nonrational bad fibres are absent except in models 2 and 14.
 Their closed point t²+t+1 has residue degree two and geometric type I₁. Factor the discriminant on both
@@ -9887,7 +9909,7 @@ pp. 30–31, as completed in §6.1.)
 
 *Needs:* §6.1; §2.3; EllipticCurves Layer 4.
 
-### 6.17 smooth nonrational fibres of zero-j models
+### 6.3 smooth nonrational fibres of zero-j models
 
 For models 9–11, prove every nonrational fibre is smooth. On the finite chart Δ=t⁸, so every finite
 nonrational point has nonzero discriminant. On the infinity chart Δ′=s⁴, whose only zero is the rational
@@ -10199,7 +10221,7 @@ Applications use the single classification list of §6.1 and the classification 
 25-point counts are the list's Checks. The fibration equivalence is the pointed geometric relation of §7.2;
 its equation comparison and invariant transport give the form of equivalence and uniqueness used by consumers.
 The eleven nonzero-j and three zero-j class counts are §7.7. The nonrational-fibre conclusions remain
-§§6.16–6.17.
+§§6.2–6.3.
 
 ## References
 
