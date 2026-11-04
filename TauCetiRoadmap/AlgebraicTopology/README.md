@@ -123,13 +123,16 @@ groups.  Those theories consume this roadmap's chain, CW, duality, and homotopy 
   representability, EM-family or HA input.
   [GeneralizedCohomology G2.1](../GeneralizedCohomology/README.md) consumes
   it for its pointed smash/quotient versions and monoidal diagrams.
-- [Topological K-theory](../TopologicalKTheory/README.md) T1.6 owns the named
-  fixed-rank infinite Grassmannian carriers, their final/weak CW topology and
-  universal bundles. [CharacteristicClasses C1.5](../CharacteristicClasses/README.md)
-  owns the finite-projective/cellular/cup comparisons on their rank-one RP∞
-  and CP∞ carriers. Stage 8.12 consumes that construction/comparison portion
-  and owns only their identification as ordinary EM spaces. Those portions
-  use earlier CW/cohomology tools and do not consume Stage 8.12.
+- [Topological K-theory](../TopologicalKTheory/README.md) T1.6 consumes the
+  earlier CW/Whitehead tools for its named fixed-rank infinite Grassmannian
+  carriers, their final/weak CW topology and universal bundles.
+  [CharacteristicClasses C1.5](../CharacteristicClasses/README.md) consumes
+  Stages 4 and 6 for the finite-projective/cellular/cup comparisons on the
+  rank-one RP∞ and CP∞ carriers, and consumes Stage 8.8b's normalized ℤ/2
+  model, Stage 8.10's ordinary models and representability and Stage 8.12's
+  native circle comparison for its identification of those carriers as
+  ordinary EM spaces. No stage here consumes those carriers, comparisons or
+  that identification.
 - The high-dimensional differential-topology and homotopy-sphere roadmap consumes Hurewicz,
   Whitehead, duality, finite CW type, and the homology of spheres from this roadmap.  Stable
   homotopy, framed bordism, and the Kervaire--Milnor calculation live there.
@@ -2077,20 +2080,20 @@ items 1–7 are independent of those later constructions.
     lifting, independently of that upgrade. Prove coefficient/addition/adjunction
     naturality and the relative/basepoint versions.
     Generalized cohomology and spectra consume these ordinary interfaces.
-12. **Classical EM comparisons (`projectiveEMComparisons`).** Consume T1.6's
-    rank-one RP∞ and CP∞ carriers with their final/weak CW topology, and
-    CharacteristicClasses C1.5's finite-stage and cellular/cup comparisons with
-    AT4.6's RPⁿ and CKG K7's CPⁿ. Own their identification as K(ℤ/2,1)
-    and K(ℤ,2), respectively, and the coefficient-natural EM comparison maps.
-    Pin the complex degree-two universal generator h by ⟨h,[CP¹]⟩=+1 for
-    CKG K7's complex orientation. The real degree-one class is the unique
-    nonzero class for the double-cover generator. Compare with native
-    `AddCircle.isEilenbergMacLaneSpaceOne` at period 1 and basepoint 0, with
-    t↦t mod ℤ, 0≤t≤1, corresponding to +1. Prove finite-stage restriction
-    compatibility and coefficient change along every additive homomorphism
-    ℤ→A, including reduction ℤ→ℤ/m for each m≥1. No new infinite-projective
-    carrier, characteristic-class definition or finite-projective comparison
-    is constructed here.
+12. **Native circle comparison of the degree-one model.** Compare the
+    degree-one ordinary model K(ℤ,1) of 8.10's family, the bar model for ℤ,
+    with native `AddCircle.isEilenbergMacLaneSpaceOne` at period 1 and
+    basepoint 0: construct the pointed homotopy equivalence sending the bar
+    edge labelled +1 to the loop t↦t mod ℤ, 0≤t≤1, so that 8.10's
+    distinguished degree-one class corresponds to the circle class pairing
+    to +1 with that loop. Prove compatibility with 8.10's normalized
+    homotopy-group identification and with the coefficient maps induced by
+    homomorphisms ℤ→A. CharacteristicClasses consumes this comparison,
+    8.8b's normalized ℤ/2 model and 8.10's K(ℤ,2) model and
+    representability for its identification of the rank-one infinite
+    projective carriers as ordinary EM spaces; no projective carrier,
+    characteristic-class definition or finite-projective comparison is
+    constructed here.
 
 Hatcher Section 4.1 gives the absolute Hurewicz and Whitehead arguments; Whitehead, Chapters
 IV--VII, gives the relative and cellular forms.  May, *Simplicial Objects in Algebraic Topology*,
@@ -2128,7 +2131,7 @@ supplement or the categorical LS supplement unless named explicitly.
 | 8.10 ordinary representability | 4, ordinary6, 8.3/8.6, 8.9, DGFloer Layer 1 items 1 and 4, 4.5's simplicial-realization product comparison and compact-generation facts | 7 |
 | 8.11a mapping-space and based-loop CW type | Earlier CW/pair foundations (4) and HomotopySpheres §3A.1 compact-generation/product API only; no 8.10 or §3A.2 input | 7 |
 | 8.11b ordinary EM loops | 8.5, 8.10, 8.11a, DGFloer Layer 1 item 2 and standing/Layer 2 item 3 loop comparison, HomotopySpheres §3A.1 compact-generation/product API and §3A.2 adjunction, 4.5's simplicial-realization product comparison | 7 |
-| 8.12 classical EM comparisons | 8.8b, 8.10, TopologicalKTheory T1.6 carrier construction and DGFloer 1.2 Serre LES via CharacteristicClasses C1.1 bundle adapter/C1.5 finite comparisons and universal sphere-bundle portion | 7 |
+| 8.12 native circle comparison | 8.8a, 8.10 and the native `AddCircle` EM instance; no projective carrier or external comparison | 7 |
 
 In particular, Stage 1 is independent; the chain `2 -> 3 -> 4` is strict; Stages 2--4 all feed
 Stage 5, except that Stage 2 alone feeds the product maps of Stage 5 item 1; and every stage from
