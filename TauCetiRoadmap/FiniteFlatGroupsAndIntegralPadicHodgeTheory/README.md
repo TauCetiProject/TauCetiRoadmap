@@ -464,7 +464,7 @@ laws) with `FormalGroup.IsComm`.
 - **PadicPeriodRings.** §§1–4 supply `C_p`, `A_inf`, `θ`,
   `B_dR^+`, `B_dR`, the period `t` with `g(t) = χ(g)t`, the continuous Galois action,
   `padicComplex_fixed_eq`, `tate_normalizedTrace`, `tate_almostEtale`,
-  `tate_H0_padicComplex_twist` and `tate_H1_padicComplex_twist`.
+  `tateSen_H0` and `tateSen_H1`.
   Sections 1.3 and 2 supply `periodTraceIdeal`, `senUpperBreaks` and `senTowerEstimates`.
   Section 2 owns the separate geometric reciprocity input over algebraically closed residue
   fields used in these estimates.
@@ -513,7 +513,7 @@ laws) with `FormalGroup.IsComm`.
   completeness, evaluations, differentiation and bounded-coefficient inclusion. Section R07.4.1
   specializes it to radius one over `K₀` and owns its arithmetic structures.
 - **ArithmeticGaloisRepresentations.** §§1.1–1.2 supply continuous representations and maps;
-  §1.4 supplies `residual_descent_finite_field` for residual finite coefficient models;
+  §1.4, *Residual descent*, supplies residual finite coefficient models;
   §1.5 supplies characteristic-zero finite coefficient models; §7.6 supplies strong irreducibility,
   the Zariski and
   Goursat inputs, roots of characters and projective lifting used in §§R07.P7.1–R07.P7.5.
@@ -2873,7 +2873,7 @@ unramified cyclic `ℓ`-extension of `K`, Galois over `ℚ`, has that inverse-ch
 conjugation action. At `ℓ = 2`, `K = ℚ` has trivial class group.
 Use CyclotomicClassGroupsAndStickelberger §§0.2–0.3, 2.1–2.5, 3.1–3.2 and 8.1–8.3:
 its `cyclotomicClassEigenspaces`, `bernoulli_annihilates_component`, `herbrand`,
-`cyclotomicClassEigenspace_one_eq_zero`, `inverseCharacterClassGroup` and
+exponent-one vanishing theorem (§§2.3–3.1), `inverseCharacterClassGroup` and
 `inverseCharacterUnramifiedQuotient_zero` supply this prime-conductor specialization,
 with the same covariant ideal action. That roadmap owns the integral annihilator and
 eigenspace proof; this target transports it to the finite-flat Ext calculation.
@@ -7776,7 +7776,7 @@ class; Serre 1987, §2.8, proof of Proposition 4, p. 190: part `(a)`.)
 ### R07.5.6a Finite coefficients and the finite-flat Kummer comparison
 
 For a continuous representation on a finite-dimensional `𝔽̄_p`-space, import
-ArithmeticGaloisRepresentations §1.4's `residual_descent_finite_field` to choose a finite
+ArithmeticGaloisRepresentations §1.4, *Residual descent*, to choose a finite
 field `k/𝔽_p` and a model `V_k`. Define `IsFiniteFlatResidual` by existence of a finite
 flat model `HasFiniteFlatModel ℤ_p ℚ̄_p V_k` from §R07.1.24a, with `k`-action
 and a coefficient-linear points identification.
