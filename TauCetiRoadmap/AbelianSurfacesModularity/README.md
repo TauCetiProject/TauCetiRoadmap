@@ -64,7 +64,7 @@ Consume F3.2, Honda–Tate simple isogeny classification, and its ordinary speci
 
 ### From TauCetiRoadmap.CurvesOverFiniteFields
 
-Consume §1.1 for the q-Weil predicate, §1.3 for finiteness and coefficient bounds, §1.6 for polynomial p-rank, slopes and ordinarity, and §1.11 for the polynomial point-count formula. In degree four at q=p, ordinarity is p∤b. Their specialization in §4.1 fixes the coordinates used by the local lists.
+Consume §1.1 for the q-Weil predicate, §1.3 for finiteness and coefficient bounds, §1.6 for polynomial p-rank, slopes and ordinarity, and §1.11 for the polynomial point-count formula. In degree four at q=p, ordinarity is p∤b. Their specialization in this roadmap's §4.1 fixes the coordinates used by the local lists.
 
 ### From TauCetiRoadmap.AbelianVarietiesOverFiniteFields
 
