@@ -118,8 +118,8 @@ and special isogenies.
 ## The build, in layers
 
 The layers are ordered by mathematical prerequisites. Nonexhaustive target signatures are
-in `Suggested.lean`, `IntegralRationalTargets.lean` and `SignedADETargets.lean`, using native carriers and honest
-`sorry` construction targets; the README remains definitive.
+in `Suggested.lean`, including its `IntegralRational` and `SignedADE` sections, using native
+carriers and honest `sorry` construction targets; the README remains definitive.
 
 **Cross-cutting prerequisite: sheaves and descent.** The functor-of-points comparison,
 quotients, torsors and representability use the fppf topology and faithfully-flat descent:
@@ -425,8 +425,7 @@ and LieGroups retains finite-dimensional analytic quotient/manifold theory.
 NilpotentOrbits' adjoint orbit and SchubertGeometry's highest-line/flag
 comparison consume or compare with this earlier phase without becoming
 its prerequisites. Nonexhaustive native target forms are in
-`OrbitGeometryTargets.lean`, which imports `Suggested.lean`; no reverse
-import is needed.
+the `OrbitGeometry` section of `Suggested.lean`.
 
 
 ### Layer 4: Jordan decomposition, diagonalizable groups, tori
@@ -1266,8 +1265,8 @@ algebra by its Killing-semisimple part.
    characters, so faithfulness is not asserted after every base change.
    State composition through native Lie-equivalence composition or actual
    action equations, without assuming an undeclared `Group` instance on
-   endomorphism `LieEquiv`s. The companion `CoverLiftTargets.lean` consumes
-   `SignedADETargets.lean`; it does not import back into that lower carrier.
+   endomorphism `LieEquiv`s. The `ADECoverLifts` section of `Suggested.lean`
+   consumes its `SignedADE` section; it does not feed back into that lower carrier.
 
    After9A.1b, compare its pinned **based** diagram lift with this full lift group
    and its simple-generator equations. For an unbased root automorphism use
@@ -1294,7 +1293,7 @@ algebra by its Killing-semisimple part.
    empty diagrams and a compatible action on the full reductive datum. Keep the
    integral fixed lattice, its scalar extension, and a normalized folded
    Chevalley lattice distinct. This construction is algebraic and precedes9B's
-   group comparison. The accompanying `FoldingADETargets.lean` gives native
+   group comparison. The `FoldingADE` section of `Suggested.lean` gives native
    target forms; the definitions, maps, inverses and basic laws below are part of
    the definitive specification.
 
@@ -1965,7 +1964,7 @@ The lower smooth/holomorphic dictionary of [FormalConnectionsOpers F4.3](../Form
 uses those outputs and is a prerequisite for the analytic charts here. The algebraic
 classification, integral construction and that lower dictionary have no dependency on this lane.
 The finite-arrangement construction in 11B is independent of the group application and runs
-once RootSystems' finite Coxeter presentation is available. `SpectralWeylTargets.lean`
+once RootSystems' finite Coxeter presentation is available. The `Spectral` section of `Suggested.lean`
 prototypes selected maps; all of 11A–11G below is normative.
 
 **11A. Plane configurations, geometric braids and their basepoints.** Consume the early
