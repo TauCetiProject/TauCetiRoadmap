@@ -8,7 +8,7 @@ AutomorphicSpectralTheory §§0.11–0.15, 1.6–1.10, Layers 2–4 and §§6.1�
 
 AutomorphicFormsOnReductiveGroups §§0.1–0.5 owns smooth adelic functions, the adelic test Schwartz algebra, uniform moderate growth and smoothing; §§2.1–2.4 and 2.7 owns real representations, induction, infinitesimal characters, globalizations and the continuous nondegenerate integrated Schwartz action; §§3.4–3.5 owns restricted tensor factorization; §§4.1–4.2 owns constant terms and cuspidal realizations. Here the real/adelic comparisons are topology and multiplier compatibility statements, and the growth spaces add specified quotient weights. The generic Kostant centralizer and principal-series inputs belong to its real representation layer; §1.4 retains only their rational-difference spectral comparison. Generic SF closed-subspace and globalization theory is not rebuilt here. SpectralManifolds SM3 owns the Fréchet open mapping theorem and closed-subspace quotient topology; §§2.5 and 2.18 apply them to the specified SLF stages.
 
-AdelicAlgebraicGroups §§2.1–2.3, 3.1 and 3.4–3.6 owns heights, quotient measures, split-centre conventions, Iwasawa and reduction theory; §§4.6–4.7 owns compact central quotients and character theory. SmoothRepresentationsOfLocalGroups SR.1–SR.4 owns finite-place Hecke algebras, normalized induction, Jacquet modules and Satake theory. AutomorphicLFunctionsAndLocalFactors, preparatory **GLₙ isobaric sums** (anchor isobaric-construction), and AL.3 **Strong multiplicity one for isobaric sums**, owns the GLₙ construction and uniqueness inputs. The quotient-weight applications and spectral interpolation are owned here.
+AdelicAlgebraicGroups §§2.1–2.3, 3.1 and 3.4–3.6 owns heights, quotient measures, split-centre conventions, Iwasawa and reduction theory; §§4.6–4.7 owns compact central quotients and character theory. SmoothRepresentationsOfLocalGroups SR.1–SR.4 owns finite-place Hecke algebras, normalized induction, Jacquet modules and Satake theory. AutomorphicLFunctionsAndLocalFactors AL.R.4, **GLₙ isobaric sums**, and AL.3.7.2, **Strong multiplicity one for isobaric sums**, owns the GLₙ construction and uniqueness inputs. The quotient-weight applications and spectral interpolation are owned here.
 
 ReductiveGroups Layer 7 and LieGroups Layer 7 own the group root datum and real descent. The finite involution coset and its shifted spectral lattices in §0.4 specialize those structures. NoncommutativeGeometry N1 owns completed projective tensor products. OperatorTheory/SelfAdjointSpectralTheory Parts A–E owns generic spectral calculus; OperatorTheory/OperatorIdeals OI-B32–OI-B41, OI-B84 and Part C owns Hilbert–Schmidt and trace-class tools. BanachSpaceTheory B4 owns the nuclear Banach-operator carrier and its isometric Hilbert trace-class comparison. PDE Lane A owns local Sobolev analysis. The quotient nuclear inclusions and spectral realizations here differ by their automorphic weight and support estimates.
 
@@ -80,11 +80,11 @@ The section contract is §§2.3–2.5, 3.1–3.4.
 
 What AutomorphicSpectralTheory must provide (gap:refined-langlands-discrete-data): Supply the decomposition of the fixed-level central-character L² space by Langlands discrete data (M,σ) with σ discrete, with its normalized-twist and Weyl equivalence, central disintegration and residual summands explicit.
 
-The section contract is §§4.11–4.14.
+The section contract is §§4.1–4.5.
 
 What AutomorphicSpectralTheory must provide (gap:discrete-spectrum-casimir-counting): Supply the fixed-level finite-K-type polynomial bound for the number, with multiplicity, of discrete-spectrum Casimir eigenvalues of absolute value at most R.
 
-The section contract is §§4.7–4.9.
+The section contract is §§4.4–4.5.
 
 What AutomorphicSpectralTheory must provide (gap:compact-eisenstein-comparison): Identify the supplied compact cuspidal pseudo-Eisenstein inner-product and Weyl/intertwining constant-term formulas and their measures with the BPCZ and Lapid parameter conventions used in §3.6.
 
@@ -212,7 +212,7 @@ Consume GlobalHolomorphicFunctions, **Preparatory primary factors and locally un
 
 ### From TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors
 
-Consume the preparatory **GLₙ isobaric sums** (anchor isobaric-construction) for normalized isobaric construction, and AL.3 **Strong multiplicity one for isobaric sums** for uniqueness, including arbitrary unramified norm twists and multiplicities of cuspidal constituents. Equality at almost all unramified places identifies the inducing multiset in §5.6, not an arbitrary irreducible constituent of an induction.
+Consume AL.R.4, **GLₙ isobaric sums**, for normalized isobaric construction, and AL.3.7.2, **Strong multiplicity one for isobaric sums**, for uniqueness, including arbitrary unramified norm twists and multiplicities of cuspidal constituents. Equality at almost all unramified places identifies the inducing multiset in §5.6, not an arbitrary irreducible constituent of an induction.
 
 ### From TauCetiRoadmap.SpectralManifolds
 
@@ -1314,7 +1314,7 @@ A proof route is as follows. Take local components from the restricted tensor fa
 
 **Checks.**
 
-- For G=GL₁=Z, L²_ω([G]) is the line of ω, and two Hecke characters agreeing at almost all places are equal (weak approximation), so the subspace is that line if π=ω and zero otherwise.
+- For G=GL₁=Z, L²_ω([G]) is the line of ω, so the subspace is that line if π_v=ω_v for almost all v and zero otherwise. Among Hecke characters only ω itself is nearly equivalent to ω, since a Hecke character trivial at almost all places is trivial (weak approximation), so for automorphic π the condition reads π=ω; the non-automorphic character π=ω⊗χ, with χ a nontrivial character of the multiplicative group of the completion at one finite place v₀ and trivial elsewhere, so that π_v=ω_v for v≠v₀, is nearly equivalent to ω and gives the line although π≠ω.
 
 - Replacing π∞ by a representation with another infinitesimal character leaves L²_cusp([G]/K,ω)_π unchanged, while the cuspidal χ_π^T-eigenpart of §4.1 is replaced by one orthogonal to it inside L²_cusp.
 
@@ -1578,9 +1578,9 @@ A proof route is as follows. Associate the unramified Hecke and infinitesimal T-
 
 For `G=Res_{F′/F}GL_n` and an irreducible admissible π occurring as a constituent of normalized induction of a cuspidal representation σ of a Levi M, with unitary automorphic central character, there is a normalized multiplier preserving π(f) and mapping the entire central-character L² space into the single AutomorphicSpectralTheory §1.9 cuspidal-support component attached to (M,σ), for every fixed-K Schwartz f. The correct uniqueness input is the isobaric strong multiplicity-one theorem: the almost-everywhere unramified characters determine the multiset of cuspidal constituents, with their unramified norm twists. It identifies the cuspidal datum, not every irreducible constituent of its induced representation. (BPLZZ §1.1, Theorem 1.3, pp.2–3; §3.4, Theorem 3.19, pp.29–30; bplzz line 88).
 
-A proof route is as follows. Use isobaric strong multiplicity one from AutomorphicLFunctionsAndLocalFactors AL.3, including normalization and twists, to show that the occurrence set contains only the inducing cuspidal-support equivalence class. Apply global isolation with χ=χπ^S and normalize at π.
+A proof route is as follows. Use isobaric strong multiplicity one from AutomorphicLFunctionsAndLocalFactors AL.3.7.2, including normalization and twists, to show that the occurrence set contains only the inducing cuspidal-support equivalence class. Apply global isolation with χ=χπ^S and normalize at π.
 
-*Needs:* §5.3; AutomorphicSpectralTheory §§1.5–1.10; AutomorphicLFunctionsAndLocalFactors AL.3, Strong multiplicity one for isobaric sums; AutomorphicFormsOnReductiveGroups §§2.1–2.4, 2.7.
+*Needs:* §5.3; AutomorphicSpectralTheory §§1.5–1.10; AutomorphicLFunctionsAndLocalFactors AL.R.4, GLₙ isobaric sums, and AL.3.7.2, Strong multiplicity one for isobaric sums; AutomorphicFormsOnReductiveGroups §§2.1–2.4, 2.7.
 
 **Checks.**
 
@@ -1610,7 +1610,7 @@ For a full-group unwanted datum with the same infinitesimal character, choose a 
 
 ### Dependencies
 
-Layer 4 and the earlier symbol and Schwartz-action layers; AutomorphicSpectralTheory §§1.6–1.10 and Layer 4; SmoothRepresentationsOfLocalGroups SR.4; AutomorphicLFunctionsAndLocalFactors AL.3 only for §5.6; refined-langlands-discrete-data and discrete-spectrum-casimir-counting only for §5.7.
+Layer 4 and the earlier symbol and Schwartz-action layers; AutomorphicSpectralTheory §§1.6–1.10 and Layer 4; SmoothRepresentationsOfLocalGroups SR.4; AutomorphicLFunctionsAndLocalFactors AL.R.4 and AL.3.7.2 only for §5.6; refined-langlands-discrete-data and discrete-spectrum-casimir-counting only for §5.7.
 ## Downstream consumers
 
 Relative period comparisons use the general spectral isolation and relative-character convergence together with an independently supplied transfer-preservation theorem. Automorphic applications can use the non-CAP endpoint without an auxiliary supercuspidal local factor; a prescribed representation need not already occur in the automorphic spectrum.

@@ -1,6 +1,6 @@
 module
 
-import Mathlib
+public import Mathlib
 
 /-!
 # Automorphic spectral theory, Part II: target signatures
@@ -37,6 +37,8 @@ Headlines not statable at the pins, with their missing carriers:
 * Refined discrete-data isolation under polynomial counting: the Langlands discrete-data
   Hilbert decomposition and its character equations.
 -/
+
+@[expose] public section
 
 namespace TauCetiRoadmap.AutomorphicSpectralTheoryPartII
 
@@ -82,8 +84,12 @@ def affineSpectralLattice {n k : ℕ} (a : Fin n → ℂ)
   Set.range (fun m : Fin k → ℤ => a + ∑ i, (m i : ℂ) • b i)
 
 /-- The rank-bound canonical product is entire with precisely the prescribed
-simple zeros and a global order-(p+1) growth bound. BPLZZ, Lemma 2.2;
-the genus-zero case uses the same elementary product estimate. -/
+simple zeros and a global order-(p+1) growth bound. The locally uniform
+convergence, entire holomorphy and exact simple-zero divisor (the first four
+conjuncts) are the statement of GlobalHolomorphicFunctions, preparatory primary
+factors and locally uniform products, specialised to constant genus p and
+multiplicity one; the growth bound is this roadmap's contribution.
+BPLZZ, Lemma 2.2; the genus-zero case uses the same elementary product estimate. -/
 theorem finite_rank_weierstrass_product (Λ : Set ℂ) (p : ℕ) (hΛ : HasRankBound Λ p) :
     TendstoLocallyUniformly (partialCanonicalProduct Λ p) (canonicalProduct Λ p)
       Filter.atTop ∧
