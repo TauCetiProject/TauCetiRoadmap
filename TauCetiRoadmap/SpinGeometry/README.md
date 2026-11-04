@@ -199,8 +199,9 @@ from the native complex-linear Clifford `star` and the conjugate-linear
    prove this exact intertwining equation. Use h_ℂ(x,y)=g_ℂ(bar(x),y)
    restricted to W: |v^(1,0)|²=|v|²/2. On (V,J) Mathlib's conjugate-first
    Hermitian form is h_J(v,w)=g(v,w)−i g(v,Jw), twice the pullback of
-   h_ℂ|_W under v↦v^(1,0). Translate the source's g+i g(·,J·) by
-   conjugating its slot convention. The native-action metric pulled back
+   h_ℂ|_W under v↦v^(1,0). Nicolaescu's h(u,v)=g(u,v)+i g(u,Jv) (proof of
+   Proposition 12.1.19, p. 630) is linear in its first slot and is the
+   complex conjugate of h_J. The native-action metric pulled back
    along T has degree-p factor 2^p relative to the normalized Fock metric.
    Prove the three
    creation/annihilation anticommutators, wedge/contraction metric adjointness,
@@ -389,20 +390,40 @@ from the native complex-linear Clifford `star` and the conjugate-linear
    x⁰+x¹↦x⁰+e₀x¹, with the inclusion of V into V×ℝ explicit.
    Mathlib's `EquivEven.Q'` orders V first and e₀ last. Prove
    multiplicativity, bijectivity and grading correspondence using this
-   native `equivEven` design. In the ordered orientation (e₁,…,e_n,e₀),
-   prove ψ(ω_ℂ)=−Γ_(V⊕ℝ); therefore the odd ω=+1 module is the
-   restriction of S⁻_(V⊕ℝ), and the odd ω=−1 module restricts S⁺.
-   Moving e₀ first reverses orientation for odd n and interchanges these
-   two labels. Construct these specific module intertwiners. State the effect of
-   reversing orientation and
-   choosing the other central factor, not an even-dimensional chirality
-   splitting for an ungraded odd irreducible module. *Needs:* Mathlib
+   native `equivEven` design. The comparison of these labels with the
+   chirality of V⊕ℝ under ψ is G2.1's. State the effect of reversing
+   orientation and choosing the other central factor, not an
+   even-dimensional chirality splitting for an ungraded odd irreducible
+   module. *Needs:* Mathlib
    `CliffordAlgebra.equivEven`, `EquivEven.Q'`; Tau Ceti
    `CliffordAlgebra.prod_map_ι_sq_scalar`,
    `CliffordAlgebra.prod_map_ι_mem_center_of_odd_length`,
    `CliffordAlgebra.equivEvenProdOfOddLength` and the even/odd matrix
    classification; G1.2's polarization line action; G1.3's multiplicity
-   spaces; for the comparison ψ(ω_ℂ)=−Γ_(V⊕ℝ), G2.1's definition of Γ.
+   spaces.
+
+   **Checks.**
+   - n=1, V=ℝe₁ with e₁²=−1: ω_ℂ=ie₁ has ω_ℂ²=i²e₁²=1, the idempotents
+     (1±ie₁)/2 split Cl_ℂ(V)≅ℂ⊕ℂ, and the two irreducibles are ℂ with
+     c(e₁)=λ=∓i: λ=−i gives ω_ℂ=iλ=1, the + factor, and λ=i gives −1.
+     Without the factor i^(ℓ+1), ω=e₁ squares to −1 and ((1+e₁)/2)²=e₁/2 is
+     not an idempotent, so no labels result.
+   - n=3 in the negative Pauli model c(e₁)=iZ, c(e₂)=iY, c(e₃)=iX:
+     ω=e₁e₂e₃ acts by i³ZYX=(−i)(−i)Id=−Id, so ω²=1 and ω_ℂ=i²ω acts by
+     +Id: this module is the + factor. With (u₁,Ju₁,u)=(e₁,e₂,e₃),
+     Γ_(u₁,Ju₁)=i(iZ)(iY)=−X and c(u)=iX=λΓ with λ=−i, as the label rule
+     says; replacing c(e₃) by −iX gives the − factor. Centrality:
+     e₁ω=−e₂e₃=ωe₁.
+   - Multiplicity: Cl_ℂ(ℝ³)≅M₂(ℂ)⊕M₂(ℂ) acting on E=ℂ²⊕ℂ²⊕ℂ² through the
+     factors (+,+,−) has multiplicity spaces of dimensions 2 and 1, and
+     E has no chirality: no invertible endomorphism anticommutes with
+     every c(v), since conjugation by one would realize the grade
+     involution, which interchanges the two central factors.
+   - ψ: ψ(e₁)²=e₀e₁e₀e₁=−e₀²e₁²=−1 preserves the relation,
+     ψ(e₁e₂)=e₀e₁e₀e₂=e₁e₂ fixes even elements, and for n=3
+     ψ(e₁e₂e₃)=e₁e₂e₀e₃=−e₁e₂e₃e₀; the dictionary e_j↦e_je₀ would give
+     +e₁e₂e₃e₀, the opposite sign, and so the opposite labels in G2.1's
+     comparison.
 
 ## G2. Volume, chirality and exterior-form comparisons
 
@@ -429,8 +450,14 @@ Weitzenböck/star specialization on the same carrier.
    and compare the eigenspaces literally with the supplier's half-spin modules.
    The canonical rank-zero empty frame gives Γ=Id. For every signed rank-zero
    orientation σ∈{±1}, use Γ_σ=σ·Id and interchange the half-spin labels
-   for σ=−1; the canonical zero-frame carrier is unchanged. *Needs:* G1.2's
-   `IsGeometricAction` and `cliffordMultiplication`; Mathlib
+   for σ=−1; the canonical zero-frame carrier is unchanged. For odd
+   n=2ℓ+1 and G1.4's ψ:Cl_n≃Cl^even_(n+1), in the ordered orientation
+   (e₁,…,e_n,e₀) prove ψ(ω_ℂ)=−Γ_(V⊕ℝ); therefore the odd ω_ℂ=+1 module
+   is the restriction of S⁻_(V⊕ℝ), and the odd ω_ℂ=−1 module restricts
+   S⁺. Moving e₀ first reverses the orientation for odd n and interchanges
+   these two labels. Construct these specific module intertwiners. *Needs:*
+   G1.2's `IsGeometricAction` and `cliffordMultiplication`; G1.4's ω_ℂ,
+   its labels and ψ; Mathlib
    `OrthonormalBasis`, `LinearMap.ker`, `IsCompl`; Tau Ceti
    `CliffordAlgebra.prod_map_ι_sq_scalar`,
    `CliffordAlgebra.prod_map_ι_mul_ι_of_even_length`,
@@ -483,6 +510,27 @@ Weitzenböck/star specialization on the same carrier.
    Gram metric; Mathlib `CliffordAlgebra.equivExterior`,
    `Module.Basis.ExteriorAlgebra`; G1.2's normalized Fock action and metric;
    G1.3's evaluation isomorphism and dual action; G2.1's Γ.
+
+   **Checks.**
+   - Plane with vol=e₁∧e₂ and α∧∗β=⟨α,β⟩vol: ∗1=e₁∧e₂, ∗e₁=e₂, ∗e₂=−e₁,
+     ∗(e₁∧e₂)=1. With c=ε−ι: c(e₂)1=e₂ and c(e₁)e₂=e₁∧e₂, so
+     Γ1=ie₁∧e₂=i^(1+0)∗1; c(e₂)e₁=−e₁∧e₂ and c(e₁)(−e₁∧e₂)=ι(e₁)(e₁∧e₂)=e₂,
+     so Γe₁=ie₂=i^(1+0)∗e₁; c(e₂)(e₁∧e₂)=e₁ and c(e₁)e₁=−1, so
+     Γ(e₁∧e₂)=−i=i^(1+2)∗(e₁∧e₂); Γ²1=i·(−i)=1.
+   - The Γ=+1 eigenspace of the plane is spanned by 1+ie₁∧e₂ and e₁+ie₂
+     (Γe₂=−ie₁), mixing degrees, while exterior parity has eigenspaces
+     Λ⁰⊕Λ² and Λ¹: the chiral grading Γ_S⊗Id and the parity grading
+     Γ_S⊗Γ_(S*) are different decompositions of the four-dimensional
+     Λ*(ℝ²)_ℂ=S⊗S*.
+   - c(e₁)1=e₁ and c(e₁)e₁=−ι(e₁)e₁=−1, so c(e₁)²=−1=−|e₁|²; the other
+     sign ε+ι squares to +g(v,v), the positive convention, which the
+     geometric predicate rejects.
+   - Normalization and duality: e_I↦c(e_I) is unitary, so
+     2^(−ℓ)tr(c(e_I)†c(e_I))=1=|e_I|² for the exterior Gram metric while
+     the unnormalized trace gives 2^ℓ (2 for the plane);
+     reverse(e₁⋯e_(2ℓ))=(−1)^ℓe₁⋯e_(2ℓ), so the reverse-dual chirality is
+     (−1)^ℓΓ_S^transpose, and for ℓ=1 reverse(e₁e₂)=−e₁e₂ interchanges the
+     half-spin labels of S*.
 3. Build graded direct-sum/tensor comparisons for even V and W: the action
    on S_V⊗S_W is `c(v,0)=c_V(v)⊗Id`,
    `c(0,w)=Γ_V⊗c_W(w)`, and Γ_(V⊕W)=Γ_V⊗Γ_W for the ordered product
@@ -498,6 +546,26 @@ Weitzenböck/star specialization on the same carrier.
    multiplicity space of a graded Clifford module. *Needs:* Mathlib
    `CliffordAlgebra.prodEquiv` and its graded tensor product; G2.1's Γ and
    half-spin eigenspaces; G1.3's evaluation isomorphism.
+
+   **Checks.**
+   - V, W negative planes with S_V=S_W=ℂ²: c(v,0)=c_V(v)⊗Id and
+     c(0,w)=Γ_V⊗c_W(w) give c(v,0)c(0,w)+c(0,w)c(v,0)=
+     (c_V(v)Γ_V+Γ_Vc_V(v))⊗c_W(w)=0 and c(0,w)²=Γ_V²⊗c_W(w)²=−|w|²Id; the
+     ungraded choice Id⊗c_W(w) has cross anticommutator 2c_V(v)⊗c_W(w)≠0.
+     Γ_(V⊕W)=i²c(e₁)c(e₂)c(f₁)c(f₂)=−c_V(e₁)c_V(e₂)⊗c_W(f₁)c_W(f₂)=Γ_V⊗Γ_W,
+     and S⁺_(V⊕W)=S⁺⊗S⁺⊕S⁻⊗S⁻ has rank 2 of 4.
+   - Rank-zero unit: V=0, S_V=ℂ, Γ_V=Id gives c(0,w)=Id⊗c_W(w) and
+     S_(0⊕W)=S_W with its own Γ; the signed convention Γ_σ=σId with σ=−1
+     gives Γ_(0⊕W)=−Γ_W and interchanges the labels.
+   - Koszul sign: the swap s⊗t↦(−1)^(|s||t|)t⊗s intertwines c(0,w)=Γ_V⊗c_W(w)
+     with c_W(w)⊗Id, since Γ_Vs=(−1)^(|s|)s; the unsigned swap fails on odd
+     s. For even V and W the ordered orientations of V⊕W and W⊕V agree,
+     so Γ_(W⊕V)=Γ_V⊗Γ_W under the swap.
+   - Graded twist with A=A⁺⊕A⁻=ℂ⊕ℂ and ℓ=1: the even part
+     S⁺⊗A⁺⊕S⁻⊗A⁻ has dimension 2; on S⊗A⁻ the tensor grading Γ_S⊗γ_A and
+     the chiral grading Γ_S⊗Id differ by sign, and for purely even A they
+     coincide (Nicolaescu, p. 633: the chirally graded modules are those
+     with purely even twisting space).
 
 ## G3. Smooth Clifford bundles and compatible connections
 
@@ -516,7 +584,7 @@ Weitzenböck/star specialization on the same carrier.
    c(ρ(g)v)=μ(g)c(v)μ(g)^(−1), descend the algebra/module structures to
    P×_GCl(V), P×_GV and P×_GE for any principal G-bundle P. Prove the
    smooth generator/action/metric comparisons and functoriality; this includes
-   the general compact-group course construction, not only the frame case.
+   the general compact-group construction, not only the frame case.
    Identify c with the corresponding tensor in V_ℂ*⊗E*⊗E, using finite-
    dimensional Hom/tensor and scalar-extension maps. Prove the intertwining
    equation is equivalent to that tensor being G-fixed, with the induced
@@ -525,6 +593,25 @@ Weitzenböck/star specialization on the same carrier.
    descent, frames, tensors, duals, scalar extension, metrics) on Mathlib's
    `FiberBundle`, `VectorBundle` and `ContMDiffVectorBundle`; G1.1's
    negative-form comparisons; G1.3's `*Cl_base` and exterior Gram norm.
+
+   **Checks.**
+   - Ranks 0 and 1: Cl(0)=ℝ is the trivial line; for a metric line bundle
+     L, Cl(L,−g)=ℝ⊕L has even part the trivial line and odd part L, so for
+     the Möbius bundle over S¹ the fibres are ≅ℂ but the algebra bundle is
+     a nontrivial rank-two real bundle whose generator is defined up to
+     sign.
+   - Gram norm: on Cl(ℝ²,−g)≅ℍ the monomials 1,e₁,e₂,e₁e₂ are orthonormal
+     and |ab|=|a||b|; on Cl(ℝ³,−g), a=1+ω with ω=e₁e₂e₃ (ω²=1) has a²=2a,
+     so |a²|=2√2=√2|a|²: the fibre norm is submultiplicative only up to a
+     constant, which the multiplication bound carries.
+   - Descent for G=SO(2) rotating V=ℝ² and E=ℂ² the plane module:
+     μ(R_θ)=e^(iθ/2)(cos(θ/2)+sin(θ/2)c(e₁)c(e₂)) is single-valued on
+     SO(2) (both factors change sign at θ=2π) and satisfies
+     c(R_θv)=μ(R_θ)c(v)μ(R_θ)^(−1), since conjugation by
+     cos φ+sin φ e₁e₂ rotates V by 2φ (G5.3); it acts on S⁺ with weight 0
+     and on S⁻ with weight 1, so the descended bundle over an oriented
+     two-plane bundle E is ℂ⊕E. The bare spin factor is not a function on
+     SO(2), and μ=Id fails since c(R_(π/2)e₁)=c(e₂)≠c(e₁).
 2. A Hermitian Clifford module is an existing smooth finite-rank Hermitian
    vector bundle E with a smooth real-linear c:V→End_ℂ(E) satisfying the
    concrete Clifford and skew-adjoint equalities. It comes with a unital
@@ -535,6 +622,21 @@ Weitzenböck/star specialization on the same carrier.
    SmoothBundlesConnections B1–B5's Hermitian vector bundles, sums, duals,
    pullbacks and tensor products; Mathlib `CliffordAlgebra.lift`; G1.2's
    `IsGeometricAction`; G3.1's algebra bundle.
+
+   **Checks.**
+   - Trivial ℂ² over ℝ² with c(∂₁)=iZ, c(∂₂)=iY satisfies the Clifford and
+     skew-adjoint equalities (G1.2); replacing c(∂₂) by the Hermitian Y
+     gives c(∂₂)²=+Id, so the pair is not a Clifford module and the
+     algebra-bundle presentation does not exist.
+   - Rank: the fibre is a module over Cl_ℂ(n), so its rank is a multiple
+     of 2^⌊n/2⌋; the trivial line over ℝ² carries no Clifford action,
+     while over ℝ the line with c(∂)=i does, and its sum with the line
+     c(∂)=−i is the faithful rank-two module of both G1.4 factors.
+   - Pullback and restriction: the plane module restricted along S¹⊂ℝ² to
+     TS¹=ℝ∂_θ has c(∂_θ)=−sin θ·iZ+cos θ·iY, skew-Hermitian of square −1
+     and trace 0, so it is the sum of the two rank-one circle modules
+     c=±i; a pullback is a module for the pulled-back bundle, not a tangent
+     module.
 3. For a metric connection on V and a Hermitian connection on E, Clifford
    compatibility is the actual Leibniz identity
    `∇^E_X(c(v)s)=c(∇^V_Xv)s+c(v)∇^E_Xs` (Nicolaescu, Definition 12.1.64
@@ -549,6 +651,23 @@ Weitzenböck/star specialization on the same carrier.
    Mathlib's `CovariantDerivative`, and B3's invariant-vector
    parallel-section theorem; HopfRinow L1's Levi-Civita covariant
    derivative; G3.1; G3.2.
+
+   **Checks.**
+   - Flat ℝⁿ with constant c, ∇^E=d and ∇^V=d: ∂_X(c(v)s)=c(∂_Xv)s+c(v)∂_Xs,
+     so the trivial pair is compatible and ∇c=0.
+   - Affine description on the trivial plane module over ℝ²: ∇^E=d+A is
+     compatible with the flat ∇^V iff A(X) commutes with c(e₁) and c(e₂),
+     i.e. A(X) is scalar; A=iY dx¹ is Hermitian but
+     [iY,iZ]=−[Y,Z]=−2iX≠0, so it is not compatible, while A=i dx¹ is.
+     The compatible Hermitian connections of the irreducible module form
+     an affine space over the imaginary 1-forms.
+   - A=(e₁e₂)dx¹ is a Spin(2)-connection whose induced V-connection has
+     ∇_(∂₁)e₁=[e₁e₂,e₁]=2e₂≠0, so it is compatible with that connection
+     and not with the flat Levi-Civita one.
+   - Curvature compatibility on the unit S² (K=1, R(e₁,e₂)e₁=−e₂):
+     R^S(e₁,e₂)=¼Σ⟨R(e₁,e₂)e_i,e_j⟩c(e_i)c(e_j)=−½c(e₁)c(e₂) and
+     [R^S(e₁,e₂),c(e₁)]=−c(e₂)=c(R(e₁,e₂)e₁); the coefficient ½ in place
+     of ¼ would give −2c(e₂).
 4. On exterior forms build the induced Levi-Civita connection, c=ε−ι,
    Clifford compatibility and the local frame formulas for d and d*;
    G6 then identifies its Dirac operator with d+d* (Nicolaescu §12.2.1,
@@ -591,6 +710,19 @@ Weitzenböck/star specialization on the same carrier.
    *Needs:* the Tau Ceti covering, compactness, connectivity, units-range
    and special-orthogonal declarations named above; G1.1's rank-zero μ₂ and
    negative-form comparison.
+
+   **Checks.**
+   - Spin(2) squaring: cos θ+sin θ e₁e₂ acts on V by rotation by 2θ
+     (G5.3), so under e₁e₂↦i the cover Spin(2)→SO(2) is z↦z² on U(1) with
+     kernel {±1}; z and −z have the same image.
+   - Rank 1: Cl(0,1)^even=ℝ, Spin(1)={±1} and SO(1)={1}; rank 0: μ₂={±1}⊂
+     Cl(0,0)=ℝ has two elements, whereas Mathlib's Spin(0), generated by
+     the invertible vectors of the zero space, is {1}, so only μ₂ gives a
+     rank-zero double cover of SO(0)={1}.
+   - Odd units are excluded: the unit vector e₁∈Cl(0,2) conjugates V by
+     e₁e₁e₁^(−1)=e₁ and e₁e₂e₁^(−1)=−e₂, a reflection of determinant −1;
+     the Spin carrier is the even part, where every element acts with
+     determinant +1.
 
    **G4.1b. Smooth refinement.** Consume
    `Geometry/Lie/CliffordAlgebra/Spin/Projection.lean`'s closed-subgroup
@@ -656,6 +788,22 @@ Weitzenböck/star specialization on the same carrier.
    structure groups; G1.1's μ₂ with Tau Ceti
    `TauCeti.Lie.nonempty_embeddedLieSubgroupData_lieSubalgebraOfSubgroup_of_isClosed`;
    Mathlib `CFC.sqrt` for the positive square root of B.
+
+   **Checks.**
+   - Circle: Fr⁺_SO(1)(TS¹)=S¹ and Spin(1)={±1}, so a spin structure is a
+     double cover of S¹ over the identity: the trivial cover and the
+     connected one, two structures (Nicolaescu, Exercise 12.2.30, p. 670);
+     over a simply connected base there is one.
+   - A lift is data: over S¹ the proposition w₂=0 holds (H²(S¹;ℤ/2)=0)
+     while the two lifts are inequivalent; in rank zero the frame bundle is
+     the base and μ₂-lifts are its double covers, two over S¹ and one
+     over S².
+   - Metric change g'(u,v)=g(Bu,v) with B=diag(4,1) on ℝ²: B^(1/2)=diag(2,1)
+     and B^(−1/2) sends the g-orthonormal frame (e₁,e₂) to (e₁/2,e₂),
+     which is g'-orthonormal (g'(e₁/2,e₁/2)=g(2e₁,e₁/2)=1); B^(−1) would
+     give (e₁/4,e₂) of g'-norm ½; B=Id has the self-adjoint roots ±Id of
+     which only +Id is positive. The Sylvester map H↦B^(1/2)H+HB^(1/2) has
+     eigenvalues √b_i+√b_j>0, so it is invertible (2H at B=Id).
 3. For smooth bases choose good-cover orthonormal transitions and local lifts
    to Spin. For a general paracompact numerable base, consume C3.5's
    atlas-refinement/local-lifting construction using locally finite shrinkings
@@ -691,6 +839,18 @@ Weitzenböck/star specialization on the same carrier.
    equivalences; SmoothBundlesConnections B1's descent; CharacteristicClasses
    C1's canonical zero-frame bundle; G4.1a's covering with its central
    kernel; G1.1's μ₂.
+
+   **Checks.**
+   - S¹: H¹(S¹;ℤ/2)=ℤ/2, two structures, periodic and antiperiodic,
+     exchanged by the nontrivial twist; T²: four; Sⁿ for n≥2: one, since
+     H¹=0. Twisting twice by the same ℤ/2-bundle is the identity.
+   - Direct sum for m=n=1: (Spin(1)×Spin(1))/{(1,1),(−1,−1)}≅ℤ/2 maps to
+     {±1}⊂Spin(2) by multiplication; over S¹ the sum of lifts of twist
+     classes a and b has class a+b, so antiperiodic⊕antiperiodic has
+     transitions (−1)(−1)=+1 and is the periodic rank-two structure.
+   - Rank zero: the unit is the trivial μ₂-lift; twisting it by the
+     connected double cover of S¹ gives the connected μ₂-lift, and in a
+     direct sum a rank-zero lift contributes exactly its flat-line twist.
 
 ## G5. Spinor bundles, chiral products and rank-two roots
 
@@ -729,6 +889,29 @@ Weitzenböck/star specialization on the same carrier.
    `TauCeti.realCliffordForm`; GeneralizedCohomology G5.5's mixed-signature
    conventions, for the comparison only.
 
+   **Checks.**
+   - n=1: Cl(0,1)=ℝ⊕ℝe with e²=−1, orthonormal basis (1,e), ε(1)=1,
+     ε(e)=−e. c₋(e)1=e and c₋(e)e=−1: odd, skew-adjoint
+     (⟨c₋(e)1,e⟩=1=−⟨1,c₋(e)e⟩), square −1. C₊(e)1=ε(1)e=e and
+     C₊(e)e=ε(e)e=−e²=1: odd, self-adjoint, square +1; on 1,
+     c₋(e)C₊(e)+C₊(e)c₋(e)=c₋(e)e+C₊(e)e=−1+1=0. Dropping the parity from
+     C₊ gives s↦se with square −1, the negative relation.
+   - Spin(1)={±1} acts by ±Id, so over S¹ the periodic lift gives the
+     trivial rank-two bundle and the antiperiodic lift gives two Möbius
+     lines, both monomials being negated by −1.
+   - n=2: Cl(0,2)=ℍ with 1,e₁,e₂,e₁e₂ orthonormal; z=cos θ+sin θ e₁e₂
+     acts by left multiplication, z·e₁=cos θ e₁+sin θ e₂, rotating the odd
+     part by θ, whereas its conjugation rotates V by 2θ (G5.3): the
+     regular bundle is not the vector-action associated bundle of the
+     frame bundle. Left multiplication preserves norm and parity, and
+     C₊(e₁)C₊(e₂)1=C₊(e₁)e₂=ε(e₂)e₁=−e₂e₁=e₁e₂, the right multiplication
+     by e₁e₂.
+   - Rank zero: Cl(0,0)=ℝ with ε_σ=σ; the positive point's line is even
+     and the negative point's odd; σ is separate data, not read off the
+     empty frame, and agrees with G2.1's Γ_σ=σId. C₊(w)=R_w∘ε commutes
+     with the left Spin action, so it is parallel for every associated
+     connection, whereas c₋(v)=L_v obeys ∇(c₋(v)s)=c₋(∇v)s+c₋(v)∇s only.
+
 1. Associate the irreducible complex Clifford module S to a chosen lift;
    its Spin action is obtained by restriction along G1.1’s positive-to-negative
    even-algebra comparison. Build S(V), its positive metric,
@@ -738,9 +921,9 @@ Weitzenböck/star specialization on the same carrier.
    change of spin structure by a flat central line. In odd dimension retain
    the chosen Clifford factor for S(V), and also construct the faithful
    ungraded module S_odd^+⊕S_odd^- from both ω-labeled factors, with its
-   metric and diagonal action/connection. This is the source's “complex
-   spinor module”; its factor labels are not an even-dimensional chiral
-   grading. The chosen-factor geometric spinor has half its rank. Lift the metric connection through the Lie
+   metric and diagonal action/connection. This is Nicolaescu's odd spinor
+   module S(V)=S⁺(V)⊕S⁻(V) (Proposition 12.1.30, p. 635); its factor
+   labels are not an even-dimensional chiral grading. The chosen-factor geometric spinor has half its rank. Lift the metric connection through the Lie
    algebra isomorphism to the principal spin connection; construct its
    compatible spinor connection and curvature formula. For TM use precisely
    the Levi-Civita connection, and prove Γ parallel. *Needs:* G1.1's
@@ -748,6 +931,21 @@ Weitzenböck/star specialization on the same carrier.
    G1.4's odd factors; G2.1's half-spin eigenspaces; G4.1b's Lie algebra
    isomorphism; G4.2's lift; HopfRinow L1; SmoothBundlesConnections B5;
    G3.3's compatibility.
+
+   **Checks.**
+   - Ranks: S(V) has complex rank 2^⌊n/2⌋: 1 on a circle, 2 on a surface
+     and on a 3-manifold (chosen factor), 4 on a 4-manifold with S^± of
+     rank 2; the faithful odd module S_odd^+⊕S_odd^- of a 3-manifold has
+     rank 4, twice the chosen factor.
+   - S² with E=TS² of degree 2 and G5.3's weights: S⁻≅E^(1/2) has degree
+     1 and S⁺≅(S⁻)* degree −1, so S(TS²) has rank 2 and degree 0 with
+     non-isomorphic half-spin bundles; the convention (S⁺)²≃E would
+     interchange the degrees.
+   - Change of lift on S¹: the antiperiodic spinor bundle is the periodic
+     one tensored with the flat complex Möbius line, with sections
+     s(θ+2π)=−s(θ). Γ is parallel: on the flat plane Γ=−X is constant
+     (G2.1), and in general the volume element is parallel for every
+     compatible connection.
 2. Prove the smooth bundle version of G2's graded tensor product for direct
    sum spin lifts. On compact bases, in TopologicalKTheory T2's supplied K-ring derive
    `[S⁺(V⊕W)]−[S⁻(V⊕W)]=([S⁺(V)]−[S⁻(V)])([S⁺(W)]−[S⁻(W)])`.
@@ -765,11 +963,25 @@ Weitzenböck/star specialization on the same carrier.
    `S⁻≃(S⁺)*`. Prove the equivalence of spin lifts with Hermitian line
    square roots of E (including the root isomorphism), and construct the
    connections with curvature halving. The labels must obey these explicit
-   characters; reversing the orientation interchanges them. The course's
-   unqualified S⁺²=E must be translated to this convention. *Needs:* G1.1's
+   characters; reversing the orientation interchanges them, so an
+   unqualified `(S⁺)²≃E` holds for the reversed orientation. *Needs:* G1.1's
    bivector sign; G1.2's Fock action; G2.1's Γ; G4.2's lifts; G5.1's
    connection; ComplexKahlerGeometry K1/K4's Hermitian line bundles;
    SmoothBundlesConnections B5's curvature.
+
+   **Checks.**
+   - z=cos θ+sin θ e₁e₂ has (e₁e₂)²=−1 and ze₁=e₁z^(−1), so
+     ze₁z^(−1)=e₁z^(−2)=cos 2θ e₁+sin 2θ e₂: E=(V,J) has weight z² under
+     z↦e^(iθ), and z^(−1)=cos θ−sin θ e₁e₂.
+   - With Γ=ic(e₁)c(e₂), c(e₁)c(e₂)=−iΓ and ρ(z)=cos θ−i sin θ Γ acts by
+     e^(−iθ) on S⁺ and e^(iθ) on S⁻: (S⁻)² has weight z²=E, (S⁺)² weight
+     z^(−2)=E*, and S⁺⊗S⁻ weight 0, so S⁻≃(S⁺)*; the reversed frame
+     (e₂,e₁) changes the sign of Γ and gives (S⁺)²≃E.
+   - S²: E=TS² has c₁=2 and H²(S²;ℤ)=ℤ has no 2-torsion, so E has one
+     square root up to isomorphism (c₁=1), matching the unique spin
+     structure; the flat T² has four flat square roots of the trivial E,
+     matching |H¹(T²;ℤ/2)|=4. Curvature halving gives the root of TS² the
+     Chern number 1=2/2.
 
 ## G6. Dirac operators and curvature formulas
 
@@ -912,6 +1124,29 @@ Weitzenböck/star specialization on the same carrier.
    TopologicalKTheory T7's KO coefficients and graded quotient and T4's
    generator u.
 
+   **Checks.**
+   - Rank one, A=Cl(0,1)≅ℂ: reverse∘involute fixes 1 and negates e, so it
+     is complex conjugation and ⟨s,t⟩_A=∫s̄t on the circle; ⟨s,s⟩_A=∫|s|²≥0,
+     ⟨sa,tb⟩_A=ā⟨s,t⟩_Ab, and the scalar part τ(⟨s,t⟩_A)=Re∫s̄t is the
+     real L² inner product, so here ‖s‖_A=‖s‖_(L²).
+   - Not equal in general: on the flat T³ of volume 1 with A=Cl(0,3), the
+     constant section s=1+ω, ω=e₁e₂e₃ (ω²=1, ω*=ω), has ⟨s,s⟩_A=2+2ω,
+     of C*-norm 4 (ω is a self-adjoint unitary with both eigenvalues) and
+     of scalar part 2=‖s‖²_(L²): ‖s‖_A²=4≠2, the norms are equivalent and
+     not equal.
+   - Circle spectra and classes: D=e·d/dθ on the periodic circle has
+     eigenvalues −k, k∈ℤ, and kernel the constants Cl(0,1), the graded
+     regular module, class η∈KO₁=ℤ/2; the antiperiodic circle has k∈ℤ+½,
+     kernel 0 and class 0. On the Lie-framed T² the kernel is the
+     constants Cl(0,2), class η²≠0 in KO₂, while ker D⁺ and ker D⁻ of the
+     complexified chiral operator are both one-dimensional, so the chiral
+     complex index is 0=c(η²), as n≡2 mod 4 requires.
+   - Lichnerowicz values: the round S³ has Scal=6, so D²≥3/2 and the
+     kernel vanishes (Scal=n(n−1) on every round Sⁿ); the flat Lie-framed
+     T³ has Scal=0 and kernel the parallel sections, the constants
+     Cl(0,3) of real dimension 8. Signed points give +1 and −1 in KO⁰=ℤ,
+     and a positive and a negative point together give 0.
+
 1. On a Riemannian manifold with a Hermitian Clifford module E for TM, assume
    the chosen connection ∇^E is Hermitian and satisfies the Levi–Civita
    compatibility identity: for vector fields X,v and sections s,
@@ -960,11 +1195,8 @@ Weitzenböck/star specialization on the same carrier.
    adjoint of H¹→L². For D⁺, define the geometric principal-symbol triple over
    `T^*M` with projection `π_{T^*M}`:
    `[π_{T^*M}^*E⁺,π_{T^*M}^*E⁻, ξ↦σ_geom(D⁺)(ξ)=c(ξ♯)|_{E⁺}]`.
-   This bundle map is homogeneous of degree 1 and invertible for ξ≠0. On a
-   closed base its exact-off-zero class lies in `K_c(T*M)`. For E=S with γ=Γ,
-   or E=S⊗W with γ=Γ⊗Id, on a closed even-dimensional spin manifold,
-   it corresponds under ♯ to G6.6's respective untwisted or twisted class
-   in `K_c(TM)`. For every (E,γ), the phase homotopy
+   This bundle map is homogeneous of degree 1 and invertible for ξ≠0.
+   For every (E,γ), the phase homotopy
    `e^(iπt/2)c(ξ♯)` joins the geometric symbol to the Fourier symbol
    `i c(ξ♯)`. On a closed base, prove the chiral Fredholm index of
    H^(s+1)(E⁺)→H^s(E⁻) is independent of s. *Needs:* HopfRinow L1; G3.2;
@@ -972,8 +1204,7 @@ Weitzenböck/star specialization on the same carrier.
    `OrthonormalBasis`; DifferentialGeometry L5–L9's integration; the
    differential-operator, ΨDO-identification, Sobolev-mapping and
    elliptic-estimate contracts P1.0/P4–P6 whose owner the supplier section
-   names; ComplexKahlerGeometry K5a; G2.1's Γ; TopologicalKTheory T3's
-   compact-support K-theory; G6.6's class.
+   names; ComplexKahlerGeometry K5a; G2.1's Γ.
 
    **Checks.**
    - Flat ℝ² with the trivial bundle ℂ², c(∂₁)=iZ, c(∂₂)=iY and the trivial
@@ -1054,7 +1285,10 @@ Weitzenböck/star specialization on the same carrier.
    export its compact-support class in K_c(TM); its support is the compact
    zero section. Prove metric-musical comparison with the T*M carrier and
    the phase homotopy between c(v) and the Fourier symbol i c(v), preserving
-   invertibility away from zero. Export the graded product, pullback along
+   invertibility away from zero. On a closed base G6.1's symbol triple over
+   `T*M` has its exact-off-zero class in `K_c(T*M)`; for E=S with γ=Γ, or
+   E=S⊗W with γ=Γ⊗Id, it corresponds under ♯ to the respective untwisted
+   or twisted class in `K_c(TM)` constructed here. Export the graded product, pullback along
    spin isometries and twisted-bundle comparisons. Numerical analytic versus
    topological index equality is outside this roadmap. *Needs:* G5.1's
    half-spin bundles; G2.1's Γ; G6.1's symbol; TopologicalKTheory T3's
@@ -1113,6 +1347,23 @@ Weitzenböck/star specialization on the same carrier.
    G5.1; G6.0; G6.1's domains and chiral adjoints; ComplexKahlerGeometry
    K5a's H¹/L² carriers; TopologicalKTheory T7's class a;
    `even_finrank_of_conjLinear_square_neg`.
+
+   **Checks.**
+   - Parity: on ℂ², J(z₁,z₂)=(−z̄₂,z̄₁) is conjugate-linear with J²=−1,
+     dimension 2; on ℂ, J(z)=az̄ has J²z=|a|²z, never −z, so no such J
+     exists in dimension 1, matching |det A|²=(−1)^(dim V).
+   - ω₋=e₁e₂e₃e₄: ω₋²=(−1)^6(−1)^4=1 and Γ=i²ω₋=−ω₋; ω₋e_j=−e_jω₋, so
+     ω₋aω₋=(−1)^(deg a)a=ε(a) on the regular module;
+     C₊(e₁)C₊(e₂)C₊(e₃)C₊(e₄)1 passes through e₄, e₃e₄, e₂e₃e₄ to
+     e₁e₂e₃e₄=ω₋=R_(ω₋)1, and on the ε-even sector R_(ω₋)=L_(ω₋)=−Γ, so
+     Γ=+1 is external volume −1.
+   - Phase: (zJ)²=zz̄J²=−1 for |z|=1 and −|z|² otherwise, so only unit z
+     preserve the structure, and J⁻c(v)=c(v)J⁺ persists for (zJ⁺,zJ⁻)
+     since c(v) is complex-linear.
+   - Values: on the round S⁴ (Scal=12) both kernels vanish and α=0; on a
+     K3 surface the two parallel spinors span ker D⁺=ℂ²=ℍ¹ and ker D⁻=0,
+     so α=1 and the complex index is 2=2α; an odd complex index cannot
+     occur.
 
 ## Dependency order and references
 
