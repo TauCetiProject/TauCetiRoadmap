@@ -8,7 +8,7 @@ This roadmap owns the oscillator side of the theory: bilinear Heisenberg extensi
 
 ### Prerequisites and boundaries
 
-The ordinary classical groups and their standard representations belong to `TauCetiRoadmap.RepresentationTheory.ClassicalGroups`, Layer 0, and `OrthogonalSpinGroups`. Finite quadratic modules, discriminant forms and Gauss invariants belong to `IntegralLattices`, Layer 1G–1H. This roadmap adds oscillator operators on those objects. Positive-definite lattice theta series and their coefficients belong to GeometryOfNumbersAndQuadraticArithmetic §3.4; the automorphic theta kernels and indefinite Siegel–Weil comparisons here use different carriers and measures. The Hermite basis and harmonic-oscillator eigen-equation are supplied by OrthogonalL2Bases, Part A §§A2–A3 (in `Completed/OrthogonalL2Bases`).
+The ordinary classical groups and their standard representations belong to RepresentationTheory/ClassicalGroups Layer 0, and `OrthogonalSpinGroups`. Finite quadratic modules, discriminant forms and Gauss invariants belong to `IntegralLattices`, Layer 1G–1H. This roadmap adds oscillator operators on those objects. Positive-definite lattice theta series and their coefficients belong to GeometryOfNumbersAndQuadraticArithmetic §3.4; the automorphic theta kernels and indefinite Siegel–Weil comparisons here use different carriers and measures. The Hermite basis and harmonic-oscillator eigen-equation are supplied by OrthogonalL2Bases, Part A §§A2–A3 (in `Completed/OrthogonalL2Bases`).
 
 Symplectic bases over every field and the even dimension of a nondegenerate alternating space are supplied by `LinearMap.BilinForm.IsAlt.exists_basis_toMatrix_eq_J` and `LinearMap.BilinForm.IsAlt.even_finrank` in `TauCeti.LinearAlgebra.BilinearForm.SymplecticBasis`. The supplied basis has matrix `Matrix.J`, with pairing `ω(b(inr i), b(inl j)) = δᵢⱼ`; interchanging the two blocks gives the convention `ω(eᵢ, fⱼ) = δᵢⱼ`. The real Lagrangian predicate and dimension theorem are `TauCeti.SymplecticForm.IsLagrangian` and `TauCeti.SymplecticForm.IsLagrangian.two_mul_finrank` in `TauCeti.Geometry.Symplectic.Lagrangian.Basic`. §0.9a adds the prescribed-Lagrangian comparison over arbitrary fields. Mathlib supplies the tensor-product bilinear form `LinearMap.BilinForm.tmul`, with pure-tensor evaluation from `LinearMap.BilinForm.tensorDistrib_tmul`; §3.1 adds its alternating, nondegeneracy and dual-pair assertions without a second form definition.
 
@@ -262,7 +262,7 @@ Prove `heisenberg_haar`: For `C=F`, `W=F^{2n}`, `B` continuous bilinear, the pro
 
 `F` is a nondiscrete local field; for symplectic invariance `ω` is nondegenerate.
 
-(Kudla96, I.2 pp.6–10). *Needs:* 0.13; AutomorphicLFunctionsAndLocalFactors AL.0 (self-dual Haar measure, local Fourier inversion); AutomorphicLFunctionsAndLocalFactors AL.0 (self-dual Haar measures).
+(Weil64, I.§2, printed147, PDF5 and I.§4, printed149, PDF7 (self-dual Haar measures, the module of an automorphism, the group `A(G)`); Kudla96, I.2 pp.6–10 (measure conventions on `X` and `Y`)). *Needs:* 0.13; AutomorphicLFunctionsAndLocalFactors AL.0 (self-dual Haar measure, local Fourier inversion).
 
 ### 0.15 Schrödinger representation
 
@@ -308,7 +308,7 @@ Define `hilbertSchroedinger` as follows. Extend translation and modulation to un
 
 `F` is a local field of characteristic different from two; `X` is finite dimensional; `ψ` is continuous unitary.
 
-(Weil64, I.§4, printed149, PDF7; I.§10 Théorème1, printed157, PDF15). *Needs:* 0.15, 0.14; AutomorphicLFunctionsAndLocalFactors AL.0 (local Schwartz–Bruhat space); AutomorphicLFunctionsAndLocalFactors AL.0.
+(Weil64, I.§4, printed149, PDF7; I.§10 Théorème1, printed157, PDF15). *Needs:* 0.15, 0.14; AutomorphicLFunctionsAndLocalFactors AL.0 (local Schwartz–Bruhat space).
 
 - `hilbertSchroedinger_norm`: Every `ρψ(h)` preserves the `L²` norm.
 - `hilbertSchroedinger_schwartz`: The `Schwartz-to-L²` dense inclusion intertwines the two actions.
@@ -405,7 +405,7 @@ Define `weilIndex` as follows. For a nondegenerate quadratic form q on `F^d`, de
 
 `F` is a nondiscrete local field of characteristic different from two, `ψ` continuous nontrivial unitary, q nondegenerate, Bq its full polar form.
 
-(Weil64, I.§14 Théorème2, printed161–162, PDF19–20; II.§§24–28). *Needs:* AutomorphicLFunctionsAndLocalFactors AL.0 (local Fourier inversion); AutomorphicLFunctionsAndLocalFactors AL.0.
+(Weil64, I.§14 Théorème2, printed161–162, PDF19–20; II.§§24–28). *Needs:* AutomorphicLFunctionsAndLocalFactors AL.0 (local Fourier inversion).
 
 - `weilIndex_distribution`: The Fourier transform identity above characterizes `γψ(q)`.
 - `weilIndex_norm`: `|γψ(q)|=1`.
@@ -1464,7 +1464,7 @@ Define `idealClassTheta` as follows. For `K=Q(√D)`, negative fundamental discr
 
 `D<0` fundamental; z in the upper half plane. Ideal classes, norms and the dictionary between binary quadratic forms and ideal classes come from IntegralLattices Layer `B` (B2, forms and ideal classes) and GlobalNumberFields.
 
-(GZ86, I.§5(5.2), printed229, PDF6; IV.§1(1.1), printed270, PDF47). *Needs:* 5.1; IntegralLattices Layer 1.
+(GZ86, I.§5(5.2), printed229, PDF5; IV.§1(1.1), printed270, PDF46). *Needs:* 5.1; IntegralLattices Layer 1.
 
 - `idealClassTheta_coeff`: The positive n coefficient is `r_A(n)`.
 - `idealClassTheta_constant`: The constant coefficient is1/w.
@@ -1482,7 +1482,7 @@ Prove `idealClassTheta_modular`: `θ_A` is holomorphic of weight1 on `Γ₀(|D|)
 
 Negative fundamental `D`; `γ∈Γ₀(|D|)`; source lattice and character conventions.
 
-(GZ86, IV.§1 `after(1.1)`, printed270, PDF47). *Needs:* 5.12, 2.5, 4.4; ModularForms Layer 0.
+(GZ86, IV.§1 `after(1.1)`, printed270, PDF46). *Needs:* 5.12, 2.5, 4.4; ModularForms Layer 0.
 
 ### 5.14 Ideal-class theta conjugation
 
@@ -1490,7 +1490,7 @@ Prove `idealClassTheta_conjugation`: For every ideal class A and `n≥1`, conjug
 
 Imaginary quadratic `K`; the ramified ideal is the one in GZ Lemma2.3.
 
-(GZ86, IV.§2 proof of `Lemma(2.3)`, printed275, PDF52). *Needs:* 5.12.
+(GZ86, IV.§2 proof of `Lemma(2.3)`, printed275, PDF51). *Needs:* 5.12.
 
 ### 5.14a Ideal-lattice Poisson comparison
 
@@ -1498,7 +1498,7 @@ Prove `idealLattice_poisson`: For an imaginary quadratic `K`, fractional ideal b
 
 `D<0` fundamental; d the different, `N(d)=|D|`; the complex norm and trace conventions fixed.
 
-(GZ86, IV.§2 proof of `Lemma(2.3)`, printed274–275, PDF51–52). *Needs:* 5.12; AutomorphicLFunctionsAndLocalFactors AL.0 (vector-space Poisson summation); AutomorphicLFunctionsAndLocalFactors AL.0 (local Fourier inversion).
+(GZ86, IV.§2 proof of `Lemma(2.3)`, printed274–275, PDF50–51). *Needs:* 5.12; AutomorphicLFunctionsAndLocalFactors AL.0 (vector-space Poisson summation); AutomorphicLFunctionsAndLocalFactors AL.0 (local Fourier inversion).
 
 ### 5.15 Ideal-class theta transformation
 
@@ -1506,7 +1506,7 @@ Prove `idealClassTheta_transform`: For odd negative fundamental `D=D₁D₂`, `�
 
 `D` odd squarefree, `D≡1` mod4; `D_i` fundamental with1 allowed; c* convention and exact genus character; no even-discriminant extension asserted.
 
-(GZ86, IV.§2 `Lemma(2.3)`, printed274, PDF51; proof275, PDF52). *Needs:* 5.12, 5.14, 5.14a; QuadraticFormInvariants §6C.
+(GZ86, IV.§2 `Lemma(2.3)`, printed274, PDF50; proof275, PDF51). *Needs:* 5.12, 5.14, 5.14a; QuadraticFormInvariants §6C.
 
 ### 5.16 Genuine Eisenstein families
 
@@ -1789,7 +1789,7 @@ Define `fourierJacobi` as follows. Extract a Fourier–Jacobi coefficient of a s
 
 Compact central quotient; actual unipotent splitting; smoothness and normal convergence for termwise extraction.
 
-(BFH90, §2 `equations(2.2)–(2.3)`, printed551–552, PDF10–11). *Needs:* 5.5, 6.17, 6.18; AutomorphicFormsOnReductiveGroups §4.1.
+(EZ85, §6 (Fourier–Jacobi coefficients); BFH90, §2 `equations(2.2)–(2.3)`, printed551–552, PDF10–11 (Fourier extraction in the elliptic variable)). *Needs:* 5.5, 6.17, 6.18; AutomorphicFormsOnReductiveGroups §4.1.
 
 - `fourierJacobi_index`: The coefficient has `ψ_m` central character.
 - `fourierJacobi_equivariant`: It transforms under the common Jacobi action.
@@ -1815,7 +1815,7 @@ Prove `toricTheta_pairingComparison`: For an anisotropic norm torus `T`, unfold 
 
 Actual anisotropic torus and unitary character trivial on `T(F)`; cusp or compactness/decay bound; ramified test functions and source parity fixed. For a quadratic field K/F its binary norm remains anisotropic even if the containing quaternion algebra is split. A split-quaternion Shimizu/Petersson comparison requires the separate source-qualified factorization with the exact toric normalization; a GQT residual-image identity alone is insufficient.
 
-(GZ86, I.§5(5.2), printed229, PDF6; IV.§2 printed273–275, PDF50–52; YZZ11, 6 November 2011 draft, §2.2.1 Proposition2.2.1 and proof pp.48–50; §§2.3–2.4 pp.51–55). *Needs:* 6.16, 6.15, 6.1, 6.12; AdelicAlgebraicGroups §§2.3, 3.4.
+(GZ86, I.§5(5.2), printed229, PDF5; IV.§2 printed273–275, PDF49–51; YZZ11, 6 November 2011 draft, §2.2.1 Proposition2.2.1 and proof pp.48–50; §§2.3–2.4 pp.51–55). *Needs:* 6.16, 6.15, 6.1, 6.12; AdelicAlgebraicGroups §§2.3, 3.4.
 
 *Proof input.* The nonsplit toric Shimizu contraction, the toric unfolding and their normalization are Yuan–Zhang–Zhang's (2011 author draft, §2.2.1 Proposition 2.2.1 and §§2.3–2.4, pp.48–55), where the split quaternion case is reduced to Waldspurger's argument instead of the Siegel–Weil formula. GZ86's theta and Rankin identities give only the ideal-theta part, so the quaternionic toric pairing itself is constructed in this target.
 
@@ -1891,7 +1891,7 @@ Define `halfWeightEisenstein` as follows. Construct `E*_{1/2}(z,s)` with constan
 
 Define `fundamentalEisensteinCoefficient` as follows. For fundamental d, `b(d,s)=(4π)^(−1/4)|d|^(−3/4)Λ(s,χ_d)`, where `Λ(s,χ_d)=π^(−s/2)Γ((s+α)/2)|d|^(s/2)L(s,χ_d)`, `α=(1−sgn d)/2`. Compare with Mathlib’s gamma normalization, including its `π^(−α/2)` difference.
 
-(DIT16, §5, (5.13) `(Λ(s,χ_d))` and the unnumbered definition of `b(d,s)`, p964). *Needs:* 5.5; AutomorphicLFunctionsAndLocalFactors AL.1 (archimedean factors, completed Hecke L-functions).
+(DIT16, §5, (5.13) `(Λ(s,χ_d))` and the unnumbered definition of `b(d,s)`, p964). *Needs:* AutomorphicLFunctionsAndLocalFactors AL.1 (archimedean factors, completed Hecke L-functions).
 
 - `fundamentalEisensteinCoefficient_fundamentalValue`: `b(d, s)=(4π)^(−1/4)|d|^(−3/4)Λ(s,χ_d)`.
 - `fundamentalEisensteinCoefficient_parityFactor`: The paper completion is `|d|^(s/2)π^(α/2)` times Mathlib completed L.
@@ -1913,7 +1913,7 @@ Prove `halfWeightEisenstein_coefficients`: The nonconstant coefficients of `E*_{
 
 Prove `halfWeightEisenstein_product`: For coprime fundamental d,d′ and `D=d′d`, `Λ(s,χ_{d′})Λ(s,χ_d)=2√π|D|^(3/4)b(d′,s)b(d,s)`. This is a bilinear product without complex conjugation, unlike Theorem4.
 
-(DIT16, §5 (5.15), p964). *Needs:* 7.5, 5.5.
+(DIT16, §5 (5.15), p964). *Needs:* 7.5.
 
 ### 7.8 Theta residue and Petersson normalization
 
@@ -2022,7 +2022,7 @@ Define `halfWeightResolvent` as follows. Construct the resolvent `G_{1/2}(z,z′
 
 Define `halfWeightPoincare` as follows. For `n≠0`, `Re(s)>1`, `F_{1/2,n}(z,s)=Γ(s−sgn(n)/4)/(4π|n|Γ(2s))` times `Σ_{Γ∞\Γ₀(4)}J(γ,z)⁻¹ M_{sgn(n)/4,s−1/2}(4π|n|Imγz)e(n Reγz)`.
 
-(DIT16, §8 (8.6), p975). *Needs:* 7.1, 5.5; AutomorphicSpectralTheory §§0.26, 0.28 (Whittaker functions).
+(DIT16, §8 (8.6), p975). *Needs:* 7.1; AutomorphicSpectralTheory §§0.26, 0.28 (Whittaker functions).
 
 - `halfWeightPoincare_seedNormalization`: The prefactor is `Γ(s−sgn n/4)/(4π|n|Γ(2 s))`.
 - `halfWeightPoincare_multiplierInverse`: `J(γ, z)⁻¹` in the coset sum gives the correct automorphy.
@@ -2150,7 +2150,7 @@ Prove `kohnenPlus_heckeBasis`: Construct an orthonormal simultaneous Hecke eigen
 
 Prove `shimura_coefficientRelation`: For `m>0` and fundamental d, `mΣ_{n|m}n^(−3/2)(d/n)b_ψ(m²d/n²)=a_ψ(m)b_ψ(d)`. Prove that some fundamental coefficient is nonzero, so these relations determine the lift and all coefficients from fundamental ones.
 
-(DIT16, Theorem4; §10, pp981–982). *Needs:* 7.20a, 7.3, 7.28, 5.5.
+(DIT16, Theorem4; §10, pp981–982). *Needs:* 7.20a, 7.3, 7.28.
 
 ### 7.29 Shimura lift from an eigenline
 
@@ -3418,7 +3418,7 @@ All objects here are built from one BFH datum (8.28a). Fix `y₂>0`. The scalar 
 
 ### 8.85 Genus-two coefficient and local-test export
 
-Prove `bsd2_export`: Export the first-cusp coefficients with factor `(2mN³)⁻¹`, the opposite-cusp full-rank coefficients with factor `(2m)⁻¹` and their unscaled rank-zero term, the unramified factor ratio, squarefactor bound, joint polar continuation, valid residue/derivative interchanges and three finite K-type existence tests. AL.3 identifies `L(s,D₀)=L_N(s+k/2−2,f⊗χ_{D₀})/L_N(2s+k−4,Sym²f)` for fundamental `D₀` and `L(s,0)=L_N(2s+k−5,Sym²f)/L_N(2s+k−4,Sym²f)`. At `m=N rad(N),r=1` these supply RankZeroOneBSD. That roadmap owns twist residues, positivity, noncancellation, simultaneous local conditions and infinitude.
+Prove `bsd2_export`: Export the first-cusp coefficients with factor `(2mN³)⁻¹`, the opposite-cusp full-rank coefficients with factor `(2m)⁻¹` and their unscaled rank-zero term, the unramified factor ratio, squarefactor bound, joint polar continuation, valid residue/derivative interchanges and three finite K-type existence tests. 8.73–8.74 identify `L(s,D₀)=L_N(s+k/2−2,f⊗χ_{D₀})/L_N(2s+k−4,Sym²f)` for fundamental `D₀` and `L(s,0)=L_N(2s+k−5,Sym²f)/L_N(2s+k−4,Sym²f)`, with the Rankin–Selberg factors from AutomorphicLFunctionsAndLocalFactors AL.3 and the symmetric-square L-function from GL2AutomorphicRepresentationsAndTransfer R17.4.13. At `m=N rad(N),r=1` these supply RankZeroOneBSD. That roadmap owns twist residues, positivity, noncancellation, simultaneous local conditions and infinitude.
 
 All objects here are built from one BFH datum (8.28a).
 
@@ -3494,6 +3494,8 @@ Page numbers refer to the linked version. “PDF” denotes a physical page and 
 
 **BFH90.** Daniel Bump, Solomon Friedberg and Jeffrey Hoffstein, [Nonvanishing theorems for L-functions of modular forms and their derivatives](https://www.wstein.org/papers/bib/bump-friedberg-hoffstein-nonvanishing.pdf). Inventiones mathematicae102(1990),543–618;77-page published scan.
 
+**EZ85.** Martin Eichler and Don Zagier, [The Theory of Jacobi Forms](https://doi.org/10.1007/978-1-4684-9162-3). Progress in Mathematics 55, Birkhäuser, Boston, 1985.
+
 **AGHMP18.** Fabrizio Andreatta, Eyal Z. Goren, Benjamin Howard and Keerthi Madapusi Pera, [Faltings heights of abelian varieties with complex multiplication](https://annals.math.princeton.edu/wp-content/uploads/annals-v187-n2-p03-p.pdf). Annals of Mathematics 187 (2018), no. 2, 391–531.
 
 **CT20.** Gaëtan Chenevier, Olivier Taïbi, [Discrete series multiplicities for classical groups over Z and level 1 algebraic cusp forms](https://arxiv.org/pdf/1907.08783v1). arXiv:1907.08783v1.
@@ -3510,7 +3512,7 @@ Page numbers refer to the linked version. “PDF” denotes a physical page and 
 
 **GS23b.** Wee Teck Gan and Gordan Savin, [The Local Langlands Conjecture for G_2](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/2479D805B0F248C91A33671F3A03752E/S2050508623000276a.pdf/local_langlands_conjecture_for_g2.pdf). Forum of Mathematics, Pi 11 (2023), e28, 1–42.
 
-**GZ86.** Benedict H. Gross, Don B. Zagier, [Heegner points and derivatives of L-series](https://wstein.org/papers/bib/Gross-Zagier_Heegner_points_and_derivatives_of_Lseries.pdf). Inventiones mathematicae 84 (1986), no. 2, 225–320.
+**GZ86.** Benedict H. Gross, Don B. Zagier, [Heegner points and derivatives of L-series](https://people.mpim-bonn.mpg.de/zagier/files/doi/10.1007/BF01388809/fulltext.pdf). Inventiones mathematicae 84 (1986), no. 2, 225–320; text copy, DOI 10.1007/BF01388809.
 
 **IP23.** Atsushi Ichino and Kartik Prasanna, [Hodge classes and the Jacquet–Langlands correspondence](https://arxiv.org/pdf/1806.10563v2). arXiv:1806.10563v2.
 
