@@ -1488,7 +1488,7 @@ their own function-field scope.
   [author PDF dated 5 October 2021](https://www.jmilne.org/math/Books/iAG2022.pdf).
   Chapter 4 §a, coaction identities (24)–(25), p.84, and §c, Proposition
   4.7 and its proof, p.86, give the coefficient-span construction. Chapter
-  5 §a, Lemma 5.9 and Proposition 5.10, p.100, and §c, Proposition 5.21,
+  5 §b, Lemma 5.9 and Proposition 5.10, p.100, and §c, Proposition 5.21,
   p.104, give the faithfully flat quotient factorization used for descent.
   Chapter 4 §i, Proposition 4.32, Corollary 4.34 and Exercise 4-4(a,b),
   pp.96–97, give the stabilizer and Hom/invariant base-change comparisons.
