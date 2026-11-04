@@ -40,7 +40,7 @@ open Filter Topology
 
 namespace TauCetiRoadmap.BanachAlgebras
 
-universe u
+universe u v
 
 /-! ## Layer 1: Constructions, ideals and the radical -/
 
@@ -70,6 +70,78 @@ theorem exists_gns {A : Type u} [NormedRing A] [NormedAlgebra ℂ A]
 def nonUnitalRadical {A : Type*} [NonUnitalRing A] [Module ℂ A]
     [IsScalarTower ℂ A A] [SMulCommClass ℂ A A] : Set A :=
   {a | Unitization.inr a ∈ Ring.jacobson (Unitization ℂ A)}
+
+section ClosestScalar
+
+/-! Closest-scalar renorming (A1): the example uses the native finite coordinate space and its
+supremum norm; `residual` explicitly rescales that norm by two. `attemptedNorm` is a real-valued
+function, not a norm instance. -/
+
+def residual (z : Fin 3 → ℂ) (c : ℂ) : ℝ :=
+  2 * ‖z - (fun _ => c)‖
+
+/-- Properness gives existence; the parallelogram identity in the scalar plane
+makes the smallest enclosing disk center unique, for every finite tuple. -/
+theorem existsUnique_nearestScalar (z : Fin 3 → ℂ) :
+    ∃! c : ℂ, ∀ μ : ℂ, residual z c ≤ residual z μ := by
+  sorry
+
+def nearestScalar (z : Fin 3 → ℂ) : ℂ :=
+  Classical.choose (existsUnique_nearestScalar z).exists
+
+def attemptedNorm (z : Fin 3 → ℂ) : ℝ :=
+  residual z (nearestScalar z) + ‖nearestScalar z‖
+
+def witnessA : Fin 3 → ℂ := ![-1, 1, Complex.I]
+
+def witnessB : Fin 3 → ℂ := ![1, 1, Complex.I]
+
+/-- The lower bounds come from coordinate pairs (-1,1), (1,i) and (2,2i). -/
+theorem nearestScalar_witnesses :
+    nearestScalar witnessA = 0 ∧
+    nearestScalar witnessB = (1 + Complex.I) / 2 ∧
+    nearestScalar (witnessA + witnessB) = 1 + Complex.I := by
+  sorry
+
+/-- The closest-scalar prescription fails the triangle inequality, even though
+its minimizers are unique and the original algebra unit has norm two. -/
+theorem attemptedNorm_triangle_failure :
+    attemptedNorm witnessA = 2 ∧
+    attemptedNorm witnessB = 3 * Real.sqrt 2 / 2 ∧
+    attemptedNorm (witnessA + witnessB) = 3 * Real.sqrt 2 ∧
+    attemptedNorm witnessA + attemptedNorm witnessB <
+      attemptedNorm (witnessA + witnessB) := by
+  sorry
+
+end ClosestScalar
+
+section SwappedStar
+
+/-! Swapped-involution example (A1): the swapped involution is written as an explicit function on
+the native product algebra. The type-copy example transports the structures to a distinct type
+copy; the native coordinatewise product-star instance is unchanged. -/
+
+def swapStar (a : ℂ × ℂ) : ℂ × ℂ := (star a.2, star a.1)
+
+/-- Square positivity means a real nonnegative value; no C*-order on the source is assumed. -/
+theorem positive_functional_zero (φ : (ℂ × ℂ) →ₗ[ℂ] ℂ)
+    (hφ : ∀ a, (φ (swapStar a * a)).im = 0 ∧ 0 ≤ (φ (swapStar a * a)).re) :
+    φ = 0 := by
+  sorry
+
+/-- Nonunital targets and the zero algebra are included; continuity is not an input. -/
+theorem star_hom_zero {B : Type*} [NonUnitalCStarAlgebra B]
+    (π : (ℂ × ℂ) →ₙₐ[ℂ] B)
+    (hπ : ∀ a, π (swapStar a) = star (π a)) :
+    π = 0 := by
+  sorry
+
+/-- The only C*-compatible ring seminorm is zero, including on each coordinate axis. -/
+theorem cstar_seminorm_zero (q : RingSeminorm (ℂ × ℂ))
+    (hq : ∀ a, q (swapStar a * a) = q a ^ 2) : q = 0 := by
+  sorry
+
+end SwappedStar
 
 /-! ## Layer 2: Spectral calculus -/
 
@@ -265,6 +337,34 @@ theorem singer_wermer {A : Type*} [NonUnitalNormedCommRing A] [NormedSpace ℂ A
   sorry
 
 end NonUnitalAutomaticContinuity
+
+/-! ## Layer 7: Product domains -/
+
+section ProductDomains
+
+/-! Product topology and the Haar domain (A7): all spaces, product topologies, compactness
+classes and the Cantor carrier are native Mathlib objects; no private product-space or group
+carrier is introduced. -/
+
+/-- Nonempty factors are essential: otherwise the product can be empty. -/
+theorem locallyCompact_pi_iff {I : Type u} (X : I → Type v)
+    [∀ i, TopologicalSpace (X i)] [∀ i, Nonempty (X i)]
+    [∀ i, T2Space (X i)] [∀ i, LocallyCompactSpace (X i)] :
+    LocallyCompactSpace (∀ i, X i) ↔ Set.Finite {i | ¬ CompactSpace (X i)} := by
+  sorry
+
+/-- This is the usual product topology, with no norm topology substituted. -/
+theorem locallyCompact_realPower_iff (I : Type u) :
+    LocallyCompactSpace (I → ℝ) ↔ Finite I := by
+  sorry
+
+/-- The finite-discrete coordinate map is explicitly false↦0, true↦1. -/
+theorem exists_cantor_binary_group_homeomorph :
+    ∃ e : cantorSet ≃ₜ (ℕ → ZMod 2), ∀ (x : cantorSet) (n : ℕ),
+      e x n = if cantorSetHomeomorphNatToBool x n then 1 else 0 := by
+  sorry
+
+end ProductDomains
 
 /-! ## Layer 8: Compact operators, transitive algebras and invariant subspaces -/
 

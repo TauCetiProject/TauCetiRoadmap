@@ -272,7 +272,7 @@ prescription is proposed. Uniqueness makes the failure
 independent of any choice of minimizers. This closest-scalar formula and
 the bounded linear projection sum norm below are distinct constructions;
 the preceding left-multiplication norm supplies the algebra renorming.
-[ClosestScalarTargets.lean](ClosestScalarTargets.lean) illustrates the
+[Suggested.lean](Suggested.lean) illustrates the
 nearest-center and triangle-failure statements.
 
 For a closed subalgebra B of a unital algebra A with 1_A∉B, prove the
@@ -401,7 +401,7 @@ first apply the identity to `(z,0)` and `(0,w)`, then use the triangle
 inequality. Consequently S admits no C*-norm; the zero map S→0 has the
 universal property for maps to C*-algebras when morphisms need not preserve1.
 This gives an explicit zero C*-envelope of a nonzero complete Banach *-algebra.
-[SwappedStarTargets.lean](SwappedStarTargets.lean) states the functional,
+[Suggested.lean](Suggested.lean) states the functional,
 representation and seminorm targets on the native product algebra with the
 involution written explicitly, before transporting it to the type copy.
 
@@ -1524,7 +1524,7 @@ element its own inverse. Prove continuity with the inherited Cantor-set topology
 this transported law is distinct from ambient real addition. The real powers, circle products and binary Cantor examples are Conway,
 *A Course in Functional Analysis*, second edition, VII.9, pp.223–224.
 The arbitrary nonempty-factor criterion is the compact-cylinder argument
-given above, not a theorem asserted at that locator. [ProductDomainTargets.lean](ProductDomainTargets.lean) illustrates
+given above, not a theorem asserted at that locator. [Suggested.lean](Suggested.lean) illustrates
 the general criterion, real-power case and exact binary-coordinate comparison.
 
 The product and Cantor-model API must include:
