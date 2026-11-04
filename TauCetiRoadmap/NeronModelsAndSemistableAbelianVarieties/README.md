@@ -997,6 +997,55 @@ the generic restriction uses Mathlib's function field and generic-point inclusio
   obstruction: the zero abelian variety over `ℚ` has Néron model `Spec ℤ`, which is
   quasi-compact. Checking only the generic fibre does not establish the mapping property.
 
+### 1.9a Closures of generic subschemes and good reduction of subvarieties
+
+Let `𝒜` be an abelian scheme over `S` with generic fibre `A` (1.8–1.9; in the arithmetic case
+`S` is the spectrum of the ring of integers of a number field, or of its localisation away
+from finitely many primes, and `A` has good reduction at every closed point of `S`), and let
+`j : A → 𝒜` be the inclusion of the generic fibre. For a closed subscheme `Z ⊆ A` define the
+closure of `Z` in `𝒜` as the scheme-theoretic image of `Z ↪ A → 𝒜` (Mathlib
+`AlgebraicGeometry.Scheme.Hom.image`, a closed subscheme of `𝒜` through `Scheme.Hom.imageι`).
+Prove that the closure is flat over `S` with generic fibre `Z`, that it is the unique `S`-flat
+closed subscheme of `𝒜` with generic fibre `Z`, and that its formation commutes with flat base
+change `S' → S`, in particular with localisation at a closed point and with completion; on an
+affine open `Spec R ⊆ 𝒜` with `Z ∩ Spec (R ⊗ K) = V(J)` the closure is `V(J ∩ R)`, whose
+coordinate ring is torsion free, hence flat, over the Dedekind base
+(Bosch–Lütkebohmert–Raynaud, §2.5, pp. 55–56; the same argument gives the schematic closures of
+generic subgroups in FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.1.20, and the base-change
+clause is the scheme case of AlgebraicModuliForArithmeticGeometry §5). For a closed subscheme
+`H ⊆ A`, in particular a hypersurface (a closed subscheme whose ideal sheaf is
+`Scheme.IdealSheafData.IsEffectiveCartier`), and a closed point `s ∈ S`, define *good reduction of `H` at `s`* to mean
+that the fibre over `s` of the structure morphism of the closure of `H` lies in its
+`Scheme.Hom.smoothLocus` (Mathlib), and *good reduction of `H` over `S`* to mean that this
+structure morphism is `AlgebraicGeometry.Smooth`. Prove the equivalent forms of good reduction
+at `s`: smoothness of the base change of the closure to the local ring at `s`; smoothness of the
+special fibre over `k(s)`, the closure being flat and of finite presentation (then `H` is smooth
+over `K`); and smoothness, over the completed local ring at `s`, of the closure of the base change
+of `H` to the completed function field in the base change of `𝒜` (fppf descent of smoothness along
+the completion and the base-change clause above). Prove that good reduction over `S` is good
+reduction at every closed point; that for a hypersurface with good reduction over `S` the closure
+is smooth and proper over `S` of relative dimension `dim A − 1`, a relative effective Cartier
+divisor in `𝒜/S` whose fibre over each closed point `s` is a smooth hypersurface in the abelian
+variety `𝒜_s`; that an `S`-flat closed subscheme of `𝒜` smooth over `S` is the closure of its
+generic fibre, so good reduction of `H` over `S` is the same as the extension of `H` to a smooth
+relative divisor of `𝒜/S`; and that good reduction of `H` at `s` depends only on `H ⊆ A` and
+the local ring at `s`, not on `S` (uniqueness of the model, 1.4 and 1.8). *Needs:* 1.4, 1.8, 1.9;
+`AbelianSchemesAndArithmeticModuli:A0.1–A1`; FiniteFlatGroupsAndIntegralPadicHodgeTheory
+§R07.1.20; AlgebraicModuliForArithmeticGeometry §5; Mathlib `AlgebraicGeometry.Scheme.Hom.image`,
+`Scheme.Hom.imageι`, `Scheme.Hom.smoothLocus`, `AlgebraicGeometry.Smooth`, `Flat`;
+Tau Ceti `AlgebraicGeometry.Scheme.IdealSheafData.IsEffectiveCartier`
+(`TauCeti/AlgebraicGeometry/EffectiveCartierDivisor/Basic.lean`).
+
+**Checks.**
+
+- (degenerate) For `Z = A` the closure is `𝒜`, with good reduction at every closed point; for
+  `Z = ∅` the closure is empty.
+- (non-example) For an elliptic curve `E/ℚ` with good reduction at `p` and `H = {P} ⊔ {−P}`
+  with `P ∈ E(ℚ)` not `2`-torsion but reducing to a `2`-torsion point modulo `p`, the closure of
+  `H` is the union of two sections of `𝒜` meeting in the fibre at `p`, which is not smooth over
+  `𝔽_p`: `H` has bad reduction at `p` although `E` has good reduction there. Good reduction of
+  `H` is a property of the embedding `H ⊆ A`, not of `H` as a `K`-scheme.
+
 ### 1.10 Étale and unramified base change
 
 Prove `EtaleBasechange`: for an étale morphism `S' → S` of Dedekind schemes, the base change of a
