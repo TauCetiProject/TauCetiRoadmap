@@ -273,7 +273,7 @@ The imaginary quadratic field in the CS discrete-transfer setup is denoted `𝒦
 
 AG2.1 comprises its two mathematical producers AG2.1a and AG2.1b. The order below follows these layers; “Needs” records the finer proof order and names external stages explicitly. Internal links refer to each target’s mathematical layer. API and Check names lie in `TauCetiRoadmap.AutomorphicGaloisRepresentationsPartII` unless another namespace is displayed. The tests are required discriminating examples and counterexamples, including geometrically supplied cases; the matrix statements in `Suggested.lean` are the specified algebraic components of these targets.
 
-The sources are keyed in the bibliography. Locators use the stated edition's printed pages unless marked as author-copy or arXiv pages. AHTW v1 is an unrefereed preprint, cited by arXiv PDF page; its printed folio is one less. The targets are grouped by their mathematical outputs, rather than by the order of any paper.
+The sources are keyed in the bibliography. Locators use the stated edition's printed pages unless marked as author-copy or arXiv pages. AHTW v1 is an unrefereed preprint, cited by arXiv PDF page; from PDF page 25 on the printed folio is one less (pages 2–23 carry their PDF number). The targets are grouped by their mathematical outputs, rather than by the order of any paper.
 ## Layer AG2.P: finite-coefficient period and comparison interfaces
 
 This layer specializes supplied period functors and geometric objects to the finite local
@@ -2913,7 +2913,7 @@ through it exactly when its semisimple realization has the stated period conditi
 Prove `boundedPseudodeformationQuotients`, including uniqueness of this quotient, coefficient
 extension and formal-completion compatibility for the actual representation scheme and
 its `GL_n`-quotient. No absolute irreducibility or multiplicity-free residual hypothesis is added.
-(Source: AHTW, §§3.3.1–3.3.7, Theorem 3.3.6, pp.32–35.)
+(Source: AHTW, §§3.3.1–3.3.7, Theorem 3.3.6, pp.33–35.)
 
 The API gives the universal quotient maps, their characteristic-zero point criterion,
 change of the bounded interval and finite extension killing the inertia type, and the
@@ -3074,7 +3074,7 @@ PadicHodgeTheory §§3.4–3.5; AG2.P: finite-coefficient periods and comparison
 
 (Sources: Hevesi, Corollary 4.25, p.67; Theorem 4.27, p.69, with proof, p.71; Lemma 4.28,
 pp.69–70; Remark 4.29, p.72. AHTW, Lemma 5.4.12 and the following paragraph, p.97; Theorem
-5.4.13(1)–(4), pp.97–98; proof of Lemma 5.4.18, pp.104–107. ACC+, Theorem 2.3.3, pp.935–937.)
+5.4.13(1)–(4), pp.98–99; proof of Lemma 5.4.18, pp.104–107. ACC+, Theorem 2.3.3, pp.935–937.)
 
 ### Bounded boundary comparison and degree shifting
 
@@ -3152,7 +3152,7 @@ For `n=1` the target is unconditional and does not use this chain. A regular alg
 
 *Needs:* AG2.0: good-place attachment; AG2.0: Hodge multiset; AG2.0: the `l`-adic character of an algebraic Hecke character; AG2.P: finite-coefficient periods and comparison; AutomorphicGaloisRepresentationsPartII AG2.4; AG2.4: HLTT existence; AG2.6: global stable period quotients; AG2.6: P-ordinary arithmetic block comparison; AG2.6: bounded boundary comparison and degree shifting; AG2.6: full polarized local–global compatibility at `ℓ`; AG2.6: polarized coefficient-prime domination.
 
-(Sources: AHTW, Theorem 1.2.1, p.5; §1.2.3–1.2.5; Theorem 5.2.9; Theorem 5.4.13, pp.97–98, and Lemma 5.4.18 with its proof, pp.104–107; ACC+, Theorem 2.3.3(c), pp.935–937; for `n=1`, BLGGT §A.2, pp.86–87, and Conrad-lift, Lemma 4.1, pp.11–12, and Proposition B.4, p.35.)
+(Sources: AHTW, Theorem 1.2.1, p.5; §1.2.3–1.2.5; Theorem 5.2.9; Theorem 5.4.13, pp.98–99, and Lemma 5.4.18 with its proof, pp.104–107; ACC+, Theorem 2.3.3(c), pp.935–937; for `n=1`, BLGGT §A.2, pp.86–87, and Conrad-lift, Lemma 4.1, pp.11–12, and Proposition B.4, p.35.)
 
 **Checks.**
 
