@@ -37,9 +37,8 @@ The following objects and results are supplied elsewhere and enter only as prere
   classes and the class map of a central extension, universal coefficients, reduced Schur
   multipliers and covers, conjugacy-equivariant markings, the universal marked extension and its
   fiber-product model, the class degree map, compatible covers of coprime semidirect products,
-  unit-power corrections and their set action, and cyclotomic twists. Its IG.4 supplies coprime
-  complement conjugacy. The exact contracts below fix the interfaces consumed here; none of
-  these constructions is a target of this roadmap.
+  unit-power corrections and their set action, and cyclotomic twists. The exact contracts below
+  fix the interfaces consumed here; none of these constructions is a target of this roadmap.
 - **RepresentationTheory/InductionRestriction, Layer 7** supplies representation groups of finite
   groups and projective-representation theory. IG.3.4 supplies the oriented comparison between
   the kernel of a Schur cover and `H₂(G, ℤ)`. Induction and Mackey theory themselves are not used.
