@@ -316,7 +316,7 @@ This stage is independent of Stages 2--8.
    Account explicitly for native `FundamentalGroup.mul_def`, whose multiplication is reversed
    path composition. This construction uses native paths and groupoid maps independently of
    covers, manifold structures and the later CW stages. The accompanying
-   [TopologicalGroupFundamentalGroup.lean](TopologicalGroupFundamentalGroup.lean) gives the
+   `TopologicalGroupFundamentalGroup` section of [Suggested.lean](Suggested.lean) gives the
    native construction and comparison laws.
 
 The proof spine is Brown, *Topology and Groupoids*, Chapters 6--7: subdivision gives generation,

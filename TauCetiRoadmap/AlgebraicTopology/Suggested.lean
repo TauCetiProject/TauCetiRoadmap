@@ -22,6 +22,9 @@ import TauCeti.Topology.Homotopy.HomotopyGroup.Product
 import TauCeti.Topology.Homotopy.Extension.CWComplex
 import TauCeti.Topology.Homotopy.Extension.DeformationRetract
 import TauCeti.Topology.Homotopy.Extension.MappingCylinder
+import TauCeti.AlgebraicTopology.Singular.Empty
+import TauCeti.AlgebraicTopology.Singular.Twisted.ConstantNaturality
+import TauCetiRoadmap.DifferentialGeometry.Suggested
 
 /-!
 # Algebraic topology of spaces and manifolds: target signatures
@@ -2881,5 +2884,1829 @@ theorem lsCupLength_add_one_le_categoryCount (X : TopCat.{u}) [Nonempty X]
     (R : Type u) [CommRing R] :
     lsCupLength X R + 1 ≤ lsCategoryCount X Set.univ := by
   sorry
+
+end TauCetiRoadmap.AlgebraicTopology
+
+namespace TauCetiRoadmap.AlgebraicTopology
+
+/-! ## Orientation comparison, compact classes, boundary carriers and topological groups
+
+The sections below prototype the AT 6.3 orientation comparison consumed by DG 9.3, the integer
+laws for compactly supported orientation classes, the general-model and boundary carriers, and
+the fundamental group of a topological group. Each section keeps its own namespace, so the
+declaration names cited in `README.md` are unchanged. -/
+
+noncomputable section
+universe u v w
+open CategoryTheory
+open scoped ContDiff Manifold
+open TauCetiRoadmap.DifferentialGeometry
+
+section OrientationComparison
+
+/-!
+AT 6.3 orientation comparison consumed by DG 9.3. The point class below is the image of the
+actual AT ordered-simplex identity class. The oriented chart-overlap formula is derived from an
+unsigned local-homology chart-change target; the local-section proof uses the chart-localization
+results below. No class-valued choice is an input.
+-/
+
+namespace OrientationComparison
+
+abbrev Model (m : ℕ) := modelWithCornersSelf ℝ (EuclideanSpace ℝ (Fin m))
+abbrev IntegralSystem (M : Type) [TopologicalSpace M] :=
+  (TauCeti.LocalCoefficientSystem.constantFunctor (TopCat.of M)).obj (ModuleCat.of ℤ ℤ)
+abbrev LocalHomology (m : ℕ) (M : Type) [TopologicalSpace M]
+    [ChartedSpace (EuclideanSpace ℝ (Fin m)) M] [IsManifold (Model m) ∞ M]
+    (x : M) := twistedRelativeHomology ℤ (puncturedPair (TopCat.of M) x)
+      (IntegralSystem M) m
+
+noncomputable def orderedVertex (m : ℕ) (j : Fin (m + 1)) : EuclideanSpace ℝ (Fin m) :=
+  Fin.cases (-∑ i : Fin m, EuclideanSpace.basisFun (Fin m) ℝ i)
+    (fun i : Fin m => EuclideanSpace.basisFun (Fin m) ℝ i) j
+noncomputable def orderedVector (m : ℕ)
+    (t : Convexity.StdSimplex ℝ (Fin (m + 1))) : EuclideanSpace ℝ (Fin m) :=
+  t.weights.sum (fun j a => a • orderedVertex m j)
+def orderedEdgeMatrix (m : ℕ) : Matrix (Fin m) (Fin m) ℝ :=
+  fun i j => if i = j then 2 else 1
+theorem orderedEdgeMatrix_det (m : ℕ) : (orderedEdgeMatrix m).det = (m + 1 : ℝ) := by
+  sorry
+theorem orderedVector_coordinates (m : ℕ) (x : fullSimplex m) (i : Fin m) :
+    (orderedVector m (fullSimplexEquivStdSimplex m x)) i =
+      (orderedVertex m ⟨0, Nat.zero_lt_succ m⟩) i +
+        ∑ j : Fin m, orderedEdgeMatrix m i j * (x : EuclideanSpace ℝ (Fin m)) j := by
+  sorry
+
+/-- A concrete simplex based at an arbitrary chart anchor `a` and a point `y` in that chart.
+Its relative-pair map lands in the punctured fibre at `y`; the chart transition law below compares
+classes in this one fixed fibre. -/
+structure ChartSimplexAt (m : ℕ) (M : Type) [TopologicalSpace M] [T2Space M]
+    [SecondCountableTopology M] [ChartedSpace (EuclideanSpace ℝ (Fin m)) M]
+    [IsManifold (Model m) ∞ M] [BoundarylessManifold (Model m) M]
+    (a y : M) (hy : y ∈ (chartAt (EuclideanSpace ℝ (Fin m)) a).source) where
+  radius : ℝ
+  radius_pos : 0 < radius
+  chartTarget : ∀ t : Convexity.StdSimplex ℝ (Fin (m + 1)),
+    extChartAt (Model m) a y + radius • orderedVector m t ∈
+      (chartAt (EuclideanSpace ℝ (Fin m)) a).target
+  map : (coordinateSimplexPair m).fst ⟶ TopCat.of M
+  map_formula : ∀ t : ULift (Convexity.StdSimplex ℝ (Fin (m + 1))),
+    map t = (chartAt (EuclideanSpace ℝ (Fin m)) a).symm
+      (extChartAt (Model m) a y + radius • orderedVector m t.down)
+  boundary_avoids_point : ∀ t : (coordinateSimplexPair m).snd, map t.1 ≠ y
+
+abbrev ChartSimplex (m : ℕ) (M : Type) [TopologicalSpace M] [T2Space M]
+    [SecondCountableTopology M] [ChartedSpace (EuclideanSpace ℝ (Fin m)) M]
+    [IsManifold (Model m) ∞ M] [BoundarylessManifold (Model m) M] (x : M) :=
+  ChartSimplexAt m M x x (mem_chart_source (EuclideanSpace ℝ (Fin m)) x)
+
+theorem chartSimplex_exists (m : ℕ) (M : Type) [TopologicalSpace M] [T2Space M]
+    [SecondCountableTopology M] [ChartedSpace (EuclideanSpace ℝ (Fin m)) M]
+    [IsManifold (Model m) ∞ M] [BoundarylessManifold (Model m) M]
+    (a y : M) (hy : y ∈ (chartAt (EuclideanSpace ℝ (Fin m)) a).source) :
+    Nonempty (ChartSimplexAt m M a y hy) := by
+  sorry
+noncomputable def chartSimplexPairMapAt (m : ℕ) (M : Type) [TopologicalSpace M] [T2Space M]
+    [SecondCountableTopology M] [ChartedSpace (EuclideanSpace ℝ (Fin m)) M]
+    [IsManifold (Model m) ∞ M] [BoundarylessManifold (Model m) M]
+    (a y : M) (hy : y ∈ (chartAt (EuclideanSpace ℝ (Fin m)) a).source)
+    (w : ChartSimplexAt m M a y hy) : coordinateSimplexPair m ⟶ puncturedPair (TopCat.of M) y :=
+  TopPair.ofSubsetMap w.map (by
+    intro t ht
+    change w.map t ≠ y
+    exact w.boundary_avoids_point ⟨t, ht⟩)
+
+/-- The chart class is the image of AT's ordered-simplex identity class in the local-homology
+fibre over the displayed point. -/
+noncomputable def orderedChartImageAt (m : ℕ) (M : Type) [TopologicalSpace M] [T2Space M]
+    [SecondCountableTopology M] [ChartedSpace (EuclideanSpace ℝ (Fin m)) M]
+    [IsManifold (Model m) ∞ M] [BoundarylessManifold (Model m) M]
+    (a y : M) (hy : y ∈ (chartAt (EuclideanSpace ℝ (Fin m)) a).source)
+    (w : ChartSimplexAt m M a y hy) : LocalHomology m M y := by
+  let P := puncturedPair (TopCat.of M) y
+  let sourceClass := (P.twistedHomologyConstantIso (ModuleCat.of ℤ (ULift.{0} ℤ)) m).inv
+    ((TopPair.singularHomologyMap (C := ModuleCat.{0} ℤ)
+      (chartSimplexPairMapAt m M a y hy w) (ModuleCat.of ℤ (ULift.{0} ℤ)) m).hom
+        (coordinateSimplexIdentityClass.{0} m))
+  exact (P.twistedHomologyCoefficientMap
+    ((TauCeti.LocalCoefficientSystem.constantFunctor P.fst).map
+      (ModuleCat.ofHom ULift.moduleEquiv.toLinearMap)) m).hom sourceClass
+
+theorem chartSimplexWitness_exists (m : ℕ) (M : Type) [TopologicalSpace M] [T2Space M]
+    [SecondCountableTopology M] [ChartedSpace (EuclideanSpace ℝ (Fin m)) M]
+    [IsManifold (Model m) ∞ M] [BoundarylessManifold (Model m) M] (x : M) :
+    Nonempty (ChartSimplex m M x) :=
+  chartSimplex_exists m M x x (mem_chart_source (EuclideanSpace ℝ (Fin m)) x)
+
+noncomputable def chartSimplexPairMap (m : ℕ) (M : Type) [TopologicalSpace M] [T2Space M]
+    [SecondCountableTopology M] [ChartedSpace (EuclideanSpace ℝ (Fin m)) M]
+    [IsManifold (Model m) ∞ M] [BoundarylessManifold (Model m) M] (x : M)
+    (w : ChartSimplex m M x) : coordinateSimplexPair m ⟶ puncturedPair (TopCat.of M) x :=
+  chartSimplexPairMapAt m M x x (mem_chart_source (EuclideanSpace ℝ (Fin m)) x) w
+
+abbrev orderedChartImage (m : ℕ) (M : Type) [TopologicalSpace M] [T2Space M]
+    [SecondCountableTopology M] [ChartedSpace (EuclideanSpace ℝ (Fin m)) M]
+    [IsManifold (Model m) ∞ M] [BoundarylessManifold (Model m) M] (x : M)
+    (w : ChartSimplex m M x) : LocalHomology m M x :=
+  orderedChartImageAt m M x x (mem_chart_source (EuclideanSpace ℝ (Fin m)) x) w
+
+noncomputable def modelOrientationSign (m : ℕ) {M : Type} [TopologicalSpace M]
+    [ChartedSpace (EuclideanSpace ℝ (Fin m)) M]
+    (l : OrientationLift (Model m) M (Fin m)) : ℤ := by
+  classical
+  exact if l.modelOrientation = (EuclideanSpace.basisFun (Fin m) ℝ).toBasis.orientation
+    then 1 else -1
+
+/-- Flipping the model orientation flips the scalar which compares it with the standard basis. -/
+theorem modelOrientationSign_flip (m : ℕ) {M : Type} [TopologicalSpace M]
+    [ChartedSpace (EuclideanSpace ℝ (Fin m)) M]
+    (l : OrientationLift (Model m) M (Fin m)) :
+    modelOrientationSign m { l with modelOrientation := -l.modelOrientation } =
+      -modelOrientationSign m l := by
+  classical
+  let b := (EuclideanSpace.basisFun (Fin m) ℝ).toBasis.orientation
+  have hflip : -b ≠ b := (Module.Ray.ne_neg_self b).symm
+  by_cases hb : l.modelOrientation = b
+  · simp [modelOrientationSign, b, hb, hflip]
+  · have hneg : l.modelOrientation = -b :=
+      (Module.Basis.orientation_ne_iff_eq_neg (EuclideanSpace.basisFun (Fin m) ℝ).toBasis
+        l.modelOrientation).mp hb
+    unfold modelOrientationSign
+    rw [hneg]
+    rw [show - -b = b from neg_neg b]
+    simp [b, hflip]
+
+/-- Signed coefficient at any point of a chart source, with the point distinct from the
+chart anchor in the interface. Transition Jacobians are used only to compare two charts. -/
+noncomputable def rawChartCoefficient_at (m : ℕ) (M : Type) [TopologicalSpace M]
+    [ChartedSpace (EuclideanSpace ℝ (Fin m)) M]
+    (l : OrientationLift (Model m) M (Fin m)) (a y : M)
+    (hy : y ∈ (chartAt (EuclideanSpace ℝ (Fin m)) a).source) : ℤ :=
+  modelOrientationSign m l * (l.sign a ⟨y, hy⟩ : ℤ)
+
+/-- The diagonal coefficient used in the selected point generator is this same chart value. -/
+theorem rawChartCoefficient_at_self (m : ℕ) (M : Type) [TopologicalSpace M]
+    [ChartedSpace (EuclideanSpace ℝ (Fin m)) M]
+    (l : OrientationLift (Model m) M (Fin m)) (x : M) :
+    rawChartCoefficient_at m M l x x (mem_chart_source (EuclideanSpace ℝ (Fin m)) x) =
+      modelOrientationSign m l *
+        (l.sign x ⟨x, mem_chart_source (EuclideanSpace ℝ (Fin m)) x⟩ : ℤ) := rfl
+
+/-- Simultaneously changing the model orientation and the chart sign leaves the raw coefficient
+unchanged at every point of the chart source, not only at the chart anchor.
+-/
+theorem orientationCoefficient_raw_relation_at (m : ℕ) (M : Type)
+    [TopologicalSpace M] [ChartedSpace (EuclideanSpace ℝ (Fin m)) M]
+    (l l' : OrientationLift (Model m) M (Fin m)) (a y : M)
+    (hy : y ∈ (chartAt (EuclideanSpace ℝ (Fin m)) a).source)
+    (h : l' = l ∨
+      (l'.modelOrientation = -l.modelOrientation ∧
+        l'.sign = fun a y ↦ -l.sign a y)) :
+    rawChartCoefficient_at m M l' a y hy = rawChartCoefficient_at m M l a y hy := by
+  rcases h with h | ⟨hmodel, hsign⟩
+  · simp [rawChartCoefficient_at, h]
+  · have hmodelSign : modelOrientationSign m l' = -modelOrientationSign m l := by
+      let b := (EuclideanSpace.basisFun (Fin m) ℝ).toBasis.orientation
+      have hflip : -b ≠ b := (Module.Ray.ne_neg_self b).symm
+      by_cases hb : l.modelOrientation = b
+      · simp [modelOrientationSign, b, hmodel, hb, hflip]
+      · have hneg : l.modelOrientation = -b :=
+          (Module.Basis.orientation_ne_iff_eq_neg (EuclideanSpace.basisFun (Fin m) ℝ).toBasis
+            l.modelOrientation).mp hb
+        unfold modelOrientationSign
+        rw [hmodel, hneg]
+        rw [show - -b = b from neg_neg b]
+        simp [b, hflip]
+    have hchartSign :
+        (l'.sign a ⟨y, hy⟩ : ℤ) = -(l.sign a ⟨y, hy⟩ : ℤ) := by
+      rw [hsign]
+      simp
+    simp only [rawChartCoefficient_at]
+    rw [hmodelSign, hchartSign]
+    ring
+
+
+theorem orientationCoefficient_raw_relation (m : ℕ) (M : Type)
+    [TopologicalSpace M] [T2Space M] [SecondCountableTopology M]
+    [ChartedSpace (EuclideanSpace ℝ (Fin m)) M] [IsManifold (Model m) ∞ M]
+    [BoundarylessManifold (Model m) M]
+    (l l' : OrientationLift (Model m) M (Fin m)) (x : M)
+    (h : l' = l ∨
+      (l'.modelOrientation = -l.modelOrientation ∧ l'.sign = fun a y ↦ -l.sign a y)) :
+    modelOrientationSign m l' *
+        (l'.sign x ⟨x, mem_chart_source (EuclideanSpace ℝ (Fin m)) x⟩ : ℤ) =
+      modelOrientationSign m l *
+        (l.sign x ⟨x, mem_chart_source (EuclideanSpace ℝ (Fin m)) x⟩ : ℤ) := by
+  rcases h with h | ⟨hmodel, hsign⟩
+  · simp [h]
+  · have hmodelSign : modelOrientationSign m l' = -modelOrientationSign m l := by
+      have h1 : modelOrientationSign m l' =
+          modelOrientationSign m { l with modelOrientation := -l.modelOrientation } := by
+        unfold modelOrientationSign
+        rw [hmodel]
+      exact h1.trans (modelOrientationSign_flip m l)
+    have hchartSign :
+        (l'.sign x ⟨x, mem_chart_source (EuclideanSpace ℝ (Fin m)) x⟩ : ℤ) =
+          - (l.sign x ⟨x, mem_chart_source (EuclideanSpace ℝ (Fin m)) x⟩ : ℤ) := by
+      rw [hsign]
+      simp
+    rw [hmodelSign, hchartSign]
+    ring
+
+/-- Raw coefficient invariance under the orientation-lift relation. This is proved before
+quotient descent and does not depend on any formula for the descended point generator. -/
+theorem orientationCoefficient_lift_independent (m : ℕ) (M : Type)
+    [TopologicalSpace M] [T2Space M] [SecondCountableTopology M]
+    [ChartedSpace (EuclideanSpace ℝ (Fin m)) M] [IsManifold (Model m) ∞ M]
+    [BoundarylessManifold (Model m) M]
+    (l l' : OrientationLift (Model m) M (Fin m)) (x : M)
+    (h : Quotient.mk (OrientationLift.setoid (I := Model m) (M := M) (ι := Fin m)) l =
+      Quotient.mk (OrientationLift.setoid (I := Model m) (M := M) (ι := Fin m)) l') :
+    modelOrientationSign m l' *
+        (l'.sign x ⟨x, mem_chart_source (EuclideanSpace ℝ (Fin m)) x⟩ : ℤ) =
+      modelOrientationSign m l *
+        (l.sign x ⟨x, mem_chart_source (EuclideanSpace ℝ (Fin m)) x⟩ : ℤ) := by
+  exact orientationCoefficient_raw_relation m M l l' x (Quotient.exact h)
+
+/-- Fixed-witness chart classes respect the raw lift relation, before choosing a quotient
+representative. Witness independence remains the separate geometric target below. -/
+theorem rawChartGenerator_lift_independent (m : ℕ) (M : Type)
+    [TopologicalSpace M] [T2Space M] [SecondCountableTopology M]
+    [ChartedSpace (EuclideanSpace ℝ (Fin m)) M] [IsManifold (Model m) ∞ M]
+    [BoundarylessManifold (Model m) M]
+    (l l' : OrientationLift (Model m) M (Fin m)) (x : M)
+    (w : ChartSimplex m M x)
+    (h : Quotient.mk (OrientationLift.setoid (I := Model m) (M := M) (ι := Fin m)) l =
+      Quotient.mk (OrientationLift.setoid (I := Model m) (M := M) (ι := Fin m)) l') :
+    (modelOrientationSign m l' *
+        (l'.sign x ⟨x, mem_chart_source (EuclideanSpace ℝ (Fin m)) x⟩ : ℤ)) •
+        orderedChartImage m M x w =
+      (modelOrientationSign m l *
+        (l.sign x ⟨x, mem_chart_source (EuclideanSpace ℝ (Fin m)) x⟩ : ℤ)) •
+        orderedChartImage m M x w := by
+  exact congrArg (fun a : ℤ => a • orderedChartImage m M x w)
+    (orientationCoefficient_lift_independent m M l l' x h)
+
+/-- The orientation-lift quotient and the chart Jacobian both enter the coefficient. -/
+noncomputable def pointGenerator (m : ℕ) (M : Type) [TopologicalSpace M] [T2Space M]
+    [SecondCountableTopology M] [ChartedSpace (EuclideanSpace ℝ (Fin m)) M]
+    [IsManifold (Model m) ∞ M] [BoundarylessManifold (Model m) M]
+    (o : Manifold.Orientation (Model m) M (Fin m)) (x : M) : LocalHomology m M x := by
+  let l := Quotient.out o
+  let w := Classical.choice (chartSimplex_exists m M x x
+    (mem_chart_source (EuclideanSpace ℝ (Fin m)) x))
+  exact (modelOrientationSign m l *
+    (l.sign x ⟨x, mem_chart_source (EuclideanSpace ℝ (Fin m)) x⟩ : ℤ)) •
+      orderedChartImage m M x w
+
+
+/-- Raw representative formula for the chosen quotient representative. `pointGenerator` is
+literally the signed image of AT's ordered-simplex identity class through the chart selected at
+`x`; this formula is definitional and does not follow merely from quotient congruence. -/
+theorem pointGenerator_raw_representative (m : ℕ) (M : Type) [TopologicalSpace M]
+    [T2Space M] [SecondCountableTopology M]
+    [ChartedSpace (EuclideanSpace ℝ (Fin m)) M] [IsManifold (Model m) ∞ M]
+    [BoundarylessManifold (Model m) M]
+    (o : Manifold.Orientation (Model m) M (Fin m)) (x : M) :
+    pointGenerator m M o x =
+      ((modelOrientationSign m (Quotient.out o) *
+        ((Quotient.out o).sign x
+          ⟨x, mem_chart_source (EuclideanSpace ℝ (Fin m)) x⟩ : ℤ) : ℤ) •
+        orderedChartImage m M x (Classical.choice (chartSimplexWitness_exists m M x))) := rfl
+
+
+/-- The actual raw chart-transition Jacobian law used in the overlap comparison. Its direction
+matches `OrientationLift.sign_mul_sign`: chart `a'` after the inverse of chart `a`, differentiated
+at the coordinate `extChartAt I a y`. Thus the transition determinant is the cocycle that cancels
+the two chart signs; this is not inferred from an informal orientation convention. -/
+theorem chart_transition_determinant_sign (m : ℕ) (M : Type) [TopologicalSpace M]
+    [ChartedSpace (EuclideanSpace ℝ (Fin m)) M] [FiniteDimensional ℝ (EuclideanSpace ℝ (Fin m))]
+    (l : OrientationLift (Model m) M (Fin m)) (a a' y : M)
+    (ha : y ∈ (chartAt (EuclideanSpace ℝ (Fin m)) a).source)
+    (ha' : y ∈ (chartAt (EuclideanSpace ℝ (Fin m)) a').source) :
+    ((l.sign a ⟨y, ha⟩ * l.sign a' ⟨y, ha'⟩ : ℤˣ) : ℤ) =
+      (SignType.sign (LinearMap.det
+        (fderivWithin ℝ (extChartAt (Model m) a' ∘ (extChartAt (Model m) a).symm)
+          (Set.range (Model m)) (extChartAt (Model m) a y) :
+            EuclideanSpace ℝ (Fin m) →ₗ[ℝ] EuclideanSpace ℝ (Fin m))) : ℤ) :=
+  l.sign_mul_sign a a' y ha ha'
+
+/-- Unsigned chart-change law in a single local-homology fibre. No orientation is chosen:
+changing the chart multiplies the ordered-simplex class by the sign of the transition Jacobian. -/
+theorem orderedChartImageAt_chartChange (m : ℕ) (M : Type) [TopologicalSpace M] [T2Space M]
+    [SecondCountableTopology M] [ChartedSpace (EuclideanSpace ℝ (Fin m)) M]
+    [IsManifold (Model m) ∞ M] [BoundarylessManifold (Model m) M]
+    (a a' y : M)
+    (ha : y ∈ (chartAt (EuclideanSpace ℝ (Fin m)) a).source)
+    (ha' : y ∈ (chartAt (EuclideanSpace ℝ (Fin m)) a').source)
+    (w : ChartSimplexAt m M a y ha) (w' : ChartSimplexAt m M a' y ha') :
+    orderedChartImageAt m M a y ha w =
+      (SignType.sign (LinearMap.det
+        (fderivWithin ℝ (extChartAt (Model m) a' ∘ (extChartAt (Model m) a).symm)
+          (Set.range (Model m)) (extChartAt (Model m) a y) :
+            EuclideanSpace ℝ (Fin m) →ₗ[ℝ] EuclideanSpace ℝ (Fin m))) : ℤ) •
+        orderedChartImageAt m M a' y ha' w' := by
+  sorry
+
+/-- The two-anchor overlap law for a chosen orientation is derived from the unsigned law
+and the chart-sign cocycle. The only geometric input is `orderedChartImageAt_chartChange`. -/
+theorem chart_overlap_generator (m : ℕ) (M : Type) [TopologicalSpace M] [T2Space M]
+    [SecondCountableTopology M] [ChartedSpace (EuclideanSpace ℝ (Fin m)) M]
+    [IsManifold (Model m) ∞ M] [BoundarylessManifold (Model m) M]
+    (o : Manifold.Orientation (Model m) M (Fin m)) (a a' y : M)
+    (ha : y ∈ (chartAt (EuclideanSpace ℝ (Fin m)) a).source)
+    (ha' : y ∈ (chartAt (EuclideanSpace ℝ (Fin m)) a').source)
+    (w : ChartSimplexAt m M a y ha) (w' : ChartSimplexAt m M a' y ha') :
+    (modelOrientationSign m (Quotient.out o) *
+      ((Quotient.out o).sign a ⟨y, ha⟩ : ℤ)) • orderedChartImageAt m M a y ha w =
+    (modelOrientationSign m (Quotient.out o) *
+      ((Quotient.out o).sign a' ⟨y, ha'⟩ : ℤ)) • orderedChartImageAt m M a' y ha' w' := by
+  let l := Quotient.out o
+  let u : ℤ := (l.sign a ⟨y, ha⟩ : ℤ)
+  let v : ℤ := (l.sign a' ⟨y, ha'⟩ : ℤ)
+  let d : ℤ := SignType.sign (LinearMap.det
+    (fderivWithin ℝ (extChartAt (Model m) a' ∘ (extChartAt (Model m) a).symm)
+      (Set.range (Model m)) (extChartAt (Model m) a y) :
+        EuclideanSpace ℝ (Fin m) →ₗ[ℝ] EuclideanSpace ℝ (Fin m)))
+  let c : ℤ := modelOrientationSign m l * u
+  let c' : ℤ := modelOrientationSign m l * v
+  have hdet : u * v = d := by
+    simpa [u, v, d, l] using chart_transition_determinant_sign m M l a a' y ha ha'
+  have hu : u * u = 1 := by
+    dsimp [u]
+    rcases Int.units_eq_one_or (l.sign a ⟨y, ha⟩) with h | h <;> simp [h]
+  have hcoef : c * d = c' := by
+    dsimp [c, c']
+    calc
+      (modelOrientationSign m l * u) * d =
+          modelOrientationSign m l * (u * (u * v)) := by rw [hdet]; ring
+      _ = modelOrientationSign m l * v := by
+        rw [show u * (u * v) = (u * u) * v by ring, hu]
+        ring
+  rw [orderedChartImageAt_chartChange m M a a' y ha ha' w w']
+  change c • (d • orderedChartImageAt m M a' y ha' w') =
+    c' • orderedChartImageAt m M a' y ha' w'
+  calc
+    c • (d • orderedChartImageAt m M a' y ha' w') =
+        (c * d) • orderedChartImageAt m M a' y ha' w' := by
+          simpa using (smul_smul c d (orderedChartImageAt m M a' y ha' w'))
+    _ = c' • orderedChartImageAt m M a' y ha' w' := by rw [hcoef]
+
+theorem pointGenerator_chartWitness_independent (m : ℕ) (M : Type)
+    [TopologicalSpace M] [T2Space M] [SecondCountableTopology M]
+    [ChartedSpace (EuclideanSpace ℝ (Fin m)) M] [IsManifold (Model m) ∞ M]
+    [BoundarylessManifold (Model m) M]
+    (l : OrientationLift (Model m) M (Fin m)) (x : M) (w w' : ChartSimplex m M x) :
+    (modelOrientationSign m l *
+      (l.sign x ⟨x, mem_chart_source (EuclideanSpace ℝ (Fin m)) x⟩ : ℤ)) •
+        orderedChartImage m M x w =
+    (modelOrientationSign m l *
+      (l.sign x ⟨x, mem_chart_source (EuclideanSpace ℝ (Fin m)) x⟩ : ℤ)) •
+        orderedChartImage m M x w' := by
+  sorry
+
+theorem pointGenerator_chartFormula (m : ℕ) (M : Type) [TopologicalSpace M] [T2Space M]
+    [SecondCountableTopology M] [ChartedSpace (EuclideanSpace ℝ (Fin m)) M]
+    [IsManifold (Model m) ∞ M] [BoundarylessManifold (Model m) M]
+    (l : OrientationLift (Model m) M (Fin m)) (x : M) (w : ChartSimplex m M x) :
+    pointGenerator m M (Quotient.mk _ l) x =
+      (modelOrientationSign m l *
+        (l.sign x ⟨x, mem_chart_source (EuclideanSpace ℝ (Fin m)) x⟩ : ℤ)) •
+          orderedChartImage m M x w := by
+  let l₀ := Quotient.out (Quotient.mk
+    (OrientationLift.setoid (I := Model m) (M := M) (ι := Fin m)) l)
+  have hout : Quotient.mk
+      (OrientationLift.setoid (I := Model m) (M := M) (ι := Fin m)) l₀ =
+      Quotient.mk _ l := Quotient.out_eq _
+  have hc := orientationCoefficient_lift_independent m M l₀ l x hout
+  change (modelOrientationSign m l₀ *
+      (l₀.sign x ⟨x, mem_chart_source (EuclideanSpace ℝ (Fin m)) x⟩ : ℤ)) •
+      orderedChartImage m M x (Classical.choice (chartSimplexWitness_exists m M x)) = _
+  rw [← hc]
+  exact pointGenerator_chartWitness_independent m M l x
+    (Classical.choice (chartSimplexWitness_exists m M x)) w
+
+/-- The oriented point generator at an arbitrary point equals the signed chart class from
+any anchor chart containing that point and any representative of the orientation quotient. -/
+theorem pointGenerator_eq_rawChartCoefficient_at (m : ℕ) (M : Type)
+    [TopologicalSpace M] [T2Space M] [SecondCountableTopology M]
+    [ChartedSpace (EuclideanSpace ℝ (Fin m)) M] [IsManifold (Model m) ∞ M]
+    [BoundarylessManifold (Model m) M]
+    (o : Manifold.Orientation (Model m) M (Fin m))
+    (l : OrientationLift (Model m) M (Fin m))
+    (hl : Quotient.mk (OrientationLift.setoid (I := Model m) (M := M) (ι := Fin m)) l = o)
+    (a y : M) (hy : y ∈ (chartAt (EuclideanSpace ℝ (Fin m)) a).source)
+    (w : ChartSimplexAt m M a y hy) :
+    pointGenerator m M o y =
+      (rawChartCoefficient_at m M l a y hy : ℤ) • orderedChartImageAt m M a y hy w := by
+  classical
+  let q := Quotient.out o
+  let hq : Quotient.mk (OrientationLift.setoid (I := Model m) (M := M) (ι := Fin m)) q =
+      Quotient.mk _ l := (Quotient.out_eq o).trans hl.symm
+  have hrel := Quotient.exact hq
+  have hrawY := orientationCoefficient_raw_relation_at m M q l y y
+    (mem_chart_source (EuclideanSpace ℝ (Fin m)) y) hrel
+  have hrawA := orientationCoefficient_raw_relation_at m M q l a y hy hrel
+  let wy := Classical.choice (chartSimplexWitness_exists m M y)
+  have hoverlap := chart_overlap_generator m M o y a y
+    (mem_chart_source (EuclideanSpace ℝ (Fin m)) y) hy wy w
+  have hformula := pointGenerator_chartFormula m M q y wy
+  have hout := Quotient.out_eq o
+  calc
+    pointGenerator m M o y = pointGenerator m M (Quotient.mk _ q) y := by
+      exact congrArg (fun z => pointGenerator m M z y) hout.symm
+    _ = (rawChartCoefficient_at m M q y y
+        (mem_chart_source (EuclideanSpace ℝ (Fin m)) y) : ℤ) •
+          orderedChartImageAt m M y y (mem_chart_source (EuclideanSpace ℝ (Fin m)) y) wy := by
+      simpa [rawChartCoefficient_at, q] using hformula
+    _ = (rawChartCoefficient_at m M l y y
+        (mem_chart_source (EuclideanSpace ℝ (Fin m)) y) : ℤ) •
+          orderedChartImageAt m M y y (mem_chart_source (EuclideanSpace ℝ (Fin m)) y) wy := by
+      rw [hrawY]
+    _ = (rawChartCoefficient_at m M l a y hy : ℤ) • orderedChartImageAt m M a y hy w := by
+      have hoverlapRaw :
+          rawChartCoefficient_at m M q y y
+              (mem_chart_source (EuclideanSpace ℝ (Fin m)) y) •
+                orderedChartImageAt m M y y
+                  (mem_chart_source (EuclideanSpace ℝ (Fin m)) y) wy =
+          rawChartCoefficient_at m M q a y hy • orderedChartImageAt m M a y hy w := by
+        simpa [rawChartCoefficient_at] using hoverlap
+      rw [← hrawY, ← hrawA] at hoverlapRaw
+      exact hoverlapRaw
+
+/-- Zero-dimensional signed point normalization in an arbitrary chart: the local generator is
+exactly the chart's raw orientation coefficient times the image of its coordinate 0-simplex.
+This records the sign and the local point class; it does not identify `H₀` with a global finite
+sum of point classes. -/
+theorem pointGenerator_zero (M : Type) [TopologicalSpace M] [T2Space M]
+    [SecondCountableTopology M] [ChartedSpace (EuclideanSpace ℝ (Fin 0)) M]
+    [IsManifold (Model 0) ∞ M] [BoundarylessManifold (Model 0) M]
+    (o : Manifold.Orientation (Model 0) M (Fin 0)) (a y : M)
+    (hy : y ∈ (chartAt (EuclideanSpace ℝ (Fin 0)) a).source)
+    (w : ChartSimplexAt 0 M a y hy) :
+    pointGenerator 0 M o y =
+      (rawChartCoefficient_at 0 M (Quotient.out o) a y hy : ℤ) •
+        orderedChartImageAt 0 M a y hy w := by
+  exact pointGenerator_eq_rawChartCoefficient_at 0 M o (Quotient.out o)
+    (Quotient.out_eq o) a y hy w
+
+/-- The dimension-zero orientation sign compares the orientation at a point with the orientation
+of the canonical empty basis of `EuclideanSpace ℝ (Fin 0)`. This is the shared meaning of the
+`ε_o(x)` appearing in the DG 9.3 zero-dimensional formula. -/
+noncomputable def orientationSignAt (M : Type) [TopologicalSpace M]
+    [ChartedSpace (EuclideanSpace ℝ (Fin 0)) M]
+    (o : Manifold.Orientation (Model 0) M (Fin 0)) (x : M) : ℤˣ := by
+  classical
+  exact if orientationAt o x = (EuclideanSpace.basisFun (Fin 0) ℝ).toBasis.orientation
+    then 1 else -1
+
+/-- For the chart centered at `x`, the raw chart coefficient in dimension zero is precisely the
+orientation relative to the empty ordered basis. -/
+theorem orientationSignAt_eq_rawChartCoefficient (M : Type) [TopologicalSpace M]
+    [ChartedSpace (EuclideanSpace ℝ (Fin 0)) M] [IsManifold (Model 0) ∞ M]
+    [BoundarylessManifold (Model 0) M]
+    (o : Manifold.Orientation (Model 0) M (Fin 0)) (x : M) :
+    (orientationSignAt M o x : ℤ) =
+      rawChartCoefficient_at 0 M (Quotient.out o) x x
+        (mem_chart_source (EuclideanSpace ℝ (Fin 0)) x) := by
+  sorry
+
+/-- The ordered coordinate 0-simplex is the unsigned positive point class. Its value is
+independent of the simplex witness (the coordinate domain is the singleton `EuclideanSpace ℝ
+(Fin 0)`). -/
+theorem orderedChartImageAt_zero_witness_independent (M : Type)
+    [TopologicalSpace M] [T2Space M] [SecondCountableTopology M]
+    [ChartedSpace (EuclideanSpace ℝ (Fin 0)) M] [IsManifold (Model 0) ∞ M]
+    [BoundarylessManifold (Model 0) M]
+    (x : M) (w w' : ChartSimplex 0 M x) :
+    orderedChartImage 0 M x w = orderedChartImage 0 M x w' := by
+  sorry
+
+/-- The selected local generator is the empty-basis sign times the positive coordinate point
+class. This is the dimension-zero specialization consumed by integration. -/
+theorem pointGenerator_zero_orientationAt (M : Type) [TopologicalSpace M] [T2Space M]
+    [SecondCountableTopology M] [ChartedSpace (EuclideanSpace ℝ (Fin 0)) M]
+    [IsManifold (Model 0) ∞ M] [BoundarylessManifold (Model 0) M]
+    (o : Manifold.Orientation (Model 0) M (Fin 0)) (x : M) (w : ChartSimplex 0 M x) :
+    pointGenerator 0 M o x =
+      (orientationSignAt M o x : ℤ) • orderedChartImage 0 M x w := by
+  sorry
+
+/-- Congruence for already equal orientation quotient classes; raw invariance is proved above. -/
+theorem pointGenerator_quotient_congr (m : ℕ) (M : Type)
+    [TopologicalSpace M] [T2Space M] [SecondCountableTopology M]
+    [ChartedSpace (EuclideanSpace ℝ (Fin m)) M] [IsManifold (Model m) ∞ M]
+    [BoundarylessManifold (Model m) M]
+    (l l' : OrientationLift (Model m) M (Fin m)) (x : M)
+    (h : Quotient.mk (OrientationLift.setoid (I := Model m) (M := M) (ι := Fin m)) l =
+      Quotient.mk (OrientationLift.setoid (I := Model m) (M := M) (ι := Fin m)) l') :
+    pointGenerator m M (Quotient.mk _ l) x = pointGenerator m M (Quotient.mk _ l') x := by
+  exact congrArg (fun o => pointGenerator m M o x) h
+
+/-- Reversing the chosen tangent orientation negates its normalized integral point generator.
+This is the scalar sign calculation on one chart witness, before any integration comparison. -/
+theorem pointGenerator_neg (m : ℕ) (M : Type) [TopologicalSpace M]
+    [T2Space M] [SecondCountableTopology M]
+    [ChartedSpace (EuclideanSpace ℝ (Fin m)) M] [IsManifold (Model m) ∞ M]
+    [BoundarylessManifold (Model m) M]
+    (o : Manifold.Orientation (Model m) M (Fin m)) (x : M) :
+    pointGenerator m M o.neg x = -pointGenerator m M o x := by
+  classical
+  let l := Quotient.out o
+  let w := Classical.choice (chartSimplexWitness_exists m M x)
+  have ho : Quotient.mk (OrientationLift.setoid (I := Model m) (M := M) (ι := Fin m)) l = o :=
+    Quotient.out_eq o
+  have hneg : o.neg = Quotient.mk _ { l with modelOrientation := -l.modelOrientation } := by
+    rw [← ho]
+    rfl
+  have hout : Quotient.mk
+      (OrientationLift.setoid (I := Model m) (M := M) (ι := Fin m))
+      (Quotient.out o.neg) =
+      Quotient.mk _ { l with modelOrientation := -l.modelOrientation } :=
+    (Quotient.out_eq o.neg).trans hneg
+  have hc := orientationCoefficient_lift_independent m M (Quotient.out o.neg)
+    { l with modelOrientation := -l.modelOrientation } x hout
+  change (modelOrientationSign m (Quotient.out o.neg) *
+      ((Quotient.out o.neg).sign x
+        ⟨x, mem_chart_source (EuclideanSpace ℝ (Fin m)) x⟩ : ℤ)) •
+      orderedChartImage m M x w =
+    -((modelOrientationSign m l *
+      (l.sign x ⟨x, mem_chart_source (EuclideanSpace ℝ (Fin m)) x⟩ : ℤ)) •
+      orderedChartImage m M x w)
+  rw [← hc, modelOrientationSign_flip]
+  simp only [neg_mul, neg_zsmul]
+
+/-! AT-owned chart-local support constructions. Kept in this module so the selected section
+can consume the actual signed local-image theorem without an import cycle. -/
+abbrev StdSimplexInterior (m : ℕ) :=
+  {t : Convexity.StdSimplex ℝ (Fin (m + 1)) | ∀ i, 0 < t.weights i}
+
+def chartSimplexInteriorImage (m : ℕ) (M : Type) [TopologicalSpace M] [T2Space M]
+    [SecondCountableTopology M] [ChartedSpace (EuclideanSpace ℝ (Fin m)) M]
+    [IsManifold (Model m) ∞ M] [BoundarylessManifold (Model m) M]
+    (a y : M) (hy : y ∈ (chartAt (EuclideanSpace ℝ (Fin m)) a).source)
+    (w : ChartSimplexAt m M a y hy) : Set M :=
+  Set.range fun t : StdSimplexInterior m => w.map (ULift.up t.1)
+
+theorem chartSimplexAt_map_injective (m : ℕ) (M : Type) [TopologicalSpace M] [T2Space M]
+    [SecondCountableTopology M] [ChartedSpace (EuclideanSpace ℝ (Fin m)) M]
+    [IsManifold (Model m) ∞ M] [BoundarylessManifold (Model m) M]
+    (a y : M) (hy : y ∈ (chartAt (EuclideanSpace ℝ (Fin m)) a).source)
+    (w : ChartSimplexAt m M a y hy) : Function.Injective w.map := by
+  sorry
+
+theorem chartSimplexAt_boundary_disjoint_interiorImage (m : ℕ) (M : Type)
+    [TopologicalSpace M] [T2Space M] [SecondCountableTopology M]
+    [ChartedSpace (EuclideanSpace ℝ (Fin m)) M] [IsManifold (Model m) ∞ M]
+    [BoundarylessManifold (Model m) M]
+    (a y : M) (hy : y ∈ (chartAt (EuclideanSpace ℝ (Fin m)) a).source)
+    (w : ChartSimplexAt m M a y hy) :
+    Disjoint (Set.range fun t : (coordinateSimplexPair m).snd => w.map t.1)
+      (chartSimplexInteriorImage m M a y hy w) := by
+  sorry
+
+theorem chartSimplexInteriorImage_subset_chartSource (m : ℕ) (M : Type)
+    [TopologicalSpace M] [T2Space M] [SecondCountableTopology M]
+    [ChartedSpace (EuclideanSpace ℝ (Fin m)) M] [IsManifold (Model m) ∞ M]
+    [BoundarylessManifold (Model m) M]
+    (a y : M) (hy : y ∈ (chartAt (EuclideanSpace ℝ (Fin m)) a).source)
+    (w : ChartSimplexAt m M a y hy) :
+    chartSimplexInteriorImage m M a y hy w ⊆
+      (chartAt (EuclideanSpace ℝ (Fin m)) a).source := by
+  sorry
+
+/-- Continuous chart signs are constant on a connected subset of one chart source. This is the
+local-constancy step: the codomain `ℤˣ` has its discrete topology and the source sign is the
+`OrientationLift.continuous_sign` field.
+-/
+theorem chartSign_constant_on_connected (m : ℕ) (M : Type)
+    [TopologicalSpace M] [ChartedSpace (EuclideanSpace ℝ (Fin m)) M]
+    (l : OrientationLift (Model m) M (Fin m)) (a : M) (S : Set M)
+    (hS : IsConnected S)
+    (hsource : S ⊆ (chartAt (EuclideanSpace ℝ (Fin m)) a).source) :
+    ∀ x (hx : x ∈ S) y (hy : y ∈ S),
+      l.sign a ⟨x, hsource hx⟩ = l.sign a ⟨y, hsource hy⟩ := by
+  sorry
+
+theorem chartSimplexAt_anchor_mem_interiorImage (m : ℕ) (M : Type)
+    [TopologicalSpace M] [T2Space M] [SecondCountableTopology M]
+    [ChartedSpace (EuclideanSpace ℝ (Fin m)) M] [IsManifold (Model m) ∞ M]
+    [BoundarylessManifold (Model m) M]
+    (a y : M) (hy : y ∈ (chartAt (EuclideanSpace ℝ (Fin m)) a).source)
+    (w : ChartSimplexAt m M a y hy) :
+    y ∈ chartSimplexInteriorImage m M a y hy w := by
+  sorry
+
+/-- The pair map is induced by the actual chart simplex.  The support hypothesis places the
+support in the positive-weight simplex image; injectivity separates it from every boundary face.
+-/
+noncomputable def chartSimplexSupportPairMap (m : ℕ) (M : Type) [TopologicalSpace M]
+    [T2Space M] [SecondCountableTopology M]
+    [ChartedSpace (EuclideanSpace ℝ (Fin m)) M] [IsManifold (Model m) ∞ M]
+    [BoundarylessManifold (Model m) M]
+    (a y : M) (hy : y ∈ (chartAt (EuclideanSpace ℝ (Fin m)) a).source)
+    (w : ChartSimplexAt m M a y hy) (S : Set M)
+    (hS : S ⊆ chartSimplexInteriorImage m M a y hy w) :
+    coordinateSimplexPair m ⟶ TopPair.ofSubset (X := TopCat.of M) Sᶜ := by
+  refine TopPair.ofSubsetMap w.map ?_
+  intro z hz
+  change w.map z ∈ Sᶜ
+  intro hnot
+  have hboundary : w.map z ∈ Set.range fun t : (coordinateSimplexPair m).snd => w.map t.1 :=
+    ⟨⟨z, hz⟩, rfl⟩
+  have hinterior := hS hnot
+  exact (Set.disjoint_left.mp (chartSimplexAt_boundary_disjoint_interiorImage
+    m M a y hy w) hboundary hinterior)
+
+/-- The support class is the image of AT's ordered identity class.  The two coefficient changes
+are explicit: the relative constant-system isomorphism and the constant-functor map induced by
+`ULift.moduleEquiv`.
+-/
+noncomputable def chartSimplexSupportClass (m : ℕ) (M : Type) [TopologicalSpace M]
+    [T2Space M] [SecondCountableTopology M]
+    [ChartedSpace (EuclideanSpace ℝ (Fin m)) M] [IsManifold (Model m) ∞ M]
+    [BoundarylessManifold (Model m) M]
+    (a y : M) (hy : y ∈ (chartAt (EuclideanSpace ℝ (Fin m)) a).source)
+    (w : ChartSimplexAt m M a y hy) (S : Set M)
+    (hS : S ⊆ chartSimplexInteriorImage m M a y hy w) :
+    twistedRelativeHomology ℤ (TopPair.ofSubset (X := TopCat.of M) Sᶜ)
+      (IntegralSystem M) m := by
+  let P := TopPair.ofSubset (X := TopCat.of M) Sᶜ
+  let c := (P.twistedHomologyConstantIso (ModuleCat.of ℤ (ULift.{0} ℤ)) m).inv
+    ((TopPair.singularHomologyMap (C := ModuleCat.{0} ℤ)
+      (chartSimplexSupportPairMap m M a y hy w S hS)
+      (ModuleCat.of ℤ (ULift.{0} ℤ)) m).hom (coordinateSimplexIdentityClass.{0} m))
+  exact (P.twistedHomologyCoefficientMap
+    ((TauCeti.LocalCoefficientSystem.constantFunctor P.fst).map
+      (ModuleCat.ofHom ULift.moduleEquiv.toLinearMap)) m).hom c
+
+/-- The geometric local-image theorem is unsigned: localizing the image of the ordered simplex
+identity class gives the recentered ordered-simplex class, with no orientation lift in the
+statement. This avoids making an orientation-independent class depend on `l`.
+-/
+theorem chartSimplexSupportClass_local_image (m : ℕ) (M : Type) [TopologicalSpace M]
+    [T2Space M] [SecondCountableTopology M]
+    [ChartedSpace (EuclideanSpace ℝ (Fin m)) M] [IsManifold (Model m) ∞ M]
+    [BoundarylessManifold (Model m) M]
+    (a y : M)
+    (hy : y ∈ (chartAt (EuclideanSpace ℝ (Fin m)) a).source)
+    (w : ChartSimplexAt m M a y hy) (S : Set M)
+    (hS : S ⊆ chartSimplexInteriorImage m M a y hy w)
+    (x : M) (hx : x ∈ S)
+    (hxchart : x ∈ (chartAt (EuclideanSpace ℝ (Fin m)) a).source)
+    (w' : ChartSimplexAt m M a x hxchart) :
+    (twistedSupportLocalMap ℤ (TopCat.of M) (IntegralSystem M) m S x hx).hom
+        (chartSimplexSupportClass m M a y hy w S hS) =
+      orderedChartImageAt m M a x hxchart w' := by
+  sorry
+
+/-- Scalar compatibility of the native support-local homology map. -/
+theorem twistedSupportLocalMap_smul (m : ℕ) (M : Type) [TopologicalSpace M]
+    [T2Space M] [SecondCountableTopology M]
+    (S : Set M) (x : M) (hx : x ∈ S)
+    (c : ℤ)
+    (z : twistedRelativeHomology ℤ (TopPair.ofSubset (X := TopCat.of M) Sᶜ)
+      (IntegralSystem M) m) :
+    (twistedSupportLocalMap ℤ (TopCat.of M) (IntegralSystem M) m S x hx).hom (c • z) =
+      c • (twistedSupportLocalMap ℤ (TopCat.of M) (IntegralSystem M) m S x hx).hom z := by
+  exact map_zsmul _ c z
+
+/- The positive-weight simplex is connected, and its chart image remains connected. This is the
+topological input that turns local constancy of the ±1 chart sign into constancy on the whole
+simplex image.
+-/
+theorem chartSimplexInteriorImage_isConnected (m : ℕ) (M : Type)
+    [TopologicalSpace M] [T2Space M] [SecondCountableTopology M]
+    [ChartedSpace (EuclideanSpace ℝ (Fin m)) M] [IsManifold (Model m) ∞ M]
+    [BoundarylessManifold (Model m) M]
+    (a y : M) (hy : y ∈ (chartAt (EuclideanSpace ℝ (Fin m)) a).source)
+    (w : ChartSimplexAt m M a y hy) :
+    IsConnected (chartSimplexInteriorImage m M a y hy w) := by
+  sorry
+
+/-- The positive-weight simplex image is open in the manifold. The proof is the image of
+the open standard simplex under the chart diffeomorphism and the nondegenerate affine simplex map. -/
+theorem chartSimplexInteriorImage_isOpen (m : ℕ) (M : Type)
+    [TopologicalSpace M] [T2Space M] [SecondCountableTopology M]
+    [ChartedSpace (EuclideanSpace ℝ (Fin m)) M] [IsManifold (Model m) ∞ M]
+    [BoundarylessManifold (Model m) M]
+    (a y : M) (hy : y ∈ (chartAt (EuclideanSpace ℝ (Fin m)) a).source)
+    (w : ChartSimplexAt m M a y hy) : IsOpen (chartSimplexInteriorImage m M a y hy w) := by
+  sorry
+
+theorem rawChartCoefficient_at_constant_on_chartSimplexInterior (m : ℕ) (M : Type)
+    [TopologicalSpace M] [T2Space M] [SecondCountableTopology M]
+    [ChartedSpace (EuclideanSpace ℝ (Fin m)) M] [IsManifold (Model m) ∞ M]
+    [BoundarylessManifold (Model m) M]
+    (l : OrientationLift (Model m) M (Fin m)) (a y : M)
+    (hy : y ∈ (chartAt (EuclideanSpace ℝ (Fin m)) a).source)
+    (w : ChartSimplexAt m M a y hy) :
+    ∀ x ∈ chartSimplexInteriorImage m M a y hy w,
+      ∀ hxchart : x ∈ (chartAt (EuclideanSpace ℝ (Fin m)) a).source,
+        rawChartCoefficient_at m M l a x hxchart = rawChartCoefficient_at m M l a y hy := by
+  have hconn := chartSimplexInteriorImage_isConnected m M a y hy w
+  have hsource := chartSimplexInteriorImage_subset_chartSource m M a y hy w
+  have hcenter := chartSimplexAt_anchor_mem_interiorImage m M a y hy w
+  intro x hx hxchart
+  have hsign := chartSign_constant_on_connected m M l a
+    (chartSimplexInteriorImage m M a y hy w) hconn hsource x hx y hcenter
+  have hsignZ : (l.sign a ⟨x, hxchart⟩ : ℤ) = (l.sign a ⟨y, hy⟩ : ℤ) :=
+    congrArg (fun s : ℤˣ => (s : ℤ)) hsign
+  simp only [rawChartCoefficient_at]
+  rw [hsignZ]
+
+/-- Multiply the unsigned support class by its raw coefficient at the original chart center.
+Connected-image constancy identifies this scalar with the coefficient at each support point.
+-/
+theorem chartSimplexSupportClass_signed_local_image (m : ℕ) (M : Type)
+    [TopologicalSpace M] [T2Space M] [SecondCountableTopology M]
+    [ChartedSpace (EuclideanSpace ℝ (Fin m)) M] [IsManifold (Model m) ∞ M]
+    [BoundarylessManifold (Model m) M]
+    (l : OrientationLift (Model m) M (Fin m)) (a y : M)
+    (hy : y ∈ (chartAt (EuclideanSpace ℝ (Fin m)) a).source)
+    (w : ChartSimplexAt m M a y hy) (S : Set M)
+    (hS : S ⊆ chartSimplexInteriorImage m M a y hy w)
+    (x : M) (hx : x ∈ S)
+    (hxchart : x ∈ (chartAt (EuclideanSpace ℝ (Fin m)) a).source)
+    (w' : ChartSimplexAt m M a x hxchart) :
+    (twistedSupportLocalMap ℤ (TopCat.of M) (IntegralSystem M) m S x hx).hom
+        ((rawChartCoefficient_at m M l a y hy : ℤ) •
+          chartSimplexSupportClass m M a y hy w S hS) =
+      (rawChartCoefficient_at m M l a x hxchart : ℤ) •
+        orderedChartImageAt m M a x hxchart w' := by
+  rw [twistedSupportLocalMap_smul m M S x hx
+    (rawChartCoefficient_at m M l a y hy : ℤ)
+    (chartSimplexSupportClass m M a y hy w S hS)]
+  rw [chartSimplexSupportClass_local_image m M a y hy w S hS x hx hxchart w']
+  rw [rawChartCoefficient_at_constant_on_chartSimplexInterior
+    m M l a y hy w x (hS hx) hxchart]
+
+/-- A signed chart-support class represents the selected point generator at every point of
+its support, using the arbitrary-anchor and arbitrary-lift chart formula. -/
+theorem chartSimplexSupportClass_signed_local_image_pointGenerator
+    (m : ℕ) (M : Type) [TopologicalSpace M] [T2Space M] [SecondCountableTopology M]
+    [ChartedSpace (EuclideanSpace ℝ (Fin m)) M] [IsManifold (Model m) ∞ M]
+    [BoundarylessManifold (Model m) M]
+    (o : Manifold.Orientation (Model m) M (Fin m))
+    (l : OrientationLift (Model m) M (Fin m))
+    (hl : Quotient.mk (OrientationLift.setoid (I := Model m) (M := M) (ι := Fin m)) l = o)
+    (a y : M) (hy : y ∈ (chartAt (EuclideanSpace ℝ (Fin m)) a).source)
+    (w : ChartSimplexAt m M a y hy) (S : Set M)
+    (hS : S ⊆ chartSimplexInteriorImage m M a y hy w)
+    (x : M) (hx : x ∈ S)
+    (hxchart : x ∈ (chartAt (EuclideanSpace ℝ (Fin m)) a).source)
+    (w' : ChartSimplexAt m M a x hxchart) :
+    (twistedSupportLocalMap ℤ (TopCat.of M) (IntegralSystem M) m S x hx).hom
+        ((rawChartCoefficient_at m M l a y hy : ℤ) •
+          chartSimplexSupportClass m M a y hy w S hS) = pointGenerator m M o x := by
+  rw [chartSimplexSupportClass_signed_local_image m M l a y hy w S hS x hx hxchart w']
+  exact (pointGenerator_eq_rawChartCoefficient_at m M o l hl a x hxchart w').symm
+
+
+/-- The orientation-selected section uses AT's existing section carrier and compact-support class
+factory. Its local-representation proof is an explicit chart-overlap target below. -/
+noncomputable def chosenSection (m : ℕ) (M : Type) [TopologicalSpace M] [T2Space M]
+    [SecondCountableTopology M] [ChartedSpace (EuclideanSpace ℝ (Fin m)) M]
+    [IsManifold (Model m) ∞ M] [BoundarylessManifold (Model m) M]
+    (o : Manifold.Orientation (Model m) M (Fin m)) :
+    LocallyRepresentedTopSection ℤ (TopCat.of M) (IntegralSystem M) m Set.univ where
+  localValue := fun x _ => pointGenerator m M o x
+  locally_represented := by
+    intro x hx
+    let hxchart := mem_chart_source (EuclideanSpace ℝ (Fin m)) x
+    let w := Classical.choice (chartSimplexWitness_exists m M x)
+    let U := chartSimplexInteriorImage m M x x hxchart w
+    have hopen : IsOpen U := chartSimplexInteriorImage_isOpen m M x x hxchart w
+    have hcenter : x ∈ U := chartSimplexAt_anchor_mem_interiorImage m M x x hxchart w
+    refine ⟨U, Set.subset_univ U, hopen, hcenter, ?_⟩
+    let l := Quotient.out o
+    let c := (rawChartCoefficient_at m M l x x hxchart : ℤ) •
+      chartSimplexSupportClass m M x x hxchart w U (Set.Subset.rfl)
+    refine ⟨c, ?_⟩
+    intro y hy
+    have hychart := chartSimplexInteriorImage_subset_chartSource m M x x hxchart w hy
+    let wy := Classical.choice (chartSimplex_exists m M x y hychart)
+    have hlocal := chartSimplexSupportClass_signed_local_image_pointGenerator
+      m M o l (Quotient.out_eq o) x x hxchart w U (Set.Subset.rfl) y hy hychart wy
+    simpa [c, l, rawChartCoefficient_at] using hlocal
+
+/-- The unique AT compact-support class selected by `chosenSection`. This is the AT 6.3
+factory, not a second DG class carrier. -/
+noncomputable def chosenCompactClass (m : ℕ) (M : Type) [TopologicalSpace M] [T2Space M]
+    [SecondCountableTopology M] [ChartedSpace (EuclideanSpace ℝ (Fin m)) M]
+    [IsManifold (Model m) ∞ M] [BoundarylessManifold (Model m) M]
+    (K : Set (TopCat.of M)) (hK : IsCompact K) (o : Manifold.Orientation (Model m) M (Fin m)) :
+    twistedRelativeHomology ℤ (TopPair.ofSubset Kᶜ) (IntegralSystem M) m :=
+  Classical.choose (compactSupportTopClass_existsUnique ℤ m (TopCat.of M)
+    (IntegralSystem M) K Set.univ hK isOpen_univ (Set.subset_univ K)
+    (chosenSection m M o)).exists
+
+theorem chosenCompactClass_local (m : ℕ) (M : Type) [TopologicalSpace M] [T2Space M]
+    [SecondCountableTopology M] [ChartedSpace (EuclideanSpace ℝ (Fin m)) M]
+    [IsManifold (Model m) ∞ M] [BoundarylessManifold (Model m) M]
+    (K : Set (TopCat.of M)) (hK : IsCompact K) (o : Manifold.Orientation (Model m) M (Fin m))
+    (x : TopCat.of M) (hx : x ∈ K) :
+    twistedSupportLocalMap ℤ (TopCat.of M) (IntegralSystem M) m K x hx
+      (chosenCompactClass m M K hK o) = pointGenerator m M o x := by
+  have hspec := Classical.choose_spec
+    (compactSupportTopClass_existsUnique ℤ m M (IntegralSystem M) K Set.univ hK
+      isOpen_univ (Set.subset_univ K) (chosenSection m M o)).exists
+  simpa [chosenCompactClass, chosenSection, pointGenerator, twistedSupportLocalMap,
+    twistedRelativeLocalMap] using hspec x hx
+
+
+theorem chosenCompactClass_unique (m : ℕ) (M : Type) [TopologicalSpace M] [T2Space M]
+    [SecondCountableTopology M] [ChartedSpace (EuclideanSpace ℝ (Fin m)) M]
+    [IsManifold (Model m) ∞ M] [BoundarylessManifold (Model m) M]
+    (K : Set (TopCat.of M)) (hK : IsCompact K)
+    (o : Manifold.Orientation (Model m) M (Fin m))
+    (d : RelativeTwistedClassDatum ℤ (TopPair.ofSubset Kᶜ) (IntegralSystem M) m
+      (fun x _ => pointGenerator m M o x)) :
+    d.fundamentalClass = chosenCompactClass m M K hK o := by
+  let hfac := compactSupportTopClass_existsUnique ℤ m M (IntegralSystem M) K Set.univ hK
+    isOpen_univ (Set.subset_univ K) (chosenSection m M o)
+  have hd : ∀ x : TopCat.of M, ∀ hx : x ∈ K,
+      twistedSupportLocalMap ℤ (TopCat.of M) (IntegralSystem M) m K x hx
+        d.fundamentalClass = pointGenerator m M o x := by
+    intro x hx
+    have hlocal :
+        twistedSupportLocalMap ℤ (TopCat.of M) (IntegralSystem M) m K x hx =
+        twistedRelativeLocalMap ℤ (TopPair.ofSubset (X := TopCat.of M) Kᶜ)
+          (IntegralSystem M) m x (by
+            intro h
+            rcases h with ⟨y, hy⟩
+            have hmem : y.val ∈ K := by
+              change (TopPair.ofSubset (X := TopCat.of M) Kᶜ).map y ∈ K
+              rw [hy]
+              exact hx
+            exact y.property hmem) := rfl
+    rw [hlocal]
+    exact d.local_eq x (by
+      intro h
+      rcases h with ⟨y, hy⟩
+      have hmem : y.val ∈ K := by
+        change (TopPair.ofSubset (X := TopCat.of M) Kᶜ).map y ∈ K
+        rw [hy]
+        exact hx
+      exact y.property hmem)
+  have hc : ∀ x : TopCat.of M, ∀ hx : x ∈ K,
+      twistedSupportLocalMap ℤ (TopCat.of M) (IntegralSystem M) m K x hx
+        (chosenCompactClass m M K hK o) = pointGenerator m M o x :=
+    chosenCompactClass_local m M K hK o
+  exact ExistsUnique.unique hfac (y₁ := d.fundamentalClass)
+    (y₂ := chosenCompactClass m M K hK o) hd hc
+
+
+/-- The selected class is packaged in the existing AT local-normalization carrier. Its local
+normalization is the AT compact-support factory output; the support-map/relative-map identity is
+proved by the pair definitions. -/
+noncomputable def chosenCompactDatum (m : ℕ) (M : Type) [TopologicalSpace M] [T2Space M]
+    [SecondCountableTopology M] [ChartedSpace (EuclideanSpace ℝ (Fin m)) M]
+    [IsManifold (Model m) ∞ M] [BoundarylessManifold (Model m) M]
+    (K : Set M) (hK : IsCompact K) (o : Manifold.Orientation (Model m) M (Fin m)) :
+    RelativeTwistedClassDatum ℤ (TopPair.ofSubset (X := TopCat.of M) Kᶜ)
+      (IntegralSystem M) m (fun x _ => pointGenerator m M o x) := by
+  refine ⟨chosenCompactClass m M K hK o, ?_⟩
+  intro x hx
+  have hxK : x ∈ K := by
+    by_contra hKx
+    apply hx
+    exact ⟨⟨x, hKx⟩, rfl⟩
+  have hlocal :
+      twistedSupportLocalMap ℤ (TopCat.of M) (IntegralSystem M) m K x hxK =
+        twistedRelativeLocalMap ℤ (TopPair.ofSubset (X := TopCat.of M) Kᶜ)
+          (IntegralSystem M) m x (by
+            intro h
+            rcases h with ⟨y, hy⟩
+            have hmem : y.val ∈ K := by
+              change (TopPair.ofSubset (X := TopCat.of M) Kᶜ).map y ∈ K
+              rw [hy]
+              exact hxK
+            exact y.property hmem) := rfl
+  rw [← hlocal]
+  exact chosenCompactClass_local m M K hK o x hxK
+
+
+end OrientationComparison
+
+end OrientationComparison
+
+section CompactOrientationLaws
+
+/-!
+AT-owned pure integer/local/class laws for compactly supported orientation classes.
+This module depends on AT's orientation comparison and relative-class carriers only.  It does
+not import the DG compact-integration interface; smooth forms and real coefficient maps remain
+in DG.  Excision and geometric naturality statements below are explicit implementation targets.
+-/
+
+namespace CompactOrientationLaws
+
+abbrev Model (m : ℕ) := modelWithCornersSelf ℝ (EuclideanSpace ℝ (Fin m))
+abbrev IntegralSystem (M : Type) [TopologicalSpace M] :=
+  (TauCeti.LocalCoefficientSystem.constantFunctor (TopCat.of M)).obj (ModuleCat.of ℤ ℤ)
+abbrev RelativeHomology (m : ℕ) (M : Type) [TopologicalSpace M] (K : Set M) :=
+  twistedRelativeHomology ℤ (TopPair.ofSubset (X := TopCat.of M) Kᶜ)
+    (IntegralSystem M) m
+abbrev LocalHomology (m : ℕ) (M : Type) [TopologicalSpace M]
+    [ChartedSpace (EuclideanSpace ℝ (Fin m)) M] (x : M) :=
+  twistedRelativeHomology ℤ (puncturedPair (TopCat.of M) x) (IntegralSystem M) m
+abbrev ManifoldOrientation (m : ℕ) (M : Type) [TopologicalSpace M] [ChartedSpace
+    (EuclideanSpace ℝ (Fin m)) M] := Manifold.Orientation (Model m) M (Fin m)
+abbrev PointGenerator (m : ℕ) (M : Type) [TopologicalSpace M] [T2Space M]
+    [SecondCountableTopology M] [ChartedSpace (EuclideanSpace ℝ (Fin m)) M]
+    [IsManifold (Model m) ∞ M] [BoundarylessManifold (Model m) M] :=
+  TauCetiRoadmap.AlgebraicTopology.OrientationComparison.pointGenerator m M
+
+/-- Coefficient-correct homology map for a map of pairs with constant coefficients. -/
+noncomputable def constantSystemHomologyMap {R : Type u} [Ring R] {P Q : TopPair.{v}}
+    (f : P ⟶ Q) (V : ModuleCat.{max v w} R) (m : ℕ) :
+    P.twistedHomology ((TauCeti.LocalCoefficientSystem.constantFunctor P.fst).obj V) m ⟶
+      Q.twistedHomology ((TauCeti.LocalCoefficientSystem.constantFunctor Q.fst).obj V) m := by
+  let e := TauCeti.LocalCoefficientSystem.pullbackConstantIso (TopPair.Hom.fst f).hom V
+  exact P.twistedHomologyCoefficientMap e.inv m ≫
+    TopPair.twistedHomologyMap f
+      ((TauCeti.LocalCoefficientSystem.constantFunctor Q.fst).obj V) m
+
+/-- Pair map in the direction induced by support inclusion K ⊆ K'. -/
+noncomputable def supportEnlargementPairMap {M : Type} [TopologicalSpace M]
+    (K K' : Set M) (hKK' : K ⊆ K') :
+    TopPair.ofSubset (X := TopCat.of M) K'ᶜ ⟶ TopPair.ofSubset (X := TopCat.of M) Kᶜ :=
+  TopPair.ofSubsetMap (𝟙 (TopCat.of M)) (by
+    intro x hx
+    change x ∉ K
+    intro hxK
+    exact hx (hKK' hxK))
+
+/-- Constant-integral homology map induced by enlargement of support. -/
+noncomputable def supportEnlargementHomologyMap (m : ℕ) (M : Type)
+    [TopologicalSpace M] (K K' : Set M) (hKK' : K ⊆ K') :
+    RelativeHomology m M K' ⟶ RelativeHomology m M K :=
+  constantSystemHomologyMap (supportEnlargementPairMap (M := M) K K' hKK')
+    (ModuleCat.of ℤ ℤ) m
+
+/-- Pair map for support transported along an open embedding. -/
+noncomputable def supportOpenEmbeddingPairMap {M N : Type}
+    [TopologicalSpace M] [TopologicalSpace N]
+    (f : M → N) (hf : Topology.IsOpenEmbedding f) (K : Set M) :
+    TopPair.ofSubset (X := TopCat.of M) Kᶜ ⟶
+      TopPair.ofSubset (X := TopCat.of N) (f '' K)ᶜ :=
+  TopPair.ofSubsetMap (TopCat.ofHom ⟨f, hf.continuous⟩) (by
+    intro x hx
+    change f x ∉ f '' K
+    intro h
+    rcases h with ⟨y, hy, hxy⟩
+    exact hx (hf.toIsEmbedding.injective hxy ▸ hy))
+
+/-- Integral homology map on the support-pair open embedding, including constant-system pullback. -/
+noncomputable def supportOpenEmbeddingHomologyMap {M N : Type}
+    [TopologicalSpace M] [TopologicalSpace N]
+    (f : M → N) (hf : Topology.IsOpenEmbedding f) (K : Set M) (m : ℕ) :
+    RelativeHomology m M K ⟶ RelativeHomology m N (f '' K) :=
+  constantSystemHomologyMap (supportOpenEmbeddingPairMap f hf K) (ModuleCat.of ℤ ℤ) m
+
+/-- Integral local-homology map for an open embedding, using AT's native canonical
+constant-system pullback comparison. -/
+noncomputable def localOpenEmbeddingHomologyMap {M N : Type}
+    [TopologicalSpace M] [TopologicalSpace N] [T2Space M] [T2Space N]
+    [SecondCountableTopology M] [SecondCountableTopology N]
+    (m : ℕ) [ChartedSpace (EuclideanSpace ℝ (Fin m)) M]
+    [ChartedSpace (EuclideanSpace ℝ (Fin m)) N]
+    [IsManifold (Model m) ∞ M] [IsManifold (Model m) ∞ N]
+    (f : M → N) (hf : Topology.IsOpenEmbedding f) (x : M) :
+    LocalHomology m M x ⟶ LocalHomology m N (f x) :=
+  AlgebraicTopology.embeddingIntegralLocalMap
+    (TopCat.ofHom ⟨f, hf.continuous⟩) hf.toIsEmbedding.injective x m
+
+/-- Local point generator is natural under an orientation-preserving open embedding.
+The tangent map and orientation transport are explicit hypotheses; the proof is an AT chart
+comparison target, independent of integration. -/
+theorem pointGenerator_openEmbedding_natural {M N : Type}
+    [TopologicalSpace M] [TopologicalSpace N] [T2Space M] [T2Space N]
+    [SecondCountableTopology M] [SecondCountableTopology N]
+    (m : ℕ) [ChartedSpace (EuclideanSpace ℝ (Fin m)) M]
+    [ChartedSpace (EuclideanSpace ℝ (Fin m)) N]
+    [IsManifold (Model m) ∞ M] [BoundarylessManifold (Model m) M]
+    [IsManifold (Model m) ∞ N] [BoundarylessManifold (Model m) N]
+    (f : M → N) (hf : Topology.IsOpenEmbedding f)
+    (d : ∀ x, TangentSpace (Model m) x ≃ₗ[ℝ] TangentSpace (Model m) (f x))
+    (hd : ∀ x, (d x).toLinearMap = mfderiv (Model m) (Model m) f x)
+    (oM : ManifoldOrientation m M) (oN : ManifoldOrientation m N)
+    (hori : ∀ x, Orientation.map (Fin m) (d x) (orientationAt oM x) = orientationAt oN (f x))
+    (x : M) :
+    (localOpenEmbeddingHomologyMap m f hf x).hom (PointGenerator m M oM x) =
+      PointGenerator m N oN (f x) := by
+  sorry
+
+/-- Uniqueness of the AT selected compact class among relative classes with the same normalized
+local images. -/
+theorem chosenCompactClass_unique (m : ℕ) (M : Type)
+    [TopologicalSpace M] [T2Space M] [SecondCountableTopology M]
+    [ChartedSpace (EuclideanSpace ℝ (Fin m)) M] [IsManifold (Model m) ∞ M]
+    [BoundarylessManifold (Model m) M] (K : Set (TopCat.of M)) (hK : IsCompact K)
+    (o : ManifoldOrientation m M)
+    (d : RelativeTwistedClassDatum ℤ (TopPair.ofSubset Kᶜ) (IntegralSystem M) m
+      (fun x _ => PointGenerator m M o x)) :
+    d.fundamentalClass = OrientationComparison.chosenCompactClass m M K hK o := by
+  exact OrientationComparison.chosenCompactClass_unique m M K hK o d
+
+/-- Canonical compact-support class selected by AT's locally represented orientation section. -/
+noncomputable abbrev chosenCompactClass := OrientationComparison.chosenCompactClass
+noncomputable abbrev chosenCompactDatum := OrientationComparison.chosenCompactDatum
+
+/-- Two class data with the same prescribed normalized local images are equal. -/
+theorem relativeClass_unique (m : ℕ) (M : Type)
+    [TopologicalSpace M] [T2Space M] [SecondCountableTopology M]
+    [ChartedSpace (EuclideanSpace ℝ (Fin m)) M] [IsManifold (Model m) ∞ M]
+    [BoundarylessManifold (Model m) M] (K : Set (TopCat.of M)) (hK : IsCompact K)
+    (o : ManifoldOrientation m M)
+    (a b : RelativeTwistedClassDatum ℤ (TopPair.ofSubset Kᶜ) (IntegralSystem M) m
+      (fun x _ => PointGenerator m M o x))
+    : a = b := by
+  have ha := OrientationComparison.chosenCompactClass_unique m M K hK o a
+  have hb := OrientationComparison.chosenCompactClass_unique m M K hK o b
+  have hab : a.fundamentalClass = b.fundamentalClass := ha.trans hb.symm
+  cases a with
+  | mk ac al =>
+    cases b with
+    | mk bc bl =>
+      simp_all
+
+/-- Compatibility of two normalized relative class data with support enlargement. -/
+theorem relativeClass_enlarge (m : ℕ) (M : Type)
+    [TopologicalSpace M] [T2Space M] [SecondCountableTopology M]
+    [ChartedSpace (EuclideanSpace ℝ (Fin m)) M] [IsManifold (Model m) ∞ M]
+    [BoundarylessManifold (Model m) M] (K K' : Set (TopCat.of M))
+    (hK : IsCompact K) (hK' : IsCompact K') (hKK' : K ⊆ K') (o : ManifoldOrientation m M)
+    (c : RelativeTwistedClassDatum ℤ (TopPair.ofSubset Kᶜ) (IntegralSystem M) m
+      (fun x _ => PointGenerator m M o x))
+    (c' : RelativeTwistedClassDatum ℤ (TopPair.ofSubset K'ᶜ) (IntegralSystem M) m
+      (fun x _ => PointGenerator m M o x)) :
+    (supportEnlargementHomologyMap m M K K' hKK').hom c'.fundamentalClass =
+      c.fundamentalClass := by
+  sorry
+
+/-- Naturality of arbitrary normalized compact-support class data for an oriented open embedding. -/
+theorem relativeClass_openEmbedding_natural (m : ℕ) {M N : Type}
+    [TopologicalSpace M] [TopologicalSpace N] [T2Space M] [T2Space N]
+    [SecondCountableTopology M] [SecondCountableTopology N]
+    [ChartedSpace (EuclideanSpace ℝ (Fin m)) M] [ChartedSpace (EuclideanSpace ℝ (Fin m)) N]
+    [IsManifold (Model m) ∞ M] [IsManifold (Model m) ∞ N]
+    [BoundarylessManifold (Model m) M] [BoundarylessManifold (Model m) N]
+    (f : M → N) (hf : Topology.IsOpenEmbedding f)
+    (d : ∀ x, TangentSpace (Model m) x ≃ₗ[ℝ] TangentSpace (Model m) (f x))
+    (hd : ∀ x, (d x).toLinearMap = mfderiv (Model m) (Model m) f x)
+    (oM : ManifoldOrientation m M) (oN : ManifoldOrientation m N)
+    (hori : ∀ x, Orientation.map (Fin m) (d x) (orientationAt oM x) = orientationAt oN (f x))
+    (K : Set M) (hK : IsCompact K) (hK' : IsCompact (f '' K))
+    (c : RelativeTwistedClassDatum ℤ (TopPair.ofSubset (X := TopCat.of M) Kᶜ) (IntegralSystem M) m
+      (fun x _ => PointGenerator m M oM x))
+    (c' : RelativeTwistedClassDatum ℤ (TopPair.ofSubset (X := TopCat.of N) (f '' K)ᶜ) (IntegralSystem N) m
+      (fun x _ => PointGenerator m N oN x)) :
+    (supportOpenEmbeddingHomologyMap f hf K m).hom c.fundamentalClass =
+      c'.fundamentalClass := by
+  sorry
+
+/-- Negation law for the chosen integral compact class, derived from point-generator negation
+and uniqueness of the normalized class. -/
+theorem chosenCompactClass_orientation_neg (m : ℕ) (M : Type)
+    [TopologicalSpace M] [T2Space M] [SecondCountableTopology M]
+    [ChartedSpace (EuclideanSpace ℝ (Fin m)) M] [IsManifold (Model m) ∞ M]
+    [BoundarylessManifold (Model m) M] (K : Set M) (hK : IsCompact K)
+    (o : ManifoldOrientation m M) :
+    (chosenCompactDatum m M K hK o.neg).fundamentalClass =
+      -(chosenCompactDatum m M K hK o).fundamentalClass := by
+  sorry
+
+/-- Compact-class compatibility with the actual support-enlargement homology map. -/
+theorem chosenCompactClass_enlarge (m : ℕ) (M : Type)
+    [TopologicalSpace M] [T2Space M] [SecondCountableTopology M]
+    [ChartedSpace (EuclideanSpace ℝ (Fin m)) M] [IsManifold (Model m) ∞ M]
+    [BoundarylessManifold (Model m) M] (K K' : Set M)
+    (hK : IsCompact K) (hK' : IsCompact K') (hKK' : K ⊆ K') (o : ManifoldOrientation m M) :
+    (supportEnlargementHomologyMap m M K K' hKK').hom
+      (chosenCompactDatum m M K' hK' o).fundamentalClass =
+      (chosenCompactDatum m M K hK o).fundamentalClass := by
+  sorry
+
+/-- Compact-class naturality for an oriented open embedding. -/
+theorem chosenCompactClass_openEmbedding_natural (m : ℕ) {M N : Type}
+    [TopologicalSpace M] [TopologicalSpace N] [T2Space M] [T2Space N]
+    [SecondCountableTopology M] [SecondCountableTopology N]
+    [ChartedSpace (EuclideanSpace ℝ (Fin m)) M] [ChartedSpace (EuclideanSpace ℝ (Fin m)) N]
+    [IsManifold (Model m) ∞ M] [IsManifold (Model m) ∞ N]
+    [BoundarylessManifold (Model m) M] [BoundarylessManifold (Model m) N]
+    (f : M → N) (hf : Topology.IsOpenEmbedding f)
+    (d : ∀ x, TangentSpace (Model m) x ≃ₗ[ℝ] TangentSpace (Model m) (f x))
+    (hd : ∀ x, (d x).toLinearMap = mfderiv (Model m) (Model m) f x)
+    (oM : ManifoldOrientation m M) (oN : ManifoldOrientation m N)
+    (hori : ∀ x, Orientation.map (Fin m) (d x) (orientationAt oM x) = orientationAt oN (f x))
+    (K : Set M) (hK : IsCompact K) (hK' : IsCompact (f '' K)) :
+    (supportOpenEmbeddingHomologyMap f hf K m).hom
+      (chosenCompactDatum m M K hK oM).fundamentalClass =
+      (chosenCompactDatum m N (f '' K) hK' oN).fundamentalClass := by
+  sorry
+
+/-- The canonical component map for two support subsets is the pair of the two actual
+support-enlargement maps. -/
+noncomputable def disjointSupportComponentMap (m : ℕ) (M : Type)
+    [TopologicalSpace M] (K₁ K₂ : Set M) :
+    RelativeHomology m M (K₁ ∪ K₂) →ₗ[ℤ]
+      (RelativeHomology m M K₁ × RelativeHomology m M K₂) := by
+  let f₁ := supportEnlargementHomologyMap m M K₁ (K₁ ∪ K₂) (by intro x hx; exact Or.inl hx)
+  let f₂ := supportEnlargementHomologyMap m M K₂ (K₁ ∪ K₂) (by intro x hx; exact Or.inr hx)
+  refine { toFun := fun x => (f₁.hom x, f₂.hom x), map_add' := ?_, map_smul' := ?_ }
+  · intro x y
+    ext <;> simp
+  · intro z x
+    ext
+    · simp only [Prod.smul_fst, RingHom.id_apply]
+      rw [← int_smul_eq_zsmul (inferInstance : Module ℤ (RelativeHomology m M K₁)) z (f₁.hom x)]
+      exact f₁.hom.map_smul z x
+    · simp only [Prod.smul_snd, RingHom.id_apply]
+      rw [← int_smul_eq_zsmul (inferInstance : Module ℤ (RelativeHomology m M K₂)) z (f₂.hom x)]
+      exact f₂.hom.map_smul z x
+
+/-- Excision for compact disjoint supports. The inverse is an implementation target based on
+AT's excision theorem; the forward map is specified as the actual component map, not arbitrary
+isomorphic data. -/
+noncomputable def disjointSupportExcisionIso (m : ℕ) (M : Type)
+    [TopologicalSpace M] [T2Space M] (K₁ K₂ : Set M)
+    (hK₁ : IsCompact K₁) (hK₂ : IsCompact K₂) (hdisj : Disjoint K₁ K₂) :
+    RelativeHomology m M (K₁ ∪ K₂) ≃ₗ[ℤ]
+      (RelativeHomology m M K₁ × RelativeHomology m M K₂) := by
+  refine LinearEquiv.ofBijective (disjointSupportComponentMap m M K₁ K₂) ?_
+  sorry
+
+/-- The selected compact class decomposes under compact-disjoint-support excision. -/
+theorem disjointComponentFundamentalClass_additivity (m : ℕ) (M : Type)
+    [TopologicalSpace M] [T2Space M] [SecondCountableTopology M]
+    [ChartedSpace (EuclideanSpace ℝ (Fin m)) M] [IsManifold (Model m) ∞ M]
+    [BoundarylessManifold (Model m) M] (K₁ K₂ : Set M)
+    (h₁ : IsCompact K₁) (h₂ : IsCompact K₂) (hdisj : Disjoint K₁ K₂)
+    (o : ManifoldOrientation m M) :
+    disjointSupportExcisionIso m M K₁ K₂ h₁ h₂ hdisj
+      (chosenCompactClass m M (K₁ ∪ K₂) (h₁.union h₂) o) =
+      (chosenCompactClass m M K₁ h₁ o, chosenCompactClass m M K₂ h₂ o) := by
+  sorry
+
+end CompactOrientationLaws
+
+end CompactOrientationLaws
+
+section GeneralModelOrientation
+
+/-!
+AT6.3 orientation-selected general-model classes. The ordinary integer classes exported below
+are images of OrientationComparison's selected point generators and compact-support class on a
+fresh Euclidean carrier. No Euclidean `ChartedSpace` instance is installed on the original `M`.
+-/
+
+open Limits
+
+namespace GeneralModelOrientation
+
+variable {E H M : Type}
+variable [normedAddE : NormedAddCommGroup E] [normedSpaceE : NormedSpace ℝ E]
+variable [finiteDimE : FiniteDimensional ℝ E]
+variable [topologyH : TopologicalSpace H] [topologyM : TopologicalSpace M]
+variable [t2M : T2Space M] [secondCountableM : SecondCountableTopology M]
+variable (I : ModelWithCorners ℝ E H)
+variable [chartedM : ChartedSpace H M] [smoothM : IsManifold I ∞ M]
+variable [boundarylessM : BoundarylessManifold I M]
+
+include finiteDimE t2M secondCountableM smoothM boundarylessM I
+
+abbrev EuclideanModel (m : ℕ) :=
+  modelWithCornersSelf ℝ (EuclideanSpace ℝ (Fin m))
+
+/-- The rechart choice indexes a new type, so instance search never sees two Euclidean atlases
+on one underlying manifold. -/
+abbrev RechartedInterior (m : ℕ)
+    (e : E ≃L[ℝ] EuclideanSpace ℝ (Fin m)) :=
+  @FreshInteriorRechart.Carrier E H M normedAddE normedSpaceE topologyH topologyM I chartedM m e
+
+noncomputable def rechartedInteriorChartedSpace (m : ℕ)
+    (e : E ≃L[ℝ] EuclideanSpace ℝ (Fin m)) :
+    ChartedSpace (EuclideanSpace ℝ (Fin m)) (RechartedInterior (I := I) (M := M) m e) :=
+  FreshInteriorRechart.chartedSpace I m e
+
+noncomputable instance rechartedInteriorChartedSpaceInstance (m : ℕ)
+    (e : E ≃L[ℝ] EuclideanSpace ℝ (Fin m)) :
+    ChartedSpace (EuclideanSpace ℝ (Fin m)) (RechartedInterior (I := I) (M := M) m e) :=
+  rechartedInteriorChartedSpace I m e
+
+/-- The preferred chart on the boundaryless orientation carrier is the same reparameterized
+interior chart used by `FreshInteriorRechart`: apply the original model map and then `e`. -/
+theorem rechartedInteriorChartAt_formula (m : ℕ)
+    (e : E ≃L[ℝ] EuclideanSpace ℝ (Fin m))
+    (x y : RechartedInterior (I := I) (M := M) m e)
+    (hy : y ∈ (chartAt (EuclideanSpace ℝ (Fin m)) x).source) :
+    chartAt (EuclideanSpace ℝ (Fin m)) x y =
+      e (I ((chartAt H (x.point : M)) (y.point : M))) := by
+  exact FreshInteriorRechart.chartAt_apply I m e x y hy
+
+theorem rechartedInteriorIsManifold (m : ℕ)
+    (e : E ≃L[ℝ] EuclideanSpace ℝ (Fin m)) :
+    letI : ChartedSpace (EuclideanSpace ℝ (Fin m))
+      (RechartedInterior (I := I) (M := M) m e) := rechartedInteriorChartedSpace I m e
+    IsManifold (EuclideanModel m) ∞ (RechartedInterior (I := I) (M := M) m e) := by
+  exact FreshInteriorRechart.isManifold I m e
+
+noncomputable instance rechartedInteriorIsManifoldInstance (m : ℕ)
+    (e : E ≃L[ℝ] EuclideanSpace ℝ (Fin m)) :
+    IsManifold (EuclideanModel m) ∞ (RechartedInterior (I := I) (M := M) m e) := by
+  letI : ChartedSpace (EuclideanSpace ℝ (Fin m))
+    (RechartedInterior (I := I) (M := M) m e) := rechartedInteriorChartedSpace I m e
+  exact rechartedInteriorIsManifold I m e
+
+instance rechartedInteriorBoundaryless (m : ℕ)
+    (e : E ≃L[ℝ] EuclideanSpace ℝ (Fin m)) :
+    letI : ChartedSpace (EuclideanSpace ℝ (Fin m))
+      (RechartedInterior (I := I) (M := M) m e) := rechartedInteriorChartedSpace I m e
+    BoundarylessManifold (EuclideanModel m) (RechartedInterior (I := I) (M := M) m e) := by
+  exact FreshInteriorRechart.boundaryless I m e
+
+/-- Topological carrier equivalence. Its pointwise law pins it to the original subtype value. -/
+noncomputable def carrierHomeomorph (m : ℕ)
+    (e : E ≃L[ℝ] EuclideanSpace ℝ (Fin m)) :
+    RechartedInterior (I := I) (M := M) m e ≃ₜ M :=
+  FreshInteriorRechart.carrierHomeomorphOriginal I m e
+
+theorem carrierHomeomorph_apply (m : ℕ)
+    (e : E ≃L[ℝ] EuclideanSpace ℝ (Fin m))
+    (x : RechartedInterior (I := I) (M := M) m e) :
+    carrierHomeomorph I m e x = (x.point : M) := by
+  exact FreshInteriorRechart.carrierHomeomorphOriginal_apply I m e x
+
+/-- Smooth carrier equivalence: Euclidean rechart on the domain, original model `I` on `M`. -/
+noncomputable def carrierValDiffeomorph (m : ℕ)
+    (e : E ≃L[ℝ] EuclideanSpace ℝ (Fin m)) :
+    Diffeomorph (EuclideanModel m) I
+      (RechartedInterior (I := I) (M := M) m e) M ∞ := by
+  let _ := finiteDimE
+  let _ := t2M
+  let _ := secondCountableM
+  let _ := smoothM
+  let _ := boundarylessM
+  sorry
+
+theorem carrierValDiffeomorph_toHomeomorph (m : ℕ)
+    (e : E ≃L[ℝ] EuclideanSpace ℝ (Fin m)) :
+    (carrierValDiffeomorph (I := I) (M := M) m e).toHomeomorph =
+      carrierHomeomorph (I := I) (M := M) m e := by
+  sorry
+
+/-- Pull back the given orientation through the derivative of the carrier diffeomorphism. -/
+noncomputable def carrierOrientation (m : ℕ)
+    (e : E ≃L[ℝ] EuclideanSpace ℝ (Fin m))
+    (o : Manifold.Orientation I M (Fin m)) :
+    Manifold.Orientation (EuclideanModel m) (RechartedInterior (I := I) (M := M) m e)
+      (Fin m) := by
+  let C := RechartedInterior (I := I) (M := M) m e
+  letI : ChartedSpace (EuclideanSpace ℝ (Fin m)) C :=
+    rechartedInteriorChartedSpace I m e
+  letI : IsManifold (EuclideanModel m) ∞ C :=
+    rechartedInteriorIsManifold I m e
+  let hf : IsLocalDiffeomorph (EuclideanModel m) I ∞
+      (fun y : C => (y.point : M)) :=
+    fun y => FreshInteriorRechart.isLocalDiffeomorph_val I m e y
+  exact Manifold.Orientation.pullback hf (by norm_num) o
+
+/-- Exact tangent-orientation comparison used to select the Euclidean-carrier generator. -/
+theorem carrierOrientationAt_spec (m : ℕ)
+    (e : E ≃L[ℝ] EuclideanSpace ℝ (Fin m))
+    (o : Manifold.Orientation I M (Fin m))
+    (x : RechartedInterior (I := I) (M := M) m e) :
+    Orientation.map (Fin m)
+      ((carrierValDiffeomorph I m e).mfderivToContinuousLinearEquiv (by simp) x).toLinearEquiv
+      (orientationAt (carrierOrientation I m e o) x) =
+        orientationAt o ((carrierValDiffeomorph I m e) x) := by
+  sorry
+
+noncomputable def carrierToOriginal (m : ℕ)
+    (e : E ≃L[ℝ] EuclideanSpace ℝ (Fin m)) :
+    TopCat.of (RechartedInterior (I := I) (M := M) m e) ⟶ TopCat.of M :=
+  TopCat.ofHom ⟨fun x => carrierHomeomorph I m e x,
+    (carrierHomeomorph I m e).continuous⟩
+
+abbrev IntegralSystem (X : TopCat) : TauCeti.LocalCoefficientSystem ℤ X :=
+  (TauCeti.LocalCoefficientSystem.constantFunctor X).obj (ModuleCat.of ℤ ℤ)
+
+noncomputable def carrierSupport (m : ℕ)
+    (e : E ≃L[ℝ] EuclideanSpace ℝ (Fin m))
+    (K : Set (TopCat.of M)) : Set (TopCat.of (RechartedInterior (I := I) (M := M) m e)) :=
+  {y | carrierHomeomorph I m e y ∈ K}
+
+noncomputable def carrierSupportPairMap (m : ℕ)
+    (e : E ≃L[ℝ] EuclideanSpace ℝ (Fin m)) (K : Set (TopCat.of M)) :
+    TopPair.ofSubset (carrierSupport I m e K)ᶜ ⟶ TopPair.ofSubset Kᶜ :=
+  TopPair.ofSubsetMap (carrierToOriginal I m e) (by
+    intro y hy
+    change carrierHomeomorph I m e y ∉ K
+    simpa [carrierSupport] using hy)
+
+/-- Ordinary integer local generator on `M`, obtained from AT's orientation-selected generator
+on the Euclidean carrier and the explicit native constant-system pullback isomorphism. -/
+noncomputable def pointGenerator (m : ℕ)
+    (e : E ≃L[ℝ] EuclideanSpace ℝ (Fin m))
+    (o : Manifold.Orientation I M (Fin m)) (x : TopCat.of M) :
+    twistedRelativeHomology ℤ (puncturedPair (TopCat.of M) x) (IntegralSystem (TopCat.of M)) m := by
+  have hx : carrierHomeomorph I m e ((carrierHomeomorph I m e).symm x) = x :=
+    (carrierHomeomorph I m e).apply_symm_apply x
+  rw [← hx]
+  exact TauCetiRoadmap.AlgebraicTopology.embeddingIntegralLocalMap
+    (carrierToOriginal I m e)
+    (carrierHomeomorph I m e).injective ((carrierHomeomorph I m e).symm x) m
+    (TauCetiRoadmap.AlgebraicTopology.OrientationComparison.pointGenerator m
+      (RechartedInterior (I := I) (M := M) m e) (carrierOrientation I m e o)
+      ((carrierHomeomorph I m e).symm x))
+
+/-- Lift the carrier's selected section through the actual carrier map and constant pullback
+comparison. The carrier section is exactly AT6.3's `chosenSection`. -/
+noncomputable def chosenSection (m : ℕ)
+    (e : E ≃L[ℝ] EuclideanSpace ℝ (Fin m))
+    (o : Manifold.Orientation I M (Fin m)) :
+    LocallyRepresentedTopSection ℤ (TopCat.of M) (IntegralSystem (TopCat.of M)) m Set.univ where
+  localValue := fun x _ => pointGenerator I m e o x
+  locally_represented := by
+    intro x hx
+    let C := RechartedInterior (I := I) (M := M) m e
+    letI : ChartedSpace (EuclideanSpace ℝ (Fin m)) C := rechartedInteriorChartedSpace I m e
+    letI : IsManifold (EuclideanModel m) ∞ C := rechartedInteriorIsManifold I m e
+    letI : BoundarylessManifold (EuclideanModel m) C := rechartedInteriorBoundaryless I m e
+    let S := TauCetiRoadmap.AlgebraicTopology.OrientationComparison.chosenSection
+      m C (carrierOrientation I m e o)
+    obtain ⟨B, hBU, hBopen, hxB, c, hc⟩ := S.locally_represented
+      ((carrierHomeomorph I m e).symm x) (Set.mem_univ _)
+    -- Transport this AT witness across the carrier homeomorphism, using the exact pointwise
+    -- carrier law and the two pair-map naturality squares to identify its local generator.
+    sorry
+
+/-- Actual ordinary integral class on the original pair `(M, M \ K)`. It is the image of
+OrientationComparison's chosen compact class on the fresh carrier, after the explicit constant
+system pullback isomorphism. No compactness of `M` is assumed. -/
+noncomputable def compactSupportFundamentalClass (m : ℕ)
+    (e : E ≃L[ℝ] EuclideanSpace ℝ (Fin m))
+    (K : Set (TopCat.of M)) (hK : IsCompact K)
+    (o : Manifold.Orientation I M (Fin m)) :
+    twistedRelativeHomology ℤ (TopPair.ofSubset Kᶜ) (IntegralSystem (TopCat.of M)) m := by
+  let C : Type := RechartedInterior (I := I) (M := M) m e
+  let P := carrierSupportPairMap I m e K
+  letI : ChartedSpace (EuclideanSpace ℝ (Fin m)) C := rechartedInteriorChartedSpace I m e
+  letI : IsManifold (EuclideanModel m) ∞ C := rechartedInteriorIsManifold I m e
+  letI : BoundarylessManifold (EuclideanModel m) C := rechartedInteriorBoundaryless I m e
+  let hK' : IsCompact (carrierSupport I m e K) := by
+    -- Pullback along the carrier homeomorphism preserves compactness.
+    sorry
+  exact
+    (TauCetiRoadmap.AlgebraicTopology.CompactOrientationLaws.constantSystemHomologyMap
+      P (ModuleCat.of ℤ ℤ) m)
+      (TauCetiRoadmap.AlgebraicTopology.OrientationComparison.chosenCompactClass m C
+        (carrierSupport I m e K) hK' (carrierOrientation I m e o))
+
+/-- The support-class image on `M` is normalized by the exported point generator. This is the
+local-image theorem needed by DG integration, not a separate assumed normalization field. -/
+theorem compactSupportFundamentalClass_local (m : ℕ)
+    (e : E ≃L[ℝ] EuclideanSpace ℝ (Fin m))
+    (K : Set (TopCat.of M)) (hK : IsCompact K)
+    (o : Manifold.Orientation I M (Fin m))
+    (x : TopCat.of M) (hx : x ∈ K) :
+    twistedSupportLocalMap ℤ (TopCat.of M) (IntegralSystem (TopCat.of M)) m K x hx
+      (compactSupportFundamentalClass I m e K hK o) = pointGenerator I m e o x := by
+  -- Reduce to `OrientationComparison.chosenCompactClass_local` on the carrier, then use
+  -- naturality of the support-pair maps and the constant coefficient pullback isomorphisms.
+  sorry
+
+/-- Class-level rechart independence for one fixed tangent orientation `o`; the result compares
+ordinary integer classes in the same relative group on the original manifold. Its proof uses the
+carrier-change homeomorphism and the local-image theorem above. -/
+theorem compactSupportFundamentalClass_rechart_independent (m : ℕ)
+    (e e' : E ≃L[ℝ] EuclideanSpace ℝ (Fin m))
+    (K : Set (TopCat.of M)) (hK : IsCompact K)
+    (o : Manifold.Orientation I M (Fin m)) :
+    compactSupportFundamentalClass I m e K hK o =
+      compactSupportFundamentalClass I m e' K hK o := by
+  -- Uniqueness in the AT compact-support factory follows from equality of the local generators.
+  sorry
+
+/-- The selected local generator itself is independent of the Euclidean rechart. Both sides
+land in the same ordinary integer local-homology group of the original manifold. -/
+theorem pointGenerator_rechart_independent (m : ℕ)
+    (e e' : E ≃L[ℝ] EuclideanSpace ℝ (Fin m))
+    (o : Manifold.Orientation I M (Fin m)) (x : TopCat.of M) :
+    pointGenerator I m e o x = pointGenerator I m e' o x := by
+  -- Compare the carrier local classes through the pointwise carrier homeomorphism law and
+  -- the selected tangent-orientation derivative comparison.
+  sorry
+
+/-- AT local-normalization datum on the original support pair. Its local equations are the
+support-local theorem above, rewritten through the native pair-local map. -/
+noncomputable def chosenCompactDatum (m : ℕ)
+    (e : E ≃L[ℝ] EuclideanSpace ℝ (Fin m))
+    (K : Set (TopCat.of M)) (hK : IsCompact K)
+    (o : Manifold.Orientation I M (Fin m)) :
+    RelativeTwistedClassDatum ℤ (TopPair.ofSubset Kᶜ) (IntegralSystem (TopCat.of M)) m
+      (fun x _ => pointGenerator I m e o x) where
+  fundamentalClass := compactSupportFundamentalClass I m e K hK o
+  local_eq := by
+    intro x hx
+    have hmem : x ∈ K := by
+      -- The complement pair's subspace is exactly the points outside K.
+      sorry
+    have hlocal := compactSupportFundamentalClass_local I m e K hK o x hmem
+    -- Identify RelativeTwistedClassDatum.local_eq's native pair map with
+    -- twistedSupportLocalMap via the support inclusion and identity-coefficient square.
+    sorry
+
+omit finiteDimE t2M secondCountableM smoothM boundarylessM
+
+end GeneralModelOrientation
+
+end GeneralModelOrientation
+
+section BoundaryInteriorComparison
+
+/-!
+**This section is not the roadmap and is not exhaustive.** These are suggested Lean declarations;
+the README is the definitive specification. Honest admitted targets remain below.
+
+AT-owned boundary-interior comparisons.  The recharted carrier is the actual interior of a
+possibly-boundary manifold, so local constructions are transported by its open inclusion rather
+than by a false homeomorphism from the whole carrier to the ambient manifold.
+-/
+
+namespace BoundaryInteriorComparison
+
+/-- The fresh rechart carrier includes as an open embedding into the original manifold, also when
+that manifold has boundary. The range is exactly `I.interior M`. -/
+theorem FreshInteriorRechart.val_isOpenEmbedding
+    {E H : Type u} {M : Type} [NormedAddCommGroup E] [NormedSpace ℝ E]
+    [FiniteDimensional ℝ E] [TopologicalSpace H] [TopologicalSpace M]
+    (I : ModelWithCorners ℝ E H) [ChartedSpace H M] [IsManifold I ∞ M]
+    (m : ℕ) (e : E ≃L[ℝ] EuclideanSpace ℝ (Fin m)) :
+    Topology.IsOpenEmbedding
+      (fun x : TauCetiRoadmap.AlgebraicTopology.FreshInteriorRechart.Carrier (E := E) (H := H) (M := M)
+        I m e => (x.point : M)) := by
+  let U : TopologicalSpace.Opens M := ⟨I.interior M, I.isOpen_interior (M := M) (n := ∞) (by simp)⟩
+  have hsub : Topology.IsOpenEmbedding (Subtype.val : U → M) := U.isOpenEmbedding'
+  let hhomeo := TauCetiRoadmap.AlgebraicTopology.FreshInteriorRechart.carrierHomeomorphInterior
+    (I := I) (M := M) m e
+  have hcomp := hsub.comp hhomeo.isOpenEmbedding
+  have hfun : (fun x : TauCetiRoadmap.AlgebraicTopology.FreshInteriorRechart.Carrier
+      (E := E) (H := H) (M := M) I m e => (x.point : M)) =
+      (Subtype.val ∘ hhomeo) := by
+    funext x
+    change (x.point : M) = ((hhomeo x : I.interior M) : M)
+    rfl
+  convert hcomp using 1
+
+/-- Global local-diffeomorphism certificate for the interior inclusion, made from the pointwise
+inverse-function statement in the fresh rechart. -/
+theorem FreshInteriorRechart.val_isLocalDiffeomorph
+    {E H : Type u} {M : Type} [NormedAddCommGroup E] [NormedSpace ℝ E]
+    [FiniteDimensional ℝ E] [TopologicalSpace H] [TopologicalSpace M]
+    (I : ModelWithCorners ℝ E H) [ChartedSpace H M] [IsManifold I ∞ M]
+    (m : ℕ) (e : E ≃L[ℝ] EuclideanSpace ℝ (Fin m)) :
+    letI : ChartedSpace (EuclideanSpace ℝ (Fin m))
+      (TauCetiRoadmap.AlgebraicTopology.FreshInteriorRechart.Carrier
+        (E := E) (H := H) (M := M) I m e) :=
+      TauCetiRoadmap.AlgebraicTopology.FreshInteriorRechart.chartedSpace I m e
+    letI : IsManifold (modelWithCornersSelf ℝ (EuclideanSpace ℝ (Fin m))) ∞
+      (TauCetiRoadmap.AlgebraicTopology.FreshInteriorRechart.Carrier
+        (E := E) (H := H) (M := M) I m e) :=
+      TauCetiRoadmap.AlgebraicTopology.FreshInteriorRechart.isManifold I m e
+    IsLocalDiffeomorph (modelWithCornersSelf ℝ (EuclideanSpace ℝ (Fin m))) I ∞
+      (fun x : TauCetiRoadmap.AlgebraicTopology.FreshInteriorRechart.Carrier (E := E) (H := H) (M := M)
+        I m e => (x.point : M)) := by
+  exact fun x => TauCetiRoadmap.AlgebraicTopology.FreshInteriorRechart.isLocalDiffeomorph_val
+    I m e x
+
+/-- The constant-integral local class on a boundary-manifold carrier, transported to the ambient
+manifold by the genuine open inclusion. The source orientation is pulled back from `o` by the
+local diffeomorphism `val`; no whole-carrier/ambient homeomorphism is used. -/
+noncomputable def pointGeneratorOnAmbient
+    {E H : Type u} {M : Type} [NormedAddCommGroup E] [NormedSpace ℝ E]
+    [FiniteDimensional ℝ E] [TopologicalSpace H] [TopologicalSpace M]
+    (I : ModelWithCorners ℝ E H) [ChartedSpace H M] [IsManifold I ∞ M]
+    (m : ℕ) (e : E ≃L[ℝ] EuclideanSpace ℝ (Fin m))
+    [T2Space M] [SecondCountableTopology M]
+    (o : Manifold.Orientation I M (Fin m))
+    (x : TauCetiRoadmap.AlgebraicTopology.FreshInteriorRechart.Carrier (E := E) (H := H) (M := M) I m e) :
+    twistedRelativeHomology ℤ (puncturedPair (TopCat.of M) (x.point : M))
+      ((TauCeti.LocalCoefficientSystem.constantFunctor (TopCat.of M)).obj
+        (ModuleCat.of ℤ ℤ)) m := by
+  let C := TauCetiRoadmap.AlgebraicTopology.FreshInteriorRechart.Carrier (E := E) (H := H) (M := M) I m e
+  letI : TopologicalSpace C :=
+    TauCetiRoadmap.AlgebraicTopology.FreshInteriorRechart.carrierTopologicalSpace I m e
+  letI : ChartedSpace (EuclideanSpace ℝ (Fin m)) C :=
+    TauCetiRoadmap.AlgebraicTopology.FreshInteriorRechart.chartedSpace I m e
+  letI : IsManifold (modelWithCornersSelf ℝ (EuclideanSpace ℝ (Fin m))) ∞ C :=
+    TauCetiRoadmap.AlgebraicTopology.FreshInteriorRechart.isManifold I m e
+  letI : BoundarylessManifold (modelWithCornersSelf ℝ (EuclideanSpace ℝ (Fin m))) C :=
+    TauCetiRoadmap.AlgebraicTopology.FreshInteriorRechart.boundaryless I m e
+  letI : T2Space C := inferInstance
+  letI : SecondCountableTopology C := inferInstance
+  let f : C → M := fun y => y.point
+  let hf : IsLocalDiffeomorph (modelWithCornersSelf ℝ (EuclideanSpace ℝ (Fin m))) I ∞ f :=
+    fun y => TauCetiRoadmap.AlgebraicTopology.FreshInteriorRechart.isLocalDiffeomorph_val
+      I m e y
+  let oC := Manifold.Orientation.pullback hf (by norm_num) o
+  exact embeddingIntegralLocalMap (TopCat.ofHom ⟨f, (BoundaryInteriorComparison.FreshInteriorRechart.val_isOpenEmbedding I m e).continuous⟩)
+    (BoundaryInteriorComparison.FreshInteriorRechart.val_isOpenEmbedding I m e).toIsEmbedding.injective x m
+      (OrientationComparison.pointGenerator m C oC x)
+
+/-- The local integral map of a generic T2 open embedding is an isomorphism by local excision;
+there is no charted-space or boundaryless hypothesis on the target. -/
+theorem isIso_embeddingIntegralLocalMap
+    {M N : Type} [TopologicalSpace M] [TopologicalSpace N]
+    [T2Space M] [T2Space N]
+    (f : M → N) (hf : Topology.IsOpenEmbedding f) (x : M) (m : ℕ) :
+    IsIso (embeddingIntegralLocalMap (TopCat.ofHom ⟨f, hf.continuous⟩)
+      hf.toIsEmbedding.injective x m) := by
+  sorry
+
+/-- Compact-support excision for a generic T2 open embedding. Compactness makes the support closed,
+so excision identifies the ambient relative pair with the one inside the open image. -/
+theorem isIso_supportOpenEmbeddingHomologyMap
+    {M N : Type} [TopologicalSpace M] [TopologicalSpace N]
+    [T2Space M] [T2Space N]
+    (f : M → N) (hf : Topology.IsOpenEmbedding f) (K : Set M)
+    (hK : IsCompact K) (m : ℕ) :
+    IsIso (CompactOrientationLaws.supportOpenEmbeddingHomologyMap f hf K m) := by
+  sorry
+
+/-- Twisted relative map on the support pair of an open embedding, with the source coefficient
+system exactly the categorical pullback of the target local system. -/
+noncomputable def supportOpenEmbeddingTwistedHomologyMap
+    {R : Type u} [Ring R] {M N : Type}
+    [TopologicalSpace M] [TopologicalSpace N]
+    (f : M → N) (hf : Topology.IsOpenEmbedding f) (K : Set M)
+    (L : TauCeti.LocalCoefficientSystem R (TopCat.of N)) (m : ℕ) :
+    (TopPair.ofSubset (X := TopCat.of M) Kᶜ).twistedHomology
+      ((TauCeti.LocalCoefficientSystem.pullback
+        (TopPair.Hom.fst (CompactOrientationLaws.supportOpenEmbeddingPairMap f hf K)).hom).obj L) m ⟶
+      (TopPair.ofSubset (X := TopCat.of N) (f '' K)ᶜ).twistedHomology L m :=
+  TopPair.twistedHomologyMap
+    (CompactOrientationLaws.supportOpenEmbeddingPairMap f hf K) L m
+
+end BoundaryInteriorComparison
+
+/- Public spelling on the fresh carrier API for its inclusion into the ambient manifold. -/
+namespace FreshInteriorRechart
+
+theorem val_isOpenEmbedding
+    {E H : Type u} {M : Type} [NormedAddCommGroup E] [NormedSpace ℝ E]
+    [FiniteDimensional ℝ E] [TopologicalSpace H] [TopologicalSpace M]
+    (I : ModelWithCorners ℝ E H) [ChartedSpace H M] [IsManifold I ∞ M]
+    (m : ℕ) (e : E ≃L[ℝ] EuclideanSpace ℝ (Fin m)) :
+    Topology.IsOpenEmbedding
+      (fun x : Carrier (E := E) (H := H) (M := M) I m e => (x.point : M)) :=
+  TauCetiRoadmap.AlgebraicTopology.BoundaryInteriorComparison.FreshInteriorRechart.val_isOpenEmbedding
+    I m e
+
+end FreshInteriorRechart
+
+end BoundaryInteriorComparison
+
+section BoundaryCarrierOrientation
+
+/-!
+**This section is not the roadmap and is not exhaustive.** These are suggested Lean declarations;
+the README is the definitive specification. Honest admitted targets remain below.
+
+AT boundary orientation prototype: define the boundary orientation local system on the actual half-space
+ambient carrier by transport along the fundamental-groupoid equivalence induced by its interior
+inclusion. The equivalence data and resulting natural comparison are explicit admitted geometry
+targets, not Prop fields or an independent sign-system placeholder.
+-/
+
+namespace BoundaryCarrierOrientation
+
+/-- The fresh Euclidean rechart of the interior of an `(n+1)`-dimensional half-space-model
+manifold. -/
+abbrev InteriorCarrier (n : ℕ) [NeZero (n + 1)] (M : Type) [TopologicalSpace M]
+    [ChartedSpace (EuclideanHalfSpace (n + 1)) M] :=
+  FreshInteriorRechart.Carrier
+    (E := EuclideanSpace ℝ (Fin (n + 1)))
+    (H := EuclideanHalfSpace (n + 1)) (M := M)
+    (modelWithCornersEuclideanHalfSpace (n + 1)) (n + 1)
+    (ContinuousLinearEquiv.refl ℝ (EuclideanSpace ℝ (Fin (n + 1))) )
+
+/-- The actual topological inclusion of the freshly recharted interior. -/
+noncomputable def interiorInclusion (n : ℕ) [NeZero (n + 1)] (M : Type)
+    [TopologicalSpace M] [ChartedSpace (EuclideanHalfSpace (n + 1)) M]
+    [IsManifold (modelWithCornersEuclideanHalfSpace (n + 1)) ∞ M]
+    [T2Space M] [SecondCountableTopology M] :
+    C(InteriorCarrier n M, M) := by
+  let I := modelWithCornersEuclideanHalfSpace (n + 1)
+  let e := ContinuousLinearEquiv.refl ℝ (EuclideanSpace ℝ (Fin (n + 1)))
+  letI : TopologicalSpace (InteriorCarrier n M) :=
+    FreshInteriorRechart.carrierTopologicalSpace I (n + 1) e
+  exact ⟨fun x => x.point, (FreshInteriorRechart.val_isOpenEmbedding I (n + 1) e).continuous⟩
+
+/-- The groupoid functor is definitionally induced by the actual interior inclusion. The remaining
+quasi-inverse and equivalence laws are the geometric interior-push target. -/
+noncomputable def interiorFundamentalGroupoidEquivalence (n : ℕ) [NeZero (n + 1)]
+    (M : Type) [TopologicalSpace M] [ChartedSpace (EuclideanHalfSpace (n + 1)) M]
+    [IsManifold (modelWithCornersEuclideanHalfSpace (n + 1)) ∞ M]
+    [T2Space M] [SecondCountableTopology M] :
+    CategoryTheory.Equivalence
+      (FundamentalGroupoid (TopCat.of (InteriorCarrier n M)))
+      (FundamentalGroupoid (TopCat.of M)) where
+  functor := FundamentalGroupoid.map (interiorInclusion n M)
+  inverse := by
+    sorry
+  unitIso := by
+    sorry
+  counitIso := by
+    sorry
+  functor_unitIso_comp := by
+    sorry
+
+/-- Integral top local homology on the boundaryless fresh interior carrier, transported to the
+ambient half-space manifold by the inverse of its interior-inclusion groupoid equivalence. Thus
+boundary points receive fibres by inward transport rather than by their vanishing ambient local
+homology. -/
+noncomputable def halfSpaceOrientationLocalSystem (n : ℕ) [NeZero (n + 1)]
+    (M : Type) [TopologicalSpace M] [ChartedSpace (EuclideanHalfSpace (n + 1)) M]
+    [IsManifold (modelWithCornersEuclideanHalfSpace (n + 1)) ∞ M]
+    [T2Space M] [SecondCountableTopology M] :
+    TauCeti.LocalCoefficientSystem ℤ (TopCat.of M) := by
+  let I := modelWithCornersEuclideanHalfSpace (n + 1)
+  let e := ContinuousLinearEquiv.refl ℝ (EuclideanSpace ℝ (Fin (n + 1)))
+  let C := InteriorCarrier n M
+  letI : TopologicalSpace C := FreshInteriorRechart.carrierTopologicalSpace I (n + 1) e
+  letI : ChartedSpace (EuclideanSpace ℝ (Fin (n + 1))) C :=
+    FreshInteriorRechart.chartedSpace I (n + 1) e
+  letI : IsManifold (modelWithCornersSelf ℝ (EuclideanSpace ℝ (Fin (n + 1)))) ∞ C :=
+    FreshInteriorRechart.isManifold I (n + 1) e
+  letI : BoundarylessManifold (modelWithCornersSelf ℝ (EuclideanSpace ℝ (Fin (n + 1)))) C :=
+    FreshInteriorRechart.boundaryless I (n + 1) e
+  letI : T2Space C := inferInstance
+  letI : SecondCountableTopology C := inferInstance
+  exact (interiorFundamentalGroupoidEquivalence n M).inverse ⋙
+    TauCetiRoadmap.AlgebraicTopology.orientationLocalSystem (n + 1) C
+
+/-- The restriction comparison `κ` is the unit isomorphism of the actual groupoid equivalence,
+whiskered by the fresh-carrier integral orientation system. -/
+noncomputable def halfSpaceOrientationLocalSystem_restrictInteriorIso
+    (n : ℕ) [NeZero (n + 1)] (M : Type) [TopologicalSpace M]
+    [ChartedSpace (EuclideanHalfSpace (n + 1)) M]
+    [IsManifold (modelWithCornersEuclideanHalfSpace (n + 1)) ∞ M]
+    [T2Space M] [SecondCountableTopology M] :
+    let I := modelWithCornersEuclideanHalfSpace (n + 1)
+    let e := ContinuousLinearEquiv.refl ℝ (EuclideanSpace ℝ (Fin (n + 1)))
+    let C := InteriorCarrier n M
+    letI : TopologicalSpace C := FreshInteriorRechart.carrierTopologicalSpace I (n + 1) e
+    letI : ChartedSpace (EuclideanSpace ℝ (Fin (n + 1))) C :=
+      FreshInteriorRechart.chartedSpace I (n + 1) e
+    letI : IsManifold (modelWithCornersSelf ℝ (EuclideanSpace ℝ (Fin (n + 1)))) ∞ C :=
+      FreshInteriorRechart.isManifold I (n + 1) e
+    letI : BoundarylessManifold (modelWithCornersSelf ℝ (EuclideanSpace ℝ (Fin (n + 1)))) C :=
+      FreshInteriorRechart.boundaryless I (n + 1) e
+    letI : T2Space C := inferInstance
+    letI : SecondCountableTopology C := inferInstance
+    (TauCeti.LocalCoefficientSystem.pullback
+      (interiorInclusion n M)).obj (halfSpaceOrientationLocalSystem n M) ≅
+      TauCetiRoadmap.AlgebraicTopology.orientationLocalSystem (n + 1) C := by
+  let I := modelWithCornersEuclideanHalfSpace (n + 1)
+  let e := ContinuousLinearEquiv.refl ℝ (EuclideanSpace ℝ (Fin (n + 1)))
+  let C := InteriorCarrier n M
+  letI : TopologicalSpace C := FreshInteriorRechart.carrierTopologicalSpace I (n + 1) e
+  letI : ChartedSpace (EuclideanSpace ℝ (Fin (n + 1))) C :=
+    FreshInteriorRechart.chartedSpace I (n + 1) e
+  letI : IsManifold (modelWithCornersSelf ℝ (EuclideanSpace ℝ (Fin (n + 1)))) ∞ C :=
+    FreshInteriorRechart.isManifold I (n + 1) e
+  letI : BoundarylessManifold (modelWithCornersSelf ℝ (EuclideanSpace ℝ (Fin (n + 1)))) C :=
+    FreshInteriorRechart.boundaryless I (n + 1) e
+  letI : T2Space C := inferInstance
+  letI : SecondCountableTopology C := inferInstance
+  let G := interiorFundamentalGroupoidEquivalence n M
+  change (G.functor ⋙ (G.inverse ⋙
+    TauCetiRoadmap.AlgebraicTopology.orientationLocalSystem (n + 1) C)) ≅ _
+  exact (Functor.associator G.functor G.inverse
+    (TauCetiRoadmap.AlgebraicTopology.orientationLocalSystem (n + 1) C)).symm ≪≫
+      Functor.isoWhiskerRight G.unitIso.symm
+        (TauCetiRoadmap.AlgebraicTopology.orientationLocalSystem (n + 1) C) ≪≫
+      Functor.leftUnitor
+        (TauCetiRoadmap.AlgebraicTopology.orientationLocalSystem (n + 1) C)
+
+/-- Twisted support-pair map for every native local system is an isomorphism when `f` is an open
+embedding and `K` is compact. The target Hausdorff hypothesis also makes the open source Hausdorff
+through the embedding. -/
+theorem isIso_supportOpenEmbeddingTwistedHomologyMap
+    {R : Type u} [Ring R] {M N : Type}
+    [TopologicalSpace M] [TopologicalSpace N] [T2Space N]
+    (f : M → N) (hf : Topology.IsOpenEmbedding f) (K : Set M)
+    (hK : IsCompact K)
+    (L : TauCeti.LocalCoefficientSystem R (TopCat.of N)) (m : ℕ) :
+    IsIso (BoundaryInteriorComparison.supportOpenEmbeddingTwistedHomologyMap f hf K L m) := by
+  sorry
+
+/-- On a boundaryless target, the open-interior local generator agrees with the
+ordinary general-model construction transported by the whole-carrier homeomorphism. -/
+theorem pointGeneratorOnAmbient_eq_generalModel
+    {E H M : Type} [NormedAddCommGroup E] [NormedSpace ℝ E]
+    [FiniteDimensional ℝ E] [TopologicalSpace H] [TopologicalSpace M]
+    (I : ModelWithCorners ℝ E H) [ChartedSpace H M] [IsManifold I ∞ M]
+    [T2Space M] [SecondCountableTopology M]
+    (m : ℕ) (e : E ≃L[ℝ] EuclideanSpace ℝ (Fin m))
+    [BoundarylessManifold I M]
+    (o : Manifold.Orientation I M (Fin m))
+    (x : FreshInteriorRechart.Carrier (E := E) (H := H) (M := M) I m e) :
+    BoundaryInteriorComparison.pointGeneratorOnAmbient I m e o x =
+      GeneralModelOrientation.pointGenerator I m e o x.point := by
+  sorry
+
+end BoundaryCarrierOrientation
+
+end BoundaryCarrierOrientation
+
+section TopologicalGroupFundamentalGroup
+
+/-! Suggested forms accompany the definitive roadmap prose; they are not an
+exhaustive checklist. The constructions below use the native path quotient and
+its existing group multiplication, whose order is reversed path composition. -/
+
+namespace TopologicalGroupFundamentalGroup
+
+variable {G : Type*} [TopologicalSpace G] [MulOneClass G] [ContinuousMul G]
+
+/-- The native fundamental-group map induced by continuous multiplication. -/
+def multiplicationMap : FundamentalGroup (G × G) (1, 1) →* FundamentalGroup G 1 :=
+  FundamentalGroup.mapOfEq ⟨fun x => x.1 * x.2, continuous_mul⟩ (one_mul 1)
+
+/-- Pointwise multiplication on actual homotopy classes of based loops. -/
+def pointwise (p q : FundamentalGroup G 1) : FundamentalGroup G 1 :=
+  multiplicationMap (Path.Homotopic.prod p q)
+
+theorem pointwise_one_left (p : FundamentalGroup G 1) : pointwise 1 p = p := by
+  induction p using Path.Homotopic.Quotient.ind with
+  | mk p =>
+    unfold pointwise multiplicationMap
+    rw [FundamentalGroup.mapOfEq_apply]
+    change Path.Homotopic.Quotient.mk _ = Path.Homotopic.Quotient.mk p
+    apply congrArg Path.Homotopic.Quotient.mk
+    ext t
+    exact one_mul (p t)
+
+theorem pointwise_one_right (p : FundamentalGroup G 1) : pointwise p 1 = p := by
+  induction p using Path.Homotopic.Quotient.ind with
+  | mk p =>
+    unfold pointwise multiplicationMap
+    rw [FundamentalGroup.mapOfEq_apply]
+    change Path.Homotopic.Quotient.mk _ = Path.Homotopic.Quotient.mk p
+    apply congrArg Path.Homotopic.Quotient.mk
+    ext t
+    exact mul_one (p t)
+
+/-- Interchange uses only product paths and functoriality of the native map. -/
+theorem pointwise_interchange (a b c d : FundamentalGroup G 1) :
+    pointwise (a * b) (c * d) = pointwise a c * pointwise b d := by
+  unfold pointwise
+  rw [← map_mul]
+  apply congrArg multiplicationMap
+  change Path.Homotopic.prod (b.trans a) (d.trans c) =
+    (Path.Homotopic.prod b d).trans (Path.Homotopic.prod a c)
+  exact (Path.Homotopic.comp_prod_eq_prod_comp b d a c).symm
+
+/-- The group already carried by the native fundamental group is commutative.
+No connectedness, manifold, local-contractibility or covering hypothesis is used. -/
+abbrev commGroup : CommGroup (FundamentalGroup G 1) :=
+  EckmannHilton.commGroup
+    (EckmannHilton.IsUnital.mk
+      { left_id := pointwise_one_left, right_id := pointwise_one_right })
+    pointwise_interchange
+
+/-- The commutative refinement keeps the native group structure definitionally. -/
+theorem commGroup_toGroup : (commGroup (G := G)).toGroup =
+    (inferInstance : Group (FundamentalGroup G 1)) := rfl
+
+theorem fundamentalGroup_mul_comm (a b : FundamentalGroup G 1) : a * b = b * a :=
+  (commGroup (G := G)).mul_comm a b
+
+/-- The pointwise operation agrees with the existing fundamental-group product. -/
+theorem pointwise_eq_mul (a b : FundamentalGroup G 1) : pointwise a b = a * b :=
+  congrFun (congrFun
+    (EckmannHilton.mul
+      (EckmannHilton.IsUnital.mk
+        { left_id := pointwise_one_left, right_id := pointwise_one_right })
+      EckmannHilton.MulOneClass.isUnital pointwise_interchange) a) b
+
+/-- Naturality retains the actual continuous multiplicative map. -/
+theorem mapOfEq_pointwise {H : Type*} [TopologicalSpace H] [MulOneClass H]
+    [ContinuousMul H] (f : G →* H) (hf : Continuous f)
+    (a b : FundamentalGroup G 1) :
+    FundamentalGroup.mapOfEq ⟨f, hf⟩ f.map_one (pointwise a b) =
+      pointwise (FundamentalGroup.mapOfEq ⟨f, hf⟩ f.map_one a)
+        (FundamentalGroup.mapOfEq ⟨f, hf⟩ f.map_one b) := by
+  rw [pointwise_eq_mul, pointwise_eq_mul, map_mul]
+
+end TopologicalGroupFundamentalGroup
+
+end TopologicalGroupFundamentalGroup
+
+end
 
 end TauCetiRoadmap.AlgebraicTopology
