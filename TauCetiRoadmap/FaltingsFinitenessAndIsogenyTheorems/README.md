@@ -295,7 +295,7 @@ The Weierstrass Hom modules are `TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny
   on a finite module) and `TauCeti.finiteLocallyFreeCommAffineGroupSchemeProperty` (finite locally free
   commutative group schemes with Cartier duality).
 - `LinearMap.BilinForm.prod` in `TauCeti.LinearAlgebra.BilinearForm.Prod` gives the
-  block-diagonal sum of two bilinear forms. the orthogonal-sum form evaluates it on the two coordinatewise
+  block-diagonal sum of two bilinear forms. The orthogonal-sum form evaluates it on the two coordinatewise
   sums over `Fin 4`; those coordinatewise forms have no dedicated pinned carrier.
 
 ### From TauCetiRoadmap roadmaps
@@ -333,8 +333,8 @@ The Weierstrass Hom modules are `TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny
   effective descent, finite-presentation and proper-stack carriers, and the groupoid
   of lifts with a specified generic identification for R28.1.4; §§0.20–0.21 supply
   finite normalization over excellent bases.
-- *AlgebraicModuliForArithmeticGeometry*: §5.4 `DMSchematicClosure.stack`, `DMNormalization.stack`,
-  `DMNormalization.finite`.
+- *AlgebraicModuliForArithmeticGeometry*: §5.4 `ArithmeticModuli.DMSchematicClosure.stack`,
+  `ArithmeticModuli.DMNormalization.stack`, `ArithmeticModuli.DMNormalization.finite`.
 - *JacobianChallengePartII*: §1.2 the relative Jacobian `J(X/S) = Pic⁰_{X/S}`, which over a field
   base is JacobianChallenge Layer D's Jacobian, and §1.3 its base change; §1.4 the canonical
   principal polarization `λ_X`, defined without a degree-one bundle, compatible with every base
@@ -354,10 +354,10 @@ The Weierstrass Hom modules are `TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny
   type over `ℂ`, compatibly with tensor products. ArakelovGeometryAndAbelianHeights also uses coherent
   analytification in supplying the height and metric comparisons.
 - *AbelianSchemesAndArithmeticModuli*: A0.2 `fieldAndEllipticBoundary`; A1.3 `relativeInvariantForms`; A1.6
-  `relativeEllipticEquivalence`; A2.2 `AbelianScheme.dual` (with `dual_prod`); A2.5 `Polarization`
+  `relativeEllipticEquivalence`; A2.2 `AbelianScheme.dual` (with the duality of products); A2.5 `Polarization`
   (`Polarization.degree`: the kernel has rank `d²` for a polarization of their degree `d`); A3.3
   `AbelianQuotient`; A3.6 `ThetaGroup` (`ThetaGroup.commutator`, `ThetaGroup.descend`); A3.7
-  `polarizedWeilPairing`; A6.1 `Hom.deg` (`deg_functionField`); A6.2 `homTateInjective`; A6.5
+  `polarizedWeilPairing`; A6.1 `Hom.deg` (with the function-field degree); A6.2 `homTateInjective`; A6.5
   `poincareReducibility`; A6.7 `homFreeFinite` (Hom free of finite rank, `Hom ⊗ ℤ_l → Hom(T_l, T_l)` injective
   with torsion-free cokernel); A6.8 `endQ_isSemisimple` (with `End(A^n) = M_n(End A)` compatibly with `T_l`);
   A6.13 `polarizedIsogenyDegree`; A6.14 Rosati positivity; A6.18 `polarizedAutomorphisms` (finiteness of
@@ -463,7 +463,7 @@ ArakelovGeometryAndAbelianHeights §2.0 `GroupScheme.IsSemiAbelianFamily` and
 a proper toroidal stack over all of `ℤ`, a normal projective minimal coarse scheme over `ℤ`,
 and a positive Hodge power pulled back from an ample line on that scheme. The integral
 base and all primes are retained; a space over `ℤ[1/n]` alone does not provide this contract.
-This roadmap's the correspondence stack adds a stable-curve family and a saturated
+This roadmap's correspondence stack adds a stable-curve family and a saturated
 Hodge subline over an integral proper correspondence, rather than a second Siegel compactification.
 
 ## How to read the build
@@ -657,7 +657,8 @@ compactification over `ℚ` and the ample power of the Hodge line); ArakelovGeom
 (the smooth toroidal charts and their map to the minimal compactification, used here over `ℂ`) for `φ : 𝒩 → Ā_g(ℂ)` with the semiabelian extension;
 SchemeAndStackFoundations §4.15 `StableCurves.Mbar` and `Mbar_algebraic_proper_DM`
 (`M̄_{g̃}` is a proper Deligne–Mumford stack over `ℤ`); AlgebraicModuliForArithmeticGeometry §5.4
-`DMSchematicClosure.stack` and `DMNormalization.stack`; NeronModelsAndSemistableAbelianVarieties §4.13
+`ArithmeticModuli.DMSchematicClosure.stack` and `ArithmeticModuli.DMNormalization.stack`;
+NeronModelsAndSemistableAbelianVarieties §4.13
 `StableFamilyPicard` and §3.10 `JacobianIsogenyFactor`; JacobianChallenge Layer D
 (Picard representability); SchemeAndStackFoundations §3.5 `lineBundleNorm`,
 `lineBundleNorm_pullback`, `lineBundleNorm_baseChange`, §3.2 `scheme_riemann_hurwitz`;
@@ -731,17 +732,13 @@ with `e_1·L^{⊗r} ⊆ ψ̄^*M ⊆ e_1^{−1}·L^{⊗r}`. After base change to 
 components of `U`.
 
 *Needs:* R28.1.1–R28.1.3 (proper DM correspondence and its generic projection);
-PELModuli M6.5 (moduli point) and M6.3 (finite level covers by fine smooth algebraic
-spaces `A_{g,1,n} → 𝔄_g ⊗ ℤ[1/n]`, `n = 3, 4`);
+PELModuli M6.5 (moduli point);
 SchemeAndStackFoundations §§1.18–1.20 (effective descent, finite presentation,
 proper-stack and compatible valuative-lift carriers), §§0.20–0.21 (finite normalization over
 excellent bases); Mathlib `AlgebraicGeometry.IsProper.eq_valuativeCriterion`
 (for the projective scheme `Ā_g/ℤ`), `NumberField.RingOfIntegers`.
 
 **Checks.**
-- In residue characteristic `2`, level `3` is invertible (`3 = 1` in `𝔽₂`);
-  in characteristic `3`, level `4` is invertible (`4 = 1` in `𝔽₃`). These two opens
-  cover every prime; the fine level spaces are algebraic spaces.
 - For `X = ℙ¹_R`, the point `[1:2]` extends as that same section with `L = K`.
   For the proper DM stack `B(ℤ/2)` over `ℤ_(2)`, the generic torsor `ℚ(√2)`
   has discriminant `8` and cannot extend as a finite étale torsor before extension.
@@ -847,7 +844,7 @@ no additional definition by resolution here. The line extension across `Y` is fi
 
 ### R28.1.7 The Hodge metric has logarithmic singularities along the boundary
 
-Use the alias logarithmic growth of the Hodge metric of ArakelovGeometryAndAbelianHeights §5.3
+Use, as an alias, the logarithmic growth of the Hodge metric from ArakelovGeometryAndAbelianHeights §5.3
 (Faltings 1983, §3, p. 355; Faltings–Chai V Proposition 4.5, pp. 168–169): for a smooth
 complex variety `X`, a normal-crossings divisor `Y` and a semiabelian scheme `A → X`
 which is abelian and principally polarized over `X − Y`, the supplied Hodge metric on the
@@ -943,18 +940,9 @@ and the chosen algebraic closure are isomorphic over `K`. Transport intermediate
 along this isomorphism, preserving degrees and ramification. No quotient by abstract
 field isomorphism replaces the count of embedded subfields.
 
-The library realization of the generic input is
-`TauCeti.NumberField.finite_of_finrank_le_of_ramifiedSupport_subset` in
-`TauCeti.NumberTheory.NumberField.Discriminant.RamifiedSupport.Hermite`, at Tau Ceti
-revision `4e9057a126044e69f54ed3b475fd1386de3b14cf`. It counts finite-dimensional
-intermediate fields in any fixed ambient field containing `K`, with degree at most `n`
-and ramified support contained in the finite places of `S`. This module is absent at
-the pinned revision `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`.
-The supplier contract uses that declaration and its ramification-support comparison:
-unramified at each finite place outside `S` is equivalent to ramified support lying
-in the finite places of `S`. At the pin, the same input is built under
-ArithmeticGaloisDuality R02.3.1 with this library interface; when importing the existing
-module, use a dependency revision containing `4e9057a126044e69f54ed3b475fd1386de3b14cf`.
+The generic input is ArithmeticGaloisDuality R02.3.1, which realises it through the
+`ramifiedSupport` finiteness of NumberFieldArithmetic Layer 4.3: unramified at each finite
+place outside `S` is equivalent to ramified support lying in the finite places of `S`.
 The local-different and discriminant argument belongs to that generic input.
 
 *Needs:* ArithmeticGaloisDuality R02.3.1
@@ -1059,7 +1047,7 @@ structure, and `μ = φ_M` satisfies `λ = π^∨ ∘ μ ∘ π`; the class `μ`
 Galois-invariant, hence defined over `k`. Degrees multiply along `λ = π^∨ ∘ μ ∘ π`, and `deg π^∨ = deg π`. The product
 statement is the definition of the product polarization through `(A × B)^∨ = A^∨ × B^∨`.
 
-*Needs:* AbelianSchemesAndArithmeticModuli A2.2 `AbelianScheme.dual` (with `dual_prod`), A2.5 `Polarization`
+*Needs:* AbelianSchemesAndArithmeticModuli A2.2 `AbelianScheme.dual` (with the duality of products), A2.5 `Polarization`
 (`Polarization.degree`), A3.3 `AbelianQuotient`, A3.6 `ThetaGroup` (`ThetaGroup.commutator`,
 `ThetaGroup.descend`), A3.7 `polarizedWeilPairing`, A6.13 `polarizedIsogenyDegree`; ArithmeticGaloisRepresentations
 §6.2 the product comparison of the arithmetic Weil-pairing adapter.
@@ -1162,7 +1150,7 @@ Throughout, `K` is a number field of degree `m`, `R = O_K`, `A/R` is semiabelian
 
 ### R28.2.1 Lemma 5: the isogeny height formula
 
-Use the alias the isogeny height formula of ArakelovGeometryAndAbelianHeights §§4.1–4.2
+Use, as an alias, the isogeny height formula from ArakelovGeometryAndAbelianHeights §§4.1–4.2
 (Faltings 1983, §4, pp. 357–358, Lemma 5): let `A_1, A_2` be semiabelian over
 `Spec(R)` of relative dimension `g` with proper generic fibres, `s` the zero section of `A_1`, and
 `φ : A_1 → A_2` an isogeny (by R28.1.2 it suffices to give `φ` on generic fibres). Then `φ` is flat,
@@ -2623,7 +2611,7 @@ good reduction outside `S` (good reduction of a curve gives good reduction of it
 Proposition 4.1, p. 144). Satz 6 with `d = 1` gives finitely many `(J, θ)`, and R28.5.14 makes the map injective on
 `K`-isomorphism classes.
 
-*Needs:* R28.5.11, R28.5.14 the field specialization of the canonical Jacobian polarization and rational Torelli;
+*Needs:* R28.5.11, R28.5.14 (the field specialization of the canonical Jacobian polarization and rational Torelli);
 SchemeAndStackFoundations §3.6 `jacobian`, `jacobian_dim`; NeronModelsAndSemistableAbelianVarieties
 §3.8–§3.9 (`PicardNeronIdentity`: for a smooth model the degree-zero Picard scheme is the abelian scheme).
 
@@ -2686,7 +2674,7 @@ Tate modules through the points. (iii) compares the Weierstrass scheme with the 
 change preserves `O`, hence the polarization.
 
 *Needs:* ArithmeticGaloisRepresentations §6.1 “The elliptic comparison”; AbelianSchemesAndArithmeticModuli
-A0.2 `fieldAndEllipticBoundary`, A1.6 `relativeEllipticEquivalence`, A6.1 `Hom.deg` (`deg_functionField`);
+A0.2 `fieldAndEllipticBoundary`, A1.6 `relativeEllipticEquivalence`, A6.1 `Hom.deg` (with the function-field degree);
 NeronModelsAndSemistableAbelianVarieties §6.5 `EquationGoodComparison`; Tau Ceti `TauCeti.Isogeny.Hom`
 (`Isogeny.Hom.degree`), `AbelianVariety`; Mathlib `WeierstrassCurve`, `WeierstrassCurve.VariableChange`.
 
