@@ -15,7 +15,7 @@ same scaffolding first, and this roadmap builds it:
   subgroup through group-theoretic Herbrand functions;
 - the upper filtration on **local Galois groups**: on `G_K`, on `Gal(F/K)` for every Galois
   `F/K`, on `G_K^m` and on the maximal pro-`p` quotient `G_K(p)`, and the descent of filtered
-  isomorphisms of `G_K^{m+n}` to filtered isomorphisms of `G_L^n` for finite `L ⊆ K^m`;
+  isomorphisms of `G_K^{m+n}` to filtered isomorphisms of `G_L^n` for finite separable `L` lying in `K^m`;
 - **centre-freeness**: for `K/ℚ_p` finite, `G_K^m` has trivial centre for every `m ≥ 2`
   [Hyeon 2025, Prop. A.1], and hence so does `G_K`.
 
@@ -116,13 +116,17 @@ It does not own:
 - **Local Galois groups.** `G_K` is Mathlib's `Field.absoluteGaloisGroup K`, the automorphism
   group of `AlgebraicClosure K` with the Krull topology, as in TauCetiProject/TauCetiRoadmap#1410
   and the class field theory roadmap. Subextensions are `IntermediateField K (AlgebraicClosure K)`.
-  `K^m` is the fixed field of `G_K^[m]`, the maximal `m`-step solvable extension, and
-  `Gal(K^m/K)` is identified with `G_K^m` by the Galois correspondence. In characteristic `p` the
-  fixed field contains the perfect closure of `K`; only finite separable subextensions of `K^m`
-  are used. A finite separable subextension `L`
-  is a local field through Tau Ceti's `finiteIntermediateFieldValuativeRel` and
-  `finiteIntermediateFieldTopology`, and its absolute Galois group is identified with the open
-  subgroup `L.fixingSubgroup` of `G_K` (Layer 2.0).
+  Statements are about `G_K^m` and its subgroups, never about a Galois group of an infinite
+  subextension: `AlgebraicClosure K` is not Galois over `K` in characteristic `p`, and Mathlib's
+  infinite Galois correspondence (`Mathlib/FieldTheory/Galois/Infinite.lean`) needs `IsGalois`. A
+  finite separable subextension `L` **lies in `K^m`** when `G_K^[m] ≤ L.fixingSubgroup`; in
+  characteristic `0` this is `L ⊆ K^m` for the fixed field `K^m` of `G_K^[m]`, and Layer 3, which
+  is in characteristic `0`, writes `Gal(K^{m+1}/K^m)` for `G_K^[m]/G_K^[m+1]`. A finite separable
+  subextension `L` is a local field through Tau Ceti's `finiteIntermediateFieldValuativeRel`,
+  `finiteIntermediateFieldTopology` and `finiteIntermediateField_isNonarchimedeanLocalField`.
+  These are definitions, not instances: a statement about `L` installs them locally with `letI`
+  and `haveI`, as `TauCeti.IntermediateField.discriminantExponent` does. The absolute Galois group
+  of `L` is identified with the open subgroup `L.fixingSubgroup` of `G_K` (Layer 2.0).
 - **Mixed characteristic** in Layer 3 is the hypothesis of the class field theory roadmap's
   `injective_artinMap`: `(p : ℕ) [Fact p.Prime] [Algebra ℚ_[p] K] [Module.Finite ℚ_[p] K]`,
   beside the local-field structure
@@ -205,8 +209,7 @@ Nothing in Mathlib or Tau Ceti defines the closed derived series, solvable quoti
 topological groups, filtrations of groups, filtered or outer filtered isomorphisms, Herbrand
 functions of an open subgroup of an abstract filtered group, the upper filtration on `G_K^m` or
 `G_K(p)`, or the coordinates `G_F^ab ≅ 𝒪_F^× × Ẑ`. The centre of `G_K` and of its solvable
-quotients is not computed anywhere. Mathlib's open ramification pull requests concern Hilbert
-theory for Dedekind domains and none of these objects.
+quotients is not computed anywhere.
 
 ---
 
@@ -220,8 +223,9 @@ Let `G` be a topological group.
   closedness, `closedDerivedSeries G 0 = ⊤`, antitonicity, and the recursion
   `closedDerivedSeries G (n + 1) = (⁅closedDerivedSeries G n, closedDerivedSeries G n⁆).topologicalClosure`,
   from `closure ⁅closure A, closure B⁆ = closure ⁅A, B⁆` for subgroups of a topological group.
-  `closedDerivedSeries G 1 = (commutator G).topologicalClosure`. `G` is abelian exactly when
-  `G^[1] = ⊥`, and `G^n` is the quotient `SolvableQuotient G n = G ⧸ closedDerivedSeries G n`, with
+  `closedDerivedSeries G 1 = (commutator G).topologicalClosure`. For `G` Hausdorff, `G` is
+  abelian exactly when `G^[1] = ⊥`; without separation an abelian `G` has `G^[1] = closure {1}`.
+  `G^n` is the quotient `SolvableQuotient G n = G ⧸ closedDerivedSeries G n`, with
   `SolvableQuotient G 1 = TopologicalAbelianization G`.
 - **Functoriality.** A continuous homomorphism `f` maps `G^[n]` into `G'^[n]`, onto it when `f` is
   surjective and `G` is compact and `G'` Hausdorff; a continuous isomorphism maps `G^[n]` onto
@@ -282,7 +286,7 @@ Let `G, G'` be topological groups with filtrations `F, F'`.
   `(G/N)` restricted to `H/N` is `(F.restrict H)` taken modulo `N`. Here `[G/N : (G/N)(t)·(H/N)]`
   equals `[G : G(t)·H]`, and `(G(v)·N) ∩ H = (G(v) ∩ H)·N` by the modular law. If `α` is
   `S`-filtered with `[0, ∞) ⊆ S` and `α(H) = H'`, then `ψ_{H'} = ψ_H` and `α|_H : H ≃ₜ* H'` is
-  `ψ_H(S)`-filtered, in particular `[0, ∞)`-filtered.
+  `ψ_H(S)`-filtered (`exists_isFiltered_restrict`), in particular `[0, ∞)`-filtered.
 
 ### Layer 2: the upper filtration on local Galois groups
 
@@ -291,7 +295,8 @@ conventions.
 
 - **2.0 The open-subgroup model.** For a finite separable subextension `L` of
   `AlgebraicClosure K`, an
-  isomorphism of topological groups `Field.absoluteGaloisGroup L ≃ₜ* L.fixingSubgroup`: the
+  isomorphism of topological groups `Field.absoluteGaloisGroup L ≃ₜ* L.fixingSubgroup`
+  (`absoluteGaloisGroupEquivFixingSubgroup'`): the
   composite of `absoluteGaloisGroupRestrictEquiv L`,
   `absoluteGaloisGroupEquivFixingSubgroup K L σ` for the embedding `σ` of `L` into
   `SeparableClosure K` induced by the inclusion, and `absoluteGaloisGroupRestrictEquiv K`. Its
@@ -301,8 +306,12 @@ conventions.
   inertia (§4a.1). For a Galois subextension `E` of `AlgebraicClosure K`, the quotient filtration
   through `G_K/E.fixingSubgroup ≅ Gal(E/K)` is the upper filtration of `Gal(E/K)`, and for `E`
   finite it is `TauCeti.upperRamificationGroup` on `RamificationIndexDomain` (§4a.1, the
-  surjections onto the finite levels). Specializations: `Gal(K^m/K) = G_K^m`, `G_K^ab`, the
-  maximal unramified extension (whose `G(u)` is trivial for `u ≥ 0`), and `G_K(p)`.
+  surjections onto the finite levels); the identification `G_K/E.fixingSubgroup ≅ Gal(E/K)` is
+  Mathlib's `AlgEquiv.restrictNormalHom`, surjective because `AlgebraicClosure K` is normal over
+  `K`. The maximal unramified extension is an example: its `G(u)` is trivial for `u ≥ 0`. The
+  solvable quotients and the maximal pro-`p` quotient are filtered directly, as
+  `F_K.quotient (closedDerivedSeries G_K m)` on `G_K^m` (in particular on `G_K^ab`) and
+  `F_K.quotient (proPKernel p G_K)` on `G_K(p)`, with no field-theoretic model.
 - **2.2 Open subgroups.** For finite separable `L ⊆ AlgebraicClosure K`, with
   `H = L.fixingSubgroup`:
   `f_H = f(L/K)`, `ψ_H = ψ_{L/K}` and `φ_H = φ_{L/K}`, and `F_K.restrict H` is the upper filtration
@@ -312,23 +321,30 @@ conventions.
   So **a filtered isomorphism `G_K ≃ₜ* G_{K'}` restricts to filtered isomorphisms of the
   absolute Galois groups of corresponding finite extensions** (Layer 1).
 - **2.3 Descent along solvable extensions** [Hyeon 2025, Lems. 2.1 and 2.3(2)]. Let `m, n ≥ 0`
-  and `L ⊆ K^m` finite separable over `K`, and let `H = Gal(K^{m+n}/L)`, an open subgroup of `G_K^{m+n}`
-  containing `(G_K^{m+n})^[m]`. Then `G_L^[n] ⊇ G_K^[m+n]` (Layer 0), `H^n ≅ G_L^n` canonically,
+  and `L` finite separable over `K` lying in `K^m`, and let `H` be the image of `L.fixingSubgroup`
+  in `G_K^{m+n}`, an open subgroup containing `(G_K^{m+n})^[m]`. Then `G_L^[n] ⊇ G_K^[m+n]` (Layer 0), `H^n ≅ G_L^n` canonically,
   and under this isomorphism the filtration
   `((F_K.quotient G_K^[m+n]).restrict H).quotient H^[n]` is the upper filtration of `G_L^n`
   (2.1, 2.2 and the compatibility of restriction with quotients). Consequently, an
   `S`-filtered `α : G_K^{m+n} ≃ₜ* G_{K'}^{m+n}` with `[0, ∞) ⊆ S` and `α(H) = H'`, where
-  `H' = Gal(K'^{m+n}/L')` for a finite separable `L' ⊆ K'^m`, induces a `[0, ∞)`-filtered
+  `H'` is the image of `L'.fixingSubgroup` for a finite separable `L'` lying in `K'^m`, induces a `[0, ∞)`-filtered
   `G_L^n ≃ₜ* G_{L'}^n`. This is the form in which the `m`-step anabelian theorems pass to finite
   extensions.
 - **2.4 Outer isomorphisms of local Galois groups.** `Out_Filt(G_K, G_{K'}; S)` and
   `Out_Filt(G_K^m, G_{K'}^m; S)` with the maps between them of Layer 1, and the map
   `K ≃+* K' ↦ Out_Filt(G_K, G_{K'}; [0, ∞))` on continuous field isomorphisms. An extension
   `ẽ` of `e` to the algebraic closures conjugates `G_K` onto `G_{K'}`, and the outer class does not
-  depend on `ẽ`. It is filtered: `ẽ` carries each finite Galois `M/K` to `ẽ(M)/K'`, and, `e`
-  being continuous, the valuations of `M` and `ẽ(M)` correspond, so the lower numbering, the
-  Herbrand functions and the upper groups correspond; §4a.1 passes this to the limit. Its
-  composites with the maps to `G_K^m` and `G_K(p)`.
+  depend on `ẽ`. It is filtered, by the finite-level transport below and §4a.1, which passes it
+  to the limit. Its composites with the maps to `G_K^m` and `G_K(p)`.
+
+  **Transport of ramification groups** (`map_conj_upperRamificationGroup`). For a continuous
+  `e : K ≃+* K'` of nonarchimedean local fields, a finite Galois `M/K` and a ring isomorphism
+  `ẽ : M ≃+* M'` onto a finite Galois `M'/K'` extending `e`, conjugation `σ ↦ ẽ ∘ σ ∘ ẽ⁻¹` is an
+  isomorphism `(M ≃ₐ[K] M) ≃* (M' ≃ₐ[K'] M')` carrying `upperRamificationGroup K M v` onto
+  `upperRamificationGroup K' M' v` for every `v : RamificationIndexDomain`. `ẽ` is continuous,
+  the valuation of a finite extension being the unique one extending that of the base, so it
+  carries `𝒪[M]` onto `𝒪[M']` and the lower index `i(σ)` to `i(ẽσẽ⁻¹)`. The lower groups, the
+  Herbrand functions and the upper groups then correspond.
 
 ### Layer 3: the abelianization in coordinates and centre-freeness
 
@@ -345,7 +361,8 @@ Let `K` be a finite extension of `ℚ_p`, with the hypotheses of the conventions
   `Fˣ = 𝒪_F^× × ϖ^ℤ`.
 - **3.2 Galois action and norms in coordinates.** For `F/E` finite Galois inside
   `AlgebraicClosure K` and `τ ∈ G_E`, conjugation by `τ` on `G_F^ab` is
-  `Art_F(x) ↦ Art_F(τ x)` (`artinMap_congr` with `e = τ|_F`, `e' = τ`). The map
+  `Art_F(x) ↦ Art_F(τ x)` (`artinMap_congr` with `e = τ|_F`, `e' = τ`; `e` is continuous by
+  `AlgEquiv.continuous_of_valuativeExtension`, `LocalField/FiniteExtension/Basic.lean`). The map
   `G_F^ab → G_E^ab` induced by `G_F ≤ G_E` is `Art_F(x) ↦ Art_E(N_{F/E} x)` (`artinMap_norm`).
   Both are read through 2.0, which identifies the algebraic closures of `E` and `F` with
   `AlgebraicClosure K` and their absolute Galois groups with fixing subgroups. Both commute with
