@@ -8,7 +8,7 @@ Layer 0 imports the complete Banach-spectrum core from AdicSpacesPartIII §R3.9,
 
 Layer 1 owns line points, paths, annuli, logarithmic lengths and their descent conventions. Layer 2 owns rank-one analytic semistable existence, the metric realization of the imported combinatorial dual graph, retractions, refinement and locally finite noncompact triangulations. StableReduction Layer 1 supplies the dual graph with component genera and its arithmetic-genus formula; Layer 2 supplies flat-family genus invariance in its locally noetherian range; the application to rank-one models requires the descent comparison in this roadmap. Its Layers 7–9 cover discrete valuation rings. Their statement does not establish the required theorem over a possibly nonnoetherian rank-one valuation ring.
 
-Layer 3 owns metric graphs, all-point divisors, potentials, Jacobians, metrized complexes and specialization. Layer 4 owns torus and extended tropicalization on Berkovich analytifications, initial-degeneration and weighted-cycle comparisons. Layer 5 owns faithfulness on metric graphs and marked rays. Algebraic curves and Riemann–Roch are imported. AnalyticToricGeometry Layer 0 supplies lattice, cone and fan geometry; ShimuraCompactifications §C0.16 supplies finite-fan schemes over arbitrary coefficient rings, including singular cones. Section 4.0 extends that carrier to arbitrary small fans and constructs its valued analytic comparisons.
+Layer 3 owns metric graphs, all-point divisors, potentials, Jacobians, metrized complexes and specialization. Layer 4 owns torus and extended tropicalization on Berkovich analytifications, initial-degeneration and weighted-cycle comparisons. Layer 5 owns faithfulness on metric graphs and marked rays. Algebraic curves and Riemann–Roch are imported. AnalyticToricGeometry Layer 0 supplies lattice, cone and fan geometry; ShimuraCompactifications §0.16 supplies finite-fan schemes over arbitrary coefficient rings, including singular cones. Section 4.0 extends that carrier to arbitrary small fans and constructs its valued analytic comparisons.
 
 Layer 6 owns local model metrics, mixed measures, graph and line potential theory, and local heights. ArithmeticDynamics owns dynamical escape-rate estimates and the convergence of its family-specific potentials on the hybrid space. Layer 7 imports the algebraic Tate curve from EllipticCurves Layer 4, local annular primitives and good-reduction integration from ColemanIntegration, and the finite-model abelian logarithm from AnabelianGeometryAndNonabelianChabauty §5.8, its arbitrary-ℂ_p-coefficient extension from ColemanIntegrationPartII §4.0, and rational endpoint integrals from EffectiveDiophantineMethods §4.3. Section 7.0 constructs the arbitrary-rank-one Raynaud interfaces. The new results here compare those objects with skeleta and path integrals.
 
@@ -116,7 +116,7 @@ The headline signatures use Mathlib `6b7abb3c7686292736be2955bd3eb9ebf63b456a` a
 
 ### From TauCetiRoadmap.AnabelianGeometryAndNonabelianChabauty
 
-- AnabelianGeometryAndNonabelianChabauty §5.8 (`abelianLog.cp`, `abelianLog.derivative`, `abelianLog.functorial`): The logarithm on all ℂ_p-points of an abelian variety defined over a finite p-adic field.
+- AnabelianGeometryAndNonabelianChabauty §5.8 (the local abelian logarithm, its compatible extension to all ℂ_p-points, its identity differential and its functoriality): The logarithm on all ℂ_p-points of an abelian variety defined over a finite p-adic field.
 
 ### From TauCetiRoadmap.ColemanIntegrationPartII
 
@@ -129,8 +129,8 @@ The headline signatures use Mathlib `6b7abb3c7686292736be2955bd3eb9ebf63b456a` a
 
 ### From TauCetiRoadmap.ClassicalAdicEtaleCohomology
 
-- ClassicalAdicEtaleCohomology §3.1 (`StrictAnalyticSpace`, `StrictAnalyticSpace.affinoid`, `StrictAnalyticSpace.glue`, `StrictAnalyticSpace.Hom`, `StrictAnalyticSpace.u`, `StrictAnalyticSpace.s₀`, `StrictAnalyticSpace.u_max`, `StrictAnalyticSpace.u_partiallyProper`, `StrictAnalyticSpace.u_proper`, `StrictAnalyticSpace.u_etale_smooth`): Hausdorff strict analytic atlases over a complete nontrivially valued rank-one field, their taut locally finite-type adic equivalence, and boundary, properness, étale and smooth comparisons. Sections 0.21 and 0.30 identify the strict specialization and transport these results; §0.22 uses them for the strict GAGA route.
-- ClassicalAdicEtaleCohomology §3.7 (`AnalyticTateQuotient`): The analytic quotient, covering, Tate analytification isomorphism and skeletal circle over a complete algebraically closed rank-one field. Section 7.1 extends this to general complete K and compares the metric and differential.
+- ClassicalAdicEtaleCohomology §3.1 (`StrictAnalyticSpace`, its Berkovich realization u and inverse s₀, the maximal Hausdorff quotient identification, and the boundary, properness, étale and smooth comparisons): Hausdorff strict analytic atlases over a complete nontrivially valued rank-one field, their taut locally finite-type adic equivalence, and boundary, properness, étale and smooth comparisons. Sections 0.21 and 0.30 identify the strict specialization and transport these results; §0.22 uses them for the strict GAGA route.
+- ClassicalAdicEtaleCohomology §3.7 (the analytic Tate quotient and the finite étale degree-one criterion): The analytic quotient, covering, Tate analytification isomorphism and skeletal circle over a complete algebraically closed rank-one field. Section 7.1 extends this to general complete K and compares the metric and differential.
 
 ### From TauCetiRoadmap.PerfectoidSpaces
 
@@ -156,11 +156,11 @@ The headline signatures use Mathlib `6b7abb3c7686292736be2955bd3eb9ebf63b456a` a
 
 ### From TauCetiRoadmap.ShimuraCompactifications
 
-- ShimuraCompactifications §C0.16 (`TauCeti.Toric.finiteFanScheme`, `affineChart_baseChange`, `finiteFanScheme_baseChange`, `finiteFanScheme_complex`, `finiteFanScheme_torusAction`, `finiteFanScheme_glue_hom`): Schemes of finite rational fans over every commutative ring, singular cones allowed, with face localizations, coherent coefficient change and compatible chart gluing. Section 4.0 uses the specialization R=K and extends it to small fans; §§4.1–4.2 add valued analytification and tropicalization. Section C0.17 supplies the finite-fan toric morphisms induced by lattice maps.
+- ShimuraCompactifications §0.16 (`TauCeti.Toric.finiteFanScheme`, `affineChart_baseChange`, `finiteFanScheme_baseChange`, `finiteFanScheme_complex`, `finiteFanScheme_torusAction`, `finiteFanScheme_glue_hom`): Schemes of finite rational fans over every commutative ring, singular cones allowed, with face localizations, coherent coefficient change and compatible chart gluing. Section 4.0 uses the specialization R=K and extends it to small fans; §§4.1–4.2 add valued analytification and tropicalization. Section 0.17 supplies the finite-fan toric morphisms induced by lattice maps.
 
 ### From TauCetiRoadmap.ResolutionOfSingularitiesCharacteristicZero
 
-- ResolutionOfSingularitiesCharacteristicZero §7.7 (`qePairPrincipalization`): Projective principalization on a reduced noetherian quasi-excellent ℚ-scheme, for a coherent ideal nonzero on every generic component, with regular source and strict-normal-crossings reduced support including the exceptional support, preserving the stated semi-strict locus. Section 0.23 proves the convergent-model excellence and analytic transport needed for complex meromorphic families, rather than identifying the scheme statement with analytic resolution.
+- ResolutionOfSingularitiesCharacteristicZero §7.7 (quasi-excellent pair principalization): Projective principalization on a reduced noetherian quasi-excellent ℚ-scheme, for a coherent ideal nonzero on every generic component, with regular source and strict-normal-crossings reduced support including the exceptional support, preserving the stated semi-strict locus. Section 0.23 proves the convergent-model excellence and analytic transport needed for complex meromorphic families, rather than identifying the scheme statement with analytic resolution.
 
 ### From TauCetiRoadmap.NeronModelsAndSemistableAbelianVarieties
 
@@ -1739,7 +1739,7 @@ Provide the following interface:
 - The graph of T² on G_m is closed in G_m×P¹ and has one-point projection fibers; replacing it by the product would give P¹ fibers.
 - Infinitely many distinct rational rays in a rank-two lattice, together with the zero cone, form a small fan. Its scheme is locally of finite type but not quasi-compact; its infinitely many affine charts all meet in the torus, so that cover is not locally finite.
 
-*Needs:* AnalyticToricGeometry Layer 0 for lattice/cone/fan/semigroup geometry; ShimuraCompactifications §§C0.16–C0.17 for the finite-fan carrier, face localizations, gluing property, coefficient change and toric morphisms; Mathlib `AlgebraicGeometry.Scheme.GlueData` for the small gluing; §0.22 for analytification.
+*Needs:* AnalyticToricGeometry Layer 0 for lattice/cone/fan/semigroup geometry; ShimuraCompactifications §§0.16–0.17 for the finite-fan carrier, face localizations, gluing property, coefficient change and toric morphisms; Mathlib `AlgebraicGeometry.Scheme.GlueData` for the small gluing; §0.22 for analytification.
 
 ### 4.1 Torus tropicalization
 
@@ -1935,7 +1935,7 @@ The doubled equation (χᵘ−1)² has the same tropical support as χᵘ−1 an
 
 ### Dependencies
 
-Layers 0–3 for analytic points, annular slopes, skeleta and the slope formula; AnalyticToricGeometry Layer 0 for lattice and fan geometry; ShimuraCompactifications §§C0.16–C0.17 for finite-fan schemes and toric morphisms; §4.0 for the small-fan extension and valued toric comparisons. The valued Gröbner, cycle multiplicity and balancing arguments are constructed here.
+Layers 0–3 for analytic points, annular slopes, skeleta and the slope formula; AnalyticToricGeometry Layer 0 for lattice and fan geometry; ShimuraCompactifications §§0.16–0.17 for finite-fan schemes and toric morphisms; §4.0 for the small-fan extension and valued toric comparisons. The valued Gröbner, cycle multiplicity and balancing arguments are constructed here.
 
 ## Layer 5: Faithful tropicalization of curves
 
@@ -2344,7 +2344,7 @@ Provide the following interface:
 
 For the extension, form the q-equivariant annular charts over K and compare their completed algebraically closed base changes with ClassicalAdicEtaleCohomology §3.7. Descend the supplied quotient identification through the K-defined Tate parametrization and faithful affinoid scalar extension. The annular metric of §1.5 identifies its descended Gauss-line quotient with the specified circle; compare the invariant differential in the same charts.
 
-*Needs:* §1.5; §0.18; §0.21; EllipticCurves Layer 4; ClassicalAdicEtaleCohomology §3.7 (`AnalyticTateQuotient`).
+*Needs:* §1.5; §0.18; §0.21; EllipticCurves Layer 4; ClassicalAdicEtaleCohomology §3.7 (the analytic Tate quotient).
 
 [Jérôme Poineau and Daniele Turchetti, Berkovich curves and Schottky uniformization](https://arxiv.org/pdf/2010.09043v1), Theorem II.3.18 and Example II.3.19, pp. 49–50. Rank-one Schottky quotient is the Tate analytic curve. [Antoine Chambert-Loir, Mesures et équidistribution sur les espaces de Berkovich](https://arxiv.org/pdf/math/0304023v3), Tate example, pp. 17–18. The metric circle and local canonical measure normalization.
 
