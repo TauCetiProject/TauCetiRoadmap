@@ -1420,7 +1420,7 @@ The proof uses the following steps.
 
 *Needs:* §5.6; §5.7; §6.1; `AutomorphicGaloisRepresentations §§6.1–6.4`; `FaltingsFinitenessAndIsogenyTheorems R28.6`; `ArithmeticGaloisRepresentations §§6.1–6.4`.
 
-Sources: [Ribet92](#references), Lemma 7.1 proof, p. 16.
+Sources: [Ribet92](#references), Theorem 6.1 and its proof, pp. 12–15, especially [Ribet92](#references), Proposition 6.5 and Corollary 6.6, p. 15, for the restriction-of-scalars steps 1–2; [Ribet92](#references), proof of Theorem 5.3, p. 10, for the Schur argument of step 3; [Ribet92](#references), Lemma 7.1 proof, p. 16, for the quadratic specialization. The general statement over any K is the consequence of the three steps above.
 
 ### 6.3 Modularity of ℚ-curves over solvable Galois fields
 
