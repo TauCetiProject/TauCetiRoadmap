@@ -148,7 +148,7 @@ Define `[n k]_t` by the recursion in `ℕ[t]`, and evaluate at `t` using the nat
 
 *Needs:* `card_linearIndependent` (Mathlib), `Matrix.card_GL_field` (Mathlib), `Polynomial.coeff` (Mathlib).
 
-([53], §1.7, pp. 62–64: the definition as a quotient of q-factorials, the recursion (1.67) and the polynomiality of the Gaussian coefficient on p. 62, Proposition 1.7.2 (subspace count) on p. 64; [25], §2, Case 2.12, p. 9 (arXiv v2).)
+([53], §1.7, pp. 62–64: the definition as a quotient of q-factorials, the recursion (1.67) in the mirrored form `[n k] = [n−1 k] + t^{n−k}[n−1 k−1]`, from which the displayed recursion follows by the symmetry `[n k]_t = [n n−k]_t` (here the displayed recursion is the definition and (1.67) is derived), and the polynomiality of the Gaussian coefficient on p. 62, Proposition 1.7.2 (subspace count) on p. 64; [25], §2, Case 2.12, p. 9 (arXiv v2).)
 
 **Checks.**
 
