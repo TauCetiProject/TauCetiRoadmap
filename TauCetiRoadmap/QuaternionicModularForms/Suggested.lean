@@ -10,8 +10,9 @@ so this file declares nothing. Each headline and the carrier it lacks:
 * Compactness of the controlling operator `U_π` on overconvergent forms of a totally definite
   quaternion algebra (§3.3), and the theta–Hecke relation (§5.2). Missing: the analytic weight
   action `f ↦ j_κ(γ) · f((a z + b)/(c z + d))` of the local monoid `Σ₀(t)` on the Tate algebra.
-  Tau Ceti has the Tate algebra `PowerSeries.IsRestricted.subring 1` as a complete normed ring
-  and substitutes polynomials without constant term and with unit-ball coefficients into it
+  Tau Ceti has the Tate algebras `PowerSeries.IsRestricted.subring 1` and
+  `MvPowerSeries.IsRestricted.subring (fun _ ↦ 1)` as complete normed rings and substitutes
+  polynomials without constant term and with unit-ball coefficients into the latter
   (`MvPowerSeries.restrictedSubst`, `TauCeti/RingTheory/MvPowerSeries/TateAlgebra/Subst.lean`;
   Mathlib's `PowerSeries.subst` likewise requires `PowerSeries.HasSubst`, a nilpotent constant
   coefficient), but there is no analytic substitution of a Möbius transformation, whose value

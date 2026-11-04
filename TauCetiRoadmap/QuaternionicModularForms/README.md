@@ -787,7 +787,7 @@ pp. 4–5) are the functions `GL₂(𝔸_F)→V_{2k+2}(ℂ)` with the right `SU�
 central factor `|z|^{−k}` for `z∈ℂˣ`, right `Ω₁(𝔫)`-invariance, left `GL₂(F)`-invariance, the
 single Casimir condition `∂Φ=(k²/2+k)Φ` and vanishing of the unipotent integral, leaving the finite
 central character free. These five conditions include no growth condition, and without one the
-Casimir eigenspace is infinite dimensional; his Fourier expansion (Williams, §1.2.1, p. 5, taken
+Casimir eigenspace is infinite dimensional; his Fourier expansion (Williams, §1.2.1, p. 6, taken
 from Hida) presupposes moderate growth, which is imposed here as part of his definition, so that
 his space consists of cusp forms in the sense of ALS.F.6 and §2.4. His `|·|` on `ℂ` is the
 Euclidean absolute value: he writes `N(α)^{−s}=|α|^{−2s}` and `|a|_f=|a|_∞^{−2}` for `a∈Fˣ`
@@ -833,9 +833,13 @@ space.) *Needs:* ALS.F.5, F.7, 1.1, 1.3, 5b.1, 5b.5.
   tori is nonzero on Eisenstein classes (ALS.5b.4).
 - For `λ_τ=(1,0)`, `λ_τ̄=(0,0)`: `a+b′=1≠0=b+a′`, so `S_{V_λ^∨}(U,ω)=0` although `V_λ` is a local
   system on `X_U`; `λ_τ=λ_τ̄=(k,0)` has `a+b′=k=b+a′` and gives `V_{k,k}`.
-- `diag(u,1)` with `u∈Ô_Fˣ`, `u≢1 mod 𝔫` (such `u` exist when `#(𝒪_F/𝔫)>2`) lies in `U₁(𝔫)` and
-  not in `Ω₁(𝔫)`, so Williams's level is strictly smaller than §0.2's; at `𝔫=𝒪_F` both are
-  `GL₂(Ô_F)`.
+- `diag(u,1)` with `u∈Ô_Fˣ`, `u≢1 mod 𝔫` lies in `U₁(𝔫)` and not in `Ω₁(𝔫)`; since `Ô_Fˣ→(𝒪_F/𝔫)ˣ`
+  is onto, such `u` exist exactly when `(𝒪_F/𝔫)ˣ` is nontrivial, that is unless `𝔫` is a product
+  of distinct primes of norm `2`, and then Williams's level is strictly smaller than §0.2's; at
+  `𝔫=𝒪_F` both are `GL₂(Ô_F)`.
+- Negative control: for `F=ℚ(√−7)`, where `2` splits, and `𝔫=2𝒪_F`, the ring `𝒪_F/𝔫≅𝔽₂×𝔽₂` has
+  four elements but trivial unit group, so `det≡1 mod 𝔫` holds on all of `U₁(𝔫)` and
+  `Ω₁(𝔫)=U₁(𝔫)`: the size of `𝒪_F/𝔫` alone does not decide whether the inclusion is strict.
 
 ### Examples
 
@@ -1205,7 +1209,7 @@ Layers 0–4; RestrictedPowerSeries §2.3; CompactOperators §§1.4, 1.6; Mathli
 - B. H. Gross, *Algebraic modular forms*, Israel J. Math. 113 (1999), 61–93: the rational
   covariance model, consumed through AutomorphicFormsOnReductiveGroups §7.4.
 - C. Williams, *P-adic L-functions of Bianchi modular forms*, Proc. London Math. Soc. 114 (2017),
-  arXiv:1404.2100v2: Definitions 1.1–1.2, pp. 4–5; Theorem 1.3, p. 5; §1.2.1, p. 5 (the Fourier
+  arXiv:1404.2100v2: Definitions 1.1–1.2, pp. 4–5; Theorem 1.3, p. 5; §1.2.1, p. 6 (the Fourier
   expansion); §1.2, p. 7, and §2.6, p. 13, for the absolute-value convention.
 - G. Harder, *Eisenstein cohomology of arithmetic groups. The case GL₂*, Invent. Math. 89 (1987),
   37–118, §3 (uncertified): the Eichler–Shimura–Harder isomorphism for Bianchi groups.
