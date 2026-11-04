@@ -196,13 +196,13 @@ spaces,
   `Tower.limOneComparison`, natural in tower maps and compatible with the shift, six-term boundary
   and Milnor maps. Its §0.2 owns K-flat resolutions, the module-derived tensor product
   `DerivedDeRham.derivedTensor`, derived extension of scalars, model independence and exactness.
-  D7.1 uses this functor for perfect amplitude, Tor and arithmetic coefficient change. Layer 1 §1.1 owns
+  D7.1 uses this functor for perfect amplitude, Tor and arithmetic coefficient change. Its §1.1 owns
   the general module-derived limit `DerivedDeRham.derivedLimit`; its Milnor proof reuses DerivedModuleAlgebra §1.T.1's
   shift calculation after a degreewise-surjective replacement, and the integral-module adapter
   retains its injection, projection and connecting maps. D7.1 adds only the restriction of scalars
   from `R`-module towers to integral-module towers and the resulting arithmetic specialization.
-  Layer 1 also supplies the derived completion reflector `DerivedDeRham.derivedCompletion`
-  (§1.3) and the comparison of derived completion with ordinary completion for complexes with
+  Its §1.3 also supplies the derived completion reflector `DerivedDeRham.derivedCompletion`
+  and the comparison of derived completion with ordinary completion for complexes with
   finitely generated cohomology over a Noetherian ring (§1.5), used by *Grothendieck local duality
   for a complete Noetherian local ring*. Section 1.M.1 supplies Matlis duality for arithmetic
   coefficients (finite residue field); §1.M.2 supplies the injective hull, Matlis duality and
@@ -212,8 +212,8 @@ spaces,
 - *EnhancedDerivedSheaves* §E1.8.DMA.1 supplies the affine comparison `derivedTensor_affine`
   with SchemeAndStackFoundations §2.18.
 - *AbelianSchemesAndArithmeticModuli* Layer A2: the dual abelian scheme with its Poincaré bundle
-  (`AbelianScheme.dual`, §A2.2) and its elliptic comparison `AbelianScheme.dual_elliptic`,
-  `a ↦ O([−a] − [0])`, and *AlgebraicModuliForArithmeticGeometry* Layer 4: banded gerbes
+  (`AbelianScheme.dual`, §A2.2) and the elliptic identification `a ↦ O([−a] − [0])` that
+  §A2.2 states in prose, and *AlgebraicModuliForArithmeticGeometry* Layer 4: banded gerbes
   and their classification by `H²` of the band (`gerbeClass`, §4.20, derived classification on
   arbitrary sites); both are used for local duality of abelian varieties.
 - *ArithmeticGaloisRepresentations*: decomposition, inertia and wild inertia groups at a place and
@@ -526,7 +526,7 @@ as inputs; and Galois representations attached to automorphic forms.
   Mathlib's `etaleTopology` on schemes over it, as in its conventions.
 - `DerivedModuleAlgebra` §0.2 *Derived tensor products on module derived categories*:
   `DerivedDeRham.derivedTensor`, derived extension of scalars, `derivedTensor_flatModel`,
-  `derivedTensor_triangulated`. Layer 1: §1.1 *Derived limits of towers*
+  `derivedTensor_triangulated`. §1.1 *Derived limits of towers*
   (`DerivedDeRham.derivedLimit`, `derivedLimit_surjective`, `derivedLimit_milnor`), using the
   DerivedModuleAlgebra §1.T.1 shift/Milnor calculation with the same `CompactCoefficients.Tower.lim` and
   `CompactCoefficients.Tower.limOne` after forgetting scalars; §1.3 *The derived completion reflector*
@@ -534,8 +534,8 @@ as inputs; and Galois representations attached to automorphic forms.
   towers compute completion* (for a Noetherian ring, the derived completion of a complex with finitely
   generated cohomology has the adic completions of its cohomology modules as cohomology).
 - `AbelianSchemesAndArithmeticModuli` Layer A2, §A2.2: `AbelianScheme.dual`, the dual abelian
-  scheme with its Poincaré bundle (over a field, the dual abelian variety), and
-  `AbelianScheme.dual_elliptic`, the elliptic comparison `a ↦ O([−a] − [0])`.
+  scheme with its Poincaré bundle (over a field, the dual abelian variety), and the
+  elliptic identification `a ↦ O([−a] − [0])` that §A2.2 states in prose.
 - `AlgebraicModuliForArithmeticGeometry` Layer 4: banded gerbes and band-preserving morphisms
   (§4.2) and their classification by `H²` of the band, `gerbeClass` (§4.20).
 - Supplied by ArithmeticGaloisRepresentations §2.1 / **Decomposition and inertia groups**:
@@ -4846,8 +4846,8 @@ adjoint of the evaluation `RΓ_𝔪(K) ⊗^L_R RHom_R(K, ω) → RΓ_𝔪(ω) �
 for the finite and Artinian cohomology modules. *Needs:* SchemeAndStackFoundations Layer 2 (§2.21
 *Dualising complexes*: `DualizingComplex`, `NormalizedDualizing`; §2.7 *Cohomology with supports and
 local cohomology*: `localCohomology_colimit_ext_comparison`; §2.18: `derivedTensor` and `derivedHom`
-of modules); DerivedModuleAlgebra Layer 1 (§1.3 *The derived completion reflector*:
-`DerivedDeRham.derivedCompletion`; §1.5 *When ordinary quotient towers compute completion*);
+of modules); DerivedModuleAlgebra §1.3 *The derived completion reflector*
+(`DerivedDeRham.derivedCompletion`) and §1.5 *When ordinary quotient towers compute completion*;
 *Matlis duality and completion inputs* (DerivedModuleAlgebra §1.M.2, arbitrary residue field);
 Mathlib `localCohomology`.
 
@@ -6130,8 +6130,8 @@ Mathlib `CategoryTheory.Abelian.Ext`; Mathlib `hasExt_of_enoughInjectives`.
   étale site of `Spec F` are abelian groups, and `Ext¹_Ab(A(F), F^×) = 0` because `F^×` is
   divisible, hence injective; on the big site `Ext¹_F(A, G_m) ≅ A∨(F) ≠ 0` for `A ≠ 0`.
 - `Hom_F(A, G_m) = 0`, so the identification starts in degree `1`: `Ext¹_F(A, G_m) ≅ A∨(F)`.
-- For an elliptic curve `E` over `F^s`, use the supplier's `AbelianScheme.dual_elliptic`,
-  `P ↦ O_E((−P) − (O))`. The extension attached to `P` is the `G_m`-torsor of that line
+- For an elliptic curve `E` over `F^s`, use AbelianSchemesAndArithmeticModuli §A2.2's elliptic
+  identification `P ↦ O_E((−P) − (O))`. The extension attached to `P` is the `G_m`-torsor of that line
   bundle, trivial exactly when `P = O`; for `P` of order three it differs from
   `O_E((P) − (O))`. Also
   `Ext²_{F^s}(E, G_m) = H¹(F^s, E∨) = 0`.
@@ -6562,7 +6562,7 @@ exact annihilators*).
   `NormalizedDualizing`); §2.7 *Cohomology with supports and local cohomology*; §2.9 (`Gm`); §2.15
   (`etale_galois_comparison`); §2.18 *Derived categories of quasi-coherent complexes*
   (`derivedTensor`, `derivedHom`; the affine case `⊗^L_A`).
-- DerivedModuleAlgebra: §0.2 *Derived tensor products on module derived categories*; Layer 1,
+- DerivedModuleAlgebra: §0.2 *Derived tensor products on module derived categories*;
   §1.1 *Derived limits of towers*; §1.3 *The derived completion reflector*; §1.5 *When ordinary
   quotient towers compute completion*; §1.T.1 (tower algebra, Milnor, `ModuleTower` and the
   integral-module adapter); §1.M.1 (Matlis duality for arithmetic coefficients); §1.M.2 (Matlis
