@@ -6,10 +6,10 @@ import TauCeti.LinearAlgebra.CliffordAlgebra.RealForm.Basic
 # Source-ordered Pauli matrices: finite comparison certificates
 
 **This file is not the roadmap and is not exhaustive.** The README is definitive.
-These matrix calculations use the order recorded on the quantum Riemannian
-notes' page2. They do not authenticate its obscured quotient, its su(2)
-convention or page5's unclear matrix subscript. The Clifford algebra and
-quaternion embedding below are the existing native objects.
+The matrices are the Pauli matrices `Z = diag(1, -1)`, `Y = [[0, -i], [i, 0]]`,
+`X = [[0, 1], [1, 0]]` in the order `(Z, Y, X)`, compared with the native quaternion
+embedding and the positive-plane model of README G1.1 (`e₁ ↦ X`, `e₂ ↦ Z`).
+The Clifford algebra and quaternion embedding below are the existing native objects.
 -/
 
 noncomputable section
@@ -23,6 +23,7 @@ open scoped Quaternion
 def source : Fin 3 → Matrix (Fin 2) (Fin 2) ℂ :=
   ![!![1, 0; 0, -1], !![0, -Complex.I; Complex.I, 0], !![0, 1; 1, 0]]
 
+/-- The quaternion units `i`, `j`, `k`, in the order matching `source`. -/
 def quaternionUnit : Fin 3 → ℍ[ℝ] :=
   ![⟨0, 1, 0, 0⟩, ⟨0, 0, 1, 0⟩, ⟨0, 0, 0, 1⟩]
 
@@ -32,10 +33,12 @@ theorem native_quaternion_dictionary (i : Fin 3) :
   fin_cases i <;> ext j k <;> fin_cases j <;> fin_cases k <;>
     simp [quaternionUnit, source, Quaternion.toComplexMatrix_apply]
 
+/-- Each Pauli matrix is Hermitian. -/
 theorem source_hermitian (i : Fin 3) : (source i).IsHermitian := by
   fin_cases i <;> ext j k <;> fin_cases j <;> fin_cases k <;>
     simp [source, Matrix.conjTranspose_apply]
 
+/-- Each Pauli matrix squares to the identity. -/
 theorem source_squares (i : Fin 3) : source i * source i = 1 := by
   fin_cases i <;> ext j k <;> fin_cases j <;> fin_cases k <;>
     simp [source, Matrix.mul_apply, Fin.sum_univ_two]
@@ -46,6 +49,7 @@ theorem source_cyclic_products (i : Fin 3) :
   fin_cases i <;> ext j k <;> fin_cases j <;> fin_cases k <;>
     simp [source, Matrix.mul_apply, Fin.sum_univ_two]
 
+/-- Distinct Pauli matrices anticommute. -/
 theorem source_anticommuting (i j : Fin 3) (hij : i ≠ j) :
     source i * source j = -(source j * source i) := by
   fin_cases i <;> fin_cases j <;> try contradiction
@@ -86,6 +90,8 @@ def positiveModel : CliffordAlgebra (TauCeti.realCliffordForm 2 0) →ₐ[ℝ]
     Matrix (Fin 2) (Fin 2) ℝ :=
   CliffordAlgebra.lift _ ⟨positiveVector, positiveVector_square⟩
 
+/-- The positive-plane model sends the generator `v` to the real matrix
+`[[v 1, v 0], [v 0, -v 1]]`, so `e₁ ↦ X` and `e₂ ↦ Z`. -/
 @[simp] theorem positiveModel_generator (v : Fin 2 → ℝ) :
     positiveModel (CliffordAlgebra.ι (TauCeti.realCliffordForm 2 0) v) =
       !![v 1, v 0; v 0, -v 1] := by

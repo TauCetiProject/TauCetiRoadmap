@@ -678,6 +678,27 @@ Weitzenböck/star specialization on the same carrier.
    orientation, integration); HopfRinow L1; ComplexKahlerGeometry K5's
    formal adjoint d*; G2.2's c=ε−ι; G3.3's compatibility.
 
+   **Checks.**
+   - Flat ℝ² with the trivial Levi-Civita connection d and c=ε−ι: on a
+     function f, Df=Σ_j c(e_j)∂_jf=∂₁f e₁+∂₂f e₂=df, since ι(e_j)1=0; on
+     the 1-form f e₁, c(e₁)∂₁(f e₁)=−∂₁f (ε(e₁)e₁=0, ι(e₁)e₁=1) and
+     c(e₂)∂₂(f e₁)=∂₂f e₂∧e₁=−∂₂f e₁∧e₂, which is d*(f e₁)+d(f e₁) with
+     d*=−div on 1-forms; so D=d+d*, as G6.4 states. The choice c=ε+ι
+     squares to +|v|² and gives d−d*, skew rather than formally symmetric.
+   - Unit S² with e₁=∂_θ, e₂=(1/sin θ)∂_φ and coframe e¹=dθ, e²=sin θ dφ:
+     the Levi-Civita values ∇_(e₁)e²=0 and ∇_(e₂)e²=−cot θ e¹ (from
+     ∇_(e₂)e₂=−cot θ e₁) give the frame formula
+     de²=Σ_j ε(e^j)∇_(e_j)e²=ε(e²)(−cot θ e¹)=cot θ e¹∧e², which is
+     d(sin θ dφ)=cos θ dθ∧dφ computed directly, and
+     d*e²=−Σ_j ι(e_j)∇_(e_j)e²=−ι(e₂)(−cot θ e¹)=0, as the coclosed form
+     sin θ dφ requires; differentiating only the constant frame coefficient
+     would give de²=0.
+   - Pullback along the inclusion S¹⊂ℝ²: the pulled-back form bundle has
+     rank 4 and carries c for the restricted bundle Tℝ²|_(S¹), with
+     c(e_r) and c(e_θ) both acting, while Λ*T*S¹ has rank 2 and its D=d+d*
+     is the circle operator; the pullback is a Clifford module for the
+     restricted tangent bundle, not the tangent Dirac operator of S¹.
+
 ## G4. Spin lifts, obstruction and classification
 
 1. **G4.1a. Topological frame adapters.** For n≥1 consume the native
@@ -760,6 +781,29 @@ Weitzenböck/star specialization on the same carrier.
    local-diffeomorphism declarations named above; SmoothBundlesConnections
    B2's operator-topology instances and units-level identity homeomorphism;
    G4.1a; G1.1's negative-form comparison with its bivector sign.
+
+   **Checks.**
+   - Rank two: in the positive form e₁e₂ squares to −1 and
+     z(θ)=cos θ+sin θ e₁e₂ lies in Spin(2); conjugation gives
+     z e₁ z^(−1)=cos 2θ e₁−sin 2θ e₂ and z e₂ z^(−1)=sin 2θ e₁+cos 2θ e₂,
+     a rotation through the angle 2θ, so z(π)=−1 is the kernel and the
+     differential at 1 sends e₁e₂ to the matrix A with Ae₁=−2e₂, Ae₂=2e₁,
+     the Clifford commutators [e₁e₂,e₁]=−2e₂ and [e₁e₂,e₂]=2e₁; this is the
+     value 2(e₁e₂ᵀ−e₂e₁ᵀ) of `bivectorEquivSo` on e₁∧e₂, and ℝe₁e₂→so(2)
+     is a bijection. A differential normalised without the factor 2 would
+     contradict the commutator; G1.1's comparison sends e₁e₂ to −e₁e₂ in
+     the negative form and reverses the sign of A.
+   - Evenly covered sections: over the arc of rotations R_φ,
+     φ∈(−π,π), with R_φe₁=cos φ e₁+sin φ e₂, the preimage in Spin(2) is the
+     disjoint union of the images of the two smooth sections
+     φ↦±(cos(φ/2)−sin(φ/2)e₁e₂); a section over all of SO(2) would be a
+     continuous square root on the circle, which does not exist, so the
+     cover is the connected one z↦z² and not the trivial one.
+   - Rank one: Spin(1)={±1}⊂Cl(1,0) and SO(1)={1}; both Lie algebras are
+     zero (⋀²ℝ¹=0 and so(1)=0), the differential is the zero bijection,
+     the covering is the two-point cover of a point with the constant
+     section 1, and the odd unit e₁, excluded from Spin, would act on ℝ¹ by
+     −1, which is not in SO(1).
 2. On TopologicalKTheory T6.4's continuous principal-bundle carrier and
    CharacteristicClasses C1's actual oriented orthonormal frame bundle,
    use G4.1a's native Spin units range when n≥1 and G1.1's
@@ -801,8 +845,10 @@ Weitzenböck/star specialization on the same carrier.
    - Metric change g'(u,v)=g(Bu,v) with B=diag(4,1) on ℝ²: B^(1/2)=diag(2,1)
      and B^(−1/2) sends the g-orthonormal frame (e₁,e₂) to (e₁/2,e₂),
      which is g'-orthonormal (g'(e₁/2,e₁/2)=g(2e₁,e₁/2)=1); B^(−1) would
-     give (e₁/4,e₂) of g'-norm ½; B=Id has the self-adjoint roots ±Id of
-     which only +Id is positive. The Sylvester map H↦B^(1/2)H+HB^(1/2) has
+     give (e₁/4,e₂) of g'-norm ½; B=Id has as g-self-adjoint square roots
+     exactly the reflections 2P−Id for P an orthogonal projection, among
+     them ±Id and diag(1,−1), of which only +Id is positive. The Sylvester
+     map H↦B^(1/2)H+HB^(1/2) has
      eigenvalues √b_i+√b_j>0, so it is invertible (2H at B=Id).
 3. For smooth bases choose good-cover orthonormal transitions and local lifts
    to Spin. For a general paracompact numerable base, consume C3.5's
@@ -1293,6 +1339,28 @@ Weitzenböck/star specialization on the same carrier.
    topological index equality is outside this roadmap. *Needs:* G5.1's
    half-spin bundles; G2.1's Γ; G6.1's symbol; TopologicalKTheory T3's
    compact-support K-theory; SmoothBundlesConnections B1's pullback bundles.
+
+   **Checks.**
+   - Flat plane with c(v)=v₁iZ+v₂iY and G2.1's S⁺=ℂ(1,−1), S⁻=ℂ(1,1):
+     c(v)(1,−1)=iv₁(1,1)+v₂i·i(1,1)=(iv₁−v₂)(1,1), so in the bases (1,−1)
+     and (1,1) the symbol S⁺→S⁻ is multiplication by i(v₁+iv₂), nonzero
+     for v≠0 (c(v)²=−|v|²) and of winding number +1 around the unit
+     circle; its class generates K_c(ℝ²)≅ℤ. The reversed orientation
+     interchanges S⁺ and S⁻ and gives the symbol i(v₁−iv₂) of winding
+     number −1, the negative class.
+   - Rank zero: TM is the zero bundle over the point, the triple is
+     (S⁺,S⁻,0) with S⁺=S≅ℂ and S⁻=0 for the canonical Γ=Id, exact off the
+     zero section vacuously, and its class in K_c(pt)=K(pt)≅ℤ is
+     rank S⁺−rank S⁻=1; the signed orientation σ=−1 gives S⁺=0, S⁻=S and
+     the class −1, whereas a class read off the symbol map alone would
+     be 0.
+   - Twist by the trivial W=ℂʳ over the plane: the symbol is
+     i(v₁+iv₂)·Id_r in the bases above, with determinant of winding number
+     r, so the twisted class is r times the untwisted one and r=1 and r=2
+     are distinguished; the phase homotopy e^(iπt/2)c(v) multiplies by a
+     nonzero scalar and leaves the winding number, hence the class,
+     unchanged, while the family t·c(v) vanishes identically at t=0 and is
+     not exact off zero.
 
 7. On a closed oriented Riemannian spin four-manifold, construct the
    **untwisted** half-spin quaternionic symmetries J⁺ and J⁻ on G5's
