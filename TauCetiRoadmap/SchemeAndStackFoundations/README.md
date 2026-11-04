@@ -1553,7 +1553,7 @@ local G-ring `A` the map `A → Â` is regular (Stacks, Lemmas 15.43.1 (07QK), 1
 (Stacks, Definition 15.48.1 (3)), with `.noetherian`, `.regularLocus_open`, `.ringEquiv`,
 *IsJ2.of_finiteType*, *IsJ2.localization*, and *regularLocus_open_of_finiteType*: for a scheme
 locally of finite type over a J-2 scheme, in particular over an excellent scheme, over `ℤ` or
-over a field, the regular locus is open (affine-locally, `IsJ2.regularLocus_open` for the section
+over a field, the regular locus is open (affine-locally, *IsJ2.regularLocus_open* for the section
 rings, the definition being quantified over all finite-type algebras). Define
 `IsQuasiExcellentRing R := IsGRing R ∧ IsJ2 R`
 (Stacks, Definition 15.53.1 (1)), with `.gRing`, `.j2`, `.noetherian`; universal catenarity is not

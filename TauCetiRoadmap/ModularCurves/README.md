@@ -273,8 +273,8 @@ and `Suggested.lean`'s copy is deleted.
   completion (§0.12a, Layer 4D); openness of the regular locus over an excellent base (§0.21)
   and miracle flatness (§4.13), both for Layer 4D and Layer 10; the Artinian coefficient
   category over the Witt vectors (§4.2, Layer 7D); and the full-level-structure convention for
-  abelian schemes (§4.15, Convention 5 and Layer 3N). Consumed as prose until that roadmap
-  states them in Lean.
+  abelian schemes (§4.15, Convention 5 and Layer 3N). The strict henselisation is stated in that
+  roadmap's acceptance file; the rest is consumed as prose until it states them in Lean.
 - AlgebraicCurves Layers 7–9 and 12: the different, Hilbert's different formula and
   Riemann–Hurwitz in Euler-characteristic form, carried to smooth proper fibres (Layer 10,
   item 3).
