@@ -133,14 +133,17 @@ At the pinned revision
   files `Morrey`, `HolderEmbedding`, `ChainRule`, `Multiplication`,
   `SupercriticalMultiplication`, `Mollification`, `Restriction` and `LocalCompactness`;
 - `SmoothAlmostComplexStructure`, `IsPseudoholomorphic` and its `At`, `On` and `WithinAt`
-  variants, the normed-space predicate `IsJHolomorphic` and `isPseudoholomorphicAt_iff_isJHolomorphicAt`;
+  variants, the normed-space predicate `IsJHolomorphic` and
+  `isPseudoholomorphicAt_iff_isJHolomorphicAt`;
 - `IsMaximalTotallyReal`, `TotallyRealLoop.maslovIndex`, `maslovIndex_map` and
   `maslovIndex_prod`;
 - Schwarz reflection across an affine maximal totally real subspace
   (`Analysis/Complex/Conformal/Reflection/TotallyReal`);
 - `ContinuousLinearMap.index_comp` and the Fredholm files under `Analysis/Fredholm`.
 
-At [`333c9e49`](https://github.com/TauCetiProject/TauCeti/tree/333c9e49143de812ed1452b412193ee9c05501e7), which postdates the pin:
+At
+[`333c9e49`](https://github.com/TauCetiProject/TauCeti/tree/333c9e49143de812ed1452b412193ee9c05501e7),
+which postdates the pin:
 
 - the Cauchy–Pompeiu formula and the Cauchy transform with parameters
   (`Analysis/Complex/Pompeiu/Basic`, `Parameter`);
@@ -150,7 +153,10 @@ At [`333c9e49`](https://github.com/TauCetiProject/TauCeti/tree/333c9e49143de812e
   `Analysis/Complex/Wirtinger/CalderonZygmund`);
 - local solutions of `∂̄u = f` (`Wirtinger/Potential`) and the scalar similarity principle
   (`Wirtinger/Similarity`);
-- `CkHolderSpace` (`Analysis/Holder/Iterated`).
+- `CkHolderSpace` (`Analysis/Holder/Iterated`);
+- `WeaklyHarmonicOn` and Weyl's lemma `WeaklyHarmonicOn.exists_harmonicOnNhd_ae_eq`
+  (`Analysis/InnerProductSpace/Harmonic/Weyl`), with the mean value property
+  (`Harmonic/MeanValue`).
 
 ### From other roadmaps
 
@@ -173,9 +179,10 @@ At [`333c9e49`](https://github.com/TauCetiProject/TauCeti/tree/333c9e49143de812e
 ## How to read the build
 
 PH1 and PH2.1–PH2.3 are independent foundations. PH3 consumes PH1 and the Tau Ceti
-Cauchy–Riemann files. PH2.4 consumes PH3.1. PH4 consumes PH1 and PH2. PH5 is the nonlinear payoff of PH3 and PH4. PH6 consumes PH3
-and PH4's chart calculus. PH7 consumes PH6. The interior statements of PH3, PH5 and PH6 come
-before their boundary versions, which add one reflection argument each.
+Cauchy–Riemann files. PH2.4 consumes PH3.1. PH4 consumes PH1 and PH2. PH5 is the nonlinear
+payoff of PH3 and PH4. PH6 consumes PH3 and PH4's chart calculus. PH7 consumes PH6. The interior
+statements of PH3, PH5 and PH6 come before their boundary versions, which add one reflection
+argument each.
 
 ## Layer 1: local Sobolev maps on planar domains and half-discs (PH1)
 
@@ -208,6 +215,13 @@ For `kp > 2` with `k ≥ 1`, prove the following, both in the interior and on ha
   have `C^{k−1,1−2/p}` representatives, with local bounds.
 - *Algebra.* Members of `W^{k,p}_loc` form an algebra under bilinear continuous maps
   `F × G → H`, with a local bound.
+- *Mixed exponents.* Let `p > 2` and `1 < q ≤ p`, and let `B : F × G → H` be bilinear
+  continuous. For `i ≥ 1`, `f ∈ W^{i,p}_loc` and `g ∈ W^{i,q}_loc` give
+  `B(f, g) ∈ W^{i,q}_loc`. For `i = 0`, `f ∈ Lᵖ_loc` and `g ∈ W^{1,q}_loc` give
+  `B(f, g) ∈ L^q_loc`. Both come with local bounds (McDuff–Salamon Proposition B.1.19,
+  p. 560). The case `i = 0` combines Hölder's inequality with the embedding of `W^{1,q}` into
+  `L^s` for `1/s = 1/q − 1/2` when `q < 2`, every finite `s` when `q = 2`, and `L^∞` when
+  `q > 2`; it uses `p > 2`.
 - *Composition.* If `g : F → G` is `C^ℓ` with `ℓ ≥ k` and `u ∈ W^{k,p}_loc`, then
   `g ∘ u ∈ W^{k,p}_loc`, with the chain rule for weak derivatives and a local bound depending
   on `‖g‖_{C^k}` on a neighbourhood of the image of `u` and on `‖u‖_{W^{k,p}}`.
@@ -282,18 +296,19 @@ is the Beurling operator of PH3.1. The function `ψ = z + Th` has `∂̄ψ = μ_
 dividing by `∂ψ(0)`, it is the chart.
 
 Prove that the transition map between two `C¹` charts in which `j = i` satisfies the
-Cauchy–Riemann equations, so it is holomorphic. Consequently, for smooth `j`, the chart
-obtained at `ℓ = 1` differs from the one obtained at each `ℓ = m` by a holomorphic map, so it
-is `C^{m+1,α}` for every `m`, hence smooth. So the isothermal charts form an analytic atlas
-modelled on `ℂ`. Prove the converse: such an atlas induces a smooth `j`, and
-the two constructions are mutually inverse.
+Cauchy–Riemann equations, so it is holomorphic. Consequently, for smooth `j`, the chart obtained
+at `ℓ = 1` differs from the one obtained at each `ℓ = m` by a holomorphic map, so it is
+`C^{m+1,α}` for every `m`, hence smooth. So the isothermal charts form an analytic atlas
+modelled on `ℂ`. Prove the converse: such an atlas induces a smooth `j`, and the two
+constructions are mutually inverse.
 
-**Boundary.** Construct the model with corners `ModelWithCorners ℝ ℂ ℍ̄` for the closed
-upper half-plane as a subtype of `ℂ`, and compare it with `𝓡∂ 2` through `z ↦ (s, t)`. Define
-the bordered holomorphic groupoid on `ℍ̄` of the Conventions as a Mathlib `StructureGroupoid`. Prove that it is contained in the smooth groupoid of `𝓡∂ 2`, so that a
-Riemann surface with boundary is a smooth manifold with boundary. Prove also that its
-transition maps send `ℝ` to `ℝ`. Prove that the induced `j` is smooth up to the boundary, and
-that the interior of a Riemann surface with boundary is a Riemann surface without boundary.
+**Boundary.** Construct the model with corners `ModelWithCorners ℝ ℂ ℍ̄` for the closed upper
+half-plane as a subtype of `ℂ`, and compare it with `𝓡∂ 2` through `z ↦ (s, t)`. Define the
+bordered holomorphic groupoid on `ℍ̄` of the Conventions as a Mathlib `StructureGroupoid`. Prove
+that it is contained in the smooth groupoid of `𝓡∂ 2`, so that a Riemann surface with boundary
+is a smooth manifold with boundary. Prove also that its transition maps send `ℝ` to `ℝ`. Prove
+that the induced `j` is smooth up to the boundary, and that the interior of a Riemann surface
+with boundary is a Riemann surface without boundary.
 
 **Double.** Construct the *Schottky double* of a compact Riemann surface with boundary. It is a
 closed Riemann surface with an antiholomorphic involution whose fixed set is the boundary.
@@ -341,6 +356,20 @@ For `1 < q < ∞`, `k ≥ 0` and compact `K ⊆ Ω`:
 - *Weak regularity.* If `ξ ∈ L^q_loc` and the distribution `∂̄ξ` is in `W^{k,q}_loc`, then
   `ξ ∈ W^{k+1,q}_loc`. The case `∂̄ξ = 0` is Weyl's lemma for `∂̄`: `ξ` agrees almost
   everywhere with a holomorphic function.
+- *Divergence-form Laplace regularity.* Let `1 < r ≤ q < ∞`. If `ξ ∈ L^q_loc(Ω; ℝ^N)` and
+  `f, g ∈ L^r_loc(Ω; ℝ^N)` satisfy `∫ ξ Δφ = −∫ (f ∂_s φ + g ∂_t φ)` for every test function
+  `φ`, so that `Δξ = ∂_s f + ∂_t g` weakly, then `ξ ∈ W^{1,r}_loc`, with
+  `‖ξ‖_{W^{1,r}(K)} ≤ C(‖f‖_{L^r(Ω')} + ‖g‖_{L^r(Ω')} + ‖ξ‖_{L^q(Ω')})`.
+
+  Prove it from PH3.1 and Weyl's lemma, not from a general second-order theory. Take a cutoff
+  `χ` equal to `1` on a neighbourhood `Ω''` of `K` and supported in `Ω'`, and put
+  `ξ₀ = ½ Re T(χ(f + ig))`, with `T` applied componentwise. Since `Δ = 4∂∂̄`,
+  `∂̄T = id` and `2 Re ∂(f + ig) = ∂_s f + ∂_t g` for real `f, g`, the function `ξ₀` solves
+  `Δξ₀ = ∂_s f + ∂_t g` weakly on `Ω''`. Its derivative lies in `L^r` by the boundedness of
+  `B`. So `ξ − ξ₀` is weakly harmonic on `Ω''` in the sense of Tau Ceti's `WeaklyHarmonicOn`,
+  hence harmonic after modification on a null set
+  (`WeaklyHarmonicOn.exists_harmonicOnNhd_ae_eq`). The mean value property bounds its
+  derivatives on `K` by its `L¹` norm on `Ω''`.
 
 ### 3.3 Interior estimates with Sobolev coefficients
 
@@ -368,14 +397,19 @@ Prove it in three lemmas, following McDuff–Salamon §B.4.
    `q_{j+1} = 2r_j/(2 − r_j)` for `r_j = pq_j/(p + q_j)`.
 2. *Order zero* (Lemma B.4.6). If `J ∈ W^{1,p}`, `S ∈ Lᵖ`, `ξ ∈ L^q_loc` and `η ∈ L^r_loc` with
    `1/p + 1/q = 1/r`, then `ξ ∈ W^{1,r}_loc`, with the estimate. The proof rewrites the weak
-   equation as `Δξ = ∂_s f + ∂_t g` for `f, g ∈ L^r`, and consumes the `Lʳ` regularity of the
-   Laplacian from PDE Lane B. Climbing the ladder with Sobolev embedding gives `ξ ∈ W^{1,p}_loc`
-   when `η ∈ Lᵖ`, and `ξ ∈ W^{1,q}_loc` when `η ∈ L^q`.
-3. *Differentiated equation* (Proposition B.4.9, Steps 2–3). If `ξ ∈ W^{j,q}_loc` solves
-   `Dξ = η` with `j ≤ k`, then `∂_s ξ` and `∂_t ξ` solve
-   `D(∂ξ) = ∂η − (∂J) ∂_t ξ − (∂S) ξ` weakly, with right side in `W^{j−1,q}` by PH1.2's products
-   (McDuff–Salamon Lemma B.4.5 at `j = 1`). Order zero then gives `ξ ∈ W^{j+1,q}_loc` with the
-   stated estimate.
+   equation as `Δξ = ∂_s f + ∂_t g` for `f, g ∈ L^r`, and consumes PH3.2's divergence-form
+   Laplace regularity. Climbing the ladder with Sobolev embedding gives `ξ ∈ W^{1,p}_loc`
+   when `η ∈ Lᵖ`, and `ξ ∈ W^{1,q}_loc` when `η ∈ L^q`. This is the case `k = 0`.
+3. *Differentiated equation* (Proposition B.4.9, Steps 2–3). Induct on `k`. Let `1 ≤ k ≤ m`
+   and `η ∈ W^{k,q}_loc`; by the case `k − 1`, `ξ ∈ W^{k,q}_loc`. The pair
+   `Ξ = (∂_s ξ, ∂_t ξ) ∈ W^{k−1,q}_loc(Ω; ℝ^{4n})` solves, weakly,
+   `∂_s Ξ + J̃ ∂_t Ξ + S̃ Ξ = (∂_s η − (∂_s S) ξ, ∂_t η − (∂_t S) ξ)` with
+   `J̃ = diag(J, J)` and `S̃ = [[S, ∂_s J], [0, S + ∂_t J]]`. Here `J̃ ∈ W^{ℓ,p}_loc` with
+   `J̃² = −1`, and `S̃ ∈ W^{ℓ−1,p}_loc`. The right side is in `W^{k−1,q}_loc` by PH1.2's
+   mixed-exponent products, applied to `∂S ∈ W^{m−1,p}_loc` and `ξ ∈ W^{k,q}_loc`; at `k = 1`
+   this is the case `i = 0`, McDuff–Salamon Lemma B.4.5. The case `k − 1` for `(J̃, S̃)`, with
+   `ℓ − 1` in place of `m`, gives `Ξ ∈ W^{k,q}_loc`, so `ξ ∈ W^{k+1,q}_loc`, with the stated
+   estimate. The requirement `k − 1 ≤ ℓ − 1` holds because `k ≤ m ≤ ℓ`.
 
 ### 3.4 Totally real boundary conditions on the half-disc
 
@@ -427,8 +461,8 @@ integral equation for `Φ`. Consume Tau Ceti's scalar similarity principle as th
 - the boundary version on half-discs with totally real boundary condition, by reflection as in
   PH3.4.
 
-*Needs:* PH1; Tau Ceti's Pompeiu, Calderón–Zygmund, Potential, Similarity and totally real
-reflection files; `CkHolderSpace`; PDE Lane A7.
+*Needs:* PH1; Tau Ceti's Pompeiu, Calderón–Zygmund, Potential, Similarity, Weyl and totally
+real reflection files; `CkHolderSpace`; PDE Lane A7.
 
 ## Layer 4: Sobolev maps from surfaces and the weak Cauchy–Riemann equation (PH4)
 
@@ -654,13 +688,13 @@ Theorem C.3.6.
 
 ### 7.2 Riemann–Roch
 
-For a real Cauchy–Riemann operator `D` on `(E, F)` as in PH6, prove
-`ind_ℝ D = nχ(Σ) + μ(E, F)` (McDuff–Salamon Theorem C.1.10 (ii), p. 583). In the closed case this is `ind_ℝ D = nχ(Σ) + 2c₁(E)[Σ]`. Here
-`χ` is the Euler characteristic of a finite CW model. Identify it with the alternating Betti
-sum through CharacteristicClasses C2.3, AlgebraicTopology Stages 6.1, 7.1 and 8.7, and
-FuchsianOrbifolds Layer 5's `compactManifoldFiniteCWType`. Prove the formula for an arbitrary
-given `j`, independently of uniformization. Work with connected `Σ`; the general case is the
-sum over components.
+For a real Cauchy–Riemann operator `D` on `(E, F)` as in PH6, prove `ind_ℝ D = nχ(Σ) + μ(E, F)`
+(McDuff–Salamon Theorem C.1.10 (ii), p. 583). In the closed case this is
+`ind_ℝ D = nχ(Σ) + 2c₁(E)[Σ]`. Here `χ` is the Euler characteristic of a finite CW model.
+Identify it with the alternating Betti sum through CharacteristicClasses C2.3, AlgebraicTopology
+Stages 6.1, 7.1 and 8.7, and FuchsianOrbifolds Layer 5's `compactManifoldFiniteCWType`. Prove
+the formula for an arbitrary given `j`, independently of uniformization. Work with connected
+`Σ`; the general case is the sum over components.
 
 The closed case follows these steps.
 
@@ -717,9 +751,9 @@ The bordered case follows from the closed case.
    kernel and cokernel of `D` with boundary condition `F`. Hence `ind D_F = 2 ind D`. The closed
    formula with `χ(Σ_ℂ) = 2χ(Σ)` and `c₁(E_F)[Σ_ℂ] = μ(E, F)` gives the bordered formula.
 8. *Check against the disc.* Compute the disc case `(ℂ, e^{ikθ/2}ℝ)` directly by Fourier
-   series, as in McDuff–Salamon Theorem C.4.1 (p. 598). For `k ≥ −1` the operator `∂̄` is onto, with kernel of real dimension `1 + k`. For
-   `k ≤ −1` it is injective, with cokernel of dimension `−1 − k`. Prove that this agrees with
-   step 7.
+   series, as in McDuff–Salamon Theorem C.4.1 (p. 598). For `k ≥ −1` the operator `∂̄` is onto,
+   with kernel of real dimension `1 + k`. For `k ≤ −1` it is injective, with cokernel of
+   dimension `−1 − k`. Prove that this agrees with step 7.
 
 Finally prove the line-bundle vanishing theorem, McDuff–Salamon Theorem C.1.10 (iii). For
 `n = 1`, `D_F` is injective if `μ(E, F) < 0`, and surjective if `μ(E, F) + 2χ(Σ) > 0`. In the

@@ -69,8 +69,10 @@ variable {E H M EL HL L : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [Top
   [NormedAddCommGroup EL] [NormedSpace ℝ EL] [TopologicalSpace HL]
   {IL : ModelWithCorners ℝ EL HL} [TopologicalSpace L] [ChartedSpace HL L] [IsManifold IL ∞ L]
 
-/-- A smooth embedding whose tangent image at every point is maximal totally real for `J`. -/
-def IsTotallyRealEmbedding (J : TauCeti.SmoothAlmostComplexStructure I M) (ι : L → M) : Prop :=
+/-- A smooth embedding whose tangent image at every point is maximal totally real for the `C^n`
+almost complex structure `J`. PH2.3 and PH5 use it for finite `n`. -/
+def IsTotallyRealEmbedding {n : ℕ∞} (J : ContMDiffAlmostComplexStructure I M n) (ι : L → M) :
+    Prop :=
   Manifold.IsSmoothEmbedding IL I ∞ ι ∧
     ∀ x : L, TauCeti.IsMaximalTotallyReal (J.toEndomorphism (ι x)).toLinearMap
       (LinearMap.range (mfderiv IL I ι x).toLinearMap)
@@ -87,9 +89,15 @@ variable {V : Type} [NormedAddCommGroup V] [NormedSpace ℝ V] [FiniteDimensiona
 continuous `W^{1,p}_loc` map. The derivative at `z` applied to `1` is `∂ₛu` and applied to `I`
 is `∂ₜu`. -/
 def IsWeakCauchyRiemannOn (p : ENNReal) (Ω : Opens ℂ) (J : V → V →L[ℝ] V) (u : ℂ → V) : Prop :=
-  ContinuousOn u Ω ∧ MemWkpLoc p Ω 1 u ∧
-    ∃ U : ℂ → ℂ →L[ℝ] V, TauCeti.HasWeakFDerivOn volume Ω u U ∧
+  ContinuousOn u Ω ∧ MemLpLoc p Ω u ∧
+    ∃ U : ℂ → ℂ →L[ℝ] V, TauCeti.HasWeakFDerivOn volume Ω u U ∧ MemLpLoc p Ω U ∧
       ∀ᵐ z ∂(volume.restrict (Ω : Set ℂ)), U z 1 + J (u z) (U z I) = 0
+
+omit [FiniteDimensional ℝ V] in
+/-- The first three conjuncts of `IsWeakCauchyRiemannOn` say exactly `MemWkpLoc p Ω 1 u`. -/
+theorem IsWeakCauchyRiemannOn.memWkpLoc {p : ENNReal} {Ω : Opens ℂ} {J : V → V →L[ℝ] V}
+    {u : ℂ → V} (hu : IsWeakCauchyRiemannOn p Ω J u) : MemWkpLoc p Ω 1 u :=
+  ⟨hu.2.1, hu.2.2.elim fun U hU ↦ ⟨U, hU.1, hU.2.1⟩⟩
 
 /-- PH5.1, interior planar form: a weak solution for a `C^ℓ` structure, `ℓ ≥ 1`, finite
 `p > 2`, is in `W^{ℓ+1,p}_loc`. The endpoint `p = ∞` is excluded: see the README. -/
@@ -101,7 +109,8 @@ theorem memWkpLoc_of_isWeakCauchyRiemannOn {p : ENNReal} (hp : 2 < p) (hp_top : 
   sorry
 
 /-- PH5.1, smooth case: a weak solution for a smooth structure is smooth on `Ω`. Since `u` is
-continuous, no modification on a null set is needed. -/
+continuous, no modification on a null set is needed. Unlike the finite-regularity statement this
+allows `p = ∞`: a `W^{1,∞}_loc` solution is `W^{1,q}_loc` for every finite `q > 2`. -/
 theorem contDiffOn_of_isWeakCauchyRiemannOn {p : ENNReal} (hp : 2 < p)
     {Ω : Opens ℂ} {J : V → V →L[ℝ] V} (hJ : ContDiff ℝ ∞ J)
     (hJsq : ∀ x, (J x).comp (J x) = -ContinuousLinearMap.id ℝ V) {u : ℂ → V}
