@@ -54,7 +54,7 @@ and direct categories finds no other owner.
 | Material | Owner | Use here |
 | --- | --- | --- |
 | Kan–Quillen model structure on `SSet`, simplicial weak equivalences | GeneralizedCohomology, G2 item 1 | Layers 4–5 |
-| Classifying spaces of small categories, Quillen's Theorems A and B for them, the homology spectral sequence of a functor | StableHomotopyKTheory, §§2.30, 2.31, 2.34 | Layer 4 |
+| Classifying spaces of small categories, homotopy colimits and Thomason's comparison, Quillen's Theorem B, the homology spectral sequence of a functor | StableHomotopyKTheory, §§1.21, 2.26, 2.29, 2.30, 2.34 | Layer 4 |
 | The generic `PicardGroupoid` and the graded Picard groupoids of schemes | SchemeAndStackFoundations, §3.4 | Layer 12 |
 | `CrossedModule` with its quotient groupoid, `coker ∂` and `ker ∂` | SchemeAndStackFoundations, §1.24 | Layer 12 |
 | The site-level `Stack.stackification` | SchemeAndStackFoundations, §1.18 | Layer 13 |
@@ -111,8 +111,9 @@ complexes.
 9. **Derivators.** A prederivator is a pseudofunctor `D : (Cat.{w, w})ᵒᵖ ⥤ᵖ Cat.{v₁, u₁}`, the
    opposite reversing 1-cells only (Groth 2013, Definition 1.1, with "strict" relaxed to
    "pseudo"); `F^* := D(F)`. Der1–Der4 are those of Groth 2013, Definition 1.10. Witness: in 10.1.
-10. **Cofibration categories** are Baues' (Baues 1989, Chapter I, (1.1)) with axioms C1–C3, on a
-    category with an initial object.
+10. **Cofibration categories** are Baues' axioms C1–C3 without his axiom C4 on fibrant models
+    (Baues 1989, Chapter I, (1.1)), on a category with an initial object; nothing in Layer 11
+    uses C4.
 11. **Gr-categories** are monoidal groupoids in which every object `X` has some `Y` with
     `X ⊗ Y ≅ 𝟙_`. `π₀ C := Skeleton C` with Mathlib's `Skeleton.instMonoid`; `π₁ C := Aut (𝟙_ C)`.
     For `a ∈ π₁` and an object `X`, let `L_X a := λ_X⁻¹ ≫ (a ▷ X) ≫ λ_X` and
@@ -145,9 +146,9 @@ complexes.
   `ContainsIdentities`, `HasTwoOutOfThreeProperty`, `inverseImage`, `IsMultiplicative`,
   `Localization`, `Q`, `Localization.Construction.lift`, `Localization.inverts`.
 - `CostructuredArrow`, `CostructuredArrow.pre`, `CostructuredArrow.map`,
-  `CostructuredArrow.functor`, `StructuredArrow`, `Over`, `Over.map`, `Over.mapFunctor`,
-  `Functor.Elements`, `Functor.Elements.π`, `costructuredArrowYonedaEquivalence`, `yoneda`,
-  `yonedaEquiv`, `Functor.whiskeringLeft`.
+  `CostructuredArrow.functor`, `CostructuredArrow.hasTerminal`, `StructuredArrow`, `Over`,
+  `Over.map`, `Over.mapFunctor`, `Functor.Elements`, `Functor.Elements.π`,
+  `costructuredArrowYonedaEquivalence`, `yoneda`, `yonedaEquiv`, `Functor.whiskeringLeft`.
 - `FreeGroupoid`, `FreeGroupoid.of`, `FreeGroupoid.lift`, `FreeGroupoid.map`,
   `ConnectedComponents`, `Functor.mapConnectedComponents`, `Functor.mapAut`, `Groupoid`, `Aut`,
   `Functor.Fiber`, `Functor.Fiber.fiberInclusion`, `Functor.IsHomLift`, `CategoricalPullback`,
@@ -176,10 +177,12 @@ complexes.
 
 **From GeneralizedCohomology.** G2 item 1: the Kan–Quillen model structure on `SSet` and the
 simplicial weak equivalences (realization inducing a bijection on components and isomorphisms on
-all homotopy groups), for 4.1, 4.2, 4.5 and Layer 5.
+all homotopy groups), for 4.1, 4.2, 4.5, 4.6 and Layer 5.
 
-**From StableHomotopyKTheory.** §2.31, `quillenTheoremA` (contractible `B(F↓d)` for every `d`
-makes `BF` a homotopy equivalence), for 4.1; §2.34, `quillenTheoremB` (the comma comparison into
+**From StableHomotopyKTheory.** §2.26 (objectwise weak equivalences induce weak equivalences of
+homotopy colimits) and §2.29 (Thomason's homotopy-colimit comparison, `hocolim B(Fc) → B(∫F)` a
+weak equivalence), for 4.1; §1.21 (`π₁` of `BC` is the automorphism group in `C[C⁻¹]`), for 4.6;
+§2.34, `quillenTheoremB` (the comma comparison into
 the homotopy fibre is a weak equivalence when every `d → d′` induces a homotopy equivalence), for
 4.4; §2.30, the homology spectral sequence of a functor, for 4.3.
 
@@ -200,17 +203,18 @@ categories in Baues' sense, gr-categories or Picard stacks.
 
 ## How to read the build
 
-Layer 0 is general category theory on Mathlib and is used by Layer 10. Layer 1 builds `W₀`, `W₁`
-and fibrations of groupoids on Mathlib's free groupoid. Layer 2 defines basic localizers and
-proves Theorem A intrinsically, using Layer 1 for its examples. Layer 3 adds presheaves and the
-adjunction `i_A ⊣ i_A^*`. Layer 4 consumes GeneralizedCohomology's simplicial weak equivalences and
-StableHomotopyKTheory's Theorems A and B to identify `W∞` with the Thomason equivalences and to
-characterize it. Layer 5 builds Thomason's model structure on Layer 4. Layer 6 defines test
-categories on Layers 3–4. Layers 7–9 (direct categories, their examples, non-singular presheaves)
-use Mathlib's `ReedyStructure` and none of Layers 1–6. Layer 10 builds derivators, Layer 11
-cofibration categories with their derivator on Layer 7's direct categories. Layer 12 builds
-gr-categories and Picard groupoids on SchemeAndStackFoundations §§1.24 and 3.4, and Layer 13
-Picard stacks on Layer 12 and SchemeAndStackFoundations §1.18.
+Layer 0 is general category theory on Mathlib and is used by Layer 10. Layer 1 builds `W₀`, `W₁` and
+fibrations of groupoids on Mathlib's free groupoid. Layer 2 defines basic localizers and proves
+Theorem A intrinsically; its examples are `W₀`, `W₋₁` and `⊤`. Layer 3 adds presheaves and the
+adjunction `i_A ⊣ i_A^*`. Layer 4 consumes GeneralizedCohomology's simplicial weak equivalences,
+StableHomotopyKTheory's homotopy colimits and Theorem B to identify `W∞` with the Thomason
+equivalences and to characterize it, and proves that `W₁` is a basic localizer. Layer 5 builds
+Thomason's model structure on Layer 4. Layer 6 defines test categories on Layers 3–4. Layers 7–9
+(direct categories, their examples, non-singular presheaves) use Mathlib's `ReedyStructure` and none
+of Layers 1–6. Layer 10 builds derivators, Layer 11 cofibration categories with their derivator on
+Layer 7's direct categories. Layer 12 builds gr-categories and Picard groupoids on
+SchemeAndStackFoundations §§1.24 and 3.4, and Layer 13 Picard stacks on Layer 12 and
+SchemeAndStackFoundations §1.18.
 
 ## Layer 0: categorical prerequisites
 
@@ -441,14 +445,16 @@ any intersection of basic localizers is one, so that `W∞ ≤ W` for every basi
   is not aspherical: its slice `A/0` is empty, and `∅ ⥤ e` is not in `W₋₁` (2.2), hence not in
   `W∞`. With the slices `b\A` instead, both `0\A` and `1\A` have one object and the functor would
   be aspherical: the definition uses `CostructuredArrow`.
-- `W∞` contains `[1] ⥤ e` (LF2) and excludes the functor from two points to `e` (not in `W₀`) and
-  `B(ℤ/2) ⥤ e` (not in `W₁`, 2.2).
+- `W∞` contains `[1] ⥤ e` (LF2) and excludes the functor from two points to `e` (not in `W₀`,
+  2.2) and `B(ℤ/2) ⥤ e` (not in `W_N`, 4.1, and `W∞ = W_N`, 4.2).
 
 ### 2.2 Examples: `W₀`, `W₁`, `W₋₁`
 
-Define `WNeg₁`, the functors with `Nonempty A ↔ Nonempty B`. Prove `isBasicLocalizer_W₀`,
-`isBasicLocalizer_W₁`, `isBasicLocalizer_WNeg₁` and `isAspherical_W₁_iff` (`A` is
-`W₁`-aspherical iff `Π₁ A` is equivalent to `e`). Prove `W₁ ≤ W₀ ≤ W₋₁ ≤ ⊤`, all strict.
+Define `WNeg₁`, the functors with `Nonempty A ↔ Nonempty B`. Prove `isBasicLocalizer_W₀`
+(Cisinski 2004, proof of Proposition 2.3.4: `π₀` commutes with colimits and `A` is the colimit
+of the `A/b`), `isBasicLocalizer_WNeg₁` and `isAspherical_W₁_iff` (`A` is `W₁`-aspherical iff
+`Π₁ A` is equivalent to `e`). Prove `W₁ ≤ W₀ ≤ W₋₁ ≤ ⊤`, all strict. That `W₁` is a basic
+localizer needs the nerve and is 4.6.
 *Needs:* 1.1, 1.2, 2.1.
 
 **Checks.**
@@ -511,7 +517,7 @@ Define `IsLocallyConstant W F`: every `CostructuredArrow.map g : A/b ⥤ A/b'` i
 
 ### Examples
 
-- `W₀`, `W₁`, `W₋₁` and `⊤`; every intersection of basic localizers.
+- `W₀`, `W₋₁` and `⊤` (and `W₁`, 4.6); every intersection of basic localizers.
 - Every functor with an adjoint; every functor into a groupoid is locally constant.
 
 ### Dependencies
@@ -524,9 +530,11 @@ Layer 1 for the examples of 2.2. Within the layer, 2.2–2.5 use 2.1.
 
 Define `iA`, `iAFunctor` (`X ↦ A/X`, Mathlib's `CostructuredArrow.functor yoneda`) and
 `iAStarFunctor` (`C ↦ (a ↦ (Over a ⥤ C))`, from Mathlib's `Over.mapFunctor`). Prove
-`nonempty_iAAdjunction` (`i_A ⊣ i_A^*`), `i_A (yoneda a) ≅ Over a`, naturality in `A`, and
-`isAspherical_iA_yoneda`: representable presheaves are aspherical for every basic localizer.
-*Needs:* 2.1; Mathlib `CostructuredArrow.functor`, `Over.mapFunctor`, `yoneda`.
+`nonempty_iAAdjunction` (`i_A ⊣ i_A^*`), `i_A (yoneda a) ≅ Over a`, naturality in `A`, and that
+representable presheaves are aspherical for every basic localizer: `A/a` has a terminal object
+(Mathlib's `CostructuredArrow.hasTerminal`), and LF2 applies.
+*Needs:* 2.1; Mathlib `CostructuredArrow.functor`, `CostructuredArrow.hasTerminal`,
+`Over.mapFunctor`, `yoneda`.
 
 **Checks.**
 
@@ -580,12 +588,15 @@ Layer 2. Within the layer, 3.2 and 3.3 use 3.1.
 
 ### 4.1 Thomason equivalences are a basic localizer
 
-Prove that `W_N` (convention 4) is a basic localizer: FS1–FS3 and LF2 from the simplicial weak
-equivalences of GeneralizedCohomology G2 item 1, LF3 from Quillen's Theorem A in
-StableHomotopyKTheory §2.31 (a homotopy equivalence of realizations is a simplicial weak
-equivalence by G2 item 1) and the two-out-of-three bookkeeping of Cisinski 2004, Theorem 2.1.13.
-Prove that `W_N` is stable under `A ↦ Aᵒᵖ`.
-*Needs:* 2.1, StableHomotopyKTheory §2.31, GeneralizedCohomology G2 item 1.
+Prove that `W_N` (convention 4) is a basic localizer (Cisinski 2004, Theorem 2.1.13): FS1–FS3
+and LF2 from the simplicial weak equivalences of GeneralizedCohomology G2 item 1. LF3 follows
+the route of Theorem 2.1.13: for `u : A ⥤ B` over `C`, the functors `∫_C (A/c) ⥤ A` and
+`∫_C (B/c) ⥤ B` have left adjoint sections, hence are in `W_N` (2.3); and
+`∫_C (A/c) ⥤ ∫_C (B/c)` is in `W_N`, since both sides are, up to Thomason's comparison
+(StableHomotopyKTheory §2.29), homotopy colimits of the nerves of the slices, and objectwise weak
+equivalences give a weak equivalence of homotopy colimits (§2.26). Prove that `W_N` is stable
+under `A ↦ Aᵒᵖ`.
+*Needs:* 2.1, 2.3, StableHomotopyKTheory §§2.26, 2.29, GeneralizedCohomology G2 item 1.
 
 **Checks.**
 
@@ -597,7 +608,7 @@ Prove that `W_N` is stable under `A ↦ Aᵒᵖ`.
 ### 4.2 Minimality: `W∞ = W_N`
 
 Prove `W∞ = W_N` (Cisinski 2004, Theorem 2.2.11, via Lemmas 2.2.6, 2.2.8 and Proposition 2.2.9).
-Consequences: `W∞` is stable under opposites; the dual Theorem A for `b\A`; `W∞ ≤ W₁ ≤ W₀`;
+Consequences: `W∞` is stable under opposites; the dual Theorem A for `b\A`; `W∞ ≤ W₀`;
 `W∞`-equivalences induce isomorphisms on the simplicial homology of nerves.
 *Needs:* 3.3, 4.1, GeneralizedCohomology G2 item 1.
 
@@ -607,17 +618,18 @@ Consequences: `W∞` is stable under opposites; the dual Theorem A for `b\A`; `W
   functor to `e` is in `W₀` and not in `W₁` (`Π₁` has automorphism group `ℤ`).
 - The poset of nonempty proper subsets of `{0, 1, 2, 3}` has nerve weakly equivalent to `S²`; its
   functor to `e` is in `W₁` (connected, simply connected) and not in `W∞`, since `H₂ = ℤ`: the
-  inclusion `W∞ ≤ W₁` is strict.
+  inclusion `W∞ ≤ W₁` of 4.6 is strict.
 - `[1] ⥤ e` is in `W∞` and in `W_N`, as LF2 and 4.1 require.
 
 ### 4.3 Homological localizers
 
 Define `homologyLocalizer M`, the functors `F` with `SSet.homologyMap (nerveMap F) M n` an
-isomorphism for every `n`, for `M : AddCommGrpCat.{u}`. Prove `isBasicLocalizer_homologyLocalizer`:
-FS1–FS3 because homology is a functor, LF2 because the nerve of a category with a terminal object
-is contractible, and LF3 by comparing the homology spectral sequences of `A ⥤ C` and `B ⥤ C`
-(StableHomotopyKTheory §2.30), whose `E²` pages are isomorphic when every `A/c ⥤ B/c` is in the
-class. Hence `W∞ ≤ homologyLocalizer M`.
+isomorphism for every `n`, for `M : AddCommGrpCat.{u}`. Prove `isBasicLocalizer_homologyLocalizer`
+(Cisinski 2006, Corollary 9.4.3 with `E = HM`, proved there through Bousfield's `E`-local model
+structure). Route, this roadmap's own: FS1–FS3 because homology is a functor, LF2 because the nerve
+of a category with a terminal object is contractible, and LF3 by comparing the homology spectral
+sequences of `A ⥤ C` and `B ⥤ C` (StableHomotopyKTheory §2.30), whose `E²` pages are isomorphic when
+every `A/c ⥤ B/c` is in the class. Hence `W∞ ≤ homologyLocalizer M`.
 *Needs:* 2.1, StableHomotopyKTheory §2.30; Mathlib `SSet.homologyMap`, `nerveMap`.
 
 **Checks.**
@@ -661,14 +673,34 @@ localizer `W ≤ W₀` in which every `W`-locally constant functor in `W` is `W`
 - `B(ℤ/2)` and `e` are not: `H₁(−; ℤ/2)` factors through `Hot` (4.3) and distinguishes them.
 - The `S²` poset of 4.2 and `e` are not isomorphic in `Hot`, though they are after inverting `W₁`.
 
+### 4.6 `W₁` is a basic localizer
+
+Prove `isBasicLocalizer_W₁`, hence `W∞ ≤ W₁`. Route (Cisinski 2006, 9.2.1 and Corollary 9.2.15
+for `n = 1`): a functor `F` is in `W₁` iff the nerve of `F` is a `1`-equivalence of simplicial
+sets, bijective on `π₀` and an isomorphism on `π₁` at every vertex, since `π₁` of the nerve of `A`
+is the automorphism group in `Π₁ A` (StableHomotopyKTheory §1.21); the `1`-equivalences are the
+localizer `W_1` of Cisinski 2006, 9.2.1, by Corollary 9.2.15, and their inverse image under the
+nerve is a basic localizer (Cisinski 2004, Corollary 2.2.4, with 4.2). Layers 1–2 do not suffice:
+a strict colimit of groupoids does not preserve objectwise equivalences, so LF3 for `W₁` has no
+fibre-by-fibre proof on free groupoids.
+*Needs:* 4.2, StableHomotopyKTheory §1.21, GeneralizedCohomology G2 item 1.
+
+**Checks.**
+
+- `B(ℤ/2) ⥤ e` is in `W₀` and not in `W₁`: the realization of its nerve has `π₁ = ℤ/2`, and
+  `Π₁ (B(ℤ/2)) = B(ℤ/2)` is not equivalent to `e`.
+- A category with a terminal object has `Π₁` equivalent to `e` and contractible nerve: LF2 holds
+  for `W₁`, on both sides of the identification.
+- The `S²` poset of 4.2 is in `W₁` and not in `W∞`: `W∞ < W₁`.
+
 ### Examples
 
 - Homological localizers for every abelian group; `W∞` itself.
 
 ### Dependencies
 
-Layers 2–3, GeneralizedCohomology G2 item 1 and StableHomotopyKTheory §§2.30, 2.31 and 2.34.
-Within the layer, 4.2 uses 4.1, 4.4 uses 4.2, and 4.5 uses 4.2.
+Layers 1–3, GeneralizedCohomology G2 item 1 and StableHomotopyKTheory §§1.21, 2.26, 2.29, 2.30
+and 2.34. Within the layer, 4.2 uses 4.1, 4.4 uses 4.2, 4.5 uses 4.2, and 4.6 uses 4.2.
 
 ## Layer 5: Thomason's model structure
 
@@ -1285,12 +1317,16 @@ factorization is Mathlib's: the conclusion of `brown_factorization` follows from
 A cofibration category is a right derivable category in the sense of Cisinski 2010, 2.22, and the
 prederivator `E ↦ Ho(C^E)` on finite direct categories `E` (`IsDirect`, 7.1, and finite) is a weak
 right derivator of domain `Dir_f` satisfying Der5 (Cisinski 2010, Corollary 2.24, Definition A.5
-dualized).
+dualized). Cisinski writes `D_C(E) := Ho(Hom(Eᵒᵖ, C))`, presheaves on `E`; in the form of
+convention 9 this is `E ↦ Ho(C^E)` after `E ↦ Eᵒᵖ`, which preserves `Dir_f`, and Der 4 of
+Definition A.5 is read with the corresponding comma categories.
 *Needs:* 7.1, 10.2, 11.2.
 
 **Checks.**
 
 - `[1]` and the direct `WalkingSpan` (8.2) are in `Dir_f`.
+- For a finite category, `IsDirect C` iff `IsDirect Cᵒᵖ` iff no composite of non-identity
+  morphisms is an endomorphism: `Dir_f` is self-dual, as `E ↦ Eᵒᵖ` requires.
 - `ℤ` and `SingleObj G` for `G ≠ 1` are not (not direct, 7.1).
 - `Ho(C^e) = Ho(C)`.
 
@@ -1390,16 +1426,17 @@ Proposition 2.5 and Corollary 2.8). A Picard groupoid is strictly commutative if
 ### 12.6 Two-term complexes and Deligne over a point
 
 Define `IsStrictlyCommutative` and `TwoTerm d` (convention 13), with `TwoTerm.Hom` (a label
-`k : K⁻¹` with `x + d k = y`), the `0`-labelled `TwoTerm.eqHom` and `TwoTerm.eqIso`, and the
-groupoid, monoidal and symmetric instances, whose proof obligations are the label identities
-`TwoTerm.comp_label`, `TwoTerm.eqIso_hom_label` and `TwoTerm.eqIso_inv_label`. Prove
-`isGrCategory_twoTerm`, `isStrictlyCommutative_twoTerm`, `skeletonTwoTermMulEquiv`
-(`π₀ = coker d`) and `autUnitTwoTermMulEquiv` (`π₁ = ker d`). Every strictly commutative Picard
-groupoid is equivalent to some `ch(d)`, and `d ↦ ch(d)` induces an equivalence between the full
-subcategory of `DerivedCategory (ModuleCat ℤ)` of complexes with cohomology in degrees `-1, 0` and
-strictly commutative Picard groupoids with isomorphism classes of symmetric monoidal functors
-(Deligne, SGA 4 XVIII, 1.4.15, for the punctual site); over a point, every strictly commutative
-Picard groupoid is equivalent to `ch(0 : π₁ → π₀)`.
+`k : K⁻¹` with `x + d k = y`), the `0`-labelled `TwoTerm.eqHom` and `TwoTerm.eqIso`, and the groupoid,
+monoidal and symmetric instances, whose proof obligations are the label identities
+`TwoTerm.comp_label`, `TwoTerm.eqIso_hom_label` and `TwoTerm.eqIso_inv_label`. `ch(d)` is a
+gr-category (`x ⊗ (−x) ≅ 𝟙_` by `TwoTerm.eqIso`) and strictly commutative (`β_{x,x}` is labelled
+`0`), each in one step from the instances. Prove `skeletonTwoTermMulEquiv` (`π₀ = coker d`) and
+`autUnitTwoTermMulEquiv` (`π₁ = ker d`). Every strictly commutative Picard groupoid is equivalent to
+some `ch(d)`, and `d ↦ ch(d)` induces an equivalence between the full subcategory of
+`DerivedCategory (ModuleCat ℤ)` of complexes with cohomology in degrees `-1, 0` and strictly
+commutative Picard groupoids with isomorphism classes of symmetric monoidal functors (Deligne, SGA 4
+XVIII, 1.4.15, for the punctual site); over a point, every strictly commutative Picard groupoid is
+equivalent to `ch(0 : π₁ → π₀)`.
 *Needs:* 12.5; Mathlib `SymmetricCategory`, `Skeleton`, `DerivedCategory`.
 
 **Checks.**
@@ -1529,11 +1566,12 @@ categories are compared.
   Lemma 1.3.6, Theorem 1.3.10, Theorem 2.1.13, Lemmas 2.2.2, 2.2.6, 2.2.8, Propositions 2.2.3,
   2.2.9, Corollary 2.2.4, Remark 2.2.5, Theorem 2.2.11, 2.3.1, Theorem 2.3.2, Corollary 2.3.3,
   Theorem 2.3.6.
-- D.-C. Cisinski, *Les préfaisceaux comme modèles des types d'homotopie*, Astérisque 308
-  (2006), Zbl 1111.18008: Corollary 8.4.13 and Proposition 8.4.27 (the cube category is a test
-  category); 8.2.2 (representables and monomorphisms). Erratum: in Proposition 4.3.2 the
-  conditions (c) and (g) are not equivalent; only (c) ⇒ (g) holds. Counterexample to (g) ⇒ (c):
-  `A = BG` with `G ≠ 1` and `W = W∞` (6.2).
+- D.-C. Cisinski, *Les préfaisceaux comme modèles des types d'homotopie*, Astérisque 308 (2006), Zbl
+  1111.18008: Corollary 8.4.13 and Proposition 8.4.27 (the cube category is a test category); 8.2.2
+  (representables and monomorphisms); 9.2.1 and Corollary 9.2.15 (the `n`-equivalences); 9.4.1–9.4.3
+  (`E_*`-equivalences form a basic localizer). Erratum: in Proposition 4.3.2 the conditions (c) and
+  (g) are not equivalent; only (c) ⇒ (g) holds. Counterexample to (g) ⇒ (c): `A = BG` with `G ≠ 1`
+  and `W = W∞` (6.2).
 - D.-C. Cisinski, « Images directes cohomologiques dans les catégories de modèles », *Ann.
   Math. Blaise Pascal* 10 (2003), 195–244 (the derivator of a model category).
 - D.-C. Cisinski, « Catégories dérivables », *Bull. SMF* 138 (2010), 317–393: 1.1 (axioms

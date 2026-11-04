@@ -38,15 +38,15 @@ Headlines stated here (README target, Lean name):
   `IsGroupoidFibration.mapConnectedComponents_eq_mk_iff` (on `IsGroupoidFibration`).
 * 2.1, `isBasicLocalizer_Winfty` (on `IsAspherical`, `IsAsphericalFunctor`, `IsBasicLocalizer`,
   `Winfty`).
-* 2.2, `isBasicLocalizer_W₀`, `isBasicLocalizer_W₁`, `isBasicLocalizer_WNeg₁`, `isAspherical_W₁_iff`
-  (on `WNeg₁`).
+* 2.2, `isBasicLocalizer_W₀`, `isBasicLocalizer_WNeg₁`, `isAspherical_W₁_iff` (on `WNeg₁`).
 * 2.3, `mem_of_isRightAdjoint`, `mem_of_isLeftAdjoint`.
 * 2.4, `mem_of_isAsphericalFunctor` (Theorem A for an arbitrary basic localizer).
 * 2.5, `IsLocallyConstant`.
-* 3.1, `nonempty_iAAdjunction`, `isAspherical_iA_yoneda` (on `iA`, `iAFunctor`, `iAStarFunctor`).
+* 3.1, `nonempty_iAAdjunction` (on `iA`, `iAFunctor`, `iAStarFunctor`).
 * 3.2, `presheafWeq`.
 * 4.3, `isBasicLocalizer_homologyLocalizer` (on `homologyLocalizer`).
 * 4.4, `Winfty_iff_isAsphericalFunctor_of_isLocallyConstant`, `eq_Winfty_of_isLocallyConstant`.
+* 4.6, `isBasicLocalizer_W₁`.
 * 5.1, `IsDwyerMap`, with `IsDwyerMap.of_isPushout` (the cobase change of a Dwyer map).
 * 6.1, `IsWeakTestCategory`, `IsLocalTestCategory`, `IsTestCategory`, `IsStrictTestCategory` (on
   `iALocalized`).
@@ -63,9 +63,8 @@ Headlines stated here (README target, Lean name):
 * 10.1, 10.2, `value`, `restrict`, `SatisfiesDer2`, `SatisfiesDer3` (definitions only).
 * 11.1, 11.2, `IsCofibrationCategory`, `brown_factorization`.
 * 12.1, `isUnit_skeleton` (on `IsGrCategory`).
-* 12.6, `isGrCategory_twoTerm`, `isStrictlyCommutative_twoTerm`, `skeletonTwoTermMulEquiv`,
-  `autUnitTwoTermMulEquiv` (on `IsStrictlyCommutative`, `TwoTerm`, `TwoTerm.Hom`,
-  `TwoTerm.eqHom`, `TwoTerm.eqIso`, with the label identities `TwoTerm.comp_label`,
+* 12.6, `skeletonTwoTermMulEquiv`, `autUnitTwoTermMulEquiv` (on `IsStrictlyCommutative`, `TwoTerm`,
+  `TwoTerm.Hom`, `TwoTerm.eqHom`, `TwoTerm.eqIso`, with the label identities `TwoTerm.comp_label`,
   `TwoTerm.eqIso_hom_label`, `TwoTerm.eqIso_inv_label`).
 
 Not statable at the pins, with the carrier each lacks:
@@ -354,12 +353,8 @@ def Winfty : MorphismProperty Cat.{u, u} :=
 theorem isBasicLocalizer_Winfty : IsBasicLocalizer Winfty.{u} := by
   sorry
 
-/-- **Layer 2.2.** `W₀` is a basic localizer. -/
+/-- **Layer 2.2.** `W₀` is a basic localizer (Cisinski 2004, proof of Proposition 2.3.4). -/
 theorem isBasicLocalizer_W₀ : IsBasicLocalizer W₀.{u} := by
-  sorry
-
-/-- **Layer 2.2.** `W₁` is a basic localizer. -/
-theorem isBasicLocalizer_W₁ : IsBasicLocalizer W₁.{u} := by
   sorry
 
 /-- **Layer 2.2.** `W₋₁`: the functors `F : A ⥤ B` with `A` nonempty iff `B` is. -/
@@ -427,11 +422,6 @@ def iAStarFunctor : Cat.{u, u} ⥤ (Aᵒᵖ ⥤ Type u) :=
 theorem nonempty_iAAdjunction : Nonempty (iAFunctor A ⊣ iAStarFunctor A) := by
   sorry
 
-/-- **Layer 3.1.** Representable presheaves are aspherical for every basic localizer. -/
-theorem isAspherical_iA_yoneda {W : MorphismProperty Cat.{u, u}} (hW : IsBasicLocalizer W)
-    (a : A) : IsAspherical W (iA A (yoneda.obj a)) := by
-  sorry
-
 /-- **Layer 3.2.** The weak equivalences `W_Â = i_A⁻¹ W` of presheaves. -/
 abbrev presheafWeq (W : MorphismProperty Cat.{u, u}) : MorphismProperty (Aᵒᵖ ⥤ Type u) :=
   W.inverseImage (iAFunctor A)
@@ -470,6 +460,11 @@ theorem eq_Winfty_of_isLocallyConstant {W : MorphismProperty Cat.{u, u}}
   sorry
 
 end Thomason
+
+/-- **Layer 4.6.** `W₁` is a basic localizer (Cisinski 2006, 9.2.1 and Corollary 9.2.15
+for `n = 1`). -/
+theorem isBasicLocalizer_W₁ : IsBasicLocalizer W₁.{u} := by
+  sorry
 
 /-! ## Layer 5: Thomason's model structure -/
 
@@ -907,14 +902,6 @@ instance : SymmetricCategory (TwoTerm d) where
 end TwoTerm
 
 variable {K₁ K₀ : Type u} [AddCommGroup K₁] [AddCommGroup K₀] (d : K₁ →+ K₀)
-
-/-- **Layer 12.6.** `ch(d)` is a gr-category. -/
-theorem isGrCategory_twoTerm : IsGrCategory (TwoTerm d) := by
-  sorry
-
-/-- **Layer 12.6.** `ch(d)` is strictly commutative. -/
-theorem isStrictlyCommutative_twoTerm : IsStrictlyCommutative (TwoTerm d) := by
-  sorry
 
 /-- **Layer 12.6.** `π₀ ch(d) = coker d`, as monoids. -/
 theorem skeletonTwoTermMulEquiv :
