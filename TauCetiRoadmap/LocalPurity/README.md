@@ -13,13 +13,14 @@ for a Cohen–Macaulay target and the discriminant of a finite free algebra. Mat
 finite and étale morphisms, the categories `MorphismProperty.Over`, regular local rings, adic
 completion, local cohomology, discriminants and trace forms; Tau Ceti has finite étale schemes over
 a base and regular local rings as domains; SchemeAndStackFoundations specifies depth,
-Cohen–Macaulay rings, Serre's criterion, henselian pairs and formal completion. None of them has
+Cohen–Macaulay rings, Serre's criterion, Serre's theorem on regular local rings with the
+regularity of their localizations, henselian pairs and formal completion. None of them has
 finite étale covers of punctured spectra or local purity.
 
-These results are the common input of two roadmaps:
-[PurityOfBranchLocus](../PurityOfBranchLocus/README.md) (Zariski–Nagata purity of the branch locus,
-Stacks 0BMB) and [AbhyankarLemma](../AbhyankarLemma/README.md) (extension of covers unramified in
-codimension one and Abhyankar's lemma for a regular divisor, Stacks 0EYE–0EYH).
+[PurityOfBranchLocus](../PurityOfBranchLocus/README.md) consumes §2.1 for Zariski–Nagata purity
+of the branch locus (Stacks 0BMB), and [AbhyankarLemma](../AbhyankarLemma/README.md) consumes
+§§2.1–2.2 for the extension of covers unramified in codimension one and Abhyankar's lemma for a
+regular divisor (Stacks 0EYE–0EYH).
 
 | Layer | Title | What it delivers |
 |---|---|---|
@@ -30,12 +31,13 @@ codimension one and Abhyankar's lemma for a regular divisor, Stacks 0EYE–0EYH)
 ```text
 Mathlib + Tau Ceti → Layer 0 → Layer 1 → Layer 2
 SchemeAndStackFoundations §§0.6, 0.9, 0.14, 0.17, 2.7, 4.7–4.8, 4.13 ──→ Layers 0, 1, 2
-PurityOfBranchLocus §0.3 (0AFS) ─────────────────────────────────────────────→ Layer 2 §2.1
+SchemeAndStackFoundations §4.13 (Serre's theorem, 0AFS) ─────────────────→ Layer 2 §2.1
 ```
 
-The §0.3 regular-local localization targets of PurityOfBranchLocus are independent of local
-purity. Their target-level order is §0.3 → this roadmap's §2.1 → PurityOfBranchLocus §2.1;
-the whole-roadmap arrows do not reverse this prerequisite order.
+Serre's theorem on regular local rings, the regularity of their localizations (Stacks 0AFS) and
+the conclusion that a regular local ring is a regular ring are SchemeAndStackFoundations §4.13
+targets, independent of local purity; §2.1 consumes them, and PurityOfBranchLocus §2.1 consumes
+§2.1.
 
 The end theorems are `IsLocalRing.purityHolds_of_isRegularLocalRing` and
 `Algebra.etale_of_finiteNormal_of_isRegularLocalRing` (0BMA, §2.1), and
@@ -65,12 +67,13 @@ no second carrier.
 - *Regular local rings*: Mathlib `IsRegularLocalRing`, `IsRegularRing`; Tau Ceti
   `TauCeti.IsRegularLocalRing.isDomain` (Algebra, Lemma 10.106.2 (00NP)) and
   `TauCeti.IsRegularLocalRing.quotient_span_singleton` (Lemma 10.106.3 (00NQ) for one element).
-- *Regularity of prime localizations of a regular local ring*:
-  [PurityOfBranchLocus](../PurityOfBranchLocus/README.md) §0.3
-  (`IsRegularLocalRing.isRegularLocalRing_localization`, `isRegularRing_of_isRegularLocalRing`,
-  Stacks 0AFS). This is the prerequisite for applying the regular-ring and regular-scheme
-  results below to a regular local base; neither Mathlib's reverse implication nor the
-  regular-ring theorem by itself supplies it.
+- *Serre's theorem on regular local rings and the regularity of their prime localizations*
+  (Stacks 0AFS): [SchemeAndStackFoundations](../SchemeAndStackFoundations/README.md) §4.13, which
+  concludes that a regular local ring is Mathlib's `IsRegularRing` and that a regular local ring
+  of dimension `d` has depth `d`. The first conclusion is the prerequisite for applying the
+  regular-ring and regular-scheme results below to a regular local base; neither Mathlib's
+  reverse implication `IsRegularLocalRing.of_isRegularRing_of_isLocalRing` nor the regular-ring
+  theorem by itself supplies it.
 - *Depth, Cohen–Macaulay rings, Serre's conditions and criterion*:
   [SchemeAndStackFoundations](../SchemeAndStackFoundations/README.md) §0.17 (`Module.depth`,
   `IsLocalRing.depth`, `Ring.IsCohenMacaulay`, `Ring.IsCohenMacaulay.of_isRegularRing`,
@@ -92,9 +95,9 @@ no second carrier.
   `traceForm_nondegenerate_tfae` (`@[stacks 0BIL]`, finite field extensions),
   `Algebra.trace_localization`, `Algebra.TensorProduct.basis`.
 
-Purity of the branch locus is [PurityOfBranchLocus](../PurityOfBranchLocus/README.md); extension
-of covers unramified or tamely ramified in codimension one, and Abhyankar's lemma, are
-[AbhyankarLemma](../AbhyankarLemma/README.md). Both cite this roadmap.
+[PurityOfBranchLocus](../PurityOfBranchLocus/README.md) consumes §2.1 for purity of the branch
+locus; [AbhyankarLemma](../AbhyankarLemma/README.md) consumes §§2.1–2.2 for the extension of
+covers unramified or tamely ramified in codimension one and for Abhyankar's lemma.
 
 ## Conventions
 
@@ -264,8 +267,8 @@ regular local of dimension `d ≥ 2`, (1) `IsLocalRing.PurityHolds A`; (2) **wit
 Convention 5**, every finite normal `A`-algebra `B` (torsion free) with `Algebra.IsEtaleAt A 𝔮` for
 every prime `𝔮` of `B` not lying over `𝔪` satisfies `Algebra.Etale A B`. The proof is by induction
 on `d`, as in Stacks: (1) and (2) are equivalent by `finiteNormalEquiv`, since `A` is normal
-(PurityOfBranchLocus §0.3 gives `IsRegularRing A` from `IsRegularLocalRing A`, then
-SchemeAndStackFoundations §4.13 `IsRegular.isNormal` applies to `Spec A`). For `d = 2`, localize
+(SchemeAndStackFoundations §4.13 gives `IsRegularRing A` from `IsRegularLocalRing A`, Stacks
+0AFS, so its `IsRegular.isNormal` applies to `Spec A`). For `d = 2`, localize
 at each maximal ideal `𝔮` of `B` and apply the **general** `flat_of_isCohenMacaulay` to
 `A → B_𝔮`, not the finite-local helper: `B_𝔮` need not be finite as an `A`-module. It is a
 normal local domain of dimension two by integrality, going down and the dimension formula; its
@@ -280,13 +283,12 @@ theorem (`Ideal.height_le_one_of_isPrincipal_of_mem_minimalPrimes`), so `𝔭 �
 `Algebra.etale_iff_isUnit_discr`. For `d ≥ 3`, an element `f ∈ 𝔪 ∖ 𝔪²` gives `A ⧸ Ideal.span {f}`
 regular of dimension `d − 1` (Tau Ceti `TauCeti.IsRegularLocalRing.quotient_span_singleton`), and
 `finiteEtale_extend_of_hypersurface` (§1.4) lifts the inductive extension; regular local rings
-have depth `d` by a local parameter induction using
-`TauCeti.IsRegularLocalRing.quotient_span_singleton` and the SchemeAndStackFoundations §0.17
-depth/regular-element API. This local Cohen–Macaulay consequence does not assume
-`IsRegularRing A` before 0AFS is available.
-*Needs:* §§0.1, 0.2, 1.2, 1.4; PurityOfBranchLocus §0.3 (0AFS);
-SchemeAndStackFoundations §§0.17, 4.13; Tau Ceti
-`TauCeti.IsRegularLocalRing.quotient_span_singleton`; Mathlib `Ideal.height_le_one_of_isPrincipal_of_mem_minimalPrimes`,
+of dimension `d` have depth `d` (SchemeAndStackFoundations §4.13, the local Cohen–Macaulay
+statement, which assumes nothing about localizations).
+*Needs:* §§0.1, 0.2, 1.2, 1.4; SchemeAndStackFoundations §§0.17, 4.13 (depth; `IsRegularRing`
+for a regular local ring, Stacks 0AFS, and depth `d` of a regular local ring of dimension `d`;
+`IsRegular.isNormal`); Tau Ceti `TauCeti.IsRegularLocalRing.quotient_span_singleton`; Mathlib
+`Ideal.height_le_one_of_isPrincipal_of_mem_minimalPrimes`,
 `Module.free_of_flat_of_isLocalRing`, `Module.flat_of_isLocalized_maximal`.
 
 **Checks.**
@@ -321,8 +323,9 @@ Prove the corollary `finiteEtale_extend_of_regular_codimTwo` (*API*): for a loca
 scheme `X` and an open `U` such that `𝒪_{X,x}` is a regular local ring of dimension `≥ 2` for every
 `x ∉ U`, restriction is essentially surjective. On each affine open it is
 `finiteEtale_extend_of_purity` with `purityHolds_of_isRegularLocalRing`, and the local extensions
-glue by `restrictOpen_fullyFaithful_of_depth` (regular local rings of dimension `d` have depth `d`).
-*Needs:* §2.1; SchemeAndStackFoundations §§0.6, 0.9, 0.17; Mathlib `IsNoetherian`,
+glue by `restrictOpen_fullyFaithful_of_depth` (regular local rings of dimension `d` have depth `d`,
+SchemeAndStackFoundations §4.13).
+*Needs:* §2.1; SchemeAndStackFoundations §§0.6, 0.9, 0.17, 4.13; Mathlib `IsNoetherian`,
 `IsLocallyNoetherian`, `Scheme.Opens`, `IsAffineOpen`.
 
 ## Stacks alignment

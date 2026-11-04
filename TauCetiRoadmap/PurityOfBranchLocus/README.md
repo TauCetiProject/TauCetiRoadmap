@@ -11,25 +11,24 @@ classical statement that, under §2.3's hypotheses and when the ramification loc
 the source, the ramification and branch loci are empty or of pure codimension one. The local input
 is purity for regular local rings, from [LocalPurity](../LocalPurity/README.md); this roadmap supplies the
 pointwise vocabulary in stalk form, the permanence of normality under étale homomorphisms of local
-rings, Serre's characterization of regular local rings by finite global dimension and its
-consequence that a localization of a regular local ring is regular (Stacks 0AFS), étale localization
-of a quasi-finite morphism, and the reduction of 0BMB to the local case. Mathlib has schemes, étale,
-unramified and quasi-finite morphisms, their stalk and affine pointwise forms
+rings, étale localization of a quasi-finite morphism, and the reduction of 0BMB to the local case;
+Serre's characterization of regular local rings by finite global dimension and its consequence
+that a localization of a regular local ring is regular (Stacks 0AFS) are
+[SchemeAndStackFoundations](../SchemeAndStackFoundations/README.md) §4.13. Mathlib has schemes,
+étale, unramified and quasi-finite morphisms, their stalk and affine pointwise forms
 (`Scheme.Hom.QuasiFiniteAt`, `Algebra.IsEtaleAt`, `Algebra.IsUnramifiedAt`), regular local rings,
 projective dimension, going down and descent of étaleness along fpqc covers, and the affine loci
-`Algebra.unramifiedLocus` and `Algebra.etaleLocus`; it has neither 0BMB, nor localization of regular
-local rings, nor étale localization of a quasi-finite morphism, nor a ramification or branch locus
-of a morphism of schemes.
+`Algebra.unramifiedLocus` and `Algebra.etaleLocus`; it has neither 0BMB, nor étale localization of
+a quasi-finite morphism, nor a ramification or branch locus of a morphism of schemes.
 
 | Layer | Title | What it delivers |
 |---|---|---|
-| [0](#layer-0-pointwise-notions-and-local-algebra) | Pointwise notions and local algebra | étale and unramified at a point in stalk form, the Stacks forms, normality under étale homomorphisms of local rings, global dimension and localization of regular local rings, the ramification, non-étale and branch loci |
+| [0](#layer-0-pointwise-notions-and-local-algebra) | Pointwise notions and local algebra | étale and unramified at a point in stalk form, the Stacks forms, normality under étale homomorphisms of local rings, the ramification, non-étale and branch loci |
 | [1](#layer-1-étale-localization) | Étale localization | elementary étale neighbourhoods making a quasi-finite morphism finite, étaleness is étale local on the source |
 | [2](#layer-2-purity-of-the-branch-locus) | Purity of the branch locus | 0BMB in scheme, Stacks and affine forms, the global corollary, purity of the ramification and branch loci in codimension-one form |
 
 ```text
 Mathlib + Tau Ceti → Layer 0 → Layer 1 → Layer 2
-DerivedModuleAlgebra §0.K.1 (general Koszul) → §0.3 (00OA)
 LocalPurity §2.1 (0BMA) ────────────────────→ Layer 2
 SchemeAndStackFoundations §§0.17, 4.13 ─────→ Layers 0, 2
 ModularCurves §4D (étale invariance) ───────→ Layer 2
@@ -44,30 +43,12 @@ The end theorems are `Scheme.Hom.exists_etale_of_formallyUnramified_stalk_codimO
 **This roadmap owns** the stalk forms of "étale at `x`" and "unramified at `x`" and their
 equivalence with Stacks' Definitions 29.36.1 (02G4) and 29.37.1 (02GI) and Lemma 29.37.15 (02GU);
 the permanence of normality under étale homomorphisms of Noetherian local rings (Étale Morphisms,
-Proposition 41.19.7 (025P)); the global dimension of a ring, the Auslander–Buchsbaum formula
-(Proposition 10.111.1 (090V)), Serre's characterization of regular local rings by finite global
-dimension and the regularity of their localizations (Algebra, Section 10.110: Lemmas 10.109.13
-(00O8), 10.106.5 (00NS), 10.106.6 (00NT), 10.104.9 (00NG), Proposition 10.110.1 (00O7), Lemmas
-10.110.3 (00OA) and 10.110.4 (00OB), Proposition 10.110.5 (00OC), Lemma 10.110.6 (0AFS)),
-including the finite-free realization (0CXF), minimization (00MT) and augmented chain-comparison
-(00LS) interfaces used in §0.3;
+Proposition 41.19.7 (025P));
 the ramification, non-étale and branch loci of a morphism of schemes (§0.4) and their
 codimension-one purity (§2.3); elementary étale localization of a morphism quasi-finite at a
 point (More on Morphisms, Lemma 37.41.1 (02LK)); étaleness is étale local on the source (Descent,
 Lemma 35.31.1 (036W)); and purity of the branch locus (Lemma 58.21.4 (0BMB)) with its global
 corollary.
-
-**Ordinary-algebra boundary with [EnhancedDerivedSheaves E1.6](https://github.com/TauCetiProject/TauCetiRoadmap/pull/908).**
-The two roadmaps share the local-ring domain of 00O7, 00OC and 065T. This §0.3
-owns the ordinary local proof chain, including the finite-projective-dimension residue-field
-criterion and its equality with the dimension, and the comparison between `globalDimension` and
-Mathlib's pointwise `CategoryTheory.HasProjectiveDimensionLE`. E1.6 consumes those results; it
-retains the additional bound for **all** modules over a finite-dimensional regular ring (00OE),
-and its perfect-algebra and enhanced-derived applications. In particular, E1.6's current
-`isRegularLocalRing_of_projectiveDimension_residueField` interface is supplied here as a
-corollary of the §0.3 criterion, not independently reproved in E1.6. The order is ordinary local
-algebra here, then LocalPurity §2.1, then branch purity here; E1.6's consumers follow the local
-algebra without becoming prerequisites of LocalPurity.
 
 **Owned elsewhere and consumed here.**
 
@@ -77,16 +58,12 @@ algebra without becoming prerequisites of LocalPurity.
 - *Regular local rings*: Mathlib `IsRegularLocalRing`, `IsRegularRing`; Tau Ceti
   `TauCeti.IsRegularLocalRing.isDomain` (00NP), `TauCeti.IsRegularLocalRing.quotient_span_singleton`
   (00NQ for one element) and `TauCeti.IsRegularLocalRing.isDiscreteValuationRing_iff_ringKrullDim_eq_one`;
-  [SchemeAndStackFoundations](../SchemeAndStackFoundations/README.md) §4.13 `IsRegular.isNormal`
-  (Lemma 10.157.5 (0567)).
+  [SchemeAndStackFoundations](../SchemeAndStackFoundations/README.md) §4.13: `IsRegular.isNormal`
+  (Lemma 10.157.5 (0567)), Serre's characterization of regular local rings by finite global
+  dimension, the regularity of the localization of a regular local ring at a prime (Lemma
+  10.110.6 (0AFS)) and the conclusion that a regular local ring is `IsRegularRing`.
 - *Depth and Cohen–Macaulay modules*: SchemeAndStackFoundations §0.17 (`IsLocalRing.depth`,
-  `depth_le_supportDim` (00LK), `depth_eq_iff_ext`, `depth_quotSMulTop`, `Module.IsCohenMacaulay`,
-  `isCohenMacaulay_quotSMulTop_iff`, `Ring.IsCohenMacaulay.of_isRegularRing`).
-- *Projective dimension and `Ext`*: Mathlib `CategoryTheory.projectiveDimension`,
-  `CategoryTheory.HasProjectiveDimensionLE`, `Ext`, `ModuleCat`.
-- *General Koszul complex*: [DerivedModuleAlgebra §0.K.1](https://github.com/TauCetiProject/TauCetiRoadmap/pull/944)
-  supplies the exterior-power complex, differential and augmentation for arbitrary finite
-  sequences. §0.3 consumes this construction, not its weak-regularity exactness theorem.
+  `isCohenMacaulay_iff_forall_satisfiesSerreS`).
 - *Invariance of regularity and dimension under étale morphisms* (Étale Morphisms, Lemma 41.19.1
   (039S) and Proposition 41.19.4 (025N)): [ModularCurves](../ModularCurves/README.md) §4D, which owns
   the scheme-level API of regular schemes, including its invariance under étale morphisms.
@@ -161,83 +138,17 @@ SchemeAndStackFoundations §§0.17, 4.13 (`isCohenMacaulay_iff_forall_satisfiesS
 
 ### 0.3 Global dimension and localization of regular local rings
 
-Define `globalDimension R : WithBot ℕ∞` as the supremum of `CategoryTheory.projectiveDimension M`
-over `M : ModuleCat R` (Stacks, Definition 10.109.10 (00O6)). Match the supremum interface of
-mathlib4 #29558, while assigning its implementation here until it is available at the pin.
-Prove, each as its tag states it:
-`globalDimension_le_iff` (Lemma 10.109.12 (065T)): `globalDimension R ≤ n` iff every finite
-`R`-module, iff every cyclic `R`-module, has projective dimension `≤ n`;
-`globalDimension_le_iff_hasProjectiveDimensionLE`: `globalDimension R ≤ n` iff every
-`M : ModuleCat R` satisfies `CategoryTheory.HasProjectiveDimensionLE M n`. This is the
-comparison interface for E1.6's pointwise global-ring bound, not a second dimension notion;
-`projectiveDimension_localization_le` and `globalDimension_localization_le` (Lemma 10.109.13
-(00O8)): localization does not increase projective or global dimension. For the first statement,
-reuse Mathlib's `ModuleCat.projectiveDimension_le_projectiveDimension_of_isLocalizedModule` (and
-its bounded predecessor `localizedModule_hasProjectiveDimensionLE`); the global-dimension
-inequality remains a target. Derive the Noetherian-local form of
-`Module.free_of_quotSMulTop_free` (Lemma 10.106.5 (00NS)) from Mathlib's stronger
-`Module.free_quotSMulTop_iff_free` under finite presentation, Jacobson-radical membership and
-regularity of the element. Prove `IsRegularLocalRing.free_of_isCohenMacaulay` (Lemma 10.106.6
-(00NT)): a **maximal** Cohen–Macaulay module over a regular local ring is free;
-`exists_resolution_maximalCohenMacaulay` (Lemma 10.104.9 (00NG)); and
-`IsRegularLocalRing.globalDimension_le` (Proposition 10.110.1 (00O7)): over a regular local ring of
-dimension `d`, a finite module of depth `e` has a finite free resolution of length `d − e`, so
-`globalDimension R ≤ d`. Prove the Auslander–Buchsbaum formula `auslander_buchsbaum` (Proposition
-10.111.1 (090V)): for a nonzero finite module `M` of finite projective dimension over a Noetherian
-local ring, `projectiveDimension M + IsLocalRing.depth M = IsLocalRing.depth R`. Prove
-`projectiveDimension_residueField_ge` (Lemma 10.110.3 (00OA)): `projectiveDimension κ ≥
-dim_κ 𝔪/𝔪²` (Koszul complex); `projectiveDimension_residueField_le` (Lemma 10.110.4 (00OB)):
-if `κ` has finite projective dimension `n`, then `n ≤ ringKrullDim R` (from `auslander_buchsbaum`
-for `M = κ` and `depth_le_supportDim`); and `isRegularLocalRing_tfae` (Proposition 10.110.5 (00OC)):
-for a Noetherian local ring, `κ` has finite projective dimension, iff `R` has finite global
-dimension, iff `R` is regular, and then `globalDimension R = ringKrullDim R`. Prove
-`isRegularLocalRing_of_projectiveDimension_residueField` (*API*) follows from the
-residue-field condition in `isRegularLocalRing_tfae`, with the signature consumed by
-EnhancedDerivedSheaves E1.6. Prove `isRegularLocalRing_iff_finite_globalDimension` and
-`IsRegularLocalRing.isRegularLocalRing_localization` (Lemma 10.110.6 (0AFS), both sentences): a
-Noetherian local ring is regular iff it has finite global dimension, and the localization of a
-regular local ring at a prime is a regular local ring; with it, `isRegularRing_of_isRegularLocalRing`
-(*API*): a regular local ring satisfies Mathlib's `IsRegularRing`. Names and shapes follow the
-Mathlib vocabulary for projective dimension. Before the global-ring theorem, derive the local
-consequence that a regular local ring is Cohen–Macaulay by induction on a regular parameter
-sequence, using `TauCeti.IsRegularLocalRing.quotient_span_singleton` and the §0.17 depth/quotient
-API; this does not assume `IsRegularRing` of every prime localization. Match the localization
-interface proposed in mathlib4 #29802: it has both the concrete `Localization.AtPrime` theorem
-and the form for any `S` with `[IsLocalization.AtPrime S p]`. Implement the target here at the
-pin rather than waiting for that work.
-
-**00OA dependency and interface.** For an arbitrary Noetherian local ring `(R, 𝔪, κ)`, §0.3
-constructs from `HasProjectiveDimensionLE (ModuleCat.of R κ) d` an augmented finite free
-resolution `F → κ`, zero above degree `d` (0CXF), and minimizes it by splitting off contractible
-`R → R` summands (00MT), preserving the augmentation and length bound and giving
-`im(dᵢ) ⊆ 𝔪Fᵢ₋₁`. Supply these interfaces for every finite module: iterate finite free
-surjections using Mathlib's `Module.Finite.exists_fin'`, keep kernels finite by Noetherianity,
-and use `ShortComplex.ShortExact.hasProjectiveDimensionLT_X₃_iff` and
-`projective_iff_hasProjectiveDimensionLE_zero` to make the last kernel projective; convert via
-`IsProjective.iff_projective` and `Module.free_of_flat_of_isLocalRing`. These are pinned
-inputs, whereas finite-free realization and minimization are targets here. For lifts `x₁,…,xₙ`
-of a basis of `𝔪/𝔪²`, use DerivedModuleAlgebra §0.K.1's general `K(x)`, with
-`Kᵢ = ⋀ⁱ Rⁿ` and augmentation to `κ` by Nakayama. That construction is specified there;
-mathlib4 [#43708](https://github.com/leanprover-community/mathlib4/pull/43708) supplies its design,
-not an implementation at the pin. Construct here the augmentation-preserving comparison
-`α : K(x) → F` inducing `id_κ` (00LS), degreewise via
-`ShortComplex.Exact.liftFromProjective`; only the target `F → κ` must be exact. Prove the 00OA
-induction that every `αᵢ ⊗ κ` is injective, using the linearized Koszul differential
-`⋀ⁱ κⁿ → ⋀ⁱ⁻¹ κⁿ ⊗κ 𝔪/𝔪²` and minimality of `F`. The nonzero top exterior power then gives
-`Fₙ ⊗ κ ≠ 0`, hence `n ≤ d`; the infinite-projective-dimension case is immediate. Neither
-regularity nor Cohen–Macaulayness of `R`, nor exactness of `K(x)`, is an input to this argument.
-*Needs:* SchemeAndStackFoundations §0.17 (depth and Cohen–Macaulay API,
-`Ring.IsCohenMacaulay.of_isRegularRing`); Tau Ceti `TauCeti.IsRegularLocalRing.quotient_span_singleton`;
-DerivedModuleAlgebra §0.K.1 (general Koszul construction); the 0CXF, 00MT and 00LS interfaces
-constructed in this §0.3 from Mathlib's finite-module, projective-dimension and lifting APIs above;
-Mathlib `CategoryTheory.projectiveDimension`, `CategoryTheory.HasProjectiveDimensionLE`, `Ext`,
-`ModuleCat`, `IsRegularLocalRing`, `IsRegularRing`, `IsLocalization.AtPrime`.
-
-**Checks.**
-- `globalDimension_field`: a field has global dimension `0`.
-- `globalDimension_dualNumbers`: `k[ε]/(ε²)` has infinite global dimension and is not regular.
-- `localization_prime_example`: the localization of the regular local ring `k[x, y]_(x, y)` at the
-  prime `(x)` is the discrete valuation ring `k[x, y]_(x)`.
+Serre's characterization of regular local rings by finite global dimension (Stacks, Proposition
+10.110.5 (00OC)), the regularity of the localization of a regular local ring at a prime (Lemma
+10.110.6 (0AFS)), the conclusion that a regular local ring is Mathlib's `IsRegularRing`, and the
+global-dimension, Auslander–Buchsbaum and Koszul inputs behind them are targets of
+[SchemeAndStackFoundations](../SchemeAndStackFoundations/README.md) §4.13, stated there in
+Mathlib's projective-dimension vocabulary; they are independent of purity and nothing here
+restates them. This roadmap consumes two of them: the localization statement, which §2.1 applies
+on the punctured spectrum of a regular local ring, and the regular-ring conclusion, through which
+SchemeAndStackFoundations §4.13 `IsRegular.isNormal` applies to a regular local base in §§2.1 and
+2.3. AbhyankarLemma §3.3 consumes the localization statement from the same source.
+*Needs:* SchemeAndStackFoundations §4.13.
 
 ### 0.4 The ramification, non-étale and branch loci
 
@@ -337,10 +248,11 @@ case of dimension one uses that a regular local ring of dimension one is a discr
 in dimension `≥ 2`, §1.1, §0.2 and ModularCurves §4D reduce to a finite morphism with one point over `y`, base change
 to `Spec 𝒪_{Y,y}` reduces to a finite local homomorphism of local rings, going down and the
 dimension formula give the induction hypothesis on the punctured spectrum (localizations of a
-regular local ring are regular by §0.3 `isRegularLocalRing_localization`), and LocalPurity §2.1
-concludes (a normal local domain finite and injective over `A` is torsion free).
-*Needs:* §§0.1, 0.2, 0.3, 1.1; LocalPurity §2.1; SchemeAndStackFoundations §4.13
-(`IsRegular.isNormal`); ModularCurves §4D (invariance of regularity and dimension under étale
+regular local ring are regular, SchemeAndStackFoundations §4.13, Stacks 0AFS), and LocalPurity
+§2.1 concludes (a normal local domain finite and injective over `A` is torsion free).
+*Needs:* §§0.1, 0.2, 1.1; LocalPurity §2.1; SchemeAndStackFoundations §4.13 (regularity of the
+localizations of a regular local ring, Stacks 0AFS, as consumed in §0.3; `IsRegular.isNormal`);
+ModularCurves §4D (invariance of regularity and dimension under étale
 morphisms); Tau Ceti
 `TauCeti.IsRegularLocalRing.isDiscreteValuationRing_iff_ringKrullDim_eq_one`; Mathlib
 `Scheme.Hom.QuasiFiniteAt`, `Algebra.QuasiFiniteAt`, `Algebra.IsEtaleAt`, `Algebra.HasGoingDown`,
@@ -454,21 +366,6 @@ restatement of a target. *API*: no Stacks counterpart.
 | 0.1 | `unramifiedAt_iff_stalkMap`, `etaleAt_iff_stalkMap`, `etaleAt_spec_iff` | 29.36.1 (02G4), 29.37.1 (02GI), 29.37.15 (02GU) | equivalence |
 | 0.1 | `quasiFiniteAt_of_appLE` | 29.21.1 (01TD) | equivalence |
 | 0.2 | `isNormalDomain_iff_of_etale` | 41.19.7 (025P) | exact |
-| 0.3 | `globalDimension` | 10.109.10 (00O6) | exact |
-| 0.3 | `globalDimension_le_iff` | 10.109.12 (065T) | exact |
-| 0.3 | `globalDimension_le_iff_hasProjectiveDimensionLE` | 10.109.10 (00O6) | comparison API for #908 E1.6 |
-| 0.3 | `projectiveDimension_localization_le`, `globalDimension_localization_le` | 10.109.13 (00O8) | exact |
-| 0.3 | `Module.free_of_quotSMulTop_free` | 10.106.5 (00NS) | exact |
-| 0.3 | `IsRegularLocalRing.free_of_isCohenMacaulay` | 10.106.6 (00NT) | exact |
-| 0.3 | `exists_resolution_maximalCohenMacaulay` | 10.104.9 (00NG) | exact |
-| 0.3 | `IsRegularLocalRing.globalDimension_le` | 10.110.1 (00O7) | exact |
-| 0.3 | `auslander_buchsbaum` | 10.111.1 (090V) | exact |
-| 0.3 | `projectiveDimension_residueField_ge` | 10.110.3 (00OA) | exact |
-| 0.3 | `projectiveDimension_residueField_le` | 10.110.4 (00OB) | exact |
-| 0.3 | `isRegularLocalRing_tfae` | 10.110.5 (00OC) | exact |
-| 0.3 | `isRegularLocalRing_of_projectiveDimension_residueField` | 10.110.5 (00OC) | corollary consumed by EnhancedDerivedSheaves E1.6 |
-| 0.3 | `isRegularLocalRing_iff_finite_globalDimension`, `isRegularLocalRing_localization` | 10.110.6 (0AFS) | exact |
-| 0.3 | `isRegularRing_of_isRegularLocalRing` | — | API |
 | 0.4 | `ramificationLocus`, `nonEtaleLocus`, `branchLocus` | 29.36.1 (02G4), 29.37.1 (02GI); usage in 58.21.2 (0BJH), 58.28.3 (0EA4), 58.29.3 (0ECD) | definitions (no Stacks definition) |
 | 0.4 | `ramificationLocus_eq_stacks` | 29.36.1 (02G4) | accompanying |
 | 0.4 | `isClosed_ramificationLocus` | Section 29.36 (02G3), remark after 29.36.1 | API |
