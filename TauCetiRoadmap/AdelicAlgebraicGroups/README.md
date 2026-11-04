@@ -109,8 +109,10 @@ supplies places and the product formula (layer 0), weak approximation (layer 1),
 (layer 4), full adeles and the discrete rational diagonal (layer 5), additive strong
 approximation and idele norm structure (layer 6), and scalar extension of adeles (layer 8).
 NumberFieldArithmetic, layer 4, supplies the discriminant identities used in scalar Jacobians.
-RepresentationTheory/LieGroups, layer 9, supplies Cartan and Iwasawa theory; simultaneous
-self-adjointness of a nested chain is proved in AA.3.3. GlobalQuadraticForms, layer 5,
+RepresentationTheory/LieGroups supplies the closed-subgroup theorem and the automatic smoothness
+of continuous homomorphisms (layer 2, the Lie group structure of archimedean points in AA.1.2)
+and Cartan and Iwasawa theory (layer 9); simultaneous self-adjointness of a nested chain is proved
+in AA.3.3. GlobalQuadraticForms, layer 5,
 supplies local and global quadratic isotropy. Chebotarev, layer 10, supplies the density input
 for approximation obstructions. ClassFieldTheory supplies global reciprocity (layer 11), the
 global norm-index theorem and the ray-class Artin map (layer 12), the ray class fields with their
@@ -508,7 +510,9 @@ of `C_F^1`), and layer 8 (scalar extension of adeles,
 
 ### From other roadmaps
 
-NumberFieldArithmetic, layer 4 (discriminant identities). RepresentationTheory/LieGroups, layer 9
+NumberFieldArithmetic, layer 4 (discriminant identities). RepresentationTheory/LieGroups, layer 2
+(the closed-subgroup theorem for finite-dimensional real Lie groups and the automatic smoothness
+of continuous homomorphisms, which give `𝐇(ℝ)` its Lie group structure in AA.1.2) and layer 9
 (Cartan and Iwasawa theory). RepresentationTheory/CompactGroups, layer 0 (Haar probability on a
 compact group) and layer 5 (compact abelian Fourier theory). GlobalQuadraticForms, layer 5 (local
 and global quadratic isotropy). Chebotarev, layer 10 (the density input for approximation
@@ -1485,7 +1489,7 @@ over `ℚ` has closed image of infinite index that is not open. `Res_{ℚ(i)/ℚ
 
 Layer AA.0; Tau Ceti's Hopf-algebra points and concrete-group comparisons;
 ReductiveGroupsPartII, RG2.0, RG2.0a, RG2.1 and RG2.4; GlobalNumberFields, layers 4, 5, 6 and 8;
-RepresentationTheory/LieGroups, layer 9; ReductiveGroups, layer 7.
+RepresentationTheory/LieGroups, layers 2 and 9; ReductiveGroups, layers 1 and 7.
 
 ## Layer 2: characters, quotient measures and Tamagawa measures
 
@@ -3461,11 +3465,18 @@ in the standard integral level.
   the choice of `Γ_𝐇` within its commensurability class (model independence above:
   commensurable `Γ_𝐇` have commensurable images), that it depends only on the commensurability
   class of `Γ`, and that it is stable under the automorphisms of `G` (compose `p` with the
-  automorphism, which preserves `G⁰`). Prove that `p(Γ_𝐇 ∩ 𝐇(ℝ)⁰)` is a lattice in `G⁰`: `Γ_𝐇`
-  is a lattice in `𝐇(ℝ)` by *S-arithmetic subgroups are lattices* at `S = ∞` (its hypothesis
-  `X*_ℚ(𝐇) = 0` holds because `𝐇` is semisimple); `Γ_𝐇 ∩ 𝐇(ℝ)⁰` has finite index in `Γ_𝐇`
-  because `𝐇(ℝ)⁰` has finite index in `𝐇(ℝ)`, so it is a lattice in `𝐇(ℝ)`
-  (`MeasureTheory.Subgroup.index_mul_measure`) and in the open subgroup `𝐇(ℝ)⁰`; `p` is open by
+  automorphism, which preserves `G⁰`). Prove that `p(Γ_𝐇 ∩ 𝐇(ℝ)⁰)` is a lattice in `G⁰`:
+  `Γ_𝐇 ∩ 𝐇(ℝ)⁰` has finite index in `Γ_𝐇` because `𝐇(ℝ)⁰` has finite index in `𝐇(ℝ)`, so it
+  is commensurable with `Γ_𝐇` and is itself an arithmetic subgroup of `𝐇(ℚ)` (commensurability
+  preserves arithmeticity, *S-arithmetic subgroups and independence of the model*), hence a
+  lattice in `𝐇(ℝ)` by *S-arithmetic subgroups are lattices* at `S = ∞` (its hypothesis
+  `X*_ℚ(𝐇) = 0` holds because `𝐇` is semisimple); it is then a lattice in the open subgroup
+  `𝐇(ℝ)⁰` for the restricted Haar measure, because the intersection with `𝐇(ℝ)⁰` of a
+  fundamental domain `D` for `Γ_𝐇 ∩ 𝐇(ℝ)⁰` in `𝐇(ℝ)` is a fundamental domain for
+  `Γ_𝐇 ∩ 𝐇(ℝ)⁰` in `𝐇(ℝ)⁰` (the translate into `D` of an element of `𝐇(ℝ)⁰` by an element
+  of `Γ_𝐇 ∩ 𝐇(ℝ)⁰` stays in `𝐇(ℝ)⁰`; the exceptional null set of `D` meets `𝐇(ℝ)⁰` in a null
+  set). This restriction step is applied to a fundamental domain for the subgroup
+  `Γ_𝐇 ∩ 𝐇(ℝ)⁰`, not for `Γ_𝐇` (see the Checks). Next, `p` is open by
   `MonoidHom.isOpenMap_of_sigmaCompact` (`𝐇(ℝ)⁰` is σ-compact and `G⁰` is locally compact
   Hausdorff) and has compact kernel, hence is proper, so it carries the discrete subgroup
   `Γ_𝐇 ∩ 𝐇(ℝ)⁰` to a discrete subgroup, and the surjection
@@ -3477,9 +3488,9 @@ in the standard integral level.
   compactness of `ker p` forces all factors but one to be compact
   ([Milne], §3, pp. 33–35; [Borel], §8, pp. 26–30). *Needs:* AA.1.1; AA.1.2 (*Archimedean
   points are a Lie group with finitely many components*); AA.1.4 (restriction of scalars);
-  AA.2.2 (*quotient-measure*); AA.2.3; AA.3.4 (`Reduction.IsSArithmetic`, model independence,
-  *S-arithmetic subgroups are lattices*); Mathlib `MeasureTheory.IsFundamentalDomain`,
-  `MeasureTheory.Subgroup.index_mul_measure`, `MonoidHom.isOpenMap_of_sigmaCompact`.
+  AA.2.2 (*quotient-measure*); AA.2.3; AA.3.4 (`Reduction.IsSArithmetic`, model independence
+  and commensurability preserving arithmeticity, *S-arithmetic subgroups are lattices*); Mathlib
+  `MeasureTheory.IsFundamentalDomain`, `MonoidHom.isOpenMap_of_sigmaCompact`.
   *Lean:* none; specified in the README only.
 
   **Checks.**
@@ -3491,6 +3502,20 @@ in the standard integral level.
     embedding, `SO(f)(𝒪_k) ∩ G` is an arithmetic lattice with `𝐇 = Res_{k/ℚ} SO(f)`: `SO(f)` is
     connected semisimple because `n+1 ≥ 3`, `𝐇(ℝ)⁰ = SO₀(n,1) × ∏_{σ≠id} SO(n+1)`, and `ker p`
     is the product of the definite factors, so the definition cannot require `ker p = 1`.
+  - The passage to the identity component: for `𝐇 = PGL₂/ℚ` and `Γ_𝐇 = PGL₂(ℤ)`,
+    `𝐇(ℝ)⁰ = PSL₂(ℝ)` has index two in `PGL₂(ℝ)` and `Γ_𝐇 ∩ 𝐇(ℝ)⁰ = PSL₂(ℤ)` has index two
+    in `PGL₂(ℤ)`. A fundamental domain `D₀` for `PSL₂(ℤ)` in `PSL₂(ℝ)` is also one for `PGL₂(ℤ)`
+    in `PGL₂(ℝ)`, since `PGL₂(ℤ)` meets both components, while `D₀ ∪ γD₀` with
+    `γ = [diag(−1,1)]` is one for `PSL₂(ℤ)` in `PGL₂(ℝ)`, of twice the measure; its
+    intersection with `PSL₂(ℝ)` is `D₀`. So the covolume of `Γ_𝐇 ∩ 𝐇(ℝ)⁰` in `𝐇(ℝ)⁰` equals
+    the covolume of `Γ_𝐇` in `𝐇(ℝ)` here, and a definition that compared `p(Γ_𝐇)` instead of
+    `p(Γ_𝐇 ∩ 𝐇(ℝ)⁰)` would not even have a map to apply.
+  - Negative control for the restriction step: the restricted set must come from a fundamental
+    domain for the subgroup `Γ_𝐇 ∩ 𝐇(ℝ)⁰`. For `𝐇 = 𝔾_m`, `Γ_𝐇 = {±1}` and
+    `D = ((0,∞) ∖ [1,2]) ∪ −[1,2]`, `D` is a fundamental domain for `{±1}` in `ℝ^×`, but
+    `D ∩ ℝ_{>0} = (0,∞) ∖ [1,2]` misses `[1,2]` and is not a fundamental domain for
+    `{±1} ∩ ℝ_{>0} = {1}` in `ℝ_{>0}`; the fundamental domain `D ∪ −D = ℝ^×` for `{1}`
+    restricts to the whole of `ℝ_{>0}`, as it must.
   - Negative control: the predicate forces `G⁰` to be semisimple, since `G⁰ ≅ 𝐇(ℝ)⁰/ker p` has
     Lie algebra a quotient of the semisimple Lie algebra of `𝐇`. For `G = ℝ` and
     `Γ = ℤ = 𝔾_a(ℤ)`, `Γ` is a lattice and an arithmetic subgroup of `𝔾_a(ℚ)`
