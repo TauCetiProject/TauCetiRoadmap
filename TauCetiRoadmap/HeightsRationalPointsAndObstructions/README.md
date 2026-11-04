@@ -2633,7 +2633,7 @@ Extend along a valuation of Ē centred at s (a smooth flag provides one). Prope
 **Checks.**
 
 - Over E=ℚ the hypothesis holds and the statement is §1.7; over E=𝔽_p(t) the constant field is 𝔽_p, Tr(k) is finite, and A(E) is finitely generated, which a characteristic-zero-only statement would miss.
-- Over E=ℚ̄, or E=𝔽̄_p(t) with A constant, E is not finitely generated over its prime field, and A(E) contains the infinite torsion group A(ℚ̄) or A(𝔽̄_p), so finite generation of E cannot be weakened to algebraicity of the constant field.
+- Over E=ℚ̄, or E=𝔽̄_p(t) with A=A₀×_(𝔽̄_p) E constant, E is not finitely generated over its prime field, and for dim A≥1 the group A(E) is not finitely generated: A(ℚ̄) is nonzero and divisible and contains the infinite torsion subgroup A(ℚ̄)_tors, and A(E)⊇A₀(𝔽̄_p) is an infinite torsion group; so finite generation of E cannot be weakened to algebraicity of the constant field.
 - E=ℚ(t) with A=E₀×_ℚ E constant has A(E)=E₀(ℚ), since a morphism ℙ¹→E₀ is constant; finite generation here comes entirely from Tr(k), so the trace term cannot be dropped from the route.
 - E:y²=x³−t²x+t² can lose rank at t=2
 - arbitrary specialization is excluded.
