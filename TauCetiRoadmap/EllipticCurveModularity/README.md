@@ -183,6 +183,7 @@ are used with their stated generality.
 | `HeckeRing.GL2.Newform` | normalized newforms at a fixed positive level and weight |
 | `Newform.eq_of_forall_notMem_eigenvalue_eq` | equality at a fixed level and character from agreement at all good indices outside a finite set |
 | `WeierstrassCurve.localPolynomial` | the integer polynomial in the four reduction cases above |
+| `WeierstrassCurve.IsSemistable` | Tau Ceti `MinimalModel/Semistable.lean`: good or multiplicative reduction at every prime of the base ring `O` |
 | `WeierstrassCurve.LFunction`, `WeierstrassCurve.LSeries` | the formal coefficients and their complex Dirichlet series |
 
 For the number-field convergence target, Tau Ceti supplies
@@ -425,9 +426,9 @@ roles are:
   multiplicative cases. The lifting discussion is §3.1, especially (3.1.6),
   pp. 194–195. The weight-two specialization is §3.3, p. 198. Theorem 4,
   Lemma 5, and (4.6.1)–(4.6.4) in §4.6, pp. 207–208, provide the modularity
-  argument; Theorem 5 in §4.7, pp. 208–209, specifies the real multiplication
-  companion. The modularity input in the 1987 paper is conjectural;
-  ClassicalSerreModularity §R27.6 supplies it as a theorem.
+  argument; Theorem 5 in §4.7, pp. 208–210 (the theorem on p. 209), specifies
+  the real multiplication companion. The modularity input in the 1987 paper is
+  conjectural; ClassicalSerreModularity §R27.6 supplies it as a theorem.
 * G. Faltings, *Endlichkeitssätze für abelsche Varietäten über Zahlkörpern*,
   Invent. Math. 73 (1983), 349–366. In §5, Satz 3 and Satz 4,
   p. 360, give semisimplicity and the endomorphism comparison. Korollar 1
@@ -1663,13 +1664,14 @@ Then `C×D→A` is an isogeny and `f|_D:D→B` is an isogeny by surjectivity and
 Isogenies induce rational Tate-module isomorphisms, so `V_r(f)` is surjective.
 The proof uses rational coefficients even when r divides the finite isogeny kernels.
 
-*Sources and prerequisites.* Milne, *Abelian Varieties* (2022), Proposition 12.1,
-p. 19; Ribet–Stein, Appendix by B. Conrad, proof of Theorem 5.14, p. 73;
-ModularCurvesPartII §16.3's rational-exactness argument.
+*Sources and prerequisites.* Milne, *Abelian varieties* (1986 Storrs article,
+corrected 2012), Proposition 12.1, p. 19; Ribet–Stein, Appendix by B. Conrad,
+proof of Theorem 5.14, p. 73; ModularCurvesPartII §16.3's rational-exactness argument.
 AbelianSchemesAndArithmeticModuli A6.5 supplies the complement and A4.1 supplies
 additive functoriality of `T_r` in homomorphisms, compatible with composition.
 For an isogeny `u:A→B`, an isogeny `v:B→A` satisfies `vu=[n]` and `uv=[n]`
-for some `n>0` (Milne, §8, p. 12). Hence `n⁻¹V_r(v)` is an inverse to `V_r(u)`.
+for some `n>0` (Milne, *Abelian varieties* (1986 Storrs article, corrected 2012),
+§8, p. 12). Hence `n⁻¹V_r(v)` is an inverse to `V_r(u)`.
 Additive functoriality also carries the inclusions and projections of `A×B` and
 their biproduct identities to the Tate modules, giving the product decomposition.
 These deductions apply to arbitrary abelian varieties; ArithmeticGaloisRepresentations
@@ -1981,7 +1983,7 @@ formulation theorem in this layer. It uses residual representations at infinitel
 distinct primes and then Faltings's isogeny criterion; it does not assume that the
 starting elliptic curve is modular.
 
-The real-multiplication extension of Serre §4.7, Theorem 5, pp. 209–210 is
+The real-multiplication extension of Serre §4.7, Theorem 5, pp. 208–210 is
 motivation for a separate roadmap, rather than an implementation target here. Its
 compatible-system, conductor-power and residual-comparison development in
 (4.7.1)–(4.7.6), and the repeated-witness and isogeny argument in dimension n,
