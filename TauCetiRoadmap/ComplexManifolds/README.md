@@ -64,7 +64,7 @@ cohomology; or Riemann--Roch.
   The bridge theorem is an equivalence between the chartwise complex orientation defined here and
   the DifferentialGeometry chosen orientation represented by source-indexed chart signs; this
   roadmap does not introduce a second orientation carrier.
-- The [conformal-mapping roadmap](../ConformalMapping/README.md) owns one-variable analytic
+- The [conformal-mapping roadmap](../../Completed/ConformalMapping/README.md) owns one-variable analytic
   theorems such as Riemann mapping and Schwarz reflection. It consumes the Riemann-sphere manifold
   and transport interfaces from this roadmap.
 - [SmoothBundlesConnections B2, #887](https://github.com/TauCetiProject/TauCetiRoadmap/pull/887)

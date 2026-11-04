@@ -92,7 +92,7 @@ owns normalized Haar probability and its left, right and inversion invariance.
 Its implementation, [`TauCeti/RepresentationTheory/Compact/Haar.lean`](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/RepresentationTheory/Compact/Haar.lean),
 supplies `TauCeti.haarProb`; Layer 7 uses it for compact examples.
 Peter–Weyl, unitary representation theory and the positive-definite-function
-targets of [OneParameterSemigroups, Part C](../OneParameterSemigroups/README.md#part-c--positive-definite-functions-and-bochners-theorem)
+targets of [OneParameterSemigroups, Part C](../../Completed/OneParameterSemigroups/README.md#part-c--positive-definite-functions-and-bochners-theorem)
 are related subjects, not dependencies of this roadmap.
 
 ## Layer 1: UCB, means and transport

@@ -343,9 +343,9 @@ theorem norm_normTwist (χ : UnitaryIdealWeight K) (z : ℂ) {I : Ideal (𝓞 K)
 /-- **Rejection test.** If `Re z ≠ 0`, the twist fails the unitary modulus condition at every good
 ideal of norm greater than one. -/
 theorem norm_normTwist_apply_ne_one (χ : UnitaryIdealWeight K) {z : ℂ} (hz : z.re ≠ 0)
-    {I : Ideal (𝓞 K)} (hI : χ.1.IsGood I) (hN : 1 < Ideal.absNorm I) :
+    {I : Ideal (𝓞 K)} (_hI : χ.1.IsGood I) (hN : 1 < Ideal.absNorm I) :
     ‖MultiplicativeIdealWeight.normTwist z χ.1 I‖ ≠ 1 :=
-  UnitaryIdealWeight.norm_normTwist_apply_ne_one χ hz hI hN
+  UnitaryIdealWeight.norm_normTwist_apply_ne_one χ hz hN
 
 end Layer0
 

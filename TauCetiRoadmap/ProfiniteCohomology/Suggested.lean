@@ -630,17 +630,13 @@ noncomputable def explicitMap1Equiv (H : Type*) [Group H] [TopologicalSpace H]
     (TauCeti.ContCohomology.explicitMap1 G M H N φ e.toAddMonoidHom hf hA)
     (TauCeti.ContCohomology.explicitMap1 H N G M φ.symm e.symm.toAddMonoidHom hq hA') ?_ ?_
   · exact (TauCeti.ContCohomology.explicitMap1_comp G M H N φ e.toAddMonoidHom hf hA G M φ.symm
-      e.symm.toAddMonoidHom hq hA'
-      (TauCeti.ContCohomology.comp_apply_smul ((φ : H →ₜ* G) : H →* G)
-        ((φ.symm : G →ₜ* H) : G →* H) e.toAddMonoidHom e.symm.toAddMonoidHom hA hA')).symm.trans
+      e.symm.toAddMonoidHom hq hA').symm.trans
       ((TauCeti.ContCohomology.explicitMap1_congr_of_eq G M G M _ (ContinuousMonoidHom.id G) _
         (AddMonoidHom.id M) (hq := continuous_id) (hψ := fun g m => by simp)
         (ContinuousMonoidHom.ext φ.apply_symm_apply) (AddMonoidHom.ext e.symm_apply_apply)).trans
         (TauCeti.ContCohomology.explicitMap1_id G M _))
   · exact (TauCeti.ContCohomology.explicitMap1_comp H N G M φ.symm e.symm.toAddMonoidHom hq hA'
-      H N φ e.toAddMonoidHom hf hA
-      (TauCeti.ContCohomology.comp_apply_smul ((φ.symm : G →ₜ* H) : G →* H)
-        ((φ : H →ₜ* G) : H →* G) e.symm.toAddMonoidHom e.toAddMonoidHom hA' hA)).symm.trans
+      H N φ e.toAddMonoidHom hf hA).symm.trans
       ((TauCeti.ContCohomology.explicitMap1_congr_of_eq H N H N _ (ContinuousMonoidHom.id H) _
         (AddMonoidHom.id N) (hq := continuous_id) (hψ := fun g m => by simp)
         (ContinuousMonoidHom.ext φ.symm_apply_apply) (AddMonoidHom.ext e.apply_symm_apply)).trans
@@ -2980,8 +2976,10 @@ section CohomologicalDimensionInvariants
 /-! The invariants of this layer are Tau Ceti's, in
 `TauCeti/RepresentationTheory/Homological/ContCohomology/CohomologicalDimension.lean`, read at the
 coefficient universe of `G`: Tau Ceti lets the coefficient modules range over `Type (max u v)` for
-an extra universe `v`, and this roadmap takes `v = 0`, so that they range over `Type u`, the
-universe `README.md` §3 fixes for the coefficients of a group in `Type u`. The definitions do not
+an extra universe `v`, and this roadmap takes `v = u`, so that they range over `Type u`, the
+universe `README.md` §3 fixes for the coefficients of a group in `Type u`. This fixes the auxiliary
+cochain universe as well as the coefficient universe, matching the canonical pro-`p`, Sylow and
+Demushkin dimension theorems. The definitions do not
 use that `p` is prime; they are meant for prime `p`. -/
 
 /-- **Layer 11, `p`-primary torsion coefficients.** Every element is annihilated by a power of `p`,
@@ -3000,7 +2998,7 @@ discrete `p`-primary torsion `M` with a continuous action: Tau Ceti's
 `TauCeti.CohomologicalDimensionLE`, whose `Hⁱ(G, M)` is Mathlib's continuous cohomology of
 `ofDiscreteModule G M` (`TauCeti.cohomologicalDimensionLE_iff`). -/
 abbrev CohomologicalDimensionLE (n : ℕ) : Prop :=
-  TauCeti.CohomologicalDimensionLE.{0} p G n
+  TauCeti.CohomologicalDimensionLE.{u} p G n
 
 /-- **Layer 11, the strict vanishing predicate,** Tau Ceti's
 `TauCeti.StrictCohomologicalDimensionLE` (`TauCeti.strictCohomologicalDimensionLE_iff`). The two
@@ -3009,23 +3007,23 @@ predicates differ in both places at once: the ordinary one asks the whole of `H�
 `p`-primary part of `Hⁱ` to vanish. Swapping either half gives the wrong invariant, and dropping `p`
 from the second gives one that does not depend on `p` at all. -/
 abbrev StrictCohomologicalDimensionLE (n : ℕ) : Prop :=
-  TauCeti.StrictCohomologicalDimensionLE.{0} p G n
+  TauCeti.StrictCohomologicalDimensionLE.{u} p G n
 
 /-- **Layer 11, `cd_p`,** Tau Ceti's `TauCeti.cohomologicalDimensionAt`: the infimum in `ℕ∞` of the
 naturals satisfying the ordinary predicate, so that infinite cohomological dimension is `⊤` rather
 than an absent value. -/
 noncomputable abbrev cd_p : ℕ∞ :=
-  TauCeti.cohomologicalDimensionAt.{0} p G
+  TauCeti.cohomologicalDimensionAt.{u} p G
 
 /-- **Layer 11, `scd_p`,** Tau Ceti's `TauCeti.strictCohomologicalDimensionAt`. -/
 noncomputable abbrev scd_p : ℕ∞ :=
-  TauCeti.strictCohomologicalDimensionAt.{0} p G
+  TauCeti.strictCohomologicalDimensionAt.{u} p G
 
 /-- **Layer 11, `cd G = ⨆ p, cd_p G`,** over primes: Tau Ceti's `TauCeti.cohomologicalDimension`,
 with `TauCeti.cohomologicalDimension_le_iff` and
 `TauCeti.cohomologicalDimensionAt_le_cohomologicalDimension`. -/
 noncomputable abbrev cd : ℕ∞ :=
-  TauCeti.cohomologicalDimension.{0} G
+  TauCeti.cohomologicalDimension.{u} G
 
 /-- **Layer 11, `cd_p G ≤ n ↔ CohomologicalDimensionLE p G n`,** the reason the predicate is named
 in its own right rather than folded into the infimum: Tau Ceti's
