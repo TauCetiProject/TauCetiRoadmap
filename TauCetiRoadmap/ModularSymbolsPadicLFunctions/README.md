@@ -117,8 +117,8 @@ It leaves to other roadmaps, and cites:
   `periodPolynomials` and `finrank_periodPolynomials_eq_finrank_modularForm_add_finrank_cuspForm`); the
   Eichler–Shimura isomorphism of §0.7 differs from it in being cohomological (`S ⊕ S̄ ≅ H¹_par`, with the
   conjugate summand) and in holding for every finite-index `Γ` with its Hecke, diamond and sign actions.
-- **LocallyAnalyticDistributions.** Layer 0 (closed-disc analytic functions `discAnalytic`, the
-  stages `LA_h(ℤ_p)`, locally analytic functions and distributions `D(ℤ_p)`, inductive and projective
+- **LocallyAnalyticDistributions.** Layer 0 (closed-disc analytic functions, the stages of locally
+  analytic functions on `ℤ_p`, locally analytic functions and distributions `D(ℤ_p)`, inductive and projective
   locally convex limits, compact restriction to a smaller radius), Layer 2 (distributions of order `r`,
   that is `h`-admissible distributions, with the Amice–Vélu–Višik extension and uniqueness theorem and
   its strict threshold), and Layer 4 (complete continuity, Fredholm series, Riesz projectors and
@@ -301,12 +301,12 @@ existing transfer; it does not construct another transfer.
 
 ### From TauCetiRoadmap.LocallyAnalyticDistributions
 
-§0.1 (Discs, locally analytic functions and their distributions): `discAnalytic` (analytic functions on a closed disc `B(a, r)` with Gauss norm and the maximum
-principle on `ℂ_p`-points), `LA_h` and `LA(ℤ_p, L) = lim→ LA_h`, the distributions `D(ℤ_p, L)` with their
+§0.1 (Discs, locally analytic functions and their distributions): analytic functions on a closed disc `B(a, r)` with Gauss norm and the maximum
+principle on `ℂ_p`-points, the stages of locally analytic functions and their inductive limit `LA(ℤ_p, L)`, the distributions `D(ℤ_p, L)` with their
 Fréchet structure; §0.3 (Compact restriction to a smaller radius) supplies the finite-chart
-restriction comparison using CompactOperators §0.3. The locally convex limits `naInductiveLimit` and `naProjectiveLimit` are
-§0.0 (Nonarchimedean topology, exact categories and completed tensors). §2.1 (Functions of class `C^r` and distributions of order `r`): `DistOrder` (`D_r(ℤ_p, L)`, with `mem_distOrder_iff_growth`, which is
-Pollack–Stevens' `h`-admissibility), order zero equals bounded measures, and §2.3 (Uniqueness, the critical case and ray-class adapters), the Amice–Vélu–Višik
+restriction comparison using CompactOperators §0.3. The nonarchimedean inductive and projective locally convex limits are
+§0.0 (Nonarchimedean topology, exact categories and completed tensors). §2.1 (Functions of class `C^r` and distributions of order `r`): Distributions of order `r` (admissible distributions), that is `D_r(ℤ_p, L)` with its Amice-transform growth criterion, which is
+Pollack–Stevens' `h`-admissibility, order zero equals bounded measures, and §2.3 (Uniqueness, the critical case and ray-class adapters), the Amice–Vélu–Višik
 theorem: two distributions of order `r` agreeing on locally polynomial functions of degree `≤ N` coincide
 when `r < N + 1`, and `d^{N+1}δ₀` shows the threshold is sharp. §4.1 (Banach modules, complete continuity and orthonormalizable modules), §4.2 (Fredholm determinants),
 §§4.7–4.8 (root projectors and finite projective root kernels), and §4.16 (Banach complexes and
@@ -799,10 +799,10 @@ is part of the proof. *Needs:* §0.4
 - `H¹_par(Γ₀(11), ℚ) ≠ H¹(Γ₀(11), ℚ)`: the dimensions are 2 and 3, the extra class detecting the second
   cusp; a definition forgetting the cusp condition would fail here.
 
-The light cocycle interfaces use `cuspStabilizer Γ r` for the inverse image in `Γ` of
-Mathlib's stabiliser of `r` in `GL₂(ℚ)`. `IsCoboundaryOn Γ ρ H c` means that a single `v ∈ V`
-satisfies `c(h) = ρ(h)v − v` for every `h ∈ H`; `IsParabolic Γ ρ c` imposes this separately
-on every cusp stabiliser. These predicates test a supplied function `c`; the cocycle
+The light cocycle interfaces use the cusp stabiliser of `r` in `Γ`, the inverse image in `Γ` of
+Mathlib's stabiliser of `r` in `GL₂(ℚ)`; the predicate that a function `c` is a coboundary on a subgroup
+`H` for a single `v`, meaning that `v ∈ V` satisfies `c(h) = ρ(h)v − v` for every `h ∈ H`; and the parabolic
+predicate, which imposes this separately on every cusp stabiliser. These predicates test a supplied function `c`; the cocycle
 identity is a separate hypothesis in the cohomological theorems. API: subgroup
 restriction for coboundaries, conjugation of cusp stabilisers, base-cusp independence
 of the associated class and invariance after adding a global coboundary. Source:
@@ -1570,7 +1570,7 @@ with `M = Np`); ModularForms Layer 4.
 **Distribution modules with the weight-`k` action** (definition). For a real `r > 0` let `B[ℤ_p, r]` be the set of
 `z ∈ ℂ_p` within distance `r` of `ℤ_p`; it is a finite disjoint union of closed discs `a + B(0, r)`, and `A[r]` is the
 `ℚ_p`-Banach algebra of functions analytic on each of these discs (a finite product of the
-`discAnalytic` spaces of LocallyAnalyticDistributions Layer 0, at valuation `−log_p r`), with the sup norm.
+closed-disc analytic function spaces of LocallyAnalyticDistributions §0.1, at valuation `−log_p r`), with the sup norm.
 Put `A(ℤ_p) = lim→_{s>0} A[s]` (the locally analytic functions `LA(ℤ_p)` of LocallyAnalyticDistributions
 Layer 0) and `A†(ℤ_p, r) = lim→_{s>r} A[s]`, and let `D[r], D(ℤ_p)` and `D†(ℤ_p, r)` be the continuous duals; write
 `D = D[1]` and `D† = D†(ℤ_p, 1)`. For `r < p`, the monoid
@@ -1601,8 +1601,8 @@ completely continuous with dense image (LocallyAnalyticDistributions Layer 0, co
 smaller radius). API: `D_k(ℤ_p), D_k` and `D†_k` with the right weight-`k` action of `Σ₀(p)`;
 the isometry of `D` with bounded sequences; the identification of `D†` with sequences `O(r^j)` for every
 `r > 1`; and the contraction above. *Needs:* LocallyAnalyticDistributions Layer 0
-§§0.0–0.1 (`discAnalytic`, `LA_h`, locally analytic distributions, `naInductiveLimit`,
-`naProjectiveLimit`), §0.3 (Compact restriction to a smaller radius) and §4.15
+§0.0 (Nonarchimedean topology, exact categories and completed tensors), §0.1 (Discs, locally analytic
+functions and their distributions), §0.3 (Compact restriction to a smaller radius) and §4.15
 (Universal-character coefficient action; Cocycle law and handedness); §0.1 (The Hecke monoid `Σ₀(N)`).
 The p-adic monoid uses the unit, lower-left divisibility and nonzero-determinant conditions.
 Its API includes the entrywise integral inclusion from `Σ₀(p)` and compatibility of the coefficient
@@ -1620,10 +1620,10 @@ actions.
 - For `κ(u) = u^k`, the opposite-monoid comparison gives `(μ |_k γ)(g) = μ((a + cz)^k g(φ_γ(z)))`.
 - For every `κ`, `β(a,p)` has multiplier `κ(1) = 1`, so its transpose evaluates `g` at `a + pz`.
 
-- `diag(1,p)` belongs to `Sigma0p p`, while `diag(p,1)` does not: the upper-left
+- `diag(1,p)` belongs to the p-adic monoid `Σ₀(p)`, while `diag(p,1)` does not: the upper-left
   entry must be a p-adic unit.
-- `(1 0; 1 1)` does not belong to `Sigma0p p`, because its lower-left entry is a unit.
-- `(1 0; 0 0)` does not belong to `Sigma0p p`, because its determinant is zero.
+- `(1 0; 1 1)` does not belong to the p-adic monoid `Σ₀(p)`, because its lower-left entry is a unit.
+- `(1 0; 0 0)` does not belong to the p-adic monoid `Σ₀(p)`, because its determinant is zero.
 
 ### 2.3 Specialisation and overconvergent lifts
 
@@ -1765,9 +1765,9 @@ of the fibre); §2.2 (Distribution modules); §2.1 (Refinements; The refined eig
 eigenvalue `λ` has slope `h`, then every value `Φ(D)` is `h`-admissible: `‖Φ(D)‖_r = O(r^{−h})` as `r → 0⁺`. Proof: for
 `0 < r ≤ 1` and `n ≥ 1, ‖Φ(D)‖_{r/p^n} = |λ|^{−n}‖(Φ|U_p^n)(D)‖_{r/p^n} ≤ |λ|^{−n}max_a‖Φ(β(a, p^n)D)‖_r ≤ |λ|^{−n}‖Φ‖_r` by the
 contraction of §2.2, and `|λ|^{−n} = p^{nh} = (r/(r/p^n))^h` ([PS] Definition 6.1 and Lemma 6.2, p. 27). This is
-`h`-admissibility in the sense of LocallyAnalyticDistributions Layer 2 (`mem_distOrder_iff_growth`). At `h = 0`
+`h`-admissibility in the sense of LocallyAnalyticDistributions §2.1 (Distributions of order `r`, by the growth criterion). At `h = 0`
 the values are bounded, that is, measures; `λ = 0` (infinite slope) is not covered. *Needs:* §2.2
-(Distribution modules); LocallyAnalyticDistributions Layer 2 (`DistOrder`).
+(Distribution modules); LocallyAnalyticDistributions §2.1 (Distributions of order `r`).
 
 **The p-adic L-function of a small-slope refinement** (construction). Let `(f, α)` have slope `h < k + 1, φ^±`
 bases of the refined eigenlines, `Φ^±` their eigenlifts from the control theorem and `Φ = Φ⁺ + Φ⁻`. Define
