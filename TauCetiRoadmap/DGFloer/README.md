@@ -32,13 +32,18 @@ Suggested homes:
 | 2 | `TauCeti/Topology/PathSpace/` and `TauCeti/Topology/MappingSpace/` |
 | 3--4 | `TauCeti/AlgebraicTopology/DGLocalSystem/` |
 | 5 | `TauCeti/Geometry/Manifold/Morse/DG/` |
-| 6--11 | `TauCeti/Geometry/Symplectic/Hamiltonian/` and `TauCeti/Geometry/Symplectic/Floer/` |
+| 6--10 | `TauCeti/Geometry/Symplectic/Hamiltonian/` and `TauCeti/Geometry/Symplectic/Floer/` |
 
 ## Scope boundary
 
-In scope: every numbered statement of the source paper
-([arXiv:2404.07953](https://arxiv.org/abs/2404.07953)), subject to the named exclusions and supplier-coordination applications below. The
-[source coverage](#source-coverage) section assigns each of them to a layer.
+In scope: every numbered statement of §§1–6.2 of the source paper
+([arXiv:2404.07953](https://arxiv.org/abs/2404.07953)) other than Theorem B (Theorem 5.14), subject to the named exclusions and
+supplier-coordination applications below. The [source coverage](#source-coverage) section assigns
+each of them to a layer. The applications of this package to manifolds abundant with 2-spheres,
+knotted hypersurfaces and the multiple-realization criterion (the source's Theorem B, §§6.3–6.4 and
+§7), together with the homogeneous carriers and projective loop computations they rest on, are the
+subject of the continuation roadmap DGFloerPartII. DGFloerPartII consumes this roadmap and
+supplies nothing to it.
 
 Out of scope, so nobody mistakes them for later stages:
 
@@ -46,18 +51,6 @@ Out of scope, so nobody mistakes them for later stages:
   property when `Q` is not a `K(π,1)`). It is open.
 - **Corollary F.** It consumes the Ginzburg--Niche theorem on uniquely ergodic Hamiltonian
   structures, which nothing here builds.
-- **The Cayley plane** in Proposition 6.39. It needs the octonionic projective plane as a
-  Riemannian manifold. The quaternionic half of Proposition 6.39 is in scope.
-- **The finite-rank and compact-Lie applications of §§6.4.3–6.4.4 are in scope.** Layer 11.3
-  constructs Lemma 6.35's complete odd-rank `π_(n−1)(SO(n))` torsion proof and both proofs of
-  Proposition 6.34, and constructs the finite-cover and higher-homotopy comparison that makes
-  Proposition 6.31 unconditional for every compact connected Lie group other than a torus.
-  HomotopySpheres Stage 4A–4B supplies stable real Bott periodicity only; the finite-rank
-  Stiefel and low-rank calculations, and their use in the sphere-evaluation fibration, remain
-  explicit targets here. The LieGroups dependency supplies its stated compact structure and
-  maximal-torus interfaces; the DGFloer-specific finite-cover/`K(π,1)` comparison is assigned
-  here. These targets preserve the source's full statements rather than reclassifying them as
-  coverage-only contracts.
 
 Also out of scope:
 - chain-level higher structures, meaning `A∞` refinements of the DG Floer maps, products, and the
@@ -89,8 +82,6 @@ This table specifies mathematical owner boundaries. A **coordination contract** 
 | Sp(2,ℝ) polar deformation | [CotangentLagrangian](https://github.com/TauCetiProject/TauCetiRoadmap/blob/93ad76c0f2a89760726126e98fcdb41cee38fe93/TauCetiRoadmap/SymplecticGeometry/CotangentLagrangian/README.md) C2.0 and C2.1's symplectic polar factors/powers supply A=PU↦P^(1−t)U, fixing U(1). DGF's bounded n=1 application identifies U(1) with S¹, the positive symplectic factor with its chosen open-disc coordinate, and transports source winding/crossings to the single HF index with its stated sign. The full C2.0/C2.1 package is the supplier, not a shorter clause merely naming polar geometry. |
 | Floer analogue of Reidemeister torsion (Hutchings physical p106) | Section7.T owns the w⁺ seamed Floer–Novikov parity complex, periodic-flow zeta correction and actual degenerate bifurcation application, with rational total-quotient coefficients and separate monotone strengthening. MN N1/N4 retain the generic completion/torsion/localization algebra; MN N6 is its different finite-dimensional dynamical theorem. Layer8’s Serre/family theory alone does not construct Floer torsion. |
 | Qualified autonomous virtual cancellation | DGF7.C.5c owns the energy-cutoff/isolating relative virtual comparison below. The regular R×S¹ dimension argument and PSS homology comparison are separate results, not raw coefficient cancellation. |
-| Multiple realization | [GeneralizedCohomology](../GeneralizedCohomology/README.md) G5 and [TangentialBordism](https://github.com/TauCetiProject/TauCetiRoadmap/blob/4a5e27d2dd1b94abcca3e9b2151e9adf460a8a2f/TauCetiRoadmap/TangentialBordism/README.md) B5/B6.3 supply Thom/PT/rational bordism inputs. DGF10.5 owns their smooth-target multiple-realization application and the resulting TheoremB/5.14 endpoint. |
-| Finite-rank odd-sphere and compact-Lie applications | [HomotopySpheres](https://github.com/TauCetiProject/TauCetiRoadmap/blob/84eb50c63d08d9dafdc05a330be675d762bf62a3/TauCetiRoadmap/HomotopySpheres/README.md) Stage4A–4B supplies stable real Bott and its stable orthogonal-group calculation, not the unstable diagonal groups. DGF Layer11.3 owns the low-rank values, the stable-plus-Stiefel decomposition for `π_(n−1)(SO(n))`, its use in the exact sequence of `SO(n)→SO(n+1)→Sⁿ`, and the resulting first proof of Proposition6.34; the geometric second proof remains a separate complete proof. The pinned public [LieGroups](https://github.com/TauCetiProject/TauCetiRoadmap/blob/0e8b058a97cc4f9401d2679313e0e937761c1024/TauCetiRoadmap/RepresentationTheory/LieGroups/README.md) source supplies the universal-cover/central-kernel construction, compact Lie-algebra structure, simply-connected integration, maximal-torus and root `SU(2)` interfaces at their stated hypotheses. The pinned public [CompactGroups](https://github.com/TauCetiProject/TauCetiRoadmap/blob/0e8b058a97cc4f9401d2679313e0e937761c1024/TauCetiRoadmap/RepresentationTheory/CompactGroups/README.md) source supplies Haar/Peter–Weyl and its `SU(2)`/torus engine, not the finite-cover decomposition or `K(π,1)` conclusion. Neither source states the specific decomposition/`K(π,1)` bridge, so DGF Layer11.3 owns the bounded proof of the finite cover `T×K→G` from these Lie-group inputs, the `π_j` comparison for `j≥2`, the proof that a nontrivial compact simply connected semisimple factor has nonzero `π₃`, and the conclusion `G is K(π,1) iff G is a torus`; it then applies Proposition6.29 to prove Proposition6.31. This application does not rebuild general Lie theory, compact representation theory, or stable Bott theory. |
 
 **The n=1 polar/index adapter.** In the supplied A=PU factor order, write the positive symplectic factor as P=exp([[a,b],[b,−a]]), (a,b)∈ℝ². Construct its disc coordinate (a,b)/sqrt(1+a²+b²), inverse v/sqrt(1−‖v‖²), and prove the actual smooth inverse and factor-order maps. Identify U(1) with the real rotation circle and transport its winding and crossing conventions to the single HF Maslov/CZ construction, including the factor2 loop/frame-change law and the existing μ=−CZ_HF calibration. This specializes the full C2.0/C2.1 polar theorem and does not introduce a second index.
 
@@ -146,17 +137,19 @@ This roadmap consumes, and does not rebuild:
 - **[Generalized cohomology](../GeneralizedCohomology/README.md).**
    - Early G2.1 supplies its actual compact-generation, product/Kelley and realizationProductKelleyComparison interfaces. G2.10 constructs IsHurewiczFibration, arbitrary-parameter continuous lifting, compact-open interval path/loop and mapping-path carriers, and comparison with native TauCeti.TopCat.serreFibrations using these EARLY exports and the compact-open exponential law. Those raw constructions do not consume the later Quillen/CW-approximation comparison.
    - Layer1.2's direct weak-equivalence/CW and native Serre LES/ordinary spectral-sequence outputs then feed G2.1's designated model comparison and G2.10's derived fibration-LES application. Layer1.4 applies that LES to the supplied path carriers before G5's rational Hurewicz input. G2.10 raw lifting precedes G2.7 representability and uses no EM/mod2 theorem. Consume each exact export, not a whole-roadmap dependency.
-   - For Layer10.5 distinguish GC's designated ordinary/spectral Thom-carrier and collapse/finite-duality comparisons from its later G5 rational spectral Hurewicz theorem. TB B5 consumes the actual G2.10 mapping-path replacement, designated Thom carriers and the stabilization/duality comparisons; TB B6.3 additionally consumes its stated rational oriented-bordism comparison. Lower Layer1.2/1.4 inputs precede those GC/TB outputs and their Layer10 application.
 - **[Geometric topology](https://github.com/TauCetiProject/TauCetiRoadmap/blob/c0916c297392b21d768393a41296bfe37bd633ac/TauCetiRoadmap/GeometricTopology/README.md).**
   - Layer 1: manifolds with boundary, collars, tubular neighbourhoods, connected sum.
   - Layer 3: `Diff(M)` as a topological group with the `C^∞` topology, the smooth-families map,
     and the inclusion `O(n+1) → Diff(Sⁿ)`.
   - Layer 7: Riemannian structures.
 - **[Universal covers](../../Completed/UniversalCovers/README.md).** Covering spaces, and induced
-  maps on homotopy groups.
-- **[Lie groups, Layer2](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1051).** The generic closed-subgroup theorem and real/complex matrix groups. GeneralizedCohomology G4.0b supplies the designated quaternionic Sp(n) carrier, topology, real model and smooth ambient-map criterion, using that generic theorem.
-- **[SmoothBundlesConnections B1.4](https://github.com/TauCetiProject/TauCetiRoadmap/pull/887).** Proper free-action smooth homogeneous quotients, principal projections and tangent quotients. Layer1 item7 consumes this single generic quotient owner for its geometric applications.
-- **[ComplexKahlerGeometry K7.1–K7.2](https://github.com/TauCetiProject/TauCetiRoadmap/pull/953).** K7.1 supplies the single complex projective carrier, complex/real atlases and orientation; GeneralizedCohomology G4.0b supplies its fixed real model/Grassmannian comparison and the designated HP carrier. K7.2's normalized Fubini–Study form and SBC B6.2–B6.3 inputs are used only in the later form comparison of Layer1 item7, after the independent metric and Morse–Bott applications have been constructed.
+  maps on homotopy groups; Layer 11 item 2 consumes the induced isomorphisms on higher homotopy
+  groups across a finite covering.
+- **[Lie groups](../RepresentationTheory/LieGroups/README.md), Layers 5--6, and
+  [Compact groups](../RepresentationTheory/CompactGroups/README.md).** As the pinned public sources
+  state them: the universal-cover/central-kernel construction, compact Lie-algebra structure,
+  simply connected integration, maximal-torus and root `SU(2)` interfaces, Haar measure and
+  Peter--Weyl, consumed by Layer 11 only.
 - **[Morse–Novikov](https://github.com/TauCetiProject/TauCetiRoadmap/blob/e7448f1ab9f882422f1ea2636d94325d05cde238/TauCetiRoadmap/MorseNovikov/README.md).** N1: the generic period-controlled completed group
   ring/module, support condition, convolution, geometric-series inverse, and finite-below algebra.
   DGF consumes this generic owner and proves only the geometric support and graded-chain
@@ -171,16 +164,7 @@ specializations required by Layer 7.C.
   - Layer 3: flows of vector fields.
   - Tau Ceti's `SmoothTwoForm` migrates onto its generic form carrier (its item 0.4), and this
     roadmap uses the migrated carrier.
-- **[Tangential bordism](https://github.com/TauCetiProject/TauCetiRoadmap/blob/4a5e27d2dd1b94abcca3e9b2151e9adf460a8a2f/TauCetiRoadmap/TangentialBordism/README.md).** B5/B6.3 supplies structured PT and the rational oriented-bordism orientation-map surjection with geometric preimages and singular-CW comparison. Layer10.5 consumes these with GeneralizedCohomology G5; lower Layer1 inputs precede their construction. No whole-roadmap reverse dependency is imposed.
-- **[Homotopy spheres](https://github.com/TauCetiProject/TauCetiRoadmap/blob/84eb50c63d08d9dafdc05a330be675d762bf62a3/TauCetiRoadmap/HomotopySpheres/README.md).**
-  - Stage 3A: pointed compactly generated spaces, based loop spaces, and the suspension--loop
-    adjunction, with the comparison homeomorphisms to ordinary spaces.
-  - Stage 3B item 3: the James map and the tensor-algebra computation of `H_*(ΩΣX)`, used for the
-    ring `H_*(ΩSⁿ)` in Layer 11 item 2. For this application consume AlgebraicTopology Stage4.4's `reducedSuspensionSphereHomeomorph` and `compactReducedSuspensionCarrierComparison` on the same based sphere, with interval-last coordinate order and its reference generator. Construct this sphere's based comparison to HomotopySpheres §§3A.1–2's categorical reduced suspension: the raw interval-product quotient is compact Hausdorff and hence already compactly generated. Apply §3A.1's inclusion-preserves-colimits theorem to §3A.2's actual pointed quotient/pushout cocone, then use the quotient universal properties and fully faithful inclusion to construct the isomorphism with the kified raw quotient. Prove its quotient-map and basepoint diagrams. Compose it with AlgebraicTopology Stage4.4's raw-to-kification counit comparison and verify the interval-last/reference-generator diagrams; use the supplied sphere homeomorphism and normalized class.
-  - Stage 4B items 2–5 supply the invariant/Jacobi and finite-dimensional Morse–Bott constructions used in the Bott chain of compact classical groups and symmetric spaces. Their Bott-chain applications remain there.
-  - Stage5 supplies the framed Pontryagin–Thom collapse from a chosen normal tube and framing; Layer1 extends it to a closed ambient manifold.
-- **[Riemannian geometry](https://github.com/TauCetiProject/TauCetiRoadmap/blob/53915bae39e30b2b78fe08bb697d90d62bce66ef/TauCetiRoadmap/RiemannianGeometry/README.md).** R1 supplies the specified round-Hopf projective metrics. R2 supplies Jacobi initial-value/endpoint-exponential comparisons; R3 supplies the index form, finite node-value reduction, and general complete-manifold finite broken-geodesic carriers and path-energy comparisons. Layer5 constructs the cyclic/free-loop and projective applications on those carriers.
-- **[Morse theory](../MorseTheory/README.md).** M5 supplies the abstract compact-band Morse–Bott parameter lemma, negative normal bundles, disc attachment and orientation-local-system Thom comparison. It consumes only Layer1.3's early filtered-complex algebra. Riem R3's based-loop sphere calculation consumes only Layer1.2's early weak-equivalence/homology comparison. Neither generic foundation uses Layer5's projective/free-loop conclusion.
+- **[Riemannian geometry](https://github.com/TauCetiProject/TauCetiRoadmap/blob/53915bae39e30b2b78fe08bb697d90d62bce66ef/TauCetiRoadmap/RiemannianGeometry/README.md).** R2 supplies Jacobi initial-value/endpoint-exponential comparisons; R3 supplies the index form, finite node-value reduction, and general complete-manifold finite broken-geodesic carriers and path-energy comparisons. Layer 5 item 6 constructs the cyclic/free-loop applications on those carriers. R3's based-loop sphere calculation consumes only Layer 1 item 2's early weak-equivalence/homology comparison, not Layer 5.
 
 This roadmap owns everything else it states. The generic Novikov support/completion algebra is
 consumed from MorseNovikov N1 under its captured written contract; DGF owns only the Floer-specific
@@ -192,12 +176,10 @@ support, grading, and comparison applications stated in Layer 7.C. In particular
 - the fibration homotopy exact sequence and ordinary homological and
   multiplicative cohomological Serre sequences on native `serreFibrations` over arbitrary CW and arbitrary-space bases;
 - Serre classes;
-- the Pontryagin--Thom collapse for framed submanifolds of an arbitrary closed ambient manifold,
-  extending the Euclidean-ambient construction of the homotopy spheres roadmap;
+- the Pontryagin--Thom collapse for framed submanifolds of an arbitrary closed ambient manifold;
 - local triviality of evaluation `Diff(M) → O` onto the chosen point's orbit,
   with `O = M` under the connectedness/transitivity hypotheses of Layer 1 item 6;
-- the real and complex orthonormal-two-frame quotient comparisons, with the real Stiefel-map degree application, consuming native frame carriers, SBC proper quotients and LieGroups' actual orthogonal/unitary subgroups;
-- cyclic/free-loop broken-geodesic extensions and the projective energy, Jacobi index, integral perfectness and explicit-generator applications, consuming the designated CKG/GC carriers, Riem R1–R3 and MorseTheory M5;
+- cyclic/free-loop broken-geodesic extensions, consuming Riem R2–R3;
 - Moore path and loop spaces, transitive lifting-function data, the Moore-path
   replacement with its strict holonomy, and mapping spaces out of spheres;
   G2.10 owns the Hurewicz-fibration predicate and its Serre comparison;
@@ -220,13 +202,18 @@ The following constructions touch other roadmaps and are coordination points:
   Classical/Complete Convergence Theorems and actual induced filtrations.
   Item 2 applies them to the skeletal filtration for native `serreFibrations`, owns the
   multiplicative/local-pairing construction and extends along CW approximation;
-  AlgebraicTopology Stage 5.5 and GeneralizedCohomology consume these targets.
+  AlgebraicTopology Stage 5.5, GeneralizedCohomology, MorseTheory M5 and ComplexKahlerGeometry
+  consume these targets.
 - **The cotangent bundle of a manifold.** Lane F3 of the Heegaard Floer roadmap takes its cotangent
   examples from here.
-- **The Pontryagin--Thom collapse.** Layer 1 builds it with the same data as the homotopy spheres
-  roadmap: a chosen tubular neighbourhood and normal framing, with independence as a theorem. It
-  agrees with that roadmap's collapse when the ambient manifold is a sphere.
-- **Broken geodesics and Morse–Bott theory.** Consume Riem R2/R3's general Jacobi/index-form and complete-manifold finite-vertex path construction and MorseTheory M5's abstract compact-band Morse–Bott attachment/Thom theorem. For an energy cutoff and admissible partition R3 gives the actual finite node carrier and its short-segment/path-sublevel comparison. Layer5 constructs its cyclic seam, free-loop subdivisions, cut comparisons and colimit. The HS4B Bott-chain instantiations use the same generic foundations in their specified compact homogeneous examples; they are not a general complete-manifold replacement.
+- **The Pontryagin--Thom collapse.** Layer 1 item 5 builds it from a chosen tubular neighbourhood
+  and normal framing, for an arbitrary closed ambient manifold, with independence of the choices as
+  a theorem. Its comparison with a collapse built elsewhere for a Euclidean ambient space is a
+  target of whichever roadmap consumes both.
+- **The finite cover of a compact connected Lie group.** Layer 11 builds the finite covering
+  `T × K → G` and the criterion that `G` is aspherical exactly when it is a torus; the covering
+  and the criterion are consumed by StringOrientation and DGFloerPartII.
+- **Broken geodesics.** Consume Riem R2/R3's general Jacobi/index-form and complete-manifold finite-vertex path construction. For an energy cutoff and admissible partition R3 gives the actual finite node carrier and its short-segment/path-sublevel comparison. Layer 5 item 6 constructs its cyclic seam, free-loop subdivisions, cut comparisons and colimit. MorseTheory M5's compact-band Morse–Bott attachment theorem consumes only Layer 1 item 3's early filtered-complex algebra; neither it nor R3 uses Layer 5.
 
 - **Closed-sphere trees and attachments.** Consume AnalyticStableMaps M3 at genus0 for full marked, multiply covered unforced stable-map compactness, integral splitting and topology over the stated compact smooth tame-J families. Layer7.C.3 constructs the actual rooted attachment, equal-parameter/shared-structure evaluation, inhomogeneous/fixed-asymptotic convergence and conditional gluing application. Different root attachments may carry different frozen structures; retain the corresponding finite product/matching data. The unstable two-marked constant raw PSS core has its own normalization/contraction construction. HF F2.6c's minimal-area single-positive-component compactness retains its additional area hypothesis and does not replace the marked all-tree supplier.
 - **Conditional shared-structure evaluation.** Layer7.C.2b owns the reusable finite-tuple distinct-simple-image separation and conditional joint evaluation theorem, with actual allowed variation spaces, collision/attachment partitions and supplied incidence strata. HF owns the two-map local-germ and single-map sphere floors. The pure sphere version has no auxiliary Morse datum; Morse-chain and critical-point versions separately apply it to HF Lane M strata. These modules retain their own prerequisite interfaces when used by another curve-count construction.
@@ -279,23 +266,20 @@ The following constructions touch other roadmaps and are coordination points:
     compact.
 
   In both cases local compactness of the source supplies the ordinary Top compact-open
-  evaluation/currying law. Retain these raw topologies for arbitrary target spaces. The
-  HomotopySpheres Stage3A convenient internal hom is compact-open followed by compact
-  generation k. Construct the comparison using the actual counit kZ→Z and the compact-Hausdorff
-  test/currying maps; prove its based homotopy-group and singular/cubical-chain comparisons,
-  and its compatibility with endpoints, cap/reference maps, constant sections and path
-  composition. Convenient multiplication uses k-products; an ordinary product of k-spaces is
-  not silently already k. Parameter-family transport retains the actual compact-generation
-  hypotheses on its parameter/domain. These weak comparisons do not create Hurewicz lifts or
-  fibre homotopy equivalences: consume G2.10's raw lifting maps and the explicit Layer2 Moore
-  replacement maps/homotopies for those stronger results.
+  evaluation/currying law. Retain these raw topologies for arbitrary target spaces. A comparison
+  with a compactly generated (k-ified) mapping-space carrier is not a construction of this
+  roadmap: a roadmap that consumes both carriers constructs it from the counit `kZ → Z` and the
+  compact-Hausdorff test/currying maps. Weak comparisons of that kind do not create Hurewicz
+  lifts or fibre homotopy equivalences: consume G2.10's raw lifting maps and the explicit Layer 2
+  Moore replacement maps/homotopies for those stronger results.
 
-  Prove a comparison homeomorphism when the raw mapping and stopped-path carriers are themselves
-  compactly generated. In particular, for metrizable Y and compact metric sphere/interval source,
-  use the uniform compact-open metric. For [0,∞) use the countable exhaustion [0,m] and the
-  corresponding compact-open metric; the stopped Moore and fixed-end carriers are metrizable
-  subspaces of the resulting products. This gives the homeomorphism lane needed for the
-  geometric manifold targets without narrowing the earlier arbitrary-space constructions.
+  Prove that the raw mapping and stopped-path carriers are themselves compactly generated in the
+  following lane, so that every k-ification comparison is a homeomorphism there. For metrizable
+  `Y` and compact metric sphere/interval source, use the uniform compact-open metric. For `[0,∞)`
+  use the countable exhaustion `[0,m]` and the corresponding compact-open metric; the stopped
+  Moore and fixed-end carriers are metrizable subspaces of the resulting products. This is the
+  homeomorphism lane needed for the geometric manifold targets, without narrowing the earlier
+  arbitrary-space constructions.
 - **Coefficients.** The algebraic Layers 0, 3 and 4 work over an arbitrary commutative ring. The
   geometric Layers 5 and 7--9 are built over `𝔽₂` first. Integer coefficients, with the source's
   orientation conventions of §3.1, form a separate milestone inside each of those layers. Every
@@ -381,7 +365,6 @@ Mathlib provides:
 - the compact-open topology on `C(X, Y)`;
 - homological complexes, homotopies, `SpectralObject`;
 - manifolds with corners, integral curves and flows;
-- `LieGroup`, `Matrix.orthogonalGroup`, quaternions;
 - `Monotone.ae_differentiableAt`.
 
 Tau Ceti provides:
@@ -405,8 +388,6 @@ The following targets are built here, consuming the native APIs cited in their l
 - Serre classes, Eilenberg--MacLane spaces `K(A, n)` for arbitrary abelian `A` with their
   uniqueness up to weak equivalence, and the one-step connected covers of Layer 1 item 4;
 - the Pontryagin--Thom collapse in a non-Euclidean ambient manifold;
-- the real and complex orthonormal-two-frame homogeneous identifications from native frames and SBC quotients, with their separate dimension and stabilizer cases;
-- projective loop-energy/index/perfectness/generator applications on the supplied CKG/GC carriers and RiemannianGeometry metrics.
 
 ---
 
@@ -816,23 +797,16 @@ convergence targets below extend those interfaces.
        every `π_i(Y)`, `i ≥ 2`, is uniquely 2-divisible; `π_1 Y = 0`.
 5. **Pontryagin--Thom collapse.** For a closed codimension-`k` submanifold of a closed manifold
    with a framed normal bundle, the collapse map onto `S^k`, determined by a chosen tubular
-   neighbourhood (from geometric topology) and the framing. The construction is the one of the
-   homotopy spheres roadmap's Stage 5, with an arbitrary closed ambient manifold in place of
-   `ℝ^{n+k}`, and agrees with it for spherical ambient manifolds. Independence of the choices, its
-   effect on fundamental classes, and its compatibility with shriek maps.
+   neighbourhood (from geometric topology) and the framing. The tube's normal-bundle
+   identification and the framing identify a closed tube with `N × D^k`; collapse the complement
+   of its interior to the basepoint of `S^k = D^k/∂D^k`. A Euclidean ambient space is the special
+   case in which the ambient manifold is replaced by its one-point compactification. Independence
+   of the choices, its effect on fundamental classes, and its compatibility with shriek maps.
 6. **Diffeomorphism groups and evaluation orbits.** For a closed smooth manifold M with a chosen point x₀ consume GT Layer3's C-infinity topological group Diff(M), its composition/inverse continuity, smooth-families map, orthogonal sphere action and compact-embedding restriction bundle onto the actual Diff orbit. Specialize that restriction construction to a point, identify its C-infinity embedding space with M through the actual evaluation/inverse maps, and let O be the orbit of x₀ and H={g | g(x₀)=x₀}. Compare the resulting supported local sections with coordinate-ball motions from compactly supported smooth vector fields. If g(x₀)=y, compose a local motion taking y to z with g to obtain a continuous local section s:U→Diff(M) over an open neighbourhood U of y in O. Export evaluation Diff(M)→O as a locally trivial principal right-H bundle, with the actual mutually inverse maps g↦(g(x₀),s(g(x₀))⁻¹g) and (z,h)↦s(z)h.
    For connected M, join x₀ to y by a path covered by finitely many coordinate balls and compose the supported motions to prove O=M; this gives the claimed bundle over M without an orientation hypothesis. For disconnected M retain the orbit formulation: identify O with the union of precisely those components reachable by an actual global diffeomorphism (for a closed manifold, the components diffeomorphic to the component of x₀, with the component-swap extensions constructed). It is an open-and-closed submanifold. State a bundle over all M only with explicit transitivity data; otherwise fibres outside O are empty. Retain the zero-dimensional and finite-component cases. A merely continuous family into Diff is not identified with a jointly smooth family.
-7. **Homogeneous examples on designated carriers.** Consume [SBC B1.4](https://github.com/TauCetiProject/TauCetiRoadmap/pull/887) for proper free-action smooth quotients, principal projections and tangent quotients, and LieGroups Layer2 for the real/complex closed matrix subgroups. Consume [CKG K7.1](https://github.com/TauCetiProject/TauCetiRoadmap/pull/953) for its complex projectivization atlas and real restriction, [GC G4.0b](../GeneralizedCohomology/README.md#g4-generalized-lerayhirsch-thom-and-euler-theory) for the designated Sp, quaternionic frame/Grassmannian/HP carriers and smooth Hopf comparisons, and Riem R1 for the normalized quotient metrics. Retain the supplied topologies, smooth structures and explicit quotient comparisons.
-   - For n≥3 construct the ordered orthonormal-two-frame identification SO(n)/SO(n−2), with stabilizer diag(I₂,SO(n−2)), actual orbit/inverse maps, tangent quotient and sphere-bundle projection. For n=2 the carrier is O(2)=SO(2)⊔rSO(2), r=diag(1,−1), with determinant distinguishing the two SO(2) orbits; for n<2 it is empty. Compare with O(n)/O(n−2) for every n≥2, so both descriptions use this same frame carrier.
-   - On the native complex ordered orthonormal-two-frame carrier in ℂⁿ, for n≥2 construct the U(n)/U(n−2) comparison with stabilizer diag(I₂,U(n−2)), actual orbit/inverse maps, tangent quotient, principal local sections and the first-vector sphere-bundle projection. For n=2 this is U(2), while n<2 gives the empty frame carrier. This is the complex analogue on its own carrier, not an identification with the real SO quotient; retain the quaternionic frame comparisons on GC's designated carriers.
-   - On the designated CPᵈ carrier pin the supplied quotient comparison U(d+1)/(U(1)×U(d))→CPᵈ to [g]↦[g e₀], including subgroup blocks, basepoint, principal local sections and agreement with K7.1's complex orientation. On GC's designated HPᵈ carrier pin its Sp(d+1)/(Sp(1)×Sp(d)) comparison to [g]↦[g e₀]_ℍ. Its native Projectivization uses right lines through ℍᵐᵒᵖ, with v∼vλ; compare the supplied charts on v_i≠0 with right ratios v_j v_i⁻¹ and representative with i-coordinate1, and verify right-scaling invariance. These are comparisons on the supplied carriers and smooth structures.
-   - Transport the supplied unit-round Hopf metrics. Prove Hermitian compatibility of the CP metric with its designated complex structure, and the orientation/metric/quotient-chart comparisons. For d≥1 the primitive unit-speed period is π; d=0 is a point. For d≥2 the sectional curvature bounds1 and4 are both attained; CP¹ and HP¹ have curvature4 and radius1/2. Prove projective lines totally geodesic with this metric scale. Layer5 constructs the energy/index/perfectness/generator applications with that scale, or explicitly transports a different one.
-   - Construct the three pointwise orthonormal quaternionic vector fields on S^(4k−1).
-   - After K7.2 and its SBC B6.2–B6.3 inputs, construct the separate CP form comparison. For the earlier Hermitian metric g and complex structure J put ω_g(X,Y)=g(JX,Y). Prove closedness and ω_g=π·ω_FS for the unit-round Hopf normalization above, with ∫_(CP¹)ω_FS=1. For d≥1 calculate the scale from the oriented radius1/2 complex line, whose area is π; for d=0 both forms vanish. Prove compatibility with the same quotient/charts. Under a positive metric rescaling prove the corresponding positive form scale. This later comparison is not a premise of the earlier metric, totally-geodesic, index, perfectness or generator applications.
-8. **Degrees of explicit maps.** Construct and orient the actual Stiefel-domain map T¹S^(n−1)×S¹→S^(n−1)×S^(n−1) of Proposition6.17 using item7's frame/sphere-bundle comparison, and count its regular preimages with the stated product orientations. Separately, for fixed p∈Sⁿ, identify T¹_pSⁿ≅S^(n−1) and construct the rotation family S^(n−1)×S¹→Sⁿ of the second proof of Proposition6.34. Compute its degree2 for odd n by regular preimages and local signs. This fixed-p construction has no Stiefel-quotient, unstable Bott or Pontryagin–Thom premise. Keep the actual Diff-family/evaluation and covered-by-diffeomorphisms comparisons for Layer11.
-9. Source: Hatcher, *Algebraic Topology*, §§2.A, 4.1, 4.J; McCleary, *A User's Guide to Spectral
+7. Source: Hatcher, *Algebraic Topology*, §§2.A, 4.1, 4.J; McCleary, *A User's Guide to Spectral
    Sequences*, Chapter 2; Serre, *Groupes d'homotopie et classes de groupes abéliens*; Palais,
-   *Local triviality of the restriction map for embeddings*; Milnor--Stasheff, Chapter 5.
+   *Local triviality of the restriction map for embeddings*.
 
 ## Layer 2: path spaces, mapping spaces, and their fibrations
 
@@ -895,9 +869,8 @@ convergence targets below extend those interfaces.
    based circle model, as well as the iterated sphere-model comparisons
    below. Prove continuity and inverse laws with the declared compact-open
    topologies. The displayed sphere/interval identifications are on the raw compact-open
-   carriers. Compose with the preceding counit/compact-test adapters for convenient spaces;
-   claim a homeomorphism there only in the proved compactly generated lane. The two notations
-   designate these compared carriers, not an additional loop construction.
+   carriers, and the two notations designate these compared carriers, not an additional loop
+   construction.
    - `P^{[0,1]}_{⋆→Q} 𝓛₀Q ≅ Map_*(S², Q)`;
    - `P^{[0,1]}_{Q→Q} 𝓛₀Q ≅ Map(S², Q)`;
    - `Map_*(S^k, X) ≅ (Ω^{[0,1]})^k X`.
@@ -1041,24 +1014,7 @@ corner structures.
      speed as a Moore loop. Both systems have the colimit property of BDHO §13 for `𝓛Q`, by the
      weak equivalence of Layer 9 item 3, so the DG Morse homology of `𝓛Q` is the same through
      either; the cut is a choice of cutoff, not a third model.
-7. **Based-loop Morse–Bott energy on CPᵈ and HPᵈ.** Use the actual Riem R1 metrics, R2 Jacobi ODE/endpoint data and R3 index form/finite-node comparison, and MorseTheory M5's compact-band normal attachment theorem. On the finite approximations to Ω_p construct the critical manifolds of constant and iterated geodesics, calculate their negative bundles, indices and nullities on that same metric, and identify their Thom orientation systems and attachment maps. HS4B's Bott-chain computations are comparisons on their stated examples, not the generic owner of these constructions.
-
-   For d≥1 prove the integral perfectness and calibrate the explicit generators H_(2d)(ΩCPᵈ)=ℤ and H_(4d+2)(ΩHPᵈ)=ℤ. In the CP calculation the cells have degrees a_k=2d(k−1)+1 and b_k=2dk, k≥1, with the constant cell in degree0. Since a_(k+1)−b_k=1 for every d≥1, zero boundary is proved by the following homology/attachment comparison, not a lacunarity inference.
-
-   Construct j:S¹→ΩCPᵈ adjoint to the normalized projective-line generator, and the based Hopf product j⋆Ωq:S¹×ΩS^(2d+1)→ΩCPᵈ. The Hopf fibration LES proves its π₁ and higher homotopy isomorphisms. Use Layer1.2's early weak-equivalence homology comparison, integral Künneth and the supplied odd-sphere based-loop calculation to obtain ℤ in degrees2dk and2dk+1 and zero elsewhere. For CP¹ consume Riem R3's actual ΩS² calculation at radius1/2 with the explicit time/metric normalization. Construct the oriented Morse–Bott Thom/CW model with one ℤ cell in the displayed degrees; prove orientability of the negative bundles and identify these cells on the finite approximations. Finite-type energy-filtration convergence and the final homology ranks force each integer cellular boundary to vanish. Construct the actual generator representatives/completing cycles and their energy and Thom-cell comparison. This proves perfectness and the generator assertions on the chosen based carrier.
-
-   For HPᵈ the analogous cell degrees have within-level gap4d−1 and successive-level gap3; prove the actual negative-bundle/Thom model before using these gaps to infer vanishing boundaries and identify its calibrated generator. The case d=0 is the constant point space. The free-loop extension in item6 is a separate construction; the based Hopf calculation alone does not give it.
-
-   **Fibre representatives and the distinct path-loop total-space comparison.** For B=CPᵈ or HPᵈ construct a chain comparison from the oriented Morse–Bott energy/Thom model E_B to C_*(Ω_p B;ℤ), carrying the chosen completing cycles and calibrated generators to designated singular/cubical representatives. Prove it by the actual finite-energy attachment maps, compact-band comparison and filtered colimit; retain its energy-filtration statement only on this fibre model. It computes H_*(Ω_p B), not H_*(P_p B). Its perfectness and generator proof above remains independent of the following comparison.
-
-   Use Layer4.5's genuine augmented semi-free P_B and item4's fibration-chain theorem for Ω_p B→P_p B→B. Here the total complex C_*(Ω_p B)⊗_{C_*(Ω_p B)}P_B is compared with C_*(P_p B), with base-cell filtration. If replacing the fibre chains by E_B, construct the compatible homotopy-coherent loop action and its DG-module rectification first, with actual integral split/free chain data and the DG supplier's bar/module comparisons. Justify the chosen chain contractions from the free integral fibre homology and the calibrated chain comparison, keep the higher module coherence, and prove the required degreewise finiteness of the bar/perturbation formulas before base change. Construct the coefficient maps, relative attaching comparisons and filtration-preserving homotopies that compare the resulting two total-space models. Their total-space spectral sequences agree from the proved page onward and abut to H_*(P_p B), which is trivial in positive degrees. Do not identify that sequence or its abutment with the energy-filtered fibre sequence. A plain derived-module equivalence, without these action and filtered maps, is insufficient. Name the actual page comparison and the edge/fibre inclusion squares used on representatives.
-
-   On the designated projective carriers, normalize the base cell/cup/Thom classes using GC G4.0/G4.3–5 and AT. Calculate the primary d₂ for CPᵈ and d₄ for HPᵈ and construct the subsequent mixed-bidegree relative-boundary maps: d_(2d):E_(2d,1)→E_(0,2d) for CPᵈ and d_(4d):E_(4d,3)→E_(0,4d+2) for HPᵈ. Identify the surviving source/target representatives, their unit integer coefficient and sign by the actual total-space/fibre comparison and chosen orientations. For d=1 these maps occur on the same page as the primary differential and must be computed together, not assumed to survive an earlier distinct page. For d=0 retain the separate point case. Ordinary base-to-fibre transgression from a nonexistent H_(2d+1)(CPᵈ) or H_(4d+3)(HPᵈ) is not the higher-generator construction.
-
-   For Propositions6.38/6.39 construct the actual map from the geometric sphere family to the completing manifold, its fibrewise degree±2 and its compatibility with β under sphere-loop adjunction. With g the calibrated generator, prove β_*(σ_p)_*[Σ_p]=±2g in degree2d for CPᵈ and4d+2 for HPᵈ, fixing the sign by the stated orientations; do not relabel this nonprimitive class as g. Keep the projective-line geometric construction, the independent based Hopf/perfectness proof, and the separate free-loop and Cayley applications with their own hypotheses. Equality of abstract copies of ℤ does not supply any of these representative, action or filtration maps.
-8. Source: BDHO Chapters 5--13; the source paper §§2.1--2.4 and 4.3--4.4; Bott, *The stable
-   homotopy of the classical groups*, §§1--3; Ziller, *The free loop space of globally symmetric
-   spaces*.
+7. Source: BDHO Chapters 5--13; the source paper §§2.1--2.4 and 4.3--4.4.
 
 ## Layer 6: Hamiltonian dynamics, Liouville domains, and capacities
 
@@ -1084,7 +1040,8 @@ domains, capacities, and almost existence.
      `ω_can + π^*dσ`, since `π ∘ ν = π`. The fibre translation `Ψ'_σ(q, p) = (q, p − σ_q)` by a
      1-form `σ` satisfies `Ψ'^*_σ λ_can = λ_can − π^*σ`, hence is a symplectomorphism
      `(T*Q, ω_can + π^*dσ) ≅ (T*Q, ω_can)`; it is `ν ∘ Ψ_σ ∘ ν⁻¹` for the source's
-     `Ψ_σ(q, p) = (q, p + σ_q)`. It proves Corollary D once Theorems A--C land.
+     `Ψ_σ(q, p) = (q, p + σ_q)`. It proves the Theorem A and Theorem C forms of Corollary D from
+     Layer 10 item 5.
 4. **Hypersurfaces.**
    - Characteristic foliations of regular hypersurfaces. Closed characteristics correspond to
      periodic orbits of any defining Hamiltonian, up to reparametrization.
@@ -1093,8 +1050,8 @@ domains, capacities, and almost existence.
      `Z = p ∂_p + ∂_q`, `L_Z ω = ω` but `ι_Z ω = λ − dp`. What holds is that `L_Z ω = ω` makes
      `ι_Z ω` a primitive of `ω`, whose Liouville field is `Z`. Contact type and restricted contact
      type are defined with the primitive explicit.
-   - The Liouville-flow argument that proves Corollary E from Theorems A--C, using the flows of the
-     differential geometry roadmap's Layer 3.
+   - The Liouville-flow argument that proves the Theorem A and Theorem C forms of Corollary E from
+     Layer 10 item 5, using the flows of the differential geometry roadmap's Layer 3.
 5. **Almost existence and capacities.**
    - The contractible almost existence property (the source's Definition 1.1).
    - The relative capacity `c°_HZ(V, Z)` (Definition 5.3) and the `π₁`-sensitive Hofer--Zehnder
@@ -1550,14 +1507,13 @@ Retain the separate connected zero-dimensional model: M is a point, f=id, C has 
      `π_k(Q)`, or a class that is not `d`-torsion, according to the first nonvanishing higher
      homotopy group.
    - `ker π_{U!}` is `d`-torsion (Proposition 5.13).
-5. **Theorems A, B, C** in their general forms (Theorems 5.10, 5.14, 5.15), with the degree
+5. **Theorems A and C** in their general forms (Theorems 5.10 and 5.15), with the degree
    hypotheses stated homologically: `deg(π ∘ φ)` by `(π ∘ φ)_*[S] = d · [Q]` over `ℤ`, and the mod-2
    degree by the same equation with `𝔽₂`-fundamental classes from the algebraic topology
-   roadmap's Stage 6. **Corollaries D and E**, from
+   roadmap's Stage 6. **Corollaries D and E** in their Theorem A and Theorem C forms, from
    Layer 6. The `𝔽₂` stage of Layers 5 and 7--9 is enough for Theorem C.
-   - **Multiple realization and Theorem5.14/TheoremB.** Consume the designated GC Thom/collapse/stabilization/finite-duality comparisons and G5 rational spectral Hurewicz, then TB B5's geometric PT and B6.3's rational SO-bordism orientation surjection, retaining their actual early mapping-path/Thom/Layer1.2/1.4 inputs. On a smooth boundaryless U lift α⊗1 to a finite rational bordism combination. Clear denominators and then kill the finite-order torsion difference to obtain a closed oriented finite disjoint union S and continuous f:S→U with f_*[S]=Nα, N≥1.
-
-     Construct the compact-image embedding here: choose finitely many target charts φ_i and smooth supported cutoffs ρ_i near f(S), with Σρ_i>0 on W, and define e(x)=(ρ_i(x),ρ_i(x)φ_i(x))_i, extending each supported block by zero. Where ρ_i>0 the ratios recover φ_i; this proves injectivity, continuous local inverse and, by differentiation, immersion. Restrict a precompact neighborhood of the image if required. GT supplies the actual normal tube of this embedding, with positive uniform radius on the compact core. Smooth e∘f on S by partitions/mollifiers closely enough for the tube, project back and construct the small homotopy in U. A fixed-relative version supplies its own collar data. DG supplies the partition/smoothing floors; the finite-chart embedding is this application's construction, not GT's output. Then φ_*[S]=Nα and the representing-witness argument gives degree Nb≠0 from π_(U*)α=b[Q]≠0. Layer10's all-dimensional DG trajectory/chain inputs come from Layers7.2/8/9; its module-comparison corollaries use the actual common readout only on its specified overlap. No integral every-class realization is asserted.
+   - Layer 10's all-dimensional DG trajectory/chain inputs come from Layers 7.2, 8 and 9; its
+     module-comparison corollaries use the actual common readout only on its specified overlap.
    - **Theorem 5.15 (Theorem C)** uses the mod-2 vanishing theorem of Layer 1 item 4 in place of the
      source's class `{G | G ⊗ ℤ/2 = 0}`. With `Y = Ω₀Q`, simply connected because `π₂(Q) = 0`: if
      `H̃_*(Ω₀Q; 𝔽₂) = 0`, every `π_i(Ω₀Q) = π_{i+1}(Q)` is uniquely 2-divisible, contradicting
@@ -1565,79 +1521,35 @@ Retain the separate connected zero-dimensional model: M is a point, f=id, C has 
    - **Proposition 5.11, second part,** uses the class of groups annihilated by some power of `d`.
 6. Source: the source paper §§5, 6.1--6.2.
 
-## Layer 11: manifolds abundant with 2-spheres, and knotted hypersurfaces
+## Layer 11: the finite cover of a compact connected Lie group
 
-1. **Abundance** (Definitions 1.7 and 6.11), **Theorem H** (= Theorem 6.12), and stability under
-   products (Proposition 6.13).
-2. **Fibered families of 2-spheres** (Definition 6.14, Proposition 6.15).
-   - Even spheres: the Pontryagin ring `H_*(ΩSⁿ)` as a polynomial ring on the class of the DG
-     Morse cocycle (Proposition 6.18). The ring itself is the homotopy spheres roadmap's James
-     computation (Stage 3B item 3), using AlgebraicTopology Stage4.4's `reducedSuspensionSphereHomeomorph` and `compactReducedSuspensionCarrierComparison` with the fixed interval-last coordinate order and based reference class, and the sphere-specific comparison constructed above from HomotopySpheres §§3A.1–2's actual colimit-preserving inclusion and pointed suspension cocone, with its quotient/basepoint/reference-generator diagrams; what is proved here, through Layer 5, is that the DG Morse
-     class is a generator. Also nonvanishing of the Stiefel class in `H_{2n−3}(Ω²Sⁿ)`
-     (Proposition 6.17).
-   - Spheres `S^{4k−1}`: the class in `H_{n−2}(Ω²Sⁿ) ≅ ℤ` is a generator (Proposition 6.21).
-   - **Sphere bundles over highly connected bases (Proposition 6.23).** Work in the standing
-     closed, connected, oriented total-space setting of §6.4.2. A smooth `Sⁿ`-bundle
-     `Sⁿ ↪ Q → B`, `n≥2`, whose structure group reduces to `O(n+1)` is the unit-sphere bundle
-     of a rank-`n+1` real vector bundle with a fiberwise metric; construct this equivalence and
-     the vertical tangent bundle `TᵥQ`. Prove the two alternatives separately:
-       * `n` even and `B` is `2n`-connected. The parameter fibre over `q∈Q` is the oriented
-         manifold `Stiefel₂(Tᵥ,q)` of ordered orthonormal two-frames in the tangent space to the
-         sphere fibre. Put the explicit Example6.16 sphere-family map into these fibres and
-         include each sphere fibre into `Q` to obtain `Σ→Q` and `σ:Σ→Map(S²,Q)`.
-       * `n≡3 (mod 4)` and `B` is `(n+1)`-connected, with two everywhere independent vertical
-         vector fields `u,v`. Normalize them to an orthonormal pair. For `q` in the fibre, put
-         `V_x=u(x)⊥` in the ambient rank-`n+1` Euclidean bundle and take the unit sphere in
-         `V_x∩v(x)⊥`, the carrier `E_{V_x,x,v(x)}` of Example6.20. Here `x` and `v(x)` are
-         orthogonal unit vectors in `V_x`, so this is the equator `S^{n−2}` through `x`; its
-         points are sphere-fibre points, not tangent vectors at `x`. Use the explicit two-field
-         sphere-family map and the sphere-fibre inclusion to construct
-         the corresponding oriented `Σ→Q` and `σ:Σ→Map(S²,Q)`.
-     In both cases prove the carrier's orientation and local triviality, continuity/smoothness
-     of the family map, compatibility of the fibre map with the based loop inclusion
-     `Ω²Sⁿ→Ω²Q`, and nonvanishing of its fibre class. For the even case the fibre class is in
-     `H_(2n−3)(Ω²Sⁿ;ℤ)`; `2n`-connectivity gives `π_i(Ω²B)=0` for `i≤2n−2`, hence
-     `H_i(Ω²B;ℤ)=0` for `1≤i≤2n−2`, and the Serre spectral sequence gives the inclusion
-     isomorphism through degree `2n−3`. For the odd case the class is the generator in
-     `H_(n−2)(Ω²Sⁿ;ℤ)`; `(n+1)`-connectivity gives `π_i(Ω²B)=0` for `i≤n−1` and the same
-     spectral-sequence comparison through degree `n−2`. Include basepoint-change and coefficient
-     maps in these comparisons; do not infer either conclusion from connectivity without its
-     looped fibration, Hurewicz, and spectral-sequence argument. Since either connectedness
-     assumption makes `B` simply connected and `Sⁿ` has trivial fundamental group, prove `Q` is
-     simply connected; use this to trivialize the carrier's orientation local system over `Q`.
-     The odd-case two-field condition
-     is an actual hypothesis; quaternionic Hermitian sphere bundles are one verified source of
-     such fields, not a substitute for the general target.
-3. **Covering by diffeomorphisms** (Definitions 6.26 and 6.32, over geometric topology's `Diff(M)`).
-   - Abundance of manifolds covered, or `ℓ`-covered, by diffeomorphisms (Propositions 6.29
-     and 6.33).
-   - **Compact connected Lie groups (Proposition6.31).** Consume LieGroups' public interfaces for the universal cover and discrete central kernel, compact Lie-algebra splitting into center and semisimple derived ideal, simply-connected integration, and Layer6 maximal-torus/root `SU(2)` structure. Build only the needed finite-cover decomposition. Split the compact Lie algebra into its center and semisimple derived ideal; integrate the simply connected factors to identify the simply connected cover as `ℝ^r×K`, where `K` is compact, connected, simply connected and semisimple. Prove `Z(K)` is finite. Its deck kernel `Γ` is discrete and central, hence lies in `ℝ^r×Z(K)`. Compactness of `(ℝ^r×K)/Γ` implies `Λ=Γ∩(ℝ^r×{1})` is a full lattice in `ℝ^r`; projection embeds `Γ/Λ` into the finite group `Z(K)`, so `Λ` has finite index in `Γ`. Since `Λ` is central, the quotient map `(ℝ^r/Λ)×K→(ℝ^r×K)/Γ≅G` is a finite covering `T×K→G`, with `T=ℝ^r/Λ` a torus. Prove finite coverings induce isomorphisms on `π_j` for every `j≥2`. For nontrivial `K`, choose a root `SU(2)` subgroup and prove its map on `π₃` has nonzero image (state the integral homology/`π₃` comparison that establishes this); hence `π₃(K)≠0`. Since higher homotopy of `T` vanishes, derive `G` is a `K(π,1)` exactly when `K` is trivial, equivalently when `G` is a torus; conversely, a finite quotient of a torus is a torus. This proves the non-`K(π,1)` hypothesis in Example6.30 for every non-torus compact connected `G`. Then use `G→Diff(G)` by left translation, its evaluation identity at `e`, and Proposition6.29 to prove Proposition6.31. The product decomposition and its homotopy consequence are the DGF-specific bridge absent from the pinned current LieGroups and CompactGroups statements; all generic Lie, compact representation, and Haar theory stays with those suppliers.
-   - **Finite-rank odd-sphere group (Lemma6.35).** For every odd `n≥3`, prove torsion of `π_(n−1)(SO(n))` with finite-rank data, not stable periodicity alone. Give explicit low-rank computations
-     `π₂(SO(3))=0`, `π₄(SO(5))=ℤ/2`, `π₆(SO(7))=0`, `π₈(SO(9))=(ℤ/2)²`, and
-     `π₁₀(SO(11))=π₁₂(SO(13))=π₁₄(SO(15))=ℤ/2`, including maps/fibration exact sequences that certify each value. For odd `n≥17`, construct the finite-rank comparison/splitting
-     `π_(n−1)(SO(n)) ≅ π_(n−1)(O) ⊕ π_n(V_(n+2,2)(ℝ))`; prove the stated stable term is `0` or `ℤ/2` by HomotopySpheres Stage4A–4B's stable real Bott computation and prove the Stiefel term is `ℤ/2` in this range from the named Stiefel fibration/extension data. State the comparison maps and the range in which stabilization applies. The source's Lemma6.35 proof prints `π₈(SO(9))=ℤ/4`; retain that literal value as a source error, not as a theorem target. The corrected value is `(ℤ/2)²`: construct the stabilization `π₈(SO(9))→π₈(SO)=ℤ/2`, its kernel `ℤ/2` and a splitting, as described in [Crowley–Schick–Steimle, proof of Lemma2.2](https://www.researchgate.net/publication/347965860_The_derivative_map_for_diffeomorphism_of_disks_An_example) (arXiv:2012.13634v1). Compare with the `SO(8)→SO(9)→S⁸` exact sequence and `π₈(SO(8))=(ℤ/2)³` to certify the exponent-two result. The other cited values and large-rank splitting remain construction targets with their actual maps, ranges and extension data; a source table alone does not prove them. The torsion conclusion and both proofs of Proposition6.34 retain their full scope.
-   - **First proof of odd-sphere covering (Proposition6.34).** Use the evaluation fibration
-     `SO(n)→SO(n+1)→Sⁿ` and its exact segment
-     `π_n(SO(n+1))→π_n(Sⁿ)→π_(n−1)(SO(n))`. Since `π_n(Sⁿ)=ℤ` and the last group is torsion, the boundary map has a nonzero kernel; exactness gives a class mapping to `ℓ[Id_(Sⁿ)]`, `ℓ>0`. Carry it through the Hurewicz map to `H_n(SO(n+1);ℤ)`, then through the standard action `SO(n+1)→Diff(Sⁿ)` and evaluation to obtain `ev_*A=ℓ[Sⁿ]`. Apply Proposition6.33 using that `π_n(Sⁿ)=ℤ` is not `ℓ`-torsion. Retain the second geometric proof below as a separate complete route, including its degree-2 rotation family; neither proof may stand in for the other.
-   - **Second proof of odd-sphere covering (Proposition6.34).** Retain the independent proof already specified: use GT3 and Layer1.6's local evaluation bundle, Layer1.8's fixed-`p` rotation family of degree `1+(-1)^(n−1)=2` for odd `n`, with domain `T¹_pSⁿ×S¹`; construct its homology class and verify its evaluation is `2[Sⁿ]`. Apply Proposition6.33 with the degree-2/non-2-torsion sphere class and its stated homological comparison. This is the direct degree/evaluation proof, with no Pontryagin–Thom or unstable Bott premise.
-4. **Homogeneous spaces (Proposition6.36), including `S²=SO(3)/SO(2)`.** For a compact connected Lie group `G` and a closed, positive-dimensional Lie subgroup `H`, define the left actions
-   `Φ_H:H×Ω²(G/H)→Ω²(G/H)` and
-   `Φ:G×Map(S²,G/H)→Map(S²,G/H)`, and the evaluation fibration
-   `ev:Map(S²,G/H)→G/H` with fibre `Ω²(G/H)` over `eH`. Given
-   `α∈H_*(Ω²(G/H);ℤ)` such that `(Φ_H)_*([H]×α)≠0`, construct the map of fibrations induced by
-   `H↪G→G/H` and `Map(S²,G/H)→G/H`. Prove `j_![G]=[H]` for the fibre inclusion and prove shriek naturality, with the coefficient maps, degree shifts, cross-product signs and basepoint identifications, to obtain
-   `j_!Φ_*([G]×α)=(Φ_H)_*([H]×α)`. Because `dim H>0`, verify the source's reduced-homology condition after the degree shift; then show the class lies over the base fundamental class and satisfies Definition6.11.
+Let `G` be a compact connected Lie group. The applications of the continuation roadmap need to
+know exactly when `G` is aspherical, and the string-orientation roadmap needs the same criterion;
+this layer settles it from the Lie-theoretic suppliers, and nothing in it depends on the Floer
+theory above.
 
-   The source states the result for every closed `H`, even when `M=G/H` is not orientable, while Definition6.11 is stated for oriented manifolds. Preserve this generality with the evaluation-pullback orientation system `ev*or_M`. Choose a generator `o` of its fibre at `eH` and a left-invariant orientation of `G`. For `π:G→M`, construct the flat trivialization `τ(g)=d(L_g)_(eH)(o)` of `π*or_M`, and prove its compatibility with paths and the action's coefficient map. On `H` it is `τ(h)=χ(h)o`, where `χ(h)` is the sign of the isotropy action on `T_(eH)M`. Compute the fibre-coorientation sign relative to the left-invariant orientation of `H`; it is the same `χ(h)`. Thus the twisted shriek satisfies `j_![G]_τ=[H]` with the ordinary left-oriented fundamental cycle on all components: the two signs cancel. Ordinary untwisted `j_![G]` must not silently be identified with that cycle when the quotient is nonorientable.
-
-   Form `β=Φ_*([G]_τ×α)` in `H_(dimG+degα)(Map(S²,M);ev*or_M)` using the actual action coefficient map, and prove the same square gives `j_!β=(Φ_H)_*([H]×α)` in ordinary homology after the chosen basepoint-fibre identification. Because `dim H>0`, the class has degree above `dim M` and its nonzero shriek has positive degree. Construct the twisted abundance implication by tensoring the path-fibration DG coefficient system in the Theorem6.12 proof with the evaluation-pullback `or_M`, including its restriction along constant loops and the actual chain/transport comparison. Identify the total path-space readout with `H_*(M;or_M)`, whose groups above `dim M` vanish; then apply the already stated nonorientable form of Proposition6.7 with the resulting nonzero shriek and zero constant-loop image. This is an assigned coefficient construction and proof, not an assumption that the oriented theorem already applies. Recover the ordinary oriented statement by an orientation trivialization; no connectedness of `H` is imposed.
-
-   For `S²=SO(3)/SO(2)`, take `α` in `H₀(Ω²S²;ℤ)` represented by a degree-one map. Compute its `SO(2)` action class `α′∈H₁(Ω²S²;ℤ)` and prove it is nonzero by identifying it with the cycle `σ_{p*}[Σ′_p]` of Remark6.19. Under `β_*:H₁(Ω²S²)→H₂(ΩS²)`, identify the class with the Pontryagin square of the generator of `H₁(ΩS²)`. Then compare the resulting `SO(3)` action class in `H₃(Map(S²,S²);ℤ)` with `σ_*[Σ′]`, including orientation choices and the evaluation shriek map. This is the worked instance of the general action/shriek construction, not an appeal to Proposition6.36 alone.
-5. **Projective spaces.** `CPᵈ` (Proposition 6.38) and `HPᵈ` (Proposition 6.39 without the Cayley
-   plane), from Layer 5 item 7. These give **Theorem I** within the scope boundary.
-6. **Knotted hypersurfaces.** **Theorem G** (= Theorem 7.1), through Proposition 7.5 and
-   Lemmas 7.6 and 7.7, using the Pontryagin--Thom collapse of Layer 1.
-7. Source: the source paper §§6.3--6.4 and §7.
+1. **The finite cover `T × K → G`.** Consume LieGroups' public interfaces for the universal cover
+   and its discrete central kernel, the splitting of a compact Lie algebra into its centre and its
+   semisimple derived ideal, and simply connected integration. Integrate the simply connected
+   factors to identify the universal cover with `ℝ^r × K`, where `K` is compact, connected, simply
+   connected and semisimple. Prove `Z(K)` is finite. The deck kernel `Γ` is discrete and central,
+   hence lies in `ℝ^r × Z(K)`; compactness of `(ℝ^r × K)/Γ` makes `Λ = Γ ∩ (ℝ^r × {1})` a full
+   lattice in `ℝ^r`, and projection embeds `Γ/Λ` into the finite group `Z(K)`, so `Λ` has finite
+   index in `Γ`. Since `Λ` is central, the quotient map `(ℝ^r/Λ) × K → (ℝ^r × K)/Γ ≅ G` is a
+   finite covering `T × K → G` with `T = ℝ^r/Λ` a torus.
+2. **Higher homotopy across the cover.** Prove that finite coverings induce isomorphisms on `π_j`
+   for every `j ≥ 2`, through UniversalCovers' induced maps on homotopy groups. For nontrivial
+   `K`, choose a root `SU(2)` subgroup from LieGroups' maximal-torus and root interfaces and prove
+   that its map on `π₃` has nonzero image (state the integral homology/`π₃` comparison that
+   establishes this); hence `π₃(K) ≠ 0`.
+3. **The torus criterion.** Since the higher homotopy of `T` vanishes, `G` is a `K(π, 1)` exactly
+   when `K` is trivial, equivalently when `G` is a torus; conversely a finite quotient of a torus
+   is a torus. So a compact connected Lie group with `π₃(G) = 0` is a torus. This item owns the
+   finite-cover decomposition and the criterion; the generic Lie, compact-representation and Haar
+   theory stays with LieGroups and CompactGroups. The decomposition and the criterion are consumed
+   by StringOrientation and DGFloerPartII.
+4. Source: the source paper §6.4 (Example 6.30 and the proof of Proposition 6.31); Bröcker--tom
+   Dieck, *Representations of Compact Lie Groups*, Chapter V.
 
 ## Acceptance criteria
 
@@ -1702,7 +1614,7 @@ Retain the separate connected zero-dimensional model: M is a point, f=id, C has 
 ## Source coverage
 
 This section is provenance, not specification: it records where each numbered statement of the
-source paper lands, so a reviewer can check that nothing is missing. Numbers follow the revised
+source paper within this roadmap's scope lands, so a reviewer can check that nothing is missing. Numbers follow the revised
 version (TeX source of 13 May 2026, compiled).
 
 | Source statements | Layer and item |
@@ -1710,12 +1622,8 @@ version (TeX source of 13 May 2026, compiled).
 | Def 1.1 | 6.5 |
 | Conj 1.2 | out of scope |
 | Thm A, C | 10.5 (Thms 5.10, 5.15) |
-| Thm B | 10.5: representing-map endpoint and GC/TB multiple-realization application |
-| Cor D, E | 6.3,6.4,10.5, including the constructed multiple-realization TheoremB case |
+| Cor D, E | 6.3, 6.4, 10.5, in their Theorem A and Theorem C forms |
 | Cor F | out of scope |
-| Thm G | 11.6 (Thm 7.1) |
-| Def 1.7, Thm H | 11.1 (Def 6.11, Thm 6.12) |
-| Thm I | 11.2--11.5, without `CaP²` |
 | Def 1.8 | 3.1 |
 | Defs 1.9--1.11 | 4.1, 4.3 |
 | Thm J | 8.6 |
@@ -1740,20 +1648,11 @@ version (TeX source of 13 May 2026, compiled).
 | Def 5.3 | 6.5 |
 | Prop 5.9 | 10.3 |
 | Thm 5.10, Thm 5.15 | 10.5 (5.15 through the mod-2 vanishing theorem of 1.4) |
-| Thm 5.14 | 10.5: representing-map endpoint and GC/TB multiple-realization application |
 | Prop 5.11, Prop 5.13 | 10.4 |
 | Thm 5.12 | 1.4, for genuine Serre classes; the source's mod-2 class is replaced there |
 | Def 6.1, Prop 6.3 | 6.5 |
 | Thm 6.4, Props 6.6, 6.7 | 10.2 |
-| Def 6.11, Thm 6.12, Prop 6.13 | 11.1 |
-| Def 6.14, Props 6.15, 6.17, 6.18, 6.21, 6.23 | 11.2 (degree computation 1.8) |
-| Defs 6.26, 6.32, Props 6.29, 6.33 | 11.3 (evaluation fibration 1.6) |
-| Prop 6.31 | 11.3, including the finite-cover proof that compact connected non-tori are not `K(π,1)` |
-| Prop 6.34 | 11.3, both the Lemma6.35/LES proof and the independent degree-computation proof (1.8) |
-| Lem 6.35 | 11.3, low ranks and stable-plus-Stiefel finite-rank comparison; used by the first proof of Prop6.34 |
-| Prop 6.36 | 11.4 |
-| Props 6.38, 6.39 | 11.5, consuming 5.7's Riem R2/R3 and MorseTheory M5 based-loop application and its actual index/perfectness/generators; without `CaP²` |
-| Thm 7.1, Prop 7.5, Lems 7.6, 7.7 | 11.6 (collapse 1.5) |
+| Ex 6.30 (the aspherical hypothesis), the finite cover in the proof of Prop 6.31 | 11 |
 
 ### Classical capped-source requirements
 
@@ -1806,8 +1705,6 @@ Mathlib and conventions.
   *Groupes d'homotopie et classes de groupes abéliens*, Ann. of Math. 58 (1953).
 - R. Palais, *Local triviality of the restriction map for embeddings*, Comment. Math. Helv. 34
   (1960).
-- R. Bott, *The stable homotopy of the classical groups*, Ann. of Math. 70 (1959); W. Ziller,
-  *The free loop space of globally symmetric spaces*, Invent. Math. 41 (1977).
 - M. Audin, M. Damian, *Morse Theory and Floer Homology*, Universitext, Springer, 2014.
 - A. Floer, H. Hofer, D. Salamon, *Transversality in elliptic Morse theory for the symplectic action*, Duke Math. J.80(1) (1995),251–292, [DOI10.1215/S0012-7094-95-08010-7](https://doi.org/10.1215/S0012-7094-95-08010-7). Layer7.C.2 proves the stated orthogonality and symmetric-matrix lemma in its localized transversality application.
 - S. Piunikhin, D. Salamon, M. Schwarz, *Symplectic Floer–Donaldson theory and quantum cohomology*, in *Contact and Symplectic Geometry*, ed.C.B.Thomas, Publications of the Newton Institute8, Cambridge University Press (1996),171–200: the punctured comparison construction with the coefficient/sign/regularity applications specified here.
@@ -1820,13 +1717,15 @@ Mathlib and conventions.
   M. Struwe, Bol. Soc. Brasil. Mat. 20 (1990).
 - K. Irie, *Hofer--Zehnder capacity of unit disk cotangent bundles and the loop product*, JEMS 16
   (2014); P. Albers, U. Frauenfelder, A. Oancea, Math. Ann. 367 (2017).
+- T. Bröcker, T. tom Dieck, *Representations of Compact Lie Groups*, GTM 98, Springer, 1985,
+  Chapter V: the structure of compact connected Lie groups behind the finite cover of Layer 11.
 
 ## How to drive it
 
-The construction has separate reusable and geometric stages. Layers0–4 build cubical/local-coefficient algebra, the direct weak-equivalence/CW/native-Serre interfaces, convenient path spaces and filtered complexes before Floer counts. Each designated GC/SBC/CKG/CC/Riem/Morse/HS input is consumed only by the item that uses it; GC's early raw path/Kelley interfaces precede its later model/LES applications. The lower DGF outputs used by those generic constructions precede the later DG geometric applications.
+The construction has separate reusable and geometric stages. Layers0–4 build cubical/local-coefficient algebra, the direct weak-equivalence/CW/native-Serre interfaces, path spaces and filtered complexes before Floer counts. Each designated GC/CC/Riem input is consumed only by the item that uses it; GC's early raw path/Kelley interfaces precede its later model/LES applications. The lower DGF outputs used by those generic constructions precede the later DG geometric applications.
 
 Floer analysis supplies actual regular differentiable loci, Fredholm/evaluation/orientation and conditional gluing estimates; the standing aspherical/atoroidal branch additionally constructs ALL-dimensional topological corner compactifications with product faces. Layers5/8 use their relative fundamental chains and twisting cocycles. Layer7.C instead constructs its stated classical count dimensions, supported continuation and the common PSS module comparison, with separate compatible/tame coefficient lanes. Its qualified virtual application supplies full punctured analytic atlas/equivariant/relative data before using ImplicitAtlases; closed GW inputs do not construct that atlas.
 
-Layer6's Hamiltonian/Liouville constructions proceed with HamiltonianSystems, HF's symplectic/J-space floors and the actual support/completeness estimates. Layer5's finite-dimensional geodesic/MB and projective applications consume Riem R2/R3 and Morse M5 without making their early algebra inputs depend on those applications. Layer9's DG Viterbo comparison consumes the standing all-dimensional DG Floer and free-loop Morse packages. Layers8–10 retain those chain-space hypotheses independently of the smaller common FH=H module readout; their atoroidal/noncontractible and Liouville branches keep their own conditions.
+Layer6's Hamiltonian/Liouville constructions proceed with HamiltonianSystems, HF's symplectic/J-space floors and the actual support/completeness estimates. Layer5's finite-dimensional geodesic applications consume Riem R2/R3 without making their early algebra inputs depend on those applications. Layer9's DG Viterbo comparison consumes the standing all-dimensional DG Floer and free-loop Morse packages. Layers8–10 retain those chain-space hypotheses independently of the smaller common FH=H module readout; their atoroidal/noncontractible and Liouville branches keep their own conditions.
 
-The topological abundance and multiple-realization applications use their explicit lower cubical/CW/Hurewicz/Serre/filtered interfaces, named GC/TB/HS/GT/SBC/Lie inputs and actual degree/evaluation maps. They require no Floer counts. Source-owner coordination specifications for global flux/suspension, finite-rank/compact-Lie and TG applications are separate from supplied generic floors. The later projective abundance application uses Layer5's actual based-loop index/perfectness/generator calculation.
+The topological criteria of Layer 10 use their explicit lower cubical/CW/Hurewicz/Serre/filtered interfaces and actual degree/evaluation maps. Source-owner coordination specifications for global flux/suspension and TG applications are separate from supplied generic floors.

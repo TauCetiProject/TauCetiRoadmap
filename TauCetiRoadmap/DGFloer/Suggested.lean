@@ -1,6 +1,6 @@
-import Mathlib.Topology.Homotopy.HomotopyGroup
-import Mathlib.Topology.CompactOpen
+import Mathlib
 import TauCeti.Algebra.Homology.DG.Module.Right.Defs
+import TauCeti.AlgebraicTopology.EilenbergMacLane.Basic
 import TauCeti.Topology.Homotopy.HomotopyGroup.LoopSpace
 
 /-!
@@ -17,8 +17,9 @@ resolution, its path-space augmentation comparison and the resulting derived ten
 Those topological and infinite-basis targets are specified in README.md; neither finite
 matrix Maurer--Cartan data nor the finite `P → M` prototype supplies their resolution proof.
 
-Only Layer 0 (singular cubes), Layer 2 (Moore paths) and Layer 4 (twisting cocycles over a
-DG algebra) are prototyped: they rest on material that exists in Mathlib and Tau Ceti today.
+Only Layer 0 (singular cubes), Layer 2 (Moore paths), Layer 4 (twisting cocycles over a
+DG algebra) and Layer 11 (the torus criterion for compact connected Lie groups) are prototyped:
+they rest on material that exists in Mathlib and Tau Ceti today.
 The Moore-path carrier is the strict-concatenation model; it is not homeomorphic to the
 fixed-interval loop space, and the two are compared by a homotopy equivalence (README, standing
 conventions). In Layer 4, `P → M` stands for `M ⊗_A K_m`, where `K_m` is the twisted complex of
@@ -199,5 +200,29 @@ theorem twistedDifferential_sq (m : TwistingCocycle h P ind) {dM : M →ₗ[R] M
     twistedDifferential m ℳ dM (twistedDifferential m ℳ dM f) = 0 := sorry
 
 end Twisting
+
+/-! ## Layer 11: the finite cover of a compact connected Lie group -/
+
+/-- A torus is aspherical: the base case of the torus criterion. -/
+theorem isAspherical_torus (r : ℕ) : TauCeti.IsAspherical (Fin r → Circle) 1 := sorry
+
+/-- `SO(3)` is not aspherical, since `π₃(SO(3)) ≅ ℤ`: the first non-torus instance of the
+criterion. -/
+theorem not_isAspherical_SO3 :
+    ¬ TauCeti.IsAspherical (Matrix.specialOrthogonalGroup (Fin 3) ℝ) 1 := sorry
+
+section CompactLie
+
+variable {E H G : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [TopologicalSpace H]
+  (I : ModelWithCorners ℝ E H) [TopologicalSpace G] [ChartedSpace H G] [Group G]
+  [LieGroup I ∞ G] [CompactSpace G] [ConnectedSpace G]
+
+/-- Layer 11 item 3: a compact connected Lie group is aspherical exactly when it is a torus,
+through the finite covering `T × K → G` of the README and `π₃(K) ≠ 0` for a nontrivial compact
+simply connected semisimple `K`. -/
+theorem isAspherical_iff_exists_continuousMulEquiv_torus :
+    TauCeti.IsAspherical G 1 ↔ ∃ r : ℕ, Nonempty (G ≃ₜ* (Fin r → Circle)) := sorry
+
+end CompactLie
 
 end TauCetiRoadmap.DGFloer
