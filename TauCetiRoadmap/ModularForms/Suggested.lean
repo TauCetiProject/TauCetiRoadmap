@@ -20,8 +20,10 @@ lacks the instantiated integral p-adic Hecke-pair carrier, including the finite 
 conditions needed for its convolution ring. These are README targets, with no surrogate
 declarations here. The characteristic-zero arithmetic/analytic comparison and field
 base-change theorem also lack their geometric carrier: arithmetic forms as natural rules
-on elliptic families with mu_N level and all-cusp Laurent conditions. Their analytic rational-span
-consequence is statable and is included below.
+on elliptic families with mu_N level and all-cusp Laurent conditions; the uniformisation of the
+level moduli and the algebraicity of holomorphic sections (Layer 10D) lack the fine modular
+curve Y_1(N) with its universal family. Their analytic rational-span consequence is statable
+and is included below.
 -/
 
 namespace TauCetiRoadmap.ModularForms
@@ -96,7 +98,8 @@ theorem existsUniqueGaloisConjugate {N : ℕ} [NeZero N] {k : ℤ} (hk : 1 ≤ k
 /-! ## Layer 9: coefficient twisting -/
 
 /-- Twisting by the actual zero-extended character of modulus m preserves cuspidality
-at level N*m², including imprimitive characters (the modulus-sensitive twist theorem). -/
+at level N*m², including imprimitive characters (Shimura, Proposition 3.64; Miyake,
+Lemma 4.3.10(2)). -/
 theorem existsCoefficientTwist {N m : ℕ} [NeZero N] [NeZero m] {k : ℤ}
     (f : CuspForm (Gamma1 N : Subgroup (GL (Fin 2) ℝ)) k)
     (ψ : DirichletCharacter ℂ m) :

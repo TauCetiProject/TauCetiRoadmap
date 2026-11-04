@@ -6,7 +6,8 @@ The remaining end theorems are integral Hecke polynomiality in arbitrary positiv
 cross-level strong multiplicity one, weight-one coefficient arithmetic, Galois stability,
 general-level dimension formulas and the level-one Eichler–Selberg trace formula. The build
 includes character Eisenstein series, partial Atkin–Lehner operators, twists and newform orbit
-invariants, with all primes and all positive congruence levels retained.
+invariants, and the uniformisation and scheme–analytic comparison of the level moduli on which
+the weight-one arithmetic rests, with all primes and all positive congruence levels retained.
 
 ## Scope and ownership
 
@@ -21,25 +22,34 @@ functional equation, the level-one graded ring, and the full-index valence formu
 Mathlib supplies the continued modular-form L-function. The exact contracts follow below.
 
 FuchsianOrbifolds Layers 3–6 own cusp charts, compactification, compact-surface degree theory
-and the level-one sphere identification. The normalized j-function inputs belong with its
-Layer 6: j = E₄³/Δ, j − 1728 = E₆²/Δ, invariance, expansion and elliptic orders are lower inputs
-to that construction, with no dependency on this roadmap's dimension formulas. ModularForms
-consumes that complete geometric construction; it supplies no j-input module back to it.
-The generic analytic cohomology and Riemann–Roch chain of §10B remains here; algebraic
+and the level-one sphere identification. Ownership of the normalized level-one j-function
+(j = E₄³/Δ, j − 1728 = E₆²/Δ, its modular invariance, q-expansion and exact elliptic orders)
+moves from this roadmap to FuchsianOrbifolds Layer 6, which is to construct j from Mathlib's
+E₄, E₆ and Δ; this roadmap supplies no j-input module and consumes only the resulting
+identification X(1) ≃ ℙ¹, in §10A and §10D. The generic analytic cohomology and Riemann–Roch chain of §10B remains here; algebraic
 Riemann–Roch is a different theory and is not substituted for the analytic comparison.
 
 PolynomialGaloisGroups, “What this roadmap consumes from the Number Field Arithmetic roadmap”
-and Layer 4, own the factorization-to-cycle-type interface and permutation-group recognition.
+and Layer 1, “The recognition theorems”, own the factorization-to-cycle-type interface and
+permutation-group recognition.
 The weight-60 example uses those mathematical results. No solvability decision procedure or
 certificate checker belongs here. Noncongruence forms, half-integral weights, Galois
 representations of newforms, and general-level trace formulas belong to their separate
 roadmaps; none is a prerequisite for the classical targets below.
 
 The characteristic-zero arithmetic comparison in §8.0 and rational descent in §8.1
-belong to this roadmap's coefficient theory. ModularCurves Layers 1–5 and 9 supply the
-elliptic families, level moduli and descent formalism; §8.0 constructs the arithmetic
-modular-form laws, their all-cusp Laurent criterion and their analytic comparison.
-Integral geometric modular forms and characteristic-p operations belong to
+belong to this roadmap's coefficient theory. ModularCurves Layers 1–5, 9 and 10 supply the
+elliptic families, level moduli, descent formalism and the Tate curve; §8.0 constructs the
+arithmetic modular-form laws, their all-cusp Laurent criterion and their analytic comparison.
+The scheme–analytic comparison on which that analytic comparison rests is owned here, in
+§10D: the uniformisation of the complex level moduli by Γ₁(N)\ℍ, the Riemann-surface
+structure of the ℂ-points of the fine curve Y₁(N), the complex Tate curve at the cusps and
+the algebraicity of holomorphic sections of the powers of ω. It is stated for these affine
+level curves and this line bundle only, with no analytification functor and no coherent
+GAGA for arbitrary complex schemes. ModularCurves lists the uniformisation of its twisted
+curve among its external contracts and AlgebraicCurves leaves the compact-Riemann-surface
+comparison to a GAGA development; neither supplies the comparison used here. Integral
+geometric modular forms and characteristic-p operations belong to
 AlgebraicModularFormsAndSerreWeights Layers 1–3, which consume this rational theory.
 
 ## Conventions
@@ -95,6 +105,20 @@ is (√N)^(2−k) times the native weight-k slash by the matrix (0,−1;N,0). Wi
   in `Mathlib/NumberTheory/ModularForms/Bounds.lean`: for nonnegative integral weight,
   an arithmetic subgroup, a cusp form and a positive strict period h, the sum of the first M squared coefficient
   norms is at most C M^k. Use h=1 for Γ₁(N), including k=1.
+- `PeriodPair.weierstrassP`, `PeriodPair.derivWeierstrassP_sq`, `PeriodPair.G`,
+  `PeriodPair.g₂` and `PeriodPair.g₃` in
+  `Mathlib/Analysis/SpecialFunctions/Elliptic/Weierstrass.lean`: the Weierstrass ℘-function
+  of a period pair, its periodicity and meromorphy, and the differential equation
+  ℘′² = 4℘³ − g₂℘ − g₃ with g₂ = 60G₄ and g₃ = 140G₆ as lattice sums. No comparison of
+  these lattice sums with the modular Eisenstein series is supplied; §10D proves it.
+- `WeierstrassCurve.exists_variableChange_of_j_eq` in
+  `Mathlib/AlgebraicGeometry/EllipticCurve/IsomOfJ.lean`: over a separably closed field, two
+  elliptic Weierstrass curves with equal j-invariant differ by a change of variables. The
+  implicit-function, open-mapping and removable-singularity theorems supply the analytic
+  structure used in §10D.
+- `Equiv.Perm.subgroup_eq_top_of_swap_mem` in `Mathlib/GroupTheory/Perm/Cycle/Type.lean`:
+  a subgroup of S_p, p prime, of order divisible by p and containing a transposition is S_p;
+  this is the recognition theorem behind the weight-60 example.
 - `ArithmeticFunction.moebius`, `ArithmeticFunction.sigma`, `Polynomial.dickson`,
   `LinearMap.trace`, `LinearMap.charpoly`, `IntermediateField` and `NumberField` supply the
   arithmetic, linear algebra and field carriers used in the acceptance signatures.
@@ -165,7 +189,7 @@ All paths in this list start at `TauCeti/NumberTheory/`.
   `HeckeRing.GL2.Newform.atkinLehnerSign` in `ModularForms/AtkinLehner/Sign.lean` supplies
   the ±1 newform signs for trivial character. §6.1 extends the newform comparison to
   general nebentypus, rather than reconstructing these operators and sign results.
-- `HeckeRing.GL2.normalizedFrickeOperatorCusp_heckeTCuspNat_of_mem_cuspFormCharSpace`
+- `TauCeti.normalizedFrickeOperatorCusp_heckeTCuspNat_of_mem_cuspFormCharSpace`
   in `ModularForms/Fricke/Hecke.lean` gives 𝒲_N Tₙf = χ(n) Tₙ𝒲_Nf for gcd(n,N)=1.
   The source and target characters are χ and χ⁻¹.
 - `CuspForm.frickeCompletedL`, `CuspForm.differentiable_frickeCompletedL`,
@@ -202,7 +226,8 @@ All paths in this list start at `TauCeti/NumberTheory/`.
 
 ### From TauCetiRoadmap.FuchsianOrbifolds
 
-Layers 0–4 supply the effective projective action, cusp data and compactified quotient X(Γ).
+Layers 0–4 supply the effective projective action, cusp data with their q-coordinates, and the
+compactified quotient X(Γ) as a compact Riemann surface.
 Layer 5 supplies finite holomorphic maps, degree, divisor pullback and topological
 Riemann–Hurwitz, with no use of analytic Riemann–Roch. Layer 6 supplies X(1) ≃ ℙ¹.
 The local multiplicity, degree and divisor constructions also have native modules
@@ -212,18 +237,24 @@ stated geometric contracts.
 
 ### From TauCetiRoadmap.ModularCurves
 
-Layers 1–2 supply elliptic curves over schemes, invariant differentials and isogenies;
-Layers 3–5 supply level structures, the Weierstrass presentation and rigidifying descent;
-§§9A–9B supply the quotient-level moduli and their actions. Over characteristic-zero
-fields, the μ_N-marked moduli used in §8.0 are obtained from these level problems by
-finite étale descent. The ordinary point marking and the μ_N marking are identified
+Layers 1–2 supply elliptic curves over schemes, Weierstrass models and their variable changes
+(§1C), invariant differentials and isogenies; Layers 3–5 supply level structures, the
+Weierstrass presentation, rigidifying descent (§4C, with the effective descent of sections of
+§0E) and, for N ≥ 4, the fine affine curve Y₁(N) of §5A in Tate normal form, relatively finite
+étale over elliptic curves; §§9A–9B supply the quotient-level moduli and their actions, and
+§9E the coarse j-line. Layer 10 supplies the Tate curve over ℤ((q)) with its subgroup schemes;
+that layer carries a prime-level standing hypothesis which the curve itself does not use, and
+§8.0 base-changes the curve to K((q)) and adds the canonical μ_N-embedding for every N. Over
+characteristic-zero fields, the μ_N-marked moduli used in §8.0 are obtained from these level
+problems by finite étale descent. The ordinary point marking and the μ_N marking are identified
 after choosing a primitive N-th root of unity, not over ℚ without that choice.
 
 ### From PolynomialGaloisGroups
 
-Consume its factorization-type input contract and Layer 4, “Group criteria that bypass
-resolvents”: a transitive subgroup of prime degree containing a transposition is the full
-symmetric group. No algorithmic construction is imported into the modular-forms targets.
+Consume its factorization-type input contract and Layer 1, “The recognition theorems”: a
+transitive subgroup of S_p of prime degree p containing a transposition is S_p, which is
+Mathlib's `Equiv.Perm.subgroup_eq_top_of_swap_mem`. No algorithmic construction is imported
+into the modular-forms targets.
 
 ## How to read the build
 
@@ -231,7 +262,9 @@ The layer numbers preserve the classical order: character Eisenstein series and 
 order conventions precede Hecke extensions, fixed-character old/new bookkeeping and primitive
 uniqueness; partial Atkin–Lehner theory and sharp convergence then feed the arithmetic and orbit
 layers. Layer 10 builds analytic cohomology and exact dimensions from the independent Fuchsian
-geometry. Layer 11 uses the integral-period and polynomial inputs for the level-one trace
+geometry, and its §10D proves the uniformisation and algebraicity statements that the
+analytic comparison of §8.0 consumes; that reference, like §9.3's use of §10C, is a proof
+input across layers, not a build-order inversion. Layer 11 uses the integral-period and polynomial inputs for the level-one trace
 formula. Each Needs list names the statement's carriers and one proof route; another proof
 may use different inputs. `Suggested.lean` contains only the remaining statable headlines.
 
@@ -591,14 +624,18 @@ parameter. The cusp subspace additionally has constant term zero in every such
 expansion. Denote these spaces by M_k^arith(N,K) and S_k^arith(N,K)
 (Deligne–Serre §2.1, p.510, including its Laurent-expansion formulation).
 
-Construct the formal Tate evaluation for these rules: the Tate curve over K((q)),
-its canonical embedding μ_N↪Tate(q) and differential dt/t, and the expansions at
-all other cusps using the corresponding level structures after finite extension
-and a parameter q^(1/w). Prove independence from the finite splitting field and
-compatible changes of cusp parameter. The cusp subspace is the joint kernel of the
-constant-term maps on the holomorphic space, with one map at each geometric cusp.
-Retain the finite stabilizer action at small levels in these expansions
-(Deligne–Serre §§2.1(c), 2.5, pp.510–512).
+Take the Tate curve over ℤ((q)) with its subgroup schemes from ModularCurves Layer 10 and
+base-change it to K((q)); that layer carries a prime-level standing hypothesis which the
+curve itself does not use. Construct here, for every N ≥ 1, the canonical embedding
+μ_N ↪ Tate(q)[N] induced by μ_N ⊂ 𝔾_m and the parametrization 𝔾_m/q^ℤ, the differential
+dt/t, and the evaluation of rules on these data: the Tate expansion at the standard cusp,
+and the expansions at all other cusps using the level structures ζ ↦ ζ^a q^(b/N), for (a,b)
+of exact order N modulo N, after adjoining the N-th roots of unity and the parameter q^(1/N),
+each a Laurent series in a cusp parameter q^(1/w). Prove independence from the finite
+splitting field and compatible changes of cusp parameter. The cusp subspace is the joint
+kernel of the constant-term maps on the holomorphic space, with one map at each geometric
+cusp. Retain the finite stabilizer action at small levels in these expansions
+(Deligne–Serre §§2.1(c), 2.5, pp.510–512; deligne-serre lines 178–188).
 
 Prove the characteristic-zero comparison: over ℂ, evaluation on
 E_z=ℂ/(ℤ+zℤ), with α(exp(2πi/N))=1/N, and division by (2πi du)^k gives
@@ -606,7 +643,22 @@ linear isomorphisms from M_k^arith(N,ℂ) and S_k^arith(N,ℂ) to the native ana
 modular and cusp spaces on Γ₁(N). The Tate expansion agrees coefficient by coefficient
 with `UpperHalfPlane.qExpansion 1`; the maps commute with diamonds and good Hecke
 operators in the arithmetic normalization (Deligne–Serre §§2.2–2.5, pp.510–512,
-especially equations (2.4.1)–(2.4.2) and (2.5.1)).
+especially equations (2.4.1)–(2.4.2) and (2.5.1); deligne-serre lines 168–194).
+
+The map is evaluation on the family E_z. For N ≥ 4 a rule is the pullback of its value on
+the universal family over the fine curve Y₁(N), so its avatar is holomorphic along the
+uniformisation of §10D and modular because the isomorphism (E_z, α_z) ≅ (E_(γz), α_(γz)) of
+§10D rescales du by (cz+d)⁻¹; holomorphy at every cusp is the all-cusp Laurent criterion
+read through the complex Tate curve of §10D. Injectivity is Tate expansion. Surjectivity is
+the algebraicity theorem of §10D: an analytic form is the avatar of a rational section of
+ω^k over Y₁(N) that is regular at every point and holomorphic in every Tate expansion, hence
+of a rule holomorphic at the cusps. For N ≤ 3 choose an auxiliary level M ≥ 4 coprime to N
+(M = 4 for N = 1 or 3, M = 5 for N = 2). Then Γ₁(N) ∩ Γ₁(M) = Γ₁(NM), a rule on Γ₁(N) is a
+rule on Γ₁(NM) whose two pullbacks to the moduli of (E, α_N, α_M, α′_M) agree (the
+simultaneous-structure moduli of ModularCurves §4C, relatively finite étale by §5A, with the
+effective descent of sections of §0E), and an analytic form on Γ₁(N) is a form
+on Γ₁(NM) fixed by the slash action of Γ₁(N); the comparison at level NM restricts to these
+two descent conditions, which correspond under it.
 
 The arithmetic-form API includes:
 
@@ -640,11 +692,24 @@ The arithmetic-form API includes:
   so the same vanishing assertion cannot be imposed at every level.
 - Over ℚ(√2), √2Δ has a₁=√2 and does not descend to ℚ; Δ/11 does descend,
   with a₁=1/11. Rational descent is distinct from integral coefficients.
+- On Tate(q) over ℂ((q^(1/N))), the level structure ζ ↦ q^(1/N) is the point z/N of E_z and
+  gives the expansion at the cusp 0, the standard ζ ↦ ζ is the point 1/N and gives the
+  expansion at ∞; at N = 1 the two coincide, as there is one cusp. Reading the cusp-0
+  expansion of a form of level N > 1 from the standard structure would be a different
+  form's expansion.
+- At N = 1 with auxiliary level 4, a form on Γ₁(4) fixed by the slash action of SL₂(ℤ)
+  satisfies f(i) = i^(−k)f(i), so it vanishes at i unless 4 ∣ k: E₆(i) = 0 while Δ(i) ≠ 0.
+  The quotient Γ₁(4)\ℍ alone has no elliptic point and would not record this stabilizer.
+- At N = 2 the auxiliary level is 5, not 4: Γ₁(2) ∩ Γ₁(4) = Γ₁(4) is not Γ₁(2M) for a
+  level M coprime to 2, and the descent condition would not be a condition on a μ₁₀-structure.
 
 *Needs:* ModularCurves Layers 1–5 and §§9A–9B for elliptic families, level moduli,
-isogenies and descent; Mathlib differential, tensor and power-series carriers;
-§0.1 for the analytic character action. The formal Tate evaluation, all-cusp Laurent
-criterion, analytic comparison and field-base-change theorem are targets of this subsection.
+isogenies and descent, §4C and §0E for the auxiliary-level descent, and Layer 10 for the
+Tate curve over ℤ((q)); §10D for the uniformisation, the complex Tate curve and the
+algebraicity of holomorphic sections; Mathlib differential, tensor and power-series carriers;
+§0.1 for the analytic character action. The canonical μ_N-embedding and Tate evaluation,
+all-cusp Laurent criterion, analytic comparison and field-base-change theorem are targets of
+this subsection.
 
 ### 8.1 Rational descent and the weight-one lattice
 
@@ -780,7 +845,10 @@ embedding into ℂ is not assumed to preserve a real angle.
 For a Dirichlet character ψ of specified positive modulus m, `existsCoefficientTwist`
 asserts existence of the following cusp form. Define the coefficient twist by
 aₙ(f⊗ψ)=ψ(n)aₙ(f), using its actual zero extension. Prove modularity and cuspidality at
-level Nm² with nebentypus χψ² transported to that level. For primitive ψ of conductor r,
+level Nm² with nebentypus χψ² transported to that level: write ψ(n) as a finite sum of
+additive characters e(nv/m), so that f⊗ψ is a combination of the translates f(z+v/m), and
+conjugate Γ₁(Nm²) into Γ₁(N) by the translations (1, v/m; 0, 1) (Shimura, Proposition 3.64;
+Miyake, Lemma 4.3.10(2)). For primitive ψ of conductor r,
 prove the sharper bound lcm(N,r·cond(χψ),r²) for the twist, with the character conductors
 computed after passage to a common modulus (Atkin–Li, Theorem 3.1).
 
@@ -1035,16 +1103,151 @@ the same β formula applies, including trivial character (Diamond–Shurman, The
 *Needs:* §10A counts, §10B cohomology and genus comparison, §1.1 orders, native finite-index
 Sturm finiteness; §3.1, §5.1 and native decomposition for the newspace identity.
 
+### 10D Uniformisation of the level moduli and algebraicity of sections
+
+For z ∈ ℍ write Λ_z = ℤ + ℤz, E_z = ℂ/Λ_z and q = exp(2πiz). For a lattice Λ ⊂ ℂ let E_Λ be
+the Weierstrass curve Y² = X³ − (g₂(Λ)/4)X − g₃(Λ)/4, with g₂ = 60G₄(Λ) and g₃ = 140G₆(Λ) the
+native lattice sums; every elliptic curve over ℂ is a Weierstrass curve, and isomorphisms
+between Weierstrass curves are variable changes (ModularCurves §1C).
+
+Prove the lattice–modular comparison: for m ≥ 2, G_(2m)(Λ_z) = 2ζ(2m)E_(2m)(z), with E_(2m)
+the native normalized Eisenstein series of constant term 1. Hence g₂(Λ_z) = (4π⁴/3)E₄(z),
+g₃(Λ_z) = (8π⁶/27)E₆(z), g₂³ − 27g₃² = (2π)¹²Δ(z), and the Mathlib j-invariant of E_Λ at
+Λ = Λ_z is 1728g₂³/(g₂³ − 27g₃²) = E₄³/Δ = j(z) (Milne, Proposition 3.10; milne-mf lines
+2090–2103).
+
+Prove the uniformisation of complex elliptic curves: u ↦ (℘_Λ(u), ℘′_Λ(u)/2) for u ∉ Λ, and
+u ↦ ∞ for u ∈ Λ, is a bijection ℂ/Λ → E_Λ(ℂ) and a group isomorphism for the Weierstrass
+group law; it identifies (1/N)Λ/Λ with E_Λ(ℂ)[N]. Every elliptic curve E over ℂ is
+isomorphic to some E_Λ with Λ = Λ_z: the equation j(z) = j(E) has a solution because the
+descended j is the degree-one map X(1) → ℙ¹ of §10A, and
+`WeierstrassCurve.exists_variableChange_of_j_eq` over ℂ supplies the isomorphism. Prove
+homogeneity ℘_(αΛ)(αu) = α⁻²℘_Λ(u), and that every isomorphism E_Λ → E_(Λ′) of elliptic
+curves is induced by u ↦ αu for a unique α with αΛ = Λ′: transported through the
+parametrizations it is a holomorphic map ℂ/Λ → ℂ/Λ′ fixing 0, which lifts through the
+universal covering ℂ → ℂ/Λ to an entire function with doubly periodic derivative, hence to
+u ↦ αu (Milne, Propositions 3.3 and 3.12 with its addition formula, and Corollary 3.5;
+milne-mf lines 1946–1975 and 2165–2175).
+
+Prove the moduli bijection: for N ≥ 1, z ↦ (E_z, α_z) with α_z(exp(2πi/N)) = 1/N induces a
+bijection from Γ₁(N)\ℍ to the isomorphism classes of pairs (E, α) over ℂ, E an elliptic
+curve and α: μ_N ↪ E[N], the μ_N-marked structure of ModularCurves Layer 3 over ℂ, which the
+choice exp(2πi/N) identifies with a point of exact order N. Indeed an isomorphism
+(E_z, α_z) ≅ (E_(z′), α_(z′)) is u ↦ αu with αΛ_z = Λ_(z′), which forces z′ = γz for some
+γ = (a, b; c, d) ∈ SL₂(ℤ) and α = (cz+d)⁻¹, and then α·(1/N) ≡ 1/N modulo Λ_(z′) exactly when
+c ≡ 0 and d ≡ 1 modulo N (Milne, Lemma 8.7, for the full-level pattern; milne-mf lines
+5157–5162; Diamond–Shurman, Theorem 1.5.1).
+
+Prove the Riemann-surface structure of the fine curve for N ≥ 4: give the ℂ-points of the
+smooth affine plane model of Y₁(N) of ModularCurves §5A the complex structure whose chart at
+each point is supplied by the implicit function theorem (smoothness supplies a nonvanishing
+partial derivative), so that regular functions are holomorphic and an algebraic uniformizer
+at a ℂ-point is an analytic coordinate there. Prove that the division values
+z ↦ ℘(x+yz; Λ_z) and z ↦ ℘′(x+yz; Λ_z) are holomorphic on ℍ for fixed rational (x,y) ∉ ℤ²,
+by the locally uniform convergence of the lattice sums in z (as for the Eisenstein series:
+Milne, Proposition 3.10). The Tate normal form of (E_z, 1/N) has coefficients that are
+rational functions of g₂(Λ_z), g₃(Λ_z) and the division values at 1/N, hence holomorphic,
+and z ↦ that point is a holomorphic map ℍ → Y₁(N)(ℂ) which factors through Γ₁(N)\ℍ and is bijective there
+by the moduli bijection and the universal property of §5A. A bijective holomorphic map of
+Riemann surfaces is biholomorphic (the open mapping theorem, and the nonvanishing derivative
+of an injective holomorphic function), so Γ₁(N)\ℍ ≅ Y₁(N)(ℂ) as Riemann surfaces, and the
+analytic order of a regular function at a point equals its algebraic order.
+
+Prove the complex Tate curve: for z ∈ ℍ, u ↦ t = exp(2πiu) induces E_z ≅ ℂˣ/q^ℤ, and the
+Tate curve of ModularCurves Layer 10 evaluated at q, whose coefficient series converge for
+|q| < 1, is isomorphic to E_Λ at Λ = Λ_z through (2πi)⁻²℘(u; Λ_z) − 1/12 = X_Tate(t), with
+dt/t = 2πi du and the canonical μ_N ⊂ ℂˣ corresponding to α_z (Silverman, Advanced Topics,
+Theorem V.1.1; deligne-serre lines 168–194). Consequently the Tate expansion of a rule of
+§8.0 at the standard cusp is the q-expansion of its analytic avatar, coefficient by
+coefficient, and the expansion at the level structure ζ ↦ ζ^d q^(c/N), for γ = (a, b; c, d) in
+SL₂(ℤ), is the expansion of f|_kγ at the cusp γ(∞). In particular regular functions on Y₁(N)
+are meromorphic at every cusp of the compact Riemann surface X₁(N)^an = Γ₁(N)\ℍ* of
+FuchsianOrbifolds Layer 4, whose cusp coordinates are the parameters q^(1/w).
+
+Prove algebraicity for N ≥ 4: the field of meromorphic functions on X₁(N)^an is ℂ(Y₁(N)),
+inside the Γ₁(N)-invariant meromorphic functions on ℍ. Regular functions are meromorphic on
+X₁(N)^an by the previous paragraphs. Conversely j has analytic degree d = [PSL₂(ℤ):Γ̄₁(N)] on
+X₁(N)^an (§10A); a meromorphic function on a compact Riemann surface carrying a degree-d map
+to ℙ¹ is algebraic of degree at most d over the pulled-back field, by the elementary
+symmetric functions of its values on fibres (Forster, §8); and ℂ(Y₁(N)) has degree at least
+d over ℂ(j), because the regular functions of an affine scheme of finite type separate the d
+points of a fibre over which j is unramified, and continue to separate the nearby fibres. So
+the degree of the meromorphic function field over ℂ(j) is at most d and at least the degree of
+ℂ(Y₁(N)), which forces equality. Then, for every integer k, let s be a nonzero rational section
+of ω over Y₁(N); its avatar s^an is a meromorphic function on ℍ with s^an(γz) = (cz+d)s^an(z),
+because ω restricted to E_z is spanned by du and the isomorphism E_z → E_(γz), u ↦ u/(cz+d),
+pulls du back to (cz+d)⁻¹du. For f in the native M_k(Γ₁(N)), the quotient f/(s^an)^k is a
+Γ₁(N)-invariant meromorphic function, meromorphic at every cusp, hence a rational function
+φ, and f = φ·(s^an)^k is the avatar of the rational section φs^k of ω^k, regular at each
+ℂ-point of Y₁(N) by the order comparison and holomorphic in every Tate expansion by the cusp
+comparison. This is the surjectivity input of §8.0, which extends it to N ≤ 3 through the
+auxiliary level.
+
+No analytification functor on complex schemes, no comparison for arbitrary coherent sheaves and
+no compactified algebraic curve X₁(N) is constructed: the cusps enter only through the complex
+Tate curve and the Fuchsian compactification.
+
+The comparison API includes:
+
+- The lattice–modular comparison for every even weight at least four, with the constants
+  2ζ(2m), and homogeneity g₂(αΛ) = α⁻⁴g₂(Λ), g₃(αΛ) = α⁻⁶g₃(Λ).
+- The uniformisation bijection is a group isomorphism and identifies the N-torsion with
+  (1/N)Λ/Λ; isomorphisms of pairs are the scalars α with αΛ = Λ′ carrying the marked point.
+- Naturality of the moduli bijection for the inclusions Γ₁(NM) ⊂ Γ₁(N), which forget the
+  auxiliary marking, and for the diamond action: ⟨d⟩ acts on pairs by precomposing α with
+  multiplication by d on μ_N.
+- Under the biholomorphism the pullback of ω along ℍ → Y₁(N)(ℂ) is trivialized by du, and the
+  transition (cz+d)⁻¹ identifies ω^an with the weight-one automorphy line bundle of §10C.
+- Equality of algebraic and analytic orders of rational sections at ℂ-points, and of the
+  Tate order in q^(1/w) with the analytic order at each cusp.
+
+**Checks.**
+- With g₂ = (4π⁴/3)E₄ and g₃ = (8π⁶/27)E₆, 1728g₂³/(g₂³ − 27g₃²) = 1728·64/(27·4096)·E₄³/Δ
+  = E₄³/Δ, since 1728·64 = 27·4096 = 110592. Taking g₂ = 60E₄ and g₃ = 140E₆ without the
+  zeta constants gives a function with constant term 1728·216000/(216000 − 529200) at the
+  cusp, with no pole there, whereas j has a simple pole.
+- The rule (E, ω) ↦ c₄ of the Weierstrass model adapted to ω evaluates at (E_z, 2πi du) to
+  12g₂(Λ_z)/(2πi)⁴ = E₄(z) = 1 + 240q + ⋯, and at (E_z, du) to 16π⁴E₄(z). The discriminant
+  rule evaluates at (E_z, 2πi du) to (2π)¹²Δ(z)/(2πi)¹² = Δ(z) = q − 24q² + ⋯.
+- The automorphism −1 of E_z fixes 1/N modulo Λ_z exactly when 2/N ∈ Λ_z, that is for N ≤ 2,
+  matching −I ∈ Γ₁(N) exactly for N ≤ 2. At N = 3 and z₀ = 1/2 + i√3/6, the fixed point of
+  (1, −1; 3, −2) ∈ Γ₁(3), multiplication by ρ = exp(2πi/3) fixes 1/3 because
+  (ρ − 1)/3 = z₀ − 1 ∈ Λ_(z₀); so (E_(z₀), 1/3) has an automorphism of order 3, and the fine
+  threshold N ≥ 4 of §5A is sharp.
+- For γ ∈ Γ₀(N) with lower-right entry d, the point (cz+d)/N is congruent to d/N modulo Λ_z,
+  so the diamond ⟨d⟩ is α ↦ α∘[d]; for γ = S the point is z/N, the Tate point q^(1/N), and the
+  expansion of f|S at the cusp 0 is a series in q^(1/N), the width of that cusp for Γ₁(N).
+- At level one d = 1, and the field equality is the degree-one statement X(1) ≃ ℙ¹ with
+  function field ℂ(j); for Γ₁(13), d = 84, so no meromorphic function on X₁(13)^an has degree
+  85 over ℂ(j). At a point over j = 1728 the fibre of X₁(13)^an → X(1) has 42 points, each
+  with multiplicity 2; the separation argument uses fibres over j ∉ {0, 1728, ∞}.
+- Dividing E₄ at level 4 by (s^an)⁴, for a rational section s with a simple pole at a point
+  P where E₄ does not vanish, gives a rational function with a zero of order 4 at P;
+  multiplying back by s⁴ returns a section regular at P. Equality of algebraic and analytic
+  orders is what excludes a spurious pole there.
+
+*Needs:* §10A for the degree of j and X(1) ≃ ℙ¹; FuchsianOrbifolds Layers 3–4 for cusp
+coordinates and X₁(N)^an; ModularCurves §§1C, 3N, 5A, 4C, 0E and 9E and Layer 10 for variable
+changes, level structures, the fine curve, descent, the coarse j-line and the Tate curve;
+Mathlib ℘, the lattice sums, the j-invariant isomorphism theorem, the Eisenstein series, and
+the implicit-function, open-mapping and removable-singularity theorems. The lattice–modular
+comparison, the uniformisation, the moduli bijection, the Riemann-surface structure, the
+complex Tate curve and the function-field equality are targets of this subsection, in that
+order.
+
 ### Examples
 
 The five dimensions 1,2,0,2,2 at S₂(Γ₀(11)), S₂(Γ₀(23)), S₂(Γ₀(2)), M₂(Γ₀(11))
 and S₂(Γ₁(13)) are Checks of the general theorem, not substitute acceptance signatures.
+The constants 2ζ(4) and 2ζ(6) with the identity 1728·64 = 27·4096, and the order-three
+automorphism at level 3, test the lattice–modular comparison and the fineness threshold.
 
 ### Dependencies
 
 The geometric chain is independent of primitive-associate uniqueness until the newspace
 identity. The topological genus and its comparison must not be proved from the dimension
-formula they are used to establish.
+formula they are used to establish. §10D uses the Fuchsian compactification, the fine curve
+and the degree of j, not the dimension formulas; §8.0 consumes it.
 
 ## Layer 11: the Eichler–Selberg trace formula at level one
 
@@ -1119,7 +1322,10 @@ The classical forms, primitive conductors, twisting and orbit theory supply auto
 representations, modularity and arithmetic applications. NoncongruenceModularForms consumes
 the order dictionary and analytic Riemann–Roch; it extends the congruence dimension theory
 to finite-index groups. The rank-n local comparison supplies the spherical Hecke algebra
-input for automorphic representations. LeanBridge consumes finite-coefficient uniqueness and
+input for automorphic representations. AlgebraicModularFormsAndSerreWeights consumes the
+rational coefficient theory of Layer 8 and the uniformisation and algebraicity of §10D for its
+geometric forms; ModularCurves' external uniformisation contract concerns its twisted curve
+and is not discharged by §10D. LeanBridge consumes finite-coefficient uniqueness and
 newform invariants for its explicit examples; its computations are not library targets here.
 
 ## Worked examples
@@ -1161,11 +1367,17 @@ or the Galois-group assertion (leanbridge lines 39–45 and 698–718).
 ## References
 
 - F. Diamond and J. Shurman, *A First Course in Modular Forms*, GTM 228, 2005:
-  §§3.2–3.9, Theorems 3.5.1 and 3.6.1; §§4.5–4.8; Theorems 5.8.2–5.8.3,
+  Theorem 1.5.1; §§3.2–3.9, Theorems 3.5.1 and 3.6.1; §§4.5–4.8; Theorems 5.8.2–5.8.3,
   Propositions 5.8.4–5.8.5 and 5.9.1; §6.5. Use the author errata for pp.74–75 and 90.
-- T. Miyake, *Modular Forms*, 1989: §§4.5–4.6, Theorem 4.6.19 and Corollary 4.6.20.
+- T. Miyake, *Modular Forms*, 1989: §§4.5–4.6, Theorem 4.6.19 and Corollary 4.6.20;
+  Lemma 4.3.10(2) for the level-Nm² twist.
 - G. Shimura, *Introduction to the Arithmetic Theory of Automorphic Functions*, 1971:
-  Theorem 3.20 for integral Hecke polynomiality.
+  Theorem 3.20 for integral Hecke polynomiality; Proposition 3.64 for the level-Nm² twist.
+- J. S. Milne, [*Modular Functions and Modular Forms*](https://www.jmilne.org/math/CourseNotes/MF.pdf),
+  version 1.31, 2017: Propositions 3.3, 3.10, 3.12, 3.13 and Corollary 3.5, pp.42–47;
+  Lemma 8.7, p.100 (milne-mf lines 1946–1975, 2090–2103, 2165–2184 and 5157–5162).
+- J. H. Silverman, *Advanced Topics in the Arithmetic of Elliptic Curves*, GTM 151, 1994:
+  Theorem V.1.1 for the complex Tate curve.
 - J. A. Rhodes and T. R. Shemanske, *Bruhat–Tits buildings and Hecke operators*,
   12 June 1998 author manuscript, §3.1 Proposition 3.2 and §3.2 Lemma 3.3 for the
   classical and p-adic Hecke comparisons (rhodes-shemanske lines 364–411).
@@ -1174,8 +1386,9 @@ or the Galois-group assertion (leanbridge lines 39–45 and 698–718).
 - P. Deligne and J.-P. Serre, [*Formes modulaires de poids 1*](https://www.numdam.org/item/ASENS_1974_4_7_4_507_0/),
   Annales scientifiques de l'École normale supérieure 7 (1974), 507–530:
   §§2.1–2.6, pp.510–512, Proposition 2.7 and Remark 2.8, p.512
-  (deligne-serre lines 128–224).
-- O. Forster, *Lectures on Riemann Surfaces*, GTM 81, 1981, §§12–19.
+  (deligne-serre lines 128–224; the Tate-curve identification at lines 168–194).
+- O. Forster, *Lectures on Riemann Surfaces*, GTM 81, 1981, §8 for the degree bound on
+  meromorphic function fields of branched coverings, §§12–19 for cohomology and duality.
 - A. Popa and D. Zagier, [*An elementary proof of the Eichler–Selberg trace formula*](https://arxiv.org/abs/1711.00327),
   arXiv:1711.00327v2, Theorem 1, §2 Corollary 1 and Proposition 2; §§3–4; published in J. Reine Angew. Math. 762 (2020), 105–122.
 - W. Stein, [*Modular Forms: A Computational Approach*](https://wstein.org/books/modform/stein-modform.pdf),
