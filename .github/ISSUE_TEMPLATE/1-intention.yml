@@ -84,6 +84,7 @@ body:
         - JacobianChallenge
         - KhovanovHomology
         - LFunctions
+        - LieGroupoidsPoisson
         - LocalPurity
         - MarkovChainsAndRenewal
         - MassFormula
