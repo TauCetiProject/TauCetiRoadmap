@@ -2556,7 +2556,7 @@ and Milnor/lim¹-vanishing hypotheses; retain the derived limit otherwise.
 For a fixed prime p and a Landweber-exact
 p-local coefficient module M with M/I_(n+1)=0 prove the represented theory is E(n)-local,
 and construct its p-completion Hasse square under the stated finiteness
-and completion hypotheses. EllipticCohomology E2 supplies the height≤2
+and completion hypotheses. EllipticCohomology E2 consumes it for the height≤2
 elliptic instance. Include the K(1)/K(2) comparisons and the arithmetic square for
 all spectra using derived p-completion, with vertices X, ∏_p X_p^∧,
 X_ℚ and (∏_p X_p^∧)_ℚ, proving its homotopy-cartesian comparison
