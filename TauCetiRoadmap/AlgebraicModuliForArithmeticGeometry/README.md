@@ -480,7 +480,7 @@ def projectiveBundle.projectiveSpaceCechComparison (A : Type u) [CommRing A] (n 
         (ULift.{u} (Fin (n + 1)))) m).obj q ≃+
       (projectiveTwistBasis n q m →₀ A)
 
-def IsCMRegular (k : Type u) [Field k] (n : ℕ)
+def cmRegularity (k : Type u) [Field k] (n : ℕ)
     (F : (projectiveSpace (Spec (.of k)) n).Modules) (m : ℤ) : Prop :=
   ∀ i : ℕ, 0 < i → Subsingleton (Cohomology
     (MonoidalCategory.tensorObj F
@@ -1301,7 +1301,7 @@ The API provides:
 
 ### 3.2 Tensor overlap and coalgebra comparison
 
-Throughout this topic, Commutative rings R,S in one fixed universe and an arbitrary ring homomorphism `f:R→S`; N is an arbitrary S-module. No faithful-flatness, finite-generation or Noetherian assumption..
+Throughout this topic, R and S are commutative rings in one fixed universe, `f:R→S` is an arbitrary ring homomorphism, and N is an arbitrary S-module. No faithful-flatness, finite-generation or Noetherian assumption is made.
 
 Prove `ModuleDescentBridge.tensor_comonad_coordinates`. Let L=extendScalars f, U=restrictScalars f and G=(extendRestrictScalarsAdj f).toComonad. Source: Stacks, Lemma 35.3.2, displayed σ00, δ21 and δ22.
 
@@ -1608,7 +1608,7 @@ the tensor-overlap construction of §3.2.)
 ```lean
 open _root_.AlgebraicGeometry
 
-noncomputable def QCohPseudofunctor : LocallyDiscrete Scheme.{u}ᵒᵖ ⥤ᵖ Cat
+noncomputable def quasicoherentPseudofunctor : LocallyDiscrete Scheme.{u}ᵒᵖ ⥤ᵖ Cat
 
 namespace AffineModuleDescent
 
@@ -1871,7 +1871,7 @@ Tau Ceti's quasi-coherent pullback and tilde comparison (`TauCeti.AlgebraicGeome
 
 ### 4.1 Gerbes and relative locality
 
-Throughout this topic, A specified site `(C,J)`, with fixed object and morphism universes; all stacks have groupoid fibres..
+Throughout this topic, `(C,J)` is a specified site with fixed object and morphism universes, and all stacks have groupoid fibres.
 
 Define `IsGerbe`. For `F : C`ᵒᵖ → Cat a pseudofunctor, IsGerbe(F,J) extends the IsStack predicate, asserts every fibre arrow invertible, and asserts local nonemptiness and local isomorphism of every pair of objects. Formulate locality by covering sieves: for each U choose `R∈J(U)` with a fibre object over every arrow `V→U` in R.
 
@@ -1884,14 +1884,6 @@ The API provides:
 - Each U has a J-covering sieve on which the fibre categories are nonempty.
 - Each pair of fibre objects becomes isomorphic on a J-covering sieve.
 - A pseudonatural equivalence over C preserves and reflects IsGerbe.
-- For an abelian sheaf A on the chosen site with terminal object S, BA is a neutral A-gerbe and its class in derived `H2(S,A)` is zero.
-- For algebraically closed k, `n>1` invertible in k, the nth-root gerbe of `O(1)` on `P1_k` has derived Kummer class `δ([O(1)])` and has no global object.
-- For algebraically closed k and `n≥2` invertible in k, `RootGerbe_n(O(1))` is locally nonempty but not neutral; an nth root would have degree `1/n`.
-- For a fixed abelian sheaf A on the chosen site with terminal object and the stated derived-H1 and injective-neutralization inputs, band-preserving equivalence classes of A-gerbes correspond to derived `H2(A)`; the zero class is exactly the neutral class.
-- For the geometric morphism and exact inverse-image/cohomology comparison in `classSitePullback`, pullback carries A-bandings to `f* A`-bandings and carries the gerbe class to its change-of-site pullback class.
-- For a neutral A-gerbe with a chosen neutralization, band-preserving self-equivalences and invertible modifications form a groupoid equivalent to the groupoid of A-torsors and equivariant isomorphisms; composition corresponds to contracted product.
-- For the specified small cofiltered finite-gerbe diagram and coherent presentation, an object of its fpqc 2-limit over T consists of finite-stage objects and compatible transition isomorphisms with unit/composition laws; arrows are compatible families, not only isomorphism classes.
-- Over a field k, the fpqc classifying gerbe of `G=lim_m (Z/m!Z)_k` is a profinite étale gerbe but not an algebraic stack of finite presentation: its trivial-object stabilizer G is not of finite type.
 
 *Needs:* Mathlib `CategoryTheory.Pseudofunctor.IsStack`, Mathlib `CategoryTheory.Pseudofunctor.IsPrestack`, Mathlib `CategoryTheory.Aut`.
 
@@ -1900,13 +1892,6 @@ The API provides:
 - The classifying stack BA of any sheaf of groups (SchemeAndStackFoundations §1.21) is a gerbe.
 - On the one-point site with only the maximal cover, the discrete groupoid on two objects is a stack but not a gerbe.
 - For algebraically closed k and `n>1` invertible in k, the nth-root gerbe of `O(1)` on P1 is a gerbe with no global object.
-- For an abelian sheaf A on the chosen site with terminal object S, BA is a neutral A-gerbe and its class in derived `H2(S,A)` is zero.
-- For algebraically closed k, `n>1` invertible in k, the nth-root gerbe of `O(1)` on `P1_k` has derived Kummer class `δ([O(1)])` and has no global object.
-- For a fixed abelian sheaf A on the chosen site with terminal object and the stated derived-H1 and injective-neutralization inputs, band-preserving equivalence classes of A-gerbes correspond to derived `H2(A)`; the zero class is exactly the neutral class.
-- For the geometric morphism and exact inverse-image/cohomology comparison in `classSitePullback`, pullback carries A-bandings to `f* A`-bandings and carries the gerbe class to its change-of-site pullback class.
-- For a neutral A-gerbe with a chosen neutralization, band-preserving self-equivalences and invertible modifications form a groupoid equivalent to the groupoid of A-torsors and equivariant isomorphisms; composition corresponds to contracted product.
-- For the specified small cofiltered finite-gerbe diagram and coherent presentation, an object of its fpqc 2-limit over T consists of finite-stage objects and compatible transition isomorphisms with unit/composition laws; arrows are compatible families, not only isomorphism classes.
-- Over a field k, the fpqc classifying gerbe of `G=lim_m (Z/m!Z)_k` is a profinite étale gerbe but not an algebraic stack of finite presentation: its trivial-object stabilizer G is not of finite type.
 
 Prove `IsGerbe.equivalence_iff`. If `E:F≃G` is an equivalence over `(C,J)`, IsGerbe(F,J) iff IsGerbe(G,J).
 
@@ -5062,7 +5047,7 @@ Here A specified arbitrary site `(C,J)`, Cat-valued pseudofunctors F,G with IsGe
 
 ### 4.10 Banded transformations and composition
 
-Throughout this topic, A specified arbitrary site `(C,J)`, Cat-valued pseudofunctors F,G with IsGerbe, one actual abelian sheaf A and actual bandings bF,bG; η is the StrongTrans and preserves the fixed band.; An actual source isomorphism is required only by anchored inverse, equivalence and surjectivity constructions. Their local existence does not provide a global anchor.; Coefficients and fibre Hom types share one universe; arbitrary base/object universes are retained. No resizing, bottom-topology, finite, terminal-object or neutralization assumption is made..
+Throughout this topic, `(C,J)` is a specified arbitrary site, F and G are Cat-valued pseudofunctors with IsGerbe, A is one actual abelian sheaf with actual bandings bF and bG, and η is the StrongTrans, which preserves the fixed band. An actual source isomorphism is required only by anchored inverse, equivalence and surjectivity constructions; their local existence does not provide a global anchor. Coefficients and fibre Hom types share one universe, and arbitrary base/object universes are retained. No resizing, bottom-topology, finite, terminal-object or neutralization assumption is made.
 
 Prove `BandPreserving.comp`. The vertical composite of two transformations preserving the same fixed band preserves that band; the component automorphism equation is the composite of the two given equations.
 
@@ -8803,7 +8788,7 @@ For the proof, on a common fpqc neutralizing field extension both constructions 
 
 ### 5.2 Levels and quotient recovery
 
-Throughout this topic, To infer an algebraic space, trivial inertia is proved on all test schemes.; p is representable; all automorphism assertions are about sheaves..
+Throughout this topic, p is representable and all automorphism assertions are about sheaves. To infer an algebraic space, trivial inertia is proved on all test schemes.
 
 Prove `ArithmeticModuli.auxiliary_level_comparison`. A representable auxiliary-level morphism `p:L→X` identifies `Aut(ℓ)` with the stabilizer subgroup of `Aut(pℓ)` preserving the chosen level. It removes automorphisms by taking a subgroup and changes the objects; rigidification `X→X`▹G keeps locally lifted objects and takes the quotient `Aut(x)/G_x`. These operations coincide only after an additional comparison is proved. A rigidifier with trivial level-preserving automorphisms gives an algebraic-space moduli object if its full sheaf-valued inertia is trivial, but a coarse space merely records geometric isomorphism classes. Concrete elliptic rigidifiers are those of ModularCurves §4C; abelian and PEL levels belong to AbelianSchemesAndArithmeticModuli and PELModuli.
 
@@ -8878,7 +8863,7 @@ Prove `ArithmeticModuli.FiniteCorrespondence.fpqc_descent`. For an fpqc cover `S
 
 Here the endpoint hypotheses of finite-correspondence; An actual fpqc descent datum is supplied on the middle stack and both legs, not merely matching geometric isomorphism classes.
 
-([Stacks](https://stacks.math.columbia.edu/download/spaces-descent.pdf), Proposition 74.4.1 and Lemmas 74.11.23 (0426), 74.11.29 (042C); AlgebraicVectorBundles L1A–L1B; Suggested.lean, relativeSpecUniversalProperty, relativeSpecPushforwardIso, relativeSpecBaseChangeIso and relativeSpecEquiv).
+([Stacks](https://stacks.math.columbia.edu/download/spaces-descent.pdf), Proposition 74.4.1 and Lemmas 74.11.23 (0426), 74.11.29 (042C); AlgebraicVectorBundles L1A–L1B (`relativeSpecUniversalProperty`, `relativeSpecPushforwardIso`, `relativeSpecBaseChangeIso` and `relativeSpecEquiv` in its `Suggested.lean`)).
 
 For the proof, regard the joint finite map as a commutative quasi-coherent finite algebra on `X×_S Y`; then descend this algebra, its multiplication and unit using SchemeAndStackFoundations §1.1 and the stack chart version of SchemeAndStackFoundations §1.22; then recover the middle as the relative Spec of the descended algebra: on each scheme chart it is AlgebraicVectorBundles L1A's relative Spec, which commutes with base change (L1B), so the chart spectra descend along the presentation (affine morphisms satisfy fpqc descent, ModularCurves §0E); descend each leg and the leg compatibility 2-isomorphisms; then finiteness and finite local freeness are fpqc local on the target. Descend morphisms by full faithfulness of algebra descent.
 
@@ -8898,7 +8883,7 @@ Prove `ArithmeticModuli.tame_finite_flat_descent`. Let `π:X→M` be the coarse 
 
 Here X is locally Noetherian, tame, and has finite inertia; p is representable finite locally free; All closed geometric stabilizers act trivially on A fibres.
 
-([Jarod Alper](https://www.numdam.org/item/10.5802/aif.2833.pdf), Theorem 10.3 and Remark 10.4, pp.2386–2387; [Dan Abramovich, Martin Olsson, Angelo Vistoli](https://www.numdam.org/item/10.5802/aif.2378.pdf), Definition 3.1 and Theorem 3.2, pp.1077–1078; AlgebraicVectorBundles L1A–L1B; Suggested.lean, relativeSpecUniversalProperty, relativeSpecPushforwardIso, relativeSpecBaseChangeIso and relativeSpecEquiv).
+([Jarod Alper](https://www.numdam.org/item/10.5802/aif.2833.pdf), Theorem 10.3 and Remark 10.4, pp.2386–2387; [Dan Abramovich, Martin Olsson, Angelo Vistoli](https://www.numdam.org/item/10.5802/aif.2378.pdf), Definition 3.1 and Theorem 3.2, pp.1077–1078; AlgebraicVectorBundles L1A–L1B (`relativeSpecUniversalProperty`, `relativeSpecPushforwardIso`, `relativeSpecBaseChangeIso` and `relativeSpecEquiv` in its `Suggested.lean`)).
 
 For the proof, exact coarse QCoh pushforward and `O_M≅π_*O_X` make this tame coarse morphism a good moduli space in Alper’s sense; then apply Alper Theorem 10.3 to the vector bundle A; then full faithfulness of pullback on vector bundles descends multiplication and unit; faithfulness verifies associativity, commutativity and the unit identities; then form the relative Spec of the descended algebra chartwise (AlgebraicVectorBundles L1A) and use its compatibility with arbitrary base change (L1B) to obtain the cartesian square and rank preservation.
 
@@ -9661,7 +9646,7 @@ For the proof, an invertible-sheaf automorphism is multiplication by a unique gl
 
 ### 7.6.1 Relative classes and section rigidifications
 
-Throughout this topic, A scheme S, algebraic spaces X and B over S, and a specified S-morphism `f:X→B`.; Test objects are schemes `T→B` in a fixed-universe model of Sch/B with the fppf topology; `X_T=X×_B T` and `f_T:X_T→T`. Pic uses invertible modules on the small étale ringed sites..
+Throughout this topic, S is a scheme, X and B are algebraic spaces over S, and `f:X→B` is a specified S-morphism. Test objects are schemes `T→B` in a fixed-universe model of Sch/B with the fppf topology; `X_T=X×_B T` and `f_T:X_T→T`. Pic uses invertible modules on the small étale ringed sites.
 
 Define `relativePicardSheaf`. For `f:X→B`, define PicX/B as the fppf sheafification on Sch/B of `T↦Pic`(XT), where Pic denotes invertible modules up to isomorphism. Equivalently sheafify the quotient presheaf Pic(XT)/fT*`Pic(T)`, since every line bundle on T is locally trivial. Tensor product supplies the abelian group law.
 
@@ -9726,9 +9711,9 @@ The API provides:
 
 ### 7.6.1a Rigidified representatives
 
-Throughout this topic, A scheme S, algebraic spaces X and B over S, and a specified S-morphism `f:X→B`.; A specified S-morphism `σ:B→X` with `f∘σ=id_B` and its induced sections `σ_T:T→X_T`.; For every scheme `T→B`, the canonical map of sheaves of rings `O_T→(f_T)_*O_(X_T)` is an isomorphism; the compatible comparison on global units is supplied.; Test objects are schemes `T→B` in a fixed-universe model of Sch/B with the fppf topology; `X_T=X×_B T` and `f_T:X_T→T`. Pic uses invertible modules on the small étale ringed sites..
+Throughout this topic, S is a scheme, X and B are algebraic spaces over S, `f:X→B` is a specified S-morphism, and `σ:B→X` is a specified S-morphism with `f∘σ=id_B` and induced sections `σ_T:T→X_T`. For every scheme `T→B`, the canonical map of sheaves of rings `O_T→(f_T)_*O_(X_T)` is an isomorphism, and the compatible comparison on global units is supplied. Test objects are schemes `T→B` in a fixed-universe model of Sch/B with the fppf topology; `X_T=X×_B T` and `f_T:X_T→T`. Pic uses invertible modules on the small étale ringed sites.
 
-Prove `sectionPicardSplit`. If `σ:B→X` is a section and OT→fT*OXT is an isomorphism for all `T→B`, then `0→Pic(T)→Pic`(XT)→PicX/`B(T)→0` is split exact, with retraction σT*. Equivalently PicX/`B(T)≅ker` σT*, naturally in T.
+Prove `sectionPicardSplit`. If `σ:B→X` is a section and OT→fT*OXT is an isomorphism for all `T→B`, then `0→Pic(T)→Pic(X_T)→Pic_{X/B}(T)→0` is split exact, with retraction `σ_T^*`. Equivalently `Pic_{X/B}(T) ≅ ker σ_T^*`, naturally in T.
 
 ([Stacks](https://stacks.math.columbia.edu/tag/0D24), Lemma 99.11.4 and proof).
 
@@ -9744,7 +9729,7 @@ Prove `properSpaceNormalizationExcellent`. An algebraic space of finite type ove
 
 ### 7.6.3 Polarized Isom comparison
 
-Prove `polarisedIsomScheme`. Let S be locally Noetherian, X, `Y → S` projective flat, L on X and M on Y invertible, and assume the fppf relative Picard functor `Pic_{Y/S}` is represented by a separated S-scheme (for instance by ComplexComparisonPartII §C3.2d.2 `relative_picard_algebraicSpace` when that space is a scheme, or by Kleiman for projective flat families with geometrically integral fibres). Then the subfunctor of `Isom_S(X,Y)` of φ for which the relative Picard classes of `φ^*M` and L agree is represented by a closed subscheme `Isom_S((X,L),(Y,M))`, the pullback of the diagonal of `Pic_{Y/S}` along `φ ↦ [(φ^{-1})^*L]` and `φ ↦ [M]`; `Aut_S((X,L))` is a closed subgroup scheme of `Aut_S(X)`. No statement is made without separatedness of `Pic_{Y/S}`. Checks: `Isom_k((P¹,O(1)),(P¹,O(1))) = PGL_2`; `Isom((E,O(p)),(E,O(p)))` is the finite group `Aut(E,p)`.
+Prove `polarisedIsomScheme`. Let S be locally Noetherian, X, `Y → S` projective flat, L on X and M on Y invertible, and assume the fppf relative Picard functor `Pic_{Y/S}` is represented by a separated S-scheme (for instance by Kleiman, Theorem 9.4.8, for projective flat families with geometrically integral fibres). Then the subfunctor of `Isom_S(X,Y)` of φ for which the relative Picard classes of `φ^*M` and L agree is represented by a closed subscheme `Isom_S((X,L),(Y,M))`, the pullback of the diagonal of `Pic_{Y/S}` along `φ ↦ [(φ^{-1})^*L]` and `φ ↦ [M]`; `Aut_S((X,L))` is a closed subgroup scheme of `Aut_S(X)`. No statement is made without separatedness of `Pic_{Y/S}`. Checks: `Isom_k((P¹,O(1)),(P¹,O(1))) = PGL_2`; `Isom((E,O(p)),(E,O(p)))` is the finite group `Aut(E,p)`.
 (Kleiman, The Picard scheme, arXiv:math/0504020, Theorem 4.8, pp. 27–28 (published numbering 9.4.8); Mathlib `AlgebraicGeometry.IsSeparated`.)
 *Needs:* §2.1, SchemeAndStackFoundations §3.4, Tau Ceti `TauCeti.AlgebraicGeometry.rigidifiedPicardFunctor`.
 Equality of classes means equality after fppf sheafification. A global formula `φ^*M ≅ L ⊗ f_T^*N` follows when `O_T ≅ f_{T*}O_{X_T}` universally (the kernel theorem below); it is not part of the assertion for arbitrary projective flat families. The sheaf-equality check distinguishes this local condition from a chosen global line-bundle isomorphism.
