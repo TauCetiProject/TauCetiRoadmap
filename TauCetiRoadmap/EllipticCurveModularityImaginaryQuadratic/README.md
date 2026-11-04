@@ -43,7 +43,9 @@ prescribed-type elliptic construction, including its cohomological and
 non-CM outputs; §5.1 owns Serre's theorem that a geometrically non-CM
 elliptic curve over a number field has mod-p image containing SL₂(𝔽_p)
 for all but finitely many p, as the target
-`nonCM_elliptic_large_residual_primes`. AdelicImagesAndModularCurves §4.3
+`nonCM_elliptic_large_residual_primes`; the all-but-finitely-many form is
+owned here because ModularityAndLanglandsExtensions §2.18 consumes its
+finite exceptional set. AdelicImagesAndModularCurves §4.3
 states the stronger surjectivity onto GL₂(𝔽_ℓ) for all but finitely many
 ℓ; its own inputs lie beyond this roadmap in the supplier order, so that
 statement is downstream of the inclusion owned here and supplies nothing
@@ -142,13 +144,13 @@ The named outputs below are consumed with their hypotheses. Roadmap interfaces a
 | `LefschetzPencilsAndVanishingCycles`, LPV.2 §2.8 and LPV.7a nodal-curve monodromy | Picard–Lefschetz and the local smoothing-order-one transvection. Layer 3 supplies this family's actual cycles, integral marking and common transport, rather than assuming its monodromy is that of a Lefschetz pencil. |
 | `SmallRamificationAndAbelianVarietyBaseCases` §5.0d | Shared `AutomorphicSystemData` for an arbitrary number field and rank, with coefficient field, good polynomials, finite realization fields and labelled Hodge data. Its operations are separate from compatibility predicates. Populate this carrier in §4.1; do not create a competing rank-two carrier. |
 | `PotentialModularityAndCompatibleSystems`, Layer 1 (§§1.1–1.4), together with `AutomorphicGaloisRepresentations` §7.1 | Compatibility predicates, coefficient extension, finite restriction, residual semisimplification and common-polynomial recognition, adapted to the single shared raw carrier above. Potential modularity Layer 5 is a transitive input to the residual-modularity supplier, not a hypothesis on E. |
-| `ArithmeticGaloisRepresentations`, Layers 1–2, §§4.2–4.7, Layers 5–6 | Full WD carrier and conventions; restriction and persistence of an assumed large image, commutators, Goursat, Chebotarev and Brauer–Nesbitt recognition; dual Tate modules and determinant; [§6.1 `TateModule.residualRep`](../ArithmeticGaloisRepresentations/README.md#elliptic-residual-representation) supplies the basis-free action on elliptic p-torsion over each number field, with scalar extension and change of basis. Section 5.1 owns Serre's non-CM elliptic large-prime existence theorem and consumes §§4.4–4.5 and the tame and fundamental inertia characters of §2.3 for its proof; Layer 7 owns the simultaneous all-character specialization. |
+| `ArithmeticGaloisRepresentations`, Layers 1–2, §§4.2–4.7, Layers 5–6 | Full WD carrier and conventions; restriction and persistence of an assumed large image, commutators, Goursat, Chebotarev and Brauer–Nesbitt recognition; dual Tate modules and determinant; [§6.1 `TateModule.residualRep`](../ArithmeticGaloisRepresentations/README.md#elliptic-residual-representation) supplies the basis-free action on elliptic p-torsion over each number field, with scalar extension and change of basis. Section 5.1 owns Serre's non-CM elliptic large-prime existence theorem and consumes §§4.4–4.5 for its proof; Layer 7 owns the simultaneous all-character specialization. |
 | `FaltingsFinitenessAndIsogenyTheorems`, R28.4, §§R28.6.2–R28.6.3 and R28.6.5–R28.6.6 | Semisimplicity of the rational Tate representation of an abelian variety, preserved on deck-character summands; for §5.1, the elliptic semisimplicity and Tate Hom comparison, the finiteness of the isogeny class of an elliptic curve over a number field and the infinite cyclic group of homomorphisms to an isogenous curve without extra endomorphisms. |
 | `AutomorphicGaloisRepresentations` §3.13 (geometric characters and algebraic Hecke characters), and `AutomorphicGaloisRepresentationsPartII` AG2.0, `AlgHeckeChar.galoisChar` | A continuous rank-one character over a finite extension of Q_ℓ, finitely ramified and de Rham above ℓ, is an algebraic Hecke-character avatar; conversely such avatars have the prescribed labelled Hodge degrees and local class-field parameters. Together with CM endomorphism eigenspaces and common Frobenius polynomials, this supplies the CM comparison in §8.6. No higher-rank Fontaine–Mazur assertion is consumed. |
 | `CrystallineLocalGlobalCompatibilityCM` §§7.5–7.6, 8.7 and 9.1–9.12 | CN's general-rank integral deformation factorization and fixed-determinant refinement; non-neat PGL₂ perfectness and derived augmentation; prepared deformation–Hecke maps with uniform nilpotence, paired support and prepared lifting. The §9.12 export retains `[F(ζ_p):F] ≠ 3` or projective image different from A₄. Section 0.1 supplies the additional preparation branch, and §5.2 consumes that qualified export without copying its arithmetic construction. |
 | LocalGaloisDeformationRings Layers 1–6 and 8; GlobalGaloisDeformations R04.3–R04.6; DeformationAndDerivedPatchingAlgebra §§8.2–8.5 and 9.4–9.7 | Local crystalline/ordinary components, global deformation rings, finite-complex patching, paired residual data and spectral support transport. Layer 0 constructs the distinct AKT ordinary and dyadic arithmetic inputs on these interfaces. |
 | ArithmeticLocallySymmetricSpaces ALS.1.2–ALS.1.7, ALS.4.9 and ALS.5a.6; ModularCurves §0E and §5C; ModularCurvesPartII §§5.13–5.14 | Equivariant Hecke complexes and compactified full-level twists for rational representations and their base changes. Layer 0 supplies GL₂ non-neat non-Eisenstein perfectness, arbitrary-number-field paired twists, rationality and the independent AKT seed. |
-| PadicHodgeTheory §3.6 and §§8.1–8.2, 9.1–9.4; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.19, R07.4.19, R07.5 and R07.6.1 | Labelled ordinary flags, proper-smooth/semistable comparisons, Tate's Hodge–Tate decomposition of the Tate module of a p-divisible group and the Kummer crystalline criterion. The independent CM ordinary/dihedral lifting proofs are §0.1; §8.1 proves the automorphic ordinary calculation for all quadratic Steinberg twists. |
+| PadicHodgeTheory §3.6 and §§8.1–8.2, 9.1–9.4; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.19, R07.4.19, R07.5 (in particular R07.5.1–R07.5.3) and R07.6.1 | Labelled ordinary flags, proper-smooth/semistable comparisons, Tate's Hodge–Tate decomposition of the Tate module of a p-divisible group, the Kummer crystalline criterion and the images of inertia on E[p] at places of good ordinary and supersingular reduction consumed in §5.1. The independent CM ordinary/dihedral lifting proofs are §0.1; §8.1 proves the automorphic ordinary calculation for all quadratic Steinberg twists. |
 | `AutomorphicGaloisRepresentationsPartII`, AG2.4–AG2.7 | Attached semisimple Galois representations, common good-place polynomials and Varma's underlying semisimplified Weil comparison at v∤ℓ. Full ramified nonselfdual N equality is not an input for an arbitrary intermediate π. Layer 8 derives precisely what it needs. |
 | `InverseGaloisAndArithmeticFundamentalGroups`, IG.0 arithmetic fundamental groups and IG.2 “Hilbert specialization with local conditions” | Hilbert subsets are dense in finite products of local opens on affine space. Apply also to connected finite covers with a constant field. Layer 7 identifies the finite quotient and its constant-field kernel. No Hilbert theorem for an arbitrary variety is assumed. |
 | `GL2AutomorphicRepresentationsAndTransfer`, R16.3–R16.6, R17.4 | prime-cyclic all-place base change (§R17.4.3), descent (§R17.4.4), cyclic-descent fibers, soluble towers and `quadraticInduction` with local compatibility, central character and twists; strong multiplicity one. Used in §§8.4–8.6. |
@@ -1464,14 +1466,17 @@ nonzero elements have degree a square times a fixed integer
 images are excluded once p≥7 by the image of inertia at a place of good
 reduction above a prime p unramified in k: it contains a semisimple
 element of projective order p−1 (good ordinary) or p+1 (supersingular),
-larger than every element order of A₄, S₄ and A₅. This inertia
-computation is proved here from the tame and fundamental characters of
-ArithmeticGaloisRepresentations §2.3 and the formal group and reduction
-of EllipticCurves Layers 1 and 4. The Cartan-normalizer case is excluded,
+larger than every element order of A₄, S₄ and A₅. The inertia images
+are those of FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.5.2–R07.5.3,
+built on R07.5.1: in the ordinary case `diag(u,1)` with u a generator of
+𝔽_p^× has projective order p−1, and in the supersingular case a generator
+of 𝔽_{p²}^× has image of order (p²−1)/(p−1)=p+1 in PGL₂(𝔽_p). The
+Cartan-normalizer case is excluded,
 as in Serre, through the p₀-adic image at one fixed auxiliary prime p₀,
 using the finiteness of the quadratic characters of G_k unramified
-outside a fixed finite set (Mathlib `NumberField.finite_of_discr_bdd_of_isReal`
-and `NumberField.finite_of_discr_bdd_of_isComplex`), the integrality of
+outside a fixed finite set (Hermite's theorem, Mathlib
+`NumberField.finite_of_discr_bdd` in
+`Mathlib.NumberTheory.NumberField.Discriminant.Basic`), the integrality of
 Frobenius traces and Chebotarev (ArithmeticGaloisRepresentations
 §§4.2–4.7); the openness of that p₀-adic image for a
 geometrically non-CM curve is proved here from the semisimplicity and Hom
@@ -1486,13 +1491,12 @@ For every sufficiently large prime and every torsion basis, each matrix
 in SL₂(𝔽p) is realized by a Galois automorphism. The basis type is
 inhabited by Tau Ceti's rank-two finite-torsion theorem.
 
-*Needs:* ArithmeticGaloisRepresentations Layers 1–2, §§2.3, 4.4–4.5 and
+*Needs:* ArithmeticGaloisRepresentations Layers 1–2, §§4.4–4.5 and
 [§6.1 `TateModule.residualRep`](../ArithmeticGaloisRepresentations/README.md#elliptic-residual-representation),
 with §6.2 for its determinant; FaltingsFinitenessAndIsogenyTheorems
 R28.6.2–R28.6.3 and R28.6.5–R28.6.6; FiniteFlatGroupsAndIntegralPadicHodgeTheory
-R07.1.19; EllipticCurves Layers 1 and 4; Mathlib
-`NumberField.finite_of_discr_bdd_of_isReal` and
-`NumberField.finite_of_discr_bdd_of_isComplex`; Chebotarev through
+R07.1.19 and R07.5.1–R07.5.3; EllipticCurves Layers 1 and 4; Mathlib
+`NumberField.finite_of_discr_bdd`; Chebotarev through
 ArithmeticGaloisRepresentations §§4.2–4.7. Its §4.7 supplies restriction
 and persistence after this existence theorem, rather than its proof.
 
@@ -1921,7 +1925,12 @@ A quadratic twist only changes both eigenvalues by the same sign.
 The geometric specialization below can be stated for a general number
 field k of degree d. Apply §5.1 `nonCM_elliptic_large_residual_primes`
 to E over the fixed normal closure of k, and choose p outside its finite
-exceptional set with p>max{100,2d+1}. Thus E[p] over that normal closure
+exceptional set with p>max{100,2d+1}. Only one such prime is used, so
+PotentialAutomorphyInfrastructure §2.26 `corrected_rank_two_large_image`
+also supplies it: the compatible system of E is strongly irreducible by
+FaltingsFinitenessAndIsogenyTheorems R28.6.2–R28.6.3 applied over every
+finite extension, and a density-one set of primes contains one above any
+bound. Thus E[p] over that normal closure
 has SL₂(F_p) in its image. Adjoining
 the required cyclotomic constants is abelian over that normal closure,
 so perfectness preserves SL₂. Apply the same subdirect-product argument
@@ -2063,7 +2072,10 @@ small residual exceptions of E disappear from the endpoint's hypotheses.
 
 Layers 3–4 supply integral monodromy and residual systems; Layer 6 supplies
 nonempty local opens. Section 5.1 `nonCM_elliptic_large_residual_primes`
-supplies large-prime existence over the normal closure.
+supplies large-prime existence over the normal closure;
+PotentialAutomorphyInfrastructure §2.26 with
+FaltingsFinitenessAndIsogenyTheorems R28.6.2–R28.6.3 supplies the single
+prime of §7.2 without its finite exceptional set.
 ArithmeticGaloisRepresentations §§4.2–4.7 supplies image persistence,
 subdirect-product reasoning and Chebotarev. IG.0 and IG.2 supply
 finite arithmetic fundamental-group quotients and Hilbert irreducibility
