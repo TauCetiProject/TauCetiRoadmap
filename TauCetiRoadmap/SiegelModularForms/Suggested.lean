@@ -30,10 +30,16 @@ Headline theorems not statable at the pins, and what each lacks:
   pullback to the upper-left block;
 * the theta transformation law for lattices of odd rank (5.2): the holomorphic square root of
   `det(τ/i)` on `ℍ_g`, which for `g ≥ 3` is not the principal branch;
-* Tsushima's dimension formula (6.4): the quasi-polynomial in `(k, j)` is cited from Tsushima
-  1983 and not transcribed; Igusa's `Γ₂(2)` ring, the `Γ₀(2)`, `Γ₀(3)`, `Γ₀(4)` rings and the
-  degree-three and degree-four classifications (6.5–6.9): the principal congruence subgroup
-  `Γ₂(2)`, the characters `ψ₃`, `ψ₄` and the theta constants as generators are not in this file;
+* Igusa's `Γ₂(2)` ring, the `Γ₀(2)`, `Γ₀(3)`, `Γ₀(4)` rings and the
+  degree-three and degree-four classifications (6.5–6.9): the characters `ψ₃`, `ψ₄` and the
+  theta constants as generators are not in this file (the principal congruence subgroup
+  `Γ₂(2)` is `gammaN 2 2` below, on which the two dimension formulas of 6.5 are stated);
+  two statable formulas are not stated for a different reason: Tsushima's dimension formula
+  for `S_{k,j}(Γ₂)` (6.4) and Ibukiyama's formula for `S_k(K(p))`, `k ≥ 5` (10.1), are
+  quasi-polynomials on carriers of this file (`cuspSubmodule (Gamma 2) (rho k j)` and
+  `cuspSubmodule (paramodularR p) (rho k 0)`) whose explicit forms the README cites and has not
+  transcribed, so no formula is written here in their place; the weight-four paramodular case
+  is stated (`finrank_cusp_paramodular_four`);
 * the Satake isomorphism and the Satake parameters (7.4): the Hecke algebra as a ring with its
   characters;
 * the spinor and standard `L`-functions as Euler products, their functional equations and the
@@ -53,8 +59,11 @@ indexed by `Fin g ⊕ Fin g`, so that the symplectic group is Tau Ceti's `GLSymp
 (a subgroup of `GL (Fin g ⊕ Fin g) R` whose matrices lie in Mathlib's `Matrix.symplecticGroup`,
 `M J Mᵀ = J` for Mathlib's `J`), and the blocks are `toBlocks₁₁ … toBlocks₂₂`.
 
-The scalar and vector-valued forms, Fourier coefficients, Igusa and Satoh decompositions,
-Maass-space dimensions, Saito–Kurokawa eigenvalue identity and coefficient-field finiteness
+The scalar and vector-valued forms, Fourier coefficients, the degree-one comparison with
+Mathlib's `ModularForm`, the singular-form theorem, Igusa and Satoh decompositions, the level-two
+dimension formulas, the eigenbasis of cusp forms for every weight, the weight-four paramodular
+dimension formula, Maass-space dimensions, Saito–Kurokawa eigenvalue identity and
+coefficient-field finiteness
 are stated on the actual analytic carriers defined below. The general lattice theta inversion
 is stated in even rank. The separate unimodular modularity theorem is supplied by
 `LevelOneAutomorphicFormsForClassicalGroups` LO.6/higher-genus-theta and is not restated.
@@ -372,6 +381,11 @@ def Sp.intToReal : Sp g ℤ →* Sp g ℝ := TauCeti.GLSymplectic.map (Fin g) (I
 /-- `Γ₀^{(g)}(N)` as a subgroup of `Sp_{2g}(ℝ)` (0.6). -/
 def Gamma0 (g N : ℕ) : Subgroup (Sp g ℝ) := (Gamma0Z g N).map Sp.intToReal
 
+/-- The **principal congruence subgroup** `Γ_g(N)`, the kernel of reduction modulo `N`, as a
+subgroup of `Sp_{2g}(ℝ)` (0.6); every statement about it carries `N ≥ 1`, since `ZMod 0 = ℤ`
+makes `Γ_g(0)` the trivial group. -/
+def gammaN (g N : ℕ) : Subgroup (Sp g ℝ) := (Sp.reduce g N).ker.map Sp.intToReal
+
 /-- **Arithmetic subgroups** of `Sp_{2g}(ℝ)`: those commensurable with `Γ_g` (0.6), the exact
 analogue of Mathlib's degree-one `IsArithmetic`. -/
 def IsArithmetic (Γ : Subgroup (Sp g ℝ)) : Prop := Subgroup.Commensurable Γ (Gamma g)
@@ -618,8 +632,10 @@ def mul {k l : ℤ} (f : SiegelModularForm Γ (detWeight g k)) (h : SiegelModula
 
 /-- The **parity lemma** (1.3): if `−1 ∈ Γ` and `ρ(−1)` fixes no nonzero vector of `V` then
 `M_ρ(Γ) = 0`. Slashing by `−1` gives `ρ(−1) f(τ) = f(τ)` for every `τ`, so every value of `f` is
-fixed by `ρ(−1)`; for irreducible `ρ` the hypothesis is `ρ(−1) ≠ 1`, and for the reducible
-`ρ = det⁰ ⊕ det¹` with `ρ(−1) = diag(1, −1)` the constant `(1, 0)` is a nonzero form. -/
+fixed by `ρ(−1)`; for irreducible `ρ` the hypothesis is `ρ(−1) ≠ 1`, and in degree `g = 1` the
+reducible `ρ = det⁰ ⊕ det¹` with `ρ(−1) = diag(1, det(−1)) = diag(1, −1)` has the constant
+`(1, 0)` as a nonzero form, so the fixed-vector hypothesis cannot be weakened to `ρ(−1) ≠ 1`
+(in even degree `det(−1_g) = 1` and that `ρ` has `ρ(−1) = 1`). -/
 theorem eq_zero_of_neg_one_mem (hΓ : ∀ γ : Sp g ℝ, (γ : GL (Fin g ⊕ Fin g) ℝ) = -1 → γ ∈ Γ)
     (hρ : ∀ v : V, ρ.rep (-1) v = v → v = 0) (f : SiegelModularForm Γ ρ) : f = 0 := sorry
 
@@ -632,6 +648,39 @@ theorem vector_eq_zero_of_odd (k : ℤ) (j : ℕ) (hj : Odd j) (f : SiegelModula
     f = 0 := sorry
 
 end SiegelModularForm
+
+/-- `Sp₂(ℝ) → GL (Fin 2) ℝ`: the underlying matrix reindexed through `Fin 1 ⊕ Fin 1 ≃ Fin 2`
+(0.1, the degree-one bridge). -/
+def spOneToGL : Sp 1 ℝ →* GL (Fin 2) ℝ :=
+  (Units.map (Matrix.reindexAlgEquiv ℝ ℝ finSumFinEquiv).toAlgHom.toRingHom.toMonoidHom).comp
+    (Sp 1 ℝ).subtype
+
+/-- The `1 × 1` matrix `(z)` has positive definite imaginary part for `z ∈ ℍ` (0.3); a proof
+obligation of `ofUpperHalfPlane`. -/
+theorem SiegelHalfSpace.posDef_im_of_upperHalfPlane (z : ℍ) :
+    ((Matrix.of fun _ _ : Fin 1 => (z : ℂ)).map Complex.im).PosDef := sorry
+
+/-- `ℍ → ℍ[1]`, `z ↦ (z)` (0.3). -/
+def SiegelHalfSpace.ofUpperHalfPlane (z : ℍ) : ℍ[1] :=
+  ⟨⟨Matrix.of fun _ _ => (z : ℂ), Matrix.IsSymm.ext fun _ _ => rfl⟩,
+    SiegelHalfSpace.posDef_im_of_upperHalfPlane z⟩
+
+/-- The image of a subgroup of `Sp₂(ℝ)` in `GL (Fin 2) ℝ` has determinant one (0.1); a proof
+obligation of the `ℂ`-module structure of Mathlib's `ModularForm` in the comparison below. -/
+theorem map_spOneToGL_hasDetOne (Γ : Subgroup (Sp 1 ℝ)) : (Γ.map spOneToGL).HasDetOne := sorry
+
+instance (Γ : Subgroup (Sp 1 ℝ)) : (Γ.map spOneToGL).HasDetOne := map_spOneToGL_hasDetOne Γ
+
+/-- **The degree-one comparison** (1.3): for an arithmetic `Γ ≤ Sp₂(ℝ)` the Siegel modular
+forms of weight `det^k` on `Γ` are Mathlib's modular forms of weight `k` on the image of `Γ` in
+`GL (Fin 2) ℝ`, by the identification of functions `z ↦ f((z))`: the boundedness field of
+`SiegelModularForm` is Mathlib's boundedness at the cusps, and the slash of 1.2 with the
+exponent `k − 1` is `ModularForm.slash`. -/
+theorem exists_equiv_modularForm_degreeOne (Γ : Subgroup (Sp 1 ℝ)) (hΓ : IsArithmetic Γ)
+    (k : ℤ) :
+    ∃ e : SiegelModularForm Γ (detWeight 1 k) ≃ₗ[ℂ] ModularForm (Γ.map spOneToGL) k,
+      ∀ (f : SiegelModularForm Γ (detWeight 1 k)) (z : ℍ),
+        e f z = f (SiegelHalfSpace.ofUpperHalfPlane z) := sorry
 
 /-! ## Layer 2: Fourier expansions and Koecher's principle -/
 
@@ -828,6 +877,18 @@ theorem fourierCoeff_isBigO {Γ : Subgroup (Sp g ℝ)} (hΓ : IsArithmetic Γ) (
     (hlat : ∀ (S : Matrix (Fin g) (Fin g) ℤ) (hS : S.IsSymm),
       translationInt ((N : ℤ) • S) (hS.smul _) ∈ Γ) : ∃ C : ℝ, ∀ T : HalfIntegral g, T.IsPosDef →
       ‖fourierCoeff N f T‖ ≤ C * (T.mat.det : ℝ) ^ k := sorry
+
+/-- A scalar form on `Γ_g` is **singular** when its Fourier coefficients vanish at every
+nonsingular half-integral `T` (2.6). -/
+def IsSingular {k : ℤ} (f : SiegelModularForm (Gamma g) (detWeight g k)) : Prop :=
+  ∀ T : HalfIntegral g, T.mat.det ≠ 0 → fourierCoeff 1 f T = 0
+
+/-- **The singular-form theorem** (2.6; Freitag, Saldaña, Weissauer, van der Geer Theorem 6.2 in
+scalar weight): for `g ≥ 1`, a nonzero `f ∈ M_k(Γ_g)` is singular if and only if `2k < g`. In
+particular `S_k(Γ_g) = 0` for `2k < g`, and `θ_{E₈}^{(g)} ∈ M_4(Γ_g)` is singular exactly for
+`g ≥ 9`. -/
+theorem isSingular_iff (hg : 0 < g) (k : ℤ) (f : SiegelModularForm (Gamma g) (detWeight g k))
+    (hf : f ≠ 0) : IsSingular f ↔ 2 * k < g := sorry
 
 /-! ## Layer 3: the Φ-operator, cusp forms, finite dimensionality -/
 
@@ -1030,7 +1091,8 @@ def wronskian (τ : ℍ[2]) : ℂ :=
     | 2 => normDeriv (igusaGenerators i) 0 1 τ
     | 3 => normDeriv (igusaGenerators i) 1 1 τ)
 
-/-- `W ∈ S₃₅(Γ₂)` (6.2, Aoki–Ibukiyama Theorem 4.1). -/
+/-- `W ∈ S₃₅(Γ₂)` (6.2; Aoki–Ibukiyama 2005, Proposition 2.1: the bracket of four forms of
+weights `k_i` in degree two is a cusp form of weight `∑ k_i + 3`). -/
 theorem wronskian_mem : wronskian ∈ siegelSubmodule (Gamma 2) (detWeight 2 35) := sorry
 
 /-- `χ₃₅ := W / a(W; (2,1,3))`, the odd generator, normalized by `a((2,1,3)) = 1` (6.2). -/
@@ -1129,6 +1191,29 @@ def satohDim (k : ℕ) : ℕ :=
 theorem finrank_rho_two (k : ℕ) (hk : Even k) :
     Module.finrank ℂ (SiegelModularForm (Gamma 2) (rho k 2)) = satohDim k := sorry
 
+/-- **Cléry–van der Geer–Grushevsky's dimension formula, odd weight** (6.5; their Theorem 12.1):
+for odd `k ≥ 3` and even `j ≥ 2`, or odd `k ≥ 5` and `j = 0`,
+`24 dim M_{k,j}(Γ₂(2)) = 2(j+1)k³ + 3(j² − 2j − 8)k² + (j³ − 9j² − 42j + 118)k − 2j³ − 9j² + 152j − 216`;
+for odd `k` every form on `Γ₂(2)` is a cusp form. At `(k, j) = (3, 2)` the value is `0`, at
+`(5, 0)` it is `1` (the line `ℂχ₅`). -/
+theorem finrank_gammaTwo_odd (k j : ℕ) (hk : Odd k) (hj : Even j)
+    (hkj : (3 ≤ k ∧ 2 ≤ j) ∨ (5 ≤ k ∧ j = 0)) :
+    (24 * Module.finrank ℂ (SiegelModularForm (gammaN 2 2) (rho k j)) : ℤ) =
+      2 * ((j : ℤ) + 1) * (k : ℤ) ^ 3 + 3 * ((j : ℤ) ^ 2 - 2 * j - 8) * (k : ℤ) ^ 2 +
+        ((j : ℤ) ^ 3 - 9 * (j : ℤ) ^ 2 - 42 * j + 118) * k +
+        (-2 * (j : ℤ) ^ 3 - 9 * (j : ℤ) ^ 2 + 152 * j - 216) := sorry
+
+/-- **Cléry–van der Geer–Grushevsky's dimension formula, even weight** (6.5; their Theorem 12.1):
+for even `k ≥ 4` and even `j ≥ 2`,
+`24 dim M_{k,j}(Γ₂(2)) = 2(j+1)k³ + 3(j² − 2j + 2)k² + (j³ − 9j² − 12j + 28)k − 2j³ − 9j² + 182j − 336`.
+At `(k, j) = (4, 2)` the value is `15`; the formula does not cover `j = 0`, where
+`dim M_k(Γ₂(2)) = (k + 1)(k² + 2k + 12)/12` instead. -/
+theorem finrank_gammaTwo_even (k j : ℕ) (hk : Even k) (hk4 : 4 ≤ k) (hj : Even j) (hj2 : 2 ≤ j) :
+    (24 * Module.finrank ℂ (SiegelModularForm (gammaN 2 2) (rho k j)) : ℤ) =
+      2 * ((j : ℤ) + 1) * (k : ℤ) ^ 3 + 3 * ((j : ℤ) ^ 2 - 2 * j + 2) * (k : ℤ) ^ 2 +
+        ((j : ℤ) ^ 3 - 9 * (j : ℤ) ^ 2 - 12 * j + 28) * k +
+        (-2 * (j : ℤ) ^ 3 - 9 * (j : ℤ) ^ 2 + 182 * j - 336) := sorry
+
 /-! ## Layer 7: Hecke operators and eigenforms -/
 
 /-- The semigroup `O_g(m)` of integral similitudes of multiplier `m` (0.2, 7.1). -/
@@ -1215,13 +1300,15 @@ def IsHeckeEigenform (ρ : Weight g V) (e : ℤ) (f : SiegelModularForm (Gamma g
 def eigenvalue {ρ : Weight g V} {e : ℤ} {f : SiegelModularForm (Gamma g) ρ} (hf : IsHeckeEigenform ρ e f)
     (m : ℕ) : ℂ := Classical.choose (hf.2.1 m)
 
-/-- Cusp forms have a basis of eigenforms (7.2): the Hecke operators are commuting self-adjoint
-operators for the Petersson product on a finite-dimensional space. -/
-theorem exists_eigenform_basis (k : ℤ) :
-    ∃ s : Finset (SiegelModularForm (Gamma (g + 1)) (detWeight (g + 1) k)),
-      (∀ f ∈ s, IsCuspForm f ∧ IsHeckeEigenform _ (scalarExponent (g + 1) k) f) ∧
-      LinearIndependent ℂ (fun f : s => (f : SiegelModularForm (Gamma (g + 1)) (detWeight (g + 1) k))) ∧
-      Submodule.span ℂ (s : Set _) = cuspSubmodule (Gamma (g + 1)) (detWeight (g + 1) k) := sorry
+/-- Cusp forms have a basis of eigenforms (7.2), for every holomorphic weight `ρ` (so for
+`det^k` and for `ρ_{k,j}` alike) and every exponent `e`: the Hecke operators are commuting
+self-adjoint operators for the Petersson product on a finite-dimensional space, and changing
+`e` rescales each `T(m)` by `m^{e − e(ρ)}`, which changes no eigenvector. -/
+theorem exists_eigenform_basis (ρ : Weight (g + 1) V) (e : ℤ) :
+    ∃ s : Finset (SiegelModularForm (Gamma (g + 1)) ρ),
+      (∀ f ∈ s, IsCuspForm f ∧ IsHeckeEigenform ρ e f) ∧
+      LinearIndependent ℂ (fun f : s => (f : SiegelModularForm (Gamma (g + 1)) ρ)) ∧
+      Submodule.span ℂ (s : Set _) = cuspSubmodule (Gamma (g + 1)) ρ := sorry
 
 
 /-- The coefficient of a scalar form of degree two at `(n, r, m)`, zero unless half-integral. -/
@@ -1305,6 +1392,15 @@ theorem saito_kurokawa (k : ℕ) (hk : Even k) (hk4 : 4 ≤ k)
 /-- `dim S_2(K(277)) = 11` (10.5; Poor–Yuen 2015, Theorem 1.3). -/
 theorem finrank_cusp_277 :
     Module.finrank ℂ (cuspSubmodule (paramodularR 277) (rho 2 0)) = 11 := sorry
+
+/-- **Ibukiyama's weight-four paramodular dimension formula** (10.1; printed in Poor–Yuen 2015,
+Theorem 3.1): for a prime `p ≥ 5`, with Legendre symbols,
+`576 · dim S_4(K(p)) = p² + 72p − 143 + (6p − 72)(−1/p) + 72(2/p) + 48(3/p) + 16p(−3/p)`;
+the values are `0, 1, 1, 2, 2` at `p = 5, 7, 11, 13, 17`. -/
+theorem finrank_cusp_paramodular_four (p : ℕ) (hp : p.Prime) (hp5 : 5 ≤ p) :
+    (576 * Module.finrank ℂ (cuspSubmodule (paramodularR p) (rho 4 0)) : ℤ) =
+      (p : ℤ) ^ 2 + 72 * p - 143 + (6 * (p : ℤ) - 72) * jacobiSym (-1) p + 72 * jacobiSym 2 p +
+        48 * jacobiSym 3 p + 16 * (p : ℤ) * jacobiSym (-3) p := sorry
 
 /-! ## Layer 11: the LMFDB invariants -/
 
