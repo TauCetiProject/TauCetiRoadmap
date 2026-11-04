@@ -998,7 +998,7 @@ Indeed, on the real factor indexed by `τ ∈ Φ`, `ψ(x, Jy)` is
 `2 Im τ(δ) Re H_τ(x, −iJy)`, so positivity identifies the positive and negative
 directions of `H_τ` with the `+i` and `−i` eigenspaces of `J`, respectively
 (Kottwitz, proof of Lemma 4.3, pp. 388–389; Bijakowski,
-*Classicité de formes modulaires surconvergentes*, §5.1, p. 33, for `(a_τ, b_τ)`).
+*Classicité de formes modulaires surconvergentes*, §5.1, p. 34, for `(a_τ, b_τ)`).
 Entrywise conjugation preserves the inertia of `τ(H)`; use the pinned hermitian-inertia API,
 including `Matrix.IsHermitian.signature_map_starRingEnd`, for this matrix comparison);
 and `RationalPELDatum.signatureType` (for `B = K`, `Σ_τ p_τ τ` is a generalized CM type of rank
@@ -1279,7 +1279,7 @@ order the two embeddings `σ, σ̄` of `F` above each `τ ∈ Σ_i` so that `σ`
 `τ, τ′ ∈ Σ_i` when `π_i` is split, and `a_τ = b_τ = (a + b)/2` for all `τ ∈ Σ_i` when `π_i` is inert,
 where `a + b = a_τ + b_τ = dim_ℚ U_ℚ / (2nd)` is independent of `τ` (Bijakowski, §5.1, p. 34, and
 Proposition 5.8, p. 36). In type C, `F = F₀` and the single multiplicity `a_τ` is the
-common value `dim_ℚ U_ℚ / (2nd)` (Bijakowski, §4.1, p. 26).
+common value `dim_ℚ U_ℚ / (2nd)` (Bijakowski, §4.1, p. 27).
 In type A the other ordering exchanges `a_τ` and `b_τ`. For split `π_i` the proof evaluates the
 determinant polynomial on `diag(x−1, 0, …, 0) + Id = diag(x, 1, …, 1)` in the selected matrix factor
 above `π_i^+` for `x ∈ O_{F, π_i^+}`, with the identity in every other factor, obtaining
@@ -1648,7 +1648,8 @@ For a generalized CM type `Ψ = Σ r_τ τ` of rank `N` and `S` over `O_{F_Ψ} �
 `Lie_{A/S}` equals `∏_τ (linear form of τ)^{r_τ}`; in particular
 `charpoly(i(a) | Lie) = ∏_τ (T − τ(a))^{r_τ}`, which is the form of Definition 3.4.3, p. 149. Over a
 field the two conditions agree: both depend only on the semisimplification of `Lie` over `O_F`, and an
-element of `O_F` congruent to a generator of one residue field of `O_F ⊗ κ̄` and to `0` at the others
+element of `O_F` congruent to a primitive element of one residue field `O_F/𝔭` of `O_F` above `p`
+and to `0` at the others
 separates the residue-field embeddings by unique factorization. The API is `HasSignatureType.iff_detCondition`
 and `LocalizedOFAbelianScheme.iff_detCondition` (for `p` unramified in `F`, signature type `Ψ` is the
 Kottwitz condition of the unitary datum of signature `Ψ`, M0.18); `HasSignatureType.dim` and
