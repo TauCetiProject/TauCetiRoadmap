@@ -1,5 +1,4 @@
 import Mathlib
-import TauCeti.Analysis.Sobolev.W1p.Basic
 
 /-!
 # Sobolev spaces of differential forms: target signatures
@@ -9,8 +8,7 @@ import TauCeti.Analysis.Sobolev.W1p.Basic
 APIs, so that contributors and reviewers converge on names and signatures; discharging all of them
 finishes neither a layer nor the roadmap.
 
-These headlines are stated in `README.md` alone, with what each one needs. The Tau Ceti declarations named
-here are not in the revision this file builds against:
+These headlines are stated in `README.md` alone, with what each one lacks at the pins:
 
 * the Hodge star and the codifferential (§1.2): `Orientation.formHodgeStar`;
 * density (§3.3), the adjoints of `d` (§3.4) and the divergence link (§3.6): the Banach space
@@ -126,10 +124,6 @@ theorem HasWeakExtDerivOn.ae_eq_zero {n k : ℕ} {Ω : Opens (E n)} {u : E n →
     {w : E n → Covector n (k + 1)} {z : E n → Covector n (k + 2)}
     (hu : HasWeakExtDerivOn Ω u w) (hw : HasWeakExtDerivOn Ω w z) :
     z =ᵐ[volume.restrict (Ω : Set (E n))] 0 := sorry
-
-/-- In top degree every locally integrable form has weak exterior derivative `0` (§3.5). -/
-theorem hasWeakExtDerivOn_top {n : ℕ} {Ω : Opens (E n)} {u : E n → Covector n n}
-    (hu : LocallyIntegrableOn u Ω) : HasWeakExtDerivOn Ω u 0 := sorry
 
 /-! ### Abstract Hilbert complexes (§6.1) -/
 

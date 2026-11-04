@@ -87,9 +87,8 @@ All at the pinned Mathlib; file paths under `Mathlib/`.
 
 ### From Tau Ceti
 
-All on Tau Ceti `main`, checked at revision `a318838`; file paths under `TauCeti/Analysis/`.
-`Suggested.lean` builds against the Tau Ceti revision in this repository's `lake-manifest.json`, so it
-states only what that revision supports.
+All as Tau Ceti implements them on its main branch, most later than the pinned revision;
+`Suggested.lean` uses none of them. File paths under `TauCeti/Analysis/`.
 
 - `TauCeti.alternatingFormEquiv`, `TauCeti.alternatingFormInner`, `TauCeti.alternatingFormInner_eq_sum`
   (`InnerProductSpace/AlternatingForm.lean`).
@@ -183,7 +182,7 @@ pointwise. On a smooth `k`-form, `δ` is the codifferential of the Conventions.
 
 - `n = 2`, `k = 1`: `⋆e₁ = e₂`, `⋆e₂ = −e₁`, so `⋆⋆ = −1 = (−1)^{1·1}`.
 - `n = 2`, `k = 1`: `δ(f dx₁ + g dx₂) = −(∂₁f + ∂₂g)`.
-- The standard basis has `⟪vol⁻¹ 1, vol⁻¹ 1⟫ = det Gram = 1`, so `vol` has unit Gram determinant.
+- `vol(e₁, …, eₙ) = 1` for the standard basis, and `⟪vol, vol⟫ = 1` in the Gram inner product.
 
 ### 1.3 `d` on test forms
 
@@ -346,7 +345,7 @@ domain `HΛᵏ⁻¹(Ω)` is `δ` on
 
 `WᵖΛ⁰(Ω) = W^{1,p}(Ω)` with equal norms (with `TauCeti.W1p volume Ω p`), `WᵖΛ⁰₀(Ω) = W^{1,p}_0(Ω)`
 for `p < ∞`
-(with `TauCeti.W1p0`), and `WᵖΛⁿ(Ω) = LᵖΛⁿ(Ω)` (`hasWeakExtDerivOn_top`).
+(with `TauCeti.W1p0`), and `WᵖΛⁿ(Ω) = LᵖΛⁿ(Ω)`.
 
 *Needs:* §1.1, §2.1, §3.1, §3.2; Tau Ceti `W1p`, `W1p0`.
 
@@ -395,7 +394,9 @@ The same holds for a bi-Lipschitz homeomorphism `Φ : Ω' → Ω` with Lipschitz
 and `Φ⁻¹`, with `DΦ` defined
 a.e. by Rademacher's theorem: `Φ^*` maps `WᵖΛᵏ(Ω)` to `WᵖΛᵏ(Ω')` and, for `p < ∞`, `WᵖΛᵏ₀(Ω)` to
 `WᵖΛᵏ₀(Ω')`, commutes with the
-weak `d`, and has norm bounds in `n, k, p, L` (Picard, Chapter 3, pp. 161–162).
+weak `d`, and has norm bounds in `n, k, p, L`. Picard, Chapter 3, pp. 161–162, proves `p = 2`; the
+`Lᵖ` case is this roadmap's, by the same estimate: pointwise `|Φ^* u| ≤ L^k |u ∘ Φ|` and the change of
+variables with `|det DΦ| ≥ L^{−n}` a.e.
 
 *Needs:* §3.1, §3.2, §3.3; Mathlib Rademacher's theorem and change of variables; Tau Ceti `W1p.compL` for
 `k = 0`.
@@ -451,8 +452,8 @@ G6's integration by parts applied to the components (Arnold–Falk–Winther 200
 ### 5.3 Weak characterization of zero trace
 
 For bounded Lipschitz `Ω` and `p < ∞`: `u ∈ WᵖΛᵏ₀(Ω)` if and only if `u ∈ WᵖΛᵏ(Ω)` and
-`∫_Ω du ∧ φ + (−1)^k ∫_Ω u ∧ dφ = 0` for every smooth `φ` on `E`, smooth up to the boundary and not
-compactly supported in `Ω`.
+`∫_Ω du ∧ φ + (−1)^k ∫_Ω u ∧ dφ = 0` for every `(n−k−1)`-form `φ` smooth on a neighbourhood of
+`closure Ω`, not necessarily compactly supported in `Ω`.
 
 *Needs:* §3.2, §3.3, §5.2; Tau Ceti `W1p.ker_frontierTrace` for `k = 0`.
 
