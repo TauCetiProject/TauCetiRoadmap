@@ -110,8 +110,9 @@ The targets H1–H4 precede H5 and H6; H7 uses H3 and H6. K-theory and KK-theory
 C*-dynamical imprimitivity theorems, and categorical completions consume these
 interfaces. Their classification and product theorems are not prerequisites.
 [Suggested.lean](Suggested.lean) states the headline theorems of H2 that are
-statable against the pinned Mathlib module classes; this README is the
-specification.
+statable against the pinned Mathlib module classes, and the explicit formulas
+pinning the signs and coordinates of H5.TorusLineSections and
+H5.TorusFiniteRankSections; this README is the specification.
 
 The child [HeisenbergImprimitivity](HeisenbergImprimitivity/README.md) develops
 finite-type phase-space lattices, Schwartz–Bruhat and Poisson analysis, positive
