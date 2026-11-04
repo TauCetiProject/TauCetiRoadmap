@@ -715,7 +715,7 @@ The API proves the following facts.
 
 (katz-gkm, Theorem 4.1.1(1)–(2), pp.48–49; katz-gkm line 1892 and line 1902, specialized to all multiplicative characters trivial and all exponents bᵢ=1. These bᵢ are prime to every p, so the rank remains k without any restriction on k.)
 
-*Needs:* §4.2a; the curve Euler–Poincaré and Swan-constancy targets of this subsection; LefschetzPencilsAndVanishingCycles §§0.5–0.8 for nearby cycles, the inertia-equivariant specialization sequence, coefficient change and rational realization; ArithmeticGaloisRepresentations §§3.1 and 3.7; EtaleCohomologyFoundations F.0–F.6 and F.10.1–F.10.2b; DeligneWeightsAndPurity §7.12 and the additive-character sheaf constructed in this subsection; finite-dimensional complex trace and the triangle inequality.
+*Needs:* §4.2a; the curve Euler–Poincaré and Swan-constancy targets of this subsection; LefschetzPencilsAndVanishingCycles §§0.5–0.8 for nearby cycles, the inertia-equivariant specialization sequence, coefficient change and rational realization; ArithmeticGaloisRepresentations §§3.1 and 3.7; EtaleCohomologyFoundations F.0–F.6 and F.10.1–F.10.2b; DeligneWeightsAndPurity §7.12 and its additive-character-sheaf-weight contract, consumed above; finite-dimensional complex trace and the triangle inequality.
 
 ### 4.3 Gauss-power average
 
