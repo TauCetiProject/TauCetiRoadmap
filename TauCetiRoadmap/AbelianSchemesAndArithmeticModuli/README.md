@@ -935,9 +935,9 @@ every integer `n` (`A[0] = A` with exponent `0`, and `A[−n] = A[n]`). *Needs:*
 
 **Checks.**
 
-- Over a field the statement has no content: `A[n]` is a finite `K`-scheme, the spectrum of a
-  semilocal ring, so `Pic(A[n])` is trivial. The content is over bases `S` with nontrivial
-  `Pic(S)`, which `A[n] → S` pulls back.
+- Over a field and for `n ≠ 0` the statement has no content: `A[n]` is a finite `K`-scheme, the
+  spectrum of a semilocal ring, so `Pic(A[n])` is trivial. The content is over bases `S` with
+  nontrivial `Pic(S)`, which `A[n] → S` pulls back.
 - The rigidification cannot be dropped: for a line bundle `N` on `S` whose square is nontrivial in
   `Pic(S)`, the pullback `π^*N` to `A` restricts to `A[1] = S` as `N`, whose square is not trivial.
   For rigidified `L` and `n = 1`, the restriction is `e^*L`, trivial by the rigidification.
