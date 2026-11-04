@@ -13,8 +13,8 @@ This file contains suggested forms, not an exhaustive checklist; the README is d
 The GL case of headline 1 is stated below using the pinned weight-parabolic Hopf ideal.
 The five general reductive-group classifications still need the following declarations:
 
-1. Standard parabolic ideal classification: `HopfIdeal.IsParabolicOverAlgClosed`, the actual
-   reductive-group `TitsSystem` and its `standardParabolicOrderIso`/scheme bridge.
+1. Standard parabolic ideal classification: `HopfIdeal.IsParabolicOverAlgClosed`,
+   the actual reductive-group `TitsSystem` on `G(k)`, the `B W_J B` classification of subgroups containing `B`, and the scheme bridge `P_J`.
 2. The uniqueness half for two closed subgroups containing the same Borel is stated below
    for a geometrically connected affine group. The full classification needs the parabolic predicate,
    the standard-parabolic bridge, unconditional Borel conjugacy and pointwise normalizer.

@@ -150,7 +150,7 @@ Consume smoothness in any characteristic, containment of B, parabolicity, connec
 
 **Checks. Standard parabolic:** `P_∅=B`; `P_S=G`; in `GL₃`, `{s₁}` retains the plane and `{s₂}` the line; over `𝔽₂` the four point groups have orders `8,24,24,168`, unlike the Weyl parabolics of orders `1,2,2,6`. In characteristic `p`, `F⁻¹(B) ⊆ SL₂` contains `B`, has the points of `B`, and is no `P_J`; it is excluded by smoothness.
 
-*Needs:* ReductiveGroups 7/7b Bruhat and root-cell inputs, Chevalley constructibility, 0.1.
+*Needs:* `gap:standard-parabolic-scheme`, ReductiveGroups 7/7b Bruhat and root-cell inputs, 0.1.
 
 ### 2.2 Standard classification
 
