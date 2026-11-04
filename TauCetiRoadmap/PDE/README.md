@@ -100,11 +100,11 @@ statement time is what keeps the formalized API reusable.
   (`TemperedDistribution.memSobolev`) on `ℝⁿ` in the range where they coincide
   (`1 < p < ∞`, integer `s`; Calderón). Don't reuse the Bessel definition as the domain
   theory: it is a whole-space notion and the two scales genuinely differ at `p = 1, ∞`.
-- **Carry Poincaré's normalization.** `‖u‖ ≤ C‖∇u‖` holds on `W^{1,p}_0(Ω)` (zero trace),
-  on `W^{1,p}_Γ(Ω)` for a boundary part `Γ` of positive measure and `Ω` connected
-  (Poincaré–Friedrichs, Lane G), or modulo constants for `Ω` connected (Poincaré–Wirtinger, zero
-  mean), for `Ω` bounded (or of finite
-  measure, or bounded in one direction). State that side condition explicitly; it is the
+- **Carry Poincaré's normalization.** `‖u‖ ≤ C‖∇u‖` holds on `W^{1,p}_0(Ω)` (zero trace) for `Ω`
+  bounded, of finite measure, or bounded in one direction; on `W^{1,p}_Γ(Ω)` for `Ω` bounded and
+  connected and a boundary part `Γ` of positive measure (Poincaré–Friedrichs, Lane G); and modulo
+  constants for `Ω` bounded and connected (Poincaré–Wirtinger, zero mean).
+  State that side condition explicitly; it is the
   load-bearing hypothesis (the inequality fails outright on `ℝⁿ`).
 - **Pick the Sobolev-embedding regime by exponent.** Subcritical `p < n` gives
   `W^{1,p} ↪ L^{p*}`, `p* = np/(n−p)` (consume Gagliardo–Nirenberg–Sobolev); supercritical
@@ -531,8 +531,9 @@ classical elliptic theory (Schauder, De Giorgi–Nash–Moser).
 ### Lane G: mixed and Neumann boundary conditions
 
 Boundary conditions imposed on a part of the boundary, built on Lane A's Lipschitz domains and
-traces and Lane D's energy method, as implemented on Tau Ceti `main` (declarations checked at
-revision `a318838`). A domain is an open `Ω ⊆ WithLp 2 (ℝ × E)` for a finite-dimensional real inner
+traces and Lane D's energy method, as Tau Ceti implements them on its main branch, later than the
+pinned revision; `Suggested.lean` uses none of them. A domain is an open `Ω ⊆ WithLp 2 (ℝ × E)` for
+a finite-dimensional real inner
 product space `E`, with `Set.IsLipschitzDomainWith` and its constant `L`; the trace is
 `TauCeti.W1p.frontierTrace`, a bounded operator `W^{1,p}(Ω) → Lᵖ(frontier Ω, μHE[n−1])`, with
 `n − 1 = finrank ℝ E`, for `1 ≤ p < ∞` on bounded Lipschitz domains. Admissible boundary parts are the strong Lipschitz pairs
