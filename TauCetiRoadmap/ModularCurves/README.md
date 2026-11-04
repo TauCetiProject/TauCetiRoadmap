@@ -160,7 +160,8 @@ placed in the corresponding general Mathlib-style directories.
    used over arbitrary bases. Naive pointwise structures are separate definitions and are compared
    with Drinfeld structures only when `N` is invertible on the base (KM 1.4.4 and §3.7).
 
-5. **Full level and actions.** Ordered bases are written as row vectors. For
+5. **Full level and actions.** Ordered bases are written as row vectors, the genus-one case
+   `J = E` of the full-level-structure convention of SchemeAndStackFoundations §4.15. For
 
    ```text
    g = [[a,b],[c,d]] ∈ GL₂(ℤ/Nℤ),
@@ -259,11 +260,21 @@ and `Suggested.lean`'s copy is deleted.
   divisor–line-bundle correspondence; Riemann–Roch and Serre duality for proper curves over a
   field; proper-flat coherent cohomology, Grauert's theorem and base change), consumed as prose
   until that roadmap states them in Lean.
-- AlgebraicVectorBundles L0B–L0C and L2A: finite locally free sheaves, exterior powers and
-  determinants, and the graded symmetric algebra with its affine graded-ring and base-change
-  interfaces (Layer 0G).
-- StableReduction Layer 2: relative Proj of a finitely generated graded quasi-coherent algebra
-  with its affine comparison (Layer 0G).
+- SchemeAndStackFoundations: the relative Grassmannian of a finite locally free module with its
+  affine charts, universal quotient, base change, rank-one identification with the
+  quotient-convention projective bundle and Plücker closed immersion (§0.3a, Layer 0G);
+  effective fpqc descent of affine schemes, finite locally free schemes and closed subschemes
+  (§1.1, Layer 0E); the categorical universal property of the affine invariant quotient, the
+  quotient of an affine scheme by a finite locally free equivalence relation, the quotient by a
+  free action of a finite constant group with an invariant affine open cover, and torsors under
+  finite locally free group schemes (§1.17, Layer 0C); the coarse space of a finite-group
+  quotient of an algebraic stack (§1.23, Layer 9D); the strict henselisation of a local ring
+  with its universal property, functoriality, colimit description at a prime, Noetherianity and
+  completion (§0.12a, Layer 4D); openness of the regular locus over an excellent base (§0.21)
+  and miracle flatness (§4.13), both for Layer 4D and Layer 10; the Artinian coefficient
+  category over the Witt vectors (§4.2, Layer 7D); and the full-level-structure convention for
+  abelian schemes (§4.15, Convention 5 and Layer 3N). Consumed as prose until that roadmap
+  states them in Lean.
 - AlgebraicCurves Layers 7–9 and 12: the different, Hilbert's different formula and
   Riemann–Hurwitz in Euler-characteristic form, carried to smooth proper fibres (Layer 10,
   item 3).
@@ -293,9 +304,9 @@ The roadmap uses the following existing material.
 - Finite, flat, and étale ring maps, finite locally free rank, invariant subrings, Hopf algebras,
   regular local rings, completions, and Krull dimension.
 - The available flatness files include `Flat/Localization`, `Flat/EquationalCriterion`,
-  `Flat/TorsionFree`, and `LocalFlatDescent`. The curve-specific fibrewise flatness and miracle
-  flatness results required below are not assumed to exist; they are explicit targets in Layers
-  2A, 4D, and 7B.
+  `Flat/TorsionFree`, and `LocalFlatDescent`. The curve-specific fibrewise flatness results
+  required below are not assumed to exist; they are explicit targets in Layers 2A and 7B.
+  Miracle flatness is SchemeAndStackFoundations §4.13's.
 - Representable functors, `Over`-categories, and scheme gluing.
 - The Jacobian Challenge roadmap's line-bundle, coherent-cohomology,
   and cohomology-and-base-change contracts. Its Picard-scheme endpoint is presently stated over a
@@ -432,36 +443,37 @@ which makes the factorisation construction of the dual isogeny possible.
 
 ### 0C. Finite quotients and torsors
 
-Prove three separate results.
+The general quotient theorems are SchemeAndStackFoundations §1.17's, consumed here in three forms.
 
 1. **Affine quotients.** For a finite group acting on `Spec A`, Tau Ceti supplies `Spec A^G`
    with its projection (`TauCeti.AffineInvariantQuotient.quotient`, `projection`), its
    universal property for affine targets (`desc`, `existsUnique_desc`), integrality of the
    projection, and its finiteness when `A` is a finite-type algebra over an invariant base ring
    on which the action is by base-algebra automorphisms
-   (`TauCeti.AffineInvariantQuotient.isFinite_projection_of_finiteType`). Prove the categorical
-   universal property for an arbitrary scheme target. Every later moduli application must
-   verify the finite-type hypothesis.
-2. **Finite group-scheme torsors.** For a finite locally free group scheme acting on an affine
-   scheme, develop the Hopf–Galois criterion, the invariant algebra, faithful flatness, and descent.
-   Prove that a torsor action has the affine fppf quotient with the expected universal property.
-3. **Finite locally free equivalence relations and free actions.** Prove SGA 3, Exposé V,
-   Théorème 4.1 in the affine case: if `X` is affine and `R ⇉ X` is an equivalence relation whose
-   two projections are finite locally free, then the quotient `X/R` exists, is affine, the map
-   `X ⟶ X/R` is finite locally free and surjective, and `R = X ×_{X/R} X`; hence `X/R` represents
-   the fppf quotient sheaf. Deduce the constant-group case: if a finite constant group acts freely
-   on `X` and `X` has a group-invariant affine open cover, glue the affine invariant quotients and
-   prove that the result represents the fppf quotient. Prove that the affine simultaneous moduli
-   schemes used in Layers 4, 5, and 9 satisfy this hypothesis. Without such a cover the fppf
-   quotient is generally only an algebraic space, and no unrestricted scheme-quotient theorem is
-   asserted. The equivalence-relation form, not only the group form, is used in Layer 4C, because
-   the Legendre rigidifier over `ℤ[1/2]` is finite étale but not Galois.
+   (`TauCeti.AffineInvariantQuotient.isFinite_projection_of_finiteType`); the categorical
+   universal property for an arbitrary scheme target and the orbit description of the fibres are
+   SchemeAndStackFoundations §1.17's. Every later moduli application must verify the finite-type
+   hypothesis.
+2. **Finite group-scheme torsors.** The Hopf–Galois criterion, the invariant algebra, its faithful
+   flatness, descent along the torsor and the affine fppf quotient of a torsor action under a
+   finite locally free group scheme, with its universal property, are SchemeAndStackFoundations
+   §1.17's. Develop here the finite-flat torsor statements needed for the rigidifiers of Layer 4C
+   and the descent of Layer 0E in the elliptic setting.
+3. **Finite locally free equivalence relations and free actions.** The quotient of an affine
+   scheme by an equivalence relation with finite locally free projections (SGA 3, Exposé V,
+   Théorème 4.1 in the affine case: `X/R` exists, is affine, `X ⟶ X/R` is finite locally free and
+   surjective, `R = X ×_{X/R} X`, and `X/R` represents the fppf quotient sheaf), and the
+   constant-group case of a free action on a scheme with a group-invariant affine open cover,
+   glued from affine invariant quotients and representing the fppf quotient, are
+   SchemeAndStackFoundations §1.17's. Prove that the affine simultaneous moduli schemes used in
+   Layers 4, 5, and 9 have such a cover, so that those theorems apply. Without such a cover the
+   fppf quotient is generally only an algebraic space, and no unrestricted scheme-quotient theorem
+   is asserted. The equivalence-relation form, not only the group form, is used in Layer 4C,
+   because the Legendre rigidifier over `ℤ[1/2]` is finite étale but not Galois.
 
-Develop the finite-flat torsor statements needed for rigidifiers and descent.
-
-**Dependencies.** Layer 0B for the group-scheme statements; Tau Ceti's affine invariant quotient
-and Mathlib's scheme gluing. The special quotient of an elliptic curve by a finite subgroup is constructed only
-after elliptic curves exist, in Layer 2B.
+**Dependencies.** Layer 0B for the group-scheme statements; Tau Ceti's affine invariant quotient;
+SchemeAndStackFoundations §1.17 for the quotient theorems. The special quotient of an elliptic
+curve by a finite subgroup is constructed only after elliptic curves exist, in Layer 2B.
 
 ### 0D. Finite étale schemes and Galois actions
 
@@ -476,11 +488,11 @@ objects, homomorphisms, and alternating pairings. This is the input for `V_ρ` i
 
 ### 0E. Effective descent and spreading out
 
-Prove effective faithfully flat descent, with cocycle and uniqueness statements, in the exact
-forms used below:
+Effective faithfully flat descent of affine schemes, of finite locally free schemes and of closed
+subschemes, with cocycle and uniqueness statements, is SchemeAndStackFoundations §1.1's. Prove
+effective faithfully flat descent, with cocycle and uniqueness statements, in the remaining
+exact forms used below:
 
-- affine schemes;
-- finite locally free schemes and closed subschemes;
 - sections and morphisms;
 - projective relative curves equipped with a compatibly descended relatively ample line bundle;
 - group objects and homomorphisms on an underlying scheme already descended by one of these
@@ -498,7 +510,8 @@ the original base after enlargement. Equality on geometric fibres is not used as
 equality over a nonreduced base. The elliptic application using `𝒪_E(3[0])` is Layer 1E, after that
 line bundle has been constructed.
 
-**Dependencies.** Mathlib's descent and finite-presentation machinery.
+**Dependencies.** SchemeAndStackFoundations §1.1 and Mathlib's descent and finite-presentation
+machinery.
 
 ### 0F. Hom-schemes and closed loci
 
@@ -518,76 +531,31 @@ Prove compatibility with arbitrary base change.
 ### 0G. Parameter spaces for subgroup schemes
 
 Weil restriction represents maps from a fixed finite locally free source; it does not parameterise
-all subgroup schemes. This block owns the relative Grassmannian of a finite locally free
-`𝒪_S`-module `E` on a scheme `S`: the functor sending `T → S` to the set of locally free rank-`N`
-quotients of `E_T` modulo quotient isomorphism. Mathlib supplies the module-valued functor
-`Module.Grassmannian.functor` on affine bases and nothing else: neither the scheme, nor its
-charts, nor representability. Construct the affine charts, one for each `N`-element subset of a
-local basis of `E` (the locus where the universal quotient restricted to those basis vectors is
-an isomorphism, an affine space of relative dimension `N(n − N)` on a rank-`n` locus), their
-transition maps, and the gluing over trivialising affine covers of `E`; prove independence of
-the cover and of the trivialisations, construct the universal quotient and its kernel, and prove
-the universal property and compatibility with arbitrary base change. On `S = Spec R` with `E`
-the sheaf of a module `M`, identify the `R`-points with `Module.Grassmannian R M N`, naturally
-in `R`-algebras. Rank-`d` subbundles of a rank-`n` bundle correspond to rank-`(n − d)` quotients,
-or to rank-`d` quotients of the dual; supply both comparisons with their universal bundles.
+all subgroup schemes. The relative Grassmannian `Grass_N(E)` of a finite locally free `𝒪_S`-module
+`E`, representing the functor that sends `T → S` to the set of locally free rank-`N` quotients of
+`E_T` modulo quotient isomorphism, is SchemeAndStackFoundations §0.3a's, with its affine charts
+and gluing, universal quotient and kernel, compatibility with arbitrary base change, `R`-points
+`Module.Grassmannian R M N` over `Spec R`, the comparisons between subbundles and quotients, the
+rank-one identification `Grass_1(F) ≅ Proj_S(Sym F)` with the quotient-convention projective
+bundle, and the Plücker closed immersion `Grass_N(E) → P(∧^N E)` pulling `𝒪(1)` back to `det Q`.
+"Projective" below is that section's notion: a closed immersion into the projective bundle of a
+finite type quasi-coherent sheaf (Stacks, Tag 01W8), with base change and stability under
+composition with closed immersions; no globally trivial projective ambient space is assumed. This
+block consumes the Grassmannian and owns the parameter space of subgroup schemes.
 
-Identify the rank-one case with the quotient-convention projective bundle: for `F` finite locally
-free, `Grass_1(F) ≅ Proj_S(Sym F)`, the relative Proj of StableReduction Layer 2 applied to
-AlgebraicVectorBundles L2A's `gradedSymmetricAlgebra F`, generated in degree one by `F`. Prove
-here that formation of `Proj_S(Sym F)` commutes with arbitrary base change (one line from the
-affine graded-ring and base-change comparisons of AlgebraicVectorBundles L2A; StableReduction
-Layer 2 supplies the relative Proj and its affine comparison, not this base-change
-isomorphism), that the pullback of `F` to `Proj_S(Sym F)` mapping onto `𝒪(1)` is the universal
-rank-one quotient, and that the identification and its `𝒪(1)` comparison commute with arbitrary
-base change. Then construct the Plücker map `Grass_N(E) → Grass_1(∧^N E) = P(∧^N E)`
-classifying the universal exterior-power quotient `∧^N E_T → det Q` (exterior powers and
-determinants from AlgebraicVectorBundles L0C), and prove that it is a closed immersion whose
-pullback of `𝒪(1)` is `det Q`, compatibly with arbitrary base change. "Projective" means a closed
-immersion into the projective bundle of a finite type quasi-coherent sheaf (Stacks, Tag 01W8),
-with base change and stability under composition with closed immersions; no globally trivial
-projective ambient space is assumed.
-
-The ownership boundary with AlgebraicModuliForArithmeticGeometry §1.3: this block owns the finite
-locally free quotient Grassmannian with its charts, universal quotient, rank-one identification
-and Plücker closed immersion, because the projectivity of the Hopf-locus parameter scheme below,
-and with it the "projective plus quasi-finite implies finite" step of Layer 8A, rest on it. The
-coherent extension to finite-type quasi-coherent `E`, the relative tangent sheaf, smoothness of
-relative dimension `N(n − N)` with its extreme-rank cases, and flag schemes are that roadmap's
-and are not stated here.
-
-**Checks.**
-
-- For `E = 𝒪_S²` and `N = 1` the two charts are affine lines over `S` glued along `x ↦ x⁻¹` on
-  the complement of the origin, and the rank-one identification gives `ℙ¹_S`; a construction
-  that glued the two charts along the identity would produce the affine line with a doubled
-  origin, which is not separated.
-- `Grass_0(E) = S` and `Grass_n(E) = S` for `E` of constant rank `n`, and `Grass_N(E)` is empty
-  for `N > n` over a nonempty base. A quotient functor that forgot "locally free" would admit,
-  over a local base `S` with closed point `s`, the quotient `𝒪_S → 𝒪_S/𝔪_s` of `𝒪_S`, of rank
-  one at `s` and zero elsewhere; `Grass_1(𝒪_S)` has exactly one `T`-point for every `T`.
-- For `E = 𝒪_S⁴` and `N = 2`, the Plücker map sends the point of the chart indexed by the first
-  two basis vectors with quotient matrix `((1,0,a,b),(0,1,c,d))` to
-  `(1 : c : d : −a : −b : ad − bc)` in `P(∧²E) = ℙ⁵_S`, coordinates ordered `p₁₂, p₁₃, p₁₄, p₂₃,
-  p₂₄, p₃₄`, and the image satisfies `p₁₂p₃₄ − p₁₃p₂₄ + p₁₄p₂₃ = 0`; a map built from the
-  `2 × 2` minors without the alternating signs of the exterior power would give `(1, c, d, a, b,
-  ad − bc)`, for which the left side is `2(ad − bc)`.
-- `Proj_S(Sym 𝒪_S²)` over `S = Spec ℤ`, base-changed to `Spec 𝔽_p`, is `ℙ¹_{𝔽_p}` with the same
-  two charts, as the base-change statement requires.
-
-Given a finite locally free commutative group scheme `G/S`, apply the construction to its Hopf
+Given a finite locally free commutative group scheme `G/S`, apply the Grassmannian to its Hopf
 algebra. Cut out the unit, multiplication, counit, comultiplication, antipode, and Hopf-ideal
 equations as closed loci. Prove that the relative spectrum of the universal quotient is a finite
 locally free subgroup scheme of `G`, has rank `N`, and commutes with arbitrary base change. The
 resulting parameter scheme is projective and finitely presented over `S`, with the stated
-universal subgroup. It is not asserted to be finite: for example, rank-`p` subgroup schemes of
-`α_p²` form a positive-dimensional family. The elliptic specialisation `G = E[N]` and the name
+universal subgroup; its projectivity is what the "projective plus quasi-finite implies finite"
+step of Layer 8A rests on. It is not asserted to be finite: for example, rank-`p` subgroup schemes
+of `α_p²` form a positive-dimensional family. The elliptic specialisation `G = E[N]` and the name
 `[N-Isog]` occur only in Layer 6, after `E[N]` exists.
 
-**Dependencies.** Layer 0B (finite locally free group and Hopf algebras, closed-locus equations)
-and Mathlib's `Module.Grassmannian.functor`, exterior algebra, scheme gluing and morphism
-properties; AlgebraicVectorBundles L0B–L0C and L2A; StableReduction Layer 2 for the relative
-Proj. Weil restriction in 0F is a separate parameter-space construction, not an input to the
+**Dependencies.** Layer 0B (finite locally free group and Hopf algebras, closed-locus equations);
+SchemeAndStackFoundations §0.3a for the Grassmannian; Mathlib's scheme gluing and morphism
+properties. Weil restriction in 0F is a separate parameter-space construction, not an input to the
 Grassmannian.
 
 ## Layer 1: elliptic curves over a base scheme
@@ -1053,7 +1021,9 @@ condition. After the common elliptic-curve and torsion foundations have been bui
 Over `ℤ[1/N]`, define:
 
 - a **naive `[Γ(N)]`-structure**: an isomorphism of group schemes `(ℤ/N)²_S ≅ E[N]`, equivalently an
-  ordered pair of sections that is a basis in every geometric fibre;
+  ordered pair of sections that is a basis in every geometric fibre; this is the case `g = 1`,
+  `J = E`, of the full-level-structure convention of SchemeAndStackFoundations §4.15, whose
+  finite étale `GL_2(ℤ/Nℤ)`-torsor of full bases is the carrier of the `[Γ(N)]` problem below;
 - a **naive `[Γ₁(N)]`-structure**: a section `P` of `E[N]` of exact order `N` in every geometric
   fibre;
 - a **naive `[Γ₀(N)]`-structure**: a finite locally free subgroup scheme `C ⊆ E[N]`, of order `N`,
@@ -1068,7 +1038,8 @@ and the fine curves of Layers 5A–5B are stated; the
 comparison with the Drinfeld structures of 3A–3C is Layer 3D, and is needed only where the two
 sides must be identified.
 
-**Dependencies.** Layers 0C–0D, 0G, and 2A. There is no dependency on 3A–3D.
+**Dependencies.** Layers 0C–0D, 0G, and 2A, and SchemeAndStackFoundations §4.15 for the
+convention. There is no dependency on 3A–3D.
 
 ### 3A. Full sets, `A`-structures, and generators
 
@@ -1331,101 +1302,39 @@ and notes that a covering collection suffices, and surjectivity is what prevents
 representable étale problem from falsifying the non-emptiness clause.
 Layer 7 asserts regularity *of dimension two*, so it depends on the corrected reading.
 
-This layer owns the required general scheme-level API:
+The general scheme-level API is consumed from SchemeAndStackFoundations: the strict henselisation
+of a local ring with respect to a separable closure of its residue field, the filtered colimit of
+pointed étale neighbourhoods, with its universal property for maps to henselian local rings, its
+functoriality, the colimit description at a prime, Noetherianity, and the flatness and formal
+smoothness statements for its completion (§0.12a; neither the henselisation of a pair nor the
+henselisation `R^h` of a local ring is used); openness of the regular locus for schemes locally of
+finite type over an excellent base (§0.21); miracle flatness for finite morphisms between regular
+local schemes of equal dimension (§4.13); and regular schemes in terms of regular local rings
+(§4.13). Completions are Mathlib's `AdicCompletion` at the maximal ideal. This layer owns the
+remaining general statements and the applications:
 
-- strict henselisation and completion of strict henselisations (the paragraph *Strict henselisation*
-  below);
 - comparison of a finite moduli scheme after strict henselisation and completion;
-- regular schemes in terms of regular local rings and Krull dimension at a point;
+- Krull dimension at a point;
 - preservation and reflection of regularity and dimension under completion of noetherian local rings
   (`ringKrullDim_adicCompletion`, Stacks, Tag 07NV; `isRegularLocalRing_adicCompletion_iff`,
   Stacks, Tag 07NY);
 - locality and invariance under isomorphism and étale morphisms;
-- openness of the regular locus for schemes locally of finite type over an excellent base,
-  as in the finite-type integral rigidifiers used here; openness of the flat locus for the
+- verification of the excellence hypothesis for the finite-type integral rigidifiers used here,
+  so that the openness of the regular locus applies, and openness of the flat locus for the
   finite algebras over locally noetherian bases occurring in the proof. State and verify
   these hypotheses; there is no unrestricted regular-locus openness theorem;
 - the coherent kernel/cokernel support argument used in the homogeneity theorem;
-- miracle flatness for finite morphisms between regular local schemes of equal dimension;
 - descent of regularity and the corrected dimension condition along the finite faithfully flat
   covers occurring in KM's Notes Added in Proof;
 - local constancy of the rank of a finite locally free morphism, and constancy when the
   target is connected. Over arbitrary bases, keep the local finite-presentation hypothesis
   from Layer 0B; finite and flat alone does not supply it.
 
-**Strict henselisation.** The namespace `StrictHenselization` of `Suggested.lean` carries the
-construction and the targets below; the remaining clauses are specified here only. Let
-`(R, 𝔪, κ)` be a local ring and `Ω` a separable closure of `κ` (Mathlib `IsSepClosure κ Ω`, an
-`R`-algebra through `R → κ`). The construction is the filtered colimit of étale neighbourhoods of
-Stacks, Tag 04GW, pointed by an `R`-algebra map to `Ω`; neither the henselisation of a pair nor
-the henselisation `R^h` of a local ring is used:
+*Needs:* SchemeAndStackFoundations §§0.12a, 0.21, 4.13; Mathlib `IsRegularLocalRing`,
+`AdicCompletion`, `HenselianLocalRing`, `IsSepClosure`.
 
-- `IsPointedNeighbourhood R Ω : ObjectProperty (Over (CommAlgCat.of R Ω))`: the algebra is étale
-  over `R`. Its full subcategory `Neighbourhood R Ω` is equivalent to the category of triples
-  `(S, 𝔮, φ)` of Stacks, Tag 04GW, at `𝔭 = 𝔪`: `𝔮` is the kernel of `S → Ω` and `φ : κ(𝔮) → Ω`
-  the induced embedding. Prove `neighbourhood_isFiltered` (Tag 04GW; tensor products give common
-  targets, and parallel maps `f, g : B → C` are equalised by inverting `1 − d(e)` in `C`, where
-  `e` is the idempotent generating the kernel of multiplication `B ⊗_R B → B` (so `1 − e` is the
-  diagonal idempotent) and `d = Algebra.TensorProduct.productMap f g`: inverting `1 − d(e)`
-  kills the idempotent `d(e)`, so `d` factors through the diagonal and `f = g` into
-  `C[1/(1 − d(e))]`, which is étale over `R`; the pointing of `C` sends `d(e)` to `0` because
-  the pointings of `B` along `f` and along `g` agree, so `1 − d(e)` maps to `1` in `Ω` and the
-  localization is again pointed; this equalisation is owned here) and
-  `neighbourhood_essentiallySmall` (étale algebras are of finite type).
-- The **strict henselisation** `algebra R Ω := colimit (diagram R Ω)` over the small model, with
-  `stage`, `stage_naturality`, `desc`, `exists_stage_eq`, `hom_ext`, and the map
-  `toSepClosure : algebra R Ω →ₐ[R] Ω` induced by the pointings, with `toSepClosure_comp_stage`.
-  This is Stacks' strict henselisation of `R` with respect to `κ ⊆ Ω` (Tag 04GQ, constructed in
-  Tag 04GP; Tag 04GW identifies it with this colimit). Every statement here is about this colimit.
-- A local ring `S` is *strictly henselian* when `HenselianLocalRing S ∧ IsSepClosed (ResidueField S)`
-  (Stacks, Tag 04GF); no separate predicate is introduced.
-- The properties of Stacks, Tag 04GP: `henselianLocalRing`, `isSepClosed_residueField`,
-  `isLocalHom_algebraMap`, the filtered-colimit description (`neighbourhood_isFiltered`,
-  `algebra`, and its consequence `exists_stage_eq`), `maximalIdeal_eq_map` (`𝔪 R^{sh}` is the maximal ideal), and
-  `ker_toSepClosure` with `toSepClosure_surjective` (`R^{sh}/𝔪 R^{sh} = Ω` over `R`). Clause (1)
-  of Tag 04GP, which concerns the henselisation `R^h`, is not used by this roadmap and is not
-  stated.
-- The **universal property** `existsUnique_lift` (Stacks, Tag 08HQ applied to each stage): for a
-  ring map `R → S` with `S` henselian local and a field map `φ : Ω → κ_S` compatible with `R`,
-  there is a unique `R`-algebra map `f : R^{sh} → S` with `f mod 𝔪_S = φ ∘ toSepClosure`; such an
-  `f` is local. Its consequence `exists_isLocalHom_lift`: a local homomorphism `R → S` into a
-  strictly henselian local ring extends to a local homomorphism `R^{sh} → S` (a `κ`-embedding
-  `Ω → κ_S` exists because `κ_S` is separably closed). The Stacks-form companion
-  `existsUnique_algHom_of_etale` (Stacks, Tag 04GT with `S = R`): for `A` étale over `R`, a prime
-  `𝔮` of `A` over `𝔪` and an `R`-embedding `φ : κ(𝔮) → Ω`, there is a unique `R`-algebra map
-  `f : A → R^{sh}` with `f⁻¹(𝔪_{R^{sh}}) = 𝔮` inducing `φ` on residue fields.
-- **Functoriality** `map` (Stacks, Tag 04GU): a local homomorphism `R → S` of local rings with
-  separable closures `Ω_R`, `Ω_S` of the residue fields and a field map `Ω_R → Ω_S` compatible
-  with `κ_R → κ_S` induces a unique local `R^{sh} → S^{sh}` over `R → S` inducing the given map on
-  residue fields; `map_id` and `map_comp`.
-- **The colimit at a prime** `localization_equiv` (Stacks, Tag 04GW): for any ring `R`, prime `𝔭`
-  and separable closure `Ω` of `κ(𝔭)`, the strict henselisation of `R_𝔭` with respect to `Ω` is
-  the colimit over the triples `(S, 𝔮, φ)` with `R → S` étale, `𝔮` over `𝔭` and `φ : κ(𝔮) → Ω` a
-  `κ(𝔭)`-embedding, of `S` and also of `S_𝔮`.
-- **Noetherianity and completion** (More on Algebra, Stacks, Tag 06LJ, the clauses about
-  `R^{sh}`): `isNoetherianRing_algebra_iff` (`R` is Noetherian iff `R^{sh}` is). In that case
-  `(R^{sh})^∧` is a Noetherian complete local ring (clause (a)), `R^{sh} → (R^{sh})^∧` is flat
-  (clause (c)), `R^∧ → (R^{sh})^∧` is formally smooth in the `𝔪_{(R^{sh})^∧}`-adic topology
-  (clause (d)), and `((R^∧)^{sh})^∧ = (R^{sh})^∧` (clause (f)). The clauses of Tag 06LJ that
-  involve the henselisation `R^h` are not used by this roadmap and are not stated. Completions
-  are Mathlib's `AdicCompletion` at the maximal ideal.
-
-Checks for the strict henselisation:
-
-- `strictHenselization_sepClosed_field`: for a separably closed field `k` and `Ω = k`,
-  `R^{sh} ≅ k`.
-- `strictHenselization_finite_field`: for `R = 𝔽_p` and `Ω` an algebraic closure, `R^{sh} ≅ Ω`, so
-  `R → R^{sh}` is not an isomorphism.
-- `strictHenselization_of_strictlyHenselian`: for `R` strictly henselian and `Ω = κ`,
-  `R → R^{sh}` is an isomorphism.
-- `strictHenselization_not_complete`: for `R = ℤ_(p)`, `R^{sh}` is a discrete valuation ring with
-  residue field `Ω` and is not complete (it is countable); its completion is `W(Ω)`.
-
-*Needs:* Mathlib `CommAlgCat`, `Over`,
-`ObjectProperty.FullSubcategory`, `IsFiltered`, `SmallModel`, `Limits.colimit`, `Algebra.Etale`,
-`HenselianLocalRing`, `IsSepClosure`, `IsSepClosed`, `Ideal.ResidueField`, `IsRegularLocalRing`,
-`AdicCompletion`, `Algebra.FormallySmooth`.
-
+**Dependencies.** Layers 4A and 4C, SchemeAndStackFoundations §§0.12a, 0.21 and 4.13, and
+Mathlib's regular-local-ring theory.
 **Dependencies.** Layers 4A and 4C and Mathlib's regular-local-ring theory.
 
 ## Layer 5: affine fine modular curves after inverting `N`
@@ -1639,8 +1548,9 @@ and deformation-theoretic ingredients have been constructed.
 
 ### 7B. Local algebra and local schemes
 
-Apply the strict-henselisation, completion, regularity, openness, support, miracle-flatness, and rank
-theorems owned by Layer 4D. For a geometric point of a rigidified finite moduli scheme, identify its
+Apply the strict-henselisation, openness and miracle-flatness theorems that Layer 4D consumes
+from SchemeAndStackFoundations and the completion, regularity, support and rank theorems owned
+by Layer 4D. For a geometric point of a rigidified finite moduli scheme, identify its
 completed strict-henselian local ring with the ring prorepresenting the corresponding marked
 deformation groupoid. Prove that this identification transports the universal family and the level
 structure and is functorial under a change of rigidifier. This is the local-moduli comparison used
@@ -1658,14 +1568,17 @@ completed divisor `n[0]` with `(Xⁿ=0)`. Relate the formal `p`-series to Froben
 
 ### 7D. Universal deformations of elliptic curves
 
-For an elliptic curve `E₀` over an algebraically closed field `k` of characteristic `p`, define the
+For an elliptic curve `E₀` over an algebraically closed field `k` of characteristic `p`, the
 category of complete local noetherian `W(k)`-algebras equipped with an identification of their
-residue field with `k`. Define a deformation to be an elliptic curve over such an algebra together
-with an identification of its special fibre with `E₀`, and retain isomorphisms as a groupoid.
+residue field with `k`, and its subcategory of Artinian local `W(k)`-algebras with residue field
+identified with `k`, the test objects, are SchemeAndStackFoundations §4.2's coefficient
+categories over `Λ = W(k)`, consumed here. Define a deformation to be an elliptic curve over
+such an algebra together with an identification of its special fibre with `E₀`, and retain
+isomorphisms as a groupoid.
 Construct the universal marked deformation over `W(k)[[T]]`. Prove its universal property,
 compatibility with rigidification, and comparison with the completed local ring of a representing
-moduli scheme. In `Suggested.lean` the test objects are `ArtinianTestAlgebra`, a deformation is
-`Deformation` (a curve over the test algebra with a cartesian identification of its special fibre
+moduli scheme. In `Suggested.lean` a deformation is
+`Deformation` (a curve over a test algebra with a cartesian identification of its special fibre
 with `E₀`, placed in `Ell/W(k)` by `EllipticCurve.specialObj`), the universal family with its
 universal property is `UniversalDeformation` (its object of `Ell/W(k)` being
 `universalDeformationObj`), and its existence for every elliptic curve over an algebraically
@@ -2156,8 +2069,13 @@ normal when `𝒫` is), and the bijection on algebraically closed field-valued i
 (`CoarseModuliData` with `exists_coarseModuliData`). Do not assume one global rigidifier over an
 arbitrary coefficient ring.
 
-State KM 8.1.5 as an explicit bridge (`coarseModuli_quotient`). For a finite group `H` acting on
-`𝒫`, construct the canonical isomorphism, compatible with classifying maps,
+The general statement, that the coarse space of the quotient of an algebraic stack with finite
+inertia by a finite group is the finite-group quotient of its coarse space, is
+SchemeAndStackFoundations §1.23's, consumed here. State KM 8.1.5, its form for Katz–Mazur
+quotient problems on `Ell/R`, as an explicit bridge (`coarseModuli_quotient`), because the
+quotient problem `𝒫/H` is characterised by KM 7.1's Q1 and Q2 and not as a quotient stack. For
+a finite group `H` acting on `𝒫`, construct the canonical isomorphism, compatible with
+classifying maps,
 
 ```text
 M(𝒫)/H ≅ M(𝒫/H).
@@ -2201,7 +2119,8 @@ every `H ≤ (ℤ/Nℤ)ˣ/{±1}` the quotient `Y_H := Y₁(N)/H` is a smooth aff
 from KM 7.5.1's regularity of `𝒫/H` (Layer 9C), which gives a regular total space, not a smooth
 morphism to `ℤ[1/N]`.
 
-**Dependencies.** Layers 0C, 4C, 5A, 9A–9B, and the finite invariant-quotient API.
+**Dependencies.** Layers 0C, 4C, 5A, 9A–9B, the finite invariant-quotient API, and
+SchemeAndStackFoundations §1.23.
 
 ### 9E. The coarse `j`-line and `Y₀(N)`
 
@@ -2508,7 +2427,8 @@ items 1–2 are asserted for **every** member of the class; item 3 concerns the 
    characteristics `2` and `3` invertibility of the degree is unavailable as an excuse. This
    roadmap takes the smooth-curves route: `X₂(N)` and `X₀(N)` are smooth proper relative curves
    over `ℤ[1/N]` (items 1–2 applied to their level problems), the quotient morphism is finite,
-   **miracle flatness** for a finite morphism between smooth relative curves gives flat, and
+   **miracle flatness** for a finite morphism between smooth relative curves
+   (SchemeAndStackFoundations §4.13) gives flat, and
    finite + flat + unramified is finite étale. (The alternative — proving the `G/H`-action free
    as a *scheme* action and quoting the finite-étale torsor theorem — is not taken, since
    freeness at the cusp sections is exactly what the smooth-curves route avoids having to
@@ -2649,6 +2569,9 @@ consumes an entry ahead of its position.
 The main dependency chain is
 
 ```text
+SchemeAndStackFoundations §§0.3a, 0.12a, 0.21, 1.1, 1.17, 1.23, 4.2, 4.13, 4.15
+  ─► 0C, 0E, 0G, 3N, 4D, 7D, 9D
+
 Jacob. Challenge A–C + 0A + 0E + 1A–1B
   ─► 1C (coordinates and variable changes) ─► 1D (group law) ─► 1E (elliptic descent)
   ─► 2A (multiplication and degree) ─► 2B ─► 2C ─► 2D
@@ -2694,17 +2617,6 @@ the lanes.
 
 ## Downstream consumers
 
-- SchemeAndStackFoundations consumes Layers 0B–0G (group objects and finite locally free group
-  schemes, affine invariant quotients, finite étale schemes and Galois sets, effective descent,
-  Weil restriction, and the Grassmannian of Layer 0G with its affine charts, gluing and universal
-  property, for its Hilbert and Hom schemes), 4D (the strict henselisation and the regular locus),
-  7D (`ArtinianTestAlgebra`) and 9D (coarse schemes of finite quotient problems). Its
-  quotient-convention projective bundle `ℙ(E) = Proj_S(Sym E)` is Layer 0G's rank-one
-  Grassmannian. Nothing of this roadmap consumes SchemeAndStackFoundations.
-- AlgebraicModuliForArithmeticGeometry §1.3 consumes Layer 0G's finite locally free quotient
-  Grassmannian with its universal quotient and its Plücker closed immersion into `P(∧^N E)`; the
-  coherent extension, the tangent sheaf, smoothness of relative dimension `N(n − N)` and flag
-  schemes are built there, not here.
 - The Eisenstein-ideal application of §The Mazur interface consumes Layer 10.
 
 ## Worked examples

@@ -100,16 +100,6 @@ comparisons to them and never a second carrier.
   StableReduction's; Layer 4 states strict transforms along arbitrary modifications with the
   comparison to StableReduction's along blow-ups, and the Noetherian-base nodal local structure with
   the comparison to StableReduction's over a discrete valuation ring.
-- *Group objects* (the convention `GrpObj (Over.mk f)` in `Over S`), *finite locally free group
-  schemes, finite affine invariant quotients (`TauCeti.AffineInvariantQuotient.quotient` and
-  `.projection`), finite étale schemes and Galois sets, effective descent of affine schemes and
-  of finite locally free schemes along a faithfully flat morphism, polarised descent of projective
-  curves, Weil restriction, the
-  relative Grassmannian, strict henselization and the openness of the regular locus of a finite-type
-  scheme over an excellent base, the Artinian test algebras `ArtinianTestAlgebra` over `W(k)`,
-  coarse schemes of finite quotient problems*: [ModularCurves](../ModularCurves/README.md) Layers
-  0B–0G, 4D, 7D and 9D. Group algebraic spaces here are `GrpObj` in `Over h_S`; the comparison
-  functor from ModularCurves' group schemes is a target of Layer 1.
 - *Invertible sheaves and the Picard group (`TauCeti.AlgebraicGeometry.LineBundleClass`, a
   commutative group), coherent cohomology of a proper curve over a field with the genus,
   Riemann–Roch and Serre duality for line bundles, relative cohomology and base change, the Picard
@@ -175,13 +165,14 @@ pinned libraries; each is cited where it lives and is not a target here.
   `AlgebraicGeometry.Scheme.finite_Γevaluation_of_isClosed`.
 - The colimit of an `𝔽_p`-algebra along Frobenius: Mathlib `PerfectClosure K p` with
   `PerfectClosure.of`, `PerfectClosure.lift`, its `PerfectRing` instance and `IsPerfectClosure`.
-- Effective fpqc descent of affine schemes along one faithfully flat morphism and of finite locally
-  free schemes: ModularCurves 0E. Descent of quasi-projective schemes along finite locally free
-  coverings with a compatible ample sheaf: StableReduction Layer 2 and ModularCurves 0E.
+- Descent of quasi-projective schemes along finite locally free coverings with a compatible ample
+  sheaf: StableReduction Layer 2.
 - Quotients of affine schemes by finite groups with the universal property, integrality and
   surjectivity of the projection and the orbit description of fibres:
   `TauCeti.AffineInvariantQuotient.quotient` and `.projection`
-  (`TauCeti.AlgebraicGeometry.Quotient.Affine`, `.FiniteGroup.Affine`) and ModularCurves 0C.
+  (`TauCeti.AlgebraicGeometry.Quotient.Affine`, `.FiniteGroup.Affine`); the universal property
+  for arbitrary scheme targets and the quotients by finite locally free equivalence relations are
+  §1.17's.
 - The cohomological Brauer group of a field as the Brauer group: `TauCeti.brauerCohomologyEquiv`
   (`TauCeti.Algebra.CrossedProduct.Comparison`) and QuadraticFormInvariants Layer 7B; the
   finite-field case `Subsingleton (BrauerGroup k)` is `TauCeti.subsingleton_brauerGroup_of_finite`.
@@ -194,7 +185,7 @@ pinned libraries; each is cited where it lives and is not a target here.
   `weightedDegreeZeroQuotientAddEquivPicZero`, `picQuotientPicZeroAddEquivInt`
   (`TauCeti.AlgebraicGeometry.WeilDivisor.Scheme.PicZero`); the rational points of the Jacobian as
   degree-zero line bundles given a rational point: StableReduction contract J-D.
-- The relative Grassmannian: ModularCurves 0G. Regularity of stalks of smooth schemes and of
+- Regularity of stalks of smooth schemes and of
   blow-ups of nodes: `TauCeti.AlgebraicGeometry.isRegularRing_iff_isRegularLocalRing_stalk_Spec`,
   `isRegularLocalRing_stalk_of_smooth`, `TauCeti.NodeAlgebra.isRegularLocalRing_stalk_blowup_iff`.
   Density of the free locus: `Module.dense_interior_freeLocus_of_finiteType`.
@@ -205,8 +196,8 @@ pinned libraries; each is cited where it lives and is not a target here.
   `SchemeWeilDivisor.relativeDegree_principalDivisor`, `TauCeti.length_quotient_span_pair_comm`, and
   the Hasse bound for elliptic curves `WeierstrassCurve.hasse_bound`; Layer 3 and Layer 5 state only
   what these do not.
-- Pieces that exist and are cited inside a kept target: ModularCurves 7D's `ArtinianTestAlgebra` is
-  the case `Λ = W(k)` of §4.2; Mathlib's `TensorProduct.AlgebraTensorModule.tensorQuotientEquiv` is
+- Pieces that exist and are cited inside a kept target: Mathlib's
+  `TensorProduct.AlgebraTensorModule.tensorQuotientEquiv` is
   the affine case of §0.27; Mathlib's `Functor.relativelyRepresentable.of_diag`, `diag_iff`,
   `respectsIso`, `MorphismProperty.relative.rep`, `relative_map_iff` and
   `GroupExtension.rightHom_inl` are helper lemmas of §1.3 and §1.25;
@@ -266,8 +257,11 @@ here for the roadmaps that import them.
    consumers; their comparisons retain finite Tor amplitude and coherent derived reductions.
 3. Stacks are pseudofunctors with Mathlib's `IsStack`; representability of a morphism of presheaves
    means by schemes, of stacks by algebraic spaces; torsors are fppf torsors; group actions are on the
-   left; group objects are `GrpObj` in the cartesian monoidal categories `Over S` (schemes, the
-   ModularCurves convention) and `Over h_S` (algebraic spaces).
+   left; group objects are `GrpObj` in the cartesian monoidal categories `Over S` (schemes) and
+   `Over h_S` (algebraic spaces); a group scheme over `S` is `GrpObj (Over.mk f)` for its structure
+   morphism `f`. A morphism is *finite locally free* when it is finite, flat and locally of finite
+   presentation (Stacks, Tag 02KB); its rank is Mathlib's `Scheme.Hom.finrank`, locally constant
+   under these three conditions and not under finiteness and flatness alone (Stacks, Tag 05LB).
 4. The genus of a proper curve is `dim H¹(X, O_X)`; the degree of a locally free sheaf of rank `r` is
    `χ(E) − r·χ(O_X)`. Thickenings are closed immersions surjective on points; modifications are
    proper birational, alterations proper dominant and generically finite. Chow groups are graded by
@@ -413,10 +407,7 @@ models), Layer 1 (nodal families and the local normal form over a DVR, normaliza
 Layer 2 (coherent curve theory, the Gorenstein `ω_{X/S}`, projective morphisms and relative Proj of
 finitely generated algebras, relative ampleness, polarised descent), Layer 3 (prestable, semistable,
 stable and `n`-pointed families), Layer 4 (blow-ups, strict transforms along blow-ups, intersection
-numbers on arithmetic surfaces). **From ModularCurves**: 0B (group objects and finite locally free
-group schemes), 0C (affine invariant quotients), 0D (finite étale schemes and Galois sets), 0E
-(effective descent), 0F (Weil restriction), 0G (the Grassmannian), 4D (strict henselization and the
-regular locus), 7D (`ArtinianTestAlgebra`), 9D (coarse schemes). **From JacobianChallenge**: A
+numbers on arithmetic surfaces). **From JacobianChallenge**: A
 (`Pic`, degree), B (coherent cohomology over `k`, genus, Riemann–Roch and Serre duality for line
 bundles), C (relative cohomology and base change, symmetric powers), D (Picard functor, `Pic⁰`,
 Picard–Brauer obstruction), E (abelian varieties), F (Abel–Jacobi). **From AlgebraicCurves**: 3
@@ -480,9 +471,9 @@ L2A's `GradedQuasicoherentAlgebra`; gradings are indexed by `ℕ`, and the degre
 `O_S`-algebra through the unit `O_S → A_0`, which is an isomorphism only where a target says so. Henselian
 pairs are Mathlib's `HenselianRing R I`; regular rings are `IsRegularRing`; regular sequences are
 `RingTheory.Sequence.IsRegular`. Perfection of an `𝔽_p`-algebra is Mathlib's colimit-along-Frobenius
-`PerfectClosure`, never the inverse-limit `Perfection`. Weil restriction is ModularCurves 0F; strict
-henselization, miracle flatness and the openness of the regular locus are ModularCurves 4D; coherent
-sheaves are JacobianChallenge Layer B's `FinitelyPresentedSheaf`.
+`PerfectClosure`, never the inverse-limit `Perfection`. The strict henselization of a local ring is
+§0.12a's, the openness of the regular locus over an excellent base is §0.21's and miracle flatness
+is §4.13's; coherent sheaves are JacobianChallenge Layer B's `FinitelyPresentedSheaf`.
 
 ### 0.1 Quasi-coherent algebras as sheaves of algebras, and direct-image algebras
 
@@ -598,6 +589,69 @@ L2A; StableReduction Layer 2; Mathlib `Proj`, `Proj.toSpecZero`, `GradedAlgebra`
 
 *Lean:* `Proj.isPullback_baseChange` (with the two maps of the square existentially quantified).
 The relative Proj and its comparisons are specified in this README only.
+
+### 0.3a The relative Grassmannian
+
+Construct, for a finite locally free `O_S`-module `E` on a scheme `S` and `N ≥ 0`, the **relative
+Grassmannian** *grassmannian E N*, the `S`-scheme representing the functor sending `T → S` to the
+set of locally free rank-`N` quotients `E_T → Q` modulo isomorphism of quotients (Stacks, Section
+27.22 (089R), for a free module over `ℤ`). Mathlib supplies the module-valued functor
+`Module.Grassmannian.functor` on affine bases and nothing else: neither the scheme, nor its
+charts, nor representability. Construct the affine charts, one for each `N`-element subset of a
+local basis of `E` (the locus where the universal quotient restricted to those basis vectors is
+an isomorphism, an affine space of relative dimension `N(n − N)` on a rank-`n` locus), their
+transition maps, and the gluing over trivialising affine covers of `E`; prove
+*grassmannian_independent* (independence of the cover and of the trivialisations), construct the
+universal quotient *universalQuotient* and its kernel, and prove the universal property
+*grassmannian_hom_equiv* and *grassmannian_baseChange* (compatibility with arbitrary base change).
+On `S = Spec R` with `E` the sheaf of a module `M`, identify the `R`-points with
+`Module.Grassmannian R M N`, naturally in `R`-algebras (*grassmannian_points_affine*). Rank-`d`
+subbundles of a rank-`n` bundle correspond to rank-`(n − d)` quotients, or to rank-`d` quotients of
+the dual; supply both comparisons with their universal bundles (*grassmannian_sub_quot*,
+*grassmannian_dual*).
+
+Identify the rank-one case with the quotient-convention projective bundle,
+*grassmannian_one_relativeProj*: for `F` finite locally free, `Grass_1(F) ≅ relativeProj (Sym F)`
+over `S`, §0.3's relative Proj of AlgebraicVectorBundles L2A's `gradedSymmetricAlgebra F`, which is
+generated in degree one by `F`; the pullback of `F` to `relativeProj (Sym F)` mapping onto `O(1)`
+is the universal rank-one quotient, and the identification and its `O(1)` comparison commute with
+arbitrary base change, by `relativeProj_baseChange`. Then construct the Plücker map
+*pluecker : Grass_N(E) → Grass_1(∧^N E) = P(∧^N E)* classifying the universal exterior-power
+quotient `∧^N E_T → det Q` (exterior powers and determinants from AlgebraicVectorBundles L0C), and
+prove *pluecker_closedImmersion*: it is a closed immersion whose pullback of `O(1)` is `det Q`,
+compatibly with arbitrary base change; hence *grassmannian_projective*. "Projective" means a
+closed immersion into the projective bundle of a finite type quasi-coherent sheaf (Stacks, Tag
+01W8), with base change and stability under composition with closed immersions; no globally
+trivial projective ambient space is assumed. This subsection owns the finite locally free quotient
+Grassmannian with its charts, universal quotient, rank-one identification and Plücker closed
+immersion; §4.14's Quot schemes and §5.4's projective bundles are stated on it.
+AlgebraicModuliForArithmeticGeometry §1.3 consumes it and builds on it the coherent extension to
+finite-type quasi-coherent `E`, the relative tangent sheaf, smoothness of relative dimension
+`N(n − N)` with its extreme-rank cases, and flag schemes, none of which is stated here;
+ModularCurves consumes it for its parameter spaces of finite locally free subgroup schemes.
+*Needs:* §0.3; AlgebraicVectorBundles L0B–L0C and L2A; Mathlib `Module.Grassmannian.functor`, the
+exterior algebra, scheme gluing and morphism properties.
+
+**Checks.**
+- *grassmannian_projectiveLine*: for `E = O_S²` and `N = 1` the two charts are affine lines over
+  `S` glued along `x ↦ x⁻¹` on the complement of the origin, and the rank-one identification gives
+  `ℙ¹_S`; a construction that glued the two charts along the identity would produce the affine
+  line with a doubled origin, which is not separated.
+- *grassmannian_extreme_ranks*: `Grass_0(E) = S` and `Grass_n(E) = S` for `E` of constant rank `n`,
+  and `Grass_N(E)` is empty for `N > n` over a nonempty base. A quotient functor that forgot
+  "locally free" would admit, over a local base `S` with closed point `s`, the quotient
+  `O_S → O_S/𝔪_s` of `O_S`, of rank one at `s` and zero elsewhere; `Grass_1(O_S)` has exactly one
+  `T`-point for every `T`.
+- *pluecker_quadric*: for `E = O_S⁴` and `N = 2`, the Plücker map sends the point of the chart
+  indexed by the first two basis vectors with quotient matrix `((1,0,a,b),(0,1,c,d))` to
+  `(1 : c : d : −a : −b : ad − bc)` in `P(∧²E) = ℙ⁵_S`, coordinates ordered `p₁₂, p₁₃, p₁₄, p₂₃,
+  p₂₄, p₃₄`, and the image satisfies `p₁₂p₃₄ − p₁₃p₂₄ + p₁₄p₂₃ = 0`; a map built from the `2 × 2`
+  minors without the alternating signs of the exterior power would give `(1, c, d, a, b, ad − bc)`,
+  for which the left side is `2(ad − bc)`.
+- *grassmannian_one_baseChange*: `relativeProj (Sym O_S²)` over `S = Spec ℤ`, base-changed to
+  `Spec 𝔽_p`, is `ℙ¹_{𝔽_p}` with the same two charts, as the base-change statement requires.
+
+*Lean:* the relative Grassmannian and its comparisons are specified in this README only.
 
 ### 0.4 Direct images and extension of quasi-coherent and coherent modules
 
@@ -883,8 +937,8 @@ the residue field of `A'` is purely inseparable over that of `A` (Stacks, Defini
 (0BPZ)). Define `Scheme.IsGeometricallyUnibranchAt X x` on stalks and `IsGeometricallyUnibranch X`
 at every point. API: `IsGeometricallyUnibranch.of_isIntegrallyClosed` (normal local domains are
 geometrically unibranch), `isUnibranch_iff_irreducible_henselization` and
-`isGeometricallyUnibranch_iff_irreducible_strictHenselization` (ModularCurves 4D's strict
-henselization; Stacks, Lemma 15.108.5), `IsGeometricallyUnibranch.of_etale`,
+`isGeometricallyUnibranch_iff_irreducible_strictHenselization` (the strict henselization of
+§0.12a; Stacks, Lemma 15.108.5), `IsGeometricallyUnibranch.of_etale`,
 `IsGeometricallyUnibranch.baseChange_sepClosed` (invariance under separable field extension).
 Prove `unibranch_finite_components`: let `X` be locally Noetherian and let `p : Y → X`
 represent a finite locally constant étale sheaf. Every connected component `C` of `Y` is open
@@ -902,7 +956,7 @@ the stronger component result used there over a Noetherian semilocal base. Prove
 étale, with degree bounded by the product of the degrees, only under the finiteness hypotheses
 of Couveignes's construction (Couveignes 2019, Theorem 1 (p. 1) and Proposition 2 (p. 7)), not
 from the Jacobian condition alone. *Needs:* Mathlib `Scheme.Hom.normalization`,
-`Scheme.Hom.normalizationObjIso`, `IsIntegrallyClosed`, `IsPurelyInseparable`; ModularCurves 4D.
+`Scheme.Hom.normalizationObjIso`, `IsIntegrallyClosed`, `IsPurelyInseparable`; §0.12a.
 
 **Checks.**
 - `unibranch_finite_components_eventual_sequences`: let `A ⊆ (ℕ → 𝔽₂)` be the subring of
@@ -1028,6 +1082,76 @@ the universal property, with `map_comp_unit`, `map_extended_le`, `map_id`, `map_
 `Henselization.henselian`, `Henselization.existsUnique_lift`, `Henselization.fixed_of_henselian`;
 the identity and three `(ℤ, (5))` neighbourhood Checks, the zero- and unit-ideal
 henselizations, the fixed-pair case and the finite-field case are `example`s.
+
+### 0.12a The strict henselization of a local ring
+
+Let `(R, 𝔪, κ)` be a local ring and `Ω` a separable closure of `κ` (Mathlib `IsSepClosure κ Ω`, an
+`R`-algebra through `R → κ`). The construction is the filtered colimit of the étale neighbourhoods
+of Stacks, Lemma 10.155.11 (04GW), pointed by an `R`-algebra map to `Ω`; it is a second
+construction beside §0.12, not the henselization of the pair `(R, 𝔪)`, with which it agrees only
+when `κ` is separably closed. Define *StrictHenselization.IsPointedNeighbourhood R Ω :
+ObjectProperty (Over (CommAlgCat.of R Ω))*: the algebra is étale over `R`. Its full subcategory
+*Neighbourhood R Ω* is equivalent to the category of triples `(S, 𝔮, φ)` of Lemma 10.155.11 at
+`𝔭 = 𝔪`: `𝔮` is the kernel of `S → Ω` and `φ : κ(𝔮) → Ω` the induced embedding. Prove
+*neighbourhood_isFiltered* (tensor products give common targets, and parallel maps `f, g : B → C`
+are equalised by inverting `1 − d(e)` in `C`, where `e` is the idempotent generating the kernel of
+the multiplication `B ⊗_R B → B`, so that `1 − e` is the diagonal idempotent, and
+`d = Algebra.TensorProduct.productMap f g`: inverting `1 − d(e)` kills the idempotent `d(e)`, so
+`d` factors through the diagonal and `f = g` into `C[1/(1 − d(e))]`, which is étale over `R`; the
+pointing of `C` sends `d(e)` to `0` because the pointings of `B` along `f` and along `g` agree, so
+`1 − d(e)` maps to `1` in `Ω` and the localization is again pointed) and
+*neighbourhood_essentiallySmall* (étale algebras are of finite type). Define the **strict
+henselization** *StrictHenselization.algebra R Ω*, the colimit of the diagram over the small model,
+with *stage*, *stage_naturality*, *desc*, *exists_stage_eq*, *hom_ext*, and the map
+*toSepClosure : algebra R Ω →ₐ[R] Ω* induced by the pointings, with *toSepClosure_comp_stage*. This
+is Stacks' strict henselization of `R` with respect to `κ ⊆ Ω` (Definition 10.155.3 (04GQ),
+constructed in Lemma 10.155.2 (04GP); Lemma 10.155.11 (04GW) identifies it with this colimit), and
+every statement here is about this colimit. A local ring `S` is *strictly henselian* when
+`HenselianLocalRing S ∧ IsSepClosed (ResidueField S)` (Stacks, Definition 10.153.1 (04GF)); no
+separate predicate is introduced. Prove the properties of Lemma 10.155.2 (04GP):
+*henselianLocalRing*, *isSepClosed_residueField*, *isLocalHom_algebraMap*, the filtered-colimit
+description (*neighbourhood_isFiltered*, *algebra* and its consequence *exists_stage_eq*),
+*maximalIdeal_eq_map* (`𝔪 R^{sh}` is the maximal ideal) and *ker_toSepClosure* with
+*toSepClosure_surjective* (`R^{sh}/𝔪 R^{sh} = Ω` over `R`); the clause of that lemma about the
+henselization `R^h` is §0.12's *local_henselization* with §0.13. Prove the **universal property**
+*existsUnique_lift* (Stacks, Tag 08HQ, applied to each stage): for a ring map `R → S` with `S`
+henselian local and a field map `φ : Ω → κ_S` compatible with `R`, there is a unique `R`-algebra
+map `f : R^{sh} → S` with `f mod 𝔪_S = φ ∘ toSepClosure`; such an `f` is local. Its consequence
+*exists_isLocalHom_lift*: a local homomorphism `R → S` into a strictly henselian local ring extends
+to a local homomorphism `R^{sh} → S` (a `κ`-embedding `Ω → κ_S` exists because `κ_S` is separably
+closed). The Stacks-form companion *existsUnique_algHom_of_etale* (Stacks, Tag 04GT, with
+`S = R`): for `A` étale over `R`, a prime `𝔮` of `A` over `𝔪` and an `R`-embedding `φ : κ(𝔮) → Ω`,
+there is a unique `R`-algebra map `f : A → R^{sh}` with `f⁻¹(𝔪_{R^{sh}}) = 𝔮` inducing `φ` on
+residue fields. **Functoriality** *map* (Tag 04GU): a local homomorphism `R → S` of local rings
+with separable closures `Ω_R`, `Ω_S` of the residue fields and a field map `Ω_R → Ω_S` compatible
+with `κ_R → κ_S` induces a unique local `R^{sh} → S^{sh}` over `R → S` inducing the given map on
+residue fields; *map_id* and *map_comp*. **The colimit at a prime** *localization_equiv* (Tag
+04GW): for any ring `R`, prime `𝔭` and separable closure `Ω` of `κ(𝔭)`, the strict henselization of
+`R_𝔭` with respect to `Ω` is the colimit over the triples `(S, 𝔮, φ)` with `R → S` étale, `𝔮` over
+`𝔭` and `φ : κ(𝔮) → Ω` a `κ(𝔭)`-embedding, of `S` and also of `S_𝔮`. **Noetherianity and
+completion** (Stacks, Lemma 15.46.3 (06LJ), the clauses about `R^{sh}`):
+*isNoetherianRing_algebra_iff* (`R` is Noetherian iff `R^{sh}` is); in that case `(R^{sh})^∧` is a
+Noetherian complete local ring,
+`R^{sh} → (R^{sh})^∧` is flat, `R^∧ → (R^{sh})^∧` is formally smooth in the
+`𝔪_{(R^{sh})^∧}`-adic topology, and `((R^∧)^{sh})^∧ = (R^{sh})^∧`; the clauses of that lemma about
+`R^h` are §0.13's. Completions are Mathlib's `AdicCompletion` at the maximal ideal. *Needs:*
+§0.12, §0.13; Mathlib `CommAlgCat`, `Over`, `ObjectProperty.FullSubcategory`, `IsFiltered`,
+`SmallModel`, `Limits.colimit`, `Algebra.Etale`, `HenselianLocalRing`, `IsSepClosure`,
+`IsSepClosed`, `Ideal.ResidueField`, `AdicCompletion`, `Algebra.FormallySmooth`.
+
+**Checks.**
+- *strictHenselization_sepClosed_field*: for a separably closed field `k` and `Ω = k`, `R^{sh} ≅ k`.
+- *strictHenselization_finite_field*: for `R = 𝔽_p` and `Ω` an algebraic closure, `R^{sh} ≅ Ω`, so
+  `R → R^{sh}` is not an isomorphism.
+- *strictHenselization_of_strictlyHenselian*: for `R` strictly henselian and `Ω = κ`, `R → R^{sh}`
+  is an isomorphism.
+- *strictHenselization_not_complete*: for `R = ℤ_(p)`, `R^{sh}` is a discrete valuation ring with
+  residue field `Ω` and is not complete (it is countable); its completion is `W(Ω)`.
+- *strictHenselization_ne_henselization*: for `R = ℤ_(p)` and `Ω = 𝔽̄_p`, the map from §0.12's
+  henselization `algebra (𝔪)` to `R^{sh}` induced by the universal property is not surjective: the
+  residue field of the former is `𝔽_p`.
+
+*Lean:* the strict henselization is specified in this README only.
 
 ### 0.13 Ind-étale algebras and the properties of the henselization
 
@@ -1414,7 +1538,11 @@ local G-ring `A` the map `A → Â` is regular (Stacks, Lemmas 15.43.1 (07QK), 1
 15.51.6, 15.51.12). Define `IsJ2 R`: `R` is Noetherian and the regular locus of every finite-type
 `R`-algebra is open, quantified over all finite-type algebras and not only `R` or its localisations
 (Stacks, Definition 15.48.1 (3)), with `.noetherian`, `.regularLocus_open`, `.ringEquiv`,
-*IsJ2.of_finiteType*, *IsJ2.localization*. Define `IsQuasiExcellentRing R := IsGRing R ∧ IsJ2 R`
+*IsJ2.of_finiteType*, *IsJ2.localization*, and *regularLocus_open_of_finiteType*: for a scheme
+locally of finite type over a J-2 scheme, in particular over an excellent scheme, over `ℤ` or
+over a field, the regular locus is open (affine-locally, `IsJ2.regularLocus_open` for the section
+rings, the definition being quantified over all finite-type algebras). Define
+`IsQuasiExcellentRing R := IsGRing R ∧ IsJ2 R`
 (Stacks, Definition 15.53.1 (1)), with `.gRing`, `.j2`, `.noetherian`; universal catenarity is not
 required. Define `IsExcellentRing R`: quasi-excellent and universally catenary in the sense of
 §0.16 (Stacks, Definition 15.53.1 (2)), with `.quasiExcellent`, `.finiteType`, `.localization`
@@ -2035,7 +2163,7 @@ integers (§0.13); `ℤ` and every field are excellent, Nagata, universally cate
 ### Dependencies
 
 Mathlib and Tau Ceti as listed under supplier contracts; AlgebraicVectorBundles L0A–L2A (§§0.1–0.3);
-StableReduction Layer 2 (§0.3); JacobianChallenge Layer B (§§0.4–0.6); ModularCurves 4D (§0.10);
+StableReduction Layer 2 (§0.3); JacobianChallenge Layer B (§§0.4–0.6);
 §0.29 / `absoluteFrobenius`,
 `iteratedSchemeFrobenius` (§§0.24–0.26, characteristic-`p` schemes);
 §0.23a / `universalHomeomorphismEtaleEquivalence`
@@ -2047,9 +2175,9 @@ Descent and the two-categorical geometry built on it. Mathlib supplies the fpqc,
 topologies with subcanonicity, pseudofunctor descent (`DescentData`, `IsPrestack`, `IsStack`),
 relative representability with the diagonal criterion and comonadicity of extension of scalars
 along faithfully flat maps; Tau Ceti supplies fppf quotients of affine groups, faithfully flat
-descent of Hopf-algebra points, line bundles and Galois descent of vector spaces; ModularCurves 0E
-supplies effective descent of affine and finite locally free schemes and StableReduction Layer 2
-polarised descent. Layer 1 proves fpqc descent of quasi-coherent modules as a stack and gluing of
+descent of Hopf-algebra points, line bundles and Galois descent of vector spaces; StableReduction
+Layer 2 supplies polarised descent. Layer 1 proves fpqc descent of quasi-coherent modules as a
+stack, effective descent of affine and of finite locally free schemes, and gluing of
 sheaves; builds the category of algebraic spaces with étale-equivalence-relation quotients,
 presentations, points, étale-local and separation properties and the small étale site; group spaces,
 actions, groupoids, stabilizers, torsors and their classes, contracted products, twisting,
@@ -2078,8 +2206,17 @@ faithfully flat ring map in the affine case and gluing in general (Stacks, Propo
 (023T)). Prove `sheaf_stack`: for a site `C`, the pseudofunctor `U ↦ Sh(C/U)` is a stack, and so is
 `U ↦ Sh(C/U, Ab)` (Stacks, Lemmas 7.26.1 (04TQ), 7.26.4 (04TR) for sheaves of sets; Lemma 7.26.5
 (04TS) makes `Sh(C/U)` equivalent to glueing data along a covering, compatibly with finite products,
-so the same holds for abelian group objects, which are the abelian sheaves). *Needs:* Mathlib `Pseudofunctor`,
-`IsStack`, `DescentData`, `fpqcTopology`, `ModuleCat.Descent`.
+so the same holds for abelian group objects, which are the abelian sheaves). Prove
+*affine_fpqc_descent*: a descent datum for schemes relative to an fpqc covering `{X_i → S}` whose
+members `V_i → X_i` are affine is effective, and the descended scheme is affine over `S` (the
+quasi-coherent algebras `(V_i → X_i)_* O` descend by `qcoh_fpqc_descent` and the result is their
+relative Spec, §0.1; Stacks, Lemma 35.37.1 (0245)); morphisms between descended affine schemes
+descend, and the descended scheme is finite, finite locally free or a closed immersion over `S`
+when the members are, since these properties are fpqc-local on the target (Stacks, Section
+35.23). In particular effective descent holds along one faithfully flat quasi-compact morphism
+for affine schemes, finite locally free schemes and closed subschemes, with the cocycle and
+uniqueness statements. *Needs:* §0.1; Mathlib `Pseudofunctor`, `IsStack`, `DescentData`,
+`fpqcTopology`, `ModuleCat.Descent`.
 
 **Checks.**
 - `qcohPseudofunctor_test_affine`: over `Spec R → Spec S` faithfully flat, descent data on an
@@ -2425,7 +2562,7 @@ algebraic space, with a `GrpObj` structure for the cartesian monoidal structure 
 Lemma 78.8.3 (06P9)), *Action.baseChange* along `S' → S`, *Action.constantEquiv* (actions of Tau
 Ceti's constant group scheme `Γ_S` on `X` are homomorphisms `Γ → Aut X`). Define the comparison
 `GroupSpace.ofGroupScheme : GrpObj (Over.mk f) → GroupSpace S` for a group scheme `f : G → S` in
-ModularCurves 0B's convention (`yoneda : Over S ⥤ Over h_S` preserves finite products, so carries
+the convention of this roadmap (`yoneda : Over S ⥤ Over h_S` preserves finite products, so carries
 `GrpObj` to `GrpObj`). The named functor `GroupSpace.ofGroupSchemeFunctor S` runs from
 `Grp (Over S)` to `Grp (Over h_S)`; `ofGroupScheme_obj` identifies its objects with
 `ofGroupScheme`, and `ofGroupScheme_forget` identifies its underlying functor with
@@ -2676,6 +2813,32 @@ Section 39.23 (03BE)). Formation of `Y/Γ` is asserted to commute with flat base
 (Stacks, Lemma 15.112.7 (0BRH)). *Needs:* §0.3, §1.7, §1.9, §1.10, §1.14, §1.15; Tau Ceti
 `TauCeti.AffineInvariantQuotient`.
 
+**Finite locally free quotients.** Prove *affineQuotient_universal*: for a finite group `G`
+acting on an affine scheme `Spec A`, Tau Ceti's `Spec A^G` with its projection
+(`TauCeti.AffineInvariantQuotient.quotient`, `.projection`, whose universal property `desc` is
+stated for affine targets) is a categorical quotient among all schemes, the projection is
+integral and surjective, and its fibres are the `G`-orbits; the projection is finite when `A` is
+of finite type over an invariant base ring on which `G` acts by base-algebra automorphisms
+(`TauCeti.AffineInvariantQuotient.isFinite_projection_of_finiteType`), and finiteness is not
+asserted otherwise. Prove *finiteLocallyFreeRelation_quotient* (SGA 3, Exposé V, Théorème 4.1,
+affine case): if `X` is affine and `R ⇉ X` is an equivalence relation whose two projections are
+finite locally free, then the quotient `X/R` exists, is affine, the map `X → X/R` is finite
+locally free and surjective, and `R = X ×_{X/R} X`; hence `X/R` represents the fppf quotient
+sheaf. Deduce *freeAction_quotient*: if a finite constant group acts freely on a scheme `X`
+that has a group-invariant affine open cover, the affine invariant quotients glue to a scheme
+`X/G` representing the fppf quotient, and `X → X/G` is a finite étale torsor; without such a
+cover the fppf quotient is in general only an algebraic space (§1.6), and no unrestricted
+scheme-quotient theorem is asserted. Prove *torsor_quotient*: for a finite locally free group
+scheme `G/S` acting on an affine `S`-scheme `X` with `G ×_S X → X ×_S X` an isomorphism (the
+Hopf–Galois criterion on the coordinate algebras), the invariant algebra `O(X)^G` makes `O(X)`
+a faithfully flat, finite locally free `O(X)^G`-module, `X/G := Spec O(X)^G` is the fppf
+quotient with the universal property of *affineQuotient_universal*, and `X` is a `G`-torsor over
+it (§1.15); descent of quasi-coherent modules along `X → X/G` is `qcoh_fpqc_descent` with the
+`G`-equivariant descent data (§1.1). ModularCurves consumes these for its rigidifiers,
+simultaneous moduli schemes and coarse modular curves, after verifying the invariant-cover and
+finite-type hypotheses on its moduli schemes. *Needs:* §1.1, §1.6, §1.15; Tau Ceti
+`TauCeti.AffineInvariantQuotient`; Mathlib scheme gluing and `Scheme.Hom.finrank`.
+
 **Checks.**
 - `Quotient.test_relative_ampleness`: for `Y=S=ℙ¹_k`, `f=id`, `Γ=1`, and `L=O(−1)`,
   the quotient is projective over `S` and `L_Q=O(−N)` is relatively ample but not absolutely ample.
@@ -2683,7 +2846,7 @@ Section 39.23 (03BE)). Formation of `Y/Γ` is asserted to commute with flat base
 - `Quotient.test_finite_affine`: for a finite group `Γ` acting on `Spec A`, `Spec A → Spec A^Γ` is a
   geometric quotient: two primes with the same contraction to `A^Γ` are conjugate, and
   `O_{Spec A^Γ} = (π_* O)^Γ`; this is Tau Ceti's `TauCeti.AffineInvariantQuotient.quotient` and
-  `.projection` (ModularCurves 0C).
+  `.projection`, the affine case of *affineQuotient_universal*.
 - `Quotient.test_scaling_plane`: `𝔸²_k → Spec k` is a categorical but not a geometric quotient for
   the scaling action of `𝔾_m` (the fibre over the point is not one orbit).
 - `Quotient.test_punctured_plane`: `𝔸² ∖ {0} → ℙ¹` is a geometric quotient for scaling.
@@ -3041,7 +3204,17 @@ The latter supplies compatibility with flat base change. The local-finite-type c
 uses the locally Noetherian hypothesis on `S`; no quasi-compact separated diagonal is
 imposed on `X`. Conrad 2005, Theorem 1.1, pp. 1–2, is the specialization under his
 standing quasi-compact separated diagonal convention. Prove `finite_quotient_coarse`: for a finite group `G` acting on an affine scheme `Spec A`,
-`Spec A^G` is the coarse space of `[Spec A/G]` (Stacks, Lemmas 106.12.2, 106.12.3). Define
+`Spec A^G` is the coarse space of `[Spec A/G]` (Stacks, Lemmas 106.12.2, 106.12.3; the quotient
+is §1.17's *affineQuotient_universal*). Prove *coarse_finite_group_quotient*: for an algebraic
+stack `X` locally of finite presentation over a locally Noetherian `S` with finite inertia and
+coarse moduli space `π : X → M`, and a finite group `H` acting on `X` over `S`, the induced
+action on `M` has a coarse space `M → M/H` (by `keel_mori` applied to `[M/H]`; when `M` is a
+scheme whose `H`-orbits lie in affine opens it is the quotient glued from affine invariant
+quotients as in §1.17), and the composite `X → M/H` is a coarse moduli space of the quotient
+stack `[X/H]`: an `H`-invariant map from `X` to an algebraic space factors uniquely through
+`M` and then through `M/H`, and the geometric points of `[X/H]` are the `H`-orbits of those of
+`M` (Rydh, manuscript dated 2012-05-04, Theorem (6.12); Stacks, Lemma 106.12.3 for the affine
+case). ModularCurves consumes this for the coarse schemes of its quotient problems. Define
 `IsTame M` for `M` locally of finite presentation with finite inertia and coarse space `ρ : M → M`:
 `ρ_* : QCoh(M) → QCoh(M)` is exact (Abramovich–Olsson–Vistoli 2008, Definition 3.1 and the remark
 after it), with `.classifying_iff` (`BG` is tame iff `G` is linearly reductive, Tau Ceti's
@@ -3050,7 +3223,7 @@ geometric stabilizer is linearly reductive). Prove `tame_local_structure`: a tam
 étale-locally on its coarse space a quotient `[Spec A/G]` with `G` linearly reductive, and tameness
 is stable under base change (Abramovich–Olsson–Vistoli 2008, Theorem 3.2, Corollaries 3.3–3.5,
 Proposition 3.6). *Needs:* §1.17, §1.19, §1.20, §1.22; Tau Ceti
-`linearlyReductiveAffineGroupSchemeProperty`; ModularCurves 0C.
+`linearlyReductiveAffineGroupSchemeProperty`.
 
 **Checks.**
 - `moduliFunctor.test_space`, `test_classifying` (`π₀ BG(T)` is `H¹(T, G)`), `test_not_sheaf` (the
@@ -3227,7 +3400,7 @@ dual numbers over a point separate geometric from topological quotients (§1.17)
 Layer 0: §0.12–§0.14 (henselian pairs), §0.21 (excellence,
 in §1.23's Keel–Mori). Layer 2: §2.3 (the torsor-class carrier) and §2.11 (Hilbert 90) are used by
 §1.15 and §1.16 only; §2.3 depends on nothing in Layer 1, so the graph is acyclic. Mathlib and Tau
-Ceti as listed; ModularCurves 0C and 0E; StableReduction Layer 2.
+Ceti as listed; StableReduction Layer 2.
 
 ## Layer 2: sites and scheme cohomology
 
@@ -4876,7 +5049,7 @@ Mathlib's `LocallyConstant`, not a second locally-constant-function API.
 ### 3.5 Norms of invertible sheaves
 
 Define `lineBundleNorm π : LineBundleClass X → LineBundleClass Y` for `π : X → Y` finite locally
-free (finite, flat and locally of finite presentation, ModularCurves 0B's convention), as the norm
+free (finite, flat and locally of finite presentation, the convention of this roadmap), as the norm
 of a line bundle along a finite locally free morphism; the degree enters only the statements that
 need it, through `Scheme.Hom.finrank`: `Norm_π(L)` is the invertible sheaf whose local
 trivialisations are the determinants of `π_* L` relative to `π_* O_X` (Stacks, Lemmas 0BCY, 0BCZ,
@@ -5119,10 +5292,17 @@ ideal; Definition 90.3.2 (06GD)), `ArtinLocalAlg.pullback` (fibre products along
 surjection stay in `C_Λ`; Lemma 90.3.8 (06GH)) with `pullbackFst`, `pullbackSnd`, `isPullback`,
 `dualAdd` (the addition map `k[ε] ×_k k[ε] → k[ε]`), `CompleteLocalAlg Λ k` (the category `Ĉ_Λ` of
 complete Noetherian local `Λ`-algebras with residue field `k`; Definition 90.4.1 (06GW)) with
-`R = lim R/m^n` supplied by Mathlib `AdicCompletion.of_bijective`. ModularCurves 7D's `ArtinianTestAlgebra` is the case
-`Λ = W(k)`, `k` algebraically closed, and is identified with `ArtinLocalAlg (W k) k` by
-`artinianTestAlgebraEquiv`. *Needs:* Mathlib `IsArtinianRing`, `IsLocalRing`, `CommAlgCat`,
-`Over`, `IsAdicComplete`, `DualNumber`; ModularCurves 7D (comparison only).
+`R = lim R/m^n` supplied by Mathlib `AdicCompletion.of_bijective`. **The Artinian test algebras
+over the Witt vectors.** For a perfect field `k` of characteristic `p` and `Λ = W(k)` (Mathlib
+`WittVector p k`, with `Λ → k` the constant coefficient `WittVector.constantCoeff`, surjective
+hence finite), the objects of `C_{W(k)}` are the Artinian local `W(k)`-algebras `A` with a
+surjective augmentation `A → k` whose kernel is the maximal ideal and which restricts to the
+constant coefficient on `W(k)`; *ArtinLocalAlg.wittTestAlgebra* records that such a datum is
+exactly an object of `ArtinLocalAlg (W k) k`, so that `C_{W(k)}` and `Ĉ_{W(k)}` are the test
+categories of the deformation functors of objects over `k`, with no second carrier.
+ModularCurves consumes them, for `k` algebraically closed, as the test objects of its universal
+deformations of elliptic curves. *Needs:* Mathlib `IsArtinianRing`, `IsLocalRing`, `CommAlgCat`,
+`Over`, `IsAdicComplete`, `DualNumber`, `WittVector`.
 
 **Checks.**
 - `zmod_prime_pow_mem`: `ℤ/p^{n+1}` with `ℤ/p^{n+1}/(p) ≅ 𝔽_p` is an object of `C_{ℤ_p}`.
@@ -5654,6 +5834,16 @@ of *regularLocus_eq_smoothLocus*. This subsection owns the general finite-type p
 statement; *regularLocus_abundanceSpecialization* identifies its restriction to the supplier's
 normal varieties with the same open smooth locus.
 
+*Miracle flatness.* Prove *miracle_flatness* (Stacks, Lemma 10.128.1 (00R4)): a local
+homomorphism `R → S` of Noetherian local rings with `R` regular, `S` Cohen–Macaulay and
+`dim S = dim R + dim S/𝔪_R S` is flat; hence *miracle_flatness_finite*: a finite local
+homomorphism between regular local rings of the same dimension is flat, a finite morphism between
+regular schemes whose local rings at corresponding points have the same dimension is flat, and a
+finite morphism between smooth relative curves over a common base is flat (its fibres are finite
+maps of smooth curves over a field, and the fibrewise criterion of flatness, Stacks, Section
+37.16, applies). ModularCurves consumes these for the regularity of its moduli problems and the
+flatness of the maps between its compactified curves.
+
 *Regular local rings: Serre's theorem and localization.* Let `(R, 𝔪, κ)` be a Noetherian local
 ring. Prove *IsRegularLocalRing.isCohenMacaulay*: a regular local ring of dimension `d` has depth
 `d`, by induction on a regular system of parameters (Tau Ceti
@@ -5786,7 +5976,7 @@ quotients with Hilbert polynomial `Φ` is representable by a projective `S`-sche
 open subschemes of a Hilbert scheme of `X ×_S Y`, with the universal families and base-change
 compatibility (Nitsure 2005, §2 Theorem 2.3 (p. 11), §3 Theorems 3.3–3.7 (pp. 15–17), §4 Theorem 4.3
 (p. 19), §5 Theorems 5.1–5.3 (p. 24)). The relative Grassmannian used in the construction is
-ModularCurves 0G's. *Needs:* §2.6, §4.12; StableReduction Layer 2; ModularCurves 0G; JacobianChallenge
+§0.3a's. *Needs:* §0.3a, §2.6, §4.12; StableReduction Layer 2; JacobianChallenge
 Layer C.
 
 **Checks.**
@@ -5866,15 +6056,23 @@ and over an algebraically closed residue field the versal deformation has §4.6'
 node-smoothing coordinates; over general fields this description holds geometrically with
 descent data (Deligne–Mumford 1969, Proposition (1.5), p. 81, Theorem (1.6), Corollaries (1.7)–(1.9), p. 83, Theorem (5.2), p.
 104). Prove `level_structure_cover` by the following constructions on the existing stack.
-For the level convention, use Deligne's full ordered bases
-`J[m] ≅ (ℤ/mℤ)^{2g}` over the smooth locus with `m` invertible. The transported
-Weil pairing is retained; a primitive `m`th root of unity is not fixed over `ℤ`.
-The symplectic convention is recovered after adjoining such a root by selecting the
-bases with the standard alternating pairing (`level_structure_cover_pairing`). Both
-conventions give finite étale surjective covers of the smooth locus over the indicated
-base, and the normalized symplectic compactification is projective over the cyclotomic
-base after inverting `m` (Deligne §3.3, p. 137; the Weil pairing and basis convention of
-ModularCurves §3D).
+**Level-structure convention.** For an abelian scheme `J → S` of relative dimension `g`, here
+the Jacobian (§3.6) of a smooth family, and `m` invertible on `S`, `J[m]` is finite étale of rank
+`m^{2g}`. A *full level-`m` structure* is an isomorphism of group schemes
+`(ℤ/mℤ)^{2g}_S ≅ J[m]`, that is an ordered basis `(P_1, …, P_{2g})` of sections, written as a row
+vector on which `GL_{2g}(ℤ/mℤ)` acts on the right by matrix multiplication; the functor of full
+level-`m` structures is represented by a finite étale `GL_{2g}(ℤ/mℤ)`-torsor over `S`
+(*fullLevelStructure_torsor*; the Isom scheme of two finite étale group schemes is finite étale).
+The Weil pairing `J[m] × J[m] → μ_m` is transported to the basis and the alternating matrix of its
+values is retained with the structure; a primitive `m`-th root of unity is not fixed over `ℤ`.
+The *symplectic* convention is recovered after adjoining such a root `ζ` by selecting the bases
+whose pairing matrix is the standard alternating one in powers of `ζ`
+(`level_structure_cover_pairing`), an open and closed subscheme of the full-basis torsor over the
+cyclotomic base. Both conventions give finite étale surjective covers of the smooth locus over
+the indicated base, and the normalized symplectic compactification is projective over the
+cyclotomic base after inverting `m` (Deligne §3.3, p. 137). `level_structure_cover` uses the
+full ordered bases over the smooth locus with `m` invertible. ModularCurves consumes this
+convention: its naive full-level structures are the case `g = 1`, `J = E`.
 
 Prove `level_structure_cover_normalization`: normalize the **whole** `M̄_{g,n}/ℤ`
 in that full-basis cover of `M_{g,n}[1/m]`; denote this particular normalization by
@@ -6024,7 +6222,9 @@ Prove `level_structure_cover_pointed` to extend these conclusions to every
 case uses pointed stable genus-one curves, as in Deligne §2.2, p. 135; full level
 kills the automorphisms on the prime-to-level opens by the same torsion argument.
 Its normalized cover is finite over the compactified `j`-line and hence projective;
-prove this finite-map comparison using ModularCurves §9D's coarse-moduli quotient.
+prove this finite-map comparison using §1.23's *coarse_finite_group_quotient*: the coarse space
+of the quotient of the level-`m` cover of `M_{1,1}[1/m]` by `GL_2(ℤ/mℤ)` is the coarse space of
+`M_{1,1}[1/m]`, the `j`-line, and the normalization is finite over it.
 At `(0,3)` the Jacobian is trivial and the normalization is `Spec ℤ`.
 For each extra marking, apply `Mbar.forget` with target bound `2g−2+n>0`, including
 `(g,n)=(0,3)` and `(1,1)`. Its projective universal stable curve
@@ -6055,9 +6255,9 @@ required family and the retained Isom-cover gives its identification over all of
 `ψ⁻¹(U)` (de Jong 1996, §4.17, pp. 71–72; §5.13, pp. 80–81;
 Deligne 1985, Lemme 1.6, pp. 132–133).
 The proper closure map is the alteration; no finiteness claim is made for it.
-*Needs:* §0.20–§0.21, §1.17, §1.18–§1.20, §4.6, §4.16;
+*Needs:* §0.20–§0.21, §1.17, §1.18–§1.20, §1.23, §3.6, §4.6, §4.16;
 `level_structure_cover_ample` for projectivity; StableReduction Layers 2–3, 9;
-ModularCurves §§3D, 9D; Mathlib `IsStack`, `Functor.IsFibered`,
+Mathlib `IsStack`, `Functor.IsFibered`,
 `Scheme.Hom.normalization`, `Scheme.Hom.normalizationPullback`.
 
 **Checks.**
@@ -6603,7 +6803,7 @@ completion of `𝔸¹` at the origin, the blow-up of `𝔸²` at the origin as t
 Layer 0: §0.9 (limits), §0.17–§0.21 (Serre conditions, Nagata, excellence), §0.23 (universal
 homeomorphisms). Layer 1: §1.18–§1.20 (stacks). Layer 2: §2.3 (torsors), §2.6 (quasi-coherent
 cohomology). Layer 3: §3.6 (Picard schemes of curves, for level structures). Mathlib and Tau Ceti
-as listed; StableReduction Layers 0–4, 9; JacobianChallenge Layers C, E; ModularCurves 0G, 7D.
+as listed; StableReduction Layers 0–4, 9; JacobianChallenge Layers C, E.
 
 ## Layer 5: intersection theory and Riemann–Roch
 
@@ -6634,7 +6834,7 @@ with `ℚ`-coefficients is exported integrally. Degrees of zero-cycles are taken
 only. `ℙ(E) := relativeProj (Sym E^∨)` (§0.3 on AlgebraicVectorBundles L2A's graded symmetric
 algebra) with `O(1)` the tautological quotient of `p^* E^∨`: `ℙ(E)` parametrises lines in `E`, the
 convention of Fulton 1998, Appendix B.5; the Grothendieck convention `ℙ(E) = Proj Sym E`
-parametrising rank-one quotients of `E` is ModularCurves 0G's for its Grassmannians, and the two are
+parametrising rank-one quotients of `E` is §0.3a's rank-one Grassmannian, and the two are
 related by `E ↔ E^∨`, recorded in `projectiveBundle_dual_convention`.
 
 ### 5.1 Rational equivalence, Chow groups and the divisor class comparison
@@ -7481,7 +7681,15 @@ proper-cohomology finiteness and coherent-pushforward prerequisites. The same
 completion and coherent-cohomology carriers serve both sides. LocalPurity §2.1,
 PurityOfBranchLocus §§0.3 and 2.1 and AbhyankarLemma §3.3 consume the regular-local-ring package
 of §4.13: Serre's theorem, the regularity of localizations of a regular local ring (Stacks 0AFS)
-and the regular-ring conclusion. StableReduction consumes nothing from this roadmap.
+and the regular-ring conclusion. ModularCurves consumes the relative Grassmannian (§0.3a) for its
+parameter spaces of subgroup schemes; the strict henselization (§0.12a), the openness of the
+regular locus over an excellent base (§0.21) and miracle flatness (§4.13) for the regularity of
+its moduli problems; effective descent of affine and finite locally free schemes (§1.1), the
+finite locally free quotients of §1.17 and the coarse space of a finite-group quotient (§1.23) for
+its rigidifiers, quotient problems and coarse modular curves; the Artinian coefficient category
+over the Witt vectors (§4.2) for its universal deformations; and the full-level-structure
+convention of §4.15 for its naive level structures. StableReduction consumes nothing from this
+roadmap.
 
 ## References
 
