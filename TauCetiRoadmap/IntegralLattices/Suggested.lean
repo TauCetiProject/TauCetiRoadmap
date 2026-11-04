@@ -1,19 +1,21 @@
-import Mathlib
-import TauCeti.FieldTheory.SquareClassGroup.Basic
-import TauCeti.LinearAlgebra.IntegralLattice.Characteristic.Basic
-import TauCeti.LinearAlgebra.IntegralLattice.Discriminant.Quadratic
-import TauCeti.LinearAlgebra.IntegralLattice.Gram
-import TauCeti.LinearAlgebra.IntegralLattice.Signature
-import TauCeti.LinearAlgebra.IntegralLattice.Unimodular
-import TauCeti.LinearAlgebra.IntegralLattice.Isometry.Group
-import TauCeti.LinearAlgebra.IntegralLattice.RootLattice.TypeE
-import TauCeti.LinearAlgebra.IntegralLattice.PosDef.SuccessiveMinima
-import TauCeti.LinearAlgebra.FiniteBilinearModule.GaussSum
-import TauCeti.LinearAlgebra.FiniteBilinearModule.OddCyclic.Basic
-import TauCeti.LinearAlgebra.FiniteBilinearModule.Dyadic.Cyclic
-import TauCeti.LinearAlgebra.FiniteBilinearModule.Dyadic.RankTwo.Basic
-import TauCeti.Geometry.Manifold.Riemannian.Induced
-import TauCeti.Geometry.Manifold.Riemannian.VolumeDensity.Volume
+module
+
+public import Mathlib
+public import TauCeti.FieldTheory.SquareClassGroup.Basic
+public import TauCeti.LinearAlgebra.IntegralLattice.Characteristic.Basic
+public import TauCeti.LinearAlgebra.IntegralLattice.Discriminant.Quadratic
+public import TauCeti.LinearAlgebra.IntegralLattice.Gram
+public import TauCeti.LinearAlgebra.IntegralLattice.Signature
+public import TauCeti.LinearAlgebra.IntegralLattice.Unimodular
+public import TauCeti.LinearAlgebra.IntegralLattice.Isometry.Group
+public import TauCeti.LinearAlgebra.IntegralLattice.RootLattice.TypeE
+public import TauCeti.LinearAlgebra.IntegralLattice.PosDef.SuccessiveMinima
+public import TauCeti.LinearAlgebra.FiniteBilinearModule.GaussSum
+public import TauCeti.LinearAlgebra.FiniteBilinearModule.OddCyclic.Basic
+public import TauCeti.LinearAlgebra.FiniteBilinearModule.Dyadic.Cyclic
+public import TauCeti.LinearAlgebra.FiniteBilinearModule.Dyadic.RankTwo.Basic
+public import TauCeti.Geometry.Manifold.Riemannian.Induced
+public import TauCeti.Geometry.Manifold.Riemannian.VolumeDensity.Volume
 
 /-!
 # Integral quadratic forms and lattices: target signatures
@@ -61,6 +63,8 @@ Conventions follow `README.md`: the rational bilinear form is primary, its restr
 carrier is integral, even lattices correspond to `QuadraticForm ℤ L` through `polarBilin`, and
 discriminant forms use the half-norm convention `q_L(x̄) = B(x,x)/2 mod ℤ`.
 -/
+
+@[expose] public section
 
 namespace TauCetiRoadmap.IntegralLattices
 
