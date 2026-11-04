@@ -23,7 +23,13 @@ comparisons. Layer 11 consumes these comparisons. Layer 11A owns the based compa
 group of the plane configuration space and the native braid group. Layer 9B owns the
 special isogenies in characteristics two and three and the three explicit toral-closure
 carriers it specifies. ReductiveGroupsPartII extends this roadmap and consumes it;
-nothing here is imported from it.
+nothing here is imported from it. ReductiveGroupsPartII RG2.3.7 states Lang's theorem
+again under its own name; it is a consumer of Layer 7a, not a second supplier of it.
+IntegralHeckeAndGaloisDeterminants §0.7 states the rational cohomology and induction of
+Layer 1.1, and ComplexComparisonPartII C-1.1 states the classical topology and smooth charts of
+Layer 3A.5; each is a consumer of the layer named, and neither is imported here.
+AdelicAlgebraicGroups AA.3.1 states the characteristic-zero Levi decomposition of Layer 6A
+again, for closed subgroups, and is a consumer of Layer 6A.
 
 Generic fpqc descent of quasi-coherent modules and sheaves belongs to
 SchemeAndStackFoundations §1.1; its §§1.5, 1.13–1.15 supply quotient sheaves,
@@ -994,8 +1000,9 @@ Layer 2; Mathlib's Chevalley constructibility, Jacobson and residue-field theore
   this displayed matrix has determinant 0 and is not a GL₂ point. Over the imperfect field
   `k = 𝔽₂(a)`, `g = [[0,1],[a,0]]` has characteristic polynomial `x² − a = (x − √a)²`, so
   `g_s = √a·I` exists only over `k(√a)`: the perfectness hypothesis cannot be dropped.
-- `D(0) = 1`, `D(ℤ) = 𝔾_m`, `D(ℤ/n) = μ_n`, and the exact sequence `0 → ℤ → ℤ → ℤ/n → 0`
-  (multiplication by `n`) corresponds to `1 → μ_n → 𝔾_m → 𝔾_m → 1` with `t ↦ tⁿ`;
+- `D(0) = 1`, `D(ℤ) = 𝔾_m`, `D(ℤ/n) = μ_n`, and for `n ≥ 1` the exact sequence
+  `0 → ℤ → ℤ → ℤ/n → 0` (multiplication by `n`) corresponds to `1 → μ_n → 𝔾_m → 𝔾_m → 1`
+  with `t ↦ tⁿ` (at `n = 0` neither sequence is exact, while `D(ℤ/0) = D(ℤ) = 𝔾_m` still holds);
   `X*(μ_n) = ℤ/n` (the characters `tⁱ`, `i mod n`). In characteristic `p`,
   `D(ℤ/p) = Spec k[t]/((t − 1)^p)` is nonreduced with one point; a dictionary built on
   reduced groups would send `ℤ/p` to the trivial group and lose `X* = ℤ/p`.
@@ -1165,6 +1172,13 @@ On every commutative k-algebra A its multiplication is
 Its inverse sends g to `(g s(q(g))⁻¹,s(q(g)))`, where
 `s:Q→G` is the splitting with image L. Construct these as scheme morphisms
 and prove both inverse identities, not just a bijection on k-points.
+The headline signature is `StructureAcceptance.exists_levi_complement`: for smooth
+geometrically connected `G` of finite type in characteristic zero there is a Hopf ideal `J` of
+`O(G)` such that the quotient map composed with the inclusion of the right coinvariants of the
+`k`-unipotent radical's defining ideal is bijective, that is, `O(Q) → O(G)/J = O(L)` is an
+isomorphism (McNinch §1.1, p. 6; in characteristic `p` the Greenberg transform of `SL₂` over the
+length-two Witt vectors has no such `J`, McNinch (3.2.1), p. 7). The `k`-unipotent radical is
+the geometric one since `k` is perfect, and a connected group is geometrically connected.
 
 Build the following algebraic splitting machinery before proving this theorem.
 It uses Layers0–1's same affine/Hopf and native right-comodule carriers,
@@ -3684,6 +3698,8 @@ fibre products.
 - B. Conrad and T. Feng, [*Reductive Groups over Fields*](https://math.stanford.edu/~conrad/249BW16Page/handouts/AMSalggroups2.pdf),
   Proposition 12.3.1, p. 127; Appendix F (pseudo-reductive groups), pp. 208–218; Appendix H
   (Levi subgroups), p. 238.
+- G. J. McNinch, [*Levi decompositions of a linear algebraic group*](https://arxiv.org/abs/1007.2777),
+  arXiv:1007.2777v1 (2010), §1.1, p. 6; (3.2.1), p. 7; §§2.2–2.3, 3.1, 4.1, 4.3–4.5 and 5.1–5.2.
 - J. S. Birman and T. E. Brendle, [*Braids: a survey*](https://arxiv.org/abs/math/0409205),
   arXiv math/0409205v2, §§1.1–1.2, pp. 4–5, and p. 69.
 - R. H. Fox and L. Neuwirth, *The braid groups*, Math. Scand. 10 (1962), 119–126; E. Fadell

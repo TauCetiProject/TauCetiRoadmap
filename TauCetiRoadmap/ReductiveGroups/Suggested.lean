@@ -4,6 +4,9 @@ import TauCeti.Algebra.AlgebraicGroup.Borel.Basic
 import TauCeti.Algebra.AlgebraicGroup.HopfIdeal.Conjugation
 import TauCeti.Algebra.AlgebraicGroup.Reductive.Basic
 import TauCeti.Algebra.AlgebraicGroup.LinearlyReductive
+import TauCeti.Algebra.AlgebraicGroup.Unipotent.Radical.Construction
+import TauCeti.Algebra.AlgebraicGroup.HopfIdeal.Coinvariants.Basic
+import TauCeti.Algebra.AlgebraicGroup.Connected.CommHopfAlgCat
 import TauCeti.Algebra.AlgebraicGroup.FunctorOfPoints
 import TauCeti.GroupTheory.SpecificGroups.Braid.Basic
 
@@ -17,6 +20,8 @@ Stated here, because every carrier exists at the pins: Layer 3A's locally closed
 orbits, strict boundary dimension and closed-orbit existence; Layer 6's characteristic-zero
 implication from reductivity to linear reductivity (the pin proves the converse,
 `TauCeti.reductiveCommHopfAlgProperty.of_smooth_of_geometricallyConnected_of_baseChange_linearlyReductive`);
+Layer 6A's characteristic-zero Levi complement, as a Hopf ideal whose quotient restricts to an
+isomorphism from the right coinvariants of the unipotent radical's defining ideal;
 Layer 7's conjugacy of Borel subgroups over an algebraically closed field; Layer 7a's
 Lang surjectivity for smooth geometrically connected groups over finite fields; and the SL
 coordinate presentation of the worked examples; Layer 11A's plane-configuration
@@ -44,6 +49,16 @@ Not statable at the pins, hence not stated, with the missing carrier named:
   The native k-unipotent radical and its scheme inclusion also exist in
   `TauCeti.FiniteTypeCommHopfAlgCat.unipotentRadical` and `unipotentRadicalSpecι`;
   the missing carrier here is the represented quotient and its comparison with the fppf quotient.
+* Layers 7c–7f: the Harish–Chandra biadjunction, the permutation-bimodule Mackey
+  decomposition, common-Levi independence and the Gassmann application. Their missing carrier
+  is an `F`-stable parabolic subgroup of a finite-field form (a closed subgroup with complete
+  quotient, with an `F`-stable Levi complement); the pinned dynamic decomposition
+  `TauCeti.Cocharacter.leviDecompositionMulEquiv` is a statement about the point subgroups of
+  one cocharacter over one value algebra and carries no Frobenius-stability datum.
+* Layer 9E: Lang–Steinberg surjectivity for a Steinberg endomorphism. The missing carrier is an
+  `𝔽_q′`-structure on the group whose `q′`-Frobenius is a positive power of the endomorphism;
+  the pinned `TauCeti.Bialgebra.iterateFrobeniusPoints` gives only the `p^n`-power endomorphism
+  of the points of a fixed integral Hopf algebra, not an endomorphism with such a power.
 * Layer 9: a pinned reductive group with its extracted root datum; the full-root-datum
   Chevalley realization and its ordered PBW family (the native Kostant subring alone does not
   specify these); signed ADE cover Lie algebras and their folded fixed algebras.
@@ -167,6 +182,27 @@ theorem linearlyReductive_of_reductive {k : Type v} [Field k] [CharZero k]
     (H : TauCeti.FiniteTypeCommHopfAlgCat.{v, v} k)
     (h : TauCeti.reductiveCommHopfAlgProperty k H) :
     TauCeti.linearlyReductiveCommHopfAlgProperty k H.obj := by
+  sorry
+
+/-! ## Layer 6A: characteristic-zero Levi complements -/
+
+/-- Mostow's theorem. Over a field of characteristic zero, a smooth geometrically connected
+finite-type affine group `G` has a Levi complement: a closed subgroup `L` mapping isomorphically
+onto `Q = G/R_u(G)`. In coordinates: with `I_u` the defining Hopf ideal of the `k`-unipotent
+radical (the geometric unipotent radical, as `k` is perfect), `O(Q)` is the subalgebra of right
+`I_u`-coinvariants of `O(G)`, and `L` is cut out by a Hopf ideal `J` for which the composite
+`O(Q) → O(G) → O(G)/J = O(L)` is bijective (McNinch, Levi decompositions of a linear algebraic
+group, §1.1, p. 6). The characteristic hypothesis is needed: in characteristic `p` the Greenberg
+transform of `SL₂` over the length-two Witt vectors has no Levi complement (McNinch, (3.2.1),
+p. 7). -/
+theorem exists_levi_complement {k : Type v} [Field k] [CharZero k]
+    (H : TauCeti.FiniteTypeCommHopfAlgCat.{v, v} k)
+    (hsm : Algebra.Smooth k H)
+    (hconn : TauCeti.geometricallyConnectedCommHopfAlgProperty k H.obj) :
+    ∃ J : TauCeti.HopfIdeal k H,
+      Function.Bijective
+        ((Ideal.Quotient.mkₐ k J.toIdeal).comp
+          (TauCeti.FiniteTypeCommHopfAlgCat.unipotentRadicalDefiningIdeal H).coinvariants.val) := by
   sorry
 
 /-! ## Layer 7: structure theory -/
