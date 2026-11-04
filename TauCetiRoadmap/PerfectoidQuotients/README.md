@@ -52,7 +52,7 @@ General perfectoidization of arbitrary animated rings, arc descent and
 consumer of this roadmap. General fibre-product and valuation methods belong
 to PerfectoidQuotientsPartII, Layers Q5–Q6, and the stronger ordinary
 ind-syntomic André theorem of Česnavičius–Scholze Theorem 2.3.4, pp.24–25, to
-its Layers Q7–Q9; that Part II continues this roadmap's layer numbering and
+its Layers Q7–Q9; that Part II numbers its layers Q5–Q10 and
 imports §§0.4–0.6. Frobenius-controlled towers remain with
 PerfectoidSpaces P7. None is an input here. In particular, Bhatt–Scholze
 Proposition 8.5 cannot prove their Theorem 7.4: it already uses that theorem.
@@ -858,10 +858,10 @@ closure for positive exponents.
 - `pClosureNotOrdinary` — In `F₂[T]`, `F₂[T³]` is 2-integrally closed, while its ordinary
   integral closure in `F₂[T]` is all of `F₂[T]`; `F₂[T³]` is proper.
 
-The local map `quotientPowerMap` is the canonical ring homomorphism
+The local power map is the canonical ring homomorphism
 `A/(ϖ) → A/(ϖ^p)` taking a representative `x` to `x^p`.
-Its API is `quotientPowerMap_mk`, the representative formula, and
-`quotientPowerMap_natural`: if `f : A → B` sends `ϖ` to `τ` with the same
+Its API is the representative formula and naturality: if `f : A → B`
+sends `ϖ` to `τ` with the same
 divisibility hypotheses, its quotient maps commute with the two power maps.
 Use the baseline quotient extensionality to characterize these maps.
 The construction uses the explicit witness
@@ -1152,16 +1152,16 @@ isomorphism; equality of the raw completion and the saturated model is
 not asserted. Localization identifies the construction with the `P4`
 universal perfectoid closed space `V(T-g)`.
 
-The API consists of the following named statements.
+The API consists of the following statements.
 
-- `bhattRootExtension.map` — The natural `K°`-algebra map `A → A_∞`.
-- `bhattRootExtension.root` — For each `n≥0`, a distinguished root `g_n∈A_∞`, with `g₀` the image of `g`.
-- `bhattRootExtension.root_pow` — `g_(n+1)^p=g_n` for every `n`.
-- `bhattRootExtension.perfectoid` — `A_∞` is `t`-complete, flat over `K°`, saturated, and has the integral-model Frobenius isomorphism.
-- `bhattRootExtension.raw_almost_iso` — `C → C_*` is an almost isomorphism for the specified root ideal.
-- `bhattRootExtension.map_comp` — Maps of pairs `(A,g)` induce compatible root-extension maps preserving identities and composition.
-- `bhattRootExtensionPower` — The adjacent-root relations imply `g_n^(p^n)=image(g)` for every `n`.
-- `bhattRootExtensionModel` — Localization gives PerfectoidSpaces P4.14's universal perfectoid closed subspace `V(T−g)`; its powerbounded ring is the saturated model `A_∞`.
+- The natural `K°`-algebra map `A → A_∞`.
+- For each `n≥0`, a distinguished root `g_n∈A_∞`, with `g₀` the image of `g`.
+- `g_(n+1)^p=g_n` for every `n`.
+- `A_∞` is `t`-complete, flat over `K°`, saturated, and has the integral-model Frobenius isomorphism.
+- `C → C_*` is an almost isomorphism for the specified root ideal.
+- Maps of pairs `(A,g)` induce compatible root-extension maps preserving identities and composition.
+- The adjacent-root relations imply `g_n^(p^n)=image(g)` for every `n`.
+- Localization gives PerfectoidSpaces P4.14's universal perfectoid closed subspace `V(T−g)`; its powerbounded ring is the saturated model `A_∞`.
 
 **Checks.**
 
@@ -1212,10 +1212,10 @@ extension explicitly; the universal closed-space property only for
 perfectoid targets does not by itself prove the stronger statement.
 The finite free root algebra and the relevant regular sequence supply the
 flatness calculation. Coefficients belong to `A⁺` in this argument.
-Its API is `monicRootPair.map` for the continuous map of pairs,
-`root` and `root_pow` for the chosen adjacent tower, `polynomial_root`
-for `P(h₀)=0`, and `lift` with `lift_map`, `lift_root` and `lift_unique`
-for this universal property.
+Its API is the continuous map of pairs, the chosen adjacent tower with
+its adjacent-root relations, the root identity `P(h₀)=0`, and the lift
+of this universal property, compatible with the map and the root and
+unique.
 
 **Checks.**
 
@@ -1242,9 +1242,9 @@ root. Verify naturality, preservation of the integral-model conditions,
 and almost faithful flatness through the completed operations. This is
 the fixed-field almost variant. The supplied ordinary `p`-complete André
 cover theorem has its stated integral hypotheses and complete-flatness conclusion.
-Use the API `almostAicExtension.map`, `map_id`, `map_comp` and the
-natural structural map `unit`, with `map_unit` for its naturality;
-`has_root` asserts existence for each positive-degree monic polynomial,
+Its API is the map on extensions, preserving identities and
+composition, and the natural structural map with its naturality;
+root existence is asserted for each positive-degree monic polynomial,
 without choosing its roots functorially.
 
 **Checks.**
