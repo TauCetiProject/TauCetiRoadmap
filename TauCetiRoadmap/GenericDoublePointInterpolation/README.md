@@ -690,7 +690,7 @@ The API has the following properties.
 
 *Needs:* AlgebraicModuliForArithmeticGeometry §§1.1–1.2; SchemeAndStackFoundations §§0.28, 2.6.
 
-([BO line 602, §6, Lemma 6.1, pp.12–14](https://arxiv.org/pdf/math/0701409v2)).
+([BO lines 604–620, §6, p.12](https://arxiv.org/pdf/math/0701409v2); the arbitrary-subsystem formulation is the linear-algebra reformulation of that definition).
 
 **Restriction rank on disjoint unions.** For disjoint finite schemes A,B and D as above, h(A∪B,D)=h(B,D)+h(A,ker(D→H⁰(B,O(d)|B))).
 
@@ -698,7 +698,7 @@ Sections on a disjoint union split into a product. Project the restriction image
 
 *Needs:* [Restriction rank of a finite scheme](#21-ranks-of-section-maps); SchemeAndStackFoundations §§0.28, 2.6.
 
-([BO line 646, §6, Lemma 6.1, pp.12–14](https://arxiv.org/pdf/math/0701409v2)).
+([BO lines 654–670, §6, proof of Lemma 6.1, p.13](https://arxiv.org/pdf/math/0701409v2)).
 
 ### 2.2 Hyperplane residuals and ordinary Horace
 
@@ -774,7 +774,7 @@ For Y⊂X, the finite target section module for Y is a quotient of the one for X
 
 *Needs:* [Restriction rank of a finite scheme](#21-ranks-of-section-maps); SchemeAndStackFoundations §§0.28, 2.6.
 
-([BO line 604, §1, p.1; §6, Lemma 6.1, pp.12–14](https://arxiv.org/pdf/math/0701409v2)).
+([BO lines 620–623, §6, p.12](https://arxiv.org/pdf/math/0701409v2)).
 
 **Curvilinear criterion at one support.** For X contained in a double point, X is D-independent iff every curvilinear subscheme ξ⊂X of length≤2 is D-independent.
 
