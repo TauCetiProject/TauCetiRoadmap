@@ -441,7 +441,7 @@ Let `F` have characteristic zero, let `E/F` be finite Galois, and let
 Group.IsSolvable (E ≃ₐ[F] E) ↔ ∀ x : E, ι x ∈ solvableByRad F (AlgebraicClosure F)
 ```
 
-(Milne, *Fields and Galois Theory* v5.10, Theorem 5.34, p. 77, `milne-ft` line 3409). The radical
+(Milne, *Fields and Galois Theory* v5.10, Theorem 5.34, p. 77, `milne-fields` line 3409). The radical
 closure is taken in the algebraic closure: adjoining roots of unity can leave `E`, and
 `solvableByRad F E` can be smaller.
 
@@ -724,7 +724,7 @@ Tau Ceti number-field, Dirichlet-series and fixed-field API; Induction–Restric
   comparison for the Checks of 1.3.
 - J. D. Dixon and B. Mortimer, *Permutation Groups*, GTM 163, Springer, 1996. Theorem 2.6A: the
   wreath embedding of an imprimitive group, consumed through the base roadmap's Layer 1.
-- J. S. Milne, *Fields and Galois Theory*, v5.10 (2022), `milne-ft`. Theorem 5.34, p. 77 (line
+- J. S. Milne, *Fields and Galois Theory*, v5.10 (2022), `milne-fields`. Theorem 5.34, p. 77 (line
   3409): in characteristic zero a polynomial is solvable in radicals iff its Galois group is
   solvable (3.1, 3.2).
 - D. S. Dummit, *Solving solvable quintics*, Math. Comp. 57 (1991) 387–401, `dummit-quintics`.
