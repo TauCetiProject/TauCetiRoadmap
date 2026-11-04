@@ -514,6 +514,7 @@ theorem finrank_cohomFp_one :
         + Module.finrank ℚ_[p] F :=
   sorry
 
+omit [TauCeti.FinitePadicExtension F p] in
 /-- **Layer 1, the cup square on `H¹(G_F, 𝔽_p)` is nondegenerate on the left when `μ_p ⊆ F`.**
 This is the injectivity part of Tau Ceti's canonical perfect cup square
 `TauCeti.ClassFieldTheory.cupFp_bijective_of_isPrimitiveRoot`, with both the coefficient object
@@ -529,6 +530,7 @@ theorem cupFp_left_nondegenerate_of_mu (hmu : ∃ ζ : F, IsPrimitiveRoot ζ p) 
   apply (TauCeti.ClassFieldTheory.cupFp_bijective_of_isPrimitiveRoot hζ).injective
   exact LinearMap.ext fun b => by rw [h b, map_zero, LinearMap.zero_apply]
 
+omit [TauCeti.FinitePadicExtension F p] in
 /-- **Layer 1, the cup square is nondegenerate on both sides when `μ_p ⊆ F`.** One side suffices:
 the other follows from the graded commutativity `ProfiniteProPGroups.cupFp_gradedComm`, a closed
 proof. -/
@@ -629,10 +631,10 @@ section TwistedInflation
 variable (p : ℕ) [Fact p.Prime] (K : Type u) [Field K]
 
 /-- The quotient map `G_K → G_K(p)` as a continuous homomorphism: Tau Ceti's
-`ContinuousMonoidHom.quotientMk` at the supplier's `proPKernel`. -/
+`Subgroup.quotientMkContinuousMonoidHom` at the supplier's `proPKernel`. -/
 noncomputable abbrev absoluteGaloisGroupProPMk :
     Field.absoluteGaloisGroup K →ₜ* absoluteGaloisGroupProP p K :=
-  TauCeti.ContinuousMonoidHom.quotientMk
+  Subgroup.quotientMkContinuousMonoidHom
     (ProfiniteProPGroups.proPKernel p (Field.absoluteGaloisGroup K))
 
 variable (χ : absoluteGaloisGroupProP p K →ₜ* ℤ_[p]ˣ) (i : ℕ)
@@ -846,13 +848,13 @@ continuous character. No unconditional full orientation is exported. -/
 noncomputable def cyclotomicOrientation
     (hmu : ∃ ζ : K, IsPrimitiveRoot ζ p) :
     absoluteGaloisGroupProP p K →ₜ* ℤ_[p]ˣ :=
-  TauCeti.ContinuousMonoidHom.quotientLift _ (continuousLocalCyclotomicCharacter p K)
+  ContinuousMonoidHom.quotientLift (continuousLocalCyclotomicCharacter p K) _
     (proPKernel_le_ker_localCyclotomicCharacter p K hmu)
 
 theorem cyclotomicOrientation_mk (hmu : ∃ ζ : K, IsPrimitiveRoot ζ p)
     (g : Field.absoluteGaloisGroup K) :
     cyclotomicOrientation p K hmu (QuotientGroup.mk g) = localCyclotomicCharacter p K g :=
-  TauCeti.ContinuousMonoidHom.quotientLift_mk _ _ _ g
+  ContinuousMonoidHom.quotientLift_mk _ _ _ g
 
 /-- The orientation pulls back to the cyclotomic character along `G_K → G_K(p)`, as continuous
 homomorphisms. A closed proof. -/
@@ -860,7 +862,7 @@ theorem cyclotomicOrientation_comp_absoluteGaloisGroupProPMk
     (hmu : ∃ ζ : K, IsPrimitiveRoot ζ p) :
     (cyclotomicOrientation p K hmu).comp (absoluteGaloisGroupProPMk p K) =
       continuousLocalCyclotomicCharacter p K :=
-  TauCeti.ContinuousMonoidHom.quotientLift_comp_quotientMk _ _ _
+  ContinuousMonoidHom.quotientLift_comp_quotientMk _ _ _
 
 theorem cyclotomicOrientation_continuous (hmu : ∃ ζ : K, IsPrimitiveRoot ζ p) :
     Continuous (cyclotomicOrientation p K hmu) :=
@@ -2315,10 +2317,8 @@ end RelationModuleAfterRank
 
 section MarkedRatPadic
 
-variable [IsNonarchimedeanLocalField ℚ_[2]]
-  [CompactSpace (Field.absoluteGaloisGroup ℚ_[2])]
-  [TotallyDisconnectedSpace (Field.absoluteGaloisGroup ℚ_[2])]
-  [TotallyDisconnectedSpace (absoluteGaloisGroupProP 2 ℚ_[2])]
+-- The local-field, compactness and total-disconnectedness instances on `ℚ_[2]` and its Galois
+-- groups are global at this pin, so they are no longer section variables.
 
 theorem localRootOfUnityOrder_two_ratPadic :
     localRootOfUnityOrder 2 ℚ_[2] (finite_pPowerRootsOfUnity 2 ℚ_[2]) = 2 :=
@@ -2418,12 +2418,13 @@ theorem isDyadicEvenPrincipalCase_ratPadicSqrtNegTwo :
 
 /- The local-field and topological instances are needed only by the marked theorem and its
 corollary; the arithmetic statements above are purely algebraic and do not carry them. -/
+-- The compactness and total-disconnectedness instances on the Galois groups of
+-- `RatPadicSqrtNegTwo` are global at this pin; the valuation, topology and local-field structure
+-- remain hypotheses (the `concreteInstances` linter is silenced on the two statements below).
 variable [ValuativeRel RatPadicSqrtNegTwo] [TopologicalSpace RatPadicSqrtNegTwo]
   [IsNonarchimedeanLocalField RatPadicSqrtNegTwo]
-  [CompactSpace (Field.absoluteGaloisGroup RatPadicSqrtNegTwo)]
-  [TotallyDisconnectedSpace (Field.absoluteGaloisGroup RatPadicSqrtNegTwo)]
-  [TotallyDisconnectedSpace (absoluteGaloisGroupProP 2 RatPadicSqrtNegTwo)]
 
+set_option linter.concreteInstances false in
 /-- **The marked arithmetic identification for `ℚ₂(√-2)`**:
 `absoluteGaloisGroupProP_two_marked_of_degree_even_principal` at `N = 2`, `k = 2`, `u = 3`,
 `f = 3`, with the relator `x₁⁶(x₁,x₂)x₃⁸(x₃,x₄)` written on `Fin 4`. The generator values
@@ -2431,11 +2432,7 @@ variable [ValuativeRel RatPadicSqrtNegTwo] [TopologicalSpace RatPadicSqrtNegTwo]
 Labute-isomorphic to his `x₁⁶(x₁,x₂)(x₃,x₄)`, which is the same group with `f = ∞`. The value
 `k = 2` is read off `range_localCyclotomicCharacter_ratPadicSqrtNegTwo` through
 `negThreeUnit_neg_coe`, not off `q`. -/
-theorem absoluteGaloisGroupProP_two_ratPadicSqrtNegTwo_marked
-    [TotallyDisconnectedSpace
-      (ProfiniteProPGroups.presentedProP 2 (Fin 4)
-        {ProfiniteProPGroups.demushkinWordTwoEven 4 3 4
-          (ProfiniteProPGroups.freeProPGen 2 4)})] :
+theorem absoluteGaloisGroupProP_two_ratPadicSqrtNegTwo_marked :
     ∃ e : absoluteGaloisGroupProP 2 RatPadicSqrtNegTwo ≃ₜ*
         ProfiniteProPGroups.presentedProP 2 (Fin 4)
           {ProfiniteProPGroups.demushkinWordTwoEven 4 3 4 (ProfiniteProPGroups.freeProPGen 2 4)},
@@ -2449,12 +2446,9 @@ theorem absoluteGaloisGroupProP_two_ratPadicSqrtNegTwo_marked
             (e.symm (ProfiniteProPGroups.presentedProPGen 2 4 _ 2)) = 1 :=
   sorry
 
+set_option linter.concreteInstances false in
 /-- The unmarked isomorphism, a corollary of the marked theorem and not a separate choice. -/
-theorem absoluteGaloisGroupProP_two_ratPadicSqrtNegTwo
-    [TotallyDisconnectedSpace
-      (ProfiniteProPGroups.presentedProP 2 (Fin 4)
-        {ProfiniteProPGroups.demushkinWordTwoEven 4 3 4
-          (ProfiniteProPGroups.freeProPGen 2 4)})] :
+theorem absoluteGaloisGroupProP_two_ratPadicSqrtNegTwo :
     Nonempty (absoluteGaloisGroupProP 2 RatPadicSqrtNegTwo ≃ₜ*
       ProfiniteProPGroups.presentedProP 2 (Fin 4)
         {ProfiniteProPGroups.demushkinWordTwoEven 4 3 4

@@ -473,30 +473,31 @@ noncomputable def carrierHomeomorphInterior : C ≃ₜ I.interior M where
   continuous_invFun := continuous_induced_rng.mpr continuous_id
 
 instance carrierT2Space [T2Space M] : T2Space C := by
-  letI : T2Space (I.interior M) := inferInstance
+  let : T2Space (I.interior M) := inferInstance
   exact (carrierHomeomorphInterior I m e).symm.t2Space
 
 instance carrierSecondCountable [SecondCountableTopology M] : SecondCountableTopology C := by
-  letI : SecondCountableTopology (I.interior M) := inferInstance
+  let : SecondCountableTopology (I.interior M) := inferInstance
   exact (carrierHomeomorphInterior I m e).secondCountableTopology
 
 /-- Preferred charts on the fresh carrier. The exact coordinate formula is recorded in
 `chartAt_apply`; the geometric construction is the restriction of the original extended chart to
 the open interior, followed by the linear homeomorphism `e`. -/
-noncomputable def chartAt [IsManifold I ∞ M] :
+noncomputable def chartAt :
     (x : C) → OpenPartialHomeomorph C (EuclideanSpace ℝ (Fin m)) := by
   sorry
 
-theorem chartAt_mem_source [IsManifold I ∞ M] (x : C) :
+theorem chartAt_mem_source (x : C) :
     x ∈ (chartAt I m e x).source := by
   sorry
 
 /-- Exact arbitrary-point chart formula, including the chosen reparameterization `e`. -/
-theorem chartAt_apply [IsManifold I ∞ M] (x y : C)
+theorem chartAt_apply (x y : C)
     (hy : y ∈ (chartAt I m e x).source) :
     chartAt I m e x y = e (I ((_root_.chartAt H (x.point : M)) (y.point : M))) := by
   sorry
 
+@[instance_reducible]
 noncomputable def chartedSpace :
     ChartedSpace (EuclideanSpace ℝ (Fin m)) C where
   atlas := Set.range (chartAt I m e)
@@ -557,14 +558,14 @@ theorem carrierHomeomorphOriginal_apply [BoundarylessManifold I M] (x : C) :
   sorry
 
 noncomputable instance carrierSigmaCompact [SigmaCompactSpace M] : SigmaCompactSpace C := by
-  haveI : SecondCountableTopology H := I.secondCountableTopology
-  haveI : SecondCountableTopology M := ChartedSpace.secondCountable_of_sigmaCompact H M
-  haveI : LocallyCompactSpace E := inferInstance
-  haveI : LocallyCompactSpace H := I.locallyCompactSpace
-  haveI : LocallyCompactSpace M := ChartedSpace.locallyCompactSpace H M
-  haveI : LocallyCompactSpace (I.interior M) :=
+  have : SecondCountableTopology H := I.secondCountableTopology
+  have : SecondCountableTopology M := ChartedSpace.secondCountable_of_sigmaCompact H M
+  have : LocallyCompactSpace E := inferInstance
+  have : LocallyCompactSpace H := I.locallyCompactSpace
+  have : LocallyCompactSpace M := ChartedSpace.locallyCompactSpace H M
+  have : LocallyCompactSpace (I.interior M) :=
     (I.isOpen_interior (M := M) (n := ∞) (by simp)).locallyCompactSpace
-  haveI : LocallyCompactSpace C :=
+  have : LocallyCompactSpace C :=
     (carrierHomeomorphInterior I m e).locallyCompactSpace_iff.mpr inferInstance
   infer_instance
 
@@ -641,7 +642,7 @@ structure LocallyRepresentedTopSection (R : Type u) [CommRing R]
     (X : TopCat.{u}) (L : LocalCoefficientSystem R X) (n : ℕ) (V : Set X) where
   localValue : ∀ x : X, x ∈ V →
     twistedRelativeHomology R (puncturedPair X x) L n
-  locally_represented : ∀ x : X, ∀ hx : x ∈ V,
+  locally_represented : ∀ x : X, x ∈ V →
     ∃ B : Set X, ∃ hBV : B ⊆ V, IsOpen B ∧ x ∈ B ∧
       ∃ c : twistedRelativeHomology R (TopPair.ofSubset Bᶜ) L n,
         ∀ y : X, ∀ hy : y ∈ B,
@@ -735,7 +736,7 @@ noncomputable def localCoefficientExtensionClass (R : Type) [CommRing R] (m : �
 noncomputable def embeddingLocalPairMap {U M : TopCat} (f : U ⟶ M)
     (hf : Function.Injective f) (x : U) : puncturedPair U x ⟶ puncturedPair M (f x) :=
   TopPair.ofSubsetMap (B := ({x}ᶜ : Set U)) (B' := ({f x}ᶜ : Set M)) f
-    (fun y hy h => hy (hf h))
+    (fun _ hy h => hy (hf h))
 
 /-- Integral local excision map for an open embedding, with the native constant pullback. -/
 noncomputable def embeddingIntegralLocalMap {U M : TopCat} (f : U ⟶ M)
@@ -1310,7 +1311,8 @@ noncomputable def groupClassifyingSpaceFundamentalGroup (G : Type u) [Group G] :
   sorry
 
 theorem groupClassifyingSpaceFundamentalGroup_edge (G : Type u) [Group G] (g : G) :
-    groupClassifyingSpaceFundamentalGroup G ⟦groupClassifyingSpaceEdge G g⟧ = g := by
+    groupClassifyingSpaceFundamentalGroup G
+      (FundamentalGroup.fromPath ⟦groupClassifyingSpaceEdge G g⟧) = g := by
   sorry
 
 /-- Input supplied by the shared abelian constructors, with a chosen normalized identification.
@@ -1754,7 +1756,7 @@ def ordinaryPairQuotientPoint (X : Type u) [TopologicalSpace X] (B : Set X) :
 def ordinaryPairQuotientMap (X : Type u) [TopologicalSpace X] (B : Set X) :
     TopCat.of X ⟶ ordinaryPairQuotient X B :=
   TopCat.ofHom ⟨fun x => Quotient.mk (ordinaryCofiberSetoid B) (Sum.inl x), by
-    letI : Setoid (X ⊕ PUnit) := ordinaryCofiberSetoid B
+    let : Setoid (X ⊕ PUnit.{u + 1}) := ordinaryCofiberSetoid B
     exact continuous_quotient_mk'.comp continuous_inl⟩
 
 /-- The reduced pair uses the same collapse and its added point. -/
@@ -2508,7 +2510,7 @@ theorem brouwerFixedPoint_unitClosedBall_continuous
 /-- Radial transport takes place in the affine direction, including lower-dimensional C. -/
 noncomputable def compactConvexRadialReach (C : Set E) (c : E)
     (u : (affineSpan ℝ C).direction) : ℝ :=
-  sSup (fun t : ℝ => 0 ≤ t ∧ c + t • (u : E) ∈ C)
+  sSup (Set.ofPred fun t : ℝ => 0 ≤ t ∧ c + t • (u : E) ∈ C)
 
 theorem compactConvexRadialReach_pos (C : Set E)
     (hcompact : IsCompact C) (hconvex : Convex ℝ C)

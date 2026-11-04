@@ -10,7 +10,6 @@ import TauCeti.LinearAlgebra.Matrix.Cholesky.Equiv
 import TauCeti.LinearAlgebra.Matrix.Cholesky.Jacobian
 import TauCeti.LinearAlgebra.Matrix.Cholesky.Topology
 import TauCeti.LinearAlgebra.Matrix.Triangular
-import TauCeti.MeasureTheory.Measure.GiryMonad
 import TauCeti.MeasureTheory.Measure.SymmetricMatrix.Basic
 import TauCeti.MeasureTheory.Measure.SymmetricMatrix.Cholesky
 import TauCeti.MeasureTheory.Measure.SymmetricMatrix.Congruence
@@ -22,7 +21,7 @@ import TauCeti.Probability.Distributions.Bernoulli.Basic
 import TauCeti.Probability.Distributions.Binomial.Tail
 import TauCeti.Probability.Distributions.Cauchy.Basic
 import TauCeti.Probability.Distributions.Cauchy.PDF
-import TauCeti.Probability.Distributions.ChiSquared
+import TauCeti.Probability.Distributions.ChiSquared.Basic
 import TauCeti.Probability.Distributions.Dirichlet.Basic
 import TauCeti.Probability.Distributions.Dirichlet.Moments
 import TauCeti.Probability.Distributions.Exponential.Basic
@@ -35,7 +34,7 @@ import TauCeti.Probability.Distributions.Gamma.Poisson
 import TauCeti.Probability.Distributions.Gaussian.Affine
 import TauCeti.Probability.Distributions.Gaussian.Cdf
 import TauCeti.Probability.Distributions.Gaussian.ChiSquared
-import TauCeti.Probability.Distributions.Gaussian.Conditional
+import TauCeti.Probability.Distributions.Gaussian.Conditional.Basic
 import TauCeti.Probability.Distributions.Gaussian.Density
 import TauCeti.Probability.Distributions.Gaussian.Multivariate
 import TauCeti.Probability.Distributions.Gaussian.PDF
@@ -43,8 +42,8 @@ import TauCeti.Probability.Distributions.Gaussian.Pi
 import TauCeti.Probability.Distributions.Gaussian.QuadraticForm
 import TauCeti.Probability.Distributions.Gaussian.Transforms
 import TauCeti.Probability.Distributions.InverseGamma.Basic
-import TauCeti.Probability.Distributions.Laplace
-import TauCeti.Probability.Distributions.LogNormal
+import TauCeti.Probability.Distributions.Laplace.Basic
+import TauCeti.Probability.Distributions.LogNormal.Basic
 import TauCeti.Probability.Distributions.Multinomial.Aggregation
 import TauCeti.Probability.Distributions.Multinomial.Basic
 import TauCeti.Probability.Distributions.Multinomial.Transforms
@@ -54,7 +53,7 @@ import TauCeti.Probability.Distributions.Poisson.Tail
 import TauCeti.Probability.Distributions.StudentT.Basic
 import TauCeti.Probability.Distributions.StudentT.Cdf
 import TauCeti.Probability.Distributions.StudentT.Moments
-import TauCeti.Probability.Distributions.Uniform
+import TauCeti.Probability.Distributions.Uniform.Basic
 import TauCeti.Probability.Distributions.Wishart.Agreement
 import TauCeti.Probability.Distributions.Wishart.Bartlett
 import TauCeti.Probability.Distributions.Wishart.Basic
@@ -543,13 +542,13 @@ example {Ω ι κ : Type*} [MeasurableSpace Ω] [Fintype ι] [Fintype κ]
     [DecidableEq ι] [DecidableEq κ] {P : Measure Ω} [IsProbabilityMeasure P]
     (X : Ω → EuclideanSpace ℝ (ι ⊕ κ)) (m : EuclideanSpace ℝ (ι ⊕ κ))
     {S : Matrix (ι ⊕ κ) (ι ⊕ κ) ℝ}
-    (hX : HasLaw X (multivariateGaussian m S) P) (hS : S.PosSemidef)
-    (hS₂₂ : (S.submatrix Sum.inr Sum.inr).PosDef) :
+    (hX : HasLaw X (multivariateGaussian m S) P) (hS : S.PosSemidef) :
+    -- At this pin the library no longer needs the observed block to be positive definite.
     condDistrib (fun ω => (EuclideanSpace.sumEquivProd (X ω)).1)
         (fun ω => (EuclideanSpace.sumEquivProd (X ω)).2) P
       =ᵐ[P.map (fun ω => (EuclideanSpace.sumEquivProd (X ω)).2)]
         EuclideanSpace.gaussianCondKernel m S :=
-  TauCeti.Probability.condDistrib_multivariateGaussian X m hX hS hS₂₂
+  TauCeti.Probability.condDistrib_multivariateGaussian X m hX hS
 
 /-! ### Conditioning on a possibly singular observed block
 

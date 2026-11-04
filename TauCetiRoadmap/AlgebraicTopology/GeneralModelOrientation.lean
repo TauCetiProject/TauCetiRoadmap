@@ -38,6 +38,7 @@ abbrev RechartedInterior (m : ℕ)
     (e : E ≃L[ℝ] EuclideanSpace ℝ (Fin m)) :=
   @FreshInteriorRechart.Carrier E H M normedAddE normedSpaceE topologyH topologyM I chartedM m e
 
+@[instance_reducible]
 noncomputable def rechartedInteriorChartedSpace (m : ℕ)
     (e : E ≃L[ℝ] EuclideanSpace ℝ (Fin m)) :
     ChartedSpace (EuclideanSpace ℝ (Fin m)) (RechartedInterior (I := I) (M := M) m e) :=
@@ -48,6 +49,7 @@ noncomputable instance rechartedInteriorChartedSpaceInstance (m : ℕ)
     ChartedSpace (EuclideanSpace ℝ (Fin m)) (RechartedInterior (I := I) (M := M) m e) :=
   rechartedInteriorChartedSpace I m e
 
+omit t2M secondCountableM boundarylessM in
 /-- The preferred chart on the boundaryless orientation carrier is the same reparameterized
 interior chart used by `FreshInteriorRechart`: apply the original model map and then `e`. -/
 theorem rechartedInteriorChartAt_formula (m : ℕ)
@@ -58,6 +60,7 @@ theorem rechartedInteriorChartAt_formula (m : ℕ)
       e (I ((chartAt H (x.point : M)) (y.point : M))) := by
   exact FreshInteriorRechart.chartAt_apply I m e x y hy
 
+omit t2M secondCountableM boundarylessM in
 theorem rechartedInteriorIsManifold (m : ℕ)
     (e : E ≃L[ℝ] EuclideanSpace ℝ (Fin m)) :
     letI : ChartedSpace (EuclideanSpace ℝ (Fin m))
@@ -68,7 +71,7 @@ theorem rechartedInteriorIsManifold (m : ℕ)
 noncomputable instance rechartedInteriorIsManifoldInstance (m : ℕ)
     (e : E ≃L[ℝ] EuclideanSpace ℝ (Fin m)) :
     IsManifold (EuclideanModel m) ∞ (RechartedInterior (I := I) (M := M) m e) := by
-  letI : ChartedSpace (EuclideanSpace ℝ (Fin m))
+  let : ChartedSpace (EuclideanSpace ℝ (Fin m))
     (RechartedInterior (I := I) (M := M) m e) := rechartedInteriorChartedSpace I m e
   exact rechartedInteriorIsManifold I m e
 
@@ -85,6 +88,7 @@ noncomputable def carrierHomeomorph (m : ℕ)
     RechartedInterior (I := I) (M := M) m e ≃ₜ M :=
   FreshInteriorRechart.carrierHomeomorphOriginal I m e
 
+omit t2M secondCountableM in
 theorem carrierHomeomorph_apply (m : ℕ)
     (e : E ≃L[ℝ] EuclideanSpace ℝ (Fin m))
     (x : RechartedInterior (I := I) (M := M) m e) :
@@ -184,9 +188,9 @@ noncomputable def chosenSection (m : ℕ)
   locally_represented := by
     intro x hx
     let C := RechartedInterior (I := I) (M := M) m e
-    letI : ChartedSpace (EuclideanSpace ℝ (Fin m)) C := rechartedInteriorChartedSpace I m e
-    letI : IsManifold (EuclideanModel m) ∞ C := rechartedInteriorIsManifold I m e
-    letI : BoundarylessManifold (EuclideanModel m) C := rechartedInteriorBoundaryless I m e
+    let : ChartedSpace (EuclideanSpace ℝ (Fin m)) C := rechartedInteriorChartedSpace I m e
+    let : IsManifold (EuclideanModel m) ∞ C := rechartedInteriorIsManifold I m e
+    let : BoundarylessManifold (EuclideanModel m) C := rechartedInteriorBoundaryless I m e
     let S := TauCetiRoadmap.AlgebraicTopology.OrientationComparison.chosenSection
       m C (carrierOrientation I m e o)
     obtain ⟨B, hBU, hBopen, hxB, c, hc⟩ := S.locally_represented
