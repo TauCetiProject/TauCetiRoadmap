@@ -101,7 +101,7 @@ The roadmap is complete when Tau Ceti proves the following.
   `simplicialRealizationCW` and `standardCellBallToOrderedSimplex` and native
   `TauCeti.finsum_finrank_singularHomology_of_finite_cwComplex`; it does not define the generic
   classification or genus. Fuchs Layer 5 owns a complex-curve specialization in
-  `FuchsianOrbifolds.SurfaceInvariants.lean`, with the three target declarations re-exported on
+  the `SurfaceInvariants` section of `Suggested.lean`, with the three target declarations re-exported on
   `TauCeti.RiemannSurface`, and owns the analytic adapter from native finite holomorphic maps to
   SurfaceTopology's topological branched-cover carrier. For a finite holomorphic map
   `f:X→Y` between compact connected Riemann surfaces, let `B` be its finite branch-value set.
@@ -440,7 +440,7 @@ the compact minimum `π/21` from the preceding theorem.
 1. Consume SurfaceTopology Layer 8's compact oriented surface classification, standard models,
    genus and topological Euler characteristic; consume PlanarTopology Layers5/6/8's Radó/Hauptvermutung, surface Euler/orientation and compatible-category comparison, with its boundary-count interface, together with GeometricTopology
    Layer 1's smooth/finite-CW comparison adapter and AlgebraicTopology 4.7's CW conversion.
-   The Fuchsian leaf `FuchsianOrbifolds.SurfaceInvariants` specializes the generic genus and Euler
+   The `SurfaceInvariants` section of `Suggested.lean` specializes the generic genus and Euler
    interfaces to the compact connected complex-curve carrier; retain the public
    `TauCeti.RiemannSurface.genus`, `surfaceEulerCharacteristic` and `riemannHurwitz` names as re-exports of the owned specialization/adapters, not declarations supplied by the native Degree module. The adapter identifies the compactified
    quotient's underlying oriented-surface invariants with the Layer 8 model. Consume the native
