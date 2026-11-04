@@ -36,8 +36,9 @@ The roadmap owns:
   the **Dade isometry** and its comparison with induction (§2), the **cyclic trivial-intersection
   isometry** (§3), the prime trivial-intersection configurations (§4), **coherence** with its
   uniqueness, restriction and gluing laws (§5) and the coherence theorems of §§5–6 (Layer 2).
-  Layer 2 imports nothing from Layers 0 and 3–6 and no odd-order hypothesis beyond those the
-  cited theorems carry; GlaubermanZStar consumes the trivial-complement comparison from it;
+  Layer 2 imports nothing from Layers 0–1 and 3–6, nothing from LocalFiniteGroupTheory or
+  FiniteGroupExtensionSplitting, and no odd-order hypothesis beyond those the cited theorems
+  carry; GlaubermanZStar consumes the trivial-complement comparison from it;
 - the prime sets `α(M)`, `β(M)`, `σ(M)`, `τ₁(M)`, `τ₂(M)`, `τ₃(M)`, `κ(M)` of a maximal subgroup,
   the cores `M_α`, `M_β`, `M_σ`, the `σ`-support and its multiplicities, Thompson transitivity,
   the uniqueness theorems, the Hall-core theorems, the proper-subgroup `p`-length theorem, the
@@ -181,7 +182,7 @@ discharged by `IsMinimalOddSimple.proper_solvable`, never by the theorem being p
 
 Layer 0 reduces the theorem to the nonexistence of a minimal odd simple group and records what
 such a group satisfies. Layer 1 proves the solvable odd-order local theorems that Chapter I of
-Bender–Glauberman adds to general local analysis. Layer 2 is independent of Layers 0 and 1: it
+Bender–Glauberman adds to general local analysis. Layer 2 is independent of Layers 0, 1 and 3–6 and of the local-analysis suppliers: it
 builds the Dade isometry, coherence and the cyclic trivial-intersection isometry for an arbitrary
 finite group, and is the part other developments consume. Layer 3 applies Layers 1–2's group
 theory inside a minimal odd simple group: prime sets, transitivity, uniqueness, Hall cores, the
@@ -376,7 +377,9 @@ L1, L3, L4, L5, L6; FiniteGroupExtensionSplitting §2.4, §3.1; Mathlib `Sylow`,
 ## Layer 2: Dade isometries and coherent families (F2)
 
 Everything in this layer is stated for an arbitrary finite group `G` on native class functions
-and imports nothing from Layers 0 and 3–6.
+and imports nothing from Layers 0–1 and 3–6; its suppliers are Mathlib, Tau Ceti, CharacterTheory
+and InductionRestriction only, so it does not wait for LocalFiniteGroupTheory or
+FiniteGroupExtensionSplitting.
 
 ### 2.1 Preliminaries from Peterfalvi §1
 
@@ -421,11 +424,14 @@ complements). Define `CF(L, A) = supportedClassFunctions L A`. Prove: `H (l a l�
 for `l ∈ L` (2.4)(a); the Dade supports `(a H_a)^G`, `a ∈ A`, are disjoint unless `a` and `b` are
 `L`-conjugate, in which case they coincide (2.4)(b); `N_G(a H_a) = C_G(a)` and `a H_a` is a
 trivial-intersection set for `C_G(a)` (2.4)(c); `1` is not in the Dade support; `H a` is the
-unique normal Hall complement to `C_L(a)` in `C_G(a)`, so the data determine `H` on `A`; and
+unique normal complement to `C_L(a)` in `C_G(a)` of order prime to `|C_L(a)|`, so the data
+determine `H` on `A` (a second such complement `K` maps into `C_G(a) ⧸ H a ≅ C_L(a)` with image of
+order dividing both `|K| = |H a|` and `|C_L(a)|`, hence trivial, so `K ≤ H a` and the orders
+agree); and
 `CF(L, A)` has dimension the number of `L`-classes contained in `A` when `A` is a union of
-`L`-classes. *Needs:* Mathlib `Subgroup.centralizer`, `Subgroup.IsComplement'`, `IsConj`; Tau Ceti
-`TauCeti.ClassFunction`; LocalFiniteGroupTheory L1 (Hall subgroups, for uniqueness of the
-complement).
+`L`-classes. *Needs:* Mathlib `Subgroup.centralizer`, `Subgroup.IsComplement'`,
+`Subgroup.IsComplement'.card_mul_card`, `Subgroup.card_map_dvd`, `Subgroup.card_dvd_of_le`,
+`QuotientGroup.mk'`, `IsConj`; Tau Ceti `TauCeti.ClassFunction`.
 
 **Checks.**
 - `G = S₃`, `L = A₃`, `A = A₃^#`, `H a = ⊥`: the two `3`-cycles are conjugate in `S₃` by a
@@ -439,7 +445,9 @@ complement).
   complements; the Dade support is `C₃ × {transpositions}`, nine elements.
 - Negative control for coprimality: `G = S₄`, `L = S₃ = Stab(4)`, `A` the transpositions of `L`,
   `H a = ⟨(3 4)⟩` for `a = (1 2)`: `C_G((1 2)) = ⟨(1 2), (3 4)⟩ = H a × C_L(a)`, every clause
-  holds except `gcd(|H a|, |C_L(b)|) = gcd(2, 2) = 1`; the map of §2.3 would send the indicator
+  holds except coprimality, `gcd(|H a|, |C_L(b)|) = gcd(2, 2) = 2`; the complement is not
+  determined (`⟨(3 4)⟩` and `⟨(1 2)(3 4)⟩` are both normal complements to `C_L(a)` in the Klein
+  four-group `C_G(a)`), and the map of §2.3 would send the indicator
   of the transpositions of `L` (norm `3/6`) to the indicator of the nine elements of order two of
   `S₄` (norm `9/24`), so the coprimality clause is what makes §2.3 true.
 - `CF(L, A)` for `L = S₃` and `A = {(1 2)}` is zero: a class function nonzero at `(1 2)` is
