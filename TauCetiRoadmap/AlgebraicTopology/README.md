@@ -111,8 +111,9 @@ groups.  Those theories consume this roadmap's chain, CW, duality, and homotopy 
   realizations, with the coefficient-natural normalized π_n identification
   including the comparison of Γ(A[1]) with the abelian nerve; Stage 8.8d owns
   Serre classes and Hurewicz modulo a class. Stage 8.8 owns the generic
-  discrete-group bar/CW/cover proof; Stage 8.10 consumes the 8.8c family and
-  DGFloer Layer 1 item 1's degree-one Hurewicz. The 8.8c constructor uses only
+  discrete-group bar/CW/cover proof; Stage 8.3 owns the degree-one Hurewicz
+  isomorphism π₁(X)ᵃᵇ ≅ H₁(X;ℤ) beside its higher-degree theorem, and
+  Stage 8.10 consumes the 8.8c family and that degree-one isomorphism. The 8.8c constructor uses only
   8.1–8.8a, preceding representability and obstruction theory.
   [DGFloer](../DGFloer/README.md) Layer 1 consumes these ordinary targets for
   its cubical transports and comparisons; GeneralizedCohomology G2 and G5,
@@ -820,7 +821,14 @@ coefficients satisfy the categorical exactness assumptions. Extend its API below
 6. Construct real projective n-space using native `Projectivization ℝ (Fin (n+1) → ℝ)`.
    Own #44117's generic quotient topology on native `Projectivization 𝕜 V`
    for division-ring modules V with a topology on V, induced by nonzero vectors modulo
-   scalar multiplication, with its continuity and quotient-map APIs above. ComplexKahlerGeometry K7 consumes that topology. Build the real
+   scalar multiplication, with its continuity and quotient-map APIs above.
+   On the same quotient topology construct complex projective n-space on native
+   `Projectivization ℂ (Fin (n+1) → ℂ)` as a finite CW complex with one cell in
+   each even dimension 0,2,…,2n and none in odd dimensions, with the standard
+   characteristic maps: the closed unit disc D²ᵏ ⊂ ℂᵏ maps onto ℂPᵏ by
+   z ↦ [z : √(1−|z|²)], attaching its boundary S²ᵏ⁻¹ along the quotient map
+   onto ℂPᵏ⁻¹. ComplexKahlerGeometry K7 consumes that topology and this cell
+   structure. Build the real
    finite projective-coordinate atlas (ratios by a nonzero coordinate) and
    boundaryless C^∞ Mathlib manifold structure; prove its
    homeomorphism and smooth local comparison with the antipodal sphere quotient.
@@ -1806,14 +1814,13 @@ This stage consumes every one of Stages 2--6.  Stage 1 is not a prerequisite.
    relative cellular filtration.
 4. State cofibration, compactness, and finiteness assumptions explicitly.  Establish the standard
    checks `chi(S^n)=1+(-1)^n`, `chi(T^n)=0` for `n>0`, and
-   `chi(CP^n)=n+1`. The complex-projective check consumes
-   ComplexKahlerGeometry K7.1's projective model and K7.2's finite CW structure.
-   K7.1 consumes ComplexManifolds Milestones1–3's complex-manifold,
-   real-restriction and atlas transport, K3.0's holomorphic calculus and K1's
-   complex orientation. K7.2's CW construction consumes K7.1 and AT Stage4;
-   its separate projective cup calculation consumes ordinary Stage6.
-   No complex-projective construction is required in Stage4, and the Euler
-   cell-count check does not consume K7's later Hodge or Serre-duality results.
+   `chi(CP^n)=n+1`. The complex-projective check consumes Stage 4.6's cell
+   structure of complex projective space on the native `Projectivization`
+   carrier, one cell in each even dimension 0,2,…,2n, so the alternating cell
+   count is n+1; it consumes no complex-manifold, Hodge or Serre-duality
+   input. ComplexKahlerGeometry K7 consumes Stage 4.6's projective carrier and
+   cell structure, and its separate projective cup calculation consumes
+   ordinary Stage 6.
 
 ## Stage 8: relative homotopy, Hurewicz, Whitehead, and ordinary representability
 
@@ -1901,8 +1908,13 @@ items 1–7 are independent of those later constructions.
    cubical loop g descends through the Stage 4.4 quotient q to a pointed sphere
    map ḡ; define h[g]=ḡ_*[S^n] on the outward-first normalized generator.
    Prove independence of representatives, group law and naturality. In degree
-   one it factors through abelianization; DGFloer Layer 1 item 1 owns the
-   theorem that this exact map is an isomorphism, through its chain comparison.
+   one it factors through abelianization; own the degree-one Hurewicz theorem:
+   for a path-connected pointed X the induced map π₁(X)ᵃᵇ → H₁(X;ℤ) is a
+   natural isomorphism, sending a loop to its positively oriented singular
+   circle class. Prove it directly on singular chains (Hatcher 2A.1): every
+   1-cycle is homologous to a sum of loops, and a loop bounding a 2-chain lies
+   in the commutator subgroup. DGFloer Layer 1 item 1 consumes this exact
+   isomorphism through its cubical/simplicial chain comparison.
    For arbitrary spaces consume Stage 4.8's direct Eilenberg-subcomplex
    connected-map comparison; it uses face-compatible compression and prisms,
    not this Hurewicz theorem. Prove the absolute theorem: an `(n-1)`-connected pointed
@@ -2406,14 +2418,14 @@ supplement or the categorical LS supplement unless named explicitly.
 | categorical-cover/cup-length supplement after6.2 | native opens/homotopies/ENat; 2–3, 5.1 and ordinary6.1–6.2, plus the direct point-chain contraction; no manifold duality or Morse input | 6.3–6.5 |
 | supported-cellular comparison after ordinary6.2 | ordinary4 cellular data, ordinary6.1–6.2, CC C1.2a S0–S4; proves countability and finite-support cellular/singular comparison. CC-S5 compatibility is a separate check | ordinary6.3–6.5, Stage7 and ordinary8 proceed independently; proper8.5 uses the needed support interfaces |
 | 6.5 linking/degree consequences | 2--4 and ordinary6.1--6.4; DG10's smooth mapping-degree comparison only after the independent AT6.3 classes | 1 |
-| 7 Euler characteristic | 2--6 and ComplexKahlerGeometry K7 for CPⁿ | 1 |
+| 7 Euler characteristic | 2--6, with 4.6's CPⁿ cell structure for the CPⁿ check | 1 |
 | 8.1–8.7 Hurewicz/Whitehead | 2--4 and the cited external roadmaps; proper8.5 additionally CC C1.2a S0–S3 support colimits/proper pullback and S4 jointly proper homotopy invariance and the supported-cellular comparison/countability supplement; CC-S5 is a compatibility target only | 1, 5; ordinary Hurewicz/Whitehead also alongside ordinary6–7 |
 | 8.8a raw bar/abelian input | 4, ordinary6, native nerve/realization and universal-cover APIs | 8.8c's abelian K(A,1) specialization |
 | 8.8b normalized model comparison | AT8.8a bar model; CS Stage3 items11–15 and Stage4 items16–18 | 8.9 |
 | 8.8c abelian EM family | 4.7, 4.8, 8.1–8.8a, 8.2's Kan/Moore comparison and 5.5's based path fibration for the loop identification; no 8.9–8.12 input | 7 |
 | 8.8d Serre classes/Hurewicz modulo a class | 4.8, 5.3 transfer, 5.5 Serre sequences and path fibrations, 8.3–8.5, 8.8c | 7 |
 | 8.9 primary relative obstructions | 4, 5.5 fibre transport, ordinary6 cellular cochains, 8.1–8.7 | 8.8b |
-| 8.10 ordinary representability | 4, ordinary6, 8.3/8.6, 8.8c, 8.9, DGFloer Layer 1 item 1, 4.5's simplicial-realization product comparison and compact-generation facts | 7 |
+| 8.10 ordinary representability | 4, ordinary6, 8.3 including its degree-one Hurewicz isomorphism, 8.6, 8.8c, 8.9, 4.5's simplicial-realization product comparison and compact-generation facts | 7 |
 | 8.11a mapping-space and based-loop CW type | Earlier CW/pair foundations (4) and HomotopySpheres §3A.1 compact-generation/product API only; no 8.10 or §3A.2 input | 7 |
 | 8.11b ordinary EM loops | 4.8's CW approximation, 8.5, 8.10, 8.11a, HomotopySpheres §3A.1 compact-generation/product API and §3A.2 adjunction, 4.5's simplicial-realization product comparison | 7 |
 | 8.12 native circle comparison | 8.8a, 8.10 and the native `AddCircle` EM instance; no projective carrier or external comparison | 7 |
