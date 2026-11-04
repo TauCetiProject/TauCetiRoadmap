@@ -2,13 +2,8 @@
 Copyright (c) 2026.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import Mathlib.Analysis.Distribution.TemperedDistribution
-import Mathlib.Analysis.Distribution.TestFunction
-import Mathlib.Analysis.Distribution.SchwartzSpace.Fourier
-import Mathlib.Analysis.InnerProductSpace.PiL2
-import Mathlib.Analysis.InnerProductSpace.Basic
-import Mathlib.RingTheory.PowerSeries.Basic
-import Mathlib.Analysis.SpecialFunctions.RegularizedHypergeometric
+import Mathlib
+import TauCeti.Algebra.CentralSimple.Quaternion
 
 /-!
 **This file is not the roadmap and is not exhaustive.** The README is the definitive
@@ -502,5 +497,359 @@ def kleinGordonSymbol (massSq : ℝ) (p : Spacetime) : ℝ :=
 
 /-- Formal coefficientwise perturbation data. It is a series, not a measure on a field space. -/
 abbrev FormalSeries (R : Type*) := PowerSeries R
+
+section CourseExamples
+
+/-! Folded in from the former `CourseExamplesSuggested.lean`.
+These are suggested forms. The README is the definitive specification.
+The scalar estimates support the separately specified L² evolution theorem. -/
+
+open scoped Quaternion TensorProduct
+
+/-- The actual real-quaternion matrix model printed in Borcherds p101. -/
+def quaternionPauli (q : ℍ[ℝ]) : Matrix (Fin 2) (Fin 2) ℂ :=
+  !![(q.re : ℂ) + Complex.I * q.imI, (q.imJ : ℂ) + Complex.I * q.imK;
+      -(q.imJ : ℂ) + Complex.I * q.imK, (q.re : ℂ) - Complex.I * q.imI]
+
+/-- Complexifying the printed model gives the full matrix algebra. -/
+theorem quaternionPauli_splitting :
+    ∃ e : (ℂ ⊗[ℝ] ℍ[ℝ]) ≃ₐ[ℂ] Matrix (Fin 2) (Fin 2) ℂ,
+      ∀ (z : ℂ) (q : ℍ[ℝ]), e (z ⊗ₜ[ℝ] q) = z • quaternionPauli q := by
+  sorry
+
+/-- Comparison with the existing abstract splitting is an actual inner automorphism. -/
+theorem quaternionSplitting_inner
+    (e : (ℂ ⊗[ℝ] ℍ[ℝ]) ≃ₐ[ℂ] Matrix (Fin 2) (Fin 2) ℂ) :
+    ∃ g : (Matrix (Fin 2) (Fin 2) ℂ)ˣ, ∀ x,
+      e x = (g : Matrix (Fin 2) (Fin 2) ℂ) *
+        TauCeti.Quaternion.complexTensorAlgEquivMatrix x *
+        (↑g⁻¹ : Matrix (Fin 2) (Fin 2) ℂ) := by
+  sorry
+
+/-- Positive KG energy after removing rest energy, in physical momentum magnitude r. -/
+def kgRestSubtractedEnergy (m c r : ℝ) : ℝ :=
+  Real.sqrt (m ^ 2 * c ^ 4 + c ^ 2 * r ^ 2) - m * c ^ 2
+
+/-- The global dispersion remainder controls each finite momentum window. -/
+theorem kg_energy_error (m c r : ℝ) (hm : 0 < m) (hc : 0 < c) (hr : 0 ≤ r) :
+    0 ≤ r ^ 2 / (2 * m) - kgRestSubtractedEnergy m c r ∧
+      r ^ 2 / (2 * m) - kgRestSubtractedEnergy m c r ≤
+        r ^ 4 / (8 * m ^ 3 * c ^ 2) := by
+  sorry
+
+/-- The scalar phase estimate used under the momentum spectral integral. -/
+theorem kg_phase_error (m c ℏ r t : ℝ) (hm : 0 < m) (hc : 0 < c)
+    (hℏ : 0 < ℏ) (hr : 0 ≤ r) :
+    ‖Complex.exp (-Complex.I * ((t * kgRestSubtractedEnergy m c r / ℏ : ℝ) : ℂ)) -
+      Complex.exp (-Complex.I * ((t * r ^ 2 / (2 * m * ℏ) : ℝ) : ℂ))‖ ≤
+        |t| * r ^ 4 / (8 * ℏ * m ^ 3 * c ^ 2) := by
+  sorry
+
+/-- The common mode factor is necessary when summing the two time orderings.
+This rational statement is separate from the README's boundary-value theorem. -/
+theorem photon_time_ordering_sum (ω r : ℂ) (hr : r ≠ 0)
+    (hm : ω - r ≠ 0) (hp : ω + r ≠ 0) :
+    ((ω - r)⁻¹ - (ω + r)⁻¹) / (2 * r) = (ω ^ 2 - r ^ 2)⁻¹ := by
+  sorry
+
+/-- Transverse exchange plus instantaneous Coulomb exchange for conserved currents.
+The currents have complex bilinear contractions; no additional conjugation is inserted. -/
+theorem coulomb_transverse_covariant (ω : ℝ) (k : Fin 3 → ℝ)
+    (ρ₁ ρ₂ : ℂ) (j₁ j₂ : Fin 3 → ℂ)
+    (hk : (∑ i, (k i : ℂ) ^ 2) ≠ 0)
+    (hd : (ω : ℂ) ^ 2 - ∑ i, (k i : ℂ) ^ 2 ≠ 0)
+    (h₁ : ∑ i, (k i : ℂ) * j₁ i = (ω : ℂ) * ρ₁)
+    (h₂ : ∑ i, (k i : ℂ) * j₂ i = (ω : ℂ) * ρ₂) :
+    let s : ℂ := ∑ i, (k i : ℂ) ^ 2
+    let d : ℂ := (ω : ℂ) ^ 2 - s
+    let transverse : Fin 3 → ℂ :=
+      fun i => j₂ i - (k i : ℂ) * (∑ l, (k l : ℂ) * j₂ l) / s
+    (∑ i, j₁ i * transverse i) / d + ρ₁ * ρ₂ / s =
+      -(ρ₁ * ρ₂ - ∑ i, j₁ i * j₂ i) / d := by
+  sorry
+
+end CourseExamples
+
+section FreeReflection
+
+/-! Folded in from the former `FreeEuclideanReflectionTargets.lean`.
+These targets pin RQFT7.FreeReflection's angular Fourier and massive-shell
+normalizations on native Schwartz and L² carriers. Analytic proofs are targets. -/
+
+open MeasureTheory
+open scoped ComplexConjugate
+
+namespace FreeReflection
+
+abbrev Spatial := EuclideanSpace ℝ (Fin 3)
+/-- Expose the native product-Haar instance through the volume definition. -/
+local instance : (volume : Measure (ℝ × Spatial)).IsAddHaarMeasure := by
+  change (volume.prod volume : Measure (ℝ × Spatial)).IsAddHaarMeasure
+  infer_instance
+
+abbrev EuclideanTest := 𝓢(ℝ × Spatial, ℂ)
+
+/-- Schwartz tests flat on the closed nonpositive-time half-space. -/
+def positiveTimeTests : Submodule ℂ EuclideanTest where
+  carrier := {f | ∀ z, z.1 ≤ 0 → f z = 0}
+  zero_mem' := by simp
+  add_mem' := by
+    intro f g hf hg z hz
+    simp [hf z hz, hg z hz]
+  smul_mem' := by
+    intro c f hf z hz
+    simp [hf z hz]
+
+abbrev PositiveTest := positiveTimeTests
+
+/-- Massive dispersion in the angular momentum variable p = 2πξ. -/
+def omega (m : ℝ) (p : Spatial) : ℝ := Real.sqrt (‖p‖ ^ 2 + m ^ 2)
+
+/-- RQFT3's scalar shell measure in its spatial chart. -/
+def shellMeasure (m : ℝ) : Measure Spatial :=
+  volume.withDensity fun p => ENNReal.ofReal (((2 * Real.pi) ^ 3 * (2 * omega m p))⁻¹)
+
+abbrev OneParticle (m : ℝ) := Lp ℂ 2 (shellMeasure m)
+
+/-- Unnormalized negative-phase spatial Fourier transform. -/
+def spatialFourier (f : EuclideanTest) (t : ℝ) (p : Spatial) : ℂ :=
+  ∫ x : Spatial, Complex.exp (-(inner ℝ x p : ℂ) * Complex.I) * f (t, x)
+
+/-- Positive-time Laplace transform of the spatial Fourier transform. -/
+def laplaceSpatial (m : ℝ) (f : PositiveTest) (p : Spatial) : ℂ :=
+  ∫ t in Set.Ioi (0 : ℝ),
+    (Real.exp (-omega m p * t) : ℂ) * spatialFourier f.val t p
+
+/-- Actual native L² membership is required before forming the quotient vector. -/
+theorem memLp_laplaceSpatial (m : ℝ) (hm : 0 < m) (f : PositiveTest) :
+    MemLp (laplaceSpatial m f) 2 (shellMeasure m) := by
+  sorry
+
+/-- Its representative is the specified transform, not an arbitrary L² vector. -/
+def toOneParticle (m : ℝ) (hm : 0 < m) (f : PositiveTest) : OneParticle m :=
+  (memLp_laplaceSpatial m hm f).toLp (laplaceSpatial m f)
+
+/-- The reflected two-time kernel after spatial Fourier transformation.
+The README additionally requires its distributional agreement with G_m(θx-y). -/
+def reflectedCovariance (m : ℝ) (f g : PositiveTest) : ℂ :=
+  ∫ p : Spatial, (∫ t in Set.Ioi (0 : ℝ), ∫ s in Set.Ioi (0 : ℝ),
+    conj (spatialFourier f.val t p) *
+      (Real.exp (-omega m p * (t + s)) : ℂ) * spatialFourier g.val s p)
+    ∂shellMeasure m
+
+/-- Factorization with the invariant shell weight and a second-linear inner product. -/
+theorem reflectedCovariance_eq_inner (m : ℝ) (hm : 0 < m) (f g : PositiveTest) :
+    reflectedCovariance m f g = inner ℂ (toOneParticle m hm f) (toOneParticle m hm g) := by
+  sorry
+
+/-- Time Cauchy–Schwarz followed by angular spatial Plancherel. -/
+theorem norm_toOneParticle_le (m : ℝ) (hm : 0 < m) (f : PositiveTest) :
+    ‖toOneParticle m hm f‖ ≤ (2 * m)⁻¹ * ‖f.val.toLp 2 volume‖ := by
+  sorry
+
+/-- Every scalar one-particle vector is approximated by positive-time tests. -/
+theorem denseRange_toOneParticle (m : ℝ) (hm : 0 < m) :
+    DenseRange (toOneParticle m hm) := by
+  sorry
+
+end FreeReflection
+
+end FreeReflection
+
+section MassivePrescriptions
+
+/-! Folded in from the former `MassivePrescriptionTargets.lean`.
+RQFT1.MassivePrescriptions uses delta-normalized inverses with physical Fourier
+phase +iη(p,x). These statements pin the boundary pairings and shell constants;
+their analytic proofs are future work. -/
+
+open Filter MeasureTheory
+open scoped Topology
+
+namespace MassivePrescriptions
+
+abbrev Momentum := EuclideanSpace ℝ (Fin 4)
+abbrev Spatial := EuclideanSpace ℝ (Fin 3)
+abbrev Test := 𝓢(Momentum, ℂ)
+abbrev Distribution := 𝓢'(Momentum, ℂ)
+
+/-- Physical time-first mass shell in the angular momentum variable. -/
+def shellPoint (m : ℝ) (positive : Bool) (k : Spatial) : Momentum :=
+  WithLp.toLp 2 (Fin.cases
+    ((if positive then 1 else -1) * Real.sqrt (‖k‖ ^ 2 + m ^ 2)) k)
+
+/-- D± = θ(±p0)δ(q-m²); unlike W±, these contain no 2π factor. -/
+def shellPairing (m : ℝ) (positive : Bool) (f : Test) : ℂ :=
+  ∫ k : Spatial, f (shellPoint m positive k) /
+    ((2 * Real.sqrt (‖k‖ ^ 2 + m ^ 2) : ℝ) : ℂ)
+
+/-- Indices 0,1,2,3 mean retarded, advanced, Feynman, anti-Feynman. -/
+def poleDenominator (m : ℝ) (i : Fin 4) (ε : ℝ) (p : Momentum) : ℂ :=
+  let w2 : ℝ := (∑ j : Fin 3, (p j.succ) ^ 2) + m ^ 2
+  if i = 0 then ((p 0 : ℂ) + Complex.I * ε) ^ 2 - w2
+  else if i = 1 then ((p 0 : ℂ) - Complex.I * ε) ^ 2 - w2
+  else if i = 2 then (p 0 : ℂ) ^ 2 - w2 + Complex.I * ε
+  else (p 0 : ℂ) ^ 2 - w2 - Complex.I * ε
+
+/-- The minus sign makes the eventual kernel solve P G=δ. -/
+def regularizedPairing (m : ℝ) (i : Fin 4) (ε : ℝ) (f : Test) : ℂ :=
+  ∫ p : Momentum, -(poleDenominator m i ε p)⁻¹ * f p
+
+/-- Continuity is part of constructing the shell distributions. -/
+theorem exists_shell_distributions (m : ℝ) (hm : 0 < m) :
+    ∃ D : Bool → Distribution, ∀ positive f, D positive f = shellPairing m positive f := by
+  sorry
+
+/-- The boundary values are actual continuous complex-linear Schwartz functionals. -/
+theorem exists_prescription_distributions (m : ℝ) (hm : 0 < m) :
+    ∃ G : Fin 4 → Distribution, ∀ i f,
+      Tendsto (fun ε => regularizedPairing m i ε f) (𝓝[>] (0 : ℝ)) (𝓝 (G i f)) := by
+  sorry
+
+/-- The common-source affine relation and the two frequency jumps. -/
+theorem prescription_relations (m : ℝ) (hm : 0 < m) (G : Fin 4 → Distribution)
+    (hG : ∀ i f,
+      Tendsto (fun ε => regularizedPairing m i ε f) (𝓝[>] (0 : ℝ)) (𝓝 (G i f))) :
+    G 0 + G 1 = G 2 + G 3 ∧
+      (∀ f, G 2 f - G 1 f = (2 * Real.pi * Complex.I) * shellPairing m true f) ∧
+      (∀ f, G 2 f - G 0 f = (2 * Real.pi * Complex.I) * shellPairing m false f) := by
+  sorry
+
+/-- The two mass-shell components give independent homogeneous solutions. -/
+theorem shell_pairings_independent (m : ℝ) (hm : 0 < m) (a b : ℂ)
+    (h : ∀ f : Test, a * shellPairing m true f + b * shellPairing m false f = 0) :
+    a = 0 ∧ b = 0 := by
+  sorry
+
+end MassivePrescriptions
+
+end MassivePrescriptions
+
+section MasslessLimit
+
+/-! Folded in from the former `MasslessLimitTargets.lean`.
+RQFT7.MasslessLimit compares the actual Euclidean kernels as positive mass
+approaches zero. Uniform convergence on von Neumann-bounded Schwartz sets
+states the stronger estimate explicitly, without changing the native topology
+on tempered distributions. These theorem admissions are future proofs. -/
+
+open Filter MeasureTheory
+open scoped Topology
+
+namespace MasslessLimit
+
+/-- The normalized massive one-dimensional Green function. -/
+def greenOne (m x : ℝ) : ℝ := Real.exp (-m * |x|) / (2 * m)
+
+abbrev Plane := EuclideanSpace ℝ (Fin 2)
+
+/-- The massive planar heat representation, with an arbitrary value at its
+single singular point. For m>0 and x≠0 the integral is convergent. -/
+def greenTwo (m : ℝ) (x : Plane) : ℝ := by
+  classical
+  exact if x = 0 then 0 else
+    ∫ t in Set.Ioi (0 : ℝ), (4 * Real.pi * t)⁻¹ *
+      Real.exp (-m ^ 2 * t - ‖x‖ ^ 2 / (4 * t))
+
+/-- A radius-one normalization for the constant subtraction. -/
+def unitPoint : Plane := WithLp.toLp 2 ![(1 : ℝ), 0]
+
+/-- The constant divergence is removed in position space, not by a position delta. -/
+theorem greenOne_sub_const_tendstoUniformlyOn
+    (s : Set 𝓢(ℝ, ℂ)) (hs : Bornology.IsVonNBounded ℂ s) :
+    TendstoUniformlyOn
+      (fun m f => ∫ x : ℝ, ((greenOne m x - (2 * m)⁻¹ : ℝ) : ℂ) * f x)
+      (fun f => ∫ x : ℝ, ((-|x| / 2 : ℝ) : ℂ) * f x)
+      (𝓝[>] (0 : ℝ)) s := by
+  sorry
+
+/-- The two-dimensional radial normalization is fixed at radius one. -/
+theorem greenTwo_sub_const_tendstoUniformlyOn
+    (s : Set 𝓢(Plane, ℂ)) (hs : Bornology.IsVonNBounded ℂ s) :
+    TendstoUniformlyOn
+      (fun m f => ∫ x : Plane, ((greenTwo m x - greenTwo m unitPoint : ℝ) : ℂ) * f x)
+      (fun f => ∫ x : Plane, ((-Real.log ‖x‖ / (2 * Real.pi) : ℝ) : ℂ) * f x)
+      (𝓝[>] (0 : ℝ)) s := by
+  sorry
+
+/-- The unrenormalized one-dimensional kernels really diverge on such tests. -/
+theorem greenOne_pairing_tendsto_atTop (f : 𝓢(ℝ, ℝ))
+    (hf : 0 < ∫ x : ℝ, f x) :
+    Tendsto (fun m => ∫ x : ℝ, greenOne m x * f x) (𝓝[>] (0 : ℝ)) atTop := by
+  sorry
+
+/-- In dimensions at least three the native Fourier multipliers need no
+constant subtraction. Their value at ξ=0 is immaterial to the integral. -/
+theorem multiplier_tendstoUniformlyOn {n : ℕ} (hn : 3 ≤ n)
+    (s : Set 𝓢(EuclideanSpace ℝ (Fin n), ℂ)) (hs : Bornology.IsVonNBounded ℂ s) :
+    TendstoUniformlyOn
+      (fun m f => ∫ ξ : EuclideanSpace ℝ (Fin n),
+        (((4 * Real.pi ^ 2 * ‖ξ‖ ^ 2 + m ^ 2)⁻¹ : ℝ) : ℂ) * f ξ)
+      (fun f => ∫ ξ : EuclideanSpace ℝ (Fin n),
+        (((4 * Real.pi ^ 2 * ‖ξ‖ ^ 2)⁻¹ : ℝ) : ℂ) * f ξ)
+      (𝓝[>] (0 : ℝ)) s := by
+  sorry
+
+end MasslessLimit
+
+end MasslessLimit
+
+section TorusGreen
+
+/-! Folded in from the former `TorusGreenTargets.lean`.
+These native characters and scalar mode formulas
+calibrate the physical-volume normalization of RQFT7.TorusGreen. Construction
+of periodic distributions and their inverse operators remains a target there. -/
+
+open Filter
+open scoped Topology
+
+namespace TorusGreen
+
+abbrev Frequency (n : ℕ) := Fin n → ℤ
+
+def mode {n : ℕ} (k : Frequency n) : C(UnitAddTorus (Fin n), ℂ) :=
+  UnitAddTorus.mFourier k
+
+def energy {n : ℕ} (L : ℝ) (k : Frequency n) : ℝ :=
+  (2 * Real.pi / L) ^ 2 * ∑ i, (k i : ℝ) ^ 2
+
+def coefficient {n : ℕ} (L m : ℝ) (k : Frequency n) : ℝ :=
+  (L ^ n * (energy L k + m ^ 2))⁻¹
+
+def reducedCoefficient {n : ℕ} (L m : ℝ) (k : Frequency n) : ℝ := by
+  classical
+  exact if k = 0 then 0 else coefficient L m k
+
+theorem coefficient_equation {n : ℕ} (L m : ℝ) (hL : 0 < L) (hm : 0 < m)
+    (k : Frequency n) :
+    (energy L k + m ^ 2) * coefficient L m k = (L ^ n)⁻¹ := by
+  sorry
+
+theorem reduced_coefficient_tendsto {n : ℕ} (L : ℝ) (hL : 0 < L)
+    (k : Frequency n) :
+    Tendsto (fun m ↦ coefficient L m k -
+      if k = 0 then (L ^ n * m ^ 2)⁻¹ else 0)
+      (𝓝[>] (0 : ℝ)) (𝓝 (reducedCoefficient L 0 k)) := by
+  sorry
+
+theorem coefficient_remainder {n : ℕ} (L m : ℝ) (hL : 0 < L) (hm : 0 ≤ m)
+    (k : Frequency n) (hk : k ≠ 0) :
+    |coefficient L m k - coefficient L 0 k| ≤
+      m ^ 2 / (L ^ n * energy L k ^ 2) := by
+  sorry
+
+def circleGreen (L m d : ℝ) : ℝ :=
+  Real.cosh (m * (L / 2 - d)) / (2 * m * Real.sinh (m * L / 2))
+
+theorem circle_reduced_tendsto (L d : ℝ) (hL : 0 < L)
+    (hd : 0 ≤ d ∧ d ≤ L / 2) :
+    Tendsto (fun m ↦ circleGreen L m d - (m ^ 2 * L)⁻¹)
+      (𝓝[>] (0 : ℝ)) (𝓝 (L / 12 - d / 2 + d ^ 2 / (2 * L))) := by
+  sorry
+
+end TorusGreen
+
+end TorusGreen
 
 end TauCetiRoadmap.RelativisticQuantumFieldTheory

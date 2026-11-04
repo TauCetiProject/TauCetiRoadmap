@@ -8,7 +8,6 @@ Suggested files:
 TauCetiRoadmap/RelativisticQuantumFieldTheory/
   README.md
   Suggested.lean
-  FreeEuclideanReflectionTargets.lean
 ```
 
 The definitive acceptance scope is below. `Suggested.lean` is a small prototype only.
@@ -159,7 +158,7 @@ f∈L² and T≥0 deduce `sup_(|t|≤T)‖(U_c(t)−U_NR(t))f‖→0` as c→∞
 by momentum truncation and the unitary norm bounds. Match U_NR to QF6a's
 Schrödinger evolution with ℏ restored; do not identify arbitrary two-branch
 KG Cauchy data with this first-order evolution. The suggested scalar bounds
-appear in [CourseExamplesSuggested.lean](CourseExamplesSuggested.lean).
+appear in the `CourseExamples` section of [Suggested.lean](Suggested.lean).
 
 **Current and Coulomb convention bridge (LVF3 → RQFT1/RQFT4/RQFT9).** LVF3 fixes the classical convention `L_J=−F_{μν}F^{μν}/4−J_cl^μ A_μ`, hence `∂_μF^{μν}=J_cl^ν` for a smooth external source. Transfer the index/sign convention, not the classical source itself, to RQFT4: for its operator-valued current `𝒥^ν` in the Wightman field family write `∂_μF^{μν}=𝒥^ν` and set `j^{(4)}_μ:=−η_{μν}𝒥^ν`. Then `∂^νF_{μν}=j^{(4)}_μ` in the same `(+---)` metric. No c-number external source is identified with this operator current. In RQFT1's classical Euclidean three-vector equation, bold `j` means `(J_cl^i)_{i=1}^3` and bold `A` means `(A^i)_{i=1}^3`; `j_T` is the Euclidean transverse projection of those components. For comparison define the classical lower-current notation `j_cl,μ:=−J_cl,μ`; then `j_cl,i=J_cl^i` and RQFT9's charge is `ρ:=J_cl^0=J_cl,0=−j_cl,0`, with `A_0=A^0`. Distinguish the electric components: `E_phys^i=F_{0i}=−∂_tA^i−∂_iA^0`, while RQFT4's lower components are `E_i^{(4)}:=−F_{0i}=−E_phys^i`. Thus the operator equation is `Σ_i∂_i E_i^{(4)}=j^{(4)}_0`; in the classical comparison it reads `Σ_i∂_i E_i^{(4)}=j_cl,0=−ρ`, equivalently `div E_phys=ρ`. RQFT9's `E=−∇Φ` is this physical three-vector in the static case. In the static case, or in time-dependent Coulomb gauge `div A=0`, Gauss' equation yields `−ΔA_0=ρ`, consistent with `U=eA^0`. Prove these index, current-type and gauge reductions from the fixed convention. RQFT4's charged-potential consequence uses the operator current dictionary; the classical current and the two source-free/weak-locality obstruction targets remain separate. Preserve any literal source omission or sign discrepancy.
 
@@ -233,7 +232,7 @@ a faint sign label alone. The sum identity is independent of these
 within-pair source labels. The massless cone vertex and lower-dimensional
 exceptions retain their separate RQFT1/RQFT7 hypotheses; this massive affine
 classification supplies no classification across that singular vertex.
-[MassivePrescriptionTargets.lean](MassivePrescriptionTargets.lean) records
+The `MassivePrescriptions` section of [Suggested.lean](Suggested.lean) records
 native Schwartz/tempered target forms for the shell and boundary pairings.
 
 **RQFT1.FundamentalSolutionAffineCarrier.** For each declared linear distribution carrier 𝓔 stable under the fixed constant-coefficient operator P, with its distinguished delta source in that carrier, define Fund(P;𝓔)={E∈𝓔:PE=δ}. Given one E₀ in it, prove the exact affine equivalence `ker(P:𝓔→𝓔)≃Fund(P;𝓔)`, u↦E₀+u, with inverse E↦E−E₀. State the empty case when no fundamental solution exists. Apply separately to ordinary and tempered distributions and transport through the declared Fourier convention. Lorentz-invariant causal, spectral and selected boundary-value families are additional constrained subclasses; their named classification does not replace this general homogeneous-solution freedom. This concerns distributional fundamental solutions, not an inverse of P on all fields or an unrestricted Green-operator uniqueness statement.
@@ -326,7 +325,7 @@ or `TauCeti.exists_unit_conj_of_algEquiv`. An arbitrarily chosen splitting
 need not have the displayed generator values. Keep the separate existing
 `tensorSelfAlgEquivMatrix` and its conjugation/opposite action for ℍ⊗ℍ.
 Suggested exact realization and comparison statements are in
-[CourseExamplesSuggested.lean](CourseExamplesSuggested.lean).
+the `CourseExamples` section of [Suggested.lean](Suggested.lean).
 
 For p102's plane reduction, let E have anisotropic orthogonal basis e1,e2,
 Delta=Q(e1)Q(e2) and volume z=e1e2. The generators fz for f in F commute with
@@ -3270,8 +3269,8 @@ prove the unrenormalized restricted functionals converge there, with the
 same bounded-test estimates. In dimension two changing R to R′ adds the
 constant `log(R′/R)/(2π)` to the selected limit. Keep this Euclidean
 infrared comparison separate from Lorentzian pole prescriptions and from
-massless graph-integral convergence. The companion
-[MasslessLimitTargets.lean](MasslessLimitTargets.lean) pins representative
+massless graph-integral convergence. The `MasslessLimit`
+section of [Suggested.lean](Suggested.lean) pins representative
 bounded-test limits and the one-dimensional divergence on native carriers.
 
 **RQFT7.TorusGreen — the compact Euclidean exception and its zero mode.**
@@ -3340,7 +3339,7 @@ the derivative jump at0. For fixed m>0 prove the large-L local limit is
 `e^(−m|x|)/(2m)`. For the mean-zero massless kernel first subtract L/12;
 its large-L local limit is `−|x|/2`. Specify these local tested limits and
 the order of limits rather than identifying the finite- and infinite-volume
-normalizations. [`TorusGreenTargets.lean`](TorusGreenTargets.lean) pins the
+normalizations. The `TorusGreen` section of [Suggested.lean](Suggested.lean) pins the
 native characters, mode coefficients and representative limits.
 
 **RQFT7.OSConstruction — the reconstruction maps and their domains.**
@@ -3729,7 +3728,7 @@ do not set the isolated Coulomb contribution to zero. Compare
 [Dine's Coulomb-gauge notes, pp1–2](https://scipp-legacy.pbsci.ucsc.edu/~dine/ph218/218_coulomb_gauge.pdf)
 for the projector and conserved-current reduction, translating the
 metric and propagator factors. Suggested rational statements are in
-[CourseExamplesSuggested.lean](CourseExamplesSuggested.lean); the
+the `CourseExamples` section of [Suggested.lean](Suggested.lean); the
 boundary-value and canonical-amplitude comparisons remain theorem targets.
 
 * State the exact QED graph rules: internal scalar/Dirac/photon propagators, vertex factors from action normalization, momentum conservation delta, loop momentum measure, symmetry factors, spinor-index contractions, orientation of fermion arrows, sign of permutations and `−1` for each closed fermion loop. Work the vacuum-polarization trace `tr(G(p+k)γ_μG(p)γ_ν)` and scalar-scattering examples. Use the explicit electron-electron, annihilation, real-emission kinematics and Dirac static-Coulomb targets; include both exchange time orderings and the instantaneous Coulomb term. General channel rates consume RQFT5.GeneralChannelRateNormalization, with the actual spin, flux, identical-state and singular-region hypotheses for each listed process. Scalar external-target rates consume the separate RQFT5 static theorem; the Dirac static-target rate has its own theorem above. Keep source diagram glyph uncertainties separate from accepted formulas.
