@@ -316,6 +316,12 @@ supported `f` and the Beurling operator `B = ∂T`. Prove the following:
 State support radii, cutoffs and constants explicitly. Prove continuity in parameters for
 families of data with common support.
 
+Cite existing work in [t4v1/damian_formalizare](https://github.com/t4v1/damian_formalizare),
+`MorseFloer/Part2/CauchyPompeiu.lean` and `CauchyHolder.lean`, for its Cauchy/Beurling
+Hölder-scale development. Compare its differential and kernel normalization with
+`∂̄ = (∂_s + i∂_t)/2` here. Any code integration follows the README's author-coordination and
+licence requirements.
+
 ### 3.2 Interior estimates and regularity for `∂̄`
 
 For `1 < q < ∞`, `k ≥ 0` and compact `K ⊆ Ω`:
