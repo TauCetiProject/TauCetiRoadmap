@@ -427,7 +427,7 @@ The generic Check aliases below use the supplier's namespace and section.
 | `s0_25_already_a_stack` | SchemeAndStackFoundations §1.18 | `Stack.stackification_of_isStack` |
 | `s0_25_sheafification_agreement` | SchemeAndStackFoundations §1.18 | `Stack.stackificationDiscreteEquiv` |
 | `s0_26_pair_groupoid`, `s0_26_trivial_groupoid` | SchemeAndStackFoundations §1.21 | the equivalence `R ≃ X ×_{[X/R]} X` of `Stack.quotient` |
-| `disjoint_union_of_spectral_is_locally_spectral_not_spectral` | AdicSpacesPartII R0.0 | `definition_IsLocallySpectralSpace_1` (a Lean example) |
+| `disjoint_union_of_spectral_is_locally_spectral_not_spectral` | AdicSpacesPartII R0.0 | `definition_IsLocallySpectralSpace_1`, a Check of AdicSpacesPartII R0.0 |
 | `algebraic_discrete_infinite`, `algebraic_point`, `nonalgebraic_real_line` | AdicSpacesPartII R0.19.10 | `definition_IsAlgebraic_1`, `_2`, `_3` |
 | `qc_identity_noncompact` | AdicSpacesPartII R0.19.10 | `Topos_Hom_IsQuasicompact_noncompact_identity` |
 | `qc_empty` | AdicSpacesPartII R0.19.10 | `definition_IsQuasicompact_2` |
@@ -2923,7 +2923,7 @@ object carries the perfectoid structure. `Perfectoid.wLocalization.isOpenEmbeddi
 the image as the union of components labelled by the given quasicompact open
 ([ECD] Proposition 7.12 and Lemma 7.14, pp. 34–36).
 
-**Geometric construction Checks.** Each name labels a suggested Lean `example` (README only).
+**Geometric construction Checks.** Each label names a Check stated in prose (README only).
 
 - `wLocalization_empty` — the empty base has empty w-localization.
 - `wLocalization_hausdorff` — a qcqs base with Hausdorff underlying space is unchanged up to isomorphism.
@@ -3827,8 +3827,8 @@ inclusion. *Needs:* Mathlib `CategoryTheory.GrothendieckTopology`, `CategoryTheo
   v-cover and is not pro-étale, by the geometric-fibre classification. An infinite disjoint union of
   residue-field points need not be a v-cover: its quasicompact opens have finite image.
 - `s2_2_no_small_v_site` (size obstruction) — for nonempty `X`, the unrestricted slice contains
-  disjoint unions with cardinalities unbounded in universe 0, so the suggested Lean Check states
-  `¬ EssentiallySmall.{0} (Over X)`. It does not exclude smallness in universe 2. For `X = ∅` the
+  disjoint unions with cardinalities unbounded in universe 0, so the slice over a nonempty `X` is
+  not essentially small in universe 0. It does not exclude smallness in universe 2. For `X = ∅` the
   slice is equivalent to the terminal category; its empty covering makes its sheaf category
   degenerate. A cutoff bounds the objects in either case.
 - `s2_2_empty_cover` (characterisation) — the empty family covers the empty perfectoid space and nothing
@@ -7942,7 +7942,7 @@ nilpotent unit. The Gel'fand comparison (README only) is a homeomorphism to
 `{α ∈ M(R, tateNorm d) | α(ϖ) = 1/2}` preserving every evaluation. Its suggested Lean statement
 spells out the bounded-seminorm subtype and its induced evaluation topology. For a normed ring with
 `‖x‖ = tateNorm d x`, this is R3's `Huber.GelfandSpectrum R` restricted to `α(ϖ) = 1/2`. The
-comparison follows from the Tate norm construction in [KL15] Remark 2.4.4, p. 38, and the evaluation
+comparison follows from the Tate norm construction in [KL15] Remark 2.4.4, p. 39, and the evaluation
 topology of [ECD] Definition 13.7, p. 79. The normalized subspace is closed, so it is compact
 Hausdorff when `R` is complete. It gives one representative of each class of continuous
 multiplicative seminorms under positive exponents. The Lean carrier `BerkovichSpectrum` is defined
