@@ -55,11 +55,11 @@ The following table makes the extra inputs of each route explicit. Its entries a
 | Required input and owner | Dependent route |
 | --- | --- |
 | GrossZagierAndArithmeticHeights §§0a.2–0a.4, §3.2 and the height/period sections below; additionally gap:integral-family-logarithm on the distinguished integral family | General CM/Hodge construction in §§1.4–1.6; height use in §8.22; logarithm, determinant and BDP comparisons in §§8.35–8.45 and Layer 8b |
-| ModularIwasawaMainConjectures ordinary/zeta/determinant comparisons; additionally gap:gl2-integral-rank-zero | §6.9 and its Zhang consumers; the cyclotomic comparisons used in §8b.2 |
-| KatoEulerSystems gap:kato-distinguished-lattice on the integral modular lattice and prescribed étale isogenies | The source normalization of §8.6a and lattice transport of §8.16; rank-zero divisibility and control belong to gap:gl2-integral-rank-zero |
+| ModularIwasawaMainConjectures §1.3 integral ordinary main conjecture and the ordinary/zeta/determinant comparisons; additionally gap:gl2-integral-rank-zero for the trivial-character control formula | §6.9 and its Zhang consumers; the cyclotomic comparisons used in §8b.2 |
+| KatoEulerSystems gap:kato-distinguished-lattice on the integral modular lattice and prescribed étale isogenies | The source normalization of §8.6a and lattice transport of §8.16; the integral main conjecture is ModularIwasawaMainConjectures §1.3 and the rank-zero control formula belongs to gap:gl2-integral-rank-zero |
 | PadicHodgeRegulators §§1.3, 1.9–1.10, 8.17–8.22 on local logarithms and integral regulator lattices | §§8.35–8.37 and the integral comparisons in Layer 8b |
-| AutomorphicCongruences gap:ordinary-quartic-comparisons, gap:hilbert-family-divisibility and gap:primitive-toric-mu, independently of cyclotomic return | §8b.5 and the irreducible split equality applications |
-| ArithmeticGaloisRepresentations gap:elliptic-adelic-open-image and gap:abelian-scalar-image | §§7.2–7.3 and their all-prime finiteness applications |
+| AutomorphicCongruences §§5.4, 5.10, 5.12–5.13, 6.1–6.6 (the Wan/Fujiwara quartic-CM engine, the two-variable comparisons, the auxiliary-field hypotheses and the μ=0 input), independently of cyclotomic return | §8b.5 and the irreducible split equality applications |
+| ArithmeticGaloisRepresentations gap:abelian-scalar-image | §§7.2–7.3 and their all-prime finiteness applications |
 | SerreWeightAndLevelOptimisation gap:zhang-level-raising; HilbertModularVarietiesAndShimuraCurves gap:zhang-integral-realization | §§4.10, 6.7–6.19 |
 | EulerSystemsAndKolyvaginSystems gap:modified-heegner-descent, retaining the actual modified edges | §§5.3, 6.1, 6.5–6.6 and all ordinary-system consumers in Layers 8 and 8b |
 | EulerSystemsAndKolyvaginSystems gap:classical-uniform-square-index | §7.13; its length/cardinality assertion is separate from an exponent bound |
@@ -144,6 +144,10 @@ What HilbertModularVarietiesAndShimuraCurves must provide (gap:zhang-integral-re
 
 Layer R29.5, “Quotient isogenies and modular parametrisations”: the actual fixed quotient, differential and Hecke/Fricke action. A quotient multiplied by p is not integrally interchangeable with the fixed one.
 
+### From TauCetiRoadmap.EllipticCurveModularityImaginaryQuadratic
+
+§5.1 “Decomposed genericity and a large original image”: for a number field k and a geometrically non-CM elliptic curve E/k, the image of G_k on E[p] contains SL₂(𝔽_p) for all but finitely many p (its `nonCM_elliptic_large_residual_primes`, which owns Serre’s elliptic open-image input). Section 7.2 consumes only this consequence for E/ℚ, completed to full GL₂(𝔽_p) image by the cyclotomic determinant of ArithmeticGaloisRepresentations §6.2; no adelic or finite-index statement is consumed.
+
 ### From TauCetiRoadmap.GrossZagierAndArithmeticHeights
 
 §§0a.2–0a.4 CM points and level/canonical descent, Layer 0 normalization, Layer 3 Hodge classes and differential constants, Layers 4–5 signs and definite special values, §8.11 quaternionic Gross–Zagier, and §§9.10, 9.14, 9.20, 9.22 isogeny, toric-square and logarithm/function comparisons. Retain CM units, stabilizers, discriminants and integral primitive vectors. General height and CM-moduli constructions remain there; this roadmap applies them to its conductor family.
@@ -196,13 +200,11 @@ What EulerSystemsAndKolyvaginSystems must provide (gap:self-dual-rigidity-three)
 
 ### From TauCetiRoadmap.FaltingsFinitenessAndIsogenyTheorems
 
-R28.4.5–R28.4.6: semisimplicity and the Tate endomorphism/Hom comparisons; R28.6.7: integral generation of the commutant at almost every prime, with rational generation at every prime. For the RM application, §7.3 proves absolute irreducibility of each coefficient representation by the no-CM/self-twist criterion, then uses these comparisons and the double-centralizer theorem to obtain C₃. The O_L-linear centralizer is the relevant one; no equality End_K(A)=O_L is inferred merely from the no-CM hypothesis. Adelic openness and scalar-image bounds have the separate contracts below.
+R28.4.5–R28.4.6: semisimplicity and the Tate endomorphism/Hom comparisons; R28.6.7: integral generation of the commutant at almost every prime, with rational generation at every prime. For the RM application, §7.3 proves absolute irreducibility of each coefficient representation by the no-CM/self-twist criterion, then uses these comparisons and the double-centralizer theorem to obtain C₃. The O_L-linear centralizer is the relevant one; no equality End_K(A)=O_L is inferred merely from the no-CM hypothesis. Scalar-image bounds have the separate contract below; the almost-all-p full residual image of §7.2 is EllipticCurveModularityImaginaryQuadratic §5.1 with the determinant of ArithmeticGaloisRepresentations §6.2.
 
 ### From TauCetiRoadmap.ArithmeticGaloisRepresentations
 
 §3.5 “Induction and the conductor–discriminant formula”; §§6.1–6.2 “The Tate module” and “Weil pairing and determinant”; §§6.4–6.4a coefficients/images and Frattini detection. The actual representation and base-field index are retained.
-
-What ArithmeticGaloisRepresentations must provide (gap:elliptic-adelic-open-image): For every non-CM elliptic curve over a number field, supply Serre’s adelic open-image theorem with finite base-change index and cyclotomic determinant, implying full residual GL₂(𝔽_p) image for E/ℚ at all but finitely many p.
 
 What ArithmeticGaloisRepresentations must provide (gap:abelian-scalar-image): For the RM quotients of the integral context over K, supply a scalar u_p∈ℤ_p× distinct from 1 in the G_K image on T_pA for every p, and a bound on the indices of the scalar subgroups independent of p, so that u_p−1 can be a unit at all but finitely many p (Nekovář Proposition 6.1.1, pp.35–36).
 
@@ -218,13 +220,13 @@ R17.3 `global-jl` and `multiplicity-one`: the specified Jacquet–Langlands tran
 
 ### From TauCetiRoadmap.ModularIwasawaMainConjectures
 
-§§0.5–0.10 the ordinary, zeta and determinant formulations; §1.3 “The Skinner–Urban ordinary main conjecture” and §1.7 “Skinner’s theorem for multiplicative reduction”. Integral rank-zero specialization needs the additional GL₂-type contract below.
+§§0.5–0.10 the ordinary, zeta and determinant formulations; §1.3 “The Skinner–Urban ordinary main conjecture”, the integral equality char_Λ(X^Σ)=(L_SU^Σ) for a weight-two newform with p≥3 ordinary, residually irreducible and ramified at some q∥N, applied in §6.9 to g and to its quadratic twist g_K; and §1.7 “Skinner’s theorem for multiplicative reduction”. The trivial-character control formula needs the additional GL₂-type contract below.
 
-What ModularIwasawaMainConjectures must provide (gap:gl2-integral-rank-zero): For g and its quadratic twist g_K in Zhang Theorem 7.1, give the integral ordinary main-conjecture/Kato comparison and trivial-character GL₂-type control formula over the coefficient DVR, assuming residual image containing SL₂(𝔽_p), good ordinary p≥3 and a residually ramified prime ℓ∥N, and retain the canonical-period and local component factors without assuming full integral SL₂ image.
+What ModularIwasawaMainConjectures must provide (gap:gl2-integral-rank-zero): For g and its quadratic twist g_K in Zhang Theorem 7.1, give the trivial-character GL₂-type control formula over the coefficient DVR, assuming residual image containing SL₂(𝔽_p), good ordinary p≥3 and a residually ramified prime ℓ∥N, and retain the canonical-period and local component factors without assuming full integral SL₂ image. The integral ordinary main conjecture for g and for g_K is §1.3: g_K is a newform of trivial character and level ND_K², ramified at the same ℓ∥N since ℓ∤D_K, with the same residual irreducibility and ordinarity.
 
 ### From TauCetiRoadmap.KatoEulerSystems
 
-What KatoEulerSystems must provide (gap:kato-distinguished-lattice): For a rational weight-two elliptic newform f of level N and every odd prime p of semistable reduction, construct the integral lattice T_f given by the image of H¹(Y₁(N),ℤ_p(1)) in the f-eigenspace quotient V_f of H¹(Y₁(N),ℚ_p(1)). Construct the curve E• in the rational isogeny class and the specified maps E₁→E₀→E• from the X₁(N)- and X₀(N)-optimal curves, with the integral identification T_pE•≃T_f induced by their modular maps. Require the maps to extend étale at p on the Néron models, and retain the Néron differential factors, the modular-symbol period lattice and the possible 2-power change of distinguished-curve convention (Wüthrich Theorem 4, p.384, proof pp.386–387; BCGS §1.2.2, pp.10–12). In the good ordinary case their maps on positive Tate lattices are isomorphisms, compatibly with the point and Kummer maps; this does not identify the full Tate or saturated local lattices. Sections 8.6a and 8.16 apply these comparisons to the fixed Heegner family. The independent GL₂-type ordinary divisibility and trivial-character control needed by §6.9 are required by ModularIwasawaMainConjectures gap:gl2-integral-rank-zero, including both g and g_K and their canonical-period and component factors.
+What KatoEulerSystems must provide (gap:kato-distinguished-lattice): For a rational weight-two elliptic newform f of level N and every odd prime p of semistable reduction, construct the integral lattice T_f given by the image of H¹(Y₁(N),ℤ_p(1)) in the f-eigenspace quotient V_f of H¹(Y₁(N),ℚ_p(1)). Construct the curve E• in the rational isogeny class and the specified maps E₁→E₀→E• from the X₁(N)- and X₀(N)-optimal curves, with the integral identification T_pE•≃T_f induced by their modular maps. Require the maps to extend étale at p on the Néron models, and retain the Néron differential factors, the modular-symbol period lattice and the possible 2-power change of distinguished-curve convention (Wüthrich Theorem 4, p.384, proof pp.386–387; BCGS §1.2.2, pp.10–12). In the good ordinary case their maps on positive Tate lattices are isomorphisms, compatibly with the point and Kummer maps; this does not identify the full Tate or saturated local lattices. Sections 8.6a and 8.16 apply these comparisons to the fixed Heegner family. The integral ordinary main conjecture needed by §6.9 is ModularIwasawaMainConjectures §1.3, and its trivial-character control is required by gap:gl2-integral-rank-zero, including both g and g_K and their canonical-period and component factors.
 
 **Checks.**
 
@@ -252,17 +254,15 @@ What GeometryOfNumbersAndQuadraticArithmetic must provide (gap:cm-local-dynamics
 
 ### From TauCetiRoadmap.AutomorphicCongruences
 
-What AutomorphicCongruences must provide (gap:ordinary-quartic-comparisons): For an elliptic newform g, p∤2N ordinary, and imaginary quadratic K with p split, (D_K,N)=1 and residual irreducibility over G_K, supply the ordinary/Greenberg two-variable comparison of both ideal containments, integrally and after inverting p, and its two-form product version with the same hypotheses for both forms (BCS Theorem 4.1.3 and Corollary 4.1.4, p.8). Include the actual four-term local-condition sequences, coefficient extension to the completed unramified ring and the matched periods. For a real quadratic F and M=FK in the ordinary CM setting of BCS §2, let π_K:Λ_M→Λ_K be induced by restriction to FK∞/M, and distinguish the base change g_F from the quadratic twist g^F. Require π_K(char(X_ord(g/M∞))) ⊃ char(X_ord(g/K∞))char(X_ord(g^F/K∞)) integrally, and (π_K(L_p(g_F/M)))=(L_PR(g/K)L_PR(g^F/K)) in Λ_K[1/p], with their exact period and Euler factors (BCS Lemmas 5.1.1–5.1.2, p.9). The anticyclotomic projection must carry the Greenberg local conditions and analytic factors to the single-power BDP convention used in §8b.1 (BCS proof of Theorems 1.2.2 and 1.2.4, p.11). Integral promotion retains the separate μ=0 input below; rational factorization alone is not integral factorization.
+§5.4 “Quaternionic period and primitive anticyclotomic input”: Wan’s Theorem 86 for the anticyclotomic specialization of the parallel Hilbert family, with its per-place nonvanishing, its μ-invariant formula and every imprimitive nonsplit Euler factor retained. §5.10 “Wan’s parallel Hilbert-family divisibility”. §5.12 “The BCS quartic-CM input”: for an elliptic newform g, good ordinary p>3, real quadratic F with (pN,D_F)=1 and CM quadratic M/F with p split and (NO_F,D_(M/F))=1, under residual irreducibility over G_M, the Fujiwara (H1)–(H3) instance, Δ⁺ and squarefree n⁻ with an even number of residually ramified inert factors, the integral containment (L_p(g_F/M)) ⊃ char_(Λ_M)(X_ord(g/M∞)) in the torsion case (BCS Theorem 3.2.1). §5.13 “Discharging the auxiliary-field hypotheses”: the verification of those hypotheses, including the base change of a minimal lift, for the selected fields K and F (BCS Proposition 5.2.1, proof). §6.1 the ordinary two-variable Perrin-Riou/Greenberg equivalence of both containments, integrally and after inverting p, with its two-form product version (BCS Theorem 4.1.3, Corollary 4.1.4). §6.2 the integral restriction π_K(char(X_ord(g/M∞))) ⊃ char(X_ord(g/K∞))char(X_ord(g^F/K∞)) in Λ_K (BCS Lemma 5.1.1), distinguishing the base change g_F from the quadratic twist g^F. §6.3 the factorization (π_K(L_p(g_F/M)))=(L_PR(g/K)L_PR(g^F/K)) in Λ_K[1/p] (BCS Lemma 5.1.2). §6.4 existence of auxiliary fields satisfying conditions (i)–(vi) (BCS Lemma 5.2.3). §6.5 μ(L^Gr_p(g/K))=μ(L^BDP_p(g/K))=0 for p>2 under (disc), (Heeg), (spl) and (irr_K), including its projection comparison L^Gr_p(g/K)⁻Λ^(−,ur)_K=L^BDP_p(g/K)Λ^(−,ur)_K of the Greenberg function to the single-power BDP function (BCS Proposition 4.2.2; [cgs](#references), Proposition 2.4.5, PDF p.10). §6.6 the integral Perrin-Riou and Greenberg product containments over K for p≥5 (BCS Proposition 5.2.1).
 
-What AutomorphicCongruences must provide (gap:hilbert-family-divisibility): For an elliptic newform g ordinary at p>3, real quadratic F with (pN,D_F)=1 and CM quadratic M/F, assume every prime over p splits in M, M is not contained in the Hilbert class field of F, every prime ramified in F/ℚ splits in M, and (NO_F,D_(M/F))=1. Assume the residual representation is irreducible over G_M; the inert part n⁻ of NO_F is squarefree with an even number of prime factors, each residually ramified; and BCS Hypothesis 3.1.1 holds. Explicitly, its (H1) is absolute irreducibility over G_(F(ζ_p)) and, at p=5, exclusion of the case where the projective residual image over G_F is PGL₂(𝔽₅) and the mod-5 cyclotomic character factors through its abelianization of order two; (H2) is existence of a minimal modular lift over F; (H3) excludes q_v≡−1 mod p when the residual local representation is absolutely irreducible and its inertia restriction is absolutely reducible. Supply the minimal-lift and Gorenstein comparisons under these hypotheses, the parallel-weight ordinary Hilbert-family divisibility and its arithmetic specialization, yielding (L_p(g_F/M)) ⊃ char_(Λ_M)(X_ord(g/M∞)) with the source's integral period normalization (BCS Hypothesis 3.1.1, Remarks 3.1.2 and Theorem 3.2.1 with proof, p.7). For the auxiliary F of §8b.3, verify these hypotheses, including the base change of a minimal lift, as in BCS Proposition 5.2.1, pp.9–10. Neither contract consumes the cyclotomic-return application.
+These are used with the hypotheses stated there, which are at or below those of §§8b.3–8b.5: p>3 in §5.12, p≥5 in §6.6, and (irr_K) in §§6.1 and 6.5–6.6, which §8b.3 derives from irreducibility over G_ℚ. The anticyclotomic projection of the §6.6 containments to the single-power BDP convention of §8b.1 is proved in §8b.5, not imported. Rational factorization alone is not integral factorization: the integral statements rest on the μ=0 input of §6.5. None of these imports consumes the cyclotomic-return application of that roadmap’s Layer 7.
 
 **Checks.**
 
-- In ℤ₅⟦T⟧, (5T) and (T) become equal after inverting 5 but have different (5)-valuations, 1 and 0; the rational factorization does not erase the missing μ input.
+- In ℤ₅⟦T⟧, (5T) and (T) become equal after inverting 5 but have different (5)-valuations, 1 and 0; the rational factorization of §6.3 does not erase the μ input of §6.5.
 - The containment (T) ⊃ (T²) has valuations 1≤2; reversing it fails. If opposite bounds give b₁≤a₁ and b₂≤a₂ while the product bound gives a₁+a₂≤b₁+b₂, the test a₁=1,a₂=2 forces b₁=1,b₂=2, illustrating the factorwise cancellation in §8b.5.
-- For n⁻=O_F the number of inert ramified factors is 0, of even parity, and residual ramification there is vacuous; one factor has odd parity and fails the stated hypothesis.
-
-What AutomorphicCongruences must provide (gap:primitive-toric-mu): Supply the precise primitive toric μ=0 theorem and projection/period comparison on the character domain used in BCS Theorem 4.2.1 and Proposition 5.2.1, with p≥5, split ordinary CM hypotheses, residual ramification and every imprimitive Euler factor retained; the independent anticyclotomic divisibility must not consume its cyclotomic-return application.
+- For n⁻=O_F the number of inert ramified factors is 0, of even parity, and residual ramification there is vacuous; one factor has odd parity and fails the hypothesis of §5.12.
 
 ### From TauCetiRoadmap.EulerSystemsCyclotomicMainConjecture
 
@@ -1067,11 +1067,11 @@ Under Zhang Hypothesis♥, local Selmer conditions for g and its admissible leve
 
 ### 6.9 Auxiliary rank-zero formula over K
 
-For a weight-two newform g and its GL₂-type A_g/Q with coefficient prime 𝔭|p≥3, K as in Zhang’s Notations with p∤D_K, good ordinary p, residual image containing SL₂(F_p), and a residually ramified ℓ||N, L(g/K,1)≠0 iff Sel_𝔭∞(A_g/K) is finite. When finite, v_𝔭(L(g/K,1)/Ω_g^can)=length_O𝔭 `Sel_𝔭∞(A_g/K)+Σ_{ℓ|N}t_g(ℓ).` This is over A_g/K, not E/Q. It is derived from the rank-zero formula over Q for g and for its quadratic twist g_K (Skinner TheoremB) and the GL₂-type period comparison. That formula follows, by control at the trivial character, from the ordinary main conjecture in its Skinner–Urban form with Kato’s divisibility. These inputs need residual irreducibility and the residually ramified ℓ||N, and no image containing SL₂(Z_p).
+For a weight-two newform g and its GL₂-type A_g/Q with coefficient prime 𝔭|p≥3, K as in Zhang’s Notations with p∤D_K, good ordinary p, residual image containing SL₂(F_p), and a residually ramified ℓ||N, L(g/K,1)≠0 iff Sel_𝔭∞(A_g/K) is finite. When finite, v_𝔭(L(g/K,1)/Ω_g^can)=length_O𝔭 `Sel_𝔭∞(A_g/K)+Σ_{ℓ|N}t_g(ℓ).` This is over A_g/K, not E/Q. It is derived from the rank-zero formula over Q for g and for its quadratic twist g_K (Skinner TheoremB) and the GL₂-type period comparison. That formula follows, by control at the trivial character, from the integral ordinary main conjecture of ModularIwasawaMainConjectures §1.3 (Skinner–Urban with Kato’s divisibility) applied to g and to g_K. These inputs need residual irreducibility and the residually ramified ℓ||N, and no image containing SL₂(Z_p).
 
 ([zhang](#references), Theorem7.1 and proof, pp.231–232; [skinner](#references), Introduction, TheoremB, arXiv v1 p.2; §2.5, discussion after Theorem2.5.2, pp.15–16; §3.2, pp.20–21.)
 
-*Needs:* ModularIwasawaMainConjectures §§1.3, 1.7 Skinner–Urban and multiplicative reduction; gap:gl2-integral-rank-zero; SelmerIwasawaCohomology Layer 4 Finite conditions and arithmetic applications; GrossZagierAndArithmeticHeights Layer 0 Normalization and character conventions.
+*Needs:* ModularIwasawaMainConjectures §1.3 The Skinner–Urban ordinary main conjecture, for g and g_K, and §1.7 Skinner’s theorem for multiplicative reduction; gap:gl2-integral-rank-zero for the trivial-character control formula; SelmerIwasawaCohomology Layer 4 Finite conditions and arithmetic applications; GrossZagierAndArithmeticHeights Layer 0 Normalization and character conventions.
 
 ### 6.10 Jochnowitz unit criterion
 
@@ -1192,15 +1192,15 @@ More generally, for the RM point y the same finite-generation argument over O_L 
 
 ### 7.2 Non-CM open-image application
 
-For non-CM E/Q, import Serre’s open-image theorem to conclude that Q(E[p])/Q has full GL₂(F_p) image for all but finitely many p, and apply it to the actual Heegner setting. More generally obtain the required uniform cohomological restriction/invariant bounds from the open adelic/Tate image over a number field, retaining the cyclotomic determinant and base-field index. For the RM quotients use the scalar-image theorem of gap:abelian-scalar-image and the rational/integral commutant generation of FaltingsFinitenessAndIsogenyTheorems R28.4.5 and R28.6.7; full GL₂ image is not required there.
+For non-CM E/Q, the image of G_ℚ on E[p] contains SL₂(𝔽_p) for all but finitely many p (EllipticCurveModularityImaginaryQuadratic §5.1, for a geometrically non-CM curve over a number field), and its determinant is the mod-p cyclotomic character (ArithmeticGaloisRepresentations §6.2), which is surjective onto 𝔽_p^× over ℚ because [ℚ(ζ_p):ℚ]=p−1; since det induces GL₂(𝔽_p)/SL₂(𝔽_p)≃𝔽_p^×, Q(E[p])/Q has full GL₂(F_p) image for all but finitely many p. Apply this to the actual Heegner setting. For the RM quotients use the scalar-image theorem of gap:abelian-scalar-image and the rational/integral commutant generation of FaltingsFinitenessAndIsogenyTheorems R28.4.5 and R28.6.7; full GL₂ image is not required there.
 
 ([gross](#references), §2 p.237; §12 pp.254–256.)
 
-*Needs:* [Prime divisibility of the non-torsion Heegner point](#71-prime-divisibility-of-the-non-torsion-heegner-point); FaltingsFinitenessAndIsogenyTheorems R28.4.5–R28.4.6 and R28.6.7; gap:elliptic-adelic-open-image; gap:abelian-scalar-image; ArithmeticGaloisRepresentations §§6.2, 6.4–6.4a Weil pairing, determinant and images.
+*Needs:* [Prime divisibility of the non-torsion Heegner point](#71-prime-divisibility-of-the-non-torsion-heegner-point); FaltingsFinitenessAndIsogenyTheorems R28.4.5–R28.4.6 and R28.6.7; EllipticCurveModularityImaginaryQuadratic §5.1 Decomposed genericity and a large original image; gap:abelian-scalar-image; ArithmeticGaloisRepresentations §§6.2, 6.4–6.4a Weil pairing, determinant and images.
 
 **Checks.**
 
-- The standard SL₂(ℤ_p) action has scalar commutant, but its determinant image is {1}; it has infinite index in GL₂(ℤ_p). A commutant identity cannot substitute for adelic openness.
+- The subgroup SL₂(𝔽_p) of GL₂(𝔽_p) contains SL₂(𝔽_p) but has determinant image {1}, so the containment of §5.1 alone does not give full image; the surjective cyclotomic determinant completes it. Over a base field containing ζ_p the mod-p cyclotomic character is trivial and the image lies in SL₂(𝔽_p), so the full-image conclusion is a statement over ℚ, not over every number field.
 - The full GL₂(ℤ_p) image has matrix span M₂(ℤ_p), so its matrix error is zero.
 - A CM curve over its endomorphism field has two character lines after coefficient extension and uses the separate CM branch rather than Serre’s non-CM theorem.
 
@@ -1329,7 +1329,7 @@ In ℤ², the point (20,30) has divisibility depth 1 at 2 and 5 and depth 0 at 3
 
 ### Dependencies
 
-This layer uses the earlier internal targets specified in each *Needs:* sentence, the pinned algebraic APIs, and ArithmeticGaloisRepresentations, ComplexMultiplicationAndExplicitReciprocity, EllipticCurves, EulerSystemsAndKolyvaginSystems, FaltingsFinitenessAndIsogenyTheorems, GrossZagierAndArithmeticHeights, HilbertModularVarietiesAndShimuraCurves, NeronModelsAndSemistableAbelianVarieties.
+This layer uses the earlier internal targets specified in each *Needs:* sentence, the pinned algebraic APIs, and ArithmeticGaloisRepresentations, ComplexMultiplicationAndExplicitReciprocity, EllipticCurveModularityImaginaryQuadratic, EllipticCurves, EulerSystemsAndKolyvaginSystems, FaltingsFinitenessAndIsogenyTheorems, GrossZagierAndArithmeticHeights, HilbertModularVarietiesAndShimuraCurves, NeronModelsAndSemistableAbelianVarieties.
 
 ## Layer 8: Anticyclotomic families, nonvanishing and refined descent
 
@@ -2071,7 +2071,7 @@ After the same coefficient extension and primitive/imprimitive local normalizati
 
 ([bcgs](#references), Theorem 1.2.1 and Conjecture 1.2.10; PDF pp.10,14; [bcs](#references), Conjecture 1.2.1, following Remark 1.2.3, and Theorem 1.2.4; PDF pp.3; [cgs](#references), Theorem C and Greenberg reformulation, pp.3–4.)
 
-*Needs:* GrossZagierAndArithmeticHeights §9.14 Normalization of the toric root and its square; GrossZagierAndArithmeticHeights §9.22 Dictionary between Skinner’s function and BDP/Brooks functions; gap:integral-family-logarithm. The independent primitive toric μ input is required only by the BCS reverse-divisibility route in §8b.5.
+*Needs:* GrossZagierAndArithmeticHeights §9.14 Normalization of the toric root and its square; GrossZagierAndArithmeticHeights §9.22 Dictionary between Skinner’s function and BDP/Brooks functions; gap:integral-family-logarithm. The μ=0 input of AutomorphicCongruences §6.5 is required only by the BCS reverse-divisibility route in §8b.5.
 
 ### 8b.2 Anticyclotomic main-conjecture comparison
 
@@ -2091,13 +2091,18 @@ This target also assumes E(K)[p]=0. p splits as v v̄ in K. The BCK integral sta
 - The residual-surjective p=3 branch matches the contract’s image hypothesis; E(K)[3]=0 alone does not.
 ### 8b.3 Auxiliary quadratic fields for BCS descent
 
-For the BCS irreducible branch, choose the auxiliary real quadratic F with p inert, D_F odd and every D_F-prime split in K; for ℓ|N choose ℓ inert in F when ℓ≡−1 modulo p and split otherwise. Retain irreducibility after restricting to G_(FK) and G_(F(ζ_p)), the p=5 exceptional real field exclusion and finite discriminant avoidance. These are the precise hypotheses used by the Hilbert/quartic-CM supplier.
+For the BCS irreducible branch, choose the auxiliary real quadratic F with p inert, D_F odd and every D_F-prime split in K; for ℓ|N choose ℓ inert in F when ℓ≡−1 modulo p and split otherwise. Retain irreducibility after restricting to G_(FK) and G_(F(ζ_p)), the p=5 exceptional real field exclusion and finite discriminant avoidance. These are conditions (i)–(vi) of BCS Proposition 5.2.1, the hypotheses of AutomorphicCongruences §§5.12–5.13 and 6.6; §5.13 there discharges the Fujiwara (H1)–(H3) conditions, including the base change of a minimal lift, for the selected fields, and §6.4 there proves that pairs (K,F) satisfying them exist; for the fixed Heegner field K the choice of F is made here by Dirichlet density. Prove that under (Heeg) and (spl) irreducibility of E[p] over G_ℚ gives (irr_K): a G_ℚ-irreducible E[p] whose restriction to G_K is reducible is induced from a character of G_K, so by the conductor–discriminant formula it is ramified at every prime dividing D_K, while E[p] is unramified outside Np and no prime of Np ramifies in K.
 
 This target also assumes E(K)[p]=0. p splits as v v̄ in K. p>3; E[p] irreducible over G_Q; the source’s auxiliary-field and Fujiwara(H1)–(H3) assumptions.
 
 ([bcs](#references), Proposition 5.2.1; Lemma 5.2.3; PDF pp.9–11.)
 
-*Needs:* Chebotarev Layer 10, “Dirichlet-density Chebotarev”; AutomorphicCongruences gap:hilbert-family-divisibility for the minimal lift and Hilbert-family theorem.
+*Needs:* Chebotarev Layer 10, “Dirichlet-density Chebotarev”; AutomorphicCongruences §5.13 Discharging the auxiliary-field hypotheses and §6.4 Existence of the auxiliary fields K and F; ArithmeticGaloisRepresentations §3.5 Induction and the conductor–discriminant formula.
+
+**Checks.**
+
+- E[p] irreducible over G_ℚ but reducible over G_K forces ramification of E[p] at every prime dividing D_K: for K=ℚ(√−7), at 7. Under (Heeg) 7∤N, since 7 ramifies rather than splits in K, and 7≠p by (spl), so E[p] is unramified at 7 and (irr_K) holds.
+- Without (Heeg) the implication fails: a residual representation induced from a character of G_K distinct from its conjugate, for K=ℚ(√−7), is irreducible over G_ℚ, reducible over G_K, and has 7 dividing its conductor.
 
 ### 8b.4 Heegner Euler-system divisibility for BCS
 
@@ -2111,13 +2116,13 @@ This target also assumes E[p] irreducible over G_K; integral branch additionally
 
 ### 8b.5 BCS anticyclotomic reverse divisibility
 
-For the chosen auxiliary F, the imported Wan/Fujiwara quartic-CM theorem, shared two-variable restriction/factorization, and anticyclotomic projection imply the reverse product divisibility for E/K and E^F/K against their BDP functions. Specialize the Greenberg local conditions exactly as in BCS §5, and obtain individual reverse divisibilities by combining the opposite Euler-system bounds and cancelling nonzero factors. Integral cancellation uses μ=0 and the source’s period/regulator hypotheses.
+For the chosen auxiliary F, import from AutomorphicCongruences §6.6 the integral two-variable product containments (L^Gr_p(E/K)L^Gr_p(E^F/K)) ⊃ char(X_Gr(E/K∞))char(X_Gr(E^F/K∞)) in Λ^ur_K and the Perrin-Riou form, which that roadmap derives from its quartic-CM input §5.12, the restriction and factorization §§6.2–6.3, the two-variable equivalence §6.1 and the μ=0 input §6.5. Prove here the anticyclotomic projection: the image of the Greenberg containment under π⁻:Λ_K→Λ⁻_K, in the single-power BDP convention of §8b.1, is the reverse product divisibility for E/K and E^F/K against their BDP functions. On the function side this is the projection comparison of AutomorphicCongruences §6.5 with the convention comparison of §8b.1; on the Selmer side it is specialization of the two-variable Greenberg module to the anticyclotomic line, under which the image of the two-variable characteristic ideal contains the anticyclotomic characteristic ideal (BCS proof of Theorems 1.2.2/1.2.4, p.11). Specialize the Greenberg local conditions exactly as in BCS §5, and obtain individual reverse divisibilities by combining the opposite Euler-system bounds of §8b.4 and cancelling nonzero factors. Integral cancellation uses μ=0 (AutomorphicCongruences §6.5) and the source’s period/regulator hypotheses.
 
-This target also assumes E(K)[p]=0. p splits as v v̄ in K. p>3; irreducible residual G_Q representation; all auxiliary-field and period hypotheses of the suppliers.
+This target also assumes E(K)[p]=0. p splits as v v̄ in K. p>3, hence p≥5 as AutomorphicCongruences §6.6 requires; irreducible residual G_Q representation, which gives (irr_K) by §8b.3; all auxiliary-field and period hypotheses of the suppliers.
 
 ([bcs](#references), §5.1–§5.3; Proposition 5.2.1; proof of Theorems1.2.2/1.2.4; PDF pp.9–11.)
 
-*Needs:* [Primitive integral families and scalar corrections](#86a-primitive-integral-families-and-scalar-corrections); [Auxiliary quadratic fields for BCS descent](#8b3-auxiliary-quadratic-fields-for-bcs-descent); [Heegner Euler-system divisibility for BCS](#8b4-heegner-euler-system-divisibility-for-bcs); [Anticyclotomic main-conjecture comparison](#8b2-anticyclotomic-main-conjecture-comparison); [BDP square-root convention comparison](#8b1-bdp-square-root-convention-comparison); AutomorphicCongruences gap:ordinary-quartic-comparisons for the two-variable comparison, restriction, factorization and anticyclotomic projection; AutomorphicCongruences gap:hilbert-family-divisibility for the minimal lift and Hilbert-family theorem; `gap:primitive-toric-mu`; PadicMeasuresIwasawaAlgebras Layer 4 Weierstrass theory and module structure.
+*Needs:* [Primitive integral families and scalar corrections](#86a-primitive-integral-families-and-scalar-corrections); [Auxiliary quadratic fields for BCS descent](#8b3-auxiliary-quadratic-fields-for-bcs-descent); [Heegner Euler-system divisibility for BCS](#8b4-heegner-euler-system-divisibility-for-bcs); [Anticyclotomic main-conjecture comparison](#8b2-anticyclotomic-main-conjecture-comparison); [BDP square-root convention comparison](#8b1-bdp-square-root-convention-comparison); AutomorphicCongruences §5.12 The BCS quartic-CM input, §6.1 the two-variable Perrin-Riou/Greenberg equivalence, §§6.2–6.3 restriction and factorization to K, §6.5 vanishing of the μ-invariant with its projection comparison, and §6.6 the two-variable product divisibility; PadicMeasuresIwasawaAlgebras Layer 4 Weierstrass theory and module structure.
 
 ### 8b.6 Rational Heegner-point main conjecture
 
@@ -2167,7 +2172,7 @@ This target also assumes E(K)[p]=0. p splits as v v̄ in K. A rational p-isogeny
 
 ([bcgs](#references), Theorem 1.2.13(i), citing CGS TheoremsA/C; PDF pp.14; [cgs](#references), Theorem C and ensuing Greenberg reformulation, author copy pp.3–4; PDF pp.3–4.)
 
-*Needs:* [Weak-torsion Heegner bound at the augmentation prime](#834-weak-torsion-heegner-bound-at-the-augmentation-prime); [Primitive integral families and scalar corrections](#86a-primitive-integral-families-and-scalar-corrections); EulerSystemsCyclotomicMainConjecture gap:eisenstein-elliptic-unit-inputs; gap:integral-family-logarithm; [Anticyclotomic Heegner class](#86-anticyclotomic-heegner-class); GrossZagierAndArithmeticHeights §§9.14, 9.20, 9.22, for the integral single-power/square-root comparison with the fixed lattice, coefficient extension, Néron periods, regulator cokernel and primitive Euler factors. CGS Theorem C and its Greenberg reformulation supply this branch; neither the p>3 BCK comparison nor gap:primitive-toric-mu is an input.
+*Needs:* [Weak-torsion Heegner bound at the augmentation prime](#834-weak-torsion-heegner-bound-at-the-augmentation-prime); [Primitive integral families and scalar corrections](#86a-primitive-integral-families-and-scalar-corrections); EulerSystemsCyclotomicMainConjecture gap:eisenstein-elliptic-unit-inputs; gap:integral-family-logarithm; [Anticyclotomic Heegner class](#86-anticyclotomic-heegner-class); GrossZagierAndArithmeticHeights §§9.14, 9.20, 9.22, for the integral single-power/square-root comparison with the fixed lattice, coefficient extension, Néron periods, regulator cokernel and primitive Euler factors. CGS Theorem C and its Greenberg reformulation supply this branch; neither the p>3 BCK comparison nor the μ=0 input of AutomorphicCongruences §6.5 is an input.
 
 ### 8b.11 Split-prime Kolyvagin nonvanishing branches
 
