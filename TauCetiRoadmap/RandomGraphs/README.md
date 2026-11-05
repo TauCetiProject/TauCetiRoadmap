@@ -446,6 +446,14 @@ free variables. The meaning of a tuple's diagram is Tau Ceti's atomic-diagram se
 `realize_firstOrderAtomicDiagram_iff_sameAtomicType`. That diagram is a classical finite
 conjunction and is noncomputable, so it supplies the semantics but not the algorithm. Build:
 
+- an **effective coding of graph formulas** as the input and output format of the procedures:
+  Mathlib's structural list encoding `BoundedFormula.encoding` followed by an explicit numbering
+  of its symbol alphabet, uniform in the free-variable context `Fin m` (not
+  `Encodable.ofCountable`, whose classical enumeration has no effective content), with decoding
+  and its round-trip law, and computability on codes of the syntax operations the procedures
+  use: the constructors (`⊥`, equality and adjacency atoms between variables, implication,
+  universal quantification) and case analysis on the outermost constructor. These are supporting
+  targets for computable QE, not a general computability library;
 - a computable representation of finite equality-and-adjacency patterns on `Fin m`, with
   its consistency procedure;
 - a correctness bridge proving that the formula of each consistent pattern and
@@ -456,7 +464,11 @@ conjunction and is noncomputable, so it supplies the semantics but not the algor
   choice of an equivalent formula.
 
 Export the output's native `IsQF` proof and decidability of the sentence theory from the
-procedure. Export also the theory-level property in the vocabulary of Mathlib #41113,
+procedure. The prototype states both as existence of computable maps on codes
+(`Computable₂` for the QE map, which takes `m` and a code), each with its correctness
+specification: the output code is the code of a quantifier-free formula over the same context
+with the same realizations in every model of `T_R`, and the decision map answers truth in the
+Rado graph. A semantic QE statement without the procedure does not discharge this target. Export also the theory-level property in the vocabulary of Mathlib #41113,
 `T_R.HasQuantifierElimination`: every formula is `IsQFEquivalent` modulo $`T_R`$,
 using that proposal's reduction to finite variable types. The theory-level property is a
 consequence of the procedure and does not replace it.

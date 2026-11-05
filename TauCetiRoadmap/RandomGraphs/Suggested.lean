@@ -11,9 +11,10 @@ These declarations suggest Lean forms for selected definitions and milestones. D
 declaration here finishes neither a milestone nor the roadmap. The sorry forms are permitted in
 this human-owned roadmap repository: these are proposed targets, not established proofs.
 
-Every predicate below has an actual mathematical body. Admitted syntax constructions have
-semantic specifications, which are targets too. The functions eliminateQuantifiers and decideRado
-must become genuine computable algorithms. No proposition-valued placeholder names an unstated
+Every predicate and definition below has an actual body. Quantifier elimination and the decision
+procedure are stated as existence of computable maps on a fixed structural coding of formulas,
+with their correctness specifications; the README requires executable implementations, and these
+theorems are their prototype contracts. No proposition-valued placeholder names an unstated
 condition.
 
 Names are provisional inside this prototype namespace. Implement general Fraïssé/first-order
@@ -240,33 +241,109 @@ theorem formula_iff_of_extension {m q : ℕ}
     SatisfiesFormula G φ a ↔ SatisfiesFormula H φ b := by
   sorry
 
-/-- Implement a terminating syntactic procedure, including equality cases. Its correctness
-yields the theory-level `HasQuantifierElimination` of Mathlib #41113 for `radoAxioms`. -/
-def eliminateQuantifiers {m : ℕ} (φ : Language.graph.Formula (Fin m)) :
-    Language.graph.Formula (Fin m) := by
+/-! ### Effective syntax for graph formulas
+
+Computable quantifier elimination and decidability are stated over a fixed structural coding of
+graph formulas by natural numbers: Mathlib's list encoding `BoundedFormula.encoding`, followed by
+an explicit numbering of its symbol alphabet. The coding is not `Encodable.ofCountable`, whose
+classical enumeration carries no effective content. The context type is a parameter; for
+`Fin m` the code does not depend on `m`, which the procedures receive separately. -/
+
+instance : IsEmpty (Σ l, Language.graph.Functions l) :=
+  ⟨fun ⟨_, f⟩ => (f : Empty).elim⟩
+
+instance : Encodable (Σ l, Language.graph.Functions l) := IsEmpty.toEncodable
+
+/-- The graph language has the single relation symbol `adj`. -/
+def graphRelationsEquiv : (Σ l, Language.graph.Relations l) ≃ Unit where
+  toFun _ := ()
+  invFun _ := ⟨2, Language.adj⟩
+  left_inv := by rintro ⟨_, ⟨⟩⟩; rfl
+  right_inv _ := rfl
+
+instance : Encodable (Σ l, Language.graph.Relations l) := Encodable.ofEquiv _ graphRelationsEquiv
+
+/-- The symbol alphabet of Mathlib's list encoding of graph formulas over `α`. -/
+abbrev GraphAlphabet (α : Type) :=
+  (Σ k, Language.graph.Term (α ⊕ Fin k)) ⊕ ((Σ l, Language.graph.Relations l) ⊕ ℕ)
+
+/-- The code of a graph formula with free variables in `α` and `n` bound positions. -/
+def boundedCode {α : Type} [Encodable α] {n : ℕ} (φ : Language.graph.BoundedFormula α n) : ℕ :=
+  Encodable.encode (φ.listEncode : List (GraphAlphabet α))
+
+/-- Decoding at a given context and number of bound positions; `none` on invalid codes. -/
+def boundedDecode (α : Type) [Encodable α] (n : ℕ) (c : ℕ) :
+    Option (Language.graph.BoundedFormula α n) :=
+  (Encodable.decode c : Option (List (GraphAlphabet α))).bind fun l =>
+    (BoundedFormula.encoding.decode l).bind fun φ =>
+      if h : φ.1 = n then some (h ▸ φ.2) else none
+
+theorem boundedDecode_boundedCode {α : Type} [Encodable α] {n : ℕ}
+    (φ : Language.graph.BoundedFormula α n) : boundedDecode α n (boundedCode φ) = some φ := by
+  have h := BoundedFormula.encoding.decode_encode (⟨n, φ⟩ : Σ n, Language.graph.BoundedFormula α n)
+  simp only [BoundedFormula.encoding_encode, BoundedFormula.encoding_decode] at h
+  simp [boundedCode, boundedDecode, h]
+
+/-- **Effective syntax, constructors.** The codes of `⊥`, of equality and adjacency atoms between
+variables (given by their codes in `Fin m ⊕ Fin n`), of implications and of universal
+quantifications are computable from the codes of their parts, uniformly in `m` and `n`. -/
+theorem computable_boundedCode_constructors :
+    ∃ (bot : ℕ → ℕ) (eq adj : ℕ × ℕ × ℕ → ℕ) (imp : ℕ → ℕ → ℕ) (all : ℕ → ℕ),
+      Computable bot ∧ Computable eq ∧ Computable adj ∧ Computable₂ imp ∧ Computable all ∧
+      ∀ {m n : ℕ}, bot n = boundedCode (⊥ : Language.graph.BoundedFormula (Fin m) n) ∧
+        (∀ x y : Fin m ⊕ Fin n,
+          eq (n, Encodable.encode x, Encodable.encode y) =
+              boundedCode ((Term.var x).bdEqual (Term.var y)) ∧
+            adj (n, Encodable.encode x, Encodable.encode y) =
+              boundedCode (Relations.boundedFormula₂ Language.adj (Term.var x) (Term.var y))) ∧
+        (∀ φ ψ : Language.graph.BoundedFormula (Fin m) n,
+          imp (boundedCode φ) (boundedCode ψ) = boundedCode (φ.imp ψ)) ∧
+        ∀ φ : Language.graph.BoundedFormula (Fin m) (n + 1),
+          all (boundedCode φ) = boundedCode φ.all := by
   sorry
 
-theorem eliminateQuantifiers_rank {m : ℕ} (φ : Language.graph.Formula (Fin m)) :
-    foRank (eliminateQuantifiers φ) = 0 := by
+open BoundedFormula in
+/-- **Effective syntax, case analysis.** The outermost constructor of a formula and the codes of
+its immediate subformulas are computable from its code, uniformly in `m` and `n`. -/
+theorem computable_boundedCode_cases :
+    ∃ (tag left right : ℕ → ℕ), Computable tag ∧ Computable left ∧ Computable right ∧
+      ∀ {m n : ℕ} (φ : Language.graph.BoundedFormula (Fin m) n),
+        match φ with
+        | falsum => tag (boundedCode φ) = 0
+        | equal _ _ => tag (boundedCode φ) = 1
+        | rel _ _ => tag (boundedCode φ) = 2
+        | imp φ₁ φ₂ => tag (boundedCode φ) = 3 ∧ left (boundedCode φ) = boundedCode φ₁ ∧
+            right (boundedCode φ) = boundedCode φ₂
+        | all ψ => tag (boundedCode φ) = 4 ∧ left (boundedCode φ) = boundedCode ψ := by
   sorry
 
-theorem eliminateQuantifiers_isQF {m : ℕ}
-    (φ : Language.graph.Formula (Fin m)) :
-    (eliminateQuantifiers φ).IsQF := by
+/-- **Computable quantifier elimination modulo `T_R`.** The prototype contract for the
+terminating syntactic procedure of the README: a computable map on codes, taking the context size
+`m` as input, that sends the code of each formula over `Fin m` to the code of a quantifier-free
+formula with the same realizations in every model of `radoAxioms`. Its correctness yields the
+theory-level `HasQuantifierElimination` of Mathlib #41113. The values on invalid codes are
+unconstrained. -/
+theorem exists_computable_quantifierElimination :
+    ∃ Q : ℕ → ℕ → ℕ, Computable₂ Q ∧
+      ∀ (m : ℕ) (φ : Language.graph.Formula (Fin m)),
+        ∃ ψ : Language.graph.Formula (Fin m), Q m (boundedCode φ) = boundedCode ψ ∧ ψ.IsQF ∧
+          ∀ (M : Type w) [Language.graph.Structure M], M ⊨ radoAxioms →
+            ∀ a : Fin m → M, ψ.Realize a ↔ φ.Realize a := by
   sorry
 
-theorem realize_eliminateQuantifiers {m : ℕ}
-    (G : SimpleGraph V) (hG : HasExtensionProperty G)
-    (φ : Language.graph.Formula (Fin m)) (a : Fin m → V) :
-    SatisfiesFormula G (eliminateQuantifiers φ) a ↔ SatisfiesFormula G φ a := by
+/-- **Semantic quantifier elimination**, the consequence of the computable procedure used by the
+later milestones: every formula is equivalent modulo `T_R` to a quantifier-free one. -/
+theorem exists_isQF_equivalent {m : ℕ} (φ : Language.graph.Formula (Fin m)) :
+    ∃ ψ : Language.graph.Formula (Fin m), ψ.IsQF ∧
+      ∀ (M : Type w) [Language.graph.Structure M], M ⊨ radoAxioms →
+        ∀ a : Fin m → M, ψ.Realize a ↔ φ.Realize a := by
   sorry
 
-/-- Computational target; no classical decision procedure on semantic truth. -/
-def decideRado (φ : Language.graph.Sentence) : Bool := by
-  sorry
-
-theorem decideRado_spec (φ : Language.graph.Sentence) :
-    decideRado φ = true ↔ Satisfies radoGraph φ := by
+/-- **Decidability of the Rado theory.** The prototype contract for the decision procedure: a
+computable test on codes of sentences that answers truth in the Rado graph. -/
+theorem exists_computable_decide_rado :
+    ∃ D : ℕ → Bool, Computable D ∧
+      ∀ φ : Language.graph.Sentence, D (boundedCode φ) = true ↔ Satisfies radoGraph φ := by
   sorry
 
 noncomputable def radoTruth (φ : Language.graph.Sentence) : ℝ := by
