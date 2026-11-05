@@ -149,10 +149,10 @@ theorem godement {G : Type u} [Group G] [TopologicalSpace G] [IsTopologicalGroup
 
 /-- Raikov's theorem: for normalized positive-type functions, convergence against every
 L1 test function is equivalent to compact-open convergence, on every locally compact group
-(BHV C.5.6). -/
+with a regular left Haar measure, the source's notion of Haar measure (BHV C.5.6). -/
 theorem raikov {G : Type u} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
     [T2Space G] [LocallyCompactSpace G]
-    [MeasurableSpace G] [BorelSpace G] (μ : Measure G) [μ.IsHaarMeasure]
+    [MeasurableSpace G] [BorelSpace G] (μ : Measure G) [μ.IsHaarMeasure] [μ.Regular]
     {ι : Type v} (l : Filter ι) (φ : ι → C(G, ℂ)) (ψ : C(G, ℂ))
     (hφ : ∀ i, (φ i : G → ℂ) ∈ positiveTypeOne G)
     (hψ : (ψ : G → ℂ) ∈ positiveTypeOne G) :
