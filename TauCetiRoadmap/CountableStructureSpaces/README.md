@@ -298,9 +298,11 @@ is locally constant. It gives the closed range, continuity of multiplication
   subset of the square, is analytic for the same reason (`analyticSet_orbitRel_graph`: the image of
   `Perm ℕ × StructureSpace L` under `(σ, c) ↦ (σ • c, c)`).
 
-**Acceptance check.** In the language of one unary predicate `P`, the transposition of `0` and
-`1` sends the code of `P = {0}` to the code of `P = {1}`, and the two decoded structures are
-isomorphic.
+**Acceptance check.** In the language of one unary predicate `P`, let `σ` be the 3-cycle
+`0 ↦ 1 ↦ 2 ↦ 0` and `τ` the transposition of `0` and `1`. Then `σ` sends the code of `P = {0}` to
+the code of `P = {1}`, and the two decoded structures are isomorphic via `σ`; the inverse
+convention would give `P = {2}`, which a transposition cannot detect. The action is a left action:
+`(σ * τ) • c = σ • (τ • c)` names `P = {σ (τ 0)} = {2}`, whereas `τ • (σ • c)` names `P = {0}`.
 
 ⚠ **API warning.** The action needs no countability and no relational hypothesis; only the
 orbit–isomorphism correspondence needs `[L.IsRelational]`, and only Polishness needs countability.
