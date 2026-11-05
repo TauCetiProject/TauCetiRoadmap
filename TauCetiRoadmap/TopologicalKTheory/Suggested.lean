@@ -1,6 +1,8 @@
-import Mathlib
-import TauCeti.RingTheory.PowerSeries.Log
-import TauCeti.CategoryTheory.GrothendieckGroup.Monoidal.Basic
+module
+
+public import Mathlib
+public import TauCeti.RingTheory.PowerSeries.Log
+public import TauCeti.CategoryTheory.GrothendieckGroup.Monoidal.Basic
 
 /-!
 # Topological K-theory: target signatures
@@ -28,6 +30,8 @@ finite Grassmannian carrier with its frame-span topology (T1.5), the finite-subs
 colouring of a partition of unity (T1.6a), the integral λ-series Adams values (T2.5),
 relative symbols (T3) and the spectral projection of a finite matrix family (T4.4).
 -/
+
+@[expose] public section
 
 noncomputable section
 open Topology
