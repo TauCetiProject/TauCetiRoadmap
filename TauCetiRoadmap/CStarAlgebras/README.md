@@ -361,7 +361,8 @@ a closed ideal) from strictly positive elements (generating `A` as a hereditary 
 
 - `A = C₀((0,1])` viewed through its nonunital carrier: `K` is the one-point compactification
   `[0,1]` with `ε` the point `0`, `X = (0,1]`, and the adapter returns `C₀((0,1])`; a wrong adapter
-  that forgot continuity at `ε` would admit the bounded discontinuous function `t ↦ sign(t − 1/2)`.
+  that imposed no condition at `ε` would admit the constant function `1` and `t ↦ sin(1/t)`, which
+  are bounded and continuous on `(0,1]` but have no limit `0` at `0`.
 - `A = M₂(ℂ)`, `I = 0`: `Ann(0) = A`, `I ∩ Ann(I) = 0` and `Ann(Ann(0)) = Ann(A) = 0`, consistent
   with `I ⊆ Ann(Ann(I))`. `A = ℂ ⊕ ℂ`, `I = ℂ ⊕ 0`: `Ann(I) = 0 ⊕ ℂ ≠ 0`, so `I` is not
   essential; in `A = K(ℓ²)`, `I = A` is essential and `Ann(A) = 0` since `aa* = 0` forces `a = 0`.
@@ -406,7 +407,9 @@ VonNeumannAlgebras V0 for positive functionals.
 ### 1.5 Approximate identities in algebraic left ideals (C1.5)
 
 For every complex left ideal `L` of `A`, not necessarily closed, construct a positive
-contractive right approximate identity with elements in `L` itself. Index by finite `F ⊆ L` and
+contractive right approximate identity with elements in `L` itself (Blackadar II.5.3.3 for closed
+left ideals; II.5.3.13 records a right approximate unit inside an arbitrary left ideal, and the
+construction below makes it positive and contractive). Index by finite `F ⊆ L` and
 `δ > 0`, ordered by enlarging `F` and decreasing `δ`; put `b_F = Σ_{x ∈ F} x*x ∈ L` and
 `e_{F,δ} = b_F(δ·1 + b_F)⁻¹`, computed in `Unitization ℂ A`. Prove `e_{F,δ} ∈ L` by writing it as
 `(δ·1 + b_F)⁻¹ b_F` and using the left action of the unitization on the complex left ideal `L`,
@@ -482,8 +485,10 @@ with uniform convergence on compact subsets and with strong-star convergence res
   `t ↦ tⁿ` converges strictly to `0`, uniformly on each `[ε, 1]` and dominated near `0` by any
   `g ∈ C₀((0,1])`, whereas the bounded sequence `t ↦ sin(nt)` has no uniform limit on `[1/2, 1]`
   and so converges strictly to nothing.
-- `A = K(ℓ²)`: the projections `P_n` converge strictly to `1` and strong-star to `1`; the shifts
-  `S^n` converge strongly to `0` but `(S^n)* = S*^n` does not, so `S^n` is not strictly convergent.
+- `A = K(ℓ²)`: the projections `P_n` converge strictly to `1` and strong-star to `1`; the adjoint
+  shifts `S*^n` converge strongly to `0` (`‖S*^n x‖² = Σ_{k ≥ n} |x_k|²`) but `(S*^n)* = S^n` does
+  not (`‖S^n x‖ = ‖x‖`, and `S^n e₀ = e_n`), so `S*^n` is not strictly convergent; `S^n` has no
+  strong limit at all, since `⟪S^n x, y⟫ → 0` for all `x, y` while `‖S^n x‖ = ‖x‖`.
 - For unital `A`, `M(A) = A` and the strict topology is the norm topology, since `m ↦ ‖m·1‖` is
   already the norm.
 
@@ -780,13 +785,16 @@ III.5.2.11).
 
 ### 2.9 Open projections and the multiplier algebra in the bidual (C2.9)
 
-Define an open projection `p ∈ A**` as a weak-star limit of an increasing net of positive
-elements of `A`. Identify hereditary subalgebras with open projections by `B = A ∩ pA**p` and
-`p = sup e_λ`, and closed ideals with central open projections; prove `B** = pA**p`. For `a ≥ 0`
-identify its support projection with that of `closure(aAa)`; strictly positive means full
-support. Identify `M(A)` with the idealizer `{x ∈ A** : xA ⊆ A, Ax ⊆ A}` of `A` in `A**`, and
-prove that bounded strict convergence implies strong-star convergence in every nondegenerate
-representation, including the universal one.
+Define an open projection `p ∈ A**` as a weak-star limit of an increasing net of positive elements
+of `A` (Pedersen, Proposition 3.11.9). Identify hereditary subalgebras with open projections by
+`B = A ∩ pA**p` and `p = sup e_λ`, and closed ideals with central open projections (Pedersen,
+Theorem 3.11.10; Blackadar III.5.2.11 for the ideal case, where `p` is the strong limit of an
+increasing approximate unit of the ideal); prove `B** = pA**p`. For `a ≥ 0` identify its support
+projection with that of `closure(aAa)`; strictly positive means full support. Identify `M(A)` with
+the idealizer `{x ∈ A** : xA ⊆ A, Ax ⊆ A}` of `A` in `A**` (Pedersen, Proposition 3.12.3; Blackadar
+II.7.3.6 realizes each left centralizer by an element of the bicommutant), and prove that bounded
+strict convergence implies strong-star convergence in every nondegenerate representation, including
+the universal one.
 
 **Checks.**
 
@@ -917,8 +925,9 @@ operator spaces in the construction; for `E = ℂ` the evaluation isometry `CB(�
 the completeness boundary. Put the operator-space structure on `CB(E, F)` by
 `M_n(CB(E, F)) = CB(E, M_n(F))` and on `E*` by `M_n(E*) = CB(E, M_n)`. Prove that the canonical
 map `E → E**` is completely isometric, that duality exchanges complete quotient maps and
-complete isometries, and Smith's lemma: a map into `M_n` has `‖u‖_cb = ‖u_n‖`, by compressing
-the test vectors of a level-`m` amplification to the `n`-dimensional subspaces they span.
+complete isometries, and Smith's lemma: a map into `M_n` has `‖u‖_cb = ‖u_n‖` (Smith, J. London
+Math. Soc. 27 (1983)), by compressing the test vectors of a level-`m` amplification to the
+`n`-dimensional subspaces they span.
 `Suggested.lean` defines complete boundedness of a linear map between C*-algebras as
 `IsCompletelyBounded`.
 
@@ -1120,8 +1129,13 @@ preserve quotient exact sequences (Blackadar II.9.6.6).
   `Σ E_{ij} ⊗ a_{ij}` are the `CStarMatrix` norm of `[a_{ij}]`.
 - `C(X) ⊙ C(Y)`: `‖·‖_min = ‖·‖_max` and the completion is `C(X × Y)` (Blackadar II.9.4.4); for
   `f ⊗ g` both norms are `‖f‖‖g‖`.
-- `C*(F₂) ⊙ C*(F₂)`: `‖·‖_min ≠ ‖·‖_max` (Blackadar II.9.4.6); a definition of the maximal norm as
-  a supremum over non-commuting pairs would not even give a seminorm on `A ⊙ B`.
+- `C*_r(F₂) ⊙ C*_r(F₂)`: `‖·‖_min ≠ ‖·‖_max`, since the representation on `ℓ²(F₂)` induced by the
+  commuting pair of left and right regular representations is bounded for `‖·‖_max` but not for
+  `‖·‖_min` (Blackadar II.9.4.6(i)); the same holds for `C*(F₂) ⊙ C*_r(F₂)` (II.9.4.6(ii)), while
+  whether `C*(F₂) ⊙ C*(F₂)` has a unique C*-norm is Kirchberg's problem (Pisier, Grothendieck's
+  theorem, Problem 12.9, where `F_∞` may be replaced by `F₂`), decided by no target here. A
+  definition of the maximal norm as a supremum over non-commuting pairs would not even give a
+  seminorm on `A ⊙ B`.
 
 *Needs:* VonNeumannAlgebras V13b.SpatialNorm, V0, V2; §1.4; §4.2.
 
@@ -1242,7 +1256,7 @@ OperatorKTheory K2 consumes these constructions independently of Layer 9.
 
 ### Examples
 
-- `M_n ⊗ A = M_n(A)`, `C(X) ⊗ C(Y) = C(X × Y)` and the two-norm algebra `C*(F₂) ⊙ C*(F₂)`
+- `M_n ⊗ A = M_n(A)`, `C(X) ⊗ C(Y) = C(X × Y)` and the two-norm algebra `C*_r(F₂) ⊙ C*_r(F₂)`
   (§5.1).
 - The three norms of `Σ e_i ⊗ e_i*` on `C_n ⊗ R_n` (§5.3).
 - The CAR algebra as an inductive limit and `∏ M_n / ⊕ M_n` (§5.4).
@@ -1414,8 +1428,8 @@ Deduce the metric approximation property for `A` and `A*` from the dual approxim
   are.
 - Nuclearity does not pass to C*-subalgebras: every separable exact C*-algebra is a subalgebra of
   a nuclear one (Blackadar IV.3.4.19), and exact non-nuclear separable algebras exist (Blackadar
-  II.9.6.6 end: "not every exact C*-algebra is nuclear"); so the permanence list must not contain
-  subalgebras.
+  II.9.6.6, end: exactness is strictly weaker than nuclearity); so the permanence list must not
+  contain subalgebras.
 - `C₀(X)`: for a finite open cover by relatively compact sets with partition of unity `(h_i)`
   and points `x_i`, `f ↦ (f(x_i))_i ∈ ℓ^∞_k ⊆ M_k` and `(λ_i) ↦ Σ λ_i h_i` are completely positive
   contractions whose composite is within `ε` of `f` on a given finite set; `K(H)`: compressions to
@@ -1695,16 +1709,16 @@ VonNeumannAlgebras V0, V1; Mathlib `IsCompactOperator`, `IsStarProjection`, `Wit
 
 ### 9.1 Residual finite-dimensionality and homotopy invariance (C9.1)
 
-A C*-algebra is residually finite-dimensional (RFD) when its finite-dimensional star
-representations separate points. Give its faithful product-of-matrices description and its
-norm-detecting finite-set criteria, and prove permanence under subalgebras and unitization.
-Consume §5.5's cone and homotopy APIs and prove that cones over RFD algebras are RFD, using
-evaluations and finite-dimensional representations. Prove Voiculescu's homotopy invariance of
-quasidiagonality for separable C*-algebras: if `α : A → B` and `β : B → A` have `β ∘ α`
-homotopic to `id_A` and `B` is quasidiagonal, then `A` is quasidiagonal (Blackadar V.4.2.10, from
-V.4.2.8); in particular `CA` is quasidiagonal for every separable `A` (Blackadar V.4.2.11).
-`Suggested.lean` states `isQuasidiagonal_of_homotopy` with the homotopy as a star homomorphism
-into `C(unitInterval, A)`.
+A C*-algebra is residually finite-dimensional (RFD) when its finite-dimensional star representations
+separate points. Give its faithful product-of-matrices description and its norm-detecting finite-set
+criteria, and prove permanence under subalgebras and unitization. Consume §5.5's cone and homotopy
+APIs and prove that cones over RFD algebras are RFD, using evaluations and finite-dimensional
+representations (Dadarlat 2001, proof of Lemma 3.1, p. 550). Prove Voiculescu's homotopy invariance
+of quasidiagonality for separable C*-algebras: if `α : A → B` and `β : B → A` have `β ∘ α` homotopic
+to `id_A` and `B` is quasidiagonal, then `A` is quasidiagonal (Blackadar V.4.2.10, from V.4.2.8); in
+particular `CA` is quasidiagonal for every separable `A` (Blackadar V.4.2.11). `Suggested.lean`
+states `isQuasidiagonal_of_homotopy` with the homotopy as a star homomorphism into
+`C(unitInterval, A)`.
 
 **Checks.**
 
@@ -1757,16 +1771,19 @@ limit.
 
 For a separable unital algebra, a finite set `F` and `ε > 0`, call a unital finite-dimensional
 representation `σ` `(F, ε)`-admissible when its countable infinite amplification is within `ε` on
-`F`, after unitary conjugation, of a faithful essential representation. Prove existence for
-separable unital exact RFD algebras and preservation under adding a finite-dimensional summand.
+`F`, after unitary conjugation, of a faithful essential representation (Dadarlat 2001,
+Definition 2.4). Prove existence for separable unital exact RFD algebras and preservation under
+adding a finite-dimensional summand (Dadarlat 2001, Proposition 2.3 and the remark after
+Definition 2.4).
 Supply the RFD homomorphism refinement of §9.2: for a faithful essential representation `π` and
 finite `F, ε`, construct a finite-dimensional unital star representation `σ` whose infinite
 amplification is unitarily within `ε` of `π` on `F`, using block-diagonal finite-dimensional
 separating representations and the absorption theorem of §8.2. For homotopic unital
 representations `σ₀, σ₁ : A → M_k` with `σ₀` `(F, ε)`-admissible, prove that for some `N` the
 representations `(N+1)σ₀` and `σ₁ ⊕ Nσ₀` are within `3ε` on `F` after unitary conjugation, by
-subdividing the homotopy and absorbing into a faithful essential representation. Prove that any
-two unital representations of the unitized cone on the same Hilbert space are homotopic. These
+subdividing the homotopy and absorbing into a faithful essential representation (Dadarlat 2001,
+Propositions 2.1, 2.2 and 2.5). Prove that any two unital representations of the unitized cone
+on the same Hilbert space are homotopic (Dadarlat 2001, proof of Theorem 2.6). These
 estimates supply the summable unitary adjustments of the inductive system in §9.4.
 
 **Checks.**
@@ -1783,7 +1800,8 @@ estimates supply the summable unitary adjustments of the inductive system in §9
 
 ### 9.4 The AF-subquotient theorem (C9.4)
 
-Prove that the cone of a separable exact RFD algebra embeds into an AF algebra. For an exact
+Prove that the cone of a separable exact RFD algebra embeds into an AF algebra (Dadarlat 2001,
+Theorem 2.6, where the AF algebra is the CAR algebra). For an exact
 separable quasidiagonal `B`, use §8.3's matrix maps `φ_n` to embed `B` into
 `∏ M_{k_n} / ⊕ M_{k_n}`; form the pullback `E` inside the bounded matrix product with ideal the
 `c₀` sum, the coordinate maps `φ_n` giving a completely positive contractive section `B → E`;
@@ -1791,9 +1809,10 @@ prove that `E` is separable, RFD and exact, using §7.1's locally split extensio
 this to `B = CA` and embed `CE` in an AF algebra; compose the evaluations at `1` and the map
 `E → CA` to obtain a surjection `CE → A`. Thus every separable exact algebra is isomorphic to a
 quotient of a C*-subalgebra of a separable AF algebra (Blackadar IV.3.4.19(iv) states the
-conclusion with the CAR algebra; the route here is Dadarlat's cone embedding, Blackadar V.4.2.12
-and the remark citing [Dad00]). This analytic subquotient theorem does not assume the
-`O₂`-embedding or K-theoretic classification results.
+conclusion with the CAR algebra; the route here is Dadarlat's cone embedding, Dadarlat 2001,
+Theorem 2.6, with the pullback extension of its Lemma 3.1 and the argument of its §4). This
+analytic subquotient theorem does not assume the `O₂`-embedding or K-theoretic classification
+results.
 
 **Checks.**
 
@@ -1810,10 +1829,10 @@ and the remark citing [Dad00]). This analytic subquotient theorem does not assum
 
 For unital `A`, operator-space local reflexivity means that every finite-dimensional operator
 subsystem `E ⊆ A**` admits completely contractive maps `E → A` converging point-weak-star to its
-inclusion. Prove the equivalent finite-test formulations, the point-norm refinement on `E ∩ A`
-and the operator-subspace version; for nonunital `A` use the unitization and prove equivalence
-with the direct subspace formulation. Distinguish this from Banach local reflexivity in
-BanachSpaceTheory B7: the matrix norm bounds are essential.
+inclusion (Effros–Haagerup 1985, §5). Prove the equivalent finite-test formulations, the point-norm
+refinement on `E ∩ A` and the operator-subspace version; for nonunital `A` use the unitization and
+prove equivalence with the direct subspace formulation. Distinguish this from Banach local
+reflexivity in BanachSpaceTheory B7: the matrix norm bounds are essential.
 
 **Checks.**
 
@@ -1855,8 +1874,14 @@ the limit map `q : D_I(B) → B**` is a contractive star homomorphism with
 surjective, and the induced map is the isometric C*-quotient comparison `D_I(B)/ker q ≅ B**`.
 When `B` is unital the constant family `1` is the unit and `q` is unital; `B = 0` gives the zero
 algebra and quotient. Use common-universe lifts when needed. Prove transport under faithful
-normal realizations using V4's comparison of bounded strong-star convergence, without replacing
-the directed set by a countable model. This uses §5.4's single bounded-product/quotient carrier.
+normal realizations: a faithful normal representation of `B**` is a normal star isomorphism onto
+its image (VonNeumannAlgebras V4.Normality: normal star homomorphisms as amplification, reduction
+and spatial identification, and normal faithful representations preserving the predual), and on
+norm-bounded sets strong-star convergence agrees with ultrastrong-star convergence
+(VonNeumannAlgebras V1, the bounded-set agreement of the strong and ultrastrong topologies,
+applied to a family and to its adjoints), which the predual determines; so bounded strong-star
+convergence of a family is the same in every faithful normal realization, without replacing the
+directed set by a countable model. This uses §5.4's single bounded-product/quotient carrier.
 
 **Checks.**
 
@@ -1957,7 +1982,8 @@ Mathlib `C(unitInterval, A)`, `lp`, `cfc`. Within this roadmap: Layers 2, 3, 5, 
 - D. P. Blecher and V. I. Paulsen, *Tensor products of operator spaces*, J. Funct. Anal. 99
   (1991), 262–292, doi:10.1016/0022-1236(91)90042-4.
 - G. Pisier, *Grothendieck's theorem, past and present*, Bull. Amer. Math. Soc. 49 (2012),
-  237–323, arXiv:1101.4195; Theorems 7.1, 12.3–12.7, 13.3, 13.6, 13.10, 14.1 and Remark 12.8.
+  237–323, arXiv:1101.4195; Theorems 7.1, 12.3–12.7, 13.3, 13.6, 13.10, 14.1, Remark 12.8 and
+  Problem 12.9.
 - G. Pisier, *Similarity Problems and Completely Bounded Maps*, Lecture Notes in Mathematics
   1618, 2nd ed., Springer 2001, doi:10.1007/b55674; Chapter 5 (the Haagerup tensor product).
 - U. Haagerup, *The Grothendieck inequality for bilinear forms on C*-algebras*, Adv. Math. 56
@@ -1978,7 +2004,17 @@ Mathlib `C(unitInterval, A)`, `lp`, `cfc`. Within this roadmap: Layers 2, 3, 5, 
   arXiv:math/0306067; Theorems 2.2, 3.3, 3.6, 3.8, 3.14, Proposition 3.13, Corollary 3.17 and
   the discussion on p. 27.
 - M. Dadarlat, *On the approximation of quasidiagonal C*-algebras*, J. Funct. Anal. 167 (1999),
-  69–78, doi:10.1006/jfan.1999.3435.
+  69–78, doi:10.1006/jfan.1999.3435; cited in §9.2.
+- M. Dadarlat, *Residually finite dimensional C*-algebras and subquotients of the CAR algebra*,
+  Math. Res. Lett. 8 (2001), 545–555; Definition 2.4, Propositions 2.1–2.5, Theorem 2.6, Lemma 3.1
+  and §4, cited in §§9.1, 9.3 and 9.4.
+- R. R. Smith, *Completely bounded maps between C*-algebras*, J. London Math. Soc. (2) 27 (1983),
+  157–166, doi:10.1112/jlms/s2-27.1.157; Smith's lemma, cited in §3.2.
+- G. K. Pedersen, *C*-algebras and their automorphism groups*, London Mathematical Society
+  Monographs 14, Academic Press 1979; Proposition 3.11.9, Theorem 3.11.10 and Proposition 3.12.3,
+  cited in §2.9.
+- E. G. Effros and U. Haagerup, *Lifting problems and local reflexivity for C*-algebras*, Duke
+  Math. J. 52 (1985), 103–128, doi:10.1215/S0012-7094-85-05207-X; §5, cited in §9.5.
 - R. S. Phillips, *On linear transformations*, Trans. Amer. Math. Soc. 48 (1940), 516–541,
   doi:10.1090/S0002-9947-1940-0004094-3; Lemma 3.3.
 - M. Takesaki, *Theory of Operator Algebras I*, Springer, doi:10.1007/978-3-662-10451-4;

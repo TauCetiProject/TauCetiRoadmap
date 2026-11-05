@@ -64,7 +64,7 @@ theorem unitization_norm_eq_leftAction
 
 variable [PartialOrder A] [StarOrderedRing A]
 
-/-- §1.5 (Arveson): every closed two-sided ideal has a positive contractive approximate unit
+/-- §1.4 (Arveson): every closed two-sided ideal has a positive contractive approximate unit
 that is quasicentral in `A`. -/
 theorem exists_quasicentral_approximateUnit (I : TwoSidedIdeal A)
     (hI : IsClosed (I : Set A)) :
