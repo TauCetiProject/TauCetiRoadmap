@@ -512,13 +512,15 @@ theorem sparse_triangle_sentence_limit (p : ℕ → I) (c : ℝ≥0)
       atTop (𝓝 (1 - Real.exp (-((c : ℝ) ^ 3 / 6)))) := by
   sorry
 
-/-- Concrete function with admitted proofs of precisely stated native graphon conditions. -/
+/-- The product graphon `(x, y) ↦ x y` on the unit interval. -/
 def productGraphon : Graphon I (volume : Measure I) where
   toFun x y := (x : ℝ) * (y : ℝ)
   symm' x y := mul_comm _ _
-  meas' := by sorry
-  bdd' := ⟨1, by sorry⟩
-  mem01' := by sorry
+  meas' := (continuous_subtype_val.comp continuous_fst).mul
+    (continuous_subtype_val.comp continuous_snd) |>.measurable
+  bdd' := ⟨1, fun x y => abs_le.mpr ⟨by linarith [(unitInterval.mul_mem x.2 y.2).1],
+    (unitInterval.mul_mem x.2 y.2).2⟩⟩
+  mem01' x y := unitInterval.mul_mem x.2 y.2
 
 theorem productGraphon_isolated_expectation (n : ℕ) (hn : 1 ≤ n) :
     (∫ G : SimpleGraph (Fin n), (isolatedCount G : ℝ) ∂sampleGraph productGraphon n) =
