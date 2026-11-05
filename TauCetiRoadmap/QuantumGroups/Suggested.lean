@@ -2,9 +2,11 @@
 Copyright (c) 2026 Kim Morrison. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import Mathlib
-import TauCeti.Algebra.Coalgebra.Comodule.MatrixCoefficient.FromMatrix
-import TauCeti.Algebra.Coalgebra.Comodule.LinearlyReductive
+module
+
+public import Mathlib
+public import TauCeti.Algebra.Coalgebra.Comodule.MatrixCoefficient.FromMatrix
+public import TauCeti.Algebra.Coalgebra.Comodule.LinearlyReductive
 
 /-!
 # Quantum groups: target signatures
@@ -43,6 +45,8 @@ Not statable at the pins:
 open scoped TensorProduct ComplexOrder
 
 namespace TauCetiRoadmap.QuantumGroups
+
+@[expose] public section
 
 universe u v w
 
@@ -334,5 +338,7 @@ theorem quantumSL2_isSemisimpleModule (q : ℂ) (hq : q ≠ 0)
   sorry
 
 end GenericRankOne
+
+end
 
 end TauCetiRoadmap.QuantumGroups
