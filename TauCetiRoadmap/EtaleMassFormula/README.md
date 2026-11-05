@@ -23,8 +23,10 @@ Suggested home: `TauCeti/NumberTheory/LocalField/EtaleMassFormula/`.
 This roadmap owns the **mass of étale algebras over a non-archimedean local field**: Galois sets
 and their discriminant weight; the bridges from Galois sets to étale algebras and to subextensions
 of `SeparableClosure K`; the classification of finite extensions by their unramified part, with its
-automorphism count; the transitive mass by residue degree; and Bhargava's mass formulas by
-splitting type, by ramification partition, and in total.
+automorphism count; the transitive mass by residue degree; Bhargava's mass formulas by
+splitting type, by ramification partition, and in total; and the mass formulas of Kedlaya for
+`W(B_n)` and of Wood for the wreath products `S_m ≀ S_n`, with their discriminant counting
+function.
 
 It does not own:
 
@@ -40,9 +42,9 @@ It does not own:
 - **Density conjectures and theorems for number-field discriminants**, Bhargava's `n ≤ 5` counts,
   and the archimedean mass: the arithmetic statistics roadmaps (ArithmeticStatistics and
   ArithmeticStatisticsPartI to ArithmeticStatisticsPartV).
-- **Archimedean local fields**, which `IsNonarchimedeanLocalField` excludes, and **Galois sets with
-  values in a subgroup of `Equiv.Perm (Fin n)` weighted by a general Artin conductor**, named under
-  *Long horizon*.
+- **Archimedean local fields**, which `IsNonarchimedeanLocalField` excludes; **Galois sets with
+  values in a subgroup of `GL_n(ℂ)` weighted by a general Artin conductor**; and **iterated wreath
+  and cross products** beyond `S_m ≀ S_n`. These are named under *Long horizon*.
 
 ## Conventions
 
@@ -69,6 +71,10 @@ It does not own:
 - **Sums are in `ℝ≥0∞`.** In equal characteristic `p` there are infinitely many Galois sets of size
   `n ≥ p`, so every mass is a `∑'` valued in `ℝ≥0∞`, and equality with a finite value encodes
   convergence.
+- **Wreath Galois sets act on `Fin n × Fin m`.** The base is `Fin n` and the fibres are those of
+  `Prod.fst`. The carrier is a homomorphism to `Equiv.Perm (Fin n × Fin m)` with a fibre-preserving
+  condition, not to a separately constructed wreath-product group. `[NeZero m]` supplies the point
+  `(i, 0)` that defines the base action.
 - **Splitting symbols are `Multiset (ℕ × ℕ)`**, a pair `(f, e)` per orbit; partitions are Mathlib's
   `Nat.Partition`.
 
@@ -136,7 +142,9 @@ Layer 0 (residue degree and the structure adapters):
   étale algebra is a finite product of finite separable field extensions.
 - **Permutations and partitions**: `Equiv.Perm.cycleType`, `Equiv.Perm.card_of_cycleType`
   (`Mathlib/GroupTheory/Perm/Centralizer.lean`), and `Nat.Partition`
-  (`Mathlib/Combinatorics/Enumerative/Partition/Basic.lean`).
+  (`Mathlib/Combinatorics/Enumerative/Partition/Basic.lean`); `Nat.Partition.genFun` and
+  `Nat.Partition.hasProd_genFun` (`Mathlib/Combinatorics/Enumerative/Partition/GenFun.lean`);
+  `Nat.divisors`; `Polynomial.aeval`.
 
 ## How to read the build
 
@@ -144,7 +152,8 @@ Layer 0 builds the carrier: Galois sets, their weight, the mass, and the two bri
 subextensions of `SeparableClosure K` and to étale algebras. Layer 1 classifies finite extensions
 by their unramified part and supplies the subfield form and the orbit count Layer 2 needs. Layer 2
 computes the transitive mass by residue degree from Serre's formula over `K_f`. Layer 3 assembles
-Bhargava's formulas. A target's `*Needs:*` line names the earlier subsections, supplier contracts
+Bhargava's formulas. Layer 4 applies them over each finite subextension to get the wreath-product
+masses of Kedlaya and Wood. A target's `*Needs:*` line names the earlier subsections, supplier contracts
 and library declarations it rests on. `Suggested.lean` states the definitions and the headline
 theorems of every layer; the classification of §1.1 and the transport of §2.1 are README only.
 
@@ -435,6 +444,149 @@ Bhargava's statement over étale algebras. *Needs:* 0.4, 3.2; Mathlib `Nat.Parti
 Layer 2; Mathlib's cycle-type counts and partitions. The combinatorial core of 3.2,
 `∑_{π(σ) = π} 1/#Aut(σ) = 1`, is independent of the arithmetic and can be built first.
 
+## Layer 4: wreath products `S_m ≀ S_n`
+
+Kedlaya's mass formula for the hyperoctahedral group `W(B_n) = S_2 ≀ S_n` ([Kedlaya 2007, Thm. 8.5])
+and Wood's for `S_m ≀ S_n` ([Wood 2008, Thm. 1.1, Thm. 2.1]) count towers `M/L/K`, with `L` étale
+of degree `n` over `K` and `M` étale of degree `m` over `L`, by `Disc(L/K) · N_{L/K}(Disc(M/L))`.
+That is not the discriminant of `M/K`, which has `Disc(L/K)^m`. Both are proved here from
+Bhargava's formula over each finite subextension, and the weight uses discriminant exponents only:
+no Artin conductor is needed.
+
+### 4.1 wreath Galois sets and the counting function
+
+A **wreath Galois set** (`WreathGaloisSet K m n`) is a homomorphism
+`ρ : Gal(K^sep/K) →* Equiv.Perm (Fin n × Fin m)` with open kernel that maps fibres of `Prod.fst`
+to fibres; its image lies in `S_m ≀ S_n`, the stabilizer of the fibre partition. For `m ≥ 1` the
+**base action** on `Fin n` sends `i` to the fibre of `ρ(g)(i, 0)` (`WreathGaloisSet.baseMulAction`).
+It is an action because `ρ(g)` maps whole fibres to fibres. The **counting function** is
+`c(ρ) = d(X) − (m − 1) · d(Y)` for `X = Fin n × Fin m` and its base `Y = Fin n`
+(`WreathGaloisSet.conductor`, [Wood 2008, (4)–(5)]). Take one base orbit, with `L` the fixed field
+of a base stabilizer and `M/L` the étale algebra of degree `m` on its fibre. The tower law
+`d(M/K) = m · d(L/K) + f(L/K) · d(M/L)` turns the orbit's share of `c` into
+`d(L/K) + f(L/K) · d(M/L)`, which is nonnegative, so the truncated subtraction is exact. For
+`m = 2` this is the Artin conductor of the signed permutation representation of `W(B_n)`
+([Kedlaya 2007, Lemma 8.4]). The **wreath mass** is `W_{m,n}(K) = (1/((m!)^n n!)) ∑_ρ q^{−c(ρ)}`
+(`wreathMass`), which is Kedlaya's normalization, dividing by `|Γ|`; [Wood 2008] does not divide.
+*Needs:* 0.1; the LocalFieldsRamification contract (the tower law).
+
+**Checks.**
+
+- `m = 1`: `S_1 ≀ S_n = S_n`, `c = d(X)`, and `W_{1,n} = M_n` (`wreathMass_one`).
+- `n = 0`: one wreath Galois set, `W_{m,0} = 1`. `n = 1`: `S_m ≀ S_1 = S_m`, `c = d(X)`, so
+  `W_{m,1} = M_m`.
+- `m = n = 2`, `L = ℚ_2(i)` over `ℚ_2`, `M = L × L`: `d(X) = 2 + 2 = 4`, `d(Y) = 2`, `c = 2 = d(L/K)`.
+  The discriminant exponent of `M/K` is `4`.
+
+### 4.2 Galois sets over a finite subextension
+
+For `L` finite over `K`, a **Galois set of size `m` over `L`** (`RelativeGaloisSet L m`) is a
+homomorphism `L.fixingSubgroup →* Equiv.Perm (Fin m)` with open kernel. Its weight over `K`,
+`d_K(χ)` (`RelativeGaloisSet.discriminantExponent`), is `subgroupOrbitDiscriminantExponent`: over
+the orbits, the discriminant exponent over `K` of the fixed field of the stabilizer.
+**Bhargava's formula over `L`** (`tsum_relativeGaloisSet`): with `f = f(L/K)`,
+`(1/m!) ∑_χ q^{−(d_K(χ) − m · d(L/K))} = ∑_{k ≤ m} q(k, m − k) q^{−f k}`. `SeparableClosure K` is a
+separable closure of `L`. `IsSepClosure.equiv` gives a topological isomorphism from
+`Gal(K^sep/L) = L.fixingSubgroup` onto `Gal(L^sep/L)`, carrying fixed fields to their images. By
+the tower law, each orbit with fixed field `M ⊇ L` has `d(M/K) − [M : L] · d(L/K) = f · d(M/L)`, and
+the degrees `[M : L]` add up to `m`. So the weight is `q_L^{−d_L}` with `q_L = q^f`, and
+`etaleMass_eq` over `L` (Layer 3) gives the value, using the `finiteIntermediateField*` adapters
+for the local-field structure of `L`. Layer 2's transport of Serre over `K_f` (§2.1) is the same
+move. *Needs:* 3.3; the LocalFieldsRamification contract (the tower law, the adapters,
+`TauCeti.inertiaDegree`); Mathlib `IsSepClosure.equiv`, `IntermediateField.fixingSubgroup`.
+
+**Checks.**
+
+- `L = ⊥`: `f = 1`, `d(L/K) = 0`, and this is `etaleMass_eq` for `K`.
+- `m = 2`, `L = ℚ_2(i)`: `1 + 2^{−1} = 3/2`; the trivial `χ` has `d_K(χ) = 2 + 2`, weight `1`.
+  `L = ℚ_4`: `1 + 2^{−2} = 5/4 = M_2(ℚ_4)`.
+- `m = 0`: both sides are `1`.
+
+### 4.3 the fibre count
+
+Let `ρ₀` be a transitive Galois set of size `n ≥ 1`, `L` the fixed field of the stabilizer of
+`0`, and `χ` a Galois set of size `m` over `L`. Then the wreath Galois sets with base `ρ₀` that act
+on the fibre over `0` by `χ` number `(m!)^{n−1}` ([Wood 2008, Lemma 2.2];
+`WreathGaloisSet.natCard_base_fibre`). Choose `σ_j` with `ρ₀(σ_j)(0) = j`; a wreath Galois set
+over `(ρ₀, χ)` is determined by the labelling `α_j ∈ S_m` it gives the fibre over `j ≠ 0`, through
+`ρ(g) = ρ₀(g) · (α_{ρ₀(g) j} χ(σ_{ρ₀(g) j}⁻¹ g σ_j) α_j⁻¹)_j`. Every choice of the `α_j` gives a
+homomorphism. Its kernel contains the normal core of `ker χ`, an intersection of finitely many
+conjugates of an open subgroup, so it is open. The fibre over `0` is preserved by
+`L.fixingSubgroup` because that is the stabilizer of `0` (open, hence closed, so the Galois
+correspondence applies). *Needs:* 0.2; Mathlib `IntermediateField.fixingSubgroup_fixedField`.
+
+**Checks.**
+
+- `n = 1`: `(m!)^0 = 1`, and `ρ = χ`. `m = 1`: `1`.
+- `m = n = 2`: `2`, the two labellings of the fibre over `1`.
+
+### 4.4 the transitive wreath mass
+
+The base-transitive wreath Galois sets (`WreathGaloisSet.IsBaseTransitive`) have mass
+`T_{m,n} = ∑_{f ∣ n} (1/f) q^{−(n−f)} ∑_{k ≤ m} q(k, m − k) q^{−f k}` (`wreathTransitiveMass_eq`;
+[Kedlaya 2007, (8.5.2)] for `m = 2`, [Wood 2008, (7)]). Split the sum by the base `ρ₀` and the
+fibre action `χ` (4.3), where `c(ρ) = d(L/K) + (d_K(χ) − m · d(L/K))` by 4.1. Then:
+
+1. the `χ`-sum is `m!` times the right side of 4.2 at `L`;
+2. the `ρ₀`-sum is `tsum_isTransitive` with `g(L) = q^{−d(L/K)} ∑_k q(k, m−k) q^{−f(L/K) k}`;
+3. `tsum_inertiaDegree_eq` evaluates it by residue degree; each `f ∣ n` contributes
+   `(e/n) q^{−f(e−1)} = (1/f) q^{−(n−f)}` with `e = n/f`.
+
+The factors `(m!)^{n−1} · m! = (m!)^n` and `(n−1)!/n! = 1/n` match the normalization.
+*Needs:* 0.3, 2.2, 4.1, 4.2, 4.3.
+
+**Checks.**
+
+- `m = 1`: `∑_{f∣n} q^{−(n−f)}/f`, the sum over `f` of Layer 2's transitive masses `q^{−f(e−1)}/f`.
+- `m = 2`: `∑_{f∣n} (q^{f−n} + q^{−n})/f`, Kedlaya's (8.5.2). Kedlaya splits it into the towers
+  with `M = L × L`, which give `∑_f q^{f−n}/(2f)`, and those with `M` a field, which give
+  `∑_f (q^{f−n}/f)(1/2 + q^{−f})` from Serre in degree `2` over `L`. `n = 1`: `1 + q^{−1}`; `n = 2`:
+  `1/2 + q^{−1} + (3/2) q^{−2}`, which is `11/8` over `ℚ_2`.
+
+### 4.5 the orbit recursion and the summit
+
+**The orbit recursion** (`wreathMass_recursion`): `n · W_{m,n} = ∑_{k=1}^{n} k · T_{m,k} · W_{m,n−k}`,
+the exponential formula in recursion form. Split off the base orbit of `0`, of size `k`. There are
+`C(n−1, k−1)` choices of its other points. The wreath Galois set is a base-transitive one on these
+fibres together with one on the rest, and `c` adds over base orbits. Dividing by `(m!)^n n!` leaves
+`k/n`. This also gives the recursion for `M_n` at `m = 1`, with `T_{1,k}` from 4.4.
+
+**Kedlaya's formula for `W(B_n)`** (`wreathMass_two`; [Kedlaya 2007, Thm. 8.5, Remark 8.6]):
+`W_{2,n} = ∑_{j ≤ n} M_j · P(n − j) · q^{−(n−j)}`, with `P` the partition function; equivalently
+`∑_n W_{2,n} xⁿ = ∏_{i≥1} (1 − xⁱ q^{−i})⁻¹ (1 − xⁱ q^{1−i})⁻¹`. The proof compares recursions. The
+right side is a Cauchy product of `M_j`, which satisfies the recursion with `T_{1,k}` (above), and
+`a_j = P(j) q^{−j}`, which satisfies it with `t_k = σ(k) q^{−k}/k = ∑_{f∣k} q^{−k}/f` (Euler's
+`j P(j) = ∑_k σ(k) P(j − k)`, from the product formula `Nat.Partition.hasProd_genFun`). A Cauchy
+product satisfies the recursion with the sum of the two `t`'s (Leibniz), and
+`T_{2,k} = T_{1,k} + t_k` by 4.4. Two sequences with value `1` at `0` and the same recursion are
+equal.
+
+**Wood's formula for `S_m ≀ S_n`** (`exists_wreathMass_eq_aeval`; [Wood 2008, Thm. 1.1]): `W_{m,n}` is
+a polynomial in `q^{−1}` with natural-number coefficients, the same for every non-archimedean local
+field. By 4.4 each `T_{m,k}` is `∑_f (1/f) · (a polynomial in q^{−1})`, and the recursion expresses
+`W_{m,n}` as the coefficient of `xⁿ` in `∏_{k<m} ∏_{e≥1} (1 − x^e q^{1−e−k})^{−q(k, m−k)}`, whose
+expansion has natural-number coefficients in `x` and `q^{−1}`. *Needs:* 3.3, 4.4; Mathlib
+`Nat.Partition.genFun`, `Polynomial.aeval`.
+
+**Checks.**
+
+- `m = 2`: `W_{2,1} = 1 + q^{−1}`, `W_{2,2} = 1 + 2q^{−1} + 2q^{−2}`, and
+  `W_{2,3} = 1 + 2q^{−1} + 4q^{−2} + 3q^{−3}`, by the recursion and by the product formula.
+- `8 · W_{2,2} = 8 + 16/q + 16/q²`, Wood's mass for `D_4 = S_2 ≀ S_2`, which does not divide by
+  `|Γ|` ([Wood 2008, §5]).
+- The correction `−(m − 1) d(Y)` is necessary. Weighted by `d(X)`, the discriminant of `M/K`,
+  `D_4` has no formula uniform in `K`. The undivided mass over `ℚ_2` is `121/8`, while the
+  formula `8 + 8/q + 16/q² + 8/q³` valid for odd `q` gives `17` at `q = 2` ([Wood 2008, §5]).
+- `m = 3`, `n = 1`: `W_{3,1} = M_3 = 1 + q^{−1} + q^{−2}`.
+- `K = 𝔽_2((t))`, `m = 2`: infinitely many wreath Galois sets, and `W_{2,n}` is still the finite value
+  of the formula.
+
+### Dependencies
+
+Layers 0, 2 and 3; the LocalFieldsRamification contract; Mathlib's partition generating functions.
+4.3 and the recursion of 4.5 are group theory and combinatorics, independent of the arithmetic,
+and can be built first.
+
 ## Downstream consumers
 
 The `p`-adic extension families roadmap (PadicExtensionFamilies) consumes Layer 1: the
@@ -445,9 +597,11 @@ factors of Bhargava's density constants.
 ## Long horizon (a roadmap for a future roadmap; do not attempt it here)
 
 [Kedlaya 2007] reformulates the mass of Galois sets with values in a group `Γ ⊆ GL_n`, weighted by
-the Artin conductor, and asks when it is uniform in `K`; uniform formulas hold for the
-hyperoctahedral groups `W(B_n)`, and [Wood 2008] gives them for wreath and cross products. With the
-Artin conductor of a general representation they generalize this roadmap's weight; [Wood–Yasuda
+the Artin conductor, and asks when it is uniform in `K`. Layer 4 covers `W(B_n)` and `S_m ≀ S_n`.
+Beyond them lie `W(D_n)` in odd residue characteristic and `W(G_2)` ([Kedlaya 2007, Thm. A.7,
+Props. 9.2–9.3]), which need the Artin conductor of a general representation, and Wood's iterated
+wreath and cross products with their mass formulas by type ([Wood 2008, Thm. 2.1]), which need
+counting functions on Galois sets over every finite subextension. [Wood–Yasuda
 2015, 2017] relate them to stringy invariants of quotient singularities, and [Yasuda 2025] gives
 motivic versions of Serre's and Bhargava's formulas over `k((t))`. They are named to mark the
 direction, not to be worked on under this roadmap.
@@ -462,9 +616,12 @@ direction, not to be worked on under this roadmap.
   d'un corps local*, C. R. Acad. Sci. Paris **286** (1978), 1031–1036, through the mass formula
   roadmap.
 - K. S. Kedlaya, *Mass formulas for local Galois representations*, IMRN **2007**, rnm021, with an
-  appendix by D. Gulotta: the Galois-set formulation.
+  appendix by D. Gulotta, arXiv:math/0511135: the Galois-set formulation; Def. 2.2 (total mass),
+  Lemmas 8.2–8.4, Thm. 8.5, (8.5.2) and Remark 8.6 for `W(B_n)`, numbered as in arXiv v4.
 - M. M. Wood, *Mass formulas for local Galois representations to wreath products and cross
-  products*, Algebra & Number Theory **2** (2008), 391–405.
+  products*, Algebra & Number Theory **2** (2008), 391–405, arXiv:0804.4679: Thm. 1.1,
+  Thm. 2.1 with the counting function (4)–(5), Lemma 2.2, (7), and the `D_4` masses of §5, numbered
+  as in the arXiv version.
 - M. M. Wood and T. Yasuda, *Mass formulas for local Galois representations and quotient
   singularities I*, IMRN **2015**; *II*, Algebra & Number Theory **11** (2017).
 - T. Yasuda, *Motivic mass formulas*, Forum Math. Sigma **13** (2025), e148.

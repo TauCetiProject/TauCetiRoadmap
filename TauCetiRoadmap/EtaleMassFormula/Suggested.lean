@@ -14,12 +14,16 @@ specification.
 The file states the roadmap's headline theorems against the pinned Mathlib and Tau Ceti:
 Bhargava's formula `etaleMass_eq`, its refinements by splitting type
 (`etaleMass_splittingSymbol`) and by ramification partition (`etaleMass_ramificationPartition`),
-and the identification `tsum_etaleDiscriminantExponent` of the sum over étale algebras with the
-mass of Galois sets. All of them are statable at the pins. The definitions they need are the
+the identification `tsum_etaleDiscriminantExponent` of the sum over étale algebras with the
+mass of Galois sets, and the wreath-product masses of Layer 4: Kedlaya's `wreathMass_two` for
+`W(B_n)` and Wood's `exists_wreathMass_eq_aeval` for `S_m ≀ S_n`. All of them are statable at the
+pins. The definitions they need are the
 Galois-set carrier `GaloisSet` with its weight and splitting symbol, the orbit weight
 `orbitDiscriminantExponent`, the mass `etaleMass`, the étale weight `etaleDiscriminantExponent`,
 and the totalized invariants `intermediateFieldDiscriminantExponent` and
-`intermediateFieldInertiaDegree` of a subextension of `SeparableClosure K`.
+`intermediateFieldInertiaDegree` of a subextension of `SeparableClosure K`; Layer 4 adds the
+wreath carrier `WreathGaloisSet` with its counting function and the Galois sets
+`RelativeGaloisSet` over a finite subextension.
 
 `intermediateFieldDiscriminantExponent` is stated with the body of Tau Ceti's
 `IntermediateField.discriminantExponent` (`TauCeti/NumberTheory/LocalField/MassFormula/Basic.lean`),
@@ -373,6 +377,173 @@ theorem etaleMass_eq (n : ℕ) :
       ∑ k ∈ Finset.range (n + 1),
         (((Finset.univ : Finset k.Partition).filter fun π => π.parts.card ≤ n - k).card :
             ℝ≥0∞) / (Nat.card 𝓀[K] : ℝ≥0∞) ^ k :=
+  sorry
+
+/-! ## Layer 4: wreath products `S_m ≀ S_n` -/
+
+/-- The **subgroup orbit weight**: `orbitDiscriminantExponent` for an action of a subgroup `H` of
+`Gal(K^sep/K)`, the sum over the `H`-orbits of the discriminant exponent over `K` of the fixed field
+of the stabilizer, read as a subgroup of `Gal(K^sep/K)`. -/
+noncomputable def subgroupOrbitDiscriminantExponent
+    (H : Subgroup (SeparableClosure K ≃ₐ[K] SeparableClosure K)) (X : Type*) [MulAction H X] : ℕ :=
+  ∑ᶠ O : MulAction.orbitRel.Quotient H X,
+    intermediateFieldDiscriminantExponent
+      (IntermediateField.fixedField ((MulAction.stabilizer H (Quotient.out O : X)).map H.subtype))
+
+variable {K}
+
+/-- A **Galois set of size `m` over a subextension `L`**: a continuous action of
+`Gal(K^sep/L) = L.fixingSubgroup` on `Fin m`. -/
+noncomputable abbrev RelativeGaloisSet (L : IntermediateField K (SeparableClosure K)) (m : ℕ) :
+    Type u :=
+  {χ : L.fixingSubgroup →* Equiv.Perm (Fin m) // IsOpen (χ.ker : Set L.fixingSubgroup)}
+
+/-- The weight over `K` of a Galois set over `L`: the subgroup orbit weight of its action. -/
+noncomputable def RelativeGaloisSet.discriminantExponent
+    {L : IntermediateField K (SeparableClosure K)} {m : ℕ} (χ : RelativeGaloisSet L m) : ℕ :=
+  letI := MulAction.compHom (Fin m) χ.1
+  subgroupOrbitDiscriminantExponent K L.fixingSubgroup (Fin m)
+
+/-- **Bhargava's formula over a finite subextension**, read over `K`: for `L` finite over `K` with
+residue degree `f`, the Galois sets of size `m` over `L` weighted by
+`q^{-(d_K(χ) − m · d(L/K))} = q_L^{-d_L(χ)}` have mass `∑_{k ≤ m} q(k, m − k) q^{-f k}`. The proof
+transports `Gal(K^sep/L)` to `Gal(L^sep/L)` through `IsSepClosure.equiv`, rewrites each orbit's
+exponent by the tower law `d(M/K) = [M : L] d(L/K) + f · d(M/L)`, and applies `etaleMass_eq` over
+`L`, whose residue field has `q^f` elements. -/
+theorem tsum_relativeGaloisSet (L : IntermediateField K (SeparableClosure K))
+    [FiniteDimensional K L] (m : ℕ) :
+    (m ! : ℝ≥0∞)⁻¹ *
+        ∑' χ : RelativeGaloisSet L m,
+          1 / (Nat.card 𝓀[K] : ℝ≥0∞) ^
+            (χ.discriminantExponent - m * intermediateFieldDiscriminantExponent L) =
+      ∑ k ∈ Finset.range (m + 1),
+        (((Finset.univ : Finset k.Partition).filter fun π => π.parts.card ≤ m - k).card :
+            ℝ≥0∞) / (Nat.card 𝓀[K] : ℝ≥0∞) ^ (intermediateFieldInertiaDegree L * k) :=
+  sorry
+
+variable (K)
+
+/-- A **wreath Galois set** for `S_m ≀ S_n`: a continuous action of `Gal(K^sep/K)` on
+`Fin n × Fin m` that maps fibres of `Prod.fst` to fibres, as a homomorphism to
+`Equiv.Perm (Fin n × Fin m)` with open kernel. Its image lies in the wreath product `S_m ≀ S_n`,
+the stabilizer of the fibre partition. -/
+noncomputable abbrev WreathGaloisSet (m n : ℕ) : Type u :=
+  {ρ : (SeparableClosure K ≃ₐ[K] SeparableClosure K) →* Equiv.Perm (Fin n × Fin m) //
+    IsOpen (ρ.ker : Set (SeparableClosure K ≃ₐ[K] SeparableClosure K)) ∧
+      ∀ g x y, x.1 = y.1 → (ρ g x).1 = (ρ g y).1}
+
+namespace WreathGaloisSet
+
+variable {K} {m n : ℕ}
+
+/-- The action of `Gal(K^sep/K)` on `Fin n × Fin m` that a wreath Galois set is. -/
+noncomputable abbrev mulAction (ρ : WreathGaloisSet K m n) :
+    MulAction (SeparableClosure K ≃ₐ[K] SeparableClosure K) (Fin n × Fin m) :=
+  MulAction.compHom (Fin n × Fin m) ρ.1
+
+/-- The **base action** on `Fin n`, the image of `ρ` in `S_n`: `g` sends `i` to the fibre that
+contains the image of `(i, 0)`, hence of every point of the fibre over `i`. -/
+@[instance_reducible]
+noncomputable def baseMulAction [NeZero m] (ρ : WreathGaloisSet K m n) :
+    MulAction (SeparableClosure K ≃ₐ[K] SeparableClosure K) (Fin n) where
+  smul g i := ((ρ.1 g) (i, 0)).1
+  one_smul i := by
+    change ((ρ.1 1) (i, 0)).1 = i
+    simp
+  mul_smul g h i := by
+    change ((ρ.1 (g * h)) (i, 0)).1 = ((ρ.1 g) (((ρ.1 h) (i, 0)).1, 0)).1
+    rw [map_mul, Equiv.Perm.mul_apply]
+    exact ρ.2.2 g _ _ rfl
+
+/-- The **counting function** of [Wood 2008, (4)–(5)]: `c(ρ) = d(X) − (m − 1) · d(Y)` for the
+action on `X = Fin n × Fin m` and its base `Y = Fin n`. Orbit by orbit of the base, with `L_i` the
+fixed field of a base stabilizer and `M_i / L_i` the étale algebra of degree `m` on its fibre, it is
+`∑ d(L_i/K) + f(L_i/K) · d(M_i/L_i)` by the tower law, so the truncated subtraction is exact. For
+`m = 2` it is the Artin conductor of the signed permutation representation of `W(B_n)`
+([Kedlaya 2007, Lemma 8.4]). -/
+noncomputable def conductor [NeZero m] (ρ : WreathGaloisSet K m n) : ℕ :=
+  (letI := ρ.mulAction
+  orbitDiscriminantExponent K (Fin n × Fin m)) -
+    (m - 1) * (letI := ρ.baseMulAction
+    orbitDiscriminantExponent K (Fin n))
+
+/-- A wreath Galois set is **base-transitive** when its base action is transitive. -/
+def IsBaseTransitive [NeZero m] (ρ : WreathGaloisSet K m n) : Prop :=
+  letI := ρ.baseMulAction
+  MulAction.IsPretransitive (SeparableClosure K ≃ₐ[K] SeparableClosure K) (Fin n)
+
+/-- **The fibre count** ([Wood 2008, Lemma 2.2], for a transitive base): over a transitive Galois
+set `ρ₀` of size `n` with `L` the fixed field of the stabilizer of `0`, and a Galois set `χ` of size
+`m` over `L`, the wreath Galois sets with base `ρ₀` acting on the fibre over `0` by `χ` number
+`(m!)^(n−1)`: one choice of a labelling of each other fibre. -/
+theorem natCard_base_fibre [NeZero m] (hn : 0 < n) (ρ₀ : GaloisSet K n) (hρ₀ : ρ₀.IsTransitive)
+    (χ : RelativeGaloisSet (letI := ρ₀.mulAction
+      IntermediateField.fixedField (MulAction.stabilizer
+        (SeparableClosure K ≃ₐ[K] SeparableClosure K) (⟨0, hn⟩ : Fin n))) m) :
+    Nat.card {ρ : WreathGaloisSet K m n //
+      (∀ g i, ((ρ.1 g) (i, 0)).1 = ρ₀.1 g i) ∧
+        ∀ h j, (ρ.1 h.1) (⟨0, hn⟩, j) = (⟨0, hn⟩, χ.1 h j)} = (m !) ^ (n - 1) :=
+  sorry
+
+end WreathGaloisSet
+
+/-- **The wreath mass** `W_{m,n}(K) = (1 / ((m!)^n n!)) ∑_ρ q^{-c(ρ)}` over the wreath Galois sets,
+in `ℝ≥0∞`: Kedlaya's total mass of `(K, S_m ≀ S_n)` ([Kedlaya 2007, Def. 2.2], which divides by
+`|Γ|`; [Wood 2008] does not). -/
+noncomputable def wreathMass (m n : ℕ) [NeZero m] : ℝ≥0∞ :=
+  ((m ! : ℝ≥0∞) ^ n * n !)⁻¹ *
+    ∑' ρ : WreathGaloisSet K m n, 1 / (Nat.card 𝓀[K] : ℝ≥0∞) ^ ρ.conductor
+
+/-- The base-transitive part of the wreath mass. -/
+noncomputable def wreathTransitiveMass (m n : ℕ) [NeZero m] : ℝ≥0∞ :=
+  ((m ! : ℝ≥0∞) ^ n * n !)⁻¹ *
+    ∑' ρ : {ρ : WreathGaloisSet K m n // ρ.IsBaseTransitive},
+      1 / (Nat.card 𝓀[K] : ℝ≥0∞) ^ ρ.1.conductor
+
+/-- **The wreath product over one point is the symmetric group**: `S_1 ≀ S_n = S_n`, so the wreath
+mass for `m = 1` is the étale mass. -/
+theorem wreathMass_one (n : ℕ) : wreathMass K 1 n = etaleMass K n :=
+  sorry
+
+/-- **The transitive wreath mass** ([Kedlaya 2007, (8.5.2)] for `m = 2`; [Wood 2008, (7)]): the
+base-transitive part is `∑_{f ∣ n} (1/f) q^{-(n−f)} ∑_{k ≤ m} q(k, m − k) q^{-f k}`. Split the sum
+by the base `ρ₀` and the fibre action `χ` over `L`, the fixed field of the base stabilizer
+(`natCard_base_fibre`), where `c(ρ) = d(L/K) + (d_K(χ) − m · d(L/K))`; evaluate the `χ`-sum by
+`tsum_relativeGaloisSet`, then the `ρ₀`-sum by `tsum_isTransitive` and `tsum_inertiaDegree_eq`. -/
+theorem wreathTransitiveMass_eq (m n : ℕ) [NeZero m] (hn : 0 < n) :
+    wreathTransitiveMass K m n =
+      ∑ f ∈ n.divisors,
+        1 / ((f : ℝ≥0∞) * (Nat.card 𝓀[K] : ℝ≥0∞) ^ (n - f)) *
+          ∑ k ∈ Finset.range (m + 1),
+            (((Finset.univ : Finset k.Partition).filter fun π => π.parts.card ≤ m - k).card :
+                ℝ≥0∞) / (Nat.card 𝓀[K] : ℝ≥0∞) ^ (f * k) :=
+  sorry
+
+/-- **The orbit recursion** (the exponential formula, in recursion form): splitting off the base
+orbit of `0`, of size `k`, gives `n · W_n = ∑_{k=1}^{n} k · T_k · W_{n−k}` with `T_k` the transitive
+wreath mass. The counting function adds over base orbits. -/
+theorem wreathMass_recursion (m n : ℕ) [NeZero m] :
+    (n : ℝ≥0∞) * wreathMass K m n =
+      ∑ k ∈ Finset.Icc 1 n, (k : ℝ≥0∞) * wreathTransitiveMass K m k * wreathMass K m (n - k) :=
+  sorry
+
+/-- **Kedlaya's mass formula for `W(B_n) = S_2 ≀ S_n`** ([Kedlaya 2007, Thm. 8.5 and
+Remark 8.6]): `W_{2,n}(K) = ∑_{j ≤ n} M_j(K) · P(n − j) · q^{-(n−j)}`, with `P` the partition
+function; equivalently `∑_n W_{2,n} xⁿ = ∏_i (1 − xⁱ q^{-i})⁻¹ (1 − xⁱ q^{1−i})⁻¹`. -/
+theorem wreathMass_two (n : ℕ) :
+    wreathMass K 2 n =
+      ∑ j ∈ Finset.range (n + 1),
+        etaleMass K j * (Fintype.card (n - j).Partition : ℝ≥0∞) /
+          (Nat.card 𝓀[K] : ℝ≥0∞) ^ (n - j) :=
+  sorry
+
+/-- **Wood's mass formula for `S_m ≀ S_n`** ([Wood 2008, Thm. 1.1], for one wreath product of
+symmetric groups): the wreath mass is a polynomial in `q^{-1}` with natural-number coefficients,
+independent of the local field. -/
+theorem exists_wreathMass_eq_aeval (m n : ℕ) [NeZero m] :
+    ∃ P : Polynomial ℕ, ∀ (F : Type u) [Field F] [ValuativeRel F] [TopologicalSpace F]
+      [IsNonarchimedeanLocalField F],
+      wreathMass F m n = Polynomial.aeval ((Nat.card 𝓀[F] : ℝ≥0∞)⁻¹) P :=
   sorry
 
 end TauCetiRoadmap.EtaleMassFormula
