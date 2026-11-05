@@ -13,15 +13,16 @@ These signatures are suggested forms, not an exhaustive checklist. `README.md` i
 specification.
 
 The file states what can be stated against the pinned Mathlib and Tau Ceti: the tools of Layer 0
-(the continuous transfer, its reciprocity form, the logarithm on principal units, and the
-spanning lemma), the unfiltered recovery of the numerical invariants (Layer 1), of the
+(the `p`-adic model, the continuous transfer, its reciprocity form, the logarithm on principal
+units, and the spanning lemma), the unfiltered recovery of the numerical invariants (Layer 1), of the
 cyclotomic character (Layer 2) and of inertia (Layer 3) in their `G_K` forms, and uniformizing
 characters (Layer 7.1–7.2).
 
 The solvable quotients `G_K^m`, filtrations, filtered isomorphisms and `Out_Filt` are those of the
 filtered local Galois groups roadmap (TauCetiProject/TauCetiRoadmap#1795), and `ℂ_p` with its
 Galois action and Hodge–Tate weights are those of TauCetiProject/TauCetiRoadmap#940 and
-TauCetiProject/TauCetiRoadmap#879; none has a declaration at the pins. The `m`-step forms of
+TauCetiProject/TauCetiRoadmap#879; none has a declaration at the pins. The `p`-adic model 0.1
+only needs Mathlib's `PadicAlgCl`, and is stated here. The `m`-step forms of
 Layers 2–4, and Layers 5, 6, 7.3–7.4 and 8, are stated in `README.md` only.
 
 Suggested home: `TauCeti/NumberTheory/LocalField/Anabelian/`.
@@ -30,6 +31,41 @@ Suggested home: `TauCeti/NumberTheory/LocalField/Anabelian/`.
 open ValuativeRel IsNonarchimedeanLocalField NormedSpace TauCeti TauCeti.ClassFieldTheory
 
 namespace TauCetiRoadmap.LocalAnabelianGeometry
+
+/-! ## Layer 0.1: the `p`-adic model -/
+
+section PadicModel
+
+variable (p : ℕ) [Fact p.Prime] (K : Type) [Field K] [ValuativeRel K] [TopologicalSpace K]
+  [IsNonarchimedeanLocalField K] [FinitePadicExtension K p]
+
+/-- The image `K_ι` of `K` in `PadicAlgCl p` under a `ℚ_p`-isomorphism of algebraic closures. -/
+noncomputable def padicModelField (ι : AlgebraicClosure K ≃ₐ[ℚ_[p]] PadicAlgCl p) :
+    IntermediateField ℚ_[p] (PadicAlgCl p) :=
+  (ι.toAlgHom.comp (IsScalarTower.toAlgHom ℚ_[p] K (AlgebraicClosure K))).fieldRange
+
+/-- **The `p`-adic model** `G_K ≃ₜ* K_ι.fixingSubgroup`, `σ ↦ ι σ ι⁻¹`. -/
+noncomputable def padicModelEquiv (ι : AlgebraicClosure K ≃ₐ[ℚ_[p]] PadicAlgCl p) :
+    Field.absoluteGaloisGroup K ≃ₜ* (padicModelField p K ι).fixingSubgroup :=
+  sorry
+
+theorem coe_padicModelEquiv (ι : AlgebraicClosure K ≃ₐ[ℚ_[p]] PadicAlgCl p)
+    (σ : Field.absoluteGaloisGroup K) :
+    ((padicModelEquiv p K ι σ : (padicModelField p K ι).fixingSubgroup) :
+        PadicAlgCl p ≃ₐ[ℚ_[p]] PadicAlgCl p) =
+      ι.symm.trans ((σ.restrictScalars ℚ_[p]).trans ι) :=
+  sorry
+
+/-- Two choices of `ι` give models conjugate by `ι' ∘ ι⁻¹ ∈ Gal(PadicAlgCl p/ℚ_p)`. -/
+theorem coe_padicModelEquiv_eq_conj (ι ι' : AlgebraicClosure K ≃ₐ[ℚ_[p]] PadicAlgCl p)
+    (σ : Field.absoluteGaloisGroup K) :
+    ((padicModelEquiv p K ι' σ : (padicModelField p K ι').fixingSubgroup) :
+        PadicAlgCl p ≃ₐ[ℚ_[p]] PadicAlgCl p) =
+      ι.symm.trans ι' * (padicModelEquiv p K ι σ : PadicAlgCl p ≃ₐ[ℚ_[p]] PadicAlgCl p) *
+        (ι.symm.trans ι')⁻¹ :=
+  sorry
+
+end PadicModel
 
 /-! ## Layer 0.2: the continuous transfer -/
 
@@ -129,12 +165,15 @@ variable {p p' : ℕ} [Fact p.Prime] [Fact p'.Prime]
   [FinitePadicExtension K' p']
 
 /-- **The numerical invariants from `G^ab`** [Hyeon 2025, Prop. 3.1]: the residue characteristic,
-the degree, the residue field size and the absolute ramification index. -/
+the degree, the residue field size, the absolute ramification index and the number of `p`-power
+roots of unity. -/
 theorem eq_of_continuousMulEquiv_abelianization
     (α : Field.absoluteGaloisGroupAbelianization K ≃ₜ* Field.absoluteGaloisGroupAbelianization K') :
     p = p' ∧ Module.finrank ℚ_[p] K = Module.finrank ℚ_[p'] K' ∧
       Nat.card 𝓀[K] = Nat.card 𝓀[K'] ∧
-      absoluteRamificationIndex K p = absoluteRamificationIndex K' p' :=
+      absoluteRamificationIndex K p = absoluteRamificationIndex K' p' ∧
+      Nat.card {ζ : Kˣ // ∃ n : ℕ, ζ ^ p ^ n = 1} =
+        Nat.card {ζ : K'ˣ // ∃ n : ℕ, ζ ^ p' ^ n = 1} :=
   sorry
 
 /-- **Inertia is recovered from `G_K`** [Mochizuki 1997, Cor. 1.3], through the `m`-step form
@@ -158,12 +197,12 @@ variable {p : ℕ} [Fact p.Prime]
   {K' : Type} [Field K'] [ValuativeRel K'] [TopologicalSpace K'] [IsNonarchimedeanLocalField K']
   [FinitePadicExtension K' p]
 
-/-- **The cyclotomic character is recovered from `G_K`** [Mochizuki 1997, Prop. 1.1], through
-`G_K^2` [Hyeon 2025, Prop. 3.2]. The common prime is forced by
-`eq_of_continuousMulEquiv_abelianization`. -/
-theorem localCyclotomicCharacter_comp_continuousMulEquiv
+/-- **The `ℓ`-adic cyclotomic character is recovered from `G_K`** for every prime `ℓ`
+[Mochizuki 1997, Prop. 1.1], through `G_K^2` [Hyeon 2025, Prop. 3.2]. The common residue
+characteristic is forced by `eq_of_continuousMulEquiv_abelianization`. -/
+theorem localCyclotomicCharacter_comp_continuousMulEquiv (ℓ : ℕ) [Fact ℓ.Prime]
     (α : Field.absoluteGaloisGroup K ≃ₜ* Field.absoluteGaloisGroup K') :
-    (localCyclotomicCharacter p K').comp α.toMulEquiv.toMonoidHom = localCyclotomicCharacter p K :=
+    (localCyclotomicCharacter ℓ K').comp α.toMulEquiv.toMonoidHom = localCyclotomicCharacter ℓ K :=
   sorry
 
 end Cyclotomic
@@ -179,17 +218,17 @@ variable (p : ℕ) [Fact p.Prime]
   [FinitePadicExtension E p]
 
 /-- A character `ρ : G_K^ab → Eˣ` is **uniformizing** [Hyeon 2025, §5; Mochizuki 1997, Def. 3.2]
-if on an open subgroup of units it is a field embedding read through the Artin map. -/
+if it is continuous and on an open subgroup of units it is a field embedding read through the
+Artin map. -/
 def IsUniformizing (ρ : Field.absoluteGaloisGroupAbelianization K →* Eˣ) : Prop :=
-  ∃ I : Subgroup 𝒪[K]ˣ, IsOpen (I : Set 𝒪[K]ˣ) ∧ ∃ ι : K →ₐ[ℚ_[p]] E, ∀ u ∈ I,
+  Continuous ρ ∧ ∃ I : Subgroup 𝒪[K]ˣ, IsOpen (I : Set 𝒪[K]ˣ) ∧ ∃ ι : K →ₐ[ℚ_[p]] E, ∀ u ∈ I,
     (ρ (artinMap K (Units.map (algebraMap 𝒪[K] K).toMonoidHom u)) : E) = ι ((u : 𝒪[K]) : K)
 
 /-- **Existence** [Hyeon 2025, Ex. 5.4]: for `K ⊆ E`, the transfer to `G_E^ab`, the projection to
 the image of inertia, and `Art_E⁻¹` give a continuous character equal to the inclusion on all of
 `𝒪_K^×`. -/
 theorem exists_isUniformizing [Algebra K E] [IsScalarTower ℚ_[p] K E] :
-    ∃ ρ : Field.absoluteGaloisGroupAbelianization K →* Eˣ, Continuous ρ ∧
-      IsUniformizing p K E ρ ∧ ∀ u : 𝒪[K]ˣ,
+    ∃ ρ : Field.absoluteGaloisGroupAbelianization K →* Eˣ, IsUniformizing p K E ρ ∧ ∀ u : 𝒪[K]ˣ,
         (ρ (artinMap K (Units.map (algebraMap 𝒪[K] K).toMonoidHom u)) : E) =
           algebraMap K E ((u : 𝒪[K]) : K) :=
   sorry

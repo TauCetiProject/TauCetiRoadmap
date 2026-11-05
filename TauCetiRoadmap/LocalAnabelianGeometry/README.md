@@ -58,7 +58,7 @@ It does not own:
   Layer 7 amendment (TauCetiProject/TauCetiRoadmap#1411).
 - **`ℂ_p` and Hodge–Tate theory**: the Galois action on `ℂ_p`, Ax–Sen–Tate and Tate's computation
   of `ℂ_p(i)^{G_K}`: the `p`-adic period rings roadmap (TauCetiProject/TauCetiRoadmap#940,
-  §§1.1–1.5). `D_HT`, labelled Hodge–Tate weights and the local character criterion: the finite
+  §§1.1, 1.2 and 1.4). `D_HT`, labelled Hodge–Tate weights and the local character criterion: the finite
   flat group schemes and integral `p`-adic Hodge theory roadmap
   (TauCetiProject/TauCetiRoadmap#879, §§R07.P7.1–R07.P7.3).
 - **Local fields of positive characteristic.** The anabelian theorems for `𝔽_q((t))` and its
@@ -138,7 +138,9 @@ Implemented in Tau Ceti: `TauCeti.ClassFieldTheory.artinMap`, `artinMap_restrict
 `abelianizedLocalCyclotomicCharacter_artinMap_norm`, and the finite-level transfer square
 `TauCeti.ClassFieldTheory.ClassFormation.artinMap_groundInclusion`
 (`TauCeti/NumberTheory/ClassFieldTheory/Formation/ArtinMap.lean`). Targets: `injective_artinMap`
-(Layer 8, for finite extensions of `ℚ_p`), `cyclotomicCharacter_artinMap` (Layer 7) and, from the
+(Layer 8, for finite extensions of `ℚ_p`), `cyclotomicCharacter_artinMap` with its `ℚ_p` cases
+`cyclotomicCharacter_artinMap_padic` and `cyclotomicCharacter_artinMap_padic_uniformizer`
+(Layer 7) and, from the
 Layer 7 amendment TauCetiProject/TauCetiRoadmap#1411, **unit-filtration reciprocity**
 `map_unitFiltration_normResidue` in its absolute form: for every integer `n ≥ 0` the closure of
 `Art_K(U_K^(n))` in `G_K^ab` is the image of `G_K(n)`.
@@ -221,9 +223,12 @@ no anabelian theorem, is stated anywhere.
 - **0.4 Units and the filtration in `G_K^ab`.** `Art_K` restricts to an isomorphism of topological
   groups from `𝒪_K^×` onto the image of `G_K(0)` (inertia) in `G_K^ab`, and from `U_K^(n)` onto
   the image of `G_K(n)` for every integer `n ≥ 1`: injectivity and closedness from 3.1 of the
-  filtered local Galois groups roadmap, the images from unit-filtration reciprocity (#1411). By
-  Hasse–Arf the image of `G_K(v)` for real `v ≥ 0` is `Art_K(U_K^(⌈v⌉))`. The torsion subgroup of
-  `G_K^ab` is `Art_K(μ(K))`, `μ(K)` the roots of unity of `K`.
+  filtered local Galois groups roadmap, the images from unit-filtration reciprocity (#1411). Only
+  integer steps are used. The image of wild inertia `G_K(0+)` in `G_K^ab` is `Art_K(U_K^(1))`
+  (`map_wildInertiaSubgroup_abelianization`): it is compact, so closed; it lies in the image of
+  `G_K(0)`, which is `Art_K(𝒪_K^×) ≅ μ_{q−1} × U_K^(1)`, and is pro-`p`, so it lies in
+  `Art_K(U_K^(1))`; and it contains the image of `G_K(1) ≤ G_K(0+)`, which is `Art_K(U_K^(1))`.
+  The torsion subgroup of `G_K^ab` is `Art_K(μ(K))`, `μ(K)` the roots of unity of `K`.
 - **0.5 The logarithm on principal units.** `log : U(K,1) → K` is a continuous homomorphism
   (`log_mul_of_mem_unitFiltration_one`): for `u` in `U(K,1)` some `u^{p^k}` is deep, so
   `log u = p^{−k} log(u^{p^k})` and the deep case is `log_mul_of_mem_unitFiltration`. Its kernel is
@@ -269,19 +274,25 @@ Let `G` be a profinite group and `ℓ` a prime. A **Kummer sequence** is a decre
 `G = H_0 ⊇ H_1 ⊇ …` of open normal subgroups with `G/H_ν` abelian, `H_ν^ab[ℓ^ν]` cyclic of
 order `ℓ^ν`, and the transfer restricting to isomorphisms `H_ν^ab[ℓ^ν] ≅ H_{ν+1}^ab[ℓ^ν]`. Along
 it `T_ℓ(G) = lim_ν H_ν^ab[ℓ^ν]`, with transition maps
-`x ↦ Ver⁻¹(x^ℓ)`, is a `ℤ_ℓ`-module with `G` acting by conjugation; `χ^{(ℓ)}(G) : G → ℤ_ℓ^×` is the
-scalar by which `G` acts. These are targets for a general `G` admitting a Kummer sequence, with
-the independence of the sequence (two sequences give isomorphic rank-one modules, and the scalar
-of a rank-one module is canonical).
+`x ↦ Ver⁻¹(x^ℓ)`, is a `ℤ_ℓ`-module with `G` acting by conjugation. When it is free of rank one,
+`χ^{(ℓ)}(G, (H_ν)) : G → ℤ_ℓ^×` is the scalar by which `G` acts. Both are attached to the pair
+`(G, (H_ν))`, and a continuous isomorphism `α : G ≃ₜ* G'` carries a Kummer sequence `(H_ν)` to a
+Kummer sequence `(α H_ν)` with `χ^{(ℓ)}(G', (α H_ν)) ∘ α = χ^{(ℓ)}(G, (H_ν))`, by transport of
+structure. For `G_K^2` the comparison below shows that `χ^{(ℓ)}` does not depend on the sequence.
 
-For `G = G_K^2`: the subgroups `Gal(K^2/K(μ_{ℓ^ν}))` form a Kummer sequence. Indeed
-`Gal(K^2/L)^ab = G_L^ab` for `L ⊆ K^1` (Layer 0 of the filtered local Galois groups roadmap), the
-torsion of `G_L^ab` is `Art_L(μ(L))` (0.4), and the transfer is the inclusion `μ(L_ν) ⊆ μ(L_{ν+1})`
-(0.3). So `T_ℓ(G_K^2) ≅ ℤ_ℓ(1)` as `G_K^2`-modules, by the reciprocity squares 0.3 and
-`artinMap_congr`.
+**Comparison, for every Kummer sequence of `G_K^2`.** Let `(H_ν)` be one, with `H_ν` the image of
+`G_{L_ν}`. Since `G_K^2/H_ν` is abelian, `L_ν/K` is finite abelian, so `L_ν ⊆ K^1`, and
+`H_ν^ab = G_{L_ν}^ab` (Layer 0 of the filtered local Galois groups roadmap). The torsion of
+`G_{L_ν}^ab` is `Art_{L_ν}(μ(L_ν))` (0.4), so `H_ν^ab[ℓ^ν] = Art_{L_ν}(μ(L_ν)[ℓ^ν])`, and its being
+cyclic of order `ℓ^ν` forces `μ_{ℓ^ν} ⊆ L_ν`. The transfer is the inclusion
+`μ(L_ν) ⊆ μ(L_{ν+1})` (0.3). Hence `T_ℓ(G_K^2, (H_ν)) ≅ lim_ν μ_{ℓ^ν} = ℤ_ℓ(1)` as
+`G_K^2`-modules, conjugation being the Galois action (`artinMap_congr`), and
+`χ^{(ℓ)}(G_K^2, (H_ν))` is the `ℓ`-adic cyclotomic character. Kummer sequences exist: the images of
+`G_{K(μ_{ℓ^ν})}` form one.
 
 **Recovery.** For every prime `ℓ` and every continuous isomorphism `α : G_K^2 ≃ₜ* G_{K'}^2`, the
-`ℓ`-adic cyclotomic characters satisfy `χ_{K'} ∘ α = χ_K`. For `G_K^m`, `m ≥ 2`, and for `G_K`
+`ℓ`-adic cyclotomic characters satisfy `χ_{K'} ∘ α = χ_K`: apply transport of structure to a
+Kummer sequence of `G_K^2` and the comparison to both it and its image. For `G_K^m`, `m ≥ 2`, and for `G_K`
 (`localCyclotomicCharacter_comp_continuousMulEquiv`, [Mochizuki 1997, Prop. 1.1]), through the
 induced isomorphisms of `G^2`. No filtration is used.
 
@@ -290,12 +301,15 @@ induced isomorphisms of `G^2`. No filtration is used.
 Let `m ≥ 1` and `G` a profinite group with `G ≅ G_K^{m+1}`. For an open `H ⊇ G^[1]`,
 `H^ab ≅ G_L^ab` for the corresponding finite abelian `L/K` (Layer 0 of the filtered local Galois
 groups roadmap), so Layer 1 applies to `H^ab`. Define `I(G)` as the intersection of the open
-`H ⊇ G^[1]` with `e(H^ab) = e(G^ab)`, and `P(G)` as the pro-`p(G^ab)` Sylow subgroup of `I(G)`.
+`H ⊇ G^[1]` with `e(H^ab) = e(G^ab)`, and `P(G)` as the intersection of all Sylow pro-`p(G^ab)`
+subgroups of `I(G)` (Tau Ceti's `IsProPSylow`, `Profinite/Sylow/Basic.lean`). Both are defined
+from the topological group alone, so continuous isomorphisms preserve them.
 
 - **Comparison.** `I(G_K^{m+1})` is the image of inertia and `P(G_K^{m+1})` the image of wild
   inertia: `e(L) = e(K)` exactly when `L/K` is unramified, and the maximal unramified extension
-  lies in `K^1`. The image of wild inertia is a normal pro-`p` subgroup of `I` with
-  pro-prime-to-`p` quotient, so it is the unique pro-`p` Sylow subgroup.
+  lies in `K^1`. The image of wild inertia is a normal Sylow pro-`p` subgroup of `I`: it is
+  closed, pro-`p`, with pro-prime-to-`p` quotient. By `IsProPSylow.eq_of_normal`
+  (`Profinite/Sylow/Conjugacy.lean`) it is the only one, so it equals `P(G_K^{m+1})`.
 - **Recovery.** Every continuous isomorphism `G_K^{m+1} ≃ₜ* G_{K'}^{m+1}`, `m ≥ 1`, carries inertia
   onto inertia and wild inertia onto wild inertia. So does every continuous isomorphism
   `G_K ≃ₜ* G_{K'}` (`map_inertiaSubgroup`, `map_wildInertiaSubgroup`): the preimage of the inertia
@@ -316,7 +330,7 @@ Let `m ≥ 1` and `G ≅ G_K^{m+1}`. Let `𝓗_m(G)` be the open normal subgroup
 ```
 
 - **Comparison** (`additiveModule`). For `H` the image of `G_L`, `L ⊆ K^m` finite Galois over `K`,
-  `U(H)` is the image of wild inertia in `G_L^ab`, which is `Art_L(U_L^(1))` (0.4); the transfer is
+  `U(H)` is the image of wild inertia in `G_L^ab`, which is `Art_L(U_L^(1))` (0.4, for `L`); the transfer is
   the inclusion `U_L^(1) ⊆ U_{L'}^(1)` (0.3) and conjugation is the Galois action
   (`artinMap_congr`). With 0.5, `(k^m)_+(G_K^{m+1}) ≅ ⋃_L L = K^m` as `ℚ_p`-linear
   `G_K^{m+1}`-modules.
@@ -363,7 +377,9 @@ A finite-dimensional continuous `ℚ_p`-representation `V` of `G_K` is **`m`-ste
 - **6.3 Descent of invariants** [Hyeon 2025, Lem. 5.1]. With `F` the fixed field of `ker ρ`,
   `(ℂ_p ⊗ V)^{G_K} = (ℂ_F ⊗ V)^{G_K}`, `ℂ_F` the closure of `F`, by Ax–Sen–Tate for the closed
   subgroup `ker ρ` (#940 §1.2). For `V` `m`-step solvable, `F ⊆ K^m`, so the invariants may be
-  computed in `ℂ_{K^m} ⊗ V(χ^{−i})`.
+  computed in `ℂ_{K^m} ⊗ V(χ^{−i})`. This applies to each twist: for `m ≥ 1`, `V(χ^{−i})` is
+  `m`-step solvable whenever `V` is, because `χ` factors through `G_K^ab = G_K^1`, and so through
+  `G_K^m`.
 - **6.4 The group-theoretic numbers.** For a filtered `G` as in Layer 5, a continuous character
   `χ : G → ℤ_p^×` and a representation `V` of `G` killed by `G^[m]`,
   `d^i_m(G, χ, V) = dim_{ℚ_p} ((ℂ_{k^m})_+(G) ⊗_{ℚ_p} V(χ^{−i}))^G / d(G^ab)`.
@@ -463,7 +479,7 @@ Let `α_U : 𝒪_K^× ≃ₜ* 𝒪_{K'}^×` denote `Art_{K'}⁻¹ ∘ α_1 ∘ A
 
 Layer 0 needs the class field theory roadmap and #1411; 0.1 and 0.6 need nothing else. Layers 1–4
 need Layer 0 and Layers 0 and 3 of the filtered local Galois groups roadmap; none uses a
-filtration. Layer 5 needs Layers 1 and 2 of that roadmap. Layer 6 needs #940 §§1.1–1.4 and #879
+filtration. Layer 5 needs Layers 1 and 2 of that roadmap. Layer 6 needs #940 §§1.1, 1.2 and 1.4 and #879
 §R07.P7.1; Layer 7 needs #879 §R07.P7.3. Layer 8 needs everything above, 2.3–2.4 and 3.4–3.5 of
 the filtered local Galois groups roadmap.
 
