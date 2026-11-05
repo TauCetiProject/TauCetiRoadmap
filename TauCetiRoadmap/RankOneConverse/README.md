@@ -360,13 +360,13 @@ Layers 0–1; SelmerIwasawaCohomology §§2.10, 2.24, 3.8–3.16 and its strict-
 
 ### 3.1 Theorem B
 
-Let f be a normalized weight-two newform with trivial character and squarefree positive level N, p≥5, λ|p, and K imaginary quadratic of odd fundamental discriminant D. Assume exactly these arithmetic hypotheses:
+Let f be a normalized weight-two newform with trivial character and squarefree positive level N, p≥5, λ|p, and K imaginary quadratic of odd fundamental discriminant D. Assume exactly these arithmetic hypotheses, lettered (a)–(e) as in the source and cited elsewhere in this roadmap as B(a)–B(e):
 
-1. p∤N and f is λ-ordinary.
-2. The residual G_ℚ-representation is irreducible and ramified at an odd prime nonsplit in K.
-3. Both 2 and p split in K.
-4. If (D,N)>1, every prime dividing (D,N) has type St⊗ξ and every prime dividing N/(D,N) splits in K.
-5. The finite Selmer group H¹_f(K,V) has L-dimension 1 and its actual restriction into the product of the two finite local spaces at p is injective.
+- (a) p∤N and f is λ-ordinary.
+- (b) The residual G_ℚ-representation is irreducible and ramified at an odd prime nonsplit in K.
+- (c) Both 2 and p split in K.
+- (d) If (D,N)>1, every prime dividing (D,N) has type St⊗ξ and every prime dividing N/(D,N) splits in K.
+- (e) The finite Selmer group H¹_f(K,V) has L-dimension 1 and its actual restriction into the product of the two finite local spaces at p is injective.
 
 Prove ord₁L(f/K,s)=1, rank_ℤ A_f(K)=d=ord₁L(A_f/K,s), and finiteness of the entire Sha(A_f/K). No uniqueness of λ|p, nondegeneracy of a p-adic height or full main-conjecture equality is required. The elliptic (D,N)=1 inert instance is ArithmeticStatisticsPartVI, “Heegner logarithm and low rank”; GL₂-type coefficients and ramified Case I are proved here (skinner-2020, Theorem B p.331; §2.9 pp.348–349).
 
@@ -378,7 +378,7 @@ For full Sha, the two nonnegative orders ord₁L(f) and ord₁L(f⊗χ_D) sum to
 
 **Checks.**
 
-- When (D,N)=1 and two level primes are inert, condition 4 is vacuous, the global sign is −1 and Case II is allowed. Requiring all other level primes to split in this branch would wrongly exclude it.
+- When (D,N)=1 and two level primes are inert, condition B(d) is vacuous, the global sign is −1 and Case II is allowed. Requiring all other level primes to split in this branch would wrongly exclude it.
 - At d=2, newform base-change order 1 gives abelian order 2 and arithmetic rank 2. It does not assert abelian order 1.
 - Orders (0,1) and (1,0) of the rational and twisted factors each sum to 1; both are permitted. Orders (1,1) sum to 2 and are excluded.
 - The abstract torsion group ℤ/5 ⊕ ℚ₇/ℤ₇ has finite 5-primary subgroup and is infinite. Finiteness at the coefficient prime alone cannot supply the full-Sha conclusion; the forward theorem and quadratic comparison account for every primary component.
