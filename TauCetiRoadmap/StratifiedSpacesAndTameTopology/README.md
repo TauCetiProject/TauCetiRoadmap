@@ -19,7 +19,9 @@ semialgebraic sets on `ℝ`, with the semialgebraic triangulation as a specializ
 existence of control data on a Whitney stratified closed subset of `ℝⁿ` and Thom's first isotopy
 lemma for a proper controlled submersion; and, for a Thom–Mather space over a finite poset with
 normalised control data, its unfolding into manifolds with embedded corners joined by fibrations,
-and the reconstruction of the space from the unfolded data by gluing.
+and the reconstruction of the space from the unfolded data by gluing. Grothendieck's *Esquisse
+d'un programme*, §5, proposes a "tame topology" suited to stratified structures; o-minimal
+structures are a framework for it.
 
 Suggested homes: `TauCeti/Topology/Stratified/` for Layers 1–3, `TauCeti/Geometry/OMinimal/` for
 Layers 4 and 8, `TauCeti/Geometry/Manifold/Corners/` for Layer 6, and
@@ -44,17 +46,20 @@ and builds the face structure on top of it, defining no second boundary carrier.
 
 **Left to other roadmaps.** Semialgebraic sets, cylindrical algebraic decomposition,
 Tarski–Seidenberg and sign determination are RealAlgebraicGeometry (completed); its exports in Tau
-Ceti are consumed by 4.2 and 4.4. Semianalytic and subanalytic sets, the o-minimality of `ℝ_an`
-and `ℝ_exp`, Nash and analytic regularity of simplices, semianalytic dimension (R1.1) and
-Łojasiewicz's triangulation are RealAnalyticGeometry (R1, R2, R5). The CAD-based construction of
-triangulations of compact semialgebraic sets with its lifting data, the definition of
-semialgebraic dimension from CAD cells, and its product and fibre-dimension laws are
-AffineMorseLefschetz A4.1; by 4.9 its existential triangulation theorem and its independence,
-union and closure laws for dimension are specializations of 4.5 and 4.7, and its lifting
-construction keeps an independent role, since RealAnalyticGeometry R2.1 consumes the lifting data
-that 4.7 does not supply. Euler characteristics of every kind, including the o-minimal one, are
-AlgebraicTopology. The collar theorem for manifolds with boundary and the tubular neighbourhood
-theorem are GeometricTopology Layer 1.
+Ceti are consumed by 4.2 and 4.4. Semianalytic and subanalytic sets, the o-minimality of `ℝ_an` and
+`ℝ_exp`, Nash and analytic regularity of simplices, semianalytic dimension (R1.1) and Łojasiewicz's
+triangulation are RealAnalyticGeometry (R1, R2, R5). The CAD-based construction of triangulations of
+compact semialgebraic sets with its lifting data, the definition of semialgebraic dimension from CAD
+cells, and its product and fibre-dimension laws are AffineMorseLefschetz A4.1; by 4.9 its
+existential triangulation theorem and its independence, union and closure laws for dimension are
+specializations of 4.5 and 4.7, and its lifting construction keeps an independent role, since
+RealAnalyticGeometry R2.1 consumes the lifting data that 4.7 does not supply. The Euler
+characteristic of spaces of finite CW type is AlgebraicTopology Stage 7; no roadmap states the
+o-minimal Euler characteristic of a definable set (van den Dries, Chapter 4, §2).
+AlgebraicTopologyPartII 16.2 states an equivariant first isotopy lemma for a closed Whitney
+stratified subset with invariant control data taken as given; it is a sibling that consumes no part
+of Layer 5, and 5.5 is not a duplicate of it. The collar theorem for manifolds with boundary and the
+tubular neighbourhood theorem are GeometricTopology Layer 1.
 
 **Out of scope.** Constructible sheaves on stratified spaces, exit-path ∞-categories and
 2-categories, constructible stacks and hypercoverings; intersection homology; Whitney's condition
@@ -368,7 +373,7 @@ For the stratification (c), let `V₀₁ = (−1, 1) × {0}`, `V₁₂ = {(x, y)
 `ℝ²` for the inclusions of the seven sets `X₀, X₁, X₂, V₀₁, V*₀₁, V₁₂, V*₁₂` is strictly finer than
 the Euclidean topology: for `0 < ε ≤ 1` the set `W = (−ε, ε) × {0} ∪ {0 < |x| < ε, |y| < |x|}` is
 open for it but is not a neighbourhood of the origin. This is why Layer 7 glues along all pairs
-`i < k`, not only covering pairs.
+`i < k`, not only covering pairs. (Own example.)
 *Needs:* 2.3.
 
 **Checks.**
@@ -418,7 +423,7 @@ paths from `a.pt` to `b.pt`, the relation `ExitPathCategory.Rel s` on its free c
 `CategoryTheory.Paths` (exit-homotopic paths are equal, `γ.trans δ` is the composite of `γ` and
 `δ`, the constant path is the identity), and `ExitPathCategory s` as the
 `CategoryTheory.Quotient` by it, with objects `ExitPathCategory.mk s x` (Woolf's fundamental
-category; Lurie, *Higher Algebra*, §A.6). Prove: exit homotopy is an
+category, Woolf 2009, Definition 2.1; Lurie, *Higher Algebra*, §A.6). Prove: exit homotopy is an
 equivalence relation compatible with `Path.trans`, and reparametrization homotopies are through
 exit paths; every morphism from `mk x` to `mk y` is the class of one exit path, two exit paths
 having the same class exactly when they are exit-homotopic; functoriality along stratified maps;
@@ -552,7 +557,9 @@ intervals (van den Dries, Chapter 3, (1.2)).
 ### 4.4 Cells and cell decomposition
 
 For `R` a nonempty dense linear order without endpoints, define `OMinimalStructure.IsCell` and
-`OMinimalStructure.IsCellDecomposition` with the `Fin.cons`/`Fin.tail` convention. Prove: cells
+`OMinimalStructure.IsCellDecomposition` with the `Fin.cons`/`Fin.tail` convention; the two
+predicates are stated for any topology on `R`, through which their continuity conditions are read,
+and every theorem about them assumes the order topology. Prove: cells
 are definable, nonempty, definably connected and locally closed; each cell is definably
 homeomorphic to an open cell of its dimension by a coordinate projection; the cell decomposition
 theorem `OMinimalStructure.exists_isCellDecomposition`, part (I), decompositions partitioning
@@ -594,8 +601,9 @@ inequality `dim (closure A ∖ A) < dim A` for nonempty `A` (van den Dries, Chap
 ### 4.6 Definable choice and curve selection
 
 For an o-minimal expansion of an ordered abelian group, definable families have definable
-sections; for an expansion of an ordered field, a point in the closure of a definable `A` is the
-limit at `0⁺` of a continuous definable curve `(0, ε) → A` (van den Dries, Chapter 6, §1).
+sections (van den Dries, Chapter 6, (1.2)), and a point in the closure of a definable `A` is the
+limit at `0⁺` of a continuous definable curve `(0, ε) → A` (Chapter 6, (1.5)); expansions of
+ordered fields are a special case.
 *Needs:* 4.4, 4.5.
 
 **Checks.**
@@ -648,7 +656,9 @@ its comparison with smooth and complex-analytic dimension remain A4.1 targets. (
 `exists_triangulation_semialgebraic`: 4.7 for semialgebraic `A` and `B_i`, with `Φ`
 semialgebraic on `A` (`TauCeti.IsSemialgebraicOn`). For compact `A` it is the finite compatible
 triangulation of a compact semialgebraic set, and A4.1's existential triangulation theorem is this
-statement transported along R2.1's carrier comparison.
+statement transported along R2.1's carrier comparison. Restricted to bounded `A`, 4.9(b) is
+RealAnalyticGeometry R2.1's bounded affine theorem, which R2.1 proves with Nash regularity on open
+simplices and A4.1's lifting data; 4.9(b) adds the unbounded case as a specialization of 4.7.
 *Needs:* 4.2, 4.5, 4.7; AffineMorseLefschetz A4.1 (semialgebraic dimension); Tau Ceti
 `TauCeti.IsSemialgebraicOn`.
 
@@ -682,18 +692,26 @@ as in Convention 9.
 
 Define a tube around `X_p` (Mather, *Notes on topological stability*, §7) as `(T_p, π_p, ρ_p)`: an
 open `T_p ⊇ X_p`, a continuous retraction `π_p : T_p → X_p` and a continuous `ρ_p : T_p → [0, ∞)`
-with `ρ_p⁻¹(0) = X_p`. Control data are tubes for all `p` such that, for `p < q` and
-`x ∈ T_p ∩ T_q` with `π_q x ∈ T_p`, `π_p(π_q x) = π_p x` and `ρ_p(π_q x) = ρ_p x`, and
-`(π_p, ρ_p)` restricted to `T_p ∩ X_q` is a smooth submersion to `X_p × (0, ∞)`. They are
-*normalised* when `T_p ∩ X_q ≠ ∅` implies `p ≤ q`. A **Thom–Mather space** is a smooth stratified
-space with control data. Prove: control data restrict to smaller tubes, in particular to
-`T_p(ε) = {ρ_p < ε ∘ π_p}` for continuous `ε : X_p → (0, ∞)`; every control data can be shrunk to
-normalised control data, by replacing `T_p` with `T_p ∖ ⋃_{q ≱ p} closure X_q`, which is open (a
-finite union of closed sets is removed) and contains `X_p` (a point of `X_p ∩ closure X_q` has
-`p ≤ q` by Convention 1), the control conditions holding on the smaller tubes; open subsets of
-Thom–Mather spaces are Thom–Mather spaces; the explicit normalised control data on 2.3(c) with
-`T₀ = ℝ²`, `π₀ = 0`, `ρ₀ = x² + y²`, `T₁ = {|y| < |x|}`, `π₁(x, y) = (sign x · √(x² + y²), 0)`,
-`ρ₁ = arctan(y/x)²`, `T₂ = X₂`, `π₂ = id`, `ρ₂ = 0`.
+with `ρ_p⁻¹(0) = X_p`. Control data are tubes for all `p` such that, for `p < q` and `x ∈ T_p ∩ T_q`
+with `π_q x ∈ T_p`, `π_p(π_q x) = π_p x` and `ρ_p(π_q x) = ρ_p x`, and `(π_p, ρ_p)` restricted to
+`T_p ∩ X_q` is a smooth submersion to `X_p × (0, ∞)`. They are *normalised* when (A10)
+`T_p ∩ X_q ≠ ∅` implies `p ≤ q`, (A11) `T_p ∩ T_q ≠ ∅` implies `p ≤ q` or `q ≤ p` (Mather, §8,
+(A10)–(A11)), and the tubes are proper: there is a continuous `ε⁰_p : X_p → (0, ∞)` such that
+`{ρ_p ≤ ε⁰_p ∘ π_p} ∩ π_p⁻¹(K)` is compact for every compact `K ⊆ X_p`. A **Thom–Mather space** is a
+smooth stratified space with control data. Prove: control data restrict to smaller tubes, in
+particular to `T_p(ε) = {ρ_p < ε ∘ π_p}` for continuous `ε : X_p → (0, ∞)`; every control data can
+be shrunk to normalised control data. For (A10), replace `T_p` with `T_p ∖ ⋃_{q ≱ p} closure X_q`,
+which is open (a finite union of closed sets is removed) and contains `X_p` (a point of
+`X_p ∩ closure X_q` has `p ≤ q` by Convention 1). For (A11), for incomparable `p, q` the strata are
+separated sets (`X_p ∩ closure X_q = ∅ = closure X_p ∩ X_q` by Convention 1) of a metrisable space,
+so they have disjoint open neighbourhoods, and the tubes are cut down to them, `P` being finite. For
+properness, cover `X_p` by a locally finite family of open `U_α` whose closures have compact
+neighbourhoods `N_α ⊆ T_p`, replace `T_p` by `⋃_α (π_p⁻¹(U_α) ∩ int N_α)`, and choose `ε⁰_p` below
+the minimum of `ρ_p` on the compact frontier pieces, by a partition of unity on `X_p`. The control
+conditions hold on the smaller tubes. Open subsets of Thom–Mather spaces are Thom–Mather spaces; the
+explicit normalised control data on 2.3(c) with `T₀ = ℝ²`, `π₀ = 0`, `ρ₀ = x² + y²`,
+`T₁ = {|y| < |x|}`, `π₁(x, y) = (sign x · √(x² + y²), 0)`, `ρ₁ = arctan(y/x)²`, `T₂ = X₂`,
+`π₂ = id`, `ρ₂ = 0`.
 *Needs:* 1.3; Mathlib `IsManifold`, `ContMDiff`, `Manifold.IsSubmersionAt`.
 
 **Checks.**
@@ -707,6 +725,15 @@ Thom–Mather spaces are Thom–Mather spaces; the explicit normalised control d
   `T_b = S`, `π_b(x) = (1, x₂)`, `ρ_b = (x₁ − 1)²`; `T_c = X_c`, `π_c = id`, `ρ_c = 0`. These are
   control data, not normalised: `T_a ∩ X_b ≠ ∅` with `a ≰ b`. Shrinking gives the
   normalised tube `T_a ∖ closure X_b` around `a`.
+- Negative control for properness: `X = ℝ²`, `X_i` the `x`-axis below `X_j = {y ≠ 0}`,
+  `T_i = {|y| < 1} ∪ {2 < y < 3}`, `π_i(x, y) = (x, 0)`, `ρ_i = y²` on the first piece and
+  `(y − 2)/(3 − y)` on the second, `T_j = X_j`, `π_j = id`, `ρ_j = 0`. These satisfy (A10) and the
+  control conditions, but `{ρ_i ≤ ε ∘ π_i}` accumulates on the line `{y = 2}`, outside `T_i`: the
+  tube is not proper, and the second piece is removed by the shrinking.
+- Negative control for (A11): on `ℝ²` with `X_h = {0}`, `X_i` and `X_{i'}` the two punctured axes
+  and `X_j = {xy ≠ 0}`, `h < i, i' < j`, a tube around `X_i` with a second piece in
+  `{x ≠ 0, 2 < y < 3}` meets the tube `{|x| < |y|}` around `X_{i'}` while `i` and `i'` are
+  incomparable; (A10) holds, (A11) fails, and the level curves of the two tubes cross.
 - Shrinking the `ℝ²` data by `ε = 1` gives `T₀(1)` the open unit disc.
 
 ### 5.2 Whitney's condition (b)
@@ -735,7 +762,8 @@ condition and (b) for every incident pair (Mather, §§6–7).
 ### 5.3 Existence of control data
 
 Every Whitney stratified closed subset of `E` is a Thom–Mather space with normalised control data
-(Mather, §7, followed by the normalisation of 5.1). The proof builds tubes from tubular
+(Mather, §7, followed by the normalisation of 5.1; Mather's tubes `|T|_ε` are images of
+`ε`-disc bundles, hence proper as built). The proof builds tubes from tubular
 neighbourhoods by downward induction on the strata, using (b) to make `(π_p, ρ_p)` a submersion
 near `X_p`.
 *Needs:* 5.1, 5.2; GeometricTopology Layer 1 (tubular neighbourhood theorem).
@@ -948,7 +976,11 @@ Define `glue(Σ) = (⊔_j Σ_j)/∼` with `∼` generated by `y ∼ s_ij(y)` for
 over `I` by sending the image of `Σ_j ∖ ⋃_i ∂_iΣ_j` to `j`. Prove: `glue(Σ)` is Hausdorff, compact
 when every `Σ_j` is; its stratum `j` is homeomorphic to `Σ_j ∖ ⋃_i ∂_iΣ_j`; it is conically
 stratified, the link of a point of stratum `i` over `b ∈ Σ_i` being `glue` of the fibre datum
-`(s_ij⁻¹(b))_{j > i}` over `I_{>i}`.
+`(s_ij⁻¹(b))_{j > i}` over `I_{>i}`. Own construction; the gluing follows the déplissage of
+Albin, Leichtnam, Mazzeo and Piazza, §2.3. Route: the relation is closed, since the `∂_iΣ_j` are
+closed and the `s_ij` continuous, and two points are separated by the images of collar
+neighbourhoods `c_ij(∂_iΣ_j × [0, δ))`; near a point of stratum `i` over `b`, local triviality of
+`s_ij` and the collars give a neighbourhood `U × C(glue(s_ij⁻¹(b))_{j>i})`.
 *Needs:* 2.2, 7.1.
 
 **Checks.**
@@ -962,8 +994,9 @@ stratified, the link of a point of stratum `i` over `b ∈ Σ_i` being `glue` of
 
 ### 7.3 Unfolding a Thom–Mather space
 
-Given a Thom–Mather space `X` over `I` with normalised control data, there are continuous
-`ε_i : X_i → (0, ∞)` such that `Σ_j = closure X_j ∖ ⋃_{i<j} T_i(ε_i)`,
+Given a Thom–Mather space `X` over `I` with normalised control data (5.1), there are smooth
+`ε_i : X_i → (0, ∞)`, below `ε⁰_i`, with `T_i(ε_i) ∩ π_i⁻¹(T_h(ε_h)) ⊆ T_h(ε_h)` for `h < i` (so
+that `s_ij = π_i` lands in `Σ_i`), such that `Σ_j = closure X_j ∖ ⋃_{i<j} T_i(ε_i)`,
 `∂_iΣ_j = Σ_j ∩ {ρ_i = ε_i ∘ π_i}`, `s_ij = π_i`, and collars from the flow of a controlled vector
 field transverse to the level sets of `ρ_i` form a smooth unfolding datum (Albin, Leichtnam,
 Mazzeo and Piazza, §2). The control conditions give `s_ik = s_ij ∘ s_jk`; the first isotopy lemma
@@ -977,6 +1010,9 @@ gives local triviality.
 - For the cone `{x² + y² = z²}`: `Σ₀ = {0}`, and `Σ₁` the cone minus an open ball around `0`, two
   copies of `S¹ × [√ε, ∞)` with `∂₀Σ₁` the two boundary circles.
 - For `[0, 1]` with `T_a = [0, 1/2)`, `ρ_a = x²`, and symmetrically at `1`: `Σ_c = [√ε, 1 − √ε]`.
+- Normalisation is needed: with the non-proper tube of 5.1's negative control, `Σ_j` contains the
+  line `{y = 2}` as a boundary hypersurface lying in no `∂_iΣ_j`, and the stratum `j` of
+  `glue(Σ)` has three components against two for `X_j`.
 
 ### 7.4 Reconstruction
 
@@ -1005,7 +1041,8 @@ fibre of `Σ_{d'} → Σ_d` is the union of the sets indexed by the nonempty cha
 `i_l < i_{l+1}` with `l ≥ p` is a covering; (c) for a datum from 7.3, with nonempty strata and `I`
 the incidence order, every one of these sets is nonempty, so the fibres are boundaryless exactly
 when every step `i_l < i_{l+1}` with `l ≥ p` is a covering. The condition involves `i_p, …, i_n`
-and not `i_1, …, i_{p−1}`.
+and not `i_1, …, i_{p−1}`. Own statement; the fibrations between faces are those of Albin,
+Leichtnam, Mazzeo and Piazza, §2.
 *Needs:* 6.3, 7.1, 7.3.
 
 **Checks.**
@@ -1023,7 +1060,7 @@ strict partial order; the index map `Σ → I` is locally constant and strictly 
 `y ∈ Σ_j`, `{x | x < y}` is a finite chain whose cardinality, in a smooth datum, is the corner
 depth of `y` in the manifold with corners `Σ_j` (6.1), not the depth of a stratum (Convention 6);
 `∂_iΣ_j` is the set of `y ∈ Σ_j` with some `x < y` in `Σ_i`, and `s_ij y` is the unique such `x`.
-Hence the datum without collars is determined by `(Σ, <, Σ → I)`.
+Hence the datum without collars is determined by `(Σ, <, Σ → I)`. Own reformulation of 7.1.
 *Needs:* 6.1, 7.1.
 
 **Checks.**
@@ -1038,10 +1075,11 @@ Hence the datum without collars is determined by `(Σ, <, Σ → I)`.
 
 For `i ≤ j ≤ k` in a Thom–Mather space with normalised control data, let
 `M^j_{ik} = (T_i ∩ closure X_k) ∖ ⋃_{j ≤ l < k} X_l`. Prove: `M^i_{ik} = T_i ∩ X_k` (a point of
-`T_i ∩ closure X_k` lies in a stratum `l` with `i ≤ l` by normalisation and `l ≤ k` by Convention
-1), `M^k_{ik} = T_i ∩ closure X_k`, `j ↦ M^j_{ik}` is monotone, and over a small open `U ⊆ X_i`,
-`π_i : M^j_{ik} ∩ π_i⁻¹(U) → U` is trivial with fibre the subset of `C(L_i) ∩ closure X_k`
-obtained by deleting the strata indexed in `[j, k[`.
+`T_i ∩ closure X_k` lies in a stratum `l` with `i ≤ l` by (A10) and `l ≤ k` by Convention 1; only
+(A10) is used here), `M^k_{ik} = T_i ∩ closure X_k`, `j ↦ M^j_{ik}` is monotone, and over a small
+open `U ⊆ X_i`, `π_i : M^j_{ik} ∩ π_i⁻¹(U) → U` is trivial with fibre the subset of
+`C(L_i) ∩ closure X_k` obtained by deleting the strata indexed in `[j, k[`. Own construction, after
+Mather's tubes `T_{X,Y}` (Mather, §8).
 *Needs:* 5.1, 5.5.
 
 **Checks.**
@@ -1120,19 +1158,12 @@ Layers 4 and 5, and 7.3–7.4 for 8.3. Within the layer, 8.2 uses 8.1 and 8.3 us
 
 ## Downstream consumers
 
-No roadmap on main cites this one. Among roadmaps under review: ShimuraVarieties §3.5a imports
+No roadmap on main cites this one. Among open roadmap pull requests: ShimuraVarieties §3.5a imports
 Layer 4 (o-minimal structures, both parts of the cell decomposition theorem, piecewise continuity
 and dimension with its independence, bijection-invariance, union and frontier laws) for the
 structure `ℝ_an,exp`, and proves the product, projection and fibre-dimension laws there;
 ImplicitAtlases Layer 6.1 stratifies each thickening over a finite poset with the sets `X^{≥s}`
 open, which is a stratification in the sense of 1.1.
-
-## Research context
-
-Grothendieck's *Esquisse d'un programme*, §5, proposes a "tame topology" suited to stratified
-structures; o-minimal structures are a framework for it. His notes on stratified spaces are in the
-University of Montpellier's collection (Montpellier fonds, folder 150, p. 11,
-https://grothendieck.umontpellier.fr/150.pdf).
 
 ## References
 
@@ -1176,4 +1207,5 @@ https://grothendieck.umontpellier.fr/150.pdf).
   (N.S.)* 29 (2023), Paper No. 68, doi:10.1007/s00029-023-00877-4; numbering of arXiv:2105.09243:
   Theorem 1.1 (abstract stratified sets) and Theorem 2.25 (Whitney stratified spaces).
 - A. Grothendieck, *Esquisse d'un programme* (1984), §5 ("tame topology"), in *Geometric Galois
-  Actions 1*, LMS Lecture Note Series 242 (1997).
+  Actions 1*, LMS Lecture Note Series 242 (1997). His notes on stratified spaces are in the
+  Montpellier fonds, folder 150, p. 11, https://grothendieck.umontpellier.fr/150.pdf.
