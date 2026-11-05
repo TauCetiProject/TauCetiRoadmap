@@ -15,8 +15,7 @@ The roadmap is `README.md`; this file is not the roadmap. It states the roadmap'
 theorems that are statable against the pinned Mathlib and Tau Ceti, each with `sorry`, together
 with the few definitions (real bodies on native carriers) that those statements need.
 
-Stated here: the von Neumann bicommutant theorem for the weak operator closure of a unital star
-subalgebra (§0.1); star compatibility of counit and antipode and the weighted Schur orthogonality
+Stated here: star compatibility of counit and antipode and the weighted Schur orthogonality
 relations on a Hopf *-algebra with a positive invariant functional (§3.1); the algebraic
 compact-type equivalence (§4.1); the free orthogonal coefficient relation with its cup invariance
 and the `SUq(2)` relations as unitarity of the fundamental matrix (Layer 5); and, for the generic
@@ -28,10 +27,11 @@ finite modules.
 
 Not statable at the pins:
 
-* Layer 0 apart from §0.1: Hilbert-module adjointable and compact operators, interior tensor
-  products, C*-categories with standard conjugates, the positive Temperley–Lieb completions and
-  the full left Hilbert algebra with its canonical weight are constructions of the roadmap; no
-  carrier for any of them exists at the pins.
+* Layer 0: Hilbert-module adjointable and compact operators, interior tensor products,
+  C*-categories with standard conjugates and the positive Temperley–Lieb completions are
+  constructions of the roadmap; no carrier for any of them exists at the pins. The bicommutant
+  theorem, Tomita–Takesaki theory and full left Hilbert algebras are VonNeumannAlgebras' targets
+  and are not restated here.
 * Layer 1 existence and uniqueness of the Haar state of a compact quantum group, and every
   Layer 1, 2, 4 and 7 statement about a C*-bialgebra `Δ : A → A ⊗_min A`: neither Mathlib nor Tau
   Ceti has the minimal (spatial) C*-tensor product of two C*-algebras.
@@ -41,7 +41,8 @@ Not statable at the pins:
 * §§3.2–3.4, the modular identity `h(ab) = h(b θ(a))`, the Woronowicz characters `f_z`, the Kac
   equivalences and the Tomita comparison: the characters need the complex powers `F^z` of the
   positive matrix of every irreducible block of the Peter–Weyl decomposition of the core, which
-  is a construction of §3.1, and the Tomita comparison needs the full left Hilbert algebra.
+  is a construction of §3.1, and the Tomita comparison needs the full left Hilbert algebra of
+  VonNeumannAlgebras Layer 11, which has no carrier at the pins.
 * Layer 4 universal and reduced completions and the coamenability criteria: they need the
   C*-envelope of a Hopf *-algebra and the minimal tensor product above.
 * Layer 6 Tannaka–Krein reconstruction: there is no unitary rigid C*-tensor category, dagger
@@ -63,19 +64,6 @@ namespace TauCetiRoadmap.QuantumGroups
 @[expose] public section
 
 universe u v w
-
-/-! ## Layer 0: Analytic and categorical foundations -/
-
-/-- The bicommutant theorem (§0.1): the weak operator closure of a unital star subalgebra `B` of
-the bounded operators on a complex Hilbert space `H`, of any dimension, is its double commutant
-`B″` (Hiai, *Lectures on Selected Topics in von Neumann Algebras*, §1.2). -/
-theorem weakClosure_eq_bicommutant (H : Type u) [NormedAddCommGroup H]
-    [InnerProductSpace ℂ H] [CompleteSpace H]
-    (B : StarSubalgebra ℂ (H →L[ℂ] H)) :
-    closure (ContinuousLinearMapWOT.ofCLM '' (B : Set (H →L[ℂ] H))) =
-      ContinuousLinearMapWOT.ofCLM ''
-        Set.centralizer (Set.centralizer (B : Set (H →L[ℂ] H))) := by
-  sorry
 
 /-! ## Layer 3: The Hopf *-core, orthogonality and modular data -/
 
