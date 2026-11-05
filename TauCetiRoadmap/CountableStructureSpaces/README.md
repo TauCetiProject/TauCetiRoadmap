@@ -237,8 +237,10 @@ Build, for every language `L` and carrier `α`:
   where decoding fails, with `isClosedEmbedding_queryCode`. That decoder need not be injective on
   the indices where it succeeds, so the range is the closed set of sequences that are `false`
   where decoding fails and agree at any two indices decoding to the same query;
-- **cardinality**: `mk_structureSpaceOn_le_continuum`, and equality with the continuum when `α`
-  is infinite and `L` has a relation symbol of positive arity;
+- **cardinality**: under `[Countable (Σ l, L.Relations l)] [Countable α]`,
+  `mk_structureSpaceOn_le_continuum`, and equality with the continuum when moreover `α` is
+  infinite and `L` has a relation symbol of positive arity. Without these hypotheses the space
+  has cardinality `2 ^ #(RelQueryOn L α)`: one unary predicate on `ℝ` already gives `2 ^ 𝔠`;
 - the **graph coding** `graphCode : SimpleGraph ℕ → StructureSpace Language.graph`,
   `G ↦ ofStructure G.structure`, a measurable embedding for Mathlib's σ-algebra on graphs, whose
   range is the closed set of codes of symmetric irreflexive relations.
