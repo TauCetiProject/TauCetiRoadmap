@@ -247,8 +247,9 @@ This example pins the distinction; the class at $`m=0`$ consists of empty struct
 ### 2.1 Chains, factorization and extension requests
 
 Use sequences of embeddings and Mathlib's direct limits. Supply transition, canonical-map,
-composition and range lemmas. Prove that every finitely generated substructure of the
-direct limit lies in a stage image, and that an embedding from a finitely generated
+composition and range lemmas. That every finitely generated substructure of the direct limit
+lies in a stage image is Mathlib's `FirstOrder.Language.DirectLimit.exists_fg_substructure_in_Sigma`;
+use it rather than restating it. Prove that an embedding from a finitely generated
 structure factors through a stage with the literal equation
 
 ```math
