@@ -23,6 +23,7 @@ import TauCeti.Algebra.Category.ModuleCat.CartanMap.Morita
 import TauCeti.Algebra.Homology.EulerCharacteristic.ExtEuler.Descent
 import TauCeti.Algebra.Homology.EulerCharacteristic.ExtEuler.DualNumbers
 import TauCeti.Algebra.Homology.EulerCharacteristic.ExtEuler.Numerical
+import TauCeti.Algebra.Homology.EulerCharacteristic.ExtEuler.Graded.Numerical
 import TauCeti.Algebra.Homology.EulerCharacteristic.ExtEuler.Graded.Descent
 import TauCeti.Algebra.Homology.EulerCharacteristic.ExtEuler.Graded.Sesquilinear
 import TauCeti.Algebra.Homology.EulerCharacteristic.ExtEuler.Graded.ForgetGrading
@@ -74,10 +75,8 @@ breaks this file. Realized at the pin:
   (`TauCeti.ExactStructure.IsResolving.resolutionEquiv`,
   `TauCeti.ExactStructure.IsResolving.eulerHom`), the comparison theorem and horseshoe lemma for
   finite projective resolutions (`TauCeti.ExactStructure.FiniteResolution.lift`,
-  `TauCeti.ExactStructure.FiniteResolution.horseshoe`), the graded resolution theorem and its
-  compatibility with forgetting the grading
-  (`TauCeti.GradedExactStructure.IsResolving.laurentResolutionEquiv`,
-  `TauCeti.GradedExactStructure.IsResolving.forgetGrading_laurentResolutionEquiv`), and for
+  `TauCeti.ExactStructure.FiniteResolution.horseshoe`), the graded resolution theorem
+  (`TauCeti.GradedExactStructure.IsResolving.laurentResolutionEquiv`), and for
   linear graded resolutions the forward direction of the diagonal criterion, that a linear
   resolution forces the bigraded Ext against a target concentrated in one internal degree to
   vanish off the diagonal, together with minimality over a nonnegatively graded algebra
@@ -89,7 +88,9 @@ breaks this file. Realized at the pin:
   README and is not stated here.
 * Layer 4: the Cartan map and its bijectivity under finite projective resolutions
   (`TauCeti.cartanMap`, `TauCeti.cartanEquiv`), Morita invariance
-  (`CategoryTheory.Equivalence.cartanMap_bijective_iff`), the perfect projective/simple
+  (`CategoryTheory.Equivalence.cartanMap_bijective_iff`), the indecomposable-projective and
+  simple-class bases over an Artinian ring (`TauCeti.indecomposableProjectiveClassBasis`,
+  `TauCeti.simpleClassBasis`), the perfect projective/simple
   multiplicity pairing (`TauCeti.projectiveSimplePairing_isPerfPair`), the Cartan matrix with
   `C i j = [P j : S i]` (`TauCeti.cartanMatrix`, `TauCeti.cartanMap_of_eq_sum`), its determinant
   `±1` (`TauCeti.cartanMatrix_det_eq_one_or_neg_one`), the dual-number boundary
@@ -108,9 +109,12 @@ breaks this file. Realized at the pin:
   the quiver comparison with the Ringel and Tits forms (`TauCeti.extEuler_eq_eulerForm_dimVector`,
   `TauCeti.extEulerPairing_add_flip_eq_titsPolarForm`), the `E₈` check
   (`TauCeti.Quiver.E8.extEulerMatrix_add_transpose`,
-  `TauCeti.Quiver.E8.posDef_map_intCast_extEulerMatrix_add_transpose`), and the bigraded Ext-Euler
+  `TauCeti.Quiver.E8.posDef_map_intCast_extEulerMatrix_add_transpose`), the bigraded Ext-Euler
   characteristic with its descent (`TauCeti.IsGradedEulerAdmissible`, `TauCeti.gradedExtEuler`,
-  `TauCeti.gradedExtEulerPairing`).
+  `TauCeti.gradedExtEulerPairing`), and the graded/ungraded Ext comparison with its transfer of
+  Euler admissibility and its single-degree instance (`TauCeti.IsGradedExtComparison`,
+  `TauCeti.IsGradedExtComparison.isEulerAdmissible`,
+  `TauCeti.isGradedExtComparison_of_subsingleton_ne`).
 * Layer 6: the Laurent module structure `[M{n}] = qⁿ[M]` (`TauCeti.LaurentK0.T_smul`), the
   sesquilinear q-Euler form with its two shift laws (`TauCeti.gradedExtEulerSesquilinear`,
   `TauCeti.gradedExtEulerSesquilinear_T_smul_left`,
@@ -120,11 +124,13 @@ breaks this file. Realized at the pin:
   (`TauCeti.IsGradedExtComparison.laurentEval_one_gradedExtEuler`), the factorization of the
   forgetful map through the `q = 1` base change and its injectivity criterion
   (`TauCeti.LaurentK0.forgetGradingEquiv`, `TauCeti.LaurentK0.forgetGradingMap_injective_iff`),
+  the agreement of the graded and ungraded resolution theorems after forgetting the grading
+  (`TauCeti.GradedExactStructure.IsResolving.forgetGrading_laurentResolutionEquiv`),
   and the minimal graded check (`TauCeti.GradedVectorSpace.isGradedExtComparison_unit`).
 * Layer 7: the left and right numerical quotients with their radical descriptions and the
   nondegenerate descended pairing (`TauCeti.ExtEulerLeftNumericalQuotient`,
   `TauCeti.ExtEulerRightNumericalQuotient`, `TauCeti.mem_extEulerLeftRadical_iff`,
-  `TauCeti.extEulerNumericalPairing_nondegenerate`).
+  `TauCeti.mem_gradedExtEulerLeftRadical_iff`, `TauCeti.extEulerNumericalPairing_nondegenerate`).
 * Worked examples: finite-dimensional vector spaces (`TauCeti.SplitK0.finrankEquiv`,
   `TauCeti.AbelianK0.finrankEquiv`).
 
@@ -134,8 +140,8 @@ isomorphism when every finite graded module has a finite resolution by finite gr
 graded Ext comparison for the path-length grading (`isGradedExtComparison_toModuleCat_pathAlgebra`),
 after which its `q = 1` specialization is the pinned `laurentEval_one_gradedExtEuler`.
 
-Not statable at the pins: the Poincaré-matrix form of the Layer 3 identity between a linear
-resolution of the graded simples and the graded Cartan matrix. Its `K₀`-level content is the
+Not statable at the pins: the Poincaré-matrix form of the Layer 4 identity between the Betti
+Poincaré matrix of the graded simples (Layer 3) and the graded Cartan matrix. Its `K₀`-level content is the
 alternating-class inverse of `gradedCartanMap_bijective`, but the pinned categorical
 `TauCeti.ExactStructure.FiniteResolution` exposes no per-term multiplicities from which the
 matrix-valued Betti series could be formed, and the pinned minimality predicate
@@ -183,7 +189,6 @@ def ExactStructure.Conflation {C : Type u} [Category.{v} C] [Preadditive C] [Has
 #check @TauCeti.ExactStructure.FiniteResolution.lift
 #check @TauCeti.ExactStructure.FiniteResolution.horseshoe
 #check @TauCeti.GradedExactStructure.IsResolving.laurentResolutionEquiv
-#check @TauCeti.GradedExactStructure.IsResolving.forgetGrading_laurentResolutionEquiv
 #check @TauCeti.GradedProjectiveResolution.IsLinear.subsingleton_ext_of_ne
 #check @TauCeti.GradedProjectiveResolution.IsLinear.isMinimal
 
@@ -192,6 +197,8 @@ def ExactStructure.Conflation {C : Type u} [Category.{v} C] [Preadditive C] [Has
 #check @TauCeti.cartanMap
 #check @TauCeti.cartanEquiv
 #check @CategoryTheory.Equivalence.cartanMap_bijective_iff
+#check @TauCeti.indecomposableProjectiveClassBasis
+#check @TauCeti.simpleClassBasis
 #check @TauCeti.projectiveSimplePairing_isPerfPair
 #check @TauCeti.cartanMatrix
 #check @TauCeti.cartanMap_of_eq_sum
@@ -236,6 +243,9 @@ theorem gradedCartanMap_bijective {k : Type u} [CommRing k] {A : Type v} [Ring A
 #check @TauCeti.IsGradedEulerAdmissible
 #check @TauCeti.gradedExtEuler
 #check @TauCeti.gradedExtEulerPairing
+#check @TauCeti.IsGradedExtComparison
+#check @TauCeti.IsGradedExtComparison.isEulerAdmissible
+#check @TauCeti.isGradedExtComparison_of_subsingleton_ne
 
 open TauCeti in
 /-- **The graded Ext comparison for the path-length grading.** For finitely generated graded
@@ -270,11 +280,13 @@ theorem isGradedExtComparison_toModuleCat_pathAlgebra
 #check @TauCeti.IsGradedExtComparison.laurentEval_one_gradedExtEuler
 #check @TauCeti.LaurentK0.forgetGradingEquiv
 #check @TauCeti.LaurentK0.forgetGradingMap_injective_iff
+#check @TauCeti.GradedExactStructure.IsResolving.forgetGrading_laurentResolutionEquiv
 #check @TauCeti.GradedVectorSpace.isGradedExtComparison_unit
 
 #check @TauCeti.ExtEulerLeftNumericalQuotient
 #check @TauCeti.ExtEulerRightNumericalQuotient
 #check @TauCeti.mem_extEulerLeftRadical_iff
+#check @TauCeti.mem_gradedExtEulerLeftRadical_iff
 #check @TauCeti.extEulerNumericalPairing_nondegenerate
 
 #check @TauCeti.SplitK0.finrankEquiv

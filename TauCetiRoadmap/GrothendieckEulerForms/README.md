@@ -513,12 +513,16 @@ application; do not attribute them to arbitrary resolving objects.
 Redo the whole layer for a graded exact category with its shift `{1}`:
 graded finite `P`-resolutions with their internal degrees recorded, graded resolving
 subcategories, the graded Euler class, the graded resolution theorem, and graded comparison and
-horseshoe.  Prove that forgetting the grading sends a graded resolution to an ungraded one and
-that the two Euler classes agree under the `q = 1` specialization of §6.5.
-*Needs:* §§2.6, 3.1--3.5; §6.5 for the `q = 1` base change in which the agreement of the two Euler
-classes is stated; Tau Ceti `TauCeti.GradedExactStructure.IsResolving.laurentResolutionEquiv` and
-`TauCeti.GradedExactStructure.IsResolving.forgetGrading_laurentResolutionEquiv` in
-`TauCeti.CategoryTheory.GrothendieckGroup.Laurent.Resolving`.
+horseshoe.  The graded resolution theorem is an isomorphism of the graded `K₀` groups of §2.6
+commuting with the shift action; the landed form states it as a `ℤ[q,q⁻¹]`-linear equivalence on
+`TauCeti.LaurentK0`, which as a group is the graded exact `K₀` of §2.6.  Prove that a
+conflation-exact functor `U` to an ungraded exact category carrying `P` into an object property
+`P'` sends a graded finite `P`-resolution of `X` termwise to a finite `P'`-resolution of `U X`.
+The agreement of the graded and ungraded Euler classes after forgetting the grading is stated in
+§6.6, where the `q = 1` base change it needs exists.
+*Needs:* §§2.6, 3.1--3.5; Tau Ceti `TauCeti.GradedExactStructure.IsResolving.laurentResolutionEquiv`
+in `TauCeti.CategoryTheory.GrothendieckGroup.Laurent.Resolving` and
+`TauCeti.ExactStructure.FiniteResolution.map` in `TauCeti.CategoryTheory.Exact.Resolution.Basic`.
 
 ### 3.7 Linear resolutions and the Koszul boundary
 
@@ -543,17 +547,35 @@ for bounded-below modules (landed as
 is generated in degree `i`.  Only the forward direction is landed; the converse is a target of
 this subsection.  Prove that a linear resolution over a nonnegatively graded algebra is minimal
 (landed as `TauCeti.GradedProjectiveResolution.IsLinear.isMinimal`).  Define the
-matrix-valued Betti Poincaré series using the multiplicities of graded
-projectives in that minimal resolution, retaining both homological and internal degrees.
-The alternating Euler identity with the graded Cartan matrix is coefficientwise, under
-local finiteness and the degreewise finiteness that makes each coefficient a finite sum.
-Under diagonal support it specializes to the one-variable inverse with `q ↦ -q`; a converse
-stated using Betti series must retain that support/comparison data. Do not infer Koszulity
-merely from a numerical Hilbert-series identity for a separately named quadratic dual.  This is the vocabulary in which Koszulity is stated: **this layer supplies the
+matrix-valued Betti Poincaré series of a graded module `M` with a minimal graded projective
+resolution `P` by finitely generated terms: writing `P_n ≅ ⊕_{i,d} P_i{d}^{β^n_{i,d}(M)}` over the
+indecomposable graded projectives `P_i`, the entry of `M` at `P_i` is
+`∑_{n,d} β^n_{i,d}(M) q^d t^n`, which retains both the homological degree `t` and the internal
+degree `q`; for the family of graded simples `S_j` the entries form the matrix with rows `P_i`
+and columns `S_j`.  Prove that the series does not depend on the minimal resolution, that the
+resolution is linear exactly when every entry is supported on the diagonal `d = n`, and that
+the series of `M{1}` is `q` times the series of `M`.  Its Euler identity with the graded Cartan
+matrix is §4.5.  This is the vocabulary in which Koszulity is stated: **this layer supplies the
 definition and its elementary equivalences, and the duality theorems which use them belong to
 the DG/`A∞` roadmap's relative-Koszul layer and to the zigzag roadmap.**  Fixing it here keeps
 one notion of linearity for both, rather than two.
-*Needs:* §§3.5--3.6; §4.5 for the graded Cartan matrix in the Euler identity; Mathlib
+
+**Checks.**
+- For `Q = 1 ⟶ 2` with the path-length grading, the linear resolution `0 → P₂{1} → P₁ → S₁ → 0`
+  and the resolution `P₂ → S₂` give the matrix `[[1, 0], [q t, 1]]` with rows `(P₁, P₂)` and
+  columns `(S₁, S₂)`.  A convention transposing rows and columns gives `[[1, q t], [0, 1]]`, and
+  the convention `(M{j})_p = M_{p+j}`, under which the kernel `k·a`, with `a` in degree `1`, is
+  `P₂{-1}`, gives the entry `q⁻¹ t`; the convention `(M{j})_p = M_{p-j}` of this roadmap gives `q t`.
+- Over `A = k[x]` with `x` in degree `1`, the module `k[x]/(x²)` has the minimal resolution
+  `0 → A{2} → A → M → 0` and the series `1 + q² t`.  The term `q² t` lies off the diagonal, so the
+  resolution is minimal and not linear; a series recording only the homological degree reads
+  `1 + t` and cannot see this.
+- Over the dual numbers with `ε` in degree `1`, the simple `k` has the minimal resolution
+  `⋯ → A{2} → A{1} → A → k` and the series `∑_n qⁿ tⁿ`: diagonal support with infinitely many
+  terms.  Each coefficient is a finite sum, which is all the definition asks; the simple has no
+  finite projective resolution, so a definition that reads the series off a finite resolution has
+  no value here.
+*Needs:* §§3.5--3.6; Mathlib
 `CategoryTheory.Abelian.Ext`, `HasExt`, semisimple rings and modules; Tau Ceti
 `TauCeti.GradedProjectiveResolution.IsLinear` and `TauCeti.GradedProjectiveResolution.IsMinimal` in
 `TauCeti.Algebra.Module.GradedModule.Resolution`,
@@ -596,13 +618,17 @@ standard notation fixed above.
 ### 4.1 The two groups
 
 Define `K₀(proj A)` and `G₀(mod A)` through Layers 2--3.  Prove Morita and
-algebra-equivalence invariance.  Under the explicit finite, basic/split, and Krull--Schmidt
-hypotheses supplied by the quiver roadmap, prove that indecomposable projective classes form a
-basis of `K₀(proj A)` and simple classes form a basis of `G₀(mod A)`.
+algebra-equivalence invariance.  Under the explicit finite and Krull--Schmidt hypotheses
+supplied by the quiver roadmap, over an arbitrary field `k`, prove that indecomposable projective
+classes form a basis of `K₀(proj A)` and simple classes form a basis of `G₀(mod A)`: the landed
+bases ask only for an Artinian ring and exhaustive pairwise nonisomorphic families, and no
+splitting hypothesis enters before the Hom-dimension identification of §4.2.
 *Needs:* §§0.5, 2.1, 2.3; QuiverRepresentations Layers 2--3 (Krull--Schmidt, finite-dimensional
 algebras, projective covers, simples); Tau Ceti `TauCeti.finiteProjectiveModules` in
-`TauCeti.Algebra.Category.ModuleCat.CartanMap.Basic` and
-`CategoryTheory.Equivalence.cartanMap_bijective_iff` in `TauCeti.Algebra.Category.ModuleCat.CartanMap.Morita`.
+`TauCeti.Algebra.Category.ModuleCat.CartanMap.Basic`,
+`CategoryTheory.Equivalence.cartanMap_bijective_iff` in `TauCeti.Algebra.Category.ModuleCat.CartanMap.Morita`,
+and `TauCeti.simpleClassBasis` and `TauCeti.indecomposableProjectiveClassBasis` in
+`TauCeti.RepresentationTheory.GrothendieckGroup.{SimpleBasis,ProjectiveBasis}`.
 
 ### 4.2 The projective/simple pairing
 
@@ -654,10 +680,19 @@ this layer uses is a graded finite-dimensional algebra with graded simples and g
 projective covers, where `𝒜` is a decomposition, the source is `K₀^gr(proj A)` with its split
 structure, and the graded Cartan matrix has `(i,j)` entry the graded multiplicity
 `∑_d q^d [P_j : S_i{d}]`.  Prove that forgetting the grading recovers the ungraded Cartan map,
-and that setting `q = 1` recovers the ungraded matrix.  When the simples have linear resolutions
-in the sense of §3.7, relate the graded Cartan matrix to the inverse of the graded Poincaré
-matrix under `q ↦ -q`.
-*Needs:* §§2.6, 3.6, 4.3--4.4; §3.7 for the linear resolutions of the Poincaré-matrix relation; Mathlib
+and that setting `q = 1` recovers the ungraded matrix.  When the graded simples have minimal
+graded projective resolutions by finitely generated terms, prove the alternating Euler identity
+`C(q) · B(q, -1) = I` between the graded Cartan matrix `C(q)`, with rows `S_i` and columns `P_j`,
+and the Betti Poincaré matrix `B(q, t)` of §3.7, with rows `P_i` and columns `S_j`, evaluated at
+`t = -1`.  It holds coefficientwise in `q` under local finiteness and the degreewise finiteness
+that makes each coefficient a finite sum; when the resolutions are finite it is an identity of
+Laurent-polynomial matrices, the matrix form of the inverse of `gradedCartanMap_bijective`,
+which writes `[S_j]` as the alternating sum of the classes of the terms of its resolution.  When
+the resolutions are linear in the sense of §3.7, so that the support is diagonal, it is the
+one-variable identity `C(q) · P(-q) = I` for the Poincaré matrix `P(q) = B(q, 1)`.  A converse
+stated using Betti series must retain that support data; do not infer Koszulity merely from a
+numerical Hilbert-series identity for a separately named quadratic dual.
+*Needs:* §§2.6, 3.6--3.7, 4.3--4.4; Mathlib
 `LaurentPolynomial`; Tau Ceti `TauCeti.gradedFiniteModules`, `TauCeti.gradedFiniteProjectiveModules`,
 `TauCeti.gradedCartanMap`, `TauCeti.gradedCartanMatrix` and
 `TauCeti.toMatrix_cartanMap_eq_map_gradedCartanMatrix` in
@@ -707,6 +742,17 @@ For an additive invariant `a` from objects of an additive/exact
 category to an abelian group, define the signed sum of a finitely supported `ℤ`-graded family.
 The input includes an explicit finite support or bounds; it is not inferred from the value of
 `finsum`.  Prove reindexing, shift/sign, direct-sum, and finite-exact-sequence formulas.
+
+**Checks.**
+- A family supported in degrees `0` and `1` with values `a` and `b` has signed sum `a - b`, and
+  the same family shifted to degrees `1` and `2` has signed sum `b - a`; a definition that ignores
+  the sign attached to the degree returns `a + b` for both.
+- The empty family has signed sum `0`, and a family that vanishes outside a declared support has
+  the same signed sum for every larger declared support; a definition whose value depends on the
+  declared bounds rather than on the family fails the second test.
+- The constant family with value `a ≠ 0` in every degree of `ℤ` has no finite support and is
+  refused: Mathlib's `finsum` of it is `0`, and a definition that read that value would assign an
+  Euler characteristic to a family that has none.
 *Needs:* §§2.1--2.2; Mathlib `finsum`, `ComplexShape.EulerCharSigns` and `GradedObject.eulerChar`.
 
 ### 5.2 Bounded complexes and Euler--Poincaré
@@ -793,9 +839,36 @@ Redo the layer for a graded abelian category: bigraded
 the graded long exact sequences in both variables, and descent to graded `K₀`.  Keep the two
 finiteness conditions separate, exactly as in the ungraded case.  The Laurent-polynomial
 packaging of the resulting bigraded numbers is §§6.2--6.3; the bigraded groups and their additivity
-are here.
+are here.  Define the graded/ungraded Ext comparison for a pair `(X, Y)` of the graded category
+and a pair `(X', Y')` of an ungraded `k`-linear abelian category: for every cohomological degree
+`n`, a `k`-linear isomorphism `⊕_j Ext^n_gr(X, Y{j}) ≅ Ext^n(X', Y')` (the landed
+`TauCeti.IsGradedExtComparison`).  The intended pairs are `(U X, U Y)` for a functor `U`
+forgetting the grading, but the predicate mentions no functor and no coefficient ring, and a
+functor with `{1} ⋙ U ≅ U` does not by itself supply the isomorphisms.  Prove that a comparison
+carries graded Euler-admissibility of `(X, Y)` to Euler-admissibility of `(X', Y')`, and that a
+pair whose bigraded Ext vanishes outside one internal degree `d` is compared with `(X, Y{d})`
+inside the graded category itself.  The identity of Euler characteristics at `q = 1` that a
+comparison yields is §6.6.
+
+**Checks.**
+- For the path-length-graded `kQ` with `Q = 1 ⟶ 2`, the pair `(S₁, S₂)` and its underlying
+  ungraded pair: `Ext¹_gr(S₁, S₂{j})` is `k` for `j = 1` and `0` otherwise, and `Ext¹(S₁, S₂) = k`,
+  so the comparison holds in degree `1` with the sum concentrated in `j = 1`; in degree `0` both
+  sides are `0`.
+- For one vertex with two loops `x`, `y`, the module `X = kQ/(x yⁿ : n ≥ 0)` against the simple
+  `S`: the forgetful functor is shift-compatible and the comparison holds in degree `0`, where
+  both sides are `k`, but fails in degree `1`, where `⊕_j Ext¹_gr(X, S{j}) ≅ ⊕_ℕ k` and
+  `Ext¹(X, S) ≅ ∏_ℕ k`.  A predicate asking only for a shift-compatible functor, or only for the
+  degree-`0` isomorphism, accepts this pair.
+- A one-dimensional graded vector space `M` concentrated in internal degree `0`, with its
+  underlying ungraded space: `Ext⁰_gr(M, M{j})` is `k` for `j = 0` and `0` otherwise, `Ext⁰(U M, U M) = k`,
+  and every higher term is `0` on both sides, so the comparison holds and the single-degree
+  criterion applies with `d = 0`.
 *Needs:* §§2.6, 5.3--5.5; Tau Ceti `TauCeti.IsGradedEulerAdmissible`, `TauCeti.gradedExtEuler` and
-`TauCeti.gradedExtEulerPairing` in `TauCeti.Algebra.Homology.EulerCharacteristic.ExtEuler.Graded.{Basic,Descent}`.
+`TauCeti.gradedExtEulerPairing` in `TauCeti.Algebra.Homology.EulerCharacteristic.ExtEuler.Graded.{Basic,Descent}`,
+and `TauCeti.IsGradedExtComparison`, `TauCeti.IsGradedExtComparison.isEulerAdmissible` and
+`TauCeti.isGradedExtComparison_of_subsingleton_ne` in
+`TauCeti.Algebra.Homology.EulerCharacteristic.ExtEuler.Graded.ForgetGrading`.
 
 ### 5.8 Quiver comparison
 
@@ -803,14 +876,14 @@ For a finite acyclic quiver, prove that the categorical Ext-Euler form
 agrees with Tau Ceti's Ringel form on dimension vectors and with the landed projective evaluation.
 Its symmetrization agrees with `titsPolarForm`; the raw form remains nonsymmetric.  Do the graded
 version too: with the path-length grading on `kQ`, prove the corresponding statement for the
-bigraded Ext-Euler form, and prove that it specializes at `q = 1` to the ungraded one through the
-comparison hypotheses of §6.6: for a finite acyclic quiver, that is a finite quiver whose
+bigraded Ext-Euler form, and prove the graded Ext comparison of §5.7 for the forgetful functor:
+for a finite acyclic quiver, that is a finite quiver whose
 path algebra is finite-dimensional (by `TauCeti.module_finite_pathAlgebra_iff`, exactly when
 `Q` has finitely many paths), and finitely generated graded modules `X`, `Y` over the
-path-length-graded `kQ`, the forgetful functor to ungraded modules satisfies the graded Ext
-comparison `⊕_j Ext^n_gr(X,Y{j}) ≅ Ext^n(U X,U Y)` in every degree
-(`isGradedExtComparison_toModuleCat_pathAlgebra`), after which the specialization is the
-general theorem `laurentEval_one_gradedExtEuler`.  The route: a finitely generated graded
+path-length-graded `kQ`, the forgetful functor to ungraded modules satisfies
+`⊕_j Ext^n_gr(X,Y{j}) ≅ Ext^n(U X,U Y)` in every degree
+(`isGradedExtComparison_toModuleCat_pathAlgebra`).  Its specialization at `q = 1` to the
+ungraded form is the general theorem of §6.6 applied to this comparison.  The route: a finitely generated graded
 module over a finite-dimensional nonnegatively graded algebra has a graded projective
 resolution by finitely generated graded free modules, forgetting the grading sends it to a
 projective resolution, and `Hom(U P, U Y) = ⊕_j Hom_gr(P, Y{j})` termwise for finitely
@@ -822,12 +895,12 @@ the simple module `S` the restriction `Hom(kQ,S) → Hom(Ω,S)` is zero, so
 `0` otherwise, so `⊕_j Ext¹_gr(X,S{j}) ≅ ⊕_ℕ k`, of countable dimension: no comparison
 isomorphism exists in degree one.  The graded statement, not the ungraded one, is what the
 zigzag roadmap's graded Cartan matrix `(1+q²)I + qA` is compared against.
-*Needs:* §§3.6, 4.5, 5.4--5.7; §6.6 for the comparison hypotheses of the `q = 1` specialization;
+*Needs:* §§3.6, 4.5, 5.4--5.7;
 QuiverRepresentations Layers 0 and 4 (path algebra, Ringel form); Tau Ceti `TauCeti.eulerForm`,
 `TauCeti.titsPolarForm`, `TauCeti.extEuler_eq_eulerForm_dimVector`,
 `TauCeti.extEulerPairing_add_flip_eq_titsPolarForm`, `TauCeti.module_finite_pathAlgebra_iff`,
-`TauCeti.PathAlgebra.gradeBy`, `TauCeti.GradedModuleCat.toModuleCat`, `TauCeti.IsGradedExtComparison` and
-`TauCeti.IsGradedExtComparison.laurentEval_one_gradedExtEuler`, and the `E₈` instance
+`TauCeti.PathAlgebra.gradeBy`, `TauCeti.GradedModuleCat.toModuleCat` and
+`TauCeti.IsGradedExtComparison`, and the `E₈` instance
 `TauCeti.Quiver.E8.extEulerMatrix_add_transpose`.
 
 ### Examples
@@ -924,14 +997,24 @@ State this only from explicit data: an ungraded exact
 category, a conflation-exact functor `U` from the graded category, and a natural isomorphism
 `{1} ⋙ U ≅ U`.  Prove that the induced K₀ map factors through the `q=1` base change.  Give
 sufficient hypotheses which make the factored map an isomorphism, and verify them in each claimed
-module-category example; shift compatibility by itself is not sufficient.  To identify Euler
-forms, separately require finite-support graded/ungraded comparison isomorphisms
-`⊕_j Ext^n_gr(M,N{j}) ≅ Ext^n_ungr(U M,U N)` for every surviving `n`, compatible with connecting
-maps.  Only under these hypotheses prove that evaluation at `q=1` is the ordinary Ext-Euler form.
-*Needs:* §§2.6, 5.4, 5.7, 6.1, 6.5; Tau Ceti `TauCeti.LaurentK0.forgetGradingEquiv` and
+module-category example; shift compatibility by itself is not sufficient.  When `U` carries a
+graded resolving property of §3.6 into an ungraded resolving property of §3.2, prove that
+forgetting the grading intertwines the graded resolution theorem with the ungraded one of §3.4:
+the `q = 1` base change of the graded Euler class of an object is the Euler class of its image,
+so the two inverse resolution comparisons agree after forgetting the grading.  To identify Euler
+forms, separately require the graded/ungraded Ext comparison of §5.7,
+`⊕_j Ext^n_gr(M,N{j}) ≅ Ext^n_ungr(U M,U N)` for every surviving `n`; comparing the two long exact
+Ext sequences would further need compatibility with the connecting maps, which the numerical
+identity does not use.  Only under these hypotheses prove that evaluation at `q=1` of the
+q-Euler characteristic of `(M, N)` is the ordinary Ext-Euler characteristic of `(U M, U N)`; the
+module-category instance is the path-algebra comparison of §5.8, and the vector-space instance is
+the minimal graded check.
+*Needs:* §§2.6, 3.2, 3.4, 3.6, 5.4, 5.7--5.8, 6.1, 6.5; Tau Ceti `TauCeti.LaurentK0.forgetGradingEquiv` and
 `TauCeti.LaurentK0.forgetGradingMap_injective_iff` in
 `TauCeti.CategoryTheory.GrothendieckGroup.{Laurent.Basic,ForgetGrading}`,
-`TauCeti.IsGradedExtComparison` and `TauCeti.IsGradedExtComparison.laurentEval_one_gradedExtEuler` in
+`TauCeti.GradedExactStructure.IsResolving.forgetGrading_laurentResolutionEquiv` in
+`TauCeti.CategoryTheory.GrothendieckGroup.Laurent.Resolving`,
+`TauCeti.IsGradedExtComparison.laurentEval_one_gradedExtEuler` in
 `TauCeti.Algebra.Homology.EulerCharacteristic.ExtEuler.Graded.ForgetGrading`, and
 `TauCeti.GradedVectorSpace.isGradedExtComparison_unit`.
 
@@ -962,8 +1045,22 @@ For a biadditive pairing `b : L × R ⟶ ℤ`, define
 `rad_left(b)={x | ∀y, b(x,y)=0}` and
 `rad_right(b)={y | ∀x, b(x,y)=0}` as additive subgroups.  Give the Laurent/sesquilinear
 analogues as submodules stable under bar where applicable.
+
+**Checks.**
+- On `L = R = ℤ²` the pairing `b(x,y) = x₁y₂` has left radical `{x : x₁ = 0}` and right radical
+  `{y : y₂ = 0}`, two different subgroups; a definition that takes one radical for both sides, or
+  the radicals of the symmetrization `x₁y₂ + x₂y₁`, which are both `0`, gets this wrong.
+- On `L = R = ℤ` the zero pairing has both radicals `ℤ` and `b(x,y) = xy` has both radicals `0`;
+  so does `b(x,y) = 2xy`, which is not perfect, so zero radicals do not make a pairing perfect,
+  and a definition that reads nondegeneracy as perfectness is excluded.
+- For the sesquilinear pairing `b(x,y) = bar(x)(1 - q)y` on `L = R = ℤ[q,q⁻¹]` both radicals are
+  `0`, because `ℤ[q,q⁻¹]` is a domain, and both are `ℤ[q,q⁻¹]`-submodules although `b` is
+  antilinear in `x`; after evaluation at `q = 1` the pairing is zero and both radicals are the
+  whole group, so the radicals of a specialization are not the specializations of the radicals.
 *Needs:* §6.3 for the sesquilinear analogues; Mathlib `AddSubgroup` and `Submodule`; Tau Ceti
-`TauCeti.mem_extEulerLeftRadical_iff` in `TauCeti.Algebra.Homology.EulerCharacteristic.ExtEuler.Numerical`.
+`TauCeti.mem_extEulerLeftRadical_iff` in `TauCeti.Algebra.Homology.EulerCharacteristic.ExtEuler.Numerical`
+and `TauCeti.mem_gradedExtEulerLeftRadical_iff` in
+`TauCeti.Algebra.Homology.EulerCharacteristic.ExtEuler.Graded.Numerical`.
 
 ### 7.2 Numerical quotients
 
