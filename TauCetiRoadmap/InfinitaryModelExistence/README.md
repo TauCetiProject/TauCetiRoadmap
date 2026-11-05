@@ -27,8 +27,8 @@ The summits are:
 * **Craig interpolation and PC separation** for sentences of a language of any cardinality, with the
   Lyndon (relation polarity, logical equality) and Malitz (universal consequent) refinements, all
   for arbitrary languages except Malitz, which is relational (Layer 7);
-* **the boundedness theorems for well-orderings** of Marker's Chapter 4 and the undefinability of
-  well-ordering, for arbitrary languages (Layer 8).
+* **the boundedness theorems for well-orderings** of §4.4 of Marker's 2013 notes and the
+  undefinability of well-ordering, for arbitrary languages (Layer 8).
 
 The interpolation and well-ordering theorems are proved for relational languages and transferred to
 languages with function symbols by the **graph translation** of Layer 6, a proof device with its own
@@ -63,7 +63,7 @@ TauCeti/ModelTheory/WellOrdering.lean                -- boundedness of well-orde
 | L5 | Morleyization: the canonical definitional expansion and the first-order presentation of a countable fragment with omitted types | L0–L2, L4 | the Morley presentation of "the universe is finite", and an infinite model of its first-order theory from Mathlib's compactness |
 | L6 | the graph translation: graph language, graph expansion, formula translation, graph axioms, reconstruction, back-translation, entailment transfer | L0, L1 | back-translating a translated formula gives a formula with the same realization in every structure |
 | L7 | projective classes; Craig interpolation and PC separation; Lyndon; Malitz | L0–L3, L6 | the degenerate interpolants `⊥` and `⊤` |
-| L8 | Marker 4.4.1, boundedness, Marker 4.4.2, undefinability of well-ordering | L0–L3, L6 | a chain `RelChain lt f` from `ℚ` is never well-founded |
+| L8 | boundedness and the undefinability of well-ordering (Marker's 2013 notes, §4.4) | L0–L3, L6 | a chain `RelChain lt f` from `ℚ` is never well-founded |
 
 L0 and L1 come first. L2 and L3 are independent of each other. L4 needs L3 (for the omitting types
 theorem) and L2 (for transporting types). L5 needs L4 only for the vocabulary of omission. L6 needs
@@ -786,13 +786,13 @@ Fix a binary relation symbol `lt : L.Relations 2` of an arbitrary language and w
 
 * `HasWellOrderedChains φ lt`: for every `α < ω₁` some nonempty model of `φ` carries a chain
   `f : α.ToType → M`.
-* `exists_model_relChain_rat` (Marker 2016, Chapter 4, raw positive form): under that
-  hypothesis some countable nonempty model of `φ` carries `f : ℚ → M` with `RelChain lt f`.
+* `exists_model_relChain_rat` (Theorem 4.27 of Marker's 2013 notes, raw positive form): under
+  that hypothesis some countable nonempty model of `φ` carries `f : ℚ → M` with `RelChain lt f`.
   Injectivity is the separate corollary `RelChain.injective_of_irreflexive`, for irreflexive `lt`.
 * `wellFounded_boundedness`: if `lt` is well-founded in every model of `φ`, some countable ordinal
   has a chain in no model of `φ`.
-* `wellOrder_type_boundedness` (Marker 2016, Chapter 4): if `lt` well-orders every model of
-  `φ`, some `α < ω₁` strictly exceeds the order type of every model.
+* `wellOrder_type_boundedness` (Corollary 4.28 of Marker's 2013 notes): if `lt` well-orders
+  every model of `φ`, some `α < ω₁` strictly exceeds the order type of every model.
 * `wellOrdering_undefinable`: no sentence has as its models exactly the structures in which `lt`
   is a well-order. It is a different target from `not_exists_modelsOf_eq_wellOrderClass` of
   CountableStructureSpaces, which is about codes on `ℕ`; this one is about all structures.
@@ -818,8 +818,9 @@ b₁ < … < bₙ,   α ≤ b₁,   bᵢ + α ≤ bᵢ₊₁ (1 ≤ i < n),   b�
 ```
 
 and `α < γ` when `n = 0`. The members are the sets `{φ} ∪ D ∪ σ`, with `σ` the sentences outside
-`{φ} ∪ D`, such that `σ` has an `α`-witness for every `α < ω₁`. These are Marker's gap conditions
-(*) together with a terminal reserve `bₙ + α < γ` and the empty-support case, which the clause
+`{φ} ∪ D`, such that `σ` has an `α`-witness for every `α < ω₁`. These are the gap conditions (*)
+of the proof of Theorem 4.27 in Marker's 2013 notes (§4.4, pp. 51–52, printed after Corollary
+4.28), together with a terminal reserve `bₙ + α < γ` and the empty-support case, which the clause
 checks below need. Without the terminal reserve the family is not a consistency property: if `φ`
 says that `lt` is a strict linear order with a greatest element, `σ = {∀x, lt(x, d₀) ∨ x = d₀}`
 has witnesses placing `d₀` at the top of `α + 1`, and the `all` clause then requires
@@ -945,7 +946,7 @@ The following belong to separate roadmaps or to the named sibling.
   sets and Barwise compactness, which also needs the calculus.
 * **Admissible fragments, Barwise compactness and Nadel's bound.**
 * **Building uncountable models**: Keisler's elementary end-extension theorem and the uncountable
-  form of Marker 4.4.1.
+  form of the boundedness theorem.
 * **Spaces of countable structures**, Borel model classes, López–Escobar and the non-Borelness of
   the well-order class (CountableStructureSpaces); **indiscernibles, Ehrenfeucht–Mostowski models,
   Hanf numbers, smallness, small models and complete sentences** (HanfNumbers); **counting
@@ -1012,6 +1013,11 @@ universe-general statements here are part of the work. The map below says where 
   fragment) and Chapter 4, "The model existence theorem": consistency properties and model
   existence, omitting types, interpolation and López–Escobar, and the boundedness of
   well-orderings.
+  The well-ordering theorems of Layer 8 are cited from the author's lecture notes of the same
+  title (University of Illinois at Chicago, Fall 2013,
+  [author's copy](https://homepages.math.uic.edu/~marker/math512-F13/inf.pdf)), §4.4, "The
+  Undefinability of Well-Ordering": Theorem 4.27 (p. 51), Corollary 4.28 (pp. 51–52), and the
+  proof of Theorem 4.27 printed after the corollary (pp. 51–52). The notes number results differently from the book.
 * H. Jerome Keisler, *Model Theory for Infinitary Logic*, Studies in Logic and the Foundations of
   Mathematics 62, North-Holland, 1971: consistency properties, model existence, omitting types and
   interpolation over countable fragments.
