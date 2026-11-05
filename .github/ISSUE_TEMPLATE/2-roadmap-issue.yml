@@ -78,6 +78,7 @@ body:
         - GrothendieckEulerForms
         - HamiltonianFloerOperations
         - HeegaardFloer
+        - HopfologicalAlgebra
         - Hyperfunctions
         - ImaginaryQuadraticClassNumber
         - InfinitaryModelExistence
