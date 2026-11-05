@@ -1,6 +1,8 @@
-import Mathlib
-import TauCeti.Geometry.Symplectic.Manifold.TwoForm
-import TauCeti.Geometry.Toric.Algebraic.Lattice
+module
+
+public import Mathlib
+public import TauCeti.Geometry.Symplectic.Manifold.TwoForm
+public import TauCeti.Geometry.Toric.Algebraic.Lattice
 
 /-!
 # Hamiltonian convexity and toric geometry: target signatures
@@ -30,6 +32,8 @@ The remaining headlines require constructions absent at the pins:
   the corresponding symplectic orbifold and reduction carriers.
 These statements remain README targets; no admitted data stand in for their constructions.
 -/
+
+public section
 
 noncomputable section
 open scoped BigOperators Manifold ContDiff

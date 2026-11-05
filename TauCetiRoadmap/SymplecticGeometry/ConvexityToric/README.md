@@ -79,11 +79,14 @@ and reduced symplectic classes use ℝ. Lean carriers have arbitrary type univer
   Ad-invariant inner product on g with the orthogonal splitting g=z(g)⊕[g,g]; the
   adjoint root characters χ_α:T→S¹ with dχ_α=iα and their real root planes; the
   invariant-metric coroot α∨=2α♯/‖α‖² with α(α∨)=2; a smooth homomorphism
-  φ_α:SU(2)→G with dφ_α(diag(i,−i))=α∨, ker(φ_α)⊆{I,−I} and
+  φ_α:SU(2)→G with dφ_α(diag(i,−i))=α∨ and
   φ_α(diag(e^(it),e^(−it)))=exp_G(tα∨); a normalizer representative acting on t
   by X↦X−α(X)α∨; and transport of all of these under torus conjugation and change
-  of unit root vector. Layer 1 constructs none of these. From TauCetiRoadmap.RootSystems,
-  Layer 4's abstract Weyl chambers, transported through the compact comparison.
+  of unit root vector. Layer 1 constructs none of these; the kernel bound
+  ker(φ_α)⊆{I,−I} is not assumed of the adapter but proved in §1.1 from the
+  derivative equation, using Layer 2's closed-subgroup theorem. From
+  TauCetiRoadmap.RootSystems, Layer 4's abstract Weyl chambers, transported through
+  the compact comparison.
 - **From TauCetiRoadmap.SmoothBundlesConnections:** B2.4's Liouville density measure
   and integral comparison, principal connections in Layers 1–4, and B6.2–B6.3's
   dual-character Chern class and curvature convention.
@@ -122,11 +125,12 @@ native carriers; its docstring identifies the missing carriers for the other hea
 For every compact connected real Lie group G with maximal torus T, consume LieGroups
 Layer 6's compact real root adapter: the adjoint root characters χ_α:T→S¹ with
 dχ_α=iα, the invariant-metric coroots α∨ with α(α∨)=2, the rank-one homomorphisms
-φ_α:SU(2)→G with dφ_α(diag(i,−i))=α∨, ker(φ_α)⊆{I,−I} and
+φ_α:SU(2)→G with dφ_α(diag(i,−i))=α∨ and
 φ_α(diag(e^(it),e^(−it)))=exp_G(tα∨), and their transport under torus conjugation.
 None of these real data is constructed here; changing the unit root vector conjugates
 φ_α by its diagonal torus, so no choice-independent map is assumed. For a torus the
-root family is empty. This subsection adds only the integral normalization of those data.
+root family is empty. This subsection adds only the integral normalization of those data
+and the kernel bound on φ_α.
 
 Build the 2π-normalized period/weight dictionary: compare T with t/ker(exp), put
 Λ_Z=(2π)⁻¹ker(exp), and identify a character with (1/i)dχ. Prove duality, restriction,
@@ -140,11 +144,23 @@ isogeny prove the finite-index lattice comparison, retaining the full torus latt
 rather than an integral center/semisimple splitting (Conrad–Landesman, Appendix Q,
 pp. 248–253, for the isogeny formalism; Appendix R, §§R.1–R.2).
 
+Prove ker(φ_α)⊆{I,−I} from the derivative equation alone. The real Lie algebra su(2)
+is ℝ³ with the cross-product bracket and has no ideal other than 0 and itself, and
+dφ_α(diag(i,−i))=α∨ is nonzero because α(α∨)=2, so the Lie algebra map dφ_α is
+injective. The kernel of φ_α is a closed normal subgroup of SU(2); by the closed-subgroup
+theorem its Lie algebra is ker(dφ_α)=0, so it is discrete. A discrete normal subgroup of
+a connected group is central, since each of its conjugacy classes is connected and
+discrete, and the centre of SU(2) is {I,−I} (Conrad–Landesman, §18, p. 82, where the
+same argument bounds the kernel of a rank-one map integrated from a section su(2)→g).
+
 - Characters add under multiplication, and their real differentials pair integrally with Λ_Z.
 - Restriction of characters is dual to inclusion of cocharacters; quotient tori use the quotient lattice.
 - The consumed rank-one homomorphism intertwines exponentials, so its diagonal circle
   has period 2πα∨ in ker(exp): the coroot is an integral cocharacter and the consumed
   normalizer representative preserves the weight and cocharacter lattices.
+- The consumed rank-one homomorphism has kernel contained in {I,−I}: its differential is
+  injective, so its kernel is a discrete normal subgroup of the connected group SU(2),
+  hence central.
 - Torus conjugation transports the consumed characters, coroots and rank-one maps together
   with their period lattices; central quotients compose the maps, transport their
   differentials, retain any order-two kernel and compare the two lattices with finite index.
@@ -153,20 +169,24 @@ pp. 248–253, for the isogeny formalism; Appendix R, §§R.1–R.2).
 
 - For S¹, exp(t)=e^(it), Λ_Z=ℤ and χ_k has real differential k; χ_k(2π)=1.
 - For SU(2), H=diag(i,−i) has α(H)=2 and exp(2πH)=1; choose φ as the identity,
-  so dφ(H)=H. The zero homomorphism has pairing 0 and fails the required value 2;
-  H/2 has pairing 1 and exp(2πH/2)=−I, excluding a half-coroot.
+  so dφ(H)=H and the kernel is {I}. The zero homomorphism has pairing 0 and fails the
+  required value 2, and its kernel is all of SU(2): a kernel escapes {I,−I} only when
+  the derivative equation already fails. H/2 has pairing 1 and exp(2πH/2)=−I,
+  excluding a half-coroot.
 - Conjugation by diag(e^(it),e^(−it)) sends E₁₂ to e^(2it)E₁₂ and E₂₁ to
   e^(−2it)E₂₁. Differentiation at t=0 gives [H,E₁₂]=2iE₁₂ and
   [H,E₂₁]=−2iE₂₁, agreeing with dχ=iα and excluding a missing imaginary factor.
 - For SU(2)→SO(3), H maps to 2Z for a period-2π rotation generator Z;
-  α(2Z)=2 and the kernel is {I,−I}, so injectivity is not required.
+  α(2Z)=2 and the kernel is {I,−I}, the whole centre, so injectivity is not required
+  and the kernel bound is attained. The element diag(i,−i) lies in no kernel: conjugation
+  by it sends E₁₂ to −E₁₂, so it is not central.
 - For a torus, including the trivial group, there are no nonzero roots or rank-one
   maps; no division by the squared norm of the zero weight is performed.
 - In U(2), the central and semisimple generators (1,1),(1,−1) span index 2 in ℤ²;
   the lattice vector (1,0) is not their integral combination. In rank zero all lattices vanish.
 
-*Needs:* LieGroups Layers 1 and 6 (adjoint representation, maximal tori and the compact
-real root adapter); RootSystems Layer 4; Mathlib `IsZLattice`; Tau Ceti's integral lattice API.
+*Needs:* LieGroups Layers 1, 2 and 6 (adjoint representation, the closed-subgroup
+theorem, maximal tori and the compact real root adapter); RootSystems Layer 4; Mathlib `IsZLattice`; Tau Ceti's integral lattice API.
 
 Define `HamiltonianTorusData` on a smooth two-form σ, a torus action and a map
 μ:M→t* by smoothness of both maps, preservation of σ, invariance of μ and
@@ -924,8 +944,8 @@ van den Berg–Moerdijk, [*Univalent completion*](https://eprints.whiterose.ac.u
 uses its comparison on the actual Hamiltonian level bundle.
 
 Conrad–Landesman, [*Compact Lie Groups*, Spring 2018](https://math.stanford.edu/~conrad/210CPage/handouts/lie_groups_notes.pdf),
-Appendix Q, pp. 248–253, and Appendix R, Proposition R.2.1, pp. 254–256,
-for the integral coroot cocharacter and the isogeny lattice comparison.
+§18, p. 82, Appendix Q, pp. 248–253, and Appendix R, Proposition R.2.1, pp. 254–256,
+for the rank-one kernel bound, the integral coroot cocharacter and the isogeny lattice comparison.
 Escobar, [*Brick manifolds and toric varieties of brick polytopes*](https://www.combinatorics.org/ojs/index.php/eljc/article/download/v23i2p25/pdf/),
 Electronic Journal of Combinatorics 23(2) (2016), P2.25, §3.2 p. 8 and §4.1 pp. 12–13.
 Hilgert–Neeb–Plank, *Symplectic convexity theorems and coadjoint orbits*, Compositio
