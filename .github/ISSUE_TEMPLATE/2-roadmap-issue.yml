@@ -58,6 +58,7 @@ body:
         - EnhancedDerivedSheaves
         - EtaleCohomologyFoundations
         - FinancialMathematics
+        - FiniteGroupExtensionSplitting
         - FormalLaurentPuiseux
         - FreeGroupsAndLimitGroups
         - FreeProbability
@@ -83,6 +84,7 @@ body:
         - LFunctions
         - LieGroupoidsPoisson
         - LocalPurity
+        - LocalVariationalFieldTheory
         - MarkovChainsAndRenewal
         - MassFormula
         - ModularCurves
@@ -103,10 +105,12 @@ body:
         - PerfectoidSpaces
         - PivotalSpherical
         - PositiveScalarCurvature
+        - PrimitivePrimeDivisors
         - ProfiniteCohomology
         - PseudodifferentialOperators
         - PurityOfBranchLocus
         - QuadraticFormInvariants
+        - QuantumEnvelopingAlgebras
         - QuantumGroups
         - QuaternionicAnalysis
         - RandomMatrices
