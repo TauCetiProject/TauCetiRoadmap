@@ -39,7 +39,8 @@ It leaves to named roadmaps:
   other's theorem, and the comparison of the two statements on `L²(ℝⁿ)` is
   made in neither.
 - The decomposition of `C*(E_ω)` into all central weights and its type-I
-  consequences: NoncompactQuantumSymmetry M2.FixedTwistTypeI, which builds
+  consequences: NoncompactQuantumSymmetry M2 (the all-central-weights
+  criterion after M2.FixedTwistTypeI), which builds
   the circle extension `E_ω` and its weight-one sector from its own Layer M1
   (the subsection on Borel multipliers and locally continuous extension
   cocycles) and Layer P.3. D1.TwistedBorel stops at the single-weight fibers
@@ -1082,9 +1083,10 @@ above. No von Neumann crossed product, twisted or untwisted, is a
 prerequisite for this C* theory.
 The dependency order is C1/A7/D1.Modules → D1.CentralTwists →
 D2.CentralTwists. The scalar Borel route is A7/C1 → D1.BorelPrefix →
-D1.TwistedBorel; the all-weight decomposition and type-I applications are
-consumers of these two sections. It has no edge from those applications
-or from von Neumann crossed-product duality back into D1.
+D1.TwistedBorel. The all-weight decomposition and its type-I applications
+are NoncompactQuantumSymmetry M2's, built there from its own extension
+`E_ω`; nothing in D1 depends on them or on von Neumann crossed-product
+duality.
 
 **Checks.**
 
@@ -1712,7 +1714,7 @@ This uses the representation theory of compact operators,
 not a finite-dimensional real-space restriction of Stone–von Neumann. For
 `G=ℝⁿ` the Schrödinger pair on `L²(ℝⁿ)` is the one of the unitary
 Stone–von Neumann theorem that MetaplecticAutomorphicForms §1.2 states; the
-comparison of the two statements is made in that roadmap, and no
+comparison of the two statements is made in neither roadmap, and no
 second real-case proof is given here.
 
 **Checks.**
