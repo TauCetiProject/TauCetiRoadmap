@@ -49,7 +49,8 @@ Layer 3:
   characteristic zero lacks resolution of singularities and the strong-desingularizability
   notion of SGA 5. Cohomological properness of normal-crossings complements over an arbitrary
   base and of quasi-compact quasi-separated schemes, the relative Abhyankar step, the
-  base-change criterion for universal local acyclicity, universal local 1-asphericity and
+  base-change criterion for universal local acyclicity with its fibre criterion for coherent
+  locally 1-aspheric morphisms, universal local 1-asphericity and
   0-acyclicity of projections lack relative normal-crossings divisors, stacks of etale torsors
   with their direct images and base change, strict localizations of schemes and the relative
   purity of finite etale covers. Cohomological properness over an arbitrary field for every
