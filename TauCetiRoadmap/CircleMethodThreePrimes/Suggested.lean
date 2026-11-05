@@ -1,12 +1,15 @@
-import Mathlib
+module
+
+public import Mathlib
 
 /-!
 # The circle method and Vinogradov's three-primes theorem: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive specification is
-`README.md`, which numbers the milestones as Layer `n.m`. The declarations below suggest Lean forms
-for particular milestones, so that contributors and reviewers converge on names and signatures;
-discharging all of them finishes neither a layer nor the roadmap. `sorry` marks goals, not results.
+`README.md`, which numbers the milestones as Layer `n.m`. The declarations below state the headline
+theorems against the pinned APIs, so that contributors and reviewers converge on names and
+signatures; every headline is statable at the pins, so none is missing. Discharging all of them
+finishes neither a layer nor the roadmap. `sorry` marks goals, not results.
 
 Design choices made explicit here:
 
@@ -17,10 +20,11 @@ Design choices made explicit here:
 * uniform bounds quantify their constants before the uniform parameters;
 * Siegel–Walfisz is stated here as the proposition `SiegelWalfiszBound`, with a real body, and the
   theorems of Layers 3 and 4 take it as a hypothesis until Layer 4.9;
-* this file imports neither supplier roadmap.
+* this file imports neither supplier roadmap; `psiAP` is the supplier's object, copied here with
+  its argument order and body only because the supplier is not importable at the pins.
 -/
 
-set_option autoImplicit false
+@[expose] public section
 
 noncomputable section
 
@@ -36,10 +40,6 @@ section Layer0
 /-- The additive character `e(α) = exp(2πiα)` (0.1). -/
 def expTwoPiI (α : ℝ) : ℂ :=
   Complex.exp (2 * Real.pi * Complex.I * α)
-
-/-- **0.1** `e` is Mathlib's `Real.fourierChar`. -/
-theorem expTwoPiI_eq_fourierChar (α : ℝ) : expTwoPiI α = (Real.fourierChar α : ℂ) := by
-  sorry
 
 /-- **0.1** Orthogonality on `ℝ/ℤ`. -/
 theorem integral_expTwoPiI_intCast (m : ℤ) :
@@ -124,8 +124,10 @@ end Layer2
 
 section Layer3
 
-/-- `ψ(x; q, a) = ∑_{n ≤ x, n ≡ a} Λ(n)`. -/
-def psiAP (x : ℝ) (q : ℕ) (a : ZMod q) : ℝ :=
+/-- `ψ(x; q, a) = ∑_{n ≤ x, n ≡ a} Λ(n)`. This is `AnalyticNumberTheoryPartI`'s `psiAP`, with the
+same arguments and body, so that the identification in 4.9 is definitional; it is restated here only
+because that roadmap is not importable at the pins. -/
+def psiAP (q : ℕ) (a : ZMod q) (x : ℝ) : ℝ :=
   ∑ n ∈ (Finset.Ioc 0 ⌊x⌋₊).filter (fun n : ℕ => (n : ZMod q) = a), vonMangoldt n
 
 /-- Siegel–Walfisz with a logarithmic saving, a hypothesis of Layers 3 and 4 until 4.9: for all
@@ -134,7 +136,7 @@ def psiAP (x : ℝ) (q : ℕ) (a : ZMod q) : ℝ :=
 def SiegelWalfiszBound : Prop :=
   ∀ A B : ℝ, 0 < A → 0 < B → ∃ C : ℝ, ∀ (x : ℝ) (q : ℕ) (a : ZMod q),
     2 ≤ x → 1 ≤ q → (q : ℝ) ≤ Real.log x ^ B → IsUnit a →
-      |psiAP x q a - x / Nat.totient q| ≤ C * x / Real.log x ^ A
+      |psiAP q a x - x / Nat.totient q| ≤ C * x / Real.log x ^ A
 
 /-- **3.2** The major-arc approximation of `S(a/q + β)`. -/
 theorem primeExpSum_majorArc (hSW : SiegelWalfiszBound) (A B : ℝ) (hA : 0 < A) (hB : 0 < B) :
@@ -225,25 +227,5 @@ theorem vinogradov_threePrimes_unconditional :
   vinogradov_threePrimes siegelWalfiszBound
 
 end Layer4
-
-/-! ## Worked examples -/
-
-section WorkedExamples
-
-/-- `c₄(2) = -2 = μ(4) + 2 μ(2)`. -/
-example : ramanujanSum 4 2 = -2 := by
-  sorry
-
-/-- The singular integral at `N = 5` counts the `6` ordered positive triples with sum `5`. -/
-example :
-    ∫ β in (0 : ℝ)..1, (∑ n ∈ Finset.Icc (1 : ℕ) 5, expTwoPiI (n * β)) ^ 3 * expTwoPiI (-(5 * β)) = 6 := by
-  sorry
-
-/-- The reciprocal convention: at `β = 0` the geometric sum has norm `N`, so the bound must read
-`N` there, not Lean's `min N (1/0) = 0`. -/
-example (N : ℕ) : ‖∑ n ∈ Finset.Icc 1 N, expTwoPiI (n * 0)‖ = N := by
-  sorry
-
-end WorkedExamples
 
 end TauCetiRoadmap.CircleMethodThreePrimes
