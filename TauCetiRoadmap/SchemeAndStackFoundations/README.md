@@ -447,7 +447,7 @@ Layers 9–10 (continuous cohomology, Hilbert 90 and Kummer theory for fields).
 | Supplier | Interface consumed here | Convention and scope bridge |
 | --- | --- | --- |
 | AbundanceStatement §4A / items 2–4 (Roktim Mascharak, [AbundanceStatement](../AbundanceStatement/README.md)) | §5.9's characteristic-zero divisor/curve degree realization, line-bundle compatibility and vanishing on principal divisors | On smooth projective surfaces over algebraically closed characteristic-zero fields, compare normalized degree with §3.3's Euler degree once. Arbitrary-field local-length and arithmetic formulas remain §5.9 targets. |
-| AbundanceStatement §4B / item 1 (Roktim Mascharak, [AbundanceStatement](../AbundanceStatement/README.md)) | §5.10's characteristic-zero numerical Cartier quotient and integral/rational-to-real comparisons | Identify Cartier divisors modulo principal divisors with `Pic(S)` and compare the numerical relations using §4A / items 2–4. §5.10 owns the single, characteristic-independent carrier `Chow.NumericallyEquivalent` / `Num S`; *numericalQuotient_abundanceComparison* identifies its characteristic-zero specialization and scalar extensions with the supplier's quotients. Both Hodge targets use this carrier in every characteristic. |
+| AbundanceStatement §4B / item 1 (Roktim Mascharak, [AbundanceStatement](../AbundanceStatement/README.md)) | §5.10's characteristic-zero numerical Cartier quotient and integral/rational-to-real comparisons | Identify Cartier divisors modulo principal divisors with `Pic(S)` and compare the numerical relations using §4A / items 2–4. §5.10 owns the single, characteristic-independent carrier *Chow.NumericallyEquivalent* / `Num S`; *numericalQuotient_abundanceComparison* identifies its characteristic-zero specialization and scalar extensions with the supplier's quotients. Both Hodge targets use this carrier in every characteristic. |
 | AbundanceStatement §4B / item 2 (Roktim Mascharak, [AbundanceStatement](../AbundanceStatement/README.md)) | §5.10's characteristic-zero finite generation and real finite-dimensionality | Use the integral group of §4B / item 1. Torsion-freeness and integral freeness require the separate argument in §5.10; positive-characteristic surface finiteness remains a target here. |
 | AbundanceStatement §4D / item 1 (Roktim Mascharak, [AbundanceStatement](../AbundanceStatement/README.md)) | §5.10's characteristic-zero Nakai–Moishezon criterion, including restriction to integral subvarieties | Compare intersection numbers through §4A / items 2–4 and ampleness with StableReduction Layer 2's positive-power very-ample convention. The positive-characteristic surface criterion is built here. |
 
@@ -931,7 +931,7 @@ at `s'` maps to `x` (Stacks, Lemmas 37.38.5 (057G), 37.38.6 (055U)). *Needs:* §
 `Smooth`, `SmoothOfRelativeDimension`, `Etale`, `AffineSpace`, `IsProper`, `Geometrically.Integral`.
 
 **Checks.**
-- `flat_over_dedekind_mixed_dimensions`: over `S = Spec k[t]`, the morphism
+- *flat_over_dedekind_mixed_dimensions*: over `S = Spec k[t]`, the morphism
   `S ⊔ A¹_S → S` is flat and finite type, its source is reduced, and both components dominate `S`.
   Every fibre is `Spec κ(s) ⊔ A¹_{κ(s)}`; no single `d` satisfies the native
   `PureRelativeDimension d f`. This is the negative control for a purity conclusion.
@@ -1006,7 +1006,7 @@ from the Jacobian condition alone. *Needs:* Mathlib `Scheme.Hom.normalization`,
 `Scheme.Hom.normalizationObjIso`, `IsIntegrallyClosed`, `IsPurelyInseparable`; ModularCurves 4D.
 
 **Checks.**
-- `unibranch_finite_components_eventual_sequences`: let `A ⊆ (ℕ → 𝔽₂)` be the subring of
+- *unibranch_finite_components_eventual_sequences*: let `A ⊆ (ℕ → 𝔽₂)` be the subring of
   eventually constant sequences and `q : A → 𝔽₂` their eventual value. Its kernel `m∞`
   consists of the finitely supported sequences; it is not finitely generated, since any
   finite set of generators misses some coordinate idempotent `e_j`. Thus `q` is surjective
@@ -1539,11 +1539,11 @@ open neighbourhood whose section ring is quasi-excellent, with `.affine_iff` (ev
   `test_flat_not_regular`: `k ⋉ k` is flat over `k` but its fibre is not regular.
 - *regularLocus.test_field*, `test_zero` (`Spec` of the zero ring is empty), `test_dual_numbers`
   (empty locus).
-- *IsGRing.test_field*, `test_zero`, `test_complete_local` (a complete Noetherian local ring is a
+- *IsGRing.test_field*, `test_zero`, *test_complete_local* (a complete Noetherian local ring is a
   G-ring); *IsJ2.test_field*, `test_zero`, `test_singular_allowed` (`k ⋉ k` is J-2 with empty regular
   locus); *IsQuasiExcellentRing.test_field*, `test_zero`, `test_nilpotents_allowed`;
-  *IsExcellentRing.test_field*, `test_zero`, `test_integers`, `test_nilpotents_allowed`,
-  `test_complete_local`.
+  *IsExcellentRing.test_field*, `test_zero`, *test_integers*, `test_nilpotents_allowed`,
+  *test_complete_local*.
 - `IsQuasiExcellentScheme.test_spec` (`Spec R` is quasi-excellent iff `R` is), `test_field`,
   `test_zero`; `IsExcellentScheme.test_spec`, `test_field`, `test_empty`, `test_nonreduced`
   (`Spec (k ⋉ k)` is excellent).
@@ -1850,7 +1850,7 @@ and `quotient_annihilator_flat_baseChange`, *baseChange_range*, *baseChange_le_c
 - `zero_module`, `zero_element`: `Ann 0 = ⊤` on both sides.
 - `nonreduced_element`, `nonreduced_diagonal`: in `ℤ/4`, `Ann(2) = (2)` and the formula holds
   for `ℤ/4 → ℤ/4 × ℤ/4`.
-- `nonflat_element_failure`: for `ℤ/4 → ℤ/2`, the element `2 ∈ ℤ/4` has annihilator
+- *nonflat_element_failure*: for `ℤ/4 → ℤ/2`, the element `2 ∈ ℤ/4` has annihilator
   `(2)`, which extends to zero. Its image in `ℤ/2 ⊗_{ℤ/4} ℤ/4` is zero, whose
   annihilator is the unit ideal. This is the elementwise failure without flatness.
 - `identity_cokernel`, `zero_map_scalar`, `inverse_representative`, `top_quotient_annihilator`,
@@ -3100,7 +3100,7 @@ isomorphisms satisfying the cocycle condition (Stacks, Definition 96.11.1 (06WG)
 descent data; Proposition 96.14.3 (06WT)), *QCoh.ofSpaceEquiv* (agreement with §1.11 for spaces).
 For a quasi-compact quasi-separated morphism `f : X → Y` of algebraic stacks, construct
 *QCoh.pushforward* as the quasi-coherent right adjoint to `QCoh.pullback f`, with
-`QCoh.pullbackPushforwardAdjunction` and its natural Hom equivalence. Under `QCoh.ofSpaceEquiv`
+`QCoh.pullbackPushforwardAdjunction` and its natural Hom equivalence. Under *QCoh.ofSpaceEquiv*
 it agrees with the quasi-coherent pushforward for algebraic spaces of §1.11.
 Prove the flat-test comparison: for every flat test morphism `y : T → Y`, evaluation of
 this right adjoint at `y` agrees naturally with the ordinary big-fppf-site direct image.
@@ -3569,7 +3569,7 @@ a quasi-compact scheme `X` is affine iff `H¹(X, I) = 0` for every quasi-coheren
 ampleness); JacobianChallenge Layer B.
 
 **Checks.**
-- `higherDirectImage_unbounded_base`: for `S = ⨿_{n≥0} Spec k` and
+- *higherDirectImage_unbounded_base*: for `S = ⨿_{n≥0} Spec k` and
   `X = ⨿_{n≥0} ℙⁿ_k → S`, the map is qcqs, but the sheaf restricting to
   `O(−n−1)` on component `n` has nonzero `Rⁿf_*` for every `n`.
   The base is not affine (nor quasi-compact), so the uniform assertion excludes it.
@@ -3814,7 +3814,7 @@ the base change to every `Spec O^h_{X,x}` of §0.13 has a section), `zariskiTopo
 
 **Checks.**
 - `test_covering_identity`: `{𝟙 X}` is a Nisnevich covering.
-- `test_not_covering_real_complex`: for every **separable** quadratic extension `K/k` (so that
+- *test_not_covering_real_complex*: for every **separable** quadratic extension `K/k` (so that
   `Spec K → Spec k` is an étale covering), `{Spec K → Spec k}` is not a Nisnevich covering: the
   residue field extension is not an isomorphism. For an inseparable extension the map is not étale
   and is not a member of either precoverage.
@@ -3843,7 +3843,7 @@ the data of the cartesian square `p⁻¹(Z)_red → V`, `p⁻¹(Z)_red → Z` to
 96). The pointwise form "one preimage with trivial residue extension" is weaker and admits extra
 preimages with larger residue fields: `X = Spec ℝ`, `U = ∅`, `V = Spec ℝ ⊔ Spec ℂ` has exactly one
 preimage with residue field `ℝ` and is not an isomorphism over the complement
-(`test_eds_not_distinguished_extra_point` below). API: `isNisnevichCovering` (`{j, p}` is a
+(*test_eds_not_distinguished_extra_point* below). API: `isNisnevichCovering` (`{j, p}` is a
 Nisnevich covering), `ofZariski` (an open cover `X = U ∪ V`), `pullback` along `Y → X`,
 `isPullback`, `iso_over_complement`, `of_pointwise` (for finite `p⁻¹(Z) → Z`,
 every fibre must consist of exactly one point and its residue-field map must be an isomorphism).
@@ -3887,7 +3887,7 @@ Noetherian schemes under arbitrary fibre products is claimed. *Needs:*
 - `eds_rational_function_square`: `ℚ(t) → ℚ(u)`, `t ↦ u²`, has degree two.
   The spectra are isomorphic as abstract schemes, but this specified arrow is
   not an isomorphism over `Spec ℚ(t)` and cannot be distinguished with empty `U`.
-- `test_eds_not_distinguished_extra_point`: `X = Spec ℝ`, `U = ∅`, `V = Spec ℝ ⊔ Spec ℂ`: the
+- *test_eds_not_distinguished_extra_point*: `X = Spec ℝ`, `U = ∅`, `V = Spec ℝ ⊔ Spec ℂ`: the
   pointwise clause holds (one preimage with residue field `ℝ`) and the isomorphism clause fails
   (`p⁻¹(Z) = Spec ℝ ⊔ Spec ℂ ≠ Spec ℝ`); the structure rejects it.
 - `QcEtale_identity`: the identity belongs to the basis.
@@ -4052,7 +4052,7 @@ algebras, for w-contractibility); Mathlib `ProEt.topology`, `Limits`, `Epi`, `De
 - `test_isReplete_types`: the category of types is replete.
 - `test_isReplete_proetale_point`: for `X = Spec` of an algebraically closed field, `Sh(X_proét)` is
   replete (sheaves on profinite sets).
-- `test_etale_not_replete`: for `X = Spec ℚ` the tower of surjections `μ_{ℓ^{n+1}} → μ_{ℓ^n}` of
+- *test_etale_not_replete*: for `X = Spec ℚ` the tower of surjections `μ_{ℓ^{n+1}} → μ_{ℓ^n}` of
   étale sheaves has limit `0` in `Sh(X_ét)`, so the legs are not epimorphisms: `Sh(X_ét)` is not
   replete.
 - `test_w_contractible_field`: for an algebraically closed field `k`, `Spec k` is w-contractible;
@@ -4360,7 +4360,7 @@ and the resulting functor and comparisons have the mathematical specification ab
   `k[−1]` has zero `H^0` and cannot be isomorphic to `i^!K`. Ordinary pullback in the adjacent
   smooth and étale formulas is valid because those maps are flat.
 - `rightAdjoint_unbounded_disjoint_projective_spaces`: for the family of §2.6's
-  `higherDirectImage_unbounded_base`, `Y = ⨿_{n≥0} Spec k` and `X = ⨿_{n≥0} ℙⁿ_k`,
+  *higherDirectImage_unbounded_base*, `Y = ⨿_{n≥0} Spec k` and `X = ⨿_{n≥0} ℙⁿ_k`,
   the componentwise map is proper and flat (Tor amplitude zero), and is qcqs as a morphism,
   although neither scheme is quasi-compact. Its componentwise right adjoint exists.
   For `K=O_Y[0]`, its restriction to component `n` is `O(−n−1)[n]`; hence
@@ -4614,9 +4614,9 @@ geometric stabilizer. *Needs:* §1.1,
 `brauerCohomologyEquiv`, `subsingleton_brauerGroup_of_finite`; AlgebraicVectorBundles L0B.
 
 **Checks.**
-- `azumaya_zero_algebra`: over a field the rank-zero matrix algebra has bijective
+- *azumaya_zero_algebra*: over a field the rank-zero matrix algebra has bijective
   `mulLeftRight` but fails native `IsAzumaya`.
-- `azumaya_missing_component`: over `k × k`, the algebra `k` via the first
+- *azumaya_missing_component*: over `k × k`, the algebra `k` via the first
   projection is nonzero but unfaithful and not Azumaya; its second fibre has rank zero.
 - `azumaya_empty_base`: the zero ring over itself is Azumaya, preserving the empty-base case.
 
@@ -4860,7 +4860,7 @@ AlgebraicVectorBundles L0B–L0C; Tau Ceti `eulerCharBelow`,
 A–B; StableReduction Layer 2.
 
 **Checks.**
-- `pullback_double_line`: the reduced-line inclusion `ℙ¹ → V(z²) ⊂ ℙ²`
+- *pullback_double_line*: the reduced-line inclusion `ℙ¹ → V(z²) ⊂ ℙ²`
   has fibres of length one, but pulls degree-two `O(1)` back to degree one. The target
   curve is not integral; fibre length cannot replace the function-field degree hypothesis.
 - *vectorBundleDegree_trivial*: `deg O_X^r = 0`.
@@ -5203,7 +5203,7 @@ Layer 1 (`Ω_{X/S}`).
 **Checks.**
 - *isFirstOrderThickening_dualNumber*: `Spec k → Spec k[ε]` is first-order.
 - *isFirstOrderThickening_id*: the identity is a first-order thickening.
-- `not_isFirstOrderThickening_cube`: `Spec k → Spec k[x]/(x³)` is a thickening and not first-order.
+- *not_isFirstOrderThickening_cube*: `Spec k → Spec k[x]/(x³)` is a thickening and not first-order.
 - `not_isThickening_origin`: `Spec k → 𝔸¹_k` is a closed immersion that is not a thickening.
 - *formallySmooth_affineSpace*: `𝔸(n; S) → S` is formally smooth; *formallyEtale_id*;
   `not_formallySmooth_closedPoint` (`Spec k → 𝔸¹_k` is not formally smooth);
@@ -5604,7 +5604,7 @@ Let `A` be a Noetherian adic ring with ideal `I` and `quotMap A n : Spec (A/I^{n
 Prove `grothendieck_existence`: for `f : X → Spec A` proper and `I` the ideal sheaf of
 `f⁻¹(V(I))`, every coherent formal module on `X/V(I)` (§4.8) is the completion of a coherent `O_X`-module,
 with isomorphisms commuting with all transitions. The named target
-`grothendieck_existence_fullyFaithful` states that compatible morphisms of such completions
+*grothendieck_existence_fullyFaithful* states that compatible morphisms of such completions
 come from unique morphisms of coherent modules (Stacks, Section 30.24
 (087V), Lemmas 30.24.1 (0883), 30.24.3 (0885), Section 30.25 (0886), Lemmas 30.25.2–30.25.3 (088A,
 088B), Proposition 30.25.4 (088C), Theorem 30.27.1 (088E), Remark 30.27.2 (088F)). Prove
@@ -5630,7 +5630,7 @@ by properness of the initial fibre alone. *Needs:* §4.7, §4.8, §4.9; Mathlib 
   compatible in `n` is the completion of a coherent sheaf on `ℙ¹_A`.
 - `algebraize_hom_test_compatible`: a compatible system `Spec A/I^{n+1} → 𝔸¹_{A/I^{n+1}}` is a
   point `a ∈ A` by completeness.
-- `algebraize_hom_test_incompatible`: the family `g_n` with `g_0 = 0` and `g_1 = 1` (mod `t²`) is not
+- *algebraize_hom_test_incompatible*: the family `g_n` with `g_0 = 0` and `g_1 = 1` (mod `t²`) is not
   a morphism of adic thickening systems (`g_1` restricts to `1 ≠ 0` on `X_0`), and no `G : Spec
   k[[t]] → 𝔸¹` has both reductions.
 
@@ -5806,7 +5806,7 @@ projective space is an immersion (in particular a very ample system) (Stacks, Se
   not an immersion, so it is excluded from `bertini_smoothness`.
 - *isRegular_affineSpace*, *isRegular_specInt*, *isRegular_empty*.
 - `not_isRegular_node` (`k[x, y]/(xy)` at the origin), `not_isRegular_dualNumbers`.
-- `resolution_test_cusp`: the cusp `Y = Spec k[t², t³]` is integral, Noetherian, of dimension one
+- *resolution_test_cusp*: the cusp `Y = Spec k[t², t³]` is integral, Noetherian, of dimension one
   and not regular; its normalisation in its function field is `Spec k[t] → Y`, which is finite,
   regular and a modification.
 - `serre_test_cone`: `k[x, y, z]/(xy − z²)` is normal: `(R_1)` and `(S_2)` hold; `k[x, y]/(x², xy)`
@@ -6309,7 +6309,7 @@ locus therefore lift to mutually disjoint sections into the smooth locus of `X' 
 6.16, p. 86). Without splitness the component stage has no centre at a singular point
 (`nodal_resolution_nonsplit_stalls`).
 
-Prove `generic_projection`: for a pure
+Prove *generic_projection*: for a pure
 `d`-dimensional projective `X ⊆ ℙ^N_k` over an infinite field, a general linear projection
 with centre disjoint from `X` gives a finite morphism `π : X → ℙ^d_k`. Projection from a
 point `p ∈ ℙ^d_k` to `ℙ^{d−1}_k`, for `d≥1`, is a rational map. Its composite with `π` is resolved
@@ -6616,7 +6616,7 @@ boundary, and carries the inverse image of `D₁` and the disjoint smooth sectio
   valuation ring.
 - `ramification_sqrt`: the injective local map `ℤ_p → ℤ_p[x]/(x² − p)` has ramification index `2`.
 - *isSVariety_genericOnly*: `Spec ℚ_p` is a `ℤ_p`-variety with empty special fibre.
-- `not_isSVariety_specialPoint`: `Spec 𝔽_p → Spec ℤ_p` is not flat, hence not an `S`-variety.
+- *not_isSVariety_specialPoint*: `Spec 𝔽_p → Spec ℤ_p` is not flat, hence not an `S`-variety.
 - *baseChange_component_test_vertical_excluded*: `ℤ_p → 𝔽_p` is not a `FiniteDVRExtension`, so
   *baseChange_component* does not apply to it; for `ℤ_p → ℤ_p[√p]` the base change of a smooth
   `S`-variety is a component dominating it.
@@ -6736,7 +6736,7 @@ and `picardToClassGroup`; Mathlib `AlgebraicCycle`, `Scheme.ord`; Tau Ceti
 - `CH_coprod_countable_points`: `CH_0(∐_n Spec κ) ≃ ∏_n Z`, whereas its degree `−1` group is zero.
   Rank-one homotopy invariance identifies the latter with `CH_0(E)` above.
 - *cycleClass_surjective*: every class has a cycle representative.
-- `cycles_dvr_closed_point`: on a DVR, the closed point has closure dimension and height zero,
+- *cycles_dvr_closed_point*: on a DVR, the closed point has closure dimension and height zero,
   and coheight one.
 - `chow_dvr_generic_open_rejected`: for a DVR `R` with fraction field `K`,
   `Spec K → Spec R` is an open immersion with zero-dimensional fibres, but its
@@ -6755,7 +6755,7 @@ and `picardToClassGroup`; Mathlib `AlgebraicCycle`, `Scheme.ord`; Tau Ceti
 - *RatEquiv_point*, *RatEquiv_empty*, *RatEquiv_affine_line*: respectively `RatEquiv = 0` for
   zero-cycles on a field point, `RatEquiv = 0` on the empty scheme in every degree, and
   `RatEquiv = all zero-cycles` on the affine line over a field (Fulton, §1.3).
-- `chow_point`, `chow_empty`, `chow_negative`: `CH₀(Spec K) ≃ ℤ`, all groups of the empty scheme
+- *chow_point*, `chow_empty`, `chow_negative`: `CH₀(Spec K) ≃ ℤ`, all groups of the empty scheme
   vanish, and `CH₋₁(X) = 0` (Fulton, §1.3).
 - *cycleClass_point*, *cycleClass_affine_line*, *cycleClass_zero*: the cycle-class quotient is
   bijective on a field point, is not injective on zero-cycles of the affine line, and sends zero
@@ -7183,11 +7183,11 @@ GrothendieckEulerForms Layers 2–3 (`TauCeti.ExactK0` and finite-resolution com
   This regular Noetherian scheme fails the resolution property (Thomason–Trobaugh,
   *Higher algebraic K-theory of schemes and of derived categories*, Exercise 8.6;
   [Hoyois, Algebraic K-theory, Lecture 21](https://hoyois.app.uni-regensburg.de/SS20/ktheory/lect21.pdf)).
-- `resolutionProperty_affine`: `Spec A` has the resolution property for every ring `A`: a finitely
+- *resolutionProperty_affine*: `Spec A` has the resolution property for every ring `A`: a finitely
   presented module is `M~` with `M` a finitely presented `A`-module, a quotient of some `A^n`.
-- `resolutionProperty_empty`: the empty scheme has the resolution property, every module on it
+- *resolutionProperty_empty*: the empty scheme has the resolution property, every module on it
   being zero.
-- `resolutionProperty_quasiProjective`: `ℙ¹_k`, which is not affine, has the resolution property:
+- *resolutionProperty_quasiProjective*: `ℙ¹_k`, which is not affine, has the resolution property:
   a finitely presented `F` is a quotient of `O(−n)^m` for `n ≫ 0` (the case of
   `resolutionProperty_of_quasiProjective`).
 
@@ -7334,12 +7334,12 @@ Prove finite generation for smooth projective surfaces over algebraically closed
 positive characteristic (the Néron–Severi theorem, Lang–Néron 1959, as cited in Hartshorne 1977,
 V, the note to Exercise 1.7).
 Combine this with torsion-freeness, using AbundanceStatement §4B / item 2 for finite generation
-in characteristic zero, to obtain `Num.free_finiteRank`: `Num S` is free abelian of finite
+in characteristic zero, to obtain *Num.free_finiteRank*: `Num S` is free abelian of finite
 rank, the Picard number `ρ`; `hodge_index` does not use this finiteness input.
 
 Prove `hodge_index`: for `H` ample and `D` with `D · H = 0`, `D² ≤ 0`, with
 equality iff `D ≡ 0`; hence on the real span of any finite set of classes orthogonal to `H` the
-form is negative definite. Prove `hodge_index_signature`, which takes `Num.free_finiteRank` as an
+form is negative definite. Prove `hodge_index_signature`, which takes *Num.free_finiteRank* as an
 input, assembled from AbundanceStatement §4B / item 2 and torsion-freeness in characteristic zero,
 and from the retained finiteness theorem and torsion-freeness in positive characteristic:
 on `Num S ⊗ ℝ` the intersection form has signature `(1, ρ − 1)`. Proof inputs:
@@ -7356,7 +7356,7 @@ Specialize the supplier's subvariety intersection criterion to `D² > 0` and `D 
 using §5.9's intersection bridge and StableReduction Layer 2's ampleness convention,
 retaining the positive-characteristic surface theorem here.
 
-In positive characteristic prove `nakai_moishezon` afterwards and independently:
+In positive characteristic prove *nakai_moishezon* afterwards and independently:
 a divisor `D` on `S` is ample iff `D² > 0` and `D · C > 0` for every
 integral curve `C ⊆ S` (Hartshorne 1977, V.1, Theorem 1.10; Kleiman 1966), with ampleness
 StableReduction Layer 2's notion ("some power is very ample"); it is not an input to
