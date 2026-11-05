@@ -5094,7 +5094,7 @@ noncomputable def trivialF2Res (S : Subgroup G) :
 
 /-- **Layer 13, restriction on cohomology with trivial `𝔽₂` coefficients,** Tau Ceti's
 `TauCeti.trivialF2ResMap`: the generic restriction `res` followed by the identification
-`TauCeti.res_trivialF2` (`TauCeti.trivialF2ResMap_def`). -/
+`TauCeti.res_trivialF2_hom` (`TauCeti.trivialF2ResMap_def`). -/
 noncomputable abbrev trivialF2ResMap (S : Subgroup G) (n : ℕ) :
     (continuousCohomology ℤ G n).obj (trivialF2 G) ⟶
       (continuousCohomology ℤ S n).obj (trivialF2 S) :=

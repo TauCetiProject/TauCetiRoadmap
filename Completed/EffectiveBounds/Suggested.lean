@@ -78,8 +78,8 @@ theorem mem_pi_closedBall {r : ι → ℝ} {c : ℝ} {x : ι → ℂ} :
 /-! **`ZLattice` reconciliation, the box.** At this pin the engine has no `box` of its own: the
 packing and doubling bounds are stated directly on Mathlib's
 `Set.pi Set.univ (fun i ↦ Metric.closedBall 0 (c * r i))`, so the former identity
-`box r c = Set.pi Set.univ (fun i ↦ Metric.closedBall (0 : ℂ) (c * r i))` is definitional and
-no longer has a left-hand side.
+`box r c = Set.pi Set.univ (fun i ↦ Metric.closedBall (0 : ℂ) (c * r i))` no longer has a
+left-hand side; its content is `mem_pi_closedBall`.
 -- not statable at this pin: `TauCeti.GeometryOfNumbers.box` was removed in favour of Mathlib's polydisc
 -/
 

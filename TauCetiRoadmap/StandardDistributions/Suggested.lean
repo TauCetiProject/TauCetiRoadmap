@@ -542,8 +542,8 @@ example {Ω ι κ : Type*} [MeasurableSpace Ω] [Fintype ι] [Fintype κ]
     [DecidableEq ι] [DecidableEq κ] {P : Measure Ω} [IsProbabilityMeasure P]
     (X : Ω → EuclideanSpace ℝ (ι ⊕ κ)) (m : EuclideanSpace ℝ (ι ⊕ κ))
     {S : Matrix (ι ⊕ κ) (ι ⊕ κ) ℝ}
-    (hX : HasLaw X (multivariateGaussian m S) P) (hS : S.PosSemidef) :
-    -- At this pin the library no longer needs the observed block to be positive definite.
+    (hX : HasLaw X (multivariateGaussian m S) P) (hS : S.PosSemidef)
+    (_hS₂₂ : (S.submatrix Sum.inr Sum.inr).PosDef) :
     condDistrib (fun ω => (EuclideanSpace.sumEquivProd (X ω)).1)
         (fun ω => (EuclideanSpace.sumEquivProd (X ω)).2) P
       =ᵐ[P.map (fun ω => (EuclideanSpace.sumEquivProd (X ω)).2)]

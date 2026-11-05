@@ -2640,7 +2640,7 @@ theorem injective_artinMap (p : ℕ) [Fact p.Prime]
 
 /-- The concrete `ℚ₂(ζ₅)/ℚ₂` test: unramified of degree four, and `2` maps to `ζ₅ ↦ ζ₅²`.
 Replacing arithmetic Frobenius by geometric Frobenius would give the exponent `3`. -/
-theorem localArtinMap_Q2_zeta5
+theorem localArtinMap_Q2_zeta5 [ValuativeRel ℚ_[2]] [IsNonarchimedeanLocalField ℚ_[2]]
     (E : Type) [Field E] [ValuativeRel E] [TopologicalSpace E] [IsNonarchimedeanLocalField E]
     [Algebra ℚ_[2] E] [Module.Finite ℚ_[2] E] [IsGalois ℚ_[2] E]
     [IsCyclotomicExtension {5} ℚ_[2] E]

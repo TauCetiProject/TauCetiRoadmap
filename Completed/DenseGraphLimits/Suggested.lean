@@ -68,7 +68,7 @@ open. Those objects now live in Tau Ceti under `TauCeti.DenseGraphLimits`, in th
 pins, so the statements below are made about the Tau Ceti objects directly. Statements keep the
 README's names, closed by the Tau Ceti declaration even where its name differs. The differences:
 
-* **Names.** `graphonSpace_ext_homDensity` is Tau Ceti's `graphonSpace_ext_iff_homDensity`,
+* **Names.** `graphonSpace_ext_homDensity` is Tau Ceti's `graphonSpace_ext_homDensity`,
   stated there for every `GraphonSpace Ω μ`. `cutDist_eq_zero_of_forall_homDensity_eq_cross` and
   `cutDist_eq_zero_iff_forall_homDensity_eq_cross` are Tau Ceti's unsuffixed
   `cutDist_eq_zero_of_forall_homDensity_eq` and `cutDist_eq_zero_iff_forall_homDensity_eq`, which
@@ -839,7 +839,7 @@ theorem cutDist_eq_zero_iff_forall_homDensity_eq_cross (U : Graphon Ω₁ μ₁)
   TauCeti.DenseGraphLimits.cutDist_eq_zero_iff_forall_homDensity_eq_cross U W
 
 /-- **The quotient-level separation** on `GraphonSpaceI`. Tau Ceti:
-`graphonSpace_ext_iff_homDensity`, for every `GraphonSpace Ω μ`. -/
+`graphonSpace_ext_homDensity`, for every `GraphonSpace Ω μ`. -/
 theorem graphonSpace_ext_homDensity (U W : GraphonSpaceI) :
     U = W ↔ ∀ (n : ℕ) (F : SimpleGraph (Fin n)) [DecidableRel F.Adj],
       homDensityOnSpace F U = homDensityOnSpace F W :=

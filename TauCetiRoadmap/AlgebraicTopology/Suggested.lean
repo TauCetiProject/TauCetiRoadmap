@@ -453,7 +453,7 @@ structure Carrier {E H M : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
 
 variable {E H M : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
 variable [FiniteDimensional ℝ E] [TopologicalSpace H] [TopologicalSpace M]
-variable (I : ModelWithCorners ℝ E H) [ChartedSpace H M] [IsManifold I ∞ M]
+variable (I : ModelWithCorners ℝ E H) [ChartedSpace H M] [hM : IsManifold I ∞ M]
 variable (m : ℕ) (e : E ≃L[ℝ] EuclideanSpace ℝ (Fin m))
 
 local notation "C" => Carrier (E := E) (H := H) (M := M) I m e
@@ -480,6 +480,7 @@ instance carrierSecondCountable [SecondCountableTopology M] : SecondCountableTop
   let : SecondCountableTopology (I.interior M) := inferInstance
   exact (carrierHomeomorphInterior I m e).secondCountableTopology
 
+include hM in
 /-- Preferred charts on the fresh carrier. The exact coordinate formula is recorded in
 `chartAt_apply`; the geometric construction is the restriction of the original extended chart to
 the open interior, followed by the linear homeomorphism `e`. -/

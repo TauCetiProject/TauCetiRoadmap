@@ -3311,8 +3311,6 @@ theorem isPinLift_pinDiagonalLift (ε : Fin 2 → ZMod 2) :
       simp [h0, h1, pinE1, pinE2, pinVec, Matrix.mul_apply, Fin.sum_univ_two, Matrix.mulVec,
         Matrix.vecMul, Matrix.transpose_apply, dotProduct, Matrix.det_fin_two])
 
--- The unused-tactic linter misreports the `<;>` chain below as unused; every step is needed.
-set_option linter.unusedTactic false in
 open Classical in
 /-- **The product of two diagonal lifts,**
 `e₁^a e₂^b · e₁^{a'} e₂^{b'} = (−1)^{b a'} e₁^{a + a'} e₂^{b + b'}`, by `e_i² = +1` and

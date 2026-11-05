@@ -65,7 +65,7 @@ predicates and the absolute ramification index (`TauCeti.ramificationIndex`,
 `TauCeti.absoluteRamificationIndex`), the unit filtration and its graded pieces
 (`TauCeti.unitFiltration`, `TauCeti.UnitFiltrationGraded`), the Teichmüller lift
 (`TauCeti.teichmuller`), the spectral-norm construction of the local-field structure on a finite
-extension and on a finite intermediate field (`TauCeti.finiteExtensionValuativeRel`,
+extension and on a finite intermediate field (`TauCeti.algebraicExtensionValuativeRel`,
 `TauCeti.finiteIntermediateFieldValuativeRel` and their companions), the integer-ring and
 residue-field algebra structures (`TauCeti.integerRingAlgebra`, `TauCeti.residueFieldAlgebra`), the
 Frobenius of an unramified extension and the norm group (`TauCeti.frobeniusAlgEquiv`,

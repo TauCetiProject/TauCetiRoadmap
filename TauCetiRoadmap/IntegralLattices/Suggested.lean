@@ -1012,7 +1012,7 @@ The declarations supplied, all in namespace `TauCetiRoadmap.IntegralLattices`, a
   `ofIsotropicSubgroup` and `FiniteQuadraticModule.orthogonalQuotient` — the overlattice
   correspondences and the gluing theorem, through which `D₁₆⁺` is built (1E, 1F), again the
   certificate's;
-* `typeARootLattice`, `checkerboardLattice`, `typeE₈RootLattice`, `d8PlusLattice` and
+* `typeARootLattice`, `checkerboardLattice`, `typeE₈RootLattice`, `checkerboardPlusLattice 8` and
   `e8IsometryD8Plus` — the ADE lattices with their discriminant forms and the `D₈⁺ ≅ E₈`
   calculation (1K), certified in the archived file's ADE section;
 * the shells and representation numbers of 2B, the covolume identity of Layer 2, and the
@@ -1328,7 +1328,7 @@ end LayerBSplitContract
 The acceptance suite of the foundation — `rankOne`, `hyperbolicPlane`, `affineA1`, the ADE rows
 and the `D₈⁺ ≅ E₈` isometry — is discharged in `Completed/IntegralLattices/Suggested.lean` and is
 not restated. The two tests below use vocabulary of this file (`IsCharacteristicVector`,
-`padicDiscriminant`) on the certified `rankOne m = ⟨2m⟩`. -/
+`padicDiscriminant`) on the certified `rankOne a = ⟨a⟩` (with `a = 2m`). -/
 
 section RankOneRejection
 

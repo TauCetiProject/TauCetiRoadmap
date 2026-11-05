@@ -2424,7 +2424,6 @@ corollary; the arithmetic statements above are purely algebraic and do not carry
 variable [ValuativeRel RatPadicSqrtNegTwo] [TopologicalSpace RatPadicSqrtNegTwo]
   [IsNonarchimedeanLocalField RatPadicSqrtNegTwo]
 
-set_option linter.concreteInstances false in
 /-- **The marked arithmetic identification for `ℚ₂(√-2)`**:
 `absoluteGaloisGroupProP_two_marked_of_degree_even_principal` at `N = 2`, `k = 2`, `u = 3`,
 `f = 3`, with the relator `x₁⁶(x₁,x₂)x₃⁸(x₃,x₄)` written on `Fin 4`. The generator values
@@ -2446,7 +2445,6 @@ theorem absoluteGaloisGroupProP_two_ratPadicSqrtNegTwo_marked :
             (e.symm (ProfiniteProPGroups.presentedProPGen 2 4 _ 2)) = 1 :=
   sorry
 
-set_option linter.concreteInstances false in
 /-- The unmarked isomorphism, a corollary of the marked theorem and not a separate choice. -/
 theorem absoluteGaloisGroupProP_two_ratPadicSqrtNegTwo :
     Nonempty (absoluteGaloisGroupProP 2 RatPadicSqrtNegTwo ≃ₜ*
