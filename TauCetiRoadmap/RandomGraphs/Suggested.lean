@@ -575,6 +575,20 @@ theorem poisson_pointMass_limit_of_factorial_moments
       (𝓝 ((ProbabilityTheory.poissonMeasure r {j}).toReal)) := by
   sorry
 
+/-- **The criterion in total variation**, with the countable discrete formula
+`½ ∑ⱼ |ν n {j} − Poisson(r) {j}|`. The case `r = 0` is included. -/
+theorem poisson_totalVariation_limit_of_factorial_moments
+    (ν : ℕ → Measure ℕ) [∀ n, IsProbabilityMeasure (ν n)] (r : ℝ≥0)
+    (hfinite : ∀ n k,
+      Integrable (fun x : ℕ => (x.descFactorial k : ℝ)) (ν n))
+    (hmom : ∀ k : ℕ,
+      Tendsto (fun n => ∫ x : ℕ, (x.descFactorial k : ℝ) ∂ν n)
+        atTop (𝓝 ((r : ℝ) ^ k))) :
+    Tendsto (fun n => (1 / 2 : ℝ) * ∑' j : ℕ,
+        |(ν n {j}).toReal - (ProbabilityTheory.poissonMeasure r {j}).toReal|)
+      atTop (𝓝 0) := by
+  sorry
+
 theorem triangle_factorialMoment_limit (p : ℕ → I) (c : ℝ≥0)
     (hp : Tendsto (fun n : ℕ => (n : ℝ) * (p n : ℝ)) atTop (𝓝 (c : ℝ)))
     (k : ℕ) :
