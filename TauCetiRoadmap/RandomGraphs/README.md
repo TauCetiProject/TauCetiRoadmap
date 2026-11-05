@@ -450,7 +450,8 @@ conjunction and is noncomputable, so it supplies the semantics but not the algor
   Mathlib's structural list encoding `BoundedFormula.encoding` followed by an explicit numbering
   of its symbol alphabet, uniform in the free-variable context `Fin m` (not
   `Encodable.ofCountable`, whose classical enumeration has no effective content), with decoding
-  and its round-trip law, and computability on codes of the syntax operations the procedures
+  that accepts exactly the formula codes (Mathlib's list decoder ignores trailing symbols, so
+  this needs a re-encoding check) and its round-trip law, and computability on codes of the syntax operations the procedures
   use: the constructors (`⊥`, equality and adjacency atoms between variables, implication,
   universal quantification) and case analysis on the outermost constructor. These are supporting
   targets for computable QE, not a general computability library;

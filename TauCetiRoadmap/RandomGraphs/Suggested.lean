@@ -271,18 +271,27 @@ abbrev GraphAlphabet (α : Type) :=
 def boundedCode {α : Type} [Encodable α] {n : ℕ} (φ : Language.graph.BoundedFormula α n) : ℕ :=
   Encodable.encode (φ.listEncode : List (GraphAlphabet α))
 
-/-- Decoding at a given context and number of bound positions; `none` on invalid codes. -/
+/-- Decoding at a given context and number of bound positions. Mathlib's list decoder ignores
+trailing symbols, so the candidate is kept only if re-encoding it reproduces `c`; every other
+number decodes to `none`. -/
 def boundedDecode (α : Type) [Encodable α] (n : ℕ) (c : ℕ) :
     Option (Language.graph.BoundedFormula α n) :=
-  (Encodable.decode c : Option (List (GraphAlphabet α))).bind fun l =>
+  ((Encodable.decode c : Option (List (GraphAlphabet α))).bind fun l =>
     (BoundedFormula.encoding.decode l).bind fun φ =>
-      if h : φ.1 = n then some (h ▸ φ.2) else none
+      if h : φ.1 = n then some (h ▸ φ.2) else none).filter fun φ => boundedCode φ == c
 
 theorem boundedDecode_boundedCode {α : Type} [Encodable α] {n : ℕ}
     (φ : Language.graph.BoundedFormula α n) : boundedDecode α n (boundedCode φ) = some φ := by
   have h := BoundedFormula.encoding.decode_encode (⟨n, φ⟩ : Σ n, Language.graph.BoundedFormula α n)
   simp only [BoundedFormula.encoding_encode, BoundedFormula.encoding_decode] at h
   simp [boundedCode, boundedDecode, h]
+
+/-- `boundedDecode` succeeds exactly on codes of formulas. -/
+theorem boundedDecode_eq_some_iff {α : Type} [Encodable α] {n c : ℕ}
+    {φ : Language.graph.BoundedFormula α n} : boundedDecode α n c = some φ ↔ boundedCode φ = c := by
+  refine ⟨fun h => ?_, fun h => h ▸ boundedDecode_boundedCode φ⟩
+  simp only [boundedDecode, Option.filter_eq_some_iff, beq_iff_eq] at h
+  exact h.2
 
 /-- **Effective syntax, constructors.** The codes of `⊥`, of equality and adjacency atoms between
 variables (given by their codes in `Fin m ⊕ Fin n`), of implications and of universal
@@ -321,8 +330,8 @@ theorem computable_boundedCode_cases :
 terminating syntactic procedure of the README: a computable map on codes, taking the context size
 `m` as input, that sends the code of each formula over `Fin m` to the code of a quantifier-free
 formula with the same realizations in every model of `radoAxioms`. Its correctness yields the
-theory-level `HasQuantifierElimination` of Mathlib #41113. The values on invalid codes are
-unconstrained. -/
+theory-level `HasQuantifierElimination` of Mathlib #41113. The values on numbers that are not
+formula codes are unconstrained. -/
 theorem exists_computable_quantifierElimination :
     ∃ Q : ℕ → ℕ → ℕ, Computable₂ Q ∧
       ∀ (m : ℕ) (φ : Language.graph.Formula (Fin m)),
