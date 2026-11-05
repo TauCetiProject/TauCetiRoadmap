@@ -22,7 +22,7 @@ provisional.
 
 set_option autoImplicit false
 
-universe u v w u' v' u₁ v₁ u₂ v₂
+universe u v w w' u' v' u₁ v₁ u₂ v₂
 
 namespace TauCetiRoadmap.CountableStructureSpaces
 
@@ -478,8 +478,19 @@ theorem scottHeight_congr [L.IsRelational] {M N : Type w} [L.Structure M] [L.Str
     (e : M ≃[L] N) : scottHeight (L := L) M = scottHeight (L := L) N := by
   sorry
 
-/-- **Layer 4 milestone, the constant-chain bound.** Internal stabilization at `β` gives external
-stabilization at `β + ω`, against structures of any cardinality. -/
+/-- **Layer 4 milestone, the constant-chain bound.** If `M` stabilizes internally at `β`, then
+back-and-forth equivalence at `β + ω` between a tuple of `M` and a tuple of any structure `N`, of
+any cardinality and in any universe, implies equivalence at every level. -/
+theorem bfEquiv_of_selfStabilizesCompletely [L.IsRelational] {M : Type w} {N : Type w'}
+    [L.Structure M] [L.Structure N] {β : Ordinal.{w}}
+    (h : SelfStabilizesCompletely (L := L) M β) {n : ℕ} {a : Fin n → M} {b : Fin n → N}
+    (hab : BFEquiv (L := L) (β + Ordinal.omega0) n a b) (γ : Ordinal.{w}) :
+    BFEquiv (L := L) γ n a b := by
+  sorry
+
+/-- **Layer 4 milestone, the countable case.** Internal stabilization at `β` gives external
+stabilization at `β + ω`: the case of `bfEquiv_of_selfStabilizesCompletely` with `N` countable
+and the next level. -/
 theorem stabilizesCompletely_add_omega0 [L.IsRelational] {M : Type w} [L.Structure M]
     {β : Ordinal.{w}} (h : SelfStabilizesCompletely (L := L) M β) :
     StabilizesCompletely (L := L) M (β + Ordinal.omega0) := by

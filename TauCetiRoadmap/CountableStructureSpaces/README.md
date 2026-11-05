@@ -418,15 +418,18 @@ Define `StabilizesCompletely` and `scottHeight` as in Convention 8, and prove:
   transfinite induction on `γ` with the stabilization supplying the forth and back witnesses;
 - `stabilizesCompletely_iff_univ`: quantifying over countable `N` in any other universe gives the
   same predicate;
-- **the constant-chain bound** `stabilizesCompletely_add_omega0`: if `M` self-stabilizes at `β`,
-  then it stabilizes externally at `β + ω`, against structures of any cardinality. Suppose
+- **the constant-chain bound** `bfEquiv_of_selfStabilizesCompletely`: if `M` self-stabilizes at
+  `β`, then for every structure `N`, of any cardinality and in any universe, and all tuples `a`
+  of `M` and `b` of `N`, `BFEquiv (β + ω) n a b` implies `BFEquiv γ n a b` for every `γ`. Suppose
   `BFEquiv (β + k) n a b` for every `k`. A forth witness `m'` chosen at level `β` for `m` already
   works at every level `β + k`: given `BFEquiv (β + k) (a m) (b m')`, the back clause of
   `BFEquiv (β + k + 2) n a b` gives `w` with `BFEquiv (β + k + 1) (a w) (b m')`; then `a m` and
   `a w` are `BFEquiv β` inside `M` (transitivity through `b m'`), hence equivalent at every level by
   self-stabilization, and transitivity gives `BFEquiv (β + k + 1) (a m) (b m')`. Transfinite
   induction then upgrades `BFEquiv (β + k)` for all `k` to
-  every level. This needs only `BFEquiv.trans` across three structures;
+  every level. This needs only `BFEquiv.trans` across three structures, and no countability of
+  `N`. The countable case, `stabilizesCompletely_add_omega0`, says that `M` stabilizes externally
+  at `β + ω` in the sense of Convention 8;
 - `stabilizesCompletely_scottHeight` (the infimum is attained, the set being nonempty by the
   constant-chain bound), `scottHeight_lt_omega_one` for countable `M`, and `scottHeight_congr`;
 - **comparison with the internal rank**, for countable `M` where stated:
@@ -752,7 +755,7 @@ checkpoint.
 | 1 | `Descriptive/{PermTopology, PermPolishGroup, PolishAction, LogicAction, InvariantMeasurableSpace, InvariantMeasurableModels}.lean` | the source topologizes only `Equiv.Perm ℕ`, works in `Language.{0, 0}` and defines its own invariant σ-algebra; here any discrete carrier, any universes, `arrowAction` and `MeasurableSpace.invariants` |
 | 2 | `Descriptive/{SatisfactionBorel, SatisfactionBorelOn, ModelClassStandardBorel, ModelsOfGDelta, LopezEscobarEasy}.lean` | names `ModelsOf`, `ModelsOfOn`; here one `modelsOf` on every carrier. The source's `GDeltaPolish.lean` and `AnalyticClosure.lean` map to BorelEquivalenceRelations |
 | 3 | `Descriptive/{KleeneBrouwer, AnalyticTreeBoundedness, AnalyticTree, TreeCodes}.lean` | the source states the tree representation level by level and has no `body`; here Mathlib #41946's vocabulary |
-| 4 | `Descriptive/{BFEquivBorel, IsomorphismBorel, StructureIsoSetoid, BFTree, BFSeparation}.lean`, `Scott/Height/{Defs, RankBounds}.lean`, `Scott/RefinementCount.lean`, `Scott/InternalRankBounds.lean` | the source's `scottHeight` lives in `Ordinal.{0}`, ranges over countable `N` in the universe of `M`, and is compared with the internal rank through `Ordinal.lift`; here `Ordinal.{w}`, `N : Type`, and no lifts. The constant-chain argument is `RefinementCount.lean`'s proof of `countableRefinementHypothesis` |
+| 4 | `Descriptive/{BFEquivBorel, IsomorphismBorel, StructureIsoSetoid, BFTree, BFSeparation}.lean`, `Scott/Height/{Defs, RankBounds}.lean`, `Scott/RefinementCount.lean`, `Scott/InternalRankBounds.lean` | the source's `scottHeight` lives in `Ordinal.{0}`, ranges over countable `N` in the universe of `M`, and is compared with the internal rank through `Ordinal.lift`; here `Ordinal.{w}`, `N : Type`, and no lifts. The constant-chain argument is `RefinementCount.lean`'s proof of `countableRefinementHypothesis`, stated there for countable `N`; `bfEquiv_of_selfStabilizesCompletely` is its adaptation to arbitrary `N`, which the argument permits |
 | 5 | `Methods/LopezEscobar/*.lean`, `Descriptive/LopezEscobar.lean`, `Methods/Interpolation/CraigSeparation.lean` (`craig_pcSeparation_relational`) | the source codes trees in a functional witness vocabulary relationalized by graph translation, and proves disjointness through a countable fragment-elementary substructure; here the witness vocabulary is relational and its numeral axiom makes every model countable, so neither is needed |
 | 6 | `Descriptive/{InvariantSeparation, WellOrderClass, WellOrderNonBorel, WellOrderBridge, AnalyticWellOrderBoundedness}.lean` | the source obtains non-Borelness of the well-order class from López–Escobar, fragment Löwenheim–Skolem and the model-theoretic boundedness of well-ordered models; here from the descriptive boundedness theorem of Layer 3 |
 
