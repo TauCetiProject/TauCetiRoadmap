@@ -59,53 +59,53 @@ open scoped TensorProduct DirectSum
 with `sgn_n` the one-dimensional sign representation (Fulton–Harris, Lecture 4, Exercise 4.4;
 James, Chapter 4 and Theorem 8.15). -/
 theorem spechtModule_tensor_sign_iso {n : ℕ} (μ : n.Partition) :
-    Nonempty (MonoidalCategoryStruct.tensorObj (TauCeti.spechtModule μ)
+    Nonempty (MonoidalCategoryStruct.tensorObj (TauCeti.spechtModule (R := ℚ) μ)
         (FDRep.ofLinearCharacter (TauCeti.signLinearCharacter ℚ (Fin n)))
-      ≅ TauCeti.spechtModule (TauCeti.conjugate μ)) := sorry
+      ≅ TauCeti.spechtModule (R := ℚ) μ.conjugate) := sorry
 
 /-- **The character form** of the sign-transpose isomorphism: `χ^{λᵗ}(σ) = sgn(σ) · χ^λ(σ)` on the
 integer-valued Specht characters. -/
 theorem spechtChar_conjugate {n : ℕ} (μ : n.Partition) (σ : Equiv.Perm (Fin n)) :
-    TauCeti.spechtChar (TauCeti.conjugate μ) σ = (Equiv.Perm.sign σ : ℤ) * TauCeti.spechtChar μ σ :=
+    TauCeti.spechtChar μ.conjugate σ = (Equiv.Perm.sign σ : ℤ) * TauCeti.spechtChar μ σ :=
   sorry
 
 /-- **Specht self-duality**: the restriction of the invariant tabloid form to `S^λ` is nondegenerate
 over `ℚ`, so `v ↦ B(v, ·)` is an equivariant linear bijection from `S^λ` onto its dual with the
 contragredient action `(σ · φ)(v) = φ(σ⁻¹ v)` (James, Chapter 4 and Theorem 8.15). -/
 theorem spechtModule_self_dual {n : ℕ} (μ : n.Partition) :
-    ∃ f : TauCeti.spechtModule μ →ₗ[ℚ] Module.Dual ℚ (TauCeti.spechtModule μ),
+    ∃ f : TauCeti.spechtModule (R := ℚ) μ →ₗ[ℚ] Module.Dual ℚ (TauCeti.spechtModule (R := ℚ) μ),
       Function.Bijective f ∧
-        ∀ (σ : Equiv.Perm (Fin n)) (v : TauCeti.spechtModule μ),
-          f ((TauCeti.spechtModule μ).ρ σ v) = Representation.dual (TauCeti.spechtModule μ).ρ σ (f v) := sorry
+        ∀ (σ : Equiv.Perm (Fin n)) (v : TauCeti.spechtModule (R := ℚ) μ),
+          f ((TauCeti.spechtModule (R := ℚ) μ).ρ σ v) = Representation.dual (TauCeti.spechtModule (R := ℚ) μ).ρ σ (f v) := sorry
 
 /-- The representation induced from the external product of the rational Specht modules along
 `S_a × S_b → S_(a+b)`, using the two projection pullbacks and native tensor and induction. -/
 noncomputable def inducedSpecht {a b : ℕ} (lam : a.Partition) (mu : b.Partition) :=
   Representation.ind (Equiv.Perm.finSumPermHom a b)
     (Representation.tprod
-      ((TauCeti.spechtModule lam).ρ.comp (MonoidHom.fst _ _))
-      ((TauCeti.spechtModule mu).ρ.comp (MonoidHom.snd _ _)))
+      ((TauCeti.spechtModule (R := ℚ) lam).ρ.comp (MonoidHom.fst _ _))
+      ((TauCeti.spechtModule (R := ℚ) mu).ρ.comp (MonoidHom.snd _ _)))
 
 /-- Transposing the two inducing shapes and the output shape preserves the induced Specht
 multiplicity space (James, Theorem 16.4; the sign projection formula). -/
 theorem inducedSpechtTranspose {a b : ℕ} (lam : a.Partition) (mu : b.Partition)
     (nu : (a + b).Partition) :
-    Nonempty (Representation.IntertwiningMap (TauCeti.spechtModule nu).ρ (inducedSpecht lam mu)
-      ≃ₗ[ℚ] Representation.IntertwiningMap (TauCeti.spechtModule (TauCeti.conjugate nu)).ρ
-        (inducedSpecht (TauCeti.conjugate lam) (TauCeti.conjugate mu))) := sorry
+    Nonempty (Representation.IntertwiningMap (TauCeti.spechtModule (R := ℚ) nu).ρ (inducedSpecht lam mu)
+      ≃ₗ[ℚ] Representation.IntertwiningMap (TauCeti.spechtModule (R := ℚ) nu.conjugate).ρ
+        (inducedSpecht lam.conjugate mu.conjugate)) := sorry
 
 /-- Transposing both factors of an internal Specht tensor product cancels the two sign twists. -/
 theorem kroneckerDoubleTranspose {n : ℕ} (lam mu : n.Partition) :
     Nonempty (MonoidalCategoryStruct.tensorObj
-      (TauCeti.spechtModule (TauCeti.conjugate lam)) (TauCeti.spechtModule (TauCeti.conjugate mu)) ≅
-      MonoidalCategoryStruct.tensorObj (TauCeti.spechtModule lam) (TauCeti.spechtModule mu)) := sorry
+      (TauCeti.spechtModule (R := ℚ) lam.conjugate) (TauCeti.spechtModule (R := ℚ) mu.conjugate) ≅
+      MonoidalCategoryStruct.tensorObj (TauCeti.spechtModule (R := ℚ) lam) (TauCeti.spechtModule (R := ℚ) mu)) := sorry
 
 /-- Transposing one factor of an internal Specht tensor product twists the product by sign. -/
 theorem kroneckerSingleTranspose {n : ℕ} (lam mu : n.Partition) :
     Nonempty (MonoidalCategoryStruct.tensorObj
-      (TauCeti.spechtModule (TauCeti.conjugate lam)) (TauCeti.spechtModule mu) ≅
+      (TauCeti.spechtModule (R := ℚ) lam.conjugate) (TauCeti.spechtModule (R := ℚ) mu) ≅
       MonoidalCategoryStruct.tensorObj
-        (MonoidalCategoryStruct.tensorObj (TauCeti.spechtModule lam) (TauCeti.spechtModule mu))
+        (MonoidalCategoryStruct.tensorObj (TauCeti.spechtModule (R := ℚ) lam) (TauCeti.spechtModule (R := ℚ) mu))
         (FDRep.ofLinearCharacter (TauCeti.signLinearCharacter ℚ (Fin n)))) := sorry
 
 /-! ## Layer 7: Littlewood–Richardson, Murnaghan–Nakayama and the Hall form -/
@@ -161,7 +161,7 @@ theorem littlewoodRichardson (σ R : Type*) [Fintype σ] [CommSemiring R]
     {n m : ℕ} (μ : n.Partition) (ν : m.Partition) :
     TauCeti.schurPoly σ R μ * TauCeti.schurPoly σ R ν =
       ∑ κ : (n + m).Partition,
-        (lrCoefficient (TauCeti.diagramOf μ) (TauCeti.diagramOf ν) (TauCeti.diagramOf κ) : R) •
+        (lrCoefficient (YoungDiagram.ofPartition μ) (YoungDiagram.ofPartition ν) (YoungDiagram.ofPartition κ) : R) •
           TauCeti.schurPoly σ R κ := by sorry
 
 /-- The Littlewood–Richardson rule on the diagram-indexed Schur polynomials. -/
@@ -169,8 +169,8 @@ theorem diagramLittlewoodRichardson (d : ℕ) (R : Type*) [CommSemiring R]
     (μ ν : YoungDiagram) :
     TauCeti.diagramSchurPoly d R μ * TauCeti.diagramSchurPoly d R ν =
       ∑ κ : (μ.card + ν.card).Partition,
-        (lrCoefficient μ ν (TauCeti.diagramOf κ) : R) •
-          TauCeti.diagramSchurPoly d R (TauCeti.diagramOf κ) := by sorry
+        (lrCoefficient μ ν (YoungDiagram.ofPartition κ) : R) •
+          TauCeti.diagramSchurPoly d R (YoungDiagram.ofPartition κ) := by sorry
 
 /-- The integral finite Frobenius formula: a power-sum product expands in Schur polynomials
 with the integer Specht character values as coefficients, over every commutative ring and
@@ -210,8 +210,8 @@ theorem murnaghanNakayama {n r : ℕ} (hr : 0 < r)
     (κ ρ : (n + r).Partition) (ν : n.Partition)
     (hρ : ρ.parts = Multiset.cons r ν.parts) :
     TauCeti.spechtCharValue κ ρ =
-      ∑ μ : n.Partition with (TauCeti.diagramOf κ).IsRimHook (TauCeti.diagramOf μ),
-        (-1 : ℤ) ^ (TauCeti.diagramOf κ).rimHookHeight (TauCeti.diagramOf μ) *
+      ∑ μ : n.Partition with (YoungDiagram.ofPartition κ).IsRimHook (YoungDiagram.ofPartition μ),
+        (-1 : ℤ) ^ (YoungDiagram.ofPartition κ).rimHookHeight (YoungDiagram.ofPartition μ) *
           TauCeti.spechtCharValue μ ν := by sorry
 
 /-- **The Hall form** on the symmetric homogeneous polynomials of degree `n` in `d` variables: the
@@ -262,14 +262,14 @@ theorem schurWeylDecomposition (d n : ℕ) :
     ∃ e : (⨂[ℂ] (_ : Fin n), (Fin d → ℂ)) ≃ₗ[ℂ]
         DirectSum {μ : n.Partition // μ.parts.card ≤ d}
           (fun μ => TensorProduct ℂ (TauCeti.spechtModuleℂ μ.1)
-            (TauCeti.schurFunctor d (TauCeti.diagramOf μ.1))),
+            (TauCeti.schurFunctor d (YoungDiagram.ofPartition μ.1))),
       (∀ σ : Equiv.Perm (Fin n),
         e.toLinearMap ∘ₗ (TauCeti.permTensorAction ℂ d n σ)
           = DirectSum.lmap
               (fun μ : {μ : n.Partition // μ.parts.card ≤ d} =>
                 TensorProduct.map ((TauCeti.spechtModuleℂ μ.1).ρ σ)
-                  (LinearMap.id : (TauCeti.schurFunctor d (TauCeti.diagramOf μ.1)) →ₗ[ℂ]
-                    (TauCeti.schurFunctor d (TauCeti.diagramOf μ.1))))
+                  (LinearMap.id : (TauCeti.schurFunctor d (YoungDiagram.ofPartition μ.1)) →ₗ[ℂ]
+                    (TauCeti.schurFunctor d (YoungDiagram.ofPartition μ.1))))
             ∘ₗ e.toLinearMap) ∧
       ∀ g : GL (Fin d) ℂ,
         e.toLinearMap ∘ₗ (TauCeti.tensorPowerRep ℂ d n g)
@@ -277,7 +277,7 @@ theorem schurWeylDecomposition (d n : ℕ) :
               (fun μ : {μ : n.Partition // μ.parts.card ≤ d} =>
                 TensorProduct.map
                   (LinearMap.id : (TauCeti.spechtModuleℂ μ.1) →ₗ[ℂ] (TauCeti.spechtModuleℂ μ.1))
-                  ((TauCeti.schurFunctor d (TauCeti.diagramOf μ.1)).ρ g))
+                  ((TauCeti.schurFunctor d (YoungDiagram.ofPartition μ.1)).ρ g))
             ∘ₗ e.toLinearMap := sorry
 
 /-- The balancing relations in the tensor power tensored with a complex Specht module.
@@ -295,12 +295,12 @@ functor, as a general-linear-group representation (Fulton–Harris, §6.1). The 
 exact kernel specify the full quotient equivalence, including shapes with more than `d` rows. -/
 theorem balancedSchurPresentation (d n : ℕ) (mu : n.Partition) :
     ∃ f : ((⨂[ℂ] (_ : Fin n), (Fin d → ℂ)) ⊗[ℂ] (TauCeti.spechtModuleℂ mu)) →ₗ[ℂ]
-        TauCeti.schurFunctor d (TauCeti.diagramOf mu),
+        TauCeti.schurFunctor d (YoungDiagram.ofPartition mu),
       Function.Surjective f ∧ LinearMap.ker f = balancedSchurRelations d n mu ∧
       ∀ (g : GL (Fin d) ℂ) (v : ⨂[ℂ] (_ : Fin n), (Fin d → ℂ))
         (s : TauCeti.spechtModuleℂ mu),
       f ((TauCeti.tensorPowerRep ℂ d n g v) ⊗ₜ[ℂ] s) =
-        (TauCeti.schurFunctor d (TauCeti.diagramOf mu)).ρ g (f (v ⊗ₜ[ℂ] s)) := sorry
+        (TauCeti.schurFunctor d (YoungDiagram.ofPartition mu)).ρ g (f (v ⊗ₜ[ℂ] s)) := sorry
 
 /-! ## Layer 9: orthogonal Schur–Weyl duality and harmonic tensors -/
 
@@ -312,7 +312,7 @@ noncomputable abbrev orthAction (R : Type*) [CommRing R] (n k : ℕ) :
 
 /-- The Brauer generators over a commutative ring: permutations of slots and cup-caps on
 distinct slots. Their generated algebra is the image of the orthogonal Brauer action. -/
-def brauerGenerators (R : Type*) [CommRing R] (n k : ℕ) :
+noncomputable def brauerGenerators (R : Type*) [CommRing R] (n k : ℕ) :
     Set (Module.End R (⨂[R] (_ : Fin k), (Fin n → R))) :=
   Set.range (TauCeti.permTensorAction R n k) ∪
     {f | ∃ a b : Fin k, a ≠ b ∧ f = TauCeti.orthogonalCupCapAt R n k a b}
@@ -355,36 +355,36 @@ theorem harmonicTensors_permTensorAction_mem (n k : ℕ) (σ : Equiv.Perm (Fin k
 image of the Young symmetrizer `c_t` acting through the permutation action, intersected with the
 harmonic tensors (Goodman–Wallach, §10.2.1). Another tableau gives an `O_n`-isomorphic space. -/
 noncomputable def orthShapeSpace (n : ℕ) {q : ℕ} (lam : q.Partition)
-    (t : TauCeti.YoungTableau (TauCeti.diagramOf lam)) :
-    Submodule ℂ (⨂[ℂ] (_ : Fin (TauCeti.diagramOf lam).card), (Fin n → ℂ)) :=
-  LinearMap.range ((TauCeti.permTensorAction ℂ n (TauCeti.diagramOf lam).card).asAlgebraHom
+    (t : TauCeti.YoungTableau (YoungDiagram.ofPartition lam)) :
+    Submodule ℂ (⨂[ℂ] (_ : Fin (YoungDiagram.ofPartition lam).card), (Fin n → ℂ)) :=
+  LinearMap.range ((TauCeti.permTensorAction ℂ n (YoungDiagram.ofPartition lam).card).asAlgebraHom
       (TauCeti.YoungTableau.youngSymmetrizerOver ℂ t)) ⊓
-    harmonicTensors n (TauCeti.diagramOf lam).card
+    harmonicTensors n (YoungDiagram.ofPartition lam).card
 
 /-- **The orthogonal admissibility condition**: the first two columns of `λ` together have at most
 `n` cells, `λᵗ₁ + λᵗ₂ ≤ n`. -/
 def OrthAdmissible {q : ℕ} (n : ℕ) (lam : q.Partition) : Prop :=
-  (TauCeti.diagramOf lam).colLen 0 + (TauCeti.diagramOf lam).colLen 1 ≤ n
+  (YoungDiagram.ofPartition lam).colLen 0 + (YoungDiagram.ofPartition lam).colLen 1 ≤ n
 
 /-- The shape space is stable under `O_n`. -/
 theorem orthShapeSpace_orthAction_mem (n : ℕ) {q : ℕ} (lam : q.Partition)
-    (t : TauCeti.YoungTableau (TauCeti.diagramOf lam)) (g : Matrix.orthogonalGroup (Fin n) ℂ)
-    {v : ⨂[ℂ] (_ : Fin (TauCeti.diagramOf lam).card), (Fin n → ℂ)}
+    (t : TauCeti.YoungTableau (YoungDiagram.ofPartition lam)) (g : Matrix.orthogonalGroup (Fin n) ℂ)
+    {v : ⨂[ℂ] (_ : Fin (YoungDiagram.ofPartition lam).card), (Fin n → ℂ)}
     (hv : v ∈ orthShapeSpace n lam t) :
-    orthAction ℂ n (TauCeti.diagramOf lam).card g v ∈ orthShapeSpace n lam t := sorry
+    orthAction ℂ n (YoungDiagram.ofPartition lam).card g v ∈ orthShapeSpace n lam t := sorry
 
 /-- **Nonvanishing of `E_λ`**: the shape space is nonzero exactly when `λᵗ₁ + λᵗ₂ ≤ n`
 (Goodman–Wallach, §§10.2.4–10.2.5, pp. 442, 446; dimension zero is direct). -/
 theorem orthShapeSpace_ne_bot_iff (n : ℕ) {q : ℕ} (lam : q.Partition)
-    (t : TauCeti.YoungTableau (TauCeti.diagramOf lam)) :
+    (t : TauCeti.YoungTableau (YoungDiagram.ofPartition lam)) :
     orthShapeSpace n lam t ≠ ⊥ ↔ OrthAdmissible n lam := sorry
 
 /-- **Irreducibility of `E_λ`** for admissible `λ`: every `O_n`-stable subspace of `E_λ` is `0` or
 `E_λ` (Goodman–Wallach, §§10.2.4–10.2.5, pp. 442, 446; dimension zero is direct). -/
 theorem orthShapeSpace_irreducible (n : ℕ) {q : ℕ} (lam : q.Partition)
-    (t : TauCeti.YoungTableau (TauCeti.diagramOf lam)) (hlam : OrthAdmissible n lam)
-    (W : Submodule ℂ (⨂[ℂ] (_ : Fin (TauCeti.diagramOf lam).card), (Fin n → ℂ)))
-    (hW : ∀ g : Matrix.orthogonalGroup (Fin n) ℂ, W.map (orthAction ℂ n (TauCeti.diagramOf lam).card g) ≤ W)
+    (t : TauCeti.YoungTableau (YoungDiagram.ofPartition lam)) (hlam : OrthAdmissible n lam)
+    (W : Submodule ℂ (⨂[ℂ] (_ : Fin (YoungDiagram.ofPartition lam).card), (Fin n → ℂ)))
+    (hW : ∀ g : Matrix.orthogonalGroup (Fin n) ℂ, W.map (orthAction ℂ n (YoungDiagram.ofPartition lam).card g) ≤ W)
     (hWE : W ≤ orthShapeSpace n lam t) :
     W = ⊥ ∨ W = orthShapeSpace n lam t := sorry
 
@@ -394,7 +394,7 @@ theorem orthShapeSpace_irreducible (n : ℕ) {q : ℕ} (lam : q.Partition)
 (stable by `orthShapeSpace_orthAction_mem` and `harmonicTensors_orthAction_mem`), the `S_q`-action on
 `H^q` the restriction of the permutation action, and on `S^λ` the complex Specht action. -/
 theorem harmonicTensors_decomposition (n q : ℕ)
-    (t : ∀ lam : q.Partition, TauCeti.YoungTableau (TauCeti.diagramOf lam)) :
+    (t : ∀ lam : q.Partition, TauCeti.YoungTableau (YoungDiagram.ofPartition lam)) :
     ∃ e : harmonicTensors n q ≃ₗ[ℂ]
         DirectSum {lam : q.Partition // OrthAdmissible n lam}
           (fun lam => TensorProduct ℂ (orthShapeSpace n lam.1 (t lam.1)) (TauCeti.spechtModuleℂ lam.1)),
@@ -404,7 +404,7 @@ theorem harmonicTensors_decomposition (n q : ℕ)
           = DirectSum.lmap
               (fun lam : {lam : q.Partition // OrthAdmissible n lam} =>
                 TensorProduct.map
-                  ((orthAction ℂ n (TauCeti.diagramOf lam.1).card g).restrict
+                  ((orthAction ℂ n (YoungDiagram.ofPartition lam.1).card g).restrict
                     (fun _ hv => orthShapeSpace_orthAction_mem n lam.1 (t lam.1) g hv))
                   LinearMap.id)
             ∘ₗ e.toLinearMap) ∧
