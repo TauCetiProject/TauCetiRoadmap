@@ -259,8 +259,7 @@ noncomputable def GeometricMorphism.ofContinuous (G : C ⥤ D) [G.IsContinuous J
 
 /-- **Layer 2.4.** A cocontinuous functor of small sites gives a geometric morphism whose direct
 image is `G.sheafPushforwardCocontinuous` (SGA 4 III 2.3). -/
-theorem GeometricMorphism.exists_of_isCocontinuous (G : C ⥤ D) [G.IsCocontinuous J K]
-    [∀ (F : Cᵒᵖ ⥤ Type u), G.op.HasPointwiseRightKanExtension F] :
+theorem GeometricMorphism.exists_of_isCocontinuous (G : C ⥤ D) [G.IsCocontinuous J K] :
     ∃ f : GeometricMorphism (Sheaf J (Type u)) (Sheaf K (Type u)),
       Nonempty (f.direct ≅ G.sheafPushforwardCocontinuous (Type u) J K) :=
   sorry
