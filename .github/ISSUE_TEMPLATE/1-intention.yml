@@ -87,6 +87,7 @@ body:
         - IntegralLattices
         - Isoperimetry
         - JacobianChallenge
+        - KacMoody
         - KhovanovHomology
         - LFunctions
         - LieGroupoidsPoisson
