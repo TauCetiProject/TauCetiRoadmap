@@ -98,17 +98,38 @@ construction and in the exponent-two specialization below. Build strict
 coordinate-change representability by L[b₁,b₂,…], including source, target,
 counit, composition and inverse maps and all Hopf-algebroid equations.
 
-Use `FormalGroup.invariantDifferential` and, over a ℚ-algebra,
-`FormalGroup.log` and `FormalGroup.exp` from native
-[`TauCeti.RingTheory.FormalGroup.Logarithm`](https://github.com/TauCetiProject/TauCeti/blob/1844920e9c82791e848e12fd5313fa212e542731/TauCeti/RingTheory/FormalGroup/Logarithm.lean).
-Consume `constantCoeff_log`, `coeff_one_log`, `derivative_log`,
-`subst_toPowerSeries_log`, `subst_toPowerSeries_eq_add_iff`,
-`subst_exp_log` and `subst_log_exp`:
-the logarithm has constant coefficient zero and linear coefficient one,
-and every additive series along F is a scalar multiple of it. Extend these
-APIs with base-change and coordinate-change comparisons and the bundled
-strict isomorphism to the additive formal group. Prove the additive and
-multiplicative examples and their logarithms. The exponent-two
+The pinned libraries have no invariant differential and no formal-group
+logarithm, so own them, shaped so that a library module with the same
+statements replaces them by deletion. For every formal group F over R
+define the normalized invariant differential as the power series
+P(T)=F_X(0,T)⁻¹, the inverse of the derivative of F in its first
+variable evaluated at (0,T); it exists over every R because that
+derivative has constant coefficient 1. Prove P(0)=1 and the invariance
+P(F(X,Y))·F_X(X,Y)=P(X), by differentiating the associativity law
+F(F(U,X),Y)=F(U,F(X,Y)) in U at U=0, and for a commutative F the same
+law in the second variable, P(F(X,Y))·F_Y(X,Y)=P(Y). Over a ℚ-algebra R
+and a commutative F define the logarithm log_F as the power series with
+zero constant coefficient and derivative P, so that its coefficient of
+T^n is p_(n−1)/n for n≥1, where P=Σ p_n T^n. Prove that log_F has
+linear coefficient one, that log_F(F(X,Y))=log_F(X)+log_F(Y), and that a
+power series g satisfies g(F(X,Y))=g(X)+g(Y) precisely when g=c·log_F
+for some c∈R, by differentiating in the first variable at X=0, which
+gives g'=g'(0)·P (Ravenel, Theorem A2.1.6, and the uniqueness of the
+strict logarithm in the proof of Lemma A2.1.9). Define the exponential
+exp_F as the substitution inverse of log_F and prove
+F(X,Y)=exp_F(log_F(X)+log_F(Y)), so that log_F is a strict isomorphism
+from F to the additive formal group. Extend these with base-change and
+coordinate-change comparisons and the bundled strict isomorphism to the
+additive formal group. Prove the additive and multiplicative examples and
+their logarithms. Checks: for the additive group P=1, log=T and exp=T;
+for the multiplicative group X+Y+XY, P=(1+T)⁻¹,
+log_F=Σ_(n≥1)(−1)^(n+1)T^n/n and exp_F=e^T−1, and
+P(F(X,Y))·F_X(X,Y)=(1+Y)/((1+X)(1+Y))=P(X), whereas the un-inverted
+series 1+T fails invariance since (1+F(X,Y))(1+Y)≠1+X; over a ℚ-algebra
+the additive series along the additive group are exactly the multiples
+c·T, so T² is not additive, whereas X² is additive along X+Y precisely
+over rings with 2=0, since (X+Y)²−X²−Y²=2XY, the setting of the
+exponent-two paragraph below. The exponent-two
 characteristic-two construction below is a separate integral argument;
 the ℚ-algebra logarithm does not apply there.
 
@@ -2197,7 +2218,7 @@ these layers; neither is an input to Lazard, Quillen or BP construction.
 
 - Quillen, [*Elementary proofs of some results of cobordism theory using Steenrod operations*](https://people.math.rochester.edu/faculty/doug/otherpapers/QuillenElem.pdf).
 - Adams, *Stable Homotopy and Generalised Homology*, for orientations and cooperations.
-- Ravenel, [*Complex Cobordism and Stable Homotopy Groups of Spheres*](https://www.sas.rochester.edu/mth/sites/doug-ravenel/mybooks/ravenel3rd.pdf), for p-typical cooperations and Adams–Novikov constructions.
+- Ravenel, [*Complex Cobordism and Stable Homotopy Groups of Spheres*](https://www.sas.rochester.edu/mth/sites/doug-ravenel/mybooks/ravenel3rd.pdf), for p-typical cooperations and Adams–Novikov constructions, and Appendix 2 (Theorems A2.1.6, A2.2.12 and Lemma A2.2.7) for the formal-group logarithm, p-series and height.
 - Bousfield, [*The localization of spectra with respect to homology*](https://doi.org/10.1016/0040-9383(79)90018-1), Topology 18 (1979), §6, Theorem 6.6, for the identification of the HF_p-nilpotent completion of a bounded-below spectrum with its derived p-completion.
 - Landweber–Ravenel–Stong, [*Periodic cohomology theories defined by elliptic curves*](https://people.math.rochester.edu/faculty/doug/mypapers/lrs.pdf), for exactness and elliptic examples.
 - Wilson, *The Ω-spectrum for Brown–Peterson cohomology II*, and Hovey, [*The homotopy of MString and MU⟨6⟩ at large primes*](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/Hovey-bpbp1.pdf), for the Hopf-ring interfaces.
