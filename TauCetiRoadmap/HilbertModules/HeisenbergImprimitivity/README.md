@@ -53,7 +53,7 @@ Left to other owners:
   real inner product space, for Schwartz functions, with both summability halves, the Fourier
   change of variables under a linear automorphism and the dual-lattice transport; its 2A owns the
   Euclidean dual lattice `L^∨` with `L^∨∨=L`, and its 2C the identity `covol(L^∨)=covol(L)⁻¹`.
-  The lattice Poisson formula on `ℝ^k×ℝ^k` is that theorem in symplectic coordinates (§2.4) and is
+  The lattice Poisson formula on `ℝ^k×ℝ^k` is that theorem in symplectic coordinates (§2.3) and is
   consumed, not restated.
 - Mathlib owns `SchwartzMap`, its Fourier transform, one-dimensional Poisson summation, Fourier
   series on `AddCircle`, `PontryaginDual`, `ZLattice.covolume` and the `CStarModule` classes.
@@ -94,7 +94,8 @@ belongs to a Part II of it, which starts from the Schwartz–Bruhat analysis of 
   f^*(x)       = conj(c(−x,x)) conj(f(−x))
   ```
 
-  so the point masses satisfy `δ_xδ_y=c(x,y)δ_(x+y)` and `δ_x^*=conj(c(−x,x))δ_(−x)`.
+  so the point masses satisfy `δ_xδ_y=c(x,y)δ_(x+y)` and `δ_x^*=conj(c(−x,x))δ_(−x)`; the
+  finitely supported algebra is Tau Ceti's twisted monoid algebra of `Multiplicative L` (§3.1).
 - Right Hilbert modules over A are Mathlib `CStarModule Aᵐᵒᵖ` instances with the
   opposite-valued inner product, as in HilbertModules H1; the left B-valued pairing is linear in
   its first variable.
@@ -124,6 +125,22 @@ belongs to a Part II of it, which starts from the Schwartz–Bruhat analysis of 
   dual, `TauCeti/Analysis/Fourier/Pontryagin/DualEval.lean`).
 - `SchwartzMap.dense_hasCompactSupport` (compactly supported Schwartz functions are dense,
   `TauCeti/Analysis/Distribution/SchwartzSpace/Cutoff.lean`).
+- `TauCeti.IsFactorSet` (a normalised multiplicative 2-cocycle `α : G → G → kˣ` on a monoid G:
+  `α (g*h) j * α g h = α h j * α g (h*j)`, `α 1 g = α g 1 = 1`, with
+  `TauCeti.IsFactorSet.apply_inv_eq_inv_apply` giving `α g g⁻¹ = α g⁻¹ g` on a group) and the
+  twisted monoid algebra
+  `TauCeti.twistedMonoidAlgebra k G α`, the free k-module on `TauCeti.TwistedMonoidAlgebra.of g`
+  (`TauCeti.TwistedMonoidAlgebra.basis`) with the multiplication table
+  `TauCeti.TwistedMonoidAlgebra.of_mul_of` (`of g * of h = α g h • of (g*h)`), its universal
+  property `TauCeti.TwistedMonoidAlgebra.lift` (a family u with `u 1 = 1` and
+  `u g * u h = α g h • u (g*h)` extends to an algebra map) with uniqueness
+  `TauCeti.TwistedMonoidAlgebra.algHom_ext`, its dimension
+  `TauCeti.TwistedMonoidAlgebra.finrank_eq_natCard` (`Nat.card G`), and
+  `TauCeti.TwistedMonoidAlgebra.equivOfCoboundary` (factor sets with
+  `β g h * c (g*h) = α g h * (c g * c h)` have isomorphic algebras, `of g ↦ c g • of g`, from the
+  β-algebra to the α-algebra) (`TauCeti/Algebra/MonoidAlgebra/Twisted/Basic.lean`). It is used
+  with `k=ℂ` and `G=Multiplicative L` for a discrete abelian group L, the circle-valued cocycle c
+  read in `ℂˣ`; the involution, the ℓ¹ norm and the C*-completions are this roadmap's (§3.1).
 
 **From TauCetiRoadmap.HilbertModules.** H1 (completion of a pre-Hilbert module and extension of
 bounded actions), H2 (adjointable and module-compact operators; for unital A, `id_E∈K_A(E)` iff E
@@ -150,7 +167,7 @@ convergence of the two sides); 2A `dual_dual` (`L^∨` is again a lattice and `L
 dual lattice `L^∨=(innerₗ E).dualSubmodule L`); 2C `covolume_dual` (`covol(L^∨)=covol(L)⁻¹`).
 These are stated for an inner product space E; the product `(Fin k → ℝ)×(Fin k → ℝ)` carries the
 sup norm and is not one, and the transport of 1A to it in symplectic coordinates is this
-roadmap's target §2.4, as 1A assigns it to its consumers.
+roadmap's target §2.3, as 1A assigns it to its consumers.
 
 **From TauCetiRoadmap.NoncommutativeGeometry.** N6 (the rotation algebra `A_θ` with
 `U₂U₁=e(θ)U₁U₂`, the smooth subalgebra 𝒜_θ and its trace) and N7 (the 0<θ<1 Schwartz module with
@@ -230,9 +247,10 @@ and define `c_L` for a lattice. Prove `0<c_L<∞`, that c_L is the measure of an
 domain, that L^⊥ is a lattice when L is (rieffel88 line 744, Lemma 3.1, p. 276), and `c_L·c_(L^⊥)=1`
 (rieffel88 line 810, p. 277). For finite-type G prove that a discrete subgroup is finitely generated
 abelian with finite torsion and has polynomial growth in the norm of its real and integer
-coordinates. On `ℝ^k×ℝ^k`, `c_L=ZLattice.covolume L`, and for `L=Pℤ^(2k)`, `L^⊥=J⁻¹P^(−T)ℤ^(2k)`
-with `J=[[0,I],[−I,0]]`, `c_L=|det P|`; here `L^⊥=J⁻¹L^∨` for the Euclidean dual lattice `L^∨` of
-ThetaSeries 2A, and `c_L·c_(L^⊥)=1` is ThetaSeries 2C with 1D for J, `|det J|=1` (§2.4).
+coordinates. On `ℝ^k×ℝ^k`, `c_L=ZLattice.covolume L`, and `σ(d,e)=e(⟨d,Je⟩)` with `J=[[0,I],[−I,0]]`, so
+`L^⊥={e : Je∈L^∨}=J⁻¹L^∨` for the Euclidean dual lattice `L^∨` of ThetaSeries 2A; hence `L^⊥` is
+a lattice and `c_(L^⊥)=covol(J⁻¹L^∨)=|det J|⁻¹ covol(L^∨)=covol(L)⁻¹` by ThetaSeries 1D and 2C,
+since `det J=1`. For `L=Pℤ^(2k)`, `L^∨=P^(−T)ℤ^(2k)`, `L^⊥=J⁻¹P^(−T)ℤ^(2k)` and `c_L=|det P|`.
 *Needs:* 1.2; Mathlib `ZLattice.covolume`, `ZLattice.covolume_eq_det`,
 `ZSpan.isAddFundamentalDomain`; ThetaSeries 1D, 2A, 2C on `ℝ^k×ℝ^k`; the structure theorem for
 finitely generated abelian groups.
@@ -320,10 +338,21 @@ absolutely and
 ```
 
 (rieffel88 lines 541–546, the Poisson formula on p. 270), by periodising over G/D, computing Fourier
-coefficients on the compact group G/D with dual `D^⊥` (1.2), and Fourier inversion on G/D. For
-`M=ℝ^k` this formula is ThetaSeries 1A at `v=0` in the symplectic coordinates of 2.4 and is consumed
-from there; the periodisation route is for the factors `ℤ^p`, `𝕋^q`, F and the mixed lattices they
-admit. Prove the four-vector identity: for `F(x)=⟨π_xη,ξ⟩⟨ω,π_xζ⟩`, `(F_sF)(e)=⟨η,π_eζ⟩⟨ω,π_e^*ξ⟩`
+coefficients on the compact group G/D with dual `D^⊥` (1.2), and Fourier inversion on G/D; the
+periodisation route is for the factors `ℤ^p`, `𝕋^q`, F and the mixed lattices they admit. For
+`M=ℝ^k` the formula is ThetaSeries 1A in symplectic coordinates. Prove the transport: on the phase
+space `EuclideanPhase k = ℝ^k×ℝ^k` with Lebesgue measure and `J=[[0,I],[−I,0]]`, `σ(x,e)=e(⟨x,Je⟩)`,
+so the symplectic transform `(F_sF)(e)=∫F(x)σ(x,e)dx` equals `(𝓕F)(−Je)` for Mathlib's transform
+`𝓕F(w)=∫F(x)e(−⟨x,w⟩)dx` on `EuclideanSpace ℝ (Fin (2k))`, carried to the product
+`(Fin k → ℝ)×(Fin k → ℝ)` (a sup-norm space, not an inner product space) by the continuous linear
+equivalence that is the identity on coordinates, which preserves Lebesgue measure; equivalently
+`F_sF=𝓕(F∘(−J))` by ThetaSeries 1C, `|det J|=1`. For a lattice L, `L^⊥=J⁻¹L^∨` is a lattice with
+`ZLattice.covolume L^⊥=(ZLattice.covolume L)⁻¹` (1.3, from ThetaSeries 1D, 2A, 2C). Hence, for L
+with `IsZLattice ℝ L` and F a Schwartz function on `ℝ^k×ℝ^k`, both `Σ_(d∈L)F(d)` and
+`Σ_(e∈L^⊥)(F_sF)(e)` converge absolutely and
+`Σ_(d∈L)F(d) = (ZLattice.covolume L)⁻¹ Σ_(e∈L^⊥) (F_sF)(e)`: this is ThetaSeries 1A and 1E at
+`v=0` after the reindexing `e↦−Je` of `L^⊥` onto `L^∨` (`L^∨=−L^∨`). The formula is consumed, not
+restated. Prove the four-vector identity: for `F(x)=⟨π_xη,ξ⟩⟨ω,π_xζ⟩`, `(F_sF)(e)=⟨η,π_eζ⟩⟨ω,π_e^*ξ⟩`
 (from the orthogonality relation, as in rieffel88 line 574, proof of Proposition 2.11, p. 271), and
 hence the fundamental identity, first weakly and then as an absolutely convergent identity in S(M):
 
@@ -332,9 +361,10 @@ hence the fundamental identity, first weakly and then as an absolutely convergen
 ```
 
 (rieffel88 lines 570–589, Proposition 2.11, pp. 271–272).
-*Needs:* 2.1, 2.2, 1.2, 1.3; ThetaSeries 1A, 1E through the transport of 2.4 for the Euclidean
-factor; Mathlib `fourierCoeff`, `hasSum_fourier_series_L2` and
-`SchwartzMap.integral_sesq_fourier_eq` for the coordinate factors.
+*Needs:* 2.1, 2.2, 1.2, 1.3; ThetaSeries 1A, 1C, 1D, 1E, 2A, 2C for the Euclidean factor; Mathlib
+`fourierCoeff`, `hasSum_fourier_series_L2` and `SchwartzMap.integral_sesq_fourier_eq` for the
+coordinate factors, `SchwartzMap.fourierTransformCLM`, `ZLattice.covolume` and `IsZLattice` for
+the transport.
 
 **Checks.**
 
@@ -345,37 +375,7 @@ factor; Mathlib `fourierCoeff`, `hasSum_fourier_series_L2` and
 - Four-vector identity at x-integration on M=ℝ: with `ω=δ_t` formally, both sides reduce to
   `∫ e(um) conj η(r+m) ξ(r) ζ(r+m+n) dm` at r=t−n for e=(n,u); a `+u` versus `−u` error in σ
   replaces e(um) by e(−um) and fails for asymmetric η.
-
-### 2.4 The Euclidean phase space
-
-On `M=ℝ^k`, with phase space `EuclideanPhase k = ℝ^k×ℝ^k` and Lebesgue measure, the lattice
-Poisson formula of 2.3 is ThetaSeries 1A in symplectic coordinates. Prove the transport: with
-`J=[[0,I],[−I,0]]`, `σ(x,e)=e(⟨x,Je⟩)`, so the symplectic transform `(F_sF)(e)=∫F(x)σ(x,e)dx`
-equals `(𝓕F)(−Je)` for Mathlib's transform `𝓕F(w)=∫F(x)e(−⟨x,w⟩)dx` on
-`EuclideanSpace ℝ (Fin (2k))`, carried to the product `(Fin k → ℝ)×(Fin k → ℝ)` (a sup-norm
-space, not an inner product space) by the continuous linear equivalence that is the identity on
-coordinates, which preserves Lebesgue measure; for a lattice L, `L^⊥=J⁻¹L^∨` for the Euclidean
-dual lattice `L^∨` of ThetaSeries 2A, so `L^⊥` is a lattice (ThetaSeries 1D) with
-`ZLattice.covolume L^⊥=(ZLattice.covolume L)⁻¹` (ThetaSeries 1D and 2C, `|det J|=1`). Hence,
-for `L` with `IsZLattice ℝ L` and `F` a Schwartz function on `ℝ^k×ℝ^k`, both `Σ_(d∈L)F(d)` and
-`Σ_(e∈L^⊥)(F_sF)(e)` converge absolutely and
-`Σ_(d∈L)F(d) = (ZLattice.covolume L)⁻¹ Σ_(e∈L^⊥) (F_sF)(e)`: this is ThetaSeries 1A and 1E at
-`v=0` after the reindexing `e↦−Je` of `L^⊥` onto `L^∨` (`L^∨=−L^∨`). The formula is consumed,
-not restated. State on native carriers:
-
-- `fundamental_identity`: for such L and Schwartz ξ,η,ζ on ℝ^k, pointwise in t,
-  `Σ_(d∈L) l2Inner(π_dη,ξ)(π_dζ)(t) = covol(L)⁻¹ Σ_(e∈L^⊥) l2Inner(η,π_eζ)(π_e^*ξ)(t)`, both sums
-  absolutely convergent.
-
-This is the M=ℝ^k case of 2.3: the Euclidean Poisson formula applied to the Schwartz function
-`x↦⟨π_xη,ξ⟩(π_xζ)(t)` on phase space, whose symplectic transform is `e↦⟨η,π_eζ⟩(π_e^*ξ)(t)` by
-the four-vector identity of 2.3, which is this roadmap's own.
-*Needs:* 2.3 for M=ℝ^k; ThetaSeries 1A, 1C, 1D, 1E, 2A, 2C; Mathlib `SchwartzMap`,
-`SchwartzMap.fourierTransformCLM`, `ZLattice.covolume`, `IsZLattice`.
-
-**Checks.**
-
-- k=1, `L=ℤ×2ℤ`: `L^∨=ℤ×(1/2)ℤ`, `J⁻¹L^∨=(1/2)ℤ×ℤ=L^⊥` (the annihilator of 1.2),
+- Transport at k=1, `L=ℤ×2ℤ`: `L^∨=ℤ×(1/2)ℤ`, `J⁻¹L^∨=(1/2)ℤ×ℤ=L^⊥` (the annihilator of 1.2),
   `ZLattice.covolume L=2` and `ZLattice.covolume L^⊥=1/2`; for the Gaussian
   `F(m,s)=e^(−π(m²+s²))` with `F_sF=F`, the left side is `θ(1)θ(4)` and the right side
   `(1/2)θ(1/4)θ(1)` with `θ(a)=Σ_n e^(−πan²)`; they agree by the Jacobi identity
@@ -385,6 +385,28 @@ the four-vector identity of 2.3, which is this roadmap's own.
   is `e^(−4π)`, while `𝓕F(Je)=𝓕F(u,−n)` would give 1 there.
 - k=0: phase space is a point, the only lattice is {0} with covolume 1, `L^⊥={0}`, and both sides
   of the Poisson formula are F(0).
+
+### 2.4 The Euclidean phase space
+
+On `M=ℝ^k`, with phase space `EuclideanPhase k = ℝ^k×ℝ^k` and Lebesgue measure, state the
+fundamental identity of 2.3 on native carriers, `L^⊥` being `symplecticAnnihilator L` and `c_L`
+being `ZLattice.covolume L`:
+
+- `fundamental_identity`: for L with `IsZLattice ℝ L` and Schwartz ξ,η,ζ on ℝ^k, pointwise in t,
+  `Σ_(d∈L) l2Inner(π_dη,ξ)(π_dζ)(t) = covol(L)⁻¹ Σ_(e∈L^⊥) l2Inner(η,π_eζ)(π_e^*ξ)(t)`, both sums
+  absolutely convergent.
+
+This is the M=ℝ^k case of 2.3: the Euclidean Poisson formula, in the form transported there,
+applied to the Schwartz function `x↦⟨π_xη,ξ⟩(π_xζ)(t)` on phase space, whose symplectic transform
+is `e↦⟨η,π_eζ⟩(π_e^*ξ)(t)` by the four-vector identity of 2.3, which is this roadmap's own.
+*Needs:* 2.3 for M=ℝ^k; Mathlib `SchwartzMap`, `ZLattice.covolume`, `IsZLattice`.
+
+**Checks.**
+
+- k=0: phase space is a point, `L={0}` with covolume 1 and `L^⊥={0}`, Schwartz functions on
+  `Fin 0 → ℝ` are constants and the integral over the one-point space has total mass 1, so both
+  sides equal `conj(η)·ξ·ζ`; a convention giving the lattice `{0}` covolume 0 would make the right
+  side 0 (inverse of zero) and the identity false for nonzero constants.
 - Fundamental identity paired with ξ, for ξ=η=ζ=g the Gaussian of 2.2 and `L=ℤ×2ℤ`, using
   `⟨g,π_(m,s)g⟩=e^(−π(m²+s²)/2)e(−sm/2)`: the left side is `Σ_(d∈L)|⟨g,π_dg⟩|²=θ(1)θ(4)` and the
   right side `(1/2)Σ_(e∈L^⊥)⟨g,π_eg⟩⟨π_eg,g⟩=(1/2)θ(1/4)θ(1)`, equal. With `schrodinger` in place
@@ -406,27 +428,48 @@ Layer 1; ThetaSeries Layer 1, 2A, 2C; Mathlib `SchwartzMap`, `SchwartzMap.fourie
 
 ### 3.1 Twisted group C*-algebras of discrete abelian groups
 
-For a discrete abelian group L and a normalised circle-valued 2-cocycle c, construct the Banach
-*-algebra `ℓ¹(L,c)` with the twisted convolution and involution of the Conventions, its universal
-C*-completion `C*(L,c)` (supremum over c-projective unitary representations, equivalently over
-nondegenerate *-representations of ℓ¹(L,c)), and the twisted regular representation
-`(λ_c(x)h)(y)=c(x,y−x)h(y−x)` on ℓ²(L) with reduced completion `C*_r(L,c)`. Prove the universal
-property for c-projective representations `V_xV_y=c(x,y)V_(x+y)`, the canonical trace
+For a discrete abelian group L and a normalised circle-valued 2-cocycle c, the finitely supported
+twisted convolution algebra is Tau Ceti's `TauCeti.twistedMonoidAlgebra ℂ (Multiplicative L) c`:
+c read in `ℂˣ` is a factor set `TauCeti.IsFactorSet` (its cocycle identity and normalisation are
+the fields), the point masses δ_x are the basis `TauCeti.TwistedMonoidAlgebra.of`, and
+`TauCeti.TwistedMonoidAlgebra.of_mul_of` is the Conventions' `δ_xδ_y=c(x,y)δ_(x+y)`. Equip it with
+the involution of the Conventions, a *-algebra structure because `c(x,−x)=c(−x,x)`
+(`TauCeti.IsFactorSet.apply_inv_eq_inv_apply`, the cocycle identity at (x,−x,x)), so that every
+δ_x is unitary, and with the ℓ¹ norm; construct the Banach
+*-algebra `ℓ¹(L,c)` as its completion, the universal C*-completion `C*(L,c)` (supremum over
+c-projective unitary representations, equivalently over nondegenerate *-representations of
+ℓ¹(L,c)), and the twisted regular representation `(λ_c(x)h)(y)=c(x,y−x)h(y−x)` on ℓ²(L) with
+reduced completion `C*_r(L,c)`. Prove the universal property for c-projective unitary
+representations `V_xV_y=c(x,y)V_(x+y)`: on finitely supported elements it is
+`TauCeti.TwistedMonoidAlgebra.lift` with uniqueness `TauCeti.TwistedMonoidAlgebra.algHom_ext`; the
+extension is *-preserving and of norm at most one for the ℓ¹ norm because every V_x is unitary,
+so it extends by continuity to ℓ¹(L,c) and factors through C*(L,c). Prove the canonical trace
 `τ(f)=f(0)` on C*_r(L,c), faithful, with Fourier coefficients `x↦τ(a δ_x^*)` determining a, and the
 gauge action of L̂, `α_γ(δ_x)=γ(x)δ_x`, with fixed-point algebra ℂ1 when L̂ is compact.
 Prove `C*(L,c)=C*_r(L,c)` by twisted Fell
 absorption: for every c-projective representation V, `V⊗λ` is unitarily equivalent to a multiple
 of λ_c via `ξ⊗δ_y↦V_yξ⊗δ_y`, and since L is amenable the trivial representation is weakly
 contained in λ, so V is weakly contained in V⊗λ and hence in λ_c.
-*Needs:* OperatorAlgebraDynamics D1 (scalar integrated forms), D2 (discrete conditional
-expectation, weak containment of the trivial representation in λ for amenable groups);
-AmenableGroups Layer 6.
+*Needs:* Tau Ceti `TauCeti.IsFactorSet`, `TauCeti.IsFactorSet.apply_inv_eq_inv_apply`,
+`TauCeti.twistedMonoidAlgebra`,
+`TauCeti.TwistedMonoidAlgebra.of`, `TauCeti.TwistedMonoidAlgebra.of_mul_of`,
+`TauCeti.TwistedMonoidAlgebra.basis`, `TauCeti.TwistedMonoidAlgebra.lift`,
+`TauCeti.TwistedMonoidAlgebra.algHom_ext`, `TauCeti.TwistedMonoidAlgebra.finrank_eq_natCard`,
+`TauCeti.TwistedMonoidAlgebra.equivOfCoboundary`; OperatorAlgebraDynamics D1 (scalar integrated
+forms), D2 (discrete conditional expectation, weak containment of the trivial representation in λ
+for amenable groups); AmenableGroups Layer 6.
 
-- For L finite, `C*(L,c)` is the twisted group algebra `ℂ^c[L]` with dimension |L|.
+- For L finite, `ℓ¹(L,c)` is `TauCeti.twistedMonoidAlgebra ℂ (Multiplicative L) c` itself, of
+  dimension |L| by `TauCeti.TwistedMonoidAlgebra.finrank_eq_natCard`, and `C*(L,c)` is that
+  algebra with the C*-norm of λ_c.
 - Every nonzero gauge-invariant closed ideal of `C*(L,c)` is the whole algebra: `L̂` is compact
   for every discrete L, and the gauge average of a positive element a is `τ(a)1`.
-- A c-projective representation and a c'-projective representation with `c'=c·δu` for a cochain
-  u give isomorphic algebras via `δ_x↦u(x)δ_x`.
+- For a normalised cochain u on L with `|u|=1` and `c'=c·δu`, `δu(x,y)=u(x)u(y)/u(x+y)`, the
+  isomorphism `δ_x↦u(x)δ_x` from the finitely supported c'-algebra to the c-algebra is
+  `TauCeti.TwistedMonoidAlgebra.equivOfCoboundary` (its hypothesis `c'(x,y)u(x+y)=c(x,y)u(x)u(y)`
+  is this relation); it preserves the involution and the ℓ¹ norm and matches c'-projective unitary
+  representations with c-projective ones, so it extends to isometric *-isomorphisms
+  `ℓ¹(L,c')≅ℓ¹(L,c)` and `C*(L,c')≅C*(L,c)`.
 
 **Checks.**
 
@@ -499,7 +542,9 @@ Fourier transform. For finite M=F and D=0, the module is ℂ^|F| as a ℂ–M_|F
 
 ### Dependencies
 
-Layers 1–2; OperatorAlgebraDynamics D1–D2; AmenableGroups Layer 6.
+Layers 1–2; Tau Ceti `TauCeti.twistedMonoidAlgebra` with `TauCeti.TwistedMonoidAlgebra.lift`,
+`TauCeti.TwistedMonoidAlgebra.finrank_eq_natCard` and `TauCeti.TwistedMonoidAlgebra.equivOfCoboundary`;
+OperatorAlgebraDynamics D1–D2; AmenableGroups Layer 6.
 
 ## Layer 4: Completion, fullness and imprimitivity
 
@@ -619,12 +664,13 @@ rescaling of the Haar measure of M by r>0 multiplies module vectors by `r^(−1/
 
 For a normalised continuous cochain u on G with `|u|=1`, the rephased family `π'_x=u(x)π_x` has
 cocycle `β'=δu·β`, `δu(x,y)=u(x)u(y)/u(x+y)`; construct the induced isomorphisms of A, B and 𝓔
-(left coefficients multiplied by `u(d)⁻¹`, right coefficients by `u(e)`) with identity and
-composition coherence. For a topological isomorphism f:M≅M' with `f_*μ_M=Jμ_(M')`, J>0, the
+(left coefficients multiplied by `u(d)⁻¹`, right coefficients by `u(e)`: the coboundary
+isomorphisms of 3.1 for `β|_D` with the cochain `u|_D` and for `conj β|_E` with `conj u|_E`) with
+identity and composition coherence. For a topological isomorphism f:M≅M' with `f_*μ_M=Jμ_(M')`, J>0, the
 unitary `ξ↦J^(1/2)ξ∘f⁻¹` intertwines the Schrödinger families and transports lattices,
 annihilators, pairings and covolumes. For the Fourier transform `F₊:L²(M)→L²(M̂)`,
 `F₊π_(m,χ)=conj(χ(m))π'_(χ,ev_(−m))F₊`, where `ev_(−m)` is evaluation at −m.
-*Needs:* 1.1, 4.2, 2.1.
+*Needs:* 1.1, 2.1, 3.1, 4.2.
 
 **Checks.**
 
@@ -637,7 +683,9 @@ annihilators, pairings and covolumes. For the Fourier transform `F₊:L²(M)→L
 ### Examples
 
 On `M=ℝ^k` the rephasing by `u(m,s)=e(m⬝s)` turns `π_(m,s)ξ(t)=e(s⬝t)ξ(t+m)` into
-`π'_(m,s)ξ(t)=e(s⬝(t+m))ξ(t+m)`, the modulation-after-translation family; its cocycle is
+`π'_(m,s)ξ(t)=e(s⬝(t+m))ξ(t+m)`, the family that modulates first and then translates
+(`π'=T_(−m)M_s`, whereas `π=M_sT_(−m)`, for `(M_sξ)(t)=e(s⬝t)ξ(t)` and `(T_(−m)ξ)(t)=ξ(t+m)`);
+its cocycle is
 `β'(x,y)=e(−n⬝s)=conj β(y,x)` and its commutator character is σ again (Check of 5.3), so the two
 families have the same lattices, annihilators and covolumes, and isomorphic algebras and modules.
 

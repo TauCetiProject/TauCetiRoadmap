@@ -17,7 +17,7 @@ submodules with `ZLattice.covolume`: the operator fundamental identity behind th
 of the two pairings (README §2.4), existence of finite Parseval frames with Schwartz windows for
 every lattice (README §5.1) and the trace formula `∑ ‖g_j‖² = covolume` for such frames
 (README §5.2). The Euclidean lattice Poisson formula these rest on is ThetaSeries 1A in
-symplectic coordinates (README §2.4), consumed from that roadmap and not restated here.
+symplectic coordinates (README §2.3), consumed from that roadmap and not restated here.
 
 Not statable at the pins:
 * the same four statements for a general finite-type group `M = ℝ^k × ℤ^p × 𝕋^q × F`
