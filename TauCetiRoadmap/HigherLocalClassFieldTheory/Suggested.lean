@@ -7,12 +7,13 @@ import TauCeti.NumberTheory.ClassFieldTheory.Local.ArtinMap
 These signatures are suggested forms, not an exhaustive checklist. `README.md` is the definitive
 specification.
 
-The file pins the carriers: `IsHigherLocalField n F`, the higher topology `higherTopology` on `F`
+The file pins the carriers: `IsHigherLocalField n F`, the standard fields `LaurentField K` (a type
+synonym of `K⸨X⸩` with no topology instance), the higher topology `higherTopology` on `F`
 and `unitsTopology` on `Fˣ`, the topological Milnor K-group `TopologicalMilnorK F n` as the
 quotient of `K_n(F)` by `⋂_{l ≥ 1} l K_n(F)`, Fesenko's sequential topology `lambdaTopology` and
 the comparison `sequentialKernel_eq`, the degree map `degreeMap`, norm subgroups `normSubgroup`,
-and the reciprocity map `reciprocityMap` with its finite-level, existence, injectivity and
-dimension-one statements.
+and the reciprocity map `reciprocityMap` under the class field hypothesis `char 𝓀[F] = p`, with
+its finite-level, existence, separation, injectivity and dimension-one statements.
 
 Milnor K-theory is TauCetiProject/TauCetiRoadmap#1302 §5.4 and Kato's norm is its §10.24. Neither
 has a declaration at the pins, so the section `MilnorKStandIn` restates the §5.4 carrier as that
@@ -23,6 +24,7 @@ Suggested home: `TauCeti/NumberTheory/HigherLocalField/`.
 -/
 
 open ValuativeRel
+open scoped WithZero
 
 namespace TauCetiRoadmap.HigherLocalClassFieldTheory
 
@@ -105,6 +107,33 @@ theorem isHigherLocalField_one_iff [TopologicalSpace F] [IsValuativeTopology F] 
     IsHigherLocalField 1 F ↔ IsNonarchimedeanLocalField F :=
   sorry
 
+/-- The **standard Laurent field** `K⸨X⸩` as a type synonym carrying no topology: Mathlib's
+`LaurentSeries.valued` is a global instance on `K⸨X⸩`, which would clash with `higherTopology`. -/
+def LaurentField (K : Type) [Field K] : Type := LaurentSeries K
+
+namespace LaurentField
+
+variable (K : Type) [Field K]
+
+noncomputable instance : Field (LaurentField K) := inferInstanceAs (Field (LaurentSeries K))
+
+noncomputable instance : Algebra K (LaurentField K) :=
+  inferInstanceAs (Algebra K (LaurentSeries K))
+
+/-- The `X`-adic valuative relation. -/
+noncomputable instance : ValuativeRel (LaurentField K) :=
+  ValuativeRel.ofValuation (Valued.v : Valuation (LaurentSeries K) ℤᵐ⁰)
+
+/-- The inner variable `X`. -/
+noncomputable def X : LaurentField K := (HahnSeries.single (1 : ℤ) (1 : K) : LaurentSeries K)
+
+end LaurentField
+
+/-- `K⸨X⸩` over an `n`-dimensional local field is `(n + 1)`-dimensional. -/
+theorem isHigherLocalField_laurentField {K : Type} [Field K] [ValuativeRel K] {n : ℕ}
+    (h : IsHigherLocalField n K) : IsHigherLocalField (n + 1) (LaurentField K) :=
+  sorry
+
 end Layer0
 
 /-! ## Layer 1: topologies -/
@@ -137,6 +166,38 @@ theorem seqContinuous_mul (h : IsHigherLocalField n F) :
   sorry
 
 end Layer1
+
+/-! ## Worked example: the higher topology is not the valuation topology -/
+
+section HigherTopologyExample
+
+open Filter Topology
+
+variable (p : ℕ) [Fact p.Prime]
+
+/-- The inner variable `t₁` of `𝔽_p⸨X⸩⸨X⸩`. -/
+noncomputable abbrev innerVariable : LaurentField (LaurentField (ZMod p)) :=
+  algebraMap (LaurentField (ZMod p)) _ (LaurentField.X (ZMod p))
+
+theorem tendsto_innerVariable_pow (h : IsHigherLocalField 2 (LaurentField (LaurentField (ZMod p)))) :
+    Tendsto (fun k : ℕ => innerVariable p ^ k) atTop (@nhds _ (higherTopology h) 0) :=
+  sorry
+
+/-- The same powers, read in `LaurentSeries`, do not tend to `0` for `LaurentSeries.valued`. -/
+theorem not_tendsto_innerVariable_pow_valued :
+    ¬ Tendsto (fun k : ℕ => (show LaurentSeries (LaurentField (ZMod p)) from innerVariable p ^ k))
+      atTop (𝓝 0) :=
+  sorry
+
+end HigherTopologyExample
+
+/-! ## Layer 5.2: coefficientwise derivations -/
+
+/-- A derivation of `K` extended coefficientwise to `K⸨X⸩`, used for the partial derivatives in an
+inner variable in Parshin's formula. -/
+noncomputable def Derivation.laurentField {K : Type} [Field K] (D : Derivation ℤ K K) :
+    Derivation ℤ (LaurentField K) (LaurentField K) :=
+  sorry
 
 /-! ## Layer 2: topological Milnor K-groups -/
 
@@ -200,52 +261,61 @@ end Layer2
 
 section Reciprocity
 
-variable {F : Type} [Field F] [ValuativeRel F] {n : ℕ}
+/- The class field hypothesis: `n ≥ 1` and `char 𝓀[F] = p`. -/
+variable {F : Type} [Field F] [ValuativeRel F] {n : ℕ} {p : ℕ} [Fact p.Prime] [CharP 𝓀[F] p]
 
-/-- The **reciprocity map** `Ψ_F : K_n^top(F) → G_F^ab`, the Neukirch–Fesenko map. -/
-noncomputable def reciprocityMap (h : IsHigherLocalField n F) :
+/-- The **reciprocity map** `Ψ_F : K_n^top(F) → G_F^ab`, the Neukirch–Fesenko map, under the class
+field hypothesis. -/
+noncomputable def reciprocityMap (h : IsHigherLocalField n F) (hn : 1 ≤ n) (p : ℕ) [Fact p.Prime]
+    [CharP 𝓀[F] p] :
     TopologicalMilnorK F n →+ Additive (Field.absoluteGaloisGroupAbelianization F) :=
   sorry
 
 /-- **Reciprocity at finite level**: for a finite abelian `L/F`, `Ψ_F(α)` is trivial on `L` exactly
 when `α` is a norm from `L`. -/
-theorem reciprocityMap_mem_normSubgroup_iff (h : IsHigherLocalField n F)
-    (L : IntermediateField F (AlgebraicClosure F)) [FiniteDimensional F L] [IsGalois F L]
-    (hL : ∀ a b : Gal(L/F), a * b = b * a) (α : TopologicalMilnorK F n)
+theorem reciprocityMap_mem_normSubgroup_iff (h : IsHigherLocalField n F) (hn : 1 ≤ n)
+    (L : IntermediateField F (AlgebraicClosure F)) [FiniteDimensional F L] [IsAbelianGalois F L]
+    (α : TopologicalMilnorK F n)
     (σ : Field.absoluteGaloisGroup F)
-    (hσ : Additive.ofMul (σ : Field.absoluteGaloisGroupAbelianization F) = reciprocityMap h α) :
+    (hσ : Additive.ofMul (σ : Field.absoluteGaloisGroupAbelianization F) = reciprocityMap h hn p α) :
     α ∈ normSubgroup F n L ↔ σ.restrictNormal L = 1 :=
   sorry
 
 /-- **Reciprocity at finite level**: `Ψ_F` maps onto `Gal(L/F)`. -/
-theorem exists_reciprocityMap_restrictNormal_eq (h : IsHigherLocalField n F)
+theorem exists_reciprocityMap_restrictNormal_eq (h : IsHigherLocalField n F) (hn : 1 ≤ n)
     (L : IntermediateField F (AlgebraicClosure F)) [FiniteDimensional F L] [IsGalois F L]
     (τ : Gal(L/F)) :
     ∃ (α : TopologicalMilnorK F n) (σ : Field.absoluteGaloisGroup F),
-      Additive.ofMul (σ : Field.absoluteGaloisGroupAbelianization F) = reciprocityMap h α ∧
+      Additive.ofMul (σ : Field.absoluteGaloisGroupAbelianization F) = reciprocityMap h hn p α ∧
         σ.restrictNormal L = τ :=
   sorry
 
-/-- **Injectivity**: the kernel of `K_n(F) → G_F^ab` is `⋂_{l ≥ 1} l K_n(F)`. -/
-theorem injective_reciprocityMap (h : IsHigherLocalField n F) :
-    Function.Injective (reciprocityMap h) :=
+/-- **Separation**: the open subgroups of finite index of `K_n^top(F)` have zero intersection. -/
+theorem iInf_openFiniteIndex_eq_bot (h : IsHigherLocalField n F) (hn : 2 ≤ n) :
+    ⨅ (N : Submodule ℤ (TopologicalMilnorK F n))
+      (_ : @IsOpen _ (topologicalMilnorKTopology (n := n) h) (N : Set (TopologicalMilnorK F n)))
+      (_ : N.toAddSubgroup.FiniteIndex), N = ⊥ :=
+  sorry
+
+/-- **Injectivity** for `n ≥ 2`: the kernel of `K_n(F) → G_F^ab` is `⋂_{l ≥ 1} l K_n(F)`. -/
+theorem injective_reciprocityMap (h : IsHigherLocalField n F) (hn : 2 ≤ n) :
+    Function.Injective (reciprocityMap h (by omega) p) :=
   sorry
 
 /-- **The existence theorem**: the open subgroups of finite index of `K_n^top(F)` are exactly the
 norm subgroups of finite abelian extensions. -/
-theorem isOpen_and_finiteIndex_iff_exists_normSubgroup (h : IsHigherLocalField n F)
+theorem isOpen_and_finiteIndex_iff_exists_normSubgroup (h : IsHigherLocalField n F) (hn : 2 ≤ n)
     (N : Submodule ℤ (TopologicalMilnorK F n)) :
     (@IsOpen _ (topologicalMilnorKTopology (n := n) h) (N : Set (TopologicalMilnorK F n)) ∧
         N.toAddSubgroup.FiniteIndex) ↔
       ∃ (L : IntermediateField F (AlgebraicClosure F)) (_ : FiniteDimensional F L)
-        (_ : IsGalois F L), (∀ a b : Gal(L/F), a * b = b * a) ∧ N = normSubgroup F n L :=
+        (_ : IsAbelianGalois F L), N = normSubgroup F n L :=
   sorry
 
 /-- **The correspondence reverses inclusion.** -/
-theorem normSubgroup_le_normSubgroup_iff (h : IsHigherLocalField n F)
+theorem normSubgroup_le_normSubgroup_iff (h : IsHigherLocalField n F) (hn : 2 ≤ n)
     (L L' : IntermediateField F (AlgebraicClosure F))
-    [FiniteDimensional F L] [FiniteDimensional F L'] [IsGalois F L] [IsGalois F L']
-    (hL : ∀ a b : Gal(L/F), a * b = b * a) (hL' : ∀ a b : Gal(L'/F), a * b = b * a) :
+    [FiniteDimensional F L] [FiniteDimensional F L'] [IsAbelianGalois F L] [IsAbelianGalois F L'] :
     normSubgroup F n L ≤ normSubgroup F n L' ↔ L' ≤ L :=
   sorry
 
@@ -254,9 +324,8 @@ def unitClass (x : Fˣ) : TopologicalMilnorK F 1 :=
   (divisibleKernel F 1).mkQ (MilnorK.symbolDeg ![x])
 
 /-- **Dimension one**: `Ψ_F` is the local Artin map of the class field theory roadmap. -/
-theorem reciprocityMap_unitClass [TopologicalSpace F] [IsNonarchimedeanLocalField F]
-    (h : IsHigherLocalField 1 F) (x : Fˣ) :
-    reciprocityMap h (unitClass x) =
+theorem reciprocityMap_unitClass [TopologicalSpace F] [IsNonarchimedeanLocalField F] (x : Fˣ) :
+    reciprocityMap (isHigherLocalField_one_iff.mpr inferInstance) le_rfl p (unitClass x) =
       Additive.ofMul (TauCeti.ClassFieldTheory.artinMap F x) :=
   sorry
 
