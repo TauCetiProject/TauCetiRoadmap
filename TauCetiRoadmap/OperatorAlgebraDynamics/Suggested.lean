@@ -22,10 +22,10 @@ multiplicativity on compactly supported continuous functions (D1); the projectiv
 of a continuous central multiplier cocycle (D1.CentralTwists); irreducibility of the orbit
 representations (D2.OrbitRepresentations); the Powers partition property of free groups and the
 simplicity and unique trace of the reduced C*-algebra of a free group on at least two generators
-(D2.FreeGroups); the dual Haar measure with the Plancherel unitary and Fourier inversion, and the
-Pontryagin duality theorem, for every locally compact Hausdorff abelian group (D4.Harmonic); the
-residue-class Cuntz family on a separable Hilbert space (D6); invariance of KMS states and the
-analytic KMS identity (D7).
+(D2.FreeGroups); the LCA Weyl classification, that every covariant pair of strongly continuous
+unitary representations of a locally compact Hausdorff abelian group and of its dual is a Hilbert
+sum of copies of the Schrödinger pair on `L²(G)` (D4.LCAWeyl); the residue-class Cuntz family on a
+separable Hilbert space (D6); invariance of KMS states and the analytic KMS identity (D7).
 
 Not statable at the pins, with the carrier each lacks:
 - the universal property of `A ⋊_α G`, the full and reduced comparison, the ideal exact sequence,
@@ -35,8 +35,6 @@ Not statable at the pins, with the carrier each lacks:
 - Green and symmetric imprimitivity (D3): no crossed-product C*-algebra to serve as the
   coefficient algebras of the imprimitivity bimodule (`CStarModule` is the module carrier, but
   `A ⋊_α G` and `D ⋊_β H` are not available);
-- the LCA Weyl classification (D4.LCAWeyl): no Hilbert-space tensor product or multiplicity
-  amplification;
 - disintegration, Renault equivalence and the universal identification of `O_n` (D5–D6): no
   groupoid C*-algebra and no universal Cuntz algebra;
 - the Choquet simplex of KMS states (D7): no Choquet simplex carrier;
@@ -236,46 +234,40 @@ theorem reducedFreeGroup_trace_unique {ι : Type*} [DecidableEq ι] (a b : ι) (
         (lp.single 2 (1 : FreeGroup ι) (1 : ℂ))) := by
   sorry
 
-/-! ## D4.Harmonic: Plancherel, inversion and Pontryagin duality -/
+/-! ## D4.LCAWeyl: the locally compact abelian Weyl classification -/
 
-section Harmonic
+section LCAWeyl
+
+universe u
 
 variable {K : Type*} [CommGroup K] [TopologicalSpace K] [IsTopologicalGroup K]
-  [LocallyCompactSpace K] [T2Space K]
+  [LocallyCompactSpace K] [T2Space K] [MeasurableSpace K] [BorelSpace K]
+  {E : Type u} [NormedAddCommGroup E] [InnerProductSpace ℂ E] [CompleteSpace E]
 
-/-- The Pontryagin duality theorem: for a locally compact Hausdorff abelian group `K`, evaluation
-`s ↦ (χ ↦ χ(s))` is an isomorphism of topological groups from `K` onto the dual of its dual with
-the compact-open topology. The isomorphism is pinned by its underlying map (Rudin, Theorem 1.7.2;
-Williams, p. 27). -/
-theorem pontryagin_duality :
-    ∃ e : K ≃ₜ* PontryaginDual (PontryaginDual K),
-      ∀ (s : K) (χ : PontryaginDual K), e s χ = χ s := by
+/-- The LCA Weyl classification (Williams, Theorems 4.24 and 4.29, pp. 133–137): for a locally
+compact Hausdorff abelian group `K` with a regular Haar measure `μ`, a strongly continuous unitary
+representation `U` of `K` and a strongly continuous unitary representation `V` of its dual on `E`
+with the covariance `U_s V_χ U_s* = conj(χ(s)) V_χ` are, through a unitary `W` of `E` onto the
+Hilbert sum of copies of `L²(K, μ)` indexed by some set `ι`, the multiplicity amplification of the
+Schrödinger pair: in every coordinate and almost everywhere `U_s` acts by `ξ(t) ↦ ξ(s⁻¹ t)` and
+`V_χ` by `ξ(t) ↦ χ(t) ξ(t)`. `ι` is empty for `E = 0`; nondegeneracy of the integrated form of
+`V` follows from strong continuity and is not a hypothesis. -/
+theorem lcaWeyl_classification (μ : Measure K) [μ.IsHaarMeasure] [μ.Regular]
+    (U : ContRepresentation ℂ K E) (hU : _root_.ContRepresentation.IsUnitary U)
+    (hUc : ∀ ξ, Continuous fun s => U s ξ)
+    (V : ContRepresentation ℂ (PontryaginDual K) E)
+    (hV : _root_.ContRepresentation.IsUnitary V)
+    (hVc : ∀ ξ, Continuous fun χ => V χ ξ)
+    (hcov : ∀ (s : K) (χ : PontryaginDual K),
+      U s * V χ * star (U s) = ((starRingEnd ℂ) (χ s : ℂ)) • V χ) :
+    ∃ (ι : Type u) (W : E ≃ₗᵢ[ℂ] lp (fun _ : ι => Lp ℂ 2 μ) 2),
+      (∀ (s : K) (ξ : E) (i : ι),
+        ((W (U s ξ)) i : K → ℂ) =ᵐ[μ] fun t => ((W ξ) i : K → ℂ) (s⁻¹ * t)) ∧
+      (∀ (χ : PontryaginDual K) (ξ : E) (i : ι),
+        ((W (V χ ξ)) i : K → ℂ) =ᵐ[μ] fun t => (χ t : ℂ) * ((W ξ) i : K → ℂ) t) := by
   sorry
 
-variable [MeasurableSpace K] [BorelSpace K]
-  [MeasurableSpace (PontryaginDual K)] [BorelSpace (PontryaginDual K)]
-
-/-- The dual Haar measure, the Plancherel theorem and Fourier inversion: for a regular Haar
-measure `μ` on a locally compact Hausdorff abelian group `K` there is a regular Haar measure `ν` on
-the dual such that
-the positive-character transform `f̂(χ) = ∫ f(s) χ(s) dμ(s)` on `L¹ ∩ L²` extends to a unitary
-`L²(K, μ) ≃ L²(K̂, ν)`, and every integrable `f` with integrable transform satisfies
-`f(x) = ∫ f̂(χ) conj(χ(x)) dν(χ)` almost everywhere (Rudin, Theorems 1.5.1 and 1.6.1).
-Regularity is assumed because `IsHaarMeasure` alone does not include it; the Haar measure of the
-sources is the regular one. -/
-theorem exists_dualHaar_plancherel_inversion (μ : Measure K) [μ.IsHaarMeasure] [μ.Regular] :
-    ∃ ν : Measure (PontryaginDual K), ν.IsHaarMeasure ∧ ν.Regular ∧
-      (∃ F : Lp ℂ 2 μ ≃ₗᵢ[ℂ] Lp ℂ 2 ν,
-        ∀ (f : K → ℂ) (hf₁ : Integrable f μ) (hf₂ : MemLp f 2 μ),
-          (F (hf₂.toLp f) : PontryaginDual K → ℂ) =ᵐ[ν]
-            fun χ => ∫ s, f s * (χ s : ℂ) ∂μ) ∧
-      ∀ f : K → ℂ, Integrable f μ →
-        Integrable (fun χ : PontryaginDual K => ∫ s, f s * (χ s : ℂ) ∂μ) ν →
-        ∀ᵐ x ∂μ, f x = ∫ χ : PontryaginDual K,
-          (∫ s, f s * (χ s : ℂ) ∂μ) * (starRingEnd ℂ) (χ x : ℂ) ∂ν := by
-  sorry
-
-end Harmonic
+end LCAWeyl
 
 /-! ## D6: concrete Cuntz families -/
 

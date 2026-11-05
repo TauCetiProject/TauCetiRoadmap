@@ -4,28 +4,28 @@
 products, induction and imprimitivity, Takai duality, Hausdorff groupoid
 C*-algebras, and equilibrium states of quantum systems. Build the analytic
 constructions and representation theory that connect these subjects: integrated
-forms, Hilbert-space induction through imprimitivity bimodules, the harmonic
-analysis of locally compact abelian groups that duality needs (the Fourier
-isomorphism of the full group C*-algebra, the dual Haar measure with the
-Plancherel unitary and Fourier inversion, and the Pontryagin duality theorem),
-standard-fibre direct integrals and disintegration, KMS states with their
-simplex, and the thermodynamic limit of quantum spin systems.
+forms, the explicit imprimitivity bimodules of induction and equivalence,
+the Fourier isomorphism of the full group C*-algebra of a locally compact
+abelian group, disintegration over the standard-fibre direct integrals of
+the spectral theorem, KMS states with their simplex, and the thermodynamic
+limit of quantum spin systems. The generic Hilbert-module induction, the
+Plancherel and Pontryagin duality theorems and the measurable-field
+machinery are consumed from HilbertModules and VonNeumannAlgebras as
+declared gaps.
 
 ## Scope and ownership
 
 This roadmap owns continuous actions of locally compact Hausdorff groups on
 C*-algebras and their full and reduced crossed products, including the
 central twisted products of D1.CentralTwists and D2.CentralTwists and the
-scalar Borel fibers of D1.BorelPrefix and D1.TwistedBorel; the Hilbert-space
-induction through imprimitivity bimodules of D1.Modules; induction and
-imprimitivity (D3); the harmonic analysis of locally compact abelian groups in
-D4.Harmonic (the Fourier isomorphism of the full group C*-algebra, the dual
-Haar measure, the Plancherel unitary, Fourier inversion and the Pontryagin
-duality theorem, for every locally compact Hausdorff abelian group), the
-locally compact abelian Weyl dictionary of D4.LCAWeyl and Takai duality
-(D4); Haar groupoids, their convolution algebras, the
-standard-fibre direct integrals of D5.Fields, disintegration and equivalence
-(D5–D6), with the concrete orbit, sequence, saddle-flow and residue-class
+scalar Borel fibers of D1.BorelPrefix and D1.TwistedBorel; the module
+conventions and the stage lemma for explicit pairings of D1.Modules;
+induction and imprimitivity (D3); the Fourier isomorphism of the full group
+C*-algebra of a locally compact abelian group with the identification
+`C*(Ĝ)≅C₀(G)` in D4.Harmonic, the locally compact abelian Weyl dictionary
+of D4.LCAWeyl and Takai duality (D4); Haar groupoids, their convolution
+algebras, the standard-fibre model of D5.Fields, disintegration and
+equivalence (D5–D6), with the concrete orbit, sequence, saddle-flow and residue-class
 models of D2 and D6; KMS states, ground states and the KMS simplex (D7); CAR
 and Weyl algebras with their free equilibrium states (D8); and quantum spin
 systems with the thermodynamic limit (D9).
@@ -52,10 +52,8 @@ It leaves to named roadmaps:
   it is not a prerequisite for the Powers argument of D2.FreeGroups.
 - The von Neumann crossed products `M⋊̄G` themselves, with the regular–normal
   bridge: VonNeumannAlgebras V8 (discrete G, and the regular construction on
-  `L²(G,H)` for a normal action) and V11 (second-countable G). The
-  identification of the weak-operator closure of the regular representation
-  of `A⋊_rG` with `M⋊̄G` belongs with those sections; no C*-result below
-  depends on it. Tomita–Takesaki modular theory, the modular
+  `L²(G,H)` for a normal action) and V11 (second-countable G).
+  Tomita–Takesaki modular theory, the modular
   characterization `σ^ω_t=τ̄_(−βt)` of a KMS state on its GNS von Neumann
   algebra with its converse and support qualification, and Araki's bounded
   perturbations of faithful normal states: VonNeumannAlgebras V10; nothing
@@ -63,25 +61,26 @@ It leaves to named roadmaps:
 - Hilbert C*-modules beyond Mathlib's `CStarModule`: the C*-algebra `L_A(E)`
   of adjointable maps and the compact module operators `K_A(E)`, the
   interior tensor product `E⊗_φF` of two modules with its induced operators
-  and associativity, the form `A≅K_B(E)` of imprimitivity bimodules, the
-  linking algebra `K_B(E⊕B)`, induction as an equivalence of representation
-  categories, the Rieffel correspondence of ideals and strong Morita
-  equivalence as an equivalence relation: HilbertModules H2–H3. D1.Modules
-  keeps only the instance in which the second factor is a Hilbert space: the
-  induced Hilbert space `X⊗_ρH` of a Hilbert-space representation ρ through
-  a module X with a left action by adjointable maps, the Gram positivity
-  that its inner product needs, and the two-inner-product imprimitivity
-  bimodules of Green and Renault with their completion from dense
-  pre-bimodules, which D3 and D6 construct explicitly.
+  and associativity, the induced Hilbert space `E⊗_BH` of a representation
+  with its induced representation, imprimitivity bimodules in the form
+  `A≅K_B(E)` and in the two-inner-product form with their completion from
+  pre-bimodules, the linking algebra `K_B(E⊕B)`, induction as an
+  equivalence of representation categories, the Rieffel correspondence of
+  ideals and strong Morita equivalence as an equivalence relation:
+  HilbertModules H2–H3, the induction and bimodule part consumed as the
+  declared gap `gap:hilbert-module-induction` below. D1.Modules keeps the
+  module conventions, the stage lemma for an explicit pairing of modules,
+  and the convention witnesses that D2, D3 and D6 need.
 - Measurable Hilbert fields, direct integrals, decomposable operators, the
-  rectangular criterion and change of measure for general measurable fields:
-  VonNeumannAlgebras V4.0.Fields, which reaches D5 through
+  rectangular criterion and change of measure, and the reduction of a
+  separable C*-representation over a given diagonal with the transport
+  theorem: VonNeumannAlgebras V4.0.Fields and V4.0.Decomposition, consumed
+  as the declared gaps `gap:measurable-hilbert-fields` and
+  `gap:diagonal-reduction` below, which reach D5 through
   SelfAdjointSpectralTheory SA-B85's diagonal model of a separable `C₀(X)`
-  representation; the reduction of a separable C*-representation over a
-  general measurable field belongs to the same owner. D5.Fields proves the decomposable-operator criterion, the measure-change
-  unitaries, the reduction over a given diagonal and the transport theorem
-  only in SA-B85's standard-fibre model, in which every fibre is a subspace of
-  one `ℓ²(ℕ)` and every operator field is a measurable matrix field.
+  representation. D5.Fields keeps only the identification of SA-B85's
+  standard-fibre model, in which every fibre is a subspace of one `ℓ²(ℕ)`,
+  with a measurable field in that sense.
 - The generic Fock/second-quantization API and the normalization adapter
   `Φ_D8(h)=(a(h)+a†(h))/√2` on its invariant domain: QuantumFoundations
   Layer 6 (6.3–6.4). D8 is the single owner of the CCR/CAR and Weyl
@@ -90,14 +89,15 @@ It leaves to named roadmaps:
   representation and the Fock adapter of QuantumFoundations 6.4.
 
 General non-Hausdorff groupoids, groupoid primitive-ideal classification and
-interacting continuum gases are outside this roadmap, and so is Bochner's
-theorem for positive-definite functions on a general locally compact abelian
-group: D4.Harmonic reaches the dual Haar measure, the Plancherel unitary,
-Fourier inversion and the Pontryagin duality theorem through Tau Ceti's
-cyclic spectral theorem for the regular representation and the Fourier
-isomorphism of the group C*-algebra, starting from the character
-correspondence that BanachAlgebras A7 supplies. Neither K-theory nor
-C*-classification is a prerequisite here.
+interacting continuum gases are outside this roadmap. So are the dual Haar
+measure, the Plancherel unitary, Fourier inversion and the Pontryagin
+duality theorem of a locally compact abelian group, and Bochner's theorem
+for positive-definite functions: VonNeumannAlgebras V11 owns the first four,
+consumed as the declared gap `gap:lca-fourier-plancherel` below, and
+D4.Harmonic builds on them only the Fourier isomorphism of the group
+C*-algebra and the identification `C*(Ĝ)≅C₀(G)`, starting from the
+character correspondence that BanachAlgebras A7 supplies. Neither K-theory
+nor C*-classification is a prerequisite here.
 
 ## Conventions
 
@@ -153,28 +153,17 @@ positive characters: `f̂(χ)=∫ f(g)χ(g) dμ(g)` and
   double-commutant definition on a Hilbert space) and
   `ContinuousLinearMapWOT` (the weak operator topology), used by D7 and D8;
   `PontryaginDual` with its compact-open topology, its locally compact
-  abelian group structure and `Circle`, `ContinuousMulEquiv` (an isomorphism
-  of topological groups), `Measure.IsHaarMeasure` and `Lp`, used by
-  D4.
+  abelian group structure and `Circle`, `Measure.IsHaarMeasure` with
+  `Measure.Regular`, `Lp` and `lp`, used by D4.
 - From Tau Ceti: `ContRepresentation.IsUnitary` and
-  `ContRepresentation.integratedOperatorL1`, used by D1;
-  `ContRepresentation.exists_pontryaginMeasureTransform_eq_inner` (the
-  cyclic spectral theorem: the diagonal matrix coefficient `g↦⟨ξ,U_gξ⟩` of a
-  strongly continuous unitary representation of a locally compact abelian
-  group is the transform `g↦∫χ(g)dν(χ)` of a finite inner regular measure ν
-  on the dual, stated for the additive form of the group),
-  `MeasureTheory.FiniteMeasure.ext_of_forall_pontryaginMeasureTransform_eq_of_innerRegular`
-  (two finite inner regular measures on the dual with the same transform are
-  equal) and `TauCeti.PontryaginDual.continuous_coe_eval_const`, used by
-  D4.Harmonic;
+  `ContRepresentation.integratedOperatorL1`, used by D1 and D4.LCAWeyl;
   `TauCeti.circleEquivPontryaginDualInt` (the dual of ℤ is the circle), used
   by D4.Harmonic's Checks.
 - BanachAlgebras A7 supplies, for locally compact abelian G, the character
   correspondence between the Gelfand spectrum of `L¹(G)` and the Pontryagin
   dual with its compact-open topology, and its Fourier uniqueness theorem on
   `L¹(G)`; D4.Harmonic builds the Fourier isomorphism of the full group
-  C*-algebra, the dual Haar measure, the Plancherel unitary, Fourier
-  inversion and the Pontryagin duality theorem on it.
+  C*-algebra on it.
 - OperatorTheory/SelfAdjointSpectralTheory
   and [OneParameterSemigroups](../../Completed/OneParameterSemigroups/README.md) supply
   self-adjoint generators, their spectral calculus, Part B's PVM carrier,
@@ -193,16 +182,79 @@ positive characters: `f̂(χ)=∫ f(g)χ(g) dμ(g)` and
   integration and representation interfaces; smooth structures are not
   prerequisites.
 
+Declared gaps: each object below is consumed from the named section of
+another roadmap by its slug, which every consuming target cites.
+
+What HilbertModules must provide (gap:hilbert-module-induction): for a right
+Hilbert B-module X with a left action of a C*-algebra A by adjointable maps
+and a nondegenerate representation ρ of B on a Hilbert space H, the induced
+Hilbert space `X⊗_ρH` with inner product `⟨x⊗ξ,y⊗η⟩=⟨ξ,ρ(⟨x,y⟩_B)η⟩`
+(positive by the Gram-matrix lemma) and balancing law `xb⊗ξ=x⊗ρ(b)ξ`, the
+induced representation `Ind_Xρ(a)(x⊗ξ)=φ(a)x⊗ξ` of A with `‖Ind_Xρ(a)‖≤‖a‖`,
+nondegenerate when `φ(A)X` is dense, functorial on bounded intertwiners,
+compatible with unitary equivalence, Hilbert direct sums and induction in
+stages, with `B⊗_ρH≅H` by `b⊗ξ↦ρ(b)ξ` for `X=B`; and A–B imprimitivity
+bimodules in the two-inner-product form (full on both sides, the left inner
+product linear in its first variable, each action adjointable for the other
+inner product, `_A⟨x,y⟩z=x⟨y,z⟩_B`), with the equality of their two norms,
+the completion of a pre-imprimitivity bimodule over dense *-subalgebras to
+an imprimitivity bimodule, and nondegeneracy of representations induced
+through one (HilbertModules H3; Williams, Proposition I.1, p. 479, and
+§4.1, pp. 114–115).
+
+What VonNeumannAlgebras must provide (gap:lca-fourier-plancherel): for every
+locally compact Hausdorff abelian group G with a regular Haar measure μ and
+the positive-character transform `f̂(χ)=∫f(g)χ(g)dμ(g)`, the dual Haar
+measure μ̂ on Ĝ, the unique regular Haar measure with `∫|f̂|²dμ̂=∫|f|²dμ` on
+`L¹(G)∩L²(G)`, the Plancherel unitary `F:L²(G,μ)≅L²(Ĝ,μ̂)` extending
+`f↦f̂` and carrying the regular representation `λ(f)`, `f∈L¹(G)`, to
+multiplication by f̂, Fourier inversion `f(x)=∫f̂(χ)conj(χ(x))dμ̂(χ)` almost
+everywhere for `f∈L¹(G)` with `f̂∈L¹(Ĝ)`, the rescaling law that `cμ` has
+dual `c⁻¹μ̂`, and the Pontryagin duality theorem that evaluation
+`ev:G→(Ĝ)^`, `ev(s)(χ)=χ(s)`, is an isomorphism of topological groups
+(VonNeumannAlgebras V11; Rudin, Theorems 1.5.1, 1.6.1 and 1.7.2; Williams,
+p. 27 and Example 7.11, p. 198).
+
+What VonNeumannAlgebras must provide (gap:measurable-hilbert-fields): over a
+standard σ-finite measure space `(X,μ)`, measurable fields of separable
+Hilbert spaces `x↦H_x` given by a fundamental sequence of sections, their
+direct integral `∫⊕H_xdμ(x)` with the diagonal operators of `L∞(X,μ)`, the
+decomposable-operator criterion that a bounded map between two such direct
+integrals intertwines the diagonal actions iff it is the direct integral of
+a measurable essentially bounded field of maps, unique up to a null set,
+with norm the essential supremum and fibrewise composition and adjoint,
+unitarity of such a map iff its fibre maps are unitary almost everywhere,
+the change-of-measure unitary `f↦√(dμ/dν)f` between the direct integrals
+over equivalent measures, and for `μ≪λ` the zero-extended λ-field with its
+onto unitary (VonNeumannAlgebras V4.0.Fields; Williams, Definition F.1,
+p. 409, Lemma F.20, p. 417, Theorem F.21, p. 418, Proposition F.33(d),
+p. 423).
+
+What VonNeumannAlgebras must provide (gap:diagonal-reduction): for a
+separable C*-algebra A and a representation ρ of A on such a direct integral
+commuting with every diagonal operator, a measurable field `x↦π_x` of
+representations of A on `H_x`, unique up to a null set, with
+`ρ(a)=∫⊕π_x(a)dμ(x)` for every a; and the transport theorem that a unitary
+between two such direct integrals of representations over standard bases
+which intertwines the representations and the diagonal algebras is, up to
+null sets, a Borel isomorphism τ of the bases with `τ_*μ` equivalent to ν
+composed with the change-of-measure unitary and a measurable field of
+unitaries `H_x→K_(τ(x))` intertwining `π_x` with `ρ_(τ(x))`
+(VonNeumannAlgebras V4.0.Decomposition; Williams, Proposition F.26, p. 419,
+and Proposition F.33, p. 423).
+
 ## How to read the build
 
 D1–D4 form the group-action development: D1 builds integrated forms and full
-crossed products and, in D1.Modules, the Hilbert-space induction through
-bimodules that D2, D3 and D6 use; D4.Harmonic builds the Fourier isomorphism
-of the full group C*-algebra, the dual Haar measure with the Plancherel
-unitary and Fourier inversion, and the Pontryagin duality theorem, which
-D4.LCAWeyl and D4.Takai consume. D5–D6 use D1's integration tools, D1.Modules and the standard-fibre
-direct integrals of D5.Fields, and compare transformation groupoids with
-D1–D2. D7–D9 form the equilibrium development. Operator K-theory consumes
+crossed products and, in D1.Modules, the module conventions and the stage
+lemma that D2, D3 and D6 use together with the induced Hilbert spaces of
+`gap:hilbert-module-induction`; D4.Harmonic builds the Fourier isomorphism
+of the full group C*-algebra and, with the Plancherel and Pontryagin duality
+theorems of `gap:lca-fourier-plancherel`, the identification `C*(Ĝ)≅C₀(G)`
+that D4.LCAWeyl and D4.Takai use. D5–D6 use D1's integration tools,
+D1.Modules and the standard-fibre model of D5.Fields over the measurable
+fields of `gap:measurable-hilbert-fields`, and compare transformation
+groupoids with D1–D2. D7–D9 form the equilibrium development. Operator K-theory consumes
 crossed products and duality. The dependency order of the twisted sections
 is C1/A7/D1.Modules → D1.CentralTwists → D2.CentralTwists, and A7/C1 →
 D1.BorelPrefix → D1.TwistedBorel; D5's order is SA-B85 → D5.Fields → D5.
@@ -312,7 +364,7 @@ localized Fubini); CStarAlgebras C1 (approximate units, multipliers, strict
 topology); Tau Ceti `ContRepresentation` and `ContRepresentation.IsUnitary`;
 Mathlib `MeasureTheory.Measure.modularCharacter`.
 
-### D1.Modules. Hilbert-space induction through imprimitivity bimodules
+### D1.Modules. Module conventions and the stage lemma for explicit pairings
 
 In the convention fixed above, a right Hilbert B-module X is a complete
 `CStarModule Bᵐᵒᵖ X`; Mathlib supplies the inner-product laws, the norm
@@ -324,80 +376,52 @@ A left action of a C*-algebra A on X by adjointable maps is a
 `⟨φ(a)x,y⟩_B=⟨x,φ(a*)y⟩_B` for all a, x, y. Only this datum is used below;
 the C*-algebra of all adjointable maps of X is not built here.
 
-Prove the Gram positivity: for `x_1,…,x_n∈X` the matrix `G=(⟨x_i,x_j⟩_B)` is
-positive in `M_n(B)` (`CStarMatrix`). Route: for every column `b∈Bⁿ`,
-`b*Gb=⟨Σ_ix_ib_i,Σ_jx_jb_j⟩_B≥0`; G is self-adjoint, so the nonunital
-continuous functional calculus in `M_n(B)` gives `G=G₊−G₋` with
-`G₊G₋=0`; for `y=G₋^(1/2)` and every column b, `(yb)*G(yb)=−b*G₋²b`, which
-is both `≥0` by the first step and `≤0`, so `‖G₋b‖²=‖b*G₋²b‖=0` for every
-column b, and an approximate unit of B in each coordinate gives `G₋=0`.
-Consequently, for a representation ρ of B on a Hilbert space H and
-`ξ_1,…,ξ_n∈H`, `Σ_(i,j)⟨ξ_i,ρ(⟨x_i,x_j⟩_B)ξ_j⟩≥0`, because `ρ⊗1_n` is a
-*-homomorphism `M_n(B)→B(Hⁿ)` and preserves positivity.
+For a representation ρ of B on a Hilbert space H, the induced Hilbert space
+`X⊗_ρH`, the separated completion of `X⊙H` for
+`⟨x⊗ξ,y⊗η⟩=⟨ξ,ρ(⟨x,y⟩_B)η⟩` with the balancing law `xb⊗ξ=x⊗ρ(b)ξ`, and
+the induced representation `Ind_Xρ(a)(x⊗ξ)=φ(a)x⊗ξ` of A with its norm
+bound, its nondegeneracy when ρ is nondegenerate and `φ(A)X` is dense, its
+functoriality on bounded intertwiners, its compatibility with unitary
+equivalence and Hilbert direct sums, and the unitary `B⊗_ρH≅H`,
+`b⊗ξ↦ρ(b)ξ`, for `X=B` and nondegenerate ρ, are the objects of
+`gap:hilbert-module-induction` (Williams, Proposition I.1, p. 479, states
+the construction with the Hilbert B-module Y=H). So are A–B imprimitivity
+bimodules in the two-inner-product form, the left inner product `_A⟨x,y⟩`
+linear in its first variable with `_A⟨ax,y⟩=a·_A⟨x,y⟩`, `_A⟨x,y⟩*=_A⟨y,x⟩`
+and `_A⟨x,x⟩≥0`, each action adjointable for the other inner product
+(`⟨ax,y⟩_B=⟨x,a*y⟩_B`, `_A⟨xb,y⟩=_A⟨x,yb*⟩`), the compatibility
+`_A⟨x,y⟩z=x⟨y,z⟩_B` and fullness on both sides, together with the equality
+of their two norms, the completion of a pre-imprimitivity bimodule over
+dense *-subalgebras `A₀⊆A`, `B₀⊆B` to an imprimitivity bimodule (Williams,
+(IB1)–(IB4) and (a)–(d), pp. 114–115) and the fact that induction through
+an imprimitivity bimodule carries nondegenerate representations of B to
+nondegenerate representations of A. Write `A∼_MB` when an A–B
+imprimitivity bimodule exists; this is the conclusion of D3's and D6's
+equivalence theorems, and its properties as a relation are not developed
+here.
 
-For a representation ρ of B on H construct the induced Hilbert space
-`X⊗_ρH` as the separated completion of the algebraic tensor product `X⊙H`
-for the form `⟨x⊗ξ,y⊗η⟩=⟨ξ,ρ(⟨x,y⟩_B)η⟩` (Williams, Proposition I.1,
-p. 479, with the Hilbert B-module Y=H); its positivity is the consequence
-above. Prove the balancing law `xb⊗ξ=x⊗ρ(b)ξ` and the density of the image
-of `X⊙H`. For a left action φ of A on X by adjointable maps prove that
-`Ind_Xρ(a)(x⊗ξ)=φ(a)x⊗ξ` extends to a bounded operator of norm at most
-`‖a‖` and that `Ind_Xρ` is a *-representation of A on `X⊗_ρH`. Route: in
-the unitization `A⁺` write `‖a‖²·1−a*a=r*r` and extend φ to `A⁺` with
-`φ(1)=id`; then `‖a‖²⟨x_i,x_j⟩_B−⟨φ(a)x_i,φ(a)x_j⟩_B=⟨φ(r)x_i,φ(r)x_j⟩_B` is a
-Gram matrix, so `‖Σ_iφ(a)x_i⊗ξ_i‖²≤‖a‖²‖Σ_ix_i⊗ξ_i‖²`. Prove that `Ind_Xρ`
-is nondegenerate when ρ is nondegenerate and `φ(A)X` is dense in X, that a
-bounded intertwiner `S:H→H'` of ρ and ρ' induces `1⊗S` intertwining
-`Ind_Xρ` and `Ind_Xρ'`, that unitarily equivalent ρ induce unitarily
-equivalent representations, that direct sums induce direct sums, and that
-for `X=B` with the multiplication action and nondegenerate ρ, `b⊗ξ↦ρ(b)ξ`
-is a unitary `B⊗_ρH≅H` carrying `Ind_Bρ` to ρ.
-
-Prove the stage lemma that D3 and D6 use. Let X be a right Hilbert B-module
-with a left A-action, Y a right Hilbert C-module with a left B-action, Z a
-right Hilbert C-module with a left A-action, and `X⊙Y→Z`, `x⊗y↦x·y`, a
-bilinear pairing with `⟨x·y,x'·y'⟩_C=⟨y,⟨x,x'⟩_By'⟩_C`,
+Prove the stage lemma that D3 and D6 use, for an explicit pairing rather
+than an interior tensor product of modules. Let X be a right Hilbert
+B-module with a left A-action, Y a right Hilbert C-module with a left
+B-action, Z a right Hilbert C-module with a left A-action, and `X⊙Y→Z`,
+`x⊗y↦x·y`, a bilinear pairing with `⟨x·y,x'·y'⟩_C=⟨y,⟨x,x'⟩_By'⟩_C`,
 `(xb)·y=x·(by)` and `a(x·y)=(ax)·y`. Then for every representation ρ of C
 on H the map `x⊗(y⊗ξ)↦(x·y)⊗ξ` is an isometry
 `X⊗_(Ind_Yρ)(Y⊗_ρH)→Z⊗_ρH` intertwining `Ind_X(Ind_Yρ)` with `Ind_Zρ`, and
 it is unitary when the pairing has dense range in Z. Route: on elementary
-tensors both inner products equal `⟨ξ,ρ(⟨y,⟨x,x'⟩_By'⟩_C)ξ'⟩`. No interior
-tensor product `X⊗_BY` of two modules is formed.
+tensors both inner products equal `⟨ξ,ρ(⟨y,⟨x,x'⟩_By'⟩_C)ξ'⟩`, so the map
+is well defined and isometric on the algebraic tensor products and extends
+to the completions; the image contains `(x·y)⊗ξ` for all x, y, ξ, which
+spans a dense subspace when the pairing has dense range, since
+`‖z⊗ξ−z'⊗ξ‖²≤‖z−z'‖²‖ξ‖²`. D3 applies the lemma to the pairing
+`C_c(G,D)⊙C_c(H,D)→C_c(G,D)` of induction in stages and D6 to the pairing
+`C_c(Z₁)⊙C_c(Z₂)→C_c(Z₁×_HZ₂)` of composed equivalences.
 
-An A–B imprimitivity bimodule is an A–B bimodule X that is a full right
-Hilbert B-module and a full left Hilbert A-module, the left inner product
-`_A⟨x,y⟩` being linear in its first variable with `_A⟨ax,y⟩=a·_A⟨x,y⟩`,
-`_A⟨x,y⟩*=_A⟨y,x⟩` and `_A⟨x,x⟩≥0`, each action adjointable for the other
-inner product (`⟨ax,y⟩_B=⟨x,a*y⟩_B`, `_A⟨xb,y⟩=_A⟨x,yb*⟩`), and the
-compatibility `_A⟨x,y⟩z=x⟨y,z⟩_B`; fullness means that the inner products
-span dense subspaces of A and of B. A pre-imprimitivity bimodule over dense
-*-subalgebras `A₀⊆A`, `B₀⊆B` has the same laws with values in A₀ and B₀,
-actions bounded for the induced norms and inner products of dense range, and
-completes to an imprimitivity bimodule (Williams, (IB1)–(IB4) and (a)–(d),
-pp. 114–115). Prove that the two norms coincide: `a=_A⟨x,x⟩` and
-`b=⟨x,x⟩_B` satisfy `ax=xb`, so `‖b‖³=‖xb‖_B²=‖ax‖_B²≤‖a‖²‖x‖_B²=‖a‖²‖b‖`
-gives `‖b‖≤‖a‖`, and symmetrically; the bound `‖ax‖_B≤‖a‖‖x‖_B` is the
-Gram-matrix estimate above for the left action. Write `A∼_MB` when an A–B
-imprimitivity bimodule exists; this is the conclusion of D3's and D6's
-equivalence theorems, and its properties as a relation are not developed
-here. Prove that induction through an imprimitivity bimodule carries
-nondegenerate representations of B to nondegenerate representations of A:
-`x=lim_n x⟨x,x⟩_B^(1/n)` because `⟨x−xu,x−xu⟩_B=b(1−u)²` for `b=⟨x,x⟩_B` and
-`u=b^(1/n)`; the closed span I of `⟨X,X⟩_B` is a closed two-sided ideal of
-B, by `⟨x,y⟩_Bc=⟨x,yc⟩_B` and `c*⟨x,y⟩_B=⟨xc,y⟩_B`, hence a C*-subalgebra
-containing b and therefore every `b^(1/n)`; so `xb^(1/n)` lies in the
-closure of `X⟨X,X⟩_B`, which is the closure of `_A⟨X,X⟩X` by
-`x⟨y,z⟩_B=_A⟨x,y⟩z`, and `_A⟨X,X⟩X` is dense in X. No fullness is needed
-for this direction.
-
-- The Gram positivity `(⟨x_i,x_j⟩_B)≥0` in `M_n(B)` and its Hilbert-space
-  consequence.
-- The induced Hilbert space `X⊗_ρH`: positivity, balancing, density, the
-  induced representation `Ind_Xρ` with its norm bound, nondegeneracy,
-  intertwiners, unitary equivalence, direct sums, and `B⊗_ρH≅H`.
-- The stage lemma for a compatible pairing `X⊙Y→Z`.
-- Imprimitivity bimodules and their pre-versions: the compatibility law,
-  equality of the two norms, completion, and induction through a bimodule.
+- The module conventions: right modules over `Bᵐᵒᵖ`, Hilbert spaces as
+  right ℂ-modules, left actions by adjointable maps as a datum, and
+  `A∼_MB` as the conclusion of equivalence theorems.
+- The stage lemma for a compatible pairing `X⊙Y→Z`: an isometry in
+  general, a unitary for a pairing with dense range.
 
 **Checks.**
 
@@ -406,38 +430,45 @@ for this direction.
   `B=M_2(ℂ)` and `x=E_12` this is `E_21E_12=E_22`, while the left self-module
   of B itself gives `E_12E_21=E_11`. The two instances on the one carrier
   differ, which is why right modules are written over `Bᵐᵒᵖ`.
-- Gram positivity pins the order of the entries: for `X=B=M_2(ℂ)`,
-  `x_1=E_11`, `x_2=E_12`, the matrix `(x_i*x_j)` in `M_2(M_2(ℂ))=M_4(ℂ)` has
-  entries `δ_(ik)δ_(jl)` at `((i,k),(j,l))`, which is `ww*` for
-  `w=e_(1,1)+e_(2,2)` and is positive of rank one; the transposed convention
-  `(x_j*x_i)` has entries `δ_(jk)δ_(il)`, the flip of `ℂ²⊗ℂ²`, with
-  eigenvalue `−1` on `e_(1,2)−e_(2,1)`.
+- The order of the Gram-matrix entries in the consumed positivity: for
+  `X=B=M_2(ℂ)`, `x_1=E_11`, `x_2=E_12`, the matrix `(x_i*x_j)` in
+  `M_2(M_2(ℂ))=M_4(ℂ)` has entries `δ_(ik)δ_(jl)` at `((i,k),(j,l))`, which
+  is `ww*` for `w=e_(1,1)+e_(2,2)` and is positive of rank one; the
+  transposed convention `(x_j*x_i)` has entries `δ_(jk)δ_(il)`, the flip of
+  `ℂ²⊗ℂ²`, with eigenvalue `−1` on `e_(1,2)−e_(2,1)`.
 - Sign of the induced inner product: for `B=M_2(ℂ)`, `X=B`, `ρ=id` on ℂ²,
   `x_1=−E_12`, `x_2=E_11`, `ξ_1=e_1`, `ξ_2=e_2`, the displayed form on
   `x_1⊗ξ_1+x_2⊗ξ_2` is `‖x_1ξ_1+x_2ξ_2‖²=0`, while the form with `⟨y,x⟩_B` in
   place of `⟨x,y⟩_B` gives `2Re⟨x_2ξ_1,x_1ξ_2⟩=−2`: the transposed convention
   is not positive.
-- `X=B` and ρ nondegenerate: `B⊗_ρH≅H` by `b⊗ξ↦ρ(b)ξ`; for `ρ=0` on `H≠0`
-  the induced space is 0, so nondegeneracy is needed for the identification.
-  With the multiplication pairing `B⊙B→B`, the stage isometry composed with
-  these identifications is the identity of H, and for `ρ=0` all three
-  induced spaces are 0.
+- The stage lemma for `X=Y=Z=B` with the multiplication pairing: composed
+  with the identifications `B⊗_ρH≅H` for nondegenerate ρ, the stage
+  isometry is the identity of H; for `ρ=0` on `H≠0` all three induced
+  spaces are 0, so the identification `B⊗_ρH≅H` needs nondegeneracy while
+  the stage lemma does not.
+- A pairing without dense range: `A=B=C=ℂ`, `X=Y=ℂ`, `Z=ℂ²` with the
+  pairing `x·y=(xy,0)` satisfies the three laws, since
+  `⟨x·y,x'·y'⟩_ℂ=conj(xy)x'y'=⟨y,⟨x,x'⟩_ℂy'⟩_ℂ`, and for `ρ=id` on ℂ the
+  stage map is the isometry `ℂ→ℂ²`, `1↦(1,0)`, which is not unitary; the
+  zero pairing is excluded by the first law, which forces
+  `⟨x·y,x·y⟩_C=|x|²|y|²`.
 - Adjointability of the left action is a hypothesis: the inclusion of
   `J={f:f(0)=0}` into `B=C([0,1])`, as a map of right B-modules, is bounded
   and B-linear but has no adjoint, since an adjoint `T*` would satisfy
   `conj(f)g=conj(f)T*g` for all `f∈J`, so `T*g=g` on `(0,1]`, forcing
   `g∈J` for every `g∈B`.
-- `ℂⁿ` as an `M_n(ℂ)`–ℂ bimodule with `_M⟨x,y⟩=xy*` and `⟨x,y⟩_ℂ=x*y`
-  satisfies `(xy*)z=x(y*z)` and is full on both sides, so `M_n(ℂ)∼_Mℂ`;
-  with ℂ acting on the left and `_ℂ⟨x,y⟩=y*x` instead, `x=e_1`, `y=z=e_2`
-  give `_ℂ⟨e_1,e_2⟩e_2=0≠e_1=e_1⟨e_2,e_2⟩_ℂ`, so `ℂ²` is not a ℂ–ℂ
-  imprimitivity bimodule although `ℂ∼_Mℂ` through ℂ itself; the two norms
-  agree there, `‖xx*‖=‖x‖²=x*x`.
+- The compatibility law of the consumed bimodules: `ℂⁿ` as an
+  `M_n(ℂ)`–ℂ bimodule with `_M⟨x,y⟩=xy*` and `⟨x,y⟩_ℂ=x*y` satisfies
+  `(xy*)z=x(y*z)` and is full on both sides, so `M_n(ℂ)∼_Mℂ`; with ℂ acting
+  on the left and `_ℂ⟨x,y⟩=y*x` instead, `x=e_1`, `y=z=e_2` give
+  `_ℂ⟨e_1,e_2⟩e_2=0≠e_1=e_1⟨e_2,e_2⟩_ℂ`, so `ℂ²` is not a ℂ–ℂ imprimitivity
+  bimodule although `ℂ∼_Mℂ` through ℂ itself; the two norms agree there,
+  `‖xx*‖=‖x‖²=x*x`.
 
-*Needs:* Mathlib `CStarModule`, `WithCStarModule.instCStarModuleComplex`,
-`CStarMatrix` with the nonunital continuous functional calculus,
-`Unitization` and `UniformSpace.Completion`; CStarAlgebras C1 (approximate
-units, positivity in the unitization).
+*Needs:* Mathlib `CStarModule`, `WithCStarModule.instCStarModuleComplex` and
+`CStarMatrix` (the carrier of the Gram-matrix Check); the induced Hilbert
+spaces, induced representations and imprimitivity bimodules of
+`gap:hilbert-module-induction`; CStarAlgebras C1 (approximate units).
 
 ### D1.CentralTwists. Continuous central multiplier cocycles
 
@@ -628,7 +659,7 @@ by Heisenberg-module constructions.
 *Needs:* D1 (integrated forms, regular representation, universal norm);
 CStarAlgebras C1 (multiplier algebra, strict topology, approximate units);
 BanachAlgebras A7 (Haar integration, modular character, localized Fubini);
-D1.Modules (induced Hilbert spaces);
+D1.Modules with the induced Hilbert spaces of `gap:hilbert-module-induction`;
 Tau Ceti `twistedMonoidAlgebra` and `TwistedMonoidAlgebra.equivOfCoboundary`
 for the discrete scalar comparison; Mathlib `DoubleCentralizer` and `unitary`.
 
@@ -778,9 +809,8 @@ in the same direction `f↦fb` as above; compare the Borel extension
 isomorphism `(z,s)↦(zb(s),s)` with its topological realization. For
 continuous scalar ω identify this construction with D1.CentralTwists and
 D2.CentralTwists. For each integer k the same result for ω^k identifies
-`J_k(E_ω)≃C*(G,ω^k)` using `p_k=∫overline(z^k)i_E(z,e)dz`.
-The decomposition into all weights and its type-I consequences remain
-NoncompactQuantumSymmetry M2's targets, with these fiber identifications as inputs.
+`J_k(E_ω)≃C*(G,ω^k)` using `p_k=∫overline(z^k)i_E(z,e)dz`. The
+decomposition of `C*(E_ω)` into all weights is not built here.
 
 A pointwise choice of lifts of a ray action supplies neither Borel
 measurability nor continuity. Apply the Borel theorem only to lifts
@@ -823,7 +853,8 @@ BanachAlgebras A7; CStarAlgebras C1 and C5; Mathlib `ContRepresentation`,
 `DoubleCentralizer`, `unitary`, `ContinuousLinearMap.toPointwiseConvergenceCLM`,
 `div_mem_nhds_one_of_haar_pos` and `MonoidHom.isOpenMap_of_sigmaCompact`; Tau
 Ceti `ContRepresentation.IsUnitary`, `ContRepresentation.integratedOperatorL1`,
-`twistedMonoidAlgebra` and `TwistedMonoidAlgebra.equivOfCoboundary`. Within
+`twistedMonoidAlgebra` and `TwistedMonoidAlgebra.equivOfCoboundary`; the
+induced Hilbert spaces of `gap:hilbert-module-induction` (D1.Modules). Within
 the layer: D1 → D1.Modules → D1.CentralTwists, and D1 → D1.BorelPrefix →
 D1.TwistedBorel.
 
@@ -839,7 +870,7 @@ adjoint left convolution by `f*`, so that `C_c(G,A)` acts on the left of
 `L²(G,A)` by adjointable maps in the sense of D1.Modules, and that for a
 nondegenerate representation ρ of A on H the map
 `ξ⊗η↦(r↦ρ(α_(r⁻¹)(ξ(r)))η)` extends to a unitary from the induced Hilbert
-space `L²(G,A)⊗_ρH` of D1.Modules onto `L²(G,H)` (Williams, Proposition
+space `L²(G,A)⊗_ρH` of `gap:hilbert-module-induction` onto `L²(G,H)` (Williams, Proposition
 I.21, p. 494, for the density of `C_c(G,H)`) carrying the induced operator
 of left convolution by f to the integrated regular representation
 `(ρ̃⋊λ)(f)` of D1: the regular representation is induced from ρ.
@@ -904,8 +935,9 @@ RepresentationTheory/CompactGroups.
 
 *Needs:* D1 (the regular covariant representation, integrated forms, the
 full crossed product with its universal property and multiplier maps, the
-ideal short exact sequence); D1.Modules (induced Hilbert spaces through a
-module with a left action by adjointable maps); BanachAlgebras A7 (Haar
+ideal short exact sequence); D1.Modules with `gap:hilbert-module-induction`
+(induced Hilbert spaces through a module with a left action by adjointable
+maps); BanachAlgebras A7 (Haar
 integration, `L¹(G)` convolution, the Fubini and support arguments);
 AmenableGroups (invariant means on Haar `L∞`, Layer 7's `L¹` approximation
 and Layer 5's Følner sets); CStarAlgebras C5–C7 (minimal and maximal tensor
@@ -1003,8 +1035,9 @@ twisted star. In standard-module coordinates its coefficient map is
 `V_sξ(r)=α̃_(r⁻¹)(ω(s,s⁻¹r))ξ(s⁻¹r)`; multiplication here is the
 multiplier action on A. Prove the formulas on compact-support sections,
 A-linearity, boundedness, adjoints and extension, and show that the
-induced Hilbert space `⊗_ρH` of D1.Modules for a nondegenerate ρ is
-`L²(G,H_ρ)` carrying precisely D1.CentralTwists' regular pair.
+induced Hilbert space `⊗_ρH` of `gap:hilbert-module-induction` for a
+nondegenerate ρ is `L²(G,H_ρ)` carrying precisely D1.CentralTwists' regular
+pair.
 
 Define the reduced norm by this module. Prove its agreement with every
 faithful nondegenerate ρ, definiteness on C_c/L¹, domination by the full
@@ -1073,7 +1106,8 @@ or from von Neumann crossed-product duality back into D1.
 
 *Needs:* D1.CentralTwists (twisted L¹, full completion, multiplier maps,
 cochain transport); D2 (regular module, expectation, P₁/P₂ approximation,
-tensor identification); D1.Modules (induced Hilbert spaces); CStarAlgebras C5–C7 (tensor products, nuclearity,
+tensor identification); D1.Modules with `gap:hilbert-module-induction`
+(induced Hilbert spaces); CStarAlgebras C5–C7 (tensor products, nuclearity,
 exactness).
 
 ### D2.FreeGroups. Powers averaging, simplicity and the canonical trace
@@ -1222,12 +1256,14 @@ Only this explicitly defined model is in this target.
 The elements `E_ij=M_(1_{i})U^(i−j)` are actual matrix units and rank-one
 operators. Prove their finite span is the finite-support matrix algebra,
 its norm closure is K(H), and that the inclusion
-`c₀(ℤ)⋊ℤ→R` has exactly this image, using D3's translation model.
+`c₀(ℤ)⋊ℤ→R` has exactly this image.
 Thus K(H) is an essential simple closed ideal in R: if T≠0 choose a
 coordinate vector δ_j with Tδ_j≠0, then some E_ii T E_jj is a nonzero
 multiple of E_ij. Use this also to prove irreducibility of the faithful
 representation, its scalar commutant, and `Z(R)=ℂ1`. Its image contains
-1_H and H is infinite-dimensional, so R is not CCR. No singleton
+1_H and H is infinite-dimensional, so R is not CCR; here a C*-algebra is
+CCR when every irreducible representation has image `K(H)`, and type I
+when every irreducible representation has image containing `K(H)`. No singleton
 characteristic function is identified with the coefficient identity.
 
 Construct the nonzero unital quotient
@@ -1269,10 +1305,9 @@ The C₊ example's circle characters need not extend to R.
   infinite-dimensional; `c₀(ℤ)⋊ℤ=K(H)` is CCR.
 
 *Needs:* D1 (crossed product, exactness for invariant ideals); D2
-(amenable full/reduced comparison, gauge expectation); D3
-(`C₀(G)⋊G≅K(L²G)` for G=ℤ); CStarAlgebras C1–C2 (ideals, quotients,
-irreducible representations, primitive ideal space); Mathlib `lp`,
-`lp.single`.
+(amenable full/reduced comparison, gauge expectation); CStarAlgebras C1–C2
+(ideals, quotients, irreducible representations, primitive ideal space);
+Mathlib `lp`, `lp.single`.
 
 **D2.SequenceToeplitz — an asymmetric sequence algebra and its crossed product.**
 Inside native `lp (fun _ : ℤ=>ℂ) ∞` construct the closed nonunital
@@ -1302,12 +1337,13 @@ Give the primitive kernels and hull–kernel topology explicitly. Writing
 sets are ∅ and `{η}∪O` with O open in 𝕋, including O=∅.
 Thus η is open and dense and the circle is closed with its usual topology.
 Classify all closed ideals from these opens, with their quotient maps.
-Prove B is type I by splitting each factor representation according to
-the support of its compact ideal: the nonzero support gives a compact
-operator amplification, and the zero-support case factors through the
-commutative quotient. Prove B is not CCR, since its faithful irreducible
-image contains the infinite-rank diagonal projection
-`e=M_(1_[0,∞))`.
+Prove B is type I in the sense fixed in D2.BoundedSequenceTranslation: a
+nonzero irreducible representation either is faithful on the compact ideal,
+and is then the standard representation, whose image contains `K(ℓ²(ℤ))`,
+or kills it and factors through the commutative quotient `C(𝕋)`, so is a
+character, whose image `ℂ=K(ℂ)` contains the compacts. Prove B is not CCR,
+since its faithful irreducible image contains the infinite-rank diagonal
+projection `e=M_(1_[0,∞))`.
 
 Prove e is a full projection of B and identify the full corner eBe with
 CStarAlgebras C8's concrete Toeplitz algebra on ℓ²(ℕ), by
@@ -1343,8 +1379,7 @@ representation, on which S is unitary. They need not converge to I.
 *Needs:* D1 (full exactness); D2 (amenable comparison, gauge
 expectation); D2.BoundedSequenceTranslation (matrix units, the inclusion
 `C₊⋊ℤ→R`); CStarAlgebras C2 (irreducible representations, primitive
-ideals, type I and CCR) and C8 (the concrete Toeplitz algebra); Mathlib
-`lp`.
+ideals) and C8 (the concrete Toeplitz algebra); Mathlib `lp`.
 
 **D2.SaddleFlow — the orbit topology of a diagonal real flow.**
 For the continuous action `t·(x,y)=(exp(t)x,exp(−t)y)` of ℝ on ℝ²,
@@ -1399,9 +1434,7 @@ RepresentationTheory/CompactGroups (Peter–Weyl); FreeProbability F3 is a
 comparison, not an input; Mathlib `lp`, `lp.single`, `AddCircle`,
 `MulAction.IsPretransitive`, `FreeGroup.toWord`, `FreeGroup.reduce`,
 `StarAlgebra.adjoin`, `StarSubalgebra.topologicalClosure` and
-`IsSimpleRing`. The weak-operator closure of the regular representation and
-its identification with the von Neumann crossed product belong to the
-sections that Scope and ownership names; nothing below uses them.
+`IsSimpleRing`; the induced Hilbert spaces of `gap:hilbert-module-induction`.
 
 ## D3. Induction and imprimitivity
 
@@ -1421,9 +1454,11 @@ of unity lemmas used in density and fullness arguments.
 
 Prove Green imprimitivity for arbitrary closed H:
 `Ind_H^G(D,β)⋊G` is strongly Morita equivalent to `D⋊H` through an
-imprimitivity bimodule in the sense of D1.Modules. Construct the module on
+imprimitivity bimodule in the two-inner-product form of D1.Modules and
+`gap:hilbert-module-induction`. Construct the pre-imprimitivity bimodule on
 `C_c(G,D)` with its Haar integrals, actions and both inner products; prove
-positivity, norm estimates, compatibility, fullness and completion. For the
+positivity, norm estimates, compatibility and fullness, and complete it by
+the consumed completion theorem. For the
 restricted-action model fix `γ_H(h)=Δ_G(h)^(1/2)Δ_H(h)^(-1/2)` and
 
 ```
@@ -1433,7 +1468,8 @@ restricted-action model fix `γ_H(h)=Δ_G(h)^(1/2)Δ_H(h)^(-1/2)` and
 Use the matching left action, right action and left inner product of
 Williams Theorem 4.22. Establish their conversion from the general induced
 model, including the modular rescaling; the subgroup and ambient modular
-functions need not agree. Induction through this bimodule (D1.Modules)
+functions need not agree. Induction through this bimodule
+(`gap:hilbert-module-induction`, in D1.Modules' conventions)
 gives the induced representations `Ind_H^G` of covariant pairs of `(D,H,β)`
 and of their bounded intertwiners. Prove induction in stages for closed
 subgroups `K⊆H⊆G`: the pairing `C_c(G,D)⊙C_c(H,D)→C_c(G,D)` of Williams,
@@ -1483,8 +1519,9 @@ H3's.
   P a point both sides are A.
 
 *Needs:* D1 (crossed products, universal property, integrated forms,
-multiplier maps); D1.Modules (imprimitivity bimodules, induced Hilbert
-spaces, the stage lemma); D2 (regular representations, for the compact
+multiplier maps); D1.Modules (the module conventions, the stage lemma) with
+`gap:hilbert-module-induction` (imprimitivity bimodules, their completion,
+induced Hilbert spaces); D2 (regular representations, for the compact
 operator identification); BanachAlgebras A7 (Haar measures on G and H,
 modular identities); Mathlib Haar measure on `G/H` and the quotient
 integral formula, with the quasi-invariant-measure version for a closed
@@ -1499,20 +1536,20 @@ for G=ℤ.
 
 ### Dependencies
 
-D1, D1.Modules and D2; BanachAlgebras A7; CStarAlgebras C1; Mathlib Haar
-measure and the quotient integral formula on `G/H` where it applies.
+D1, D1.Modules with `gap:hilbert-module-induction`, and D2; BanachAlgebras
+A7; CStarAlgebras C1; Mathlib Haar measure and the quotient integral
+formula on `G/H` where it applies.
 
 ## D4. Dual actions and Takai duality
 
-D4.Harmonic builds the harmonic analysis of a locally compact abelian group
-that duality needs: the Fourier isomorphism of the full group C*-algebra,
-the dual Haar measure with the Plancherel unitary and Fourier inversion, the
-Pontryagin duality theorem, and with it the identification `C*(Ĝ)≅C₀(G)`;
-D4.LCAWeyl is the Weyl dictionary between nondegenerate covariant pairs of
+D4.Harmonic builds the Fourier isomorphism of the full group C*-algebra of
+a locally compact abelian group and, with the Plancherel and Pontryagin
+duality theorems of `gap:lca-fourier-plancherel`, the identification
+`C*(Ĝ)≅C₀(G)`; D4.LCAWeyl is the Weyl dictionary between nondegenerate covariant pairs of
 `(C₀(G),G)` and Heisenberg pairs of G and Ĝ, with its uniqueness theorem;
 D4.Takai is the duality theorem.
 
-### D4.Harmonic. Fourier isomorphism, Plancherel, inversion and Pontryagin duality
+### D4.Harmonic. The Fourier isomorphism of the group C*-algebra and `C*(Ĝ)≅C₀(G)`
 
 Let G be a locally compact Hausdorff abelian group with a regular Haar
 measure μ (Mathlib `Measure.IsHaarMeasure` together with `Measure.Regular`:
@@ -1546,68 +1583,19 @@ resulting topology with the compact-open one. The composite
 `C*(G)≅C₀(Ω)≅C₀(Ĝ)` sends f to f̂. Prove that the regular quotient
 `C*(G)→C*_r(G)` is an isomorphism for abelian G, by D2's amenable
 comparison and the amenability of abelian groups, so the same transform
-identifies the reduced algebra on `L²(G)` with `C₀(Ĝ)`.
+identifies the reduced algebra on `L²(G)` with `C₀(Ĝ)`; no Plancherel
+theorem enters this identification.
 
-Prove the dual Haar measure and the Plancherel theorem
-(`exists_dualHaar_plancherel_inversion`): there is a regular Haar measure μ̂ on Ĝ,
-the dual measure of μ, such that `f↦f̂` on `L¹(G)∩L²(G)` is isometric into
-`L²(Ĝ,μ̂)` and extends to a unitary `F:L²(G,μ)≅L²(Ĝ,μ̂)` (Rudin, Theorem
-1.6.1; Williams's Example 7.11, p. 198, uses it in this form). Route, through
-the cyclic spectral theorem for the regular representation and not through
-Bochner's theorem: for `f∈C_c(G)` Tau Ceti's
-`ContRepresentation.exists_pontryaginMeasureTransform_eq_inner`, applied to
-the left-regular representation λ in additive notation, gives a finite inner
-regular measure `ν_f` on Ĝ with `⟨f,λ_sf⟩=∫χ(s)dν_f(χ)`, hence
-`⟨f,λ(h)f⟩=∫ĥdν_f` for `h∈L¹(G)` by the integrated form. Prove
-`ν_(λ(k)f)=|k̂|²ν_f` for `k∈C_c(G)` from `λ(k)*=λ(k*)` and `(k*)^=conj(k̂)`:
-both sides are finite inner regular measures with the transform
-`s↦⟨λ(k)f,λ_sλ(k)f⟩`, so they agree by Tau Ceti's
-`MeasureTheory.FiniteMeasure.ext_of_forall_pontryaginMeasureTransform_eq_of_innerRegular`;
-and, since `λ(k)f=k*f=f*k=λ(f)k` on an abelian group, deduce the consistency
-identity `|k̂|²ν_f=|f̂|²ν_k`. Define μ̂ on the open set `{f̂≠0}` as
-`|f̂|⁻²ν_f`; the consistency identity glues these to one Radon measure on
-Ĝ, because every χ has some `f=conj(χ)φ` with `φ≥0` nonzero in `C_c(G)` and
-`f̂(χ)=∫φ>0`. Prove translation invariance: multiplication by a character
-`χ₀` is a unitary of `L²(G)` with `⟨χ₀f,λ_s(χ₀f)⟩=conj(χ₀(s))⟨f,λ_sf⟩`, so
-`ν_(χ₀f)` is the translate of `ν_f` by `χ₀⁻¹`, as `|(χ₀f)^|²` is of `|f̂|²`.
-Thus μ̂ is a Haar measure with `∫|f̂|²dμ̂=ν_f(Ĝ)=‖f‖₂²` on `C_c(G)`; extend
-by density, and prove surjectivity of F from the facts that its range is
-closed and invariant under multiplication by every `ĝ`, `g∈L¹(G)`, and that
-these functions are dense in `C₀(Ĝ)` (a conjugation-closed subalgebra that
-separates the points of Ĝ and vanishes nowhere, Stone–Weierstrass). Prove
-that μ̂ is the unique regular Haar measure making the transform isometric and that
-`μ↦cμ` gives `μ̂↦c⁻¹μ̂`.
-
-Prove Fourier inversion (`exists_dualHaar_plancherel_inversion`): for
-`f∈L¹(G)` with `f̂∈L¹(Ĝ,μ̂)`, `f(x)=∫f̂(χ)conj(χ(x))dμ̂(χ)` for almost every
-x, so f has a continuous representative (Rudin, Theorem 1.5.1). Route from
-Plancherel by an approximate identity `φ_n≥0` in `C_c(G)` with `∫φ_n=1`:
-for `f∈L¹∩L²`, polarized Plancherel gives
-`(f*φ_n)(x)=∫conj(χ(x))φ̂_n(χ)f̂(χ)dμ̂(χ)`, since `t↦conj(φ_n(t⁻¹x))` has
-transform `χ↦χ(x)conj(φ̂_n(χ))`; `φ̂_n→1` boundedly and `f*φ_n→f` in `L¹`,
-so dominated convergence gives the formula; for general `f∈L¹` apply this
-to `f*φ_n∈L¹∩L²` and let n grow.
-
-Prove the Pontryagin duality theorem (`pontryagin_duality`): the evaluation
-map `ev:G→(Ĝ)^`, `ev(s)(χ)=χ(s)`, is an isomorphism of topological groups
-(Rudin, Theorem 1.7.2; Williams, p. 27, states it from Folland). Route:
-ev is a continuous homomorphism because evaluation is jointly continuous on
-`Ĝ×G` and compact sets of characters are equicontinuous; it is injective
-because `(λ_xf)^=ev(x)f̂` and Plancherel give `λ_xf=f` for every `f∈L²(G)`
-when `ev(x)=1`, while `λ_x1_V≠1_V` for a compact identity neighbourhood V
-with `xV∩V=∅`; it is open onto its image because for an open identity
-neighbourhood U the function `f=g*g̃` with `g=1_V/√μ(V)`, `VV⁻¹⊆U`, has
-`f(e)=1`, `f̂=|ĝ|²∈L¹(Ĝ)` with `∫f̂dμ̂=1`, and inversion shows that
-`|χ(x)−1|<ε` on a compact set carrying all but ε of `f̂dμ̂` forces
-`|f(x)−1|<3ε`, hence `x∈U`; its image is closed because a locally compact
-subgroup of a Hausdorff group is closed. Surjectivity: `ev(G)` is a closed
-subgroup of `(Ĝ)^`; for `ξ₀∉ev(G)`, Plancherel on the group Ĝ gives, for
-indicator functions of compact neighbourhoods in `(Ĝ)^`, functions
-`F∈L¹(Ĝ)` whose transform `F̂` on `(Ĝ)^` is a convolution of two such
-indicators, equal to 1 at ξ₀ and 0 on `ev(G)` (Rudin, §2.6); then
-`∫F(χ)f̂(χ)dμ̂(χ)=∫f(x)F̂(ev(x))dμ(x)=0` for every `f∈L¹(G)`, so Fμ̂
-annihilates the dense subalgebra `{f̂}` of `C₀(Ĝ)` and `F=0`, a
-contradiction.
+The dual Haar measure μ̂ of μ, the Plancherel unitary `F:L²(G,μ)≅L²(Ĝ,μ̂)`
+extending `f↦f̂` from `L¹∩L²` and carrying `λ(f)` to multiplication by f̂,
+Fourier inversion `f(x)=∫f̂(χ)conj(χ(x))dμ̂(χ)` for `f∈L¹(G)` with
+`f̂∈L¹(Ĝ)`, the rescaling law that `cμ` has dual `c⁻¹μ̂`, and the Pontryagin
+duality theorem that `ev:G→(Ĝ)^`, `ev(s)(χ)=χ(s)`, is an isomorphism of
+topological groups are the objects of `gap:lca-fourier-plancherel`, in the
+positive-character convention of this roadmap (Rudin, Theorems 1.5.1, 1.6.1
+and 1.7.2; Williams, p. 27, states duality from Folland, and Example 7.11,
+p. 198, uses Plancherel in this form). The Checks below pin the
+normalization and the conjugates that this roadmap assumes of them.
 
 With the Pontryagin duality theorem `ev:G≅(Ĝ)^`, apply the Fourier
 isomorphism to Ĝ with the dual Haar measure μ̂ and compose with ev:
@@ -1623,16 +1611,8 @@ measure.
 - The Fourier isomorphism `C*(G)≅C₀(Ĝ)` of the full group C*-algebra, with
   the universal norm `sup|f̂|`, and the agreement of full and reduced group
   C*-algebras for abelian G.
-- The dual Haar measure μ̂ of μ, the Plancherel unitary `F:L²(G)≅L²(Ĝ)`
-  extending `f↦f̂` from `L¹∩L²`, and Fourier inversion for `f∈L¹(G)` with
-  `f̂∈L¹(Ĝ)`, stated together as `exists_dualHaar_plancherel_inversion`: for
-  every locally compact Hausdorff abelian group with Borel structures on G
-  and Ĝ and every regular Haar measure μ on G, there is a regular Haar
-  measure on Ĝ for which both hold.
-- The Pontryagin duality theorem `pontryagin_duality`: for every locally
-  compact Hausdorff abelian group there is an isomorphism of topological
-  groups `G≅(Ĝ)^` whose underlying map is evaluation.
-- The identification `C*(Ĝ)≅C₀(G)` with its action on canonical unitaries.
+- The identification `C*(Ĝ)≅C₀(G)` with its action on canonical unitaries
+  and on `L¹(Ĝ)`, independent of the scaling of μ̂.
 
 **Checks.**
 
@@ -1662,48 +1642,42 @@ measure.
 - Non-example: for `G=S₃` the characters `G→𝕋` factor through `ℤ/2` while
   `C*(S₃)=ℂ⊕ℂ⊕M_2(ℂ)` is not commutative, so no isomorphism of `C*(G)` with
   `C₀` of the character group exists; the abelian hypothesis is used.
-- The dual measure of counting measure on a finite abelian group of order n
-  is `1/n` times counting measure on Ĝ: for `f=δ_e`, `f̂≡1`, `‖f‖₂²=1` and
-  `Σ_χ|f̂(χ)|²=n`, so counting measure on Ĝ fails Plancherel by the factor n
-  for `n≥2`; the dual measure of counting measure on ℤ is the normalized
+- The normalization assumed of the consumed dual measure: for a finite
+  abelian group of order n with counting measure the dual measure is `1/n`
+  times counting measure on Ĝ, since `f=δ_e` has `f̂≡1`, `‖f‖₂²=1` and
+  `Σ_χ|f̂(χ)|²=n`, so counting measure on Ĝ fails Plancherel by the factor
+  n for `n≥2`; the dual measure of counting measure on ℤ is the normalized
   Haar measure of 𝕋, where Plancherel is Parseval's identity for Fourier
   series; the dual measure of Lebesgue measure on ℝ is `dξ/2π` for the
   characters `χ_ξ`.
-- The conjugate in the inversion formula, on `G=ℤ/3` with `f=δ_1`:
-  `f̂(χ)=χ(1)` and `(1/3)Σ_χf̂(χ)conj(χ(x))=(1/3)Σ_χχ(1−x)=[x=1]=f(x)`,
+- The conjugate assumed in the consumed inversion formula, on `G=ℤ/3` with
+  `f=δ_1`: `f̂(χ)=χ(1)` and `(1/3)Σ_χf̂(χ)conj(χ(x))=(1/3)Σ_χχ(1−x)=[x=1]=f(x)`,
   while the formula with `χ(x)` in place of `conj(χ(x))` gives
   `(1/3)Σ_χχ(1+x)=[x=−1]=f(−x)`, the reflected function; the two differ at
   `x=1`.
-- Pontryagin duality for `G=ℤ`: `Ĝ=𝕋` and `(Ĝ)^=ℤ` through
-  `n↦(z↦zⁿ)`, with `ev(n)(z)=zⁿ`, so ev is the identity of ℤ under this
-  identification, and the discrete topology is recovered since
-  `|zⁿ−1|<1` for all `z∈𝕋` forces `n=0`; for `G=𝕋`, `ev(z)(n)=zⁿ` and the
-  pulled-back neighbourhoods `{z:|zⁿ−1|<ε for n in a finite set}` are the
-  usual ones. For the trivial group ev is the identity of a point.
-- The cyclic measure of the regular representation: for `G=ℤ/2` with
-  counting measure and `f=δ_0`, `⟨f,λ_sf⟩=[s=0]`, so `ν_f` is `(1/2)` times
-  counting measure on `Ĝ={1,χ}`, and `|f̂|⁻²ν_f=ν_f` is the dual measure,
-  as the first Check requires.
+- The direction of the consumed duality isomorphism, on `G=ℤ`: `Ĝ=𝕋` and
+  `(Ĝ)^=ℤ` through `n↦(z↦zⁿ)`, with `ev(n)(z)=zⁿ`, so ev is the identity
+  of ℤ under this identification and `C*(𝕋)≅c₀(ℤ)` sends the canonical
+  unitary of `C*(𝕋)` at `z` to the multiplier `n↦zⁿ`; the identification
+  `s↦ev(s⁻¹)` would send it to `n↦z^(−n)` and change the sign of the
+  double-dual action in D4.Takai's `ℤ/3` Check.
 
 *Needs:* BanachAlgebras A7 (`L¹(G)` and the character correspondence with
 its topology); D1 (`C*(G)=ℂ⋊G`, its universal norm and canonical unitaries,
 the integrated form of λ); CStarAlgebras C1 (the nonunital commutative
 Gelfand isomorphism); D2 and AmenableGroups (the amenable comparison for
-abelian G); Tau Ceti
-`ContRepresentation.exists_pontryaginMeasureTransform_eq_inner`,
-`MeasureTheory.FiniteMeasure.ext_of_forall_pontryaginMeasureTransform_eq_of_innerRegular`
-and `TauCeti.PontryaginDual.continuous_coe_eval_const`; Mathlib
-`PontryaginDual`, `Circle`, `ContinuousMulEquiv`, Haar measure with
-`Measure.IsHaarMeasure`, `Lp`, and the Stone–Weierstrass theorem applied on
-the one-point compactification of Ĝ; Tau Ceti
-`TauCeti.circleEquivPontryaginDualInt` for the Checks.
+abelian G); the dual Haar measure, Plancherel unitary, Fourier inversion
+and Pontryagin duality theorem of `gap:lca-fourier-plancherel`; Mathlib
+`PontryaginDual`, `Circle`, Haar measure with `Measure.IsHaarMeasure` and
+`Measure.Regular`, and `Lp`; Tau Ceti `TauCeti.circleEquivPontryaginDualInt`
+for the Checks.
 
 ### D4.LCAWeyl. Translation covariance and the general LCA Weyl dictionary
 
 For every locally compact Hausdorff abelian G, use `PontryaginDual G` with
 its compact-open topology and D4.Harmonic's identification `C*(Ĝ)≅C₀(G)`,
-the Fourier isomorphism applied to Ĝ composed with D4.Harmonic's Pontryagin
-duality theorem. With `α_s(f)(t)=f(s⁻¹t)`, prove the equivalence between
+the Fourier isomorphism applied to Ĝ composed with the Pontryagin duality
+theorem of `gap:lca-fourier-plancherel`. With `α_s(f)(t)=f(s⁻¹t)`, prove the equivalence between
 nondegenerate covariant pairs `(π,U)` for `(C₀(G),G,α)` and pairs of
 strongly continuous unitary representations U of G and V of its dual
 satisfying `U_s V_χ U_s*=conjugate(χ(s)) V_χ`. Extend π to multipliers and
@@ -1711,25 +1685,34 @@ set `V_χ=π̃(t↦χ(t))`. Conversely integrate V to C*(Ĝ), use its Fourier
 isomorphism with C₀(G) sending the canonical multiplier at χ to
 `t↦χ(t)`, and prove nondegeneracy, covariance and both inverse laws.
 The integrated Fourier formula is D4.Harmonic's positive-character
-transform on Ĝ, with the dual Haar measure of the inversion theorem. Prove compatibility
+transform on Ĝ, with the dual Haar measure of `gap:lca-fourier-plancherel`.
+Prove compatibility
 with bounded intertwiners, unitary equivalence and Hilbert direct sums.
 Replacing V_χ by V_(χ⁻¹) gives the alternative commutator χ(s); the
 displayed relation is Williams's Heisenberg relation `S_χR_s=χ(s)R_sS_χ`
 with `R=U`, `S=V` (Williams, Definition 4.26 and Lemma 4.28, pp. 135–136).
 No assertion about differentiating unbounded generators is needed.
 
-Through D3's explicit `C₀(G)⋊ltG≅K(L²G)` prove that every such
-nondegenerate Weyl pair is a multiplicity amplification of the Schrödinger
-pair `U_sξ(t)=ξ(s⁻¹t)`, `V_χξ(t)=χ(t)ξ(t)` on L²(G). Construct the
-intertwining unitary and its multiplicity space using rank-one operators;
-allow arbitrary Hilbert multiplicity and zero multiplicity. The nonzero
+Through D3's explicit `C₀(G)⋊ltG≅K(L²G)` prove the classification
+`lcaWeyl_classification`: for strongly continuous unitary representations U
+of G and V of Ĝ on a Hilbert space H with `U_sV_χU_s*=conj(χ(s))V_χ`
+there are a set ι and a unitary `W:H≅ℓ²(ι,L²(G,μ))` onto the Hilbert sum of
+copies of `L²(G,μ)` under which, in every coordinate and almost everywhere,
+`U_s` acts by `ξ(t)↦ξ(s⁻¹t)` and `V_χ` by `ξ(t)↦χ(t)ξ(t)`: every such pair
+is a multiplicity amplification of the Schrödinger pair
+`U_sξ(t)=ξ(s⁻¹t)`, `V_χξ(t)=χ(t)ξ(t)` on `L²(G,μ)`. Nondegeneracy of the
+integrated form of V on `C*(Ĝ)` is automatic for a strongly continuous V,
+so it is not a hypothesis. Construct the intertwining unitary and its
+multiplicity set ι, an orthonormal basis of the multiplicity space of the
+compact-operator identification, using rank-one operators; ι is empty for
+`H=0`, and arbitrary Hilbert multiplicity is allowed. The nonzero
 irreducible pair has multiplicity one and is unique up to unitary
 equivalence (Williams, Theorem 4.24, p. 133, and Theorem 4.29, p. 137).
 This uses the representation theory of compact operators,
 not a finite-dimensional real-space restriction of Stone–von Neumann. For
 `G=ℝⁿ` the Schrödinger pair on `L²(ℝⁿ)` is the one of the unitary
 Stone–von Neumann theorem that MetaplecticAutomorphicForms §1.2 states; the
-comparison of the two statements is made in that later roadmap, and no
+comparison of the two statements is made in that roadmap, and no
 second real-case proof is given here.
 
 **Checks.**
@@ -1745,22 +1728,36 @@ second real-case proof is given here.
   `f̂(χ)=∫f(g)χ(g)dμ(g)` sends the canonical multiplier at χ of `C*(Ĝ)` to
   the function `t↦χ(t)`, and the conjugate-character transform would send
   it to `t↦overline(χ(t))`, changing the covariance to `χ(s)`.
-- Zero multiplicity is the pair on H=0, nondegenerate vacuously; a pair on
-  `L²(G)⊕L²(G)` has multiplicity two and is reducible.
+- Zero multiplicity is the pair on H=0, with ι empty; a pair on
+  `L²(G)⊕L²(G)` has `ι` of two elements and is reducible.
+- The covariance phase is not symmetric in U and V: on `G=ℤ/2` the pair
+  `(V,U)` with the roles exchanged satisfies `V_χU_aV_χ*=−U_a=conj(χ(a))U_a`
+  as well only because `ℤ/2` is self-dual with `χ(a)=a(χ)=−1`; on `G=ℤ/3`
+  with `U` the cyclic shift and `V_χ=diag(1,ω,ω²)`, `U_1V_χU_1*=ω⁻¹V_χ`
+  while `V_χU_1V_χ*=ωU_1`, so a statement with the phase `χ(s)` instead of
+  `conj(χ(s))` fails for the Schrödinger pair itself.
+- For a strongly continuous V the integrated form of V on `C*(Ĝ)` is
+  nondegenerate: an approximate identity `φ_n≥0`, `∫φ_n=1`, of `L¹(Ĝ)`
+  supported in shrinking neighbourhoods of the trivial character has
+  `‖V(φ_n)ξ−ξ‖≤sup_(χ∈supp φ_n)‖V_χξ−ξ‖→0`; the bound uses strong
+  continuity at the trivial character, which is why strong continuity is a
+  hypothesis of the classification rather than nondegeneracy.
 
 *Needs:* D3 (`C₀(G)⋊G≅K(L²G)` with its integral kernels); D4.Harmonic
-(the dual group, `C*(Ĝ)≅C₀(G)`, the Pontryagin duality theorem and the dual
-Haar measure); CStarAlgebras C1 (multiplier extensions) and C2 (the
-representation theory of compact operators); Mathlib `PontryaginDual`.
+(the dual group and `C*(Ĝ)≅C₀(G)`); the Pontryagin duality theorem and the
+dual Haar measure of `gap:lca-fourier-plancherel`; D1 (integrated forms);
+CStarAlgebras C1 (multiplier extensions) and C2 (the representation theory
+of compact operators); Mathlib `PontryaginDual`, `Lp`, `lp` and
+`LinearIsometryEquiv`; Tau Ceti `ContRepresentation.IsUnitary`.
 
 ### D4.Takai. The Takai duality theorem
 
 For locally compact abelian G use `PontryaginDual G` with its compact-open
-topology. From D4.Harmonic's `C*(Ĝ)≅C₀(G)`, dual Haar measure, Plancherel
-unitary, Fourier inversion and Pontryagin duality theorem, construct the
-strongly continuous dual action
+topology. From D4.Harmonic's `C*(Ĝ)≅C₀(G)` and the dual Haar measure,
+Plancherel unitary, Fourier inversion and Pontryagin duality theorem of
+`gap:lca-fourier-plancherel`, construct the strongly continuous dual action
 `α̂χ(f)(s)=χ(s)f(s)` and prove its multiplier formulae, functoriality and
-compatibility with full and reduced completions. Use D4.Harmonic's dual Haar
+compatibility with full and reduced completions. Use that dual Haar
 measure, for which the positive-character Fourier transform is unitary on
 L²; identify G with its bidual by `s↦(χ↦χ(s))`.
 
@@ -1798,26 +1795,27 @@ specified maps, not merely an abstract Morita equivalence.
 
 *Needs:* D1–D2 (full and reduced crossed products, `A⋊idG≃A⊗maxC*(G)`,
 the amenable comparison for abelian G); D3 (`C₀(G)⋊G≅K(L²G)` by integral
-kernels); D4.Harmonic (`C*(Ĝ)≅C₀(G)`, the full/reduced agreement, the dual
+kernels); D4.Harmonic (`C*(Ĝ)≅C₀(G)`, the full/reduced agreement); the dual
 Haar measure with the Plancherel unitary, Fourier inversion and the
-Pontryagin duality theorem); Mathlib `PontryaginDual`.
+Pontryagin duality theorem of `gap:lca-fourier-plancherel`; Mathlib
+`PontryaginDual`.
 
 ### Examples
 
 `ℤ/2`, ℤ and ℝ for the Fourier transform and its conventions against
 Mathlib's `Real.fourierIntegral`; `S₃` as the non-abelian non-example; the
 Schrödinger pairs of `ℤ/2`, ℤ and ℝ with their covariance phases
-`conj(χ(s))`; Takai duality for finite abelian groups, for ℤ, and the `ℤ/3`
-sign witness of the double-dual action.
+`conj(χ(s))` and the `ℤ/3` asymmetry of the phase; the normalization of
+the dual measure on `ℤ/n`, ℤ and ℝ; Takai duality for finite abelian
+groups, for ℤ, and the `ℤ/3` sign witness of the double-dual action.
 
 ### Dependencies
 
 D1–D2 and D3 (`C₀(G)⋊G≅K(L²G)` for D4.LCAWeyl and D4.Takai); BanachAlgebras
-A7; AmenableGroups; CStarAlgebras C1–C2; Mathlib `PontryaginDual`, `Circle`,
-`ContinuousMulEquiv`, Haar measure and `Lp`;
-Tau Ceti `ContRepresentation.exists_pontryaginMeasureTransform_eq_inner`,
-`MeasureTheory.FiniteMeasure.ext_of_forall_pontryaginMeasureTransform_eq_of_innerRegular`,
-`TauCeti.PontryaginDual.continuous_coe_eval_const` and
+A7; AmenableGroups; CStarAlgebras C1–C2; the dual Haar measure, Plancherel
+unitary, Fourier inversion and Pontryagin duality theorem of
+`gap:lca-fourier-plancherel`; Mathlib `PontryaginDual`, `Circle`, Haar
+measure, `Lp` and `lp`; Tau Ceti `ContRepresentation.IsUnitary` and
 `TauCeti.circleEquivPontryaginDualInt`.
 
 ## D5. Haar groupoids, convolution, and disintegration
@@ -1885,110 +1883,86 @@ and almost-everywhere equality rather than an independent measure language.
 multipliers); Mathlib Radon measures, `Measure.rnDeriv`, measurable maps
 and Bochner integration.
 
-**D5.Fields — standard-fibre direct integrals and decomposable
-operators.** Over a second-countable locally compact Hausdorff space X with
-a finite Borel measure μ (a σ-finite measure is replaced by an equivalent
-finite one; the constructions depend only on the measure class), a
-standard-fibre field is a family of coordinate sets `N(x)⊆ℕ` such that each
-`{x:n∈N(x)}` is Borel, with fibres `H(x)` the closed span of
-`{e_n:n∈N(x)}` in `ℓ²(ℕ)`. This is the form in which SA-B85 delivers the
-diagonal model of a nondegenerate separable representation of `C₀(X)`:
-`N(x)` is its set of active coordinates and `m(x)=|N(x)|` its multiplicity.
-Construct the direct integral `L²(X∗H,μ)` as the Bochner-measurable
-`h:X→ℓ²(ℕ)` with `h(x)∈H(x)` for almost every x and `∫‖h(x)‖²dμ<∞`,
-modulo null sets, a closed subspace of `L²(X,μ;ℓ²(ℕ))` (Mathlib's `Lp`) and
-hence a Hilbert space, and the diagonal operators `T_φ`,
-`(T_φh)(x)=φ(x)h(x)` for bounded Borel φ, the image of `L∞(X,μ)`. For two
-such fields H, K over X and an operator field `T(x)∈B(ℓ²(ℕ))` whose matrix
-coefficients `⟨e_i,T(x)e_j⟩` are Borel, with `T(x)H(x)⊆K(x)` and
-`‖T(x)‖` essentially bounded, construct the decomposable operator
-`∫⊕T(x)dμ(x)` and prove: it determines the restrictions `T(x)|_(H(x))` up to
-a μ-null set (Williams, Lemma F.20, p. 417); its norm is the essential
-supremum of `‖T(x)|_(H(x))‖`; composition and adjoint are fibrewise; it is
-unitary onto `L²(X∗K,μ)` iff `T(x):H(x)→K(x)` is unitary for almost every
-x; and the rectangular criterion: a bounded `T:L²(X∗H,μ)→L²(X∗K,μ)` is
-decomposable iff `TT^H_φ=T^K_φT` for every bounded Borel φ (Williams,
-Theorem F.21, p. 418, for `H=K`). Route in this model: for `i,j∈ℕ` the
-compression `t_(ij)=P_iTQ_j:L²(X,μ)→L²(X,μ)`, where `Q_j` sends f to
-`x↦f(x)1_(j∈N(x))e_j` and `P_i` takes the i-th coordinate, commutes with
-every multiplication by a bounded Borel function, hence is multiplication
-by `t_(ij)(1)`, which is essentially bounded by `‖t_(ij)‖` because
-`‖t_(ij)(1)1_B‖²=‖t_(ij)(1_B)‖²≤‖t_(ij)‖²μ(B)` for every Borel B; the
-functions `t_(ij)` are the matrix coefficients of the field. For equivalent
-finite measures μ,ν on X construct the unitary `W:L²(X∗H,μ)→L²(X∗H,ν)`,
-`(Wh)(x)=(dμ/dν)(x)^(1/2)h(x)` (Williams, Proposition F.33(d), p. 423),
-prove it intertwines the diagonal operators and carries decomposable
-operators to decomposable operators with the same fibres, and for `μ≪λ`
-construct the zero-extended λ-field, with `N(x)=∅` where the density
-vanishes, and the onto isometry obtained by multiplying by `(dμ/dλ)^(1/2)`.
+**D5.Fields — the standard-fibre model as a measurable field.** Over a
+second-countable locally compact Hausdorff space X with a finite Borel
+measure μ (a σ-finite measure is replaced by an equivalent finite one; the
+constructions depend only on the measure class), a standard-fibre field is a
+family of coordinate sets `N(x)⊆ℕ` such that each `{x:n∈N(x)}` is Borel,
+with fibres `H(x)` the closed span of `{e_n:n∈N(x)}` in `ℓ²(ℕ)`. This is
+the form in which SA-B85 delivers the diagonal model of a nondegenerate
+separable representation of `C₀(X)`: `N(x)` is its set of active
+coordinates and `m(x)=|N(x)|` its multiplicity. Prove that the sections
+`x↦1_(n∈N(x))e_n`, `n∈ℕ`, form a fundamental sequence making `x↦H(x)` a
+measurable field of separable Hilbert spaces over the standard σ-finite
+base `(X,μ)` in the sense of `gap:measurable-hilbert-fields`, that its
+direct integral `L²(X∗H,μ)` is the closed subspace of `L²(X,μ;ℓ²(ℕ))`
+(Mathlib's `Lp`) of the Bochner-measurable `h` with `h(x)∈H(x)` for almost
+every x, that its diagonal operators `(T_φh)(x)=φ(x)h(x)`, φ bounded
+Borel, are SA-B85's `L∞(X,μ)` action, and that a measurable essentially
+bounded field of maps from `x↦H(x)` to a second standard-fibre field
+`x↦K(x)` is the same as a field `T(x)∈B(ℓ²(ℕ))` with Borel matrix
+coefficients `⟨e_i,T(x)e_j⟩`, `T(x)H(x)⊆K(x)` and `‖T(x)|_(H(x))‖`
+essentially bounded, two such fields being identified when their
+restrictions to `H(x)` agree almost everywhere (Williams, Definition F.1,
+p. 409, for the general notion; Definition E.16 and Theorem E.17, p. 405,
+for the constant field). Route for the matrix-coefficient form: the
+coordinate `x↦⟨e_i,T(x)h(x)⟩` of the image of a section is a countable sum
+of products of Borel functions, and conversely the matrix coefficients of a
+measurable field of maps are the coordinates of its values on the
+fundamental sections. With this identification the decomposable-operator
+criterion, fibrewise unitarity, the change-of-measure unitary
+`(Wh)(x)=(dμ/dν)(x)^(1/2)h(x)` between equivalent finite measures and the
+zero-extended λ-field for `μ≪λ`, with `N(x)=∅` where the density vanishes,
+are those of `gap:measurable-hilbert-fields`, and the reduction of a
+representation of a separable C*-algebra commuting with the diagonal
+operators to a Borel field `x↦π_x` of representations on `H(x)`, with its
+transport theorem, is that of `gap:diagonal-reduction`; the disintegration
+below uses both only in this model. Borel Hilbert bundles whose fibres are
+abstract separable Hilbert spaces, and the measurable Gram–Schmidt that
+identifies such a bundle with a standard-fibre field, are not constructed
+here.
 
-Prove the reduction of a representation over a given diagonal: for a
-separable C*-algebra A and a representation ρ of A on `L²(X∗H,μ)` commuting
-with every diagonal operator, there is a Borel field `x↦π_x` of
-representations of A on `H(x)`, unique up to a μ-null set, with
-`ρ(a)=∫⊕π_x(a)dμ(x)` for every a (Williams, Proposition F.26 with its
-proof, p. 419, where the diagonal is produced rather than given; route:
-apply the rectangular criterion to `ρ(a)` for a in a countable dense
-*-subalgebra, choose Borel representatives, discard the null set on which
-linearity, multiplicativity, the star law or the norm bound fails, and
-extend by continuity). Prove the transport theorem: a unitary between two
-such direct integrals over standard bases that intertwines two such direct
-integrals of representations and their diagonal algebras is, up to null
-sets, a Borel isomorphism τ of the bases with `τ_*μ` equivalent to ν,
-composed with a Borel field of unitaries `V(x):H(x)→K(τ(x))` intertwining
-`π_x` with `ρ_(τ(x))` and with the measure-change unitary (Williams,
-Proposition F.33, p. 423). SA-B85's diagonal model of a nondegenerate
-separable representation of `C₀(X)` is a standard-fibre field in this
-sense, its `L∞(X)` action is the diagonal operators, and it is the input of
-the disintegration below. Borel Hilbert bundles whose fibres are abstract
-separable Hilbert spaces with a fundamental sequence of sections (Williams,
-Definition F.1, p. 409) are not constructed here, and the measurable
-Gram–Schmidt that identifies such a bundle with a standard-fibre field
-are VonNeumannAlgebras V4.0.Fields', as Scope and ownership records.
-
-- The direct integral `L²(X∗H,μ)` and its diagonal operators; for the
-  constant field `N(x)=ℕ` it is `L²(X,μ;ℓ²(ℕ))` and the decomposable
-  operators are the essentially bounded Borel `B(ℓ²(ℕ))`-valued fields
-  (Williams, Definition E.16 and Theorem E.17, p. 405).
-- Decomposable operators: the *-algebra of essentially bounded Borel
-  matrix fields with the essential-supremum norm, equal to the commutant of
-  the diagonal algebra; the rectangular criterion; fibrewise unitarity.
-- The measure-change unitaries, their composition along chains of equivalent
-  measures, and the zero-extension isometry for `μ≪λ`.
-- The reduction over a given diagonal with its uniqueness, and the transport
-  theorem.
+- The standard-fibre field of SA-B85's diagonal model as a measurable field
+  with the fundamental sequence `x↦1_(n∈N(x))e_n`, its direct integral
+  `L²(X∗H,μ)` as a closed subspace of `L²(X,μ;ℓ²(ℕ))`, and its diagonal
+  operators as SA-B85's `L∞(X,μ)` action.
+- The matrix-coefficient form of the measurable essentially bounded fields
+  of maps between two standard-fibre fields.
 
 **Checks.**
 
-- X a single point with `μ=δ`: `L²(X∗H,μ)=H(x_0)`, the diagonal operators are
-  the scalars, every operator is decomposable, and the reduction over the
-  diagonal returns ρ itself.
-- `X=[0,1]` with Lebesgue μ and `N(x)={0}`: the diagonal operators are
-  `L∞[0,1]`, which is its own commutant, so every decomposable operator is a
-  multiplication operator; the Volterra operator `(Vf)(x)=∫_0^x f` does not
-  commute with multiplication by x (`VM_x1=x²/2` while `M_xV1=x²`), so it is
-  not decomposable.
-- `X=[0,1]`, `N(x)={0}`, μ Lebesgue and `dν=2x dx`: `(Wf)(x)=(2x)^(−1/2)f(x)`
-  and `∫|Wf|²dν=∫|f|²dμ`, while the map without the square root is not an
-  isometry.
-- `X=[0,1]` with `N(x)={0,1}` and `A=M_2(ℂ)` acting by constant matrices:
-  the reduction over the diagonal gives `π_x=id` for almost every x; for a
-  Borel unitary field u, `a↦` multiplication by `x↦u(x)au(x)*` is
-  decomposable with `π_x=Ad u(x)`, and the transport theorem identifies the
-  two fields by `V(x)=u(x)` over `τ=id`.
+- X a single point with `μ=δ`: `L²(X∗H,μ)=H(x_0)`, the fundamental
+  sequence is the family of basis vectors active at `x_0`, the diagonal
+  operators are the scalars, and every operator `H(x_0)→K(x_0)` is a field
+  of maps with one fibre.
+- The constant field `N(x)=ℕ`: the direct integral is `L²(X,μ;ℓ²(ℕ))` and
+  the fields of maps are the essentially bounded Borel `B(ℓ²(ℕ))`-valued
+  fields (Williams, Definition E.16 and Theorem E.17, p. 405); for
+  `N(x)={0}` the direct integral is `L²(X,μ)` and the fields of maps are
+  `L∞(X,μ)`.
 - A varying dimension function: `X=[0,1]`, `N(x)={0}` for `x<1/2` and
   `N(x)={0,1}` for `x≥1/2` gives `L²([0,1/2])⊕L²([1/2,1];ℂ²)`, the diagonal
   operators are still `L∞[0,1]`, and multiplication by `x↦1_(x≥1/2)E_01`
-  is decomposable while the constant field `E_10` (`e_0↦e_1`) is not, since
-  it does not map `H(x)=span{e_0}` into itself for `x<1/2`; the constant
-  field `E_01` does, sending `e_0` to 0 there.
-- Empty X or `μ=0`: the direct integral is 0, with the zero representation
-  and the empty field.
+  is a field of maps while the constant field `E_10` (`e_0↦e_1`) is not,
+  since it does not map `H(x)=span{e_0}` into itself for `x<1/2`; the
+  constant field `E_01` does, sending `e_0` to 0 there.
+- The Borel condition on `{x:n∈N(x)}` is what makes the sections a
+  fundamental sequence: for a non-measurable `S⊆[0,1]`, `N(x)={0}` on S and
+  `N(x)=∅` off S gives the section `x↦1_S(x)e_0`, which is not measurable,
+  so the family is not a standard-fibre field and defines no measurable
+  field.
+- Two fields of maps with the same restrictions: over `X=[0,1]` with
+  `N(x)={0}`, the constant fields `1` and `E_00` (the projection onto `e_0`)
+  agree on `H(x)` and define the same field of maps, although they differ
+  as `B(ℓ²(ℕ))`-valued functions.
+- Empty X or `μ=0`: the direct integral is 0, with the empty field.
 
 *Needs:* Mathlib `Lp` with values in `ℓ²(ℕ)`, Radon–Nikodym derivatives,
 Bochner integration and the Borel structure of a second-countable locally
 compact Hausdorff space; SelfAdjointSpectralTheory SA-B85 (the diagonal
-`C₀(X)` model used as input).
+`C₀(X)` model used as input); the measurable fields, direct integrals and
+decomposable operators of `gap:measurable-hilbert-fields` and the
+reduction and transport theorems of `gap:diagonal-reduction`.
 
 For a nondegenerate representation L of C*(G) on separable H, put X=G⁰
 and let `ρ_L(h)=L̃(m(h))` for h∈C₀(G⁰), where m is the nondegenerate
@@ -1998,8 +1972,9 @@ h_i with `0≤h_i≤1`, eventually equal to 1 on each prescribed compact subset
 of X. For f∈C_c(G), the compact sets r(supp f) and s(supp f) give
 `m(h_i)f→f` and `f m(h_i)→f` in I-norm. The dense span L(C_c(G))H
 and `‖ρ_L(h_i)‖≤1` then give strong convergence `ρ_L(h_i)→I`.
-Use D5.Fields for standard-fibre direct integrals, rectangular
-decomposable maps and the measure-change and zero-extension unitaries, and SelfAdjointSpectralTheory SA-B85
+Use D5.Fields' standard-fibre model with the direct integrals, decomposable
+maps and measure-change and zero-extension unitaries of
+`gap:measurable-hilbert-fields`, and SelfAdjointSpectralTheory SA-B85
 for the diagonal spectral representation of this nondegenerate C₀(G⁰)
 representation. The unit space G⁰ is second-countable locally compact Hausdorff.
 
@@ -2007,15 +1982,17 @@ For two such representations L₁,L₂ and a bounded intertwiner T, prove
 that multiplier extension makes T intertwine their unit-space representations.
 Use SA-B79/B85 on the direct-sum representation and its off-diagonal corner
 to transport spectral projections and full diagonal L∞ actions; for controls
-μ₁,μ₂ use `λ=μ₁+μ₂` and D5.Fields' onto transport to λ-fields with zero
-fibres off each density support. No equivalence of the two controls is
+μ₁,μ₂ use `λ=μ₁+μ₂` and the onto transport of `gap:measurable-hilbert-fields`
+to zero-extended λ-fields, with zero fibres off each density support, in
+D5.Fields' model. No equivalence of the two controls is
 assumed for a bounded intertwiner. On H₁⊕H₂ the off-diagonal block
 `S(ξ₁,ξ₂)=(0,Tξ₁)`, and S†, commute with the common diagonal. Form the
 separable unital C*-algebra generated by `diag(ρ₁(h),ρ₂(h))`, h∈C₀(G⁰),
-S,S† and I. Apply D5.Fields' reduction of a separable C*-representation
-commuting with a given diagonal to this auxiliary algebra,
-and its rectangular criterion to recover measurable fibre maps, with
-essential norm, adjoint, composition and fibrewise-unitarity comparisons.
+S,S† and I. Apply the reduction over a given diagonal of
+`gap:diagonal-reduction` to this auxiliary algebra in D5.Fields' model,
+and the decomposable-operator criterion of `gap:measurable-hilbert-fields`
+to recover measurable fibre maps, with essential norm, adjoint, composition
+and fibrewise-unitarity comparisons.
 The full groupoid representation L is not assumed to commute
 with C₀(G⁰). Identify its unit-space spectral measure class and multiplicity
 with the shared direct-integral construction, and prove almost-everywhere
@@ -2080,9 +2057,11 @@ conventions.
   `F↦((g,x)↦Δ(g)^(1/2)F(g)(gx))` reduces to `f↦Δ^(1/2)f`, and the half-modular
   factor is what makes the groupoid star agree with D1's star.
 
-*Needs:* D5.Fields (standard-fibre direct integrals, the rectangular
-criterion, the reduction over a given diagonal and the transport theorem);
-SelfAdjointSpectralTheory SA-B79 and SA-B85 (the diagonal `C₀(G⁰)` model
+*Needs:* D5.Fields (the standard-fibre model) with
+`gap:measurable-hilbert-fields` and `gap:diagonal-reduction` (direct
+integrals, the decomposable-operator criterion, the reduction over a given
+diagonal and the transport theorem); SelfAdjointSpectralTheory SA-B79 and
+SA-B85 (the diagonal `C₀(G⁰)` model
 and the transport of spectral projections); D1–D2 (integrated forms, the
 group case); CStarAlgebras C1–C2 (multiplier extensions, representations of
 compact operators); Mathlib standard Borel spaces and Bochner integration.
@@ -2099,7 +2078,9 @@ with varying coordinate sets for the direct integrals.
 D1–D2; the topological groupoid vocabulary named in Exact supplier
 contracts; SelfAdjointSpectralTheory SA-B79 and SA-B85; BanachAlgebras A7;
 CStarAlgebras C1–C2; Mathlib `Lp`, `Measure.rnDeriv`, Radon measures,
-standard Borel spaces and Bochner integration. Within the layer: SA-B85 →
+standard Borel spaces and Bochner integration; the measurable fields of
+`gap:measurable-hilbert-fields` and the reduction of
+`gap:diagonal-reduction`. Within the layer: SA-B85 →
 D5.Fields → the representation and disintegration targets.
 
 ## D6. Groupoid equivalence and the étale ideal theory
@@ -2291,8 +2272,9 @@ states as a target.
   groupoid when `shift` is not injective on U, so étaleness fails.
 
 *Needs:* D5 (étale groupoids, their algebras); CStarAlgebras C5 (inductive
-limits) and C1 (universal C*-algebras from generators and relations); the
-D6 ideal theory above (simplicity and nuclearity from amenability,
+limits, and C5.4's universal unitary algebra as the model of a universal
+norm); the concrete Cuntz families below, which make the universal norm of
+`O_n` finite and definite; the D6 ideal theory above (simplicity and nuclearity from amenability,
 effectiveness and minimality).
 
 **Concrete Cuntz families on separable Hilbert space.** For every complete
@@ -2346,8 +2328,8 @@ on a separable Hilbert space.
 
 ### Dependencies
 
-D5 and D5.Fields; D1.Modules; D2; CStarAlgebras C1, C2, C5 and C6; Mathlib
-`HilbertBasis`, `Nat.divModEquiv`, `ContinuousLinearMap.adjoint` and
+D5 and D5.Fields; D1.Modules with `gap:hilbert-module-induction`; D2;
+CStarAlgebras C1, C2, C5 and C6; Mathlib `HilbertBasis`, `Nat.divModEquiv`, `ContinuousLinearMap.adjoint` and
 point-set topology.
 
 ## D7. Analytic dynamics, KMS states, and the KMS simplex
@@ -2414,8 +2396,11 @@ VonNeumannAlgebras V10's.
 
 For unital A prove that Kβ is convex and weak-* compact, and, when nonempty,
 a Choquet simplex, defined here by unique maximal representing probability
-measure for every point in the convex order. Its extreme states are exactly its factor states;
-distinct extreme KMS states have disjoint GNS representations. Build the
+measure for every point in the convex order. Its extreme states are exactly its factor states,
+the states whose GNS representation generates a von Neumann algebra
+(Mathlib's `VonNeumannAlgebra`, the bicommutant of the image) with trivial
+centre; distinct extreme KMS states have disjoint GNS representations, that
+is, no nonzero intertwiner exists between them. Build the
 barycenter, convex order on representing probability measures, maximal
 measures, and central decomposition used here. Build Tomita's orthogonal
 state-measure decomposition. For a representing measure define the
@@ -2434,8 +2419,9 @@ version. For separable A construct the measurable
 fields of cyclic representations and the corresponding direct-integral
 GNS identification. Prove the correspondence between orthogonal decompositions and
 abelian subalgebras of the commutant, and identify the central measure from
-the GNS center with the maximal KMS representing measure (D5.Fields for
-the measurable fields and the direct integral). In general prove
+the GNS center with the maximal KMS representing measure (the measurable
+fields and direct integrals of `gap:measurable-hilbert-fields` in
+D5.Fields' model). In general prove
 the unique maximal representing-measure theorem; for separable A prove the metrizable
 version with the unique measure supported on the extreme boundary. Supply
 the measurable decomposition and its comparison with the GNS center, not
@@ -2478,9 +2464,10 @@ which reproduce this sign, are VonNeumannAlgebras V10's.
 *Needs:* D7's KMS condition and analytic elements above; OneParameterSemigroups
 (strongly continuous groups, generators); SelfAdjointSpectralTheory SA-B14,
 SA-B44, SA-B50, SA-B59, SA-B67 and SA-B79 (the PVM carrier, integration,
-null sets, commutative representations); D5.Fields (measurable fields and
-direct integrals for separable A); CStarAlgebras C2 (states, factor states,
-disjointness); Mathlib `PositiveLinearMap.GNS`, `VonNeumannAlgebra`,
+null sets, commutative representations); D5.Fields with
+`gap:measurable-hilbert-fields` (measurable fields and direct integrals for
+separable A); CStarAlgebras C2 (states and their GNS representations);
+Mathlib `PositiveLinearMap.GNS`, `VonNeumannAlgebra`,
 `VonNeumannAlgebra.commutant` and `ContinuousLinearMapWOT`.
 
 ### Examples
@@ -2830,9 +2817,6 @@ of a positive-definite matrix through the Hermitian functional calculus).
   one-particle unitary U built there is the case `V=0` of D8's universal CAR
   automorphism. RelativisticQuantumFieldTheory consumes D8's Weyl
   representation.
-- NoncompactQuantumSymmetry M2.FixedTwistTypeI's single-weight fiber
-  identification `J_k(E_ω)≅C*(G,ω^k)` is D1.TwistedBorel's; that section
-  consumes it for the all-weight decomposition `C*(E_ω)≅⊕_kJ_k(E_ω)`.
 - FactorRigidity, Subfactors, CompactQuantumMetricSpaces, QuantumGroups,
   NoncommutativeGeometry and CategoricalOperatorAlgebras cite D1–D2, D6, D7
   or D8 for crossed products, Cuntz algebras, KMS states or the CAR algebra
@@ -2850,14 +2834,16 @@ of a positive-definite matrix through the Hermitian functional calculus).
   covariant representations and the universal completion, with Proposition
   2.23 (p. 49) for the integrated form and §2.6 with Theorem 2.61 (p. 72) for
   the universal property; §4.1 (pp. 114–115) for the axioms of
-  pre-imprimitivity bimodules and inner-product modules (D1.Modules);
-  Appendix E (Definition E.16 and Theorem E.17, p. 405) and Appendix F
-  (Definition F.1, p. 409, for the general bundles not constructed here;
-  Lemma F.20, p. 417; Theorem F.21, p. 418; Proposition F.26, p. 419;
-  Proposition F.33, p. 423) for direct integrals, decomposable operators and
-  their reduction and transport theorems, specialised in D5.Fields to
-  standard fibres; Appendix I (Proposition I.1, p. 479; Proposition I.21,
-  p. 494) for induced Hilbert spaces and `L²(G,H)` (D1.Modules, D2);
+  pre-imprimitivity bimodules and inner-product modules, the form in which
+  `gap:hilbert-module-induction` is consumed in D1.Modules;
+  Appendix E (Definition E.16 and Theorem E.17, p. 405) and Definition F.1
+  (p. 409) for the constant and the general measurable fields with which
+  D5.Fields' standard-fibre model is compared, and Lemma F.20 (p. 417),
+  Theorem F.21 (p. 418), Proposition F.26 (p. 419) and Proposition F.33
+  (p. 423) for the statements consumed as `gap:measurable-hilbert-fields`
+  and `gap:diagonal-reduction`; Appendix I (Proposition I.1, p. 479;
+  Proposition I.21, p. 494) for the induced Hilbert spaces consumed as
+  `gap:hilbert-module-induction` and for `L²(G,H)` (D1.Modules, D2);
   Theorem 5.9 and Lemma 5.10 for induction in stages; Proposition 3.19
   for full ideal exactness; Theorem 4.1, Corollary 4.17 and Theorems 4.22–4.24
   for symmetric and Green imprimitivity and `C₀(G)⋊G≅K(L²G)` (Theorem 4.24,
@@ -2867,7 +2853,8 @@ of a positive-definite matrix through the Hermitian functional calculus).
   7.13 and Corollary 7.18 for Takai, reduced norms, amenability and nuclearity;
   p. 27 for the statement of the Pontryagin duality theorem and Example
   7.11 (p. 198) for the Plancherel identity on `C_c(G)`, both of which
-  Williams takes from Folland.
+  Williams takes from Folland, in the form consumed as
+  `gap:lca-fourier-plancherel`.
   Appendix D for D1.BorelPrefix: Theorem D.3 and Lemma D.4 (p. 370) for
   measurable homomorphisms of locally compact groups and Steinhaus's
   theorem, Theorem D.11 (p. 372) for Borel homomorphisms from Polish groups,
@@ -2880,8 +2867,7 @@ of a positive-definite matrix through the Hermitian functional calculus).
   Classics reprint 1990): Theorem 1.5.1 (inversion), Theorem 1.6.1
   (Plancherel), Theorem 1.7.2 (Pontryagin duality) and §2.6 (transforms
   equal to 1 on a compact set and 0 off a neighbourhood), cited by locator
-  for D4.Harmonic. Rudin's proofs of inversion and Plancherel pass through
-  Bochner's theorem; the routes D4.Harmonic gives do not.
+  for the statements consumed as `gap:lca-fourier-plancherel`.
 - Jean Renault, *A Groupoid Approach to C*-Algebras*, LNM 793 (1980):
   Chapter I §§2–3 for Haar systems and quasi-invariant measures; Chapter II
   §§1–2 for convolution, integrated representations and the regular norm;
@@ -2938,9 +2924,7 @@ positive continuous linear functionals, `ContinuousMap`, compactly supported
 functions, Lp, Bochner integrals, `CStarModule`, `VonNeumannAlgebra`,
 `ContinuousLinearMapWOT`, `PositiveLinearMap.GNS` and `PontryaginDual`. Extend Tau Ceti's
 `RepresentationTheory/Continuous/{Unitary,Integrated}/Basic` for integrated
-covariant representations, and its `Analysis/Bochner/LocallyCompactGroup`,
-`Analysis/Fourier/Pontryagin` (the cyclic spectral theorem and the
-inner regular uniqueness theorem that D4.Harmonic's Plancherel route uses)
+covariant representations, and its `Analysis/Bochner/LocallyCompactGroup`
 and `Topology/Algebra/PontryaginDual` harmonic interfaces. The
 topology on the total `Arrow` and on composable arrows is LieGroupoidsPoisson
 G0's. Algebraic crossed products
