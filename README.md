@@ -155,6 +155,7 @@ then read its guidance on [writing](CONTRIBUTING.md#the-roadmap-writing-process)
 - [Topological sheaf cohomology and native comparison maps](TauCetiRoadmap/TopologicalSheafCohomology/README.md)
 - [Type-A Hecke algebras, braid traces, and positive quotients](TauCetiRoadmap/TypeAHeckeAlgebras/README.md)
 - [Von Neumann algebras, factors, and modular theory](TauCetiRoadmap/VonNeumannAlgebras/README.md)
+- [Zeros of L-functions — growth, zero-free regions, counting, and the explicit formula](TauCetiRoadmap/ZerosOfLFunctions/README.md)
 - [Zigzag, preprojective, and Ginzburg algebras](TauCetiRoadmap/ZigzagPreprojective/README.md)
 - [Étale cohomology foundations](TauCetiRoadmap/EtaleCohomologyFoundations/README.md)
 

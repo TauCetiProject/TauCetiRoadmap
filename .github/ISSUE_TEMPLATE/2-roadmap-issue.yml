@@ -152,6 +152,7 @@ body:
         - TypeAHeckeAlgebras
         - VonNeumannAlgebras
         - Yamabe
+        - ZerosOfLFunctions
         - ZigzagPreprojective
     validations:
       required: true
