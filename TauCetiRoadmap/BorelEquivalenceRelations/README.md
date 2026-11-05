@@ -620,9 +620,11 @@ Discharge these alongside the layers; they check that the API describes real rel
 2. **A finite and a countable quotient.** Equality of first coordinates, `x 0 = y 0`, on
    `ℕ → Bool` (two classes) and on `ℕ → ℕ` (countably many classes): both are closed, smooth,
    bireducible with equality on `Fin 2` and on `ℕ` respectively, and have no Cantor antichain.
-3. **A closed relation with 𝔠 classes**: `|x| = |y|` on `ℝ`, and more generally the kernel of a
-   continuous map between Polish spaces. Smooth by `isSmooth_of_isClosed` and directly by the
-   map itself.
+3. **A closed relation with 𝔠 classes**: `|x| = |y|` on `ℝ`. More generally the kernel of a
+   continuous map between Polish spaces is closed and smooth, by `isSmooth_of_isClosed` and
+   directly by the map itself, and its classes correspond to the points of the image, so it has
+   𝔠 classes exactly when the image is uncountable. The constant map `ℝ → ℝ` is the negative
+   control: its kernel is the universal relation, with one class.
 4. **E₀**: Borel, countable dense classes, generically ergodic, explicit Cantor antichain, not
    smooth. No Cantor scheme of open sets has E₀-inequivalent siblings, since any two nonempty
    open sets contain E₀-related points; this is why Silver's theorem is proved by Mycielski's
