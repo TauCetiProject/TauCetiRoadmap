@@ -216,7 +216,12 @@ For a linear order `I` and a colour type `C`:
   agree on their first `n + 1` entries have the same colour.
 - `PartitionRel κ λ n μ`, written `κ → (λ)ⁿ_μ`: for every linear order `J : Type u` with `#J = κ`
   and every colouring of `Fin n ↪o J` by a type of cardinality at most `μ`, some `H` with
-  `λ ≤ #H` is homogeneous.
+  `λ ≤ #H` is homogeneous. This agrees with Erdős and Rado's relation for `μ ≥ 1`. At `μ = 0`
+  it does not: their definition asks for a homogeneous set of a named colour, which zero colours
+  cannot supply, while here a colour type of cardinality `0` is allowed and every homogeneous set
+  counts, so `0 → (0)¹_0` holds here and fails for them. When `n = 0` both conventions hold at
+  `μ = 0`, since `Fin 0 ↪o J` is inhabited and admits no colouring by an empty type. The partition
+  theorems of this layer all have an infinite colour bound.
 
 API: homogeneity is inherited by subsets and transported along order embeddings and order
 isomorphisms; the restriction of a colouring along an order embedding has the pulled-back

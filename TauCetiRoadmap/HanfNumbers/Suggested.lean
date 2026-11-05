@@ -52,13 +52,15 @@ def IsEndHomogeneousOn {n : ℕ} (c : (Fin (n + 2) ↪o I) → C) (H : Set I) : 
 
 /-- The partition relation `κ → (λ)ⁿ_μ`: every colouring of the increasing `n`-tuples of a linear
 order of cardinality `κ` with at most `μ` colours has a homogeneous set of cardinality at least
-`λ`. The relation does not depend on the linear order chosen (`partitionRel_iff_finset`). -/
+`λ`. The relation does not depend on the linear order chosen (`partitionRel_iff_finset`). It
+agrees with Erdős and Rado's relation for `μ ≥ 1`; at `μ = 0` it is the pairwise-constancy
+convention, under which `0 → (0)¹_0` holds although their colour-witness form fails. -/
 def PartitionRel (κ lam : Cardinal.{u}) (n : ℕ) (μ : Cardinal.{u}) : Prop :=
   ∀ (J : Type u) [LinearOrder J] (D : Type u), #J = κ → #D ≤ μ →
     ∀ c : (Fin n ↪o J) → D, ∃ H : Set J, lam ≤ #H ∧ IsHomogeneousOn c H
 
-/-- **Layer 0, order-free form.** The partition relation is the classical statement about
-colourings of `n`-element subsets. -/
+/-- **Layer 0, order-free form.** The partition relation is the statement about colourings of
+`n`-element subsets, with the same pairwise-constancy convention (the classical one for `μ ≥ 1`). -/
 theorem partitionRel_iff_finset {κ lam μ : Cardinal.{u}} {n : ℕ} :
     PartitionRel κ lam n μ ↔
       ∀ (X : Type u) (D : Type u), #X = κ → #D ≤ μ →
