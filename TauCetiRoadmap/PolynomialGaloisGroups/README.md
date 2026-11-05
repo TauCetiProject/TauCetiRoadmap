@@ -11,18 +11,17 @@ classes, and the native reference family and polynomial labels are extended thro
 eleven. Second, it proves the converse of Mathlib's half of Abel–Ruffini: in characteristic zero
 a finite Galois extension has solvable Galois group exactly when all of its elements are
 expressible by radicals, with the polynomial forms and Dummit's criterion for quintics, whose
-separation hypothesis Chapman's argument removes. Third, it derives from Perlis' theorem, which
-Finite Group Invariants states, the coefficient form of Gassmann's theorem (almost-conjugate
-subgroups of a Galois group have fixed fields with the same number of ideals of every norm),
-proves that isomorphic fixed fields come from conjugate subgroups, and realizes a nonconjugate
-almost-conjugate pair to obtain two nonisomorphic number fields with the same zeta function.
+separation hypothesis Chapman's argument removes. Third, it proves Gassmann's theorem that
+almost-conjugate subgroups of a Galois group have fixed fields with the same Dedekind zeta
+function, and realizes a nonconjugate almost-conjugate pair to obtain two nonisomorphic number
+fields with the same zeta function.
 
 | Layer | Title | What it builds |
 |---|---|---|
 | 1 | Transitive subgroups of `Sₙ` in degrees six to eleven | the class count through degree eleven, the descent criterion for completeness, the native reference family and labels through degree eleven |
 | 2 | Galois labels through degree eleven | the unique label of a separable irreducible polynomial of degree at most eleven |
 | 3 | Radicals in characteristic zero | the radical criterion for finite Galois extensions and polynomials; Dummit's quintic criterion without a separation hypothesis |
-| 4 | Arithmetic equivalence | the coefficient form of Gassmann's theorem, the conjugacy criterion for isomorphic fixed fields, and nonisomorphic number fields with equal zeta functions |
+| 4 | Arithmetic equivalence | Gassmann's theorem, the conjugacy criterion for isomorphic fixed fields, and nonisomorphic number fields with equal zeta functions |
 
 ## Scope and ownership
 
@@ -49,21 +48,18 @@ native declaration.
 - the radical criterion in characteristic zero for finite Galois extensions and for polynomials;
 - the separation of the quintic `F₂₀` resolvent for irreducible quintics, and Dummit's criterion
   without a separation hypothesis;
-- the coefficient form of Gassmann's theorem for `TauCeti.dedekindZetaCoeff` (almost-conjugate
-  subgroups have fixed fields with the same number of ideals of every norm, 4.1), derived from
-  Perlis' theorem as Finite Group Invariants states it; the conjugacy criterion for isomorphic
-  fixed fields (4.2); and the existence of nonisomorphic arithmetically equivalent number fields
-  (4.3).
+- the sufficient direction of Gassmann's theorem, stated coefficient by coefficient for
+  `TauCeti.dedekindZetaCoeff` (almost-conjugate subgroups have fixed fields with the same number
+  of ideals of every norm, 4.1), the conjugacy criterion for isomorphic fixed fields (4.2), and the
+  existence of nonisomorphic arithmetically equivalent number fields (4.3).
 
 **Imported, not planned again.** The wreath embedding, blocks and recognition theorems (base
 roadmap Layer 1); the quintic `F₂₀` resolvent and its criterion under separation (base roadmap
 Layer 4); the label predicates and classification for `n ≤ 5` (base roadmap Layer 6); the
 realization of `Sₙ` over `ℚ` (base roadmap Layer 9); almost-conjugacy, its transport along group
-isomorphisms and the nonconjugate almost-conjugate pair in `S₁₆` (RepresentationTheory,
-Induction–Restriction Layers 2.1 and 2.2); Perlis' theorem, that two subgroups of the Galois group
-of a Galois number field have fixed fields with the same Dedekind zeta function exactly when they
-are almost conjugate, together with the fixed-coset form of almost-conjugacy it is stated in
-(Finite Group Invariants 7.4 and 7.1). Galois groups of polynomials, part II
+isomorphisms, the orbit-sum and determinant adapters and the nonconjugate almost-conjugate pair in
+`S₁₆` (RepresentationTheory, Induction–Restriction Layers 2.1 and 2.2); the double-coset law for
+primes of a fixed field (Number Field Arithmetic Layer 1.4). Galois groups of polynomials, part II
 (ramified merging and random partitions) is a separate continuation of the same base; neither part
 uses the other.
 
@@ -75,13 +71,14 @@ uses the other.
   its own choice and is not a target.
 - Names of abstract groups (the name column of the TransGrp library and of Conway–Hulpke–McKay)
   beyond the identifications that a Check states.
-- Perlis' theorem in either direction, the invariants that arithmetically equivalent fields
-  share, and the number of fields arithmetically equivalent to a given one: Finite Group
-  Invariants Layer 7 states Perlis' theorem as an equivalence (7.4, whose necessary direction
-  needs Chebotarev density), the shared invariants (7.5) and the count of arithmetically
-  equivalent fields (7.6). This roadmap consumes the sufficient direction of 7.4 and owns only its
-  coefficient form (4.1), the conjugacy criterion for isomorphic fixed fields (4.2) and the
-  existence theorem (4.3).
+- The converse of Gassmann's theorem (equal zeta functions force almost-conjugacy), which needs
+  Chebotarev density, the invariants that arithmetically equivalent fields share, and the number
+  of fields arithmetically equivalent to a given one: Finite Group Invariants Layer 7 states
+  Perlis' theorem as an equivalence (7.4), the shared invariants (7.5) and the count of
+  arithmetically equivalent fields (7.6). This roadmap states the coefficient-level sufficient
+  direction (4.1), the conjugacy criterion for isomorphic fixed fields (4.2) and the existence
+  theorem (4.3) from Induction–Restriction and Number Field Arithmetic alone; neither roadmap
+  supplies the other.
 - Radicals in positive characteristic, Hilbert irreducibility, and the realization of `Aₙ` over
   `ℚ`.
 
@@ -106,11 +103,7 @@ uses the other.
   every conjugacy class of `G` in the same number of elements. This is
   Induction–Restriction's `Gassmann.AlmostConjugate`, which quantifies over Mathlib's
   `ConjClasses G`; Sutherland calls the same relation rational or Gassmann equivalence (Proposition
-  2.6 (ii)). Finite Group Invariants states the same relation by fixed-coset counts, as its
-  `AlmostConjugateOfFiniteIndex` (7.3): for every `g`, the cosets of `H` and of `K` fixed by `g`
-  are equinumerous. Its 7.1 identifies the two forms for a finite group, through
-  Induction–Restriction's fixed-coset identity, and Layer 4 passes from the class-intersection
-  form to the fixed-coset form through that identification.
+  2.6 (ii)).
 - **Zeta coefficients.** `TauCeti.dedekindZetaCoeff K n` is the number of ideals of `𝓞 K` of
   absolute norm `n`, the coefficient sequence of Mathlib's `NumberField.dedekindZeta K`. It counts
   the zero ideal, so its value at `n = 0` is `1`.
@@ -155,11 +148,8 @@ uses the other.
   `ConjAct`, `MulAction.orbitRel`, `Equiv.Perm.cycleType`, `Equiv.Perm.sign`, `alternatingGroup`,
   and `Finite.to_isCoatomic` (`Mathlib/Order/Atoms/Finite.lean`), which puts every proper subgroup
   of a finite group inside a maximal one.
-- Number fields and Dirichlet series: `NumberField.dedekindZeta` (the `LSeries` of the ideal
-  counts), `Ideal.absNorm`, and `LSeries_eq_iff_of_abscissaOfAbsConv_lt_top`
-  (`Mathlib/NumberTheory/LSeries/Injectivity.lean`: two `LSeries` whose abscissas of absolute
-  convergence are finite are equal as functions exactly when their coefficients agree at every
-  nonzero argument).
+- Number fields: `NumberField.dedekindZeta`, `Ideal.absNorm` with its multiplicativity (bundled as
+  a monoid-with-zero homomorphism in `Mathlib/RingTheory/Ideal/Norm/AbsNorm.lean`).
 
 ### From Tau Ceti
 
@@ -192,12 +182,12 @@ uses the other.
 - `FieldTheory/Galois/FixedField.lean`: `Subgroup.fixedField_map_conj` (for a subgroup `H` of
   `E ≃ₐ[F] E` and an automorphism `g`, the fixed field of `g H g⁻¹` is the image of `fixedField H`
   under `g`, with no hypothesis on `E/F`).
-- `NumberTheory/ArithmeticDirichletSeries/Trivial.lean`: `TauCeti.dedekindZetaCoeff`,
-  `TauCeti.dedekindZetaCoeff_zero` (the value `1` at `0`) and
-  `TauCeti.dedekindZeta_eq_LSeries_dedekindZetaCoeff`;
-  `NumberTheory/ArithmeticDirichletSeries/Estimates.lean`:
-  `TauCeti.abscissaOfAbsConv_dedekindZetaCoeff` (the abscissa of absolute convergence of that
-  `LSeries` is `1`, in particular finite).
+- `NumberTheory/ArithmeticDirichletSeries/Trivial.lean`: `TauCeti.dedekindZetaCoeff` and
+  `TauCeti.dedekindZeta_eq_LSeries_dedekindZetaCoeff`.
+- `NumberTheory/RamificationInertia/DoubleCoset/`: `Ideal.doubleCosetQuotientEquivPrimesOver` (the
+  primes of `M^H` over `p` are indexed by `H\G/D`) and
+  `Ideal.map_card_orbit_stabilizer_eq_map_ramificationIdx_mul_inertiaDeg` (the orbit sizes of the
+  decomposition group on `G ⧸ H` are the products `e·f` over those primes).
 - `NumberTheory/NumberField/SplittingField.lean`: `Polynomial.SplittingField.instNumberField`;
   `FieldTheory/GaloisGroups/Symmetric/`: `Polynomial.HasFullSymmetricGaloisGroup` and
   `TauCeti.exists_monic_int_polynomial_hasFullSymmetricGaloisGroup`.
@@ -212,23 +202,20 @@ roadmap uses them in that form.
 
 ### From TauCetiRoadmap.RepresentationTheory
 
-Induction–Restriction Layer 2.1: `Gassmann.AlmostConjugate` (almost-conjugacy by class
-intersections), `Gassmann.almostConjugate_comap` and `Gassmann.not_conj_comap` (transport of
-almost-conjugacy and of nonconjugacy along a group isomorphism), and the fixed-coset identity that
-makes almost-conjugacy equivalent to equality of fixed-coset counts for every element. Layer 2.2:
+Induction–Restriction Layer 2.1: `Gassmann.AlmostConjugate`, `Gassmann.almostConjugate_comap` and
+`Gassmann.not_conj_comap` (transport of almost-conjugacy and of nonconjugacy along a group
+isomorphism), `Gassmann.almostConjugate_iff_permutation_equiv` (almost-conjugacy iff equivalent
+permutation representations over `ℂ`), `Gassmann.restrictEquiv`, `Gassmann.normalInvariantEquiv`,
+`Gassmann.invariantOrbitSumBasis`, `Gassmann.orbitSumEquivariant` and
+`Gassmann.charpoly_reverse_eq_prod_fullCycleType` (the reversed characteristic polynomial of a
+permutation matrix is `∏ (1 − Zᵈ)` over its full cycle type). Layer 2.2:
 `Gassmann.exists_S16_gassmann_pair`, two subgroups of `Equiv.Perm (Fin 16)` of order 16 (the
 regular actions of `C₄ × C₄` and `Q₈ × C₂`) that are almost conjugate and not conjugate.
 
-### From TauCetiRoadmap.FiniteGroupInvariants
+### From TauCetiRoadmap.NumberFieldArithmetic
 
-Layer 7.3: `AlmostConjugateOfFiniteIndex`, almost-conjugacy of subgroups of a group by fixed-coset
-counts. Layer 7.1: for a finite group this relation is Induction–Restriction's
-`Gassmann.AlmostConjugate`. Layer 7.4: Perlis' theorem `dedekindZeta_eq_iff_almostConjugate`, for
-a number field `L` Galois over `ℚ` and subgroups `H, K` of `L ≃ₐ[ℚ] L`: `NumberField.dedekindZeta`
-of `fixedField H` and of `fixedField K` are equal as functions exactly when `H` and `K` are almost
-conjugate in the fixed-coset form. Only the sufficient direction (almost conjugate subgroups give
-equal zeta functions) is consumed, by 4.1; its route there runs through the double-coset law for
-the primes of a fixed field and the permutation character, and uses nothing of this roadmap.
+The completed Layer 1.4, the double-coset law for primes of a fixed field, with its `e·f` formula;
+it is implemented by the Tau Ceti declarations listed above.
 
 ## How to read the build
 
@@ -236,9 +223,8 @@ Layer 1 is pure finite group theory: it counts the conjugacy classes of transiti
 proves completeness by descent through transitive maximal subgroups, and extends the native
 reference family. Layer 2 transports the classification to polynomials and needs Layer 1 only.
 Layer 3 (radicals) and Layer 4 (arithmetic equivalence) are independent of Layers 1–2 and of each
-other; Layer 3 uses the base roadmap's quintic resolvent, and Layer 4 uses Finite Group
-Invariants' Perlis theorem, the base roadmap's realization of `S₁₆` and Induction–Restriction's
-`S₁₆` pair.
+other; Layer 3 uses the base roadmap's quintic resolvent, and Layer 4 uses the base roadmap's
+realization of `S₁₆` and Induction–Restriction's `S₁₆` pair.
 
 ## Layer 1: transitive subgroups of `Sₙ` in degrees six to eleven
 
@@ -588,49 +574,62 @@ Mathlib Abel–Ruffini, Kummer theory, roots of unity and Galois correspondence;
 
 ## Layer 4: arithmetic equivalence
 
-### 4.1 Gassmann's theorem in coefficient form
+### 4.1 Gassmann's theorem
 
 Let `E` be a number field, Galois over `ℚ`, and let `H, K ≤ Gal(E/ℚ)` be almost conjugate. Prove
-that for every `n`,
+(`dedekindZetaCoeff_fixedField_eq_of_almostConjugate`) that for every `n`,
 
 ```text
-TauCeti.dedekindZetaCoeff (fixedField H) n = TauCeti.dedekindZetaCoeff (fixedField K) n
+TauCeti.dedekindZetaCoeff (fixedField H) n = TauCeti.dedekindZetaCoeff (fixedField K) n,
 ```
 
-(Perlis, Theorem 1, sufficient direction, uncertified; the theorem is restated as Sutherland's
-Theorem 2.10, p. 7, `sutherland-arith-equiv` lines 252–256). The theorem itself is Finite Group
-Invariants 7.4; this target is its corollary, stated in the form that 4.3 uses, and it is not
-restated in `Suggested.lean`.
+hence `NumberField.dedekindZeta` of the two fixed fields agree (Perlis, Theorem 1, sufficient
+direction, uncertified; the theorem is restated as Sutherland's Theorem 2.10, p. 7,
+`sutherland-arith-equiv` lines 252–256).
 
-Route. Since `Gal(E/ℚ)` is finite, almost-conjugacy in the class-intersection form is the
-fixed-coset form `AlmostConjugateOfFiniteIndex H K` (Finite Group Invariants 7.1), so the
-sufficient direction of `dedekindZeta_eq_iff_almostConjugate` gives
-`NumberField.dedekindZeta (fixedField H) = NumberField.dedekindZeta (fixedField K)` as functions
-on `ℂ`. Each side is the `LSeries` of its coefficient sequence
-(`TauCeti.dedekindZeta_eq_LSeries_dedekindZetaCoeff`), and each sequence has abscissa of absolute
-convergence `1` (`TauCeti.abscissaOfAbsConv_dedekindZetaCoeff`), so
-`LSeries_eq_iff_of_abscissaOfAbsConv_lt_top` gives equal coefficients at every `n ≠ 0`, in `ℂ`
-and hence in `ℕ`. At `n = 0` both coefficients are `1` (`TauCeti.dedekindZetaCoeff_zero`).
+Route. Prove two lemmas first.
 
-*Needs:* Finite Group Invariants 7.1, 7.4 (sufficient direction); Induction–Restriction Layer 2.1
-(`Gassmann.AlmostConjugate`); Tau Ceti `TauCeti.dedekindZetaCoeff`,
-`TauCeti.dedekindZeta_eq_LSeries_dedekindZetaCoeff`, `TauCeti.abscissaOfAbsConv_dedekindZetaCoeff`,
-`TauCeti.dedekindZetaCoeff_zero`; Mathlib `NumberField.dedekindZeta`,
-`LSeries_eq_iff_of_abscissaOfAbsConv_lt_top`.
+- *Local counts.* For a number field `L` the coefficient `TauCeti.dedekindZetaCoeff L` is
+  multiplicative on coprime arguments, and its value at `p^k` is the number of families
+  `(k_𝔮)` of natural numbers, indexed by the primes `𝔮` of `L` above `p`, with
+  `Σ f(𝔮/p) k_𝔮 = k`. So the coefficients are determined, prime by prime, by the multiset of
+  residue degrees above `p`.
+- *Residue degrees from the Galois group.* Fix a prime `Q` of `E` above `p` with decomposition
+  group `D` and inertia group `I`. The primes of `E^H` above `p` correspond to the `D`-orbits on
+  `Gal(E/ℚ) ⧸ H`, with `e·f` the orbit size (`Ideal.doubleCosetQuotientEquivPrimesOver`,
+  `Ideal.map_card_orbit_stabilizer_eq_map_ramificationIdx_mul_inertiaDeg`); the residue degree of
+  the prime of an orbit is the number of `I`-orbits it contains, so the multiset of residue
+  degrees is the full cycle type of a Frobenius element of `D/I` acting on the `I`-orbits of
+  `Gal(E/ℚ) ⧸ H`.
+
+Almost-conjugacy gives equivalent complex permutation representations of `Gal(E/ℚ)` on the cosets
+of `H` and of `K` (`Gassmann.almostConjugate_iff_permutation_equiv`); restricting to `D`
+(`Gassmann.restrictEquiv`) and taking `I`-invariants (`Gassmann.normalInvariantEquiv`) gives
+equivalent representations of `D/I` on the permutation modules of the `I`-orbits
+(`Gassmann.invariantOrbitSumBasis`, `Gassmann.orbitSumEquivariant`). Equal characteristic
+polynomials of Frobenius give equal products `∏ (1 − Zᵈ)` over the full cycle types
+(`Gassmann.charpoly_reverse_eq_prod_fullCycleType`), and such a product determines its multiset of
+exponents (strip the factor of least degree and induct). So the residue degrees above every `p`
+agree, and the local counts finish.
+
+*Needs:* Tau Ceti `TauCeti.dedekindZetaCoeff`, `Ideal.doubleCosetQuotientEquivPrimesOver`,
+`Ideal.map_card_orbit_stabilizer_eq_map_ramificationIdx_mul_inertiaDeg`; Mathlib `Ideal.absNorm`,
+`NumberField.dedekindZeta`; Number Field Arithmetic Layer 1.4; Induction–Restriction Layer 2.1
+(`Gassmann.AlmostConjugate`, `Gassmann.almostConjugate_iff_permutation_equiv`,
+`Gassmann.restrictEquiv`, `Gassmann.normalInvariantEquiv`, `Gassmann.invariantOrbitSumBasis`,
+`Gassmann.orbitSumEquivariant`, `Gassmann.charpoly_reverse_eq_prod_fullCycleType`).
 
 **Checks.**
 
-- `n = 0`: the `LSeries` comparison says nothing at `0`, which does not enter the series; both
-  coefficients are `1` there, the zero ideal.
+- `n = 0`: both coefficients are `1`, the zero ideal.
 - Equal order is not enough. In `Gal(ℚ(√2, √3)/ℚ) ≅ V₄` the three subgroups of order 2 are
   pairwise not almost conjugate (the group is abelian, so its conjugacy classes are points and
   almost-conjugate subgroups are equal), and their fixed fields `ℚ(√2)`, `ℚ(√3)`, `ℚ(√6)` have
   coefficients `0, 1, 1` at 3 (3 is inert, ramified, ramified) and `0, 0, 2` at 5 (inert, inert,
   split).
-- The abscissa witness: for `E = ℚ(i)` and `H = K = 1` the coefficients at `2, 3, 4, 5` are
-  `1, 0, 1, 2` (the ideals `(1 + i)`, none, `(2)`, and `(2 + i)`, `(2 − i)`), and their Dirichlet
-  series is `ζ(s) L(s, χ₋₄)`, absolutely convergent exactly for `Re s > 1`: the abscissa `1` is
-  attained, and the injectivity step needs only that it is finite.
+- Residue degrees from the Galois group: for `E = ℚ(i)`, `H = 1` and `p = 5`, `D = I = 1`, the two
+  `D`-orbits on `Gal(E/ℚ)` give two primes of residue degree 1, and the coefficient of `ℚ(i)` at 5
+  is 2.
 
 ### 4.2 Isomorphic fixed fields and conjugate subgroups
 
@@ -695,8 +694,8 @@ trivial case of 4.1.
 
 ### Dependencies
 
-Tau Ceti number-field, Dirichlet-series and fixed-field API; Finite Group Invariants 7.1 and 7.4;
-Induction–Restriction Layers 2.1 and 2.2; the base roadmap Layer 9.
+Tau Ceti number-field, Dirichlet-series and fixed-field API; Induction–Restriction Layers 2.1 and
+2.2; Number Field Arithmetic Layer 1.4; the base roadmap Layer 9.
 
 ## Downstream consumers
 
@@ -735,8 +734,7 @@ Induction–Restriction Layers 2.1 and 2.2; the base roadmap Layer 9.
   argument that the sextic of an irreducible quintic has distinct roots (3.3).
 - R. Perlis, *On the equation ζ_K(s) = ζ_K′(s)*, J. Number Theory 9 (1977) 342–360. Theorem 1:
   the fields are arithmetically equivalent iff the subgroups are almost conjugate (4.1, sufficient
-  direction, consumed as Finite Group Invariants 7.4). Uncertified: cited by its locator, through
-  Sutherland.
+  direction). Uncertified: cited by its locator, through Sutherland.
 - A. V. Sutherland, *Stronger arithmetic equivalence*, Discrete Analysis 2021:23,
   arXiv:2104.01956, `sutherland-arith-equiv`. Introduction, p. 1 (lines 22–31): Gassmann's first
   nonisomorphic arithmetically equivalent fields and his group-theoretic criterion, and
