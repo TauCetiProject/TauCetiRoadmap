@@ -37,15 +37,19 @@ The headline theorems stated here are: Nikulin's classification of finite quadra
 their bilinear form and Gauss-sum invariant, Theorem 1.11.3 (1H); van der Blij's congruence (1L)
 and Milgram's theorem at every signature (1I); Minkowski's second theorem (2F) and finiteness of
 positive definite classes (2G); the adelic double-coset description of the classes in a genus
-(4B) and finiteness of the classes in a binary genus (4E); the choice-independence of
-`discr K(q_p)` with its dyadic exception, Nikulin's existence theorem 1.10.1 with its strict
+(4B), finiteness of the classes in a binary genus (4E) and infinitude of the isometry group of
+an indefinite lattice of rank at least 3 (4F); the determination of the genus of an even lattice
+by its signature and discriminant form, Nikulin's Corollary 1.9.4 (5A); the choice-independence
+of `discr K(q_p)` with its dyadic exception, Nikulin's existence theorem 1.10.1 with its strict
 corollary 1.10.2, his primitive-embedding theorems 1.12.2 and 1.12.4, and his `2`-elementary
 existence theorem 3.6.2 (5B, 5G, 5J); the classification of
 indefinite unimodular lattices of both parities (6A), existence of even unimodular positive
 definite lattices exactly in ranks divisible by 8 (6B), the classification of positive definite
-unimodular lattices in rank at most 9 with the uniqueness of `E₈` (6C), and `|O(E₈)| = 696729600`
-(6G); stabilization of the local density count (7C); the Euclidean volumes of `SO(n)` and `O(n)`
-(7E); and completeness of a list of classes from the mass (9B).
+unimodular lattices in rank at most 9 with the uniqueness of `E₈` (6C), the rank-16 pair
+`E₈ ⊕ E₈` and `D₁₆⁺` in one genus and not isometric (6D) with the failure of cancellation built
+on it (6H), and `|O(E₈)| = 696729600` (6G); stabilization of the local density count at every
+prime and its closed value at the odd primes not dividing the determinant (7C); the Euclidean
+volumes of `SO(n)` and `O(n)` (7E); and completeness of a list of classes from the mass (9B).
 
 The local stabilizers `K_p(L)`, their compact-open family, the finite adelic orthogonal group and
 the local and adelic spinor norms are Tau Ceti's (`integralOrthogonalSubgroup`,
@@ -56,9 +60,6 @@ lattice; none of them is restated here.
 
 Headline theorems that are **not statable at the pins**, and what each lacks:
 
-* the rank-16 pair `E₈ ⊕ E₈` and `D₁₆⁺`, in one genus and not isometric (6D), and the failure of
-  cancellation built on it (6H): the pinned Tau Ceti has `D₈⁺` but no `D₁₆⁺`, whose construction
-  needs the isotropy of its spinor class as a proof inside the definition;
 * the Conway–Sloane genus symbol, the 2-adic symbol calculus, and the oddity formula and sign
   product conditions on a symbol (3E, 3G): no carrier for genus symbols; the Hilbert symbol the
   oddity formula uses is native;
@@ -340,11 +341,46 @@ theorem finite_genusClasses_rank_two (G : Matrix (Fin 2) (Fin 2) ℤ)
       H.IsSymm → GramSameGenus G H → ∃ H' ∈ S, GramIsometric H' H :=
   sorry
 
+/-- **Layer 4F, automorphism groups of indefinite lattices.** A nondegenerate indefinite
+integral lattice of rank at least 3 has infinite isometry group: in the isotropic case the
+Eichler transvections `E_{u,w}` in a primitive isotropic `u` and the even-norm vectors `w` of
+`u^⊥ ∩ L` give an injective image of a free group of rank `rank L − 2 ≥ 1`, and in the anisotropic
+case an indefinite binary sublattice has infinite isometry group by the Pell equation (B4) and a
+finite-index subgroup of `O(M) × O(M^⊥)` embeds in `O(L)`. Rank 2 is excluded and is B4's:
+`O(⟨1⟩ ⊕ ⟨−2⟩)` is infinite through `ℤ[√2]ˣ`, while `O(⟨1⟩ ⊕ ⟨−1⟩)` is finite because the split
+order has finitely many units; `x² + y² − 3z²` is indefinite and anisotropic over `ℚ`, so the
+isotropic argument alone does not cover rank 3. -/
+theorem infinite_isometry_of_isIndefinite {V : Type u} [AddCommGroup V] [Module ℚ V]
+    (L : IntegralLattice V) [L.IsNondegenerate] (hL : L.IsIndefinite)
+    (hr : 3 ≤ Module.finrank ℚ V) : Infinite (L.Isometry L) :=
+  sorry
+
 end Layer4
 
 /-! ## Layer 5: Nikulin's existence theory -/
 
 section Layer5
+
+/-- **Layer 5A, Nikulin Corollary 1.9.4, at the level of Gram matrices.** Two even
+nondegenerate integral Gram matrices of one size lie in one genus exactly when the lattices
+they define on `ℚⁿ` have the same signature and isometric half-norm discriminant forms. The
+lattices are Tau Ceti's `ofGramMatrix` on the standard basis, so evenness and nondegeneracy are
+hypotheses on those lattices. `E₈ ⊕ E₈` and `D₁₆⁺` have invariants `(16, 0, 0)` and lie in one
+genus; `I₈` and `E₈` have equal signature and trivial discriminant group but `I₈` is odd, so
+evenness cannot be dropped. -/
+theorem gramSameGenus_iff_of_isEven {n : ℕ} (G H : Matrix (Fin n) (Fin n) ℤ)
+    (hGs : G.IsSymm) (hHs : H.IsSymm)
+    (hGe : (ofGramMatrix (Pi.basisFun ℚ (Fin n)) G hGs).IsEven)
+    (hHe : (ofGramMatrix (Pi.basisFun ℚ (Fin n)) H hHs).IsEven)
+    [(ofGramMatrix (Pi.basisFun ℚ (Fin n)) G hGs).IsNondegenerate]
+    [(ofGramMatrix (Pi.basisFun ℚ (Fin n)) H hHs).IsNondegenerate] :
+    GramSameGenus G H ↔
+      (ofGramMatrix (Pi.basisFun ℚ (Fin n)) G hGs).signature =
+          (ofGramMatrix (Pi.basisFun ℚ (Fin n)) H hHs).signature ∧
+        Nonempty (((ofGramMatrix (Pi.basisFun ℚ (Fin n)) G hGs).discriminantQuadraticModule
+          hGe).Isometry
+            ((ofGramMatrix (Pi.basisFun ℚ (Fin n)) H hHs).discriminantQuadraticModule hHe)) :=
+  sorry
 
 open FiniteQuadraticModule in
 /-- **Layer 5B, choice-independence of `discr K(q_p)`, with its exception.** An even
@@ -561,6 +597,57 @@ theorem equivalent_one_or_e8_sum_one_of_unimodular_posDef_nine
           (Matrix.fromBlocks (CartanMatrix.E 8) 0 0 (1 : Matrix (Fin 1) (Fin 1) ℤ)))) :=
   sorry
 
+/-- **A Gram matrix of `D₁₆⁺`** (6D), in the basis `h, e₁ − e₂, e₂ − e₃, …, e₁₄ − e₁₅, e₁₅ + e₁₆`
+of `D₁₆⁺ = D₁₆ ∪ (h + D₁₆)` with `h = (½, …, ½)`: the diagonal is `4, 2, …, 2`, the fourteen
+vectors `e_i − e_{i+1}` form the `A₁₅`-type band, `e₁₅ + e₁₆` pairs to `−1` with `e₁₄ − e₁₅` and
+to `1` with `h`, and the determinant is `1` (Serre V.1.4.3, where the lattice is `Γ₁₆`). -/
+def d16PlusGram : Matrix (Fin 16) (Fin 16) ℤ :=
+  !![4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1;
+     0, 2, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0;
+     0, -1, 2, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0;
+     0, 0, -1, 2, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0;
+     0, 0, 0, -1, 2, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0;
+     0, 0, 0, 0, -1, 2, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0;
+     0, 0, 0, 0, 0, -1, 2, -1, 0, 0, 0, 0, 0, 0, 0, 0;
+     0, 0, 0, 0, 0, 0, -1, 2, -1, 0, 0, 0, 0, 0, 0, 0;
+     0, 0, 0, 0, 0, 0, 0, -1, 2, -1, 0, 0, 0, 0, 0, 0;
+     0, 0, 0, 0, 0, 0, 0, 0, -1, 2, -1, 0, 0, 0, 0, 0;
+     0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 2, -1, 0, 0, 0, 0;
+     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 2, -1, 0, 0, 0;
+     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 2, -1, 0, 0;
+     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 2, -1, -1;
+     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 2, 0;
+     1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 2]
+
+/-- **The Gram matrix of `E₈ ⊕ E₈`** (6D): the block sum of two copies of Mathlib's `E₈` Cartan
+matrix, reindexed to `Fin 16`. -/
+def e8SumE8Gram : Matrix (Fin 16) (Fin 16) ℤ :=
+  Matrix.reindex finSumFinEquiv finSumFinEquiv
+    (Matrix.fromBlocks (CartanMatrix.E 8) 0 0 (CartanMatrix.E 8))
+
+/-- **Layer 6D, the rank-16 pair.** `D₁₆⁺` is even, unimodular and positive definite, it lies in
+the genus of `E₈ ⊕ E₈` (both have invariants `(16, 0, 0)`, 5A), and the two are not integrally
+isometric: the norm-2 vectors of `D₁₆⁺` are the 480 roots of `D₁₆` and span a sublattice of
+index 2, while the 480 roots of `E₈ ⊕ E₈` span everything (Serre V.1.4.3 and VII.6.6). At
+`n = 8` the same construction gives `D₈⁺ ≅ E₈`, so the rank enters through `h² = 4`. -/
+theorem d16Plus_sameGenus_not_isometric_e8SumE8 :
+    (∀ i, 2 ∣ d16PlusGram i i) ∧ d16PlusGram.det = 1 ∧
+      (Matrix.toQuadraticForm' d16PlusGram).PosDef ∧
+        GramSameGenus e8SumE8Gram d16PlusGram ∧ ¬ GramIsometric e8SumE8Gram d16PlusGram :=
+  sorry
+
+/-- **Layer 6H, the failure of cancellation over `ℤ`.** `E₈ ⊕ E₈ ⊕ U` and `D₁₆⁺ ⊕ U` are
+integrally isometric, both being even unimodular indefinite of signature `(17, 1)` (6A), although
+`E₈ ⊕ E₈` and `D₁₆⁺` are not (6D). Dropping `U` would contradict 6D; `U ⊕ ⟨1⟩ ≅ I_{2,1}` while
+`U ≇ ⟨1⟩ ⊕ ⟨−1⟩` is the parity analogue. -/
+theorem gramIsometric_e8SumE8_sum_U_d16Plus_sum_U :
+    GramIsometric
+      (Matrix.reindex finSumFinEquiv finSumFinEquiv
+        (Matrix.fromBlocks e8SumE8Gram 0 0 !![0, 1; 1, 0]))
+      (Matrix.reindex finSumFinEquiv finSumFinEquiv
+        (Matrix.fromBlocks d16PlusGram 0 0 !![0, 1; 1, 0])) :=
+  sorry
+
 /-- **Layer 6G, the order of `O(E₈)`.** The isometry group of Tau Ceti's `E₈` root lattice has
 order `240 · 126 · 23040 = 696729600`: it is the Weyl group, generated by the reflections in the
 240 roots, which contains `−1`. -/
@@ -589,6 +676,26 @@ theorem localDensityCount_succ_eq (p : ℕ) [Fact p.Prime] {n : ℕ} (A : Matrix
     (hA : A.IsSymm) (hdet : A.det ≠ 0) :
     ∃ r₀ : ℕ, ∀ r ≥ r₀,
       localDensityCount p A (r + 1) = p ^ (n * (n - 1) / 2) * localDensityCount p A r :=
+  sorry
+
+/-- **Layer 7C, the value at an odd prime not dividing the determinant.** For odd `p ∤ det A`
+and `n ≥ 1` the count is, from some level on, `p^{r·n(n−1)/2}` times
+`2 ∏_{i=1}^{m} (1 − p^{−2i})` when `n = 2m + 1`, and times
+`2 (1 − ε p^{−m}) ∏_{i=1}^{m−1} (1 − p^{−2i})` when `n = 2m`, where `ε = ((−1)^m det A | p)` is
+the Legendre symbol of the signed determinant, the split/nonsplit type of the reduction. For `U`
+at `p = 3` the count is `4` at level 1 and `12` at level 2, both `4/3 = 2(1 − 1/3)` normalized,
+with `ε = (1 | 3) = 1` although `det U = −1` is a nonsquare mod 3; for `I₂` at `p = 3` it is
+`8/3 = 2(1 + 1/3)` with `ε = (−1 | 3) = −1`, and at `p = 5` it is `8/5` with `ε = 1`. Rank 0 is
+excluded: its count is `1` and has no factor `2`. -/
+theorem localDensityCount_eq_of_odd_of_not_dvd (p : ℕ) [Fact p.Prime] (hp : p ≠ 2) {n : ℕ}
+    (A : Matrix (Fin n) (Fin n) ℤ) (hA : A.IsSymm) (hdet : ¬ (p : ℤ) ∣ A.det) (hn : 0 < n) :
+    ∃ r₀ : ℕ, ∀ r ≥ r₀,
+      (localDensityCount p A r : ℚ) = (p : ℚ) ^ (r * (n * (n - 1) / 2)) *
+        (if n % 2 = 1 then
+          2 * ∏ i ∈ Finset.Icc 1 (n / 2), (1 - (p : ℚ) ^ (-(2 * (i : ℤ))))
+         else
+          2 * (1 - (legendreSym p ((-1) ^ (n / 2) * A.det) : ℚ) * (p : ℚ) ^ (-((n / 2 : ℕ) : ℤ))) *
+            ∏ i ∈ Finset.Icc 1 (n / 2 - 1), (1 - (p : ℚ) ^ (-(2 * (i : ℤ))))) :=
   sorry
 
 end Layer7

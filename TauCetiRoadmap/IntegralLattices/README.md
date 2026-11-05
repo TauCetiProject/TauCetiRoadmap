@@ -404,6 +404,7 @@ Each row is consumed by the milestones in the last column.
 | Gauss sums and quadratic characters | `Mathlib/NumberTheory/LegendreSymbol/GaussSum.lean` | 1H |
 | `AddGroup.rank`, `AddGroup.rank_spec`, `AddGroup.rank_le` (the minimum size of a generating set; a finite group is finitely generated through `Monoid.fg_of_finite`) | `Mathlib/GroupTheory/Rank.lean`, `Mathlib/GroupTheory/Finiteness.lean` | 1G, 5B |
 | `DoubleCoset.Quotient` | `Mathlib/GroupTheory/DoubleCoset.lean` | 4B |
+| `legendreSym` (the Legendre symbol `(a | p)` of an integer `a` at a prime `p`, multiplicative in `a`) | `Mathlib/NumberTheory/LegendreSymbol/Basic.lean` | 7C |
 
 Two limits of the Mathlib API shape this roadmap. The eigenvalue and determinant
 characterizations of `Matrix.PosDef` require `RCLike`, so positivity is used over `ℚ` through the
@@ -473,9 +474,9 @@ structure or carrier for it.
 | B2--B5, `¬ IsSquare Δ` | Global Number Fields | `picEquivUnitsIdealClassMonoid`, `finite_narrowPic` | the unit classes of the ideal class monoid are `Pic`, and the narrow Picard group is finite; the orders, conductors, proper and invertible ideals, the monoid, `Pic` and `NarrowPic` with their quotient maps, and `finite_pic` are native. Only the invertible proper carrier enters `Pic` and `NarrowPic`, while raw noninvertible proper ideals remain in `IdealClassMonoid`; the square-discriminant split branch is elementary and does not use these carriers |
 | B3, `Δ < 0` | Class Field Theory | `ringClassField`, `ringClassArtinMap`, `gal_ringClassField_equiv_pic` | the class-field interpretation in the nonsplit field case only. ⚠ Each of these takes an order in a number **field** together with `Module.finrank ℚ K = 2`, so the split algebra `ℚ × ℚ` cannot be supplied to any of them: it carries no `Field` instance and is the `K` of no `NumberFieldOrder K`. There is no split ring-class-field claim |
 | 3G | Class Field Theory | `hilbertProductFormula` | cohomological Hilbert reciprocity, reached on classical symbols through QFI's comparison |
-| B7 | Restricted Products | Layers 1–3 | the generic restricted products, compact open reference families and rational diagonals are native (§*From Tau Ceti*); Restricted Products is cited for its change-of-family and away-`S` statements. ⚠ Quotient measures and Tamagawa normalization are **not** exported by Restricted Products and are not cited here; they belong to `TamagawaMeasures` and reach the lattice mass only through `OrthogonalTamagawaAndLatticeMass` |
+| B7 | Restricted Products | Layers 1–3 | the generic restricted products, compact open reference families and rational diagonals are native (§*From Tau Ceti*); Restricted Products is cited for its change-of-family and away-`S` statements. ⚠ Quotient measures and Tamagawa normalization are **not** exported by Restricted Products and are not cited here; the generic quotient integration and Tamagawa normalization are AdelicAlgebraicGroups Layer 2 (AA.2.3 rational quotients, AA.2.4 gauge forms and Tamagawa normalization), their orthogonal gauge is OTM §1.2, and they reach the lattice mass only through `OrthogonalTamagawaAndLatticeMass` |
 | 4B, 4C, 4F, B7 | Orthogonal and Spin Groups | 0C, 2C, 2F; `orthogonalBaseChangeReal`, `spinorNorm_reflection`, `transvectionLiftHom` | the bilinear/quadratic dictionary, the real base change, the spinor norm of a single reflection and the transvection homomorphism; the groups, the spinor norm of a pair of reflections, the `p`-adic base change, the compact-open families and the finite adelic groups are native (§*From Tau Ceti*). ⚠ `strongApproximation_finiteAdelicSpin` and the orthogonal volume theorem are **not** exports of Orthogonal and Spin Groups and are not cited; its README states that only `OrthogonalTamagawaAndLatticeMass` may export them |
-| 6C, 6G | Root Systems | Layer 5 ADE classification and `Nat.card P.weylGroup` | the rank-eight root system with the `E8` Cartan matrix is of type `E8` |
+| 6C, 6G | Root Systems | Layer 3 §3.1, the classification of irreducible root systems by Dynkin type, and `Nat.card P.weylGroup` | the rank-eight root system with the `E8` Cartan matrix is of type `E8` |
 
 `ThetaSeries` and `LFunctions` are **not** dependencies of this roadmap, and neither has a row
 above. Theta Series is a consumer: its `Suggested.lean` imports the native Tau Ceti carrier,
@@ -1289,6 +1290,19 @@ than coercing `ℚ × ℚ` to a number field. Required: `T_L(ℤ_p)` is compact 
 `T_L(ℚ_p)`; the isomorphisms `SO(L_p) ≅ T_L(ℤ_p)` and `SO(V_p) ≅ T_L(ℚ_p)` transported from
 B4; and the diagonal embedding of `T_L(ℚ)`.
 
+**Checks.**
+
+- `x² + y²` (`Δ = −4`): `A_Δ = ℚ(i)`, `T_L(ℝ)` is the unit circle, `T_L(ℤ_p)` is the group of
+  norm-one units of `ℤ_p[i]` at every `p`, and `T_L(ℤ) = SO(L) = {±1, ±i}`, of order `w = 4`. A
+  definition through the full unit group `(A_Δ ⊗ ℝ)ˣ = ℂˣ` instead of the norm-one elements
+  would not be compact.
+- `x² − 3y²` (`Δ = 12`): `𝒪(L) = ℤ[√3]`, `T_L(ℝ) ≅ ℝˣ` through one real embedding, and
+  `T_L(ℤ) = SO(L) = {±(2 + √3)^k : k ∈ ℤ}` is infinite, generated by `−1` and the fundamental
+  norm-one unit `2 + √3` of B4; the other real embedding carries `2 + √3` to its inverse.
+- `U` (`Δ = 1`): `A_Δ = ℚ × ℚ`, `T_L = {(t, t⁻¹)}` is the split torus, `T_L(ℤ_p) ≅ ℤ_pˣ` is compact
+  open in `T_L(ℚ_p) ≅ ℚ_pˣ`, and `T_L(ℤ) = SO(U) = {±1}`; the norm `(a, b) ↦ ab` is surjective
+  onto `ℚ_pˣ`, which is the split branch that 4C's spinor-norm count uses.
+
 **B7. Measures in rank 2.** At each finite prime normalize Haar measure by
 `vol(T_L(ℤ_p))=1`. This does not determine the real scalar. For imaginary quadratic `Δ`,
 identify `T_L(ℝ)` with the unit circle and use angular density `|dθ|`, of total volume `2π`.
@@ -1325,6 +1339,20 @@ branch, and the two branches are different theorems:
   order 2, four classes) separates the two. Equivalently `T_L(ℚ) \ T_L(𝔸) / T_L(ℝ)⁰` is compact, where
   `T_L(ℝ)⁰ ≅ ℝ_{>0}` is the split real direction. The anisotropic covolume statement is never
   applied to this branch, and `U`, with `Δ = 1`, is its mandatory test.
+
+**Checks.**
+
+- `x² + y²` (`Δ = −4`): `vol(T_L(ℝ)) = 2π` in `|dθ|`, `T_L(ℤ)` has order `w = 4`, and `C_L` is
+  trivial (`h⁺ = 1`), so `T_L(ℚ) \ T_L(𝔸)` has volume `2π/4 = π/2`; a real normalization by
+  `dθ/2π` would give `1/4` and lose the `2π` that 7G's rank-2 normalization is stated against.
+- `x² − 3y²` (`Δ = 12`): `NarrowPic 𝒪_Δ` has order 2, so `C_L`, its subgroup of squares, is
+  trivial; `T_L(ℝ)/T_L(ℤ) ≅ ℝˣ/{±(2 + √3)^k} ≅ ℝ_{>0}/(2 + √3)^ℤ` has volume `log(2 + √3)` in
+  `dt/|t|`, and that is the volume of `T_L(ℚ) \ T_L(𝔸)`; without the fundamental unit the real
+  direction would have infinite volume.
+- `U` (`Δ = 1`): `T_L(ℚ) \ T_L(𝔸) ≅ ℤ̂ˣ × ℝ_{>0}` has infinite volume, the direction `dt/t`
+  on `ℝ_{>0}` surviving; the modulus kernel `T_L(ℚ) \ T_L(𝔸)¹ ≅ ℤ̂ˣ` has volume 1, the product
+  of the local normalizations `vol(T_L(ℤ_p)) = 1`. A statement claiming finite covolume for every
+  binary `T_L` fails here.
 
 The rank-2 mass of B8 is proved from B2 to B5 without any measure. What B7 supplies to 7G is the
 normalization the successor's rank-2 specialization must reproduce, and it is stated for
@@ -1440,11 +1468,12 @@ For every `p` the subgroup `H_p(L) = θ_p(K_p⁺(L))` of `ℚ_pˣ/(ℚ_pˣ)²` i
 restricted to `K_p⁺(L)`. Native with it: the image is open (`isOpen_localSpinorNormImage`); it is
 trivial in rank at most 1 (`localSpinorNormImage_eq_bot_of_finrank_le_one`); it is the group of
 unit square classes `ℤ_pˣ(ℚ_pˣ)²` at almost every `p`
-(`eventually_localSpinorNormImage_integral_eq_unitSquareClasses`); and at an odd `p` where `L_p`
-has an orthogonal basis of unit norms, that is, is unimodular of rank at least 2, `K_p(L)` is
-generated by the reflections in integral vectors of unit norm and `H_p(L)` is exactly the unit
-square classes (`integralOrthogonalSubgroup_eq_closure_reflectionOrthogonal`,
-`map_spinorNorm_comap_integralOrthogonalSubgroup_eq_unitSquareClasses`; O'Meara 92:5). The
+(`eventually_localSpinorNormImage_integral_eq_unitSquareClasses`); at an odd `p` where `L_p`
+has an orthogonal basis of unit norms, that is, is unimodular, `K_p(L)` is generated by the
+reflections in integral vectors of unit norm, in every rank
+(`integralOrthogonalSubgroup_eq_closure_reflectionOrthogonal`); and when moreover `rank L ≥ 2`,
+`H_p(L)` is exactly the unit square classes
+(`map_spinorNorm_comap_integralOrthogonalSubgroup_eq_unitSquareClasses`; O'Meara 92:5). The
 full-space surjectivity of the spinor norm (Orthogonal and Spin Groups 2F) is only the ambient
 interface and does not compute `H_p(L)`. The targets are the images at the finitely many
 `p ∣ 2 det L`, read off the Jordan data of 3C–3E: construct generators of `K_p(L)` as integral
@@ -1453,8 +1482,10 @@ the Clifford reflection/norm comparison, and prove exhaustion by Jordan reductio
 integral isometry (O'Meara §92 at odd `p`). At `p = 2` keep the type I/type II blocks and the
 oddity and sign-walking restrictions; the odd-prime diagonal argument is not used at 2. The
 containment `H_p(L) ⊇ ℤ_pˣ(ℚ_pˣ)²` for `p ∤ 2 det L`, which makes the adelic image quotient of 4C
-well formed, is the native almost-everywhere statement made exact: it holds at every odd `p` not
-dividing `det L`. *Needs:* 3C–3E, N0; T `localSpinorNormImage` and the theorems named,
+well formed, is the native almost-everywhere statement made exact: for `rank L ≥ 2` it holds at
+every odd `p` not dividing `det L`; in rank at most 1 the image is trivial at every `p`
+(`localSpinorNormImage_eq_bot_of_finrank_le_one`), so `⟨1⟩` is excluded from it as it is from
+the finiteness statement of 4C. *Needs:* 3C–3E, N0; T `localSpinorNormImage` and the theorems named,
 `spinorNorm`, `spinorNorm_reflectionPairSpecialOrthogonal`.
 
 **Checks.**
@@ -1671,7 +1702,8 @@ solution of `x² + y² = 3z²` forces `3 ∣ x` and `3 ∣ y`.
     `E_{u,−w}` preserve `L` and `E_{u,w} ∈ O(L)`;
   - the image of `M_u` in `Λ_u` has rank `rank L − 2 ≥ 1`, so it is infinite.
 
-  Hence `O(L)` is infinite. In rank 2 the quotient `Λ_u` is trivial, which is the correct
+  Hence `O(L)` is infinite (`infinite_isometry_of_isIndefinite`, stated for a nondegenerate
+  indefinite lattice of rank at least 3 on the native carrier, both cases together). In rank 2 the quotient `Λ_u` is trivial, which is the correct
   reason this argument stops there and B4 takes over.
 - **Anisotropic case.** Choose a rational nondegenerate indefinite plane `W ⊆ V`, which
   exists because `t₊ > 0` and `t₋ > 0`. Put `M = L ∩ W` and `N = L ∩ W^⊥`. Then `M ⊕ N` has
@@ -1697,7 +1729,9 @@ claimed, and no consumer may infer a complete list of classes from neighbor step
 construction, for `p ∤ 2 det L`: choose `v ∈ L` primitive with `β(v, v) ≡ 0 (mod 2p²)`, which an
 isotropic vector mod `p` can be adjusted to, put `L_v = {x ∈ L : β(x, v) ≡ 0 (mod p)}`, of index
 `p` in `L`, and `M = L_v + ℤ·(v/p)`; then `M` is integral, `[M : L_v] = p`, and `M` is a
-`p`-neighbour of `L` in the genus of `L` (Kneser; Voight, *Kneser's method of neighbors*, §2).
+`p`-neighbour of `L` in the genus of `L` (Kneser; Voight, *Kneser's method of neighbors*, §3:
+Definition 3.10 for the relation, Lemma 3.12 for the determinant and the genus, and Proposition
+3.13(iii) for the construction `Λ(p, v)`).
 *Needs:* 0C, 3F; M `Submodule.basisOfPid`.
 
 **Checks.**
@@ -1758,7 +1792,10 @@ Theory); and produce the integral lattice and its discriminant-form isometry by 
 reconstruction of N0.
 
 **5A. The genus and the discriminant form.** For even lattices, `gen L` is determined by
-`(t₊, t₋, q_L)`, which is Nikulin Corollary 1.9.4. The odd analogue is Corollary 1.16.3: the
+`(t₊, t₋, q_L)`, which is Nikulin Corollary 1.9.4; at the level of Gram matrices on the standard
+basis of `ℚⁿ` it is `gramSameGenus_iff_of_isEven`: two even nondegenerate Gram matrices lie in
+one genus exactly when their lattices have equal signature and isometric half-norm discriminant
+forms, in both directions. The odd analogue is Corollary 1.16.3: the
 genus of any nondegenerate lattice over `ℤ` is determined by its parity together with
 `(t₊, t₋, b_L)`, where `b_L` is the discriminant bilinear form of 1D. Both statements are
 milestones. So is the translation between the Conway–Sloane symbols of 3E and the invariants
@@ -1826,6 +1863,34 @@ above is the Check that refutes a version claiming unconditional independence.
 The ratio in conditions 3 and 4 is a `p`-adic unit because `A_{K(q_p)} ≅ q_p` forces
 `v_p(det K(q_p)) = v_p(|A_q|)`, and that observation is what makes the two conditions well
 posed.
+
+**Checks.**
+
+- `NikulinExistenceConditions` at `(1, 0, q_1^{(2)}(2))`, the invariants of `⟨2⟩`: condition 1
+  reads `1 ≡ sign q = 1 (mod 8)`, the Gauss sum on `ℤ/2` with `q = 1/4` being `1 + i = √2·e(1/8)`;
+  condition 2 reads `l(ℤ/2) = 1 ≤ 1`; condition 3 is vacuous, since `l(A_{q_p}) = 0 ≠ 1` at every
+  odd `p`; condition 4 applies at the equality `1 = l(A_{q_2})` but switches off because `q₂`
+  is the summand `q_1^{(2)}(2)` itself. All four hold, as `⟨2⟩` requires; `⟨10⟩` has the same
+  invariants, `q_5^{(2)}(2) ≅ q_1^{(2)}(2)`, and its determinant class differs by `5`, so a
+  version of condition 4 that stayed on in the exceptional case would reject one of the two.
+- `NikulinExistenceConditions` at `(1, 0, q_1^{(3)}(3))`, the module `ℤ/3` with `q(1) = 2/3`:
+  condition 2 holds (`1 ≤ 1`) and condition 3 holds at `p = 3`, the only boundary prime, since
+  `(−1)^0·3 ≡ discr K(q_3) = 3` modulo `(ℤ_3ˣ)²`; condition 1 fails, because the Gauss sum
+  `1 + 2e(2/3) = −i√3 = √3·e(6/8)` gives `sign q = 6` and `1 ≢ 6 (mod 8)`. Accordingly no even
+  lattice has these invariants: a rank-one even lattice `⟨2a⟩` has `|A| = 2|a| ≠ 3`. The same
+  `q` with `(0, 2)` passes condition 1 (`−2 ≡ 6`) and is realized by `A₂(−1)`, whose
+  discriminant form takes the value `2/3` on both nonzero elements. A predicate without
+  condition 1 admits `(1, 0, q_1^{(3)}(3))`.
+- `NikulinExistenceConditions` at rank 0, `(0, 0, 0)` with the zero module: conditions 1 and 2
+  read `0 ≡ 0` and `0 ≤ 0`; conditions 3 and 4 are live, since `t₊ + t₋ = 0 = l(A_{q_p})` at
+  every `p`, and hold with `|A_q| = 1` and `discr K(q_p)` the class of the empty product `1`.
+  The zero lattice is the witness. A predicate requiring the strict inequality `t₊ + t₋ > l(A_q)`
+  would reject it.
+- `EvenLatticeWithInvariants`: `(1, 0, q_1^{(2)}(2))` is witnessed by `⟨2⟩`, `(0, 2, q_1^{(3)}(3))`
+  by `A₂(−1)`, and `(0, 0, 0)` by the zero lattice; `(1, 0, q_1^{(3)}(3))` has no witness. A
+  definition reading the full norm `B(x, x)` on the discriminant group instead of the half-norm
+  would attach `⟨2⟩` to the form of value `1/2` on `ℤ/2`, which is the discriminant form of no
+  even rank-one lattice, since `⟨2a⟩` has half-norm value `1/(4a)` on its generator.
 
 **5F. Primitivity.** An injection of finite free `ℤ`-modules has torsion-free cokernel
 exactly when its image is a direct summand (Smith normal form, Mathlib
@@ -2007,7 +2072,12 @@ definite Gram matrix is equivalent to `I₉` or to the block sum of the `E₈` C
 **6D. Rank 16, the two classes.** `E₈²` and `D₁₆⁺` are even unimodular of rank 16, they lie
 in one genus, and they are not isometric, because their root systems differ (Serre V.1.4.3 for
 `Γ₁₆ = D₁₆⁺` and VII.6.6 for the non-isomorphism; the construction is the supplement below). This
-milestone constructs both lattices and proves those four statements. It claims no completeness:
+milestone constructs both lattices and proves those four statements. At the level of Gram
+matrices they are `d16Plus_sameGenus_not_isometric_e8SumE8`: `d16PlusGram`, the Gram matrix of
+`D₁₆⁺` in the basis `h, e₁ − e₂, …, e₁₄ − e₁₅, e₁₅ + e₁₆` with `h = (½, …, ½)` (diagonal
+`4, 2, …, 2`, the `A₁₅`-type band, `h·(e₁₅ + e₁₆) = 1`, `(e₁₄ − e₁₅)·(e₁₅ + e₁₆) = −1`), is
+even, of determinant `1` and positive definite, in one genus with `e8SumE8Gram`, the block sum
+of two `E₈` Cartan matrices, and not integrally isometric to it. It claims no completeness:
 that the genus has no third class is 7I, which comes after the mass formula and belongs to
 `OrthogonalTamagawaAndLatticeMass`. §*Scope and ownership* records 6D and 7I as a pair, and only
 the pair is the rank-16 classification. *Needs:* 2C, 3F, 5A, 6B.
@@ -2068,7 +2138,9 @@ abstractly, and it proves no type-specific value.
 **6H. The failure of cancellation over `ℤ`.** Prove that `E₈ ⊕ E₈ ⊕ U` and `D₁₆⁺ ⊕ U` are
 isometric although `E₈ ⊕ E₈` and `D₁₆⁺` are not: both sums are even unimodular indefinite of
 signature `(17, 1)`, so 6A identifies them, and 6D separates the summands (Milnor–Husemoller,
-Chapter II, §5; Serre, V.2.2). This is why the native splitting theorem has unimodularity of the
+Chapter II, §5; Serre, V.2.2); at the level of Gram matrices it is
+`gramIsometric_e8SumE8_sum_U_d16Plus_sum_U`, the integral isometry of the block sums of
+`e8SumE8Gram` and `d16PlusGram` with `!![0,1;1,0]`. This is why the native splitting theorem has unimodularity of the
 summand, and not cancellation, as its form.
 
 **Checks.**
@@ -2093,10 +2165,10 @@ and 240 roots; `U³ ⊕ E₈(−1)²` is the K3 lattice `Λ_{K3}` of signature `
 | 1L signature | the characteristic-coset construction, followed by the odd 6A theorem on `L ⊕ W` (supplement below) |
 | 6A even | T overlattice correspondences (1E, 1F); the odd 6A theorem; the explicit neighbours of `W` and their model maps in the supplement below |
 | 6B | L 1I, 0G |
-| 6C | M `CartanMatrix.E 8`; L 0F, 1L, 2G; R Root Systems Layer 5 |
+| 6C | M `CartanMatrix.E 8`; L 0F, 1L, 2G; R Root Systems Layer 3 §3.1 |
 | 6D | L 2C, 3F, 5A, 6B |
 | 6F | L 0G, 2B |
-| 6G | M `CartanMatrix.E 8`; T `typeE₈RootLattice`, `IsPosDef.finite_isometry`; R Root Systems Layer 5 |
+| 6G | M `CartanMatrix.E 8`; T `typeE₈RootLattice`, `IsPosDef.finite_isometry`; R Root Systems Layer 3 §3.1 |
 | 6H | L 6A, 6D; T `orthogonalSum`, `hyperbolicPlane` |
 
 **6A/6D construction supplement: parity kernels, neighbours and model maps.**
@@ -2178,8 +2250,8 @@ signs, and induct on the rank; in signature `(1, 1)` the isotropic plane is the 
 and `u, y` is a `⟨1⟩ ⊕ ⟨−1⟩` basis. Every projection, basis map and isometry is exported, so the
 normal form is an isometry and not an equality of signatures. Neither strong approximation for
 `Spin` nor a positive definite mass is a premise of this proof. Its inputs are 3C, Quadratic
-Form Invariants Layers 6D and 7C, Global Quadratic Forms Layers 0–6, and the Hilbert product
-formula of Class Field Theory (Serre V.2.2 and V.3.3; Milnor–Husemoller, Chapter II).
+Form Invariants Layer 6D and its Layer 5 `hilbertSymbol_productFormula`, Global Quadratic Forms
+Layers 0–6, and the Hilbert product formula of Class Field Theory (Serre V.2.2 and V.3.3; Milnor–Husemoller, Chapter II).
 
 **Characteristic signature and the general signature-neighbour corollary, after the odd
 theorem** (Serre, V.2.1 Theorem 2 with its corollaries, proved there through the same odd
@@ -2273,7 +2345,9 @@ This milestone asks for:
   The comparison with a Haar volume is OTM's separate local-model/gauge theorem. It must
   specify O versus SO, `B` versus `B/2`, the integral model, conductor and all density factors;
   the raw count does not itself assert an unscaled Tamagawa-volume identity;
-- the unramified value: for `p ∤ 2 det L`, so that `L_p` is unimodular,
+- the unramified value (`localDensityCount_eq_of_odd_of_not_dvd`, for odd `p ∤ det A` and
+  `n ≥ 1`, with the Legendre symbol `legendreSym` of the signed determinant): for `p ∤ 2 det L`,
+  so that `L_p` is unimodular,
 
       α_p(L) = 2 ∏_{i=1}^{m} (1 − p^{−2i})                      if n = 2m + 1 ≥ 1,
       α_p(L) = 2 (1 − ε p^{−m}) ∏_{i=1}^{m−1} (1 − p^{−2i})     if n = 2m ≥ 2.
@@ -2331,41 +2405,34 @@ This milestone asks for:
 
 The values at odd `p` are computed from the Jordan decomposition of 3C.
 
-**7E. The archimedean factor.** Construct the following Euclidean-volume lane
-before any Tamagawa comparison. On the native real groups use the bi-invariant
-metric whose Lie-algebra inner product is `-tr(XY)/2`, so each
-`E_ij-E_ji`, i<j, has norm1. Keep this normalization explicit; the ambient
-Frobenius metric has a different scalar. Define all total volumes by the
-native Riemannian density, with finite-dimensional C1 charts, continuous
-metric, Borel and Lindelof hypotheses (compact matrix groups and spheres
-supply these). No orientation is required for density integration.
+**7E. The archimedean factor.** The Euclidean-volume lane below is constructed before any
+Tamagawa comparison. On the native real groups `SO(n)` and `O(n)` use the bi-invariant metric
+whose inner product on the Lie algebra of skew matrices is `−tr(XY)/2`, so that each
+`E_ij − E_ji`, `i < j`, has norm 1; this normalization is kept explicit, because the ambient
+Frobenius metric differs from it by the scalar 2. Every total volume is the native Riemannian
+density of a finite-dimensional `C¹` charted structure with a continuous metric, under the Borel
+and Lindelöf hypotheses that compact matrix groups and spheres satisfy; no orientation is needed
+for the density.
 
-First compare the native round-sphere density with the native radial Haar
-measure `volume.toSphere`. In a sphere chart phi and polar map `(r,y)↦r phi(y)`,
-the radial column is unit normal and the tangent columns are r times the
-sphere derivative, so the absolute Jacobian is
-`r^(j-1)*sqrt(det Gram(Dphi))` for ambient dimension j>=1. Apply the actual
-chart change-of-variables formula and Fubini; integration over0<r<1 gives
-1/j. The defining sector formula for `toSphere` then proves equality with
-the induced round Riemannian surface measure. A ball-volume theorem alone
-does not establish this equality. Use the actual native ball/Gamma formula
-and Gamma recurrence to deduce
-`vol(S^(j-1))=2*pi^(j/2)/Gamma(j/2)` for j>=1. Include S0 with its two unit
-point masses; the sphere in the zero vector space is empty, not this formula.
+*Spheres.* Compare the native round-sphere density with the native radial Haar measure
+`volume.toSphere`. In a sphere chart `φ` and the polar map `(r, y) ↦ r·φ(y)` the radial column
+is a unit normal and the tangent columns are `r` times the derivative of `φ`, so the absolute
+Jacobian is `r^{j−1}·√det Gram(Dφ)` in ambient dimension `j ≥ 1`; the chart change-of-variables
+formula and Fubini, with `∫₀¹ r^{j−1} dr = 1/j`, prove through the defining sector formula of
+`toSphere` that the two measures agree. A ball-volume theorem alone does not give this equality.
+With the native ball-volume and Gamma-recurrence formulas this yields
+`vol(S^{j−1}) = 2π^{j/2}/Γ(j/2)` for `j ≥ 1`, with `S⁰` its two unit point masses; the sphere in
+the zero vector space is empty and has no such formula.
 
-For n>=2 construct the last-column smooth locally trivial quotient
-`SO(n)/SO(n-1) ≅ S^(n-1)` using oriented local orthonormal frames.
-At the identity its vertical space is so(n-1) and the orthogonal horizontal
-basis `E_in-E_ni` maps isometrically to the round tangent basis. Translate
-this calculation to all points. In a local trivialization its Gram
-matrix has the base and fibre determinants after a determinant1 shear
-removes the connection cross terms. Prove the Riemannian density/Fubini
-identity, so the fibre volume times base volume equals total volume;
-a topological fibration or the group name alone does not give this metric
-measure formula. Construct the chart, determinant and quotient-integration
-comparisons at the actual native density and Haar carriers. Left/right
-translations are differentiable isometries for this metric, so its density
-is the correspondingly normalized Haar measure.
+*The quotient.* For `n ≥ 2` construct the last-column quotient `SO(n)/SO(n−1) ≅ S^{n−1}` as a
+smooth locally trivial fibration through oriented local orthonormal frames. At the identity the
+vertical space is `𝔰𝔬(n−1)` and the horizontal basis `E_in − E_ni` is carried isometrically to
+the round tangent basis; translation moves this computation to every point. In a local
+trivialization the Gram matrix of the metric has the base and fibre determinants after a shear
+of determinant 1 removes the connection cross terms, and the density/Fubini identity gives total
+volume as fibre volume times base volume; neither a topological fibration nor the name of the
+group gives this metric statement. Left and right translations are isometries, so the density is
+a Haar measure with this normalization.
 
 The Lean statements are `Archimedean.soEuclideanMeasure_univ` and
 `Archimedean.oEuclideanMeasure_univ`, for the measures `Archimedean.soEuclideanMeasure` and
@@ -2374,29 +2441,53 @@ and `Archimedean.oCoordinates` (entrywise coordinates divided by `√2`,
 `Archimedean.skewMetricCoordinates`), with the values `Archimedean.sphereArea` and
 `Archimedean.orthogonalSkewBasisVolume`.
 
-Start with vol(SO(1))=1 and prove for n>=1
+*The values.* With `vol(SO(1)) = 1`, induction on the fibration gives, for `n ≥ 1`,
 
-    vol(SO(n)) = product_(j=2..n) 2*pi^(j/2)/Gamma(j/2).
+    vol(SO(n)) = ∏_{j=2}^{n} 2π^{j/2}/Γ(j/2),
 
-For n>=1 the two determinant components of O(n) are isometric by reflection,
-so vol(O(n))=2*vol(SO(n)). At n=0 both groups are singletons with volume1;
-the quotient-to-S0 assertion and component-factor2 are not used there.
-Prove the Gamma-product identity for n>=1
+the product of the sphere areas `vol(S¹)·vol(S²)⋯vol(S^{n−1})` (Boya–Sudarshan–Tilma, *Volumes
+of compact manifolds*, §6, equations (6.1)–(6.5), pp. 16–17, whose Lie-algebra convention
+`−tr(λ²) = 2` for the generators `E_ij − E_ji` is the metric `−tr(XY)/2` above). For `n ≥ 1` the
+two determinant components of `O(n)` are isometric by a reflection, so `vol(O(n)) = 2·vol(SO(n))`
+(their equation (6.9)). At `n = 0` both groups are singletons of volume 1; the quotient to `S⁰`
+and the factor 2 are not used there. The Gamma-product identity
 
-    2*pi^(-n(n+1)/4)*product_(j=1..n)Gamma(j/2)
-      = 2^(n+1)/vol(O(n)),
+    2·π^{−n(n+1)/4}·∏_{j=1}^{n} Γ(j/2) = 2^{n+1}/vol(O(n))
 
-and verify its n0 instance directly with empty products. In particular
-vol(SO(2))=2*pi and vol(SO(3))=8*pi^2 in this metric.
+holds for every `n ≥ 0`, the `n = 0` instance being `2 = 2/1` with empty products, and is
+proved from the displayed product. In particular `vol(SO(2)) = 2π` and `vol(SO(3)) = 8π²` in
+this metric.
 
-The relation to the pinned Tamagawa mass gauge is a SEPARATE successor
-obligation: these Euclidean densities do not prove an unscaled equality.
-OrthogonalTamagawaAndLatticeMass consumes this lane and proves its explicit
-odd-rank scalar and global integral/real compatibility. Nothing here uses
-an orthogonal Tamagawa value, positive-definite mass, strong approximation,
-Cartan/KAN, or a later homotopy LES as a premise. The native covolume
-identity `covolume(L)² = det L` (label 2D) is a separate theorem and is not a
-proof of a sphere area or of this quotient-volume identity.
+The relation to the Tamagawa mass gauge is a separate obligation of the successor: these
+Euclidean densities prove no unscaled equality. `OrthogonalTamagawaAndLatticeMass` consumes
+this lane and proves its explicit odd-rank scalar and the global integral/real compatibility.
+Nothing here uses an orthogonal Tamagawa value, a positive definite mass, strong approximation,
+a Cartan or `KAN` decomposition or a homotopy long exact sequence as a premise. The native
+covolume identity `covolume(L)² = det L` (2D) is a separate theorem and proves neither a sphere
+area nor this quotient-volume identity. *Needs:* M native ball volume, `volume.toSphere` and
+the Gamma function; T `inducedRiemannianMetric`, `riemannianVolume`; R
+RepresentationTheory/LieGroups finite-dimensional matrix Lie groups; R DifferentialGeometry 12.1
+and 12.4.
+
+**Checks.**
+
+- `sphereArea`: `sphereArea 1 = 2π^{1/2}/Γ(1/2) = 2`, the two points of `S⁰`;
+  `sphereArea 2 = 2π/Γ(1) = 2π`; `sphereArea 3 = 2π^{3/2}/Γ(3/2) = 4π`; `sphereArea 4 = 2π²`. A
+  formula with `Γ(j/2 + 1)` in place of `Γ(j/2)` would give the ball volumes `π^{j/2}/Γ(j/2+1)`
+  up to the factor 2 and return `π` at `j = 2` instead of `2π`. The junk value `sphereArea 0`
+  is `2/Γ(0) = 0` in Mathlib, where `Γ(0) = 0`; it is never used.
+- `orthogonalSkewBasisVolume`: `n = 0` and `n = 1` give the empty product 1; `n = 2` gives
+  `sphereArea 2 = 2π`; `n = 3` gives `2π·4π = 8π²`. A product starting at `j = 1` would carry the
+  extra factor `sphereArea 1 = 2` and give `vol(SO(2)) = 4π`, which is the volume of `O(2)`.
+- `skewMetricCoordinates`: `E_12 − E_21` is sent to the vector with entries `±1/√2` in the two
+  positions `(1,2)` and `(2,1)`, of norm `√(1/2 + 1/2) = 1`, as the metric `−tr(XY)/2` requires;
+  the identity matrix is sent to a vector of norm `√(n/2)`, whereas the plain entrywise
+  coordinates, the Frobenius metric, would give `√n` and would make `E_12 − E_21` have norm `√2`.
+- `soEuclideanMeasure` and `oEuclideanMeasure`: `SO(0)`, `SO(1)` and `O(0)` are singletons of
+  measure 1, matching `orthogonalSkewBasisVolume 0 = orthogonalSkewBasisVolume 1 = 1` and the
+  `n = 0` branch of `oEuclideanMeasure_univ`; `O(1) = {±1}` has measure `2·1 = 2`; `SO(2)` is the
+  circle of circumference `2π` in this metric (the tangent vector `E_12 − E_21` has norm 1 and
+  the curve `θ ↦ R(θ)` has length `2π`), while the Frobenius metric would give `2π√2`.
 
 **7G. Low rank.** Three cases are proved directly, and none of them is a specialization of
 the general derivation:
@@ -2919,8 +3010,8 @@ of Layers 2, 6 or 7, and of Layer 4 only N0. Their uniqueness statements are
   Minkowski–Siegel apparatus for Layer 7.
 - M. Kneser, *Quadratische Formen*, revised with R. Scharlau, Springer (2002). Neighbors and
   class numbers for Layer 4.
-- J. Voight, *Kneser's method of neighbors*, arXiv:2308.11566. An algorithmic reference for
-  4G.
+- J. Voight, *Kneser's method of neighbors*, arXiv:2308.11566. Section 3 (Definition 3.10,
+  Lemma 3.12, Proposition 3.13) for 4G; the rest is algorithmic and is not consumed.
 - D. A. Cox, *Primes of the Form x² + ny²*, Wiley (1989): Theorem 2.8 (p. 27) and Theorem 2.13
   (p. 29) for reduced positive definite forms and the finiteness of `h(D)` (B5), Theorem 3.9
   (p. 50) for the opposite form as the inverse class and ambiguous forms (B4), and Theorem 7.7 (p. 137) for primitive positive definite forms and
@@ -2930,3 +3021,6 @@ of Layers 2, 6 or 7, and of Layer 4 only N0. Their uniqueness statements are
   cycles of indefinite forms (B2, B5). Text uncertified; cited by section.
 - J. W. S. Cassels, *An Introduction to the Geometry of Numbers*, Grundlehren 99, Springer
   (1959), Chapter VIII, for Minkowski's second theorem (2F). Text uncertified; cited by chapter.
+- L. J. Boya, E. C. G. Sudarshan, T. Tilma, *Volumes of compact manifolds*, Rep. Math. Phys. 52
+  (2003) 401–422, arXiv:math-ph/0210033. Section 6, equations (6.1)–(6.5) and (6.9), for the
+  volumes of `SO(n)` and `O(n)` in the metric `−tr(XY)/2` (7E).
