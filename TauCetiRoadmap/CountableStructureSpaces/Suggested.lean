@@ -424,11 +424,42 @@ theorem structureIsoSetoid_eq_orbitRel [L.IsRelational] :
     structureIsoSetoid L = MulAction.orbitRel (Equiv.Perm ℕ) (StructureSpace L) := by
   sorry
 
+/-! ### Stand-ins for the equivalence laws of `BFEquiv`
+
+Owner: the InfinitaryLogic roadmap, Layer 1, which lists symmetry among the `BFEquiv` laws. Tau
+Ceti implements all three as `TauCeti.BFEquiv.refl`, `TauCeti.BFEquiv.symm` and
+`TauCeti.BFEquiv.trans` (`TauCeti/ModelTheory/BackAndForth/Equivalence.lean` at revision
+`85f3eb5`), later than this repository's Tau Ceti pin. These statements are prototype
+scaffolding with admitted proofs; `bfEquivSetoid` is assembled from them, so its equivalence
+proof is exactly these three obligations. -/
+
+/-- Stand-in: every tuple is back-and-forth equivalent to itself. -/
+theorem _root_.TauCetiRoadmap.InfinitaryLogic.BFEquiv.refl {M : Type w} [L.Structure M]
+    (β : Ordinal.{u'}) {n : ℕ} (a : Fin n → M) : BFEquiv (L := L) β n a a := by
+  sorry
+
+/-- Stand-in: back-and-forth equivalence is symmetric, across structure universes. -/
+theorem _root_.TauCetiRoadmap.InfinitaryLogic.BFEquiv.symm {M : Type w} {N : Type w'}
+    [L.Structure M] [L.Structure N] {β : Ordinal.{u'}} {n : ℕ} {a : Fin n → M} {b : Fin n → N}
+    (h : BFEquiv (L := L) β n a b) : BFEquiv (L := L) β n b a := by
+  sorry
+
+/-- Stand-in: back-and-forth equivalence is transitive across three structures. -/
+theorem _root_.TauCetiRoadmap.InfinitaryLogic.BFEquiv.trans {M : Type w} {N : Type w'}
+    {P : Type v'} [L.Structure M] [L.Structure N] [L.Structure P] {β : Ordinal.{u'}} {n : ℕ}
+    {a : Fin n → M} {b : Fin n → N} {c : Fin n → P} (hab : BFEquiv (L := L) β n a b)
+    (hbc : BFEquiv (L := L) β n b c) : BFEquiv (L := L) β n a c := by
+  sorry
+
 /-- **Layer 4, back-and-forth equivalence of the empty tuples** at level `β`, an equivalence
 relation on codes coarser than isomorphism. -/
 def bfEquivSetoid [L.IsRelational] (β : Ordinal.{0}) : Setoid (StructureSpace L) where
   r c d := @BFEquiv L ℕ ℕ c.toStructure d.toStructure β 0 Fin.elim0 Fin.elim0
-  iseqv := by sorry
+  iseqv :=
+    { refl := fun c => @BFEquiv.refl L ℕ c.toStructure β 0 Fin.elim0
+      symm := fun {c d} h => @BFEquiv.symm L ℕ ℕ c.toStructure d.toStructure β 0 _ _ h
+      trans := fun {c d e} h₁ h₂ =>
+        @BFEquiv.trans L ℕ ℕ ℕ c.toStructure d.toStructure e.toStructure β 0 _ _ _ h₁ h₂ }
 
 /-- **Layer 4 milestone.** At a countable level, the relation is Borel. -/
 theorem measurableSet_bfEquivSetoid [L.IsRelational] [Countable (Σ l, L.Relations l)]

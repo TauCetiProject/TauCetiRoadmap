@@ -403,7 +403,8 @@ relation symbols.
   `structureIsoSetoid L` abbreviates `structureIsoSetoidOn L ℕ`, with
   `structureIsoSetoid_eq_orbitRel`.
 - `bfEquivSetoid β`, back-and-forth equivalence of the empty tuples as an equivalence relation on
-  codes (from `refl`, `symm`, `trans`), with `measurableSet_bfEquivSetoid` for `β < ω₁` and
+  codes, assembled from the parent's `BFEquiv.refl`, `BFEquiv.symm` and `BFEquiv.trans` (Layer 1
+  of InfinitaryLogic), with `measurableSet_bfEquivSetoid` for `β < ω₁` and
   `structureIsoSetoid_le_bfEquivSetoid`.
 - **Isomorphism classes are Borel**: `setOf_iso_eq_modelsOf_scottSentence`, the class of `c` is
   the model class of the Scott sentence of the structure `c` names, by `realize_scottSentence_iff`;
