@@ -16,12 +16,22 @@ isomorphism predicate `IsFormalGroupIso`.
 
 Not statable at the pins, and stated nowhere in this file: Lazard's
 polynomial theorem `L ≅ ℤ[x₁, x₂, …]` and the universality of `L` (no
-Lazard ring at the pins); Quillen's theorem `L ≅ MU_*` and Thom's
-computation of `π_*MO` (no spectra, no `MU`, `MO` or Eilenberg–MacLane
-spectra); the Landweber exact functor theorem (no `MU_*MU`-comodules); the
-Devinatz–Hopkins–Smith nilpotence theorem (no stable homotopy category);
-the Greenlees–Sadofsky/Kuhn Tate vanishing (no Morava `K(n)`, no Tate
-construction).
+Lazard ring at the pins); the Lubin–Tate universal deformation theorem (no
+deformations of formal groups over complete local rings and no universal
+deformation ring); Quillen's theorem `L ≅ MU_*` and Thom's computation of
+`π_*MO` (no spectra, no `MU`, `MO` or Eilenberg–MacLane spectra); the
+Conner–Floyd and graded Eilenberg–MacLane comparisons for `MO` (no `MO`,
+no graded Eilenberg–MacLane spectrum `H(MO_*)`, no represented homology
+theories); the Landweber exact functor theorem (no `MU_*MU`-comodules); the
+Devinatz–Hopkins–Smith nilpotence theorem and the Hopkins–Smith
+thick-subcategory classification and periodicity theorem (no stable
+homotopy category, no finite `p`-local spectra, no Morava `K(n)`); the
+Hopkins–Ravenel smashing theorem, the chromatic fracture square and the
+`K(n)`-local completion formula (no homological Bousfield localizations of
+spectra, no `E(n)`- or `K(n)`-local categories, no homotopy limits of
+spectra); the Greenlees–Sadofsky/Kuhn Tate vanishing (no Morava `K(n)`, no
+Tate construction); and the torus Euler cancellation of F6.6 (no
+`MU`-module families over `BT`, no Thom-cocone Euler maps).
 -/
 
 @[expose] public section

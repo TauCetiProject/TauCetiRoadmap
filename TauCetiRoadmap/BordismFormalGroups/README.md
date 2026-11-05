@@ -56,15 +56,17 @@ State the n-series recursion `[0]_F=0`, `[n+1]_F=F([n]_F,X)` on the native
 `PowerSeries R` carrier as `formalNSeries`, and compare it with
 natural-number multiplication of the coordinate point `formalVariable` in
 `FormalGroup.Point F Unit` (a proved worked example in the acceptance file).
-Use the native multiplication series `FormalGroup.nsmulSeries` from
-[`TauCeti.RingTheory.FormalGroup.NSMul`](https://github.com/TauCetiProject/TauCeti/blob/1844920e9c82791e848e12fd5313fa212e542731/TauCeti/RingTheory/FormalGroup/NSMul.lean),
-including `nsmulSeries_add`, `nsmulSeries_mul`,
-`constantCoeff_nsmulSeries` and `coeff_one_nsmulSeries`; these give
-[n]_F, its addition/composition equations and linear coefficient n on the
-native `PowerSeries R` carrier. Consume its invariant-differential,
-derivative/divisibility and prime-series decomposition results, including
-`natCast_dvd_coeff_nsmulSeries` only in degrees k with `k.Coprime n`,
-under their stated commutativity and prime hypotheses. Build the inverse series,
+The pinned Tau Ceti has no n-series module, so own the n-series API on
+`formalNSeries`: [n]_F has zero constant coefficient and linear
+coefficient n, and the addition law [m+n]_F=F([m]_F,[n]_F) and the
+composition law [mn]_F=[m]_F∘[n]_F hold for every formal group, as the
+monoid laws of `FormalGroup.Point F Unit` read on the series; [n]_F
+commutes with base change. For a commutative F and a prime p prove the
+prime-series decomposition: over an 𝔽_p-algebra either [p]_F=0 or
+[p]_F=g(X^(p^h)) with h≥1 and g'(0)≠0 (Ravenel, Lemma A2.2.7, applied to
+the endomorphism [p]_F, whose linear coefficient p vanishes), so that over
+every commutative ring [p]_F reduces modulo p to a series in X^p and p
+divides the coefficient of X^k in [p]_F whenever p∤k. Build the inverse series,
 base change, morphisms, isomorphisms and strict isomorphisms on the native
 carriers, extending the same n-series with its base-change,
 coordinate-change and integer-indexed inverse comparisons. Prove substitution
@@ -144,7 +146,7 @@ coordinate give the graded version with a_i in homological degree i,
 and its coefficient-wise base-change laws. This algebraic lane
 precedes F2's universal characteristic-two ring comparison.
 
-Use `nsmulSeries p` as the p-series and define height over
+Use `formalNSeries F p` as the p-series and define height over
 characteristic-p fields, including height
 ∞ for the additive group: `formalHeight` is the least h with a nonzero
 coefficient of X^(p^h) in [p]_F, and ∞ when [p]_F=0. Prove base extension
@@ -222,7 +224,21 @@ forming a basis, and E is acyclic, then H^*(B) is free graded-commutative
 on the transgressions and, at odd p, on the classes βP^k τy of the even
 generators), as the topological cochain instances of the algebraic
 statements in Guillou–Weibel, Definition 6.1, Theorem 6.2 and Theorem 6.5
-at H^*=𝔽_p. Prove Milnor's theorem on the dual: A_*=H_*(HF_p) is the
+at H^*=𝔽_p. Theorem 6.2 applies to any first-quadrant spectral sequence
+of graded-commutative 𝔽_p-algebras; Theorem 6.5 is stated for the Leray
+spectral sequence of the universal bundle E•G→B•G of a connected
+simplicial sheaf of groups under the Künneth hypothesis of its
+Proposition 6.4, so take it over the point site with G a connected
+simplicial group whose mod-p cohomology has finite type, for which the
+Künneth hypothesis holds over the field 𝔽_p: the path–loop fibration of
+K(ℤ/p,n), n≥2, is this instance with G a simplicial-group model of
+K(ℤ/p,n−1) (the case n=1 is the direct computation for Bℤ/p),
+and the laws that a transgressive class and its Steenrod operations obey
+in an arbitrary fibration (operations commute with transgression, with
+τβ=−βτ) follow from the naturality of the operations for the coboundary
+of the pair (E,F) and the projection, the sign being the anticommutation
+of the Bockstein with that coboundary. Prove Milnor's theorem on the dual:
+A_*=H_*(HF_p) is the
 commutative Hopf algebra `𝔽₂[ξ₁,ξ₂,…]`, |ξ_i|=2^i−1, at p=2 and
 `𝔽_p[ξ₁,ξ₂,…]⊗E(τ₀,τ₁,…)`, |ξ_i|=2(p^i−1), |τ_i|=2p^i−1, at odd p, with
 coproduct Δξ_n=Σ_(i+j=n) ξ_j^(p^i)⊗ξ_i, Δτ_n=τ_n⊗1+Σ_(i+j=n) ξ_j^(p^i)⊗τ_i
@@ -247,8 +263,9 @@ sequence with E₂^(s,t)=Ext_(A_*)^(s,t)(𝔽_p,H_*(X;𝔽_p)) and d_r of bidegr
 (r,r−1) (Ravenel, Theorems 2.1.1 and 2.2.3); prove the pairing for ring
 spectra (Ravenel, Theorem 2.3.3) and, for bounded-below X, strong
 convergence to the homotopy of the HF_p-nilpotent completion, identified
-with G3.9's derived p-completion, which is π_*(X)⊗ℤ_p when the homotopy
-groups of X are finitely generated (Ravenel, Theorem 2.1.1(ii)); control
+for bounded-below X with G3.9's derived p-completion (Bousfield, §6,
+Theorem 6.6), which is π_*(X)⊗ℤ_p when the homotopy groups of X are
+finitely generated (Ravenel, Theorem 2.1.1(ii)); control
 lim¹ and keep this completion distinct from p-localization. Checks: on the
 degree-one class a of RP^∞, Sq¹a=a² and Sq²a=0, so an instability bound
 with strict inequality would lose the top square; at p=2, |ξ₂|=3 and
@@ -324,7 +341,8 @@ the Thom class U, and H_*(MO;𝔽₂)=𝔽₂[a₁,a₂,…], |a_i|=i, as an alg
 under the Thom product. Prove that the Steenrod algebra A acts freely on U
 through degree n on MO(n): restriction along the zero section sends U to
 w_n, and restriction along (RP^∞)^n→BO(n) sends w_n to x₁⋯x_n, on which A
-acts freely through degree n (Miller, Chapter 1, Theorems 12.1–12.2). Hence
+acts freely through degree n (Miller, Chapter 1, Theorem 12.1 and
+Corollary 12.2). Hence
 the Thom class MO→HF₂ induces a surjective map of A_*-comodule algebras
 H_*(MO;𝔽₂)→A_*. Prove that H^*(MO;𝔽₂) is a free A-module and that
 H_*(MO;𝔽₂)≅A_*⊗P as comodule algebras, P the subalgebra of primitives, by
@@ -812,10 +830,11 @@ to construct the actual additive Bott map ΩSU→BU. Own this
 SU-loop/clutching adapter, its rank inclusions and multiplicative
 coherence; the bundle Bott theorem alone is not this map. Construct the native SU(r) stabilization and the sphere fibration
 SU(r)→SU(r+1)→S^(2r+1), including local trivializations and the
-loop homotopy-fibre comparison. Consume the native
-`TauCeti.TopCat.serreFibrations` and locally trivial bundle instances;
-DGFloer1.2 owns their homotopy LES and all-CW ordinary Serre spectral
-sequences, not a second Serre predicate.
+loop homotopy-fibre comparison. Consume AlgebraicTopology Stage 5.5's
+Serre-fibration predicate (the homotopy lifting property for all cubes)
+and the locally trivial bundle instances of it; that stage owns their
+homotopy long exact sequence and the ordinary Serre spectral sequences
+over CW and arbitrary bases, so no second Serre predicate is built here.
 Apply G5.3's numerable bundle/Thom diagrams to the finite-rank pullbacks
 along ΩSU(r)→ΩSU→BU. Own their stabilized Thom-spectrum
 comparison and the E₁/E₂ multiplicative refinement for these loop
@@ -2179,6 +2198,7 @@ these layers; neither is an input to Lazard, Quillen or BP construction.
 - Quillen, [*Elementary proofs of some results of cobordism theory using Steenrod operations*](https://people.math.rochester.edu/faculty/doug/otherpapers/QuillenElem.pdf).
 - Adams, *Stable Homotopy and Generalised Homology*, for orientations and cooperations.
 - Ravenel, [*Complex Cobordism and Stable Homotopy Groups of Spheres*](https://www.sas.rochester.edu/mth/sites/doug-ravenel/mybooks/ravenel3rd.pdf), for p-typical cooperations and Adams–Novikov constructions.
+- Bousfield, [*The localization of spectra with respect to homology*](https://doi.org/10.1016/0040-9383(79)90018-1), Topology 18 (1979), §6, Theorem 6.6, for the identification of the HF_p-nilpotent completion of a bounded-below spectrum with its derived p-completion.
 - Landweber–Ravenel–Stong, [*Periodic cohomology theories defined by elliptic curves*](https://people.math.rochester.edu/faculty/doug/mypapers/lrs.pdf), for exactness and elliptic examples.
 - Wilson, *The Ω-spectrum for Brown–Peterson cohomology II*, and Hovey, [*The homotopy of MString and MU⟨6⟩ at large primes*](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/Hovey-bpbp1.pdf), for the Hopf-ring interfaces.
 - Lubin–Tate, *Formal moduli for one-parameter formal Lie groups*, for the algebraic deformation theorem.
