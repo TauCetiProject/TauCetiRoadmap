@@ -47,6 +47,22 @@ theorem complete_blockIdempotents_unique {G : Type*} [Group G] [Finite G] {k : T
     (hbp : ∀ i, IsBlockIdempotent (b i)) (hcp : ∀ j, IsBlockIdempotent (c j)) :
     ∃ e : ι ≃ κ, ∀ i, b i = c (e i) := sorry
 
+/-! ## Layer 1: modular systems, lattices and lifting -/
+
+/-- **Blocks of `O[G]` and of `k[G]` correspond.** For a complete discrete valuation ring `O`
+with residue field `k`, reduction modulo the maximal ideal is a bijection from the block
+idempotents of `O[G]` to those of `k[G]` (Webb, Proposition 9.4.3, p. 149, for the lifting of
+idempotents; centrality and uniqueness come from the class-sum bases of both centres). -/
+theorem existsUnique_blockIdempotent_map_residue {G O : Type*} [Group G] [Finite G] [CommRing O]
+    [IsDomain O] [IsDiscreteValuationRing O] [IsAdicComplete (IsLocalRing.maximalIdeal O) O]
+    (c : Subalgebra.center (IsLocalRing.ResidueField O)
+      (MonoidAlgebra (IsLocalRing.ResidueField O) G))
+    (hc : IsBlockIdempotent c) :
+    ∃! b : Subalgebra.center O (MonoidAlgebra O G), IsBlockIdempotent b ∧
+      MonoidAlgebra.mapRingHom G (IsLocalRing.residue O) (b : MonoidAlgebra O G) =
+        (c : MonoidAlgebra (IsLocalRing.ResidueField O) G) :=
+  sorry
+
 /-! ## Layer 2: Brauer characters and decomposition -/
 
 /-- **Brauer's count of simple modules.** Over an algebraically closed field of characteristic
@@ -62,22 +78,6 @@ theorem card_simpleModules_eq_card_pRegularClasses {G k : Type u} [Group G] [Fin
         ∃ i, Nonempty (M ≅ S i)) ∧
       Fintype.card ι =
         Nat.card {C : ConjClasses G // ∃ g : G, ConjClasses.mk g = C ∧ (orderOf g).Coprime p} :=
-  sorry
-
-/-! ## Layer 4: blocks in the three coefficient rings -/
-
-/-- **Blocks of `O[G]` and of `k[G]` correspond.** For a complete discrete valuation ring `O`
-with residue field `k`, reduction modulo the maximal ideal is a bijection from the block
-idempotents of `O[G]` to those of `k[G]` (Webb, Proposition 9.4.3, p. 149, for the lifting of
-idempotents; centrality and uniqueness come from the class-sum bases of both centres). -/
-theorem existsUnique_blockIdempotent_map_residue {G O : Type*} [Group G] [Finite G] [CommRing O]
-    [IsDomain O] [IsDiscreteValuationRing O] [IsAdicComplete (IsLocalRing.maximalIdeal O) O]
-    (c : Subalgebra.center (IsLocalRing.ResidueField O)
-      (MonoidAlgebra (IsLocalRing.ResidueField O) G))
-    (hc : IsBlockIdempotent c) :
-    ∃! b : Subalgebra.center O (MonoidAlgebra O G), IsBlockIdempotent b ∧
-      MonoidAlgebra.mapRingHom G (IsLocalRing.residue O) (b : MonoidAlgebra O G) =
-        (c : MonoidAlgebra (IsLocalRing.ResidueField O) G) :=
   sorry
 
 /-! ## Layer 6: Brauer maps and defect groups -/

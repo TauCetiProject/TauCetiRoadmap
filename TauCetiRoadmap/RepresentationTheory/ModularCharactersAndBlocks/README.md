@@ -47,7 +47,9 @@ Already in the libraries, and consumed rather than rebuilt:
   uniqueness of central lifts over `O[G]`.
 - **Projective covers, Cartan matrices and `K₀`.** `TauCeti.IsProjectiveCover`,
   `TauCeti.exists_isProjectiveCover_of_finite`,
-  `TauCeti.CompleteOrthogonalIdempotents.exists_isProjectiveCover_of_isSimpleModule`,
+  `CompleteOrthogonalIdempotents.exists_isProjectiveCover_of_isSimpleModule` (root namespace: over
+  an Artinian ring, a complete family of primitive orthogonal idempotents supplies a projective
+  cover of every simple module by one of its principal left ideals),
   `Ideal.nonempty_linearEquiv_of_quotient_smul_top`, `TauCeti.cartanMap`, `TauCeti.cartanMatrix`,
   `TauCeti.projectiveSimplePairing`, `TauCeti.projectiveSimplePairing_isPerfPair`,
   `TauCeti.ExactK0`, `TauCeti.finiteModulesExactStructure`, `TauCeti.resK0`, `TauCeti.indK0` and
@@ -213,12 +215,17 @@ sections of a set of representatives of the conjugacy classes of `p`-elements pa
 the parametrization: `g ↦ pFreePart p g` is a bijection from the elements of the section of `x`
 with `p`-part exactly `x` to the `p`-regular elements of `C_G(x)`, it is equivariant for `C_G(x)`,
 and it induces a bijection from the `G`-classes in the section of `x` to the `p`-regular classes
-of `C_G(x)` (Webb, Lemma 9.3.4, p. 146; Martínez, p. 3, line 165 of the notes for the
-factorisation). Consequently the number of conjugacy classes of `G` is the sum over `x` of the
+of `C_G(x)`. The sources supply only the factorisation `g = pPart p g · pFreePart p g` into
+commuting factors and the conjugacy of the factors of conjugate elements (Webb, Lemma 9.3.4,
+p. 146; Martínez, p. 3); the parametrization and the class bijection are proved here from them and
+from `TauCeti.pFreePart_conj`: the `p`-part of `g` is `x` exactly when `g = x s` with `s` a
+`p`-regular element of `C_G(x)`, and two elements with `p`-part `x` are `G`-conjugate exactly when
+their `p`-free parts are `C_G(x)`-conjugate, because a conjugator carrying one to the other
+carries `x` to `x`. Consequently the number of conjugacy classes of `G` is the sum over `x` of the
 number of `p`-regular classes of `C_G(x)`. Prove that the factors commute with group
 homomorphisms: `φ (pPart p g) = pPart p (φ g)`. *Needs:* Tau Ceti `TauCeti.pPart`,
-`TauCeti.pFreePart`, `TauCeti.eq_pPart`, `TauCeti.pPart_conj`; Mathlib `ConjClasses`,
-`Subgroup.centralizer`.
+`TauCeti.pFreePart`, `TauCeti.eq_pPart`, `TauCeti.pPart_conj`, `TauCeti.pFreePart_conj`; Mathlib
+`ConjClasses`, `Subgroup.centralizer`.
 
 - The sections of distinct representatives are disjoint and cover `G`.
 - The class bijection preserves class sizes up to the factor `|G : C_G(x)|`:
@@ -404,8 +411,12 @@ p. 176; Martínez, Proposition 1.5, p. 3, and Theorem 1.9, p. 5).
 ### 2.3 Residue-field splitting
 
 Prove that a field `k` of characteristic `p` containing a primitive `e'`-th root of unity is a
-splitting field for `G` and all its subgroups. Route: every simple `k̄[G]`-module has Brauer
-character with values in the image of the `e'`-th roots of unity, so it is fixed by `Gal(k̄/k)`;
+splitting field for `G` and all its subgroups (Brauer's splitting-field theorem; Webb,
+Theorem 9.2.7, p. 144, states it for a field containing a primitive `m`-th root of unity with `m`
+the exponent of `G`, and in characteristic `p` only the `p'`-part `e'` of `m` admits a primitive
+root, so the statement here is its characteristic-`p` form, proved by the descent below). Route:
+every simple `k̄[G]`-module has Brauer character with values in the image of the `e'`-th roots of
+unity, so it is fixed by `Gal(k̄/k)`;
 by recognition (§2.1) each simple is Galois-stable, and since finite division algebras are
 commutative (Mathlib `littleWedderburn`) its endomorphism ring over `k` is `k`, so it is defined
 over `k`. Prove the finite-field descent and the endomorphism comparison used here, and identify
@@ -683,10 +694,21 @@ A **Brauer pair** is `(Q, f)` with `Q` a `p`-subgroup and `f` a block of `k[C_G(
 `(Q, f) ⊴ (R, f')` when `Q` is normal in `R`, `f` is `R`-stable and `Br_R(f) f' = f'`, and let `≤`
 be the transitive closure (Craven, Definition 2.6, p. 22, and Definition 2.8, p. 23). For a block
 `B`, a `B`-Brauer pair is one with `(1, e_B) ≤ (Q, f)`. Prove: given `(R, f')` and `Q ≤ R` there is
-a unique `(Q, f) ≤ (R, f')` (Craven, Lemmas 2.7 and 2.9, pp. 23–24); `(Q, f)` is a `B`-Brauer pair
-exactly when `Br_Q(e_B) f ≠ 0`; the maximal `B`-Brauer pairs are conjugate in `G` and their first
-components are the defect groups of `B` (Craven, Definition 2.10 and Theorems 2.11–2.12,
-pp. 24–25).
+a unique `(Q, f) ≤ (R, f')` (Craven, Lemmas 2.7 and 2.9, pp. 23–24). Prove the inclusion
+criterion: `(Q, f)` is a `B`-Brauer pair exactly when `Br_Q(e_B) f = f`, equivalently
+`Br_Q(e_B) f ≠ 0`, since `Br_Q(e_B)` is a central idempotent of `k[C_G(Q)]` and `f` is primitive
+in the centre. Route: for `Q' ⊴ Q` and a `Q`-stable central idempotent `z` of `k[C_G(Q')]`,
+`Br_Q(z)` is the sum of `Br_Q(b)` over the `Q`-stable blocks `b` of `k[C_G(Q')]` below `z`, because
+the sum over a non-trivial `Q`-orbit of blocks is a relative trace from a proper subgroup of `Q`
+and lies in the kernel of `Br_Q` (§6.1); apply this to `z = Br_{Q'}(e_B)` with
+`Br_Q = Br_Q ∘ Br_{Q'}` (§6.1) and the uniqueness in Craven's Lemma 2.7 to get that
+`Br_Q(e_B) f = f` holds exactly when
+`Br_{Q'}(e_B) f₁ = f₁` for the unique `(Q', f₁) ⊴ (Q, f)`; induction along a chain of `⊴`
+(for `⇒`, the chain witnessing `(1, e_B) ≤ (Q, f)`; for `⇐`, a chain `1 ⊴ Q₁ ⊴ ⋯ ⊴ Q` of
+normal subgroups of the `p`-group `Q`) reduces both directions to `Q = 1`, where
+`Br_1(e_B) f = f` says `f = e_B`. The maximal `B`-Brauer pairs are conjugate in `G` and their
+first components are the defect groups of `B` (Craven, Definition 2.10 and Theorems 2.11–2.12,
+pp. 24–25). *Needs:* §§6.1–6.2; Mathlib `IsPGroup`, `Subgroup.centralizer`.
 
 **Checks.**
 - `S₃`, `p = 2`, `Q = ⟨(12)⟩`: `C_G(Q) = Q` has the single block `1`; `(Q, 1)` is a Brauer pair
@@ -773,8 +795,9 @@ Layers 5–6.
 A normal `p`-subgroup `N` acts trivially on every simple `k[G]`-module (Martínez, Theorem 1.14,
 p. 6), so simples and Brauer characters of `G` are those of `G/N` by inflation. The image of a block
 idempotent under `k[G] → k[G/N]` is a sum of blocks of `G/N`, and every block of `G/N` lies in the
-image of exactly one block of `G` (Martínez, Corollary 8.2 and Theorem 8.5, pp. 51–52; Sambale,
-Theorem 1.23, p. 18). This is a partition, not a bijection.
+image of exactly one block of `G` (Martínez, Corollary 8.2, Proposition 8.4 and Theorem 8.5,
+pp. 51–52). This is a partition, not a bijection: domination is bijective only under further
+hypotheses, for instance when `G/C_G(N)` is a `p`-group (Sambale, Theorem 1.23, p. 18).
 
 **Checks.**
 - `S₃`, `p = 3`, `N = C₃`: the single block of `𝔽₃[S₃]` maps to `1 = e₊ + e₋` in `𝔽₃[C₂]`, two blocks.
@@ -797,7 +820,8 @@ other `G`-orbits of characters of `N` (Martínez, Definition 7.3 and Theorem 7.7
 
 ### 8.3 The kernel of the principal block
 
-Prove `⋂_{χ ∈ Irr(B₀(G))} ker χ = pPrimeCore p ⊤` as subgroups of `G`. Route: `⊇` from §8.2 with
+Prove `⋂_{χ ∈ Irr(B₀(G))} ker χ = pPrimeCore p ⊤` as subgroups of `G` (Navarro, Theorem 6.10).
+Route: `⊇` from §8.2 with
 `N = O_{p'}(G)`; `⊆` because the projective character `Φ_1` of the trivial module is a
 `ℤ`-combination of `Irr(B₀)` (§4.2), hence constant on cosets of the intersection `K`, and
 `Φ_1(1) ≠ 0` while `Φ_1` vanishes off the `p`-regular elements (§3.1), so `K` is a `p'`-group.
@@ -852,6 +876,9 @@ Layers 3–7; LocalFiniteGroupTheory §L1.
   pairs (§2.2).
 - J.-P. Serre, *Linear Representations of Finite Groups*, GTM 42, 1977, Part III, §§15–18
   (cited by locator; the text was not read).
+- G. Navarro, *Characters and Blocks of Finite Groups*, LMS Lecture Note Series 250, 1998,
+  Chapter 6, Theorem 6.10 (the kernel of the principal block; cited by locator; the text was not
+  read).
 - Axiom's [third main theorem](https://github.com/AxiomMath/CFSG/blob/69cb972f587a3ecc035e092253167ff2e303c962/CFSG/CharacterTheory/BrauerThirdMainTheorem.lean)
   and [section orthogonality](https://github.com/AxiomMath/CFSG/blob/69cb972f587a3ecc035e092253167ff2e303c962/CFSG/CharacterTheory/BlockSectionOrthogonality.lean)
   formalizations, proof sources whose definitions need comparison with the native interfaces.
