@@ -8,6 +8,7 @@ import TauCeti.LinearAlgebra.RootSystem.FiniteType.Diagram
 import TauCeti.RepresentationTheory.Quiver.Preprojective.Grading
 import TauCeti.RepresentationTheory.Quiver.Zigzag.Componentwise.Grading
 import TauCeti.RepresentationTheory.Quiver.Zigzag.Orientation
+import TauCeti.RingTheory.Idempotents.Corner
 
 /-!
 # Zigzag, preprojective, and Ginzburg algebras: target signatures
@@ -23,6 +24,9 @@ Stated here:
 
 * Layer 0: recognition of the connected finite simple graphs carrying a nonzero nonnegative
   integral null vector of `2I - A` as the graphical affine simply-laced diagrams;
+* Layer 5: the matrix Hilbert series `(1 - Ct + t²)⁻¹` of the preprojective algebra of a connected
+  non-Dynkin oriented graph, as the recursion `H₀ = I`, `H₁ = C`, `H_{d+2} + H_d = C H_{d+1}` on
+  the graded corners `e_j Π_d e_i` (Etingof--Eu, Theorem 3.4.2);
 * Layer 7: the positive-degree cyclic quotient `Π/[Π,Π]` of the preprojective algebra of an
   oriented finite connected simple graph vanishes exactly for finite ADE graphs in good
   characteristic (Schedler, Theorem 13.1.1, via Liu--Wang, Corollary 3.4);
@@ -32,6 +36,10 @@ Stated here:
 
 Not statable at the pins:
 
+* the Koszul dichotomy for path-graded zigzag algebras and the Koszulity of the preprojective
+  algebra of a connected non-Dynkin graph (Layer 5): Tau Ceti has no Koszul predicate,
+  that is no notion of a linear graded projective resolution of the degree-zero part of a graded
+  algebra, so only the Hilbert-series half of Etingof--Eu's theorem is stated;
 * the identifications of `Π₂(Q)` and `Γ₃(Q,W)` with the derived and deformed Calabi--Yau
   completions (Layer 6): the completions `Π_n(C)` of the DG and `A∞` roadmap, Layer 9, are not in
   Tau Ceti;
@@ -39,8 +47,10 @@ Not statable at the pins:
   `HH^{2,q}(Π₂(Q)) ≅ (Π/[Π,Π])_{q+2}` (Layer 7): bigraded derived `RHom` over a DG algebra and
   bigraded Hochschild cohomology are not in Tau Ceti;
 * the braid relations of the bimodule complexes and the Artin action on the derived category
-  (Layer 8): the tensor product of complexes of graded `Z`-bimodules over `Z` and the homotopy
-  category it acts on are not available as a construction at the pins;
+  (Layer 8): the complexes `B_i` and `B_i'` exist (`TauCeti.zigzagBraidComplex`,
+  `TauCeti.zigzagBraidInverseComplex`), but their composition, the tensor product of complexes of
+  graded `Z`-bimodules over `Z`, and the homotopy category it acts on are not available as a
+  construction at the pins;
 * the Seidel--Thomas twists of an `A_m`-configuration of spherical objects (Layer 8): a
   `k`-linear DG enhancement with chain-level `Hom` complexes and cones is not in Tau Ceti.
 -/
@@ -63,6 +73,46 @@ theorem affine_graph_recognition {V : Type u} [Fintype V] [DecidableEq V]
       ∀ i, (∑ j ∈ G.neighborFinset i, a j) = 2 * a i) ↔
     ∃! t : TauCeti.AffineDynkinType,
       t.Valid ∧ t.IsGraphical ∧ Nonempty (G ≃g t.graph) := by
+  sorry
+
+/-! ## Layer 5: the Hilbert series of a non-Dynkin preprojective algebra -/
+
+/-- The degree-`d` **graded corner** `e_j Π_d e_i` of the additive preprojective algebra
+`Π = TauCeti.preprojectiveAlgebra k Q`, graded by path length: the image of the degree-`d` piece
+`TauCeti.preprojectiveGrade k Q d` under `x ↦ e_j x e_i`, where `e_v` is the class of the vertex
+idempotent at `v`. In Tau Ceti's later-factor-first convention it is spanned by the classes of
+the doubled paths of length `d` from `i` to `j`. -/
+noncomputable def preprojectiveGradedCorner (k : Type*) [Field k] (Q : Type*) [Quiver Q]
+    [Fintype Q] [∀ i j : Q, Fintype (i ⟶ j)] (d : ℕ) (j i : Q) : Submodule k (TauCeti.preprojectiveAlgebra k Q) :=
+  (TauCeti.preprojectiveGrade k Q d).map
+    (TauCeti.cornerMap k (TauCeti.preprojectiveMk k Q (TauCeti.doubledVertexIdempotent k j))
+      (TauCeti.preprojectiveMk k Q (TauCeti.doubledVertexIdempotent k i)))
+
+/-- The degree-`d` **Hilbert matrix** of the preprojective algebra `Π_k(Q_o)` of an orientation
+`o` of a finite simple graph `G`: the matrix whose `(j, i)` entry is `dim_k e_j Π_d e_i`, the
+coefficient of `t^d` in the matrix Hilbert series `h_Π(t)` of Etingof--Eu, Definition 2.1.2. -/
+noncomputable def preprojectiveHilbertMatrix (k : Type*) [Field k] {V : Type u} [Finite V]
+    (G : SimpleGraph V) (o : TauCeti.DoubledQuiver.Orientation G) (d : ℕ) : Matrix V V ℕ :=
+  Matrix.of fun j i =>
+    Module.finrank k (preprojectiveGradedCorner k (TauCeti.DoubledQuiver.OrientedQuiver G o) d
+      (TauCeti.DoubledQuiver.OrientedQuiver.vertex G o j)
+      (TauCeti.DoubledQuiver.OrientedQuiver.vertex G o i))
+
+/-- **The Hilbert series of a non-Dynkin preprojective algebra.** Let `o` orient a finite
+connected simple graph `G` which is not a simply-laced Dynkin graph, and let `C = A_G` be its
+adjacency matrix, the adjacency matrix of the doubled quiver. Over every field the matrix Hilbert
+series of `Π_k(Q_o)` is `(1 - Ct + t²)⁻¹`, that is, coefficientwise, `H₀ = I`, `H₁ = C` and
+`H_{d+2} + H_d = C H_{d+1}` for every `d` (Etingof--Eu, Theorem 3.4.2). For a Dynkin graph the
+recursion fails: on `A₂` it would force `H₃ + H₁ = C H₂ = 0` although `H₁ = C ≠ 0`. -/
+theorem preprojectiveHilbertMatrix_recursion (k : Type*) [Field k] {V : Type u} [Fintype V]
+    [DecidableEq V] (G : SimpleGraph V) [DecidableRel G.Adj] (hG : G.Connected)
+    (hnd : ¬ ∃ t : TauCeti.DynkinType, t.Valid ∧ t.IsSimplyLaced ∧
+      Nonempty (G ≃g TauCeti.diagramGraph t.cartanMatrix))
+    (o : TauCeti.DoubledQuiver.Orientation G) :
+    preprojectiveHilbertMatrix k G o 0 = 1 ∧
+    preprojectiveHilbertMatrix k G o 1 = G.adjMatrix ℕ ∧
+    ∀ d : ℕ, preprojectiveHilbertMatrix k G o (d + 2) + preprojectiveHilbertMatrix k G o d =
+      G.adjMatrix ℕ * preprojectiveHilbertMatrix k G o (d + 1) := by
   sorry
 
 /-! ## Layer 7: cyclic quotients and intrinsic formality -/
