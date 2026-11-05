@@ -200,8 +200,10 @@ contract, not its approximation-property or nuclear-operator results.
 - The scalar unit ℂ⊗̂_π E ≃ E sends λ⊗x to λx: for a continuous seminorm
   p on E, `π_(|·|,p)(Σλ_i⊗x_i)=p(Σλ_ix_i)`, the triangle inequality giving
   ≥ and the one-term representation `1⊗Σλ_ix_i` giving ≤. With p=0 the
-  seminorm `π_(|·|,0)` vanishes identically, so the separated quotient
-  precedes the completion; with E={0} the completed tensor is {0}.
+  seminorm `π_(|·|,0)` vanishes identically, so no single seminorm of the
+  family separates points; the family separates the points of ℂ⊗E exactly
+  because the continuous seminorms of the Hausdorff space E separate its
+  points. With E={0} the completed tensor is {0}.
 
 *Needs:* Mathlib `TensorProduct`, `Seminorm`, `WithSeminorms`, `UniformSpace.Completion` and `PiTensorProduct`; BanachSpaceTheory B4.
 
