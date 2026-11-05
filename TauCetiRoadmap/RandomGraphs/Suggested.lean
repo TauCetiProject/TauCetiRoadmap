@@ -163,9 +163,20 @@ theorem HasExtensionUpTo.mono {G : SimpleGraph V} {d e : ℕ}
     (h : HasExtensionUpTo G d) (hed : e ≤ d) : HasExtensionUpTo G e := by
   sorry
 
-/-- A syntax-construction target, pinned by its realization theorem. -/
-def extensionSentence (r s : ℕ) : Language.graph.Sentence := by
-  sorry
+/-- The `(r, s)` extension axiom: for all pairwise distinct `y₀, …, y_{r+s-1}` some `z`, distinct
+from every `yᵢ`, is adjacent to the first `r` and not adjacent to the last `s`. -/
+noncomputable def extensionSentence (r s : ℕ) : Language.graph.Sentence :=
+  let y : Fin (r + s) → Language.graph.Term (Empty ⊕ Fin (r + s + 1)) := fun i =>
+    Term.var (Sum.inr i.castSucc)
+  let z : Language.graph.Term (Empty ⊕ Fin (r + s + 1)) := Term.var (Sum.inr (Fin.last _))
+  let distinct : Language.graph.BoundedFormula Empty (r + s) :=
+    BoundedFormula.iInf fun p : {p : Fin (r + s) × Fin (r + s) // p.1 ≠ p.2} =>
+      (Term.bdEqual (Term.var (Sum.inr p.1.1)) (Term.var (Sum.inr p.1.2))).not
+  let witness : Language.graph.BoundedFormula Empty (r + s + 1) :=
+    BoundedFormula.iInf fun i : Fin (r + s) =>
+      (if (i : ℕ) < r then Relations.boundedFormula₂ Language.adj z (y i)
+        else (Relations.boundedFormula₂ Language.adj z (y i)).not) ⊓ (z.bdEqual (y i)).not
+  (distinct.imp witness.ex).alls
 
 theorem satisfies_extensionSentence (G : SimpleGraph V) (r s : ℕ) :
     Satisfies G (extensionSentence r s) ↔
@@ -174,7 +185,7 @@ theorem satisfies_extensionSentence (G : SimpleGraph V) (r s : ℕ) :
   sorry
 
 /-- This is the axiom set; its semantic consequence closure is Th(R). -/
-def radoAxioms : Language.graph.Theory :=
+noncomputable def radoAxioms : Language.graph.Theory :=
   Language.Theory.simpleGraph ∪ {φ | ∃ r s, φ = extensionSentence r s}
 
 theorem model_radoAxioms_iff (G : SimpleGraph V) :
