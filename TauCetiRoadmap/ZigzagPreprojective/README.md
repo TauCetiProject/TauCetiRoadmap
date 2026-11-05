@@ -211,6 +211,11 @@ The landed declarations include:
 - the corner map `TauCeti.cornerMap k e f`, `x ↦ e x f`, and the corner submodule
   `TauCeti.cornerSubmodule` (`RingTheory/Idempotents/Corner.lean`), on which the graded corners of
   Layer 5 are built;
+- Gabriel's theorem over every field,
+  `TauCeti.isFiniteRepType_iff_card_hom_add_card_hom_le_one_and_exists_dynkinType_iso`
+  (`RepresentationTheory/Quiver/FiniteRepType/Gabriel.lean`): a finite connected quiver has finite
+  representation type exactly when it is an oriented simply-laced Dynkin diagram, consumed by the
+  self-injectivity target of §4.2;
 - the native Layer 6 constructions, consumed rather than rebuilt: the two-dimensional Ginzburg
   differential `TauCeti.ginzburgTwoDifferential` with `TauCeti.isDGAlgebra_ginzburgTwoDifferential`,
   `TauCeti.ginzburgTwoDifferential_sq_zero` and the Adams grading `TauCeti.ginzburgTwoAdamsDegree`
@@ -281,7 +286,7 @@ layers and the suppliers.
 - Use native `TauCeti.AffineDynkinType` for the affine simply-laced diagrams, with its node
   count, underlying `SimpleGraph`, and generalized Cartan matrix `2I - A`. Consume its
   connectedness, marked-node deletion maps to the finite `TauCeti.DynkinType` diagrams,
-  Bourbaki relabellings and marks `δ` with `Cδ=0` and value1 at the affine node. Consume
+  Bourbaki relabellings and marks `δ` with `Cδ=0` and value 1 at the affine node. Consume
   its star comparisons `Ẽ₆=T_{3,3,3}`, `Ẽ₇=T_{2,4,4}`, `Ẽ₈=T_{2,3,6}` and the
   positive-semidefinite/radical theorem. Retain `Ã₁` as the multiplicity-two matrix
   `!![2,-2;-2,2]`, excluding it from simple-graph constructions. The downstream McKay
@@ -308,7 +313,7 @@ layers and the suppliers.
   these statements under the actual vertex/graph relabelling maps.
 
   Prove zero propagation: if a≥0 and Ca≥0 and a_i=0, every neighbour
-  also has coefficient0, and connectedness forces a=0. Consequently a
+  also has coefficient 0, and connectedness forces a=0. Consequently a
   nonzero nonnegative integral null vector is strictly positive. Divide
   its coordinates by their gcd to construct the unique positive primitive
   integral null vector δ, with gcd(δ_i)=1. Establish uniqueness through
@@ -317,8 +322,8 @@ layers and the suppliers.
   positions have m>0. Prove the integral coefficient claim using the gcd
   identity, not merely that the two vectors are real scalar multiples.
   Compare δ under a diagram isomorphism with the native `marks`; their
-  affine-node value1 fixes the primitive normalization. No arbitrary
-  vertex is assumed to have mark1 before this comparison.
+  affine-node value 1 fixes the primitive normalization. No arbitrary
+  vertex is assumed to have mark 1 before this comparison.
 
   Consume `SimpleGraph.two_mul_dotProduct_graphCartanMatrix_mulVec`,
   `posSemidef_graphCartanMatrix` and `ker_mulVecLin_graphCartanMatrix`
@@ -326,7 +331,7 @@ layers and the suppliers.
   ℝ and x an arbitrary real vector, record the transported identity
   `2 xᵀCx=Σ_i Σ_(j∼i) δ_iδ_j(x_i/δ_i−x_j/δ_j)²`.
   The displayed sum counts each unoriented edge twice. These native
-  theorems give positive semidefiniteness and ker(C)=ℝδ, hence corank1;
+  theorems give positive semidefiniteness and ker(C)=ℝδ, hence corank 1;
   prove the rational/integer kernel comparison used above. Conversely,
   for a connected G, prove that positive semidefiniteness and singularity
   yield a positive integral null vector: replace a nonzero real null
@@ -358,9 +363,9 @@ layers and the suppliers.
   and `t.IsGraphical`. The possible types are cycles Ã_n with n≥2,
   D̃_n with n≥4, and Ẽ₆,Ẽ₇,Ẽ₈. Prove existence and uniqueness of the
   type and supply the vertex, adjacency, Cartan-matrix and mark transports.
-  A cycle has length at least3; a cycle copy and the proper-extension
-  theorem force equality. A vertex of degree at least4 supplies a D̃₄
-  four-leaf-star copy. For a tree with maximum degree3, two trivalent
+  A cycle has length at least 3; a cycle copy and the proper-extension
+  theorem force equality. A vertex of degree at least 4 supplies a D̃₄
+  four-leaf-star copy. For a tree with maximum degree 3, two trivalent
   vertices supply a D̃_n double-fork copy; an affine position again forces
   equality. Prove that a finite path has no positive additive function.
   The remaining tree has one trivalent vertex and three arms of positive
@@ -621,6 +626,7 @@ resolution of a vertex simple on an `A₂` component `TauCeti.zigzagPeriodicProj
   where `A_G` is the adjacency matrix, holds entrywise before matrix notation is used
   (Ehrig--Tubbenhauer, Proposition 2.8, p. 5; Huerfano--Khovanov, §6.1, p. 11).  At `q=1` this is the
   ordinary composition-factor Cartan matrix.
+
 ### 3.2 Grothendieck groups and `q`-Euler forms
 
 - Interpret this matrix through the graded Grothendieck group from the sibling roadmap.  Prove the
@@ -702,8 +708,18 @@ the moment-map comparison and the finite/infinite dichotomy are native and are c
 
 - Prove self-injectivity of `Π_k(Q)` for every finite simply-laced Dynkin graph and every field,
   extending the native `A₁`, `A₂` and `D₄` cases (`Preprojective/ADE/A1/SelfInjective.lean`,
-  `A2/SelfInjective.lean`, `D4/SelfInjective.lean`).
-  *Needs:* the finite-dimensionality above; Mathlib `Module.Injective`, `Module.Baer`.
+  `A2/SelfInjective.lean`, `D4/SelfInjective.lean`).  The route is Grant's: the preprojective
+  algebra of a basic representation-finite hereditary algebra over any field is Frobenius, hence
+  self-injective (Grant, Theorem 3.1, p. 7, after Brenner--Butler--King, Theorem 4.8; Frobenius
+  algebras are self-injective, p. 4), the algebra there being Baer--Geigle--Lenzing's
+  `⊕_{r ≥ 0} Hom_Λ(Λ, τ^{−r}Λ)` (Grant, Definition 2.6, p. 6), which Ringel and Crawley-Boevey
+  identified with the presented `Π_k(Q)` (Grant, p. 6).  The path algebra `kQ` of a Dynkin quiver
+  is basic and hereditary, and representation-finite over every field by Gabriel's theorem
+  (`TauCeti.isFiniteRepType_iff_card_hom_add_card_hom_le_one_and_exists_dynkinType_iso`,
+  `FiniteRepType/Gabriel.lean`), quiver representations and `kQ`-modules being identified through
+  QuiverRepresentations Layer 1.
+  *Needs:* the finite-dimensionality above; Tau Ceti Gabriel's theorem above; QuiverRepresentations
+  Layer 1 (representations as `kQ`-modules); Mathlib `Module.Injective`, `Module.Baer`.
 The Hilbert series and the Koszulity of `Π_k(Q)` for non-Dynkin graphs are proved in Layer 5,
 where the Koszul duality with the zigzag algebra that their proof uses is established.
 
@@ -745,6 +761,7 @@ relation (Huerfano--Khovanov, Proposition 11, p. 11, third sentence).  For a non
 the signless dual is its own algebra: no unit-valued rescaling of the arrows carries the
 signless relator to the signed one, and in characteristic two the two algebras coincide
 (`TauCeti.signlessPreprojectiveAlgebraEquivPreprojectiveOfTwoEqZero`, `Preprojective/Signless.lean`).
+
 ### 5.2 Classical Koszulity of the zigzag algebra
 
 **Classical Koszulity.** For a finite connected simple graph with at least three vertices, prove
@@ -757,9 +774,39 @@ is Koszul when every graded simple `A`-module concentrated in degree `0` has a g
 resolution whose `n`-th term is generated in degree `n`.  The proof includes the Koszul complexes,
 exactness, Hilbert-series identities, and handedness of left and right quadratic duals.  A matrix
 inverse alone is not used as a definition of duality.
+
+- A Koszul algebra is quadratic: the terms of the linear resolution of `A₀` in homological
+  degrees `1` and `2` show that `A` is generated by `A₁` over `A₀` with relations in degree `2`,
+  so on quadratic algebras the predicate is the Ext formulation, `Ext^i_A(A₀,A₀)` concentrated in
+  internal degree `i` (Etingof--Eu, Definition 2.3.3, p. 3).
+- The Koszul dual `A^!` of a Koszul algebra, the quadratic dual with relations the annihilator of
+  the relation space, is the Yoneda algebra `Ext^*_A(A₀,A₀)` up to the handedness convention fixed
+  above (Mazorchuk, Corollary 10.12, p. 49), is Koszul, and `(A^!)^! ≅ A`.
+- The matrix Hilbert series (Etingof--Eu, Definition 2.1.2, p. 2) of a Koszul algebra and of its
+  dual are inverse up to the sign change `t ↦ −t` and a transpose,
+  `h_A(t) · h_{A^!}(−t)ᵀ = I`, by the Euler characteristic of the exact Koszul complex whose
+  `n`-th term is `A ⊗_{A₀} (A^!_n)^*` (Etingof--Eu, proof of Theorem 2.3.4, p. 3, for the terms
+  up to homological degree two).
+
+**Checks.**
+
+- The path algebra of the `A₂` quiver `1 → 2`, graded by path length, is Koszul: the simple at
+  the sink is projective, and the simple at the source has the resolution
+  `0 → P_2⟨1⟩ → P_1 → S_1 → 0`, generated in degrees `0` and `1`; a predicate that demanded a
+  nonzero term in every homological degree would reject it.
+- `Z(A₂)` is not Koszul: the periodic resolution of a vertex simple (Layer 3 Examples) has
+  differentials of internal degrees `1, 2, 1, 2, …`, so its terms are generated in degrees
+  `0, 1, 3, 4, …`, and the term in homological degree `2` fails; a predicate that ignored the
+  internal shifts and tested only that the terms are projective would accept it.  The quadratic
+  bullet refutes it independently, since the relations of `Z(A₂)` are cubic.
+- The triangle `Z(Ã₂)` is Koszul with dual the signless algebra of §5.1, and with `A = J − I`
+  the series satisfy `((1 + t²)I − tA)(I − At + t²)⁻¹ = I`, whereas the product without the sign
+  change, `((1 + t²)I + tA)(I − At + t²)⁻¹`, has degree-one term `2A ≠ 0`; a dual series taken
+  at `t` instead of `−t` fails.
 *Needs:* §5.1, Layers 2--3 (basis, projectives, graded Hom spaces and the periodic
 resolutions), Layer 0 (affine subgraphs of non-Dynkin graphs); Mathlib graded modules and
 `CategoryTheory.ProjectiveResolution`.
+
 ### 5.3 The Hilbert series of a non-Dynkin preprojective algebra
 
 **The Hilbert series of a non-Dynkin preprojective algebra.** Define the graded corner
@@ -810,6 +857,7 @@ not an input here.  Loops are excluded by the simple-graph input; Etingof--Eu al
 change), Layer 0 (affine subgraphs of non-Dynkin graphs), Tau Ceti `TauCeti.cornerMap`,
 `TauCeti.preprojectiveOpAlgEquiv`; Mathlib `Module.finrank`, `SimpleGraph.adjMatrix`,
 `PowerSeries`, `Matrix` inverses.
+
 ### 5.4 Koszulity of the preprojective algebra
 
 **Koszulity of the preprojective algebra.** For a connected non-Dynkin graph prove that
@@ -908,11 +956,13 @@ Let `Γ` be a finite tree and choose a source--sink orientation `Q`.
 - Regrade each zigzag arrow from path degree `1` to bidegree `(1,-1)` before invoking the sibling
   bigraded DG and `A∞` APIs.  Prove the bigraded derived Koszul dualities, with module side and
   opposites pinned:
-  `RHom_{Π₂(Q)}(k^{Q₀},k^{Q₀}) ≃ Z(Γ)` and the converse comparison with `Π₂(Q)` (or its
+  `RHom_{Π₂(Q)}(k^{Q₀},k^{Q₀}) ≃ Z(Γ)` (Etgü--Lekili, Corollary 25, p. 40, for the right module
+  `k^{Q₀} = Π₂(Q)/Π₂(Q)_{>0}`, where the cohomological and internal gradings on the left coincide
+  and match path length on the right) and the converse comparison with `Π₂(Q)` (or its
   completion after forgetting Adams degree), the cohomological and internal gradings on the left
   matching path length and internal degree on the right (Etgü--Lekili, Theorem 23, p. 37, stated
-  there for right modules over the opposite algebra; Liu--Wang, Proposition 4.4, p. 5, for the
-  source--sink orientation).  Include `A₁` and `A₂`; this is not the classical quadratic claim from
+  there for right modules over the opposite zigzag algebra; Liu--Wang, Proposition 4.4, p. 5, for
+  the source--sink orientation).  Include `A₁` and `A₂`; this is not the classical quadratic claim from
   Layer 5.
   *Needs:* Layer 6 (`Π₂(Q)` and `Π̂₂(Q)`), Layer 2 (the basis of `Z(Γ)`), DGAInfinity Layers 1--3
   and 11 (DG modules, `RHom`, minimal models and derived Koszul duality).
@@ -936,6 +986,7 @@ Let `Γ` be a finite tree and choose a source--sink orientation `Q`.
   deformation theory.
   *Needs:* DGAInfinity Layer 8 (deformations, obstruction classes and the vanishing criterion);
   the Hochschild comparison above.
+
 ### 7.2 The positive-degree cyclic quotient
 
 - **Positive-degree cyclic quotient.** Let `o` orient a finite connected simple graph `G` and let
@@ -978,6 +1029,7 @@ Let `Γ` be a finite tree and choose a source--sink orientation `Q`.
       characteristic; a list making `2` bad for type `A` is refuted.
     - `E₆` over `𝔽₃`: Schedler's list gives `(Λ_{E₆})₆ = ℤ/3`, so `(Π/[Π,Π])₆ ≠ 0` over `𝔽₃`,
       while `(Λ_{E₆})_m ⊗ 𝔽₅ = 0` for all `m ≥ 1`; `5` is bad only for `E₈`.
+
 ### 7.3 Minimal `A∞` deformations and intrinsic formality
 
 - Define a **strictly unital minimal `A∞` deformation** of `Z(Γ)` (`IsZigzagAInfinityDeformation`)
@@ -1100,6 +1152,7 @@ Layer 6 (`Π₂(Q)` and its completion), and DGAInfinity Layers 1--3, 8 and 11.
   while the existence of the arbitrary-graph action does not itself imply faithfulness.
   *Needs:* the braid action above, Layer 3 (graded Cartan matrix), GrothendieckEulerForms (graded
   `K₀` of the homotopy category and the shift action).
+
 ### 8.2 Spherical twists and transfer
 
 - Work in a specified `k`-linear pretriangulated DG enhancement (DGAInfinity Layers 1 and 5:
@@ -1110,8 +1163,9 @@ Layer 6 (`Π₂(Q)` and its completion), and DGAInfinity Layers 1--3, 8 and 11.
   (K1)--(K2), pp. 13--14), define the twist `T_E(F)` as the chain-level cone of the evaluation
   `hom(E,F) ⊗ E → F`; finiteness of each single `Hom^i` is not enough, since `Hom^i = k` for
   infinitely many `i` makes the evaluation source infinite.  Call `E` `n`-spherical for `n > 0`
-  when moreover `Hom^*(E,E) = k ⊕ k[−n]` and composition into `Hom^n(E,E) ≅ k` is a perfect
-  pairing (Definition 2.9, p. 15).  For an `A_m`-configuration of `n`-spherical objects
+  when moreover `Hom^*(E,E) = k ⊕ k[−n]` and, for every object `F` and every `j ∈ ℤ`, the
+  composition `Hom^j(F,E) × Hom^{n−j}(E,F) → Hom^n(E,E) ≅ k` is a nondegenerate pairing
+  (Definition 2.9, (K3) and (K4), p. 15).  For an `A_m`-configuration of `n`-spherical objects
   (one-dimensional total `Hom` for adjacent vertices and zero total `Hom` for nonadjacent ones),
   prove that the twists satisfy the braid relations of `B_{m+1}` up to graded natural isomorphism
   (Theorem 2.17, p. 18), and faithfulness only for `n ≥ 2` (Theorem 2.18, p. 19).  Cones in an
@@ -1211,11 +1265,11 @@ Every example is computed from the general definitions.
 ## References
 
 - Huerfano--Khovanov, [*A category for the adjoint
-  representation*](https://arxiv.org/abs/math/0002060): strict and skew zigzag algebras, low-rank
+  representation*](https://arxiv.org/abs/math/0002060) (arXiv v2): strict and skew zigzag algebras, low-rank
   conventions, bases, trace, quantum Cartan matrices, quadratic duals, McKay Morita equivalence,
   and graph braid actions.
 - Ehrig--Tubbenhauer, [*Algebraic properties of zigzag
-  algebras*](https://arxiv.org/abs/1807.11173): bases, graded Cartan matrices, symmetric Frobenius
+  algebras*](https://arxiv.org/abs/1807.11173) (arXiv v2): bases, graded Cartan matrices, symmetric Frobenius
   structure, projectives, and representation-theoretic structure.
 - Couture, [*Skew-Zigzag Algebras*](https://arxiv.org/abs/1509.08405) (arXiv v2), Theorems 4.8
   and 4.12, with Lemma 4.3 and Proposition 4.4 for graphs with at least three vertices: parameter
@@ -1223,14 +1277,20 @@ Every example is computed from the general definitions.
   graded algebra isomorphisms.
 - Etingof--Eu, [*Koszulity and the Hilbert series of preprojective
   algebras*](https://arxiv.org/abs/math/0512287) (arXiv v1), Theorem 3.4.2: non-Dynkin
-  Koszulity and the Hilbert series `(1 − Ct + t²)⁻¹` over every field.
+  Koszulity and the Hilbert series `(1 − Ct + t²)⁻¹` over every field; Definitions 2.1.2 and
+  2.3.3 and Theorem 2.3.4 for matrix Hilbert series and the Koszul complex.
+- Mazorchuk, [*Lectures on algebraic categorification*](https://arxiv.org/abs/1011.0144)
+  (arXiv v3), Corollary 10.12, p. 49: the Koszul dual as the Yoneda algebra.
 - Crawley-Boevey, [*Quiver algebras, weighted projective lines, and the Deligne--Simpson
   problem*](https://www.mathunion.org/fileadmin/ICM/Proceedings/ICM2006.2/ICM2006.2.ocr.pdf):
   additive/deformed preprojective conventions and orientation independence.
+- Grant, [*The Nakayama automorphism of a self-injective preprojective
+  algebra*](https://arxiv.org/abs/1906.11817) (arXiv v2), Theorem 3.1, p. 7: the preprojective
+  algebra of a basic representation-finite hereditary algebra over any field is Frobenius.
 - Etgü--Lekili, [*Koszul duality patterns in Floer
-  theory*](https://arxiv.org/abs/1502.07922): the 2-dimensional Ginzburg model, derived Koszul
+  theory*](https://arxiv.org/abs/1502.07922) (arXiv v6): the 2-dimensional Ginzburg model, derived Koszul
   duality, completion, and formality comparisons.
-- Keller, [*Deformed Calabi--Yau completions*](https://arxiv.org/abs/0908.3499): derived
+- Keller, [*Deformed Calabi--Yau completions*](https://arxiv.org/abs/0908.3499) (arXiv v5): derived
   Calabi--Yau completions and the 3-dimensional Ginzburg construction.
 - Liu--Wang, [*A-infinity deformations of zigzag algebras via Ginzburg dg
   algebras*](https://arxiv.org/abs/2301.06757) (arXiv v3): Definition 4.1 (deformations and
@@ -1238,7 +1298,7 @@ Every example is computed from the general definitions.
   comparisons), Corollary 3.4 (cyclic quotient criterion), Theorem 1.1 (the finite-tree theorem in
   arbitrary characteristic) and Example 4.7.
 - Khovanov--Seidel, [*Quivers, Floer cohomology, and braid group
-  actions*](https://arxiv.org/abs/math/0006056): two-term bimodule complexes and the faithful type
+  actions*](https://arxiv.org/abs/math/0006056) (arXiv v2): two-term bimodule complexes and the faithful type
   `A` braid action.
 - Seidel--Thomas, [*Braid group actions on derived categories of coherent
   sheaves*](https://arxiv.org/abs/math/0001043) (arXiv v2): Definitions 2.2, 2.5 and 2.9
