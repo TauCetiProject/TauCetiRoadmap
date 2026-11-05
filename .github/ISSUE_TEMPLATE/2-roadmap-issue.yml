@@ -59,6 +59,7 @@ body:
         - EtaleCohomologyFoundations
         - FinancialMathematics
         - FiniteGroupExtensionSplitting
+        - FlagVarieties
         - FormalLaurentPuiseux
         - FreeGroupsAndLimitGroups
         - FreeProbability
