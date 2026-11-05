@@ -146,7 +146,7 @@ def HasExtensionUpTo (G : SimpleGraph V) (d : ℕ) : Prop :=
     ∃ x, IsExtensionWitness G U Z x
 
 /-- Stand-in for the canonical `SimpleGraph.HasExtensionProperty` of the InfinitaryLogic
-random-graph worked example (Tau Ceti #18726), which is not at this file's Tau Ceti pin.
+random-graph worked example (Tau Ceti #19595), which is not at this file's Tau Ceti pin.
 That predicate omits `x ∉ U`, which adjacency to every vertex of `U` forces in a loopless
 graph; the two agree, and implementations use the canonical one. -/
 def HasExtensionProperty (G : SimpleGraph V) : Prop :=
@@ -194,7 +194,7 @@ theorem model_radoAxioms_iff (G : SimpleGraph V) :
      V ⊨ radoAxioms) ↔ HasExtensionProperty G := by
   sorry
 
-/-- Stand-in for `SimpleGraph.radoGraph` of the same supplier, with its definition;
+/-- Stand-in for `TauCeti.radoGraph` of the same supplier, with its definition;
 `radoGraph_adj` is the bridge to the ordered binary presentation. -/
 def radoGraph : SimpleGraph ℕ :=
   SimpleGraph.fromRel fun i j => j.testBit i
