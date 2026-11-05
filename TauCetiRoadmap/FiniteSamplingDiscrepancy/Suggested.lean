@@ -1,6 +1,8 @@
-import Mathlib
-import TauCeti.Probability.Exchangeability.FiniteDeFinetti
-import TauCeti.MeasureTheory.VectorMeasure.Decomposition.Jordan
+module
+
+public import Mathlib
+public import TauCeti.Probability.Exchangeability.FiniteDeFinetti
+public import TauCeti.MeasureTheory.VectorMeasure.Decomposition.Jordan
 
 /-!
 # Sampling with and without replacement, exact discrepancy: target signatures
@@ -22,6 +24,8 @@ the interfaces; it does not establish the truth of the admitted targets.
 Notation (README, Conventions): `n = Fintype.card κ`, `m = Fintype.card ι`,
 `p = n.descFactorial m / n ^ m`, `t = m.descFactorial 2 / n.descFactorial 2`.
 -/
+
+public section
 
 noncomputable section
 

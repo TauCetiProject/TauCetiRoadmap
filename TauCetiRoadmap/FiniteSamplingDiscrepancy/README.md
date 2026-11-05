@@ -42,7 +42,8 @@ Sections 0.3 to 0.5, stated for finite measures in this roadmap's carriers.
   `Q x = sampleWithReplacement (ι := ι) (Measure.dirac x)`.
 - `p = n.descFactorial m / n ^ m` and `t = m.descFactorial 2 / n.descFactorial 2`, as real
   numbers in the formulas of Layers 2 to 4 and as elements of `ℝ≥0∞` in Layer 1. Division by zero
-  is Mathlib's: `x / 0 = 0` in `ℝ`, and `0 / 0 = 0` in `ℝ≥0∞`.
+  is Mathlib's: `x / 0 = 0` in `ℝ`; in `ℝ≥0∞`, `0 / 0 = 0` and `x / 0 = ⊤` for `x ≠ 0`. The second
+  case never arises in `p`, since `n ^ m = 0` forces `n.descFactorial m = 0`.
 - The **excess** of `μ` over `ν` is `⨆ (A) (_ : MeasurableSet A), μ A - ν A` in `ℝ≥0∞`.
 - The **norm** of `μ - ν`, for finite measures, is
   `(μ.toSignedMeasure - ν.toSignedMeasure).totalVariation Set.univ`, Mathlib's total variation
@@ -156,7 +157,8 @@ of `μ` over `ν`.
 
 For finite measures `μ ν` on a finite type with measurable singletons, the excess of `μ` over `ν`
 is `∑ y, (μ {y} - ν {y})`, the subtraction being truncated in `ℝ≥0∞`. It is attained at
-`A = {y | ν {y} < μ {y}}`. For probability measures this is [LPW, Proposition 4.2].
+`A = {y | ν {y} < μ {y}}`. For probability measures this is [LPW, Proposition 4.2 and
+Remark 4.3, equation (4.5), p. 48].
 
 **Checks.** On `Bool`, `μ = dirac true` and `ν` uniform: excess `1/2`, sum `1/2 + 0`.
 
@@ -171,6 +173,11 @@ over `ν`.
 singletons: norm `2`, excess `1`.
 
 *Needs:* the three Jordan-decomposition supplier lemmas.
+
+### Examples
+
+On `Bool` with `μ = dirac true` and `ν` uniform, the excess is `1/2` (0.4) and the norm is `1`
+(0.5); pushing both forward by a constant map gives excess `0`, below `1/2` (0.3).
 
 ### Dependencies
 
@@ -217,13 +224,13 @@ supplier's `choose 3 2 / 4 = 3/4`.
 `A : Set (Fin m → α)`, the two inequalities of 1.2 hold between `prefixLaw μ X m` and
 `sampleWithReplacement (ι := Fin m) (prefixLaw μ X n)`, with error
 `1 - n.descFactorial m / n ^ m`, and the norm of the difference is at most twice the error. This is
-[DF80, Theorem 13]: rewrite the prefix law by `ExchangeableAt.sampleWithoutReplacement_eq_prefixLaw`
-and apply 1.2.
+[DF80, Theorem 13]: rewrite the prefix law by
+`TauCeti.Probability.ExchangeableAt.sampleWithoutReplacement_eq_prefixLaw` and apply 1.2.
 
 **Checks.** `n = m = 2`: error `1/2`; `m = 1`: error `0`, and both laws are the one-dimensional
 marginal.
 
-*Needs:* 1.2; `ExchangeableAt.sampleWithoutReplacement_eq_prefixLaw`.
+*Needs:* 1.2; `TauCeti.Probability.ExchangeableAt.sampleWithoutReplacement_eq_prefixLaw`.
 
 ### 1.4 Distinct values attain the bound
 
@@ -250,6 +257,14 @@ so 1.3 holds with equality on that event. Take `Ω = Equiv.Perm (Fin n)` with th
 **Checks.** `n = m = 2`, `x = id`: masses `1` and `2/4`. `n = m = 0`: masses `1` and `1`.
 
 *Needs:* 1.1, 1.3; `ExchangeableAt`, `prefixLaw`.
+
+### Examples
+
+With `n = 3`, `m = 2` and distinct values, `P x` and `Q x` give the all-distinct event masses `1`
+and `2/3`: excess `1/3`, norm `2/3` (1.2, 1.4). With `n = 4`, `m = 3` the exact error is `5/8`,
+against the supplier's `3/4`. A uniformly random ordering of two distinct values (`n = m = 2`)
+is an exchangeable process whose prefix law and with-replacement law differ by exactly the
+error `1/2` of 1.3 (1.5).
 
 ### Dependencies
 
@@ -283,7 +298,8 @@ For an embedding `f : ι ↪ κ`, let `r` be the number of `i` with `q (f i) = a
 
 ### 2.3 Two-hit mass
 
-`uniformOn {k : ι → κ | Function.Injective k} {k | a ∈ Set.range k ∧ b ∈ Set.range k} = t`.
+`uniformOn {k : ι → κ | Function.Injective k} {k | a ∈ Set.range k ∧ b ∈ Set.range k} =
+m.descFactorial 2 / n.descFactorial 2` in `ℝ≥0∞`; here `n ≥ 2`, so this is `t` cast to `ℝ≥0∞`.
 
 **Checks.** `n = 3`, `m = 2`: `2/6 = t`. `m = 1`: both sides `0`. Without `m ≤ n` the left side is
 `0` and `t > 0` once `m ≥ 2`.
@@ -329,7 +345,7 @@ excess in both directions. For `m > n`, `P x` is zero, `p = 0`, and the error is
 **Checks.** Constant `x`, `n = 3`, `m = 2`: the excess is `0`, below `2/9`. Every `x : κ → α` is
 measurable because `κ` is finite with measurable singletons.
 
-*Needs:* 0.2, 0.3, 2.4.
+*Needs:* 0.2, 0.3, 0.5, 2.4.
 
 ### 3.2 Strictness
 
@@ -349,6 +365,13 @@ constant population. `m = 1`: `1 - p = 0` equals the excess for every `x`, so `2
 for the characterization.
 
 *Needs:* 1.4, 3.1, 3.2.
+
+### Examples
+
+With `n = 3`, `m = 2`, the excess is `1/3` for distinct values, `2/9` for one pair and `0` for a
+constant population; every non-injective population is at most `2/9`, strictly below `1/3`
+(3.1, 3.2, 3.3). With `n = m = 4` and one pair, the bound `13/16` is attained, against
+`1 - p = 29/32`.
 
 ### Dependencies
 
@@ -381,7 +404,14 @@ For `[IsProbabilityMeasure μ]`, `h : ExchangeableAt μ X n`, `m ≤ n`,
 **Checks.** `S = ∅` recovers 1.3. A process whose `n`-prefix has a repeated value almost surely
 has error `1 - p - t * min p (1 - p)`.
 
-*Needs:* 4.1; `ExchangeableAt.sampleWithoutReplacement_eq_prefixLaw`.
+*Needs:* 4.1; `TauCeti.Probability.ExchangeableAt.sampleWithoutReplacement_eq_prefixLaw`.
+
+### Examples
+
+With `n = 3`, `m = 2` and `ρ` the even mixture of a distinct-value population and a one-pair
+population, the error with `S` the one-pair population is `5/18`, against `1/3` with `S = ∅`
+(4.1). A uniformly random ordering of the population `(a, a, c)` is exchangeable at `n = 3`, its
+`3`-prefix has a repeated value almost surely, and with `m = 2` the error of 4.2 is `2/9`.
 
 ### Dependencies
 
@@ -399,5 +429,6 @@ sampling development needs when it compares with-replacement and without-replace
 - [DF80] P. Diaconis and D. Freedman, "Finite exchangeable sequences", *Ann. Probab.* 8 (4)
   (1980), 745–764, [doi:10.1214/aop/1176994663](https://doi.org/10.1214/aop/1176994663).
   Theorem 13: Section 1.3.
-- [LPW] D. A. Levin, Y. Peres and E. L. Wilmer, *Markov Chains and Mixing Times*, American
-  Mathematical Society, 2009. Proposition 4.2: Section 0.4.
+- [LPW] D. A. Levin and Y. Peres, with contributions by E. L. Wilmer, *Markov Chains and Mixing
+  Times*, second edition, American Mathematical Society, 2017. Proposition 4.2 and Remark 4.3,
+  p. 48: Section 0.4.
