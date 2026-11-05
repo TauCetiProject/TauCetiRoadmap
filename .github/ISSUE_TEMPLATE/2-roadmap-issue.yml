@@ -49,6 +49,7 @@ body:
         - DGAInfinity
         - DGFloer
         - DerivedModuleAlgebra
+        - DiagrammaticCoherence
         - DifferentialGeometry
         - DiophantineApproximationAndTranscendence
         - ECM
