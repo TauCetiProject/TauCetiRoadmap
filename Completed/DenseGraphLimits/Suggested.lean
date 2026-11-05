@@ -68,11 +68,9 @@ open. Those objects now live in Tau Ceti under `TauCeti.DenseGraphLimits`, in th
 pins, so the statements below are made about the Tau Ceti objects directly. Statements keep the
 README's names, closed by the Tau Ceti declaration even where its name differs. The differences:
 
-* **Names.** `graphonSpace_ext_homDensity` is Tau Ceti's `graphonSpace_ext_homDensity`,
-  stated there for every `GraphonSpace Ω μ`. `cutDist_eq_zero_of_forall_homDensity_eq_cross` and
-  `cutDist_eq_zero_iff_forall_homDensity_eq_cross` are Tau Ceti's unsuffixed
-  `cutDist_eq_zero_of_forall_homDensity_eq` and `cutDist_eq_zero_iff_forall_homDensity_eq`, which
-  are already cross-carrier and hypothesis-free. `isProbabilityMeasure_of_isCoupling` is
+* **Names.** `graphonSpace_ext_homDensity`, `cutDist_eq_zero_of_forall_homDensity_eq_cross` and
+  `cutDist_eq_zero_iff_forall_homDensity_eq_cross` carry Tau Ceti's names, stated there for every
+  `GraphonSpace Ω μ` and cross-carrier and hypothesis-free. `isProbabilityMeasure_of_isCoupling` is
   `IsCoupling.isProbabilityMeasure`, `injHomDensity_integral_sampleGraph` is
   `integral_injHomDensity_sampleGraph`, and `paramGraphLaw_isProbabilityMeasure` is
   `isProbabilityMeasure_paramGraphLaw`.
@@ -816,7 +814,7 @@ theorem Graphon.exists_comap_natBool (W : Graphon Ω μ) :
   TauCeti.DenseGraphLimits.Graphon.exists_comap_natBool W
 
 /-- **Inverse counting, cross-carrier and hypothesis-free** (Janson, Thm 8.10). Tau Ceti:
-`cutDist_eq_zero_of_forall_homDensity_eq`. -/
+`cutDist_eq_zero_of_forall_homDensity_eq_cross`. -/
 theorem cutDist_eq_zero_of_forall_homDensity_eq_cross (U : Graphon Ω₁ μ₁) (W : Graphon Ω₂ μ₂)
     (h : ∀ (n : ℕ) (F : SimpleGraph (Fin n)) [DecidableRel F.Adj],
       homDensity F U = homDensity F W) :
@@ -831,7 +829,7 @@ theorem cutDist_eq_zero_of_forall_homDensity_eq (U W : Graphon Ω μ)
   TauCeti.DenseGraphLimits.cutDist_eq_zero_of_forall_homDensity_eq U W h
 
 /-- **The separation iff**, cross-carrier and hypothesis-free. Tau Ceti:
-`cutDist_eq_zero_iff_forall_homDensity_eq`. -/
+`cutDist_eq_zero_iff_forall_homDensity_eq_cross`. -/
 theorem cutDist_eq_zero_iff_forall_homDensity_eq_cross (U : Graphon Ω₁ μ₁) (W : Graphon Ω₂ μ₂) :
     cutDist U W = 0 ↔
       ∀ (n : ℕ) (F : SimpleGraph (Fin n)) [DecidableRel F.Adj],
