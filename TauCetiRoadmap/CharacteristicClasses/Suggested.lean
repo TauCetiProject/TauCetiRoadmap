@@ -1,4 +1,6 @@
-import Mathlib
+module
+
+public import Mathlib
 
 /-!
 # Characteristic classes and Chern–Weil theory: target signatures
@@ -35,7 +37,10 @@ Whitney formula, and the degree-four Todd and degree-eight Hirzebruch
 coefficients in Chern and Pontryagin root values.
 -/
 
+@[expose] public section
+
 noncomputable section
+
 namespace TauCetiRoadmap.CharacteristicClasses
 
 /-- Elementary symmetric values of formal Chern roots: `chernRootValue x j` is

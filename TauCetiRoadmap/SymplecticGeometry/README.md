@@ -74,7 +74,7 @@ for its two signed cosphere forms; [CG4](ContactGeometry/README.md#cg4--symplect
 and [CG5](ContactGeometry/README.md#cg5--isotropic-and-legendrian-neighborhoods) consume the cosphere
 application. Contact-specific Darboux, Gray and neighborhood refinements remain in CG3–CG5.
 [CG6](ContactGeometry/README.md#cg6--contactjacobi-interface-floer-boundary) offers the geometric
-boundary and sign adapters consumed by HeegaardFloer and consumed by DGFloer; their analytic and invariant endpoints
+boundary and sign adapters to HeegaardFloer and DGFloer; their analytic and invariant endpoints
 remain with those owners.
 
 The dependency order is cotangent/Lagrangian and Hamiltonian foundations, then reduction; ConvexityToric T1 consumes LG6’s compact REAL data for its integral refinement, while T3/T4 consume RootSystems and HamiltonianReduction R2/R3. IntegrableSystems I2.0 constructs positive-period circle quotients before I2 uses period2π angle charts. S0–S2 consumes the generic TauCeti smooth free/proper quotient theorem and I2.0's period1 circle, then HeegaardFloer F2.1's compatible-structure family, LieGroupoidsPoisson G0.1's kernel distribution, AlgebraicTopology5–6 and DifferentialGeometry8–9; it precedes TaubesGromov's mapping-torus application. Quantization consumes these developments without defining another moment map or Liouville measure. The explicit suspension quotient/translation flow does not require a flux theorem; HamiltonianSystems/DG time-dependent complete flows enter the Hamiltonian and common-support applications at their actual uses.
