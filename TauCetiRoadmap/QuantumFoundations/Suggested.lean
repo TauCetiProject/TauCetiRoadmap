@@ -25,8 +25,10 @@ Headline theorems not statable at the pins, and what each lacks:
   on the trace class `S₁(H)`, with their normal duals, are OperatorIdeals Part B and
   VonNeumannAlgebras V4 targets.
 
-Gleason's theorem and the Stone–von Neumann theorem are owned by VonNeumannAlgebras 12.J and
-MetaplecticAutomorphicForms §1.2 and are not restated here.
+Gleason's theorem, the Stone–von Neumann theorem and Kummer's equation for the regularized
+function `ℳ(a,b,z) = Complex.regularizedHGFun {a} {b} z` are owned by VonNeumannAlgebras 12.J,
+MetaplecticAutomorphicForms §1.2 and SpecialFunctionsParabolicCylinder Milestone 1.3 and are not
+restated here.
 -/
 
 @[expose] public section
@@ -128,18 +130,6 @@ theorem uhlhorn {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℂ H] [Co
         ∀ x, f x = Projectivization.map U.toLinearEquiv.toLinearMap U.injective x) ∨
       (∃ A : H ≃ₗᵢ⋆[ℂ] H,
         ∀ x, f x = Projectivization.map A.toLinearEquiv.toLinearMap A.injective x) := by
-  sorry
-
-/-! ## Layer 9: Kummer functions -/
-
-/-- Kummer's differential equation for the regularized function `ℳ(a,b,z)`, for all parameters
-(README §9.4; DLMF 13.2.1): the coefficient recurrence `regularizedHGFunCoeff_add_one` is
-exactly the equation, and the series is entire. Kummer's `M(a,b,z) = Γ(b)·ℳ(a,b,z)` satisfies
-the same equation by scaling. -/
-theorem regularizedHGFun_kummer_equation (a b z : ℂ) :
-    z * deriv (deriv (fun w => Complex.regularizedHGFun {a} {b} w)) z +
-      (b - z) * deriv (fun w => Complex.regularizedHGFun {a} {b} w) z -
-        a * Complex.regularizedHGFun {a} {b} z = 0 := by
   sorry
 
 end TauCetiRoadmap.QuantumFoundations
