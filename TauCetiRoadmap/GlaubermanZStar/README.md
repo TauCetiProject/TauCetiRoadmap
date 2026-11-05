@@ -653,8 +653,14 @@ conjugates of `K` and `0` elsewhere. Prove, in order:
    Hence every `ψᵢ` is fixed by every `σ`, is rational-valued, and is integer-valued (§4.2); so
    `ψᵢ(g^a) = ψᵢ(g)` for every `a` prime to `|G|`.
 2. *The value at `u`.* `ψᵢ(u) = εᵢ`. Route: Frobenius reciprocity with `f = 4` on `K` gives
-   `∑_{k ∈ K} ψᵢ(k) = 2 |O(C)| εᵢ`; for `v ∈ O(C)` and `a` prime to `|G|` with `a ≡ 1 (mod 4)` and
-   `a ≡ −1 (mod |O(C)|)`, `ψᵢ(u v) = ψᵢ((u v)^a) = ψᵢ(u v⁻¹)`, and likewise `ψᵢ(u⁻¹ v) = ψᵢ(u v)`;
+   `∑_{k ∈ K} ψᵢ(k) = 2 |O(C)| εᵢ`. Let `q` be the product of the primes dividing `|G|` but not
+   `2 |O(C)|`; the moduli `4 q` and `|O(C)|` are coprime, so the Chinese remainder theorem
+   (`Nat.chineseRemainder`) gives an integer `a` with `a ≡ 1 (mod 4 q)` and `a ≡ −1 (mod |O(C)|)`,
+   and every such `a` is prime to `|G|`: it is odd, it is `≡ −1` modulo each prime of `|O(C)|`,
+   and it is `≡ 1` modulo each remaining odd prime of `|G|`. For `v ∈ O(C)`, `u` and `v` commute
+   (`C = O(C) × U`), so `(u v)^a = u^a v^a = u v⁻¹` and step 1 gives
+   `ψᵢ(u v) = ψᵢ((u v)^a) = ψᵢ(u v⁻¹)`; likewise `(u⁻¹ v)^a = u⁻¹ v⁻¹ = (u v)⁻¹`, so
+   `ψᵢ(u⁻¹ v) = ψᵢ((u v)⁻¹) = ψᵢ(u v)`, `ψᵢ` being real-valued;
    so the integers `aᵥ = ψᵢ(u v)` satisfy `∑ᵥ aᵥ = |O(C)| εᵢ` and `aᵥ = a_{v⁻¹}`. Inversion fixes
    only `1` in `O(C)`, so `ψᵢ(u) = a₁ ≡ |O(C)| εᵢ ≡ 1 (mod 2)` and `∑ᵥ aᵥ² ≡ 1 (mod 2)`. The sum
    `∑ᵥ aᵥ²` is `|O(C)| m` for an integer `m`: `|ψᵢ|²` restricted to `C` is a character of `C`, and
@@ -702,7 +708,7 @@ InductionRestriction Layer 2; Tau Ceti `Representation.char_eq_finrank_iff`,
 `MonoidHom.transfer`, `MonoidHom.transfer_eq_prod_quotient_orbitRel_zpowers_quot`,
 `Abelianization.of`, `Abelianization.commutator_subset_ker`, `IsSimpleGroup`,
 `IsPGroup.le_sylow_of_normal`, `Representation.char_orthonormal`,
-`Representation.isIntegral_character`.
+`Representation.isIntegral_character`, `Nat.chineseRemainder`.
 
 **Checks.**
 - `Q₈`, `SL(2, 3)`, `SL(2, 5)`: `O(G) = 1`, the involution is central, `N = ⊥`.
@@ -725,6 +731,10 @@ InductionRestriction Layer 2; Tau Ceti `Representation.char_eq_finrank_iff`,
 - The case `n ≥ 4` needs `f₁, f₂ > 0`, that is faithfulness of the constituents: without the
   reduction to a simple group, `ζ = 1_G + ψ₁ − ψ₂` with `ψ₁(z) = ψ₁(1)` would satisfy the first
   two relations trivially.
+- The exponent `a` of step 2 of the case `n = 3` must be prime to `|G|`, not only to
+  `4 |O(C)|`: in `SL(2, 3)` with `U = ⟨i⟩`, `O(C) = 1` and `q = 3`, the integer `9` satisfies
+  `9 ≡ 1 (mod 4)` and `9 ≡ −1 (mod 1)` but `gcd(9, 24) = 3`, so step 1 says nothing about `g^9`;
+  the choice `a ≡ 1 (mod 12)`, say `a = 13`, is prime to `24`.
 
 ### Examples
 
