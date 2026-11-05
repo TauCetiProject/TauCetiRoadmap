@@ -50,8 +50,8 @@ manifold, bundle or group-completion vocabulary replaces an existing API.
 
 - [AlgebraicTopology](../AlgebraicTopology/README.md) supplies CW pairs,
   cofibrations, homotopies, relative homotopy sequences and ordinary
-  (co)homology, and its Stage 5.5 supplies the Serre-fibration homotopy
-  sequence and native bundle-to-Serre comparison used by T1.5. T1 supplies the
+  (co)homology, and its Stage 5.5 supplies the bundle-to-Serre comparison
+  and the based homotopy long exact sequence used by T1.5. T1 supplies the
   bundle-specific section-extension argument; T3 supplies K-theory's own exact
   sequences.
 - [GrothendieckEulerForms](../GrothendieckEulerForms/README.md) supplies the
@@ -80,20 +80,23 @@ manifold, bundle or group-completion vocabulary replaces an existing API.
   earlier pure finite-subset colouring lemma needed to countabilize arbitrary
   locally finite classifier data. C1.1b's later join/frame colouring is a
   consumer of that lemma, never a premise for T1.6a.
-- [ComplexKahlerGeometry K5–K7](https://github.com/TauCetiProject/TauCetiRoadmap/blob/13b2335ea038b439655df55654e71b19603d8ee1/TauCetiRoadmap/ComplexKahlerGeometry/README.md) supplies
+- [ComplexKahlerGeometry K5–K7](../ComplexKahlerGeometry/README.md) supplies
   static Laplace-type estimates, Dolbeault Hodge theory, Kähler identities and
   projective examples. T6 owns the continuous-parameter, vertically smooth
   family bridges needed for its projective transfer. A static Hodge theorem does not
   supply those family bridges.
-- [CompactGroups Layer5.1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/e081fe4d3c5837231222ed50cf396ffcf51a8d46/TauCetiRoadmap/RepresentationTheory/CompactGroups/README.md)
-  supplies Haar averaging, Peter–Weyl and the generic G-finite-vector density
-  theorem for strongly continuous Banach representations. T6.1 owns the
-  continuous-section and L²-section actions and finite equivariant embedding
-  applications. [NoncompactQuantumSymmetry M0](https://github.com/TauCetiProject/TauCetiRoadmap/blob/f6afdcaea14fd4be5cdff6df091710bbc70aaa02/TauCetiRoadmap/NoncompactQuantumSymmetry/README.md)
+- [CompactGroups Layer 5](../RepresentationTheory/CompactGroups/README.md)
+  supplies Haar averaging and Peter–Weyl, and, as its recorded gap
+  `gap:banach-gfinite-density`, the generic G-finite-vector theory: the
+  orbit-span predicate `IsGFinite`, the submodule `gFiniteSubmodule` and the
+  density theorem `gFiniteSubmodule_dense` for a strongly continuous
+  representation of a compact Hausdorff group on a complex Banach space.
+  T6.1 owns the continuous-section and L²-section actions and finite
+  equivariant embedding applications. NoncompactQuantumSymmetry M0
   retains its Hilbert isotypic projections, multiplicity/tensor decomposition,
   smooth-vector comparisons and later noncompact theory; its K-finite
   predicate is compared with the same orbit-span definition.
-- [BanachAlgebras A2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/4ca3e99e0e27255fdcf8aea71e4e9aef052a3d77/TauCetiRoadmap/BanachAlgebras/README.md)
+- [BanachAlgebras A2](../BanachAlgebras/README.md)
   owns the holomorphic calculus, Riesz idempotents and fixed-contour
   continuity. T4.4 supplies finite-matrix generalized-eigenspace,
   image-subbundle and clutching applications of that one projector.
@@ -105,7 +108,7 @@ manifold, bundle or group-completion vocabulary replaces an existing API.
   and algebraic periodicity. Existing Tau Ceti `Spin.Structure`, `Spin.OddStructure`
   and `Spin.Polarization.CliffordAction` are consumed; algebraic periodicity does
   not prove topological periodicity.
-- [HomotopySpheres §4A–4B](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1287)
+- HomotopySpheres §4A–4B
   supplies stable O/SO, the loop comparison with T1.6's oriented classifier,
   and the full real Bott loop chain with its Clifford comparison. T1.5–T1.6
   own the finite Grassmannian carriers, fixed-rank BO(n)/BSO(n), stable BO/BSO
@@ -304,7 +307,8 @@ these generators. Tensor products use the Koszul sign for Z/2 gradings.
    **T1.5a. First Stiefel groups and normalized boundary.** On these same
    finite orthonormal-frame carriers write V_r(R^n), 0≤r≤n, m=n−r. Construct
    the last-vector forgetful map, local trivializations and sphere fibre S^m.
-   Consume the native bundle-to-Serre adapter and AT5.5's actual based LES.
+   Consume AlgebraicTopology Stage 5.5's bundle-to-Serre comparison and its
+   based homotopy long exact sequence.
    For m≥1 prove (m−1)-connectivity. For r=1 the space is S^m and π_m=Z
    for either parity. For r≥2,m≥1 prove π_m=Z when m is even and Z/2 when
    m is odd, with the bottom-fibre Z map the stated quotient and generator.
@@ -329,6 +333,19 @@ these generators. Tensor products use the Koszul sign for Z/2 gradings.
    action local systems. This early phase consumes finite-frame charts,
    ordinary sphere degree and the actual fibration LES; it has no Schubert,
    universal-class, Bott or later CC obstruction premise.
+
+   **Checks.**
+   - m=1, r=2, n=3: with x=(cos θ,sin θ) and e=(1,0), the clutching map
+     x↦2⟨x,e⟩x−e is (cos 2θ,sin 2θ), of degree 2=1−(−1)¹; the sequence
+     ℤ→ℤ→π₁(V_2(ℝ³))→0 then gives π₁(SO(3))=ℤ/2. A formula giving degree 0
+     would give π₁(SO(3))=ℤ.
+   - m=2, r=2, n=4: the map on S² has degree 0=1−(−1)², so π₂(V_2(ℝ⁴))=ℤ,
+     in agreement with V_2(ℝ⁴)≅S³×S² (the unit tangent bundle of the
+     parallelizable S³); degree 2 would give ℤ/2.
+   - r=1: the carrier is S^m itself and π_m=ℤ for every m, with no quotient;
+     the quotient 2ℤ appears only for r≥2 and odd m, so the ℤ/2 answer for
+     V_2(ℝ^(m+2)) with m odd and the ℤ answer with m even are the
+     discriminating values.
 
    Own the smooth upgrade of these same finite real and complex carriers,
    of real dimensions r(N−r) and 2r(N−r): smooth graph charts in
@@ -392,6 +409,18 @@ these generators. Tensor products use the Koszul sign for Z/2 gradings.
    `Σ_{|E|=n} n q_E = n(a_n−a_(n+1))`. Summing over n telescopes to
    `Σ_E |E|q_E=Σ_j t_j=1`. Zero weights, the last active segment and ties
    are part of this argument, not generic-position exceptions.
+
+   **Checks.**
+   - Two active weights `a₁=0.7>a₂=0.3`: `q_{1}=0.7−0.3=0.4`,
+     `q_{1,2}=0.3−0=0.3`, `q_{2}=max(0,0.3−0.7)=0`, and
+     `1·0.4+2·0.3=1`; a definition without the `max(0,·)` would give
+     `q_{2}=−0.4` and a weighted sum `0.6`.
+   - A tie `a₁=a₂=0.5`: `q_{1}=q_{2}=0` and `q_{1,2}=0.5`, so the single
+     positive stratum has size 2 and `2·0.5=1`; a definition choosing one
+     index in a tie would produce two overlapping positive strata.
+   - One active weight `a₁=1`: `q_{1}=1−0=1` with the empty-complement
+     supremum zero, and `1·1=1`; taking that supremum as `−∞` or omitting
+     the empty case would leave `q_{1}` undefined.
 
    Use native `PartitionOfUnity.finsupport` and `exists_finset_nhds` to reduce
    these identities and sums locally to finite sums. Define the resulting
@@ -598,7 +627,22 @@ these generators. Tensor products use the Koszul sign for Z/2 gradings.
    (pr₁*γtilde_k⊕pr₂*γtilde_k, ε_k·Whitney), retaining the oriented bundles.
    Prove this sign identity for the normalized based lift. Since ε_k ε_(k+1)(−1)^k=1, the normalized oriented maps satisfy
    the strict diagonal-rank identity; the natural ordered finite Whitney maps
-   alone do not. Their lifted law homotopies are rank-compatible by unique
+   alone do not.
+
+   **Checks.**
+   - k=1: the interleaved frame (e₀,e₁) is the standard frame, zero
+     inversions, ε_1=+1; k=2: the interleaved frame (e₀,e₂,e₁,e₃) has one
+     inversion, ε_2=−1; k=3: (e₀,e₂,e₄,e₁,e₃,e₅) has three inversions,
+     ε_3=−1. A definition with ε_k=(−1)^k would give ε_2=+1.
+   - ε_1ε_2(−1)^1=(+1)(−1)(−1)=1 and ε_2ε_3(−1)^2=(−1)(−1)(+1)=1, so the
+     diagonal-rank identity holds strictly for the normalized lift; with the
+     unnormalized Whitney orientation the k=1 to k=2 step carries the sign
+     −1.
+   - Rank one: μ(sV,sW) against s²μ(V,W) has sign (−1)^1=−1, a single
+     transposition; a convention recording (−1)^(k(k−1)/2) for this
+     comparison would give +1 at k=1 and conflate the two normalisations.
+
+   Their lifted law homotopies are rank-compatible by unique
    path lifting. Export the stable classification comparison: the ordinary
    Whitney-oriented sum of two classified stable bundles is classified by this
    based map. Compare with the finite formula after adding a positive trivial
@@ -654,7 +698,14 @@ use the same native `TauCeti.SplitK0.{u}` carrier. Construct its comparison with
 isomorphism classes under Whitney sum and with the pair relation
 `(E,F)~(E′,F′)` iff `∃G,E⊕F′⊕G≃E′⊕F⊕G`. Prove the class-map relation,
 induction, additive universal property and equality criterion with a common
-bundle summand; no triviality of that summand is asserted. Tensor product induces
+bundle summand; no triviality of that summand is asserted (Hatcher, Vector
+Bundles and K-Theory, §2.1, pp. 39–40: on a compact Hausdorff base, formal
+differences `E−E′` with `E₁−E₁′=E₂−E₂′` iff `E₁⊕E₂′` and `E₂⊕E₁′` are
+stably isomorphic, whose transitivity uses the cancellation property given
+by the finite trivial complements of Proposition 2.1; over a paracompact
+base the relation with an arbitrary common summand `G` is the one used
+here, and it agrees with the stable relation whenever `G` has a trivial
+complement). Tensor product induces
 the commutative unital ring, with the trivial line as unit; prove all laws using
 T1's actual associativity, symmetry and distributivity isomorphisms. The empty
 base gives the zero ring.
@@ -759,13 +810,12 @@ paracompact conclusions of T2.0.
    and disconnected rank strata; split E⊕1 when E has rank0 so the
    projectivization is nonempty, then remove the trivial-line term.
 
-   Consume the generic `AdamsOperations` and `AdamsHom` interfaces of
-   [Mathlib PR42468](https://github.com/leanprover-community/mathlib4/pull/42468)
-   over ℤ: package the constructed operations, composition and prime
+   Consume a generic `AdamsOperations`/`AdamsHom` interface over ℤ if
+   Mathlib provides one; otherwise provide it in Tau Ceti in the same
+   shape: package the constructed operations, composition and prime
    congruence on K(X), and package pullbacks as `AdamsHom`. Set its index0
    to the locally constant rank endomorphism followed by trivial bundles;
-   prove the composition and pullback laws also at0. If this interface is unavailable, provide it in
-   Tau Ceti in the same shape. The integral λ-series/Newton comparison
+   prove the composition and pullback laws also at0. The integral λ-series/Newton comparison
    and topological bundle construction belong here; the supplier's
    rational symmetric-function action applies after constructing the
    `AdamsOperations ℚ (ℚ ⊗[ℤ] K(X))` instance by tensoring the actual
@@ -1005,8 +1055,10 @@ comparisons, not an assumption on every K-object.
 
 1. Construct equivariant bundle metrics by Haar averaging, sums/tensors/duals,
    pullbacks and their small category. Prove equivariant splitting of bundle
-   exact sequences. Consume CompactGroups Layer5.1's G-finite-vector
-   predicate and density for strongly continuous Banach representations,
+   exact sequences. Consume CompactGroups Layer 5's G-finite-vector
+   predicate `IsGFinite`, submodule `gFiniteSubmodule` and density theorem
+   `gFiniteSubmodule_dense` for strongly continuous Banach representations
+   of a compact Hausdorff group, its recorded gap `gap:banach-gfinite-density`,
    with its integrated-action normalization. Construct the sup-norm action
    on continuous sections and prove strong continuity. For a finite invariant
    Radon measure and invariant continuous Hermitian metric construct the
@@ -1206,7 +1258,11 @@ Thus sh_* is (a,b)↦(a,a+b), with inverse (a,b)↦(a,b−a).
 Apply AT8.5's full CW Whitehead theorem, then AT4.5's
 `basedHomotopyInverseOfEquivalence` on the marked 0-cell cofibrations to
 obtain a based homotopy inverse g with both inverse homotopies rel basepoint.
-Export g and those actual homotopies with their endpoint equations.
+Export g and those actual homotopies with their endpoint equations. This is
+the shear-map proof that a path-connected H-space of the homotopy type of a
+CW complex has a homotopy inverse (Sibson, Existence theorems for H-space
+inverses, Proc. Cambridge Philos. Soc. 65 (1969), pp. 19–21), carried out on
+the actual carrier BO so that the inverse and its homotopies are exported.
 
 Define `stableRealGrassmannianInverse` by ν(x)=pr₂(g(x,*)), and export the
 actual based continuous self-map. The first projection of sh∘g≃id identifies
@@ -1376,9 +1432,13 @@ complex Thom and index developments. Every analytic step in T4 concerns finite
 matrix/bundle families; no elliptic operator or index theorem proves Bott.
 
 - Atiyah–Bott, [*On the periodicity theorem for complex vector bundles*](https://doi.org/10.1007/BF02391772), Acta Math.112 (1964), 229–247, for the polynomial-clutching proof.
-- Hatcher, [*Vector Bundles and K-Theory*](https://pi.math.cornell.edu/~hatcher/VBKT/VB.pdf), §1 and §§2.2–2.3, for bundle/classification foundations, the elementary product proof and Adams operations.
+- Hatcher, [*Vector Bundles and K-Theory*](https://pi.math.cornell.edu/~hatcher/VBKT/VB.pdf), §1 and §§2.1–2.3, for bundle/classification foundations, the group completion of T2.0, the elementary product proof and Adams operations.
 - Kriz–May, [*Operads, algebras, modules, and motives*](https://www.math.uchicago.edu/~may/BOOKS/KM.pdf), the section “The linear isometries operad”, for the finite-support universe and compactly generated coordinate-choice topology; T1.6 builds the actual frame/coherence comparisons.
 - Freed's K-theory lectures, [notes by Arun Debray](https://www.math.purdue.edu/~adebray/lecture_notes/m392c_Knotes.pdf), §§5–6, for the companion-pencil, spectral bundle and inverse-independence proof spine, with uniform approximation and signs proved as specified above.
 - Segal, [*Equivariant K-theory*](https://www.numdam.org/item/PMIHES_1968__34__129_0/), Publ.Math.IHÉS34 (1968), for equivariant bundles, representation embeddings, descent and complex Thom theory.
 - Atiyah, [*Bott periodicity and the index of elliptic operators*](https://doi.org/10.1093/qmath/19.1.113), Quart.J.Math.19 (1968), §§2 and4 (especially Proposition4.9), for the minimal family-index transfer; prove the analytic bridges of T6.5 rather than importing a general index theorem.
 - Atiyah–Bott–Shapiro, [*Clifford modules*](https://doi.org/10.1016/0040-9383(64)90003-5), Topology3 Supplement1 (1964), §§6 and11, for the graded-module product computation and its geometric comparison in T7.
+- Sibson, [*Existence theorems for H-space inverses*](https://doi.org/10.1017/S0305004100044029), Proc. Cambridge Philos. Soc. 65 (1969), pp. 19–21, for the connected CW H-space inverse of T7.0.
+- Mitchell, [*Notes on principal bundles and classifying spaces*](https://sites.math.washington.edu/~mitchell/Notes/prin.pdf) (2011), §§2–3 and Lemma 7.2, for the principal-bundle and classifying-space inputs of T6.4.
+- Kolář–Michor–Slovák, [*Natural Operations in Differential Geometry*](https://www.mat.univie.ac.at/~michor/kmsbookh.pdf) (1993), §§10.1–10.9, for principal and associated bundles in T6.4.
+- Husemoller, [*Fibre Bundles*](https://doi.org/10.1007/978-1-4757-2261-1), GTM 20 (1994), Ch. 4, §§9–12, for associated bundles and their reductions in T6.4.
