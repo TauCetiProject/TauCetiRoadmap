@@ -107,7 +107,7 @@ Galois-cohomology modules of `TauCeti/FieldTheory/GaloisCohomology/` (`Coefficie
 `FixedPoints.addSubgroup H M` in `TauCeti/GroupTheory/GroupAction/FixedPoints.lean`,
 `TauCeti.QuotientGroup.mapOfLE`, `TauCeti.exists_openNormalSubgroup_smul_eq_self`,
 `TauCeti.exists_continuous_section`, `TauCeti.leastENatBound`, `TauCeti.IsPPrimaryTorsion`,
-`TauCeti.quotientOpenSubgroup`, `TauCeti.maximalProPQuotient` and the conjugation action on
+`Subgroup.quotientOpenSubgroup`, `TauCeti.maximalProPQuotient` and the conjugation action on
 `TopologicalAbelianization`.
 
 ### Supplied to other roadmaps
@@ -2172,7 +2172,7 @@ with their evaluation rules, the multiplication rule `evensB1_mul_of_mem`, `even
 `evensGraphCochain_sub_evensGraphCochain`), the graph class `TauCeti.ContCohomology.graphClass` with
 `graphClass_eq_cochainClass` (`Evens/Class.lean`), the trivial coefficients `TauCeti.trivialF2` with
 `TauCeti.trivialF2ResMap`, `TauCeti.isSmoothDiscrete_trivialF2` and
-`TauCeti.ofDiscreteModule_trivialF2`, `TauCeti.quotientOpenSubgroup`, and the connecting-map cup
+`TauCeti.ofDiscreteModule_trivialF2`, `Subgroup.quotientOpenSubgroup`, and the connecting-map cup
 identities of `Cup/ConnectingMap.lean`. This roadmap: Layers 5, 6, 7 and 8 for the cochains of the
 explicit index-2 form, with Layer 3's comparisons, Layer 10's corestriction and Layer 12's `(1,1)`
 cup for its statements on the canonical carrier; Layers 10 and 12 for the general construction.
