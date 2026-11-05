@@ -1,4 +1,6 @@
-import Mathlib
+module
+
+public import Mathlib
 
 /-!
 # Complex manifolds, Dolbeault theory, and Kähler geometry: target signatures
