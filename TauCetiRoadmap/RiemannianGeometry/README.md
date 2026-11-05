@@ -1160,7 +1160,9 @@ Supply annulus/restricted-polar versions, small-ball limit1, measure-zero cut lo
    `Ric(v,v)≥λ|v|²` with λ>0, prove diameter≤π√((n−1)/λ), compactness and finite
    fundamental group at every basepoint (`myers_finite_fundamentalGroup`)
    (Nicolaescu, *Lectures on the Geometry of Manifolds*, Theorem 5.2.26,
-   p. 220, with λ=(n−1)/r²). Sum the sine-test-field index forms along a minimizing
+   p. 220, with λ=(n−1)/r², for the diameter bound and compactness; Example 6.2.29,
+   p. 243, for compactness of the Riemannian universal cover, from which R4.3's
+   fibre finiteness gives finite `π₁`). Sum the sine-test-field index forms along a minimizing
    geodesic, then apply the same bound to the Riemannian universal cover.
 6. Define `inj(p)=sup{r≥0 | exp_p restricts to a diffeomorphism from
    the tangent open r-ball onto the metric r-ball}`, valued in [0,∞], and
@@ -2791,7 +2793,9 @@ minimization nor GeometricCurrents regularity enters R5b.
 - L. I. Nicolaescu, [Lectures on the Geometry of Manifolds](https://academicweb.nd.edu/~lnicolae/Lectures.pdf),
   author's electronic edition, Definition 4.1.23 and Proposition 4.1.25,
   p. 151 (injectivity radius; first-order contact of normal coordinates),
-  Theorem 5.2.26, p. 220 (Myers) and Theorem 6.2.6, p. 238 (Cartan–Hadamard).
+  Theorem 5.2.26, p. 220 (Myers: diameter bound and compactness), Theorem 6.2.6,
+  p. 238 (Cartan–Hadamard) and Example 6.2.29, p. 243 (compactness of the universal
+  cover under a positive Ricci lower bound).
 - Z. Wang, [Riemannian geometry notes](https://xumin.net/c/files/riemannian_geometry.pdf),
   as recorded by X. Liang, Chapters 5–6, provides an accessible finite
   piecewise-Jacobi index reduction and comparison reference.
