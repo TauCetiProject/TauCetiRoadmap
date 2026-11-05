@@ -98,11 +98,12 @@ It does not own:
   unless that subextension is Galois over `K`, because `AlgebraicClosure K` is not Galois over `K`
   in characteristic `p`.
 - **Open subgroups above `G_L`.** For `L` separable over `K`, the open subgroups of `G_K` that
-  contain `G_L` are exactly the `E.fixingSubgroup` for `E ∈ 𝓔_{L/K}`. An open `U ⊇ G_L` fixes a
-  subextension of the purely inseparable closure of `L` in `AlgebraicClosure K`, finite over `K`. Its
-  separable part `E` lies in `L` because `L/K` is separable, and `U = E.fixingSubgroup` because an
-  automorphism fixing `E` fixes its purely inseparable closure. This is the first target of
-  Layer 0.
+  contain `G_L` are exactly the `E.fixingSubgroup` for `E ∈ 𝓔_{L/K}`. The fixed field of an open
+  `U ⊇ G_L` lies in the purely inseparable closure of `L` in `AlgebraicClosure K`. Its separable
+  part `E`, the elements separable over `K`, is finite over `K` of degree `[G_K : U]`, and lies in
+  `L` because an element separable over `K` and purely inseparable over `L` is in `L`. Then
+  `U = E.fixingSubgroup`, because an automorphism fixing `E` fixes its purely inseparable closure.
+  This is the first target of Layer 0.
 - **The upper filtration** is `F_K`, written `G_K(u)`, of the filtered local Galois groups roadmap:
   `G_K(u) = G_K^u` of TauCetiProject/TauCetiRoadmap#1410 for `u ≥ −1`, and `G_K` for `u < −1`. For
   `L/K` Galois, `Gal(L/K)` carries the quotient filtration `Gal(L/K)^u`, the image of `G_K(u)`.
@@ -124,11 +125,17 @@ It does not own:
   multiplication and the addition of Layer 1.5. It is a type with its own `Field`, `ValuativeRel`,
   `TopologicalSpace` and `IsNonarchimedeanLocalField` instances. For `E` and `E'` in `𝓔_{L/K}`,
   `E'` is an extension of `E` through `IntermediateField.extendScalars`.
+- **Completions.** For `L` separable algebraic over `K`, `L̂` is `UniformSpace.Completion L` for
+  the uniform structure of the unique norm on `L` extending the normalized absolute value of `K`
+  (the spectral norm), with the extended norm. It is a `NontriviallyNormedField` with
+  `IsUltrametricDist` and `CompleteSpace`. The same applies to `M̂` for `M/L` separable algebraic.
 - **Tilts.** For a complete valued field `E` of residue characteristic `p`, Wintenberger's `R(E)`
   is the set of sequences `(x_n)_{n ≥ 0}` in `E` with `x_{n+1}^p = x_n`, with termwise
   multiplication and the addition `(x + y)_n = lim_m (x_{n+m} + y_{n+m})^{p^m}`. Here `R(E)` always
-  means Mathlib's `Tilt` of `E`, the fraction field of `PreTilt 𝒪_E p`. The sequence description is
-  the target 5.0, through Mathlib's `PreTilt.untilt`, which gives `x_0 = x^♯`.
+  means Mathlib's `Tilt E v v.integer _ p` with `v = NormedField.valuation` and `O = v.integer`, as
+  in the perfectoid spaces roadmap's `Perfectoid.fontaineWintenberger_nonempty`. So 5.3 and 5.4
+  apply P1.11 and P3.8 verbatim. The sequence description is the target 5.0, through Mathlib's
+  `PreTilt.untilt`, which gives `x_0 = x^♯`.
 
 ## What this roadmap consumes
 
@@ -138,8 +145,8 @@ It does not own:
   `GroupFiltration.herbrandPsi` and its properties for open subgroups, and filtered isomorphisms.
 - **Layer 2**: the upper filtration `F_K` on `G_K` for a nonarchimedean local field, the quotient
   filtration on `Gal(F/K)` for Galois `F/K` equal to its upper filtration (2.1), the agreement
-  `ψ_H = ψ_{E/K}` for `H = E.fixingSubgroup`, `E/K` finite separable (2.2), and the open-subgroup
-  model `absoluteGaloisGroupEquivFixingSubgroup'` of `G_E` (2.0).
+  `ψ_H = ψ_{E/K}` for `H = E.fixingSubgroup`, `E/K` finite separable (2.2). Its open-subgroup
+  model 2.0 is for finite `E`; the model for infinite `L` is 0.0 below.
 
 ### From the ramification of complete discretely valued fields roadmap (TauCetiProject/TauCetiRoadmap#1410)
 
@@ -153,12 +160,11 @@ It does not own:
 - `TauCeti.LocalFieldsRamification.lowerRamificationGroup`, `lowerRamificationGroupReal`,
   `upperRamificationGroup`, `herbrand` and `inverseHerbrand` for finite Galois extensions, and
   Herbrand's theorem on quotients `map_restrictNormalHom_upperRamificationGroup`.
-- **Hasse–Arf**, the completed roadmap's `hasseArf` on `UpperJump`: the upper jumps of a finite
-  abelian extension are integers. Tau Ceti has its exponent-`p` case
-  `UpperJump.exists_eq_intCast_of_exponent_prime` and the cyclic reduction
-  `upperJump_iff_exists_isCyclic_intermediateField`.
-- **The graded embeddings** `θ_i : G_i/G_{i+1} ↪ 𝓀[L]⁺` for `i ≥ 1` and the tame character
-  `TauCeti.tameCharacter` on `G_0/G_1`.
+- **Hasse–Arf**, `TauCeti.LocalFieldsRamification.hasseArf` on `UpperJump`
+  (`Herbrand/HasseArf/Abelian.lean`): the upper jumps of a finite abelian extension are integers.
+- **The graded embeddings** `θ_i : G_i/G_{i+1} ↪ 𝓀[L]⁺` for `i ≥ 1`,
+  `TauCeti.ramificationGroupGradedToResidueField` (`LocalField/UnitFiltration/RamificationGroup.lean`),
+  and the tame character `TauCeti.tameCharacter` on `G_0/G_1`.
 - Norms: `normalizedValuation_norm` (`v_E(N_{E'/E} x) = f(E'/E) v_{E'}(x)`) and the norm of
   `𝒪_{E'}` over `𝒪_E` (`LocalField/Norm/`), `TauCeti.IsTotallyRamified`, the Teichmüller
   representatives (`LocalField/Teichmuller.lean`) and the unramified extensions
@@ -192,6 +198,15 @@ than the perfectoid spaces roadmap's Fontaine–Wintenberger theorem for perfect
 
 Let `L/K` be separable algebraic, `H = G_L`.
 
+- **0.0 The fixing-subgroup model.** `Field.absoluteGaloisGroup L ≃ₜ* L.fixingSubgroup` for every
+  separable algebraic `L` (`absoluteGaloisGroupEquivFixingSubgroupOfSeparable`). It is the
+  composite of `absoluteGaloisGroupRestrictEquiv L`, Tau Ceti's
+  `absoluteGaloisGroupEquivFixingSubgroup K L σ` (`AbsoluteGaloisGroup/Extension.lean`, no
+  finiteness hypothesis) for the inclusion `σ` of `L` into
+  `SeparableClosure K = separableClosure K (AlgebraicClosure K)`, and
+  `absoluteGaloisGroupRestrictEquiv K`, which carries `L.fixingSubgroup` onto
+  `σ.fieldRange.fixingSubgroup`. For finite `L` it is 2.0 of the filtered local Galois groups
+  roadmap, and its composite with the inclusion into `G_K` is `absoluteGaloisGroupExtend K L σ`.
 - **0.1 Definition.** `L/K` is **APF** if `G_K(u)·H` is open in `G_K` for every `u ≥ −1`
   [Wintenberger 1983, 1.2.1]. `G_K(u)·H` is a subgroup because `G_K(u)` is normal. It is open
   exactly when it has finite index. By the conventions it is then `E_u.fixingSubgroup` for a unique
@@ -231,13 +246,15 @@ Let `L/K` be separable algebraic, `H = G_L`.
     `G_K(i + ε)·H = H` for every `ε > 0`. Equivalently, every `K`-embedding `σ ≠ id` of `L` into
     `AlgebraicClosure K` has Wintenberger lower index `i`. Such an extension is totally ramified of
     `p`-power degree, and elementary abelian when Galois.
-  - **The elementary tower** of an APF `L/K`: let `B` be the set of jumps of
-    `u ↦ G_K(u)·H`, which is finite in each bounded interval and infinite when `L/K` is. With
-    `b_n` its elements in increasing order, `i_n = ψ_{L/K}(b_n)` and `K_n = E_{b_n}`:
+  - **The elementary tower** of an APF `L/K`. Put `K_0 = E_0 = L ∩ K^ur`, and let `K_1` be the
+    fixed field in `L` of `G_K(0+)·H`, `G_K(0+) = closure ⋃_{w > 0} G_K(w)`. Let
+    `b_1 < b_2 < …` be the jumps of `u ↦ G_K(u)·H` in `(0, ∞)`, which are finite in each bounded
+    interval and infinitely many when `L/K` is infinite, and put `K_n = E_{b_n}` for `n ≥ 1`. `E_u`
+    is constant on `(0, b_1]`, so this gives the same `K_1`. With `i_n = ψ_{L/K}(b_n)`:
     - `K_0 = L ∩ K^ur`;
     - `K_1/K_0` is totally ramified of degree prime to `p`, so `K_1` is the maximal tame
       subextension;
-    - `K_{n+1}/K_n` is elementary of level `i_n = i(L/K_n)`;
+    - `K_{n+1}/K_n` is elementary of level `i_n = i(L/K_n)` for `n ≥ 1`;
     - `⋃ K_n = L`, and `i_n → ∞` when `L/K` is infinite.
 
     These properties characterize the tower.
@@ -254,8 +271,8 @@ Let `L/K` be separable algebraic, `H = G_L`.
     `q_L = #k_L`.
     - By Hasse–Arf at every finite level, the upper jumps of `G` are integers, so `G^u = G^{⌈u⌉}`.
     - For `n ≥ 1` and every finite level `M`, `Gal(M/K)^n / Gal(M/K)^{n+1}` is
-      `G_j/G_{j+1}` for the lower index `j = ψ_{M/K}(n)`, which embeds in `k_M ⊆ k_L` (the graded
-      embedding `θ_j`). So `[G^n : G^{n+1}] ≤ q_L`.
+      `G_j/G_{j+1}` for the lower index `j = ψ_{M/K}(n)`, which embeds in `k_M ⊆ k_L`
+      (`ramificationGroupGradedToResidueField`). So `[G^n : G^{n+1}] ≤ q_L`.
     - `G^0` is open because the residue extension is finite, and `G^0/G^{0+}` embeds in `k_L^×`.
       So every `G^u` is open, and `L/K` is APF.
     - For `u ∈ (n, n+1]` with `n ≥ 1`, the index `(G^0 : G^u)` is `I_{n+1} = (G^0 : G^{n+1})`, while
@@ -343,9 +360,9 @@ Let `L, L'` be infinite APF extensions of `K`.
     `L`-embeddings, to separable algebraic extensions of `X_K(L)`, with `X_K(L)`-embeddings.
     Essential surjectivity is proved through discriminants [Wintenberger 1983, 3.2.5].
   - **Corollary.** `X̄ = X_{L/K}(K^sep)` is a separable closure of `X_K(L)`, and
-    `Gal(K^sep/L) ≅ Gal(X̄/X_K(L))`. As topological groups, through 2.0 of TauCetiProject/TauCetiRoadmap#1795
-    and Tau Ceti's `absoluteGaloisGroupRestrictEquiv`, which compares the separable and algebraic
-    closure models:
+    `Gal(K^sep/L) ≅ Gal(X̄/X_K(L))`. As topological groups, through 0.0 and Tau Ceti's
+    `absoluteGaloisGroupRestrictEquiv`, which compares the separable and algebraic closure
+    models:
     `Field.absoluteGaloisGroup L ≃ₜ* Field.absoluteGaloisGroup (X_K(L))`. This is the
     **field-of-norms isomorphism**, written `ι_{L/K}`.
 - **2.3 Galois `L/K`** [Wintenberger 1983, 3.2.4, Cor. 3.3.4].
@@ -372,8 +389,9 @@ Let `L, L'` be infinite APF extensions of `K`.
   the quotient filtration of `F_{X_K(L)}` (the filtered local Galois groups roadmap's Layer 2.1
   applied to the local field `X_K(L)`).
   **Absolute form.** `ι_{L/K}` carries `G_K(u) ∩ G_L` onto `G_{X_K(L)}(ψ_{L/K}(u))` for every
-  `u ≥ −1`. In characteristic `0` this is the case `M = AlgebraicClosure K`. In characteristic `p`
-  it is the limit over finite Galois `M ⊇ L` inside the separable closure.
+  `u ≥ −1`, with `G_L = L.fixingSubgroup` through 0.0. This is the case
+  `M = separableClosure K (AlgebraicClosure K)`, which is Galois over `K` in every characteristic,
+  read through `absoluteGaloisGroupRestrictEquiv K`.
 - **3.4 Transitivity** [Wintenberger 1983, Prop. 3.4.1]. For `M/L` separable algebraic, `M/K` is
   APF iff `X_{L/K}(M)/X_K(L)` is. Then `X_K(M) ≅ X_{X_K(L)}(X_{L/K}(M))`, compatibly with the
   embeddings of 2.1 and with `ι`.
@@ -425,14 +443,26 @@ algebraic with completion `M̂`.
     embedding.
 - **5.2 The completed perfection** [Wintenberger 1983, Thm. 4.3.2, Cor. 4.3.4].
   - `Λ` extends to `Λ_{M/L/K}` on the completed perfection `X_{L/K}(M)^{perf,∧}`.
-  - The composite `𝒪_{X^{perf,∧}} → 𝒪_{R(M̂)} → 𝒪_{M̂}/p`, the second map `x ↦ x_0 mod p`, is
-    surjective.
-  - `Λ_{M/L/K}` is an isomorphism `X_{L/K}(M)^{perf,∧} ≅ R(M̂)`.
-  - In characteristic `p`, `M̂` is perfect and equal to `R(M̂)`.
+  - In characteristic `0`, the composite `𝒪_{X^{perf,∧}} → 𝒪_{R(M̂)} → 𝒪_{M̂}/p`, the second map
+    `x ↦ x_0 mod p`, is surjective [Wintenberger 1983, Thm. 4.3.2].
+  - `Λ_{M/L/K}` is an isomorphism `X_{L/K}(M)^{perf,∧} ≅ R(M̂)` [Wintenberger 1983, Cor. 4.3.4]:
+    `𝒪_{R(M̂)} = lim 𝒪_{M̂}/p` along Frobenius, and the surjectivity above holds at every stage.
+  - **Characteristic `p`** [Wintenberger 1983, Cor. 4.3.4, from 4.3.3]. `M̂` is perfect, and
+    `x ↦ x_0` is an isomorphism `R(M̂) ≅ M̂`. For `L'` finite over `L` and `γ` as in 4.3.3.1, every
+    `t ∈ 𝒪_{L'}` is congruent modulo `{v ≥ γ}` to `Λ(a)_0` for some `a ∈ 𝒪_{X^{perf,∧}}` (4.3.3.1).
+    Iterating with an element `β` of small positive valuation (4.3.3.2) gives `a_r` with
+    `v(t − Λ(a_r)_0) ≥ γ + r·v(β)` and `a_{r+1} − a_r → 0`. In characteristic `p` there is no
+    bound `v(p)` to stop at, so `a = lim a_r` exists in the complete `𝒪_{X^{perf,∧}}` and
+    `t = Λ(a)_0`. Passing to `M = ⋃ L'` and completing, `x ↦ x_0` maps `R(M̂)` onto `M̂`. By
+    [Wintenberger 1983, Rem. 4.1.3.3] this map identifies `R(E)` with the largest perfect subfield
+    of a complete `E` of characteristic `p`, so that subfield is `M̂`.
   - In characteristic `0`, `W(𝒪_{R(M̂)}) → 𝒪_{M̂}` is surjective. Its kernel is principal, by
     the perfectoid spaces roadmap's P1 (the kernel of `θ`) [Wintenberger 1983, Prop. 4.3.7].
-- **5.3 Perfectoidness.** In characteristic `0`, `L̂` is a perfectoid field by P1.11's criterion.
-  - Frobenius is surjective on `𝒪_{L̂}/p`, by the surjectivity in 5.2 with `M = L`.
+- **5.3 Perfectoidness.** In characteristic `0`, `L̂` is a perfectoid field by P1.11's criterion,
+  the hypotheses of `Perfectoid.fontaineWintenberger_nonempty` for `L̂` with the norm of the
+  conventions.
+  - Frobenius is surjective on `𝒪_{L̂}/p`, by the characteristic-`0` surjectivity in 5.2 with
+    `M = L`.
   - The value group is not discrete, because `e(E/K)` is unbounded on `𝓔_{L/K}`.
   - So `X_K(L)^{perf,∧} ≅ L̂♭`.
 - **5.4 Agreement with Fontaine–Wintenberger.** In characteristic `0`, the following composite is
@@ -465,12 +495,13 @@ algebraic with completion `M̂`.
     `X_{ℚ_p}(L) ≅ 𝔽_p((π))`.
   - By 3.2, for `γ` with `χ_cyc(γ) ∈ (1 + p^n ℤ_p) ∖ (1 + p^{n+1} ℤ_p)`, `n ≥ 1`, the lower index
     of `X_K(γ)` is `ψ_{L/K}(n) + 1 = p^n`. Equivalently, `v(γπ − π) = p^n`.
-- **Kummer tower.** `K = ℚ_p`, `p` odd, `L = ℚ_p(p^{1/p^∞})`, `K_n = ℚ_p(p^{1/p^n})`.
-  - `K_{n+1}/K_n` is elementary of level `v_{K_{n+1}}(ζ_p − 1) = p^{n+1}/(p − 1)`, because every
-    nontrivial embedding sends `p^{1/p^{n+1}}` to `ζ p^{1/p^{n+1}}`.
-  - The levels increase strictly, so by 0.5 `(K_n)` is the elementary tower, with `K_0 = K_1 = ℚ_p`.
-  - `c(L/K) = inf_n (p^{n+1}/(p − 1)) / p^{n+1} = 1/(p − 1) > 0`, so `L/K` is strictly APF. It is
-    not Galois.
+- **Kummer tower.** `K = ℚ_p`, `p` odd, `L = ℚ_p(p^{1/p^∞})`. The elementary tower is
+  `K_0 = K_1 = ℚ_p` and `K_n = ℚ_p(p^{1/p^{n−1}})` for `n ≥ 1`.
+  - `K_{n+1}/K_n` is elementary of level `i_n = v_{K_{n+1}}(ζ_p − 1) = p^n/(p − 1)`, because every
+    nontrivial embedding sends `p^{1/p^n}` to `ζ p^{1/p^n}` with `ζ ∈ μ_p`.
+  - The levels increase strictly, so by 0.5 this is the elementary tower.
+  - `[K_{n+1} : K] = p^n`, so `c(L/K) = inf_n (p^n/(p − 1)) / p^n = 1/(p − 1) > 0`, and `L/K` is
+    strictly APF. It is not Galois.
   - `t = (p^{1/p^n})_n` is norm-compatible, since the minimal polynomial `X^p − p^{1/p^n}` has
     constant term `−p^{1/p^n}` and `p` is odd. `v(t) = 1` and `X_{ℚ_p}(L) ≅ 𝔽_p((t))`.
   - `Λ_{L/K}(t) = (p, p^{1/p}, p^{1/p²}, …)`, the element `t` with `t^♯ = p` of the perfectoid

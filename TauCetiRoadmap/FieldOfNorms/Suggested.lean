@@ -1,6 +1,7 @@
 import Mathlib
 import TauCeti.NumberTheory.LocalField.Herbrand.Basic
 import TauCeti.NumberTheory.LocalField.RamificationIndex
+import TauCeti.FieldTheory.Galois.AbsoluteGaloisGroup.Extension
 
 /-!
 # The field of norms: suggested signatures
@@ -8,7 +9,8 @@ import TauCeti.NumberTheory.LocalField.RamificationIndex
 These signatures are suggested forms, not an exhaustive checklist. `README.md` is the definitive
 specification.
 
-The file pins the carrier of the field of norms (Layer 1): the norm-compatible families
+The file states the fixing-subgroup model of the absolute Galois group of an infinite separable
+subextension (Layer 0.0), and pins the carrier of the field of norms (Layer 1): the norm-compatible families
 `(α_E)_E` over the finite subextensions `E` of `L/K`, as a submonoid `fieldOfNorms K L` of the
 product `∏_E E` under termwise multiplication, with zero the only family having a zero
 coordinate. It states, at finite level against the pinned Tau Ceti, the norm estimate that drives
@@ -24,6 +26,36 @@ Suggested home: `TauCeti/NumberTheory/LocalField/FieldOfNorms/`.
 -/
 
 namespace TauCetiRoadmap.FieldOfNorms
+
+/-! ## Layer 0.0: the fixing-subgroup model -/
+
+section FixingSubgroup
+
+open TauCeti
+
+variable (K : Type*) [Field K] (L : IntermediateField K (AlgebraicClosure K))
+  [Algebra.IsSeparable K L]
+
+/-- **The absolute Galois group of a separable algebraic subextension is its fixing subgroup**, as
+topological groups, with no finiteness hypothesis: the composite of
+`absoluteGaloisGroupRestrictEquiv L`, `absoluteGaloisGroupEquivFixingSubgroup K L σ` for the
+inclusion `σ` of `L` into `SeparableClosure K`, and `absoluteGaloisGroupRestrictEquiv K`. -/
+noncomputable def absoluteGaloisGroupEquivFixingSubgroupOfSeparable :
+    Field.absoluteGaloisGroup L ≃ₜ* L.fixingSubgroup :=
+  sorry
+
+/-- The model is the separable-closure isomorphism `absoluteGaloisGroupEquivFixingSubgroup`,
+read through `absoluteGaloisGroupRestrictEquiv` on both sides. For finite `L` it is
+`absoluteGaloisGroupExtend K L σ`. -/
+theorem absoluteGaloisGroupRestrictEquiv_absoluteGaloisGroupEquivFixingSubgroupOfSeparable
+    (σ : L →ₐ[K] SeparableClosure K)
+    (hσ : ∀ x : L, ((σ x : SeparableClosure K) : AlgebraicClosure K) = x)
+    (τ : Field.absoluteGaloisGroup L) :
+    absoluteGaloisGroupRestrictEquiv K (absoluteGaloisGroupEquivFixingSubgroupOfSeparable K L τ).1 =
+      (absoluteGaloisGroupEquivFixingSubgroup K L σ (absoluteGaloisGroupRestrictEquiv L τ)).1 :=
+  sorry
+
+end FixingSubgroup
 
 /-! ## Layer 1.1: the carrier -/
 
