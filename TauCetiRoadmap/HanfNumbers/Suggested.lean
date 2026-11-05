@@ -12,7 +12,9 @@ converge on names and signatures; discharging every statement here neither finis
 the roadmap.
 
 The infinitary syntax and semantics are the parent roadmap's (`BoundedFormulaω`, `Sentenceω`,
-`BoundedFormulaInf.Realize`, `SentenceInf.Realize`), imported from its prototype. Skolem towers and
+`BoundedFormulaInf.Realize`, `SentenceInf.Realize`), imported from its prototype: their Tau Ceti
+implementations (`TauCeti.ModelTheory.Infinitary.*`, `Scott.*`, `BackAndForth.*`) are later than
+this repository's Tau Ceti pin `358314d`, so the prototype stands in for them. Skolem towers and
 the construction of the Ehrenfeucht–Mostowski term model are specified in the README only, because
 they need `substBounds` and `Fragment` of the InfinitaryModelExistence roadmap, which this
 prototype does not import; the source and stretching theorems are stated here semantically. The
