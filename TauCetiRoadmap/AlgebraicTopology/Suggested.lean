@@ -1,18 +1,20 @@
-import Mathlib
-import TauCeti.AlgebraicTopology.Singular.Empty
-import TauCeti.AlgebraicTopology.Singular.Twisted.Relative
-import TauCeti.AlgebraicTopology.Singular.Twisted.Functoriality
-import TauCeti.AlgebraicTopology.EilenbergMacLane.Basic
-import TauCeti.AlgebraicTopology.Cohomology.Basic
-import TauCeti.AlgebraicTopology.Cohomology.Cap.Basic
-import TauCeti.AlgebraicTopology.Cohomology.Cup
-import TauCeti.AlgebraicTopology.Cellular.Comparison
-import TauCeti.AlgebraicTopology.FundamentalGroup.TopologicalMonoid
-import TauCeti.Topology.Homotopy.HomotopyGroup.Map
-import TauCeti.Topology.Homotopy.HomotopyGroup.Product
-import TauCeti.Topology.Homotopy.HomotopyGroup.FundamentalGroupAction
-import TauCeti.Topology.Homotopy.Extension.DeformationRetract
-import TauCeti.Topology.Homotopy.Extension.MappingCylinder
+module
+
+public import Mathlib
+public import TauCeti.AlgebraicTopology.Singular.Empty
+public import TauCeti.AlgebraicTopology.Singular.Twisted.Relative
+public import TauCeti.AlgebraicTopology.Singular.Twisted.Functoriality
+public import TauCeti.AlgebraicTopology.EilenbergMacLane.Basic
+public import TauCeti.AlgebraicTopology.Cohomology.Basic
+public import TauCeti.AlgebraicTopology.Cohomology.Cap.Basic
+public import TauCeti.AlgebraicTopology.Cohomology.Cup
+public import TauCeti.AlgebraicTopology.Cellular.Comparison
+public import TauCeti.AlgebraicTopology.FundamentalGroup.TopologicalMonoid
+public import TauCeti.Topology.Homotopy.HomotopyGroup.Map
+public import TauCeti.Topology.Homotopy.HomotopyGroup.Product
+public import TauCeti.Topology.Homotopy.HomotopyGroup.FundamentalGroupAction
+public import TauCeti.Topology.Homotopy.Extension.DeformationRetract
+public import TauCeti.Topology.Homotopy.Extension.MappingCylinder
 
 /-!
 # Algebraic topology of spaces and manifolds: target signatures
@@ -58,7 +60,7 @@ open CategoryTheory ContinuousMap Topology
 open CategoryTheory.Limits
 open scoped Topology
 
-noncomputable section
+@[expose] public noncomputable section
 
 #check HomotopyGroup.prodEquiv
 #check HomotopyGroup.prodMulEquiv
@@ -317,7 +319,14 @@ def twistedSupportLocalMap (R : Type u) [CommRing R]
     twistedRelativeHomology R (TopPair.ofSubset Bᶜ) L n ⟶
       twistedRelativeHomology R (puncturedPair X x) L n :=
   (TopPair.ofSubset Bᶜ).twistedHomologyCoefficientMap
-    ((TauCeti.LocalCoefficientSystem.pullbackIdIso X).app L).inv n ≫
+    (((TauCeti.LocalCoefficientSystem.pullbackIdIso X).app L).inv ≫
+      eqToHom (show (TauCeti.LocalCoefficientSystem.pullback (ContinuousMap.id X)).obj L =
+          (TauCeti.LocalCoefficientSystem.pullback
+            (TopPair.Hom.fst (supportLocalPairMap X B x hx)).hom).obj L by
+        have h : TopPair.Hom.fst (supportLocalPairMap X B x hx) = 𝟙 X := by
+          ext y
+          exact TopPair.ofSubsetMap_fst_apply _ _ y
+        rw [h]; rfl)) n ≫
     TopPair.twistedHomologyMap (supportLocalPairMap X B x hx) L n
 
 /-- A locally represented section of local top homology over `V`: a choice of local class at
@@ -359,6 +368,7 @@ def localHomologyMap (R : Type u) [CommRing R] (X : TopCat.{u}) (x : X) (n : ℕ
     singularHomology R X n ⟶
       (puncturedPair X x).singularHomology (C := ModuleCat.{u} R) (ModuleCat.of R R) n :=
   (TopPair.singularHomologyInclIso (ModuleCat.{u} R) (ModuleCat.of R R) n).hom.app X ≫
+    eqToHom (TopPair.singularHomologyFunctor_obj _ (ModuleCat.of R R) n) ≫
     TopPair.singularHomologyMap (TopPair.j (puncturedPair X x)) (ModuleCat.of R R) n
 
 /-- A fundamental class with coefficients in `R`: a class in `H_n(X; R)` whose image in every
