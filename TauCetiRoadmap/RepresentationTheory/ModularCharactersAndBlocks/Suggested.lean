@@ -1,3 +1,5 @@
+module
+
 import Mathlib
 import TauCeti.RingTheory.Idempotents.Primitive.Basic
 
