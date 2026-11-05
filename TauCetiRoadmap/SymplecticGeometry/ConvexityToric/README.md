@@ -67,6 +67,23 @@ and reduced symplectic classes use ℝ. Lean carriers have arbitrary type univer
   `TauCeti/Geometry/Manifold/Riemannian/Isometry/Exponential.lean`: on finite-dimensional
   smooth boundaryless Hausdorff manifolds with smooth Riemannian metrics, it intertwines
   exponential maps with the actual differential; completeness is not assumed.
+  For abstract Weyl chambers use `TauCeti.dominantChamber` and
+  `TauCeti.openDominantChamber` in `TauCeti/LinearAlgebra/RootSystem/Chamber.lean`
+  (the weak and strict sign cones of the simple coroots of a base of a root pairing over an
+  ordered commutative ring), `TauCeti.weylChamber` and `TauCeti.openWeylChamber` in
+  `TauCeti/LinearAlgebra/RootSystem/Weyl/Chamber.lean` (their Weyl translates, with
+  `TauCeti.exists_smul_eq_of_mem_openWeylChambers` for transitivity on open chambers and
+  `TauCeti.existsUnique_mem_openWeylChamber` placing each regular weight in exactly one open
+  chamber), and `TauCeti.existsUnique_mem_orbit_inter_dominantChamber` in
+  `TauCeti/LinearAlgebra/RootSystem/FundamentalDomain.lean` (each Weyl orbit meets the
+  closed dominant chamber in exactly one point, walls included). The last two assume a
+  root system over a linearly ordered strict ordered commutative ring with finite index set,
+  crystallographic and reduced with reduced flip, where a root system means that the roots
+  span their module and the coroots theirs. The real root system of a compact connected
+  Lie group satisfies all of these on the semisimple part t_ss*, the span of its roots, and
+  LieGroups Layer 6's compact comparison transports them to t*_(ss,+); the closed positive
+  chamber is t*_+=z(k)*×t*_(ss,+), with the centre an unrestricted factor on which no root
+  or chamber wall acts.
 - **From TauCetiRoadmap.HamiltonianReduction:** R1's smooth action and equivariant
   moment-map equations, R2's coadjoint orbit/KKS and chamber comparisons,
   R2a.2–4's root-plane Hessians, critical set Wμ for regular heights, generic distinct
@@ -84,9 +101,7 @@ and reduced symplectic classes use ℝ. Lean carriers have arbitrary type univer
   by X↦X−α(X)α∨; and transport of all of these under torus conjugation and change
   of unit root vector. Layer 1 constructs none of these; the kernel bound
   ker(φ_α)⊆{I,−I} is not assumed of the adapter but proved in §1.1 from the
-  derivative equation, using Layer 2's closed-subgroup theorem. From
-  TauCetiRoadmap.RootSystems, Layer 4's abstract Weyl chambers, transported through
-  the compact comparison.
+  derivative equation, using Layer 2's closed-subgroup theorem.
 - **From TauCetiRoadmap.SmoothBundlesConnections:** B2.4's Liouville density measure
   and integral comparison, principal connections in Layers 1–4, and B6.2–B6.3's
   dual-character Chern class and curvature convention.
@@ -186,7 +201,7 @@ same argument bounds the kernel of a rank-one map integrated from a section su(2
   the lattice vector (1,0) is not their integral combination. In rank zero all lattices vanish.
 
 *Needs:* LieGroups Layers 1, 2 and 6 (adjoint representation, the closed-subgroup
-theorem, maximal tori and the compact real root adapter); RootSystems Layer 4; Mathlib `IsZLattice`; Tau Ceti's integral lattice API.
+theorem, maximal tori and the compact real root adapter); Tau Ceti's Weyl chambers; Mathlib `IsZLattice`; Tau Ceti's integral lattice API.
 
 Define `HamiltonianTorusData` on a smooth two-form σ, a torus action and a map
 μ:M→t* by smoothness of both maps, preservation of σ, invariance of μ and
@@ -295,7 +310,7 @@ from the preserved-metric hypothesis. The weight +1 and −1 planes pin the mome
 
 ### Dependencies
 
-LieGroups Layers 1 and 6, RootSystems Layer 4, HamiltonianReduction R1/R3.1,
+LieGroups Layers 1, 2 and 6, Tau Ceti's Weyl chambers, HamiltonianReduction R1/R3.1,
 HopfRinow Layers 1 and 4, HeegaardFloer §4.1 and GeometricTopology Layer 1.
 
 ## Layer 2: Morse–Bott and moment-map topology
@@ -404,7 +419,7 @@ The full K-moment image in k* need not be convex. Lerman–Meinrenken–Tolman�
 ι_(ξ_M)ω=−dΦ_ξ; transport by Φ=−μ and the corresponding opposite chamber. Consume
 [HamiltonianReduction R2](../HamiltonianReduction/README.md#r2-coadjoint-orbits-and-kks)'s compact
 coadjoint-orbit, closed-chamber and centralizer theorems, including
-`k*/K≅z(k)*×t*_(ss,+)`, on LieGroups Layer6 and RootSystems Layer4. Maximal-torus
+`k*/K≅z(k)*×t*_(ss,+)`, on LieGroups Layer 6 and Tau Ceti's Weyl chambers. Maximal-torus
 conjugacy, Weyl uniqueness and this quotient are inputs from those owners. Construct the symplectic cross-section
 and prove its moment-map and stabilizer comparisons. Prove Kirwan by cross-sections
 and the local-to-global theorem. Also build the norm-square moment stratification,
