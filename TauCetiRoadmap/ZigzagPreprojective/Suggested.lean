@@ -24,6 +24,9 @@ Stated here:
 
 * Layer 0: recognition of the connected finite simple graphs carrying a nonzero nonnegative
   integral null vector of `2I - A` as the graphical affine simply-laced diagrams;
+* Layer 4: the self-injectivity of the preprojective algebra of a finite simply-laced Dynkin
+  graph over every field (Grant, Theorem 3.1, through the identification with the
+  Baer--Geigle--Lenzing algebra);
 * Layer 5: the matrix Hilbert series `(1 - Ct + t²)⁻¹` of the preprojective algebra of a connected
   non-Dynkin oriented graph, as the recursion `H₀ = I`, `H₁ = C`, `H_{d+2} + H_d = C H_{d+1}` on
   the graded corners `e_j Π_d e_i` (Etingof--Eu, Theorem 3.4.2);
@@ -37,9 +40,10 @@ Stated here:
 Not statable at the pins:
 
 * the Koszul dichotomy for path-graded zigzag algebras and the Koszulity of the preprojective
-  algebra of a connected non-Dynkin graph (Layer 5): Tau Ceti has no Koszul predicate,
-  that is no notion of a linear graded projective resolution of the degree-zero part of a graded
-  algebra, so only the Hilbert-series half of Etingof--Eu's theorem is stated;
+  algebra of a connected non-Dynkin graph (Layer 5): the Koszul predicate is the DG and `A∞`
+  roadmap's (Layer 11), on the linear graded projective resolutions of the Grothendieck and Euler
+  roadmap (Layer 3), and neither is in Tau Ceti, so only the Hilbert-series half of Etingof--Eu's
+  theorem is stated;
 * the identifications of `Π₂(Q)` and `Γ₃(Q,W)` with the derived and deformed Calabi--Yau
   completions (Layer 6): the completions `Π_n(C)` of the DG and `A∞` roadmap, Layer 9, are not in
   Tau Ceti;
@@ -73,6 +77,23 @@ theorem affine_graph_recognition {V : Type u} [Fintype V] [DecidableEq V]
       ∀ i, (∑ j ∈ G.neighborFinset i, a j) = 2 * a i) ↔
     ∃! t : TauCeti.AffineDynkinType,
       t.Valid ∧ t.IsGraphical ∧ Nonempty (G ≃g t.graph) := by
+  sorry
+
+/-! ## Layer 4: self-injectivity in finite type -/
+
+/-- **Self-injectivity of a Dynkin preprojective algebra.** Let `o` orient a finite simple graph
+`G` isomorphic to the diagram graph of a valid simply-laced Dynkin type, and let `k` be any
+field. The additive preprojective algebra `Π_k(Q_o)` is injective as a module over itself. The
+route is Grant's: `Π_k(Q_o)` is the Baer--Geigle--Lenzing algebra `⊕_{r ≥ 0} Hom(kQ, τ^{-r} kQ)`
+(Crawley-Boevey, Theorems 2.3 and 3.1; Ringel, Theorem A), which is Frobenius for a basic
+representation-finite hereditary algebra (Grant, Theorem 3.1), `kQ_o` being representation-finite
+by Gabriel's theorem. -/
+theorem moduleInjective_preprojectiveAlgebra_of_dynkin (k : Type*) [Field k] {V : Type u}
+    [Finite V] (G : SimpleGraph V) (o : TauCeti.DoubledQuiver.Orientation G)
+    (ht : ∃ t : TauCeti.DynkinType, t.Valid ∧ t.IsSimplyLaced ∧
+      Nonempty (G ≃g TauCeti.diagramGraph t.cartanMatrix)) :
+    Module.Injective (TauCeti.preprojectiveAlgebra k (TauCeti.DoubledQuiver.OrientedQuiver G o))
+      (TauCeti.preprojectiveAlgebra k (TauCeti.DoubledQuiver.OrientedQuiver G o)) := by
   sorry
 
 /-! ## Layer 5: the Hilbert series of a non-Dynkin preprojective algebra -/

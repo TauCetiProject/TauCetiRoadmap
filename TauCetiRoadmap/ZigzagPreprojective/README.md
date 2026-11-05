@@ -29,8 +29,9 @@ This roadmap constructs:
 - their gradings, bases, dimensions, centers, Frobenius traces, projectives, graded Cartan
   matrices, and convergent `q`-Euler comparisons;
 - additive preprojective algebras, their local relations, and orientation/sign independence;
-- quadratic, classical Koszul, and derived `A∞` Koszul duality under separately stated
-  hypotheses;
+- the zigzag and preprojective instances of quadratic, classical Koszul and derived `A∞` Koszul
+  duality under separately stated hypotheses; the Koszul predicate and its general theorems are
+  the DG and `A∞` roadmap's and the Grothendieck/Euler roadmap's;
 - 2-dimensional Ginzburg DG algebras, ordinary and completed versions, and their relation to
   Calabi--Yau completions;
 - the distinct 3-dimensional Ginzburg construction for a quiver with potential;
@@ -238,10 +239,7 @@ The landed declarations include:
   with their differentials `TauCeti.zigzagBraidEvaluationHom` and `TauCeti.zigzagBraidCoevaluationHom`,
   the gradings `TauCeti.zigzagEnvelopingGrading` on `Z ⊗ Zᵐᵒᵖ`, the degree statement
   `TauCeti.isHomogeneous_zigzagBraidCoevaluation` and the Casimir element `TauCeti.zigzagCasimir`
-  (`Zigzag/Braid/Basic.lean`, `Zigzag/Componentwise/Casimir.lean`), and the vanishing of the middle
-  factor `e_i Z ⊗_Z Z e_j` at distinct nonadjacent vertices `i ≠ j` over any commutative ring,
-  `TauCeti.subsingleton_balancedTensorProduct_zigzagAlgebra_of_ne_of_not_adj`
-  (`Zigzag/Braid/Nonadjacent.lean`).
+  (`Zigzag/Braid/Basic.lean`, `Zigzag/Componentwise/Casimir.lean`).
 
 ### From TauCetiRoadmap.QuiverRepresentations, GrothendieckEulerForms and DGAInfinity
 
@@ -252,12 +250,19 @@ specific relation quotients and their homological structure.
 The [Grothendieck groups and Euler forms roadmap](../GrothendieckEulerForms/README.md) supplies
 graded `K₀`, the shift action, Laurent-polynomial sesquilinearity, finite-support `q`-Euler forms,
 and comparison with projective/simple bases.  In particular, a `q`-Euler value is formed only after
-cohomological and internal finite-support hypotheses are proved.
+cohomological and internal finite-support hypotheses are proved.  Its Layer 3 supplies linear
+graded projective resolutions, their equivalence with the diagonal vanishing of bigraded `Ext` and
+with the inversion of the graded Cartan and Poincaré series up to `q ↦ −q`: the vocabulary in
+which the Koszulity of Layer 5 is stated.
 
 The [DG and A-infinity roadmap](../DGAInfinity/README.md) supplies DG and `A∞` algebras and modules,
 bar/cobar duality, completion, perfect modules, Hochschild cochains, homological perturbation,
 minimal-model transfer, smoothness, Calabi--Yau structures, the derived tensor algebra and the
-(deformed) Calabi--Yau completions `Π_n(C)=T_C(C![n-1])`, and derived Morita equivalence.  This
+(deformed) Calabi--Yau completions `Π_n(C)=T_C(C![n-1])`, derived Morita equivalence, and, in its
+Layer 11, the Koszul predicate on graded right modules over a quadratic algebra `T_S(V)/(R)` with
+its quadratic dual `A^! = T_S(V^∨)/(R^⊥)`, the theorems that a Koszul algebra is quadratic, that
+its dual is Koszul and is the Yoneda algebra `Ext^*_A(S,S)`, and the double-dual comparison
+under its dualizability hypotheses.  This
 roadmap instantiates those interfaces for zigzag and preprojective data.  It owns no second sign
 convention or transfer theorem.  In particular, the sibling's DG and `A∞` module APIs are
 right-module primary; the strict left modules used above enter them as right modules over the
@@ -706,20 +711,57 @@ the moment-map comparison and the finite/infinite dichotomy are native and are c
 
 ### 4.2 Self-injectivity in finite type
 
-- Prove self-injectivity of `Π_k(Q)` for every finite simply-laced Dynkin graph and every field,
-  extending the native `A₁`, `A₂` and `D₄` cases (`Preprojective/ADE/A1/SelfInjective.lean`,
-  `A2/SelfInjective.lean`, `D4/SelfInjective.lean`).  The route is Grant's: the preprojective
-  algebra of a basic representation-finite hereditary algebra over any field is Frobenius, hence
-  self-injective (Grant, Theorem 3.1, p. 7, after Brenner--Butler--King, Theorem 4.8; Frobenius
-  algebras are self-injective, p. 4), the algebra there being Baer--Geigle--Lenzing's
-  `⊕_{r ≥ 0} Hom_Λ(Λ, τ^{−r}Λ)` (Grant, Definition 2.6, p. 6), which Ringel and Crawley-Boevey
-  identified with the presented `Π_k(Q)` (Grant, p. 6).  The path algebra `kQ` of a Dynkin quiver
-  is basic and hereditary, and representation-finite over every field by Gabriel's theorem
+Let `Q` be a finite quiver without oriented cycles and `k` any field, so that `kQ` is
+finite-dimensional, basic and hereditary; write `D = Hom_k(−, k)`.
+
+- **Auslander--Reiten data of a hereditary path algebra over any field.** Define the
+  `kQ`-bimodule `E = Ext¹_{kQ}(D(kQ), kQ)` and the endofunctors `τ⁻ = E ⊗_{kQ} −` and
+  `τ = Hom_{kQ}(E, −)` of finite-dimensional `kQ`-modules, and prove that `τ⁻` is left adjoint to
+  `τ` and that `τ⁻ M ≅ Ext¹_{kQ}(D(kQ), M)` (Grant, Proposition 2.5, p. 6; Crawley-Boevey,
+  Lemma 2.2, p. 5).  Prove Serre duality `Hom_{kQ}(P, M) ≅ D Hom_{kQ}(M, νP)` for `P` projective,
+  `ν = D Hom_{kQ}(−, kQ)` the Nakayama functor (Grant, Theorem 2.3, p. 5), and that for a Dynkin
+  quiver every indecomposable injective `I_i` is `τ^{−ℓ(i)} P_{ρ(i)}` for a permutation `ρ` of the
+  vertices and a length function `ℓ` (Grant, Theorem 2.7, p. 7, after Auslander--Platzeck and
+  Gabriel: a hereditary algebra has finite representation type exactly when every injective
+  module is preprojective).  QuiverRepresentations Layer 6 states the translate `τ = D Tr` and the
+  almost-split theory over an algebraically closed field; the statements over every field use the
+  hereditary description above, and its agreement with `D Tr` for `kQ` over an algebraically
+  closed field is a target here.
+  *Needs:* QuiverRepresentations Layer 1 (representations as `kQ`-modules) and Layer 6 (the
+  translate and the almost-split theory, for the comparison over an algebraically closed field);
+  Mathlib `Ext`, `Module.Injective`.
+- **The Baer--Geigle--Lenzing algebra and the identification.** Define
+  `Π_BGL(kQ) = ⊕_{r ≥ 0} Hom_{kQ}(kQ, τ^{−r} kQ)`, graded by `r`, with the product of
+  `f : kQ → τ^{−r} kQ` and `g : kQ → τ^{−s} kQ` given by `τ^{−r}(g) ∘ f` (Grant, Definition 2.6,
+  p. 6; Crawley-Boevey, §2, p. 5), and prove `Π_k(Q) ≅ Π_BGL(kQ)` as graded `k`-algebras, the
+  isomorphism restricting to the identity on `kQ` and sending the ideal generated by the reverse
+  arrows onto the positive part (Crawley-Boevey, Theorem 2.3, p. 5, and Theorem 3.1 at `λ = 0`,
+  p. 6, both algebras being his `Π⁰(kQ)`, over an arbitrary field; Ringel, Theorem A, p. 2, in the
+  equivalent form `Π_k(Q) ≅ T_{kQ}(E)`, the tensor algebra of the bimodule `E`, with
+  `τ^{−r} kQ = E^{⊗_{kQ} r}`).  Sign normalisation: Crawley-Boevey's relation is
+  `∑_a (a a* − a* a)`, the native one, and Ringel's is `∑_{α ∈ Q̄₁} ε(α) α* α` with `ε = 1` on
+  original and `ε = −1` on reverse arrows, which the gauge isomorphism
+  `TauCeti.preprojectiveAlgebraEquivGauged` of §4.1 identifies with it; the signless relation
+  `∑ α* α` is not a normalisation of the same algebra (Ringel, §6, pp. 16--17: on a three-vertex
+  affine quiver of type `Ã` in characteristic different from two the two algebras are not
+  isomorphic), in accordance with §5.1.
+  *Needs:* the Auslander--Reiten data above; §4.1 (the presentation, grading and gauge
+  isomorphism); QuiverRepresentations Layer 1; Mathlib `Ext` and graded algebras.
+- **Self-injectivity.** Prove `moduleInjective_preprojectiveAlgebra_of_dynkin`: for an orientation
+  `o` of a finite simple graph `G` isomorphic to `TauCeti.diagramGraph t.cartanMatrix` for a valid
+  simply-laced `TauCeti.DynkinType` `t`, and every field `k`, the additive preprojective algebra
+  `Π_k(Q_o)` is injective as a module over itself (`Module.Injective`), extending the native `A₁`
+  and `A₂` cases (`Preprojective/ADE/A1/SelfInjective.lean`, `A2/SelfInjective.lean`); `D₄` is an
+  instance of the general statement.  The route is Grant's (Grant, Theorem 3.1, p. 7, after
+  Brenner--Butler--King, Theorem 4.8, for the path algebra of a quiver): `kQ_o` is basic and
+  hereditary, and representation-finite over every field by Gabriel's theorem
   (`TauCeti.isFiniteRepType_iff_card_hom_add_card_hom_le_one_and_exists_dynkinType_iso`,
-  `FiniteRepType/Gabriel.lean`), quiver representations and `kQ`-modules being identified through
-  QuiverRepresentations Layer 1.
-  *Needs:* the finite-dimensionality above; Tau Ceti Gabriel's theorem above; QuiverRepresentations
-  Layer 1 (representations as `kQ`-modules); Mathlib `Module.Injective`, `Module.Baer`.
+  `FiniteRepType/Gabriel.lean`), so every indecomposable injective is `τ^{−ℓ(i)} P_{ρ(i)}`;
+  Serre duality, the adjunction `τ⁻ ⊣ τ` and this identification give an isomorphism of left
+  modules `Π_BGL(kQ) ≅ D Π_BGL(kQ)`, so `Π_BGL(kQ)` is Frobenius, hence self-injective (Grant,
+  p. 4), and the identification of the previous item transports this to `Π_k(Q_o)`.
+  *Needs:* the two items above; the finite-dimensionality of §4.1; Tau Ceti Gabriel's theorem
+  above; QuiverRepresentations Layer 1; Mathlib `Module.Injective`, `Module.Baer`.
 The Hilbert series and the Koszulity of `Π_k(Q)` for non-Dynkin graphs are proved in Layer 5,
 where the Koszul duality with the zigzag algebra that their proof uses is established.
 
@@ -764,31 +806,34 @@ signless relator to the signed one, and in characteristic two the two algebras c
 
 ### 5.2 Classical Koszulity of the zigzag algebra
 
+Koszulity is the predicate of DGAInfinity Layer 11: a quadratic algebra `A = T_S(V)/(R)` over the
+semisimple `S = k^{Q₀}` is Koszul when the graded right `A`-module `S` has a linear graded
+projective resolution, GrothendieckEulerForms Layer 3 supplying linear resolutions (the `n`-th
+term generated in internal degree `n`), their equivalence with the diagonal vanishing of the
+bigraded `Ext^{i,j}_A(S,S)` for `i ≠ j` (on quadratic algebras the formulation of Etingof--Eu,
+Definition 2.3.3, p. 3) and with the inversion of the graded Cartan and Poincaré series up to
+`q ↦ −q`.  DGAInfinity Layer 11 also supplies the general theorems used below: a Koszul algebra
+is quadratic, its quadratic dual `A^! = T_S(V^∨)/(R^⊥)` is Koszul and is the Yoneda algebra
+`Ext^*_A(S,S)` with the handedness fixed there, and `(A^!)^! ≅ A` under its dualizability
+hypotheses.  None of this is redefined here; the left modules of Layer 3 enter the supplier's
+right-module predicate as right modules over the opposite algebra, as in the supplier contract.
+The statements of this section are the zigzag-specific ones.
+
 **Classical Koszulity.** For a finite connected simple graph with at least three vertices, prove
 that the path-graded zigzag algebra is Koszul exactly when the graph is not a finite ADE Dynkin
 graph (Huerfano--Khovanov, Proposition 11, p. 11, after Martínez-Villa).  In the Koszul cases
-identify its Koszul dual with the algebra of §5.1.  State finite ADE as the non-Koszul,
-almost-Koszul case and treat `A₁` and `A₂` through their explicit resolutions.  The Koszul
-predicate is defined here: a nonnegatively graded `k`-algebra `A` with semisimple `A₀ = k^{Q₀}`
-is Koszul when every graded simple `A`-module concentrated in degree `0` has a graded projective
-resolution whose `n`-th term is generated in degree `n`.  The proof includes the Koszul complexes,
-exactness, Hilbert-series identities, and handedness of left and right quadratic duals.  A matrix
-inverse alone is not used as a definition of duality.
+identify its Koszul dual with the signless algebra of §5.1, through the quadratic dual
+`TauCeti.quadraticDualQuadraticZigzagEquivSignless`.  State finite ADE as the non-Koszul,
+almost-Koszul case and treat `A₁` and `A₂` through their explicit resolutions.  The proof
+includes the zigzag Koszul complexes, their exactness and the handedness of left and right
+quadratic duals; a matrix inverse alone is not used as a definition of duality.
 
-- A Koszul algebra is quadratic: the terms of the linear resolution of `A₀` in homological
-  degrees `1` and `2` show that `A` is generated by `A₁` over `A₀` with relations in degree `2`,
-  so on quadratic algebras the predicate is the Ext formulation, `Ext^i_A(A₀,A₀)` concentrated in
-  internal degree `i` (Etingof--Eu, Definition 2.3.3, p. 3).
-- The Koszul dual `A^!` of a Koszul algebra, the quadratic dual with relations the annihilator of
-  the relation space, is the Yoneda algebra `Ext^*_A(A₀,A₀)` up to the handedness convention fixed
-  above (Mazorchuk, Corollary 10.12, p. 49, stated there over `ℂ` with `A₀ ≅ ℂⁿ`; the argument
-  uses only that `A₀` is a finite product of copies of the ground field), is Koszul, and
-  `(A^!)^! ≅ A`.
-- The matrix Hilbert series (Etingof--Eu, Definition 2.1.2, p. 2) of a Koszul algebra and of its
-  dual are inverse up to the sign change `t ↦ −t` and a transpose,
-  `h_A(t) · h_{A^!}(−t)ᵀ = I`, by the Euler characteristic of the exact Koszul complex whose
-  `n`-th term is `A ⊗_{A₀} (A^!_n)^*` (Etingof--Eu, proof of Theorem 2.3.4, p. 3, for the terms
-  up to homological degree two).
+- **Matrix Hilbert series.** For a Koszul algebra `A` over `S = k^{Q₀}` the matrix Hilbert series
+  (Etingof--Eu, Definition 2.1.2, p. 2) of `A` and of `A^!` are inverse up to the sign change
+  `t ↦ −t` and a transpose, `h_A(t) · h_{A^!}(−t)ᵀ = I`: the matrix form of the series inversion
+  of GrothendieckEulerForms Layer 3, by the Euler characteristic of the exact Koszul complex whose
+  `n`-th term is `A ⊗_S (A^!_n)^*` (Etingof--Eu, proof of Theorem 2.3.4, p. 3, for the terms up
+  to homological degree two).
 
 **Checks.**
 
@@ -803,8 +848,9 @@ inverse alone is not used as a definition of duality.
 - `Z(A₂)` is not Koszul: the periodic resolution of a vertex simple (Layer 3 Examples) has
   differentials of internal degrees `1, 2, 1, 2, …`, so its terms are generated in degrees
   `0, 1, 3, 4, …`, and the term in homological degree `2` fails; a predicate that ignored the
-  internal shifts and tested only that the terms are projective would accept it.  The quadratic
-  bullet refutes it independently, since the relations of `Z(A₂)` are cubic.
+  internal shifts and tested only that the terms are projective would accept it.  The supplier's
+  theorem that a Koszul algebra is quadratic refutes it independently, since the relations of
+  `Z(A₂)` are cubic.
 - The triangle `Z(Ã₂)` is Koszul with dual the signless algebra of §5.1, and with `A = J − I`
   the series satisfy `((1 + t²)I − tA)(I − At + t²)⁻¹ = I`, whereas the product without the sign
   change, `((1 + t²)I + tA)(I − At + t²)⁻¹`, has degree-one term `2A ≠ 0`; a dual series taken
@@ -813,8 +859,10 @@ inverse alone is not used as a definition of duality.
   length two modulo the three vertex relations span a space of dimension `9`, one class at each
   vertex and one from each vertex to each other vertex.
 *Needs:* §5.1, Layers 2--3 (basis, projectives, graded Hom spaces and the periodic
-resolutions), Layer 0 (affine subgraphs of non-Dynkin graphs); Mathlib graded modules and
-`CategoryTheory.ProjectiveResolution`.
+resolutions), Layer 0 (affine subgraphs of non-Dynkin graphs); DGAInfinity Layer 11 (the Koszul
+predicate, Koszul implies quadratic, the Koszul dual as the Yoneda algebra and its Koszulity);
+GrothendieckEulerForms Layer 3 (linear graded projective resolutions, the `Ext` reformulation and
+the series inversion); Mathlib graded modules and `CategoryTheory.ProjectiveResolution`.
 
 ### 5.3 The Hilbert series of a non-Dynkin preprojective algebra
 
@@ -870,11 +918,12 @@ change), Layer 0 (affine subgraphs of non-Dynkin graphs), Tau Ceti `TauCeti.corn
 ### 5.4 Koszulity of the preprojective algebra
 
 **Koszulity of the preprojective algebra.** For a connected non-Dynkin graph prove that
-`Π_k(Q)` is Koszul over every field, in the sense of the predicate of §5.2: the Hilbert series
-of §5.3 forces exactness of its Koszul complex `0 → Π(2) → Π ⊗_R Π[1] → Π → R → 0` by the
-Golod--Shafarevich inequality (Etingof--Eu, Theorem 2.3.4 (ii), p. 3, and Theorem 3.4.2, p. 7,
-second statement).
-*Needs:* §5.2--5.3; Mathlib graded modules and `CategoryTheory.ProjectiveResolution`.
+`Π_k(Q)` is Koszul over every field, in the sense of the predicate of DGAInfinity Layer 11
+consumed in §5.2: the Hilbert series of §5.3 forces exactness of its Koszul complex
+`0 → Π(2) → Π ⊗_R Π[1] → Π → R → 0` by the Golod--Shafarevich inequality (Etingof--Eu,
+Theorem 2.3.4 (ii), p. 3, and Theorem 3.4.2, p. 7, second statement).
+*Needs:* §5.2--5.3; DGAInfinity Layer 11 (the Koszul predicate); Mathlib graded modules and
+`CategoryTheory.ProjectiveResolution`.
 
 ### Examples
 
@@ -889,7 +938,8 @@ second statement).
 ### Dependencies
 
 Layer 5 uses Layers 0--4 and Mathlib's graded modules, projective resolutions, power series and
-matrices.  It uses no sibling roadmap.
+matrices, DGAInfinity Layer 11 (the Koszul predicate and the general Koszul duality theorems) and
+GrothendieckEulerForms Layer 3 (linear resolutions and the series inversion).
 
 ## Layer 6: 2-dimensional Ginzburg DG algebras and Calabi--Yau completion
 
@@ -923,12 +973,6 @@ the sibling roadmap's Calabi--Yau completions:
   *Needs:* the native `Π₂(Q)` above; DGAInfinity Layer 9 (smoothness, the inverse dualizing
   bimodule `C!`, the completion `Π_n(C)` and its Calabi--Yau structure); QuiverRepresentations (the
   path algebra `kQ` and its small bimodule resolution, giving homological smoothness).
-- Record exactly when derived Koszul duality produces the ordinary algebra `Π₂(Q)` as a bigraded
-  object and when forgetting the Adams degree produces the completion `Π̂₂(Q)`: with the Adams
-  grading retained the dual of the zigzag algebra is `Π₂(Q)`, and after forgetting it the dual is
-  `Π̂₂(Q)` (Etgü--Lekili, Theorem 23, p. 37, whose statement keeps both gradings).  The duality
-  statements themselves are Layer 7; this item fixes which of the two native objects each produces.
-  *Needs:* the native completion and comparison morphism above; Layer 7 states the dualities.
 - Identify `Γ₃(Q,W)` with the sibling roadmap's deformed `3`-Calabi--Yau completion
   `Π₃(kQ,ξ_W)` under Keller's hypotheses, exhibiting the Hochschild class `ξ_W ∈ HH_1(kQ)` the
   potential determines (Keller, Theorem 6.3, p. 27: the deformed completion is quasi-isomorphic to
@@ -954,7 +998,7 @@ the sibling roadmap's Calabi--Yau completions:
 ### Dependencies
 
 Layer 6 uses Layer 4 (the preprojective relation and `Π_k(Q)`), Tau Ceti's Ginzburg modules, and
-DGAInfinity Layers 1, 8 and 9.  Layer 7 supplies the dualities that the second item records.
+DGAInfinity Layers 1, 8 and 9.
 
 ## Layer 7: derived Koszul duality, Hochschild classes, and `A∞` deformation theory
 
@@ -971,9 +1015,14 @@ Let `Γ` be a finite tree and choose a source--sink orientation `Q`.
   completion after forgetting Adams degree), the cohomological and internal gradings on the left
   matching path length and internal degree on the right (Etgü--Lekili, Theorem 23, p. 37, stated
   there for right modules over the opposite zigzag algebra; Liu--Wang, Proposition 4.4, p. 5, for
-  the source--sink orientation).  Include `A₁` and `A₂`; this is not the classical quadratic claim from
-  Layer 5.
-  *Needs:* Layer 6 (`Π₂(Q)` and `Π̂₂(Q)`), Layer 2 (the basis of `Z(Γ)`), DGAInfinity Layers 1--3
+  the source--sink orientation).  Part of each statement is which of the two native objects of
+  Layer 6 it produces: with the Adams grading retained the dual of the zigzag algebra is the
+  bigraded `Π₂(Q)` itself, and after forgetting the Adams degree it is the completion `Π̂₂(Q)`,
+  the two being related by the native comparison morphism `TauCeti.ginzburgTwoToCompleted`
+  (Etgü--Lekili, Theorem 23, p. 37, whose statement keeps both gradings).  Include `A₁` and
+  `A₂`; this is not the classical quadratic claim from Layer 5.
+  *Needs:* Layer 6 (`Π₂(Q)`, `Π̂₂(Q)` and the comparison morphism), Layer 2 (the basis of `Z(Γ)`),
+  DGAInfinity Layers 1--3
   and 11 (DG modules, `RHom`, minimal models and derived Koszul duality).
 - Construct the small cofibrant bimodule resolution used to compute Hochschild cohomology.  Prove
   the bigraded comparison
@@ -1144,13 +1193,13 @@ Layer 6 (`Π₂(Q)` and its completion), and DGAInfinity Layers 1--3, 8 and 11.
   `B_i B_i' ≃ Z ≃ B_i' B_i`, `B_i B_j ≃ B_j B_i` for distinct nonadjacent vertices and
   `B_i B_j B_i ≃ B_j B_i B_j` for adjacent vertices (Huerfano--Khovanov, Proposition 7, p. 9, after
   Khovanov--Seidel and Seidel--Thomas for type `A`).  The composite `B_i B_j` is the tensor product
-  of complexes of graded bimodules over `Z`; the native vanishing of the middle factor
-  `e_i Z ⊗_Z Z e_j` at distinct nonadjacent vertices
-  (`TauCeti.subsingleton_balancedTensorProduct_zigzagAlgebra_of_ne_of_not_adj`) is the input to the
-  commuting relation; for `i = j` the factor is `e_i Z e_i ≠ 0`.  Deduce an action of the Artin
+  of complexes of graded bimodules over `Z`; prove that for distinct nonadjacent vertices `i ≠ j`
+  the corner `e_i Z e_j` is zero, from the basis of §2.1, hence that the middle factor
+  `e_i Z ⊗_Z Z e_j` vanishes over any commutative ring, which is the input to the commuting
+  relation; for `i = j` the factor is `e_i Z e_i ≠ 0`.  Deduce an action of the Artin
   braid group of any finite graph on the homotopy category of complexes of graded modules and on
   its derived category.
-  *Needs:* the native complexes and the native middle-factor vanishing above, Layer 2 (basis,
+  *Needs:* the native complexes above and the middle-factor vanishing, Layer 2 (basis,
   trace, Casimir element), Layer 3 (projectives and graded Hom spaces); Mathlib
   `HomologicalComplex`, homotopy equivalences and the homotopy category; DGAInfinity Layer 1 (the
   tensor product of DG bimodules) and Layer 5 (derived categories of DG modules).
@@ -1289,11 +1338,22 @@ Every example is computed from the general definitions.
   algebras*](https://arxiv.org/abs/math/0512287) (arXiv v1), Theorem 3.4.2: non-Dynkin
   Koszulity and the Hilbert series `(1 − Ct + t²)⁻¹` over every field; Definitions 2.1.2 and
   2.3.3 and Theorem 2.3.4 for matrix Hilbert series and the Koszul complex.
-- Mazorchuk, [*Lectures on algebraic categorification*](https://arxiv.org/abs/1011.0144)
-  (arXiv v3), Corollary 10.12, p. 49: the Koszul dual as the Yoneda algebra.
 - Crawley-Boevey, [*Quiver algebras, weighted projective lines, and the Deligne--Simpson
   problem*](https://www.mathunion.org/fileadmin/ICM/Proceedings/ICM2006.2/ICM2006.2.ocr.pdf):
   additive/deformed preprojective conventions and orientation independence.
+- Crawley-Boevey, [*Preprojective algebras, differential operators and a Conze embedding for
+  deformations of Kleinian singularities*](https://www.math.uni-bielefeld.de/~wcrawley/preproj2.pdf),
+  Comment. Math. Helv. 74 (1999): Lemma 2.2 and Theorem 2.3, p. 5, and Theorem 3.1, p. 6, the
+  identification of the presented preprojective algebra with the Baer--Geigle--Lenzing algebra over
+  an arbitrary field.
+- Ringel, [*The preprojective algebra of a
+  quiver*](https://www.math.uni-bielefeld.de/sfb343/preprints/pr97046.ps.gz), SFB 343 preprint
+  97-046, in *Algebras and modules II*, CMS Conf. Proc. 24 (1998): Theorem A, p. 2, the
+  tensor-algebra form of the identification, and §6, pp. 16--17, the sign normalisation.
+- Brenner--Butler--King, [*Periodic algebras which are almost
+  Koszul*](https://doi.org/10.1023/A:1020146502185), Algebr. Represent. Theory 5 (2002),
+  Theorem 4.8: the Frobenius property of the preprojective algebra of a Dynkin quiver, cited by its
+  locator as attributed by Grant.
 - Grant, [*The Nakayama automorphism of a self-injective preprojective
   algebra*](https://arxiv.org/abs/1906.11817) (arXiv v2), Theorem 3.1, p. 7: the preprojective
   algebra of a basic representation-finite hereditary algebra over any field is Frobenius.
