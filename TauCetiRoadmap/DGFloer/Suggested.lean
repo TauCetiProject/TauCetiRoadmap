@@ -1,6 +1,8 @@
-import Mathlib
-import TauCeti.Algebra.Homology.DG.Module.Right.Defs
-import TauCeti.AlgebraicTopology.EilenbergMacLane.Basic
+module
+
+public import Mathlib
+public import TauCeti.Algebra.Homology.DG.Module.Right.Defs
+public import TauCeti.AlgebraicTopology.EilenbergMacLane.Basic
 
 /-!
 # Morse and Floer homology with DG local coefficients: target signatures
@@ -47,6 +49,8 @@ modules of the README; the coefficient `m x y` acts on the right of `α`. The tw
 written in the source's homological sign convention on a cohomologically graded algebra, through
 the grading bridge `C^{-n} = C_n` of the README (standing conventions).
 -/
+
+@[expose] public section
 
 namespace TauCetiRoadmap.DGFloer
 
