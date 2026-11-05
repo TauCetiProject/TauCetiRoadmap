@@ -212,8 +212,11 @@ is related but not consumed: no milestone here needs a selector.
 
 - `IsGδ.polishSpace`: a Gδ subset of a Polish space is Polish in the subspace topology, with no
   nonemptiness assumption; `IsGδ.standardBorelSpace` for the subspace σ-algebra.
-- The converse: a subset of a metrizable space that is completely metrizable (in particular
-  Polish) in the subspace topology is Gδ.
+- The converse (Alexandrov): a subset of a `T6` space (in particular of a metrizable space) that
+  is completely metrizable in the subspace topology is Gδ, as
+  `TopologicalSpace.IsCompletelyMetrizableSpace.isGδ` following Mathlib #42912. Separability is
+  not needed: an uncountable discrete space is a completely metrizable Gδ subset of itself that is
+  not Polish.
 - Open and closed subsets are recovered as special cases; the existing `IsOpen.polishSpace` and
   `IsClosed.polishSpace` are not restated.
 
