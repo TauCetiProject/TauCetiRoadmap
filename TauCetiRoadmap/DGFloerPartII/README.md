@@ -86,7 +86,7 @@ them by name and section (see the supplier contracts) and does not restate them.
 | The Brouwer degree | DifferentialGeometry Layer 10 | consumed by 1.4 through DGFloer's homological degree interface |
 | The octonionic projective plane as a Riemannian manifold | none | the Cayley plane half of Proposition 6.39 is out of scope |
 
-**Out of scope**, so nobody mistakes them for targets:
+**Out of scope.**
 
 - The Cayley plane in Proposition 6.39: it needs the octonionic projective plane as a
   Riemannian manifold, which no roadmap builds. The quaternionic half of Proposition 6.39 is in
@@ -370,8 +370,8 @@ quotient comparisons; what is built here is the identification between them.
   unit-round Hopf normalization, with `∫_(CP¹) ω_FS = 1`. For `d ≥ 1` compute the scale on the
   oriented radius-`1/2` complex line, whose area is `π`; for `d = 0` both forms vanish. Prove
   compatibility with the same quotient and charts, and under a positive metric rescaling prove
-  the corresponding positive form scale. This comparison is not a premise of the metric,
-  totally-geodesic, index, perfectness or generator targets.
+  the corresponding positive form scale. The metric, totally geodesic, index, perfectness and
+  generator targets do not depend on this comparison.
 
 *Needs:* SmoothBundlesConnections B1.4 and B6.2–B6.3, LieGroups Layer 2, ComplexKahlerGeometry
 K7.1–K7.2, GeneralizedCohomology G4.0b, RiemannianGeometry R1, Mathlib `Matrix.orthogonalGroup`,
@@ -411,8 +411,7 @@ the matrix); the lift into `SO(n+1)` is the object, because its homology class
 `(−u, 2π − θ)`, exchanged by an involution of `S^(n−1) × S¹` of degree `(−1)^(n−1)`, so the
 degree is `1 + (−1)^(n−1)`, which is `2` for odd `n` and `0` for even `n` (bdho-floer, second
 proof of Proposition 6.34). The degree is a mapping degree in the sense of DGFloer's
-homological degree interface. This fixed-`p` construction has no Stiefel-quotient, unstable Bott
-or Pontryagin–Thom premise; the `Diff`-family and covered-by-diffeomorphisms comparisons are
+homological degree interface. The `Diff`-family and covered-by-diffeomorphisms comparisons are
 made in 4.3. *Needs:* 1.3, DGFloer Layer 1 item 1 and Layer 0 (the homological degree),
 DifferentialGeometry Layer 10 through that interface, Mathlib `Matrix.specialOrthogonalGroup`.
 
@@ -484,8 +483,8 @@ a projective line through `p` traversed `k` times. Calculate their negative bund
 nullities on that metric: for `CPᵈ` the index of `C_k` is `a_k = 2d(k−1) + 1`, and for `HPᵈ` it
 is `a_k = 2(k−1)(2d+1) + 3` (Ziller, *The free loop space of globally symmetric spaces*,
 Theorem 3; the source's proof of Proposition 6.39). Identify their Thom orientation systems and
-attachment maps. HomotopySpheres 4B's Bott-chain computations are comparisons on their stated
-examples, not the generic owner of these constructions. *Needs:* 1.3, RiemannianGeometry R1–R3,
+attachment maps. Where HomotopySpheres 4B.2–4B.5 compute the same examples, compare the
+critical manifolds and indices with its Bott chain. *Needs:* 1.3, RiemannianGeometry R1–R3,
 MorseTheory M5, DGFloer Layer 5 item 6.
 
 **Checks.**
@@ -572,10 +571,10 @@ homology and the calibrated chain comparison, keep the higher module coherence, 
 degreewise finiteness of the bar and perturbation formulas before base change. Construct the
 coefficient maps, relative attaching comparisons and filtration-preserving homotopies that
 compare the two total-space models. Their total-space spectral sequences agree from the proved
-page onward and abut to `H_*(P_p B)`, which vanishes in positive degrees; this sequence is not
-the energy-filtered fibre sequence and is not identified with it. Name the page comparison and
-the edge and fibre-inclusion squares used on representatives. *Needs:* 2.1–2.3, DGFloer Layer 4
-item 5 and Layer 5 item 4, DGFloer Layer 1 item 3.
+page onward and abut to `H_*(P_p B)`, which vanishes in positive degrees; this total-space
+sequence is distinct from the energy-filtered fibre sequence of 2.2. Name the page comparison
+and the edge and fibre-inclusion squares used on representatives. *Needs:* 2.1–2.3, DGFloer
+Layer 4 item 5 and Layer 5 item 4, DGFloer Layer 1 item 3.
 
 **Checks.**
 - `B = CP¹`: `P_p S²` is contractible, so the total-space sequence with `E² = H_*(S²) ⊗ H_*(ΩS²)`
@@ -596,9 +595,10 @@ maps `d_(2d) : E_(2d,1) → E_(0,2d)` for `CPᵈ` and `d_(4d) : E_(4d,3) → E_(
 Identify the surviving source and target representatives, their unit integer coefficient and
 sign by the total-space and fibre comparison of 2.4 and the chosen orientations. For `d = 1`
 these maps occur on the same page as the primary differential and are computed together. For
-`d = 0` the point case is separate. Ordinary base-to-fibre transgression from a nonexistent
-`H_(2d+1)(CPᵈ)` or `H_(4d+3)(HPᵈ)` is not the higher-generator construction. *Needs:* 2.4,
-GeneralizedCohomology G4.0 and G4.3–4.5, AlgebraicTopology Stage 6, DGFloer Layer 1 item 2.
+`d = 0` the point case is separate. Since `H_(2d+1)(CPᵈ) = 0` and `H_(4d+3)(HPᵈ) = 0`, these
+maps are not transgressions from the base; they are the relative boundary maps constructed
+here. *Needs:* 2.4, GeneralizedCohomology G4.0 and G4.3–4.5, AlgebraicTopology Stage 6, DGFloer
+Layer 1 item 2.
 
 **Checks.**
 - Total degrees: `E_(2d,1)` has total degree `2d + 1` and `E_(0,2d)` total degree `2d`;
@@ -619,10 +619,8 @@ frame `(u, Iu)`; for `HPᵈ`, `Σ_p` is the fibre of the partial Stiefel manifol
 with `v` tangent to the quaternionic line `L_(p,u)`, and `σ_p(u, v)` is the round 2-sphere of
 `L_(p,u)` tangent to `u` and `v`. With `g` the calibrated generator, prove
 `β_*(σ_p)_*[Σ_p] = ±2g` in degree `2d` for `CPᵈ` and `4d + 2` for `HPᵈ`, fixing the sign by the
-stated orientations; the class is twice a generator and is not relabelled as `g`. The
-projective-line construction, the based Hopf and perfectness proof, and the free-loop application
-with its own hypotheses are three separate targets. *Needs:* 2.1–2.5, 1.3, DGFloer Layer 2 (the
-adjunction `β`).
+stated orientations; the class is twice the generator `g`. *Needs:* 2.1–2.5, 1.3, DGFloer
+Layer 2 (the adjunction `β`).
 
 **Checks.**
 - Degrees: `dim Σ_p = 2d − 1` for `CPᵈ`, so `(σ_p)_*[Σ_p] ∈ H_(2d−1)(Ω²CPᵈ)` and `β_*` lands in
@@ -687,8 +685,8 @@ immersion. Restrict to a precompact neighbourhood of the image if required. Geom
 Layer 1 supplies the normal tube of this embedding, with a positive uniform radius on the compact
 core. Smooth `e ∘ f` on `S` by partitions of unity and mollifiers closely enough for the tube,
 project back and construct the small homotopy in `U`. A fixed-relative version supplies its own
-collar data. Mathlib's smooth partitions of unity and cutoffs are the smoothing floor; the
-finite-chart embedding is this target's construction. *Needs:* 3.1, GeometricTopology Layer 1,
+collar data. The smoothing uses Mathlib's smooth partitions of unity and cutoffs; the
+finite-chart embedding is constructed here. *Needs:* 3.1, GeometricTopology Layer 1,
 Mathlib `SmoothPartitionOfUnity` and `exists_contMDiffMap_zero_one_of_isClosed`.
 
 **Checks.**
@@ -708,9 +706,9 @@ with `π_(U*)α = b[Q]`, `b ≠ 0`; 3.1–3.2 give the smooth map `φ : S → U`
 `π_U ∘ φ` has degree `Nb ≠ 0`; the representing-witness argument of DGFloer Layer 10 item 5
 (Theorem 5.10 applied to the smoothed map, and the kernel of `i_(Q*)` of Layer 10 item 4) proves
 the statement. Theorem B is the case where `Q` is not a rational `K(π, 1)`. DGFloer Layer 10's
-all-dimensional DG trajectory and chain inputs come from its Layers 7.2, 8 and 9. No integral
-every-class realization is asserted. *Needs:* 3.1–3.2, DGFloer Layer 10 items 4–5, DGFloer
-Layer 6 item 5.
+all-dimensional DG trajectory and chain inputs come from its Layers 7.2, 8 and 9. Only the
+multiple `Nα` of 3.1 is realized; Theorem B needs nothing more. *Needs:* 3.1–3.2, DGFloer
+Layer 10 items 4–5, DGFloer Layer 6 item 5.
 
 **Checks.**
 - `Q = T^r`: every `π_ℓ`, `ℓ ≥ 2`, vanishes, the hypothesis fails, and indeed `c°_HZ(D*T^r) = ∞`
@@ -731,6 +729,12 @@ unchanged by either transport. *Needs:* 3.3, DGFloer Layer 6 items 3–4, DGFloe
 - A domain `U` disjoint from the zero section: the Liouville-flow argument of Corollary E still
   applies provided `H_n(U) → H_n(Q)` is nonzero; `U` a small neighbourhood of a single fibre
   has `H_n(U) → H_n(Q)` zero and is excluded.
+- The sign of the translation: with `λ_can = p dq` and `Ψ'_σ(q, p) = (q, p − σ_q)`,
+  `Ψ'^*_σ λ_can = (p − σ_q) dq = λ_can − π^*σ`, so `Ψ'^*_σ ω_can = ω_can − π^*dσ` and `Ψ'_σ`
+  carries the magnetic form `ω_can − π^*dσ` to `ω_can`; the form `ω_can + π^*dσ` is reached by
+  the translation by `−σ`. A translation by `+σ` applied to `ω_can + π^*dσ` lands on
+  `ω_can + 2π^*dσ`, not on `ω_can`. Since `π ∘ Ψ'_σ = π`, the map `H_n(U) → H_n(Q)` is unchanged
+  either way.
 
 ### Examples
 
@@ -856,9 +860,9 @@ bundle and the shriek naturality of DGFloer Layer 5 item 5.
   when it is a torus, which is the hypothesis of Example 6.30 for every non-torus compact
   connected `G`. Then use `G → Diff(G)` by left translation, its evaluation identity at `e`, and
   Proposition 6.29 to prove that every compact connected Lie group other than a torus is
-  abundant. No Lie theory is rebuilt here.
+  abundant.
 - **Finite-rank odd-sphere group (Lemma 6.35).** For every odd `n ≥ 3`, prove that
-  `π_(n−1)(SO(n))` is torsion, with finite-rank data, not stable periodicity alone. Give the
+  `π_(n−1)(SO(n))` is torsion from the unstable finite-rank data below. Give the
   low-rank values `π₂(SO(3)) = 0`, `π₄(SO(5)) = ℤ/2`, `π₆(SO(7)) = 0`, `π₈(SO(9)) = (ℤ/2)²`,
   `π₁₀(SO(11)) = π₁₂(SO(13)) = π₁₄(SO(15)) = ℤ/2`, each with the maps and fibration exact
   sequences that certify it. For odd `n ≥ 17` construct the finite-rank splitting
@@ -886,8 +890,7 @@ bundle and the shriek naturality of DGFloer Layer 5 item 5.
   `f : T¹_pSⁿ × S¹ → SO(n+1)`. Take `A = f_*([S^(n−1)] × [S¹]) ∈ H_n(SO(n+1))`; by 1.4,
   `(ev_p)_*A = (1 + (−1)^(n−1))[Sⁿ] = 2[Sⁿ]` for odd `n`, and the inclusion `SO(n+1) → Diff(Sⁿ)`
   carries `A` to a class with the same evaluation, so `Sⁿ` is `2`-covered. Apply Proposition 6.33
-  with the non-`2`-torsion group `π_n(Sⁿ) = ℤ`. This is the direct degree and evaluation proof,
-  with no Pontryagin–Thom or unstable Bott premise, and the two proofs are two separate targets.
+  with the non-`2`-torsion group `π_n(Sⁿ) = ℤ`. Both proofs are targets.
 
 *Needs:* 1.4, DGFloer Layer 1 items 1–2 and 6, Layer 2, Layer 5 item 5, Layer 11,
 GeometricTopology Layer 3, HomotopySpheres 4A.1 and 4B.8, AlgebraicTopology Stage 8.1–8.7,
@@ -930,8 +933,9 @@ a left-invariant orientation of `G`. For `π : G → M`, construct the flat triv
 coefficient map. On `H` it is `τ(h) = χ(h)o`, where `χ(h)` is the sign of the isotropy action on
 `T_(eH)M`. Compute the fibre-coorientation sign relative to the left-invariant orientation of
 `H`; it is the same `χ(h)`. Thus the twisted shriek satisfies `j_![G]_τ = [H]` with the ordinary
-left-oriented fundamental cycle on all components: the two signs cancel. The untwisted `j_![G]`
-is not identified with that cycle when the quotient is nonorientable.
+left-oriented fundamental cycle on all components: the two signs cancel. Without the twist the
+shriek of `[G]` counts the components of `H` with the signs `χ(h)`, so when `M` is nonorientable
+it is not the left-oriented cycle `[H]`.
 
 Form `β = Φ_*([G]_τ × α)` in `H_(dim G + deg α)(Map(S², M); ev*or_M)` using the action's
 coefficient map, and prove the same square gives `j_!β = (Φ_H)_*([H] × α)` in ordinary homology
@@ -1051,8 +1055,8 @@ None at present. The base roadmap consumes nothing from this one.
 
 ## Source coverage
 
-This section is provenance, not specification: it records where each numbered statement of the
-source paper within this roadmap's scope lands, so a reviewer can check that nothing is missing.
+This section records where each numbered statement of the source paper within this roadmap's
+scope lands, so that a reader can check that nothing is missing.
 Numbers follow arXiv:2404.07953v3.
 
 | Source statements | Target |

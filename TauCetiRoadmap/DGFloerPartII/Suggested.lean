@@ -5,8 +5,8 @@ public import Mathlib
 /-!
 # DG Floer theory, Part II: target signatures
 
-The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
-theorems against the pinned Mathlib and Tau Ceti, each with `sorry`.
+The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's
+headline theorems against the pinned Mathlib and Tau Ceti, each with `sorry`.
 
 Statable at the pins: the finite-rank odd-sphere group of 4.3 (Lemma 6.35 of the source), on the
 carrier `SO n = Matrix.specialOrthogonalGroup (Fin n) ℝ` with the subtype topology of the matrix
