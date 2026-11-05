@@ -553,9 +553,11 @@ The ownership boundary with AlgebraicModuliForArithmeticGeometry §1.3: this blo
 locally free quotient Grassmannian with its charts, universal quotient, rank-one identification
 and Plücker closed immersion, because the projectivity of the Hopf-locus parameter scheme below,
 and with it the "projective plus quasi-finite implies finite" step of Layer 8A, rest on it. The
-coherent extension to finite-type quasi-coherent `E`, the relative tangent sheaf, smoothness of
-relative dimension `N(n − N)` with its extreme-rank cases, and flag schemes are that roadmap's
-and are not stated here.
+scheme-theoretic description of the image of the Plücker map by the quadratic Plücker relations,
+the coherent extension to finite-type quasi-coherent `E` (whose Plücker embedding that roadmap
+obtains by restricting this block's closed immersion along a local presentation `𝒪_S^n → E`),
+the relative tangent sheaf, smoothness of relative dimension `N(n − N)` with its extreme-rank
+cases, and flag schemes are that roadmap's and are not stated here.
 
 **Checks.**
 
@@ -2766,9 +2768,11 @@ the lanes.
   quotient-convention projective bundle `ℙ(E) = Proj_S(Sym E)` is Layer 0G's rank-one
   Grassmannian. Nothing of this roadmap consumes SchemeAndStackFoundations.
 - AlgebraicModuliForArithmeticGeometry §1.3 consumes Layer 0G's finite locally free quotient
-  Grassmannian with its universal quotient and its Plücker closed immersion into `P(∧^N E)`; the
-  coherent extension, the tangent sheaf, smoothness of relative dimension `N(n − N)` and flag
-  schemes are built there, not here.
+  Grassmannian with its universal quotient and its Plücker closed immersion into `P(∧^N E)`,
+  which it restricts along a presentation to embed the Grassmannian of a finite-type
+  quasi-coherent sheaf; the description of the image by the Plücker relations, the coherent
+  extension, the tangent sheaf, smoothness of relative dimension `N(n − N)` and flag schemes are
+  built there, not here.
 - The Eisenstein-ideal application of §The Mazur interface consumes Layer 10.
 
 ## Worked examples
