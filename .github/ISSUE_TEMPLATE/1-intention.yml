@@ -142,6 +142,7 @@ body:
         - StablePeriodicCurved
         - StableReduction
         - StandardDistributions
+        - Subfactors
         - SubspaceTheorem
         - SuccessiveMinima
         - SymplecticFieldTheory
