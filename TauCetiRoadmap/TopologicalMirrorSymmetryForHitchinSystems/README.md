@@ -16,7 +16,7 @@ The full genus range is part of the theorem. Low-genus calculations in §3.9, wi
 
 ## Conventions
 
-Curves are smooth projective and geometrically connected. In families they are smooth proper over a noetherian base with a verified relative polarization. Rank n is a positive integer, invertible on the base; determinant degrees d,e are integers prime to n. For the main comparison D⊗ω⁻¹ has strictly positive degree or is trivial; no parity of deg D is assumed there. The SL degree comparisons of §§4.2–4.3 additionally assume that (n−1)deg D is even, which holds for odd n and for D=ω. This permits every genus: a dimension formula on a nonempty locus never licenses a negative-dimensional space.
+Curves are smooth projective and geometrically connected. In families they are smooth proper over a noetherian base with a verified relative polarization. Rank n is a positive integer, invertible on the base; determinant degrees d,e are integers prime to n. For the main comparison D⊗ω⁻¹ has strictly positive degree or is trivial; no parity of deg D is assumed there. The SL degree comparisons of §§4.2–4.3 assume no parity of (n−1)deg D either; their degree-zero correction line is chosen according to the parity of n. This permits every genus: a dimension formula on a nonempty locus never licenses a negative-dimensional space.
 
 All sheaves and group schemes use explicit universes determined by the scheme/site carrier; scalar extensions preserve the chosen universe. Hodge dimensions use rational or complex coefficients, finite-group projectors use characteristic-zero splitting coefficients, and étale traces use a finite extension of ℚℓ inside ℚ̄ℓ with ℓ different from the residue characteristic. Only a finite list of fractional twists needs one finite coefficient extension.
 
@@ -54,27 +54,27 @@ Use `TauCeti.subsingleton_brauerGroup_of_finite` in `TauCeti/Algebra/BrauerGroup
 
 Consume the completed roadmap’s Core definitions, Layers L2–L3 and weight-one instances for abstract mixed structures, strictness and Tate normalization. Family unitary splittings require the following extension of that direction; the geometric compact-support realization is imported from MixedHodgeModulesAndIrregularHodgeTheory below.
 
-What HodgeStructures must provide (the rank-one unitary-family contract): Provide the rank-one flat-unitary-line/Pic0 equivalence in smooth projective complex families and its coherent action on the common finite splitting torsor.
+What HodgeStructures must provide (gap:unitary-splitting-families): Provide the rank-one flat-unitary-line/Pic0 equivalence in smooth projective complex families and its coherent action on the common finite splitting torsor.
 
 ### From TauCetiRoadmap.MixedHodgeModulesAndIrregularHodgeTheory
 
 Consume H.0/mixed-hodge-module and H.0/abelian-strictness for the abelian category of admissible graded-polarizable mixed Hodge modules on a smooth quasi-projective complex variety, strictness of its morphisms for F and W, and the identification of its point category with graded-polarizable rational mixed Hodge structures on `TauCeti.Hodge.MixedHodgeStructure`; H.1/operations and H.1/weight-bounds for the six operations, Tate twists, the open/closed localization triangles and the weight bounds of f_!; P/pair-cohomology at f=0 for the compact-support mixed Hodge structures H_c^r(U,N) of a smooth quasi-projective U with Hodge-module coefficients N; and P/pair-kunneth-duality at f=g=0 for Künneth and Poincaré duality with the twist (−d). Over 𝔾_m these give H_c¹=ℚ(0) and H_c²=ℚ(−1), hence E=xy−1; over 𝔸¹ they give H_c²=ℚ(−1) and E=xy. A finite-monodromy rational local system is the admissible variation of weight zero with trivial Hodge filtration; its character eigenspaces exist only after extending coefficients to the character field, which is part of the adapter requested below. Singular varieties enter only through closed supports in a smooth quasi-projective ambient variety; general separated varieties are the extension below.
 
-What MixedHodgeModulesAndIrregularHodgeTheory must provide (the geometric compact-support mixed-Hodge contract): Extend the compact-support Hodge realization of P/pair-cohomology from smooth quasi-projective varieties to separated finite-type complex varieties, by local embeddings into smooth varieties or by descent along closed/open stratifications into smooth quasi-projective pieces, with functoriality for proper maps and open immersions, SNC blow-up comparison, coefficient extension to the character field, finite-group character projectors and finite-monodromy coefficient adapters, all compatible with its rational mixed-Hodge carrier on the pinned mixed Hodge structures.
+What MixedHodgeModulesAndIrregularHodgeTheory must provide (gap:geometric-compact-mhs): Extend the compact-support Hodge realization of P/pair-cohomology from smooth quasi-projective varieties to separated finite-type complex varieties, by local embeddings into smooth varieties or by descent along closed/open stratifications into smooth quasi-projective pieces, with functoriality for proper maps and open immersions, SNC blow-up comparison, coefficient extension to the character field, finite-group character projectors and finite-monodromy coefficient adapters, all compatible with its rational mixed-Hodge carrier on the pinned mixed Hodge structures.
 
 ### From TauCetiRoadmap.EndoscopicTransferAndUnitaryTraceComparison
 
 Consume §§3.6, 3.8, 3.10, 3.12–3.14 for Higgs stacks, spectral covers, regular centralizers, Picard actions and their actual anisotropic/codimension hypotheses. Section 3.16 supplies the finite-stabilizer weighted trace in its anisotropic Hitchin setting. The general finite-quotient local-system trace extends that setting through the following contracts. Consume AlgebraicModuliForArithmeticGeometry §4.5 for generic transgression on the action groupoid, with Lγ⊗γ*Lδ→Lγδ, its unit and associativity, and coherent centralizer descent; use the separate finite-quotient stack trace contract for weighted traces.
 
-What EndoscopicTransferAndUnitaryTraceComparison must provide (the generic orbifold/transgression contract): Extend AlgebraicModuliForArithmeticGeometry §4.5 quotient inertia and coherent gerbe transgression, using the finite-quotient stack trace contract, by tangent age and normalized orbifold integration, the μ_(r|Γ|) Hasse and band-change comparison, integral-to-special-fibre cocycle compatibility, and arithmetic descent with Frobenius sector permutation for nonsplit finite étale commutative acting group schemes.
+What EndoscopicTransferAndUnitaryTraceComparison must provide (gap:generic-orbifold-transgression): Extend AlgebraicModuliForArithmeticGeometry §4.5 quotient inertia and coherent gerbe transgression, using the finite-quotient stack trace contract, by tangent age and normalized orbifold integration, the μ_(r|Γ|) Hasse and band-change comparison, integral-to-special-fibre cocycle compatibility, and arithmetic descent with Frobenius sector permutation for nonsplit finite étale commutative acting group schemes.
 
-What EndoscopicTransferAndUnitaryTraceComparison must provide (the relative spectral Picard contract): Extend Higgs stacks, spectral module equivalence, regular centralizers, relative Picard actions and codimension estimates to the noetherian smooth-curve general-D stable fixed-determinant families and singular spectral fibres used here.
+What EndoscopicTransferAndUnitaryTraceComparison must provide (gap:relative-hitchin-picard): Extend Higgs stacks, spectral module equivalence, regular centralizers, relative Picard actions and codimension estimates to the noetherian smooth-curve general-D stable fixed-determinant families and singular spectral fibres used here.
 
 ### From TauCetiRoadmap.MotivesAndAlgebraicCycles
 
 Consume §4.20 for the scissor ring K₀Var k of separated finite-type k-schemes with the relations [X]=[Z]+[X∖Z] for closed immersions, the product, the universal property for additive multiplicative invariants and 𝕃=[𝔸¹]; it is defined over any field and makes no blow-up presentation. The G=1 realizations of §§0.1–0.3 are additive maps out of this ring, and ℒ of §0.2 is 𝕃 with trivial action. Its spread-out version over a finite-type R⊂ℂ for a finite list of varieties, and its finite-group equivariant extension with the Bittner presentation (BITTNER04 §7, Lemma 7.1, line 812), are the contract below.
 
-What MotivesAndAlgebraicCycles must provide (the equivariant scissor contract): Extend the scissor ring K₀Var k of §4.20 to the ring K₀^G(Var_k) of varieties with a good action of a finite group G (every orbit in an affine open), over any field k and, for a finite list of varieties spread out from ℂ, over a subring R⊂ℂ of finite type over ℤ; give the closed/open relations, the product, the class ℒ=[𝔸¹ with trivial action] and the universal property for additive multiplicative equivariant invariants; for k of characteristic zero prove the equivariant Bittner presentation by smooth projective G-varieties with the blow-up relation, from equivariant SNC compactification and equivariant weak factorization; keep this ring distinct from its quotient by the representation ideal and from the additive character realizations.
+What MotivesAndAlgebraicCycles must provide (gap:equivariant-grothendieck): Extend the scissor ring K₀Var k of §4.20 to the ring K₀^G(Var_k) of varieties with a good action of a finite group G (every orbit in an affine open), over any field k and, for a finite list of varieties spread out from ℂ, over a subring R⊂ℂ of finite type over ℤ; give the closed/open relations, the product, the class ℒ=[𝔸¹ with trivial action] and the universal property for additive multiplicative equivariant invariants; for k of characteristic zero prove the equivariant Bittner presentation by smooth projective G-varieties with the blow-up relation, from equivariant SNC compactification and equivariant weak factorization; keep this ring distinct from its quotient by the representation ideal and from the additive character realizations.
 
 ### From TauCetiRoadmap.LogicAndDefinabilityInNumberTheory
 
@@ -84,19 +84,19 @@ Consume §§2.5, 2.7–2.9 and 2.12 for analytic substitution, gauge measures, p
 
 Consume §2.15 Hodge–Tate degeneration for proper smooth objects, with the negative twist on H^a(Ω^b) in total degree a+b. Its P¹ degree-two term is ℚp(−1). The following extension supplies number-field and character/fractional compatibility.
 
-What CohomologyComparisons must provide (the fractional equivariant Hodge–Tate contract): Provide finite-group-equivariant smooth-proper number-field Hodge–Tate comparison, constancy of character Hodge numbers on a smooth connected complex base and Ito additive rational-period multiplicities for finite sets of fractional twists.
+What CohomologyComparisons must provide (gap:fractional-equivariant-hodge-tate): Provide finite-group-equivariant smooth-proper number-field Hodge–Tate comparison, constancy of character Hodge numbers on a smooth connected complex base and Ito additive rational-period multiplicities for finite sets of fractional twists.
 
 ### From TauCetiRoadmap.ArithmeticGaloisDuality
 
 Consume D7.6, paragraphs “Local abelian-variety duality and gerbe evaluation” and “Self-dual isogenies and their local index”. For characteristic-zero local F these give the continuous pairing A(F)×H¹(F,A∨)→ℚ/ℤ, its gerbe-evaluation square, and |coker φ(F)|=|ker φ(F)| for a self-dual isogeny of degree prime to the residue characteristic. The equal-characteristic branch is a separate contract.
 
-What ArithmeticGaloisDuality must provide (the equal-characteristic local-duality contract): Extend the normalized abelian local Tate pairing, gerbe evaluation, isogeny connecting-map adjunction and self-dual prime-to-p index formula to equal-characteristic local fields k((t)).
+What ArithmeticGaloisDuality must provide (gap:equal-characteristic-abelian-duality): Extend the normalized abelian local Tate pairing, gerbe evaluation, isogeny connecting-map adjunction and self-dual prime-to-p index formula to equal-characteristic local fields k((t)).
 
 ### From TauCetiRoadmap.AbelianSchemesAndArithmeticModuli
 
 Consume §§A1.3, A1.5, A2.2–A2.3, A3.2–A3.3, A3.5, A3.7 for invariant differentials, the theorem of the cube, normalized Poincaré duality, finite-flat quotients, dual-isogeny kernels and the polarized Weil pairing. Multiplication by n has degree n^(2g), and is étale when n is a unit. The norm/pullback adapters are specified below; relative Picτ itself is imported from ComplexComparisonPartII.
 
-What AbelianSchemesAndArithmeticModuli must provide (the represented relative Picard contract): Provide the Pic0 identification of relative Picτ with the dual abelian scheme on abelian-scheme torsors, norm-pullback Poincaré duality and represented spectral norm kernels and finite quotients with the required smoothness and base change.
+What AbelianSchemesAndArithmeticModuli must provide (gap:relative-picard-norm-duality): Provide the Pic0 identification of relative Picτ with the dual abelian scheme on abelian-scheme torsors, norm-pullback Poincaré duality and represented spectral norm kernels and finite quotients with the required smoothness and base change.
 
 ### From TauCetiRoadmap.ComplexComparisonPartII
 
@@ -106,23 +106,23 @@ Consume §C3.2e, `picardTorsionComponent`, for relative Picτ: for a locally noe
 
 Consume §§1.3, 2.1–2.2 for Quot/Hilbert parameters; §4.5, `quotientGerbeTransgression` and `quotientInertiaComponents`, for coherent centralizer descent of equivariant commutative-banded gerbes and the conjugacy-class inertia decomposition for every finite constant group; §§4.1–4.3, 4.9, 4.20 for banded gerbes, neutralizations, Isom torsors and H² classification; §5.1 for rigidification and its base-change property; §§7.3, 7.6.1 for Picard representability; §§9.4–9.5, 9.7 for characteristic-zero equivariant resolution and SNC compactification. A finite quotient, an algebraic mapping stack, and proper stable-Higgs coarse moduli are different conclusions.
 
-What AlgebraicModuliForArithmeticGeometry must provide (the relative Higgs/GIT/properness contract): Provide relative stable general-D Higgs parameter spaces and GIT coarse moduli for projective smooth curve families, with separatedness, quasiprojectivity, semistable Hitchin properness, relative deformation theory and liftability of curves and chosen line bundles.
+What AlgebraicModuliForArithmeticGeometry must provide (gap:relative-higgs-git-properness): Provide relative stable general-D Higgs parameter spaces and GIT coarse moduli for projective smooth curve families, with separatedness, quasiprojectivity, semistable Hitchin properness, relative deformation theory and liftability of curves and chosen line bundles.
 
-What AlgebraicModuliForArithmeticGeometry must provide (the smooth-stack Hartogs contract): Extend an invertible-sheaf trivialization uniquely across a complement of codimension at least two on a smooth normal locally noetherian algebraic stack, compatibly with restriction to smooth charts.
+What AlgebraicModuliForArithmeticGeometry must provide (gap:smooth-stack-hartogs): Extend an invertible-sheaf trivialization uniquely across a complement of codimension at least two on a smooth normal locally noetherian algebraic stack, compatibly with restriction to smooth charts.
 
-What AlgebraicModuliForArithmeticGeometry must provide (the relative splitting-stack contract): Provide algebraic relative stacks of Gₘ- and μr-neutralizations for arithmetic gerbes on proper geometrically connected degree-zero-cohomologically-flat families in the Picard representability domain, with r invertible for μr, the Picard-stack or μr-torsor-stack action, algebraic-space representability of rigidified Pic[r]-torsors and base change, using the existing gerbe and rigidification APIs.
+What AlgebraicModuliForArithmeticGeometry must provide (gap:relative-gerbe-splitting-representability): Provide algebraic relative stacks of Gₘ- and μr-neutralizations for arithmetic gerbes on proper geometrically connected degree-zero-cohomologically-flat families in the Picard representability domain, with r invertible for μr, the Picard-stack or μr-torsor-stack action, algebraic-space representability of rigidified Pic[r]-torsors and base change, using the existing gerbe and rigidification APIs.
 
 ### From TauCetiRoadmap.CountingBundlesAndHallAlgebrasOfCurves
 
 Consume §7.1 for canonical GL stability, §7.3 for the canonical coarse moduli and proper Hitchin morphism, and §9.1 for purity of canonical coprime GL compact cohomology. The general-D, fixed-determinant and finite-character extensions below retain the same stability notion.
 
-What CountingBundlesAndHallAlgebrasOfCurves must provide (the fixed-determinant and twisted-sector purity contract): Extend canonical GL Higgs purity to complex general-D semiprojective fixed-determinant spaces and canonical finite-order fixed loci with their finite splitting-torsor covers, compatibly with geometric mixed Hodge structures and character projectors.
+What CountingBundlesAndHallAlgebrasOfCurves must provide (gap:higgs-sector-purity): Extend canonical GL Higgs purity to complex general-D semiprojective fixed-determinant spaces and canonical finite-order fixed loci with their finite splitting-torsor covers, compatibly with geometric mixed Hodge structures and character projectors.
 
 ### From TauCetiRoadmap.EtaleDualityAndPerverseSheaves
 
 Consume §§3.7, 6.3–6.4 for coefficient-compatible traces, proper pushforward and invariant decompositions, together with TauCetiRoadmap.EtaleCohomologyFoundations §§F.2.1, F.2.4–F.2.7 for proper base change, lower shriek, compact supports and Künneth, and §§F.4.2–F.4.6 for bounded finite-dimensional rational realization and continuous Galois actions. F.5–F.7 supply duality, smooth purity/trace normalization and blow-up comparisons, respectively; F.2.5 alone asserts no finiteness. Finite stack traces require the following contract.
 
-What EtaleDualityAndPerverseSheaves must provide (the finite-quotient trace contract): Provide bounded compact cohomology with characteristic-zero ℓ-adic coefficients, ℓ invertible, proper base change and geometric-Frobenius trace for finite-monodromy sheaves on quotients of separated finite-type schemes by finite étale group schemes, including stabilizer orders divisible by the residue characteristic, with every rational torsor class weighted by its reciprocal automorphism order.
+What EtaleDualityAndPerverseSheaves must provide (gap:finite-quotient-stack-trace): Provide bounded compact cohomology with characteristic-zero ℓ-adic coefficients, ℓ invertible, proper base change and geometric-Frobenius trace for finite-monodromy sheaves on quotients of separated finite-type schemes by finite étale group schemes, including stabilizer orders divisible by the residue characteristic, with every rational torsor class weighted by its reciprocal automorphism order.
 
 The finite group order is invertible in the ℓ-adic coefficient field, so averaging over the group is exact there and no tameness is needed for this trace formula; tameness is kept only where ages and orbifold integrals enter (§§0.6–0.8, Layer 2). For the trivial action of C₂ on Spec 𝔽₂ the weighted sum over the two rational C₂-torsors is 1/2+1/2=1, the trace of Frobenius on H⁰ of the point, although BC₂ is not tame in characteristic 2.
 
@@ -184,11 +184,11 @@ One proof route is as follows. Import constructible compactly supported cohomolo
 - Over 𝔽₂, for C₂ acting trivially on a point, the trivial-character weighted sum is again 1/2+1/2=1, equal to the trace on H⁰; the stabilizer order 2 equals the residue characteristic, so the formula is not restricted to tame stabilizers.
 - For nontrivial χ, the χ-count of a point with trivial action is zero.
 
-*Needs:* TauCetiRoadmap.EtaleCohomologyFoundations §§F.2.1, F.2.4–F.2.7, F.4.2–F.4.6 and TauCetiRoadmap.EtaleDualityAndPerverseSheaves §§3.7, 6.3–6.4; TauCetiRoadmap.MotivesAndAlgebraicCycles §4.20 and the equivariant scissor contract; Tau Ceti `TauCeti.Hodge.MixedHodgeStructure`; Mathlib `sum_hom_units_eq_zero`; TauCetiRoadmap.MixedHodgeModulesAndIrregularHodgeTheory H.0/mixed-hodge-module, H.1/operations, P/pair-cohomology and the geometric compact-support mixed-Hodge contract; the generic orbifold/transgression contract and the finite-quotient trace contract.
+*Needs:* TauCetiRoadmap.EtaleCohomologyFoundations §§F.2.1, F.2.4–F.2.7, F.4.2–F.4.6 and TauCetiRoadmap.EtaleDualityAndPerverseSheaves §§3.7, 6.3–6.4; TauCetiRoadmap.MotivesAndAlgebraicCycles §4.20 and the equivariant scissor contract (gap:equivariant-grothendieck); Tau Ceti `TauCeti.Hodge.MixedHodgeStructure`; Mathlib `sum_hom_units_eq_zero`; TauCetiRoadmap.MixedHodgeModulesAndIrregularHodgeTheory H.0/mixed-hodge-module, H.1/operations, P/pair-cohomology and the geometric compact-support mixed-Hodge contract (gap:geometric-compact-mhs); the generic orbifold/transgression contract (gap:generic-orbifold-transgression) and finite-quotient trace contract (gap:finite-quotient-stack-trace).
 
 ### 0.2 Fractional Lefschetz powers and root systems
 
-Use the scissor ring K₀Var k of MotivesAndAlgebraicCycles §4.20 and its good-finite-group equivariant extension K0^G(Var_k) from the equivariant scissor contract, together with the spread-out ring K0^G(Var/R) over R for the finite list of varieties in use, retaining its distinction from further equivariant representation quotients. Adjoin coherent formal roots of ℒ=[A¹ with trivial G-action]; any expression in use has a positive finite common denominator N. If negative exponents are used, first localize at ℒ. The target rational-bidegree algebra has invertible monomials and the finite-field image q is nonzero, so these additive scalar-linear realizations extend to that localization. For a fixed prime power q, a compatible root system is s_r∈C× for r≥1 with s_1=q and s_(rr′)^r=s_r′. Extend χ-realizations additively and linearly over the trivial-action Lefschetz powers: #^(s,χ)([X]ℒ^(a/N))=#χ(X)s_N^a and Eχ([X]ℒ^(a/N))=Eχ(X)(xy)^(a/N). Root choices remain part of the finite-field evaluation. (GWZ20 §2.5, Definition 2.16, p.525).
+Use the scissor ring K₀Var k of MotivesAndAlgebraicCycles §4.20 and its good-finite-group equivariant extension K0^G(Var_k) from the equivariant scissor contract (gap:equivariant-grothendieck), together with the spread-out ring K0^G(Var/R) over R for the finite list of varieties in use, retaining its distinction from further equivariant representation quotients. Adjoin coherent formal roots of ℒ=[A¹ with trivial G-action]; any expression in use has a positive finite common denominator N. If negative exponents are used, first localize at ℒ. The target rational-bidegree algebra has invertible monomials and the finite-field image q is nonzero, so these additive scalar-linear realizations extend to that localization. For a fixed prime power q, a compatible root system is s_r∈C× for r≥1 with s_1=q and s_(rr′)^r=s_r′. Extend χ-realizations additively and linearly over the trivial-action Lefschetz powers: #^(s,χ)([X]ℒ^(a/N))=#χ(X)s_N^a and Eχ([X]ℒ^(a/N))=Eχ(X)(xy)^(a/N). Root choices remain part of the finite-field evaluation. (GWZ20 §2.5, Definition 2.16, p.525).
 
 R has the finite-type hypotheses of the realization in use. Fractional bidegrees live in the finite-support rational-exponent algebra, available as AddMonoidAlgebra Z (Q×Q); only the necessary denominator subalgebra is used. Use a fixed system s for general prime powers. No root-choice independence is assumed there.
 
@@ -209,7 +209,7 @@ One proof route is as follows. Import the actual equivariant Grothendieck ring a
 - ℒ^0 acts as 1 on every χ realization; for χ≠1 its value on the isolated trivial-action point is nevertheless 0.
 - ℒ has bidegree (1,1), whereas the existing Tate structure Z(1) has bidegree (−1,−1).
 
-*Needs:* §0.1 (character e-polynomials and weighted counts); TauCetiRoadmap.MotivesAndAlgebraicCycles §4.20; Mathlib `AddMonoidAlgebra`; Tau Ceti `TauCeti.Hodge.tate_hodgeNumber`; the equivariant scissor contract.
+*Needs:* §0.1 (character e-polynomials and weighted counts); TauCetiRoadmap.MotivesAndAlgebraicCycles §4.20; Mathlib `AddMonoidAlgebra`; Tau Ceti `TauCeti.Hodge.tate_hodgeNumber`; the equivariant scissor contract (gap:equivariant-grothendieck).
 
 ### 0.3 Equivariant Katz comparison
 
@@ -224,7 +224,7 @@ One proof route is as follows. Use the equivariant Bittner presentation requeste
 - For G=1 the ring is K₀Var k of MotivesAndAlgebraicCycles §4.20 and the statement is ordinary Katz comparison.
 - The proof concludes equality of Hodge polynomials, not an actual isomorphism of nonsemisimple arithmetic representations.
 
-*Needs:* §0.1 (character e-polynomials and weighted counts); TauCetiRoadmap.MotivesAndAlgebraicCycles §4.20; TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry §§9.4–9.5, 9.7; TauCetiRoadmap.CohomologyComparisons §§2.15; TauCetiRoadmap.ArithmeticGaloisRepresentations §§5.1–5.3; TauCetiRoadmap.ArithmeticGaloisRepresentations §§1.7–1.8; TauCetiRoadmap.DeligneWeightsAndPurity §§7.15; the equivariant scissor contract; TauCetiRoadmap.MixedHodgeModulesAndIrregularHodgeTheory H.0/mixed-hodge-module, H.1/operations, P/pair-cohomology and the geometric compact-support mixed-Hodge contract; the fractional equivariant Hodge–Tate contract.
+*Needs:* §0.1 (character e-polynomials and weighted counts); TauCetiRoadmap.MotivesAndAlgebraicCycles §4.20; TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry §§9.4–9.5, 9.7; TauCetiRoadmap.CohomologyComparisons §§2.15; TauCetiRoadmap.ArithmeticGaloisRepresentations §§5.1–5.3; TauCetiRoadmap.ArithmeticGaloisRepresentations §§1.7–1.8; TauCetiRoadmap.DeligneWeightsAndPurity §§7.15; the equivariant scissor contract (gap:equivariant-grothendieck); TauCetiRoadmap.MixedHodgeModulesAndIrregularHodgeTheory H.0/mixed-hodge-module, H.1/operations, P/pair-cohomology and the geometric compact-support mixed-Hodge contract (gap:geometric-compact-mhs); the fractional equivariant Hodge–Tate contract (gap:fractional-equivariant-hodge-tate).
 
 ### 0.4 Finite-denominator Tate roots
 
@@ -239,7 +239,7 @@ One proof route is as follows. Kill the finite torsion quotient of the cyclotomi
 - For N=1 obtain the cyclotomic Tate sheaf.
 - A proposed ℚℓ-valued system of all ℓ-power roots fails on an open cyclotomic image: sufficiently high powers cannot hit a fixed shallow principal unit.
 
-*Needs:* TauCetiRoadmap.CohomologyComparisons §§2.15; the fractional equivariant Hodge–Tate contract.
+*Needs:* TauCetiRoadmap.CohomologyComparisons §§2.15; the fractional equivariant Hodge–Tate contract (gap:fractional-equivariant-hodge-tate).
 
 ### 0.5 Katz comparison with fractional twists
 
@@ -254,7 +254,7 @@ One proof route is as follows. Reduce to finite virtual sums of smooth projectiv
 - ℒ^(1/2) shifts the E-bidegree by (1/2,1/2); its realization is ℚ̄ℓ(−1/2).
 - Keep X exponents a_i and Y exponents b_j separate; no conclusion about actual ungraded Galois representations follows.
 
-*Needs:* §0.2 (fractional lefschetz powers and root systems); §0.3 (equivariant katz comparison); §0.4 (finite-denominator tate roots); TauCetiRoadmap.ArithmeticGaloisRepresentations §§5.1–5.3; TauCetiRoadmap.ArithmeticGaloisRepresentations §§1.7–1.8; TauCetiRoadmap.CohomologyComparisons §§2.15; TauCetiRoadmap.DeligneWeightsAndPurity §§7.15; the fractional equivariant Hodge–Tate contract; the equivariant scissor contract; TauCetiRoadmap.MixedHodgeModulesAndIrregularHodgeTheory H.0/mixed-hodge-module, H.1/operations, P/pair-cohomology and the geometric compact-support mixed-Hodge contract.
+*Needs:* §0.2 (fractional lefschetz powers and root systems); §0.3 (equivariant katz comparison); §0.4 (finite-denominator tate roots); TauCetiRoadmap.ArithmeticGaloisRepresentations §§5.1–5.3; TauCetiRoadmap.ArithmeticGaloisRepresentations §§1.7–1.8; TauCetiRoadmap.CohomologyComparisons §§2.15; TauCetiRoadmap.DeligneWeightsAndPurity §§7.15; the fractional equivariant Hodge–Tate contract (gap:fractional-equivariant-hodge-tate); the equivariant scissor contract (gap:equivariant-grothendieck); TauCetiRoadmap.MixedHodgeModulesAndIrregularHodgeTheory H.0/mixed-hodge-module, H.1/operations, P/pair-cohomology and the geometric compact-support mixed-Hodge contract (gap:geometric-compact-mhs).
 
 ### 0.6 Stringy E-polynomials and point counts
 
@@ -282,7 +282,7 @@ One proof route is as follows. Apply the imported inertia and age to the charact
 - For S₃ acting trivially on a point, the three conjugacy classes give three age-zero sectors, each of mass 1, so E_st(BS₃)=3 and #_st(BS₃)=3. Summing over six elements without conjugacy would give 6.
 - If a centralizer exchanges two fixed components, quotienting their union by that centralizer gives one component quotient by its stabilizer. For two points exchanged freely by C₂, the invariant union quotient has mass 1 and H⁰-invariant dimension 1; incorrectly treating the two points as separately indexed components gives 2.
 
-*Needs:* §0.1 (character e-polynomials and weighted counts); §0.2 (fractional lefschetz powers and root systems); TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry §§4.1–4.3, 4.5, 4.9, 4.20; the generic orbifold/transgression contract and the finite-quotient trace contract; TauCetiRoadmap.MixedHodgeModulesAndIrregularHodgeTheory H.0/mixed-hodge-module, H.1/operations, P/pair-cohomology and the geometric compact-support mixed-Hodge contract.
+*Needs:* §0.1 (character e-polynomials and weighted counts); §0.2 (fractional lefschetz powers and root systems); TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry §§4.1–4.3, 4.5, 4.9, 4.20; the generic orbifold/transgression contract (gap:generic-orbifold-transgression) and finite-quotient trace contract (gap:finite-quotient-stack-trace); TauCetiRoadmap.MixedHodgeModulesAndIrregularHodgeTheory H.0/mixed-hodge-module, H.1/operations, P/pair-cohomology and the geometric compact-support mixed-Hodge contract (gap:geometric-compact-mhs).
 
 ### 0.7 Gerbe-twisted stringy invariants
 
@@ -309,7 +309,7 @@ One proof route is as follows. Import action-groupoid transgression with its uni
 - For r=3 and a primitive value ζ, inverse-sector traces are ζ and ζ⁻¹. They cannot be identified without dualizing or conjugating.
 - On a smooth scheme the identity-sector transgression is trivial, so these stringy invariants are ordinary even for a nonneutral μr-gerbe.
 
-*Needs:* §0.6 (stringy e-polynomials and point counts); §0.1 (character e-polynomials and weighted counts); TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry §§4.1–4.3, 4.5, 4.9, 4.20; the generic orbifold/transgression contract and the finite-quotient trace contract; TauCetiRoadmap.MixedHodgeModulesAndIrregularHodgeTheory H.0/mixed-hodge-module, H.1/operations, P/pair-cohomology and the geometric compact-support mixed-Hodge contract.
+*Needs:* §0.6 (stringy e-polynomials and point counts); §0.1 (character e-polynomials and weighted counts); TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry §§4.1–4.3, 4.5, 4.9, 4.20; the generic orbifold/transgression contract (gap:generic-orbifold-transgression) and finite-quotient trace contract (gap:finite-quotient-stack-trace); TauCetiRoadmap.MixedHodgeModulesAndIrregularHodgeTheory H.0/mixed-hodge-module, H.1/operations, P/pair-cohomology and the geometric compact-support mixed-Hodge contract (gap:geometric-compact-mhs).
 
 ### 0.8 Stringy counts determine E-polynomials
 
@@ -324,7 +324,7 @@ One proof route is as follows. Put both presentations under Γ_1×Γ_2 and separ
 - For trivial groups and gerbes recover ordinary Katz comparison.
 - The expression uses the same finite set of age denominators on the two sides after common refinement.
 
-*Needs:* §0.5 (katz comparison with fractional twists); §0.7 (gerbe-twisted stringy invariants); TauCetiRoadmap.MixedHodgeModulesAndIrregularHodgeTheory H.0/mixed-hodge-module, H.1/operations, P/pair-cohomology and the geometric compact-support mixed-Hodge contract; the equivariant scissor contract; the fractional equivariant Hodge–Tate contract; the generic orbifold/transgression contract and the finite-quotient trace contract.
+*Needs:* §0.5 (katz comparison with fractional twists); §0.7 (gerbe-twisted stringy invariants); TauCetiRoadmap.MixedHodgeModulesAndIrregularHodgeTheory H.0/mixed-hodge-module, H.1/operations, P/pair-cohomology and the geometric compact-support mixed-Hodge contract (gap:geometric-compact-mhs); the equivariant scissor contract (gap:equivariant-grothendieck); the fractional equivariant Hodge–Tate contract (gap:fractional-equivariant-hodge-tate); the generic orbifold/transgression contract (gap:generic-orbifold-transgression) and finite-quotient trace contract (gap:finite-quotient-stack-trace).
 
 ### Examples
 
@@ -332,7 +332,7 @@ The quotient [A¹/C₂] over 𝔽₃ has ordinary mass 1/2+1+1/2+1=3, and its ag
 
 ### Dependencies
 
-TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry §4.5 (quotient inertia and coherent transgression); TauCetiRoadmap.EtaleCohomologyFoundations §§F.2.1, F.2.4–F.2.7, F.4.2–F.4.6 and TauCetiRoadmap.EtaleDualityAndPerverseSheaves §§3.7, 6.3–6.4; TauCetiRoadmap.MotivesAndAlgebraicCycles §4.20 and the equivariant scissor contract; TauCetiRoadmap.MixedHodgeModulesAndIrregularHodgeTheory H.0/mixed-hodge-module, H.1/operations, P/pair-cohomology and the geometric compact-support mixed-Hodge contract; Tau Ceti `TauCeti.Hodge.MixedHodgeStructure`; Mathlib `sum_hom_units_eq_zero`; Mathlib `AddMonoidAlgebra`; Tau Ceti `TauCeti.Hodge.tate_hodgeNumber`; TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry §§9.4–9.5, 9.7; TauCetiRoadmap.CohomologyComparisons §§2.15; TauCetiRoadmap.ArithmeticGaloisRepresentations §§5.1–5.3; TauCetiRoadmap.ArithmeticGaloisRepresentations §§1.7–1.8; TauCetiRoadmap.DeligneWeightsAndPurity §§7.15; TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry §§4.1–4.3, 4.9, 4.20.
+TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry §4.5 (quotient inertia and coherent transgression); TauCetiRoadmap.EtaleCohomologyFoundations §§F.2.1, F.2.4–F.2.7, F.4.2–F.4.6 and TauCetiRoadmap.EtaleDualityAndPerverseSheaves §§3.7, 6.3–6.4; TauCetiRoadmap.MotivesAndAlgebraicCycles §4.20 and the equivariant scissor contract (gap:equivariant-grothendieck); TauCetiRoadmap.MixedHodgeModulesAndIrregularHodgeTheory H.0/mixed-hodge-module, H.1/operations, P/pair-cohomology and the geometric compact-support mixed-Hodge contract (gap:geometric-compact-mhs); Tau Ceti `TauCeti.Hodge.MixedHodgeStructure`; Mathlib `sum_hom_units_eq_zero`; Mathlib `AddMonoidAlgebra`; Tau Ceti `TauCeti.Hodge.tate_hodgeNumber`; TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry §§9.4–9.5, 9.7; TauCetiRoadmap.CohomologyComparisons §§2.15; TauCetiRoadmap.ArithmeticGaloisRepresentations §§5.1–5.3; TauCetiRoadmap.ArithmeticGaloisRepresentations §§1.7–1.8; TauCetiRoadmap.DeligneWeightsAndPurity §§7.15; TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry §§4.1–4.3, 4.9, 4.20.
 
 ## Layer 1: Arithmetic gerbes and relative splittings
 
@@ -392,7 +392,7 @@ One proof route is as follows. Use the imported Picard stack and gerbe maps. The
 - For a neutral Gₘ-gerbe the difference between the trivialization and its tensor by an existing InvertibleSheaf L is exactly the class of L in the imported Picard group.
 - Over Spec ℝ, the μ2-torsors t²=1 and t²=−1 are not isomorphic, although their associated line bundles are both trivial. They give different objects in the neutral μ2-gerbe splitting groupoid before rigidification; the relative rigidified sheaf for U=V is nevertheless terminal. Forgetting the square trivialization before forming the groupoid loses this distinction.
 
-*Needs:* §1.1 (arithmetic gerbes); TauCetiRoadmap.JacobianChallenge Layer D; TauCetiRoadmap.AbelianSchemesAndArithmeticModuli §§A2.2–A2.3; TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry §§4.1–4.3, 4.9, 4.20; TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry §§5.1; the relative splitting-stack contract.
+*Needs:* §1.1 (arithmetic gerbes); TauCetiRoadmap.JacobianChallenge Layer D; TauCetiRoadmap.AbelianSchemesAndArithmeticModuli §§A2.2–A2.3; TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry §§4.1–4.3, 4.9, 4.20; TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry §§5.1; the relative splitting-stack contract (gap:relative-gerbe-splitting-representability).
 
 ### 1.3 The principal splitting torsor
 
@@ -448,7 +448,7 @@ One proof route is as follows. Apply the imported rank-one unitary-line/Pic0 equ
 - For a neutral gerbe on an elliptic curve, both sides are its dual elliptic curve as real manifolds with their compatible complex structure.
 - For U=E×V over a nodal complex curve V, an elliptic curve E and α=0, both sides are E∨×V^an over V^an; neither total space is a manifold at the node, so the comparison is one of relative analytic spaces over V^an.
 
-*Needs:* §1.3 (the principal splitting torsor); TauCetiRoadmap.AbelianSchemesAndArithmeticModuli §§A2.2–A2.3; the rank-one unitary-family contract.
+*Needs:* §1.3 (the principal splitting torsor); TauCetiRoadmap.AbelianSchemesAndArithmeticModuli §§A2.2–A2.3; the rank-one unitary-family contract (gap:unitary-splitting-families).
 
 ### 1.6 Evaluation of arithmetic gerbes on abelian varieties over local fields
 
@@ -465,7 +465,7 @@ One proof route is as follows. Let α_t∈Ext²_F(A,Gₘ) be the D7.6 class of t
 - For an elliptic curve E/ℚ_ℓ and t≠0, local duality makes x↦⟨x,t⟩ a nonzero character of E(ℚ_ℓ), so fα is nonconstant and its Haar integral over E(ℚ_ℓ) is 0, even after multiplication by the constant fα(0).
 - For t of exact order 3 and x with ⟨x,t⟩=1/3, the formula gives fα(x)=fα(0)·exp(2πi/3); the opposite orientation ⟨x,−t⟩ gives exp(−2πi/3), so the sign is fixed by the D7.6 class α_t, and order-two classes cannot detect it.
 
-*Needs:* §1.3 (the principal splitting torsor); §1.4 (principal splittings and constant brauer classes); TauCetiRoadmap.ArithmeticGaloisDuality §D7.6 (local abelian-variety duality and gerbe evaluation); TauCetiRoadmap.SchemeAndStackFoundations §§2.15, 3.6–3.7; TauCetiRoadmap.AbelianSchemesAndArithmeticModuli §§A2.2–A2.3; TauCetiRoadmap.ClassFieldTheory Layer 5; the equal-characteristic local-duality contract.
+*Needs:* §1.3 (the principal splitting torsor); §1.4 (principal splittings and constant brauer classes); TauCetiRoadmap.ArithmeticGaloisDuality §D7.6 (local abelian-variety duality and gerbe evaluation); TauCetiRoadmap.SchemeAndStackFoundations §§2.15, 3.6–3.7; TauCetiRoadmap.AbelianSchemesAndArithmeticModuli §§A2.2–A2.3; TauCetiRoadmap.ClassFieldTheory Layer 5; the equal-characteristic local-duality contract (gap:equal-characteristic-abelian-duality).
 
 ### Examples
 
@@ -473,7 +473,7 @@ For the neutral gerbe on an elliptic curve E, the finite splitting sheaf is E[r]
 
 ### Dependencies
 
-the relative splitting-stack contract; TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry §§4.1–4.3, 4.9, 4.20; TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry §§5.1; Tau Ceti `TauCeti.AlgebraicGeometry.InvertibleSheaf`; TauCetiRoadmap.JacobianChallenge Layer D; TauCetiRoadmap.AbelianSchemesAndArithmeticModuli §§A2.2–A2.3; TauCetiRoadmap.ClassFieldTheory Layer 5; TauCetiRoadmap.SchemeAndStackFoundations §§2.15, 2.22; TauCetiRoadmap.SchemeAndStackFoundations §§3.4, 3.6–3.7; Tau Ceti `TauCeti.subsingleton_brauerGroup_of_finite`; TauCetiRoadmap.ComplexComparisonPartII §§C3.2e, C3.2f.1; TauCetiRoadmap.ArithmeticGaloisDuality §D7.6 (local abelian-variety duality and gerbe evaluation); the equal-characteristic local-duality contract; the rank-one unitary-family contract.
+the relative splitting-stack contract (gap:relative-gerbe-splitting-representability); TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry §§4.1–4.3, 4.9, 4.20; TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry §§5.1; Tau Ceti `TauCeti.AlgebraicGeometry.InvertibleSheaf`; TauCetiRoadmap.JacobianChallenge Layer D; TauCetiRoadmap.AbelianSchemesAndArithmeticModuli §§A2.2–A2.3; TauCetiRoadmap.ClassFieldTheory Layer 5; TauCetiRoadmap.SchemeAndStackFoundations §§2.15, 2.22; TauCetiRoadmap.SchemeAndStackFoundations §§3.4, 3.6–3.7; Tau Ceti `TauCeti.subsingleton_brauerGroup_of_finite`; TauCetiRoadmap.ComplexComparisonPartII §§C3.2e, C3.2f.1; TauCetiRoadmap.ArithmeticGaloisDuality §D7.6 (local abelian-variety duality and gerbe evaluation); the equal-characteristic local-duality contract (gap:equal-characteristic-abelian-duality); the rank-one unitary-family contract (gap:unitary-splitting-families).
 
 ## Layer 2: Abstract Hitchin duality
 
@@ -481,7 +481,7 @@ the relative splitting-stack contract; TauCetiRoadmap.AlgebraicModuliForArithmet
 
 An abstract Hitchin system over noetherian R consists of smooth A/R, a smooth admissible finite abelian quotient stack M/R, π:M→A with proper coarse map, and a smooth commutative A-group P acting relatively. Choose dense open A♦⊂A with P♦ an abelian scheme and a dense open M′⊂M which is a P-torsor over its image in A, contains M♦ and has complement of codimension at least two. The torsor need not be surjective over A. Use equidimensional components when writing q^dim M. (GWZ20 §6.2, Definition 6.8, p.568; §6.3, Remark 6.14, p.571).
 
-Admissible means a presentation [U/Γ] with U smooth separated finite type, Γ finite étale commutative of order invertible on the base, split on the chosen étale charts, a dense free locus whose complement in U has codimension at least two, and all |Γ|th roots of unity on the base. A μr-gerbe is admissible when r is a unit and all r|Γ|th roots are present. The integral comparison uses this presentation and these root choices (GWZ20 Definition 4.10; Corollary 5.29, p.564). P is smooth along the zero section with locally free invariant differentials on the part used for gauge forms. Properness belongs to the coarse map; M′ is an algebraic space, with no residual stabilizers.
+Admissible means a presentation [U/Γ] with U smooth quasi-projective over the base, Γ a finite abelian group of order invertible on the base acting with a dense free locus, and all |Γ|th roots of unity on the base; this is GWZ20 Definition 4.10, whose Γ is an abstract, hence constant, finite abelian group. This roadmap also admits Γ a finite étale commutative group scheme that is constant on the chosen étale charts; the nonsplit case is its extension through the generic orbifold/transgression contract (gap:generic-orbifold-transgression). Quasi-projectivity of U makes the action good in the sense of §0.1 and the coarse quotient U/Γ a scheme; §3.1 supplies quasi-projectivity of M_SL^L in the projective-curve setting used by §4.7. The complement of the free locus in U has codimension at least two; this bound is not part of Definition 4.10 but follows from the torsor-locus condition of Definition 6.8(c), since M′ carries no stabilizers and U→U/Γ is finite surjective. A μr-gerbe is admissible when r is a unit and all r|Γ|th roots are present. The integral comparison uses this presentation and these root choices (GWZ20 Definition 4.10; Definition 6.8(c), p.568; Corollary 5.29, p.564). P is smooth along the zero section with locally free invariant differentials on the part used for gauge forms. Properness belongs to the coarse map; M′ is an algebraic space, with no residual stabilizers.
 
 The construction has the following API, with the hypotheses of this subsection. (GWZ20 §6.2, Definition 6.8, p.568; §6.3, Remark 6.14, p.571).
 
@@ -501,7 +501,7 @@ One proof route is as follows. Package the imported smooth stack, relative group
 - Blowing up a point of a smooth surface abelian fibration produces an exceptional divisor in the complement of the old torsor locus. Its codimension one fails the stated bound, so the old locus cannot certify the new system.
 - A torsor over an open image is allowed; existence of A♦ does not assert that every base fibre of M has a rational point.
 
-*Needs:* TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry §§4.1–4.3, 4.9, 4.20; TauCetiRoadmap.EndoscopicTransferAndUnitaryTraceComparison §§3.6, 3.8, 3.10, 3.12–3.14; TauCetiRoadmap.AbelianSchemesAndArithmeticModuli §§A2.2–A2.3; the generic orbifold/transgression contract and the finite-quotient trace contract.
+*Needs:* TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry §§4.1–4.3, 4.9, 4.20; TauCetiRoadmap.EndoscopicTransferAndUnitaryTraceComparison §§3.6, 3.8, 3.10, 3.12–3.14; TauCetiRoadmap.AbelianSchemesAndArithmeticModuli §§A2.2–A2.3; the generic orbifold/transgression contract (gap:generic-orbifold-transgression) and finite-quotient trace contract (gap:finite-quotient-stack-trace).
 
 ### 2.2 Dual Hitchin systems
 
@@ -516,7 +516,7 @@ The construction has the following API, with the hypotheses of this subsection. 
 - If both regular integral fibres have F-points then both induced Brauer classes vanish on those fibres.
 - Swap the systems using the duality and the corresponding reversed self-dual isogeny when supplied; do not assume φ has an inverse.
 - Pullback preserves the structure under the verified base changes of the abstract systems, with the local condition checked after composition R→R′→O_F.
-- The paper’s stronger μr splitting condition implies localBrauer by extension of band; the opposite splitting-torsor group is P_i′, not P_i.
+- The paper’s stronger μr splitting condition implies the sufficient local Brauer condition of this subsection by extension of band; the opposite splitting-torsor group is P_i′, not P_i.
 
 One proof route is as follows. Use the imported dual abelian-scheme functor and Poincaré biduality to type the self-duality square. The splitting torsor acts by the opposite Prym, with the indicated convention. Form the local evaluation condition on the induced Brauer classes, because the imported transgression and fα factor through Gₘ-gerbes. Record the relationship to the literal μr splitting condition of Definition 6.9(d): the proof of the integral theorem only uses the displayed forward implication for Brauer neutrality. Do not use a point of Split′ to claim a μr-neutralization.
 
@@ -527,7 +527,7 @@ One proof route is as follows. Use the imported dual abelian-scheme functor and 
 - If P1 and P2 are dual but nonisomorphic presentations, Split′(M1,α1) carries the P2 action via ψ; an untransported P1 action has the wrong type.
 - For a rational degree-zero line not r-divisible over a field, its root μr-gerbe can have zero Brauer class while remaining nonneutral. The local Brauer condition cannot be rewritten as μr-neutrality without an additional argument.
 
-*Needs:* §2.1 (abstract hitchin systems); §1.3 (the principal splitting torsor); TauCetiRoadmap.AbelianSchemesAndArithmeticModuli §§A2.2–A2.3; TauCetiRoadmap.AbelianSchemesAndArithmeticModuli §§A3.3–A3.5; the generic orbifold/transgression contract and the finite-quotient trace contract.
+*Needs:* §2.1 (abstract hitchin systems); §1.3 (the principal splitting torsor); TauCetiRoadmap.AbelianSchemesAndArithmeticModuli §§A2.2–A2.3; TauCetiRoadmap.AbelianSchemesAndArithmeticModuli §§A3.3–A3.5; the generic orbifold/transgression contract (gap:generic-orbifold-transgression) and finite-quotient trace contract (gap:finite-quotient-stack-trace).
 
 ### 2.3 Compatible gauge forms
 
@@ -559,7 +559,7 @@ One proof route is as follows. Import the invariant differential identification 
 - On G_m⊂A¹, t cannot extend as a trivialization of O because t(0)=0; this codimension-one complement is excluded.
 - Extending 1 and −1 across the origin in A² retains their distinct values; a zero-section extension would not be an invertible trivialization.
 
-*Needs:* §2.2 (dual hitchin systems); TauCetiRoadmap.LogicAndDefinabilityInNumberTheory §§2.5, 2.7–2.9, 2.12; TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry §§4.1–4.3, 4.9, 4.20; Tau Ceti `TauCeti.AlgebraicGeometry.InvertibleSheaf`; the generic orbifold/transgression contract and the finite-quotient trace contract; the smooth-stack Hartogs contract.
+*Needs:* §2.2 (dual hitchin systems); TauCetiRoadmap.LogicAndDefinabilityInNumberTheory §§2.5, 2.7–2.9, 2.12; TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry §§4.1–4.3, 4.9, 4.20; Tau Ceti `TauCeti.AlgebraicGeometry.InvertibleSheaf`; the generic orbifold/transgression contract (gap:generic-orbifold-transgression) and finite-quotient trace contract (gap:finite-quotient-stack-trace); the smooth-stack Hartogs contract (gap:smooth-stack-hartogs).
 
 ### 2.4 Twisted counts as local integrals
 
@@ -574,7 +574,7 @@ One proof route is as follows. Apply the imported specialization-sector measure 
 - For a smooth scheme with trivial gerbe, recover Weil’s volume formula #M(k)/q^m.
 - For a primitive cube-root phase, omitting the conjugation gives its inverse and fails the fixed convention.
 
-*Needs:* §0.7 (gerbe-twisted stringy invariants); TauCetiRoadmap.LogicAndDefinabilityInNumberTheory §§2.5, 2.7–2.9, 2.12; TauCetiRoadmap.ClassFieldTheory Layer 5; the generic orbifold/transgression contract and the finite-quotient trace contract.
+*Needs:* §0.7 (gerbe-twisted stringy invariants); TauCetiRoadmap.LogicAndDefinabilityInNumberTheory §§2.5, 2.7–2.9, 2.12; TauCetiRoadmap.ClassFieldTheory Layer 5; the generic orbifold/transgression contract (gap:generic-orbifold-transgression) and finite-quotient trace contract (gap:finite-quotient-stack-trace).
 
 ### 2.5 Equal volumes of dual regular fibres
 
@@ -589,7 +589,7 @@ One proof route is as follows. Trivialize each torsor at an F-point; invariant f
 - For φ=id on a self-dual elliptic product, both finite factors are 1.
 - For φ=[n] on a principally polarized elliptic curve at n prime to p, the finite kernel and cokernel have the same order even when not every geometric n-torsion point is F-rational.
 
-*Needs:* §2.3 (compatible gauge forms); TauCetiRoadmap.ArithmeticGaloisDuality §D7.6 (local abelian-variety duality and self-dual isogenies); TauCetiRoadmap.LogicAndDefinabilityInNumberTheory §§2.5, 2.7–2.9, 2.11–2.12; the equal-characteristic local-duality contract.
+*Needs:* §2.3 (compatible gauge forms); TauCetiRoadmap.ArithmeticGaloisDuality §D7.6 (local abelian-variety duality and self-dual isogenies); TauCetiRoadmap.LogicAndDefinabilityInNumberTheory §§2.5, 2.7–2.9, 2.11–2.12; the equal-characteristic local-duality contract (gap:equal-characteristic-abelian-duality).
 
 ### 2.6 Fibrewise gerbe-character integrals
 
@@ -604,11 +604,11 @@ One proof route is as follows. If both point sets are empty, both integrals vani
 - A nontrivial character has integral zero even after multiplication by a constant root of unity.
 - The both-nonempty case requires Brauer triviality, not just constancy with an unknown phase.
 
-*Needs:* §2.5 (equal volumes of dual regular fibres); §2.2 (dual hitchin systems); §1.6 (evaluation of arithmetic gerbes on abelian varieties over local fields); TauCetiRoadmap.ArithmeticGaloisDuality §D7.6 (local abelian-variety duality and self-dual isogenies); TauCetiRoadmap.LogicAndDefinabilityInNumberTheory §§2.5, 2.7–2.9, 2.12; Mathlib `sum_hom_units_eq_zero`; the generic orbifold/transgression contract and the finite-quotient trace contract; the equal-characteristic local-duality contract.
+*Needs:* §2.5 (equal volumes of dual regular fibres); §2.2 (dual hitchin systems); §1.6 (evaluation of arithmetic gerbes on abelian varieties over local fields); TauCetiRoadmap.ArithmeticGaloisDuality §D7.6 (local abelian-variety duality and self-dual isogenies); TauCetiRoadmap.LogicAndDefinabilityInNumberTheory §§2.5, 2.7–2.9, 2.12; Mathlib `sum_hom_units_eq_zero`; the generic orbifold/transgression contract (gap:generic-orbifold-transgression) and finite-quotient trace contract (gap:finite-quotient-stack-trace); the equal-characteristic local-duality contract (gap:equal-characteristic-abelian-duality).
 
 ### 2.7 Fibrewise arithmetic mirror symmetry
 
-For a dual pair over finite k=𝔽q, the twisted stringy counts agree. More precisely, for every a∈A(k) and every finite extension k_m/k, the alternating geometric-Frobenius trace of the inertia-fibre compact cohomology with coefficients Nα1⊗ℚ̄ℓ(−F1) equals that for Nα2⊗ℚ̄ℓ(−F2), over a after base change to k_m. The rational age twist is made on each connected sector with a compatible finite denominator; it is not a fractional cohomological shift. (GWZ20 §6.2, Theorem 6.12, pp.569–570; proof pp.574–575).
+For a dual pair over finite k=𝔽q, the twisted stringy counts agree. More precisely, for every a∈A(k) and every finite extension k_m/k, the alternating geometric-Frobenius trace of the inertia-fibre compact cohomology with coefficients Nα1⊗ℚ̄ℓ(−F1) equals that for Nα2⊗ℚ̄ℓ(−F2), over a after base change to k_m. The rational age twist is made on each connected sector with a compatible finite denominator; it is not a fractional cohomological shift. (GWZ20 §6.2, Theorem 6.12, pp.569–570; proof pp.574–575). The source states this for constant Γ, as its Definition 4.10 requires; for the nonsplit finite étale Γ admitted by §2.1 it is this roadmap’s extension through the generic orbifold/transgression contract (gap:generic-orbifold-transgression).
 
 The proper coarse maps and finite inertia justify the required proper/compact fibre trace comparison from the generic orbifold/transgression supplier contract. Both total dimensions agree. The finite extension inherits or enlarges the chosen roots consistently.
 
@@ -619,7 +619,7 @@ One proof route is as follows. Base change the finite-field pair to O_F=k[[t]], 
 - The conclusion is an equality of alternating traces for all Frobenius powers. It does not itself separate individual cohomological degrees or detect extension classes.
 - For the neutral elliptic product it reduces to the same ordinary count on both sides above each a.
 
-*Needs:* §2.4 (twisted counts as local integrals); §2.6 (fibrewise gerbe-character integrals); §2.3 (compatible gauge forms); TauCetiRoadmap.EtaleCohomologyFoundations §§F.2.1, F.2.4–F.2.7, F.4.2–F.4.6 and TauCetiRoadmap.EtaleDualityAndPerverseSheaves §§3.7, 6.3–6.4; TauCetiRoadmap.LogicAndDefinabilityInNumberTheory §§2.5, 2.7–2.9, 2.12; the generic orbifold/transgression contract and the finite-quotient trace contract; the equal-characteristic local-duality contract.
+*Needs:* §2.4 (twisted counts as local integrals); §2.6 (fibrewise gerbe-character integrals); §2.3 (compatible gauge forms); TauCetiRoadmap.EtaleCohomologyFoundations §§F.2.1, F.2.4–F.2.7, F.4.2–F.4.6 and TauCetiRoadmap.EtaleDualityAndPerverseSheaves §§3.7, 6.3–6.4; TauCetiRoadmap.LogicAndDefinabilityInNumberTheory §§2.5, 2.7–2.9, 2.12; the generic orbifold/transgression contract (gap:generic-orbifold-transgression) and finite-quotient trace contract (gap:finite-quotient-stack-trace); the equal-characteristic local-duality contract (gap:equal-characteristic-abelian-duality).
 
 ### 2.8 Complex mirror symmetry for abstract systems
 
@@ -634,7 +634,7 @@ One proof route is as follows. Apply §2.7 after each good finite-field speciali
 - The theorem applies to the sufficient local Brauer formulation, hence in particular to every literal dual pair of Definition 6.9.
 - For the trivial relative group with M=A=Spec k and neutral band μ₁, both sides are 1; for empty fibres they are 0. These are different from any implication between μr and Brauer neutrality.
 
-*Needs:* §0.8 (stringy counts determine e-polynomials); §2.7 (fibrewise arithmetic mirror symmetry); the generic orbifold/transgression contract and the finite-quotient trace contract; the equal-characteristic local-duality contract; TauCetiRoadmap.MixedHodgeModulesAndIrregularHodgeTheory H.0/mixed-hodge-module, H.1/operations, P/pair-cohomology and the geometric compact-support mixed-Hodge contract; the equivariant scissor contract; the fractional equivariant Hodge–Tate contract.
+*Needs:* §0.8 (stringy counts determine e-polynomials); §2.7 (fibrewise arithmetic mirror symmetry); the generic orbifold/transgression contract (gap:generic-orbifold-transgression) and finite-quotient trace contract (gap:finite-quotient-stack-trace); the equal-characteristic local-duality contract (gap:equal-characteristic-abelian-duality); TauCetiRoadmap.MixedHodgeModulesAndIrregularHodgeTheory H.0/mixed-hodge-module, H.1/operations, P/pair-cohomology and the geometric compact-support mixed-Hodge contract (gap:geometric-compact-mhs); the equivariant scissor contract (gap:equivariant-grothendieck); the fractional equivariant Hodge–Tate contract (gap:fractional-equivariant-hodge-tate).
 
 ### Examples
 
@@ -642,7 +642,7 @@ For a self-dual elliptic product E×A¹ with identity isogeny and neutral gerbes
 
 ### Dependencies
 
-the smooth-stack Hartogs contract; TauCetiRoadmap.LogicAndDefinabilityInNumberTheory §2.11 (dual-abelian volume invariance); §1.6 (evaluation of arithmetic gerbes on abelian varieties over local fields); TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry §§4.1–4.3, 4.9, 4.20; TauCetiRoadmap.EndoscopicTransferAndUnitaryTraceComparison §§3.6, 3.8, 3.10, 3.12–3.14; TauCetiRoadmap.AbelianSchemesAndArithmeticModuli §§A2.2–A2.3; §1.3 (the principal splitting torsor); TauCetiRoadmap.AbelianSchemesAndArithmeticModuli §§A3.3–A3.5; TauCetiRoadmap.LogicAndDefinabilityInNumberTheory §§2.5, 2.7–2.9, 2.12; Tau Ceti `TauCeti.AlgebraicGeometry.InvertibleSheaf`; §0.7 (gerbe-twisted stringy invariants); TauCetiRoadmap.ClassFieldTheory Layer 5; TauCetiRoadmap.ArithmeticGaloisDuality §D7.6 (local abelian-variety duality and self-dual isogenies); Mathlib `sum_hom_units_eq_zero`; TauCetiRoadmap.EtaleCohomologyFoundations §§F.2.1, F.2.4–F.2.7, F.4.2–F.4.6 and TauCetiRoadmap.EtaleDualityAndPerverseSheaves §§3.7, 6.3–6.4; §0.8 (stringy counts determine e-polynomials).
+the smooth-stack Hartogs contract (gap:smooth-stack-hartogs); TauCetiRoadmap.LogicAndDefinabilityInNumberTheory §2.11 (dual-abelian volume invariance); §1.6 (evaluation of arithmetic gerbes on abelian varieties over local fields); TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry §§4.1–4.3, 4.9, 4.20; TauCetiRoadmap.EndoscopicTransferAndUnitaryTraceComparison §§3.6, 3.8, 3.10, 3.12–3.14; TauCetiRoadmap.AbelianSchemesAndArithmeticModuli §§A2.2–A2.3; §1.3 (the principal splitting torsor); TauCetiRoadmap.AbelianSchemesAndArithmeticModuli §§A3.3–A3.5; TauCetiRoadmap.LogicAndDefinabilityInNumberTheory §§2.5, 2.7–2.9, 2.12; Tau Ceti `TauCeti.AlgebraicGeometry.InvertibleSheaf`; §0.7 (gerbe-twisted stringy invariants); TauCetiRoadmap.ClassFieldTheory Layer 5; TauCetiRoadmap.ArithmeticGaloisDuality §D7.6 (local abelian-variety duality and self-dual isogenies); Mathlib `sum_hom_units_eq_zero`; TauCetiRoadmap.EtaleCohomologyFoundations §§F.2.1, F.2.4–F.2.7, F.4.2–F.4.6 and TauCetiRoadmap.EtaleDualityAndPerverseSheaves §§3.7, 6.3–6.4; §0.8 (stringy counts determine e-polynomials).
 
 ## Layer 3: Stable Higgs moduli and spectral torsors
 
@@ -671,7 +671,7 @@ One proof route is as follows. Extend the imported carrier by descent to the spe
 - The existing InvertibleSheaf D and finite locally free E live on X_S, and θ:E→E⊗D is O_X-linear; placing E on S does not type this datum.
 - Over an algebraically closed field a stable fixed-determinant object has exactly μn automorphisms before rigidification and none afterwards.
 
-*Needs:* TauCetiRoadmap.EndoscopicTransferAndUnitaryTraceComparison §§3.6, 3.8, 3.10, 3.12–3.14; TauCetiRoadmap.CountingBundlesAndHallAlgebrasOfCurves §7.1; TauCetiRoadmap.CountingBundlesAndHallAlgebrasOfCurves §7.3; TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry §§1.3, 2.1–2.2, 7.3, 8.2; TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry §§5.1; TauCetiRoadmap.JacobianChallenge Layer A; TauCetiRoadmap.JacobianChallenge Layer B; TauCetiRoadmap.JacobianChallenge Layer C; Tau Ceti `TauCeti.AlgebraicGeometry.InvertibleSheaf`; Tau Ceti `TauCeti.AlgebraicGeometry.LineBundleClass`; the relative Higgs/GIT/properness contract, relative spectral Picard contract and represented relative Picard contract.
+*Needs:* TauCetiRoadmap.EndoscopicTransferAndUnitaryTraceComparison §§3.6, 3.8, 3.10, 3.12–3.14; TauCetiRoadmap.CountingBundlesAndHallAlgebrasOfCurves §7.1; TauCetiRoadmap.CountingBundlesAndHallAlgebrasOfCurves §7.3; TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry §§1.3, 2.1–2.2, 7.3, 8.2; TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry §§5.1; TauCetiRoadmap.JacobianChallenge Layer A; TauCetiRoadmap.JacobianChallenge Layer B; TauCetiRoadmap.JacobianChallenge Layer C; Tau Ceti `TauCeti.AlgebraicGeometry.InvertibleSheaf`; Tau Ceti `TauCeti.AlgebraicGeometry.LineBundleClass`; the relative Higgs/GIT/properness contract (gap:relative-higgs-git-properness), relative spectral Picard contract (gap:relative-hitchin-picard) and represented relative Picard contract (gap:relative-picard-norm-duality).
 
 ### 3.2 Smoothness of stable fixed-determinant moduli
 
@@ -686,7 +686,7 @@ One proof route is as follows. Use the imported deformation theory of Higgs pair
 - For n=1 the complex is zero and the dimension is zero.
 - In characteristic p dividing n, id_E∈End0(E) demonstrates why the n-unit hypothesis cannot be removed.
 
-*Needs:* §3.1 (stable trace-free fixed-determinant moduli); TauCetiRoadmap.JacobianChallenge Layer B; TauCetiRoadmap.JacobianChallenge Layer C; TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry §§4.1–4.3, 4.9, 4.20; the relative Higgs/GIT/properness contract, relative spectral Picard contract and represented relative Picard contract.
+*Needs:* §3.1 (stable trace-free fixed-determinant moduli); TauCetiRoadmap.JacobianChallenge Layer B; TauCetiRoadmap.JacobianChallenge Layer C; TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry §§4.1–4.3, 4.9, 4.20; the relative Higgs/GIT/properness contract (gap:relative-higgs-git-properness), relative spectral Picard contract (gap:relative-hitchin-picard) and represented relative Picard contract (gap:relative-picard-norm-duality).
 
 ### 3.3 PGLn moduli as a finite quotient
 
@@ -730,7 +730,7 @@ One proof route is as follows. Import the semistable Hitchin properness theorem 
 - For n=1 the SL map is point→point, and GL1 is Pic^d(X)×H⁰(D)→H⁰(D), proper because Pic^d is proper.
 - This does not turn the entire unbounded Higgs stack of EndoscopicTransferAndUnitaryTraceComparison §§3.6–3.14 into a proper finite-type object.
 
-*Needs:* §3.1 (stable trace-free fixed-determinant moduli); §3.3 (pgln moduli as a finite quotient); TauCetiRoadmap.CountingBundlesAndHallAlgebrasOfCurves §7.3; TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry §§1.3, 2.1–2.2, 7.3, 8.2; TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry §§4.1–4.3, 4.9, 4.20; the relative Higgs/GIT/properness contract, relative spectral Picard contract and represented relative Picard contract.
+*Needs:* §3.1 (stable trace-free fixed-determinant moduli); §3.3 (pgln moduli as a finite quotient); TauCetiRoadmap.CountingBundlesAndHallAlgebrasOfCurves §7.3; TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry §§1.3, 2.1–2.2, 7.3, 8.2; TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry §§4.1–4.3, 4.9, 4.20; the relative Higgs/GIT/properness contract (gap:relative-higgs-git-properness), relative spectral Picard contract (gap:relative-hitchin-picard) and represented relative Picard contract (gap:relative-picard-norm-duality).
 
 ### 3.5 Determinant change and Γ-twists
 
@@ -760,7 +760,7 @@ One proof route is as follows. Use the EndoscopicTransferAndUnitaryTraceComparis
 - For n=1, M=O and Nm=id, so the fixed-L fibre is a point.
 - For n=2, M=D⁻¹ and the norm target is L D; the opposite sign would give L D⁻¹.
 
-*Needs:* §3.1 (stable trace-free fixed-determinant moduli); §3.3 (pgln moduli as a finite quotient); TauCetiRoadmap.EndoscopicTransferAndUnitaryTraceComparison §§3.6, 3.8, 3.10, 3.12–3.14; TauCetiRoadmap.JacobianChallenge Layer D; TauCetiRoadmap.AbelianSchemesAndArithmeticModuli §§A2.2–A2.3; the relative Higgs/GIT/properness contract, relative spectral Picard contract and represented relative Picard contract.
+*Needs:* §3.1 (stable trace-free fixed-determinant moduli); §3.3 (pgln moduli as a finite quotient); TauCetiRoadmap.EndoscopicTransferAndUnitaryTraceComparison §§3.6, 3.8, 3.10, 3.12–3.14; TauCetiRoadmap.JacobianChallenge Layer D; TauCetiRoadmap.AbelianSchemesAndArithmeticModuli §§A2.2–A2.3; the relative Higgs/GIT/properness contract (gap:relative-higgs-git-properness), relative spectral Picard contract (gap:relative-hitchin-picard) and represented relative Picard contract (gap:relative-picard-norm-duality).
 
 ### 3.7 The PGLn Prym group
 
@@ -787,7 +787,7 @@ One proof route is as follows. Use the norm identity Nm(π*N)=N^n to map Γ into
 - Nm∘π*=[n] on J_X, with the imported Jacobian and its existing multiplication map.
 - On A♦ the relative dimensions of the two Pryms agree.
 
-*Needs:* §3.6 (stable spectral fibres as norm preimages); TauCetiRoadmap.AbelianSchemesAndArithmeticModuli §§A3.3–A3.5; TauCetiRoadmap.AbelianSchemesAndArithmeticModuli §§A3.2; TauCetiRoadmap.AbelianSchemesAndArithmeticModuli §§A2.2–A2.3; TauCetiRoadmap.EndoscopicTransferAndUnitaryTraceComparison §§3.6, 3.8, 3.10, 3.12–3.14; TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry §§4.1–4.3, 4.9, 4.20; the relative Higgs/GIT/properness contract, relative spectral Picard contract and represented relative Picard contract.
+*Needs:* §3.6 (stable spectral fibres as norm preimages); TauCetiRoadmap.AbelianSchemesAndArithmeticModuli §§A3.3–A3.5; TauCetiRoadmap.AbelianSchemesAndArithmeticModuli §§A3.2; TauCetiRoadmap.AbelianSchemesAndArithmeticModuli §§A2.2–A2.3; TauCetiRoadmap.EndoscopicTransferAndUnitaryTraceComparison §§3.6, 3.8, 3.10, 3.12–3.14; TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry §§4.1–4.3, 4.9, 4.20; the relative Higgs/GIT/properness contract (gap:relative-higgs-git-properness), relative spectral Picard contract (gap:relative-hitchin-picard) and represented relative Picard contract (gap:relative-picard-norm-duality).
 
 ### 3.8 Duality of SLn and PGLn Pryms
 
@@ -826,7 +826,7 @@ For D=ω=O in genus one with gcd(n,d)=1, determine the stable fixed-determinant 
 - For n=2, d=0, E=O⊕O and θ=0, the full maximal block has rank 2 and slope 0=0. This excluded noncoprime case does not justify the strict instability argument; each line still obstructs stability by equality.
 - At n=1 on ℙ¹ with D=O, SL and PGL counts are 1=1, while GL₁=A¹ has count 3 over F₃ and E=xy over C; imposing trace zero on GL₁ would give the wrong count 1.
 
-*Needs:* TauCetiRoadmap.JacobianChallenge Layers A–B (degree, Riemann–Roch and Serre duality); §3.1 (stable trace-free fixed-determinant moduli); §3.3 (pgln moduli as a finite quotient); §3.2 (smoothness of stable fixed-determinant moduli); §3.4 (properness of the stable hitchin morphism); §3.8 (duality of sln and pgln pryms); §2.1 (abstract hitchin systems); TauCetiRoadmap.EndoscopicTransferAndUnitaryTraceComparison §§3.6, 3.8, 3.10, 3.12–3.14; the relative Higgs/GIT/properness contract, relative spectral Picard contract and represented relative Picard contract.
+*Needs:* TauCetiRoadmap.JacobianChallenge Layers A–B (degree, Riemann–Roch and Serre duality); §3.1 (stable trace-free fixed-determinant moduli); §3.3 (pgln moduli as a finite quotient); §3.2 (smoothness of stable fixed-determinant moduli); §3.4 (properness of the stable hitchin morphism); §3.8 (duality of sln and pgln pryms); §2.1 (abstract hitchin systems); TauCetiRoadmap.EndoscopicTransferAndUnitaryTraceComparison §§3.6, 3.8, 3.10, 3.12–3.14; the relative Higgs/GIT/properness contract (gap:relative-higgs-git-properness), relative spectral Picard contract (gap:relative-hitchin-picard) and represented relative Picard contract (gap:relative-picard-norm-duality).
 
 ### 3.10 Spectral torsor products, powers and periods
 
@@ -867,38 +867,38 @@ One proof route is as follows. Lift the curve and finite list of line bundles to
 - For n=1 the space is Pic^d(X)×H⁰(D); Pic^d is a Jacobian torsor with a finite-field point and all degrees have the same count.
 - With n=3,d=1,e=3, e is coprime to d but kills every order-3 torsor class. A nonzero class t has t≠0 and et=0; this excludes replacing gcd(e,n)=1 by gcd(e,d)=1.
 
-*Needs:* §3.9 (low-genus stable-locus calculations); §3.4 (properness of the stable hitchin morphism); §3.10 (spectral torsor products, powers and periods); §2.3 (compatible gauge forms); TauCetiRoadmap.LogicAndDefinabilityInNumberTheory §§2.5, 2.7–2.9, 2.12; TauCetiRoadmap.CountingBundlesAndHallAlgebrasOfCurves §7.3; TauCetiRoadmap.JacobianChallenge Layer D; the relative Higgs/GIT/properness contract, relative spectral Picard contract and represented relative Picard contract.
+*Needs:* §3.9 (low-genus stable-locus calculations); §3.4 (properness of the stable hitchin morphism); §3.10 (spectral torsor products, powers and periods); §2.3 (compatible gauge forms); TauCetiRoadmap.LogicAndDefinabilityInNumberTheory §§2.5, 2.7–2.9, 2.12; TauCetiRoadmap.CountingBundlesAndHallAlgebrasOfCurves §7.3; TauCetiRoadmap.JacobianChallenge Layer D; the relative Higgs/GIT/properness contract (gap:relative-higgs-git-properness), relative spectral Picard contract (gap:relative-hitchin-picard) and represented relative Picard contract (gap:relative-picard-norm-duality).
 
 ### 4.2 SLn coprime-degree point counts
 
-Assume p>n, gcd(n,d)=1, μ_(n^(2g))⊂𝔽q, Dω⁻¹ of positive degree or trivial, and (n−1)deg D even. Then there is a line bundle N of degree zero such that, for every integer e prime to n, #M_SL^L(𝔽q)=#M_SL^(L^e N^(e−1))(𝔽q). Set M=D^(−n(n−1)/2). Choose Q with n deg Q=deg M and take N=M⁻¹Q^n. The choices can be made over the residue curve and lifted uniformly before integration. (GWZ20 §7.3, Theorem 7.16 and proof, pp.584–585).
+Assume p>n, gcd(n,d)=1, μ_(n^(2g))⊂𝔽q, and Dω⁻¹ of positive degree or trivial. Then there is a line bundle N of degree zero such that, for every integer e prime to n, #M_SL^L(𝔽q)=#M_SL^(L^e N^(e−1))(𝔽q). Set M=D^(−n(n−1)/2), of degree −n(n−1)deg D/2. For n odd, n divides deg M; choose Q with n deg Q=deg M and take N=M⁻¹Q^n. For n even, choose T with deg T=−(n−1)deg D and take N=T^(n/2)M⁻¹, of degree −(n/2)(n−1)deg D+n(n−1)deg D/2=0. The choices can be made over the residue curve and lifted uniformly before integration. (GWZ20 §7.3, Theorem 7.16 and proof, pp.584–585).
 
-Since deg M=−n(n−1)deg D/2, deg M is divisible by n exactly when (n−1)deg D is even; this holds for odd n and for D=ω, where deg D=2g−2. Existence of Q over a finite field follows from a Picard degree component having a rational point and Br(𝔽q)=0, not from the integer degree calculation alone. The line N is independent of the spectral parameter a.
+Here deg M is divisible by n exactly when (n−1)deg D is even, which holds for odd n and for D=ω, where deg D=2g−2, but fails for even n and odd deg D; the even-n choice covers that case without any parity hypothesis. Existence of Q or T over a finite field follows from a Picard degree component having a rational point and Br(𝔽q)=0, not from the integer degree calculation alone. The line N is independent of the spectral parameter a.
 
-One proof route is as follows. Lift the curve and the finite list of line bundles to a complete unramified characteristic-zero discrete valuation ring with residue field 𝔽q, through the relative Higgs-moduli supplier contract, and use §3.10: an n-torsion class t is zero iff et=0 for gcd(e,n)=1. The eth power is P^(L^e M^(1−e)). Tensor by π*Q^(e−1) to replace that label by L^e(M⁻¹Q^n)^(e−1). Integrate the resulting identical triviality indicators against the same invariant Prym volume and base form. Apply Weil’s formula to the equal total volumes. For genus zero with deg D≤0 and n>1, apply §3.9 directly: every compared stable space is empty, independently of the determinant degree in the coprime classes. Rank one gives the identity 1=1. The sign of M in N and in the torsor power is the one fixed by §3.10.
+One proof route is as follows. Lift the curve and the finite list of line bundles to a complete unramified characteristic-zero discrete valuation ring with residue field 𝔽q, through the relative Higgs-moduli supplier contract, and use §3.10: an n-torsion class t is zero iff et=0 for gcd(e,n)=1. The eth power is P^(L^e M^(1−e)). For n odd, tensor by π*Q^(e−1) to replace that label by L^e(M⁻¹Q^n)^(e−1)=L^e N^(e−1). For n even, e is odd, so (e−1)/2 is an integer and L^e N^(e−1)=L^e M^(1−e)⊗(T^((e−1)/2))^n; tensor by π*T^((e−1)/2) to pass between the two labels. Integrate the resulting identical triviality indicators against the same invariant Prym volume and base form. Apply Weil’s formula to the equal total volumes. For genus zero with deg D≤0 and n>1, apply §3.9 directly: every compared stable space is empty, independently of the determinant degree in the coprime classes. Rank one gives the identity 1=1. The sign of M in N and in the torsor power is the one fixed by §3.10.
 
 **Checks.**
 
-- For n=2,g=2,D=ω of degree 2, deg M=−2, choose deg Q=−1, and N=ω Q² has degree 0.
+- For n=2,g=2,D=ω of degree 2, deg M=−2; the even-n choice takes deg T=−2 and N=Tω of degree 0. Since deg M is even here, Q of degree −1 with N=ωQ² also has degree 0, and the two determinants L^e N^(e−1) differ by the square of (TQ⁻²)^((e−1)/2), e being odd.
 - At e=1 the right determinant is L, giving the identity comparison.
-- At n=2 and deg D=1, deg M=−1 is not divisible by 2, so no integral-degree Q satisfies 2 deg Q=−1; this detects the parity hypothesis. At n=3 and deg D=1, (n−1)deg D=2 is even and deg M=−3, so deg Q=−1 works although deg D is odd.
+- At n=2 and deg D=1, deg M=−1 is odd, so no integral-degree Q satisfies 2 deg Q=−1 and the odd-n choice is unavailable, while T of degree −1 gives N=TM⁻¹ of degree 0; for T=D⁻¹ this is N=O, and the comparison #M_SL^L=#M_SL^(L^e) for odd e is the determinant twist of §3.5, since L^e=L⊗(L^((e−1)/2))². At n=3 and deg D=1, deg M=−3, so deg Q=−1 works although deg D is odd. At n=4, deg D=1 and e=3, deg M=−6, deg T=−3, N=T²M⁻¹ has degree 0 and L³N²=L³M⁻²⊗T⁴ with T⁴ a fourth power.
 
-*Needs:* §3.9 (low-genus stable-locus calculations); §3.10 (spectral torsor products, powers and periods); §3.4 (properness of the stable hitchin morphism); §2.3 (compatible gauge forms); TauCetiRoadmap.LogicAndDefinabilityInNumberTheory §§2.5, 2.7–2.9, 2.12; TauCetiRoadmap.JacobianChallenge Layer A; TauCetiRoadmap.JacobianChallenge Layer D; TauCetiRoadmap.ClassFieldTheory Layer 5; the relative Higgs/GIT/properness contract, relative spectral Picard contract and represented relative Picard contract.
+*Needs:* §3.9 (low-genus stable-locus calculations); §3.10 (spectral torsor products, powers and periods); §3.4 (properness of the stable hitchin morphism); §2.3 (compatible gauge forms); TauCetiRoadmap.LogicAndDefinabilityInNumberTheory §§2.5, 2.7–2.9, 2.12; TauCetiRoadmap.JacobianChallenge Layer A; TauCetiRoadmap.JacobianChallenge Layer D; TauCetiRoadmap.ClassFieldTheory Layer 5; the relative Higgs/GIT/properness contract (gap:relative-higgs-git-properness), relative spectral Picard contract (gap:relative-hitchin-picard) and represented relative Picard contract (gap:relative-picard-norm-duality).
 
 ### 4.3 Betti and Hodge numbers in coprime degree
 
-Over C with the same curve, D and coprimality hypotheses, the Betti numbers and the cohomologically graded Hodge numbers of M_GL^d are independent of the coprime degree, and so are those of M_SL^L when moreover (n−1)deg D is even, as in §4.2. Within a fixed degree, changing L is realized by tensoring an nth root over C. Across coprime degree classes, combine the arithmetic comparisons with purity; equality of E-polynomials alone is insufficient. (GWZ20 §7.3, Corollary 7.17, p.586).
+Over C with the same curve, D and coprimality hypotheses, the Betti numbers and the cohomologically graded Hodge numbers of M_GL^d are independent of the coprime degree, and so are those of M_SL^L. Within a fixed degree, changing L is realized by tensoring an nth root over C. Across coprime degree classes, combine the arithmetic comparisons with purity; equality of E-polynomials alone is insufficient. (GWZ20 §7.3, Corollary 7.17, p.586).
 
 The compact-support geometric mixed Hodge realization and comparison are the geometric compact-support mixed-Hodge supplier contract. Import the canonical GL ℓ-adic purity theorem of CountingBundlesAndHallAlgebrasOfCurves §9.1. Its extension to D-twisted and fixed-determinant geometric Hodge cohomology is the explicit Higgs-sector purity supplier contract, not an existing conclusion of that section. Purity must state weight k for H_c^k, so the coefficient with p+q=k determines the sign and the cohomological degree.
 
-One proof route is as follows. For two degrees d₁,d₂ prime to n choose e with ed₁≡d₂ mod n. For SL, under the parity hypothesis, fix Q of degree deg M/n and N=M⁻¹Q^n. Choose a line of degree (d₂−ed₁)/n and an nth root in Pic0 so that the second determinant differs from L₁^eN^(e−1) by an actual nth power. Spread these fixed choices simultaneously. Apply the SL count comparison and determinant twisting after every reduction on the common smooth tame spread model; use the GL comparison for GL. Katz then gives equal E-polynomials. This does not presume determinant independence of finite-field counts. Apply the requested smooth semiprojective Higgs purity theorem: the proper weighted Hitchin map supplies limits, the fixed loci are projective, and an actual Białynicki–Birula filtration with its affine-bundle shifts establishes geometric purity. Do not infer purity of an open variety merely from purity of a compactification. Weight-degree separation recovers each compact Hodge number from its E coefficient. Use Poincaré duality for the smooth equidimensional moduli to pass to ordinary cohomology and Betti numbers. Over C the n-power map on Pic0 is surjective, and tensoring removes determinant choices in a degree. For genus zero with deg D≤0 and n>1, §3.9 gives zero cohomology in every degree directly; at rank one GL is A¹ for D=O and a point for D=O(−1) or ω, while SL is always a point.
+One proof route is as follows. For two degrees d₁,d₂ prime to n choose e with ed₁≡d₂ mod n. For SL, fix the degree-zero line N of §4.2 (N=M⁻¹Q^n for n odd, N=T^(n/2)M⁻¹ for n even). Choose a line of degree (d₂−ed₁)/n and an nth root in Pic0 so that the second determinant differs from L₁^eN^(e−1) by an actual nth power. Spread these fixed choices simultaneously. Apply the SL count comparison and determinant twisting after every reduction on the common smooth tame spread model; use the GL comparison for GL. Katz then gives equal E-polynomials. This does not presume determinant independence of finite-field counts. Apply the requested smooth semiprojective Higgs purity theorem: the proper weighted Hitchin map supplies limits, the fixed loci are projective, and an actual Białynicki–Birula filtration with its affine-bundle shifts establishes geometric purity. Do not infer purity of an open variety merely from purity of a compactification. Weight-degree separation recovers each compact Hodge number from its E coefficient. Use Poincaré duality for the smooth equidimensional moduli to pass to ordinary cohomology and Betti numbers. Over C the n-power map on Pic0 is surjective, and tensoring removes determinant choices in a degree. For genus zero with deg D≤0 and n>1, §3.9 gives zero cohomology in every degree directly; at rank one GL is A¹ for D=O and a point for D=O(−1) or ω, while SL is always a point.
 
 **Checks.**
 
 - The result concerns coprime degrees; it does not identify a noncoprime stable space with a coprime one.
 - A mixed Hodge polynomial without degree-purity cannot by itself determine Betti numbers.
 
-*Needs:* §3.9 (low-genus stable-locus calculations); §4.1 (gln coprime-degree point counts); §4.2 (sln coprime-degree point counts); §0.3 (equivariant katz comparison); TauCetiRoadmap.CountingBundlesAndHallAlgebrasOfCurves §9.1; TauCetiRoadmap.JacobianChallenge Layer D; TauCetiRoadmap.EtaleCohomologyFoundations §§F.2.1, F.2.4–F.2.7, F.4.2–F.4.6, F.5–F.6 (Poincaré duality) and TauCetiRoadmap.EtaleDualityAndPerverseSheaves §§3.7, 6.3–6.4; TauCetiRoadmap.MixedHodgeModulesAndIrregularHodgeTheory H.0/mixed-hodge-module, H.1/operations, P/pair-cohomology and the geometric compact-support mixed-Hodge contract; the fixed-determinant and twisted-sector purity contract.
+*Needs:* §3.9 (low-genus stable-locus calculations); §4.1 (gln coprime-degree point counts); §4.2 (sln coprime-degree point counts); §0.3 (equivariant katz comparison); TauCetiRoadmap.CountingBundlesAndHallAlgebrasOfCurves §9.1; TauCetiRoadmap.JacobianChallenge Layer D; TauCetiRoadmap.EtaleCohomologyFoundations §§F.2.1, F.2.4–F.2.7, F.4.2–F.4.6, F.5–F.6 (Poincaré duality) and TauCetiRoadmap.EtaleDualityAndPerverseSheaves §§3.7, 6.3–6.4; TauCetiRoadmap.MixedHodgeModulesAndIrregularHodgeTheory H.0/mixed-hodge-module, H.1/operations, P/pair-cohomology and the geometric compact-support mixed-Hodge contract (gap:geometric-compact-mhs); the fixed-determinant and twisted-sector purity contract (gap:higgs-sector-purity).
 
 ### 4.4 Hausel–Thaddeus gerbes
 
@@ -924,7 +924,7 @@ One proof route is as follows. Use §3.1 and the imported μn-rigidification the
 - A nontrivial base action changes the line-torsor cocycle to L_γ⊗γ*L_δ→L_(γδ). Omitting γ* fails the action-groupoid coherence even if a pointwise central extension exists.
 - For a nontrivial action on two base points, the two line-torsor fibres are permuted; composition must use the pulled-back second line, which distinguishes coherent descent from two independent central extensions.
 
-*Needs:* §3.1 (stable trace-free fixed-determinant moduli); §3.3 (pgln moduli as a finite quotient); TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry §§5.1; TauCetiRoadmap.AbelianSchemesAndArithmeticModuli §§A2.2–A2.3; TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry §§4.1–4.3, 4.5, 4.9, 4.20; the generic orbifold/transgression contract and the finite-quotient trace contract.
+*Needs:* §3.1 (stable trace-free fixed-determinant moduli); §3.3 (pgln moduli as a finite quotient); TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry §§5.1; TauCetiRoadmap.AbelianSchemesAndArithmeticModuli §§A2.2–A2.3; TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry §§4.1–4.3, 4.5, 4.9, 4.20; the generic orbifold/transgression contract (gap:generic-orbifold-transgression) and finite-quotient trace contract (gap:finite-quotient-stack-trace).
 
 ### 4.5 Duality of the gerbe splitting torsors
 
@@ -970,7 +970,7 @@ One proof route is as follows. Apply §3.9 for the abstract-system data, without
 - For D=ω=O in genus one with n=2 and d=1, every stable trace-free Higgs field vanishes and the fixed-determinant stable bundle is unique, so M_SL^L is a point fixed by all of Γ=J_X[2]; the quotient is BΓ with stabilizer of order 4 and empty free locus, so it fails the codimension-two admissibility condition and is handled by §3.9 and §4.8.
 - A non-generically-free low-genus quotient is not accepted as an admissible abstract system by this assembly alone.
 
-*Needs:* §3.9 (regular locus and abstract-system certificates); §3.8 (duality of sln and pgln pryms); §4.5 (duality of the gerbe splitting torsors); §4.6 (local brauer splitting of the powered gerbes); §2.2 (dual hitchin systems); the generic orbifold/transgression contract and the finite-quotient trace contract.
+*Needs:* §3.9 (regular locus and abstract-system certificates); §3.8 (duality of sln and pgln pryms); §4.5 (duality of the gerbe splitting torsors); §4.6 (local brauer splitting of the powered gerbes); §2.2 (dual hitchin systems); the generic orbifold/transgression contract (gap:generic-orbifold-transgression) and finite-quotient trace contract (gap:finite-quotient-stack-trace).
 
 ### 4.8 Genus-one canonical gerbe sectors
 
@@ -988,7 +988,7 @@ One proof route is as follows. Choose isomorphisms φ_N:E→E⊗N for N∈Γ, un
 - For n=1 the group Γ and the band are trivial, the single sector is the point, and both invariants are 1.
 - A nonequivariant central extension with ignored base action, or the trivial pairing, would give every sector the trivial character and the wrong value |Γ|=n²; the commutator of the §4.4 action-groupoid descent is what removes the n²−1 nonidentity sectors.
 
-*Needs:* §3.9 (genus-one stable space and Γ action); §4.4 (hausel–thaddeus gerbes); §3.8 (duality of sln and pgln pryms); §0.7 (gerbe-twisted stringy invariants); §0.6 (stringy e-polynomials and point counts); §0.1 (character e-polynomials and weighted counts); TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry §4.5 (`quotientGerbeTransgression`); TauCetiRoadmap.AbelianSchemesAndArithmeticModuli §§A3.7; TauCetiRoadmap.JacobianChallenge Layer B; Tau Ceti `CommGroup.sum_inv_mul_monoidHom_apply_eq_ite`; the generic orbifold/transgression contract and the finite-quotient trace contract.
+*Needs:* §3.9 (genus-one stable space and Γ action); §4.4 (hausel–thaddeus gerbes); §3.8 (duality of sln and pgln pryms); §0.7 (gerbe-twisted stringy invariants); §0.6 (stringy e-polynomials and point counts); §0.1 (character e-polynomials and weighted counts); TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry §4.5 (`quotientGerbeTransgression`); TauCetiRoadmap.AbelianSchemesAndArithmeticModuli §§A3.7; TauCetiRoadmap.JacobianChallenge Layer B; Tau Ceti `CommGroup.sum_inv_mul_monoidHom_apply_eq_ite`; the generic orbifold/transgression contract (gap:generic-orbifold-transgression) and finite-quotient trace contract (gap:finite-quotient-stack-trace).
 
 ### Examples
 
@@ -1002,7 +1002,7 @@ For n=2,g=2,D=ω, choose Q of degree −1. Then N=M⁻¹Q²=ωQ² has degree 2�
 
 ### 5.1 SLn/PGLn topological mirror symmetry
 
-Let X/k be smooth projective geometrically connected of genus g, Dω⁻¹ have strictly positive degree or be trivial, n≥1, gcd(n,d)=gcd(n,e)=1, L∈Pic^d(X), and μ_(n^(2g+1))⊂k. Choose L′=L^a with ad≡e mod n. Over C the target is E(M_SL^L;x,y)=E_st(M_PGL^e,α_PGL,L′^d;x,y). Over k=𝔽q of characteristic p>n the target is #M_SL^L(k)=#^α_st(M_PGL^e). The same root/gerbe conventions are used on both sides. (GWZ20 §7.4, Theorem 7.21 and proof, p.588).
+Let X/k be smooth projective geometrically connected of genus g, Dω⁻¹ have strictly positive degree or be trivial, n≥1, gcd(n,d)=gcd(n,e)=1, L∈Pic^d(X), and μ_(n^(2g+1))⊂k. Choose L′=L^a with ad≡e mod n. Over C the target is E(M_SL^L;x,y)=E_st(M_PGL^e,α_PGL,L′^d;x,y). Over k=𝔽q of characteristic p>n the target is #M_SL^L(k)=#^α_st(M_PGL^e). The same root/gerbe conventions are used on both sides. (GWZ20 §7.4, Theorem 7.21 and proof, p.588). GWZ20 proves (b) for constant Γ=J_X[n]; for nonsplit J_X[n] over k the finite-field equality is this roadmap’s extension through the generic orbifold/transgression contract (gap:generic-orbifold-transgression), with the trace identity of §2.7 descended as in §3.3.
 
 The assertion includes every genus. Its proof requires the abstract-system certificate where the stable regular locus is nonempty, the separate low-genus calculations of §§3.9 and 4.8 elsewhere, and the generic integration, realization and arithmetic gerbe descent constructions of the supplying sections.
 
@@ -1015,7 +1015,7 @@ One proof route is as follows. Spread the complex data to finite-type R⊂C with
 - For n=2,g=2,D=ω, use Γ of order 16 and the root order 32; the result specializes to the rank-two case independently checked by Hausel–Thaddeus.
 - The finite-field version requires the stated roots and p>n; no unsupported small-characteristic extension is asserted.
 
-*Needs:* §3.9 (low-genus stable-locus calculations); §4.8 (genus-one canonical gerbe sectors); §4.7 (the sln/pgln dual pair); §2.8 (complex mirror symmetry for abstract systems); §2.7 (fibrewise arithmetic mirror symmetry); §0.7 (gerbe-twisted stringy invariants); the generic orbifold/transgression contract and the finite-quotient trace contract; the equal-characteristic local-duality contract; TauCetiRoadmap.MixedHodgeModulesAndIrregularHodgeTheory H.0/mixed-hodge-module, H.1/operations, P/pair-cohomology and the geometric compact-support mixed-Hodge contract; the equivariant scissor contract; the fractional equivariant Hodge–Tate contract.
+*Needs:* §3.9 (low-genus stable-locus calculations); §4.8 (genus-one canonical gerbe sectors); §4.7 (the sln/pgln dual pair); §2.8 (complex mirror symmetry for abstract systems); §2.7 (fibrewise arithmetic mirror symmetry); §0.7 (gerbe-twisted stringy invariants); the generic orbifold/transgression contract (gap:generic-orbifold-transgression) and finite-quotient trace contract (gap:finite-quotient-stack-trace); the equal-characteristic local-duality contract (gap:equal-characteristic-abelian-duality); TauCetiRoadmap.MixedHodgeModulesAndIrregularHodgeTheory H.0/mixed-hodge-module, H.1/operations, P/pair-cohomology and the geometric compact-support mixed-Hodge contract (gap:geometric-compact-mhs); the equivariant scissor contract (gap:equivariant-grothendieck); the fractional equivariant Hodge–Tate contract (gap:fractional-equivariant-hodge-tate).
 
 ### 5.2 Canonical-twist Hodge numbers
 
@@ -1031,7 +1031,7 @@ One proof route is as follows. Apply §5.1 for equality of E-polynomials. Use th
 - A mixed sector without purity cannot be read degree by degree from its alternating E-polynomial.
 - A nonsymplectic sector of age 1/2 cannot use this parity argument; the canonical-twist hypothesis is essential to this proof.
 
-*Needs:* §5.1 (sln/pgln topological mirror symmetry); §4.3 (betti and hodge numbers in coprime degree); TauCetiRoadmap.CountingBundlesAndHallAlgebrasOfCurves §9.1; the fixed-determinant and twisted-sector purity contract; TauCetiRoadmap.MixedHodgeModulesAndIrregularHodgeTheory H.0/mixed-hodge-module, H.1/operations, P/pair-cohomology and the geometric compact-support mixed-Hodge contract.
+*Needs:* §5.1 (sln/pgln topological mirror symmetry); §4.3 (betti and hodge numbers in coprime degree); TauCetiRoadmap.CountingBundlesAndHallAlgebrasOfCurves §9.1; the fixed-determinant and twisted-sector purity contract (gap:higgs-sector-purity); TauCetiRoadmap.MixedHodgeModulesAndIrregularHodgeTheory H.0/mixed-hodge-module, H.1/operations, P/pair-cohomology and the geometric compact-support mixed-Hodge contract (gap:geometric-compact-mhs).
 
 ### 5.3 The justified fibrewise virtual comparison
 
@@ -1046,7 +1046,7 @@ One proof route is as follows. Apply §2.7 to the SL/PGL pair above a over every
 - I2 and the unipotent Jordan block J2 have identical traces of every power but different fixed-space dimensions; the conclusion must not identify them as actual representations.
 - An even and an odd copy of the same representation cancel virtually, so virtual equality alone does not separate degrees.
 
-*Needs:* §3.9 (empty low-genus fibres); §4.8 (genus-one canonical gerbe sectors); §4.7 (the sln/pgln dual pair); §2.7 (fibrewise arithmetic mirror symmetry); TauCetiRoadmap.ArithmeticGaloisRepresentations §§1.7–1.8; TauCetiRoadmap.EtaleCohomologyFoundations §§F.2.1, F.2.4–F.2.7, F.4.2–F.4.6 and TauCetiRoadmap.EtaleDualityAndPerverseSheaves §§3.7, 6.3–6.4; the generic orbifold/transgression contract and the finite-quotient trace contract; the equal-characteristic local-duality contract.
+*Needs:* §3.9 (empty low-genus fibres); §4.8 (genus-one canonical gerbe sectors); §4.7 (the sln/pgln dual pair); §2.7 (fibrewise arithmetic mirror symmetry); TauCetiRoadmap.ArithmeticGaloisRepresentations §§1.7–1.8; TauCetiRoadmap.EtaleCohomologyFoundations §§F.2.1, F.2.4–F.2.7, F.4.2–F.4.6 and TauCetiRoadmap.EtaleDualityAndPerverseSheaves §§3.7, 6.3–6.4; the generic orbifold/transgression contract (gap:generic-orbifold-transgression) and finite-quotient trace contract (gap:finite-quotient-stack-trace); the equal-characteristic local-duality contract (gap:equal-characteristic-abelian-duality).
 
 ### 5.4 Actual fibrewise Galois isomorphism
 
@@ -1069,7 +1069,7 @@ One proof route is a geometric comparison giving the displayed actual actions. A
 - For n=1 the single sector is a point, F=0 and N is trivial, so both direct sums are Qℓ in dimension 1. In the empty genus-zero branches of §3.9 both sides are the zero representation of dimension 0. In canonical genus one, by §4.8, the fibre over a=0 gives Qℓ on the left and, on the right, Qℓ from the identity sector with zero contributions from the n²−1 sectors whose character is nontrivial; the dimensions are 1=1, not 1=n².
 - For two sectors exchanged by Frobenius with trivial one-dimensional coefficients and age 0, the total action matrix is ((0,1),(1,0)): trace 0 on odd powers and 2 on even powers. Replacing descent by two separately fixed lines would give trace 2 on every power.
 
-*Needs:* §5.3 (the justified fibrewise virtual comparison); §5.1 (finite-field hypotheses); §3.9 (low-genus fibres); §4.8 (genus-one canonical gerbe sectors); §§0.4, 0.6–0.7 (fractional roots, sectors and gerbe coefficients); TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry §4.5 (centralizer descent); TauCetiRoadmap.EtaleCohomologyFoundations §§F.2.1, F.2.4–F.2.7, F.4.2–F.4.6; TauCetiRoadmap.DeligneWeightsAndPurity §7.15; TauCetiRoadmap.ArithmeticGaloisRepresentations §§1.7–1.8; the generic orbifold/transgression contract; the finite-quotient trace contract; Mathlib `Matrix.trace`.
+*Needs:* §5.3 (the justified fibrewise virtual comparison); §5.1 (finite-field hypotheses); §3.9 (low-genus fibres); §4.8 (genus-one canonical gerbe sectors); §§0.4, 0.6–0.7 (fractional roots, sectors and gerbe coefficients); TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry §4.5 (centralizer descent); TauCetiRoadmap.EtaleCohomologyFoundations §§F.2.1, F.2.4–F.2.7, F.4.2–F.4.6; TauCetiRoadmap.DeligneWeightsAndPurity §7.15; TauCetiRoadmap.ArithmeticGaloisRepresentations §§1.7–1.8; the generic orbifold/transgression contract (gap:generic-orbifold-transgression); the finite-quotient trace contract (gap:finite-quotient-stack-trace); Mathlib `Matrix.trace`.
 
 ### 5.5 Determinant variation of inertia-sector traces
 
@@ -1084,7 +1084,7 @@ One proof route is as follows. Lift the finite list of determinant line bundles 
 - For n=3 and (ν,γ)=ζ3, the multiplier is ζ3⁻¹; the direct multiplier fails the fixed ν⁻¹Fr convention.
 - For F=Q3 and the complementary C₂ Kummer class of −3, the diagonal self-pairing can have invariant 1/2. The mixed formula must remain valid without asserting that this diagonal vanishes.
 
-*Needs:* §3.5 (determinant change and γ-twists); §4.5 (duality of the gerbe splitting torsors); §2.4 (twisted counts as local integrals); TauCetiRoadmap.AbelianSchemesAndArithmeticModuli §§A3.7; TauCetiRoadmap.ArithmeticGaloisDuality §D7.6 (local abelian-variety duality and self-dual isogenies); TauCetiRoadmap.ClassFieldTheory Layer 5; the generic orbifold/transgression contract and the finite-quotient trace contract; the equal-characteristic local-duality contract.
+*Needs:* §3.5 (determinant change and γ-twists); §4.5 (duality of the gerbe splitting torsors); §2.4 (twisted counts as local integrals); TauCetiRoadmap.AbelianSchemesAndArithmeticModuli §§A3.7; TauCetiRoadmap.ArithmeticGaloisDuality §D7.6 (local abelian-variety duality and self-dual isogenies); TauCetiRoadmap.ClassFieldTheory Layer 5; the generic orbifold/transgression contract (gap:generic-orbifold-transgression) and finite-quotient trace contract (gap:finite-quotient-stack-trace); the equal-characteristic local-duality contract (gap:equal-characteristic-abelian-duality).
 
 ### 5.6 Character-isotypic mirror symmetry
 
@@ -1100,7 +1100,7 @@ One proof route is as follows. Use §3.5 to enumerate all Γ twists of the SL sp
 - For C₃ the ν⁻¹ action and multiplier χγ(ν), with division by 3, isolate χγ and not its inverse.
 - For n=2,g=2 the Fourier normalization is 1/16, using all 16 characters.
 
-*Needs:* §3.9 (empty low-genus fibres); §4.8 (genus-one canonical gerbe sectors); §5.1 (sln/pgln topological mirror symmetry); §5.5 (determinant variation of inertia-sector traces); §3.5 (determinant change and γ-twists); Tau Ceti `CommGroup.sum_inv_mul_monoidHom_apply_eq_ite`; Mathlib `sum_hom_units_eq_zero`; TauCetiRoadmap.AbelianSchemesAndArithmeticModuli §§A3.7; the generic orbifold/transgression contract and the finite-quotient trace contract; the equal-characteristic local-duality contract.
+*Needs:* §3.9 (empty low-genus fibres); §4.8 (genus-one canonical gerbe sectors); §5.1 (sln/pgln topological mirror symmetry); §5.5 (determinant variation of inertia-sector traces); §3.5 (determinant change and γ-twists); Tau Ceti `CommGroup.sum_inv_mul_monoidHom_apply_eq_ite`; Mathlib `sum_hom_units_eq_zero`; TauCetiRoadmap.AbelianSchemesAndArithmeticModuli §§A3.7; the generic orbifold/transgression contract (gap:generic-orbifold-transgression) and finite-quotient trace contract (gap:finite-quotient-stack-trace); the equal-characteristic local-duality contract (gap:equal-characteristic-abelian-duality).
 
 ### Examples
 
