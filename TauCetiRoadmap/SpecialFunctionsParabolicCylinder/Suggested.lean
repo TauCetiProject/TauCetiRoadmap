@@ -45,13 +45,15 @@ theorem hasSum_regularizedKummer (a b z : ℂ) :
     HasSum (fun n => regularizedHGFunCoeff {a} {b} n * z ^ n) (𝐌(a, b) z) :=
   Complex.hasSum_regularizedHGFun (by simp) z
 
-/-- **M1.2** The derivative of `𝐌(a, b, ·)`. -/
+/-- **M1.2** The derivative of `𝐌(a, b, ·)` (DLMF 13.3.15, regularized). -/
 theorem hasDerivAt_regularizedHGFun_singleton (a b z : ℂ) :
     HasDerivAt 𝐌(a, b) (a * 𝐌(a + 1, b + 1) z) z := sorry
 
-/-- **M1.3** Kummer's equation `z w″ + (b − z) w′ − a w = 0` (DLMF 13.2.1). -/
-theorem regularizedHGFun_singleton_kummer_equation (a b z : ℂ) :
-    z * deriv^[2] 𝐌(a, b) z + (b - z) * deriv 𝐌(a, b) z - a * 𝐌(a, b) z = 0 := sorry
+/-- **M1.3** Kummer's equation for `𝐌(a, b, ·)` for all parameters (DLMF 13.2.1). -/
+theorem regularizedHGFun_kummer_equation (a b z : ℂ) :
+    z * deriv (deriv (fun w => Complex.regularizedHGFun {a} {b} w)) z +
+      (b - z) * deriv (fun w => Complex.regularizedHGFun {a} {b} w) z -
+        a * Complex.regularizedHGFun {a} {b} z = 0 := sorry
 
 /-- **M1.4** Kummer's transformation (DLMF 13.2.39). -/
 theorem regularizedHGFun_singleton_eq_exp_mul (a b z : ℂ) :
@@ -238,9 +240,6 @@ theorem differentiable_dawson : Differentiable ℂ dawson := sorry
 /-- **M5.1** The differential equation of Dawson's integral. -/
 theorem hasDerivAt_dawson (z : ℂ) : HasDerivAt dawson (1 - 2 * z * dawson z) z := sorry
 
-/-- **M5.1** The initial value of Dawson's integral. -/
-theorem dawson_zero : dawson 0 = 0 := sorry
-
 /-- **M5.1** The Dawson case DLMF 12.7.4. -/
 theorem parabolicCylinderV_neg_one_half (z : ℂ) :
     parabolicCylinderV (-1 / 2) z =
@@ -346,18 +345,13 @@ theorem hasProd_Gamma_norm_quotient {x : ℝ} (hx : 0 < x) (y : ℝ) :
 theorem norm_Gamma_one_add_mul_I_sq {y : ℝ} (hy : y ≠ 0) :
     ‖Gamma (1 + y * I)‖ ^ 2 = π * y / Real.sinh (π * y) := sorry
 
-/-- **M6.6(a)** Uniform vertical decay on a bounded real strip away from Gamma poles. -/
+/-- **M6.6(a)** All-height, pole-separated corollary of the uniform strip asymptotic
+supplied by ZerosOfLFunctions §1.3, using compactness for bounded heights. -/
 theorem exists_norm_Gamma_le_on_strip {u v η : ℝ} (huv : u ≤ v) (hη : 0 < η) :
     ∃ C : ℝ, 0 < C ∧ ∃ K : ℕ, ∀ x ∈ Icc u v, ∀ y : ℝ,
       (∀ n : ℕ, η ≤ ‖(x : ℂ) + y * I + n‖) →
         ‖Gamma ((x : ℂ) + y * I)‖ ≤
           C * (1 + |y|) ^ K * Real.exp (-π * |y| / 2) := sorry
-
-/-- **M6.6(a)** The fixed-line corollary, for a line avoiding all Gamma poles. -/
-theorem exists_norm_Gamma_le_on_vertical {x : ℝ} (hx : ∀ n : ℕ, x ≠ -(n : ℝ)) :
-    ∃ C : ℝ, 0 < C ∧ ∃ K : ℕ, ∀ y : ℝ,
-      ‖Gamma ((x : ℂ) + y * I)‖ ≤
-        C * (1 + |y|) ^ K * Real.exp (-π * |y| / 2) := sorry
 
 /-- **M6.6(b)** The residue at every nonpositive integer, as a punctured limit. -/
 theorem tendsto_add_nat_mul_Gamma (n : ℕ) :
@@ -426,10 +420,6 @@ theorem hasSum_residues_of_integral_vertical_tendsto_zero {F : ℂ → ℂ} {c :
     (hlim : Tendsto (fun n => ∫ y : ℝ, F (c n + y * I)) atTop (𝓝 0))
     (hs : Summable fun n => numerator n (p n)) :
     HasSum (fun n => 2 * π * numerator n (p n)) (∫ y : ℝ, F (c 0 + y * I)) := sorry
-
-/-- **M6.6(a,c)** The vertical Gamma bound supplies Mathlib's Mellin inversion hypothesis. -/
-theorem verticalIntegrable_Gamma {c : ℝ} (hc : 0 < c) :
-    VerticalIntegrable Gamma c := sorry
 
 /-- **M6.6(c)** Absolute convergence in exponential Mellin inversion. -/
 theorem verticalIntegrable_Gamma_mul_cpow_neg {c : ℝ} (hc : 0 < c)
@@ -527,7 +517,7 @@ theorem parabolicCylinderV_eq_barnes_integral_sub_residues {a z : ℂ}
 
 /-! ### Milestone 7: Watson's lemma -/
 
-/-- **M7.2** Watson's lemma in a sector. -/
+/-- **M7.2** Watson's lemma in a sector (DLMF 2.4.1). -/
 theorem isBigO_integral_exp_neg_mul_sub_sum {q : ℝ → ℂ} {c : ℕ → ℂ} {μ σ : ℝ} {lam : ℂ}
     (hμ : 0 < μ) (hlam : 0 < lam.re) (hloc : LocallyIntegrableOn q (Ioi 0))
     (hσ : IntegrableOn (fun t => Real.exp (-σ * t) * ‖q t‖) (Ioi 1))
@@ -554,13 +544,6 @@ theorem parabolicCylinderU_eq_rotated_integral {a : ℂ} (ha : -1 / 2 < a.re)
       exp (θ * I) * ∫ r in Ioi (0 : ℝ), exp (-z * exp (θ * I) * r) *
         ((r : ℂ) * exp (θ * I)) ^ (a - 1 / 2) *
           exp (-(((r : ℂ) * exp (θ * I)) ^ 2) / 2) := sorry
-
-/-- **M8.1** The normalized three-term recurrence used to shift the parameter downwards. -/
-theorem normalized_parabolicCylinderU_sub_one (a : ℂ) {z : ℂ} (hz : z ≠ 0) :
-    exp (z ^ 2 / 4) * z ^ (a - 1 + 1 / 2) * parabolicCylinderU (a - 1) z =
-      exp (z ^ 2 / 4) * z ^ (a + 1 / 2) * parabolicCylinderU a z +
-        (a + 1 / 2) * z ^ (-2 : ℂ) *
-          (exp (z ^ 2 / 4) * z ^ (a + 1 + 1 / 2) * parabolicCylinderU (a + 1) z) := sorry
 
 /-- **M8.1** The expansion DLMF 12.9.1 of `U(a, z)` in `|ph z| ≤ 3π/4 − δ`. -/
 theorem isBigO_parabolicCylinderU_sub_sum (a : ℂ) {δ : ℝ} (hδ : 0 < δ) (hδπ : δ < 3 * π / 4)
