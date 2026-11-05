@@ -23,7 +23,10 @@ this file does not redeclare those objects. Direct rank-agreement signatures can
 endpoint without importing the implementation of those strategies.
 
 The imports consume existing graphon objects. The README specifies the further shared
-interfaces needed for implementation.
+interfaces needed for implementation. The finite atomic diagrams that give pattern formulas their
+meaning (`TauCeti.firstOrderAtomicDiagram`, in Tau Ceti's `ModelTheory/Scott/AtomicDiagram.lean`)
+and the graph stand-ins below are later than this repository's Tau Ceti pin, so this file does not
+import them.
 -/
 
 set_option autoImplicit false
