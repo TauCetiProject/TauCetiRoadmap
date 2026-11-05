@@ -597,10 +597,12 @@ theorem equivalent_one_or_e8_sum_one_of_unimodular_posDef_nine
           (Matrix.fromBlocks (CartanMatrix.E 8) 0 0 (1 : Matrix (Fin 1) (Fin 1) ℤ)))) :=
   sorry
 
-/-- **A Gram matrix of `D₁₆⁺`** (6D), in the basis `h, e₁ − e₂, e₂ − e₃, …, e₁₄ − e₁₅, e₁₅ + e₁₆`
-of `D₁₆⁺ = D₁₆ ∪ (h + D₁₆)` with `h = (½, …, ½)`: the diagonal is `4, 2, …, 2`, the fourteen
-vectors `e_i − e_{i+1}` form the `A₁₅`-type band, `e₁₅ + e₁₆` pairs to `−1` with `e₁₄ − e₁₅` and
-to `1` with `h`, and the determinant is `1` (Serre V.1.4.3, where the lattice is `Γ₁₆`). -/
+/-- **A Gram matrix of `D₁₆⁺`** (6D), in the basis `h, e₁ − e₂, e₂ − e₃, …, e₁₄ − e₁₅, e₁₄ + e₁₅`
+of `D₁₆⁺ = D₁₆ ∪ (h + D₁₆)` with `h = (½, …, ½)`: the diagonal is `4, 2, …, 2`, the fifteen
+norm-2 vectors form the `D₁₅` diagram (the chain `e₁ − e₂, …, e₁₄ − e₁₅` with `e₁₄ + e₁₅`
+attached to `e₁₃ − e₁₄`: `(e₁₃ − e₁₄)·(e₁₄ + e₁₅) = −1` and `(e₁₄ − e₁₅)·(e₁₄ + e₁₅) = 0`),
+`h` pairs to `1` with `e₁₄ + e₁₅` and to `0` with the chain, and the determinant is `1`, so the
+sixteen vectors generate `D₁₆⁺` (Serre V.1.4.3, where the lattice is `Γ₁₆`). -/
 def d16PlusGram : Matrix (Fin 16) (Fin 16) ℤ :=
   !![4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1;
      0, 2, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0;

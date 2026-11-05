@@ -2074,8 +2074,10 @@ in one genus, and they are not isometric, because their root systems differ (Ser
 `Γ₁₆ = D₁₆⁺` and VII.6.6 for the non-isomorphism; the construction is the supplement below). This
 milestone constructs both lattices and proves those four statements. At the level of Gram
 matrices they are `d16Plus_sameGenus_not_isometric_e8SumE8`: `d16PlusGram`, the Gram matrix of
-`D₁₆⁺` in the basis `h, e₁ − e₂, …, e₁₄ − e₁₅, e₁₅ + e₁₆` with `h = (½, …, ½)` (diagonal
-`4, 2, …, 2`, the `A₁₅`-type band, `h·(e₁₅ + e₁₆) = 1`, `(e₁₄ − e₁₅)·(e₁₅ + e₁₆) = −1`), is
+`D₁₆⁺` in the basis `h, e₁ − e₂, …, e₁₄ − e₁₅, e₁₄ + e₁₅` with `h = (½, …, ½)` (diagonal
+`4, 2, …, 2`; the fifteen roots form the `D₁₅` diagram, the chain `e₁ − e₂, …, e₁₄ − e₁₅` with
+`e₁₄ + e₁₅` attached to `e₁₃ − e₁₄`, so `(e₁₃ − e₁₄)·(e₁₄ + e₁₅) = −1` and
+`(e₁₄ − e₁₅)·(e₁₄ + e₁₅) = 0`; `h·(e₁₄ + e₁₅) = 1` and `h` is orthogonal to the chain), is
 even, of determinant `1` and positive definite, in one genus with `e8SumE8Gram`, the block sum
 of two `E₈` Cartan matrices, and not integrally isometric to it. It claims no completeness:
 that the genus has no third class is 7I, which comes after the mass formula and belongs to
@@ -2090,6 +2092,13 @@ the pair is the rank-16 classification. *Needs:* 2C, 3F, 5A, 6B.
 - Roots: `E₈ ⊕ E₈` has `2·240 = 480` and `D₁₆⁺` has the `4·C(16,2) = 480` roots of `D₁₆`, the coset
   `h + D₁₆` having minimum norm `4`; counting roots does not separate them, the index of the root
   span does: `1` for `E₈ ⊕ E₈` and `2` for `D₁₆⁺`.
+- The basis: the fifteen roots `e₁ − e₂, …, e₁₄ − e₁₅, e₁₄ + e₁₅` span `D₁₅` on the first
+  fifteen coordinates, of determinant `4`, and adjoining `h` gives `4·(4 − 15/4) = 1`, so the
+  sixteen vectors generate all of `D₁₆⁺` (a determinant-1 sublattice of a determinant-1 lattice)
+  and the leading principal minors of `d16PlusGram` are `4, 8, …, 60, 1`. The chain
+  `e₁ − e₂, …, e₁₄ − e₁₅, e₁₅ + e₁₆` of `A₁₅` type with `h` instead has Gram determinant
+  `16·(4 − 15/16) = 49`: it spans a sublattice of index 7, so a Gram matrix with the `−1` at
+  `(e₁₄ − e₁₅)·(e₁₅ + e₁₆)` would not be unimodular.
 - At `n = 8` the same construction gives `D₈⁺ ≅ E₈` (native `typeE₈IsometryD8Plus`): there
   `h² = 2`, the coset `h + D₈` contributes `128` roots, `112 + 128 = 240`, and the root span is
   everything; the rank hypothesis `n = 16` of the non-isometry is used through `h² = 4`.
