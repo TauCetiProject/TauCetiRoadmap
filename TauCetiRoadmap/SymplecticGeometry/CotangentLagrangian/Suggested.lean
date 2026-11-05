@@ -1,9 +1,11 @@
-import Mathlib
-import TauCeti.Geometry.Symplectic.Manifold.TwoForm
-import TauCeti.Geometry.Symplectic.Lagrangian.Basic
-import TauCeti.Geometry.Symplectic.Cotangent.Liouville
-import TauCeti.Geometry.Symplectic.SymplecticTransport
-import TauCeti.Geometry.Manifold.SmoothEmbedding.NormalSpace
+module
+
+public import Mathlib
+public import TauCeti.Geometry.Symplectic.Manifold.TwoForm
+public import TauCeti.Geometry.Symplectic.Lagrangian.Basic
+public import TauCeti.Geometry.Symplectic.Cotangent.Liouville
+public import TauCeti.Geometry.Symplectic.SymplecticTransport
+public import TauCeti.Geometry.Manifold.SmoothEmbedding.NormalSpace
 
 /-!
 # Cotangent bundles and Lagrangian geometry: target signatures
@@ -29,6 +31,7 @@ Not statable at the pins, and therefore absent:
   embedding. Only their linear step, `symplectic_subspace_extension`, is stated.
 -/
 noncomputable section
+@[expose] public section
 open scoped Manifold ContDiff
 open Bundle
 namespace TauCetiRoadmap.SymplecticGeometry
