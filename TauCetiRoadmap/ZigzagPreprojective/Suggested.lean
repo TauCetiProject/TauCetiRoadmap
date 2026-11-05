@@ -1,358 +1,62 @@
 import Mathlib
+import TauCeti.Algebra.Homology.AInfinity.Algebra.Formal
+import TauCeti.Algebra.Homology.AInfinity.Algebra.Minimal
+import TauCeti.Algebra.Homology.AInfinity.Algebra.Unit
 import TauCeti.LinearAlgebra.RootSystem.AffineDynkinType.Basic
 import TauCeti.LinearAlgebra.RootSystem.DynkinType
-import TauCeti.RepresentationTheory.Quiver.PathAlgebra.Basic
+import TauCeti.LinearAlgebra.RootSystem.FiniteType.Diagram
+import TauCeti.RepresentationTheory.Quiver.Preprojective.Grading
+import TauCeti.RepresentationTheory.Quiver.Zigzag.Componentwise.Grading
+import TauCeti.RepresentationTheory.Quiver.Zigzag.Orientation
 
 /-!
 # Zigzag, preprojective, and Ginzburg algebras: target signatures
 
-**This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. The declarations below force the graph, quotient, multiplication, low-rank, grading,
-and matrix conventions used by several milestones; proving all of them would finish neither a
-layer nor the roadmap. `sorry` is allowed in this human-owned roadmap library -- these are goals,
-not proofs.
+The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
+theorems against the pinned Mathlib and Tau Ceti, each with `sorry`. The strict zigzag and
+preprojective algebras, their gradings, bases, traces, centres and Cartan matrices are the native
+Tau Ceti declarations (`TauCeti.zigzagAlgebra`, `TauCeti.zigzagAlgebraIntegerGrade`,
+`TauCeti.preprojectiveAlgebra`, `TauCeti.preprojectiveGrade`), and the `A∞` notions are
+Tau Ceti's (`TauCeti.AInfinityAlgebra`, `IsMinimal`, `StrictUnit`, `IsFormal`).
 
-The strict algebras below use the landed Tau Ceti path algebra and Mathlib's actual
-`TwoSidedIdeal.span`.  DG algebras, `A∞` structures, transfer, Hochschild cochains, and
-Calabi--Yau completions consume the sibling `DGAInfinity` roadmap.  This prototype introduces no
-private stand-in for that dependency: `README.md` specifies the complete DG and deformation
-targets until those declarations are importable here.
+Stated here:
+
+* Layer 0: recognition of the connected finite simple graphs carrying a nonzero nonnegative
+  integral null vector of `2I - A` as the graphical affine simply-laced diagrams;
+* Layer 7: the positive-degree cyclic quotient `Π/[Π,Π]` of the preprojective algebra of an
+  oriented finite connected simple graph vanishes exactly for finite ADE graphs in good
+  characteristic (Schedler, Theorem 13.1.1, via Liu--Wang, Corollary 3.4);
+* Layer 7: Liu--Wang's theorem that the path-graded zigzag algebra of a finite tree is
+  intrinsically formal exactly when the tree is ADE and the characteristic is not bad
+  (Liu--Wang, Theorem 1.1).
+
+Not statable at the pins:
+
+* the identifications of `Π₂(Q)` and `Γ₃(Q,W)` with the derived and deformed Calabi--Yau
+  completions (Layer 6): the completions `Π_n(C)` of the DG and `A∞` roadmap, Layer 9, are not in
+  Tau Ceti;
+* the bigraded derived Koszul dualities and the Hochschild comparison
+  `HH^{2,q}(Π₂(Q)) ≅ (Π/[Π,Π])_{q+2}` (Layer 7): bigraded derived `RHom` over a DG algebra and
+  bigraded Hochschild cohomology are not in Tau Ceti;
+* the braid relations of the bimodule complexes and the Artin action on the derived category
+  (Layer 8): the tensor product of complexes of graded `Z`-bimodules over `Z` and the homotopy
+  category it acts on are not available as a construction at the pins;
+* the Seidel--Thomas twists of an `A_m`-configuration of spherical objects (Layer 8): a
+  `k`-linear DG enhancement with chain-level `Hom` complexes and cones is not in Tau Ceti.
 -/
 
 namespace TauCetiRoadmap.ZigzagPreprojective
 
-open Matrix Polynomial
-
 universe u
 
-/-! ## Doubled simple graphs -/
-
-/-- The doubled quiver of a simple graph.  There is one arrow `i ⟶ j` exactly when `i` and `j`
-are adjacent.  Since `SimpleGraph.Adj` is a proposition, this construction has no multiple arrows.
-General quivers use `Quiver.Symmetrify` below instead. -/
-def DoubledQuiver {V : Type u} (_G : SimpleGraph V) := V
-
-/-- The vertex inclusion into the graph-labelled type synonym. -/
-def doubledVertex {V : Type u} (G : SimpleGraph V) (v : V) : DoubledQuiver G := v
-
-instance doubledQuiver {V : Type u} (G : SimpleGraph V) : Quiver (DoubledQuiver G) where
-  Hom i j := PLift (G.Adj i j)
-
-instance doubledQuiverFinite {V : Type u} (G : SimpleGraph V) [Finite V] :
-    Finite (DoubledQuiver G) := by
-  unfold DoubledQuiver
-  infer_instance
-
-instance doubledQuiverFintype {V : Type u} (G : SimpleGraph V) [Fintype V] :
-    Fintype (DoubledQuiver G) := by
-  unfold DoubledQuiver
-  infer_instance
-
-instance doubledQuiverHomSubsingleton {V : Type u} (G : SimpleGraph V)
-    (i j : DoubledQuiver G) : Subsingleton (i ⟶ j) := by
-  change Subsingleton (PLift (G.Adj (show V from i) (show V from j)))
-  infer_instance
-
-instance doubledQuiverHasReverse {V : Type u} (G : SimpleGraph V) :
-    Quiver.HasReverse (DoubledQuiver G) where
-  reverse' := fun e => ⟨e.down.symm⟩
-
-instance doubledQuiverHasInvolutiveReverse {V : Type u} (G : SimpleGraph V) :
-    Quiver.HasInvolutiveReverse (DoubledQuiver G) where
-  toHasReverse := doubledQuiverHasReverse G
-  inv' _ := Subsingleton.elim _ _
-
-instance symmetrifyFinite (Q : Type u) [Quiver Q] [Finite Q] :
-    Finite (Quiver.Symmetrify Q) := by
-  unfold Quiver.Symmetrify
-  infer_instance
-
-instance symmetrifyFintype (Q : Type u) [Quiver Q] [Fintype Q] :
-    Fintype (Quiver.Symmetrify Q) := by
-  unfold Quiver.Symmetrify
-  infer_instance
-
-/-! ## The strict quotient and its low-rank convention -/
-
-/-- The uniform defining relation family for a graph component with an edge.  It includes
-length-three-and-higher paths so it also gives the intended radical-cube-zero algebra for `A₂`.
-For a connected graph with at least three vertices those generators are proved redundant.
-
-The endpoints in `TauCeti.Quiver.TotalPath` and multiplication in `TauCeti.pathAlgebra` use Tau
-Ceti's later-factor-first convention. -/
-inductive IsZigzagRelator (k : Type*) {V : Type u} [Field k] (G : SimpleGraph V) [Finite V] :
-    TauCeti.pathAlgebra k (DoubledQuiver G) → Prop
-  | nonreturn {i j : DoubledQuiver G} (p : Quiver.Path i j)
-      (length_eq : p.length = 2) (different_endpoints : i ≠ j) :
-      IsZigzagRelator k G (TauCeti.PathAlgebra.ofPath ⟨i, j, p⟩)
-  | equal_backtracks {i : DoubledQuiver G} (p q : Quiver.Path i i)
-      (p_length : p.length = 2) (q_length : q.length = 2) :
-      IsZigzagRelator k G
-        (TauCeti.PathAlgebra.ofPath ⟨i, i, p⟩ - TauCeti.PathAlgebra.ofPath ⟨i, i, q⟩)
-  | long_path (p : TauCeti.Quiver.TotalPath (DoubledQuiver G))
-      (length_at_least_three : 3 ≤ p.2.2.length) :
-      IsZigzagRelator k G (TauCeti.PathAlgebra.ofPath p)
-
-/-- The two-sided ideal generated by the zigzag relations. -/
-noncomputable def zigzagIdeal (k : Type*) {V : Type u} [Field k] (G : SimpleGraph V) [Finite V] :
-    TwoSidedIdeal (TauCeti.pathAlgebra k (DoubledQuiver G)) :=
-  TwoSidedIdeal.span {x | IsZigzagRelator k G x}
-
-/-- The relation quotient for a graph component with an edge.  This is deliberately not the
-public disconnected-graph definition: on a singleton it is `k`, not the chosen dual numbers. -/
-noncomputable abbrev nonisolatedZigzagQuotient (k : Type*) {V : Type u} [Field k]
-    (G : SimpleGraph V) [Finite V] : Type _ :=
-  TauCeti.pathAlgebra k (DoubledQuiver G) ⧸ (zigzagIdeal k G).asIdeal
-
-/-- The `A₁` convention: dual numbers with the generator placed in internal degree two. -/
-noncomputable abbrev rankOneZigzag (k : Type*) [Field k] : Type _ :=
-  Polynomial k ⧸ Ideal.span ({Polynomial.X ^ 2} : Set (Polynomial k))
-
-/-- The public zigzag algebra is componentwise: singleton components use the dual numbers and
-components with an edge use the relation quotient.  A categorical finite-product implementation
-avoids pretending these algebras share one carrier type. -/
-noncomputable def zigzagAlgebra (k : Type*) {V : Type u} [Field k] [Fintype V]
-    (G : SimpleGraph V) : AlgCat k :=
-  sorry
-
-/-- On a connected graph with an edge, the public componentwise algebra agrees with the relation
-quotient. -/
-noncomputable def zigzagAlgebraEquiv_nonisolated (k : Type*) {V : Type u} [Field k] [Fintype V]
-    (G : SimpleGraph V) (connected : G.Connected) (nontrivial : 1 < Fintype.card V) :
-    zigzagAlgebra k G ≃ₐ[k] nonisolatedZigzagQuotient k G := sorry
-
-/-- The public algebra of the unique singleton graph is the chosen dual-numbers algebra. -/
-noncomputable def zigzagAlgebraEquiv_a1 (k : Type*) [Field k] :
-    zigzagAlgebra k (⊥ : SimpleGraph (Fin 1)) ≃ₐ[k] rankOneZigzag k := sorry
-
-/-- The homogeneous pieces whose direct sum is the public path-length graded zigzag algebra. -/
-noncomputable def zigzagGrading (k : Type*) {V : Type u} [Field k] [Fintype V]
-    (G : SimpleGraph V) : ℕ → Submodule k (zigzagAlgebra k G) := sorry
-
-/-- The quotient grading is genuinely internal and multiplicative, not an unrelated graded copy. -/
-noncomputable def zigzagGradedAlgebra (k : Type*) {V : Type u} [Field k] [Fintype V]
-    (G : SimpleGraph V) : GradedAlgebra (zigzagGrading k G) := sorry
-
-/-- Homogeneous basis indices for a connected nontrivial zigzag algebra: vertices in degree zero,
-oriented edges in degree one, and one volume class per vertex in degree two. -/
-abbrev ZigzagBasisIndex {V : Type u} (G : SimpleGraph V) :=
-  V ⊕ (Σ i j : V, PLift (G.Adj i j)) ⊕ V
-
-/-- The vertex/arrow/volume basis.  Connectedness plus at least two vertices ensures every vertex
-has a backtrack; backtrack independence makes its class canonical. -/
-noncomputable def zigzagBasis (k : Type*) {V : Type u} [Field k] [Fintype V]
-    (G : SimpleGraph V) (connected : G.Connected) (nontrivial : 1 < Fintype.card V) :
-    Module.Basis (ZigzagBasisIndex G) k (nonisolatedZigzagQuotient k G) := sorry
-
-/-- The dimension forced by the basis, with each undirected edge contributing two arrows. -/
-theorem finrank_zigzagAlgebra (k : Type*) {V : Type u} [Field k] [Fintype V]
-    (G : SimpleGraph V) [DecidableRel G.Adj] (connected : G.Connected)
-    (nontrivial : 1 < Fintype.card V) :
-    Module.finrank k (nonisolatedZigzagQuotient k G) =
-      2 * Fintype.card V + 2 * G.edgeFinset.card := sorry
-
-/-! ## Symmetric Frobenius trace and center -/
-
-/-- The trace is one on each volume class and zero on vertex idempotents and arrows. -/
-noncomputable def zigzagTrace (k : Type*) {V : Type u} [Field k] [Fintype V]
-    (G : SimpleGraph V) (connected : G.Connected) (nontrivial : 1 < Fintype.card V) :
-    nonisolatedZigzagQuotient k G →ₗ[k] k := sorry
-
-/-- The Frobenius pairing `(x,y) ↦ tr(xy)`. -/
-noncomputable def zigzagTracePairing (k : Type*) {V : Type u} [Field k] [Fintype V]
-    (G : SimpleGraph V) (connected : G.Connected) (nontrivial : 1 < Fintype.card V) :
-    LinearMap.BilinForm k (nonisolatedZigzagQuotient k G) := sorry
-
-theorem zigzagTracePairing_isSymm (k : Type*) {V : Type u} [Field k] [Fintype V]
-    (G : SimpleGraph V) (connected : G.Connected) (nontrivial : 1 < Fintype.card V) :
-    (zigzagTracePairing k G connected nontrivial).IsSymm := sorry
-
-theorem zigzagTracePairing_nondegenerate (k : Type*) {V : Type u} [Field k] [Fintype V]
-    (G : SimpleGraph V) (connected : G.Connected) (nontrivial : 1 < Fintype.card V) :
-    (zigzagTracePairing k G connected nontrivial).Nondegenerate := sorry
-
-/-- For a connected graph with an edge, the center is spanned by `1` and one volume per vertex. -/
-theorem finrank_center_zigzagAlgebra (k : Type*) {V : Type u} [Field k] [Fintype V]
-    (G : SimpleGraph V) (connected : G.Connected) (nontrivial : 1 < Fintype.card V) :
-    Module.finrank k (Subalgebra.center k (nonisolatedZigzagQuotient k G)) =
-      Fintype.card V + 1 := sorry
-
-theorem finrank_rankOneZigzag (k : Type*) [Field k] :
-    Module.finrank k (rankOneZigzag k) = 2 := sorry
-
-/-! ## Graded Cartan matrices and ADE examples -/
-
-/-- The graded projective Cartan matrix `(1+q²)I + qA`.  Coefficients are polynomials because the
-strict zigzag algebra is concentrated in degrees `0,1,2`; the sibling Euler roadmap controls any
-Laurent or completed-series comparison. -/
-noncomputable def zigzagCartan {V : Type u} (G : SimpleGraph V) [DecidableEq V] :
-    Matrix V V (Polynomial ℤ) := by
-  classical
-  exact fun i j =>
-    if i = j then 1 + Polynomial.X ^ 2 else if G.Adj i j then Polynomial.X else 0
-
-@[simp]
-theorem zigzagCartan_apply_self {V : Type u} (G : SimpleGraph V) [DecidableEq V]
-    (i : V) :
-    zigzagCartan G i i = 1 + Polynomial.X ^ 2 := by simp [zigzagCartan]
-
-theorem zigzagCartan_apply_of_adj {V : Type u} (G : SimpleGraph V) [DecidableEq V]
-    {i j : V} (h : G.Adj i j) :
-    zigzagCartan G i j = Polynomial.X := by
-  simp [zigzagCartan, h, G.ne_of_adj h]
-
-/-- The graph read from a valid simply-laced Tau Ceti standard Cartan matrix. -/
-def dynkinGraph (t : TauCeti.DynkinType) (_valid : t.Valid) (_sl : t.IsSimplyLaced) :
-    SimpleGraph (Fin t.rank) where
-  Adj i j := t.cartanMatrix i j = -1 ∧ t.cartanMatrix j i = -1
-  symm := ⟨fun _ _ h => ⟨h.2, h.1⟩⟩
-  loopless := ⟨fun i h => by
-    have hi := TauCeti.DynkinType.cartanMatrix_apply_same t i
-    omega⟩
-
-instance dynkinGraphDecidableRel (t : TauCeti.DynkinType) (valid : t.Valid)
-    (sl : t.IsSimplyLaced) : DecidableRel (dynkinGraph t valid sl).Adj := by
-  intro i j
-  change Decidable (t.cartanMatrix i j = -1 ∧ t.cartanMatrix j i = -1)
-  infer_instance
-
-abbrev a2Graph := dynkinGraph (.A 2) (by simp) (by simp)
-abbrev d4Graph := dynkinGraph (.D 4) (by simp) (by simp)
-abbrev e8Graph := dynkinGraph .E8 (by simp) (by simp)
-
-/-- The `A₂` public algebra agrees with the radical-cube-zero relation quotient. -/
-noncomputable def zigzagAlgebraEquiv_a2 (k : Type*) [Field k] :
-    zigzagAlgebra k a2Graph ≃ₐ[k] nonisolatedZigzagQuotient k a2Graph := sorry
-
-/-- A directed edge list for the affine `E₈` tree `T_{2,3,6}`.  Vertex `0` is trivalent; the arms
-have edge lengths `1`, `2`, and `5`.  `SimpleGraph.fromRel` symmetrizes this list. -/
-def affineE8ArmRel (i j : Fin 9) : Prop :=
-  (i.1, j.1) = (0, 1) ∨ (i.1, j.1) = (0, 2) ∨ (i.1, j.1) = (2, 3) ∨
-  (i.1, j.1) = (0, 4) ∨ (i.1, j.1) = (4, 5) ∨ (i.1, j.1) = (5, 6) ∨
-  (i.1, j.1) = (6, 7) ∨ (i.1, j.1) = (7, 8)
-
-instance : DecidableRel affineE8ArmRel := by
-  intro i j
-  unfold affineE8ArmRel
-  infer_instance
-
-abbrev affineE8Graph : SimpleGraph (Fin 9) := SimpleGraph.fromRel affineE8ArmRel
-
-noncomputable def a2GradedCartan : Matrix (Fin 2) (Fin 2) (Polynomial ℤ) :=
-  letI := dynkinGraphDecidableRel (.A 2) (by simp) (by simp)
-  zigzagCartan a2Graph
-
-noncomputable def d4GradedCartan : Matrix (Fin 4) (Fin 4) (Polynomial ℤ) :=
-  letI := dynkinGraphDecidableRel (.D 4) (by simp) (by simp)
-  zigzagCartan d4Graph
-
-noncomputable def e8GradedCartan : Matrix (Fin 8) (Fin 8) (Polynomial ℤ) :=
-  letI := dynkinGraphDecidableRel .E8 (by simp) (by simp)
-  zigzagCartan e8Graph
-
-noncomputable def affineE8GradedCartan : Matrix (Fin 9) (Fin 9) (Polynomial ℤ) :=
-  zigzagCartan affineE8Graph
-
-/-- The actual degree-`d` linear maps from `P_i` to `P_j`; its implementation uses the corner
-`e_i Z_d e_j`, with handedness fixed by the left-projective convention. -/
-noncomputable def gradedProjectiveHom (k : Type*) {V : Type u} [Field k] [Fintype V]
-    (G : SimpleGraph V) (i j : V) (d : ℕ) : Submodule k (zigzagAlgebra k G) := sorry
-
-/-- The Cartan polynomial is derived from the actual homogeneous projective Hom spaces. -/
-theorem qHom_projective_eq_zigzagCartan (k : Type*) {V : Type u} [Field k] [Fintype V]
-    (G : SimpleGraph V) [DecidableEq V] [DecidableRel G.Adj] (connected : G.Connected)
-    (nontrivial : 1 < Fintype.card V) (i j : V) :
-    (∑ d ∈ Finset.range 3,
-      (Module.finrank k (gradedProjectiveHom k G i j d) : Polynomial ℤ) * Polynomial.X ^ d) =
-      zigzagCartan G i j := sorry
-
-theorem d4Graph_edgeFinset_card : d4Graph.edgeFinset.card = 3 := by decide
-
-theorem e8Graph_edgeFinset_card : e8Graph.edgeFinset.card = 7 := by decide
-
-theorem affineE8Graph_edgeFinset_card : affineE8Graph.edgeFinset.card = 8 := by decide
-
-theorem zigzagDimension_d4 : 2 * 4 + 2 * d4Graph.edgeFinset.card = 14 := by
-  rw [d4Graph_edgeFinset_card]
-
-theorem zigzagDimension_e8 : 2 * 8 + 2 * e8Graph.edgeFinset.card = 30 := by
-  rw [e8Graph_edgeFinset_card]
-
-theorem zigzagDimension_affineE8 : 2 * 9 + 2 * affineE8Graph.edgeFinset.card = 34 := by
-  rw [affineE8Graph_edgeFinset_card]
-
-/-! ## Additive preprojective and signless-dual relation quotients -/
-
-/-- The global preprojective commutator on `Quiver.Symmetrify Q`.  If `a : i ⟶ j`, `a.toPos` is
-the original arrow and `a.toNeg : j ⟶ i` its formal reverse.  Because Tau Ceti writes the later
-path factor first, the two displayed products land in the target and source vertex corners,
-respectively. -/
-noncomputable def preprojectiveRelator (k : Type*) (Q : Type u) [Field k] [Quiver Q]
-    [Fintype Q] [∀ i j : Q, Fintype (i ⟶ j)] :
-    TauCeti.pathAlgebra k (Quiver.Symmetrify Q) :=
-  ∑ i : Q, ∑ j : Q, ∑ a : (i ⟶ j),
-    (TauCeti.PathAlgebra.ofArrow a.toPos * TauCeti.PathAlgebra.ofArrow a.toNeg -
-      TauCeti.PathAlgebra.ofArrow a.toNeg * TauCeti.PathAlgebra.ofArrow a.toPos)
-
-noncomputable def preprojectiveIdeal (k : Type*) (Q : Type u) [Field k] [Quiver Q]
-    [Fintype Q] [∀ i j : Q, Fintype (i ⟶ j)] :
-    TwoSidedIdeal (TauCeti.pathAlgebra k (Quiver.Symmetrify Q)) :=
-  TwoSidedIdeal.span ({preprojectiveRelator k Q} : Set _)
-
-/-- The additive preprojective algebra of an oriented finite quiver.  Orientation-independence is
-an algebra equivalence theorem, not built into this type synonym. -/
-noncomputable abbrev preprojectiveAlgebra (k : Type*) (Q : Type u) [Field k] [Quiver Q]
-    [Fintype Q] [∀ i j : Q, Fintype (i ⟶ j)] : Type _ :=
-  TauCeti.pathAlgebra k (Quiver.Symmetrify Q) ⧸ (preprojectiveIdeal k Q).asIdeal
-
-/-- The signless local quadratic-dual relation at `v`: the sum of all length-two backtracks based
-at `v`. -/
-noncomputable def signlessRelation (k : Type*) {V : Type u} [Field k] [Fintype V]
-    (G : SimpleGraph V) [DecidableRel G.Adj] (v : V) :
-    TauCeti.pathAlgebra k (DoubledQuiver G) :=
-  ∑ w : V, if h : G.Adj v w then
-    TauCeti.PathAlgebra.ofArrow
-        (show doubledVertex G w ⟶ doubledVertex G v from ⟨h.symm⟩) *
-      TauCeti.PathAlgebra.ofArrow
-        (show doubledVertex G v ⟶ doubledVertex G w from ⟨h⟩)
-  else 0
-
-noncomputable def signlessQuadraticDualIdeal (k : Type*) {V : Type u} [Field k] [Fintype V]
-    (G : SimpleGraph V) [DecidableRel G.Adj] :
-    TwoSidedIdeal (TauCeti.pathAlgebra k (DoubledQuiver G)) :=
-  TwoSidedIdeal.span (Set.range (signlessRelation k G))
-
-noncomputable abbrev signlessQuadraticDual (k : Type*) {V : Type u} [Field k] [Fintype V]
-    (G : SimpleGraph V) [DecidableRel G.Adj] : Type _ :=
-  TauCeti.pathAlgebra k (DoubledQuiver G) ⧸ (signlessQuadraticDualIdeal k G).asIdeal
-
-/-- A bipartition produces an oriented quiver whose symmetrification is the doubled graph. -/
-noncomputable def bipartiteOrientation {V : Type u} [Fintype V] (G : SimpleGraph V)
-    (bipartite : G.IsBipartite) : Type u := sorry
-
-noncomputable instance bipartiteOrientationQuiver {V : Type u} [Fintype V]
-    (G : SimpleGraph V) (bipartite : G.IsBipartite) : Quiver (bipartiteOrientation G bipartite) :=
-  sorry
-
-/-- A bipartite sign choice identifies the signless quadratic dual with the signed
-preprojective presentation after the stated arrow rescaling. -/
-noncomputable def signlessQuadraticDualEquivPreprojective (k : Type*) {V : Type u} [Field k]
-    [Fintype V] (G : SimpleGraph V) [DecidableRel G.Adj] (bipartite : G.IsBipartite)
-    [Fintype (bipartiteOrientation G bipartite)]
-    [∀ i j : bipartiteOrientation G bipartite, Fintype (i ⟶ j)] :
-    signlessQuadraticDual k G ≃ₐ[k] preprojectiveAlgebra k (bipartiteOrientation G bipartite) :=
-  sorry
-
-/-! ## Affine graph recognition -/
-
-section AffineGraphRecognition
-
-/-! The affine types and graphs are the native ones. A nonnegative integral
-position with no precarious vertex is an actual positive-additive function;
-connectedness and the simple-graph restriction are explicit. -/
-
-/-- Connected finite simple graphs with nonzero nonnegative null positions
-are exactly the graphical members of the native affine ADE list. -/
+/-! ## Layer 0: affine simply-laced diagrams -/
+
+/-- **Affine graph recognition.** A connected finite simple graph carries a nonzero
+nonnegative integral vector `a` with `Σ_{j ∼ i} a_j = 2 a_i` at every vertex, that is a nonzero
+nonnegative integral null vector of `2I - A`, exactly when it is isomorphic to the graph of a
+unique valid graphical affine simply-laced diagram: a cycle `Ã_n` with `n ≥ 2`, `D̃_n` with
+`n ≥ 4`, or `Ẽ₆, Ẽ₇, Ẽ₈`. (Etingof et al., *Introduction to representation theory*, Problem 5.3,
+for the semidefinite form of the classification.) -/
 theorem affine_graph_recognition {V : Type u} [Fintype V] [DecidableEq V]
     (G : SimpleGraph V) [DecidableRel G.Adj] (hG : G.Connected) :
     (∃ a : V → ℕ, a ≠ 0 ∧
@@ -361,6 +65,75 @@ theorem affine_graph_recognition {V : Type u} [Fintype V] [DecidableEq V]
       t.Valid ∧ t.IsGraphical ∧ Nonempty (G ≃g t.graph) := by
   sorry
 
-end AffineGraphRecognition
+/-! ## Layer 7: cyclic quotients and intrinsic formality -/
+
+/-- The primes that are bad for a simply-laced finite type in the sense of Liu--Wang,
+Theorem 1.1, and Schedler, Theorem 13.1.1: `2` for `D_n`, `2` and `3` for `E₆` and `E₇`, and
+`2`, `3` and `5` for `E₈`; type `A` has none. The argument `0` (characteristic zero) is never
+bad. -/
+def IsBadPrime : TauCeti.DynkinType → ℕ → Prop
+  | .D _, p => p = 2
+  | .E6, p => p = 2 ∨ p = 3
+  | .E7, p => p = 2 ∨ p = 3
+  | .E8, p => p = 2 ∨ p = 3 ∨ p = 5
+  | .A _, _ => False
+  | .B _, _ => False
+  | .C _, _ => False
+  | .F4, _ => False
+  | .G2, _ => False
+
+/-- **The positive-degree cyclic quotient of a preprojective algebra.** Let `o` orient a finite
+connected simple graph `G` and let `Π = Π_k(Q_o)` be the additive preprojective algebra over a
+field `k`, graded by path length. Every element of degree at least `3` lies in the `k`-span of
+the commutators `xy - yx`, that is `(Π/[Π,Π])_d = 0` for all `d ≥ 3`, exactly when `G` is a
+finite simply-laced Dynkin graph and the characteristic of `k` is not bad for its type
+(Schedler, Theorem 13.1.1, with base change from `ℤ`; Liu--Wang, Corollary 3.4). -/
+theorem preprojective_cyclicQuotient_vanishes_iff (k : Type*) [Field k] {V : Type u}
+    [Fintype V] (G : SimpleGraph V) (hG : G.Connected) (o : TauCeti.DoubledQuiver.Orientation G) :
+    (∀ d : ℕ, 3 ≤ d →
+      TauCeti.preprojectiveGrade k (TauCeti.DoubledQuiver.OrientedQuiver G o) d ≤
+        Submodule.span k
+          {z : TauCeti.preprojectiveAlgebra k (TauCeti.DoubledQuiver.OrientedQuiver G o) |
+            ∃ x y, z = x * y - y * x}) ↔
+    ∃ t : TauCeti.DynkinType, t.Valid ∧ t.IsSimplyLaced ∧
+      Nonempty (G ≃g TauCeti.diagramGraph t.cartanMatrix) ∧ ¬ IsBadPrime t (ringChar k) := by
+  sorry
+
+/-- A **strictly unital minimal `A∞` deformation** of the path-graded zigzag algebra
+`Z = TauCeti.zigzagAlgebra k G` (Liu--Wang, Definition 4.1): an `A∞` structure on `Z` whose
+grading is path length (vertices in degree `0`, arrows in `1`, volumes in `2`), whose `m₁`
+vanishes, whose `m₂` is the product of `Z`, and for which `1` is a strict unit. -/
+structure IsZigzagAInfinityDeformation (k : Type*) [Field k] {V : Type u} [Finite V]
+    (G : SimpleGraph V) (𝒜 : TauCeti.AInfinityAlgebra k (TauCeti.zigzagAlgebra k G)) :
+    Prop where
+  /-- The grading is the path-length grading of the zigzag algebra. -/
+  grading_piece : 𝒜.grading.piece = TauCeti.zigzagAlgebraIntegerGrade k G
+  /-- The deformation is minimal: `m₁ = 0`. -/
+  isMinimal : 𝒜.IsMinimal
+  /-- The binary operation is the product of the zigzag algebra. -/
+  m_two : ∀ x : Fin 2 → TauCeti.zigzagAlgebra k G, 𝒜.m 2 x = x 0 * x 1
+  /-- The unit of the zigzag algebra is a strict unit. -/
+  strictUnit : 𝒜.StrictUnit 1
+
+/-- The path-graded zigzag algebra of `G` is **intrinsically formal** when every strictly unital
+minimal `A∞` deformation of it is formal; since an `A∞` quasi-isomorphism between minimal
+algebras is an isomorphism (`TauCeti.AInfinityHom.isQuasiIso_iff_isIso`), this says every such
+deformation is `A∞`-isomorphic to the strict algebra. -/
+def IsIntrinsicallyFormal (k : Type*) [Field k] {V : Type u} [Finite V]
+    (G : SimpleGraph V) : Prop :=
+  ∀ 𝒜 : TauCeti.AInfinityAlgebra k (TauCeti.zigzagAlgebra k G),
+    IsZigzagAInfinityDeformation k G 𝒜 → 𝒜.IsFormal
+
+/-- **Liu--Wang's intrinsic-formality theorem.** For a finite tree `G` and a field `k`, the
+path-graded zigzag algebra of `G` (dual numbers with generator in degree `2` for `A₁`, the
+radical-cube-zero algebra for `A₂`) is intrinsically formal exactly when `G` is a finite
+simply-laced Dynkin graph and the characteristic of `k` is not bad for its type
+(Liu--Wang, Theorem 1.1). -/
+theorem isIntrinsicallyFormal_zigzagAlgebra_iff (k : Type*) [Field k] {V : Type u}
+    [Fintype V] (G : SimpleGraph V) (hG : G.IsTree) :
+    IsIntrinsicallyFormal k G ↔
+    ∃ t : TauCeti.DynkinType, t.Valid ∧ t.IsSimplyLaced ∧
+      Nonempty (G ≃g TauCeti.diagramGraph t.cartanMatrix) ∧ ¬ IsBadPrime t (ringChar k) := by
+  sorry
 
 end TauCetiRoadmap.ZigzagPreprojective

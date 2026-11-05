@@ -125,17 +125,36 @@ one; it does not erase these types from the formalization.
 
 ### Downstream skew-group convention
 
-For a binary finite subgroup `Γ ⊂ SU(2)`, the exterior skew group algebra
-`Λ(C²) ⋊ Γ` is Morita equivalent to the **ordinary zigzag algebra of the affine ADE McKay graph**.
-For a nonbinary subgroup, necessarily an odd cyclic group, the basic algebra has an odd-cycle
-skew-zigzag relation in which the two backtracks sum to zero.  It is not the ordinary odd-cycle
-zigzag algebra over characteristic zero.  The algebraic McKay roadmap therefore consumes:
+For a finite subgroup `Γ ⊂ SU(2)` containing `−I` whose McKay graph is a simple graph (every
+such `Γ` except `C₂ = {±I}`), the exterior skew group algebra `Λ(C²) ⋊ Γ` is Morita equivalent
+to the **ordinary zigzag algebra of the affine ADE McKay graph**.  For an odd cyclic subgroup of
+order at least `3`, the basic algebra has an odd-cycle skew-zigzag relation in which the two
+backtracks sum to zero.  It is not the ordinary odd-cycle zigzag algebra over characteristic zero.
+The algebraic McKay roadmap therefore consumes:
 
-- ordinary affine zigzag for binary groups; and
-- the explicitly parameterized skew-zigzag algebra for odd cyclic groups.
+- the ordinary zigzag algebra of the McKay graph when `−I ∈ Γ` and the McKay graph is simple; and
+- the explicitly parameterized skew-zigzag algebra for odd cyclic groups of order at least `3`.
 
-It does not use “affine zigzag” as a name that hides this distinction.  In characteristic two the
-sign distinction collapses, and that specialization is stated separately.
+The two remaining groups are not passed through a simple-graph zigzag algebra, and their actual
+presentations belong to the McKay roadmap (McKaySkewGroup §4.1–4.2).  For `Γ = C₂` the McKay
+diagram is `Ã₁`, two vertices joined by a double edge: `Λ(C²) ⋊ C₂` has dimension `8` with two
+degree-one arrows in each direction, while the zigzag algebra of the one-edge simple graph has
+dimension `2·2 + 2·1 = 6`.  For `Γ = 1`, `Λ(C²)` has dimension `4`, while the `A₁` zigzag algebra
+`k[x]/(x²)` has dimension `2`.  The convention does not use “affine zigzag” as a name that hides
+these distinctions.  In characteristic two the sign distinction collapses, and that specialization
+is stated separately.
+
+**Checks.**
+
+- `Γ = C₄` (contains `−I`): the McKay graph is the `4`-cycle, and both `Λ(C²) ⋊ C₄` and the
+  zigzag algebra of the `4`-cycle have dimension `4·4 = 2·4 + 2·4 = 16`; a convention that sent
+  even cyclic groups to the skew class would change the backtrack sign but not this count, so the
+  sign is pinned by the rescaling along a two-colouring.
+- `Γ = C₂`: the multiplicity matrix of `V ⊗ −` on the two simples is `[[0,2],[2,0]]`, not the
+  adjacency matrix `[[0,1],[1,0]]` of a simple graph; the dimensions `8 ≠ 6` above exclude the
+  one-edge zigzag algebra.
+- `Γ = 1`: the multiplicity matrix is `[2]`, a loop of multiplicity two, so no simple graph is
+  attached; the dimensions `4 ≠ 2` exclude the `A₁` convention.
 
 ## Existing foundations and formalization boundary
 
@@ -176,7 +195,24 @@ The landed declarations include:
   finite-node deletion and singular-semidefinite comparisons; and
 - native `SimpleGraph.graphCartanMatrix` and the positive-additive-function energy and
   kernel theorems consumed in Layer0. Extend these same APIs with the coefficient-game
-  adapters and affine classification below; do not introduce a second affine family.
+  adapters and affine classification below; do not introduce a second affine family;
+- the native implementations of the strict algebras of Layers 1--5, which the headline
+  statements consume rather than redeclare: `TauCeti.DoubledQuiver`, `TauCeti.nonisolatedZigzagQuotient`,
+  the componentwise public algebra `TauCeti.zigzagAlgebra` (dual numbers on singleton
+  components) with its path-length pieces `TauCeti.zigzagAlgebraGrade`,
+  `TauCeti.zigzagAlgebraIntegerGrade` and `TauCeti.zigzagAlgebraGradedAlgebra`
+  (`TauCeti/RepresentationTheory/Quiver/Zigzag/Componentwise/Basic.lean` and `Grading.lean`),
+  the orientations `TauCeti.DoubledQuiver.Orientation` and their quivers
+  `TauCeti.DoubledQuiver.OrientedQuiver` (`Zigzag/Orientation.lean`), the additive preprojective
+  algebra `TauCeti.preprojectiveAlgebra` and its path-length pieces `TauCeti.preprojectiveGrade`
+  (`Preprojective/Basic.lean`, `Preprojective/Grading.lean`), and the finite diagram graph
+  `TauCeti.diagramGraph` of a Cartan matrix (`LinearAlgebra/RootSystem/FiniteType/Diagram.lean`);
+- the `A∞` carrier `TauCeti.AInfinityAlgebra` (unsuspended operations `m n` of degree `2 - n`,
+  `Algebra/Homology/AInfinity/Algebra.lean`), its predicates `IsMinimal` (`m₁ = 0`),
+  `StrictUnit` (degree-zero two-sided unit for `m₂` killing every other operation) and
+  `IsFormal` (an `A∞` quasi-isomorphism to the cohomology algebra with `m₂` only), and
+  `TauCeti.AInfinityHom.isQuasiIso_iff_isIso` (a quasi-isomorphism of minimal algebras is an
+  isomorphism), from `Algebra/Minimal.lean`, `Algebra/Unit.lean` and `Algebra/Formal.lean`.
 
 The [quiver-representation roadmap](../RepresentationTheory/QuiverRepresentations/README.md)
 owns general path algebras, projectives, bound quivers, and Ringel forms.  This roadmap adds the
@@ -300,8 +336,18 @@ without a Seidel-style twist, and are strictly unital in the deformation stateme
   Ã₁ retains its separate multiplicity-two matrix and is excluded from
   this simple-graph classification; a loop is never a simple-graph edge.
 
-  `Suggested.lean` pins the recognition theorem on the native graph and
-  affine-type carriers.
+  `affine_graph_recognition` states the recognition theorem on the native
+  graph and affine-type carriers: for a connected finite simple graph G,
+  a nonzero `a : V → ℕ` with `Σ_(j∼i) a_j = 2a_i` at every vertex exists
+  iff `G ≃g t.graph` for a unique t with `t.Valid` and `t.IsGraphical`.
+  The semidefinite form of this classification is Etingof et al.,
+  *Introduction to representation theory*, Problem 5.3(c)–(g), pp. 79–80
+  (arXiv v5); the null-vector and stuck-position route above is this
+  roadmap's own and uses only the listed native theorems.
+  *Needs:* Tau Ceti `TauCeti.AffineDynkinType` (`Basic`, `Star`,
+  `PositiveSemidefinite`), `SimpleGraph.graphCartanMatrix` and its
+  energy and kernel theorems; Mathlib `SimpleGraph.Connected`,
+  `SimpleGraph.IsTree`, graph isomorphisms and `Nat.gcd`.
 
   Compare with RootSystems Layer5's independently supplied positive-definite
   finite Cartan matrices: a nonzero stuck position there has a precarious
@@ -311,6 +357,32 @@ without a Seidel-style twist, and are strictly unital in the deformation stateme
   The affine graph construction, additive-function criterion and completeness
   proof above use finite graph and matrix theory, before any later quiver
   representation, Lie-group, compact-group or highest-root application.
+
+  **Checks.**
+
+  - Reflection on the one-edge graph `A₂` at `a = (1,0)`: `(s_0 a)_0 = 0 − 1 = −1`, so the
+    reflection leaves `ℕ^V`; `(s_1 a)_1 = 1 > 0 = a_1`, so the position is not stuck, matching
+    `Ca = (2,−1) ≱ 0`. A definition that clipped reflected coefficients at zero would hide the
+    first value.
+  - The triangle at `a = (1,1,1)`: every reflected coefficient is `1 + 1 − 1 = 1 = a_i` and
+    `Ca = 0`, so the position is stuck with no precarious vertex, and the triangle is `Ã₂`. The
+    vector `(2,2,2)` is also null but has gcd `2`; only `(1,1,1)` is the primitive null vector.
+  - Finite `D₄` at `a = (2,1,1,1)` (centre first): the reflected centre coefficient is
+    `3 − 2 = 1 < 2` and each leaf gives `2 − 1 = 1`; `Ca = (1,0,0,0)`, so the position is stuck
+    and the centre is precarious. This is the finite-type behaviour of the RootSystems
+    comparison: no nonzero nonnegative null vector exists.
+  - `D̃₄` (four-leaf star) at `a = (2,1,1,1,1)`: `Ca = (4 − 4, 0,0,0,0) = 0`; the gcd is `1` and
+    every leaf has value `1`, agreeing with the native marks normalised by the value `1` at the
+    affine node.
+  - `Ẽ₈ = T_{2,3,6}` with arms of edge lengths `1,2,5`: the null vector has centre `6`, arms
+    `3`; `4,2`; `5,4,3,2,1`, and the centre equation is `3 + 4 + 5 = 12 = 2·6`; the arm equation
+    `1/2 + 1/3 + 1/6 = 1` holds, while `(1,2,4)` gives `1/2 + 1/3 + 1/5 > 1`, the finite `E₈`.
+  - Paths have no positive additive function: on the path with vertices `1,…,n` an endpoint
+    forces `a_2 = 2a_1` and then `a_j = j·a_1`, and the other endpoint forces
+    `(n−1)a_1 = 2n·a_1`, so `a = 0`; on the one-vertex graph the condition reads `0 = 2a`.
+  - Proper extension: the four-leaf star with one extra vertex attached to a leaf is a tree with
+    a `D̃₄` copy and a vertex outside it; any `a ≥ 0` with `C_H a ≥ 0` is zero, so the graph is
+    not affine although it contains an affine subgraph.
 
 
 - Define `DoubledQuiver G` for a simple graph and prove the reverse-arrow involution, finiteness of
@@ -335,16 +407,17 @@ without a Seidel-style twist, and are strictly unital in the deformation stateme
   is the component algebra only when the component has an edge; do not expose it as the public
   algebra of an isolated vertex.
 - Construct the `A₁` dual-numbers presentation and the `A₂` radical-cube-zero presentation and
-  define the uniform public `ZigzagAlgebra` as the finite product of the algebras of connected
+  define the uniform public `TauCeti.zigzagAlgebra` as the finite product of the algebras of connected
   components, using the dual numbers precisely on singleton components.  Prove the comparison
   with the relation quotient on every connected component with an edge, without claiming a false
   quadratic presentation.
 - For a graph with cyclically ordered or scalar-labelled incident edges, define a skew-zigzag
   algebra by nonzero ratios between backtracks.  State the cocycle/gauge equivalence relation on
-  parameters.  For a connected graph of the cardinality required by Couture, over a field
-  containing square roots, identify **vertex-fixing graded** isomorphism classes with
-  `H¹(G,kˣ)`; identify arbitrary graded algebra isomorphism classes only after quotienting that
-  set by `Aut(G)`.  Prove that every skew-zigzag algebra on a tree is isomorphic to the ordinary
+  parameters.  For a connected graph with at least three vertices, over a field containing
+  square roots, identify **vertex-fixing graded** isomorphism classes with `H¹(G,kˣ)` (Couture,
+  Theorem 4.8, using Lemma 4.3 and Proposition 4.4, which assume at least three vertices);
+  identify arbitrary graded algebra isomorphism classes only after quotienting that set by
+  `Aut(G)` (Couture, Theorem 4.12).  Prove that every skew-zigzag algebra on a tree is isomorphic to the ordinary
   one.
 - Work out cycles explicitly.  On an even cycle the exterior-skew relation is gauge-equivalent to
   the ordinary zigzag relation; on an odd cycle over characteristic different from two it is the
@@ -421,8 +494,9 @@ later-factor-first multiplication.
   independence under the explicit gauge change.  Do not replace this proof by the assertion that
   the defining sum “obviously” has no orientation.
 - For finite ADE graphs prove finite-dimensionality and self-injectivity of `Π`; for connected
-  non-Dynkin graphs, including affine ADE, prove infinite-dimensionality and the relevant Hilbert
-  series/Koszul theorem.  State the hypotheses excluding loops or handle looped quivers in a
+  non-Dynkin graphs, including affine ADE, prove infinite-dimensionality, the matrix Hilbert
+  series `h_Π(t) = (1 − C t + t²)⁻¹` with `C` the adjacency matrix of the doubled quiver, and
+  Koszulity, over every field (Etingof--Eu, Theorem 3.4.2).  State the hypotheses excluding loops or handle looped quivers in a
   separate theorem.
 - Compare the preprojective relation with the moment-map commutator formula only algebraically;
   no quiver variety is constructed.
@@ -491,12 +565,86 @@ Let `Γ` be a finite tree and choose a source--sink orientation `Q`.
   duality to zigzag Hochschild cohomology.
 - Instantiate the sibling roadmap's definitions of a strictly unital minimal `A∞` deformation
   (`μ₁=0` and fixed `μ₂`), gauge/`A∞`-isomorphism, obstruction classes, and its criterion that
-  vanishing of `HH^{2,q}` for positive `q` implies intrinsic formality.  This roadmap adds the
-  zigzag-specific Hochschild comparison; it does not redevelop general deformation theory.
+  vanishing of Hochschild cohomology in the relevant degrees implies intrinsic formality
+  (DGAInfinity Layer 8; Liu--Wang, Theorem 4.2).  The sibling indexes the criterion as
+  `HH^{n,2-n}(H,H) = 0` for `n ≥ 3`: Hochschild arity `n`, internal degree `2 - n`.  Prove the
+  adapter to the local bigraded index: when every element of `H` of path degree `i` has bidegree
+  `(i,-i)`, a cochain `H^{⊗n} → H` in Liu--Wang's `C^{p,q}` has internal degree `p - n` and Adams
+  degree `q = -(p - n)`, so `C^{2,q}` consists exactly of arity `n = q + 2` cochains of internal
+  degree `2 - n`, and `HH^{2,q}` for `q > 0` is the sibling's `HH^{n,2-n}` for `n = q + 2 ≥ 3`.
+  This roadmap adds the zigzag-specific Hochschild comparison; it does not redevelop general
+  deformation theory.
+- **Positive-degree cyclic quotient.** Let `o` orient a finite connected simple graph `G` and let
+  `Π = Π_k(Q_o)` over a field `k`, graded by path length.  Prove
+  `preprojective_cyclicQuotient_vanishes_iff`: every element of degree `d ≥ 3` lies in the
+  `k`-span of the commutators `xy - yx`, that is `(Π/[Π,Π])_d = 0` for all `d ≥ 3`, exactly when
+  `G` is isomorphic to `TauCeti.diagramGraph t.cartanMatrix` for a valid simply-laced
+  `TauCeti.DynkinType` `t` and `ringChar k` is not a bad prime for `t` (`IsBadPrime`).  Route:
+  `Π_k(Q) = Π_ℤ(Q) ⊗ k` and right exactness give `(Π_k/[Π_k,Π_k]) = Λ_Q ⊗ k` with
+  `Λ_Q = Π_ℤ/[Π_ℤ,Π_ℤ]`; Schedler, Theorem 13.1.1 (arXiv v3, p. 62), computes the positive part
+  of `Λ_Q` for Dynkin `Q` as a finite group whose nonzero graded pieces are `ℤ/2` (type `D`,
+  degrees `m ≡ 0 mod 4`, `m ≤ 2(n-2)`), `ℤ/2,ℤ/3` (`E₆`, `E₇`) and `ℤ/2,ℤ/3,ℤ/5` (`E₈`), and
+  zero for type `A`, so `Λ_Q ⊗ k` vanishes in positive degrees exactly away from the listed
+  primes; for an extended Dynkin `Q̃` the same theorem splits `Λ_{Q̃}` with a free summand
+  `i₀Π_{Q̃}i₀` of infinite rank.  A connected non-Dynkin `G` contains an affine subgraph `G'`
+  (a cycle, a four-leaf star, a double fork or `T_{3,3,3}`, `T_{2,4,4}`, `T_{2,3,6}`, by the
+  Layer 0 classification), and killing the vertices and arrows outside `G'` sends preprojective
+  relations to preprojective relations, giving a graded surjection `Λ_Q ⊗ k ↠ Λ_{Q'} ⊗ k` onto an
+  infinite-dimensional positive part (Liu--Wang, Corollary 3.4).  The statement is for oriented
+  simple graphs, the input of this roadmap; Liu--Wang state it for every finite connected quiver.
+  Through the Hochschild comparison above (`HH^{2,q}(Π₂(Q)) ≅ (Π/[Π,Π])_{q+2}`, Liu--Wang,
+  Proposition 3.2) this is the vanishing criterion `HH^{2,q} = 0` for all `q > 0`.
+  *Needs:* Tau Ceti `TauCeti.preprojectiveAlgebra`, `TauCeti.preprojectiveGrade`, the base-change
+  and orientation-independence results of Layer 4, `TauCeti.diagramGraph`, Layer 0 (affine
+  subgraphs of non-Dynkin graphs).
+- Define `IsBadPrime t p` for a finite Cartan type: `p = 2` for `D_n`; `p ∈ {2,3}` for `E₆` and
+  `E₇`; `p ∈ {2,3,5}` for `E₈`; never for type `A` (and never for the non-simply-laced types,
+  which do not occur in the statements).  The argument is `ringChar k`, so characteristic zero is
+  never bad.
+  - API: `IsBadPrime t 0` is false for every `t`; `IsBadPrime (A n) p` is false for all `p`; for
+    `t ∈ {D_n, E₆, E₇, E₈}` and a prime `p ≥ 7`, `IsBadPrime t p` is false.
+  - **Checks.**
+    - `D₄` in degree `4`: with centre `0` and leaves `1,2,3`, the cyclic classes are the walks
+      `x_{ij}` through leaves `i ≠ j`, while a walk returning through the same leaf contains the
+      leaf relation and vanishes; the centre relation multiplied by each leaf backtrack gives
+      `x₁₂ + x₁₃ = x₁₂ + x₂₃ = x₁₃ + x₂₃ = 0` up to signs.  The relation matrix has determinant
+      `±2`: rank `3` over `ℚ` or `𝔽₃`, rank `2` over `𝔽₂`, so `(Π/[Π,Π])₄` has dimension `0`,
+      `0`, `1`.  A bad-prime list omitting `2` for type `D` contradicts this.
+    - `A₂` over `𝔽₂`: `Π` vanishes in degrees `≥ 2`, so the cyclic quotient vanishes in every
+      characteristic; a list making `2` bad for type `A` is refuted.
+    - `E₆` over `𝔽₃`: Schedler's list gives `(Λ_{E₆})₆ = ℤ/3`, so `(Π/[Π,Π])₆ ≠ 0` over `𝔽₃`,
+      while `(Λ_{E₆})_m ⊗ 𝔽₅ = 0` for all `m ≥ 1`; `5` is bad only for `E₈`.
+- Define a **strictly unital minimal `A∞` deformation** of `Z(Γ)` (`IsZigzagAInfinityDeformation`)
+  as an `A∞` structure on `TauCeti.zigzagAlgebra k G` whose grading is
+  `TauCeti.zigzagAlgebraIntegerGrade k G`, which is minimal, whose `m₂` is the product, and for
+  which `1` is a strict unit (Liu--Wang, Definition 4.1), and call `Z(Γ)` **intrinsically formal**
+  (`IsIntrinsicallyFormal`) when every such deformation `IsFormal`.  Since a quasi-isomorphism of
+  minimal `A∞` algebras is an isomorphism, `IsFormal` for a minimal deformation is
+  `A∞`-isomorphism with the strict algebra.  Over a field every homologically unital minimal
+  structure is isomorphic to a strictly unital one, so the strict-unit restriction does not change
+  the notion.
+  - API: the strict algebra (all `m_n = 0` for `n ≠ 2`, from the zero-differential DG algebra)
+    satisfies `IsZigzagAInfinityDeformation` and `IsFormal`; a deformation with `m_n = 0` for all
+    `n ≥ 3` is formal; the class of deformations is invariant under graph isomorphism.
+  - **Checks.**
+    - `A₁`: on `k[x]/(x²)` with `deg x = 2`, `m_n(x,…,x)` would have degree `2n + 2 − n = n + 2`,
+      which is neither `0` nor `2` for `n ≥ 3`, and the strict unit kills inputs `1`; so every
+      deformation has `m_n = 0` for `n ≥ 3` and `A₁` is intrinsically formal in every
+      characteristic.  Without the strict-unit condition, `m₄(1,1,1,x)` of degree `0` would be
+      allowed.
+    - Extended `D₄`: a linear combination of quartic loop operations of closed walks of length
+      four (`m₂` the product, `m₄` the loop operation, all other `m_n = 0`) is a deformation in
+      this sense, with `m₄` of internal degree `−2` sending four arrows to a volume.  Here the
+      degree-`4` cyclic part is nonzero (the centre has four neighbours), so `HH^{2,2} ≠ 0` and
+      the vanishing criterion does not apply, as the non-ADE half of the theorem below requires.
+    - The Adams grading is automatic: every element of path degree `i` has bidegree `(i,-i)`, so an
+      operation of internal degree `2 − n` has Adams degree `n − 2`; a definition imposing a
+      separate Adams condition defines the same class.
 - For a non-ADE finite tree, choose a nonzero Hochschild class, deform the differential of
   `Π₂(Q)`, and transfer along a specified contraction to obtain a nontrivial minimal `A∞`
   deformation of `Z(Γ)`.  Prove nontriviality modulo `A∞` isomorphism; merely displaying a higher
-  multiplication is insufficient.
+  multiplication is insufficient (Liu--Wang, §4.4).  The nonzero class is supplied by the
+  positive-degree cyclic quotient theorem above.
 - Work out Liu--Wang Example 4.7 for extended `D₄`: the cycle
   `β₄ α₁ β₁ α₄` gives an operation `m₄` whose only nonzero values on arrow quadruples (up to one
   common scalar) are
@@ -505,10 +653,22 @@ Let `Γ` be a finite tree and choose a source--sink orientation `Q`.
   `m₄(β₁,α₄,β₄,α₁)=β₁α₁`, and
   `m₄(α₁,β₁,α₄,β₄)=α₄β₄`; all other higher products on arrows vanish.  Verify its Stasheff
   identity and bigrading.  Treat it as a non-ADE test, not as the classification proof.
-- Prove Liu--Wang's exact theorem: for a finite tree over a field, path-graded `Z(Γ)` is
-  intrinsically formal exactly when `Γ` is ADE and the characteristic is not bad: `2` for type
-  `D`, `2` or `3` for `E₆,E₇`, and `2,3,5` for `E₈`.  Consequently, over characteristic zero it is
-  intrinsically formal exactly for finite ADE trees.
+- Prove Liu--Wang's exact theorem `isIntrinsicallyFormal_zigzagAlgebra_iff`: for a finite tree
+  `G` (`G.IsTree`) over a field `k`, path-graded `Z(Γ)` is intrinsically formal exactly when `G`
+  is isomorphic to `TauCeti.diagramGraph t.cartanMatrix` for a valid simply-laced `t` and
+  `ringChar k` is not bad for `t`: `2` for type `D`, `2` or `3` for `E₆,E₇`, and `2,3,5` for `E₈`
+  (Liu--Wang, Theorem 1.1, p. 1).  Sufficiency combines the criterion, the adapter, the derived
+  Koszul Hochschild comparison (Liu--Wang, Proposition 4.4) and the cyclic quotient theorem;
+  necessity is the nontrivial deformation of the preceding item.  Consequently, over
+  characteristic zero it is intrinsically formal exactly for finite ADE trees.
+  *Needs:* the derived Koszul dualities and Hochschild comparison above, the positive-degree
+  cyclic quotient theorem, DGAInfinity Layers 3 and 8 (transfer, Hochschild criterion), Tau Ceti
+  `TauCeti.AInfinityAlgebra` with `IsMinimal`, `StrictUnit`, `IsFormal`,
+  `TauCeti.zigzagAlgebra`, `TauCeti.zigzagAlgebraIntegerGrade`.
+
+**Dependencies.** Layer 7 uses Layer 0 (affine subgraphs of non-Dynkin graphs), Layers 1--2 (the strict algebra,
+its basis and grading), Layer 4 (preprojective algebras, orientation independence and base
+change), Layer 6 (`Π₂(Q)` and its completion), and DGAInfinity Layers 1--3, 8 and 11.
 
 The characteristic-zero conclusion is uniform across `A`, `D`, `E₆`, `E₇`, and `E₈`; the roadmap
 does not single out `E₈` as having a special ordinary zigzag formality phenomenon.
@@ -529,10 +689,31 @@ does not single out `E₈` as having a special ordinary zigzag formality phenome
   State faithfulness only in the cases supplied by a published theorem; in particular,
   Khovanov--Seidel proves faithfulness for type `A`, while the existence of the arbitrary-graph
   action does not itself imply faithfulness.
-- In a Hom-finite triangulated category with the required Serre duality/perfect pairings, and an
-  `A_m`-configuration of `n`-spherical objects -- one-dimensional total Hom for adjacent vertices
-  and vanishing total Hom for nonadjacent vertices -- construct the Seidel--Thomas evaluation-cone
-  twists and prove the corresponding type-`A_m` braid relations.
+- Work in a specified `k`-linear pretriangulated DG enhancement (DGAInfinity Layers 1 and 5:
+  chain-level `Hom` complexes, shifts, cones and the tensor action of finite-dimensional graded
+  vector spaces), or in Seidel--Thomas's concrete model of bounded-below complexes of injectives
+  (Seidel--Thomas, Definition 2.2, p. 12).  For an object `E` that is bounded and has finite
+  **total** graded `Hom` dimension from and to every object (Seidel--Thomas, Definition 2.5
+  (K1)--(K2), pp. 13--14), define the twist `T_E(F)` as the chain-level cone of the evaluation
+  `hom(E,F) ⊗ E → F`; finiteness of each single `Hom^i` is not enough, since `Hom^i = k` for
+  infinitely many `i` makes the evaluation source infinite.  Call `E` `n`-spherical for `n > 0`
+  when moreover `Hom^*(E,E) = k ⊕ k[−n]` and composition into `Hom^n(E,E) ≅ k` is a perfect
+  pairing (Definition 2.9, p. 15).  For an `A_m`-configuration of `n`-spherical objects
+  (one-dimensional total `Hom` for adjacent vertices and zero total `Hom` for nonadjacent ones),
+  prove that the twists satisfy the braid relations of `B_{m+1}` up to graded natural isomorphism
+  (Theorem 2.17, p. 18), and faithfulness only for `n ≥ 2` (Theorem 2.18, p. 19).  Cones in an
+  unenhanced triangulated category do not define a functor, so the enhancement is part of the
+  hypothesis.
+  *Needs:* DGAInfinity Layers 1, 2 and 5 (DG categories, `A∞` functors, pretriangulated
+  envelopes and cones).
+  **Checks.**
+  - Two `2`-spherical objects with one-dimensional total `Hom` between them: on the span of their
+    classes in `K₀` the twists act by `[F] ↦ [F] − χ(E,F)[E]` with `χ(E_i,E_i) = 2` and
+    `χ(E₁,E₂) = χ(E₂,E₁) = −1` up to sign, giving the matrices `A = [[−1,1],[0,1]]` and
+    `B = [[1,0],[1,−1]]`; both products `ABA` and `BAB` equal `[[0,−1],[−1,0]]`.
+  - An object with `Hom^i(E,E) = k` for every even `i ≥ 0` has finite single `Hom` spaces but
+    infinite total dimension and does not satisfy (K2).
+  - A `0`-spherical object (two-dimensional `Hom^0(E,E) = k[t]/t²`) is excluded by `n > 0`.
   Compare it with the zigzag bimodule complex only after constructing the required graded/Serre
   identification.  Do not call a projective module cohomologically spherical solely because its
   graded endomorphism algebra has two basis elements.
@@ -544,8 +725,7 @@ does not single out `E₈` as having a special ordinary zigzag formality phenome
 
 ## Named examples and acceptance criteria
 
-Every example is computed from the general definitions and also exposed through convenient named
-declarations.
+Every example is computed from the general definitions.
 
 ### `A₁` and `A₂`
 
@@ -599,11 +779,13 @@ declarations.
 - Ehrig--Tubbenhauer, [*Algebraic properties of zigzag
   algebras*](https://arxiv.org/abs/1807.11173): bases, graded Cartan matrices, symmetric Frobenius
   structure, projectives, and representation-theoretic structure.
-- Couture, [*Skew-Zigzag Algebras*](https://arxiv.org/abs/1509.08405), especially Theorems 4.8
-  and 4.12: parameter gauge equivalence, graph cohomology, and the distinction between
-  vertex-fixing and arbitrary graded algebra isomorphisms.
+- Couture, [*Skew-Zigzag Algebras*](https://arxiv.org/abs/1509.08405) (arXiv v2), Theorems 4.8
+  and 4.12, with Lemma 4.3 and Proposition 4.4 for graphs with at least three vertices: parameter
+  gauge equivalence, graph cohomology, and the distinction between vertex-fixing and arbitrary
+  graded algebra isomorphisms.
 - Etingof--Eu, [*Koszulity and the Hilbert series of preprojective
-  algebras*](https://arxiv.org/abs/math/0512287): non-Dynkin Koszulity and Hilbert series.
+  algebras*](https://arxiv.org/abs/math/0512287) (arXiv v1), Theorem 3.4.2: non-Dynkin
+  Koszulity and the Hilbert series `(1 − Ct + t²)⁻¹` over every field.
 - Crawley-Boevey, [*Quiver algebras, weighted projective lines, and the Deligne--Simpson
   problem*](https://www.mathunion.org/fileadmin/ICM/Proceedings/ICM2006.2/ICM2006.2.ocr.pdf):
   additive/deformed preprojective conventions and orientation independence.
@@ -613,17 +795,20 @@ declarations.
 - Keller, [*Deformed Calabi--Yau completions*](https://arxiv.org/abs/0908.3499): derived
   Calabi--Yau completions and the 3-dimensional Ginzburg construction.
 - Liu--Wang, [*A-infinity deformations of zigzag algebras via Ginzburg dg
-  algebras*](https://arxiv.org/abs/2301.06757): Hochschild comparison, explicit deformations, and
-  the exact finite-tree intrinsic-formality theorem in arbitrary characteristic.
+  algebras*](https://arxiv.org/abs/2301.06757) (arXiv v3): Definition 4.1 (deformations and
+  intrinsic formality), Theorem 4.2 (criterion), Propositions 3.2 and 4.4 (Hochschild
+  comparisons), Corollary 3.4 (cyclic quotient criterion), Theorem 1.1 (the finite-tree theorem in
+  arbitrary characteristic) and Example 4.7.
 - Khovanov--Seidel, [*Quivers, Floer cohomology, and braid group
   actions*](https://arxiv.org/abs/math/0006056): two-term bimodule complexes and the faithful type
   `A` braid action.
 - Seidel--Thomas, [*Braid group actions on derived categories of coherent
-  sheaves*](https://arxiv.org/abs/math/0001043): spherical objects, evaluation-cone twists, braid
-  relations, and faithfulness under its stated geometric/categorical hypotheses.
-
-Review should include a specialist in zigzag/preprojective algebras, an `A∞` deformation theorist,
-and a Lean reviewer familiar with graded quotients and DG sign conventions.  The acceptance review
-checks the one-vertex and one-edge definitions, path-product handedness, the two Ginzburg
-dimensions, completion hypotheses, bad characteristics, and every claimed braid-faithfulness
-hypothesis.
+  sheaves*](https://arxiv.org/abs/math/0001043) (arXiv v2): Definitions 2.2, 2.5 and 2.9
+  (the injective model, the finiteness conditions and spherical objects), Theorems 2.17 and 2.18
+  (braid relations, and faithfulness for `n ≥ 2`).
+- Schedler, [*Zeroth Hochschild homology of preprojective algebras over the
+  integers*](https://arxiv.org/abs/0704.3278) (arXiv v3), Theorem 13.1.1, p. 62: the torsion of
+  `Π/[Π,Π]` in the Dynkin and extended Dynkin cases and its bad primes.
+- Etingof, Golberg, Hensel, Liu, Schwendner, Vaintrob, Yudovina, [*Introduction to
+  representation theory*](https://arxiv.org/abs/0901.0827) (arXiv v5), Problem 5.3(c)–(g),
+  pp. 79–80: the Dynkin and affine Dynkin graphs through definite and semidefinite forms.
