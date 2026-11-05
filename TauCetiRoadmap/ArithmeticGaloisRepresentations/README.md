@@ -72,8 +72,9 @@ The roadmap owns:
   `G_K^{0+}`, the finite-separable transition functions and the completed maximal-unramified
   comparison), representation break decompositions on that absolute upper-numbering filtration
   of `G_K`, the derived eventual Herbrand formula used for induction, the
-  representation-theoretic character-conductor comparison given by ClassFieldTheory Layer 7's
-  unit-filtration reciprocity, Swan and Artin conductors with
+  representation-theoretic character-conductor comparison given by the unit-filtration
+  reciprocity declared on ClassFieldTheory as gap:unit-filtration-reciprocity, Swan and Artin
+  conductors with
   integrality, induction and twist formulas, the conductor of a Weil–Deligne representation,
   global conductors and the prime-to-`p` conductor `N(ρ̄)`, and the behaviour of conductors under
   reduction (Layer 3);
@@ -125,7 +126,8 @@ characteristics, with the structure of the lower quotients, Hilbert's different 
 Hasse–Arf, the absolute upper filtration with its inertia `G_K^0` and wild inertia `G_K^{0+}`,
 the finite-separable transition functions and the completed maximal-unramified comparison, is
 `TauCetiRoadmap.RamificationOfCompleteDiscretelyValuedFields` §§3a.1–3a.3 and 4a.1–4a.3, and
-unit-filtration reciprocity at every depth is `TauCetiRoadmap.ClassFieldTheory` Layer 7; §3.0
+unit-filtration reciprocity at every depth is what `TauCetiRoadmap.ClassFieldTheory` must
+provide, declared as gap:unit-filtration-reciprocity in the supplier contracts; §3.0
 records the part of these contracts the conductor theory uses, and §§3.1–3.2 use them for
 representation breaks and conductors.
 Other supplied inputs are
@@ -440,15 +442,17 @@ breaks and conductors.
 
 Layer 7: `artinMap` with its normalisation (a uniformiser maps to an arithmetic Frobenius lift,
 `isArithFrobeniusLift_of_mk_eq_artinMap_uniformizer`), finite-quotient and norm compatibility,
-`normResidue` and `characterConductorExp` with its attained minimum and unramified criterion;
-and its unit-filtration reciprocity (`map_unitFiltration_normResidue`, with the conductor
-consequence `conductorExponent_eq_sInf_upperRamificationGroup`): for a nonarchimedean local
-field `F` of either characteristic, every finite abelian `L/F` and every integer `n ≥ 0`, depth
-zero included, `normResidue` carries the image of `U_F^n` onto the image of `Gal(L/F)^n`, and
-the closure of `artinMap(U_F^n)` in `G_F^{ab}` is the image of the absolute upper group `G_F^n`
-of RamificationOfCompleteDiscretelyValuedFields §4a.1. Section 3.2 here compares the
+`normResidue` and `characterConductorExp` with its attained minimum and unramified criterion.
+What ClassFieldTheory must provide (gap:unit-filtration-reciprocity): for a nonarchimedean local
+field `F` of either characteristic, every finite abelian `L/F` inside a fixed separable closure
+and every integer `n ≥ 0`, depth zero included, `normResidue` carries the image of `U_F^n` in
+`F^×/N(L^×)` onto the image of the upper ramification group `Gal(L/F)^n`, and the closure of
+`artinMap(U_F^n)` in `G_F^{ab}` is the image of the absolute upper group `G_F^n` of
+RamificationOfCompleteDiscretelyValuedFields §4a.1. Section 3.2 here compares the
 representation-theoretic Artin conductor of a finite-order character with
-`characterConductorExp` through it.
+`characterConductorExp` through gap:unit-filtration-reciprocity; the conductor targets Layer 7
+does state (the attained minimum `characterConductorExp` and the norm-group bounds) do not give
+the depth-by-depth identification that comparison needs.
 Layer 9: `WeilGroup K` with the Weil
 topology in which inertia is open (`isOpenEmbedding_inertiaToWeil`), `weilDegree` (kernel inertia, value
 `1` on arithmetic lifts through `unramifiedCoordinate_weilDegree`), `weilTransfer` with
@@ -2450,19 +2454,34 @@ different and Hasse–Arf for nonarchimedean local fields, whose residue fields 
 RamificationOfCompleteDiscretelyValuedFields §§3a.1–3a.3 and 4a.1–4a.3 build them over the whole
 conductor setting, in both characteristics, and this section plans none of them: it records the
 consumed statements in the form the conductor theory uses, with the Checks that §§3.1–3.5
-recompute. For finite `k` every statement agrees with the LocalFieldsRamification statement of
+recompute, and proves only the one clause below that the supplier does not state, that
+`G/G_0 ≅ Gal(k_L/k)` and `|G_0| = e`. For finite `k` every statement agrees with the LocalFieldsRamification statement of
 the same name, which is a target of that supplier. Integer-normalized valuations have
 `v_L|_K = e v_K`, `[L : K] = ef` and `d(L/K) = v_L(𝔇_{L/K})`.
 
 **Structure of the lower filtration (consumed, §3a.1).** For `K` in the conductor setting, `L/K`
 finite Galois with group `G` and `G_i` (`i ≥ −1`) the lower groups at integer arguments: `G_i = G`
-for `i ≤ −1`, `G_0 = I(L/K)` with `G/G_0 ≅ Gal(k_L/k)` and `|G_0| = e`, and `G_i = 1` for `i`
-large; `G_0/G_1` is cyclic of order prime to `p` and `G_i/G_{i+1}` (`i ≥ 1`) is an elementary
-abelian `p`-group, so `G_1` is the `p`-Sylow subgroup of `G_0`; `H_i = H ∩ G_i` for a subgroup
-`H`; and Hilbert's form `d(L/K) = Σ_{i ≥ 0} (|G_i| − 1)` of the different formula
+for `i ≤ −1`, `G_0 = I(L/K)` is the kernel of the action of `G` on `k_L`, `[L : K] = ef`, and
+`G_i = 1` for `i` large; `G_0/G_1` is cyclic of order prime to `p` and `G_i/G_{i+1}` (`i ≥ 1`) is
+an elementary abelian `p`-group, so `G_1` is the `p`-Sylow subgroup of `G_0`; `H_i = H ∩ G_i`
+for a subgroup `H`; and Hilbert's form `d(L/K) = Σ_{i ≥ 0} (|G_i| − 1)` of the different formula
 `Σ_{g ≠ 1} i_G(g)` (Serre, *Local Fields*, IV §1, Prop. 4, and IV §2, Cor. 1 to Prop. 7 and
 Cor. 3 to Prop. 9, whose standing hypothesis is a separable residue extension, which perfectness
 of `k` gives).
+
+**Inertia and the residue extension.** Prove, for `K` in the conductor setting and `L/K` finite
+Galois with group `G`, that `k_L/k` is Galois, that `G → Gal(k_L/k)` is surjective with kernel
+`G_0`, so `G/G_0 ≅ Gal(k_L/k)`, and that `|G_0| = e`: the fixed field `K_0` of `G_0` is the
+maximal unramified subextension, `k_L/k` is separable because `k` is perfect, every `k`-embedding
+of `k_L` lifts to `G` by Hensel's lemma applied to a primitive element of `k_L/k`, and
+`|G_0| = [L : K]/[k_L : k] = e` by `[L : K] = ef` (Serre, *Local Fields*, I §7, Prop. 21 and its
+Corollary, for a separable residue extension). This is the one statement of §3.0 not consumed
+from the supplier; the eventual Herbrand formula of §3.1 (slope `|G_0| = e`) and the Checks below
+use it. *Needs:* RamificationOfCompleteDiscretelyValuedFields §3a.1 (`G_0` as the kernel of
+the residue action, `[L : K] = ef`); Mathlib `IsLocalRing.ResidueField` and the henselian
+instance `IsAdicComplete.henselianRing` of the complete integer ring, for lifting a root of the
+minimal polynomial of a primitive element of `k_L/k`; `TauCetiRoadmap.LocalFieldsRamification`
+Layer 2 (unramified extensions and Frobenius) for the finite-residue agreement.
 
 **Checks.**
 - For `ℚ_2(ζ_8)/ℚ_2`, `G_0 = G_1` has order `4`, `G_2 = G_3` has order `2` and `G_4 = 1`, so
@@ -2544,8 +2563,9 @@ the full conductor setting. For function fields, AlgebraicCurves Layer 8's compl
 with `e = e(L/K)`, `f = f(L/K)` and `δ(L/K) = f d(L/K)`, prove that for all sufficiently large `u`,
 `ψ_{L/K}(u) = e u − d(L/K) + e − 1`, equivalently
 `∫_0^∞ ([L : K] − [G_K : G_K^t G_L]) dt = f(d(L/K) − e + 1) = δ(L/K) − [L : K] + f`.
-For Galois `L/K`, Hilbert's form of the different formula and the eventual triviality of
-the lower groups (§3.0) give the constant term of `ψ`. For general separable `L/K`, choose a Galois
+For Galois `L/K`, the inertia order `|G_0| = e` of §3.0 gives the slope, and Hilbert's form of
+the different formula and the eventual triviality of the lower groups (§3.0) give the constant
+term of `ψ`. For general separable `L/K`, choose a Galois
 closure `M/K` and apply the Galois formula to `M/K` and `M/L` in the identity
 `ψ_{L/K} = φ_{M/L} ∘ ψ_{M/K}` of §3.0; the different tower formula gives the same constant term.
 The integral formula of §3.0 gives the equivalent integral identity. Section 3.5 uses this
@@ -2553,8 +2573,9 @@ consequence for conductor induction (Serre 1961, n° 3.1, Prop. 4 and Remarque, 
 Serre, *Local Fields*, III §4, Prop. 8 and IV §§1–3).
 *Needs:* RamificationOfCompleteDiscretelyValuedFields §§3a.1–3a.2 and 4a.2 (integer rings,
 Hilbert's form of the different formula, Herbrand functions and transitivity, the
-finite-separable transition functions and their integral formula), as recorded in §3.0; Tau Ceti
-`TauCeti.multiplicity_differentIdeal_tower` on those integer rings.
+finite-separable transition functions and their integral formula), as recorded in §3.0; §3.0
+(the inertia order `|G_0| = e`); Tau Ceti `TauCeti.multiplicity_differentIdeal_tower` on those
+integer rings.
 
 **Checks.**
 - For finite unramified `L/K`, `e = 1`, `d = 0` and `ψ_{L/K}(u) = u`; the integral is `0`.
@@ -2649,13 +2670,13 @@ restriction of `χ` to `I_K ≅ G_{K̂^ur}` (§3.0) has finite abelian image, so
 breaks are the upper jumps of a finite abelian extension of `K̂^ur`, integers by Hasse–Arf over
 the perfect residue field `k̄` (Serre 1961, n° 3.7, (33), p. 138; Serre, *Local Fields*, VI §2).
 Prove that for `K` a nonarchimedean local field and `χ` of finite order,
-`a(χ) = characterConductorExp (χ ∘ artinMap)`: by ClassFieldTheory Layer 7's unit-filtration
-reciprocity, `χ ∘ artinMap` is trivial on `U_K^n` iff `χ` is trivial on `G_K^n`, iff
+`a(χ) = characterConductorExp (χ ∘ artinMap)`: by gap:unit-filtration-reciprocity,
+`χ ∘ artinMap` is trivial on `U_K^n` iff `χ` is trivial on `G_K^n`, iff
 `n ≥ 1 + u(χ)` for ramified `χ` and `n ≥ 0` for unramified `χ`, and `characterConductorExp` is
 the least such `n`. *Needs:* RamificationOfCompleteDiscretelyValuedFields §3a.3 (Hasse–Arf in
 both characteristics) and §4a.3 (the completed maximal-unramified comparison), as recorded in
-§3.0; §3.1 (breaks); ClassFieldTheory Layer 7 (`artinMap`, `characterConductorExp` and
-`map_unitFiltration_normResidue`) for the local-field character-conductor comparison.
+§3.0; §3.1 (breaks); ClassFieldTheory Layer 7 (`artinMap`, `characterConductorExp`) and
+gap:unit-filtration-reciprocity for the local-field character-conductor comparison.
 
 **Checks.**
 - A nontrivial tame quadratic character over `ℚ_p`, `p` odd, has break `0` and Artin conductor `1`;
@@ -2867,7 +2888,7 @@ Layers 1 and 2; `TauCetiRoadmap.RamificationOfCompleteDiscretelyValuedFields` §
 4a.1–4a.3 (perfect-residue ramification, Hasse–Arf, the absolute upper filtration, transition
 functions and the completed maximal-unramified comparison);
 `TauCetiRoadmap.LocalFieldsRamification` layers 2–4;
-`TauCetiRoadmap.ClassFieldTheory` layers 7 (with its unit-filtration reciprocity) and 9;
+`TauCetiRoadmap.ClassFieldTheory` layers 7 (with gap:unit-filtration-reciprocity) and 9;
 `TauCetiRoadmap.NumberFieldArithmetic` layer 5;
 `TauCetiRoadmap.RepresentationTheory/InductionRestriction` layers 5–7;
 `TauCetiRoadmap.AlgebraicCurves` layer 8 (function-field ramification groups, for comparison).
