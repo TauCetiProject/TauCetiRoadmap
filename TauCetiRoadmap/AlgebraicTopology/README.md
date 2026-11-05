@@ -68,8 +68,10 @@ groups.  Those theories consume this roadmap's chain, CW, duality, and homotopy 
   compact manifolds have finite CW type. Stage 8.13 consumes geometric topology's Layer 1
   tubular neighbourhood theorem and owns, for an arbitrary compact boundaryless target
   manifold and an arbitrary closed embedded submanifold, the smoothing of continuous maps
-  relative to a closed set and relative transversality; TangentialBordism B1.6 (manifolds with
-  corners, facewise transversality) consumes these two statements. DeRhamCohomologyAndDuality
+  relative to a closed set and relative transversality; TangentialBordism B1.6 states the
+  corner-source extension of these two statements (facewise transversality) by the same route
+  (Euclidean embedding of the target and GeometricTopology Layer 1's tubular retraction) and
+  consumes nothing here. DeRhamCohomologyAndDuality
   Layer 5 states the analogue for families against maps into a vector space by its own route
   and consumes nothing here.
 - The [differential-geometry roadmap](../DifferentialGeometry/README.md) owns the
@@ -2212,7 +2214,8 @@ items 1–7 are independent of those later constructions.
     foundations and Stage 4 item 8's compact-generation API only; it has no input from 8.10,
     the EM loop comparison below, or the pointed adjunction.
     Own `finiteSourceMappingCWType`, the compact-source pair specialization
-    of Milnor 1959 Theorems 3–4 for n-ads: mapping spaces from a compact Hausdorff
+    of Milnor 1959, Theorem 3 (both its assertions: the space `A^C` and the n-ad) for
+    n-ads: mapping spaces from a compact Hausdorff
     source (in particular a finite CW pair) into a Hausdorff pair of CW type
     (`CWTypeModel`), with prescribed relative/basepoint values,
     have based CW type in the compact-open/Kelley topology. Own the full inputs
@@ -2378,8 +2381,10 @@ items 1–7 are independent of those later constructions.
     owns the smoothing of continuous maps into compact manifolds and
     relative transversality (DifferentialGeometry 8.3 approximates smooth
     simplices and 10.2 is Sard; Mathlib approximates maps into normed spaces
-    and embeds compact manifolds in Euclidean space), and TangentialBordism
-    B1.6 consumes them for its corner variants.
+    and embeds compact manifolds in Euclidean space); TangentialBordism
+    B1.6 states the corner-source extension of both by the same route
+    (Euclidean embedding of the target and GeometricTopology Layer 1's
+    tubular retraction).
 
     *Smoothing of maps into compact manifolds.* For a boundaryless
     sigma-compact Hausdorff second-countable smooth manifold M, a compact
@@ -2761,4 +2766,4 @@ downstream comparison theorem as input.
 - Kenneth Brown, *Cohomology of Groups*, Springer GTM 87, 1982, Chapter VII, for the
   Cartan--Leray spectral sequence and transfer comparison.
 
-- John Milnor, [On Spaces Having the Homotopy Type of a CW-Complex](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/milnorcw.pdf), Section 2 and Theorems 3–4, for arbitrary-CW and n-ad function-space CW type; its countable class W₀ is distinct from the general class W used here.
+- John Milnor, [On Spaces Having the Homotopy Type of a CW-Complex](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/milnorcw.pdf), Section 2 and Theorem 3 (both its assertions: the space `A^C` and the n-ad), for arbitrary-CW and n-ad function-space CW type; its countable class W₀ is distinct from the general class W used here.
