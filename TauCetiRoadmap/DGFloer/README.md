@@ -98,7 +98,7 @@ them by name and section (see the supplier contracts) and does not restate them.
 | Marked, multiply covered, unforced genus-zero stable-map compactness over compact tame families | AnalyticStableMaps M3 | consumed by Layer 7.C.3 |
 | The general smooth symplectic suspension `Y_φ = (ℝ × M)/((t, x) ∼ (t + 1, φ⁻¹x))`, its seam-compatible block structure, periodic-orbit images and the compact horizontal-image theorem | SymplecticGeometry S0–S2 | S0's mapping torus is instantiated by Layer 7.T.1 at monodromy `f⁻¹`; S1–S2 are not consumed |
 | The surface suspension, its vertical form, primitive orbit images and the point-count, product and zeta applications | TaubesGromov | not consumed here; TaubesGromov consumes SymplecticGeometry S0–S2, not this roadmap |
-| Global flux of symplectic paths, the Hamiltonian kernel, the endpoint quotient `Ham → Symp₀ → H¹_dR/Γ_ω`, the area-normalized torus lattice and compact-support flux | HamiltonianReduction R1a.0–R1a.4 | not consumed here |
+| Global flux of symplectic paths, the Hamiltonian kernel, the endpoint quotient `Ham → Symp₀ → H¹_dR/Γ_ω`, the area-normalized torus lattice and compact-support flux | HamiltonianReduction R1a.0–R1a.4 | R1a.0–R1a.1 and R1a.3–R1a.4 are not consumed; R1a.2's identity component `Symp₀(M, ω)` with its `C^∞` topology is consumed by Layer 7.T item 9 |
 | The `Sp(2, ℝ)` polar factorization `A = PU ↦ P^{1−t}U` and its symplectic polar factors | CotangentLagrangian C2.0–C2.1 | not consumed here |
 | Period-controlled Novikov completions, finite-below convolution, total quotient rings and based torsion | MorseNovikov N1 and N4 | consumed by Layers 7.C and 7.T; N6's finite-dimensional bifurcation theorem is not a Floer theorem and is not consumed |
 | The Hurewicz-fibration predicate, continuous lifting functions, mapping-path carriers and the path-loop fibration | GeneralizedCohomology G2.10 | consumed by Layers 1–2 |
@@ -108,7 +108,6 @@ them by name and section (see the supplier contracts) and does not restate them.
 | Compact Lie theory: universal covers, central kernels, maximal tori, root `SU(2)` subgroups, Haar measure and Peter–Weyl | LieGroups Layers 5–6, CompactGroups | consumed by Layer 11 |
 | Covering spaces and their induced maps on homotopy groups | UniversalCovers (completed) | consumed by Layer 11 item 2 |
 | The Lagrangian and polygon operations of the Fukaya category | FukayaTheory | not consumed; the graph and diagonal strip folding of Layer 7.G is the only Lagrangian construction here |
-| The virtual, implicit-atlas comparison of the autonomous `S¹`-invariant sector of Floer cylinders with the regular time-dependent counts | none in this roadmap | it consumes ImplicitAtlases, which is later in the merge order; the classical count and PSS branches of Layer 7.C are independent of it |
 
 **Out of scope**, so nobody mistakes them for targets:
 
@@ -121,7 +120,9 @@ them by name and section (see the supplier contracts) and does not restate them.
 - Floer homotopy theory, and Lagrangian Floer theory with DG coefficients.
 - All-dimensional compactifications in the monotone and `c₁`-zero branches of Layer 7.C: that
   branch has the count dimensions of its classical identities only.
-- The virtual comparison of the autonomous sector named in the table above.
+- The virtual, implicit-atlas comparison of the autonomous `S¹`-invariant sector of Floer
+  cylinders with the regular time-dependent counts; the classical count and PSS branches of
+  Layer 7.C are independent of it.
 
 ## Conventions
 
@@ -408,6 +409,11 @@ Sard–Smale (HeegaardFloer F0), Hurewicz fibrations (GeneralizedCohomology G2.1
   Lane M.
 - **SymplecticGeometry** S0: the smooth mapping torus `Y_φ`, its quotient charts, descended
   `∂_t` flow and vertical form, instantiated by Layer 7.T.1 at `φ = f⁻¹`.
+- **HamiltonianReduction** R1a.2: the identity component `Symp₀(M, ω)` of the symplectomorphism
+  group in its compact-open `C^∞` topology, with its characterization as the endpoints of smooth
+  symplectic paths from the identity, for the transport of `f` and of the component `C` under
+  symplectic isotopy in Layer 7.T item 9. Nothing of R1a.0–R1a.1 and R1a.3–R1a.4 (flux, the
+  Hamiltonian kernel, the quotient `H¹_dR/Γ_ω`) is consumed.
 
 ## How to read the build
 
@@ -1010,7 +1016,8 @@ metric argument of the conventions. *Needs:* Mathlib `ContinuousMap`, `Continuou
   identified Moore loops of equal duration or quotiented by reparametrization would give a point.
 - Associativity holds on the nose: `((γ · δ) · ε)(t) = (γ · (δ · ε))(t)` for every `t`, with
   the three cases `t ≤ L_γ`, `L_γ ≤ t ≤ L_γ + L_δ`, `t ≥ L_γ + L_δ`; the fixed-interval
-  concatenation fails this, since `((γ · δ) · ε)(1/2) = δ(0)` while `(γ · (δ · ε))(1/2) = δ(1)`.
+  concatenation fails this, since `((γ · δ) · ε)(1/2) = (γ · δ)(1) = δ(1)` while
+  `(γ · (δ · ε))(1/2) = γ(1) = δ(0)`.
 - In the flat torus the unit-speed loops `γ_n` of the conventions converge in `𝓛T²` to the
   constant loop of duration `1`, so the unit-speed loops are not closed; a definition filtering
   by geometric length would not be a closed condition.
@@ -1027,7 +1034,10 @@ to `γ`, satisfies `Φ(e, length-zero path at p(e)) = length-zero path at e` and
 `Φ(e, γ · λ) = Φ(e, γ) · Φ(end Φ(e, γ), λ)`. A homotopy lifting property alone does not supply
 a transitive lifting function. *Needs:* GeneralizedCohomology G2.10, item 1.
 
-- **Moore-path replacement** (BDHO §7.1, Proposition 7.1.1). For any map `p : E → B` put
+- **Moore-path replacement** (BDHO §7.1, where the replacement of a fibration by one with a
+  transitive lifting function is cited to the literature, not proved; the construction here is
+  the Moore version of the mapping-path fibration of Whitehead Chapter I). For any map
+  `p : E → B` put
   `E' = {(e, γ) | γ a Moore path in B starting at p(e)}` and `p'(e, γ) = γ(end)`. Prove that `p'`
   is a Hurewicz fibration with the transitive lifting function given by concatenation, and that
   its fibre `F'` over the basepoint carries the strict right action `(e, γ) · λ = (e, γ · λ)` of
@@ -1163,8 +1173,9 @@ scalars).
 
 For a Hurewicz fibration `F → E → B` on a path-connected base (on each component otherwise),
 define its DG local system as `C_*(F')`, for the strict action on the fibre of the Moore-path
-replacement (Layer 2 item 2). It needs no choice of lifting function. *Needs:* Layer 2 item 2,
-item 1, Layer 0 item 2.
+replacement (Layer 2 item 2). It needs no choice of lifting function, and it is canonical up to
+homotopy (BDHO §7.1, Proposition 7.1.1, whose module structure comes from a chosen lifting
+function). *Needs:* Layer 2 item 2, item 1, Layer 0 item 2.
 
 - When a transitive lifting function `Φ` is given, transport `F' → F` induces a **strict**
   quasi-isomorphism of DG modules `C_*(F') → C_*(F)_Φ`.
@@ -1187,8 +1198,9 @@ item 1, Layer 0 item 2.
 ### 3.3 Classical local systems
 
 Classical local systems are DG local systems concentrated in degree zero. Prove that they
-correspond, naturally, to Tau Ceti's `LocalCoefficientSystem` through `H₀(ΩB) ≅ ℤ[π₁(B)]`.
-*Needs:* item 1, Tau Ceti `LocalCoefficientSystem`.
+correspond, naturally, to Tau Ceti's `LocalCoefficientSystem` through `H₀(ΩB) ≅ ℤ[π₁(B)]`
+(BDHO §5.1, "Local coefficients as DG local coefficients", §5.1.2). *Needs:* item 1, Tau Ceti
+`LocalCoefficientSystem`.
 
 **Checks.**
 - The constant system is the module `A` with the augmentation action.
@@ -1297,7 +1309,10 @@ Tau Ceti `IsDGRightModule`, Mathlib `DirectSum.Decomposition`.
   `ind y − ind x + 1 = 0`), the element `ε ⊗ x` has total degree `|ε| − ind x = 0` and
   `D(ε ⊗ x) = (−1)^{|ε|} ε ⊗ y = −ε ⊗ y` has total degree `1`.
 - `D² = 0` fails without the twisting equation: with `m_{x,y} = r` for a single pair and
-  `∂r ≠ 0`, `D²(α ⊗ x) = (−1)^{|α|+1} α · ∂r ⊗ y ≠ 0` for `α = 1`.
+  `∂r ≠ 0`, `D(α ⊗ x) = ∂α ⊗ x + (−1)^{|α|} α r ⊗ y` and
+  `D²(α ⊗ x) = ((−1)^{|α|+1} ∂α · r + (−1)^{|α|} ∂α · r + α · ∂r) ⊗ y = α · ∂r ⊗ y`, which is
+  `∂r ⊗ y ≠ 0` for `α = 1`; the `∂(m_{x,y})` term enters `D²` with sign `+`, and the twisting
+  equation is what cancels it.
 
 ### 4.3 Continuation and parametrized cocycles
 
@@ -1603,8 +1618,11 @@ trivializations of the conventions. *Needs:* HamiltonianSystems Layers 1–2, He
 Layer 2 item 1, DifferentialGeometry Layer 3 (flows).
 
 **Checks.**
-- On `T*ℝ` with `H = p²/2` the vector field in the `ι_X ω = dH` convention is `−p ∂_q` (worked
-  example 9); the source's convention gives `p ∂_q`.
+- On `T*ℝ` with `ω_can = dq ∧ dp` and `H = p²/2` the vector field in the `ι_X ω = dH`
+  convention is `p ∂_q`, since `ι_{p ∂_q}(dq ∧ dp) = p dp = dH`; the source's convention
+  `ω(X, ·) = −dH` at the same form gives `−p ∂_q`, which is also the `ν`-transport of the
+  source's field `p ∂_q` for `(ω_src, p²/2)` (worked example 9). A bridge that negated the form
+  instead of the Hamiltonian would give `−p ∂_q` for the standing convention here.
 - On `(ℝ²ⁿ, ω_std)` with `H = (|q|² + |p|²)/2`, the flow is the rotation of period `2π`, every
   orbit of period `1` is the constant orbit at `0`, which is nondegenerate since the linearized
   time-one map has eigenvalues `e^{±i}`.
@@ -1616,9 +1634,10 @@ Layer 2 item 1, DifferentialGeometry Layer 3 (flows).
 ### 6.2 Liouville domains
 
 Define Liouville domains `(W, λ)` with `ω = dλ` and the outward Liouville field `Z` given by
-`ι_Z ω = λ`, their completions `Ŵ = W ∪ [1, ∞) × ∂W`, Hamiltonians linear at infinity, and
-exact codimension-zero embeddings. *Needs:* HeegaardFloer F2.1, DifferentialGeometry Layers 0–1
-and 3.
+`ι_Z ω = λ`, their completions `Ŵ = W ∪ [1, ∞) × ∂W` (Seidel §2(a), equations (2.2)–(2.3), with
+the collar coordinate `r = log` of the radial coordinate used here; Abouzaid Chapter 1),
+Hamiltonians linear at infinity, and exact codimension-zero embeddings. *Needs:* HeegaardFloer
+F2.1, DifferentialGeometry Layers 0–1 and 3.
 
 **Checks.**
 - The unit disc `D²ⁿ` with `λ = ½ Σ (p dq − q dp)` is a Liouville domain with `Z = ½(q ∂_q + p ∂_p)`;
@@ -1654,7 +1673,8 @@ Theorem C forms of Corollary D from Layer 10 item 5. *Needs:* Tau Ceti `cotangen
 ### 6.4 Hypersurfaces
 
 Define characteristic foliations of regular hypersurfaces and prove that closed characteristics
-correspond to periodic orbits of any defining Hamiltonian, up to reparametrization. Define
+correspond to periodic orbits of any defining Hamiltonian, up to reparametrization
+(Hofer–Zehnder Chapter 4). Define
 Liouville vector fields: for a fixed primitive `λ`, `ι_Z ω = λ` implies `L_Z ω = ω` by Cartan's
 formula. The converse fails for a fixed `λ`: with `λ = p dq`, `ω = dλ` and `Z = p ∂_p + ∂_q`,
 `L_Z ω = ω` but `ι_Z ω = λ − dp`. What holds is that `L_Z ω = ω` makes `ι_Z ω` a primitive of `ω`,
@@ -1841,6 +1861,21 @@ Use `ι_(X_H)ω=dH`, `g_t(v,w)=ω(v,J_t w)` for compatible `J_t`,
 
 On the actual aspherical overlap, where Γ=0, retain the path-level dictionary given by `v(s,t)=u(−s,−t)`, `H∨_t=−H_(−t)`, `J∨_t=J_(−t)` and reflected cap boundary parametrizations. The index identity is `CZ_HF(H∨,reflected cap)=−CZ_HF(H,cap)=μ_H`; the physical negative end of v is the positive-end input of u. These are the reflected equation, capped path and index identities. The chain-level comparison is a downstream submilestone of 7.C.4. After both complexes, counts, continuation maps and orientation lines exist, construct the quotient-then-negative-flow orientation reversal and the degree-dependent chain sign, if any, from the actual determinant and boundary exact sequences, then prove that the map intertwines reflected continuation. The standing comparison is on 𝓛₀X under asphericity alone. The resulting chain comparison is at H∨. The coefficient comparison is on Γ=0. μ remains a notation for the single supplied index. For the cylindrical linear model `D=∂s+B_s`, `B_s=J₀∂t+S_s`, apply F1.3 to `−B_s`: `ind D=SF(B)=−SF(−B)`. Check the scalar `B=tanh s` kernel `sech s`, cokernel 0, and index 1. Use the L² common-domain self-adjoint realization and the actual Lᵖ elliptic transport for `1<p<∞`; coefficient norm convergence, end invertibility and graph estimates are hypotheses of that application. The puncture formula in μ notation is `nχ(Σ)+2c₁^τ+Σ_positive μ−Σ_negative μ`. Use complex-oriented end reversal, stabilized matching exact sequences and determinant gluing; use the determinant exact sequences for kernels and cokernels. The constant-sphere adjoint comparison uses `deg K_(S²)=−2` and `c₁(TS²)=2` as different bundles.
 
+**Checks.**
+- The reflected Hamiltonian on constant orbits: for an autonomous Morse `H` and a critical point
+  `x` with the constant cap, `μ_H(x) = ind_H(x) − n`, and `H∨ = −H` has `ind_{H∨}(x) = 2n − ind_H(x)`,
+  so `μ_{H∨}(x) = n − ind_H(x) = −μ_H(x)`, as the identity
+  `CZ_HF(H∨, reflected cap) = −CZ_HF(H, cap)` requires; a dictionary with `μ_{H∨} = μ_H` would
+  contradict it already on the minimum of `S²` (`μ = −1` against `μ = 1`).
+- The action comparison on the aspherical overlap: for a constant orbit at `x` with the constant
+  reference loop and the zero cap, `𝒜_H = ∫ γ̄^*ω − ∫ H dt = −H(x)` and
+  `A_C(H, γ, D) = ∫ H dt + ∫_D ω = H(x)`, so `𝒜_H = −A_C`; the same-`H` identity `𝒜_H = A_C`
+  fails whenever `H(x) ≠ 0`.
+- The scalar model `D = ∂_s + tanh s`: the kernel is spanned by `sech s`, which decays at both
+  ends; the formal adjoint `−∂_s + tanh s` has kernel `cosh s`, which does not, so the cokernel
+  is `0` and the index is `1`, equal to the spectral flow `+1` of `B = tanh s` from `−1` to `1`;
+  the sign convention `ind D = SF(B)` is fixed by this instance, and `−SF(B)` would give `−1`.
+
 *Needs:* HeegaardFloer F0, F1.1–F1.5, F2.1–F2.5 and F2.6a–d; AnalyticStableMaps M3; MorseNovikov N1; HamiltonianSystems Layers 1–2; Layer 6 items 1–2; conventions (sign dictionary); Salamon §§1.4 and 2.4.
 
 ### 7.C.1 Capped loop cover, periods and the time-dependent variational equation
@@ -1848,6 +1883,21 @@ On the actual aspherical overlap, where Γ=0, retain the path-level dictionary g
 Let `S_sph⊂H₂(X;ℤ)` be the image of the spherical Hurewicz map and put `Γ=S_sph/(ker ω∩ker c₁)`. Define caps equivalent when their glued difference pairs to zero with both ω and c₁. Construct the cap cover of the contractible loop component by local cap transport, prove its topology and path lifting, and identify each fibre with a Γ-torsor. Construct the forgetful, recapping, gluing, smooth/Sobolev and reference-cap comparison maps. Prove evaluation of contractible loops has a constant-loop section and that its based-loop fibre retains the π₂ term; retain the π₁(X) contribution in the evaluation sequence instead of identifying π₁(L₀X) with π₂(X). Show the period/Chern transgression factors through the stated Γ-cover. The generator sector of this construction consists of contractible loops.
 
 Assume every contractible one-periodic orbit of H is nondegenerate. Prove the corresponding subset of the time-one fixed set compact: x↦(t↦φ_H^t(x)) is continuous into the smooth loop space, loop free-homotopy classes are locally constant by short-geodesic homotopies, and hence its contractible preimage is open and closed in the compact fixed set. End nondegeneracy makes this subset discrete, so it is finite. Choose one cap per such orbit; all breaking and cap transport remain in this contractible sector. Other standing orbit sectors retain their own stated nondegeneracy hypotheses. Construct the action, its recapping law `A_H(A·x̃)=A_H(x̃)+ω(A)`, critical-point/fixed-point bijection and index independence modulo `2c₁(S_sph)`. Put `c₁(S_sph)=N_Cℤ` with `N_C>0` when nonzero; otherwise use an integer grading, without a minimum of an empty positive set.
+
+**Checks.**
+- `ℂPⁿ` with the Fubini–Study form: `S_sph = H₂(ℂPⁿ; ℤ) ≅ ℤ`, generated by the line `L` with
+  `ω(L) > 0` and `c₁(L) = n + 1`, so `ker ω ∩ ker c₁ = 0`, `Γ ≅ ℤ` through `c₁`, and
+  `N_C = n + 1`; a cap change by `L` shifts `μ` by `2(n + 1)`.
+- `T²ⁿ`: `π₂(T²ⁿ) = 0`, so `S_sph = 0` and `Γ = 0` although `H₂(T²ⁿ; ℤ) ≠ 0`; a definition
+  quotienting all of `H₂` by `ker ω ∩ ker c₁` would give a nonzero group there. Likewise
+  `π₁(𝓛₀T²ⁿ) ≅ π₁(T²ⁿ) = ℤ²ⁿ` because the evaluation sequence retains the `π₁(X)` term, while
+  an identification of `π₁(𝓛₀X)` with `π₂(X)` would give `0`.
+- `S² × S²` with areas `(1, 2)`: for `A = (a, b)`, `ω(A) = a + 2b` and `c₁(A) = 2a + 2b`, the
+  joint kernel is `0`, `Γ ≅ ℤ²`, `c₁(S_sph) = 2ℤ` and `N_C = 2`; `ω = κ c₁` fails for every `κ`
+  (`(1, 0)` needs `κ = 1/2`, `(0, 1)` needs `κ = 1`) and `c₁ ≠ 0`, so neither branch hypothesis
+  holds and the branch makes no claim about this target. The caps differing by `(1, −1)` have
+  the same `c₁` but `ω = −1`, so they are not equivalent: a definition using `c₁` alone would
+  identify them and lose the action shift.
 
 *Needs:* 7.C.0; Layer 6 item 1; Layer 2 item 1; HeegaardFloer F1.5 and HamiltonianSystems Layer 2 (the variational equation); AlgebraicTopology Stage 8.3 (the spherical Hurewicz image).
 
@@ -1858,11 +1908,35 @@ From this cap cover construct the typed datum `(Γ,ω,c₁,ν=−ω)` and its Γ
 For the actual time-dependent flow `φ_t` prove, with a torsion-free connection,
 `∇_t(dφ_t v)=∇_(dφ_t v)X_(H_t)` by differentiating a two-parameter variation. Compare the actual symplectic-frame ODE, including connection and frame derivatives, with the asymptotic operator of the cylinder linearization. This is the time-dependent connection/frame application of HamiltonianSystems' variational equation.
 
+**Checks.**
+- `ℂPⁿ` normalized by `ω(L) = 1`: `κ = 1/(n + 1)`, the positive Chern generator `t = e^{L}` has
+  degree `2(n + 1)` and `ν(t) = −ω(L) = −1`, which agrees with 7.C.6a's `ν(t) = −κ N_C`; the
+  opposite sign `ν = ω` would make `t` rather than `t⁻¹` of positive valuation and reverse the
+  direction in which the completion is taken.
+- On `S² × S²` with areas `(1, 2)` two caps of one orbit differing by `(1, −1)` have actions
+  differing by `ω(1, −1) = −1` and the same index, since `c₁(1, −1) = 0`: the torsor records a
+  shift that `Γ` would not see if it were defined through `c₁` alone.
+- The variational equation on `(ℝ², dq ∧ dp)` with `H = (q² + p²)/2`: `X_H = p ∂_q − q ∂_p`, the
+  flow is the rotation `R_{−t}`, and both sides of `∇_t(dφ_t v) = ∇_{dφ_t v} X_H` equal
+  `−J R_{−t} v`, where `J ∂_q = ∂_p`; the plausible misreading `∇_t(dφ_t v) = ∇_{X_H}(dφ_t v)`
+  has right-hand side `0` here, since `dφ_t v` is a constant vector field.
+
 *Needs:* 7.C.1; MorseNovikov N1.
 
 ### 7.C.1a Auxiliary Morse comparison complex
 
 Fix an auxiliary Morse–Smale pair (f,g) independently of Hamiltonian H. Consume HeegaardFloer Lane M and its explicit MorseTheory M1–M6 and DifferentialGeometry flow prerequisites for the Morse-function, normal-form, sublevel, attachment and dynamics foundations. Consume that same Lane M1–M5 for the oriented homological Morse complex MC_j(f,g;R), its signed Morse/singular comparison and ordinary Morse continuation. Define M_i=MC_(i+n)(f,g;R), d_M=d_MC; a generator of Morse index j has degree j−n and its coefficient differential is zero. In the positive-monotone coefficient model give e^A degree 2c₁(A), so x⊗e^A has total degree j−n+2c₁(A). Build this comparison complex independently of autonomous Floer trajectories; PSS sections and equivalences use it. The small autonomous Hamiltonian construction in 7.C.5 is a later specialization: for H=εf with ε>0 sufficiently small and a realized compatible Morse–Smale metric, prove the positive-rescaling normalization and the ordinary Morse-continuation comparison between the realized metric and the auxiliary metric, using HeegaardFloer Lane M1–M5. this roadmap owns this Floer specialization and all PSS constructions. The auxiliary Morse complex precedes both PSS and the autonomous trajectory comparison; this metric-comparison target consumes ordinary Morse continuation.
+
+**Checks.**
+- `S²` with the height function (`n = 1`): the minimum and maximum have Morse indices `0` and `2`,
+  so `M` has one generator in each of the degrees `−1` and `1`, matching the capped indices
+  `μ = ind − n` of the two constant orbits of a `C²`-small `H = εf` (Examples).
+- `ℂPⁿ` with the standard perfect Morse function: indices `0, 2, …, 2n` give degrees
+  `−n, −n + 2, …, n`, and in the positive-monotone model `x ⊗ e^{L}` has degree `j − n + 2(n + 1)`,
+  so `M ⊗ R[Γ]` is `R` in exactly the degrees `i` with `i + n ≡ 0, 2, …, 2n` modulo `2(n + 1)`,
+  the degrees of the conventions Check above.
+- Without the shift (`M_i = MC_i`) the minimum would sit in degree `0`, contradicting
+  `μ(x, const) = −n` for the complex minimum that 7.C.2a uses as its reference.
 
 *Needs:* HeegaardFloer Lane M with MorseTheory M1–M6; 7.C.0.
 
@@ -1877,6 +1951,19 @@ Prove its end comparison, Fredholm index `μ(x̃₊)−μ(x̃₋)` for cap-match
 For nonstationary cylinders prove the FHS injective-point/separation theorem for `(s,t)↦(u(s,t),t)`, including separation from asymptotic orbits, and the localized universal perturbation/adjoint argument for generic periodic J. State and prove the regularity budget on every parameter window. Treat `u(s,t)=γ(t)` separately: the identical nondegenerate end operator makes its constant-cylinder linearization invertible; the translation action is not free there. Any use of the symmetric-matrix lemma in the transversality proof must establish its orthogonality condition. With orthogonal J, symmetric S_mat, `C_J=S_matJ−JS_mat`, `L=C_J−aI−bJ`, `Lz=0`, prove `LJz=2bz−2aJz`; the adjustment `(α,β,ξ)↦(α−2tb,β+2ta,ξ−tJz)` preserves `Lξ−(α+βJ)z`. Choose t to make `ξ⊥Jz`, and construct the symmetric complex-linear matrix taking z to ξ. Use this algebra in the localized analytic proof with its actual range and regularity estimates.
 
 For an arbitrary symplectomorphism ψ, construct the **linear seam application** with `u(s,t+1)=ψ⁻¹u(s,t)`, compatible `J_(t+1)=dψ⁻¹ J_t dψ`, bundle gluing, nondegenerate asymptotics, reference trivializations and the signed F1 index/determinant comparison. A cylinder joining constant fixed points lies in a specified seam component; an action is used only with a supplied period homomorphism/reference cap or cylinder and a proved energy identity. For `ψ=φ_H¹`, additionally construct the global equation identification in the contractible untwisted sector: `w(s,t)=φ_H^t(v(s,t))` takes the ψ⁻¹ seam to periodic w and transforms `v_s+J'_t v_t=0` to `w_s+J_t(w_t−X_H)=0`, with `J'_t=(dφ_H^t)⁻¹J_t dφ_H^t`. Prove the cap, action, class, asymptotic and determinant transport. The arbitrary-ψ output is this linear seam theorem; the global equation/cap transport here uses ψ=φ_H¹.
+
+**Checks.**
+- The stationary cylinder `u(s, t) = γ(t)` with matched caps has `A_cyl = 0`, index `0` and
+  energy `0`, and its linearization is the invertible end operator; it is not a free orbit of
+  the translation action, so it contributes to no count of positive dimension.
+- For `ψ = φ_H¹` and `w = φ_H^t ∘ v`: `w_s = dφ_H^t v_s` and `w_t − X_H(w) = dφ_H^t v_t`, so
+  `w_s + J_t(w_t − X_H) = dφ_H^t (v_s + J'_t v_t)` with `J'_t = (dφ_H^t)⁻¹ J_t dφ_H^t`; for `H = 0`
+  the seam is plain periodicity and `J' = J`.
+- The symmetric-matrix identity in dimension `2`: with `S_mat = diag(1, −1)` and `J ∂_q = ∂_p`,
+  `C_J = S_mat J − J S_mat` has matrix `[[0, −2], [−2, 0]]`, with eigenvector `z = (1, −1)` of
+  eigenvalue `2`; so `L = C_J − 2I` kills `z` with `(a, b) = (2, 0)`, `Jz = (1, 1)` and
+  `LJz = (−4, −4) = −2aJz`, as `LJz = 2bz − 2aJz` predicts, whereas a `C_J` commuting with `J`
+  would give `LJz = 0`.
 
 *Needs:* 7.C.0–7.C.1; HeegaardFloer F0, F1.1–F1.4, F2.2a and F2.2c; Salamon §§2.1–2.7; Floer–Hofer–Salamon Lemma 6.5.
 
@@ -1907,6 +1994,18 @@ At the broken Morse inverse face insert q_min for the intermediate Floer end. At
 Construct the pure-cylinder quotient/negative-flow orientation comparison on HeegaardFloer F1 determinant lines, with quotient orientation followed by the negative-flow tangent. In the actual Morse applications compare this convention with HeegaardFloer M.3, using the auxiliary Morse datum there. Along the positive-end-input arrow this tangent is −u_s; the translation generator is +u_s. A translation-first convention changes by `(-1)^d` when its line moves past a d-dimensional quotient. Use outward normal first at parameter boundaries. For an oriented j-dimensional parameter chain P and input of degree i, the raw count kernel is `A⊗det(P)⊗B∨` with output degree i+j. The Hom degree is +j. Its parameter-first operator readout has coefficient `(-1)^(i+j+ij)` on positive bases; the three inverse families also retain their fixed factor `(-1)^n`. Once an input-first operator readout has already been taken, the further parameter-first conversion is `(-1)^(ij)`. Prove the actual ordered boundary comparison giving `D T_P=dT_P−(-1)^jT_Pd=T_(∂P)`. A degree-one inverse homotopy therefore has raw functional readout `(-1)^(n+1)` and differential d𝓗+𝓗d.
 
 Prove the simultaneous Morse/Fredholm realization of this complete system, including the actual stable Morse differential, cap pairing and sewing coevaluation, both pole constraints, graph χ_M, identical nodal sequences, raw endpoint data, parameter/flow order, frame changes, recapping and stabilization. Orient the Morse comparison from its zero-cutoff identity face toward its broken GF face, L increasingly and τ decreasingly. At each fixed total cap/class and finite energy window the oriented boundary readouts have the formal shapes `D𝓗_M=GF−Id_M`, `D𝓗_L=FG−𝒩` and `D𝓗_τ=𝒩−Id_CF`, where D is the specified graded Hom boundary readout. First these are finite geometric boundary identities of the actual cutdown spaces, with end counts and matching multiplicities. After support and the corresponding matrices exist, 7.C.6 interprets them as the displayed chain-homotopy equations in the finite-Laurent or completed module. Use the same determinant realization in both branches, with their own actual compactness and endpoint theorems.
+
+**Checks.**
+- The cap-pairing coefficient `(−1)^{μ+n}` is `+1` at the complex minimum `μ = −n` and at the
+  maximum `μ = n`, and `(−1)^{n+1}` at an index-`(n + 1)` Morse generator, where `μ = 1`; the
+  swapped evaluation has coefficient `+1` throughout and differs from `γ_min` exactly at odd
+  `μ + n`.
+- The Morse zero face: the determinant `(−1)^k`, the readout `(−1)^{k−n}` and the family factor
+  `(−1)^n` multiply to `+1` for every `k`; without the family factor the product is `(−1)^n`,
+  which on `S²` would read the identity face as `−Id`.
+- The parameter readout `(−1)^{i+j+ij}` at `j = 0` is `(−1)^i`, the coefficient of the identity
+  functional, and at `(i, j) = (0, 1)` is `−1`, which with the family factor gives the
+  degree-one inverse-homotopy readout `(−1)^{n+1}` stated above.
 
 *Needs:* 7.C.2; 7.C.1a; HeegaardFloer F1 (determinant lines).
 
@@ -1996,6 +2095,19 @@ Construct tame raw cylinder/continuation/plane/comparison sections, AnalyticStab
 
 Consume HeegaardFloer F2.1’s tame/compatible contraction fixing a compatible structure and relative smooth-family extension, and F2.6d’s corresponding localized single-sphere range and smooth selection floors. Apply them to the actual periodic/continuation/PSS end/pole/true-face data with the declared uniform tame budgets. Arbitrary periodic tame data retain their raw equation, energy, conditional local compactness and Fredholm interfaces; counts require selected regular data in the preceding tame construction. After both tame and compatible supported module complexes and continuation maps exist, select regular tame-to-compatible continuation and relative homotopy/composition data with their prescribed tails, true faces and K-curvature allowances. Prove the comparison’s own energy-cutoff compactness, exclusion, gluing, coefficient support and determinant diagrams; use its supported matrices and oriented boundaries to obtain the filtered chain-homotopy equivalence and cap-change naturality in each coefficient lane. This is a module comparison, with no quantum-operation construction or generic index/flow duplication.
 
+**Checks.**
+- In dimension `2` every `ω`-tame `J` is compatible: `J² = −1` forces `det J = 1`, so
+  `J ∈ SL(2, ℝ) = Sp(2, ℝ)` and `ω(Jv, Jw) = ω(v, w)`; the tame lane differs from the
+  compatible one only in dimension `≥ 4`.
+- A tame non-compatible structure on `(ℝ⁴, ω₀ ⊕ ω₀)`: `J_ε = A J₀ A⁻¹` with
+  `A = [[I, B], [0, I]]`, `B = diag(1, −1)`, that is `J_ε = [[J₀, εC], [0, J₀]]` with
+  `C = [[0, −2], [−2, 0]]`. Then `ω(v, J_ε v) = |v₁|² + |v₂|² + ε ω₀(v₁, Cv₂) ≥ (1 − |ε|)|v|²`, so
+  `J_ε` is tame for `|ε| < 1`, while `ω(J_ε e₃, J_ε e₄) = 1 − 4ε² ≠ 1 = ω(e₃, e₄)` for `ε ≠ 0`, so
+  it is not compatible and `−J_ε(γ̇ − X_H)` is not the `g_{J_ε}^sym`-gradient of `A_H`.
+- The energy `E = ∫ ω(u_s, J_t u_s) = ∫ g_J^sym(u_s, u_s)` is nonnegative for every tame `J` and
+  vanishes exactly on stationary cylinders, so with `u_t − X_H = J_t u_s` every solution has
+  `A_H(x̃₊) ≥ A_H(x̃₋)`, with equality only when `x̃₊ = x̃₋`.
+
 *Needs:* 7.C.2 and 7.C.2b; HeegaardFloer F0–F2 (F1.3 spectral flow, F2.1 tame-to-compatible contraction, F2.6d).
 
 ### 7.C.3 Raw compactness, conditional gluing and analytic branch exclusion
@@ -2036,6 +2148,19 @@ Prove emptiness using the shared-J incidence theorem, the full-tree class accoun
 
 **Regular true endpoint and energy-dependent neighborhood.** Prove regularity and identity orientation of the actual R=0 fibre from the constant-core model and branch-specific all-tree exclusion. At each finite energy/index/parameter budget use raw compactness and quantitative conditional gluing to find ε(E)>0 so the actual face-flat family near R=0 has precisely the glued identity-end configurations, with its error/inverse/derivative estimates. This PSS endpoint uses the PSS budget above, including the finite Morse critical set from 7.C.1a and finite contractible ends. Positive monotonicity gives a bounded-energy collar for its fixed counting budget; c₁-zero retains ε(E) separately. Pure cylinder/continuation collars use their own Morse-free budget instead.
 
+**Checks.**
+- On `ℂP¹` (`n = 1`) a reduced chain with one simple image of class `L` (`c₁ = 2`) and
+  `A_end = L` has joint dimension `2(2 − 2) − 2 = −2`, and the rigid equation
+  `ind q − ind p = 2c₁(A_end) = 4` already exceeds `dim ℂP¹ = 2`: no such endpoint exists.
+- In positive monotonicity a nonconstant tree has `ω(A_end) > 0`, hence `c₁(A_end) > 0` and
+  `ind q > ind p`, so the only degree-zero endpoint with `p = q` is the constant core; in the
+  spherical-`c₁`-zero branch `ind p = ind q` for every tree, and a one-marked simple sphere
+  through a critical point has dimension `(2n + 0 − 6 + 2) − 2n = −4`, as stated.
+- A constant two-marked sphere has an automorphism group of positive dimension, so reading it
+  as a point of a stable two-marked moduli space would miscount the endpoint's dimension by `2`;
+  contracting it leaves the transverse intersection `Wᵘ(p) ∩ Wˢ(p) = {p}` of dimensions `k` and
+  `2n − k`, a single point.
+
 *Needs:* 7.C.2b(vi); 7.C.3; 7.C.1a; 7.C.2a.
 
 ### 7.C.3b Floer inverse through one nodal correspondence
@@ -2047,6 +2172,18 @@ First join the two pole evaluations by a negative-gradient segment of length L�
 Orient the Morse-length interval by increasing L and the smoothing/identity interval by decreasing τ, with the nodal end as its positive boundary. Use the full standard kernel/functionals/coevaluations and fixed family readouts of 7.C.2a. At L→∞ use the actual first-projection Morse graph χ_M and its stable-complex comparison, retaining both pole normal factors. At L=0 and τ=0 use the identical positive-first matching `ev₊−ev₋`; both yield the same normalized 𝒩, including cap classes. The stationary reference comparison consumes the separately proved inverse for the identical nondegenerate stationary cylinder of 7.C.2; the Morse-side two-marked sphere endpoint is a different input. At the stationary end use γ_min and the specified family factor, giving Id_CF. Prove these simultaneous raw determinant identifications from their stabilized exact sequences, then their agreement with actual regular gluing. At fixed total cap/class and finite energy the resulting geometric Hom boundary readouts have the forms `d𝓗_L+𝓗_Ld=F∘G−𝒩` and `d𝓗_τ+𝓗_τd=𝒩−Id_CF`, with degree-one raw count-functional readout `(-1)^(n+1)`. Their geometric nodal terms cancel. After support and matrices exist, these are the corresponding module equations and their sum is the Floer inverse homotopy. Resolve every matrix product by the finite-below convolution before making that algebraic interpretation. The Morse inverse separately uses its two-pole zero core and q_min broken-face insertion. Every family uses the fixed convention before counting.
 
 The true endpoint data and finite-energy gluing estimates are inputs to relative-family regularity and each branch’s PSS geometric inverse boundaries. Cylinder fixed-class boundaries, ordinary continuation data and the Γ=0 reflection bridge use only their own cylinder/continuation constructions. The geometric inverse boundaries feed PSS support, then its matrices, and then the R[Γ] or completed inverse equations in 7.C.6; they are not already equations between undefined matrix series.
+
+**Checks.**
+- On the stationary fibre the unscaled functional is `γ_min`, with ordinary readout `(−1)^n Id`;
+  the family factor `(−1)^n` makes `𝒩` read `Id` there. On `S²` the unscaled readout is `−Id`,
+  and without the factor the `τ`-equation would read `d𝓗_τ + 𝓗_τ d = −2 Id_CF`, which would
+  force `2 = 0` on the homology of `CF`.
+- The nodal terms cancel because `𝒩` enters the two equations with opposite signs:
+  `(d𝓗_L + 𝓗_L d) + (d𝓗_τ + 𝓗_τ d) = F∘G − Id_CF`; reversing the orientation of the `τ`
+  interval would add the two `𝒩` terms instead and give no inverse equation.
+- The smoothing `z₊ z₋ = τ` with `z₊ = e^{2π(s₊ + it₊)}` and `z₋ = e^{−2π(s₋ + it₋)}` forces
+  `t₊ ≡ t₋ (mod 1)` and `s₊ − s₋ = (log τ)/2π`, which tends to `−∞` as `τ → 0`: the nodal end is
+  the infinite-neck limit, the positive boundary of the interval oriented by decreasing `τ`.
 
 *Needs:* 7.C.3a; 7.C.2a; 7.C.2; Piunikhin–Salamon–Schwarz §4.
 
@@ -2087,6 +2224,18 @@ On smooth finite-energy cylinders for these autonomous data with the fixed const
 
 For a non-time-invariant cylinder, `u_s` and `u_t` are linearly independent as global tangent vectors. If `a u_s+b u_t=0` with constants `(a,b)≠(0,0)`, `a=0` gives time invariance, while `b=0` makes the map independent of `s` and hence constant by its asymptotic ends. If both are nonzero, `u` is constant along the domain flow in direction `(a,b)`; iterating toward a constant asymptotic end and using uniform convergence in `t` forces the whole cylinder to be constant. If a stabilizer element has nonzero `s`-translation, iterate it in the direction of one constant asymptotic end. The end convergence is uniform in `t`, so the stabilizer equation forces the entire cylinder to equal that constant end; this excludes every such element without assuming an `s`-period. Thus on the non-time-invariant locus the `R×S¹` orbit has dimension two and its remaining time-rotation stabilizer is finite. Conditional on surjectivity of the actual autonomous linearization, a non-time-invariant cylinder has Fredholm index at least two; regular index-one cylinders are time-independent. The dimension conclusion is conditional on that actual regularity. The homology comparison is the separate PSS theorem.
 
+**Checks.**
+- A time-independent cylinder solves `u_s = J X_H = grad_{g_J} H`, since
+  `g_J(J X_H, w) = ω(J X_H, J w) = ω(X_H, w) = dH(w)`: it is an upward gradient line. For
+  `H = εf` with `f` the height function on `S²`, the lines from the minimum to the maximum form a
+  two-dimensional family, matching the index difference `μ(max) − μ(min) = 1 − (−1) = 2`.
+- A nonconstant cylinder has trivial translation stabilizer: `T_a u = u` with `a ≠ 0` gives
+  `u(s + ka, t) = u(s, t)` for all `k`, and `k → ∞` along the end where `u → x₊` uniformly in `t`
+  forces `u ≡ x₊`; the constant cylinder is fixed by all of `ℝ × S¹`.
+- A time-independent nonconstant cylinder has `u_t = 0` and `u_s ≠ 0`, so its `ℝ × S¹`-orbit is
+  one-dimensional and the translation-quotient count `r − 1` applies, giving `0` at `r = 1`; the
+  two-dimensional orbit, and the exclusion at `r = 1`, concern only the non-time-invariant locus.
+
 *Needs:* 7.C.5.
 
 ### 7.C.5b PSS maps and equivalence
@@ -2096,6 +2245,17 @@ Construct the PSS/inverse matrices from the regular basic punctured sections and
 In the spherical-c₁-zero completed lane, the integer-graded homology comparison is HF_i≅H_(i+n)(X;Λ_R). Over a field 𝕜 it identifies with H_(i+n)(X;𝕜)⊗_𝕜Λ_𝕜; over other R such a tensor description requires a proved homology base-change hypothesis. Use the actual base-changed chain homotopies for their equations.
 
 In the nonzero positive-monotone Laurent lane, write HF_i^cyc for homology after t↦1 and prove HF_i^cyc≅⊕_(j≡i+n mod 2N_C)H_j(X;R). On Γ=0 choose the spherical-c₁-zero PSS construction of this item as the single common MODULE-comparison construction for HF_i≅H_(i+n)(X;R). Its phase inputs are the independent auxiliary Morse comparison, actual raw cylinder/plane/nodal/inverse operators, finite end/Morse data, selected regular true faces/interiors, branch compactness, simultaneous determinant realization, geometric support and both inverse boundaries. None is obtained from standing Layer 7.4's comparison readout. First construct that equivalence and common continuation/PSS data, then compare the Γ=0 finite-Laurent readout and the standing reflected complex through the actual equation/cap/reference/degree/determinant dictionary of 7.C.0, quotient-then-negative-flow orientation reversal and coefficient identity Γ=0. Prove the chain and continuation diagrams, including their actual degree sign, before the two displayed homology readouts. The integer formula has no premise from two separately assumed equivalences. Standing all-dimensional corner-chain, all-free-loop atoroidal and Liouville outputs retain their distinct construction hypotheses and scope.
+
+**Checks.**
+- `ℂPⁿ`: `HF_i^cyc ≅ ⊕_{j ≡ i+n mod 2(n+1)} H_j(ℂPⁿ; R)` is `R` for `i + n` even and `0` for
+  `i + n` odd, since each even residue class modulo `2(n + 1)` contains exactly one of
+  `0, 2, …, 2n`; the total rank `n + 1` is the number of contractible orbits of a `C²`-small
+  Morse Hamiltonian.
+- `Γ = 0` on `S²` with a `C²`-small `H = εf`: `HF_i ≅ H_{i+1}(S²; R)` is `R` in degrees `−1`
+  and `1`, the two constant orbits (Examples).
+- Over a field the completed `c₁`-zero formula `HF_i ≅ H_{i+n}(X; Λ_𝕜) ≅ H_{i+n}(X; 𝕜) ⊗ Λ_𝕜`
+  holds because `Λ_𝕜` is a `𝕜`-vector space; over `R = ℤ` the tensor description needs flatness
+  of `Λ_ℤ` over `ℤ`, which is the base-change hypothesis named here.
 
 *Needs:* 7.C.3a–c; 7.C.4; 7.C.6; Layer 7 item 4 (the standing comparison on the overlap); Piunikhin–Salamon–Schwarz §4.
 
@@ -2110,6 +2270,16 @@ Apply MorseNovikov N1 with ν=−ω:Γ→ℝ only after the geometric support hy
 Before matrices specialize the early datum: ω=κc₁ implies kerω∩kerc₁=kerc₁, so c₁ identifies Γ with N_Cℤ, or Γ=0. Give e^B degree 2c₁(B). This algebra uses cap/branch data alone and is available to fixed-class geometry without any completed count package.
 
 **Positive-monotone finite Laurent matrices.** Use the respective geometric support to construct cylinder/continuation matrices and, separately, PSS/inverse matrices over R[Γ]. A homogeneous entry has at most one exponent by the degree equation. For Γ≠0 choose the positive-Chern generator t, deg t=2N_C and ν(t)=−κN_C<0, so t⁻¹ has positive valuation. The coefficient differential is zero and a Morse tensor generator has degree j−n+2c₁(B). Construct each finite homogeneous matrix before reading its own boundary identities or extending coefficients.
+
+**Checks.**
+- `ℂPⁿ` with `ω(L) = 1`: `Γ = ℤ·L`, `κ = 1/(n + 1)`, `t = e^{L}`, `deg t = 2(n + 1)`,
+  `ν(t) = −1`; an entry `x ↦ y · t^k` of the degree-`(−1)` differential needs
+  `μ(y) + 2(n + 1)k = μ(x) − 1`, which fixes `k`.
+- `S² × S²` with areas `(1, 1)` (`κ = 1/2`): `c₁(a, b) = 2(a + b)`, so `ker c₁ = ker ω = ℤ(1, −1)`,
+  `Γ = ℤ²/ℤ(1, −1) ≅ ℤ` through `c₁/2`, `N_C = 2` and `deg t = 4`; the class `(1, −1)` has zero
+  area and zero Chern number and is invisible to `Γ`, as it must be.
+- `Γ = 0` (for instance `T²ⁿ`, where `S_sph = 0`): the ring is `R` with integer grading and no
+  generator `t` is chosen; a definition picking "the" positive Chern generator would fail there.
 
 *Needs:* 7.C.1(i).
 
@@ -2129,11 +2299,32 @@ With the actual injective-Chern Γ model and monotone matrices/support, prove PS
 
 After 7.C.6b–c, extend the finite matrices and specified homotopies along R[Γ]→Λ_R=Nov(R,Γ,ν), ν=−ω, using N1. For Γ≠0 set d_C=2N_C. Give Λ_R degree zero modulo d_C and each finite reference orbit/Morse generator its μ or j−n residue. The completed module is finite free over Λ_R with these residues. Define F^aΛ_R by support in ν≥a, give the finite generator module its product filtration and prove it complete and separated. A map T has its proved finite shift δ_T, meaning T(F^a)⊂F^(a−δ_T); the differential and specified homotopies carry their own such shifts. Cap changes give diagonal monomial maps with their actual finite shifts. A series may have infinitely many integer degrees; this completed theory is ℤ/d_C-graded. Differential, maps and specified homotopies are continuous with the proved filtration shifts and residue degrees −1,0,+1. Prove completeness, cap-change compatibility and continuity from the finite matrices/support bounds. Extend the finite-Laurent equivalence and both actual homotopies to a complete ν-filtered ℤ/d_C-graded Λ_R-module chain-homotopy equivalence with correspondingly regraded M⊗_RΛ_R. Γ=0 retains integer grading and R coefficients. The integer finite-Laurent theory and its cyclic t↦1 specialization remain separate outputs; no t↦1 map on Λ_R is asserted.
 
+**Checks.**
+- `ℂPⁿ`: `d_C = 2(n + 1)`, `ν(t⁻¹) = +1`, and `Σ_{k ≥ 0} t^{−k}` converges in `Λ_R` (finitely many
+  terms below each `ν`-level) while `Σ_{k ≥ 0} t^{k}` does not; so `1 − t⁻¹` is a unit of `Λ_R`
+  and `1 − t` is not.
+- Separatedness: a nonzero series lies outside `F^a` for `a` above its least period, so
+  `∩_a F^a = 0`; on `Γ = 0` the filtration is `F^a = M` for `a ≤ 0` and `0` for `a > 0`.
+- The residue grading identifies the degrees `i` and `i + 2(n + 1)` on `ℂPⁿ`, so a generator
+  `x` and `x · t` have the same residue; the finite-Laurent complex, which distinguishes them, is
+  the separate integer-graded output of 7.C.6a–c, not a quotient of this one.
+
 *Needs:* 7.C.6b–c; MorseNovikov N1.
 
 ### 7.C.6e Spherical-c₁-zero bare model and completion
 
 Before counts, c₁|S_sph=0 gives kerω∩kerc₁=kerω, so ν=−ω identifies Γ with its real period subgroup; all coefficient degrees are zero. This is an early datum, not a matrix theorem. Use cylinder/continuation support to construct their completed matrices and only then read their own finite-cutoff boundaries as d²/continuation equations. Independently construct the PSS/inverse matrices from their support and derive their equations from the c₁-zero PSS boundaries and BOTH endpoints. Finitely many orbit generators give the usual integer grading with a finite underlying degree set. This separate completed lane includes positive sphere areas; index alone supplies no energy bound.
+
+**Checks.**
+- A `c₁`-zero target with `Γ ≠ 0`, for instance a K3 surface with a Kähler form: `Γ = S_sph/ker ω`
+  and `ν = −ω` identifies it with the period subgroup `−ω(S_sph) ⊂ ℝ`, which can be dense; all
+  coefficient degrees are `0`, so the completed complex is integer-graded by `μ` alone.
+- `T²ⁿ`: `c₁ = 0` and `S_sph = 0`, so `Γ = 0`, `Λ_R = R`, and this lane and the monotone lane at
+  `Γ = 0` are the same complex.
+- Index gives no energy bound: a cylinder between caps differing by `B` has index shift
+  `2c₁(B) = 0` whatever `ω(B)` is, so cylinders of every area have the same index and a finite
+  energy cutoff is required, whereas on `ℂPⁿ` the index equation fixes the exponent `k` and
+  bounds the energy.
 
 *Needs:* 7.C.1(i); 7.C.6.
 
@@ -2141,11 +2332,30 @@ Before counts, c₁|S_sph=0 gives kerω∩kerc₁=kerω, so ν=−ω identifies 
 
 On the finite ring `R[t,t⁻¹]`, the ungraded map `t↦1` gives the finite cyclic complex and PSS comparison graded modulo `2N_C`; retain the integer grading when `Γ=0`. For any nonzero unital `R` and `ν(B)>0`, N1 makes `1−e^B` a unit, so a unital map from the entire completion to `R` sending every monomial to 1 cannot exist. The cyclic specialization is consequently defined on the finite Laurent ring.
 
+**Checks.**
+- On `R[t, t⁻¹]` the element `1 − t` is not a unit (its image under `t ↦ 1` is `0`), while in the
+  completion with `ν(t⁻¹) > 0` the element `1 − t⁻¹` is a unit with inverse `Σ_{k ≥ 0} t^{−k}`; a
+  unital map from the completion to a nonzero `R` sending `t ↦ 1` would send this unit to `0`.
+- `ℂPⁿ`: after `t ↦ 1` the cyclic complex has rank `n + 1`, all generators in degrees of the
+  parity of `n` modulo `2(n + 1)`, so the differential vanishes and the cyclic homology has
+  total rank `n + 1`.
+- `Γ = 0`: there is nothing to specialize and the integer grading is retained.
+
 *Needs:* 7.C.6d; MorseNovikov N1.
 
 ### 7.C.6g Field adapter and Arnold bound
 
 Assume every contractible one-periodic orbit of H is nondegenerate. For a field 𝕜 and injective ν, factor a nonzero series at its unique least-period element B₀ as `c e^(B₀)(1+b)` and invert the strictly-positive-support `1+b` by N1, including dense period image. This field adapter applies only where ν:Γ→ℝ is proved injective; Γ=0 gives 𝕜. For the positive-monotone Arnold bound use the finite-Laurent PSS equivalence, followed by the permitted `t↦1` specialization: the resulting cyclic 𝕜-chain complex has rank equal to the number of contractible periodic orbits, and its homology is the cyclic direct sum of H_j(X;𝕜), with total dimension the total 𝕜-Betti rank. The finite-dimensional chain-rank inequality gives `#{contractible 1-periodic orbits}≥Σ_j dim_𝕜 H_j(X;𝕜)`. For spherical-c₁-zero use the actual Novikov field adapter and completed PSS equivalence, which has that finite homology rank; Γ=0 is the ordinary 𝕜 case. The monotone comparison uses its Laurent-only specialization and the c₁-zero comparison uses its field adapter. Over arbitrary rings retain `H_(i+n)(X;Λ_R)` separately and require a proved base-change hypothesis for any tensor-product homology description.
+
+**Checks.**
+- `ℂPⁿ` with a `C²`-small Morse Hamiltonian: `n + 1` nondegenerate contractible orbits and
+  `Σ_j dim H_j(ℂPⁿ; 𝕜) = n + 1`, so the bound is sharp.
+- `T²` (`Γ = 0`): the Betti sum is `4`, attained by the height function of the standard embedded
+  torus; the bound `≥ 4` is the nondegenerate Arnold conjecture there.
+- `ν` is injective on `Γ` in both branches, since `ker ω ∩ ker c₁ = ker ω` when `c₁ = 0` on
+  spheres and when `ω = κ c₁` with `κ > 0`; on `S² × S²` with areas `(1, 2)` it is not:
+  `(2, −1)` has `ω = 0` and `c₁ = 2`, so it is nonzero in `Γ` with `ν = 0`, and the field
+  adapter does not apply, as neither branch hypothesis holds there.
 
 *Needs:* 7.C.6c–f; MorseNovikov N1; 7.C.1 (finiteness of the nondegenerate contractible orbits).
 
@@ -2153,9 +2363,21 @@ Assume every contractible one-periodic orbit of H is nondegenerate. For a field 
 
 Consume MorseTheory M4's single `c(M)` construction: the attained minimum of the finite critical-point counts of all smooth real functions on a compact boundaryless manifold, with infinite critical sets counted in ℕ∞. It is not the minimum restricted to Morse functions. That owner also constructs the arbitrary-function LS lower bound from the AlgebraicTopology categorical-cover/cup-length supplier, without a Morse approximation of the function being bounded.
 
-For any closed finite-dimensional symplectic M, define `degenerateArnoldCriticalNumberStatement` to assert that every smooth Hamiltonian isotopy from the identity to φ satisfies `((c(M):ℕ):ℕ∞)≤(Fix(φ)).encard`, where fixed points count once. Retain this as the precise source conjecture/comparison statement, separate from the nondegenerate theorem of 7.C.6g; no general theorem or present research-status conclusion is asserted here. Any theorem realization requires its actual additional scope and proof, not nondegenerate perturbation followed by a fixed-point count limit.
+For any closed finite-dimensional symplectic M, state the degenerate critical-number comparison statement: every smooth Hamiltonian isotopy from the identity to φ satisfies `c(M) ≤ #Fix(φ)` in `ℕ∞`, where fixed points count once. Retain this as the precise source conjecture/comparison statement, separate from the nondegenerate theorem of 7.C.6g; no general theorem or present research-status conclusion is asserted here. Any theorem realization requires its actual additional scope and proof, not nondegenerate perturbation followed by a fixed-point count limit.
 
 Construct the autonomous case independently of Floer counts. For smooth time-independent H on closed M, `dH=ι_(X_H)ω` and nondegeneracy give `dH(p)=0 iff X_H(p)=0`. ODE uniqueness makes the orbit through such p constant, so `Crit(H)⊆Fix(φ_H^1)`. If Crit(H) is finite, M4's minimum gives `c(M)≤#Crit(H)≤#Fix(φ_H^1)`; if it is infinite, the inclusion makes the fixed-point count∞. This proves the stated autonomous lower bound, including empty, disconnected and zero-dimensional cases through M4's own conventions. Conversely, time-one fixed points need not be equilibrium points. The general time-dependent comparison retains all source scope but is not inferred from this autonomous argument, LS alone, or the earlier Betti-rank estimate.
+
+**Checks.**
+- `S²`: `c(S²) = 2` (every function has a maximum and a minimum, and the height function has
+  exactly two critical points), so the statement asks for two fixed points; a rotation has
+  exactly two, so it is sharp, and it agrees with the Betti-sum bound `2` of 7.C.6g.
+- `T²`: `c(T²) = 3` (the cup-length bound gives `≥ 3`, and a function with three critical points
+  exists) while the Betti sum is `4`: the degenerate and nondegenerate bounds differ, so the
+  degenerate statement is not the limit of the nondegenerate theorem.
+- Autonomous: for `H = εf` with `f` the height function on `T²`, `Crit(H)` has four points and
+  `Crit(H) ⊆ Fix(φ_H^1)` gives `3 ≤ 4`; conversely the Hamiltonian generating a full rotation of
+  `S²` in time one has `Fix(φ_H^1) = S²` but only two equilibria, so time-one fixed points need
+  not be critical points.
 
 *Needs:* MorseTheory M4; AlgebraicTopology (the categorical-cover and cup-length supplier of MorseTheory M4); HamiltonianSystems Layer 1; Layer 6 item 1.
 
@@ -2182,8 +2404,10 @@ Construct J/K continuation with fixed nondegenerate ends, actual energy/support 
 - For `X = T²` and `ψ` a translation by a non-lattice vector there are no fixed points, no
   generators, and the complex is zero; the Lefschetz number `0` agrees.
 - The transgressions `I_ω`, `I_c` on loops of sections are not killed by asphericity: for
-  `ψ = id` on `T²` a loop of constant sections sweeping a torus has `I_ω ≠ 0`, so `Γ_a ≠ 0` and
-  the Novikov completion is genuinely needed, while `Γ = 0` for the contractible sector of 7.C.
+  `ψ = id` on `T² = ℝ²/ℤ²` the loop of sections `γ_s(t) = (t, s)` sweeps `T²` once, so
+  `I_ω = ∫_{T²} ω ≠ 0` although every sphere has zero area; hence `Γ_a ≠ 0` and the Novikov
+  completion is genuinely needed, while `Γ = 0` for the contractible sector of 7.C. A loop of
+  constant sections `γ_s ≡ x_s` sweeps only the circle `s ↦ x_s` in `T²` and has `I_ω = 0`.
 
 *Needs:* Layer 6 item 1; Layer 7 items 1–2; 7.C.1–7.C.4 (cylinder analysis, continuation and
 support, instantiated with the seam); 7.C.2 (the linear seam application and the Hamiltonian
@@ -2212,6 +2436,19 @@ Let X_t be a smooth seam-matched symplectic vector field. Put `θ_(X,t)=ι_(X_t)
 
 Construct its period character `P_X:H→R` from the actual swept integral, prove it factors through H, and construct a primitive A_X on the H-cover with `dA_X=Y_X`. Pin the deck convention by `A_X(A·x̃)=A_X(x̃)+P_X(A)`; then `N_X=−P_X` is the Novikov character. For `θ_X=∫₀¹θ_(X,t)dt`, derive the exact source area/flux formula `P_X(A)=−⟨[ω^f],A⟩+⟨[θ_X],∂f A⟩` from this dt∧ds sweep. Changing its orientation changes the character and its explicit exponent isomorphism, not the same completion by fiat. The reference section/frame determines the relative index. Define the deck spectral-flow character `ψ:H→2Z` on the actual self-adjoint end family; prove the source identity `ψ=2ψ_c` with the above canonical complex-bundle and dt∧ds conventions, its evenness and relative-index recapping formula. Construct its comparison with HeegaardFloer's single frame/Chern/CZ construction, retaining every actual change of source, end and frame convention. Set `K=ker ψ`. Retain torsion in H and K and all finite ties or dense images of N. Neither K nor this cover is the spherical cap quotient Γ of 7.C.
 
+**Checks.**
+- `f = id` on `T² = ℝ²/ℤ²` with `X = 0`: `T_f = T² × S¹`, and the loop of sections
+  `γ_s(t) = (t, s)` sweeps `F(t, s) = [(t, s), t]`, whose projection to `T²` is the identity in the
+  orientation `dt ∧ ds`; so `⟨[ω^f], A⟩ = ∫_{T²} ω = 1`, `P_0(A) = −1` and `N_0(A) = 1 > 0`. A
+  loop of constant sections `γ_s ≡ x_s` sweeps a circle in `T²` and has `P_0 = 0`.
+- `f = id` on `S²`: a loop of sections whose sweep `T² → S²` has degree one gives
+  `A = [S²] ∈ H₂(S² × S¹)`, `ψ_c(A) = ⟨c₁(TS²), [S²]⟩ = 2` and `ψ(A) = 4`, the index shift of a
+  cap change by the line in 7.C; a definition with `ψ = ψ_c` would give the odd value `2`.
+- Torsion is retained: for `f = id` on a symplectic four-manifold with `H₁(M; ℤ) = ℤ/2` (an
+  Enriques surface), `H₂(M × S¹; ℤ)` contains `H₁(M) ⊗ H₁(S¹) = ℤ/2`, swept by a loop of
+  constant sections along the nontrivial loop; `P_X` and `ψ` vanish on it, and a definition
+  replacing `H` by its torsion-free quotient would lose it.
+
 *Needs:* SymplecticGeometry S0 (the mapping torus at `φ = f⁻¹`); Layer 7.G (the seamed carrier); HeegaardFloer F1.3–F1.5; AlgebraicTopology Stages 5–6 (the mapping-torus homology and finite generation of `H₂`); Layer 6 item 1.
 
 ### 7.T.2 Metric, flow, end and determinant dictionary
@@ -2223,6 +2460,18 @@ Construct the source-compatible complex directly. Its compatible structure J_L d
 The source-compatible input is the negative end, output the positive end. For `J_D=−J_L`, prove `g_L(v,w)=ω(v,J_Dw)` and that `v(s,t)=u(−s,t)` solves the displayed this roadmap PDE with J_D and the same X. In a Hamiltonian chart, Y_X agrees with the differential expression of 7.C's A_H; reference constants remain explicit. Write the source arrow as `x_−→x_+`, with u(−∞)=x_− and u(+∞)=x_+. Then v(+∞)=x_− and v(−∞)=x_+: the native capped7.C positive-input arrow is `v_+→v_−=x_−→x_+`, the same generator arrow. In contrast the standing negative-input arrow is `v_−→v_+=x_+→x_−`, so that comparison requires the actual transpose/dualization. Do not force dualization in the capped branch merely from s reversal. For a closed source sweep write `F(t,s)=[u(s,t),t]` on the ordered domain `(t,s)` with orientation dt∧ds. After reflection define `G(s,t)=[v(s,t),t]=F(t,−s)` on the native ordered domain `(s,t)` with orientation ds∧dt. The coordinate map `(s,t)↦(t,−s)` has determinant +1, so these two oriented swept classes agree under the actual quotient identification; their ω-densities agree because `ω(v_s,v_t)=ω(u_t,u_s)`. In contrast the fixed-order sweep `F_v(t,s)=[v(s,t),t]=F(t,−s)` on `(t,s)` reverses orientation and negates the source class. These are different ordered carriers, not a blanket negative native class. For an open cylinder define the relative swept class with its actual end boundaries and attach the chosen source reference caps; transport those caps, their boundary orientations and extending frames through the displayed quotient map and the positive-determinant `(s,t)↦(t,−s)` identification to define the corresponding native capped carrier. Prove its equality to the transported source capped class in that declared reference system, recording separately any deck/reference-cap changes. A standing negative-input dual-complex readout still reverses the generator arrow and requires its own basis/deck/determinant comparison; it does not negate a native ds∧dt swept class merely by naming the opposite input. Construct the resulting actual maps of section/cap covers, deck characters, coefficient rings/localizations, reference bases and determinant lines. Compute the induced dual-complex, parity-shift and torsion inversion/sign formula using N4's ordered determinants, including the sign/deck ambiguity and the nonacyclic-zero components. Do not assert unchanged torsion or I_F from identical orbit sets, parity, or an ordinary continuation equivalence.
 
 Construct the Chern comparison for the positive-compatible vertical bundle (V,I) on source T_f and native `Y_(f⁻¹)`, its conjugate symbol bundle (V,J_L), and the actual extending-frame loop; it must verify the pinned source c₁^f/ψ formula and fix the signed native-index equality, not introduce a second CZ invariant or leave a free ± convention. Use a fixed end trivialization, the native small-rotation and scalar-crossing references, and the quotient-followed-by-negative-flow and outward-first parameter conventions of 7.C.2a to fix the comparison. Derive closed-orbit determinant orientations and the finite-cyclic action sign from these actual reference diagrams. Source s-parametrizations and classes may be used throughout the torsion construction until this uniquely specified native comparison is proved. No convention adapter is a hypothesis that grants the final invariant.
+
+**Checks.**
+- On `(ℝ², dq ∧ dp)` with `J₀ ∂_q = ∂_p`: `ω(J₀ v, v) = −|v|²`, so `g_L(v, w) = ω(J_L v, w)` is
+  positive definite for `J_L = −J₀` and negative definite for `J_L = J₀`; this is why
+  `J_D = −J_L` is the compatible structure of 7.C and `g_L(v, w) = ω(v, J_D w)`.
+- With `X = 0` and `J_L = −J₀` the source equation `u_s − J₀ u_t = 0` makes `u` antiholomorphic
+  in `s + it`, and the reflected `v(s, t) = u(−s, t)` holomorphic, which is the 7.C equation
+  `v_s + J_D v_t = 0`; using `J_L` in the 7.C equation without the reflection would give
+  antiholomorphic cylinders and the opposite sign in the energy identity.
+- The identification `(s, t) ↦ (t, −s)` has Jacobian determinant `+1` and `(t, s) ↦ (t, −s)`
+  has `−1`: the reflected cylinder sweeps the same class on the native ordered domain and the
+  negative class on the source-ordered one, so the two carriers must be kept apart.
 
 *Needs:* 7.T.1; 7.C.2a (orientation conventions); 7.C.0 (the action dictionary); MorseNovikov N4.
 
@@ -2246,6 +2495,19 @@ For each field component of `Q(Λ_F)`, apply N4's short-exact-sequence determina
 
 Use N4's actual `Localization(nonZeroDivisors)` and finite characteristic-zero field decomposition. Construct the maps from the integral completion to its rational-coefficient completion and their total quotients, proving preservation of nonzerodivisors and component compatibility from the finite-torsion/kernel splitting and actual support. Do not identify rationalized completed series with an unrestricted algebraic tensor product. For cutoff limits use N4's embedding into the larger Novikov rings over kernel-field coefficients, with the specified splitting-independence; no unsupported valuation on the raw total quotient is assumed. Generic Novikov/localization/determinant theorems stay with MorseNovikov; this lane owns their parity and Floer reference/basis application.
 
+**Checks.**
+- The connected zero-dimensional model: `M` a point, `f = id`, `C` with one section, `H = K = 0`,
+  `N_X = ψ = 0`. With the fixed zero-index reference the parity complex is `CF_even = ℤ`,
+  `CF_odd = 0`; after localization its even homology is `ℚ`, so `τ_F = 0`. A field ground change
+  gives the same calculation with that field as the even module. This is not the zero chain
+  complex.
+- The zero complex is acyclic with `τ = 1`; a nonacyclic field component has `τ = 0`; the
+  elementary acyclic complex `0 → F → F → 0` with odd-to-even map `a` has `τ = a⁻¹`.
+- Mixed components: for `K = ℤ ⊕ ℤ/2` with `N_X` vanishing on the torsion, the rationalized
+  completion contains `ℚ[ℤ/2] ≅ ℚ × ℚ` (idempotents `(1 ± g)/2`), so `Q(Λ_F)` has at least two
+  field components, and a complex acyclic on one and not the other has `τ_F = (a⁻¹, 0)`, which
+  is why `τ_F` lives in the whole total quotient and not in its units.
+
 *Needs:* MorseNovikov N1 and N4; 7.T.3.
 
 ### 7.T.5 Periodic formal flow and rational zeta
@@ -2261,6 +2523,19 @@ Construct energy-cutoff compactness with period and derivative bounds, exclusion
 `ζ_F=exp(η_F)∈1+Nov^{>0}(Q,K,N_X|K)`.
 
 Construct ζ_F's actual reference/gauge laws and rational coefficient map. Integral cylinder counts do not make ζ_F integral: no integral product formula or integral virtual/stabilizer cancellation is asserted. Compare the geometric torus in `S¹×T_f` with its formal-flow class and orientations, without identifying this count with an arbitrary genus-one Gromov–Witten or TaubesGromov zeta invariant.
+
+**Checks.**
+- `N_X|_K = 0`: the positive-energy identity `E = N_X(A) > 0` excludes nonconstant closed formal
+  flows, so `η_F = 0` and `ζ_F = 1`.
+- A single simple closed flow of class `A` whose `m`-fold covers are all regular with sign `+1`
+  contributes `Σ_{m ≥ 1} e^{mA}/m = −log(1 − e^{A})`, so `ζ_F = (1 − e^{A})⁻¹`, a unit of the
+  completion because `N_X(A) > 0`; with alternating signs `(−1)^{m+1}` it contributes
+  `log(1 + e^{A})` and `ζ_F = 1 + e^{A}`. Counting each parametrized cover with weight `1`
+  instead of `1/m` would give `exp(Σ e^{mA})`, which has neither form.
+- `f = id` on `T²` with `X = 0`: the class `A` of the degree-one sweep of 7.T.1 has `ψ(A) = 0`
+  (as `c₁(T²) = 0`) and `N_0(A) = 1 > 0`, so it is an admissible class for rigid closed flows;
+  on `S² × S¹` the class `[S²]` has `ψ = 4`, so its reduced dimension is `4 + p > 0` in every
+  window and it carries no rigid closed flow.
 
 *Needs:* 7.T.3; 7.T.2; MorseNovikov N1; Hutchings §7.6.
 
@@ -2284,6 +2559,23 @@ Construct pregluing, approximate cokernel/Kuranishi projections where needed, sc
 
 For each TypeII slide in A with N_X(A)>0, let T be the finite torsion subgroup of H and define div(A)>0 as the divisibility of its nonzero image in H/T. Construct the **nonequivariant perturbation property NEP**. For every prescribed finite cutoff and sufficiently small isolating parameter window, and every H-adapted slide-breaking finite cyclic cover of C with monodromy `π_m∘ν∘im`, a primitive integral homomorphism `ν:H→Z`, `ν(A)=div(A)` and `m>1` with `m∤div(A)`, construct an endpoint-relative cutoff-regular perturbation of the lifted formal flow. Derive its actual section/compactness/error controls, including any nonlocal loop-chart Hamiltonian variation needed to separate the lifted branches; an arbitrary configuration-space vector field is not an admissible elliptic perturbation by declaration. It need not descend to a local Hamiltonian on M. Prove its agreement with the unperturbed lift outside the chosen inner parameter window and its compatibility with the finite-cutoff deck/reference comparisons. Construct such connected degree-m covers using a primitive ν on the nonzero free part of A; N_X(A)>0 excludes torsion A. Retain the source-adapted cover comparison for a nonprimitive integral ν as well: use its actual image in Z/m, actual connected-component degrees and relabeled deck actions, and assemble the componentwise perturbations and orientation/norm comparisons. Do not call a non-surjective monodromy cover connected of degree m. Prove the reduction rather than discarding the additional adapted covers. For norm/cancellation arguments select the covers killing the finite torsion subgroup, as required by N4. Reuse N6's finite-cyclic algebra only after these Floer-specific perturbation and gluing hypotheses are established.
 
+**Checks.**
+- The scalar crossing: with the stated value `CZ_HF(A − ε) − CZ_HF(A + ε) = −1`,
+  `ind₊ − ind₋ = ν_L(A − ε) − ν_L(A + ε) = −(CZ_HF(A − ε) − CZ_HF(A + ε)) = +1`, independently
+  of `c_ref`; a definition with `ind₊ = ν_L(A + ε)` would give `−1`, and strong exponential
+  decay at `k_d` degenerate ends would then raise the index by `k_d` instead of lowering it, so
+  the emptiness `r − k_d − 1 < 0` below would not follow.
+- The fold model `β′ = −κβ²` has `β(s) = 1/(κs + c)`, so `β ≍ (1 + s)⁻¹`, `β′ ≍ (1 + s)⁻²` and
+  `β″ ≍ (1 + s)⁻³`, the exponents `−k − 1` for `k = 0, 1, 2`; then `σ_u ≍ (1 + s)²`,
+  `σ_u^{1/2} μ ≍ 1` is not in `L^q` on an infinite tail, while the translation variation
+  `u_s ≍ (1 + s)⁻²` has `σ_u^{1/2} u_s ≍ (1 + s)⁻¹` and `σ_u ∇_s(Π_L u_s) ≍ (1 + s)⁻¹`, both in
+  `L^q` for `q > 1`.
+- NEP covers: for `div(A) = 2` and `m = 3` the monodromy of `A` is `2 ≢ 0 (mod 3)`, so the slide
+  class does not lift to a closed loop and the Type II self-slide becomes a slide between distinct
+  generators upstairs; with `m = 2` it would lift and the cover would not break the slide; a
+  non-primitive `ν` with `ν(A) = 4` and `m = 2` has image `0` in `ℤ/2` and a disconnected cover,
+  which the adapted-cover comparison handles componentwise.
+
 *Needs:* 7.T.3–7.T.5; HeegaardFloer F0–F1; Lee I §§5–6 and Lee II.
 
 ### 7.T.7 Event formulas, zero branches and completion limits
@@ -2298,6 +2590,18 @@ At a TypeII slide construct the full positive-order self-slide series and the ch
 
 Construct cutoff-compatible endpoint/event-limit matrices and their supported chain homotopies to neighboring regular complexes to establish that the acyclic component set remains fixed at those limits. Prove total-quotient cutoff continuity and convergence of the successive event products in N4's larger componentwise Novikov embeddings. Derive invariance on the whole compact parameter interval from the finite-cutoff identities; do not apply a finite-event induction globally or assume completeness of the total quotient from completeness of Λ_F. Finally quotient the result by its actual simultaneous sign/deck ambiguity.
 
+**Checks.**
+- A death at odd upper index `i` with `b = 0`: the disappearing pair is the elementary complex
+  `0 → F → F → 0` with map `1`, so `τ_− = 1 · τ_+` and `ζ_− = ζ_+`; with `b ≠ 0` the factors
+  `(1 + b)^{(−1)^{i+1}}` on `τ` and `(1 + b)^{(−1)^i}` on `ζ` multiply to `1` in `I_F`, and
+  neither alone is invariant.
+- A birth is the same event read with the parameter reversed, so its factors are the inverses:
+  a death followed by a birth of the same pair with the same `b` returns `τ` and `ζ` to their
+  values, while reading the birth with the death's factors would multiply by `(1 + b)^{±2}`.
+- First-order truncation: for `b = βe^{A}` with `N_X(A) > 0`, `(1 + b)^{±1} = 1 ± βe^{A} + β²e^{2A} ∓ ⋯`
+  and `log(1 + b) = βe^{A} − β²e^{2A}/2 + ⋯`, so the `τ` and `ζ` factors agree only modulo
+  `e^{2A}` at first order; the Type II cancellation is an all-order statement.
+
 *Needs:* 7.T.4–7.T.6; MorseNovikov N1 and N4; Hutchings §7.5.
 
 ### 7.T.8 Corrected Hamiltonian-connected invariant
@@ -2307,6 +2611,16 @@ After the preceding constructions define
 `I_F=τ_F ζ_F ∈ Q(Nov(Q,K,N_X|K))/(±e^K)`.
 
 Prove that for fixed w⁺ M,f,C and any two constructed regular pairs `(J₁,X+χ_H₁)` and `(J₂,X+χ_H₂)`, the two I_F values agree after the explicit reference/coefficient identification. The actual endpoint-relative admissible-path existence theorem, with genericity only inside its constructed constrained perturbation classes, produces the comparison; no theorem hypothesis is an arbitrary record containing all desired compactifications or the final equality. Derive independence from the auxiliary regular J and Hamiltonian perturbation and the corresponding Hamiltonian-isotopy transport of f,C, with the actual loop-component action and deck/flux diagrams. An ordinary continuation chain homotopy equivalence alone is not an invariance proof for τ_F; the correction and event calculations are essential. This is the bounded Floer analogue of the source's torsion remark, independent of Layer 8's Serre/family endpoints.
+
+**Checks.**
+- The zero-dimensional model of 7.T.4: `τ_F = 0`, `ζ_F = 1`, `I_F = 0`.
+- Reference and lift changes and `s`-reversal act on the based determinant formulas by the sign
+  and deck-monomial ambiguity `±e^K`, and by nothing else.
+- Hamiltonian-connected pairs share their period character: a change `X ↦ X + X_H` leaves the
+  flux class `[θ_X]` and hence `P_X` fixed, so both `I_F` values live in one ring; on `T²` with
+  `f = id` the non-Hamiltonian change `X = 0 ↦ X = c ∂_x` has `θ_X = c dy`, and on the class
+  swept by a loop of constant sections along the `y`-circle `P_X = c ≠ 0 = P_0`, so the rings
+  differ and the comparison is 7.T.9's, not this item's.
 
 *Needs:* 7.T.3–7.T.7; Lee I §§2.2–2.3 and 4.
 
@@ -2319,21 +2633,18 @@ When M is positively monotone in the source's actual spherical sense, construct 
 whose image under `i_(−P_X)` is the constructed completed I_F for every regular pair. Include the zero-character to nonzero-character comparison through N1/N4's actual group-ring/total-quotient embeddings; arbitrary changing flux does not give identical completions. Prove invariance under symplectic isotopies with transport of f and of C by the actual π₁(Symp₀) action. Keep this stronger statement distinct from 7.T.8's fixed-period Hamiltonian-connected equality. Construct the source's identity-isotopic, basepoint-orbit specialization to the included classical abelian torsion of M only after its actual reference/period and finite-dimensional MorseNovikov comparison; it is not a definition of I_F or a generic PSS consequence.
 
 **Checks.**
-- The connected zero-dimensional model: `M` a point, `f = id`, `C` with one section, `H = K = 0`,
-  `N_X = ψ = 0`. With the fixed zero-index reference the parity complex is `CF_even = ℤ`,
-  `CF_odd = 0`; after localization its even homology is `ℚ`, so `τ_F = 0`; there are no
-  nonstationary periodic formal flows, so `ζ_F = 1` and `I_F = 0`. A field ground change gives
-  the same calculation with that field as the even module. This is not the zero chain complex.
-- `N_X|_K = 0`: the positive-energy identity excludes nonconstant closed formal flows, so
-  `ζ_F = 1`; the zero complex has `τ = 1`; a nonacyclic field factor has `τ = 0`; the acyclic
-  elementary odd-to-even map `a` has `τ = a⁻¹`; mixed field components keep each component’s
-  value.
-- Finite torsion in the deck group, a birth/death with nonzero return series `b`, and a Type II
-  event whose all-order correction is visible: the death factor `(1 + b)^{(−1)^{i+1}}` on `τ` and
-  `(1 + b)^{(−1)^i}` on `ζ` cancel in `I_F`, and a first-order truncation of `b` would not cancel
-  the Type II factor.
-- Reference and lift changes and `s`-reversal act on the based determinant formulas by the
-  sign and deck-monomial ambiguity `±e^K`, and by nothing else.
+- `M` a point: the group-ring value is `0 ∈ ℚ(ℤ[0]) = ℚ` and its image is the completed
+  `I_F = 0` of 7.T.8.
+- `T²` with `f = id`: the characters of `X = 0` and `X = c ∂_x` differ on the class swept by a
+  loop of constant sections along the `y`-circle (`0` against `c`, 7.T.8's Check), so the two
+  completed rings are different completions of the one group ring `ℚ(ℤ[K])`, and the two
+  completed `I_F` values are comparable only through the common group-ring value; a statement
+  identifying the two completions by fiat would be false.
+- The translation of `T²` by `(c, 0)` is the time-one map of `X = c ∂_x`, symplectically but not
+  Hamiltonian isotopic to the identity, so its comparison with `f = id` is this item's and not
+  7.T.8's. The loop `t ↦` translation by `(t, 0)` in `Symp₀(T²)` sends the component of the
+  constant sections of `T_id` to that of the sections `t ↦ x + (t, 0)`, a different free homotopy
+  class of loops: the invariance statement transports `C` and cannot fix it.
 
 These checks do not assert an integral zeta formula, a quantitative fixed-point bound, a
 nonabelian `s`-cobordism theorem or equality with a general genus-one curve count. Lee I,
@@ -2627,8 +2938,12 @@ Layer 9 item 4, Layer 6 item 5, Layer 5 item 5.
   `c°_HZ(D*T^r) = ∞`, as Layer 6 item 5's check shows directly.
 - The bound `c(α)` is monotone in `α` under the action filtration: a class of smaller action
   gives a smaller capacity bound.
-- Proposition 6.7 for `Q = S²` through Proposition 5.11: `ker i_{S²*}` contains `ℤ` in degree
-  `0` (worked example 5), so `c°_HZ(D*S²) < ∞`.
+- For `Q = S²` the degree-`0` class of Proposition 5.11 (worked example 5) does not satisfy
+  Proposition 6.7: `j_!` has degree `−n = −2`, so `j_!(α) ∈ H_{−2}(𝓕 ⊗ |Q|) = 0` for every
+  degree-zero class, and the hypothesis `j_!(α) ≠ 0` needs a class of positive degree. The
+  fibered families of 2-spheres that supply one (the source's Example 6.16) are DGFloerPartII's,
+  so this roadmap proves nothing about `c°_HZ(D*S²)`; its `S²` statement is Theorem A through
+  Propositions 5.9, 5.11 and 5.13 (item 3).
 
 ### 10.3 The cotangent criterion
 
@@ -2963,7 +3278,8 @@ Tau Ceti's Mathlib and conventions.
 - S. Piunikhin, D. Salamon, M. Schwarz, *Symplectic Floer–Donaldson theory and quantum
   cohomology*, in *Contact and Symplectic Geometry*, Publications of the Newton Institute 8,
   Cambridge University Press, 1996, 171–200, §4: the PSS maps of Layer 7.C.3b and 7.C.5b.
-- P. Seidel, *A biased view of symplectic cohomology*, arXiv:0704.2055, §3: Layer 7 item 5.
+- P. Seidel, *A biased view of symplectic cohomology*, arXiv:0704.2055, §2(a) (Liouville
+  domains and their completions, Layer 6 item 2) and §3 (Layer 7 item 5).
 - M. Abouzaid, *Symplectic cohomology and Viterbo's theorem*, arXiv:1312.3354 (version 2);
   in *Free loop spaces in geometry and topology*, IRMA Lect. Math. Theor. Phys. 24 (2015).
   Chapter numbers follow the arXiv version: Chapter 1 (Layer 7 item 5), Chapter 3 (Layers 5
