@@ -1,4 +1,6 @@
-import Mathlib
+module
+
+public import Mathlib
 
 /-!
 # Spin geometry: target signatures
@@ -30,6 +32,8 @@ The remaining Fock metric, Hodge/chirality and graded-product comparisons use th
 polarized exterior module, Hodge star and graded tensor metric comparisons specified
 in G1/G2; those comparison carriers are not supplied here by ad hoc encodings.
 -/
+
+@[expose] public section
 
 noncomputable section
 

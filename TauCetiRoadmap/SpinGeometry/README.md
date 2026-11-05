@@ -176,7 +176,7 @@ G1 supplies the metric Clifford dictionary, Morita evaluation and trace; G2 fixe
 chirality and exterior comparisons. G3 constructs bundles and connections, G4
 principal lifts, and G5 associated spinors. G6.1–G6.3 construct the complex
 operator before G6.0's real analytic index; G6.7 then identifies its quaternionic
-normalization. G4.4a's square-root comparison follows G5.3. Each target lists its
+normalization. G5.3 compares its square roots with G4.4a's rank-two criterion. Each target lists its
 statement and proof-route inputs; G labels remain the cross-roadmap locators.
 
 ## Layer 1: Negative-metric Clifford modules and their positive metrics
@@ -579,12 +579,12 @@ and multiplication bounds rather than leaving the norm unspecified. Prove gluing
 pullback along bundle maps, metric isometry naturality and the G1
 complexification/even-algebra comparisons as smooth bundle maps. Apply
 this to TM and T*M using the musical isometry and to pullback/normal bundles.
-For a compact Lie group G with orthogonal ρ:G→O(V), unitary
+For a Lie group G with orthogonal ρ:G→O(V), unitary
 μ:G→U(E) and intertwining equality
 c(ρ(g)v)=μ(g)c(v)μ(g)^(−1), descend the algebra/module structures to
 P×_GCl(V), P×_GV and P×_GE for any principal G-bundle P. Prove the
 smooth generator/action/metric comparisons and functoriality; this includes
-every compact-group associated construction satisfying the displayed intertwining law.
+every associated construction satisfying the displayed intertwining law, with no compactness assumed of G.
 Identify c with the corresponding tensor in V_ℂ*⊗E*⊗E, using finite-
 dimensional Hom/tensor and scalar-extension maps. Prove the intertwining
 equation is equivalent to that tensor being G-fixed, with the induced
@@ -599,6 +599,7 @@ tensor representation written explicitly.
 - For the trivial line bundle, every fiber has basis (1,e) with e²=−1 and Gram squared norm a²+b².
 - The reflection e↦−e preserves this product and norm; e↦2e has square −4 and is not an isometric transition.
 - For the zero vector bundle, the algebra bundle is the scalar line, not the zero bundle; its unit is 1.
+- For the non-compact group G=ℝ acting on the plane by ρ(t)=rotation by 2t and on the Fock plane by μ(t)=diag(e^(−it),e^(it)), with c(e₁)=[[0,−1],[1,0]] and c(e₂)=[[0,i],[i,0]], both sides of the intertwining law at e₁ equal [[0,−e^(−2it)],[e^(2it),0]], so the descent applies; a definition requiring compactness would exclude it.
 
 ### 3.2 Hermitian Clifford modules (G3.2)
 
@@ -930,8 +931,7 @@ SO(1), and at n=2 it is the circle squaring cover. Apply the skeletal model
 to this stabilized rank-three bundle. For rank two, an unstabilized frame
 over X¹ extending to X² instead forces e(V)=0. Prove Spin existence iff
 e(V) belongs to 2H²(X;Z), including torsion, using ρe=w₂ and the integral
-coefficient exact sequence. Compare G5.3's square-root description,
-retaining the root isomorphism as part of the data. For rank one an
+coefficient exact sequence. For rank one an
 orientation trivializes V, but its Spin lifts still form the H¹ torsor.
 Rank zero retains G4.4's separate geometric μ₂ and orientation conventions.
 
@@ -946,9 +946,8 @@ skeletal and principal descriptions, stabilization and the H¹ torsor.)
 The cellular cochains, moving-vertex homotopies and infinite-CW naturality
 use AlgebraicTopology §8.9; the integral rank-two criterion uses
 CharacteristicClasses C3.2's equality w₂=ρe and the coefficient exact sequence.
-The comparison retains the root isomorphism from G5.3.
 
-*Needs:* G4.2–G4.4; AlgebraicTopology §8.9; SpinRepresentations Layer 2; CharacteristicClasses C3.2 and C7.3 for the Euler comparison and radial stable framing; G5.3 for the square-root comparison.
+*Needs:* G4.2–G4.4; AlgebraicTopology §8.9; SpinRepresentations Layer 2; CharacteristicClasses C3.2 and C7.3 for the Euler comparison and radial stable framing.
 
 **Checks.**
 
@@ -966,7 +965,7 @@ existence and a chosen trivialization.
 
 G1.1, the native covering/Lie projection, TopologicalKTheory T6.4,
 CharacteristicClasses C1/C3.2/C3.5/C7.3, AlgebraicTopology §8.9 and SpinRepresentations
-Layer 2. The final low-rank square-root comparison also uses G5.3.
+Layer 2.
 ## Layer 5: Spinor bundles, chiral products and rank-two roots
 
 ### 5.0 Real regular Clifford spinors (G5.0)
@@ -1101,15 +1100,28 @@ square roots of E (including the root isomorphism), and construct the
 connections with curvature halving. The labels must obey these explicit
 characters; reversing the orientation interchanges them. In this convention the square root of E is S⁻, while S⁺ is its dual.
 
+Compare this description with G4.4a's rank-two criterion. Under the
+equivalence, a Spin lift of (V,J) is a Hermitian line L with a chosen
+isomorphism `L⊗L≃E`, and the root isomorphism is retained as part of the
+data, not only the isomorphism class of L. Prove that the two existence
+statements agree: a root exists precisely when e(E)=2c₁(L) is solvable in
+H²(X;Z), which is G4.4a's condition e(V)∈2H²(X;Z), and that the H¹(X;Z/2)
+torsor of G4.4 acts on roots by tensoring with the flat real line bundle's
+complexification: this changes the root isomorphism, and changes c₁(L) by
+the integral Bockstein of the twisting class, which vanishes when H²(X;Z)
+has no 2-torsion but not in general.
+
 (Nicolaescu, Example 12.1.54, pp. 648–649, for the squaring cover.)
 
-*Needs:* G1.2; G4.1–G4.4; G5.1; TopologicalKTheory line-bundle classification.
+*Needs:* G1.2; G4.1–G4.4; G4.4a for the rank-two criterion; G5.1; TopologicalKTheory line-bundle classification.
 
 **Checks.**
 
 - At θ=π/2, z=i acts on E by −1 and on S⁺,S⁻ by −i,i; their squares both give −1, and their distinct characters fix the labels.
 - On S² with e(E)=2, a root has Chern class 1 and its dual has class −1; S⁻ is the root of E.
 - On S² with e(E)=1, the equation 2c₁(L)=1 has no integral solution, so no root or spin lift exists.
+- On T² the trivial plane bundle has e=0 and four roots, all with c₁=0, differing by the four flat real lines complexified; a comparison that recorded only c₁(L) would count one.
+- On ℝP³ with E trivial, the two roots are the trivial line and the complexified tautological real line, whose c₁ is the nonzero element of H²(ℝP³;Z)=Z/2; twisting does not preserve the isomorphism class of L there.
 
 ### Examples
 
@@ -1118,7 +1130,7 @@ and the square-root label.
 
 ### Dependencies
 
-G1–G3, G4.1–G4.4 and associated connections; TopologicalKTheory T2 for virtual classes
+G1–G3, G4.1–G4.4a and associated connections; TopologicalKTheory T2 for virtual classes
 and GeneralizedCohomology G5.5 for mixed-signature conventions.
 ## Layer 6: Dirac operators and curvature formulas
 
@@ -1575,7 +1587,7 @@ uses G4.1a and native Lie differential APIs, independently of C3.5.
 G4.4's torsor uses a given lift and central-bundle descent independently of
 that obstruction equality. G4.4a additionally consumes AT8.9's CW obstruction
 API and SpinRepresentations Layer2's independent compact-real simple-connectivity
-foundation; its low-rank root comparison follows G5.3. G5 uses G1–G3 and G4.1–G4.4. G6 follows G3/G5 and uses
+foundation. G5 uses G1–G3 and G4.1–G4.4a; G5.3 compares its square roots with G4.4a's rank-two criterion. G6 follows G3/G5 and uses
 K5/PDO analysis; the exterior instance only needs G2/G3. Numerical topological index theorems are separate consumers of this development. For each object supply constructors/characterization,
 extensionality, regularity, naturality, local-frame/gluing comparison and edge
 cases, not only the headline theorem.
