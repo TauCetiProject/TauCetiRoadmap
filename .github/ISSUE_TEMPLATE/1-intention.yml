@@ -63,6 +63,7 @@ body:
         - EnhancedDerivedSheaves
         - EtaleCohomologyFoundations
         - EtaleMassFormula
+        - FactorRigidity
         - FinancialMathematics
         - FiniteGroupExtensionSplitting
         - FlagVarieties
@@ -143,6 +144,7 @@ body:
         - StandardDistributions
         - SubspaceTheorem
         - SuccessiveMinima
+        - SymplecticFieldTheory
         - SymplecticGeometry
         - TauberianBoundaryConvergence
         - TaubesGromov
@@ -151,6 +153,7 @@ body:
         - TopologicalKTheory
         - TopologicalSheafCohomology
         - TypeAHeckeAlgebras
+        - VonNeumannAlgebras
         - Yamabe
         - ZigzagPreprojective
     validations:
