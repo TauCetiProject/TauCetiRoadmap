@@ -10,7 +10,7 @@ headline theorems against the pinned APIs. The finite permutation count in
 `hasEulerianExteriorWeights` spells out the descent-indexed Eulerian number of
 ClassicalArithmeticCompletion §2.18 solely to state the exterior-weight theorem.
 It introduces no separate general Eulerian-number API. Jordan's theorem on finite
-linear groups, which the family detection argument of §7.5 consumes, is stated by
+linear groups, which the family detection argument of §7.4 consumes, is stated by
 FiniteGroupInvariants §10.5 (`jordanBound`, `jordan_exists_abelian_normal_index_le`,
 `jordan_exists_abelian_normal_index_le_of_finite_map`, `finrank_le_jordanBound`)
 and is not restated here.
