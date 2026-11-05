@@ -61,6 +61,7 @@ body:
         - EllipticIntegrals
         - EnhancedDerivedSheaves
         - EtaleCohomologyFoundations
+        - EtaleMassFormula
         - FinancialMathematics
         - FiniteGroupExtensionSplitting
         - FlagVarieties
