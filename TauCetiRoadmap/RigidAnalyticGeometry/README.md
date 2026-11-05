@@ -1,6 +1,6 @@
-# Rigid analytic geometry
+# Roadmap: rigid analytic geometry
 
-Develop classical affinoid algebra and its comparison with rigid and adic
+**Summary.** Develop classical affinoid algebra and its comparison with rigid and adic
 geometry over a complete nontrivially valued nonarchimedean field. The algebraic
 milestones are Noether normalisation, the maximum modulus principle, integral
 reduction and the Banach function algebra theorem. The geometric milestones
@@ -9,11 +9,12 @@ them with the shared adic-space programme. Coherent cohomology and proper
 GAGA are transported from their named suppliers. Applications include proper
 cohomology, analytic families and the geometry underlying eigenvarieties.
 
-This README is the mathematical specification. Every target and check is
-required. [Suggested.lean](Suggested.lean) fixes representative interfaces on
-existing carriers; its admitted theorems are specifications, not proofs. It is
-not an exhaustive checklist. Production modules import library mathematics,
-not another roadmap's prototype.
+This README is the roadmap; every target and Check is required.
+[Suggested.lean](Suggested.lean) states the roadmap's headline theorems with
+`sorry` against the pinned Mathlib and Tau Ceti, with only the definitions
+needed to state them; its module docstring names the headline theorems that
+are not statable at the pins. Production modules import library mathematics,
+not a roadmap's prototype.
 
 ## Scope and ownership
 
@@ -24,16 +25,25 @@ roadmap and transported through explicit maps. Dependencies are between theorem
 groups: the affinoid algebra and classical category do not depend on the later
 cohomology theorems which consume them.
 
+Formal models, Raynaud's theorem, admissible blow-ups, dagger geometry,
+eigenvariety gluing, automorphic forms and curve uniformisation are outside
+this roadmap. Dagger algebras, weak completion, étale and pro-étale geometry
+and their site comparisons belong to AdicSpacesPartIV and AdicEtaleGeometry;
+the comparison of the numerical slope predicate of §7.2 with geometric slope
+criteria belongs to LocallyAnalyticDistributions §4.16. The geometric contracts
+below fix the required scope rather than inviting an independent
+implementation of those subjects.
+
+## Exact supplier contracts
+
 | Supplier | Interface used here | Boundary |
 | --- | --- | --- |
-| [Restricted power series][RestrictedPowerSeries] ([PR #919](https://github.com/TauCetiProject/TauCetiRoadmap/pull/919)), §§2.4, 4–6 | Native Tate algebras, Gauss norms, reduction, evaluation, Weierstrass theory, distinguished charts, Rückert theory, closed ideals and finite Tate modules; positive-polyradius algebra | Those constructions and proofs are not repeated here. Weak stability of the Gauss fraction field, general affinoids and the converse strict-radius criterion are below |
-| [P-adic functional analysis][PadicFunctionalAnalysis] ([PR #930](https://github.com/TauCetiProject/TauCetiRoadmap/pull/930)), Layers 0–2 | Gauges, bounded maps, open mapping, finite-module topology, `c₀` presentations, countable type and bounded lifting | General Banach-module analysis stays there; §7.1 specifies the additional prerequisite contracts precisely |
-| [Compact operators][CompactOperators] ([PR #932](https://github.com/TauCetiProject/TauCetiRoadmap/pull/932)), Layers 0–3 | Finite-image approximation, complete continuity, Fredholm series and Riesz projectors | No new complete-continuity or determinant definition here |
-| [Scheme and stack foundations](../SchemeAndStackFoundations/README.md) | Japanese/Nagata ring vocabulary, permanence criteria, excellence and algebraic completion criteria | Apply the shared algebraic criteria; do not introduce another `Ring.IsJapanese` |
-| [AdicSpaces](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AdicSpaces) and [Part II, PR #817](https://github.com/TauCetiProject/TauCetiRoadmap/pull/817), R0–R1 | Huber pairs, topological localisation, completed tensors, spectral theory, adic morphisms and adic analytification | This roadmap supplies classical affinoid and rigid theory to R0.9 and R1, including the rigid–adic comparison; Part II owns the adic constructions and additional morphism comparisons |
-| [Part III, PR #813](https://github.com/TauCetiProject/TauCetiRoadmap/pull/813), R3.1–R3.7 | Coherence, Kiehl's Banach lemmas, almost noetherianity, complete field extension, quasi-Stein and proper cohomology, proper GAGA | §§1.3, 2.3 and 7 record classical specialisations; R3.6's algebraic inputs precede its geometric applications. Classical affinoid acyclicity is supplied here |
-| [Part IV, PR #815](https://github.com/TauCetiProject/TauCetiRoadmap/pull/815), F1.1 and R5.7 | Consumers of strict-polyradius affinoidness and rational-local reducedness | Dagger algebras, weak completion, étale/pro-étale geometry and their site comparisons stay there |
-| [LocallyAnalyticDistributions, PR #854](https://github.com/TauCetiProject/TauCetiRoadmap/pull/854), §§4.2, 4.16 | The `C₀` tensor comparison, geometric slope tests, Fredholm-window existence and finite-slope complexes | §7.2 supplies the classical module-level slope predicate, decomposition and projection; LAD owns geometric comparison, functoriality and uniqueness |
+| [RestrictedPowerSeries](../RestrictedPowerSeries/README.md) §§2.4, 4–6 | Native Tate algebras, Gauss norms, reduction, evaluation, Weierstrass theory, distinguished charts, Rückert theory, closed ideals and finite Tate modules; positive-polyradius algebra | Those constructions and proofs are not repeated here. Weak stability of the Gauss fraction field, general affinoids and the converse strict-radius criterion are below |
+| [PadicFunctionalAnalysis](../PadicFunctionalAnalysis/README.md) Layers 0–2 | Gauges, bounded maps, open mapping, finite-module topology, `c₀` presentations, countable type and bounded lifting | General Banach-module analysis stays there; §7.1 specifies the additional prerequisite contracts precisely |
+| [CompactOperators](../CompactOperators/README.md) Layers 0–3 | Finite-image approximation, complete continuity, Fredholm series and Riesz projectors | No new complete-continuity or determinant definition here |
+| [SchemeAndStackFoundations](../SchemeAndStackFoundations/README.md) §§0.20–0.21 | Japanese/Nagata ring vocabulary, permanence criteria, excellence and algebraic completion criteria | Apply the shared algebraic criteria; do not introduce another Japanese-ring predicate |
+| [AdicSpaces](../../Completed/AdicSpaces/README.md) Layers 1–5 and [AdicSpacesPartII](../AdicSpacesPartII/README.md) R0–R1 | Huber pairs, topological localisation, completed tensors, spectral theory, adic morphisms and adic analytification | This roadmap supplies classical affinoid and rigid theory to R0.9 and R1, including the rigid–adic comparison; Part II owns the adic constructions and additional morphism comparisons |
+| [AdicSpacesPartIII](../AdicSpacesPartIII/README.md) R3.1–R3.7 | Coherence, Kiehl's Banach lemmas, almost noetherianity, complete field extension, quasi-Stein and proper cohomology, proper GAGA | §§1.3, 2.3 and 7 record classical specialisations; R3.6's algebraic inputs precede its geometric applications. Classical affinoid acyclicity is supplied here |
 
 The interfaces consumed by Part II are `IsAffinoidAlgebra`, the affinoid
 norm and reduction theorems, `Sp`, affinoid subdomains, classical Tate
@@ -52,11 +62,9 @@ containment in a finite submodule is equivalent to finitely generated image.
 Use PFA's gauges, model spaces and countable-type APIs under those comparisons.
 Part III retains the strict lattice condition, perturbation corollaries and
 Kiehl applications; they do not create a second operator library.
-
-Formal models, Raynaud's theorem, admissible blow-ups, dagger geometry,
-eigenvariety gluing, automorphic forms and curve uniformisation are outside
-this roadmap. The geometric contracts below fix the required scope rather
-than inviting an independent implementation of those subjects.
+AdicSpacesPartIV and LocallyAnalyticDistributions consume this roadmap and
+supply nothing to it; their interfaces are listed under
+**Downstream consumers**.
 
 ## Conventions and foundations
 
@@ -65,7 +73,8 @@ than inviting an independent implementation of those subjects.
    additional hypotheses only where stated. Put
    `√|K×| = {r>0 : ∃ n≥1, ∃ c∈K×, r^n=|c|}`.
 2. `Tₙ=K⟨X₁,…,Xₙ⟩` is the shared native restricted-series algebra at unit
-   polyradius. Use coefficient-preserving equivalences for alternative
+   polyradius (`TateAlgebra K n`, the case `ρ=1` of the weighted carrier
+   `weightedTate K n ρ`). Use coefficient-preserving equivalences for alternative
    presentations. Distinguished-variable conventions must agree with the
    supplier's iteration map, including the choice of first or last variable.
 3. `IsAffinoidAlgebra K A` is a proposition: there is a surjective algebra
@@ -108,23 +117,31 @@ roadmap's `Suggested.lean`.
 
 ### Existing library interfaces
 
-The prototype uses Tau Ceti `a91d3aaf` and Mathlib `6b7abb3c`. Import
-`TauCeti.RingTheory.MvPowerSeries.TateAlgebra.Basic`: the native restricted
-subring already has its coefficient algebra, Gauss norm and completeness.
-Use `MvPowerSeries.norm_eq_gaussNorm`, `NormMulClass` and the native
-coefficient embedding rather than defining another normed Tate algebra.
+Import `TauCeti.RingTheory.MvPowerSeries.TateAlgebra.Basic`: the native
+restricted subring already has its coefficient algebra, Gauss norm and
+completeness. Use `MvPowerSeries.norm_eq_gaussNorm`, `NormMulClass` and the
+native coefficient embedding rather than defining another normed Tate algebra.
 `pointNorm` uses Mathlib's `spectralNorm` on the actual maximal-ideal quotient.
 
-Follow Mathlib's [restricted-series carrier #42867](https://github.com/leanprover-community/mathlib4/pull/42867)
-and [Gauss-norm API #42871](https://github.com/leanprover-community/mathlib4/pull/42871).
-For boundedness, Huber rings and `Spa`, use the native Tau Ceti interfaces
-and the comparisons directed by [#40013](https://github.com/leanprover-community/mathlib4/pull/40013),
-[#42312](https://github.com/leanprover-community/mathlib4/pull/42312),
-[#38009](https://github.com/leanprover-community/mathlib4/pull/38009) and
-[#42315](https://github.com/leanprover-community/mathlib4/pull/42315).
-Valuations are considered up to equivalence; a chosen representative is not
-a replacement for `Spv`. Missing results are required in Tau Ceti in these
-interfaces, independently of the timing of the Mathlib proposals.
+Use Mathlib's restricted-series carrier `MvPowerSeries.IsRestricted` and its
+Gauss-norm API `MvPowerSeries.gaussNorm`. For boundedness, Huber rings and
+`Spa`, use the native Tau Ceti interfaces and their comparisons. Valuations
+are considered up to equivalence; a chosen representative is not a replacement
+for `Spv`. Missing results are required in Tau Ceti in these interfaces.
+
+## How to read the build
+
+Layer 0 imports the Tate package and proves weak stability and finite
+normalisation. Layer 1 builds affinoid algebras, their unique Banach topology,
+tensor products, fraction algebras and the strict-radius criterion. Layer 2
+builds the supremum seminorm, the maximum modulus and Banach function algebra
+theorems, reduction and presentation rings. Layers 3–4 construct classical
+affinoid spaces and subdomains; Layer 5 proves Tate acyclicity; Layer 6 builds
+G-topologies, rigid spaces and the classical properness predicates; Layer 7
+records the Banach contracts for Kiehl's theorem, the numerical slope
+interface, coherence, proper cohomology and formal functions; Layer 8
+constructs analytification and the rigid–adic comparison. Each layer ends with
+its examples and its dependencies.
 
 ## Layer 0: shared Tate inputs and weak stability
 
@@ -144,6 +161,12 @@ generation of maximal ideals, nearest-point results for Tate ideals and
 strictness for finite Tate modules. The last property is specific input;
 nearest points are not assumed to exist in every Banach subspace.
 
+*Needs:* RestrictedPowerSeries §§2.4 and 5 (Gauss norm, polynomial density,
+reduction, evaluation, maximum modulus, Weierstrass theory, noetherianity,
+dimension, closed ideals and strictness for finite Tate modules); Mathlib
+`MvPowerSeries.IsRestricted` and `MvPowerSeries.gaussNorm`; Tau Ceti
+`MvPowerSeries.norm_eq_gaussNorm`.
+
 **Checks.** Transport constants, variables, products and coefficients through
 the carrier comparison. Over `ℚ_p`, `p+T²` has maximum one at `T=1`, whereas
 its value at zero is `|p|`; the reduction of `p+T+pT²` is `T`. For `n=0`
@@ -162,28 +185,52 @@ hypothesis of a Banach-space theorem.
 
 Equip `Frac(Tₙ)` with the extended Gauss norm and prove it weakly stable
 in every characteristic, using [BGR] 5.3.1/1 and 3.5.3/1–2. Apply the
-Japanese-ring criteria of SchemeAndStackFoundations to prove that the integral
-closure of `Tₙ` in every finite extension of its fraction field is finite.
+Japanese-ring criteria of SchemeAndStackFoundations §0.20 to prove
+`integralClosure_finite`: the integral closure of `Tₙ` in every finite
+extension of its fraction field is a finite `Tₙ`-module.
 The inseparable step uses [BGR] 4.1/3–4 and 4.4/2 and is part of the theorem.
 Neither separability nor a discrete valuation may replace that step.
+
+*Needs:* §0.1 (noetherianity, factoriality and integral closedness of `Tₙ`,
+from RestrictedPowerSeries §5); PadicFunctionalAnalysis §2.4 (complete
+countable-type Banach spaces); SchemeAndStackFoundations §0.20 (Japanese rings
+and their permanence criteria); Mathlib `integralClosure`, `FractionRing` and
+`Module.Finite`.
 
 **Checks.** The zero-variable case agrees with finite extensions of `K`.
 Test both a separable extension and a characteristic-`p` purely inseparable
 extension. Keep the normed fraction field distinct from its completion;
 completeness of `Tₙ` does not imply completeness of `Frac(Tₙ)`.
 
+### Examples
+
+Over `ℚ_p`, `p+T²` has Gauss norm one and supremum one, attained at `T=1`
+and not at zero; `T₀=K` recovers the field with its norm. In characteristic
+not two, the integral closure of `T₁` in `Frac(T₁)(√T)` is `T₁[√T]`, free
+of rank two; in characteristic `p` the purely inseparable extension
+`Frac(T₁)(T^(1/p))` has integral closure `T₁[T^(1/p)]=K⟨T^(1/p)⟩`, free of
+rank `p`, which the separable-only argument does not reach.
+
+### Dependencies
+
+RestrictedPowerSeries §§2.4, 4–6; PadicFunctionalAnalysis §2.4;
+SchemeAndStackFoundations §0.20; Mathlib restricted series, Gauss norms,
+integral closure and fraction fields. Nothing of Layers 1–8 is used.
+
 ## Layer 1: affinoid algebras and their topology
 
 ### 1.1 Presentations and complete topology
 
-Construct quotient norms, prove noetherianity and the Jacobson property,
+Construct quotient norms, prove noetherianity and the Jacobson property
+(`isNoetherianRing`, `isJacobsonRing`),
 closedness of ideals and closure under quotients and finite algebra
 extensions. Construct `A⟨X⟩` from the shared relative-series interface,
 with iteration and the continuous universal property for power-bounded
 variable images. Surjections induce the expected quotient topologies.
 
-Prove automatic continuity of algebra maps from a noetherian Banach
-`K`-algebra to an affinoid by the closed-graph argument of [BGR] 3.7.5 and
+Prove `continuous_algHom_of_isNoetherianRing`, automatic continuity of
+algebra maps from a noetherian Banach `K`-algebra to an affinoid carrying any
+complete algebra norm, by the closed-graph argument of [BGR] 3.7.5 and
 6.1.3. Its algebraic inputs include finite-dimensionality of `A/𝔪^n` for
 `n≥1` and
 `⋂_{𝔪 maximal} ⋂_{n≥1} 𝔪^n=0`.
@@ -197,6 +244,13 @@ Use the finite-module topology from PFA to prove
 algebra map, equipped with complete algebra norms, is a closed topological
 embedding. Continuity is a conclusion. Norm-one equality is not.
 
+*Needs:* §0.1 (Weierstrass theory, closed ideals and strictness for finite
+Tate modules); RestrictedPowerSeries Layer 4 (restricted series over Banach
+rings, `A⟨X⟩`) and §§5.2–5.3; PadicFunctionalAnalysis §1.2 (open mapping and
+closed graph) and Layer 1 (finite-module topology); Mathlib
+`IsNoetherianRing`, `IsJacobsonRing`, quotient norms and
+`Topology.IsClosedEmbedding`.
+
 **Checks.** Quotient by zero and by the unit ideal; dual numbers; an
 equivalent but differently scaled module norm. In `K×K`, powers of a fixed
 maximal ideal have nonzero intersection, while the intersection over both
@@ -205,17 +259,23 @@ maximal ideals is zero.
 ### 1.2 Normalisation, points and dimension
 
 For `A≠0`, construct a finite injective map `T_d→A` using distinguished
-charts, and prove `d=dim A`. Establish finiteness in towers and the
+charts (`exists_finite_injective`), and prove `d=dim A`. Establish finiteness in towers and the
 torsion-free consequences when the target is a domain. Quotients by ideals
 with maximal radical are finite-dimensional over `K`. Maximal ideals
 contract to maximal ideals under affinoid algebra maps, and every maximal
-residue field is finite. Deduce that affinoid domains are Japanese from §0.2.
+residue field is finite (`finite_residue`). Deduce that affinoid domains are Japanese from §0.2.
 
 For an affinoid **domain**, prove
 `height_eq_ringKrullDim_of_isDomain`: every maximal ideal has height
 `dim A` ([Conrad], Lemma 2.1.5). For general affinoids give the corresponding
 componentwise statements, without asserting that all components have the
 same dimension.
+
+*Needs:* §0.1 (distinguished charts, `dim Tₙ=n`, finite residue fields of
+`Tₙ`); §0.2 (`integralClosure_finite`); §1.1 (finite extensions and
+quotients of affinoids are affinoid); SchemeAndStackFoundations §§0.20–0.21
+(Japanese and excellent rings, permanence and completion criteria); Mathlib
+`MaximalSpectrum`, `Ideal.height` and `ringKrullDim`.
 
 **Checks.** The cusp `K⟨X,Y⟩/(Y²−X³)` is finite over `K⟨X⟩` and has
 dimension one. `(T²−p)` in `ℚ_p⟨T⟩` has quadratic residue field and
@@ -256,6 +316,12 @@ with exact sequences and repeated field extension. No algebraicity or
 spherical completeness of `L/K` is assumed. For finite `L/K`, compare to
 the algebraic tensor model with its complete finite-module topology.
 
+*Needs:* §1.1 (`A⟨X⟩`, presentations and quotient topologies);
+PadicFunctionalAnalysis Layer 1 (finite-module topology); AdicSpacesPartII
+R0.3 (*completed-tensor-banach-module*); AdicSpacesPartIII R3.6
+(*affinoid-completed-field-extension*); Mathlib `TensorProduct` and
+`Module.Finite`.
+
 **Checks.** `M=A`, `L=K`, zero modules and
 `A=K⟨T⟩, M=A/(T)`, where both sides are `L`. Source: [BGR] 6.1.1 and
 [Conrad], Lemma 1.1.5; tensor construction from Part II R0.3, *completed-tensor-banach-module*.
@@ -270,6 +336,11 @@ and identify its separated completion with `A⟨f/g⟩`. Identify it naturally
 with the shared adic rational localisation. Specify the compared norms
 before asserting an isometry. Sources: [BGR] 6.1.4–6.1.5, 7.2; Part II R0.3.
 
+*Needs:* §1.1 (`A⟨X⟩`, its continuous universal property and quotient
+topologies); §1.3 (affinoid pushouts); AdicSpaces §3.1 (rational
+localisation of a Huber pair) and AdicSpacesPartII R0.3; Mathlib
+`IsLocalization`.
+
 **Checks.** One-variable Weierstrass and Laurent presentations; denominator
 one; the zero algebra. Without `(g,f)=A`, taking all entries zero does not
 invert the denominator. Verify compatibility with restrictions and iterated
@@ -280,7 +351,10 @@ rational localisations, not just an abstract algebra equivalence.
 For `ρᵢ>0`, consume the weighted Tate algebra, its multiplicative norm and
 the finite monomial extension of RestrictedPowerSeries §5.4. Prove
 
-`T_{n,ρ} is strictly K-affinoid ↔ ∀ i, ρᵢ∈√|K×|`.
+`T_{n,ρ} is strictly K-affinoid ↔ ∀ i, ρᵢ∈√|K×|`
+
+(`weightedTate_isAffinoid_iff`, with the right-hand side `IsStrictRadius`,
+which requires `ρᵢ>0`).
 
 The forward construction uses powers of variables scaled to norm one; the
 converse uses automatic continuity and the affinoid value-group theorem
@@ -288,19 +362,43 @@ of §2.2. In the strict case identify the weighted Gauss and supremum norms.
 This is the interface for Part IV F1.1, not a replacement of the broader
 non-strict affinoid terminology. Source: [BGR] 6.1.5.
 
+*Needs:* RestrictedPowerSeries §5.4 (weighted Tate algebras, their
+multiplicative norm and the finite monomial extension); §1.1
+(`continuous_algHom_of_isNoetherianRing`); §2.2
+(`exists_uniform_valueGroup_exponent`, used by the converse direction only,
+which is therefore proved after Layer 2); Mathlib `MvPowerSeries.IsRestricted`.
+
 **Checks.** Radius `p^(−1/2)` over `ℚ_p`, a positive radius outside
 `p^ℚ`, and zero variables. A function on an open disc is not in general a
 restricted series on its closed boundary; test `Σ T^n`.
+
+### Examples
+
+`K⟨T⟩/(T²−p)` over `ℚ_p` is a two-dimensional field extension, so its
+unique maximal ideal is zero and its residue field is `ℚ_p(√p)`. The cusp
+`K⟨X,Y⟩/(Y²−X³)` is finite free of rank two over `K⟨X⟩` on `1,Y`, so its
+dimension is one. The weighted algebra of radius `p^(−1/2)` over `ℚ_p` is
+affinoid: `T²/p` has weighted norm one, and `S ↦ T²/p`, `T ↦ T` gives
+`T_{1,p^(−1/2)} ≅ ℚ_p⟨S,T⟩/(T²−pS)`, whereas a radius outside `p^ℚ` is
+excluded by the value-group theorem.
+
+### Dependencies
+
+Layer 0; RestrictedPowerSeries Layer 4 and §§5.2–5.4; PadicFunctionalAnalysis
+§1.2 and Layer 1; SchemeAndStackFoundations §§0.20–0.21; AdicSpaces §3.1;
+AdicSpacesPartII R0.3; AdicSpacesPartIII R3.6; the converse of §1.5 uses
+§2.2.
 
 ## Layer 2: supremum seminorm, reduction and integral models
 
 ### 2.1 Pointwise and spectral descriptions
 
-Construct evaluation norms using finite residue fields and prove boundedness,
-ultrametricity, scalar compatibility and submultiplicativity of `|·|sup`.
-Prove `|f^n|sup=|f|sup^n` for `n≥1`, including the zero algebra. Exponent
-zero requires a nonzero algebra. Identify the kernel with the nilradical,
-and the seminorm with the maximum of its values on the finitely many
+Construct evaluation norms `pointNorm` using finite residue fields and prove
+boundedness (`bddAbove_pointNorm`), ultrametricity, scalar compatibility and
+submultiplicativity of `|·|sup` (`supSeminorm`).
+Prove `|f^n|sup=|f|sup^n` for `n≥1` (`supSeminorm_pow`), including the
+zero algebra. Exponent zero requires a nonzero algebra. Identify the kernel
+with the nilradical (`supSeminorm_eq_zero_iff`), and the seminorm with the maximum of its values on the finitely many
 minimal-prime quotients. It is unchanged by reduction.
 
 Algebra homomorphisms contract these seminorms; integral injective ones
@@ -315,20 +413,38 @@ For an integral affinoid map, construct an equation attaining the spectral
 value as in [BGR] 6.2.2/4; its scope is not restricted to a chosen finite
 presentation of the map.
 
+*Needs:* §1.2 (`finite_residue`, `exists_finite_injective`, minimal primes
+and maximal ideals of affinoids); §0.1 (maximum modulus on `Tₙ`); §0.2
+(weak stability for the minimal-equation equality); Mathlib `spectralNorm`,
+`MaximalSpectrum` and the real supremum.
+
+**Checks.** The zero algebra has no classical points, so `|f|sup=0` for
+its only element; a definition returning `−∞` or leaving the empty supremum
+undefined is wrong. On `K×K` the classical points are the two ideals
+`K×0` and `0×K` with residue field `K`, the point norms of `(a,b)` are
+`|b|` and `|a|`, and `|(a,b)|sup=max(|a|,|b|)`; a definition through a
+single generic point would return only one of them. In `ℚ_p⟨T⟩/(T²−p)`
+the class `f` of `T` satisfies `f²−p=0`, so the monic bound gives
+`|f|sup≤|p|^(1/2)=p^(−1/2)`, which is attained; replacing the exponent
+`1/(d−i)` by `1` would give the wrong bound `|p|`. On `K×K`,
+`|(1,0)|sup·|(0,1)|sup=1` while their product is zero, so the seminorm is
+power-multiplicative but not multiplicative.
+
 ### 2.2 Maximum modulus and Banach function algebras
 
-For `A≠0`, every `|f|sup` is attained at a classical point. Prove the
-value-group assertion uniformly: some `m≥1`, depending only on `A`,
-satisfies `|f|sup^m∈|K|` for every `f`. In particular, if `|f|sup>0`
+For `A≠0`, every `|f|sup` is attained at a classical point
+(`exists_pointNorm_eq_supSeminorm`). Prove the value-group assertion
+uniformly (`exists_uniform_valueGroup_exponent`): some `m≥1`, depending only
+on `A`, satisfies `|f|sup^m∈|K|` for every `f`. In particular, if `|f|sup>0`
 there is `c∈K×` with `|cf^m|sup=1`. Use normalisation and minimal primes,
 without presupposing a geometric category.
 
-Prove `A°={f:|f|sup≤1}`, `A°°={f:|f|sup<1}` and the pointwise version
-of the latter. Prove the integral-equation criterion for a residue norm
+Prove `A°={f:|f|sup≤1}` (`powerBounded_iff`), `A°°={f:|f|sup<1}`
+(`topologicallyNilpotent_iff`) and the pointwise version of the latter. Prove the integral-equation criterion for a residue norm
 and the spectral-radius identity
 `|f|sup=inf_{n≥1}‖f^n‖^(1/n)`, agreeing with the shared smoothing API.
 For every reduced affinoid and complete algebra norm prove
-`|f|sup≤‖f‖≤C|f|sup`, for some `C>0`.
+`|f|sup≤‖f‖≤C|f|sup`, for some `C>0` (`banachFunctionAlgebra`).
 Construct the complete supremum-norm model and its continuous algebra
 equivalence with the original model. Include [BGR] 3.8.3/7: if `B→A`
 is finite, injective and torsion-free, `A` is a reduced Banach algebra,
@@ -344,6 +460,14 @@ For nonzero `A`, the supremum seminorm is a multiplicative **norm** precisely
 when `A` is reduced and `Ã` is a domain. A reduced domain by itself does
 not suffice. Sources: [BGR] 3.8, 6.2.1–6.2.4; general spectral comparisons
 from Part II R0.4.
+
+*Needs:* §2.1; §1.2 (normalisation, minimal primes); §0.2 (weak
+stability of `Frac(Tₙ)` and `integralClosure_finite`); §1.1
+(`continuous_algHom_of_isNoetherianRing`, equivalence of complete norms);
+Tau Ceti `TauCeti.Huber.powerBoundedSubring` and
+`topologicallyNilpotentIdeal`; Mathlib `IsTopologicallyNilpotent`;
+AdicSpacesPartII R0.4 (spectral seminorm and smoothing) for the comparison
+only.
 
 **Checks.** A nonzero nilpotent in `K⟨T⟩/(T²)` has supremum zero. For
 `0<|c|<1`, prove that the annulus algebra `K⟨X,Y⟩/(XY−c)` is a domain
@@ -363,8 +487,9 @@ on the image. Supremum isometry is a consequence, not a claim that the
 original presentation norms are equal. Include examples where a
 surjective affinoid map does not induce a surjection on reductions.
 
-For a presentation ring `A₀=π(Tₙ°)`, prove
-`A°={a∈A : a is integral over A₀}` including nonreduced algebras.
+For a presentation ring `A₀=π(Tₙ°)` (`IsPresentationRing`), prove
+`A°={a∈A : a is integral over A₀}` including nonreduced algebras
+(`integral_iff_supSeminorm_le_one`).
 No finiteness of `A°` as an `A₀`-module is asserted. A finite affinoid
 map induces a finite map on canonical reductions; deduce that `Ã` is a
 finite-type `K̃`-algebra. Sources: [BGR] 6.3.1, 6.3.4–6.3.5.
@@ -374,17 +499,26 @@ Identify its integral presentation with `A₀=π(Tₙ°)`, preserving the image 
 the Gauss unit ball; transport the following theorem. If `M` is finite over
 `A₀`, `N⊆M` is any
 submodule and `0<ε<1`, prove that a finitely generated `N'⊆N` exists
-such that `cN⊆N'` for **every** `c∈K` with `|c|≤ε`. One `N'` works
+such that `cN⊆N'` for **every** `c∈K` with `|c|≤ε`
+(`exists_fg_smul_le_of_presentation`). One `N'` works
 for all these scalars. For discretely valued `K`, deduce that finite
-`A₀`-modules are noetherian. Source: [Kiehl-E] §5, Satz 5.1.
+`A₀`-modules are noetherian (`isNoetherian_of_presentation_of_discrete`). Source: [Kiehl-E] §5, Satz 5.1.
 
 **Reduced quotient of a ring of definition.** For an open bounded subring `B⊆A`
 and `ϖ∈B` which is a topologically nilpotent unit of `A`, if `B/ϖB`
-is reduced, identify `B=A°={f:|f|sup≤1}`. The element `ϖ` need not be
+is reduced, identify `B=A°={f:|f|sup≤1}`
+(`mem_iff_supSeminorm_le_one_of_isReduced`). The element `ϖ` need not be
 a scalar. Prove the affinoid statement using [FK] B.1.3(1)'s boundedness argument,
 then §2.2's supremum identification. Part II R0.9 consumes this theorem;
 do not invoke that consumer to prove it. The sufficient hypothesis is
 not asserted to be necessary.
+
+*Needs:* §2.2 (`A°`, `A°°` and the supremum theorems); §1.1 (presentations
+and quotient norms); §1.2 (finite maps and residue fields);
+AdicSpacesPartIII R3.6 (*almost-noetherian-integral-affinoid-modules*);
+[FK] B.1.3(1); Mathlib `IsIntegral`, `integralClosure` and `Ideal.Quotient`.
+AdicSpacesPartII R0.9 consumes the ring-of-definition criterion and is not an
+input to it.
 
 **Checks.** `T₀` gives `A₀=K°`; `ℤ_p⟨T⟩/p=𝔽_p[T]` gives the
 positive reduced-quotient example. In `A=ℚ_p⟨T,S⟩/(S²−p²T)`, let `B`
@@ -394,6 +528,22 @@ in `B`, and `B/pB` is nonreduced. Conversely, `ℤ_p/p²` and
 power-bounded rings. The maximal ideal of `𝒪_{ℂ_p}` is not finitely
 generated; choosing `ε<|x|<1` makes `x𝒪_{ℂ_p}` the required finite
 submodule. This tests almost noetherianity without asserting noetherianity.
+
+### Examples
+
+On `K⟨T⟩/(T²)` the class of `T` has every point norm zero, so `|T|sup=0`
+while `T≠0`; on the annulus `K⟨X,Y⟩/(XY−c)` with `0<|c|<1`,
+`|X|sup=|Y|sup=1` and `|XY|sup=|c|`. On `ℚ_p⟨T⟩`, `A°=ℤ_p⟨T⟩`,
+`A°°=pℤ_p⟨T⟩` and the reduction is `𝔽_p[T]`; in `ℚ_p⟨T,S⟩/(S²−p²T)`
+the element `S/p` is power-bounded but outside the presentation ring, so the
+presentation ring is strictly smaller than `A°` and `A°` is its integral
+closure.
+
+### Dependencies
+
+Layers 0–1; AdicSpacesPartII R0.4 (comparison only); AdicSpacesPartIII R3.6;
+Tau Ceti power-bounded and topologically nilpotent subrings; Mathlib spectral
+norms, integral closure and quotients.
 
 ## Layers 3–4: affinoid spaces and subdomains
 
@@ -431,6 +581,29 @@ the unit-ideal condition by Jacobsonness. Arbitrary rational domains do
 not cover merely because their denominators generate the unit ideal.
 Sources: [BGR] Chapters 7–8; Part II consumes these subdomain interfaces.
 
+*Needs:* §§1.1–1.4 (algebras, tensor products and fraction algebras); §2.2
+(supremum norms for the rational-domain conditions and the maximum modulus);
+§1.2 (excellence of affinoids, for the analytic local rings);
+SchemeAndStackFoundations §0.21 (excellence permanence and completion
+criteria); Layer 5 (the sheaf condition, used only for the stalk statements,
+which are therefore proved after it); Mathlib `TopCat.Presheaf`,
+`Module.Flat`, `IsLocalization` and `IsLocalHom`.
+
+### Examples
+
+The unit disc `Sp K⟨T⟩` is covered by the rational domains `|T|≤|ϖ|` and
+`|ϖ|≤|T|≤1`, whose intersection is the circle `|T|=|ϖ|`; the empty
+subdomain is `Sp 0`. A nilpotent thickening `Sp K⟨T⟩/(T²)` has the same
+classical points as a point and a two-dimensional coordinate ring. For
+`A=K⟨T⟩` and `𝔪=(T)`, `A_𝔪/𝔪^n` is `K[T]/(T^n)`, the quotient of the
+analytic local ring at the origin by the `n`th power of its maximal ideal.
+
+### Dependencies
+
+Layers 1–2; Layer 5 for the stalk statements; SchemeAndStackFoundations
+§0.21; Mathlib presheaves, flatness and localisation. AdicSpacesPartII R0.9
+and R1 and AdicSpacesPartIV R5.7 consume these layers.
+
 ## Layer 5: Čech comparison and acyclicity
 
 Prove classical Tate acyclicity using the rational-localisation comparison
@@ -459,6 +632,27 @@ and an infinitely generated direct sum of copies of `A`. Verify both the
 augmentation and differential under the comparison. Exactness alone does
 not certify closed images. Sources: [BGR] 8.2; [Kiehl-AB]; Part III R3.1.
 
+*Needs:* Layers 3–4 (rational covers, the Gerritzen–Grauert refinement, flat
+restrictions); §1.4 (rational localisations and their identification with
+AdicSpaces §3.1); AdicSpaces Layer 4 (Tate acyclicity for rational covers of
+`Spa(A,A°)`); PadicFunctionalAnalysis Layer 1 (strictness for finite
+modules); Mathlib `Module.Flat`, `HomologicalComplex` and sheaf cohomology.
+
+### Examples
+
+For the Laurent cover of the unit disc by `|T|≤|ϖ|` and `|ϖ|≤|T|≤1`, the
+augmented Čech complex is `0→K⟨T⟩→K⟨T/ϖ⟩×K⟨ϖ/T⟩→K⟨T/ϖ,ϖ/T⟩→0`
+with `d(u,v)=v−u` on the circle, and it is exact; the one-member identity
+cover gives the complex `0→A→A→0`. Tensoring with an infinite direct sum of
+copies of `A` keeps exactness; the strict version is asserted only for finite
+modules.
+
+### Dependencies
+
+Layers 1–4; AdicSpaces Layers 3–4; PadicFunctionalAnalysis Layer 1;
+[Kiehl-AB]. AdicSpacesPartII R1 and AdicSpacesPartIII R3.1 consume the
+acyclicity theorem.
+
 ## Layer 6: general G-topologies and rigid gluing
 
 ### 6.1 G-sites and sheaves
@@ -475,6 +669,22 @@ Use Mathlib's sheaves and sheafification. Compare classical neighbourhood
 stalks with site points, and BGR's plus construction with that sheafification.
 Prove extension across a slightly finer G-topology by the dense-subsite
 comparison, without constructing another category of sheaves.
+
+*Needs:* Mathlib `CategoryTheory.GrothendieckTopology`,
+`CategoryTheory.Presheaf.IsSheaf`, sheafification and `TopologicalSpace.Opens`;
+nothing from Layers 0–5.
+
+**Checks.** An ordinary topological space, with every open set admissible and
+every open cover admissible, satisfies the axioms, and its site is the usual
+open-set site with the usual sheaf condition. The closed unit disc is covered
+set-theoretically by the open unit disc and the circle `|T|=1`, both
+admissible opens; a G-topology admitting this cover would force the structure
+presheaf to glue the function which is `0` on the open disc and `1` on the
+circle, contradicting the identity principle, so the cover is not admissible
+and the structure presheaf is a sheaf only because such covers are excluded.
+For the empty admissible open and its empty cover the sheaf condition forces
+`F(∅)` to be a point; a presheaf with `F(∅)≠0` is not a sheaf, while the
+one-member cover `{U}` of `U` imposes nothing.
 
 ### 6.2 The classical presentation of the common geometry
 
@@ -494,13 +704,23 @@ category and Layer 8's comparison; there is no second rigid carrier.
 For quasi-separated rigid spaces, construct complete isometric field
 extension using §1.3, compatibly with affinoid subdomains, gluing and
 affinoid-coordinate faithful flatness. Carry the quasi-separated hypothesis
-in these global base-extension statements.
+in these global base-extension statements. Sources: [BGR] §9.3 (weak and
+strong G-topologies on affinoids, rigid analytic varieties, gluing and fibre
+products; the complete field extension of quasi-separated spaces is its
+9.3.6, as [Conrad] §3.1 records); [Bosch] §5.3; [Conrad] §3.1.
 
-**Checks.** The covering of the closed unit disc by its open disc and
-unit circle is set-theoretic but not admissible. For `0<|ϖ|<1`, the
+*Needs:* §6.1; Layers 3–4 (affinoid subdomains and finite affinoid covers);
+Layer 5 (acyclicity, for the structure sheaf); §1.3 (complete field extension
+of affinoids and of finite modules); Mathlib locally ringed spaces and sites.
+
+**Checks.** For `0<|ϖ|<1`, the
 domains `|T|^n≤|ϖ|`, `n≥1`, give an admissible exhaustion of the open
 disc: radii `|ϖ|^(1/n)` approach one even for discretely valued `K`.
 Glue `ℙ¹` from two closed discs and identify the intersection annulus.
+The punctured disc `{0<|T|≤1}` is the union of the affinoids
+`|ϖ|^n≤|T|≤1`, so it is an admissible open of the strong G-topology but
+not of the weak one; a construction that stopped at the weak G-topology
+would not make Zariski-open subsets admissible.
 
 ### 6.3 Relative compactness and properness
 
@@ -526,6 +746,28 @@ unit disc is not inner in itself over `K`. A closed point is not an
 affinoid open subdomain. For `ℙ¹`, the unit chart discs lie inside chart
 discs of radius `|ϖ|⁻¹`; both pairs cover and exhibit properness. The pair
 of unit discs used for gluing need not itself be an inner-cover pair.
+
+*Needs:* §6.2 (rigid spaces, fibre products, affinoid covers); §2.2
+(supremum norms of generator restrictions); §1.1 (presentations); Layers
+3–4 (closed immersions and the relative polydisc).
+
+### Examples
+
+The disc `|T|≤|ϖ|` is inner in the unit disc over `K` through the
+presentation `K⟨X⟩↠K⟨T⟩`, `X↦T`, whose generator has supremum `|ϖ|<1`
+on it. The unit disc is not inner in itself over `K`: the generators of a
+witnessing presentation would all have supremum below one, so the
+presentation ring would reduce to constants and, by §2.3, `K̃[T]` would be
+integral over a subfield of `K̃`, which `T` is not.
+`ℙ¹` is proper: its unit chart discs lie inside the chart discs of radius
+`|ϖ|⁻¹`. The punctured disc is an admissible open which is not
+quasi-compact.
+
+### Dependencies
+
+Layers 1–5; Mathlib sites, sheaves and locally ringed spaces; [BGR] §9;
+[Bosch] §6.3; [Kiehl-E] §2. AdicSpacesPartII R1 and AdicSpacesPartIII R3.6
+consume the rigid category and the properness predicates.
 
 ## Layer 7: coherent sheaves and proper cohomology
 
@@ -577,11 +819,18 @@ when `|δ|,|δ'|<1`; for `f=e=id_K` the perturbation is not surjective,
 so the permissible bound cannot exceed one. Sources: [Kiehl-E] §1,
 Sätze 1.2 and 1.4, Lemma 1.3, §2; [Bosch] §§6.3–6.4.
 
+*Needs:* PadicFunctionalAnalysis §§1.2 and 2.2 (open mapping, `c₀` model
+spaces, bounded lifting); CompactOperators §0.1 (`IsCompletelyContinuous`);
+AdicSpacesPartIII R3.3 and R3.6; §2.3 (presentation rings and almost
+noetherianity); §6.3 (the inner relation) and §8.3 (`rigidToAdic`) for the
+restriction contract, which is therefore stated after Layer 8.
+
 ### 7.2 Numerical slopes as a shared analysis interface
 
 Supply `IsSlopeLE K r Q`, `IsSlopeDecomposition K U r M₁ M₂` and
 `IsSlopeDecomposition.exists_projection`, the classical module-level
-interfaces consumed by LAD §4.16. Use native polynomials, submodules,
+interfaces consumed by LocallyAnalyticDistributions §4.16. Use native
+polynomials, submodules,
 continuous linear maps and finite projective modules. For `r>0`, the
 affinoid root condition on `Q∈A[X]` is that every root
 of `χ(Q)` has absolute value **at least** `r`, for every algebra map
@@ -594,18 +843,26 @@ by a monic such `Q` with unit constant term. Every polynomial satisfying
 the same conditions acts invertibly on the complementary summand. Its
 continuous projector has the specified image and kernel and commutes with
 the operator. Construct it from the continuous complementary-submodule
-projection, independently of Fredholm theory. CompactOperators consumes
-this interface for its Riesz summands; LAD §4.16 proves the numerical
-comparison for a separated Fredholm factor. Existence at every cutoff
-over an arbitrary affinoid family is not asserted.
+projection, independently of Fredholm theory. CompactOperators §§3.1 and
+3.4 supply Riesz projectors at good zeros of a Fredholm determinant; this
+interface is the determinant-free module-level predicate, and its comparison
+with a separated Fredholm factor is proved by its consumer
+LocallyAnalyticDistributions §4.16. Existence at every cutoff over an
+arbitrary affinoid family is not asserted.
 
 For `r=|p|^h` this means eigenvalue valuation `≤h`, including equality.
 It concerns annihilator roots; the roots of `det(1−TU)` are reciprocals.
-LAD §4.16 owns `slopeCriterion_classical_iff_geometric`, numerical
-normalisation, functoriality and uniqueness, using §2's supremum theorem.
-Its coefficient test for monic `Q=ΣaⱼXʲ` with unit `a₀` is
-`|aⱼ/a₀|sup rʲ≤1` for every `j`; do not reprove that comparison here.
-Sources: [Urban] §2.3; LAD §4.16; CompactOperators Layer 3.
+The consumer LocallyAnalyticDistributions §4.16 proves the comparison of
+this predicate with its geometric slope criterion, using §2's supremum
+theorem, together with the normalisation `r=|p|^h`, functoriality and
+uniqueness; its coefficient test for monic `Q=ΣaⱼXʲ` with unit `a₀` is
+`|aⱼ/a₀|sup rʲ≤1` for every `j`. None of these is a target here.
+Sources: [Urban] §2.3; CompactOperators Layer 3.
+
+*Needs:* §1.2 (`finite_residue`, for the reduction to finite extensions);
+Mathlib `Polynomial.aeval`, `Submodule.projectionOnto`, `IsCompl`,
+`Module.Projective`, `ContinuousLinearMap`, `spectralNorm` and
+`Algebra.IsAlgebraic`.
 
 **Checks.** For `c∈K×` and a finite projective Banach module, `c·id` with `|c|=r`
 belongs wholly to the first summand; the zero operator has zero first
@@ -637,6 +894,11 @@ finite generating set is implicit. Include the relative version when
 inverse images of affinoid opens are quasi-Stein. Sources: [Kiehl-AB];
 [Conrad] §§1–2; Part III R3.4.
 
+*Needs:* AdicSpacesPartIII R3.2–R3.4; Layer 5 (Čech-to-derived comparison);
+§6.2 (rigid spaces); Layers 3–4 (normality and the analytic local rings, for
+the identity principle); §8.3 (the comparison functor through which the
+transport is made).
+
 ### 7.4 Proper mapping, strictness and base change
 
 **Supplier contract: Part III R3.6.** For Kiehl-proper `f:X→Sp A` and
@@ -654,6 +916,10 @@ field tensor using §1.3. Maps are induced by pullback and scalar action
 and commute with connecting homomorphisms. Arbitrary nonflat base change
 does not follow. Source: [Kiehl-E] Satz 2.6, Satz 3.5 and §3;
 Part III R3.6.
+
+*Needs:* AdicSpacesPartIII R3.6; §6.3 (Kiehl properness); §7.1 (Banach
+prerequisites); §7.3 (coherence); §1.3 (complete field extension of finite
+modules); Layer 5 (finite affinoid Čech complexes).
 
 ### 7.5 Principal filtrations and formal functions
 
@@ -680,10 +946,31 @@ it is not obtained by merely relabelling `a` as `J`. This is ideal-adic
 completion, not Banach completion. The proof and its classical/adic forms
 share Part III's cohomology implementation.
 
+*Needs:* §7.4 (finiteness and base change); Mathlib's Artin–Rees lemma
+`Ideal.exists_pow_inf_eq_pow_smul`, `AdicCompletion`, `IsNoetherianRing` and
+`Module.Finite`.
+
 **Checks.** For `a=0`, `R_0=M^i` and `R_n=0` for `n≥1`; for `a=1`,
 `R_n=M^i` and quotient cohomology is zero. For the identity of `Sp A` in
 degree zero, `R_n=a^nM`. On `ℙ¹`, compute `H⁰(𝒪)=K`, `H¹(𝒪)=0`
 and compare the Čech, sheaf and base-change maps.
+
+### Examples
+
+The map `h:Σa_nT^n↦Σa_nϖ^nT^n` on `K⟨T⟩` is strictly completely
+continuous with `c=1`, and `id−h` has image `TK⟨T⟩` and cokernel `K`.
+For `c∈K×` with `|c|=r` and `U=c·id` on a finite projective Banach
+module, `M₁=M`, `M₂=0`, annihilated by `X−c`; for `U=0`, `M₁=0`. For
+`a=0` the filtration is `M^i,0,0,…` and the shift `d=1` works; on `ℙ¹`,
+`H⁰(𝒪)=K` and `H¹(𝒪)=0`.
+
+### Dependencies
+
+Layers 1–6; PadicFunctionalAnalysis §§1.2, 2.2; CompactOperators §0.1 and
+Layer 3; AdicSpacesPartIII R3.2–R3.6; §8.3 for the transport of the
+contracts; Mathlib Artin–Rees and adic completion; [Kiehl-E]; [Kiehl-AB];
+[Urban] §2.3. LocallyAnalyticDistributions §4.16 and AdicSpacesPartIII
+consume §7.2 and §7.5 respectively.
 
 ## Layer 8: analytification and rigid–adic comparison
 
@@ -717,6 +1004,13 @@ branches, using a convergent square root of `1+x` on a small disc.
 Local integrality is therefore not an additional equivalence. Completion
 isomorphisms do not alone justify a local-domain assertion.
 
+*Needs:* §6.2 (gluing and affinoid charts); §1.3 (completed presentations
+and pushouts); §1.2 and Layers 3–4 (excellence of affinoid algebras and of
+analytic local rings); SchemeAndStackFoundations §0.21 (excellence
+permanence, reducedness and normality under completion); Mathlib
+`AlgebraicGeometry.Scheme`, `LocallyOfFiniteType`, `IsReduced` and
+`IsIntegrallyClosed`.
+
 ### 8.2 Classical points and constructible density
 
 Construct `Max A→Spa(A,A°)`, prove injectivity, and identify rational
@@ -735,6 +1029,10 @@ open `⋃_n{|T|^n≤|ϖ|}` corresponding to the rigid open disc. Its
 singleton is proconstructible, not constructible: density does not say
 arbitrary subsets are determined by classical points.
 
+*Needs:* §2.2 (`A°` and `A°°`); AdicSpaces Layers 1–2 (`Spv`, `Spa`,
+rational subsets, pro-constructible subspaces); AdicSpacesPartII R1.7
+(classical-point contract); [Huber-CV] §4.
+
 ### 8.3 The image of the rigid–adic functor
 
 Construct the shared functor `r(Sp A)=Spa(A,A°)` and prove compatibility with
@@ -752,6 +1050,11 @@ construct the example of two adic discs glued along the complement
 of the closure of the Gauss point; it is locally of finite type but is
 not in the global image. These distinguish local image, full faithfulness
 and essential surjectivity. Check the affinoid case and empty space.
+
+*Needs:* §8.2 (classical points and constructible density); §6.2 (rigid
+spaces, gluing and the structure sheaf); Layer 5 (acyclicity, for the ringed
+topos comparison); AdicSpaces Layers 3–5 (structure presheaf, gluing, locally
+finite type morphisms); AdicSpacesPartII R1.7; [Huber-FR] §4.
 
 Part II owns the further separatedness, properness and partial-properness
 comparisons with its adic morphism classes, using §6.3's classical notions
@@ -775,6 +1078,25 @@ functions and does not satisfy an unrestricted GAGA statement. Étale and
 pro-étale comparisons are owned by Part IV and AdicEtaleGeometry; this
 roadmap asserts no additional equivalence of those topoi.
 
+*Needs:* AdicSpacesPartIII R3.7; §8.1 (analytification); §§7.3–7.4
+(coherence and proper cohomology); §8.3 (the comparison functor).
+
+### Examples
+
+The analytification of the affine line is the union of the discs `|T|≤|ϖ|⁻ⁿ`
+and has global functions the entire series, so GAGA fails for it; `ℙ¹`
+analytifies to the glued pair of unit discs with `H⁰(𝒪)=K`. In characteristic
+not two, the origin of `y²=x²(x+1)` has an algebraic local domain and an
+analytic germ with two branches `y=±x√(1+x)`. In `Spa(K⟨T⟩,K°⟨T⟩)` the Gauss point is not
+classical, and a rank-two point just below it lies outside the adic open
+`⋃_n{|T|^n≤|ϖ|}` of the rigid open disc.
+
+### Dependencies
+
+Layers 1–7; AdicSpaces Layers 1–5; AdicSpacesPartII R1.7;
+AdicSpacesPartIII R3.7; SchemeAndStackFoundations §0.21; Mathlib schemes;
+[Conrad] §1 and Appendix A; [Huber-CV]; [Huber-FR].
+
 ## Dependency order and completion
 
 1. Import the shared Tate and Banach foundations; prove characteristic-free
@@ -790,8 +1112,9 @@ roadmap asserts no additional equivalence of those topoi.
    constructions. Establish the classical properness predicates.
 5. Transport Part III's coherent, quasi-Stein, proper-cohomology and GAGA
    results through the ringed-site equivalence. Prove the elementary
-   numerical decomposition and projection of §7.2 independently; LAD then
-   supplies the geometric and Fredholm-window comparisons.
+   numerical decomposition and projection of §7.2 independently; their
+   comparison with the geometric and Fredholm-window criteria is the work
+   of the consumer LocallyAnalyticDistributions §4.16.
 
 Completion requires all stated generalities, all canonical-map compatibility
 theorems and every check above. There must be one production definition of
@@ -799,6 +1122,26 @@ each shared series, operator, tensor and geometric object. Compile the
 actual modules and audit the transitive axioms of their capstone theorems;
 only `propext`, `Classical.choice` and `Quot.sound` are accepted. An
 elaborating roadmap prototype is not a proof or an implementation milestone.
+
+## Downstream consumers
+
+- AdicSpacesPartII R0.9 and R1 consume `IsAffinoidAlgebra`, the affinoid
+  norm and reduction theorems, `Sp`, affinoid subdomains, classical Tate
+  acyclicity, `RigidSpace`, rigid analytification and `rigidToAdic`, through
+  the carrier bridge of its R0.9.
+- AdicSpacesPartIII R3.1–R3.7 consume the classical category, the comparison
+  functor, classical acyclicity (Layer 5), the inner relation and Kiehl
+  properness (§6.3), the presentation-ring integrality of §2.3 and the formal
+  functions of §7.5.
+- AdicSpacesPartIV F1.1 consumes the strict-radius criterion of §1.5 and its
+  R5.7 the rational-local reducedness of Layers 3–4; dagger algebras, weak
+  completion, étale and pro-étale geometry and their site comparisons stay
+  there and in AdicEtaleGeometry.
+- LocallyAnalyticDistributions §4.16 consumes `IsSlopeLE`,
+  `IsSlopeDecomposition` and `IsSlopeDecomposition.exists_projection` and
+  proves the comparison of this numerical predicate with its geometric slope
+  criterion; that comparison, its normalisation `r=|p|^h`, functoriality and
+  uniqueness are not targets here.
 
 ## References
 
@@ -849,7 +1192,4 @@ a stronger target is not discharged by a narrower source theorem.
 | `Affinoid/{Reduction,ReductionFunctor}.lean` | Presentation integrality and canonical reduction maps |
 | `Restricted/`, `TateAlgebra/` | Shared-series provenance owned by RestrictedPowerSeries |
 
-[RestrictedPowerSeries]: https://github.com/WilliamCoram/TauCetiRoadmap/blob/fae4b92f3233ec656fb01ae590c2bac0abd5eb42/TauCetiRoadmap/RestrictedPowerSeries/README.md
-[PadicFunctionalAnalysis]: https://github.com/WilliamCoram/TauCetiRoadmap/blob/f255de3d9ad6c27bc603f65e604108ee024c4400/TauCetiRoadmap/PadicFunctionalAnalysis/README.md
-[CompactOperators]: https://github.com/WilliamCoram/TauCetiRoadmap/blob/3c499bc3f1ba7ce2a6dcd255950c63c248964b22/TauCetiRoadmap/CompactOperators/README.md
 [PhDSources]: https://github.com/WilliamCoram/PhD/tree/eefb3d91f34b27d0bc7822140fa85fecae029884
