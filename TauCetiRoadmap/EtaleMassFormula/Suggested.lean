@@ -143,13 +143,12 @@ theorem GaloisSet.discriminantExponent_of_isTransitive {n : ℕ} (ρ : GaloisSet
 /-- **The transitive bridge**: transitive Galois sets of size `n` are degree-`n` subextensions of
 `SeparableClosure K` with a labelling of their `n` embeddings sending the base point to `0`, through
 the fixed field of the stabilizer of `0`. Each subextension carries `(n − 1)!` labellings, so for
-every weight `g` invariant under `K`-isomorphism the transitive Galois sets weigh `(n − 1)!` times
+every weight `g` the transitive Galois sets weigh `(n − 1)!` times
 the subextensions of degree `n`. With `g = q^{-d}` and `discriminantExponent_of_isTransitive` it
 computes the transitive mass; with `g` supported on residue degree `f` it gives
 `etaleMass_isTransitive_splittingSymbol`. -/
 theorem tsum_isTransitive (n : ℕ) (hn : 0 < n)
-    (g : IntermediateField K (SeparableClosure K) → ℝ≥0∞)
-    (hg : ∀ L M : IntermediateField K (SeparableClosure K), Nonempty (L ≃ₐ[K] M) → g L = g M) :
+    (g : IntermediateField K (SeparableClosure K) → ℝ≥0∞) :
     ∑' ρ : {ρ : GaloisSet K n // ρ.IsTransitive},
         (letI := ρ.1.mulAction
         g (IntermediateField.fixedField
@@ -259,9 +258,9 @@ theorem natCard_algEquiv_eq_mul (L : IntermediateField K (SeparableClosure K))
   sorry
 
 /-- **The orbit count for every finite subextension**: the `K`-isomorphism class of `L` inside
-`SeparableClosure K` has `[L : K] / #Aut_K(L)` members, in multiplied form. Tau Ceti's
-`TauCeti.ncard_isomorphic_mul_natCard_algEquiv` is the totally ramified case; the new name keeps
-the two apart. -/
+`SeparableClosure K` has `[L : K] / #Aut_K(L)` members, in multiplied form. It is Tau Ceti's
+`IntermediateField.ncard_isomorphic_mul_natCard_algEquiv_of_isSepClosed` with
+`Ω = SeparableClosure K`. -/
 theorem ncard_isomorphic_mul_natCard_algEquiv_eq_finrank (L : IntermediateField K (SeparableClosure K))
     [FiniteDimensional K L] :
     {M : IntermediateField K (SeparableClosure K) | Nonempty (L ≃ₐ[K] M)}.ncard *
@@ -365,8 +364,8 @@ theorem etaleMass_ramificationPartition (n k : ℕ) (π : k.Partition)
 
 variable (K)
 
-/-- **Bhargava's mass formula** ([Bhargava 2007, Thm. 1.1, Prop. 2.3, and §8 for an arbitrary
-non-archimedean local field]): `M_n(K) = ∑_{k ≤ n} q(k, n − k) q^{-k}`, with `q(k, m)` the
+/-- **Bhargava's mass formula** ([Bhargava 2007, Thm. 1.1, Prop. 2.3, and the Appendix for an
+arbitrary non-archimedean local field]): `M_n(K) = ∑_{k ≤ n} q(k, n − k) q^{-k}`, with `q(k, m)` the
 number of partitions of `k` into at most `m` parts. The term `k = n` is `q(n, 0) = 0` for `n > 0`,
 so this is Bhargava's `∑_{k<n}`, and at `n = 0` both sides are `1`. -/
 theorem etaleMass_eq (n : ℕ) :
