@@ -247,9 +247,11 @@ structure IsEMSource (Γ : Set (Σ n, BoundedFormulaω L Empty n)) (N : Type w) 
 Ehrenfeucht–Mostowski source over a language in `Language.{0, 0}` stretches to every linear order
 `J`: the term model `EM(J, templateOf a)` agrees with `N` on the sentences of `Γ`, realizes the
 template of `a` on `Γ` along its skeleton, and has cardinality at most `max ℵ₀ |J| |L_fun|`. The
-skeleton is injective when `a` is. -/
+skeleton is injective when `a` is. The source and the stretched model live in independent
+universes. -/
 theorem exists_emModel {L' : FirstOrder.Language.{0, 0}} {Γ : Set (Σ n, BoundedFormulaω L' Empty n)}
-    {N : Type} [L'.Structure N] {a : ℕ → N} (h : IsEMSource Γ N a) (J : Type w) [LinearOrder J] :
+    {N : Type u''} [L'.Structure N] {a : ℕ → N} (h : IsEMSource Γ N a)
+    (J : Type w) [LinearOrder J] :
     ∃ (E : Type w) (_ : L'.Structure E) (c : J → E),
       (∀ ψ : Sentenceω L', (⟨0, ψ⟩ : Σ n, BoundedFormulaω L' Empty n) ∈ Γ →
         (SentenceInf.Realize ψ N ↔ SentenceInf.Realize ψ E)) ∧
@@ -262,7 +264,7 @@ theorem exists_emModel {L' : FirstOrder.Language.{0, 0}} {Γ : Set (Σ n, Bounde
 symbols, an injective source stretched along an infinite `J` gives a model of cardinality exactly
 `#J`: the language term of `exists_emModel` is absorbed. -/
 theorem exists_emModel_card_eq {L' : FirstOrder.Language.{0, 0}}
-    [Countable (Σ n, L'.Functions n)] {Γ : Set (Σ n, BoundedFormulaω L' Empty n)} {N : Type}
+    [Countable (Σ n, L'.Functions n)] {Γ : Set (Σ n, BoundedFormulaω L' Empty n)} {N : Type u''}
     [L'.Structure N] {a : ℕ → N} (h : IsEMSource Γ N a) (ha : Function.Injective a)
     (J : Type w) [LinearOrder J] [Infinite J] :
     ∃ (E : Type w) (_ : L'.Structure E) (c : J → E),

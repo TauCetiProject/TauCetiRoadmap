@@ -502,7 +502,7 @@ of `EM(ℕ, Φ)` is an Ehrenfeucht–Mostowski source on `Γ` (**`isEMSource_em`
 milestones, each with its own statement:
 
 - **`exists_emModel`** (stretching with the cardinality bound). Let `L' : Language.{0, 0}` and
-  `IsEMSource Γ N a`. For every linear order `J : Type w` there are `E : Type w`, an
+  `IsEMSource Γ N a`, with `N` in any universe, independent of `w`. For every linear order `J : Type w` there are `E : Type w`, an
   `L'`-structure on `E` and `c : J → E` such that `E` and `N` satisfy the same sentences of `Γ`,
   `c` realizes the template of `a` on `Γ`, `c` is injective when `a` is, and
 
