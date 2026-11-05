@@ -48,10 +48,10 @@ This roadmap owns:
   used by Kato, the conversion of Kato's Euler-system hypotheses into Rubin's,
   the module structure of lattice Iwasawa cohomology, finite support over the
   full cyclotomic algebra, the twist–localization square, the Momose–Ribet–Loeffler open
-  image of a non-CM newform in the group of pairs, the surjectivity of the p-adic image of
-  a non-CM elliptic curve over ℚ for all but finitely many p (its openness at every p is
-  imported from `NoncommutativeAndEquivariantIwasawa` §4.0) with the cyclotomic
-  consequences, and the strict `H²` kernel (Layer 4);
+  image of a non-CM newform in the group of pairs, the cyclotomic consequences of the image
+  theorems for a non-CM elliptic curve over ℚ (openness at every p imported from
+  `NoncommutativeAndEquivariantIwasawa` §4.0, surjectivity for all but finitely many p from
+  `AdelicImagesAndModularCurves` §4.3), and the strict `H²` kernel (Layer 4);
 - Kato's canonical rational zeta morphism, the finite index of the smoothed
   integral span, the critical interpolation of the canonical map, Nakamura's
   twist-one morphism, parabolic full-level Iwasawa cohomology and the parabolic
@@ -70,7 +70,7 @@ and its first consequences, and this roadmap does not construct them again:
 the normalized theta unit, the smoothed Siegel units obtained by torsion
 evaluation, the ordered Beilinson symbols on the two-index curves with their
 products, transfers and étale Chern classes (the Chern image of `{u,v}` is the
-cup product of the Kummer classes of `u` and `v`), the classes
+cup product of the Kummer classes of `u` and `v`), the
 modular zeta classes with parameters c, d, M, N, k, r, r′ with their norm, trace, moment,
 coefficient, Hecke and smoothing relations (§4.0.1), the modular dual exponential and the
 three-branch explicit reciprocity law, including the comparison over the
@@ -92,8 +92,9 @@ stated by §4.0.1 and are target 2.0 here; `EllipticCurveModularityPartII` §6.0
 their weight-two case through its own supplier contract with `PadicFamilies`.
 
 Openness of the p-adic image of a non-CM elliptic curve over a number field at every p,
-including `p = 2, 3`, is `NoncommutativeAndEquivariantIwasawa` §4.0; 4.7 imports it over ℚ
-and adds the surjectivity for all but finitely many p, which no earlier roadmap states. The
+including `p = 2, 3`, is `NoncommutativeAndEquivariantIwasawa` §4.0, and the surjectivity of
+that image for all but finitely many p is `AdelicImagesAndModularCurves` §4.3; 4.7 imports
+both over ℚ and proves only their cyclotomic consequences. The
 finiteness of `A_f(ℚ)` for a weight-two newform f with trivial character and `L(f,1) ≠ 0`,
 in particular of `E(ℚ)` when `L(E,1) ≠ 0`, is `EllipticCurveModularityPartII` §6.0e; 7.9
 keeps Kato's general theorem, over every finite abelian K, for the χ-parts of Selmer and
@@ -215,11 +216,11 @@ in `Mathlib/NumberTheory/Cyclotomic/Gal.lean`, with
 `Polynomial.cyclotomic.irreducible_rat` over ℚ. The character evaluation is
 `MonoidAlgebra.lift` and the twisted Dirichlet series is Mathlib `LSeries`.
 
-For the almost-all surjectivity of 4.7, use Tau Ceti `WeierstrassCurve.tateModuleGaloisRepresentation` in
+The image theorems imported into 4.7 are read on Tau Ceti `WeierstrassCurve.tateModuleGaloisRepresentation` in
 `TauCeti/AlgebraicGeometry/EllipticCurve/TateModule/Galois.lean`, the coordinatewise action of
 `Gal(ℚ̄/ℚ)` on the Tate module `T_ℓE`, continuous for the Krull topology, with Mathlib
-`Representation.asGroupHom` for its values in the automorphism group; and Tau Ceti
-`TauCeti.Isogeny.Hom` with its ring structure in
+`Representation.asGroupHom` for its values in the automorphism group; and their non-CM
+hypothesis on Tau Ceti `TauCeti.Isogeny.Hom` with its ring structure in
 `TauCeti/AlgebraicGeometry/EllipticCurve/Isogeny/Hom/Ring.lean`, the endomorphisms of the curve
 with addition the group law of morphisms and multiplication composition, so that the integer
 `n` in it is multiplication by n.
@@ -453,7 +454,19 @@ geometric endomorphisms are all multiplications by integers, and every prime p i
 is open, stated there on Tau Ceti `WeierstrassCurve.tateModuleGaloisRepresentation` as
 `elliptic_nonCM_openImage`, with compatibility under change of integral basis and
 restriction to a finite extension. It is used at `F = ℚ` in 4.7; the surjectivity for all but
-finitely many p is not stated there and is 4.7 here.
+finitely many p is not stated there and is `AdelicImagesAndModularCurves` §4.3.
+
+### From AdelicImagesAndModularCurves
+
+§4.3, “Surjectivity for almost all ℓ”, under the standing hypotheses of its Layer 4 (K a
+number field, E/K an elliptic curve): if E has no geometric complex multiplication, the mod-ℓ
+representation `ρ̄_(E,ℓ)` is surjective onto `GL₂(𝔽_ℓ)` for all but finitely many primes ℓ,
+hence the image of `Gal(K̄/K)` in `Aut_(ℤ_ℓ)(T_ℓE) ≅ GL₂(ℤ_ℓ)` is the whole group for all but
+finitely many ℓ. It is the owner of that statement and proves it from Dickson's classification,
+the inertia images at ℓ, the finiteness of the isogeny class and Hermite's finiteness; 4.7 uses
+it at `K = ℚ`, with the non-CM hypothesis read as: every endomorphism of E over `ℚ̄` is
+multiplication by an integer. It is cited by section: its `Suggested.lean` declares no name for
+this theorem.
 
 ### From EllipticCurveModularityPartII
 
@@ -1905,32 +1918,32 @@ including two, and for every integer j.
 
 Let E/ℚ be an elliptic curve without complex multiplication: every endomorphism of E over
 `ℚ̄`, an element of the endomorphism ring Tau Ceti `TauCeti.Isogeny.Hom` of the base change,
-is multiplication by an integer. For every prime p the image of `Gal(ℚ̄/ℚ)` in the
-automorphism group of the Tate module `T_pE`, through Tau Ceti
-`WeierstrassCurve.tateModuleGaloisRepresentation`, is open in `Aut_(ℤ_p)(T_pE) ≅ GL₂(ℤ_p)`:
-this is `NoncommutativeAndEquivariantIwasawa` §4.0 at `F = ℚ`, imported and not proved here
+is multiplication by an integer. Two image theorems are imported and not proved here, both
+read on Tau Ceti `WeierstrassCurve.tateModuleGaloisRepresentation`. For every prime p the
+image of `Gal(ℚ̄/ℚ)` in the automorphism group of the Tate module `T_pE` is open in
+`Aut_(ℤ_p)(T_pE) ≅ GL₂(ℤ_p)`: this is `NoncommutativeAndEquivariantIwasawa` §4.0 at `F = ℚ`
 (Serre 1972, Théorème 3, as stated in Loeffler arXiv:1411.1789, p. 1, item (A)). The image is
-compact, hence closed, so its openness is the same as its finite index. Prove
-`serre_surjective_almostAll`: the image is the whole automorphism group for all but
-finitely many p (Serre 1972, Théorème 2; Loeffler p. 1, item (B); Rubin draft Proposition
-III.5.8 and Remark III.5.9, pp. 49–50). Consequences, proved here from the imported openness
-and the surjectivity: `Hyp(ℚ_∞, V_p(E))` holds for
+compact, hence closed, so its openness is the same as its finite index. For all but finitely
+many p the image is the whole automorphism group: this is `AdelicImagesAndModularCurves` §4.3
+at `K = ℚ` (Serre 1972, Théorème 2; Loeffler p. 1, item (B); Rubin draft Proposition III.5.8
+and Remark III.5.9, pp. 49–50). Prove here, from the imported openness and surjectivity, the
+cyclotomic consequences: `Hyp(ℚ_∞, V_p(E))` holds for
 every p, `Hyp(ℚ_∞, T_p(E))` holds when `ρ_(E,p)` is surjective,
 `H¹(ℚ(E[p^∞])/ℚ, E[p^∞])` is finite, and zero when `ρ_(E,p)` is surjective and p is odd
 (Rubin Proposition III.5.8; at `p = 2` the finite group `GL₂(ℤ/4)` already has a nonzero class
 with coefficients in `(ℤ/4)²`, so the vanishing is not used there); and `E(ℚ_∞)_tors` is finite for the cyclotomic `ℤ_p`-extension
 (Rubin Corollary III.5.6 and its proof, p. 49).
 
-The modularity theorem attaches E to a weight-two newform with rational coefficients
-(`EllipticCurveModularity` R29.4–R29.6). Non-CM excludes a nontrivial self-twist, so
-Γ is trivial and Momose's algebra B is split. Then integralImage_almostAll (4.1) gives the
-whole `SL₂(ℤ_p)` on the cyclotomic kernel for almost all p, and the Weil pairing
-(`ModularCurves` §2E) identifies the determinant with the surjective cyclotomic
-character, so the image is `GL₂(ℤ_p)` at almost all p. The imported openness at a given p
-is read on the cyclotomic kernel through the same Weil pairing:
-`G_(ℚ(μ_(p^∞))) = ρ_(E,p)^(−1)(SL₂(ℤ_p))`, so the image of the cyclotomic kernel is open in
-`SL₂(ℤ_p)` at every p, which is clause (1) of ribetMomoseOpenImage at the split algebra
-`B = M₂(ℚ)`.
+Both imported theorems are read on the cyclotomic kernel through the Weil pairing
+(`ModularCurves` §2E), which identifies `det ρ_(E,p)` with the cyclotomic character, so
+`G_(ℚ(μ_(p^∞))) = ρ_(E,p)^(−1)(SL₂(ℤ_p))`: the openness at p says that the image of the
+cyclotomic kernel is open in `SL₂(ℤ_p)`, and the surjectivity says that it is all of
+`SL₂(ℤ_p)` for all but finitely many p. The modularity theorem attaches E to a weight-two
+newform with rational coefficients (`EllipticCurveModularity` R29.4–R29.6), and non-CM excludes
+a nontrivial self-twist, so Γ is trivial and Momose's algebra B is split; the two readings are
+then clause (1) of ribetMomoseOpenImage and integralImage_almostAll (4.1) at the split algebra
+`B = M₂(ℚ)`. This agreement is a consistency check of 4.1 against the imported theorems; the
+consequences above use the imported statements and do not derive them from 4.1.
 
 **Checks.**
 
@@ -1941,16 +1954,17 @@ is read on the cyclotomic kernel through the same Weil pairing:
 - The Weil pairing gives `G_(ℚ(μ_(p^∞))) = ρ_(E,p)^(−1)(SL₂(ℤ_p))`; an open subgroup of
   `SL₂(ℤ_p)` contains `[[1,x],[0,1]]` with `x ≠ 0`.
 - Openness is not surjectivity at a fixed p: `1 + 5M₂(ℤ_5)` is open in `GL₂(ℤ_5)` and reduces
-  to the trivial subgroup of `GL₂(𝔽_5)`, of order `24·20 = 480`; the almost-all clause is the
-  content of the theorem proved here, and the openness at each p is the imported input.
+  to the trivial subgroup of `GL₂(𝔽_5)`, of order `24·20 = 480`; the openness at each p and
+  the surjectivity at all but finitely many p are two imported inputs, neither of which gives
+  the other at a fixed p.
 - For a CM curve no element of `G_(ℚ(μ_(p^∞)))` acts by a nontrivial unipotent
   (Rubin Remark III.5.10), so the theorem excludes CM. For `y² = x³ − x` the endomorphism
   `(x,y) ↦ (−x, iy)` over `ℚ̄` has degree one and is neither `[1]` nor `[−1]`, the only
   integer multiplications of degree one, so the non-CM hypothesis fails as it must.
 
-*Needs:* 4.1; `NoncommutativeAndEquivariantIwasawa` §4.0; `EllipticCurveModularity`
-R29.4–R29.6; `AutomorphicGaloisRepresentations` §7.5; `ModularCurves` §2E;
-`EllipticCurves` Layers 4 and 6.
+*Needs:* `NoncommutativeAndEquivariantIwasawa` §4.0; `AdelicImagesAndModularCurves` §4.3;
+`ModularCurves` §2E; `EllipticCurves` Layers 4 and 6; the consistency remark alone uses 4.1
+and `EllipticCurveModularity` R29.4–R29.6.
 
 ### Examples
 
@@ -1971,7 +1985,7 @@ Layer 2; `PadicFamilies` §4.0.3; `AutomorphicGaloisRepresentations` §§1.5–1
 8.6–8.7, 8.16, 8.37–8.38; `SelmerIwasawaCohomology` §§3.0–3.2, 3.5–3.7, 3.13, 3.15;
 `ArithmeticGaloisDuality` §§R02.1.2, R02.4.2–R02.4.4; `PadicMeasuresIwasawaAlgebras`
 §§4.1–4.3; `ModularCurves` §2E; `EllipticCurves` Layers 4 and 6;
-`NoncommutativeAndEquivariantIwasawa` §4.0.
+`NoncommutativeAndEquivariantIwasawa` §4.0; `AdelicImagesAndModularCurves` §4.3.
 
 ## Layer 5: canonical zeta morphisms
 
@@ -3205,9 +3219,6 @@ of 4.3 and 7.2, with the integral hypotheses as stated there: 4.3 needs a free r
 surjectivity. `RankZeroOneBSDPartII` can use the reciprocity and interpolation statements through 5.3 and
 7.1–7.2, the elliptic bounds of 7.4 and 7.8, and the finiteness of `Sel_(p^∞)(E/ℚ)` at every p
 when `L(E,1) ≠ 0` from 7.9. `HeegnerPointEulerSystems` §6.9 uses 6.6, 7.4 and 7.7 for its rank-zero route.
-`AdelicImagesAndModularCurves` Layer 4 plans the adelic open-image theorem over number fields;
-over ℚ its per-prime input is `NoncommutativeAndEquivariantIwasawa` §4.0 and its almost-all
-surjectivity is 4.7 here.
 
 `PadicFamilies` and `EulerSystemsAndKolyvaginSystems` are suppliers of this roadmap and import
 nothing from it: the Hida-family classes of `PadicFamilies` §4.5 interpolate the geometric

@@ -2,23 +2,21 @@ module
 
 public import Mathlib
 public import TauCeti.AlgebraicGeometry.EllipticCurve.Affine.Point.Galois
-public import TauCeti.AlgebraicGeometry.EllipticCurve.TateModule.Galois
-public import TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny.Hom.Ring
 
 /-!
 # KatoEulerSystems: target signatures
 
 The roadmap is README.md; this file is not the roadmap. It states the roadmap's headline
-theorems against the pinned Mathlib and Tau Ceti APIs. The almost-all surjectivity of §4.7
-(Serre's theorem) is statable on the Tau Ceti Tate-module representation, with non-CM
-expressed through the Tau Ceti endomorphism ring of the curve over the algebraic closure; the
-openness of the image at every prime is NoncommutativeAndEquivariantIwasawa §4.0 and is not
-restated. The elliptic cases of §7.9 are statable: finite generation over every fixed
-cyclotomic tower, and finiteness of the Mordell–Weil χ-part over cyclotomic fields when the
-continued twisted L-function is nonzero at 1, whose case m = 1 is finiteness of rational
-points at analytic rank zero (the elliptic instance of EllipticCurveModularityPartII §6.0e,
-kept here as the m = 1 case of the general statement). They carry no modularity hypothesis:
-every elliptic curve over ℚ is modular (EllipticCurveModularity, R29.6).
+theorems against the pinned Mathlib and Tau Ceti APIs. The image theorems of §4.7 are
+imported, not stated: the openness of the p-adic image of a non-CM elliptic curve at every
+prime is NoncommutativeAndEquivariantIwasawa §4.0, and its surjectivity for all but finitely
+many primes is AdelicImagesAndModularCurves §4.3. The elliptic cases of §7.9 are statable:
+finite generation over every fixed cyclotomic tower, and finiteness of the Mordell–Weil
+χ-part over cyclotomic fields when the continued twisted L-function is nonzero at 1, whose
+case m = 1 is finiteness of rational points at analytic rank zero (the elliptic instance of
+EllipticCurveModularityPartII §6.0e, kept here as the m = 1 case of the general statement).
+They carry no modularity hypothesis: every elliptic curve over ℚ is modular
+(EllipticCurveModularity, R29.6).
 
 Beilinson's real regulator formula (§3.4) lacks the K₂ group of the modular curve with its
 regulator map and the operator-valued zeta function. The canonical zeta morphisms
@@ -43,23 +41,6 @@ maps, although Mathlib has ContinuousCohomology.tateShafarevich for supplied Gal
 @[expose] public section
 
 namespace TauCetiRoadmap.KatoEulerSystems
-
-/-! ## Layer 4: image, nonvanishing and Iwasawa inputs before the canonical map -/
-
-/-- Serre's theorem for an elliptic curve over ℚ without complex multiplication, that is,
-every endomorphism of the curve over the algebraic closure of ℚ is multiplication by an
-integer: the image of the absolute Galois group in the automorphism group of the ℓ-adic Tate
-module is the whole automorphism group for all but finitely many primes ℓ (Serre 1972,
-Théorème 2). The openness of the image at every ℓ (Théorème 3) is imported from
-NoncommutativeAndEquivariantIwasawa §4.0 and is not stated here. -/
-theorem serre_surjective_almostAll (W : WeierstrassCurve ℚ) [W.IsElliptic]
-    [DecidableEq (AlgebraicClosure ℚ)]
-    (hW : ∀ φ : TauCeti.Isogeny.Hom (W.baseChange (AlgebraicClosure ℚ)).toAffine
-        (W.baseChange (AlgebraicClosure ℚ)).toAffine, ∃ n : ℤ, φ = n) :
-    {ℓ : ℕ | ∃ _ : Fact ℓ.Prime,
-      (W.tateModuleGaloisRepresentation (K := AlgebraicClosure ℚ) ℓ).asGroupHom.range
-        ≠ ⊤}.Finite := by
-  sorry
 
 /-! ## Layer 7: divisibility and elliptic applications -/
 
