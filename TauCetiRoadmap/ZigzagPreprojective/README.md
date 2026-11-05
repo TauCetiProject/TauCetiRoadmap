@@ -410,7 +410,7 @@ layers and the suppliers.
   - Finite `D₄` at `a = (2,1,1,1)` (centre first): the reflected centre coefficient is
     `3 − 2 = 1 < 2` and each leaf gives `2 − 1 = 1`; `Ca = (1,0,0,0)`, so the position is stuck
     and the centre is precarious. This is the finite-type behaviour of the positive-definite
-    comparison: `aᵀCa = 1 > 0` and no nonzero nonnegative null vector exists.
+    comparison: `aᵀCa = 2·1 = 2 > 0` and no nonzero nonnegative null vector exists.
   - `D̃₄` (four-leaf star) at `a = (2,1,1,1,1)`: `Ca = (4 − 4, 0,0,0,0) = 0`; the gcd is `1` and
     every leaf has value `1`, agreeing with the native marks normalised by the value `1` at the
     affine node.
