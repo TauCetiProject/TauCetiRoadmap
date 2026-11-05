@@ -40,9 +40,15 @@ Use the supplier's manifold, collar, gluing, connected-sum and PL carriers throu
 
 ## Exact supplier contracts
 
+**From Mathlib.** Use `ChartedSpace`, `IsManifold`, `TangentBundle`,
+`Bundle.ContMDiffRiemannianMetric`, `Diffeomorph`, `Homeomorph`, `Path`,
+`ContinuousMap.HomotopyEquiv`, `HomotopyGroup.Pi`, singular homology, and the native
+covering-space and measure/integration APIs. Compact charted manifolds obtain
+second countability from `ChartedSpace.secondCountable_of_sigmaCompact`.
+
 | Supplier | Exact material consumed | Material owned here |
 | --- | --- | --- |
-| [GeometricTopology](../GeometricTopology/README.md), Layers 1, 2, 7 and 11 | Smooth/PL manifolds, collars, gluing, connected sum, locally flat embeddings, geometric structures, realization, combinatorial/PL comparison and Moise's dimension-three triangulation/Hauptvermutung theorems | The three-dimensional neck/cap consequences, actual Ricci surgery and reconstruction, compatible PL-to-smooth existence and native atlas transport in Layer 14 |
+| [GeometricTopology](../GeometricTopology/README.md), Layers 1, 2, 7 and 11 and its smooth-implies-PL comparison | Smooth/PL manifolds, collars, gluing, connected sum with parameterized ball embeddings and the disc theorem, smooth triangulation, locally flat embeddings, geometric structures, realization, combinatorial/PL comparison and Moise's dimension-three triangulation/Hauptvermutung theorems | The three-dimensional neck/cap consequences, actual Ricci surgery and reconstruction, compatible PL-to-smooth existence and native atlas transport in Layer 14 |
 | [AlgebraicTopology](../AlgebraicTopology/README.md), Stages 1–6 and 8 | van Kampen, finite CW comparison, homology/cohomology, integral manifold duality, Hurewicz, relative homotopy, higher-group comparison | Closed-three-manifold consequences, regular loop-family comparison, surgery ancestry and class transport |
 | [DifferentialGeometry](../DifferentialGeometry/README.md), Layers 0–3, 5–10, 12 | Tensor/form calculus, orientations, smooth flows, Sard, integration/Stokes, metric density and scalar operators | Ricci-flow and moving-curve specializations |
 | [HopfRinow](../../Completed/HopfRinow/README.md), Layers 0–4 | Levi-Civita connection, geodesic flow, normal balls, length and metric completeness | Time-dependent comparisons, reduced paths, complete pointed flow limits |
@@ -56,6 +62,11 @@ Use the supplier's manifold, collar, gluing, connected-sum and PL carriers throu
 `TauCeti/Topology/TriangulationConjecture.lean`. The dimension-three proof is
 GeometricTopology Layer 11's target, supported by its
 [Moise extract](../GeometricTopology/references/moise-triangulation-dim3.md).
+Smooth triangulation is the smooth-implies-PL target of GeometricTopology's
+smoothing-and-triangulation comparison, built from its chart-based PL and
+combinatorial-manifold APIs in Layers 1 and 11; its
+[Munkres extract](../GeometricTopology/references/munkres-smoothing-triangulations.md)
+states Theorems 10.5 and 10.6.
 Use `HomotopyGroup.pathLoopSpaceMulEquiv` from
 `TauCeti/Topology/Homotopy/HomotopyGroup/LoopSpace.lean` for the based-loop shift.
 Import the native covariant-derivative, curvature, geodesic and covering APIs
@@ -71,16 +82,10 @@ needed here.
 
 ## Conventions
 
-Start from Mathlib's `ChartedSpace`, `IsManifold`, `TangentBundle`,
-`Bundle.ContMDiffRiemannianMetric`, `Diffeomorph`, `Homeomorph`, `Path`,
-`ContinuousMap.HomotopyEquiv`, `HomotopyGroup.Pi`, singular homology, native
-covering-space and measure/integration interfaces. For metrics, use the
-`RiemannianBundle` mechanism or metric-indexed type synonyms when induced norms
+For metrics, use the `RiemannianBundle` mechanism or metric-indexed type synonyms when induced norms
 are needed. Keep instances for a selected metric local to its constructions.
 Import the actual Tau Ceti covariant-derivative, curvature, geodesic and covering
 APIs when using them.
-Use `ChartedSpace.secondCountable_of_sigmaCompact` for countability of compact
-charted manifolds.
 
 Identify the chosen metric's Levi-Civita connection with the native connection
 on differentiable vector fields, and prove the curvature evaluation, slot-order,
@@ -148,7 +153,7 @@ using different normalizations.
 | Layer 10 | Layer 2, Layer 9 | Corrected moving-curve/ramp estimates and family deformation |
 | Layer 11 | Layer 7, Layer 8, Layer 9, Layer 10 | Width comparison and finite extinction |
 | Layer 12 | Layer 1, Layer 6, Layer 7, Layer 8, Layer 11 | Reconstruction from finite actual surgery history |
-| Layer 13 | Layer 1, Layer 12 | Classification of simply connected factors; smooth endpoint |
+| Layer 13 | Layer 1, Layer 6, Layer 12 | Classification of simply connected factors; smooth endpoint |
 | Layer 14 | none | Dimension-three compatible smoothing and native atlas adapter |
 | Layer 15 | Layer 13, Layer 14 | Topological endpoint and hypothesis transport |
 
@@ -160,7 +165,7 @@ The width branch can be built independently of surgery existence until Layer 11
 joins them. Layer 6 defines local operations before Layer 7 proves they can be iterated,
 and Layer 11 uses the flow constructed by Layer 7.
 
-## Layer 1. Closed topology, models and normalization
+## Layer 1: Closed topology, models and normalization
 
 ### 1.1. Closed topology
 
@@ -173,7 +178,9 @@ Prove that an orientable three-manifold contains no embedded
 two-sided projective plane, using its normal orientation and the induced
 orientation on a two-sided hypersurface.
 
-Source: Hatcher, §§1.2, 3.3 and 4.2, for van Kampen, duality, Hurewicz and Whitehead.
+Sources: Hatcher, §1.2, Theorem 1.20 (van Kampen); §3.3, Theorem 3.30
+(Poincaré duality); §4.1, Theorem 4.5, p. 346 (Whitehead); and §4.2,
+Theorem 4.32 (Hurewicz).
 
 **API.**
 
@@ -232,10 +239,6 @@ The normalized initial conditions are Morgan–Tian, Definition 4.10, with the
 curvature-operator bound expressed in the conventions above. All Morgan–Tian
 locators below refer to the published Clay edition linked in the bibliography.
 
-Completion checks include the exact round sphere/quotient models, the small-ball
-volume limit, the normalized metric construction, and the closed homotopy-sphere
-calculation.
-
 **API.**
 
 - Metric existence, pullback and positive rescaling.
@@ -261,7 +264,7 @@ all-small-radii volume lower bound.
 GeometricTopology Layers 1, 2, 7 and 11; AlgebraicTopology Stages 1–6 and 8;
 DifferentialGeometry metric existence; RiemannianGeometry models and normal coordinates.
 
-## Layer 2. Ordinary flow estimates and complete pointed compactness
+## Layer 2: Ordinary flow estimates and complete pointed compactness
 
 ### 2.1. Native flow adapters
 
@@ -409,7 +412,7 @@ pointed complete flows has its original flow as a limit.
 
 Layer 1; RicciFlow R1–R5; local PDE and Riemannian comparison inputs specified above.
 
-## Layer 3. Reduced geometry, spacetime and noncollapse
+## Layer 3: Reduced geometry, spacetime and noncollapse
 
 ### 3.1. Reduced action, distance and volume
 
@@ -485,8 +488,8 @@ Define `κ`-noncollapse at scales below `r₀` by
 versions from the reduced-volume estimates. Constants depend explicitly on
 initial geometry, time horizon, dimension and scale bounds. Keep the stronger
 all-scale ancient hypothesis separate from finite-horizon noncollapse.
-The Euclidean reduced-volume calculation, shrinking models, positive-start
-conversion and scale invariance are acceptance examples.
+Include the Euclidean reduced-volume calculation, shrinking models, positive-start
+conversion and scale invariance in the API.
 
 Source: Morgan–Tian, Theorems 8.1 and 8.10; retain the stated reduced-path domain and τ₀,
 V, l₀, n dependence.
@@ -515,7 +518,7 @@ ratio.
 Layer 2; HopfRinow; DifferentialGeometry vector-field flows; PDE weak calculus and
 Riemannian volume comparison.
 
-## Layer 4. Ancient κ-solutions and shrinking asymptotic models
+## Layer 4: Ancient κ-solutions and shrinking asymptotic models
 
 ### 4.1. Connected ancient κ-solutions
 
@@ -600,7 +603,7 @@ round sphere supplies the compact shrinking model.
 
 Layers 1–3; native quotient and orientation transport.
 
-## Layer 5. Canonical neighborhoods and singular-time geometry
+## Layer 5: Canonical neighborhoods and singular-time geometry
 
 ### 5.1. Necks, caps and canonical components
 
@@ -686,7 +689,7 @@ curvature-controlled closed slab the regular-region limit is the whole manifold.
 
 Layers 1–4; GeometricTopology collars, gluing and local component topology.
 
-## Layer 6. Standard cap and actual metric surgery
+## Layer 6: Standard cap and actual metric surgery
 
 ### 6.1. Standard cap and noncompact flow
 
@@ -739,6 +742,10 @@ the regions used in the width argument. Prove the stated length/area distortion
 and the homotopies on surviving regions. Give the local formulas and domain
 conditions both on unchanged regions and on collapsed caps. Prove independence
 of auxiliary collar choices up to the equivalence used by downstream statements.
+Record the boundary parameterization of each inserted ball in the chosen
+product-neck coordinates. Prove that reversing a separating cut identifies the
+two ball boundaries by the standard connected-sum identification in those
+coordinates, with the orientation convention carried by the ball embeddings.
 
 Prove continuation after a cut, including the case of an empty post-slice,
 compatibility with ordinary-flow restart and persistence of the inserted cap
@@ -751,7 +758,7 @@ Lemma 15.11.
 **API.**
 
 - Actual cut/cap embeddings, unchanged-region identities, length/area comparison,
-  collar-choice transport and continuation.
+  boundary-parameterization compatibility, collar-choice transport and continuation.
 
 **Checks.**
 
@@ -770,7 +777,7 @@ unchanged metric before any component deletion.
 
 Layers 1, 2 and 5; local parabolic exhaustion and GeometricTopology gluing.
 
-## Layer 7. Controlled schedules and global surgery flow
+## Layer 7: Controlled schedules and global surgery flow
 
 ### 7.1. Surgery-flow data and control schedules
 
@@ -849,7 +856,7 @@ at scale h scales as h³.
 
 Layers 2, 3, 5 and 6; finite component bookkeeping.
 
-## Layer 8. Component ancestry and homotopy transport
+## Layer 8: Component ancestry and homotopy transport
 
 ### 8.1. Component ancestry and class transport
 
@@ -899,7 +906,7 @@ With no events the ancestry is the ordinary epoch identification.
 
 Layers 1, 6 and 7; AlgebraicTopology van Kampen and higher homotopy.
 
-## Layer 9. Regular loop families, filling area and width
+## Layer 9: Regular loop families, filling area and width
 
 ### 9.1. Regular free-loop families
 
@@ -1083,7 +1090,11 @@ class under the based/free comparison. Use this criterion for the nonzero
 transported class in Layers 10–11, together with finiteness and nonnegativity of its
 width and the family-deformation estimates.
 
-Source: Morgan–Tian, §18.3 and Corollary 18.28.
+Sources: Morgan–Tian, §18.3, Definition 18.17 for family and class width;
+§18.4.2, Lemma 18.27 for the short-loop criterion and Corollary 18.28 for the
+small-loop filling bound, both on p. 434. For every η>0 choose ζ>0 so that
+length less than ζ implies filling area less than η; this gives the uniform
+bound for families of such loops.
 
 **API.**
 
@@ -1111,7 +1122,7 @@ nullhomotopic in the product. A round two-sphere in the product S²×S¹ represe
 Layer 1; AlgebraicTopology based-loop inputs; DifferentialGeometry smoothing; Riemannian
 area calculus; PDE/GMT weak compactness.
 
-## Layer 10. Moving-curve estimates, ramps and family deformation
+## Layer 10: Moving-curve estimates, ramps and family deformation
 
 ### 10.1. Moving curves and corrected estimates
 
@@ -1194,7 +1205,7 @@ equation. The graph of a null loop has degree one in the circle factor.
 Layers 2 and 9; moving-curve local existence and the corrected estimates constructed in
 this layer.
 
-## Layer 11. Width comparison and finite extinction
+## Layer 11: Width comparison and finite extinction
 
 ### 11.1. Smooth-epoch width comparison
 
@@ -1285,7 +1296,7 @@ The profile G starts at W₀. Zero event errors recover the smooth comparison pr
 Layers 2 and 6–10, including a single accuracy schedule satisfying both flow controls and
 the error budget.
 
-## Layer 12. Reconstruction from the actual finite history
+## Layer 12: Reconstruction from the actual finite history
 
 ### 12.1. Finite history and reconstruction maps
 
@@ -1299,6 +1310,9 @@ when substituting one local decomposition into another.
 At each event prove a smooth connected-sum reconstruction of the pre-slice
 from the actual post-slice and discarded elementary factors. Use the collared
 gluing maps and metrics' unchanged-region identifications from Layer 6. Reverse
+each separating cut using Layer 6's boundary-parameterization compatibility, so
+the resulting connected sum uses the specified full ball embeddings and the
+standard boundary identification of GeometricTopology Layer 1. Reverse
 induction on the finite event order gives a smooth identification of the
 initial manifold with an iterated connected sum of the spherical-spaceform and
 `S²`-bundle factors. Multi-cap discarded components are decomposed by their
@@ -1335,7 +1349,7 @@ A two-event prefix composes the actual component identifications.
 
 Layers 1, 6–8 and 11; GeometricTopology finite connected sums and collared gluing.
 
-## Layer 13. Factor classification and the smooth endpoint
+## Layer 13: Factor classification and the smooth endpoint
 
 ### 13.1. Factor classification and smooth endpoint
 
@@ -1347,9 +1361,17 @@ the covering degree to be one and construct a diffeomorphism with the unit
 round sphere using the quotient cover.
 
 Prove the smooth sphere connected-sum identity for the collared ball embeddings
-and gluing maps occurring in Layer 12. Supply the dimension-two sphere boundary
-diffeomorphism extension/isotopy result needed to extend the gluing over a
-three-ball, consuming GeometricTopology's gluing API.
+and gluing maps occurring in Layer 12. Use Layers 6 and 12's parameterizations
+to identify the boundary gluing with the standard connected-sum identification
+through the product neck. Consume GeometricTopology Layer 1's disc theorem to
+move the specified full, orientation-compatible ball embeddings to standard
+ones. In these coordinates the two punctured three-spheres are standard
+three-balls glued by the identity, giving the standard three-sphere.
+The disc theorem is Hirsch, *Differential Topology*, Chapter 4 §6, Theorem 6.6,
+p. 117, as stated in the supplier's
+[extract](../GeometricTopology/references/hirsch-disc-theorem.md); its connected-sum
+API supplies independence of the ball embeddings. Keep the ball parameterizations
+in the identification when transporting a factor diffeomorphism.
 Induct on the finite assembly while keeping smooth identifications of untouched
 components. Connectedness and nonemptiness give one final sphere.
 
@@ -1363,8 +1385,8 @@ The smooth endpoint is Morgan–Tian, Corollary 0.2(a).
 
 **API.**
 
-- Factor injections, degree-one quotient covers, actual sphere-boundary gluing extension
-  and finite connected-sum induction.
+- Factor injections, degree-one quotient covers, parameterized neck/ball gluing
+  compatibility, ball-embedding independence and finite connected-sum induction.
 
 **Checks.**
 
@@ -1372,7 +1394,8 @@ The smooth endpoint is Morgan–Tian, Corollary 0.2(a).
 - A sphere-bundle factor over S¹ is excluded by its nontrivial fundamental group.
 - The round sphere itself has the identity endpoint diffeomorphism.
 
-*Needs:* 1.1–1.3; 12.1; GeometricTopology gluing and native quotient-cover APIs.
+*Needs:* 1.1–1.3; 6.2; 12.1; GeometricTopology Layer 1 disc theorem and gluing;
+native quotient-cover APIs.
 
 ### Examples
 
@@ -1380,10 +1403,10 @@ A simply connected spherical quotient has trivial covering group.
 
 ### Dependencies
 
-Layers 1 and 12; the sphere-boundary extension constructed in this layer using
-GeometricTopology gluing.
+Layers 1, 6 and 12; GeometricTopology Layer 1 disc theorem, parameterized connected
+sums and collared gluing.
 
-## Layer 14. Compatible smoothing in dimension three
+## Layer 14: Compatible smoothing in dimension three
 
 ### 14.1. Compatible PL smoothing and native atlas
 
@@ -1398,14 +1421,20 @@ Moise's theorem to obtain the PL structure. Its underlying realization
 predicate is `TauCeti.IsTriangulable`.
 
 For every Hausdorff second-countable PL three-manifold without boundary,
-prove here the existence of a compatible smooth structure, including the
-relative form preserving a specified compatible smoothing near a closed
-subset. Construct the simplexwise smoothings and their overlap
-compatibility using relative extension and subdivision; prove that the induced
-chart topology is the original topology. Sources: Cairns, Theorem III, and
-Munkres, *Elementary Differential Topology*, §10, for the dimension-three
-smoothing development. Keep triangulation, compatible PL structure and
-compatible smooth atlas distinct in the adapter.
+prove here the existence of a compatible smooth structure. Build the
+normal-position construction of Cairns, Theorem III, p. 797, proved in §§7–11,
+to give the triangulated topological manifold an analytic atlas and hence a
+smooth atlas. Cairns's connected/countable convention on p. 796 applies to
+each connected component; second countability gives countably many components.
+
+To obtain compatibility with the prescribed PL structure, smoothly triangulate
+the resulting smooth manifold using GeometricTopology's smooth-implies-PL comparison (Munkres,
+*Elementary Differential Topology*, Theorem 10.6, pp. 103–104). Apply
+GeometricTopology Layer 11's Hauptvermutung to obtain a PL homeomorphism from
+the prescribed PL manifold to that smooth triangulation, and pull back the
+smooth atlas along this homeomorphism. Prove subdivision and overlap
+compatibility and preservation of the original topology. Keep triangulation,
+compatible PL structure and compatible smooth atlas distinct in the adapter.
 
 Construct `smoothable_closed_three_manifold` as an alternative `ChartedSpace`
 on the original `TopologicalSpace M`, with an `IsManifold (𝓡 3) ∞ M` witness,
@@ -1423,7 +1452,7 @@ countability.
 
 **API.**
 
-- Relative smoothing, subdivision/overlap compatibility, topology preservation and
+- Compatible smoothing, subdivision/overlap compatibility, topology preservation and
   transport between same-carrier and homeomorphic presentations.
 
 **Checks.**
@@ -1431,9 +1460,10 @@ countability.
 - The standard sphere returns a compatible smooth atlas.
 - Two disjoint spheres are smoothed componentwise; the empty carrier is included.
 - Ordinary triangulability alone is kept distinct from the compatible combinatorial/PL input.
+- Pullback along the PL homeomorphism gives an atlas compatible with the prescribed PL structure.
 
-*Needs:* GeometricTopology Layers 1 and 11, including Moise 35.3/36.2; native manifold and
-realization APIs.
+*Needs:* GeometricTopology Layers 1 and 11, including Moise 35.3/36.2, and its
+smooth-implies-PL comparison; native manifold and realization APIs.
 
 ### Examples
 
@@ -1441,9 +1471,10 @@ The standard sphere returns a compatible smooth atlas.
 
 ### Dependencies
 
-GeometricTopology Layers 1 and 11; native topological and smooth manifold vocabulary.
+GeometricTopology Layers 1 and 11 and its smooth-implies-PL comparison;
+native topological and smooth manifold vocabulary.
 
-## Layer 15. Topological endpoint and transport
+## Layer 15: Topological endpoint and transport
 
 ### 15.1. Topological endpoint and presentation transport
 
@@ -1500,11 +1531,10 @@ Layers 9–11 provide loop-family filling and deformation estimates with explici
 error budgets. Layer 14 supplies compatible smoothing for closed topological
 three-manifolds independently of the extinction argument.
 
-## Completion examples
+## Worked examples
 
-Each introduced object comes with its basic usable API, transport/restriction
-laws and the estimates stated in its layer. In addition to the two endpoints,
-the completed development demonstrates:
+The following examples exercise the two endpoints, the intermediate APIs,
+their transport/restriction laws and their estimates:
 
 1. The Euclidean and round-model reduced-volume calculations with the fixed
    normalization, together with parabolic scaling of length/area/volume.
@@ -1545,7 +1575,7 @@ the completed development demonstrates:
   [*Correction to Section 19.2*](https://arxiv.org/abs/1512.00699v1):
   the connection variation, linear curvature term and family consequences
   required in Layer 10.
-- A. Hatcher, *Algebraic Topology* (2002), §§1.2, 3.3 and 4.2:
+- A. Hatcher, *Algebraic Topology* (2002), §§1.2, 3.3, 4.1 and 4.2:
   van Kampen, manifold duality, Hurewicz and Whitehead.
 - C. B. Morrey, [*The problem of Plateau on a Riemannian
   manifold*](https://doi.org/10.2307/1969401), Ann. Math. 49 (1948), 807–851;
@@ -1572,10 +1602,15 @@ the completed development demonstrates:
   Q. J. Math. 27 (1976), 63–70, Theorem 2(1): compatible PL existence.
 - S. Cairns, [*Homeomorphisms Between Topological Manifolds and Analytic
   Manifolds*](https://doi.org/10.2307/1968860), Ann. Math. 41 (1940), 796–808,
-  Theorem III: dimension-three compatible smoothing.
+  Theorem III, p. 797, and its normal-position construction in §§7–11:
+  analytic coordinates on triangulated three-manifolds.
 - J. Munkres, *Elementary Differential Topology*, Annals of Mathematics
-  Studies 54 (1966), §10: smoothing and the compatible triangulation interfaces
-  used in Layer 14.
+  Studies 54 (1966), Theorems 10.5–10.6, pp. 103–104: uniqueness and existence of
+  smooth triangulations, consumed from GeometricTopology's smooth-implies-PL
+  comparison in Layer 14.
+- M. Hirsch, *Differential Topology*, GTM 33 (1976), Chapter 4 §6,
+  Theorem 6.6, p. 117: the disc theorem underlying GeometricTopology Layer 1's
+  independence of the ball embeddings in connected sum.
 
 Prior Lean formalizations include
 [frenzymath/PoincareConjecture](https://github.com/frenzymath/PoincareConjecture)
