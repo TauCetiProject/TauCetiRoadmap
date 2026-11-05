@@ -1252,7 +1252,9 @@ operators on H: T has bandwidth at most N when
 `T=Σ_(k=−N)^N M_(f_k)U^k`. Prove equality first on the coordinate vectors
 and then by finite-support density. Conversely every finite integrated sum
 has finite bandwidth. Give the resulting isometric star-algebra isomorphism;
-this concrete closure is the uniform Roe algebra of the integer line.
+this concrete closure is the uniform Roe algebra of the integer line, the
+ℤ case of the identification of `ℓ∞(Γ)⋊_rΓ` with the uniform Roe algebra
+of a discrete group Γ (Brown–Ozawa, Proposition 5.1.3, cited by locator).
 Only this explicitly defined model is in this target.
 
 The elements `E_ij=M_(1_{i})U^(i−j)` are actual matrix units and rank-one
@@ -1301,8 +1303,9 @@ The C₊ example's circle characters need not extend to R.
 - The even projection `p=M_(1_{2ℤ})` satisfies `UpU*=M_(1_{2ℤ+1})=1−p`; a
   character χ would give `χ(p)=1−χ(p)` with `χ(p)∈{0,1}`, so none exists.
 - With `c₀(ℤ)` in place of `ℓ∞(ℤ)` the same representation has image
-  `K(H)`, the translation model of D3; the unit and the quotient Q appear
-  only for the bounded coefficients.
+  `K(H)`, the ℤ instance of the translation model `C₀(G)⋊G≅K(L²G)` whose
+  general form is D3's; the unit and the quotient Q appear only for the
+  bounded coefficients.
 - R is not CCR because `M_1=1_H` is in the image and H is
   infinite-dimensional; `c₀(ℤ)⋊ℤ=K(H)` is CCR.
 
@@ -1353,7 +1356,9 @@ CStarAlgebras C8's concrete Toeplitz algebra on ℓ²(ℕ), by
 coefficients restricted to ℕ are convergent sequences, recover their
 finite-rank diagonal parts from `S^n(1−SS*)S*^n`, and prove both corner
 inclusions. Match `eK(ℓ²(ℤ))e` with K(ℓ²(ℕ)), q(e)=1 and the symbol
-of S with z, so the corner extension is exactly C8's Toeplitz extension.
+of S with z, so the corner extension is exactly C8's Toeplitz extension
+`0→K(ℓ²(ℕ))→T→C(𝕋)→0` with symbol `S↦z` (Arici–Mesland, §2.1,
+Definition 2.1 and extension (4), p. 3).
 Deduce its faithful representation and circle of character representations,
 the same generic-point-plus-circle primitive topology, and type I but
 non-CCR status. For an arbitrary nondegenerate representation prove the
@@ -1383,9 +1388,19 @@ expectation); D2.BoundedSequenceTranslation (matrix units, the inclusion
 `C₊⋊ℤ→R`); CStarAlgebras C2 (irreducible representations, primitive
 ideals) and C8 (the concrete Toeplitz algebra); Mathlib `lp`.
 
-**D2.SaddleFlow — the orbit topology of a diagonal real flow.**
-For the continuous action `t·(x,y)=(exp(t)x,exp(−t)y)` of ℝ on ℝ²,
-classify orbits and compute the quotient topology directly. The nonaxis
+### Examples
+
+The irrational rotation algebra through its orbit representations with
+`uv=exp(2πiθ)vu`; the reduced free-group algebra with its Powers partition
+`w=ab^L`; the uniform Roe algebra `ℓ∞(ℤ)⋊ℤ` with its essential compact
+ideal and no characters; the asymmetric sequence algebra `C₊⋊ℤ` with its
+generic-point-plus-circle primitive space and Toeplitz corner; the saddle
+flow with its non-Hausdorff orbit space, worked below.
+
+**Worked example: the saddle flow.** For the continuous action
+`t·(x,y)=(exp(t)x,exp(−t)y)` of ℝ on ℝ², classify orbits and compute the
+quotient topology directly; this uses only Mathlib's `Real.exp`, quotient
+topologies and `IsOpenMap`, and no operator-algebra input. The nonaxis
 orbits are the four quadrant branches indexed by `r=|xy|>0`;
 each is closed. The remaining orbits are the four open half-axes and the
 origin. Each half-axis orbit has closure equal to itself together with
@@ -1395,7 +1410,7 @@ point and the intervals `0<r<ε` in its two adjacent quadrant families;
 these neighborhoods exclude the origin. At the origin give a basis
 consisting of the origin, all four half-axis points and `0<r<ε` in
 all four quadrant families. Prove these bases from saturated open sets
-in ℝ². Deduce T₀, failure of T₁ and failure of Hausdorffness. This target
+in ℝ². Deduce T₀, failure of T₁ and failure of Hausdorffness. This example
 computes the orbit space, without identifying it with a crossed-product
 primitive space.
 
@@ -1415,18 +1430,6 @@ primitive space.
 - On the branches of one quadrant the quotient topology is the usual
   topology of `r∈(0,∞)`: the map `(x,y)↦xy` is continuous and open on the
   open quadrant.
-
-*Needs:* Mathlib `Real.exp`, quotient topologies and `IsOpenMap`; no
-operator-algebra input.
-
-### Examples
-
-The irrational rotation algebra through its orbit representations with
-`uv=exp(2πiθ)vu`; the reduced free-group algebra with its Powers partition
-`w=ab^L`; the uniform Roe algebra `ℓ∞(ℤ)⋊ℤ` with its essential compact
-ideal and no characters; the asymmetric sequence algebra `C₊⋊ℤ` with its
-generic-point-plus-circle primitive space and Toeplitz corner; the saddle
-flow with its non-Hausdorff orbit space.
 
 ### Dependencies
 
@@ -1875,7 +1878,7 @@ and almost-everywhere equality rather than an independent measure language.
   the support axiom `supp λ^x=G^x` forces μ to have full support; the
   symmetric measure `ν=μ×μ` is inversion invariant, so `D=1`.
 - Quasi-invariance for a one-unit groupoid with `μ=δ`: `ν` is Haar measure,
-  `dν⁻¹/dμ=Δ⁻¹`, so `D=Δ_G` and `ν₀=Δ^(−1/2)ν`; `D=1` exactly for unimodular
+  `dν⁻¹/dν=Δ⁻¹`, so `D=Δ_G` and `ν₀=Δ^(−1/2)ν`; `D=1` exactly for unimodular
   G.
 
 *Needs:* the topological groupoid layer named in Exact supplier contracts
@@ -2101,7 +2104,8 @@ using the orbit-pair maps and Haar integrals. For example, the right inner
 product is
 `⟨ξ,η⟩_H(h)=∫ conjugate(ξ(g⁻¹z)) η(g⁻¹zh) dλʳ⁽ᶻ⁾(g)`, where
 `s_Z(z)=r_H(h)`; prove independence of z. Complete to an imprimitivity
-`C*(G)`–`C*(H)` bimodule in the sense of D1.Modules. Prove that `C*(L)`
+`C*(G)`–`C*(H)` bimodule in the two-inner-product form of D1.Modules and
+`gap:hilbert-module-induction`. Prove that `C*(L)`
 decomposes under the unit-space projections, full projections in its
 multiplier algebra, into the corners `C*(G)`, `C*(H)` and this bimodule;
 its identification with the abstract linking algebra `K_(C*(H))(X⊕C*(H))`
@@ -2135,8 +2139,9 @@ along `Z₁`, naturally in both factors.
   itself; the quotient by `XJ_H` is the reduced module `C*_r(F₂)`.
 
 *Needs:* D5 (Haar systems, the convolution algebras, full and reduced
-completions, the regular representations); D1.Modules (imprimitivity
-bimodules, their completion, the stage lemma); D2 (the regular kernel);
+completions, the regular representations); D1.Modules (the module
+conventions, the stage lemma) with `gap:hilbert-module-induction`
+(imprimitivity bimodules, their completion); D2 (the regular kernel);
 CStarAlgebras C1 (ideals, multipliers).
 
 For étale groupoids use the canonical counting Haar system. Develop open
@@ -2357,7 +2362,8 @@ across the real axis), the norm bound
 `|F_ab(z)|≤‖a‖‖b‖`, and the sufficiency of checking on a norm-dense invariant
 algebra of entire elements. Treat β<0 on the reversed strip, and β=0 as
 the full space of tracial states. Prove invariance for β≠0
-(`kms_invariant`); it is not a consequence of the β=0 trace condition. Develop pullback under equivariant
+(`kms_invariant`, stated for β>0; the reversed strip is the same argument);
+it is not a consequence of the β=0 trace condition. Develop pullback under equivariant
 quotients, tensor products of KMS states, restrictions to invariant
 subalgebras when the restriction has norm one, and stability under weak-*
 limits that are states, for a fixed dynamics.
@@ -2383,8 +2389,8 @@ not be invariant; use this example to distinguish the β=0 convention.
 analytic vectors); CStarAlgebras C2 (states); Mathlib `DifferentiableOn`,
 `Bornology.IsBounded`, `PositiveLinearMap`.
 
-For β≠0 construct, from invariance (`kms_invariant`), the GNS implementing
-unitary group `U_tπ_ω(a)Ω_ω=π_ω(τ_t(a))Ω_ω`, prove it is strongly continuous
+For β≠0 construct, from invariance (`kms_invariant` for β>0 and its
+reversed-strip mirror for β<0), the GNS implementing unitary group `U_tπ_ω(a)Ω_ω=π_ω(τ_t(a))Ω_ω`, prove it is strongly continuous
 from the point-norm continuity of τ, and extend τ to the double commutant
 `M=π_ω(A)''` (Mathlib's `VonNeumannAlgebra`) by `τ̄_t=Ad U_t`, a group of
 *-automorphisms of M whose orbits `t↦τ̄_t(x)` are continuous for the weak
@@ -2912,6 +2918,14 @@ of a positive-definite matrix through the Hermitian functional calculus).
 - Joachim Cuntz, *Simple C*-algebras generated by isometries*, Comm. Math.
   Phys. 57 (1977): §1 for the defining relations of O_n, cited by locator
   for D6's concrete families.
+- Nathanial P. Brown and Narutaka Ozawa, *C*-algebras and finite-dimensional
+  approximations*, Graduate Studies in Mathematics 88 (2008): Proposition
+  5.1.3, the identification of `ℓ∞(Γ)⋊_rΓ` with the uniform Roe algebra of
+  a discrete group Γ, cited by locator for D2.BoundedSequenceTranslation.
+- Francesca Arici and Bram Mesland, *Toeplitz extensions in noncommutative
+  topology and mathematical physics*, arXiv:1911.05823: §2.1, Definition 2.1
+  and the extension (4) `0→K(ℓ²(ℕ))→T→C(S¹)→0` with symbol `T↦z` (p. 3),
+  for the Toeplitz corner of D2.SequenceToeplitz.
 
 For central multiplier cocycles use the equations and cochain direction in
 D1.CentralTwists and D2.CentralTwists. Delfín–Farsi–Packer,
