@@ -1,384 +1,857 @@
 # Roadmap: modular characters and blocks of finite groups
 
-Develop modular representation theory of finite groups through Brauer characters,
-decomposition and Cartan matrices, blocks and defect groups, and Brauer's three
-main theorems. Expose ordinary-character and principal-block interfaces for
-finite-group theory, including block-section orthogonality. The coefficient
-characteristic `p` may divide `|G|` throughout.
+**Summary.** This roadmap develops the modular representation theory of a finite group `G` at a
+prime `p` that may divide `|G|`: `p`-modular systems and the reduction of stable lattices, Brauer
+characters and the decomposition map, projective characters and Brauer reciprocity, the blocks of
+`O[G]`, `k[G]` and `K[G]` and their comparison, generalized decomposition numbers and their
+orthogonality, the Brauer homomorphism, Brauer pairs and defect groups, Brauer's three main
+theorems, and the behaviour of blocks under normal subgroups. It is built from Mathlib's group
+algebras, discrete valuation rings and Sylow theory, from the pinned Tau Ceti libraries of
+`p`-parts of elements, primitive idempotents, complete-adic idempotent lifting, projective covers,
+Cartan matrices and Grothendieck groups of group algebras, and from the ordinary character theory
+of CharacterTheory and InductionRestriction. The end theorems are Brauer's count of simple modules
+(`card_simpleModules_eq_card_pRegularClasses`), Brauer reciprocity `C = Dᵀ D`, the bijection of
+blocks of `O[G]` and `k[G]` (`existsUnique_blockIdempotent_map_residue`), the orthogonality of
+generalized decomposition numbers, the conjugacy of defect groups (`isDefectGroup_conj`), the
+Sylow defect groups of the principal block (`isDefectGroup_iff_sylow_of_augmentation_ne_zero`),
+Brauer's first main theorem (`brauer_first_main`), the second main theorem, the local form of the
+third main theorem (`brauer_third_main_local`), and the kernel theorem
+`⋂_{χ ∈ Irr(B₀)} ker χ = O_{p'}(G)`.
 
-Suggested homes: `TauCeti/RepresentationTheory/Modular/` and
-`TauCeti/RepresentationTheory/Block/`. The module theory is primary; complex
-characters describe it through proved comparisons.
+Suggested homes: `TauCeti/RepresentationTheory/Modular/` and `TauCeti/RepresentationTheory/Block/`.
+The module theory is primary; complex characters describe it through proved comparisons.
 
-## Starting points and ownership
+## Scope and ownership
 
-- Mathlib supplies `MonoidAlgebra`, `Representation`, `FDRep`, modules, tensor
-  products, finite-dimensional algebras, Jacobson radicals, projective modules,
-  local rings, discrete valuation rings, completions and ideal quotients. Reuse
-  `IsIdempotentElem`, `CompleteOrthogonalIdempotents`,
-  `exists_isIdempotentElem_eq_of_ker_isNilpotent` and
-  `CompleteOrthogonalIdempotents.of_ker_isNilpotent`. Lifting through the maximal
-  ideal of a complete DVR is a separate completeness argument in M1, not an
-  application of a nilpotent-kernel theorem to a nonnilpotent ideal.
-- [SemisimpleAlgebras](../SemisimpleAlgebras/README.md) owns the simple-module
-  dictionary and the structure of finite-dimensional algebras modulo their
-  radicals. Reuse those APIs. `k[G]` itself need not be semisimple here.
-- [QuiverRepresentations](../QuiverRepresentations/README.md), Layer 3,
-  owns radical powers, composition multiplicities, semiperfectness, projective
-  covers, indecomposable projectives and the composition-factor `cartanMatrix`.
-  M0 and M3 consume these for `k[G]`; the native projective-cover and
-  Cartan APIs listed below supply the implemented foundation.
-- [ModularInduction](../ModularInduction/README.md), Layers 0–3, owns the group-algebra specialization of exact
-  `G₀`, its simple-class basis, induction, restriction and the reduction
-  of permutation lattices. M2 constructs the decomposition map for all stable
-  lattices and proves compatibility with that existing reduction. Do not define
-  a second Grothendieck group. [GrothendieckEulerForms](../../GrothendieckEulerForms/README.md)
-  owns exact `K₀`, split `K₀` of projectives, the Cartan map and the
-  projective/simple pairing.
-- [CharacterTheory](../CharacterTheory/README.md) owns ordinary characters,
-  the complex pairing, central characters, primitive central idempotents over
-  algebraically closed fields and cyclotomic values. M4 supplies their
-  descent to the non-closed split field `K`. Consume the native
-  [`CharacterTable` library](https://github.com/TauCetiProject/TauCeti/tree/d7dad3786f4cb95dbc0b2f5a2e47a989c1ebadad/TauCeti/RepresentationTheory/CharacterTable).
-  [InductionRestriction](../InductionRestriction/README.md) owns ordinary
-  induction, Mackey and Clifford theory. Its Layer 6 owns ordinary Brauer
-  induction from elementary subgroups, an input to M2's surjectivity proof.
-  M3–M5 prove the modular comparisons.
-- LocalFiniteGroupTheory [#1634](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1634),
-  L1–L3, owns `p`-cores and coprime local-group theory. M0–M7 require only
-  Mathlib's Sylow and group-action theory; the normal-`p`-subgroup and core
-  applications in M8 consume that proposal's cores.
+This roadmap owns the general modular theory of finite groups listed in Layers 0–8. It does not
+own the classification of finite simple groups, the odd order theorem, Glauberman's `Z*` theorem
+(GlaubermanZStar consumes Layers 4–8), blocks with cyclic defect group and Brauer trees, block
+fusion systems beyond Brauer pairs, or conjectures about blocks.
 
-- Consume native `TauCeti.IsPrimitiveIdempotent` and
-  `TauCeti.exists_completeOrthogonalIdempotents_isPrimitiveIdempotent` in
-  [`Idempotents/Primitive`](https://github.com/TauCetiProject/TauCeti/tree/d7dad3786f4cb95dbc0b2f5a2e47a989c1ebadad/TauCeti/RingTheory/Idempotents/Primitive).
-  Consume `TauCeti.IsProjectiveCover`, `exists_isProjectiveCover_of_finite`,
-  `exists_isProjectiveCover_of_isSimpleModule` and
-  `Ideal.nonempty_linearEquiv_of_quotient_smul_top` for covers and lifts;
-  `TauCeti.cartanMap`, `TauCeti.cartanMatrix`, `projectiveSimplePairing` and
-  `projectiveSimplePairing_isPerfPair` for their numerical interfaces.
-  For group-algebra exact K₀ use `ExactK0 (finiteModulesExactStructure k[G])`,
-  `resK0`, `indK0`, `groupAlgebraBaseChangeK0` and `reductionK0`.
-  Ordinary Brauer induction is already exported as
-  `ClassFunction.indVirtualCharacters_eq_virtualCharacters_isElementary`.
+Already in the libraries, and consumed rather than rebuilt:
 
-This roadmap owns the general theory below, not classification of simple groups,
-Feit–Thompson, Glauberman's Z* theorem, cyclic-defect Brauer trees, or conjectures
-about blocks. Z* may consume M5–M8 without being a prerequisite of any layer.
+- **`p`-parts of elements.** Tau Ceti defines the commuting factorisation `x = pPart p x * pFreePart p x`
+  with uniqueness, conjugation and order formulas (`TauCeti.pPart`, `TauCeti.pFreePart`,
+  `TauCeti.eq_pPart`, `TauCeti.eq_pFreePart`, `TauCeti.commute_pFreePart_pPart`,
+  `TauCeti.pPart_mul_pFreePart`, `TauCeti.pPart_conj`, `TauCeti.pFreePart_conj`,
+  `TauCeti.orderOf_pPart`, `TauCeti.orderOf_pFreePart`, in
+  `TauCeti/GroupTheory/OrderOfElement/PPart.lean`). Layer 0 adds only the sections and their
+  centralizer parametrization.
+- **Primitive idempotents and their lifting.** `TauCeti.IsPrimitiveIdempotent`,
+  `TauCeti.exists_completeOrthogonalIdempotents_isPrimitiveIdempotent` (Artinian rings),
+  Mathlib `CompleteOrthogonalIdempotents`, `exists_isIdempotentElem_eq_of_ker_isNilpotent`,
+  and the complete-adic lifting `TauCeti.IsAdicComplete.exists_isIdempotentElem_eq`
+  (`TauCeti/RingTheory/AdicCompletion/Idempotent.lean`) and
+  `TauCeti.exists_projective_quotient_smul_top_linearEquiv`
+  (`TauCeti/Algebra/Module/Projective/Lift.lean`). Layer 1 adds only centrality, primitivity and
+  uniqueness of central lifts over `O[G]`.
+- **Projective covers, Cartan matrices and `K₀`.** `TauCeti.IsProjectiveCover`,
+  `TauCeti.exists_isProjectiveCover_of_finite`,
+  `TauCeti.CompleteOrthogonalIdempotents.exists_isProjectiveCover_of_isSimpleModule`,
+  `Ideal.nonempty_linearEquiv_of_quotient_smul_top`, `TauCeti.cartanMap`, `TauCeti.cartanMatrix`,
+  `TauCeti.projectiveSimplePairing`, `TauCeti.projectiveSimplePairing_isPerfPair`,
+  `TauCeti.ExactK0`, `TauCeti.finiteModulesExactStructure`, `TauCeti.resK0`, `TauCeti.indK0` and
+  `TauCeti.reductionK0`.
+- **Ordinary Brauer induction.** `TauCeti.ClassFunction.indVirtualCharacters_eq_virtualCharacters_isElementary`.
+- **Ordinary column orthogonality.** `TauCeti.sum_characterTable_mul_conj` (CharacterTheory §3.5):
+  `∑_χ χ(g) conj(χ(h)) = |C_G(g)|` when `g` and `h` are conjugate and `0` otherwise.
 
-## Coefficients and conventions
+Planned by other roadmaps, and imported by name and section:
 
-Fix a finite group `G`, a prime `p`, the exponent `e` of `G` and the prime-to-`p` part
-`e'` of `e`. A `p`-regular element satisfies `Nat.Coprime p (orderOf g)`.
-Write every element uniquely as `g_p * g_{p'}`, with commuting factors of
-`p`-power and prime-to-`p` order; build this decomposition in M0.
+- [SemisimpleAlgebras](../SemisimpleAlgebras/README.md), Layers 0–2: the Jacobson radical, simple
+  modules and Artin–Wedderburn for `k[G] / rad k[G]`. `k[G]` itself is not semisimple here.
+- [QuiverRepresentations](../QuiverRepresentations/README.md), Layer 3: radical powers,
+  composition multiplicities, projective covers, indecomposable projectives and its
+  composition-factor Cartan matrix, whose orientation `[P_i : S_j]` is the transpose of the native
+  `TauCeti.cartanMatrix`.
+- [GrothendieckEulerForms](../../GrothendieckEulerForms/README.md), Layers 2 and 4: exact and split
+  `K₀`, the Cartan map of a finite-dimensional algebra and the projective/simple pairing.
+- [ModularInduction](../ModularInduction/README.md), Layers 0, 1 and 3: the Grothendieck group
+  `modRepK0 k G` of `k[G]`, its simple-class basis, restriction, induction, the field-extension ring
+  homomorphism `modRepK0.baseChange` (Layer 1), and the reduction of `ℤ`-forms (Layer 3). No second
+  Grothendieck group is defined here.
+- [CharacterTheory](../CharacterTheory/README.md), §3.5 (primitive central idempotents over an
+  algebraically closed field, column orthogonality), §4.3 (central characters) and §4.5 (Brauer's
+  splitting field `ℚ(ζ_e)` and its realization adapters).
+- [InductionRestriction](../InductionRestriction/README.md), Layer 6: ordinary Brauer induction from
+  elementary subgroups, an input to the surjectivity of the decomposition map.
+- GL2AutomorphicRepresentationsAndTransfer, §R17.5.11: the Brauer character of a representation
+  over an algebraically closed field of characteristic `p`, for a fixed identification
+  `τ : μ_m(k) ≃ μ_m(ℂ)` of prime-to-`p` roots of unity, with conjugacy invariance, additivity,
+  agreement with the ordinary character of a stable lattice on `p`-regular elements, and recognition
+  of composition factors. Layer 2 specializes `τ` to the one fixed by the modular system and adds
+  the remaining formulas.
+- LocalFiniteGroupTheory, §L1: the relative cores `pCore p H` and `pPrimeCore p H`; `O_{p'}(G)` is
+  `pPrimeCore p ⊤`. Layer 8 consumes them; Layers 0–7 need only Mathlib's Sylow theory.
 
-Use a fixed `p`-modular system `(K,O,k)` as a parameter: `O` is a DVR
-with maximal ideal `m = IsLocalRing.maximalIdeal O`,
-`IsAdicComplete m O`, `IsFractionRing O K`, `CharZero K`, and
-`k = IsLocalRing.ResidueField O` of characteristic `p` and finite cardinality.
-Require `K` to contain a primitive `e`-th root and fix the prime-to-`p`
-root-lifting comparison below. All subgroups, centralizers and quotients of
-`G` use this same system and the same lifting maps; their exponents divide
-`e`. Never choose a new place independently when restricting or inflating.
-M2 constructs the comparison for a change of modular system.
+The Fong–Swan lifting theorem for `p`-solvable groups is GL2AutomorphicRepresentationsAndTransfer
+§R17.5.12 and is not restated here.
 
-M1 constructs one such system from
-`F := ℚ⟮TauCeti.Cyclotomic.complexRoot e⟯`, with its inclusion in `ℂ`:
-choose a finite place over `p`, let `K` be its adic completion and `O` its
-valuation ring, and take the residue field as `k`. Prove that it is isomorphic
-to `𝔽_p(ζ_{e'})`; this notation denotes the field generated by the reduced
-primitive root, not a second independently chosen coefficient field.
-M1 proves `K` splits all subgroups of `G`; M2 first constructs Brauer
-characters over an algebraic closure and then proves residue splitting.
+## Conventions
 
-The map `F→K` is the canonical completion embedding. The prime-to-`p` roots
-are units in `O`, and reduction bijects the `e'`-th roots with those in `k`.
-The Brauer character is the sum of their unique lifts, read through `F⊆ℂ`;
-it is not a trace in `k` cast to `ℂ`. No embedding of the residue field into
-characteristic zero is introduced. Universal comparisons with other splitting
-fields use a common algebraically closed overfield and M2's scalar-extension
-and descent comparisons.
+Fix a finite group `G`, a prime `p`, the exponent `e` of `G` and its prime-to-`p` part `e'`. An
+element `g` is `p`-regular when `Nat.Coprime p (orderOf g)` and `p`-singular otherwise. The
+`p`-part and `p'`-part of `g` are the native `TauCeti.pPart p g` (of `p`-power order) and
+`TauCeti.pFreePart p g` (of order prime to `p`). For a generator `g` of `C₆` and `p = 2` they are
+`g³` (order `2`) and `g⁴` (order `3`), with `g³ g⁴ = g`. The **`p`-section** of a `p`-element `x`
+is the set of `g` whose `p`-part is conjugate to `x`. The native induction library indexes its
+sections by the `p`-regular part instead (`TauCeti.pSectionIndicator`); the two indexings are not
+interchangeable.
 
-For decomposition numbers use rows indexed by ordinary irreducibles and columns
-by simple `k[G]`-modules. Thus `D = (d_{χφ})`, `C = DᵀD`, and the character of
-the projective cover of the simple indexed by `φ` is `∑χ d_{χφ} χ`.
-Pin the native Cartan orientation: `C i j = [P j : S i] : ℤ`,
-where `P j` is the projective cover of the modular simple `S j`. This is
-`TauCeti.cartanMatrix P S …`; convert to natural composition multiplicities
-explicitly, and compare with QuiverRepresentations' transposed convention.
-Use the native bilinear character pairing; on characters complex conjugation
-is given by evaluation at the inverse group element. A modular block is a primitive central
-idempotent of `k[G]`, not a Wedderburn matrix factor of a semisimple algebra.
+A **`p`-modular system** `(K, O, k)` is a complete discrete valuation ring `O` with maximal ideal
+`m = IsLocalRing.maximalIdeal O`, `IsAdicComplete m O`, fraction field `K` with `CharZero K`, and
+residue field `k = IsLocalRing.ResidueField O` of characteristic `p`. It is **splitting** for `G`
+when `K` contains a primitive `e`-th root of unity; `k` then contains a primitive `e'`-th root.
+All subgroups, centralizers and quotients of `G` use the same system and the same root lifting:
+reduction modulo `m` is a bijection from the `e'`-th roots of unity of `O` to those of `k`, and
+the **Brauer character** of a `k[G]`-module sends a `p`-regular `g` to the sum of the lifts of the
+eigenvalues of `g`, read in `ℂ` through the embedding of the cyclotomic field fixed in Layer 1. It
+is not the trace in `k` cast to `ℂ`: the trivial `𝔽₂[C₃]`-module `𝔽₂²` has trace `0` at `1` in `𝔽₂`
+and Brauer character value `2` there.
 
-## Milestone graph
+Decomposition numbers `d_{χφ}` have rows indexed by the ordinary irreducible characters `Irr(G)`
+and columns by the irreducible Brauer characters `IBr(G)`. The native Cartan matrix has entries
+`C i j = [P j : S i]` (rows simples, columns projectives), where `P j` is the projective cover of
+`S j`; Brauer reciprocity reads `C = Dᵀ D`. A **block** of `R[G]` (`R` a commutative ring) is a
+primitive idempotent of the centre `Z(R[G])`, written `e_B`; it is not a Wedderburn factor of a
+semisimple algebra. The **augmentation** of `k[G]` is the coefficient sum, the native
+`MonoidAlgebra.lift k k G 1`; the **principal block** `B₀(G)` is the block with nonzero
+augmentation, equivalently the block acting as the identity on the trivial module. The character
+pairing is the native bilinear one, `⟨f₁, f₂⟩ = |G|⁻¹ ∑_g f₁(g) f₂(g⁻¹)`; on characters complex
+conjugation is evaluation at the inverse.
 
-| Layer | Inputs | Deliverable |
-| --- | --- | --- |
-| M0 | finite groups, QuiverRepresentations Layer 3 | element sections and the central block algebra API |
-| M1 | M0, DVR completions, CharacterTheory §4.5 | modular systems, characteristic-zero splitting and integral lifting |
-| M2 | M0–M1, exact `G₀`, InductionRestriction Layer 6 | Brauer characters, residue splitting and the decomposition map |
-| M3 | M2, QuiverRepresentations Layer 3, projective `K₀` | projective-character lifting, Brauer reciprocity and Cartan comparisons |
-| M4 | M0–M3, ordinary central characters | ordinary, integral and modular blocks and their comparison |
-| M5 | M2–M4 | generalized decomposition numbers and section orthogonality |
-| M6 | M0, M4 | Brauer homomorphisms, pairs and defect groups |
-| M7 | M5–M6 | Brauer's three main theorems |
-| M8 | M4–M7; local cores for the core applications | principal blocks, normal subgroups and finite-group exports |
+## Exact supplier contracts
 
-### M0: the algebra and the element decomposition
+### From Mathlib
 
-Construct the commuting `p`-part and `p'`-part of every element. Prove uniqueness,
-power, conjugation, subgroup, quotient and homomorphism formulas, and partition
-`G` into sections by the conjugacy class of its `p`-part. Supply the corresponding
-centralizer class parametrizations and section cardinalities.
+`MonoidAlgebra` (a structure with `MonoidAlgebra.coeff`, `MonoidAlgebra.ofCoeff`,
+`MonoidAlgebra.mapDomain`, `MonoidAlgebra.mapRingHom`, `MonoidAlgebra.lift`), `Subalgebra.center`,
+`Representation`, `FDRep`, `ModuleCat`, `IsSimpleModule`, `CompleteOrthogonalIdempotents`,
+`IsIdempotentElem`, `exists_isIdempotentElem_eq_of_ker_isNilpotent`,
+`IsDiscreteValuationRing`, `IsAdicComplete`, `IsLocalRing.ResidueField`, `IsLocalRing.residue`,
+`IsFractionRing`, `IsAlgClosed`, `CharP`, `ConjClasses`, `Subgroup.centralizer`,
+`Subgroup.normalizer`, `Subgroup.subgroupOf`, `IsPGroup`, `Sylow`, `MulAut.conj`, and the DVR
+instance on the integers of a completion at a finite place
+(`Mathlib/NumberTheory/NumberField/Completion/FinitePlace.lean`). Assumed: the stated
+definitions, nothing beyond their docstrings.
 
-Consume radical filtrations, composition multiplicities and the noncentral
-primitive-idempotent API from QuiverRepresentations Layer 3. Establish
-the Artinian centre instance, and apply the native complete primitive
-idempotent decomposition there. Prove uniqueness up to reindexing, rather
-than rebuilding primitive idempotents or the existence theorem. Construct block ideals as algebras
-with unit the idempotent, module block projections, and the product equivalence
-between the algebra and its blocks. Give equivalence and scalar-extension
-transport with explicit preservation hypotheses; primitive idempotents need
-not remain primitive under an arbitrary scalar extension.
+### From Tau Ceti
 
-### M1: modular systems and integral lattices
+The declarations listed under *Already in the libraries*, at the files named there and in
+`TauCeti/RepresentationTheory/GrothendieckGroup/` (`CartanMatrix.lean`,
+`GroupAlgebra/Restriction.lean`, `GroupAlgebra/Induction.lean`, `GroupAlgebra/LatticeDefect/Basic.lean`),
+`TauCeti/Algebra/Category/ModuleCat/CartanMap/Basic.lean`,
+`TauCeti/Algebra/Module/ProjectiveCover/`, `TauCeti/RingTheory/Idempotents/Primitive/`,
+`TauCeti/RepresentationTheory/Induction/Brauer/Induction.lean`, and
+`TauCeti.Representation.primitiveCentralIdempotent`, `TauCeti.Representation.centralCharacter`,
+`TauCeti.Cyclotomic.complexRoot` and
+`FDRep.exists_simple_nonempty_iso_baseChange_of_isPrimitiveRoot`. Assumed of them: what their
+statements say. In particular `TauCeti.Representation.primitiveCentralIdempotent` requires an
+algebraically closed field in which `|G|` is invertible, `TauCeti.cartanMatrix` is taken for
+chosen exhaustive families of pairwise non-isomorphic simples and indecomposable projectives, and
+`TauCeti.reductionK0` reduces a finitely generated `ℤ`-form only.
 
-Construct the canonical example using a finite place of
-`F := ℚ⟮TauCeti.Cyclotomic.complexRoot e⟯` over `p`, and prove the
-parameterized statements under the stated common-system hypotheses. Take its adic completion `K`
-and `O = adicCompletionIntegers`, using Mathlib's DVR instance in
-`NumberTheory/NumberField/Completion/FinitePlace`. Prove the residue field is
-`𝔽_p(ζ_{e'})` and construct the residue and fraction-field maps. Consume
-CharacterTheory §4.5's Brauer splitting-field theorem to show `K` splits all
-subgroups, since it contains the `e`-th roots of unity. Build the completion
-and field adapters required for this application. Prove the prime-to-`p`
-roots-of-unity lifting bijection and its product and power laws. Residue-field
-splitting is proved in M2, not assumed here.
+### From TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras
 
-Every finite-dimensional `K[G]`-module has a `G`-stable `O`-lattice, free of the
-correct rank. Construct one by summing translates of a lattice; prove finiteness,
-torsion-freeness and fullness. Reduction of two such lattices has the same exact
-`G₀(k[G])` class. Establish additivity, tensor compatibility, restriction,
-induction and conjugation. Prove idempotent and projective-module lifting over
-the complete order `O[G]`, including uniqueness of central idempotent lifts.
+Layers 0–2: the radical, the simple-module dictionary and Artin–Wedderburn uniqueness.
 
-### M2: Brauer characters and decomposition
+### From TauCetiRoadmap.RepresentationTheory.QuiverRepresentations
 
-First work over an algebraic closure `k̄` of the residue field. Define the
-Brauer character of a finite-dimensional `k̄[G]`-module on the `p`-regular
-elements by the lift in the conventions; all needed eigenvalues already lie
-in `k` because it contains the `e'`-th roots of unity. Prove conjugacy invariance,
-additivity on exact sequences, tensor multiplication, duality, inflation,
-restriction and induced-character formulas, with the domain restrictions visible.
-Before using ordinary restrictions, prove that reducing a stable lattice gives
-`χ|_{p-reg} = φ` for its Brauer character `φ`, by the roots-of-unity
-comparison of M1. Relate ordinary complex models to `K`-models through their
-common cyclotomic realization; M1 realizes elementary-subgroup characters
-over `K` as well.
-Prove independence of simple Brauer characters, that they form a complex basis
-of class functions on the `p`-regular classes, and that their number is the
-number of those classes. Prove a semisimple modular representation is determined
-by its Brauer character; this does not assert that arbitrary extensions split.
+Layer 3: radical filtrations, composition multiplicities and its transposed Cartan matrix.
 
-Now prove `k` splits every subgroup of `G`. Use the finite-dimensional
-semisimple quotient of `k[G]`, Wedderburn's theorem for finite division rings,
-and the Brauer-character independence above: all prime-to-`p` eigenvalues
-are in `k`, so every simple `k̄[G]`-module has invariant Brauer character under
-the residue-field Galois group and descends to `k`. Prove the finite-field
-descent and endomorphism-ring comparisons needed for this step. Identify the
-simple-class bases and Brauer characters over `k` and `k̄` before using the
-splitting assertion in lattice lifting.
+### From TauCetiRoadmap.GrothendieckEulerForms
 
-Construct the surjective decomposition map from ordinary representation classes
-to exact `G₀(k[G])` through lattice reduction, with its comparison to scalar
-extension to `k̄`. Prove
-surjectivity using ordinary Brauer induction from InductionRestriction Layer 6:
-reduce to elementary subgroups, establish the elementary-group lifting results,
-and use M1's induction-compatible reduction. These lifting results are targets
-here, not assumptions. For an elementary group `E = C × Q`, with `C` cyclic
-of order prime to the prime defining the group `Q`, its Sylow `p`-subgroup
-is normal. Simple modules kill that subgroup and inflate from a `p'`-quotient;
-M1's idempotent lifting lifts modules of that semisimple quotient. Reduce the
-ordinary Brauer-induction identity for the trivial class and apply the
-projection formula to an arbitrary modular class. The elementary lifts then
-give integral surjectivity. Its character form is
-`χ|_{p-reg} = ∑φ d_{χφ} φ` with unique nonnegative integer coefficients.
-Prove compatibility with the native `G₀` operations and transport between
-splitting modular systems.
+Layers 2 and 4: exact and split `K₀`, the Cartan map and the projective/simple pairing.
 
-For other splitting fields, prove that scalar extension preserves the simple basis and
-compare the maps in a common algebraically closed overfield; do not assume a chosen
-embedding between unrelated coefficient fields.
+### From TauCetiRoadmap.RepresentationTheory.ModularInduction
 
-### M3: projective modules, reciprocity and the Cartan matrix
+Layer 0 (`modRepK0 k G` and its simple-class basis), Layer 1 (restriction, induction,
+`modRepK0.baseChange`, commuting with restriction and induction), Layer 3 (reduction of
+`ℤ`-forms). For `G = 1` and `𝔽₂ ⊆ 𝔽₄`, `modRepK0.baseChange` sends the class of the trivial module
+to the class of the trivial module.
 
-Consume the projective covers, their uniqueness and their classification by
-simple heads from QuiverRepresentations Layer 3. Lift these projectives to
-`O[G]`, extend to `K`, and define their ordinary characters.
-Prove they vanish on `p`-singular elements. Prove Brauer reciprocity with the
-orientation fixed above, `TauCeti.cartanMatrix P S … = DᵀD`, nonsingularity of that matrix, and the
-duality between irreducible Brauer characters and projective characters under
-the `p`-regular character pairing. Relate these statements to the native
-projective/simple pairing and Cartan map, including the identification of bases.
+### From TauCetiRoadmap.RepresentationTheory.CharacterTheory
 
-### M4: blocks in the three coefficient rings
+§3.5, §4.3 and §4.5 as described under *Scope and ownership*.
 
-First construct ordinary primitive central idempotents over split `K`:
-define the character formula over the cyclotomic field `F`, map it into
-`K[G]`, and prove idempotence, orthogonality and completeness by comparison
-in an algebraic closure with native `Representation.primitiveCentralIdempotent`.
-This supplies the non-algebraically-closed-field comparison needed here.
+### From TauCetiRoadmap.RepresentationTheory.InductionRestriction
 
-Prove that reduction bijects the central primitive idempotents of `O[G]` and
-`k[G]`. Their images in split `K[G]` are sums of ordinary primitive central
-idempotents, defining the partition of ordinary irreducibles into `p`-blocks.
-Prove agreement with equality of reduced ordinary central characters on
-integral class sums. The finite classes of ordinary irreducibles, the modular
-simple modules and the idempotents must be linked by proved bijections.
+Layer 6: every ordinary character is a `ℤ`-combination of characters induced from elementary
+subgroups.
 
-Prove `D` and `C` decompose by blocks, the ordinary and modular block-projection
-formulas, and transport under conjugation and group isomorphism. Define the
-principal block by its action on the trivial module and prove its uniqueness;
-equivalently its idempotent has augmentation one. Do not define it by the
-property of being a correspondent of a principal block elsewhere.
+### From TauCetiRoadmap.GL2AutomorphicRepresentationsAndTransfer
 
-### M5: sections and generalized decomposition numbers
+§R17.5.11: the Brauer character for a chosen `τ`, its value `n` at `1`, conjugacy invariance,
+additivity on exact sequences, agreement with the ordinary character of a full stable lattice on
+`p`-regular elements, and the fact that two modules have the same Brauer character exactly when
+they have the same composition factors with multiplicity.
 
-For a `p`-element `x` and a commuting `p`-regular `u`, define and prove
-`χ(xu) = ∑φ d^x_{χφ} φ(u)`, with `φ` ranging over the irreducible Brauer
-characters of `C_G(x)`. These generalized coefficients are cyclotomic integers,
-not necessarily nonnegative integers. Prove their section orthogonality,
-the class-algebra coefficient formulas, and the corresponding
-integral change-of-basis statements.
+### From TauCetiRoadmap.LocalFiniteGroupTheory
 
-Export block-section orthogonality: if the `p`-parts of `g` and `h` are not
-conjugate, then for each ordinary `p`-block `B`,
-`∑χ∈B χ(g) * conjugate(χ(h)) = 0`. Also export the full column-orthogonality
-formulas within one section summed over all of `Irr(G)`, with centralizer
-factors stated explicitly. For cross-section block orthogonality, use the
-`p`-local integrality of the block idempotent and the trace of a local
-idempotent matrix commuting with the two-sided class permutation. Develop
-that trace/integrality lemma here. The block-restricted within-section
-Cartan formula belongs after the second main theorem in M7.
-Construct all comparison maps to the native ordinary character table.
+§L1: `pCore p H`, `pPrimeCore p H`, normality, the containment of every normal `p'`-subgroup in
+`pPrimeCore p ⊤`, and `pPrimeCore p H` for `S₃` at `p = 2` equal to the cyclic subgroup of order `3`.
 
-### M6: Brauer maps and defect
+## How to read the build
 
-Construct relative traces `Tr_Q^P : (k[G])^Q → (k[G])^P`, their
-transitivity, conjugation, Mackey and product formulas, and their image
-ideals `(k[G])^P_Q`. For a `p`-subgroup `P`, construct
-`Br_P : (k[G])^P → k[C_G(P)]` by discarding coefficients outside `C_G(P)`.
-Prove it is a unital algebra homomorphism: the multiplicativity proof must use
-`P`-orbits and characteristic `p`. The coefficient projection on all of `k[G]`
-is only linear, and must not be declared multiplicative there. Prove its
-conjugation, subgroup and iterated-projection formulas.
+Layer 0 fixes sections of elements and the block decomposition of the centre of a group algebra
+over any commutative ring. Layer 1 constructs a splitting `p`-modular system, stable lattices and
+the lifting of central idempotents. Layer 2 specializes the imported Brauer characters, proves
+their basis theorem and residue splitting, and constructs the decomposition map. Layer 3 lifts
+projectives and proves Brauer reciprocity. Layer 4 compares blocks over `K`, `O` and `k` and
+partitions `Irr(G)` and `IBr(G)` into blocks. Layer 5 develops generalized decomposition numbers
+and their orthogonality. Layer 6 constructs relative traces, the Brauer homomorphism, Brauer pairs
+and defect groups. Layer 7 proves Brauer's three main theorems, and Layer 8 the normal-subgroup
+theorems and the worked examples. `README.md` is normative; `Suggested.lean` states the headline
+theorems that are statable at the pins, with the three definitions they need.
 
-Prove `ker Br_P = ∑_{Q<P} (k[G])^P_Q`, using traces from proper
-subgroups of `P`. Prove Rosenberg's lemma for a primitive idempotent
-lying in a sum of ideals: it belongs to one summand.
+## Layer 0: element sections and the centre of the group algebra
 
-Define a Brauer pair `(P,b)` for a block `B` by the nonzero overlap of `Br_P(B)`
-with the block idempotent `b` of `k[C_G(P)]`. Define and prove the inclusion
-relation on such pairs, uniqueness of the pair below a given pair at each
-subgroup, existence of maximal pairs, conjugacy of maximal pairs,
-and the resulting defect groups. Prove agreement with the central-character
-definition of defect. Establish defect-zero character/projectivity criteria
-and that the principal block has Sylow `p`-subgroups as defect groups. Prove
-that normal `p`-subgroups are contained in every defect group, in particular
-the central subgroup `⟨x⟩` in the centralizer of a `p`-element `x`.
-Prove the trace characterization of defect: `e_B` belongs to the global
-relative-trace ideal for a defect group `D`, minimal up to conjugacy.
-Develop the Brauer isomorphism between the corresponding relative-trace
-parts of the centres of `k[G]` and `k[N_G(D)]`, with its primitive-idempotent
-comparison; M7 consumes this to construct the first correspondence.
+### 0.1 Sections
 
-### M7: Brauer's main theorems
+Using the native `TauCeti.pPart`, define the `p`-section of a `p`-element `x` and prove that the
+sections of a set of representatives of the conjugacy classes of `p`-elements partition `G`. Prove
+the parametrization: `g ↦ pFreePart p g` is a bijection from the elements of the section of `x`
+with `p`-part exactly `x` to the `p`-regular elements of `C_G(x)`, it is equivariant for `C_G(x)`,
+and it induces a bijection from the `G`-classes in the section of `x` to the `p`-regular classes
+of `C_G(x)` (Webb, Lemma 9.3.4, p. 146; Martínez, p. 3, line 165 of the notes for the
+factorisation). Consequently the number of conjugacy classes of `G` is the sum over `x` of the
+number of `p`-regular classes of `C_G(x)`. Prove that the factors commute with group
+homomorphisms: `φ (pPart p g) = pPart p (φ g)`. *Needs:* Tau Ceti `TauCeti.pPart`,
+`TauCeti.pFreePart`, `TauCeti.eq_pPart`, `TauCeti.pPart_conj`; Mathlib `ConjClasses`,
+`Subgroup.centralizer`.
 
-First construct central-character block induction `b↦b^G` for a block `b`
-of `H` with defect group `D_b` and `C_G(D_b)≤H`; prove its uniqueness and
-its compatibility with Brauer maps. In particular, for `Q=⟨x⟩` and `b` a
-block of `C_G(Q)`, prove
-`Br_Q(e_B)e_b≠0 ↔ b^G=B`, equivalently
-`Br_Q(e_B)=∑_{b^G=B}e_b`. Use the central-character identity
-`λ_{b^G}=λ_b∘Br_Q` on `Z(k[G])`.
+- The sections of distinct representatives are disjoint and cover `G`.
+- The class bijection preserves class sizes up to the factor `|G : C_G(x)|`:
+  `|class of g in G| = |G : C_G(x)| · |class of pFreePart p g in C_G(x)|`.
 
-Prove the first main theorem: for a `p`-subgroup `D` and
-`N_G(D) ≤ H ≤ G`, Brauer correspondence bijects the blocks with defect group
-`D` of `H` and of `G`. Construct correspondence from M6's pairs, prove
-uniqueness and the inverse laws, and include the transport when replacing a
-defect group by a conjugate.
+**Checks.**
+- `S₃`, `p = 2`: the sections of `1` and of a transposition have `3` elements each (the identity
+  and the two `3`-cycles; the three transpositions), and `2 + 1 = 3` classes of `S₃` arise as
+  `2` regular classes of `S₃` plus `1` of `C_{S₃}((12)) = C₂`.
+- `S₃`, `p = 3`: sections of sizes `4` (identity and transpositions) and `2` (the `3`-cycles); at
+  `p = 2` the `3`-cycles lie in the section of `1`, whereas indexing by the `p'`-part would group
+  the transpositions with the identity.
+- `C₆`, `p = 2`, `g` a generator: `pPart` and `pFreePart` of `g²` are `1` and `g²`, and of `g` are
+  `g³` and `g⁴`; the order formulas give `2 · 3 = 6`.
 
-Prove the second main theorem as the following compatibility. If `x` is a
-`p`-element, `χ` belongs to the ordinary block `B` of `G`, and `φ` belongs to
-the block `b` of `C_G(x)`, then `d^x_{χφ} ≠ 0` implies
-`Br_{⟨x⟩}(e_B) * e_b ≠ 0`. Thus `(⟨x⟩,b)` is a Brauer pair for `B`, and
-the generalized coefficient vanishes when this overlap is zero. With the
-block-induction construction above, express the same theorem as
-`d^x_{χφ} ≠ 0 → χ ∈ b^G`. Its domain condition follows since a defect group
-`D_b` of `b` contains `⟨x⟩`, so `C_G(D_b) ≤ C_G(x)`. This is an actual
-compatibility between M5's numbers and M6's independently constructed pairs.
+### 0.2 Block idempotents
 
-Prove the third main theorem in the general block-induction form: if `b` is a
-block of `H` with defect group `D` and `D*C_G(D) ≤ H`, its induced block `b^G`
-is defined, and it is principal exactly when `b` is principal.
-Export the local principal-block form for every `p`-subgroup `P` and
-`P*C_G(P) ≤ H ≤ N_G(P)`: a block of `H` corresponds to `B₀(G)` under the
-Brauer projections exactly when it is `B₀(H)`. State this relation as nonzero
-overlap in the shared centralizer algebra, independently of a choice of defect
-group for that particular block.
+Define `IsBlockIdempotent b` for `b` in the centre of `R[G]` as the native
+`TauCeti.IsPrimitiveIdempotent b` in `Subalgebra.center R (MonoidAlgebra R G)` (Webb,
+Propositions 12.1.1–12.1.2, p. 227; Martínez, Theorem 2.11, p. 15). For a field `k`, the centre is
+finite-dimensional, hence Artinian, and the native
+`TauCeti.exists_completeOrthogonalIdempotents_isPrimitiveIdempotent` gives a complete orthogonal
+family of block idempotents.
 
-### M8: finite-group interfaces and examples
+- `complete_blockIdempotents_unique`: two complete orthogonal families of block idempotents of
+  `k[G]`, indexed by finite types, agree up to a bijection of the index types. The proof uses
+  commutativity of the centre: each primitive idempotent `f` of a commutative ring satisfies
+  `f = f · ∑ b_i`, so `f` equals exactly one `b_i`.
+- The block algebra `e_B k[G]` is a ring with identity `e_B`, and `k[G] ≃ ∏_B e_B k[G]` as
+  algebras. Every `k[G]`-module `M` splits as `⊕_B e_B M`, functorially; an indecomposable module
+  lies in exactly one block (Webb, Corollary 12.1.3, p. 228).
+- Transport: a group isomorphism `G ≃ G'` maps blocks to blocks. Scalar extension along `k ⊆ k'`
+  maps a block of `k[G]` to a sum of blocks of `k'[G]`, not necessarily one.
 
-For a normal `p`-subgroup `N`, prove that `N` acts trivially on every simple
-`k[G]`-module and identify the simple modules and Brauer characters with those
-of `G/N` by inflation. Describe the image of each block idempotent under
-`k[G] → k[G/N]` as a sum of quotient block idempotents, and prove the resulting
-partition of quotient blocks. It need not be a bijection of blocks: the two
-blocks of `𝔽₃[S₃/C₃]` belong to the image of the single block of `𝔽₃[S₃]`.
+**Checks.**
+- `𝔽₂[C₂] ≅ 𝔽₂[ε]/(ε²)`: the identity is the only block idempotent; `0` is excluded by the
+  native `ne_zero` field, and `ε` is not idempotent.
+- `𝔽₃[C₂]`: `e₊ = −(1 + t)` and `e₋ = −(1 − t)` (that is, `(1 ± t)/2`) are the two blocks;
+  `1 = e₊ + e₋` is idempotent and central but not primitive.
+- `𝔽₂[C₃] → 𝔽₄[C₃]`: the block `r + r²` of `𝔽₂[C₃]` splits into the two blocks
+  `1 + α² r + α r²` and `1 + α r + α² r²` of `𝔽₄[C₃]` (with `α² + α + 1 = 0`), so scalar extension
+  does not preserve primitivity.
 
-For a normal `p'`-subgroup `N`, construct the averaging central idempotent
-`e_N = |N|⁻¹ ∑n∈N n` and the algebra equivalence `k[G]e_N ≃ k[G/N]`.
-Prove the ordinary and Brauer character inflation laws and the corresponding
-block bijection for blocks covering the trivial character of `N`, including
-the principal block. Develop the covering relation and its conjugation and
-restriction formulas for the other `G`-orbits of irreducible characters of `N`.
+### Examples
 
-Prove that the intersection of the kernels of the ordinary irreducibles in
-the principal `p`-block is `O_{p'}(G)`. Use the cores of LocalFiniteGroupTheory
-L1 and give this as a subgroup equality, not just a statement about chosen
-character rows. Expose the section, principal-block and kernel theorems for
-`p = 2` to Z*, keeping its fusion argument outside this roadmap.
+`𝔽₂[S₃]` has the two blocks `1 + r + r²` and `r + r²` (`r` a `3`-cycle), with sum `1` and product
+`0`; `𝔽₃[S₃]` has the single block `1`.
 
-For Brauer characters, prove the required containment: every simple module in
-the principal block is trivial on `O_{p'}(G)`, so its Brauer character has
-value its degree on every element of this subgroup. This follows from the
-normal-`p'`-subgroup inflation theorem above. It is not the ordinary-character
-kernel equality: normal `p`-subgroups are also invisible to simple modular
-representations. Z* consumes this containment for involution centralizers.
+### Dependencies
 
-Compute the decomposition and Cartan matrices and identify the actual blocks
-for `C_p` in characteristic `p`, for a cyclic group of order prime to `p`, and
-for `S₃` at `p = 2` and `p = 3`. For `C_p`, there is one simple module, one
-block and Cartan entry `p`; its regular module is not semisimple. For `S₃` at
-`p = 2`, verify the defect-zero degree-two ordinary character and the principal
-block containing the trivial and sign characters. Check all matrix orientation,
-block projection and principal-kernel formulas on these examples.
-At `p = 3`, with ordinary rows ordered trivial, sign, standard and modular
-columns trivial, sign, check `D = [[1,0],[0,1],[1,1]]` and
-`C = [[2,1],[1,2]]`; all three ordinary characters are in one block.
+Mathlib `MonoidAlgebra`, `Subalgebra.center`, `CompleteOrthogonalIdempotents`; Tau Ceti
+`TauCeti.pPart` and its API, `TauCeti.IsPrimitiveIdempotent`,
+`TauCeti.exists_completeOrthogonalIdempotents_isPrimitiveIdempotent`.
 
-## References and provenance
+## Layer 1: modular systems, lattices and lifting
 
-- J.-P. Serre, *Linear Representations of Finite Groups*, Part III.
-- J. L. Alperin, *Local Representation Theory*, Cambridge Studies in Advanced
-  Mathematics 11, 1986.
-- G. Navarro, *Characters and Blocks of Finite Groups*, LMS Lecture Note Series
-  250, 1998, Chapters 2–6.
-- J. M. Martínez's [block theory course notes](https://www.uv.es/jomimar8/pdfs/course%20notes.pdf),
-  especially the explicit block-induction and principal-block formulations.
+### 1.1 A splitting modular system
+
+Let `F = ℚ⟮TauCeti.Cyclotomic.complexRoot e⟯ ⊆ ℂ` and choose a finite place `v` of `F` over `p`. Let
+`K = F_v`, `O` its valuation ring with Mathlib's DVR instance, and `k` its residue field. Prove that
+`(K, O, k)` is a splitting `p`-modular system, that `k` is generated over `𝔽_p` by the reduction of
+`complexRoot e'`, and that reduction is a bijection from the `e'`-th roots of unity of `O` onto
+those of `k`, multiplicative and compatible with powers (Webb, §9.4, p. 148). Prove that `K` splits every subgroup of `G`, from CharacterTheory §4.5. All
+later layers use this system and its root bijection for every subgroup, centralizer and quotient
+of `G`. *Needs:* Mathlib `IsDiscreteValuationRing`, the completion at a finite place; Tau Ceti
+`TauCeti.Cyclotomic.complexRoot`; CharacterTheory §4.5.
+
+- The canonical map `F → K` is injective and the roots of unity of `F` map onto those of `K`.
+- For a subgroup `H ≤ G`, the system is splitting for `H`, with the same root bijection.
+
+**Checks.**
+- `e = 1`: `F = ℚ`, `K = ℚ_p`, `O = ℤ_p`, `k = 𝔽_p`.
+- `e = 3`, `p = 2`: `ℚ₂(ζ₃)` is the unramified quadratic extension with residue field `𝔽₄`; `𝔽₂`
+  would not contain a root of `X² + X + 1`.
+- `e = 3`, `p = 3`: `ℚ₃(ζ₃)` is ramified of degree `2` with residue field `𝔽₃`; `e' = 1` and the
+  root bijection is `1 ↦ 1`.
+
+### 1.2 Stable lattices and their reduction
+
+Every finite-dimensional `K[G]`-module `V` contains a `G`-stable full `O`-lattice, free of rank
+`dim V`: the `O`-span of the translates of a basis. For two such lattices `L₁, L₂` the reductions
+`L₁/mL₁` and `L₂/mL₂` have the same class in `modRepK0 k G` (Webb, Theorem 9.4.8, p. 153; Martínez,
+Theorem 1.7 and Lemma 1.8, p. 4). The class is additive on short exact sequences of
+`K[G]`-modules and compatible with restriction, induction, conjugation and tensor products.
+*Needs:* Mathlib `IsDiscreteValuationRing`, `IsFractionRing`; ModularInduction Layers 0–1.
+
+- A sub-`O[G]`-module of a stable lattice of full rank is a stable lattice.
+- `L ⊆ L'` both stable implies `L'/L` is a finite-length `O[G]`-module whose composition factors
+  are `k[G]`-modules.
+
+**Checks.**
+- `G = 1`, `V = K`: the lattices `O` and `mO` both reduce to the class `1`, although the reductions
+  are different submodules of `V/mV`.
+- `G = C₂`, `p = 2`, `V = K[C₂]`: the lattices `O[C₂]` and `O(1 + t) ⊕ O(1 − t)` reduce to the
+  non-split regular module and to `k ⊕ k`; the two are not isomorphic but have class `2` in
+  `modRepK0 k C₂`.
+- `V = 0`: the zero lattice reduces to the class `0`.
+
+### 1.3 Lifting idempotents and projectives over `O[G]`
+
+Every idempotent of `k[G]` lifts to an idempotent of `O[G]`, by the native
+`TauCeti.IsAdicComplete.exists_isIdempotentElem_eq` applied to `O[G]`, which is `m`-adically
+complete as a finite free `O`-module, with the kernel of reduction equal to `m • O[G]`. Every
+direct summand of the reduction of a finitely generated free `O[G]`-module lifts to a projective
+`O[G]`-module, by `TauCeti.exists_projective_quotient_smul_top_linearEquiv` (Webb,
+Propositions 9.4.3 and 9.4.5, pp. 149–151). What is added here: an idempotent of `k[G]` is
+primitive exactly when its lifts are; a central idempotent has a unique central lift; and reduction
+`Z(O[G]) → Z(k[G])` is surjective, because the class sums form an `O`-basis of `Z(O[G])` and a
+`k`-basis of `Z(k[G])`. *Needs:* Tau Ceti `TauCeti.IsAdicComplete.exists_isIdempotentElem_eq`,
+`TauCeti.exists_projective_quotient_smul_top_linearEquiv`; Mathlib `IsAdicComplete`.
+
+- `existsUnique_blockIdempotent_map_residue`: for a complete discrete valuation ring `O`, every
+  block idempotent of `k[G]` is the reduction of exactly one block idempotent of `O[G]`.
+- Projective indecomposable `O[G]`-modules correspond, through reduction, to projective
+  indecomposable `k[G]`-modules, and hence to simple `k[G]`-modules.
+
+**Checks.**
+- `O = ℤ₂`, `G = 1`: the idempotents `0, 1` of `𝔽₂` lift to `0, 1`, although `(2)` is not
+  nilpotent, so the nilpotent-kernel theorem does not apply.
+- `O = ℤ₂`, `G = C₃`: the blocks `1 + r + r²` and `r + r²` of `𝔽₂[C₃]` lift to
+  `(1 + r + r²)/3` and `(2 − r − r²)/3`, both in `ℤ₂[C₃]` since `3` is a unit.
+- `O = ℤ₂`, `G = C₂`: the ordinary idempotents `(1 ± t)/2` are not in `ℤ₂[C₂]`; the only block
+  idempotent of `ℤ₂[C₂]` is `1`, matching the single block of `𝔽₂[C₂]`.
+
+### Examples
+
+For `C₂` at `p = 2` with `O = ℤ₂`, the regular lattice `ℤ₂[C₂]` is indecomposable projective with
+reduction the projective cover of the trivial module, and its ordinary character is `1 + sgn`.
+
+### Dependencies
+
+Layer 0; Mathlib discrete valuation rings and completions; Tau Ceti complete-adic lifting;
+CharacterTheory §4.5; ModularInduction Layers 0–1.
+
+## Layer 2: Brauer characters and decomposition
+
+### 2.1 Brauer characters
+
+Take the Brauer character of a finite-dimensional `k̄[G]`-module from
+GL2AutomorphicRepresentationsAndTransfer §R17.5.11, with `m = e'` and `τ` the composite of the
+root bijection of §1.1 with `F ⊆ ℂ`. Its value at `1`, conjugacy invariance, additivity and
+agreement with ordinary characters of stable lattices on `p`-regular elements are imported. Prove
+here: the Brauer character of a tensor product is the product, of the dual is `g ↦ φ(g⁻¹)`, of a
+restriction is the restriction, of an inflation is the composite, and of an induced module is
+`g ↦ |H|⁻¹ ∑_{x ∈ G, x g x⁻¹ ∈ H} φ(x g x⁻¹)` on `p`-regular `g` (Webb, Proposition 10.1.3,
+p. 170; Martínez, Lemmas 1.1–1.2, pp. 2–3, and the induction formula on p. 37). Modules over `k`
+are compared with modules over `k̄` by scalar extension, using ModularInduction Layer 1
+`modRepK0.baseChange`. *Needs:* GL2AutomorphicRepresentationsAndTransfer §R17.5.11; §1.1;
+ModularInduction Layer 1.
+
+- The Brauer character is constant on `p`-regular classes and its values are sums of `e'`-th roots
+  of unity.
+- A semisimple `k[G]`-module is determined up to isomorphism by its Brauer character.
+
+**Checks.**
+- `C₃` over `𝔽₄`, the module where `r` acts by `α`: with `α ↦ ζ₃`, the Brauer character takes
+  values `1, ζ₃, ζ₃²`; the dual takes `1, ζ₃², ζ₃`, so a model ignoring the inverse in the dual is
+  wrong.
+- The regular `𝔽₂[C₂]`-module and `𝔽₂ ⊕ 𝔽₂` both have Brauer character `2` at `1`; only the second
+  is semisimple, so recognition needs semisimplicity.
+- `Ind_1^{S₃}(1)` at `p = 2` has Brauer values `6, 0` on the classes of `1` and `r`, equal to
+  `2·(1, 1) + 2·(2, −1)`.
+
+### 2.2 The basis theorem and the count
+
+The irreducible Brauer characters of `G` over an algebraically closed `k` are linearly independent
+and form a basis of the complex class functions on the `p`-regular classes (Webb, Theorem 10.2.2,
+p. 176; Martínez, Proposition 1.5, p. 3, and Theorem 1.9, p. 5).
+
+- `card_simpleModules_eq_card_pRegularClasses`: over an algebraically closed field of
+  characteristic `p`, a complete family of pairwise non-isomorphic simple `k[G]`-modules has as
+  many members as `G` has `p`-regular conjugacy classes (Webb, Theorem 9.3.6, p. 147).
+- The same count holds over every field of characteristic `p` containing a primitive `e'`-th root
+  of unity, by §2.3.
+
+**Checks.**
+- `S₃`, `p = 3`: two simple modules (trivial, sign) and two `3`-regular classes (identity,
+  transpositions); the Brauer table `[[1, 1], [1, −1]]` has determinant `−2 ≠ 0` in `ℂ`.
+- `C_p` in characteristic `p`: one simple module and one `p`-regular class.
+- `C₃` over `𝔽₂`: two simple modules (dimensions `1` and `2`) against three `2`-regular classes,
+  so the count needs `k` to split `G`.
+
+### 2.3 Residue-field splitting
+
+Prove that a field `k` of characteristic `p` containing a primitive `e'`-th root of unity is a
+splitting field for `G` and all its subgroups. Route: every simple `k̄[G]`-module has Brauer
+character with values in the image of the `e'`-th roots of unity, so it is fixed by `Gal(k̄/k)`;
+by recognition (§2.1) each simple is Galois-stable, and since finite division algebras are
+commutative (Mathlib `littleWedderburn`) its endomorphism ring over `k` is `k`, so it is defined
+over `k`. Prove the finite-field descent and the endomorphism comparison used here, and identify
+the simple-class bases over `k` and `k̄`. *Needs:* §2.1; Mathlib `littleWedderburn`;
+SemisimpleAlgebras Layer 2.
+
+- Simple `k[G]`-modules are absolutely simple, and scalar extension to `k̄` is a bijection on
+  isomorphism classes of simples.
+
+**Checks.**
+- `C₃`, `p = 2`: `𝔽₄` (which contains `ζ₃`) splits, with three one-dimensional simples; `𝔽₂` does not.
+- `C₅`, `p = 5`: `e' = 1`, and `𝔽₅` splits `C₅` with the single trivial simple.
+- `S₃`, `p = 2`: `e' = 3`, but `𝔽₂` already splits `S₃` (simples of dimensions `1` and `2`); the
+  hypothesis is sufficient, not necessary.
+
+### 2.4 The decomposition map
+
+Define the decomposition map `d : G₀(K[G]) → modRepK0 k G` by reduction of stable lattices (§1.2),
+and the decomposition numbers by `χ|_{p-reg} = ∑_φ d_{χφ} φ` with `d_{χφ} ∈ ℕ` (Webb,
+Proposition 10.3.2, p. 182; Martínez, Definition 1.6 and Theorem 1.7, pp. 3–4). Prove that `d` is
+surjective: by InductionRestriction Layer 6, the trivial character is a `ℤ`-combination of
+characters induced from elementary subgroups `E = C × Q`; for such `E` the Sylow `p`-subgroup is
+normal, simple `k[E]`-modules inflate from the `p'`-quotient, and §1.3 lifts them; induction
+commutes with reduction (§1.2), and the projection formula transfers the identity to every class
+(Webb, Theorem 10.2.2 and Corollary 10.2.4, pp. 176–178, for the consequence that the
+decomposition matrix has full rank). Prove that `d` commutes with `modRepK0.baseChange` and with
+a change of splitting modular system. *Needs:* §§1.2–1.3, 2.1; InductionRestriction Layer 6;
+Tau Ceti `TauCeti.ClassFunction.indVirtualCharacters_eq_virtualCharacters_isElementary`;
+ModularInduction Layer 1.
+
+- `d` is a ring homomorphism compatible with restriction and induction.
+- When `p ∤ |G|`, `d` is an isomorphism and the decomposition matrix is a permutation matrix
+  (Webb, Theorem 9.4.11, p. 155).
+
+**Checks.**
+- `S₃`, `p = 3`, rows trivial, sign, standard and columns trivial, sign: `D = [[1,0],[0,1],[1,1]]`,
+  from `(2, 0) = (1, 1) + (1, −1)` on the classes of `1` and a transposition.
+- `S₃`, `p = 2`, rows trivial, sign, standard and columns trivial, two-dimensional:
+  `D = [[1,0],[1,0],[0,1]]`.
+- `C₂`, `p = 2`: both ordinary characters reduce to the trivial module, `D = [[1],[1]]`, so `d`
+  is not injective.
+
+### Examples
+
+For `C₃` at `p = 2` with `k = 𝔽₄`, `D` is the `3 × 3` identity after ordering the rows by the
+lifts of `1, α, α²`; relabelling `α ↔ α²` permutes the columns, so the root bijection must be fixed
+once for all subgroups.
+
+### Dependencies
+
+Layers 0–1; GL2AutomorphicRepresentationsAndTransfer §R17.5.11; InductionRestriction Layer 6;
+ModularInduction Layers 0–1; SemisimpleAlgebras Layer 2.
+
+## Layer 3: projective modules, reciprocity and the Cartan matrix
+
+### 3.1 Projective characters and Brauer reciprocity
+
+For a simple `k[G]`-module `S_φ` with projective cover `P_φ` (QuiverRepresentations Layer 3;
+`TauCeti.exists_isProjectiveCover_of_finite`), let `P̂_φ` be its lift to `O[G]` (§1.3) and `Φ_φ`
+the ordinary character of `K ⊗ P̂_φ`. Prove that `Φ_φ` vanishes on `p`-singular elements (Martínez,
+Proposition 1.12, p. 5), that `Φ_φ = ∑_χ d_{χφ} χ` (Webb, Theorem 9.5.4, p. 159), and that
+`dim Hom_{k[G]}(P, U) = |G|⁻¹ ∑_{g p-regular} Φ_P(g⁻¹) φ_U(g)` (Webb, Proposition 10.2.1, p. 174), so
+the projective characters and the irreducible Brauer characters are dual bases for this pairing.
+Prove Brauer reciprocity: `TauCeti.cartanMatrix P S … = Dᵀ D` for the families of covers and simples
+(Webb, Proposition 9.5.1 and Corollary 9.5.6, pp. 157 and 160), hence `C` is symmetric and
+positive definite with `det C ≠ 0`. Relate the identity to `TauCeti.projectiveSimplePairing` and
+`TauCeti.cartanMap`, including the identification of bases. *Needs:* §§1.3, 2.4;
+QuiverRepresentations Layer 3; GrothendieckEulerForms Layer 4; Tau Ceti `TauCeti.cartanMatrix`,
+`TauCeti.projectiveSimplePairing_isPerfPair`.
+
+- `|G|_p` divides `Φ_φ(1)` (Martínez, Corollary 1.13, p. 6).
+- Two projective `O[G]`-modules are isomorphic exactly when their ordinary characters are equal
+  (Webb, Corollary 10.3.3, p. 183).
+
+**Checks.**
+- `S₃`, `p = 3`: `C = Dᵀ D = [[2,1],[1,2]]`, `det C = 3`; `Φ_1 = 1 + std` and `Φ_sgn = sgn + std`
+  vanish at a `3`-cycle (`1 − 1 = 0`) and have degree `3`.
+- `S₃`, `p = 2`: `C = diag(2, 1)`, `det C = 2`.
+- Orientation: for the path algebra of `A₂` the native Cartan matrix is `[[1,0],[1,1]]` and
+  QuiverRepresentations' is its transpose `[[1,1],[0,1]]`; group-algebra Cartan matrices are
+  symmetric and cannot detect a transposition, so the comparison with QuiverRepresentations is
+  tested on `A₂`.
+
+### Examples
+
+`C_p` in characteristic `p`: `D = [[1], …, [1]]` (`p` rows), `C = [p]`, and the regular module is
+the projective cover of the trivial module with `Φ_1 = ∑_χ χ`, the regular character.
+
+### Dependencies
+
+Layers 1–2; QuiverRepresentations Layer 3; GrothendieckEulerForms Layer 4.
+
+## Layer 4: blocks in the three coefficient rings
+
+### 4.1 Ordinary central idempotents over a splitting field
+
+Define `e_χ = χ(1)|G|⁻¹ ∑_g χ(g⁻¹) g` over `F`, map it to `K[G]`, and prove idempotence,
+orthogonality and completeness by comparison, in an algebraic closure, with the native
+`TauCeti.Representation.primitiveCentralIdempotent` (CharacterTheory §3.5). *Needs:*
+CharacterTheory §3.5; §1.1.
+
+**Checks.**
+- `C₂` over `ℚ₂`: `e_± = (1 ± t)/2`, `e₊e₋ = 0`, `e₊ + e₋ = 1`; neither is in `ℤ₂[C₂]`.
+- The trivial character of `S₃` gives `(1/6) ∑_g g`.
+- `C₃` over `K ∋ ζ₃`: `e_j = (1/3)(1 + ζ₃^{−j} r + ζ₃^{−2j} r²)`, and `∑_j e_j = 1`.
+
+### 4.2 The block partitions
+
+Every block idempotent of `O[G]` is, in `K[G]`, a sum `∑_{χ ∈ Irr(B)} e_χ` over a nonempty set
+`Irr(B)`, and these sets partition `Irr(G)` (Martínez, Definition 2.1, p. 9, and Theorems 2.11–2.12,
+p. 15). Each simple `k[G]`-module is acted on as the identity by exactly one block, which defines
+the partition of `IBr(G)` into sets `IBr(B)`. These give surjections `Irr(G) → Bl(G)` and
+`IBr(G) → Bl(G)` with fibres `Irr(B)` and `IBr(B)`, and bijections, compatible with
+`existsUnique_blockIdempotent_map_residue`, between the blocks of `O[G]`, the blocks of `k[G]`,
+and the two families of fibres. The partition of `Irr(G)` is characterized by central characters:
+`χ, ψ` lie in one block exactly when `ω_χ(K_C) ≡ ω_ψ(K_C) mod m` for every class sum `K_C`
+(Sambale, Definition 1.6, p. 15; CharacterTheory §4.3). `d_{χφ} ≠ 0` implies that `χ` and `φ`
+lie in one block (Martínez, Theorem 2.2, p. 10), so `D` and `C` are block-diagonal. *Needs:*
+§§1.3, 2.4, 4.1; CharacterTheory §4.3.
+
+- `Irr(B)` and `IBr(B)` are nonempty, and the ordinary and modular block projections are the
+  actions of `e_B` on characters and modules.
+- Conjugation and group isomorphisms transport the partitions.
+
+**Checks.**
+- `S₃`, `p = 3`: three ordinary irreducibles, two simple modules and one block; the surjections have
+  fibres of sizes `3` and `2` over the single block, so neither set is in bijection with the blocks.
+- `S₃`, `p = 2`: `Irr(B₀) = {1, sgn}`, `IBr(B₀) = {1}`, and the defect-zero block has
+  `Irr = {std}`, `IBr = {std}`; the central characters on the class sum of the transpositions are
+  `3, −3, 0`, and `3 ≡ −3`, `3 ≢ 0` modulo `2`.
+- `C_p` in characteristic `p`: all `p` ordinary irreducibles lie in the single block.
+
+### 4.3 The principal block
+
+The principal block `B₀(G)` is the block whose idempotent has nonzero augmentation; it contains
+the trivial character and the trivial module, and it is unique since the augmentation is an
+algebra homomorphism `Z(k[G]) → k` sending block idempotents to `0` or `1` with sum `1` (Sambale,
+Definition 1.2, p. 14). It is not defined as a correspondent of a principal block elsewhere.
+
+**Checks.**
+- `𝔽₂[S₃]`: the augmentation of `1 + r + r²` is `3 = 1` and of `r + r²` is `2 = 0`.
+- `𝔽₂[C₃]` and `𝔽₄[C₃]`: the principal block is `1 + r + r²` in both.
+- `G = 1`: the principal block is `1`.
+
+### Examples
+
+`S₃` at `p = 2`: `D = [[1,0],[1,0],[0,1]]` is block-diagonal with blocks `[[1],[1]]` (principal)
+and `[[1]]` (defect zero), and `C = diag(2, 1)`.
+
+### Dependencies
+
+Layers 0–3; CharacterTheory §§3.5, 4.3.
+
+## Layer 5: sections and generalized decomposition numbers
+
+### 5.1 Generalized decomposition numbers
+
+Let `R` be a set of representatives of the conjugacy classes of `p`-elements of `G`. For `u ∈ R`,
+`χ ∈ Irr(G)` and `φ ∈ IBr(C_G(u))`, define `d^u_{χφ}` by
+`χ(u v) = ∑_{φ ∈ IBr(C_G(u))} d^u_{χφ} φ(v)` for all `p`-regular `v ∈ C_G(u)`; the coefficients are
+unique by §2.2 for `C_G(u)` and lie in `ℤ[ζ_{|u|}]` (Sambale, Definition 1.9, p. 15). For `u = 1`
+they are the decomposition numbers. *Needs:* §§0.1, 2.2, 2.4 for each `C_G(u)`.
+
+**Checks.**
+- `C₃`, `p = 3`, `u = r`: `C_G(r) = C₃` has one Brauer character and `d^r_{χ_j,1} = ζ₃^j`, not a
+  nonnegative integer.
+- `S₃`, `p = 3`, `u = r`: `d^r = (1, 1, −1)` on the rows trivial, sign, standard.
+- `S₃`, `p = 2`, `u = (12)`: `C_G(u) = C₂` and `d^u = (1, −1, 0)`.
+
+### 5.2 Orthogonality
+
+Prove, for `u, v ∈ R`, `φ ∈ IBr(C_G(u))` and `ψ ∈ IBr(C_G(v))`,
+
+    ∑_{χ ∈ Irr(G)} d^u_{χφ} · conj(d^v_{χψ}) = (if u = v then c^u_{φψ} else 0),
+
+where `c^u` is the Cartan matrix of `k[C_G(u)]`, and its block form: for a block `B` of `G`,
+`∑_{χ ∈ Irr(B)} d^u_{χφ} conj(d^v_{χψ})` equals `c^u_{φψ}` when `u = v`, `φ` and `ψ` lie in one
+block `b` of `C_G(u)` and `b^G = B`, and `0` otherwise (Sambale, Theorem 1.14, p. 16; the block
+form uses the second main theorem, §7.2). In matrix form: the matrix `Q` with rows `Irr(G)` and
+columns the pairs `(u, φ)` is square, by the class count of §0.1, and `Q* Q` is the block-diagonal
+matrix of the `c^u`; hence `Q` is invertible over `ℂ` and `|det Q|² = ∏_{u ∈ R} det c^u`. `Q` is not
+in general invertible over `ℤ[ζ_{|G|_p}]` or its localization at `p`. *Needs:* §§3.1, 5.1;
+§7.2 for the block form.
+
+- Block-section orthogonality: if the `p`-parts of `g` and `h` are not conjugate, then
+  `∑_{χ ∈ Irr(B)} χ(g) conj(χ(h)) = 0` for each block `B` (Martínez, Corollary 2.4, p. 11, for `g`
+  `p`-regular and `h` `p`-singular; the general case from the block form above, with the trace
+  argument of the Axiom section-orthogonality formalization as a proof source).
+- Within one section the sum over all of `Irr(G)` is the native column orthogonality
+  `TauCeti.sum_characterTable_mul_conj`.
+
+**Checks.**
+- `C₂`, `p = 2`: `Q = [[1,1],[1,−1]]`, `Q* Q = diag(2, 2)`, `det Q = −2`, so `|det Q|² = 4 = 2 · 2`
+  and `Q⁻¹` has entries `±1/2`.
+- `S₃`, `p = 3`: `Q = [[1,0,1],[0,1,1],[1,1,−1]]`, `Q* Q = diag([[2,1],[1,2]], 3)`, `det Q = −3`.
+- `C₃`, `p = 3`, `u = v = r`: with conjugation the sum is `1 + 1 + 1 = 3 = c^r`; without it,
+  `1 + ζ₃² + ζ₃ = 0`.
+- `S₃`, `p = 2`, `B = B₀`, `g = 1`, `h = (12)` (non-conjugate `2`-parts): `1·1 + 1·(−1) = 0`. For
+  `g = h = 1` the block sums `∑_{χ ∈ Irr(B)} χ(1)²` are `2` for `B₀` (equal to `c^1_{11} φ₁(1)² = 2`)
+  and `4` for the defect-zero block (equal to `c^1_{std,std} φ_std(1)² = 1 · 4`), with total
+  `6 = |C_G(1)|`; replacing each block sum by `|C_G(1)|` would be false.
+
+### Examples
+
+`S₃` at `p = 2`: `R = {1, (12)}`, `Q = [[1,0,1],[1,0,−1],[0,1,0]]` in columns `(1, 1)`, `(1, std)`,
+`((12), 1)`, and `Q* Q = diag(2, 1, 2)`.
+
+### Dependencies
+
+Layers 0, 2–4; §7.2 for the block form.
+
+## Layer 6: relative traces, Brauer maps and defect
+
+### 6.1 Relative traces and the Brauer homomorphism
+
+For `Q ≤ P ≤ G` define `Tr_Q^P : k[G]^Q → k[G]^P`, `a ↦ ∑_{x ∈ P/Q} x a x⁻¹`, and prove
+transitivity, conjugation, the Mackey formula, `Tr_Q^P(a) b = Tr_Q^P(a b)` for `b ∈ k[G]^P`, and that
+`k[G]^P_Q = Tr_Q^P(k[G]^Q)` is an ideal of `k[G]^P` (Webb, Proposition 12.4.1, p. 238). Define
+`brauerProjection P : k[G] → k[C_G(P)]`, which keeps the coefficients on `C_G(P)`; it is
+`k`-linear on all of `k[G]` and is not multiplicative there.
+
+- `brauerProjection_mul`: for a `p`-subgroup `P` in characteristic `p`, the projection is
+  multiplicative on elements whose coefficients are invariant under conjugation by `P` (Webb, §12.5,
+  p. 243, and Corollary 12.5.4, p. 246; Martínez, Theorem 4.1, p. 23, on the centre). The proof
+  counts `P`-orbits on pairs `(g, h)` with `g h = c`: orbits of size divisible by `p` contribute
+  `0`.
+- The kernel of the Brauer homomorphism on `k[G]^P` is `∑_{Q < P} k[G]^P_Q` (Webb, Lemma 12.5.3,
+  p. 245), and the image of `Z(k[G])` lies in `k[C_G(P)]^{N_G(P)}`.
+- For `Q ≤ P`, the projection to `C_G(P)` factors through the projection to `C_G(Q)`.
+- Rosenberg's lemma: a primitive idempotent of a finite-dimensional algebra lying in a sum of
+  ideals lies in one of them (Webb, Lemma 11.6.8(2), p. 215).
+
+**Checks.**
+- `S₃`, `p = 2`, `P = ⟨(12)⟩`: `x = y = r + r²` is `P`-invariant, `x² = x`, and
+  `Br_P(x²) = 0 = Br_P(x)²`.
+- Invariance is needed: `x = r`, `y = r²` give `Br_P(xy) = Br_P(1) = 1` but `Br_P(x) Br_P(y) = 0`.
+- Characteristic `p` is needed: over `ℚ`, `x = r + r²` gives `Br_P(x²) = 2` but `Br_P(x)² = 0`; and
+  `P` must be a `p`-group: in characteristic `2` with `P = C₃` and `x` the sum of the transpositions,
+  `Br_P(x²) = 1 + r + r²` but `Br_P(x)² = 0`.
+
+### 6.2 Defect groups
+
+Define `IsDefectGroup p e P` for `e ∈ Z(k[G])`: `P` is a `p`-subgroup, `Br_P(e) ≠ 0`, and every
+`p`-subgroup `Q ≥ P` with `Br_Q(e) ≠ 0` equals `P` (Webb, Theorem 12.5.2 and Corollary 12.5.5,
+pp. 244–246; Sambale, Definition 1.4, p. 14). Prove that this agrees with the definitions by
+vertices of `e k[G]` as a `k[G × G]`-module (Webb, Corollary 12.3.2, p. 235), by minimality of `P`
+with `e ∈ Tr_P^G(k[G]^P)` (Webb, Theorem 12.4.5, p. 241), and by defect classes and central
+characters (Martínez, Definition 3.2 and Theorem 4.3, pp. 17 and 24).
+
+- `isDefectGroup_conj`: any two defect groups of a block of `k[G]`, `k` any field of
+  characteristic `p`, are conjugate in `G`.
+- `isDefectGroup_iff_sylow_of_augmentation_ne_zero`: the defect groups of the principal block are
+  exactly the Sylow `p`-subgroups (Webb, Corollary 12.4.7, p. 242).
+- `O_p(G)` is contained in every defect group (Martínez, Corollary 3.9, p. 21); for a `p`-element
+  `x`, `⟨x⟩` is contained in every defect group of every block of `C_G(x)`.
+- Defect zero: a block has defect group `1` exactly when it is a matrix algebra over `k`, exactly
+  when it contains an ordinary character `χ` with `|G|_p ∣ χ(1)`, and then `Irr(B) = {χ}` and
+  `IBr(B) = {χ⁰}` (Webb, Theorem 9.6.1, p. 161; Martínez, Corollary 2.9, p. 15).
+- For a block `B` with defect group `D`, `Br_D(e_B)` is a block idempotent of `k[N_G(D)]` with
+  defect group `D`, and every such block arises from exactly one `B` (Webb, proof of
+  Theorem 12.6.4, p. 250); §7.1 consumes this.
+
+**Checks.**
+- `S₃`, `p = 2`: `Br_{⟨(12)⟩}(1 + r + r²) = 1 ≠ 0`, and the maximal `2`-subgroups with nonzero
+  image are the three subgroups of order `2`; for the block `r + r²`, `Br_{⟨(12)⟩}(r + r²) = 0`
+  and the defect group is `1`.
+- Without the `p`-group condition on `Q`, `C₃` at `p = 2` and the block `1 + r + r²` would have the
+  whole group `C₃` as maximal subgroup with nonzero projection; the trivial group is its defect
+  group.
+- `G = 1`: the unique defect group and the unique Sylow subgroup are `1`.
+
+### 6.3 Brauer pairs
+
+A **Brauer pair** is `(Q, f)` with `Q` a `p`-subgroup and `f` a block of `k[C_G(Q)]`. Write
+`(Q, f) ⊴ (R, f')` when `Q` is normal in `R`, `f` is `R`-stable and `Br_R(f) f' = f'`, and let `≤`
+be the transitive closure (Craven, Definition 2.6, p. 22, and Definition 2.8, p. 23). For a block
+`B`, a `B`-Brauer pair is one with `(1, e_B) ≤ (Q, f)`. Prove: given `(R, f')` and `Q ≤ R` there is
+a unique `(Q, f) ≤ (R, f')` (Craven, Lemmas 2.7 and 2.9, pp. 23–24); `(Q, f)` is a `B`-Brauer pair
+exactly when `Br_Q(e_B) f ≠ 0`; the maximal `B`-Brauer pairs are conjugate in `G` and their first
+components are the defect groups of `B` (Craven, Definition 2.10 and Theorems 2.11–2.12,
+pp. 24–25).
+
+**Checks.**
+- `S₃`, `p = 2`, `Q = ⟨(12)⟩`: `C_G(Q) = Q` has the single block `1`; `(Q, 1)` is a Brauer pair
+  for the principal block (`Br_Q(1 + r + r²) · 1 = 1`) and not for `r + r²`.
+- `Q = 1`: the `B`-Brauer pairs with first component `1` are exactly `(1, e_B)`.
+- `C_p` at `p`: the maximal Brauer pair is `(C_p, 1)`.
+
+### Examples
+
+`S₃` at `p = 3`: the single block has defect group `C₃ = O_3(S₃)`, and `(C₃, 1)` is its maximal
+Brauer pair.
+
+### Dependencies
+
+Layers 0 and 4; Mathlib `IsPGroup`, `Sylow`, `Subgroup.centralizer`, `Subgroup.normalizer`.
+
+## Layer 7: Brauer's main theorems
+
+### 7.1 Block induction and the first main theorem
+
+For `H ≤ G` and a block `b` of `H`, `b^G` is the block `B` of `G` whose central character satisfies
+`λ_B(z) = λ_b(z_H)` for `z ∈ Z(k[G])`, where `z_H` keeps the coefficients on `H`, when such `B`
+exists (Sambale, Definition 1.10 and Proposition 1.11, p. 16; Martínez, p. 25). Prove that `b^G` is
+defined when `C_G(D_b) ≤ H` for a defect group `D_b` of `b`, that it is transitive, and that for
+`P C_G(P) ≤ H ≤ N_G(P)` and a `p`-subgroup `P`, `Br_P(e_B) = ∑_{b^G = B} e_b` (Martínez,
+Theorem 4.5 and Corollary 4.6, p. 26).
+
+- `brauer_first_main`: over an algebraically closed field `k` of characteristic `p`, for a
+  `p`-subgroup `D`, the rule `b ↦ B` with `Br_D(e_B) e_b ≠ 0` is a
+  bijection from the blocks of `k[N_G(D)]` with defect group `D` to the blocks of `k[G]` with
+  defect group `D` (Webb, Theorem 12.6.4, p. 250; Martínez, Theorem 4.10, p. 27). For
+  `N_G(D) ≤ H ≤ G` the same holds with `H` in place of `N_G(D)`, by applying the theorem to `H` and
+  `G` and identifying `N_H(D) = N_G(D)` (Sambale, Theorem 1.12, p. 16).
+
+**Checks.**
+- `S₃`, `p = 2`, `D = ⟨(12)⟩`: `N_G(D) = D` has one block, of defect `D`, corresponding to
+  `B₀(S₃)`; the defect-zero block of `S₃` is not in the image.
+- `D = 1`: `N_G(D) = G` and the bijection is the identity on blocks of defect zero.
+- `S₃`, `p = 3`, `D = C₃`: `N_G(D) = S₃`, and the bijection is the identity on the single block.
+
+### 7.2 The second main theorem
+
+For `u ∈ R`, `χ ∈ Irr(G)` and `φ ∈ IBr(b)` with `b` a block of `C_G(u)`, `d^u_{χφ} ≠ 0` implies
+`χ ∈ Irr(b^G)`; here `b^G` is defined because `⟨u⟩ ≤ D_b` and so `C_G(D_b) ≤ C_G(u)` (Sambale,
+Theorem 1.13 and Proposition 1.11, p. 16). Equivalently, `d^u_{χφ} ≠ 0` implies
+`Br_{⟨u⟩}(e_B) e_b ≠ 0` for the block `B` of `χ`, so `(⟨u⟩, b)` is a `B`-Brauer pair. *Needs:*
+§§5.1, 6.3, 7.1.
+
+**Checks.**
+- `S₃`, `p = 2`, `u = (12)`: `d^u = (1, −1, 0)`, nonzero exactly on `B₀`.
+- `S₃`, `p = 3`, `u = r`: `d^r = (1, 1, −1)`, all in the single block.
+- `C₂ × C₃` at `p = 2`, `u` the involution: the three blocks of `C_G(u) = G` each induce themselves.
+
+### 7.3 The third main theorem
+
+If `b` is a block of `H` with defect group `D` and `C_G(D) ≤ H`, then `b^G` is principal exactly
+when `b` is principal (Sambale, Theorem 1.15, p. 17; Martínez, Corollary 5.9, p. 35; the Axiom
+third-main-theorem formalization as a proof source).
+
+- `brauer_third_main_local`: over an algebraically closed field `k` of characteristic `p`, for a
+  `p`-subgroup `P` and `P C_G(P) ≤ H ≤ N_G(P)`, a block `b` of
+  `k[H]` satisfies `Br_P(e_{B₀(G)}) e_b ≠ 0` in `k[G]` exactly when `b` is the principal block of
+  `H`.
+
+**Checks.**
+- `S₃`, `p = 2`, `P = H = ⟨(12)⟩`: `Br_P(1 + r + r²) = 1` and the single block of `k[P]` is
+  principal.
+- `P = 1`: `H = G`, and `e_{B₀} e_b ≠ 0` exactly when `b = B₀`.
+- `S₃`, `p = 3`, `P = C₃`, `H = S₃`: the single block is principal on both sides.
+
+### Examples
+
+`A₄` at `p = 2`, `P = V₄`: `N_G(P) = A₄` and `C_G(P) = V₄`; with `H = A₄` the principal block
+corresponds to itself, and `A₄` has a single `2`-block.
+
+### Dependencies
+
+Layers 5–6.
+
+## Layer 8: normal subgroups and finite-group interfaces
+
+### 8.1 Normal `p`-subgroups
+
+A normal `p`-subgroup `N` acts trivially on every simple `k[G]`-module (Martínez, Theorem 1.14,
+p. 6), so simples and Brauer characters of `G` are those of `G/N` by inflation. The image of a block
+idempotent under `k[G] → k[G/N]` is a sum of blocks of `G/N`, and every block of `G/N` lies in the
+image of exactly one block of `G` (Martínez, Corollary 8.2 and Theorem 8.5, pp. 51–52; Sambale,
+Theorem 1.23, p. 18). This is a partition, not a bijection.
+
+**Checks.**
+- `S₃`, `p = 3`, `N = C₃`: the single block of `𝔽₃[S₃]` maps to `1 = e₊ + e₋` in `𝔽₃[C₂]`, two blocks.
+- `C_p`, `N = C_p`: one block maps to the single block of the trivial group.
+- `N = 1`: the map is the identity.
+
+### 8.2 Normal `p'`-subgroups
+
+For a normal `p'`-subgroup `N`, `e_N = |N|⁻¹ ∑_{n ∈ N} n` is a central idempotent and
+`k[G] e_N ≅ k[G/N]`. The blocks of `G/N` are exactly the blocks of `G` below `e_N`, with the same
+ordinary and Brauer characters and isomorphic defect groups (Martínez, Theorem 8.5(iii), p. 52;
+Sambale, Theorem 1.24, p. 18); in particular `B₀(G/N)` is `B₀(G)`. Develop block covering for the
+other `G`-orbits of characters of `N` (Martínez, Definition 7.3 and Theorem 7.7, pp. 44–45).
+
+**Checks.**
+- `S₃`, `p = 2`, `N = C₃`: `e_N = 1 + r + r²` (as `3 = 1`), `k[S₃] e_N` has basis `e_N`, `(12) e_N`
+  and is `𝔽₂[C₂]`.
+- The standard character of `S₃` restricts to `ζ₃ + ζ₃²` on `C₃` and lies in the other block.
+- `N = 1`: `e_N = 1`.
+
+### 8.3 The kernel of the principal block
+
+Prove `⋂_{χ ∈ Irr(B₀(G))} ker χ = pPrimeCore p ⊤` as subgroups of `G`. Route: `⊇` from §8.2 with
+`N = O_{p'}(G)`; `⊆` because the projective character `Φ_1` of the trivial module is a
+`ℤ`-combination of `Irr(B₀)` (§4.2), hence constant on cosets of the intersection `K`, and
+`Φ_1(1) ≠ 0` while `Φ_1` vanishes off the `p`-regular elements (§3.1), so `K` is a `p'`-group.
+Prove the modular containment: every simple module in `B₀(G)` is trivial on `O_{p'}(G)`, so its
+Brauer character equals its degree there; it is not an equality, since normal `p`-subgroups also
+act trivially. *Needs:* §§3.1, 4.2, 8.2; LocalFiniteGroupTheory §L1.
+
+**Checks.**
+- `S₃`, `p = 2`: `ker 1 ∩ ker sgn = C₃ = O_{2'}(S₃)`.
+- `S₃`, `p = 3`: the standard character is faithful, so the intersection is `1 = O_{3'}(S₃)`.
+- `C_p` at `p`: the principal block contains all characters, the intersection is `1 = O_{p'}(C_p)`,
+  while the unique simple module has kernel `C_p`.
+
+### 8.4 Interfaces for local group theory
+
+Export the sections (§0.1), block-section orthogonality (§5.2), the principal block (§4.3), the
+kernel theorem (§8.3) and the third main theorem (§7.3) at `p = 2` for GlaubermanZStar, whose
+fusion argument stays outside this roadmap.
+
+### Examples
+
+The decomposition and Cartan matrices and blocks of `C_p` at `p` (one simple, one block, Cartan
+entry `p`), of a cyclic group of order prime to `p` over a splitting field (identity matrices, all
+blocks of defect zero), and of `S₃` at `p = 2` (`D = [[1,0],[1,0],[0,1]]`, `C = diag(2, 1)`, the
+principal block `{1, sgn}` and the defect-zero block `{std}`) and at `p = 3`
+(`D = [[1,0],[0,1],[1,1]]`, `C = [[2,1],[1,2]]`, one block).
+
+### Dependencies
+
+Layers 3–7; LocalFiniteGroupTheory §L1.
+
+## Downstream consumers
+
+- **GlaubermanZStar**: sections, the principal block and its kernel, block-section orthogonality
+  and the local third main theorem at `p = 2` (Layers 4–8).
+
+## References
+
+- J. M. Martínez, *Modular representation theory of finite groups*, course notes, Firenze 2024,
+  [author's page](https://www.uv.es/jomimar8/pdfs/course%20notes.pdf): Brauer characters
+  (Lecture 1), blocks (Lecture 2), defect groups (Lecture 3), the Brauer map and the first main
+  theorem (Lecture 4), the third main theorem (Lecture 5), normal subgroups (Lectures 7–8).
+- P. Webb, *A Course in Finite Group Representation Theory*, 2016,
+  [author's page](https://www-users.cse.umn.edu/~webb/RepBook/RepBookLatex.pdf): projective covers
+  (Ch. 7), splitting fields and the decomposition map (Ch. 9), Brauer characters (Ch. 10), blocks,
+  the Brauer morphism and Brauer correspondence (Ch. 12).
+- B. Sambale, *Blocks of Finite Groups and Their Invariants*, Lecture Notes in Mathematics 2127,
+  [author's page](https://benjaminsambale.github.io/pdfs/lnm.pdf): Chapter 1 (definitions, the three
+  main theorems, generalized decomposition numbers and their orthogonality).
+- D. A. Craven, *Fusion systems*, lecture notes, 2008,
+  [author's page](https://web.mat.bham.ac.uk/D.A.Craven/docs/lectures/fusionsystems.pdf): Brauer
+  pairs (§2.2).
+- J.-P. Serre, *Linear Representations of Finite Groups*, GTM 42, 1977, Part III, §§15–18
+  (cited by locator; the text was not read).
 - Axiom's [third main theorem](https://github.com/AxiomMath/CFSG/blob/69cb972f587a3ecc035e092253167ff2e303c962/CFSG/CharacterTheory/BrauerThirdMainTheorem.lean)
   and [section orthogonality](https://github.com/AxiomMath/CFSG/blob/69cb972f587a3ecc035e092253167ff2e303c962/CFSG/CharacterTheory/BlockSectionOrthogonality.lean)
-  are secondary proof sources. Their ordinary character and block definitions
-  need comparison to native interfaces; their existence does not discharge
-  M0–M8. Coordinate with the authors before adapting their code.
+  formalizations, proof sources whose definitions need comparison with the native interfaces.
