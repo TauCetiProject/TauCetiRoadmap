@@ -411,6 +411,7 @@ groups are constructed.
   with a constant argument vanish, so `⟨[z²]⟩=2⟨[z]⟩` and `⟨[z⁻¹]⟩=−⟨[z]⟩`,
   as the product law requires; a pairing without the (1+i)⁻¹ factor would
   not square to `1/(2πi)` on the Bott class.
+
 For inverse-closed dense Fréchet
 subalgebras transport them through K3 to C*-K₀/K₁, proving continuity
 and path/transgression estimates needed for topological homotopy.
