@@ -112,7 +112,7 @@ The following are suppliers, not requests to rebuild their objects.
 | [Mathlib descriptive trees](https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/SetTheory/Descriptive/Tree.lean) | `Descriptive.tree`, its prefix-closure API and `take_mem` |
 | Mathlib group actions | `Equiv.Perm.applyMulAction`, `arrowAction`, `MulAction.orbitRel`, `MulAction.stabilizer`, `fixingSubgroup`, `IsTopologicalGroup`, `ContinuousSMul` |
 | Mathlib measurable spaces | `MeasurableSpace.pi`, `MeasurableSpace.invariants`, `MeasurableSpace.measurableSet_iInf`, the measurable space on `SimpleGraph V` (`Mathlib/MeasureTheory/Constructions/SimpleGraph.lean`) |
-| Mathlib model theory | `Structure`, `Language.Equiv`, `Equiv.inducedStructure`, `Language.sum` with `sumStructure`, `BoundedFormula.IsQF`, `IsUniversal`, `IsExistential`, `BoundedFormula.alls`, `Language.graph` with `SimpleGraph.structure`, `Language.order` with `Theory.dlo` |
+| Mathlib model theory | `Structure`, `Language.Equiv`, `Equiv.inducedStructure`, `Language.sum` with `sumStructure`, `BoundedFormula.IsQF`, `IsUniversal`, `IsExistential`, `BoundedFormula.alls`, `Language.graph` with `SimpleGraph.structure`, `Language.order` with `FirstOrder.Language.dlo` (for `[L.IsOrdered]`, here `Language.order.dlo`) |
 | [InfinitaryLogic](../../Completed/InfinitaryLogic/README.md), Layer 0, in `TauCeti/ModelTheory/Infinitary/` | `BoundedFormulaω`, `Sentenceω`, `BoundedFormulaInf.Realize`, `SentenceInf.Realize`, the connectives, `iInfAlong`/`iSupAlong`, `IndexCoding.ofEncodableWith`, `toInf` with `realize_toInf`, realization invariance under isomorphism |
 | InfinitaryLogic, Layer 1, in `TauCeti/ModelTheory/BackAndForth/` | `BFEquiv` with `refl`, `symm`, `trans` (across three structures), `mono`, `comp`, the successor and limit laws, `Language.Equiv.bfEquiv`, `potentialIso_iff_bfEquiv_all`, `countable_potentialIso_iff_iso` |
 | InfinitaryLogic, Layers 2–3, in `TauCeti/ModelTheory/Scott/` | `SelfStabilizesCompletely` with `bfEquiv_of_le`, `exists_complete_self_stabilization`, `selfStabilizationOrdinal` with its attainment and its bound below `ω₁`, `scottFormula` with `realize_scottFormula_iff_bfEquiv`, `scottSentence` with `realize_scottSentence_iff` and `scott_isomorphism` ([Tau Ceti #18977](https://github.com/TauCetiProject/TauCeti/pull/18977)), `orbitRank`, `internalScottRank`, `selfStabilizationOrdinal_le_internalScottRank`, `internalScottRank_le_succ_selfStabilizationOrdinal`, `internalScottRank_pureSet` |
@@ -638,7 +638,7 @@ Discharge these alongside the layers; they check that the API describes real spa
    `measurableSet_iso_inter_of_scottHeight_le` applies with `φ = ⊤`. The class "finitely many
    `P`-elements" is Borel, invariant and countable union of orbits, but not Gδ.
 3. **Linear orders.** In Mathlib's `Language.order` the codes of linear orders form a closed set,
-   and the model class of `Theory.dlo` is Gδ (each axiom is equivalent to a `∀∃` sentence) and a
+   and the model class of `Language.order.dlo` is Gδ (each axiom is equivalent to a `∀∃` sentence) and a
    single orbit (Cantor's theorem, through Mathlib's DLO back-and-forth), hence a Polish space
    on which S∞ acts transitively. In a language with a strict order symbol the well-ordered codes
    are coanalytic, not analytic, and an analytic set of them has bounded order types.
