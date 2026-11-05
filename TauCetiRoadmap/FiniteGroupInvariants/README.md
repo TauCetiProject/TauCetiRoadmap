@@ -64,7 +64,12 @@ class); Hall's converse; divisions; commutator length, isoclinism and stem group
 functions, Eulerian functions and permutation degrees; rational characters and Schur indices;
 Gassmann equivalence of finite-index subgroups of an arbitrary group and Perlis' theorem;
 elusive groups; the integral representation theory of Layer 9; and the finite subgroups of
-general linear groups of Layer 10.
+general linear groups of Layer 10. The coefficient-level sufficient direction of Gassmann's theorem
+(almost-conjugate subgroups of a Galois group have fixed fields with the same number of ideals of
+every norm) is also stated by PolynomialGaloisGroups §4.1, which leaves the equivalence, the shared
+invariants and the count of arithmetically equivalent fields to Layer 7 here; the route (⇐) of 7.4
+is that section's argument, and an implementation of 7.4 may take that direction from §4.1 rather
+than prove it again.
 
 Not owned: identifiers, orderings and stored lists of a database (labels beyond the intrinsic
 prefix `Nat.card G`, the order of divisions or characters, hashes, presentations); character
@@ -117,7 +122,7 @@ of integers; continuous automorphisms of profinite groups (Completed/ProfiniteAr
 | Use here | Declarations |
 |---|---|
 | subgroups and series | `Subgroup.Normal`, `Subgroup.normalCore`, `Subgroup.centralizer`, `Subgroup.normalClosure`, `Subgroup.IsSubnormal`, `Subgroup.mul_normal`, `Subgroup.mul_inf_assoc`, `derivedSeries`, `Group.IsSolvable`, `Group.IsNilpotent`, `Group.nilpotencyClass`, `Group.IsPerfect`, `IsSimpleGroup`, `frattini`, `commutator`, `commutatorSet`, `CompositionSeries`, `JordanHolderLattice`, `CompositionSeries.jordan_holder`, `IsModularLattice`, `IsCoatom` |
-| Sylow and Hall | `Sylow`, `IsPGroup`, `IsZGroup`, `Subgroup.exists_right_complement'_of_coprime` |
+| Sylow and Hall | `Sylow`, `IsPGroup`, `IsZGroup`, `IsZGroup.isCyclic_commutator`, `IsZGroup.isCyclic_abelianization`, `Subgroup.exists_right_complement'_of_coprime` |
 | automorphisms and classes | `MulAut`, `MulAut.conj`, `ConjClasses`, `IsConj`, `MulAction.orbitRel.Quotient`, `MulAction.fixedBy`, `IsCyclic.card_mulAut`, `commProb_def'` |
 | finite abelian groups | `AddCommGroup.equiv_directSum_zmod_of_finite`, `ZMod` |
 | lattices and Möbius | `IncidenceAlgebra.mu`, `Fintype.toLocallyFiniteOrder` |
@@ -360,8 +365,9 @@ non-closure with a named witness.
 
 Define `IsSupersolvable G`: a chain of subgroups normal in `G` from `⊥` to `⊤` with cyclic
 successive quotients. Prove Huppert's criterion `isSupersolvable_iff_forall_isCoatom_index_prime`:
-a finite group is supersolvable iff every maximal subgroup has prime index (huppert-1954, Huppert's
-criterion; robinson, §5.4). *Needs:* 0.3, 0.6; Mathlib `IsCoatom`, `Subgroup.index`.
+a finite group is supersolvable iff every maximal subgroup has prime index (huppert-1954;
+huppert-eg1, Kapitel VI, Hauptsatz 9.5; robinson, §5.4). *Needs:* 0.3, 0.6; Mathlib `IsCoatom`,
+`Subgroup.index`.
 
 - Supersolvable groups are solvable; finite nilpotent groups are supersolvable; every chief factor
   of a supersolvable group has prime order.
@@ -378,10 +384,12 @@ criterion; robinson, §5.4). *Needs:* 0.3, 0.6; Mathlib `IsCoatom`, `Subgroup.in
 
 ### 1.2 Metacyclic groups
 
-Define `IsMetacyclic G`: a cyclic normal subgroup with cyclic quotient. Prove
-`isMetacyclic_of_isZGroup`: a finite group with all Sylow subgroups cyclic is metacyclic
-(Hölder–Burnside–Zassenhaus; robinson, §10.1). *Needs:* Mathlib `IsZGroup`, Schur–Zassenhaus
-(`Subgroup.exists_right_complement'_of_coprime`).
+Define `IsMetacyclic G`: a cyclic normal subgroup with cyclic quotient. A finite group with all
+Sylow subgroups cyclic is metacyclic (Hölder–Burnside–Zassenhaus; robinson, §10.1), and this is
+consumed from Mathlib rather than proved here: `IsZGroup.isCyclic_commutator` and
+`IsZGroup.isCyclic_abelianization` make `commutator G` a cyclic normal subgroup with cyclic
+quotient. *Needs:* Mathlib `IsZGroup`, `IsZGroup.isCyclic_commutator`,
+`IsZGroup.isCyclic_abelianization`.
 
 - Finite metacyclic groups are supersolvable and metabelian.
 - Closed under subgroups and quotients; not under products.
@@ -437,7 +445,8 @@ containing the inner automorphisms. *Needs:* 0.3, 0.7; Mathlib `MulAut.conj`.
 Define `IsComplete G`: trivial centre and every automorphism inner. Prove Hölder's theorem
 `isComplete_perm_fin`: `Sₙ` is complete for `n ∉ {2, 6}`, because an automorphism preserving the
 class of transpositions is inner, and for `n ≠ 6` the transpositions form the only class of
-involutions of their size. *Needs:* Mathlib `MulAut.conj`, `Equiv.Perm.isConj_iff_cycleType_eq`.
+involutions of their size (huppert-eg1, Kapitel II, §5, pp. 173–177). *Needs:* Mathlib
+`MulAut.conj`, `Equiv.Perm.isConj_iff_cycleType_eq`.
 
 **Checks.**
 - `S₃`, `S₄`, `S₅` and the trivial group (`n = 0, 1`) are complete.
@@ -637,7 +646,7 @@ Define `commutatorLength G` as the least `k` with `commutator G ⊆ commutatorSe
 - invariance under `≃*` and `commutatorLength (G × H) = max (commutatorLength G) (commutatorLength H)`;
 - **Guralnick's theorem** `commutatorLength_le_one_of_card_lt`: a finite group of order less than
   `96` has `commutatorLength G ≤ 1`, and there are groups of order `96` with commutator length `2`
-  (Guralnick 1982).
+  (guralnick-1982).
 
 The route to Guralnick's theorem is his argument; a check over a classification of the groups of
 each order below `96` would need that classification, which is not built here. *Needs:* Mathlib
@@ -786,8 +795,8 @@ the conductor of `χ` is the least `n` with `characterField G χ ⊆ ℚ(ζ_n)`,
 Define `GaloisConj χ ψ`: `ψ(g) = χ(g^n)` for some `n` prime to `e`; by CharacterTheory §4.4 and
 `IsPrimitiveRoot.cyclotomicIrreducibleCharacterAction_apply` its classes are the orbits of
 `Gal(ℚ(ζ_e)/ℚ)`. Prove `card_quot_galoisConj_eq_card_division`: the number of Galois orbits of
-irreducible characters equals the number of divisions. Route: the character table intertwines the
-two permutation actions of `Gal(ℚ(ζ_e)/ℚ)` (on characters and, by 3.7, on classes) and is
+irreducible characters equals the number of divisions (isaacs, Theorem 6.32). Route: the character
+table intertwines the two permutation actions of `Gal(ℚ(ζ_e)/ℚ)` (on characters and, by 3.7, on classes) and is
 invertible, so each element fixes as many characters as classes; count orbits by Burnside's lemma.
 *Needs:* 3.7; CharacterTheory §4.4; Tau Ceti `TauCeti.irreducibleCharacters`.
 
@@ -819,11 +828,12 @@ irreducible characters; spanning from 6.2's count. *Needs:* 6.2, 3.6.
 Define `schurIndex F χ` for `F : IntermediateField ℚ ℂ`: the least `[E : F(χ)]` over finite
 extensions `F(χ) ⊆ E ⊆ ℂ` carrying a representation with character `χ` (finite, since `ℚ(ζ_e)`
 realizes every `χ`, Tau Ceti's Brauer splitting field through CharacterTheory §4.5). Prove
-`schurIndex_dvd_degree` (the Schur index divides `χ(1)`) and Brauer–Speiser
-`schurIndex_le_two_of_real`: a real-valued `χ` has Schur index at most `2` over `ℚ`. Also: the
-Schur index over `ℂ` is `1`; over `ℝ` it is `1` iff the Frobenius–Schur indicator is not `−1`
-(CharacterTheory Layer 7, `Representation.frobeniusSchurIndicator_eq_one_iff_isRealizableOverReal`);
-it divides `[E : F(χ)]` for every realization field `E`. *Needs:* 6.1; CharacterTheory §4.5 and
+`schurIndex_dvd_degree` (the Schur index divides `χ(1)`; isaacs, Corollary 10.2; curtis-reiner-1962,
+§70) and Brauer–Speiser `schurIndex_le_two_of_real`: a real-valued `χ` has Schur index at most `2`
+over `ℚ` (isaacs, Chapter 10, p. 171). Also: the Schur index over `ℂ` is `1`; over `ℝ` it is `1` iff
+the Frobenius–Schur indicator is not `−1` (CharacterTheory Layer 7,
+`Representation.frobeniusSchurIndicator_eq_one_iff_isRealizableOverReal`); it divides `[E : F(χ)]`
+for every realization field `E` (isaacs, Corollary 10.2). *Needs:* 6.1; CharacterTheory §4.5 and
 Layer 7.
 
 **Checks.**
@@ -839,9 +849,9 @@ Prove `exists_character_eq_schurIndex_mul_rationalCharacter`: the character of a
 `Representation ℚ G V` on a finite-dimensional `V` is `m_ℚ(χ) · ∑_{ψ ∈ o} ψ` for an irreducible
 `χ` with orbit `o`. Conversely each orbit arises, and two irreducible rational representations with
 the same orbit are isomorphic, so irreducible rational representations correspond to Galois
-orbits, with `dim V = m_ℚ(χ) · |o| · χ(1)`. Route: decompose `V ⊗ ℂ`; its constituents form a
-Galois-stable set, hence full orbits, each with the same multiplicity, which is the Schur index.
-*Needs:* 6.3, 6.4.
+orbits, with `dim V = m_ℚ(χ) · |o| · χ(1)` (curtis-reiner-1962, §70, (70.15)). Route: decompose
+`V ⊗ ℂ`; its constituents form a Galois-stable set, hence full orbits, each with the same
+multiplicity, which is the Schur index. *Needs:* 6.3, 6.4.
 
 **Checks.**
 - `Q₈`: the irreducible rational representation on the quaternions has dimension `4` and character
@@ -866,11 +876,12 @@ fixed. Corollary: `G` is rational iff the number of Galois orbits equals the cla
 
 Define `IsMonomial G`: every irreducible character is induced from a linear character of a
 subgroup, with the induced character written out. Prove Taketa's theorem
-`isSolvable_of_isMonomial`, `isMonomial_of_isSupersolvable` and Taunt's theorem
-`isMonomial_of_isAGroup` for solvable A-groups. Routes: Taketa by induction showing
-`G^(i) ≤ ker χ` for every `χ` of degree at most the `i`-th distinct degree; supersolvable groups by
-Clifford theory through an abelian normal subgroup not central (InductionRestriction Layer 5).
-Closed under quotients and finite products. *Needs:* 1.1, 1.3; InductionRestriction Layer 5.
+`isSolvable_of_isMonomial` (isaacs, Theorem 5.12 and Corollary 5.13),
+`isMonomial_of_isSupersolvable` and Taunt's theorem `isMonomial_of_isAGroup` for solvable A-groups
+(isaacs, Theorems 6.22–6.23). Routes: Taketa by induction showing `G^(i) ≤ ker χ` for every `χ` of
+degree at most the `i`-th distinct degree; supersolvable groups by Clifford theory through an
+abelian normal subgroup not central (InductionRestriction Layer 5). Closed under quotients and
+finite products. *Needs:* 1.1, 1.3; InductionRestriction Layer 5.
 
 **Checks.**
 - `S₃`, `A₄` and `S₄` are monomial (the degree-three characters of `S₄` are induced from `D₄`).
@@ -951,11 +962,38 @@ contained in `H` and `K`, the relation holds iff it holds for the images in `Γ 
   cosets of `K`, so neither side holds.
 - For finite `Γ` and `N = ⊥` the statement is the identity.
 
-### 7.4 Perlis' theorem
+### 7.4 Bauer's theorem and Perlis' theorem
+
+Prove Bauer's theorem: two number fields `F`, `F'` with `ζ_F = ζ_{F'}` have the same Galois closure
+inside a common algebraic closure (perlis-1977, §1). Route: equal zeta functions have equal
+coefficients (`LSeries_eq_iff_of_abscissaOfAbsConv_lt_top`, with `NumberField.dedekindZeta` the
+L-series of the ideal-counting function); an ideal of prime norm `p` is a prime of residue degree
+one, so the coefficient of `p^{−s}` is the number of degree-one primes above `p`, which is at most
+`[F : ℚ]` with equality iff `p` is totally split (`Ideal.sum_ramification_inertia_eq_finrank`);
+hence `[F : ℚ] = [F' : ℚ]` and the two fields have the same totally split primes; total splitting in
+`F` is total splitting in its Galois closure `F̃` (NumberFieldArithmetic 1.5), so `F̃` and `F̃'` have
+the same totally split primes, hence so does their compositum (NumberFieldArithmetic 1.5); the
+totally split primes of a Galois field `M` have Dirichlet density `1 / [M : ℚ]` (Chebotarev
+Layer 10 at the class of `1`), so `[F̃ F̃' : ℚ] = [F̃ : ℚ] = [F̃' : ℚ]` and `F̃ = F̃'`. In particular
+every field arithmetically equivalent to `F` embeds in `F̃`, so arithmetic equivalence is tested
+among the subgroups of one Galois group. *Needs:* NumberFieldArithmetic 1.5; Chebotarev Layer 10;
+Mathlib `NumberField.dedekindZeta`, `LSeries_eq_iff_of_abscissaOfAbsConv_lt_top`,
+`Ideal.sum_ramification_inertia_eq_finrank`, `IntermediateField.normalClosure`.
+
+**Checks.**
+- `ℚ(⁸√−15)` and `ℚ(⁸√−240)` have equal zeta functions and one Galois closure, of degree `32`
+  (desmit-perlis lines 29–32); the degree-one primes of either field are the totally split primes
+  of that closure.
+- `ℚ(√2)` and `ℚ(√3)`: the coefficients of `2^{−s}` agree (`1` and `1`, both ramified) and those of
+  `3^{−s}` differ (`0`: `3` is inert in `ℚ(√2)`; `1`: `3` ramifies in `ℚ(√3)`), so the hypothesis
+  fails and no common closure is asserted, although both fields are their own Galois closure.
+- A Galois field `F` is its own Galois closure, so a field arithmetically equivalent to `F` is a
+  subfield of `F` of the same degree, hence `F` itself: arithmetically equivalent Galois fields are
+  isomorphic.
 
 Prove `dedekindZeta_eq_iff_almostConjugate`: for `L/ℚ` finite Galois and subgroups `H, K` of its
 Galois group, the fixed fields have the same Dedekind zeta function iff `H` and `K` are Gassmann
-equivalent (Perlis 1977). Route (⇐): the Euler factor of `ζ_{L^H}` at a prime `p` with
+equivalent (perlis-1977, Theorem 1). Route (⇐): the Euler factor of `ζ_{L^H}` at a prime `p` with
 decomposition group `D` and inertia `I` is `det(1 − φ p^{−s} | ℂ[G ⧸ H]^I)^{−1}`, `φ` a Frobenius:
 by NumberFieldArithmetic 1.4 the primes above `p` correspond to the `D`-orbits on `G ⧸ H`, each with
 residue degree the number of `I`-orbits in it, and the determinant is a function of the
@@ -964,7 +1002,9 @@ equal zeta functions have equal coefficients (`LSeries_eq_iff_of_abscissaOfAbsCo
 unramified `p` with Frobenius class `C`, the number of primes of degree one above `p` is the number
 of fixed points of `C` on `G ⧸ H`; every class is a Frobenius class at infinitely many unramified
 primes (Chebotarev Layer 10). *Needs:* 7.1, 7.3; NumberFieldArithmetic 1.4, 2.1–2.3; Chebotarev
-Layer 10; Mathlib `NumberField.dedekindZeta`.
+Layer 10; Mathlib `NumberField.dedekindZeta`. Bauer's theorem is not an input of this equivalence,
+whose two subgroups live in one Galois group; it is what lets 7.5 and 7.6 apply the equivalence to
+two arbitrary arithmetically equivalent fields.
 
 **Checks.**
 - `H = K` gives equal fields and both sides true.
@@ -976,11 +1016,16 @@ Layer 10; Mathlib `NumberField.dedekindZeta`.
 
 Prove `invariants_eq_of_dedekindZeta_eq`: number fields with the same Dedekind zeta function have
 the same degree, discriminant, number of real places and product `h · R` of class number and
-regulator (desmit-perlis lines 14–18). Route: degree and number of real places from the gamma
-factors, discriminant from the functional equation, `h · R` from the residue at `s = 1` together
-with the number of roots of unity, which the zeta function also determines. The class number is
-not determined (desmit-perlis line 21). *Needs:* Mathlib `NumberField.dedekindZeta`,
-`NumberField.dedekindZeta_residue`.
+regulator (desmit-perlis lines 14–18; perlis-1977, Theorem 1). Route: degree and number of real
+places from the gamma factors, discriminant from the functional equation, `h · R` from the residue
+at `s = 1` (`NumberField.dedekindZeta_residue`: `2^{r₁} (2π)^{r₂} h R / (w √|d|)`) once the number
+`w` of roots of unity is known to agree. That step is 7.4 twice: by Bauer's theorem `F'` embeds in
+the Galois closure `F̃` of `F`, with group `G` and point stabilizers `H` and `K`; by Perlis' theorem
+`H` and `K` are Gassmann equivalent, so they meet every conjugacy class, hence every normal
+subgroup `N`, in the same number of elements, and `H ≤ N` iff `K ≤ N`; for `N = Gal(F̃ / ℚ(ζ_m))`
+when `ℚ(ζ_m) ⊆ F̃` this says `ζ_m ∈ F` iff `ζ_m ∈ F'`, and when `ℚ(ζ_m) ⊄ F̃` neither field contains
+`ζ_m`. The class number is not determined (desmit-perlis line 21). *Needs:* 7.4; Mathlib
+`NumberField.dedekindZeta`, `NumberField.dedekindZeta_residue`, `NumberField.Units.torsionOrder`.
 
 **Checks.**
 - A field and itself: all four equalities hold.
@@ -991,11 +1036,14 @@ not determined (desmit-perlis line 21). *Needs:* Mathlib `NumberField.dedekindZe
 
 ### 7.6 Counting arithmetically equivalent fields
 
-For a number field `F` with Galois closure group `G` and point stabilizer `H`, prove that the number
-of isomorphism classes of number fields arithmetically equivalent to `F` and not isomorphic to it is
-the number of conjugacy classes of subgroups Gassmann equivalent to `H` other than that of `H`, by
-7.4 and the Galois correspondence (conjugate subgroups correspond to isomorphic fields).
-*Needs:* 7.4; Mathlib Galois correspondence.
+For a number field `F` with Galois closure `F̃`, group `G` and point stabilizer `H`, prove that the
+number of isomorphism classes of number fields arithmetically equivalent to `F` and not isomorphic
+to it is the number of conjugacy classes of subgroups Gassmann equivalent to `H` other than that of
+`H`. Route: by Bauer's theorem (7.4) every field arithmetically equivalent to `F` is isomorphic to a
+subfield of `F̃`, hence to the fixed field of a subgroup `K ≤ G` (Mathlib
+`IsGalois.intermediateFieldEquivSubgroup`); by Perlis' theorem (7.4) `ζ_{F̃^K} = ζ_F` iff `K` is
+Gassmann equivalent to `H`; and two fixed fields are isomorphic iff their subgroups are conjugate
+in `G`. *Needs:* 7.4; Mathlib `IsGalois.intermediateFieldEquivSubgroup`.
 
 **Checks.**
 - A Galois field `F` (`H = 1`) has count `0`: the only subgroup Gassmann equivalent to `1` is `1`.
@@ -1094,9 +1142,9 @@ theorem (`MeasureTheory.exists_ne_zero_mem_lattice_of_measure_mul_two_pow_lt_mea
 Prove `diederichsen_reiner`: for a prime `p`, there are exactly `2 h + 1` isomorphism classes of
 indecomposable `ℤ[C_p]`-lattices, `h` the class number of `ℚ(ζ_p)`: the trivial lattice `ℤ`, the
 ideals `𝔞` of `ℤ[ζ_p]` (one per ideal class) with the generator acting by `ζ_p`, and one non-split
-extension of `ℤ` by `𝔞` per ideal class (Reiner 1957, Corollary, p. 145). Every `ℤ[C_p]`-lattice is
+extension of `ℤ` by `𝔞` per ideal class (reiner-1957, Corollary, p. 145). Every `ℤ[C_p]`-lattice is
 determined by the ideal class, the `ℤ[ζ_p]`-rank of its `N`-torsion part and two further ranks
-(Reiner 1957, Theorem, p. 145). *Needs:* 9.1; Mathlib `ClassGroup`, `CyclotomicField`,
+(reiner-1957, Theorem, p. 145). *Needs:* 9.1; Mathlib `ClassGroup`, `CyclotomicField`,
 `NumberField.classNumber`.
 
 **Checks.**
@@ -1110,9 +1158,11 @@ determined by the ideal class, the `ℤ[ζ_p]`-rank of its `N`-torsion part and 
 For `K/ℚ` finite Galois with group `G`, construct the `ℤ[G]`-module structure on
 `(𝓞 K)ˣ ⧸ torsion` from the Galois action on `𝓞 K`; it is a lattice of rank `r₁ + r₂ − 1`. Prove
 Herbrand's theorem: the character of its rationalization is the permutation character of `G` on
-the infinite places minus the trivial character. Route: the logarithmic embedding is
+the infinite places minus the trivial character (sutherland-18785, Theorem 24.6: units `ε_w`
+indexed by the infinite places `w`, permuted by `G` as the places are, generating a subgroup of
+finite index, with `∏_w ε_w = 1` the only relation). Route: the logarithmic embedding is
 `G`-equivariant onto a full lattice in the trace-zero hyperplane of `ℝ^{places}`. *Needs:* 9.1;
-Mathlib `NumberField.Units`, `NumberField.InfinitePlace`.
+Mathlib `NumberField.Units`, `NumberField.InfinitePlace`, `NumberField.Units.dirichletUnitTheorem.unitLattice_rank`.
 
 **Checks.**
 - `K` imaginary quadratic: rank `0`; the permutation character on the single infinite place is
@@ -1130,8 +1180,9 @@ biquadratic `K/ℚ` (Galois of degree `4` with group of exponent `2`) with quadr
 totally complex (lemmermeyer line 102, Theorem 1, and lines 110–113). For totally real `K` with
 fundamental units `εᵢ` of `kᵢ`, every unit squared lies in `±⟨ε₁, ε₂, ε₃⟩`, so the unit group modulo
 `±⟨ε₁, ε₂, ε₃⟩` is a subgroup of `(ZMod 2)³` of order `q(K) ∈ {1, 2, 4}`; this subgroup determines the
-`ℤ[C₂ × C₂]`-module type of the unit lattice (9.3). Kubota's theorem: up to permutation of the
-`kᵢ`, exactly seven such subgroups occur, each for infinitely many `K` (kubota lines 13–21).
+`ℤ[C₂ × C₂]`-module type of the unit lattice (9.3). Kuroda's list: up to permutation of the `kᵢ`,
+exactly seven such subgroups occur (kubota lines 13–19, citing Kuroda); Kubota's theorem: each of
+the seven occurs for infinitely many `K` (kubota lines 19–21).
 *Needs:* 9.3; Mathlib `NumberField.classNumber`, `NumberField.RingOfIntegers`,
 `NumberField.IsTotallyReal`.
 
@@ -1173,24 +1224,29 @@ Mathlib `Matrix.GeneralLinearGroup`, `RingHom.mapMatrix`.
 ### 10.2 Minkowski's lemma and bound
 
 Prove `eq_one_of_isOfFinOrder_of_map_eq_one`: for `m ≥ 3`, a torsion element of `GL (Fin n) ℤ`
-congruent to `1` modulo `m` is `1` (Serre, arXiv:1011.0346v1, §1.2, Lemma 1, p. 4). Define
+congruent to `1` modulo `m` is `1` (serre-bounds, §1.2, Lemma 1, p. 4). Define
 `minkowskiBound n = ∏_ℓ ℓ^(∑_k ⌊n / (ℓ^k (ℓ − 1))⌋)` and prove `card_dvd_minkowskiBound`: the order of
-a finite subgroup of `GL (Fin n) ℚ` divides it (Serre, arXiv:1011.0346v1, §1.1, Theorem 1 (i),
-p. 3; it is the least such integer by part (ii)). By 10.1 and the lemma at `m = 3`, each dimension
+a finite subgroup of `GL (Fin n) ℚ` divides it (serre-bounds, §1.1, Theorem 1 (i), p. 3; it is
+the least such integer by part (ii) and Remark 1, lines 109–111). By 10.1 and the lemma at `m = 3`, each dimension
 has finitely many `ℤ`-classes. *Needs:* 10.1; Mathlib `Matrix.GeneralLinearGroup`.
 
 **Checks.**
 - `m = 2` fails: `−1` has order `2` and is congruent to `1` modulo `2`.
 - `minkowskiBound 0 = 1`, `minkowskiBound 1 = 2`, `minkowskiBound 2 = 2³ · 3 = 24`,
-  `minkowskiBound 3 = 2⁴ · 3 = 48`, `minkowskiBound 4 = 2⁷ · 3² · 5 = 5760` (Serre, lines 113–116).
-- The Weyl group of `F₄` in `GL₄(ℤ)` has order `1152`, a divisor of `5760`; there is no subgroup of
-  order `5760` (Serre's remark 2 on part (ii)).
+  `minkowskiBound 3 = 2⁴ · 3 = 48`, `minkowskiBound 4 = 2⁷ · 3² · 5 = 5760` (serre-bounds, lines
+  113–116).
+- The bound is attained in dimensions `1` and `3` (serre-bounds, Remark 2, line 132): `{±1}` in
+  `GL₁(ℤ)`, and the signed permutation matrices `{±1}³ ⋊ S₃ ≤ GL₃(ℤ)` of order `8 · 6 = 48`.
+- In dimension `4` it is not: the largest finite subgroup of `GL₄(ℤ)`, the Weyl group of `F₄`, has
+  order `1152`, a proper divisor of `5760` with quotient `5` (bbnwz, class counts; 10.4); Serre's
+  Remark 2 (lines 131–133) records only that no other dimension is expected to attain the bound.
 
 ### 10.3 Dimensions one, two and three
 
 Define `IsConjSubgroup`, `FiniteSubgroupClasses Γ`, `ZClasses n` and `QClasses n`. Prove
 `card_zClasses_two_qClasses_two` (`13` and `10`) and `card_zClasses_three_qClasses_three` (`73` and
-`32`), the arithmetic and geometric crystal classes. Route: 10.2 bounds the orders; the `ℚ`-classes
+`32`), the arithmetic and geometric crystal classes (bbnwz, class counts). Route: 10.2 bounds the
+orders; the `ℚ`-classes
 are the faithful rational representations of dimension `n` of groups of those orders, up to
 automorphisms (6.5); inside a `ℚ`-class the `ℤ`-classes are the `G`-stable lattices `L` with
 `|G| · L₀ ⊆ L ⊆ L₀` up to the normalizer. *Needs:* 6.5, 10.1, 10.2.
@@ -1283,23 +1339,31 @@ the abstract group from here.
   (1981), Theorem 1.
 - gaschutz: W. Gaschütz, *Endliche Gruppen mit treuen absolut-irreduziblen Darstellungen*, Math.
   Nachr. 12 (1954).
-- R. M. Guralnick, *Commutators and commutator subgroups*, Adv. Math. 45 (1982), 319–330.
+- guralnick-1982: R. M. Guralnick, *Commutators and commutator subgroups*, Adv. Math. 45 (1982),
+  319–330.
 - hall-1936: P. Hall, *The Eulerian functions of a group*, Quart. J. Math. 7 (1936), 134–151.
 - hall-1940: P. Hall, *The classification of prime-power groups*, J. reine angew. Math. 182 (1940),
   130–141.
 - huppert-1954: B. Huppert, *Normalteiler und maximale Untergruppen endlicher Gruppen*, Math. Z. 60
-  (1954).
+  (1954), 409–434.
+- huppert-eg1: B. Huppert, *Endliche Gruppen I*, Springer, 1967: Kapitel II, §5; Kapitel VI,
+  Hauptsatz 9.5.
+- isaacs: I. M. Isaacs, *Character Theory of Finite Groups*, Academic Press, 1976: Theorems 5.12,
+  6.22, 6.23, 6.32, Corollaries 5.13, 10.2, p. 171.
 - johnson-1971: D. L. Johnson, *Minimal permutation representations of finite groups*, Amer. J.
   Math. 93 (1971), 857–866.
 - kubota: T. Kubota, *Über den bizyklischen biquadratischen Zahlkörper*, Nagoya Math. J. 10 (1956),
   65–85.
 - lemmermeyer: F. Lemmermeyer, *Kuroda's class number formula*, Acta Arith. 66 (1994), 245–260
   (arXiv v1), Theorem 1.
-- R. Perlis, *On the equation `ζ_K(s) = ζ_{K'}(s)`*, J. Number Theory 9 (1977), 342–360.
-- I. Reiner, *Integral representations of cyclic groups of prime order*, Proc. AMS 8 (1957),
-  142–146: Theorem and Corollary, p. 145.
+- perlis-1977: R. Perlis, *On the equation `ζ_K(s) = ζ_{K'}(s)`*, J. Number Theory 9 (1977),
+  342–360: §1, Theorem 1.
+- reiner-1957: I. Reiner, *Integral representations of cyclic groups of prime order*, Proc. AMS 8
+  (1957), 142–146: Theorem and Corollary, p. 145.
 - reiner-maximal-orders: I. Reiner, *Maximal Orders*, Academic Press, 1975, §26.
 - robinson: D. J. S. Robinson, *A Course in the Theory of Groups*, 2nd ed., Springer, 1996: 3.3.15,
   §5.4, §9.1, §10.1.
-- J.-P. Serre, *Bounds for the orders of the finite subgroups of `G(k)`*, arXiv:1011.0346v1, §1:
-  Theorem 1, p. 3; Lemma 1, p. 4.
+- serre-bounds: J.-P. Serre, *Bounds for the orders of the finite subgroups of `G(k)`*,
+  arXiv:1011.0346v1, §1: Theorem 1, p. 3; Remarks 1–2, p. 3; Lemma 1, p. 4.
+- sutherland-18785: A. Sutherland, *18.785 Number Theory I, Lecture 24: the Herbrand unit theorem*,
+  MIT, 2021, Theorem 24.6.

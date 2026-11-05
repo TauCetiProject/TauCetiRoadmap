@@ -18,7 +18,7 @@ Two headline theorems of the README are not statable at the pins:
 * Herbrand's unit theorem (README 9.3), that the character of `(𝓞 K)ˣ ⊗ ℚ` for a Galois number
   field `K` with group `G` is the permutation character of `G` on the infinite places minus the
   trivial character;
-* Kubota's classification of the unit types of real biquadratic fields (README 9.4).
+* the Kuroda–Kubota classification of the unit types of real biquadratic fields (README 9.4).
 
 Both need the `ℤ[Gal(K/ℚ)]`-module structure of the unit group modulo torsion, which is not a
 declaration of the pinned Mathlib or Tau Ceti; constructing it is the first target of README 9.3,
@@ -195,10 +195,6 @@ theorem isSupersolvable_iff_forall_isCoatom_index_prime [Finite G] :
 
 /-- A metacyclic group has a cyclic normal subgroup with cyclic quotient (README 1.2). -/
 def IsMetacyclic : Prop := ∃ (N : Subgroup G) (_ : N.Normal), IsCyclic N ∧ IsCyclic (G ⧸ N)
-
-/-- Hölder–Burnside–Zassenhaus: a finite group whose Sylow subgroups are all cyclic is
-metacyclic (README 1.2). -/
-theorem isMetacyclic_of_isZGroup [Finite G] [IsZGroup G] : IsMetacyclic G := sorry
 
 /-- An A-group: every Sylow subgroup is abelian (README 1.3, mirroring Mathlib's `IsZGroup`). -/
 class IsAGroup : Prop where
