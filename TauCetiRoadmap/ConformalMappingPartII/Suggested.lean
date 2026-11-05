@@ -11,18 +11,21 @@ headline theorems against the pinned APIs: global analytic initial values;
 noncompact surface uniformization, disc covers of hyperbolic plane domains and
 finite-puncture cusp compactification with primitive local coordinates;
 the roots-cover Schwarzian and hypergeometric inverse germ; Nevanlinna's quotient
-representation; the exact Gamma radius and its positive expansion; the free
-deck-group presentation of the roots cover and the half-rotation identity; the
-disc-local first main theorem; and the maximum, logarithmic-derivative and uniform
-mean-growth bounds.
+representation; the zero-balanced connection formula; the exact Gamma radius and
+its positive expansion; the free deck-group presentation of the roots cover and
+the half-rotation identity; the disc-local first main theorem; the uniform cusp
+asymptotic of the inverse ratio; and the maximum, logarithmic-derivative and
+uniform mean-growth bounds.
 
 The symmetric ideal polygon of the roots cover is not stated: identifying the
 native Dirichlet domain with the marked 2N-gon and its side pairings needs more
-than the simple definitions admitted here. The continued zero-balanced connection
-formula and uniform cusp asymptotic lack the constructed continued hypergeometric
-branch. No stand-in for these constructions is stated here. The scalar inverse
-ratio below is only a germ of the native convergent series, not such a continued
-branch.
+than the simple definitions admitted here. The zero-balanced connection formula
+is stated through the real-bodied series `zeroBalancedSeries`, a sum of native
+terms with the principal logarithm, analytic on the slit unit disc and equal to
+the native hypergeometric series on the lens where both converge; the uniform
+cusp asymptotic writes the inverse ratio continued past the native convergence
+disc through that series. The scalar inverse ratio `inverseRatio` is only a germ
+of the native convergent series, not such a continued branch.
 -/
 
 open scoped BigOperators Topology Manifold ContDiff MatrixGroups
@@ -182,6 +185,24 @@ theorem inverseRatio.cover_inverse {N : ℕ} (F : RootsCover N) :
       (fun x ↦ F.toFun ((deriv F.toFun 0)⁻¹ * inverseRatio N x)) =ᶠ[nhds 0] id ∧
       (fun z ↦ (deriv F.toFun 0)⁻¹ * inverseRatio N (F.toFun z)) =ᶠ[nhds 0] id := by sorry
 
+/-- The zero-balanced hypergeometric series at the parameter a, with Mathlib's principal
+ logarithm: Γ(2a)/Γ(a)² · Σₖ (a)_k²/(k!)² · x^k · (−log x + 2(ψ(k+1) − ψ(k+a))), a sum of
+ native terms (CDT Lemma 5.1.20, p.672; DLMF 15.8.10 at m = 0 and b = a). Outside the unit
+ disc the sum is a junk value. -/
+def zeroBalancedSeries (a x : ℂ) : ℂ :=
+  Complex.Gamma (2 * a) / Complex.Gamma a ^ 2 *
+    ∑' k : ℕ, (Polynomial.eval a (ascPochhammer ℂ k)) ^ 2 / ((k.factorial : ℂ) ^ 2) *
+      x ^ k * (-Complex.log x + 2 * (Complex.digamma (k + 1) - Complex.digamma (k + a)))
+
+/-- The zero-balanced connection formula: when 2a is not a nonpositive integer, the series
+ is analytic on the unit disc slit along the closed negative real axis and equals the native
+ ₂F₁(a,a;2a;1−x) on the lens |x| < 1, |1−x| < 1; by the identity theorem it is the
+ continuation of the native series across the slit disc (CDT Lemma 5.1.20, p.672). -/
+theorem zero_balanced_connection (a : ℂ) (ha : ∀ n : ℕ, 2 * a ≠ -(n : ℂ)) :
+    AnalyticOnNhd ℂ (zeroBalancedSeries a) (ball 0 1 \ {x | x.re ≤ 0 ∧ x.im = 0}) ∧
+    ∀ x : ℂ, ‖x‖ < 1 → ‖1 - x‖ < 1 →
+      ordinaryHypergeometric a a (2 * a) (1 - x) = zeroBalancedSeries a x := by sorry
+
 /-! ## Layer 5: exact conformal radius and its expansion -/
 
 /-- The real Gamma expression; its geometric interpretation assumes N≥2. -/
@@ -254,6 +275,24 @@ theorem local_first_main_translation {f : ℂ → ℂ} (hf : MeromorphicOn f (ba
       Real.posLog ‖a‖ + Real.log 2 := by sorry
 
 /-! ## Layer 8: quantitative cusp geometry and maximum growth -/
+
+/-- The uniform cusp asymptotic of the inverse ratio. Through the connection formula and the
+ Gamma identities, the continued s_N(1−x)/γ_N on the punctured disc is (1−x)^(1/N) times the
+ zero-balanced series at a₊ = (N+1)/(2N) divided by γ_N times the series at a₋ = (N−1)/(2N).
+ For 0 < |x| < e^(−MN) and M ≥ M₀ it differs from (1−x)^(1/N) times the quotient of the k = 0
+ coefficients −log x − 2γ − 2ψ(a_±) by at most C(M₀)|x|/N, with the principal logarithm and
+ principal root (CDT Lemma 5.2.9, p.676). The denominators never vanish there. -/
+theorem uniform_cusp_asymptotic {M₀ : ℝ} (hM₀ : 0 < M₀) :
+    ∃ C : ℝ, 0 < C ∧ ∀ N : ℕ, 2 ≤ N → ∀ M : ℝ, M₀ ≤ M →
+      ∀ x : ℂ, x ≠ 0 → ‖x‖ < Real.exp (-(M * N)) →
+        let aPlus : ℂ := ((N : ℂ) + 1) / (2 * N)
+        let aMinus : ℂ := ((N : ℂ) - 1) / (2 * N)
+        ‖(1 - x) ^ ((N : ℂ)⁻¹) *
+            (zeroBalancedSeries aPlus x / ((gammaRadius N : ℂ) * zeroBalancedSeries aMinus x) -
+              (-Complex.log x - 2 * (Real.eulerMascheroniConstant : ℂ) -
+                  2 * Complex.digamma aPlus) /
+                (-Complex.log x - 2 * (Real.eulerMascheroniConstant : ℂ) -
+                  2 * Complex.digamma aMinus))‖ ≤ C * ‖x‖ / N := by sorry
 
 /-- The maximum bound is uniform only beyond an absolute level threshold in this
  argument (CDT Lemma 5.2.18, p.678). The constants are independent of the cover and radius. -/
