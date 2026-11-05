@@ -57,9 +57,9 @@ Consume Layers 2–4 for good and bad Hecke recurrences, degeneracy maps, primit
 
 Consume §§6.1–6.3 for M₀, the level-M₀ weight-two trivial-character lift for ℓ≥3 and irreducible E[ℓ], and the good-prime and removed-multiplicative-prime congruences away from ℓ. Supply the modularity witness from EllipticCurveModularity. Consume Layers 2–4, especially §4.8, for exact tame level and weight optimization.
 
-What SerreWeightAndLevelOptimisation must provide (the optimized elliptic weight-two lift contract): For every modular E/ℚ and prime ℓ≥5 with irreducible E[ℓ] of Serre weight two, provide a primitive trivial-character weight-two newform at the full residual conductor away from ℓ, together with its actual coefficient prime and residual isomorphism, including the finite-flat recipe comparison needed by §4.8.
+What SerreWeightAndLevelOptimisation must provide (gap:optimized-elliptic-weight-two): For every modular E/ℚ and prime ℓ≥5 with irreducible E[ℓ] of Serre weight two, provide a primitive trivial-character weight-two newform at the full residual conductor away from ℓ, together with its actual coefficient prime and residual isomorphism, including the finite-flat recipe comparison needed by §4.8.
 
-What SerreWeightAndLevelOptimisation must provide (the weight-two local reduction contract): For ℓ≥11 identify Serre weight two for the elliptic residual representation with good reduction or multiplicative reduction whose minimal-discriminant exponent is divisible by ℓ, without using this implication at ℓ=5,7.
+What SerreWeightAndLevelOptimisation must provide (gap:weight-two-local-reduction): For ℓ≥11 identify Serre weight two for the elliptic residual representation with good reduction or multiplicative reduction whose minimal-discriminant exponent is divisible by ℓ, without using this implication at ℓ=5,7.
 
 ### From TauCetiRoadmap.ArithmeticGaloisRepresentations
 
@@ -77,21 +77,21 @@ Consume §§1.15b–1.18 for the formal identity chart and full torsion speciali
 
 Consume §§3.8, 5.2 and 9.5–9.7 for finite-level Borel/Cartan curves, their moduli and the split-normalizer identification; §§9.1, 13.1–13.3, 14.15 and 17.3 for Jacobians, Abel–Jacobi maps, Hecke correspondences and differential comparisons, and §§4.1–4.2, 4.8 and 5.5 for cusp charts; §§16.2–16.6 for newform quotients and their dimension. Sections 14.11–14.12 supply the geometric pairing and relative symbol lattice, not a geometric cuspidal-torsion assertion. Sections 3.8 and 5.2 supply the mixed curves and their j-maps by the open subgroup with the prescribed coprime level factors. Section 13.1 supplies Jacobian pullback and norm for their finite maps, and §§13.2–13.3 supply the Hecke compatibility. The specific split-to-nonsplit correspondence is the target of §5.10 here. The exact-divisor quotient retains the r-level.
 
-What ModularCurvesPartII must provide (the mixed cusp-chart contract): For coprime positive auxiliary and Cartan levels, supply smooth cusp charts on the normalized mixed curves away from 6 times the level, with their actual cusp residue fields and compatibility with the level maps.
+What ModularCurvesPartII must provide (gap:mixed-cusp-charts): For coprime positive auxiliary and Cartan levels, supply smooth cusp charts on the normalized mixed curves away from 6 times the level, with their actual cusp residue fields and compatibility with the level maps.
 
-What ModularCurvesPartII must provide (the Chen winding comparison contract): Supply the prime-to-p Hecke-equivariant Chen isogeny between the p-new split and nonsplit mixed Jacobians, integral Hecke-annihilator quotients with connected kernel, and their semistable cotangent comparison, without assuming genus zero of the auxiliary level.
+What ModularCurvesPartII must provide (gap:chen-winding-comparison): Supply the prime-to-p Hecke-equivariant Chen isogeny between the p-new split and nonsplit mixed Jacobians, integral Hecke-annihilator quotients with connected kernel, and their semistable cotangent comparison, without assuming genus zero of the auxiliary level.
 
 ### From TauCetiRoadmap.AlgebraicModularFormsAndSerreWeights
 
 Consume Layer 2 (§§2.1–2.2, 2.5, 2.7–2.8) for the integral q-expansion principle, integral Hecke action, ring-valued eigensequences and the integral cusp lattice, and Layer 4 (§§4.3, 4.6–4.7, 4.9) for the extension-sensitive finite-flat weight recipe together with FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.5. These inputs retain dyadic phenomena and arbitrary coefficient rings in their stated ranges.
 
-What AlgebraicModularFormsAndSerreWeights must provide (the positive-characteristic support contract): For a weight-two differential in the mixed-level integral cotangent comparison in characteristic q>3 with q∤rp, prove that vanishing of every coefficient indexed prime to p forces descent through the p-degeneracy map to level r, with all descent and level hypotheses explicit.
+What AlgebraicModularFormsAndSerreWeights must provide (gap:positive-characteristic-support): For a weight-two differential in the mixed-level integral cotangent comparison in characteristic q>3 with q∤rp, prove that vanishing of every coefficient indexed prime to p forces descent through the p-degeneracy map to level r, with all descent and level hypotheses explicit.
 
 ### From TauCetiRoadmap.AutomorphicGaloisRepresentations and TauCetiRoadmap.DeligneWeightsAndPurity
 
 Consume AutomorphicGaloisRepresentations §§6.1 and 6.4 for the weight-two Tate decomposition and exact conductor of A_f, and DeligneWeightsAndPurity §§1.1–1.4 (Layer DWP.1) for the abelian Weil estimate. For every embedding σ:K_f→ℂ and q∤N, identify `X^2 - sigma(a_q)*X + q` with that component’s Frobenius polynomial, yielding |σ(a_q)|≤2√q.
 
-What AutomorphicGaloisRepresentations must provide (the all-embedding Frobenius contract): Make the Tate decomposition and Frobenius polynomial comparison simultaneous for every coefficient-field embedding of a weight-two trivial-character newform and preserve the integral lattice and coefficient-prime reduction needed for the elliptic residual comparison.
+What AutomorphicGaloisRepresentations must provide (gap:all-embedding-frobenius): Make the Tate decomposition and Frobenius polynomial comparison simultaneous for every coefficient-field embedding of a weight-two trivial-character newform and preserve the integral lattice and coefficient-prime reduction needed for the elliptic residual comparison.
 
 ### From TauCetiRoadmap.EisensteinIdealAndRationalTorsion
 
@@ -109,13 +109,13 @@ Consume §§0.6–0.8 and 1.1–1.2 for homological symbol/differential duality,
 
 Consume §§4.7, 5.13 for the rational descent and self-dual finite-length conclusions on genuine arithmetic systems, retaining their local and coefficient hypotheses.
 
-What EulerSystemsAndKolyvaginSystems must provide (the modular rank-zero contract): For every primitive weight-two modular abelian factor A_f over ℚ with L(f,1)≠0, supply the analytic-rank-zero comparison to a genuine arithmetic descent system proving A_f(ℚ) finite, including coefficient-order and CM cases rather than assuming an elliptic-only theorem.
+What EulerSystemsAndKolyvaginSystems must provide (gap:modular-rank-zero): For every primitive weight-two modular abelian factor A_f over ℚ with L(f,1)≠0, supply the analytic-rank-zero comparison to a genuine arithmetic descent system proving A_f(ℚ) finite, including coefficient-order and CM cases rather than assuming an elliptic-only theorem.
 
 ### From TauCetiRoadmap.ArakelovGeometryAndAbelianHeights and TauCetiRoadmap.FaltingsFinitenessAndIsogenyTheorems
 
 Consume ArakelovGeometryAndAbelianHeights §4.4’s stable isogeny-height inequality and §5.9’s explicit h_F(E)≤h(j(E))/12+3. Consume FaltingsFinitenessAndIsogenyTheorems §§R28.4.5–R28.4.7 for semisimplicity and isogeny recognition. The numerical quantitative bound is a target of Layer 5, at the same stable height normalization.
 
-What ArakelovGeometryAndAbelianHeights must provide (the quantitative abelian periods contract): Supply the quantitative period inequalities for positive-dimensional polarized abelian varieties in Gaudron–Rémond Theorems 1.1–1.2 and 4.5, including the dimension-two avoidance estimate of Proposition 6.9 with its exact constants, intersection degree and Faltings-height normalization.
+What ArakelovGeometryAndAbelianHeights must provide (gap:quantitative-abelian-periods): Supply the quantitative period inequalities for positive-dimensional polarized abelian varieties in Gaudron–Rémond Theorems 1.1–1.2 and 4.5, including the dimension-two avoidance estimate of Proposition 6.9 with its exact constants, intersection degree and Faltings-height normalization.
 
 ### From TauCetiRoadmap.EllipticCurves and TauCetiRoadmap.Chebotarev
 
@@ -452,7 +452,7 @@ For K=ℚ, p=2, c=1, sign +, the comparison integer is 2, its norm is 2, and the
 
 ### Dependencies
 
-Layer 0; EllipticCurveModularity R29.6; SerreWeightAndLevelOptimisation §§6.1–6.3; ModularForms Layer 8G; AutomorphicGaloisRepresentations §6.1 and the all-embedding Frobenius contract; DeligneWeightsAndPurity §§1.1–1.4 (Layer DWP.1); Mathlib integral and field norms.
+Layer 0; EllipticCurveModularity R29.6; SerreWeightAndLevelOptimisation §§6.1–6.3; ModularForms Layer 8G; AutomorphicGaloisRepresentations §6.1 and gap:all-embedding-frobenius; DeligneWeightsAndPurity §§1.1–1.4 (Layer DWP.1); Mathlib integral and field norms.
 
 
 ## Layer 2: the exact Kraus thresholds
@@ -543,7 +543,7 @@ Layer 0’s native dimension; ModularForms Layer 10’s Γ₀ index formula; rea
 
 ## Layer 3: coefficient recognition and exact-conductor realization
 
-Use the optimized exact weight-two lift from the supplier contract. Rational coefficient recognition and ideal congruence recognition have independent proofs. Their elliptic applications first give exact residual conductor N and then impose full rational two-torsion using global point counts and a two-isogeny.
+Use the optimized exact weight-two lift of gap:optimized-elliptic-weight-two. Rational coefficient recognition and ideal congruence recognition have independent proofs. Their elliptic applications first give exact residual conductor N and then impose full rational two-torsion using global point counts and a two-isogeny.
 
 ### 3.1 Finite-prime recognition of rational coefficients
 
@@ -595,15 +595,15 @@ Both good and multiplicative comparisons are needed; Hasse for b is unavailable 
 
 ### 3.5 The F-threshold forces coefficient field Q
 
-Under SerreWeightAndLevelOptimisation §§2.8, 4.8 and 6.2, with the optimized elliptic weight-two lift contract, ℓ>F(N) implies K_f=ℚ. (kraus-1997, §3.2, Théorème 3 proof, pp.1144–1145, kraus-1997 line 301.)
+Under SerreWeightAndLevelOptimisation §§2.8, 4.8 and 6.2, with gap:optimized-elliptic-weight-two, ℓ>F(N) implies K_f=ℚ. (kraus-1997, §3.2, Théorème 3 proof, pp.1144–1145, kraus-1997 line 301.)
 
-Throughout this subsection, the hypotheses of SerreWeightAndLevelOptimisation §§2.8, 4.8 and 6.2 and of the optimized elliptic weight-two lift contract hold; f and λ are that lift; ℓ>F(N).
+Throughout this subsection, the hypotheses of SerreWeightAndLevelOptimisation §§2.8, 4.8 and 6.2 and of gap:optimized-elliptic-weight-two hold; f and λ are that lift; ℓ>F(N).
 
 A proof route is as follows. Assume the coefficient field is nonrational and take the small good coefficient witness. The F inequality excludes the coefficient prime. At a prime of good reduction compare elliptic traces; at a bad prime outside N use the supplied full residual conductor formula to obtain multiplicative reduction and the signed q+1 congruence. The nonzero integral norm is divisible by ℓ and is bounded above by F(N), a contradiction.
 
 E may have conductor different from N; the local bad-prime branch supplies the comparison in that case.
 
-*Needs:* SerreWeightAndLevelOptimisation §§2.8, 4.8 and 6.2, with the optimized elliptic weight-two lift contract; Layer 3.2 A small good prime detects a nonrational newform; Layer 3.3 The coefficient-recognition witness is below F; Layer 3.4 The norm of a noninteger coefficient minus an elliptic trace; Layer 1.2 Congruences force divisibility of the integer norm; ModularForms Layer 8G, Galois stability and the coefficient-field orbit dimension; ArithmeticGaloisRepresentations §§3.1–3.6; ArithmeticGaloisRepresentations §§6.1–6.4; ModularForms Layer 4 (“Bad-prime eigenvalues”); AutomorphicGaloisRepresentations §§6.1, 6.4; NeronModelsAndSemistableAbelianVarieties §5.3h.
+*Needs:* SerreWeightAndLevelOptimisation §§2.8, 4.8 and 6.2, with gap:optimized-elliptic-weight-two; Layer 3.2 A small good prime detects a nonrational newform; Layer 3.3 The coefficient-recognition witness is below F; Layer 3.4 The norm of a noninteger coefficient minus an elliptic trace; Layer 1.2 Congruences force divisibility of the integer norm; ModularForms Layer 8G, Galois stability and the coefficient-field orbit dimension; ArithmeticGaloisRepresentations §§3.1–3.6; ArithmeticGaloisRepresentations §§6.1–6.4; ModularForms Layer 4 (“Bad-prime eigenvalues”); AutomorphicGaloisRepresentations §§6.1, 6.4; NeronModelsAndSemistableAbelianVarieties §5.3h.
 
 ### 3.6 Kraus’s rational realization theorem
 
@@ -611,11 +611,11 @@ For E/ℚ modular and ℓ≥5 prime with E[ℓ] irreducible of Serre weight two 
 
 Throughout this subsection, E/ℚ is modular; ℓ≥5 is prime; E[ℓ] is irreducible of Serre weight two; N is its prime-to-ℓ Artin conductor; ℓ>F(N).
 
-A proof route is as follows. Apply SerreWeightAndLevelOptimisation §§2.8, 4.8 and 6.2, with the optimized elliptic weight-two lift contract, §3.5, and ModularCurvesPartII §§16.2–16.6 and AutomorphicGaloisRepresentations §§6.1, 6.4.
+A proof route is as follows. Apply SerreWeightAndLevelOptimisation §§2.8, 4.8 and 6.2, with gap:optimized-elliptic-weight-two, §3.5, and ModularCurvesPartII §§16.2–16.6 and AutomorphicGaloisRepresentations §§6.1, 6.4.
 
 This intermediate conclusion contains no assertion about E_f[2].
 
-*Needs:* SerreWeightAndLevelOptimisation §§2.8, 4.8 and 6.2, with the optimized elliptic weight-two lift contract; Layer 3.5 The F-threshold forces coefficient field Q; ModularCurvesPartII §§16.2–16.6 and AutomorphicGaloisRepresentations §§6.1, 6.4.
+*Needs:* SerreWeightAndLevelOptimisation §§2.8, 4.8 and 6.2, with gap:optimized-elliptic-weight-two; Layer 3.5 The F-threshold forces coefficient field Q; ModularCurvesPartII §§16.2–16.6 and AutomorphicGaloisRepresentations §§6.1, 6.4.
 
 ### 3.7 Kraus’s local coefficient filters
 
@@ -780,15 +780,15 @@ Neither Serre weight two nor exact residual conductor can be replaced by an unsp
 
 ### 3.18 The finite-flat adapter from deletion level to residual conductor
 
-Let ℓ≥5 be prime and E/ℚ elliptic. Assume E has good reduction at ℓ, or multiplicative reduction at ℓ with ℓ|v_ℓ(Δ_min). Then the exact deletion level of SerreWeightAndLevelOptimisation §6.1 M₀ equals the full prime-to-ℓ conductor N(E[ℓ]). The Serre-weight implication for ℓ≥11 is the supplier contract; at ℓ=5,7 retain the reduction alternative explicitly. (kraus-1997, §3.1 condition (c) and its p≥11 reduction consequence, p.1143, kraus-1997 line 200.)
+Let ℓ≥5 be prime and E/ℚ elliptic. Assume E has good reduction at ℓ, or multiplicative reduction at ℓ with ℓ|v_ℓ(Δ_min). Then the exact deletion level of SerreWeightAndLevelOptimisation §6.1 M₀ equals the full prime-to-ℓ conductor N(E[ℓ]). The Serre-weight implication for ℓ≥11 is gap:weight-two-local-reduction; at ℓ=5,7 retain the reduction alternative explicitly. (kraus-1997, §3.1 condition (c) and its p≥11 reduction consequence, p.1143, kraus-1997 line 200.)
 
 Throughout this subsection, E/ℚ is elliptic; ℓ≥5 is prime; M₀ is the exact deletion level of SerreWeightAndLevelOptimisation §6.1; N is the full prime-to-ℓ conductor of E[ℓ]; E has good reduction at ℓ, or multiplicative reduction at ℓ with ℓ|v_ℓ(Δ_min(E)).
 
-A proof route is as follows. The away-from-ℓ exponents are the supplied full residual conductor formula. Good reduction at ℓ leaves no coefficient-prime factor in M; in the multiplicative branch the deletion removes that factor once. Thus M₀ is prime to ℓ and equals N. The implication from Serre weight two at ℓ≥11 is the exact supplier contract; retain the local hypothesis at 5 and 7.
+A proof route is as follows. The away-from-ℓ exponents are the supplied full residual conductor formula. Good reduction at ℓ leaves no coefficient-prime factor in M; in the multiplicative branch the deletion removes that factor once. Thus M₀ is prime to ℓ and equals N. The implication from Serre weight two at ℓ≥11 is gap:weight-two-local-reduction; retain the local hypothesis at 5 and 7.
 
 For arbitrary irreducible E[ℓ], M₀ and N can differ; the local alternative is explicit. The residual-conductor Kraus endpoint remains valid for ℓ≥5 without any assertion M₀=N; the weight-to-reduction shortcut is restricted to ℓ≥11.
 
-*Needs:* NeronModelsAndSemistableAbelianVarieties §5.3h; SerreWeightAndLevelOptimisation §§6.1–6.3; SerreWeightAndLevelOptimisation §4.8 and the optimized elliptic weight-two lift contract; ArithmeticGaloisRepresentations §§6.1–6.4; AlgebraicModularFormsAndSerreWeights §§4.3, 4.6–4.7 and 4.9; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.5.
+*Needs:* NeronModelsAndSemistableAbelianVarieties §5.3h; SerreWeightAndLevelOptimisation §§6.1–6.3; SerreWeightAndLevelOptimisation §4.8 and gap:optimized-elliptic-weight-two; ArithmeticGaloisRepresentations §§6.1–6.4; AlgebraicModularFormsAndSerreWeights §§4.3, 4.6–4.7 and 4.9; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.5.
 
 ### Examples
 
@@ -796,7 +796,7 @@ For y²=x³−x, the three nonzero rational two-points are (0,0),(1,0),(−1,0).
 
 ### Dependencies
 
-Layers 0–2; SerreWeightAndLevelOptimisation §4.8 and §§6.1–6.3; NeronModelsAndSemistableAbelianVarieties §5.3h; EllipticCurveModularity R29.6; ModularForms Layers 2–4 and 8G; AlgebraicModularFormsAndSerreWeights Layer 2; ModularCurvesPartII §§16.2–16.6; AutomorphicGaloisRepresentations §§6.1,6.4; EllipticCurves Layers 1–4; Chebotarev Layer 10; the optimized elliptic weight-two lift contract and the weight-two local reduction contract.
+Layers 0–2; SerreWeightAndLevelOptimisation §4.8 and §§6.1–6.3; NeronModelsAndSemistableAbelianVarieties §5.3h; EllipticCurveModularity R29.6; ModularForms Layers 2–4 and 8G; AlgebraicModularFormsAndSerreWeights Layer 2; ModularCurvesPartII §§16.2–16.6; AutomorphicGaloisRepresentations §§6.1,6.4; EllipticCurves Layers 1–4; Chebotarev Layer 10; gap:optimized-elliptic-weight-two and gap:weight-two-local-reduction.
 
 
 ## Layer 4: rational cyclic isogenies and uniform irreducibility
@@ -964,11 +964,11 @@ Every ℚ-rational point of the actual modular curve X0(39) is a cusp. (banwait-
 
 Throughout this subsection, P is a ℚ-rational point of the actual modular curve X0(39).
 
-A proof route exhibits a nonzero new optimal quotient A_39 of J₀(39) whose simple factors have nonzero central L-value. Prove these nonvanishings from exact modular symbols. Apply the modular rank-zero contract and determine the entire finite group A_39(ℚ) by Kummer descent and torsion specialization. For the nonconstant cusp-based map X₀(39)→A_39, determine the rational points in every finite algebraic fiber over that group and show each is a cusp. The finite-fiber equations and their rational-solubility exclusions are arithmetic targets of this subsection. EisensteinIdealAndRationalTorsion §7.9 supplies formal immersion at ∞ for this new optimal quotient; it separates sections in the cusp residue disk, while other fibers require their own exact equations.
+A proof route exhibits a nonzero new optimal quotient A_39 of J₀(39) whose simple factors have nonzero central L-value. Prove these nonvanishings from exact modular symbols. Apply gap:modular-rank-zero and determine the entire finite group A_39(ℚ) by Kummer descent and torsion specialization. For the nonconstant cusp-based map X₀(39)→A_39, determine the rational points in every finite algebraic fiber over that group and show each is a cusp. The finite-fiber equations and their rational-solubility exclusions are arithmetic targets of this subsection. EisensteinIdealAndRationalTorsion §7.9 supplies formal immersion at ∞ for this new optimal quotient; it separates sections in the cusp residue disk, while other fibers require their own exact equations.
 
 The claim is the entire rational-point set of X0(39), not a bounded-height search.
 
-*Needs:* ModularCurvesPartII §§5.2, 5.5, 13.1–13.3, 16.2–16.6, 17.3; ModularSymbolsPadicLFunctions §§0.6–0.8, 1.1–1.2; HeightsRationalPointsAndObstructions §§1.4–1.7, 1.13–1.14, 1.18; EulerSystemsAndKolyvaginSystems §§4.7, 5.13 and the modular rank-zero contract; EisensteinIdealAndRationalTorsion §7.9.
+*Needs:* ModularCurvesPartII §§5.2, 5.5, 13.1–13.3, 16.2–16.6, 17.3; ModularSymbolsPadicLFunctions §§0.6–0.8, 1.1–1.2; HeightsRationalPointsAndObstructions §§1.4–1.7, 1.13–1.14, 1.18; EulerSystemsAndKolyvaginSystems §§4.7, 5.13 and gap:modular-rank-zero; EisensteinIdealAndRationalTorsion §7.9.
 
 ### 4.11 The cusp-only level 65
 
@@ -976,11 +976,11 @@ Every ℚ-rational point of the actual modular curve X0(65) is a cusp. (banwait-
 
 Throughout this subsection, P is a ℚ-rational point of the actual modular curve X0(65).
 
-A proof route exhibits a nonzero new optimal quotient A_65 of J₀(65) whose simple factors have nonzero central L-value. Prove these nonvanishings from exact modular symbols. Apply the modular rank-zero contract and determine the entire finite group A_65(ℚ) by Kummer descent and torsion specialization. For the nonconstant cusp-based map X₀(65)→A_65, determine the rational points in every finite algebraic fiber over that group and show each is a cusp. The finite-fiber equations and their rational-solubility exclusions are arithmetic targets of this subsection. EisensteinIdealAndRationalTorsion §7.9 supplies formal immersion at ∞ for this new optimal quotient; it separates sections in the cusp residue disk, while other fibers require their own exact equations.
+A proof route exhibits a nonzero new optimal quotient A_65 of J₀(65) whose simple factors have nonzero central L-value. Prove these nonvanishings from exact modular symbols. Apply gap:modular-rank-zero and determine the entire finite group A_65(ℚ) by Kummer descent and torsion specialization. For the nonconstant cusp-based map X₀(65)→A_65, determine the rational points in every finite algebraic fiber over that group and show each is a cusp. The finite-fiber equations and their rational-solubility exclusions are arithmetic targets of this subsection. EisensteinIdealAndRationalTorsion §7.9 supplies formal immersion at ∞ for this new optimal quotient; it separates sections in the cusp residue disk, while other fibers require their own exact equations.
 
 The claim is the entire rational-point set of X0(65), not a bounded-height search.
 
-*Needs:* ModularCurvesPartII §§5.2, 5.5, 13.1–13.3, 16.2–16.6, 17.3; ModularSymbolsPadicLFunctions §§0.6–0.8, 1.1–1.2; HeightsRationalPointsAndObstructions §§1.4–1.7, 1.13–1.14, 1.18; EulerSystemsAndKolyvaginSystems §§4.7, 5.13 and the modular rank-zero contract; EisensteinIdealAndRationalTorsion §7.9.
+*Needs:* ModularCurvesPartII §§5.2, 5.5, 13.1–13.3, 16.2–16.6, 17.3; ModularSymbolsPadicLFunctions §§0.6–0.8, 1.1–1.2; HeightsRationalPointsAndObstructions §§1.4–1.7, 1.13–1.14, 1.18; EulerSystemsAndKolyvaginSystems §§4.7, 5.13 and gap:modular-rank-zero; EisensteinIdealAndRationalTorsion §7.9.
 
 ### 4.12 The cusp-only level 91
 
@@ -988,11 +988,11 @@ Every ℚ-rational point of the actual modular curve X0(91) is a cusp. (banwait-
 
 Throughout this subsection, P is a ℚ-rational point of the actual modular curve X0(91).
 
-A proof route exhibits a nonzero new optimal quotient A_91 of J₀(91) whose simple factors have nonzero central L-value. Prove these nonvanishings from exact modular symbols. Apply the modular rank-zero contract and determine the entire finite group A_91(ℚ) by Kummer descent and torsion specialization. For the nonconstant cusp-based map X₀(91)→A_91, determine the rational points in every finite algebraic fiber over that group and show each is a cusp. The finite-fiber equations and their rational-solubility exclusions are arithmetic targets of this subsection. EisensteinIdealAndRationalTorsion §7.9 supplies formal immersion at ∞ for this new optimal quotient; it separates sections in the cusp residue disk, while other fibers require their own exact equations.
+A proof route exhibits a nonzero new optimal quotient A_91 of J₀(91) whose simple factors have nonzero central L-value. Prove these nonvanishings from exact modular symbols. Apply gap:modular-rank-zero and determine the entire finite group A_91(ℚ) by Kummer descent and torsion specialization. For the nonconstant cusp-based map X₀(91)→A_91, determine the rational points in every finite algebraic fiber over that group and show each is a cusp. The finite-fiber equations and their rational-solubility exclusions are arithmetic targets of this subsection. EisensteinIdealAndRationalTorsion §7.9 supplies formal immersion at ∞ for this new optimal quotient; it separates sections in the cusp residue disk, while other fibers require their own exact equations.
 
 The claim is the entire rational-point set of X0(91), not a bounded-height search.
 
-*Needs:* ModularCurvesPartII §§5.2, 5.5, 13.1–13.3, 16.2–16.6, 17.3; ModularSymbolsPadicLFunctions §§0.6–0.8, 1.1–1.2; HeightsRationalPointsAndObstructions §§1.4–1.7, 1.13–1.14, 1.18; EulerSystemsAndKolyvaginSystems §§4.7, 5.13 and the modular rank-zero contract; EisensteinIdealAndRationalTorsion §7.9.
+*Needs:* ModularCurvesPartII §§5.2, 5.5, 13.1–13.3, 16.2–16.6, 17.3; ModularSymbolsPadicLFunctions §§0.6–0.8, 1.1–1.2; HeightsRationalPointsAndObstructions §§1.4–1.7, 1.13–1.14, 1.18; EulerSystemsAndKolyvaginSystems §§4.7, 5.13 and gap:modular-rank-zero; EisensteinIdealAndRationalTorsion §7.9.
 
 ### 4.13 The cusp-only level 125
 
@@ -1000,11 +1000,11 @@ Every ℚ-rational point of the actual modular curve X0(125) is a cusp. (banwait
 
 Throughout this subsection, P is a ℚ-rational point of the actual modular curve X0(125).
 
-A proof route exhibits a nonzero new optimal quotient A_125 of J₀(125) whose simple factors have nonzero central L-value. Prove these nonvanishings from exact modular symbols. Apply the modular rank-zero contract and determine the entire finite group A_125(ℚ) by Kummer descent and torsion specialization. For the nonconstant cusp-based map X₀(125)→A_125, determine the rational points in every finite algebraic fiber over that group and show each is a cusp. The finite-fiber equations and their rational-solubility exclusions are arithmetic targets of this subsection. EisensteinIdealAndRationalTorsion §7.9 supplies formal immersion at ∞ for this new optimal quotient; it separates sections in the cusp residue disk, while other fibers require their own exact equations.
+A proof route exhibits a nonzero new optimal quotient A_125 of J₀(125) whose simple factors have nonzero central L-value. Prove these nonvanishings from exact modular symbols. Apply gap:modular-rank-zero and determine the entire finite group A_125(ℚ) by Kummer descent and torsion specialization. For the nonconstant cusp-based map X₀(125)→A_125, determine the rational points in every finite algebraic fiber over that group and show each is a cusp. The finite-fiber equations and their rational-solubility exclusions are arithmetic targets of this subsection. EisensteinIdealAndRationalTorsion §7.9 supplies formal immersion at ∞ for this new optimal quotient; it separates sections in the cusp residue disk, while other fibers require their own exact equations.
 
 The claim is the entire rational-point set of X0(125), not a bounded-height search.
 
-*Needs:* ModularCurvesPartII §§5.2, 5.5, 13.1–13.3, 16.2–16.6, 17.3; ModularSymbolsPadicLFunctions §§0.6–0.8, 1.1–1.2; HeightsRationalPointsAndObstructions §§1.4–1.7, 1.13–1.14, 1.18; EulerSystemsAndKolyvaginSystems §§4.7, 5.13 and the modular rank-zero contract; EisensteinIdealAndRationalTorsion §7.9.
+*Needs:* ModularCurvesPartII §§5.2, 5.5, 13.1–13.3, 16.2–16.6, 17.3; ModularSymbolsPadicLFunctions §§0.6–0.8, 1.1–1.2; HeightsRationalPointsAndObstructions §§1.4–1.7, 1.13–1.14, 1.18; EulerSystemsAndKolyvaginSystems §§4.7, 5.13 and gap:modular-rank-zero; EisensteinIdealAndRationalTorsion §7.9.
 
 ### 4.14 The cusp-only level 169
 
@@ -1012,11 +1012,11 @@ Every ℚ-rational point of the actual modular curve X0(169) is a cusp. (banwait
 
 Throughout this subsection, P is a ℚ-rational point of the actual modular curve X0(169).
 
-A proof route exhibits a nonzero new optimal quotient A_169 of J₀(169) whose simple factors have nonzero central L-value. Prove these nonvanishings from exact modular symbols. Apply the modular rank-zero contract and determine the entire finite group A_169(ℚ) by Kummer descent and torsion specialization. For the nonconstant cusp-based map X₀(169)→A_169, determine the rational points in every finite algebraic fiber over that group and show each is a cusp. The finite-fiber equations and their rational-solubility exclusions are arithmetic targets of this subsection. EisensteinIdealAndRationalTorsion §7.9 supplies formal immersion at ∞ for this new optimal quotient; it separates sections in the cusp residue disk, while other fibers require their own exact equations.
+A proof route exhibits a nonzero new optimal quotient A_169 of J₀(169) whose simple factors have nonzero central L-value. Prove these nonvanishings from exact modular symbols. Apply gap:modular-rank-zero and determine the entire finite group A_169(ℚ) by Kummer descent and torsion specialization. For the nonconstant cusp-based map X₀(169)→A_169, determine the rational points in every finite algebraic fiber over that group and show each is a cusp. The finite-fiber equations and their rational-solubility exclusions are arithmetic targets of this subsection. EisensteinIdealAndRationalTorsion §7.9 supplies formal immersion at ∞ for this new optimal quotient; it separates sections in the cusp residue disk, while other fibers require their own exact equations.
 
 The claim is the entire rational-point set of X0(169), not a bounded-height search.
 
-*Needs:* ModularCurvesPartII §§5.2, 5.5, 13.1–13.3, 16.2–16.6, 17.3; ModularSymbolsPadicLFunctions §§0.6–0.8, 1.1–1.2; HeightsRationalPointsAndObstructions §§1.4–1.7, 1.13–1.14, 1.18; EulerSystemsAndKolyvaginSystems §§4.7, 5.13 and the modular rank-zero contract; EisensteinIdealAndRationalTorsion §7.9.
+*Needs:* ModularCurvesPartII §§5.2, 5.5, 13.1–13.3, 16.2–16.6, 17.3; ModularSymbolsPadicLFunctions §§0.6–0.8, 1.1–1.2; HeightsRationalPointsAndObstructions §§1.4–1.7, 1.13–1.14, 1.18; EulerSystemsAndKolyvaginSystems §§4.7, 5.13 and gap:modular-rank-zero; EisensteinIdealAndRationalTorsion §7.9.
 
 ### 4.15 Kenku’s five remaining cusp-only levels
 
@@ -1036,11 +1036,11 @@ For the prime-isogeny and genus-one rational point tables, no noncuspidal point 
 
 Throughout this subsection, the relevant rational point lies in the prime-isogeny or genus-one point table, or on X0(d) with d∈{26,35,50}; a lift means a noncuspidal rational point for a larger cyclic-isogeny degree under the actual modular degeneracy map.
 
-A proof route is as follows. For each positive-genus minimal allowed point, determine all rational lifts under the cyclic-level degeneracy maps; prove the complete exclusion outside the displayed list. At each of 26,35,50 exhibit a nonzero new quotient with nonvanishing central factors, prove its exact finite rational group using the modular rank-zero contract and descent/torsion specialization, and determine every rational fiber of the cusp-based map as in §§4.10–4.14. Mazur’s p.131 cites the exclusions of 35,50 and 26 separately; all three are required. For lifts above an allowed table point use the actual finite degeneracy fiber and prove that it has no rational noncuspidal point at any forbidden degree. The isogeny-graph bound and exhaustion of these fibers are owned parts of this target (kenku-1982, pp.199–201, uncertified).
+A proof route is as follows. For each positive-genus minimal allowed point, determine all rational lifts under the cyclic-level degeneracy maps; prove the complete exclusion outside the displayed list. At each of 26,35,50 exhibit a nonzero new quotient with nonvanishing central factors, prove its exact finite rational group using gap:modular-rank-zero and descent/torsion specialization, and determine every rational fiber of the cusp-based map as in §§4.10–4.14. Mazur’s p.131 cites the exclusions of 35,50 and 26 separately; all three are required. For lifts above an allowed table point use the actual finite degeneracy fiber and prove that it has no rational noncuspidal point at any forbidden degree. The isogeny-graph bound and exhaustion of these fibers are owned parts of this target (kenku-1982, pp.199–201, uncertified).
 
 Checking only the five Kenku levels is not the full classification proof.
 
-*Needs:* Layer 4.8 Mazur’s minimal positive-genus composite levels; Layer 4.9 The genus-one rational-isogeny point tables; Layer 4.15 Kenku’s five remaining cusp-only levels; EllipticCurves Layer 1; ModularCurvesPartII §§5.2, 13.1–13.3, 16.2–16.6, 17.3; ModularSymbolsPadicLFunctions §§0.6–0.8, 1.1–1.2; HeightsRationalPointsAndObstructions §§1.4–1.7, 1.13–1.14, 1.18; EisensteinIdealAndRationalTorsion §7.9; the modular rank-zero contract.
+*Needs:* Layer 4.8 Mazur’s minimal positive-genus composite levels; Layer 4.9 The genus-one rational-isogeny point tables; Layer 4.15 Kenku’s five remaining cusp-only levels; EllipticCurves Layer 1; ModularCurvesPartII §§5.2, 13.1–13.3, 16.2–16.6, 17.3; ModularSymbolsPadicLFunctions §§0.6–0.8, 1.1–1.2; HeightsRationalPointsAndObstructions §§1.4–1.7, 1.13–1.14, 1.18; EisensteinIdealAndRationalTorsion §7.9; gap:modular-rank-zero.
 
 ### 4.17 Mazur–Kenku’s rational cyclic-isogeny degrees
 
@@ -1124,7 +1124,7 @@ For q=3 and a=1 the first two Frobenius traces are A₁=1 and A₂=1−6=−5, p
 
 ### Dependencies
 
-EisensteinIdealAndRationalTorsion §§6.3–6.4,7.9; ArithmeticGaloisRepresentations §§2.3–2.4,4.2–4.5,6.1–6.4; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.5; ClassFieldTheory Layer 13; ImaginaryQuadraticClassNumber H1.1–H1.4,H3.6; ModularCurvesPartII §§5.2,5.5,9.1; EllipticCurves Layers 1–4; Mathlib Minkowski bound; HeightsRationalPointsAndObstructions §§1.4–1.7, 1.13–1.19; EllipticCurves Layers 6–7; ModularSymbolsPadicLFunctions §§0.6–0.8, 1.1–1.2; the modular rank-zero contract. The uniform bounds use the full composite-degree classification, not just the prime list.
+EisensteinIdealAndRationalTorsion §§6.3–6.4,7.9; ArithmeticGaloisRepresentations §§2.3–2.4,4.2–4.5,6.1–6.4; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.5; ClassFieldTheory Layer 13; ImaginaryQuadraticClassNumber H1.1–H1.4,H3.6; ModularCurvesPartII §§5.2,5.5,9.1; EllipticCurves Layers 1–4; Mathlib Minkowski bound; HeightsRationalPointsAndObstructions §§1.4–1.7, 1.13–1.19; EllipticCurves Layers 6–7; ModularSymbolsPadicLFunctions §§0.6–0.8, 1.1–1.2; gap:modular-rank-zero. The uniform bounds use the full composite-degree classification, not just the prime list.
 
 
 ## Layer 5: surjectivity with a rational cyclic isogeny
@@ -1231,7 +1231,7 @@ For every number field K of degree d, and elliptic curves E,E′ defined over K 
 
 The target includes every number field, both geometric CM and non-CM in the existence assertion, and the exact stable Faltings normalization. The cyclic corollary uses the primitive Hom generator and the non-CM hypothesis; the existence theorem provides the numerical bound.
 
-A proof route uses the quantitative abelian periods contract. In the non-CM case form the minimal abelian subvariety of E²×E′² containing the vector of two full period bases. Its field of definition has degree at most two over K; it is a surface isomorphic to E×E′, and its intersection with {0}²×E′² has cardinality the least geometric isogeny degree Δ (gaudron-remond, Theorem 7.5, pp.27–28, gaudron-remond lines 1528–1544). Apply Proposition 6.9 with the weighted polarization, whose top intersection degree is 2nΔ for the integer n≥1 chosen from the period basis. Its hypothesis is this intersection degree ≥10¹⁰; below that threshold Δ<10¹⁰ already satisfies the desired bound. Section 7.3 absorbs the logarithmic terms and §7.5 treats real places. For CM use §7.4’s separate period argument on E×E′. These routes use the supplied quantitative period estimates, not qualitative isogeny recognition (gaudron-remond lines 1598–1624, 1722).
+A proof route uses gap:quantitative-abelian-periods. In the non-CM case form the minimal abelian subvariety of E²×E′² containing the vector of two full period bases. Its field of definition has degree at most two over K; it is a surface isomorphic to E×E′, and its intersection with {0}²×E′² has cardinality the least geometric isogeny degree Δ (gaudron-remond, Theorem 7.5, pp.27–28, gaudron-remond lines 1528–1544). Apply Proposition 6.9 with the weighted polarization, whose top intersection degree is 2nΔ for the integer n≥1 chosen from the period basis. Its hypothesis is this intersection degree ≥10¹⁰; below that threshold Δ<10¹⁰ already satisfies the desired bound. Section 7.3 absorbs the logarithmic terms and §7.5 treats real places. For CM use §7.4’s separate period argument on E×E′. These routes use the supplied quantitative period estimates, not qualitative isogeny recognition (gaudron-remond lines 1598–1624, 1722).
 
 For the cyclic corollary let φ have degree δ and let ψ be a bounded geometric isogeny to the same target. Non-CM gives ψ∨φ=[n]. Cyclicity forces δ|n since [n] kills ker φ, while n²=δ deg ψ. Hence δ≤deg ψ; multiplication isogenies with noncyclic kernels do not satisfy this argument.
 
@@ -1245,7 +1245,7 @@ For the cyclic corollary let φ have degree δ and let ψ be a bounded geometric
 - Multiplication by m has degree m² and kernel (ℤ/m)² for m>1, so these maps are excluded from the cyclic-degree corollary.
 - The non-CM hypothesis is also essential: on y²=x³−x over ℚ(i), the endomorphism 10⁷+i has cyclic kernel and degree 10¹⁴+1. Its stable height is below 985, and the degree-two bound is less than 4·10⁷·989²=39124840000000<10¹⁴+1; the cyclic-degree assertion would fail on this CM curve.
 
-*Needs:* the quantitative abelian periods contract; ArakelovGeometryAndAbelianHeights §§4.4, 5.9 for the actual stable height; FaltingsFinitenessAndIsogenyTheorems §§R28.4.5–R28.4.7; EllipticCurves Layer 1’s degree and duality.
+*Needs:* gap:quantitative-abelian-periods; ArakelovGeometryAndAbelianHeights §§4.4, 5.9 for the actual stable height; FaltingsFinitenessAndIsogenyTheorems §§R28.4.5–R28.4.7; EllipticCurves Layer 1’s degree and duality.
 
 ### 5.3b Integrality of split Cartan rational points
 
@@ -1297,7 +1297,7 @@ Prove the following, for a noncuspidal non-CM rational point P of X₀⁺(p²), 
 
 - x₁=x₂ in X₀(p)(K) forces the elliptic curve underlying x to have geometric CM (bilu-parent-rebolledo lines 734–737).
 - K is a quadratic field in which p splits, and at every prime of K above p the sections s₁,s₂ of the Deligne–Rapoport model defined by x₁,x₂ are not supersingular and have the same reduction (bilu-parent-rebolledo, Proposition 5.1, line 750). The field K may be real or imaginary.
-- The map Y₀(p)→J♯_e sending Q to the class of (Q)−(x₁) extends to a morphism φ_P from the smooth locus of Y₀(p) over O_K to the Néron lft-model of J♯_e over O_K, and φ_P(s₂) is a torsion section (bilu-parent-rebolledo lines 757–771). The torsion is proved as follows. Write y=π_p(x). Since P is rational and x is not (a rational point of Y₀(p²) would carry a rational cyclic p²-isogeny with p²>27, excluded by §4.17), the conjugate of x over ℚ is w_(p²)x, so x₁ is the conjugate ȳ of y and x₂=w_p(y). The class z=[(x₂)−(x₁)] of φ_P(s₂) therefore satisfies z̄=[(w_p ȳ)−(y)]=−w_p z, and w_p=−1 on J♯_e gives z̄=z, so z∈J♯_e(ℚ). Prove that z is a ℤ-section of the identity component G⁰ of the Néron lft-model of J♯_e: at a prime of K above p the sections s₁,s₂ meet the same smooth point of the special fibre, and at every other prime they meet the same connected component of the smooth locus of Y₀(p), so their difference lies in the identity component over O_K; this descends to ℤ because the Néron model commutes with the base change at primes unramified in K, and at a prime ramified in K only the split torus contributes a component group, on which base change is multiplication by the ramification index. Prove that G⁰(ℤ) is finite: it is an extension of a subgroup of (J₀(p)/I♯_e J₀(p))(ℚ) by 𝔾_m(ℤ)={±1}, and J₀(p)/I♯_e J₀(p) is isogenous to the winding quotient J_e=J₀(p)/I_e J₀(p) of X₀(p), where I_e is the annihilator of the winding class e∈H₁(X₀(p),ℚ), because the Eisenstein character T_ℓ↦ℓ+1 of the toric part is distinct from every cuspidal eigencharacter, so I♯_e and I_e have the same image in 𝕋⊗ℚ; its rational points are finite by the modular rank-zero contract. Hence z is torsion. The group of sections of the identity component over O_K itself is infinite when K is real quadratic, since the toric part contributes O_K^×; the descent to ℚ replaces that general assertion. Consequently, since p splits in K and e=1<p−1, if φ_P is a formal immersion at the common reduction of s₁ and s₂ then s₁=s₂.
+- The map Y₀(p)→J♯_e sending Q to the class of (Q)−(x₁) extends to a morphism φ_P from the smooth locus of Y₀(p) over O_K to the Néron lft-model of J♯_e over O_K, and φ_P(s₂) is a torsion section (bilu-parent-rebolledo lines 757–771). The torsion is proved as follows. Write y=π_p(x). Since P is rational and x is not (a rational point of Y₀(p²) would carry a rational cyclic p²-isogeny with p²>27, excluded by §4.17), the conjugate of x over ℚ is w_(p²)x, so x₁ is the conjugate ȳ of y and x₂=w_p(y). The class z=[(x₂)−(x₁)] of φ_P(s₂) therefore satisfies z̄=[(w_p ȳ)−(y)]=−w_p z, and w_p=−1 on J♯_e gives z̄=z, so z∈J♯_e(ℚ). Prove that z is a ℤ-section of the identity component G⁰ of the Néron lft-model of J♯_e: at a prime of K above p the sections s₁,s₂ meet the same smooth point of the special fibre, and at every other prime they meet the same connected component of the smooth locus of Y₀(p), so their difference lies in the identity component over O_K; this descends to ℤ because the Néron model commutes with the base change at primes unramified in K, and at a prime ramified in K only the split torus contributes a component group, on which base change is multiplication by the ramification index. Prove that G⁰(ℤ) is finite: it is an extension of a subgroup of (J₀(p)/I♯_e J₀(p))(ℚ) by 𝔾_m(ℤ)={±1}, and J₀(p)/I♯_e J₀(p) is isogenous to the winding quotient J_e=J₀(p)/I_e J₀(p) of X₀(p), where I_e is the annihilator of the winding class e∈H₁(X₀(p),ℚ), because the Eisenstein character T_ℓ↦ℓ+1 of the toric part is distinct from every cuspidal eigencharacter, so I♯_e and I_e have the same image in 𝕋⊗ℚ; its rational points are finite by gap:modular-rank-zero. Hence z is torsion. The group of sections of the identity component over O_K itself is infinite when K is real quadratic, since the toric part contributes O_K^×; the descent to ℚ replaces that general assertion. Consequently, since p splits in K and e=1<p−1, if φ_P is a formal immersion at the common reduction of s₁ and s₂ then s₁=s₂.
 - After base change to 𝔽_(p²) there is a Hecke-equivariant isomorphism between the cotangent space at the origin of the special fibre of J₀(p)♯ at p and 𝔽_(p²)^S, the character group ℤ^S of the toric reduction tensored with 𝔽_(p²), on which Frobenius acts semilinearly by permuting S; the 𝔽_p-rational cotangent vectors are exactly the tuples with λ_(s^(p))=λ_s^p. Under it v=Σλ_s[s]∈𝔽_(p²)^S gives a cotangent vector ω_v of J♯_e over 𝔽_(p²) exactly when I♯_e v=0, and with j as local parameter at an ordinary point of Y₀(p) over 𝔽_(p²) the pullback of ω_v is Σλ_s/(j(P)−j(s)) dj (bilu-parent-rebolledo lines 773–781). Consequently, if some v∈ℤ^S with I♯_e v=0 has Σλ_s/(j(P)−j(s))≠0 in 𝔽_(p²), then φ_P is a formal immersion at s₁, because a formal immersion is detected after the base change to 𝔽_(p²) (Proposition 5.2, line 783).
 - For a negative discriminant −D with p inert or ramified in ℚ(√−D) and p not dividing the conductor of O_(−D), let m_s(D) be the multiplicity of j(s) as a root of the reduction modulo p of the Hilbert class polynomial H_(−D), so that H_(−D)≡∏_s(X−j(s))^(m_s(D)) modulo p and Σ_s m_s(D)=h(−D), and set v_D=Σ_s m_s(D)[s]∈ℤ^S. Prove that I♯_e v_D=0 and that on the ordinary locus the differential attached to v_D is the logarithmic derivative H′_(−D)(j)/H_(−D)(j) dj of the Hilbert class polynomial modulo p (Proposition 5.5 and equation (5.2), lines 805–833). The vector v_D is Frobenius-invariant, since H_(−D) has rational integer coefficients, so it descends to 𝔽_p. Let h_s(−D) be the number of optimal embeddings of O_(−D) into R_s modulo conjugation by R_s^×, and e_D=|O_(−D)^×|^(−1)Σ_s h_s(−D)[s] the embedding-weighted vector of the source. Prove by Deuring lifting that h_s(−D)=2m_s(D) when p is inert in ℚ(√−D) and h_s(−D)=m_s(D) when p is ramified: the pairs (E,ι) of a CM curve with a ring isomorphism ι:O_(−D)≅End(E) number 2h(−D), two orientations for each curve, and each optimal embedding into R_s lifts to such a pair, uniquely when p is inert and to both orientations of one curve when p is ramified. Hence v_D=(|O_(−D)^×|/2)e_D for p inert and v_D=|O_(−D)^×|e_D for p ramified, and I♯_e e_D=0 is equivalent to I♯_e v_D=0. The differential attached to e_D is (2/|O_(−D)^×|)H′_(−D)/H_(−D) dj for p inert and (1/|O_(−D)^×|)H′_(−D)/H_(−D) dj for p ramified; it equals the logarithmic derivative only for p inert and D∉{3,4}. The set S is indexed by curves, not by maximal-order types: Frobenius-conjugate supersingular j-invariants can have isomorphic endomorphism rings, and m_s(D) and h_s(−D) are counted on each curve separately.
 
@@ -1312,7 +1312,7 @@ Prove the following, for a noncuspidal non-CM rational point P of X₀⁺(p²), 
 - If P were a CM point, x₁=x₂ could hold; the non-CM hypothesis is what turns s₁=s₂ into a contradiction.
 - With p=17 and K either real or imaginary quadratic, the torsion argument for φ_P(s₂) uses only z̄=−w_p z and 𝔾_m(ℤ)={±1}; it never uses the signature of K, whereas O_K^× is infinite for K real.
 
-*Needs:* ModularCurvesPartII §§5.2, 5.5 for X₀(p), X₀(p²), their degeneracy maps and Atkin–Lehner involutions; ModularCurvesPartII §§9.1, 13.1–13.3, 17.3 for Jacobians, Abel maps and Hecke correspondences; ModularForms Layer 6 for w_p and the Atkin–Lehner identity T_p=−w_p at prime level; ModularSymbolsPadicLFunctions §§0.6–0.8 for the relative homology, the rational winding class and the Manin–Drinfeld splitting of the boundary summand; NeronModelsAndSemistableAbelianVarieties §§5.2, 6.4d for Néron models and cotangent comparisons of the abelian part; the modular rank-zero contract and EulerSystemsAndKolyvaginSystems §5.13 for finiteness of the rational points of the winding quotient of J₀(p); HeightsRationalPointsAndObstructions §§1.15b–1.18 for torsion specialization at e<p−1; ComplexMultiplicationAndExplicitReciprocity §3.1 and §§5.1–5.5 for class polynomials, supersingular CM reduction, Deuring lifting and endomorphism comparisons; Layer 4.17 Mazur–Kenku’s rational cyclic-isogeny degrees; EllipticCurves Layer 4.
+*Needs:* ModularCurvesPartII §§5.2, 5.5 for X₀(p), X₀(p²), their degeneracy maps and Atkin–Lehner involutions; ModularCurvesPartII §§9.1, 13.1–13.3, 17.3 for Jacobians, Abel maps and Hecke correspondences; ModularForms Layer 6 for w_p and the Atkin–Lehner identity T_p=−w_p at prime level; ModularSymbolsPadicLFunctions §§0.6–0.8 for the relative homology, the rational winding class and the Manin–Drinfeld splitting of the boundary summand; NeronModelsAndSemistableAbelianVarieties §§5.2, 6.4d for Néron models and cotangent comparisons of the abelian part; gap:modular-rank-zero and EulerSystemsAndKolyvaginSystems §5.13 for finiteness of the rational points of the winding quotient of J₀(p); HeightsRationalPointsAndObstructions §§1.15b–1.18 for torsion specialization at e<p−1; ComplexMultiplicationAndExplicitReciprocity §3.1 and §§5.1–5.5 for class polynomials, supersingular CM reduction, Deuring lifting and endomorphism comparisons; Layer 4.17 Mazur–Kenku’s rational cyclic-isogeny degrees; EllipticCurves Layer 4.
 
 ### 5.5 The Heegner–Gross criterion for split Cartan points
 
@@ -1424,11 +1424,11 @@ For r∈{2,3,5,7,13}, prime p outside that set, Jac(X0,ns^+(r,p)) has a nonzero 
 
 Throughout this subsection, r∈{2,3,5,7,13}; p is prime outside that set; use the actual Cartan fibre-product Jacobian.
 
-A proof route is as follows. Take the connected-kernel quotient by the integral Hecke annihilator of the full-new winding class. Nonvanishing gives positive dimension and the period comparison gives nonzero central values for every surviving factor. The modular-rank-zero contract makes their rational groups finite. Transfer through the prime-to-p Hecke-equivariant Chen isogeny and take the optimal quotient.
+A proof route is as follows. Take the connected-kernel quotient by the integral Hecke annihilator of the full-new winding class. Nonvanishing gives positive dimension and the period comparison gives nonzero central values for every surviving factor. gap:modular-rank-zero makes their rational groups finite. Transfer through the prime-to-p Hecke-equivariant Chen isogeny and take the optimal quotient.
 
-A(ℚ) finite refers to this nonzero quotient, with positive dimension; the exact modular-rank-zero contract supplies finiteness for its possibly higher-dimensional factors.
+A(ℚ) finite refers to this nonzero quotient, with positive dimension; gap:modular-rank-zero supplies finiteness for its possibly higher-dimensional factors.
 
-*Needs:* Layer 5.12 Nonvanishing of the new winding class; Layer 5.11 The winding class selects exactly nonvanishing central periods; ModularCurvesPartII §§16.2–16.6; ModularCurvesPartII §§9.1, 13.1–13.3; EulerSystemsAndKolyvaginSystems §5.13 and the modular rank-zero contract.
+*Needs:* Layer 5.12 Nonvanishing of the new winding class; Layer 5.11 The winding class selects exactly nonvanishing central periods; ModularCurvesPartII §§16.2–16.6; ModularCurvesPartII §§9.1, 13.1–13.3; EulerSystemsAndKolyvaginSystems §5.13 and gap:modular-rank-zero.
 
 ### 5.14 The cusp residue-field constraint
 
@@ -1440,7 +1440,7 @@ A proof route is as follows. Use the level-moduli cusp description and its real-
 
 This statement is restricted to q∤rp. The local potentially-multiplicative lemma establishes that restriction before this statement is used.
 
-*Needs:* the mixed cusp-chart contract; ModularCurvesPartII §§3.8, 5.2, 9.5–9.7; ModularCurvesPartII §§13.1–13.3; ModularCurvesPartII §§10.1–10.3; EllipticCurves Layer 4.
+*Needs:* gap:mixed-cusp-charts; ModularCurvesPartII §§3.8, 5.2, 9.5–9.7; ModularCurvesPartII §§13.1–13.3; ModularCurvesPartII §§10.1–10.3; EllipticCurves Layer 4.
 
 ### 5.15 Formal immersion into the winding quotient at a cusp
 
@@ -1448,11 +1448,11 @@ For r∈{2,3,5,7,13}, prime p outside that set and prime q≡±1 mod p, let A be
 
 Throughout this subsection, r∈{2,3,5,7,13}; p is prime outside that set; q is prime with q≡±1 mod p; A is the quotient specified in §5.13; choose infinity over ℚ(ζ_p)^+ and the smooth integral model at q.
 
-A proof route is as follows. For prime p outside the five levels, p≥11 and q≡±1 forces q≥2p−1≥21>r,3. Use the smooth cusp chart and cotangent injection for the specified quotient. Vanishing of the cotangent map would, by Hecke stability, force support only at indices divisible by p; the positive-characteristic support contract descends it to level r, whose weight-two cusp space has dimension zero.
+A proof route is as follows. For prime p outside the five levels, p≥11 and q≡±1 forces q≥2p−1≥21>r,3. Use the smooth cusp chart and cotangent injection for the specified quotient. Vanishing of the cotangent map would, by Hecke stability, force support only at indices divisible by p; the descent theorem of gap:positive-characteristic-support carries it to level r, whose weight-two cusp space has dimension zero.
 
 Hecke stability of the quotient and the cotangent injection are indispensable. The inequality q≥2p−1>r,3 places every prime in this statement in the same smooth, prime-to-level characteristic range.
 
-*Needs:* the mixed cusp-chart contract; Layer 5.13 The nonzero finite winding quotient; ModularCurvesPartII §§4.1–4.2, 4.8, 13.1–13.3, 14.15, 17.3; AlgebraicModularFormsAndSerreWeights §§2.1–2.2 and 2.8; ModularForms Layer 10; the positive-characteristic support contract; the Chen winding comparison contract.
+*Needs:* gap:mixed-cusp-charts; Layer 5.13 The nonzero finite winding quotient; ModularCurvesPartII §§4.1–4.2, 4.8, 13.1–13.3, 14.15, 17.3; AlgebraicModularFormsAndSerreWeights §§2.1–2.2 and 2.8; ModularForms Layer 10; gap:positive-characteristic-support; gap:chen-winding-comparison.
 
 ### 5.16 The rational modular point has torsion quotient image
 
@@ -1487,7 +1487,7 @@ A proof route is as follows. The cusps of X_ns⁺(p)=N(C)\X(p) are the double co
 - At q=23≡1 mod 11 every cusp is 𝔽₂₃-rational, so a denominator point can reduce to a cusp in either fibre; §5.14 alone does not decide which.
 - Without the transport, the base-point map φ_∞ sends P to a class reducing to π[c−∞], a torsion cuspidal class by EisensteinIdealAndRationalTorsion §7.9 that need not vanish: by §5.12 the class of the difference of the two fibres has exact order p. The transported map specializes α(P) to φ(∞)=0 by construction.
 
-*Needs:* ModularCurvesPartII §§3.8, 5.2, 9.5–9.7 for the Cartan curves, their moduli and cusps; ModularCurvesPartII §§13.1–13.3 for Hecke correspondences; ModularForms Layer 6 for w_r; the mixed cusp-chart contract; Layer 5.12 Nonvanishing of the new winding class; Layer 5.13 The nonzero finite winding quotient; NeronModelsAndSemistableAbelianVarieties §5.2.
+*Needs:* ModularCurvesPartII §§3.8, 5.2, 9.5–9.7 for the Cartan curves, their moduli and cusps; ModularCurvesPartII §§13.1–13.3 for Hecke correspondences; ModularForms Layer 6 for w_r; gap:mixed-cusp-charts; Layer 5.12 Nonvanishing of the new winding class; Layer 5.13 The nonzero finite winding quotient; NeronModelsAndSemistableAbelianVarieties §5.2.
 
 ### 5.17 Formal immersion excludes every denominator away from p
 
@@ -1620,11 +1620,11 @@ For r=11,17,37 the possible rational noncuspidal j-values are respectively {−1
 
 Throughout this subsection, r∈{11,17,37}; consider noncuspidal rational points of X0(r) and geometric CM.
 
-A proof route is as follows. At levels 11 and 17 prove rank zero by elliptic descent and the complete torsion group by reduction and rational cusp/point coordinates, as in §4.9. At level 37 exhibit a nonzero rank-zero new quotient using a factor with nonzero central value, obtain its finite rational group through the modular rank-zero contract and descent, and determine all rational fibers of X₀(37)→A₃₇. This last finite-fiber determination is a target here; formal immersion is used only on cusp disks. Evaluate the actual j-maps, preserving the rational denominators at r=17 (mazur-1978, Theorem 7.1 and introduction’s point table, pp.129–130,153, mazur-1978 lines 14–30, 993–998). Identify CM using exact class polynomials and geometric endomorphisms. The rational-point exhaustion uses the explicit point-set theorem, without a rank-zero assertion for the entire Jacobian of X₀(37).
+A proof route is as follows. At levels 11 and 17 prove rank zero by elliptic descent and the complete torsion group by reduction and rational cusp/point coordinates, as in §4.9. At level 37 exhibit a nonzero rank-zero new quotient using a factor with nonzero central value, obtain its finite rational group through gap:modular-rank-zero and descent, and determine all rational fibers of X₀(37)→A₃₇. This last finite-fiber determination is a target here; formal immersion is used only on cusp disks. Evaluate the actual j-maps, preserving the rational denominators at r=17 (mazur-1978, Theorem 7.1 and introduction’s point table, pp.129–130,153, mazur-1978 lines 14–30, 993–998). Identify CM using exact class polynomials and geometric endomorphisms. The rational-point exhaustion uses the explicit point-set theorem, without a rank-zero assertion for the entire Jacobian of X₀(37).
 
 There are six non-CM values after excluding −2^15; a Jacobian rank assertion alone proves no exact point table.
 
-*Needs:* Layer 4.7 Mazur’s rational prime-isogeny theorem; ModularCurvesPartII §§5.2, 5.5; ComplexMultiplicationAndExplicitReciprocity §3.1 and §5.1; EllipticCurves Layers 6–7; HeightsRationalPointsAndObstructions §§1.4–1.7, 1.13–1.15, 1.18–1.19; ModularCurvesPartII §§13.1–13.3, 16.2–16.6, 17.3; EisensteinIdealAndRationalTorsion §7.9; ModularSymbolsPadicLFunctions §§0.6–0.8, 1.1–1.2; the modular rank-zero contract.
+*Needs:* Layer 4.7 Mazur’s rational prime-isogeny theorem; ModularCurvesPartII §§5.2, 5.5; ComplexMultiplicationAndExplicitReciprocity §3.1 and §5.1; EllipticCurves Layers 6–7; HeightsRationalPointsAndObstructions §§1.4–1.7, 1.13–1.15, 1.18–1.19; ModularCurvesPartII §§13.1–13.3, 16.2–16.6, 17.3; EisensteinIdealAndRationalTorsion §7.9; ModularSymbolsPadicLFunctions §§0.6–0.8, 1.1–1.2; gap:modular-rank-zero.
 
 ### 5.25a A witness bound for nonsurjective primes
 
@@ -1682,7 +1682,7 @@ At residual p=11 and local q=3, a quadratic Tate twist has squared diagonal eige
 
 ### Dependencies
 
-Layer 4; EllipticCurves Layers 1–5; ArithmeticGaloisRepresentations §§2.3–2.4,4.2–4.5,6.1–6.4; ModularCurvesPartII §§9.5–9.7,13.1–13.3,14.11–14.12,16.2–16.6; EisensteinIdealAndRationalTorsion §7.9; ModularSymbolsPadicLFunctions §§0.6–0.8,1.1–1.2; ComplexMultiplicationAndExplicitReciprocity §§3.1,5.1–5.5; ImaginaryQuadraticClassNumber H3.2, H3.5–H3.6; ArakelovGeometryAndAbelianHeights §§4.4,5.9; FaltingsFinitenessAndIsogenyTheorems §§R28.4.5–R28.4.7; EulerSystemsAndKolyvaginSystems §§4.7,5.13; the mixed cusp-chart contract, the Chen winding comparison contract, the positive-characteristic support contract, the modular rank-zero contract and the quantitative abelian periods contract; the exceptional-prime point-exhaustion, mixed-boundary and split-height targets; and the full-torsion specialization theorem of HeightsRationalPointsAndObstructions §1.18. Each finite image theorem includes an exhaustive all-primes bound.
+Layer 4; EllipticCurves Layers 1–5; ArithmeticGaloisRepresentations §§2.3–2.4,4.2–4.5,6.1–6.4; ModularCurvesPartII §§9.5–9.7,13.1–13.3,14.11–14.12,16.2–16.6; EisensteinIdealAndRationalTorsion §7.9; ModularSymbolsPadicLFunctions §§0.6–0.8,1.1–1.2; ComplexMultiplicationAndExplicitReciprocity §§3.1,5.1–5.5; ImaginaryQuadraticClassNumber H3.2, H3.5–H3.6; ArakelovGeometryAndAbelianHeights §§4.4,5.9; FaltingsFinitenessAndIsogenyTheorems §§R28.4.5–R28.4.7; EulerSystemsAndKolyvaginSystems §§4.7,5.13; gap:mixed-cusp-charts, gap:chen-winding-comparison, gap:positive-characteristic-support, gap:modular-rank-zero and gap:quantitative-abelian-periods; the exceptional-prime point-exhaustion, mixed-boundary and split-height targets; and the full-torsion specialization theorem of HeightsRationalPointsAndObstructions §1.18. Each finite image theorem includes an exhaustive all-primes bound.
 
 ## Downstream consumers
 
