@@ -1451,6 +1451,14 @@ covering/connectivity supply G4.1a's topological frame/rank0 adapters and
 SpinRepresentations L7's remaining universal-cover comparison. The item order
 is G4.1a → CharacteristicClasses C3.5 → G4.3. G4.1b's smooth refinement
 uses G4.1a and native Lie differential APIs, independently of C3.5.
+The same interleaving holds with the three other suppliers that consume
+this roadmap's early sections: SpinRepresentations L7 consumes G1.1's
+negative-form comparison and G4.1's frame refinement and supplies G6 its
+real Clifford classification; RiemannianGeometry R7 consumes G1.2, G2.2 and
+G3.4 and supplies G6.3 its real Weitzenböck term; GeneralizedCohomology G4
+and G5.5 consume G1.3 and G4.1, and G5.5 supplies G5.0 and G6.0. The order
+between this roadmap and each of those four is an order of sections, and no
+section here uses a result of a section that consumes it.
 G4.4's torsor uses a given lift and central-bundle descent independently of
 that obstruction equality. G5 follows G1–G4. G6 follows G3/G5 and uses
 K5/PDO analysis; the exterior instance only needs G2/G3. Numerical topological index theorems are separate consumers of this development. For each object supply constructors/characterization,
