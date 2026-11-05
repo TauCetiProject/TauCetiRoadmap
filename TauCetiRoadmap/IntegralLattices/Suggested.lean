@@ -16,6 +16,9 @@ public import TauCeti.LinearAlgebra.FiniteBilinearModule.Dyadic.Cyclic
 public import TauCeti.LinearAlgebra.FiniteBilinearModule.Dyadic.RankTwo.Basic
 public import TauCeti.Geometry.Manifold.Riemannian.Induced
 public import TauCeti.Geometry.Manifold.Riemannian.VolumeDensity.Volume
+public import TauCeti.NumberTheory.QuadraticForm.OrthogonalGroup.Integral.CompactOpen
+public import TauCeti.NumberTheory.QuadraticForm.OrthogonalGroup.FiniteAdelic
+public import TauCeti.Topology.Algebra.RestrictedProduct.Diagonal
 
 /-!
 # Integral quadratic forms and lattices: target signatures
@@ -30,9 +33,11 @@ group, half-norm discriminant forms, finite quadratic modules, Gauss-sum invaria
 root lattices and Nikulin's generator decomposition
 `FiniteQuadraticModule.exists_isometry_prod_pi_generators`. None of them is restated here.
 
-The headline theorems stated here are: van der Blij's congruence (1L) and Milgram's theorem at
-every signature (1I); Minkowski's second theorem (2F) and finiteness of positive definite classes
-(2G); finiteness of the classes in a binary genus (4E); the choice-independence of
+The headline theorems stated here are: Nikulin's classification of finite quadratic forms by
+their bilinear form and Gauss-sum invariant, Theorem 1.11.3 (1H); van der Blij's congruence (1L)
+and Milgram's theorem at every signature (1I); Minkowski's second theorem (2F) and finiteness of
+positive definite classes (2G); the adelic double-coset description of the classes in a genus
+(4B) and finiteness of the classes in a binary genus (4E); the choice-independence of
 `discr K(q_p)` with its dyadic exception, Nikulin's existence theorem 1.10.1 with its strict
 corollary 1.10.2, his primitive-embedding theorems 1.12.2 and 1.12.4, and his `2`-elementary
 existence theorem 3.6.2 (5B, 5G, 5J); the classification of
@@ -42,19 +47,31 @@ unimodular lattices in rank at most 9 with the uniqueness of `E₈` (6C), and `|
 (6G); stabilization of the local density count (7C); the Euclidean volumes of `SO(n)` and `O(n)`
 (7E); and completeness of a list of classes from the mass (9B).
 
+The local stabilizers `K_p(L)`, their compact-open family, the finite adelic orthogonal group and
+the local and adelic spinor norms are Tau Ceti's (`integralOrthogonalSubgroup`,
+`OrthogonalCompactOpens.integral`, `finiteAdelicOrthogonal`, `localSpinorNormImage`,
+`adelicSpinorNorm`), as are the Hilbert symbol `hilbertSymbol`, the orders `NumberFieldOrder` of
+a number field with `Pic` and `NarrowPic`, and the odd-prime diagonalization of a localized
+lattice; none of them is restated here.
+
 Headline theorems that are **not statable at the pins**, and what each lacks:
 
 * the rank-16 pair `E₈ ⊕ E₈` and `D₁₆⁺`, in one genus and not isometric (6D), and the failure of
   cancellation built on it (6H): the pinned Tau Ceti has `D₈⁺` but no `D₁₆⁺`, whose construction
   needs the isotropy of its spinor class as a proof inside the definition;
-* the Conway–Sloane genus symbol and the 2-adic symbol calculus (3E, 3G): no carrier for genus
-  symbols;
-* the adelic double-coset description of the class set, the spinor genus and the spinor-norm
-  computation of `K_p⁺(L)` (Layer 4): no finite-adelic orthogonal group and no spinor norm;
-* Hilbert reciprocity in the form the oddity formula uses (3G): no Hilbert symbol over `ℚ_p`;
-* the binary dictionary into `Pic 𝒪_Δ` and `NarrowPic 𝒪_Δ` and the ring class field of a
-  nonsquare discriminant (B2, B3): no orders of quadratic fields with their Picard groups and no
-  ring class field.
+* the Conway–Sloane genus symbol, the 2-adic symbol calculus, and the oddity formula and sign
+  product conditions on a symbol (3E, 3G): no carrier for genus symbols; the Hilbert symbol the
+  oddity formula uses is native;
+* the proper-spinor-genus class group `J/(ℚˣ·J_L)` and the count of proper spinor genera (4C):
+  the finite adelic square-class group relative to the local spinor images is native
+  (`finiteAdelicSquareClasses`), but the diagonal of `ℚˣ` into it needs, inside the definition, the
+  proof that a rational square class is a unit square class at almost every prime and that the
+  unit square classes are the spinor image there, so the quotient has no carrier at the pin;
+* the binary dictionary into `Pic 𝒪_Δ` and `NarrowPic 𝒪_Δ` (B2) and the ring class field of a
+  negative discriminant (B3): the quadratic algebra `QuadraticAlgebra ℚ Δ 0` is a field for
+  nonsquare `Δ` at the pin, but it carries no `NumberField` instance and the order `ℤ[(Δ+√Δ)/2]`
+  is not a `NumberFieldOrder` of it (its finite generation and full rank are proofs inside the
+  definition), and no ring class field exists at the pin.
 
 Nikulin's Proposition 1.15.1 (5I), a correspondence of gluing data used inside proofs, is a
 `README.md` target rather than a headline.
@@ -91,11 +108,6 @@ theorem vanDerBlij [FiniteDimensional ℚ V] [L.IsNondegenerate] (hU : L.IsUnimo
     Int.ModEq 8 ((L.sigPos : ℤ) - (L.sigNeg : ℤ)) (L.integralForm w w) := sorry
 
 end IntegralLattice
-
-/-- **Nikulin's `l(A)`**: the least number of generators of a finite abelian group. Nikulin's
-boundary conditions in 5B are stated with it. -/
-noncomputable def minGenerators (A : Type*) [AddCommGroup A] : ℕ :=
-  sInf {n : ℕ | ∃ s : Finset A, s.card = n ∧ AddSubgroup.closure (s : Set A) = ⊤}
 
 namespace FiniteQuadraticModule
 
@@ -185,6 +197,18 @@ def HasCyclicTwoSummand (A : TauCeti.FiniteQuadraticModule.{u}) : Prop :=
   ∃ (θ : ℤ) (A' : TauCeti.FiniteQuadraticModule.{0}),
     Odd θ ∧ Nonempty (A.Isometry ((TauCeti.FiniteQuadraticModule.dyadicCyclic 1 θ).prod A'))
 
+/-- **Layer 1H, Nikulin Theorem 1.11.3.** Two nondegenerate finite quadratic modules whose
+underlying bilinear modules are isometric are themselves isometric exactly when their Gauss-sum
+invariants agree in `ℤ/8`. The dyadic modules `u^{(2)}(2)` and `v^{(2)}(2)` share the bilinear
+module on `(ℤ/2)²` and have invariants `0` and `4`, so they are not isometric; `q_1^{(2)}(2)` and
+`q_5^{(2)}(2)` are isometric with equal invariants. At odd `p` the bilinear module already
+determines the quadratic one (Nikulin, §1, 11°). -/
+theorem nonempty_isometry_iff_gaussSign_eq (q₁ q₂ : TauCeti.FiniteQuadraticModule.{u})
+    (h₁ : q₁.IsNondegenerate) (h₂ : q₂.IsNondegenerate)
+    (hb : Nonempty (q₁.toFiniteBilinearModule.Isometry q₂.toFiniteBilinearModule)) :
+    Nonempty (q₁.Isometry q₂) ↔ q₁.gaussSign = q₂.gaussSign :=
+  sorry
+
 end FiniteQuadraticModule
 
 section Layer1
@@ -259,9 +283,50 @@ theorem finite_classes_of_posDef (n : ℕ) (d : ℤ) :
 
 end Layer2
 
-/-! ## Layer 4: the binary class-number branch -/
+/-! ## Layer 4: the class set as an adelic double coset, and the binary class-number branch -/
 
 section Layer4
+
+open TauCeti.QuadraticMap
+
+/-- The rational quadratic form `x ↦ xᵀGx` of an integral Gram matrix on the coordinate space. -/
+noncomputable abbrev gramForm {n : ℕ} (G : Matrix (Fin n) (Fin n) ℤ) :
+    QuadraticForm ℚ (Fin n → ℚ) :=
+  Matrix.toQuadraticForm' (G.map (Int.cast : ℤ → ℚ))
+
+/-- **The stabilizer family of the lattice `ℤⁿ` (N0, 4B)**: Tau Ceti's integral compact-open
+reference family of the standard basis, whose subgroup at `p` is the stabilizer `K_p` of
+`ℤ_pⁿ` in `O(V_p)`, with the Spin references over it. -/
+noncomputable abbrev gramIntegralFamily {n : ℕ} (G : Matrix (Fin n) (Fin n) ℤ)
+    (hG : (gramForm G).Nondegenerate) : OrthogonalCompactOpens (gramForm G) :=
+  OrthogonalCompactOpens.integral (gramForm G) hG (Pi.basisFun ℚ (Fin n))
+
+/-- **The rational diagonal `O(V)(ℚ) → O(V)(𝔸_f)` (4B)**, assembled from Tau Ceti's base change
+of rational isometries and the native fact that a rational isometry is integral at almost every
+prime. -/
+noncomputable def gramAdelicDiagonal {n : ℕ} (G : Matrix (Fin n) (Fin n) ℤ)
+    (hG : (gramForm G).Nondegenerate) :
+    orthogonalGroup (gramForm G) →* (gramIntegralFamily G hG).finiteAdelicOrthogonal :=
+  letI : Invertible (2 : ℚ) := invertibleOfNonzero two_ne_zero
+  rationalDiagonal (fun (p : Nat.Primes) => orthogonalGroupBaseChange (A := ℚ_[p]) (gramForm G))
+    (gramIntegralFamily G hG).orthogonal (gramIntegralFamily G hG).eventually_orthogonal
+
+/-- **Layer 4B, the class set as a double coset space.** For a nondegenerate symmetric integral
+Gram matrix `G`, the classes in the genus of `G` correspond to the double cosets
+`O(V)(ℚ) \ O(V)(𝔸_f) / K_f`, `K_f = ∏_p K_p` the stabilizer of `ℤⁿ`: there is a map from the
+Gram matrices in the genus of `G` onto the double coset space whose fibres are exactly the
+integral isometry classes. The adele carrying `G` to `H` is assembled from local isometries
+`L_p ≅ M_p`, and `H` lies in the rational class of `G` by Hasse–Minkowski, which is why the double
+cosets live in `O(V)(𝔸_f)` for the one rational space `V` (O'Meara §§101–102). For `⟨1⟩` every
+`K_p` is the whole `O(V_p) = {±1}`, the double coset space is a point and the genus is one class;
+for the genus of `!![4,1;1,6]` it has two points. -/
+theorem exists_genusClasses_equiv_doubleCoset {n : ℕ} (G : Matrix (Fin n) (Fin n) ℤ)
+    (hs : G.IsSymm) (hG : (gramForm G).Nondegenerate) :
+    ∃ f : {H : Matrix (Fin n) (Fin n) ℤ // H.IsSymm ∧ GramSameGenus G H} →
+        DoubleCoset.Quotient (Set.range (gramAdelicDiagonal G hG))
+          (integralSubgroup (gramIntegralFamily G hG).orthogonal : Set _),
+      Function.Surjective f ∧ ∀ H H', f H = f H' ↔ GramIsometric H.1 H'.1 :=
+  sorry
 
 /-- **Layer 4E, rank 2.** For a nondegenerate binary lattice the classes in a genus are finitely
 many: they inject into the invertible proper ideal classes of the quadratic order of B1 (finite by
@@ -294,7 +359,7 @@ theorem IntegralLattice.padicDiscriminant_eq_squareClass_gramDet
     (A : TauCeti.FiniteQuadraticModule.{u}) (D : NikulinDecomposition A) (p : ℕ) [Fact p.Prime]
     (hp : p ≠ 2 ∨ ¬ HasCyclicTwoSummand (primaryComponent A 2))
     (hL : L.IsEven) {ι : Type*} [Fintype ι] [DecidableEq ι] (e : Module.Basis ι ℤ L.carrier)
-    (hrank : Fintype.card ι = minGenerators (primaryComponent A p))
+    (hrank : Fintype.card ι = AddGroup.rank (primaryComponent A p))
     (hq : Nonempty (TauCeti.FiniteQuadraticModule.Isometry
       (primaryComponent (L.discriminantQuadraticModule hL) p) (primaryComponent A p))) :
     ∃ u : ℚ_[p]ˣ, (u : ℚ_[p]) = ((L.gramDet e : ℤ) : ℚ_[p]) ∧
@@ -308,18 +373,19 @@ structure NikulinExistenceConditions (tp tm : ℕ) (q : FiniteQuadraticModule)
     (D : FiniteQuadraticModule.NikulinDecomposition q) : Prop where
   /-- (1) The signature is congruent to the Gauss-sum invariant mod 8. -/
   signature_congr : (((tp : ℤ) - (tm : ℤ) : ℤ) : ZMod 8) = q.gaussSign
-  /-- (2) The rank is at least `l(A_q)`; `t₊ ≥ 0` and `t₋ ≥ 0` are carried by `ℕ`. -/
-  minGenerators_le : minGenerators q ≤ tp + tm
+  /-- (2) The rank is at least `l(A_q)`, Nikulin's least number of generators, which is Mathlib's
+  `AddGroup.rank` of the finite group `A_q`; `t₊ ≥ 0` and `t₋ ≥ 0` are carried by `ℕ`. -/
+  rank_le : AddGroup.rank q ≤ tp + tm
   /-- (3) At every odd prime where the rank meets `l(A_{q_p})`, the determinant square class is
   pinned, with the sign `(−1)^{t₋}`. -/
   odd_boundary : ∀ (p : ℕ) [Fact p.Prime], p ≠ 2 →
-    tp + tm = minGenerators (FiniteQuadraticModule.primaryComponent q p) →
+    tp + tm = AddGroup.rank (FiniteQuadraticModule.primaryComponent q p) →
     ∃ u : ℚ_[p]ˣ, (u : ℚ_[p]) = (((-1) ^ tm * (Nat.card q : ℤ) : ℤ) : ℚ_[p]) ∧
       TauCeti.squareClass u = D.padicDiscriminant p
   /-- (4) The dyadic clause, when the rank meets `l(A_{q₂})` and `q₂` has no summand
   `q_θ^{(2)}(2)`: `|A_q|` matches `discr K(q₂)` up to a sign that is not fixed. -/
   dyadic_boundary :
-    tp + tm = minGenerators (FiniteQuadraticModule.primaryComponent q 2) →
+    tp + tm = AddGroup.rank (FiniteQuadraticModule.primaryComponent q 2) →
     ¬ FiniteQuadraticModule.HasCyclicTwoSummand (FiniteQuadraticModule.primaryComponent q 2) →
     ∃ (ε : ℤ) (u : ℚ_[2]ˣ), (ε = 1 ∨ ε = -1) ∧
       (u : ℚ_[2]) = ((ε * (Nat.card q : ℤ) : ℤ) : ℚ_[2]) ∧
@@ -344,7 +410,7 @@ conditions 1 and 2 suffice. -/
 theorem exists_evenLattice_of_lt (tp tm : ℕ) (q : FiniteQuadraticModule)
     (hq : q.IsNondegenerate)
     (hsign : (((tp : ℤ) - (tm : ℤ) : ℤ) : ZMod 8) = q.gaussSign)
-    (hrank : minGenerators q < tp + tm) :
+    (hrank : AddGroup.rank q < tp + tm) :
     EvenLatticeWithInvariants tp tm q :=
   sorry
 
@@ -458,8 +524,9 @@ theorem equivalent_of_odd_unimodular_indefinite {n : ℕ} (G₁ G₂ : Matrix (F
   sorry
 
 /-- **Layer 6B, existence in the definite case.** An even unimodular positive definite lattice of
-rank `n` exists exactly when `8 ∣ n` (Serre, V.2.3; necessity from Milgram's theorem). Rank 0 is
-included: the zero lattice is even, unimodular and positive definite. -/
+rank `n` exists exactly when `8 ∣ n` (existence: Serre's `Γ₈ = E₈` of V.1.4.3 and the remark after
+V.2 Theorem 2; necessity: Corollary 2 of that theorem, Milgram's theorem). Rank 0 is included: the
+zero lattice is even, unimodular and positive definite. -/
 theorem exists_isEven_isUnimodular_isPosDef_iff (n : ℕ) :
     (∃ L : IntegralLattice (Fin n → ℚ), L.IsEven ∧ L.IsUnimodular ∧ L.IsPosDef) ↔ 8 ∣ n :=
   sorry
