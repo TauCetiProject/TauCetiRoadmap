@@ -1809,8 +1809,10 @@ module comparison does not replace it. *Needs:* items 1–3, 7.C.5b, Layer 6 ite
 
 **Checks.**
 - `FH_*(H) ≅ H_{*+n}(X)` for a `C²`-small Morse Hamiltonian on a closed aspherical `X`
-  (worked example 6): on `S²` the two critical points of the height function give `FH_{−1}` and
-  `FH_{1}`, which are `H_0(S²)` and `H_2(S²)`.
+  (worked example 6): on `T²` the four critical points of the height function of the embedded
+  torus give `FH_{−1}`, `FH_0` and `FH_1` of ranks `1`, `2`, `1`, which are `H_0(T²)`, `H_1(T²)`
+  and `H_2(T²)`. `S²` is not aspherical and is not an instance: it is the capped branch's
+  monotone example, with the `ℤ/4`-graded cyclic formula of 7.C.5b.
 - The continuation map for a constant homotopy is the identity.
 - The action filtration shift: for `H_s = H + ε(s)` with `ε` a bump of integral `δ`, the
   continuation map shifts the filtration by exactly `δ`.
@@ -2251,11 +2253,15 @@ In the nonzero positive-monotone Laurent lane, write HF_i^cyc for homology after
   `i + n` odd, since each even residue class modulo `2(n + 1)` contains exactly one of
   `0, 2, …, 2n`; the total rank `n + 1` is the number of contractible orbits of a `C²`-small
   Morse Hamiltonian.
-- `Γ = 0` on `S²` with a `C²`-small `H = εf`: `HF_i ≅ H_{i+1}(S²; R)` is `R` in degrees `−1`
-  and `1`, the two constant orbits (Examples).
+- `S²` (`Γ = ℤ`, `N_C = 2`, `d_C = 4`) with a `C²`-small `H = εf`: the cyclic formula gives `R`
+  in the residues of `−1` and `1` modulo `4`, the two constant orbits (Examples); the integer
+  formula `HF_i ≅ H_{i+1}(S²; R)` is the `Γ = 0` formula and does not apply there, since
+  `S_sph = H₂(S²; ℤ) ≠ 0`. On `T²` (`Γ = 0`, `n = 1`) the integer formula gives `R`, `R²`, `R` in
+  degrees `−1`, `0`, `1`, the four constant orbits of the height function of the embedded torus.
 - Over a field the completed `c₁`-zero formula `HF_i ≅ H_{i+n}(X; Λ_𝕜) ≅ H_{i+n}(X; 𝕜) ⊗ Λ_𝕜`
-  holds because `Λ_𝕜` is a `𝕜`-vector space; over `R = ℤ` the tensor description needs flatness
-  of `Λ_ℤ` over `ℤ`, which is the base-change hypothesis named here.
+  holds because `Λ_𝕜` is a `𝕜`-vector space, and over `R = ℤ` as well, because `Λ_ℤ` is
+  torsion-free, hence flat over `ℤ`; over a general `R` the flatness of `Λ_R` over `R` is the
+  base-change hypothesis named here, and it is not automatic.
 
 *Needs:* 7.C.3a–c; 7.C.4; 7.C.6; Layer 7 item 4 (the standing comparison on the overlap); Piunikhin–Salamon–Schwarz §4.
 
@@ -2301,8 +2307,10 @@ After 7.C.6b–c, extend the finite matrices and specified homotopies along R[Γ
 
 **Checks.**
 - `ℂPⁿ`: `d_C = 2(n + 1)`, `ν(t⁻¹) = +1`, and `Σ_{k ≥ 0} t^{−k}` converges in `Λ_R` (finitely many
-  terms below each `ν`-level) while `Σ_{k ≥ 0} t^{k}` does not; so `1 − t⁻¹` is a unit of `Λ_R`
-  and `1 − t` is not.
+  terms below each `ν`-level) while `Σ_{k ≥ 0} t^{k}` does not; so `(1 − t⁻¹)⁻¹ = Σ_{k ≥ 0} t^{−k}`,
+  and `1 − t = −t(1 − t⁻¹)` is a unit as well, with inverse `−Σ_{k ≥ 1} t^{−k}`. The completion in
+  the opposite direction (`ν = ω`) would instead invert `1 − t` through `Σ_{k ≥ 0} t^{k}`: the
+  convergent expansion, not the unit itself, pins the direction of completion.
 - Separatedness: a nonzero series lies outside `F^a` for `a` above its least period, so
   `∩_a F^a = 0`; on `Γ = 0` the filtration is `F^a = M` for `a ≤ 0` and `0` for `a > 0`.
 - The residue grading identifies the degrees `i` and `i + 2(n + 1)` on `ℂPⁿ`, so a generator
@@ -2598,9 +2606,10 @@ Construct cutoff-compatible endpoint/event-limit matrices and their supported ch
 - A birth is the same event read with the parameter reversed, so its factors are the inverses:
   a death followed by a birth of the same pair with the same `b` returns `τ` and `ζ` to their
   values, while reading the birth with the death's factors would multiply by `(1 + b)^{±2}`.
-- First-order truncation: for `b = βe^{A}` with `N_X(A) > 0`, `(1 + b)^{±1} = 1 ± βe^{A} + β²e^{2A} ∓ ⋯`
-  and `log(1 + b) = βe^{A} − β²e^{2A}/2 + ⋯`, so the `τ` and `ζ` factors agree only modulo
-  `e^{2A}` at first order; the Type II cancellation is an all-order statement.
+- First-order truncation: for `b = βe^{A}` with `N_X(A) > 0`, `1 + b` has no higher term while
+  `(1 + b)⁻¹ = 1 − βe^{A} + β²e^{2A} − ⋯` and `log(1 + b) = βe^{A} − β²e^{2A}/2 + ⋯`, so the `τ`
+  and `ζ` factors of a death cancel only to all orders (their first-order truncations multiply
+  to `1 − β²e^{2A}`, not to `1`); the Type II cancellation is an all-order statement.
 
 *Needs:* 7.T.4–7.T.6; MorseNovikov N1 and N4; Hutchings §7.5.
 
@@ -2654,9 +2663,11 @@ nonabelian `s`-cobordism theorem or equality with a general genus-one curve coun
 
 ### Examples
 
-- The `C²`-small autonomous Morse Hamiltonian on `S²`: two constant orbits of indices `−1` and
-  `1`, `FH_* ≅ H_{*+1}(S²)`, and the capped branch on `Γ = 0` reproducing it through the PSS
-  comparison.
+- The `C²`-small autonomous Morse Hamiltonian on `T²` (aspherical, `Γ = 0`): four constant
+  orbits of indices `−1`, `0`, `0`, `1` and `FH_* ≅ H_{*+1}(T²)`, with the capped branch on
+  `Γ = 0` reproducing it through the PSS comparison. On `S²`, monotone with `Γ = ℤ` and
+  `d_C = 4`, the capped branch's cyclic formula places the two constant orbits of indices `−1`
+  and `1` in the residues `±1` modulo `4`.
 - `ℂPⁿ` with the standard positive monotone form: the cyclic module formula of 7.C.5b.
 - `SH_*(D²ⁿ) = 0` and `SH_*(T*S¹) ≅ H_*(𝓛S¹)`.
 - The zero-dimensional torsion model `M = pt`, `I_F = 0`.
