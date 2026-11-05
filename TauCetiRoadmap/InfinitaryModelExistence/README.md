@@ -529,8 +529,9 @@ Suggested home: `TauCeti/ModelTheory/ModelExistence/{Types,OmittingTypes}.lean`.
   realized in every countable model of `T` is isolated over `T` in `A`; and the **first-order omitting types theorem**: for a countable language, a
   satisfiable first-order theory and countably many first-order partial types none isolated by a
   first-order formula modulo the theory (in the sense of Mathlib's `Theory.IsSatisfiable`), there
-  is a countable model omitting them all. Derive it by taking `A` to be the first-order image
-  fragment.
+  is a countable model omitting them all (`exists_countable_model_omitting_fo`; the empty type,
+  isolated by `⊤`, shows that the non-isolation hypothesis cannot be dropped). Derive it by taking
+  `A` to be the first-order image fragment.
 
 **Acceptance example.** A partial type realized in every countable model of a satisfiable `T` is
 isolated.
