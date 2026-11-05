@@ -28,8 +28,9 @@ This roadmap builds:
   categories, `G_L ≅ G_{X_K(L)}`, and the faithful action of `Gal(L/K)` for `L/K` Galois;
 - **ramification**: the upper filtration of `Gal(L/K)` and of `Gal(M/L)` read on the field of
   norms through `ψ_{L/K}`, and transitivity `X_K(M) ≅ X_{X_K(L)}(X_{L/K}(M))`;
-- **full faithfulness** of the field-of-norms functor on Galois extensions [Wintenberger 1980], in
-  the form [Abrashkin 2010, §7.1] uses it;
+- **full faithfulness** of the field-of-norms functor on totally ramified `ℤ_p`-extensions
+  [Wintenberger 2004, Thm. 2], and the lifting of isomorphisms in the form [Abrashkin 2010, §7]
+  uses it;
 - **comparison with tilting**: the embedding `X_K(L) → R(L̂)` into the tilt for strictly APF `L/K`,
   the identification of the completed perfection of `X_{L/K}(M)` with `R(M̂)`, perfectoidness of
   `L̂` in characteristic `0`, and agreement of `G_L ≅ G_{X_K(L)}` with the Fontaine–Wintenberger
@@ -50,8 +51,11 @@ This roadmap owns:
   residue field and the local-field structure;
 - the functor `X_K`, the equivalence of categories, the Galois-group isomorphisms, the faithful
   and closed action of `Gal(L/K)`, the reading of the ramification filtrations, and transitivity;
-- Wintenberger's categories of Galois extensions and of local fields with groups of automorphisms,
-  and the full faithfulness of the field-of-norms functor between them;
+- Tate's vanishing theorem for ramified characters, Wintenberger's categories of totally ramified
+  `ℤ_p`-extensions and of local fields of characteristic `p` with a `ℤ_p` of wild automorphisms,
+  the full faithfulness of the field-of-norms functor between them, the lifting of isomorphisms
+  for Galois extensions containing such a `ℤ_p`-extension, and the cofinal systems built from
+  them;
 - Wintenberger's field `R(E)`, compared with the tilt and not rebuilt, the embedding `Λ_{L/K}`,
   the identification of the completed perfection with `R(M̂)`, and the comparison of
   `G_L ≅ G_{X_K(L)}` with the Fontaine–Wintenberger isomorphism.
@@ -74,10 +78,13 @@ It does not own:
   `K`: Mathlib's `Tilt` and `PreTilt`, and the [perfectoid spaces roadmap](../PerfectoidSpaces/README.md),
   P1 and P3.8. This roadmap compares its own construction with them.
 - **Sen's theorem** that a Galois extension with finite residue extension and `p`-adic Lie Galois
-  group is strictly APF [Sen 1972]. Statements below about `p`-adic Lie extensions carry strict
-  APF as a hypothesis.
+  group is strictly APF [Sen 1972]. No statement here needs it: the strictly APF extensions used
+  are abelian (0.6) or contain a `ℤ_p`-extension of finite index (Layer 4).
 - **Complete discretely valued fields with infinite perfect residue field**, the generality of
   [Wintenberger 1983]. Every base field here is a nonarchimedean local field.
+- **Full faithfulness on all `p`-adic Lie extensions**, the form [Abrashkin 2010, §7.1] attributes
+  to [Wintenberger 1980]: its proof is not available in print, and it is not a target. The
+  anabelian roadmaps consume 4.3 along the cofinal systems of 4.4 instead.
 - **Applications**: the anabelian theorems of [Abrashkin 2000, 2010] and their higher-dimensional
   analogues consume this roadmap; `(φ, Γ)`-modules are not here.
 
@@ -398,30 +405,91 @@ Let `L, L'` be infinite APF extensions of `K`.
 
 ### Layer 4: full faithfulness
 
-Following [Abrashkin 2010, §7.1], after [Wintenberger 1980]:
-
-- **4.1 The category `Ψ`.**
-  - Objects: pairs `L/K` with `K/ℚ_p` finite and `L ⊆ K(p)` an infinite Galois extension, where
-    `K(p)` is the maximal `p`-extension of `K` in `AlgebraicClosure K`. `Gal(L/K)` is a `p`-adic
-    Lie group, and `L/K` is strictly APF.
-  - Morphisms `L/K → L'/K'`: continuous field embeddings `f : L → L'` with `[L' : f(L)] < ∞` and
-    `f|_K : K ≅ K'`.
-  - A `p`-adic Lie group is a topological group admitting a charted-space structure modelled on
-    `ℚ_p^d`, for some `d`, with Mathlib's `LieGroup 𝓘(ℚ_p, ℚ_p^d) ω`. Strict APF is an explicit
-    condition because Sen's theorem is not owned here (*Scope*).
-- **4.2 The category `Ψ̃`.**
-  - Objects: pairs `(𝒳, G)` with `𝒳` a nonarchimedean local field of characteristic `p`, and `G` a
-    closed subgroup of the group of continuous automorphisms of `𝒳` (topology of 2.3), compact
-    and a `p`-adic Lie group.
-  - Morphisms `(𝒳, G) → (𝒳', G')`: closed field embeddings `g : 𝒳 → 𝒳'` such that `𝒳'` is finite
-    separable over `g(𝒳)`, `g(𝒳)` is `G'`-stable, and restriction `G' → G` is surjective.
-- **4.3 The functor `Φ`.**
-  - On objects, `Φ(L/K) = (X_K(L), {X_K(τ) : τ ∈ Gal(L/K)})`, which is an object of `Ψ̃` by 2.3.
-  - On morphisms, `Φ(f)` is the transport `X_K(L) ≅ X_{K'}(f(L))` along `f`, followed by
-    `X_{K'}` of the inclusion `f(L) ⊆ L'` (2.1). It lies in `Ψ̃` by 2.1 and 2.3.
-- **4.4 Full faithfulness** [Wintenberger 1980]. For objects `L/K` and `L'/K'` of `Ψ`,
-  `f ↦ Φ(f)` is a bijection from the morphisms `L/K → L'/K'` to the morphisms
-  `Φ(L/K) → Φ(L'/K')`.
+- **4.0 Tate's vanishing for ramified characters** [Tate 1967, §3.3, Thm. 2]. For `K` of
+  characteristic `0`, `Ĉ` the completion of `AlgebraicClosure K` and `η : G_K → ℤ_p^×` continuous
+  with `η(G_K(0))` infinite, `(Ĉ(η))^{G_K} = 0`. The route is that of the `i ≠ 0` case of
+  TauCetiProject/TauCetiRoadmap#940 §1.4, with the ramified `ℤ_p`-extension cut out by `η` in place
+  of the cyclotomic one: Tate's normalized traces for a ramified `ℤ_p`-extension [Tate 1967, §3.1]
+  and Ax–Sen–Tate (#940 §1.2). `Ĉ` is identified with #940's `PadicComplex p` by a
+  `ℚ_p`-isomorphism of algebraic closures.
+- **4.1 The categories** [Wintenberger 2004, 2.7].
+  - **`ΓEXT`.** Objects: `L/K` with `K` a nonarchimedean local field and `L/K` Galois, totally
+    ramified, with `Γ = Gal(L/K) ≅ ℤ_p`. Such an `L/K` is strictly APF (0.6). Morphisms
+    `L/K → L'/K'`: continuous field embeddings `i : L → L'` with `i(K) ⊆ K'`, `K'` finite
+    separable over `i(K)`, and `i(L)·K' = L'`.
+  - **`ΓAUT`.** Objects: `(X, Γ)` with `X` a nonarchimedean local field of characteristic `p` and
+    `Γ ≅ ℤ_p` a group of continuous automorphisms of `X` with lower index at least `2` (wildly
+    ramified). Morphisms `(X, Γ) → (X', Γ')`: continuous field embeddings `j : X → X'` with `X'`
+    finite separable over `j(X)`, `j(X)` stable under `Γ'`, and `Γ'` acting on `j(X)` through
+    `Γ`. Restriction is then an isomorphism of `Γ'` onto an open subgroup `Γ^{p^{n_0}}` of `Γ`.
+  - **The functor `X`.** `L/K ↦ (X_K(L), X_K(Γ))`, an object by 2.3 and 3.1. On a morphism `i`,
+    `X(i)` is `X_{K'}` of `i` (2.1), after the change of base `X_K(L) = X_{K_n}(L)` (1.6) for the
+    layer `K_n` with `i(K_n) ⊆ K'`.
+- **4.2 Full faithfulness** [Wintenberger 2004, Thm. 2]. `X` is fully faithful.
+  - **Faithful.** `X(i)` determines `i` on the residue field, through `f_{L/K}` (1.2), and on the
+    component `π_E` of a uniformizer of `X_K(L)` for every `E ∈ 𝓔_{L/K}`. Each `E` is generated
+    by `π_E` over the unramified extension of `K` with the residue field of `E`, which `i`
+    determines through Teichmüller representatives in characteristic `0` and through the residue
+    field in characteristic `p`. [Keating 2009, §3] gives the same argument.
+  - **Full.** Let `j : (X, Γ) → (X', Γ')` be a morphism, `X = X_K(L)`, `X' = X_{K'}(L')`. Replacing
+    `K` by a layer `K_n`, assume `n_0 = 0`. Extend `j` to the separable closures of 2.2; by 2.3 it
+    induces a continuous homomorphism `G_{K'} → G_K`. Let `i_n`, `i'_n` be the lower indices of
+    `σ^{p^n}`, `σ'^{p^n}` for generators. Then `e(Γ) = lim_n i_n/p^n` equals `e(Γ')`
+    [Wintenberger 2004, Lem. 1], from the different of `X'/j(X)` computed through the
+    `j(X)`-embeddings of `X'`. `e(Γ)` is `p e_K/(p − 1)` in characteristic `0` and `∞` in
+    characteristic `p` [Wintenberger 2004, 2.1], so `K`, `L`, `K'`, `L'` have the same
+    characteristic.
+  - **Characteristic `0`.** The completed perfection of `X_{L/K}(K^sep)` is `R(Ĉ)` (5.2 with
+    `M = K^sep`). Fix `ε ∈ R(Ĉ)` with `ε_0` a primitive `p`-th root of unity and `ε_{n+1}^p = ε_n`.
+    If `u ≠ 1` in `U^{(1)}_{R(Ĉ)}` and a continuous `η : G_K → ℤ_p^×` satisfy `τ(u) = u^{η(τ)}` for
+    all `τ`, then `η = χ_cyc` and `u ∈ ε^{ℤ_p}` [Wintenberger 2004, Prop. 2]. First, `η` is
+    ramified: otherwise the components `u_n` lie in the fixed field of `ker η` in `Ĉ`, the
+    completion of an unramified extension of `K` (Ax–Sen–Tate, #940 §1.2), where a compatible
+    system of `p`-power roots of principal units is trivial. Then `τ(log u_n) = η(τ) log u_n`, so
+    `log u_n ∈ Ĉ(η⁻¹)^{G_K} = 0` by 4.0, and the `u_n` are compatible `p`-power roots of unity.
+    Applied to `j(ε)`, with `η` the cyclotomic character of `K` composed with `G_{K'} → G_K`, this
+    gives `j(ε) = ε'^a` with `a ∈ ℤ_p`, a unit because `v(ε − 1) = e(Γ)/(p − 1)` and
+    `e(Γ) = e(Γ')`. With `ξ = ∑_{i<p} [ε]^i ∈ W(𝒪_{R(Ĉ)})`, `θ` gives `W(𝒪_{R(Ĉ)})/ξ ≅ 𝒪_Ĉ` (5.2
+    and [Wintenberger 1983, Prop. 4.3.7]), so `𝒪_{K_n} = (W(𝒪_{R(Ĉ)})/ξ)^{G_{K_n}}` by Ax–Sen–Tate
+    (#940 §1.2) [Wintenberger 2004, Prop. 3]. Extend `j` to the completed perfections. `W(j)`
+    carries `ξ` to `∑_{i<p} [ε']^{ai}`, which satisfies the generator criterion of
+    [Wintenberger 1983, Prop. 4.3.7] for `ker θ'`, and commutes with `G_{K'} → G_K`. So it induces
+    compatible embeddings `𝒪_{K_n} → 𝒪_{K'_n}`, whose union is the required `i : L → L'`.
+  - **Characteristic `p`.** `x ↦ x_0` identifies `R(L̂)` with `L̂` (5.2), so `X_K(L) ⊆ L̂`. For
+    `x ∈ X_K(L)`, its component `x_{K_n}` is the limit in `L̂` of an expression in `x` and the
+    action of `Γ^{p^n}` on `X_K(L)` alone [Wintenberger 2004, Prop. 1], written `N_n(x)`, and for a
+    uniformizer `π` of `X_K(L)`,
+    `K_n` is generated over the residue field by the component `N_n(π)` [Wintenberger 2004,
+    Cor. 1]. Define `i` on `K_n` by `i(N_n(x)) = N'_n(j(x))`.
+- **4.3 Lifting isomorphisms** (the form [Abrashkin 2010, §7] consumes). Let `L/K`, `L'/K'` be
+  infinite Galois APF extensions with groups `G`, `G'`. Suppose `G` has an open normal subgroup
+  `Γ_1 ≅ ℤ_p` whose fixed field `K_1` has `L/K_1` totally ramified. Let `μ̃ : X_K(L) → X_{K'}(L')`
+  be a continuous field isomorphism with `μ̃ X_K(G) μ̃⁻¹ = X_{K'}(G')`. Then there is a unique
+  field isomorphism `μ : L → L'` with `μ(K) = K'` whose transport `X_K(L) ≅ X_{K'}(L')` is `μ̃`, and
+  `μ σ μ⁻¹` is the element of `G'` corresponding to `μ̃ X_K(σ) μ̃⁻¹`.
+  - **Transport the `ℤ_p`-extension.** `Γ'_1`, the subgroup of `G'` corresponding to
+    `μ̃ X_K(Γ_1) μ̃⁻¹` (faithfulness of 2.3), is open, normal and `≅ ℤ_p`. Let `K'_1` be its fixed
+    field. `X_K(σ)` acts on the residue field of `X_K(L)` as `σ` acts on `𝓀[L]` through `f_{L/K}`
+    (1.2), and `μ̃` induces an isomorphism of residue fields intertwining the actions. `Γ_1` acts
+    trivially on `𝓀[L]`, so `Γ'_1` acts trivially on `𝓀[L']`, and `L'/K'_1` is totally ramified.
+    Lower indices are preserved by `μ̃` (3.1), so `X_{K'}(Γ'_1)` is wildly ramified.
+  - **Apply 4.2.** `μ̃` is an isomorphism `(X_{K_1}(L), Γ_1) ≅ (X_{K'_1}(L'), Γ'_1)` in `ΓAUT`
+    (1.6), so `μ̃ = X(μ)` for an isomorphism `μ : L/K_1 → L'/K'_1` of `ΓEXT`. A fully faithful
+    functor reflects isomorphisms.
+  - **Equivariance.** For `σ ∈ G` let `σ'` be the element of `G'` with
+    `X_{K'}(σ') = μ̃ X_K(σ) μ̃⁻¹`. `σ` and `σ'` preserve `K_1` and `K'_1` by normality, so `μσ` and
+    `σ'μ` are morphisms `L/K_1 → L'/K'_1` with the same image under `X`. By faithfulness
+    `μσ = σ'μ`. So `μ G μ⁻¹ = G'`, and `μ(K) = μ(L^G) = L'^{G'} = K'`. Uniqueness is
+    faithfulness.
+- **4.4 Cofinal systems.** Let `E` be a nonarchimedean local field, `E(p)` a maximal
+  `p`-extension, and `E_∞ ⊆ E(p)` a ramified `ℤ_p`-extension: in characteristic `0`, the
+  `ℤ_p`-quotient of `E(μ_{p^∞})/E`, ramified because `χ_cyc(G_E(0))` is open; in characteristic
+  `p`, the `ℤ_p`-extension of a Witt vector `[t⁻¹]`, `t` a uniformizer, through
+  TauCetiProject/TauCetiRoadmap#1474 §3.1. For every finite Galois `F/E` inside `E(p)`,
+  `E_F = F·E_∞` satisfies the hypothesis of 4.3 over `E`: for `m` large,
+  `Gal(E_F/F·E_m)` is open, normal (`F·E_m/E` is Galois), `≅ ℤ_p`, and totally ramified, because
+  the residue extension of `E_F/F` is finite and so lies in some `F·E_m`. The `E_F` exhaust
+  `E(p)`.
 
 ### Layer 5: comparison with tilting
 
@@ -514,9 +582,10 @@ algebraic with completion `M̂`.
 
 Layer 0 needs the filtered local Galois groups roadmap's Layers 1–2 and
 TauCetiProject/TauCetiRoadmap#1410 §§4a.1–4a.2. Layer 1 needs Layer 0. Layers 2 and 3 need Layer 1, and
-Layer 3 also needs 2.1–2.2. Layer 4 needs Layers 2 and 3. Layer 5 needs Layer 2, the strictly APF
-part of Layer 0, and the perfectoid spaces roadmap's P1 and P3.8. Layers 4 and 5 are independent.
-The anabelian roadmaps consume 2.2, 3.3 and Layer 4.
+Layer 3 also needs 2.1–2.2. Layer 5 needs Layer 2, the strictly APF part of Layer 0, and the
+perfectoid spaces roadmap's P1 and P3.8. Layer 4 needs Layers 2 and 3 and 5.2; in characteristic
+`0` also #940 §§1.2–1.4, and in characteristic `p` for 4.4 #1474 §3.1. The anabelian roadmaps
+consume 2.2, 3.3, 4.3 and 4.4.
 
 ## References
 
@@ -525,13 +594,20 @@ The anabelian roadmaps consume 2.2, 3.3 and Layer 4.
   (Thm. 2.1.3, Props. 2.2.1, 2.2.4, 2.3.1), §3 (Thms. 3.1.2, 3.2.2, Cors. 3.2.3, 3.3.4, 3.3.6,
   Prop. 3.4.1), §4 (Props. 4.2.1, 4.3.7, Thm. 4.3.2, Cor. 4.3.4).
 - J.-P. Wintenberger, *Extensions abéliennes et groupes d'automorphismes de corps locaux*, C. R.
-  Acad. Sci. Paris Sér. A **290** (1980), 201–203 — full faithfulness of the field-of-norms
-  functor.
+  Acad. Sci. Paris Sér. A **290** (1980), 201–203 — full faithfulness on `p`-adic Lie extensions,
+  cited by [Abrashkin 2010, §7.1]; not a target here.
+- J.-P. Wintenberger, *Automorphismes des corps locaux de caractéristique p*, J. Théor. Nombres
+  Bordeaux **16** (2004), 429–456 — §2 (Props. 1–3, Cor. 1, Lem. 1, 2.7, Thm. 2: full
+  faithfulness on totally ramified `ℤ_p`-extensions).
+- K. Keating, *Wintenberger's functor for abelian extensions*, J. Théor. Nombres Bordeaux **21**
+  (2009) — §3 (faithfulness).
+- J. Tate, *p-divisible groups*, Proc. Conf. Local Fields (Driebergen 1966), 1967 — §3.1
+  (normalized traces), §3.3 Thm. 2.
 - J.-M. Fontaine and J.-P. Wintenberger, *Le "corps des normes" de certaines extensions
   algébriques de corps locaux* and *Extensions algébriques et corps des normes des extensions APF
   des corps locaux*, C. R. Acad. Sci. Paris Sér. A **288** (1979), 367–370 and 441–444.
 - V. Abrashkin, *Modified proof of a local analogue of the Grothendieck conjecture*, J. Théor.
-  Nombres Bordeaux **22** (2010), 1–50 — §7.1 (the categories `Ψ`, `Ψ̃` and the functor `Φ`).
+  Nombres Bordeaux **22** (2010), 1–50 — §7 (the lifting of isomorphisms along a cofinal system).
 - S. Sen, *Ramification in p-adic Lie extensions*, Invent. Math. **17** (1972), 44–50 — the
   strictly APF property of `p`-adic Lie extensions, not owned here.
 - J.-P. Serre, *Local Fields*, GTM 67 — IV (Herbrand functions), V §3 (norms in cyclic
