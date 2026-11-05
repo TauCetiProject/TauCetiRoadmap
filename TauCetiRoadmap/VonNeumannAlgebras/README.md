@@ -354,8 +354,9 @@ Consume the finite-dimensional double-centralizer theorem of RepresentationTheor
 Layer 3 and prove its operator-space specialisation (Jones, Theorem 3.2.1, p. 12), then the general
 case by the simultaneous-vector amplification: for `x ∈ A''` and `ξ₁, …, ξ_n ∈ H`, the projection
 onto the closure of `A(ξ₁ ⊕ ⋯ ⊕ ξ_n)` in `Hⁿ` lies in the commutant of the diagonal copy of `A`, so
-`x ⊕ ⋯ ⊕ x` preserves that closure (Peterson, Lemma 2.5.5, pp. 28–29). Give each `VonNeumannAlgebra H`
-its canonical complete normed star algebra and `CStarAlgebra` instances on the subtype through
+`x ⊕ ⋯ ⊕ x` preserves that closure (Peterson, Lemma 2.5.5 and the proof of Theorem 2.5.6,
+pp. 28–29). Give each `VonNeumannAlgebra H` its canonical complete normed star algebra and
+`CStarAlgebra` instances on the subtype through
 `StarSubalgebra.cstarAlgebra`, supplying the `IsClosed` instance from weak closedness, compatible
 with `toStarSubalgebra`. Define `W*(S)` for a set `S ⊆ B(H)` as the double commutant of `S ∪ S*`
 (Jones, Example 3.3.4, p. 13) and prove leastness, monotonicity, intersections, closure
