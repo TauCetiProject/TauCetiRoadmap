@@ -408,10 +408,10 @@ Layer 3 needs 0–2; Layer 4 needs Layer 3, except for the orbit count, which ne
 ## Long horizon (a roadmap for a future roadmap; do not attempt it here)
 
 Serre's formula was refined by Krasner into a count of the totally ramified extensions of given
-degree *and* given discriminant, and generalized by Bhargava into a mass formula over all étale
-extensions of a local field, which is the local input to the conjectured densities of number-field
-discriminants. Both are natural continuations and neither is specified here; they are named to
-mark the direction, not to be worked on under this roadmap.
+degree *and* given discriminant. It is a natural continuation, not specified here; it is named to
+mark the direction, not to be worked on under this roadmap. Bhargava's generalization to a mass
+formula over all étale extensions of a local field, the local input to the conjectured densities
+of number-field discriminants, is the [étale mass formula roadmap](../EtaleMassFormula/README.md).
 
 ## References
 
