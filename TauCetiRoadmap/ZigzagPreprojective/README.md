@@ -28,7 +28,10 @@ This roadmap constructs:
 - ordinary and skew zigzag algebras, including the one-vertex, one-edge, and non-bipartite cases;
 - their gradings, bases, dimensions, centers, Frobenius traces, projectives, graded Cartan
   matrices, and convergent `q`-Euler comparisons;
-- additive preprojective algebras, their local relations, and orientation/sign independence;
+- additive preprojective algebras, their local relations, orientation/sign independence, and their
+  self-injectivity in Dynkin type through the Baer--Geigle--Lenzing algebra; the Auslander--Reiten
+  translate and the Nakayama functor that construction uses are the Artin algebras roadmap's
+  (ArtinAlgebras §4.1 and §2.3);
 - the zigzag and preprojective instances of quadratic, classical Koszul and derived `A∞` Koszul
   duality under separately stated hypotheses; the Koszul predicate and its general theorems are
   the DG and `A∞` roadmap's and the Grothendieck/Euler roadmap's;
@@ -217,6 +220,13 @@ The landed declarations include:
   (`RepresentationTheory/Quiver/FiniteRepType/Gabriel.lean`): a finite connected quiver has finite
   representation type exactly when it is an oriented simply-laced Dynkin diagram, consumed by the
   self-injectivity target of §4.2;
+- Frobenius functionals: `LinearMap.IsFrobeniusFunctional φ` (the pairing `(a, b) ↦ φ(ab)` is
+  nondegenerate), the bijection `TauCeti.frobeniusFunctionalEquivDualEquiv` between the Frobenius
+  functionals on a finite-dimensional algebra and the isomorphisms of its regular right module with
+  its dual, and `LinearMap.IsFrobeniusFunctional.moduleInjective_self` with
+  `LinearMap.IsFrobeniusFunctional.moduleInjective_op_self`: a finite-dimensional algebra over a
+  field carrying a Frobenius functional is injective as a left and as a right module over itself
+  (`Algebra/Algebra/Frobenius/Basic.lean`), consumed by the self-injectivity target of §4.2;
 - the native Layer 6 constructions, consumed rather than rebuilt: the two-dimensional Ginzburg
   differential `TauCeti.ginzburgTwoDifferential` with `TauCeti.isDGAlgebra_ginzburgTwoDifferential`,
   `TauCeti.ginzburgTwoDifferential_sq_zero` and the Adams grading `TauCeti.ginzburgTwoAdamsDegree`
@@ -244,8 +254,9 @@ The landed declarations include:
 ### From TauCetiRoadmap.QuiverRepresentations, GrothendieckEulerForms and DGAInfinity
 
 The [quiver-representation roadmap](../RepresentationTheory/QuiverRepresentations/README.md)
-owns general path algebras, projectives, bound quivers, and Ringel forms.  This roadmap adds the
-specific relation quotients and their homological structure.
+owns general path algebras, projectives, bound quivers, and Ringel forms.  Its Layer 1 identifies
+representations with left `kQ`-modules, which §4.2 uses.  This roadmap adds the specific relation
+quotients and their homological structure.
 
 The [Grothendieck groups and Euler forms roadmap](../GrothendieckEulerForms/README.md) supplies
 graded `K₀`, the shift action, Laurent-polynomial sesquilinearity, finite-support `q`-Euler forms,
@@ -269,6 +280,20 @@ right-module primary; the strict left modules used above enter them as right mod
 opposite algebra.  Its unsuspended operations have cohomological degree `2-n`, satisfy the
 Keller/Getzler--Jones `(-1)^(r+s*t)` Stasheff identities, use ordinary multiplication for `m₂`
 without a Seidel-style twist, and are strictly unital in the deformation statements below.
+
+### From TauCetiRoadmap.ArtinAlgebras
+
+The Artin algebras roadmap owns the Auslander--Reiten translate `τ = D Tr` and its inverse
+`τ⁻ = Tr D` of a finitely generated module over an Artin algebra (its §4.1: formed from a minimal
+projective presentation, independent of the presentation, with `τ M = 0` exactly for `M`
+projective) and the Nakayama functor `ν = D Hom_A(−, A)` (its §2.3: an equivalence from finitely
+generated projective to finitely generated injective modules).  Over a field these are the pinned
+`TauCeti.AuslanderReitenTranslate`, the dual of the transpose `TauCeti.AuslanderReitenTranspose` of
+a presentation (`Algebra/Module/AuslanderReiten/Transpose.lean` and `Translate.lean`), and, on
+pointwise finite-dimensional quiver representations, `TauCeti.arTranslate`
+(`RepresentationTheory/Quiver/Representation/Translate.lean`).  §4.2 consumes them for the
+hereditary path algebra `kQ` and proves only their hereditary description, Serre duality and the
+preprojectivity of the injective modules of a Dynkin quiver.
 
 ## How to read the build
 
@@ -714,22 +739,28 @@ the moment-map comparison and the finite/infinite dichotomy are native and are c
 Let `Q` be a finite quiver without oriented cycles and `k` any field, so that `kQ` is
 finite-dimensional, basic and hereditary; write `D = Hom_k(−, k)`.
 
-- **Auslander--Reiten data of a hereditary path algebra over any field.** Define the
-  `kQ`-bimodule `E = Ext¹_{kQ}(D(kQ), kQ)` and the endofunctors `τ⁻ = E ⊗_{kQ} −` and
-  `τ = Hom_{kQ}(E, −)` of finite-dimensional `kQ`-modules, and prove that `τ⁻` is left adjoint to
-  `τ` and that `τ⁻ M ≅ Ext¹_{kQ}(D(kQ), M)` (Grant, Proposition 2.5, p. 6; Crawley-Boevey,
-  Lemma 2.2, p. 5).  Prove Serre duality `Hom_{kQ}(P, M) ≅ D Hom_{kQ}(M, νP)` for `P` projective,
-  `ν = D Hom_{kQ}(−, kQ)` the Nakayama functor (Grant, Theorem 2.3, p. 5), and that for a Dynkin
+- **Auslander--Reiten data of a hereditary path algebra over any field.** The translate
+  `τ = D Tr`, its inverse `τ⁻ = Tr D` and the Nakayama functor `ν = D Hom_{kQ}(−, kQ)` are
+  ArtinAlgebras' (§4.1 for `τ` and `τ⁻` over any Artin algebra, realised over a field by
+  `TauCeti.AuslanderReitenTranslate` and, on quiver representations, `TauCeti.arTranslate`; §2.3
+  for `ν`, an equivalence from finitely generated projective to finitely generated injective
+  modules); none of them is redefined here.  Prove, for the `kQ`-bimodule
+  `E = Ext¹_{kQ}(D(kQ), kQ)`, the hereditary description `τ⁻ ≅ E ⊗_{kQ} −` and
+  `τ ≅ Hom_{kQ}(E, −)` as endofunctors of finite-dimensional `kQ`-modules, hence that `τ⁻` is left
+  adjoint to `τ` and that `τ⁻ M ≅ Ext¹_{kQ}(D(kQ), M)` (Grant, Proposition 2.5, p. 6, from the
+  description of the transpose over a hereditary algebra by `Ext¹_{kQ}(−, kQ)`; Crawley-Boevey,
+  Lemma 2.2, p. 5).  Prove Serre duality `Hom_{kQ}(P, M) ≅ D Hom_{kQ}(M, νP)`, natural in the
+  projective `P` and the finite-dimensional `M` (Grant, Theorem 2.3, p. 5), and that for a Dynkin
   quiver every indecomposable injective `I_i` is `τ^{−ℓ(i)} P_{ρ(i)}` for a permutation `ρ` of the
   vertices and a length function `ℓ` (Grant, Theorem 2.7, p. 7, after Auslander--Platzeck and
   Gabriel: a hereditary algebra has finite representation type exactly when every injective
-  module is preprojective).  QuiverRepresentations Layer 6 states the translate `τ = D Tr` and the
-  almost-split theory over an algebraically closed field; the statements over every field use the
-  hereditary description above, and its agreement with `D Tr` for `kQ` over an algebraically
-  closed field is a target here.
-  *Needs:* QuiverRepresentations Layer 1 (representations as `kQ`-modules) and Layer 6 (the
-  translate and the almost-split theory, for the comparison over an algebraically closed field);
-  Mathlib `Ext`, `Module.Injective`.
+  module is preprojective).  For `A₂` the simple projective module `S` has
+  `E ⊗_{kQ} S ≅ Ext¹_{kQ}(D(kQ), S)` one-dimensional, the simple injective module, while the
+  projective-injective module is sent to `0`; so `ℓ` takes the values `1` and `0`, `ρ` exchanges
+  the two vertices, `E` is one-dimensional and `E ⊗_{kQ} E = 0`.
+  *Needs:* ArtinAlgebras §2.3 and §4.1 (the Nakayama functor and the translate);
+  QuiverRepresentations Layer 1 (representations as `kQ`-modules); Mathlib `Ext`,
+  `Module.Injective`.
 - **The Baer--Geigle--Lenzing algebra and the identification.** Define
   `Π_BGL(kQ) = ⊕_{r ≥ 0} Hom_{kQ}(kQ, τ^{−r} kQ)`, graded by `r`, with the product of
   `f : kQ → τ^{−r} kQ` and `g : kQ → τ^{−s} kQ` given by `τ^{−r}(g) ∘ f` (Grant, Definition 2.6,
@@ -745,8 +776,9 @@ finite-dimensional, basic and hereditary; write `D = Hom_k(−, k)`.
   `∑ α* α` is not a normalisation of the same algebra (Ringel, §6, pp. 16--17: on a three-vertex
   affine quiver of type `Ã` in characteristic different from two the two algebras are not
   isomorphic), in accordance with §5.1.
-  *Needs:* the Auslander--Reiten data above; §4.1 (the presentation, grading and gauge
-  isomorphism); QuiverRepresentations Layer 1; Mathlib `Ext` and graded algebras.
+  *Needs:* the Auslander--Reiten data above; ArtinAlgebras §4.1 (the translate); §4.1 above (the
+  presentation, grading and gauge isomorphism); QuiverRepresentations Layer 1; Mathlib `Ext` and
+  graded algebras.
 - **Self-injectivity.** Prove `moduleInjective_preprojectiveAlgebra_of_dynkin`: for an orientation
   `o` of a finite simple graph `G` isomorphic to `TauCeti.diagramGraph t.cartanMatrix` for a valid
   simply-laced `TauCeti.DynkinType` `t`, and every field `k`, the additive preprojective algebra
@@ -758,10 +790,19 @@ finite-dimensional, basic and hereditary; write `D = Hom_k(−, k)`.
   (`TauCeti.isFiniteRepType_iff_card_hom_add_card_hom_le_one_and_exists_dynkinType_iso`,
   `FiniteRepType/Gabriel.lean`), so every indecomposable injective is `τ^{−ℓ(i)} P_{ρ(i)}`;
   Serre duality, the adjunction `τ⁻ ⊣ τ` and this identification give an isomorphism of left
-  modules `Π_BGL(kQ) ≅ D Π_BGL(kQ)`, so `Π_BGL(kQ)` is Frobenius, hence self-injective (Grant,
-  p. 4), and the identification of the previous item transports this to `Π_k(Q_o)`.
-  *Needs:* the two items above; the finite-dimensionality of §4.1; Tau Ceti Gabriel's theorem
-  above; QuiverRepresentations Layer 1; Mathlib `Module.Injective`, `Module.Baer`.
+  modules `ϕ : Π_BGL(kQ) ≅ D Π_BGL(kQ)` (Grant, Theorem 3.1, p. 7, and Definition 2.1, p. 4).  The
+  functional `φ = ϕ(1)`, for which the pairing `(a, b) ↦ φ(ab)` is nondegenerate, is a Frobenius
+  functional in the sense of `LinearMap.IsFrobeniusFunctional`, so `Π_BGL(kQ)`, finite-dimensional
+  by the identification and §4.1, is injective over itself by
+  `LinearMap.IsFrobeniusFunctional.moduleInjective_self` (`Algebra/Algebra/Frobenius/Basic.lean`),
+  and the identification transports this to `Π_k(Q_o)`.  For `A₂`, in the basis `e₁, e₂, a, a*`
+  of `Π_k(A₂)`, the functional with `φ(a) = φ(a*) = 1` and `φ(e₁) = φ(e₂) = 0` has a Gram matrix
+  with exactly one nonzero entry in each row and column, the products `a a*` and `a* a` being the
+  relators and the only other nonzero products being an idempotent times an arrow; a functional
+  vanishing on `a` would pair `a` to zero against every basis element.
+  *Needs:* the two items above; the finite-dimensionality of §4.1; Tau Ceti Gabriel's theorem and
+  Frobenius functionals above; ArtinAlgebras §2.3 and §4.1; QuiverRepresentations Layer 1; Mathlib
+  `Module.Injective`, `Module.Baer`.
 The Hilbert series and the Koszulity of `Π_k(Q)` for non-Dynkin graphs are proved in Layer 5,
 where the Koszul duality with the zigzag algebra that their proof uses is established.
 
@@ -776,7 +817,10 @@ where the Koszul duality with the zigzag algebra that their proof uses is establ
 ### Dependencies
 
 Layer 4 uses Layer 0 (affine subgraphs of non-Dynkin graphs, the `D̃₄` and `Ẽ₈` carriers),
-Mathlib's `Quiver.Symmetrify`, two-sided ideals and injective modules, and Tau Ceti's path algebras.
+ArtinAlgebras §2.3 and §4.1 (the Nakayama functor and the translate), QuiverRepresentations
+Layer 1 (representations as `kQ`-modules), Mathlib's `Quiver.Symmetrify`, two-sided ideals, `Ext`,
+graded algebras and injective modules, and Tau Ceti's path algebras, Gabriel's theorem and
+Frobenius functionals.
 
 ## Layer 5: quadratic and Koszul duality
 

@@ -85,9 +85,11 @@ theorem affine_graph_recognition {V : Type u} [Fintype V] [DecidableEq V]
 `G` isomorphic to the diagram graph of a valid simply-laced Dynkin type, and let `k` be any
 field. The additive preprojective algebra `Π_k(Q_o)` is injective as a module over itself. The
 route is Grant's: `Π_k(Q_o)` is the Baer--Geigle--Lenzing algebra `⊕_{r ≥ 0} Hom(kQ, τ^{-r} kQ)`
-(Crawley-Boevey, Theorems 2.3 and 3.1; Ringel, Theorem A), which is Frobenius for a basic
-representation-finite hereditary algebra (Grant, Theorem 3.1), `kQ_o` being representation-finite
-by Gabriel's theorem. -/
+(Crawley-Boevey, Theorems 2.3 and 3.1; Ringel, Theorem A), which carries a Frobenius functional
+(`LinearMap.IsFrobeniusFunctional`) for a basic representation-finite hereditary algebra (Grant,
+Theorem 3.1), hence is self-injective (`LinearMap.IsFrobeniusFunctional.moduleInjective_self`),
+`kQ_o` being representation-finite by Gabriel's theorem and the translate being the Artin algebras
+roadmap's. -/
 theorem moduleInjective_preprojectiveAlgebra_of_dynkin (k : Type*) [Field k] {V : Type u}
     [Finite V] (G : SimpleGraph V) (o : TauCeti.DoubledQuiver.Orientation G)
     (ht : ∃ t : TauCeti.DynkinType, t.Valid ∧ t.IsSimplyLaced ∧
