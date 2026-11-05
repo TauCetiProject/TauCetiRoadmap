@@ -50,6 +50,8 @@ available at the pins with the geometric comparisons required by the README:
 No surrogate theorem is asserted for any of these missing constructions.
 -/
 
+@[expose] public section
+
 namespace TauCetiRoadmap.ComplexKahlerGeometry
 
 open scoped Manifold ContDiff
