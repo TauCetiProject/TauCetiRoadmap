@@ -116,12 +116,12 @@ groups.  Those theories consume this roadmap's chain, CW, duality, and homotopy 
   DGFloer's sequence targets through that same disc/cube characterization. DGFloer's CW
   approximation is used in 8.11b.
   The standing Moore-loop comparison and Layer 2 item 3 supply loop carriers.
-- Layer 4.0 owns the single compact-generation coreflection, convenient products,
-  exponentials, CW comparisons and foundational pointed suspension–loop adjunction.
-  HomotopySpheres §3A.1 and the foundation-only suspension–loop portion of §3A.2
-  use this foundation; their cofiber/Puppe and stabilization applications also consume
-  this roadmap's cofibration and relative-homotopy results. Supply runs from this
-  roadmap to those applications. Layer 4.4 owns the additional raw-quotient comparisons
+- Layer 4.0 is the single owner of the compact-generation coreflection, convenient
+  products, exponentials, CW comparisons and the foundational pointed suspension–loop
+  adjunction. HomotopySpheres' pointed cones, Puppe sequences and stabilization are
+  consumers of this foundation and of this roadmap's cofibration and relative-homotopy
+  results; supply runs from this roadmap to those applications. Layer 4.4 owns the
+  additional raw-quotient comparisons
   and their interval-last normalization. GeneralizedCohomology G2.1 owns the
   simplicial-realization product comparison from these foundations,
   without ordinary representability.
@@ -270,8 +270,18 @@ The development starts from these pinned APIs.
   van Kampen equivalence, wedge-of-circles free groups and the disconnected
   two-arc circle test. Extend their naturality and example computations.
 - Native `TopCat.eilenbergZilberHomotopyEquiv`, Alexander–Whitney and shuffle
-  maps in `Singular.EilenbergZilber`/`AlexanderWhitney`/`Shuffle`; the missing
-  local-coefficient and Kunneth extensions use these maps.
+  maps in `Singular.EilenbergZilber`/`AlexanderWhitney`/`Shuffle`, and the native
+  homology cross product `TopCat.singularHomologyCross` in `Singular.CrossProduct`:
+  the map `H_p(X;R) ⊗ H_q(Y;S) → H_n(X × Y;R ⊗ S)` for `p + q = n`, with its value on
+  cycle classes (`homologyπ_tensorHom_singularHomologyCross`), its naturality in the
+  spaces (`singularHomologyCross_naturality`) and in the coefficients
+  (`singularHomologyCross_coefficient_naturality`), and its comparison with the
+  algebraic cross product of the singular chain complexes under Alexander–Whitney
+  (`singularHomologyCross_comp_homologyMap_alexanderWhitney`). The pin states these
+  for a preadditive monoidal category with homology and the colimit-preservation
+  hypotheses that `ModuleCat` satisfies by instance search; it has no Künneth
+  isomorphism, Künneth sequence or Tor term. The missing local-coefficient and
+  Künneth extensions use these maps.
 - Native Euler–Poincare and finite-generation results in
   `Cellular.EulerCharacteristic.Basic`/`Singular`, including
   `finsum_finrank_singularHomology_of_finite_cwComplex`; transport the native
@@ -983,7 +993,7 @@ Consume native finite-CW Euler--Poincare and finite-generation results;
    Derive these quotient-sign comparisons from §2.5's coordinate shuffle class,
    the quotient/relative-homology comparison (Hatcher, Proposition 2.22,
    p.124), the product boundary formula (Proposition 3B.1, pp.269–270), and
-   the ordered-product interchange sign (Theorem 3.11, p.215). For n≥1,
+   the ordered-product interchange sign (Theorem 3.11, p.210). For n≥1,
    compute the local degree at an interior image different from the collapsed
    pole, then use the sphere local-image comparison of §2.5 to identify
    the absolute generator; the collapsed boundary fixes the based map. In degree 0
@@ -1351,14 +1361,20 @@ sequence and theorems of item 1, and items 2--7, consume all of Layers 2--4.
 *Needs:* §2.6 and native Alexander–Whitney/shuffle maps; bounded-below free complexes and Tor for Künneth.
 
 Consume native Alexander--Whitney, shuffle and Eilenberg--Zilber chain-homotopy
-   equivalences for singular chains. Extend their natural/local-coefficient and relative APIs.  Over every commutative
+   equivalences for singular chains, and the native homology cross product
+   `TopCat.singularHomologyCross` with its cycle-class formula, its naturality in the
+   spaces and in the coefficients, and its Alexander–Whitney comparison; the cross
+   product of this roadmap is that native map followed by the coefficient change along
+   the unitor `R ⊗_R R ≅ R`, and no second cross product is defined. Extend their natural/local-coefficient and relative APIs.  Over every commutative
    ring `R`, construct the first-quadrant Kunneth spectral sequence
    `E^2_(p,q) = directSum_(i+j=q) Tor^R_p(H_i(X;R),H_j(Y;R))` converging naturally to
    `H_(p+q)(X times Y;R)`.  Prove convergence from the bounded-below, degreewise-free singular
-   chain complexes.  For a field `k`, prove that the cross product gives
+   chain complexes.  For a field `k`, prove that the direct sum over `i + j = n` of the
+   native cross products `TopCat.singularHomologyCross X Y k k i j n` is an isomorphism
    `directSum_(i+j=n) H_i(X;k) tensor H_j(Y;k) ~= H_n(X times Y;k)`.  For a PID, and more
    generally a hereditary commutative coefficient ring, prove the natural short exact sequence
-   from that tensor sum to product homology and then to
+   from that tensor sum, by the same direct sum of native cross products, to product homology
+   and then to
    `directSum_(i+j=n-1) Tor^R_1(H_i(X;R),H_j(Y;R))`; prove that it splits, and record that no
    splitting is natural.  State and prove the general-ring collapse corollaries under explicit
    flatness or projectivity hypotheses.
@@ -3007,12 +3023,18 @@ realization is a K(G,1) for every discrete group G, without assuming commutativi
 ### 8.11 Mapping spaces and EM loops
 
 `finiteSourceMappingCWType` states the absolute compact-source conclusion of Milnor
-Theorem 3, p.276: for compact Hausdorff X and Hausdorff Y equipped with a `CWTypeModel`,
+Theorem 3, p.276: for compact Hausdorff X and any space Y equipped with a `CWTypeModel`,
 the compact-open space C(X,Y) has an actual `CWTypeModel`. Milnor states Theorem 3 for a
 compact n-ad with no separation axiom; the Hausdorff hypothesis on X is kept because the
 proof's function-space steps (continuity of evaluation and the exponential law carrying
 homotopies into C(X,Y)) are available for compact Hausdorff sources (Hatcher, Appendix,
-Propositions A.14–A.16, pp.530–531). The relative n-ad and based-loop
+Propositions A.14–A.16, pp.530–531). No separation axiom is imposed on Y: the model's
+carrier K is a Hausdorff CW complex, postcomposition with the model equivalence and its
+inverse is continuous on compact-open spaces for every Y, and the homotopies between
+their composites and the identities induce homotopies C(X,Y)×I→C(X,Y) and
+C(X,K)×I→C(X,K) as adjoints of (f,t,x)↦H(t,f(x)), which needs only continuity of
+evaluation on C(X,Y)×X; so C(X,Y)≃C(X,K) and Milnor's theorem applies to K. For Y the
+Sierpiński space the conclusion holds with K a point. The relative n-ad and based-loop
 forms below retain the relative data.
 
 *Needs:* §4.0 and §4.5 for mapping-space CW type; §§8.5 and 8.10, DGFloer Layer 1 item 2 and Layer 2 item 3 for EM loops.
@@ -3240,9 +3262,9 @@ Identity maps on ∅, a point, S¹ and S² induce identity maps on components an
 
 ## Downstream consumers
 
-HomotopySpheres uses Layer 4.0's compact-generation and pointed adjunction
-foundation in §3A.1 and the foundation-only portion of §3A.2, and Layer 4.4's
-normalized quotient comparisons and Layer 8 in its cofiber/stabilization applications; CharacteristicClasses consumes
+HomotopySpheres' pointed cones, Puppe sequences and stabilization consume Layer 4.0's
+compact-generation and pointed suspension–loop foundation, Layer 4.4's normalized
+quotient comparisons and Layer 8's relative homotopy; CharacteristicClasses consumes
 cohomology, compact supports and the tower comparison; DGFloer consumes the raw bar,
 CW and Serre-fibration foundations; DifferentialGeometry consumes singular integration
 inputs and the homological fundamental classes. Stable and geometric applications use
@@ -3268,6 +3290,12 @@ The objects consumers cite are carried by the following sections.
 - FuchsianOrbifolds (Layer 5), HeegaardFloer and HomotopySpheres consume §8.7's
   `compactManifoldFiniteCWType` and `FiniteCWTypeModel`, and §7.1's
   `finiteCWEulerCharacteristic` transported through that model.
+- GeneralizedCohomology (G2.1) consumes §4.7's realization CW structure on every
+  simplicial set, §8.2's Kan property of simplicial groups, Moore comparison and
+  realization-unit theorem, §8.10's ordinary representability and 8.11b's ordinary
+  EM loop comparison.
+- HeegaardFloer consumes §6.4's compact-triad Poincaré–Lefschetz theorem with its
+  degree, cap-boundary sign and coefficient-pairing conventions.
 
 ### Dependency order
 
@@ -3338,10 +3366,12 @@ downstream comparison theorem as input.
   cellular calculations on the single Layer 4.6 carrier, with the coefficient
   identification proved in Layer 6.3. The twisted relative fundamental class has canonical local images and
   boundary equal to the outward-first class of the boundary.
-- The tower difference map, six-term sequence, Mittag--Leffler vanishing,
-  integer-graded Milnor sequences and cofinal shifts satisfy their naturality
-  diagrams. The derived-limit cone compares with ordinary limits of degreewise
-  surjective towers; homotopy-square cone maps retain their chosen homotopies.
+- The singular and cellular skeletal restriction towers have degreewise surjective
+  restriction maps, and their limits are the cochains of the whole pair; the imported
+  DerivedModuleAlgebra Milnor maps and homotopy-square comparisons transport along the
+  cellular/singular comparison with its chosen homotopies. On the point tower
+  δ(3,1,0,…) = (2,1,0,…) and lim¹ = 0; on the one-vertex circle the degree-one limit
+  is M and H¹(S¹;M) = M.
 - Torsion linking has complementary degrees, target `AddCircle (1 : ℚ)`, the displayed symmetry
   sign, and nonsingularity under the stated finite-generation hypotheses.
 - Euler characteristic gives the standard values on spheres, tori, and complex projective

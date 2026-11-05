@@ -1,9 +1,11 @@
-import Mathlib
-import TauCeti.AlgebraicTopology.Cellular.Comparison
-import TauCeti.AlgebraicTopology.Cohomology.Cap.Basic
-import TauCeti.AlgebraicTopology.Cohomology.Cup
-import TauCeti.AlgebraicTopology.EilenbergMacLane.Basic
-import TauCeti.Topology.Homotopy.HomotopyGroup.Map
+module
+
+public import Mathlib
+public import TauCeti.AlgebraicTopology.Cellular.Comparison
+public import TauCeti.AlgebraicTopology.Cohomology.Cap.Basic
+public import TauCeti.AlgebraicTopology.Cohomology.Cup
+public import TauCeti.AlgebraicTopology.EilenbergMacLane.Basic
+public import TauCeti.Topology.Homotopy.HomotopyGroup.Map
 
 /-!
 # Algebraic topology of spaces and manifolds: target signatures
@@ -45,6 +47,8 @@ singular complexes; it does not introduce a putative chosen transfer. The native
 ordinary pair, excision, Mayer–Vietoris, van Kampen and finite-dimensional cellular
 comparisons are supplier contracts in the README.
 -/
+
+public section
 
 namespace TauCetiRoadmap.AlgebraicTopology
 
@@ -299,14 +303,17 @@ theorem simplyConnectedHomologySphere_homotopyEquiv_sphere (n : ℕ) (hn : 2 ≤
     Nonempty (X ≃ₕ Metric.sphere (0 : EuclideanSpace ℝ (Fin (n + 1))) 1) := by
   sorry
 
-/-- A compact Hausdorff source and a Hausdorff target of CW type have a mapping
-space of CW type (Milnor, Theorem 3, p.276); the topology is compact-open. Milnor's
-statement carries no separation axiom on the compact source, but the function-space
-steps of its proof (continuity of evaluation, the exponential law for homotopies into
-the mapping space) are available for compact Hausdorff sources; the Hausdorff
-hypothesis on `X` is kept for that reason. -/
+/-- A compact Hausdorff source and a target of CW type have a mapping space of CW
+type (Milnor, Theorem 3, p.276); the topology is compact-open. Milnor's statement
+carries no separation axiom on the compact source, but the function-space steps of
+its proof (continuity of evaluation, the exponential law for homotopies into the
+mapping space) are available for compact Hausdorff sources; the Hausdorff hypothesis
+on `X` is kept for that reason. No separation axiom is needed on `Y`: the model's
+carrier is a Hausdorff CW complex `K`, and postcomposition with the model equivalence
+and its homotopies, transported through the exponential law for the compact Hausdorff
+source, makes `C(X, Y)` homotopy equivalent to `C(X, K)`. -/
 theorem finiteSourceMappingCWType {X Y : Type u}
-    [TopologicalSpace X] [TopologicalSpace Y] [CompactSpace X] [T2Space X] [T2Space Y]
+    [TopologicalSpace X] [TopologicalSpace Y] [CompactSpace X] [T2Space X]
     (modelY : CWTypeModel Y) : Nonempty (CWTypeModel C(X, Y)) := by
   sorry
 
