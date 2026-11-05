@@ -56,8 +56,8 @@ elsewhere. In particular it owns:
   integral perfectness, calibrated generators, the path-loop total-space comparison and the
   primary and mixed-bidegree differentials (Layer 2);
 - the multiple-realization application and Theorem B (Layer 3);
-- abundance, fibered families of 2-spheres, covering by diffeomorphisms, the finite-rank
-  odd-sphere group `π_(n−1)(SO(n))` with its low-rank values, Proposition 6.31 for compact
+- abundance, fibered families of 2-spheres, covering by diffeomorphisms, the torsion group
+  `π_(n−1)(SO(n))` of Lemma 6.35 with its low-rank values, Proposition 6.31 for compact
   connected Lie groups other than tori, homogeneous spaces, the projective applications,
   Theorems H and I, knotted hypersurfaces and Theorem G (Layer 4).
 
@@ -387,9 +387,9 @@ K7.1–K7.2, GeneralizedCohomology G4.0b, RiemannianGeometry R1, Mathlib `Matrix
   describes only one of them, which is why the `n ≥ 3` identification is not extended to `n = 2`.
 - Curvature and periods: on `CP¹` of radius `1/2` the great circles have length `π`, the
   sectional curvature is `4`, and the area is `π`, so `ω_g = π·ω_FS` with `∫ ω_FS = 1`; the
-  unit-round normalization with curvature in `[1/4, 1]` (diameter `π`) would give period `2π`
-  and area `4π`, and Layer 2's cell degrees would be unchanged but every energy value would be
-  multiplied by `4`.
+  radius-`1` normalization, in which `CP¹` is the unit sphere and the sectional curvature lies
+  in `[1/4, 1]` (diameter `π`), would give period `2π` and area `4π`, and Layer 2's cell
+  degrees would be unchanged but every energy value would be multiplied by `4`.
 - On `S³ ⊂ ℍ` the three fields `Iz, Jz, Kz` are orthonormal and tangent at every `z`:
   `⟨z, Iz⟩ = 0` because `I` is skew, and `⟨Iz, Jz⟩ = ⟨z, I⁻¹Jz⟩ = ⟨z, −Kz⟩ = 0`. On `S^(4k+1)`
   no two pointwise independent tangent fields exist, so the construction needs `n ≡ 3 (mod 4)`.
@@ -729,12 +729,17 @@ unchanged by either transport. *Needs:* 3.3, DGFloer Layer 6 items 3–4, DGFloe
 - A domain `U` disjoint from the zero section: the Liouville-flow argument of Corollary E still
   applies provided `H_n(U) → H_n(Q)` is nonzero; `U` a small neighbourhood of a single fibre
   has `H_n(U) → H_n(Q)` zero and is excluded.
-- The sign of the translation: with `λ_can = p dq` and `Ψ'_σ(q, p) = (q, p − σ_q)`,
-  `Ψ'^*_σ λ_can = (p − σ_q) dq = λ_can − π^*σ`, so `Ψ'^*_σ ω_can = ω_can − π^*dσ` and `Ψ'_σ`
-  carries the magnetic form `ω_can − π^*dσ` to `ω_can`; the form `ω_can + π^*dσ` is reached by
-  the translation by `−σ`. A translation by `+σ` applied to `ω_can + π^*dσ` lands on
-  `ω_can + 2π^*dσ`, not on `ω_can`. Since `π ∘ Ψ'_σ = π`, the map `H_n(U) → H_n(Q)` is unchanged
-  either way.
+- The sign of the translation: with `λ_can = p dq`, the base roadmap's `ω_can = −dλ_can` and
+  `Ψ'_σ(q, p) = (q, p − σ_q)`, `Ψ'^*_σ λ_can = (p − σ_q) dq = λ_can − π^*σ`, so
+  `Ψ'^*_σ ω_can = ω_can + π^*dσ`: `Ψ'_σ` is the symplectomorphism from `(T*Q, ω_can + π^*dσ)`,
+  the magnetic form DGFloer Layer 6 item 3 obtains from the source's `ω_Q + π^*dσ`, to
+  `(T*Q, ω_can)`; the form `ω_can − π^*dσ` is reached by the translation by `−σ`. The
+  push-forward of `ω_can − π^*dσ` along `Ψ'_σ`, that is its pull-back along `Ψ'_(−σ)`, is
+  `ω_can − 2π^*dσ`, not `ω_can`. Witness on `T*ℝ²` with `σ = q₁ dq₂`, so `π^*dσ = dq₁ ∧ dq₂`:
+  `Ψ'^*_σ λ_can = p₁ dq₁ + (p₂ − q₁) dq₂`, whose `−d` is `dq₁ ∧ dp₁ + dq₂ ∧ dp₂ + dq₁ ∧ dq₂ =
+  ω_can + π^*dσ`, while the convention `ω_can = +dλ_can` would give `ω_can − π^*dσ`; a
+  one-dimensional base has `dσ = 0` and separates nothing. Since `π ∘ Ψ'_σ = π`, the map
+  `H_n(U) → H_n(Q)` is unchanged either way.
 
 ### Examples
 
@@ -861,18 +866,19 @@ bundle and the shriek naturality of DGFloer Layer 5 item 5.
   connected `G`. Then use `G → Diff(G)` by left translation, its evaluation identity at `e`, and
   Proposition 6.29 to prove that every compact connected Lie group other than a torus is
   abundant.
-- **Finite-rank odd-sphere group (Lemma 6.35).** For every odd `n ≥ 3`, prove that
-  `π_(n−1)(SO(n))` is torsion from the unstable finite-rank data below. Give the
-  low-rank values `π₂(SO(3)) = 0`, `π₄(SO(5)) = ℤ/2`, `π₆(SO(7)) = 0`, `π₈(SO(9)) = (ℤ/2)²`,
-  `π₁₀(SO(11)) = π₁₂(SO(13)) = π₁₄(SO(15)) = ℤ/2`, each with the maps and fibration exact
-  sequences that certify it. For odd `n ≥ 17` construct the finite-rank splitting
-  `π_(n−1)(SO(n)) ≅ π_(n−1)(O) ⊕ π_n(V_(n+2,2)(ℝ))`; prove the stable term is `0` or `ℤ/2` by
-  HomotopySpheres 4A–4B's stable real Bott computation and the Stiefel term `ℤ/2` in this range
-  from the Stiefel fibration and extension data; state the comparison maps and the range in
-  which stabilization applies. The source's proof of Lemma 6.35 prints `π₈(SO(9)) = ℤ/4`; the
-  group is `(ℤ/2)²`: the stabilization `π₈(SO(9)) → π₈(SO) = ℤ/2` is split with kernel `ℤ/2`
-  (Crowley–Schick–Steimle, proof of Lemma 2.2), and the exact sequence of `SO(8) → SO(9) → S⁸`
-  with `π₈(SO(8)) = (ℤ/2)³` surjecting onto `π₈(SO(9))` certifies exponent two. In
+- **The torsion group `π_(n−1)(SO(n))` (Lemma 6.35).** For every odd `n ≥ 3`, prove that
+  `π_(n−1)(SO(n))` is torsion from the low-rank values and the stable-plus-Stiefel splitting
+  below. Give the low-rank values `π₂(SO(3)) = 0`, `π₄(SO(5)) = ℤ/2`, `π₆(SO(7)) = 0`,
+  `π₈(SO(9)) = (ℤ/2)²`, `π₁₀(SO(11)) = π₁₂(SO(13)) = π₁₄(SO(15)) = ℤ/2`, each with the maps and
+  fibration exact sequences that certify it. For odd `n ≥ 17` construct the stable-plus-Stiefel
+  splitting `π_(n−1)(SO(n)) ≅ π_(n−1)(O) ⊕ π_n(V_(n+2,2)(ℝ))`; prove the stable term is `0` or
+  `ℤ/2` by HomotopySpheres 4A–4B's stable real Bott computation and the Stiefel term `ℤ/2` in
+  this range from the Stiefel fibration and extension data; state the comparison maps and the
+  range in which stabilization applies. The source's proof of Lemma 6.35 prints
+  `π₈(SO(9)) = ℤ/4`; the group is `(ℤ/2)²`: the stabilization `π₈(SO(9)) → π₈(SO) = ℤ/2` is
+  split with kernel `ℤ/2` (Crowley–Schick–Steimle, proof of Lemma 2.2), and the exact sequence
+  of `SO(8) → SO(9) → S⁸` with `π₈(SO(8)) = (ℤ/2)³` surjecting onto `π₈(SO(9))` certifies
+  exponent two. In
   `Suggested.lean`, `SO n` is `Matrix.specialOrthogonalGroup (Fin n) ℝ` with the subtype
   topology of the matrix space, the seven values are `subsingleton_pi2_SO3`,
   `nonempty_pi4_SO5_mulEquiv`, `subsingleton_pi6_SO7`, `nonempty_pi8_SO9_mulEquiv`,

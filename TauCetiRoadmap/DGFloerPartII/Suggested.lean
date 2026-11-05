@@ -8,7 +8,7 @@ public import Mathlib
 The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's
 headline theorems against the pinned Mathlib and Tau Ceti, each with `sorry`.
 
-Statable at the pins: the finite-rank odd-sphere group of 4.3 (Lemma 6.35 of the source), on the
+Statable at the pins: the torsion group `π_(n−1)(SO(n))` of 4.3 (Lemma 6.35 of the source), on the
 carrier `SO n = Matrix.specialOrthogonalGroup (Fin n) ℝ` with the subtype topology of the matrix
 space and Mathlib's cubical homotopy groups `π_ n X x`: the seven low-rank values and the torsion
 statement for every odd `n ≥ 3`.
@@ -26,7 +26,7 @@ namespace TauCetiRoadmap.DGFloerPartII
 
 open scoped Topology
 
-/-! ## Layer 4: the finite-rank odd-sphere group -/
+/-! ## Layer 4: the torsion group `π_(n−1)(SO(n))` -/
 
 /-- `SO(n)`: the special orthogonal group of real `n × n` matrices, with the subspace topology of
 the matrix space. -/
@@ -60,7 +60,7 @@ theorem nonempty_pi14_SO15_mulEquiv :
     Nonempty (π_ 14 (SO 15) 1 ≃* Multiplicative (ZMod 2)) := sorry
 
 /-- Lemma 6.35: for every odd `n ≥ 3`, written `n = k + 3`, the group `π_(n−1)(SO(n))` is torsion.
-The finite-rank splitting `π_(n−1)(SO(n)) ≅ π_(n−1)(O) ⊕ π_n(V_(n+2,2)(ℝ))` behind it, for
+The stable-plus-Stiefel splitting `π_(n−1)(SO(n)) ≅ π_(n−1)(O) ⊕ π_n(V_(n+2,2)(ℝ))` behind it, for
 `n ≥ 17`, needs the stable orthogonal group and the Stiefel carrier of the README and is stated
 there (README 4.3). -/
 theorem isOfFinOrder_pi_SO (k : ℕ) (hk : Odd (k + 3))
