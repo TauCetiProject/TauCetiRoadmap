@@ -45,7 +45,9 @@ Owner: the CountableStructureSpaces roadmap (TauCetiRoadmap #1316), Layers 0, 2 
 Declarations: `RelQueryOn`, `StructureSpaceOn` with its topology and σ-algebra, `StructureSpace`,
 `StructureSpaceOn.toStructure`, `ofStructure`, `encodeVia`, `structureIsoSetoidOn`,
 `structureIsoSetoid`, `modelsOf`, `bfEquivSetoid`, `StabilizesCompletely`, `scottHeight`. Checked
-against revision c49a0b43 of that roadmap. Prototype scaffolding only. -/
+against revision 113f1716 of that roadmap; `bfEquivSetoid` copies the relation verbatim and admits
+its equivalence laws inline, where the owner assembles them from stand-ins for the parent's
+`BFEquiv.refl`, `BFEquiv.symm` and `BFEquiv.trans`. Prototype scaffolding only. -/
 
 section StandIns
 
@@ -114,8 +116,9 @@ its models on `α`. -/
 def modelsOf [L.IsRelational] (φ : Sentenceω L) : Set (StructureSpaceOn L α) :=
   {c | letI : L.Structure α := c.toStructure; φ.Realize α}
 
-/-- **Stand-in (CountableStructureSpaces, verbatim).** Back-and-forth equivalence of the empty
-tuples at level `β`, an equivalence relation on codes coarser than isomorphism. -/
+/-- **Stand-in (CountableStructureSpaces; the relation verbatim, the equivalence laws admitted).**
+Back-and-forth equivalence of the empty tuples at level `β`, an equivalence relation on codes
+coarser than isomorphism. -/
 def bfEquivSetoid [L.IsRelational] (β : Ordinal.{0}) : Setoid (StructureSpace L) where
   r c d := @BFEquiv L ℕ ℕ c.toStructure d.toStructure β 0 Fin.elim0 Fin.elim0
   iseqv := by sorry
