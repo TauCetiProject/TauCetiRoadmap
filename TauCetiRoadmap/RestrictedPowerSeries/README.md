@@ -748,7 +748,7 @@ under their boundedness hypotheses. The associated coprimality notion uses
 unique quotient above, including `P=1`. Export the quotient, its entireness,
 the division identity and the evaluation/linear-factor criterion as a common API.
 For `F(0)=1` and `F(a)=0`, prove `a` a unit with inverse
-`−Σ_n coeff (n+1) F · a^n` (`IsEntire.isUnit_of_evalAt_eq_zero`).
+`−Σ_n coeff (n+1) F · a^n`.
 
 **Monic entire resultant.** Define `entireResultant P F` as the determinant
 of multiplication by the remainder on the finite free algebra `R[T]/(P)`.

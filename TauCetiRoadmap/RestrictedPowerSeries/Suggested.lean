@@ -1,8 +1,7 @@
+import Mathlib
 import TauCeti.RingTheory.PowerSeries.TateAlgebra
 import TauCeti.RingTheory.PowerSeries.Weierstrass.Ideal
 import TauCeti.RingTheory.MvPowerSeries.TateAlgebra.Basic
-import Mathlib.RingTheory.Jacobson.Ring
-import Mathlib.RingTheory.Noetherian.Defs
 
 /-!
 # Restricted power series: representative interfaces
