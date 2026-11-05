@@ -23,7 +23,8 @@ Headline theorems that are not statable at the pins:
   2.1), for the same reason.
 
 The class count `card_transitiveSubgroupClass` is the part of the classification that the native
-carriers express.
+carriers express. Gassmann's theorem in coefficient form (README 4.1) is a corollary of Perlis'
+theorem, which Finite Group Invariants states, and is not restated here.
 -/
 
 @[expose] public section
@@ -108,19 +109,6 @@ theorem forall_rootSet_mem_solvableByRad_iff_exists_isRoot_quinticF20
   sorry
 
 /-! ## Layer 4: arithmetic equivalence -/
-
-/-- **Gassmann's theorem** (Perlis, Theorem 1, sufficient direction). If two subgroups of the
-Galois group of a Galois number field `E/ℚ` meet every conjugacy class in the same number of
-elements, their fixed fields have the same number of ideals of each norm, hence the same Dedekind
-zeta function. -/
-theorem dedekindZetaCoeff_fixedField_eq_of_almostConjugate
-    {E : Type*} [Field E] [NumberField E] [IsGalois ℚ E] (H K : Subgroup (E ≃ₐ[ℚ] E))
-    (hHK : ∀ C : ConjClasses (E ≃ₐ[ℚ] E),
-      Nat.card {g : E ≃ₐ[ℚ] E // g ∈ C.carrier ∧ g ∈ H} =
-        Nat.card {g : E ≃ₐ[ℚ] E // g ∈ C.carrier ∧ g ∈ K}) (n : ℕ) :
-    TauCeti.dedekindZetaCoeff (IntermediateField.fixedField H) n =
-      TauCeti.dedekindZetaCoeff (IntermediateField.fixedField K) n := by
-  sorry
 
 /-- **Isomorphic fixed fields and conjugate subgroups.** For a finite Galois extension `E/F` and
 subgroups `H, K` of its Galois group, the fixed fields of `H` and `K` are isomorphic as
