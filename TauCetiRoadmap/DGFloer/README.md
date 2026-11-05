@@ -904,8 +904,9 @@ needed. *Needs:* the preceding paragraphs, item 2, AlgebraicTopology Stage 8.3.
 
 **Mod-2 vanishing.** For a simply connected space `Y` with `H̃_*(Y; 𝔽₂) = 0`, every `π_i(Y)` is
 uniquely 2-divisible (a `ℤ[1/2]`-module); no finite generation is assumed. In `Suggested.lean`
-this is `bijective_sq_homotopyGroup_of_mod_two_acyclic`, with the coefficient group `ZMod 2`
-taken as a `ℤ`-module and the conclusion that squaring is bijective on `π_{n+2}(Y, y)`. The
+this is `bijective_sq_homotopyGroup_of_mod_two_acyclic`, for a space in an arbitrary universe,
+with the coefficient group `ZMod 2` lifted to that universe and taken as a `ℤ`-module, and the
+conclusion that squaring is bijective on `π_{n+2}(Y, y)`. The
 proof is the induction: start with `Z = Y`, which is 1-connected, and `n = 2`; the lemma shows
 that `π_2 Y` is uniquely 2-divisible and gives a 2-connected `Z'` with `H̃_*(Z'; 𝔽₂) = 0` and
 `π_k Z' ≅ π_k Y` for `k ≥ 3`; applying it to `Z'` with `n = 3`, and so on, shows that every
@@ -1542,9 +1543,13 @@ nonorientable base. *Needs:* items 3–4, Layer 4 item 4, AlgebraicTopology Stag
   identified with a single fibre. Under the oriented or mod-2 trivialization this is
   `H_*(E) → H_*(E, E|_{B_{n−1}}) ≅ H_{*−n}(F_b)`.
 - Prove shriek naturality for maps of fibrations (Proposition 2.12, Lemma 2.14), and the
-  source's Corollary 2.13: if `σ_*[F] ≠ 0` then `σ_*[E]` lives over the fundamental class,
-  using oriented classes or their orientation-twisted replacements and the corresponding
-  coefficient morphisms.
+  source's Corollary 2.13: for a map `σ : E → E′` of Hurewicz fibrations over the closed orientable `Y`,
+  restricting to `σ : F → F′` on the fibres, with `E` a closed orientable manifold (so that
+  `[E]` exists and `j_![E] = [F]` by the source's Remark 2.10) and `σ_*[F] ≠ 0`, the class
+  `σ_*[E]` lives over the fundamental class in `E′ → Y`. The orientation-twisted variant
+  replaces `[E]` and `[F]` by their twisted top classes under the same hypothesis on `E`, with
+  the corresponding coefficient morphisms. Without the hypothesis on `E` there is no `[E]`: the
+  path-loop fibration over `S²` has contractible total space.
 
 **Checks.**
 - For the trivial fibration `B × F → B` the class `[B] × α` lives over the fundamental class
@@ -1738,7 +1743,12 @@ negative-end input and positive-end output, and prove the energy identity: for t
 reference-cylinder action `𝒜_H = ∫ γ̄^*ω − ∫ H dt`, the energy `E(u) = ∫ |u_s|² ds dt` of a
 cylinder from `x₋` to `x₊` is `𝒜_H(x₋) − 𝒜_H(x₊)`, so `𝒜_H` decreases along `s`. Take
 HeegaardFloer F1.4's Conley–Zehnder index `CZ = −μ_RS` in the trivializations fixed by the
-conventions. The Maslov index of symplectic paths and loops is derived from Lane F1.4's Maslov
+conventions; for `ι_{X_H} ω = dH` and a `C²`-small autonomous Morse `H`, the constant orbit at a
+critical point `x` with the constant cap has `CZ = n − ind_Morse(H, x) = ind_Morse(−H, x) − n`,
+as F1.4 writes it, and 7.C.0's `μ = −CZ` is the opposite sign of the same index. With this
+grading and the differential that decreases `𝒜_H` along `s`, the complex of such an `H` is the
+Morse complex of `−H` in degree `ind_Morse(−H) − n`, which is what the normalization
+`FH_*(H) ≅ H_{*+n}(X)` of item 4 requires. The Maslov index of symplectic paths and loops is derived from Lane F1.4's Maslov
 index of Lagrangian paths through graphs (`Ψ ↦ graph Ψ ⊂ (ℝ²ⁿ × ℝ²ⁿ, −ω ⊕ ω)`, relative to the
 diagonal, after Robbin–Salamon); it is not a second construction. Consume F1.5's identification
 of the clutching-loop first Chern number with CharacteristicClasses' topological `c₁`, with the
@@ -1752,9 +1762,12 @@ conventions (Floer grading, sign dictionary).
 - The constant cylinder at a 1-periodic orbit has energy `0`, consistently with the identity
   `E = 𝒜_H(x₋) − 𝒜_H(x₊)`; a sign error in the action would make nonconstant cylinders have
   negative energy.
-- On `ℝ²` with `H = (q² + p²)/2 · ε`, `ε` small, the constant orbit at `0` has `CZ = −1`
-  in the normalization `FH_* ≅ H_{*+1}`, since `CZ = ind_Morse − n` with `ind_Morse = 0`,
-  `n = 1`; replacing `H` by `−H` gives `CZ = +1`.
+- On `ℝ²` with `H = (q² + p²)/2 · ε`, `ε` small, the constant orbit at `0` has `CZ = +1`
+  in the normalization `FH_* ≅ H_{*+1}`, since `CZ = n − ind_Morse` with `ind_Morse = 0`,
+  `n = 1`: `ι_{X_H} ω = dH` gives `X_H = ε(p ∂_q − q ∂_p)`, the clockwise rotation, whose
+  linearization is `exp(tJS)` with `S = −εI`, and F1.4's `CZ = −sign(S)/2 = +1`; replacing `H`
+  by `−H` gives `CZ = −1`. The opposite formula `CZ = ind_Morse − n` would give `−1` here and
+  would contradict 7.C.0's Check on the minimum of `S²`, where `μ = −CZ = −1`.
 - For a loop of symplectic matrices the Maslov index of its graph equals the winding of
   `det` of its unitary part, and `c₁(TS²)[S²] = 2` is the Chern number of the clutching loop of
   degree `2`.
@@ -2768,9 +2781,14 @@ Layer 3 item 2.
 - Theorem J for the trivial fibration recovers `FH_*(H) ≅ H_{*+n}(X)` with coefficients (worked
   example 6).
 - For `𝓕` concentrated in degree `0` the comparison is the classical `FH_*(X; L) ≅ H_{*+n}(X; i_X^*L)`.
-- The degree shift is `n = ½ dim X`: on `X = S²` with the small Morse Hamiltonian the
-  generators have Conley–Zehnder indices `−1` and `+1` and the comparison sends them to
-  `H₀` and `H₂`.
+- The degree shift is `n = ½ dim X`: on `X = T²` (`n = 1`), which is symplectically
+  aspherical since `π₂(T²) = 0`, the contractible-component comparison applies (it needs
+  asphericity alone, as 7.C.0 records; `T²` is not atoroidal, so the vanishing of `FH_*` on the
+  other components of `𝓛T²` is not asserted for it), and the four constant orbits of the height
+  function of the embedded torus have Conley–Zehnder indices `n − ind_Morse`, that is `+1`,
+  `0`, `0`, `−1`, which the comparison sends to `H₂(T²)`, `H₁(T²)` (rank `2`) and `H₀(T²)`, as
+  7.4's Check records. `S²` is an instance of neither statement, since the identity `S² → S²`
+  has `∫ ω ≠ 0`; it stays the capped branch's `ℤ/4`-graded example of 7.C.5b.
 
 ### 8.7 Symplectic homology with DG coefficients
 
@@ -2969,8 +2987,14 @@ Prove the cotangent criterion (Proposition 5.9). *Needs:* item 1, Layer 9 items 
 
 ### 10.4 The kernel of `i_{Q*}`
 
-Prove that `Ω²Q` has the homology of a point if and only if `Q` is a `K(π, 1)` (Lemma 3.41);
-Proposition 5.11: the kernel of `i_{Q*}` contains an infinite cyclic group, a copy of `π_k(Q)`,
+Prove that `Ω²Q` has the homology of a point if and only if `Q` is a `K(π, 1)` (Lemma 3.41),
+for every path-connected space `Q`, not only a closed manifold: the proof is the one of the
+source, through `π_i(Ω²Q) ≅ π_{i+2}(Q)`, Hurewicz on the path-connected H-space `Ω²Q` and the
+homology invariance of weak equivalences. In `Suggested.lean` this is
+`isAspherical_iff_double_loopSpace_homology`, on Mathlib's fixed-interval loop space
+`Ω(ΩQ, refl)` with `TauCeti.IsAspherical` on one side and, on the other, path-connectedness of
+`Ω²Q` (its `H₀ ≅ ℤ`) together with the vanishing of its integral singular homology in every
+positive degree. Then prove Proposition 5.11: the kernel of `i_{Q*}` contains an infinite cyclic group, a copy of `π_k(Q)`,
 or a class that is not `d`-torsion, according to the first nonvanishing higher homotopy group;
 and that `ker π_{U!}` is `d`-torsion (Proposition 5.13). The second part of Proposition 5.11 uses
 the class of groups annihilated by some power of `d` (Layer 1 item 4). *Needs:* Layer 1 items 1,
@@ -2978,6 +3002,10 @@ the class of groups annihilated by some power of `d` (Layer 1 item 4). *Needs:* 
 
 **Checks.**
 - `Q = T^r`: `Ω²T^r` is contractible and `i_{Q*}` is injective.
+- Lemma 3.41 needs `Q` path-connected: for `Q` two points, `Ω²Q` at either point is a point
+  and has the homology of a point, while `Q` is not aspherical.
+- Lemma 3.41 on `Q = S²`: `Ω²S²` has `π₀ = π₂(S²) = ℤ`, so `H₀(Ω²S²)` has rank `ℵ₀` and `S²`
+  is not a `K(π, 1)`; on `Q = S³`, `Ω²S³` is path-connected but `H₁(Ω²S³) = π₃(S³) = ℤ`.
 - `Q = S²`: `π₂(S²) = ℤ` is the first nonvanishing higher group; the source's proof identifies
   `ker i_{Q*}` with the homology of `P_{⋆→Q}𝓛₀Q ≃ Map_*(S², Q)` away from the unit, and
   `Map_*(S², S²)` has `π₀ = ℤ`, so the kernel contains an infinite cyclic subgroup in degree

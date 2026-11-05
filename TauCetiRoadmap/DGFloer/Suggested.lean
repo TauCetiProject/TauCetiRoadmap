@@ -19,7 +19,9 @@ Stated here:
 * the mod-2 vanishing theorem (README Layer 1 item 4): a simply connected space with vanishing
   reduced mod-2 singular homology has uniquely 2-divisible higher homotopy groups;
 * the torus criterion (README Layer 11 item 3): a compact connected Lie group is aspherical
-  exactly when it is a torus.
+  exactly when it is a torus;
+* Lemma 3.41 of the source (README Layer 10 item 4): a path-connected space is aspherical
+  exactly when its double loop space has the integral homology of a point.
 
 Not statable at the pins, each with the carrier it lacks:
 
@@ -54,6 +56,8 @@ the grading bridge `C^{-n} = C_n` of the README (standing conventions).
 
 namespace TauCetiRoadmap.DGFloer
 
+universe u
+
 open scoped unitInterval ContDiff
 
 /-! ## Layer 1: topological prerequisites -/
@@ -63,13 +67,13 @@ open scoped Topology in
 homology with coefficients in the abelian group `ℤ/2` vanishes in every positive degree has
 every higher homotopy group uniquely 2-divisible: squaring is a bijection on `π_{n+2}(Y, y)`.
 The coefficients are Mathlib's singular homology with values in `ModuleCat ℤ`, evaluated on the
-`ℤ`-module `ZMod 2`. The proof is the one-step lemma of the README, iterated through the
-Whitehead tower, with the mod-2 Serre spectral sequence and the vanishing of
-`H̃_*(K(A, n); 𝔽₂)` for a `ℤ[1/2]`-module `A`. -/
-theorem bijective_sq_homotopyGroup_of_mod_two_acyclic (Y : TopCat.{0}) [SimplyConnectedSpace Y]
+`ℤ`-module `ZMod 2`, lifted to the universe of `Y`. The proof is the one-step lemma of the
+README, iterated through the Whitehead tower, with the mod-2 Serre spectral sequence and the
+vanishing of `H̃_*(K(A, n); 𝔽₂)` for a `ℤ[1/2]`-module `A`. -/
+theorem bijective_sq_homotopyGroup_of_mod_two_acyclic (Y : TopCat.{u}) [SimplyConnectedSpace Y]
     (hY : ∀ n : ℕ, 1 ≤ n → Subsingleton
-      (((AlgebraicTopology.singularHomologyFunctor (ModuleCat.{0} ℤ) n).obj
-        (ModuleCat.of ℤ (ZMod 2))).obj Y))
+      (((AlgebraicTopology.singularHomologyFunctor (ModuleCat.{u} ℤ) n).obj
+        (ModuleCat.of ℤ (ULift.{u} (ZMod 2)))).obj Y))
     (n : ℕ) (y : Y) : Function.Bijective (fun a : π_ (n + 2) Y y ↦ a ^ 2) := sorry
 
 /-! ## Layer 4: twisting cocycles and the twisted complex -/
@@ -157,6 +161,24 @@ theorem twistedDifferential_sq [IsScalarTower R Aᵐᵒᵖ M] [SMulCommClass R A
     twistedDifferential m ℳ dM (twistedDifferential m ℳ dM f) = 0 := sorry
 
 end Twisting
+
+/-! ## Layer 10: the kernel of `i_{Q*}` -/
+
+open scoped Topology.Homotopy in
+/-- **Lemma 3.41 of the source** (README Layer 10 item 4). A path-connected space `Q` is
+aspherical (a `K(π, 1)`: every homotopy group of dimension at least two vanishes) exactly when
+its double loop space `Ω(ΩQ, refl)`, in Mathlib's fixed-interval model, has the integral
+homology of a point: it is path-connected, which is `H₀ ≅ ℤ`, and its singular homology with
+coefficients in `ℤ` vanishes in every positive degree. The proof is the source's, through
+`π_i(Ω²Q) ≅ π_{i+2}(Q)`, Hurewicz on the H-space `Ω²Q` and the homology invariance of weak
+homotopy equivalences. -/
+theorem isAspherical_iff_double_loopSpace_homology (Q : Type u) [TopologicalSpace Q]
+    [PathConnectedSpace Q] (q : Q) :
+    TauCeti.IsAspherical Q q ↔
+      (PathConnectedSpace (Ω (Ω Q q) (Path.refl q)) ∧
+        ∀ n : ℕ, 1 ≤ n → Subsingleton
+          (((AlgebraicTopology.singularHomologyFunctor (ModuleCat.{u} ℤ) n).obj
+            (ModuleCat.of ℤ (ULift.{u} ℤ))).obj (TopCat.of (Ω (Ω Q q) (Path.refl q))))) := sorry
 
 /-! ## Layer 11: the finite cover of a compact connected Lie group -/
 
