@@ -235,6 +235,12 @@ The development starts from these current APIs.
   cover generation, two-open-set groupoid/group pushouts, the wide-groupoid
   van Kampen equivalence, wedge-of-circles free groups and the disconnected
   two-arc circle test. Extend their naturality and example computations.
+- Tau Ceti's `FundamentalGroup.instCommGroup` and `FundamentalGroup.cast_map_prod_mul` in
+  `TauCeti.AlgebraicTopology.FundamentalGroup.TopologicalMonoid`: for a space with a
+  continuous multiplication and a two-sided unit `1` (`MulOneClass`, `ContinuousMul`), the
+  fundamental group at `1` is commutative, and the class of the pointwise product of two loops
+  at `1` is their product in the fundamental group (Eckmann–Hilton). Stage 1 item 6 consumes
+  them and states nothing further about them.
 - Native `TopCat.eilenbergZilberHomotopyEquiv`, Alexander–Whitney and shuffle
   maps in `Singular.EilenbergZilber`/`AlexanderWhitney`/`Shuffle`; the missing
   local-coefficient and Kunneth extensions use these maps.
@@ -318,19 +324,24 @@ This stage is independent of Stages 2--8.
    on a wedge of circles.  The first check must use more than one basepoint and the second must
    consume the native wedge-of-circles free-group equivalence and recover its presentation maps.
 
-6. For a topological space G with a continuous unital multiplication, construct pointwise
-   multiplication on native based path-homotopy classes and prove that
-   `FundamentalGroup G 1` is abelian. In particular this applies to every topological group,
-   with no connectedness or covering-space hypothesis. Use the native product of path classes
-   followed by the map induced by multiplication G×G→G; prove both unit laws and the
-   interchange law with concatenation. Apply native Eckmann–Hilton and retain the existing
-   fundamental-group product, unit and inverse definitionally. Identify pointwise and existing
-   multiplication and prove naturality for actual continuous unital multiplicative maps.
-   Account explicitly for native `FundamentalGroup.mul_def`, whose multiplication is reversed
-   path composition. This construction uses native paths and groupoid maps independently of
-   covers, manifold structures and the later CW stages. The accompanying
-   [Suggested.lean](Suggested.lean) (section `TopologicalGroupFundamentalGroup`) states the
-   native construction and comparison laws.
+6. Consume Tau Ceti's `FundamentalGroup.instCommGroup`: for a space G with a continuous
+   multiplication and a two-sided unit `1`, `FundamentalGroup G 1` is commutative, with no
+   connectedness or covering-space hypothesis; in particular for every topological group. Consume
+   `FundamentalGroup.cast_map_prod_mul`, which identifies the class of the pointwise product
+   `t ↦ γ t * δ t` of two loops at `1` with the product of their classes. Naturality for a
+   continuous unital multiplicative map `f : G → H` follows from this identification and the
+   fact that the induced map on fundamental groups is a group homomorphism. The native product
+   is reversed path composition (`FundamentalGroup.mul_def`); in a commutative group the order
+   is immaterial. This item uses native paths and groupoid maps only, independently of covers,
+   manifold structures and the later CW stages.
+
+   **Checks.**
+   - For the unit circle in `ℂ` under complex multiplication, the commutativity is consistent
+     with the circle's fundamental group being infinite cyclic; a pointwise product of the
+     degree-one loop with itself is the degree-two loop, which is the square of the generator.
+   - For a one-point monoid the fundamental group is trivial and both operations coincide.
+   - Non-example: the wedge of two circles has nonabelian fundamental group (free of rank two),
+     so it carries no continuous multiplication with a strict two-sided unit at its wedge point.
 
 The proof spine is Brown, *Topology and Groupoids*, Chapters 6--7: subdivision gives generation,
 the square-grid subdivision of a homotopy gives relations, and the universal property identifies
