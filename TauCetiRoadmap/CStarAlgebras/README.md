@@ -925,9 +925,10 @@ operator spaces in the construction; for `E = ℂ` the evaluation isometry `CB(�
 the completeness boundary. Put the operator-space structure on `CB(E, F)` by
 `M_n(CB(E, F)) = CB(E, M_n(F))` and on `E*` by `M_n(E*) = CB(E, M_n)`. Prove that the canonical
 map `E → E**` is completely isometric, that duality exchanges complete quotient maps and
-complete isometries, and Smith's lemma: a map into `M_n` has `‖u‖_cb = ‖u_n‖` (Smith, J. London
-Math. Soc. 27 (1983)), by compressing the test vectors of a level-`m` amplification to the
-`n`-dimensional subspaces they span.
+complete isometries, and Smith's lemma: a map `u : E → M_n` has `‖u‖_cb = ‖u_n‖` (Smith 1983,
+Theorem 2.10), by compressing the test vectors of a level-`m` amplification to the
+`n`-dimensional subspaces they span; the compression uses only the matrix norms of `E`, so the
+lemma holds for every operator space `E`, complete or not.
 `Suggested.lean` defines complete boundedness of a linear map between C*-algebras as
 `IsCompletelyBounded`.
 
@@ -2009,7 +2010,7 @@ Mathlib `C(unitInterval, A)`, `lp`, `cfc`. Within this roadmap: Layers 2, 3, 5, 
   Math. Res. Lett. 8 (2001), 545–555; Definition 2.4, Propositions 2.1–2.5, Theorem 2.6, Lemma 3.1
   and §4, cited in §§9.1, 9.3 and 9.4.
 - R. R. Smith, *Completely bounded maps between C*-algebras*, J. London Math. Soc. (2) 27 (1983),
-  157–166, doi:10.1112/jlms/s2-27.1.157; Smith's lemma, cited in §3.2.
+  157–166, doi:10.1112/jlms/s2-27.1.157; Theorem 2.10 (Smith's lemma), cited in §3.2.
 - G. K. Pedersen, *C*-algebras and their automorphism groups*, London Mathematical Society
   Monographs 14, Academic Press 1979; Proposition 3.11.9, Theorem 3.11.10 and Proposition 3.12.3,
   cited in §2.9.
