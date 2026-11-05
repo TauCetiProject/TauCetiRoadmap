@@ -1,7 +1,9 @@
-import Mathlib
-import TauCeti.Geometry.Symplectic.Manifold.TwoForm
-import TauCeti.Geometry.Symplectic.Lagrangian.Basic
-import TauCeti.Geometry.Symplectic.StandardCompatible
+module
+
+public import Mathlib
+public import TauCeti.Geometry.Symplectic.Manifold.TwoForm
+public import TauCeti.Geometry.Symplectic.Lagrangian.Basic
+public import TauCeti.Geometry.Symplectic.StandardCompatible
 
 /-!
 # Completely integrable systems and classical mechanics: target signatures
@@ -31,6 +33,7 @@ Not statable at the pins, and therefore absent:
 * the spherical-pendulum monodromy of I4: it needs the period lattice bundle of I2.
 -/
 noncomputable section
+@[expose] public section
 open scoped Manifold ContDiff
 namespace TauCetiRoadmap.SymplecticGeometry.IntegrableSystems
 variable {E H M : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
