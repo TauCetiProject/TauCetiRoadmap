@@ -1,102 +1,58 @@
+import Mathlib
 import TauCeti.Geometry.Manifold.Morse.Basic
 import TauCeti.Geometry.Manifold.Morse.Index
-import TauCeti.Analysis.Calculus.Morse.NormalForm
-import Mathlib.Geometry.Manifold.LocalDiffeomorph
-import Mathlib.Geometry.Manifold.SmoothEmbedding
-import Mathlib.Geometry.Manifold.MFDeriv.NormedSpace
-import Mathlib.Topology.Homotopy.Equiv
-import Mathlib.Topology.Homotopy.Contractible
-import Mathlib.Data.Set.Card
+import TauCeti.Geometry.Manifold.VectorBundle.Riemannian.Riesz
 
 /-!
-These are suggested forms, not an exhaustive checklist. The README is the
-specification. Use native Tau Ceti critical-point, Morse and index predicates;
-these interfaces add normalized manifold charts, finite critical-set/count
-and compact-band deformation statements. M2's scalar-level block names its
-specific charted-space construction and inclusion/tangent-kernel laws; M4's
-LS block states categorical covers and critical-count bounds for arbitrary
-smooth functions. Counts have extended natural values before finiteness is proved.
+# Morse theory: target signatures
+
+The roadmap is README.md; this file is not the roadmap. It states the roadmap's
+headline theorems against the pinned APIs: normalized Morse charts, regular
+levels, compact-band deformation, the Morse CW model, Morse exhaustion existence, strong Morse
+inequalities, the two-critical-point sphere theorem, and the categorical-cover
+form of the arbitrary-function Lusternik–Schnirelmann bound, together with
+compact-trapped gradient convergence and intrinsic exponential decay.
+
+The full relative handle/CW comparison with coherent parameter families lacks
+its constructed handle attachment and comparison carriers. Strong smooth Morse
+approximation lacks the specified strong smooth topology on smooth maps.
+Morse–Bott attachment and its spectral sequence lack the critical-normal-bundle
+splitting and filtered attachment complex. These headlines remain targets in README.md; no substitute
+carrier is introduced here. The LS numerical invariant belongs to AlgebraicTopology;
+the finite categorical-cover output below states the same finite-critical-set bound
+using native open sets and nullhomotopies.
 -/
+
+universe u
 
 noncomputable section
 
 namespace TauCetiRoadmap.MorseTheory
-open scoped Manifold ContDiff
+open scoped Manifold ContDiff Bundle
 open Set
 
 variable {E H M : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
-  [FiniteDimensional ℝ E] [TopologicalSpace H]
-  {I : ModelWithCorners ℝ E H} [I.Boundaryless]
-  [TopologicalSpace M] [T2Space M] [ChartedSpace H M] [IsManifold I ∞ M]
+  [hfd : FiniteDimensional ℝ E] [TopologicalSpace H]
+  {I : ModelWithCorners ℝ E H} [hbd : I.Boundaryless]
+  [TopologicalSpace M] [ht2 : T2Space M] [ChartedSpace H M] [hsm : IsManifold I ∞ M]
+  [hsc : SecondCountableTopology M]
 
-/-- M2: the specified explicit native section-zero atlas, transported to the scalar level.
-The README fixes the trivial line bundle, preferred derivatives, complement
-projection and chart formulas; this definition is an honest construction target. -/
-@[instance_reducible]
-noncomputable def scalarRegularLevelChartedSpace (f : M → ℝ) (c : ℝ)
-    (hf : ContMDiff I 𝓘(ℝ) ∞ f)
-    (hregular : ∀ x, f x = c → Function.Surjective (mfderiv I 𝓘(ℝ) f x)) :
-    ChartedSpace (Fin (Module.finrank ℝ E - 1) → ℝ) {x : M // f x = c} := by
-  sorry
+include hfd hbd ht2 hsm hsc
 
-theorem scalarRegularLevel_isManifold (f : M → ℝ) (c : ℝ)
-    (hf : ContMDiff I 𝓘(ℝ) ∞ f)
-    (hregular : ∀ x, f x = c → Function.Surjective (mfderiv I 𝓘(ℝ) f x)) :
-    letI := scalarRegularLevelChartedSpace (I := I) f c hf hregular
-    IsManifold 𝓘(ℝ, Fin (Module.finrank ℝ E - 1) → ℝ) ∞ {x : M // f x = c} := by
-  sorry
-
-theorem scalarRegularLevel_isSmoothEmbedding (f : M → ℝ) (c : ℝ)
-    (hf : ContMDiff I 𝓘(ℝ) ∞ f)
-    (hregular : ∀ x, f x = c → Function.Surjective (mfderiv I 𝓘(ℝ) f x)) :
-    letI := scalarRegularLevelChartedSpace (I := I) f c hf hregular
-    Manifold.IsSmoothEmbedding
-      𝓘(ℝ, Fin (Module.finrank ℝ E - 1) → ℝ) I ∞
-      (Subtype.val : {x : M // f x = c} → M) := by
-  sorry
-
-theorem scalarRegularLevel_tangentRange (f : M → ℝ) (c : ℝ)
-    (hf : ContMDiff I 𝓘(ℝ) ∞ f)
-    (hregular : ∀ x, f x = c → Function.Surjective (mfderiv I 𝓘(ℝ) f x)) :
-    letI := scalarRegularLevelChartedSpace (I := I) f c hf hregular
-    ∀ z : {x : M // f x = c},
-      (mfderiv 𝓘(ℝ, Fin (Module.finrank ℝ E - 1) → ℝ) I Subtype.val z).range =
-        (mfderiv I 𝓘(ℝ) f z.1).ker := by
-  sorry
-
-/-- The existential interface is a corollary of the named construction and its laws. -/
-theorem exists_scalarRegularLevelData (f : M → ℝ) (c : ℝ)
-    (hf : ContMDiff I 𝓘(ℝ) ∞ f)
-    (hregular : ∀ x, f x = c → Function.Surjective (mfderiv I 𝓘(ℝ) f x)) :
-    ∃ cs : ChartedSpace (Fin (Module.finrank ℝ E - 1) → ℝ) {x : M // f x = c},
-      letI := cs
-      IsManifold 𝓘(ℝ, Fin (Module.finrank ℝ E - 1) → ℝ) ∞ {x : M // f x = c} ∧
-        Manifold.IsSmoothEmbedding
-          𝓘(ℝ, Fin (Module.finrank ℝ E - 1) → ℝ) I ∞
-          (Subtype.val : {x : M // f x = c} → M) ∧
-        ∀ z : {x : M // f x = c},
-          (mfderiv 𝓘(ℝ, Fin (Module.finrank ℝ E - 1) → ℝ) I Subtype.val z).range =
-            (mfderiv I 𝓘(ℝ) f z.1).ker := by
-  refine ⟨scalarRegularLevelChartedSpace (I := I) f c hf hregular, ?_⟩
-  exact ⟨scalarRegularLevel_isManifold (I := I) f c hf hregular,
-    scalarRegularLevel_isSmoothEmbedding (I := I) f c hf hregular,
-    scalarRegularLevel_tangentRange (I := I) f c hf hregular⟩
+/-! ## Layer 1: critical Hessians, indices and usable normal forms -/
 
 /-- The critical set uses the native manifold derivative. -/
 def criticalPoints (f : M → ℝ) : Set M :=
   {x | mvfderiv I f x = 0}
 
+/-- Extended count of critical points of a specified native Morse index. -/
 def criticalCount (f : M → ℝ) (j : ℕ) : ℕ∞ :=
   {x | x ∈ criticalPoints (I := I) f ∧ TauCeti.manifoldMorseIndex I f x = j}.encard
 
+/-- A smooth Morse function has only finitely many critical points in each compact subset. -/
 theorem finite_criticalPoints_inter (f : M → ℝ) (hf : TauCeti.IsMorse I f)
     {K : Set M} (hK : IsCompact K) :
     (criticalPoints (I := I) f ∩ K).Finite := by
-  sorry
-
-theorem criticalCount_ne_top [CompactSpace M] (f : M → ℝ)
-    (hf : TauCeti.IsMorse I f) (j : ℕ) :
-    criticalCount (I := I) f j ≠ ⊤ := by
   sorry
 
 /-- The normalized chart uses the native Morse index and has an actual smooth inverse. -/
@@ -112,27 +68,31 @@ theorem exists_normalized_morseChart (f : M → ℝ)
           (if i.val < TauCeti.manifoldMorseIndex I f x then -1 else 1) * (ψ y i) ^ 2 := by
   sorry
 
-/-- A proper Morse exhaustion has finite critical sets below each level when bounded below. -/
-theorem finite_criticalPoints_sublevel (f : M → ℝ) (hf : TauCeti.IsMorse I f)
-    (hp : IsProperMap f) (hlower : ∃ a : ℝ, ∀ x, a ≤ f x) (b : ℝ) :
-    (criticalPoints (I := I) f ∩ {x | f x ≤ b}).Finite := by
+/-! ## Layer 2: compact-band deformation, handles and cells -/
+
+/-- A regular scalar level has a smooth embedded atlas whose tangent image is the derivative kernel. -/
+theorem exists_scalarRegularLevelData (f : M → ℝ) (c : ℝ)
+    (hf : ContMDiff I 𝓘(ℝ) ∞ f)
+    (hregular : ∀ x, f x = c → Function.Surjective (mfderiv I 𝓘(ℝ) f x)) :
+    ∃ cs : ChartedSpace (Fin (Module.finrank ℝ E - 1) → ℝ) {x : M // f x = c},
+      letI := cs
+      IsManifold 𝓘(ℝ, Fin (Module.finrank ℝ E - 1) → ℝ) ∞ {x : M // f x = c} ∧
+        Manifold.IsSmoothEmbedding
+          𝓘(ℝ, Fin (Module.finrank ℝ E - 1) → ℝ) I ∞
+          (Subtype.val : {x : M // f x = c} → M) ∧
+        ∀ z : {x : M // f x = c},
+          (mfderiv 𝓘(ℝ, Fin (Module.finrank ℝ E - 1) → ℝ) I Subtype.val z).range =
+            (mfderiv I 𝓘(ℝ) f z.1).ker := by
   sorry
 
-/-- Compact-band no-critical deformation on actual sublevel topological spaces. -/
-theorem exists_sublevelHomotopyEquiv (f : M → ℝ) (hf : ContMDiff I 𝓘(ℝ) ∞ f)
-    (a b : ℝ) (hab : a < b) (hcompact : IsCompact (f ⁻¹' Icc a b))
-    (hnocrit : ∀ x, a ≤ f x → f x ≤ b → x ∉ criticalPoints (I := I) f) :
-    ∃ e : ContinuousMap.HomotopyEquiv {x : M | f x ≤ a} {x : M | f x ≤ b},
-      ∀ x : {x : M | f x ≤ a}, (e x : M) = x := by
-  sorry
-
+/-- The continuous inclusion of a lower closed sublevel into a higher one. -/
 def sublevelInclusion (f : M → ℝ) (a b : ℝ) (hab : a ≤ b) :
     ContinuousMap {x : M | f x ≤ a} {x : M | f x ≤ b} :=
   ⟨fun x ↦ ⟨x.val, le_trans x.property hab⟩,
     continuous_subtype_val.subtype_mk _⟩
 
 /-- The actual deformation homotopy is fixed on the entire lower sublevel. -/
-theorem exists_sublevelDeformation [SecondCountableTopology M]
+theorem exists_sublevelDeformation
     (f : M → ℝ) (hf : ContMDiff I 𝓘(ℝ) ∞ f)
     (a b : ℝ) (hab : a < b) (hcompact : IsCompact (f ⁻¹' Icc a b))
     (hnocrit : ∀ x, a ≤ f x → f x ≤ b → x ∉ criticalPoints (I := I) f) :
@@ -143,34 +103,63 @@ theorem exists_sublevelDeformation [SecondCountableTopology M]
         {x : {x : M | f x ≤ b} | f x ≤ a}) := by
   sorry
 
-/-! Arbitrary smooth functions: explicit finite cover output keeps this file
-independent of another roadmap's Suggested module. The README specifies
-the comparison of these finite covers with the canonical LS number. -/
-
-/-- Extended count; infinite critical loci retain value infinity. -/
-def totalCriticalCount (f : M → ℝ) : ℕ∞ :=
-  (criticalPoints (I := I) f).encard
-
-/-- The scalar-vector derivative wrapper has the native mfderiv zero locus. -/
-theorem criticalPoints_eq_setOf_mfderiv_eq_zero (f : M → ℝ)
-    (hf : ContMDiff I 𝓘(ℝ) ∞ f) :
-    criticalPoints (I := I) f = {x | mfderiv I 𝓘(ℝ) f x = 0} := by
+/-- A proper bounded-below Morse function has a Hausdorff CW model with one cell for each
+critical point, in its Morse-index dimension (Milnor, Theorem 3.5, p. 20). -/
+theorem exists_morseCWModel (f : M → ℝ) (hf : TauCeti.IsMorse I f)
+    (hp : IsProperMap f) (hb : BddBelow (Set.range f)) :
+    ∃ (X : Type _) (t : TopologicalSpace X),
+      letI := t
+      ∃ (_ : T2Space X) (cw : Topology.CWComplex (Set.univ : Set X)),
+        letI := cw
+        Nonempty (ContinuousMap.HomotopyEquiv M X) ∧
+        ∀ j : ℕ, Nonempty
+          (Topology.RelCWComplex.cell (Set.univ : Set X) j ≃
+            {x : M // x ∈ criticalPoints (I := I) f ∧
+              TauCeti.manifoldMorseIndex I f x = j}) := by
   sorry
 
-/-- Boundaryless chart transport of the native normed-space Fermat theorem. -/
-theorem isLocalMin_mem_criticalPoints (f : M → ℝ)
-    (hf : ContMDiff I 𝓘(ℝ) ∞ f) {x : M} (hx : IsLocalMin f x) :
-    x ∈ criticalPoints (I := I) f := by
+/-! ## Layer 3: approximation and proper Morse exhaustions -/
+
+/-- Every second-countable manifold in the standing scope has a proper Morse function bounded below,
+including the empty manifold. -/
+theorem exists_proper_boundedBelow_morse :
+    ∃ f : M → ℝ, TauCeti.IsMorse I f ∧ IsProperMap f ∧ BddBelow (Set.range f) := by
   sorry
 
-theorem criticalPoints_nonempty_of_compact [CompactSpace M] [Nonempty M]
-    (f : M → ℝ) (hf : ContMDiff I 𝓘(ℝ) ∞ f) :
-    (criticalPoints (I := I) f).Nonempty := by
+/-! ## Layer 4: strong inequalities and topology tests -/
+
+/-- Betti number of actual singular homology with coefficients in a field. -/
+noncomputable def bettiNumber (k : Type u) [Field k] (X : Type u)
+    [TopologicalSpace X] (j : ℕ) : ℕ :=
+  Module.finrank k
+    (((AlgebraicTopology.singularHomologyFunctor.{u} (ModuleCat.{u} k) j).obj
+      (ModuleCat.of k k)).obj (TopCat.of X))
+
+/-- The full Morse polynomial identity over any field, with a nonnegative correction polynomial. -/
+theorem strong_morse_inequalities [CompactSpace M] (k : Type _) [Field k]
+    (f : M → ℝ) (hf : TauCeti.IsMorse I f) :
+    ∃ Q : Polynomial ℕ,
+      (∑ j ∈ Finset.range (Module.finrank ℝ E + 1),
+        Polynomial.monomial j (criticalCount (I := I) f j).toNat) =
+      (∑ j ∈ Finset.range (Module.finrank ℝ E + 1),
+        Polynomial.monomial j (bettiNumber k M j)) +
+      (1 + Polynomial.X) * Q := by
+  sorry
+
+/-- A closed positive-dimensional manifold with a Morse function having exactly two
+critical points is homeomorphic to the standard sphere of its dimension; connectedness
+follows from the count. -/
+theorem nonempty_homeomorph_sphere_of_two_criticalPoints [CompactSpace M]
+    (hdim : 0 < Module.finrank ℝ E)
+    (f : M → ℝ) (hf : TauCeti.IsMorse I f)
+    (hcrit : (criticalPoints (I := I) f).encard = 2) :
+    Nonempty (M ≃ₜ Metric.sphere
+      (0 : EuclideanSpace ℝ (Fin (Module.finrank ℝ E + 1))) 1) := by
   sorry
 
 /-- This deformation uses a critical-value isolation band and no Morse hypothesis. -/
 theorem exists_degenerateCriticalLevelDeformation [CompactSpace M]
-    [SecondCountableTopology M] (f : M → ℝ) (hf : ContMDiff I 𝓘(ℝ) ∞ f)
+    (f : M → ℝ) (hf : ContMDiff I 𝓘(ℝ) ∞ f)
     (c δ : ℝ) (hδ : 0 < δ)
     (hfinite : (criticalPoints (I := I) f ∩ {x | f x = c}).Finite)
     (hisolated : ∀ x ∈ criticalPoints (I := I) f,
@@ -185,7 +174,7 @@ theorem exists_degenerateCriticalLevelDeformation [CompactSpace M]
 
 /-- Ambient/open-sublevel cutoff version needed in the categorical argument. -/
 theorem exists_noCriticalOpenSublevelDeformation [CompactSpace M]
-    [SecondCountableTopology M] (f : M → ℝ) (hf : ContMDiff I 𝓘(ℝ) ∞ f)
+    (f : M → ℝ) (hf : ContMDiff I 𝓘(ℝ) ∞ f)
     (a b δ : ℝ) (hab : a < b) (hδ : 0 < δ)
     (hnocrit : ∀ x, a - δ ≤ f x → f x ≤ b + δ →
       x ∉ criticalPoints (I := I) f) :
@@ -196,7 +185,7 @@ theorem exists_noCriticalOpenSublevelDeformation [CompactSpace M]
   sorry
 
 /-- Actual finite categorical cover, not a Prop asserting its future availability. -/
-theorem exists_criticalCategoricalCover [CompactSpace M] [SecondCountableTopology M]
+theorem exists_criticalCategoricalCover [CompactSpace M]
     (f : M → ℝ) (hf : ContMDiff I 𝓘(ℝ) ∞ f)
     (hfinite : (criticalPoints (I := I) f).Finite) :
     ∃ U : Fin hfinite.toFinset.card → TopologicalSpace.Opens M,
@@ -205,61 +194,22 @@ theorem exists_criticalCategoricalCover [CompactSpace M] [SecondCountableTopolog
       (∀ x : M, ∃ i, x ∈ U i) := by
   sorry
 
-/-- All finite smooth critical counts; membership itself implies finiteness. -/
-def finiteSmoothCriticalCounts : Set ℕ :=
-  {n | ∃ f : M → ℝ, ContMDiff I 𝓘(ℝ) ∞ f ∧
-    totalCriticalCount (I := I) f = (n : ℕ∞)}
+/-! ## Layer 6: gradient convergence and exponential decay -/
 
-/-- Concrete witness required before defining the source's finite minimum. -/
-structure MorseFiniteWitness where
-  function : M → ℝ
-  morse : TauCeti.IsMorse I function
-  finite : (criticalPoints (I := I) function).Finite
-
-/-- M1 supplies manifold finiteness from its normed-space/chart input. -/
-noncomputable def morseFiniteWitnessOfMorse [CompactSpace M]
-    (f : M → ℝ) (hf : TauCeti.IsMorse I f) :
-    MorseFiniteWitness (I := I) (M := M) where
-  function := f
-  morse := hf
-  finite := by
-    simpa using finite_criticalPoints_inter (I := I) f hf (K := Set.univ) isCompact_univ
-
-/-- Constructed from M3 Morse approximation and M1 finiteness, including the empty manifold. -/
-theorem nonempty_morseFiniteWitness [CompactSpace M] [SecondCountableTopology M] :
-    Nonempty (MorseFiniteWitness (I := I) (M := M)) := by
-  sorry
-
-omit [FiniteDimensional ℝ E] [I.Boundaryless] [T2Space M] [IsManifold I ∞ M] in
-theorem finiteSmoothCriticalCounts_nonempty (w : MorseFiniteWitness (I := I) (M := M)) :
-    (finiteSmoothCriticalCounts (I := I) (M := M)).Nonempty := by
-  obtain ⟨n, hn⟩ := w.finite.exists_encard_eq_coe
-  exact ⟨n, w.function, w.morse.contMDiff, hn⟩
-
-/-- Minimize over all finite smooth critical counts, not only Morse functions. -/
-noncomputable def minimumCriticalCount (w : MorseFiniteWitness (I := I) (M := M)) : ℕ := by
-  classical
-  exact Nat.find (finiteSmoothCriticalCounts_nonempty w)
-
-omit [FiniteDimensional ℝ E] [I.Boundaryless] [T2Space M] [IsManifold I ∞ M] in
-theorem minimumCriticalCount_attained (w : MorseFiniteWitness (I := I) (M := M)) :
-    ∃ f : M → ℝ, ContMDiff I 𝓘(ℝ) ∞ f ∧
-      totalCriticalCount (I := I) f = (minimumCriticalCount w : ℕ∞) := by
-  classical
-  exact Nat.find_spec (finiteSmoothCriticalCounts_nonempty w)
-
-omit [FiniteDimensional ℝ E] [I.Boundaryless] [T2Space M] [IsManifold I ∞ M] in
-theorem minimumCriticalCount_independent
-    (w w' : MorseFiniteWitness (I := I) (M := M)) :
-    minimumCriticalCount w = minimumCriticalCount w' := by
-  rfl
-
-/-- The finite minimum also minimizes the extended counts of all smooth functions. -/
-theorem minimumCriticalCount_eq_extended_sInf
-    (w : MorseFiniteWitness (I := I) (M := M)) :
-    (minimumCriticalCount w : ℕ∞) =
-      sInf {m : ℕ∞ | ∃ f : M → ℝ,
-        ContMDiff I 𝓘(ℝ) ∞ f ∧ totalCriticalCount (I := I) f = m} := by
+/-- A forward negative-gradient curve for a smooth metric, trapped in a compact set,
+converges to a critical point of a Morse function with exponential Riemannian-distance decay. -/
+theorem exists_compactTrapped_gradient_limit
+    [Bundle.RiemannianBundle (fun x : M ↦ TangentSpace I x)]
+    [IsContMDiffRiemannianBundle I ∞ E (fun x : M ↦ TangentSpace I x)]
+    (f : M → ℝ) (hf : TauCeti.IsMorse I f) (γ : ℝ → M)
+    (hγ : IsMIntegralCurveOn γ
+      (fun x ↦ -Riemannian.Tensor.rieszDual (I := I) x (mfderiv I 𝓘(ℝ) f x))
+      (Set.Ici 0))
+    (K : Set M) (hK : IsCompact K) (htrap : Set.MapsTo γ (Set.Ici 0) K) :
+    ∃ p ∈ K, mvfderiv I f p = 0 ∧ Filter.Tendsto γ Filter.atTop (nhds p) ∧
+      ∃ C c T : ℝ, 0 < C ∧ 0 < c ∧ 0 ≤ T ∧
+        ∀ t : ℝ, T ≤ t →
+          Manifold.riemannianEDist I (γ t) p ≤ ENNReal.ofReal (C * Real.exp (-c * t)) := by
   sorry
 
 end TauCetiRoadmap.MorseTheory

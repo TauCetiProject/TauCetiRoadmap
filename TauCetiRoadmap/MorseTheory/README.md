@@ -1,13 +1,44 @@
-# Morse functions, sublevel topology and Morse–Bott attachments
+# Roadmap: Morse functions, sublevel topology and Morse–Bott attachments
 
-Develop the finite-dimensional topology of Morse and Morse–Bott functions:
+**Summary.** Develop the finite-dimensional topology of Morse and Morse–Bott functions:
 intrinsic Hessians and indices, normal forms, genericity, deformation of
 sublevels, handles and cells, proper exhaustions, strong inequalities and
 critical-submanifold attachments and compact-trapped gradient convergence.
 The resulting library supplies geodesic Morse theory,
 [AffineMorseLefschetz](../AffineMorseLefschetz/README.md) and Hamiltonian moment-map topology.
 
-## Scope, conventions and dependencies
+## Scope and ownership
+
+This roadmap owns ordinary finite Morse deformation/attachment and their
+abstract Morse–Bott extension. RiemannianGeometry R3 owns the broken-geodesic
+vertex carrier, Jacobi/index comparison and path-space limit, consuming this
+core. The symmetric-space and Bott applications use the same broken-path
+carrier and the attachments here, following
+[HomotopySpheres §4B](../HomotopySpheres/README.md).
+[HeegaardFloer Lane M](../HeegaardFloer/README.md) owns stable/unstable
+manifolds, Morse–Smale trajectory spaces, compactification/gluing, Morse
+homology and its singular comparison. It consumes the finite Morse core here;
+this roadmap does not construct a second trajectory complex.
+
+The native Morse predicates and index laws are inputs; this roadmap builds
+the manifold normal-form comparison, finite-band topology and arbitrary-function
+critical-point bounds. General atlas transport is owned by ComplexManifolds
+Milestone 1; Layer 1 here specifies the preferred-chart formulas needed for
+real boundaryless models, scalar levels and immersion comparisons.
+Morse theory under the Palais–Smale condition in place of properness
+(sequential compactness of almost-critical sequences, deformation of
+noncompact critical-free bands on complete Riemannian manifolds, and
+gradient convergence without compact trapping) is outside this roadmap: it
+extends §2.2 and §6.1 and belongs to a Part II roadmap built on them;
+nothing here depends on it.
+
+## Conventions
+
+Types are universe-polymorphic; for singular homology put the coefficient field
+and space in a common universe (using universe lifts when needed). The raw
+critical-set/count definitions need only charted calculus; smoothness and the
+standing geometric hypotheses accompany their theorems. `sublevelInclusion`
+needs only a topological space, a real-valued function and a≤b.
 
 Use finite-dimensional real smooth Hausdorff second-countable manifolds with
 boundaryless models. Compactness, properness, a lower bound, and compactness of
@@ -21,23 +52,116 @@ interface, and GeometricTopology Layer 1 for collars. The general
 boundary-critical-point and infinite-dimensional theories are separate from
 these regular-level cobordisms.
 
+At a critical point the Hessian is d²f, with no factor 1/2. A normalized Morse
+chart has `f=f(p)−Σ_(i<λ)y_i²+Σ_(i≥λ)y_i²`, hence Hessian diagonal ±2.
+λ is the negative inertia index. Gradient descent uses −grad f. Set
+`M_a={x | f(x)≤a}`; regular-level deformation fixes M_a pointwise. Distances for gradient convergence use the induced Riemannian distance of the
+chosen smooth positive-definite metric, componentwise. Different
+metrics change gradients and flow parametrizations but not the Hessian/index
+at a critical point or the sublevel homotopy conclusions.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+Use `ModelWithCorners.Boundaryless`, `PartialDiffeomorph`, `IsProperMap`,
+`CWComplex`, `RelCWComplex`, `ContinuousMap.HomotopyRel`,
+`ContinuousMap.Nullhomotopic`, `AlgebraicTopology.singularHomologyFunctor`,
+`Module.finrank`, `Polynomial` and `Metric.sphere`. The homology functor in
+`Mathlib/AlgebraicTopology/SingularHomology/Basic.lean` is used with
+`ModuleCat k` and coefficient module k; its output is actual singular homology.
+An extended cardinal is converted to a natural number only after proving
+finiteness. Boundarylessness gives `range I=univ` and the native model
+homeomorphism; it does not supply Hausdorffness or second countability of M.
+
+### From Tau Ceti
+
 Use actual Tau Ceti `IsManifoldNondegenerateCriticalPoint`, `IsMorse`,
 `IsMorseOn` and `manifoldMorseIndex`, from
 `Geometry/Manifold/Morse/{Basic,Index}`. The vector-space suppliers are
 `Analysis/Calculus/Morse/{Basic,NormalForm,Generic}`, including
 `IsNondegenerateCriticalPoint.exists_morse_chart` and the small linear-
 perturbation theorem. Consume `MDifferentiableAt.mvfderiv_eq_fderiv_comp_extChartAt_symm`,
-`manifoldMorseIndex_le_finrank`, the complementary-index theorem,
+`manifoldMorseIndex_le_finrank`,
+`TauCeti.manifoldMorseIndex_neg_add_manifoldMorseIndex_eq_finrank`
+(in `Geometry/Manifold/Morse/Index.lean`, requiring a nondegenerate Hessian),
 `manifoldMorseIndex_comp_fst_add_comp_snd`, and `Morse/Sphere/{Basic,Prod}`.
-Consume the manifold `TauCeti.MorseChart` and
-`IsManifoldNondegenerateCriticalPoint.nonempty_morseChart` from
-[Geometry/Manifold/Morse/Lemma](https://github.com/TauCetiProject/TauCeti/blob/e8375e4fdc90df4033f28291a72d5f64234a301a/TauCeti/Geometry/Manifold/Morse/Lemma.lean);
-its quadratic equation carries a factor 1/2
-and an unordered list of ±1 weights. M1 supplies arbitrary-model transport,
-ordering/scaling and intrinsic-Hessian comparisons. The linked upstream
-manifold-chart and compact-finiteness APIs supply those construction targets;
-Suggested.lean uses the pinned Morse Basic/Index and vector-space NormalForm
-interfaces for its signatures.
+The manifold chart, compact critical-set and adapted pseudo-gradient constructions
+belong to Layers 1–2, starting from the vector-space Morse lemma.
+
+The native section-zero and boundary declarations used by Layer 2 are from
+`TauCeti/Geometry/Manifold/VectorBundle/Section/{Chart,Manifold,SmoothZero,Linearization}.lean`
+and `TauCeti/Geometry/Manifold/Boundary/{Model,Charts}.lean`; their exact
+constructor inputs and chart laws are specified in §2.1 below. The vector-space
+Morse estimates used by Layer 6 are from
+`TauCeti/Analysis/Calculus/Morse/{GradientFlow,Convergence,Linearization,ExponentialConvergence}.lean`.
+
+For finite CW complexes, use `TauCeti.finite_singularHomology_of_cwComplex`
+and `TauCeti.finsum_finrank_singularHomology_of_finite_cwComplex`
+from `TauCeti/AlgebraicTopology/Cellular/EulerCharacteristic/Singular.lean`.
+Layer 4 applies these to the Morse CW model and proves the stronger polynomial identity.
+
+For the intrinsic gradient statement use `Riemannian.Tensor.rieszDual` and
+`Riemannian.Tensor.inner_rieszDual` from
+`TauCeti/Geometry/Manifold/VectorBundle/Riemannian/Riesz.lean`, with the
+smooth metric expressed by `IsContMDiffRiemannianBundle`. Mathlib
+`IsMIntegralCurveOn` specifies the curve equation and `Manifold.riemannianEDist`
+is the infimum of smooth path lengths for the same tangent-fiber norms;
+it may be infinite between components and does not require a global metric instance.
+
+### From TauCetiRoadmap.DifferentialGeometry
+
+[DG Layers 3,5,10,12](../DifferentialGeometry/README.md) supply flows, boundary-orientation interfaces,
+partitions of unity, sharp finite-dimensional Sard, metrics and Hessians.
+
+In particular DifferentialGeometry §12.2 supplies `mgradient`,
+`inner_mgradient`, smoothness and `mgradient_eq_gradient`; Layer 3 supplies
+maximal flows and smooth dependence, and §5.1 supplies `boundaryOrientation_spec`.
+
+### From TauCetiRoadmap.AlgebraicTopology
+
+[AlgebraicTopology Stages 2–8](../AlgebraicTopology/README.md) supply relative
+chains, cofibrations, cellular/singular comparison, products, integral duality
+and relative homotopy. M4’s arbitrary-function LS bound consumes the
+categorical-cover/cup-length supplement after AT6.2; that supplement uses
+only foundational products and native homotopies, not Morse theory or
+manifold duality.
+
+### From TauCetiRoadmap.GeometricTopology
+
+[GT Layer 1](../GeometricTopology/README.md) supplies
+normal/tubular geometry, collars, handle gluing and disc bundles.
+
+### From TauCetiRoadmap.CharacteristicClasses
+
+[CharacteristicClasses C2](../CharacteristicClasses/README.md)
+supplies ordinary Thom classes and their local orientation coefficients.
+
+### From TauCetiRoadmap.ComplexKahlerGeometry and TauCetiRoadmap.ComplexManifolds
+
+ComplexManifolds Milestone 1 supplies generic scalar restriction and atlas transport.
+ComplexKahlerGeometry K7.1–K7.2 supplies the projective carrier, real atlas and
+independent cellular calculation used in §4.3.
+
+### From TauCetiRoadmap.DGFloer
+
+DGFloer Layer 1 item 3 supplies
+`SpectralObject` and its filtered-complex convergence, independent of trajectories.
+
+## How to read the build
+
+Layers 1–6 retain the labels M1–M6 used by consumers. Layer 1 constructs
+normal forms and their comparisons; Layer 2 turns compact bands into attachments
+and CW models. Layer 3 gives approximation and exhaustions. Layer 4 extracts
+homology and category bounds, Layer 5 treats critical submanifolds, and Layer 6
+proves convergence. Each *Needs:* line separates statement carriers from a
+possible proof route. [Suggested.lean](Suggested.lean) states the headline
+acceptance theorems supported by the pinned carriers.
+
+## Layer 1: critical Hessians, indices and usable normal forms (M1)
+
+### 1.1 Model transport
+
 Own the single boundaryless-model transport on a named `def` type synonym
 M′ carrying M's topology, with an explicitly supplied E-charted structure
 and a constructed `IsManifold 𝓘(ℝ,E) ∞ M′` instance; do not install a second
@@ -54,65 +178,63 @@ change by equality of these normal-form charts, with the same complement
 and linear normal-form map. Also construct the charted-source transport
 along the scalar zero-subtype/level homeomorphism used in M2. These are
 narrow chart-form comparisons, with no general immersion-composition theorem
-as an input. Include critical/index and `IsAdaptedPseudoGradient` comparisons.
+as an input. Include critical/index and adapted pseudo-gradient comparisons.
 All arbitrary-model consumers use this transport. Use Mathlib `PartialDiffeomorph`, `IsProperMap`, `CWComplex`, `RelCWComplex`,
 `ContinuousMap.HomotopyEquiv` and native singular (co)homology.
 
-[DG Layers 3,5,10,12](../DifferentialGeometry/README.md) supply flows, boundary-orientation interfaces,
-partitions of unity, sharp finite-dimensional Sard, metrics and Hessians.
-[AlgebraicTopology Stages 2–8](../AlgebraicTopology/README.md) supply relative
-chains, cofibrations, cellular/singular comparison, products, integral duality
-and relative homotopy. M4’s arbitrary-function LS bound consumes the
-categorical-cover/cup-length supplement after AT6.2; that supplement uses
-only foundational products and native homotopies, not Morse theory or
-manifold duality. [GT Layer 1](../GeometricTopology/README.md) supplies
-normal/tubular geometry, collars, handle gluing and disc bundles; [CharacteristicClasses C2](../CharacteristicClasses/README.md)
-supplies ordinary Thom classes and their local orientation coefficients.
 
-This roadmap owns ordinary finite Morse deformation/attachment and their
-abstract Morse–Bott extension. RiemannianGeometry R3 owns the broken-geodesic
-vertex carrier, Jacobi/index comparison and path-space limit, consuming this
-core. The symmetric-space and Bott applications use the same broken-path
-carrier and the attachments here, following
-[HomotopySpheres §4B](https://github.com/TauCetiProject/TauCetiRoadmap/pull/284).
-[HeegaardFloer Lane M](../HeegaardFloer/README.md) owns stable/unstable
-manifolds, Morse–Smale trajectory spaces, compactification/gluing, Morse
-homology and its singular comparison. It consumes the finite Morse core here;
-this roadmap does not construct a second trajectory complex.
+The model transport API identifies extended preferred coordinates, derivatives,
+critical sets, indices and immersion normal forms under the identity map.
+*Needs:* Mathlib model homeomorphism and maximal atlas; ComplexManifolds Milestone 1.
 
-At a critical point the Hessian is d²f, with no factor 1/2. A normalized Morse
-chart has `f=f(p)−Σ_(i<λ)y_i²+Σ_(i≥λ)y_i²`, hence Hessian diagonal ±2.
-λ is the negative inertia index. Gradient descent uses −grad f. Set
-`M_a={x | f(x)≤a}`; regular-level deformation fixes M_a pointwise. Different
-metrics change gradients and flow parametrizations but not the Hessian/index
-at a critical point or the sublevel homotopy conclusions.
+**Checks.**
+- For the self-model ℝ², both transports are identity and df=(1,0) stays (1,0).
+- Rechart ℝ by y=2x: the derivative of f(x)=x becomes 1/2; coordinate derivatives need not be equal before transport.
+- The half-line model has range [0,∞), not ℝ; the boundaryless hypothesis excludes this transport.
 
-## M1. Critical Hessians, indices and usable normal forms
+### 1.2 Critical Hessians and counts
 
-Define the critical set as `{x | mvfderiv I f x = 0}` and consume its native
+Define `criticalPoints` as `{x | mvfderiv I f x = 0}` and consume its native
 preferred-chart comparison. Define the critical Hessian as a symmetric
 continuous bilinear form on `TangentSpace I x`, transported from d²f in the
 preferred extended chart under the hypothesis df_x=0. Prove it is independent
 of coordinates and connection, and identify
 it with DG's Hessian for every chosen smooth metric. Prove symmetry, change of
-coordinates by congruence, inertia invariance, λ≤dim M, complementary index
-under f↦−f, and direct-sum/product additivity. Keep the noncritical Hessian's
+coordinates by congruence and inertia invariance. Consume the native index bound
+λ≤dim M and direct-sum/product additivity; at a nondegenerate critical point,
+consume the complementary-index identity λ(f)+λ(−f)=dim M. Smoothness and
+criticality without nondegeneracy do not imply that identity. Keep the noncritical Hessian's
 connection dependence explicit. Give the tangent-quadratic-form and matrix
 comparisons, restrictions to subspaces and positivity/negativity tests.
 
-Extend the native manifold Morse chart to an actual partial diffeomorphism
+The critical-set/count API is:
+
+- The critical locus is closed for smooth f and agrees with the scalar derivative zero locus.
+- `criticalCount` counts index-j points in ℕ∞; for Morse f on compact M it is finite, and for Morse f it vanishes for j>dim M.
+- At a critical point Hessians in two charts are congruent, giving coordinate-independent inertia.
+
+*Needs:* Tau Ceti Morse Basic/Index; DifferentialGeometry §12.3 Hessian; §1.1.
+
+**Checks.**
+- On ℝ², f=−x²+y² has Hessian diag(−2,2), index 1 and one critical point.
+- A constant on S¹ has infinitely many critical points: its extended total is ∞, not 0.
+- On a point the empty Hessian is nondegenerate, index 0 and critical count 1; on the empty manifold it is 0.
+- For f=0 on ℝ both indices are 0 and their sum is 0≠1; for f=x² they are 0 and 1, with sum 1.
+
+### 1.3 Normal forms and persistence
+
+Construct a manifold Morse chart from the preferred-coordinate vector-space
+Morse lemma, as an actual partial diffeomorphism
 for every boundaryless model, with a Euclidean target and center 0. Compose its
 linear coordinate map with an index-ordering permutation and division by √2,
 using `exists_hessianQuadraticForm_equivalent_weightedSumSquares`; prove both smooth maps and the
 normalized sum-of-squares equation on the whole source. Derive isolation,
 strict local minima/maxima, the two-dimensional saddle model and finite critical
-sets on compact subsets for a global Morse function. Consume native
-`IsMorse.finite_setOf_mfderiv_eq_zero` and `MorseChart.mfderiv_eq_zero_iff`
-from [PseudoGradient/Existence](https://github.com/TauCetiProject/TauCeti/blob/e8375e4fdc90df4033f28291a72d5f64234a301a/TauCeti/Geometry/Manifold/Morse/PseudoGradient/Existence.lean).
-The compact finiteness theorem uses the standard model `𝓘(ℝ,E)`; consume
-it directly. Extend the local chart argument to compact subsets and apply
-the shared arbitrary-model transport, retaining the native `mfderiv` zero
-locus and its comparison with the critical set’s vector-valued `mvfderiv`. Define chartwise C^k
+sets on compact subsets for a global Morse function. Prove the derivative vanishes exactly at the center within each Morse chart.
+Cover the critical set in a compact subset by finitely many isolating chart
+neighborhoods, using closedness of the critical locus. This gives
+`finite_criticalPoints_inter` for arbitrary boundaryless models, with the
+native scalar/vector derivative comparison. Define chartwise C^k
 seminorm neighborhoods on fixed compact coordinate sets before using them.
 Prove persistence of
 nondegenerate critical points under small C² perturbations on fixed compact
@@ -121,7 +243,48 @@ and value dependence. Construct critical counts with extended natural/cardinal
 values first; use finite natural counts only after the relevant compactness
 proof, avoiding junk values on infinite critical sets.
 
-## M2. Compact-band deformation, handles and cells
+The normal-form API includes `exists_normalized_morseChart`, its smooth inverse,
+isolation and `finite_criticalPoints_inter` (Cohen–Iga–Norbury, Theorem 5.3,
+pp. 36–37, and Corollary 5.4, p. 38). Critical-branch persistence is the
+implicit-function theorem applied to the coordinate differential: its derivative
+in the point variable is the invertible Hessian. For a smooth finite-dimensional
+parameter family the branch and its critical value are smooth, and its index
+is locally constant; for C² perturbations the branch is continuous in the
+compact C² topology (`ContDiffAt.contDiffAt_implicitFunction` in
+`Mathlib/Analysis/Calculus/ImplicitContDiff.lean` supplies the smooth
+finite-dimensional implicit-function step). These parameter assertions are consequences to prove here,
+not assertions of the ordinary Morse lemma.
+
+Compact C^k neighborhoods bound coordinate derivatives of orders 0,…,k
+on fixed compact chart cores. Their API is:
+
+- Restricting to a smaller compact core decreases each derivative supremum.
+- Intersecting two bounds on the same core permits the smaller positive tolerance.
+- Fixed smooth chart changes compare these neighborhoods by finite constants on compact cores.
+*Needs:* §1.1–§1.2; Tau Ceti vector-space NormalForm and Index; the implicit function theorem.
+
+**Checks.**
+- f=x² has Hessian 2; a normalized chart has f=y², rather than y²/2.
+- f_t=x²+t x has critical point −t/2, value −t²/4 and constant index 0.
+- f_t=x³−t x has no critical points for t<0 and two for t>0; nondegenerate branch continuation does not cross t=0.
+- For h(x)=δx², δ>0, on [−1,1], the order-0, order-1 and order-2 suprema are δ, 2δ and 2δ; value control alone misses derivative bounds.
+- Restricting that h to [−1/2,1/2] changes those suprema to δ/4, δ and 2δ; restriction need not strictly decrease every order.
+- Bounds with tolerances 1 and 1/2 on the same core intersect in the bound 1/2, not their sum; under x=y/2 the function x² becomes y²/4 and its second derivative changes from 2 to 1/2.
+
+### Examples
+
+For −x²+y² the indices of f and −f are both 1 and add to dimension 2.
+For x²+y² the indices are 0 and 2. On f=x there are no critical points,
+so the Morse condition does not imply properness or a lower bound.
+
+### Dependencies
+
+Mathlib manifold calculus; Tau Ceti Morse Basic/Index/NormalForm/Generic;
+DifferentialGeometry §12.3; ComplexManifolds Milestone 1.
+
+## Layer 2: compact-band deformation, handles and cells (M2)
+
+### 2.1 Scalar levels and regular boundary faces
 
 Construct the regular levels of real-valued functions on the actual subtype
 `Level(f,c):={x:M // f x=c}` with its subspace topology. The scope here is
@@ -157,7 +320,7 @@ of f by constant subtraction, `range I=univ` and M1's `mfderiv` comparison;
 this supplies `hsurj`. `sectionLinearization_trivial` is a cross-check of
 that identification, not an input to the explicit constructor. Construct the actual zero-subtype/level
 homeomorphism induced by s(x)=0 iff f(x)=c and transfer these specific charts
-along it as `scalarRegularLevelChartedSpace`. The existential
+along it as the scalar regular-level atlas. The existential
 `exists_isManifold_sectionZero_of_contMDiff` is a cross-check of the result.
 
 Export the chartAt/atlas, source/target, extend and inverse formulas for this
@@ -238,7 +401,7 @@ union of its reindexed lower/upper levels. Prove both smooth directions
 from these public source/target/apply/inverse laws; no private chartAt
 lemma or equality of differently typed `IsManifold` statements is an input.
 
-Consume [DifferentialGeometry 5.1's orientation interface](https://github.com/TauCetiProject/TauCetiRoadmap/blob/6e6a8ebc5fccd49a207365df0f9e74923f6bcae2/TauCetiRoadmap/DifferentialGeometry/README.md#layer-5-integration-and-stokes-theorem)
+Consume [DifferentialGeometry 5.1's orientation interface](../DifferentialGeometry/README.md#layer-5-integration-and-stokes-theorem)
 for `boundaryOrientation_spec`, on this native boundary manifold. Pin the
 metric-free outward co-orientation: df(v)>0 on ∂M_a and the upper band face,
 df(v)<0 on the lower band face. Mathlib's inward slot0 has outward vector
@@ -250,6 +413,20 @@ explicit reindexing, also for empty levels. Dimension0 regular levels are
 empty and sublevels clopen boundaryless0-manifolds, with no half-space model;
 dimension1 levels use Fin0. Dimension0 regular-endpoint bands are clopen;
 a critical-free such band is empty.
+
+The level and face API consists of the explicit atlas laws above,
+`exists_scalarRegularLevelData`, the inclusion embedding, tangent-kernel equality,
+independence of complements, and the typed boundary/level diffeomorphisms.
+*Needs:* §1.1; the section-zero and implicit-coordinate declarations above;
+DifferentialGeometry §5.1 only for orientation, GeometricTopology Layer 1 only for collars.
+
+**Checks.**
+- For f(x,y)=x at level 0 the level is ℝ, the inclusion derivative is v↦(0,v), and its range is ker(df)=span(e₂).
+- For f=x² at level 0, df=0; the singleton level cannot satisfy the regular-level embedding conclusion in dimension 1 with the required derivative-kernel equality.
+- In dimension 0 every attained value is critical; a regular level is empty and the natural dimension subtraction yields 0.
+- On [a,b]⊂ℝ with f=x, the outgoing endpoint has sign + and the incoming endpoint sign −, agreeing with outward-first orientation.
+
+### 2.2 Deformation and adapted fields
 
 For a<b with compact f⁻¹([a,b]) and no critical points on that band,
 construct the normalized-gradient deformation retract M_b→M_a directly in
@@ -273,16 +450,21 @@ Prove restriction to smaller regular bands commutes up to relative homotopy
 and the retraction homotopy fixes M_a throughout.
 Completeness of an arbitrary metric alone is not a compactness argument for
 this flow.
-Consume native `IsAdaptedPseudoGradient` from
-`Geometry/Manifold/Morse/PseudoGradient/Basic`,
-`IsMorse.exists_isAdaptedPseudoGradient` from `PseudoGradient/Existence`,
-`PseudoGradient/Local`'s `MorseChart.linearFlow` and coordinate-flow laws,
-`PseudoGradient/Flow`'s smooth flow/diffeomorphism/energy and convergence
-statements, and `PseudoGradient/Energy`'s trajectory energy identity.
-`PseudoGradient/Gradient` compares metric gradients when the chosen metric is
-Euclidean in its Morse charts; it does not cover every smooth metric.
-Native `Analysis/Calculus/Morse/CompactSublevel` gives vector-space orbit/
-trajectory compactness, not a cell-attachment or band deformation. Extend
+For a Morse function f, define an adapted descending pseudo-gradient to be a smooth vector field X
+with df(X)<0 off the critical set and, in chosen normalized Morse charts,
+X(u,v)=(2u,−2v). Prove existence by patching these local fields with a
+descending field away from the critical points. Construct the local flow
+(u,v)↦(exp(2t)u,exp(−2t)v) while it stays in the chart, and use
+DifferentialGeometry Layer 3 for maximal flows, uniqueness and smooth dependence.
+Prove the flow composition and inverse laws, energy monotonicity and the
+energy integral identity. On compact manifolds prove completeness and convergence
+for Morse functions using isolated critical points. Compare this field with
+−grad f when the metric is Euclidean in the chosen charts; a general smooth
+metric needs Layer 6's separate argument.
+The native vector-space `IsIntegralCurveOn.exists_tendsto_atTop` in
+`Analysis/Calculus/Morse/Convergence` gives convergence of a negative-gradient
+trajectory trapped in a compact set containing finitely many critical points,
+not a cell attachment or band deformation. Extend
 compact-manifold pseudo-gradient existence to a neighborhood of a specified
 compact level band by a finite cover, with the field unchanged on chosen
 smaller critical charts. For each compact critical-free band use a positive
@@ -307,6 +489,25 @@ equivalence whose inverse homotopies fix the entire lower sublevel. Include
 simultaneous critical points, index 0 and
 whole-dimension cases.
 
+For `sublevelInclusion`, prove identity at a=b, composition through an
+intermediate level, and compatibility with restriction of f. The strong
+retraction is `exists_sublevelDeformation` (Milnor, Theorem 3.1, p. 12,
+which assumes compactness of the band rather than of the ambient manifold).
+The adapted-field API includes strict decrease, the critical zero set, chart
+flow formulas, completeness on compact M, and comparison with Euclidean-chart
+metrics. *Needs:* §1.3; DifferentialGeometry Layers 3,12; §2.1 only for smooth boundary products.
+
+**Checks.**
+- For f=x², the inclusions at levels 1→4→9 and 1→9 both send x=1 to x=1; an inclusion does not rescale its point.
+- At equal levels a=b=1 the inclusion fixes every x∈[−1,1], including −1; it is the identity.
+- The point x=1 belongs to the closed sublevel at level 1 and stays present at level 4; an open-sublevel definition would exclude it.
+- For f=x² on ℝ and 0<a<b, the retraction sends x outside [−√a,√a] to sign(x)√a and fixes that interval.
+- For f=x², the adapted negative gradient is −2x and its flow is x₀ exp(−2t); energy derivative is −4x².
+- For f=−u²+v² the local flow is (e^(2t)u,e^(−2t)v); choosing both signs negative would increase f on the u-axis.
+- In dimension 0 a critical-free band is empty; both sublevels and the inclusion are identical.
+
+### 2.3 Handles and change of chart
+
 Own the change-of-chart comparison at fixed c and a common admissible ε,
 before compactification gluing, with the regular lower sublevel identified
 explicitly. An admissible ε has compact band f⁻¹[c−ε,c+ε], no critical
@@ -316,7 +517,7 @@ are retained on decreasing ε. For a chart φ use χ_φ(w)=φ⁻¹(√ε·w,0)
 and α_φ=χ_φ|∂D. For two choices construct
 h∈O(λ), its boundary restriction h_∂ and a homotopy of characteristic maps
 of pairs K:χ₁≃χ₀∘h. Write H=K|∂D with H(·,0)=α₁ and
-H(·,1)=α₀∘h_∂. Construct the particular Milnor comparison (Lemma 3.6)
+H(·,1)=α₀∘h_∂. Construct the particular Milnor comparison (Lemma 3.6, pp. 20–21)
 E_H:M_(c−ε)∪_(α₁)D^λ→M_(c−ε)∪_(α₀)D^λ: it is identity on the lower
 sublevel, sends x to the target disk point h(2x) for |x|≤1/2, and sends x
 to H(x/|x|,2−2|x|) for 1/2≤|x|≤1. Prove agreement at the seam and on
@@ -399,6 +600,18 @@ has degree +2; reflecting the first negative coordinate gives the strict
 α_-=α_+∘r of degree −2. Prove those maps are not homotopic with the source
 fixed and the attachment pairs are homeomorphic rel the lower sublevel.
 
+The handle API includes simultaneous attachments, the relative homology of
+each disc pair, chart comparisons and their coherent parameter restrictions.
+*Needs:* §1.3, §2.2; GeometricTopology Layer 1; AlgebraicTopology Stage 4;
+Milnor, Lemma 3.6, pp. 20–21, for the homotopic-attaching-map comparison.
+
+**Checks.**
+- At index 0 the attaching sphere is empty and the handle adds one component.
+- For the double well above, α₊(1)=√(1−1/√2) and α₋(1)=−√(1−1/√2); reflection is necessary to compare the labelled attaching maps.
+- In the RP² example the top attaching degrees are +2 and −2; the two reflected attachments have the same relative topology but the labelled maps are not homotopic.
+
+### 2.4 CW exhaustion
+
 Iterate finite critical levels to construct compatible relative CW models for
 sublevel pairs. For a proper bounded-below Morse function, choose an exhausting
 sequence of regular levels with finite critical sets at each stage, prove the
@@ -427,7 +640,36 @@ union even when later stages add cells of lower dimension. Compact M gives a fin
 cobordisms build the relative version from the incoming boundary, with outgoing
 boundary identified by the opposite function and complementary indices.
 
-## M3. Approximation and proper Morse exhaustions
+The headline `exists_morseCWModel` gives a Hausdorff native CW complex X,
+a homotopy equivalence M≃X, and, for every j, an equivalence between its
+j-cell type and the index-j critical-point subtype, assuming f is Morse,
+proper and bounded below (Milnor, Theorem 3.5, p. 20). The CW-model API
+identifies one cell per critical point, gives the specified
+strict sublevel comparison maps, and recovers relative models for regular bands
+(Cohen–Iga–Norbury, Theorem 5.7, pp. 40–41, for compact M); the proper case uses the
+specified compatible tower and exhaustion comparison.
+*Needs:* §2.1–§2.3; AlgebraicTopology §4.4–§4.5.
+
+**Checks.**
+- Height on S² gives one 0-cell and one 2-cell.
+- f=x² on ℝ gives one 0-cell and a contractible CW model.
+- The empty manifold gives an empty CW complex and empty cell types in every degree, not a distinguished 0-cell.
+- A countable discrete manifold with proper values 0,1,2,… gives countably many 0-cells; a finite CW model is not asserted.
+
+### Examples
+
+The circle height has two descending arcs at its maximum; both attach to the
+same minimum component and give H₁(S¹;ℤ)=ℤ. The double-well example records
+why orientation of the attaching disk must remain visible.
+
+### Dependencies
+
+Layer 1; DifferentialGeometry Layers 3,5,12; GeometricTopology Layer 1;
+AlgebraicTopology Stages 2–4 and §4.5 tower comparison.
+
+## Layer 3: approximation and proper Morse exhaustions (M3)
+
+### 3.1 Strong smooth approximation
 
 On native smooth maps `C^∞⟮I,M;ℝ⟯`, define strong C^k neighborhoods by a
 locally finite compact chart family and a positive tolerance on each member,
@@ -444,20 +686,72 @@ smooth convergence, persistence on every exhaustion interior, and the prescribed
 fine error bounds for every prescribed finite-order neighborhood. This gives the global theorem without an unstated Baire
 space or transversality theorem on a function space.
 
+The topology API is:
+
+- Restriction to any open submanifold is continuous into its compact-core C^k seminorm topology, for each finite k.
+- Restriction is continuous for the strong topologies when the open inclusion is proper, equivalently clopen here: a locally finite compact family in the submanifold is then locally finite in M.
+- Positive tolerance refinement and finite intersections give neighborhoods of the same kind, independently of the compact chart cover.
+
+The approximation API includes relative fixing and persistence of nondegeneracy.
+Strong Morse density is Hirsch, Chapter 6, Theorem 1.2; the topology
+is that of Chapter 2, §1. The relative version in §3.2 is a
+cutoff extension of the local perturbation argument, with its fixing neighborhood
+and convergence estimates constructed explicitly.
+*Needs:* §1.3 compact seminorms; DifferentialGeometry partitions of unity and §10.2 Sard;
+Tau Ceti `Analysis/Calculus/Morse/Generic.lean`.
+
+**Checks.**
+- On a point all positive-order derivatives are 0, so the topology is the ordinary topology on its value ℝ.
+- On compact S¹ a finite chart family suffices; a tolerance ε bounds the zeroth derivative by ε as well as derivatives through k.
+- On ℝ a neighborhood with tolerance e^(−x²) excludes every nonzero constant perturbation, unlike a compact-open neighborhood controlling only [−1,1].
+- Let ψ be compactly supported on ℝ, with 0≤ψ≤1 and ψ=1 near 0. Then δψ tends strongly to 0 on ℝ as δ→0, but its restriction to (0,1) fails the neighborhood |g(x)|<x for every δ>0: choose 0<x<δ where ψ=1. On [a,b]⊂(0,1), δ<a passes that value bound.
+- For the clopen summand ℝ in ℝ⊔ℝ, any locally finite compact chart family remains locally finite in the ambient disjoint union; its tolerances extend by arbitrary positive tolerances on the other summand.
+
+### 3.2 Exhaustions and relative approximation
+
 For a proper bounded-below input preserve those properties by a global C⁰
 error less than 1. Prove existence of a smooth proper bounded-below exhaustion
 on every manifold here using a compact exhaustion and a locally finite smooth
 partition of unity, then its Morse approximation. Give relative approximation
 which fixes a neighborhood of a prescribed closed set where the function is
-already Morse, with compact-support control for local perturbations. Include
+already Morse: for closed A contained in an open Morse locus V, and every
+strong smooth neighborhood of f, construct a Morse g in that neighborhood
+and an open W with A⊆W⊆V such that g=f on W. Choose W with closure in V,
+and use perturbations supported off W; maintain nondegeneracy on V by
+locally chosen C² bounds. Compact-support control concerns each local
+perturbation, not the global difference g−f on a noncompact manifold. Include
 M1's continuous/smooth finite parameter dependence of nondegenerate critical
 branches; do not claim every parameter value of a generic family is Morse
 through birth-death events. General exhaustion existence here is separate
 from GeometricTopology Layer1's squared-distance exhaustion for a given closed embedding.
 
-## M4. Strong inequalities and topology tests
+The headline is `exists_proper_boundedBelow_morse` (Milnor, Corollary 6.7,
+p. 36). Its API preserves properness
+and lower bounds under uniformly bounded perturbations; relative approximation
+fixes a neighborhood of the stated closed set and agrees with compactly supported
+perturbations on compact chart cores. *Needs:* §3.1; a countable compact exhaustion;
+DifferentialGeometry smooth partitions of unity.
 
-For compact M and a field k let c_j be the finite count of index-j critical
+**Checks.**
+- On ℝ, x² is Morse, proper and bounded below by 0; a C⁰ perturbation of size <1 is bounded below by −1 and remains proper.
+- On the empty manifold the unique function is proper and bounded below, and is Morse vacuously.
+- On a countable discrete manifold, f(n)=n is proper with index-0 critical points; the constant function is not proper there.
+
+### Examples
+
+The birth-death family x³−t x tests local parameter scope; x² tests exhaustion
+scope. An error bound <1 preserves exhaustion while an unbounded perturbation
+−x² destroys it.
+
+### Dependencies
+
+Layer 1; DifferentialGeometry partitions of unity and §10.2 Sard; native local Morse perturbations.
+
+## Layer 4: strong inequalities and topology tests (M4)
+
+### 4.1 Strong inequalities
+
+For compact M, a Morse function f and a field k let c_j be the finite count of index-j critical
 points and b_j=dim_k H_j(M;k), using actual singular homology. From the cellular
 complex of M2 prove
 
@@ -478,18 +772,41 @@ cohomology above d vanishes by AT Stage 6.1's integral UCT. Do not infer that de
 cohomology is torsion-free. Apply the proper-index≤d version of M2 to obtain
 those conclusions for noncompact M.
 
-**Arbitrary-function Lusternik–Schnirelmann inequality.** Consume
+Define `bettiNumber` as the dimension over k of native singular homology.
+Its API includes homotopy invariance, coefficient-sensitive calculations and
+finite dimensionality on compact manifolds, derived from Layer 2's finite CW model.
+The headline `strong_morse_inequalities` uses polynomials through degree dim M
+and Q∈ℕ[t] (Cohen–Iga–Norbury, Corollary 5.11 and its proof, p. 42).
+The proof's splitting of a finite-dimensional chain complex works over any field,
+with coefficient of t^j in Q equal to rank(∂_(j+1)).
+*Needs:* Layer 2; AlgebraicTopology Stage 6 cellular/singular comparison and UCT;
+Mathlib singular homology and finite-dimensional linear algebra.
+
+**Checks.**
+- On S², C=B=1+t² and Q=0 over every field.
+- On RP² over ℚ, C=1+t+t², B=1, Q=t; over 𝔽₂, B=C and Q=0.
+- For the empty manifold C=B=Q=0; for r isolated points C=B=r and Q=0.
+- The candidate counts c=(2,0,0,2) and b=(1,0,0,1) satisfy weak inequalities and equal alternating sums 0, but the degree-1 strong inequality is −2≥−1, which fails.
+
+### 4.2 Arbitrary-function Lusternik–Schnirelmann inequality
+
+Consume
 AlgebraicTopology's categorical-cover supplement after Stage 6.2, with its
 same `LSCategoricalCover`, `lsCategoryCount`, `normalizedLSCategory` and
-`lsCupLength` carriers. Here construct `lsCriticalPointBound` for **every
+`lsCupLength` carriers. Here prove the critical-point bound for **every
 smooth real-valued f on a compact boundaryless finite-dimensional smooth
 Hausdorff second-countable manifold M**, allowing arbitrary critical
 point degeneracy. Use the native manifold derivative zero locus; compare
 `mfderiv I 𝓘(ℝ) f` with the vector-valued `mvfderiv I f` used by
 `criticalPoints`. Both give the same critical set for these smooth data.
-Set `totalCriticalCount f=(criticalPoints f).encard : ℕ∞`. Prove
+Set the total critical count to `(criticalPoints f).encard : ℕ∞`. Prove
 
-`lsCategoryCount M M≤totalCriticalCount f`.
+`lsCategoryCount M M ≤ (criticalPoints f).encard`.
+
+This is Weber, *Conley pairs in geometry*, author version, Theorem 1.1,
+p. 2: his category is the number of categorical open sets, hence equals
+`lsCategoryCount M M` for nonempty M. The empty case is the separate
+calculation 0≤0. The finite-cover output is `exists_criticalCategoricalCover`.
 
 For nonempty connected M this gives
 `#Crit(f)≥cat(M)+1≥cupLength(M;R)+1`, with cat(point)=0 and R any
@@ -551,8 +868,8 @@ with exactly the finite critical count (pad a smaller cover only after
 handling empty/nonempty cases), and derive the extended-count inequality.
 Neither Morse–Smale genericity nor a Morse approximation of f is needed.
 
-Construct `nonempty_morseFiniteWitness` on every compact second-countable
-manifold here: apply M3's Morse approximation to the smooth zero function
+Construct a smooth Morse function with finite critical set on every compact
+second-countable manifold here: apply M3's Morse approximation to the smooth zero function
 and M1's finite-chart theorem to the resulting Morse function. This also
 handles empty M. Native `IsMorse.contMDiff` supplies smoothness. Only after
 obtaining an actual function with its Morse property and finite critical
@@ -575,16 +892,48 @@ smooth degenerate functions there. Manifolds with boundary are excluded:
 f(t)=t on [0,1] has no ordinary interior critical points. Relative/boundary
 Morse conditions require their own hypotheses and are not added here.
 
+The two deformation targets are `exists_degenerateCriticalLevelDeformation`
+and `exists_noCriticalOpenSublevelDeformation`. Their API is ambient continuity,
+identity at time 0, nonincreasing function value, and the strict endpoint
+inclusion specified above. The finite minimum over all smooth finite-critical
+functions has the following API, using §3.2 for nonemptiness:
+
+- A smooth function attains the minimum, and its critical set is finite.
+- The minimum is independent of the finite-critical function used to witness nonemptiness.
+- Every smooth function has extended critical count at least that minimum; category and cup-length give the stated universal lower bounds.
+
+*Needs:* Layer 2 compact-band flows; Layer 3 only for the finite witness;
+AlgebraicTopology's categorical-cover supplement after §6.2; Weber, Theorem 1.1,
+p. 2, with its finite-cover proof on pp. 2–3.
+
+**Checks.**
+- On the empty manifold the unique function has count 0, so the minimum c(∅)=0.
+- On a point every function has zero derivative and exactly one critical point, so c(point)=1; more generally c(M)=r for r discrete points.
+- On S¹, a height gives count 2 and every smooth function has a minimum and maximum (a constant has infinite count), so c(S¹)=2; starting from a four-critical-point witness still gives 2, not 4.
+- Empty M has critical count and category both 0; a finite set of r points has both r.
+- Height on S¹ gives category 2 and critical count 2; a torus height has category 3 and critical count 4.
+- A constant on S¹ has count ∞ and category 2; it satisfies the inequality without any finite minimum being assigned to its critical set.
+- At a degenerate minimum f=x⁴ the critical Hessian is 0, so the degenerate deformation cannot invoke a Morse chart.
+- The minimum over finite smooth critical counts on S¹ is 2 for every chosen Morse witness: 2=2, including a witness with four critical points.
+
+### 4.3 Sphere and projective applications
+
 Acceptance: standard height on S^m; cosine functions on T^m with binomial
 critical counts; the two-dimensional torus's minimum/saddles/maximum; explicit
 integer counts satisfying weak inequalities/Euler but violating a strong
-inequality; and closed connected positive-dimensional M with exactly two
-critical points is homeomorphic to a sphere. The last conclusion follows from
+inequality; and a closed positive-dimensional M admitting a Morse function
+with exactly two critical points is homeomorphic to a sphere
+(`nonempty_homeomorph_sphere_of_two_criticalPoints`; Cohen–Iga–Norbury,
+Application 5.13, p. 43). The last conclusion follows from
 two disc handles and the topological radial extension of the boundary gluing;
-no diffeomorphism-to-standard-sphere assertion is made. Complex projective
-moment functions use [ComplexKahlerGeometry K7.1 and K7.2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/a452db2cfef888380d1b7b7ce00fa06d5bad1109/TauCetiRoadmap/ComplexKahlerGeometry/README.md#k7-projective-torus-and-hopf-examples):
+no diffeomorphism-to-standard-sphere assertion is made. Connectedness is
+not a separate hypothesis: every component of a closed positive-dimensional
+manifold carries a minimum and a maximum of f, which are distinct critical
+points because a Morse function is not constant on an open set of positive
+dimension, so the two-point count forces a single component. Complex projective
+moment functions use [ComplexKahlerGeometry K7.1 and K7.2](../ComplexKahlerGeometry/README.md#k7-projective-torus-and-hopf-examples):
 K7.1 supplies the actual `Projectivization ℂ (Fin (n+1)→ℂ)` carrier and,
-through K1/#279's real restriction of the complex affine charts, the concrete
+through K1 and [ComplexManifolds Milestone 1](../ComplexManifolds/README.md#milestone-1-restriction-of-scalars-and-atlas-transport)'s real restriction of the complex affine charts, the concrete
 real self-model `Ireal_n:=𝓘(ℝ,Fin n→ℂ)`, its `Ireal_n.Boundaryless` and
 `IsManifold Ireal_n ∞` structures, and complex orientation. Use the actual
 root theorem `finrank_real_of_complex` and `Module.finrank_pi` to identify
@@ -598,8 +947,8 @@ M2 handle/cell construction and M4's application of AT6's cellular/singular
 comparison to that CW chain model, to compare with those supplied cellular
 calculations; the earlier CKG CW and
 cup constructions do not depend on this Morse application.
-Also prove critical-count parity equals Euler-characteristic parity, sphere
-critical counts are even, and closed odd-dimensional manifolds have Euler
+For Morse functions on compact manifolds, also prove critical-count parity
+equals Euler-characteristic parity and sphere critical counts are even, and closed odd-dimensional manifolds have Euler
 characteristic 0 by comparing f and −f. The equality is
 `c_j(−f)=c_(m−j)(f)` for 0≤j≤m, not symmetry of the counts of an arbitrary single f.
 For RP² consume AlgebraicTopology AT4.6's single projectivization/manifold/CW
@@ -608,7 +957,29 @@ three critical points and no perfect Morse function over ℚ, contrasted with
 its perfect F₂ count. More generally π₁(M)≠0 and b₁(M;ℚ)=0 obstruct
 perfection over ℚ by the necessary 1-cells in a connected CW model.
 
-## M5. Morse–Bott normal bundles and attachments
+*Needs:* §4.1–§4.2; Layer 2 disc handles; ComplexKahlerGeometry K7.1–K7.2;
+AlgebraicTopology §4.6. The sphere proof uses Morse nondegeneracy at both extrema.
+
+**Checks.**
+- On S², ordinary height has indices 0 and 2 and two nondegenerate critical points.
+- For f=h−h³/3 on S², the only critical points are still the poles but both Hessians are 0: the two-handle hypothesis fails.
+- On two disjoint copies of S² the height has four critical points, so the two-point count already excludes a disconnected M; a statement with a separate connectedness hypothesis is weaker, not different.
+- On CP¹, f([z₀:z₁])=|z₁|²/(|z₀|²+|z₁|²) has critical values 0,1 and indices 0,2; the denominator is positive because z≠0.
+
+### Examples
+
+On T² the polynomial is 1+2t+t²; on RP² the same geometric count has different
+Betti polynomials over ℚ and 𝔽₂. On a point the sphere conclusion is excluded
+by positive dimension, while all counting formulas remain valid.
+
+### Dependencies
+
+Layers 1–3; AlgebraicTopology Stages 4,6 and its categorical-cover supplement;
+ComplexKahlerGeometry K7 and ComplexManifolds Milestone 1 for projective examples.
+
+## Layer 5: Morse–Bott normal bundles and attachments (M5)
+
+### 5.1 Critical normal bundles and attachments
 
 Define Morse–Bott intrinsically: the critical locus near each critical point
 is a smooth submanifold and ker Hess=T C. Use a locally finite family of
@@ -628,36 +999,73 @@ Own the base-dependent parametric congruence lemma extending native
 `exists_congruence_of_symmetric_family`: both reference B₀(b) and perturbed
 form vary smoothly with b. Give the integral-Hessian formula, compact-base
 bounds, local fiber inversion and compatibility with bundle transitions;
-patch the changes to a neighborhood of the zero section.
+patch the changes to a neighborhood of the zero section. The local normal
+form is Cohen–Iga–Norbury, Theorem 15.1, p. 143, with the quadratic identity
+on a neighborhood of the zero section; a bounded function cannot have that
+identity on an entire nonzero normal fiber. The global bundle-compatible
+patching is the extension constructed here.
 For a compact critical component and a compact isolated critical band, attach
 the negative disc bundle, give the relative homotopy equivalence and identify
 the resulting relative homology with H_(j−λ)(C;orientation(ν⁻)). Use Thom
 local coefficients, or F₂; untwisted integral/rational coefficients require the
 negative-bundle orientation. Include multiple critical components and prove
-compatibility with regular-band deformation.
+compatibility with regular-band deformation (Cohen–Iga–Norbury,
+Theorem 15.4, p. 146, for compact M; localizing its deformation to a
+compact isolated band gives the stated band version). The twisted Thom
+identification uses CharacteristicClasses C2, including its orientation system.
 
 Consume [DGFloer Layer 1 item 3](../DGFloer/README.md)'s generic filtered-complex
 `SpectralObject`, independently of its trajectory layers. Construct the
 critical-band filtration and identify its spectral sequence, naturality
-and finite convergence on compact M. Deduce Morse–Bott strong inequalities
+and finite convergence on compact M (Cohen–Iga–Norbury, Theorems 15.6–15.7,
+pp. 147–148). Use the homological filtration convention in which relative
+attachment homology is E¹; its differential can be nonzero. For the filtration
+by ordered critical values, its filtration index is the critical-band position,
+not the Morse index. Deduce Morse–Bott strong inequalities
 with the shifted critical-component Betti polynomials and the correct negative-
 orientation coefficients. Prove the ordinary Morse specialization is M2/M4.
 Hamiltonian [ConvexityToric T2](../SymplecticGeometry/ConvexityToric/README.md) consumes this attachment theorem and supplies
-complex negative bundles/equivariant perfection; Riemannian/PR284 path
+complex negative bundles/equivariant perfection; RiemannianGeometry R3 and HomotopySpheres §4B path
 applications supply their own critical components and Jacobi negative bundles.
 
-## M6. Gradient convergence and exponential decay
+The Morse–Bott API includes the normal Hessian, its smooth negative/positive
+subbundles, rank local constancy, fiberwise coordinate naturality, the relative
+Thom comparison and the filtered attachment spectral sequence.
+*Needs:* Layers 1–2,4; GeometricTopology Layer 1; CharacteristicClasses C2;
+DGFloer Layer 1 item 3; Cohen–Iga–Norbury, Theorems 15.1, 15.4, 15.6–15.7,
+pp. 143, 146–148.
 
-Consume `TauCeti.Manifold.riemannianGradient`, DG's maximal smooth gradient
-flow and native vector-space
-`Morse/{GradientFlow,Convergence,Linearization,ExponentialConvergence}` estimates,
-including `IsIntegralCurveOn.exists_tendsto_atTop`,
-`exists_sub_le_mul_exp_atTop` and `exists_norm_sub_le_mul_exp_atTop` and their
-atBot versions. Consume `Geometry/Manifold/IntegralCurve/GlobalFlow` and
-`PseudoGradient/Flow`'s compact-manifold convergence. Extend the fixed-inner-
+**Checks.**
+- For f(x,y)=y², the critical line has Hessian kernel span(e₁), negative rank 0 and positive rank 1.
+- For f(x,y)=y⁴, the Hessian kernel is the whole plane at the critical line; this is not Morse–Bott.
+- On a point critical component the negative bundle has rank λ and contributes t^λ, recovering the ordinary Morse formula.
+- For a negative Möbius line over S¹, the integral Thom comparison uses its nontrivial orientation system; replacing it by constant ℤ coefficients gives the wrong H₀ coefficient group (ℤ instead of ℤ/2).
+- The ordinary RP² cell filtration has E¹ groups ℤ in cell dimensions 0,1,2 and differential 2 from dimension 2 to 1; on E² these become ℤ, ℤ/2, 0. The relative groups are not already E².
+
+### Examples
+
+A constant on a compact manifold is Morse–Bott with zero normal bundle and
+one critical component per connected component; its contribution is the original
+Betti polynomial. No nondegenerate isolated-critical-point hypothesis is inferred.
+
+### Dependencies
+
+Layers 1–2,4; GeometricTopology Layer 1; CharacteristicClasses C2; DGFloer Layer 1 item 3.
+
+## Layer 6: gradient convergence and exponential decay (M6)
+
+### 6.1 Compact trapping
+
+Use DifferentialGeometry §12.2's `mgradient`, its flat-model comparison
+`mgradient_eq_gradient`, and Layer 3's maximal smooth flows. Use the native
+vector-space `Analysis/Calculus/Morse/{GradientFlow,Convergence,Linearization,ExponentialConvergence}`
+estimates, including `IsIntegralCurveOn.exists_tendsto_atTop`,
+`exists_sub_le_mul_exp_atTop`, `exists_norm_sub_le_mul_exp_atTop` and their
+atBot versions. Layer 2 constructs the adapted pseudo-gradient specialization.
+Extend the fixed-inner-
 product estimates to variable Riemannian metric gradients, which need not
 be adapted pseudo-gradients, and compact trapping inside noncompact manifolds.
-For a forward
+For a smooth Morse function f and a maximal forward
 negative-gradient trajectory trapped in a compact set, prove global forward
 existence, energy monotonicity and dissipation. Construct its nonempty
 connected omega-limit set, show it consists of critical points using flow
@@ -679,14 +1087,61 @@ isolation of the critical set supply finiteness on compact sets. Prove the
 proper/bounded-below and compact-trapped corollaries with these explicit
 hypotheses.
 
-## References and course targets
+The headline `exists_compactTrapped_gradient_limit` takes a smooth metric,
+a Morse function f, a curve γ satisfying the native negative Riesz-gradient
+equation on [0,∞), and a compact K containing that forward image. It gives
+p∈K with df_p=0, convergence γ(t)→p, and constants C,c>0 and T≥0 such that
+for t≥T the intrinsic extended distance is at most C exp(−ct). This uses
+`Manifold.riemannianEDist` directly, so no choice of an unrelated compatible metric
+or conversion of infinite distance to a real number occurs. The compact-M
+convergence case is Cohen–Iga–Norbury, Theorem 4.6, pp. 27–29; compact
+trapping and variable-metric exponential estimates are the extensions above.
 
-- Milnor, *Morse Theory*, §§2–6 for local/deformation/CW/inequality proofs.
-- Cohen, Iga and Norbury, [Topics in Morse Theory](https://math.stanford.edu/~ralph/morsecourse/biglectures.pdf),
-  classical part, for manifold normal forms, sublevels and cellular comparison.
-- Thomas Mark's *Math240 Riemannian Geometry* lecture/homework notes,
-  2001 lectures and Homework 11, catalogued separately in the course-source
-  audit, supply the
-  local/handle/CW/strong-inequality and Morse–Bott acceptance targets above.
-  Their global “Morse” convention is handled by separate properness/compact-band
-  hypotheses, matching native Tau Ceti's predicate.
+The convergence API includes global forward lifetime under compact trapping,
+a unique critical limit for Morse f, exponential distance decay, and finite tail
+length. *Needs:* §1.3; §2.2; DifferentialGeometry Layers 3,12; native Morse gradient estimates.
+
+**Checks.**
+- For f=x², γ(t)=x₀e^(−2t), E(t)=x₀²e^(−4t) and tail length |x₀|e^(−2t).
+- With metric 4dx² and f=x², the negative gradient is −x/2, γ(t)=x₀e^(−t/2), and intrinsic distance to 0 is 2|x₀|e^(−t/2); the Euclidean rate 2 is not preserved under metric rescaling.
+- For f=−u²+v² on the stable axis u=0, E=v²≥0 and v(t)=v₀e^(−2t); f need not have a local minimum.
+- At an equilibrium, E and tail length are both 0; no division by E is allowed.
+
+### Examples
+
+For f=x² on ℝ every forward trajectory x₀e^(−2t) stays in [−|x₀|,|x₀|] and
+converges to 0 at rate 2. For f=x on ℝ the trajectory x₀−t leaves every
+compact set and f has no critical point, so the trapping hypothesis fails
+rather than the conclusion; properness with a lower bound is what supplies
+trapping, and a merely bounded-below function such as e^(−x) supplies none.
+
+### Dependencies
+
+Layers 1–2; DifferentialGeometry Layers 3,12; native vector-space gradient estimates.
+
+## Downstream consumers
+
+RiemannianGeometry R3 and HomotopySpheres §4B use the finite Morse/Bott
+attachments for broken-geodesic and path-space applications. AffineMorseLefschetz
+uses Layers 1–4 for index-controlled exhaustions. HeegaardFloer Lane M uses the
+finite core for trajectory homology. SymplecticGeometry/ConvexityToric T2 uses
+Layer 5 for Hamiltonian critical submanifolds and equivariant perfection.
+
+## References
+
+- Milnor, *Morse Theory* (1963), §§2–6 for the classical development and
+  Lemma 3.6, pp. 20–21, for homotopic attaching maps; Theorem 3.1, p. 12,
+  Theorem 3.5, p. 20, and Corollary 6.7, p. 36.
+- Cohen, Iga and Norbury, [*Topics in Morse Theory*](https://math.stanford.edu/~ralph/morsecourse/biglectures.pdf),
+  author course notes (2006): Theorem 5.1, pp. 33–35; Theorem 5.3,
+  pp. 36–37; Theorems 5.6–5.7, pp. 38–41;
+  Corollaries 5.8–5.11, pp. 41–42; Application 5.13, p. 43;
+  Theorems 15.1, 15.4, 15.6–15.7, pp. 143, 146–148, for Morse–Bott theory.
+- Hirsch, *Differential Topology* (1976), Chapter 2, §1
+  (strong topologies), and Chapter 6, Theorem 1.2 (strong Morse density),
+  DOI 10.1007/978-1-4684-9449-5.
+- Weber, [*Conley pairs in geometry – Lusternik–Schnirelmann theory and more*](https://www.math.stonybrook.edu/~joa/PUBLICATIONS/conblock.pdf),
+  author version of arXiv:1709.05010: Theorem 1.1, p. 2, and its finite-cover
+  proof, pp. 2–3. Numbering here refers to this author version.
+- Thomas Mark, *Math240 Riemannian Geometry* (2001), Homework 11 (Morse–Bott examples).
+  Bibliographic attribution only; the mathematical targets use the references above.
