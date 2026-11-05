@@ -9,12 +9,15 @@ public import TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny.Hom.Ring
 # KatoEulerSystems: target signatures
 
 The roadmap is README.md; this file is not the roadmap. It states the roadmap's headline
-theorems against the pinned Mathlib and Tau Ceti APIs. Serre's open-image theorem of §4.7 is
-statable on the Tau Ceti Tate-module representation, with non-CM expressed through the Tau Ceti
-endomorphism ring of the curve over the algebraic closure. The elliptic cases of §7.9 are statable:
-finite generation over every fixed cyclotomic tower, and finiteness of the Mordell–Weil χ-part
-over cyclotomic fields when the continued twisted L-function is nonzero at 1, whose case m = 1
-is finiteness of rational points at analytic rank zero. They carry no modularity hypothesis:
+theorems against the pinned Mathlib and Tau Ceti APIs. The almost-all surjectivity of §4.7
+(Serre's theorem) is statable on the Tau Ceti Tate-module representation, with non-CM
+expressed through the Tau Ceti endomorphism ring of the curve over the algebraic closure; the
+openness of the image at every prime is NoncommutativeAndEquivariantIwasawa §4.0 and is not
+restated. The elliptic cases of §7.9 are statable: finite generation over every fixed
+cyclotomic tower, and finiteness of the Mordell–Weil χ-part over cyclotomic fields when the
+continued twisted L-function is nonzero at 1, whose case m = 1 is finiteness of rational
+points at analytic rank zero (the elliptic instance of EllipticCurveModularityPartII §6.0e,
+kept here as the m = 1 case of the general statement). They carry no modularity hypothesis:
 every elliptic curve over ℚ is modular (EllipticCurveModularity, R29.6).
 
 Beilinson's real regulator formula (§3.4) lacks the K₂ group of the modular curve with its
@@ -43,18 +46,16 @@ namespace TauCetiRoadmap.KatoEulerSystems
 
 /-! ## Layer 4: image, nonvanishing and Iwasawa inputs before the canonical map -/
 
-/-- Serre's open-image theorem for an elliptic curve over ℚ without complex multiplication,
-that is, every endomorphism of the curve over the algebraic closure of ℚ is multiplication by
-an integer. For every prime ℓ the image of the absolute Galois group in the automorphism group
-of the ℓ-adic Tate module has finite index (equivalently it is open, being compact), and it is
-the whole automorphism group for all but finitely many ℓ (Serre 1972, Théorèmes 2–3). -/
-theorem serre_openImage (W : WeierstrassCurve ℚ) [W.IsElliptic]
+/-- Serre's theorem for an elliptic curve over ℚ without complex multiplication, that is,
+every endomorphism of the curve over the algebraic closure of ℚ is multiplication by an
+integer: the image of the absolute Galois group in the automorphism group of the ℓ-adic Tate
+module is the whole automorphism group for all but finitely many primes ℓ (Serre 1972,
+Théorème 2). The openness of the image at every ℓ (Théorème 3) is imported from
+NoncommutativeAndEquivariantIwasawa §4.0 and is not stated here. -/
+theorem serre_surjective_almostAll (W : WeierstrassCurve ℚ) [W.IsElliptic]
     [DecidableEq (AlgebraicClosure ℚ)]
     (hW : ∀ φ : TauCeti.Isogeny.Hom (W.baseChange (AlgebraicClosure ℚ)).toAffine
         (W.baseChange (AlgebraicClosure ℚ)).toAffine, ∃ n : ℤ, φ = n) :
-    (∀ (ℓ : ℕ) [Fact ℓ.Prime],
-      ((W.tateModuleGaloisRepresentation (K := AlgebraicClosure ℚ) ℓ).asGroupHom.range
-        ).FiniteIndex) ∧
     {ℓ : ℕ | ∃ _ : Fact ℓ.Prime,
       (W.tateModuleGaloisRepresentation (K := AlgebraicClosure ℚ) ℓ).asGroupHom.range
         ≠ ⊤}.Finite := by
@@ -88,7 +89,8 @@ Corollary 14.3(2)). The Galois character sends ζ_m ↦ ζ_m^a to χ(a), and the
 series uses the zero extension modulo m, including imprimitive χ. Its value at 1 is taken
 from the entire continuation, which agrees with the total Dirichlet sum on Re(s) > 3/2; no
 value of that sum at s = 1 is used. For m = 1 the character part is all of E(ℚ) and the
-series is the elliptic L-series, so this includes finiteness of E(ℚ) when L(E,1) ≠ 0. -/
+series is the elliptic L-series, so this includes finiteness of E(ℚ) when L(E,1) ≠ 0, the
+elliptic instance of EllipticCurveModularityPartII §6.0e. -/
 theorem ellipticCharacterPoints_finite (W : WeierstrassCurve ℚ) [W.IsElliptic]
     (m : ℕ) [NeZero m] (K : Type*) [Field K] [DecidableEq K] [Algebra ℚ K]
     [IsCyclotomicExtension {m} ℚ K] (χ : DirichletCharacter ℂ m)
