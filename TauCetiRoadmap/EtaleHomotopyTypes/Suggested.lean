@@ -48,15 +48,16 @@ Layer 3:
 * Strong desingularizability of finite-type schemes over an algebraically closed field of
   characteristic zero lacks resolution of singularities and the strong-desingularizability
   notion of SGA 5. Cohomological properness of normal-crossings complements over an arbitrary
-  base and of quasi-compact quasi-separated schemes, the relative Abhyankar step, universal
-  local 1-asphericity and 0-acyclicity of projections lack relative normal-crossings divisors,
-  stacks of etale torsors with their direct images and base change, strict localizations of
-  schemes and the relative purity of finite etale covers. Cohomological properness over an
-  arbitrary field of characteristic zero for every etale sheaf of sets and every ind-finite
-  sheaf of groups, with universal local 1-asphericity over such a field, lacks in addition the
-  direct image and base-change exchange of sheaves of sets on the small etale sites of schemes
-  along a morphism, ind-finite sheaves of groups and their torsor stacks, and constructible
-  sheaves of sets with their descent along limits of schemes.
+  base and of quasi-compact quasi-separated schemes, the relative Abhyankar step, the
+  base-change criterion for universal local acyclicity, universal local 1-asphericity and
+  0-acyclicity of projections lack relative normal-crossings divisors, stacks of etale torsors
+  with their direct images and base change, strict localizations of schemes and the relative
+  purity of finite etale covers. Cohomological properness over an arbitrary field for every
+  etale sheaf of sets and, in characteristic zero, for every ind-finite sheaf of groups, with
+  universal local 1-asphericity in characteristic zero, lacks in addition the direct image and
+  base-change exchange of sheaves of sets on the small etale sites of schemes along a morphism,
+  ind-finite sheaves of groups and their torsor stacks, and constructible sheaves of sets with
+  their descent along limits of schemes.
 
 Layer 4:
 * Open arithmetic image lacks the scheme finite-etale fiber-functor fundamental group.
