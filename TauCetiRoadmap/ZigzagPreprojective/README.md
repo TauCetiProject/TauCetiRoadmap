@@ -239,7 +239,7 @@ The landed declarations include:
   the gradings `TauCeti.zigzagEnvelopingGrading` on `Z ⊗ Zᵐᵒᵖ`, the degree statement
   `TauCeti.isHomogeneous_zigzagBraidCoevaluation` and the Casimir element `TauCeti.zigzagCasimir`
   (`Zigzag/Braid/Basic.lean`, `Zigzag/Componentwise/Casimir.lean`), and the vanishing of the middle
-  factor `e_i Z ⊗_Z Z e_j` at nonadjacent vertices
+  factor `e_i Z ⊗_Z Z e_j` at distinct nonadjacent vertices `i ≠ j` over any commutative ring,
   `TauCeti.subsingleton_balancedTensorProduct_zigzagAlgebra_of_ne_of_not_adj`
   (`Zigzag/Braid/Nonadjacent.lean`).
 
@@ -781,7 +781,9 @@ inverse alone is not used as a definition of duality.
   internal degree `i` (Etingof--Eu, Definition 2.3.3, p. 3).
 - The Koszul dual `A^!` of a Koszul algebra, the quadratic dual with relations the annihilator of
   the relation space, is the Yoneda algebra `Ext^*_A(A₀,A₀)` up to the handedness convention fixed
-  above (Mazorchuk, Corollary 10.12, p. 49), is Koszul, and `(A^!)^! ≅ A`.
+  above (Mazorchuk, Corollary 10.12, p. 49, stated there over `ℂ` with `A₀ ≅ ℂⁿ`; the argument
+  uses only that `A₀` is a finite product of copies of the ground field), is Koszul, and
+  `(A^!)^! ≅ A`.
 - The matrix Hilbert series (Etingof--Eu, Definition 2.1.2, p. 2) of a Koszul algebra and of its
   dual are inverse up to the sign change `t ↦ −t` and a transpose,
   `h_A(t) · h_{A^!}(−t)ᵀ = I`, by the Euler characteristic of the exact Koszul complex whose
@@ -792,8 +794,12 @@ inverse alone is not used as a definition of duality.
 
 - The path algebra of the `A₂` quiver `1 → 2`, graded by path length, is Koszul: the simple at
   the sink is projective, and the simple at the source has the resolution
-  `0 → P_2⟨1⟩ → P_1 → S_1 → 0`, generated in degrees `0` and `1`; a predicate that demanded a
-  nonzero term in every homological degree would reject it.
+  `0 → P_2{1} → P_1 → S_1 → 0`, generated in degrees `0` and `1`; a predicate that demanded a
+  nonzero term in every homological degree would reject it.  The quiver has no path of length
+  two, so its quadratic dual is `A₀` plus the dual arrow, which lies in the corner
+  `e_1 A^! e_2`: `h_A(t) = I + tE₂₁`, `h_{A^!}(t) = I + tE₁₂`, and
+  `h_A(t) · h_{A^!}(−t)ᵀ = (I + tE₂₁)(I − tE₂₁) = I`, whereas the product without the transpose
+  has degree-one term `E₂₁ − E₁₂ ≠ 0`; this pins the transpose in the Hilbert-series bullet.
 - `Z(A₂)` is not Koszul: the periodic resolution of a vertex simple (Layer 3 Examples) has
   differentials of internal degrees `1, 2, 1, 2, …`, so its terms are generated in degrees
   `0, 1, 3, 4, …`, and the term in homological degree `2` fails; a predicate that ignored the
@@ -802,7 +808,10 @@ inverse alone is not used as a definition of duality.
 - The triangle `Z(Ã₂)` is Koszul with dual the signless algebra of §5.1, and with `A = J − I`
   the series satisfy `((1 + t²)I − tA)(I − At + t²)⁻¹ = I`, whereas the product without the sign
   change, `((1 + t²)I + tA)(I − At + t²)⁻¹`, has degree-one term `2A ≠ 0`; a dual series taken
-  at `t` instead of `−t` fails.
+  at `t` instead of `−t` fails.  The degree-two coefficient of the dual series is
+  `A² − I = J`, of total `9`, and the signless algebra agrees: its `6 · 2 = 12` doubled paths of
+  length two modulo the three vertex relations span a space of dimension `9`, one class at each
+  vertex and one from each vertex to each other vertex.
 *Needs:* §5.1, Layers 2--3 (basis, projectives, graded Hom spaces and the periodic
 resolutions), Layer 0 (affine subgraphs of non-Dynkin graphs); Mathlib graded modules and
 `CategoryTheory.ProjectiveResolution`.
@@ -1132,18 +1141,19 @@ Layer 6 (`Π₂(Q)` and its completion), and DGAInfinity Layers 1--3, 8 and 11.
   `Z ⊗ Zᵐᵒᵖ` graded by `TauCeti.zigzagEnvelopingGrading` (Huerfano--Khovanov, §4.6, (35), p. 9;
   Khovanov--Seidel, §2d, p. 11, the complexes `R_i` and `R_i'` with the maps `β_i`, `γ_i`).
 - Prove the inverse, commuting, and braid homotopy equivalences:
-  `B_i B_i' ≃ Z ≃ B_i' B_i`, `B_i B_j ≃ B_j B_i` for nonadjacent vertices and
+  `B_i B_i' ≃ Z ≃ B_i' B_i`, `B_i B_j ≃ B_j B_i` for distinct nonadjacent vertices and
   `B_i B_j B_i ≃ B_j B_i B_j` for adjacent vertices (Huerfano--Khovanov, Proposition 7, p. 9, after
   Khovanov--Seidel and Seidel--Thomas for type `A`).  The composite `B_i B_j` is the tensor product
   of complexes of graded bimodules over `Z`; the native vanishing of the middle factor
-  `e_i Z ⊗_Z Z e_j` at nonadjacent vertices
+  `e_i Z ⊗_Z Z e_j` at distinct nonadjacent vertices
   (`TauCeti.subsingleton_balancedTensorProduct_zigzagAlgebra_of_ne_of_not_adj`) is the input to the
-  commuting relation.  Deduce an action of the Artin braid group of any finite graph on the
-  homotopy category of complexes of graded modules and on its derived category.
-  *Needs:* the native complexes above, Layer 2 (basis, trace, Casimir element), Layer 3 (projectives
-  and graded Hom spaces); Mathlib `HomologicalComplex`, homotopy equivalences and the homotopy
-  category; DGAInfinity Layer 1 (the tensor product of DG bimodules) and Layer 5 (derived
-  categories of DG modules).
+  commuting relation; for `i = j` the factor is `e_i Z e_i ≠ 0`.  Deduce an action of the Artin
+  braid group of any finite graph on the homotopy category of complexes of graded modules and on
+  its derived category.
+  *Needs:* the native complexes and the native middle-factor vanishing above, Layer 2 (basis,
+  trace, Casimir element), Layer 3 (projectives and graded Hom spaces); Mathlib
+  `HomologicalComplex`, homotopy equivalences and the homotopy category; DGAInfinity Layer 1 (the
+  tensor product of DG bimodules) and Layer 5 (derived categories of DG modules).
 - Compute the action on graded `K₀` and compare it with the standard reflection representation:
   `[B_i]` acts by `[M] ↦ [M] − [P_i] · (graded multiplicity of e_i M)`, the deformed simple
   reflection which specialises at `q = −1` to the reflection of the graph Cartan matrix.  State
@@ -1195,7 +1205,7 @@ Layer 6 (`Π₂(Q)` and its completion), and DGAInfinity Layers 1--3, 8 and 11.
 - `A₂`: the two complexes `B₁`, `B₂` satisfy `B₁ B₂ B₁ ≃ B₂ B₁ B₂`, and on graded `K₀` with basis
   `[P₁], [P₂]` the matrices of the Check above at `q = −1` give the braid group `B₃` acting
   through two reflections in `GL₂(ℤ)`, each of determinant `−1`.
-- Two nonadjacent vertices `i, j` of any graph: `e_i Z e_j = 0`, so the middle factor of
+- Two distinct nonadjacent vertices `i, j` of any graph: `e_i Z e_j = 0`, so the middle factor of
   `B_i B_j` vanishes and the two complexes commute up to homotopy.
 - An isolated vertex: `Z` has the dual-numbers factor `k[x]/(x²)`, `B_i` is the complex
   `[k[x]/(x²) ⊗_k k[x]/(x²) ⟶ k[x]/(x²)]`, and the coevaluation is `1 ↦ e_i ⊗ x_i + x_i ⊗ e_i`.
