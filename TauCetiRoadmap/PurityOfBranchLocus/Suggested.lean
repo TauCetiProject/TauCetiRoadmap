@@ -1,25 +1,30 @@
-import Mathlib
-import TauCeti.RingTheory.RegularLocalRing.Basic
+module
+
+public import Mathlib
 
 /-!
-# Purity of the branch locus: suggested forms
+# Purity of the branch locus: target signatures
 
-**This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. The statements here suggest Lean forms for particular milestones, so that
-contributors and reviewers converge on names and signatures; discharging all of them
-finishes neither a layer nor the roadmap.
+The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
+theorems against the pinned Mathlib and Tau Ceti, each with `sorry`, together with the three
+definitions they need (the ramification, non-étale and branch loci of a morphism of schemes), the
+pointwise stalk forms in which the headlines are written, and the comparisons of the loci with
+Mathlib's affine `Algebra.unramifiedLocus` and `Algebra.etaleLocus`. The headline theorems are
+purity of the branch locus (Stacks, Lemma 58.21.4 (0BMB)) in Mathlib's stalk vocabulary, in
+Stacks' form and in affine form (README §2.1); the global corollary that a finite dominant,
+generically étale morphism from a normal integral scheme to a regular one is étale iff it is
+unramified in codimension one (README §2.2); and the codimension-one purity of the ramification
+and branch loci (SGA 1, Exposé X, Théorème 3.1; README §2.3). Every headline theorem is statable
+at the pins, and every one is stated here.
 
 Every target is stated in Mathlib's vocabulary (README, Convention 2): the pointwise hypotheses
 are stalkwise (`Scheme.Hom.QuasiFiniteAt`, formal unramifiedness of `Scheme.Hom.stalkMap`), and
 "étale at `x`" is an open neighbourhood on which the restriction is `Etale`. The Stacks form of
 Lemma 58.21.4 (0BMB), with Stacks' pointwise notions written out as in README Convention 3, is an
 accompanying statement. Declarations with a Stacks Project counterpart carry `@[stacks]`.
-
-The ramification locus (points where `f` is not unramified), the non-étale locus and the branch
-locus (the image of the ramification locus in the target) are defined as sets, compared with
-Mathlib's affine `Algebra.unramifiedLocus` and `Algebra.etaleLocus`, and the classical
-codimension-one form of purity (SGA 1, Exposé X, Théorème 3.1) is derived from 0BMB.
 -/
+
+@[expose] public section
 
 universe u
 
@@ -36,8 +41,10 @@ section Layer0
 variable {X Y : Scheme.{u}} (f : X ⟶ Y)
 
 /-- Stacks' "unramified at `x`" (Definition 29.36.1 (02G4)), written with Mathlib's morphism
-classes, is formal unramifiedness of the stalk map, for `f` locally of finite type. -/
-@[stacks 02G4 "equivalence with the stalk form"]
+classes, is formal unramifiedness of the stalk map, for `f` locally of finite type: Stacks, Lemma
+29.36.14 (02GF), the equivalence of conditions (1) and (3), the stalk of `Ω_{X/S}` at `x` being
+the module of differentials of `𝒪_{X,x}` over `𝒪_{S,f x}`. -/
+@[stacks 02GF "(1) ⇔ (3)"]
 theorem unramifiedAt_iff_stalkMap [LocallyOfFiniteType f] (x : X) :
     (∃ U : X.Opens, x ∈ U ∧ LocallyOfFiniteType (U.ι ≫ f) ∧ FormallyUnramified (U.ι ≫ f)) ↔
       (f.stalkMap x).hom.FormallyUnramified := by
@@ -52,7 +59,7 @@ theorem etaleAt_iff_stalkMap [LocallyOfFinitePresentation f] (x : X) :
       (f.stalkMap x).hom.Flat ∧ (f.stalkMap x).hom.FormallyUnramified := by
   sorry
 
-/-! ### The ramification, non-étale and branch loci (README §0.4) -/
+/-! ### The ramification, non-étale and branch loci (README §0.3) -/
 
 /-- The **ramification locus** of `f`: the points of `X` at which `f` is not unramified, with
 "unramified at `x`" in the stalk form of README Convention 3. For `f` locally of finite type it
@@ -90,15 +97,6 @@ form an open set (Stacks, Section 29.36 (02G3), the remark after Definition 29.3
 theorem isClosed_ramificationLocus [LocallyOfFiniteType f] : IsClosed (ramificationLocus f) := by
   sorry
 
-/-- The non-étale locus is closed, with no hypothesis on `f`: the étale points form an open set
-by Stacks, Definition 29.37.1 (02GI). -/
-theorem isClosed_nonEtaleLocus : IsClosed (nonEtaleLocus f) := by
-  sorry
-
-/-- An étale point is unramified. -/
-theorem ramificationLocus_subset_nonEtaleLocus : ramificationLocus f ⊆ nonEtaleLocus f := by
-  sorry
-
 /-- The branch locus of a finite morphism is closed: a finite morphism is closed (Stacks, Lemma
 29.45.7 (01WM)) and its ramification locus is closed (`isClosed_ramificationLocus`). -/
 theorem isClosed_branchLocus [IsFinite f] : IsClosed (branchLocus f) := by
@@ -124,44 +122,6 @@ complement of `Algebra.unramifiedLocus`. -/
 theorem branchLocus_spec {R S : Type u} [CommRing R] [CommRing S] [Algebra R S] :
     branchLocus (Spec.map (CommRingCat.ofHom (algebraMap R S))) =
       PrimeSpectrum.comap (algebraMap R S) '' (Algebra.unramifiedLocus R S)ᶜ := by
-  sorry
-
-/-- The **global dimension** of a ring: the supremum of the projective dimensions of its modules.
-Stacks, Definition 10.109.10 (00O6). -/
-@[stacks 00O6]
-def globalDimension (R : Type u) [CommRing R] : WithBot ℕ∞ :=
-  ⨆ M : ModuleCat.{u} R, CategoryTheory.projectiveDimension M
-
-/-- The supremum definition of global dimension agrees with Mathlib's pointwise projective
-dimension bound. EnhancedDerivedSheaves E1.6 consumes this comparison. -/
-theorem globalDimension_le_iff_hasProjectiveDimensionLE (R : Type u) [CommRing R] (n : ℕ) :
-    globalDimension R ≤ n ↔
-      ∀ M : ModuleCat.{u} R, CategoryTheory.HasProjectiveDimensionLE M n := by
-  sorry
-
-/-- A Noetherian local ring whose residue field has finite projective dimension is regular.
-This is the residue-field implication of Stacks 00OC and supplies the local criterion consumed by
-EnhancedDerivedSheaves E1.6. -/
-@[stacks 00OC "residue-field criterion"]
-theorem isRegularLocalRing_of_projectiveDimension_residueField (R : Type u) [CommRing R]
-    [IsLocalRing R] [IsNoetherianRing R] (n : ℕ)
-    (h : HasProjectiveDimensionLE (ModuleCat.of R (ResidueField R)) n) :
-    IsRegularLocalRing R := by
-  sorry
-
-/-- **Serre's theorem.** A Noetherian local ring is regular iff it has finite global dimension, and
-the localization of a regular local ring at a prime is a regular local ring. Stacks, Lemma
-10.110.6 (0AFS). -/
-@[stacks 0AFS]
-theorem isRegularLocalRing_iff_finite_globalDimension (R : Type u) [CommRing R] [IsLocalRing R] [IsNoetherianRing R] :
-    IsRegularLocalRing R ↔ ∃ n : ℕ, globalDimension R ≤ n := by
-  sorry
-
-/-- The localization of a regular local ring at a prime is a regular local ring. Stacks, Lemma
-10.110.6 (0AFS), second sentence. -/
-@[stacks 0AFS "second sentence"]
-theorem isRegularLocalRing_localization (R : Type u) [CommRing R] [IsRegularLocalRing R]
-    (p : Ideal R) [p.IsPrime] : IsRegularLocalRing (Localization.AtPrime p) := by
   sorry
 
 end Layer0
@@ -219,6 +179,25 @@ theorem isEtaleAt_of_purity {R S : Type u} [CommRing R] [CommRing S] [Algebra R 
     (hunr : ∀ (q' : Ideal S) [q'.IsPrime], q' ≤ q → q'.height = 1 →
       Algebra.IsUnramifiedAt R q') :
     Algebra.IsEtaleAt R q := by
+  sorry
+
+/-! ### The global corollary (README §2.2) -/
+
+/-- **The global corollary.** A finite dominant morphism `f : X ⟶ Y` from a normal integral
+locally Noetherian scheme to a regular integral locally Noetherian scheme that is generically
+étale (étale on an open neighbourhood of the generic point of `X`) is étale iff its stalk map is
+formally unramified at every point `x` with `dim 𝒪_{X,x} = 1`. The generic hypothesis covers the
+points with zero-dimensional stalk, which 0BMB does not (it excludes the purely inseparable
+`Spec 𝔽_p(t)[u]/(uᵖ − t) → Spec 𝔽_p(t)`, where the right-hand side holds vacuously); at every
+other point `exists_etale_of_formallyUnramified_stalk_codimOne` applies, the equality of stalk
+dimensions coming from going down over the normal base `Y` (`ringKrullDim_stalk_eq_of_locallyQuasiFinite`). -/
+theorem etale_of_etaleAt_codimOne [IsLocallyNoetherian X] [IsLocallyNoetherian Y]
+    [IsIntegral X] [IsIntegral Y] (f : X ⟶ Y) [IsFinite f] [IsDominant f]
+    [∀ x : X, IsIntegrallyClosed (X.presheaf.stalk x)]
+    [∀ y : Y, IsRegularLocalRing (Y.presheaf.stalk y)]
+    (hgen : ∃ U : X.Opens, genericPoint X ∈ U ∧ Etale (U.ι ≫ f)) :
+    Etale f ↔ ∀ x : X, ringKrullDim (X.presheaf.stalk x) = 1 →
+      (f.stalkMap x).hom.FormallyUnramified := by
   sorry
 
 /-! ### Purity of the ramification and branch loci (README §2.3) -/

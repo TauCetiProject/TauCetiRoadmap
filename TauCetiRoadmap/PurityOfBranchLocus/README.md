@@ -10,8 +10,9 @@ the non-étale locus and the branch locus of a morphism of schemes, and derives 
 classical statement that, under §2.3's hypotheses and when the ramification locus is not all of
 the source, the ramification and branch loci are empty or of pure codimension one. The local input
 is purity for regular local rings, from [LocalPurity](../LocalPurity/README.md); this roadmap supplies the
-pointwise vocabulary in stalk form, the permanence of normality under étale homomorphisms of local
-rings, étale localization of a quasi-finite morphism, and the reduction of 0BMB to the local case;
+pointwise vocabulary in stalk form, the permanence of normality, dimension and regularity under
+étale homomorphisms of local rings, étale localization of a quasi-finite morphism, and the
+reduction of 0BMB to the local case;
 Serre's characterization of regular local rings by finite global dimension and its consequence
 that a localization of a regular local ring is regular (Stacks 0AFS) are
 [SchemeAndStackFoundations](../SchemeAndStackFoundations/README.md) §4.13. Mathlib has schemes,
@@ -23,7 +24,7 @@ a quasi-finite morphism, nor a ramification or branch locus of a morphism of sch
 
 | Layer | Title | What it delivers |
 |---|---|---|
-| [0](#layer-0-pointwise-notions-and-local-algebra) | Pointwise notions and local algebra | étale and unramified at a point in stalk form, the Stacks forms, normality under étale homomorphisms of local rings, the ramification, non-étale and branch loci |
+| [0](#layer-0-pointwise-notions-and-local-algebra) | Pointwise notions and local algebra | étale and unramified at a point in stalk form, the Stacks forms, normality, dimension and regularity under étale homomorphisms of local rings, the ramification, non-étale and branch loci |
 | [1](#layer-1-étale-localization) | Étale localization | elementary étale neighbourhoods making a quasi-finite morphism finite, étaleness is étale local on the source |
 | [2](#layer-2-purity-of-the-branch-locus) | Purity of the branch locus | 0BMB in scheme, Stacks and affine forms, the global corollary, purity of the ramification and branch loci in codimension-one form |
 
@@ -31,7 +32,6 @@ a quasi-finite morphism, nor a ramification or branch locus of a morphism of sch
 Mathlib + Tau Ceti → Layer 0 → Layer 1 → Layer 2
 LocalPurity §2.1 (0BMA) ────────────────────→ Layer 2
 SchemeAndStackFoundations §§0.17, 4.13 ─────→ Layers 0, 2
-ModularCurves §4D (étale invariance) ───────→ Layer 2
 ```
 
 The end theorems are `Scheme.Hom.exists_etale_of_formallyUnramified_stalk_codimOne` (0BMB, §2.1),
@@ -43,8 +43,9 @@ The end theorems are `Scheme.Hom.exists_etale_of_formallyUnramified_stalk_codimO
 **This roadmap owns** the stalk forms of "étale at `x`" and "unramified at `x`" and their
 equivalence with Stacks' Definitions 29.36.1 (02G4) and 29.37.1 (02GI) and Lemma 29.37.15 (02GU);
 the permanence of normality under étale homomorphisms of Noetherian local rings (Étale Morphisms,
-Proposition 41.19.7 (025P));
-the ramification, non-étale and branch loci of a morphism of schemes (§0.4) and their
+Proposition 41.19.7 (025P)) and the invariance of dimension and regularity under such
+homomorphisms (Lemma 41.19.1 (039S), Proposition 41.19.4 (025N)), as statements about local rings;
+the ramification, non-étale and branch loci of a morphism of schemes (§0.3) and their
 codimension-one purity (§2.3); elementary étale localization of a morphism quasi-finite at a
 point (More on Morphisms, Lemma 37.41.1 (02LK)); étaleness is étale local on the source (Descent,
 Lemma 35.31.1 (036W)); and purity of the branch locus (Lemma 58.21.4 (0BMB)) with its global
@@ -64,12 +65,9 @@ corollary.
   10.110.6 (0AFS)) and the conclusion that a regular local ring is `IsRegularRing`.
 - *Depth and Cohen–Macaulay modules*: SchemeAndStackFoundations §0.17 (`IsLocalRing.depth`,
   `isCohenMacaulay_iff_forall_satisfiesSerreS`).
-- *Invariance of regularity and dimension under étale morphisms* (Étale Morphisms, Lemma 41.19.1
-  (039S) and Proposition 41.19.4 (025N)): [ModularCurves](../ModularCurves/README.md) §4D, which owns
-  the scheme-level API of regular schemes, including its invariance under étale morphisms.
-  Tau Ceti already supplies the local ascent input
-  `TauCeti.IsRegularLocalRing.of_flat_of_formallyUnramified` for a flat, formally unramified,
-  essentially-finite-type local map; reuse it in that scheme-level comparison.
+- *Regular schemes and the invariance of regularity under étale morphisms of schemes*:
+  SchemeAndStackFoundations §4.13 (`IsRegular X`, *IsRegular.of_etale*). This roadmap states only
+  the local-ring forms of the invariances (§0.2); nothing here restates the scheme-level API.
 - *Étaleness is fpqc local on the base* (Descent, Lemma 35.23.31 (02VN)): Mathlib's
   `DescendsAlong @Etale (@Surjective ⊓ @Flat ⊓ @QuasiCompact)`.
 - *Going down and the dimension formula*: Mathlib `Algebra.HasGoingDown` (`@[stacks 00H8]`) and the
@@ -98,59 +96,67 @@ Extension of finite étale covers, ramification in codimension one and Abhyankar
    `∃ U : X.Opens, x ∈ U ∧ LocallyOfFiniteType (U.ι ≫ f) ∧ FormallyUnramified (U.ι ≫ f)`, and
    quasi-finite at `x` adds `∃ U : X.Opens, x ∈ U ∧ LocallyOfFiniteType (U.ι ≫ f)` to
    `f.QuasiFiniteAt x`. §0.1 proves the two forms equivalent. No new pointwise predicate is
-   introduced; §0.4 introduces the loci of these notions as subsets of `X` and `Y`.
+   introduced; §0.3 introduces the loci of these notions as subsets of `X` and `Y`.
 4. *Normal* for a local ring is `IsDomain` together with `IsIntegrallyClosed`; the dimension of a
    local ring is `ringKrullDim`; for a prime ideal it is `Ideal.height`.
 5. An *étale homomorphism of local rings* `A → B` (Stacks, Definition 41.11.1 (0258)) is written
    in Mathlib's vocabulary as a local homomorphism of Noetherian local rings `A → B` with `B`
    `A`-isomorphic to `Localization.AtPrime 𝔮` for an étale `A`-algebra `C` and a prime `𝔮` of `C`.
 6. Names: ring-level statements live in the `Algebra` and `IsLocalRing` namespaces; scheme-level
-   statements in `AlgebraicGeometry.Scheme.Hom`. The suggested forms are in
-   `TauCetiRoadmap.PurityOfBranchLocus`.
+   statements in `AlgebraicGeometry.Scheme.Hom`. The statements of the acceptance test
+   `Suggested.lean` are in `TauCetiRoadmap.PurityOfBranchLocus`.
 
 ## Layer 0: pointwise notions and local algebra
 
 ### 0.1 Stalk forms
 
 For `f : X ⟶ Y` locally of finite type, prove `Scheme.Hom.unramifiedAt_iff_stalkMap`: `f` is
-unramified at `x` in Stacks' form (Convention 3) iff `(f.stalkMap x).hom.FormallyUnramified`;
-for `f` locally of finite presentation, prove `Scheme.Hom.etaleAt_iff_stalkMap`: `f` is étale at
-`x` iff `(f.stalkMap x).hom` is flat and formally unramified (Stacks, Lemma 29.37.15 (02GU), the
+unramified at `x` in Stacks' form (Convention 3) iff `(f.stalkMap x).hom.FormallyUnramified`
+(Stacks, Lemma 29.36.14 (02GF), the equivalence of conditions (1) and (3): the stalk of `Ω_{X/Y}`
+at `x` is the module of differentials of `𝒪_{X,x}` over `𝒪_{Y,f x}`, which vanishes iff the stalk
+map is formally unramified); for `f` locally of finite presentation, prove
+`Scheme.Hom.etaleAt_iff_stalkMap`: `f` is étale at `x` iff `(f.stalkMap x).hom` is flat and formally unramified (Stacks, Lemma 29.37.15 (02GU), the
 equivalence of conditions (1) and (4)). Prove the affine comparison
-`Scheme.Hom.etaleAt_spec_iff`: for an `R`-algebra `S` of finite presentation and a prime `𝔮` of
+*Scheme.Hom.etaleAt_spec_iff*: for an `R`-algebra `S` of finite presentation and a prime `𝔮` of
 `S`, `Spec S → Spec R` is étale at `𝔮` iff `Algebra.IsEtaleAt R 𝔮`, and likewise for
 `Algebra.IsUnramifiedAt` with `S` of finite type. The quasi-finite case is Mathlib's
 `Scheme.Hom.QuasiFiniteAt.quasiFiniteAt` and its converse, which is a target here
-(`Scheme.Hom.quasiFiniteAt_of_appLE`).
+(*Scheme.Hom.quasiFiniteAt_of_appLE*).
 *Needs:* Mathlib `Etale`, `FormallyUnramified`, `LocallyOfFiniteType`, `Scheme.Hom.stalkMap`,
 `Scheme.Hom.QuasiFiniteAt`, `Algebra.IsEtaleAt`, `Algebra.IsUnramifiedAt`, `Algebra.etaleLocus`,
 `Algebra.unramifiedLocus`.
 
-### 0.2 Normality under étale homomorphisms of local rings
+### 0.2 Normality, dimension and regularity under étale homomorphisms of local rings
 
 For an étale homomorphism of Noetherian local rings `A → B` (Convention 5), prove
-`isNormalDomain_iff_of_etale` (Étale Morphisms, Proposition 41.19.7 (025P)): `A` is a normal domain
-iff `B` is. The invariance of dimension (039S) and regularity (025N) under étale morphisms is
-ModularCurves §4D.
-*Needs:* Mathlib `Algebra.Etale`, `Module.FaithfullyFlat`, `IsIntegrallyClosed`;
-SchemeAndStackFoundations §§0.17, 4.13 (`isCohenMacaulay_iff_forall_satisfiesSerreS`,
-`serre_normality_criterion`); ModularCurves §4D.
+*isNormalDomain_iff_of_etale* (Étale Morphisms, Proposition 41.19.7 (025P)): `A` is a normal domain
+iff `B` is. Prove *ringKrullDim_eq_of_etale* (Lemma 41.19.1 (039S)):
+`ringKrullDim A = ringKrullDim B`. Proof sketch. `B` is flat over `A` (a localization of an étale
+`A`-algebra), so going down holds (Mathlib `Algebra.HasGoingDown.of_flat`) and the dimension
+formula `Ideal.height_eq_height_add_of_liesOver_of_hasGoingDown` (`@[stacks 00ON]`) gives
+`dim B = dim A + dim B/𝔪_A B`; and `𝔪_A B = 𝔪_B` (Mathlib
+`Algebra.FormallyUnramified.map_maximalIdeal`), so the fibre term is zero. Prove
+*isRegularLocalRing_iff_of_etale* (Proposition 41.19.4 (025N)): `A` is regular iff `B` is. The
+ascent is Tau Ceti `TauCeti.IsRegularLocalRing.of_flat_of_formallyUnramified` (a flat, formally
+unramified local homomorphism essentially of finite type between Noetherian local rings, which is
+what Convention 5 gives); the descent is *isRegularLocalRing_of_flat_of_isRegularLocalRing*
+(Algebra, Lemma 10.110.9 (00OF)): for a flat local homomorphism of Noetherian local rings `A → B`
+with `B` regular, `A` is regular. Proof sketch of the descent: a resolution of the residue field
+`κ_A` by finite free `A`-modules, cut at the `(dim B)`-th syzygy `K`, stays exact after `⊗_A B`;
+`K ⊗_A B` is free because `B` has global dimension `dim B` (SchemeAndStackFoundations §4.13
+*IsRegularLocalRing.globalDimension_le*), so `K` is free by faithful flatness, `κ_A` has finite
+projective dimension, and `A` is regular by Serre's criterion (SchemeAndStackFoundations §4.13
+*isRegularLocalRing_tfae*). §2.1 applies the three statements after étale localization (§1.1),
+to carry the normality, dimension and regularity hypotheses of 0BMB from the local rings of `X`
+and `Y` to those of the elementary étale neighbourhoods.
+*Needs:* Mathlib `Algebra.Etale`, `Module.FaithfullyFlat`, `Module.Flat`, `IsIntegrallyClosed`,
+`Algebra.HasGoingDown.of_flat`, `Ideal.height_eq_height_add_of_liesOver_of_hasGoingDown`,
+`Algebra.FormallyUnramified.map_maximalIdeal`; Tau Ceti
+`TauCeti.IsRegularLocalRing.of_flat_of_formallyUnramified`; SchemeAndStackFoundations §§0.17, 4.13
+(`isCohenMacaulay_iff_forall_satisfiesSerreS`, `serre_normality_criterion`,
+*IsRegularLocalRing.globalDimension_le*, *isRegularLocalRing_tfae*).
 
-### 0.3 Global dimension and localization of regular local rings
-
-Serre's characterization of regular local rings by finite global dimension (Stacks, Proposition
-10.110.5 (00OC)), the regularity of the localization of a regular local ring at a prime (Lemma
-10.110.6 (0AFS)), the conclusion that a regular local ring is Mathlib's `IsRegularRing`, and the
-global-dimension, Auslander–Buchsbaum and Koszul inputs behind them are targets of
-[SchemeAndStackFoundations](../SchemeAndStackFoundations/README.md) §4.13, stated there in
-Mathlib's projective-dimension vocabulary; they are independent of purity and nothing here
-restates them. This roadmap consumes two of them: the localization statement, which §2.1 applies
-on the punctured spectrum of a regular local ring, and the regular-ring conclusion, through which
-SchemeAndStackFoundations §4.13 `IsRegular.isNormal` applies to a regular local base in §§2.1 and
-2.3. AbhyankarLemma §3.3 consumes the localization statement from the same source.
-*Needs:* SchemeAndStackFoundations §4.13.
-
-### 0.4 The ramification, non-étale and branch loci
+### 0.3 The ramification, non-étale and branch loci
 
 For `f : X ⟶ Y`, define three sets, each in the vocabulary of Convention 3:
 
@@ -184,8 +190,10 @@ locally of finite type, `ramificationLocus f` is the set of `x` with no open `U 
 `unramifiedAt_iff_stalkMap` pointwise. Prove the closedness statements: `isClosed_ramificationLocus`
 for `f` locally of finite type (the unramified points form an open set, Stacks, Section 29.36
 (02G3), the remark after Definition 29.36.1, with `ramificationLocus_eq_stacks`);
-`isClosed_nonEtaleLocus` with no hypothesis (the étale points form an open set by Definition 29.37.1
-(02GI)); `ramificationLocus_subset_nonEtaleLocus`; and `isClosed_branchLocus` for `f` finite (a
+*isClosed_nonEtaleLocus* with no hypothesis (the étale points form an open set by Definition 29.37.1
+(02GI)); *ramificationLocus_subset_nonEtaleLocus* (an étale point is unramified: Mathlib
+`FormallyUnramified.stalkMap` applied to the restriction `U.ι ≫ f`); and `isClosed_branchLocus`
+for `f` finite (a
 finite morphism is integral, hence universally closed, Lemma 29.45.7 (01WM)). Prove the affine
 comparisons `ramificationLocus_spec`, `nonEtaleLocus_spec` and `branchLocus_spec`: for an
 `R`-algebra `S`, with `f = Spec.map (CommRingCat.ofHom (algebraMap R S))`, `f.ramificationLocus =
@@ -199,27 +207,27 @@ unramified iff `S_𝔮` is formally unramified over `R`, because `R → R_𝔭` 
 `Algebra.basicOpen_subset_etaleLocus_iff_etale`, `PrimeSpectrum.comap`.
 
 **Checks.**
-- `test_ramificationLocus_ne_nonEtaleLocus`: the closed immersion `Spec k ⟶ 𝔸¹_k` at the origin is
+- The two loci differ in general: the closed immersion `Spec k ⟶ 𝔸¹_k` at the origin is
   unramified and not flat, so its ramification locus is empty and its non-étale locus is the point.
-- `test_ramificationLocus_frobenius`: over a field `k` of characteristic `p > 0`, the relative
-  Frobenius `𝔸¹_k ⟶ 𝔸¹_k`, `t ↦ tᵖ`, is finite and dominant between regular integral schemes and its
+- The Frobenius control, which the hypothesis of §2.3 excludes: over a field `k` of
+  characteristic `p > 0`, the relative Frobenius `𝔸¹_k ⟶ 𝔸¹_k`, `t ↦ tᵖ`, is finite and dominant between regular integral schemes and its
   ramification locus is all of `𝔸¹_k`; this is why §2.3 assumes the ramification locus is not
   everything.
-- `test_branchLocus_square`: over a field of characteristic `≠ 2`, `𝔸² ⟶ 𝔸²`,
+- The square map: over a field of characteristic `≠ 2`, `𝔸² ⟶ 𝔸²`,
   `(x, y) ↦ (u, v) = (x², y)`, has ramification locus `V(x)` and branch locus `V(u)`.
 
 ## Layer 1: étale localization
 
 ### 1.1 Elementary étale neighbourhoods and étale-local properties
 
-Prove `exists_elementaryEtale_finite_of_isolated` (Stacks, Lemma 37.41.1 (02LK)), with the
+Prove *exists_elementaryEtale_finite_of_isolated* (Stacks, Lemma 37.41.1 (02LK)), with the
 elementary étale neighbourhood written as an étale `φ : U ⟶ S` and `u : U` with `φ u = s` and
 `φ.residueFieldMap u` an isomorphism: for `f : X ⟶ S` locally of finite type and `x` with
 `f.QuasiFiniteAt x` and `f x = s`, there are such `(U, u)` and an open `V` of `pullback f φ` finite
 over `U` with a unique point `v` over `u`, mapping to `x`, with `κ(x) ≅ κ(v)`, and the property
 persists under further elementary étale neighbourhoods. Mathlib's
 `Algebra.exists_etale_isIdempotentElem_forall_liesOver_eq` (00UJ) is its affine input. Prove
-`etale_of_etale_comp_surjective` (Stacks, Lemma 35.31.1 (036W)): being étale is étale local on the
+*etale_of_etale_comp_surjective* (Stacks, Lemma 35.31.1 (036W)): being étale is étale local on the
 source; that is, for an étale surjective `g : X' ⟶ X`, `f` is étale iff `g ≫ f` is.
 *Needs:* §0.1; Mathlib `Etale`, `Surjective`, `Scheme.Hom.QuasiFiniteAt`,
 `Algebra.exists_etale_isIdempotentElem_forall_liesOver_eq`, `DescendsAlong @Etale (@Surjective ⊓ @Flat ⊓ @QuasiCompact)`,
@@ -245,25 +253,24 @@ and a prime `𝔮` of `S` with `Localization.AtPrime 𝔮` a normal domain,
 `𝔮.height = (𝔮.under R).height ≥ 1` and `Algebra.IsUnramifiedAt R 𝔮'` for every prime `𝔮' ≤ 𝔮`
 of height one, `Algebra.IsEtaleAt R 𝔮`. The proof follows Stacks: induction on the dimension; the
 case of dimension one uses that a regular local ring of dimension one is a discrete valuation ring;
-in dimension `≥ 2`, §1.1, §0.2 and ModularCurves §4D reduce to a finite morphism with one point over `y`, base change
-to `Spec 𝒪_{Y,y}` reduces to a finite local homomorphism of local rings, going down and the
-dimension formula give the induction hypothesis on the punctured spectrum (localizations of a
+in dimension `≥ 2`, §1.1 and §0.2 reduce to a finite morphism with one point over `y` (the
+normality, dimension and regularity hypotheses pass to the elementary étale neighbourhood by the
+three statements of §0.2), base change to `Spec 𝒪_{Y,y}` reduces to a finite local homomorphism
+of local rings, going down and the dimension formula give the induction hypothesis on the punctured spectrum (localizations of a
 regular local ring are regular, SchemeAndStackFoundations §4.13, Stacks 0AFS), and LocalPurity
 §2.1 concludes (a normal local domain finite and injective over `A` is torsion free).
 *Needs:* §§0.1, 0.2, 1.1; LocalPurity §2.1; SchemeAndStackFoundations §4.13 (regularity of the
-localizations of a regular local ring, Stacks 0AFS, as consumed in §0.3; `IsRegular.isNormal`);
-ModularCurves §4D (invariance of regularity and dimension under étale
-morphisms); Tau Ceti
+localizations of a regular local ring, Stacks 0AFS; `IsRegular.isNormal`); Tau Ceti
 `TauCeti.IsRegularLocalRing.isDiscreteValuationRing_iff_ringKrullDim_eq_one`; Mathlib
 `Scheme.Hom.QuasiFiniteAt`, `Algebra.QuasiFiniteAt`, `Algebra.IsEtaleAt`, `Algebra.HasGoingDown`,
 `Ideal.height`.
 
 **Checks.**
-- `test_purity_needs_regular`: over a field of characteristic `≠ 2`, the quotient map
-  `𝔸² → Spec k[x², xy, y²]` is finite, has normal source and normal non-regular target, is étale
+- Regularity of the target cannot be dropped: over a field of characteristic `≠ 2`, the quotient
+  map `𝔸² → Spec k[x², xy, y²]` is finite, has normal source and normal non-regular target, is étale
   at every codimension-one point of the source and is not étale at the origin.
-- `test_purity_needs_codimOne`: over a field of characteristic `≠ 2`, `𝔸² → 𝔸²`,
-  `(x, y) ↦ (x², y)` is finite between regular schemes, ramified along `x = 0`, and not étale at
+- The codimension-one hypothesis cannot be dropped: over a field of characteristic `≠ 2`,
+  `𝔸² → 𝔸²`, `(x, y) ↦ (x², y)` is finite between regular schemes, ramified along `x = 0`, and not étale at
   the origin.
 
 ### 2.2 The global corollary
@@ -272,13 +279,22 @@ Prove `Scheme.Hom.etale_of_etaleAt_codimOne` (*API*): a finite dominant morphism
 a normal integral locally Noetherian scheme to a regular integral locally Noetherian scheme that
 is **generically étale** is étale iff `(f.stalkMap x).hom` is formally unramified at every point
 `x` with `ringKrullDim (X.presheaf.stalk x) = 1`. Generically étale means that the finite extension
-of function fields is separable, equivalently that `f` is étale at the generic point of `X`. It
-handles the local-dimension-zero point, which 0BMB does not cover; §2.1 applies at the remaining
-points after the codimension-one and dimension-equality inputs are supplied. Without this
-hypothesis the statement fails for the purely inseparable extension
+of function fields is separable, equivalently that `f` is étale at the generic point of `X`; the
+statement writes it as `∃ U : X.Opens, genericPoint X ∈ U ∧ Etale (U.ι ≫ f)`, and its conclusion
+is `Etale f` iff `(f.stalkMap x).hom.FormallyUnramified` for every `x` with
+`ringKrullDim (X.presheaf.stalk x) = 1`. The generic hypothesis handles the point with
+zero-dimensional stalk, which 0BMB does not cover; at every other point §2.1 applies: a finite
+morphism is locally quasi-finite and locally of finite type, the stalk dimensions agree by §2.3
+`ringKrullDim_stalk_eq_of_locallyQuasiFinite`, and the codimension-one generizations of `x` are
+unramified by hypothesis. The converse direction is Mathlib `FormallyUnramified.stalkMap`. Without
+the generic hypothesis the statement fails for the purely inseparable
 `𝔽_p(t) ⊂ 𝔽_p(t)[u]/(uᵖ - t)`: both spectra are zero-dimensional, so the codimension-one condition
-is vacuous, but the map is not étale.
-*Needs:* §2.1.
+is vacuous, but the map is not étale. When `X` has dimension `≥ 1` the hypothesis is implied by
+the codimension-one condition (unramifiedness at a codimension-one point localizes to the generic
+point, where it says that the function field extension is separable); it is kept so that the
+statement covers zero-dimensional `X` uniformly.
+*Needs:* §2.1; §2.3 `ringKrullDim_stalk_eq_of_locallyQuasiFinite`; Mathlib `IsFinite`,
+`IsDominant`, `IsIntegral`, `genericPoint`, `FormallyUnramified.stalkMap`.
 
 ### 2.3 Purity of the ramification and branch loci
 
@@ -308,8 +324,8 @@ rings are universally catenary (Lemma 10.105.9 (00NM)).
 
 Prove `Scheme.Hom.ramificationLocus_eq_nonEtaleLocus` (*API*; SGA 1, I 9.5 (ii) in this setting):
 under the hypotheses, `f.ramificationLocus = f.nonEtaleLocus`. Proof sketch. `⊆` is
-`ramificationLocus_subset_nonEtaleLocus`. Conversely let `x` be unramified. If `x` is the generic
-point, `f x` is the generic point of `Y` (dominance) and the stalk map is a formally unramified
+*ramificationLocus_subset_nonEtaleLocus* (§0.3). Conversely let `x` be unramified. If `x` is the
+generic point, `f x` is the generic point of `Y` (dominance) and the stalk map is a formally unramified
 homomorphism of fields, which is flat, so §0.1 `etaleAt_iff_stalkMap` gives étaleness at `x` (`f`
 is locally of finite presentation since `Y` is locally Noetherian). Otherwise
 `dim 𝒪_{X,x} ≥ 1`; by `isClosed_ramificationLocus` every generization of `x` is unramified, in
@@ -322,7 +338,7 @@ integral.)
 Prove `Scheme.Hom.ringKrullDim_stalk_eq_one_of_maximal_ramificationLocus` (*API*; SGA 1, X 3.1):
 under the hypotheses and `f.ramificationLocus ≠ Set.univ`, every `z ∈ f.ramificationLocus` with no
 proper generization in `f.ramificationLocus` has `ringKrullDim (X.presheaf.stalk z) = 1`. Since
-the ramification locus is closed (§0.4) and `X` is sober, such `z` are exactly the generic points
+the ramification locus is closed (§0.3) and `X` is sober, such `z` are exactly the generic points
 of its irreducible components. Proof sketch. `z` is not the generic point `η` of `X`: otherwise
 the closed set `f.ramificationLocus` contains `η`, hence is `X`. So `d = dim 𝒪_{X,z} ≥ 1`. Suppose
 `d ≥ 2`. A codimension-one `x' ⤳ z` is a proper generization of `z` (dimensions differ), so
@@ -341,19 +357,19 @@ ramification locus. Then `f z₀ ⤳ w` and `f z₀ ∈ f.branchLocus`, so `f z�
 previous target. With `isClosed_branchLocus`: for `f` finite, under the hypotheses of this
 section and `f.ramificationLocus ≠ Set.univ`, the branch locus is a closed subset of `Y` that is
 empty or of pure codimension one. (Without `f.ramificationLocus ≠ Set.univ` this fails: the branch
-locus of the relative Frobenius of `𝔸¹`, `test_ramificationLocus_frobenius`, is all of `𝔸¹`.)
-*Needs:* §§0.1, 0.4, 2.1; Mathlib `IsIntegral`, `IsDominant`, `LocallyQuasiFinite`,
+locus of the relative Frobenius of `𝔸¹` (§0.3, Checks) is all of `𝔸¹`.)
+*Needs:* §§0.1, 0.3, 2.1; Mathlib `IsIntegral`, `IsDominant`, `LocallyQuasiFinite`,
 `LocallyOfFiniteType`, `IsLocallyNoetherian`, `IsRegularLocalRing`, `IsIntegrallyClosed`,
 `ringKrullDim`, `Specializes`, `Algebra.ZariskisMainProperty.of_finiteType`,
 `Algebra.HasGoingDown`, the `@[stacks 00ON]` dimension formula; SchemeAndStackFoundations §4.13
 (`IsRegular.isNormal`).
 
 **Checks.**
-- `test_purity_branchLocus_square`: for `𝔸² → 𝔸²`, `(x, y) ↦ (u, v) = (x², y)` in
+- The square map: for `𝔸² → 𝔸²`, `(x, y) ↦ (u, v) = (x², y)` in
   characteristic `≠ 2`, the ramification and non-étale loci are both `V(x)` and the branch locus
   `V(u)` is irreducible of codimension one.
-- `test_purity_branchLocus_needs_regular`: for `𝔸² → Spec k[x², xy, y²]` in characteristic `≠ 2`,
-  the ramification locus is the origin, of codimension two, so the regularity of `Y` cannot be
+- Regularity of the target cannot be dropped: for `𝔸² → Spec k[x², xy, y²]` in characteristic
+  `≠ 2`, the ramification locus is the origin, of codimension two, so the regularity of `Y` cannot be
   dropped.
 
 ## Stacks alignment
@@ -363,18 +379,18 @@ restatement of a target. *API*: no Stacks counterpart.
 
 | § | Target | Stacks | Class |
 | --- | --- | --- | --- |
-| 0.1 | `unramifiedAt_iff_stalkMap`, `etaleAt_iff_stalkMap`, `etaleAt_spec_iff` | 29.36.1 (02G4), 29.37.1 (02GI), 29.37.15 (02GU) | equivalence |
-| 0.1 | `quasiFiniteAt_of_appLE` | 29.21.1 (01TD) | equivalence |
-| 0.2 | `isNormalDomain_iff_of_etale` | 41.19.7 (025P) | exact |
-| 0.4 | `ramificationLocus`, `nonEtaleLocus`, `branchLocus` | 29.36.1 (02G4), 29.37.1 (02GI); usage in 58.21.2 (0BJH), 58.28.3 (0EA4), 58.29.3 (0ECD) | definitions (no Stacks definition) |
-| 0.4 | `ramificationLocus_eq_stacks` | 29.36.1 (02G4) | accompanying |
-| 0.4 | `isClosed_ramificationLocus` | Section 29.36 (02G3), remark after 29.36.1 | API |
-| 0.4 | `isClosed_nonEtaleLocus` | 29.37.1 (02GI) | API |
-| 0.4 | `ramificationLocus_subset_nonEtaleLocus` | — | API |
-| 0.4 | `isClosed_branchLocus` | 29.45.7 (01WM) | API |
-| 0.4 | `ramificationLocus_spec`, `nonEtaleLocus_spec`, `branchLocus_spec` | — | API (Mathlib comparison) |
-| 1.1 | `exists_elementaryEtale_finite_of_isolated` | 37.41.1 (02LK) | exact |
-| 1.1 | `etale_of_etale_comp_surjective` | 35.31.1 (036W) | exact |
+| 0.1 | `unramifiedAt_iff_stalkMap`, `etaleAt_iff_stalkMap`, *etaleAt_spec_iff* | 29.36.1 (02G4), 29.36.14 (02GF), 29.37.1 (02GI), 29.37.15 (02GU) | equivalence |
+| 0.1 | *quasiFiniteAt_of_appLE* | 29.21.1 (01TD) | equivalence |
+| 0.2 | *isNormalDomain_iff_of_etale*, *ringKrullDim_eq_of_etale*, *isRegularLocalRing_iff_of_etale*, *isRegularLocalRing_of_flat_of_isRegularLocalRing* | 41.19.7 (025P), 41.19.1 (039S), 41.19.4 (025N), 10.110.9 (00OF) | exact |
+| 0.3 | `ramificationLocus`, `nonEtaleLocus`, `branchLocus` | 29.36.1 (02G4), 29.37.1 (02GI); usage in 58.21.2 (0BJH), 58.28.3 (0EA4), 58.29.3 (0ECD) | definitions (no Stacks definition) |
+| 0.3 | `ramificationLocus_eq_stacks` | 29.36.1 (02G4) | accompanying |
+| 0.3 | `isClosed_ramificationLocus` | Section 29.36 (02G3), remark after 29.36.1 | API |
+| 0.3 | *isClosed_nonEtaleLocus* | 29.37.1 (02GI) | API |
+| 0.3 | *ramificationLocus_subset_nonEtaleLocus* | — | API |
+| 0.3 | `isClosed_branchLocus` | 29.45.7 (01WM) | API |
+| 0.3 | `ramificationLocus_spec`, `nonEtaleLocus_spec`, `branchLocus_spec` | — | API (Mathlib comparison) |
+| 1.1 | *exists_elementaryEtale_finite_of_isolated* | 37.41.1 (02LK) | exact |
+| 1.1 | *etale_of_etale_comp_surjective* | 35.31.1 (036W) | exact |
 | 2.1 | `exists_etale_of_formallyUnramified_stalk_codimOne` | 58.21.4 (0BMB) | exact (stalk form) |
 | 2.1 | `etaleAt_of_unramifiedAt_codimOne` | 58.21.4 (0BMB) | accompanying |
 | 2.1 | `Algebra.isEtaleAt_of_purity` | 58.21.4 (0BMB) | affine form |
@@ -393,7 +409,7 @@ all the way down" theorem. Paths are under `lean/Pcf/`.
 | § | Existing declarations | Files |
 | --- | --- | --- |
 | 2.1 | `zariskiNagataPurity` (affine), `isStacksEtaleAt_of_zariskiNagataPurity` (Stacks form), `exists_etale_of_zariskiNagataPurity` (scheme form) | `Stacks/Purity/Tag0BMA.lean`, `Stacks/Purity/Tag0BMBScheme.lean`, `Stacks/Purity/Tag0BMBSchemeAPI.lean` |
-| 0.4, 2.3 | `Pcf.nonEtaleLocus` (affine only: `(Algebra.etaleLocus R S)ᶜ`), `Pcf.isClosed_nonEtaleLocus`, `Pcf.codim_eq_one_of_algebra` (codimension-one purity of the non-étale locus of `Spec S`, with the local form of 0BMB taken as a hypothesis) | `NonEtaleLocus.lean` |
+| 0.3, 2.3 | `Pcf.nonEtaleLocus` (affine only: `(Algebra.etaleLocus R S)ᶜ`), `Pcf.isClosed_nonEtaleLocus`, `Pcf.codim_eq_one_of_algebra` (codimension-one purity of the non-étale locus of `Spec S`, with the local form of 0BMB taken as a hypothesis) | `NonEtaleLocus.lean` |
 
 ## References
 
