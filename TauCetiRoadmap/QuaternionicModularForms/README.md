@@ -806,7 +806,11 @@ condition. For right translation by `η∈GL₂(𝔸_{F,f})` it gives
 forms of type `τ_k` with this central character, unitarity of `π_∞` up to a twist makes Williams's
 Casimir condition equivalent to the full infinitesimal character, since the other unitary principal
 series containing `τ_k` have different Casimir eigenvalues; his descent to functions on `H^3`
-(Williams, Theorem 1.3, p. 5) is the restriction map of §2.4. *Needs:* §2.4; Convention 10.
+(Williams, Theorem 1.3, p. 5) is the restriction map of §2.4, whose component set is
+`Fˣ\𝔸_{F,f}ˣ/det Ω₁(𝔫)` with `det Ω₁(𝔫)=Ô_Fˣ∩(1+𝔫Ô_F)`, the ray class group modulo `𝔫`; Williams
+indexes the components by the class group, which is the right count exactly when
+`𝒪_Fˣ→(𝒪_F/𝔫)ˣ` is onto (the kernel of the ray class group's map onto the class group is the
+cokernel of that map), for example at `𝔫=𝒪_F`. *Needs:* §2.4; Convention 10.
 
 **Cohomological comparison.** Let `U` be neat and `V_{k,k}` the local system of ALS.1.1 on `X_U`.
 Prove `H^1_cusp(X_U,V_{k,k})≅⊕_ωS_{k,k}(U,ω)`, that `H^2_cusp` carries the same multiplicity spaces,
@@ -840,6 +844,11 @@ space.) *Needs:* ALS.F.5, F.7, 1.1, 1.3, 5b.1, 5b.5.
 - Negative control: for `F=ℚ(√−7)`, where `2` splits, and `𝔫=2𝒪_F`, the ring `𝒪_F/𝔫≅𝔽₂×𝔽₂` has
   four elements but trivial unit group, so `det≡1 mod 𝔫` holds on all of `U₁(𝔫)` and
   `Ω₁(𝔫)=U₁(𝔫)`: the size of `𝒪_F/𝔫` alone does not decide whether the inclusion is strict.
+- For `F=ℚ(i)` and `𝔫=3𝒪_F`, `3` is inert, `(𝒪_F/𝔫)ˣ` is cyclic of order `8`, and the four units
+  of `𝒪_F` stay distinct modulo `3`; as the class number is `1`, `𝔸_{F,f}ˣ=FˣÔ_Fˣ` and
+  `Fˣ\𝔸_{F,f}ˣ/det Ω₁(𝔫)=𝒪_Fˣ\(𝒪_F/𝔫)ˣ` has `8/4=2` elements, so a form of level `Ω₁(3)`
+  restricts to two functions on `H^3`, not to one per ideal class; for `𝔫=𝒪_F` the two counts
+  agree.
 
 ### Examples
 
