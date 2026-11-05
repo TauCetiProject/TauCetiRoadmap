@@ -1455,8 +1455,9 @@ The same interleaving holds with the three other suppliers that consume
 this roadmap's early sections: SpinRepresentations L7 consumes G1.1's
 negative-form comparison and G4.1's frame refinement and supplies G6 its
 real Clifford classification; RiemannianGeometry R7 consumes G1.2, G2.2 and
-G3.4 and supplies G6.3 its real Weitzenböck term; GeneralizedCohomology G4
-and G5.5 consume G1.3 and G4.1, and G5.5 supplies G5.0 and G6.0. The order
+G3.4 and supplies G6.4 its real Weitzenböck term; GeneralizedCohomology
+G4.0a, G5.0 and G5.4 consume G4.1, G5.5 consumes G1.3, and G5.5 supplies
+G5.0 and G6.0. The order
 between this roadmap and each of those four is an order of sections, and no
 section here uses a result of a section that consumes it.
 G4.4's torsor uses a given lift and central-bundle descent independently of
