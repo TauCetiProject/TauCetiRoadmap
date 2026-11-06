@@ -12,6 +12,8 @@ The primary semiabelian Hasse section and its ordinary and minimal-model compari
 
 Spherical integral toroidal and minimal models belong to ShimuraCompactifications §§7.3 and 7.16; the Klingen and paramodular models, their universal isogeny chain and the integral compactified correspondence are requested from that roadmap by the extension recorded below. General coherent duality, Hartogs, ample vanishing and formal functions belong to SchemeAndStackFoundations §§0.6, 2.6, 2.7, 2.19–2.20 and 4.9. Krull intersection is already in the library as Mathlib `Ideal.iInf_pow_smul_eq_bot_of_isLocalRing`. Layer 7 owns the genus-two integral factorizations and corrected Q₂ correspondence, which differ from the generic rational Hecke action of AutomorphicBundles §§12.11–12.12.
 
+This roadmap owns the genus-two secondary Hasse section with its normal-base extension, duality and polarized root (Layer 3), the formal coefficient operators U, V, Z, Z₂, X₂ with the corrected integral operator Q₂ (Layer 5), the binary neighbor multisets with their oriented reciprocity (Layer 6), and the scalar and vector theta operators with their superspecial nonvanishing and low-weight injectivity theorems (Layer 8). GSp4NonregularModularityLifting §§3.2, 4.1–4.2, 4.4 and 4.7 import these by section and keep only their specializations to its weights (j,2) and its tame levels.
+
 The ordinary Igusa tower belongs to HodgeTateAndCanonicalSubgroups §§5.1–5.2, which treat Hilbert modular varieties with torsor group (𝒪_F/p^m)^×; its genus-two full-frame extension is requested from that roadmap below. Layer 9 owns its function weight spaces, saturated expansions and marked Klingen coefficient comparison. Analytic coefficient sheaves and their comparisons belong to OverconvergentAutomorphicForms Layers 5 and 8, and compact overconvergent Hecke operators to its Layer 6; the integral ordinary interface here is the algebraic comparison target for those constructions.
 
 ## Conventions
@@ -88,7 +90,7 @@ Layer 2 supplies the double-coset Hecke ring with its finite left-coset decompos
 
 §§4.9–4.10 supply boundary-ideal pushforward and coherent-cohomology comparison under same-level refinements of the spherical models, with arbitrary coefficient modules. §§7.3–7.4, 7.10 and 7.12 supply spherical integral toroidal models, formal cusp charts, fibrewise component detection and logarithmic Kodaira–Spencer. §7.16 supplies the spherical integral minimal model π:X→X* with O_X*=π_*O_X; 7.17 supplies ample Hodge powers on it; 7.23 supplies Siegel Koecher with arbitrary coefficients. The Hodge line is not assumed ample on the toroidal model. These spherical inputs carry no parahoric hypothesis.
 
-What ShimuraCompactifications must provide (the Siegel parahoric models contract): Provide the Klingen and paramodular genus-two toroidal models of Pilloni Theorem 6.1.5.1 (normal, flat and lci over ℤ_p, with the maps from Klingen level to spherical and paramodular level), the universal isogeny chain G→G′→G of degrees p³ and p over the Klingen model, the integral compactified correspondence C_(p,2) of Pilloni §14.9.2 over the spherical model, with source fan equal to the fan of the trace projection p₁ so that p₁ is finite over the rank-at-least-one locus and p₂ is proper, and the refinement and boundary-ideal comparisons for these models.
+What ShimuraCompactifications must provide (gap:siegel-parahoric-models): Provide the Klingen and paramodular genus-two toroidal models of Pilloni Theorem 6.1.5.1 (normal, flat and lci over ℤ_p, with the maps from Klingen level to spherical and paramodular level), the universal isogeny chain G→G′→G of degrees p³ and p over the Klingen model, the integral compactified correspondence C_(p,2) of Pilloni §14.9.2 over the spherical model, with source fan equal to the fan of the trace projection p₁ so that p₁ is finite over the rank-at-least-one locus and p₂ is proper, and the refinement and boundary-ideal comparisons for these models.
 
 The extension uses P20 Theorem 6.1.5.1(3)–(4), pp. 29–30, the isogeny chain of §7.1, p. 38, and the compactified correspondence of §14.9.2, p. 104.
 
@@ -96,27 +98,27 @@ The extension uses P20 Theorem 6.1.5.1(3)–(4), pp. 29–30, the isogeny chain 
 
 §A4.3 supplies the abelian de Rham Hodge filtration, connection and polarized pairing on its specified domain. §§A4.7 and A4.9 supply polarized Grothendieck–Messing and Serre–Tate deformation equivalences with their PD and nilpotence hypotheses. §§A4.10–A4.11 supply ordinary bilinear Serre–Tate coordinates, the integral weighted polarization equations and canonical Frobenius action. The rank-one chart and trace ideals below are additional specified interfaces.
 
-What AbelianSchemesAndArithmeticModuli must provide (the Siegel rank-one deformations contract): Provide the polarized genus-two rank-one deformation chart with Frobenius basis and tangent constraints X=Z at principal level and Z=0 or X=0 at paramodular level, compatible with the chosen moduli-to-crystal comparison.
+What AbelianSchemesAndArithmeticModuli must provide (gap:siegel-rank-one-deformations): Provide the polarized genus-two rank-one deformation chart with Frobenius basis and tangent constraints X=Z at principal level and Z=0 or X=0 at paramodular level, compatible with the chosen moduli-to-crystal comparison.
 
-What AbelianSchemesAndArithmeticModuli must provide (the Siegel isogeny trace ideals contract): Provide the integral trace ideals for the ordinary genus-two Lagrangian and degree-p³/degree-p isogeny charts, including the trace divisibilities 1,p,p³ and p²,p with their semiabelian boundary compatibility.
+What AbelianSchemesAndArithmeticModuli must provide (gap:siegel-isogeny-trace-ideals): Provide the integral trace ideals for the ordinary genus-two Lagrangian and degree-p³/degree-p isogeny charts, including the trace divisibilities 1,p,p³ and p²,p with their semiabelian boundary compatibility.
 
-What AbelianSchemesAndArithmeticModuli must provide (the Siegel logarithmic de Rham contract): Provide the genus-two semiabelian logarithmic de Rham connection and polarized pairing, ordinary unit-root splitting and first-order superspecial Hasse–Witt matrix, compatible with the logarithmic Kodaira–Spencer isomorphism of ShimuraCompactifications 7.12.
+What AbelianSchemesAndArithmeticModuli must provide (gap:siegel-logarithmic-de-rham): Provide the genus-two semiabelian logarithmic de Rham connection and polarized pairing, ordinary unit-root splitting and first-order superspecial Hasse–Witt matrix, compatible with the logarithmic Kodaira–Spencer isomorphism of ShimuraCompactifications 7.12.
 
 ### From TauCetiRoadmap.HodgeTateAndCanonicalSubgroups
 
 §0.12 supplies normalized multiplicative determinant pullback on the character ℤ_p-lattice before tensoring. §§0.14–0.16 supply the semiabelian primary Hasse section, ordinary-locus criterion, and toroidal/minimal descent. §§5.1–5.2 supply the ordinary Igusa torsors, transitions and towers for Hilbert modular varieties, with torsor group (𝒪_F/p^m)^×; the genus-two full-frame GL₂ tower and its component detection are requested below.
 
-What HodgeTateAndCanonicalSubgroups must provide (the Siegel Igusa full frames contract): Provide the finite étale full ordinary genus-two Igusa GL₂(ℤ/pⁿ)-torsors over all coefficient thickenings and toroidal boundary charts, with transitions, frame actions and the component-detection or monodromy theorem required for saturated all-frame expansions.
+What HodgeTateAndCanonicalSubgroups must provide (gap:siegel-igusa-full-frames): Provide the finite étale full ordinary genus-two Igusa GL₂(ℤ/pⁿ)-torsors over all coefficient thickenings and toroidal boundary charts, with transitions, frame actions and the component-detection or monodromy theorem required for saturated all-frame expansions.
 
 ### From TauCetiRoadmap.SchemeAndStackFoundations
 
 §0.6 supplies coherent Hartogs for depth at least two along the omitted locus. §2.6 supplies ample Serre vanishing on proper Noetherian models. §2.7 supplies local-cohomology vanishing below depth. §§2.19–2.20 supply proper coherent duality, relative dualizing complexes and the Cohen–Macaulay dualizing module and Gorenstein invertibility criterion, with the stated Noetherian and boundedness conditions. §2.5 supplies qcqs filtered-colimit cohomology with its finite-cover and Čech-product hypotheses; apply it to quasi-compact opens of the Noetherian models here. §4.9 supplies proper coherent formal functions. The open Milnor and lci boundary interfaces below are separate requirements.
 
-What SchemeAndStackFoundations must provide (the open formal Milnor contract): Provide the functorial Milnor short exact sequence for coherent cohomology on qcqs open formal schemes and the comparison with derived inverse limits of their nilpotent thickenings needed for H⁰ isomorphisms and H¹ injections.
+What SchemeAndStackFoundations must provide (gap:open-formal-milnor): Provide the functorial Milnor short exact sequence for coherent cohomology on qcqs open formal schemes and the comparison with derived inverse limits of their nilpotent thickenings needed for H⁰ isomorphisms and H¹ injections.
 
-What SchemeAndStackFoundations must provide (the lci fundamental class contract): Provide the determinant-of-cotangent-complex identification and fundamental class for projectively embeddable proper maps between flat lci schemes of equal relative dimension, with perfect-coefficient projection formula, finite-flat trace comparison, logarithmic boundary ideal compatibility and integral derived reduction even for nonflat correspondence maps.
+What SchemeAndStackFoundations must provide (gap:lci-fundamental-class): Provide the determinant-of-cotangent-complex identification and fundamental class for projectively embeddable proper maps between flat lci schemes of equal relative dimension, with perfect-coefficient projection formula, finite-flat trace comparison, logarithmic boundary ideal compatibility and integral derived reduction even for nonflat correspondence maps.
 
-What SchemeAndStackFoundations must provide (the reduced section propagation contract): Provide injectivity of restriction of a locally free sheaf on a reduced scheme to an open dense in every irreducible component, with componentwise propagation from neighborhoods meeting those components.
+What SchemeAndStackFoundations must provide (gap:reduced-section-propagation): Provide injectivity of restriction of a locally free sheaf on a reduced scheme to an open dense in every irreducible component, with componentwise propagation from neighborhoods meeting those components.
 
 ### From TauCetiRoadmap.ReductiveGroupsPartII
 
@@ -268,7 +270,7 @@ The API records the following facts.
 
 S is not called the rank-one open stratum. Z₂ and Z_red are separate names.
 
-*Needs:* §1.1; HodgeTateAndCanonicalSubgroups §0.14; HodgeTateAndCanonicalSubgroups §0.15; ShimuraCompactifications Layer 7 (the Siegel parahoric models contract); FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.2.2.
+*Needs:* §1.1; HodgeTateAndCanonicalSubgroups §0.14; HodgeTateAndCanonicalSubgroups §0.15; ShimuraCompactifications Layer 7 (gap:siegel-parahoric-models); FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.2.2.
 
 ### 2.2 Dimensions and supersingular geometry
 
@@ -286,7 +288,7 @@ A proof route is as follows. Use polarized genus-two deformation/Dieudonné char
 
 Codimension of rank zero in every X_n is two. The largest degree in ω(a,b)|_C is pa−b when a≥b.
 
-*Needs:* §2.1; ShimuraCompactifications §7.4; ShimuraCompactifications Layer 7 (the Siegel parahoric models contract); FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.2.2; AbelianSchemesAndArithmeticModuli §§A4.3, A4.7, A4.9 (the Siegel rank-one deformations contract).
+*Needs:* §2.1; ShimuraCompactifications §7.4; ShimuraCompactifications Layer 7 (gap:siegel-parahoric-models); FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.2.2; AbelianSchemesAndArithmeticModuli §§A4.3, A4.7, A4.9 (gap:siegel-rank-one-deformations).
 
 ### 2.3 Simple Hasse zeros at rank one
 
@@ -304,7 +306,7 @@ A proof route is as follows. Check ⟨Fe₂,Fe₃⟩=pσ⟨e₂,e₃⟩; this fi
 
 At odd p, the unsigned source basis would give ⟨Fe₂,Fe₃⟩=−p and fails the pairing identity. The Hasse tangent term is a nonzero linear form at every rank-one point.
 
-*Needs:* §2.2; AbelianSchemesAndArithmeticModuli §§A4.3, A4.7, A4.9 (the Siegel rank-one deformations contract); ShimuraCompactifications Layer 7 (the Siegel parahoric models contract); HodgeTateAndCanonicalSubgroups §0.14.
+*Needs:* §2.2; AbelianSchemesAndArithmeticModuli §§A4.3, A4.7, A4.9 (gap:siegel-rank-one-deformations); ShimuraCompactifications Layer 7 (gap:siegel-parahoric-models); HodgeTateAndCanonicalSubgroups §0.14.
 
 ### 2.4 Hasse expansion and multiplication
 
@@ -328,7 +330,7 @@ For p=3, the ordinary, rank-one and rank-zero dimensions are 3,2,1. A supersingu
 
 ### Dependencies
 
-Layer 1; HodgeTateAndCanonicalSubgroups §0.14; HodgeTateAndCanonicalSubgroups §0.15; ShimuraCompactifications §7.4; ShimuraCompactifications Layer 7 (the Siegel parahoric models contract); FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.2.2; AbelianSchemesAndArithmeticModuli §§A4.3, A4.7, A4.9 (the Siegel rank-one deformations contract).
+Layer 1; HodgeTateAndCanonicalSubgroups §0.14; HodgeTateAndCanonicalSubgroups §0.15; ShimuraCompactifications §7.4; ShimuraCompactifications Layer 7 (gap:siegel-parahoric-models); FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.2.2; AbelianSchemesAndArithmeticModuli §§A4.3, A4.7, A4.9 (gap:siegel-rank-one-deformations).
 
 ## Layer 3: The secondary Hasse invariant
 
@@ -441,7 +443,7 @@ A proof route is as follows. Construct the flag from the canonical rank-p subgro
 
 The paramodular union has dimension two and two branches. The spherical quotient is a smooth affine plane.
 
-*Needs:* §3.3; §2.3; ShimuraCompactifications §7.3; ShimuraCompactifications Layer 7 (the Siegel parahoric models contract); AbelianSchemesAndArithmeticModuli §A4.7.
+*Needs:* §3.3; §2.3; ShimuraCompactifications §7.3; ShimuraCompactifications Layer 7 (gap:siegel-parahoric-models); AbelianSchemesAndArithmeticModuli §A4.7.
 
 ### 3.6 Secondary Hasse on both nonordinary divisors
 
@@ -522,7 +524,7 @@ In k[a,b,c]/(ab), branch sections a² and b² glue to a²+b², vanishing on thei
 
 ### Dependencies
 
-Layer 2; FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.2.2; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.2.22–R07.2.23; FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.2.21; ShimuraCompactifications §§7.3–7.4; ShimuraCompactifications Layer 7 (the Siegel parahoric models contract); AbelianSchemesAndArithmeticModuli §A4.7; SchemeAndStackFoundations §0.6; HodgeTateAndCanonicalSubgroups §0.12.
+Layer 2; FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.2.2; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.2.22–R07.2.23; FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.2.21; ShimuraCompactifications §§7.3–7.4; ShimuraCompactifications Layer 7 (gap:siegel-parahoric-models); AbelianSchemesAndArithmeticModuli §A4.7; SchemeAndStackFoundations §0.6; HodgeTateAndCanonicalSubgroups §0.12.
 
 ## Layer 4: Hasse lifts and torsion weight shifts
 
@@ -917,7 +919,7 @@ A proof route is as follows. Classify the possible isotropic kernels at rank two
 
 The complete proper correspondence is not asserted to be finite over rank zero.
 
-*Needs:* ShimuraCompactifications Layer 7 (the Siegel parahoric models contract); ShimuraCompactifications §§4.9–4.10; §2.2; FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.2.2; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.2.22–R07.2.23.
+*Needs:* ShimuraCompactifications Layer 7 (gap:siegel-parahoric-models); ShimuraCompactifications §§4.9–4.10; §2.2; FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.2.2; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.2.22–R07.2.23.
 
 ### 7.2 Ordinary trace divisibility
 
@@ -935,7 +937,7 @@ A proof route is as follows. On a multiplicative kernel the differential on E is
 
 At r=1 the mixed product gives only p², so the same divisibility theorem is not asserted. The three kernel types remain separately tested.
 
-*Needs:* §7.1; §3.8; AutomorphicBundles §§3.1, 5.2–5.4, 5.10; ShimuraCompactifications Layer 7 (the Siegel parahoric models contract); AbelianSchemesAndArithmeticModuli §§A4.10–A4.11 (the Siegel isogeny trace ideals contract).
+*Needs:* §7.1; §3.8; AutomorphicBundles §§3.1, 5.2–5.4, 5.10; ShimuraCompactifications Layer 7 (gap:siegel-parahoric-models); AbelianSchemesAndArithmeticModuli §§A4.10–A4.11 (gap:siegel-isogeny-trace-ideals).
 
 ### 7.3 Integral normalized minuscule operator
 
@@ -962,7 +964,7 @@ The API records the following facts.
 
 The formula at weight (d+r,r) agrees with U+p^(r−2)Z+p^(d+2r−3)V, where Z uses the local p-correspondence with identity tame component and the transported cusp markings of §5.2. No analogous RΓ construction is claimed for the nonminuscule β₂ generator.
 
-*Needs:* §7.2; §7.1; ShimuraCompactifications Layer 7 (the Siegel parahoric models contract); ShimuraCompactifications §§4.9–4.10.
+*Needs:* §7.2; §7.1; ShimuraCompactifications Layer 7 (gap:siegel-parahoric-models); ShimuraCompactifications §§4.9–4.10.
 
 ### 7.4 Hartogs across supersingular curves
 
@@ -980,7 +982,7 @@ A proof route is as follows. Apply the imported coherent Hartogs theorem to the 
 
 The codimension-two locus is the complement of rank at least one. The formal n=∞ step is not replaced by a claim that H¹ always commutes with ordinary inverse limits.
 
-*Needs:* §2.2; §2.3; SchemeAndStackFoundations §0.6; SchemeAndStackFoundations §2.5; SchemeAndStackFoundations §2.7; SchemeAndStackFoundations §4.9 (the open formal Milnor contract).
+*Needs:* §2.2; §2.3; SchemeAndStackFoundations §0.6; SchemeAndStackFoundations §2.5; SchemeAndStackFoundations §2.7; SchemeAndStackFoundations §4.9 (gap:open-formal-milnor).
 
 ### 7.5 Integral paramodular composite correspondence
 
@@ -1007,7 +1009,7 @@ The API records the following facts.
 
 The difference C_r−Q₂ is (1+p²)p^(j−2), including a unit term when j=2. Integral derived coefficient reduction constructs an action on every torsion section, even a section obstructed from lifting to O.
 
-*Needs:* ShimuraCompactifications Layer 7 (the Siegel parahoric models contract); AutomorphicBundles §§3.1, 5.2–5.4, 5.10; ShimuraCompactifications §§4.9–4.10; SchemeAndStackFoundations §§2.19–2.20 (the lci fundamental class contract), §4.9 (the open formal Milnor contract); §5.6; §5.7; AbelianSchemesAndArithmeticModuli §§A4.10–A4.11 (the Siegel isogeny trace ideals contract).
+*Needs:* ShimuraCompactifications Layer 7 (gap:siegel-parahoric-models); AutomorphicBundles §§3.1, 5.2–5.4, 5.10; ShimuraCompactifications §§4.9–4.10; SchemeAndStackFoundations §§2.19–2.20 (gap:lci-fundamental-class), §4.9 (gap:open-formal-milnor); §5.6; §5.7; AbelianSchemesAndArithmeticModuli §§A4.10–A4.11 (gap:siegel-isogeny-trace-ideals).
 
 ### 7.6 Integral T and Q₂ on global forms
 
@@ -1061,7 +1063,7 @@ At d=0,r=2 the minuscule raw p-orders are 4,3,3; dividing by p³ is integral in 
 
 ### Dependencies
 
-Layers 1–3 and 5; ShimuraCompactifications Layer 7 (the Siegel parahoric models contract); FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.2.2; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.2.22–R07.2.23; AutomorphicBundles §§3.1, 5.2–5.4, 5.10, 12.11–12.12, 12.20; AbelianSchemesAndArithmeticModuli §§A4.10–A4.11 (the Siegel isogeny trace ideals contract); ShimuraCompactifications §§4.9–4.10; SchemeAndStackFoundations §§0.6, 2.5, 2.7; SchemeAndStackFoundations §§2.19–2.20 (the lci fundamental class contract); SchemeAndStackFoundations §4.9 (the open formal Milnor contract).
+Layers 1–3 and 5; ShimuraCompactifications Layer 7 (gap:siegel-parahoric-models); FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.2.2; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.2.22–R07.2.23; AutomorphicBundles §§3.1, 5.2–5.4, 5.10, 12.11–12.12, 12.20; AbelianSchemesAndArithmeticModuli §§A4.10–A4.11 (gap:siegel-isogeny-trace-ideals); ShimuraCompactifications §§4.9–4.10; SchemeAndStackFoundations §§0.6, 2.5, 2.7; SchemeAndStackFoundations §§2.19–2.20 (gap:lci-fundamental-class); SchemeAndStackFoundations §4.9 (gap:open-formal-milnor).
 
 ## Layer 8: Theta operators and low-weight injectivity
 
@@ -1095,7 +1097,7 @@ The map is nonzero on some tensors with a rank-one quadratic factor.
 
 ### 8.2 Scalar and vector theta operators
 
-Over k₀ of characteristic p>3 there is a scalar map Θ:M_(k,k)(k₀)→M_(k+p+1,k+p+1)(k₀), k≥2, whose Fourier coefficient is det(Q)a(F,Q). For d=j−k≥2 with p>d+1 and k≥2 there is a map θ₁:M_(j,k)(k₀)→M_(j+p−1,k+p+1)(k₀), whose coefficient is con_d(a(F,Q)⊗Q); for d≤p−3 the projection comes from the splitting of Sym^dE⊗Sym²E, and for d=p−2 the projection onto Sym^(d−2)E⊗λ² still splits with the same basis formula (Y16, Remark 3.13, pp. 23–24). Normalize the source differential operators by the unit making these exact formulas hold. The vector formula has no extra det(Q). Both preserve cusp forms. They are defined by the Gauss–Manin/Kodaira–Spencer construction with Hasse multiplication removing poles, and descend from principal neat tame level by étale descent. These are characteristic-p operators, with scalar extension to characteristic-p coefficient algebras; no construction modulo p² is asserted. (Y16, Propositions 3.9, 3.11, 3.12, pp. 21–24; CG20, Proposition 8.9, internal p. 61 (861)).
+Over k₀ of characteristic p>3 there is a scalar map Θ:M_(k,k)(k₀)→M_(k+p+1,k+p+1)(k₀), k≥2, whose Fourier coefficient is det(Q)a(F,Q). For d=j−k≥2 with p>d+1 and k≥2 there is a map θ₁:M_(j,k)(k₀)→M_(j+p−1,k+p+1)(k₀), whose coefficient is con_d(a(F,Q)⊗Q); for d≤p−3 the projection comes from the splitting of Sym^dE⊗Sym²E, and for d=p−2 the projection onto Sym^(d−2)E⊗λ² still splits with the same basis formula (Y16, Remark 3.13, pp. 23–24). Normalize the source differential operators by the unit making these exact formulas hold. The vector formula has no extra det(Q): the factor det(Q) printed in the vector formula of CG20 Proposition 8.9(2) is a misprint, since the Gauss–Manin computation at the Mumford cusp of Y16 Proposition 3.12 has all c_ij=0 and gives con_d(a(F,Q)⊗Q) with no determinant. Both preserve cusp forms. They are defined by the Gauss–Manin/Kodaira–Spencer construction with Hasse multiplication removing poles, and descend from principal neat tame level by étale descent. These are characteristic-p operators, with scalar extension to characteristic-p coefficient algebras; no construction modulo p² is asserted. (Y16, Propositions 3.9, 3.11, 3.12, pp. 21–24; CG20, Proposition 8.9, internal p. 61 (861)).
 
 For the vector formula Q corresponds to m x²+rxy+n y² in Sym²E in the chosen cusp frame. The principal level N≥3 is prime to p; descent uses equivariance, not division by a cover degree.
 
@@ -1119,7 +1121,7 @@ The API records the following facts.
 
 Θ(h)=0 follows from the constant expansion of h. The vector target symmetric degree is d−2, agreeing with con_d.
 
-*Needs:* §8.1; §2.4; §1.4; ShimuraCompactifications §7.23; AbelianSchemesAndArithmeticModuli §A4.3 (the Siegel logarithmic de Rham contract); ShimuraCompactifications §7.12.
+*Needs:* §8.1; §2.4; §1.4; ShimuraCompactifications §7.23; AbelianSchemesAndArithmeticModuli §A4.3 (gap:siegel-logarithmic-de-rham); ShimuraCompactifications §7.12.
 
 ### 8.3 Small symmetric powers of SL₂(F_p)
 
@@ -1172,7 +1174,7 @@ A proof route is as follows. Use the generic first-order superspecial deformatio
 
 Every admitted weight uses the same local frame change to F₀≠0. The irreducibility check is in the stated small-degree characteristic-p range.
 
-*Needs:* §8.2; §8.3; ReductiveGroupsPartII §RG2.3.7; Tau Ceti `Representation.symmetricPower`; AbelianSchemesAndArithmeticModuli §§A4.3, A4.7 (the Siegel logarithmic de Rham contract); ShimuraCompactifications §7.12.
+*Needs:* §8.2; §8.3; ReductiveGroupsPartII §RG2.3.7; Tau Ceti `Representation.symmetricPower`; AbelianSchemesAndArithmeticModuli §§A4.3, A4.7 (gap:siegel-logarithmic-de-rham); ShimuraCompactifications §7.12.
 
 ### 8.5 Negative-weight section vanishing
 
@@ -1190,7 +1192,7 @@ A proof route is as follows. Compute the split Hodge-bundle degrees on every sup
 
 A negative second weight alone is not used as a vanishing criterion. After either division step the strict inequality remains strict.
 
-*Needs:* §2.2; §3.7; §2.3; Mathlib `Ideal.iInf_pow_smul_eq_bot_of_isLocalRing`; SchemeAndStackFoundations §0.6 (the reduced section propagation contract); ShimuraCompactifications §7.12.
+*Needs:* §2.2; §3.7; §2.3; Mathlib `Ideal.iInf_pow_smul_eq_bot_of_isLocalRing`; SchemeAndStackFoundations §0.6 (gap:reduced-section-propagation); ShimuraCompactifications §7.12.
 
 ### 8.6 Scalar theta injectivity in low weight
 
@@ -1234,7 +1236,7 @@ At p=7,d=2, con₂(y²⊗x²)=1/3=5 while det(x²)=0. At p=5 the Hasse weight is
 
 ### Dependencies
 
-Layers 1–3 and 5; Tau Ceti `Representation.symmetricPower`; Tau Ceti `Module.Basis.symmetricPower`; Tau Ceti `TauCeti.stdSLRep`; Mathlib `Matrix.SpecialLinearGroup.map`; ArithmeticGaloisRepresentations §§1.7, 7.8; ReductiveGroupsPartII §RG2.3.7; ShimuraCompactifications §§7.12, 7.23; AbelianSchemesAndArithmeticModuli §§A4.3, A4.7 (the Siegel logarithmic de Rham contract); Mathlib `Ideal.iInf_pow_smul_eq_bot_of_isLocalRing`; SchemeAndStackFoundations §0.6 (the reduced section propagation contract).
+Layers 1–3 and 5; Tau Ceti `Representation.symmetricPower`; Tau Ceti `Module.Basis.symmetricPower`; Tau Ceti `TauCeti.stdSLRep`; Mathlib `Matrix.SpecialLinearGroup.map`; ArithmeticGaloisRepresentations §§1.7, 7.8; ReductiveGroupsPartII §RG2.3.7; ShimuraCompactifications §§7.12, 7.23; AbelianSchemesAndArithmeticModuli §§A4.3, A4.7 (gap:siegel-logarithmic-de-rham); Mathlib `Ideal.iInf_pow_smul_eq_bot_of_isLocalRing`; SchemeAndStackFoundations §0.6 (gap:reduced-section-propagation).
 
 ## Layer 9: Ordinary p-adic forms and coefficient comparison
 
@@ -1263,7 +1265,7 @@ The API records the following facts.
 
 A Hilbert (O_F/p^n)× torsor is not substituted for the full GL₂ torsor. The Borel, frame map and bottom-to-top source character indexing are fixed together.
 
-*Needs:* HodgeTateAndCanonicalSubgroups §§5.1–5.2 (the Siegel Igusa full frames contract); §1.1; HodgeTateAndCanonicalSubgroups §0.14.
+*Needs:* HodgeTateAndCanonicalSubgroups §§5.1–5.2 (gap:siegel-igusa-full-frames); §1.1; HodgeTateAndCanonicalSubgroups §0.14.
 
 ### 9.2 p-adic q-expansion and saturation
 
@@ -1290,7 +1292,7 @@ The API records the following facts.
 
 For nonparallel weights evaluating only the identity frame need not record the entire coefficient representation.
 
-*Needs:* §9.1; §1.3; HodgeTateAndCanonicalSubgroups §§5.1–5.2 (the Siegel Igusa full frames contract).
+*Needs:* §9.1; §1.3; HodgeTateAndCanonicalSubgroups §§5.1–5.2 (gap:siegel-igusa-full-frames).
 
 ### 9.3 Classical-to-p-adic comparison
 
@@ -1317,7 +1319,7 @@ The API records the following facts.
 
 No finite-level injectivity theorem is obtained merely by reducing the integral injection.
 
-*Needs:* §9.1; §9.2; §1.4; HodgeTateAndCanonicalSubgroups §§5.1–5.2 (the Siegel Igusa full frames contract).
+*Needs:* §9.1; §9.2; §1.4; HodgeTateAndCanonicalSubgroups §§5.1–5.2 (gap:siegel-igusa-full-frames).
 
 ### 9.4 Klingen ordinary coefficient operator
 
@@ -1344,7 +1346,7 @@ The API records the following facts.
 - At the level-35 subgroup of §5.2 and p=3, the marked normalized constant trace is still 3, the local spherical Z₂ constant is 4, and the literal UZ_Δ constant is 20. Their residues are 0,1,2; neither forgetting Klingen marking nor forgetting tame branches is an operator identity.
 - For κ:ℤ₃ˣ→Oˣ, κ(1)=1 is defined while κ(3) has no domain value. The transported-frame definition supplies the continuous-weight action without such a value.
 
-*Needs:* §9.1; §9.2; §9.3; §5.2; §7.5; §3.8; ShimuraCompactifications Layer 7 (the Siegel parahoric models contract); AbelianSchemesAndArithmeticModuli §§A4.10–A4.11 (the Siegel isogeny trace ideals contract); SchemeAndStackFoundations §§2.19–2.20 (the lci fundamental class contract); HodgeTateAndCanonicalSubgroups §§5.1–5.2 (the Siegel Igusa full frames contract).
+*Needs:* §9.1; §9.2; §9.3; §5.2; §7.5; §3.8; ShimuraCompactifications Layer 7 (gap:siegel-parahoric-models); AbelianSchemesAndArithmeticModuli §§A4.10–A4.11 (gap:siegel-isogeny-trace-ideals); SchemeAndStackFoundations §§2.19–2.20 (gap:lci-fundamental-class); HodgeTateAndCanonicalSubgroups §§5.1–5.2 (gap:siegel-igusa-full-frames).
 
 ### Examples
 
@@ -1352,7 +1354,7 @@ At p=3,n=1, GL₂(𝔽₃) has 48 elements; its diagonal subgroup has 4. The wei
 
 ### Dependencies
 
-Layers 1, 3, 5 and 7; ShimuraCompactifications Layer 7 (the Siegel parahoric models contract); AbelianSchemesAndArithmeticModuli §§A4.10–A4.11 (the Siegel isogeny trace ideals contract); SchemeAndStackFoundations §§2.19–2.20 (the lci fundamental class contract); HodgeTateAndCanonicalSubgroups §§5.1–5.2 (the Siegel Igusa full frames contract); HodgeTateAndCanonicalSubgroups §0.14.
+Layers 1, 3, 5 and 7; ShimuraCompactifications Layer 7 (gap:siegel-parahoric-models); AbelianSchemesAndArithmeticModuli §§A4.10–A4.11 (gap:siegel-isogeny-trace-ideals); SchemeAndStackFoundations §§2.19–2.20 (gap:lci-fundamental-class); HodgeTateAndCanonicalSubgroups §§5.1–5.2 (gap:siegel-igusa-full-frames); HodgeTateAndCanonicalSubgroups §0.14.
 
 ## Downstream consumers
 
