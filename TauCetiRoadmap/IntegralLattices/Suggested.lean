@@ -463,16 +463,16 @@ example {ι ι' : Type} [Fintype ι] [DecidableEq ι] [Fintype ι'] [DecidableEq
 
 /-- **Layer 0, worked example: E₈.** The E₈ Cartan matrix is the Gram matrix of the
 `E₈` lattice: symmetric, even, unimodular. Its determinant is `1`. -/
-example : CartanMatrix.E₈.det = 1 :=
+example : (CartanMatrix.E 8).det = 1 :=
   sorry
 
 /-- **Layer 0, worked example: E₈ is even and symmetric** (decidable checks). -/
-example : CartanMatrix.E₈.IsSymm ∧ ∀ i, 2 ∣ CartanMatrix.E₈ i i :=
+example : (CartanMatrix.E 8).IsSymm ∧ ∀ i, 2 ∣ (CartanMatrix.E 8) i i :=
   sorry
 
 /-- **Layer 0, worked example: E₈ is positive definite.** Stated over ℤ directly:
 `Matrix.toQuadraticForm'` and `QuadraticMap.PosDef` are `Invertible 2`-free. -/
-example : (Matrix.toQuadraticForm' CartanMatrix.E₈).PosDef :=
+example : (Matrix.toQuadraticForm' (CartanMatrix.E 8)).PosDef :=
   sorry
 
 /-- **Layer 0, worked example: the Aₙ root-lattice determinants.** The type-`A` Cartan
@@ -635,8 +635,8 @@ example (β : LinearMap.BilinForm ℤ L) (hpos : (LinearMap.BilinMap.toQuadratic
 `−1 ∈ W(E₈)`), of order `696729600 = 2¹⁴·3⁵·5²·7`. This is the number the mass
 formula divides by: the mass of the rank-8 even unimodular genus is `1/696729600`. -/
 example : Nat.card {e : (Fin 8 → ℤ) ≃ₗ[ℤ] (Fin 8 → ℤ) //
-      ∀ x y, Matrix.toBilin' CartanMatrix.E₈ (e x) (e y)
-        = Matrix.toBilin' CartanMatrix.E₈ x y} = 696729600 :=
+      ∀ x y, Matrix.toBilin' (CartanMatrix.E 8) (e x) (e y)
+        = Matrix.toBilin' (CartanMatrix.E 8) x y} = 696729600 :=
   sorry
 
 /-- **Layer 2G, reduction-theory finiteness — the first of the three class-number branches, and
@@ -1012,7 +1012,7 @@ The declarations supplied, all in namespace `TauCetiRoadmap.IntegralLattices`, a
   `ofIsotropicSubgroup` and `FiniteQuadraticModule.orthogonalQuotient` — the overlattice
   correspondences and the gluing theorem, through which `D₁₆⁺` is built (1E, 1F), again the
   certificate's;
-* `typeARootLattice`, `checkerboardLattice`, `typeE₈RootLattice`, `d8PlusLattice` and
+* `typeARootLattice`, `checkerboardLattice`, `typeE₈RootLattice`, `checkerboardPlusLattice 8` and
   `e8IsometryD8Plus` — the ADE lattices with their discriminant forms and the `D₈⁺ ≅ E₈`
   calculation (1K), certified in the archived file's ADE section;
 * the shells and representation numbers of 2B, the covolume identity of Layer 2, and the
@@ -1328,32 +1328,32 @@ end LayerBSplitContract
 The acceptance suite of the foundation — `rankOne`, `hyperbolicPlane`, `affineA1`, the ADE rows
 and the `D₈⁺ ≅ E₈` isometry — is discharged in `Completed/IntegralLattices/Suggested.lean` and is
 not restated. The two tests below use vocabulary of this file (`IsCharacteristicVector`,
-`padicDiscriminant`) on the certified `rankOne m = ⟨2m⟩`. -/
+`padicDiscriminant`) on the certified `rankOne a = ⟨a⟩` (with `a = 2m`). -/
 
 section RankOneRejection
 
 /-- **Layer 1L, the rejection test for `vanDerBlij`'s unimodularity hypothesis.** For the
-rank-one lattice `⟨2⟩` — `rankOne 1` in this file's `⟨2m⟩` parametrization — every value of the
+rank-one lattice `⟨2⟩` — `rankOne (2 * 1)`, the library's `rankOne a = ⟨a⟩` at `a = 2m` — every value of the
 form is even, so every vector, the zero vector included, is characteristic; the signature
 difference is `1`; and every characteristic norm `2k²` is even. The congruence of `vanDerBlij`
 therefore fails at every characteristic vector, so the statement with nondegeneracy in place of
 unimodularity is false. -/
 theorem rankOne_one_characteristic_congruence_fails :
-    let L : IntegralLattice ℚ := rankOne 1
+    let L : IntegralLattice ℚ := rankOne (2 * 1)
     (∀ w : L.carrier, L.IsCharacteristicVector w) ∧
       ∀ w : L.carrier,
         ¬ Int.ModEq 8 ((L.sigPos : ℤ) - (L.sigNeg : ℤ)) (L.integralForm w w) := sorry
 
-/-- **Layer 5B, the rejection test for `padicDiscriminant`'s dyadic exception.** `rankOne 1 = ⟨2⟩`
-and `rankOne 5 = ⟨10⟩` are even of rank `1 = l(A_{q₂})`; the 2-primary parts of their
+/-- **Layer 5B, the rejection test for `padicDiscriminant`'s dyadic exception.** `rankOne (2 * 1) = ⟨2⟩`
+and `rankOne (2 * 5) = ⟨10⟩` are even of rank `1 = l(A_{q₂})`; the 2-primary parts of their
 discriminant forms are isometric — both are `ℤ/2` with half-norm value `1/4 = 5/4` in `ℚ/ℤ`,
 the form `q_1^{(2)}(2) = q_5^{(2)}(2)` — and their Gram determinants `2` and `10` have different
 square classes in `ℚ₂`, because `5` is not a 2-adic square. So both are minimal 2-adic
 realizations of one `q₂` with different `discr`, and `padicDiscriminant_eq_squareClass_gramDet`
 is false at `p = 2` without its `HasCyclicTwoSummand` hypothesis. -/
 theorem padicDiscriminant_not_determined_by_cyclicTwoSummand :
-    let L₂ : IntegralLattice ℚ := rankOne 1
-    let L₁₀ : IntegralLattice ℚ := rankOne 5
+    let L₂ : IntegralLattice ℚ := rankOne (2 * 1)
+    let L₁₀ : IntegralLattice ℚ := rankOne (2 * 5)
     let q₂ : FiniteQuadraticModule :=
       FiniteQuadraticModule.primaryComponent (L₂.discriminantQuadraticModule (rankOne_isEven 1)) 2
     let q₁₀ : FiniteQuadraticModule :=
