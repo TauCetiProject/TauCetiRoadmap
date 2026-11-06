@@ -1,5 +1,5 @@
 import Mathlib
-import TauCeti.Geometry.Symplectic.Manifold.AlmostComplex
+import TauCeti.Geometry.Symplectic.Manifold.AlmostComplex.Basic
 import TauCeti.Geometry.Symplectic.Manifold.TwoForm
 
 /-!

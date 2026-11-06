@@ -1,0 +1,12 @@
+'TauCetiRoadmap.AnalyticToricGeometry.NativeCompletion.fullConePointUnique' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'TauCeti.Toric.specMap_smul_eq_lift_comp_affineToricSchemeAction' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'TauCeti.Toric.Fan.AlgebraicComplexPoint.coe_smul' depends on axioms: [propext, Classical.choice, Quot.sound]
+TauCeti.Toric.Fan.algebraicRealizationModObj_smul.{u_1} {N : Type} {V : Type u_1} [AddCommGroup N] [AddCommGroup V]
+  [Module ℝ V] {i : N →+ V} (Φ : Fan i) : CategoryTheory.ModObj.smul = Φ.algebraicRealizationActionOver
+TauCeti.Toric.Fan.algebraicRealizationActionOver_left.{u_1} {N : Type} {V : Type u_1} [AddCommGroup N] [AddCommGroup V]
+  [Module ℝ V] {i : N →+ V} (Φ : Fan i) :
+  CategoryTheory.Over.Hom.left Φ.algebraicRealizationActionOver = Φ.algebraicRealizationAction

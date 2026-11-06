@@ -33,7 +33,7 @@ its de Rham comparison is stated over ℝ. K5a owns the complex-linear manifold 
 comparison on the same generic form carrier, viewed over ℝ; do not construct a second form carrier.
 For an open planar domain Ω⊂ℂ, consume [GlobalHolomorphicFunctions GH5.1](../GlobalHolomorphicFunctions/README.md)'s proof that every smooth complex-valued 2-form is
 exact, and prove the adapter to this carrier's complex de Rham quotient and `H²_dR(Ω;ℂ)=0`.
-Consume [RealAlgebraicGeometry Layer 7](../RealAlgebraicGeometry/README.md#layer-7-analytic-preparation-and-mccallum-projection)
+Consume [RealAlgebraicGeometry Layer 7](../../Completed/RealAlgebraicGeometry/README.md#layer-7-analytic-preparation-and-mccallum-projection)
 for analytic inversion and local real-germ complexification in model spaces;
 consume the native joint analytic implicit-function theorem as specified in K1,
 which owns the complex-manifold, chart and local-uniqueness adapters.
