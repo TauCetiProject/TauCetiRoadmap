@@ -1,0 +1,96 @@
+TauCeti.GlobalNumberFields.classMap_principalRayClass.{u_1} {K : Type u_1} [Field K] [NumberField K]
+  {𝔪 𝔫 : TauCeti.GlobalNumberFields.Modulus K} (h : 𝔪 ∣ 𝔫) (x : ↥(TauCeti.GlobalNumberFields.primeToSubgroup 𝔫)) :
+  (TauCeti.GlobalNumberFields.classMap h) ((TauCeti.GlobalNumberFields.principalRayClass 𝔫) x) =
+    (TauCeti.GlobalNumberFields.principalRayClass 𝔪) ((Subgroup.inclusion ⋯) x)
+'TauCeti.GlobalNumberFields.classMap_principalRayClass' depends on axioms: [propext, Classical.choice, Quot.sound]
+TauCeti.GlobalNumberFields.classMap_residueSignRayClass.{u_1} {K : Type u_1} [Field K] [NumberField K]
+  {𝔪 𝔫 : TauCeti.GlobalNumberFields.Modulus K} (h : 𝔪 ∣ 𝔫)
+  (a : (NumberField.RingOfIntegers K ⧸ 𝔫.finitePart)ˣ × (↥𝔫.infinitePart → ℤˣ)) :
+  (TauCeti.GlobalNumberFields.classMap h) ((TauCeti.GlobalNumberFields.residueSignRayClass 𝔫) a) =
+    (TauCeti.GlobalNumberFields.residueSignRayClass 𝔪)
+      ((TauCeti.GlobalNumberFields.finiteUnitsMap ⋯) a.1, fun w => a.2 ⟨↑w, ⋯⟩)
+'TauCeti.GlobalNumberFields.classMap_residueSignRayClass' depends on axioms: [propext, Classical.choice, Quot.sound]
+TauCeti.GlobalNumberFields.rayClassIdealCount.{u_1} {K : Type u_1} [Field K] [NumberField K]
+  (𝔪 : TauCeti.GlobalNumberFields.Modulus K) :
+  ∃ δ,
+    0 < δ ∧
+      ∀ (c : TauCeti.GlobalNumberFields.RayClassGroup 𝔪),
+        (fun x =>
+            ↑(TauCeti.GlobalNumberFields.rayClassIdealCountingFunction 𝔪 c x) -
+              TauCeti.GlobalNumberFields.rayClassIdealMainTerm 𝔪 * x) =O[Filter.atTop]
+          fun x => x ^ (1 - δ)
+'TauCeti.GlobalNumberFields.rayClassIdealCount' depends on axioms: [propext, Classical.choice, Quot.sound]
+TauCeti.GlobalNumberFields.rayClassIdealMainTerm_eq.{u_1} {K : Type u_1} [Field K] [NumberField K]
+  (𝔪 : TauCeti.GlobalNumberFields.Modulus K) :
+  TauCeti.GlobalNumberFields.rayClassIdealMainTerm 𝔪 =
+    NumberField.dedekindZeta_residue K / ↑(Nat.card (TauCeti.GlobalNumberFields.RayClassGroup 𝔪)) *
+      ∏ v ∈ 𝔪.support, (1 - (↑(Ideal.absNorm v.asIdeal))⁻¹)
+'TauCeti.GlobalNumberFields.rayClassIdealMainTerm_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+TauCeti.GlobalNumberFields.rayClassCharacter_partialSums.{u_1} {K : Type u_1} [Field K] [NumberField K]
+  (𝔪 : TauCeti.GlobalNumberFields.Modulus K) (χ : TauCeti.GlobalNumberFields.RayClassCharacter 𝔪) (hχ : χ ≠ 1) :
+  ∃ δ,
+    0 < δ ∧
+      (fun x => TauCeti.GlobalNumberFields.rayClassCharacterPartialSum 𝔪 χ x) =O[Filter.atTop] fun x => ↑(x ^ (1 - δ))
+'TauCeti.GlobalNumberFields.rayClassCharacter_partialSums' depends on axioms: [propext, Classical.choice, Quot.sound]
+TauCeti.GlobalNumberFields.adeleBaseChangeEquiv.{u_1, u_2} (K : Type u_1) (L : Type u_2) [Field K] [NumberField K]
+  [Field L] [NumberField L] [Algebra K L]
+  [TopologicalSpace (TensorProduct K (NumberField.AdeleRing (NumberField.RingOfIntegers K) K) L)]
+  [IsModuleTopology (NumberField.AdeleRing (NumberField.RingOfIntegers K) K)
+      (TensorProduct K (NumberField.AdeleRing (NumberField.RingOfIntegers K) K) L)] :
+  TensorProduct K (NumberField.AdeleRing (NumberField.RingOfIntegers K) K)
+      L ≃A[NumberField.AdeleRing (NumberField.RingOfIntegers K) K]
+    NumberField.AdeleRing (NumberField.RingOfIntegers L) L
+'TauCeti.GlobalNumberFields.adeleBaseChangeEquiv' depends on axioms: [propext, Classical.choice, Quot.sound]
+Matrix.exists_ne_zero_mulVec_eq_zero_norm_le.{u_1} {ι : Type u_1} [Fintype ι] {p : ℕ} {A : Matrix (Fin p) ι ℤ}
+  (hA : LinearIndependent ℚ (A.map Int.cast).row) (hp : p < Fintype.card ι) :
+  ∃ x, x ≠ 0 ∧ A.mulVec x = 0 ∧ ‖x‖ ≤ (√↑(A * A.transpose).det / ↑A.minorGcd) ^ (↑(Fintype.card ι) - ↑p)⁻¹
+'Matrix.exists_ne_zero_mulVec_eq_zero_norm_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+Matrix.exists_basis_ker_mulVecLin_prod_norm_le.{u_1} {ι : Type u_1} [Fintype ι] {p : ℕ} {A : Matrix (Fin p) ι ℤ}
+  (hA : LinearIndependent ℚ (A.map Int.cast).row) :
+  ∃ b,
+    ∏ l, ‖↑(b l)‖ ≤
+      ↑(Fintype.card ι - p).factorial / 2 ^ (Fintype.card ι - p - 1) * √↑(A * A.transpose).det / ↑A.minorGcd
+'Matrix.exists_basis_ker_mulVecLin_prod_norm_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+Matrix.absMulHeight_smul.{u_2, u_3, u_7} {m : Type u_2} {n : Type u_3} [Finite m] [Finite n] {F : Type u_7} [Field F]
+  [CharZero F] (A : Matrix m n F) {c : F} (hc : c ≠ 0) (hcalg : IsAlgebraic ℚ c) : (c • A).absMulHeight = A.absMulHeight
+'Matrix.absMulHeight_smul' depends on axioms: [propext, Classical.choice, Quot.sound]
+Matrix.absMulHeight_map.{u_2, u_3, u_7, u_8} {m : Type u_2} {n : Type u_3} [Finite m] [Finite n] {F : Type u_7}
+  {F' : Type u_8} [Field F] [CharZero F] [Field F'] [CharZero F'] (f : F →+* F') (A : Matrix m n F) :
+  (A.map ⇑f).absMulHeight = A.absMulHeight
+'Matrix.absMulHeight_map' depends on axioms: [propext, Classical.choice, Quot.sound]
+Matrix.absMulHeight_eq_rpow.{u_2, u_3, u_7} {m : Type u_2} {n : Type u_3} [Finite m] [Finite n] {F : Type u_7} [Field F]
+  [NumberField F] (A : Matrix m n F) : A.absMulHeight = A.mulHeight ^ (↑(Module.finrank ℚ F))⁻¹
+'Matrix.absMulHeight_eq_rpow' depends on axioms: [propext, Classical.choice, Quot.sound]
+TauCeti.NumberField.Sqrt2.regulator_eq_log_one_add_sqrt_two.{u_1} {K : Type u_1} [Field K] [NumberField K]
+  {θ : NumberField.RingOfIntegers K} (hmin : minpoly ℤ θ = Polynomial.X ^ 2 - 2) (hgen : ℚ[↑θ] = ⊤) :
+  NumberField.Units.regulator K = Real.log (1 + √2)
+'TauCeti.NumberField.Sqrt2.regulator_eq_log_one_add_sqrt_two' depends on axioms: [propext, Classical.choice, Quot.sound]
+TauCeti.NumberField.Sqrt2.absLogHeight₁_one_add_eq_regulator_div_two.{u_1} {K : Type u_1} [Field K] [NumberField K]
+  {θ : NumberField.RingOfIntegers K} (hmin : minpoly ℤ θ = Polynomial.X ^ 2 - 2) (hgen : ℚ[↑θ] = ⊤) :
+  NumberField.absLogHeight₁ ↑(1 + θ) = NumberField.Units.regulator K / 2
+'TauCeti.NumberField.Sqrt2.absLogHeight₁_one_add_eq_regulator_div_two' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+TauCeti.GaugeBasisExample.relIndex_stdLattice_lattice :
+  TauCeti.GaugeBasisExample.stdLattice.toAddSubgroup.relIndex TauCeti.GaugeBasisExample.lattice.toAddSubgroup = 2
+'TauCeti.GaugeBasisExample.relIndex_stdLattice_lattice' depends on axioms: [propext, Classical.choice, Quot.sound]
+TauCeti.GaugeBasisExample.not_exists_basis_eq_single : ¬∃ b, ∀ (i : Fin 5), ↑(b i) = EuclideanSpace.single i 1
+'TauCeti.GaugeBasisExample.not_exists_basis_eq_single' depends on axioms: [propext, Classical.choice, Quot.sound]
+TauCeti.GaugeBasisExample.exists_basis_norm_le : ∃ b, ∀ (i : Fin 5), ‖↑(b i)‖ ≤ max 1 ((↑↑i + 1) / 2)
+'TauCeti.GaugeBasisExample.exists_basis_norm_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+TauCeti.NumberField.SUnit.regulator_eq_abs_det.{u_1, u_2} {K : Type u_1} [Field K] [NumberField K]
+  {S : Finset (IsDedekindDomain.HeightOneSpectrum (NumberField.RingOfIntegers K))} {ι : Type u_2} [Fintype ι]
+  [DecidableEq ι] {ε : ι → ↥((↑S).unit K)} (hε : Subgroup.closure (Set.range ε) ⊔ CommGroup.torsion ↥((↑S).unit K) = ⊤)
+  (w' : NumberField.InfinitePlace K) (e : ι ≃ { w // w ≠ w' } ⊕ ↥S) :
+  TauCeti.NumberField.SUnit.regulator S =
+    |(Matrix.of fun i k =>
+          Sum.elim (fun w => ↑(↑w).mult * Real.log (↑w ↑↑(ε i)))
+            (fun v => Real.log ((NumberField.FinitePlace.mk ↑v) ↑↑(ε i))) (e k)).det|
+'TauCeti.NumberField.SUnit.regulator_eq_abs_det' depends on axioms: [propext, Classical.choice, Quot.sound]
+TauCeti.NumberField.SUnit.regulator_empty.{u_1} {K : Type u_1} [Field K] [NumberField K] :
+  TauCeti.NumberField.SUnit.regulator ∅ = NumberField.Units.regulator K
+'TauCeti.NumberField.SUnit.regulator_empty' depends on axioms: [propext, Classical.choice, Quot.sound]
+TauCeti.NumberField.SUnit.regulator_rat_eq_prod_log
+  (S : Finset (IsDedekindDomain.HeightOneSpectrum (NumberField.RingOfIntegers ℚ))) :
+  TauCeti.NumberField.SUnit.regulator S = ∏ v ∈ S, Real.log ↑(Rat.HeightOneSpectrum.natGenerator v)
+'TauCeti.NumberField.SUnit.regulator_rat_eq_prod_log' depends on axioms: [propext, Classical.choice, Quot.sound]
