@@ -1,4 +1,6 @@
-import Mathlib
+module
+
+public import Mathlib
 
 /-!
 # ℓ-adic homotopy types and weights: target signatures
@@ -13,8 +15,9 @@ at these pins with only a few simple definitions on existing carriers.
   and its natural comparison with ordinary simplicial cohomology.
 * The rational stabilized comparison lacks relative forms, Sullivan polynomial forms,
   and their stabilization.
-* Pro-simplicial ℓ-adic universal coefficients lack the pro-simplicial cohomology object
-  with its coherent finite-coefficient system.
+* Pro-simplicial ℓ-adic universal coefficients lack the tower of finite-coefficient cochain
+  complexes of a pro-simplicial set, whose derived limit is the ℓ-adic cochain complex, and
+  derived ℓ-completeness with derived Nakayama.
 * The completed triangular comparison lacks the bidegreewise completed form complex.
 * The cohomology theorem for the ℓ-adic homotopy algebra lacks the constructed algebra
   and its comparison map.
@@ -50,6 +53,8 @@ at these pins with only a few simple definitions on existing carriers.
 The generic Sullivan existence, lifting and uniqueness theorem is a supplier contract
 in README.md.
 -/
+
+@[expose] public section
 
 namespace TauCetiRoadmap.EllAdicHomotopyTypesAndWeights
 
