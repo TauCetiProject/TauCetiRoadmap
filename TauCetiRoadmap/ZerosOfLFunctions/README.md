@@ -1139,6 +1139,84 @@ assembled from six targets.
 `completedHeckeLFunction_one_sub`, `norm_heckeRootNumber`; Global Number Fields Layer 2
 `TauCeti.GlobalNumberFields.finite_rayClassGroup`.
 
+#### Direct primitive Dirichlet exports of 6.4d–e
+
+Expose the rational statements directly on Mathlib's continued `DirichletCharacter.LFunction`
+and the implemented `TauCeti.LFunctions.dirichletData χ hχ`, imported from
+`TauCeti/NumberTheory/LFunctions/Dirichlet/Basic.lean`. This record has conductor `q`,
+gamma shift `κ = 0` or `1` according to parity, and completed function
+`q^(s/2) * χ.completedLFunction s`. Mathlib's `completedLFunction` alone omits the
+conductor power. Consume the record's proved `HasDirichletAgreement`,
+`HasMeromorphicContinuation`, and `HasFunctionalEquation` instances.
+
+For primitive `χ ≠ 1`, prove `polarOrder = 0` and identify Layer 0's
+`entireCompletion (dirichletData χ hχ)` with this canonical completed function,
+including at zero and one. Identify Layer 1.6's continued function with the native
+continued Dirichlet function. On `0 < Re s < 1`, prove equality of ordinary and
+completed zero multiplicities, since the gamma and conductor factors are regular
+and nonzero there. Give the logarithmic-derivative comparison for `Re s > 1`,
+conjugation symmetry, and reality at real arguments for real characters.
+
+Construct the direct Dirichlet growth and strip inputs to Layers 2–5 from the
+Dirichlet continuation and functional equation: polynomial vertical-strip bounds,
+order at most one of the completion, location of completed zeros in the critical
+strip, and the edge nonvanishing comparisons. Apply the generic entire-completion,
+Jensen, canonical-product, entire-logarithm, and order-one factorization targets.
+These are applications with their hypotheses proved, rather than a record assuming
+the required zero estimate. No general Hecke-family construction is a prerequisite
+for this direct route. The Dirichlet-to-ray-class dictionary in Analytic Number
+Theory Part I §0.30 consumes these results and supplies no prerequisites back to them.
+
+Export one absolute `C ≥ 0`, fixed before `q`, `χ`, `β`, and `σ`, such that for
+primitive nonprincipal real characters of conductor `q ≥ 3`, a real zero
+`0 < β < 1`, and `1 < σ ≤ 2`,
+
+\[
+\frac{1}{\sigma-\beta}
+\le \operatorname{Re}(\logDeriv L_\chi)(\sigma)+\frac12\log q+C.
+\]
+
+Also retain any finite set `S` of nontrivial complex zeros, with their analytic
+multiplicities `mρ`:
+
+\[
+\sum_{\rho\in S}m_\rho\operatorname{Re}\frac1{\sigma-\rho}
+\le \operatorname{Re}(\logDeriv L_\chi)(\sigma)+\frac12\log q+C.
+\]
+
+Use the same constant independently of `S`. Derive the sum from the convergent
+real-part partial-fraction expansion; justify cancellation of `Re b` by the functional
+equation and reality, and use the nonnegative contributions of all discarded zeros.
+Prove uniform boundedness of the gamma logarithmic derivative on `1 < σ ≤ 2` for
+both parities. A selected real zero can have any positive multiplicity; the first
+inequality discards all but one copy. The principal character has pole terms and
+does not satisfy this displayed nonprincipal formula.
+
+For every fixed bound `Q : ℕ`, expose 6.4e directly as a single `δ_Q > 0` such that
+every nonprincipal complex Dirichlet character at positive level `q ≤ Q` has
+`L(s,χ) ≠ 0` on `‖s-1‖ < δ_Q`. Primitivity and reality are not needed for this
+finite-family statement. Prove finiteness of the character family, continuity at one,
+and native `DirichletCharacter.LFunction_apply_one_ne_zero`; take the minimum of the
+individual positive radii, with an explicit positive radius for an empty family.
+Export its real-interval consequence. No effectiveness or uniformity over unbounded
+conductors is claimed.
+
+**Sources and dependencies.** Montgomery–Vaughan, *Multiplicative Number Theory I*
+(2006), [Chapter 10, §10.2](https://personal.science.psu.edu/rcv4/personal/Publications/MNTI/14.0_pp_326_357_Analytic_properties_of_the_zeta_function_and_L-functions.pdf),
+Theorem 10.16 and Corollary 10.18, pp. 351–353, especially (10.37)–(10.38),
+give the classical product and constant cancellation. The selected-zero inequalities
+follow by dropping nonnegative terms and bounding the two parity-dependent gamma
+terms. The finite-family radius follows directly from continuity and nonvanishing.
+The generic analytic prerequisites are Layers 0–5 and §1.4; the direct arithmetic
+inputs are the native primitive Dirichlet record and continuation. General Hecke
+functions, Siegel lower bounds, Siegel–Walfisz, and exclusion of exceptional zeros
+are not inputs to this specialization.
+
+**Checks.** The conductor derivative is `½ log q`; at `q=1` the principal function
+requires its pole terms. Retained zeros carry analytic multiplicity, not a simplicity
+hypothesis. The finite-family radius is chosen before each character, and says nothing
+about letting `Q` grow. `DirichletRealZeros.lean` prototypes the direct interfaces.
+
 ### 6.5 The edges
 
 For `Λ` either `Λ_K` or `Λ(χ, ·)`, `∀ ρ, 0 < divisor Λ univ ρ → ρ.re ≠ 1`, and by the functional
