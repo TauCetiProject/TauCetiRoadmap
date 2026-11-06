@@ -18,9 +18,8 @@ and is not restated here.
 The following headline theorems are not statable at the pins:
 * Generic vanishing, the rigid perverse convolution quotient and its faithful
   cohomological fibre functor lack the constructible adic perverse category,
-  geometric character sheaves, the six operations with the canonical
-  compact-support direct image, and the kernel transforms built on them,
-  through which derived convolution is formed.
+  geometric character sheaves and the compatible six operations with their
+  compact-support direct image, from which derived convolution is built.
 * Arithmetic-geometric Tannaka exactness and Galois normalization lack those
   categories and the Tannaka reconstruction of their cohomological fibres.
 * Hypersurface Euler characteristics and the torsion-twist Hodge-Tate row lack
