@@ -1,0 +1,18 @@
+actual-main-build.log exit 0
+conformal-current-source-acceptance.log exit 0
+global-heights-current-source-axioms.log exit 0
+hopf-full-scope-axioms.log exit 0
+hopf-boundary-index-acceptance.log exit 0
+hopf-corner-index-acceptance.log exit 0
+hopf-flat-and-rejection-acceptance.log exit 0
+effective-scope-probes.log exit 0
+localfields-scope-probes.log exit 0
+peripheral-full-scope-replay-20261028.log exit 0
+toric-full-scope-replay-20261028.log exit 0
+spin-full-scope-replay-20261028.log exit 0
+AnalyticToricGeometry.log exit 0
+OrthogonalSpinGroups.log exit 0
+EffectiveBounds.log exit 0
+LocalFieldsRamification.log exit 0
+hopf-native-variation-acceptance.log exit 0
+{"status": "success", "source_head": "daa66339a578b8c1c41c20b94839ca25444cc1e8", "module_count": 934, "axiom_report_count": 128}

@@ -1,0 +1,38 @@
+<!--tauceti-status:v1 {"roadmap":"MassFormula","to_sha":"93d1fe508e122e53ce5538a8a3994c290753f127","ts":"2026-10-26T01:30:01Z"}-->
+<!--tauceti-coverage:v1 {"layers":[{"id":"Layer 0","state":"done"},{"id":"Layer 1","state":"done"},{"id":"Layer 2","state":"done"},{"id":"Layer 3","remaining":"a.e. separability of Eisenstein polynomials, a.e. measurability of rootCount, the local fibre count, and the root-count integral","state":"partial"},{"id":"Layer 4","remaining":"Theorem 1; then Theorem 2, the finite direction of the dichotomy, the tame count and convergence follow from proved reductions","state":"partial"}],"readme_sha":"98690c28bb00a2385f452542cd3a140fb9aaab877515aa81e07eda4347cb51c0","roadmap":"MassFormula","to_sha":"93d1fe508e122e53ce5538a8a3994c290753f127"}-->
+# Status: MassFormula
+
+This file documents the status of the MassFormula roadmap up until `93d1fe5` (2026-10-26T01:30:01Z). There may have been subsequent updates.
+
+It is generated, and its prose is not security-validated; see
+https://github.com/TauCetiProject/TauCetiProgress for what that means.
+
+## Where this roadmap stands
+
+**At a glance.** Layers 0, 1 and 2 are done: the counting invariants, quantitative Newton lifting, and the lattice-index and Haar scaling layer. Layer 3 is about half built, and the local fibre count and the root-count integral have not been started. In Layer 4, everything except Theorem 1 is either proved or reduced to it. The quadratic worked examples hold, but neither mass formula is proved in general.
+
+### Named results
+
+- **Serre's orbit count**: for L in σ_K(n), the number of K-isomorphic members of σ_K(n) times #Aut_K(L) is n ([`ncard_isomorphic_mul_natCard_algEquiv`](https://taucetiproject.org/docs/TauCeti/NumberTheory/LocalField/MassFormula/Orbit.html#TauCeti.ncard_isomorphic_mul_natCard_algEquiv)). Through it, Theorem 2 over a set of representatives is [equivalent to Theorem 1](https://taucetiproject.org/docs/TauCeti/NumberTheory/LocalField/MassFormula/Representative.html#TauCeti.IsRepresentativeSet.tsum_one_div_natCard_algEquiv_mul_natCard_residueField_pow_wildExponent_eq_one_iff).
+- **The mass formula for ℚ_2 in degree 2**: σ_{ℚ_2}(2) is [exactly six fields](https://taucetiproject.org/docs/TauCeti/NumberTheory/LocalField/MassFormula/Quadratic/PadicTwo.html#TauCeti.totallyRamifiedOfDegree_two_eq_padicTwo), and [2·2⁻¹ + 4·2⁻² = 2](https://taucetiproject.org/docs/TauCeti/NumberTheory/LocalField/MassFormula/Quadratic/PadicTwo.html#TauCeti.tsum_one_div_pow_wildExponent_two_padicTwo). This is the roadmap's sharpest test that c has no off-by-one error. The odd-residue analogue, with [σ_K(2) of size two and sum 2](https://taucetiproject.org/docs/TauCeti/NumberTheory/LocalField/MassFormula/Quadratic/Basic.html#TauCeti.tsum_one_div_natCard_residueField_pow_wildExponent_two), holds over any such K.
+- **Hensel's lemma with an estimate**: over any Henselian discrete valuation ring, if ord F(y₀) > 2·ord F′(y₀), then there is a root z with ord F(y₀) = ord F′(y₀) + ord(z − y₀) ([`exists_isRoot_addVal_eval_eq`](https://taucetiproject.org/docs/TauCeti/RingTheory/DiscreteValuationRing/Hensel.html#Polynomial.exists_isRoot_addVal_eval_eq)). This is more general than the complete case the roadmap asks for. It gives the [local constancy of the root count](https://taucetiproject.org/docs/TauCeti/NumberTheory/LocalField/RootCount.html#TauCeti.exists_card_aroots_eq).
+- **The Haar scaling law over a local field**: if det A is associated to ϖ^k, then μ(A·S) = q^{−k} μ(S) for every regular Haar measure μ ([`addHaar_image_mulVec`](https://taucetiproject.org/docs/TauCeti/MeasureTheory/Group/LocalFieldScaling.html#MeasureTheory.Measure.addHaar_image_mulVec)).
+- **Infinitely many wild extensions in equal characteristic**: when K has characteristic p and p divides n, σ_K(n) is infinite ([`infinite_totallyRamifiedOfDegree`](https://taucetiproject.org/docs/TauCeti/NumberTheory/LocalField/MassFormula/Infinite.html#TauCeti.infinite_totallyRamifiedOfDegree)).
+
+### Notable definitions and infrastructure
+
+- **Serre's σ_K(n) and the wild exponent**: [`totallyRamifiedOfDegree`](https://taucetiproject.org/docs/TauCeti/NumberTheory/LocalField/MassFormula/Basic.html#TauCeti.totallyRamifiedOfDegree) and [`wildExponent`](https://taucetiproject.org/docs/TauCeti/NumberTheory/LocalField/MassFormula/Basic.html#IntermediateField.wildExponent) are the objects in which both formulas are stated. They come with isomorphism invariance, the tame criterion and the [uniform bound](https://taucetiproject.org/docs/TauCeti/NumberTheory/LocalField/MassFormula/Finite.html#IntermediateField.wildExponent_le_mul_natCastValuation) c(L) ≤ n·v_K(n) outside equal characteristic p ∣ n.
+- **The Eisenstein region**: [`eisensteinSet`](https://taucetiproject.org/docs/TauCeti/NumberTheory/LocalField/MassFormula/Eisenstein/Region.html#TauCeti.eisensteinSet) has [volume](https://taucetiproject.org/docs/TauCeti/NumberTheory/LocalField/MassFormula/Eisenstein/Region.html#TauCeti.measure_eisensteinSet) q^{−n}(1 − q^{−1}), and it is the domain over which Theorem 1 integrates.
+- **The root count**: [`rootCount`](https://taucetiproject.org/docs/TauCeti/FieldTheory/IntermediateField/RootCount.html#IntermediateField.rootCount) sums to [exactly n](https://taucetiproject.org/docs/TauCeti/NumberTheory/LocalField/MassFormula/RootCount.html#TauCeti.tsum_rootCount_eq_of_separable) over σ_K(n) at every separable Eisenstein polynomial. A new [ball-partition lemma](https://taucetiproject.org/docs/TauCeti/RingTheory/DiscreteValuationRing/RootPartition.html#Polynomial.card_roots_eq_sum_ite_of_addVal_lt) writes root counts as finite sums of ball indicators, ready for integration.
+
+### Roadmap coverage
+
+Layers 0, 1 and 2 are done. Layer 3 is partial. The region and its measure are in, and so are the root count, its pointwise sum and the countability of σ_K(n), which is proved by polynomial approximation. Not yet proved are almost-everywhere separability of Eisenstein polynomials, almost-everywhere measurability of the root count, the local fibre count (Serre's Lemma 1) and the root-count integral q^{−(d+1)}(1 − q^{−1}). Layer 4 is partial. The orbit count and the infinite direction of the dichotomy are done. Theorem 2 is reduced to Theorem 1. For the finite direction there is the reduction "the weighted sum is finite iff σ_K(n) is finite", and the tame count is reduced to the cardinality of σ_K(n). Theorem 1 itself, convergence, and the conclusions of these reductions are not proved. Among the worked examples, n = 1, the Galois orbit case, the tame quadratic case and the six-field ℚ_2 case are established. The equal-characteristic convergence example and the integral consistency check are not.
+
+## The frontier
+
+- **Almost every Eisenstein polynomial is separable**: show that the non-separable locus in the Eisenstein region is Haar-null, so that the root-count identity holds almost everywhere.
+- **Measurability of the root count**: AEMeasurable of each rootCount on the region. This should follow from local constancy and the null non-separable locus.
+- **The local fibre count**: for d + n ≤ nρ, a monic g has exactly one root in ξ + π^ρ𝒪_L iff ord g(ξ) ≥ nρ + d. The Hensel estimate, the box description of balls and the new ball partitions are its inputs. It also needs ord f′(ξ) = d at an Eisenstein generator.
+- **The integral of the root count**: ∫ rootCount L = q^{−(d L + 1)}(1 − q^{−1}) over the region, by change of variables through the scaling law. This needs the fibre count.
+- **Theorem 1 and what hangs on it**: interchange sum and integral to get ∑ q^{−c(L)} = n. Theorem 2, the finite direction of the dichotomy, the tame count and convergence then follow from reductions that are already proved.

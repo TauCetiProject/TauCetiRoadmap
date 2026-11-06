@@ -19,6 +19,8 @@ scope and dependencies.
 - approximation numbers and the symmetric operator ideals their gauges define;
 - the bounded Borel functional calculus, projection-valued measures, and the spectral
   theory of unbounded self-adjoint operators, with Stone's theorem;
+- Hardy-space Toeplitz operators, scalar and matrix symbols, Fredholm index
+  and stable finite sections;
 - spectral-subspace perturbation: Sylvester equations, Rosenblum, and the Davis–Kahan
   `sin Θ` theorems;
 - matrix spectral statistics that feed statistical applications of the perturbation theory —
@@ -57,6 +59,14 @@ scope and dependencies.
 - [**Matrix spectral statistics**](MatrixSpectralStatistics/README.md) — rank and Gram
   factorizations with their uniqueness, entrywise-to-spectral comparisons and
   measurability of spectral functions, sample moments and matrix concentration.
+- [**Toeplitz operators**](ToeplitzOperators/README.md) — the native Hardy/Fourier
+  model, bounded symbols, Coburn's alternative, Fredholm symbols and stable
+  finite sections, consuming the C*-algebra and Calkin suppliers.
+
+ToeplitzOperators owns the Hardy model, measurable scalar/block symbols,
+Fredholm-symbol comparisons and finite sections. CStarAlgebras C8 owns
+its scalar shift extension, and OperatorKTheory K4 owns the Calkin and
+compact-perturbation index foundation.
 
 ## How they depend on one another
 
@@ -67,9 +77,10 @@ scope and dependencies.
 | `OrthogonalGeometry`           | Mathlib                                                                                                    |
 | `Majorization`                 | `PolarDecomposition`, `OrthogonalGeometry`                                                                 |
 | `PrincipalAngles`              | `PolarDecomposition`, `OrthogonalGeometry`, `Majorization`                                                 |
-| `SelfAdjointSpectralTheory`    | `OrthogonalGeometry`, `OneParameterSemigroups` |
+| `SelfAdjointSpectralTheory`    | `OrthogonalGeometry`, `OneParameterSemigroups`, `BanachSpaceTheory` B1/B5 (SA-B63/65 only) |
 | `OperatorIdeals`               | `PolarDecomposition`, `Majorization`                                                                       |
 | `MatrixSpectralStatistics`     | `PolarDecomposition`                                                                                       |
+| `ToeplitzOperators`            | Mathlib Fourier/projection APIs, Tau Ceti circle degree, `BanachSpaceTheory` B5, `CStarAlgebras` C1/C5/C8, `OperatorKTheory` K4 |
 | `SpectralSubspacePerturbation` | `PolarDecomposition`, `Majorization`, `PrincipalAngles`, `SelfAdjointSpectralTheory`                       |
 
 
@@ -82,8 +93,10 @@ stated against.
 
 The Haagerup–Zsidó kernel in `SpectralSubspacePerturbation` Part A and the unitary-group
 and bounded-Borel-calculus layers in `SelfAdjointSpectralTheory` Parts A and B depend only
-on Mathlib within this family. Part D generalizes Tau Ceti's `LinearPMap` resolvent core to
-the scalar fields used by the self-adjoint theory. The unitary-group restriction and generator
+on Mathlib within this family. SelfAdjointSpectralTheory's bidual comparison
+`SA-B63` and `SA-B65` additionally consume `BanachSpaceTheory` B1/B5.
+Part D consumes Tau Ceti’s supplied scalar-generic `LinearPMap`
+resolvent core. The unitary-group restriction and generator
 relation `SA-A15`–`SA-A16` also consume `OneParameterSemigroups`.
 
 ## Ownership boundaries
@@ -104,8 +117,8 @@ Between roadmaps in this family:
   which is where it is consumed.
 - **Approximation numbers and every gauge of them** belong to `OperatorIdeals`.
 - **The domain-aware Sylvester equation** — the transport statement `A X − X B = C` with
-  its domain bookkeeping — belongs to `SelfAdjointSpectralTheory`, together with the in-place
-  scalar generalization of Tau Ceti's `LinearPMap` resolvent core, the self-adjoint resolvent
+  its domain bookkeeping — belongs to `SelfAdjointSpectralTheory`, together with its use of
+  Tau Ceti’s supplied scalar-generic `LinearPMap` resolvent core, the self-adjoint resolvent
   estimates, and the imaginary-shift Yosida approximants. Its solvability and its a-priori
   estimates belong to `SpectralSubspacePerturbation`.
 - **Matrix-level statements with entrywise hypotheses** belong to
