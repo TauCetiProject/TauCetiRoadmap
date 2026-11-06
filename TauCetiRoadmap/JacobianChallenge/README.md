@@ -19,31 +19,37 @@ home: `TauCeti/AlgebraicGeometry/Jacobian/`, with supporting theories under
 
 ## The end goal (v1)
 
-For a **smooth, proper, geometrically connected curve `X` over a field `k` with a
-`k`-rational point `x₀`**, construct the **Jacobian** `Jac X = Pic⁰(X)` as an abelian
-variety over `k`, characterized by the universal property of the Abel–Jacobi map and
-compatible with base change.
+For a **smooth, proper, geometrically connected curve `X` over a field `k`**, construct the
+**Jacobian** `Jac X = Pic⁰(X)` as an abelian variety over `k` representing the degree-zero
+Picard sheaf on all test schemes, compatible with base change; its construction uses no
+rational point. For every **`k`-rational point `x₀`**, the Abel–Jacobi map characterizes
+it by its universal property.
 
 ```lean
 -- the shape we are building toward (state in Suggested.lean as the types appear):
--- noncomputable def JacobianVariety (X : Curve k) (x₀ : X.RationalPoint) : AbelianVariety k
--- def abelJacobi : X ⟶ (JacobianVariety X x₀).toScheme            -- x₀ ↦ 0
+-- noncomputable def JacobianVariety (X : Curve k) : AbelianVariety k   -- Pic⁰, no rational point
+-- def abelJacobi (x₀ : X.RationalPoint) : X ⟶ (JacobianVariety X).toScheme   -- x₀ ↦ 0
 -- -- universal property: for every abelian variety A and pointed morphism f : (X,x₀) → (A,0),
 -- -- there is a unique homomorphism φ : Jac X → A of abelian varieties with f = φ ∘ aj.
 -- theorem jacobian_baseChange (K) [Field K] [Algebra k K] :
---     (JacobianVariety X x₀).baseChange K ≅ JacobianVariety (X.baseChange K) (x₀.baseChange K)
+--     (JacobianVariety X).baseChange K ≅ JacobianVariety (X.baseChange K)
 ```
 
 In the AG version, comparison of independently-built solutions is *automatic*: the
-universal property supplies the isomorphism (Christian Merten).
+universal property supplies the isomorphism (Christian Merten), and without a rational point
+the representing property does, since two schemes representing `Pic⁰` are uniquely isomorphic.
 
 ## Standing hypotheses (spell them out; never bake in)
 
 `X` smooth + proper + geometrically connected of dimension 1 over a field `k`; record as a
 theorem that such a curve is **geometrically integral** (smoothness ⇒ geometric reducedness;
-regular + connected ⇒ irreducible). A chosen `k`-rational point `x₀`. The Jacobian scheme
-`Pic⁰` is representable for such curves over a field **without** a `k`-point; the `k`-point
-*rigidifies/normalizes* the Picard functor and supplies the Abel–Jacobi morphism.
+regular + connected ⇒ irreducible). A `k`-rational point `x₀` is a hypothesis exactly of
+the statements that use it: the Abel–Jacobi morphism, its universal property and the
+rigidified comparisons. The Jacobian scheme `Pic⁰` is representable for such curves over a
+field **without** a `k`-point, and `JacobianVariety` is constructed without one (Layer D); the
+`k`-point *rigidifies/normalizes* the Picard functor and supplies the Abel–Jacobi morphism.
+The genus is Tau Ceti's `Scheme.genus`, `dim_k H¹(X, 𝒪_X)`, and no other genus is defined
+(Layer B).
 
 ## Inventory: what the pinned libraries give us (consume)
 
@@ -136,9 +142,104 @@ milestones in `Suggested.lean` (with `sorry`).
 - **Coherent sheaves** and cohomology `Hⁱ(X, ℱ)`: acyclicity of affines, Čech ≃ derived on
   a separated scheme, **finite-dimensionality for proper `X/k`**, vanishing above dimension
   (`H²= 0` on a curve).
-- **Genus** `g := dim_k H¹(X, 𝒪_X)`; **Riemann–Roch** `χ(L) = deg L + 1 − g`; **Serre
-  duality** with the **relative dualizing sheaf** `ω_{X/k}`: `Hⁱ(L) ≅ H^{1−i}(ω_{X/k} ⊗ L⁻¹)*`
-  and `deg ω_{X/k} = 2g − 2`.
+- **Genus** `g := dim_k H¹(X, 𝒪_X)` (Tau Ceti's `Scheme.genus`); **Riemann–Roch**
+  `χ(L) = deg L + 1 − g`; **Serre duality** with the **relative dualizing sheaf** `ω_{X/k}`:
+  `Hⁱ(L) ≅ H^{1−i}(ω_{X/k} ⊗ L⁻¹)*`, induced by the named trace and cup pairing below, and
+  `deg ω_{X/k} = 2g − 2`.
+- **Serre duality through a named trace.** Let `X` be proper and smooth of relative
+  dimension one over `k`, with `Ω_{X/k}` Tau Ceti's `Scheme.relativeDifferentials`. Define
+  `serreDualityTrace k X : H¹(X, Ω_{X/k}) →ₗ[k] k` as the sum of residues: through the
+  repartition description of `H¹` (Tau Ceti's `SchemeWeilDivisor.repartitionToCohomologyOne`,
+  transported to `Ω_{X/k}` by `relativeDifferentialsIsoDivisorSheaf`), a class is represented
+  by a repartition of rational differentials `(η_x)_x` over the closed points, and the trace
+  sends it to `Σ_x Tr_{κ(x)/k} Res_x(η_x)`, which vanishes on global rational differentials by
+  the residue theorem (Serre, *Algebraic Groups and Class Fields*, Chapter II). Prove
+  `serreDuality_existsUnique`: for every quasi-coherent `F` on `X` and every `k`-linear form
+  `ℓ` on `H¹(X, F)` there is a unique `φ : F ⟶ Ω_{X/k}` with
+  `serreDualityTrace k X ∘ H¹(φ) = ℓ` (Stacks [0BS2](https://stacks.math.columbia.edu/tag/0BS2)
+  (5)–(6); Hartshorne III §7). For `F = L` invertible, `Hom(L, Ω_{X/k}) = H⁰(X, Ω_{X/k} ⊗ L⁻¹)`
+  and `φ ↦ serreDualityTrace k X ∘ H¹(φ)` is the cup product followed by the trace, so the cup
+  pairing `H⁰(X, Ω_{X/k} ⊗ L⁻¹) × H¹(X, L) → H¹(X, Ω_{X/k}) → k` is perfect; applied to
+  `Ω_{X/k} ⊗ L⁻¹` it gives the perfect pairing of `H⁰(X, L)` with `H¹(X, Ω_{X/k} ⊗ L⁻¹)`.
+  Prove naturality in `F`. Tau Ceti's existence statements
+  `nonempty_cohomologyOneDualEquivCohomologyZero_differentials_tensor_dual` and
+  `InvertibleSheaf.nonempty_cohomologyOneDualEquivCohomologyZero_tensor_dual` become
+  consequences of these named maps; Serre duality is not stated as the existence of an
+  isomorphism. *Needs:* Layer A; Tau Ceti `Scheme.Modules.Cohomology`,
+  `Scheme.Modules.cohomologyMapBaseLinear`, `SchemeWeilDivisor.repartitionToCohomologyOne`,
+  `relativeDifferentialsIsoDivisorSheaf`; Mathlib `SheafOfModules.IsQuasicoherent`. **Checks:**
+  - On `ℙ¹_k`, the class of the repartition equal to `dt/t` at `t = 0` and to `0` elsewhere
+    has trace `1`; the repartition of the global differential `dt/t` has residues `1` at `0`
+    and `−1` at `∞` and trace `0`, so the trace is nonzero and kills global differentials.
+  - For `F = 𝒪_X` on a curve with `H⁰(X, 𝒪_X) = k`, `Hom(𝒪_X, Ω_{X/k}) = H⁰(X, Ω_{X/k})` has
+    dimension `g = dim_k H¹(X, 𝒪_X)`; for `F` the skyscraper `κ(x)` at a closed point both
+    `H¹(X, F)` and `Hom(F, Ω_{X/k})` vanish.
+  - Agreement with the library: under `relativeDifferentialsIsoDivisorSheaf` for the divisor
+    `K` of a Weil differential `ω`, the trace is `ω` read as a linear form on repartitions, so
+    Tau Ceti's `SchemeWeilDivisor.cohomologyOneDualEquivCohomologyZero`, whose pairing is
+    `(f, a) ↦ ω(f · a)` (`SchemeWeilDivisor.cohomologyOneDualEquivCohomologyZero_symm_apply_repartitionToCohomologyOne`),
+    is the cup pairing with `serreDualityTrace`.
+- **Duality and Riemann–Roch on Gorenstein curves.** Let `X` be a curve over `k` in Tau Ceti's
+  sense (`Scheme.IsCurveOver`: integral, proper, of dimension one), possibly singular, with
+  `H⁰(X, 𝒪_X) = k`. Define the sheaf `ω_X` of regular differentials: its sections over `U` are
+  the rational differentials `η` of `k(X)/k` with `Σ_{P ↦ x} Res_P(f η) = 0` for every `x ∈ U`
+  and every `f ∈ 𝒪_{X,x}`, the sum running over the places `P` of `k(X)` centred at `x` (they
+  exist by the valuative criterion); its trace `H¹(X, ω_X) → k` is the residue sum of the
+  preceding item, and on the smooth locus `ω_X = Ω_{X/k}` with that trace. Prove that `ω_X` is
+  coherent and that `φ ↦ trace ∘ H¹(φ)` is a bijection `Hom(F, ω_X) ≅ H¹(X, F)^∨` for every
+  quasi-coherent `F`, with `Ext¹(F, ω_X) ≅ H⁰(X, F)^∨` for coherent `F` (Stacks
+  [0BS2](https://stacks.math.columbia.edu/tag/0BS2) (5),
+  [0BS3](https://stacks.math.columbia.edu/tag/0BS3) (4)). Call `X` Gorenstein when every local
+  ring `𝒪_{X,x}` satisfies Tau Ceti's `IsIwanagaGorenstein` (for a commutative Noetherian local
+  ring, finite self-injective dimension). For Gorenstein `X` prove: `ω_X` is invertible and
+  `deg ω_X = 2g − 2` (Stacks [0BS6](https://stacks.math.columbia.edu/tag/0BS6) (1)–(2),
+  [0C19](https://stacks.math.columbia.edu/tag/0C19)); for every coherent `F` of generic rank
+  `r`, with `deg F := χ(F) − r·χ(𝒪_X)` extending Layer A's degree, `deg` is additive in short
+  exact sequences, `deg (F ⊗ L) = deg F + r·deg L` for invertible `L`, `deg F` is
+  `Σ_x [κ(x) : k]·length(F_x)` for torsion `F`, and **Riemann–Roch**
+  `dim_k H⁰(X, F) − dim_k Hom(F, ω_X) = deg F + r(1 − g)`; for `F` locally free of rank `r`,
+  `dim_k Hⁱ(X, F) = dim_k H^{1−i}(X, F^∨ ⊗ ω_X)` and `χ(F) = deg F − ½ r·deg ω_X` (Stacks 0BS6
+  (3)). The invertible case `dim_k H⁰(X, L) − dim_k H⁰(X, ω_X ⊗ L⁻¹) = deg L + 1 − g`
+  extends Tau Ceti's
+  `finrank_cohomology_zero_sub_finrank_cohomology_zero_differentials_tensor_dual` from smooth to
+  Gorenstein curves. *Needs:* Layer A, the preceding item; Tau Ceti `Scheme.IsCurveOver`,
+  `IsIwanagaGorenstein`, the repartitions of `SchemeWeilDivisor`. **Checks:**
+  - The nodal cubic `y²z = x³ + x²z` (characteristic not two) is Gorenstein of genus one:
+    `ω_X ≅ 𝒪_X`, generated by `dx/y` at the node, and `deg ω_X = 0`, while `Ω_{X/k}` needs two
+    generators at the node and is not invertible.
+  - A rational curve whose singular point has complete local ring `k⟦t³, t⁴, t⁵⟧` is not
+    Gorenstein: `ω_X` needs two generators there (the gaps `1, 2` of the semigroup
+    `⟨3, 4, 5⟩` both satisfy the pseudo-Frobenius condition), so invertibility of `ω_X` fails
+    without the hypothesis.
+  - For a skyscraper `F = κ(x)` at a closed point of degree `e`, `deg F = e`, `r = 0`,
+    `H⁰(X, F) = κ(x)` and `Hom(F, ω_X) = 0`, so Riemann–Roch reads `e = e`; for
+    `F = 𝒪_X` it reads `1 − g = 1 − g` through `Hom(𝒪_X, ω_X) = H⁰(X, ω_X)` of dimension `g`.
+- **One genus.** Every genus hypothesis in this roadmap and its consumers is stated with Tau
+  Ceti's `Scheme.genus` (`dim_k H¹(X, 𝒪_X)`, guarded by finite-dimensionality); no second
+  genus is defined. The other classical genera are theorems about it. Prove
+  `dim_k H⁰(X, Ω_{X/k}) = g` for every proper curve smooth of relative dimension one over `k`,
+  as `serreDuality_existsUnique` for `F = 𝒪_X`; Tau Ceti's
+  `finrank_cohomology_zero_relativeDifferentials` is the case of an exact constant field. The
+  genus of the function field is `SchemeWeilDivisor.genus_eq_genus_functionField`, and
+  `dim_k H⁰(X, ω_X) = g` on a Gorenstein curve follows from the preceding item. The degree
+  formula `deg Ω_{X/k} = 2g − 2` (Tau Ceti's `eulerDegree_relativeDifferentials`; Stacks
+  [0C1A](https://stacks.math.columbia.edu/tag/0C1A)) needs `H⁰(X, 𝒪_X) = k`: prove that every
+  smooth proper geometrically connected curve over `k` satisfies the hypotheses of
+  `eulerDegree_relativeDifferentials`. Here `H⁰(X, 𝒪_X) = k` by geometric integrality (Stacks
+  [0BUG](https://stacks.math.columbia.edu/tag/0BUG) (8)); `k` is integrally closed in `k(X)`
+  because an element of `k(X)` integral over `k` is regular at every point of the normal curve
+  `X`, hence lies in `H⁰(X, 𝒪_X) = k`; `Ω_{X/k}` is invertible by smoothness of relative
+  dimension one; and the local rings at closed points are discrete valuation rings by
+  regularity. *Needs:* the preceding items; Tau Ceti `Scheme.genus`. **Checks:**
+  - `ℙ¹_k`: `H⁰(Ω_{X/k}) = 0` and `g = 0`; an elliptic curve: `H⁰(Ω_{X/k})` is spanned by
+    the invariant differential and `g = 1`.
+  - The nodal cubic has `Scheme.genus` one while its function field `k(t)` has genus zero;
+    `genus_eq_genus_functionField` carries the regularity hypothesis that this curve violates,
+    so the arithmetic genus `h¹(𝒪_X)`, not the function-field genus, is the genus.
+  - `X = ℙ¹_L` viewed over `k`, with `L/k` separable of degree two, is smooth and proper but
+    `H⁰(X, 𝒪_X) = L`: `dim_k H⁰(Ω_{X/k}) = 0 = g` still holds, while
+    `deg Ω_{X/k} = χ(Ω_{X/k}) − χ(𝒪_X) = −2 − 2 = −4 ≠ 2g − 2`, so the hypothesis
+    `H⁰(X, 𝒪_X) = k` belongs to the degree formula only.
 
 ### Layer C, relative coherent cohomology and base change
 The part that the classical "Sym^g" story quietly relies on, so it comes *before* Picard.
@@ -252,8 +353,9 @@ The part that the classical "Sym^g" story quietly relies on, so it comes *before
   - A finite étale Galois extension `l/k` gives the quotient of
     `Spec l ×_k Spec l ⇉ Spec l` equal to `Spec k`, including when `k` is finite.
 - **Projective Picard representability.** For a projective geometrically integral
-  scheme `Y` over any field `k`, construct a separated group scheme `Pic_{Y/k}` locally
-  of finite type representing the fppf sheaf of relative line-bundle classes. The
+  scheme `Y` over any field `k`, prove that the fppf sheaf of relative line-bundle classes is
+  representable, `HasPicardScheme` of this layer's last items; the representing
+  `picardScheme` is a separated group scheme `Pic_{Y/k}` locally of finite type. The
   structural morphism is flat and locally of finite presentation; no perfectness or
   rational point is assumed. Use the fixed-Hilbert-polynomial and higher-cohomology-vanishing
   open subfunctors. Fix a very ample `𝒪_Y(1)` and use sufficiently positive twists:
@@ -280,9 +382,12 @@ The part that the classical "Sym^g" story quietly relies on, so it comes *before
   `Scheme.Modules.Cohomology.formalFunctionsIso`.
 
   Specialize to the standing curve: proper curves are projective (Stacks
-  [0A26](https://stacks.math.columbia.edu/tag/0A26)). With `x₀`, compare its scheme
-  directly to `rigidifiedPicardFunctor`; `pointedCurvePicard_representable` records this
-  comparison, with a flat structural morphism locally of finite presentation.
+  [0A26](https://stacks.math.columbia.edu/tag/0A26)), so `hasPicardScheme_of_curve` holds with
+  no rational point, and the structural morphism of the curve's `picardScheme` is flat and
+  locally of finite presentation. With `x₀`, the comparison of this layer's first item
+  identifies `rigidifiedPicardFunctor` with the Picard sheaf, so `picardScheme` represents it
+  through `picardSchemeIso`; this is a theorem about the named representing object, not a
+  separate existence statement.
   SchemeAndStackFoundations §§3.6–3.7 consume this represented object and
   supply no input to its construction. General relative Picard algebraic spaces belong
   to AlgebraicModuliForArithmeticGeometry §7.3. **Checks:**
@@ -328,6 +433,122 @@ The part that the classical "Sym^g" story quietly relies on, so it comes *before
   - In genus one the translated `AJ_1` identifies `Pic⁰` with the proper projective curve.
   - In genus two `AJ_2` has positive-dimensional fibres over special classes;
     properness and projectivity do not require it to be a finite morphism.
+- **The Picard scheme as a named representing object.** Representability is a property with a
+  canonical representing object, never an existential statement about some scheme. For every
+  morphism `f : X ⟶ S`, define the Prop-valued class `HasPicardScheme f` as Mathlib's
+  `Functor.IsRepresentable` for the underlying presheaf of sets of Tau Ceti's group-valued
+  `relativePicardFppfSheaf f` (as Mathlib's `HasPullback` is `HasLimit` of a cospan); the
+  **Picard scheme** `picardScheme f : Over S` as its representing object (Mathlib's
+  `Functor.reprX`); and
+  `picardSchemeIso f : uliftYoneda.{u+1}.obj (picardScheme f) ≅ (relativePicardFppfSheaf f).obj ⋙ forget AddCommGrpCat`
+  (Mathlib's `Functor.uliftYonedaReprXIso`). The sheaf takes values in `AddCommGrpCat.{u+1}`
+  while morphisms of `Over S` lie in `Type u`; Mathlib's `Functor.RepresentableBy` allows this,
+  `uliftYoneda.{u+1}` in `picardSchemeIso` is the one universe adapter, and no statement shrinks
+  the sheaf to `Type u`. The group law on `picardScheme f` is tensor product of line-bundle
+  classes transported by Yoneda (Mathlib's `GrpObj.ofRepresentableBy` applied to the sheaf written
+  multiplicatively, commutative by `IsCommMonObj.ofRepresentableBy`), so `picardSchemeIso f` is an isomorphism of group-valued
+  functors by construction and no separate predicate asserts that a representing isomorphism
+  is additive. Prove: uniqueness (any `P` with a representation of the same presheaf is
+  isomorphic to `picardScheme f` compatibly with the representations, by
+  `Functor.RepresentableBy.isoReprX`), so every construction of this layer proves
+  `HasPicardScheme` and transports along that isomorphism instead of defining a second Picard
+  scheme; base change (for `b : S' ⟶ S` with base change `f'`, `HasPicardScheme f` implies
+  `HasPicardScheme f'` and `picardScheme f' ≅ (Over.pullback b).obj (picardScheme f)` compatibly
+  with `picardSchemeIso`, from Tau Ceti's presheaf comparison `relativePicardPresheafBaseChangeIso`
+  after sheafification and the adjunction `Over.map b ⊣ Over.pullback b`); and that
+  `picardSchemeIso` sends the unit section to the trivial class and the group law to tensor
+  product. *Degree pieces.* Let `f` be proper and smooth of relative dimension one with
+  geometrically connected fibres, with `HasPicardScheme f`. For every test scheme `T`, the fibre
+  degree of a class on `X_T` (Tau Ceti's `relativePicardFiberDegree`) is a locally constant
+  function on `T`, by local constancy of the Euler characteristic in flat proper families (Layer
+  C). So the Picard sheaf is the coproduct over `d ∈ ℤ` of its degree-`d` subsheaves, each
+  represented by an open and closed subscheme `Pic^d_{X/S}` of `picardScheme f`; `Pic⁰_{X/S}`
+  represents Tau Ceti's `relativePicardDegreeZeroFppfSheaf f` through
+  `relativePicardDegreeZeroFppfSheafι` and is an open and closed subgroup scheme; each
+  `Pic^d_{X/S}` is a `Pic⁰_{X/S}`-torsor under translation, trivialized by any degree-`d` class
+  over `S`, for instance `𝒪(d·x₀)` when `f` has a section `x₀` (Stacks
+  [0BA0](https://stacks.math.columbia.edu/tag/0BA0), over a separably closed field). For the
+  standing curve, `hasPicardScheme_of_curve` states `HasPicardScheme` over any field with no
+  rational point. *Needs:* the preceding items of this layer, Layer C; Tau Ceti
+  `relativePicardFppfSheaf`, `relativePicardPresheafBaseChangeIso`, `relativePicardFiberDegree`,
+  `relativePicardDegreeZeroFppfSheaf`; Mathlib `Functor.IsRepresentable`,
+  `Functor.uliftYonedaReprXIso`, `GrpObj.ofRepresentableBy`. **Checks:**
+  - For `f = 𝟙 S` the Picard sheaf is zero and `picardScheme f` is `S` itself, the unit of
+    `Over S`.
+  - For `ℙ¹_k`, `picardScheme` is `∐_{d ∈ ℤ} Spec k`, every `Pic^d` is `Spec k`, and the group
+    law is addition of degrees.
+  - For a pointless real conic, `Pic¹` is `Spec ℝ`, a trivial `Pic⁰`-torsor, although no
+    degree-one line bundle exists on `X`: its real point is a section of the Picard sheaf, not
+    the class of a line bundle; after base change to `ℂ` it is the class of `𝒪(1)` on `ℙ¹_ℂ`.
+- **The Hilbert scheme of points of the curve.** Name the scheme of effective divisors that the
+  representability and Abel-map arguments consume. For `X` proper and smooth of relative
+  dimension one over `k` (no rational point and no geometric connectedness assumed) and every
+  `d : ℕ`, prove `isRepresentable_relativeEffectiveCartierDegreeSubfunctor`: Tau Ceti's functor
+  `relativeEffectiveCartierDegreeSubfunctor f d` of relative effective Cartier divisors on `X_T`
+  finite locally free of degree `d` over `T` is representable on all test schemes. Its
+  representing object `Hilbᵈ_{X/k}` (Mathlib's `Functor.reprX`) is Layer C's symmetric power
+  `Symᵈ X`: smooth and proper of dimension `d`, with `k'`-points the effective divisors of
+  degree `d` on `X_{k'}` for every field extension `k'` (Stacks
+  [0B9I](https://stacks.math.columbia.edu/tag/0B9I), stated there for geometrically irreducible
+  `X`). For a curve the construction needs no Quot
+  scheme: every finite set of points of the projective curve `X` lies in an affine open
+  (Stacks [0A26](https://stacks.math.columbia.edu/tag/0A26),
+  [01ZY](https://stacks.math.columbia.edu/tag/01ZY)), so the functor is glued from the
+  subfunctors of divisors contained in a fixed affine open (Stacks
+  [0B9A](https://stacks.math.columbia.edu/tag/0B9A)). The consumers in this layer are the
+  unnormalized Abel map `D ↦ 𝒪(D)` from `Hilbᵈ_{X/k}` to the degree-`d` piece of the Picard
+  sheaf and, with a section `x₀`, Tau Ceti's normalized `abelJacobiMapOfDegree`, which become
+  morphisms of schemes by Yoneda; `AJ_d` is surjective for `d ≥ g`, smooth for `d ≥ 2g − 1` and
+  birational for `d = g` (Stacks 0BA0). The neutral-component and properness items use these
+  Abel maps, and the Galois-descent item below uses them over `l`. *Needs:* Layer A, Layer C's symmetric
+  powers; Tau Ceti `relativeEffectiveCartierDegreeSubfunctor`, `abelJacobiMapOfDegree`; Mathlib
+  scheme gluing. **Checks:**
+  - `d = 0` gives `Spec k`; `d = 1` gives `X`, through the graph of a point (Tau Ceti's
+    `relativeEffectiveCartierDegreeOneSection` for a section).
+  - For `X = ℙ¹_k`, `Hilbᵈ` is `ℙᵈ_k` (binary forms of degree `d` up to scalars) and `AJ_d` is
+    the structure map to `Pic^d = Spec k`.
+  - Over `𝔽_q`, the rational points of `Hilbᵈ` are the effective divisors of degree `d` defined
+    over `𝔽_q`, not `d`-tuples of rational points: for `ℙ¹_{𝔽_q}` and `d = 2` there are
+    `q² + q + 1` of them, including the `(q² − q)/2` closed points of degree two.
+- **The Jacobian over any field, by Galois descent.** Drop the rational point: let `X/k` be
+  smooth, proper and geometrically connected of dimension one. Choose a finite Galois extension
+  `l/k` with `X(l)` nonempty (Stacks [056U](https://stacks.math.columbia.edu/tag/056U): closed
+  points with finite separable residue field are dense; take the Galois closure of one residue
+  field). The preceding items apply to `X_l` with an `l`-point: `Pic⁰_{X_l/l}` is a smooth,
+  projective, geometrically connected group scheme of dimension `g`. Tau Ceti's
+  `relativePicardDegreeZeroFunctorBaseChangeIso`, after sheafification, identifies `Pic⁰` of `X_l`
+  with `Pic⁰` of `X` restricted along `Over.map`, so the two pullbacks of `Pic⁰_{X_l/l}` to `Spec (l ⊗_k l)`
+  represent the same sheaf; uniqueness of representing objects gives a descent datum for
+  `Spec l ⟶ Spec k` in the sense of Tau Ceti's `DescentDatum`, whose cocycle condition is
+  automatic and which respects the group law (Stacks
+  [0CDR](https://stacks.math.columbia.edu/tag/0CDR) for its Galois form). Descend it: every
+  `Gal(l/k)`-orbit of points of the projective `Pic⁰_{X_l/l}` lies in an affine open (Stacks
+  01ZY), and intersecting the Galois conjugates gives a cover by stable affine opens; each
+  descends by Tau Ceti's `DescentDatum.exists_isAffine_baseChange_hom_isIso`, and the pieces glue
+  by Mathlib's scheme gluing. The descended `k`-scheme represents `relativePicardDegreeZeroFppfSheaf`
+  of `X → Spec k` on all test schemes (`jacobianVarietyRepresentableBy`), by the sheaf condition
+  along the fppf covering `Spec l ⟶ Spec k`; smoothness, properness and finite type descend
+  along `Spec l ⟶ Spec k` (SchemeAndStackFoundations §0.11), and geometric connectedness and
+  dimension `g` are statements after extension to an algebraic closure containing `l`. With the
+  group law transported by Yoneda this is `JacobianVariety X`, an abelian variety on Tau Ceti's
+  `AbelianVariety` carrier. Its definition uses no rational point and no choice of `l`: any two
+  choices are dominated by a third, and representing objects are unique up to unique
+  isomorphism. By `hasPicardScheme_of_curve` and the same uniqueness, `JacobianVariety X` is the
+  degree-zero piece of `picardScheme`. The `x₀`-pointed statements are theorems
+  about this object for every `k`-point `x₀`: the comparison with Tau Ceti's
+  `rigidifiedPicardDegreeZeroFunctor` (`rigidifiedPicardDegreeZeroFunctorIso`), the translated
+  Abel maps, and Layer F's Albanese property. *Needs:* the preceding items of this layer;
+  SchemeAndStackFoundations §0.11; Tau Ceti `DescentDatum`,
+  `DescentDatum.exists_isAffine_baseChange_hom_isIso`,
+  `relativePicardDegreeZeroFunctorBaseChangeIso`, `AbelianVariety`. **Checks:**
+  - A pointless real conic: `JacobianVariety` is `Spec ℝ`, the zero abelian variety, with
+    `l = ℂ`, although `X(ℝ)` is empty.
+  - Selmer's cubic `3x³ + 4y³ + 5z³ = 0` over `ℚ` has no rational point: `JacobianVariety` is
+    an elliptic curve over `ℚ` with its origin, so it is not isomorphic to `X` over `ℚ`, while
+    over any `l` with `X(l)` nonempty the translated `AJ_1` identifies `X_l` with the base change
+    of `JacobianVariety X` to `l`.
+  - When `X` has a `k`-point, `l = k` is allowed, the descent datum is trivial and the
+    construction is that of the preceding items.
 
 ### Layer E, abelian varieties
 - **Cube and square.** Prove the theorem of the cube for invertible sheaves on an
@@ -344,8 +565,8 @@ The part that the classical "Sym^g" story quietly relies on, so it comes *before
   proper geometrically integral group scheme is equivalently smooth, proper and
   geometrically connected. Consume its dimension, Hom and field-base-change APIs and
   rigidity-derived commutativity. Prove every such group scheme projective, without
-  using the dual construction; Layer D's smooth proper neutral component then defines
-  `Jac X` on this carrier (`JacobianVariety`), and its tangent comparison gives
+  using the dual construction. Layer D's `JacobianVariety`, the curve's smooth proper
+  neutral component, lies on this carrier, and its tangent comparison gives
   `dim (Jac X) = g`
   (Milne, *Abelian Varieties*, I §§1, 6, Theorem 6.4, pp. 9–10, 27–31). **Checks:**
   - The zero abelian variety is `Spec k` of dimension zero.
@@ -447,7 +668,9 @@ The part that the classical "Sym^g" story quietly relies on, so it comes *before
 
 ### Layer F, Abel–Jacobi and the universal property
 - **Abel–Jacobi and the Albanese property.** Define `abelJacobi`, written
-  `a : X ⟶ Jac X`, by `x ↦ 𝒪(x − x₀)` (Layer D's translated `AJ_1`), and prove
+  `a : X ⟶ Jac X`, by `x ↦ 𝒪(x − x₀)` (Layer D's translated `AJ_1`): under
+  `jacobianVarietyRepresentableBy` its map on `T`-points is Tau Ceti's
+  `abelJacobiMapToPicZeroFppf`, and `JacobianVariety` itself does not depend on `x₀`. Prove
   `a(x₀) = 0`. For every abelian variety `A` and pointed morphism
   `f : (X, x₀) → (A, 0)`, prove there is a unique homomorphism of abelian varieties
   `φ : Jac X → A` with `f = φ ∘ a` (the Albanese property; for a curve `Jac = Alb`).
@@ -485,10 +708,11 @@ A finished construction must pass sanity checks that rule out vacuous definition
 
 ## Scope and caveats (Kevin Buzzard)
 
-- **The `k`-rational point is assumed.** Without it, `x ↦ 𝒪_X(x)` maps `X` into `Pic¹`,
-  which is a **torsor under `Pic⁰`** and may have no `k`-point; `Pic⁰` (the Jacobian) still
-  *exists*, but `aj` and the clean functor-of-points picture need `x₀`. The torsor / `Pic¹`
-  / Albanese-torsor story is the **v2** generalization, out of scope for v1.
+- **The `k`-rational point is assumed for the Abel–Jacobi map.** The Jacobian itself is
+  built without it (Layer D, by Galois descent) and represents `Pic⁰` on all test schemes.
+  Without `x₀`, `x ↦ 𝒪_X(x)` maps `X` into `Pic¹`, which is a **torsor under `Pic⁰`** and may
+  have no `k`-point, so `aj` and its universal property need `x₀`. The torsor / `Pic¹` /
+  Albanese-torsor story is the **v2** generalization, out of scope for v1.
 - **Jacobian ≠ Albanese in general.** Canonically isomorphic for curves but with *opposite*
   functorialities (`Pic⁰` contravariant; Albanese covariant). Keep them distinct in v2.
 - **Imperfect fields:** use "geometrically connected/integral", not bare connectedness;
