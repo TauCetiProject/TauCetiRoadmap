@@ -254,7 +254,7 @@ Supporting statements:
 - The site `(X_ét, J_S)` attached to `X` and `S ⊆ |X|`.
 - The Grothendieck topology `J_S` on `X_ét`.
 - `A` sieve `R` on `U` is `J_S`-covering iff `u⁻¹(S) ⊆ ⋃_{f ∈ R} f(|V|)`.
-- SmallEtaleTopology `X ≤ J_S`.
+- Every covering sieve of the small étale topology of `X` is `J_S`-covering (the étale topology is coarser than `J_S`).
 - `i_S⁻¹` (`J_S`-sheafification, exact) `⊣ i_{S,*}` (inclusion of `J_S`-sheaves).
 - The point of `(X, S)_ét` attached to a geometric point with support in `S`.
 - Geometric points with support in `S` form a conservative family of points.
@@ -1212,7 +1212,7 @@ Supporting statements:
 
 *Needs:* Section 2.1; `AdicSpacesPartII`, layer R0 (`locally-noetherian-adic-space`); `SchemeAndStackFoundations`, Layer 0, Sections 0.12–0.13 (`Henselization.algebra`); the supplier contracts; Tau Ceti `TauCeti.ValuationSpectrum.spa_integralClosure`.
 
-For the model system in perfectoid-noetherian-approximation, `X = Spa(R[1/p],R)` satisfies `X ∼ lim_j X_j`: its underlying topological space is the inverse limit of `|X_j|`, rational subsets are pulled back from a finite stage, and the colimit of finite-stage rings of sections has dense image on rational affinoids. These are the separate topological and density clauses of HuberTildeLimit; no universal mapping property of an ordinary inverse limit is asserted.
+For the model system in perfectoid-noetherian-approximation, `X = Spa(R[1/p],R)` satisfies `X ∼ lim_j X_j`: its underlying topological space is the inverse limit of `|X_j|`, rational subsets are pulled back from a finite stage, and the colimit of finite-stage rings of sections has dense image on rational affinoids. These are the separate topological and density clauses of the ordinary tilde-limit predicate (`AdicSpacesPartII`, §§R0.20.1–R0.20.2); no universal mapping property of an ordinary inverse limit is asserted.
 
 (Kęstutis Česnavičius, Purity for the Brauer group, §4.10, proof of Theorem 4.10, p. 10; Kęstutis Česnavičius, Purity for the Brauer group, §4.10, proof of Theorem 4.10, (4.10.6), p. 10.)
 
@@ -1329,7 +1329,7 @@ The closed unit disc `Spa(K⟨T⟩, K°⟨T⟩)` and every affinoid adic space a
 
 *Needs:* `AdicSpacesPartII`, §R0.0 (`locally-spectral-space`); `AdicSpacesPartII`, layer R0 (`partially-proper-closure-quasi-compact`); Mathlib QuasiSeparatedSpace; Mathlib IsCompact; Mathlib closure; `AdicSpacesPartII`, §R0.0 `IsLocallySpectralMap`; Mathlib IsSpectralMap for the quasi-compact cases.
 
-Starting with the affinoid spectra `M(A)` of the affinoid-spectrum supplier, define `StrictAnalyticSpace K` by strict affinoid atlases and compatible analytic-domain identifications on intersections, with refinement equivalence; require the resulting topological space to be Hausdorff. Morphisms are locally analytic maps compatible with domain refinements. Define quasi-étale and quasi-smooth morphisms by their local affinoid presentations, and étale and smooth morphisms by the respective additional absence of relative boundary. Prove that gluing the affinoid correspondence `M(A)↔Spa(A,A°)` gives an equivalence with taut adic spaces locally of finite type over `Spa(K,O_K)`. Write `u` for the Berkovich realization and `s₀` for its inverse. The underlying space of `u(X)` is `X_max` with the maximal Hausdorff quotient topology. `A` partially proper adic map realizes as a boundaryless map; a proper map realizes as a proper map. Adic étale and smooth maps realize as quasi-étale and quasi-smooth maps; partial properness upgrades these to étale and smooth maps.
+Starting with the affinoid spectra `M(A)` of the affinoid-spectrum supplier, define the strict analytic spaces over `K` by strict affinoid atlases and compatible analytic-domain identifications on intersections, with refinement equivalence; require the resulting topological space to be Hausdorff. Morphisms are locally analytic maps compatible with domain refinements. Define quasi-étale and quasi-smooth morphisms by their local affinoid presentations, and étale and smooth morphisms by the respective additional absence of relative boundary. Prove that gluing the affinoid correspondence `M(A)↔Spa(A,A°)` gives an equivalence with taut adic spaces locally of finite type over `Spa(K,O_K)`. Write `u` for the Berkovich realization and `s₀` for its inverse. The underlying space of `u(X)` is `X_max` with the maximal Hausdorff quotient topology. `A` partially proper adic map realizes as a boundaryless map; a proper map realizes as a proper map. Adic étale and smooth maps realize as quasi-étale and quasi-smooth maps; partial properness upgrades these to étale and smooth maps.
 
 This uses `K` complete, nontrivially rank-one valued; strict analytic spaces Hausdorff; the adic spaces taut and locally of finite type over `Spa(K,O_K)`.
 
@@ -2050,7 +2050,7 @@ Supporting statements:
 
 ### 4.2 Pairs and full specialization supports
 
-`A` pair `(X, L)` consists of a formal scheme `X` of type `(S)` and a subset `L ⊆ |X| (= |X_red|)`. A morphism of pairs `f`: (X', L') `→ (X, L)` is a morphism of formal schemes `f`: X' `→ X` with `f(L') ⊆ L`; it is adic when `f` is. The support space of `(X, L)` is the prepseudo-adic space `d(X, L) := (d(X), λ_X⁻¹(L))`: the adic space `d(X)` (`AdicSpacesPartIII`, layer R2 (`generic-fibre-functor-d`)) together with the subset `λ_X⁻¹(L)` of its underlying space (`λ_X` the continuous map of `AdicSpacesPartIII`, layer R2 (`specialisation-map`)). Since `λ_X` is spectral on affine formal opens (Huber (1.9.3)), `λ_X⁻¹(L)` is convex and locally pro-constructible whenever `L` is, and then `d(X, L)` is a pseudo-adic space (the carrier of Section 1.2). In particular `d(X, L)` is pseudo-adic for every locally closed `L ⊆ |X|`, the case used in 3.5.6–3.5.16 (with the convention that local pro-constructibility of a subset `S` is tested on spectral open neighbourhoods of the points of `S`, under which locally closed subsets of locally spectral spaces qualify; this is weaker than the test on every spectral open of `AdicSpacesPartII`, §R0.19.2 (`pro-constructible-subsets`), and the predicate IsPseudoAdic of Section 1.2, whose stated sufficient condition is 'locally closed and constructible', must use the same convention; when `|X|` is locally noetherian, `e.g`. `X` locally noetherian or locally tf over `O_K`, locally closed subsets are locally constructible and the conventions agree). An adic morphism of pairs induces `d(f): d(X', L') → d(X, L)`, because `λ_X ∘ d(f) = f ∘ λ_{X'}`. Pinned conventions: the support is the full preimage `λ_X⁻¹(L)`, not the tube ]`L`[ `=` interior of `λ_X⁻¹(L)` of `AdicSpacesPartIII`, layer R2 (`tube`); `d(X, |X|) = d(X)` as a pseudo-adic space; for L' `⊆ L` the identity of `X` is a morphism of pairs `i`: (`X`, L') `→ (X, L)` and `d(i)` is the inclusion of supports.
+`A` pair `(X, L)` consists of a formal scheme `X` of type `(S)` and a subset `L ⊆ |X| (= |X_red|)`. A morphism of pairs `f`: (X', L') `→ (X, L)` is a morphism of formal schemes `f`: X' `→ X` with `f(L') ⊆ L`; it is adic when `f` is. The support space of `(X, L)` is the prepseudo-adic space `d(X, L) := (d(X), λ_X⁻¹(L))`: the adic space `d(X)` (`AdicSpacesPartIII`, layer R2 (`generic-fibre-functor-d`)) together with the subset `λ_X⁻¹(L)` of its underlying space (`λ_X` the continuous map of `AdicSpacesPartIII`, layer R2 (`specialisation-map`)). Since `λ_X` is spectral on affine formal opens (Huber (1.9.3)), `λ_X⁻¹(L)` is convex and locally pro-constructible whenever `L` is, and then `d(X, L)` is a pseudo-adic space (the carrier of Section 1.2). In particular `d(X, L)` is pseudo-adic for every locally closed `L ⊆ |X|`, the case used in 3.5.6–3.5.16 (with the convention that local pro-constructibility of a subset `S` is tested on spectral open neighbourhoods of the points of `S`, under which locally closed subsets of locally spectral spaces qualify; this is weaker than the test on every spectral open of `AdicSpacesPartII`, §R0.19.2 (`pro-constructible-subsets`), and the pseudo-adic predicate of Section 1.2, whose stated sufficient condition is 'locally closed and constructible', must use the same convention; when `|X|` is locally noetherian, `e.g`. `X` locally noetherian or locally tf over `O_K`, locally closed subsets are locally constructible and the conventions agree). An adic morphism of pairs induces `d(f): d(X', L') → d(X, L)`, because `λ_X ∘ d(f) = f ∘ λ_{X'}`. Pinned conventions: the support is the full preimage `λ_X⁻¹(L)`, not the tube ]`L`[ `=` interior of `λ_X⁻¹(L)` of `AdicSpacesPartIII`, layer R2 (`tube`); `d(X, |X|) = d(X)` as a pseudo-adic space; for L' `⊆ L` the identity of `X` is a morphism of pairs `i`: (`X`, L') `→ (X, L)` and `d(i)` is the inclusion of supports.
 
 This uses `X` of type `(S)`; `L ⊆ |X|` arbitrary for the prepseudo-adic space, convex and locally pro-constructible (`e.g`. locally closed) for the pseudo-adic space; Pseudo-adic spaces, their morphisms and étale sites are owned by Section 1.2 and Section 1.2 (the supported site of Section 1.2); this assertion only produces objects of that category.
 
@@ -2157,7 +2157,7 @@ This uses `L` locally closed, or a single point; Imports (scheme level, `SchemeA
 
 *Needs:* Section 4.2; Section 4.1; `SchemeAndStackFoundations`, Layer 2; Mathlib CategoryTheory.Functor.IsDenseSubsite; Mathlib CategoryTheory.Functor.IsDenseSubsite.sheafEquiv; Mathlib AlgebraicGeometry.Scheme.smallEtaleTopology.
 
-Let `B` be a complete microbial valuation ring (Wedhorn Definition 5.46) with algebraically closed fraction field `C`, and `X = Spf B` with the valuation topology (of type `(S)`: `AdicSpacesPartIII`, layer R2 (`formal-schemes-of-type-S`), API `spf_microbial`). Then (i) `d(X) = Spa(C, B)` and `λ_X: d(X) → |X|` is a homeomorphism: both are the chain of valuation rings `V` with `B ⊆ V ⊆ C° ↔` primes `p` of `B` containing the height-one prime `q = √`(sB) `(V = B_p)`; (ii) `X_red = Spec(B/q)` with `B/q` a valuation ring whose fraction field is algebraically closed, hence a strictly henselian local ring, and every étale morphism into `X_red`, into `X`, or into `d(X)` has, through every point over the closed point, a section which is an open immersion (`AdicEtaleGeometry`, layer A1 (`geometric-point-etale-split`) for `d(X)`); (iii) consequently, for sheaves `F` on `X_et` and `G` on `d(X)_et`, the stalk of `F` at the closed point is `F(X)`, the stalk of `G` at the closed point of `Spa(C, B)` is `G(d(X))`, and `(λ_X^*F)_{closed} ≅ F(X)`.
+Let `B` be a complete microbial valuation ring (Wedhorn Definition 5.46) with algebraically closed fraction field `C`, and `X = Spf B` with the valuation topology (of type `(S)`: `AdicSpacesPartIII`, layer R2 (`formal-schemes-of-type-S`), API `IsTypeS.spf_microbial`). Then (i) `d(X) = Spa(C, B)` and `λ_X: d(X) → |X|` is a homeomorphism: both are the chain of valuation rings `V` with `B ⊆ V ⊆ C° ↔` primes `p` of `B` containing the height-one prime `q = √`(sB) `(V = B_p)`; (ii) `X_red = Spec(B/q)` with `B/q` a valuation ring whose fraction field is algebraically closed, hence a strictly henselian local ring, and every étale morphism into `X_red`, into `X`, or into `d(X)` has, through every point over the closed point, a section which is an open immersion (`AdicEtaleGeometry`, layer A1 (`geometric-point-etale-split`) for `d(X)`); (iii) consequently, for sheaves `F` on `X_et` and `G` on `d(X)_et`, the stalk of `F` at the closed point is `F(X)`, the stalk of `G` at the closed point of `Spa(C, B)` is `G(d(X))`, and `(λ_X^*F)_{closed} ≅ F(X)`.
 
 This uses `B` complete microbial valuation ring, Frac `B = C` algebraically closed; any rank; Henselianity of `B/q`: a valuation ring with algebraically closed fraction field is henselian (every finite extension of its fraction field is trivial), and its residue field (that of `B`) is algebraically closed.
 
@@ -2536,7 +2536,7 @@ This uses `K/ℚ_p` finite; `F ⊆ K` a subfield (hence also finite over `ℚ_p`
 Supporting statements:
 
 - The predicate: a Zariski cover by opens with étale maps to standard charts `Spf(O_K{X_1,…,X_n}/(X_1⋯X_r − ϖ_K))`.
-- `A` Zariski cover with étale maps to standard charts gives IsSemistable.
+- `A` Zariski cover with étale maps to standard charts makes the formal scheme semistable (the defining property).
 - If `𝔘 → 𝔛` is étale and `𝔛` is semistable then `𝔘` is semistable.
 - The local class: Zariski-locally étale over `Spf(O_K{X_1,…,X_n}/(X_1⋯X_r − ϖ_F))` for a fixed subfield `F`; stable under étale maps `(of_etale)` and containing both global classes.
 - `𝔛 ≅ 𝔛′ ×_{Spf O_F} Spf O_K` with `𝔛′` semistable over `O_F, F ⊆ K`.
@@ -2888,14 +2888,14 @@ Supporting statements:
 - The square (`g`, f', `f, h`) is a pullback square of schemes.
 - The local homomorphism `O_{S,s}` -`> O_{S',s'}` is injective.
 - `g_s: X'_{s'}` -`> X_s`, the induced morphism of fibres; for Cartesian `φ, X'_{s'} ≅ X_s ×_{k(s)} k(s')`.
-- For `h`: S' -`> S` and `ι`, the Cartesian morphism from ValuationQuadruple.baseChange.
+- For `h`: S' -`> S` and `ι`, the Cartesian morphism from the base change of the quadruple along `h` (Section 5.1).
 
 **Checks.**
 
 - For the identity morphism, `φ_`# is the identity of `Gal(L/k(η))` and `h̃` is the identity of `S(η̄)`.
 - For the integral closure V' of a strictly henselian discrete valuation ring `V` in a finite separable K'/`K`, with `ι = id_L, φ_`#: `Gal(L/K')` -`> Gal(L/K)` is the inclusion and its image has index [K' : `K`].
 - The inclusion `Spec K` -`> Spec V` (`V` a strictly henselian valuation ring that is not a field, with `K =` Frac `V` separably closed, `e.g`. `V = O_C`, so that the source is a quadruple) does not underlie a morphism of quadruples (`X_K, Spec K`, pt, pt) -`>` (`X, Spec V`, generic, closed): the point pt would have to map to the closed point.
-- The morphism ValuationQuadruple.baseChange -`>` original, built from `h`: S' -`> S`, is Cartesian, and every Cartesian morphism with base `h` is isomorphic to it.
+- The morphism from the base change of the quadruple along `h` to the original quadruple, built from `h`: S' -`> S`, is Cartesian, and every Cartesian morphism with base `h` is isomorphic to it.
 
 For a strictly henselian discrete valuation ring `V`, a finite separable extension K'/`K` and V' the integral closure of `V` in K' (again a strictly henselian discrete valuation ring), (`X ×_V` V', `Spec` V', generic, closed, `L`) -`>` (`X, Spec V`, generic, closed, `L`) with `ι =` id is a Cartesian dominant morphism and `φ_`# is the inclusion of the open subgroup `Gal(L/K') ⊆ Gal(L/K)`.
 
@@ -4105,7 +4105,7 @@ For `g=`id, recover extension by zero; omit the inverse-image equality and the s
 
 The curve compactification constructions use the following geometric inputs, with the following scopes.
 
-Define `RelativelyCompactRigidOpen U X S` for a qcqs rigid base `S` and a qc open `U⊆X`: some admissible formal `S`-model induces `U` as a formal open whose schematic special-fibre closure is proper over the special fibre of `S`. Define the corresponding subset condition by containment in such an open. Keep the chosen model as witness data, and prove independence under common admissible refinements. (Lütkebohmert (1995), Definition 7.1, pp. 211–212.)
+Define the relatively compact rigid opens `U ⊆ X` over a qcqs rigid base `S`, for a qc open `U⊆X`: some admissible formal `S`-model induces `U` as a formal open whose schematic special-fibre closure is proper over the special fibre of `S`. Define the corresponding subset condition, relative compactness of a subset of `X` over `S`, by containment in such an open. Keep the chosen model as witness data, and prove independence under common admissible refinements. (Lütkebohmert (1995), Definition 7.1, pp. 211–212.)
 
 Supporting statements: existence of a witnessing formal model, stability under admissible refinement of that model, downward closure in `U`, restriction to an intermediate ambient open when the closure is retained, and compatibility with products over the base. For polydiscs over a complete DVR field, record the strict inequality criterion of Lemma 7.3, p. 212: in the coordinates transverse to the base, every smaller radius must be strictly below the larger radius.
 
@@ -4345,11 +4345,11 @@ Identity `j` yields the identity transformation, and a finite étale split cover
 
 *Needs:* `AdicSpacesPartII`, layer R0 (`universally-closed-and-proper-morphism`); `AdicSpacesPartII`, layer R0 (`etale-local-open-finite-etale-factorisation`); Section 1.1; Section 1.2; Section 1.5; `AdicEtaleGeometry`, layer A1 (`etale-site-and-geometric-points`); `EnhancedDerivedSheaves`, §§0.1–0.4 (presentability and the derived tensor product).
 
-Let `f : X → Y` be compactifiable and quasi-compact, and let `f = p ∘ i` be any factorisation with `i : X → P` a quasi-compact open immersion and `p : P → Y` proper. Then there is a canonical isomorphism `R⁺f_`! `≅ Rp_* ∘ i_`! of functors `D⁺(X_ét, Λ) → D⁺(Y_ét, Λ)`, for every ring `Λ` with `nΛ = 0` for an integer `n ≥ 1` invertible in `O_Y⁺`, and these isomorphisms are compatible with morphisms of factorisations (a proper `Y`-morphism `h : P →` P' with `h ∘ i =` i') and transitive for composites of such morphisms.
+Let `f : X → Y` be compactifiable and quasi-compact, and let `f = p ∘ i` be any factorisation with `i : X → P` a quasi-compact open immersion and `p : P → Y` proper. Then there is a canonical isomorphism `R⁺f_`! `≅ Rp_* ∘ i_`! of functors `D⁺(X_ét, Λ) → D⁺(Y_ét, Λ)`, for every ring `Λ` with `nΛ = 0` for some integer `n ≥ 1` (no invertibility of `n` is assumed), and these isomorphisms are compatible with morphisms of factorisations (a proper `Y`-morphism `h : P →` P' with `h ∘ i =` i') and transitive for composites of such morphisms.
 
-This uses `f` compactifiable and quasi-compact; `i` a quasi-compact open immersion, `p` proper; `Λ` a ring with `nΛ = 0` for an integer `n ≥ 1` invertible in `O_Y⁺` (equivalently, `n` prime to the residue characteristic of every point of `Y`).
+This uses `f` compactifiable and quasi-compact; `i` a quasi-compact open immersion, `p` proper; `Λ` a ring with `nΛ = 0` for some integer `n ≥ 1`, with no invertibility hypothesis: for a morphism of factorisations `h` the comparison `Rp'_* ∘ i'_! ≅ Rp'_* ∘ Rh_* ∘ i_! = Rp_* ∘ i_!` reduces, through the common refinements of Section 8.2, to the proper–étale exchange `j_! ∘ Rg_* ≅ Rf_* ∘ j'_!` of this section, which holds for every `n > 0`; Zavyalov's Step 1 is the same construction in the range `n` invertible in `O_Y⁺`.
 
-(Bogdan Zavyalov, Some foundational results in adic geometry, proof of Theorem 9.4, Step 1, p. 28; Bogdan Zavyalov, Some foundational results in adic geometry, proof of Theorem 9.4, Step 5, p. 30; Scholze, Étale cohomology of diamonds, Definition 22.4, p. 129.)
+(Huber (1996), §5.4, Theorem 5.4.3; Bogdan Zavyalov, Some foundational results in adic geometry, Proposition 9.3(1), pp. 26–27; Bogdan Zavyalov, Some foundational results in adic geometry, proof of Theorem 9.4, Step 1, p. 28; Bogdan Zavyalov, Some foundational results in adic geometry, proof of Theorem 9.4, Step 5, p. 30; Scholze, Étale cohomology of diamonds, Definition 22.4, p. 129.)
 
 `X = B_S` the closed ball over `S = Spa(C, C⁺), P = P¹_S, i` the inclusion `{|T| ≤ 1} ⊆ P¹: R⁺f_`!`Λ ≅ R(p)_* i_`!`Λ`, which computes `H^q_c(B_S)` from `P¹_S` and the pseudo-adic complement `{|T| > 1}`‾. For `f` proper and the trivial factorisation, the isomorphism is the identity of `Rf_*`.
 
@@ -4357,7 +4357,7 @@ This uses `f` compactifiable and quasi-compact; `i` a quasi-compact open immersi
 
 Let `f : X → Y` be compactifiable with `Y` quasi-compact and quasi-separated, and `Λ` a ring. For `K ∈ D⁺(X_ét, Λ)` the maps `R⁺f_`!`(j_{U!}(K|_U)) → R⁺f_`!`K` induced by the counits `j_{U!}j_U^*K → K`, for `U` ranging over the filtered system of quasi-compact open subsets of `X`, induce an isomorphism `colim_U R⁺f_`!`(j_{U!}(K|_U)) ≅ R⁺f_`!`K`; in each degree `R^q f_`!`K = colim_U R^q f_`!`(j_{U!}(K|_U))`. Combined with Section 8.3, `R⁺f_`!`(j_{U!}(K|_U)) ≅ R⁺(f|_U)_!(K|_U)`, so `R⁺f_`! is the colimit of the proper-support direct images of the quasi-compact opens.
 
-This uses `f` compactifiable; `Y` qcqs (the statement is local on `Y`); `K` bounded below; for arbitrary `Λ` the derived statement rests on Hub96 §5.3; the public proof needs `nΛ = 0` with `n` invertible in `O_Y⁺` (Zavyalov, Theorem 9.4).
+This uses `f` compactifiable; `Y` qcqs (the statement is local on `Y`); `K` bounded below; for arbitrary `Λ` the derived statement rests on Hub96 §5.3; the route here is the factorisation `R⁺f_`! `= Rp_* ∘ i_`! of this section, the sheaf identity `colim_U i_!j_{U!}j_U^*K ≅ i_!K`, and the commutation of `Rp_*` with filtered colimits on coherent sites (`DiamondsAndVStacks`, layer D0), with no invertibility hypothesis; Zavyalov's Step 5 proves it in the range `n` invertible in `O_Y⁺`.
 
 (Bogdan Zavyalov, Some foundational results in adic geometry, proof of Theorem 9.4, Step 5, p. 30; Berkovich (1993), Proposition 5.2.8, p. 101.)
 
@@ -4365,11 +4365,11 @@ For the open unit disc `D` over `Spa(C, O_C), H²_c(D, μ_n) = colim_{r<1} H²_c
 
 *Needs:* Section 8.3; Section 1.2; `DiamondsAndVStacks`, layer D0 (`filtered-colimits-and-cohomology-on-coherent-sites`).
 
-Let `f : X → Y` and `g : Y → Z` be compactifiable morphisms of locally noetherian analytic adic spaces and `Λ` a ring with `nΛ = 0` for an integer `n ≥ 1` invertible in `O_Z⁺` (equivalently, `n` prime to the residue characteristic of every point of `Z`). There is a canonical isomorphism `R⁺(g ∘ f)_! ≅ R⁺g_`! `∘ R⁺f_`! of functors `D⁺(X_ét, Λ) → D⁺(Z_ét, Λ)`, associative for triples and unital (`R⁺id_`! `=` id), and compatible with the forget-supports maps to `R⁺(g ∘ f)_* ≅ R⁺g_* ∘ R⁺f_*`.
+Let `f : X → Y` and `g : Y → Z` be compactifiable morphisms of locally noetherian analytic adic spaces and `Λ` a ring with `nΛ = 0` for some integer `n ≥ 1`; no invertibility of `n` in `O_Z`, `O_Z⁺` or anywhere else is assumed, and this is the one hypothesis set under which the composition isomorphism is stated in this roadmap (Sections 8.5 and 9.5 cite it). There is a canonical isomorphism `R⁺(g ∘ f)_! ≅ R⁺g_`! `∘ R⁺f_`! of functors `D⁺(X_ét, Λ) → D⁺(Z_ét, Λ)`, associative for triples and unital (`R⁺id_`! `=` id), and compatible with the forget-supports maps to `R⁺(g ∘ f)_* ≅ R⁺g_* ∘ R⁺f_*`.
 
-This uses `f, g` compactifiable; `n` invertible in `O_Z⁺` (and hence in `O_Y⁺, O_X⁺`).
+This uses `f, g` compactifiable; `n > 0` arbitrary. Route for quasi-compact `f, g`: factor `f = p ∘ i` and `g = q ∘ i'` as in Section 8.1 (`i : X → P`, `i' : Y → P'` quasi-compact open immersions, `p : P → Y`, `q : P' → Z` proper), so that `R⁺g_! ∘ R⁺f_! = Rq_* ∘ i'_! ∘ Rp_* ∘ i_!`; compactify `p` over `P'` (Section 8.2) and replace the compactification by the closure of `P`, which is clopen in the fibre over `Y` because `p` is proper, to get a proper `p̄ : P̄ → P'` with `P̄ ×_{P'} Y = P` and an open immersion `i'' : P → P̄`; the proper–étale exchange `i'_! ∘ Rp_* ≅ Rp̄_* ∘ i''_!` of this section (Zavyalov, Proposition 9.3(1), for every `n > 0`) turns the composite into `R(q ∘ p̄)_* ∘ (i'' ∘ i)_!`, a factorisation of `g ∘ f` as in Section 8.1, and the independence of the factorisation above identifies it with `R⁺(g ∘ f)_!`. For general compactifiable `f, g` the colimit description over quasi-compact opens of this section reduces to the quasi-compact case, as Zavyalov's Steps 2–3 extend his formalism. Zavyalov's Theorem 9.4 proves the same composition law inside a six-functor formalism in the range `n` invertible in `O_Z⁺`; the invertibility there is used for proper base change along arbitrary morphisms (his Lemma 9.1(3)), not for this composition.
 
-(Bogdan Zavyalov, Some foundational results in adic geometry, proof of Theorem 9.4, Step 5, p. 30; Scholze, Étale cohomology of diamonds, Proposition 22.9, p. 132.)
+(Huber (1996), §5.4, Theorem 5.4.3; Bogdan Zavyalov, Some foundational results in adic geometry, Proposition 9.3(1), pp. 26–27; Bogdan Zavyalov, Some foundational results in adic geometry, proof of Theorem 9.4, Step 5, p. 30; Scholze, Étale cohomology of diamonds, Proposition 22.9, p. 132.)
 
 For `X → Y` the inclusion of the open unit disc into the closed unit disc over `Spa(C, O_C)` and `g` the structure map, `R⁺(g ∘ f)_!Λ ≅ R⁺g_`!`(j_!Λ)`, giving `H²_c(D, μ_n) ≅ H²_c(B, j_!μ_n) ≅ ℤ/n`.
 
@@ -4465,9 +4465,9 @@ This uses Unbounded derived tensor and the ordinary/enhanced comparison come fro
 
 ### 8.5 Localization, descent and enhanced functors
 
-Let `f : X → Y` be compactifiable, `U ⊆ X` an open subspace with taut source (so `f_U = f|_U` is compactifiable), `Z = X ∖ U` with its pseudo-adic support structure (the supplier contracts), and `Λ` a ring with `nΛ = 0` for an integer `n ≥ 1` invertible in `O_Y⁺` (needed for the composition isomorphism `R⁺f_`! `∘ j_`! `≅ R⁺(f_U)_!`). For `K ∈ D⁺(X_ét, Λ)` there is a distinguished triangle `R⁺(f_U)_!(K|_U) → R⁺f_`!`K → R⁺f_`!`(i_{Z*}i_Z^*K) → R⁺(f_U)_!(K|_U)[1]`, natural in `K`. For `Y = Spa(C, C⁺)` this is the long exact sequence `⋯ → H^q_c(U, K) → H^q_c(X, K) → H^q_c((X, Z), K) → H^{q+1}_c(U, K) → ⋯`, where `H^q_c((X, Z), K) := H^q(Y, R⁺f_!(i_{Z*}i_Z^*K))` is the compactly supported cohomology of the pseudo-adic `Z`.
+Let `f : X → Y` be compactifiable, `U ⊆ X` an open subspace with taut source (so `f_U = f|_U` is compactifiable), `Z = X ∖ U` with its pseudo-adic support structure (the supplier contracts), and `Λ` a ring with `nΛ = 0` for some integer `n ≥ 1`, the hypothesis of the composition isomorphism of Section 8.3, which applied to `f_U = f ∘ j_U` (with `j_U` an open immersion with taut source, hence compactifiable, and `R⁺j_{U!} = j_{U!}` by the étale case of Section 8.3) gives `R⁺f_`! `∘ j_{U!} ≅ R⁺(f_U)_!`. For `K ∈ D⁺(X_ét, Λ)` there is a distinguished triangle `R⁺(f_U)_!(K|_U) → R⁺f_`!`K → R⁺f_`!`(i_{Z*}i_Z^*K) → R⁺(f_U)_!(K|_U)[1]`, natural in `K`. For `Y = Spa(C, C⁺)` this is the long exact sequence `⋯ → H^q_c(U, K) → H^q_c(X, K) → H^q_c((X, Z), K) → H^{q+1}_c(U, K) → ⋯`, where `H^q_c((X, Z), K) := H^q(Y, R⁺f_!(i_{Z*}i_Z^*K))` is the compactly supported cohomology of the pseudo-adic `Z`.
 
-This uses `U` open with `f|_U` compactifiable (`e.g`. `U` quasi-compact); `Z` is never treated as an adic subspace; `Λ` a ring with `nΛ = 0` for an integer `n ≥ 1` invertible in `O_Y⁺` (lower-shriek-composition).
+This uses `U` open with `f|_U` compactifiable (`e.g`. `U` quasi-compact); `Z` is never treated as an adic subspace; `Λ` a ring with `nΛ = 0` for some integer `n ≥ 1`, as in the composition isomorphism of Section 8.3.
 
 (Berkovich (1993), Proposition 5.2.6(ii), p. 100; Scholze, Étale cohomology of diamonds, Remark 19.3, p. 108.)
 
@@ -4485,13 +4485,13 @@ For étale `f` the comparison preserves the summation counit, not just the under
 
 *Needs:* Section 8.4; Section 8.3; `EnhancedDerivedSheaves`, §§0.1–0.4; `EnhancedDerivedSheaves`, §§0.1–0.4 (presentability and the derived tensor product).
 
-Let `Λ=Z/n, n>0` invertible in `O_Y`, and let `f:X→Y` and `g:Y→Z` be separated taut locally finite type maps of locally noetherian analytic adic spaces, with `n` invertible in `O_Z` when composing. For the inherited classical bounded-below support functors there are natural, unital and associative comparisons `R⁺(g∘f)`!`≅R⁺g`!`R⁺f`!, compatible with the proper and exact étale cases, forget-supports maps and Tate twists. Open/pseudo-adic-closed localization holds in this coefficient range. Taut open-cover support descent, including infinite covers by quasi-compact opens, gives the support Čech spectral sequence used to glue top-degree traces. These comparisons are coherent with the canonical weak base-change transformations; this statement does not assert that arbitrary base-change transformations are isomorphisms.
+Let `Λ=Z/n` with `n>0`, and let `f:X→Y` be a separated taut locally finite type map of locally noetherian analytic adic spaces. The composition isomorphisms `R⁺(g∘f)`!`≅R⁺g`!`R⁺f`! for the inherited classical bounded-below support functors, with their compatibility with the proper and exact étale cases, forget-supports maps and Tate twists, are those of Section 8.3, and the open/pseudo-adic-closed localization is the triangle above; both hold for every `n>0` and are not restated here. Taut open-cover support descent, including infinite covers by quasi-compact opens, gives the support Čech spectral sequence used to glue top-degree traces: for a cover `X = ⋃ᵢ Uᵢ` by opens with taut inclusions `jᵢ`, the Čech complex of the `R⁺(f|_{U_{i₀⋯i_q}})_!(K|)` with the étale counits as differentials computes `R⁺f_!K`. These comparisons are coherent with the canonical weak base-change transformations; this statement does not assert that arbitrary base-change transformations are isomorphisms.
 
 This uses Only `D⁺` support calculus is asserted. Constant complexes and their shifts used by the smooth trace lie in this range; The operators are the inherited proper-support functors, not a second construction of analytic cohomology.
 
-(Shizhang Li, Emanuel Reinecke and Bogdan Zavyalov, Relative Poincaré duality in nonarchimedean geometry, Lemma 6.1.3, pp. 67–68; Lemma 6.1.6, pp. 69–70; Theorem 6.1.1 proof, pp. 73–74; Bogdan Zavyalov, Some foundational results in adic geometry, Lemma 9.2 and Proposition 9.3(1)–(2), pp. 25–27.)
+(Shizhang Li, Emanuel Reinecke and Bogdan Zavyalov, Relative Poincaré duality in nonarchimedean geometry, §6 convention and Lemma 6.1.3, pp. 66–68; Theorem 6.1.1 proof, pp. 73–74; Bogdan Zavyalov, Some foundational results in adic geometry, Lemma 9.2 and Proposition 9.3(1)–(2), pp. 25–27.)
 
-`A` mixed-characteristic `n=p` affine chart must not invoke an `O⁺`-restricted support-composition theorem. The support Čech abutment uses `Λ_X`; the open-ring calculus does not imply residue-`p` base-change isomorphisms.
+`A` mixed-characteristic `n=p` affine chart uses the composition isomorphism of Section 8.3 as it stands, since that isomorphism carries no invertibility hypothesis. The support Čech abutment uses `Λ_X`; the open-ring calculus does not imply residue-`p` base-change isomorphisms.
 
 *Needs:* Section 8.3; Section 8.2; Section 8.4; the supplier contracts; Section 1.2; Layers 1 and 3; `EnhancedDerivedSheaves`, §§0.1–0.4.
 
@@ -5076,7 +5076,7 @@ The smooth relative trace is compatible with the reduction maps `ℤ/p^{r+1}(d)�
 
 *Needs:* Section 9.5; Section 9.1; Section 9.4.
 
-For `f:X→Y` separated taut smooth of equidimension `d` and `n` invertible in `O_Y`, suppose `g₁,g₂:X→Aᵈ,an_Y` are étale `Y`-maps. The maps Rf!`Λ(d)[2d]→Rπ`!`Λ(d)[2d]→Λ` obtained from the two étale counits and AffineSpaceTrace are equal.
+For `f:X→Y` separated taut smooth of equidimension `d` and `n` invertible in `O_Y`, suppose `g₁,g₂:X→Aᵈ,an_Y` are étale `Y`-maps. The maps Rf!`Λ(d)[2d]→Rπ`!`Λ(d)[2d]→Λ` obtained from the two étale counits and the affine-space trace of Section 9.4 are equal.
 
 This uses Trace equality only requires the codomain `Λ` to be overconvergent; no overconvergence of `R²ᵈf`!`Λ` is assumed.
 
@@ -5086,7 +5086,7 @@ The lower chart arrow uses the `g₂` counit, correcting the duplicated `g₁` l
 
 *Needs:* Section 9.4; Section 9.3; `AdicSpacesPartII`, layer R0 (`smooth-differentials-locally-free`); `AdicSpacesPartII`, layer R0; Layers 1 and 3.
 
-Assign to every separated taut smooth `f:X→Y` of equidimension `d` between locally noetherian analytic adic spaces, `n>0` invertible in `O_Y` and `Λ=Z/n`, a trace `tr_f`:Rf!`Λ_X(d)[2d]→Λ_Y`. Choose étale smooth coordinate charts into `Aᵈ`,an, compose their étale counits with AffineSpaceTrace, and descend from a taut source cover. The resulting assignment is independent of all choices, compatible with compositions and pullback transformations, equals the étale counit in dimension zero, and has the scheme `P¹` normalization. These properties characterize the assignment. This expands the inherited rigid-base trace scope to arbitrary analytic bases and plus rings; it does not assert arbitrary-sheaf duality or that top trace is an isomorphism.
+Assign to every separated taut smooth `f:X→Y` of equidimension `d` between locally noetherian analytic adic spaces, `n>0` invertible in `O_Y` and `Λ=Z/n`, a trace `tr_f`:Rf!`Λ_X(d)[2d]→Λ_Y`. Choose étale smooth coordinate charts into `Aᵈ`,an, compose their étale counits with the affine-space trace of Section 9.4, and descend from a taut source cover. The resulting assignment is independent of all choices, compatible with compositions and pullback transformations, equals the étale counit in dimension zero, and has the scheme `P¹` normalization. These properties characterize the assignment. This expands the inherited rigid-base trace scope to arbitrary analytic bases and plus rings; it does not assert arbitrary-sheaf duality or that top trace is an isomorphism.
 
 This uses `n` must be a unit in `O_Y`; it can fail to be a unit in `O_Y⁺`; Classical Rf! on the displayed shifted constant complex suffices; an exceptional right adjoint is not part of the construction.
 
@@ -5094,7 +5094,7 @@ This uses `n` must be a unit in `O_Y`; it can fail to be a unit in `O_Y⁺`; Cla
 
 Supporting statements:
 
-- On an étale coordinate chart, trace is AffineSpaceTrace composed with the étale counit.
+- On an étale coordinate chart, the trace is the affine-space trace of Section 9.4 composed with the étale counit.
 - The trace does not depend on the charts or cover; any normalized compatible assignment has the same maps.
 - `tr_(g∘f)=tr_g∘`Rg!`(tr_f(e)[2e])` for smooth maps of dimensions `d` and `e`, using support composition and projection formula; on the partially proper taut rigid domain its top-degree form is the composition law of the smooth relative trace, with the operation of Section 9.4.
 - For a Cartesian pullback, `tr_f′∘`BC`=g*tr_f`. BC is not declared invertible unless its separate hypotheses hold.
@@ -5212,7 +5212,7 @@ For a rank-two base `S` with open generic point `η`, let `X` be the closed disc
 
 ### 9.7 Proper pairings and integral traces
 
-For smooth proper rigid `X/K` of pure dimension `d, n` invertible in `K` and a completed algebraic closure `C`, the proper field-fibre specialization of SmoothRelativeTrace in Section 9.5 yields (as in Zavyalov §5.4 for `𝔽_p` in mixed characteristic) a `G_K`-equivariant map `t_X:H^{2d}_et(X_C,ℤ/n(d))→ℤ/n`. It is compatible with finite coefficient reduction and with composition of smooth proper maps. The field-point stalk comparison transports the continuous Galois action; equivariance is part of the sheaf morphism on `Spa(K,O_K)`.
+For smooth proper rigid `X/K` of pure dimension `d, n` invertible in `K` and a completed algebraic closure `C`, the proper field-fibre specialization of the smooth relative trace of Section 9.5 yields (as in Zavyalov §5.4 for `𝔽_p` in mixed characteristic) a `G_K`-equivariant map `t_X:H^{2d}_et(X_C,ℤ/n(d))→ℤ/n`. It is compatible with finite coefficient reduction and with composition of smooth proper maps. The field-point stalk comparison transports the continuous Galois action; equivariance is part of the sheaf morphism on `Spa(K,O_K)`.
 
 (Bogdan Zavyalov, Mod-p Poincaré Duality in p-adic analytic geometry, §5.4, first paragraph, and Remark 5.4.1, p. 78.)
 
@@ -5268,7 +5268,7 @@ For `d=0` and a split finite étale map, the formula identifies the dual of a fi
 
 *Needs:* Section 9.7; Section 9.1; `DiamondsAndVStacks`, layer D0; `EnhancedDerivedSheaves`, §§0.1–0.4.
 
-Let `f:𝔛→𝔜` be smooth proper of constant relative dimension `d` between smooth formal `O_K`-schemes, with `K` complete of mixed characteristic `(0,p)`, and write `f_η` for the analytic generic-fibre map. Construct the integral smooth proper trace on the pro-étale site as the degree-zero map of the derived trace `Rf_{η,*}Ẑ_p(d)[2d]→Ẑ_p`. Use the proper generic-fibre specialization of the general smooth trace from Section 9.5 at each finite level; on its rigid domain this is SmoothRelativeTrace. Identify `Rf_{η,*}Ẑ_p(d)` with `Rlim_r ν*Rf_{η,ét,*}Z/pʳ(d)`, and take their derived inverse limit. Taking `H⁰` gives `t_f:R^{2d}f_{η,*}Ẑ_p(d)→Ẑ_p`. Equivalently this is the canonical top-degree edge map to `lim_r ν*R^{2d}f_{η,ét,*}Z/pʳ(d)`, followed by the limit traces; the edge map need not be declared an isomorphism in a family. Prove compatibility with finite-level projections and derived coefficient reduction, composition and the finite étale counit in dimension zero. If every geometric fibre is nonempty, prove `t_f` is an epimorphism using compatible local cycle classes, rather than inverse limits of unrelated surjections. For the Guo–Reinecke application restrict `K` further to a complete discretely valued field with perfect residue field.
+Let `f:𝔛→𝔜` be smooth proper of constant relative dimension `d` between smooth formal `O_K`-schemes, with `K` complete of mixed characteristic `(0,p)`, and write `f_η` for the analytic generic-fibre map. Construct the integral smooth proper trace on the pro-étale site as the degree-zero map of the derived trace `Rf_{η,*}Ẑ_p(d)[2d]→Ẑ_p`. Use the proper generic-fibre specialization of the general smooth trace from Section 9.5 at each finite level; on its rigid domain this is the smooth relative trace of Section 9.5. Identify `Rf_{η,*}Ẑ_p(d)` with `Rlim_r ν*Rf_{η,ét,*}Z/pʳ(d)`, and take their derived inverse limit. Taking `H⁰` gives `t_f:R^{2d}f_{η,*}Ẑ_p(d)→Ẑ_p`. Equivalently this is the canonical top-degree edge map to `lim_r ν*R^{2d}f_{η,ét,*}Z/pʳ(d)`, followed by the limit traces; the edge map need not be declared an isomorphism in a family. Prove compatibility with finite-level projections and derived coefficient reduction, composition and the finite étale counit in dimension zero. If every geometric fibre is nonempty, prove `t_f` is an epimorphism using compatible local cycle classes, rather than inverse limits of unrelated surjections. For the Guo–Reinecke application restrict `K` further to a complete discretely valued field with perfect residue field.
 
 This uses The integral sheaf is `Ẑ_p=lim_r ν*Z/pʳ` on the pro-étale site, and derived operations use the enhanced category. Formal schemes are smooth and the morphism proper, smooth and equidimensional. Nonempty fibres are required only for epimorphy.
 
