@@ -1,0 +1,4 @@
+'TauCeti.DyadicSqrtTwo.differentExponent_eq_three' depends on axioms: [propext, Classical.choice, Quot.sound]
+'TauCeti.DyadicSqrtTwo.absoluteRamificationIndex_eq_two' depends on axioms: [propext, Classical.choice, Quot.sound]
+'TauCeti.unitFiltration_le_square' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Padic.not_isSquare_five' depends on axioms: [propext, Classical.choice, Quot.sound]

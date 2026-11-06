@@ -56,7 +56,7 @@ specific global assembly.
 - The [geometric-topology roadmap](../GeometricTopology/README.md) owns collars and boundary
   gluing. This roadmap constructs the analytic punctured-disc gauges and proves their boundary
   maps are smooth and holomorphic where appropriate.
-- The [analytic-toric-geometry roadmap](../AnalyticToricGeometry/README.md) owns analytic
+- The [analytic-toric-geometry roadmap](../../Completed/AnalyticToricGeometry/README.md) owns analytic
   manifolds from finite regular fans. This roadmap treats smooth period-lattice families and
   finite cyclic multiple fibres.
 - The [Fuchsian-groups roadmap](../FuchsianOrbifolds/README.md) owns orbifold bases and their quotient uniformization. An orbifold

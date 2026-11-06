@@ -34,10 +34,11 @@ classification or realization theorem belong to `GlobalQuadraticForms`.
 
 **Audit status: incomplete. This roadmap remains active.**
 The three implementation PRs below close specific examples and comparison gaps, but they do
-not implement the actual upward-`ULift` transport and naturality square required by stage 2
-of the retained three-stage universe programme. The roadmap must remain active until that
-square is proved on the transported field, CSA/Brauer classes, absolute Galois group and
-coefficient/cohomology objects.
+not discharge the full upward-`ULift` naturality square required by stage 2 of the retained
+three-stage universe programme. The roadmap must remain active until that square is proved
+for the independently transported field, CSA/Brauer classes, absolute Galois group and
+coefficient/cohomology objects. The transport constructions audited below are concrete progress
+toward that remaining comparison.
 
 The existing native `BrauerGroup.baseChange` and crossed-product naturality bind both fields
 to the same universe, and `ContinuousMulEquiv.continuousCohomologyIso` likewise binds the two
@@ -46,8 +47,55 @@ groups to one universe. These cannot specialize directly to an actual larger-uni
 transport obligation. Defining a new transport by conjugating the comparison isomorphisms
 would make the square tautological and would not supply the required underlying maps.
 
+Actual algebra-level upward transport is now available in
+[`Algebra/ULift.lean`](https://github.com/TauCetiProject/TauCeti/blob/8beb018f0e8958681cdd699e93b4da8e59f06f8d/TauCeti/Algebra/Algebra/ULift.lean)
+and [`CrossedProduct/ULift.lean`](https://github.com/TauCetiProject/TauCeti/blob/8beb018f0e8958681cdd699e93b4da8e59f06f8d/TauCeti/Algebra/CrossedProduct/ULift.lean):
+`AlgEquiv.ulift` and `uliftAutEquiv` lift scalars, algebras and algebra automorphisms;
+`TwoCocycle.ulift` lifts the cocycle; and `CrossedProduct.uliftEquiv` identifies its
+crossed product with the actual lift of the original algebra, with coefficient and basis
+coordinate formulas. These are parts of the required transport, independent of the Brauer
+comparison.
+
+At actual source `5a0e8244ee9f65172d1fa1bd06742600ff352154`,
+[`GaloisCohomology/Congr.lean`](https://github.com/TauCetiProject/TauCeti/blob/5a0e8244ee9f65172d1fa1bd06742600ff352154/TauCeti/FieldTheory/GaloisCohomology/Congr.lean)
+supplies `RingEquiv.unitsCoeffCongr`, `unitsCocyclesCongr` and `unitsH2Congr`: direct
+transport of the actual separable-closure unit coefficients, continuous two-cocycles and
+explicit second cohomology across independently quantified field universes. These maps use
+the chosen separable-closure identification and absolute-Galois-group equivalence.
+[`AbsoluteGaloisGroup/Congr.lean`](https://github.com/TauCetiProject/TauCeti/blob/5a0e8244ee9f65172d1fa1bd06742600ff352154/TauCeti/FieldTheory/Galois/AbsoluteGaloisGroup/Congr.lean)
+proves compatibility with restriction to identified normal subextensions, and
+[`CrossedProduct/FieldCongr.lean`](https://github.com/TauCetiProject/TauCeti/blob/5a0e8244ee9f65172d1fa1bd06742600ff352154/TauCeti/Algebra/CrossedProduct/FieldCongr.lean)
+proves the corresponding finite-cocycle and cohomology inflation equations for compatible
+maps of finite normal subextensions.
+
+The reviewed source at
+[`daa66339a578`](https://github.com/TauCetiProject/TauCeti/commit/daa66339a578b8c1c41c20b94839ca25444cc1e8)
+also supplies actual upward transport on Brauer quotient classes in
+[`BrauerGroup/ULift.lean`](https://github.com/TauCetiProject/TauCeti/blob/daa66339a578b8c1c41c20b94839ca25444cc1e8/TauCeti/Algebra/BrauerGroup/ULift.lean).
+`BrauerGroup.uliftEquiv` identifies `BrauerGroup.{u, u} K` with
+`BrauerGroup.{max u w, max u w} (ULift.{w} K)` for an arbitrary field `K : Type u`,
+without a smallness hypothesis on `K`. Its action on a central simple representative is
+scalar extension `ULift K ⊗[K] A`, by `uliftEquiv_mk`. Quotient well-definedness and
+multiplicativity are proved directly; injectivity uses splitting, and surjectivity derives
+smallness of a finite-dimensional representative and shrinks it to the original universe.
+[`Quaternion/BaseChange.lean`](https://github.com/TauCetiProject/TauCeti/blob/daa66339a578b8c1c41c20b94839ca25444cc1e8/TauCeti/Algebra/Quaternion/BaseChange.lean)
+proves `uliftEquiv_quaternionClass` and `uliftEquiv_quaternionClassOnSquareClasses`,
+compatibility with quaternion symbols and the actual map on square classes.
+
+Stage 2 still requires the full Brauer/cohomology naturality square for every Brauer class.
+For `e := (ULift.ringEquiv : ULift.{w} K ≃+* K).symm`, the required explicit comparison is
+`brauerExplicitH2Equiv (ULift K) (Additive.ofMul (BrauerGroup.uliftEquiv K x)) =
+e.unitsH2Congr (brauerExplicitH2Equiv K (Additive.ofMul x))` for every
+`x : BrauerGroup.{u, u} K`, together with its continuous-cohomology form through the
+canonical explicit-to-continuous comparison. `brauerCohomologyEquiv_baseChange` retains
+same-universe field parameters. The finite-inflation equations and quaternion formulas
+do not yet identify the independently defined quotient transport with the comparison on
+all classes. The cohomological `ClassFieldTheory.brCongr` alone does not supply this
+identification with actual CSA/Brauer quotient classes. The roadmap remains active until
+the full square is proved; no edge may be defined by conjugating the comparison maps.
+
 The inventory and checked proofs below describe only the covered targets. They do not claim
-this outstanding square or any equivalent cross-universe transport has been implemented.
+the outstanding full comparison square has been implemented.
 
 The three independent implementation PRs that close the covered gaps are
 [TauCeti#22016](https://github.com/TauCetiProject/TauCeti/pull/22016),
@@ -516,7 +564,7 @@ improvement through their own review rather than duplicating them.
 ### From other roadmaps in this repository
 
 - The [local-fields-ramification
-  roadmap](../LocalFieldsRamification/README.md) owns the general arithmetic of a
+  roadmap](../../Completed/LocalFieldsRamification/README.md) owns the general arithmetic of a
   nonarchimedean local field: the normalized valuation, the unit filtration with its
   graded pieces, the Teichmüller section, the ramification and residue degrees, power
   and square classes, and unramified extensions with their norm groups. Layer 6A
@@ -601,7 +649,7 @@ declaration column says so. Such a row is still a contract, because the mileston
 named and its owner is fixed; what this roadmap then states locally is the specialized
 shape its own layers consume, marked as such at the point of use.
 
-**From the [local-fields-ramification roadmap](../LocalFieldsRamification/README.md)**,
+**From the [local-fields-ramification roadmap](../../Completed/LocalFieldsRamification/README.md)**,
 namespace `TauCetiRoadmap.LocalFieldsRamification`, over
 `[Field K] [ValuativeRel K] [TopologicalSpace K] [IsNonarchimedeanLocalField K]`. That
 roadmap re-exports Tau Ceti's local-field API under its own names, with the same explicit
@@ -1564,7 +1612,7 @@ is stated at the end of 6C, with its own prerequisites.
 #### 6A. The local-field substrate, consumed
 
 The general arithmetic of a nonarchimedean local field belongs to the
-[local-fields-ramification roadmap](../LocalFieldsRamification/README.md), and this sublayer consumes it. The
+[local-fields-ramification roadmap](../../Completed/LocalFieldsRamification/README.md), and this sublayer consumes it. The
 normalized valuation is that roadmap's `normalizedValuation`, the unit filtration is its
 `unitFiltration`, the level `e = v_K(2)` is its `natCastValuation K 2`, and the graded
 pieces, the power-class counts with the
@@ -1935,7 +1983,7 @@ whatever route a later implementer takes to bimultiplicativity.
 
 #### 6C. The Hilbert symbol and the local Hasse invariant
 
-**6C alternative early norm-index construction, before cohomological normalization.** Let K be a nonarchimedean local field, with its specified ValuativeRel and topology, and assume 2 is invertible. For a nonzero nonsquare a, take L=K(s) with s²=a. Construct L as the irreducible quadratic quotient and prove [L:K]=2; separability uses 2≠0, normality the roots ±s, and the involution s↦−s generates its order-two Galois group. Install TauCeti.finiteExtensionValuativeRel, finiteExtensionNormedFieldTopology, finiteExtension_isNonarchimedeanLocalField and finiteExtension_valuativeExtension, or prove equality with already compatible structures. Construct the K-algebra equivalence QuadraticAlgebra K a 0 ≃ L by (x,y)↦x+ys, with inverse from the basis(1,s). In that basis multiplication by x+ys has matrix [[x,ay],[y,x]], hence Algebra.norm K(x+ys)=x²−ay². Consume QuadraticAlgebra.det_toLinearMap_eq_norm and the determinant definition of field norm; prove transport along the actual equivalence and its induced units map. The actual norm subgroup is TauCeti.normGroup K L, the range of TauCeti.Algebra.normUnits K, and membership is exactly existence of a nonzero pair(x,y) with b=x²−ay². The nonzero-pair condition and b≠0 are equivalent here because L is a field.
+**6C alternative early norm-index construction, before cohomological normalization.** Let K be a nonarchimedean local field, with its specified ValuativeRel and topology, and assume 2 is invertible. For a nonzero nonsquare a, take L=K(s) with s²=a. Construct L as the irreducible quadratic quotient and prove [L:K]=2; separability uses 2≠0, normality the roots ±s, and the involution s↦−s generates its order-two Galois group. Install TauCeti.algebraicExtensionValuativeRel, algebraicExtensionNormedFieldTopology, finiteExtension_isNonarchimedeanLocalField and algebraicExtension_valuativeExtension, or prove equality with already compatible structures. Construct the K-algebra equivalence QuadraticAlgebra K a 0 ≃ L by (x,y)↦x+ys, with inverse from the basis(1,s). In that basis multiplication by x+ys has matrix [[x,ay],[y,x]], hence Algebra.norm K(x+ys)=x²−ay². Consume QuadraticAlgebra.det_toLinearMap_eq_norm and the determinant definition of field norm; prove transport along the actual equivalence and its induced units map. The actual norm subgroup is TauCeti.normGroup K L, the range of TauCeti.Algebra.normUnits K, and membership is exactly existence of a nonzero pair(x,y) with b=x²−ay². The nonzero-pair condition and b≠0 are equivalent here because L is a field.
 
 Apply the already proved TauCeti.index_normGroup_of_isCyclic, with BOTH fields local, compatible ValuativeExtension, finite extension, IsGalois and IsCyclic on L≃ₐ[K]L. It gives index two with no reciprocity or characteristic-zero premise. Its own actual finite cyclic cohomology/Herbrand/valuation-unit proof is a separate selected native supplier. Thus the norm indicator Kˣ→{±1}, +1 on the subgroup and −1 outside, is a homomorphism. Squares are norms because N(c)=c². When a is a square, the split quadratic algebra K×K has surjective norm and the indicator is identically +1; this case is not passed to the field-extension theorem. Compare the indicator with the fourfold-isotropy/quaternion-splitting predicate of Layer2 by the actual norm-form equivalence, including the split case. Swapping a,b in the fourfold form gives symmetry, hence multiplicativity in the other slot; square-class descent and index-two properness give bimultiplicativity and nondegeneracy. Descend the diagonal Hasse product by Layer0/3's binary replacement and chain-induction proof, with the plain/signed discriminant dictionary fixed. This produces the classical part of6C and can precede6D without6E/7B or an invariant-map assumption. Odd-residue unit-unit values additionally consume Hensel/unramified-unit norm surjectivity; arbitrary dyadic matrix/defect tables are separate later computations.
 
@@ -3340,7 +3388,7 @@ subject matter belongs and built where its prerequisites are ready.
   quadratic extensions. This roadmap owns the form theory of one quadratic step. The
   shared language is `TauCeti.SquareClassGroup`.
 - The [local-fields-ramification
-  roadmap](../LocalFieldsRamification/README.md) owns the general arithmetic of a
+  roadmap](../../Completed/LocalFieldsRamification/README.md) owns the general arithmetic of a
   nonarchimedean local field. Sublayer 6A consumes it through the exact contract above:
   the normalized valuation, the unit filtration and its graded pieces, the Teichmüller
   section, the ramification and residue degrees, the power-class counts, the unramified
