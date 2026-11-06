@@ -2,7 +2,7 @@ import TauCeti.RepresentationTheory.Spin.Structure
 import TauCeti.RepresentationTheory.QuaternionicStructure
 import TauCeti.RepresentationTheory.Spin.OddStructure
 import TauCeti.RepresentationTheory.Spin.HalfSpin.Basic
-import TauCeti.LinearAlgebra.CliffordAlgebra.VolumeElement
+import TauCeti.LinearAlgebra.CliffordAlgebra.VolumeElement.Basic
 import TauCeti.LinearAlgebra.CliffordAlgebra.EightPeriodicity
 import Mathlib.Analysis.InnerProductSpace.LinearMap
 import Mathlib.Analysis.InnerProductSpace.PiL2

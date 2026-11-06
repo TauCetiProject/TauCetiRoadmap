@@ -1,0 +1,16 @@
+import TauCeti.NumberTheory.EffectiveBounds.UnitHeight
+import TauCeti.NumberTheory.EffectiveBounds.Regulator
+import TauCeti.NumberTheory.NumberField.Units.Log.Covolume
+
+open Height NumberField NumberField.Units
+
+example {K : Type*} [Field K] [NumberField K] {x : K}
+    (hx : IsIntegral ℤ x) (hx0 : x ≠ 0) (hxord : ¬IsOfFinOrder x) :
+    TauCeti.NumberField.Units.unitHeightLowerBound (Module.finrank ℚ K) ≤ logHeight₁ x :=
+  TauCeti.NumberField.Units.unitHeightLowerBound_le_logHeight₁_of_isIntegral hx hx0 hxord
+
+#print axioms TauCeti.NumberField.Units.unitHeightLowerBound_le_logHeight₁_of_isIntegral
+#print axioms TauCeti.NumberField.Units.regulatorLowerBound_rank_zero
+#print axioms TauCeti.measurePreserving_euclideanLogSpaceEquiv
+#print axioms TauCeti.det_gram_euclideanLogBasis
+#print axioms TauCeti.covolume_euclideanUnitLattice
