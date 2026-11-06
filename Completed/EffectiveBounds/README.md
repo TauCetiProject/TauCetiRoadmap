@@ -1,15 +1,13 @@
 # Roadmap: effective arithmetic bounds and geometry of numbers
 
-**Status: declared complete by the maintainers (2026-07-02).** The library this roadmap
-asked for has been built: the whole spine below has landed, sorry-free, in
-[TauCeti](https://github.com/TauCetiProject/TauCeti): the Layer-1 bounds
-(`abs_discr_le_of_basis_isIntegral`, `classNumber_le_bound`, `units_sq_index_le`),
-the explicit ideal count (`card_ideal_absNorm_le`), and the Layer-2 summit, the
-effective Hermite–Minkowski count
-(`ncard_setOf_finiteDimensional_abs_discr_le_le`), all under
-`TauCeti/NumberTheory/EffectiveBounds/`, with the geometry-of-numbers engine under
-`TauCeti/NumberTheory/GeometryOfNumbers/`. This roadmap is archived and no longer
-offered to contributors.
+**Final native audit (2026-10-30).** The [shared final audit](../CloseoutAudit-20261030.md) verifies the full owned specification on actual Tau Ceti main
+[`daa66339a578`](https://github.com/TauCetiProject/TauCeti/commit/daa66339a578b8c1c41c20b94839ca25444cc1e8). All 934 entry modules built, and all sixteen acceptance probes passed with warnings treated as errors;
+all 128 axiom reports contain only `propext`, `Classical.choice` and `Quot.sound`.
+The fifteen-module effective-bounds inventory, verbatim acceptance certificate and supplementary
+nonzero/nontorsion height-gap and canonical Euclidean covolume probes pass at that revision.
+[NativeCompletion.md](NativeCompletion.md) retains the earlier dated replay and the complete target mapping.
+The mathematical targets below are unchanged. Brauer–Siegel remains an aspiration. Historical reports
+and the older pinned prototype retain their recorded scope.
 
 Mathlib has Minkowski's convex-body theorem, the canonical embedding, the Minkowski
 bound, and even the qualitative summit (Minkowski's lower bound on the discriminant

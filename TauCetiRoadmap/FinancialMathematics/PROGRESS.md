@@ -1,0 +1,14 @@
+# Progress log: FinancialMathematics
+
+An append-only record of what landed on the FinancialMathematics roadmap, one section per window of
+merged pull requests, oldest first. Generated; the prose is not security-validated.
+For a current snapshot instead, read `STATUS.md` beside this file.
+
+<!--tauceti-progress:v1 {"from_sha":"12e85d69f26915e6c2fbbfb55e52617da7c5e275","prs":[18827,19099],"roadmap":"FinancialMathematics","to_sha":"273ea28e12515bd7f9e5c2aefd933352264b83e1"}-->
+## FinancialMathematics: 2026-10-19 to 2026-10-21 (`12e85d6` to `273ea28`)
+
+The constant-coefficient Black–Scholes formulas arrived, with both halves of the classical story. On the probabilistic side, the [Black–Scholes call formula](https://taucetiproject.org/docs/TauCeti/Probability/Finance/BlackScholes/Basic.html#TauCeti.BlackScholes.riskNeutralPrice_call) and its [put counterpart](https://taucetiproject.org/docs/TauCeti/Probability/Finance/BlackScholes/Basic.html#TauCeti.BlackScholes.riskNeutralPrice_put) show that the discounted expectation of the payoff under a lognormal terminal spot equals the closed form `sΦ(d₊) − Ke^{−rτ}Φ(d₋)`. The proof changes to the stock numéraire through a [Gaussian exponential-tilting identity](https://taucetiproject.org/docs/TauCeti/Probability/Distributions/Tilted.html#TauCeti.Probability.setIntegral_exp_mul_gaussianReal) (TauCeti#18827). [Put–call parity](https://taucetiproject.org/docs/TauCeti/Probability/Finance/BlackScholes/Basic.html#TauCeti.BlackScholes.callPrice_sub_putPrice) is proved for the closed forms. On the analytic side, the call and put prices satisfy the [Black–Scholes equation](https://taucetiproject.org/docs/TauCeti/Probability/Finance/BlackScholes/Greeks.html#TauCeti.BlackScholes.callPrice_pde) for every spot `s > 0` before maturity (TauCeti#19099).
+
+That second result rests on the Greeks. The window gives exact formulas for delta, gamma, vega and the maturity derivative of both options, all hinging on the density identity `sφ(d₊) = Ke^{−rτ}φ(d₋)`. It also proves the sign facts the roadmap asks for: the [call delta lies in (0, 1)](https://taucetiproject.org/docs/TauCeti/Probability/Finance/BlackScholes/Greeks.html#TauCeti.BlackScholes.deriv_callPrice_spot_mem_Ioo), and gamma and vega are positive. Supporting this are a few Gaussian CDF facts: symmetry, strict bounds, and upper tails written as standard CDF values.
+
+All of this is a single-variable Gaussian computation. Nothing stochastic is involved. No asset SDE, trading strategy, equivalent measure or replication argument has landed, so "risk-neutral price" here is a defined integral, not a theorem about markets. Also still missing from M0.4: the boundary and far-field limits, the bond holdings, the continuous extension to maturity, the uniqueness class and the behaviour of gamma as τ↓0.
