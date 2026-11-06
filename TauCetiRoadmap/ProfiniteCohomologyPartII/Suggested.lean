@@ -158,12 +158,12 @@ theorem isConj_pow_superdiagonalSubgroup_two (p : ℕ) [Fact p.Prime] {n : ℕ} 
 /-! ## Layer 4: Bogomolov vanishing for the derived stabilizer -/
 
 /-- The **Bogomolov multiplier** `B₀(G)` of a group `G`: the classes of `H²(G, ℚ/ℤ)`, trivial
-coefficients, whose restriction to every abelian subgroup vanishes (Moravec, (3.0.1), p. 4;
-Harpaz–Wittenberg, (4.1), p. 12). Here `ℚ/ℤ` is `ℚ ⧸ ℤ·1` and the restriction to a subgroup `A` is
-Mathlib's `groupCohomology.map` along the inclusion of `A`. -/
+coefficients, whose restriction to every abelian subgroup `A` (Mathlib's `IsMulCommutative A`)
+vanishes (Moravec, (3.0.1), p. 4; Harpaz–Wittenberg, (4.1), p. 12). Here `ℚ/ℤ` is `ℚ ⧸ ℤ·1` and the
+restriction to a subgroup `A` is Mathlib's `groupCohomology.map` along the inclusion of `A`. -/
 noncomputable def bogomolovMultiplier (G : Type) [Group G] :
     Submodule ℤ (groupCohomology (Rep.trivial ℤ G (ℚ ⧸ AddSubgroup.zmultiples (1 : ℚ))) 2) :=
-  ⨅ (A : Subgroup G) (_ : ∀ x ∈ A, ∀ y ∈ A, x * y = y * x),
+  ⨅ (A : Subgroup G) (_ : IsMulCommutative A),
     LinearMap.ker (groupCohomology.map A.subtype
       (𝟙 (Rep.res A.subtype (Rep.trivial ℤ G (ℚ ⧸ AddSubgroup.zmultiples (1 : ℚ))))) 2).hom
 

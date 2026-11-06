@@ -905,8 +905,8 @@ Layers 1 and 2; Mathlib `ConjClasses`; Tau Ceti `UpperUnitriangularGroup.mem_sup
 ### 4.1 The Bogomolov multiplier
 
 Define `bogomolovMultiplier H` for a group `H`: the subgroup of `H²(H, ℚ/ℤ)`, trivial coefficients,
-of the classes whose restriction to every abelian subgroup vanishes, where `ℚ/ℤ` is `ℚ ⧸ ℤ·1` and
-restriction is `groupCohomology.map` along the inclusion. For finite `H` prove that it suffices to
+of the classes whose restriction to every abelian subgroup `A` (Mathlib's `IsMulCommutative A`)
+vanishes, where `ℚ/ℤ` is `ℚ ⧸ ℤ·1` and restriction is `groupCohomology.map` along the inclusion. For finite `H` prove that it suffices to
 test the bicyclic subgroups (abelian subgroups with at most two generators), and that the
 continuous `H²` of the finite discrete group `H` gives the same subgroup through ProfiniteCohomology
 Layer 3. (Moravec, (3.0.1), p. 4; HW, (4.1), p. 12; Michailov, §1, p. 1.) Route for bicyclic tests:
@@ -915,8 +915,8 @@ detected on two-generator subgroups.
 *Needs:* Mathlib `groupCohomology`, `groupCohomology.map`, `Rep.trivial`, `Rep.res`;
 ProfiniteCohomology Layer 3.
 
-- A class lies in `bogomolovMultiplier H` exactly when its restriction to every abelian subgroup is
-  zero.
+- A class lies in `bogomolovMultiplier H` exactly when its restriction to every abelian subgroup `A`
+  (Mathlib's `IsMulCommutative A`) is zero.
 - For finite `H`, the bicyclic subgroups suffice.
 - A homomorphism `H′ → H` pulls `B_Bog(H)` into `B_Bog(H′)`, since abelian subgroups have abelian
   images.
@@ -1525,7 +1525,11 @@ H¹(C₂, V^∨) × H¹(C₂, V) → H²(C₂, 𝔽₂) = 𝔽₂.
 Route: a cocycle is determined by its value at `σ`, in `ker(1 + σ) = ker t`, and coboundaries are
 `im t`; the cup of two classes is read at `(σ, σ)`; `(im t)^⊥ = ker t^∨` and `(ker t)^⊥ = im t^∨` in
 the finite dual. These are ordinary cohomology groups in positive degree, agreeing with Tate
-cohomology there. The nonarchimedean local duality theorem is not used at the real place.
+cohomology there. The nonarchimedean local duality theorem is not used at the real place. (Milne,
+II, Example 1.20, p. 66: for a finite cyclic group with generator `σ`, `H¹` is `ker N/(σ − 1)M`, which
+for `C₂` and an `𝔽₂`-module is `ker t/im t`; Proposition 3.4, p. 81, for the period-two
+identification `H²(C₂, 𝔽₂) = Ĥ⁰(C₂, 𝔽₂) = 𝔽₂`; the perfectness of the pairing is the finite
+linear algebra of the route.)
 *Needs:* ProfiniteCohomology Layers 2 and 8; Tau Ceti
 `ContCohomology.H1pi_eq_zero_iff_exists_smul_sub_eq`, `ContCohomology.explicitH2CyclicEquiv`,
 `ContCohomology.explicitCup11`, `TauCeti.InternalHom.evalPairing`.
@@ -1818,7 +1822,8 @@ strictly above the diagonal in position `(0, n)`. Prove that for `n ≥ 1` these
 form a normal subgroup isomorphic to `(R, +)`, central in `Uₙ₊₁(R)` and not in `Tₙ₊₁(R)` in general,
 and that for `n = 0`, where `(0, 0)` is a diagonal entry and so excluded, the generating set is `{1}`
 and the subgroup is trivial; `triangularCorner.normal` records normality, which makes
-`Tₙ₊₁(R)/Z(W)` a group.
+`Tₙ₊₁(R)/Z(W)` a group. (HW, §7, p. 26, for `Z(W)`: abelian, normal in `T(W)`, central in `U(W)`
+and not in `T(W)` in general.)
 *Needs:* 9.4; Mathlib `Subgroup.normalClosure`; Tau Ceti `TauCeti.upperTriangularGroup`.
 
 - `triangularCorner R n` is a normal subgroup of `Tₙ₊₁(R)` (`triangularCorner.normal`).
@@ -2108,6 +2113,8 @@ and 9.
   Page numbers are those of the arXiv version 1.
 - [Dwyer] W. G. Dwyer, *Homology, Massey products and maps between groups*, J. Pure Appl. Algebra 6
   (1975), 177–190, doi:10.1016/0022-4049(75)90006-7; cited by its locator, Theorem 2.4.
+- [Milne] J. S. Milne, *Class Field Theory*, course notes, version 4.03 (2020), from the author's
+  page. Page numbers are the printed ones of that version.
 
 ### Corrections to the printed sources
 
