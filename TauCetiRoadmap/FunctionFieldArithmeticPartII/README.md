@@ -238,7 +238,7 @@ A proof route uses the following steps. Compose the pasting and Spec-composition
 - Extend that chain by 𝔽₂→𝔽₄. Both three-step collapse orders send the normalization generator T to T, the coefficient 3 to 1 and the final coefficient a∈𝔽₄ to a. Thus the normalization and base projections agree; each inverse returns these same generators.
 - For ℤ→ℤ/4→𝔽₂ with n=0,u=1,f=1,y=0, the normalization rings are polynomial rings. Both routes send the unconstrained T to T and 3 to 1; an exponent-zero quotient must not force T=1.
 
-([STACKS-01JO](https://stacks.math.columbia.edu/tag/01JO) line 1383 — Stacks Section 26.17, Definition 26.17.1 and Lemma 26.17.2 with proof; elementary calculation from the displayed quotient relation)
+([NormalizationThree-codex-rtOQ9t](https://stacks.math.columbia.edu/tag/01JO) line 1383 — Stacks Section 26.17, Definition 26.17.1 and Lemma 26.17.2 with proof; elementary calculation from the displayed quotient relation)
 
 *Needs:* `CategoryTheory.Limits.pullbackRightPullbackFstIso`; `CategoryTheory.Limits.pullback.congrHom`; `AlgebraicGeometry.Spec.map_comp`; `CategoryTheory.Limits.pullbackRightPullbackFstIso_hom_fst`; `CategoryTheory.Limits.pullback.lift_fst`; `CategoryTheory.Limits.pullback.lift_snd`; `CategoryTheory.Limits.pullbackRightPullbackFstIso_hom_snd`; `CategoryTheory.Iso.inv_comp_eq`.
 
@@ -418,7 +418,7 @@ A proof route uses the following steps. Apply the contravariant spectrum to the 
 - Over ℤ/1 at n=3, the normalization singleton belongs to the fppf precoverage, its source is exactly the spectrum of D and the chart triangle to Spec(ℤ/1) commutes, without assuming any point exists.
 - For n=0, the normalization scheme morphism is still locally of finite presentation. This test makes no positive-exponent cover, normalization or faithful-flatness assertion.
 
-([STACKS-021M](https://stacks.math.columbia.edu/tag/021M) line 837 — Stacks Definition 34.7.1, tag 021M; elementary calculation from the displayed quotient relation)
+([FramedFppfCover-codex-rtOQ9t](https://stacks.math.columbia.edu/tag/021M) line 837 — Stacks Definition 34.7.1, tag 021M; elementary calculation from the displayed quotient relation)
 
 *Needs:* §1.4 (framed root coordinates); `AlgebraicGeometry.Spec.algebraMap`; `AdjoinRoot.finitePresentation`; `AlgebraicGeometry.LocallyOfFinitePresentation.SpecMap_iff`; `RingHom.finitePresentation_algebraMap`.
 
@@ -584,7 +584,7 @@ A proof route uses the following steps. Use a reducible type alias for algebra h
 - Over ℤ/4 at f=0,n=2, there is no arrow from the point with root 0 to the point with root 2, although both roots square to zero.
 - All second-root points at f=0 over the zero test ring ℤ/1 are equal.
 
-([STACKS-022Y](https://stacks.math.columbia.edu/tag/022Y) line 966 — Stacks Section 39.10 Definitions 39.10.1–2 and Lemma 39.10.3, complete displayed text and comments)
+([AffineRootPointGroupoid-rtOQ9t](https://stacks.math.columbia.edu/tag/022Y) line 966 — Stacks Section 39.10 Definitions 39.10.1–2 and Lemma 39.10.3, complete displayed text and comments)
 
 *Needs:* `AdjoinRoot.eval₂_root`; `AdjoinRoot.algHom_ext`.
 
@@ -611,7 +611,7 @@ A proof route uses the following steps. Multiply the two section equations. Inve
 - Over ℤ/4 at f=0,n=2, label 3 is also an automorphism of the nonzero nilpotent root 2, since 3*2=2.
 - For an arbitrary labelled arrow, both inverse composites have label 1.
 
-([STACKS-022Y](https://stacks.math.columbia.edu/tag/022Y) line 966 — Stacks Section 39.10 Definitions 39.10.1–2 and Lemma 39.10.3, complete displayed text and comments)
+([AffineRootPointGroupoid-rtOQ9t](https://stacks.math.columbia.edu/tag/022Y) line 966 — Stacks Section 39.10 Definitions 39.10.1–2 and Lemma 39.10.3, complete displayed text and comments)
 
 *Needs:* §1.20 (algebra-valued finite root points); `CategoryTheory.Groupoid`; `CategoryTheory.Functor.ext`.
 
@@ -635,7 +635,7 @@ A proof route uses the following steps. Apply the polynomial-quotient algebra li
 - Over ℤ/4, at f=0 and n=2, the point with root image 2 has a nonzero square-zero root image.
 - Over ℤ/4 at f=0,n=2, there is no arrow from the point with root 0 to the point with root 2, although both roots square to zero.
 
-([STACKS-022Y](https://stacks.math.columbia.edu/tag/022Y) line 966 — Stacks Section 39.10 Definitions 39.10.1–2 and Lemma 39.10.3, complete displayed text and comments)
+([AffineRootPointGroupoid-rtOQ9t](https://stacks.math.columbia.edu/tag/022Y) line 966 — Stacks Section 39.10 Definitions 39.10.1–2 and Lemma 39.10.3, complete displayed text and comments)
 
 *Needs:* §1.20 (algebra-valued finite root points); `AdjoinRoot.liftAlgHom`; `AdjoinRoot.algHom_ext`.
 
@@ -749,7 +749,7 @@ A proof route uses the following steps. Pull back the first-two-change pasting c
 - For the same chain with n=0,u=1,f=1,y=0, both final rings are 𝔽₄[T], and the two collapse orders send T to T and 3 to 1. The root variable remains free.
 - For ℤ/4→𝔽₂→𝔽₂→𝔽₂ with n=2,u=3,y=1,f=3, both collapse orders give T↦T and 3↦1 in 𝔽₂[T]/((T−1)²). The nonflat reduction retains T−1≠0 with (T−1)²=0; reducing the chart to its point would fail.
 
-([STACKS-01JO](https://stacks.math.columbia.edu/tag/01JO) line 1383 — Stacks Section 26.17, Definition 26.17.1 and Lemma 26.17.2 with proof; elementary calculation from the displayed quotient relation)
+([NormalizationThree-codex-rtOQ9t](https://stacks.math.columbia.edu/tag/01JO) line 1383 — Stacks Section 26.17, Definition 26.17.1 and Lemma 26.17.2 with proof; elementary calculation from the displayed quotient relation)
 
 *Needs:* §1.5 (the chosen normalization pullback pasting comparison); `CategoryTheory.Limits.pullback.map`; `CategoryTheory.Limits.pullback.map_isIso`; `CategoryTheory.asIso`; `CategoryTheory.Limits.pullback.lift_fst`; `CategoryTheory.Limits.pullback.lift_snd`; `CategoryTheory.Iso.inv_comp_eq`; `CategoryTheory.Limits.pullbackRightPullbackFstIso`; `CategoryTheory.Limits.pullbackRightPullbackFstIso_hom_fst`; `CategoryTheory.Limits.pullbackRightPullbackFstIso_hom_snd`; `CategoryTheory.Limits.pullback.congrHom`; `CategoryTheory.Limits.pullback.hom_ext`; `CategoryTheory.Iso.ext`; `AlgHom.comp_assoc`.
 
@@ -912,7 +912,7 @@ Use arbitrary commutative A and commutative A-algebra B in a common universe; ar
 
 A proof route uses the following steps. Translate the faithful flatness of D over B to the coefficient ring map. Take the flatness component of the spectrum characterization.
 
-([STACKS-021M](https://stacks.math.columbia.edu/tag/021M) line 837 — Stacks Definition 34.7.1, tag 021M; elementary calculation from the displayed quotient relation)
+([FramedFppfCover-codex-rtOQ9t](https://stacks.math.columbia.edu/tag/021M) line 837 — Stacks Definition 34.7.1, tag 021M; elementary calculation from the displayed quotient relation)
 
 *Needs:* §1.13 (the affine normalization scheme map); §1.26 (faithful flatness of the normalization extension); `AlgebraicGeometry.flat_and_surjective_SpecMap_iff`; `RingHom.faithfullyFlat_algebraMap_iff`.
 
@@ -924,7 +924,7 @@ Use arbitrary commutative A and commutative A-algebra B in a common universe; ar
 
 A proof route uses the following steps. Take the surjectivity component of the same characterization, without a reducedness or nontriviality premise.
 
-([STACKS-021M](https://stacks.math.columbia.edu/tag/021M) line 837 — Stacks Definition 34.7.1, tag 021M; elementary calculation from the displayed quotient relation)
+([FramedFppfCover-codex-rtOQ9t](https://stacks.math.columbia.edu/tag/021M) line 837 — Stacks Definition 34.7.1, tag 021M; elementary calculation from the displayed quotient relation)
 
 *Needs:* §1.13 (the affine normalization scheme map); §1.26 (faithful flatness of the normalization extension); `AlgebraicGeometry.flat_and_surjective_SpecMap_iff`; `RingHom.faithfullyFlat_algebraMap_iff`.
 
@@ -1233,7 +1233,7 @@ A proof route uses the following steps. Use the scheme singleton-cover construct
 - For n=1, the normalization singleton is fppf covering and the chart-section pullback of the root equals the image of f.
 - Over ℤ/1 at n=3, the normalization singleton belongs to the fppf precoverage, its source is exactly the spectrum of D and the chart triangle to Spec(ℤ/1) commutes, without assuming any point exists.
 
-([STACKS-021M](https://stacks.math.columbia.edu/tag/021M) line 837 — Stacks Definition 34.7.1, tag 021M; elementary calculation from the displayed quotient relation)
+([FramedFppfCover-codex-rtOQ9t](https://stacks.math.columbia.edu/tag/021M) line 837 — Stacks Definition 34.7.1, tag 021M; elementary calculation from the displayed quotient relation)
 
 *Needs:* §1.37 (flatness of the normalization scheme map); §1.38 (surjectivity of the normalization scheme map); §1.13 (the affine normalization scheme map); `AlgebraicGeometry.Scheme.Hom.cover`; `AlgebraicGeometry.Scheme.fppfPrecoverage`; `AlgebraicGeometry.Scheme.Hom.presieve₀_cover`.
 
@@ -1286,7 +1286,7 @@ A proof route uses the following steps. Apply spectrum contravariance to the nor
 
 Compute the forward and inverse projection maps. Arbitrary algebra changes may kill nonzero nilpotents and stabilizer labels.
 
-([STACKS-01JO](https://stacks.math.columbia.edu/tag/01JO) line 1383 — Stacks Section 26.17, Definition 26.17.1 and Lemma 26.17.2 with proof; elementary calculation from the displayed quotient relation)
+([NormalizationThree-codex-rtOQ9t](https://stacks.math.columbia.edu/tag/01JO) line 1383 — Stacks Section 26.17, Definition 26.17.1 and Lemma 26.17.2 with proof; elementary calculation from the displayed quotient relation)
 
 *Needs:* §1.41 (normalization along an arbitrary test-algebra map); §1.13 (the affine normalization scheme map); `AlgebraicGeometry.Spec.map`; `AlgebraicGeometry.Spec.map_id`; `AlgebraicGeometry.Spec.map_comp`.
 
@@ -1425,7 +1425,7 @@ A proof route uses the following steps. Apply the contravariant spectrum to the 
 - For n=1, the normalization singleton is fppf covering and the chart-section pullback of the root equals the image of f.
 - Over ℤ/1 at n=3, the normalization singleton belongs to the fppf precoverage, its source is exactly the spectrum of D and the chart triangle to Spec(ℤ/1) commutes, without assuming any point exists.
 
-([STACKS-021M](https://stacks.math.columbia.edu/tag/021M) line 837 — Stacks Definition 34.7.1, tag 021M; elementary calculation from the displayed quotient relation)
+([FramedFppfCover-codex-rtOQ9t](https://stacks.math.columbia.edu/tag/021M) line 837 — Stacks Definition 34.7.1, tag 021M; elementary calculation from the displayed quotient relation)
 
 *Needs:* §1.51 (the normalized affine root point); `AlgebraicGeometry.Spec.map`; `AlgebraicGeometry.Scheme.ΓSpecIso`; `AlgebraicGeometry.Scheme.ΓSpecIso_naturality`; §1.52 (the singleton fppf normalization cover); `AlgebraicGeometry.Spec.map_comp`; `IsScalarTower.algebraMap_apply`.
 
@@ -1463,7 +1463,7 @@ A proof route uses the following steps. Whisker the adjunction counit by normali
 - At exponent one over arbitrary test algebras, the changed normalized chart root is the image of f, and the natural-isomorphism component followed by the pullback projection recovers normalizationChangeNatTrans.
 - Over the zero ring ℤ/1 at exponent 3, the inverse Over roundtrip and pulled-back cover base triangle hold without choosing any spectrum point.
 
-([STACKS-01JO](https://stacks.math.columbia.edu/tag/01JO) line 1383 — Stacks Section 26.17 tag 01JO: Definition 26.17.1 and Lemma 26.17.2; elementary calculation from the displayed quotient relation)
+([NormalizationThree-codex-rtOQ9t](https://stacks.math.columbia.edu/tag/01JO) line 1383 — Stacks Section 26.17 tag 01JO: Definition 26.17.1 and Lemma 26.17.2; elementary calculation from the displayed quotient relation)
 
 *Needs:* §1.53 (the normalization cover functor over Spec B); `CategoryTheory.Over.pullback`; `CategoryTheory.Over.mapPullbackAdj`; `CategoryTheory.Over.forget`; `CategoryTheory.Limits.pullback.condition`.
 
@@ -1614,7 +1614,7 @@ A proof route uses the following steps. Use the pinned theorem that spectrum tur
 
 The source and target maps must agree with the framed-root and normalization constructions, including nonflat changes that kill nonzero nilpotent sections.
 
-([STACKS-KUMMER](https://stacks.math.columbia.edu/tag/040N) line 1455 — Lemma 59.28.3, proof, monic root algebra; the displayed arrow identity follows by evaluating the quotient lift; [STACKS-01JO](https://stacks.math.columbia.edu/tag/01JO) line 1383 — Stacks Section 26.17, tag 01JO, Lemma 26.17.2 and its proof; affine fibre-product construction)
+([STACKS-KUMMER](https://stacks.math.columbia.edu/tag/040N) line 1455 — Lemma 59.28.3, proof, monic root algebra; the displayed arrow identity follows by evaluating the quotient lift; [NormalizationThree-codex-rtOQ9t](https://stacks.math.columbia.edu/tag/01JO) line 1383 — Stacks Section 26.17, tag 01JO, Lemma 26.17.2 and its proof; affine fibre-product construction)
 
 *Needs:* §1.41 (normalization along an arbitrary test-algebra map); §1.13 (the affine normalization scheme map); `AlgebraicGeometry.isPullback_SpecMap_of_isPushout`.
 
@@ -1668,7 +1668,7 @@ A proof route uses the following steps. Unfold only the new spectrum-map constru
 
 Compute the forward and inverse projection maps. Arbitrary algebra changes may kill nonzero nilpotents and stabilizer labels.
 
-([STACKS-01JO](https://stacks.math.columbia.edu/tag/01JO) line 1383 — Stacks Section 26.17, Definition 26.17.1 and Lemma 26.17.2 with proof; elementary calculation from the displayed quotient relation)
+([NormalizationThree-codex-rtOQ9t](https://stacks.math.columbia.edu/tag/01JO) line 1383 — Stacks Section 26.17, Definition 26.17.1 and Lemma 26.17.2 with proof; elementary calculation from the displayed quotient relation)
 
 *Needs:* §1.54 (the normalization change on schemes); §1.61 (normalization changes form the base triangle).
 
@@ -1741,7 +1741,7 @@ A proof route uses the following steps. Use the isomorphism from an pullback squ
 
 The source and target maps must agree with the framed-root and normalization constructions, including nonflat changes that kill nonzero nilpotent sections.
 
-([STACKS-KUMMER](https://stacks.math.columbia.edu/tag/040N) line 1455 — Lemma 59.28.3, proof, monic root algebra; the displayed arrow identity follows by evaluating the quotient lift; [STACKS-01JO](https://stacks.math.columbia.edu/tag/01JO) line 1383 — Stacks Section 26.17, tag 01JO, Lemma 26.17.2 and its proof; affine fibre-product construction)
+([STACKS-KUMMER](https://stacks.math.columbia.edu/tag/040N) line 1455 — Lemma 59.28.3, proof, monic root algebra; the displayed arrow identity follows by evaluating the quotient lift; [NormalizationThree-codex-rtOQ9t](https://stacks.math.columbia.edu/tag/01JO) line 1383 — Stacks Section 26.17, tag 01JO, Lemma 26.17.2 and its proof; affine fibre-product construction)
 
 *Needs:* §1.69 (the normalization square is Cartesian over the changed test scheme); `CategoryTheory.IsPullback.isoPullback`; `CategoryTheory.IsPullback.isoPullback_hom_fst`; `CategoryTheory.IsPullback.isoPullback_hom_snd`; `CategoryTheory.IsPullback.isoPullback_inv_fst`; `CategoryTheory.IsPullback.isoPullback_inv_snd`.
 
@@ -1769,7 +1769,7 @@ A proof route uses the following steps. Identify the new scheme map with the spe
 
 Compute the forward and inverse projection maps. Arbitrary algebra changes may kill nonzero nilpotents and stabilizer labels.
 
-([STACKS-01JO](https://stacks.math.columbia.edu/tag/01JO) line 1383 — Stacks Section 26.17, Definition 26.17.1 and Lemma 26.17.2 with proof; elementary calculation from the displayed quotient relation)
+([NormalizationThree-codex-rtOQ9t](https://stacks.math.columbia.edu/tag/01JO) line 1383 — Stacks Section 26.17, Definition 26.17.1 and Lemma 26.17.2 with proof; elementary calculation from the displayed quotient relation)
 
 *Needs:* §1.54 (the normalization change on schemes); §1.69 (the normalization square is Cartesian over the changed test scheme).
 
@@ -1895,7 +1895,7 @@ A proof route uses the following steps. The exact first projection equation make
 
 Compute the forward and inverse projection maps. Arbitrary algebra changes may kill nonzero nilpotents and stabilizer labels.
 
-([STACKS-01JO](https://stacks.math.columbia.edu/tag/01JO) line 1383 — Stacks Section 26.17, Definition 26.17.1 and Lemma 26.17.2 with proof; elementary calculation from the displayed quotient relation)
+([NormalizationThree-codex-rtOQ9t](https://stacks.math.columbia.edu/tag/01JO) line 1383 — Stacks Section 26.17, Definition 26.17.1 and Lemma 26.17.2 with proof; elementary calculation from the displayed quotient relation)
 
 *Needs:* §1.76 (the normalization base-change isomorphism); `CategoryTheory.Limits.pullback.map`; `CategoryTheory.Limits.pullback.map_isIso`; `CategoryTheory.asIso`; `CategoryTheory.Limits.pullback.lift_fst`; `CategoryTheory.Limits.pullback.lift_snd`; `CategoryTheory.Iso.inv_comp_eq`.
 
@@ -1909,7 +1909,7 @@ A proof route uses the following steps. Use the exact second projection and the 
 
 Compute the forward and inverse projection maps. Arbitrary algebra changes may kill nonzero nilpotents and stabilizer labels.
 
-([STACKS-01JO](https://stacks.math.columbia.edu/tag/01JO) line 1383 — Stacks Section 26.17, Definition 26.17.1 and Lemma 26.17.2 with proof; elementary calculation from the displayed quotient relation)
+([NormalizationThree-codex-rtOQ9t](https://stacks.math.columbia.edu/tag/01JO) line 1383 — Stacks Section 26.17, Definition 26.17.1 and Lemma 26.17.2 with proof; elementary calculation from the displayed quotient relation)
 
 *Needs:* §1.76 (the normalization base-change isomorphism); §1.54 (the normalization change on schemes).
 
@@ -1923,7 +1923,7 @@ A proof route uses the following steps. Compare both pullback projections. The f
 
 Compute the forward and inverse projection maps. Arbitrary algebra changes may kill nonzero nilpotents and stabilizer labels.
 
-([STACKS-01JO](https://stacks.math.columbia.edu/tag/01JO) line 1383 — Stacks Section 26.17, Definition 26.17.1 and Lemma 26.17.2 with proof; elementary calculation from the displayed quotient relation)
+([NormalizationThree-codex-rtOQ9t](https://stacks.math.columbia.edu/tag/01JO) line 1383 — Stacks Section 26.17, Definition 26.17.1 and Lemma 26.17.2 with proof; elementary calculation from the displayed quotient relation)
 
 *Needs:* §1.76 (the normalization base-change isomorphism); §1.40 (normalization spectrum arrows lie over the coefficient base); §1.41 (normalization along an arbitrary test-algebra map); `CategoryTheory.Limits.pullback.map`; `CategoryTheory.Limits.pullback.hom_ext`; `AlgebraicGeometry.Spec.map_comp`.
 
@@ -1949,7 +1949,7 @@ A proof route uses the following steps. Use the Cartesian scheme comparison, the
 - Over ℤ/3 at exponent 3 and f=0, the exponent vanishes in the coefficient ring while the Over comparison roundtrip and pulled-back cover base triangle hold for every change of test Z-algebra.
 - Over the zero ring ℤ/1 at exponent 3, the inverse Over roundtrip and pulled-back cover base triangle hold without choosing any spectrum point.
 
-([STACKS-01JO](https://stacks.math.columbia.edu/tag/01JO) line 1383 — Stacks Section 26.17 tag 01JO: Definition 26.17.1 and Lemma 26.17.2; elementary calculation from the displayed quotient relation)
+([NormalizationThree-codex-rtOQ9t](https://stacks.math.columbia.edu/tag/01JO) line 1383 — Stacks Section 26.17 tag 01JO: Definition 26.17.1 and Lemma 26.17.2; elementary calculation from the displayed quotient relation)
 
 *Needs:* §1.76 (the normalization base-change isomorphism); `CategoryTheory.Over.isoMk`; `CategoryTheory.Over.pullback`; `CategoryTheory.Limits.pullbackSymmetry`; `CategoryTheory.Limits.pullbackSymmetry_hom_comp_snd`; `CategoryTheory.Limits.pullbackSymmetry_hom_comp_fst`; `CategoryTheory.Over.inv_left_hom_left`; §1.71 (the natural transformation comparing changed normalization covers); §1.40 (normalization spectrum arrows lie over the coefficient base); `CategoryTheory.Over.OverMorphism.ext`; `CategoryTheory.Limits.pullback.hom_ext`; `CategoryTheory.Limits.pullback.lift_fst`; `CategoryTheory.Limits.pullback.lift_snd`.
 
@@ -2015,7 +2015,7 @@ A proof route uses the following steps. Compose the normalization isomorphism ov
 
 Compute the forward and inverse projection maps. Arbitrary algebra changes may kill nonzero nilpotents and stabilizer labels.
 
-([STACKS-01JO](https://stacks.math.columbia.edu/tag/01JO) line 1383 — Stacks Section 26.17, Definition 26.17.1 and Lemma 26.17.2 with proof; elementary calculation from the displayed quotient relation)
+([NormalizationThree-codex-rtOQ9t](https://stacks.math.columbia.edu/tag/01JO) line 1383 — Stacks Section 26.17, Definition 26.17.1 and Lemma 26.17.2 with proof; elementary calculation from the displayed quotient relation)
 
 *Needs:* §1.76 (the normalization base-change isomorphism); §1.85 (transport of a chosen normalization pullback); §1.54 (the normalization change on schemes); `CategoryTheory.Iso.inv_comp_eq`; `CategoryTheory.Limits.pullbackRightPullbackFstIso`; `CategoryTheory.Limits.pullbackRightPullbackFstIso_hom_fst`; `CategoryTheory.Limits.pullbackRightPullbackFstIso_hom_snd`; `CategoryTheory.Limits.pullback.congrHom`; `CategoryTheory.Limits.pullback.hom_ext`; `AlgebraicGeometry.Spec.map_comp`; §1.77 (the changed normalization chart triangle commutes).
 
@@ -2179,7 +2179,7 @@ A proof route uses the following steps. The exact first projection supplies comp
 - For the same coefficient changes at n=0,u=f=1,y=0, the final normalization ring is a polynomial ring in T. Direct, transported and inverse comparisons send T to T; no equation T=1 is introduced.
 - For ℤ→ℤ/1 followed by identity changes, n=3,u=1,y=f=0, the normalization algebra and all tensor pullbacks are the zero ring. Each coordinate map sends 1 to 0, and all comparison spectra are empty; the maps and inverse composites are unique.
 
-([STACKS-01JO](https://stacks.math.columbia.edu/tag/01JO) line 1383 — Stacks Section 26.17, Definition 26.17.1 and Lemma 26.17.2 with proof; elementary calculation from the displayed quotient relation)
+([NormalizationThree-codex-rtOQ9t](https://stacks.math.columbia.edu/tag/01JO) line 1383 — Stacks Section 26.17, Definition 26.17.1 and Lemma 26.17.2 with proof; elementary calculation from the displayed quotient relation)
 
 *Needs:* §1.91 (the two-step normalization pullback comparison); `CategoryTheory.Limits.pullback.map`; `CategoryTheory.Limits.pullback.map_isIso`; `CategoryTheory.asIso`; `CategoryTheory.Limits.pullback.lift_fst`; `CategoryTheory.Limits.pullback.lift_snd`; `CategoryTheory.Iso.inv_comp_eq`.
 
@@ -2207,7 +2207,7 @@ A proof route uses the following steps. Apply NatIso.ofComponents to the Over is
 - At exponent one over arbitrary test algebras, the changed normalized chart root is the image of f, and the natural-isomorphism component followed by the pullback projection recovers normalizationChangeNatTrans.
 - Over the zero ring ℤ/1 at exponent 3, the inverse Over roundtrip and pulled-back cover base triangle hold without choosing any spectrum point.
 
-([STACKS-01JO](https://stacks.math.columbia.edu/tag/01JO) line 1383 — Stacks Section 26.17 tag 01JO: Definition 26.17.1 and Lemma 26.17.2; elementary calculation from the displayed quotient relation)
+([NormalizationThree-codex-rtOQ9t](https://stacks.math.columbia.edu/tag/01JO) line 1383 — Stacks Section 26.17 tag 01JO: Definition 26.17.1 and Lemma 26.17.2; elementary calculation from the displayed quotient relation)
 
 *Needs:* §1.88 (the normalization comparison over the changed base); `CategoryTheory.NatIso.ofComponents`; §1.62 (the projection of pulled-back normalization covers); §1.71 (the natural transformation comparing changed normalization covers); §1.84 (the whole chart transformation commutes with test-algebra change).
 
@@ -2323,7 +2323,7 @@ A proof route uses the following steps. Compose the third normalization base-cha
 - Over 𝔽₃ with n=3,u=1,y=f=0 and identity coefficient changes, the normalization ring is 𝔽₃[T]/((T−1)³). Every comparison fixes T−1≠0, with (T−1)³=0; the exponent is zero in the coefficient field without making the comparison fail.
 - For ℤ→ℤ/1 followed by identity changes, n=3,u=1,y=f=0, the normalization algebra and all tensor pullbacks are the zero ring. Each coordinate map sends 1 to 0, and all comparison spectra are empty; the maps and inverse composites are unique.
 
-([STACKS-01JO](https://stacks.math.columbia.edu/tag/01JO) line 1383 — Stacks Section 26.17, Definition 26.17.1 and Lemma 26.17.2 with proof; elementary calculation from the displayed quotient relation)
+([NormalizationThree-codex-rtOQ9t](https://stacks.math.columbia.edu/tag/01JO) line 1383 — Stacks Section 26.17, Definition 26.17.1 and Lemma 26.17.2 with proof; elementary calculation from the displayed quotient relation)
 
 *Needs:* §1.76 (the normalization base-change isomorphism); §1.99 (transport the whole two-step comparison through a third change); §1.91 (the two-step normalization pullback comparison); §1.54 (the normalization change on schemes); `CategoryTheory.Iso.inv_comp_eq`; §1.27 (collapse the three chosen pullbacks); `CategoryTheory.Limits.pullback.hom_ext`; `CategoryTheory.Iso.ext`; §1.77 (the changed normalization chart triangle commutes).
 
@@ -3128,7 +3128,7 @@ Unlike AlgebraicModuliForArithmeticGeometry §4.23’s field-gerbe limit, this t
 T is an arbitrary scheme; the index set is the positive integers ordered by divisibility, which is directed. Each G_n is finite locally free over T and each transition G_m → G_n is faithfully flat with finite locally free kernel. For G_n = μ_n,T and ζ ↦ ζ^(m/n) the transition is the qth-power map, q = m/n: the coordinate ring of μ_m is free of rank q over that of μ_n, and the kernel is μ_q. Each P_n is an fppf G_n-torsor; the tower maps are equivariant and compose exactly.
 
 A proof route uses the following steps. (a) Fppf locally on T choose a section of P_m, so P_m ≅ G_m; then p(n,m) becomes π(n,m) followed by a translation of G_n. π(n,m) is finite, flat and of finite presentation with kernel K = ker π(n,m), and G_m ×_(G_n) G_m ≅ G_m × K, so it is a K-torsor. These properties are fpqc local on the base (Stacks 02KY, 02L2, 02LA).
-(b) The transition maps are finite, hence affine, and P_1 is finite over T, so the limit exists and is computed affine-locally (SchemeAndStackFoundations §0.9 `affine_transition_limits`; STACKS-01YW line 46, Lemma 32.2.1, tag 01YW, and line 51, Lemma 32.2.2, tag 01YX). Over U = Spec R it is Spec of the directed colimit of the coordinate rings of the P_n|U.
+(b) The transition maps are finite, hence affine, and P_1 is finite over T, so the limit exists and is computed affine-locally (SchemeAndStackFoundations §0.9 `affine_transition_limits`; Stacks-finite-root-projections-codex-7e92bd line 46, Lemma 32.2.1, tag 01YW, and line 51, Lemma 32.2.2, tag 01YX). Over U = Spec R it is Spec of the directed colimit of the coordinate rings of the P_n|U.
 (c) Each P_n|U is finite locally free and surjective over U, so its coordinate ring is a faithfully flat R-algebra; a directed colimit of faithfully flat R-algebras is faithfully flat (Stacks 090N). Translate with flat_and_surjective_iff_faithfullyFlat_of_isAffine. P is affine over T, hence quasi-compact, and {P → T} is an fpqc covering.
 (d) Fibre products commute with limits: G ×_T P = lim(G_n ×_T P_n) and P ×_T P = lim(P_n ×_T P_n), and the action map is the limit of the finite action isomorphisms. The G-map P → P_n factors through P ×^G G_n (pushforward along G → G_n, SchemeAndStackFoundations §2.3 NonabelianH1.map and §1.16), a G_n-map of G_n-torsors, hence an isomorphism (§1.15 Torsor.hom_isIso).
 (e) Pullback of affine schemes is tensor product of coordinate rings, and tensor product commutes with directed colimits. (f) is the universal property of the limit together with equivariance at each finite stage.
@@ -3136,7 +3136,7 @@ A proof route uses the following steps. (a) Fppf locally on T choose a section o
 
 Roots of 2: for G_n = μ_n over Spec ℚ and P_n = Spec ℚ[z_n]/(z_n^n − 2) with z_n = z_m^(m/n), P = Spec colim ℚ[z_n]/(z_n^n − 2) is an fpqc G-torsor with no ℚ-point (§3.65 (a Kummer limit torsor without fppf trivialization)). Trivial tower: P_n = G_n with p(n,m) = π(n,m) gives P = G with its translation action. Faithful flatness in (c) is proved on coordinate rings from the faithfully flat finite stages; nonemptiness of geometric fibres alone is not used. The comparison of (d) at each n is an isomorphism of G_n-torsors, not only of schemes.
 
-([TV17](https://arxiv.org/pdf/1410.1164v2) line 733 — Remark 3.9, p.15 For a projective system of affine group schemes of finite type with limit G, the remark sketches that a G-torsor is the projective limit of its pushforwards to the finite stages; this is direction (g). STACKS-01YW line 51, Lemma 32.2.2 (tag 01YX); The Stacks Project, Lemmas 10.39.20 (tag 090N), 35.37.1 (tag 0245), 35.23.13, 35.23.17 and 35.23.25 (tags 02KY, 02L2, 02LA))
+([TV17](https://arxiv.org/pdf/1410.1164v2) line 733 — Remark 3.9, p.15 For a projective system of affine group schemes of finite type with limit G, the remark sketches that a G-torsor is the projective limit of its pushforwards to the finite stages; this is direction (g). Stacks-finite-root-projections-codex-7e92bd line 51, Lemma 32.2.2 (tag 01YX); The Stacks Project, Lemmas 10.39.20 (tag 090N), 35.37.1 (tag 0245), 35.23.13, 35.23.17 and 35.23.25 (tags 02KY, 02L2, 02LA))
 
 *Needs:* SchemeAndStackFoundations §0.9; SchemeAndStackFoundations §§1.18–1.23; SchemeAndStackFoundations §§1.15–1.16 and 2.3; `AlgebraicGeometry.Scheme.fpqcTopology`; `Module.FaithfullyFlat`; `AlgebraicGeometry.Flat.flat_and_surjective_iff_faithfullyFlat_of_isAffine`.
 
@@ -3384,7 +3384,7 @@ A proof route uses the following steps. The divisibility identity (N/n)n=N prove
 - The equal-index 2→2 functor fixes the point with nonzero nilpotent root 2 over ℤ/4.
 - The 12→6→2 object composite equals 12→2, testing nonfactorial divisibility indices.
 
-([STACKS-022Y](https://stacks.math.columbia.edu/tag/022Y) line 966 — Stacks Section 39.10 Definitions 39.10.1–2 and Lemma 39.10.3, complete displayed text and comments)
+([AffineRootPointGroupoid-rtOQ9t](https://stacks.math.columbia.edu/tag/022Y) line 966 — Stacks Section 39.10 Definitions 39.10.1–2 and Lemma 39.10.3, complete displayed text and comments)
 
 *Needs:* §1.21 (the root-point action groupoid); §3.4 (affine transitions at fixed divisibility indices); `mem_rootsOfUnity`; `Nat.div_mul_div`.
 
@@ -3412,7 +3412,7 @@ A proof route uses the following steps. Apply φ to the arrow equation and use �
 - For arbitrary A-algebra φ:B→C, the object square of φ and the 6→2 power functor commutes.
 - At positive exponent 3, the change-of-test-algebra functor sends an identity arrow to label 1.
 
-([STACKS-022Y](https://stacks.math.columbia.edu/tag/022Y) line 966 — Stacks Section 39.10 Definitions 39.10.1–2 and Lemma 39.10.3, complete displayed text and comments)
+([AffineRootPointGroupoid-rtOQ9t](https://stacks.math.columbia.edu/tag/022Y) line 966 — Stacks Section 39.10 Definitions 39.10.1–2 and Lemma 39.10.3, complete displayed text and comments)
 
 *Needs:* §1.21 (the root-point action groupoid); `restrictRootsOfUnity`; §3.22 (power functors for every positive divisibility pair).
 
@@ -3972,7 +3972,7 @@ A,B,C are arbitrary commutative rings in a common arbitrary universe; f∈A and 
 
 A proof route uses the following steps. Apply direct-limit ring-map extensionality. At each finite chart, AdjoinRoot ring-map extensionality reduces equality to the coefficient and root hypotheses; the inclusions preserve coefficients.
 
-([STACKS-01JO](https://stacks.math.columbia.edu/tag/01JO) line 1410 — Stacks Project §26.17, Lemma 26.17.2 (tag 01JQ), printed p.31, affine fibre products and the tensor-product universal property; elementary calculation from the displayed quotient relation; [TV17](https://arxiv.org/pdf/1410.1164v2) line 668 — §3.1 printed p.14 inverse-limit description; Proposition 3.10 pp.15–16 delimits the separate quotient-stack use. Uses the all-positive-index affine chart.)
+([NormalizationThree-codex-rtOQ9t](https://stacks.math.columbia.edu/tag/01JO) line 1410 — Stacks Project §26.17, Lemma 26.17.2 (tag 01JQ), printed p.31, affine fibre products and the tensor-product universal property; elementary calculation from the displayed quotient relation; [TV17](https://arxiv.org/pdf/1410.1164v2) line 668 — §3.1 printed p.14 inverse-limit description; Proposition 3.10 pp.15–16 delimits the separate quotient-stack use. Uses the all-positive-index affine chart.)
 
 *Needs:* §3.32 (all positive root chart colimit); §3.39 (finite charts in the divisibility colimit); `DirectLimit.Ring.hom_ext`; `AdjoinRoot.ringHom_ext`.
 
@@ -4000,7 +4000,7 @@ A proof route uses the following steps. Use AdjoinRoot.map and the polynomial ma
 
 Do not replace an affine chart by the root stack, forget nonreduced root fibers, restrict the positive-divisibility system to factorial indices without its comparison, or infer fpqc quotient/descent from affine diagram naturality.
 
-([STACKS-01YW](https://stacks.math.columbia.edu/tag/01YW) line 46 — Lemma 32.2.1,)
+([Stacks-finite-root-projections-codex-7e92bd](https://stacks.math.columbia.edu/tag/01YW) line 46 — Lemma 32.2.1,)
 
 *Needs:* §3.41 (positive-divisibility ring diagram); §3.4 (affine transitions at fixed divisibility indices); `AdjoinRoot.map`; `AdjoinRoot.ringHom_ext`; `AdjoinRoot.map_root`; `AdjoinRoot.map_of`.
 
@@ -4236,7 +4236,7 @@ A proof route uses the following steps. Use the AdjoinRoot lift. The image of th
 - Over ℤ/2 at f=0 and n=2, the image of the root under the finite universal map has square zero.
 - For arbitrary compatible α and β, the level 6 image of t_6³ equals the level 2 image of t_2.
 
-([STACKS-01JO](https://stacks.math.columbia.edu/tag/01JO) line 1410 — Stacks Project §26.17, Lemma 26.17.2 (tag 01JQ), printed p.31, affine fibre products and the tensor-product universal property; elementary calculation from the displayed quotient relation; [TV17](https://arxiv.org/pdf/1410.1164v2) line 668 — §3.1 printed p.14 inverse-limit description; Proposition 3.10 pp.15–16 delimits the separate quotient-stack use. Uses the all-positive-index affine chart.)
+([NormalizationThree-codex-rtOQ9t](https://stacks.math.columbia.edu/tag/01JO) line 1410 — Stacks Project §26.17, Lemma 26.17.2 (tag 01JQ), printed p.31, affine fibre products and the tensor-product universal property; elementary calculation from the displayed quotient relation; [TV17](https://arxiv.org/pdf/1410.1164v2) line 668 — §3.1 printed p.14 inverse-limit description; Proposition 3.10 pp.15–16 delimits the separate quotient-stack use. Uses the all-positive-index affine chart.)
 
 *Needs:* §3.39 (finite charts in the divisibility colimit); `AdjoinRoot.lift`; §3.4 (affine transitions at fixed divisibility indices); `AdjoinRoot.ringHom_ext`.
 
@@ -4263,7 +4263,7 @@ A proof route uses the following steps. Use the opposite and right-whiskering co
 
 Do not replace an affine chart by the root stack, forget nonreduced root fibers, restrict the positive-divisibility system to factorial indices without its comparison, or infer fpqc quotient/descent from affine diagram naturality.
 
-([STACKS-01YW](https://stacks.math.columbia.edu/tag/01YW) line 46 — Lemma 32.2.1,)
+([Stacks-finite-root-projections-codex-7e92bd](https://stacks.math.columbia.edu/tag/01YW) line 46 — Lemma 32.2.1,)
 
 *Needs:* §3.51 (coefficient change of the finite root diagram); §3.49 (inverse diagram of root charts); `CategoryTheory.NatTrans.op`; `CategoryTheory.Functor.whiskerRight`; `CategoryTheory.NatTrans.op_id`; `AlgebraicGeometry.Spec.map_comp`.
 
@@ -4288,7 +4288,7 @@ A proof route uses the following steps. Bundle the groupoids using Grpd.of and u
 - Over ℤ/4 at f=0, the sixth-root point with root 2 is nonzero at the root, while its 6→2 diagram image has root 2 cubed=0.
 - Over ℤ/4 at f=0, construct a nonidentity stabilizer arrow labelled−1 at the zero fourth-root point. The 4→2 diagram functor maps that arrow to the categorical identity.
 
-([STACKS-022Y](https://stacks.math.columbia.edu/tag/022Y) line 966 — Stacks Section 39.10 Definitions 39.10.1–2 action/equivariance conventions; elementary calculation from the displayed quotient relation)
+([AffineRootPointGroupoid-rtOQ9t](https://stacks.math.columbia.edu/tag/022Y) line 966 — Stacks Section 39.10 Definitions 39.10.1–2 action/equivariance conventions; elementary calculation from the displayed quotient relation)
 
 *Needs:* §3.5 (positive divisibility root indices); §1.21 (the root-point action groupoid); §3.22 (power functors for every positive divisibility pair); `CategoryTheory.Grpd.of`; `CategoryTheory.Grpd.category`.
 
@@ -4549,7 +4549,7 @@ A proof route uses the following steps. Use the change functor at each positive 
 - For arbitrary A-algebra φ:B→C, the naturality square of its natural transformation and the 6→2 diagram transition is equality of full groupoid functors.
 - For three test algebras B,C,D, the algebra-functor maps of φ:B→C andψ:C→D compose to the map ofψ∘φ, and the identity algebra map gives the identity natural transformation.
 
-([STACKS-022Y](https://stacks.math.columbia.edu/tag/022Y) line 966 — Stacks Section 39.10 Definitions 39.10.1–2 action/equivariance conventions; elementary calculation from the displayed quotient relation)
+([AffineRootPointGroupoid-rtOQ9t](https://stacks.math.columbia.edu/tag/022Y) line 966 — Stacks Section 39.10 Definitions 39.10.1–2 action/equivariance conventions; elementary calculation from the displayed quotient relation)
 
 *Needs:* §3.64 (the positive-divisibility diagram of root-point groupoids); §3.23 (change of the test algebra).
 
@@ -4904,7 +4904,7 @@ A proof route uses the following steps. Apply the direct-limit ring lift to the 
 - For arbitrary compatible α and β, descent sends the third root plus coefficient b to α of the third root plus β(b).
 - For a compatible cocone with target ℤ/1, the descent map sends every colimit element to zero.
 
-([STACKS-01JO](https://stacks.math.columbia.edu/tag/01JO) line 1410 — Stacks Project §26.17, Lemma 26.17.2 (tag 01JQ), printed p.31, affine fibre products and the tensor-product universal property; elementary calculation from the displayed quotient relation; [TV17](https://arxiv.org/pdf/1410.1164v2) line 668 — §3.1 printed p.14 inverse-limit description; Proposition 3.10 pp.15–16 delimits the separate quotient-stack use. Uses the all-positive-index affine chart.)
+([NormalizationThree-codex-rtOQ9t](https://stacks.math.columbia.edu/tag/01JO) line 1410 — Stacks Project §26.17, Lemma 26.17.2 (tag 01JQ), printed p.31, affine fibre products and the tensor-product universal property; elementary calculation from the displayed quotient relation; [TV17](https://arxiv.org/pdf/1410.1164v2) line 668 — §3.1 printed p.14 inverse-limit description; Proposition 3.10 pp.15–16 delimits the separate quotient-stack use. Uses the all-positive-index affine chart.)
 
 *Needs:* §3.62 (finite root map from compatible coefficient data); `DirectLimit.Ring.lift`; §3.39 (finite charts in the divisibility colimit).
 
@@ -4928,7 +4928,7 @@ A proof route uses the following steps. Reuse the algebra category and functor c
 - For arbitrary A-algebra φ:B→C, the naturality square of its natural transformation and the 6→2 diagram transition is equality of full groupoid functors.
 - For three test algebras B,C,D, the algebra-functor maps of φ:B→C andψ:C→D compose to the map ofψ∘φ, and the identity algebra map gives the identity natural transformation.
 
-([STACKS-022Y](https://stacks.math.columbia.edu/tag/022Y) line 966 — Stacks Section 39.10 Definitions 39.10.1–2 action/equivariance conventions; elementary calculation from the displayed quotient relation)
+([AffineRootPointGroupoid-rtOQ9t](https://stacks.math.columbia.edu/tag/022Y) line 966 — Stacks Section 39.10 Definitions 39.10.1–2 action/equivariance conventions; elementary calculation from the displayed quotient relation)
 
 *Needs:* §3.64 (the positive-divisibility diagram of root-point groupoids); §3.76 (natural transformations for arbitrary test-algebra change); `CommAlgCat`; `CommAlgCat.Hom.hom`; `CommAlgCat.ofHom`.
 
@@ -5637,7 +5637,7 @@ A,B,C are arbitrary commutative rings in a common arbitrary universe; f∈A and 
 
 A proof route uses the following steps. Use root-colimit ring-map extensionality. On A-coefficients, use the given compatibility of α and β; on every root, combine the coefficient-root formula with the new universal-root formula.
 
-([STACKS-01JO](https://stacks.math.columbia.edu/tag/01JO) line 1410 — Stacks Project §26.17, Lemma 26.17.2 (tag 01JQ), printed p.31, affine fibre products and the tensor-product universal property; elementary calculation from the displayed quotient relation; [TV17](https://arxiv.org/pdf/1410.1164v2) line 668 — §3.1 printed p.14 inverse-limit description; Proposition 3.10 pp.15–16 delimits the separate quotient-stack use. Uses the all-positive-index affine chart.)
+([NormalizationThree-codex-rtOQ9t](https://stacks.math.columbia.edu/tag/01JO) line 1410 — Stacks Project §26.17, Lemma 26.17.2 (tag 01JQ), printed p.31, affine fibre products and the tensor-product universal property; elementary calculation from the displayed quotient relation; [TV17](https://arxiv.org/pdf/1410.1164v2) line 668 — §3.1 printed p.14 inverse-limit description; Proposition 3.10 pp.15–16 delimits the separate quotient-stack use. Uses the all-positive-index affine chart.)
 
 *Needs:* §3.94 (universal map from the base-changed root colimit); §3.114 (coefficient map over positive divisibilities); §3.130 (coefficient map preserves every root index); §3.50 (root-colimit ring-map extensionality).
 
@@ -5649,7 +5649,7 @@ A,B,C are arbitrary commutative rings in a common arbitrary universe; f∈A and 
 
 A proof route uses the following steps. Compare g and δ on B-coefficients and every positive root. Apply the factorization equality g∘F_φ=α to each original root and use the coefficient-root formula.
 
-([STACKS-01JO](https://stacks.math.columbia.edu/tag/01JO) line 1410 — Stacks Project §26.17, Lemma 26.17.2 (tag 01JQ), printed p.31, affine fibre products and the tensor-product universal property; elementary calculation from the displayed quotient relation; [TV17](https://arxiv.org/pdf/1410.1164v2) line 668 — §3.1 printed p.14 inverse-limit description; Proposition 3.10 pp.15–16 delimits the separate quotient-stack use. Uses the all-positive-index affine chart.)
+([NormalizationThree-codex-rtOQ9t](https://stacks.math.columbia.edu/tag/01JO) line 1410 — Stacks Project §26.17, Lemma 26.17.2 (tag 01JQ), printed p.31, affine fibre products and the tensor-product universal property; elementary calculation from the displayed quotient relation; [TV17](https://arxiv.org/pdf/1410.1164v2) line 668 — §3.1 printed p.14 inverse-limit description; Proposition 3.10 pp.15–16 delimits the separate quotient-stack use. Uses the all-positive-index affine chart.)
 
 *Needs:* §3.94 (universal map from the base-changed root colimit); §3.130 (coefficient map preserves every root index); §3.50 (root-colimit ring-map extensionality).
 
@@ -5663,7 +5663,7 @@ A proof route uses the following steps. Use root-algebra extensionality, the inf
 
 Do not replace an affine chart by the root stack, forget nonreduced root fibers, restrict the positive-divisibility system to factorial indices without its comparison, or infer fpqc quotient/descent from affine diagram naturality.
 
-([STACKS-01YW](https://stacks.math.columbia.edu/tag/01YW) line 46 — Lemma 32.2.1,)
+([Stacks-finite-root-projections-codex-7e92bd](https://stacks.math.columbia.edu/tag/01YW) line 46 — Lemma 32.2.1,)
 
 *Needs:* §3.114 (coefficient map over positive divisibilities); §3.130 (coefficient map preserves every root index); §3.39 (finite charts in the divisibility colimit); §3.51 (coefficient change of the finite root diagram); `AdjoinRoot.ringHom_ext`.
 
@@ -5700,7 +5700,7 @@ A,B,C are arbitrary commutative rings in a common arbitrary universe; f∈A and 
 
 A proof route uses the following steps. The coefficient formula proves the square commutes. For an arbitrary pushout cocone, take α and β to be its right and left ring maps. Its cocone equation supplies compatibility, δ supplies descent, the two factorization laws give both legs, and uniqueness gives the IsColimit witness.
 
-([STACKS-01JO](https://stacks.math.columbia.edu/tag/01JO) line 1410 — Stacks Project §26.17, Lemma 26.17.2 (tag 01JQ), printed p.31, affine fibre products and the tensor-product universal property; elementary calculation from the displayed quotient relation; [TV17](https://arxiv.org/pdf/1410.1164v2) line 668 — §3.1 printed p.14 inverse-limit description; Proposition 3.10 pp.15–16 delimits the separate quotient-stack use. Uses the all-positive-index affine chart.)
+([NormalizationThree-codex-rtOQ9t](https://stacks.math.columbia.edu/tag/01JO) line 1410 — Stacks Project §26.17, Lemma 26.17.2 (tag 01JQ), printed p.31, affine fibre products and the tensor-product universal property; elementary calculation from the displayed quotient relation; [TV17](https://arxiv.org/pdf/1410.1164v2) line 668 — §3.1 printed p.14 inverse-limit description; Proposition 3.10 pp.15–16 delimits the separate quotient-stack use. Uses the all-positive-index affine chart.)
 
 *Needs:* §3.114 (coefficient map over positive divisibilities); §3.94 (universal map from the base-changed root colimit); §3.135 (factorization of the coefficient map); §3.136 (uniqueness of the base-change universal map); `CategoryTheory.Limits.PushoutCocone.IsColimit.mk`; `CategoryTheory.IsPushout.of_isColimit`.
 
@@ -5714,7 +5714,7 @@ A proof route uses the following steps. Rewrite the projections and coefficient 
 
 Do not replace an affine chart by the root stack, forget nonreduced root fibers, restrict the positive-divisibility system to factorial indices without its comparison, or infer fpqc quotient/descent from affine diagram naturality.
 
-([STACKS-01YW](https://stacks.math.columbia.edu/tag/01YW) line 46 — Lemma 32.2.1,)
+([Stacks-finite-root-projections-codex-7e92bd](https://stacks.math.columbia.edu/tag/01YW) line 46 — Lemma 32.2.1,)
 
 *Needs:* §3.122 (contravariant coefficient map of infinite root charts); §3.75 (infinite affine root-chart cone); §3.63 (coefficient change of the finite scheme diagram); §3.137 (the infinite coefficient map restricts to every finite level); `AlgebraicGeometry.Spec.map_comp`.
 
@@ -5752,7 +5752,7 @@ A,B,C are arbitrary commutative rings in a common arbitrary universe; f∈A and 
 
 A proof route uses the following steps. Apply the pinned theorem sending commutative-ring pushouts to scheme pullbacks to the root-specific ring square. Its universal property ranges over arbitrary test schemes, not just affine schemes or their points.
 
-([STACKS-01JO](https://stacks.math.columbia.edu/tag/01JO) line 1410 — Stacks Project §26.17, Lemma 26.17.2 (tag 01JQ), printed p.31, affine fibre products and the tensor-product universal property; elementary calculation from the displayed quotient relation; [TV17](https://arxiv.org/pdf/1410.1164v2) line 668 — §3.1 printed p.14 inverse-limit description; Proposition 3.10 pp.15–16 delimits the separate quotient-stack use. Uses the all-positive-index affine chart.)
+([NormalizationThree-codex-rtOQ9t](https://stacks.math.columbia.edu/tag/01JO) line 1410 — Stacks Project §26.17, Lemma 26.17.2 (tag 01JQ), printed p.31, affine fibre products and the tensor-product universal property; elementary calculation from the displayed quotient relation; [TV17](https://arxiv.org/pdf/1410.1164v2) line 668 — §3.1 printed p.14 inverse-limit description; Proposition 3.10 pp.15–16 delimits the separate quotient-stack use. Uses the all-positive-index affine chart.)
 
 *Needs:* §3.139 (arbitrary base change as a ring pushout); §3.122 (contravariant coefficient map of infinite root charts); `AlgebraicGeometry.isPullback_SpecMap_of_isPushout`.
 
@@ -5777,7 +5777,7 @@ A proof route uses the following steps. Compare the tensor-product ring pushout 
 - For Z→ℤ/4 at f=2 and index 3, the inverse comparison carries the B-root to 1⊗ the Z-root.
 - With B=ℤ/1 and A=ℤ, every tensor maps to zero in the base-changed root colimit.
 
-([STACKS-01JO](https://stacks.math.columbia.edu/tag/01JO) line 1410 — Stacks Project §26.17, Lemma 26.17.2 (tag 01JQ), printed p.31, affine fibre products and the tensor-product universal property; elementary calculation from the displayed quotient relation; [TV17](https://arxiv.org/pdf/1410.1164v2) line 668 — §3.1 printed p.14 inverse-limit description; Proposition 3.10 pp.15–16 delimits the separate quotient-stack use. Uses the all-positive-index affine chart.)
+([NormalizationThree-codex-rtOQ9t](https://stacks.math.columbia.edu/tag/01JO) line 1410 — Stacks Project §26.17, Lemma 26.17.2 (tag 01JQ), printed p.31, affine fibre products and the tensor-product universal property; elementary calculation from the displayed quotient relation; [TV17](https://arxiv.org/pdf/1410.1164v2) line 668 — §3.1 printed p.14 inverse-limit description; Proposition 3.10 pp.15–16 delimits the separate quotient-stack use. Uses the all-positive-index affine chart.)
 
 *Needs:* §3.139 (arbitrary base change as a ring pushout); `CommRingCat.isPushout_tensorProduct`; `CategoryTheory.IsPushout.isoIsPushout`; `CategoryTheory.IsPushout.inl_isoIsPushout_hom`; `CategoryTheory.Iso.commRingCatIsoToRingEquiv`; `CategoryTheory.IsPushout.inr_isoIsPushout_hom`; `Algebra.TensorProduct.algebraMap_apply`; §3.130 (coefficient map preserves every root index).
 
@@ -5802,7 +5802,7 @@ A proof route uses the following steps. Give the target the A-algebra structure 
 
 Keep tensors, ring maps and equalizers; do not assume flatness or remove nilpotents.
 
-([STACKS-022Y](https://stacks.math.columbia.edu/tag/022Y) line 966 — Stacks Project §39.10 Definition 39.10.1 and the displayed equivariance diagram; elementary calculation from the displayed quotient relation; [TV17](https://arxiv.org/pdf/1410.1164v2) line 668 — §3.1 printed pp.14–16, grading, Lemma 3.7 and Proposition 3.10)
+([AffineRootPointGroupoid-rtOQ9t](https://stacks.math.columbia.edu/tag/022Y) line 966 — Stacks Project §39.10 Definition 39.10.1 and the displayed equivariance diagram; elementary calculation from the displayed quotient relation; [TV17](https://arxiv.org/pdf/1410.1164v2) line 668 — §3.1 printed pp.14–16, grading, Lemma 3.7 and Proposition 3.10)
 
 *Needs:* §3.138 (universal coaction over positive divisibilities); §3.121 (rational-character tensor coefficient map for divisibility charts); `AlgHom.liftEquiv`; `IsScalarTower.algebraMap_apply`; `AlgHom.liftEquiv_tmul`.
 
@@ -5816,7 +5816,7 @@ A proof route uses the following steps. Use the limit-cone hom extensionality an
 
 Do not replace an affine chart by the root stack, forget nonreduced root fibers, restrict the positive-divisibility system to factorial indices without its comparison, or infer fpqc quotient/descent from affine diagram naturality.
 
-([STACKS-01YW](https://stacks.math.columbia.edu/tag/01YW) line 46 — Lemma 32.2.1,)
+([Stacks-finite-root-projections-codex-7e92bd](https://stacks.math.columbia.edu/tag/01YW) line 46 — Lemma 32.2.1,)
 
 *Needs:* §3.75 (infinite affine root-chart cone); §3.140 (the infinite coefficient morphism commutes with finite projection).
 
@@ -5897,7 +5897,7 @@ A proof route uses the following steps. Use the canonical isomorphism from the p
 - For ℤ→𝔽₂ and f=0, the base change C_(𝔽₂)(0) has u_1≠0 with u_1²=0, so a comparison with the reduced chart 𝔽₂ fails while the categorical base change keeps u_1.
 - For ℤ→ℤ/1 and f=0, both sides are the zero ring and the comparison is its identity.
 
-([STACKS-01JO](https://stacks.math.columbia.edu/tag/01JO) line 1410 — Stacks Project §26.17, Lemma 26.17.2 (tag 01JQ), printed p.31, affine fibre products and the tensor-product universal property; elementary calculation from the displayed quotient relation; [TV17](https://arxiv.org/pdf/1410.1164v2) line 668 — §3.1 printed p.14 inverse-limit description; Proposition 3.10 pp.15–16 delimits the separate quotient-stack use. Uses the all-positive-index affine chart.)
+([NormalizationThree-codex-rtOQ9t](https://stacks.math.columbia.edu/tag/01JO) line 1410 — Stacks Project §26.17, Lemma 26.17.2 (tag 01JQ), printed p.31, affine fibre products and the tensor-product universal property; elementary calculation from the displayed quotient relation; [TV17](https://arxiv.org/pdf/1410.1164v2) line 668 — §3.1 printed p.14 inverse-limit description; Proposition 3.10 pp.15–16 delimits the separate quotient-stack use. Uses the all-positive-index affine chart.)
 
 *Needs:* §3.143 (cartesian base-change square of infinite affine charts); `CategoryTheory.IsPullback.isoPullback`; `CategoryTheory.IsPullback.isoPullback_hom_fst`; `CategoryTheory.IsPullback.isoPullback_hom_snd`; `CategoryTheory.IsPullback.isoPullback_inv_snd`; §3.140 (the infinite coefficient morphism commutes with finite projection).
 
@@ -6071,7 +6071,7 @@ A proof route uses the following steps. Use pure-tensor extensionality. The new 
 
 Keep tensors, ring maps and equalizers; do not assume flatness or remove nilpotents.
 
-([STACKS-022Y](https://stacks.math.columbia.edu/tag/022Y) line 966 — Stacks Project §39.10 Definition 39.10.1 and the displayed equivariance diagram; elementary calculation from the displayed quotient relation; [TV17](https://arxiv.org/pdf/1410.1164v2) line 668 — §3.1 printed pp.14–16, grading, Lemma 3.7 and Proposition 3.10)
+([AffineRootPointGroupoid-rtOQ9t](https://stacks.math.columbia.edu/tag/022Y) line 966 — Stacks Project §39.10 Definition 39.10.1 and the displayed equivariance diagram; elementary calculation from the displayed quotient relation; [TV17](https://arxiv.org/pdf/1410.1164v2) line 668 — §3.1 printed pp.14–16, grading, Lemma 3.7 and Proposition 3.10)
 
 *Needs:* §3.145 (tensor extension of the root coaction); §3.144 (tensor description of the base-changed root algebra); §3.155 (positive-divisibility coaction naturality); `Algebra.TensorProduct.ext'`.
 
@@ -6192,7 +6192,7 @@ A proof route uses the following steps. Evaluate the comparison identity on the 
 
 Keep tensors, ring maps and equalizers; do not assume flatness or remove nilpotents.
 
-([STACKS-022Y](https://stacks.math.columbia.edu/tag/022Y) line 966 — Stacks Project §39.10 Definition 39.10.1 and the displayed equivariance diagram; elementary calculation from the displayed quotient relation; [TV17](https://arxiv.org/pdf/1410.1164v2) line 668 — §3.1 printed pp.14–16, grading, Lemma 3.7 and Proposition 3.10)
+([AffineRootPointGroupoid-rtOQ9t](https://stacks.math.columbia.edu/tag/022Y) line 966 — Stacks Project §39.10 Definition 39.10.1 and the displayed equivariance diagram; elementary calculation from the displayed quotient relation; [TV17](https://arxiv.org/pdf/1410.1164v2) line 668 — §3.1 printed pp.14–16, grading, Lemma 3.7 and Proposition 3.10)
 
 *Needs:* §3.161 (equivariance of the tensor base-change comparison); §3.144 (tensor description of the base-changed root algebra); §3.130 (coefficient map preserves every root index); §3.159 (positive-level root character).
 
@@ -6206,7 +6206,7 @@ A proof route uses the following steps. Use the B-algebra compatibility of E and
 
 Keep tensors, ring maps and equalizers; do not assume flatness or remove nilpotents.
 
-([STACKS-022Y](https://stacks.math.columbia.edu/tag/022Y) line 966 — Stacks Project §39.10 Definition 39.10.1 and the displayed equivariance diagram; elementary calculation from the displayed quotient relation; [TV17](https://arxiv.org/pdf/1410.1164v2) line 668 — §3.1 printed pp.14–16, grading, Lemma 3.7 and Proposition 3.10)
+([AffineRootPointGroupoid-rtOQ9t](https://stacks.math.columbia.edu/tag/022Y) line 966 — Stacks Project §39.10 Definition 39.10.1 and the displayed equivariance diagram; elementary calculation from the displayed quotient relation; [TV17](https://arxiv.org/pdf/1410.1164v2) line 668 — §3.1 printed pp.14–16, grading, Lemma 3.7 and Proposition 3.10)
 
 *Needs:* §3.161 (equivariance of the tensor base-change comparison); §3.144 (tensor description of the base-changed root algebra); §3.138 (universal coaction over positive divisibilities).
 
@@ -6368,7 +6368,7 @@ A proof route uses the following steps. Rewrite β as δ_B∘E and use the arbit
 
 Keep tensors, ring maps and equalizers; do not assume flatness or remove nilpotents.
 
-([STACKS-022Y](https://stacks.math.columbia.edu/tag/022Y) line 966 — Stacks Project §39.10 Definition 39.10.1 and the displayed equivariance diagram; elementary calculation from the displayed quotient relation; [TV17](https://arxiv.org/pdf/1410.1164v2) line 668 — §3.1 printed pp.14–16, grading, Lemma 3.7 and Proposition 3.10)
+([AffineRootPointGroupoid-rtOQ9t](https://stacks.math.columbia.edu/tag/022Y) line 966 — Stacks Project §39.10 Definition 39.10.1 and the displayed equivariance diagram; elementary calculation from the displayed quotient relation; [TV17](https://arxiv.org/pdf/1410.1164v2) line 668 — §3.1 printed pp.14–16, grading, Lemma 3.7 and Proposition 3.10)
 
 *Needs:* §3.161 (equivariance of the tensor base-change comparison); §3.174 (invariant algebra over positive divisibilities); §3.144 (tensor description of the base-changed root algebra).
 
@@ -6412,7 +6412,7 @@ A proof route uses the following steps. Restrict the coefficient algebra map to 
 
 Keep tensors, ring maps and equalizers; do not assume flatness or remove nilpotents.
 
-([STACKS-022Y](https://stacks.math.columbia.edu/tag/022Y) line 966 — Stacks Project §39.10 Definition 39.10.1 and the displayed equivariance diagram; elementary calculation from the displayed quotient relation; [TV17](https://arxiv.org/pdf/1410.1164v2) line 668 — §3.1 printed pp.14–16, grading, Lemma 3.7 and Proposition 3.10)
+([AffineRootPointGroupoid-rtOQ9t](https://stacks.math.columbia.edu/tag/022Y) line 966 — Stacks Project §39.10 Definition 39.10.1 and the displayed equivariance diagram; elementary calculation from the displayed quotient relation; [TV17](https://arxiv.org/pdf/1410.1164v2) line 668 — §3.1 printed pp.14–16, grading, Lemma 3.7 and Proposition 3.10)
 
 *Needs:* §3.169 (base-changed coefficient coinvariance); §3.178 (tensor coinvariants are exactly new coefficients); §3.144 (tensor description of the base-changed root algebra); §3.113 (injective positive-divisibility coefficient map); `AlgHom.equalizer`; `AlgHom.codRestrict`; `AlgEquiv.ofBijective`; §3.177 (invariant algebra equivalence).
 
@@ -6426,7 +6426,7 @@ A proof route uses the following steps. Existence is the tensor coinvariant char
 
 Keep tensors, ring maps and equalizers; do not assume flatness or remove nilpotents.
 
-([STACKS-022Y](https://stacks.math.columbia.edu/tag/022Y) line 966 — Stacks Project §39.10 Definition 39.10.1 and the displayed equivariance diagram; elementary calculation from the displayed quotient relation; [TV17](https://arxiv.org/pdf/1410.1164v2) line 668 — §3.1 printed pp.14–16, grading, Lemma 3.7 and Proposition 3.10)
+([AffineRootPointGroupoid-rtOQ9t](https://stacks.math.columbia.edu/tag/022Y) line 966 — Stacks Project §39.10 Definition 39.10.1 and the displayed equivariance diagram; elementary calculation from the displayed quotient relation; [TV17](https://arxiv.org/pdf/1410.1164v2) line 668 — §3.1 printed pp.14–16, grading, Lemma 3.7 and Proposition 3.10)
 
 *Needs:* §3.178 (tensor coinvariants are exactly new coefficients); §3.144 (tensor description of the base-changed root algebra); §3.113 (injective positive-divisibility coefficient map).
 
@@ -9572,13 +9572,13 @@ The finite-coordinate identities, including normalization-arrow and tensor-coord
 - [TV17](https://arxiv.org/abs/1410.1164v2). Mattia Talpo and Angelo Vistoli. Infinite root stacks and quasi-coherent sheaves on logarithmic schemes (2017). arXiv:1410.1164v2, §3, Propositions 3.4–3.5 and 3.10, Remark 3.9, Lemmas 3.7 and 3.12, Corollary 3.13, pp.12–16.
 - [STACKS-KUMMER](https://stacks.math.columbia.edu/tag/040N). The Stacks Project Authors. The Stacks Project, 040N (2026). Tag 040N.
 - [FramedRoot-codex-rtOQ9t](https://sites.math.washington.edu/~jarod/moduli.pdf). Jarod Alper. Stacks and Moduli (2026). Draft of 5 January 2026, Examples 4.9.21–4.9.22 and Exercise 4.9.23, pp.159–160.
-- [STACKS-01JO](https://stacks.math.columbia.edu/tag/01JO). The Stacks Project Authors. The Stacks Project, 01JO (2026). Tag 01JO.
-- [STACKS-021M](https://stacks.math.columbia.edu/tag/021M). The Stacks Project Authors. The Stacks Project, 021M (2026). Tag 021M.
+- [NormalizationThree-codex-rtOQ9t](https://stacks.math.columbia.edu/tag/01JO). The Stacks Project Authors. The Stacks Project, 01JO (2026). Tag 01JO.
+- [FramedFppfCover-codex-rtOQ9t](https://stacks.math.columbia.edu/tag/021M). The Stacks Project Authors. The Stacks Project, 021M (2026). Tag 021M.
 - [STACKIFICATION](https://stacks.math.columbia.edu/tag/02ZO). The Stacks Project Authors. The Stacks Project, 02ZO (2026). Tag 02ZO.
 - [AOV08](https://www.numdam.org/item/10.5802/aif.2378.pdf). Dan Abramovich, Martin Olsson and Angelo Vistoli. Tame stacks in positive characteristic (2008). Definition 3.1, Theorem 3.2 and Corollary 3.3, pp.1077–1078.
 - [B24](https://link.springer.com/content/pdf/10.1007/s00222-023-01220-6.pdf). Giulio Bresciani. On the birational section conjecture with strong birationality assumptions (2024). pp.133, 135–136. Uncertified; cited by locator alone.
-- [STACKS-022Y](https://stacks.math.columbia.edu/tag/022Y). The Stacks Project Authors. The Stacks Project, 022Y (2026). Tag 022Y.
-- [STACKS-01YW](https://stacks.math.columbia.edu/tag/01YW). The Stacks Project Authors. The Stacks Project, 01YW (2026). Tag 01YW.
+- [AffineRootPointGroupoid-rtOQ9t](https://stacks.math.columbia.edu/tag/022Y). The Stacks Project Authors. The Stacks Project, 022Y (2026). Tag 022Y.
+- [Stacks-finite-root-projections-codex-7e92bd](https://stacks.math.columbia.edu/tag/01YW). The Stacks Project Authors. The Stacks Project, 01YW (2026). Tag 01YW.
 - [YZ19](https://math.mit.edu/~zyun/GZW_ramified_published.pdf). Zhiwei Yun and Wei Zhang. Shtukas and the Taylor expansion of L-functions (II) (2019). Appendix A.1–A.3, Definitions A.1–A.3, Lemmas A.4–A.10, Propositions A.11–A.12, pp.514–526; §6.2.1, pp.496–497.
 - [StacksPic](https://stacks.math.columbia.edu/tag/0372). The Stacks Project Authors. The Stacks Project, 0372 (2026). Tag 0372.
 - [StacksRes](https://stacks.math.columbia.edu/tag/05Y8). The Stacks Project Authors. The Stacks Project, 05Y8 (2026). Tag 05Y8.
