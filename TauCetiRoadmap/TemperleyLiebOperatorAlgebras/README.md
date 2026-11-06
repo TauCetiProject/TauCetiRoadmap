@@ -64,9 +64,16 @@ This roadmap owns:
 - the sign isomorphism `TL_n(δ) ≅ TL_n(−δ)` over every commutative ring, its trace relation,
   and the positivity classification at negative loop parameters (Layer 2);
 - the Bratteli diagram of the Jones tower and the AF presentation of `B_δ` (Layer 2);
-- the unitary Temperley–Lieb category and its C*-tensor and unitary-duality structure (Layer 3);
+- the unitary Temperley–Lieb category, its C*-tensor and unitary-duality structure, its simple
+  objects and its unitary fusion rules (Layer 3);
 - the affine Temperley–Lieb category, the algebras `ATL_n(δ)`, their standard modules, simple
   heads, intertwiners, Gram determinants and composition factors (Layer 4).
+
+The comparisons 1.2–1.3, the sign isomorphism 2.1 and Layer 3 are the single home of the positive
+Temperley–Lieb completion built on Subfactors Layer 3's quotients `Q_n`: the identification of the
+trace radical with the negligible ideal, the comparison of the loop parameters `δ = −d` and `d`,
+and the unitary tensor category with its standard solutions, simple objects and fusion rules.
+Roadmaps that need these objects consume them from here and do not restate them.
 
 The roadmap leaves the following to named roadmaps:
 
@@ -124,7 +131,8 @@ interpretation of the Jones polynomial at `t = i` and the identification of fini
 with named finite groups. The algebraic affine simple
 modules of Layer 4 are included; no positivity is inferred from their bilinear pairings.
 
-No roadmap consumes this roadmap at present.
+QuantumGroups consumes Layers 1–3 for its free orthogonal fusion theorem (see Downstream
+consumers).
 
 ## Conventions
 
@@ -344,6 +352,18 @@ unitary Temperley–Lieb category from Layer 1's positive Hom pairings and Tempe
 envelope and quotient, and instantiates CategoricalOperatorAlgebras' interfaces. Layer 4 is
 independent of Layers 2–3: it needs the ordinary diagram category and the Jones–Wenzl calculus of
 TemperleyLieb, and Layer 1 only for the sign convention of the quantum parameter.
+
+Roadmaps that cite this one by the former labels A1–A7 find that material as follows.
+
+| Former label | Where it lives now |
+| --- | --- |
+| A1 (complex fibers, reflection, traces) | 1.1; the analytic adjoint is Subfactors 3.1 |
+| A2 (cellular and path comparisons) | 1.2 and 1.4; the positive path models are Subfactors 3.3 |
+| A3 (positive Jones quotients, negligible ideals) | 1.3; the quotients `Q_n` are Subfactors 3.3 |
+| A4 (positivity at every level) | Subfactors 3.2 for `δ > 0`; 2.1 for `δ < 0` |
+| A5 (C*-tower and trace representations) | Subfactors 3.3; sign isomorphism 2.1; Bratteli diagram 2.2 |
+| A6 (the unitary Temperley–Lieb category) | Layer 3 (3.1–3.4) |
+| A7 (affine diagrams and standard modules) | Layer 4 |
 
 ## Layer 1: Hermitian structure on the diagram side
 
@@ -1724,8 +1744,16 @@ TemperleyLieb Layers 0–3, 5, 6; GrothendieckEulerForms Layer 2; Tau Ceti `Abel
 
 ## Downstream consumers
 
-No roadmap consumes this roadmap at present. Subfactors and CategoricalOperatorAlgebras build the
-Temperley–Lieb material they need in Subfactors Layer 3 and consume it from there.
+- QuantumGroups Q7 (free orthogonal fusion) compares the cup–cap projections `p_i` of `O_F^+` with
+  the positive Temperley–Lieb quotient at `d = d(u) ≥ 2`. It consumes 1.2–1.3 for the faithful
+  Hermitian trace form on `Q_n`; 2.1 when its signed loop parameter is `−d`, for the algebra
+  isomorphism carrying the generator `−d·p_i` to `d·p_i` with equal normalised traces and
+  `Q_n^(−d) ≅ Q_n^d`; and Layer 3 for the Hom norms (3.2), the balanced cup–cap solution with
+  `dim 1 = d` (3.3), and the simple objects `X_r` with the untruncated fusion rule (3.4). The
+  signed cups and the sign of the self-duality stay QuantumGroups' own conjugate data: 2.1
+  identifies algebras and traces only. The finite C*-norms on `Q_n` come from Subfactors 3.3.
+- Subfactors and CategoricalOperatorAlgebras build the Temperley–Lieb material they need in
+  Subfactors Layer 3 and consume it from there.
 
 ## References
 
