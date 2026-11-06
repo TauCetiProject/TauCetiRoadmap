@@ -1,11 +1,15 @@
 import Mathlib
 import TauCetiRoadmap.AlgebraicVectorBundles.Suggested
+import TauCeti.CategoryTheory.Exact.Abelian
+import TauCeti.CategoryTheory.GrothendieckGroup.Exact
 import TauCeti.Algebra.BrauerGroup.Group
 import TauCeti.AlgebraicGeometry.Cohomology.Genus
 import TauCeti.AlgebraicGeometry.Cohomology.Module.Base
 import TauCeti.AlgebraicGeometry.Curves.StableReduction.Model.Basic
 import TauCeti.AlgebraicGeometry.LineBundle.Class
+import TauCeti.AlgebraicGeometry.Modules.Differentials.Basic
 import TauCeti.AlgebraicGeometry.Morphisms.PureRelativeDimension
+import TauCeti.AlgebraicGeometry.Scheme.CodimensionOnePoint
 
 /-!
 # Scheme, stack, cohomology and intersection foundations
@@ -13,8 +17,6 @@ import TauCeti.AlgebraicGeometry.Morphisms.PureRelativeDimension
 Key definitions and headline theorems of the roadmap on Mathlib's schemes and Tau Ceti's
 carriers. The README is the specification and states every other target.
 -/
-
-set_option synthInstance.maxHeartbeats 100000
 
 universe u
 
@@ -27,7 +29,7 @@ noncomputable section
 section Layer0
 
 open _root_.CategoryTheory _root_.CategoryTheory.Limits _root_.AlgebraicGeometry
-open scoped _root_.TensorProduct
+open scoped _root_.TensorProduct ZeroObject
 
 /-! ### §0.3 Proj and base change -/
 
@@ -73,6 +75,35 @@ theorem isPseudoCoherentSheaf_iff_affineOpens {X : Scheme.{u}} (F : X.Modules) :
     IsPseudoCoherentSheaf F ↔ F.IsQuasicoherent ∧
       ∀ U : X.affineOpens, IsPseudoCoherentModule Γ(X, U.1)
         (ModuleCat.of Γ(X, U.1) Γ(F, U.1)) := by
+  sorry
+
+-- Finite free and zero modules and sheaves have finite free resolutions.
+example (A : Type u) [CommRing A] (n : ℕ) :
+    IsPseudoCoherentModule A (ModuleCat.of A (Fin n → A)) := by sorry
+example (A : Type u) [CommRing A] : IsPseudoCoherentModule A (0 : ModuleCat.{u} A) := by
+  sorry
+example (X : Scheme.{u}) (n : ℕ) :
+    IsPseudoCoherentSheaf (SheafOfModules.free (R := X.ringCatSheaf) (ULift.{u} (Fin n))) := by
+  sorry
+example (X : Scheme.{u}) : IsPseudoCoherentSheaf (0 : X.Modules) := by sorry
+example (A : Type u) [CommRing A] (M : ModuleCat.{u} A)
+    (hM : ¬ Module.FinitePresentation A M) : ¬ IsPseudoCoherentModule A M := by sorry
+example (M : ModuleCat.{0} ℤ) : IsPseudoCoherentModule ℤ M ↔ Module.Finite ℤ M := by sorry
+
+-- The residue module over the dual numbers has a periodic infinite free resolution.
+example (k : Type u) [Field k] :
+    let J : Ideal (Polynomial k) := Ideal.span {(Polynomial.X : Polynomial k) ^ 2}
+    let A := Polynomial k ⧸ J
+    let I : Ideal A := Ideal.span {Ideal.Quotient.mk J Polynomial.X}
+    let M := ModuleCat.of A (A ⧸ I)
+    IsPseudoCoherentModule A M ∧ ∀ n : ℕ, ¬ HasProjectiveDimensionLE M n := by sorry
+
+-- A cyclic module over infinitely many variables need not be finitely presented.
+example (k : Type u) [Field k] :
+    let A := MvPolynomial ℕ k
+    let I : Ideal A := Ideal.span (Set.range (MvPolynomial.X : ℕ → A))
+    let M := ModuleCat.of A (A ⧸ I)
+    Module.Finite A M ∧ ¬ Module.FinitePresentation A M ∧ ¬ IsPseudoCoherentModule A M := by
   sorry
 
 -- Extension by zero from the generic point of a DVR: pseudo-coherent sections, not a
@@ -187,6 +218,13 @@ theorem existsUnique_lift (I : Ideal R) {S : Type u} [CommRing S]
 theorem fixed_of_henselian (I : Ideal R) [HenselianRing R I] :
     Nonempty (algebra I ≃ₐ[R] R) := by sorry
 
+-- Identity neighbourhoods and the zero-ideal henselization retain the base ring.
+example (I : Ideal R) : IsNeighbourhood I (CommAlgCat.of R R) := by sorry
+example : Nonempty (algebra (⊥ : Ideal R) ≃ₐ[R] R) := by sorry
+example (I : Ideal R) [HenselianRing R I] : Nonempty (algebra I ≃ₐ[R] R) :=
+  fixed_of_henselian I
+example : Nonempty (algebra (⊥ : Ideal (ZMod 5)) ≃ₐ[ZMod 5] ZMod 5) := by sorry
+
 -- `ℤ[1/2]` is a neighbourhood of `(ℤ, (5))`; `ℤ[1/5]` and `ℤ × ℤ` are not.
 example : IsNeighbourhood (Ideal.span {(5 : ℤ)})
     (CommAlgCat.of ℤ (Localization.Away (2 : ℤ))) := by sorry
@@ -285,6 +323,31 @@ theorem IsQuasiExcellentRing.isNagata (R : Type u) [CommRing R]
     (h : IsQuasiExcellentRing R) : Ring.IsNagata R := by
   sorry
 
+-- Fields and zero algebras are geometrically regular; nilpotents distinguish J-2 from regularity.
+example (k : Type u) [Field k] : GeometricallyRegular k k := by sorry
+example (k : Type u) [Field k] : GeometricallyRegular k (k ⧸ (⊤ : Ideal k)) := by sorry
+example (k : Type u) [Field k] : ¬ GeometricallyRegular k (TrivSqZeroExt k k) := by sorry
+example (R : Type u) [CommRing R] : RegularAlgebraMap R R := by sorry
+example (R : Type u) [CommRing R] : RegularAlgebraMap R (R ⧸ (⊤ : Ideal R)) := by sorry
+example (k : Type u) [Field k] : ¬ RegularAlgebraMap k (TrivSqZeroExt k k) := by sorry
+example (k : Type u) [Field k] : regularLocus k = Set.univ := by sorry
+example (k : Type u) [Field k] : regularLocus (k ⧸ (⊤ : Ideal k)) = ∅ := by sorry
+example (k : Type u) [Field k] : regularLocus (TrivSqZeroExt k k) = ∅ := by sorry
+example (k : Type u) [Field k] : IsJ2 k := by sorry
+example (k : Type u) [Field k] : IsJ2 (k ⧸ (⊤ : Ideal k)) := by sorry
+example (k : Type u) [Field k] : IsJ2 (TrivSqZeroExt k k) := by sorry
+example (k : Type u) [Field k] : IsGRing k := by sorry
+example (k : Type u) [Field k] : IsGRing (k ⧸ (⊤ : Ideal k)) := by sorry
+example (k : Type u) [Field k] : IsExcellentRing k := by sorry
+example (k : Type u) [Field k] : IsExcellentRing (k ⧸ (⊤ : Ideal k)) := by sorry
+example (k : Type u) [Field k] : IsExcellentRing (TrivSqZeroExt k k) := by sorry
+example (k : Type u) [Field k] : IsQuasiExcellentRing k := by sorry
+example (k : Type u) [Field k] : IsQuasiExcellentRing (k ⧸ (⊤ : Ideal k)) := by sorry
+example (k : Type u) [Field k] : IsQuasiExcellentRing (TrivSqZeroExt k k) := by sorry
+
+example (R : Type u) [CommRing R] [IsLocalRing R] [IsNoetherianRing R]
+    [IsAdicComplete (IsLocalRing.maximalIdeal R) R] : IsGRing R := by sorry
+
 -- A purely inseparable extension is not geometrically regular.
 example (k L : Type u) [Field k] [Field L] [Algebra k L] [Module.Finite k L]
     [IsPurelyInseparable k L] (h : ¬ Algebra.IsSeparable k L) :
@@ -295,7 +358,129 @@ example : IsExcellentRing ℤ := by sorry
 example (R : Type u) [CommRing R] [IsLocalRing R] [IsNoetherianRing R]
     [IsAdicComplete (IsLocalRing.maximalIdeal R) R] : IsExcellentRing R := by sorry
 
+-- Countably many polynomial variables violate the Noetherian clause of all four predicates.
+example (k : Type u) [Field k] : ¬ IsGRing (MvPolynomial ℕ k) := by sorry
+example (k : Type u) [Field k] : ¬ IsJ2 (MvPolynomial ℕ k) := by sorry
+example (k : Type u) [Field k] : ¬ IsQuasiExcellentRing (MvPolynomial ℕ k) := by sorry
+example (k : Type u) [Field k] : ¬ IsExcellentRing (MvPolynomial ℕ k) := by sorry
+
 end Excellence
+
+/-! ### §0.23a Étale topological invariance -/
+
+/-- Base change on Mathlib's small étale categories. -/
+def smallEtaleBaseChange {X Y : Scheme.{u}} (f : X ⟶ Y) : Y.Etale ⥤ X.Etale := by
+  letI : MorphismProperty.HasPullbacksAlong (@Etale : MorphismProperty Scheme.{u}) f :=
+    ⟨fun _ _ => inferInstance⟩
+  letI : MorphismProperty.IsStableUnderBaseChangeAlong
+      (@Etale : MorphismProperty Scheme.{u}) f :=
+    ⟨fun h hp => MorphismProperty.IsStableUnderBaseChange.of_isPullback h hp⟩
+  exact MorphismProperty.Over.pullback @Etale ⊤ f
+
+/-- Base change along a universal homeomorphism is fully faithful and essentially surjective.
+Stacks, Theorem 59.45.2 (04DZ). -/
+theorem smallEtaleBaseChange_isEquivalence {X Y : Scheme.{u}} (f : X ⟶ Y)
+    (hf : (topologically IsHomeomorph).universally f) :
+    (smallEtaleBaseChange f).IsEquivalence := by sorry
+
+/-- A universal homeomorphism induces an equivalence with scheme base change as forward functor. -/
+def universalHomeomorphismEtaleEquivalence {X Y : Scheme.{u}} (f : X ⟶ Y)
+    (hf : (topologically IsHomeomorph).universally f) : Y.Etale ≌ X.Etale := by
+  letI := smallEtaleBaseChange_isEquivalence f hf
+  exact (smallEtaleBaseChange f).asEquivalence
+
+/-- The forward functor of topological invariance is scheme base change. -/
+theorem universalHomeomorphismEtaleEquivalence_functor {X Y : Scheme.{u}} (f : X ⟶ Y)
+    (hf : (topologically IsHomeomorph).universally f) :
+    (universalHomeomorphismEtaleEquivalence f hf).functor = smallEtaleBaseChange f := by
+  sorry
+
+/-- The forward and inverse functors preserve covering sieves. -/
+theorem universalHomeomorphismEtaleEquivalence_coverPreserving {X Y : Scheme.{u}} (f : X ⟶ Y)
+    (hf : (topologically IsHomeomorph).universally f) :
+    CoverPreserving (Scheme.smallEtaleTopology Y) (Scheme.smallEtaleTopology X)
+      (universalHomeomorphismEtaleEquivalence f hf).functor ∧
+    CoverPreserving (Scheme.smallEtaleTopology X) (Scheme.smallEtaleTopology Y)
+      (universalHomeomorphismEtaleEquivalence f hf).inverse := by
+  sorry
+
+/-- Identity compatibility uses the canonical pullback comparison. -/
+theorem universalHomeomorphismEtaleEquivalence_id (X : Scheme.{u})
+    (hX : (topologically IsHomeomorph).universally (𝟙 X)) :
+    ∃ e : (universalHomeomorphismEtaleEquivalence (𝟙 X) hX).functor ≅ 𝟭 X.Etale,
+      ∀ V : X.Etale, (e.hom.app V).left = pullback.fst V.hom (𝟙 X) := by sorry
+
+/-- Composition compatibility is the associativity comparison for scheme pullbacks. -/
+theorem universalHomeomorphismEtaleEquivalence_comp {X Y Z : Scheme.{u}}
+    (f : X ⟶ Y) (g : Y ⟶ Z)
+    (hf : (topologically IsHomeomorph).universally f)
+    (hg : (topologically IsHomeomorph).universally g)
+    (hfg : (topologically IsHomeomorph).universally (f ≫ g)) :
+    ∃ e : (universalHomeomorphismEtaleEquivalence (f ≫ g) hfg).functor ≅
+        (universalHomeomorphismEtaleEquivalence g hg).functor ⋙
+          (universalHomeomorphismEtaleEquivalence f hf).functor,
+      ∀ V : Z.Etale,
+        (e.hom.app V).left ≫ pullback.fst (pullback.snd V.hom g) f ≫
+            pullback.fst V.hom g = pullback.fst V.hom (f ≫ g) ∧
+        (e.hom.app V).left ≫ pullback.snd (pullback.snd V.hom g) f =
+          pullback.snd V.hom (f ≫ g) := by sorry
+
+/-- In a cartesian square the equivalence commutes with arbitrary base change. -/
+theorem universalHomeomorphismEtaleEquivalence_baseChange {X Y Y' : Scheme.{u}}
+    (f : X ⟶ Y) (g : Y' ⟶ Y)
+    (hf : (topologically IsHomeomorph).universally f)
+    (hf' : (topologically IsHomeomorph).universally (pullback.snd f g)) :
+    ∃ e : (universalHomeomorphismEtaleEquivalence f hf).functor ⋙
+          smallEtaleBaseChange (pullback.fst f g) ≅
+        smallEtaleBaseChange g ⋙
+          (universalHomeomorphismEtaleEquivalence (pullback.snd f g) hf').functor,
+      ∀ V : Y.Etale,
+        (e.hom.app V).left ≫ pullback.fst (pullback.snd V.hom g) (pullback.snd f g) ≫
+            pullback.fst V.hom g =
+          pullback.fst (pullback.snd V.hom f) (pullback.fst f g) ≫ pullback.fst V.hom f ∧
+        (e.hom.app V).left ≫ pullback.snd (pullback.snd V.hom g) (pullback.snd f g) =
+          pullback.snd (pullback.snd V.hom f) (pullback.fst f g) := by sorry
+
+-- Elementwise nil kernels, without a common nilpotence exponent, preserve étale covers.
+example (A : Type u) [CommRing A] (I : Ideal A) (hI : ∀ a ∈ I, IsNilpotent a) :
+    let f := Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk I))
+    (smallEtaleBaseChange f).IsEquivalence ∧
+      CoverPreserving (Scheme.smallEtaleTopology (Spec (.of A)))
+        (Scheme.smallEtaleTopology (Spec (.of (A ⧸ I)))) (smallEtaleBaseChange f) := by sorry
+
+-- The cusp normalization gives an equivalence although it is not an isomorphism.
+example (k : Type u) [Field k] :
+    let A := Algebra.adjoin k ({Polynomial.X ^ 2, Polynomial.X ^ 3} : Set (Polynomial k))
+    let f := Spec.map (CommRingCat.ofHom A.val.toRingHom)
+    ¬ IsIso f ∧ (smallEtaleBaseChange f).IsEquivalence ∧
+      CoverPreserving (Scheme.smallEtaleTopology (Spec (.of A)))
+        (Scheme.smallEtaleTopology (Spec (.of (Polynomial k)))) (smallEtaleBaseChange f) := by sorry
+
+-- The node has two points above its singularity, in contrast to the cusp.
+example (k : Type u) [Field k] (h2 : (2 : k) ≠ 0) :
+    let A := Algebra.adjoin k
+      ({Polynomial.X ^ 2 - 1, Polynomial.X ^ 3 - Polynomial.X} : Set (Polynomial k))
+    let f := Spec.map (CommRingCat.ofHom A.val.toRingHom)
+    ¬ (topologically IsHomeomorph).universally f ∧
+      ¬ (smallEtaleBaseChange f).IsEquivalence := by sorry
+
+-- A separable quadratic field extension is only an ordinary homeomorphism.
+example (p : ℕ) [Fact p.Prime] :
+    let f := Spec.map (CommRingCat.ofHom (algebraMap (ZMod p) (GaloisField p 2)))
+    IsHomeomorph f.base ∧ ¬ (smallEtaleBaseChange f).IsEquivalence := by sorry
+
+-- Two successive base changes of a nil thickening preserve the site and its covers.
+example (A : Type u) [CommRing A] (I : Ideal A) (hI : ∀ a ∈ I, IsNilpotent a)
+    (Y Z : Scheme.{u}) (g : Y ⟶ Spec (.of A)) (h : Z ⟶ Y) :
+    let f := Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk I))
+    let f' := pullback.snd f g
+    let f'' := pullback.snd f' h
+    (smallEtaleBaseChange f').IsEquivalence ∧ (smallEtaleBaseChange f'').IsEquivalence ∧
+      Nonempty (smallEtaleBaseChange f ⋙ smallEtaleBaseChange (pullback.fst f g) ⋙
+          smallEtaleBaseChange (pullback.fst f' h) ≅
+        smallEtaleBaseChange g ⋙ smallEtaleBaseChange h ⋙ smallEtaleBaseChange f'') ∧
+      CoverPreserving (Scheme.smallEtaleTopology Z)
+        (Scheme.smallEtaleTopology (pullback f' h)) (smallEtaleBaseChange f'') := by sorry
 
 /-! ### §0.27 Flat base change of annihilators -/
 
@@ -307,6 +492,19 @@ theorem annihilator_flat_baseChange {R S M : Type u} [CommRing R] [CommRing S] [
     (Module.annihilator R M).map (algebraMap R S) =
       Module.annihilator S (S ⊗[R] M) := by
   sorry
+
+/-- Flat base change preserves the annihilator of the unit pure tensor, for any module. -/
+theorem element_annihilator_flat_baseChange {R S M : Type u}
+    [CommRing R] [CommRing S] [Algebra R S] [AddCommGroup M] [Module R M]
+    [Module.Flat R S] (m : M) :
+    (Submodule.span R {m}).annihilator.map (algebraMap R S) =
+      (Submodule.span S {(1 : S) ⊗ₜ[R] m}).annihilator := by sorry
+
+-- Arbitrary coefficients in the pure tensor have additional annihilators even for identity base change.
+example : (Submodule.span ℤ {(0 : ℤ) ⊗ₜ[ℤ] (1 : ℤ)}).annihilator = ⊤ ∧
+    (Submodule.span ℤ {(1 : ℤ)}).annihilator = ⊥ := by sorry
+example : (Submodule.span (ZMod 4) {(2 : ZMod 4) ⊗ₜ[ZMod 4] (1 : ZMod 4)}).annihilator =
+    Ideal.span {(2 : ZMod 4)} ∧ (Submodule.span (ZMod 4) {(1 : ZMod 4)}).annihilator = ⊥ := by sorry
 
 section Nonflat
 local instance : Algebra (ZMod 4) (ZMod 2) :=
@@ -322,6 +520,508 @@ example :
 end Nonflat
 
 end FlatAnnihilator
+
+/-! ### §0.29 Scheme Frobenius -/
+
+namespace SchemeFrobenius
+
+open AlgebraicGeometry CategoryTheory.Limits
+
+/-- Intrinsic characteristic `p`: every local ring has characteristic `p`. -/
+def SchemeCharP (X : Scheme.{u}) (p : ℕ) : Prop :=
+  ∀ x : X, CharP (X.presheaf.stalk x) p
+
+variable (p : ℕ) [Fact p.Prime]
+
+/-- On affine schemes intrinsic characteristic means `p = 0`, including the zero ring. -/
+theorem schemeCharP_spec_iff (A : Type u) [CommRing A] :
+    SchemeCharP (Spec (CommRingCat.of A)) p ↔ (p : A) = 0 := sorry
+
+/-- Intrinsic characteristic is equivalent to a unique prime-field structure map. -/
+theorem schemeCharP_iff_structureMap (X : Scheme.{u}) :
+    SchemeCharP X p ↔ ∃! f : X ⟶ Spec (CommRingCat.of (ULift.{u} (ZMod p))), True := sorry
+
+/-- A scheme mapping to a characteristic-`p` scheme has characteristic `p`. -/
+theorem schemeCharP_of_hom {X S : Scheme.{u}} (f : X ⟶ S) (hS : SchemeCharP S p) :
+    SchemeCharP X p := by
+  sorry
+
+/-- Absolute Frobenius fixes the space and raises structure-sheaf sections to `p`th powers. -/
+def absoluteFrobenius (X : Scheme.{u}) (hX : SchemeCharP X p) : X ⟶ X :=
+  Scheme.Hom.mk
+    { base := 𝟙 X.toTopCat
+      c :=
+        { app := fun U => CommRingCat.ofHom
+            { toFun := fun a => a ^ p
+              map_one' := one_pow p
+              map_mul' := fun a b => mul_pow a b p
+              map_zero' := by sorry
+              map_add' := by sorry }
+          naturality := by sorry }
+      prop := by sorry }
+
+/-- Absolute Frobenius on an affine scheme is induced by ring Frobenius. -/
+theorem absoluteFrobenius_spec (A : Type u) [CommRing A] [CharP A p]
+    (hA : SchemeCharP (Spec (CommRingCat.of A)) p) :
+    absoluteFrobenius p _ hA = Spec.map (CommRingCat.ofHom (frobenius A p)) := sorry
+
+/-- Absolute Frobenius acts identically on the underlying space. -/
+theorem absoluteFrobenius_base (X : Scheme.{u}) (hX : SchemeCharP X p) :
+    (absoluteFrobenius p X hX).base = (𝟙 X : X ⟶ X).base := sorry
+
+/-- Absolute Frobenius is natural for all morphisms between characteristic-`p` schemes. -/
+theorem absoluteFrobenius_naturality {X Y : Scheme.{u}}
+    (hX : SchemeCharP X p) (hY : SchemeCharP Y p) (f : X ⟶ Y) :
+    absoluteFrobenius p X hX ≫ f = f ≫ absoluteFrobenius p Y hY := sorry
+
+/-- Absolute Frobenius is integral without finiteness assumptions on the scheme. -/
+theorem absoluteFrobenius_integral (X : Scheme.{u}) (hX : SchemeCharP X p) :
+    IsIntegralHom (absoluteFrobenius p X hX) := sorry
+
+/-- Absolute Frobenius is a universal homeomorphism on every characteristic-`p` scheme. -/
+theorem absoluteFrobenius_universalHomeomorphism (X : Scheme.{u}) (hX : SchemeCharP X p) :
+    (topologically IsHomeomorph).universally (absoluteFrobenius p X hX) := by
+  sorry
+
+/-- Over a perfect field, local finite type suffices for finite absolute Frobenius. -/
+theorem absoluteFrobenius_finite (k : Type u) [Field k] [CharP k p] [PerfectRing k p]
+    {X : Scheme.{u}} (f : X ⟶ Spec (.of k)) [LocallyOfFiniteType f]
+    (hX : SchemeCharP X p) : IsFinite (absoluteFrobenius p X hX) := by
+  sorry
+
+/-- The relative twist is the scheme pullback along the absolute Frobenius of the base. -/
+def schemeFrobeniusTwist {X S : Scheme.{u}} (f : X ⟶ S) (hS : SchemeCharP S p) :
+    Scheme.{u} := pullback f (absoluteFrobenius p S hS)
+
+/-- Relative Frobenius has projections equal to absolute Frobenius and the structure map. -/
+def relativeFrobenius {X S : Scheme.{u}} (f : X ⟶ S)
+    (hX : SchemeCharP X p) (hS : SchemeCharP S p) :
+    X ⟶ schemeFrobeniusTwist p f hS :=
+  pullback.lift (absoluteFrobenius p X hX) f
+    (absoluteFrobenius_naturality p hX hS f)
+
+/-- The first projection factors absolute Frobenius through relative Frobenius. -/
+theorem relativeFrobenius_fst {X S : Scheme.{u}} (f : X ⟶ S)
+    (hX : SchemeCharP X p) (hS : SchemeCharP S p) :
+    relativeFrobenius p f hX hS ≫ pullback.fst f (absoluteFrobenius p S hS) =
+      absoluteFrobenius p X hX := sorry
+
+/-- The second projection makes relative Frobenius a morphism over the base. -/
+theorem relativeFrobenius_snd {X S : Scheme.{u}} (f : X ⟶ S)
+    (hX : SchemeCharP X p) (hS : SchemeCharP S p) :
+    relativeFrobenius p f hX hS ≫ pullback.snd f (absoluteFrobenius p S hS) = f := sorry
+
+/-- The two projection identities uniquely characterize relative Frobenius. -/
+theorem relativeFrobenius_unique {X S : Scheme.{u}} (f : X ⟶ S)
+    (hX : SchemeCharP X p) (hS : SchemeCharP S p)
+    (g : X ⟶ schemeFrobeniusTwist p f hS)
+    (hfst : g ≫ pullback.fst f (absoluteFrobenius p S hS) = absoluteFrobenius p X hX)
+    (hsnd : g ≫ pullback.snd f (absoluteFrobenius p S hS) = f) :
+    g = relativeFrobenius p f hX hS := sorry
+
+/-- Relative Frobenius is integral for an arbitrary morphism of characteristic-`p` schemes. -/
+theorem relativeFrobenius_integral {X S : Scheme.{u}} (f : X ⟶ S)
+    (hX : SchemeCharP X p) (hS : SchemeCharP S p) :
+    IsIntegralHom (relativeFrobenius p f hX hS) := sorry
+
+/-- Relative Frobenius is a universal homeomorphism without a smoothness assumption. -/
+theorem relativeFrobenius_universalHomeomorphism {X S : Scheme.{u}} (f : X ⟶ S)
+    (hX : SchemeCharP X p) (hS : SchemeCharP S p) :
+    (topologically IsHomeomorph).universally (relativeFrobenius p f hX hS) := by
+  sorry
+
+/-- Relative Frobenius of an étale morphism is an isomorphism over every characteristic-`p` base. -/
+theorem relativeFrobenius_etale_isIso {X S : Scheme.{u}} (f : X ⟶ S) [Etale f]
+    (hX : SchemeCharP X p) (hS : SchemeCharP S p) :
+    IsIso (relativeFrobenius p f hX hS) := sorry
+
+/-- For smooth pure relative dimension `d`, relative Frobenius is finite flat and its
+direct-image algebra has affine-local bases of cardinality `p^d`. -/
+theorem relativeFrobenius_smooth_rank {X S : Scheme.{u}} (f : X ⟶ S) (d : ℕ)
+    [SmoothOfRelativeDimension d f] (hX : SchemeCharP X p) (hS : SchemeCharP S p) :
+    let F := relativeFrobenius p f hX hS
+    IsFinite F ∧ Flat F ∧ LocallyOfFinitePresentation F ∧
+      ∀ y : schemeFrobeniusTwist p f hS,
+        ∃ U : (schemeFrobeniusTwist p f hS).Opens, IsAffineOpen U ∧ y ∈ U ∧
+          letI : Algebra Γ(schemeFrobeniusTwist p f hS, U) Γ(X, F ⁻¹ᵁ U) :=
+            (F.app U).hom.toAlgebra
+          Nonempty (Γ(X, F ⁻¹ᵁ U) ≃ₗ[Γ(schemeFrobeniusTwist p f hS, U)]
+            (Fin (p ^ d) → Γ(schemeFrobeniusTwist p f hS, U))) := by
+  sorry
+
+/-- The relative twist commutes with every change of base. -/
+def schemeFrobeniusTwistBaseChangeIso {X S S' : Scheme.{u}} (f : X ⟶ S) (g : S' ⟶ S)
+    (hS : SchemeCharP S p) (hS' : SchemeCharP S' p) :
+    schemeFrobeniusTwist p (pullback.snd f g) hS' ≅
+      pullback (pullback.snd f (absoluteFrobenius p S hS)) g := by
+  let FS := absoluteFrobenius p S hS
+  let FS' := absoluteFrobenius p S' hS'
+  let π := pullback.snd f g
+  let πF := pullback.snd f FS
+  exact
+    { hom := pullback.lift
+        (pullback.lift (pullback.fst π FS' ≫ pullback.fst f g)
+          (pullback.snd π FS' ≫ g) (by sorry))
+        (pullback.snd π FS') (by sorry)
+      inv := pullback.lift
+        (pullback.lift (pullback.fst πF g ≫ pullback.fst f FS)
+          (pullback.snd πF g ≫ FS') (by sorry))
+        (pullback.snd πF g) (by sorry)
+      hom_inv_id := by sorry
+      inv_hom_id := by sorry }
+
+/-- The base-change comparison transports relative Frobenius, with both projections. -/
+theorem relativeFrobenius_baseChange {X S S' : Scheme.{u}} (f : X ⟶ S) (g : S' ⟶ S)
+    (hX : SchemeCharP X p) (hS : SchemeCharP S p) (hS' : SchemeCharP S' p) :
+    let F' := relativeFrobenius p (pullback.snd f g)
+      (schemeCharP_of_hom p (pullback.fst f g) hX) hS'
+    let e := schemeFrobeniusTwistBaseChangeIso p f g hS hS'
+    F' ≫ e.hom ≫ pullback.fst (pullback.snd f (absoluteFrobenius p S hS)) g =
+        pullback.fst f g ≫ relativeFrobenius p f hX hS ∧
+      F' ≫ e.hom ≫ pullback.snd (pullback.snd f (absoluteFrobenius p S hS)) g =
+        pullback.snd f g := by
+  sorry
+
+/-- The `r`-fold absolute scheme Frobenius raises sections to `p^r` powers. -/
+def iteratedSchemeFrobenius (X : Scheme.{u}) (hX : SchemeCharP X p) : ℕ → (X ⟶ X)
+  | 0 => 𝟙 X
+  | r + 1 => iteratedSchemeFrobenius X hX r ≫ absoluteFrobenius p X hX
+
+/-- The zeroth absolute iterate is identity. -/
+theorem iteratedSchemeFrobenius_zero (X : Scheme.{u}) (hX : SchemeCharP X p) :
+    iteratedSchemeFrobenius p X hX 0 = 𝟙 X := sorry
+
+/-- Successor iteration composes with absolute Frobenius. -/
+theorem iteratedSchemeFrobenius_succ (X : Scheme.{u}) (hX : SchemeCharP X p) (r : ℕ) :
+    iteratedSchemeFrobenius p X hX (r + 1) =
+      iteratedSchemeFrobenius p X hX r ≫ absoluteFrobenius p X hX := sorry
+
+/-- Addition of exponents is composition of the absolute iterates. -/
+theorem iteratedSchemeFrobenius_add (X : Scheme.{u}) (hX : SchemeCharP X p) (r s : ℕ) :
+    iteratedSchemeFrobenius p X hX (r + s) =
+      iteratedSchemeFrobenius p X hX r ≫ iteratedSchemeFrobenius p X hX s := sorry
+
+/-- The `r`-fold relative twist retains the pullback along the base's `r`-fold Frobenius. -/
+def iteratedSchemeFrobeniusTwist {X S : Scheme.{u}} (f : X ⟶ S)
+    (hS : SchemeCharP S p) (r : ℕ) : Scheme.{u} :=
+  pullback f (iteratedSchemeFrobenius p S hS r)
+
+/-- Iterated relative Frobenius factors the absolute iterate as a map over the base. -/
+def iteratedRelativeFrobenius {X S : Scheme.{u}} (f : X ⟶ S)
+    (hX : SchemeCharP X p) (hS : SchemeCharP S p) (r : ℕ) :
+    X ⟶ iteratedSchemeFrobeniusTwist p f hS r :=
+  pullback.lift (iteratedSchemeFrobenius p X hX r) f (by sorry)
+
+/-- The first projection of iterated relative Frobenius is the absolute iterate. -/
+theorem iteratedRelativeFrobenius_fst {X S : Scheme.{u}} (f : X ⟶ S)
+    (hX : SchemeCharP X p) (hS : SchemeCharP S p) (r : ℕ) :
+    iteratedRelativeFrobenius p f hX hS r ≫
+      pullback.fst f (iteratedSchemeFrobenius p S hS r) =
+        iteratedSchemeFrobenius p X hX r := sorry
+
+/-- The second projection of iterated relative Frobenius is the structure map. -/
+theorem iteratedRelativeFrobenius_snd {X S : Scheme.{u}} (f : X ⟶ S)
+    (hX : SchemeCharP X p) (hS : SchemeCharP S p) (r : ℕ) :
+    iteratedRelativeFrobenius p f hX hS r ≫
+      pullback.snd f (iteratedSchemeFrobenius p S hS r) = f := sorry
+
+/-- The zeroth twist is canonically the original scheme. -/
+def iteratedSchemeFrobeniusTwistZeroIso {X S : Scheme.{u}} (f : X ⟶ S)
+    (hS : SchemeCharP S p) : iteratedSchemeFrobeniusTwist p f hS 0 ≅ X where
+  hom := pullback.fst f (iteratedSchemeFrobenius p S hS 0)
+  inv := pullback.lift (𝟙 X) f (by simp [iteratedSchemeFrobenius])
+  hom_inv_id := by sorry
+  inv_hom_id := by sorry
+
+/-- Zeroth relative Frobenius becomes identity under the canonical comparison. -/
+theorem iteratedRelativeFrobenius_zero {X S : Scheme.{u}} (f : X ⟶ S)
+    (hX : SchemeCharP X p) (hS : SchemeCharP S p) :
+    iteratedRelativeFrobenius p f hX hS 0 ≫
+      (iteratedSchemeFrobeniusTwistZeroIso p f hS).hom = 𝟙 X := by
+  sorry
+
+/-- Successive twists identify with the twist for the sum of the exponents. -/
+def iteratedSchemeFrobeniusTwistAddIso {X S : Scheme.{u}} (f : X ⟶ S)
+    (hS : SchemeCharP S p) (r s : ℕ) :
+    iteratedSchemeFrobeniusTwist p
+        (pullback.snd f (iteratedSchemeFrobenius p S hS r)) hS s ≅
+      iteratedSchemeFrobeniusTwist p f hS (r + s) := by
+  let Fr := iteratedSchemeFrobenius p S hS r
+  let Fs := iteratedSchemeFrobenius p S hS s
+  let Frs := iteratedSchemeFrobenius p S hS (r + s)
+  let πr := pullback.snd f Fr
+  exact
+    { hom := pullback.lift (pullback.fst πr Fs ≫ pullback.fst f Fr)
+        (pullback.snd πr Fs) (by sorry)
+      inv := pullback.lift
+        (pullback.lift (pullback.fst f Frs) (pullback.snd f Frs ≫ Fs) (by sorry))
+        (pullback.snd f Frs) (by sorry)
+      hom_inv_id := by sorry
+      inv_hom_id := by sorry }
+
+/-- Both projections characterize the addition comparison and enforce its coherence. -/
+theorem iteratedSchemeFrobeniusTwistAddIso_projections {X S : Scheme.{u}} (f : X ⟶ S)
+    (hS : SchemeCharP S p) (r s : ℕ) :
+    let πr := pullback.snd f (iteratedSchemeFrobenius p S hS r)
+    let e := iteratedSchemeFrobeniusTwistAddIso p f hS r s
+    e.hom ≫ pullback.fst f (iteratedSchemeFrobenius p S hS (r + s)) =
+        pullback.fst πr (iteratedSchemeFrobenius p S hS s) ≫
+          pullback.fst f (iteratedSchemeFrobenius p S hS r) ∧
+      e.hom ≫ pullback.snd f (iteratedSchemeFrobenius p S hS (r + s)) =
+        pullback.snd πr (iteratedSchemeFrobenius p S hS s) := by
+  sorry
+
+/-- Relative iteration composes through the specified twist addition isomorphism. -/
+theorem iteratedRelativeFrobenius_add {X S : Scheme.{u}} (f : X ⟶ S)
+    (hX : SchemeCharP X p) (hS : SchemeCharP S p) (r s : ℕ) :
+    let πr := pullback.snd f (iteratedSchemeFrobenius p S hS r)
+    iteratedRelativeFrobenius p f hX hS (r + s) =
+      iteratedRelativeFrobenius p f hX hS r ≫
+        iteratedRelativeFrobenius p πr (schemeCharP_of_hom p πr hS) hS s ≫
+          (iteratedSchemeFrobeniusTwistAddIso p f hS r s).hom := by
+  sorry
+
+/-- For a finite field of order `p^a`, the `q`-power scheme map is the `a`-fold absolute map. -/
+def qPowerFrobenius (k : Type u) [Field k] [Finite k] [CharP k p]
+    {X : Scheme.{u}} (_f : X ⟶ Spec (CommRingCat.of k)) (hX : SchemeCharP X p)
+    (a : ℕ) (_ha : Nat.card k = p ^ a) : X ⟶ X :=
+  iteratedSchemeFrobenius p X hX a
+
+/-- The finite-field scheme map agrees with the specified absolute iterate. -/
+theorem qPowerFrobenius_eq_iterated (k : Type u) [Field k] [Finite k] [CharP k p]
+    {X : Scheme.{u}} (f : X ⟶ Spec (CommRingCat.of k)) (hX : SchemeCharP X p)
+    (a : ℕ) (ha : Nat.card k = p ^ a) :
+    qPowerFrobenius p k f hX a ha = iteratedSchemeFrobenius p X hX a := sorry
+
+/-- The finite-field `q`-power scheme map is linear over the given field. -/
+theorem qPowerFrobenius_over (k : Type u) [Field k] [Finite k] [CharP k p]
+    {X : Scheme.{u}} (f : X ⟶ Spec (CommRingCat.of k)) (hX : SchemeCharP X p)
+    (a : ℕ) (ha : Nat.card k = p ^ a) :
+    qPowerFrobenius p k f hX a ha ≫ f = f := sorry
+
+-- Affine Frobenius includes nilpotents and commutes with localization.
+example (A : Type u) [CommRing A] [CharP A p] (a : A)
+    (hA : SchemeCharP (Spec (.of A)) p)
+    (hL : SchemeCharP (Spec (.of (Localization.Away a))) p) :
+    absoluteFrobenius p _ hA = Spec.map (CommRingCat.ofHom (frobenius A p)) ∧
+      absoluteFrobenius p _ hL ≫ Spec.map (CommRingCat.ofHom (algebraMap A (Localization.Away a))) =
+        Spec.map (CommRingCat.ofHom (algebraMap A (Localization.Away a))) ≫
+          absoluteFrobenius p _ hA := by sorry
+
+-- The dual-number nilpotent is killed; this Frobenius is not an isomorphism.
+example :
+    let I : Ideal (Polynomial (ZMod p)) := Ideal.span {Polynomial.X ^ 2}
+    let A := Polynomial (ZMod p) ⧸ I
+    letI : CharP A p := by sorry
+    let ε : A := Ideal.Quotient.mk I Polynomial.X
+    let X := Spec (.of A)
+    ∃ hX : SchemeCharP X p,
+      absoluteFrobenius p X hX = Spec.map (CommRingCat.ofHom (frobenius A p)) ∧
+      ε ≠ 0 ∧ frobenius A p ε = 0 ∧ ¬ IsIso (absoluteFrobenius p X hX) := by sorry
+
+-- The empty scheme has intrinsic characteristic p and identity Frobenius.
+example : ∃ hX : SchemeCharP (∅ : Scheme.{u}) p,
+    absoluteFrobenius p ∅ hX = 𝟙 _ := by sorry
+
+-- A one-point space can have nonidentity Frobenius, and the first iterate need not be linear.
+example :
+    let k := GaloisField p 2
+    let X := Spec (.of k)
+    ∃ hX : SchemeCharP X p,
+      (absoluteFrobenius p X hX).base = (𝟙 X : X ⟶ X).base ∧
+      absoluteFrobenius p X hX ≠ 𝟙 X ∧
+      absoluteFrobenius p X hX ≫ (𝟙 X) ≠ 𝟙 X ∧
+      iteratedSchemeFrobenius p X hX 2 = 𝟙 X := by sorry
+
+-- The affine-line relative algebra has the p monomials as a basis, rather than rank one.
+example (k : Type u) [Field k] [CharP k p] :
+    let X := Spec (.of (Polynomial k))
+    let S := Spec (.of k)
+    let f := Spec.map (CommRingCat.ofHom (algebraMap k (Polynomial k)))
+    ∃ (hX : SchemeCharP X p) (hS : SchemeCharP S p),
+      let T := schemeFrobeniusTwist p f hS
+      let F := relativeFrobenius p f hX hS
+      letI : Algebra Γ(T, ⊤) Γ(X, ⊤) := F.appTop.hom.toAlgebra
+      IsFinite F ∧ Flat F ∧ LocallyOfFinitePresentation F ∧
+        Nonempty (Γ(X, ⊤) ≃ₗ[Γ(T, ⊤)] (Fin p → Γ(T, ⊤))) ∧
+        ¬ Nonempty (Γ(X, ⊤) ≃ₗ[Γ(T, ⊤)] Γ(T, ⊤)) := by sorry
+
+-- The coordinate map on the relative affine line is t ↦ t^p, with the specified monomial basis.
+example (k : Type u) [Field k] [CharP k p] :
+    let X := Spec (.of (Polynomial k))
+    let S := Spec (.of k)
+    let f := Spec.map (CommRingCat.ofHom (algebraMap k (Polynomial k)))
+    ∃ (hX : SchemeCharP X p) (hS : SchemeCharP S p),
+      (∃ e : schemeFrobeniusTwist p f hS ≅ X,
+        relativeFrobenius p f hX hS ≫ e.hom =
+          Spec.map (CommRingCat.ofHom (Polynomial.expand k p).toRingHom)) ∧
+      (letI : Algebra (Polynomial k) (Polynomial k) := (Polynomial.expand k p).toRingHom.toAlgebra
+       letI : Module (Polynomial k) (Polynomial k) := Algebra.toModule
+       ∃ b : Module.Basis (Fin p) (Polynomial k) (Polynomial k),
+         ∀ i, b i = Polynomial.X ^ i.val) := by sorry
+
+-- Smooth pure relative dimension d gives rank p^d on every point of the twist.
+example {X S : Scheme.{u}} (f : X ⟶ S) (d : ℕ) [SmoothOfRelativeDimension d f]
+    (hX : SchemeCharP X p) (hS : SchemeCharP S p) :
+    let F := relativeFrobenius p f hX hS
+    IsFinite F ∧ Flat F ∧ LocallyOfFinitePresentation F ∧ ∀ y, F.finrank y = p ^ d := by sorry
+
+-- The affine-plane component has rank p²; a disjoint union need not have constant rank.
+example (k : Type u) [Field k] [CharP k p] :
+    let X := Spec (.of (MvPolynomial (Fin 2) k))
+    let S := Spec (.of k)
+    let f := Spec.map (CommRingCat.ofHom (algebraMap k (MvPolynomial (Fin 2) k)))
+    ∃ (hX : SchemeCharP X p) (hS : SchemeCharP S p),
+      let T := schemeFrobeniusTwist p f hS
+      let F := relativeFrobenius p f hX hS
+      letI : Algebra Γ(T, ⊤) Γ(X, ⊤) := F.appTop.hom.toAlgebra
+      Nonempty (Γ(X, ⊤) ≃ₗ[Γ(T, ⊤)] (Fin (p ^ 2) → Γ(T, ⊤))) ∧ p ≠ p ^ 2 := by sorry
+
+-- The two components have different ranks under the same relative Frobenius.
+example (k : Type u) [Field k] [CharP k p] :
+    let S := Spec (.of k)
+    let A := Spec (.of (Polynomial k))
+    let B := Spec (.of (MvPolynomial (Fin 2) k))
+    let X := A ⨿ B
+    let f := coprod.desc
+      (Spec.map (CommRingCat.ofHom (algebraMap k (Polynomial k))))
+      (Spec.map (CommRingCat.ofHom (algebraMap k (MvPolynomial (Fin 2) k))))
+    ∃ (hX : SchemeCharP X p) (hS : SchemeCharP S p),
+      let F := relativeFrobenius p f hX hS
+      IsFinite F ∧ Flat F ∧
+        (∀ x : A, F.finrank (F ((coprod.inl : A ⟶ X) x)) = p) ∧
+        (∀ x : B, F.finrank (F ((coprod.inr : B ⟶ X) x)) = p ^ 2) ∧
+        ¬ ∃ n, ∀ y, F.finrank y = n := by sorry
+
+-- Étale relative Frobenius is invertible even over a nonperfect base.
+example :
+    let A := Polynomial (ZMod p)
+    let X := Spec (.of A)
+    ∃ hX : SchemeCharP X p, ¬ IsIso (absoluteFrobenius p X hX) ∧
+      IsIso (relativeFrobenius p (𝟙 X) hX hX) := by sorry
+
+-- Both zeroth maps are identity after the canonical zeroth-twist comparison.
+example (X : Scheme.{u}) (hX : SchemeCharP X p) :
+    iteratedSchemeFrobenius p X hX 0 = 𝟙 X ∧
+      iteratedRelativeFrobenius p (𝟙 X) hX hX 0 ≫
+        (iteratedSchemeFrobeniusTwistZeroIso p (𝟙 X) hX).hom = 𝟙 X := by sorry
+
+-- Scalar extension of the F_q identity fixes F_{q²}; absolute q-Frobenius does not.
+example (k L : Type u) [Field k] [Finite k] [Field L] [Finite L]
+    [Algebra k L] [CharP k p] [CharP L p] (a : ℕ)
+    (ha : Nat.card k = p ^ a) (hL : Nat.card L = (Nat.card k) ^ 2) :
+    let S := Spec (.of k)
+    let T := Spec (.of L)
+    let g := Spec.map (CommRingCat.ofHom (algebraMap k L))
+    ∃ (hS : SchemeCharP S p) (hT : SchemeCharP T p),
+      let F := qPowerFrobenius p k (𝟙 S) hS a ha
+      F = 𝟙 S ∧
+        ∃ b : pullback (𝟙 S) g ⟶ pullback (𝟙 S) g,
+          b = 𝟙 _ ∧ b ≫ pullback.snd (𝟙 S) g = pullback.snd (𝟙 S) g ∧
+          b ≫ pullback.fst (𝟙 S) g = pullback.fst (𝟙 S) g ≫ F ∧
+          iteratedSchemeFrobenius p T hT a ≠ 𝟙 T := by sorry
+
+end SchemeFrobenius
+
+/-! ### §0.30 Normal schemes, codimension-one points under finite morphisms, ramification -/
+
+namespace NormalSchemes
+
+open Order
+
+/-- A scheme is **normal** if every local ring is an integrally closed domain.
+Stacks, Definition 28.7.1 (033I). -/
+@[stacks 033I]
+class IsNormalScheme (X : Scheme.{u}) : Prop where
+  isDomain_stalk : ∀ x : X, IsDomain (X.presheaf.stalk x)
+  isIntegrallyClosed_stalk : ∀ x : X, IsIntegrallyClosed (X.presheaf.stalk x)
+
+instance IsNormalScheme.isDomain_stalk' (X : Scheme.{u}) [IsNormalScheme X] (x : X) :
+    IsDomain (X.presheaf.stalk x) :=
+  IsNormalScheme.isDomain_stalk x
+
+/-- A normal scheme is reduced. Stacks, Lemma 28.7.3 (033K). -/
+@[stacks 033K]
+theorem IsNormalScheme.isReduced (X : Scheme.{u}) [IsNormalScheme X] : IsReduced X := by
+  sorry
+
+/-- On a locally Noetherian normal scheme the stalk at a point of coheight one is a discrete
+valuation ring. Stacks, Lemma 10.119.7 (00PD). -/
+@[stacks 00PD "the codimension-one stalk"]
+theorem IsNormalScheme.isDiscreteValuationRing_stalk (X : Scheme.{u}) [IsLocallyNoetherian X]
+    [IsNormalScheme X] (x : X) (hx : coheight x = 1) :
+    IsDiscreteValuationRing (X.presheaf.stalk x) := by
+  sorry
+
+variable {X Y : Scheme.{u}} (f : X ⟶ Y)
+
+/-- A point over a point of coheight one under a finite dominant morphism of integral schemes has
+coheight one (incomparability, with dominance). -/
+theorem coheight_eq_one_of_coheight_apply_eq_one [IsFinite f] [IsDominant f] [IsIntegral X]
+    [IsIntegral Y] (x : X) (hx : coheight (f x) = 1) : coheight x = 1 := by
+  sorry
+
+/-- The image of a point of coheight one under a finite dominant morphism of integral schemes,
+with target locally of finite type over a field and Noetherian: the local dimension formula
+`dim_x X = trdeg_k κ(x) + dim 𝒪_{X,x}` (Stacks, Lemma 33.20.3 (0A21)) on `X` and on `Y`, with
+`dim X = dim Y` (Stacks, Lemma 29.45.9 (0ECG)) and `[κ(x) : κ(f x)] < ∞`. -/
+theorem coheight_apply_eq_one (k : Type u) [Field k] (sY : Y ⟶ Spec (.of k))
+    [LocallyOfFiniteType sY] [IsLocallyNoetherian Y] [TopologicalSpace.NoetherianSpace Y]
+    [IsFinite f] [IsDominant f] [IsIntegral X] [IsIntegral Y]
+    (x : X) (hx : coheight x = 1) : coheight (f x) = 1 := by
+  sorry
+
+/-- The image of a point of coheight one under a finite dominant morphism of integral schemes
+with normal target has coheight one: going down (Stacks, Proposition 10.38.7 (00H8)). -/
+theorem coheight_apply_eq_one_of_isNormalScheme [IsLocallyNoetherian Y] [IsNormalScheme Y]
+    [IsFinite f] [IsDominant f] [IsIntegral X] [IsIntegral Y]
+    (x : X) (hx : coheight x = 1) : coheight (f x) = 1 := by
+  sorry
+
+/-- The map on codimension-one points induced by `f`, given that `f` preserves coheight one
+(supplied by `coheight_apply_eq_one` or `coheight_apply_eq_one_of_isNormalScheme`). -/
+def codimensionOneMap (hf : ∀ x : X, coheight x = 1 → coheight (f x) = 1) :
+    TauCeti.AlgebraicGeometry.CodimensionOnePoint X →
+      TauCeti.AlgebraicGeometry.CodimensionOnePoint Y :=
+  fun x => ⟨f x, hf x x.2⟩
+
+/-- Every codimension-one point of the target of a finite dominant morphism of integral schemes is
+the image of a codimension-one point. -/
+theorem codimensionOneMap_surjective [IsFinite f] [IsDominant f] [IsIntegral X] [IsIntegral Y]
+    (hf : ∀ x : X, coheight x = 1 → coheight (f x) = 1) :
+    Function.Surjective (codimensionOneMap f hf) := by
+  sorry
+
+/-- The **ramification index of `f` at `x`**: the ramification index of the maximal ideal of
+`𝒪_{X,x}` over `𝒪_{Y,f(x)}` along the stalk map. -/
+def ramificationIdxAt (x : X) : ℕ :=
+  letI := (f.stalkMap x).hom.toAlgebra
+  (IsLocalRing.maximalIdeal (X.presheaf.stalk x)).ramificationIdx (Y.presheaf.stalk (f x))
+
+/-- Ramification indices multiply in towers at points of coheight one. The stalk map of `f ≫ g`
+at `x` is the composite of the stalk maps (`Scheme.Hom.stalkMap_comp`), and the extensions of
+discrete valuation rings are torsion free, hence flat, as `Ideal.ramificationIdx_tower` requires. -/
+theorem ramificationIdxAt_comp {Z : Scheme.{u}} (g : Y ⟶ Z) [IsFinite f] [IsDominant f]
+    [IsFinite g] [IsDominant g] [IsIntegral X] [IsIntegral Y] [IsIntegral Z]
+    [IsLocallyNoetherian X] [IsLocallyNoetherian Y] [IsLocallyNoetherian Z]
+    [IsNormalScheme X] [IsNormalScheme Y] [IsNormalScheme Z]
+    (x : X) (hx : coheight x = 1) :
+    ramificationIdxAt (f ≫ g) x = ramificationIdxAt f x * ramificationIdxAt g (f x) := by
+  sorry
+
+/-- **Regular quotients of a regular local ring.** If `R ⧸ I` is a regular local ring, `I` is
+generated by part of a minimal generating set of the maximal ideal. Stacks, Lemma 10.106.4
+(00NR). -/
+@[stacks 00NR]
+theorem exists_regularSystem_of_quotient {R : Type u} [CommRing R]
+    [IsRegularLocalRing R] (I : Ideal R) [IsRegularLocalRing (R ⧸ I)] :
+    ∃ (d c : ℕ) (x : Fin d → R), c ≤ d ∧
+      Ideal.span (Set.range x) = IsLocalRing.maximalIdeal R ∧
+      (IsLocalRing.maximalIdeal R).spanFinrank = d ∧
+      I = Ideal.span (x '' {i | (i : ℕ) < c}) := by
+  sorry
+
+end NormalSchemes
 
 end Layer0
 
@@ -382,7 +1082,8 @@ def AlgSpace.pullbackObj {F G H : AlgSpace.{u}} (f : F ⟶ H) (g : G ⟶ H) : Al
 
 /-- The second projection of the fibre product. -/
 def AlgSpace.pullbackSnd {F G H : AlgSpace.{u}} (f : F ⟶ H) (g : G ⟶ H) :
-    AlgSpace.pullbackObj f g ⟶ G := ObjectProperty.homMk (pullback.snd _ _)
+    AlgSpace.pullbackObj f g ⟶ G :=
+  ObjectProperty.homMk (pullback.snd (f.hom : F.obj ⟶ H.obj) (g.hom : G.obj ⟶ H.obj))
 
 /-- A property of scheme morphisms, read on a square of étale atlases.
 Stacks, Lemma 67.22.1 (03MJ) and Definition 67.22.2 (04RD). -/
@@ -835,29 +1536,46 @@ theorem DQCoh.affineEquiv (A : CommRingCat.{u}) :
     Nonempty (DerivedCategory (ModuleCat.{u} A) ≌ DQCoh (Spec A)) := by
   sorry
 
+local instance {X Y : Scheme.{u}} (f : X ⟶ Y) [IsOpenImmersion f] :
+    (Scheme.Modules.restrictFunctor f).Additive := by sorry
+local instance {X Y : Scheme.{u}} (f : X ⟶ Y) [IsOpenImmersion f] :
+    PreservesFiniteLimits (Scheme.Modules.restrictFunctor f) := by sorry
+
 /-- Restriction of derived module sheaves along an open immersion, induced by the exact
 module-sheaf restriction functor. Stacks, §20.45 (0D65). -/
 def derivedRestrict {X Y : Scheme.{u}} (f : X ⟶ Y) [IsOpenImmersion f] :
-    DerivedCategory Y.Modules ⥤ DerivedCategory X.Modules := by
-  let F := Scheme.Modules.restrictFunctor f
-  letI : F.Additive := by sorry
-  letI : PreservesFiniteLimits F := by sorry
-  letI : PreservesFiniteColimits F := by infer_instance
-  exact F.mapDerivedCategory
+    DerivedCategory Y.Modules ⥤ DerivedCategory X.Modules :=
+  (Scheme.Modules.restrictFunctor f).mapDerivedCategory
 
-/-- The canonical comparison between direct and successive restrictions on nested opens.
-Stacks, Situation 20.45.3 (0D67). -/
+/-- Direct and successive restrictions on nested opens agree by localization of the canonical
+module-sheaf comparison. Stacks, Situation 20.45.3 (0D67). -/
 def derivedRestrictComp {X : Scheme.{u}} {U V W : X.Opens}
     (hVU : V ≤ U) (hWV : W ≤ V) :
     derivedRestrict (X.homOfLE (hWV.trans hVU)) ≅
       derivedRestrict (X.homOfLE hVU) ⋙ derivedRestrict (X.homOfLE hWV) := by
-  sorry
+  let e := Scheme.Modules.restrictFunctorCongr
+      (by simp : X.homOfLE (hWV.trans hVU) = X.homOfLE hWV ≫ X.homOfLE hVU) ≪≫
+    Scheme.Modules.restrictFunctorComp (X.homOfLE hWV) (X.homOfLE hVU)
+  exact { hom := e.hom.mapDerivedCategory
+          inv := e.inv.mapDerivedCategory
+          hom_inv_id := by sorry
+          inv_hom_id := by sorry } ≪≫
+    (Functor.mapDerivedCategoryCompIso (Scheme.Modules.restrictFunctor (X.homOfLE hVU))
+      (Scheme.Modules.restrictFunctor (X.homOfLE hWV))).symm
 
-/-- The canonical comparison between restricting from a scheme to an open directly and
-restricting through a larger open. Stacks, Situation 20.45.3 (0D67). -/
+/-- Direct restriction to an open agrees with restriction through a larger open, using the
+canonical exact-functor comparison. Stacks, Situation 20.45.3 (0D67). -/
 def derivedRestrictOpens {X : Scheme.{u}} {U V : X.Opens} (hVU : V ≤ U) :
     derivedRestrict V.ι ≅ derivedRestrict U.ι ⋙ derivedRestrict (X.homOfLE hVU) := by
-  sorry
+  let e := Scheme.Modules.restrictFunctorCongr
+      (by simp : V.ι = X.homOfLE hVU ≫ U.ι) ≪≫
+    Scheme.Modules.restrictFunctorComp (X.homOfLE hVU) U.ι
+  exact { hom := e.hom.mapDerivedCategory
+          inv := e.inv.mapDerivedCategory
+          hom_inv_id := by sorry
+          inv_hom_id := by sorry } ≪≫
+    (Functor.mapDerivedCategoryCompIso (Scheme.Modules.restrictFunctor U.ι)
+      (Scheme.Modules.restrictFunctor (X.homOfLE hVU))).symm
 
 /-- The presheaf of derived morphisms, with restriction induced by exact restriction of
 module sheaves and its canonical composition comparisons. Stacks, Lemma 20.45.2 (0D66). -/
@@ -914,6 +1632,135 @@ theorem derivedObject_gluing {X : Scheme.{u}} (B : Set X.Opens)
     Nonempty (DerivedGluingSolution d) ∧
       ∀ a b : DerivedGluingSolution d, ∃! e : a.obj ≅ b.obj,
         ∀ U : B, (derivedRestrict U.val.ι).mapIso e ≪≫ b.iso U = a.iso U := by
+  sorry
+
+-- For unshifted structure modules the Hom presheaf is a sheaf, with sections the ring of functions.
+example (X : Scheme.{u}) :
+    let K := (DerivedCategory.singleFunctor X.Modules 0).obj (SheafOfModules.unit X.ringCatSheaf)
+    (derivedHomPresheaf K K).IsSheaf ∧
+      (∀ (U : X.Opens) (i : ℤ), i < 0 →
+        Subsingleton ((derivedRestrict U.ι).obj K ⟶ ((derivedRestrict U.ι).obj K)⟦i⟧)) ∧
+      ∀ U : X.Opens, Nonempty (((derivedRestrict U.ι).obj K ⟶
+        (derivedRestrict U.ι).obj K) ≃ Γ(X, U)) := by
+  sorry
+
+/-- The restriction cocycle of a global derived object, using canonical restriction comparisons.
+Stacks, Situation 20.45.3 (0D67). -/
+def restrictedGluingData (X : Scheme.{u}) (B : Set X.Opens) (K : DerivedCategory X.Modules) :
+    DerivedGluingData X B where
+  obj U := (derivedRestrict U.val.ι).obj K
+  transition h := ((derivedRestrictOpens h).app K).symm
+  cocycle := by sorry
+
+-- Basis refinement identifies the solutions by the unique compatible isomorphism.
+example (X : Scheme.{u}) (K : DerivedCategory X.Modules) (B C : Set X.Opens)
+    (hB : TopologicalSpace.IsTopologicalBasis ((fun U : X.Opens => (U : Set X)) '' B))
+    (hC : TopologicalSpace.IsTopologicalBasis ((fun U : X.Opens => (U : Set X)) '' C))
+    (hCB : C ⊆ B)
+    (hneg : ∀ (U : B) (i : ℤ), i < 0 →
+      Subsingleton ((derivedRestrict U.val.ι).obj K ⟶ ((derivedRestrict U.val.ι).obj K)⟦i⟧))
+    (a : DerivedGluingSolution (restrictedGluingData X B K))
+    (b : DerivedGluingSolution (restrictedGluingData X C K)) :
+    ∃! e : a.obj ≅ b.obj, ∀ U : C,
+      (derivedRestrict U.val.ι).mapIso e ≪≫ b.iso U = a.iso ⟨U.val, hCB U.property⟩ := by
+  sorry
+
+-- Shifted differential bundles on the projective line glue to the original global bundle.
+attribute [local instance] MvPolynomial.gradedAlgebra in
+example (k : Type u) [Field k] :
+    let 𝒜 := MvPolynomial.homogeneousSubmodule (Fin 2) k
+    let X := Proj 𝒜
+    letI : X.Over (Spec (.of k)) :=
+      ⟨Proj.toSpecZero 𝒜 ≫ Spec.map (CommRingCat.ofHom (algebraMap k (𝒜 0)))⟩
+    let K := ((DerivedCategory.singleFunctor X.Modules 0).obj (X.relativeDifferentials k))⟦(1 : ℤ)⟧
+    let R := Localization.Away (Polynomial.X : Polynomial k)
+    let x : R := algebraMap (Polynomial k) R Polynomial.X
+    let y : R := IsLocalization.Away.invSelf (Polynomial.X : Polynomial k)
+    let B : Set X.Opens := {U | IsAffineOpen U}
+    KaehlerDifferential.D k R y = -(y ^ 2) • KaehlerDifferential.D k R x ∧
+      (∀ (U : B) (i : ℤ), i < 0 →
+      Subsingleton ((derivedRestrict U.val.ι).obj K ⟶
+        ((derivedRestrict U.val.ι).obj K)⟦i⟧)) ∧
+      Nonempty (DerivedGluingSolution (restrictedGluingData X B K)) ∧
+      ∀ a : DerivedGluingSolution (restrictedGluingData X B K), Nonempty (a.obj ≅ K) := by
+  sorry
+
+-- The componentwise affine basis on infinitely many projective lines has no finite subcover.
+attribute [local instance] MvPolynomial.gradedAlgebra in
+example (k : Type u) [Field k] :
+    let 𝒜 := MvPolynomial.homogeneousSubmodule (Fin 2) k
+    let P := Proj 𝒜
+    let Xs := fun _ : ℕ => P
+    let X := ∐ Xs
+    letI : X.Over (Spec (.of k)) := ⟨Sigma.desc (fun _ =>
+      Proj.toSpecZero 𝒜 ≫ Spec.map (CommRingCat.ofHom (algebraMap k (𝒜 0))))⟩
+    let K := ((DerivedCategory.singleFunctor X.Modules 0).obj (X.relativeDifferentials k))⟦(1 : ℤ)⟧
+    let R := Localization.Away (Polynomial.X : Polynomial k)
+    let x : R := algebraMap (Polynomial k) R Polynomial.X
+    let y : R := IsLocalization.Away.invSelf (Polynomial.X : Polynomial k)
+    let B : Set X.Opens := {U | IsAffineOpen U ∧ ∃ n, (U : Set X) ⊆ Set.range (Sigma.ι Xs n)}
+    KaehlerDifferential.D k R y = -(y ^ 2) • KaehlerDifferential.D k R x ∧
+      ¬ CompactSpace X ∧
+      (∀ (U : B) (i : ℤ), i < 0 →
+        Subsingleton ((derivedRestrict U.val.ι).obj K ⟶
+          ((derivedRestrict U.val.ι).obj K)⟦i⟧)) ∧
+      Nonempty (DerivedGluingSolution (restrictedGluingData X B K)) ∧
+      ∀ a : DerivedGluingSolution (restrictedGluingData X B K), Nonempty (a.obj ≅ K) := by
+  sorry
+
+-- Without negative-Ext vanishing, a nonzero global derived morphism can vanish on every affine.
+attribute [local instance] MvPolynomial.gradedAlgebra in
+example (k : Type u) [Field k] :
+    let 𝒜 := MvPolynomial.homogeneousSubmodule (Fin 2) k
+    let X := Proj 𝒜
+    letI : X.Over (Spec (.of k)) :=
+      ⟨Proj.toSpecZero 𝒜 ≫ Spec.map (CommRingCat.ofHom (algebraMap k (𝒜 0)))⟩
+    let K := (DerivedCategory.singleFunctor X.Modules 0).obj (SheafOfModules.unit X.ringCatSheaf)
+    let L := ((DerivedCategory.singleFunctor X.Modules 0).obj (X.relativeDifferentials k))⟦(1 : ℤ)⟧
+    ∃ φ : K ⟶ L, φ ≠ 0 ∧
+      (∀ U : X.Opens, IsAffineOpen U → (derivedRestrict U.ι).map φ = 0) ∧
+      ¬ (∀ U : X.Opens, IsAffineOpen U → ∀ i : ℤ, i < 0 →
+        Subsingleton ((derivedRestrict U.ι).obj K ⟶ ((derivedRestrict U.ι).obj L)⟦i⟧)) := by
+  sorry
+
+/-! ### §2.19 Coherent upper shriek and its Čech pasting comparisons -/
+
+/-- Bounded-below complexes with quasi-coherent cohomology, in the ambient derived category.
+Stacks, §36.3 (06YZ); the lower bound is global. -/
+def DQCohPlus (X : Scheme.{u}) : Type (u + 1) :=
+  ObjectProperty.FullSubcategory (fun K : DerivedCategory X.Modules =>
+    (∀ n : ℤ, ((DerivedCategory.homologyFunctor X.Modules n).obj K).IsQuasicoherent) ∧
+      ∃ c : ℤ, K.IsGE c)
+
+instance (X : Scheme.{u}) : Category.{u + 1} (DQCohPlus X) := by
+  unfold DQCohPlus; infer_instance
+
+/-- Inclusion of bounded-below quasi-coherent complexes into the ambient derived category. -/
+def DQCohPlus.toDerived (X : Scheme.{u}) :
+    DQCohPlus X ⥤ DerivedCategory X.Modules := ObjectProperty.ι _
+
+-- A bounded coherent coefficient can have nonzero negative self-Ext even for the identity.
+example (X : Scheme.{u}) [IsAffine X] [IsNoetherian X] [Nonempty X] :
+    let O := (DerivedCategory.singleFunctor X.Modules 0).obj (SheafOfModules.unit X.ringCatSheaf)
+    let K := O ⊞ O⟦(1 : ℤ)⟧
+    (∀ n : ℤ, ((DerivedCategory.homologyFunctor X.Modules n).obj K).IsQuasicoherent) ∧
+      K.IsGE (-1) ∧ ∃ φ : K ⟶ K⟦(-1 : ℤ)⟧, φ ≠ 0 := by
+  sorry
+
+-- A nonidentity unipotent automorphism can restrict to the identity on every affine chart.
+attribute [local instance] MvPolynomial.gradedAlgebra in
+example (k : Type u) [Field k] :
+    let 𝒜 := MvPolynomial.homogeneousSubmodule (Fin 2) k
+    let X := Proj 𝒜
+    letI : X.Over (Spec (.of k)) :=
+      ⟨Proj.toSpecZero 𝒜 ≫ Spec.map (CommRingCat.ofHom (algebraMap k (𝒜 0)))⟩
+    let O := (DerivedCategory.singleFunctor X.Modules 0).obj (SheafOfModules.unit X.ringCatSheaf)
+    let L := ((DerivedCategory.singleFunctor X.Modules 0).obj (X.relativeDifferentials k))⟦(1 : ℤ)⟧
+    let M := O ⊞ L
+    ∃ (N : M ⟶ M) (e : M ≅ M), N ≠ 0 ∧ N ≫ N = 0 ∧
+      e.hom = 𝟙 M + N ∧ e.inv = 𝟙 M - N ∧ e.hom ≠ 𝟙 M ∧
+      ∀ U : X.Opens, IsAffineOpen U →
+        (derivedRestrict U.ι).map e.hom = 𝟙 ((derivedRestrict U.ι).obj M) := by
   sorry
 
 end Coherent
@@ -1037,6 +1884,30 @@ theorem vectorBundleDegree_add_of_shortExact (X : Scheme.{u}) [X.Over (Spec (.of
     vectorBundleDegree k X S.X₂ (r₁ + r₃) =
       vectorBundleDegree k X S.X₁ r₁ + vectorBundleDegree k X S.X₃ r₃ := by
   sorry
+
+/-- Pullback multiplies degree by the function-field degree for nonconstant maps of
+proper integral curves. Stacks, Lemma 33.44.11 (0AYZ). -/
+theorem vectorBundleDegree_pullback (X Y : Scheme.{u})
+    [X.Over (Spec (.of k))] [Y.Over (Spec (.of k))] [IsIntegral X] [IsIntegral Y]
+    [IsProper (X ↘ Spec (.of k))] [IsProper (Y ↘ Spec (.of k))]
+    (hX : topologicalKrullDim X = 1) (hY : topologicalKrullDim Y = 1)
+    (f : X ⟶ Y) [IsDominant f] (hf : f ≫ (Y ↘ Spec (.of k)) = (X ↘ Spec (.of k)))
+    (E : Y.Modules) (r : ℕ) (hE : isFiniteLocallyFreeOfRank E r) :
+    let φ := Y.presheaf.stalkSpecializes
+      (show f (genericPoint X) ⤳ genericPoint Y by sorry) ≫ f.stalkMap (genericPoint X)
+    letI := φ.hom.toAlgebra
+    vectorBundleDegree k X ((Scheme.Modules.pullback f).obj E) r =
+      Module.finrank Y.functionField X.functionField * vectorBundleDegree k Y E r := by sorry
+
+-- The reduced line in a double line violates a fibre-length-one extension of the formula.
+example : ∃ (X Y : Scheme.{u}) (_ : X.Over (Spec (.of k))) (_ : Y.Over (Spec (.of k)))
+    (f : X ⟶ Y) (E : Y.Modules),
+    IsProper (X ↘ Spec (.of k)) ∧ IsProper (Y ↘ Spec (.of k)) ∧
+    topologicalKrullDim X = 1 ∧ topologicalKrullDim Y = 1 ∧
+    IsReduced X ∧ ¬ IsReduced Y ∧ IsClosedImmersion f ∧ IsHomeomorph f.base ∧
+    f ≫ (Y ↘ Spec (.of k)) = (X ↘ Spec (.of k)) ∧
+    isFiniteLocallyFreeOfRank E 1 ∧ vectorBundleDegree k Y E 1 = 2 ∧
+    vectorBundleDegree k X ((Scheme.Modules.pullback f).obj E) 1 = 1 := by sorry
 
 /-- A proper geometrically integral scheme over `k` has `H⁰(X, O_X) = k`.
 Stacks, Lemma 33.9.3 (0BUG), part (7). -/
@@ -1167,6 +2038,16 @@ structure AdicThickeningSystem where
   isThickening : ∀ n, IsThickening (ι n)
   adic : ∀ n, (ι n).ker = (levelMap X ι (n + 1)).ker ^ (n + 1)
 
+-- Thickening transitions alone need not satisfy the adic power equation.
+example (k : Type u) [Field k] :
+    let A := Polynomial k ⧸ Ideal.span {(Polynomial.X : Polynomial k) ^ 3}
+    ∃ (X : ℕ → Scheme.{u}) (ι : ∀ n, X n ⟶ X (n + 1)),
+      Nonempty (X 0 ≅ Spec (.of k)) ∧
+      (∀ n, Nonempty (X (n + 1) ≅ Spec (.of A))) ∧
+      (∀ n, IsThickening (ι n)) ∧ (∀ n, IsIso (ι (n + 1))) ∧
+      (ι 1).ker ≠ (levelMap X ι 2).ker ^ 2 := by
+  sorry
+
 /-- The formal completion along `V(I)`: the system `V(I^{n+1})`.
 Stacks, Lemma 87.14.2 (0AIZ) and Definition 87.14.3 (0AMC). -/
 def Scheme.formalCompletion (X : Scheme.{u}) (I : X.IdealSheafData) :
@@ -1194,7 +2075,12 @@ def Scheme.completionFunctor (X : Scheme.{u}) (I : X.IdealSheafData)
     Scheme.CoherentFormalModule (Scheme.formalCompletion X I) where
   F n := (Scheme.Modules.pullback (Scheme.formalCompletion.toScheme X I n)).obj M
   fp _ := by sorry
-  iso _ := by sorry
+  iso n :=
+    (Scheme.Modules.pullbackComp ((Scheme.formalCompletion X I).ι n)
+      (Scheme.formalCompletion.toScheme X I (n + 1))).app M ≪≫
+    (Scheme.Modules.pullbackCongr (by sorry :
+      (Scheme.formalCompletion X I).ι n ≫ Scheme.formalCompletion.toScheme X I (n + 1) =
+        Scheme.formalCompletion.toScheme X I n)).app M
 
 /-- Grothendieck's existence theorem: over a complete Noetherian adic ring, every coherent formal
 module on the completion of a proper scheme along its closed fibre is the completion of a
@@ -1638,40 +2524,54 @@ example : HasResolutionProperty (∅ : Scheme.{u}) := by sorry
 attribute [local instance] MvPolynomial.gradedAlgebra in
 example : HasResolutionProperty (Proj (MvPolynomial.homogeneousSubmodule (Fin 2) κ)) := by sorry
 
-/-- `G_0(X)`: the Grothendieck group of finitely presented `O_X`-modules. -/
-def G0 (X : Scheme.{u}) : Type (u + 1) :=
-  FreeAbelianGroup {F : X.Modules // F.IsFinitePresentation} ⧸
-    AddSubgroup.closure {x | ∃ (S : ShortComplex X.Modules) (_ : S.ShortExact)
-      (h₁ : S.X₁.IsFinitePresentation) (h₂ : S.X₂.IsFinitePresentation)
-      (h₃ : S.X₃.IsFinitePresentation),
-      x = FreeAbelianGroup.of ⟨S.X₂, h₂⟩ - FreeAbelianGroup.of ⟨S.X₁, h₁⟩ -
-        FreeAbelianGroup.of ⟨S.X₃, h₃⟩}
+-- The affine plane with doubled origin has a coherent ideal not generated by any vector bundle.
+example : ∃ X : Scheme.{u}, IsNoetherian X ∧ ¬ HasResolutionProperty X := by sorry
 
-instance (X : Scheme.{u}) : AddCommGroup (G0 X) := by unfold G0; infer_instance
-
-/-- `K_0(X)`: the Grothendieck group of finite locally free `O_X`-modules. -/
-def K0 (X : Scheme.{u}) : Type (u + 1) :=
-  FreeAbelianGroup {E : X.Modules // E.IsLocallyFree ∧ E.IsFiniteType} ⧸
-    AddSubgroup.closure {x | ∃ (S : ShortComplex X.Modules) (_ : S.ShortExact)
-      (h₁ : S.X₁.IsLocallyFree ∧ S.X₁.IsFiniteType) (h₂ : S.X₂.IsLocallyFree ∧ S.X₂.IsFiniteType)
-      (h₃ : S.X₃.IsLocallyFree ∧ S.X₃.IsFiniteType),
-      x = FreeAbelianGroup.of ⟨S.X₂, h₂⟩ - FreeAbelianGroup.of ⟨S.X₁, h₁⟩ -
-        FreeAbelianGroup.of ⟨S.X₃, h₃⟩}
-
-instance (X : Scheme.{u}) : AddCommGroup (K0 X) := by unfold K0; infer_instance
-
-/-- The determinant of a virtual finite locally free sheaf, valued in the additive form of
-Tau Ceti's group of line-bundle classes. A line-bundle generator maps to its own class.
-Fulton 1998, §15.1. -/
-def K0.det (X : Scheme.{u}) : K0 X →+ Additive (TauCeti.AlgebraicGeometry.LineBundleClass X) := by
+local instance (X : Scheme.{u}) :
+    (show ObjectProperty X.Modules from SheafOfModules.isFinitePresentation X.ringCatSheaf).ContainsZero := by sorry
+local instance (X : Scheme.{u}) :
+    (show ObjectProperty X.Modules from SheafOfModules.isFinitePresentation X.ringCatSheaf).IsClosedUnderBinaryProducts := by sorry
+local instance (X : Scheme.{u}) :
+    (TauCetiRoadmap.AlgebraicVectorBundles.isFiniteLocallyFree X).ContainsZero := by sorry
+local instance (X : Scheme.{u}) :
+    (TauCetiRoadmap.AlgebraicVectorBundles.isFiniteLocallyFree X).IsClosedUnderBinaryProducts := by
   sorry
 
-/-- The natural map `K_0(X) → G_0(X)`, `[E] ↦ [E]`, on a Noetherian scheme. -/
+/-- The exact structure on finitely presented sheaves induced by ambient short exact sequences.
+GrothendieckEulerForms Layer 2, specialized to the extension-closed sheaf subcategory. -/
+def finitelyPresentedExact (X : Scheme.{u}) :
+    TauCeti.ExactStructure
+      (show ObjectProperty X.Modules from SheafOfModules.isFinitePresentation X.ringCatSheaf).FullSubcategory :=
+  (TauCeti.ExactStructure.abelian X.Modules).fullSubcategory _ (by sorry)
+
+/-- The exact structure on the owner's finite locally free sheaves induced by short exact
+sequences. GrothendieckEulerForms Layer 2 and AlgebraicVectorBundles L0B. -/
+def finiteLocallyFreeExact (X : Scheme.{u}) :
+    TauCeti.ExactStructure (TauCetiRoadmap.AlgebraicVectorBundles.FiniteLocallyFreeSheaf X) :=
+  (TauCeti.ExactStructure.abelian X.Modules).fullSubcategory _ (by sorry)
+
+/-- The owner's exact Grothendieck group of finitely presented sheaves; on a Noetherian scheme
+these are coherent sheaves. -/
+abbrev G0 (X : Scheme.{u}) : Type (u + 1) := TauCeti.ExactK0 (finitelyPresentedExact X)
+
+/-- The owner's exact Grothendieck group of finite locally free sheaves. -/
+abbrev K0 (X : Scheme.{u}) : Type (u + 1) := TauCeti.ExactK0 (finiteLocallyFreeExact X)
+
+/-- The determinant of a virtual finite locally free sheaf, induced by the owner's determinant
+and the universal property of exact Grothendieck groups. Fulton 1998, §15.1. -/
+def K0.det (X : Scheme.{u}) : K0 X →+ Additive (TauCeti.AlgebraicGeometry.LineBundleClass X) :=
+  TauCeti.ExactK0.lift
+    { obj := fun E => Additive.ofMul (TauCeti.AlgebraicGeometry.LineBundleClass.mk
+        (TauCetiRoadmap.AlgebraicVectorBundles.determinantObj E))
+      map_conflation := by sorry }
+
+/-- The natural map from vector-bundle classes to coherent classes on a Noetherian scheme. -/
 def K0.toG0 (X : Scheme.{u}) [IsNoetherian X] : K0 X →+ G0 X :=
-  QuotientAddGroup.lift _
-    ((QuotientAddGroup.mk' _).comp
-      (FreeAbelianGroup.map (fun E => (⟨E.1, by sorry⟩ : {F : X.Modules // F.IsFinitePresentation}))))
-    (by sorry)
+  TauCeti.ExactK0.lift
+    { obj := fun E => TauCeti.ExactK0.of
+        (⟨E.obj, E.property.2⟩ :
+          (show ObjectProperty X.Modules from SheafOfModules.isFinitePresentation X.ringCatSheaf).FullSubcategory)
+      map_conflation := by sorry }
 
 /-- A kernel class with nontrivial determinant detects failure of injectivity of `K_0 → G_0`.
 Fulton 1998, §15.1. -/
