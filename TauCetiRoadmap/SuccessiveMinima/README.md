@@ -127,7 +127,7 @@ Other geometry of numbers built on this roadmap is out of scope, including:
 
 Siegel's lemma, Bombieri–Vaaler and the heights of lattices belong to
 [DiophantineApproximationAndTranscendence](../DiophantineApproximationAndTranscendence/README.md)
-and [HeightsAndUnits](../HeightsAndUnits/README.md).
+and [HeightsAndUnits](../../Completed/HeightsAndUnits/README.md).
 
 ## Conventions
 
@@ -576,7 +576,7 @@ Symmetry of `K` is not assumed. No bound on the individual gauges of the `b_i` i
 attained real basis's flag is preserved. The form that bounds the vectors, at the cost
 `max 1 ((i+1)/2)` and for a symmetric body, is Tau Ceti's
 `ZLattice.exists_basis_mem_smul_successiveMin`, which is
-[HeightsAndUnits](../HeightsAndUnits/README.md) 2.1.
+[HeightsAndUnits](../../Completed/HeightsAndUnits/README.md) 2.1.
 Apply 0.2.1 to the real basis of 1.5: the integral basis it returns has the same real flags, and
 those contain the strict sublevels.
 (Source: Cassels, Ch. VIII, Lemma 2, p.204, there with integer coefficients; Henk2002, pp.3–4,
