@@ -520,6 +520,28 @@ theorem Theoryω.exists_countable_model_omitting (A : Fragment L) (hA : A.Format
       ∀ p ∈ P, OmitsType M p.2 := by
   sorry
 
+/-- Omission of a first-order partial type, with tuples in bound positions. -/
+def OmitsFOType {L : FirstOrder.Language.{u, v}} (M : Type w) [L.Structure M] {n : ℕ}
+    (p : Set (L.BoundedFormula Empty n)) : Prop :=
+  ∀ a : Fin n → M, ∃ ψ ∈ p, ¬ ψ.Realize Empty.elim a
+
+/-- **Layer 4, first-order isolation**: some first-order formula `φ`, consistent with `T`,
+implies every formula of `p` modulo `T`. -/
+def IsolatesFO (T : L.Theory) {n : ℕ} (p : Set (L.BoundedFormula Empty n)) : Prop :=
+  ∃ φ : L.BoundedFormula Empty n, (insert φ.exs T).IsSatisfiable ∧ ∀ ψ ∈ p, T ⊨ᵇ φ.imp ψ
+
+/-- **Layer 4 corollary, the first-order omitting types theorem.** For a countable language, a
+satisfiable first-order theory and countably many first-order partial types, none isolated over
+the theory, some countable nonempty model omits them all, in any universe. The hypothesis is
+necessary: the empty type is isolated by `⊤` and realized by every tuple. -/
+theorem exists_countable_model_omitting_fo [Countable (Σ l, L.Functions l)]
+    [Countable (Σ l, L.Relations l)] (T : L.Theory) (hsat : T.IsSatisfiable)
+    (P : Set (Σ n, Set (L.BoundedFormula Empty n))) (hP : P.Countable)
+    (hiso : ∀ p ∈ P, ¬ IsolatesFO T p.2) :
+    ∃ (M : Type w) (_ : L.Structure M), Nonempty M ∧ Countable M ∧ M ⊨ T ∧
+      ∀ p ∈ P, OmitsFOType M p.2 := by
+  sorry
+
 end Types
 
 /-! ## Layer 5: Morleyization -/
@@ -576,11 +598,6 @@ theorem nonempty_morleyEquiv_iff (Φ : Set (Σ n, BoundedFormulaω L Empty n)) {
     Nonempty (@Language.Equiv (morleyize L Φ) M N (morleyExpansion Φ M) (morleyExpansion Φ N)) ↔
       Nonempty (M ≃[L] N) := by
   sorry
-
-/-- Omission of a first-order partial type, with tuples in bound positions. -/
-def OmitsFOType {L : FirstOrder.Language.{u, v}} (M : Type w) [L.Structure M] {n : ℕ}
-    (p : Set (L.BoundedFormula Empty n)) : Prop :=
-  ∀ a : Fin n → M, ∃ ψ ∈ p, ¬ ψ.Realize Empty.elim a
 
 /-- **Layer 5 milestone, the first-order presentation of a countable fragment** (Marker 2016,
 Chapter 1). There is a first-order theory of the Morleyization, countable when `A` is (no
@@ -695,8 +712,10 @@ section Interpolation
 
 variable {L : FirstOrder.Language.{u, v}}
 
-/-- **Layer 7, projective-class membership**: `M` itself, on the same carrier, expands along `g`
-to a model of `Θ`. -/
+/-- **Layer 7, projective-class membership** (Marker's `PC_{ω₁ω}` classes): `M` itself, on the
+same carrier, expands along `g` to a model of `Θ`. For `g = LHom.sumInl : L →ᴸ L.sum L₁`, `M` is
+the `L`-reduct of a model of `Θ`, whose auxiliary symbols from `L₁` are chosen existentially.
+No nonemptiness is built in. -/
 def PCMem {L' : FirstOrder.Language.{u', v'}} (g : L →ᴸ L') (Θ : Sentenceω L') (M : Type w)
     [L.Structure M] : Prop :=
   ∃ S : L'.Structure M, @LHom.IsExpansionOn L L' g M _ S ∧ @SentenceInf.Realize L' ℕ Θ M S
@@ -717,9 +736,13 @@ theorem craig_interpolation (φ ψ : Sentenceω L) (h : Sentenceω.Entails φ ψ
       Sentenceω.Entails φ θ ∧ Sentenceω.Entails θ ψ := by
   sorry
 
-/-- **Layer 7 milestone, PC separation.** Two projective classes, given by new symbols
-`L₁` and `L₂`, with no common countable nonempty member, are separated by a single `L`-sentence on
-nonempty structures of every universe. No language is assumed relational or countable. -/
+/-- **Layer 7 milestone, PC separation.** Two projective classes, given by new symbols `L₁` and
+`L₂`, with no common countable nonempty member, are separated by a single `L`-sentence on nonempty
+structures of every universe. Only countable members are excluded because a common member would
+give a countable one (Layer 2); the proof is Craig interpolation for the two sentences with their
+new symbols renamed apart. No language is assumed relational or countable. For a countable
+relational language, on the space of structures with carrier `ℕ`, it plays the role of Lusin
+separation. -/
 theorem pcSeparation {L₁ : FirstOrder.Language.{u₁, v₁}}
     {L₂ : FirstOrder.Language.{u₂, v₂}}
     (Θ₁ : Sentenceω (L.sum L₁)) (Θ₂ : Sentenceω (L.sum L₂))

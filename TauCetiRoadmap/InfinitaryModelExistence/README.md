@@ -27,8 +27,8 @@ The summits are:
 * **Craig interpolation and PC separation** for sentences of a language of any cardinality, with the
   Lyndon (relation polarity, logical equality) and Malitz (universal consequent) refinements, all
   for arbitrary languages except Malitz, which is relational (Layer 7);
-* **the boundedness theorems for well-orderings** of Marker's Chapter 4 and the undefinability of
-  well-ordering, for arbitrary languages (Layer 8).
+* **the boundedness theorems for well-orderings** of §4.4 of Marker's 2013 notes and the
+  undefinability of well-ordering, for arbitrary languages (Layer 8).
 
 The interpolation and well-ordering theorems are proved for relational languages and transferred to
 languages with function symbols by the **graph translation** of Layer 6, a proof device with its own
@@ -63,7 +63,7 @@ TauCeti/ModelTheory/WellOrdering.lean                -- boundedness of well-orde
 | L5 | Morleyization: the canonical definitional expansion and the first-order presentation of a countable fragment with omitted types | L0–L2, L4 | the Morley presentation of "the universe is finite", and an infinite model of its first-order theory from Mathlib's compactness |
 | L6 | the graph translation: graph language, graph expansion, formula translation, graph axioms, reconstruction, back-translation, entailment transfer | L0, L1 | back-translating a translated formula gives a formula with the same realization in every structure |
 | L7 | projective classes; Craig interpolation and PC separation; Lyndon; Malitz | L0–L3, L6 | the degenerate interpolants `⊥` and `⊤` |
-| L8 | Marker 4.4.1, boundedness, Marker 4.4.2, undefinability of well-ordering | L0–L3, L6 | a chain `RelChain lt f` from `ℚ` is never well-founded |
+| L8 | boundedness and the undefinability of well-ordering (Marker's 2013 notes, §4.4) | L0–L3, L6 | a chain `RelChain lt f` from `ℚ` is never well-founded |
 
 L0 and L1 come first. L2 and L3 are independent of each other. L4 needs L3 (for the omitting types
 theorem) and L2 (for transporting types). L5 needs L4 only for the vocabulary of omission. L6 needs
@@ -529,8 +529,9 @@ Suggested home: `TauCeti/ModelTheory/ModelExistence/{Types,OmittingTypes}.lean`.
   realized in every countable model of `T` is isolated over `T` in `A`; and the **first-order omitting types theorem**: for a countable language, a
   satisfiable first-order theory and countably many first-order partial types none isolated by a
   first-order formula modulo the theory (in the sense of Mathlib's `Theory.IsSatisfiable`), there
-  is a countable model omitting them all. Derive it by taking `A` to be the first-order image
-  fragment.
+  is a countable model omitting them all (`exists_countable_model_omitting_fo`; the empty type,
+  isolated by `⊤`, shows that the non-isolation hypothesis cannot be dropped). Derive it by taking
+  `A` to be the first-order image fragment.
 
 **Acceptance example.** A partial type realized in every countable model of a satisfiable `T` is
 isolated.
@@ -657,7 +658,15 @@ Suggested home: `TauCeti/ModelTheory/Interpolation/{PCClass,Craig,Lyndon,Malitz}
 
 * `PCMem g Θ M` for `g : L →ᴸ L'` and `Θ : Sentenceω L'`: the `L`-structure `M` itself, on the
   same carrier, has an `L'`-structure that is an expansion along `g` and satisfies `Θ` (Marker's
-  `PC_{ω₁ω}` classes). No nonemptiness is built in.
+  `PC_{ω₁ω}` classes). No nonemptiness is built in. In the case used throughout,
+  `g = LHom.sumInl : L →ᴸ L.sum L₁`, this says that `M` is the `L`-reduct of a model of `Θ`: `Θ`
+  may speak about the auxiliary symbols of `L₁`, whose interpretations are chosen existentially.
+  These are the Lω₁ω analogue of pseudo-elementary classes. For a countable relational
+  language, on the space of structures with carrier `ℕ`, these projective classes are exactly the
+  isomorphism-invariant analytic sets; Lω₁ω model classes are exactly the isomorphism-invariant
+  Borel sets (López–Escobar, in CountableStructureSpaces). A countable carrier alone does not
+  give this: it needs the countable language. `PCMem` and the theorems below are for arbitrary
+  languages.
 * API: invariance under isomorphism; every model class is projective (`g = LHom.id`);
   projective classes along `LHom.sumInl : L →ᴸ L.sum L₁` are closed under binary intersection
   and, for relational `L₁` and `L₂`, binary union (both in `L.sum (L₁.sum L₂)`), and under
@@ -685,9 +694,13 @@ Suggested home: `TauCeti/ModelTheory/Interpolation/{PCClass,Craig,Lyndon,Malitz}
 * `pcSeparation`: for arbitrary languages `L`, `L₁`, `L₂`, if no countable nonempty `L`-structure
   lies in both `PCMem LHom.sumInl Θ₁` and `PCMem LHom.sumInl Θ₂`, some `θ : Sentenceω L` holds in
   every nonempty member of the first class and fails in every nonempty member of the second, in
-  every universe. The hypothesis is only about countable structures `M : Type` (by Layer 2), and
-  the conclusion holds for nonempty `M : Type w`; this is the interface the López–Escobar theorem
-  of CountableStructureSpaces consumes, and its proposed signature is in `Suggested.lean`.
+  every universe. It is Craig interpolation applied to the two defining sentences after their
+  auxiliary symbols are renamed apart, and holds with no hypothesis on the languages. For a
+  countable relational language, on the space of structures with carrier `ℕ`, it plays the role
+  of Lusin separation (disjoint analytic sets are separated by a Borel set). The hypothesis is
+  only about countable structures `M : Type` (by Layer 2), and the conclusion holds for nonempty
+  `M : Type w`; this is the interface the López–Escobar theorem of CountableStructureSpaces
+  consumes, and its proposed signature is in `Suggested.lean`.
 
   Route. Work in `L⁺ := L.sum (L₁.sum L₂)`, where the two new vocabularies are disjoint even when
   `L₁ = L₂`. Let `Θ₁⁺` and `Θ₂⁺` be the images of `Θ₁` and `Θ₂` along
@@ -774,13 +787,13 @@ Fix a binary relation symbol `lt : L.Relations 2` of an arbitrary language and w
 
 * `HasWellOrderedChains φ lt`: for every `α < ω₁` some nonempty model of `φ` carries a chain
   `f : α.ToType → M`.
-* `exists_model_relChain_rat` (Marker 2016, Chapter 4, raw positive form): under that
-  hypothesis some countable nonempty model of `φ` carries `f : ℚ → M` with `RelChain lt f`.
+* `exists_model_relChain_rat` (Theorem 4.27 of Marker's 2013 notes, raw positive form): under
+  that hypothesis some countable nonempty model of `φ` carries `f : ℚ → M` with `RelChain lt f`.
   Injectivity is the separate corollary `RelChain.injective_of_irreflexive`, for irreflexive `lt`.
 * `wellFounded_boundedness`: if `lt` is well-founded in every model of `φ`, some countable ordinal
   has a chain in no model of `φ`.
-* `wellOrder_type_boundedness` (Marker 2016, Chapter 4): if `lt` well-orders every model of
-  `φ`, some `α < ω₁` strictly exceeds the order type of every model.
+* `wellOrder_type_boundedness` (Corollary 4.28 of Marker's 2013 notes): if `lt` well-orders
+  every model of `φ`, some `α < ω₁` strictly exceeds the order type of every model.
 * `wellOrdering_undefinable`: no sentence has as its models exactly the structures in which `lt`
   is a well-order. It is a different target from `not_exists_modelsOf_eq_wellOrderClass` of
   CountableStructureSpaces, which is about codes on `ℕ`; this one is about all structures.
@@ -793,17 +806,71 @@ countability, and Layer 6 to remove function symbols: the well-ordered-chain hyp
 reconstruction, and `lt` is a base relation, preserved on the nose by both.
 
 Route for the relational core. Add Henkin constants and rational constants `d_q` (coded into `ℕ`,
-rational constants at even indices). The members are `{φ} ∪ {d_q < d_r : q < r} ∪ σ` with `σ` finite
-and, for every `α < ω₁`, a model of `φ` with a well-ordered chain in which the constants of `σ` can
-be placed with gaps of length at least `α` between consecutive rational constants (Marker's
-condition (*)). The disjunction clause uses regularity of `ω₁` (uncountably many `α` choose one of
-countably many disjuncts) and downward closure of (*) in `α`; the witness clause for a constant
-between two rational constants inserts the new point inside a gap, at `b_s + α` in a model chosen
-for some `β > α + α`. Marker checks two clauses and leaves the rest as an exercise; all of them are
-targets. `model_existence` then realizes the full positive diagram, and `q ↦ d_q` is the map.
-Boundedness is the contrapositive (a well-founded relation has no chain from the negative
-rationals), and undefinability follows because each `α + ω` with `α < ω₁` is the order type of a
-well-order.
+rational constants at even indices), and let `D = {lt(d_q, d_r) : q < r}`. A sentence is
+*finitely supported* if it mentions only finitely many constants; a finite set of Lω₁ω sentences
+need not be, since a countable conjunction can mention infinitely many. Let `σ` be a finite set of
+finitely supported sentences, and `q₁ < … < qₙ` the rationals whose constants occur in `σ`. An
+*`α`-witness* for `σ` is a model `M` of `φ`, a chain `f : γ → M` (`RelChain lt f`) of some
+countable length `γ`, and an interpretation of the constants of `σ` in `M`, with `M ⊨ σ` and
+`d_{qᵢ}` interpreted as `f bᵢ`, where
+
+```text
+b₁ < … < bₙ,   α ≤ b₁,   bᵢ + α ≤ bᵢ₊₁ (1 ≤ i < n),   bₙ + α < γ,
+```
+
+and `α < γ` when `n = 0`. The members are the sets `{φ} ∪ D ∪ σ`, with `σ` the sentences outside
+`{φ} ∪ D`, such that `σ` has an `α`-witness for every `α < ω₁`. These are the gap conditions (*)
+of the proof of Theorem 4.27 in Marker's 2013 notes (§4.4, pp. 51–52, printed after Corollary
+4.28), together with a terminal reserve `bₙ + α < γ` and the empty-support case, which the clause
+checks below need. Without the terminal reserve the family is not a consistency property: if `φ`
+says that `lt` is a strict linear order with a greatest element, `σ = {∀x, lt(x, d₀) ∨ x = d₀}`
+has witnesses placing `d₀` at the top of `α + 1`, and the `all` clause then requires
+`lt(d₁, d₀) ∨ d₁ = d₀`, which contradicts `lt(d₀, d₁) ∈ D`. An `α`-witness is an `α'`-witness for
+every `α' ≤ α`, so it suffices to have `α`-witnesses for unboundedly many `α`.
+
+The clause checks, each a target:
+
+* **Initial member.** `{φ} ∪ D` (`σ = ∅`) is a member: a model of `φ` with a chain of length
+  `α + 1` is an `α`-witness.
+* **Local truth.** An `α`-witness satisfies `φ`, `σ` and every sentence of `D` whose constants
+  occur in `σ`, since the named rationals sit at increasing chain positions. This gives
+  `no_falsum` and `no_contradiction`: a sentence of `D` and its negation in `σ` have the same
+  constants.
+* **Placement.** If `σ` has `α`-witnesses for every `α` and `d_q` does not occur in `σ`, then for
+  every `α` some `α`-witness for `σ` also places `d_q`, with the conditions above for the
+  enlarged list. Take a `β`-witness for `β = (α + 1) + α + 1` and put `d_q` at `p = α` if no named
+  rational is below `q`, and at `p = bᵢ + (α + 1)` if `qᵢ` is the largest named rational below
+  `q`. The summand `1` makes `p` strictly later than `bᵢ` even when `α = 0`; since
+  `(α + 1) + α < β`, the gaps of size `β` leave reserve `α` on both sides of `p` and `p` below the
+  next named position, and at the right end `(bₙ + (α + 1)) + α < bₙ + β < γ`. The other
+  conditions weaken from `β` to `α`. The model and its interpretation of `σ` are unchanged.
+* **Conjunctive clauses** (`not_imp`, `iInf`, `not_iSup`) add a subformula of a sentence of
+  `{φ} ∪ σ`. Every witness satisfies it, and its constants already occur in `σ` (or nowhere, for a
+  subformula of `φ`).
+* **Disjunctive clauses** (`imp`, `iSup`, `not_iInf`). Every `α`-witness satisfies one of
+  countably many disjuncts, so by regularity of `ω₁` a single disjunct is satisfied by
+  `α`-witnesses for unboundedly many `α`, hence for all `α`. Its constants already occur in `σ`.
+* **`all`.** The instance at `c` holds in every witness of the universal sentence. If `c` occurs in
+  `σ`, nothing else changes. A new Henkin constant is interpreted arbitrarily (the model is
+  nonempty, since `γ > α ≥ 0`). A new rational constant is placed as above, and the instance holds
+  because the model satisfies the universal sentence. This is the clause that needs the terminal
+  reserve.
+* **`not_all`.** Choose a Henkin constant (odd index) not occurring in `σ`, which exists by finite
+  support, and interpret it in each witness by an element witnessing the negated instance.
+* **Equality.** The closed terms of the relational `L[[ℕ]]` are its constants. `eq_refl`, and
+  `eq_name` with `c` the constant `t` itself, add `t = t`, placing `t` if it is a new rational and
+  interpreting it if it is a new Henkin constant. For `eq_subst`, the equation `t = t'` lies in
+  `σ`. If `inst φ t ∈ σ`, every witness satisfies it and the equation, hence `inst φ t'`. If
+  `inst φ t ∈ D`, the other constant of that atomic sentence may be new; place it, after which
+  `inst φ t'` holds because `t` and `t'` name the same chain point.
+* **Finite support and countability.** Each clause adds one sentence, which mentions at most one
+  constant not already in `σ` (subformulas mention no new constants), so `σ` stays finite and
+  finitely supported; every member is countable.
+
+`model_existence` applied to `{φ} ∪ D` gives a countable nonempty model of `φ` in which `q ↦ d_q`
+is a chain. Boundedness is the contrapositive (a well-founded relation has no chain from the
+negative rationals), and undefinability follows because each `α + ω` with `α < ω₁` is the order
+type of a well-order.
 
 **Acceptance example.** A map `f : ℚ → M` with `RelChain lt f` makes `lt` ill-founded in `M`, via
 `f (-1), f (-2), …`.
@@ -852,8 +919,8 @@ prove. The following chains must be visible:
 * fragment → Morley theory and types → first-order presentation;
 * inseparable pairs → model existence → relational Craig → graph translation → Craig → PC
   separation, with Lyndon and Malitz as refinements of the separator class;
-* Marker's gap condition → model existence → the rational chain → graph translation →
-  boundedness → undefinability.
+* the gap-and-reserve consistency property → model existence → the rational chain → graph
+  translation → boundedness → undefinability.
 
 A theorem proved for a privately redefined entailment, fragment notion or consistency property
 does not discharge its target.
@@ -880,7 +947,7 @@ The following belong to separate roadmaps or to the named sibling.
   sets and Barwise compactness, which also needs the calculus.
 * **Admissible fragments, Barwise compactness and Nadel's bound.**
 * **Building uncountable models**: Keisler's elementary end-extension theorem and the uncountable
-  form of Marker 4.4.1.
+  form of the boundedness theorem.
 * **Spaces of countable structures**, Borel model classes, López–Escobar and the non-Borelness of
   the well-order class (CountableStructureSpaces); **indiscernibles, Ehrenfeucht–Mostowski models,
   Hanf numbers, smallness, small models and complete sentences** (HanfNumbers); **counting
@@ -947,6 +1014,11 @@ universe-general statements here are part of the work. The map below says where 
   fragment) and Chapter 4, "The model existence theorem": consistency properties and model
   existence, omitting types, interpolation and López–Escobar, and the boundedness of
   well-orderings.
+  The well-ordering theorems of Layer 8 are cited from the author's lecture notes of the same
+  title (University of Illinois at Chicago, Fall 2013,
+  [author's copy](https://homepages.math.uic.edu/~marker/math512-F13/inf.pdf)), §4.4, "The
+  Undefinability of Well-Ordering": Theorem 4.27 (p. 51), Corollary 4.28 (pp. 51–52), and the
+  proof of Theorem 4.27 printed after the corollary (pp. 51–52). The notes number results differently from the book.
 * H. Jerome Keisler, *Model Theory for Infinitary Logic*, Studies in Logic and the Foundations of
   Mathematics 62, North-Holland, 1971: consistency properties, model existence, omitting types and
   interpolation over countable fragments.
