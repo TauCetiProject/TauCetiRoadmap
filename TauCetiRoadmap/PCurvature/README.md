@@ -660,8 +660,9 @@ needs 4.3.
 
 ## Downstream consumers
 
-No roadmap on main cites this one. The research that uses Layers 0–2 is listed under *Research
-context*.
+No roadmap on main cites this one. Among open roadmap pull requests, K3Surfaces §0.2 uses the
+restricted `p`-power of global derivations, which is 0.3 here. The research that uses Layers 0–2 is
+listed under *Research context*.
 
 ## Research context
 
