@@ -369,6 +369,12 @@ cellular tower (Ara 2013, 2.10–2.11); the tower is Layer 2.4's `CellularTower`
 prototyped here, so this structure omits freeness. -/
 structure PseudoCoherator extends GlobularExtension where
   contractible : toGlobularExtension.IsContractible
+  /-- The lifting of `(1_{D_n}, 1_{D_n})` chosen once as data, from which the identity cells are
+  built (it exists by `contractible`). -/
+  idLift : ∀ n : ℕ, disks.disk ((toGlobularExtension.idPair n).n + 1) ⟶
+    toGlobularExtension.ofTable (toGlobularExtension.idPair n).T
+  isLifting_idLift :
+    ∀ n : ℕ, toGlobularExtension.IsLifting (toGlobularExtension.idPair n) (idLift n)
 
 /-! ## Layer 3: ∞-groupoids of type `C` -/
 
@@ -428,10 +434,10 @@ namespace PseudoCoherator
 
 variable (C : PseudoCoherator)
 
-/-- **Layer 3.2.** The structural map `D_{n+1} ⟶ D_n` of identities: a chosen lifting of the
-admissible pair `(1_{D_n}, 1_{D_n})`. -/
-noncomputable def identityMap (n : ℕ) : C.disks.disk (n + 1) ⟶ C.disks.disk n :=
-  Classical.choose (C.contractible (C.idPair n)) ≫ eqToHom (C.ofTable_globe n)
+/-- **Layer 3.2.** The structural map `D_{n+1} ⟶ D_n` of identities: the chosen lifting `idLift n`
+of the admissible pair `(1_{D_n}, 1_{D_n})`. -/
+def identityMap (n : ℕ) : C.disks.disk (n + 1) ⟶ C.disks.disk n :=
+  C.idLift n ≫ eqToHom (C.ofTable_globe n)
 
 /-- **Layer 4.1.** The iterated identity `1^n_x` of a `0`-cell `x` (Ara's `k⁰_n(x)`, 2013, 4.11). -/
 noncomputable def iteratedIdentity (X : C.Objᵒᵖ ⥤ Type w) : (n : ℕ) → C.Cell X 0 → C.Cell X n

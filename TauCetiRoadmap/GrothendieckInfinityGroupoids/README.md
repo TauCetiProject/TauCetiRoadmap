@@ -360,10 +360,11 @@ set, the forgetful functor to globular sets and its left adjoint on globular sum
 ### 3.2 Structural operations
 
 Structural operations from the coherator: identities `1_x` (`PseudoCoherator.identityMap`,
-a chosen lifting of `(1_{D_n}, 1_{D_n})`), compositions and inverses of `n`-cells along `k`-cells,
-each chosen by a lifting, with their action on underlying cells. *Source:* Ara 2013, §3, and the
-pregroupoidal structures of 3.11. *Needs:* `InfinityGroupoid` (3.1), `GlobularExtension.idPair`
-and `PseudoCoherator.contractible` (2.2). *Checks:*
+built from the lifting `PseudoCoherator.idLift` of `(1_{D_n}, 1_{D_n})`, which the structure
+carries as data with `PseudoCoherator.isLifting_idLift`), compositions and inverses of `n`-cells
+along `k`-cells, each chosen by a lifting, with their action on underlying cells. *Source:* Ara
+2013, §3, and the pregroupoidal structures of 3.11. *Needs:* `InfinityGroupoid` (3.1),
+`GlobularExtension.idPair` and `PseudoCoherator.contractible` (2.2). *Checks:*
 - `1_x` has source and target `x`;
 - for `u : x → y` and `v : y → z`, `v ∗ u : x → z` (Ara 2013, 3.2);
 - the inverse of `u : x → y` goes from `y` to `x`.
