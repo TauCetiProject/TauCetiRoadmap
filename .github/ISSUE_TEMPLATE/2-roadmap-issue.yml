@@ -37,6 +37,7 @@ body:
         - ClassFieldTheory
         - ClassicalArithmeticCompletion
         - ClassifyingSpaces
+        - CoboundaryExpansion
         - CombinatorialHeegaardFloer
         - CompactOperators
         - ComplexCurveModuli
@@ -48,6 +49,7 @@ body:
         - DGAInfinity
         - DGFloer
         - DerivedModuleAlgebra
+        - DiagrammaticCoherence
         - DifferentialGeometry
         - DiophantineApproximationAndTranscendence
         - ECM
@@ -56,7 +58,11 @@ body:
         - EllipticIntegrals
         - EnhancedDerivedSheaves
         - EtaleCohomologyFoundations
+        - EtaleMassFormula
+        - FactorRigidity
         - FinancialMathematics
+        - FiniteGroupExtensionSplitting
+        - FlagVarieties
         - FormalLaurentPuiseux
         - FreeGroupsAndLimitGroups
         - FreeProbability
@@ -72,15 +78,19 @@ body:
         - GrothendieckEulerForms
         - HamiltonianFloerOperations
         - HeegaardFloer
+        - HopfologicalAlgebra
         - Hyperfunctions
         - ImaginaryQuadraticClassNumber
         - InfinitaryModelExistence
         - IntegralLattices
         - Isoperimetry
         - JacobianChallenge
+        - KacMoody
         - KhovanovHomology
         - LFunctions
+        - LieGroupoidsPoisson
         - LocalPurity
+        - LocalVariationalFieldTheory
         - MarkovChainsAndRenewal
         - MassFormula
         - ModularCurves
@@ -101,9 +111,13 @@ body:
         - PerfectoidSpaces
         - PivotalSpherical
         - PositiveScalarCurvature
+        - PrimitivePrimeDivisors
         - ProfiniteCohomology
+        - PseudodifferentialOperators
+        - PseudoholomorphicCurveAnalysis
         - PurityOfBranchLocus
         - QuadraticFormInvariants
+        - QuantumEnvelopingAlgebras
         - QuantumGroups
         - QuaternionicAnalysis
         - RandomMatrices
@@ -126,8 +140,10 @@ body:
         - StablePeriodicCurved
         - StableReduction
         - StandardDistributions
+        - Subfactors
         - SubspaceTheorem
         - SuccessiveMinima
+        - SymplecticFieldTheory
         - SymplecticGeometry
         - TauberianBoundaryConvergence
         - TaubesGromov
@@ -136,7 +152,9 @@ body:
         - TopologicalKTheory
         - TopologicalSheafCohomology
         - TypeAHeckeAlgebras
+        - VonNeumannAlgebras
         - Yamabe
+        - ZerosOfLFunctions
         - ZigzagPreprojective
     validations:
       required: true
