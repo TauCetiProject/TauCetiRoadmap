@@ -393,14 +393,19 @@ contains `1_H`.
 ### V1.4 Kaplansky density
 
 Prove Kaplansky's density theorem: for a unital star subalgebra `A ⊆ B(H)` with strong closure `M`,
-the norm unit ball of `A` is strongly dense in the unit ball of `M`, the self-adjoint part of the
-unit ball of `A` is strongly dense in the self-adjoint part of the unit ball of `M`, and likewise
-for the positive parts (Houdayer, Theorem 3.16, p. 17; Peterson, Theorem 2.6.4, p. 31; Jones,
-Theorem 5.2.1, pp. 32–33). Since `M = A''` by V1.3, the unit-ball form is
-`kaplansky_closure_unitBall`. Route: the self-adjoint case by the homeomorphism `t ↦ 2t/(1 + t²)` of
-`[−1, 1]` and the identity `y − x = 2(1 + Y²)⁻¹(Y − X)(1 + X²)⁻¹ + ½ y(X − Y)x` for `x = f(X)`,
-`y = f(Y)`; the general case by the matrix amplification `[[0, x], [x*, 0]]` in `M₂(M)`; the positive
-case by `x ↦ x*x` applied to self-adjoint approximants of `√x`. Give the strong-star form, and the
+the norm unit ball of `A` is strongly dense in the unit ball of `M`, and the self-adjoint part of
+the unit ball of `A` is strongly dense in the self-adjoint part of the unit ball of `M` (Houdayer,
+Theorem 3.16, p. 17; Jones, Theorem 5.2.1, pp. 32–33; Peterson, Theorem 2.6.4 and its proof, p. 31,
+whose statement gives the self-adjoint part without the norm bound). Since `M = A''` by V1.3, the
+unit-ball form is `kaplansky_closure_unitBall`. Route: the self-adjoint case by the homeomorphism
+`t ↦ 2t/(1 + t²)` of `[−1, 1]` and the identity
+`y − x = 2(1 + Y²)⁻¹(Y − X)(1 + X²)⁻¹ + ½ y(X − Y)x` for `x = f(X)`, `y = f(Y)`; the general case by
+the matrix amplification `[[0, x], [x*, 0]]` in `M₂(M)`. Derive from the self-adjoint case that the
+positive part of the unit ball of `A` is strongly dense in the positive part of the unit ball of
+`M`: for `0 ≤ x ≤ 1` in `M`, self-adjoint contractions `y_α ∈ A` converging strongly to `√x ∈ M`
+give positive contractions `y_α² ∈ A`, and `y_α² → x` strongly because
+`‖(y_α² − x)ξ‖ ≤ ‖(y_α − √x)ξ‖ + ‖(y_α − √x)√x ξ‖` (the joint strong continuity of products on
+norm-bounded sets, V1.1). Give the strong-star form, and the
 useful criterion that an operator lies in `W*(A)` as soon as it is the strong limit of a norm-bounded
 net from `A`. Deduce that a unital star subalgebra `A` is a von Neumann algebra iff its norm unit
 ball is weakly compact (Jones, Corollary 5.2.2, p. 33): a von Neumann algebra is weakly closed and
@@ -416,8 +421,14 @@ so `A = A''`.
 - Negative control, the star hypothesis: `A` = upper triangular matrices in `M₂(ℂ)` is a unital
   subalgebra, not star-closed; `A' = ℂ·1`, so `A'' = M₂(ℂ)`, but `A` is closed and its unit ball
   is not dense in that of `M₂(ℂ)`.
-- Positive part on `M₂(ℂ)` with `A = M₂(ℂ)`: trivial; on `A` = finite rank plus `ℂ·1`, the positive
-  operator `1 − e₀` is the strong limit of the positive contractions `P_n − e₀`.
+- Positive part, on `A` = finite-rank operators plus `ℂ·1` on `ℓ²(ℕ)`: the projection `q` onto the
+  closed span of the even basis vectors is a positive contraction of `M = B(H)` outside `A`, since
+  `q − c·1` has the eigenvalues `1 − c` and `−c`, each of infinite multiplicity, and so infinite rank
+  for every scalar `c`. It is the strong limit of the finite-rank projections `qP_n`, positive
+  contractions in `A`, while `‖q − a‖ ≥ max(|1 − c|, |c|) ≥ 1/2` for every `a = c·1 + F ∈ A` with `F`
+  of finite rank (test on a unit vector of `ker F` in an eigenspace of `q − c·1`): the positive
+  clause is a strong density, and a norm-density reading of it fails here. On `A = M₂(ℂ)` the clause
+  is an equality.
 
 *Needs:* V1.1–V1.3; Mathlib `cfc`.
 
