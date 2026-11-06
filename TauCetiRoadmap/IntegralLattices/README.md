@@ -88,9 +88,9 @@ the OTM sections in the third:
 | Cho's smooth affine group scheme `𝒢_L` over `ℤ₂`, its special fibre and unipotent radical, and the closed formula it gives for the dyadic local density | 7D | OTM §§2.1–2.2 |
 
 OTM consumes this roadmap: §§0–4 for the lattice, Jordan, genus and spinor-genus carriers, 6C–6D
-for the reference lattices, 7A, 7C, 7E and 7G for masses, local counts, real volumes and low ranks,
-B1–B8 for the binary branch, and 9B for exhaustion from a mass. No milestone of this roadmap
-consumes OTM. The Nikulin results that need Eichler's theorem are therefore not milestones here;
+for the reference lattices, 6E for the pairwise non-isometry of the 24 rank-24 lattices, 7A, 7C,
+7E and 7G for masses, local counts, real volumes and low ranks, B1–B8 for the binary branch, and
+9B for exhaustion from a mass. No milestone of this roadmap consumes OTM. The Nikulin results that need Eichler's theorem are therefore not milestones here;
 they are `IntegralLatticesPartII`'s, in the table below.
 
 This roadmap owns the Jordan types, the bound/free classification and Cho's exponents `N_M`, `N_Q`
@@ -117,7 +117,7 @@ Out of scope, with the owner of each subject:
 | the orthogonal specialization: strong approximation for `Spin`, `τ(SO_Q) = 2`, Eichler's theorem, the genus/spinor-genus comparison in rank `≥ 3`, the dyadic local density of 7D, and the Smith–Minkowski–Siegel mass formula | `OrthogonalTamagawaAndLatticeMass`, the successor that Orthogonal and Spin Groups names |
 | root systems, Weyl groups, `DynkinType`, the ADE classification | [Root Systems](../RepresentationTheory/RootSystems/README.md) |
 | Nikulin's uniqueness theorem 1.13.2 and Corollaries 1.13.3–1.13.5 (uniqueness in a genus, stabilization by `U` and `E₈(−1)`, splitting off `U` and `E₈(−1)`), the surjectivity of `O(T) → O(q_T)` (Theorem 1.14.2 with Proposition 1.14.1, and Theorem 3.6.3), the uniqueness of primitive embeddings (Theorem 1.14.4), the isometry-class half of Theorem 3.6.2, and the odd `p`-elementary classification; each proof passes through Eichler's theorem, together with the local integral spinor-image computations those proofs make | `IntegralLatticesPartII`, which consumes Layers 1, 3, 4 and 5 here and OTM §0.3 |
-| the 24 even unimodular positive definite lattices of rank 24: the 23 rootful glue constructions with their root sublattices, and the Leech lattice by Construction B with minimum 4 | [Rank-24 lattice constructions](../Rank24LatticeConstructions/README.md), Layers 3 and 6; this roadmap neither constructs nor consumes them |
+| the 24 even unimodular positive definite lattices of rank 24: the 23 rootful glue constructions with their root sublattices, and the Leech lattice by Construction B with minimum 4 | [Rank-24 lattice constructions](../Rank24LatticeConstructions/README.md), Layers 3 and 6; this roadmap does not construct them and consumes none of that roadmap's milestones. That the 24 are pairwise non-isometric is 6E here, stated on the native lattices with the root sublattice of each row as a hypothesis |
 | the theta series `Θ_L` and the coset series `θ_γ` of a positive definite lattice, their `q`-expansions, their `T` and `S` transformation laws, the vector-valued law on discriminant cosets, every modularity statement about them, and every conclusion drawn from one — the closed formula `r_L(2m) = 240 σ₃(m)` in even unimodular rank 8, the theta identity of the rank-16 pair, the rank-24 identities with the Leech representation numbers | [Theta Series](../ThetaSeries/README.md), which consumes this roadmap and supplies nothing to it; §*Theta series* below and Layer 8 record what it takes |
 | Poisson summation for a full-rank `ℤ`-lattice in a real inner product space, and the Gaussian Fourier transform it is applied to | [Theta Series](../ThetaSeries/README.md), whose Layer 1 is the generic theorem; no milestone here consumes it |
 | the number-field theta kernel of an ideal lattice in the mixed space, its Mellin transform, and the functional equations of zeta and Hecke `L`-functions | [L-functions](../LFunctions/README.md), which consumes Theta Series' Poisson summation and is not a dependency of this roadmap |
@@ -432,7 +432,8 @@ is unimodularity and not nondegeneracy.
 | `scaleIdeal`, `normIdeal`, `isEven_iff_normIdeal_le_span_singleton_two`, `level`, `level_dvd_two_mul_determinant`, `IsEven.level_eq_addOrderOf` | `Ideals.lean`, `Level.lean` | 0D, 1J |
 | `radical`, `sigPos`, `sigNull`, `sigNeg`, `signature`, `signature_sum_eq_finrank`, `IsPosDef`, `IsNegDef`, `IsIndefinite`, `isPosDef_iff_isPosSemidef_and_nondegenerate`, `radicalQuotient`, `signature_radicalQuotient` | `Signature.lean`, `RadicalQuotient.lean` | 0E |
 | `orthogonalSum`, `determinant_orthogonalSum`, `orthogonalSplittingIsometry`, `unitNormSplittingIsometry`, `isCompl_orthogonal_of_restrict_bijective` | `Orthogonal/Sum.lean`, `Orthogonal/Isometry.lean`, `Orthogonal/UnitNorm.lean`, `Orthogonal/Splitting.lean` | 0F |
-| `a1`, `negativeA1`, `hyperbolicPlane`, `affineA1`, `affineA1RadicalQuotientIsometry`, `rankOne`, `coordinatePower`, `typeARootLattice`, `checkerboardLattice`, `typeE₆RootLattice`, `typeE₇RootLattice`, `typeE₈RootLattice`, `d8PlusLattice`, `typeE₈IsometryD8Plus` | `Examples.lean`, `RankOne.lean`, `CoordinatePower.lean`, `RootLattice/` | 0G, 1K |
+| `a1`, `negativeA1`, `hyperbolicPlane`, `affineA1`, `affineA1RadicalQuotientIsometry`, `rankOne`, `coordinatePower`, `typeARootLattice`, `checkerboardLattice`, `typeE₆RootLattice`, `typeE₇RootLattice`, `typeE₈RootLattice`, `checkerboardPlusLattice`, `typeE₈IsometryD8Plus` | `Examples.lean`, `RankOne.lean`, `CoordinatePower.lean`, `RootLattice/` | 0G, 1K |
+| `RootfulNiemeierType` with `lattice`, `rootLattice`, `rootLattice_carrier_le_lattice_carrier`, `components_multiset_injective` and `span_vectorsOfNorm_two_lattice_of_ne`; `leechLattice` with `vectorsOfNorm_two_leechLattice`; `Isometry.map_span_vectorsOfNorm` | `Rank24/RootSystems.lean`, `Rank24/Niemeier.lean`, `Rank24/Leech/Minimum.lean`, `PosDef/RepresentationNumber.lean` | 6E |
 | `rationalizationIsometry`, `ofIntegralForm`, `carrierIsometry` | `Rationalization.lean` | 1A |
 | `dualCarrier`, `dualPairingEquiv`, `isLattice_dualCarrier_iff_nondegenerate`, `dualCarrier_orthogonalSum` | `Dual/Basic.lean`, `Dual/Finiteness.lean`, `Discriminant/Operations.lean` | 1B |
 | `DiscriminantGroup`, `finite_discriminantGroup_iff_nondegenerate`, `natCard_discriminantGroup_eq_natAbs_gramDet`, `discriminantGroupInvariantFactorsEquiv`, `discriminantPairing`, `discriminantBilinearModule`, `discriminantQuadraticMap`, `discriminantQuadraticModule`, `discriminantQuadraticIsometryOrthogonalSum` | `Discriminant/` | 1C, 1D |
@@ -2103,9 +2104,58 @@ the pair is the rank-16 classification. *Needs:* 2C, 3F, 5A, 6B.
   `h² = 2`, the coset `h + D₈` contributes `128` roots, `112 + 128 = 240`, and the root span is
   everything; the rank hypothesis `n = 16` of the non-isometry is used through `h² = 4`.
 
-The 24 even unimodular positive definite lattices of rank 24 are constructed by
-Rank-24 lattice constructions, Layers 3 and 6 (§*Scope and ownership*); no milestone here
-constructs or consumes them.
+**6E. Rank 24: the root system separates the 24 lattices.** The 24 reference lattices of rank
+24, each even, unimodular and positive definite, are Tau Ceti's: the lattice `N_r` of each of the
+23 rows `r` of the rootful table (`RootfulNiemeierType.lattice`, glued from the orthogonal sum
+`R_r` of the row's component root lattices along the row's glue subgroup) and the rootless
+`leechLattice`. They are constructed under Rank-24 lattice constructions, Layers 3 and 6
+(§*Scope and ownership*), and no milestone here constructs them. This milestone proves that the 24
+are pairwise non-isometric, the root system of each being the invariant that separates it
+(Conway–Sloane, Chapter 16 §1 and Table 16.1).
+
+- An isometry carries the vectors of norm 2 onto the vectors of norm 2, and their span onto their
+  span (`Isometry.map_span_vectorsOfNorm`), so it restricts to an isometry of root sublattices.
+- The multiset of components of an orthogonal sum of ADE root lattices is an invariant of its
+  isometry class. A root of `⊕ Rᵢ` lies in a single summand, since its norm 2 is a sum of even
+  nonnegative norms; the roots of one irreducible summand are connected under non-orthogonality,
+  because its Dynkin diagram is connected; so the summands are spanned by the classes of roots
+  under the equivalence generated by non-orthogonality. An irreducible summand is determined by
+  its rank and its number of roots, which is `rank · h`: at equal rank `n ≥ 4` the Coxeter numbers
+  of `Aₙ`, `Dₙ` and `Eₙ` are distinct.
+- The 23 displayed multisets are pairwise distinct
+  (`RootfulNiemeierType.components_multiset_injective`).
+
+Hence two rows whose lattices have root sublattices `R_r` and `R_s` have isometric lattices only
+if `r = s` (`RootfulNiemeierType.eq_of_nonempty_isometry_lattice`). No row lattice is isometric to
+the Leech lattice, since `N_r ⊇ R_r` contains roots and the Leech lattice has none
+(`RootfulNiemeierType.isEmpty_isometry_lattice_leechLattice`).
+
+The root-sublattice condition is a hypothesis of the first statement, and proving it is not part of
+this milestone. Tau Ceti proves it for the 19 rows other than `A₁²⁴`, `A₂¹²`, `D₄⁶` and `A₁₁D₇E₆`
+(`RootfulNiemeierType.span_vectorsOfNorm_two_lattice_of_ne`). For those four rows Tau Ceti has the
+root sublattices of separately glued models, and the statement for the table lattice itself is a
+completion criterion of Rank-24 lattice constructions, Layer 3. That roadmap consumes this one and
+is not consumed by it; a consumer that holds both obtains the unconditional separation of the 24
+by discharging the hypothesis there. The milestone states no completeness theorem in rank 24
+(that the 24 exhaust the genus is OTM §4.2's, from the mass) and no characterization of the Leech
+lattice beyond its rootlessness. *Needs:* the native rows 0F, 0G and 2B, and the native rank-24
+declarations of §*From Tau Ceti*.
+
+**Checks.**
+
+- Root counts do not separate the rows. Every row has `24h` roots for its Coxeter number `h`, so
+  rows of equal `h` agree: `D₁₆E₈` and `E₈³` both have `480 + 240 = 3·240 = 720` roots, and
+  `A₁₇E₇` and `D₁₀E₇²` both have `306 + 126 = 180 + 2·126 = 432`. The component multisets differ.
+- Rank and root count determine an irreducible ADE root lattice only with `Dₙ` taken for `n ≥ 4`:
+  `A₃` and `D₃` both have rank 3 and 12 roots, and `D₃ ≅ A₃`. In rank 4, `A₄` has 20 roots and
+  `D₄` has 24.
+- The root-sublattice hypothesis does not follow from the root lattice being contained in `N_r`.
+  In the `A₁²⁴` row a glue word of weight `w` has coset minimum `w/2`, so a glue code with a word of
+  weight 4 would add roots outside `R_r` and change the root system. The hypothesis there is the
+  minimum distance 8 of the Golay code.
+- The Leech lattice and any row lattice are both even, unimodular, positive definite and of rank
+  24, so they lie in one genus (5A) and no genus invariant separates them; the shell of norm 2
+  does, with minimum 4 against 2.
 
 **6F. Two models of `E₈`.** The Gram matrix model of 0G and the coordinate model
 `{x ∈ ℤ⁸ ∪ (ℤ+½)⁸ : ∑ x ∈ 2ℤ}` are isometric (Serre V.1.4.3; Conway–Sloane, SPLAG Chapter 4).
@@ -2176,6 +2226,7 @@ and 240 roots; `U³ ⊕ E₈(−1)²` is the K3 lattice `Λ_{K3}` of signature `
 | 6B | L 1I, 0G |
 | 6C | M `CartanMatrix.E 8`; L 0F, 1L, 2G; R Root Systems Layer 3 §3.1 |
 | 6D | L 2C, 3F, 5A, 6B |
+| 6E | T `Isometry.map_span_vectorsOfNorm`, `RootfulNiemeierType.lattice`, `RootfulNiemeierType.components_multiset_injective`, `leechLattice`, `vectorsOfNorm_two_leechLattice`; the native rows 0F, 0G, 2B |
 | 6F | L 0G, 2B |
 | 6G | M `CartanMatrix.E 8`; T `typeE₈RootLattice`, `IsPosDef.finite_isometry`; R Root Systems Layer 3 §3.1 |
 | 6H | L 6A, 6D; T `orthogonalSum`, `hyperbolicPlane` |
@@ -2941,7 +2992,7 @@ of Layers 2, 6 or 7, and of Layer 4 only N0. Their uniqueness statements are
 
 ## Downstream consumers
 
-- `OrthogonalTamagawaAndLatticeMass` consumes Layers 0–4, 6C–6D, 7A, 7C, 7E, 7G, B1–B8 and 9B,
+- `OrthogonalTamagawaAndLatticeMass` consumes Layers 0–4, 6C–6E, 7A, 7C, 7E, 7G, B1–B8 and 9B,
   and owns Eichler's theorem, the mass formula and the dyadic smooth model.
 - `IntegralLatticesPartII` consumes Layers 1, 3, 4 and 5 here and OTM §0.3 for Nikulin's
   uniqueness, splitting and surjectivity theorems.
