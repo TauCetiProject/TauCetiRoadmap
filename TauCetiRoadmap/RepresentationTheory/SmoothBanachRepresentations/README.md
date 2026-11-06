@@ -8,6 +8,8 @@
 
 [CompactGroups Layer 5](../CompactGroups/README.md) supplies representative-function density; its named gap for the topology-free finite-orbit-span API and generic complex Banach density is recorded below. AutomorphicFormsOnReductiveGroups §2.1 consumes that gap and owns the complete locally convex extension. There is no second compact-finiteness predicate here. [NoncommutativeGeometry N1](../../NoncommutativeGeometry/README.md) owns the completed locally convex projective tensor of complex Hausdorff locally convex spaces; §7.2a owns the same construction for real spaces and the two scalar-comparison maps between real and complex tensors, including their Banach cases, as targets of this roadmap, and assumes nothing of N1 beyond its complex construction. [BanachSpaceTheory B4](../../BanachSpaceTheory/README.md) owns Banach projective tensors over both fields and states no map between its real and complex tensors. LieGroups Layers 0–3 and OneParameterSemigroups Part A own the Lie and closed-generator foundations.
 
+[NoncompactQuantumSymmetry M0](../../NoncompactQuantumSymmetry/README.md#layer-3-m0--smooth-vectors-compact-types-and-semisimple-representation-bridges) builds the Gårding space, smooth vectors, mixed-word domains and enveloping action of a strongly continuous unitary Hilbert representation directly, and owns the Hilbert-adjoint statements on that domain: skew-symmetry of real generators, Nelson's operator, and the elliptic and central closures. The generic layers below cover unitary actions as a special case and do not state those adjoint results. [NoncommutativeGeometry N6](../../NoncommutativeGeometry/README.md#n6-smooth-noncommutative-two-tori-and-differential-calculus) owns the smooth noncommutative torus: its identification with the smooth vectors of the two-torus gauge action, the two-sided finite-order comparison of its rapid-decay and derivative seminorms, and its inverse closure at every matrix level. Layer 8 states the generic smooth-algebra theorems and no torus estimate.
+
 Mathlib supplies the native representation, manifold, test-function, distribution and integral carriers. Differentiable orbit smoothness here differs from open-stabilizer smoothness for totally disconnected groups. Build needed adapters in Tau Ceti with native vocabulary and adopt Mathlib's designs when available. No implementation is held for an upstream addition.
 
 ## Conventions
@@ -256,7 +258,7 @@ For smooth v prove the other integration-by-parts formula
    `π(f)dπ(X)v=π(q_X f−L_X f)v`,
    `q_X=d/dt|₀ log c(exp(tX))`.
 
-   Derive it from the stated modular change of variables; prove q is real linear, vanishes on brackets and agrees with `tr(ad X)` in this modular convention. In the unimodular case q=0. Compare the adjoint/involution in the unitary Hilbert case, where real X is skew symmetric on the smooth domain. For star-algebra actions prove the distinct star-derivation law in Layer 8. State all integration-by-parts domains explicitly.
+   Derive it from the stated modular change of variables; prove q is real linear, vanishes on brackets and agrees with `tr(ad X)` in this modular convention. In the unimodular case q=0. For star-algebra actions prove the distinct star-derivation law in Layer 8. State all integration-by-parts domains explicitly.
 
 *Needs:* Layers 1.4,3.1; BanachAlgebras A7 modular convention; LieGroups Layer 1 for the adjoint trace.
 
@@ -481,7 +483,7 @@ Layers 0–4 for maps, products, duals and tensor estimates; Layer 6 for smooth 
 
 ### 8.1 Smooth algebras and spectral invariance
 
-The proofs apply BanachAlgebras A1–A2 inversion and resolvent calculus to the word topology of AutomorphicFormsOnReductiveGroups §2.7 and its real extension. The derivative and seminorm estimates below are the new comparisons; NoncommutativeGeometry N6 supplies the torus Fourier conventions.
+The proofs apply BanachAlgebras A1–A2 inversion and resolvent calculus to the word topology of AutomorphicFormsOnReductiveGroups §2.7 and its real extension. The derivative and seminorm estimates below are the new comparisons.
 
 Let A be a real or complex Banach algebra with a strongly continuous action by bounded linear algebra automorphisms. Apply the same E∞ carrier, not a second smooth-element definition. Prove it is a dense complete Fréchet subalgebra; prove continuity of multiplication by the full iterated Leibniz/shuffle estimates for the p_m. Each dα(X) is a continuous derivation on A∞ and X↦dα(X) is a real Lie homomorphism into native derivations. For complex A give the complexified Lie and enveloping actions and the coproduct product rule; enveloping operators of higher degree are not all derivations.
 
@@ -489,11 +491,11 @@ For a Banach star-algebra with bounded star and a star-preserving action, prove 
 
 The headline `smooth_inverse` states inverse closure over either field and needs no orbit-continuity hypothesis: for unital A with any action by algebra automorphisms, if a∈A∞ is invertible in A, then its inverse lies in A∞, since `α(g)(a⁻¹)=α(g)(a)⁻¹` writes its orbit as the smooth orbit of a composed with inversion, which is smooth on the open set of units of a complete normed algebra (`contDiffAt_ringInverse`). Give the recursive derivative estimates and `dα(X)(a⁻¹)=−a⁻¹dα(X)(a)a⁻¹`. Prove the result at every matrix level; for nonunital A use the scalar unitization and identify its smooth elements with the unitization of A∞. For complex A prove holomorphic-functional-calculus closure using A2's resolvent contours and all derivative seminorm estimates: realize contour integration as an E-valued integral with all word coordinates integrable, then use closedness/completeness to place it in A∞. Do not invoke a Banach-valued Bochner theorem on an invented norm for the Fréchet space.
 
-In the C*-algebra case these give exactly the dense inverse-closed Fréchet star-algebra input of OperatorKTheory K3, which owns the K₀/K₁ comparison. NoncommutativeGeometry N6 identifies the torus gauge smooth vectors with rapidly decreasing Fourier series and owns the `2πi` Fourier normalization, traces and differential calculus. Prove that its rapid-decay and derivative seminorm families define the same Fréchet topology by explicit finite-order estimates in both directions, not equality of individual seminorms. With ordered Fourier coefficients a_(r,s), use Q_k(a)=sup_(r,s)(1+|r|+|s|)^k|a_(r,s)| and the Layer 2 coordinate-word sums P_m. Retain δ_j(U₁^rU₂^s)=2πi n_j U₁^rU₂^s. Prove Q_k≤C_k P_k and P_m≤D_m Q_(m+3), with finite positive constants independent of a and θ; coefficient extraction is contractive and the reverse bound uses absolute summability on ℤ². In particular at θ=0, a=1+U₁ has Q_0=1 and P_0=‖a‖=2, so these seminorms are not isometric. Under this topological identification consume the generic density, star, derivation and all-matrix inverse/holomorphic-closure theorems; no Fourier normalization or HFC scope is changed.
+In the C*-algebra case these give exactly the dense inverse-closed Fréchet star-algebra input of OperatorKTheory K3, which owns the K₀/K₁ comparison.
 
-*Needs:* Layers 0–4; BanachAlgebras A1–A2; Layer 6 only for exact Gårding identification; NoncommutativeGeometry N6 only for the torus Fourier comparison.
+*Needs:* Layers 0–4; BanachAlgebras A1–A2; Layer 6 only for exact Gårding identification.
 
-The smooth algebra API includes continuous multiplication and star, invariant units, equivariant homomorphisms, scalar unitization, real and complex derivation rules, all matrix levels of inverse closure and complex holomorphic closure. The torus comparison identifies topologies by two families of finite-order inequalities, not by equality of seminorms.
+The smooth algebra API includes continuous multiplication and star, invariant units, equivariant homomorphisms, scalar unitization, real and complex derivation rules, all matrix levels of inverse closure and complex holomorphic closure.
 
 **Checks.**
 
@@ -501,20 +503,19 @@ The smooth algebra API includes continuous multiplication and star, invariant un
 - For conjugation by diag(e^t,1) on M₂(ℝ), a=I+E₁₂ has derivative E₁₂ and inverse I−E₁₂ with derivative −E₁₂; −a⁻¹E₁₂a⁻¹=−E₁₂, fixing the inverse rule without commutativity.
 - A scalar action a↦e^t a is linear but not an algebra action: at a=b=1 the multiplicativity sides are e^t and e^(2t). The algebra-action hypotheses exclude it.
 - On the smooth circle, D²(fh)=D²f·h+2Df·Dh+f·D²h; at f=h=exp(ix) the value at 0 is −4, whereas a derivation rule would give −2.
-- For the torus generator U₁, δ₁(U₁)=2πiU₁ and δ₁(U₁*)=−2πiU₁*, which equals δ₁(U₁)*. For 1+U₁ at θ=0, Q₀=1 while P₀=2.
-- At m=0 the reverse seminorm estimate uses exponent 3: Σ_(r,s)(1+|r|+|s|)^(−3) is finite since the radius-n shell has 4n points; exponent 2 instead gives a divergent harmonic tail.
+- On C(S¹) with rotations and pointwise conjugation as star, f=exp(ix) has Df=i·exp(ix) and D(f*)=−i·exp(−ix)=(Df)*, the star law. The Hilbert skew-adjoint sign −(Df)* would give i·exp(−ix) instead.
 
 ### Examples
 
-Unipotent 2×2 matrices and 1+U₁ test noncommutative inversion and the nonequality of torus seminorms.
+Unipotent 2×2 matrices and circle modes test noncommutative inversion, the higher Leibniz rule and the star law.
 
 ### Dependencies
 
-Layers 0–4; BanachAlgebras A1–A2; Layer 6 only for exact Gårding identification; NoncommutativeGeometry N6 only for the torus Fourier comparison.
+Layers 0–4; BanachAlgebras A1–A2; Layer 6 only for exact Gårding identification.
 
 ## Downstream consumers
 
-[NoncompactQuantumSymmetry M0](../../NoncompactQuantumSymmetry/README.md) uses the unitary Hilbert specialization and owns analytic vectors, elliptic estimates and adjoint closures. [OperatorKTheory K3](../../OperatorKTheory/README.md) uses the inverse-closed Fréchet star-algebra input and owns the K₀/K₁ comparison. NoncommutativeGeometry N6 uses the torus smooth-vector specialization and owns its Fourier identification, trace and differential calculus; the finite-order seminorm comparison in Layer 8 is the additional bridge. These consumer applications are not prerequisites for the generic results.
+[OperatorKTheory K3](../../OperatorKTheory/README.md) uses the inverse-closed Fréchet star-algebra input and owns the K₀/K₁ comparison. These consumer applications are not prerequisites for the generic results.
 
 ## References
 
