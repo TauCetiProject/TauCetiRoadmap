@@ -9,7 +9,7 @@ KMS states, and the thermodynamic limit of quantum spin systems.
 
 ## Scope, conventions, and dependencies
 
-D8 is the single owner of the CCR/CAR and Weyl algebraic relations, their regular representations and field operators, and of the antisymmetric and symmetric Hilbert Fock carriers with their vacuum, creation and annihilation operators, the bosonic finite-particle domain `D_fin`, the Segal field `Φ₀(f)=(a(f)+a†(f))/√2` on `D_fin` with its commutator and vacuum-variance identities, the exponential vectors, and the Fock Weyl representation `π_F`, defined on exponential vectors, with its vacuum characteristic function. The essential self-adjointness of `Φ₀(f)` on `D_fin`, the identification of its closure with the Stone generator `Φ(f)` of `t↦π_F(W(tf))`, and the vacuum cyclicity and irreducibility of `π_F` belong to QuantumFoundations QF4, which consumes the D8 carriers and identities; D8 uses none of them. Quantum-statistical and quantum-field-theoretic developments consume these D8 results; unitary implementability of Bogoliubov automorphisms in Fock representations is not a target of this roadmap.
+D8 is the single owner of the CCR/CAR and Weyl algebraic relations, their regular representations and field operators, and of the antisymmetric and symmetric Hilbert Fock carriers with their vacuum, creation and annihilation operators, the bosonic finite-particle domain `D_fin` with the CCR on it, the Segal field `Φ₀(f)=(a(f)+a†(f))/√2` on `D_fin` with its commutator and vacuum-variance identities, the exponential vectors, and the Fock Weyl representation `π_F`, defined on exponential vectors, with its strong continuity in `f` and its vacuum characteristic function. QuantumFoundations §6.3 owns second quantization `Γ(U)` and `dΓ(A)` with their domains and the number operator `N` with `D(N)` and `D(N^(1/2))`. QuantumFoundations §6.4 owns the CCR on `D(N)`, the closures of `a(f)` and `a†(f)`, the essential self-adjointness of `Φ₀(f)` on `D_fin`, the identification of its closure with the Stone generator `Φ(f)` of `t↦π_F(W(tf))`, and the vacuum cyclicity and irreducibility of `π_F`. Both consume the D8 carriers and identities; D8 uses none of their results. Quantum-statistical and quantum-field-theoretic developments consume these D8 results; unitary implementability of Bogoliubov automorphisms in Fock representations is not a target of this roadmap.
 
 C*-algebras are complex and may be nonunital. Groups in D1–D4 are arbitrary
 locally compact Hausdorff groups; separability and second countability are not
@@ -761,15 +761,43 @@ unique β-KMS state is the gauge-invariant quasi-free state with
 Include negative β, β=0, finite modes, and the occupation-number formula;
 derive the KMS identity on analytic vectors and extend by continuity.
 
-For a real symplectic space `(V,σ)` construct the universal unital Weyl
+For a real vector space V with an alternating real bilinear form σ,
+degenerate forms included, construct the universal unital Weyl
 C*-algebra with `W(0)=1`,
 `W(f)W(g)=exp(−iσ(f,g)/2)W(f+g)` and `W(f)*=W(−f)`.
 Prove `W(f)*W(f)=W(f)W(f)*=1`, so each generator is unitary.
 Develop symplectic functoriality, linear independence of the Weyl
-generators, the canonical trace, and the nondegenerate form's simplicity.
+generators, the canonical trace, and simplicity when σ is nondegenerate.
 Distinguish the algebraic symplectic data from continuity: a representation
 is regular if `t↦π(W(tf))` is strongly continuous for each f. Fix the generator sign by `π(W(tf))=exp(itΦ(f))`. Construct field operators by Stone's theorem in regular representations, their invariant domains and the Weyl-to-commutator relation on those domains.
-Assume the real symplectic form is nondegenerate for this spectrum argument. Prove `‖W(f)−1‖=2` for nonzero f. More generally prove `σ(W(f))=𝕋` for every nonzero `f`: nondegeneracy supplies `g` whose Weyl conjugation rotates `W(f)` by any prescribed unit scalar, and the nonempty unitary spectrum is rotation invariant. Deduce `‖W(f)−z·1‖=2` for `z∈𝕋`, and hence `‖W(f)−W(g)‖=2` whenever `f≠g`. If the real symplectic space is nonzero, choose `f₀≠0`; the family `W(tf₀)`, `t∈ℝ`, is uncountable and uniformly separated, proving that the universal Weyl algebra is nonseparable even for finite-dimensional nonzero symplectic spaces. Keep the zero-space algebra `ℂ` separate. A nontrivial continuous one-particle flow therefore need not give a point-norm continuous Weyl-algebra action.
+The spectral statements below hold for every alternating σ, with no
+nondegeneracy or regularity hypothesis. On `ℓ²(V)` with basis `(δ_v)` define
+unitaries `λ(f)δ_v=exp(−iσ(f,v)/2)δ_(f+v)`; prove the Weyl product and star
+laws, so λ is a representation of the universal algebra. It gives linear
+independence of the generators, since `λ(f)δ_0=δ_f`, and the canonical trace
+`W(f)↦[f=0]` as the vector state of `δ_0`. For `f≠0` the closed span of the
+`δ_(v+nf)`, n∈ℤ, is invariant under λ(f), and since `σ(f,v+nf)=σ(f,v)` it
+acts there as `exp(−iσ(f,v)/2)` times the bilateral shift of `ℓ²(ℤ)`, whose
+spectrum is 𝕋 (normalized finite geometric sums are approximate
+eigenvectors). A unital *-homomorphism does not enlarge spectra and W(f) is
+unitary, so `σ(W(f))=𝕋` for every nonzero f. Deduce `‖W(f)−z·1‖=2` for
+`z∈𝕋`, in particular `‖W(f)−1‖=2`, and, since `W(−g)W(f)` is a unimodular
+multiple of `W(f−g)`, `‖W(f)−W(g)‖=2` whenever `f≠g`. If V is nonzero,
+choose `f₀≠0`; the family `W(tf₀)`, `t∈ℝ`, is uncountable and uniformly
+separated, proving that the universal Weyl algebra is nonseparable for every
+nonzero V, including finite-dimensional V and σ=0. Keep the zero-space
+algebra `ℂ` separate. A nontrivial continuous one-particle flow therefore
+need not give a point-norm continuous Weyl-algebra action.
+
+**Checks.**
+- The phase of λ is the one displayed for W: `λ(f)λ(g)δ_v` is
+  `exp(−iσ(g,v)/2)exp(−iσ(f,g+v)/2)δ_(f+g+v)`, which equals
+  `exp(−iσ(f,g)/2)λ(f+g)δ_v`; the phase `exp(+iσ(f,v)/2)` would give the
+  opposite Weyl relation.
+- For V=ℝ and σ=0 the Weyl algebra is commutative and no g rotates W(1) by
+  a phase, so an argument through nondegeneracy says nothing here; λ(1)
+  restricted to the span of the `δ_n`, n∈ℤ, is the bilateral shift, so
+  `σ(W(1))=𝕋` and `‖W(s)−W(t)‖=2` for s≠t.
 
 For `V=h_ℝ`, `σ(f,g)=Im⟨f,g⟩`, construct the symmetric Hilbert Fock
 space `F_s(h)`, the Hilbert direct sum over n≥0 of the closed symmetric
@@ -799,8 +827,10 @@ Attal's Weyl operator `W_u` with `u=if/√2`. Prove that W_F(f) preserves the
 inner products of exponential vectors, hence extends to an isometry of
 `F_s(h)`, that `W_F(0)=1`, `W_F(f)W_F(g)=exp(−i·Im⟨f,g⟩/2)W_F(f+g)` and
 `W_F(−f)=W_F(f)*`, so each W_F(f) is unitary (Attal, Def. 8.20 and
-Prop. 8.21, p. 18, and (8.18), p. 19), and that `t↦W_F(tf)` is strongly continuous, from the
-continuity of `u↦e(u)` on the total set and uniform boundedness. Hence W_F
+Prop. 8.21, p. 18, and (8.18), p. 19), and that `f↦W_F(f)` is strongly
+continuous on h, in particular `t↦W_F(tf)`: on each exponential vector
+`f↦W_F(f)e(g)` is continuous by the displayed formula and the continuity of
+`u↦e(u)`, and the exponential vectors are total while `‖W_F(f)‖=1`. Hence W_F
 is a regular representation π_F of the Weyl algebra of `(h_ℝ,σ)`, with
 vacuum characteristic function
 `ω₀(W(f))=⟨Ω,π_F(W(f))Ω⟩=exp(−‖f‖²/4)`, since `W_F(f)Ω=exp(−‖f‖²/4)e(if/√2)`
@@ -820,7 +850,8 @@ characteristic function `exp(−‖f‖²/2)`, and is excluded by all three. The
 essential self-adjointness of Φ₀(f) on D_fin, the identification of its
 closure with the Stone generator `Φ(f)` of `t↦π_F(W(tf))`, and the vacuum
 cyclicity and irreducibility of π_F are not targets here: QuantumFoundations
-QF4 proves them on these carriers, and nothing in D8 uses them.
+§6.4 proves them on these carriers, over the number-operator domains of its
+§6.3, and nothing in D8 uses them.
 
 **Checks.**
 - For h=0, `F_s(0)=D_fin=ℂ`, Φ₀=0, the only exponential vector is e(0)=Ω,
