@@ -1542,12 +1542,12 @@ from a slice disc), and that the inverse of `[K]` is `[−K]`, the reverse of th
 annulus `K × [0, 1]` bent into `S³ × [0, 1]` after pushing `K # −K` to a ribbon disc; Livingston,
 *A survey of classical knot concordance*, Section 2; Lickorish, Chapter 8). Prove that the
 forgetful map `C → C^{top}` is a homomorphism. Prove that the slice genera of 4.4 are concordance
-invariants, `g_s(K) = g_s(K')` for smoothly concordant `K, K'` and `g_s^{top}(K) = g_s^{top}(K')`
-for topologically concordant ones (stack the concordance annulus in `S³ × [0, 1]` onto a slice
-surface in `D⁴` and smooth the corner, which keeps the genus; the two directions come from `symm`),
-and that `g_s` is subadditive under connected sum, `g_s(K # K') ≤ g_s(K) + g_s(K')` (the boundary
-connected sum of two slice surfaces along an arc joining the two summing balls is a slice surface
-for `K # K'` of genus the sum of the genera).
+invariants (Livingston, Section 9.5), `g_s(K) = g_s(K')` for smoothly concordant `K, K'` and
+`g_s^{top}(K) = g_s^{top}(K')` for topologically concordant ones (stack the concordance annulus in
+`S³ × [0, 1]` onto a slice surface in `D⁴` and smooth the corner, which keeps the genus; the two
+directions come from `symm`), and that `g_s` is subadditive under connected sum,
+`g_s(K # K') ≤ g_s(K) + g_s(K')` (the boundary connected sum of two slice surfaces along an arc
+joining the two summing balls is a slice surface for `K # K'` of genus the sum of the genera).
 
 - `Concordant` is reflexive, symmetric and transitive on knots in `S³`; ambient isotopic knots are
   concordant (`TauCeti.SmoothEmbedding.SmoothAmbientIsotopic.concordant`).
@@ -2234,11 +2234,15 @@ finite-sided polyhedron whose dual ball has integral vertices (Thurston, Theorem
 - A disconnected representative `S₁ ⊔ S₂` with `χ(S₁) = −2` and `χ(S₂) = +2` (a sphere) has
   `χ₋ = 2`, not `|χ(S)| = 0`; the definition with `χ₋` is what makes spheres free and what makes
   `x` a seminorm, while the definition with `|χ|` would not be subadditive.
-- On `S² × S¹` the class `[S² × pt]` has norm `0` and is attained only by spheres: a representative
-  with `χ₋ = 0` and no sphere component is a union of tori, and no torus in `S² × S¹` is
-  incompressible, since `ℤ² → π₁(S² × S¹) = ℤ` is never injective. The sphere `S² × pt` bounds no
-  ball, so the general form of the attainment statement holds; the irreducible form does not apply,
-  and a version of it without the irreducibility hypothesis would be false here.
+- On `S² × S¹` the class `[S² × pt]` has norm `0`, and no incompressible representative without a
+  sphere component attains it: a representative with `χ₋ = 0` and no sphere component is a union
+  of tori, and no torus in `S² × S¹` is incompressible, since `ℤ² → π₁(S² × S¹) = ℤ` is never
+  injective. Compressible tori do attain it: tubing `S² × pt` to itself along an arc in
+  `S² × (0, ε)` with both ends on the same side of the sphere gives a torus `T` with
+  `[T] = [S² × pt]` and `χ₋(T) = 0`, compressible along the meridian disc of the tube, so
+  incompressibility is what the statement needs. The sphere `S² × pt` bounds no ball, so the
+  general form of the attainment statement holds; the irreducible form does not apply, and a
+  version of it without the irreducibility hypothesis would be false here.
 
 *Needs:* AlgebraicTopology Stage 6 (Poincaré duality and `H₂(M; ℤ)`) and Stage 8 (representability
 of `H¹` by maps to the circle); DifferentialGeometry Layer 10 (regular values and Sard's theorem,
@@ -2301,8 +2305,9 @@ tangent bundles of surfaces for the Euler class.
 
 DifferentialGeometry Layer 4 and the native `TauCeti.Foliation`; Layer 2 (embedded surfaces as
 locally flat submanifolds); AlgebraicTopology (cohomology, fundamental classes, cup products);
-Layer 7 (hyperbolic manifolds, for Yazdi's examples) and Layer 5 (the Dehn surgeries that produce
-them).
+Layer 8 (incompressible surfaces, for the attainment statement of 10.3; irreducibility, for the
+norm form of Thurston's inequality in 10.4); Layer 7 (hyperbolic manifolds, for Yazdi's examples)
+and Layer 5 (the Dehn surgeries that produce them).
 
 ## Layer 11: triangulations, PL structures, and collapse
 
@@ -2696,8 +2701,8 @@ The Kirby–Siebenmann obstruction theory is deferred in the scope statement and
   determined by their complements*, J. Amer. Math. Soc. 2 (1989). Y. Mathieu, *Closed 3-manifolds
   unchanged by Dehn surgery*, J. Knot Theory Ramifications 1 (1992). K. Yasui, *Corks, exotic
   4-manifolds and knot concordance*, arXiv:1505.02551.
-- C. Livingston, *A survey of classical knot concordance*, arXiv:math/0307077, Sections 2 and
-  3.1. A. Tristram, *Some cobordism invariants for links*, Proc. Cambridge Philos. Soc. 66 (1969).
+- C. Livingston, *A survey of classical knot concordance*, arXiv:math/0307077, Sections 2, 3.1
+  and 9.5. A. Tristram, *Some cobordism invariants for links*, Proc. Cambridge Philos. Soc. 66 (1969).
   J. Levine, *Invariants of knot cobordism*, Invent. Math. 8 (1969) 98–110. J. Hudson,
   *Concordance, isotopy, and diffeotopy*, Ann. of Math. 91 (1970).
 - G. Mostow, *Strong rigidity of locally symmetric spaces*, Annals of Math. Studies 78 (1973). J.
