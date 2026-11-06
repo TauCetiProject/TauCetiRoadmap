@@ -571,7 +571,7 @@ Layers 0–2; SchemeAndStackFoundations §4.15. Within the layer, 3.1 → 3.2 an
 
 ## Downstream consumers
 
-No roadmap on main cites this one. GroupSchemesOverABase, GS7.4, cites 1.1 as the owner of
+No roadmap on main cites this one. GroupSchemesOverABase 6.1 cites 1.1 as the owner of
 `G`-linearised invertible sheaves and `Pic^G`, for the linearisation of its line bundles `𝓛(λ)`
 on `G/B⁻`.
 
