@@ -187,6 +187,8 @@ What EtaleCohomologyFoundations must provide (gap:quasi-excellent-direct-images)
 
 This is the scheme finiteness input of Han Proposition 4.2, pp.19–20, Han line 801; its quasi-excellent affinoid-base range extends the field and excellent-trait forms of §F.3.
 
+Section F.4.5 fixes what rationalization means. Rationalization from 𝒪_E- to E-coefficients is derived scalar extension of module objects along the coefficient ring map. The description of E-sheaves as a Serre quotient of 𝒪_E-sheaves by those killed by a power of the prime is a theorem about this functor, not its definition. Section 5.7 forms the same functor for 𝒪_E=ℤ_p and E=ℚ_p on the pro-étale site of a rigid space, with the derived tensor of EnhancedDerivedSheaves §0.3, and defines the rational trace through it. The ℓ-invertibility hypothesis of the scheme statements in §F.4.5 is not a hypothesis of the functor, so ℓ=p is allowed. As in §F.4.5, ℤ_p/p rationalizes to zero and ℤ_p to a line over ℚ_p.
+
 
 ## How to read the build
 
@@ -1110,15 +1112,33 @@ For P¹ the two nonzero cohomology degrees are 0 and 2; a trace target Λ_n in d
 
 ### 5.7 Integral and rational p-adic traces
 
-For smooth proper pure-d X/K, compatible finite torsion traces define `t_{X,ℤ_p}:H²ᵈ(X_C,ℤ_p(d))→ℤ_p` by inverse limit, using the cohomology-limit identification. Define `t_{X,ℚ_p}=t_{X,ℤ_p}[1/p]`. When X has a smooth proper formal model, `t_{X,Z_p}` is the geometric-fibre trace of ClassicalAdicEtaleCohomology §9.7; the variant here needs no model. Their derived trace maps have targets ℤ_p[−2d] and ℚ_p[−2d], respectively. ℚ_p cohomology here is pro-étale cohomology of Ẑ_p[1/p], and agrees with RΓ(X_C,ℤ_p)[1/p] for qcqs X. (Z Definitions 5.5.3, 5.5.5 and the paragraph between Theorems 5.5.4 and 5.5.6, p. 82; Z line 3964.)
+For smooth proper pure-d X/K, compatible finite torsion traces define `t_{X,ℤ_p}:H²ᵈ(X_C,ℤ_p(d))→ℤ_p` by inverse limit, using the cohomology-limit identification. When X has a smooth proper formal model, `t_{X,Z_p}` is the geometric-fibre trace of ClassicalAdicEtaleCohomology §9.7; the variant here needs no model. Its derived trace map RΓ(X_C,ℤ_p(d))→ℤ_p[−2d] is the integral derived trace. (Z Definition 5.5.3, p. 82; Z line 3964.)
+
+Rational coefficients are not a separate construction: they are the image of the integral ones under the derived rationalization functor. On the pro-étale site of a rigid space, rationalization is derived scalar extension of module objects along the coefficient map Ẑ_p→Ẑ_p[1/p], where Ẑ_p is the completed coefficient sheaf of ClassicalAdicEtaleCohomology §1.3: a complex M of Ẑ_p-modules goes to Ẑ_p[1/p]⊗ᴸ_{Ẑ_p}M. This is the functor that EtaleCohomologyFoundations §F.4.5 uses from 𝒪_E- to E-coefficients, here with 𝒪_E=ℤ_p and E=ℚ_p, formed with the ringed-site derived tensor and coefficient change of EnhancedDerivedSheaves §§0.3–0.4. On a point it is −⊗ᴸ_{ℤ_p}ℚ_p from D(ℤ_p) to D(ℚ_p). The scheme statements of §F.4.5 assume ℓ invertible on the base; the functor itself does not, so ℓ=p is allowed here. Define ℚ_p(r) as the rationalization of Ẑ_p(r), and RΓ(X_C,ℚ_p(r)) as its pro-étale cohomology.
+
+Prove the rationalization comparison. For qcqs X and every bounded-below complex M of Ẑ_p-modules on the pro-étale site of X_C, the canonical map
+
+```text
+RΓ(X_C,M)⊗ᴸ_{ℤ_p}ℚ_p → RΓ(X_C,Ẑ_p[1/p]⊗ᴸ_{Ẑ_p}M)
+```
+
+is an isomorphism, naturally in M and compatibly with cup products, the Galois action and Tate twists. Define the rational derived trace `t_{X,ℚ_p}` as the rationalization of the integral derived trace, precomposed with the inverse of this comparison at M=Ẑ_p(d):
+
+```text
+RΓ(X_C,ℚ_p(d)) ≅ RΓ(X_C,ℤ_p(d))⊗ᴸ_{ℤ_p}ℚ_p → ℤ_p[−2d]⊗ᴸ_{ℤ_p}ℚ_p = ℚ_p[−2d].
+```
+
+Its H²ᵈ is the degree-2d rational trace H²ᵈ(X_C,ℚ_p(d))→ℚ_p. Z defines the rational trace on groups as t_{X,ℤ_p}[1/p]; here that formula is a theorem about the rationalized derived trace, not its definition (Z Definition 5.5.5 and the paragraph before it, p. 82; Z line 3964).
 
 The API includes the following facts.
 
 - The integral derived trace reduces to the finite coefficient trace after derived scalar extension.
-- The ℚ_p derived trace is obtained by inverting p in the ℤ_p trace.
+- The rationalization comparison above, natural in M and compatible with cup products, Galois action and Tate twists.
+- The rational derived trace is the rationalization of the integral derived trace transported along that comparison.
+- On H²ᵈ, flatness of ℚ_p over ℤ_p identifies H²ᵈ(X_C,ℚ_p(d)) with H²ᵈ(X_C,ℤ_p(d))⊗_{ℤ_p}ℚ_p, and under this identification the rational trace is t_{X,ℤ_p}⊗ℚ_p.
 - For a finite disjoint union of pure-d components, the trace is summation of component traces.
 
-One proof route is as follows. Take inverse limits of the coefficient-compatible analytic top traces; use Mittag–Leffler to identify the source with the integral top group. Construct the derived trace by the top truncation and the cohomological bound. Invert p using coherence of the qcqs pro-étale topos and commutation with the relevant filtered colimit.
+One proof route is as follows. Take inverse limits of the coefficient-compatible analytic top traces; use Mittag–Leffler to identify the source with the integral top group. Construct the derived trace by the top truncation and the cohomological bound. For the rationalization comparison, write Ẑ_p[1/p]⊗ᴸ_{Ẑ_p}− as the sequential colimit along multiplication by p. The pro-étale topos of a qcqs X is coherent, so its cohomology commutes with filtered colimits of uniformly bounded-below complexes. Then apply the rationalization functor to the integral derived trace; flatness of ℚ_p over ℤ_p gives the degreewise formula.
 
 The construction keeps the continuous Galois action and the Tate line.
 
@@ -1126,9 +1146,11 @@ The construction keeps the continuous Galois action and the Tate line.
 
 - For Spa C the ℤ_p and ℚ_p traces are identities. Reduction sends 1 to 1 at every finite level.
 - For P¹, t(c₁(O(1)))=1 for both coefficient rings. This fixes the positive point-class sign.
-- Torsion in Hⁱ(X_C,ℤ_p) is permitted; passing to ℚ_p kills it, so the integral construction cannot be specified by choosing bases of all integral cohomology groups. For the module ℤ_p/p, localization is zero.
+- Torsion in Hⁱ(X_C,ℤ_p) is permitted; rationalization kills it, so the integral construction cannot be specified by choosing bases of all integral cohomology groups. For the module ℤ_p/p, rationalization is zero.
+- Rationalizing each finite level before the limit gives ℤ/pⁿ⊗ℚ_p=0 for every n, so the limit of the rationalized finite traces is the zero map. On ℙ¹ the rational trace is nonzero, so rationalization is applied to the integral derived limit, never level by level.
+- The comparison needs quasi-compactness. Over K=C take the non-quasi-compact space ⊔_{n∈ℕ}Spa C and M=Ẑ_p: the left side is (∏_nℤ_p)⊗ℚ_p in degree zero and the right side is ∏_nℚ_p, which contains (p⁻ⁿ)_n outside the left side.
 
-*Needs:* PadicHodgeTheory §2.7; §5.6; ClassicalAdicEtaleCohomology §§1.1–1.4 (étale and pro-étale coefficients), 9.5 and 9.7 (coefficient-compatible traces and the formal-model specialization); ArithmeticGaloisDuality §§D7.1–D7.3 and R02.1.2–R02.2.3.
+*Needs:* PadicHodgeTheory §2.7; §5.6; ClassicalAdicEtaleCohomology §§1.1–1.4 (étale and pro-étale coefficients, including Ẑ_p of §1.3), 9.5 and 9.7 (coefficient-compatible traces and the formal-model specialization); EtaleCohomologyFoundations §F.4.5 (rationalization as derived scalar extension); EnhancedDerivedSheaves §§0.3–0.4 (ringed-site derived tensor and coefficient change); ArithmeticGaloisDuality §§D7.1–D7.3 and R02.1.2–R02.2.3.
 
 ### 5.8 Integral derived Poincaré duality
 
@@ -1150,14 +1172,14 @@ The result is not a degreewise perfect pairing into ℤ_p on arbitrary torsion c
 
 For smooth proper pure-d X/K, cup and `t_{X,ℚ_p}` give a perfect Galois-equivariant derived pairing RΓ(X_C,ℚ_p)⊗ᴸRΓ(X_C,ℚ_p(d))→ℚ_p[−2d]. Consequently every degreewise pairing `Hⁱ(X_C,ℚ_p)⊗H^{2d−i}(X_C,ℚ_p(d))→ℚ_p` is perfect. (Z Theorem 5.5.6, pp. 82–83 (with target shift −2d); Z line 3979.)
 
-One proof route is as follows. Invert p in the integral perfect-complex adjoint. Identify the rational trace and cohomology with the previously constructed rationalizations. Use finite-dimensional field duality to extract the degreewise perfect pairings.
+One proof route is as follows. Apply the rationalization functor of §5.7 to the integral perfect-complex adjoint of §5.8. The rationalization comparison of §5.7 and the definition of `t_{X,ℚ_p}` identify its source, target and trace with the rational ones. Use finite-dimensional field duality to extract the degreewise perfect pairings.
 
 Degrees i<0 and i>2d vanish; local coefficients beyond the finite 𝔽_p case are not asserted here.
 
 **Checks.**
 
 - For ℙ¹, the trace-normalized rational pairing has matrix (1) between degrees 0 and 2.
-- The torsion group ℤ_p/p becomes zero after inverting p.
+- The torsion group ℤ_p/p is sent to zero by rationalization.
 - At d=0 on two points the rational pairing is diag(1,1), not the rank-one form given by product of total sums.
 
 *Needs:* §5.8; §5.7; Mathlib `LinearMap.IsPerfPair`.
@@ -1168,7 +1190,7 @@ On ℙ¹_C, each of 𝔽_p, ℤ/pⁿ, ℤ_p and ℚ_p has one cohomology generat
 
 ### Dependencies
 
-Use Layers 0–4; PadicHodgeTheory §2.7 for primitive comparison and perfect proper cohomology; ClassicalAdicEtaleCohomology §§8.4, 9.5 and 9.7 for the cohomological bound, projection formula and normalized analytic trace; DerivedModuleAlgebra §§1.1–1.8 for derived Nakayama and compatible perfect systems; and the finite p-group representation theorem from Tau Ceti.
+Use Layers 0–4; PadicHodgeTheory §2.7 for primitive comparison and perfect proper cohomology; ClassicalAdicEtaleCohomology §§8.4, 9.5 and 9.7 for the cohomological bound, projection formula and normalized analytic trace; DerivedModuleAlgebra §§1.1–1.8 for derived Nakayama and compatible perfect systems; and the finite p-group representation theorem from Tau Ceti. Sections 5.7 and 5.9 also use EtaleCohomologyFoundations §F.4.5 and EnhancedDerivedSheaves §§0.3–0.4 for rationalization as derived scalar extension.
 
 ## Layer 7: Zariski-constructible proper base change
 

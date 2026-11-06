@@ -1,4 +1,6 @@
-import Mathlib
+module
+
+public import Mathlib
 
 /-!
 # Classical analytic étale cohomology, part II: target signatures
@@ -19,8 +21,9 @@ almost coefficient categories.
 - Geometric mod-p Poincaré duality (§5.4) is not statable: it lacks rigid étale cohomology with cup product, analytic trace and Tate-twisted Galois action.
 - Finite-local-system mod-p Poincaré duality (§5.5) is not statable: it lacks finite local systems on a rigid étale site and their cohomology/evaluation.
 - Finite p-power derived Poincaré duality (§5.6) is not statable: it lacks rigid étale derived global sections, coefficient traces and Tate twists.
+- Integral and rational p-adic traces (§5.7) is not statable: it lacks completed pro-étale integral global sections of rigid spaces and the derived rationalization of their module objects, through which the rational trace is defined.
 - Integral derived Poincaré duality (§5.8) is not statable: it lacks completed pro-étale integral global sections and its compatible trace.
-- Rational p-adic Poincaré duality (§5.9) is not statable: it lacks rational pro-étale global sections, cup product, trace and Galois-equivariant Tate line.
+- Rational p-adic Poincaré duality (§5.9) is not statable: it lacks the rationalized pro-étale global sections, cup product, trace and Galois-equivariant Tate line.
 - Affinoid constructible algebraization and finite-cover generators (§§7.2–7.3) is not statable: it lacks relative rigid analytification, its site comparison and the Zariski-constructible derived subcategories.
 - Zariski-constructible proper pushforward (§7.4) is not statable: it lacks rigid étale direct image and locally bounded Zariski-constructible complexes.
 - Proper cohomology under arbitrary algebraically closed field extension (§7.5) is not statable: it lacks rigid scalar extension and its canonical map on constructible étale cohomology.
@@ -32,6 +35,8 @@ whose character decomposition and integral projection trace are library work.
 Scheme étale cohomology does not substitute for rigid étale cohomology.
 The algebraic perfect-pairing and fixed-vector inputs belong to the suppliers.
 -/
+
+@[expose] public section
 
 namespace TauCetiRoadmap.ClassicalAdicEtaleCohomologyPartII
 
