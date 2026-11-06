@@ -56,23 +56,23 @@ Consume §§F.2.1–F.2.2 for proper and smooth finite-coefficient base change, 
 
 Consume §§0.1, 0.4 and 3.2–3.5 for the complete unramified period-field domain, normalized weights, crystalline objects, duals, Hodge–Tate fixed spaces, and detection of crystallinity by completed maximal unramified base change. Section 8.1 supplies proper smooth rational de Rham and crystalline comparison over finite p-adic base fields. The application at Frac W(F̄ₚ) needs the following domain extension, without descent of a scheme model.
 
-What PadicHodgeTheory must provide (the Witt proper smooth comparison contract): For every perfect characteristic-p field k and proper smooth W(k)-scheme, supply rational crystalline comparison for its generic fibre, compatible with completion and the proper smooth de Rham/Hodge–Tate comparison, including k=F̄ₚ.
+What PadicHodgeTheory must provide (gap:witt-proper-smooth-comparison), the Witt proper smooth comparison contract: For every perfect characteristic-p field k and proper smooth W(k)-scheme, supply rational crystalline comparison for its generic fibre, compatible with completion and the proper smooth de Rham/Hodge–Tate comparison, including k=F̄ₚ.
 
 ### From TauCetiRoadmap.FiniteFlatGroupsAndIntegralPadicHodgeTheory
 
 Consume §§R07.3.4–R07.3.5 for the filtered Frobenius and finite-length categories and strict exactness; §§R07.3.7–R07.3.12 for the contravariant torsion functor, exactness, full faithfulness, safe-range subquotient closure and tame weights; §§R07.3.13–R07.3.17 for strongly divisible lattices and their correspondence with stable lattices. The normalization is D=D_cris(V∨), HT(χ)=+1. Section R07.6.2 supplies Fontaine’s shifted numbering, the invariants u and ι, and the different identity v₀(𝔇)=u−ι, on the Serre-numbering contract of PadicPeriodRings §0.3 that it consumes. Section R07.6.3 gives the approximate-map predicate Pₘ and the inequality Pₘ⇒u<m+1/e. Section R07.6.5’s finite-flat ramification theorem retains its own domain.
 
-What FiniteFlatGroupsAndIntegralPadicHodgeTheory must provide (the killed-p A_cris truncation contract): For prime p, perfect characteristic-p k, K=Frac W(k) and 0<r<p−1, supply the killed-p A_cris realization: the explicit divided-power presentation of A_cris/p over O(K̄)/p with its filtration and divided Frobenius maps φᵢ for 0≤i≤r (Fontaine93 §3.1), and its identification with the existing contravariant torsion functor Uₛ on the objects of MFₜₒᵣ[0,r] killed by p.
+What FiniteFlatGroupsAndIntegralPadicHodgeTheory must provide (gap:fl-acris-truncation), the killed-p A_cris truncation contract: For prime p, perfect characteristic-p k, K=Frac W(k) and 0<r<p−1, supply the killed-p A_cris realization: the explicit divided-power presentation of A_cris/p over O(K̄)/p with its filtration and divided Frobenius maps φᵢ for 0≤i≤r (Fontaine93 §3.1), and its identification with the existing contravariant torsion functor Uₛ on the objects of MFₜₒᵣ[0,r] killed by p.
 
-What FiniteFlatGroupsAndIntegralPadicHodgeTheory must provide (the weight-zero unramified contract): For prime p, perfect characteristic-p k and K=Frac W(k), inertia in G(K) acts trivially on Uₛ(M) for every M∈MFₜₒᵣ[0,0] of arbitrary finite p-power length.
+What FiniteFlatGroupsAndIntegralPadicHodgeTheory must provide (gap:fl-weight-zero-unramified), the weight-zero unramified contract: For prime p, perfect characteristic-p k and K=Frac W(k), inertia in G(K) acts trivially on Uₛ(M) for every M∈MFₜₒᵣ[0,0] of arbitrary finite p-power length.
 
-What FiniteFlatGroupsAndIntegralPadicHodgeTheory must provide (the rank-one inertia character contract): For prime p, perfect characteristic-p k, K=Frac W(k), n≥1 and integers 0≤i≤r<p−1, the inertia character of Uₛ(M) is χₚⁱ modulo pⁿ for every rank-one W(k)/pⁿ object M∈MFₜₒᵣ[0,r] with unique filtration weight i; its full G(K) character may have an unramified twist.
+What FiniteFlatGroupsAndIntegralPadicHodgeTheory must provide (gap:fl-rank-one-inertia), the rank-one inertia character contract: For prime p, perfect characteristic-p k, K=Frac W(k), n≥1 and integers 0≤i≤r<p−1, the inertia character of Uₛ(M) is χₚⁱ modulo pⁿ for every rank-one W(k)/pⁿ object M∈MFₜₒᵣ[0,r] with unique filtration weight i; its full G(K) character may have an unramified twist.
 
-What FiniteFlatGroupsAndIntegralPadicHodgeTheory must provide (the oriented mod-p splitting contract): For prime p, perfect characteristic-p k, K=Frac W(k) and integers 0≤j<i≤r<p−1, every exact sequence 0→𝔽ₚ(j)→U→𝔽ₚ(i)→0 with pU=0 and U in the local Fontaine–Laffaille essential image on [0,r] splits as a G(K)-module sequence.
+What FiniteFlatGroupsAndIntegralPadicHodgeTheory must provide (gap:fl-oriented-mod-p-splitting), the oriented mod-p splitting contract: For prime p, perfect characteristic-p k, K=Frac W(k) and integers 0≤j<i≤r<p−1, every exact sequence 0→𝔽ₚ(j)→U→𝔽ₚ(i)→0 with pU=0 and U in the local Fontaine–Laffaille essential image on [0,r] splits as a G(K)-module sequence.
 
-What FiniteFlatGroupsAndIntegralPadicHodgeTheory must provide (the refined approximate-embedding contract): For every finite Galois L/K over a complete mixed-characteristic DVR with perfect residue field and every real c>0, Pₘ(L/K) for all real m>c implies Fontaine’s shifted upper break u(L/K)≤c, including the refinement removing the 1/e loss in §R07.6.3.
+What FiniteFlatGroupsAndIntegralPadicHodgeTheory must provide (gap:pm-remove-inverse-e), the refined approximate-embedding contract: For every finite Galois L/K over a complete mixed-characteristic discretely valued field K with perfect residue field of characteristic p, and every real c≥1 with (p−1)c∈ℤ, Pₘ(L/K) for all real m>c implies Fontaine’s shifted upper break u(L/K)≤c. The route is the integrality step of §R07.6.4(c) at this c: §R07.6.3(ii) gives u(L/K)≤c+1/e(L/K); an unramified L/K has u=0 and a tamely ramified one has u=1≤c; when p divides e(L/K), the integer e(L/K)·u(L/K) is the sum of the orders of Serre’s lower ramification groups G_j over 0≤j<i_G, with i_G the largest lower index, so e(L/K)(p−1)u(L/K) and e(L/K)(p−1)c are both multiples of p, and the first exceeds the second by at most p−1.
 
-The last export is the generic criterion used in Fontaine93 §3.8, not an inference that taking m down to c alone removes 1/e. The new work in §1.6 proves Pₘ for this specific higher-weight period field. The generic approximate-embedding theorem and its refinement enter through this supplier contract.
+The last export is the generic criterion used in Fontaine93 §3.8 (printed p. 11), where the sharp bound is obtained from §R07.6.3(ii) by the integrality argument and not by taking m down to c alone; the contract does not ask that Pₘ hold exactly for m>u(L/K). The new work in §1.6 proves Pₘ for this specific higher-weight period field. The generic approximate-embedding theorem and its refinement enter through this supplier contract.
 
 ### From TauCetiRoadmap.PadicPeriodRings
 
@@ -82,7 +82,7 @@ Consume §0.3, ramification over a field complete for a discrete valuation with 
 
 Consume §§1.1–1.3 for continuous representations, restrictions, duals, tensors and Tate twists; §§1.6 and 1.9 for integral models and reductions; §2.2 for global unramifiedness and its finite-image kernel-field interpretation. The torsion input also uses the following extension on the same carriers.
 
-What ArithmeticGaloisRepresentations must provide (the finite torsion kernel-field contract): For a field K of characteristic zero and a finite abelian p-group U with continuous G(K)-action, kernel H and kernel field L=K̄^H: L/K is finite Galois and, for every algebraic E/K inside K̄, G(E) fixes U pointwise iff L⊆E; the kernel field of U⊕U′ is the compositum of the two kernel fields; and the kernel field of 𝔽₇(1) over ℚ is ℚ(ζ₇), of degree 6, with Galois group (ℤ/7)ˣ acting through χ₇ modulo 7.
+What ArithmeticGaloisRepresentations must provide (gap:finite-torsion-kernel-dictionary), the finite torsion kernel-field contract: For a field K of characteristic zero and a finite abelian p-group U with continuous G(K)-action, kernel H and kernel field L=K̄^H: L/K is finite Galois and, for every algebraic E/K inside K̄, G(E) fixes U pointwise iff L⊆E; the kernel field of U⊕U′ is the compositum of the two kernel fields; and the kernel field of 𝔽₇(1) over ℚ is ℚ(ζ₇), of degree 6, with Galois group (ℤ/7)ˣ acting through χ₇ modulo 7.
 
 ### From TauCetiRoadmap.SmallRamificationAndAbelianVarietyBaseCases
 
@@ -92,9 +92,9 @@ Section 1.9, row (b) gives [F:ℚ]≤10 for every totally complex F with rd(F)<6
 
 ### From TauCetiRoadmap.LocalFieldsRamification
 
-Consume Layer 3’s lower/upper filtrations, quotient embeddings, the injective tame character θ₀ from G₀/G₁ into the residue units, tame-conjugation formula, tame different d=e−1, Hilbert formula and different-in-towers theorem. These are used over ℚ₇ only. Layer 2 treats finite extensions of local fields with finite residue field; apart from the completed unramified inertia contract below, it is not used for the arbitrary perfect residue fields of Layer 1, whose unramified lifting comes from SchemeAndStackFoundations §§0.12 and 0.14 and whose Herbrand theory comes from PadicPeriodRings §0.3. The action formula is θᵦ(στσ⁻¹)=θ₀(σ)ᵇθᵦ(τ), with σ in inertia; for a mod-seven extension of weight difference a it gives b≡a mod 6. The generator of tame inertia acts on the wild line by the same χᵃ as the representation, with source and target the nonzero b-th lower ramification quotient. For θ₀(t)=3 and θᵦ(w)=1 in 𝔽₇, the conjugated values for b=1,2 are 3 and 2; an inverse tame character would give 5 and 4.
+Consume Layer 3’s lower/upper filtrations, quotient embeddings, the injective tame character θ₀ from G₀/G₁ into the residue units, tame-conjugation formula, tame different d=e−1, Hilbert formula and different-in-towers theorem. These are used over ℚ₇ only. Layer 2 treats finite extensions of local fields with finite residue field; apart from the completed unramified inertia contract (gap:completed-unramified-inertia) below, it is not used for the arbitrary perfect residue fields of Layer 1, whose unramified lifting comes from SchemeAndStackFoundations §§0.12 and 0.14 and whose Herbrand theory comes from PadicPeriodRings §0.3. The action formula is θᵦ(στσ⁻¹)=θ₀(σ)ᵇθᵦ(τ), with σ in inertia; for a mod-seven extension of weight difference a it gives b≡a mod 6. The generator of tame inertia acts on the wild line by the same χᵃ as the representation, with source and target the nonzero b-th lower ramification quotient. For θ₀(t)=3 and θᵦ(w)=1 in 𝔽₇, the conjugated values for b=1,2 are 3 and 2; an inverse tame character would give 5 and 4.
 
-What LocalFieldsRamification must provide (the completed unramified inertia contract): For each p identify the absolute Galois group of Frac W(F̄ₚ) with inertia in G_ℚₚ under the completed maximal unramified field comparison, compatibly with restriction of finite and rational étale representations.
+What LocalFieldsRamification must provide (gap:completed-unramified-inertia), the completed unramified inertia contract: For each p identify the absolute Galois group of Frac W(F̄ₚ) with inertia in G_ℚₚ under the completed maximal unramified field comparison, compatibly with restriction of finite and rational étale representations.
 
 ### From TauCetiRoadmap.DeligneWeightsAndPurity
 
@@ -160,7 +160,7 @@ A proof route is as follows. Use proper smooth base change on the W(F̄_q)-schem
 - For ℙ¹ and q=2, degree-two geometric Frobenius is 2, dual Frobenius is 1/2, and the only Hodge–Tate fixed piece has i=1. Arithmetic Frobenius would interchange these two scalars.
 - For two disjoint rational points, H⁰ has dimension two and all positive groups vanish; imposing geometric connectedness would exclude a valid input.
 
-*Needs:* §0.1, EtaleCohomologyFoundations §§F.2.1–F.2.2 and F.4.5–F.4.6 for the realizations; PadicHodgeTheory §§3.3–3.5, 8.1 and the Witt proper smooth comparison contract for comparison; the completed unramified inertia contract of LocalFieldsRamification; SchemeAndStackFoundations §§0.9, 4.8 and DeligneWeightsAndPurity §7.15 for the route.
+*Needs:* §0.1, EtaleCohomologyFoundations §§F.2.1–F.2.2 and F.4.5–F.4.6 for the realizations; PadicHodgeTheory §§3.3–3.5, 8.1 and the Witt proper smooth comparison contract (gap:witt-proper-smooth-comparison) for comparison; the completed unramified inertia contract (gap:completed-unramified-inertia) of LocalFieldsRamification; SchemeAndStackFoundations §§0.9, 4.8 and DeligneWeightsAndPurity §7.15 for the route.
 
 ### Examples
 
@@ -168,7 +168,7 @@ A proof route is as follows. Use proper smooth base change on the W(F̄_q)-schem
 
 ### Dependencies
 
-SchemeAndStackFoundations §§0.11, 4.8; Mathlib Witt vectors, native schemes and base-change stability of proper and smooth morphisms; PadicHodgeTheory §§0.1, 3.3–3.5, 8.1 and the Witt proper smooth comparison contract; EtaleCohomologyFoundations §§F.2.1–F.2.2, F.3a, F.4.1–F.4.6; the completed unramified inertia contract of LocalFieldsRamification; DeligneWeightsAndPurity §7.15; ArithmeticGaloisRepresentations §§1.1–1.3; SchemeAndStackFoundations §0.9.
+SchemeAndStackFoundations §§0.11, 4.8; Mathlib Witt vectors, native schemes and base-change stability of proper and smooth morphisms; PadicHodgeTheory §§0.1, 3.3–3.5, 8.1 and the Witt proper smooth comparison contract (gap:witt-proper-smooth-comparison); EtaleCohomologyFoundations §§F.2.1–F.2.2, F.3a, F.4.1–F.4.6; the completed unramified inertia contract (gap:completed-unramified-inertia) of LocalFieldsRamification; DeligneWeightsAndPurity §7.15; ArithmeticGaloisRepresentations §§1.1–1.3; SchemeAndStackFoundations §0.9.
 
 
 ## Layer 1: Higher-weight torsion crystalline ramification
@@ -256,7 +256,7 @@ For M∈MFₜₒᵣ[0,r] killed by p, the natural projection A_cris/p→A(K̄) i
 
 Assume p is prime, k is perfect of characteristic p, K=Frac W(k), and v₀(p)=1; let r be an integer with 0<r<p−1. Use that supplier’s normalization in which a filtration jump i gives cyclotomic weight +i.
 
-A proof route is as follows. Import the explicit divided-power presentation of A_cris/p and its Frobenius maps through the killed-p A_cris truncation contract. Define here the projection A_cris/p→A(K̄) that sends every positive divided-power term to zero and reduces the constant term, and check that it respects Filⁱ and φᵢ for 0≤i≤r (Fontaine93, §3.2, printed pp. 8–9). Apply the unique-lift description of solutions to obtain surjectivity. Recover the discarded divided-power coordinates uniquely using the invertible Frobenius matrix, giving injectivity and Galois compatibility.
+A proof route is as follows. Import the explicit divided-power presentation of A_cris/p and its Frobenius maps through the killed-p A_cris truncation contract (gap:fl-acris-truncation). Define here the projection A_cris/p→A(K̄) that sends every positive divided-power term to zero and reduces the constant term, and check that it respects Filⁱ and φᵢ for 0≤i≤r (Fontaine93, §3.2, printed pp. 8–9). Apply the unique-lift description of solutions to obtain surjectivity. Recover the discarded divided-power coordinates uniquely using the invertible Frobenius matrix, giving injectivity and Galois compatibility.
 
 (Fontaine93, §§3.1, 3.3 Lemma 1, 3.5, printed pp. 8–10.)
 
@@ -266,7 +266,7 @@ A proof route is as follows. Import the explicit divided-power presentation of A
 - For the weight-zero unit object both groups are 𝔽ₚ with p elements; the zero comparison map would lose the nonzero solutions.
 - For p=3,r=1 the weight-one object yields a one-dimensional 𝔽₃-representation and exactly three solutions over the splitting field. Its basis class satisfies φ₁([π])=[π] at π²=−3; a comparison with the opposite divided-Frobenius sign fails this normalization.
 
-*Needs:* §§1.1–1.3; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.3.7, R07.3.10, R07.3.15 and the killed-p A_cris truncation contract.
+*Needs:* §§1.1–1.3; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.3.7, R07.3.10, R07.3.15 and the killed-p A_cris truncation contract (gap:fl-acris-truncation).
 
 ### 1.5 Solutions detect the torsion splitting field
 
@@ -284,7 +284,7 @@ A proof route is as follows. Use the period-truncation comparison to identify J(
 - For p=3 and the weight-one unit object, E=ℚ₃ has one solution and L=ℚ₃(π), π²=−3, has three: 1<3 and equality detects L.
 - Adjoining an independent algebraic extension to L leaves the solution count three, not three times the extension degree; the criterion is containment, not equality of fields.
 
-*Needs:* §§1.3–1.4; the finite torsion kernel-field contract of ArithmeticGaloisRepresentations.
+*Needs:* §§1.3–1.4; the finite torsion kernel-field contract (gap:finite-torsion-kernel-dictionary) of ArithmeticGaloisRepresentations.
 
 ### 1.6 Approximate integral embeddings recover the period field
 
@@ -311,7 +311,7 @@ For M∈MFₜₒᵣ[0,r] killed by p, U=Uₛ(M) and L its kernel field, its larg
 
 Assume p is prime, k is perfect of characteristic p, K=Frac W(k), and v₀(p)=1; let r be an integer with 0<r<p−1.
 
-A proof route is as follows. Apply the refined all-m ramification implication in the refined approximate-embedding contract with c=1+r/(p−1); taking the infimum in the unrefined 1/e estimate alone would be insufficient. For a ramified finite Galois L/K use the imported identity v₀(𝔇)=u−i with i>0; handle the unramified case separately. This proves the strict theorem of the letter. The alternative proof on p. 12 first gives a weak different bound; it does not license replacing the strict target by equality.
+A proof route is as follows. Apply the refined all-m ramification implication in the refined approximate-embedding contract (gap:pm-remove-inverse-e) with c=1+r/(p−1), which satisfies its hypotheses since c>1 and (p−1)c=p−1+r is an integer; taking the infimum in the unrefined 1/e estimate alone would be insufficient. For a ramified finite Galois L/K use the imported identity v₀(𝔇)=u−i with i>0; handle the unramified case separately. This proves the strict theorem of the letter. The alternative proof on p. 12 first gives a weak different bound; it does not license replacing the strict target by equality.
 
 (Fontaine93, Theorem 2 and §3.8, printed pp. 3, 11–12.)
 
@@ -320,8 +320,9 @@ A proof route is as follows. Apply the refined all-m ramification implication in
 - At p=7,r=3 the shifted bound is 3/2, Serre’s bound is 1/2 and the different is strictly less than 3/2.
 - At p=3,r=1 the tame quadratic weight-one splitting field has shifted break 1, Serre break 0 and normalized different 1/2<3/2; equality with the shifted break would be false.
 - For an unramified kernel field the different is 0<1+r/(p−1). At p=2 there is no positive integral r<1; at p=3 exactly r=1 occurs.
+- The integrality step behind the contract: for ℚ₂(√2)/ℚ₂ the shifted break is u=3 with lower groups G₀=G₁=G₂ of order two, and 2·3=2+2+2; for ℚ₃(ζ₉)/ℚ₃, u=2, e=6, the lower groups have orders 6, 3, 3 and 6·2=6+3+3. Without the hypothesis (p−1)c∈ℤ the route stalls: at p=2, c=2.9 and e(L/K)=4 the estimate u≤c+1/e and the multiples-of-p argument give only u≤3.
 
-*Needs:* §1.6; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.6.2–R07.6.3 and the refined approximate-embedding contract for the ramification route; PadicPeriodRings §0.3 for Serre’s lower and upper numbering and the different formula over the perfect residue field k.
+*Needs:* §1.6; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.6.2–R07.6.3 and the refined approximate-embedding contract (gap:pm-remove-inverse-e) for the ramification route; PadicPeriodRings §0.3 for Serre’s lower and upper numbering and the different formula over the perfect residue field k.
 
 ### 1.8 The ramification bound for crystalline subquotients
 
@@ -347,7 +348,7 @@ At p=3,r=1 and π²=−3, v₀(π)=1/2, φ₁([π])=[π], and the weight-one exa
 
 ### Dependencies
 
-FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.3.4–R07.3.17 and R07.6.2–R07.6.3, the killed-p A_cris truncation contract and the refined approximate-embedding contract; PadicPeriodRings §0.3; PadicHodgeTheory §§0.1, 0.4, 3.2–3.5; the finite torsion kernel-field contract of ArithmeticGaloisRepresentations; SchemeAndStackFoundations §§0.12, 0.14 for henselian étale lifting.
+FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.3.4–R07.3.17 and R07.6.2–R07.6.3, the killed-p A_cris truncation contract (gap:fl-acris-truncation) and the refined approximate-embedding contract (gap:pm-remove-inverse-e); PadicPeriodRings §0.3; PadicHodgeTheory §§0.1, 0.4, 3.2–3.5; the finite torsion kernel-field contract (gap:finite-torsion-kernel-dictionary) of ArithmeticGaloisRepresentations; SchemeAndStackFoundations §§0.12, 0.14 for henselian étale lifting.
 
 
 ## Layer 2: Global seven-adic devissage and filtration
@@ -376,7 +377,7 @@ The API records the following facts.
 - 𝔽₇(i), i=0,1,2,3, all belong.
 - 𝔽₇(4) is unramified outside 7 but its inertial FL weight is 4, hence it is excluded from this interval.
 
-*Needs:* ArithmeticGaloisRepresentations §§1.1, 1.9 and the finite torsion kernel-field contract for the ambient category; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.3.4–R07.3.5, R07.3.10–R07.3.12, R07.3.17 for the local essential image and closure.
+*Needs:* ArithmeticGaloisRepresentations §§1.1, 1.9 and the finite torsion kernel-field contract (gap:finite-torsion-kernel-dictionary) for the ambient category; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.3.4–R07.3.5, R07.3.10–R07.3.12, R07.3.17 for the local essential image and closure.
 
 ### 2.2 The descending cyclotomic filtration
 
@@ -422,7 +423,7 @@ A proof route is as follows. Translate the sequence contravariantly to FL module
 - For U=0 the action is trivial and the finite kernel field is ℚ, of degree one and root discriminant one.
 - On 𝔽₇² let G_ℚ act by matrices ((1,a(g)),(0,1)), where a(g)=(χ₇(g)⁶−1)/7 modulo 7. This is an ambient extension of trivial characters, unramified outside seven; an inertia element with χ₇(g)=8 modulo 49 has a(g)=6 and matrix of order seven. Its ramification excludes the middle term from C₇[0,3], since a weight-zero FL middle term would be unramified.
 
-*Needs:* §2.1 for the statement; FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.3.5 and the weight-zero unramified contract, Mathlib `NumberField.finrank_eq_one_of_unramified` and ArithmeticGaloisRepresentations §2.2 for the route.
+*Needs:* §2.1 for the statement; FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.3.5 and the weight-zero unramified contract (gap:fl-weight-zero-unramified), Mathlib `NumberField.finrank_eq_one_of_unramified` and ArithmeticGaloisRepresentations §2.2 for the route.
 
 ### 2.4 The four simple global crystalline objects
 
@@ -440,7 +441,7 @@ A proof route is as follows. A simple object is killed by 7. If E is its kernel 
 - For the tame fixed field, of degree 6n″≤36, rd≤7^(35/36)≈6.6317<6.93, so row (b) applies and 6n″≤10 forces n″=1: the next possible degree 12 is excluded. A tame inertia order 194 would give 7^(193/194)≈6.9301>6.93, so the divisibility e | 7^f−1, which gives e≤143 for tame F of degree at most 287, is needed for the final step.
 - The four characters on a tame generator of mod-seven value 3 have scalars 1,3,2,6; the next character has scalar 4 and weight four, outside the interval.
 
-*Needs:* §§1.7, 2.1; SmallRamificationAndAbelianVarietyBaseCases §§1.1, 1.9 (row (b)); LocalFieldsRamification Layer 3 for the injective tame character; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.3.8–R07.3.9; Tau Ceti p-group invariant theorem and normality; the finite torsion kernel-field contract of ArithmeticGaloisRepresentations.
+*Needs:* §§1.7, 2.1; SmallRamificationAndAbelianVarietyBaseCases §§1.1, 1.9 (row (b)); LocalFieldsRamification Layer 3 for the injective tame character; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.3.8–R07.3.9; Tau Ceti p-group invariant theorem and normality; the finite torsion kernel-field contract (gap:finite-torsion-kernel-dictionary) of ArithmeticGaloisRepresentations.
 
 ### 2.5 The unique possible orientation of a nonsplit mod-seven extension
 
@@ -460,7 +461,7 @@ A proof route is as follows. For equal characters twist into weight zero and use
 - In the unramified relative case the exponent is 35 and the root discriminant is 7^(35/42)=7^(5/6)<5.72; degree 42 contradicts the bound eight.
 - In the tame-conjugation calculation with θ₀(t)=3 and normalized wild value 1, breaks b=1,2 give conjugated values 3 and 2. Inverting the tame character instead gives 5 and 4, reversing the required exponent congruence.
 
-*Needs:* §§2.3–2.4 for the global category and simple characters; §1.7 with interval [0,a]; the oriented mod-p splitting contract of FiniteFlatGroupsAndIntegralPadicHodgeTheory; LocalFieldsRamification Layer 3 tame conjugation and different formulas; SmallRamificationAndAbelianVarietyBaseCases §§1.1, 1.9.
+*Needs:* §§2.3–2.4 for the global category and simple characters; §1.7 with interval [0,a]; the oriented mod-p splitting contract (gap:fl-oriented-mod-p-splitting) of FiniteFlatGroupsAndIntegralPadicHodgeTheory; LocalFieldsRamification Layer 3 tame conjugation and different formulas; SmallRamificationAndAbelianVarietyBaseCases §§1.1, 1.9.
 
 ### 2.6 Cyclotomic decomposition without a trivial quotient
 
@@ -478,7 +479,7 @@ A proof route is as follows. Induct on the order of U, using the four simple obj
 - For U=𝔽₇(1)⊕𝔽₇(2), g₀=0 and g₁,g₂ have orders seven, giving 7·7=49 elements in the direct sum.
 - A permitted nonsplit extension with quotient 1 and sub χ³ has a trivial quotient; it lies outside the hypothesis. Removing that hypothesis would incorrectly force it to split.
 
-*Needs:* §§2.3–2.5; the rank-one inertia character contract of FiniteFlatGroupsAndIntegralPadicHodgeTheory for arbitrary 7-power rank one; Mathlib `NumberField.finrank_eq_one_of_unramified` and ArithmeticGaloisRepresentations §2.2 for the global unramified ratio.
+*Needs:* §§2.3–2.5; the rank-one inertia character contract (gap:fl-rank-one-inertia) of FiniteFlatGroupsAndIntegralPadicHodgeTheory for arbitrary 7-power rank one; Mathlib `NumberField.finrank_eq_one_of_unramified` and ArithmeticGaloisRepresentations §2.2 for the global unramified ratio.
 
 ### 2.7 The finite global cyclotomic filtration is exhaustive
 
@@ -522,7 +523,7 @@ The pure χ²-line has filtration dimensions (0,0,1,1,1) from index four to zero
 
 ### Dependencies
 
-Layer 1; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.3.4–R07.3.17 and the weight-zero unramified contract, the rank-one inertia character contract and the oriented mod-p splitting contract; SmallRamificationAndAbelianVarietyBaseCases §§1.1, 1.7, 1.9 (including row (b)); LocalFieldsRamification Layer 3; ArithmeticGaloisRepresentations §§1.1–1.3, 1.6, 1.9, 2.2 and the finite torsion kernel-field contract; EtaleCohomologyFoundations §F.4.0; Mathlib representations, submodules and the unramified degree-one theorem; Tau Ceti p-group invariant theorem.
+Layer 1; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.3.4–R07.3.17 and the weight-zero unramified contract (gap:fl-weight-zero-unramified), the rank-one inertia character contract (gap:fl-rank-one-inertia) and the oriented mod-p splitting contract (gap:fl-oriented-mod-p-splitting); SmallRamificationAndAbelianVarietyBaseCases §§1.1, 1.7, 1.9 (including row (b)); LocalFieldsRamification Layer 3; ArithmeticGaloisRepresentations §§1.1–1.3, 1.6, 1.9, 2.2 and the finite torsion kernel-field contract (gap:finite-torsion-kernel-dictionary); EtaleCohomologyFoundations §F.4.0; Mathlib representations, submodules and the unramified degree-one theorem; Tau Ceti p-group invariant theorem.
 
 
 ## Layer 3: Low-degree cohomology and Hodge vanishing
