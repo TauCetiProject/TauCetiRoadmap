@@ -41,8 +41,9 @@ and 6 that are not.
   equality planes, and external products (Layer 1).
 - Smooth calibrations, calibrated immersions, the integral smooth-chain complex on the
   DifferentialGeometry 8.3 simplex carrier with its integral smooth-to-singular comparison, the
-  mass of smooth chains, ordered relative smooth triangulations of compact manifolds with boundary
-  and their integral fundamental chains (Layer 2).
+  mass of smooth chains, the vertex orders and ordered simplex parametrizations of relative smooth
+  triangulations of compact manifolds with boundary, and their integral fundamental chains
+  (Layer 2).
 - The fundamental theorem of calibrations, its equality case, calibration stability, and the round
   equator non-example (Layer 3).
 - The Wirtinger inequality in every degree with its equality case, its Kähler-manifold form and the
@@ -63,9 +64,11 @@ and 6 that are not.
   AlgebraicTopology Stages 2, 3.1 and 6.3.
 - The hermitian Gram–Hadamard inequality `det Gram(v) ≤ Π‖v_i‖²`: SuccessiveMinima 0.1.2
   `hermitian_gram_hadamard`. Layer 1 consumes its real specialization.
-- Existence of smooth triangulations of smooth manifolds (Whitehead): GeometricTopology, smoothing
-  and triangulation comparison item 1. Its statement fixes no boundary subcomplex and no vertex
-  order; the relative ordered version used for fundamental chains is target 2.4 here.
+- Existence of smooth triangulations of smooth manifolds without boundary (Whitehead):
+  GeometricTopology, smoothing and triangulation comparison item 1. Its relative refinement, in
+  which the collared boundary of a compact manifold is a subcomplex: TangentialBordism B1.5
+  (quotient and bundle adapters). Neither fixes a vertex order; 2.4 adds the global vertex order,
+  the ordered parametrizations and the integral fundamental chains.
 - Levi-Civita connections, normal bundles, the C² relative-volume functional and first variation:
   RiemannianGeometry R1, R5a.1 and R5a.2. No general second-variation formula is consumed.
 - Tubular neighbourhoods and normal exponential maps: GeometricTopology Layer 1.
@@ -193,8 +196,19 @@ R5a.2 (first variation and averaged mean curvature).
 
 ### From TauCetiRoadmap.GeometricTopology
 
-Layer 1 (tubular neighbourhoods and their normal exponential description) and the smoothing and
-triangulation comparison item 1 (existence of smooth triangulations of smooth manifolds).
+Layer 1 (tubular neighbourhoods and their normal exponential description, and collars of compact
+manifolds with boundary) and the smoothing and triangulation comparison item 1 (existence of smooth
+triangulations of smooth manifolds without boundary, used directly for closed sources).
+
+### From TauCetiRoadmap.TangentialBordism
+
+B1.5 (quotient and bundle adapters), its relative refinement of Whitehead's smooth triangulation:
+for a compact smooth manifold N with collared boundary, a finite simplicial complex K and a
+homeomorphism `h : |K| → N` restricting to a smooth embedding on each closed simplex, in which `∂N`
+is the image of a subcomplex. B1.5 builds it by triangulating the double compatibly with its
+reflection, or the boundary first and then the collar by product subdivision; both refine a
+Whitehead smooth triangulation, so each closed simplex stays smoothly embedded. No vertex order and
+no simplex parametrization are assumed of it.
 
 ### From TauCetiRoadmap.ComplexKahlerGeometry
 
@@ -486,11 +500,12 @@ masses. Prove subdivision, smooth reparametrization and orientation compatibilit
 
 ### 2.4 Ordered relative triangulations and fundamental chains
 
-Prove that every compact smooth manifold N with boundary admits a smooth triangulation, a finite
-simplicial complex K with a homeomorphism `h : |K| → N` restricting to a smooth embedding on each
-closed simplex, in which `∂N` is the image of a subcomplex (Munkres1966EDT, Chapter II, §10; the
-boundaryless case is GeometricTopology's smoothing and triangulation item 1). Fix a total order on
-the vertices of K and parametrize each simplex `[v₀ < ⋯ < v_p]` by h composed with the affine map
+Let N be a compact smooth manifold with boundary, collared by GeometricTopology Layer 1. Take its
+relative smooth triangulation from TangentialBordism B1.5: a finite simplicial complex K with a
+homeomorphism `h : |K| → N` restricting to a smooth embedding on each closed simplex, in which `∂N`
+is the image of a subcomplex (Munkres1966EDT, Chapter II, §10). For closed N take Whitehead's
+triangulation from GeometricTopology's smoothing and triangulation item 1. Fix a total order on the
+vertices of K and parametrize each simplex `[v₀ < ⋯ < v_p]` by h composed with the affine map
 sending the standard vertex `e_i` to `v_i`; the face maps of these ordered parametrizations are the
 ordered parametrizations of the faces, literally, not only up to reparametrization.
 
@@ -502,8 +517,9 @@ orientation, and that `∫_(c_N) η = ∫_N η` for every compactly supported to
 independence of refinement and of choices up to an explicit boundary. The closed-source homology
 version consumes DifferentialGeometry 9.3 and AlgebraicTopology 6.3; the integral chain statements
 precede their real corollaries.
-*Needs:* GeometricTopology smoothing item 1 (boundaryless case); DifferentialGeometry 5.1, 5.2,
-8.3, 8.4, 9.3; AlgebraicTopology 6.3; 2.3.
+*Needs:* TangentialBordism B1.5 (relative smooth triangulation); GeometricTopology Layer 1
+(collars) and smoothing item 1 (closed case); DifferentialGeometry 5.1, 5.2, 8.3, 8.4, 9.3;
+AlgebraicTopology 6.3; 2.3.
 
 **Checks.**
 
@@ -525,7 +541,8 @@ trivial triangulation has `c = [e₀,e₁,e₂]` with sign +1, `∂c = [e₁,e�
 ### Dependencies
 
 2.1 needs Layer 1 and DifferentialGeometry 0.3/1; 2.2 needs 2.1; 2.3 needs DifferentialGeometry 8.3
-and AlgebraicTopology Stages 2 and 3.1; 2.4 needs 2.3.
+and AlgebraicTopology Stages 2 and 3.1; 2.4 needs 2.3, TangentialBordism B1.5 and GeometricTopology
+Layer 1 and smoothing item 1.
 
 ## Layer 3: Volume minimization and stability (C3)
 
