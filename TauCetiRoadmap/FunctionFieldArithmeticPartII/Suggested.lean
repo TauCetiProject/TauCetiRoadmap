@@ -12,9 +12,9 @@ The following headline theorems are not statable at the pins with a few simple d
 * Relative regular root geometry lacks the finite-root stack and its morphism properties.
 * The coherent infinite root stack, its fpqc quotient and arbitrary base change lack the
   coherent root pseudofunctor and the represented band-action quotient.
-* Infinite affine coinvariants (README §3.385) lack the factorial root colimit `C_A(f)` and its
+* Infinite affine coinvariants (README §3.182) lack the factorial root colimit `C_A(f)` and its
   left coaction `η_f` by the group algebra `A[ℚ/ℤ]`; both are constructions of Layer 3
-  (§§3.58, 3.148, 3.324), not simple definitions.
+  (§§3.37, 3.84 and 3.153), not simple definitions.
 * The infinite DVR zero-section gerbe, fpqc Kummer classification and non-fppf torsor lack the
   relative infinite gerbe and fpqc torsor groupoid carriers.
 * The root Picard square quotient and signed adelic equivalence lack the root Picard stack,
@@ -76,7 +76,7 @@ noncomputable def rootChartCoaction (A : Type u) [CommRing A] (f : A) (n : ℕ) 
   exact sub_self _
 
 /-- The affine action comparison `Θ : B ⊗ B → A[h]/(hⁿ - 1) ⊗ B`, `b ⊗ c ↦ δ(b) (1 ⊗ c)`, for
-`B = A[t]/(tⁿ - f)` (README §1.26). For positive `n` it is the coordinate ring map of the action
+`B = A[t]/(tⁿ - f)` (README §1.17). For positive `n` it is the coordinate ring map of the action
 comparison `μ_n × Spec B → Spec B ×_{Spec A} Spec B`. -/
 noncomputable def rootChartComparison (A : Type u) [CommRing A] (f : A) (n : ℕ) :
     (rootChart A f n) ⊗[A] (rootChart A f n) →ₐ[A]
@@ -84,7 +84,7 @@ noncomputable def rootChartComparison (A : Type u) [CommRing A] (f : A) (n : ℕ
   Algebra.TensorProduct.lift (rootChartCoaction A f n)
     Algebra.TensorProduct.includeRight (fun _ _ => Commute.all _ _)
 
-/-- Sharp injectivity criterion (README §1.190): for positive `n` the affine action comparison is
+/-- Sharp injectivity criterion (README §1.92): for positive `n` the affine action comparison is
 injective exactly when `n = 1` or `f` is a nonzerodivisor of `A`. -/
 theorem rootChartComparison_injective_iff (A : Type u) [CommRing A] (f : A)
     (n : ℕ) (hn : 0 < n) :
@@ -92,7 +92,7 @@ theorem rootChartComparison_injective_iff (A : Type u) [CommRing A] (f : A)
       n = 1 ∨ Function.Injective (fun a : A => f * a) := by
   sorry
 
-/-- Sharp surjectivity criterion (README §1.191): for positive `n` the affine action comparison is
+/-- Sharp surjectivity criterion (README §1.93): for positive `n` the affine action comparison is
 surjective exactly when `n = 1` or `f` is a unit of `A` (compare Stacks, Tag 040N). -/
 theorem rootChartComparison_surjective_iff (A : Type u) [CommRing A] (f : A)
     (n : ℕ) (hn : 0 < n) :
