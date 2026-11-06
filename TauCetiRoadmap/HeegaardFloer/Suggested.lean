@@ -1,9 +1,11 @@
+module
+
 import Mathlib
 import TauCeti.Geometry.Symplectic.Manifold.TwoForm
 import TauCeti.Geometry.Symplectic.StandardCompatible
 import TauCeti.Topology.Compactification.OnePoint.ProjectiveLine
 import TauCeti.Topology.Algebra.Matrix.ProjectiveSpecialLinearGroup
-import TauCeti.Geometry.Manifold.SmoothEmbedding.NormalSpace
+import TauCeti.Geometry.Manifold.SmoothEmbedding.NormalSpace.Basic
 
 /-!
 # Heegaard Floer homology, analytically: target signatures
@@ -11,7 +13,8 @@ import TauCeti.Geometry.Manifold.SmoothEmbedding.NormalSpace
 The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's
 headline theorems against the pinned Mathlib and Tau Ceti APIs. The native statements
 below cover sharp finite-dimensional Sard, Banach-manifold Sard–Smale, Darboux normal forms, sphere triple
-normalization, nonsqueezing and the compact Lagrangian holomorphic-disc theorem.
+normalization, nonsqueezing, the compact Lagrangian holomorphic-disc theorem, and the scalar
+calibrations for stabilized linear neck gluing (F1.4).
 
 The following headlines require constructions specified in the README before their
 full statements can be expressed at the pins:
@@ -117,7 +120,7 @@ theorem exists_darbouxChart [FiniteDimensional ℝ E] [BoundarylessManifold I M]
       (form₀ : TauCeti.SymplecticForm E),
       x₀ ∈ chart.source ∧ chart x₀ = 0 ∧
       (∀ x ∈ chart.source, ∀ v w : TangentSpace I x,
-        form x v w =
+        TauCeti.SmoothBundleForm.eval₂ form x v w =
           form₀ (mfderiv I 𝓘(ℝ, E) chart x v) (mfderiv I 𝓘(ℝ, E) chart x w)) := by
   sorry
 
@@ -129,7 +132,7 @@ theorem exists_standardDarbouxChart [FiniteDimensional ℝ E] [BoundarylessManif
       (EuclideanSpace ℝ (Fin m) × EuclideanSpace ℝ (Fin m)) ∞),
       x₀ ∈ chart.source ∧ chart x₀ = 0 ∧
       (∀ x ∈ chart.source, ∀ v w : TangentSpace I x,
-        form x v w =
+        TauCeti.SmoothBundleForm.eval₂ form x v w =
           TauCeti.stdSymplecticForm (V := EuclideanSpace ℝ (Fin m))
             (mfderiv I 𝓘(ℝ, EuclideanSpace ℝ (Fin m) × EuclideanSpace ℝ (Fin m))
               chart x v)
@@ -214,5 +217,61 @@ theorem exists_nonconstant_holomorphic_disc_in_component
   sorry
 
 end ForcedLagrangianDisc
+
+section LinearNeck
+
+/-!
+Scalar calibrations for stabilized linear gluing in F1.4. The bounded Sobolev
+operators, their kernels/cokernels, right inverses, exact sequence and cylindrical
+Fourier comparison are additional README targets, not defined by these formulas.
+The `sorry` theorems are future proof targets.
+-/
+
+namespace LinearNeck
+
+open Filter
+open scoped Topology
+
+noncomputable def coefficient (R s : ℝ) : ℝ :=
+  1 - Real.tanh (s + R) + Real.tanh (s - R)
+
+noncomputable def fundamental (R s : ℝ) : ℝ :=
+  Real.exp s * Real.cosh (s - R) / Real.cosh (s + R)
+
+noncomputable def pulse (s : ℝ) : ℝ := 1 / Real.cosh s
+
+theorem fundamental_pos (R s : ℝ) : 0 < fundamental R s := by
+  exact div_pos (mul_pos (Real.exp_pos _) (Real.cosh_pos _)) (Real.cosh_pos _)
+
+theorem pulse_derivative (s : ℝ) :
+    HasDerivAt pulse (-Real.tanh s * pulse s) s := by
+  sorry
+
+theorem fundamental_derivative (R s : ℝ) :
+    HasDerivAt (fundamental R) (coefficient R s * fundamental R s) s := by
+  sorry
+
+theorem adjoint_derivative (R s : ℝ) :
+    HasDerivAt (fun x => (fundamental R x)⁻¹)
+      (-coefficient R s * (fundamental R s)⁻¹) s := by
+  sorry
+
+theorem fundamental_end_ratios (R : ℝ) :
+    Tendsto (fun s => fundamental R s / Real.exp s) atTop (𝓝 (Real.exp (-2 * R))) ∧
+    Tendsto (fun s => fundamental R s / Real.exp s) atBot (𝓝 (Real.exp (2 * R))) := by
+  sorry
+
+theorem coefficient_bound (R : ℝ) (hR : 0 ≤ R) (s : ℝ) :
+    |coefficient R s| ≤ 1 := by
+  sorry
+
+theorem translated_limits (s : ℝ) :
+    Tendsto (fun R => coefficient R (s - R)) atTop (𝓝 (-Real.tanh s)) ∧
+    Tendsto (fun R => coefficient R (s + R)) atTop (𝓝 (Real.tanh s)) := by
+  sorry
+
+end LinearNeck
+
+end LinearNeck
 
 end TauCetiRoadmap.HeegaardFloer

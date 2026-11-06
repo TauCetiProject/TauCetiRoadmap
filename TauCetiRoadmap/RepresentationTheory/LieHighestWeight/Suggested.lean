@@ -1,7 +1,7 @@
 import Mathlib
 import Mathlib.RingTheory.TensorProduct.Basic
 import TauCeti.Algebra.Lie.HighestWeight.CentralCharacter.DotOrbit
-import TauCeti.LinearAlgebra.SymmetricAlgebra.AdjointAction
+import TauCeti.LinearAlgebra.SymmetricAlgebra.LieModule
 import TauCeti.LinearAlgebra.SymmetricAlgebra.Homogeneous
 import TauCeti.LinearAlgebra.SymmetricAlgebra.Grading
 import TauCeti.Algebra.Lie.UniversalEnveloping.PBW.Homogeneous
@@ -656,9 +656,9 @@ theorem weyl_character_formula (base : (LieAlgebra.IsKilling.rootSystem H).Base)
     [FiniteDimensional K (irreducibleQuotient base lam)] :
     (formalCharacter (M := irreducibleQuotient base lam)) * weylDenominator base
       = weylNumerator base lam := by
-  letI : Finite (LieAlgebra.IsKilling.rootSystem H).weylGroup :=
+  let : Finite (LieAlgebra.IsKilling.rootSystem H).weylGroup :=
     RootPairing.finite_weylGroup (LieAlgebra.IsKilling.rootSystem H)
-  letI := Fintype.ofFinite (LieAlgebra.IsKilling.rootSystem H).weylGroup
+  let := Fintype.ofFinite (LieAlgebra.IsKilling.rootSystem H).weylGroup
   exact TauCeti.formalCharacter_mul_weylDenominator_eq_weylNumerator
     (TauCeti.isHighestWeightVector_irreducibleQuotientGenerator base lam)
     (TauCeti.lieSpan_irreducibleQuotientGenerator_eq_top base lam)
@@ -671,10 +671,10 @@ theorem weyl_dimension_formula (base : (LieAlgebra.IsKilling.rootSystem H).Base)
       = ∏ i ∈ Finset.univ.filter (fun i => base.IsPos i),
           (coweightPairing (lam + weylVector base) i : ℚ) / (coweightPairing (weylVector base) i : ℚ) :=
   by
-    letI := TauCeti.finiteDimensional_irreducibleQuotient_of_isDominantIntegral hlam
-    letI : Finite (LieAlgebra.IsKilling.rootSystem H).weylGroup :=
+    let := TauCeti.finiteDimensional_irreducibleQuotient_of_isDominantIntegral hlam
+    let : Finite (LieAlgebra.IsKilling.rootSystem H).weylGroup :=
       RootPairing.finite_weylGroup (LieAlgebra.IsKilling.rootSystem H)
-    letI := Fintype.ofFinite (LieAlgebra.IsKilling.rootSystem H).weylGroup
+    let := Fintype.ofFinite (LieAlgebra.IsKilling.rootSystem H).weylGroup
     simpa only [TauCeti.posRootsFinset_eq_filter] using
       TauCeti.finrank_eq_prod_coweightPairing_div
         (TauCeti.isHighestWeightVector_irreducibleQuotientGenerator base lam)
@@ -736,9 +736,9 @@ theorem kostant_multiplicity_formula (base : (LieAlgebra.IsKilling.rootSystem H)
     [FiniteDimensional K (irreducibleQuotient base lam)] (mu : Module.Dual K H) :
     (formalCharacter (M := irreducibleQuotient base lam)).coeff mu =
       kostantMultiplicity base lam mu := by
-  letI : Finite (LieAlgebra.IsKilling.rootSystem H).weylGroup :=
+  let : Finite (LieAlgebra.IsKilling.rootSystem H).weylGroup :=
     RootPairing.finite_weylGroup (LieAlgebra.IsKilling.rootSystem H)
-  letI := Fintype.ofFinite (LieAlgebra.IsKilling.rootSystem H).weylGroup
+  let := Fintype.ofFinite (LieAlgebra.IsKilling.rootSystem H).weylGroup
   exact TauCeti.formalCharacter_coeff_eq_kostantMultiplicity
     (TauCeti.isHighestWeightVector_irreducibleQuotientGenerator base lam)
     (TauCeti.lieSpan_irreducibleQuotientGenerator_eq_top base lam) mu
@@ -819,7 +819,7 @@ theorem finrank_isotypicComponent (base : (LieAlgebra.IsKilling.rootSystem H).Ba
     [Module K M] [LieRingModule L M] [LieModule K L M] [FiniteDimensional K M] :
     Module.finrank K (isotypicComponent base lam M)
       = isotypicMultiplicity base lam M * Module.finrank K (irreducibleQuotient base lam) := by
-  letI : FiniteDimensional K (irreducibleQuotient base lam) :=
+  let : FiniteDimensional K (irreducibleQuotient base lam) :=
     (finiteDimensional_irreducibleQuotient_iff base lam).mpr hlam
   exact LieModule.finrank_isotypicComponent (irreducibleQuotient base lam)
 
@@ -1008,17 +1008,17 @@ noncomputable def lieInvariantSymmetricAlgebra : Subalgebra K (SymmetricAlgebra 
   carrier := {p | ∀ x : L, ⁅x, p⁆ = 0}
   mul_mem' hp hq := by
     intro x
-    simp only [TauCeti.SymmetricAlgebra.lie_eq_adjointDerivation] at hp hq ⊢
+    simp only [TauCeti.SymmetricAlgebra.lie_eq_lieModuleDerivation] at hp hq ⊢
     rw [Derivation.leibniz, hp x, hq x]
     simp
   add_mem' hp hq := by intro x; rw [lie_add, hp x, hq x]; simp
   algebraMap_mem' r := by
     intro x
-    simp [TauCeti.SymmetricAlgebra.lie_eq_adjointDerivation]
+    simp [TauCeti.SymmetricAlgebra.lie_eq_lieModuleDerivation]
   zero_mem' := by intro x; simp
   one_mem' := by
     intro x
-    simp [TauCeti.SymmetricAlgebra.lie_eq_adjointDerivation]
+    simp [TauCeti.SymmetricAlgebra.lie_eq_lieModuleDerivation]
 
 theorem lieInvariantSymmetricAlgebra_toSubmodule :
     lieInvariantSymmetricAlgebra.toSubmodule =
@@ -1193,7 +1193,7 @@ theorem weylAut_cartan_apply {h : H} {e f : L}
     (hF : ∀ y : H, ⁅(y : L), f⁆ = -(alpha y • f)) (y : H) :
     letI : LieAlgebra ℚ L := TauCeti.ratLieAlgebra K L
     TauCeti.weylAut t he hf (y : L) = ((y - alpha y • h : H) : L) := by
-  letI : LieAlgebra ℚ L := TauCeti.ratLieAlgebra K L
+  let : LieAlgebra ℚ L := TauCeti.ratLieAlgebra K L
   exact TauCeti.weylAut_apply_of_lie_eq_smul he hf t (hE y) (hF y)
 
 theorem cartanSubalgebra_intLieAlgebra_conjugate (H1 H2 : LieSubalgebra K L)
@@ -1584,7 +1584,8 @@ theorem freudenthal_multiplicity_formula (base : (LieAlgebra.IsKilling.rootSyste
         - invForm (mu + weylVector base) (mu + weylVector base))
       * (((formalCharacter (M := irreducibleQuotient base lam)).coeff mu : ℤ) : K)
       = 2 * freudenthalRHS base lam mu := by
-  simpa only [formalCharacter, TauCeti.formalCharacter_coeff, Int.cast_natCast, freudenthalRHS] using
+  simpa only [formalCharacter, TauCeti.formalCharacter_coeff, Int.cast_natCast, freudenthalRHS,
+    TauCeti.freudenthalRHS_def] using
     TauCeti.freudenthal_multiplicity_formula
       (TauCeti.isHighestWeightVector_irreducibleQuotientGenerator base lam)
       (TauCeti.lieSpan_irreducibleQuotientGenerator_eq_top base lam) mu

@@ -395,8 +395,9 @@ example {f : ℂ → ℂ} (hf : DifferentiableOn ℂ f (ball 0 1)) (hinj : InjOn
     (hJ : IsJordanDomain (f '' ball 0 1)) :
     ∃ F : ℂ → ℂ, ContinuousOn F (closedBall 0 1) ∧ EqOn F f (ball 0 1) ∧
       BijOn F (closedBall 0 1) (closure (f '' ball 0 1)) := by
-  obtain ⟨F, hFc, hFf⟩ := exists_continuousOn_closedBall_eqOn_of_isJordanCurve_frontier one_pos
-    hf hinj hJ.isBounded hJ.isJordanCurve_frontier
+  have := hJ.isJordanCurve_frontier.locallyConnectedSpace
+  obtain ⟨F, hFc, hFf⟩ := exists_continuousOn_closedBall_eqOn_of_locallyConnectedSpace_frontier
+    one_pos hf hinj hJ.isBounded
   have hcl : closure (ball (0 : ℂ) 1) = closedBall 0 1 := closure_ball 0 one_ne_zero
   refine ⟨F, hFc, hFf, ?_⟩
   have hFi := injOn_closedBall_of_isJordanCurve_frontier one_pos hf hinj hJ.isBounded
