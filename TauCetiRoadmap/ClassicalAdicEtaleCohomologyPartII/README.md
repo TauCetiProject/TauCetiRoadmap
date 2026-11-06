@@ -1114,7 +1114,7 @@ For P¹ the two nonzero cohomology degrees are 0 and 2; a trace target Λ_n in d
 
 For smooth proper pure-d X/K, compatible finite torsion traces define `t_{X,ℤ_p}:H²ᵈ(X_C,ℤ_p(d))→ℤ_p` by inverse limit, using the cohomology-limit identification. When X has a smooth proper formal model, `t_{X,Z_p}` is the geometric-fibre trace of ClassicalAdicEtaleCohomology §9.7; the variant here needs no model. Its derived trace map RΓ(X_C,ℤ_p(d))→ℤ_p[−2d] is the integral derived trace. (Z Definition 5.5.3, p. 82; Z line 3964.)
 
-Rational coefficients are not a separate construction: they are the image of the integral ones under the derived rationalization functor. On the pro-étale site of a rigid space, rationalization is derived scalar extension of module objects along the coefficient map Ẑ_p→Ẑ_p[1/p], where Ẑ_p is the completed coefficient sheaf of ClassicalAdicEtaleCohomology §1.3: a complex M of Ẑ_p-modules goes to Ẑ_p[1/p]⊗ᴸ_{Ẑ_p}M. This is the functor that EtaleCohomologyFoundations §F.4.5 uses from 𝒪_E- to E-coefficients, here with 𝒪_E=ℤ_p and E=ℚ_p, formed with the ringed-site derived tensor and coefficient change of EnhancedDerivedSheaves §§0.3–0.4. On a point it is −⊗ᴸ_{ℤ_p}ℚ_p from D(ℤ_p) to D(ℚ_p). The scheme statements of §F.4.5 assume ℓ invertible on the base; the functor itself does not, so ℓ=p is allowed here. Define ℚ_p(r) as the rationalization of Ẑ_p(r), and RΓ(X_C,ℚ_p(r)) as its pro-étale cohomology.
+Rational coefficients are not a separate construction: they are the image of the integral ones under the derived rationalization functor. On the pro-étale site of a rigid space, rationalization is derived scalar extension of module objects along the coefficient map Ẑ_p→Ẑ_p[1/p], where Ẑ_p is the completed coefficient sheaf of ClassicalAdicEtaleCohomology §1.3: a complex M of Ẑ_p-modules goes to `Ẑ_p[1/p]⊗ᴸ_{Ẑ_p}M`. This is the functor that EtaleCohomologyFoundations §F.4.5 uses from 𝒪_E- to E-coefficients, here with 𝒪_E=ℤ_p and E=ℚ_p, formed with the ringed-site derived tensor and coefficient change of EnhancedDerivedSheaves §§0.3–0.4. On a point it is `−⊗ᴸ_{ℤ_p}ℚ_p` from D(ℤ_p) to D(ℚ_p). The scheme statements of §F.4.5 assume ℓ invertible on the base; the functor itself does not, so ℓ=p is allowed here. Define ℚ_p(r) as the rationalization of Ẑ_p(r), and RΓ(X_C,ℚ_p(r)) as its pro-étale cohomology.
 
 Prove the rationalization comparison. For qcqs X and every bounded-below complex M of Ẑ_p-modules on the pro-étale site of X_C, the canonical map
 
@@ -1128,17 +1128,17 @@ is an isomorphism, naturally in M and compatibly with cup products, the Galois a
 RΓ(X_C,ℚ_p(d)) ≅ RΓ(X_C,ℤ_p(d))⊗ᴸ_{ℤ_p}ℚ_p → ℤ_p[−2d]⊗ᴸ_{ℤ_p}ℚ_p = ℚ_p[−2d].
 ```
 
-Its H²ᵈ is the degree-2d rational trace H²ᵈ(X_C,ℚ_p(d))→ℚ_p. Z defines the rational trace on groups as t_{X,ℤ_p}[1/p]; here that formula is a theorem about the rationalized derived trace, not its definition (Z Definition 5.5.5 and the paragraph before it, p. 82; Z line 3964).
+Its H²ᵈ is the degree-2d rational trace H²ᵈ(X_C,ℚ_p(d))→ℚ_p. Z defines the rational trace on groups as `t_{X,ℤ_p}[1/p]`; here that formula is a theorem about the rationalized derived trace, not its definition (Z Definition 5.5.5 and the paragraph before it, p. 82; Z line 3964).
 
 The API includes the following facts.
 
 - The integral derived trace reduces to the finite coefficient trace after derived scalar extension.
 - The rationalization comparison above, natural in M and compatible with cup products, Galois action and Tate twists.
 - The rational derived trace is the rationalization of the integral derived trace transported along that comparison.
-- On H²ᵈ, flatness of ℚ_p over ℤ_p identifies H²ᵈ(X_C,ℚ_p(d)) with H²ᵈ(X_C,ℤ_p(d))⊗_{ℤ_p}ℚ_p, and under this identification the rational trace is t_{X,ℤ_p}⊗ℚ_p.
+- On H²ᵈ, flatness of ℚ_p over ℤ_p identifies H²ᵈ(X_C,ℚ_p(d)) with `H²ᵈ(X_C,ℤ_p(d))⊗_{ℤ_p}ℚ_p`, and under this identification the rational trace is `t_{X,ℤ_p}⊗ℚ_p`.
 - For a finite disjoint union of pure-d components, the trace is summation of component traces.
 
-One proof route is as follows. Take inverse limits of the coefficient-compatible analytic top traces; use Mittag–Leffler to identify the source with the integral top group. Construct the derived trace by the top truncation and the cohomological bound. For the rationalization comparison, write Ẑ_p[1/p]⊗ᴸ_{Ẑ_p}− as the sequential colimit along multiplication by p. The pro-étale topos of a qcqs X is coherent, so its cohomology commutes with filtered colimits of uniformly bounded-below complexes. Then apply the rationalization functor to the integral derived trace; flatness of ℚ_p over ℤ_p gives the degreewise formula.
+One proof route is as follows. Take inverse limits of the coefficient-compatible analytic top traces; use Mittag–Leffler to identify the source with the integral top group. Construct the derived trace by the top truncation and the cohomological bound. For the rationalization comparison, write `Ẑ_p[1/p]⊗ᴸ_{Ẑ_p}−` as the sequential colimit along multiplication by p. The pro-étale topos of a qcqs X is coherent, so its cohomology commutes with filtered colimits of uniformly bounded-below complexes. Then apply the rationalization functor to the integral derived trace; flatness of ℚ_p over ℤ_p gives the degreewise formula.
 
 The construction keeps the continuous Galois action and the Tate line.
 
@@ -1148,7 +1148,7 @@ The construction keeps the continuous Galois action and the Tate line.
 - For P¹, t(c₁(O(1)))=1 for both coefficient rings. This fixes the positive point-class sign.
 - Torsion in Hⁱ(X_C,ℤ_p) is permitted; rationalization kills it, so the integral construction cannot be specified by choosing bases of all integral cohomology groups. For the module ℤ_p/p, rationalization is zero.
 - Rationalizing each finite level before the limit gives ℤ/pⁿ⊗ℚ_p=0 for every n, so the limit of the rationalized finite traces is the zero map. On ℙ¹ the rational trace is nonzero, so rationalization is applied to the integral derived limit, never level by level.
-- The comparison needs quasi-compactness. Over K=C take the non-quasi-compact space ⊔_{n∈ℕ}Spa C and M=Ẑ_p: the left side is (∏_nℤ_p)⊗ℚ_p in degree zero and the right side is ∏_nℚ_p, which contains (p⁻ⁿ)_n outside the left side.
+- The comparison needs quasi-compactness. Over K=C take the non-quasi-compact space `⊔_{n∈ℕ}Spa C` and M=Ẑ_p: the left side is (∏_nℤ_p)⊗ℚ_p in degree zero and the right side is ∏_nℚ_p, which contains (p⁻ⁿ)_n outside the left side.
 
 *Needs:* PadicHodgeTheory §2.7; §5.6; ClassicalAdicEtaleCohomology §§1.1–1.4 (étale and pro-étale coefficients, including Ẑ_p of §1.3), 9.5 and 9.7 (coefficient-compatible traces and the formal-model specialization); EtaleCohomologyFoundations §F.4.5 (rationalization as derived scalar extension); EnhancedDerivedSheaves §§0.3–0.4 (ringed-site derived tensor and coefficient change); ArithmeticGaloisDuality §§D7.1–D7.3 and R02.1.2–R02.2.3.
 
