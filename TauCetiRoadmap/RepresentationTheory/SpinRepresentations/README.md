@@ -55,7 +55,7 @@ for the universal-cover characterization used by SpinCompactTopologyFoundation i
 consumed again by the real-group Layer7,
 and on [the root-systems roadmap](../RootSystems/README.md) for the `Bₗ`/`Dₗ` root data and the outer-automorphism
 graph symmetry that underlies triality. Layer2's separate general-field consumer uses
-[OrthogonalSpinGroups1A–1E](../../OrthogonalSpinGroups/README.md#layer-1-the-lipschitz-group-and-the-spinor-norm):
+[OrthogonalSpinGroups1A–1E](../../../Completed/OrthogonalSpinGroups/README.md#layer-1-the-lipschitz-group-and-the-spinor-norm):
 1A for reverse/star norm comparison, 1B–1C for the generated carrier and vector map,
 and 1D–1E for the spinor-norm/image-kernel contract.
 [QuadraticFormInvariants1](../../QuadraticFormInvariants/README.md#layer-1-hyperbolic-planes-and-witt-theory)
