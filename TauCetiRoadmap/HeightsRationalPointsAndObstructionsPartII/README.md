@@ -1258,7 +1258,7 @@ Layers 0,4–5; HeightsRationalPointsAndObstructions §§1.7,5.4,5.13b–c; Inve
 
 ### 7.1 Canonical heights as heights of the invariant adelic extension
 
-Let k be a field and K a function field of one variable over k (or k = ℤ and K a number field), A an abelian variety over K, L a symmetric ample line bundle and L̄ its invariant adelic extension with [2]^*L̄ = 4L̄. For x ∈ A(K̄), `h_{L̄}(x)` = ĥ_L(x), the Néron–Tate height in the normalization of adelic heights (over K, residue degrees over k), and for a closed subvariety X ⊆ `A_{K̄}` of dimension d, `h_{L̄}(X)` = `(L̄|_X)^{d+1}`/(a_K (d+1) deg_L X), with a_K = [K:ℚ] for a number field and a_K = 1 for a function field, equals the canonical height ĥ_L(X) of X (the limit `n^{-2}h([n]X)`, equivalently the model intersection under everywhere good reduction). (xy-2022, §1.1, (1.1)–(1.3), pp. 2–3 (arXiv v1); yuan-2026, §2.2, Proposition 2.6, p. 31; §4.1.2, pp. 63–64; §4.3.1, p. 71 (author manuscript 21 August 2024)).
+Let k be a field and K a function field of one variable over k (or k = ℤ and K a number field), A an abelian variety over K, L a symmetric ample line bundle and L̄ its invariant adelic extension with [2]^*L̄ = 4L̄. For x ∈ A(K̄), `h_{L̄}(x)` = ĥ_L(x), the Néron–Tate height in the absolute normalization of ArakelovGeometryAndAbelianHeightsPartII §4.6 (divide by [K(x):ℚ] for a number field, and by [K(x):K] with residue degrees over the fixed k for a function field; the Yuan–Zhang relative normalization, which divides by [K(x):K] in the number-field case too, is [K:ℚ] times this one), and for a closed subvariety X ⊆ `A_{K̄}` of dimension d, `h_{L̄}(X)` = `(L̄|_X)^{d+1}`/(a_K (d+1) deg_L X), with a_K = [K:ℚ] for a number field and a_K = 1 for a function field, equals the canonical height ĥ_L(X) of X (the limit `n^{-2}h([n]X)`, equivalently the model intersection under everywhere good reduction). (xy-2022, §1.1, (1.1)–(1.3), pp. 2–3 (arXiv v1); yuan-2026, §2.2, Proposition 2.6, p. 31; §4.1.2, pp. 63–64; §4.3.1, p. 71 (author manuscript 21 August 2024)).
 
 Throughout this subsection, K a number field or a function field of one variable over k; L symmetric ample on A.
 
@@ -1266,7 +1266,7 @@ One proof route is the following. Both sides are invariant under [2] up to the f
 
 **Checks.**
 
-- For X a point the subvariety height is the point height.
+- For X = {x} a point the subvariety height is the point height: over K = ℚ(i) with ĥ_L(x) = a, `h_{L̄}(x)` = a and `h_{L̄}({x})` = `(L̄|_{x̃})^1`/(a_K·1·deg x̃) = 2a/(2·1) = a; the Yuan–Zhang relative point height 2a would break the agreement, and over K = ℚ both normalizations give a.
 - For X = A (or an abelian subvariety, or a torsion translate of one) both sides vanish.
 - The normalization over function fields keeps k fixed: enlarging the coordinate field of x or X while keeping K as reference field changes neither side (degrees are divided by the extension degree), whereas taking a finite extension E of K as the new reference field multiplies both sides by [E : K]; for example the projective point [1:1/(t²+1)] has height 2 with reference field ℝ(t) and height 4 with reference field ℂ(t).
 
