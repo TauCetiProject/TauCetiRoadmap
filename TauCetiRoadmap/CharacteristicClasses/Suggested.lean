@@ -21,8 +21,8 @@ Not statable at the pins, and therefore not stated here:
   rings away from 2 (C3.4, C3.6): there is no classifying-space or
   universal-bundle carrier, and no Chern, Stiefel–Whitney or Pontryagin
   class, at the pins;
-* `e(TM)[M]=χ(M)` (C2.3): there is no Euler class and no fundamental class
-  of a manifold at the pins;
+* `e(TM)[M]=χ(M)` (C2.3) and the Euler-pullback identity for a self-map:
+  there is no Euler class and no fundamental class of a manifold at the pins;
 * the singular/de Rham Chern–Weil comparison (C4.2), Borel's theorem
   `H*(BG;ℚ)≃H*(BT;ℚ)^W` with the universal Chern–Weil isomorphism (C5.2)
   and the exterior Hopf isomorphism `H*(K;ℚ)=Λ(z₁,…,z_r)` (C5a.5): no
@@ -33,8 +33,8 @@ Not statable at the pins, and therefore not stated here:
 
 What is statable is the formal-series part of C3.3, C6.1 and C7.1: the
 L-series is even, the 2-torsion correction behind the integral Pontryagin
-Whitney formula, and the degree-four Todd and degree-eight Hirzebruch
-coefficients in Chern and Pontryagin root values.
+Whitney formula, and the degree-four Todd and degree-eight and
+degree-twelve Hirzebruch coefficients in Chern and Pontryagin root values.
 -/
 
 @[expose] public section
@@ -103,6 +103,21 @@ theorem lSeries_root_coefficient_four
       (∏ i, PowerSeries.rescale (x i)
         (PowerSeries.map (algebraMap ℚ A) lSeries)) =
       (1 / 45 : ℚ) • (7 * pontryaginRootValue x 2 - pontryaginRootValue x 1 ^ 2) := by
+  sorry
+
+/-- C7.1: the degree-six coefficient of `∏ L(x_i T)` is the degree-twelve
+Hirzebruch L-class `(62p₃ − 13p₁p₂ + 2p₁³)/945` in the Pontryagin root values
+(Milnor–Stasheff §19). The statement is universal over commutative
+`ℚ`-algebras and includes ranks below three, where the absent values are `0`. -/
+theorem lSeries_root_coefficient_six
+    {A : Type*} [CommRing A] [Algebra ℚ A] {r : ℕ} (x : Fin r → A) :
+    PowerSeries.coeff 6
+      (∏ i, PowerSeries.rescale (x i)
+        (PowerSeries.map (algebraMap ℚ A) lSeries)) =
+      (1 / 945 : ℚ) •
+        (62 * pontryaginRootValue x 3 -
+          13 * pontryaginRootValue x 1 * pontryaginRootValue x 2 +
+          2 * pontryaginRootValue x 1 ^ 3) := by
   sorry
 
 end TauCetiRoadmap.CharacteristicClasses
