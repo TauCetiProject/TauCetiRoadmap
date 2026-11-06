@@ -27,8 +27,8 @@ the 7-connected-cover diagram that EllipticCohomology E5 Thomifies; geometric
 String bordism and its low-stem and framing comparisons; integral differential
 cohomology by differential characters, bundle gerbes and 2-gerbes, the basic
 gerbe and Chern–Simons 2-gerbe of Spin(n), geometric String structures, string
-connections and transgression, with the smooth principal bundles, connections,
-good covers and submersion fibre products they are built on (S3.0); the
+connections and transgression, with the contractible prism covers of `M×[0,1]`
+and the iterated submersion fibre products `Y^[k]` they are built on (S3.0); the
 bridges from the manifold diffeology to `ContMDiff` and to the functional
 diffeologies on mapping spaces needed for transgression (S3.5); the octonionic projective plane OP² with its
 F₄/Spin(9) isotropy and characteristic classes (S1.5); the structured
@@ -67,6 +67,14 @@ It leaves to named roadmaps:
 - GeneralizedCohomology G5.0 owns the stable Spin classifier, its finite-rank
   maps and the Hopf normalization `stableBSpin_hopfGenerator_cTwo`; G2 owns the
   mapping-path carrier and Hurewicz lifting; G3.8 owns connective covers.
+- SmoothBundlesConnections owns the smooth principal bundles, connections,
+  curvature, gauge transformations and good covers that S3 and S5 use: principal
+  bundles, pullbacks, cocycles and free proper quotients (B1.1–B1.4), Ehresmann
+  connections (B1.5), associated and adjoint bundles (B2.1, B2.5), principal
+  connections and their affine space (B3.1), curvature and Bianchi (B4.1), the
+  gauge group (B4.2), smooth good covers (B6.0) and the binary transverse fibre
+  product of smooth maps (B1.0). S3.0 builds on these the prism covers and the
+  iterated fibre products and does not redefine any of them.
 - CharacteristicClasses owns characteristic classes and Chern–Weil (C4);
   DifferentialGeometry owns forms, smooth-chain integration and Stokes;
   GeometricTopology Layer 1 owns collars and tubular neighbourhoods.
@@ -87,13 +95,9 @@ It leaves to named roadmaps:
   connection, and the local-normal-form submersion `Manifold.IsSubmersion`; Tau
   Ceti owns `CovariantDerivative.ricciTensor`.
 
-Three objects stated here are also stated by roadmaps this one does not consume:
-smooth principal bundles, connections, curvature, good covers and submersion
-fibre products by SmoothBundlesConnections B1.1, B3.1, B4.1, B6.0 and B1.0;
-submersion fibre products by LieGroupoidsPoisson G0; and `π₃S≅ℤ/24{ν}` by
-HomotopySpheres Stage 9. S3.0 owns the smooth foundations used here; S2.3
-consumes the stem from EllipticCohomology E4.S and E5 and owns its geometric
-comparisons. Neither layer consumes those later roadmaps.
+HomotopySpheres Stage 9 also states `π₃S≅ℤ/24{ν}`; S2.3 does not consume it, but
+takes the stem from EllipticCohomology E4.S and E5 and owns only its geometric
+comparisons.
 
 ## Conventions
 
@@ -117,8 +121,8 @@ comparisons. Neither layer consumes those later roadmaps.
 - **Smooth global hypotheses.** Finite-dimensional manifold inputs to S3’s
   differential constructions and S5’s smooth bundle constructions are Hausdorff
   and second-countable, and are boundaryless unless a boundary model is
-  specified. Their boundaryless bases admit smooth partitions of unity and
-  good covers with Euclidean intersections. The products with [0,1] in S3.1
+  specified. Their boundaryless bases admit smooth partitions of unity and the
+  smooth good covers of SmoothBundlesConnections B6.0. The products with [0,1] in S3.1
   use their actual manifold-with-boundary structure; smooth singular prisms
   use simplex products with corners, with smoothness given by local extension
   in charts. Their contractible local models are treated separately in S3.0.
@@ -177,8 +181,9 @@ comparisons. Neither layer consumes those later roadmaps.
   (`Mathlib/Geometry/Manifold/VectorBundle/CovariantDerivative/LeviCivita.lean`).
 - `Manifold.IsSubmersion` (`Mathlib/Geometry/Manifold/Submersion.lean`): a map that
   is, near every point, the projection `(u,v)↦u` in suitable charts, for some global
-  choice of complement. The file does not prove the equivalence with surjectivity of
-  `mfderiv` in finite dimension and constructs no fibre products; S3.0 does.
+  choice of complement. The file constructs no fibre products;
+  SmoothBundlesConnections B1.0 constructs the binary transverse fibre product and
+  S3.0 the iterated fibre products of a surjective submersion.
 
 ### From Tau Ceti
 
@@ -202,6 +207,15 @@ comparisons. Neither layer consumes those later roadmaps.
   groups, 8.10 representability, 8.11b loop comparison).
 - **CharacteristicClasses** finite compact-Lie classifying spaces, p₁ and w₄ on
   each BSpin(n), C4 Chern–Weil and C4.3 universal connections.
+- **SmoothBundlesConnections** B1.0 (transverse fibre products of smooth maps),
+  B1.1 (principal structure, local sections, division map), B1.2 (pullbacks),
+  B1.3 (transition cocycles and gluing), B1.4 (free proper quotients, homogeneous
+  spaces), B1.5 (Ehresmann connections), B2.1 (associated bundles), B2.5 (adjoint
+  bundle), B3.1 (principal connections, their affine space over `Ω¹(M;ad P)` and
+  existence), B4.1 (curvature `dA+½[A∧A]`, its descent to `Ω²(M;ad P)`, Bianchi),
+  B4.2 (gauge group and its action on connections and curvature), B6.0
+  (`SmoothGoodCover`, `exists_smoothGoodCover_refining` and the chosen smooth
+  contractions of finite intersections).
 - **TopologicalKTheory** stable BO/BSO comparison, T2.1 virtual bundles, exterior
   powers, and T2.3's λ-series `λ_t` on virtual classes with its product and
   inverse identities; it states no symmetric-power operation, and S4.1 defines
@@ -649,69 +663,68 @@ SpinGeometry G4.1.
 
 ### 3.0 Principal bundles, connections, good covers and submersion fibre products (S3.0)
 
-For a Lie group G (Mathlib `LieGroup`) and a finite-dimensional Hausdorff
-second-countable boundaryless smooth manifold M,
-define a smooth principal G-bundle `P→M` as a smooth free right action of G on P
-over M with local smooth sections over an open cover, each giving a G-equivariant
-diffeomorphism `U×G≅P|_U`. Define a connection as a 𝔤-valued 1-form A on P with
-`R_g*A=Ad(g⁻¹)A` and `A(ξ^#)=ξ` on fundamental vector fields, its curvature
-`F_A=dA+½[A∧A]`, pullback along smooth maps and gauge transformations. Connections
-exist under these global hypotheses, by gluing local trivial connections with Mathlib's
-`SmoothPartitionOfUnity.exists_isSubordinate`, and form an affine space over
-`Ω¹(M;ad P)`. Define a good cover as an open cover all of whose nonempty finite
-intersections are diffeomorphic to `ℝⁿ`; every Hausdorff second-countable
-boundaryless n-manifold has a good cover refining any given open cover, by
-geodesically convex balls of a Riemannian metric (Bott–Tu, *Differential Forms in Algebraic Topology*, Theorem 5.1);
-the existence of convex balls of positive radius at every point (Whitehead's
-convexity theorem) is part of this target.
-For the boundary prisms `M×[0,1]` used in S3.1, take products of such a cover
-with relatively open interval covers. Nonempty intersections are U×J with
-U diffeomorphic to ℝⁿ and J an interval, possibly containing an endpoint of
-[0,1]; prove these are smoothly contractible in their boundary models.
-They need not be diffeomorphic to ℝⁿ⁺¹. Apply DifferentialGeometry §5.4's
-homotopy operator and §6.2's boundary-chart Poincaré lemma to these contractions,
-obtaining `dK+Kd=id−ev_0*` on the models and simplex-product corner models of
-smooth singular prisms. This supplies the local exactness for S3.1's real
-Čech–Deligne comparison; its homotopy formula uses DifferentialGeometry §§5.5
-and 8.3–8.5 for corner Stokes, locally extendable smooth chains and de Rham.
+Smooth principal bundles, connections, curvature, gauge transformations and good
+covers are owned by SmoothBundlesConnections and consumed here, not redefined. For a
+Lie group G (Mathlib `LieGroup`) and a base M under the standing hypotheses, S3
+and S5 use: smooth principal G-bundles with their right action, local sections,
+pullbacks and transition cocycles (B1.1–B1.3); free proper quotients, homogeneous
+spaces and associated bundles (B1.4, B2.1); the adjoint bundle `ad P` (B2.5);
+principal connections A with `A(ξ^#)=ξ` and `R_g*A=Ad(g⁻¹)A`, their pullback and
+the affine action of `Ω¹(M;ad P)`, with existence by partitions of unity (B3.1);
+the curvature `F_A=dA+½[A∧A]`, its descent to `Ω²(M;ad P)`, the Bianchi identity
+and `F_(A+a)=F_A+d_Aa+½[a∧a]` (B4.1); gauge transformations with their action on
+connections and curvature (B4.2); and smooth good covers `SmoothGoodCover`
+refining any open cover, by `exists_smoothGoodCover_refining`, each nonempty
+finite intersection carrying a chosen centre and a smooth contraction (B6.0).
+CharacteristicClasses C4 applies its invariant polynomials to the same B4.1
+curvature, so S3.1's "one half of the `p₁` Chern–Weil form" is a statement about
+a single carrier. This section owns the two constructions S3 needs beyond those
+suppliers.
+
+For the boundary prisms `M×[0,1]` used in S3.1, take the products of the members
+of a B6.0 good cover of M with relatively open interval covers of [0,1].
+Nonempty finite intersections are U×J with U a nonempty finite intersection of
+the good cover and J an interval, possibly containing an endpoint of [0,1];
+prove these are smoothly contractible in their boundary models, by B6.0's
+contraction of U times the affine contraction of J. They need not be
+diffeomorphic to ℝⁿ⁺¹. Apply DifferentialGeometry §5.4's homotopy operator and
+§6.2's boundary-chart Poincaré lemma to these contractions and to B6.0's
+contractions on M, obtaining `dK+Kd=id−ev_0*` on the models and on the
+simplex-product corner models of smooth singular prisms. This supplies the
+local exactness for S3.1's real Čech–Deligne comparison; its homotopy formula
+uses DifferentialGeometry §§5.5 and 8.3–8.5 for corner Stokes, locally
+extendable smooth chains and de Rham.
+
 For a surjective `Manifold.IsSubmersion` `π:Y→M` between finite-dimensional
 boundaryless manifolds, without separation assumptions for the local assertions,
-prove that π has a smooth local section through every point of Y (from
-the local normal form), and that for k≥1 each iterated fibre product `Y^[k]` is an
-embedded submanifold of `Y^k`, locally given by the projection normal form, with
-smooth projections that are again surjective submersions. If M is Hausdorff,
-its diagonal is closed and so is this embedded submanifold, as the inverse image
-of that diagonal under the product map
-(Lee, *Introduction to Smooth Manifolds*, 2nd ed., Theorem 4.26 and Theorem 6.30).
+prove that π has a smooth local section through every point of Y (from the local
+normal form). For k≥1 construct the iterated fibre product `Y^[k]` by iterating
+SmoothBundlesConnections B1.0's transverse fibre product, `Y^[k+1]=Y^[k]×_M Y`
+along the composite projection, which is a submersion. Prove that it is an
+embedded submanifold of `Y^k` with underlying set
+`{(y₁,…,y_k):π(y₁)=⋯=π(y_k)}`, locally given by the projection normal form and
+independent of the order of iteration, with smooth projections that are again
+surjective submersions. If M is Hausdorff, its diagonal is closed and so is this
+embedded submanifold, as the inverse image of that diagonal under the product
+map (Lee, *Introduction to Smooth Manifolds*, 2nd ed., Theorem 4.26 and
+Theorem 6.30).
 
-- `F_(g·A)=Ad(g⁻¹)F_A` under gauge, and `dF_A=[F_A∧A]` (Bianchi).
-- On a principal bundle presented with the data CharacteristicClasses C4.1
-  applies its invariant polynomials to (a smooth principal bundle, a principal
-  connection and its curvature 2-form), the connection and curvature defined here
-  agree with the ones C4.1 feeds to Chern–Weil, so that S3.1's "one half of the
-  `p₁` Chern–Weil form" is a statement about a single carrier.
 - For k≥2 the face maps `Y^[k]→Y^[k−1]` omitting one factor and the diagonal degeneracies
   are smooth, the face maps are surjective submersions, and together they satisfy
   the simplicial identities.
 
 **Checks.**
-- Trivial bundle `M×G`: connections correspond to `Ω¹(M;𝔤)` by pulling back along
-  the unit section; the model "connections are closed forms" excludes the
-  non-flat `A=x dy` on `ℝ²×U(1)`, whose curvature `dx∧dy` is nonzero.
-- For abelian G the bracket term vanishes and `F_A=dA` descends to a closed 2-form
-  on M. For G=SU(2) on `ℝ²×SU(2)`, the constant form `A=τ₁dx+τ₂dy` with
-  `[τ₁,τ₂]=2τ₃` has `dA=0` but `F_A=[τ₁,τ₂]dx∧dy=2τ₃dx∧dy≠0`, so `F=dA` is the wrong
-  formula in the non-abelian case.
-- `S¹` with two arcs is a good cover only if each intersection is connected; the
-  standard two-arc cover has `U∩V` with two components, so it is not good, while
-  three arcs give a good cover.
-- On ℝ, interval good covers have nonempty intersections diffeomorphic to ℝ.
-  At 0 in `[0,ε)`, local H₁ is 0, whereas at an interior point of ℝ it is ℤ;
-  thus the boundary model is not a Euclidean good-cover intersection. It still
-  contracts by `(t,x)↦(1−t)x`. For the homotopy from 0 to x, `K(dx)=x` and
+- On `ℝ²×SU(2)` the constant form `A=τ₁dx+τ₂dy` with `[τ₁,τ₂]=2τ₃` has `dA=0` but
+  B4.1 curvature `[τ₁,τ₂]dx∧dy=2τ₃dx∧dy≠0`; a bracket term `[A∧A]` without the
+  half would give `4τ₃dx∧dy`. This is the normalization in which S3.1 reads one
+  half of the `p₁` Chern–Weil form.
+- On ℝ, a locally finite cover by open intervals is a B6.0 good cover. At 0 in
+  `[0,ε)`, local H₁ is 0, whereas at an interior point of ℝ it is ℤ; thus
+  `[0,ε)` is not homeomorphic to an open subset of ℝ, and the prism intersections
+  lie outside B6.0's boundaryless setting. It still contracts by `(t,x)↦tx`,
+  constant at time 0 and the identity at time 1. For this homotopy `K(dx)=x` and
   `dK(dx)=dx`, while `K(dc)=0` for a constant c; the same calculation in each
-  coordinate works at a quadrant corner. In dimension zero a point is ℝ⁰;
-  the empty manifold has the cover with empty index set.
+  coordinate works at a quadrant corner.
 - For the projection `ℝ²→ℝ`, the self fibre product is
   `{((x,u),(x,v)):x,u,v∈ℝ}`, a closed 3-manifold, with dimension `2·2−1=3`.
   For the chart cover `ℝ⊔ℝ→M` of the line with doubled origin, a cross-component
@@ -720,16 +733,11 @@ of that diagonal under the product map
   hypothesis of the closedness statement.
 - The non-submersion `x↦x²` from ℝ onto `[0,∞)⊂ℝ` fails the local-section property
   at 0, and its self fibre product `{(x,y):x²=y²}` is not a manifold at the origin.
-- Carrier comparison on the trivial bundle `M×G` with the connection pulled back
-  from `A∈Ω¹(M;𝔤)`: both carriers assign the curvature `dA+½[A∧A]`; on the SU(2)
-  example above this is `2τ₃dx∧dy`, and a carrier whose bracket term were `[A∧A]`
-  would give `4τ₃dx∧dy`, so the comparison is a theorem, not a convention.
 
-*Needs:* Mathlib `LieGroup`, `SmoothPartitionOfUnity.exists_isSubordinate`,
-`Manifold.IsSubmersion`; DifferentialGeometry (forms, exterior derivative;
-§§5.4–5.5, 6.2, 8.3–8.5 for the prism comparison);
-RiemannianGeometry (geodesics and exponential maps); CharacteristicClasses C4.1
-(the carrier comparison).
+*Needs:* SmoothBundlesConnections B1.0–B1.4, B2.1, B2.5, B3.1, B4.1, B4.2, B6.0;
+Mathlib `LieGroup`, `Manifold.IsSubmersion`; DifferentialGeometry (forms,
+exterior derivative; §§5.4–5.5, 6.2, 8.3–8.5 for the prism comparison);
+CharacteristicClasses C4 (Chern–Weil on B4.1's curvature).
 
 ### 3.1 Differential characters and the refinement of λ (S3.1)
 
@@ -758,9 +766,9 @@ for K fixes its sign even though the product is written with M first.
 For k≥1 construct the good-cover Čech–Deligne comparison using the real complex
 `ℤ→Ω⁰→…→Ω^(k−1)` in degrees 0 through k, evaluating its degree-k cocycles on
 smooth (k−1)-cycles. Derive the comparison and independence of good cover from
-the Poincaré lemma and the partition-of-unity contraction on S3.0’s
-boundaryless good covers and, for `M×[0,1]`, on its separately specified
-smoothly contractible product cover; the exact sequences above and the five
+the Poincaré lemma and the partition-of-unity contraction on
+SmoothBundlesConnections B6.0’s good covers and, for `M×[0,1]`, on S3.0’s
+smoothly contractible prism covers; the exact sequences above and the five
 lemma prove that evaluation is an isomorphism. This is the real-coefficient version of Bunke’s Lemma 3.5,
 pp. 33–34, equation (23), p. 38, and Corollary 3.131, p. 68
 (bunke-differential-cohomology lines 1264, 1442, 2619): the source uses complex
@@ -958,7 +966,8 @@ holonomy, and the unique connection over a point.
 
 ### Dependencies
 
-S1; DifferentialGeometry; RiemannianGeometry; CharacteristicClasses C4, C4.1;
+S1; SmoothBundlesConnections B1–B4 and B6.0 (through S3.0); DifferentialGeometry;
+CharacteristicClasses C4, C4.1;
 Orbifolds O2 item 6; Mathlib's submersion and diffeology files.
 
 ## Layer 4: characteristic series and the integral Witten genus (S4)
@@ -1029,10 +1038,11 @@ ModularForms.
 
 ### 5.1 Cayley-plane bundles (S5.1)
 
-For a smooth principal F₄-bundle P→B, construct the associated OP² bundle
-`E=P×_(F₄)OP²→B` from S1.5’s action by gluing `U×OP²` with the transition
-functions of S3.0. The vertical tangent bundle is `P×_(F₄)T(OP²)→E`;
-using `E≅P/Spin(9)`, identify it with `P×_(Spin(9))ℝ¹⁶` for S1.5’s isotropy
+For a smooth principal F₄-bundle P→B (SmoothBundlesConnections B1.1), construct
+the associated OP² bundle `E=P×_(F₄)OP²→B` from S1.5’s action as the free proper
+quotient of `P×OP²` by F₄ (B1.4), whose local trivializations glue `U×OP²` along
+the transition cocycle of P (B1.3). The vertical tangent bundle is
+`P×_(F₄)T(OP²)→E`; using `E≅P/Spin(9)`, identify it with `P×_(Spin(9))ℝ¹⁶` for S1.5’s isotropy
 representation. Lift that representation to Spin(16) through the spin cover
 using simple connectivity of Spin(9), and thereby construct its vertical Spin
 structure. If B has a chosen Spin structure, the stable splitting
@@ -1064,8 +1074,11 @@ String fibre alone gives a String total space.
   pullback of `OP²→pt` along `HP²→pt`, so arbitrary base change cannot transport
   the String structure of the original total space.
 
-*Needs:* S1.5; S1.3–S1.4; S2.2 (bordism); S3.0 (principal bundles and
-connections for the tangent splitting); SpinGeometry G4.1 (spin covers).
+*Needs:* S1.5; S1.3–S1.4; S2.2 (bordism); SmoothBundlesConnections B1.1–B1.4
+(principal bundles, cocycles, free proper quotients), B1.5 and B3.1 (Ehresmann and
+principal connections for the tangent splitting), B2.1 and B2.5 (associated
+bundles and reductions);
+SpinGeometry G4.1 (spin covers).
 
 ### 5.2 Family vanishing and the homogeneous pushforward (S5.2)
 
@@ -1246,7 +1259,7 @@ complete-intersection families in dimensions 4n for every n≥4.
 
 ### Dependencies
 
-S1–S4; BordismFormalGroups F3–F5;
+S1–S4; SmoothBundlesConnections B1–B3; BordismFormalGroups F3–F5;
 SchemeAndStackFoundations §4.13; AffineMorseLefschetz A0, A5–A6;
 AlgebraicTopology Stages 5–6; DGFloer Layer 1 item 2; EllipticCohomology E5.
 
@@ -1345,8 +1358,6 @@ spinLambda_adjoint_eq_neg_two_cTwo).
   characteristic numbers.
 - Stong, *Notes on Cobordism Theory*, Princeton, 1968, Chapter II, for bordism of
   manifolds with structure on the stable normal bundle (uncertified).
-- Bott–Tu, *Differential Forms in Algebraic Topology*, GTM 82, 1982, Theorem 5.1,
-  for good covers (uncertified).
 - Lee, *Introduction to Smooth Manifolds*, 2nd ed., GTM 218, 2013, Theorems 4.26
   and 6.30, for local sections of submersions and transverse preimages
   (uncertified).
