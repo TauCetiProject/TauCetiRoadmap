@@ -80,8 +80,11 @@ says that when p=0 in R and [p]_F≠0 its order is a power of p; the general
 form of Ravenel's Lemma A2.2.7 for a nonzero homomorphism f:F→G over a
 field of characteristic p is
 `TauCeti.FormalGroupHom.exists_iso_comp_iterateFrobeniusHom` (module
-`Frobenius.Factorization`): f=g∘Frob^h for a unique isomorphism g from
-the Frobenius twist of F to G, with ord f=p^h. The inverse series is
+`Frobenius.Factorization`): f=g∘Frob^h for some h with ord f=p^h and an
+isomorphism g from the h-fold Frobenius twist of F to G, and g is unique
+once h is fixed by the order
+(`existsUnique_iso_comp_iterateFrobeniusHom_of_order`, same module). The
+inverse series is
 `FormalGroup.addInvX`, with `subst_addInvX_X_eq_zero`, linear coefficient
 −1 (`coeff_one_addInvX`), base change `map_addInvX` and the group structure
 on `FormalGroup.Point F σ`; the integer-indexed series are
@@ -138,7 +141,8 @@ d_n=`TauCeti.lazardGcd n` (p when n is a power of the prime p,
 rings; `map_lazardCocycle` is its base change and `aeval_diag_lazardCocycle`
 its diagonal value. Strict coordinate changes are represented by
 L[b₁,b₂,…]=`MvPolynomial ℕ+ LazardRing` with the universal strict
-coordinate `TauCeti.universalStrictCoordinate` and the bijection
+coordinate `TauCeti.FormalCoordinate.universalStrictCoordinate` (module
+`TauCeti.RingTheory.PowerSeries.Coordinate.Universal`) and the bijection
 `TauCeti.LazardRing.coordinateChangeLift` (module `CoordinateChange.Lazard`);
 the Hopf-algebroid structure maps are `LazardRing.rightUnit`, `counit`,
 `coproduct` and `conjugation` (modules `CoordinateChange.Lazard` and
@@ -284,10 +288,15 @@ at the pin: when an approximate homomorphism f from F to G has
 homomorphism defect vanishing below degree n, the degree-n part of the
 defect is c·C_n (`exists_homogeneousComponent_homDefect_eq_smul_lazardCocycle`,
 module `Obstruction`), removable by a strict correction in degree n when
-d_n is a unit, vanishing automatically in degree p^k for k<h
-(`succ_le_order_sub_of_lt_height`, module `LeadingDifference`), and read
-off the p-series in degree p^k (`homogeneousComponent_homDefect_eq_smul_lazardCocycle`),
-which is where the separable equations above arise. *Needs:*
+d_n is a unit, and read off the p-series in degree p^k, k≥1
+(`homogeneousComponent_homDefect_eq_smul_lazardCocycle`): the degree-p^k
+part is the coefficient of X^(p^k) in [p]_G(f(X))−f([p]_F(X)) times
+C_(p^k), which is where the separable equations above arise; it vanishes
+automatically when k is below both heights, since each composite then has
+order at least p^h>p^k (`PowerSeries.order_subst`, module
+`TauCeti.RingTheory.PowerSeries.Substitution`, with `height_eq_natCast_iff`),
+and for f the identity series, whose defect is F−G, this is
+`succ_le_order_sub_of_lt_height` (module `LeadingDifference`). *Needs:*
 `FormalGroup.height`, `TauCeti.FormalGroupIso` and the pinned p-series,
 Frobenius, obstruction and leading-difference APIs named above; for
 Ravenel's route also F3's p-typical coordinates and Hazewinkel
