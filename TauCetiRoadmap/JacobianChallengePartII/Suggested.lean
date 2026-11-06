@@ -1,6 +1,11 @@
-import Mathlib
-import TauCeti.AlgebraicGeometry.AbelianVariety.Albanese
-import TauCeti.AlgebraicGeometry.LineBundle.Functoriality
+module
+
+public import Mathlib
+public import TauCeti.AlgebraicGeometry.AbelianVariety.Albanese
+public import TauCeti.AlgebraicGeometry.LineBundle.Ample
+public import TauCeti.AlgebraicGeometry.LineBundle.Functoriality
+public import TauCeti.AlgebraicGeometry.PicardFunctor.Fppf
+public import TauCeti.AlgebraicGeometry.PicardFunctor.PicZero.Basic
 
 /-!
 # Relative Jacobians: target signatures
@@ -20,10 +25,19 @@ Finite-stage descent of invertible sheaves, their morphisms and finite families 
 actual group-scheme fibre powers (§5.5), including arbitrary base change, uses native products
 in `Over S`.
 
+The degree of a relative Picard class (§§0.1, 0.3) is Tau Ceti's `relativePicardFiberDegree`,
+read at every field-valued point of every test scheme; it is locally constant on the test scheme,
+and on sections of the group-valued `relativePicardFppfSheaf` it is the unique locally constant
+function computed by local actual representatives. Representability of that sheaf (§0.3) is
+Mathlib's `Functor.IsRepresentable` of its underlying functor, whose bijections compare morphisms
+in universe `u` with sections in universe `u + 1`. It is stated over an affine noetherian base
+with an ample class on the total space, which expresses projectivity there.
+
 The following headline statements require geometric objects absent from the pinned libraries:
-* Layers 0–1: the relative Picard sheaf, its degree components and representing scheme, abelian
-  schemes and their duals, and polarizations. These are needed for Picard representability, the
-  relative Jacobian and its canonical principal polarization. The curve determinant also needs
+* Layers 0–1 outside §§0.0, 0.1 and 0.3: projective morphisms over a general base, open and
+  closed subschemes cut out by a locally constant degree, abelian schemes and their duals, and
+  polarizations. These are needed for the degree pieces as subschemes, the relative Jacobian as
+  an abelian scheme and its canonical principal polarization. The curve determinant also needs
   relative derived pushforward and perfect cohomology complexes.
 * Layers 2–3: the relative Picard torsors and Abel morphisms, the theta divisor for an arbitrary
   degree-one divisor, the dual Jacobian and its universal Poincaré bundle. These are needed for the
@@ -32,13 +46,16 @@ The following headline statements require geometric objects absent from the pinn
 * Layer 4 outside §4.9: intrinsic algebraic equivalence of line bundles and the relative Picard
   identity components. These are needed to state relative autoduality and the actual and bi-zero
   Picard pullback torsion-cokernel theorems in their family generality.
-* Layer 5 outside §5.5: the geometric canonical Abel morphism and section-free difference, and multiplication
-  isogenies on abelian schemes. The shifted-power factorization with its finite locally free tail
-  isogeny uses these objects; arbitrary group-law coordinate identities do not express that result.
+* Layer 5 outside §5.5: the geometric canonical Abel morphism and section-free difference, and
+  multiplication isogenies on abelian schemes. The shifted-power factorization with its finite
+  locally free tail isogeny uses these objects; arbitrary group-law coordinate identities do not
+  express that result.
 * Layers 6–7: the semi-abelian relative Picard scheme of a stable family, relative dualizing sheaves
   and coherent higher pushforward, and full symplectic level structures. These are needed for the
   curve–Jacobian Hodge bundle and determinant comparisons and the level-family statements.
 -/
+
+@[expose] public section
 
 namespace TauCetiRoadmap.JacobianChallengePartII
 
@@ -101,6 +118,46 @@ theorem invertibleSheafEqualitiesDescend {I : Type u} [SmallCategory I] [IsCofil
     ∃ (j : I) (f : j ⟶ i), ∀ k,
       (InvertibleSheaf.pullback (F.map f)).map (a k) =
         (InvertibleSheaf.pullback (F.map f)).map (b k) := by
+  sorry
+
+/-- **The fibre degree is locally constant on every test scheme** (README §0.1; Kleiman, proof of
+Theorem 4.8, pp. 28–29). For a proper smooth morphism of relative dimension one over a locally
+noetherian base, the degree of a class of `Pic(X_T)/Pic(T)` on the fibre over a field-valued point
+of an arbitrary test scheme `T` depends only on the image point, and is locally constant in it.
+Every point of `T` is tested, whether or not `T` has points over a given field. -/
+theorem exists_locallyConstant_relativePicardFiberDegree {S X : Scheme.{u}} (f : X ⟶ S)
+    [IsLocallyNoetherian S] [IsProper f] [SmoothOfRelativeDimension 1 f] (T : Over S)
+    (c : (relativePicardPresheaf f).obj (Opposite.op T)) :
+    ∃ d : LocallyConstant T.left ℤ, ∀ (Ω : Type u) [Field Ω] (ξ : Spec (.of Ω) ⟶ T.left)
+      (p : Spec (.of Ω)), relativePicardFiberDegree f (T := Opposite.op T) ξ c = d (ξ p) := by
+  sorry
+
+/-- **The degree of a section of the group-valued Picard sheaf** (README §0.3). On every test
+scheme `T`, a section of the relative Picard fppf sheaf has a unique locally constant degree on
+`T`: at each field-valued point over a point of `T`, it is the fibre degree of every actual class
+representing a restriction of the section. The degree pieces of the Picard scheme are its fibres. -/
+theorem existsUnique_relativePicardFppfSheaf_degree {S X : Scheme.{u}} (f : X ⟶ S)
+    [IsLocallyNoetherian S] [IsProper f] [SmoothOfRelativeDimension 1 f] (T : Over S)
+    (σ : (relativePicardFppfSheaf f).obj.obj (Opposite.op T)) :
+    ∃! d : LocallyConstant T.left ℤ, ∀ (T' : Over S) (g : T' ⟶ T)
+      (a : LineBundleClass (pullback T'.hom f)),
+      (relativePicardToFppfSheaf f).app (Opposite.op T')
+          (relativePicardAddPresheafMk f (Opposite.op T') a) =
+        (relativePicardFppfSheaf f).obj.map g.op σ →
+      ∀ (Ω : Type u) [Field Ω] (ξ : Spec (.of Ω) ⟶ T'.left) (p : Spec (.of Ω)),
+        relativePicardFiberDegree f (T := Opposite.op T') ξ (QuotientGroup.mk a) =
+          d (g.left (ξ p)) := by
+  sorry
+
+/-- **Representability of the relative Picard sheaf** (README §0.3; Kleiman, Theorem 4.8,
+pp. 27–29). Over an affine noetherian base, a proper smooth curve family with geometrically
+connected fibres whose total space carries an ample class has a representable group-valued
+Picard fppf sheaf. The representing object is `Functor.reprX`, and its group law is transported
+from tensor product along the representing bijections. -/
+theorem isRepresentable_relativePicardFppfSheaf {S X : Scheme.{u}} (f : X ⟶ S)
+    [IsAffine S] [AlgebraicGeometry.IsNoetherian S] [IsProper f] [SmoothOfRelativeDimension 1 f]
+    [GeometricallyConnected f] (L : LineBundleClass X) (hL : L.IsAmple) :
+    ((relativePicardFppfSheaf f).obj ⋙ forget AddCommGrpCat).IsRepresentable := by
   sorry
 
 /-! ## Layer 4: Actual Picard groups and autoduality pullbacks -/
