@@ -209,10 +209,14 @@ unramified iff `S_𝔮` is formally unramified over `R`, because `R → R_𝔭` 
 **Checks.**
 - The two loci differ in general: the closed immersion `Spec k ⟶ 𝔸¹_k` at the origin is
   unramified and not flat, so its ramification locus is empty and its non-étale locus is the point.
+  Its branch locus, the image of the empty ramification locus, is empty although `f` is étale
+  nowhere: the image of the non-étale locus, the origin, is not the branch locus.
 - The Frobenius control, which the hypothesis of §2.3 excludes: over a field `k` of
   characteristic `p > 0`, the relative Frobenius `𝔸¹_k ⟶ 𝔸¹_k`, `t ↦ tᵖ`, is finite and dominant between regular integral schemes and its
-  ramification locus is all of `𝔸¹_k`; this is why §2.3 assumes the ramification locus is not
-  everything.
+  ramification locus, its non-étale locus and its branch locus are all of `𝔸¹_k` (`Ω` is
+  `k[t] dt` since `p tᵖ⁻¹ = 0`, the map is flat as `k[t]` is free of rank `p` over `k[tᵖ]`, so
+  the two loci in the source agree, and it is surjective); this is why §2.3 assumes the
+  ramification locus is not everything.
 - The square map: over a field of characteristic `≠ 2`, `𝔸² ⟶ 𝔸²`,
   `(x, y) ↦ (u, v) = (x², y)`, has ramification locus `V(x)` and branch locus `V(u)`.
 
@@ -404,11 +408,11 @@ restatement of a target. *API*: no Stacks counterpart.
 This section is secondary; it maps targets to an existing formalization and prescribes nothing.
 The repository https://github.com/tdupu/pcfawd-formalization (Apache-2.0; T. Dupuy, T. Tucker,
 Z. Wang; Lean 4, Mathlib, no `sorry`) contains a development of this material, built for the "PCF
-all the way down" theorem. Paths are under `lean/Pcf/`.
+all the way down" theorem. Paths are under `library/Pcf/` at commit d28f90d.
 
 | § | Existing declarations | Files |
 | --- | --- | --- |
-| 2.1 | `zariskiNagataPurity` (affine), `isStacksEtaleAt_of_zariskiNagataPurity` (Stacks form), `exists_etale_of_zariskiNagataPurity` (scheme form) | `Stacks/Purity/Tag0BMA.lean`, `Stacks/Purity/Tag0BMBScheme.lean`, `Stacks/Purity/Tag0BMBSchemeAPI.lean` |
+| 2.1 | `Pcf.Stacks.zariskiNagataPurity` (affine), `Pcf.Stacks.isStacksEtaleAt_of_zariskiNagataPurity` (Stacks form), `Pcf.Stacks.exists_etale_of_zariskiNagataPurity` (scheme form) | `Stacks/Purity/Tag0BMA.lean`, `Stacks/Purity/Tag0BMBScheme.lean`, `Stacks/Purity/Tag0BMBSchemeAPI.lean` |
 | 0.3, 2.3 | `Pcf.nonEtaleLocus` (affine only: `(Algebra.etaleLocus R S)ᶜ`), `Pcf.isClosed_nonEtaleLocus`, `Pcf.codim_eq_one_of_algebra` (codimension-one purity of the non-étale locus of `Spec S`, with the local form of 0BMB taken as a hypothesis) | `NonEtaleLocus.lean` |
 
 ## References
