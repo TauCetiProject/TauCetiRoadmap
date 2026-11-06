@@ -74,12 +74,15 @@ Mathlib’s `IsZLattice` and
 `ZLattice.covolume`; LocalGaloisGroups and
 ProfiniteArithmetic supply local and profinite arithmetic; ClassFieldTheory
 supplies the class-formation interfaces. No replacement for those roadmaps is
-introduced. Smooth curves over finite fields lie outside the present scope:
-the Steinberg-homology hypothesis of the §3.2 finiteness criterion is proved
-here only for rings of integers of number fields, while the criterion itself
-holds for every Dedekind domain, so a consumer applying it to the coordinate
-ring of a smooth affine curve over a finite field supplies that hypothesis
-for its ring. Arithmetic K-theory Part II,
+introduced. Curves over finite fields enter only through §3.2. Its
+finiteness criterion holds for every Dedekind domain, and §3.2 owns the
+Steinberg-homology hypothesis both for rings of integers of number fields and
+for the coordinate ring of a smooth affine curve over a finite field with one
+point at infinity (curveSteinbergHomology_fg). A curve with several points at
+infinity is a localization of a one-point complement by §1.1, and its
+consumers reduce to that case through the Dedekind localization sequence. The
+K-theory of curves over finite fields is otherwise outside the present scope.
+Arithmetic K-theory Part II,
 regulator families and special-value formulas beyond the order comparison
 in §7.5 also lie outside the present scope. The latter comparison consumes the
 IntegralIwasawaTheory §12.3 Euler-characteristic comparison and is not used in the independent
@@ -511,6 +514,39 @@ comparison of these stems with the shared spectrum carrier.
 Section 3.6 supplies the fixed-maximal-compact Siegel covering and finite-overlap
 reduction theory consumed in the arithmetic bordification and in the growth
 estimates on Siegel sets for §3.4's invariant-form comparison.
+
+### From TauCetiRoadmap.ReductiveGroupsPartII
+
+RG2.2.1–RG2.2.2 supply the Bruhat–Tits building over a discretely valued
+field, its contractibility, and the reduced building with facets and fixers.
+RG2.2.4 *gl-building-lattice-chains* identifies the building of GL(V) over a
+nonarchimedean local field with norms and graded lattice chains, with vertices
+of the reduced building the homothety classes of lattices. Section 3.2 uses
+this at the point at infinity of a curve over a finite field.
+
+### From TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors
+
+The targets *curve-bundle-slopes* and *hn-bounded-truncations* supply, for a
+smooth projective geometrically connected curve over a finite field, slopes,
+existence and uniqueness of Harder–Narasimhan filtrations with their polygon,
+and boundedness of the bundles of fixed rank and degree under a fixed upper
+polygon. Section 3.2 uses them for curveSteinbergHomology_fg.
+
+### From TauCetiRoadmap.AlgebraicCurves
+
+Layers 8 and 12 supply the constant field of a function field and its regular
+projective model, used in §3.2 for curves over finite fields.
+
+### From TauCetiRoadmap.JacobianChallenge
+
+Layer B supplies finite-dimensional coherent cohomology over the base field;
+§3.2 uses it to make automorphism groups of bundles on a curve over a finite
+field finite.
+
+### From TauCetiRoadmap.SchemeAndStackFoundations
+
+Section 3.3 supplies degrees of vector bundles on proper curves, their
+additivity and their change under twisting by a divisor, as used in §3.2.
 
 ## How to read the build
 
@@ -1119,12 +1155,12 @@ Theorem 1, pp. 184–185.)
 Finally apply the connected CW H-space finite-type theorem to BQ. Direct sum
 makes it simple, so its possibly nonzero π₁ is allowed. Conclude finite
 generation of K_n(R)=π_(n+1)(BQ,0) for all n≥0 under the preceding two
-hypotheses; in particular all K_n(O_F) are finitely generated. The source also
-states the result for coordinate rings of smooth affine curves over finite
-fields; their Steinberg-homology hypothesis is not a target here, because the
-duality route of projectiveSteinbergHomology_fg needs a torsion-free
-finite-index subgroup, and every finite-index subgroup of SL₂(𝔽_q[t])
-contains a unipotent element of order p=char 𝔽_q.
+hypotheses; in particular all K_n(O_F) are finitely generated. For the
+coordinate ring of a smooth affine curve over a finite field with one point at
+infinity the hypothesis is curveSteinbergHomology_fg below. The duality route
+of projectiveSteinbergHomology_fg is not available there: it needs a
+torsion-free finite-index subgroup, and every finite-index subgroup of
+SL₂(𝔽_q[t]) contains a unipotent element of order p=char 𝔽_q.
 (Quillen, end of proof of Theorem 1, p. 185; K-book, IV.6.9,
 p. 325; Serre, III §1 Proposition 1, pp. 465–466, IV §3 Proposition 3,
 p. 479, IV §6 Proposition 9, p. 483, and V §§1–2, pp. 489–491.)
@@ -1153,6 +1189,80 @@ p. 479, IV §6 Proposition 9, p. 483, and V §§1–2, pp. 489–491.)
 StableHomotopyKTheory §§1.24–1.28's categorical/relative homology comparisons and §3.36's
 connected H-space theorem. These comparisons and the finite-type theorem are
 substantive supplier inputs.
+
+Let R be the coordinate ring of a smooth affine integral curve over a finite
+field whose regular projective model X has exactly one closed point ∞ outside
+Spec R. Let 𝔽=H⁰(X,O_X), the finite constant field over which X is
+geometrically connected, and let F be the fraction field of R. For every
+finitely generated projective R-module P of rank n≥1, prove
+curveSteinbergHomology_fg: H_i(Aut_R(P);St(P⊗_R F)) is finite for i>0 and
+finitely generated over ℤ for i=0. The homology is integral and St is the
+Steinberg module of solomonTits, with St₁=ℤ in reduced degree −1.
+
+Put V=P⊗_R F, Γ=Aut_R(P), and let Y be the reduced Bruhat–Tits building of
+GL(V⊗F_∞), whose vertices are the homothety classes of O_∞-lattices in
+V⊗F_∞. It is a contractible, locally finite simplicial complex of dimension
+n−1, and Γ acts on it through GL(V). A lattice L glues with P to a vector
+bundle E_L on X restricting to P on X∖{∞}, and a homothetic lattice twists
+E_L by a multiple of ∞. Two vertices lie in one Γ-orbit exactly when their
+bundles are isomorphic up to such a twist, since an isomorphism restricts to
+an automorphism of P. The stabilizer of a vertex is Aut(E_L): if gL=ϖ^kL then
+g identifies E_L with E_L(−k∞), and comparing degrees gives k=0. Aut(E_L) is
+finite because End(E_L)=H⁰(X,End E_L) is a finite-dimensional 𝔽-space, so
+every cell stabilizer Γ_σ is finite.
+
+For c≥0 let U_c be the full subcomplex on the vertices whose bundle has
+Harder–Narasimhan polygon somewhere more than c above the segment joining its
+endpoints. Twisting leaves this gap unchanged and moves the degree by
+multiples of n·deg ∞. Each orbit of vertices outside U_c therefore contains a
+bundle with degree in [0,n·deg ∞) and bounded polygon. Such bundles form a
+bounded family over the finite field 𝔽, so there are finitely many of them up
+to isomorphism, and local finiteness leaves finitely many Γ-orbits of cells
+not in U_c. For c large, the Harder–Narasimhan flags compare U_c with the Tits
+building of V, so that Γ-equivariantly H̃_k(U_c;ℤ) is St(V) for k=n−2 and zero
+otherwise. For n=1 every vertex lies outside U_c, U_c is empty and St₁=ℤ
+sits in degree −1. As Y is contractible, the relative chains C_•(Y,U_c) form a
+complex of length n−1 of finite sums of modules ℤ[Γ/Γ_σ]⊗ℤ_σ, with ℤ_σ the
+orientation character of σ, whose only homology is St(V) in degree n−1. By
+Shapiro's lemma the hyperhomology spectral sequence has
+
+```text
+E¹_(p,q) = ⨁_(σ ∈ Γ∖{p-cells not in U_c}) H_q(Γ_σ; ℤ_σ)  ⇒  H_(p+q−n+1)(Γ; St(V)).
+```
+
+Its terms are finitely generated, finite for q>0, and vanish outside
+0≤p≤n−1. Total degree p+q>n−1 forces q>0, which gives finiteness for i>0 and
+finite generation for i=0. The route uses no finiteness theorem for the
+cohomology of S-arithmetic groups and no statement about K-groups, so
+applying the criterion above to R is not circular. (Quillen, Oberwolfach
+report 26/1974, p. 7; Grayson, pp. 69–90; K-book, IV.6.9 and the paragraph
+before it, p. 325.)
+
+**Checks.**
+
+- In rank one, Aut_R(R)=R^× consists of the constants 𝔽^×, since a unit
+  has divisor supported at ∞ of degree zero. Then H_i(𝔽^×;ℤ) is ℤ for i=0,
+  cyclic of order |𝔽^×| for odd i and zero for even i>0.
+- With two points at infinity, finiteness in positive degrees fails in rank one:
+  for 𝔽₂[t,t⁻¹] the unit group is {t^k}≅ℤ, with H₁=ℤ. The target therefore
+  keeps the one-point hypothesis.
+- For R=𝔽_q[t] and P=R², Y is the (q+1)-regular tree. Its Γ-quotient is a ray
+  whose k-th vertex is O(k)⊕O on ℙ¹, with gap k/2. For k≥1 that vertex has
+  stabilizer of order (q−1)²q^(k+1). These orders are unbounded, so the input
+  is finitely many orbits with finite stabilizers, not a finite classifying space.
+- In the same example, U_c has one contractible component for each line of
+  F², so H̃₀(U_c)=ker(ℤ[ℙ¹(F)]→ℤ)=St₂.
+
+*Needs:* solomonTits and its rank-one convention above; ReductiveGroupsPartII
+RG2.2.1–RG2.2.2 for the reduced building and its contractibility, and RG2.2.4
+*gl-building-lattice-chains* for its lattice description;
+AutomorphicLFunctionsAndLocalFactors *curve-bundle-slopes* and
+*hn-bounded-truncations* for Harder–Narasimhan polygons and bounded families
+of bundles; AlgebraicCurves Layers 8 and 12 for the constant field and the
+regular projective model; JacobianChallenge Layer B for finite-dimensional
+coherent cohomology; SchemeAndStackFoundations §3.3 for bundle degrees and
+twists; Shapiro's lemma and the hyperhomology spectral sequence of a bounded
+complex of Γ-modules.
 
 ### 3.3 Finite-S defects and the actual rational equivalence
 
@@ -1493,7 +1603,11 @@ the building, arithmetic finite CW model, Steinberg finiteness, invariant-form
 comparison and rank targets of §§3.2/3.4, using ArithmeticLocallySymmetricSpaces
 ALS.F.5, ALS.0.4–ALS.0.5, ALS.0.8, ALS.2.2–ALS.2.3, ALS.5a.1 and ALS.5b.1,
 AdelicAlgebraicGroups §3.6, MorseTheory M1–M3, GeometricTopology Layer 1 and ClassifyingSpaces
-Stages 3–4; finite-field K-theory; the arithmetic Witt and
+Stages 3–4; for the function-field Steinberg finiteness of §3.2,
+ReductiveGroupsPartII RG2.2.1–RG2.2.2 and RG2.2.4,
+AutomorphicLFunctionsAndLocalFactors *curve-bundle-slopes* and
+*hn-bounded-truncations*, AlgebraicCurves Layers 8 and 12, JacobianChallenge
+Layer B and SchemeAndStackFoundations §3.3; finite-field K-theory; the arithmetic Witt and
 hermitian comparison/fibre-sequence contracts specified above. The hermitian
 results require those exact supplier theorems, including the low classical
 degrees.
@@ -4924,10 +5038,12 @@ arithmetic torsion of Layers 3–5. Its decomposable and indecomposable
 analysis and Bloch comparison are not needed to prove them.
 Regulator constructions consume §3.4's borelInvariantFormComparison at
 finite stage, for Res_(F/ℚ)SL_m in the range 4q<m−1, with its finite-index
-and block-inclusion compatibilities. Consumers applying §3.2's finiteness
-criterion to Dedekind domains other than rings of integers of number fields,
-such as coordinate rings of smooth affine curves over finite fields, supply
-its Steinberg-homology hypothesis for those rings.
+and block-inclusion compatibilities. EllipticKTheory applies §3.2's
+finiteness criterion to coordinate rings of smooth affine curves over finite
+fields. For one point at infinity, curveSteinbergHomology_fg is the
+Steinberg-homology hypothesis; several points reduce to that case through §1.1
+and the Dedekind localization sequence. Consumers applying the criterion to
+other Dedekind domains supply that hypothesis for their rings.
 Chern classes, regulators, polylogarithms and higher
 special values consume these arithmetic groups and ranks. The basic
 odd torsion calculation uses only §5.2’s étale edge and §5.4’s real correction. Hermitian
@@ -4986,6 +5102,15 @@ All formulas and finite data use the conventions fixed here.
   integers*](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/bass-seattle.pdf),
   in *Algebraic K-Theory I*, Lecture Notes in Mathematics 341 (1973),
   pp. 179–198, especially §1, pp. 179–185.
+- Daniel Quillen, *Finite generation of K-groups for rings of S-integers*,
+  [Oberwolfach report 26/1974](https://oda.mfo.de/bitstream/handle/mfo/1481/full-text.pdf?isAllowed=y&sequence=1),
+  p. 7: for the coordinate ring of a complete nonsingular curve over 𝔽_q
+  minus one point, Steinberg homology of Aut(P) is finite in positive degrees
+  and finitely generated in degree zero.
+- Daniel R. Grayson, *Finite generation of K-groups of a curve over a finite
+  field (after Daniel Quillen)*, in *Algebraic K-theory, Part I*
+  (Oberwolfach, 1980), Lecture Notes in Mathematics 966 (1982), pp. 69–90,
+  for the semistable-bundle proof of the preceding theorem.
 - Armand Borel, [*Stable real cohomology of arithmetic
   groups*](https://www.numdam.org/item/ASENS_1974_4_7_2_235_0/),
   *Annales scientifiques de l'École Normale Supérieure* (4) 7 (1974),
