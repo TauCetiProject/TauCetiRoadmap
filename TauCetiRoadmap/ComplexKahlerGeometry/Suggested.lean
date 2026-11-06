@@ -1,510 +1,319 @@
-import Mathlib.Analysis.Complex.Basic
-import Mathlib.Analysis.FunctionalSpaces.BesselPotentialSpace
-import Mathlib.Analysis.Distribution.Distribution
-import Mathlib.Geometry.Manifold.VectorField.LieBracket
-import TauCeti.Geometry.Symplectic.Manifold.AlmostComplex.Basic
-import TauCeti.Geometry.Symplectic.Manifold.TwoForm
-import TauCeti.Analysis.Complex.CauchyIntegralPolydisc
-import TauCetiRoadmap.DifferentialGeometry.Suggested
-import Mathlib.Geometry.Manifold.VectorBundle.ContMDiffSection
+module
+
+public import Mathlib
+public import TauCeti.Geometry.Manifold.Complex.AlmostComplexStructure
+public import TauCeti.Geometry.Manifold.Complex.Orientation
+public import TauCeti.Geometry.Manifold.DifferentialForm.AlmostComplexType
+public import TauCeti.Geometry.Manifold.DifferentialForm.Dolbeault.Basic
+public import TauCeti.Geometry.Manifold.DifferentialForm.MapCoeff
+public import TauCeti.Geometry.Manifold.DifferentialForm.Regularity
+public import TauCeti.Geometry.Manifold.DifferentialForm.Smooth
+public import TauCeti.Geometry.Manifold.DifferentialForm.Wedge.Smooth.Basic
+public import TauCeti.Geometry.Symplectic.Manifold.JHolomorphic
+public import TauCeti.Geometry.Symplectic.Manifold.Nijenhuis
 
 /-!
-These are suggested forms, not an exhaustive checklist. The README is the
-definitive specification. These targets use the existing smooth almost-complex
-and two-form carriers, fix the real differential/type and Nijenhuis conventions,
-and expose tensoriality. DG0.4 transports the native degree-two API through
-`legacySmoothTwoFormEquiv` to `SmoothForm I M ℝ 2`, with closedness compared
-by `legacySmoothTwoFormEquiv_isClosed_iff`; the README specifies that generic
-carrier as definitive. The density fiber, compactly supported smooth bundle
-tests, compact-convergence dual and localized all-real-order Sobolev carrier
-below use native objects. The README fixes their atlas, LF topology, pairing
-and geometric L² comparison; these prototypes do not prove the analytic targets.
+# Complex manifolds, Dolbeault theory and Kähler geometry: target signatures
+
+The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
+theorems against the pinned Mathlib and Tau Ceti, each with `sorry`, together with the few
+definitions needed to state them (a polydisc as an open submanifold, Dolbeault and complex de
+Rham cohomology as quotients of pinned submodules, the Kähler condition on a real two-form and
+the iterated Lefschetz wedge). Every carrier is pinned: `TauCeti.SmoothForm`, `mextDerivₗ`,
+`SmoothAlmostComplexStructure.ofComplexManifold`, `delBar`, `typeProjection`, `nijenhuis`,
+`wedgeWith`, `smoothSheafCommRing` and `IsManifold.maximalAtlas`.
+
+Stated here: the real-analytic structure of a finite-dimensional complex manifold (K3.0); the
+Newlander–Nirenberg theorem in its local form (K1); the Dolbeault–Grothendieck lemma on a
+polydisc (K2); the Hartogs extension theorem on an open set of `ℂⁿ`, the Weierstrass
+preparation theorem and the regularity, Noetherian property and factoriality of the ring of
+holomorphic germs (K3); finiteness of Dolbeault cohomology and Serre duality with trivial
+coefficients on a compact complex manifold (K5b); and, on a compact Kähler manifold, the Hodge
+decomposition in its dimension form, Hodge symmetry, the evenness of odd Betti numbers and the
+Hard Lefschetz theorem (K6).
+
+Not statable at the pins, and therefore not stated: Serre duality and the Hodge theorem with
+coefficients in a holomorphic vector bundle, Koszul–Malgrange and the Chern connection, which
+lack the holomorphic-bundle mixin of ComplexManifolds Milestone 7; the Kähler identities and the
+Hodge–Riemann bilinear relations, which lack the complex-linear Hodge star on `(p,q)`-forms (the
+pin has `TauCeti.SmoothForm.hodgeStar` for real coefficients only) and the complex-linear
+integral of top forms; the Dolbeault theorem `H^q(M, Ω^p) ≃ H^(p,q)`, which lacks the sheaf of
+holomorphic `p`-forms and its derived-functor cohomology; the projective, torus, Hopf and Iwasawa
+computations of K7–K8, whose carriers (the complex-manifold structure on
+`Projectivization ℂ (Fin (n+1) → ℂ)`, complex tori and holomorphic quotients) are targets of
+ComplexManifolds, ComplexTori and K7; and the Frölicher spectral sequence, which lacks the
+bicomplex spectral-sequence carrier of AlgebraicTopology Stage 5.0.
+
+The holomorphic-stalk statements take the manifold in `Type` because `smoothSheafCommRing`
+requires its base and its coefficient ring in one universe.
 -/
+
+public section
 
 noncomputable section
 
 namespace TauCetiRoadmap.ComplexKahlerGeometry
 
-open scoped Manifold ContDiff
+open scoped Manifold ContDiff Topology TauCeti.ComplexManifold
+open TauCeti TauCeti.SmoothAlmostComplexStructure
 
-section Realification
+/-! ## Layer 1: complex structures and type calculus (K1) -/
 
-/-- K3.0 target: finite-dimensional complex smooth charts have real-analytic
-transitions, using the native finite-dimensional Cauchy/analyticity API before
-restricting scalars. The real scalar action is the one induced from ℂ. -/
+section Integrability
+
+variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E] [FiniteDimensional ℂ E]
+  {M : Type*} [TopologicalSpace M] [ChartedSpace E M]
+
+/-- **The Newlander–Nirenberg theorem** (Webster, Math. Z. 201 (1989), pp. 303–316), in its local
+form. Let `J` be a smooth almost complex structure on a real manifold modelled on a
+finite-dimensional complex vector space `E` whose Nijenhuis tensor vanishes. Then every point lies
+in the source of a chart of the maximal smooth atlas that is pseudoholomorphic on its source from
+`(M, J)` to `E` with its structure `ofComplexManifold E E`, multiplication by `i`: its
+differential intertwines `J` with multiplication by `i`. Such charts have holomorphic transition maps, so they form the
+compatible complex atlas inducing `J`; the converse is the pinned
+`nijenhuis_ofComplexManifold`. -/
+theorem newlander_nirenberg [IsManifold 𝓘(ℝ, E) ∞ M]
+    (J : SmoothAlmostComplexStructure 𝓘(ℝ, E) M) (hJ : J.nijenhuis = 0) (x : M) :
+    ∃ e ∈ IsManifold.maximalAtlas 𝓘(ℝ, E) ∞ M, x ∈ e.source ∧
+      IsPseudoholomorphicOn J (ofComplexManifold E E) e e.source := by
+  sorry
+
+end Integrability
+
+/-! ## Layer 2: Dolbeault calculus and the local lemmas (K2) -/
+
+section Polydisc
+
+variable {n : ℕ}
+
+/-- The open polydisc of polyradius `r` in `ℂⁿ`, as an open subset, hence an open complex
+submanifold of the model space `Fin n → ℂ`. It is empty when some `r j ≤ 0`. -/
+def polydisc (r : Fin n → ℝ) : TopologicalSpace.Opens (Fin n → ℂ) where
+  carrier := Set.univ.pi fun j ↦ Metric.ball 0 (r j)
+  is_open' := isOpen_set_pi Set.finite_univ fun _ _ ↦ Metric.isOpen_ball
+
+/-- **The Dolbeault–Grothendieck lemma on a polydisc** (Demailly, Chapter I, (3.29); the whole-
+polydisc form is K2's parameter-dependent exhaustion argument). A smooth `∂̄`-closed form of
+type `(p, q+1)` on an open polydisc of `ℂⁿ` is `∂̄` of a smooth form of type `(p, q)` on the
+whole polydisc. For `n = 0` every form of positive degree vanishes and the statement is
+trivial. -/
+theorem dolbeault_grothendieck_polydisc (r : Fin n → ℝ) (p q : ℕ)
+    (φ : SmoothForm 𝓘(ℝ, Fin n → ℂ) (polydisc r) ℂ (p + q + 1))
+    (hφ : φ.IsOfType (ofComplexManifold (Fin n → ℂ) (polydisc r)) p (q + 1))
+    (hclosed : (ofComplexManifold (Fin n → ℂ) (polydisc r)).delBar φ = 0) :
+    ∃ ψ : SmoothForm 𝓘(ℝ, Fin n → ℂ) (polydisc r) ℂ (p + q),
+      ψ.IsOfType (ofComplexManifold (Fin n → ℂ) (polydisc r)) p q ∧
+        (ofComplexManifold (Fin n → ℂ) (polydisc r)).delBar ψ = φ := by
+  sorry
+
+end Polydisc
+
+/-! ## Layer 3: analytic germs and subvarieties (K3) -/
+
+section LocalAnalytic
+
+/-- K3.0: a finite-dimensional complex manifold is, with the same charts, a real-analytic
+manifold, because holomorphic transition maps are analytic
+(`DifferentiableOn.analyticOnNhd_of_finiteDimensional`) and analyticity restricts to the real
+scalars. -/
 theorem realified_isManifold_analytic
     {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E] [FiniteDimensional ℂ E]
     {M : Type*} [TopologicalSpace M] [ChartedSpace E M]
     [IsManifold 𝓘(ℂ, E) ∞ M] : IsManifold 𝓘(ℝ, E) ω M := by
   sorry
 
-end Realification
-
-section LocalGeometry
-
-variable {E H M : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
-  [CompleteSpace E] [FiniteDimensional ℝ E] [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
-  [TopologicalSpace M] [T2Space M] [ChartedSpace H M] [IsManifold I ∞ M]
-
-/-- The (0,1) part of the real differential of a complex-valued function. -/
-def dbarFunction (J : TauCeti.SmoothAlmostComplexStructure I M)
-    (f : M → ℂ) (x : M) (v : TangentSpace I x) : ℂ :=
-  (mvfderiv I f x v +
-    Complex.I * mvfderiv I f x (J x v)) / 2
-
-theorem dbarFunction_apply_J (J : TauCeti.SmoothAlmostComplexStructure I M)
-    (f : M → ℂ) (x : M) (v : TangentSpace I x) :
-    dbarFunction J f x (J x v) = -Complex.I * dbarFunction J f x v := by
+/-- **The Hartogs extension theorem** (Demailly, Chapter I, (3.28)). For `n ≥ 2`, an open set
+`Ω ⊆ ℂⁿ` and a compact `K ⊆ Ω` with `Ω ∖ K` connected, every holomorphic function on `Ω ∖ K`
+is the restriction of a holomorphic function on `Ω`. The connectedness hypothesis is needed: for
+`K` a closed spherical shell, a function equal to `1` inside and `0` outside does not extend;
+for `n = 1` the function `1/z` on `ℂ ∖ {0}` does not extend. -/
+theorem hartogs_extension {n : ℕ} (hn : 2 ≤ n) {Ω K : Set (Fin n → ℂ)} (hΩ : IsOpen Ω)
+    (hK : IsCompact K) (hKΩ : K ⊆ Ω) (hconn : IsConnected (Ω \ K))
+    {f : (Fin n → ℂ) → ℂ} (hf : DifferentiableOn ℂ f (Ω \ K)) :
+    ∃ F : (Fin n → ℂ) → ℂ, DifferentiableOn ℂ F Ω ∧ Set.EqOn F f (Ω \ K) := by
   sorry
 
-/-- Pointwise algebraic vanishing is precisely the complex-linearity equation. -/
-theorem dbarFunction_eq_zero_iff (J : TauCeti.SmoothAlmostComplexStructure I M)
-    (f : M → ℂ) :
-    (∀ x v, dbarFunction J f x v = 0) ↔
-      ∀ x v, mvfderiv I f x (J x v) =
-        Complex.I * mvfderiv I f x v := by
+/-- **The Weierstrass preparation theorem** (Demailly, Chapter II, (2.1)). Let `f` be holomorphic
+near `0` in `ℂⁿ × ℂ` and let `w ↦ f(0, w)` vanish to order exactly `d` at `0`. Then near `0`,
+`f = u · (wᵈ + a_(d−1)(z) w^(d−1) + ⋯ + a₀(z))` with `u` a holomorphic unit at `0` and
+holomorphic coefficients `a_i` vanishing at `0`. For `d = 0` the polynomial is `1` and `u = f`;
+for `n = 0` the coefficients are the zero germs. -/
+theorem weierstrass_preparation {n d : ℕ} {f : (Fin n → ℂ) × ℂ → ℂ} (hf : AnalyticAt ℂ f 0)
+    (hlow : ∀ i < d, iteratedDeriv i (fun w ↦ f (0, w)) 0 = 0)
+    (hd : iteratedDeriv d (fun w ↦ f (0, w)) 0 ≠ 0) :
+    ∃ (u : (Fin n → ℂ) × ℂ → ℂ) (a : Fin d → (Fin n → ℂ) → ℂ),
+      AnalyticAt ℂ u 0 ∧ u 0 ≠ 0 ∧ (∀ i, AnalyticAt ℂ (a i) 0 ∧ a i 0 = 0) ∧
+        ∀ᶠ zw in 𝓝 (0 : (Fin n → ℂ) × ℂ),
+          f zw = u zw * (zw.2 ^ d + ∑ i : Fin d, a i zw.1 * zw.2 ^ (i : ℕ)) := by
   sorry
 
-/-- The unscaled Nijenhuis expression on vector fields. -/
-def nijenhuisOnFields (J : TauCeti.SmoothAlmostComplexStructure I M)
-    (X Y : (x : M) → TangentSpace I x) (x : M) : TangentSpace I x :=
-  VectorField.mlieBracket I (fun y ↦ J y (X y)) (fun y ↦ J y (Y y)) x -
-    VectorField.mlieBracket I X Y x -
-    J x (VectorField.mlieBracket I (fun y ↦ J y (X y)) Y x) -
-    J x (VectorField.mlieBracket I X (fun y ↦ J y (Y y)) x)
-
-/-- The fiberwise tensor whose field formula is fixed by the following theorem. -/
-def nijenhuisTensor (J : TauCeti.SmoothAlmostComplexStructure I M) :
-    (x : M) → TangentSpace I x →L[ℝ] TangentSpace I x →L[ℝ] TangentSpace I x := by
+/-- **Uniqueness in Weierstrass preparation** (Demailly, Chapter II, (2.1)): two factorizations
+of the same germ have the same unit and the same coefficient germs. -/
+theorem weierstrass_preparation_unique {n d : ℕ} {f u u' : (Fin n → ℂ) × ℂ → ℂ}
+    {a a' : Fin d → (Fin n → ℂ) → ℂ}
+    (hu : AnalyticAt ℂ u 0) (hu0 : u 0 ≠ 0) (ha : ∀ i, AnalyticAt ℂ (a i) 0 ∧ a i 0 = 0)
+    (hf : ∀ᶠ zw in 𝓝 (0 : (Fin n → ℂ) × ℂ),
+      f zw = u zw * (zw.2 ^ d + ∑ i : Fin d, a i zw.1 * zw.2 ^ (i : ℕ)))
+    (hu' : AnalyticAt ℂ u' 0) (hu0' : u' 0 ≠ 0)
+    (ha' : ∀ i, AnalyticAt ℂ (a' i) 0 ∧ a' i 0 = 0)
+    (hf' : ∀ᶠ zw in 𝓝 (0 : (Fin n → ℂ) × ℂ),
+      f zw = u' zw * (zw.2 ^ d + ∑ i : Fin d, a' i zw.1 * zw.2 ^ (i : ℕ))) :
+    u =ᶠ[𝓝 0] u' ∧ ∀ i, a i =ᶠ[𝓝 0] a' i := by
   sorry
 
-theorem nijenhuisTensor_onFields (J : TauCeti.SmoothAlmostComplexStructure I M)
-    (X Y : (x : M) → TangentSpace I x)
-    (hX : ContMDiff I I.tangent ∞ (fun x ↦ (⟨x, X x⟩ : TangentBundle I M)))
-    (hY : ContMDiff I I.tangent ∞ (fun x ↦ (⟨x, Y x⟩ : TangentBundle I M)))
-    (x : M) : nijenhuisTensor J x (X x) (Y x) = nijenhuisOnFields J X Y x := by
+variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E] [FiniteDimensional ℂ E]
+  {M : Type} [TopologicalSpace M] [ChartedSpace E M] [IsManifold 𝓘(ℂ, E) ∞ M]
+
+/-- **The ring of holomorphic germs is a regular local ring of dimension `n`** (Demailly,
+Chapter II, (2.7) for the Noetherian property; K3.HolomorphicStalk). The stalk at `x` of
+Mathlib's sheaf of complex-smooth, that is holomorphic, functions on a complex manifold of
+dimension `n = dim_ℂ E` is a Noetherian local ring (`smoothSheafCommRing.instLocalRing_stalk`
+gives locality at the pin) whose maximal ideal is generated by the `n` coordinate germs, so its
+Krull dimension is `n`. For `n = 0` the stalk is `ℂ`. -/
+theorem isRegularLocalRing_holomorphicStalk (x : M) :
+    IsRegularLocalRing ((smoothSheafCommRing 𝓘(ℂ, E) 𝓘(ℂ) M ℂ).presheaf.stalk x) ∧
+      ringKrullDim ((smoothSheafCommRing 𝓘(ℂ, E) 𝓘(ℂ) M ℂ).presheaf.stalk x) =
+        Module.finrank ℂ E := by
   sorry
 
-theorem nijenhuisTensor_skew (J : TauCeti.SmoothAlmostComplexStructure I M)
-    (x : M) (v w : TangentSpace I x) :
-    nijenhuisTensor J x v w = -nijenhuisTensor J x w v := by
+/-- **The ring of holomorphic germs is factorial** (Demailly, Chapter II, (2.10)): it is a domain
+in which every nonzero germ factors into irreducibles uniquely up to units. -/
+theorem uniqueFactorizationMonoid_holomorphicStalk (x : M) :
+    ∃ _ : IsDomain ((smoothSheafCommRing 𝓘(ℂ, E) 𝓘(ℂ) M ℂ).presheaf.stalk x),
+      UniqueFactorizationMonoid ((smoothSheafCommRing 𝓘(ℂ, E) 𝓘(ℂ) M ℂ).presheaf.stalk x) := by
   sorry
 
-/-- An unbundled Kähler condition: compatible closed form and integrable complex structure. -/
-def IsKahler (form : TauCeti.SmoothTwoForm I M)
-    (J : TauCeti.SmoothAlmostComplexStructure I M) : Prop :=
-  form.IsClosed ∧ form.Compatible J ∧ ∀ x v w, nijenhuisTensor J x v w = 0
-
-section SobolevLocalization
-
-open scoped SchwartzMap Distributions CompactConvergenceCLM
-
-variable {n : ℕ} {F : Type*} [NormedAddCommGroup F]
-  [InnerProductSpace ℂ F] [CompleteSpace F]
-
-/-- K5a consumes the existing bundled/unbundled Euclidean equivalence. -/
-theorem memSobolev_iff_bundled (s : ℝ)
-    (u : TemperedDistribution (EuclideanSpace ℝ (Fin n)) F) :
-    TemperedDistribution.MemSobolev s 2 u ↔
-      ∃ v : BesselPotentialSpace (EuclideanSpace ℝ (Fin n)) F s 2,
-        v.toDistr = u := by
-  constructor
-  · intro hu
-    exact ⟨hu.toBesselPotentialSpace, rfl⟩
-  · rintro ⟨v, rfl⟩
-    exact v.memSobolev_toDistr
-
-end SobolevLocalization
-
-/-- The density line's fiber uses DG's actual |det|-transforming carrier. -/
-abbrev DensityFiber (I : ModelWithCorners ℝ E H) (x : M) :=
-  TauCetiRoadmap.DifferentialGeometry.Density (TangentSpace I x) (Module.finrank ℝ E)
-
-end LocalGeometry
-
-section RealBundleTests
-
-open Bundle
-open scoped CompactConvergenceCLM SchwartzMap ENNReal
-
-variable {E H M : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
-  [TopologicalSpace H]
-  {I : ModelWithCorners ℝ E H} [TopologicalSpace M] [ChartedSpace H M]
-  (F : Type*) [NormedAddCommGroup F] [NormedSpace ℝ F]
-  (V : M → Type*) [∀ x, TopologicalSpace (V x)]
-  [∀ x, AddCommGroup (V x)] [∀ x, Module ℝ (V x)]
-  [TopologicalSpace (TotalSpace F V)] [FiberBundle F V] [VectorBundle ℝ F V]
-
-/-- The real carrier imposes no complex scalar structure on its fibers. -/
-def realBundleTestSubmodule [ContMDiffVectorBundle ∞ F V I] :
-    Submodule ℝ (ContMDiffSection I F ∞ V) where
-  carrier := {s | IsCompact (closure {x : M | s x ≠ 0})}
-  zero_mem' := by sorry
-  add_mem' := by sorry
-  smul_mem' := by sorry
-
-abbrev RealBundleTest [ContMDiffVectorBundle ∞ F V I] :=
-  realBundleTestSubmodule (I := I) F V
-
-variable [ContMDiffVectorBundle ∞ F V I]
-
-instance realBundleTestTopology [CompleteSpace E] [FiniteDimensional ℝ E]
-    [FiniteDimensional ℝ F] [CompleteSpace F] [I.Boundaryless] [IsManifold I ∞ M] [T2Space M] :
-    TopologicalSpace (RealBundleTest (I := I) F V) := by sorry
-
-instance realBundleTestTopologicalAddGroup [CompleteSpace E] [FiniteDimensional ℝ E]
-    [FiniteDimensional ℝ F] [CompleteSpace F] [I.Boundaryless] [IsManifold I ∞ M] [T2Space M] :
-    IsTopologicalAddGroup (RealBundleTest (I := I) F V) := by sorry
-
-instance realBundleTestContinuousSMul [CompleteSpace E] [FiniteDimensional ℝ E]
-    [FiniteDimensional ℝ F] [CompleteSpace F] [I.Boundaryless] [IsManifold I ∞ M] [T2Space M] :
-    ContinuousSMul ℝ (RealBundleTest (I := I) F V) := by sorry
-
-instance realBundleTestLocallyConvex [CompleteSpace E] [FiniteDimensional ℝ E]
-    [FiniteDimensional ℝ F] [CompleteSpace F] [I.Boundaryless] [IsManifold I ∞ M] [T2Space M] :
-    LocallyConvexSpace ℝ (RealBundleTest (I := I) F V) := by sorry
-
-/-- Real-linear extension by zero from an actual native chart/frame test. -/
-def realBundleTestOfChart [CompleteSpace E] [FiniteDimensional ℝ E]
-    [FiniteDimensional ℝ F] [CompleteSpace F] [I.Boundaryless] [IsManifold I ∞ M] [T2Space M] (x : M)
-    (e : Trivialization F (TotalSpace.proj : TotalSpace F V → M))
-    (he : e ∈ trivializationAtlas F V) (Ω : TopologicalSpace.Opens E)
-    (hΩ : (Ω : Set E) ⊆ (extChartAt I x).target)
-    (hFrame : ∀ z ∈ (Ω : Set E), (extChartAt I x).symm z ∈ e.baseSet) :
-    TestFunction Ω F ⊤ →ₗ[ℝ] RealBundleTest (I := I) F V := by sorry
-
-variable [I.Boundaryless] [IsManifold I ∞ M] [T2Space M]
-  [CompleteSpace E] [FiniteDimensional ℝ E]
-  [FiniteDimensional ℝ F] [CompleteSpace F]
-
-open scoped Classical in
-theorem realBundleTestOfChart_apply (x : M)
-    (e : Trivialization F (TotalSpace.proj : TotalSpace F V → M))
-    (he : e ∈ trivializationAtlas F V) (Ω : TopologicalSpace.Opens E)
-    (hΩ : (Ω : Set E) ⊆ (extChartAt I x).target)
-    (hFrame : ∀ z ∈ (Ω : Set E), (extChartAt I x).symm z ∈ e.baseSet)
-    (φ : TestFunction Ω F ⊤) (y : M) :
-    (realBundleTestOfChart F V x e he Ω hΩ hFrame φ).1 y =
-      if y ∈ (extChartAt I x).source ∧ y ∈ e.baseSet then
-        e.symm y (φ (extChartAt I x y)) else 0 := by sorry
-
-theorem realBundleTest_continuous_iff
-    (A : Type*) [AddCommGroup A] [Module ℝ A]
-    [TopologicalSpace A] [IsTopologicalAddGroup A]
-    [ContinuousSMul ℝ A] [LocallyConvexSpace ℝ A]
-    (f : RealBundleTest (I := I) F V →ₗ[ℝ] A) :
-    Continuous f ↔ ∀ (x : M)
-      (e : Trivialization F (TotalSpace.proj : TotalSpace F V → M))
-      (he : e ∈ trivializationAtlas F V) (Ω : TopologicalSpace.Opens E)
-      (hΩ : (Ω : Set E) ⊆ (extChartAt I x).target)
-      (hFrame : ∀ z ∈ (Ω : Set E), (extChartAt I x).symm z ∈ e.baseSet),
-      Continuous (f.comp (realBundleTestOfChart F V x e he Ω hΩ hFrame)) := by sorry
-
-/-- The compact-convergence real dual, also for bundles with no complexification chosen. -/
-abbrev RealBundleDistribution := RealBundleTest (I := I) F V →L_c[ℝ] ℝ
-
-end RealBundleTests
-
-section BundleTests
-
-open Bundle
-open scoped CompactConvergenceCLM SchwartzMap ENNReal
-
-variable {E H M : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
-  [TopologicalSpace H]
-  {I : ModelWithCorners ℝ E H} [TopologicalSpace M] [ChartedSpace H M]
-
-variable (F : Type*) [NormedAddCommGroup F] [NormedSpace ℂ F]
-  (V : M → Type*) [∀ x, TopologicalSpace (V x)]
-  [∀ x, AddCommGroup (V x)] [∀ x, Module ℂ (V x)]
-  [TopologicalSpace (TotalSpace F V)] [FiberBundle F V]
-  [VectorBundle ℝ F V]
-
-/-- V is the dual coefficient bundle tensored with the density line in applications. -/
-def bundleTestSubmodule [ContMDiffVectorBundle ∞ F V I] :
-    Submodule ℝ (ContMDiffSection I F ∞ V) where
-  carrier := {s | IsCompact (closure {x : M | s x ≠ 0})}
-  zero_mem' := by sorry
-  add_mem' := by sorry
-  smul_mem' := by sorry
-
-abbrev BundleTest [ContMDiffVectorBundle ∞ F V I] := bundleTestSubmodule (I := I) F V
-
-/-- The data is pointwise multiplication; smoothness and support closure are targets. -/
-def bundleTestSmul [VectorBundle ℂ F V] [ContMDiffVectorBundle ∞ F V I]
-    (c : ℂ) (s : BundleTest (I := I) F V) : BundleTest (I := I) F V :=
-  ⟨⟨fun x ↦ c • s.1 x, by sorry⟩, by sorry⟩
-
-variable [VectorBundle ℂ F V] [ContMDiffVectorBundle ∞ F V I]
-
-instance bundleTestComplexSMul : SMul ℂ (BundleTest (I := I) F V) :=
-  ⟨bundleTestSmul F V⟩
-
-instance bundleTestComplexModule : Module ℂ (BundleTest (I := I) F V) where
-  one_smul s := by
-    apply Subtype.ext
-    apply ContMDiffSection.ext
-    intro x
-    exact one_smul ℂ (s.1 x)
-  mul_smul a b s := by
-    apply Subtype.ext
-    apply ContMDiffSection.ext
-    intro x
-    exact mul_smul a b (s.1 x)
-  smul_add c s t := by
-    apply Subtype.ext
-    apply ContMDiffSection.ext
-    intro x
-    exact smul_add c (s.1 x) (t.1 x)
-  smul_zero c := by
-    apply Subtype.ext
-    apply ContMDiffSection.ext
-    intro x
-    exact smul_zero c
-  add_smul a b s := by
-    apply Subtype.ext
-    apply ContMDiffSection.ext
-    intro x
-    exact add_smul a b (s.1 x)
-  zero_smul s := by
-    apply Subtype.ext
-    apply ContMDiffSection.ext
-    intro x
-    exact zero_smul ℂ (s.1 x)
-
-theorem bundleTest_smul_apply (c : ℂ) (s : BundleTest (I := I) F V) (x : M) :
-    (c • s).1 x = c • s.1 x := rfl
-
-instance bundleTestScalarTower :
-    IsScalarTower ℝ ℂ (BundleTest (I := I) F V) where
-  smul_assoc a b s := by
-    apply Subtype.ext
-    apply ContMDiffSection.ext
-    intro x
-    exact smul_assoc a b (s.1 x)
-
-/-- K5a constructs the fixed-compact derivative-seminorm inductive-limit topology. -/
-instance bundleTestTopology [CompleteSpace E] [FiniteDimensional ℝ E]
-    [FiniteDimensional ℂ F] [CompleteSpace F] [I.Boundaryless] [IsManifold I ∞ M] [T2Space M] :
-    TopologicalSpace (BundleTest (I := I) F V) := by sorry
-
-instance bundleTestTopologicalAddGroup [CompleteSpace E] [FiniteDimensional ℝ E]
-    [FiniteDimensional ℂ F] [CompleteSpace F] [I.Boundaryless] [IsManifold I ∞ M] [T2Space M] :
-    IsTopologicalAddGroup (BundleTest (I := I) F V) := by sorry
-
-instance bundleTestContinuousSMul [CompleteSpace E] [FiniteDimensional ℝ E]
-    [FiniteDimensional ℂ F] [CompleteSpace F] [I.Boundaryless] [IsManifold I ∞ M] [T2Space M] :
-    ContinuousSMul ℂ (BundleTest (I := I) F V) := by sorry
-
-instance bundleTestContinuousSMulReal [CompleteSpace E] [FiniteDimensional ℝ E]
-    [FiniteDimensional ℂ F] [CompleteSpace F] [I.Boundaryless] [IsManifold I ∞ M] [T2Space M] :
-    ContinuousSMul ℝ (BundleTest (I := I) F V) := IsScalarTower.continuousSMul ℂ
-
-instance bundleTestLocallyConvex [CompleteSpace E] [FiniteDimensional ℝ E]
-    [FiniteDimensional ℂ F] [CompleteSpace F] [I.Boundaryless] [IsManifold I ∞ M] [T2Space M] :
-    LocallyConvexSpace ℝ (BundleTest (I := I) F V) := by sorry
-
-/-- Extension of an actual native chart/frame test; the equation below fixes its data. -/
-def bundleTestOfChart [CompleteSpace E] [FiniteDimensional ℝ E]
-    [FiniteDimensional ℂ F] [CompleteSpace F] [I.Boundaryless] [IsManifold I ∞ M] [T2Space M] (x : M)
-    (e : Trivialization F (TotalSpace.proj : TotalSpace F V → M))
-    (he : e ∈ trivializationAtlas F V) (Ω : TopologicalSpace.Opens E)
-    (hΩ : (Ω : Set E) ⊆ (extChartAt I x).target)
-    (hFrame : ∀ z ∈ (Ω : Set E), (extChartAt I x).symm z ∈ e.baseSet) :
-    TestFunction Ω F ⊤ →ₗ[ℂ] BundleTest (I := I) F V := by sorry
-
-variable [I.Boundaryless] [IsManifold I ∞ M] [T2Space M]
-  [CompleteSpace E] [FiniteDimensional ℝ E]
-  [FiniteDimensional ℂ F] [CompleteSpace F]
-
-open scoped Classical in
-theorem bundleTestOfChart_apply (x : M)
-    (e : Trivialization F (TotalSpace.proj : TotalSpace F V → M))
-    (he : e ∈ trivializationAtlas F V) (Ω : TopologicalSpace.Opens E)
-    (hΩ : (Ω : Set E) ⊆ (extChartAt I x).target)
-    (hFrame : ∀ z ∈ (Ω : Set E), (extChartAt I x).symm z ∈ e.baseSet)
-    (φ : TestFunction Ω F ⊤) (y : M) :
-    (bundleTestOfChart F V x e he Ω hΩ hFrame φ).1 y =
-      if y ∈ (extChartAt I x).source ∧ y ∈ e.baseSet then
-        e.symm y (φ (extChartAt I x y)) else 0 := by sorry
-
-/-- This universal continuity rule pins the LF topology through native chart/frame tests. -/
-theorem bundleTest_continuous_iff
-    (A : Type*) [AddCommGroup A] [Module ℝ A] [Module ℂ A]
-    [IsScalarTower ℝ ℂ A] [TopologicalSpace A] [IsTopologicalAddGroup A]
-    [ContinuousSMul ℝ A] [LocallyConvexSpace ℝ A]
-    (f : BundleTest (I := I) F V →ₗ[ℂ] A) :
-    Continuous f ↔ ∀ (x : M)
-      (e : Trivialization F (TotalSpace.proj : TotalSpace F V → M))
-      (he : e ∈ trivializationAtlas F V) (Ω : TopologicalSpace.Opens E)
-      (hΩ : (Ω : Set E) ⊆ (extChartAt I x).target)
-      (hFrame : ∀ z ∈ (Ω : Set E), (extChartAt I x).symm z ∈ e.baseSet),
-      Continuous (f.comp (bundleTestOfChart F V x e he Ω hΩ hFrame)) := by sorry
-
-/-- Bilinear dual of density-valued tests with native compact-convergence topology. -/
-abbrev BundleDistribution := BundleTest (I := I) F V →L_c[ℂ] ℂ
-
-/-- Complex LF tests agree with the real LF carrier after restriction of scalars. -/
-def bundleTestRestrictScalars :
-    BundleTest (I := I) F V ≃L[ℝ] RealBundleTest (I := I) F V where
-  toFun s := ⟨s.1, s.2⟩
-  invFun s := ⟨s.1, s.2⟩
-  left_inv _ := rfl
-  right_inv _ := rfl
-  map_add' _ _ := rfl
-  map_smul' _ _ := rfl
-  continuous_toFun := by sorry
-  continuous_invFun := by sorry
-
-omit [VectorBundle ℂ F V] in
-theorem bundleTestRestrictScalars_apply (s : BundleTest (I := I) F V) (x : M) :
-    (bundleTestRestrictScalars F V s).1 x = s.1 x := rfl
-
-variable (n q : ℕ) (G : Type*) [NormedAddCommGroup G] [InnerProductSpace ℂ G]
-  [CompleteSpace G] [FiniteDimensional ℂ G]
-  (localize : Fin q → BundleDistribution (I := I) F V →L[ℂ]
-    TemperedDistribution (EuclideanSpace ℝ (Fin n)) G)
-
-/-- Actual compatible tuples in the native Hilbert product. -/
-def bundleSobolevSubmodule (s : ℝ) : Submodule ℂ
-    (PiLp 2 (fun _ : Fin q ↦ BesselPotentialSpace (EuclideanSpace ℝ (Fin n)) G s 2)) where
-  carrier := {v | ∃ u : BundleDistribution (I := I) F V,
-    ∀ i, (v i).toDistr = localize i u}
-  zero_mem' := by sorry
-  add_mem' := by sorry
-  smul_mem' := by sorry
-
-/-- Norm, inner product and scalar operations are inherited from the native product. -/
-abbrev BundleSobolev (s : ℝ) := bundleSobolevSubmodule F V n q G localize s
-
-variable (s : ℝ)
-
-omit [FiniteDimensional ℂ G] in
-theorem bundleSobolev_norm_sq (u : BundleSobolev F V n q G localize s) :
-    ‖u‖ ^ (2 : ℕ) = ∑ i, ‖u.1 i‖ ^ (2 : ℕ) :=
-  PiLp.norm_sq_eq_of_L2 _ u.1
-
-/-- The pinned atlas norm is the finite Hilbert-product norm. -/
-def bundleSobolevLocalizations : BundleSobolev F V n q G localize s →ₗᵢ[ℂ]
-    PiLp 2 (fun _ : Fin q ↦ BesselPotentialSpace (EuclideanSpace ℝ (Fin n)) G s 2) := by
-  exact (bundleSobolevSubmodule F V n q G localize s).subtypeₗᵢ
-
-omit [FiniteDimensional ℂ G] in
-theorem bundleSobolevLocalizations_apply (u : BundleSobolev F V n q G localize s)
-    (i : Fin q) : bundleSobolevLocalizations F V n q G localize s u i = u.1 i := rfl
-
-/-- Injectivity is an explicit argument exactly where reconstruction requires it. -/
-def bundleSobolevToDistribution
-    (hinj : Function.Injective (fun u ↦ fun i ↦ localize i u)) :
-    BundleSobolev F V n q G localize s →ₗ[ℂ] BundleDistribution (I := I) F V where
-  toFun u := Classical.choose u.2
-  map_add' := by sorry
-  map_smul' := by sorry
-
-omit [FiniteDimensional ℂ G] in
-theorem bundleSobolevToDistribution_localize
-    (hinj : Function.Injective (fun u ↦ fun i ↦ localize i u))
-    (u : BundleSobolev F V n q G localize s) (i : Fin q) :
-    (u.1 i).toDistr = localize i (bundleSobolevToDistribution F V n q G localize s hinj u) :=
-  Classical.choose_spec u.2 i
-
-omit [FiniteDimensional ℂ G] in
-/-- The atlas reconstruction estimates prove this closedness for geometric localizations. -/
-theorem bundleSobolevComplete
-    (hclosed : IsClosed (bundleSobolevSubmodule F V n q G localize s).carrier) :
-    CompleteSpace (BundleSobolev F V n q G localize s) :=
-  completeSpace_coe_iff_isComplete.mpr hclosed.isComplete
-
-end BundleTests
-
-section DistributionComplexification
-
-open scoped CompactConvergenceCLM
-
-variable (TR TC : Type*) [AddCommGroup TR] [Module ℝ TR] [TopologicalSpace TR]
-  [AddCommGroup TC] [Module ℝ TC] [Module ℂ TC] [TopologicalSpace TC]
-
-/-- K5a applies this to the LF real/imaginary split of density-valued bundle tests. -/
-def realDistributionComplexify [IsScalarTower ℝ ℂ TC]
-    (split : TC ≃L[ℝ] TR × TR)
-    (hI : ∀ φ : TC, split (Complex.I • φ) = (-(split φ).2, (split φ).1)) :
-    (TR →L_c[ℝ] ℝ) →L[ℝ] (TC →L_c[ℂ] ℂ) := by sorry
-
-/-- Conjugation is real-linear on complex distributions, with compact-convergence topology. -/
-def bundleDistributionConjugation [IsScalarTower ℝ ℂ TC]
-    (split : TC ≃L[ℝ] TR × TR)
-    (hI : ∀ φ : TC, split (Complex.I • φ) = (-(split φ).2, (split φ).1)) :
-    (TC →L_c[ℂ] ℂ) →L[ℝ] (TC →L_c[ℂ] ℂ) := by sorry
-
-variable [IsScalarTower ℝ ℂ TC] (split : TC ≃L[ℝ] TR × TR)
-  (hI : ∀ φ : TC, split (Complex.I • φ) = (-(split φ).2, (split φ).1))
-
-/-- This equation pins extension, including complex linearity on its test argument. -/
-theorem realDistributionComplexify_apply (u : TR →L_c[ℝ] ℝ) (φ : TC) :
-    realDistributionComplexify TR TC split hI u φ =
-      (u (split φ).1 : ℂ) + Complex.I * (u (split φ).2 : ℂ) := by sorry
-
-theorem bundleDistributionConjugation_apply (u : TC →L_c[ℂ] ℂ) (φ : TC) :
-    bundleDistributionConjugation TR TC split hI u φ =
-      star (u (split.symm ((split φ).1, -(split φ).2))) := by sorry
-
-theorem bundleDistributionConjugation_involutive :
-    Function.Involutive (bundleDistributionConjugation TR TC split hI) := by sorry
-
-theorem realDistributionComplexify_range :
-    Set.range (realDistributionComplexify TR TC split hI) =
-      {u | bundleDistributionConjugation TR TC split hI u = u} := by sorry
-
-end DistributionComplexification
-
-section ComplexOrderMultipliers
-
-open scoped SchwartzMap
-variable (n : ℕ)
-
-/-- Mathlib's Fourier variable ζ uses the 2π phase. -/
-def complexBesselSymbol (z : ℂ) (ζ : EuclideanSpace ℝ (Fin n)) : ℂ :=
-  Complex.exp ((z / 2) * (Real.log (1 + ‖ζ‖ ^ (2 : ℕ)) : ℂ))
-
-theorem complexBesselSymbol_temperate (z : ℂ) :
-    (complexBesselSymbol n z).HasTemperateGrowth := by sorry
-
-variable (G : Type*) [NormedAddCommGroup G] [InnerProductSpace ℂ G] [CompleteSpace G]
-
-def complexBesselMultiplier (z : ℂ) :
-    SchwartzMap (EuclideanSpace ℝ (Fin n)) G →L[ℂ]
-      SchwartzMap (EuclideanSpace ℝ (Fin n)) G :=
-  SchwartzMap.fourierMultiplierCLM G (complexBesselSymbol n z)
-
-def complexBesselDistributionMultiplier (z : ℂ) :
-    TemperedDistribution (EuclideanSpace ℝ (Fin n)) G →L[ℂ]
-      TemperedDistribution (EuclideanSpace ℝ (Fin n)) G :=
-  TemperedDistribution.fourierMultiplierCLM G (complexBesselSymbol n z)
-
-theorem complexBesselDistributionMultiplier_real (s : ℝ) :
-    complexBesselDistributionMultiplier n G (s : ℂ) =
-      TemperedDistribution.besselPotential (EuclideanSpace ℝ (Fin n)) G s := by sorry
-
-/-- The imaginary-order factor is unitary on the native weighted Fourier L² carrier. -/
-def complexBesselToL2 (s t : ℝ) :
-    BesselPotentialSpace (EuclideanSpace ℝ (Fin n)) G s 2 ≃ₗᵢ[ℂ]
-      MeasureTheory.Lp G 2 (MeasureTheory.volume : MeasureTheory.Measure
-        (EuclideanSpace ℝ (Fin n))) := by sorry
-
-theorem complexBesselToL2_zero (s : ℝ) :
-    complexBesselToL2 n G s 0 =
-      BesselPotentialSpace.toLpₗᵢ (EuclideanSpace ℝ (Fin n)) G s 2 := by sorry
-
-theorem complexBesselToL2_distribution (s t : ℝ)
-    (u : BesselPotentialSpace (EuclideanSpace ℝ (Fin n)) G s 2) :
-    complexBesselDistributionMultiplier n G ((s : ℂ) + Complex.I * t) u.toDistr =
-      MeasureTheory.Lp.toTemperedDistribution (complexBesselToL2 n G s t u) := by sorry
-
-theorem complexBesselToL2_norm (s t : ℝ)
-    (u : BesselPotentialSpace (EuclideanSpace ℝ (Fin n)) G s 2) :
-    ‖complexBesselToL2 n G s t u‖ = ‖u‖ :=
-  (complexBesselToL2 n G s t).norm_map u
-
-end ComplexOrderMultipliers
+end LocalAnalytic
+
+/-! ## Layer 5: compact Hermitian elliptic theory and Serre duality (K5) -/
+
+section Cohomology
+
+variable (E : Type*) [NormedAddCommGroup E] [NormedSpace ℂ E] [FiniteDimensional ℂ E]
+  (M : Type*) [TopologicalSpace M] [ChartedSpace E M] [IsManifold 𝓘(ℂ, E) ∞ M]
+
+/-- The `∂̄`-closed smooth forms of type `(p, q)` on a complex manifold, for the pinned almost
+complex structure `ofComplexManifold E M`: the kernel of `delBar` inside the image of the type
+projection `typeProjection p q` in degree `p + q`. -/
+def dolbeaultCocycles (p q : ℕ) : Submodule ℂ (SmoothForm 𝓘(ℝ, E) M ℂ (p + q)) :=
+  LinearMap.ker ((ofComplexManifold E M).delBar (F := ℂ) (k := p + q)) ⊓
+    LinearMap.range ((ofComplexManifold E M).typeProjection (F := ℂ) (k := p + q) p q)
+
+/-- The `∂̄`-exact forms of type `(p, q)`: the image under `delBar` of the forms of type
+`(p, q−1)`, and `0` when `q = 0`. -/
+def dolbeaultCoboundaries : (p q : ℕ) → Submodule ℂ (SmoothForm 𝓘(ℝ, E) M ℂ (p + q))
+  | _, 0 => ⊥
+  | p, q + 1 =>
+    (LinearMap.range ((ofComplexManifold E M).typeProjection (F := ℂ) (k := p + q) p q)).map
+      ((ofComplexManifold E M).delBar (F := ℂ) (k := p + q))
+
+/-- Dolbeault cohomology `H^(p,q)_∂̄(M)` of a complex manifold: `∂̄`-closed `(p,q)`-forms modulo
+`∂̄`-exact ones, realized as the image of the cocycles in the quotient of all `(p+q)`-forms by
+the coboundaries; a complex vector space. -/
+abbrev DolbeaultCohomology (p q : ℕ) :=
+  ↥((dolbeaultCocycles E M p q).map (dolbeaultCoboundaries E M p q).mkQ)
+
+/-- **The Hodge theorem for Dolbeault cohomology** (Wells, Chapter IV, §§4–5; Demailly, Chapter
+VI, §(7.3) and its preparation; K5b.1): on a compact complex manifold every Dolbeault cohomology
+group is finite-dimensional, being the space of `∂̄`-harmonic forms of a Hermitian metric. -/
+theorem finiteDimensional_dolbeaultCohomology [T2Space M] [CompactSpace M] (p q : ℕ) :
+    FiniteDimensional ℂ (DolbeaultCohomology E M p q) := by
+  sorry
+
+/-- **Serre duality with trivial coefficients** (Demailly, Chapter VI, (7.3); Wells, Chapter IV,
+§5; K5b.1): on a compact complex manifold of dimension `n`, the pairing of `H^(p,q)` with
+`H^(n−p,n−q)` by wedge and integration is perfect, so the two groups have the same dimension. -/
+theorem finrank_dolbeaultCohomology_serre [T2Space M] [CompactSpace M] {p q : ℕ}
+    (hp : p ≤ Module.finrank ℂ E) (hq : q ≤ Module.finrank ℂ E) :
+    Module.finrank ℂ (DolbeaultCohomology E M p q) =
+      Module.finrank ℂ
+        (DolbeaultCohomology E M (Module.finrank ℂ E - p) (Module.finrank ℂ E - q)) := by
+  sorry
+
+/-! ## Layer 6: Kähler identities and Hodge decomposition (K6) -/
+
+/-- The exterior derivative of complex-valued smooth forms as a complex-linear map: the pinned
+real-linear `mextDerivₗ` commutes with multiplication of the coefficients by complex scalars
+(`mextDerivₗ_smul`). -/
+def mextDerivℂ (k : ℕ) : SmoothForm 𝓘(ℝ, E) M ℂ k →ₗ[ℂ] SmoothForm 𝓘(ℝ, E) M ℂ (k + 1) where
+  toFun := mextDerivₗ 𝓘(ℝ, E) k
+  map_add' φ ψ := map_add (mextDerivₗ 𝓘(ℝ, E) k) φ ψ
+  map_smul' c φ := SmoothForm.mextDerivₗ_smul c φ
+
+/-- The closed complex-valued smooth `k`-forms. -/
+def deRhamCocycles (k : ℕ) : Submodule ℂ (SmoothForm 𝓘(ℝ, E) M ℂ k) :=
+  LinearMap.ker (mextDerivℂ E M k)
+
+/-- The exact complex-valued smooth `k`-forms, `0` in degree zero. -/
+def deRhamCoboundaries : (k : ℕ) → Submodule ℂ (SmoothForm 𝓘(ℝ, E) M ℂ k)
+  | 0 => ⊥
+  | k + 1 => LinearMap.range (mextDerivℂ E M k)
+
+/-- Complex de Rham cohomology `H^k_dR(M; ℂ)` on the pinned form carrier with complex
+coefficients: closed forms modulo exact forms, realized as the image of the closed forms in the
+quotient of all `k`-forms by the exact ones; a complex vector space (K5a). -/
+abbrev ComplexDeRhamCohomology (k : ℕ) :=
+  ↥((deRhamCocycles E M k).map (deRhamCoboundaries E M k).mkQ)
+
+/-- A real smooth two-form `κ` on a complex manifold is a **Kähler form** when it is closed,
+invariant under the complex structure `J = ofComplexManifold E M` in both arguments, and
+`g(v, w) = κ(v, Jv)` is positive definite. On `ℂ` with `κ = dx ∧ dy` and `J = i`,
+`κ(1, i) = 1 > 0`. -/
+def IsKahlerForm (κ : SmoothForm 𝓘(ℝ, E) M ℝ 2) : Prop :=
+  mextDerivₗ 𝓘(ℝ, E) 2 κ = 0 ∧
+    (∀ (x : M) (v w : TangentSpace 𝓘(ℝ, E) x),
+      κ.1 x ![ofComplexManifold E M x v, ofComplexManifold E M x w] = κ.1 x ![v, w]) ∧
+    ∀ (x : M) (v : TangentSpace 𝓘(ℝ, E) x), v ≠ 0 → 0 < κ.1 x ![v, ofComplexManifold E M x v]
+
+/-- **The Hodge decomposition, in its dimension form** (Demailly, Chapter VI, (8.5); K6.1): on a
+compact Kähler manifold, the `k`-th complex Betti number is the sum of the Hodge numbers
+`h^(p,k−p)` over `0 ≤ p ≤ k`. -/
+theorem finrank_complexDeRhamCohomology_eq_sum_dolbeault [T2Space M] [CompactSpace M]
+    {κ : SmoothForm 𝓘(ℝ, E) M ℝ 2} (hω : IsKahlerForm E M κ) (k : ℕ) :
+    Module.finrank ℂ (ComplexDeRhamCohomology E M k) =
+      ∑ p ∈ Finset.range (k + 1), Module.finrank ℂ (DolbeaultCohomology E M p (k - p)) := by
+  sorry
+
+/-- **Hodge symmetry** (Demailly, Chapter VI, (8.5); K6.1): on a compact Kähler manifold,
+complex conjugation of harmonic forms gives `h^(p,q) = h^(q,p)`. -/
+theorem finrank_dolbeaultCohomology_symm [T2Space M] [CompactSpace M]
+    {κ : SmoothForm 𝓘(ℝ, E) M ℝ 2} (hω : IsKahlerForm E M κ) (p q : ℕ) :
+    Module.finrank ℂ (DolbeaultCohomology E M p q) =
+      Module.finrank ℂ (DolbeaultCohomology E M q p) := by
+  sorry
+
+/-- **Odd Betti numbers of a compact Kähler manifold are even** (K6.1), from Hodge decomposition
+and Hodge symmetry. -/
+theorem even_finrank_complexDeRhamCohomology_odd [T2Space M] [CompactSpace M]
+    {κ : SmoothForm 𝓘(ℝ, E) M ℝ 2} (hω : IsKahlerForm E M κ) (k : ℕ) :
+    Even (Module.finrank ℂ (ComplexDeRhamCohomology E M (2 * k + 1))) := by
+  sorry
+
+/-- The iterated Lefschetz operator `α ↦ α ∧ κ^j` on complex-valued smooth forms, for a real
+two-form `κ`, with the real scalars acting on the complex coefficients. -/
+def lefschetzPow (κ : SmoothForm 𝓘(ℝ, E) M ℝ 2) {k : ℕ} :
+    (j : ℕ) → SmoothForm 𝓘(ℝ, E) M ℂ k → SmoothForm 𝓘(ℝ, E) M ℂ (k + 2 * j)
+  | 0, α => α
+  | j + 1, α =>
+    SmoothForm.wedgeWith (ContinuousLinearMap.lsmul ℝ ℝ).flip (lefschetzPow κ j α) κ
+
+/-- **The Hard Lefschetz theorem** (Demailly, Chapter VI, (8.17); K6.1): on a compact Kähler
+manifold of dimension `n` with Kähler form `κ`, for `k ≤ n` the map `α ↦ α ∧ κ^(n−k)` induces an
+isomorphism `H^k_dR(M; ℂ) → H^(2n−k)_dR(M; ℂ)`; stated on forms, it sends a closed form to an exact
+one only when the form is exact, and every closed form of degree `2n − k` is cohomologous to the
+image of a closed `k`-form. For `k = n` the map is the identity. -/
+theorem hard_lefschetz [T2Space M] [CompactSpace M] {κ : SmoothForm 𝓘(ℝ, E) M ℝ 2}
+    (hω : IsKahlerForm E M κ) {k : ℕ} (hk : k ≤ Module.finrank ℂ E) :
+    (∀ α ∈ deRhamCocycles E M k,
+      lefschetzPow E M κ (Module.finrank ℂ E - k) α ∈
+          deRhamCoboundaries E M (k + 2 * (Module.finrank ℂ E - k)) →
+        α ∈ deRhamCoboundaries E M k) ∧
+    ∀ γ ∈ deRhamCocycles E M (k + 2 * (Module.finrank ℂ E - k)),
+      ∃ α ∈ deRhamCocycles E M k,
+        γ - lefschetzPow E M κ (Module.finrank ℂ E - k) α ∈
+          deRhamCoboundaries E M (k + 2 * (Module.finrank ℂ E - k)) := by
+  sorry
+
+end Cohomology
 
 end TauCetiRoadmap.ComplexKahlerGeometry
