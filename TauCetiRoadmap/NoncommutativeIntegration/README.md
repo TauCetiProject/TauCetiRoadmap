@@ -18,9 +18,14 @@ for 1<p<∞, the UMD property of Lp(M), and finite-tracial H¹–BMO duality.
 This roadmap owns, by layer:
 
 - Layer 1: generalized singular numbers of τ-measurable operators, the measure topology, the
-  tracial Lp spaces for 0<p<1 with their p-triangle inequality, the convergence theorems, the
-  integrated Ky Fan and concave inequalities, the Schatten quasi-ideals S_p for 0<p<1, weak Lp
-  and the Lorentz gauges. VonNeumannAlgebras V10.TracialLp owns the τ-measurable operator algebra
+  tracial Lp spaces for 0<p<1 with their p-triangle inequality, the convergence theorems,
+  Hölder's inequality with constant one for all positive exponents, the integrated Ky Fan and
+  concave inequalities, weak Lp and the Lorentz gauges, and the identification of Lp(B(H),Tr)
+  and weak Lp(B(H),Tr), for every 0<p<∞, with the operators whose approximation numbers are
+  p-summable, respectively `O((j+1)^(−1/p))`. On B(H) the Schatten quasi-ideals S_p for 0<p<1
+  and the weak Schatten classes are these spaces: their quasi-norm, ideal, completeness and
+  Hölder laws are the B(H) instances of the general laws, not a second construction on a
+  sequence model. VonNeumannAlgebras V10.TracialLp owns the τ-measurable operator algebra
   and Lp(M,τ) for 1≤p<∞ with completeness, Hölder, L¹=M_* and L²=GNS; Layer 1 extends that
   construction to smaller exponents and does not rebuild it.
 - Layer 2: Lp–Lq duality for 1≤p<∞ and reflexivity, compatible Banach couples, the complex
@@ -346,14 +351,25 @@ MAJ-A28 and MAJ-A31 for the matrix Check; Fack–Kosaki, §4.
 For τ(1)<∞ and p≤q prove `‖x‖_p≤τ(1)^(1/p−1/q)‖x‖_q`, hence Lq(M,τ)⊆Lp(M,τ), and do not assert
 any inclusion for an infinite trace. Identify the commutative construction for M=L∞(Ω,μ) with
 the ordinary Lp(Ω,μ) of Mathlib's `MeasureTheory.Lp`, with μ_t the decreasing rearrangement.
-Identify Lp(B(H),Tr) for 1≤p<∞ with OperatorTheory/OperatorIdeals' Schatten class S_p,
-isometrically, with the finite-dimensional formula `‖x‖_p=(∑_j s_j(x)^p)^(1/p)` with the
-unnormalized matrix trace; for p=∞ the space is B(H) itself, not the compact operators. For
-0<p<1 define S_p by summability of the p-th powers of the singular values of a compact
-operator, prove the p-triangle inequality, the ideal estimates `‖bxc‖_p≤‖b‖‖c‖‖x‖_p`,
-completeness of the p-metric, and identify it with Lp(B(H),Tr).
-*Needs:* §1.3, §1.4; OperatorTheory/OperatorIdeals Parts A–B; Mathlib `MeasureTheory.Lp`,
-`LinearMap.singularValues`; Hiai, Example 5.2.
+For M=B(H) with its usual trace Tr, where M̃=B(H) (Hiai, Example 4.13(1)), prove
+`μ_t(x)=a_⌊t⌋(x)` for every x∈B(H) and t>0, with a₀≥a₁≥… the zero-indexed approximation
+numbers of OperatorTheory/OperatorIdeals Part A. Route: by the projection-cut formula of §1.1
+(Hiai, Lemma 4.16(2)), a cut e with `Tr(1−e)≤t` has corank at most ⌊t⌋, `x(1−e)` has rank at
+most ⌊t⌋ and `‖x−x(1−e)‖=‖xe‖`; conversely, for F of rank at most ⌊t⌋ the projection e onto
+ker F has corank at most ⌊t⌋ and `‖xe‖=‖(x−F)e‖≤‖x−F‖`. For compact x these are the singular
+values (Hiai, Example 4.15(1)). Deduce from the rearrangement formula of §1.1 that, for every
+0<p<∞, x∈B(H) lies in Lp(B(H),Tr) exactly when `∑_j a_j(x)^p<∞`, that such an x is compact,
+and that `‖x‖_p=(∑_j a_j(x)^p)^(1/p)` (Hiai, Example 5.2(1)). For 1≤p<∞ this identifies
+Lp(B(H),Tr) isometrically with OperatorTheory/OperatorIdeals' Schatten class S_p; for p=∞ the
+space is B(H) itself, not the compact operators. For 0<p<1 it presents the Schatten quasi-ideal
+S_p as Lp(B(H),Tr), so its p-triangle inequality, the ideal estimates `‖bxc‖_p≤‖b‖‖c‖‖x‖_p`,
+completeness of the p-metric and Hölder's inequality `‖xy‖_r≤‖x‖_p‖y‖_q` for p,q,r>0 with
+1/r=1/p+1/q are the B(H) instances of §1.3 and §1.4 and are not proved again on a sequence
+model. On M_d(ℂ) the identification is the formula `‖x‖_p=(∑_j s_j(x)^p)^(1/p)` with
+Mathlib's `LinearMap.singularValues` and the unnormalized trace.
+*Needs:* §1.1, §1.3, §1.4; OperatorTheory/OperatorIdeals Parts A–B; Mathlib
+`MeasureTheory.Lp`, `LinearMap.singularValues`; Hiai, Example 4.13(1), Lemma 4.16(2),
+Example 4.15(1) and Example 5.2(1).
 
 **Checks.**
 - M=ℂ² with counting measure, x=(1,1), p=1, q=2: `‖x‖₁=2≤2^(1/2)·‖x‖₂=√2·√2=2`, with equality;
@@ -363,18 +379,31 @@ completeness of the p-metric, and identify it with Lp(B(H),Tr).
   lies in L² but not in L¹: neither inclusion holds for an infinite trace.
 - On M₂(ℂ) with x=diag(3,1): `‖x‖₁=4`, `‖x‖₂=√10`, `‖x‖_∞=3`; the normalized trace would give
   2, √5 and 3, so the formula with `LinearMap.singularValues` pins the unnormalized convention.
-- For 0<p<1 the diagonal operator with entries (1/n) lies in S_p exactly when p>1, so S_(1/2)
-  excludes it while S_1 contains the entries (1/n²).
+- Zero-indexing on B(H): a rank-one projection e has `μ_t(e)=1` for 0<t<1 and `μ_t(e)=0` for
+  t≥1, while `a₀(e)=1` and `a_j(e)=0` for j≥1, so `‖e‖_p=1` for every 0<p<∞; reading μ_t as
+  `a_⌈t⌉` would give `‖e‖_p=0` for a nonzero e.
+- On B(ℓ²) the diagonal operator x=diag((j+1)^(−2)) has `Tr(|x|^p)=∑_j (j+1)^(−2p)`, finite
+  exactly when p>1/2: `‖x‖₁=π²/6`, `‖x‖_(3/4)^(3/4)=ζ(3/2)≈2.612`, and x∉L^(1/2)(B(ℓ²),Tr)
+  because the harmonic series diverges. A gauge summing a_j(x) without the p-th power would
+  put x in every Lp with 0<p<1.
+- The identity of an infinite-dimensional H has `a_j(1)=1` for every j and `μ_t(1)=1` for every
+  t>0, so it lies in no Lp with p<∞ although it lies in L∞=B(H): the identification reaches
+  non-compact operators through their approximation numbers, and a description by the
+  eigenvalues of compact operators alone would leave `‖1‖_p` undefined.
 
 ### 1.6 Weak Lp and Lorentz gauges
 
 Define weak Lp by the gauge `sup_(t>0) t^(1/p)μ_t(x)` and prove its quasi-norm, adjoint and
-ideal estimates. Define the Lorentz gauge `‖x‖_(p,q)=(∫₀^∞ (t^(1/p)μ_t(x))^q dt/t)^(1/q)` for
-1≤p<∞, 1≤q<∞, and its q=∞ supremum version; prove that q=p recovers `‖x‖_p`, the embeddings
-`L^(p,q₀)⊆L^(p,q₁)` for q₀≤q₁, and the truncation rules used by the real interpolation
-identification of §2.5. Distinguish this rearrangement gauge from the equivalent Banach norms of
-Lp,q for p>1 (Bergh–Löfström, §1.3).
-*Needs:* §1.1, §1.3; Bergh–Löfström, §1.3.
+ideal estimates. For M=B(H) with its usual trace, deduce from `μ_t(x)=a_⌊t⌋(x)` of §1.5 that
+the weak Lp gauge is `sup_(j≥0)(j+1)^(1/p)a_j(x)`, since `t^(1/p)a_j(x)` has supremum
+`(j+1)^(1/p)a_j(x)` on [j,j+1); hence weak Lp(B(H),Tr) is the weak Schatten class
+`{x∈B(H) : sup_j (j+1)^(1/p)a_j(x)<∞}`, its elements are compact, and for p=1 it is the weak
+trace class `S_(1,∞)`. Define the Lorentz gauge
+`‖x‖_(p,q)=(∫₀^∞ (t^(1/p)μ_t(x))^q dt/t)^(1/q)` for 1≤p<∞, 1≤q<∞, and its q=∞ supremum version;
+prove that q=p recovers `‖x‖_p`, the embeddings `L^(p,q₀)⊆L^(p,q₁)` for q₀≤q₁, and the
+truncation rules used by the real interpolation identification of §2.5. Distinguish this
+rearrangement gauge from the equivalent Banach norms of Lp,q for p>1 (Bergh–Löfström, §1.3).
+*Needs:* §1.1, §1.3, §1.5; OperatorTheory/OperatorIdeals Part A; Bergh–Löfström, §1.3.
 
 **Checks.**
 - On L∞(0,∞) with Lebesgue measure, `f(t)=t^(−1/p)` has μ_s(f)=s^(−1/p), so the weak Lp gauge
@@ -383,6 +412,11 @@ Lp,q for p>1 (Bergh–Löfström, §1.3).
   of §1.1; a gauge omitting the `dt/t` would not reduce to ‖x‖_p.
 - For x=diag(3,1) in M₂(ℂ): the weak L¹ gauge is `max(1·3, 2·1)=3` while `‖x‖₁=4`, and the
   Lorentz (1,∞) gauge equals the weak gauge.
+- On B(H) a rank-one projection e has weak Lp gauge `sup_(0<t<1) t^(1/p)=1=(0+1)^(1/p)a₀(e)`, a
+  supremum that is not attained; the unshifted `sup_j j^(1/p)a_j(e)` is 0 and would vanish on a
+  nonzero operator. On ℓ² the operator `diag((j+1)^(−1/p))` has weak gauge 1 and
+  `∑_j a_j^p=∑_j (j+1)^(−1)=∞`, so it lies in weak Lp(B(ℓ²),Tr) and not in Lp(B(ℓ²),Tr); at
+  p=1 it is `diag(1/(j+1))`, in `S_(1,∞)` and outside the trace class.
 
 ### Examples
 
@@ -390,8 +424,9 @@ Lp,q for p>1 (Bergh–Löfström, §1.3).
   norm, and the measure topology is the norm topology.
 - L∞(Ω,μ) for a σ-finite measure: M̃ is the algebra of measurable functions finite outside
   sets of finite measure, μ_t is the decreasing rearrangement, and Lp(M,τ) is Mathlib's Lp.
-- B(H) with the usual trace: M̃=B(H), Lp is the Schatten class, and the finite-trace inclusions
-  fail (the identity has infinite trace).
+- B(H) with the usual trace: M̃=B(H), μ_t=a_⌊t⌋, Lp is the Schatten class S_p for every
+  0<p<∞ (a quasi-ideal for p<1), weak Lp is the weak Schatten class, and the finite-trace
+  inclusions fail (the identity has infinite trace).
 
 ### Dependencies
 
@@ -1412,7 +1447,9 @@ Layer 8 needs Layers 5–7, VonNeumannAlgebras V8, BanachSpaceTheory B1, and Mat
 - FreeProbability consumes Layer 4 (I4): the Lp inclusions and faithful normal expectations of
   §4.3.
 - NoncommutativeGeometry consumes Layer 1 (I1): tracial Lp including 0<p<1, Hölder, the
-  quasi-norm inequalities and weak Lp, specialized to B(H) and compared with the Schatten scale.
+  quasi-norm inequalities and weak Lp, specialized to B(H) by the approximation-number
+  identifications of §1.5 and §1.6, which give the Schatten quasi-ideals S_p for 0<p<1, the
+  weak Schatten classes and `S_(1,∞)`.
 - VonNeumannAlgebras Layer 11 names Layer 4 (I4) as the owner of the Lp inclusions and
   contractive projections attached to Takesaki's expectation.
 
@@ -1432,8 +1469,9 @@ Layer 8 needs Layers 5–7, VonNeumannAlgebras V8, BanachSpaceTheory B1, and Mat
   Theorem 4.7(i) (concave integrated inequality), Lemma 4.8 and Theorem 4.9 (the μ formula,
   Hölder, triangle and p-triangle inequalities).
 - Hiai, [*Concise lectures on selected topics of von Neumann algebras*](https://arxiv.org/abs/2004.02383):
-  §4 (τ-measurable operators, Theorem 4.12, Propositions 4.17–4.21), §5 (tracial Lp,
-  Theorems 5.10 and 5.13, Proposition 5.11), §6.1 (Theorems 6.4 and 6.6), §9 (Theorem 9.4),
+  §4 (τ-measurable operators, Theorem 4.12, Examples 4.13 and 4.15, Lemma 4.16,
+  Propositions 4.17–4.21), §5 (tracial Lp, Example 5.2, Theorems 5.10 and 5.13,
+  Proposition 5.11), §6.1 (Theorems 6.4 and 6.6), §9 (Theorem 9.4),
   §10 (Theorems 10.13 and 10.15), §11 (Haagerup Lp: Lemmas 11.1–11.3, Theorem 11.5,
   Definitions 11.6–11.7, Proposition 11.8, Remarks 11.9–11.10, Example 11.11, Lemmas 11.12,
   11.14 and 11.16, Theorems 11.22, 11.25, 11.28 and 11.30, Propositions 11.20, 11.24, 11.26 and
