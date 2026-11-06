@@ -15,14 +15,11 @@ and the comparison of coefficient, Gauss-norm and completed topological models.
 The general Banach-ring statements are essential: coefficient algebras of families
 can have nilpotents and need not admit a multiplicative norm.
 
-[Suggested.lean](Suggested.lean) is the acceptance test: it states the headline
-theorems below against the pinned Mathlib and Tau Ceti, each admitted, with the
-few definitions they need (`eval₂`, `mvEval₂`, `IsNormMulUnit`, `IsMulDistinguished`,
-`slice`, `IsMulDistinguishedAt`, `IsEntire`). It is not the roadmap and not a
-checklist; this README is the mathematical specification. All interfaces below are
-required; those marked as supplier contracts are consumed from their named roadmaps
-or Tau Ceti declarations. The remaining targets extend the common library on the
-same carriers.
+[Suggested.lean](Suggested.lean) records representative definitions and theorem
+signatures. It is neither an exhaustive checklist nor a replacement for this
+README, which is the mathematical specification. All interfaces below are required;
+those marked as supplier contracts are consumed from their named roadmaps. The
+remaining targets extend the common library on the same carriers.
 
 ## Scope and ownership
 
@@ -44,11 +41,9 @@ contracts immediately below distinguish new work from supplied prerequisites.
   Krull dimension, and strict closedness of ideals and finite-module subobjects.
 - Restricted series over complete adic noetherian rings, including their polynomial
   reductions and noetherianity.
-- The common coefficient algebra of open-disc and entire series and of the radius
-  pieces above the unit polydisc from which dagger geometry forms its overconvergent
-  algebra: their radius conditions, evaluation, natural maps and topologies
-  specified below; entire division by a polynomial with invertible leading
-  coefficient.
+- The common coefficient algebra of open-disc, entire and overconvergent series:
+  their radius conditions, evaluation, natural maps and topologies specified below;
+  entire division by a polynomial with invertible leading coefficient.
 
 **Supplier contracts.** These retain their existing owners. A mathematical statement
 recalled below is not a second implementation target when this table assigns it to
@@ -56,24 +51,18 @@ a supplier.
 
 | Supplier | Interface consumed here | Additional work here |
 | --- | --- | --- |
-| [AdicSpaces §§0.4–0.5](../../Completed/AdicSpaces/README.md#04-weighted-restricted-series-and-topological-localisation) | Topological and subset-weighted series, module series, universal properties, iteration and quotient interfaces; the strong-noetherianness instance of its §0.5 | Explicit Gauss estimates and arbitrary-polyradius normed interfaces in Layers 0–2; Banach-ring division without a globally multiplicative norm in Layer 4; coherence of normed and completed carriers in §6.2 |
-| [AdicSpaces Part III §F0.1](../AdicSpacesPartIII/README.md#f01-constructions-on-adic-rings), `restricted-power-series-adic` | Adic restricted series, their polynomial reductions, universal property and noetherianity, recalled in §6.3 | Compatibility of those reductions and maps with the normed comparisons of §6.2 |
-| [AdicSpaces Part II §R0.3](../AdicSpacesPartII/README.md#r03-the-completed-tensor-product), `completed-tensor-restricted-power-series` | Base change of weighted series along adic coefficient maps | The normed coefficient-map and finite-presentation interfaces of §6.4 |
-
-The overconvergent algebra `W_n = ⋃_{ρ>1} K⟨ρ⁻¹X₁,…,ρ⁻¹X_n⟩` of dagger geometry,
-its inclusion in `T_n`, its completion for the unit Gauss norm and its fringe
-topology are owned by [AdicSpaces Part IV §F1.1](../AdicSpacesPartIV/README.md#f11-overconvergent-power-series),
-which cites §§0.1, 1.1 and 5.4 of this roadmap for its radius pieces; §7.3 records
-the operations on those pieces that the construction also uses. Part IV is
-therefore a consumer of this roadmap and supplies nothing to it.
+| [AdicSpaces §§0.4–0.5](../AdicSpaces/README.md#04-weighted-restricted-series-and-topological-localisation) | Topological and subset-weighted series, module series, universal properties, iteration and quotient interfaces; field Weierstrass theory and unit-radius Tate noetherianity | Explicit Gauss estimates and arbitrary-polyradius normed interfaces in Layers 0–2; Banach-ring division without a globally multiplicative norm in Layer 4; coherence of normed and completed carriers in §6.2 |
+| [AdicSpaces Part III §F0.1](https://github.com/TauCetiProject/TauCetiRoadmap/pull/813), `restricted-power-series-adic` | Adic restricted series, their polynomial reductions, universal property and noetherianity, recalled in §6.3 | Compatibility of those reductions and maps with the normed comparisons of §6.2 |
+| [AdicSpaces Part IV §F1.1](https://github.com/TauCetiProject/TauCetiRoadmap/pull/815), `overconvergent-tate-algebra` and `overconvergent-tate-algebra-properties` | The algebra `W_n`, its inclusion in `T_n` and completion for the unit Gauss norm | The radius-controlled substitution and derivative comparisons in §7.3 |
+| [AdicSpaces Part II §R0.3](https://github.com/TauCetiProject/TauCetiRoadmap/pull/817), `completed-tensor-restricted-power-series` | Base change of weighted series along adic coefficient maps | The normed coefficient-map and finite-presentation interfaces of §6.4 |
 
 The Tate-specific algebra in Layer 5 is shared input to classical rigid geometry;
 general affinoid quotients and their geometry are not targets here. Field division
-and unit-radius Tate noetherianity are supplied by the Tau Ceti declarations named
-under *Existing foundations*, including when the broader Banach-ring theorem gives
-another proof. Open-disc and
+and Tate noetherianity already assigned to AdicSpaces remain supplied results,
+including when the broader Banach-ring theorem gives another proof. Open-disc and
 entire-series algebra here supplies the scalar interfaces needed by
-LocallyAnalyticDistributions; its analytic function spaces, distribution topologies and operator theory remain
+[LocallyAnalyticDistributions](https://github.com/TauCetiProject/TauCetiRoadmap/pull/854);
+its analytic function spaces, distribution topologies and operator theory remain
 separate targets. No application-specific copy of a series definition is needed.
 
 The following boundaries specify the consumers of the combined interfaces.
@@ -86,7 +75,7 @@ The following boundaries specify the consumers of the combined interfaces.
 | Classical rigid geometry | Tate-algebra structure and series comparisons | General affinoid algebras and their presentation-independent topology, spectral seminorms on quotients, weak stability and Japanese-ring theory, rational domains, sheaves and global geometry |
 | Adic geometry | Normed/topological comparisons and bounded coefficient maps | The topological series supplier above, general Huber-ring and completion theory, topological localisation, Huber pairs, strong noetherianness, general completed tensors, `Spa` and its sheaves |
 | Formal geometry | Compatibility of normed comparisons with adic reductions | The adic restricted-series supplier above, formal spectra, formal schemes, admissible models and generic fibres |
-| Dagger geometry | Tate algebras at radii greater than one and the radius control of their analytic operations (§7.3) | The overconvergent algebra `W_n` and its completion (AdicSpaces Part IV §F1.1), general dagger quotients, fringe topology, weak completions, dagger spaces and cohomology |
+| Dagger geometry | Positive-radius Tate algebras and analytic operations compatible with `W_n` | The overconvergent-algebra supplier above, general dagger quotients, fringe topology, weak completions, dagger spaces and cohomology |
 | Iwasawa theory | Comparisons of radius conditions and evaluation of bounded-coefficient series inside the open disc | Measures, completed group algebras, formal `O⟦T⟧` and Iwasawa invariants; formal DVR preparation is the contract in [PadicMeasuresIwasawaAlgebras §4.3](../PadicMeasuresIwasawaAlgebras/README.md#43-weierstrass-theory-of-ot), using Mathlib's ideal-adic preparation |
 | Automorphic forms | Substitution, re-expansion and differentiation of series | Weight actions, automorphy factors, Hecke operators and classicality |
 
@@ -124,9 +113,9 @@ uses evaluation at an operator.
 4. **The topology must be named.** A restricted algebra carries the Gauss-norm or
    corresponding uniform coefficient topology, not the topology inherited from
    the product of coefficient spaces. Entire and open-disc series carry the
-   topology of all their indicated Gauss norms. The radius pieces of §7.3 carry
-   their own Gauss norms; the union algebra of dagger geometry, its completion for
-   the unit Gauss norm and its fringe topology are AdicSpaces Part IV's.
+   topology of all their indicated Gauss norms. The overconvergent series algebra
+   in §7.3 has the norm induced by the unit Gauss norm when its completion is
+   discussed; this is not an assertion about the fringe topology of dagger geometry.
 
 5. **Do not use a real supremum outside its domain of validity.** Norm statements
    carry restrictedness or an explicit `HasGaussNorm` hypothesis. An unbounded
@@ -146,9 +135,7 @@ uses evaluation at an operator.
    Earlier indices may tie. Use `IsNormMulUnit` and `IsMulDistinguished` if those
    notions are present in the chosen library; otherwise introduce this theory once.
    Refine `TauCeti.PowerSeries.IsDistinguished` by the multiplicative-unit
-   condition, retaining its attainment and distinguished-degree API. In several
-   variables the same notion in the variable `X 0` is `IsMulDistinguishedAt`, read
-   on the `X 0`-slices of §4.4.
+   condition, retaining its attainment and distinguished-degree API.
 
 8. **Split a specified variable.** Iteration is natural under reindexing. The
    concrete `Fin (n + 1)` form distinguishes `X 0` and uses `Fin.tail r` for the
@@ -182,22 +169,21 @@ links identify the dependency snapshot used by the prototype; the repository's
 
 | Existing module | Interface to consume |
 | --- | --- |
-| [`MvPowerSeries/TateAlgebra/Basic.lean`](https://github.com/TauCetiProject/TauCeti/blob/358314d4ab97483df4fc4cb8adcc02e74a8d9f5a/TauCeti/RingTheory/MvPowerSeries/TateAlgebra/Basic.lean) | The Gauss-norm instances `instNormedRingIsRestrictedSubring` and `instNormedCommRingIsRestrictedSubring` at positive polyradii, `norm_eq_gaussNorm`, the coefficient bound `norm_coeff_mul_prod_le`, attainment `exists_achievesGaussNorm`, completeness, and `MvPowerSeries.IsRestricted.gaussNorm_mul` under `NormMulClass` |
-| [`MvPowerSeries/TateAlgebra/Iterate.lean`](https://github.com/TauCetiProject/TauCeti/blob/358314d4ab97483df4fc4cb8adcc02e74a8d9f5a/TauCeti/RingTheory/MvPowerSeries/TateAlgebra/Iterate.lean) | `Huber.restrictedOptionEquiv` with `norm_restrictedOptionEquiv` and `isometry_restrictedOptionEquiv`: unit-polyradius splitting into a univariate series over a coefficient Tate algebra |
-| [`MvPowerSeries/TateAlgebra/Distinguished.lean`](https://github.com/TauCetiProject/TauCeti/blob/358314d4ab97483df4fc4cb8adcc02e74a8d9f5a/TauCeti/RingTheory/MvPowerSeries/TateAlgebra/Distinguished.lean) | `exists_algEquiv_isDistinguished` (norm-one Banach ring) and `exists_algEquiv_isDistinguished_isUnit` (field): the isometric triangular change of variables at unit polyradius making a nonzero series distinguished in the variable `none` of `Option σ` (§5.1) |
-| [`MvPowerSeries/TateAlgebra/Noetherian.lean`](https://github.com/TauCetiProject/TauCeti/blob/358314d4ab97483df4fc4cb8adcc02e74a8d9f5a/TauCeti/RingTheory/MvPowerSeries/TateAlgebra/Noetherian.lean) | `TauCeti.MvPowerSeries.isNoetherianRing_isRestricted_subring`: the unit-radius Tate algebra in finitely many variables over a complete nonarchimedean field is noetherian (§5.2) |
-| [`PowerSeries/Weierstrass/Division.lean`](https://github.com/TauCetiProject/TauCeti/blob/358314d4ab97483df4fc4cb8adcc02e74a8d9f5a/TauCeti/RingTheory/PowerSeries/Weierstrass/Division.lean), [`Preparation.lean`](https://github.com/TauCetiProject/TauCeti/blob/358314d4ab97483df4fc4cb8adcc02e74a8d9f5a/TauCeti/RingTheory/PowerSeries/Weierstrass/Preparation.lean) and [`Ideal.lean`](https://github.com/TauCetiProject/TauCeti/blob/358314d4ab97483df4fc4cb8adcc02e74a8d9f5a/TauCeti/RingTheory/PowerSeries/Weierstrass/Ideal.lean) | `IsDistinguished.existsUnique_mul_add_eq`, `IsDistinguished.existsUnique_isUnit_isMonicOfDegree_mul_eq`, `isUnit_iff_isDistinguished_zero_and_isUnit_coeff_zero` and the one-variable `isNoetherianRing_isRestricted_subring`: arbitrary-radius Weierstrass theory, the unit criterion and noetherianity with a multiplicative coefficient norm; §4 removes that global hypothesis in favour of multiplicative distinguishedness |
-| [`Huber/Restricted/GaussNorm.lean`](https://github.com/TauCetiProject/TauCeti/blob/358314d4ab97483df4fc4cb8adcc02e74a8d9f5a/TauCeti/RingTheory/Huber/Restricted/GaussNorm.lean) | `restrictedMvPowerSeriesGaussEquiv` and the completed ring/algebra comparisons |
-| [`Huber/WeightedRestrictedSeries/`](https://github.com/TauCetiProject/TauCeti/tree/358314d4ab97483df4fc4cb8adcc02e74a8d9f5a/TauCeti/RingTheory/Huber/WeightedRestrictedSeries) | Weighted series, topology, completion, iteration, renaming, quotient and power-boundedness interfaces |
+| [`MvPowerSeries/TateAlgebra/Basic.lean`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/RingTheory/MvPowerSeries/TateAlgebra/Basic.lean) | Gauss-norm instances at positive polyradii, completeness, coefficient bounds, attainment and `MvPowerSeries.IsRestricted.gaussNorm_mul` |
+| [`MvPowerSeries/TateAlgebra/Iterate.lean`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/RingTheory/MvPowerSeries/TateAlgebra/Iterate.lean) | Unit-polyradius splitting into a univariate series over a coefficient Tate algebra |
+| [`PowerSeries/Weierstrass/Division.lean`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/RingTheory/PowerSeries/Weierstrass/Division.lean) and [`Preparation.lean`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/RingTheory/PowerSeries/Weierstrass/Preparation.lean) | Arbitrary-radius Weierstrass theory with a multiplicative coefficient norm; §4 removes that global hypothesis in favour of multiplicative distinguishedness |
+| [`Huber/Restricted/GaussNorm.lean`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/RingTheory/Huber/Restricted/GaussNorm.lean) | `restrictedMvPowerSeriesGaussEquiv` and the completed ring/algebra comparisons |
+| [`Huber/WeightedRestrictedSeries/`](https://github.com/TauCetiProject/TauCeti/tree/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/RingTheory/Huber/WeightedRestrictedSeries) | Weighted series, topology, completion, iteration, renaming, quotient and power-boundedness interfaces |
 
-Mathlib's multivariate Gauss-norm API (monomial, coefficient-map and
-dominant-antidiagonal lemmas) is the design to follow. Use declarations already available at the dependency pin and extend the same API
+Mathlib's [multivariate Gauss-norm API proposal #42871](https://github.com/leanprover-community/mathlib4/pull/42871)
+provides the design for monomial, coefficient-map and dominant-antidiagonal lemmas.
+Use declarations already available at the dependency pin and extend the same API
 for missing results; adopt Mathlib's versions as they become available. In
 particular, restrictedness discharges boundedness hypotheses, rather than
 replacing `gaussNorm` by a private supremum.
 
 The general topological foundations are the accepted
-[AdicSpaces roadmap](../../Completed/AdicSpaces/README.md),
+[AdicSpaces roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AdicSpaces/README.md),
 §§0.1–0.3: bounded sets, Huber rings, rings of definition and separated completion.
 The normed branch below does not depend on valuation spectra, adic spaces, affinoid
 geometry, compact operators or Newton polygons.
@@ -322,8 +308,7 @@ weighted coefficients, as in [Martin] §1.3.
 Let `R` and `B` be ultrametric normed commutative rings, with `B` complete, and
 let `φ : R →+* B` be contractive. For finitely many `b_i` satisfying
 `‖b_i‖ ≤ r_i`, evaluation is the convergent monomial sum
-`Σ_ν φ(a_ν) b^ν` (`mvEval₂`, with its convergence `hasSum_mvEval₂`; in one
-variable `eval₂` and `hasSum_eval₂`). It is a contractive ring homomorphism, agrees with polynomial
+`Σ_ν φ(a_ν) b^ν`. It is a contractive ring homomorphism, agrees with polynomial
 evaluation, sends constants through `φ`, and sends each variable to `b_i`.
 It is the unique continuous ring homomorphism with these values. Supply its
 functoriality and algebra/module forms on the native restricted carrier, and
@@ -381,8 +366,7 @@ factorials in positive characteristic.
 For one-variable restricted series over `K`, prove Strassmann's bound: if `f ≠ 0`
 and `s` is the greatest index attaining its radius-`r` Gauss norm, it has at most
 `s` distinct zeros in the radius-`r` closed ball in any complete isometrically
-normed field extension (`strassmann`). Derive it from §4.3 and the field unit
-criterion of §3.2.
+normed field extension. Derive it from §4.3 and the field unit criterion of §3.2.
 A series vanishing on an infinite subset of that ball is zero.
 
 For a Banach `ℚ_p`-module `E` with a specified jointly injective family of bounded
@@ -392,8 +376,7 @@ version on `ℤ_p^n` by iteration. The family of functionals is a hypothesis, no
 asserted to exist for every Banach module.
 
 For `f ∈ T_n = K⟨X₁,…,X_n⟩`, there is a finite normed field extension `L/K`
-and a tuple `x ∈ (L°)^n` such that `‖f(x)‖ = ‖f‖`
-(`tate_exists_finiteDimensional_norm_mvEval₂_eq`). Combine evaluation with
+and a tuple `x ∈ (L°)^n` such that `‖f(x)‖ = ‖f‖`. Combine evaluation with
 the reduction of §3.3: a nonzero reduction can be evaluated nontrivially after a
 finite residue-field extension, realised by suitable prime-to-residue-characteristic
 roots of unity. Include the finite-extension and residue-separation lemmas this
@@ -414,7 +397,7 @@ parts of §2.4 use §§3.2 and 4.3; maximum modulus uses §3.3. Sources: [BGR] �
 
 ### 3.1 Multiplicative units over Banach rings
 
-Develop the multiplicative-unit predicate `IsNormMulUnit` of Convention 7. In a norm-one ring,
+Develop the multiplicative-unit predicate of Convention 7. In a norm-one ring,
 prove closure under products and inverses and the equivalence, for `u : Rˣ`, with
 `‖u⁻¹‖ = ‖u‖⁻¹`. In a complete ultrametric norm-one ring, `1 + a` is a
 multiplicative unit when `‖a‖ < 1`. Every unit is multiplicative when the
@@ -431,15 +414,12 @@ For `f ∈ R⟨r⁻¹X⟩`, if `a_0` is a multiplicative unit and
 that `f` is a multiplicative unit. Include the resulting inverse norm and
 compatibility with evaluation.
 
-When the coefficient ring is nontrivial and its norm is multiplicative, the
-converse holds: `f` is a unit if and only if `a_0` is a unit and every nonconstant weighted coefficient norm
-is strictly smaller than `‖a_0‖`. In one variable this is Tau Ceti's
-`isUnit_iff_isDistinguished_zero_and_isUnit_coeff_zero`, and over a field
-`isUnit_iff_isDistinguished_zero`: a nonzero field-valued series is invertible
-exactly when the constant coefficient is its unique Gauss-norm-attaining
-coefficient. The target here is the several-variable form at arbitrary positive
-polyradii, where restrictedness upgrades the pointwise strict inequalities to a
-uniform strict bound.
+When the coefficient ring is nontrivial and its norm is multiplicative, prove the
+converse: `f` is a unit if and only if `a_0` is a unit and every nonconstant weighted coefficient norm
+is strictly smaller than `‖a_0‖`. Restrictedness upgrades the pointwise strict
+inequalities to a uniform strict bound. This includes arbitrary positive
+polyradii. In particular, a nonzero field-valued series is invertible exactly
+when the constant coefficient is its unique Gauss-norm-attaining coefficient.
 
 ### 3.3 Integral structure at unit radii
 
@@ -463,10 +443,7 @@ of their power-bounded elements with a chosen norm unit ball without a theorem.
 `R = K[ε]/(ε²)` with the coefficient maximum norm, `1 + εX` is a unit with
 inverse `1 - εX` although its nonconstant coefficient can have norm one. This
 rules out extending the field unit criterion to all Banach rings. Reduction of
-`Σ p^n X^n` is the constant polynomial one. In `ℚ_p[ε]/(ε²)` with the maximum
-norm, `u = p + ε` is a unit with inverse `p⁻¹ − p⁻²ε`, but not a multiplicative
-unit: `‖u‖ = 1` while `‖u⁻¹‖ = p²` and `‖u ε‖ = p⁻¹ ≠ ‖u‖ ‖ε‖ = 1`; a definition
-that only required invertibility would accept it.
+`Σ p^n X^n` is the constant polynomial one.
 
 **Dependencies.** Layers 0–1 and existing topological power-boundedness vocabulary.
 Sources: [Martin] Definitions 1.20 and 1.24, Lemma 1.21 and Remark 1.22;
@@ -478,25 +455,23 @@ Sources: [Martin] Definitions 1.20 and 1.24, Lemma 1.21 and Remark 1.22;
 
 Let `R` be a complete ultrametric normed commutative ring with `‖1‖ = 1`, let
 `r > 0`, and let `g ∈ R⟨r⁻¹T⟩` be distinguished of degree `s` as in
-Convention 7 (`IsMulDistinguished`). Prove `g ≠ 0` and `‖g‖_r > 0`. Multiplication by `g` is
+Convention 7. Prove `g ≠ 0` and `‖g‖_r > 0`. Multiplication by `g` is
 norm-multiplicative: `‖gq‖_r = ‖g‖_r ‖q‖_r`.
 If `k` is the greatest attaining index of a nonzero `q`, the corresponding
 greatest attaining index of `gq` is `s + k`. Include the strict estimates for
 the other contributions to that product coefficient.
 
 For any polynomial `b` of degree less than `s`, prove
-`‖gq + b‖_r = max (‖g‖_r ‖q‖_r) ‖b‖_r` (`gaussNorm_mul_add_eq_max`).
+`‖gq + b‖_r = max (‖g‖_r ‖q‖_r) ‖b‖_r`.
 This estimate supplies uniqueness and the bounds; a global `NormMulClass R`
-must not appear in its hypotheses, and the estimate itself uses only the
-ultrametric inequality and the multiplicative unit, neither completeness nor
-`‖1‖ = 1`.
+must not appear in its hypotheses.
 
 ### 4.2 Division with bounded quotient and remainder
 
 For every `f ∈ R⟨r⁻¹T⟩`, construct unique
 `q ∈ R⟨r⁻¹T⟩` and `b ∈ R[T]` with
-`deg b < s` and `f = gq + b` (`weierstrassDivision_unique`). Uniqueness is among
-all pairs satisfying these two conditions, including `s = 0` and `f = 0`. Prove
+`deg b < s` and `f = gq + b`. State uniqueness for the pair, including `s = 0`
+and `f = 0`. Prove
 `‖q‖_r ≤ ‖f‖_r / ‖g‖_r`, `‖b‖_r ≤ ‖f‖_r`, and the norm identity of §4.1.
 For fixed `g`, quotient and remainder are bounded `R`-linear maps; give their
 values on `gq`, on lower-degree polynomials and on sums and scalar multiples.
@@ -509,15 +484,10 @@ inside the complete restricted algebra. It applies at every real `r > 0`.
 ### 4.3 Preparation and normalisation
 
 Construct unique `w ∈ R[T]` and `e ∈ R⟨r⁻¹T⟩` such that `w` is monic of
-degree `s`, `e` is a multiplicative unit, and `g = e w`
-(`weierstrassPreparation_unique`). Uniqueness holds among all such pairs, without
-a norm normalisation: `‖w‖_r = r^s` is a consequence, since `w = T^s − b` with
-`b` the remainder of `T^s` and `‖b‖_r ≤ r^s`. Prove the compatibility with
-division, give the polynomial case, and recover Tau Ceti's
-`IsDistinguished.existsUnique_mul_add_eq` and
-`IsDistinguished.existsUnique_isUnit_isMonicOfDegree_mul_eq`, stated under a
-multiplicative coefficient norm, by comparison of the distinguishedness
-predicates: under `NormMulClass` every unit is a multiplicative unit.
+degree `s`, `‖w‖_r = r^s`, `e` is a multiplicative unit, and `g = e w`.
+Prove uniqueness under these normalisations and the compatibility with division.
+Give the polynomial case and recover the existing field/multiplicative-norm
+theorems by comparison with their distinguishedness predicates.
 
 A bounded coefficient homomorphism transports division and preparation whenever
 the original and image divisors satisfy distinguishedness at the stated radius
@@ -528,32 +498,17 @@ distinguishedness or a particular distinguished degree.
 ### 4.4 Several variables
 
 Apply §§4.1–4.3 over the coefficient ring in the other variables, using the
-isometric iteration of §1.3. Write the polyradius as `Fin.cons r₀ r` (positivity
-of the parts gives positivity of the whole, `instFactPosFinCons`) and read a
-series in `Fin (n + 1)` variables through its `X 0`-slices `slice k g`, the
-series in the remaining variables that are the coefficients of `X 0^k`. The
-series is distinguished of degree `s` in `X 0` (`IsMulDistinguishedAt`) when
-`slice s g` is a multiplicative unit of the **coefficient restricted algebra**
-at radii `r`, the weighted slice norm `‖slice s g‖_r r₀^s` attains the Gauss norm
-of `g`, and higher slices have strictly smaller weighted norm. Obtain division
-with remainder a polynomial of degree less than `s` in `X 0` and restricted
-coefficients in the others, that is, a restricted series whose slices of degree
-at least `s` vanish (`mvWeierstrassDivision_unique`), the multiplication estimate
-(`mv_gaussNorm_mul_add_eq_max`), and preparation with a monic polynomial in
-`X 0` of degree `s`, that is, slice `s` equal to one and higher slices zero
-(`mvWeierstrassPreparation_unique`). Include the full norm estimates, naturality,
-and compatibility with reindexing.
+isometric iteration of §1.3. The distinguished coefficient is a multiplicative
+unit of that **coefficient restricted algebra**. Obtain division with remainder
+a polynomial of degree less than `s` in the chosen variable and restricted
+coefficients in the others. Include preparation, uniqueness, the full norm
+estimates, naturality, and compatibility with reindexing.
 
 **Checks.** `X - 1` is distinguished at radius one and is its own Weierstrass
 polynomial; lower coefficients need not have norm strictly less than one. Degree
 zero division has zero remainder. Work at a radius outside `|ℚ_p×|`. Over the
 dual-number ring of §3.2, divide `T⁴` by `T² - ε`; quotient `T² + ε` and
-remainder zero give a test with nonreduced coefficients. With `u = p + ε` in
-`ℚ_p[ε]/(ε²)` as in the Layer 3 Checks, `g = uT` at radius one attains its Gauss
-norm at index one with a unit coefficient, so it is distinguished in Tau Ceti's
-sense but not multiplicatively distinguished; dividing `T` by it gives `q = u⁻¹`,
-`b = 0`, and `‖g‖ ‖q‖ = p² ≠ 1 = ‖T‖`, so the estimate of §4.1 fails without the
-multiplicative-unit condition.
+remainder zero give a test with nonreduced coefficients.
 
 **Dependencies.** Layers 0–1 and §3.1. Neither Newton polygons nor affinoid geometry
 is needed. Sources: [Martin] Definition 1.24, Lemma 1.26, Proposition 1.27,
@@ -563,10 +518,8 @@ for the field specialisation.
 ## Layer 5: Algebraic structure of Tate algebras
 
 Here `T_n = K⟨X₁,…,X_n⟩` at unit polyradius. All results hold for the field
-generality of Convention 1. Unit-radius noetherianity is supplied by Tau Ceti's
-`TauCeti.MvPowerSeries.isNoetherianRing_isRestricted_subring`, and AdicSpaces
-§0.5 identifies it with strong noetherianness; the remaining Tate-specific
-algebraic and normed interfaces are targets here.
+generality of Convention 1. Unit-radius noetherianity is supplied by AdicSpaces
+§0.5; the remaining Tate-specific algebraic and normed interfaces are targets here.
 
 ### 5.1 Weierstrass polynomials and distinguished coordinates
 
@@ -578,23 +531,18 @@ on `1, X, …, X^(s-1)`. Give the reduction-to-remainder map and multiplication
 in these coordinates. A finite `T_n`-module killed by `w` is finite over
 `T_(n-1)`.
 
-For each nonzero `f ∈ T_n`, with `n > 0`, an isometric triangular change of
-variables makes `f` distinguished in a specified variable. At unit polyradius
-this is Tau Ceti's `exists_algEquiv_isDistinguished`, over a norm-one Banach
-ring, and `exists_algEquiv_isDistinguished_isUnit`, over `K` with a unit
-distinguished coefficient, for the variable `none` of `Option σ`; consume them
-and transport to a specified variable of `Fin (n + 1)` by reindexing. Prove
-that one change works for a finite family of nonzero series, choosing the
-exponents from a bound on the finite set of dominant monomials of the family.
-The substitutions and their inverses are the analytic maps of §2.2.
+For each nonzero `f ∈ T_n`, with `n > 0`, construct an isometric triangular
+change of variables making `f` distinguished in a specified variable. Choose
+the exponents from a bound on the finite set of dominant monomials; one change
+works for a finite family of nonzero series. Prove the polynomial statement
+first and lift it through reduction. The substitutions and their inverses are
+the analytic maps of §2.2.
 
 ### 5.2 Noetherian, factorial and dimension theory
 
-Consume noetherianity of `T_n` from Tau Ceti's
-`TauCeti.MvPowerSeries.isNoetherianRing_isRestricted_subring`. Prove that it is
-a unique factorisation domain (`tate_uniqueFactorizationMonoid`), integrally
-closed and Jacobson (`tate_isJacobsonRing`), and has Krull dimension `n`
-(`tate_ringKrullDim`). The induction uses §5.1 and preparation.
+Consume noetherianity of `T_n` from AdicSpaces §0.5. Prove that it is a unique
+factorisation domain, integrally closed and Jacobson, and has Krull dimension `n`.
+The induction uses §5.1 and preparation.
 
 The auxiliary Rückert interface of [BGR] §5.2.5 consists of an injective ring
 map `φ : A[X] → B` and a family `W` of monic polynomials, closed under taking
@@ -619,8 +567,7 @@ results on both the Gauss-normed carrier and the completed Huber carrier of §6.
 ### 5.3 Closed ideals and finite-module subobjects
 
 For a submodule `N ≤ T_n^m` with the maximum norm, prove closedness and strict
-closedness: every coset has a representative of least norm
-(`tate_exists_norm_sub_le`). Give finite
+closedness: every coset has a representative of least norm. Give finite
 generators of norm one for nonzero `N` such that each `x ∈ N` has an expression
 in them with coefficient norms at most `‖x‖`. Treat `N = 0` with an empty
 generating family. Ideals are the case `m = 1`.
@@ -644,7 +591,7 @@ Retain the Banach algebra at every positive polyradius. When
 The map from the unit Tate algebra sending `Y_i` to `c_i X_i^s_i` is injective
 and finite. Construct the finite monomial module generators
 `X^ν`, `0 ≤ ν_i < s_i`, with their coefficient/norm estimates, and prove
-noetherianity in this case (`isNoetherianRing_isRestricted_subring_of_radii`). This is an algebraic input to the classical
+noetherianity in this case. This is an algebraic input to the classical
 strict-affinoid criterion. The converse criterion belongs to rigid geometry,
 where the required general affinoid maximum-modulus theorem is available.
 
@@ -752,7 +699,7 @@ which in turn uses `adic-completion-noetherian`, independently of formal schemes
 §6.4 uses §0.2 and §5.3. Sources: [Wedhorn] §5.6, especially 5.48–5.50;
 [EGA] 0, §§7.5.1–7.5.4. The general tensor supplier is [Huber] §1.2.
 
-## Layer 7: Open-disc, entire and larger-radius series
+## Layer 7: Open-disc, entire and overconvergent series
 
 ### 7.1 Series on an open disc
 
@@ -768,14 +715,15 @@ of the bounded-coefficient algebra and its continuous evaluations at strict
 unit-ball points. Surjectivity of this inclusion is not asserted. Translation,
 derivatives, coefficient maps and substitution carry the radius conditions
 obtained in Layers 1–2. The bounded and algebraic locally analytic Amice
-transforms belong to functional analysis and LocallyAnalyticDistributions.
+transforms belong to functional analysis and the
+[locally analytic distributions roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/pull/854).
 Measure theory, distribution topologies and geometric Mellin transforms are
 consumers of the coefficient algebra, not inputs to its construction.
 
 ### 7.2 Entire series and polynomial division
 
-A series is entire when it is restricted at every real radius `r > 0`
-(`IsEntire`). Define the subring on native `PowerSeries`, prove closure under the algebraic operations,
+A series is entire when it is restricted at every real radius `r > 0`. Define
+the subring on native `PowerSeries`, prove closure under the algebraic operations,
 rescaling and Hasse derivatives, and give evaluation in every complete normed
 coefficient algebra as in §2.1. Prove completeness and polynomial density for
 the topology of all Gauss norms, equivalently those of a sequence tending to
@@ -784,7 +732,7 @@ infinity. No single Banach norm represents this topology.
 For a polynomial `P` with invertible leading coefficient and an entire `F`
 over a complete ultrametric norm-one commutative ring, prove unique division
 `F = P Q + B`, with `Q` entire and `B` a polynomial of degree less than
-`deg P` (`entire_division_unique`). Normalise `P` to be monic, apply §4.2 at every sufficiently large
+`deg P`. Normalise `P` to be monic, apply §4.2 at every sufficiently large
 radius, and use uniqueness to identify the quotients and remainders. Recover
 the norm identity when the leading coefficient is a multiplicative unit and
 the radius makes the polynomial distinguished. Include the zero remainder
@@ -800,11 +748,10 @@ under their boundedness hypotheses. The associated coprimality notion uses
 unique quotient above, including `P=1`. Export the quotient, its entireness,
 the division identity and the evaluation/linear-factor criterion as a common API.
 For `F(0)=1` and `F(a)=0`, prove `a` a unit with inverse
-`−Σ_n coeff (n+1) F · a^n`.
+`−Σ_n coeff (n+1) F · a^n` (`IsEntire.isUnit_of_evalAt_eq_zero`).
 
-**Monic entire resultant.** Define the monic entire resultant `Res(P, F)` as the
-determinant of multiplication by the remainder on the finite free algebra
-`R[T]/(P)`.
+**Monic entire resultant.** Define `entireResultant P F` as the determinant
+of multiplication by the remainder on the finite free algebra `R[T]/(P)`.
 Prove invariance modulo `P`, multiplicativity in `F`, bounded base change,
 agreement with the degree-bounded polynomial resultant, and
 `Res(T−a,F)=F(a)`. Supply `Res(P,F)=PG+HF` with `G` entire and `H` a
@@ -831,49 +778,35 @@ These generic interfaces supply compact-operator and Fredholm theory.
 Coleman's spectral transform, Fredholm resolvents and projectors are operator
 constructions and remain outside this roadmap.
 
-### 7.3 Radius pieces above the unit polydisc
+### 7.3 Overconvergent series
 
-For finitely many variables over `K` and a real `ρ > 1`, the radius-`ρ` piece
-`K⟨ρ⁻¹X₁,…,ρ⁻¹X_n⟩` is the Layer 0–1 algebra at the constant polyradius `ρ`.
-This section records the interface from which dagger geometry forms its
-overconvergent algebra `W_n = ⋃_{ρ>1} K⟨ρ⁻¹X⟩`: that union, its inclusion in
-`T_n`, its completion for the unit Gauss norm and its fringe topology are
-AdicSpaces Part IV §F1.1's, which cites §§0.1, 1.1 and 5.4 of this roadmap for
-the pieces; the statements here are the operations on them. Nothing of Part IV is
-an input to this roadmap.
+**Supplier contract: AdicSpaces Part IV §F1.1.** For finite variables over `K`,
+consume its algebra
+`W_n = ⋃_{ρ>1} K⟨ρ⁻¹X₁,…,ρ⁻¹X_n⟩`
+inside the native formal-series ring, its ring/algebra structure, inclusion
+in `T_n`, polynomial density and completion for the restricted unit Gauss norm.
+This roadmap proves the comparison with the condition using a positive
+polyradius whose coordinates are all greater than one, and compatibility of
+the derivative and substitution operations with that inclusion.
 
-Prove that a series restricted at a positive polyradius all of whose coordinates
-exceed one is restricted at the constant polyradius given by their minimum, and
-conversely that restrictedness at a constant `ρ` gives restrictedness at every
-polyradius with coordinates at most `ρ` (§1.2). The pieces are antitone in `ρ`,
-any two lie in a common one, and each includes contractively and injectively
-into `T_n` with dense image. The inclusion commutes with evaluation at points of
-norm at most one in any complete isometric extension (§2.1) and with Hasse
-derivatives, which preserve each piece with the bound
-`‖D^[k] f‖_ρ ≤ ρ^(-k) ‖f‖_ρ` (§2.3).
-
-Give the radius control for substitution: for `f` restricted at `ρ > 1` and inner
-series `g_i` restricted at some `ρ' > 1` with unit Gauss norms at most one, prove
-that `t ↦ ‖g_i‖_t` is continuous on `[1, ρ']`, so that some common `ρ''` in
-`(1, ρ']` has `‖g_i‖_(ρ'') ≤ ρ` for all `i`; §2.2 then gives the substitution
-`f(g)` restricted at `ρ''`, and its image in `T_n` is the substitution of the
-images. Radii in `√|K×|` are cofinal among the radii greater than one; radii in
-`|K×|` alone are not when `K` is discretely valued, since those exceeding one are
-at least `|π|⁻¹`.
+Give the correct radius control for substitution: for overconvergent `f` and
+overconvergent inner series of unit Gauss norm at most one, choose a common
+radius slightly greater than one on which substitution satisfies §2.2.
+Prove compatibility of the resulting substitutions with inclusion in `T_n`.
+Radii in `√|K×|` suffice in the union; radii in `|K×|` alone need not suffice
+for a discretely valued field. General dagger algebras and their locally convex
+fringe topology are supplied by AdicSpaces Part IV §F1.
 
 **Checks.** `Σ X^n` is open-unit-disc analytic and not unit-radius restricted.
-`Σ p^n X^n` over `ℚ_p` has `‖p^n‖ ρ^n = (ρ/p)^n`, so it lies in every piece with
-`1 < ρ < p`, in none with `ρ ≥ p`, and is not entire. `Σ p^(n²) X^n` is entire.
-Polynomials belong to all three constructions. Over `ℚ_p`, the exponential
-`Σ X^n/n!` has a finite convergence radius and must not be used as an example of
-an entire series. The continuity of `t ↦ ‖g‖_t` fails for a non-restricted
-series: `g = Σ X^n` has `‖g‖_t = 1` for `t ≤ 1` and the junk value of an
-unbounded supremum for `t > 1`.
+`Σ p^n X^n` is overconvergent over `ℚ_p` but is not entire: its boundary radius
+is `p`. `Σ p^(n²) X^n` is entire. Polynomials belong to all three constructions.
+Over `ℚ_p`, the exponential `Σ X^n/n!` has a finite convergence radius and
+must not be used as an example of an entire series.
 
-**Dependencies.** §§7.1 and 7.3 use Layers 0–2 only. Entire division also uses
-Layer 4. Sources: [Colmez] §§I.4 and II for open-disc coefficient analysis;
-[Coleman] Appendix A3 for entire division; [GK] §1 for the radius pieces of the
-overconvergent algebra.
+**Dependencies.** §§7.1 and 7.3 use Layers 0–2; §7.3 also consumes the
+`W_n` contract of AdicSpaces Part IV §F1.1. Entire division also uses Layer 4.
+Sources: [Colmez] §§I.4 and II for open-disc coefficient analysis;
+[Coleman] Appendix A3 for entire division; [GK] §1 for overconvergent series.
 The stated radius-limit and coefficient-map compatibilities are explicit
 consequences of the radius estimates and completeness in Layers 0–2.
 
@@ -890,7 +823,7 @@ Mathlib coefficients and ultrametric analysis
                         modulus
 
 Layers 0–2 → open-disc series
-Layers 0–2 → radius pieces above the unit polydisc (§7.3)
+Layers 0–2 and Part IV §F1.1 → overconvergent analytic comparisons
 Layers 0–2 and 4 → entire series and polynomial division
 
 AdicSpaces topological algebra → §6.1
@@ -924,9 +857,8 @@ theorems.
    available in all characteristics on the common unit-radius carrier.
 5. Adic restricted series reduce to polynomial rings, and the hypotheses
    distinguishing the topological and normed universal properties are explicit.
-6. Open-disc and entire series and the radius pieces above the unit polydisc
-   share the radius/evaluation API while retaining their distinct defining
-   conditions and topologies.
+6. Open-disc, entire and overconvergent series share the radius/evaluation API
+   while retaining their distinct defining conditions and topologies.
 
 An implementation should exercise these through actual consumers: Newton
 factorisation uses §4; the locally analytic disc model uses §§1.3 and 2;
@@ -964,8 +896,7 @@ use Layers 6–7. Those applications do not become additional targets here.
   statements here retain entireness in uniqueness assertions.
 - **[GK]** E. Große-Klönne, [*Rigid analytic spaces with overconvergent structure
   sheaf*](https://arxiv.org/abs/1408.3329), J. Reine Angew. Math. 519 (2000),
-  73–95, §1. Only the radius pieces entering its series algebra are developed
-  here; the algebra and its unit-norm completion are AdicSpaces Part IV's.
+  73–95, §1. Only the series algebra and its unit-norm completion are developed here.
 
 ## Existing Lean work
 
