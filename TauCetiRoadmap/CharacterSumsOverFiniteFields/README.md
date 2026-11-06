@@ -1164,14 +1164,22 @@ For `d ∣ q − 1` and `f` nonzero with `m` distinct roots that is not of the f
 necessary here, unlike in 4.7: `y⁴ = x²` over `𝔽_5` has `9` points, not `5`, and `y⁴ = (x² − 1)²` over
 `𝔽_25` has `46`, while `(d − 1)(m − 1)√q` is `0` and `15`. In particular for a squarefree `f` of degree
 `m ≥ 1` and `p ≠ 2`, `|#{y² = f(x)} − q| ≤ (m − 1) √q` (`card_hyperelliptic_sub_le`). For `f` as in 4.8:
-`|#{(x, y) ∈ F² : y^p − y = f(x)} − q| ≤ (p − 1)(n − 1) √q`. Both are the counting identities of
-4.7–4.8 at `E = F` with the bounds summed. *Needs:* 4.7, 4.8.
+`|#{(x, y) ∈ F² : y^p − y = f(x)} − q| ≤ (p − 1)(n − 1) √q`. The first is the counting identity of
+4.7 at `E = F` with the bounds summed. The second is not 4.8's identity at `E = F` (there
+`y^q − y` vanishes on `F` and the count is `q · #{x ∈ F : f(x) = 0}`); it uses
+`#{y ∈ F : y^p − y = c} = p · [Tr_{F/𝔽_p} c = 0] = ∑_{t ∈ 𝔽_p} ψ_F(t c)`, so the count is
+`q + ∑_{t ∈ 𝔽_p^×} ∑_x (ψ_F.mulShift t)(f(x))`, and 4.8 bounds each of the `p − 1` sums.
+*Needs:* 4.7, 4.8.
 
 **Checks.**
 
 - Over `𝔽_3`, `f = X` gives `N = 3`, so the degree-one bound is `0 ≤ 0`.
 - Over `𝔽_3`, `f = 1` is squarefree but gives `N = 6`: the proposed degree-zero bound would be `3 ≤ −√3`, so positive degree is essential.
 - Over `𝔽_5`, `f = X²` gives `N = 9`; squarefreeness fails, and the squarefree bound `4 ≤ √5` would be false.
+- Over `𝔽_9`, `y³ − y = x²` has `15` points, and `|15 − 9| = 6 = (p − 1)(n − 1)√q`: the
+  Artin–Schreier bound is attained. With `y⁹ − y` in place of `y^p − y` the count is
+  `9 = q · #{x : x² = 0}`, so an identity summing over `t ∈ F^×` instead of `t ∈ 𝔽_p^×` counts a
+  different set.
 
 ### Examples
 
@@ -1888,6 +1896,43 @@ the least primitive root and `n ≡ g^a`.
   fractional part is `⟨a/(q−1)⟩`; the congruence of 6.2 holds for `λ = ζ_7 − 1` and not for `π`.
 - `|S_χ(1, 15; 17³)| = 289 > 280.37 = τ(17³) 17^{3/2}`: the twisted Weil bound of 7.6 carries the
   factor `𝔠_χ^{1/2}` unless `c` is cube-free; the untwisted bound holds for every `c`.
+
+## Provenance
+
+This section is secondary: it maps targets to existing Lean formalizations and prescribes nothing.
+Two Apache-2.0 repositories formalize the étale-cohomological side of the Weil conjectures, on Lean
+and Mathlib versions other than this roadmap's pins:
+[`AxiomMath/Weil`](https://github.com/AxiomMath/Weil) at commit `27cdb20` (Lean `v4.34.0-rc2`,
+Mathlib `16edf57`; it requires [`AxiomMath/Stacks`](https://github.com/AxiomMath/Stacks)) and
+[`formal-arithmetic-geometry/weil-conjectures`](https://github.com/formal-arithmetic-geometry/weil-conjectures)
+at commit `55abf46` (Lean `v4.33.1`). Neither is a supplier: no target or route of this roadmap
+passes through étale cohomology or purity. The overlap is small.
+
+- **4.9.** `Weil/AlgebraicGeometry/EtaleCohomology/Trace/WeilRiemannHypothesisForm.lean` (Weil)
+  states the Riemann-hypothesis form of the Weil conjectures for a smooth proper geometrically
+  irreducible scheme over `𝔽_q`, and `WeilConjectures/ZetaFunction/HasseWeil.lean`
+  (weil-conjectures) proves `|N − (q + 1)| ≤ 2g√q` for a smooth proper geometrically integral
+  curve of genus `g`. Neither file states an affine count. For `y² = f(x)`, `p ≠ 2`, with `f`
+  squarefree of degree `m` and leading coefficient `a`, the curve bound gives the count of 4.9 once
+  the smooth projective model is known to have genus `⌊(m − 1)/2⌋` and `1` (odd `m`) or `1 + η(a)`
+  (even `m`) rational points at infinity, the affine error then being at most `(m − 1)√q` or
+  `(m − 2)√q + 1 ≤ (m − 1)√q`; the counts for `y^d = f(x)` and `y^p − y = f(x)` need the genus and
+  the points at infinity of those models as well.
+- **3.1 and 4.5–4.8.** weil-conjectures has the Artin–Schreier sheaf of `ψ(a x)` on the affine
+  line with its trace function `x ↦ ψ(Tr(a x))` (`WeilConjectures/WeilSheaf/ArtinSchreierTrace.lean`),
+  the `L`-series of a Weil sheaf as an Euler product over closed points with the
+  logarithmic-derivative identity that 3.1 proves for monic polynomials
+  (`WeilConjectures/WeilSheaf/LSeries.lean`), and the trace formula for the `L`-series of a lisse
+  sheaf on a smooth affine curve through `H_c¹` and `H_c²` (`WeilConjectures/WeilSheaf/EulerProduct.lean`).
+  These files do not assemble them into the `L`-polynomial of `∑_x ψ(f(x))`, its degree
+  `deg f − 1` (4.6) or a bound. Weil proves that the `L`-function of a `ℚ_ℓ`-sheaf on a separated
+  scheme of finite type over `𝔽_q` is rational
+  (`Weil/AlgebraicGeometry/EtaleCohomology/Trace/LAdicTraceFormulaFinal.lean`).
+- **Layers 0–2, 4.1–4.5 and 5–7.** Multiplicative characters and their Kummer sheaves, Gauss,
+  Jacobi and Kloosterman sums and Stepanov's method have no counterpart in the modules above.
+
+A proof adapted from either repository keeps its Apache-2.0 attribution. The statements of this
+roadmap are specified independently of both.
 
 ## References
 

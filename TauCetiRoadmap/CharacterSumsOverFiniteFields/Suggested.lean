@@ -36,8 +36,8 @@ between roots of unity and the residue field supplied by ClassicalArithmeticComp
 6.1 specializes its power residue symbol at order q − 1), and with it the Stickelberger
 corollaries 6.2, the Jacobi digit-sum formula 6.3 and the Gross–Koblitz evaluation 6.4–6.5 (whose
 Gamma function and formula are `DirichletPadicLFunctions`' carriers, not at the pins); the sign of
-the quadratic Gauss sum over the prime field (1.4), which is `AnalyticNumberTheoryPartI` §2.30's
-theorem; the identification of `kloostermanSum 1 ψ a b` with the rank-two hyper-Kloosterman sum
+the quadratic Gauss sum over the prime field (1.4), which is proved in `AnalyticNumberTheoryPartI`
+§2.30; the identification of `kloostermanSum 1 ψ a b` with the rank-two hyper-Kloosterman sum
 of `CongruenceSpectralGap` §4.2a and of `S(m, n; c)` with `AutomorphicSpectralTheory` §1.16's sum
 (7.3), neither of whose carriers is at the pins; and 7.7, which only names characters.
 -/
