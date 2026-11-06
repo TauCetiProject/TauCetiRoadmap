@@ -68,7 +68,7 @@ diagram; topological representation in rank `≥ 4`, pseudosphere arrangements, 
 face lattice and the extension space conjecture; Mnëv's universality theorem and the complexity
 of stretchability; matroid theory without orientation beyond the matroid of a chirotope, which is
 Mathlib's; hyperplane arrangements over `ℝ` or `ℂ` (complements, Orlik–Solomon algebras,
-characteristic polynomials). Whether the reconstruction of 3.9 (ii) extends to non-uniform simple
+characteristic polynomials). Whether the reconstruction of 8.4 (ii) extends to non-uniform simple
 rank-3 chirotopes with no bigonal element is not a target.
 
 ## Conventions
@@ -99,7 +99,9 @@ rank-3 chirotopes with no bigonal element is not a target.
    `e ∈ sep X Y` some `Z ∈ L` has `Z e = 0` and `Z f = (X ∘ Y) f` for `f ∉ sep X Y` (BLSWZ
    Definition 4.1.1). The cocircuit vector `Chirotope.cocircuitVec c x i` is
    `e ↦ c (Function.update x i e)`, and `Chirotope.covectorsOf c` is the set of compositions of
-   finite lists of cocircuit vectors and of their negatives. Witness: in 2.1.
+   finite lists of cocircuit vectors and of their negatives; for a finite `E` it is the classical
+   covector set (BLSWZ Proposition 3.7.2), and for an infinite `E` it can fail (L3) (Check of
+   2.2). Witness: in 2.1.
 5. **Monotone arrangements.** `MonotoneArrangement n` is a family `f : Fin n → ℝ → ℝ` of
    continuous functions such that for `i < j` some `x₀` has `f i x < f j x` for `x < x₀`,
    `f i x₀ = f j x₀` and `f j x < f i x` for `x > x₀`: indices increase upward at the far left and
@@ -176,7 +178,7 @@ through SurfaceTopology Layer 2 (Layer 8).
 `structure GMap (n : ℕ) (D : Type*) [Fintype D] [DecidableEq D]` with `adj`, `involutive`,
 `commute_of_far`; `abbrev GMap2 (D) [Fintype D] [DecidableEq D]`; `GMap.Cell`, `GMap.Components`,
 `GMap2.Iso`, `GMap2.eulerChar`, `IsSurfaceGMap`, `IsClosedSurfaceGMap` (`IsSurfaceGMap` and no dart
-fixed by `adj 2`) and `GMap2.IsOrientable`, for 3.7, 3.9 and Layer 8. Layer 2:
+fixed by `adj 2`) and `GMap2.IsOrientable`, for 3.7 and Layer 8. Layer 2:
 `CombinatorialMap.toBipartiteRibbonGraph`, `BipartiteRibbonGraph.toCombinatorialMap` and
 `BipartiteRibbonGraph.eulerChar_toCombinatorialMap`, for Layer 8. Layer 4:
 `GMap2.orientationDoubleCover` and `GMap2.orientationDoubleCover_eulerChar`, for 8.2 and 9.5.
@@ -189,7 +191,7 @@ for subgroups of infinite index, and regular flag systems on arbitrary groups.
 
 **From GraphConnectivityAndFlows.** Target 1.1: the graph-isomorphism interface of `Graph α β`
 (equivalences of vertex and edge sets preserving `IsLink`, with identity, inverse and composition)
-and the bridge `toSimpleGraph (Graph.ofSimpleGraph H) ≃ H`, for 3.9 and 8.3.
+and the bridge `toSimpleGraph (Graph.ofSimpleGraph H) ≃ H`, for 8.3 and 8.4.
 
 **From RootSystems.** What RootSystems must provide (gap:coxeter-geometric-faithfulness):
 injectivity of `CoxeterSystem.geometricRepresentation` for every Coxeter system
@@ -206,14 +208,13 @@ Layer 0 builds sign vectors. Layer 1 builds chirotopes on Layer 0 and Mathlib's 
 realizations, minors and duality. Layer 2 builds covectors on Layers 0–1 and proves that the
 covectors of a chirotope are an oriented matroid, with walls, the face lattice and rank 2. Layer 3
 is the topological model in rank 3 (monotone arrangements, cells, the Folkman–Lawrence theorem,
-Sylvester–Gallai) on Layers 1–2; its map and skeleton targets (3.7, 3.9) consume SurfaceTopology
-and GraphConnectivityAndFlows. Layer 4 adds wiring diagrams, signotopes and flips on Layers 1–3.
-Layer 5 builds single-element extensions on Layers 1–2 and closes the unmarked representation with
-3.6. Layer 6 uses Layers 1, 3 and 5 for stretchability and the non-Pappus arrangement. Layer 7
-builds the cartographic group on Mathlib's Coxeter systems and its action on SurfaceTopology's
-flag carrier; Layer 8 compares SurfaceTopology's maps with Layer 7 and with Layer 3; Layer 9 builds
-regular flag systems and the examples on Layers 7–8. Layer 10 specializes Tau Ceti's geometric
-representation to the string Coxeter groups of Layer 7.
+Sylvester–Gallai) on Layers 1–2; its map target 3.7 consumes SurfaceTopology. Layer 4 adds wiring
+diagrams, signotopes and flips on Layers 1–3. Layer 5 builds single-element extensions on Layers 1–2
+and closes the unmarked representation with 3.6. Layer 6 uses Layers 1, 3 and 5 for stretchability
+and the non-Pappus arrangement. Layer 7 builds the cartographic group on Mathlib's Coxeter systems
+and its action on SurfaceTopology's flag carrier; Layer 8 compares SurfaceTopology's maps with Layer
+7 and with Layer 3; Layer 9 builds regular flag systems and the examples on Layers 7–8. Layer 10
+specializes Tau Ceti's geometric representation to the string Coxeter groups of Layer 7.
 
 ## Layer 0: sign vectors
 
@@ -432,12 +433,14 @@ Definition 4.1.1).
 ### 2.2 From chirotopes
 
 Define `Chirotope.cocircuitVec` and `Chirotope.covectorsOf` (Convention 4) and prove
-`Chirotope.exists_orientedMatroid_covectorsOf`: the covectors of a chirotope form an
-`OrientedMatroid` (BLSWZ §3.5 and §3.7). Prove also: its minimal nonzero elements are the nonzero
+`Chirotope.exists_orientedMatroid_covectorsOf`: for a finite `E` the covectors of a chirotope form
+an `OrientedMatroid` (BLSWZ §3.5 and §3.7). Prove also: its minimal nonzero elements are the nonzero
 cocircuit vectors; their supports are the cocircuits of `χ.matroid`;
 `covectorsOf (-χ) = covectorsOf χ`; reorientation and minors commute with `covectorsOf`; its rank
-is `r`; and for a finite `E` every `OrientedMatroid` of rank `r ≥ 1` is `covectorsOf χ` for a
-chirotope `χ` of rank `r`, unique up to sign (BLSWZ Theorem 3.5.5).
+is `r`. Prove `Chirotope.exists_chirotope_covectorsOf`: for a finite `E` every `OrientedMatroid`
+is `covectorsOf χ` for some chirotope `χ` (for `{0}`, a chirotope of rank `0`, which has no
+cocircuit vector; otherwise BLSWZ Theorem 3.5.5 with Proposition 3.7.2); and that for rank
+`r ≥ 1` the chirotope has rank `r` and is unique up to sign.
 *Needs:* 1.1, 1.3, 2.1.
 
 **Checks.**
@@ -447,6 +450,13 @@ chirotope `χ` of rank `r`, unique up to sign (BLSWZ Theorem 3.5.5).
 - Negatives are needed in the definition: in rank 1 the cocircuit vectors are only `X` (a tuple
   of length 1 has one position), and compositions of `X` alone give `{0, X}`, which fails (L1).
 - For the rank-3 chirotope on three elements every sign vector is a covector (27 of them).
+- Finiteness is needed. Take the realizable rank-3 chirotope of the lines `e : y = 0`,
+  `a₁ : y = 1 + x`, `a₂ : y = 1 - x`, `b₁ : y = -1 + x`, `b₂ : y = -1 - x` and, for `n ≥ 2`,
+  `fₙ : y = n² x - n`, `gₙ : y = n² x + n`, on an infinite `E`. The cocircuit vectors `X`, `Y` of
+  the vertices `(0, 1)` and `(0, -1)` have `sep X Y = {e}` and agree, nonzero, on every `fₙ`, `gₙ`.
+  A covector `Z` with `Z e = 0` begins with the cocircuit of a vertex `(±1, 0)` or `(±1/m, 0)` on
+  `e`, and for `(1/m, 0)` the lines `fₙ` with `n > m` force the sign `-1` where every `gₙ` forces
+  `+1` (symmetrically for the others). So (L3) fails at `X, Y, e`.
 
 ### 2.3 Walls and polygons
 
@@ -515,11 +525,11 @@ there are `n (n - 1)` cocircuits, `2 n (n - 1)` covectors of rank 2 and `n (n - 
 Signed elements are `E × ℤˣ`, with antipode `(e, u) ↦ (e, -u)` and `χ` extended by multiplying by
 the units. Prove `Chirotope.exists_unique_circularOrder`: for a simple chirotope of rank 2 on a
 finite `E` there is a unique `CircularOrder` on `E × ℤˣ` such that, for `a.1 ≠ b.1`,
-`χ (a, b) = 1 ↔ sbtw a b (-a)`. Prove that the antipode preserves it, and that every circular
-order on `E × ℤˣ` preserved by the antipode, with exactly `|E| - 1` elements strictly between `a`
-and `-a` for each `a`, comes from a unique simple rank-2 chirotope. The *local sequence* of a
-non-loop `e` of a rank-3 chirotope is the circular order of the simplification of its contraction
-at `e`: the cyclic order in which the pseudoline `e` meets the others.
+`χ (a, b) = 1 ↔ sbtw a b (-a)`. Prove that the antipode preserves it, and, for `|E| ≥ 2`, that
+every circular order on `E × ℤˣ` preserved by the antipode, with exactly `|E| - 1` elements
+strictly between `a` and `-a` for each `a`, comes from a unique simple rank-2 chirotope. The *local
+sequence* of a non-loop `e` of a rank-3 chirotope is the circular order of the simplification of its
+contraction at `e`: the cyclic order in which the pseudoline `e` meets the others.
 *Needs:* 1.5, 1.7; Mathlib `CircularOrder`, `sbtw`.
 
 **Checks.**
@@ -531,6 +541,9 @@ at `e`: the cyclic order in which the pseudoline `e` meets the others.
 - Simplicity is needed: for `(1, 0), (2, 0), (0, 1)` the open arc from `(1, +)` to `(1, -)` must
   be `{(3, +)}`, and so must the arc from `(2, +)` to `(2, -)`; the second arc then passes through
   `(1, +)` or misses `(3, +)`, so no circular order exists.
+- `|E| ≥ 2` is needed in the converse: for `E = Fin 1` the two signed elements carry one circular
+  order, preserved by the antipode with `0` elements between `a` and `-a`, but there is no
+  `Chirotope 2 (Fin 1)`, since no pair of elements is injective.
 
 ### Examples
 
@@ -641,8 +654,12 @@ Prove `exists_monotoneArrangement`: for a simple rank-3 chirotope `χ` on `Optio
 `none` is in general position (`χ ![some a, some b, none] ≠ 0` for `a ≠ b`) there are
 `σ : Equiv.Perm (Fin n)`, a monotone arrangement `A` and `R` with
 `reorientFun A.chiFun R = relabelFun (Equiv.optionCongr σ) χ` (BLSWZ Theorem 5.2.1 and
-Chapter 6; Goodman–Pollack 1984). The unmarked form is 5.5.
-*Needs:* 1.5, 3.3.
+Chapter 6; Goodman–Pollack 1984). The unmarked form is 5.5. Route: contract at `none` and read
+the slope order of the wires from the circular order of 2.7; build the sweep (the sequence of
+orders of the wires met by a vertical line moving to the right) by induction on the elements,
+inserting each wire through its local sequence, and draw it piecewise linearly; then compare the
+chirotopes through 3.3. No target of Layers 4 or 5 is used.
+*Needs:* 1.5, 1.7, 2.7, 3.3.
 
 **Checks.**
 
@@ -709,40 +726,6 @@ of the six vertices of `{a, b, c, d}` it passes through (none, one, or an opposi
   elements but one through one vertex) every pencil element is bigonal; four in general position
   have no bigonal element and are the case of exactly four elements.
 
-### 3.9 Skeletons: faithfulness and the uniform case
-
-(i) *Faithfulness.* Let `χ, χ'` be simple rank-3 chirotopes on finite sets, and `f, g` two maps of
-flags from the map of `χ` to the map of `χ'` (3.7), both commuting with `adj 1`, such that `f φ` and
-`g φ` have the same vertex and the same edge for every flag `φ`. Prove `f = g`. Route: the flags
-with a given vertex `v` and edge `e` are `ψ` and `adj 2 ψ`; if `g φ = adj 2 (f φ)`, then
-`g (adj 1 φ)` and `f (adj 1 φ)` lie on the two edges adjacent to `e` around `v`, which are distinct
-because every vertex of `χ'` lies on at least two elements and so has at least four edges.
-(ii) *Uniform reconstruction.* Let `χ, χ'` be uniform simple rank-3 chirotopes on finite sets with
-at least four elements. Prove that every label-compatible isomorphism of their skeletons (8.3,
-with GraphConnectivityAndFlows Target 1.1 isomorphisms) is induced by a unique isomorphism of maps
-commuting with the labels, and that its bijection of labels `σ : E ≃ E'` makes `relabelFun σ χ`
-reorientation equivalent to `χ'`. Route: deleting one element of a simple projective arrangement
-leaves a simple Euclidean one; for it, the graph obtained by adding one vertex joined to every
-vertex of degree less than four is 3-connected and planar (Bose–Everett–Wismath 2003, as used in
-the proof of Eppstein 2014, Lemma 1), so by Whitney's theorem (Whitney 1932; Bondy–Murty 2008,
-Theorem 10.28) its embedding in the sphere is unique, and the pseudolines are the paths that leave
-each vertex through the edge opposite to the one they entered by (Eppstein 2014, Lemma 1 and its
-proof). The last step is that the projective face poset determines a simple oriented matroid up to
-reorientation (it determines the tope graph; Björner–Edelman–Ziegler 1990).
-*Needs:* 1.6, 3.7, 8.3; SurfaceTopology Layer 1 `GMap2.Iso`; GraphConnectivityAndFlows Target 1.1.
-
-**Checks.**
-
-- (i) `adj 2` itself sends every flag to a flag with the same vertex and edge and is not the
-  identity: commuting with `adj 1` is needed.
-- (i) At least three edges at every vertex are needed: on the map of an `n`-gon on the sphere,
-  where every vertex has two edges, the automorphism exchanging the two faces acts as `adj 2` on
-  every flag, commutes with `adj 1`, and agrees with the identity on vertices and edges.
-- (ii) For three elements the skeleton has 3 vertices and 6 edges in three parallel pairs, with 48
-  label-compatible automorphisms (`S₃ × (ℤ/2)³`) against 24 automorphisms of the map: "at least
-  four" is needed. For four elements the skeleton is the octahedral graph (6 vertices, 12 edges),
-  each label carried by a triangle, and both groups have order 24.
-
 ### Examples
 
 - The three lines `y = x`, `y = 1`, `y = 3 - x`, their 19 cells and their chirotope `ofVectorsFun`
@@ -752,9 +735,8 @@ reorientation (it determines the tope graph; Björner–Edelman–Ziegler 1990).
 
 ### Dependencies
 
-Layers 1–2, 8.3, SurfaceTopology Layer 1, GraphConnectivityAndFlows Target 1.1 and Mathlib. 3.2
-and 3.3 use 3.1; 3.4 uses 3.3; 3.5 uses 3.2–3.3; 3.6 uses 3.3; 3.7 uses Layer 2; 3.8 uses
-Layers 1–2; 3.9 uses 3.7 and 8.3.
+Layers 1–2, SurfaceTopology Layer 1 and Mathlib. 3.2 and 3.3 use 3.1; 3.4 uses 3.3; 3.5
+uses 3.2–3.3; 3.6 uses 1.7, 2.7 and 3.3; 3.7 uses Layer 2; 3.8 uses Layers 1–2.
 
 ## Layer 4: wiring diagrams, allowable sequences, signotopes, flips
 
@@ -799,12 +781,10 @@ Define `Wiring.CommutationStep` (`… i j … ↦ … j i …` when `|i - j| ≥
 (`… i (i + 1) i … ↦ … (i + 1) i (i + 1) …`), and prove that both preserve wiring diagrams.
 Prove `Wiring.reflTransGen_of_isWiringDiagram`: any two simple wiring diagrams on `n + 1` wires
 are connected by commutations and braid moves.
-Prove that commutations preserve the chirotope of the arrangement of 4.2, and that a braid move is
-a legal mutation: the three wires it reverses are the walls of a triangle (4.5) of the arrangement
-before the move, and the chirotope after the move is the flip at that triangle; the edges of the
-flip graph of wiring diagrams are therefore edges of the flip graph of 4.5. The number of
-commutation classes is `1, 1, 2, 8, 62` for `1, …, 5` wires (OEIS A006245).
-*Needs:* 4.2, 4.5.
+Prove that commutations preserve the chirotope of the arrangement of 4.2. That a braid move is a
+legal mutation is proved in 4.5. The number of commutation classes is `1, 1, 2, 8, 62` for
+`1, …, 5` wires (OEIS A006245).
+*Needs:* 4.2.
 
 **Checks.**
 
@@ -845,10 +825,14 @@ the certificate of a legal mutation; and `Chirotope.MutationStep`. Prove
 1956), and it is uniform; `Chirotope.exists_triangle_of_flipFun`: if the flip at three distinct
 elements is a chirotope, they are the walls of a triangle (Roudneff–Sturmfels 1988);
 `Chirotope.reflTransGen_mutationStep` (Ringel's theorem): any two uniform rank-3 chirotopes on the
-same finite `E` are connected by mutation steps and reorientations. Prove Levi's triangle theorem:
-in a uniform rank-3 chirotope on at least three elements every element is a wall of at least three
-triangular cells of the projective face poset, so there are at least `n` of them (Levi 1926).
-*Needs:* 1.5, 2.2, 2.3.
+same finite `E` are connected by mutation steps and reorientations. Prove that a braid move of
+4.3 is a legal mutation: the three wires it reverses are the walls of a triangle of the
+arrangement of 4.2 before the move, and the chirotope after the move is the flip at that
+triangle, so the edges of the flip graph of wiring diagrams are edges of this flip graph. Prove
+Levi's triangle theorem: in a simple rank-3 chirotope on a finite `E` with `3 ≤ |E|` every element
+is a wall of at least three triangular cells of the projective face poset, so there are at least
+`|E|` of them (Levi 1926; Felsner–Goodman 2017, Theorem 5.4.5).
+*Needs:* 1.5, 2.2, 2.3, 4.2, 4.3.
 
 **Checks.**
 
@@ -859,6 +843,9 @@ triangular cells of the projective face poset, so there are at least `n` of them
   `χ125 χ134` all positive.
 - Levi's bound is sharp there: each element is a wall of exactly three of the five triangles. On
   three elements the only triangle is the whole set and the flip is `-χ`.
+- Levi's theorem is not only for uniform chirotopes: for the near-pencil on four elements (three
+  lines through a point and a fourth line) all six cells are triangles, each line of the pencil
+  is a wall of four of them and the fourth line a wall of all six.
 
 ### 4.6 Small arrangements
 
@@ -880,8 +867,8 @@ Prove that the isomorphism classes (1.6) of uniform rank-3 chirotopes on `Fin n`
 
 ### Dependencies
 
-Layers 1–3 and Mathlib. 4.2 uses 3.1; 4.3 uses 4.2 and 4.5; 4.4 uses 4.1 and 4.3; 4.5 uses
-Layer 2; 4.6 uses 4.5.
+Layers 1–3 and Mathlib. 4.2 uses 3.1; 4.3 uses 4.2; 4.4 uses 4.1 and 4.3; 4.5 uses Layer 2,
+4.2 and 4.3; 4.6 uses 4.5.
 
 ## Layer 5: extensions and relative positions
 
@@ -1215,14 +1202,48 @@ GraphConnectivityAndFlows Target 1.1's.
 - Four elements in general position: the octahedral graph, simple, 4-regular.
 - The projective plane `aa`: one vertex and one edge, a loop, which the multigraph keeps.
 
+### 8.4 Skeletons: faithfulness and the uniform case
+
+(i) *Faithfulness.* Let `χ, χ'` be simple rank-3 chirotopes on finite sets, and `f, g` two maps of
+flags from the map of `χ` to the map of `χ'` (3.7), both commuting with `adj 1`, such that `f φ` and
+`g φ` have the same vertex and the same edge for every flag `φ`. Prove `f = g`. Route: the flags
+with a given vertex `v` and edge `e` are `ψ` and `adj 2 ψ`; if `g φ = adj 2 (f φ)`, then
+`g (adj 1 φ)` and `f (adj 1 φ)` lie on the two edges adjacent to `e` around `v`, which are distinct
+because every vertex of `χ'` lies on at least two elements and so has at least four edges.
+(ii) *Uniform reconstruction.* Let `χ, χ'` be uniform simple rank-3 chirotopes on finite sets with
+at least four elements. Prove that every label-compatible isomorphism of their skeletons (8.3,
+with GraphConnectivityAndFlows Target 1.1 isomorphisms) is induced by a unique isomorphism of maps
+commuting with the labels, and that its bijection of labels `σ : E ≃ E'` makes `relabelFun σ χ`
+reorientation equivalent to `χ'`. Route: deleting one element of a simple projective arrangement
+leaves a simple Euclidean one; for it, the graph obtained by adding one vertex joined to every
+vertex of degree less than four is 3-connected and planar (Bose–Everett–Wismath 2003, as used in
+the proof of Eppstein 2014, Lemma 1), so by Whitney's theorem (Whitney 1932; Bondy–Murty 2008,
+Theorem 10.28) its embedding in the sphere is unique, and the pseudolines are the paths that leave
+each vertex through the edge opposite to the one they entered by (Eppstein 2014, Lemma 1 and its
+proof). The last step is that the projective face poset determines a simple oriented matroid up to
+reorientation (it determines the tope graph; Björner–Edelman–Ziegler 1990).
+*Needs:* 1.6, 3.7, 8.3; SurfaceTopology Layer 1 `GMap2.Iso`; GraphConnectivityAndFlows Target 1.1.
+
+**Checks.**
+
+- (i) `adj 2` itself sends every flag to a flag with the same vertex and edge and is not the
+  identity: commuting with `adj 1` is needed.
+- (i) At least three edges at every vertex are needed: on the map of an `n`-gon on the sphere,
+  where every vertex has two edges, the automorphism exchanging the two faces acts as `adj 2` on
+  every flag, commutes with `adj 1`, and agrees with the identity on vertices and edges.
+- (ii) For three elements the skeleton has 3 vertices and 6 edges in three parallel pairs, with 48
+  label-compatible automorphisms (`S₃ × (ℤ/2)³`) against 24 automorphisms of the map: "at least
+  four" is needed. For four elements the skeleton is the octahedral graph (6 vertices, 12 edges),
+  each label carried by a triangle, and both groups have order 24.
+
 ### Examples
 
 - The tetrahedron, the hemi-octahedron and the map of four lines in general position.
 
 ### Dependencies
 
-Layers 2, 3 and 7, SurfaceTopology Layers 1, 2, 4 and 8, GraphConnectivityAndFlows Target 1.1.
-8.2 uses 3.7; 8.1 uses 7.2.
+Layers 1, 2, 3 and 7, SurfaceTopology Layers 1, 2, 4 and 8, GraphConnectivityAndFlows Target
+1.1. 8.1 uses 7.2; 8.2 uses 3.7; 8.4 uses 1.6, 3.7 and 8.3.
 
 ## Layer 9: regular flag systems, string C-groups and regular polytopes
 
@@ -1405,7 +1426,7 @@ triangle-flip reconfiguration of pseudoline and pseudocircle arrangements
 Mnëv's universality theorem says that the realization spaces of rank-3 oriented matroids, and of
 incidence schemes of marked points and lines in `ℙ²`, are as complicated as arbitrary
 semialgebraic sets; in scheme-theoretic form every singularity type occurs on some incidence
-scheme (Vakil 2006, Theorem 3.1). Whether the reconstruction of 3.9 (ii) extends to non-uniform
+scheme (Vakil 2006, Theorem 3.1). Whether the reconstruction of 8.4 (ii) extends to non-uniform
 simple rank-3 chirotopes with no bigonal element is open. Grothendieck's notes on pseudoline
 arrangements include the classification of 3.8 (b) (Montpellier fonds, folder 80, pp. 20–28,
 https://grothendieck.umontpellier.fr/80.pdf).

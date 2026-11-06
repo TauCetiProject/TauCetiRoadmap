@@ -24,7 +24,8 @@ Headlines stated here (README target, Lean name):
   `Chirotope.ofVectorsFun`, `Chirotope.IsRealizable`).
 * 1.5, `Chirotope.isChirotope_reorientFun`, `Chirotope.isChirotope_relabelFun` (on
   `Chirotope.reorientFun`, `Chirotope.relabelFun`).
-* 2.2, `Chirotope.exists_orientedMatroid_covectorsOf` (on `OrientedMatroid`,
+* 2.2, `Chirotope.exists_orientedMatroid_covectorsOf`, `Chirotope.exists_chirotope_covectorsOf`
+  (on `OrientedMatroid`,
   `SignVector.compose`, `SignVector.sep`, `Chirotope.cocircuitVec`, `Chirotope.covectorsOf`).
 * 2.3, `Chirotope.three_le_ncard_walls` (on `SignVector.ConfLE`, `SignVector.IsTope`,
   `SignVector.walls`, `Chirotope.IsSimple`, `Chirotope.matroid`).
@@ -57,10 +58,10 @@ Headlines stated here (README target, Lean name):
 
 Not stated here, with the carrier each lacks:
 
-* 2.2, the representation of every `OrientedMatroid` of rank `r` by a chirotope (BLSWZ
-  Theorem 3.5.5); 2.4–2.6, the face lattice, the projective face poset and the Euler relation:
-  they lack the rank of a covector and of an `OrientedMatroid`, which are not defined here.
-* 3.7, 3.9 (i)–(ii), 8.2, 8.3: they lack SurfaceTopology's `GMap2`, its cells and its
+* 2.2, the uniqueness up to sign and the equality of ranks in BLSWZ Theorem 3.5.5; 2.4–2.6, the
+  face lattice, the projective face poset and the Euler relation: they lack the rank of a covector
+  and of an `OrientedMatroid`, which are not defined here.
+* 3.7, 8.2, 8.3, 8.4 (i)–(ii): they lack SurfaceTopology's `GMap2`, its cells and its
   isomorphisms, which are not declared at the pins, and GraphConnectivityAndFlows' isomorphisms of
   `Graph α β` (Target 1.1).
 * 4.2–4.3, the arrangement drawn from a wiring diagram, its simplicity, the invariance of its
@@ -239,9 +240,15 @@ def covectorsOf (c : (Fin r → E) → SignType) : Set (E → SignType) :=
     X = (l.map fun p => if p.1 then -cocircuitVec c p.2.1 p.2.2 else cocircuitVec c p.2.1 p.2.2
       ).foldr SignVector.compose 0}
 
-/-- The covectors of a chirotope form an oriented matroid (Layer 2.2; BLSWZ §3.5, §3.7). -/
-theorem exists_orientedMatroid_covectorsOf (χ : Chirotope r E) :
+/-- The covectors of a chirotope on a finite set form an oriented matroid (Layer 2.2; BLSWZ §3.5,
+§3.7). -/
+theorem exists_orientedMatroid_covectorsOf [Finite E] (χ : Chirotope r E) :
     ∃ L : OrientedMatroid E, L.covectors = covectorsOf χ := sorry
+
+/-- Every oriented matroid on a finite set is the covector set of a chirotope (Layer 2.2; BLSWZ
+Theorem 3.5.5 with Proposition 3.7.2). -/
+theorem exists_chirotope_covectorsOf [Finite E] (L : OrientedMatroid E) :
+    ∃ (r : ℕ) (χ : Chirotope r E), L.covectors = covectorsOf χ := sorry
 
 /-- No bigons (Layer 2.3): in a simple rank-3 chirotope every tope has at least three walls. -/
 theorem three_le_ncard_walls [Finite E] (χ : Chirotope 3 E) (hχ : χ.IsSimple)
@@ -449,7 +456,7 @@ structure Triangle (χ : Chirotope 3 E) where
 
 /-- The flip of a uniform rank-3 chirotope at a certified triangle is a chirotope (Ringel 1956;
 Roudneff–Sturmfels 1988). -/
-theorem isChirotope_flipFun (χ : Chirotope 3 E) (hχ : IsUniform χ) (Δ : χ.Triangle) :
+theorem isChirotope_flipFun [Finite E] (χ : Chirotope 3 E) (hχ : IsUniform χ) (Δ : χ.Triangle) :
     IsChirotope (χ.flipFun Δ.a Δ.b Δ.c) := sorry
 
 /-- The converse: if the flip of a uniform chirotope at three distinct elements is a chirotope,
