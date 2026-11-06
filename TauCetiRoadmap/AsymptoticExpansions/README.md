@@ -112,9 +112,10 @@ See the last section for these.
 - **The special-function roadmaps** consume the general tools here rather than restating them.
   In particular, Watson's lemma (Milestones 3.3 and 4.2), the rotation of the path (4.3), the
   line shift with residues (8.2), the Gamma bound on vertical strips (8.6) and the exponential
-  Mellin inversion (8.7) serve SpecialFunctionsParabolicCylinder and
-  SpecialFunctionsEiLiErfIncompleteGamma. Bounds for their particular Barnes kernels, and
-  Gamma-function identities such as the product formula DLMF 5.8.3, are not owned here.
+  Mellin inversion (8.7) serve the roadmaps for the incomplete Gamma and error functions (DLMF
+  Chapters 6–8) and for the parabolic cylinder functions (Chapter 12). Bounds for their
+  particular Barnes kernels, and Gamma-function identities such as the product formula DLMF
+  5.8.3, are not owned here.
 - **[ContourIntegration](../../Completed/ContourIntegration/README.md)** owns residues and the
   residue theorem, implemented in `TauCeti/Analysis/Contour/Residue/`
   (`TauCeti.Contour.residue`). Milestones 5.3 and 8 compute these residues and add the
@@ -1026,9 +1027,8 @@ Contributors should not attempt it under this roadmap.
   that are stated through named functions: the Bessel example 2.5.8–2.5.16, the identity
   2.5.49 with the exponential integral `E₁`, the hypergeometric remarks 2.6.31–2.6.32 and
   2.6.48–2.6.53, the Legendre example 2.10.33–2.10.36, and the generalized exponential integral
-  of §2.11(ii) (2.11.5–2.11.7). The identity 2.5.49 and §2.11(ii) are owned by the
-  [SpecialFunctionsEiLiErfIncompleteGamma](../SpecialFunctionsEiLiErfIncompleteGamma/README.md)
-  roadmap (Milestones 8.1 and 7).
+  of §2.11(ii) (2.11.5–2.11.7). The identity 2.5.49 and §2.11(ii) belong to the roadmap for
+  DLMF Chapters 6–8 (exponential, logarithmic, error and incomplete Gamma functions).
 - **Complex Stirling and the Gamma function on vertical lines** (DLMF 5.11): ZerosOfLFunctions
   §§1.2–1.3.
 - **Uniform expansions in terms of special functions**: the Airy-function expansions completing
