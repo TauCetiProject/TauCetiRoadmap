@@ -81,18 +81,24 @@ mutually unusable ones. The per-layer sections pin the rest; this section fixes 
   into the carrier.
 - **Knots have no privileged type; do not define `Knot`.** There is no canonical
   representation, so the roadmap does not introduce a `Knot` type. The presentations of
-  layer 4 are first-class types in their own right, and the geometric presentation is simply
-  *a smooth embedding `S¹ ↪ M`* (worked over a general manifold `M` wherever possible, and
-  specialised to `M = ℝ³` or `S³`). In the illustrative target signatures, `K` names a chosen
-  presentation, by default a smooth embedding `S¹ ↪ S³`; an invariant or relation is stated on
-  whichever presentation is most natural and transported across presentations by layer 4's
+  layer 4 are first-class types in their own right. The geometric presentation of a knot is a
+  smooth circle embedding `S¹ ↪ M` (`SmoothCircleEmbedding`), worked over a general manifold
+  `M` wherever possible and specialised to `M = ℝ³` or `S³`. A classical link has finitely many
+  components; its geometric presentation is a finite family of pairwise disjoint smooth circle
+  embeddings (`SmoothLinkEmbedding n`). The one-component case is a knot presentation; use
+  *multi-component link* when `n ≥ 2`. We include `n = 0` as the empty link convention.
+  Countably infinite links are outside this roadmap's scope; all link presentations here have
+  finite component count. In illustrative target signatures, `K` names a chosen knot
+  presentation, by default a smooth circle embedding in `S³`; an invariant or relation is stated
+  on whichever presentation is most natural and transported across presentations by layer 4's
   correspondences. Where two layers must talk about "the same knot", they share a presentation
   type, not a hub type.
 - **Isotopy is defined generally, then specialised.** Define isotopy and ambient isotopy for
   arbitrary (continuous, and smooth) maps between manifolds once, in full generality, and
-  obtain knot equivalence as the specialisation to smooth embeddings `S¹ ↪ M`. The same
-  general `Isotopic` underlies locally flat isotopy (layer 2), diffeotopies (layer 3), and
-  concordance (layer 6); none of those should re-define it.
+  obtain knot equivalence as the specialisation to smooth circle embeddings `S¹ ↪ M`, and link
+  equivalence for finite families of such embeddings. The same general `Isotopic` underlies
+  locally flat isotopy (layer 2), diffeotopies (layer 3), and concordance (layer 6); none of
+  those should re-define it.
 
 ## Inventory: what Mathlib gives us (consume)
 
@@ -426,22 +432,24 @@ manifolds for complements (handed on to layer 5).
 - **The presentations, as first-class types carrying orientation and framing** (Lickorish,
   *An Introduction to Knot Theory*, GTM 175, is the spine throughout this layer; per-topic
   extracts are in [references/](references/)). Per the encoding conventions there is **no
-  umbrella `Knot` type**: the presentations are first-class types, and the geometric one is
-  simply a smooth embedding `S¹ ↪ M`, worked over a general manifold `M` and specialised to
-  `ℝ³` or `S³`. The presentations are smooth and PL embeddings `S¹ ↪ M`; PL polylines; braid
-  closures (over `PresentedMonoid` braid groups with the Artin relations); knot diagrams as
-  4-valent planar graphs with crossing signs, and the equivalent oriented PD codes and Gauss
-  codes. From the start each
-  presentation carries **orientation** (a direction on the knot) and **framing** (a chosen
-  push-off, blackboard or Seifert), with **forgetful maps** dropping that data, so
-  framed-and-oriented, oriented, and unoriented knots are connected by forgetful maps and
-  every theorem assumes only the structure it needs. Each is a `Type`, with the realization
-  and forgetful maps to the others (a braid word closes to a diagram; a diagram realizes to
-  a PL knot).
+  umbrella `Knot` type**: a geometric knot presentation is a smooth circle embedding
+  `S¹ ↪ M` (`SmoothCircleEmbedding`), worked over a general manifold `M` and specialised to
+  `ℝ³` or `S³`. A finite link presentation with `n` components is a family of `n` pairwise
+  disjoint such embeddings (`SmoothLinkEmbedding n`); `n = 1` recovers the knot presentation.
+  The geometric and PL presentations include knots and finite links; other presentations
+  include PL polylines, braid closures (over `PresentedMonoid` braid groups with the Artin
+  relations), knot and link diagrams as 4-valent planar graphs with crossing signs, and the
+  equivalent oriented PD codes and Gauss codes. From the start each presentation carries
+  **orientation** (a direction on each component) and **framing** (a chosen push-off,
+  blackboard or Seifert), with **forgetful maps** dropping that data, so framed-and-oriented,
+  oriented, and unoriented knots and links are connected by forgetful maps and every theorem
+  assumes only the structure it needs. Each is a `Type`, with realization and forgetful maps
+  to the others (a braid word closes to a diagram; a diagram realizes to a PL presentation).
 - **Equivalence in each presentation, and the correspondences between them (the hard part,
   flagged as such).** Each presentation has its own equivalence: ambient isotopy for the
   geometric presentation (the general `Isotopic` of the encoding conventions, specialised to
-  smooth embeddings `S¹ ↪ M`, so isotopy is defined once for arbitrary maps and reused),
+  smooth circle embeddings and their finite link families, so isotopy is defined once for
+  arbitrary maps and reused),
   Reidemeister moves (diagrams), Markov moves (braids), stellar moves (polylines), grid moves
   (grids, from the combinatorial Heegaard Floer roadmap). The correspondences split into two
   regimes of very different difficulty:
@@ -449,7 +457,7 @@ manifolds for complements (handed on to layer 5).
     are finite local moves, so the correspondences are themselves combinatorial and can be
     established move-by-move (Markov's theorem for braid-to-diagram, Cromwell's for
     grid-to-diagram). Tedious but elementary.
-  - **Geometric to combinatorial** (a smooth or PL embedding to its diagram): genuinely hard.
+  - **Geometric to combinatorial** (a smooth or PL knot or link presentation to its diagram): genuinely hard.
     Producing a diagram is a generic projection (general position), and proving "isotopic iff
     Reidemeister-equivalent" means controlling an ambient isotopy as the projection passes
     through codimension-1 degeneracies, a one-parameter general-position (Cerf-theoretic)
@@ -463,8 +471,8 @@ manifolds for complements (handed on to layer 5).
     where they are cheap or load-bearing (grid-to-diagram for the Heegaard Floer roadmap,
     braid-to-diagram via Markov). Each extra edge is a convenience theorem, not a
     prerequisite; the tree is what the rest of the layer actually needs.
-- **Slice-ness, stated cleanly** on a presentation `K` (by default a smooth embedding
-  `S¹ ↪ S³`). `IsSmoothlySlice K` (`K` bounds a smoothly embedded disc in `D⁴`) and
+- **Slice-ness, stated cleanly** on a knot presentation `K` (by default a smooth circle
+  embedding `S¹ ↪ S³`). `IsSmoothlySlice K` (`K` bounds a smoothly embedded disc in `D⁴`) and
   `IsTopologicallySlice K` (a *locally flat* disc, consuming layer 2 and the topological
   4-manifold input of layer 6); the slice genus `g_s(K)` and the topological slice genus.
   These replace the lean-eval monstrosities with one-line definitions.
@@ -480,16 +488,21 @@ manifolds for complements (handed on to layer 5).
 
 ```lean
 -- no umbrella `Knot` type (see Encoding conventions); presentations are first-class types
--- def SmoothLink (M) : Type := { f : C^∞(circle, M) // IsEmbedding f }   -- geometric presentation, general M
+-- def SmoothCircleEmbedding (I) (M) : Type := { f : C^∞(S¹, M) // IsEmbedding f }   -- one knot presentation
+-- def SmoothLinkEmbedding (I) (M) (n : ℕ) : Type :=
+--   { L : Fin n → SmoothCircleEmbedding I M // Pairwise (fun i j => Disjoint (range (L i)) (range (L j))) }
+-- n = 1 recovers SmoothCircleEmbedding; n = 0 is the empty link convention
 -- def Diagram : Type := …                                                -- a combinatorial presentation
 -- def forgetFraming : FramedDiagram → Diagram                            -- carry framing/orientation as data
 -- def closes : BraidWord n → Diagram                                     -- a combinatorial-to-combinatorial edge
 -- isotopy is the general `Isotopic` (Encoding conventions); knot equivalence is its specialisation:
 -- theorem reidemeister (D D' : Diagram) : D ≈ D' ↔ Isotopic (realize D) (realize D')   -- the hard edge
--- def IsTopologicallySlice (f : SmoothLink (sphere 3)) : Prop := ∃ d : LocallyFlatDisc D⁴, boundary d = f
+-- def IsTopologicallySlice (f : SmoothCircleEmbedding I (sphere 3)) : Prop :=
+--   ∃ d : LocallyFlatDisc D⁴, boundary d = f
 -- def alexanderOfDiagram (D : Diagram) : LaurentPolynomial ℤ := …        -- Conway-normalised, on this presentation
 -- theorem alexander_eq_burau (β : BraidWord n) : alexanderOfDiagram (closes β) = burauAlexander β  -- routes agree
--- theorem freedman_alexanderOne_slice (f) (h : alexanderOfDiagram (diagramOf f) = 1) :
+-- theorem freedman_alexanderOne_slice (f : SmoothCircleEmbedding I (sphere 3))
+--     (h : alexanderOfDiagram (diagramOf f) = 1) :
 --     IsTopologicallySlice f                                             -- needs layer 6
 ```
 
@@ -549,12 +562,14 @@ calculus.
   the acceptance criteria), pinning the meridian-longitude and slope conventions.
 
 ```lean
--- def complement (L : SmoothLink (sphere 3)) : Manifold …   -- compact, one torus boundary per component
+-- def complement (L : SmoothLinkEmbedding I (sphere 3) n) : Manifold …   -- one torus boundary per component
 -- def Slope (T : BoundaryTorus) : Type := { c : H1 T ℤ // IsPrimitive c } ⧸ sign  -- basis-free
 -- def slopeEquiv (T : FramedBoundaryTorus) : Slope T.toTorus ≃ (ℚ ∪ {∞})  -- p/q ↦ p·μ + q·λ
 -- def dehnFilling (M : Manifold …) (s : Slope …) : Manifold …            -- filling meridian ↦ s
--- theorem surgery_unknot_zero : dehnFilling (complement unknot) 0 ≃ₘ (circle ×ₘ sphere 2)
--- theorem surgery_unknot_pq : dehnFilling (complement unknot) (p/q) ≃ₘ lensSpace p q
+-- theorem surgery_unknot_zero :
+--   dehnFilling (complement (SmoothLinkEmbedding.singleton unknot)) 0 ≃ₘ (circle ×ₘ sphere 2)
+-- theorem surgery_unknot_pq :
+--   dehnFilling (complement (SmoothLinkEmbedding.singleton unknot)) (p/q) ≃ₘ lensSpace p q
 ```
 
 **Design notes.** Fix the framing convention (the `0`-framing from the Seifert surface)
@@ -605,10 +620,11 @@ Seifert matrix.
   the statement that it does *not* preserve the smooth concordance class.
 
 ```lean
--- K, K' : SmoothLink (sphere 3)   -- the geometric presentation; no `Knot` type
--- def Concordant (K K' : SmoothLink (sphere 3)) : Prop := ∃ Σ : Annulus (sphere 3 ×ₘ I), boundary Σ = K ⊔ K'.mirror
+-- K, K' : SmoothCircleEmbedding I (sphere 3)   -- knot presentations; no `Knot` type
+-- def Concordant (K K' : SmoothCircleEmbedding I (sphere 3)) : Prop :=
+--   ∃ Σ : Annulus (sphere 3 ×ₘ I), boundary Σ = K ⊔ K'.mirror
 -- instance : Group (Quotient concordanceSetoid)   -- concordance classes; # as operation
--- def signature (K : SmoothLink (sphere 3)) (ω : Circle) : ℤ   -- Tristram–Levine, from the Seifert form
+-- def signature (K : SmoothCircleEmbedding I (sphere 3)) (ω : Circle) : ℤ   -- Tristram–Levine, from the Seifert form
 -- theorem mutation_not_concordance_invariant : ∃ K, ¬ Concordant K (mutate K)
 -- theorem levine_homologySphere_not_S3 : -- a knot in a homology sphere not smoothly concordant to any in S³
 ```
