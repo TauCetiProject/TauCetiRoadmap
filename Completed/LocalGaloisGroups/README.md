@@ -208,7 +208,7 @@ in the proof route of a target, and is cited there by name.
 | explicit low-degree cohomology | `ContCohomology.explicitInfl1`, `ContCohomology.explicitInfl1_injective`, `ContCohomology.explicitInfRes_exact`, `ContCohomology.explicitInfl1_eq_explicitMap1`, `ContCohomology.explicitMap1_comp`, `ContCohomology.explicitRes1`, `ContCohomology.explicitCoeff1`, `ContCohomology.explicitCoeff1Equiv`, `ContCohomology.H1EquivOfSmulEqSelf`, `ContCohomology.explicitH2IsoGroupCohomology` |
 | Kummer theory on the explicit model | `kummerIsoTransport`, `kummerMap_surjective`, `kummerMap_eq_kummerCocycleClass`, `absoluteGaloisGroupRestrictEquiv` |
 | trivial coefficients and coefficient maps | `trivialFpEquiv`, `trivialFp_ρ_apply_apply`, `ContinuousCohomology.coeffMap_comp`, `ContinuousCohomology.coeffMap_id` |
-| continuous quotient maps | `ContinuousMonoidHom.quotientMk`, `ContinuousMonoidHom.quotientLift` |
+| continuous quotient maps | `Subgroup.quotientMkContinuousMonoidHom`, `ContinuousMonoidHom.quotientLift` |
 | free profinite groups and extensions | `freeProfiniteGroup`, `freeProfiniteGroup.lift`, `freeProfiniteGroup.hom_ext`, `freeProfiniteGroup.dense_closure_range_of`, `ProfiniteGroupExtension`, `GroupExtension.contCohomologyClass_factorSet_eq` |
 | class formations | `ClassFieldTheory.ClassFormation.fundamentalClass`, `ClassFieldTheory.ClassFormation.fundamentalClass_generates`, `ClassFieldTheory.ClassFormation.h1_subgroupLayer`, `ClassFieldTheory.ClassFormation.card_H2_subgroupLayer`, `ClassFieldTheory.ClassFormation.fundamentalClass_restrict_generates` |
 | Tate's cohomological triviality criterion | `TateCohomology.isZero_of_forall_isPGroup` |
@@ -375,7 +375,7 @@ Let `R = PPG.proPKernel p G_K`.
   `H¹(G_K(p),𝔽_p) ≃ H¹(G_K,𝔽_p)`.
 - Prove `explicitInfl1_zModTwist_bijective`, degree-one inflation with **twisted** coefficients, on
   TC's explicit model. For a continuous character `χ : G_K(p) →ₜ* ℤ_pˣ`, the quotient map
-  `π : G_K → G_K(p)` (`absoluteGaloisGroupProPMk`, TC `ContinuousMonoidHom.quotientMk`) and every
+  `π : G_K → G_K(p)` (`absoluteGaloisGroupProPMk`, TC `Subgroup.quotientMkContinuousMonoidHom`) and every
   `i`, with `I(χ)/pⁱ` TC's `ZModTwist χ i`, the inflation
   `H¹(G_K/R, (I(χ∘π)/pⁱ)^R) → H¹(G_K, I(χ∘π)/pⁱ)` (TC `ContCohomology.explicitInfl1`) is bijective.
   Injectivity and exactness at `H¹(G_K, -)` are TC `explicitInfl1_injective` and
@@ -406,7 +406,7 @@ Let `R = PPG.proPKernel p G_K`.
 
 *Needs:* L1; PC `infl`, `explicitIso_infl`, the five-term declarations, and `cup_infl`; PPG
 `proPKernel`, `maximalProPQuotient`, `proPKernel_proPKernel_eq_top`; TC `ZModTwist`,
-`ZModTwist.reduce`, `ZModTwist.isProP_multiplicative`, `ContinuousMonoidHom.quotientMk`,
+`ZModTwist.reduce`, `ZModTwist.isProP_multiplicative`, `Subgroup.quotientMkContinuousMonoidHom`,
 `ContCohomology.explicitInfl1`, `explicitInfl1_injective`, `explicitInfRes_exact`,
 `explicitInfl1_eq_explicitMap1`, `explicitMap1_comp`, `explicitRes1`, `explicitCoeff1`,
 `explicitCoeff1Equiv`, `H1EquivOfSmulEqSelf`.

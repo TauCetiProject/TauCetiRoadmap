@@ -5,7 +5,7 @@ import TauCeti.Algebra.AlgebraicGroup.HopfIdeal.Points.Basic
 import TauCeti.Algebra.AlgebraicGroup.HopfIdeal.Tangent
 import TauCeti.Algebra.AlgebraicGroup.Tangent.Lie
 import TauCeti.Algebra.AlgebraicGroup.Tangent.CounitPoints
-import TauCeti.LinearAlgebra.RootSystem.BaseChange
+import TauCeti.LinearAlgebra.RootSystem.BaseChange.Pi
 import TauCeti.LinearAlgebra.RootSystem.Coxeter.Presentation
 import TauCeti.GroupTheory.SpecificGroups.Braid.Basic
 import TauCeti.AlgebraicTopology.FundamentalGroup.BasepointChange
@@ -260,7 +260,7 @@ abbrev RegularArrangement (P : RootPairing ι ℝ (κ → ℝ) (κ → ℝ))
 
 /-- Restriction of the actual Weyl action; preservation of the complement is part of
 this target, and the value equation prevents an unrelated action from satisfying it. -/
-noncomputable def arrangementAction :
+@[instance_reducible] noncomputable def arrangementAction :
     ∀ (P : RootPairing ι ℝ (κ → ℝ) (κ → ℝ))
       (hP : ∀ x y, P.toLinearMap x y = x ⬝ᵥ y),
       MulAction (ComplexPairing P hP).weylGroup (RegularArrangement P hP) := sorry
