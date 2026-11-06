@@ -323,7 +323,7 @@ Tau Ceti exact structures and conflation-exact functors; AdicSpacesPartIV §§F1
 
 ### 2.1 The de Rham-to-rigid diagram
 
-For smooth separated finite-type X/V construct, on the imported realization carriers, the natural map sp_X:RΓ_dR(X_K/K)→RΓ_rig(X_k/K), its composites sp_r from F^rRΓ_dR, and its compatibility with pullback, finite field extension and products. Retain the scalar-extension map bc:A=RΓ_rig(X_k/K0)→C=RΓ_rig(X_k/K) and σ-semilinear φ on A. Choices of algebraic compactification, rigid frame and resolution yield coherently equivalent diagrams, not additional intrinsic structure on X. Assume p is prime; V is a complete mixed-characteristic (0,p) DVR with perfect residue field k; K=Frac(V), K0=Frac(W(k)); r≥0. (BesserI, §5 and §4.22, manuscript pp. 16–18; BesserI line 625, BesserI line 648, BesserI line 663).
+For smooth separated finite-type X/V construct, on the imported realization carriers, the natural map sp_X:RΓ_dR(X_K/K)→RΓ_rig(X_k/K), its composites sp_r from F^rRΓ_dR for every integer r, where F^r is the Hodge filtration supplied by `relative-hodge` and is the whole de Rham complex for r≤0, and its compatibility with pullback, finite field extension and products. Retain the scalar-extension map bc:A=RΓ_rig(X_k/K0)→C=RΓ_rig(X_k/K) and σ-semilinear φ on A. Choices of algebraic compactification, rigid frame and resolution yield coherently equivalent diagrams, not additional intrinsic structure on X. Assume p is prime; V is a complete mixed-characteristic (0,p) DVR with perfect residue field k; K=Frac(V), K0=Frac(W(k)); r∈ℤ, with F^r=F^0 the whole de Rham complex for r≤0. (BesserI, §5 and §4.22, manuscript pp. 16–18; BesserI line 625, BesserI line 648, BesserI line 663).
 
 - For f:Y→X, f*_rig sp_X=sp_Y f*_dR, with the coherent comparison on resolutions.
 - sp_(r+1) factors through the filtration map F^(r+1)→F^r.
@@ -341,7 +341,7 @@ Pass from logarithmic algebraic forms on a smooth proper generic-fibre compactif
 
 ### 2.2 The rigid syntomic fibre
 
-Define the rigid syntomic complex by RΓ_rsyn(X,r)=Fib(f_r:A⊕F^rRΓ_dR(X_K/K)→A⊕C) in enhanced ℚ_p-complexes, where f_r(a,b)=((1−p^(−r)φ)a,bc(a)−sp_r(b)). Define H^q_rsyn(X,r)=H^q of this fibre for q∈ℤ. This is contravariant in smooth separated finite-type X/V and independent of all presentations. The Frobenius part is ℚ_p-linear; it is not generally K0-linear. Assume p is prime; V is a complete mixed-characteristic (0,p) DVR with perfect residue field k; K=Frac(V), K0=Frac(W(k)); r≥0. (BesserI, Definition 6.1, Proposition 6.3 and its cone description, manuscript pp. 19–20; BesserI line 704, BesserI line 712, BesserI line 741).
+Define the rigid syntomic complex by RΓ_rsyn(X,r)=Fib(f_r:A⊕F^rRΓ_dR(X_K/K)→A⊕C) in enhanced ℚ_p-complexes, where f_r(a,b)=((1−p^(−r)φ)a,bc(a)−sp_r(b)). Define H^q_rsyn(X,r)=H^q of this fibre for q∈ℤ. This is contravariant in smooth separated finite-type X/V and independent of all presentations. The weight r is any integer: for r≤0 the filtered term is the whole de Rham complex, and for r<0 the factor p^(−r) is a positive power of p; BesserI states the construction for r≥0 (BesserI line 721), and no further input enters for r<0. The Frobenius part is ℚ_p-linear; it is not generally K0-linear. Assume p is prime; V is a complete mixed-characteristic (0,p) DVR with perfect residue field k; K=Frac(V), K0=Frac(W(k)); r∈ℤ. (BesserI, Definition 6.1, Proposition 6.3 and its cone description, manuscript pp. 19–20; BesserI line 704, BesserI line 712, BesserI line 741).
 
 - The fibre has its two projections and null-homotopies for f_r, and satisfies the enhanced fibre universal property.
 - Pullback preserves both component projections and composes coherently.
@@ -356,18 +356,19 @@ Apply the enhanced fibre construction to the actual diagram in 2.1. Forgetting e
 
 - For V=ℤ_p and r=0, f(a,b)=(0,a−b). Thus H⁰=ℚ_p on the diagonal, H¹=ℚ_p on the first target component, and all other groups vanish.
 - For V=ℤ_p and r>0, F^rRΓ_dR=0 and f(a)=((1−p^(−r))a,a); H⁰=0 and H¹=ℚ_p. This retains the two different target components.
+- For V=ℤ_p and r<0, F^rRΓ_dR=RΓ_dR=ℚ_p in degree zero and f(a,b)=((1−p^(−r))a,a−b) with p^(−r)=p^|r|≥p. Since 1−p^|r|≠0 for every prime p, f is bijective and every H^q_rsyn vanishes. A definition taking F^r=0 for r<0 would instead give H¹=ℚ_p, as in the positive-weight case.
 - If X_k is empty, the fibre is F^rRΓ_dR(X_K), rather than zero.
 
 ### 2.3 Exact sequence, descent, products and the unramified presentation
 
-The fibre triangle of 2.2 gives, for every q∈ℤ, the long exact sequence with middle map H^q(A⊕F^rRΓ_dR)→H^q(A⊕C) induced by f_r. Finite Zariski Čech covers give descent. Construct associative unital graded-commutative products H^i_rsyn(X,r)×H^j_rsyn(X,s)→H^(i+j)_rsyn(X,r+s), compatible with both realization maps and pullback. If K=K0, identify RΓ_rsyn(X,r) with Fib((1−p^(−r)φ)sp_r:F^rRΓ_dR→RΓ_rig(X_k/K)), without assuming sp is invertible. Assume p is prime; V is a complete mixed-characteristic (0,p) DVR with perfect residue field k; K=Frac(V), K0=Frac(W(k)); r,s≥0; the last equivalence assumes K=K0. (BesserI, Propositions 6.2–6.3, Definition 6.5 and Remark 8.7(3), manuscript pp. 19–20,28; BesserI line 719, BesserI line 727, BesserI line 752, BesserI line 1073).
+The fibre triangle of 2.2 gives, for every q∈ℤ, the long exact sequence with middle map H^q(A⊕F^rRΓ_dR)→H^q(A⊕C) induced by f_r. Finite Zariski Čech covers give descent. Construct associative unital graded-commutative products H^i_rsyn(X,r)×H^j_rsyn(X,s)→H^(i+j)_rsyn(X,r+s), compatible with both realization maps and pullback. If K=K0, identify RΓ_rsyn(X,r) with Fib((1−p^(−r)φ)sp_r:F^rRΓ_dR→RΓ_rig(X_k/K)), without assuming sp is invertible. Assume p is prime; V is a complete mixed-characteristic (0,p) DVR with perfect residue field k; K=Frac(V), K0=Frac(W(k)); r,s∈ℤ; the last equivalence assumes K=K0. (BesserI, Propositions 6.2–6.3, Definition 6.5 and Remark 8.7(3), manuscript pp. 19–20,28; BesserI line 719, BesserI line 727, BesserI line 752, BesserI line 1073).
 
 - Every kernel equals the image of the preceding arrow, with the connecting map induced by the fixed fibre coordinates.
 - products carry the Koszul sign (−1)^(ij).
 - The pullback to a finite Čech nerve is an equivalence.
 - Eliminate the equation a=sp_r(b) in the second component of f_r to obtain the single fibre.
 
-Use exactness of the cohomology functor on the fibre triangle. Descent is checked on A,F^rDR,C. Products come from the multiplicative comparison diagram and the standard homotopy product on a fibre of 1−φ_r; pass to cohomology for graded commutativity. The unramified equivalence splits off the contractible identity component while retaining sp as a map.
+Use exactness of the cohomology functor on the fibre triangle. Descent is checked on A,F^rDR,C. Products come from the multiplicative comparison diagram and the standard homotopy product on a fibre of 1−φ_r; the filtered terms multiply by F^r·F^s⊂F^(r+s), which holds for all integers r,s with F^r=F^0 for r≤0; pass to cohomology for graded commutativity. The unramified equivalence splits off the contractible identity component while retaining sp as a map.
 
 *Needs:* §2.2; EnhancedDerivedSheaves §E5:abstract; contract `rigid-realizations`; contract `relative-hodge`.
 
@@ -379,7 +380,7 @@ Use exactness of the cohomology functor on the fibre triangle. Descent is checke
 
 ### Examples
 
-Use a point, the generic-fibre-only smooth V-scheme Spec(K), and G_m with its logarithmic differential. Keep A over K0 and the fibre over ℚ_p.
+Use a point in weights 0, 1 and −1, the generic-fibre-only smooth V-scheme Spec(K), and G_m with its logarithmic differential. Keep A over K0 and the fibre over ℚ_p.
 
 ### Dependencies
 
@@ -453,6 +454,7 @@ For an étale-local exact log immersion into a log-smooth W(k)-scheme with compa
 - Common log-PD refinements commute with Frobenius and give equivalences satisfying cocycle laws.
 - On the NN arithmetic-pair domain, the completed complex reduces derivedly to the n-th complex.
 - On the NN arithmetic-pair domain, the second target component is the derived quotient RΓ_dR/F^r, with its canonical quotient map.
+- On the NN arithmetic-pair domain the undivided rational fibre has the analogous presentation Fib((p^r−φ,can):RΓ_cr,Q→RΓ_cr,Q⊕RΓ_dR/F^r), and between the two presentations ω_Q acts by p^r on the crystalline source and on the quotient component and by the identity on the crystalline target component. Hence the quotient boundaries δ_U of the undivided and δ_D of the divided rational fibre, both fibre connecting maps with the coordinate (0,b) of the Conventions, satisfy ω_Q∘δ_U=p^r·δ_D.
 
 Use the filtered log-crystalline Poincaré lemma on each presentation, compare via products of ambient embeddings and descend using enhanced coherences. Rlim commutes with finite fibres on the full log-syntomic domain. On the NN arithmetic-pair domain derived reduction is the crystalline reduction theorem in the contract; rationally identify the filtered ideal fibre with the fibre of (1−φ_r,can) and apply the supplied filtered de Rham quotient equivalence.
 
@@ -462,6 +464,7 @@ Use the filtered log-crystalline Poincaré lemma on each presentation, compare v
 
 - F⁰RΓ_dR=RΓ_dR on these de Rham complexes, so the rational presentation at r=0 has zero quotient component.
 - After tensoring ℚ_p, p^r is invertible, so ω is an equivalence with inverse p^(−r)τ; τ alone is not claimed to be its inverse.
+- For X=Spec(ℤ_p) with trivial log structure and r=1, both presentations have RΓ_cr,Q=ℚ_p and RΓ_dR/F¹=ℚ_p in degree zero, with maps x↦((p−1)x,x) undivided and x↦((1−p⁻¹)x,x) divided. The quotient boundary of b is the class of the target element (0,b) in H¹, nonzero for b≠0, and ω_Q sends it to the class of (0,pb), so ω_Qδ_U(b)=p·δ_D(b). Legs (p,id,id) would not form a chain map, since the quotient projection of px is p times that of x.
 - For A_n=⊕_(j≥n) 𝔽_p (n≥0) with inclusion transitions, lim A_n=0 but H¹(Rlim A_n)=lim¹ A_n≃(∏_(j≥0) 𝔽_p)/(⊕_(j≥0) 𝔽_p)≠0; the class of (1,1,…) is nonzero. Indeed, 0→A_n→B→C_n→0 with constant B=⊕_(j≥0) 𝔽_p and C_n=⊕_(j<n) 𝔽_p gives lim C_n=∏ 𝔽_p and lim¹ B=lim¹ C_n=0, since both latter towers are Mittag–Leffler. Replacing Rlim by lim would erase this H¹ (StacksRlim, Tag 07KV, Lemmas 15.88.1–15.88.2, StacksRlim line 10638–10675).
 - For X=Spec(ℤ_p) with trivial log structure, r=0 and k=𝔽_p, the divided and undivided towers are [Z/p^n —0→ Z/p^n], with surjective reduction maps. Their completed complexes are [ℤ_p —0→ ℤ_p] and their rationalizations have H⁰=H¹=ℚ_p. This horizontal-log carrier is defined without imposing a vertical boundary.
 
@@ -533,7 +536,7 @@ For X fine saturated log-smooth over V with canonical log structure, n≥1 and 0
 - The source equals its τ≤r truncation.
 - The equivalence is the map of 4.2 and respects reduction and products whenever all involved weights are in range.
 
-Use the exact sequence 0→ω_log^q→Z^q→Z^q/B^q→0 with map z↦[z]−C⁻¹(z), and the boundary-stratum symbol calculations with the filtered PD presentation to prove the level-one, equal-degree/weight comparison on smooth normal-crossings charts. Products with the degree-zero twist classes give q≤r; the tame degree-(p−1) descent removes the μ_p assumption, and coefficient exact triangles give all n≥1. For general fs log-smooth X, prove invariance under the toric log blow-ups and use proper base change and the one-dimensional-fibre stalk induction of TsujiNearby Lemmas 3.2 and 5.2 to reduce to those charts, then glue. The local PD degree calculation gives vanishing above r (EN Proposition 2.1). These reductions are proof obligations of this target; no full small-weight period equivalence is a supplier premise (TsujiNearby §4 proof of Theorem 4.2, pp. 554–555, and §5 proof of Theorem 5.1, pp. 558–561; TsujiNearby line 892–940, TsujiNearby line 1074–1140).
+Use the exact sequence 0→ω_log^q→Z^q→Z^q/B^q→0 with map z↦[z]−C⁻¹(z), and the boundary-stratum symbol calculations with the filtered PD presentation to prove the level-one, equal-degree/weight comparison on smooth normal-crossings charts. Products with the degree-zero twist classes give q≤r; the tame degree-(p−1) descent removes the μ_p assumption, and coefficient exact triangles give all n≥1. For general fs log-smooth X, prove invariance under the toric log blow-ups and use proper base change and the one-dimensional-fibre stalk induction of TsujiNearby Lemmas 3.2 and 5.2 to reduce to those charts, then glue. The local PD degree calculation gives vanishing above r (EN Proposition 2.1). These reductions are proof obligations of this target; no full small-weight period equivalence is a supplier premise (TsujiNearby, proof of Theorem 4.2 in its §4, pp. 554–555, and proof of Theorem 5.1 in its §5, pp. 558–561; TsujiNearby line 892–940, TsujiNearby line 1074–1140).
 
 *Needs:* §4.2; contract `nearby-cycle-inputs`; contract `crystalline-inputs`; contract `nearby-cycle-cartier`; contract `nearby-cycle-graded`.
 
@@ -917,7 +920,7 @@ Layers 1–6; AdicSpacesPartIV §§F1.5,F1.9; contracts rigid-realizations, rigi
 
 ## Downstream consumers
 
-- **PadicHodgeRegulators**: Rigid/log syntomic producers, period maps, exact-category extension evaluation, geometric coefficient objects, residue and specialization maps. Owns all symbol/regulator constructions, the AM (−1)^n symbol comparison and its restricted hypotheses.
+- **PadicHodgeRegulators**: Rigid/log syntomic producers (the rigid syntomic fibre in every integer weight), period maps, exact-category extension evaluation, geometric coefficient objects, residue and specialization maps. Owns all symbol/regulator constructions, the AM (−1)^n symbol comparison and its restricted hypotheses.
 - **EllipticRegulators**: Absolute syntomic targets and relative open-curve residues/evaluation, via regulator producers; no reverse dependency.
 
 The direction of supply is the named suppliers → CohomologyComparisonsPartII → regulator consumers. ColemanIntegrationPartII §§3.0c,3.1a,7.0 constructs its curve, index and Tate-chart bridges on the common rigid realizations; those interfaces and this roadmap’s syntomic values meet in regulator applications. Its integration theory requires no construction from this Part II. The classical curve comparison and residue interfaces keep nonsplit finite étale boundaries; scalar-extension and trace comparisons of the imported realizations remain explicit base contracts. No integration pairing, regulator or special-value theorem is silently added to those contracts.
