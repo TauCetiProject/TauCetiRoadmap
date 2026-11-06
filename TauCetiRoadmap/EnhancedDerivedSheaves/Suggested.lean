@@ -1,23 +1,39 @@
-import Mathlib
+module
+
+public import Mathlib
 
 /-!
 # Enhanced derived sheaves: target signatures
 
-The roadmap is README.md; this file is not the roadmap. It states the roadmap's headline
-theorems against the pinned Mathlib and Tau Ceti APIs, with simple definitions on native carriers.
+**This file is not the roadmap and is not exhaustive.** The definitive document is
+`README.md`. The statements here suggest Lean forms for particular milestones, so that
+contributors and reviewers converge on names and signatures; discharging all of them
+finishes neither a layer nor the roadmap.
 
-The statable headlines are the global projective-dimension bound for regular rings, both
+The statable headlines are the local smallness of the derived category of a Grothendieck
+abelian category, which makes `HasDerivedCategory` a global instance in the universe of the
+Grothendieck abelian structure; invertible objects of a monoidal category as the units of
+Mathlib's skeleton monoid; the global projective-dimension bound for regular rings, both
 implications of Kunz's theorem, radical/flat/idempotent Frobenius-root ideals, Tor independence
 and homological bounds for perfect algebras (including the intrinsic Tor bound twice the
 Krull dimension), finite freeness of bounded saturated valuation
 lattices, cofinal invariance of pro-zero towers and composition of pro-isomorphisms, and the
 telescope, classical-completeness and weak-Serre comparisons for derived-complete modules.
 
+Design choice made explicit: Mathlib's `DerivedCategory` of a Grothendieck abelian category, in
+particular of étale module sheaves `Sheaf X.smallEtaleTopology (ModuleCat.{u} Λ)`, uses the one
+instance `IsGrothendieckAbelian.hasDerivedCategory`, whose morphisms lie in the universe of the
+Grothendieck abelian structure; no statement assumes `HasDerivedCategory.standard` or a separately
+chosen instance.
+
 The following headline families are not statable at the pins:
 * Layers E0, 0 and E1: dg-nerve stability, presentability and the enhanced sheaf comparisons
   lack the dg nerve, coherent mapping-space framework and enhanced ringed-site category D∞(O).
-  Tensor–Hom, Koszul realization, perfect-scheme base change and algebraic-space perfect
-  pushforward additionally need enhanced functors and quasicoherent/perfect subcategories.
+  The functorial K-flat replacement of étale module sheaves and the derived tensor product on
+  their derived category lack K-flat complexes and a monoidal structure on Mathlib's
+  `DerivedCategory`. Tensor–Hom, Koszul realization, perfect-scheme base change and
+  algebraic-space perfect pushforward additionally need enhanced functors and
+  quasicoherent/perfect subcategories.
 * Layer E3: relative Kan-extension lifting, representability, adjoints and accessible
   localization lack the supplied coherent functor categories and presentability carriers.
 * Layer E2:towers: multiplicative limit filtrations lack coherent stable towers and mapping
@@ -36,12 +52,59 @@ The following headline families are not statable at the pins:
   lack spectra, ring spectra and their enhanced module and tower categories.
 -/
 
+@[expose] public section
+
 namespace TauCetiRoadmap.EnhancedDerivedSheaves
 
 open CategoryTheory CategoryTheory.Limits Opposite
 open scoped ZeroObject
 
 universe u v w z
+
+/-! ## Layer 0: Ringed-site enhancement and derived functors -/
+
+section GrothendieckAbelian
+
+variable (C : Type u) [Category.{v} C] [Abelian C] [IsGrothendieckAbelian.{w} C]
+
+/-- **Small Hom types in the derived category**
+(`IsGrothendieckAbelian.locallySmall_localization_quasiIso`, Section 0.1; Stacks 079P): in a
+Grothendieck abelian category every complex has a K-injective replacement, so the localization of
+cochain complexes at quasi-isomorphisms has `w`-small Hom types, where Mathlib's
+`HasDerivedCategory.standard` only gives Hom types in `Type (max u v)`. -/
+theorem IsGrothendieckAbelian.locallySmall_localization_quasiIso :
+    LocallySmall.{w} (HomologicalComplex.quasiIso C (ComplexShape.up ℤ)).Localization := by
+  sorry
+
+/-- **The derived category of a Grothendieck abelian category**
+(`IsGrothendieckAbelian.hasDerivedCategory`, Section 0.1): the global instance, with Hom types in
+the universe `w` of the Grothendieck abelian structure. For étale module sheaves over
+`X : Scheme.{u}` with coefficients in `Λ : Type u` these are `Type u`. -/
+noncomputable instance IsGrothendieckAbelian.hasDerivedCategory : HasDerivedCategory.{w} C :=
+  haveI := IsGrothendieckAbelian.locallySmall_localization_quasiIso C
+  MorphismProperty.hasLocalizationOfLocallySmall (HomologicalComplex.quasiIso C (ComplexShape.up ℤ))
+    (HomologicalComplex.quasiIso C (ComplexShape.up ℤ)).Q
+
+end GrothendieckAbelian
+
+section InvertibleObjects
+
+variable {C : Type u} [Category.{v} C] [MonoidalCategory C]
+
+/-- **Invertible objects** (`MonoidalCategory.IsInvertible`, Section 0.3): tensoring with `X` on
+the left is an equivalence. Equivalently `X ⊗ Y ≅ 𝟙_ C ≅ Y ⊗ X` for some `Y`, and then tensoring
+with `X` on the right is an equivalence too. -/
+class MonoidalCategory.IsInvertible (X : C) : Prop where
+  isEquivalence_tensorLeft : (MonoidalCategory.tensorLeft X).IsEquivalence
+
+/-- Invertible objects are the units of Mathlib's monoid structure on the skeleton, through whose
+group of units Mathlib defines `CommRing.Pic` for semimodules over a commutative semiring
+(`MonoidalCategory.isInvertible_iff_isUnit_toSkeleton`, Section 0.3). -/
+theorem MonoidalCategory.isInvertible_iff_isUnit_toSkeleton (X : C) :
+    MonoidalCategory.IsInvertible X ↔ IsUnit (toSkeleton X) := by
+  sorry
+
+end InvertibleObjects
 
 /-! ## Layer E1: Unbounded derived sheaves and presentability -/
 
@@ -234,7 +297,7 @@ def IsDerivedComplete {R : Type u} [CommRing R] (I : Ideal R) (M : Type v) [AddC
 `DerivedDeRham.derivedCompleteness` on `M[0]` (`isDerivedComplete_iff_derivedCompleteness`,
 Section E4.1; BS-proet Lemma 3.4.7; Stacks 091P). -/
 theorem isDerivedComplete_iff_derivedCompleteness (R : Type u) [CommRing R]
-    [HasDerivedCategory.{u + 1} (ModuleCat.{u} R)] (I : Ideal R) (hI : I.FG)
+    (I : Ideal R) (hI : I.FG)
     (M : Type u) [AddCommGroup M] [Module R M] :
     IsDerivedComplete I M ↔ ∀ f ∈ I, ∀ n : ℤ,
       Subsingleton
@@ -261,7 +324,5 @@ theorem derivedCompleteModules_weakSerre {R : Type u} [CommRing R] (I : Ideal R)
   sorry
 
 end DerivedComplete
-
-
 
 end TauCetiRoadmap.EnhancedDerivedSheaves
