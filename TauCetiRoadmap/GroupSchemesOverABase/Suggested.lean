@@ -1,21 +1,57 @@
-import Mathlib
+module
+
+public import Mathlib
+public import TauCeti.Algebra.AlgebraicGroup.DiagonalizableGroup.Scheme.Basic
+public import TauCeti.AlgebraicGeometry.AbelianVariety.Basic
 
 /-!
 # Group schemes over a base: target signatures
 
-**This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. The declarations below suggest Lean forms for particular milestones, so that
-contributors and reviewers converge on names and signatures; discharging all of them finishes
-neither a layer nor the roadmap. `sorry` is allowed in this human-owned roadmap library -- these
-are goals, not proofs -- and nothing here is a `Prop`-typed placeholder standing in for a
-condition that cannot yet be stated.
+The roadmap is `README.md`. This file states the roadmap's headline theorems against the pinned
+Mathlib and Tau Ceti, each with `sorry`, together with the definitions their statements need, all
+with real bodies on native carriers: Mathlib's `Grp (Over S)`, base change
+`(Over.pullback f).mapGrp`, and Tau Ceti's `TauCeti.DiagonalizableGroup.groupScheme`. The API
+around each target, the special cases and the Checks stay in the README.
 
-Only Mathlib is imported. The carrier is Mathlib's `Grp (Over S)` for the cartesian monoidal
-structure on `Over S` supplied by `AlgebraicGeometry.Pullbacks`; the structure morphism of `G` is
-`G.X.hom`. The milestones that need Tau Ceti's field predicates (connected reductive geometric
-fibres, maximal tori, Borel subgroups over a field), the rank invariants of GS4, and the Picard
-groups of GS7--GS8 stay in the README until their carriers can be imported here.
+Headline theorems stated here (README target, Lean name):
+
+* 0.2, `exists_identityComponent` (the identity component of a smooth group scheme over an
+  arbitrary base), on `baseChange` (0.1).
+* 1.2, `bijective_diagonalizableMap`; 1.3, `smooth_diagonalizable_iff` and
+  `etale_diagonalizable_iff`; 1.4, `flat_surjective_diagonalizableMap` and
+  `isKernel_diagonalizableMap`; on `diagonalizable` and `diagonalizableMap` (1.1).
+* 2.2, `IsMultiplicativeType.exists_etale_cover`; 2.5, `IsMultiplicativeType.isotrivial` and
+  `IsMultiplicativeType.isotrivial_component`; 2.6, `exists_torus_not_isotrivial`; on
+  `IsDiagonalizable`, `IsMultiplicativeType`, `IsTorus` (2.1), `IsIsotrivial` (2.5) and
+  `nodalCurve` (2.6).
+* 3.1, `bijective_baseChange_map_of_thickening`; 3.2, `hom_eq_of_eq_fibre`; 3.3,
+  `eq_of_eq_on_torsion`.
+* 4.2, `chevalley`; 4.3, `affinization`.
+
+Not statable at the pins, with the carrier each lacks:
+
+* 1.5 (Cartier duality over a scheme): over `Spec R` it is Tau Ceti's
+  `TauCeti.DiagonalizableGroup.cartierDualIso`; over a scheme it needs the Cartier dual of finite
+  locally free groups over a scheme of ModularCurves 0B.
+* 1.6 (torsors under `D_S(M)`): `NonabelianH1` of SchemeAndStackFoundations §2.3.
+* 2.3, 2.4 and 2.7 (the character sheaf, its Galois description, cocharacters and subtori): the
+  big-site sheaf `𝔾_m` of SchemeAndStackFoundations §2.9, of which `X*(H)` is the sheaf of
+  homomorphisms.
+* 3.1 for a smooth affine target (étale-local lifting, conjugacy), 3.4 (Hom schemes) and 3.5
+  (centralizers, normalizers): the functors `T ↦ Hom_{T-gr}(H_T, G_T)` and `Z_G(H)`, which need
+  the monoidal coherence isomorphisms `baseChange (g ≫ f) ≅ baseChange f ⋙ baseChange g` of 0.1.
+* 4.1 (quotients over a field): the fppf quotient sheaf and the quotient predicates of
+  SchemeAndStackFoundations §1.17.
+* 4.4 and Layer 5 (rank invariants, maximal tori over a base, specialization): maximal tori,
+  radicals and centralizers of tori on `Grp (Over (Spec k))`; Tau Ceti has maximal tori on Hopf
+  algebras over a field (`TauCeti.HopfIdeal.IsMaximalTorus`) only.
+* Layer 6 (line bundles `𝓛(λ)` and Picard groups of `G/B⁻`) and Layer 7 (Steinberg map,
+  cross-section, universal centralizer, Grothendieck–Springer, Picard groups of `G` and `G^reg`):
+  the pinned split models `𝒢_R` of ReductiveGroups 9B and the scheme of Borel subgroups of
+  ReductiveGroups Layer 8.
 -/
+
+@[expose] public section
 
 universe u
 
@@ -25,199 +61,227 @@ open CategoryTheory Limits AlgebraicGeometry
 
 noncomputable section
 
-/-! ## GS0: carriers over a base -/
+/-! ## Layer 0: carriers over a base -/
 
-section GS0
-
-variable {S : Scheme.{u}}
-
-/-- Base change of group schemes along `f : S' ⟶ S`. It is to be implemented as
-`(Over.pullback f).mapGrp`, using the braided instance on `Over.pullback`. -/
-def baseChange {S' : Scheme.{u}} (f : S' ⟶ S) : Grp (Over S) ⥤ Grp (Over S') := sorry
-
-/-- The geometric fibre of `G` at a geometric point `x : Spec Ω ⟶ S` (Convention 3). -/
-def geometricFiber (G : Grp (Over S)) {Ω : Type u} [Field Ω] [IsAlgClosed Ω]
-    (x : Spec (CommRingCat.of Ω) ⟶ S) : Grp (Over (Spec (CommRingCat.of Ω))) :=
-  (baseChange x).obj G
-
-/-- GS0.4: the open subgroup scheme representing the fibrewise identity-component subfunctor
-(the subfunctor of AlgebraicModuliForArithmeticGeometry §7.9, applied through the adapter to
-group algebraic spaces), for `G` smooth over an arbitrary base (SGA 3, Exp. VI_B, 3.9--3.10). -/
-def identityComponent (G : Grp (Over S)) [Smooth G.X.hom] : Grp (Over S) := sorry
-
-/-- The identity component is an open subgroup scheme. -/
-theorem isOpenImmersion_identityComponent (G : Grp (Over S)) [Smooth G.X.hom] :
-    ∃ ι : identityComponent G ⟶ G, IsOpenImmersion ((Grp.forget (Over S)).map ι).left := sorry
-
-/-- The identity component is smooth over the base. -/
-theorem smooth_identityComponent (G : Grp (Over S)) [Smooth G.X.hom] :
-    Smooth (identityComponent G).X.hom := sorry
-
-end GS0
-
-/-! ## GS1: diagonalizable groups -/
-
-section GS1
-
-/-- `D_S(M) = Spec_S O_S[M]`, the base change from `Spec ℤ` of Tau Ceti's
-`DiagonalizableGroup.groupScheme`. -/
-def diagonalizable (S : Scheme.{u}) (M : Type u) [AddCommGroup M] : Grp (Over S) := sorry
+section Layer0
 
 variable {S : Scheme.{u}}
 
-/-- The multiplicative group `𝔾_{m,S} = D_S(ℤ)`. -/
-abbrev multiplicativeGroup (S : Scheme.{u}) : Grp (Over S) :=
-  diagonalizable S (ULift.{u} ℤ)
+/-- **0.1.** Base change of group schemes along `f : S' ⟶ S`: Mathlib's `Functor.mapGrp` of the
+pullback functor on over categories. -/
+def baseChange {S' : Scheme.{u}} (f : S' ⟶ S) : Grp (Over S) ⥤ Grp (Over S') :=
+  (Over.pullback f).mapGrp
 
-/-- The group of `n`-th roots of unity `μ_{n,S} = D_S(ℤ/n)`. -/
-abbrev rootsOfUnity (S : Scheme.{u}) (n : ℕ) : Grp (Over S) :=
-  diagonalizable S (ULift.{u} (ZMod n))
+/-- **0.2.** A smooth group scheme over an arbitrary base has an open subgroup scheme, smooth and
+quasi-compact over the base, with connected fibres (SGA 3, Exp. VI_B, 3.9 and 3.10). It is
+unique: its fibre at `s` is an open connected subgroup of the fibre of `G`, hence its identity
+component. -/
+theorem exists_identityComponent (G : Grp (Over S)) [Smooth G.X.hom] :
+    ∃ (H : Grp (Over S)) (ι : H ⟶ G), IsOpenImmersion ((Grp.forget (Over S)).map ι).left ∧
+      Smooth H.X.hom ∧ QuasiCompact H.X.hom ∧ ∀ s : S, ConnectedSpace (H.X.hom.fiber s) := by
+  sorry
 
-theorem isCommMonObj_diagonalizable (M : Type u) [AddCommGroup M] :
-    IsCommMonObj (diagonalizable S M).X := sorry
+end Layer0
 
-theorem isAffineHom_diagonalizable (M : Type u) [AddCommGroup M] :
-    IsAffineHom (diagonalizable S M).X.hom := sorry
+/-! ## Layer 1: diagonalizable groups over a base -/
 
-theorem flat_diagonalizable (M : Type u) [AddCommGroup M] :
-    Flat (diagonalizable S M).X.hom := sorry
+section Layer1
 
-theorem locallyOfFinitePresentation_diagonalizable (M : Type u) [AddCommGroup M]
-    [Module.Finite ℤ M] : LocallyOfFinitePresentation (diagonalizable S M).X.hom := sorry
+/-- **1.1.** The diagonalizable group `D_S(M)` of a finitely generated abelian group `M`: the base
+change along `S ⟶ Spec ℤ` of Tau Ceti's `Spec ℤ[M]`, with `M` written multiplicatively. -/
+def diagonalizable (S : Scheme.{u}) (M : Type u) [AddCommGroup M] [AddGroup.FG M] :
+    Grp (Over S) :=
+  (baseChange (specULiftZIsTerminal.from S)).obj
+    (TauCeti.DiagonalizableGroup.groupScheme (ULift.{u} ℤ)
+      (TauCeti.FGCommGrpCat.of (Multiplicative M)))
 
-/-- GS1.2: over a connected base, homomorphisms `D_S(M) ⟶ D_S(N)` are homomorphisms
-`N →+ M` (contravariance as in Convention 5). -/
-def diagonalizableHomEquiv [ConnectedSpace S] (M N : Type u) [AddCommGroup M]
-    [AddCommGroup N] [Module.Finite ℤ M] [Module.Finite ℤ N] :
-    (diagonalizable S M ⟶ diagonalizable S N) ≃ (N →+ M) := sorry
+/-- **1.1.** The homomorphism `D(φ) : D_S(M) ⟶ D_S(N)` induced by `φ : N →+ M`
+(contravariance, Convention 3). -/
+def diagonalizableMap (S : Scheme.{u}) {M N : Type u} [AddCommGroup M] [AddGroup.FG M]
+    [AddCommGroup N] [AddGroup.FG N] (φ : N →+ M) :
+    diagonalizable S M ⟶ diagonalizable S N :=
+  (baseChange (specULiftZIsTerminal.from S)).map
+    (TauCeti.DiagonalizableGroup.groupSchemeMap (ULift.{u} ℤ)
+      (TauCeti.FGCommGrpCat.ofHom (AddMonoidHom.toMultiplicative φ)))
 
-/-- GS1.3: `μ_n` is smooth exactly where `n` is invertible. -/
-theorem smooth_rootsOfUnity_iff (n : ℕ) [NeZero n] :
-    Smooth (rootsOfUnity S n).X.hom ↔ ∀ s : S, (n : S.residueField s) ≠ 0 := sorry
+variable {S : Scheme.{u}} {M N : Type u} [AddCommGroup M] [AddGroup.FG M] [AddCommGroup N]
+  [AddGroup.FG N]
 
-end GS1
+/-- **1.2.** Over a connected (hence nonempty) base, `φ ↦ D(φ)` is a bijection from `N →+ M` onto
+the homomorphisms `D_S(M) ⟶ D_S(N)` (SGA 3, Exp. VIII, 1.6). -/
+theorem bijective_diagonalizableMap [ConnectedSpace S] :
+    Function.Bijective (fun φ : N →+ M ↦ diagonalizableMap S φ) := by
+  sorry
 
-/-! ## GS2: groups of multiplicative type and tori -/
+/-- **1.3.** `D_S(M)` is smooth over `S` iff the order of the torsion subgroup of `M` is
+invertible on `S` (SGA 3, Exp. VIII, 2.1 e)). -/
+theorem smooth_diagonalizable_iff :
+    Smooth (diagonalizable S M).X.hom ↔
+      ∀ s : S, ((Nat.card (AddCommGroup.torsion M) : ℕ) : S.residueField s) ≠ 0 := by
+  sorry
 
-section GS2
+/-- **1.3.** Over a nonempty base, `D_S(M)` is étale over `S` iff `M` is finite and its order is
+invertible on `S` (SGA 3, Exp. VIII, 2.1 c), e)). -/
+theorem etale_diagonalizable_iff [Nonempty S] :
+    Etale (diagonalizable S M).X.hom ↔
+      Finite M ∧ ∀ s : S, ((Nat.card M : ℕ) : S.residueField s) ≠ 0 := by
+  sorry
+
+/-- **1.4.** For an injective `φ : N →+ M`, `D(φ) : D_S(M) ⟶ D_S(N)` is faithfully flat
+(SGA 3, Exp. VIII, 3.2 a)). -/
+theorem flat_surjective_diagonalizableMap {φ : N →+ M} (hφ : Function.Injective φ) :
+    Flat ((Grp.forget (Over S)).map (diagonalizableMap S φ)).left ∧
+      Surjective ((Grp.forget (Over S)).map (diagonalizableMap S φ)).left := by
+  sorry
+
+/-- **1.4.** For an injective `φ : N →+ M`, the kernel of `D(φ)` is `D_S(M ⧸ φ.range)`, embedded
+by the quotient map `M → M ⧸ φ.range` (SGA 3, Exp. VIII, 3.1). -/
+theorem isKernel_diagonalizableMap {φ : N →+ M} (hφ : Function.Injective φ) :
+    ∃ h : diagonalizableMap S (QuotientAddGroup.mk' φ.range) ≫ diagonalizableMap S φ = 0,
+      Nonempty (IsLimit (KernelFork.ofι _ h)) := by
+  sorry
+
+end Layer1
+
+/-! ## Layer 2: groups of multiplicative type and tori -/
+
+section Layer2
 
 variable {S : Scheme.{u}}
 
-/-- `G` is isomorphic to `D_S(M)` for a finitely generated `M`. -/
+/-- **2.1.** `G` is isomorphic to `D_S(M)` for a finitely generated `M`. -/
 def IsDiagonalizable (G : Grp (Over S)) : Prop :=
-  ∃ (M : Type u) (_ : AddCommGroup M), Module.Finite ℤ M ∧ Nonempty (G ≅ diagonalizable S M)
+  ∃ (M : Type u) (_ : AddCommGroup M) (_ : AddGroup.FG M), Nonempty (G ≅ diagonalizable S M)
 
-/-- GS2.1: `G` is fppf-locally diagonalizable (SGA 3, Exp. IX, 1.1, for finite type). -/
+/-- **2.1.** `G` is of multiplicative type (of finite type): diagonalizable after base change to
+the members of an fppf cover. SGA 3, Exp. IX, 1.1, uses fpqc covers; for finite type the two
+agree, both being étale-local by SGA 3, Exp. X, 4.5 (README 2.2). -/
 def IsMultiplicativeType (G : Grp (Over S)) : Prop :=
   ∃ (ι : Type u) (U : ι → Scheme.{u}) (f : ∀ i, U i ⟶ S),
     (∀ i, Flat (f i)) ∧ (∀ i, LocallyOfFinitePresentation (f i)) ∧
       (∀ s : S, ∃ i, ∃ x : U i, f i x = s) ∧
         ∀ i, IsDiagonalizable ((baseChange (f i)).obj G)
 
-/-- GS2.1: `G` is fppf-locally isomorphic to `D(ℤ^r)`. -/
+/-- **2.1.** `G` is a torus: fppf-locally isomorphic to `D(M)` with `M` free of finite rank. -/
 def IsTorus (G : Grp (Over S)) : Prop :=
   ∃ (ι : Type u) (U : ι → Scheme.{u}) (f : ∀ i, U i ⟶ S),
     (∀ i, Flat (f i)) ∧ (∀ i, LocallyOfFinitePresentation (f i)) ∧
       (∀ s : S, ∃ i, ∃ x : U i, f i x = s) ∧
-        ∀ i, ∃ r : ℕ, Nonempty ((baseChange (f i)).obj G ≅
-          diagonalizable (U i) (Fin r → ULift.{u} ℤ))
+        ∀ i, ∃ (M : Type u) (_ : AddCommGroup M) (_ : AddGroup.FG M), Module.Free ℤ M ∧
+          Nonempty ((baseChange (f i)).obj G ≅ diagonalizable (U i) M)
 
-/-- GS2.2: a group of multiplicative type is étale-locally diagonalizable
-(SGA 3, Exp. X, Cor. 4.5). -/
+/-- **2.2.** A group of multiplicative type is étale-locally diagonalizable
+(SGA 3, Exp. X, 4.5). -/
 theorem IsMultiplicativeType.exists_etale_cover {G : Grp (Over S)}
     (hG : IsMultiplicativeType G) :
     ∃ (ι : Type u) (U : ι → Scheme.{u}) (f : ∀ i, U i ⟶ S),
       (∀ i, Etale (f i)) ∧ (∀ s : S, ∃ i, ∃ x : U i, f i x = s) ∧
-        ∀ i, IsDiagonalizable ((baseChange (f i)).obj G) := sorry
+        ∀ i, IsDiagonalizable ((baseChange (f i)).obj G) := by
+  sorry
 
-/-- GS2.5: `G` is isotrivial: after a finite étale surjective base change it is isomorphic to
-`D(M)` for one finitely generated `M` (SGA 3, Exp. IX, 1.1, recalled in Exp. X, §1). -/
+/-- **2.5.** `G` is isotrivial: diagonalizable after one finite étale surjective base change.
+By the anti-equivalence of 2.3 this says that the character sheaf `X*(G)` is trivialised by a
+finite étale cover (README 2.5). -/
 def IsIsotrivial (G : Grp (Over S)) : Prop :=
   ∃ (S' : Scheme.{u}) (f : S' ⟶ S), IsFinite f ∧ Etale f ∧ Surjective f ∧
     IsDiagonalizable ((baseChange f).obj G)
 
-/-- GS2.5: over a connected locally noetherian normal base, every group of multiplicative type
-(of finite type) is isotrivial (SGA 3, Exp. X, 5.16, stated there for geometrically unibranch
-bases, which normal bases are; its proof first reduces to a connected base). Normality is
-expressed through the stalks. Connectedness is needed: over a disjoint union of two fields, a
-torus of rank one on one point and rank two on the other is not isotrivial. -/
+/-- **2.5.** Over a connected, locally noetherian, normal base, every group of multiplicative
+type is isotrivial (SGA 3, Exp. X, 5.16, there for geometrically unibranch bases). Normality is
+expressed through the stalks. -/
 theorem IsMultiplicativeType.isotrivial [ConnectedSpace S] [IsLocallyNoetherian S]
     (hS : ∀ s : S, IsDomain (S.presheaf.stalk s) ∧ IsIntegrallyClosed (S.presheaf.stalk s))
     {G : Grp (Over S)} (hG : IsMultiplicativeType G) :
-    IsIsotrivial G := sorry
+    IsIsotrivial G := by
+  sorry
 
-/-- GS2.5, componentwise form: without connectedness, the restriction to every connected
-open and closed subscheme (for instance a connected component, these being open over a locally
-noetherian base) is isotrivial. -/
+/-- **2.5.** Componentwise form, without connectedness: over a locally noetherian normal base,
+the restriction to every connected open and closed subscheme is isotrivial. -/
 theorem IsMultiplicativeType.isotrivial_component [IsLocallyNoetherian S]
     (hS : ∀ s : S, IsDomain (S.presheaf.stalk s) ∧ IsIntegrallyClosed (S.presheaf.stalk s))
     {G : Grp (Over S)} (hG : IsMultiplicativeType G) (U : S.Opens)
     (hU : IsClopen (U : Set S)) [ConnectedSpace U] :
-    IsIsotrivial ((baseChange U.ι).obj G) := sorry
+    IsIsotrivial ((baseChange U.ι).obj G) := by
+  sorry
 
-end GS2
+/-- **2.6.** The nodal curve over a field `k`: `𝔸¹_k` with the points `0` and `1` identified,
+the spectrum of `{f ∈ k[t] | f(0) = f(1)}`. -/
+def nodalCurve (k : Type u) [Field k] : Scheme.{u} :=
+  Spec (CommRingCat.of (AlgHom.equalizer (Polynomial.aeval (R := k) (0 : k))
+    (Polynomial.aeval (1 : k))))
 
-/-! ## GS3: rigidity and Hom schemes -/
+/-- **2.6.** Over the nodal curve there is a torus of rank two that is not isotrivial: the
+gluing of `𝔾_m²` over `𝔸¹` along `0` and `1` by `[[1, 1], [0, 1]]` (SGA 3, Exp. X, 1.6). -/
+theorem exists_torus_not_isotrivial (k : Type u) [Field k] :
+    ∃ T : Grp (Over (nodalCurve k)), IsTorus T ∧ ¬ IsIsotrivial T := by
+  sorry
 
-section GS3
+end Layer2
+
+/-! ## Layer 3: rigidity, density of torsion, Hom schemes, centralizers -/
+
+section Layer3
 
 variable {S : Scheme.{u}}
 
-/-- GS3.2: over a connected base, two homomorphisms between groups of multiplicative type
-that agree on one fibre are equal. -/
+attribute [local instance] Hom.monoid
+
+/-- **3.1.** Along a thickening `S₀ ⟶ S` (a surjective closed immersion), homomorphisms between
+groups of multiplicative type lift uniquely (SGA 3, Exp. X, 2.1). -/
+theorem bijective_baseChange_map_of_thickening {S₀ : Scheme.{u}} (i : S₀ ⟶ S)
+    [IsClosedImmersion i] [Surjective i] {H H' : Grp (Over S)} (hH : IsMultiplicativeType H)
+    (hH' : IsMultiplicativeType H') :
+    Function.Bijective (fun φ : H ⟶ H' ↦ (baseChange i).map φ) := by
+  sorry
+
+/-- **3.2.** Over a connected base, two homomorphisms between groups of multiplicative type that
+agree on the fibre at one point are equal (SGA 3, Exp. IX, 5.1 and 5.3). -/
 theorem hom_eq_of_eq_fibre [ConnectedSpace S] {H H' : Grp (Over S)}
     (hH : IsMultiplicativeType H) (hH' : IsMultiplicativeType H') (φ ψ : H ⟶ H') (s : S)
     (h : (baseChange (S.fromSpecResidueField s)).map φ =
       (baseChange (S.fromSpecResidueField s)).map ψ) :
-    φ = ψ := sorry
+    φ = ψ := by
+  sorry
 
-/-- The functor `T ↦ Hom_{T-gr}(H_T, G_T)` on `S`-schemes. -/
-def homFunctor (H G : Grp (Over S)) : (Over S)ᵒᵖ ⥤ Type u := sorry
+/-- **3.3.** Density of torsion: two `S`-morphisms from a group of multiplicative type `H` to a
+separated `S`-scheme that agree on every `n`-torsion subgroup `H[n]`, the pullback of the unit
+section along `x ↦ xⁿ`, are equal (SGA 3, Exp. IX, 4.7). -/
+theorem eq_of_eq_on_torsion {H : Grp (Over S)} (hH : IsMultiplicativeType H) {Y : Over S}
+    [IsSeparated Y.hom] (φ ψ : H.X ⟶ Y)
+    (h : ∀ n : ℕ, 0 < n →
+      pullback.fst ((𝟙 H.X) ^ n) MonObj.one ≫ φ = pullback.fst ((𝟙 H.X) ^ n) MonObj.one ≫ ψ) :
+    φ = ψ := by
+  sorry
 
-/-- GS3.4: for `H` of multiplicative type and `G` smooth affine, `Hom_{S-gr}(H, G)` is
-represented by a smooth separated `S`-scheme (SGA 3, Exp. XI, 4.2). -/
-theorem homFunctor_representable {H G : Grp (Over S)} (hH : IsMultiplicativeType H)
-    [Smooth G.X.hom] [IsAffineHom G.X.hom] :
-    ∃ Y : Over S, Smooth Y.hom ∧ IsSeparated Y.hom ∧
-      Nonempty ((homFunctor H G).RepresentableBy Y) := sorry
+end Layer3
 
-/-- GS3.4: between groups of multiplicative type the Hom scheme is étale. -/
-theorem homFunctor_representable_etale {H H' : Grp (Over S)} (hH : IsMultiplicativeType H)
-    (hH' : IsMultiplicativeType H') :
-    ∃ Y : Over S, Etale Y.hom ∧ IsSeparated Y.hom ∧
-      Nonempty ((homFunctor H H').RepresentableBy Y) := sorry
+/-! ## Layer 4: smooth groups over a field -/
 
-end GS3
+section Layer4
 
-/-! ## GS5: the deformation of `𝔾_m` to `𝔾_a` -/
+variable (k : Type u) [Field k]
 
-section GS5
+/-- **4.2.** Chevalley's theorem, existence: a smooth connected group scheme of finite type over a
+perfect field is an extension of an abelian variety by a smooth connected affine closed normal
+subgroup (Conrad, *A modern proof of Chevalley's theorem*, Thm. 1.1). -/
+theorem chevalley [PerfectField k] (G : Grp (Over (Spec (CommRingCat.of k))))
+    [Smooth G.X.hom] [QuasiCompact G.X.hom] [ConnectedSpace G.X.left] :
+    ∃ (L : Grp (Over (Spec (CommRingCat.of k)))) (ι : L ⟶ G)
+      (A : TauCeti.AlgebraicGeometry.AbelianVariety k)
+      (q : G ⟶ Grp.mk A.toOver) (h : ι ≫ q = 0),
+      Nonempty (IsLimit (KernelFork.ofι ι h)) ∧ IsClosedImmersion ((Grp.forget _).map ι).left ∧
+        IsAffineHom L.X.hom ∧ Smooth L.X.hom ∧ ConnectedSpace L.X.left ∧
+          Flat ((Grp.forget _).map q).left ∧ Surjective ((Grp.forget _).map q).left := by
+  sorry
 
-variable {S : Scheme.{u}}
+/-- **4.3.** Affinization: for a group scheme of finite type over a field, `O(G)` is a finitely
+generated `k`-algebra and `G ⟶ Spec O(G)` is faithfully flat (Demazure–Gabriel, III, §3, 8.2). -/
+theorem affinization (G : Grp (Over (Spec (CommRingCat.of k))))
+    [LocallyOfFiniteType G.X.hom] [QuasiCompact G.X.hom] :
+    G.X.hom.appTop.hom.FiniteType ∧ Flat G.X.left.toSpecΓ ∧ Surjective G.X.left.toSpecΓ := by
+  sorry
 
-/-- `G^(λ) = Spec_S O_S[t, (1 + λt)⁻¹]` with law `t₁ + t₂ + λ t₁ t₂` (GS5 checks). -/
-def deformationGroup (S : Scheme.{u}) (lam : Γ(S, ⊤)) : Grp (Over S) := sorry
-
-theorem smooth_deformationGroup (lam : Γ(S, ⊤)) :
-    Smooth (deformationGroup S lam).X.hom := sorry
-
-theorem isAffineHom_deformationGroup (lam : Γ(S, ⊤)) :
-    IsAffineHom (deformationGroup S lam).X.hom := sorry
-
-theorem isCommMonObj_deformationGroup (lam : Γ(S, ⊤)) :
-    IsCommMonObj (deformationGroup S lam).X := sorry
-
-/-- Over `D(λ)`, `t ↦ 1 + λt` identifies `G^(λ)` with `𝔾_m`. -/
-theorem deformationGroup_basicOpen (lam : Γ(S, ⊤)) :
-    Nonempty ((baseChange (S.basicOpen lam).ι).obj (deformationGroup S lam) ≅
-      multiplicativeGroup (S.basicOpen lam)) := sorry
-
-/-- Over `S` with `λ = 0`, `G^(0)` is the additive group: it is not of multiplicative type
-when `S` is nonempty. -/
-theorem not_isMultiplicativeType_deformationGroup_zero [Nonempty S] :
-    ¬ IsMultiplicativeType (deformationGroup S 0) := sorry
-
-end GS5
+end Layer4
 
 end
 
