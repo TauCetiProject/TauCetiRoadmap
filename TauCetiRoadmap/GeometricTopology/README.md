@@ -27,37 +27,52 @@ theorems are true, and every end theorem that is statable on the pinned carriers
 This roadmap owns:
 
 - collars and the local product structure of a manifold with boundary beyond the native local
-  collars, gluing along a piece of the boundary, handle attachment, the connected sum with its
-  independence theorem, and the comparison of the native PL groupoid with the simplicial PL
-  structures (Layer 1, with 11.3 and 12.1);
+  collars, gluing along a piece of the boundary, handle attachment, the comparison of the native
+  connected sum (two punctured balls glued by inversion) with the gluing of two ball complements
+  along their boundary spheres, the associativity of the connected sum with its `π₁` and
+  Euler-characteristic formulas, and the comparison of the native PL groupoid with the simplicial
+  PL structures (Layer 1, with 11.3 and 12.1);
 - the extensions of the native locally flat embedding theory: the three boundary variants of local
   flatness, the comparison of the native collaring theorems with Brown's global theorem for
   compact boundaries, the annulus theorem in every dimension as a stated target, and the
   Kirby–Siebenmann normal-bundle dependency named as such (Layer 2);
 - continuity of inversion on the native weak Whitney diffeomorphism group, the topological-group
   structure, the relative groups `Diff(M, ∂M)` with their topology, the orientation-preserving
-  subgroup and the degree, and the statements of the Smale conjecture, Cerf's theorem and
-  Watanabe's theorem (Layer 3);
+  subgroup and the degree, the comparison of the native orientation-free form of Cerf's theorem
+  with `π₀(Diff⁺(S³)) = 0` and its corollary `Γ₄ = 0`, and the statements of the Smale
+  conjecture, Cerf's theorem and Watanabe's theorem on their native carriers (Layer 3);
 - knot theory on its presentations: the comparison theorems between the native smooth, PL,
   braid-closure, PD-code and Gauss-code presentations, Reidemeister's theorem, Markov's theorem,
   the Seifert matrix of a diagram, the agreement of the native Alexander, Jones and HOMFLY routes,
   the slice genus bounds, and the statement of Freedman's theorem (Layer 4);
-- knot and link exteriors, the boundary tori of an exterior and their framings, Dehn filling and
-  surgery, the surgery identities on the unknot, the surgery description and the classification of
-  the native lens spaces, general-dimension surgery, and the statements of Property P, Property R
-  and the cosmetic-surgery results (Layer 5);
+- knot and link exteriors as compact manifolds with boundary, the identification of the native
+  preferred longitude with the boundary of a Seifert surface, the isotopy classification of torus
+  homeomorphisms that completes the native well-definedness of Dehn filling, the smooth structure
+  and the diffeomorphism type of a filling, surgery on a knot in `S³` as a manifold with a name,
+  the `1/n` identities on the unknot and the classification of the native lens spaces, the
+  Lickorish–Wallace theorem, and the statements of Property P, Property R, the Gordon–Luecke
+  theorem and Mathieu's theorem on the native fillings (Layer 5);
 - the knot concordance group on the native concordance relations, the Tristram–Levine signature
   as a concordance invariant, link cobordisms and the slice genus inequalities (Layer 6);
-- the Weeks manifold, the minimal volume theorem and the statements of Agol's theorems on the
-  native hyperbolic, virtually fibered and virtually Haken carriers (Layer 7);
-- the prime decomposition of closed orientable `3`-manifolds, the comparison of the native
-  geometric torus decomposition with Thurston's formulation through the eight model geometries,
-  and the statements of the JSJ theorem, geometrization and the Poincaré conjecture (Layer 8);
-- handlebodies, Heegaard splittings, Heegaard genus, the rank inequality and Li's theorem
-  (Layer 9);
-- codimension-one foliations and tautness on the native `TauCeti.Foliation`, the Euler class of
-  an oriented plane bundle in degree-two integral cohomology, the Thurston norm and its dual,
-  Thurston's inequality and Yazdi's theorem (Layer 10);
+- the homology, the volume and the non-Haken-ness of the native Weeks manifold, the isometric
+  form of the minimal volume theorem through Mostow rigidity, and the statements of the minimal
+  volume theorem and of Agol's theorems on the native carriers (Layer 7);
+- irreducibility against primeness (`S¹ × S²` is the only closed orientable prime `3`-manifold
+  that is not irreducible), the free-product decomposition of `π₁` along a prime decomposition,
+  the comparison of the native geometric torus decomposition with Thurston's formulation through
+  the eight model geometries, and the statements of the Kneser and Milnor theorems, the JSJ
+  theorem, geometrization and the Poincaré conjecture on the native carriers (Layer 8);
+- the boundary surface and the handle description of the native handlebody, the non-orientable
+  handlebodies and the Heegaard splittings of non-orientable closed `3`-manifolds, the existence
+  theorem for Heegaard splittings of every closed connected `3`-manifold, which supplies the
+  instance the native Heegaard genus needs, and the statement of Li's theorem on the native
+  carriers (Layer 9);
+- transverse orientations, smooth transversals and Reeb components of codimension-one foliations
+  on the native `TauCeti.Foliation`, the rank-two Thom class of an oriented plane bundle with the
+  obstruction-theoretic description of the native Euler class, the Thurston norm and its dual, the
+  comparison of the native Euler class inequality with the dual norm, the general (irreducible)
+  form of Thurston's inequality, Gabai's realization theorem, Yazdi's infinite family, and the
+  statements of Thurston's inequality and Yazdi's theorem on the native carriers (Layer 10);
 - the realization API beyond the native one (compact subsets, the CW structure of a polyhedron and
   its cellular chain complex), triangulations of manifolds, the reconciliation of combinatorial
   manifolds with PL manifolds, and Manolescu's theorem (Layer 11);
@@ -76,9 +91,35 @@ This roadmap leaves to named suppliers, and never restates:
 - faces of manifolds with corners and the abstract boundary, which are the DifferentialGeometry
   roadmap's 5.5; this roadmap's gluing consumes those faces;
 - the lens spaces `L(p, q) = TauCeti.LensSpace p ![1, q]`, their analytic manifold structure,
-  their fundamental group `ℤ/p` and the invariance of `p` under homeomorphism, which are native;
-  5.3 proves on that carrier the surgery description `S³_U(p/q) ≃ₘ L(p, q)` and the
-  classification of lens spaces, and 8.1 consumes their native spherical structure;
+  their fundamental group `ℤ/p` and the invariance of `p` under homeomorphism, which are native,
+  as is the `p/q`-surgery on the unknot inside them; 5.3 proves on that carrier the unoriented
+  surgery description `S³_U(p/q) ≃ₜ L(p, q)` and the classification of lens spaces, and 8.1
+  consumes their native spherical structure;
+- the connected sum of two manifolds along coordinate balls, its oriented form, its independence
+  of the balls, its commutativity and the identity `M # Sⁿ ≃ M`; primeness and iterated connected
+  sums; and the statements of the Kneser and Milnor theorems, which are native (1.4 and 8.2
+  consume `TauCeti.ConnectedSum`, `TauCeti.OrientedConnectedSum`, `TauCeti.IsPrimeManifold`,
+  `TauCeti.IsIteratedConnectedSum`, `TauCeti.KneserPrimeDecompositionTheorem` and
+  `TauCeti.MilnorPrimeDecompositionTheorem`);
+- Cerf's theorem in its orientation-free form `TauCeti.CerfTheorem`, its two-component form, and
+  the native proof that the Smale conjecture implies it (3.3);
+- Dehn fillings of knot and link exteriors recorded inside the filled space, their existence along
+  every slope, their independence of the gluing for gluings isotopic to matrix gluings, the
+  framing number and the preferred framing, the `∞`-, `0`- and `p/q`-surgeries on the unknot, the
+  surgery coefficients of a link, surgery on a framed sphere in general dimension, the purely and
+  chirally cosmetic relations with the cosmetic surgery conjecture, the Ni–Wu, Hanselman and
+  Mathieu statements, the Akbulut–Kirby conjecture and Yasui's theorem, which are native (Layer 5
+  consumes them under the names of the supplier contract);
+- the Whitehead link, the Weeks manifold as its `5, 5/2` surgery and the statement of the
+  Gabai–Meyerhoff–Milley theorem, which are native (7.3);
+- the standard handlebodies with their fundamental groups, Heegaard splittings of a space as two
+  handlebodies inside it, the Heegaard genus, the rank inequality, Waldhausen's rank-versus-genus
+  conjecture and the statement of Li's theorem, which are native (Layer 9);
+- tautness of a foliation through `C¹` closed transversals, the leaves of a foliation, the Thom
+  pair and the Euler class of a vector bundle and of the tangent field of a foliation, the Euler
+  class inequality on embedded surfaces, and the statements of Thurston's inequality, the Euler
+  class one conjecture and Yazdi's theorem in their closed hyperbolic forms, which are native
+  (Layer 10);
 - the Kirby–Siebenmann theorem (a closed topological manifold of dimension at least five has a
   PL structure exactly when its class `ks(M) ∈ H⁴(M; ℤ/2)` vanishes, the PL structures up to
   concordance then forming a torsor under `H³(M; ℤ/2)`; Kirby–Siebenmann, *Foundational Essays*,
@@ -90,9 +131,11 @@ This roadmap leaves to named suppliers, and never restates:
   microbundle, `BTOP`, `BPL` and the Kirby–Siebenmann theorem are stated in a GeometricTopology
   Part II that consumes Layers 11 and 12, which is where FourManifolds' contract
   `gap:tangent-microbundle-stable-classifier` is addressed;
-- the general Thom and Euler classes of oriented bundles of every rank, which are
-  CharacteristicClasses C2; that roadmap compares its rank-two restriction with the standalone
-  plane construction of 10.2, so the plane construction is owned here and consumes nothing of C2;
+- the Thom isomorphism and the Euler classes of oriented bundles of every rank beyond the native
+  `TauCeti.eulerClass`, which are CharacteristicClasses C2; 10.2 consumes the native Euler class
+  in rank two and owns the rank-two Thom class of an oriented plane bundle and the
+  obstruction-theoretic description of its Euler class, and C2 compares its rank-two restriction
+  with that plane construction, so 10.2 consumes nothing of C2;
 - the homological concordance invariants: `τ` and the bound `|τ(K)| ≤ g_s(K)` are
   CombinatorialHeegaardFloer Lane G, items 7 and 10, which consumes this roadmap's Layer 4 and is
   therefore never a supplier of it. The three Kirby problems whose resolutions rest on such
@@ -100,11 +143,15 @@ This roadmap leaves to named suppliers, and never restates:
   Rasmussen's `s`-invariant and the trace-equivalent knot, Piccirillo, *The Conway knot is not
   slice*, Proposition 1.4 and Theorem 1.5), Problem 1.53 (mutation and concordance, through the
   same pair) and Problem 1.31 (Levine's knot in a homology sphere, through Heegaard Floer
-  invariants). No roadmap on main supplies `s`; a GeometricTopology Part II that consumes both this
-  roadmap and CombinatorialHeegaardFloer is where they are stated;
+  invariants). The proofs of Yasui's theorem and of the Ni–Wu and Hanselman cosmetic surgery
+  theorems, native as `TauCeti.YasuiTheorem`, `TauCeti.NiWuCosmeticSurgeryTheorem` and
+  `TauCeti.HanselmanCosmeticSurgeryTheorem`, rest on invariants of the same kind; 5.4 names them
+  and claims nothing about them. No roadmap on main supplies `s`; a GeometricTopology Part II that
+  consumes both this roadmap and CombinatorialHeegaardFloer is where they are stated;
 - the classification of compact surfaces and the mapping class groups of surfaces: no roadmap on
-  main supplies them, and nothing here needs them, since Heegaard splittings are defined through
-  handlebodies and their boundary diffeomorphisms (9.1), not through abstract genus-`g` surfaces;
+  main supplies them, and nothing here needs them, since the native Heegaard splittings are two
+  handlebodies inside the manifold meeting in their common frontier (9.1), with no gluing map and
+  no abstract genus-`g` surface;
 - Kirby's Problem 4.82 (a smooth structure on `(⋆ℝP⁴) # (⋆ℂP²)`), which Kirby's remarks record
   as unresolved; it is not a target.
 
@@ -222,7 +269,22 @@ Every declaration below exists at the pinned Tau Ceti and is consumed as it stan
   `TauCeti.PLPregroupoid`, `TauCeti.PLGroupoid` and `TauCeti.PLGroupoid_le_continuousGroupoid`
   (`Geometry/Manifold/PLGroupoid/Basic.lean`); `TauCeti.Orientable I n M`
   (`Geometry/Manifold/Orientation/Basic.lean`); `TauCeti.SmoothEmbedding`
-  (`SmoothEmbedding/Basic.lean`).
+  (`SmoothEmbedding/Basic.lean`); the connected sum `TauCeti.ConnectedSum e₁ e₂` of two spaces along
+  open
+  embeddings `e₁ : E → M`, `e₂ : E → N` of a real inner product space `E` (the centres removed
+  and the punctured balls glued by the inversion `v ↦ v/‖v‖²`), with `ConnectedSum.inl`, `inr`,
+  `mk`, `isOpenEmbedding_inl`, `isLocalHomeomorph_mk` and `ConnectedSum.t2Space`
+  (`Geometry/Manifold/ConnectedSum/Basic.lean`), its charts `ConnectedSum.chartedSpace` with
+  `ConnectedSum.isManifold` and `isLocalDiffeomorph_mk` (`ConnectedSum/Smooth.lean`),
+  `ConnectedSum.compactSpace` and `ConnectedSum.connectedSpace` for `dim E ≥ 2`
+  (`ConnectedSum/Topology.lean`), `ConnectedSum.orientation` and `ConnectedSum.orientable`
+  (`ConnectedSum/Orientation.lean`) on the native orientations `TauCeti.Manifold.Orientation I M ι`
+  (`Orientation/Basic.lean`), `ConnectedSum.nonempty_diffeomorph_of_isOrientationPreservingAt` and
+  `nonempty_diffeomorph_of_isOrientationReversingAt` (`ConnectedSum/Independence.lean`),
+  `TauCeti.OrientedConnectedSum oM oN` with `nonempty_diffeomorph_connectedSum`,
+  `nonempty_diffeomorph_comm`, `nonempty_diffeomorph_neg` and `nonempty_diffeomorph_sphere`
+  (`ConnectedSum/Oriented.lean`), `TauCeti.IsComplementaryBall` and
+  `TauCeti.connectedSumSphereDiffeomorph` (`ConnectedSum/Sphere.lean`).
 - Layer 2: `TauCeti.IsSliceChart`, `TauCeti.IsSliceEmbedding`, `TauCeti.IsLocallyFlat` with its
   closure API (`restrict`, `of_forall_exists_isOpen`, `homeomorph_comp`, `comp_homeomorph`,
   `isOpenEmbedding_comp`, `codRestrict`, `transHomeomorph`, `prodMap`, `comp` under its chart
@@ -253,7 +315,10 @@ Every declaration below exists at the pinned Tau Ceti and is consumed as it stan
   `TauCeti.SmaleConjecture` (`Diffeomorphism/Sphere.lean`, `Diffeomorphism/Smale.lean`);
   `TauCeti.Diffeotopy` (`Diffeomorphism/Diffeotopy/Basic.lean`); `TauCeti.AmbientIsotopy`,
   `TauCeti.AmbientIsotopic`, `TauCeti.Isotopic` (`Topology/Homotopy/Isotopy/Basic.lean`,
-  `AmbientIsotopic/Basic.lean`).
+  `AmbientIsotopic/Basic.lean`); `TauCeti.CerfTheorem`,
+  `TauCeti.SmaleConjecture.cerfTheorem` and `TauCeti.cerfTheorem_iff_natCard_zerothHomotopy_eq_two`
+  (`Diffeomorphism/Cerf.lean`), `TauCeti.joined_orthogonalToDiffSphere_iff` and
+  `TauCeti.not_pathConnectedSpace_diff_sphere` (`Diffeomorphism/Sphere/Isotopy.lean`).
 - Layer 4: `TauCeti.SmoothCircleEmbedding`, `rotate`, `reverse`, `greatCircle`, `TauCeti.unknot`
   (`KnotTheory/SmoothCircle.lean`); `TauCeti.UnorientedSmoothCircleEmbedding`
   (`UnorientedSmoothCircle.lean`); `TauCeti.SmoothLinkEmbedding` with `relabel`, `reverse`,
@@ -308,7 +373,48 @@ Every declaration below exists at the pinned Tau Ceti and is consumed as it stan
   and `LensSpace.eq_of_homeomorph`
   (`LensSpace/FundamentalGroup.lean`), and their analytic manifold structure of dimension `2k + 1`
   (`Geometry/Manifold/Instances/LensSpace.lean`); the three-dimensional `L(p, q)` is
-  `TauCeti.LensSpace p ![1, q]`.
+  `TauCeti.LensSpace p ![1, q]`; `TauCeti.knotExterior` (`SolidTorusNeighborhood/Exterior.lean`),
+  `TauCeti.unknotSolidTorus` and
+  `TauCeti.unknotExteriorHomeomorph` (`SolidTorusNeighborhood/Unknot.lean`),
+  `TauCeti.exists_isSolidTorusNeighborhood_sphere` (`SolidTorusNeighborhood/Sphere.lean`),
+  `TauCeti.IsSolidTorusLinkNeighborhood` (`SolidTorusNeighborhood/Link/Basic.lean`),
+  `TauCeti.IsOrientationPreservingAtCore` (`SolidTorusNeighborhood/Orientation.lean`);
+  `FramedBoundaryTorus.ofHomeomorph`, `FramedBoundaryTorus.torusCurveClass`,
+  `FramedBoundaryTorus.value_mk_torusCurveClass` and
+  `IsSolidTorusNeighborhood.framedBoundaryTorus` (`DehnSurgery/Framing.lean`);
+  `IsSolidTorusNeighborhood.framingNumber`, `preferredFramedBoundaryTorus`,
+  `complementHomologyEquiv`, `complementHomologyEquiv_boundaryHomologyMap_preferred` and
+  `ker_boundaryHomologyMap`, under the vanishing of the reduced integral homology of the ambient
+  space in degrees `1` and `2`, supplied for `S³` by
+  `TauCeti.isZero_reducedSingularHomologyFunctor_one_sphere_euclideanSpace_fin_four` and its
+  degree-two sibling (`DehnSurgery/SeifertFraming.lean`); `IsSolidTorusNeighborhood.fillingSlope`
+  with `fillingSlope_refl` and `fillingSlope_prodComm`, `TauCeti.DehnFilling h s Y`,
+  `DehnFilling.desc`, `DehnFilling.transHomeomorph`, `DehnFilling.openExteriorEmbedding` and
+  `IsSolidTorusNeighborhood.meridianDehnFilling` (`DehnSurgery/Filling.lean`);
+  `IsSolidTorusNeighborhood.dehnFillingSpace`, `IsSolidTorusNeighborhood.exists_dehnFilling` and
+  `IsSolidTorusLinkNeighborhood.exists_linkDehnFilling` (`DehnSurgery/Existence.lean`);
+  `IsSolidTorusNeighborhood.exists_fillingSlope_torusHomeomorph_eq`,
+  `DehnFilling.exists_homeomorph_of_isotopic`,
+  `DehnFilling.exists_homeomorph_of_isotopic_torusHomeomorph` and
+  `DehnFilling.nonempty_homeomorph_of_fillingSlope_meridian` (`DehnSurgery/Uniqueness.lean`);
+  `TauCeti.framingNumber_unknotSolidTorus`, `TauCeti.preferredFramedBoundaryTorus_unknotSolidTorus`,
+  `TauCeti.unknotZeroDehnFilling` with `unknotZeroDehnFilling_gluing` and
+  `DehnFilling.nonempty_homeomorph_circle_prod_sphere_of_unknot_longitude`
+  (`DehnSurgery/Unknot.lean`); `TauCeti.unknotLensSpaceDehnFilling` and
+  `DehnFilling.nonempty_homeomorph_lensSpace_of_unknot_slopeValue` (`DehnSurgery/LensSpace.lean`);
+  `TauCeti.LinkDehnFilling` (`DehnSurgery/Link/Filling.lean`),
+  `IsSolidTorusLinkNeighborhood.surgerySlope` with `value_surgerySlope_framedBoundaryTorus`
+  (`DehnSurgery/Link/Surgery.lean`); `DehnFilling.IsOrientationCompatible`
+  (`DehnSurgery/Orientation.lean`) on `TauCeti.HomologicalOrientation`
+  (`AlgebraicTopology/Singular/LocalHomology/Orientation/Homological.lean`);
+  `IsSolidTorusNeighborhood.IsPurelyCosmetic`, `IsSolidTorusNeighborhood.IsChirallyCosmetic`,
+  `TauCeti.CosmeticSurgeryConjecture`, `TauCeti.NiWuCosmeticSurgeryTheorem`,
+  `TauCeti.HanselmanCosmeticSurgeryTheorem` and `TauCeti.MathieuChirallyCosmeticTheorem`
+  (`DehnSurgery/Cosmetic.lean`); `TauCeti.AkbulutKirbyConjecture` and `TauCeti.YasuiTheorem`
+  (`DehnSurgery/AkbulutKirby.lean`); `TauCeti.sphereExterior` and `TauCeti.SphereSurgery`
+  (`Topology/Surgery/Basic.lean`), `TauCeti.solidTorusFramedSphere` and
+  `SphereSurgery.toDehnFilling` (`DehnSurgery/SphereSurgery.lean`); `TauCeti.rightHandedTrefoil`
+  (`KnotTheory/TorusKnot.lean`).
 - Layer 6: `TauCeti.SmoothEmbedding.Concordance` with `refl`, `symm`, `trans`, `ofDiffeotopy`,
   `TauCeti.SmoothEmbedding.Concordant` and `Concordant.equivalence`
   (`SmoothEmbedding/Concordance.lean`); `TauCeti.TopologicallyConcordant` and
@@ -332,7 +438,11 @@ Every declaration below exists at the pinned Tau Ceti and is consumed as it stan
   `TauCeti.IsClosedHakenSurfaceEmbedding`, `TauCeti.IsPossiblyNonorientableClosedHakenThreeManifold`
   (`Geometry/Manifold/Haken.lean`); `TauCeti.IsVirtuallyHaken` and
   `TauCeti.VirtualHakenConjecture` (`Geometry/Manifold/VirtuallyHaken.lean`,
-  `Riemannian/Hyperbolic/VirtualHaken.lean`).
+  `Riemannian/Hyperbolic/VirtualHaken.lean`); `TauCeti.whiteheadLink` and `TauCeti.whiteheadCurve`
+  (`KnotTheory/SmoothLink/Whitehead.lean`); `TauCeti.IsWeeksManifold`,
+  `TauCeti.exists_isWeeksManifold` and `TauCeti.isWeeksManifold_congr`
+  (`LowDimTopology/DehnSurgery/Link/Weeks.lean`); `TauCeti.GabaiMeyerhoffMilleyTheorem`
+  (`Riemannian/Hyperbolic/Weeks.lean`).
 - Layer 8: `TauCeti.ModelGeometry` with its eight constructors and `ModelGeometry.Space`
   (`Riemannian/ModelGeometry/Basic.lean`), `TauCeti.HasGeometricStructure M G` and
   `TauCeti.LensSpace.hasGeometricStructure_spherical`
@@ -344,10 +454,51 @@ Every declaration below exists at the pinned Tau Ceti and is consumed as it stan
   (`LowDimTopology/SeifertFibration.lean`); `TauCeti.IsPeripheralTorus`, `TauCeti.IsAtoroidal`,
   `TauCeti.IsTorusDecomposition`, `TauCeti.IsJSJDecomposition`, `TauCeti.JSJTheorem`
   (`LowDimTopology/JSJDecomposition.lean`); `TauCeti.IsGeometricTorusDecomposition`,
-  `TauCeti.GeometrizationConjecture` (`LowDimTopology/Geometrization.lean`).
+  `TauCeti.GeometrizationConjecture` (`LowDimTopology/Geometrization.lean`);
+  `TauCeti.IsConnectedSumOf I k M N₁ N₂`,
+  `TauCeti.IsPrimeManifold n M`, `TauCeti.IsIteratedConnectedSum n P M`,
+  `TauCeti.not_isPrimeManifold_sphere`, `TauCeti.IsConnectedSumOf.not_isPrimeManifold`,
+  `TauCeti.isIteratedConnectedSum_zero_iff` and `Diffeomorph.isPrimeManifold_iff`
+  (`Geometry/Manifold/ConnectedSum/Prime.lean`); `TauCeti.KneserPrimeDecompositionTheorem` and
+  `TauCeti.MilnorPrimeDecompositionTheorem` with `MilnorPrimeDecompositionTheorem.card_eq`
+  (`LowDimTopology/PrimeDecomposition.lean`).
+- Layer 9: `TauCeti.planarSurface g`, `TauCeti.handlebody g`, `TauCeti.handlebody_zero`,
+  `TauCeti.nonempty_homeomorph_handlebody_one` (`LowDimTopology/Handlebody/Basic.lean`);
+  `TauCeti.nonempty_fundamentalGroup_handlebody_mulEquiv_freeGroup`,
+  `TauCeti.rank_fundamentalGroup_handlebody_le`, `TauCeti.isPathConnected_frontier_handlebody`
+  and `TauCeti.fundamentalGroup_map_frontier_handlebody_surjective`
+  (`Handlebody/FundamentalGroup.lean`); `TauCeti.HeegaardSplitting M` with `symm`,
+  `transHomeomorph` and `ofIsClosed`, `TauCeti.heegaardGenus M` under
+  `[Nonempty (HeegaardSplitting M)]` with `heegaardGenus_le`, `exists_genus_eq_heegaardGenus`,
+  `heegaardGenus_eq_zero_iff` and `heegaardGenus_congr`, `TauCeti.hemisphereHeegaardSplitting`
+  and `TauCeti.heegaardGenus_sphere` (`LowDimTopology/Heegaard/Splitting.lean`);
+  `TauCeti.cliffordHeegaardSplitting` and `TauCeti.exists_heegaardSplitting_genus_eq_one`
+  (`Heegaard/Clifford.lean`); `HeegaardSplitting.fundamentalGroup_map_left_surjective`,
+  `HeegaardSplitting.fg_fundamentalGroup`, `HeegaardSplitting.rank_fundamentalGroup_le_genus` and
+  `TauCeti.rank_fundamentalGroup_le_heegaardGenus` (`Heegaard/FundamentalGroup.lean`);
+  `TauCeti.RankGenusConjecture`, `TauCeti.LiRankGenusTheorem`,
+  `LiRankGenusTheorem.not_rankGenusConjecture` and `TauCeti.exists_heegaardGenus_sphere_eq_rank`
+  (`Heegaard/RankGenus.lean`); `LensSpace.heegaardSplitting` and `LensSpace.heegaardGenus_eq_one`
+  (`Heegaard/LensSpace/Splitting.lean`); `DehnFilling.heegaardSplitting`,
+  `DehnFilling.heegaardGenus_le_one` and `TauCeti.heegaardGenus_circle_prod_sphere`
+  (`Heegaard/DehnFilling.lean`).
 - Layer 10: `TauCeti.Foliation I n M k` and `Foliation.ofSubmodule` (`Foliation/Basic.lean`), the
   distribution interfaces `TauCeti.IsContMDiffDistribution`, `TauCeti.IsInvolutiveDistribution`
-  (`Geometry/Manifold/Distribution.lean`).
+  (`Geometry/Manifold/Distribution.lean`); `Foliation.leaf` and `Foliation.SameLeaf`
+  (`Foliation/Leaf.lean`); `Foliation.IsClosedTransversal`, `Foliation.Taut` and
+  `TauCeti.not_taut_ofSubmodule_ker` (`Foliation/Taut.lean`); `TauCeti.thomPair`,
+  `TauCeti.IsThomClass` with `IsThomClass.singularCohomologyMap`, and `TauCeti.eulerClass` with
+  `eulerClass_naturality`, `eulerClass_pullback`, `eulerClass_eq_zero_of_forall_ne_zero` and
+  `eulerClass_trivial_eq_zero` (`Topology/VectorBundle/EulerClass.lean`); `Foliation.thomPair`,
+  `Foliation.IsThomClass`, `Foliation.eulerClass`, `Foliation.IsEulerClass`, `IsEulerClass.neg`,
+  `Foliation.eulerClass_eq_zero_of_forall_ne_zero`, `TauCeti.EulerClassBounded` with
+  `eulerClassBounded_neg_iff`, `TauCeti.EulerClassNormOne` with `not_eulerClassNormOne_zero`,
+  `TauCeti.ThurstonEulerClassInequality`, `TauCeti.EulerClassOneConjecture`,
+  `TauCeti.YazdiEulerClassOneTheorem` and `YazdiEulerClassOneTheorem.not_eulerClassOneConjecture`
+  (`Foliation/EulerClass.lean`); `TauCeti.HomologicalOrientation.evalFundamentalClass`
+  (`AlgebraicTopology/Cohomology/FundamentalClass.lean`), `TauCeti.FiniteCWType`
+  (`Topology/CWComplex/Classical/FiniteCWType.lean`) and `TauCeti.eulerChar`
+  (`AlgebraicTopology/Cellular/EulerCharacteristic/FiniteCWType.lean`).
 - Layer 11: `AbstractSimplicialComplex.Realization`, `faceInclusion`, `carrier`, `vertex`,
   `realizationMap` for inclusions (`SimplicialComplex/Realization/Basic.lean`);
   `PreAbstractSimplicialComplex.SimplicialMap` (`SimplicialComplex/Maps.lean`) and
@@ -383,31 +534,37 @@ Every declaration below exists at the pinned Tau Ceti and is consumed as it stan
   products, the cellular chain complex and its comparison with singular homology, consumed by
   10.2, 10.3 and 11.2; DifferentialGeometry's degree of a smooth map of closed oriented manifolds,
   consumed by 3.1.
-- CharacteristicClasses: nothing is consumed; C2 compares its rank-two Euler class with 10.2.
+- CharacteristicClasses: nothing is consumed; C2 compares its rank-two Euler class with the plane
+  construction of 10.2 on the native `TauCeti.eulerClass`.
 - CombinatorialHeegaardFloer: nothing is consumed; Lane K consumes Layer 4 and Lane G consumes 6.3.
 
 ## How to read the build
 
 Layer 1 is the spine: it completes the collar theorem on the native local collars, builds gluing
-along faces, handle attachment, tubular neighbourhoods in manifolds and the connected sum, and
-records the native PL groupoid. Layer 2 extends the native locally flat embedding theory to
-boundaries and to the global collaring and annulus theorems. Layer 3 finishes the native weak
-Whitney topology into a topological group with its relative and orientation-preserving subgroups
-and states the three diffeomorphism-group theorems. Layer 4 builds knot theory on the native
-presentations and proves the correspondence and agreement theorems between them; Layer 6 builds
-the concordance group on the native concordance relations and Layer 4's Seifert matrices, and is
-built before Layer 5, whose exteriors and Dehn surgery rest on Layer 1's gluing and Layer 4's
-presentations and whose Akbulut–Kirby statement consumes Layer 6's concordance relation. Layers 7
-and 8 share the Riemannian substrate: Layer 7 adds the Weeks manifold and the Agol statements on
-the native hyperbolic carriers, Layer 8 adds the prime decomposition and the Thurston-geometry form
-of geometrization on the native decomposition carriers. Layer 11 extends the native polyhedra and
-needs only Layer 1; Layers 8 and 9 consume its Moise theorem (11.2) for Kneser's finiteness and
-for the existence of Heegaard splittings, so Layer 11 is built before Layer 8. Layer 9 needs
-Layers 1 and 3 besides; Layer 10 needs the native foliations, Layer 2's surfaces and Layer 8's
-incompressible surfaces; Layer 12 compares the structures of Layers 1 and 11. Every layer ends
-with its examples and dependencies, and `Suggested.lean` states the end theorems that are statable
-at the pins: Smale, Watanabe, the annulus theorem, Markov, Freedman, Mostow, Agol (both forms), the
-JSJ theorem, geometrization and Manolescu.
+along faces, handle attachment and tubular neighbourhoods in manifolds, compares the native
+connected sum with the gluing model, and records the native PL groupoid. Layer 2 extends the
+native locally flat embedding theory to boundaries and to the global collaring and annulus
+theorems. Layer 3 finishes the native weak Whitney topology into a topological group with its
+relative and orientation-preserving subgroups and states the three diffeomorphism-group theorems.
+Layer 4 builds knot theory on the native presentations and proves the correspondence and agreement
+theorems between them; Layer 6 builds the concordance group on the native concordance relations
+and Layer 4's Seifert matrices, and is built before Layer 5, whose exteriors rest on Layer 1's
+gluing and Layer 4's presentations, whose Dehn fillings are the native ones completed by the
+isotopy classification of torus homeomorphisms, and whose Akbulut–Kirby statement consumes
+Layer 6's concordance relation. Layers 7 and 8 share the Riemannian substrate: Layer 7 computes
+the native Weeks manifold and states the minimal volume theorem and the Agol statements on the
+native hyperbolic carriers, Layer 8 sets irreducibility against the native primeness and adds the
+Thurston-geometry form of geometrization on the native decomposition carriers. Layer 11 extends
+the native polyhedra and needs only Layer 1; Layers 5, 8 and 9 consume its Moise theorem (11.2)
+for the smooth structure of a filling, for Kneser's finiteness and for the existence of Heegaard
+splittings, so Layer 11 is built before Layer 5. Layer 9 needs Layers 1, 2 and 5 besides; Layer 10
+needs the native foliations and Euler classes, Layer 2's surfaces and Layer 8's incompressible
+surfaces; Layer 12 compares the structures of Layers 1 and 11. Every layer ends with its examples
+and dependencies, and `Suggested.lean` states the end theorems that are statable at the pins:
+Smale, Cerf, Watanabe, the annulus theorem, Markov, Freedman, Property P, Property R,
+Gordon–Luecke, Mathieu, Mostow, the minimal volume theorem, Agol (both forms), Kneser, Milnor,
+the JSJ theorem, geometrization, the Poincaré conjecture, Li, Thurston's inequality, Yazdi and
+Manolescu.
 
 ## Layer 1: manifold-library buildout (general dimension, general structure group)
 
@@ -546,45 +703,73 @@ map); 1.1 (the closed tube as a manifold with boundary).
 
 ### 1.4 Connected sum
 
-Define the **connected sum** on explicit data: oriented connected `n`-manifolds `M, N` (through
-`TauCeti.Orientable` with chosen oriented atlases), smooth embeddings `e₁ : Dⁿ → M` and
-`e₂ : Dⁿ → N` with `e₁` orientation-preserving and `e₂` orientation-reversing; `M # N` is
-`(M ∖ e₁(int Dⁿ)) ∪ (N ∖ e₂(int Dⁿ))` glued along the boundary spheres by `e₂ ∘ e₁⁻¹`, through
-1.2. Prove **independence of the balls**: by the disc theorem (Palais, *Extending diffeomorphisms*,
-Proc. AMS 11 (1960), Theorem B; Hirsch, Chapter 8, Theorem 3.1) any two orientation-preserving
-embeddings of `Dⁿ` into a connected oriented manifold are ambient isotopic, so the connected sum
-is well defined up to orientation-preserving diffeomorphism. Prove the identities `M # Sⁿ ≅ M`,
-commutativity and associativity, and the formulas `π₁(M # N) ≅ π₁(M) * π₁(N)` for `n ≥ 3` (van
-Kampen with the sphere simply connected) and `χ(M # N) = χ(M) + χ(N) − χ(Sⁿ)`.
+Consume the native **connected sum** `TauCeti.ConnectedSum e₁ e₂` of two spaces `M`, `N` along
+open embeddings `e₁ : E → M`, `e₂ : E → N` of a real inner product space `E`, the coordinate
+balls: the centres `e₁ 0`, `e₂ 0` are removed and the punctured balls are glued by the inversion
+`v ↦ v/‖v‖²`, so that `e₁ v` is identified with `e₂ (v/‖v‖²)` for `v ≠ 0` (Kosinski,
+*Differential Manifolds*, Chapter VI, Section 1, with the radial coordinate rescaled). It is
+Hausdorff when `M` and `N` are and `E` is finite-dimensional (`ConnectedSum.t2Space`), a `C^n`
+manifold with the charts pushed forward from the punctured summands when the balls are `C^n`
+local diffeomorphisms (`ConnectedSum.chartedSpace`, `ConnectedSum.isManifold`), compact when `M`
+and `N` are, and connected when they are and `dim E ≥ 2` (`ConnectedSum.compactSpace`,
+`ConnectedSum.connectedSpace`). Consume **independence of the balls**: for connected summands,
+balls with the same orientation behaviour at their centres give diffeomorphic sums
+(`ConnectedSum.nonempty_diffeomorph_of_isOrientationPreservingAt`, by the ambient disc theorem;
+Palais, *Extending diffeomorphisms*, Proc. AMS 11 (1960), Theorem B; Hirsch, Chapter 8, Theorem
+3.1); the **oriented connected sum** `TauCeti.OrientedConnectedSum oM oN` of connected oriented
+manifolds, along a ball preserving the orientation of `M` and a ball reversing that of `N` at
+their centres, with its orientation (`ConnectedSum.orientation`, `ConnectedSum.orientable`) and
+its independence of the chosen balls (`OrientedConnectedSum.nonempty_diffeomorph_connectedSum`);
+and the identities `M # N ≃ N # M` (`OrientedConnectedSum.nonempty_diffeomorph_comm`),
+`M # N ≃ (−M) # (−N)` (`nonempty_diffeomorph_neg`) and `M # Sⁿ ≃ M`
+(`OrientedConnectedSum.nonempty_diffeomorph_sphere`, `TauCeti.connectedSumSphereDiffeomorph`).
+Prove the **comparison with the gluing model**: for closed `M`, `N` and balls `e₁`, `e₂` that are
+diffeomorphisms onto their images, the native sum is diffeomorphic to
+`(M ∖ e₁(int Dⁿ)) ∪ (N ∖ e₂(int Dⁿ))` glued along the boundary spheres by `e₂ ∘ e₁⁻¹` through 1.2
+(the inversion carries the sphere of radius `r` to the sphere of radius `1/r`, so the two models
+differ by collars of the seam). Prove **associativity** `(M # N) # P ≃ M # (N # P)` for connected
+oriented summands, and the formulas `π₁(M # N) ≅ π₁(M) * π₁(N)` for `n ≥ 3` (van Kampen on the
+two punctured summands, whose intersection, the punctured ball, is simply connected) and
+`χ(M # N) = χ(M) + χ(N) − χ(Sⁿ)` for closed `M`, `N`.
 
-- `M # N` is a connected oriented `n`-manifold; it is closed when `M` and `N` are.
-- Independence: `connectedSum e₁ e₂ ≅ connectedSum e₁' e₂'` for any two admissible pairs.
-- `M # Sⁿ ≅ M`; `M # N ≅ N # M`; `(M # N) # P ≅ M # (N # P)`.
+- `M # N` is a connected `C^n` manifold, closed when `M` and `N` are; for connected oriented
+  summands it is oriented and depends only on the oriented summands up to diffeomorphism.
+- `M # Sⁿ ≃ M`; `M # N ≃ N # M`; `(M # N) # P ≃ M # (N # P)`.
+- The gluing model of 1.2 and the native model are diffeomorphic.
 
 **Checks.**
 
-- `S² # S² ≅ S²` and `T² # T²` is the genus-two surface with `χ = −2 = 0 + 0 − 2`.
-- `ℝP² # ℝP²` is the Klein bottle, so the orientability hypothesis is a hypothesis of the
-  well-definedness theorem only. The orientation condition on `e₂` is what makes the result the
-  oriented sum: with `e₁` preserving and `e₂` reversing, the induced orientations of the two
-  boundary spheres `∂(M ∖ e₁(int Dⁿ))` and `∂(N ∖ e₂(int Dⁿ))` are `−e₁(∂Dⁿ)` and `+e₂(∂Dⁿ)`,
-  so the gluing `e₂ ∘ e₁⁻¹` reverses them and the orientations of the two pieces extend over the
-  seam. For `n = 1`, `M = N = S¹`: the arc `M ∖ e₁(int D¹)` runs from `e₁(1)` to `e₁(−1)` and the
-  arc `N ∖ e₂(int D¹)` from `e₂(−1)` to `e₂(1)`, and identifying `e₁(±1)` with `e₂(±1)` gives a
+- `S² # S² ≃ S²` is the native sphere identity; `T² # T²` is the genus-two surface with
+  `χ = −2 = 0 + 0 − 2`.
+- `ℝP² # ℝP²` is the Klein bottle: the native `ConnectedSum` needs no orientation, only the
+  oriented sum and the independence theorem do. The orientation condition on the second ball is
+  what makes the result the oriented sum: the inversion reverses every orientation of `E`, so a
+  ball preserving the orientation of `M` and a ball reversing that of `N` give a gluing map that
+  preserves orientation from `M` to `N` (`ConnectedSum.orientation`). In the gluing model for
+  `n = 1`, `M = N = S¹`: the arc `M ∖ e₁(int D¹)` runs from `e₁(1)` to `e₁(−1)` and the arc
+  `N ∖ e₂(int D¹)` from `e₂(−1)` to `e₂(1)`, and identifying `e₁(±1)` with `e₂(±1)` gives a
   consistently oriented circle, while with `e₂` preserving the second arc runs the other way. For
-  `M = N = ℂP²` the definition gives the oriented sum `ℂP² # ℂP²` with intersection form
-  `⟨1⟩ ⊕ ⟨1⟩` and signature `2`; the construction with an orientation-preserving `e₂` instead gives
-  `ℂP² # ℂP²‾` with form `⟨1⟩ ⊕ ⟨−1⟩` and signature `0`, so the condition on `e₂` is not cosmetic.
+  `M = N = ℂP²` the oriented sum has intersection form `⟨1⟩ ⊕ ⟨1⟩` and signature `2`; two
+  orientation-preserving balls give the oriented sum of `ℂP²` with `ℂP²‾`, with form
+  `⟨1⟩ ⊕ ⟨−1⟩` and signature `0`, which `nonempty_diffeomorph_neg` identifies only with
+  `ℂP²‾ # ℂP²`, so the condition on the second ball is not cosmetic.
 - `π₁(L(2, 1) # L(3, 1)) ≅ C₂ * C₃`, with two prime factors; uniqueness of the factorisation is
   8.2, not a consequence of this section.
-- The connected sum of `M` with itself along the same ball on both sides is not a special case:
-  `e₁` and `e₂` must have disjoint images when `M = N`, which the definition on two manifolds
-  enforces by construction.
+- The connected sum of two lines along the identity balls is two disjoint lines, so
+  `ConnectedSum.connectedSpace` needs `dim E ≥ 2`; and the `π₁` formula needs `n ≥ 3`: for
+  `n = 2`, `T² # T²` has `π₁` the surface group of genus two, a quotient of `ℤ² * ℤ²` by the
+  relation the punctured ball (an annulus, with `π₁ = ℤ`) imposes.
+- The connected sum of `M` with itself is the native sum of two copies of `M`: the construction
+  takes two spaces, so `M # M` along `e₁`, `e₂ : E → M` needs disjoint images only in the gluing
+  model, which the comparison target assumes.
 
-*Needs:* Mathlib `Diffeomorph`, `FundamentalGroup`; the native `TauCeti.Orientable`,
-`TauCeti.SmoothEmbedding`, `TauCeti.Diffeotopy` and `TauCeti.AmbientIsotopic`; 1.2 (gluing along the
-boundary spheres); AlgebraicTopology Stage 1 (van Kampen) and Stage 7 (the Euler characteristic of a
-finite decomposition).
+*Needs:* Mathlib `Diffeomorph`, `FundamentalGroup`; the native `TauCeti.ConnectedSum` with its
+charts, Hausdorffness, compactness and connectedness, `TauCeti.Manifold.Orientation`,
+`TauCeti.OrientedConnectedSum`, `ConnectedSum.nonempty_diffeomorph_of_isOrientationPreservingAt`,
+`TauCeti.connectedSumSphereDiffeomorph`, `TauCeti.SmoothEmbedding`, `TauCeti.Diffeotopy`; 1.1
+(collars of the seam); 1.2 (gluing along the boundary spheres, for the comparison);
+AlgebraicTopology Stage 1 (van Kampen) and Stage 7 (the Euler characteristic of a finite
+decomposition).
 
 ### 1.5 The PL structure groupoid
 
@@ -916,47 +1101,73 @@ topology and `Diff⁺`); DifferentialGeometry Layer 10 (`degree_antipodal`).
 
 State the **Smale conjecture** as the native `TauCeti.SmaleConjecture`: the inclusion
 `O(4) → Diff(S³)` is a homotopy equivalence (Hatcher, *A proof of the Smale conjecture*, Ann. of
-Math. 117 (1983); its disc form is that `Diff(D³, ∂)` is contractible). State **Cerf's theorem**:
-`π₀(Diff⁺(S³)) = 0` (Cerf, *Sur les difféomorphismes de la sphère de dimension trois (Γ₄ = 0)*,
-LNM 53, Théorème 1), hence `π₀(Diff(S³)) ≅ ℤ/2` through the degree, hence `Γ₄ = 0`. Smale's
-conjecture implies Cerf's theorem, since `π₀(O(4)) ≅ ℤ/2`. State **Watanabe's theorem** as the
-native `TauCeti.WatanabeTheorem`: `π₁(Diff(D⁴, ∂))`, based at the identity, has an element of
-infinite order (Watanabe, *Some exotic nontrivial elements of the rational homotopy groups of
-`Diff(S⁴)`*, Theorem 1.1 and Remark 1.2: the evaluation of Kontsevich's classes gives a surjection
-`π_k BDiff(D⁴, ∂) ⊗ ℚ → A_k` for every `k ≥ 1`, `A₁ = 0` and `A₂ ≅ ℚ`, so the first class lies in
-`π₂ BDiff(D⁴, ∂) ⊗ ℚ ≅ π₁ Diff(D⁴, ∂) ⊗ ℚ`); it refutes the four-dimensional disc Smale
-conjecture (`TauCeti.WatanabeTheorem.not_contractibleSpace_discDiff_four`), which is the disc form
-of `[Kir97, Problem 4.34]` (`Diff(S⁴) ≃ O(5)`?) and the smooth half of `[Kir97, Problem 4.126]`.
+Math. 117 (1983); its disc form is that `Diff(D³, ∂)` is contractible). State **Cerf's theorem**
+as the native `TauCeti.CerfTheorem`, the orientation-free form: every smooth diffeomorphism of
+`S³` is joined, in the weak Whitney topology, to the restriction of an orthogonal transformation
+of `ℝ⁴`, that is, `π₀(O(4)) → π₀(Diff(S³))` is surjective (Cerf, *Sur les difféomorphismes de la
+sphère de dimension trois (Γ₄ = 0)*, LNM 53, Théorème 1). The native library proves that this map
+is injective in every dimension (`TauCeti.joined_orthogonalToDiffSphere_iff`: two orthogonal
+transformations are isotopic as diffeomorphisms of `Sⁿ` exactly when their determinants agree),
+hence that Cerf's theorem holds exactly when `Diff(S³)` has two path components
+(`TauCeti.cerfTheorem_iff_natCard_zerothHomotopy_eq_two`), and that the Smale conjecture implies
+Cerf's theorem (`TauCeti.SmaleConjecture.cerfTheorem`, a homotopy equivalence being surjective on
+path components); these are consumed, not targets. Prove the **comparison with the classical
+form**: `TauCeti.CerfTheorem` holds exactly when `π₀(Diff⁺(S³)) = 0` for the
+orientation-preserving subgroup of 3.1 (a diffeomorphism joined to an orthogonal map of
+determinant `−1` has degree `−1`, so under `CerfTheorem` an element of `Diff⁺(S³)` is joined to an
+element of `SO(4)`, hence to the identity, `SO(4)` being path connected; conversely a
+diffeomorphism of degree `−1` composed with a reflection has degree `+1`), and prove Cerf's
+corollary `Γ₄ = 0`: every diffeomorphism of `S³` extends to a diffeomorphism of `D⁴` (an
+orthogonal map extends linearly, and an isotopy to it extends over a collar of 1.1). State
+**Watanabe's theorem** as the native `TauCeti.WatanabeTheorem`: `π₁(Diff(D⁴, ∂))`, based at the
+identity, has an element of infinite order (Watanabe, *Some exotic nontrivial elements of the
+rational homotopy groups of `Diff(S⁴)`*, Theorem 1.1 and Remark 1.2: the evaluation of
+Kontsevich's classes gives a surjection `π_k BDiff(D⁴, ∂) ⊗ ℚ → A_k` for every `k ≥ 1`, `A₁ = 0`
+and `A₂ ≅ ℚ`, so the first class lies in `π₂ BDiff(D⁴, ∂) ⊗ ℚ ≅ π₁ Diff(D⁴, ∂) ⊗ ℚ`); it refutes
+the four-dimensional disc Smale conjecture
+(`TauCeti.WatanabeTheorem.not_contractibleSpace_discDiff_four`), which is the disc form of
+`[Kir97, Problem 4.34]` (`Diff(S⁴) ≃ O(5)`?) and the smooth half of `[Kir97, Problem 4.126]`.
 
 - Smale: the specific map `continuousOrthogonalToDiffSphere 3 ∞` is a homotopy equivalence, not
   merely some equivalence of the two spaces; `O(4)` is compact and `Diff(S³)` is not, so no
   isomorphism of topological groups is claimed.
-- Cerf: every orientation-preserving diffeomorphism of `S³` is diffeotopic to the identity.
+- Cerf: every diffeomorphism of `S³` is isotopic to an orthogonal one; equivalently
+  `π₀(Diff(S³))` has two elements; equivalently every orientation-preserving diffeomorphism of
+  `S³` is diffeotopic to the identity; hence `Γ₄ = 0`.
 - Watanabe: an element of `π₁(Diff(D⁴, ∂), id)` of infinite order; `Diff(D⁴, ∂)` is not
   contractible.
 
 **Checks.**
 
-- The reflection of `S³` has degree `−1` and is not isotopic to the identity, so `π₀(Diff(S³))`
-  has at least two elements; Cerf's theorem is about `Diff⁺`, and the formula `π₀ = ℤ/2` for the
-  full group is the correct one, not `π₀(Diff(S³)) = 0`.
+- The reflection of `S³` has degree `−1` and is not isotopic to the identity
+  (`TauCeti.not_pathConnectedSpace_diff_sphere`), so `π₀(Diff(S³))` has at least two elements;
+  the orientation-free form asserts "at most two", not `π₀(Diff(S³)) = 0`, and the formula
+  `π₀ = ℤ/2` for the full group is the correct one.
 - `Diff(S³)` is not compact: the time-`t` map of the gradient flow of a height function on `S³`
   has derivative of norm `e^{t}` at a hyperbolic fixed point, unbounded in `t`, while the image of
   `O(4)` is compact; a topological-group isomorphism `Diff(S³) ≅ O(4)` is false.
 - The statement for `n = 2` (Smale, `Diff(S²) ≃ O(3)`) and `n = 1` (`Diff(S¹) ≃ O(2)`) are true
   and are the same shape with `3` replaced by `n`; the shape with `4` is what Watanabe's theorem
   disproves in its disc form, so the dimension is part of the statement.
+- The orientation-free form in dimension `1`: every diffeomorphism of `S¹` is isotopic to a
+  rotation or to a reflection, so `π₀(Diff(S¹))` has two elements, the same shape as
+  `TauCeti.CerfTheorem`; in dimension `6` the shape fails, since `π₀(Diff⁺(S⁶)) ≅ Θ₇ ≅ ℤ/28`
+  (Kervaire–Milnor, *Groups of homotopy spheres I*, with the identification `Γ₇ = Θ₇`), so the
+  dimension `3` is the content of Cerf's theorem.
 
-*Needs:* the native `TauCeti.SmaleConjecture`, `TauCeti.WatanabeTheorem`,
-`TauCeti.WatanabeTheorem.not_contractibleSpace_discDiff_four`, `TauCeti.DiscDiff`; Mathlib
-`HomotopyGroup`, `ContinuousMap.HomotopyEquiv`, `ContractibleSpace`; 3.1 (`Diff⁺(S³)`, `Diff(D⁴,
-∂)`); 3.2 (the reference inclusion).
+*Needs:* the native `TauCeti.SmaleConjecture`, `TauCeti.CerfTheorem`,
+`TauCeti.SmaleConjecture.cerfTheorem`, `TauCeti.cerfTheorem_iff_natCard_zerothHomotopy_eq_two`,
+`TauCeti.joined_orthogonalToDiffSphere_iff`, `TauCeti.orthogonalToDiffSphere`,
+`TauCeti.WatanabeTheorem`, `TauCeti.WatanabeTheorem.not_contractibleSpace_discDiff_four`,
+`TauCeti.DiscDiff`; Mathlib `HomotopyGroup`, `ZerothHomotopy`, `Joined`,
+`ContinuousMap.HomotopyEquiv`, `ContractibleSpace`; 1.1 (collars, for `Γ₄ = 0`); 3.1 (`Diff⁺(S³)`,
+the degree, `Diff(D⁴, ∂)`); 3.2 (the reference inclusion).
 
 ### Examples
 
 `Diff(S¹)` with its rotations and reflection; the reference inclusions `O(n + 1) → Diff(Sⁿ)`;
-`Diff(D¹, ∂D¹)` contractible; the three headline statements, all three statable at the pins (the
-Smale and Watanabe statements are in `Suggested.lean`).
+`Diff(D¹, ∂D¹)` contractible; the three headline statements, all three statable at the pins and
+stated in `Suggested.lean`.
 
 ### Dependencies
 
@@ -1357,16 +1568,35 @@ AlgebraicTopology Stage 3 (Mayer–Vietoris).
 Consume `TauCeti.Slope M` (primitive classes modulo sign in a `ℤ`-module), `TauCeti.BoundaryTorus`
 (a space homeomorphic to `T²` with its first homology), `TauCeti.FramedBoundaryTorus` (a boundary
 torus with an ordered basis `(μ, λ)` of `H₁(T; ℤ)`), its `meridian` (value `∞`), `longitude`
-(value `0`), `value : Slope T.H → ℚ ∪ {∞}` and the bijection `slopeEquiv`. Construct the framed
-boundary torus of a knot exterior: the frontier torus of 5.1 with the basis `(μ, λ)` of meridian
-and Seifert longitude, and prove that the resulting bijection `Slope ≃ ℚ ∪ {∞}` is the classical
-one: `p/q` is the class `p·μ + q·λ` (Rolfsen, Chapter 9). Prove that an orientation-reversing
-diffeomorphism of `S³` sends the slope `p/q` of `K` to the slope `−p/q` of the mirror image.
+(value `0`), `value : Slope T.H → ℚ ∪ {∞}` and the bijection `slopeEquiv`, and the native
+**framings of a knot exterior**: a parametrization `e : S¹ × S¹ ≃ₜ T` frames `T` by its two
+coordinate circles (`FramedBoundaryTorus.ofHomeomorph e`), the class of the `(p, q)` curve
+`t ↦ e(e^{2πipt}, e^{2πiqt})` has coordinates `(p, q)` and, for coprime `p` and `q`, slope value
+`p/q` (`FramedBoundaryTorus.torusCurveClass`, `value_mk_torusCurveClass`), which is the classical
+dictionary `p/q ↔ p·μ + q·λ` (Rolfsen, Chapter 9); the boundary torus of the exterior of a knot
+with solid torus neighbourhood `Φ` is framed by `Φ` (`IsSolidTorusNeighborhood.framedBoundaryTorus`:
+the meridian is `t ↦ Φ(e^{2πit}, 1)`, the boundary of a disc fibre, and the longitude is the
+push-off `t ↦ Φ(1, e^{2πit})` of the knot); and, when the ambient space has vanishing reduced
+integral homology in degrees `1` and `2`, the **framing number** `n` of `Φ` (the longitude of `Φ`
+is homologous in the knot complement to `n` times the meridian,
+`IsSolidTorusNeighborhood.framingNumber`), the isomorphism `H₁(X ∖ K; ℤ) ≅ ℤ` sending the meridian
+to `1` (`complementHomologyEquiv`) and the **preferred framing** `(μ, λ − n·μ)`
+(`IsSolidTorusNeighborhood.preferredFramedBoundaryTorus`), whose longitude generates the kernel
+of `H₁(T) → H₁(X ∖ K)` (`ker_boundaryHomologyMap`) and in which a class goes to its meridian
+coordinate (`complementHomologyEquiv_boundaryHomologyMap_preferred`). For `S³` the homology
+hypotheses are the native vanishing theorems for the sphere. Prove the **identification with the
+Seifert longitude**: for a knot in `S³` the preferred longitude is, up to isotopy on the torus,
+the boundary of a Seifert surface (4.4) pushed to the boundary torus, the unique simple closed
+curve on the torus meeting the meridian once and null-homologous in the exterior (Rolfsen,
+Chapter 2, Section E; Chapter 9, Section F). Prove that an orientation-reversing diffeomorphism
+of `S³` sends the slope `p/q` of `K` to the slope `−p/q` of the mirror image, and that reversing
+the orientation of `Φ` (precomposing with the reflection of `D²`) negates the value of every
+slope.
 
 - The slopes of a framed torus are `ℚ ∪ {∞}`; `∞` is the meridian and `0` the longitude; `p/q` and
   `−p/−q` are the same slope and `p/q`, `−p/q` are different unless `p = 0`.
 - Changing the framing by `λ' = λ + kμ` sends the value `p/q` of a slope to `(p − kq)/q`: the
-  class `pμ + qλ = (p − kq)μ + qλ'`.
+  class `pμ + qλ = (p − kq)μ + qλ'`; the preferred framing is the case `k = −n`.
 - The class `(0, 0)` is not primitive and names no slope; `(2, 2)` is not primitive; `(1, 0)` and
   `(0, 1)` are.
 
@@ -1375,59 +1605,121 @@ diffeomorphism of `S³` sends the slope `p/q` of `K` to the slope `−p/q` of th
 - `slopeValue (1, 0) = ∞`, `slopeValue (0, 1) = 0`, `slopeValue (3, 2) = 3/2`, and
   `slopeValue (−3, −2) = 3/2` as well, so the sign quotient is correct; `(2, 4)` is excluded by
   primitivity (`gcd = 2`).
-- The unknot's framed torus with `(μ, λ)` and the complementary solid torus's framed torus with
-  `(λ, μ)` are related by the value map `x ↦ 1/x`, with `∞ ↔ 0`.
-- For the right-handed trefoil, the framing `λ + 6μ` is the boundary of the fibre of the Seifert
-  fibration of its exterior (the cabling annulus), not the Seifert longitude, whose linking number
-  with `K` is `0`; the value `6` is the torus-knot framing `pq` of the `(2, 3)` torus knot.
-- The Seifert longitude `λ` has value `0 = 0/1` in the framing `(μ, λ)`; in the framing
-  `(μ, λ' = λ + kμ)` it is `λ = λ' − kμ`, of value `−k`, so for the trefoil's fibre framing
-  (`k = 6`) the longitude has value `−6`; a formula sending `p/q` to `(p + kq)/q` would give
-  `+6` and is excluded.
+- The standard neighbourhood `TauCeti.unknotSolidTorus` of the unknot has framing number `0`
+  (`framingNumber_unknotSolidTorus`), so its framing is the preferred one
+  (`preferredFramedBoundaryTorus_unknotSolidTorus`); its exterior is the complementary solid torus
+  (`unknotExteriorHomeomorph`), whose own framing exchanges meridian and longitude, so the value
+  map between the two framings is `x ↦ 1/x`, with `∞ ↔ 0`.
+- A solid torus neighbourhood of the right-handed trefoil whose longitude is the boundary of the
+  cabling annulus (the fibre of the Seifert fibration of the exterior) has framing number `6`,
+  the torus-knot framing `pq` of the `(2, 3)` torus knot, not `0`; its preferred framing
+  subtracts `6μ`.
+- The preferred longitude `λ₀` has value `0 = 0/1` in the preferred framing; in the framing of
+  the cabling neighbourhood (`λ = λ₀ + 6μ`) it is `λ − 6μ`, of value `−6`; a formula sending
+  `p/q` to `(p + kq)/q` would give `+6` and is excluded.
+- Reversing the orientation of `Φ` turns the framing number `n` into `−n` and the value `r` into
+  `−r`, so the surgery coefficient of a knot in `S³` is defined up to this sign unless `Φ` is
+  required to preserve orientation; 5.4 and 7.3 use this.
 
 *Needs:* the native `TauCeti.Slope`, `TauCeti.IsPrimitive`, `TauCeti.BoundaryTorus`,
 `TauCeti.FramedBoundaryTorus` with `meridian`, `longitude`, `value`, `slopeEquiv`,
-`TauCeti.slopeEquivStd`; Mathlib `OnePoint ℚ`; 5.1 (the boundary torus, meridian and Seifert
-longitude).
+`TauCeti.slopeEquivStd`, `FramedBoundaryTorus.ofHomeomorph`, `FramedBoundaryTorus.torusCurveClass`,
+`FramedBoundaryTorus.value_mk_torusCurveClass`, `IsSolidTorusNeighborhood.framedBoundaryTorus`,
+`IsSolidTorusNeighborhood.framingNumber`, `IsSolidTorusNeighborhood.preferredFramedBoundaryTorus`,
+`IsSolidTorusNeighborhood.complementHomologyEquiv`,
+`IsSolidTorusNeighborhood.ker_boundaryHomologyMap`,
+`TauCeti.isZero_reducedSingularHomologyFunctor_one_sphere_euclideanSpace_fin_four`,
+`TauCeti.unknotSolidTorus`, `TauCeti.unknotExteriorHomeomorph`; Mathlib `OnePoint ℚ`; 4.4 (Seifert
+surfaces); 5.1 (the boundary torus and the exterior).
 
 ### 5.3 Dehn filling, surgery and the unknot identities
 
-Define the **Dehn filling** `X(s)` of a compact `3`-manifold `X` with a boundary torus `T` along a
-slope `s` on `T`: glue `D² × S¹` to `X` along a diffeomorphism `∂D² × S¹ → T` sending the meridian
-`∂D² × {pt}` to a curve of slope `s` (1.2), and prove that the result is independent, up to
-diffeomorphism, of the gluing map with that property (the solid torus's diffeomorphisms realise
-every automorphism of `H₁(T²)` fixing the meridian; Rolfsen, Chapter 9, Section F). Define **Dehn
-surgery** `S³_K(p/q) := X_K(p/q)` for a knot with its Seifert framing, integral surgery, and
-surgery on a framed link component by component. Consume the native lens spaces: `L(p, q)` is
+Consume the native **Dehn filling** `TauCeti.DehnFilling h s Y` of the exterior `E` of a knot
+with solid torus neighbourhood `Φ` (`h : IsSolidTorusNeighborhood f Φ`) along a slope `s` of its
+framed boundary torus, recorded inside the filled space `Y`: closed embeddings of `E` and of the
+solid torus `D² × S¹` into `Y` whose images cover `Y` and meet only along the boundary torus of
+the solid torus, glued to `∂E` by a homeomorphism `g` of `S¹ × S¹` whose **filling slope**, the
+class of the image of the meridian `∂D² × {1}` (`IsSolidTorusNeighborhood.fillingSlope`), is `s`
+(Rolfsen, Chapter 9, Section F); gluing by the identity has the meridian of `Φ` as filling slope
+and gluing by the exchange of the two factors has its longitude (`fillingSlope_refl`,
+`fillingSlope_prodComm`). Consume its **existence** along every slope (`exists_dehnFilling`: the
+pushout `dehnFillingSpace` of the boundary inclusions, Hausdorff, and compact when the ambient
+space is), the **trivial filling** along the meridian, the ambient space itself
+(`meridianDehnFilling`), and its **uniqueness for matrix gluings**
+(`DehnFilling.exists_homeomorph_of_isotopic_torusHomeomorph`: two fillings along the same slope
+whose gluings are isotopic to the homeomorphisms induced by elements of `GL₂(ℤ)` are homeomorphic
+by the identity on `E`, because a matrix fixing the meridian up to sign extends over the solid
+torus; every slope is the filling slope of such a matrix gluing,
+`exists_fillingSlope_torusHomeomorph_eq`). Prove the **isotopy classification of torus
+homeomorphisms**, the one input the native uniqueness leaves open: every homeomorphism of
+`S¹ × S¹` is isotopic to the homeomorphism induced by its action on `H₁`, an element of `GL₂(ℤ)`
+(Rolfsen, Chapter 2, Section D; Farb–Margalit, *A Primer on Mapping Class Groups*, Theorem 2.5,
+for the orientation-preserving ones, the reflection supplying the rest), so that the homeomorphism
+type of a filling depends only on the slope. Prove that a filling of a knot exterior in a closed
+`3`-manifold is a closed `3`-manifold with a smooth structure in which the two pieces are smooth
+submanifolds with boundary, unique up to diffeomorphism (Moise, 11.2; or the collars of 1.1 and
+the gluing of 1.2 on the native embeddings). Define **Dehn surgery** `S³_K(r)` on a knot `K` in
+`S³` with surgery coefficient `r ∈ ℚ ∪ {∞}` as the native `dehnFillingSpace` for a matrix gluing
+realising the slope of value `r` in the preferred framing of 5.2, so that the choice of matrix
+does not matter up to homeomorphism, `r = ∞` is the trivial filling and `r = 0` the filling along
+the preferred longitude; **integral surgery** with coefficient `n ∈ ℤ` is the filling along the
+longitude of a neighbourhood with framing number `n`. Consume **surgery on a link** component by
+component: the native `TauCeti.LinkDehnFilling` of the exterior of a link with pairwise disjoint
+neighbourhoods (`TauCeti.IsSolidTorusLinkNeighborhood`), its existence along every family of
+slopes (`exists_linkDehnFilling`), and the surgery slopes of coefficients `r i`, read in the
+preferred framing of each component alone (`IsSolidTorusLinkNeighborhood.surgerySlope`; the
+coefficient `∞` on every component gives back the ambient space). Consume the native **unknot
+identities**, which pin the slope convention: the standard neighbourhood `unknotSolidTorus` has
+the preferred framing (5.2); `∞`-surgery is `S³`, the trivial filling; `0`-surgery is `S¹ × S²`
+(`TauCeti.unknotZeroDehnFilling`, the two solid tori over the closed hemispheres of `S²`, glued
+by the exchange of factors, `unknotZeroDehnFilling_gluing`; every filling along the preferred
+longitude with a matrix gluing is homeomorphic to it,
+`nonempty_homeomorph_circle_prod_sphere_of_unknot_longitude`); and for coprime `p ≥ 1` and `q`
+the filling along the slope of value `p/q` is realised inside the lens space `L(p; ℓ₀, ℓ₁)` for
+every `ℓ` with `ℓ₁ = −q·ℓ₀` in `ℤ/p` (`TauCeti.unknotLensSpaceDehnFilling`, whose two pieces are
+the two solid tori of the genus-one splitting of the lens space, and
+`nonempty_homeomorph_lensSpace_of_unknot_slopeValue` for every filling with a matrix gluing). With
+`ℓ = ![1, q]` this says that `L(p, q) = TauCeti.LensSpace p ![1, q]` is the `−p/q`-surgery on the
+unknot; Rolfsen's convention (Chapter 9, Section G, Example 1) assigns `L(p, q)` to `p/q`, the
+difference being the orientation of `S³`. Consume the native lens spaces: `L(p, q)` is
 `TauCeti.LensSpace p ![1, q]` for `p ≥ 1` and a unit `q` of `ℤ/p`, the orbit space of `S³ ⊆ ℂ²`
 under the rotation `(z, w) ↦ (ζz, ζ^q w)`, `ζ = e^{2πi/p}`, a closed analytic `3`-manifold with
 `π₁(L(p, q)) ≅ ℤ/p` (`LensSpace.fundamentalGroupMulEquiv`), hence `H₁(L(p, q)) ≅ ℤ/p`, and with
-`p` a homeomorphism invariant (`LensSpace.eq_of_homeomorph`). Prove the **surgery description of
-the lens spaces**: for coprime integers `p ≥ 1` and `q`, `S³_U(p/q) ≃ₘ L(p, q)`, orientation
-ignored (Hatcher, *Notes on Basic 3-Manifold Topology*, Section 2.1: his `L_{p/q}` is two solid
-tori glued so that a meridian of the second goes to the curve of slope `p/q` on the first, with
-his meridian of slope `∞` and longitude of slope `0`, and `L_{p/q}` is identified with the quotient
-of `S³` by the rotation `(z, w) ↦ (e^{2πi/q}z, e^{2πip/q}w)`, up to a sign fixed by orientations).
-The dictionary: the unknot exterior is a solid torus on which the knot's Seifert longitude `λ`
-bounds a meridian disc and the knot's meridian `μ` is a longitude, so the filling along
-`pμ + qλ` is Hatcher's `L_{q/p}`, the quotient of `S³` by `(e^{2πi/p}z, e^{2πiq/p}w)`, which is
-`LensSpace p ![1, q]`. Prove the **unknot identities**: `S³_U(∞) ≅ S³`, `S³_U(0) ≅ S¹ × S²` and
-`S³_U(1/n) ≅ S³` for every `n` (the fillings the native family does not cover: `p = 0` is excluded
-by `[NeZero m]`, and `p = 1` gives the sphere itself), and `H₁(S³_K(p/q)) ≅ ℤ/p` for every knot
-`K`. Prove the **classification of lens spaces** on the native carrier: `L(p, q) ≅ L(p, q')` if
-and only if `q' ≡ ±q^{±1} (mod p)`, orientation ignored (Hatcher, Theorem 2.5, whose `L_{p/q}` has
-`H₁ ≅ ℤ/q` and is `L(q, p)` here, so that his condition `p' ≡ ±p^{±1} (mod q)` is this one with
-the two parameters renamed); the invariance of `p` is the native `eq_of_homeomorph`, and the
-theorem adds the classification for fixed `p`. Define **surgery on a framed sphere** in general
-dimension: for a framed embedding `φ : S^k × D^{n−k} → M`, remove the interior of its image and
-glue `D^{k+1} × S^{n−k−1}` along the common boundary `S^k × S^{n−k−1}` (Milnor, *Lectures on the
-h-cobordism Theorem*, Section 3), and prove that Dehn surgery with integral slope `n` is the case `k = 1`
-of a framed circle with framing `n`. State the **Lickorish–Wallace theorem**: every closed
-connected orientable `3`-manifold is integral surgery on a framed link in `S³` (Lickorish, Chapter
-12; Rolfsen, Chapter 9).
+`p` a homeomorphism invariant (`LensSpace.eq_of_homeomorph`). Prove the **surgery description up
+to orientation**: `S³_U(p/q) ≃ₜ L(p, q)`, orientation ignored, since the reflection
+`(z, w) ↦ (z, w̄)` of `S³` descends to a homeomorphism `L(p, −q) ≃ₜ L(p, q)` (Hatcher, *Notes on
+Basic 3-Manifold Topology*, Section 2.1: his `L_{p/q}` is two solid tori glued so that a meridian
+of the second goes to the curve of slope `p/q` on the first, identified with the quotient of `S³`
+by the rotation `(z, w) ↦ (e^{2πi/q}z, e^{2πip/q}w)` up to a sign fixed by orientations; the
+filling along `pμ + qλ` of the unknot exterior, on which `λ` bounds a meridian disc and `μ` is a
+longitude, is his `L_{q/p}`, the quotient of `S³` by `(e^{2πi/p}z, e^{2πiq/p}w)`). Prove the
+**remaining unknot identity** `S³_U(1/n) ≃ S³` for every `n`: a Dehn twist of the exterior solid
+torus along its meridian disc acts on the boundary torus by `μ ↦ μ + kλ`, `λ ↦ λ`, and carries
+the slope `μ + nλ` to the meridian `μ` for `k = −n`, so the filling is the trivial one. Prove
+`H₁(S³_K(p/q)) ≅ ℤ/p` for every knot `K` (Mayer–Vietoris of the exterior and the solid torus,
+with `H₁(E) ≅ ℤ` generated by the meridian and the preferred longitude vanishing, 5.2). Prove the
+**classification of lens spaces** on the native carrier: `L(p, q) ≃ₜ L(p, q')` if and only if
+`q' ≡ ±q^{±1} (mod p)` (Hatcher, Theorem 2.5, whose `L_{p/q}` has `H₁ ≅ ℤ/q` and is `L(q, p)`
+here, so that his condition `p' ≡ ±p^{±1} (mod q)` is this one with the two parameters renamed);
+the invariance of `p` is the native `eq_of_homeomorph`, and the theorem adds the classification
+for fixed `p`. Consume **surgery on a framed sphere** in general dimension: the native
+`TauCeti.SphereSurgery` records, inside a space `Y`, the result of removing the open tube
+`φ(S^k × int D^q)` of a framed sphere `φ : S^k × D^q → M` and gluing `D^{k+1} × S^{q−1}` along
+`S^k × S^{q−1}` (Milnor, *A procedure for killing homotopy groups of differentiable manifolds*,
+Section 1; Milnor, *Lectures on the h-cobordism Theorem*, Section 3), and the native
+identification of surgery along the framed circle `(x, y) ↦ Φ(y, x)` of a solid torus
+neighbourhood with the Dehn filling along the longitude of `Φ` (`solidTorusFramedSphere`,
+`SphereSurgery.toDehnFilling`); prove that a surgery on a framed `k`-sphere in a closed smooth
+`n`-manifold is a closed `n`-manifold with a smooth structure extending the given ones off the
+seam (1.2), and that integral surgery with coefficient `n` on a knot in `S³` is surgery along the
+framed circle of a neighbourhood with framing number `n`. State the **Lickorish–Wallace
+theorem**: every closed connected orientable `3`-manifold is integral surgery on a framed link in
+`S³` (Lickorish, Chapter 12; Rolfsen, Chapter 9).
 
-- `X(s)` is a closed `3`-manifold when `T` is the only boundary component; it depends only on `s`.
-- `S³_U(p/q) ≃ₘ TauCeti.LensSpace p ![1, q]` for coprime `p ≥ 1` and `q`, so `S³_U(p/q)` has
+- A Dehn filling of a knot exterior in a closed `3`-manifold is a closed `3`-manifold determined
+  up to homeomorphism, and up to diffeomorphism, by the slope.
+- `S³_U(p/q) ≃ₜ TauCeti.LensSpace p ![1, q]` for coprime `p ≥ 1` and `q`, orientation ignored;
+  with orientations, the slope-`p/q` filling is `LensSpace p ![1, −q]`; so `S³_U(p/q)` has
   `π₁ ≅ ℤ/p` and is spherical (8.1).
 - `H₁(S³_K(p/q)) ≅ ℤ/p`; in particular `S³_K(0)` has `H₁ ≅ ℤ` and `S³_K(1/n)` is a homology sphere.
 - Surgery on the mirror image along `−p/q` is the orientation reversal of surgery on `K` along
@@ -1437,10 +1729,14 @@ connected orientable `3`-manifold is integral surgery on a framed link in `S³` 
 
 - `S³_U(0) = S¹ × S²` has `H₁ = ℤ`; `S³_U(∞) = S³` has `H₁ = 0`; `S³_U(2) = L(2, 1) = ℝP³` has
   `H₁ = ℤ/2`, and `TauCeti.LensSpace 2 ![1, 1]` is `S³/{±1} = ℝP³` with `π₁` of order `2`
-  (`card_fundamentalGroup`), so the two sides of the surgery description agree there; `S³_U(1) = S³`
-  by the identity `1/n`, consistent with `H₁ = ℤ/1 = 0` and with `LensSpace 1 ![1, 1]` being the
-  quotient of `S³` by the trivial group.
-- The surgery description with the two parameters exchanged, `S³_U(p/q) ≅ LensSpace q ![1, p]`,
+  (`card_fundamentalGroup`); here the native sign is invisible, since `−1 = 1` in `ℤ/2`.
+  `S³_U(1) = S³` by the identity `1/n`, consistent with `H₁ = ℤ/1 = 0` and with
+  `LensSpace 1 ![1, 1]` being the quotient of `S³` by the trivial group.
+- The sign witness is `p = 5`: the slope-`5/2` filling of the unknot is the native
+  `LensSpace 5 ![1, −2] = LensSpace 5 ![1, 3]`, homeomorphic to `L(5, 2)` by the reflection and
+  not to `L(5, 1)` (`3 ≢ ±1 (mod 5)`); a convention giving `LensSpace 5 ![1, 2]` directly would
+  differ from the native one by the orientation of `S³` and agree with it as unoriented spaces.
+- The surgery description with the two parameters exchanged, `S³_U(p/q) ≃ LensSpace q ![1, p]`,
   is excluded by `π₁`: `S³_U(5/2)` has `H₁ = ℤ/5` while `LensSpace 2 ![1, 5] = ℝP³` has `π₁` of
   order `2`.
 - `L(5, 1)` and `L(5, 2)` have the same homology `ℤ/5` and are not homeomorphic, since
@@ -1452,71 +1748,134 @@ connected orientable `3`-manifold is integral surgery on a framed link in `S³` 
 - Surgery on the framed unlink with framings `0, 0` gives `S¹ × S² # S¹ × S²`; with framings
   `1, 1` it gives `S³`; the Hopf link with framings `0, 0` gives `S³` and with `0, n` gives `S³`
   again (a slam-dunk), so framings on linked components interact.
+- A convention reading the slope off the image of the longitude of the filling solid torus, rather
+  than of its meridian, would assign the exchange of factors the meridian of `Φ` and make the
+  `0`-surgery on the unknot the trivial filling; `unknotZeroDehnFilling_gluing` with
+  `fillingSlope_prodComm` excludes it.
 
-*Needs:* Mathlib `Diffeomorph`, `FundamentalGroup`, `ZMod`; the native `TauCeti.SolidTorus`,
-`TauCeti.LensSpace`, `LensSpace.fundamentalGroupMulEquiv`, `LensSpace.card_fundamentalGroup`,
-`LensSpace.eq_of_homeomorph` and the manifold instances of
-`Geometry/Manifold/Instances/LensSpace.lean`; 1.2 (gluing and handle attachment, for the filling and
-for general surgery); 5.1; 5.2; AlgebraicTopology Stage 1 (van Kampen) and Stage 3 (Mayer–Vietoris)
-for the `H₁` and `π₁` computations.
+*Needs:* Mathlib `Diffeomorph`, `Homeomorph`, `FundamentalGroup`, `ZMod`,
+`Matrix.GeneralLinearGroup`; the native `TauCeti.DehnFilling`,
+`IsSolidTorusNeighborhood.fillingSlope`,
+`IsSolidTorusNeighborhood.dehnFillingSpace`, `IsSolidTorusNeighborhood.exists_dehnFilling`,
+`IsSolidTorusNeighborhood.meridianDehnFilling`,
+`IsSolidTorusNeighborhood.exists_fillingSlope_torusHomeomorph_eq`,
+`DehnFilling.exists_homeomorph_of_isotopic`,
+`DehnFilling.exists_homeomorph_of_isotopic_torusHomeomorph`,
+`TauCeti.unknotZeroDehnFilling`, `TauCeti.unknotLensSpaceDehnFilling`,
+`DehnFilling.nonempty_homeomorph_lensSpace_of_unknot_slopeValue`, `TauCeti.LinkDehnFilling`,
+`IsSolidTorusLinkNeighborhood.exists_linkDehnFilling`, `IsSolidTorusLinkNeighborhood.surgerySlope`,
+`TauCeti.SphereSurgery`, `SphereSurgery.toDehnFilling`, `TauCeti.LensSpace`,
+`LensSpace.fundamentalGroupMulEquiv`, `LensSpace.card_fundamentalGroup`,
+`LensSpace.eq_of_homeomorph`
+and the manifold instances of `Geometry/Manifold/Instances/LensSpace.lean`; 1.1 (collars); 1.2
+(gluing, for the smooth structures); 5.1; 5.2; 11.2 (Moise's theorem, for the smooth structure of
+a filling); AlgebraicTopology Stage 1 (van Kampen) and Stage 3 (Mayer–Vietoris) for the `H₁` and
+`π₁` computations.
 
 ### 5.4 Property P, Property R and cosmetic surgeries
 
-State **Property P**: for every knot `K` in `S³` other than the unknot and every slope
-`r ≠ ∞`, `π₁(S³_K(r))` is nontrivial (`[Kir97, Problem 1.15]`). Two routes: Kronheimer–Mrowka,
-*Witten's conjecture and Property P*, Geom. Topol. 8 (2004), Theorem 2 (for `K` nontrivial, `+1`
-surgery admits a nontrivial homomorphism `π₁ → SO(3)`, so Conjecture 1, that `S³_K(+1)` is not a
-homotopy sphere, holds; `−1` by mirroring; all other slopes through the cyclic surgery theorem of
+State **Property P** on the native fillings (`property_p`): for every knot
+`K : SmoothCircleEmbedding (𝓡 3) S³` that is not smoothly ambient isotopic to `TauCeti.unknot`,
+every solid torus neighbourhood `Φ` of `K`, every slope `s` of its boundary torus other than the
+meridian, every Dehn filling `F : DehnFilling h s Y` and every base point `y`, the group
+`π₁(Y, y)` is nontrivial (`[Kir97, Problem 1.15]`). Two routes: Kronheimer–Mrowka, *Witten's
+conjecture and Property P*, Geom. Topol. 8 (2004), Theorem 2 (for `K` nontrivial, `+1` surgery
+admits a nontrivial homomorphism `π₁ → SO(3)`, so Conjecture 1, that `S³_K(+1)` is not a homotopy
+sphere, holds; `−1` by mirroring; all other slopes through the cyclic surgery theorem of
 Culler–Gordon–Luecke–Shalen, Ann. of Math. 125 (1987), and Moser's torus-knot surgeries), or the
-Poincaré conjecture (8.4) together with the Gordon–Luecke theorem that a nontrivial surgery on a
-nontrivial knot is never `S³` (Gordon–Luecke, *Knots are determined by their complements*, J. Amer.
-Math. Soc. 2 (1989)). State **Property R**: `0`-surgery on a nontrivial knot is never `S¹ × S²`
-(Gabai, *Foliations and the topology of 3-manifolds III*, J. Differential Geom. 26 (1987),
-`[Kir97, Problem 1.16]`). State the **Akbulut–Kirby conjecture** `[Kir97, Problem 1.19]`, that
-knots with diffeomorphic `0`-surgeries are concordant, as a statable statement, and record that it
-is false (Yasui, *Corks, exotic 4-manifolds and knot concordance*, arXiv:1505.02551, cited by its
-locator). State the **cosmetic surgery** results `[Kir97, Problem 1.81]`. Gordon–Luecke: a nontrivial
-knot in `S³` has no surgery yielding `S³` other than the trivial one, `S³_K(r) ≅ S³` only for
-`r = ∞`; equivalently, two knots with homeomorphic exteriors are equivalent, and no filling of a
-knot exterior other than the unknot's is cosmetic for `S³`. Mathieu: chirally cosmetic surgeries
-exist on knots in `S³`: the exterior of the right-handed trefoil has infinitely many pairs of
-inequivalent slopes `r ≠ r'` with an orientation-reversing diffeomorphism `X(r) ≅ X(r')` (Mathieu,
-*Closed 3-manifolds unchanged by Dehn surgery*, J. Knot Theory Ramifications 1 (1992), as recorded
-in Kirby's remarks to Problem 1.81). The quantifiers are over slopes of the fixed exterior, and
-"inequivalent" means that no diffeomorphism of the exterior carries one slope to the other. The
-purely cosmetic surgery conjecture, Problem 1.81 (A), is open and is not a target.
+Poincaré conjecture (8.4) together with the Gordon–Luecke theorem below. State **Property R** on
+the native fillings (`property_r`): for `K` as above and every `Φ`, no Dehn filling of the
+exterior along the longitude of the preferred framing of 5.2 is homeomorphic to `S¹ × S²` (Gabai,
+*Foliations and the topology of 3-manifolds III*, J. Differential Geom. 26 (1987), `[Kir97,
+Problem 1.16]`). State the **Gordon–Luecke theorem** in the same form (`gordon_luecke_theorem`):
+for `K` as above and `s` other than the meridian, no filling along `s` is homeomorphic to `S³`
+(Gordon–Luecke, *Knots are determined by their complements*, J. Amer. Math. Soc. 2 (1989));
+equivalently, two knots with homeomorphic exteriors are equivalent, and no filling of a knot
+exterior other than the unknot's is cosmetic for `S³`. Consume the native **cosmetic relations**
+on a knot exterior in an oriented `3`-manifold: two slopes are **purely cosmetic**
+(`IsSolidTorusNeighborhood.IsPurelyCosmetic`) when fillings along them, oriented compatibly with
+the ambient orientation on the open exterior (`DehnFilling.IsOrientationCompatible`, on the
+native `TauCeti.HomologicalOrientation`), are homeomorphic by an orientation-preserving
+homeomorphism, and **chirally cosmetic** (`IsChirallyCosmetic`) when by an orientation-reversing
+one (Bleiler's terms, in Kirby's remarks to Problem 1.81); both are symmetric and independent of
+the ambient orientation. State **Mathieu's theorem** as the native
+`TauCeti.MathieuChirallyCosmeticTheorem` (`mathieu_chirally_cosmetic_theorem`): on the exterior of
+the native `TauCeti.rightHandedTrefoil`, for every neighbourhood `Φ` and every orientation of
+`S³`, the slopes of coefficients `9` and `9/2`, or those of coefficients `−9` and `−9/2`
+according to the orientation behaviour of `Φ` (5.2), are chirally cosmetic (Mathieu, *Closed
+3-manifolds unchanged by Dehn surgery*, J. Knot Theory Ramifications 1 (1992), as recorded in
+Kirby's remarks to Problem 1.81). Prove that the two slopes of each pair are inequivalent: a
+self-homeomorphism of a knot exterior in `S³` preserves the meridian up to sign (Gordon–Luecke)
+and the preferred longitude up to sign (it is the homological longitude), so it acts on surgery
+coefficients by `r ↦ ±r`, and `9/2 ≠ ±9`. Consume the **cosmetic surgery conjecture**
+`TauCeti.CosmeticSurgeryConjecture` (Gordon's form of `[Kir97, Problem 1.81 (A)]`: a nontrivial
+knot in `S³` has no purely cosmetic pair of distinct slopes) as a recorded proposition: it is open
+and nothing is claimed about it here. The native partial results
+`TauCeti.NiWuCosmeticSurgeryTheorem` (purely cosmetic distinct slopes have opposite coefficients
+`±p/q` with `q² ≡ −1 (mod p)`) and `TauCeti.HanselmanCosmeticSurgeryTheorem` (the coefficients
+are `±2` or `±1/q`) are statements whose proofs rest on Heegaard Floer invariants; the scope
+statement names the Part II that states them. State the **Akbulut–Kirby conjecture** as the
+native `TauCeti.AkbulutKirbyConjecture`: knots in `S³` whose `0`-surgeries, oriented compatibly
+with one orientation of `S³`, are homeomorphic by an orientation-preserving homeomorphism are
+smoothly concordant (`SmoothEmbedding.Concordant`, 6.1), or become so after reversing one of them
+(`[Kir97, Problem 1.19]`); it is false, and `TauCeti.YasuiTheorem`, its negation, records this
+(Yasui, *Corks, exotic 4-manifolds and knot concordance*, arXiv:1505.02551, cited by its
+locator). Yasui's theorem is recorded and not a target: its proof distinguishes the concordance
+classes by invariants that the scope statement assigns to a Part II.
 
-- Property P: `∀ K ≠ U, ∀ r ≠ ∞, Nontrivial (π₁(S³_K(r)))`.
-- Property R: `∀ K ≠ U, ¬ (S³_K(0) ≅ S¹ × S²)`.
-- Gordon–Luecke: `∀ K ≠ U, ∀ r ≠ ∞, ¬ (S³_K(r) ≅ S³)`; Mathieu: `∃ r ≠ r'` inequivalent on the
-  trefoil exterior with `X(r) ≅ −X(r')`.
+- Property P: for `K ≠ U`, `s ≠ ∞` and every filling `Y` along `s`, `Nontrivial (π₁(Y, y))`.
+- Property R: for `K ≠ U` and every filling `Y` along the preferred longitude,
+  `IsEmpty (Y ≃ₜ S¹ × S²)`.
+- Gordon–Luecke: for `K ≠ U`, `s ≠ ∞` and every filling `Y` along `s`, `IsEmpty (Y ≃ₜ S³)`.
+  Mathieu: on the trefoil exterior, the slopes of coefficients `9` and `9/2` (or `−9` and `−9/2`)
+  are chirally cosmetic and inequivalent.
 
 **Checks.**
 
 - The unknot violates every one of these conclusions, which is why it is excluded: `S³_U(1) = S³`
   has trivial `π₁`, `S³_U(0) = S¹ × S²`, and `S³_U(1/n) ≅ S³` for all `n` gives infinitely many
-  slopes with filling `S³`; these slopes are equivalent (the solid torus has a diffeomorphism
-  carrying `1/n` to `1/m`), consistent with the Gordon–Luecke statement for the unknot.
+  slopes with filling `S³`; these slopes are equivalent (the exterior solid torus has a
+  homeomorphism carrying `1/n` to `1/m`), consistent with the Gordon–Luecke statement for the
+  unknot. The meridian is purely cosmetic with itself for every knot
+  (`isPurelyCosmetic_meridian`), which is why the conjecture asks for distinct slopes.
 - The trefoil with `+1` surgery is the Poincaré sphere, with `π₁` of order `120`; with `0` surgery
   it is a torus bundle over the circle, not `S¹ × S²` (its `π₁` is not `ℤ`).
 - The figure-eight with `0` surgery is a torus bundle with Anosov monodromy; its `π₁` is not `ℤ`,
   consistent with Property R.
+- Property P quantifies over every filling along `s`, with any gluing of the stated slope; by the
+  isotopy classification of 5.3 these are all homeomorphic to `S³_K(r)`, so the native form and
+  the classical one agree. The slope `s = 0` is allowed, and `π₁(S³_K(0))` is nontrivial already
+  by `H₁ = ℤ`.
+- Mathieu's coefficients are distinct and not opposite, so they are not identified by the symmetry
+  `r ↦ −r` of the mirror image either; Ni–Wu's constraint `q² ≡ −1 (mod p)` for purely cosmetic
+  pairs fails for `9/2` (`4 ≢ −1 (mod 9)`), consistent with the pair being chirally and not purely
+  cosmetic.
 
-*Needs:* 5.3 (Dehn surgery); 4.1 (the unknot); 6.1 (concordance, for the Akbulut–Kirby statement);
-Mathlib `FundamentalGroup`, `Diffeomorph`.
+*Needs:* 5.2 (the preferred framing and the sign of coefficients); 5.3 (Dehn fillings and the
+isotopy classification); 4.1 (the unknot and the trefoil); 6.1 (concordance, for the
+Akbulut–Kirby statement); the native `TauCeti.unknot`, `TauCeti.rightHandedTrefoil`,
+`SmoothEmbedding.SmoothAmbientIsotopic`, `TauCeti.DehnFilling`,
+`IsSolidTorusNeighborhood.preferredFramedBoundaryTorus`,
+`IsSolidTorusNeighborhood.IsPurelyCosmetic`,
+`IsSolidTorusNeighborhood.IsChirallyCosmetic`, `DehnFilling.IsOrientationCompatible`,
+`TauCeti.HomologicalOrientation`, `TauCeti.CosmeticSurgeryConjecture`,
+`TauCeti.MathieuChirallyCosmeticTheorem`, `TauCeti.AkbulutKirbyConjecture`, `TauCeti.YasuiTheorem`;
+Mathlib `FundamentalGroup`, `Homeomorph`.
 
 ### Examples
 
 The unknot identities and the lens spaces; the Poincaré sphere as `+1` surgery on the trefoil;
-the trefoil exterior as the host of Mathieu's chirally cosmetic pairs; the Weeks manifold as the
-`(5, 1), (5, 2)` filling of the Whitehead link exterior (7.3).
+the trefoil exterior as the host of Mathieu's chirally cosmetic pair; the Weeks manifold as the
+`5, 5/2` surgery on the Whitehead link (7.3).
 
 ### Dependencies
 
 Layer 1 (gluing, tubular neighbourhoods, connected sum); Layer 4 (presentations, Seifert surfaces,
-framings); Layer 6 (the concordance relation, for the Akbulut–Kirby statement of 5.4); the native
-solid torus neighbourhoods and slopes of the supplier contracts. The Poincaré conjecture (8.4) is
-one of the two routes named for Property P and not a dependency of this layer.
+framings); Layer 6 (the concordance relation, for the Akbulut–Kirby statement of 5.4); Layer 11
+(Moise's theorem, for the smooth structure of a filling); the native solid torus neighbourhoods,
+slopes, framings, Dehn fillings, cosmetic relations and surgery statements of the supplier
+contracts. The Poincaré conjecture (8.4) is one of the two routes named for Property P and not a
+dependency of this layer.
 
 ## Layer 6: knot concordance and 4D cobordism (owned here)
 
@@ -1748,14 +2107,31 @@ and Layer 4 (isometries).
 
 ### 7.3 The Weeks manifold and the minimal volume theorem
 
-Define the **Whitehead link** as the two-component link `5²₁` of Rolfsen's table, given by its
-five-crossing oriented PD-code, and the **Weeks manifold** `W` as the `(5, 1), (5, 2)` Dehn filling
-of its exterior (Layer 5; Gabai–Meyerhoff–Milley, *Mom technology and hyperbolic 3-manifolds*,
-the paragraph following Theorem 1.1). State the **minimal volume theorem**: `W` carries a
-hyperbolic metric, and for every closed orientable hyperbolic `3`-manifold `M`,
-`hypVolume W ≤ hypVolume M`, with equality only if `M` is isometric to `W` (Gabai–Meyerhoff–Milley,
-Theorem 1.1: the Weeks manifold is the unique smallest-volume closed hyperbolic `3`-manifold, with
-`v₁ = 0.9427…`; `[Kir97, Problem 3.60]`). The route is Mom technology: a closed hyperbolic
+Consume the native **Whitehead link** `TauCeti.whiteheadLink`, the smooth two-component link in
+`S³ ⊆ ℂ²` whose component `0` is the unknot `w = 0` and whose component `1`, the Whitehead curve
+`TauCeti.whiteheadCurve`, runs around the complementary solid torus with winding number `0` and
+closes up by a positive clasp (its two-crossing diagram on the annulus is the untwisted Whitehead
+double pattern, which is how it is matched with the link `5²₁` of the tables), and the native
+**Weeks manifold**: a space `Y` is a Weeks manifold (`TauCeti.IsWeeksManifold Y`) when, for some
+pairwise disjoint solid torus neighbourhoods of the two components preserving orientation at
+their cores for the standard orientation of `ℝ⁴`, `Y` is a Dehn filling of the link exterior
+(5.3) along the surgery slopes of coefficients `5` on the unknotted component and `5/2` on the
+Whitehead curve, read in the preferred framing of each component; a compact Hausdorff Weeks
+manifold exists (`TauCeti.exists_isWeeksManifold`), and the property is invariant under
+homeomorphism (`TauCeti.isWeeksManifold_congr`) (Gabai–Meyerhoff–Milley, *Mom technology and
+hyperbolic 3-manifolds*, the paragraph following Theorem 1.1: the `(5, 1), (5, 2)` filling of the
+Whitehead link complement). State the **minimal volume theorem** as the native
+`TauCeti.GabaiMeyerhoffMilleyTheorem`: some closed connected smooth Weeks manifold carries a
+hyperbolic metric, and for every smooth Weeks manifold `W` with a hyperbolic metric `g_W` and
+every closed connected orientable hyperbolic `3`-manifold `M` with a hyperbolic metric `g`,
+`hypVolumeOfMetric g_W ≤ hypVolumeOfMetric g`, with equality only if `M ≃ₜ W`
+(Gabai–Meyerhoff–Milley, Theorem 1.1: the Weeks manifold is the unique smallest-volume closed
+hyperbolic `3`-manifold, with `v₁ = 0.9427…`; `[Kir97, Problem 3.60]`). Prove the **isometric
+form**: with Mostow rigidity (7.2) the equality case gives an isometry `(M, g) ≅ (W, g_W)`, and
+`hypVolume W = v₁ ≤ hypVolume M` for every closed orientable hyperbolic `M`. Prove that any two
+Weeks manifolds are homeomorphic (the filling depends only on the slopes, 5.3, and the
+neighbourhoods are unique up to isotopy, 1.3), that `W` is a closed orientable `3`-manifold, and
+that `H₁(W; ℤ) ≅ ℤ/5 ⊕ ℤ/5`. The route for the inequality is Mom technology: a closed hyperbolic
 manifold of volume at most `0.943` contains a Mom-`n` structure for `n ≤ 3`, and the finitely
 many resulting manifolds are enumerated. The hypothesis "orientable" is part of the theorem as
 stated by the authors; the volume of a non-orientable closed hyperbolic `3`-manifold is at least
@@ -1764,14 +2140,21 @@ that of its orientation double cover divided by two, and the non-orientable case
 - `W` is a closed orientable hyperbolic `3`-manifold with `H₁(W) ≅ ℤ/5 ⊕ ℤ/5` and volume `0.9427…`.
 - The volume of every closed orientable hyperbolic `3`-manifold is at least `0.9427…`, with
   equality exactly for `W`.
-- `W` is not Haken (it contains no closed incompressible surface), so Agol's theorems (7.4) give it a finite cover that is Haken and fibers, without `W` itself
-  fibering.
+- `W` is not Haken (it contains no closed incompressible surface), so Agol's theorems (7.4) give
+  it a finite cover that is Haken and fibers, without `W` itself fibering.
 
 **Checks.**
 
-- `H₁` of the `(5, 1), (5, 2)` filling: the linking matrix of the Whitehead link is zero and the
-  surgery presentation gives `H₁ = ℤ/5 ⊕ ℤ/5`, of order `25`; the `(1, 0), (1, 0)` filling gives
-  `S³`, so the slopes matter.
+- `H₁` of the `5, 5/2` filling: the linking matrix of the Whitehead link is zero and the surgery
+  presentation gives `H₁ = ℤ/5 ⊕ ℤ/5`, of order `25`; the `1, 1` filling gives `S³`, so the slopes
+  matter.
+- The coefficient `5/2` is read in the preferred framing of the Whitehead curve alone, whose
+  preferred longitude is null-homologous in the complement of that component whatever the other
+  component does (`surgerySlope`); read in the framing of a neighbourhood with framing number `n`
+  it would be `5/2 − n` (`value_surgerySlope_framedBoundaryTorus`), so the framing convention is
+  part of the definition. The orientation condition on the neighbourhoods fixes the sign of the
+  coefficients (5.2): the Whitehead link is not isotopic to its mirror image, so the fillings with
+  coefficients `5, 5/2` and `−5, −5/2` need not agree, and the definition names the first.
 - The figure-eight knot complement has volume `2.0299… = 2 v₃`, more than twice `0.9427…`, and is
   not closed; the theorem compares `W` only with closed manifolds, so this is not a counterexample.
 - A closed hyperbolic `3`-manifold obtained by a filling of the figure-eight knot exterior with a
@@ -1779,9 +2162,13 @@ that of its orientation double cover divided by two, and the non-orientable case
   theorem), larger than `0.9427…`, consistent with the theorem; the volumes of fillings approach
   the cusped volume from below.
 
-*Needs:* 4.2 (the oriented PD-code of the Whitehead link); 4.3 (its realization as a smooth link);
-5.1 (the link exterior); 5.3 (Dehn filling on two boundary tori); 7.2 (`TauCeti.IsHyperbolic`,
-`TauCeti.hypVolume`); Mathlib `Diffeomorph`.
+*Needs:* the native `TauCeti.whiteheadLink`, `TauCeti.IsWeeksManifold`,
+`TauCeti.exists_isWeeksManifold`, `TauCeti.isWeeksManifold_congr`,
+`TauCeti.GabaiMeyerhoffMilleyTheorem`, `TauCeti.HyperbolicMetric`, `TauCeti.hypVolumeOfMetric`,
+`TauCeti.IsHyperbolic`, `IsSolidTorusLinkNeighborhood.surgerySlope`; 1.3 (uniqueness of tubular
+neighbourhoods); 5.2 (framings); 5.3 (link Dehn fillings and their dependence on the slopes);
+7.2 (Mostow rigidity, `TauCeti.hypVolume`); Mathlib `Homeomorph`; AlgebraicTopology Stage 3
+(Mayer–Vietoris, for `H₁(W)`).
 
 ### 7.4 Fibering, Haken-ness and Agol's theorems
 
@@ -1843,8 +2230,9 @@ for fibering.
 
 Mathlib's Riemannian bundles and measure theory; HopfRinow Layer 1 (connection) and Layer 4
 (isometries); the native volume, hyperbolic, Mostow, finite-volume, mapping-torus, finite-cover,
-incompressibility, virtually fibered and virtually Haken declarations of the supplier contracts;
-Layer 5 for the Weeks filling; Layer 4 for the Whitehead link.
+incompressibility, virtually fibered, virtually Haken, Whitehead link, Weeks manifold and minimal
+volume declarations of the supplier contracts; Layer 5 for the link fillings and framings behind
+the native Weeks manifold; Layer 1 for the uniqueness of tubular neighbourhoods.
 
 ## Layer 8: Thurston geometries and the JSJ / geometric decomposition
 
@@ -1894,34 +2282,62 @@ most one of the eight geometries (Scott, Section 5), that six of them (all but `
 
 ### 8.2 The prime decomposition
 
-Define a closed connected `3`-manifold to be **prime** when it is not a connected sum of two
-manifolds neither of which is `S³`, and **irreducible** when every embedded locally flat `2`-sphere
-bounds a ball (`TauCeti.IsSphereBoundsBall`, native). Prove that `S¹ × S²` is prime and not
-irreducible, and that every other closed orientable prime `3`-manifold is irreducible (Hatcher,
-*Notes on Basic 3-Manifold Topology*, Proposition 1.4). State and prove the **Kneser–Milnor prime
-decomposition theorem**: every closed connected orientable `3`-manifold `M` is a connected sum
-`P₁ # ⋯ # P_n` of prime `3`-manifolds, and the factors are unique up to order and diffeomorphism,
-after discarding `S³` summands (Hatcher, Theorem 1.5 and its proof: existence by Kneser's finiteness through a
-triangulation, uniqueness by Milnor). The
-connected sum is Layer 1's; the decomposition is a theorem about it, not a new object.
+Consume the native **connected-sum decompositions**: `TauCeti.IsConnectedSumOf I k M N₁ N₂` says
+that `M` is `C^k` diffeomorphic to the connected sum of `N₁` and `N₂` along some pair of
+coordinate balls (1.4), a relation symmetric in the summands and invariant under diffeomorphisms
+of `M` and of the summands; a smooth `n`-manifold is **prime** (`TauCeti.IsPrimeManifold n M`)
+when it is not diffeomorphic to `Sⁿ` and in every decomposition of it as a connected sum of two
+closed smooth `n`-manifolds one summand is diffeomorphic to `Sⁿ`; and
+`TauCeti.IsIteratedConnectedSum n P M` presents `M` as the right-nested connected sum
+`P 0 # (P 1 # (⋯ # P (k − 1)))` of closed manifolds, with `k = 0` meaning `M ≃ Sⁿ`
+(`isIteratedConnectedSum_zero_iff`). The sphere is not prime (`not_isPrimeManifold_sphere`), as
+`1` is not a prime number, so that decompositions are unique on the nose rather than up to
+inserting spheres; the summands are required to be closed, since `M` with one point doubled, a
+non-Hausdorff manifold, is a connected sum of itself with `ℝⁿ`. Define a closed connected
+`3`-manifold to be **irreducible** when every embedded locally flat `2`-sphere bounds a ball
+(`TauCeti.IsSphereBoundsBall`, native). Prove that `S¹ × S²` is prime and not irreducible, and
+that every other closed orientable prime `3`-manifold is irreducible (Hatcher, *Notes on Basic
+3-Manifold Topology*, Proposition 1.4). State the **Kneser–Milnor prime decomposition theorem**
+as the native `TauCeti.KneserPrimeDecompositionTheorem` (every closed connected orientable smooth
+`3`-manifold is a connected sum of finitely many closed prime `3`-manifolds) and
+`TauCeti.MilnorPrimeDecompositionTheorem` (two such presentations of one manifold have the same
+number of factors and, after a bijection of the index sets, diffeomorphic factors), and prove
+both (Hatcher, Theorem 1.5 and its proof: existence by Kneser's finiteness through a
+triangulation, uniqueness by Milnor). The native uniqueness is unoriented: a presentation along
+arbitrary balls is an oriented one for suitable orientations of the factors (1.4), so Milnor's
+uniqueness up to orientation-preserving diffeomorphism gives it. Orientability cannot be dropped
+from uniqueness: for non-orientable `N`, `N # (S¹ × S²)` and `N # (S¹ ×~ S²)`, the latter the
+non-orientable `2`-sphere bundle over the circle, are diffeomorphic. Prove
+`π₁(P 0 # ⋯ # P (k − 1)) ≅ π₁(P 0) * ⋯ * π₁(P (k − 1))` (1.4), so that the free-product
+decomposition of `π₁` is determined by the prime decomposition.
 
-- Every closed orientable `3`-manifold is a finite connected sum of primes; `n = 0` for `S³`.
-- Uniqueness: two prime decompositions have the same multiset of factors up to diffeomorphism.
-- `π₁(P₁ # ⋯ # P_n) ≅ π₁(P₁) * ⋯ * π₁(P_n)` (1.4), so the free-product decomposition of `π₁` is
-  determined by the prime decomposition.
+- Every closed orientable `3`-manifold is a finite connected sum of primes; `k = 0` exactly for
+  `S³`.
+- Uniqueness: the number of prime factors is an invariant of the manifold
+  (`MilnorPrimeDecompositionTheorem.card_eq`), and the factors agree up to a bijection and
+  diffeomorphism.
+- The free-product decomposition of `π₁` is determined by the prime decomposition.
 
 **Checks.**
 
-- `S³` has the empty decomposition and `M # S³ = M`, which is why `S³` summands are discarded in
-  the uniqueness statement; `S¹ × S²` is prime with `π₁ = ℤ`, and `(S¹ × S²) # (S¹ × S²)` has
-  `π₁` free of rank two, not prime.
-- `L(2, 1) # L(3, 1)` has `π₁ = C₂ * C₃` and exactly two prime factors; the decomposition
-  `L(2, 1) # L(3, 1) # S³` is the same decomposition.
+- `S³` is the empty connected sum and is not prime, so no prime decomposition contains it as a
+  factor; this is what makes uniqueness hold on the nose, where Hatcher's formulation discards
+  `S³` summands. `S¹ × S²` is prime with `π₁ = ℤ`, and `(S¹ × S²) # (S¹ × S²)` has `π₁` free of
+  rank two and is not prime (`IsConnectedSumOf.not_isPrimeManifold`).
+- `L(2, 1) # L(3, 1)` has `π₁ = C₂ * C₃` and exactly two prime factors; the presentations with
+  the factors in either order are the same decomposition up to the bijection of index sets, and a
+  presentation padded by an `S³` factor is excluded, since `S³` is not prime.
 - The Poincaré sphere is prime and irreducible with finite `π₁`; `T³` is prime and irreducible
   with `π₁ = ℤ³`; neither decomposes further, and both are their own single JSJ piece (8.3).
+- A non-compact manifold such as `ℝ³` is prime in the native sense, vacuously (it is no connected
+  sum of two closed manifolds) and not `S³`; the theorems quantify over closed manifolds, so this
+  junk value never enters a decomposition.
 
-*Needs:* the native `TauCeti.IsSphereBoundsBall`, `TauCeti.IsClosedConnectedManifold`; Mathlib
-`FundamentalGroup`; 1.4 (the connected sum and `π₁(M # N)`); 11.2 (a triangulation of `M`, for
+*Needs:* the native `TauCeti.IsConnectedSumOf`, `TauCeti.IsPrimeManifold`,
+`TauCeti.IsIteratedConnectedSum`, `TauCeti.not_isPrimeManifold_sphere`,
+`TauCeti.KneserPrimeDecompositionTheorem`, `TauCeti.MilnorPrimeDecompositionTheorem`,
+`TauCeti.IsSphereBoundsBall`, `TauCeti.IsClosedConnectedManifold`; Mathlib `FundamentalGroup`;
+1.4 (the connected sum, its orientation and `π₁(M # N)`); 11.2 (a triangulation of `M`, for
 Kneser's finiteness); AlgebraicTopology Stage 1 (van Kampen).
 
 ### 8.3 Incompressible tori, Seifert fibred spaces and the JSJ theorem
@@ -2041,107 +2457,176 @@ declarations of the supplier contracts.
 
 ### 9.1 Handlebodies and Heegaard splittings
 
-Define the **handlebodies of genus `g`**: `H_g^+`, the orientable one, as `D³` with `g` orientable
-`1`-handles attached (1.2), equivalently the boundary connected sum of `g` solid tori; and `H_g^−`,
-the non-orientable one, as `D³` with `g` `1`-handles of which at least one is attached by an
-orientation-reversing map (Scharlemann, *Heegaard splittings of compact 3-manifolds*, Section 1:
-for `g ≥ 1` there are exactly two handlebodies of genus `g` up to diffeomorphism, since any other
-non-orientable handle can be slid over a non-orientable one). Prove that `∂H_g^±` is a closed
-connected surface, orientable of genus `g` for `H_g^+`, and that `π₁(H_g^±)` is free of rank `g`.
-Define a **Heegaard splitting** of a closed connected `3`-manifold `M` as a pair of handlebodies
-`H₁, H₂` of the same genus `g` and type, together with a diffeomorphism `φ : ∂H₁ ≃ₘ ∂H₂` and a
-diffeomorphism `M ≃ₘ H₁ ∪_φ H₂` (1.2; the gluing map is an element of `Diff(∂H₁, ∂H₂)` of Layer
-3, and no mapping class group is needed); its genus is `g`. Prove **existence**: every closed
-connected `3`-manifold has a Heegaard splitting, with orientable handlebodies exactly when `M` is
-orientable (Scharlemann, Section 2.1: from a triangulation, Moise's theorem, 11.2, take regular
-neighbourhoods of the `1`-skeleton and of the dual `1`-skeleton).
+Consume the native **standard handlebody** `TauCeti.handlebody g ⊆ ℂ × ℝ`, the product of the
+planar surface `TauCeti.planarSurface g` (the closed disc of radius `g + 1` with `g` open discs
+of radius `1/2` removed about the real points `2k + 1 − g`) with `[−1, 1]`: it is compact and
+closed, `handlebody 0` is the closed unit ball and `handlebody 1` is homeomorphic to the solid
+torus (`handlebody_zero`, `nonempty_homeomorph_handlebody_one`), its fundamental group is free of
+rank `g` at every base point (`nonempty_fundamentalGroup_handlebody_mulEquiv_freeGroup`,
+`rank_fundamentalGroup_handlebody_le`), and its frontier is path connected and carries its
+fundamental group (`isPathConnected_frontier_handlebody`,
+`fundamentalGroup_map_frontier_handlebody_surjective`) (Hempel, *3-Manifolds*, Chapter 2;
+Scharlemann, *Heegaard splittings of compact 3-manifolds*, Section 1). Prove that `handlebody g`
+is a compact orientable `3`-manifold with boundary once the corners of the product are rounded
+(1.1), diffeomorphic to `D³` with `g` orientable `1`-handles attached (1.2), and that its
+frontier in `ℂ × ℝ` is a closed connected orientable surface of genus `g` (two copies of the
+planar surface and `g + 1` annuli). Define the **non-orientable handlebody** `H_g^−` as `D³` with
+`g` `1`-handles of which at least one is attached by an orientation-reversing map (Scharlemann,
+Section 1: for `g ≥ 1` there are exactly two handlebodies of genus `g` up to diffeomorphism,
+since any other non-orientable handle can be slid over a non-orientable one), and prove that
+`π₁(H_g^−)` is free of rank `g`. Consume the native **Heegaard splitting**
+`TauCeti.HeegaardSplitting M` of a space `M`: a genus `g` and two subsets `left`, `right`
+covering `M`, each homeomorphic to `handlebody g`, whose intersection is the frontier of each (in
+a `3`-manifold without boundary, their common boundary surface, by invariance of domain), with
+`symm`, transport along homeomorphisms (`transHomeomorph`) and the constructor `ofIsClosed` from
+two closed handlebodies covering `M` whose intersection lies in the closure of the complement of
+each (Scharlemann, Section 2; Hempel, Chapter 2). The native handlebodies are orientable, so
+these are the splittings of orientable manifolds; define a **non-orientable Heegaard splitting**
+in the same shape, with both pieces homeomorphic to `H_g^−`. Prove **existence**: every closed
+connected orientable `3`-manifold has a `HeegaardSplitting`, which supplies the instance
+`Nonempty (HeegaardSplitting M)` that the native Heegaard genus needs (native instances exist for
+`S³`, `S¹ × S²` and the lens spaces), and every closed connected non-orientable `3`-manifold has
+a non-orientable splitting (Scharlemann, Section 2.1: from a triangulation, Moise's theorem,
+11.2, take regular neighbourhoods of the `1`-skeleton and of the dual `1`-skeleton).
 
-- A Heegaard splitting of genus `g` presents `M` as two handlebodies glued along a closed surface
-  of genus `g`; the splitting surface is bicollared.
-- Existence for every closed connected `3`-manifold, orientable or not.
-- A union of two orientable handlebodies along a connected closed surface is orientable, so
-  non-orientable `M` needs `H_g^−`.
+- A Heegaard splitting of genus `g` presents `M` as two handlebodies meeting in a closed surface
+  of genus `g`, the frontier of each; the splitting surface is bicollared (2.3).
+- Existence for every closed connected `3`-manifold: a native splitting when `M` is orientable, a
+  non-orientable one otherwise.
+- A union of two orientable handlebodies along a connected closed surface is orientable, so a
+  non-orientable `M` has no `HeegaardSplitting` and needs `H_g^−`.
 
 **Checks.**
 
-- `S³ = D³ ∪_{id} D³` is the genus-zero splitting; `S³ = (S¹ × D²) ∪ (D² × S¹)` glued by the
-  exchange of factors is the genus-one splitting; `S¹ × S²` is the genus-one splitting glued by the
-  identity; the lens space `L(p, q)` has a genus-one splitting whose gluing map sends the meridian of one
+- `S³` has the genus-zero splitting into two closed hemispheres (`hemisphereHeegaardSplitting`)
+  and the genus-one splitting into the solid tori `‖z‖ ≤ ‖w‖` and `‖w‖ ≤ ‖z‖` of `S³ ⊆ ℂ²`
+  (`cliffordHeegaardSplitting`); `S¹ × S²` has the genus-one splitting into the solid tori over
+  the two closed hemispheres of `S²` (`DehnFilling.heegaardSplitting` of the `0`-surgery on the
+  unknot, 5.3); the lens space `L(p; ℓ₀, ℓ₁)` has the genus-one splitting into the images of the
+  two Clifford solid tori (`LensSpace.heegaardSplitting`), whose gluing sends the meridian of one
   solid torus to the `(p, q)` curve of the other.
-- `ℝP² × S¹` is closed and non-orientable; it has no splitting into orientable handlebodies, since
-  the union of two orientable handlebodies along a connected surface is orientable, so every
-  splitting of it uses the handlebodies `H_g^−`. Its fundamental group `ℤ/2 × ℤ` has rank `2`, so
-  its Heegaard genus is at least `2` (9.2).
-- A splitting with handlebodies of different genera is excluded by the definition: `∂H_g` and
-  `∂H_h` are not diffeomorphic for `g ≠ h`, so no gluing map exists.
+- `ℝP² × S¹` is closed and non-orientable; `HeegaardSplitting (ℝP² × S¹)` is empty, since the
+  union of two orientable handlebodies along a connected surface is orientable, so every splitting
+  of it is a non-orientable one. Its fundamental group `ℤ/2 × ℤ` has rank `2`, so its genus is at
+  least `2` (9.2).
+- Two subsets homeomorphic to handlebodies of different genera cannot form a splitting: the
+  structure carries one `genus`, and the frontiers, closed surfaces of genus `g` and `h`, would
+  have to coincide.
+- Two closed solid tori in `S³` covering it and meeting in a disc of their boundaries rather than
+  in the whole boundary torus do not form a splitting: the intersection is not the frontier of
+  either piece, which `ofIsClosed` asks for.
 
-*Needs:* 1.2 (handle attachment and gluing along the boundary surface); 3.1 (`Diff` of the boundary
-surface, for the gluing maps); 11.2 (Moise's theorem, for existence); the native
-`TauCeti.Orientable`; Mathlib `Diffeomorph`, `FundamentalGroup`; AlgebraicTopology Stage 1 (van
-Kampen, for `π₁` of a handlebody).
+*Needs:* the native `TauCeti.handlebody`, `TauCeti.planarSurface`, `TauCeti.HeegaardSplitting`
+with `ofIsClosed`, `symm`, `transHomeomorph`, `TauCeti.hemisphereHeegaardSplitting`,
+`TauCeti.cliffordHeegaardSplitting`, `LensSpace.heegaardSplitting`, `DehnFilling.heegaardSplitting`,
+`TauCeti.nonempty_fundamentalGroup_handlebody_mulEquiv_freeGroup`,
+`TauCeti.fundamentalGroup_map_frontier_handlebody_surjective`, `TauCeti.Orientable`; 1.1 (corners
+and the boundary manifold); 1.2 (handle attachment); 2.3 (bicollars); 5.3 (the `0`-surgery on the
+unknot); 11.2 (Moise's theorem, for existence); Mathlib `Homeomorph`, `FundamentalGroup`;
+AlgebraicTopology Stage 1 (van Kampen, for `π₁(H_g^−)`).
 
 ### 9.2 Heegaard genus, rank and Li's theorem
 
-Define the **Heegaard genus** `g(M)` of a closed connected `3`-manifold as the least genus of a
-Heegaard splitting (a `Nat.find` on the existence theorem of 9.1, so the minimum is over a
-nonempty set and never silently `0`). Prove that a Heegaard splitting of genus `g` presents
-`π₁(M)` as a quotient of the free group of rank `g` (van Kampen, with `H₂` attached as `2`- and
-`3`-handles), so that `π₁(M)` is finitely generated and `rank π₁(M) ≤ g(M)`, where the rank is
-`Group.rank` with the `Group.FG` instance obtained this way. State **Li's theorem**: there is a
-closed orientable hyperbolic `3`-manifold with `rank π₁(M) < g(M)`, and for every `k` there is one
-with `g(M) − rank π₁(M) ≥ k` (Li, *Rank and genus of 3-manifolds*, J. Amer. Math. Soc. 26 (2013),
-Theorem 1.1: a closed orientable hyperbolic `3`-manifold with rank smaller than genus, the
-discrepancy being arbitrarily large; the bounded version, Theorem 1.2, gives a compact irreducible
-atoroidal `M` with connected boundary and `r(M) < g(M)`); this answers Waldhausen's rank-versus-genus
-question in the negative.
+Consume the native **Heegaard genus** `TauCeti.heegaardGenus M`, the least genus of a Heegaard
+splitting, defined under `[Nonempty (HeegaardSplitting M)]` as a `Nat.find`, so that it never
+silently takes a junk value (`heegaardGenus_le`, `exists_genus_eq_heegaardGenus`,
+`heegaardGenus_eq_zero_iff`, `heegaardGenus_congr` under homeomorphism, and
+`heegaardGenus_sphere : heegaardGenus S³ = 0`), and the native **rank inequality**: for a
+manifold without boundary charted on a three-dimensional real normed space with a Heegaard
+splitting, the inclusion of either handlebody surjects on fundamental groups
+(`HeegaardSplitting.fundamentalGroup_map_left_surjective`, van Kampen for the cover by one
+handlebody thickened along a neighbourhood of the frontier that deformation retracts onto it and
+the other handlebody), so `π₁(M, x)` is finitely generated (`HeegaardSplitting.fg_fundamentalGroup`)
+and `Group.rank (π₁(M, x)) ≤ heegaardGenus M` at every base point
+(`TauCeti.rank_fundamentalGroup_le_heegaardGenus`). With the existence theorem of 9.1 these apply
+to every closed connected orientable `3`-manifold. Consume **Waldhausen's rank-versus-genus
+conjecture** as the native `TauCeti.RankGenusConjecture` (every closed orientable `3`-manifold
+has finitely generated `π₁`, a Heegaard splitting, and Heegaard genus equal to the rank at every
+base point) and state **Li's theorem** as the native `TauCeti.LiRankGenusTheorem`
+(`li_rank_genus_theorem`): for every `n` there is a closed connected orientable hyperbolic
+`3`-manifold `M` (`TauCeti.IsHyperbolic`, 7.2) with a base point `x`, finitely generated
+`π₁(M, x)`, a Heegaard splitting, and `rank π₁(M, x) + n < heegaardGenus M` (Li, *Rank and genus
+of 3-manifolds*, J. Amer. Math. Soc. 26 (2013), Theorem 1.1: a closed orientable hyperbolic
+`3`-manifold with rank smaller than genus, the discrepancy being arbitrarily large; the bounded
+version, Theorem 1.2, gives a compact irreducible atoroidal `M` with connected boundary and
+`r(M) < g(M)`); the case `n = 0` refutes Waldhausen's conjecture, which is the native
+`LiRankGenusTheorem.not_rankGenusConjecture` and is consumed. Define the **genus of a
+non-orientable closed `3`-manifold** as the least genus of a non-orientable splitting (9.1) and
+prove the rank inequality for it by the same argument.
 
-- `g(M)` is a natural number, `g(S³) = 0`, and `g(M) = 0` only for `S³`.
-- `π₁(M)` is finitely generated and `rank π₁(M) ≤ g(M)`.
-- Li: `∀ k, ∃ M` closed orientable hyperbolic with `g(M) − rank π₁(M) ≥ k`; in particular
-  `∃ M, rank π₁(M) < g(M)`.
+- `heegaardGenus M` is a natural number; `heegaardGenus S³ = 0`, and `heegaardGenus M = 0` only
+  for `M ≃ₜ S³` (two closed balls meeting in their common boundary sphere are the cone extension
+  of a homeomorphism of `S²`).
+- `π₁(M)` is finitely generated and `rank π₁(M) ≤ heegaardGenus M`.
+- Li: for every `n` a closed orientable hyperbolic `M` with `rank π₁(M) + n < heegaardGenus M`;
+  `n = 0` gives `rank < genus`.
 
 **Checks.**
 
-- `S³`: `g = 0`, `rank = 0`. Lens spaces and `S¹ × S²`: `g = 1` and `rank = 1` (cyclic nontrivial
-  `π₁`). `T³`: `g = 3 = rank ℤ³`, so the inequality is an equality in all these cases, and the gap
-  of Li's theorem is a strict statement about other manifolds.
-- The Poincaré sphere: `π₁` the binary icosahedral group, of rank `2`, and `g = 2` (it is
-  `+1` surgery on the trefoil, a genus-two manifold, and not a lens space).
-- With `k = 1`, Li's theorem gives `g − rank ≥ 1`, that is `rank < g`; with `k = 2` it gives a
-  manifold whose genus exceeds its rank by at least two, which the `k = 1` statement does not
-  provide, so the quantified form is strictly stronger than the existential one.
+- `S³`: genus `0` and rank `0` (`exists_heegaardGenus_sphere_eq_rank`). The lens spaces with
+  `m ≠ 1` and `S¹ × S²`: genus `1` (`LensSpace.heegaardGenus_eq_one`,
+  `heegaardGenus_circle_prod_sphere`: the genus-one splitting bounds the genus above and the
+  nontrivial cyclic `π₁` bounds it below) and rank `1`. `T³`: genus `3 = rank ℤ³`. So the
+  inequality is an equality in all these cases, and the gap of Li's theorem is a strict statement
+  about other manifolds.
+- The Poincaré sphere: `π₁` the binary icosahedral group, of rank `2`, and genus `2` (it is `+1`
+  surgery on the trefoil, a genus-two manifold, and not a lens space).
+- With `n = 0`, Li's theorem gives `rank < genus`; with `n = 1` it gives a manifold whose genus
+  exceeds its rank by at least two, which the `n = 0` statement does not provide, so the
+  quantified form is strictly stronger than the existential one; `rank + n < genus` is
+  `genus − rank ≥ n + 1`, so a gap of at least `k` is the case `n = k − 1`.
+- `heegaardGenus (ℝP² × S¹)` is not defined, since `HeegaardSplitting (ℝP² × S¹)` is empty (9.1):
+  the instance hypothesis is what keeps the native genus from a junk value; the non-orientable
+  genus covers it, with value at least `2`.
 
-*Needs:* 9.1 (splittings and their existence); Mathlib `Group.rank`, `Group.FG`, `FundamentalGroup`,
-`Nat.find`; 7.2 (closed hyperbolic `3`-manifolds, for Li's theorem); AlgebraicTopology Stage 1 (van
-Kampen).
+*Needs:* 9.1 (splittings and their existence); the native `TauCeti.heegaardGenus`,
+`heegaardGenus_le`, `exists_genus_eq_heegaardGenus`, `heegaardGenus_eq_zero_iff`,
+`heegaardGenus_congr`, `heegaardGenus_sphere`, `HeegaardSplitting.fg_fundamentalGroup`,
+`TauCeti.rank_fundamentalGroup_le_heegaardGenus`, `TauCeti.RankGenusConjecture`,
+`TauCeti.LiRankGenusTheorem`, `LiRankGenusTheorem.not_rankGenusConjecture`,
+`LensSpace.heegaardGenus_eq_one`, `TauCeti.heegaardGenus_circle_prod_sphere`,
+`TauCeti.IsHyperbolic`; Mathlib `Group.rank`, `Group.FG`, `FundamentalGroup`, `Nat.find`; 7.2
+(closed hyperbolic `3`-manifolds, for Li's theorem); AlgebraicTopology Stage 1 (van Kampen).
 
 ### Examples
 
-The genus-zero and genus-one splittings of `S³`, the genus-one splittings of `S¹ × S²` and the lens
-spaces, `ℝP² × S¹` as the non-orientable case, and `T³` with `g = rank = 3`.
+The native genus-zero and genus-one splittings of `S³`, the native genus-one splittings of
+`S¹ × S²` and the lens spaces, `ℝP² × S¹` as the non-orientable case, and `T³` with genus equal
+to rank `3`.
 
 ### Dependencies
 
-Layer 1 (handle attachment, gluing), Layer 3 (surface diffeomorphisms as gluing maps), Layer 7
-(hyperbolic manifolds for Li's theorem), Layer 11 (Moise's triangulation theorem for existence);
+Layer 1 (handle attachment, gluing, corners), Layer 2 (bicollars), Layer 5 (the `0`-surgery on the
+unknot behind the native splitting of `S¹ × S²`), Layer 7 (hyperbolic manifolds for Li's
+theorem), Layer 11 (Moise's triangulation theorem for existence); the native handlebodies,
+splittings, genus, rank inequality and rank-versus-genus declarations of the supplier contracts;
 Mathlib's `Group.rank` and `FundamentalGroup`.
 ## Layer 10: foliations and their Euler class
 
 ### 10.1 Codimension-one foliations and tautness
 
 Consume `TauCeti.Foliation I n M k`, a `Cⁿ` foliation of rank `k` of a `C^{n+1}` manifold given by
-its involutive `Cⁿ` tangent distribution (`1 ≤ n`), with the leaves, flat charts and the Frobenius
-theorem of DifferentialGeometry Layer 4. A **codimension-one foliation** of a `3`-manifold is a
-`Foliation I n M 2`; define its **transverse orientation** as an orientation of the normal line
-bundle `TM/TF`, and a foliation to be **transversely oriented** when one is chosen. Define a
-foliation `F` of a closed `3`-manifold to be **taut** when every leaf meets a closed transversal,
-a smooth closed curve everywhere transverse to the leaves (Calegari, *Foliations and the Geometry
-of 3-Manifolds*, Chapter 4; Candel–Conlon, *Foliations I*). Define a
-**Reeb component** (a solid torus foliated by planes spiralling to the boundary torus leaf) and
-prove that a foliation with a Reeb component is not taut (the boundary torus meets no closed
-transversal, since a transversal entering the component cannot leave it; Calegari, Chapter 4).
-Prove that the tangent plane field `TF` of a transversely oriented foliation of an oriented
-`3`-manifold is an oriented plane bundle, the input of 10.2.
+its involutive `Cⁿ` tangent distribution (`1 ≤ n`), with the flat charts and the Frobenius
+theorem of DifferentialGeometry Layer 4, its native **leaves** `Foliation.leaf F x` (the classes
+of the equivalence relation generated by `C¹` curves on compact intervals tangent to the
+distribution, which on a boundaryless manifold are the maximal connected integral manifolds), and
+the native **tautness** `Foliation.Taut`: every point lies on a leaf met by a `C¹` closed
+transversal, a `1`-periodic `C¹` curve whose velocity is nonzero and complementary to the tangent
+distribution at every parameter (`Foliation.IsClosedTransversal`; Calegari, *Foliations and the
+Geometry of 3-Manifolds*, Chapter 4; Candel–Conlon, *Foliations I*). A **codimension-one
+foliation** of a `3`-manifold is a `Foliation I n M 2`; define its **transverse orientation** as
+an orientation of the normal line bundle `TM/TF`, and a foliation to be **transversely oriented**
+when one is chosen. Prove that a taut foliation of a closed `3`-manifold has, through every leaf,
+a smooth closed transversal (smoothing the native `C¹` curve while keeping it transverse, by the
+approximation theorems of Hirsch, Chapter 2), so that the native notion agrees with the classical
+one. Define a **Reeb component** (a solid torus foliated by planes spiralling to the boundary
+torus leaf) and prove that a foliation with a Reeb component is not taut (the boundary torus
+meets no closed transversal, since a transversal entering the component cannot leave it;
+Calegari, Chapter 4; the native `not_taut_ofSubmodule_ker`, the foliation of a normed space by
+the cosets of the kernel of a functional, is the model argument: a global first integral and
+Rolle's theorem rule out closed transversals). Prove that the tangent plane field `TF` of a
+transversely oriented foliation of an oriented `3`-manifold is an oriented plane bundle, the
+input of 10.2.
 
 - A taut foliation has no Reeb component and every leaf is incompressible (Novikov; Calegari,
   Chapter 4, cited as background, not a target).
@@ -2154,53 +2639,88 @@ Prove that the tangent plane field `TF` of a transversely oriented foliation of 
   transversal meeting every leaf; it has no Reeb component, and its leaves are spheres, which is
   allowed by the definition.
 - The Reeb foliation of `S³` (two Reeb components glued along the torus leaf) is not taut.
+- The foliation of `ℝ³` by horizontal planes is not taut (`not_taut_ofSubmodule_ker`): the height
+  of a closed `C¹` curve has a critical point, where the velocity lies in the plane; this is the
+  local picture behind the Reeb component.
 - The linear foliation of `T³` by planes of irrational slope is taut, with a closed transversal
   given by a circle direction not in the plane; its leaves are dense planes, so tautness does not
   require compact leaves.
 - A foliation of a closed `3`-manifold by circles (a Seifert fibration with all fibres regular) is
   a rank-one foliation, excluded from codimension one by the rank in `Foliation I n M k`.
 
-*Needs:* the native `TauCeti.Foliation`, `Foliation.ofSubmodule`, `TauCeti.IsContMDiffDistribution`,
-`TauCeti.IsInvolutiveDistribution`, `TauCeti.Orientable`, `TauCeti.SolidTorus`; Mathlib
-`TangentBundle`; DifferentialGeometry Layer 4 (leaves, flat charts and the Frobenius theorem).
+*Needs:* the native `TauCeti.Foliation`, `Foliation.ofSubmodule`, `Foliation.leaf`,
+`Foliation.IsClosedTransversal`, `Foliation.Taut`, `TauCeti.not_taut_ofSubmodule_ker`,
+`TauCeti.IsContMDiffDistribution`, `TauCeti.IsInvolutiveDistribution`, `TauCeti.Orientable`,
+`TauCeti.SolidTorus`; Mathlib `TangentBundle`; DifferentialGeometry Layer 4 (flat charts and the
+Frobenius theorem); Hirsch, Chapter 2 (smoothing).
 
 ### 10.2 The Euler class of an oriented plane bundle
 
-Define the **Euler class** `e(E) ∈ H²(X; ℤ)` of an oriented real rank-two vector bundle `E → X`
-over a CW complex (or a manifold) as the primary obstruction to a nowhere-vanishing section: the
-class of the cocycle that assigns to a `2`-cell the degree of the section on its boundary, built
-with a section over the `1`-skeleton (Milnor–Stasheff, *Characteristic Classes*, Chapter 12;
-Hatcher, *Vector Bundles and K-Theory*, Section 3, the obstruction-theoretic definition). This
-construction is this roadmap's; CharacteristicClasses C2 compares its rank-two Euler class with it.
-Prove: naturality under pullback and bundle maps; `e(E) = 0` when `E` has a nowhere-vanishing
-section; `e(Ē) = −e(E)` for the opposite orientation; `e(E ⊕ F) = e(E) ∪ e(F)` for oriented plane
-bundles over a space where both are defined; and, for a closed oriented surface `S`,
-`⟨e(TS), [S]⟩ = χ(S)` (Milnor–Stasheff, Corollary 11.12, for the tangent bundle). Define the
-**Euler class of a transversely oriented foliation** `F` of a closed oriented `3`-manifold as
-`e(F) := e(TF)`, and the **pairing** `⟨e(F), [S]⟩ ∈ ℤ` with the fundamental class of an embedded
-closed oriented surface `S`, through AlgebraicTopology's cohomology and fundamental classes.
+Consume the native **Euler class** of a real vector bundle `E → B` with finite-dimensional fibre
+`F`: the Thom pair `(E, E₀)`, `E₀` the complement of the zero section (`TauCeti.thomPair`); a
+**Thom class** `u ∈ Hʳ(E, E₀)`, `r = dim F`, a relative class restricting to a generator on every
+fibre pair `(E_b, E_b ∖ 0)` (`TauCeti.IsThomClass`); and the Euler class
+`TauCeti.eulerClass n : Hⁿ(E, E₀) ⟶ Hⁿ(B)`, the restriction to `E` followed by the pullback along
+the zero section, natural under maps of Thom pairs and under pullback (`eulerClass_naturality`,
+`eulerClass_pullback`), carried to Thom classes by fibrewise isomorphisms
+(`IsThomClass.singularCohomologyMap`), vanishing on a bundle with a nowhere-vanishing section
+(`eulerClass_eq_zero_of_forall_ne_zero`) and on a trivial bundle of positive rank
+(`eulerClass_trivial_eq_zero`) (Milnor–Stasheff, *Characteristic Classes*, Sections 9 and 10;
+in the singular cohomology of AlgebraicTopology with general coefficients, integral cohomology
+being the case `ModuleCat ℤ`). Prove the **rank-two Thom isomorphism**: an oriented real plane
+bundle over a CW complex has exactly one integral Thom class compatible with the orientation, and
+`−u` is the Thom class of the opposite orientation (Milnor–Stasheff, Theorem 10.4, in rank two);
+define the **Euler class of an oriented plane bundle** `e(E) := eulerClass u` for that Thom
+class, so that `e(Ē) = −e(E)`. Prove the **comparison with the obstruction-theoretic
+description**: `e(E)` is the primary obstruction to a nowhere-vanishing section, the class of the
+cocycle that assigns to a `2`-cell the degree on its boundary of a section over the `1`-skeleton
+(Milnor–Stasheff, Chapter 12; Hatcher, *Vector Bundles and K-Theory*, Section 3); this
+comparison is this roadmap's, and CharacteristicClasses C2 compares its rank-two Euler class with
+it. Prove `e(E ⊕ F) = e(E) ∪ e(F)` for oriented plane bundles over a space where both are defined,
+and, for a closed oriented surface `S`, `⟨e(TS), [S]⟩ = χ(S)` (Milnor–Stasheff, Corollary 11.12,
+for the tangent bundle). Consume the **Euler class of a foliation**: the tangent field of a
+foliation `F` of rank `k` is a rank-`k` vector bundle with Thom pair `Foliation.thomPair`, Thom
+classes `Foliation.IsThomClass` and Euler class `Foliation.eulerClass`, and a class
+`e ∈ Hᵏ(M; ℤ)` is **an Euler class of `F`** (`Foliation.IsEulerClass e`) when it is the Euler
+class of some Thom class of the tangent field; negation (`IsEulerClass.neg`) and vanishing for a
+nowhere-zero tangent vector field (`Foliation.eulerClass_eq_zero_of_forall_ne_zero`) are native.
+Prove that for a transversely oriented codimension-one foliation `F` of a closed oriented
+`3`-manifold the transverse orientation and the orientation of `M` orient `TF`, whose Thom class
+gives `e(F) := e(TF)`, and that `F.IsEulerClass e` holds exactly for `e = ±e(F)`; define the
+**pairing** `⟨e(F), [S]⟩ ∈ ℤ` with the fundamental class of an embedded closed oriented surface
+`S` through the native `HomologicalOrientation.evalFundamentalClass` (AlgebraicTopology's
+fundamental classes).
 
 - `e` is a natural characteristic class of oriented plane bundles, with `e(trivial) = 0` and
   `e(TS²) ≠ 0`.
 - `⟨e(TS), [S]⟩ = χ(S)` for every closed oriented surface; `⟨e(F), [S]⟩` depends only on the
   homology class of `S`.
-- Reversing the orientation of `M` or the transverse orientation of `F` negates `e(F)`.
+- Reversing the orientation of `M` or the transverse orientation of `F` negates `e(F)`, and the
+  native Euler classes of `F` are exactly `±e(F)`.
 
 **Checks.**
 
 - `e(TS²)` evaluates to `χ(S²) = 2` and `e(TT²) = 0 = χ(T²)`; the trivial plane bundle over `S²`
-  has `e = 0 ≠ e(TS²)`, so `TS²` is not trivial (the hairy ball theorem as a corollary).
+  has `e = 0 ≠ e(TS²)` (`eulerClass_trivial_eq_zero`), so `TS²` is not trivial (the hairy ball
+  theorem as a corollary).
 - For the product foliation of `S² × S¹`, `TF` restricted to a sphere leaf is `TS²`, so
   `⟨e(F), [S² × pt]⟩ = 2`; for the foliation of `T³` by tori `T² × pt`, the pairing with a torus
   leaf is `0`.
 - The Hopf plane bundle over `S²` (the tautological bundle of `ℂP¹`, as a real plane bundle) has
   `e = ±1` times the generator, half of `e(TS²)` in absolute value, so the Euler class of `TS²`
   is twice a generator; this is the parity phenomenon of 10.4.
+- The non-orientable plane bundle over `S¹` that is the sum of the Möbius line bundle and a
+  trivial line has no integral Thom class: the restriction to the fibre pair would change sign
+  around the circle; so orientability is the hypothesis of the Thom isomorphism, and
+  `IsThomClass` is empty there while `eulerClass` is still defined on every relative class.
 
-*Needs:* Mathlib `Topology.CWComplex`, `Bundle.TotalSpace` and vector bundles; AlgebraicTopology
-Stage 4 (cellular cochains) and Stage 6 (cohomology, cup products, fundamental classes);
-DifferentialGeometry Layer 10 (the degree of a section on the boundary of a `2`-cell); 10.1 (the
-tangent plane bundle of a foliation).
+*Needs:* Mathlib `Topology.CWComplex`, `Bundle.TotalSpace` and vector bundles; the native
+`TauCeti.thomPair`, `TauCeti.IsThomClass`, `TauCeti.eulerClass` with its naturality and
+vanishing, `Foliation.thomPair`, `Foliation.IsThomClass`, `Foliation.eulerClass`,
+`Foliation.IsEulerClass`, `TauCeti.HomologicalOrientation.evalFundamentalClass`;
+AlgebraicTopology Stage 4 (cellular cochains) and Stage 6 (cohomology, cup products, fundamental
+classes); DifferentialGeometry Layer 10 (the degree of a section on the boundary of a `2`-cell);
+10.1 (the tangent plane bundle of a foliation).
 
 ### 10.3 The Thurston norm
 
@@ -2212,7 +2732,22 @@ exists, and that `x` extends to a seminorm on `H₂(M; ℝ)`, linear on rays and
 norm for the homology of 3-manifolds*, Mem. AMS 59 (1986), Theorem 1; Yazdi, *On Thurston's
 Euler class one conjecture*, Section 1). Define the **dual norm** `x*(e) := sup {⟨e, a⟩ : x(a) ≤ 1}`
 on `H²(M; ℝ)`, possibly `+∞` when `x` is only a seminorm, and state that the unit ball of `x` is a
-finite-sided polyhedron whose dual ball has integral vertices (Thurston, Theorem 2).
+finite-sided polyhedron whose dual ball has integral vertices (Thurston, Theorem 2). Prove the
+**comparison with the native Euler class inequality**: for a closed orientable hyperbolic
+`3`-manifold `M`, on which `x` is a norm, and `e ∈ H²(M; ℤ)`, `x*(e) ≤ 1` holds exactly when
+`TauCeti.EulerClassBounded e`, that is `|⟨e, f_*[S]⟩| ≤ −χ(S)` for every closed connected
+oriented surface `S` with `χ(S) ≤ 0` and every topological embedding `f : S → M`, and `x*(e) = 1`
+exactly when `TauCeti.EulerClassNormOne e`, which adds equality on some embedded `S` with
+`χ(S) < 0`. From `x*(e) ≤ 1` to the bound: `|⟨e, f_*[S]⟩| ≤ x(f_*[S]) ≤ −χ(S)`, the last step
+because the norm is also the least `χ₋` of a singular surface representing the class (Gabai,
+*Foliations and the topology of 3-manifolds*, J. Differential Geom. 18 (1983), Corollary 6.18),
+so that a merely topological embedding is allowed. From the bound to `x*(e) ≤ 1`: a class `a` is
+represented by an incompressible surface without sphere components (below), each component of
+which is an embedded `S_i` with `χ(S_i) ≤ 0`, so `|⟨e, a⟩| ≤ Σ |⟨e, [S_i]⟩| ≤ Σ −χ(S_i) = x(a)`.
+For the sharp forms: `x*(e) = 1` is attained on an integral class `a` with `|⟨e, a⟩| = x(a) > 0`
+(the dual ball is a polyhedron), and the componentwise inequalities on a norm-minimizing
+representative then are equalities, one of them with `χ(S_i) < 0`; conversely an embedded `S`
+with `|⟨e, [S]⟩| = −χ(S) > 0` gives `x*(e) ≥ |⟨e, [S]⟩| / x([S]) ≥ 1`.
 
 - `x(ka) = |k| x(a)`, `x(a + b) ≤ x(a) + x(b)`, `x(0) = 0`; `x` is a norm exactly when no nonzero
   class is represented by a union of spheres and tori.
@@ -2222,6 +2757,8 @@ finite-sided polyhedron whose dual ball has integral vertices (Thurston, Theorem
   in general it is attained by an incompressible surface none of whose sphere components bounds
   a ball (Thurston, Section 2: compressions do not increase `χ₋`, and a sphere bounding a ball is
   discarded).
+- On a closed hyperbolic `M`: `x*(e) ≤ 1 ↔ EulerClassBounded e` and
+  `x*(e) = 1 ↔ EulerClassNormOne e`.
 
 **Checks.**
 
@@ -2243,11 +2780,18 @@ finite-sided polyhedron whose dual ball has integral vertices (Thurston, Theorem
   incompressibility is what the statement needs. The sphere `S² × pt` bounds no ball, so the
   general form of the attainment statement holds; the irreducible form does not apply, and a
   version of it without the irreducibility hypothesis would be false here.
+- The comparison needs the hyperbolic hypothesis in the direction from the bound to the dual
+  norm: on `S² × S¹` the class `e` pairing to `2` with `[S² × pt]` is bounded (every connected
+  surface with `χ ≤ 0` in `S² × S¹` is homologous to a multiple of the sphere class and
+  compressible, so pairs to `0` or is excluded) while `x*(e) = +∞`.
+- The zero class is bounded and never sharp (`not_eulerClassNormOne_zero`), as `x*(0) = 0 ≠ 1`.
 
 *Needs:* AlgebraicTopology Stage 6 (Poincaré duality and `H₂(M; ℤ)`) and Stage 8 (representability
 of `H¹` by maps to the circle); DifferentialGeometry Layer 10 (regular values and Sard's theorem,
-for the representing surfaces); Mathlib `Seminorm`; 2.1 (embedded surfaces); 8.3 (incompressible
-surfaces).
+for the representing surfaces); Mathlib `Seminorm`; the native `TauCeti.EulerClassBounded`,
+`TauCeti.EulerClassNormOne`, `TauCeti.HomologicalOrientation.evalFundamentalClass`,
+`TauCeti.FiniteCWType`, `TauCeti.eulerChar`; 2.1 (embedded surfaces); 7.2 (hyperbolic manifolds);
+8.3 (incompressible surfaces).
 
 ### 10.4 Thurston's inequality and Yazdi's theorem
 
@@ -2258,43 +2802,69 @@ oriented irreducible `3`-manifold `M` and every closed embedded oriented surface
 Yazdi, Section 1, inequalities (1) and (2), and Section 3.3 for the proof through the Roussarie–
 Thurston general position of an incompressible surface with respect to `F`, which gives
 `|χ(S)|` saddle tangencies). The irreducibility hypothesis is where sphere leaves are excluded: the
-norm form fails on `S² × S¹` (10.3). Define the **parity condition**: an integral class
-`a ∈ H²(M; ℤ)` satisfies it when `a ∈ 2H²(M; ℤ)`; prove that the Euler class of every oriented
-plane field on a closed oriented `3`-manifold satisfies it (Yazdi, Definition 1.1 and Proposition
-3.12). State **Gabai's realization theorem**: for a compact oriented irreducible `3`-manifold,
-possibly with toral boundary, every vertex `a` of the dual unit ball is the Euler class of a taut
-foliation (Yazdi, Theorem 1.2, attributed to Gabai; Gabai–Yazdi, *The fully marked surface theorem*,
-for the proof). State the **Euler class one conjecture** of Thurston as the statement it is: for a
-closed orientable irreducible atoroidal `M`, every integral class with `x*(a) = 1` satisfying the
-parity condition is the Euler class of a taut foliation (Yazdi, the Euler Class One Conjecture of
-Section 1). State **Yazdi's theorem**, its negation: there are infinitely many closed hyperbolic
-`3`-manifolds `M` with an integral class `a ∈ H²(M; ℤ)`, `x*(a) = 1`, satisfying the parity
-condition, which is the Euler class of no taut foliation of `M` (Yazdi, Main Theorem; the examples
-are Dehn surgeries on fibered hyperbolic manifolds with `b₁ = 2`, and the fully marked surface
-theorem of Gabai–Yazdi removes the conditional hypothesis of the first paper).
+norm form fails on `S² × S¹` (10.3). State its **hyperbolic form** as the native
+`TauCeti.ThurstonEulerClassInequality` (`thurston_euler_class_inequality`): on a closed
+orientable hyperbolic `3`-manifold, every Euler class of a smooth taut codimension-one foliation
+satisfies `EulerClassBounded` (10.3); it follows from the general form through the comparison of
+10.3, a closed hyperbolic manifold being irreducible and a native Euler class of `F` being
+`±e(F)` for a transverse orientation (10.2). Define the **parity condition**: an integral class
+`a ∈ H²(M; ℤ)` satisfies it when `a ∈ 2H²(M; ℤ)`, the native `Even a`; prove that the Euler
+class of every oriented plane field on a closed oriented `3`-manifold satisfies it (Yazdi,
+Definition 1.1 and Proposition 3.12). State **Gabai's realization theorem**: for a compact
+oriented irreducible `3`-manifold, possibly with toral boundary, every vertex `a` of the dual
+unit ball is the Euler class of a taut foliation (Yazdi, Theorem 1.2, attributed to Gabai;
+Gabai–Yazdi, *The fully marked surface theorem*, for the proof). State the **Euler class one
+conjecture** of Thurston as the statement it is: for a closed orientable irreducible atoroidal
+`M`, every integral class with `x*(a) = 1` satisfying the parity condition is the Euler class of
+a taut foliation (Yazdi, the Euler Class One Conjecture of Section 1); its native hyperbolic form
+`TauCeti.EulerClassOneConjecture` (every even class with `EulerClassNormOne` on a closed orientable
+hyperbolic `3`-manifold is an Euler class of a smooth taut codimension-one foliation) is the
+restriction to hyperbolic manifolds through the comparison of 10.3, and nothing is claimed about
+either, since both are false. State **Yazdi's theorem**, the negation: there are infinitely many
+closed hyperbolic `3`-manifolds `M` with an integral class `a ∈ H²(M; ℤ)`, `x*(a) = 1`,
+satisfying the parity condition, which is the Euler class of no taut foliation of `M` (Yazdi,
+Main Theorem; the examples are Dehn surgeries on fibered hyperbolic manifolds with `b₁ = 2`, and
+the fully marked surface theorem of Gabai–Yazdi removes the conditional hypothesis of the first
+paper), and its **weakest form** as the native `TauCeti.YazdiEulerClassOneTheorem`
+(`yazdi_theorem`): one closed orientable hyperbolic `3`-manifold with an even class `e`,
+`EulerClassNormOne e`, that is an Euler class of no smooth taut codimension-one foliation; the
+infinite family implies it through 10.3, and the native refutation
+`YazdiEulerClassOneTheorem.not_eulerClassOneConjecture` is consumed.
 
-- Thurston: `|⟨e(F), [S]⟩| ≤ |χ(S)|` for every closed embedded oriented `S`; `x*(e(F)) ≤ 1`.
+- Thurston: `|⟨e(F), [S]⟩| ≤ |χ(S)|` for every closed embedded oriented `S`; `x*(e(F)) ≤ 1`; on a
+  closed hyperbolic `M`, `EulerClassBounded e` for every native Euler class `e` of `F`.
 - Yazdi: `∃` infinitely many closed hyperbolic `M` and `a` with `x*(a) = 1`, `a ∈ 2H²`, and
-  `∀ F` taut transversely oriented, `e(F) ≠ a`.
+  `∀ F` taut transversely oriented, `e(F) ≠ a`; in particular one `M` with an even `e`,
+  `EulerClassNormOne e`, and `¬ F.IsEulerClass e` for every smooth taut `F`.
 - Gabai: every vertex of the dual unit ball is realised.
 
 **Checks.**
 
 - A sphere `S` bounding a ball in `M`: `[S] = 0`, `⟨e(F), [S]⟩ = 0`, `|χ(S)| = 2` and `x([S]) = 0`,
   so both forms hold as `0 ≤ 2` and `0 ≤ 0`; a bound of the form `|⟨e(F), [S]⟩| ≤ −χ(S)` would
-  read `0 ≤ −2` and fail, so the absolute value is part of the statement.
+  read `0 ≤ −2` and fail, so the absolute value is part of the general statement, while the
+  native `EulerClassBounded` avoids the sphere by asking `χ(S) ≤ 0`.
 - A torus leaf `T` of a taut foliation: `|χ(T)| = 0`, so `⟨e(F), [T]⟩ = 0`; for the foliation of
   `T³` by tori this agrees with 10.2.
 - The product foliation of `S² × S¹`: `⟨e(F), [S² × pt]⟩ = 2 = |χ(S²)|`, so the first form holds
-  with equality, while `x([S² × pt]) = 0 < 2`, so the norm form fails; `S² × S¹` is reducible, and
-  the irreducibility hypothesis of the norm form is used.
+  with equality, while `x([S² × pt]) = 0 < 2`, so the norm form fails; `S² × S¹` is reducible,
+  and the irreducibility hypothesis of the norm form is used.
 - On `Σ₂ × S¹` with the foliation by surfaces `Σ₂ × pt`, `⟨e(F), [Σ₂ × pt]⟩ = χ(Σ₂) = −2` and
   `x([Σ₂ × pt]) = 2`, so the norm form holds with equality, as it must when a leaf is a norm-minimizing
   surface (Yazdi, Section 1, the equality case).
+- The native inequality quantifies over every Euler class of `F`, that is over both `±e(F)`;
+  `EulerClassBounded` is invariant under negation (`eulerClassBounded_neg_iff`), so this is no
+  stronger than the statement for one transverse orientation. The zero class is bounded and never
+  sharp (`not_eulerClassNormOne_zero`), so the hypothesis `EulerClassNormOne` of the conjecture
+  excludes it, as `x*(0) = 0 ≠ 1` does in the general form.
 
-*Needs:* 10.1 (taut foliations); 10.2 (the Euler class and its pairing); 10.3 (the Thurston norm and
-its dual); 8.2 (irreducibility); 7.2 (hyperbolic manifolds, for Yazdi's examples); 7.4 (fibering);
-5.3 (Dehn surgery, for Yazdi's examples).
+*Needs:* 10.1 (taut foliations); 10.2 (the Euler class and its pairing); 10.3 (the Thurston norm,
+its dual and the comparison with the native inequality); 8.2 (irreducibility); 7.2 (hyperbolic
+manifolds); 7.4 (fibering); 5.3 (Dehn surgery, for Yazdi's examples); the native
+`TauCeti.ThurstonEulerClassInequality`, `TauCeti.EulerClassOneConjecture`,
+`TauCeti.YazdiEulerClassOneTheorem`, `YazdiEulerClassOneTheorem.not_eulerClassOneConjecture`,
+`Foliation.Taut`, `Foliation.IsEulerClass`, `TauCeti.EulerClassBounded`,
+`TauCeti.EulerClassNormOne`.
 
 ### Examples
 
@@ -2303,11 +2873,12 @@ tangent bundles of surfaces for the Euler class.
 
 ### Dependencies
 
-DifferentialGeometry Layer 4 and the native `TauCeti.Foliation`; Layer 2 (embedded surfaces as
+DifferentialGeometry Layer 4 and the native foliations, leaves, tautness, Thom classes, Euler
+classes and Euler class inequalities of the supplier contracts; Layer 2 (embedded surfaces as
 locally flat submanifolds); AlgebraicTopology (cohomology, fundamental classes, cup products);
 Layer 8 (incompressible surfaces, for the attainment statement of 10.3; irreducibility, for the
-norm form of Thurston's inequality in 10.4); Layer 7 (hyperbolic manifolds, for Yazdi's examples)
-and Layer 5 (the Dehn surgeries that produce them).
+norm form of Thurston's inequality in 10.4); Layer 7 (hyperbolic manifolds, for the comparison of
+10.3 and for Yazdi's examples) and Layer 5 (the Dehn surgeries that produce them).
 
 ## Layer 11: triangulations, PL structures, and collapse
 
@@ -2665,7 +3236,8 @@ The Kirby–Siebenmann obstruction theory is deferred in the scope statement and
 - J. Lee, *Introduction to Smooth Manifolds*, Springer GTM 218, 2nd ed. (2013): Theorem 9.25
   (collars), Theorem 6.24 (tubular neighbourhoods); *Introduction to Riemannian Manifolds*,
   Springer GTM 176, 2nd ed. (2018): Chapters 2 and 8 (volume, curvature).
-- R. Palais, *Extending diffeomorphisms*, Proc. Amer. Math. Soc. 11 (1960) 274–277.
+- R. Palais, *Extending diffeomorphisms*, Proc. Amer. Math. Soc. 11 (1960) 274–277. A. Kosinski,
+  *Differential Manifolds*, Academic Press (1993), Chapter VI, Section 1 (the connected sum).
 - C. Rourke, B. Sanderson, *Introduction to Piecewise-Linear Topology*, Springer (1972): Chapters
   1–2 (polyhedra, PL maps, products), Chapter 3 (links, combinatorial manifolds, collapse).
 - R. Daverman, G. Venema, *Embeddings in Manifolds*, AMS GSM 106 (2009): locally flat and wild
@@ -2675,7 +3247,8 @@ The Kirby–Siebenmann obstruction theory is deferred in the scope statement and
 - J. Cerf, *Sur les difféomorphismes de la sphère de dimension trois (Γ₄ = 0)*, Springer LNM 53
   (1968), Théorème 1. A. Hatcher, *A proof of the Smale conjecture, `Diff(S³) ≃ O(4)`*, Ann. of
   Math. 117 (1983). T. Watanabe, *Some exotic nontrivial elements of the rational homotopy groups
-  of `Diff(S⁴)`*, arXiv:1812.02448, Theorem 1.1 and Remark 1.2.
+  of `Diff(S⁴)`*, arXiv:1812.02448, Theorem 1.1 and Remark 1.2. M. Kervaire, J. Milnor, *Groups
+  of homotopy spheres I*, Ann. of Math. 77 (1963) 504–537.
 - W. B. R. Lickorish, *An Introduction to Knot Theory*, Springer GTM 175 (1997): Chapter 1
   (Reidemeister's theorem, Theorem 1.7), Chapter 2 (Seifert surfaces, Theorem 2.2), Chapter 3
   (bracket and Jones polynomial), Chapter 6 (Alexander polynomial), Chapter 8 (signatures,
@@ -2689,7 +3262,9 @@ The Kirby–Siebenmann obstruction theory is deferred in the scope statement and
   Math. Soc. 12 (1985). P. Freyd, D. Yetter, J. Hoste, W. B. R. Lickorish, K. Millett, A. Ocneanu,
   *A new polynomial invariant of knots and links*, Bull. Amer. Math. Soc. 12 (1985). R. Gompf, A.
   Stipsicz, *4-Manifolds and Kirby Calculus*, AMS GSM 20 (1999), Section 4.1. J. Milnor, *Lectures
-  on the h-cobordism Theorem*, Princeton (1965), Section 3.
+  on the h-cobordism Theorem*, Princeton (1965), Section 3; *A procedure for killing homotopy
+  groups of differentiable manifolds*, Proc. Sympos. Pure Math. 3 (1961) 39–55, Section 1. B.
+  Farb, D. Margalit, *A Primer on Mapping Class Groups*, Princeton (2012), Theorem 2.5.
 - M. Freedman, *The topology of four-dimensional manifolds*, J. Differential Geom. 17 (1982). M.
   Freedman, F. Quinn, *Topology of 4-Manifolds*, Princeton (1990), Theorem 11.7B. L. Piccirillo,
   *The Conway knot is not slice*, Ann. of Math. 191 (2020), arXiv:1808.02923, Proposition 1.4 and
@@ -2719,16 +3294,19 @@ The Kirby–Siebenmann obstruction theory is deferred in the scope statement and
   Bessières, G. Besson, M. Boileau, S. Maillot, J. Porti, *Geometrisation of 3-manifolds*, EMS
   Tracts 13 (2010), Introduction.
 - M. Scharlemann, *Heegaard splittings of compact 3-manifolds*, arXiv:math/0007144, Sections 1 and
-  2.1. T. Li, *Rank and genus of 3-manifolds*, J. Amer. Math. Soc. 26 (2013), arXiv:1106.6302,
-  Theorems 1.1 and 1.2.
+  2.1. J. Hempel, *3-Manifolds*, Annals of Math. Studies 86 (1976), Chapters 2 and 3. T. Li,
+  *Rank and genus of 3-manifolds*, J. Amer. Math. Soc. 26 (2013), arXiv:1106.6302, Theorems 1.1
+  and 1.2.
 - D. Calegari, *Foliations and the Geometry of 3-Manifolds*, Oxford (2007), author's page, Chapter
   4. A. Candel, L. Conlon, *Foliations I*, AMS GSM 23. W. Thurston, *A norm for the
   homology of 3-manifolds*, Mem. Amer. Math. Soc. 59 (1986), Theorems 1 and 2 and Section 3. M.
   Yazdi, *On Thurston's Euler class one conjecture*, Acta Math. 225 (2020), arXiv:1603.03822,
   Section 1 (inequalities (1), (2), Definition 1.1, Theorem 1.2, the Main Theorem), Section 3.3,
   Proposition 3.12. D. Gabai, M. Yazdi, *The fully marked surface theorem*, Acta Math. 225 (2020).
-  J. Milnor, J. Stasheff, *Characteristic Classes*, Annals of Math. Studies 76 (1974), Chapter 12
-  and Corollary 11.12. A. Hatcher, *Vector Bundles and K-Theory*, author's page, Section 3.
+  D. Gabai, *Foliations and the topology of 3-manifolds*, J. Differential Geom. 18 (1983)
+  445–503, Corollary 6.18. J. Milnor, J. Stasheff, *Characteristic Classes*, Annals of Math.
+  Studies 76 (1974), Sections 9 and 10, Theorem 10.4, Corollary 11.12 and Chapter 12. A. Hatcher,
+  *Vector Bundles and K-Theory*, author's page, Section 3.
 - E. Moise, *Geometric Topology in Dimensions 2 and 3*, Springer GTM 47 (1977), Theorems 35.3 and
   36.2. C. Manolescu, *Pin(2)-equivariant Seiberg–Witten Floer homology and the triangulation
   conjecture*, J. Amer. Math. Soc. 29 (2016), arXiv:1303.2354; *Lectures on the triangulation
