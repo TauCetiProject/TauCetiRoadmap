@@ -23,6 +23,7 @@ public import TauCeti.RingTheory.StrictHenselization.MaximalIdeal
 public import TauCeti.RingTheory.StrictHenselization.Etale
 public import TauCeti.RingTheory.StrictHenselization.Lift
 public import TauCeti.RingTheory.StrictHenselization.Map
+public import TauCeti.RingTheory.Etale.IndEtale
 public import TauCeti.CategoryTheory.EffectiveEpi.Descent
 public import TauCeti.AlgebraicGeometry.Descent.Affine
 public import TauCeti.AlgebraicGeometry.Descent.AffineMorphism
@@ -54,7 +55,8 @@ representable problem `RelRepData.IsRegularOfDim`; the strict henselization of a
 `TauCeti.StrictHenselization.algebra R Ω` with its map `toTarget` to the separable closure. The
 definitions made here are the representable étale surjective rigidifiers, the Katz–Mazur quotient
 data, the regularity axioms Reg. 1–Reg. 4 and G1–G3 with the universal formal deformation they
-quantify over, supersingularity, isomorphisms of `p`-divisible groups, and coarse-moduli data.
+quantify over, supersingularity, isomorphisms of `p`-divisible groups, coarse-moduli data, the
+class of strictly henselian local rings, and the predicate recognising henselizations.
 
 Headline theorems stated here: KM 2.5.1 (pointed morphisms are homomorphisms), KM 4.7.0
 (relatively representable, affine and rigid implies representable), KM 5.1.1 (the Axiomatic
@@ -64,7 +66,10 @@ quotients), KM 8.1.1 and 8.1.5 (coarse moduli schemes and their quotients), the
 quotient-smoothness theorem of KM's Notes Added in Proof (Layer 9D), the base-change lemma for
 invariant rings of Layer 9E, the algebraic reduction of geometric irreducibility of Layer 5C, and
 the clauses of Layer 4D not at the pin (the separably closed residue field of the strict
-henselization, its Noetherianity, and the completion statements). KM 2.3.1, the killed-by-rank
+henselization, its Noetherianity, and the completion statements), with the characterisation of
+strictly henselian local rings, the recognition of the strict henselization as a henselization,
+the uniqueness of henselizations (Stacks 08HT), and the strict henselization of a discrete
+valuation ring. KM 2.3.1, the killed-by-rank
 theorem of Layer 0B, the Galois description of finite étale schemes over a field (Layer 0D), the
 affine, finite locally free and closed-subscheme cases of effective faithfully flat descent with
 the descent of sections and morphisms (Layer 0E), Cartier duality over an affine base (Layer 0B),
@@ -162,6 +167,9 @@ attribute [local instance] CategoryTheory.Over.cartesianMonoidalCategory
 #check @TauCeti.StrictHenselization.exists_isLocalHom_lift
 #check @TauCeti.StrictHenselization.existsUnique_algHom_of_etale
 #check @TauCeti.StrictHenselization.existsUnique_map
+#check @TauCeti.StrictHenselization.lift
+#check @TauCeti.Algebra.IndEtale
+#check @TauCeti.Algebra.IndEtale.of_isColimit
 #check @AlgebraicGeometry.Scheme.fpqcTopology
 #check @AlgebraicGeometry.GeometricallyConnected
 #check @TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat
@@ -699,9 +707,14 @@ of the étale neighbourhoods of Stacks, Lemma 10.155.11 (04GW), pointed by an `R
 `Ω`, with its map `toTarget : R^{sh} →ₐ[R] Ω`. The library proves that it is henselian local, that
 `R → R^{sh}` is local, that `𝔪 R^{sh}` is its maximal ideal and the kernel of `toTarget`, that
 `toTarget` is surjective, the universal property of Stacks, Lemma 10.153.11 (08HQ), the Stacks-form
-points of étale algebras (04GT) and functoriality (04GU); README 4D cites them. "Strictly
-henselian" is `HenselianLocalRing S ∧ IsSepClosed (ResidueField S)` (Stacks, Definition 10.153.1
-(04GF)); no new predicate is introduced. The two clauses below are the ones not at the pin. -/
+points of étale algebras (04GT) and functoriality (04GU); README 4D cites them. Strictly
+henselian local rings form the class `IsStrictlyHenselianLocalRing` (Stacks, Definition 10.153.1
+(04GF)), with an instance from the pair `HenselianLocalRing S` and
+`IsSepClosed (ResidueField S)`. Henselizations of every kind are recognised by one predicate,
+`IsHenselization ψ`, on an `R`-algebra map `ψ : A → L` to a field: `A` henselian local and
+ind-étale over `R`, `ψ` surjective. Stated below: the clauses of Stacks 04GP not at the pin, the
+recognition of the colimit as a henselization with the uniqueness of Stacks 08HT, and the strict
+henselization of a discrete valuation ring. -/
 
 open TauCeti.StrictHenselization in
 /-- The residue field of the strict henselization is separably closed: it is `Ω` through the
@@ -723,6 +736,115 @@ theorem isNoetherianRing_strictHenselization_iff (R Ω : Type u) [CommRing R] [I
     [IsScalarTower R (IsLocalRing.ResidueField R) Ω]
     [IsSepClosure (IsLocalRing.ResidueField R) Ω] :
     IsNoetherianRing R ↔ IsNoetherianRing (algebra R Ω) :=
+  sorry
+
+/-- A local ring is *strictly henselian* if it is henselian and its residue field is separably
+closed. Stacks, Definition 10.153.1 (04GF), (2). -/
+@[stacks 04GF "(2)"]
+class IsStrictlyHenselianLocalRing (S : Type*) [CommRing S] : Prop
+    extends HenselianLocalRing S where
+  /-- The residue field is separably closed. -/
+  isSepClosed_residueField : IsSepClosed (IsLocalRing.ResidueField S)
+
+/-- A henselian local ring with separably closed residue field is strictly henselian, so
+statements written with the pair and with the class are interchangeable. -/
+instance IsStrictlyHenselianLocalRing.of_isSepClosed {S : Type*} [CommRing S]
+    [HenselianLocalRing S] [IsSepClosed (IsLocalRing.ResidueField S)] :
+    IsStrictlyHenselianLocalRing S where
+  isSepClosed_residueField := ‹_›
+
+/-- **Strictly henselian local rings.** For a local ring `S`, the class, the pair "henselian with
+separably closed residue field", and unique retractions of étale neighbourhoods of the closed
+point are equivalent: every étale `S`-algebra `T` with a prime `𝔮` over the maximal ideal has a
+unique `S`-algebra map `τ : T → S` with `τ⁻¹(𝔪) = 𝔮`. Stacks, Lemma 10.153.3 (04GG), (8), where
+`κ(𝔮) = κ` holds because the residue field is separably closed; conversely a retraction of the
+standard étale algebra of a lifted separable irreducible polynomial gives a root of it in `κ`. -/
+@[stacks 04GG "(1) iff (8), strictly henselian form"]
+theorem IsStrictlyHenselianLocalRing.tfae (S : Type u) [CommRing S] [IsLocalRing S] :
+    List.TFAE
+      [IsStrictlyHenselianLocalRing S,
+        HenselianLocalRing S ∧ IsSepClosed (IsLocalRing.ResidueField S),
+        ∀ (T : Type u) [CommRing T] [Algebra S T] [Algebra.Etale S T] (𝔮 : Ideal T) [𝔮.IsPrime],
+          𝔮.comap (algebraMap S T) = IsLocalRing.maximalIdeal S →
+            ∃! τ : T →ₐ[S] S, (IsLocalRing.maximalIdeal S).comap τ = 𝔮] :=
+  sorry
+
+open TauCeti.StrictHenselization in
+/-- The strict henselization is strictly henselian: henselian at the pin, with separably closed
+residue field by `isSepClosed_residueField_strictHenselization`. -/
+instance StrictHenselization.isStrictlyHenselianLocalRing_algebra {R Ω : Type u} [CommRing R]
+    [IsLocalRing R] [Field Ω] [Algebra R Ω] [Algebra (IsLocalRing.ResidueField R) Ω]
+    [IsScalarTower R (IsLocalRing.ResidueField R) Ω]
+    [IsSepClosure (IsLocalRing.ResidueField R) Ω] :
+    IsStrictlyHenselianLocalRing (algebra R Ω) where
+  isSepClosed_residueField := isSepClosed_residueField_strictHenselization R Ω
+
+/-- A *henselization* of the ring `R` at the field-valued point `R → L`, recognised by its
+properties: `A` is a henselian local ring, ind-étale over `R` (a small filtered colimit of étale
+`R`-algebras), and `ψ : A → L` is surjective, so that it identifies `L` with the residue field of
+`A`. Nothing is assumed of `R`: `A` is a henselization of `R` at the prime `ker (R → L)`. For `R`
+local with residue field `κ`, `L = κ` gives the henselization and a separable closure `L` of `κ`
+the strict henselization, Stacks, Definition 10.155.3 (04GQ); any two henselizations at the same
+point are uniquely isomorphic over `L`, Stacks, Lemma 10.154.7 (08HT)
+(`IsHenselization.bijective_of_comp_eq`). -/
+@[stacks 04GQ "recognised by the properties of 08HT, at any field-valued point"]
+class IsHenselization {R A : Type u} {L : Type*} [CommRing R] [CommRing A] [Algebra R A]
+    [Field L] [Algebra R L] (ψ : A →ₐ[R] L) : Prop where
+  /-- `A` is a henselian local ring. -/
+  henselianLocalRing : HenselianLocalRing A
+  /-- `A` is a small filtered colimit of étale `R`-algebras. -/
+  indEtale : TauCeti.Algebra.IndEtale R A
+  /-- `ψ` is surjective, hence identifies `L` with the residue field of `A`. -/
+  surjective : Function.Surjective ψ
+
+open TauCeti.StrictHenselization in
+/-- For a local ring `R` and a separable algebraic extension `Ω` of its residue field, in
+particular a separable closure, the colimit of pointed étale neighbourhoods with its map
+`toTarget` is a henselization of `R` at `R → Ω`. It is henselian (`henselianLocalRing`), `toTarget`
+is surjective (`toTarget_surjective`), and it is ind-étale through its colimit presentation.
+Stacks, Lemma 10.155.2 (04GP) with Lemma 10.155.11 (04GW). -/
+@[stacks 04GP "(2), (5) and ind-étale, recognition form"]
+instance StrictHenselization.isHenselization {R Ω : Type u} [CommRing R] [IsLocalRing R]
+    [Field Ω] [Algebra R Ω] [Algebra (IsLocalRing.ResidueField R) Ω]
+    [IsScalarTower R (IsLocalRing.ResidueField R) Ω]
+    [Algebra.IsSeparable (IsLocalRing.ResidueField R) Ω] :
+    IsHenselization (toTarget R Ω) :=
+  sorry
+
+/-- **Uniqueness of henselizations.** If `ψ : A → L` and `χ : B → L` are henselizations of `R` at
+the same point, every `R`-algebra map `f : A → B` with `χ ∘ f = ψ` is bijective. Stacks,
+Lemma 10.154.7 (08HT), which also gives that such an `f` exists and is unique; for `A` the strict
+henselization it is Tau Ceti's `lift`, so the comparison isomorphism is data,
+`AlgEquiv.ofBijective` of `lift`. -/
+@[stacks 08HT "bijectivity of every compatible map"]
+theorem IsHenselization.bijective_of_comp_eq {R A B : Type u} {L : Type*} [CommRing R]
+    [CommRing A] [Algebra R A] [CommRing B] [Algebra R B] [Field L] [Algebra R L]
+    (ψ : A →ₐ[R] L) (χ : B →ₐ[R] L) [IsHenselization ψ] [IsHenselization χ] (f : A →ₐ[R] B)
+    (hf : χ.comp f = ψ) : Function.Bijective f :=
+  sorry
+
+open TauCeti.StrictHenselization in
+/-- The strict henselization of a local normal domain is a domain. Stacks, Lemma 15.46.6 (06DI),
+which also gives that it is normal. -/
+@[stacks 06DI "domain part"]
+instance StrictHenselization.isDomain_algebra {R Ω : Type u} [CommRing R] [IsDomain R]
+    [IsIntegrallyClosed R] [IsLocalRing R] [Field Ω] [Algebra R Ω]
+    [Algebra (IsLocalRing.ResidueField R) Ω] [IsScalarTower R (IsLocalRing.ResidueField R) Ω]
+    [IsSepClosure (IsLocalRing.ResidueField R) Ω] :
+    IsDomain (algebra R Ω) :=
+  sorry
+
+open TauCeti.StrictHenselization in
+/-- **Discrete valuation rings.** The strict henselization of a discrete valuation ring is a
+discrete valuation ring, with the uniformizer of `R` as a uniformizer: it is a Noetherian local
+domain whose maximal ideal is generated by it (`maximalIdeal_eq_map`). Stacks, Lemma 15.46.11
+(0AP3), the direction from `R` to `R^{sh}`. -/
+@[stacks 0AP3 "from R to its strict henselization"]
+theorem StrictHenselization.isDiscreteValuationRing_algebra {R Ω : Type u} [CommRing R]
+    [IsDomain R] [IsDiscreteValuationRing R] [Field Ω] [Algebra R Ω]
+    [Algebra (IsLocalRing.ResidueField R) Ω] [IsScalarTower R (IsLocalRing.ResidueField R) Ω]
+    [IsSepClosure (IsLocalRing.ResidueField R) Ω] :
+    IsDiscreteValuationRing (algebra R Ω) :=
   sorry
 
 /-- **Dimension of the completion.** Stacks, Lemma 15.44.1 (07NV). -/
