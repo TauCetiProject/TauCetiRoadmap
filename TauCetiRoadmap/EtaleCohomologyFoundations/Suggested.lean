@@ -1,5 +1,9 @@
-import Mathlib
-import TauCeti.RepresentationTheory.BaseChange
+module
+
+public import Mathlib
+public import TauCeti.AlgebraicGeometry.FiniteEtale.Fiber
+public import TauCeti.AlgebraicGeometry.RationalPoint.Count
+public import TauCeti.RepresentationTheory.BaseChange
 
 /-!
 # Étale cohomology foundations: suggested target signatures
@@ -9,14 +13,41 @@ The statements here suggest Lean forms for particular milestones, so that contri
 reviewers converge on names and signatures; discharging all of them finishes neither a layer nor
 the roadmap.
 
-Scheme compactifications, finite-field descent, finite-free retract traces and stable lattices
-can be stated on the pinned libraries. The sheaf-theoretic targets in the README require the
-specified enhanced, constructible and adic carriers and are recorded by name in the final comment.
-Definitions below specify their mathematical data; admitted terms fill proofs only.
-All names are relative to `TauCetiRoadmap.EtaleCohomologyFoundations`.
+Headlines stated on the pinned libraries:
+
+* `nagataCompactification`: every separated finite-type morphism to a qcqs scheme is
+  compactifiable, as an instance of the `Prop`-class `HasCompactification` through which lower
+  shriek is defined without a chosen compactification; `denseCompactification_cofiltered`,
+  `denseCompactification_hom_unique` and `compactificationCommonRefinement` are the comparison
+  geometry.
+* `Scheme.isInvertibleOn_iff_ne_zero`: the single invertibility class `Scheme.IsInvertibleOn`
+  agrees over a field with the explicit hypothesis `(ℓ : k) ≠ 0` used by finite-field headlines.
+* `EtaleFundamentalGroup` with its `Small.{u}` instance: the canonical étale fundamental group
+  at a geometric point, defined without connectedness; `EtalePath` is a path between points.
+* `MonoidHom.weilGroup`: the Weil group as a subgroup of `π₁ × ℤ`.
+* `ContinuousRep.exists_stable_lattice_iff`: a linear group stabilises a lattice exactly when its
+  closure is compact.
+* `Scheme.Hom.pointCount_eq_numberOfRationalPoints` and `VanishingCycles.frobeniusFixedPoints`:
+  points over the degree-`r` extension of a finite field, counted on Tau Ceti's
+  `Scheme.Hom.numberOfRationalPoints` and by fixed points of Frobenius.
+* `PerfectComplex.projectiveTrace_independent`: the trace of a projective-module endomorphism
+  does not depend on the split retract computing it.
+
+Design choices made explicit: coefficients and test fields live in the universe of the scheme,
+where Mathlib's small étale site is Grothendieck abelian
+(`Scheme.isGrothendieckAbelian_sheaf_smallEtaleTopology`); geometric points are separably closed
+and unbundled, with stalks at Mathlib's `Scheme.pointSmallEtale`, conservative by
+`Scheme.isConservative_pointSmallEtale`; finite fields are `[Finite k]`; definitions carry no
+hypotheses; comparisons are data or `IsIso`, never `Nonempty (_ ≅ _)`.
+The sheaf-theoretic targets of the README require the derived, constructible and adic carriers it
+specifies and are absent from this file. Definitions below specify their mathematical data;
+admitted terms fill proofs only. All names are relative to
+`TauCetiRoadmap.EtaleCohomologyFoundations`.
 -/
 
 noncomputable section
+
+@[expose] public section
 
 namespace TauCetiRoadmap.EtaleCohomologyFoundations
 
@@ -24,6 +55,21 @@ open CategoryTheory AlgebraicGeometry
 open scoped TensorProduct Pointwise
 
 universe u u' v v' w w'
+
+/-! ## Conventions: invertibility of an integer on a scheme -/
+
+/-- **Conventions, `Scheme.IsInvertibleOn`.** The integer `ℓ` is invertible on `X`: it is a unit
+in every residue field of `X`. This is the only invertibility hypothesis of the roadmap; headline
+statements over a finite field take the explicit form `(ℓ : k) ≠ 0` instead. -/
+class Scheme.IsInvertibleOn (ℓ : ℕ) (X : Scheme.{u}) : Prop where
+  isUnit_residueField : ∀ x : X, IsUnit (ℓ : X.residueField x)
+
+/-- Over a field, invertibility of `ℓ` on a nonempty scheme is the explicit finite-field
+hypothesis `(ℓ : k) ≠ 0`. -/
+theorem Scheme.isInvertibleOn_iff_ne_zero {k : Type u} [Field k] {X : Scheme.{u}} [Nonempty X]
+    (f : X ⟶ Spec (.of k)) (ℓ : ℕ) :
+    Scheme.IsInvertibleOn ℓ X ↔ (ℓ : k) ≠ 0 := by
+  sorry
 
 /-! ## G.1–G.3 Scheme compactifications -/
 
@@ -110,12 +156,6 @@ def Compactification.denseReplacementMap {X S : Scheme.{u}} {f : X ⟶ S}
   comm_j := by exact Scheme.Hom.toImage_imageι C.j
   comm_p := rfl
 
-/-- The canonical dense-replacement map is the schematic image's closed immersion. -/
-example {X S : Scheme.{u}} {f : X ⟶ S} (C : Compactification f) :
-    IsClosedImmersion C.denseReplacementMap.hom := by
-  change IsClosedImmersion C.j.imageι
-  infer_instance
-
 /-- **G.1**, `Compactification.denseReplacement_dualNumber_section`. Schematic closure
 of the affine line over dual numbers retains its nonzero square-zero section. -/
 theorem Compactification.denseReplacement_dualNumber_section (k : Type u) [Field k]
@@ -150,11 +190,17 @@ theorem Compactification.denseReplacement_specialFiber_empty (k : Type u) [Field
 theorem Compactification.Hom.proper {X S : Scheme.{u}} {f : X ⟶ S}
     {C D : Compactification f} (h : C ⟶ D) : IsProper h.hom := sorry
 
-/-- **G.2, `nagataCompactification`.** A separated finite-type map over a qcqs scheme
-admits a schematically dense compactification. Finite type carries quasi-compactness. -/
-theorem nagataCompactification {X S : Scheme.{u}} [CompactSpace S] [QuasiSeparatedSpace S]
+/-- **G.2, `HasCompactification`.** The morphism `f` admits a compactification. Lower shriek and
+everything built from it assume this class; no construction takes a chosen compactification as an
+argument. Dense replacement turns any compactification into a schematically dense one. -/
+class HasCompactification {X S : Scheme.{u}} (f : X ⟶ S) : Prop where
+  nonempty_compactification : Nonempty (Compactification f)
+
+/-- **G.2, `nagataCompactification`.** A separated finite-type map to a qcqs scheme is
+compactifiable. Finite type carries quasi-compactness. -/
+instance nagataCompactification {X S : Scheme.{u}} [CompactSpace S] [QuasiSeparatedSpace S]
     (f : X ⟶ S) [IsSeparated f] [LocallyOfFiniteType f] [QuasiCompact f] :
-    Nonempty (DenseCompactification f) := sorry
+    HasCompactification f := sorry
 
 /-- **G.3, `compactificationCommonRefinement`.** Two compactifications admit a dense
 common refinement with specified maps fixing the same interior. -/
@@ -174,6 +220,37 @@ theorem denseCompactification_cofiltered {X S : Scheme.{u}}
     [CompactSpace S] [QuasiSeparatedSpace S] (f : X ⟶ S)
     [IsSeparated f] [LocallyOfFiniteType f] [QuasiCompact f] :
     IsCofiltered (DenseCompactification f) := sorry
+
+/-! ## F.0.2 The étale fundamental group and paths -/
+
+/-- **F.0.2, `EtaleFundamentalGroup`.** The étale fundamental group of `S` at the geometric point
+`x : Spec Ω ⟶ S`, `Ω` separably closed: the automorphism group of Tau Ceti's geometric fibre
+functor on finite étale `S`-schemes, with Mathlib's profinite topology on automorphisms of a
+functor to `FintypeCat`. The definition assumes no connectedness. -/
+abbrev EtaleFundamentalGroup {S : Scheme.{u}} {Ω : Type u} [Field Ω] [IsSepClosed Ω]
+    (x : Spec (.of Ω) ⟶ S) :=
+  Aut (TauCeti.FiniteEtaleScheme.fiber x)
+
+/-- **F.0.2.** The étale fundamental group has a model in the universe of the scheme. -/
+instance EtaleFundamentalGroup.small {S : Scheme.{u}} {Ω : Type u} [Field Ω] [IsSepClosed Ω]
+    (x : Spec (.of Ω) ⟶ S) : Small.{u} (EtaleFundamentalGroup x) := sorry
+
+/-- **F.0.2, `EtalePath`.** An étale path from `x` to `y`: an isomorphism of geometric fibre
+functors. Paths between points of different connected components do not exist. -/
+abbrev EtalePath {S : Scheme.{u}} {Ω Ω' : Type u} [Field Ω] [IsSepClosed Ω] [Field Ω']
+    [IsSepClosed Ω'] (x : Spec (.of Ω) ⟶ S) (y : Spec (.of Ω') ⟶ S) :=
+  TauCeti.FiniteEtaleScheme.fiber x ≅ TauCeti.FiniteEtaleScheme.fiber y
+
+/-! ## F.0.A2 Weil groups -/
+
+/-- **F.0.A2, `MonoidHom.weilGroup`.** For `π : G →* Γ` and `Φ ∈ Γ`, the subgroup of `G × ℤ` of
+pairs `(g, n)` with `π g = Φ ^ n`. For the map from the étale fundamental group of a scheme over a
+finite field to the absolute Galois group, and `Φ` the geometric Frobenius, this is the Weil group;
+it carries the subspace topology of `G × ℤ` with `ℤ` discrete. -/
+def MonoidHom.weilGroup {G Γ : Type*} [Group G] [Group Γ] (π : G →* Γ) (Φ : Γ) :
+    Subgroup (G × Multiplicative ℤ) :=
+  MonoidHom.eqLocus (MonoidHom.comp π (MonoidHom.fst G (Multiplicative ℤ)))
+    (MonoidHom.comp (zpowersHom Γ Φ) (MonoidHom.snd G (Multiplicative ℤ)))
 
 /-! ## F.4.0 Stable lattices and integral models
 
@@ -337,24 +414,12 @@ def toContinuousRep (Λ : IntegralModel O ρ) [IsModuleTopology O Λ.lattice] :
     exact (ρ.continuous_action.comp
       (continuous_fst.prodMk (continuous_subtype_val.comp continuous_snd))).subtype_mk _⟩
 
-/-- The generic fibre: `E ⊗_O Λ ≅ V` as continuous representations. -/
-theorem nonempty_iso_genericFibre [IsTopologicalRing O] [IsTopologicalRing E] [ContinuousSMul O E]
-    (Λ : IntegralModel O ρ) [IsModuleTopology O Λ.lattice]
-    [TopologicalSpace (E ⊗[O] Λ.lattice)] [IsModuleTopology E (E ⊗[O] Λ.lattice)]
-    [Module.Finite E (E ⊗[O] Λ.lattice)] [Module.Projective E (E ⊗[O] Λ.lattice)] :
-    Nonempty (ContinuousRep.Iso (Λ.toContinuousRep.baseChange E) ρ) := by
-  sorry
-
 /-- Homothety `c Λ` for `c ∈ E^×`, using Mathlib's action on lattices. -/
 def smul (c : Eˣ) (Λ : IntegralModel O ρ) : IntegralModel O ρ where
   lattice := c • Λ.lattice
   stable := sorry
   fg := Submodule.IsLattice.fg (A := E) (M := c • Λ.lattice)
   span_eq_top := Submodule.IsLattice.span_eq_top (A := E) (M := c • Λ.lattice)
-
-/-- Inclusion of a restricted representation intertwines its action with the ambient one. -/
-example (Λ : IntegralModel O ρ) [IsModuleTopology O Λ.lattice] (g : Γ) (x : Λ.lattice) :
-    (Λ.toContinuousRep g x : V) = ρ g (x : V) := rfl
 
 /-- Existence of integral models for compact `Γ` and `O` compact open in the local field `E`. -/
 theorem nonempty [CompactSpace Γ] [CompactSpace O] [IsTopologicalRing E]
@@ -373,78 +438,82 @@ end GaloisLattice.IntegralModel
 
 namespace VanishingCycles
 
-/-- An abbreviation of Mathlib's `FiniteField.frobeniusAlgEquivOfAlgebraic`, fixing the
-arithmetic/geometric naming. README F.10.1, `frobeniusFixedPoints`. -/
-noncomputable abbrev arithmeticFrobenius (k L : Type u) [Field k] [Fintype k]
+/-- **F.10.1, `VanishingCycles.arithmeticFrobenius`.** Mathlib's
+`FiniteField.frobeniusAlgEquivOfAlgebraic`, `x ↦ x ^ Nat.card k`, for a finite field `k`; the
+enumeration it uses is internal to the definition and does not change its value. -/
+noncomputable def arithmeticFrobenius (k L : Type u) [Field k] [Finite k]
     [Field L] [Algebra k L] [Algebra.IsAlgebraic k L] : L ≃ₐ[k] L :=
+  letI := Fintype.ofFinite k
   FiniteField.frobeniusAlgEquivOfAlgebraic k L
 
-/-- Geometric Frobenius is the inverse field automorphism. README F.10.1. -/
-noncomputable def geometricFrobenius (k L : Type u) [Field k] [Fintype k]
+/-- **F.10.1, `VanishingCycles.geometricFrobenius`.** The inverse field automorphism; the only
+geometric Frobenius automorphism of the roadmap. -/
+noncomputable def geometricFrobenius (k L : Type u) [Field k] [Finite k]
     [Field L] [Algebra k L] [Algebra.IsAlgebraic k L] : L ≃ₐ[k] L :=
   (arithmeticFrobenius k L).symm
 
-/-- Over an algebraic closure the fixed field of the r-th Frobenius has q^r elements.
-README F.10.1, `frobeniusFixedPoints`; positivity excludes the infinite zeroth fixed field. -/
-theorem frobeniusFixedField_card (k L : Type u) [Field k] [Fintype k]
+/-- Over an algebraic closure the fixed field of the `r`-th Frobenius has `q ^ r` elements;
+positivity excludes the infinite zeroth fixed field. -/
+theorem frobeniusFixedField_card (k L : Type u) [Field k] [Finite k]
     [Field L] [Algebra k L] [Algebra.IsAlgebraic k L] [IsAlgClosed L]
     (r : ℕ) (hr : 0 < r) :
-    Nat.card {x : L // (arithmeticFrobenius k L ^ r) x = x} = Fintype.card k ^ r := by
+    Nat.card {x : L // (arithmeticFrobenius k L ^ r) x = x} = Nat.card k ^ r := by
   sorry
-
-open CategoryTheory AlgebraicGeometry
-
-/-- The cardinality of L-valued points over the given structure morphism, total even before
-point finiteness is proved. README F.10.1. -/
-noncomputable def numberOfRationalPoints (k L : Type u) [Field k] [Field L] [Algebra k L]
-    (X : Scheme.{u}) (a : X ⟶ Spec (CommRingCat.of k)) : ℕ :=
-  Nat.card {x : Spec (CommRingCat.of L) ⟶ X //
-    x ≫ a = Spec.map (CommRingCat.ofHom (algebraMap k L))}
 
 /-- **F.10.1**, `VanishingCycles.rationalPoints_finite`. A finite-type scheme over a finite
 field has finitely many points valued in any finite extension field. -/
-theorem rationalPoints_finite (k L : Type u) [Field k] [Fintype k]
-    [Field L] [Fintype L] [Algebra k L]
+theorem rationalPoints_finite (k L : Type u) [Field k] [Finite k]
+    [Field L] [Finite L] [Algebra k L]
     (X : Scheme.{u}) (a : X ⟶ Spec (CommRingCat.of k))
     [LocallyOfFiniteType a] [QuasiCompact a] :
     Finite {x : Spec (CommRingCat.of L) ⟶ X //
       x ≫ a = Spec.map (CommRingCat.ofHom (algebraMap k L))} := by
   sorry
 
-/-- Rational points over the fixed subfield are exactly fixed geometric points, without a
-finite-type hypothesis on the scheme. README F.10.1. -/
-theorem frobeniusFixedPoints (k L : Type u) [Field k] [Fintype k]
-    [Field L] [Algebra k L] [Algebra.IsAlgebraic k L] [IsAlgClosed L]
-    (r : ℕ) (hr : 0 < r) (X : Scheme.{u}) (a : X ⟶ Spec (CommRingCat.of k)) :
-    let k_r := IntermediateField.fixedField (Subgroup.zpowers (arithmeticFrobenius k L ^ r))
-    Nonempty ({x : Spec (CommRingCat.of k_r) ⟶ X //
-      x ≫ a = Spec.map (CommRingCat.ofHom (algebraMap k k_r))} ≃
-      {x : Spec (CommRingCat.of L) ⟶ X //
-        x ≫ a = Spec.map (CommRingCat.ofHom (algebraMap k L)) ∧
-        Spec.map (CommRingCat.ofHom (arithmeticFrobenius k L ^ r).toRingHom) ≫ x = x}) := by
-  sorry
-
-/-- **F.10.1**, `VanishingCycles.numberOfRationalPoints_pullback`. Rational-point counts
-preserve fibre products over the ground field. -/
-theorem numberOfRationalPoints_pullback (k L : Type u) [Field k] [Field L] [Algebra k L]
-    (X Y : Scheme.{u}) (a : X ⟶ Spec (CommRingCat.of k))
-    (b : Y ⟶ Spec (CommRingCat.of k)) :
-    numberOfRationalPoints k L (Limits.pullback a b) (Limits.pullback.fst a b ≫ a) =
-      numberOfRationalPoints k L X a * numberOfRationalPoints k L Y b := by
-  sorry
-
 end VanishingCycles
+
+/-- **F.10.1, `Scheme.Hom.pointCount`.** For `f : X ⟶ Spec k` with `k` finite of cardinality
+`q`, the number of points of `X` with values in the degree-`r` extension of `k`, modelled as the
+splitting field of `X ^ (q ^ r) - X` over `k`: Tau Ceti's `Scheme.Hom.numberOfRationalPoints` of
+that field, multiplicative in fibre products by `Scheme.Hom.numberOfRationalPoints_pullback`. The
+zeta series of `X` is formed from these counts downstream. -/
+noncomputable def Scheme.Hom.pointCount {k : Type u} [Field k] [Finite k] {X : Scheme.{u}}
+    (f : X ⟶ Spec (.of k)) (r : ℕ) : ℕ :=
+  f.numberOfRationalPoints
+    (Polynomial.SplittingField (Polynomial.X ^ Nat.card k ^ r - Polynomial.X : Polynomial k))
+
+/-- **F.10.1, `Scheme.Hom.pointCount_eq_numberOfRationalPoints`.** Every finite extension `E` of
+the finite field `k` gives the count at its degree, whatever model of the extension is used. -/
+theorem Scheme.Hom.pointCount_eq_numberOfRationalPoints {k : Type u} [Field k] [Finite k]
+    {X : Scheme.{u}} (f : X ⟶ Spec (.of k)) (E : Type u) [Field E] [Algebra k E]
+    [Module.Finite k E] :
+    Scheme.Hom.pointCount f (Module.finrank k E) = f.numberOfRationalPoints E := by
+  sorry
+
+/-- **F.10.1, `VanishingCycles.frobeniusFixedPoints`.** For `r > 0` and an algebraic closure `L`
+of the finite field `k`, the points over the degree-`r` extension are counted by the `L`-points
+fixed by the `r`-th power of arithmetic Frobenius. The underlying bijection is Tau Ceti's
+`AlgEquiv.fromSpecFixedFieldEquiv`; no finite-type hypothesis is needed. -/
+theorem VanishingCycles.frobeniusFixedPoints {k : Type u} [Field k] [Finite k]
+    (L : Type u) [Field L] [Algebra k L] [Algebra.IsAlgebraic k L] [IsAlgClosed L]
+    {X : Scheme.{u}} (f : X ⟶ Spec (.of k)) (r : ℕ) (hr : 0 < r) :
+    Scheme.Hom.pointCount f r =
+      Nat.card {x : Spec (.of L) ⟶ X //
+        x ≫ f = Spec.map (CommRingCat.ofHom (algebraMap k L)) ∧
+        Spec.map (CommRingCat.ofHom
+          (VanishingCycles.arithmeticFrobenius k L ^ r).toRingHom) ≫ x = x} := by
+  sorry
 
 /-! ## F.10.3 Split-retract comparison with the supplied projective trace -/
 
 namespace PerfectComplex
 
-/-- The finite-free split-retract expression for comparison with AdicSpacesPartIII §R3.8's projective trace.
-README F.10.3. -/
+/-- The finite-free split-retract expression for comparison with AdicSpacesPartIII §R3.8's
+projective trace. README F.10.3. The retraction condition `r ∘ i = id` is a hypothesis of the
+theorems below, not of the definition. -/
 noncomputable def projectiveTraceOfRetract {R P : Type*} [CommRing R] [AddCommGroup P]
     [Module R P] {ι : Type*} [Fintype ι]
-    (i : P →ₗ[R] (ι → R)) (r : (ι → R) →ₗ[R] P)
-    (_hi : r ∘ₗ i = LinearMap.id) (u : Module.End R P) : R :=
+    (i : P →ₗ[R] (ι → R)) (r : (ι → R) →ₗ[R] P) (u : Module.End R P) : R :=
   LinearMap.trace R (ι → R) (i ∘ₗ u ∘ₗ r)
 
 /-- The split-retract expression equals the contraction formula for the supplied projective trace. -/
@@ -452,7 +521,7 @@ theorem projectiveTraceOfRetract_eq_contract {R P : Type*} [CommRing R] [AddComm
     [Module R P] [Module.Finite R P] [Module.Projective R P] {ι : Type*} [Fintype ι]
     (i : P →ₗ[R] (ι → R)) (r : (ι → R) →ₗ[R] P)
     (hi : r ∘ₗ i = LinearMap.id) (u : Module.End R P) :
-    projectiveTraceOfRetract i r hi u =
+    projectiveTraceOfRetract i r u =
       contractLeft R P ((dualTensorHomEquiv R P P).symm u) := by
   sorry
 
@@ -463,7 +532,7 @@ theorem projectiveTrace_independent {R P : Type*} [CommRing R] [AddCommGroup P]
     (i : P →ₗ[R] (ι → R)) (r : (ι → R) →ₗ[R] P)
     (j : P →ₗ[R] (κ → R)) (s : (κ → R) →ₗ[R] P)
     (hi : r ∘ₗ i = LinearMap.id) (hj : s ∘ₗ j = LinearMap.id) (u : Module.End R P) :
-    projectiveTraceOfRetract i r hi u = projectiveTraceOfRetract j s hj u := by
+    projectiveTraceOfRetract i r u = projectiveTraceOfRetract j s u := by
   sorry
 
 end PerfectComplex
@@ -503,7 +572,8 @@ SchemeInertia.intermediateOrbits. F.0.A0–F.0.A2 give the intrinsic field and m
 identifications and the arithmetic exact sequence, with section/path choices retained.
 The finite-cover carrier is TauCeti.FiniteEtaleScheme from
 TauCeti.AlgebraicGeometry.FiniteEtale.Basic, with its affine algebra anti-equivalence and
-separably closed field comparison. The based construction applies to every connected nonempty scheme.
+separably closed field comparison. EtaleFundamentalGroup and EtalePath are defined for every
+scheme and geometric point; connectedness enters only the theorems that need it.
 SchemeInertia.intermediateOrbits identifies points by decomposition orbits; its ramification
 indices require defectless discrete valuations with separable residue extensions.
 
@@ -515,8 +585,10 @@ ClassicalAlgebraic.properSupports.derivedComparison, ClassicalAlgebraic.finiteTr
 ClassicalAlgebraic.cycleClasses, ClassicalAlgebraic.lciCycleClass,
 ClassicalAlgebraic.smoothBoundaryPurity, ClassicalAlgebraic.smoothTrace,
 ClassicalAlgebraic.curveDuality. Projective-bundle summands are indexed by 0 ≤ i < r,
-including the empty rank-zero projectivization. Relative smooth trace includes étale-local
-reduction and spreading/base-change comparisons to pointed smooth proper field-curve Jacobians.
+including the empty rank-zero projectivization. The smooth trace is built over a qcqs base by
+the diagonal argument; curve duality is its case of relative dimension one.
+ClassicalAlgebraic.properSupports is the canonical lower shriek of a compactifiable morphism,
+defined from the diagram of all compactifications and computed through any one of them.
 
 F.2–F.3: VanishingCycles.etaleBaseChange, VanishingCycles.properBaseChange,
 VanishingCycles.smoothBaseChange, VanishingCycles.localAcyclicity,
