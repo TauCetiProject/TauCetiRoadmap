@@ -9,7 +9,8 @@ and projective-bundle transfers. A group at a point does not supply the theory
 over a space, and a spectral isomorphism does not supply an explicit filling.
 
 `README.md` is definitive. `Suggested.lean` states the smooth oriented
-three-manifold parallelization headline against the pinned
+three-manifold parallelization headline and B1.6's relative smoothing into
+compact targets against the pinned
 APIs; its docstring identifies the missing carriers for the geometric and spectral headlines. Implementation homes
 include `TauCeti/Geometry/Manifold/Bordism/` and
 `TauCeti/AlgebraicTopology/Bordism/`.
@@ -63,6 +64,18 @@ needed for the bordism comparisons; FourManifolds consumes these constructions
 and this roadmap's quadratic, Wu and filling theorems. No FourManifolds
 construction is a supplier to this roadmap; StringOrientation supplies the
 sections named above and consumes nothing from here.
+
+B1.6 owns the parametric transversality theorem, the smoothing of continuous
+maps relative to a closed set (`exists_contMDiff_homotopicRel` for compact
+targets) and relative transversality. Sources are manifolds with corners,
+boundaryless ones included. B1.6 consumes nothing from AlgebraicTopology.
+AlgebraicTopology's smoothing of classifying maps into Circle, RP^N and CP^N
+and its transverse preimages of the hyperplanes (Layer 8) are the boundaryless
+compact-target case and consume B1.6. B1.5 owns smooth triangulations of
+compact manifolds with boundary, and of compact manifolds with corners with a
+chosen union of faces, in which the boundary or those faces form a
+subcomplex. CalibratedGeometry 2.4 consumes them and adds its vertex orders,
+ordered parametrizations and integral fundamental chains.
 
 Finite quadratic Arf classification and the Seifert knot/proper-link dictionary
 are GeometricTopology Layer 4.3.1; the finite algebra this roadmap needs is
@@ -125,7 +138,7 @@ B_k and its pulled-back bundle are continuous, as B5 requires.
 
 Use `TauCeti.IsOrientedAtlas` and
 `TauCeti.IsOrientedAtlas.det_fderivWithin_pos` from
-`TauCeti/Geometry/Manifold/Orientation.lean` for the chosen orientation in
+`TauCeti/Geometry/Manifold/Orientation/OrientedAtlas.lean` for the chosen orientation in
 `orientedThreeManifold_parallelization`: the atlas covers the manifold,
 lies in its maximal smooth atlas, and has positive transition determinants.
 The orientation and closed-subgroup declarations in the contracts below
@@ -135,7 +148,7 @@ retain their native hypotheses and chosen smooth structures.
 
 | Supplier | Consumed interface | Boundary |
 | --- | --- | --- |
-| [AlgebraicTopology](../AlgebraicTopology/README.md), Stages2–4,6,8 | arbitrary CW skeleta/cofibrations, ordinary chains/cochains/products, relative fundamental classes and duality, EM carriers and representability | B4 owns the integral higher diagonals and generic ordinary mod2 cup-i/Sq/Adem/Wu package; ordinary cohomology carriers remain AT |
+| [AlgebraicTopology](../AlgebraicTopology/README.md), Layers2–4,6,8 | arbitrary CW skeleta/cofibrations, ordinary chains/cochains/products, relative fundamental classes and duality, EM carriers and representability | B4 owns the integral higher diagonals and generic ordinary mod2 cup-i/Sq/Adem/Wu package; ordinary cohomology carriers remain AT |
 | [DifferentialGeometry](../DifferentialGeometry/README.md), 2.1, 2.2, 5.5, 10.2 | 2.1's manifold orientation `Manifold.Orientation` (the quotient of `OrientationLift`, a model orientation with locally constant chart signs obeying the transition-Jacobian rule); 2.2's orientation-preserving maps, product orientations and the oriented-atlas criterion for boundaryless manifolds; 5.5's face-indexed abstract boundary of a manifold with corners; 10.2's manifold Sard theorem `dense_isRegularValue` | B1.1 owns the comparisons of this one orientation with cycle and witness records, frames, local homology, half-space and corner atlases in dimension at least2, and the point sign σ; B1.6 derives transversality from 10.2 |
 | [GeometricTopology](../GeometricTopology/README.md), Layer1, Layer4.3.1, Layer11 and item1 of the smoothing-and-triangulation comparison | finite nonsingular-F₂ quadratic Arf algebra (Layer4.3.1, declared below as gap:finite-quadratic-arf); collar neighbourhoods, gluing along a codimension-zero piece of the boundary, handle attachment and tubular neighbourhoods with their normal bundles (Layer1); the CW structure on the realization `|K|` of a simplicial complex, one cell per simplex (Layer11); Whitehead's smooth triangulation of a smooth manifold (item1) | B1.6 owns neat embeddings, relative/parametric transversality with relative Whitney approximation, corner rounding, compact neighbourhoods, doubles; B1.5 owns the relative boundary triangulation |
 | [SmoothBundlesConnections](../SmoothBundlesConnections/README.md), B1.4 | free proper smooth quotients, their principal projections and submersion uniqueness, homogeneous spaces and native discrete quotient comparison | B1.5 only adapts their tangent and structure data to cycles |
@@ -257,34 +270,53 @@ This item owns the following.
   rotate only the remaining Euclidean coordinates.
 - **Transversality.** From DifferentialGeometry 10.2's manifold Sard
   theorem prove the parametric transversality theorem: if F:M×S→N is
-  smooth, with S and N without boundary, and F and its restriction to
-  ∂M×S are transverse to a closed embedded submanifold Z⊂N, then for a
-  dense set of s∈S both F(−,s) and its boundary restriction are
-  transverse to Z (Lee, Theorem 6.35, pp.145–146, for the boundaryless
-  parametric theorem); for corners apply it to the interior of each face, which
-  are countably many. Prove relative Whitney approximation: a continuous
-  map from a manifold with corners into N that is smooth on a
-  neighbourhood of a closed subset C is homotopic rel C, by an
-  arbitrarily small homotopy, to a smooth map (Lee, Theorem 6.26, p.141,
-  for manifolds with boundary; the corner extension is constructed here;
-  DifferentialGeometry 8.3 uses only the simplex case).
-  Deduce relative transversality approximation: a continuous map from a
-  compact manifold with corners to N, already smooth near C and with
-  every face restriction transverse to Z near C (including the interior
-  stratum), is homotopic rel C, by an arbitrarily small homotopy, to a
-  smooth map transverse to Z on every face, using the finite-dimensional
-  linear parameter family of a Euclidean embedding of N composed with
-  GeometricTopology Layer1's tubular retraction. Apply it to the zero
-  section of the finite smooth Grassmannian Thom spaces of B5.3. The
-  homotopy fixes the prescribed face data on C at every time; any face
-  required to stay fixed in its entirety is included in C and must
-  already satisfy this facewise transversality condition.
+  smooth, with S and N without boundary (S an open subset of a
+  finite-dimensional real vector space in particular), and the restriction
+  of F to (open face stratum)×S is transverse to a closed embedded
+  submanifold Z⊂N for every stratum of M, the interior included, then the
+  s∈S for which F(−,s) fails to be transverse to Z on some stratum form a
+  null set in DifferentialGeometry 10.2's sense (`IsNullSet`), so the good
+  parameters are dense. On each stratum the bad parameters are the critical
+  values of the projection to S of the embedded submanifold F⁻¹(Z), null by
+  10.2's `isNullSet_image_criticalPoints`, and there are countably many
+  strata (Lee, Theorem 6.35, pp.145–146, for the boundaryless theorem).
+  Prove relative smoothing for a compact boundaryless Hausdorff target P:
+  for a Hausdorff sigma-compact manifold with corners M, a closed
+  C⊆M, an open U⊇C and a continuous f:M→P smooth on U, f is homotopic
+  rel C, by an arbitrarily small homotopy, to a smooth g
+  (`exists_contMDiff_homotopicRel`; Lee, Theorem 6.26, p.141, for sources
+  with boundary; DifferentialGeometry 8.3 uses only the simplex case). Route: embed P in a Euclidean space V by
+  `exists_embedding_euclidean_of_compact`; GeometricTopology Layer1's
+  tubular neighbourhood of the image gives an open W⊇P and a smooth
+  submersive retraction r:W→P, its bundle projection; choose a continuous
+  ε>0 on M with the ε(x)-ball about f(x) inside W (ε=1 when W=V);
+  Mathlib's `Continuous.exists_contMDiff_approx_and_eqOn`, valid over any
+  model with corners, gives a smooth g̃:M→V within ε of f and equal to f
+  on C; put g=r∘g̃, with homotopy t↦r((1−t)f+tg̃) along the segments.
+  Deduce relative transversality for the same M, P, C and U and a closed
+  embedded Z⊂P: a continuous f:M→P, smooth on U, whose restriction to
+  every face stratum is transverse to Z on U is homotopic rel C, by an
+  arbitrarily small homotopy, to a smooth g transverse to Z on every face
+  stratum. First smooth f rel a closed neighbourhood of C inside U. With
+  e:P→V, r:W→P as above, a radius δ>0 whose δ-neighbourhood of e(P) lies
+  in W, the open δ-ball S⊂V and β=ψ² for a smooth cutoff ψ:M→[0,1]
+  vanishing near C and equal to 1 off the interior of that neighbourhood, put
+  F(x,s)=r(e(f(x))+β(x)s): where β(x)>0 every face restriction of F is a
+  submersion in s, and where β(x)=0 the point x lies in U and dβ_x=0, so
+  each slice has derivative df_x there; take g=F(−,s) for s outside the
+  null set, with homotopy t↦F(−,ts). For a
+  boundaryless Hausdorff second-countable target N that is not compact,
+  and a compact source, apply both to the double of a compact
+  neighbourhood W_N of the image (constructed below), with c also a
+  regular value of the exhaustion on Z so that Z∩W_N doubles to a closed
+  embedded submanifold, and keep the homotopy inside the interior of W_N.
+  Apply this to the zero section of the finite smooth Grassmannian Thom
+  spaces of B5.3. The homotopy fixes the prescribed face data on C at
+  every time; any face required to stay fixed in its entirety is included
+  in C and must already satisfy this facewise transversality condition.
   This relative facewise theorem extends Lee’s Theorem 6.36,
-  pp.146–147: multiply its ambient perturbation parameters by a smooth
-  cutoff vanishing near C, retain transversality on the fixed neighbourhood,
-  and apply the parametric theorem on each remaining face stratum.
-  Transverse preimages are neat submanifolds with normal bundle the
-  pulled-back normal bundle of Z.
+  pp.146–147. Transverse preimages are neat submanifolds with normal
+  bundle the pulled-back normal bundle of Z.
 - **Corner rounding.** For manifolds with boundary M and N construct a
   smooth structure with boundary on M×N, and on a gluing along part of a
   boundary, by rounding the codimension-two corner in polar coordinates
@@ -312,11 +344,13 @@ Its API includes:
 
 - The function t↦t has a regular zero with derivative 1; t↦t² at 0 has derivative 0 and is not a transverse model.
 - On M=[0,1], C={0}, Z={0}⊂ℝ, f(t)=t has ambient derivative 1 but derivative of rank 0 on the fixed endpoint face: no homotopy rel C can make that face transverse. The map f(t)=1+t misses Z on that face and satisfies the fixed-face condition.
+- With C=M a smooth f is returned unchanged. For M=P the unit circle in ℂ, with W=ℂ∖{0} and r(z)=z/|z|, smoothing the constant map gives a map of degree 0, never the identity; the approximation g̃ alone leaves the circle, which is why r is applied.
+- On M=P=Circle with Z={1} and C=∅, the constant map at 1 is not transverse to Z, and for every parameter outside the null set the perturbed map misses 1, so its preimage is empty.
 - The rounded quadrant has one smooth boundary arc; the corner point cannot be kept as a smooth boundary chart unchanged.
 - The double of [0,1] is S¹; the double of the empty manifold is empty.
 - For a compact interval K in ℝ an exhaustion sublevel with larger radius contains K in its interior; equality at the endpoint radius fails this interior condition.
 
-*Needs:* Mathlib `exists_embedding_euclidean_of_compact`; DifferentialGeometry §§5.5 and 10.2; GeometricTopology Layer 1 collars, gluing and tubes.
+*Needs:* Mathlib `exists_embedding_euclidean_of_compact` and `Continuous.exists_contMDiff_approx_and_eqOn`; DifferentialGeometry §§5.5 and 10.2; GeometricTopology Layer 1 collars, gluing and tubes. No AlgebraicTopology input.
 
 ### 2.2 Model transport and structures (B1.1)
 
@@ -419,9 +453,16 @@ smooth triangulation of every smooth manifold without boundary
 and the CW structure on the realization of a finite simplicial complex
 (GeometricTopology Layer11). Own here the relative
 refinement in which a collared boundary, or a chosen
-union of faces, is a subcomplex: triangulate the double of B1.6 compatibly
-with its reflection, or triangulate the boundary first and extend over
-the collar by the product subdivision. This gives native finite CW pairs
+union of faces, is a subcomplex: for every compact smooth manifold N with
+boundary there are a finite simplicial complex K, a subcomplex L and a
+homeomorphism h:|K|→N that restricts to a smooth embedding with injective
+derivative on each closed simplex and carries |L| onto ∂N, and every such
+triangulation of ∂N extends to one of N (Munkres, Theorem 10.6, p.104).
+For a compact manifold with corners the same holds with a chosen union of
+faces in place of ∂N. Triangulate the boundary first and extend over the
+collar by the product subdivision, or triangulate the double of B1.6
+compatibly with its reflection. CalibratedGeometry 2.4 consumes this
+theorem. This gives native finite CW pairs
 for compact sources/witnesses; it precedes B2 weak-pair invariance and B5
 lifting, independently of the bordism coefficients.
 
@@ -672,7 +713,7 @@ Its API includes:
 
 The pair and arbitrary-CW extension is constructed here from the collar and finite-support arguments; it is not asserted to be the coefficient theorem of Thom IV.8.
 
-*Needs:* B2.1; B1.3 relative faces, B1.5 finite support and B1.6 separating hypersurfaces; AlgebraicTopology Stages 2–4.
+*Needs:* B2.1; B1.3 relative faces, B1.5 finite support and B1.6 separating hypersurfaces; AlgebraicTopology Layers 2–4.
 
 ### 3.4 Orientation maps (B2.4)
 
@@ -711,7 +752,7 @@ Its API includes:
 - Points over x and y map to (1,0) and (0,1) in H₀({x,y};ℤ), and the constant target map sends both to 1.
 - Two projective lines in RP² intersect in one point, giving 1 in F₂ despite nonorientability of RP².
 
-*Needs:* B2.1–B2.3; AlgebraicTopology Stage 6 relative fundamental classes and duality; B1.6 transverse representatives.
+*Needs:* B2.1–B2.3; AlgebraicTopology Layer 6 relative fundamental classes and duality; B1.6 transverse representatives.
 
 ### Examples
 
@@ -719,7 +760,7 @@ Points in distinct target components and the relative interval test parameter de
 
 ### Dependencies
 
-Layer 2; AlgebraicTopology Stages 2–6; GeneralizedCohomology G1.1.
+Layer 2; AlgebraicTopology Layers 2–6; GeneralizedCohomology G1.1.
 
 ## Layer 4: ordinary operations and Adams towers
 
@@ -770,7 +811,7 @@ For the ordinary squares and Thom identity use Milnor–Stasheff, Chapter 8 and
 Chapter 11; the signed integral higher-diagonal construction is the extension
 specified by the displayed chain equation.
 
-*Needs:* AlgebraicTopology Stages 2–3 and 6 normalized cochains and cup product; DGAInfinity Layer 0 signed tensors.
+*Needs:* AlgebraicTopology Layers 2–3 and 6 normalized cochains and cup product; DGAInfinity Layer 0 signed tensors.
 
 ### 4.2 Steenrod algebra, transgression and Adams convergence (B4.2)
 
@@ -826,7 +867,7 @@ The transgression, operation-algebra and Adams APIs include:
 The algebraic Borel input is Guillou–Weibel v1, Theorem 6.2, p.18, at ℓ=2;
 the Steenrod algebra computation is Miller, Chapter 1, Theorem 11.2.
 
-*Needs:* B4.1; DGFloer Layer 1 items 2–4; AlgebraicTopology Stage 8 EM comparison; GeneralizedCohomology G2–G3 HA, towers and completion.
+*Needs:* B4.1; DGFloer Layer 1 items 2–4; AlgebraicTopology Layer 8 EM comparison; GeneralizedCohomology G2–G3 HA, towers and completion.
 
 ### 4.3 Thom and Wu classes (B4.3)
 
@@ -854,7 +895,7 @@ The Wu-class API includes:
 The duality construction and its relation with w are Milnor–Stasheff,
 Chapter 11, Theorem 11.14.
 
-*Needs:* B4.1–B4.2; CharacteristicClasses C2–C3 ordinary Thom classes; AlgebraicTopology Stage 6 duality.
+*Needs:* B4.1–B4.2; CharacteristicClasses C2–C3 ordinary Thom classes; AlgebraicTopology Layer 6 duality.
 
 ### 4.4 Odd-prime operations and simple systems (B4.7)
 
@@ -945,7 +986,7 @@ The odd-prime and p-simple-system API includes:
 - With τx=ι₂ and y=βx, τy=−βι₂=2βι₂ at p=3; applying β again gives zero on both sides since β²=0.
 - The degree-three generator z has z²=−z², hence z²=0 at p=3; at p=2 this argument yields no vanishing. The transpotence has degree 2·3+2=8.
 
-*Needs:* B4.1–B4.2 coherent diagonals and towers; DGFloer Layer 1 multiplicative Serre sequence; AlgebraicTopology Stage 8; GeneralizedCohomology G2–G3; DGAInfinity Layer 0 graded tensors.
+*Needs:* B4.1–B4.2 coherent diagonals and towers; DGFloer Layer 1 multiplicative Serre sequence; AlgebraicTopology Layer 8; GeneralizedCohomology G2–G3; DGAInfinity Layer 0 graded tensors.
 
 ### Examples
 
@@ -953,7 +994,7 @@ The path-loop fibration of K(ℤ/3,2) has an odd square-zero degree-three transg
 
 ### Dependencies
 
-AlgebraicTopology Stages 2–6, 8; DGFloer Layer 1 items 2–4; GeneralizedCohomology G2–G3; CharacteristicClasses C2–C3; DGAInfinity Layer 0.
+AlgebraicTopology Layers 2–6, 8; DGFloer Layer 1 items 2–4; GeneralizedCohomology G2–G3; CharacteristicClasses C2–C3; DGAInfinity Layer 0.
 
 ## Layer 5: finite and stable structured Pontryagin–Thom
 
@@ -1396,7 +1437,7 @@ Its API includes:
 - For connective coefficients and total degree 0 only (p,q)=(0,0) contributes.
 - For two target components degree-zero coefficients are two copies of Ω₀, not their sum collapsed to a single copy.
 
-*Needs:* B5.4; AlgebraicTopology Stage 4 CW skeleta; GeneralizedCohomology G3 homotopy-colimit and spectral filtration comparisons.
+*Needs:* B5.4; AlgebraicTopology Layer 4 CW skeleta; GeneralizedCohomology G3 homotopy-colimit and spectral filtration comparisons.
 
 ### Examples
 
@@ -1444,7 +1485,7 @@ detection theorem for ΩO_n(X,A). At a point, the assertion that a closed
 manifold with all Stiefel–Whitney numbers zero bounds, and the equivalent
 comparison of two closed manifolds, are Thom IV.10 and Corollary IV.11,
 p.77. Prove the arbitrary-CW-pair extension here using B5.4's comparison,
-B4.4's additive MO splitting and AlgebraicTopology Stage 6's
+B4.4's additive MO splitting and AlgebraicTopology Layer 6's
 field-coefficient duality: the joint invariants evaluate the ordinary
 homology components of the split theory against all complementary-degree
 classes. No finite-dimensionality assumption on the relative homology
@@ -1462,7 +1503,7 @@ Its API includes:
 - Over {x,y}, the degree-zero class supported at x evaluates 1 on the x-point and 0 on the y-point.
 - On RP², w₁² and w₂ both evaluate 1; on S² both evaluate 0 modulo two.
 
-*Needs:* B4.4 and B5.4; B2.4; AlgebraicTopology Stage 6 field-coefficient duality.
+*Needs:* B4.4 and B5.4; B2.4; AlgebraicTopology Layer 6 field-coefficient duality.
 
 ### 6.3 MO multiplication and real hypersurfaces (B4.6)
 
@@ -1862,7 +1903,7 @@ Its API includes:
 - The Lie-spin torus has q(a)=q(b)=q(a+b)=1 and Arf 1.
 - S² has H₁=0 and Arf 0; disconnected surfaces use the orthogonal direct sum.
 
-*Needs:* B3.2(a) (gap:finite-quadratic-arf); SpinGeometry G4.3–G4.4 existence and torsor of lifts on Σ, and G6 item 5 circle and torus lifts; AlgebraicTopology Stage 6 H₁ and mod2 duality. No bordism coefficient calculation is used.
+*Needs:* B3.2(a) (gap:finite-quadratic-arf); SpinGeometry G4.3–G4.4 existence and torsor of lifts on Σ, and G6 item 5 circle and torus lifts; AlgebraicTopology Layer 6 H₁ and mod2 duality. No bordism coefficient calculation is used.
 
 ### 8.2 Spin-surface filling classification (B3.2(c))
 
@@ -1889,7 +1930,7 @@ classification alone is not cited as a proof of this filling theorem.
 - A torus refinement with q(a)=q(b)=0 has a q-zero line and the corresponding handlebody filling.
 - The product Lie-spin torus has Arf 1, so it cannot be the entire Spin boundary; two copies have Arf 0 and admit the surgery construction.
 
-*Needs:* B3.2(a) (gap:finite-quadratic-arf) and B3.2(b); B1–B2; GeometricTopology Layer 1 handles; AlgebraicTopology Stage 6 relative duality.
+*Needs:* B3.2(a) (gap:finite-quadratic-arf) and B3.2(b); B1–B2; GeometricTopology Layer 1 handles; AlgebraicTopology Layer 6 relative duality.
 
 ### 8.3 Spin three-manifolds (B3.3)
 
@@ -1995,7 +2036,7 @@ early lift criterion does not depend on this bordism application.
 - The coordinate frame on ℝ³ and on the closed half-space has determinant 1, with coordinate maps inverse to each other; negating its first vector gives determinant −1 and fails positivity for the same orientation.
 - A countable disjoint union of oriented half-spaces admits the componentwise coordinate frames, each of determinant 1; compactness and connectedness are unnecessary. On the empty manifold the frame and both total-space maps are empty functions.
 
-*Needs:* B2.4; B3.2(c), B3.3–B3.4; B4.3–B4.6; B6.1–B6.2; B1.5–B1.6; SpinGeometry G4; SpinRepresentations Layer 7; AlgebraicTopology Stage 8; CharacteristicClasses C1.
+*Needs:* B2.4; B3.2(c), B3.3–B3.4; B4.3–B4.6; B6.1–B6.2; B1.5–B1.6; SpinGeometry G4; SpinRepresentations Layer 7; AlgebraicTopology Layer 8; CharacteristicClasses C1.
 
 ### 8.5 Projective boundary constructions (B3.5)
 
@@ -2046,7 +2087,7 @@ The odd Spin torus has Arf 1; the Lie Spin T³ bounds the specified signature �
 
 ### Dependencies
 
-Layers 1–7; StringOrientation S2.3; SpinGeometry G4; AlgebraicTopology Stages 6 and 8; GeometricTopology Layer 1; SpinRepresentations Layer 7; GeneralizedCohomology G4.
+Layers 1–7; StringOrientation S2.3; SpinGeometry G4; AlgebraicTopology Layers 6 and 8; GeometricTopology Layer 1; SpinRepresentations Layer 7; GeneralizedCohomology G4.
 
 ## Layer 9: exceptional projective geometry
 
@@ -2107,7 +2148,7 @@ Its API includes:
 
 The idempotent and projective geometry is Baez, §§3.4 and 4.2; the designated-chart and native-carrier comparisons are constructed here.
 
-*Needs:* StringOrientation S1.5; LieHighestWeight Layer 8 compact Albert algebra and division octonions; AlgebraicTopology Stages 4 and 6 cells and cup products; Mathlib finite-dimensional real topology.
+*Needs:* StringOrientation S1.5; LieHighestWeight Layer 8 compact Albert algebra and division octonions; AlgebraicTopology Layers 4 and 6 cells and cup products; Mathlib finite-dimensional real topology.
 
 ### 9.2 Compact automorphisms and Spin isotropy (B3.7)
 
@@ -2269,7 +2310,7 @@ HP² has p₁=2u and p₂=7u²; OP² has p₂=6u and p₄=39u².
 
 ### Dependencies
 
-Layers 2 and 4; StringOrientation S1.3 and S1.5; SmoothBundlesConnections B1.4; LieHighestWeight Layer 8; LieGroups Layers 2 and 4; SpinRepresentations Layer 7; TopologicalKTheory T7; CharacteristicClasses C3, C7; GeneralizedCohomology G4; AlgebraicTopology Stages 4 and 6; IndexTheory I7.2.
+Layers 2 and 4; StringOrientation S1.3 and S1.5; SmoothBundlesConnections B1.4; LieHighestWeight Layer 8; LieGroups Layers 2 and 4; SpinRepresentations Layer 7; TopologicalKTheory T7; CharacteristicClasses C3, C7; GeneralizedCohomology G4; AlgebraicTopology Layers 4 and 6; IndexTheory I7.2.
 
 ## Layer 10: realization and projective transfers
 
@@ -2317,7 +2358,7 @@ For the rational coefficient result compare Thom IV.17, p.84; the stated
 integral range and lens-space example are proved by the explicit AHSS and
 operation calculations above, including their pair extension.
 
-*Needs:* B4.4, B4.7, B5.7 and B6.1–B6.2; ClassifyingSpaces Stage 4; Mathlib `Rep.FiniteCyclicGroup.groupHomologyIsoEven`; AlgebraicTopology Stages 4 and 6.
+*Needs:* B4.4, B4.7, B5.7 and B6.1–B6.2; ClassifyingSpaces Stage 4; Mathlib `Rep.FiniteCyclicGroup.groupHomologyIsoEven`; AlgebraicTopology Layers 4 and 6.
 
 ### 10.2 Associated-family transfers (B6.4)
 
@@ -2651,8 +2692,12 @@ examples, B3.2's quadratic/filling results and B4's ordinary Wu package.
 StringOrientation and EllipticCohomology precede this roadmap and consume
 nothing from it. PositiveScalarCurvature consumes the associated-family transfer,
 point KO-kernel, homogeneous tangent and HP^k Pontryagin calculations for its
-metric and surgery results. These consumers provide no prerequisite of the
-targets above.
+metric and surgery results. CalibratedGeometry 2.4 consumes B1.5's relative
+triangulations. AlgebraicTopology Layer 8 consumes B1.6's smoothing and
+transversality for its classifying maps into Circle, RP^N and CP^N. These
+consumers provide no prerequisite of the targets above, except that
+AlgebraicTopology's other layers supply B2–B6; no B1.6 statement uses
+AlgebraicTopology.
 
 ## References
 
@@ -2665,6 +2710,10 @@ targets above.
 - J. M. Lee, *Introduction to Smooth Manifolds*, 2nd ed., Springer GTM218,
   2013, Chapter 6 for Whitney approximation and parametric transversality,
   and Theorems 21.10 and 21.13 for the quotient manifold theorem.
+- J. Munkres, *Elementary Differential Topology*, rev. ed., Annals of Math.
+  Studies 54, Princeton, 1966, Chapter II, Definition 8.3 and Theorem 10.6,
+  pp.80–81 and 104, for smooth triangulations and their extension from the
+  boundary.
 - J. Milnor, *On the cobordism ring Ω\* and a complex analogue, Part I*,
   Amer. J. Math.82(1960),505–521, §4, Theorems 4–5, p.519,
   for the odd-primary Thom-module calculation and absence of odd torsion.

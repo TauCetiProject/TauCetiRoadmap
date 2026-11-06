@@ -1,16 +1,19 @@
 import Mathlib
-import TauCeti.Geometry.Manifold.Orientation
+import TauCeti.Geometry.Manifold.Orientation.OrientedAtlas
 
 /-!
 # Tangential bordism: target signatures
 
 The roadmap is `README.md`; this file is not the roadmap. It states, against the pinned
-Mathlib and Tau Ceti, smooth oriented three-manifold parallelization (Layer 8, B3.1).
+Mathlib and Tau Ceti, relative smoothing of continuous maps into compact boundaryless
+manifolds (Layer 2, B1.6) and smooth oriented three-manifold parallelization (Layer 8, B3.1).
 The finite quadratic Arf algebra consumed by Layer 1 is a declared supplier gap of
 GeometricTopology (gap:finite-quadratic-arf) and is not stated here.
 Parallelization uses native tangent bundles and a chosen native oriented atlas.
 
 The other headline theorems are not statable at the pins:
+- parametric and relative transversality (B1.6): Mathlib has no transversality predicate for
+  smooth maps between manifolds;
 - the geometric bordism groups `Ω^O_n(X,A)`, `Ω^SO_n(X,A)`, `Ω^Spin_n(X,A)` and their low
   tables (B2, B3.1–B3.4), Thom's ring `ΩO_* ≃ F2[x_d]` (B4.6) and Wall's presentation of
   `ΩSO_*` (B6.2): Mathlib's `SingularManifold` has no bordism relation or quotient group;
@@ -29,9 +32,28 @@ The other headline theorems are not statable at the pins:
 
 namespace TauCetiRoadmap.TangentialBordism
 
-/-! ## Layer 8: smooth oriented three-manifold parallelization -/
-
 open scoped Manifold ContDiff
+
+/-! ## Layer 2: relative smoothing into compact targets -/
+
+/-- Relative smoothing (B1.6): a continuous map from a Hausdorff sigma-compact manifold with
+corners to a compact boundaryless Hausdorff manifold, smooth on an open neighbourhood of a
+closed set `C`, is homotopic relative to `C` to a smooth map. -/
+theorem exists_contMDiff_homotopicRel
+    {E H M : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
+    [TopologicalSpace H] (I : ModelWithCorners ℝ E H)
+    [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M] [T2Space M]
+    [SigmaCompactSpace M]
+    {E' H' P : Type*} [NormedAddCommGroup E'] [NormedSpace ℝ E'] [FiniteDimensional ℝ E']
+    [TopologicalSpace H'] (J : ModelWithCorners ℝ E' H')
+    [TopologicalSpace P] [ChartedSpace H' P] [IsManifold J ∞ P] [T2Space P] [CompactSpace P]
+    [BoundarylessManifold J P]
+    (f : C(M, P)) {C U : Set M} (hC : IsClosed C) (hU : IsOpen U) (hCU : C ⊆ U)
+    (hf : ContMDiffOn I J ∞ f U) :
+    ∃ g : C(M, P), ContMDiff I J ∞ g ∧ f.HomotopicRel g C := by
+  sorry
+
+/-! ## Layer 8: smooth oriented three-manifold parallelization -/
 
 /-- Every Hausdorff second-countable smooth oriented three-manifold, allowing boundary,
 has a positive tangent frame whose associated bundle map and inverse are smooth.
