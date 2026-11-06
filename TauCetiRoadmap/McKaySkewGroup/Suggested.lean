@@ -4,7 +4,7 @@ import TauCeti.LinearAlgebra.RootSystem.AffineDynkinType.Basic
 import TauCeti.LinearAlgebra.RootSystem.AffineDynkinType.Deletion
 import TauCeti.CategoryTheory.GrothendieckGroup.Split
 import TauCeti.RepresentationTheory.RepresentationRing.Basic
-import TauCeti.RingTheory.Idempotents.Corner
+import TauCeti.RingTheory.Idempotents.Corner.Basic
 import TauCeti.RepresentationTheory.Quiver.Preprojective.Basic
 import TauCeti.RepresentationTheory.Quiver.Zigzag.Orientation
 import TauCeti.RepresentationTheory.Quiver.Zigzag.Relations
@@ -275,6 +275,21 @@ noncomputable instance tensorAlgebraAction (V : FDRep k G) :
 instance tensorAlgebraAction_smulCommClass (V : FDRep k G) :
     SMulCommClass G k (TensorAlgebra k V) :=
   ⟨fun g c x => map_smul (tensorAlgebraAut V.ρ g) c x⟩
+
+/-- Scalars of `k` commute with multiplication in the skew group algebra `A ⋊ G`, for the module
+structure `SkewMonoidAlgebra.instModule`; together with the scalar tower below, this is what
+`IsIdempotentElem.Corner.instAlgebra` needs to make a corner of `A ⋊ G` a `k`-algebra. -/
+instance skewMonoidAlgebra_smulCommClass {A : Type*} [Semiring A] [Algebra k A]
+    [MulSemiringAction G A] [SMulCommClass G k A] :
+    SMulCommClass k (SkewMonoidAlgebra A G) (SkewMonoidAlgebra A G) :=
+  Algebra.to_smulCommClass
+
+/-- Scalars of `k` form a tower over multiplication in the skew group algebra `A ⋊ G`, for the
+module structure `SkewMonoidAlgebra.instModule`. -/
+instance skewMonoidAlgebra_isScalarTower {A : Type*} [Semiring A] [Algebra k A]
+    [MulSemiringAction G A] [SMulCommClass G k A] :
+    IsScalarTower k (SkewMonoidAlgebra A G) (SkewMonoidAlgebra A G) :=
+  IsScalarTower.right
 
 end SkewAlgebras
 
