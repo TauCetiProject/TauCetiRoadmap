@@ -1,5 +1,5 @@
 import Mathlib
-import TauCeti.RepresentationTheory.FDRep
+import TauCeti.RepresentationTheory.FDRep.Basic
 import TauCeti.RepresentationTheory.Simple.Basic
 import TauCeti.RepresentationTheory.CharacterTable.ClassFunction
 import TauCeti.RepresentationTheory.CharacterTable.Kernel
@@ -298,7 +298,7 @@ pinned conditional completeness theorem give `some` whenever `2 · B_G < p`. -/
 theorem characterTableDixon_isSome {G : Type v} [Group G] [Fintype G] [DecidableEq G]
     (d : TauCeti.ClassData G) (e : ℕ) [NeZero e] (he : e = Monoid.exponent G)
     (q : TauCeti.DixonPrimeData G) (hq : 2 * centralCoefficientBound G e < q.p) :
-    (d.dixonCyclotomicCharacterTable? e he q).isSome = true := by
+    (d.dixonCyclotomicCharacterTable? e q).isSome = true := by
   sorry
 
 /-- **Termination of the prime search.** Some finite budget makes the pinned search
