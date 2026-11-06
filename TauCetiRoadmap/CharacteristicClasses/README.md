@@ -71,14 +71,22 @@ Mathlib manifolds; the de Rham comparison uses its precise σ-compact hypotheses
   its pair LES has a separate compatibility check against S5, while proper AT8.5
   consumes the needed support interfaces. This is not a whole-Stage6 dependency
   or a feedback edge into C1.2a.
-- [DGFloer Layer1 item2](../DGFloer/README.md) owns the Serre-fibration
-  membership interface for locally trivial TopCat morphisms and for native
-  `FiberBundle` projections, the fibration homotopy exact sequence and the
-  ordinary Serre spectral sequence, all as roadmap targets; the pinned Tau
-  Ceti has no Serre-fibration declaration, and none is cited here by name.
-  The local-trivialization membership theorem uses one
-  common typical fibre F for every chart of that morphism; variable-rank
-  bundles are treated on their rank strata. DGFloer Layer1.2 also states CW
+- Serre fibrations are the pinned Tau Ceti class
+  `TauCeti.TopCat.serreFibrations` (`Topology/Homotopy/SerreFibration/Basic.lean`,
+  the right lifting property against the disk-cylinder inclusions, with
+  `mem_serreFibrations_iff_cube`, closure under composition, retracts and base
+  change, and `IsCoveringMap.mem_serreFibrations`). Membership of locally
+  trivial maps is pinned too, with no hypothesis on the base:
+  `TauCeti.hasHomotopyLiftingProperty_cube_of_exists_trivialization` and
+  `TauCeti.TopCat.mem_serreFibrations_of_exists_trivialization` for a map
+  every point of whose base lies in the base set of a `Bundle.Trivialization F`,
+  and `TauCeti.TopCat.mem_serreFibrations_proj` for the projection of a native
+  `FiberBundle F E` (`SerreFibration/FiberBundle.lean`). Those pinned
+  theorems use one common typical fibre F for every chart of the map;
+  variable-rank bundles are treated on their rank strata.
+  [DGFloer Layer1 item2](../DGFloer/README.md) consumes that pinned class and
+  owns, as roadmap targets, the fibration homotopy exact sequence and the
+  ordinary Serre spectral sequence on it. DGFloer Layer1.2 also states CW
   approximation and weak-equivalence invariance for singular homology with
   local coefficients, and names `connectedMapHomologyComparison` as its own
   target with those exact inputs. C1.1 specializes the
@@ -214,17 +222,30 @@ curvature is −2πiω_FS, so the Chern form is +ω_FS.
 
 ## C1. Universal principal bundles and cohomology infrastructure
 
-**C1.0. Metric frames before classification.** From TopK T1's finite-rank
-continuous vector bundles, local frames and continuous positive metrics,
-construct the orthonormal frame principal O(n) bundle by Gram–Schmidt.
-For a supplied orientation and n≥1, construct its positively oriented SO(n)
-principal subbundle; for complex Hermitian bundles construct the unitary U(n)
-frame bundle. Prove continuity, local chart/trivialization and division equations,
-freeness and transitivity on each fibre, reconstruction of the vector bundle as
-the associated standard module, and naturality under metric isometries and
-pullback. The smooth versions consume SBC B2's native frame and metric
-interfaces. Use the designated operator-norm matrix Lie topology and its proved
-identity homeomorphism to the default finite-dimensional matrix topology.
+**C1.0. Metric frames before classification.** The orthonormal frame
+bundle of a continuous Riemannian (𝕜=ℝ, structure group O(n)) or Hermitian
+(𝕜=ℂ, structure group U(n)) finite-rank vector bundle is the pinned
+`TauCeti.OrthonormalFrameBundle 𝕜 F E V`
+(`Topology/VectorBundle/OrthonormalFrame/Basic.lean`): the frames `V ≃ₗᵢ[𝕜] E b`
+with the right action of `unitary (V →L[𝕜] V)` in the operator-norm topology,
+free and transitive on each fibre (`smul_eq_self_iff`, `exists_smul_eq_iff`),
+its pointwise topology and continuity criterion (`continuous_iff`), the
+Gram–Schmidt local frame `Bundle.Trivialization.orthonormalFrame` of a
+linear trivialization from the pinned continuous Gram–Schmidt
+`Continuous.gramSchmidtNormed_bundle` (`GramSchmidt.lean`), the equivariant
+local trivializations `Bundle.Trivialization.orthonormalFrameBundle` and
+`exists_trivialization`, the reconstruction of E as the associated bundle
+`associatedHomeomorph`, and the pullback square `pullbackHomeomorph`
+(`OrthonormalFrame/Pullback.lean`). Consume these by name; TopK T1 supplies
+the continuous positive metrics they are applied to. Own here, on that
+carrier: naturality under metric isometries; for a supplied orientation and
+n≥1, the positively oriented SO(n) principal subbundle, the fibre of the
+pinned `TauCeti.OrthonormalFrameBundle.toOrientationCover` over the
+orientation's section, with its charts from the oriented Gram–Schmidt frames;
+the smooth versions, which consume SBC B2's native frame and metric
+interfaces; and the proved identity homeomorphism between the pinned
+operator-norm topology on `unitary (V →L[𝕜] V)` and the default
+finite-dimensional matrix topology.
 These constructions precede universal joins, BSO classification, characteristic
 rings and the w₂ obstruction.
 
@@ -239,10 +260,20 @@ Prove the actual composition comparison for metric changes; the square-root
 maps for noncommuting metric changes need not compose literally.
 For rank0 use the singleton zero-frame carrier and retain the orientation sign
 as separate data. For variable rank work on the clopen rank strata.
-For n≥1 identify the determinant-sign orientation double cover with the frame
-quotient by SO(n), prove its local two-sheet description independently of a
-universal classifier, and compare its chart signs with DG's tangent orientation
-cover and with a supplied orientation. C1.1a consumes this metric-independent
+The determinant-sign orientation double cover is the pinned
+`TauCeti.VectorBundleOrientationCover F E ι` (`Orientation/Cover.lean`), with
+its local two-sheet description `trivializationHomeomorph`, `isCoveringMap_proj`,
+`ncard_fiber` and the deck involution `deck`, metric-independent and independent
+of a universal classifier; for n≥1 the pinned
+`TauCeti.OrthonormalFrameBundle.orientationCoverHomeomorph`
+(`Orientation/OrthonormalFrame.lean`) identifies it with the frame quotient by
+SO(n), two frames having the same image exactly when they differ by a
+positive-determinant orthogonal map
+(`toOrientationCover_eq_toOrientationCover_iff`), and a supplied orientation
+`TauCeti.VectorBundleOrientation` is exactly a continuous section of the cover
+(`VectorBundleOrientation.nonempty_iff_exists_section`). Consume these by name
+and own the comparison of their chart signs with DG's tangent orientation cover.
+C1.1a consumes this metric-independent
 cover; C1.1b owns its later universal-bundle comparison and classification,
 and C3.5 owns the separate universal Spin obstruction.
 
@@ -250,9 +281,15 @@ and C3.5 owns the separate universal Spin obstruction.
    consume C1.0's single determinant-sign orientation double cover and its
    metric independence. Construct its direct-sum and cover-section comparisons
    and path-transport sign local system using TopK T1's vector-bundle atlases
-   and T1.5's finite Stiefel quotients. Specialize C1.0's single cover to
-   TopK's tautological finite rank-n real bundle for n≥1, and use this
-   cover as the finite oriented Grassmannian. Construct its comparison with
+   and T1.5's finite Stiefel quotients. The finite oriented Grassmannian of
+   positive rank is the pinned `TauCeti.finiteOrientedGrassmannian r N`
+   (`Topology/Grassmannian/Oriented.lean`): the orientation double cover of
+   the pinned tautological bundle `TauCeti.finiteGrassmannian.Tautological`,
+   compact, with the orientation-forgetting projection `forget` and its
+   tautological bundle `Tautological` oriented by
+   `TauCeti.VectorBundleOrientationCover.tautologicalOrientation`
+   (`Orientation/Tautological.lean`); consume it by name, and retain the
+   canonically oriented point in rank0. Construct its comparison with
    the quotient of the actual orthonormal n-frame Stiefel carrier by the
    right SO(n) action, with its tautological bundle and orientation-forgetting
    projection. Retain the two orientations when n equals the ambient rank;
@@ -379,11 +416,13 @@ and C3.5 owns the separate universal Spin obstruction.
    prove that continuous singular simplices, chains and cochains are unchanged
    by k-ification because every standard simplex is compact Hausdorff. Export
    the resulting natural cohomology comparison for the stable carriers.
-   Consume DGFloer Layer1.2's Serre-fibration membership for locally
-   trivial TopCat morphisms, with one common typical fibre F
-   for all charts of each join, quotient or pullback morphism, and for
-   native `FiberBundle` carriers. Its homotopy exact sequence is likewise a
-  DGFloer Layer1.2 target to construct, not a supplied theorem. Construct its
+   Consume the pinned Serre-fibration membership
+   `TauCeti.TopCat.mem_serreFibrations_of_exists_trivialization` for the
+   join, quotient and pullback morphisms, exhibiting one common typical
+   fibre F for all charts of each, and `TauCeti.TopCat.mem_serreFibrations_proj`
+   for native `FiberBundle` carriers. The homotopy exact sequence of a
+   Serre fibration is a DGFloer Layer1.2 target to construct, not a
+   supplied theorem. Construct its
   specialization of the actual boundary π_n(B)→π_(n−1)(F) to these numerable
   bundles, with basepoints, basepoint change, group laws and pointed-set
   exactness at π1/π0. Do not identify the fibre inclusion with an NDR pair. Prove
@@ -822,9 +861,37 @@ attachment comparison;
 RiemannianGeometry R3 consumes this generic bundle-cell model before applying
 AT8.1's relative-cell connectivity and transport theorem.
 
-1. Construct U_E from local oriented fibre generators, prove uniqueness,
-   coefficient naturality and the Thom module isomorphism with any local
-   coefficient system L, twisting by o(E). Construct the orientation-valued
+1. The Thom pair `(E,E∖0)` is the pinned `TauCeti.thomPair F E`, a Thom class
+   is the pinned predicate `TauCeti.IsThomClass F E u` on a class of
+   `H^n(E,E∖0;R,M)` (a relative class restricting to a generator on every
+   fibre pair; `EulerClass.lean`), and the orientation local system o(E) is
+   the pinned `TauCeti.VectorBundleOrientationCover.signLocalSystem` with the
+   trivialization `TauCeti.VectorBundleOrientation.signLocalSystemIso` given by
+   an orientation (`Orientation/LocalSystem.lean`). Consume, by name, the pinned
+   below-rank vanishing over an arbitrary base
+   `TauCeti.isZero_singularCohomology_thomPair`, the finite-union Mayer–Vietoris
+   gluing `TauCeti.exists_singularCohomology_thomPairOver_biUnion` and its
+   uniqueness `singularCohomology_thomPairOver_biUnion_ext`, the directed-union
+   gluing `TauCeti.existsUnique_singularCohomology_thomPairOver_iUnion` over an
+   arbitrary trivializing cover (`MayerVietoris/Basic.lean`,
+   `MayerVietoris/DirectedUnion.lean`), pullback of Thom classes along fibrewise
+   isomorphisms `TauCeti.IsThomClass.pullback`, the compact-base existence
+   `TauCeti.VectorBundleOrientation.exists_isThomClass` for an oriented bundle
+   with any commutative coefficient ring, and the compact-base mod2 existence
+   `TauCeti.exists_isThomClass_of_compactSpace` without an orientation for a
+   coefficient ring with a single unit (`Orientation/ThomClass.lean`,
+   `MayerVietoris/Basic.lean`). Prove, over an arbitrary base,
+   that an orientation determines exactly one class of `H^n(E,E∖0;R,M)`
+   restricting on every fibre to the generator read off from the orientation
+   (`existsUnique_singularCohomology_thomPair_fiber`, prescribed fibrewise
+   through the pinned `Bundle.Trivialization.mapOrientation`), and that every
+   oriented bundle has a Thom class with any commutative coefficient ring
+   (`exists_isThomClass_of_orientation`), by the directed-union gluing of the
+   local classes of the compact-base proof (Milnor–Stasheff Thm 10.4,
+   existence and uniqueness); extend the mod2 existence to an arbitrary base
+   the same way. Prove coefficient naturality and the Thom module
+   isomorphism with any local coefficient system L, twisting by o(E).
+   Construct the orientation-valued
    class before choosing a deck-equivariant representative: prove relative
    homology with the sign system vanishes below n and its degree-n fibre
    generators identify with H₀(X;Z), by finite unions of open trivializing sets and directed chain
@@ -838,19 +905,43 @@ AT8.1's relative-cell connectivity and transport theorem.
    integral theorem, then its projective contraction; tensor/Hom with the
    displayed coefficient module and descend. Export the functorial local
    coefficient identifications, not just a constant-coefficient formula.
-   Prove the mod2 form without an
-   orientation and the oriented integral form. Begin with finite unions of open trivializing
-   sets and Mayer–Vietoris; use the directed-union theorem for homology and
+   Use the directed-union theorem for homology and
    compact simplex images, never Mayer–Vietoris of arbitrary compact subsets; extend by the free-chain cap mapping-cone argument
    of Milnor–Stasheff §10, with field detection and integral torsion control. C1's CW replacement
    transports the local-system proof; it is not a competing second definition.
    Prove the neighbourhood/support and CW-resolution comparisons in C1 rather
    than passing cohomology through arbitrary unions. Compare disc/sphere,
    deleted-total-space and Thom-space pairs with actual bundle maps.
-2. Prove Thom naturality, zero/rank-zero cases, direct sums and products with
-   orientation order, Euler naturality, orientation reversal, Whitney products
-   with the corresponding local systems, and vanishing when a nowhere-zero
-   section exists. Odd-rank oriented Euler satisfies 2e=0 and vanishes rationally;
+
+   **Checks.**
+   - Over a point, the Thom pair is `(F,F∖0)`, the oriented class is `g`
+     itself for the orientation ω and `−g` for `−ω`; a definition reading
+     the sign from the trivialization alone, not from the orientation,
+     would give `g` for both.
+   - In rank0 the Thom pair is `(X,∅)`, the fibre generator is the sign
+     `±1 ∈ H⁰(pt)`, and the unique class is the locally constant sign
+     function of the orientation; on two components with opposite signs it
+     is `(1,−1)`, which no constant class gives.
+   - On the Möbius line bundle over the circle with coefficients `ℤ/2` the
+     pinned compact-base existence gives a Thom class without orientation;
+     with `ℤ` the bundle is not orientable
+     (`VectorBundleOrientation.nonempty_iff_not_connectedSpace`: the cover is
+     connected), so no integral Thom class exists, which a definition
+     dropping the fibre-generator condition would miss.
+2. The Euler class of a relative class is the pinned
+   `TauCeti.eulerClass R k M F E n` (restriction to E followed by zero-section
+   pullback; `EulerClass.lean`), with Euler naturality
+   `TauCeti.eulerClass_naturality` and `TauCeti.eulerClass_pullback`, vanishing
+   when a nowhere-zero continuous section exists
+   `TauCeti.eulerClass_eq_zero_of_forall_ne_zero`, and
+   `TauCeti.eulerClass_trivial_eq_zero`; `TauCeti.IsThomClass.neg` keeps the
+   predicate under negation. Consume these by name. Prove Thom naturality,
+   zero/rank-zero cases, direct sums and products with
+   orientation order, that the Thom class of the reversed orientation is the
+   negative (orientation reversal), Whitney products
+   with the corresponding local systems, and that the Euler class of the
+   oriented Thom class of C2.1 is natural for the orientation pullback.
+   Odd-rank oriented Euler satisfies 2e=0 and vanishes rationally;
    it need not vanish integrally. Construct the sphere-bundle Gysin sequence. An oriented rank1 bundle
    has its positive metric unit section, hence Euler0; retain signed rank0
    separately from the positive-rank sphere obstruction statements.
@@ -863,7 +954,15 @@ AT8.1's relative-cell connectivity and transport theorem.
 3. For a transverse smooth section prove its zero locus has the specified
    orientation and represents Euler via Thom/Gysin. On a closed oriented
    manifold prove the sum-of-local-indices formula and e(TM)[M]=χ(M), with
-   the cap/degree normalization of the suppliers. Prove the χ identity by
+   the cap/degree normalization of the suppliers. Here χ(M) is the pinned
+   `TauCeti.eulerChar` of a space of finite CW type, the pairing is the pinned
+   `TauCeti.HomologicalOrientation.evalFundamentalClass`, and e(TM) is the
+   Euler class of the Thom class that C2.1 attaches to the tangent-bundle
+   orientation `Orientation.toVectorBundleOrientation` of the oriented
+   manifold; construct first the identification of that tangent-bundle
+   orientation with the homological orientation fixing [M], pointwise through
+   the pinned chart generator `TauCeti.localOrientation`, which is what fixes
+   the sign of the identity. Prove the χ identity by
    identifying Euler with diagonal self-intersection, then evaluating the
    Poincaré-duality/Künneth trace; finite good covers give the finite-generation
    and cohomological-dimension bounds. This does not assume a Morse triangulation. Compare the rank2 class with
@@ -1152,9 +1251,9 @@ AT8.1's relative-cell connectivity and transport theorem.
    rank vanishing and `p_i mod2=w_(2i)^2`. For k≥1 export the exact Whitney correction
    `p_k(E⊕F)=Σ_(a+b=k)p_a(E)p_b(F)+(-1)^k Σ_(a+b=k−1)c_(2a+1)(E_C)c_(2b+1)(F_C)`.
    Prove its difference annihilated by2 and multiplicativity over Z[1/2]/Q;
-   the formal-series form is `twice_even_product_correction_eq_zero`, which
-   says that twice the difference between an even coefficient of a product
-   and the convolution of even coefficients vanishes once the odd
+   the formal-series form, over any commutative ring, is that twice the
+   difference between an even coefficient of a product of two power series
+   and the convolution of their even coefficients vanishes once the odd
    coefficients of the first factor are 2-torsion.
    Prove `p_r(E)=e(E)^2` integrally for an oriented rank2r real bundle by
    comparing the real orientation of E_C with E⊕E; the permutation sign is
@@ -1375,14 +1474,28 @@ AT8.1's relative-cell connectivity and transport theorem.
    injective direction uses conjugacy into a maximal torus. Identify group
    invariance with infinitesimal invariance using connected generation by
    exponential neighbourhoods before applying the Lie-algebra theorem. Consume
-   [LieGroups Layer5A and Layer6](../RepresentationTheory/LieGroups/README.md)
-   for compact reductivity, the invariant positive form, center/semisimple
-   orthogonal splitting and negative Killing comparison, the identification of
-   t_ss,C as a Cartan subalgebra, and the actual root-pairing isomorphism with
+   [LieGroups Layer1 and Layer6](../RepresentationTheory/LieGroups/README.md)
+   for the adjoint representation Ad, maximal tori, their conjugacy, the
+   Weyl group N(T)/T and its identification with the root-system Weyl group,
+   and [CompactGroups Layer0–1](../RepresentationTheory/CompactGroups/README.md)
+   for the Haar average of a Hermitian form under a continuous representation.
+   State as this item's own input, with hypotheses G compact and connected:
+   the Ad-invariant positive definite form on 𝔤 obtained by Haar averaging any
+   inner product under Ad; the orthogonal splitting `𝔤 = 𝔷(𝔤) ⊕ [𝔤,𝔤]` of the
+   center and the derived algebra, with `[𝔤,𝔤]` an ideal (the orthogonal
+   complement of a Lie ideal for an invariant form is a Lie ideal, Mathlib
+   `LieAlgebra.InvariantForm.orthogonal`), so that 𝔤 has central radical in the sense
+   of LieHighestWeight L9's `LieAlgebra.HasCentralRadical`; the negative
+   semidefiniteness of the Killing form, negative definite exactly on `[𝔤,𝔤]`,
+   so that `[𝔤,𝔤]` is semisimple (Mathlib
+   `LieAlgebra.InvariantForm.isSemisimple_of_nondegenerate`), with the
+   comparison of the Haar-invariant form and the Killing form by an
+   equivariant positive scalar on each simple factor; the identification of
+   t_ss,C as a Cartan subalgebra; and the actual root-pairing isomorphism with
    LieHighestWeight's rootSystem, preserving geometric Weyl action and center.
-   This item owns transport of those supplied maps through invariant polynomial
-   functions and their restriction square, rather than a second construction of
-   compact reductivity or the Cartan/root dictionary. For surjectivity
+   This item owns transport of those maps through invariant polynomial
+   functions and their restriction square, and a second construction of
+   the Cartan/root dictionary is not made here. For surjectivity
    consume [LieHighestWeight L7](../RepresentationTheory/LieHighestWeight/README.md)'s generic Lie-algebra Chevalley supplier.
    Its `lieInvariantSymmetricAlgebra`, `lieCartanRestriction`,
    `lieChevalleyRestrictionIso` and `lieChevalleyRestrictionIso_coe`
@@ -1758,21 +1871,44 @@ the constructions here or an additional generic characteristic-class owner.
 
 ## C6. Multiplicative series, Chern character and the Thom correction
 
-1. Construct universal multiplicative sequences from rational constant1 power
-   series through symmetric-polynomial/root descent, both actual bundles and
-   virtual classes. Use Mathlib PowerSeries and its Bernoulli/exponential API. Td multiplies
-   over the Chern roots of a complex bundle. L and Â multiply over one root
-   per oriented real 2-plane, `p(E)=∏(1+x_j²)`, with a trivial line in odd
-   rank; their even series descend to the elementary symmetric polynomials
-   in x_j². They are not products over both ±x_j roots of E_C. Extend Td
-   on complex K and L/Â on real KO by the rational Whitney laws.
-   Define `Td(x)=x/(1−e^(−x))`, `Â(x)=(x/2)/sinh(x/2)` and `L(x)=x/tanh x`
-   as regular formal series, with the displayed quotients proved by multiplying
-   their denominators; `toddSeries` is Mathlib's Bernoulli series with
-   B'₁=1/2, and `lSeries` is its rescaling by 2 minus x, which is x coth x. Build coefficient extraction, degreewise products,
-   inversion, substitution, normalization and truncation. Prove pullback and
-   rational Whitney identities; virtual λ_(−1) is not an evaluation of an
-   arbitrary infinite λ-series at −1.
+1. The universal multiplicative sequence of a power series Q with
+   constant term 1 is the pinned `PowerSeries.multiplicativeSequence Q n k`
+   (`RingTheory/PowerSeries/MultiplicativeSequence.lean`): the polynomial K_k
+   in the elementary symmetric polynomials e₁,…,e_n whose value at the
+   e_i(x) is the coefficient of t^k in ∏_i Q(x_i t)
+   (`mk_aeval_multiplicativeSequence`, `aeval_multiset_esymm_multiplicativeSequence`),
+   with the Whitney convolution on a union of root families
+   (`aeval_multiset_esymm_add_multiplicativeSequence`), the single-root
+   normalization `K_k(e₁)=q_k e₁^k` (`multiplicativeSequence_one_left`),
+   stability under adjoining a zero root
+   (`aeval_snoc_zero_multiplicativeSequence`), the root description of an even
+   series `Q(t²)` in the squares of the roots
+   (`aeval_multiset_esymm_sq_multiplicativeSequence`) and the explicit
+   K₁, K₂, K₃ (`multiplicativeSequence_three_right`). The three series are
+   pinned over any ℚ-algebra A: `Td(x)=x/(1−e^(−x))` is Mathlib's
+   `bernoulli'PowerSeries A` (B'₁=1/2), `Â(x)=(x/2)/sinh(x/2)` is
+   `TauCeti.aHatSeries A` and `L(x)=x/tanh x` is `TauCeti.hirzebruchLSeries A`,
+   the rescaling by 2 of Mathlib's `bernoulliPowerSeries` plus x
+   (`RingTheory/PowerSeries/CharacteristicSeries.lean`), with the displayed
+   quotients proved by multiplying their denominators
+   (`bernoulli'PowerSeries_mul_one_sub_exp_neg`, `aHatSeries_mul_sub`,
+   `hirzebruchLSeries_mul_sub`), the characterizations `eq_hirzebruchLSeries_iff`
+   and siblings, the Bernoulli-number coefficients `coeff_hirzebruchLSeries`
+   and `coeff_aHatSeries`, evenness `rescale_neg_one_hirzebruchLSeries` and
+   `rescale_neg_one_aHatSeries`, and `Td(x)=e^(x/2)Â(x)`
+   (`bernoulli'PowerSeries_eq_rescale_exp_mul_aHatSeries`). Consume these by
+   name. Own here the bundle-level classes: apply the Todd sequence to the
+   Chern roots of a complex bundle, and the L and Â sequences of the even
+   series, through `expand_cartier_hirzebruchLSeries` and
+   `expand_cartier_aHatSeries`, to one root per oriented real 2-plane,
+   `p(E)=∏(1+x_j²)`, with a trivial line in odd rank, so that their values
+   are polynomials in the Pontryagin classes; they are not products over
+   both ±x_j roots of E_C. Prove on actual bundles and virtual classes the
+   pullback and rational Whitney identities from the pinned convolution and
+   C3's splitting, and extend Td on complex K and L/Â on real KO by those
+   Whitney laws; virtual λ_(−1) is not an evaluation of an arbitrary infinite
+   λ-series at −1. Build the degreewise truncation of a multiplicative class
+   on a base of displayed cohomological dimension.
 2. Construct `ch_j(E)` as the rational Newton polynomial in integral c_i,
    normalized by j!, with ch₀=rank. Prove root exponentials, additivity,
    multiplicativity, dual/conjugate and line-twist identities using C3's
@@ -1844,24 +1980,43 @@ the constructions here or an additional generic characteristic-class owner.
 
 ## C7. Characteristic formulas and acceptance calculations
 
-1. Prove the coefficient formulas
-   Td=1+c₁/2+(c₁²+c₂)/12+c₁c₂/24+…,
-   L=1+p₁/3+(7p₂−p₁²)/45+(62p₃−13p₁p₂+2p₁³)/945+… and
-   Â=1−p₁/24+(7p₁²−4p₂)/5760+… . Export degree-n components and their
+1. The low-degree genus polynomials are pinned
+   (`RingTheory/PowerSeries/GenusPolynomials.lean`):
+   Td₁=c₁/2, Td₂=(c₁²+c₂)/12, Td₃=c₁c₂/24
+   (`TauCeti.multiplicativeSequence_bernoulli'PowerSeries_one`, `_two`, `_three`),
+   L₁=p₁/3, L₂=(7p₂−p₁²)/45
+   (`TauCeti.multiplicativeSequence_cartier_hirzebruchLSeries_one`, `_two`) and
+   Â₁=−p₁/24, Â₂=(7p₁²−4p₂)/5760
+   (`TauCeti.multiplicativeSequence_cartier_aHatSeries_one`, `_two`), each
+   as an identity of multiplicative-sequence polynomials in rank at least
+   the degree. Consume these by name and transport them to the bundle-level
+   classes of C6.1. Export degree-n components and their
    pairing with chosen fundamental classes; signature, Dirac and holomorphic
    index theorems consume these formulas.
-   In particular derive the displayed degree12 L₃ identity from C6's
-   regular series x/tanh(x), by symmetric-root descent and coefficient
-   extraction, with p_j in cohomological degree4j (Milnor–Stasheff §19).
-   Include ranks with fewer
+   Prove the degree12 identity L₃=(62p₃−13p₁p₂+2p₁³)/945 from the pinned
+   `multiplicativeSequence_three_right`, `coeff_hirzebruchLSeries` and
+   `expand_cartier_hirzebruchLSeries`, with p_j in cohomological degree4j
+   (Milnor–Stasheff §19), as the degree-three sibling of the pinned L₂:
+   the even coefficients of x/tanh x are q₁=1/3, q₂=−1/45 and
+   q₃=2⁶B₆/6!=2/945, and K₃=q₃e₁³+(q₁q₂−3q₃)e₁e₂+(q₁³−3q₁q₂+3q₃)e₃ gives
+   2/945, −13/945 and 62/945. Include ranks with fewer
    than three oriented-plane roots by setting the absent Pontryagin classes
-   to zero. The root form is `lSeries_root_coefficient_six`: the degree-six
-   coefficient of ∏_i L(x_i T) over any commutative ℚ-algebra equals
-   (62p₃−13p₁p₂+2p₁³)/945 in the elementary symmetric values
-   `pontryaginRootValue` of the squares of the roots, with
-   `chernRootValue` the elementary symmetric values of the roots themselves.
+   to zero, through the pinned stability under a zero root.
    Compare its pairing on a closed oriented twelve-manifold with
    IndexTheory I7.2's signature index formula.
+
+   **Checks.**
+   - `q₁q₂−3q₃=−1/135−6/945=−7/945−6/945=−13/945`; a convention taking
+     coefficients of x/tanh x in x rather than in x² would put q₂=1/3 and
+     give a wrong middle term.
+   - On `CP⁶` with `p(CP⁶)=(1+h²)⁷`, `p₁=7h²`, `p₂=21h⁴`, `p₃=35h⁶`:
+     `L₃=(62·35−13·7·21+2·343)/945·h⁶=(2170−1911+686)/945·h⁶=h⁶`, the
+     signature 1 of `CP⁶`; the sign of the middle term matters, since
+     `+1911` would give `4767/945`, not an integer.
+   - On `HP³` with `p(HP³)=(1+u)⁸/(1+4u)=1+4u+12u²+8u³`:
+     `L₃=(496−624+128)/945·u³=0`, the signature of `HP³` (`H⁶(HP³)=0`); on
+     `HP²`, `p=(1+u)⁶/(1+4u)=1+2u+7u²` and the pinned `L₂` gives
+     `(49−4)/45·u²=u²`, signature 1.
 2. Translate the ordered half-spin weights and exterior λ-characters into
    exponential root products. For the ordered roots x₁,…,x_r name the
    summand with an even number of negative half-weight signs S_high⁺; then

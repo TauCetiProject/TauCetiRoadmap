@@ -1,80 +1,117 @@
-import Mathlib
+module
+
+public import Mathlib
+public import TauCeti.Topology.VectorBundle.Orientation.ThomClass
 
 /-!
 # Characteristic classes and Chern–Weil theory: target signatures
 
 The roadmap is `README.md`; this file is not the roadmap. It states the
 roadmap's headline theorems against the pinned Mathlib and Tau Ceti, each
-with `sorry`, together with the few definitions those statements need.
+with `sorry`.
+
+The pinned Tau Ceti already carries the Thom pair `TauCeti.thomPair`, the
+Thom-class predicate `TauCeti.IsThomClass`, the Euler class
+`TauCeti.eulerClass` with its naturality and its vanishing on a bundle with a
+nowhere-zero section, bundle orientations `TauCeti.VectorBundleOrientation`,
+the orientation double cover and its sign local system
+`TauCeti.VectorBundleOrientationCover.signLocalSystem`, the existence of a
+Thom class of an oriented bundle over a compact base
+(`TauCeti.VectorBundleOrientation.exists_isThomClass`), and the vanishing of
+the relative cohomology of the Thom pair below the rank together with the
+unique gluing of compatible top-degree classes over an arbitrary trivializing
+cover (`TauCeti.existsUnique_singularCohomology_thomPairOver_iUnion`), over an
+arbitrary base. Stated here, on those carriers, is the headline of C2.1:
+existence and uniqueness of the Thom class of an oriented real vector bundle
+over an arbitrary base, prescribed on every fibre by the orientation.
 
 Not statable at the pins, and therefore not stated here:
-* the Thom isomorphism and the Euler class (C2.1–C2.2): there is no
-  Thom-class carrier, no bundle disk/sphere cell structure and no
-  orientation local system on a vector bundle at the pins;
+* the Thom isomorphism `H^k(X;L) ≃ H^(k+n)(E,E∖0;π*L⊗o(E))` (C2.1): there is no
+  relative cup product `H^k(E) ⊗ H^n(E,E₀) → H^(k+n)(E,E₀)` at the pins, so
+  the Thom map `a ↦ π*a ∪ U_E` has no carrier;
 * the universal rings `H*(BU(r);ℤ)=ℤ[c₁,…,c_r]`, `H*(BO(n);𝔽₂)` and the
-  BSO rings (C3.4, C3.6): there is no classifying-space or universal-bundle
-  carrier, and no Chern or Stiefel–Whitney class, at the pins;
+  BSO rings (C3.4, C3.6): the pins have the finite Grassmannians
+  `TauCeti.finiteGrassmannian` with their tautological bundles and
+  stabilization maps, the finite oriented Grassmannians
+  `TauCeti.finiteOrientedGrassmannian`, and the discrete-group Milnor join
+  `TauCeti.classifyingSpace G`, but no infinite Grassmannian, no classifying
+  space of a topological group, no universal bundle, and no Chern or
+  Stiefel–Whitney class;
 * `e(TM)[M]=χ(M)` (C2.3) and the Euler-pullback identity for a self-map:
-  there is no Euler class or fundamental class of a manifold at the pins;
+  the pins have the Euler characteristic `TauCeti.eulerChar` of a space of
+  finite CW type, the evaluation `TauCeti.HomologicalOrientation.evalFundamentalClass`
+  on the fundamental class of a compact manifold with a homological
+  orientation, and the tangent-bundle orientation
+  `Orientation.toVectorBundleOrientation` of an oriented manifold, but no
+  identification of a tangent-bundle orientation with the homological
+  orientation that fixes `[M]`, so the sign of `e(TM)[M]` has no carrier;
 * Borel's theorem `H*(BG;ℚ)≃H*(BT;ℚ)^W` and the universal Chern–Weil
   isomorphism (C5.2): no classifying space and no Chern–Weil map exist at
   the pins;
-* the singular/de Rham Chern–Weil comparison (C4.2): no characteristic
-  class, curvature form or de Rham comparison for bundles at the pins.
+* the singular/de Rham Chern–Weil comparison (C4.2): no curvature form of a
+  connection or de Rham comparison for bundles at the pins.
 
-What is statable is the formal-series part of C3.3 and C7.1: the
-degree-twelve coefficient of the Hirzebruch L-series in Pontryagin root
-values, and the 2-torsion correction behind the integral Pontryagin
-Whitney formula.
+The formal power series of C6.1 and the low-degree genus polynomials of C7.1
+are proved at the pin (`TauCeti.hirzebruchLSeries`, `TauCeti.aHatSeries`,
+`PowerSeries.multiplicativeSequence` and `TauCeti/RingTheory/PowerSeries/
+GenusPolynomials.lean`) and are cited in the README, not restated here.
 -/
 
+@[expose] public section
 noncomputable section
+
 namespace TauCetiRoadmap.CharacteristicClasses
 
-/-- Elementary symmetric values of formal Chern roots: `chernRootValue x j` is
-the `j`-th elementary symmetric polynomial evaluated at the roots `x`. -/
-def chernRootValue {A : Type*} [CommRing A] {r : ℕ} (x : Fin r → A) (j : ℕ) : A :=
-  MvPolynomial.eval x (MvPolynomial.esymm (Fin r) A j)
+open Bundle CategoryTheory Module Set
 
-/-- Pontryagin root values: the elementary symmetric values of the squares of
-the roots, one root per oriented plane (`p(E)=∏(1+x_i²)`). -/
-def pontryaginRootValue {A : Type*} [CommRing A] {r : ℕ}
-    (x : Fin r → A) (j : ℕ) : A :=
-  chernRootValue (fun i ↦ x i ^ 2) j
+universe w
 
-/-- Todd's series `x/(1−e^(−x))`, Mathlib's Bernoulli series with `B'₁=1/2`. -/
-abbrev toddSeries : PowerSeries ℚ := bernoulli'PowerSeries ℚ
+/-! ## C2.1: the Thom class of an oriented bundle over an arbitrary base -/
 
-/-- The L-series `x coth x = x/tanh x`, written without dividing by `x`:
-rescaling Todd's series by `2` gives `2x/(1−e^(−2x)) = x coth x + x`. -/
-def lSeries : PowerSeries ℚ := PowerSeries.rescale 2 toddSeries - PowerSeries.X
+variable {B : Type w} [TopologicalSpace B] {F : Type w} [NormedAddCommGroup F]
+  [NormedSpace ℝ F] [FiniteDimensional ℝ F] {E : B → Type w}
+  [TopologicalSpace (TotalSpace F E)] [∀ b, AddCommMonoid (E b)] [∀ b, Module ℝ (E b)]
+  [∀ b, TopologicalSpace (E b)] [FiberBundle F E] [VectorBundle ℝ F E]
+  {ι : Type*} [Fintype ι]
 
-/-- C7.1: the degree-six coefficient of `∏ L(x_i T)` is the degree-twelve
-Hirzebruch L-class `(62p₃ − 13p₁p₂ + 2p₁³)/945` in the Pontryagin root values
-(Milnor–Stasheff §19). The statement is universal over commutative
-`ℚ`-algebras and includes ranks below three, where the absent values are `0`. -/
-theorem lSeries_root_coefficient_six
-    {A : Type*} [CommRing A] [Algebra ℚ A] {r : ℕ} (x : Fin r → A) :
-    PowerSeries.coeff 6
-      (∏ i, PowerSeries.rescale (x i)
-        (PowerSeries.map (algebraMap ℚ A) lSeries)) =
-      (1 / 945 : ℚ) •
-        (62 * pontryaginRootValue x 3 -
-          13 * pontryaginRootValue x 1 * pontryaginRootValue x 2 +
-          2 * pontryaginRootValue x 1 ^ 3) := by
+/-- **The Thom class of an oriented bundle over an arbitrary base** (Milnor–Stasheff,
+Theorem 10.4, existence and uniqueness; the base is arbitrary, by the directed-union
+argument of the proof). Let `o` be an orientation of a real vector bundle `E → B` with
+fibres of dimension `r = card ι`, `ω` an orientation of the model fibre `F`, and
+`g ∈ Hʳ(F, F ∖ {0}; R, M)` with `R` projective. There is exactly one class of
+`Hʳ(E, E₀; R, M)` whose restriction to the fibre pair `(E_b, E_b ∖ {0})` is the pull-back of
+`g` along every linear trivialization carrying `o b` to `ω`, and the negative of that
+pull-back along every linear trivialization carrying `o b` to `-ω`. The pinned
+`TauCeti.VectorBundleOrientation.exists_singularCohomology_thomPair_fiber` is the existence
+half over a compact base. -/
+theorem existsUnique_singularCohomology_thomPair_fiber {K : Type*} [CommRing K]
+    {R M : ModuleCat.{w} K} [Module.Projective K R]
+    (hι : Fintype.card ι = finrank ℝ F) (o : TauCeti.VectorBundleOrientation F E ι)
+    (ω : Orientation ℝ F ι)
+    (g : (TopPair.ofSubset (X := TopCat.of F) ({0}ᶜ : Set F)).singularCohomology R K M
+      (finrank ℝ F)) :
+    ∃! u : (TauCeti.thomPair F E).singularCohomology R K M (finrank ℝ F),
+      (∀ (e : Trivialization F (π F E)) [e.IsLinear ℝ] (b : B) (hb : b ∈ e.baseSet),
+        e.mapOrientation ι hb (o b) = ω →
+          TopPair.singularCohomologyMap (TauCeti.fiberThomPairMap F E b) _ u =
+            TopPair.singularCohomologyMap
+              (e.continuousLinearEquivAt ℝ b hb).complZeroPairIso.hom _ g) ∧
+      ∀ (e : Trivialization F (π F E)) [e.IsLinear ℝ] (b : B) (hb : b ∈ e.baseSet),
+        e.mapOrientation ι hb (o b) = -ω →
+          TopPair.singularCohomologyMap (TauCeti.fiberThomPairMap F E b) _ u =
+            -TopPair.singularCohomologyMap
+              (e.continuousLinearEquivAt ℝ b hb).complZeroPairIso.hom _ g := by
   sorry
 
-/-- C3.3: the 2-torsion correction behind the integral Pontryagin Whitney
-formula. If the odd coefficients of `P` are killed by `2`, then twice the
-difference between an even coefficient of `P * Q` and the convolution of the
-even coefficients of `P` and `Q` vanishes; clean multiplicativity of the even
-parts holds after inverting `2`, not integrally. -/
-theorem twice_even_product_correction_eq_zero
-    {R : Type*} [CommRing R] (P Q : PowerSeries R)
-    (hodd : ∀ j : ℕ, 2 * PowerSeries.coeff (2 * j + 1) P = 0) (k : ℕ) :
-    2 * (PowerSeries.coeff (2 * k) (P * Q) -
-      ∑ i ∈ Finset.range (k + 1),
-        PowerSeries.coeff (2 * i) P * PowerSeries.coeff (2 * (k - i)) Q) = 0 := by
+/-- **Every oriented real vector bundle has a Thom class**, over an arbitrary base and with
+coefficients in any commutative ring `K`, integral coefficients included: a class of
+`Hʳ(E, E₀; K, K)`, `r = dim F`, restricting to a generator of `Hʳ(E_b, E_b ∖ {0}; K, K) ≅ K`
+on every fibre (Milnor–Stasheff, Theorem 10.4). The pinned
+`TauCeti.VectorBundleOrientation.exists_isThomClass` is the case of a compact base. -/
+theorem exists_isThomClass_of_orientation (hι : Fintype.card ι = finrank ℝ F)
+    (o : TauCeti.VectorBundleOrientation F E ι) (K : Type w) [CommRing K] :
+    ∃ u : (TauCeti.thomPair F E).singularCohomology (ModuleCat.of K K) K (ModuleCat.of K K)
+      (finrank ℝ F), TauCeti.IsThomClass F E u := by
   sorry
 
 end TauCetiRoadmap.CharacteristicClasses
