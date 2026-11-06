@@ -3,7 +3,6 @@ import TauCeti.RepresentationTheory.ClassicalGroups.DominantWeight
 import TauCeti.RepresentationTheory.ClassicalGroups.GelfandTsetlin.Basic
 import TauCeti.RepresentationTheory.ClassicalGroups.WeylModule.Rational
 import TauCeti.RingTheory.MvPolynomial.Symmetric.Schur.Basic
-import TauCeti.Analysis.Convex.Polyhedron.Basic
 import TauCeti.LinearAlgebra.RootSystem.Positive
 import TauCeti.LinearAlgebra.RootSystem.KostantPartition.Basic
 

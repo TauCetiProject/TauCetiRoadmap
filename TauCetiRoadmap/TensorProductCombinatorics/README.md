@@ -2165,9 +2165,9 @@ rigid-puzzle form, decidable rational/integral feasibility and witness
 conversion to hives; the matrix witness is an existence theorem unless a
 numerical construction with proved error control is additionally supplied
 (the sets U_r^N, T_r^N and the recursion: Fulton, *Eigenvalues, invariant
-factors, highest weights, and Schubert calculus*, §1, equations (8)–(9), with
-the dictionary λ(I) at equation (10) and the identification of T_r^N with the
-Littlewood–Richardson-positive triples at Theorem 12; the puzzle and
+factors, highest weights, and Schubert calculus*, §1, equations (8)–(10),
+with the dictionary λ(I) at equation (10), and §3, Theorem 12, identifying
+T_r^N with the Littlewood–Richardson-positive triples; the puzzle and
 Schubert-class forms: Knutson–Tao–Woodward II, §3.1 and §6). *Needs:* §7.4,
 §5.4, §6.2.
 
@@ -2196,7 +2196,7 @@ Mathlib's Hermitian spectral theorem; PolarDecomposition PD-A50–A53;
 LieGroups Layer 8; HamiltonianReduction R1–R2; ComplexKahlerGeometry K7;
 ConvexityToric T3; ClassicalGroups Layer 3; ReductiveGroups Layers 1 and 6;
 Knutson–Tao–Woodward II, §§3, 6 and 8; Fulton, *Eigenvalues, invariant
-factors, highest weights, and Schubert calculus*, §1.
+factors, highest weights, and Schubert calculus*, §§1 and 3.
 
 ## Layer 8: type-A paths, crystals and object comparisons
 
@@ -2700,8 +2700,8 @@ the source of record for it.
   calculus*, Bull. Amer. Math. Soc. (N.S.) 37 (2000), 209–249 (arXiv
   math/9908012): §1 Horn's sets U_r^n, T_r^n and recursion (equations
   (8)–(9)), the subset/partition dictionary (equation (10)) and Horn's
-  conjecture; Theorem 12 identifies T_r^n with the Littlewood–Richardson-positive
-  triples.
+  conjecture; §3, Theorem 12, identifies T_r^n with the
+  Littlewood–Richardson-positive triples.
 - Fulton, W., *Young Tableaux*, London Math. Soc. Student Texts 35,
   Cambridge University Press, 1997: Chapters 1–3 and §5.1–5.3 for the
   tableau and Littlewood–Richardson theory asked of SchurWeyl, Appendix A for
