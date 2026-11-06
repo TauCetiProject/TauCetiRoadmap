@@ -1,0 +1,57 @@
+import TauCeti.Geometry.Manifold.Riemannian.Geodesic.Euclidean
+import TauCeti.Geometry.Manifold.Riemannian.Geodesic.Examples.OpenUnitBall
+import Mathlib.Analysis.InnerProductSpace.PiL2
+
+open Bundle Manifold Set TauCeti.Manifold
+open scoped ContDiff Manifold TauCeti
+
+noncomputable section
+
+-- An honest zero-dimensional model: none of these endpoints needs Nontrivial,
+-- NeZero dimension, an initial completeness premise, or positive dimension.
+abbrev Z := EuclideanSpace ℝ (Fin 0)
+
+example (p : Z) : expDomain 𝓘(ℝ, Z) Z p = univ := expDomain_model_space p
+example (p : Z) (v : TangentSpace 𝓘(ℝ, Z) p) :
+    riemannianExp 𝓘(ℝ, Z) Z p v = p + NormedSpace.fromTangentSpace p v :=
+  riemannianExp_model_space p v
+example (p v : Z) : geodesicInterval 𝓘(ℝ, Z) Z p v = univ :=
+  geodesicInterval_model_space p v
+example (p v : Z) (t : ℝ) : maximalGeodesic 𝓘(ℝ, Z) Z p v t = p + t • v :=
+  maximalGeodesic_model_space p v t
+
+-- The zero-dimensional model also exercises the actual Layer2 normal/logarithm
+-- API and the derivative/Gauss wiring; no dimension-positive shortcut is possible.
+example (p : Z) {r : ℝ} (hr : 0 < r) :
+    IsNormalDomain 𝓘(ℝ, Z) Z p (Metric.ball (0 : TangentSpace 𝓘(ℝ, Z) p) r) :=
+  isNormalDomain_ball_model_space p hr
+example {p q : Z} {r : ℝ} (hq : q ∈ Metric.ball p r) :
+    riemannianLog 𝓘(ℝ, Z) Z p (Metric.ball 0 r) q =
+      (NormedSpace.fromTangentSpace p).symm (q - p) :=
+  riemannianLog_ball_model_space hq
+example (p : Z) (v w : TangentSpace 𝓘(ℝ, Z) p) :
+    mfderiv 𝓘(ℝ, TangentSpace 𝓘(ℝ, Z) p) 𝓘(ℝ, Z)
+      (riemannianExp 𝓘(ℝ, Z) Z p) v w = NormedSpace.fromTangentSpace p w :=
+  mfderiv_riemannianExp_apply_model_space p v w
+example (p : Z) (v w₁ w₂ : TangentSpace 𝓘(ℝ, Z) p) :
+    inner ℝ (mfderiv 𝓘(ℝ, TangentSpace 𝓘(ℝ, Z) p) 𝓘(ℝ, Z)
+      (riemannianExp 𝓘(ℝ, Z) Z p) v w₁)
+      (mfderiv 𝓘(ℝ, TangentSpace 𝓘(ℝ, Z) p) 𝓘(ℝ, Z)
+        (riemannianExp 𝓘(ℝ, Z) Z p) v w₂) = inner ℝ w₁ w₂ :=
+  inner_mfderiv_riemannianExp_model_space p v w₁ w₂
+
+-- Exact (f_p)-without-properness witness, with the canonical restricted flat metric.
+example (q : TauCeti.realOpenUnitBall) :
+    ∃ γ : ℝ → TauCeti.realOpenUnitBall,
+      IsGeodesicCurveOn 𝓘(ℝ, ℝ) γ (Icc 0 1) ∧
+      γ 0 = TauCeti.RealOpenUnitBall.center ∧ γ 1 = q ∧
+      Manifold.pathELength (M := TauCeti.realOpenUnitBall) 𝓘(ℝ, ℝ) γ 0 1 = edist TauCeti.RealOpenUnitBall.center q :=
+  TauCeti.RealOpenUnitBall.exists_isGeodesicCurveOn_Icc_pathELength_eq_edist q
+example : ¬ CompleteSpace TauCeti.realOpenUnitBall :=
+  TauCeti.RealOpenUnitBall.not_completeSpace
+example : ¬ ProperSpace TauCeti.realOpenUnitBall :=
+  TauCeti.RealOpenUnitBall.not_properSpace
+example : Metric.closedBall TauCeti.RealOpenUnitBall.center 2 = univ :=
+  TauCeti.RealOpenUnitBall.closedBall_center_eq_univ 2 (by norm_num)
+example : ¬ IsCompact (Metric.closedBall TauCeti.RealOpenUnitBall.center 2) :=
+  TauCeti.RealOpenUnitBall.not_isCompact_closedBall_center 2 (by norm_num)

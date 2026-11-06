@@ -306,12 +306,25 @@ fiber products of affine `X`-schemes, and affine computations through `tildeEqui
 ### L2A — structured linear schemes
 
 Use `GradedObject` and commutative monoid objects to define nonnegatively graded quasicoherent
-algebras with graded algebra morphisms. Construct the graded symmetric algebra and its full
+algebras `GradedQuasicoherentAlgebra` with graded algebra morphisms. Construct
+`gradedSymmetricAlgebra` and its full
 subcategory of objects freely generated in degree one. Apply relative Spec while retaining this
 grading. On `V_lin(F)`, construct zero, addition and scalar multiplication and prove the affine
 formulas and the equivalence with the module-scheme presentation satisfying the canonical
 symmetric-algebra isomorphism condition above. The recognition theorem and its morphism
 correspondence concern precisely these free-degree-one objects.
+
+Export the affine graded-ring interface for every L2A graded quasicoherent
+algebra: take sections degree by degree on affine opens, construct the native
+graded multiplication/unit and direct-sum underlying algebra, and prove the
+localization, affine-restriction and arbitrary-base-change comparisons.
+Prove these maps preserve finite generation and generation in degree one,
+and give the symmetric-algebra comparison on affine modules. This is the
+shared input interface for StableReduction Layer2's relative Proj and
+[SchemeAndStackFoundations §0.3](https://github.com/TauCetiProject/TauCetiRoadmap/pull/779),
+as well as L2A's relative Spec; those consumers
+use this graded object and its affine ring charts rather than a second
+category of graded quasicoherent algebras.
 
 **First milestone:** the degree-one functor and `linearSpec` are quasi-inverse equivalences
 
