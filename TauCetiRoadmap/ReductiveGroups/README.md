@@ -13,7 +13,7 @@ structure and classification targets, and the integral, representation-theoretic
 and spectral constructions in Layers 0–11. The SL polynomial presentation concerns
 the existing determinant-kernel coordinate algebra; it introduces no second SL group.
 Layer 7a owns Lang's theorem for the `q`-Frobenius of a smooth geometrically connected
-group over a finite field and the abstract fixed-coset lifting lemma; Layer 9E owns their
+group over a finite field and the coset bijection from the native fixed-coset lifting; Layer 9E owns their
 Steinberg-endomorphism extension. Layer 1.1 owns rational cohomology and cotensor
 induction over flat commutative Hopf algebras, together with their rational
 group-scheme adapters. Layer 3A.5 owns the classical complex-point topology,
@@ -240,9 +240,24 @@ prove them equivalent** rather than committing.
   `TauCeti.FiniteField.rationalPointsMulEquivFixedSubgroupGeometricFrobenius : G₀(K) ≃ G^F`,
   the finiteness `TauCeti.FiniteField.finite_fixedSubgroup_frobeniusPoints` of the points
   fixed by a positive iterate of Frobenius when `H` is of finite type and `A` is a domain,
-  and naturality in `H` (`map_fixedSubgroup_frobeniusPoints_le`); `Frobenius/GeneralLinear.lean`
+  naturality in `H` (`map_fixedSubgroup_frobeniusPoints_le`), the compatibility with closed
+  subgroup schemes defined over `K`
+  (`BialgHom.map_fixedSubgroup_frobeniusPoints_of_surjective`: for a surjective bialgebra
+  map `ψ : H →ₐc[K] H₁`, the points of the subgroup fixed by its own Frobenius are exactly
+  its points fixed in the ambient group), the naturality
+  `mapDomain_rationalPointsMulEquivFixedSubgroupGeometricFrobenius` of `G₀(K) ≃ G^F` in
+  `H`, and the finiteness `finite_fixedSubgroup_mapDomain_geometricFrobeniusBialgHom` of
+  `G^F` for `H` of finite type; `Frobenius/GeneralLinear.lean`
   gives the matrix form on a closed subgroup of `GLₙ`. They do not prove finiteness of the
   fixed points of an arbitrary endomorphism, nor Lang or Lang–Steinberg.
+  `TauCeti/GroupTheory/FixedSubgroup/Lang.lean` proves the abstract fixed-coset lifting in
+  Mathlib's `commutatorMap` convention (the Lang map of an endomorphism `φ` is
+  `g ↦ g / φ g`): `MonoidHom.exists_fixed_inv_mul_of_surjective_commutatorMap` corrects an
+  element `n` whose defect `n / F n` lies in the image of an `F`-stable subgroup with
+  surjective Lang map to an `F`-fixed element of the right coset `J n`, and
+  `MonoidHom.exists_fixed_lift_of_surjective_commutatorMap` lifts fixed points along an
+  equivariant surjection whose kernel is parametrized by such a subgroup. It assumes no
+  normality, finiteness or uniqueness.
 - Mathlib's root-system and Coxeter modules provide abstract combinatorial structures.
   Tau Ceti has concrete torus, GL, SL, and symplectic root-data carriers. These are
   reusable instances, not general root extraction or classification.
@@ -403,8 +418,16 @@ type when `G` is, smooth in characteristic zero for affine finite-type `G`
 `Orbit/Stabilizer.lean` the kernel-pair description and `smooth_toOrbit_iff`: for reduced
 `G` the orbit map is smooth exactly when the stabilizer is; `Orbit/BaseChange.lean` the
 compatibility of orbit schemes with extension of algebraically closed fields
-(`orbitBaseChangeIso`); `Orbit/Functoriality.lean` and `Orbit/FixedPoint.lean` the
-equivariant and fixed-point comparisons. `AlgebraicGeometry/RationalPoint/Image.lean` is the
+(`orbitBaseChangeIso`); `Orbit/Action.lean` the orbit scheme as an object
+`TauCeti.SchemeAction.orbitOver G x` of `Over (Spec k)` with the group-object action of `G`
+on it restricted from `X` (the instance `orbitModObj : ModObj G (orbitOver G x)`) and the
+equivariance `IsModHom G (orbitInclusion G x)` of the immersion; `Orbit/Functoriality.lean`
+the equivariant comparisons along `G`-maps and the base-point change
+`TauCeti.SchemeAction.orbitSchemeIsoSmul g : orbitScheme G (g • x) ≅ orbitScheme G x` for a
+rational point `g`, which fixes the immersion (`orbitSchemeIsoSmul_hom_ι`) and
+reparametrizes the orbit morphism by right translation by `g`
+(`toOrbit_orbitSchemeIsoSmul_hom`); `Orbit/FixedPoint.lean` the fixed-point
+comparisons. `AlgebraicGeometry/RationalPoint/Image.lean` is the
 Jacobson adapter: `Scheme.Hom.exists_comp_eq_iff_mem_range` lifts rational points along a
 morphism of finite-type schemes over `k`, and constructible subsets, inclusions of ranges
 and surjectivity are detected on rational points
@@ -416,8 +439,8 @@ and `ProjectiveOrbit/Quotient.lean` represents the fppf quotient `G/N` by a redu
 over an algebraically closed field by a projective orbit
 (`fppfHomogeneousQuotientIsoProjectiveOrbitPoints`,
 `exists_fppfHomogeneousQuotient_iso_projectiveOrbitPoints`). Layer 3A consumes these and
-retains the complex comparison of 3A.5, the equivariant-isomorphism and
-independence-of-factorization API of 3A.2, 3A.6 and 3A.7.
+retains the complex comparison of 3A.5, the independence-of-factorization and
+`orbitBaseChangeIso`-compatibility API of 3A.2, 3A.6 and 3A.7.
 
 ### Native structure theory
 
@@ -435,7 +458,16 @@ and 9D; `k` is a field and `H : FiniteTypeCommHopfAlgCat.{u, u} k` unless stated
   `FiniteEtale.lean` the represented `componentGroupScheme` with its affine, finite and étale
   instances; `Representable.lean` the isomorphism `componentGroupFppfGroupObjectIso` of the
   fppf quotient by `G°` with the finite constant group scheme of `π₀(Spec H)`; `Exact.lean`
-  and `Galois.lean` exactness and the Galois action.
+  and `Galois.lean` exactness and the Galois action. `Connected/Comultiplication.lean` also
+  proves `identityComponentHopfIdeal_toIdeal_le_ker_of_connected`: every homomorphism from
+  `G` to a connected affine group kills the ideal of `G°`, so the image of a connected
+  group containing the identity lies in `G°`; and `Connected/ComponentGroup/UniversalProperty.lean`
+  proves `kernelHopfIdeal_le_identityComponentHopfIdeal_of_etale` (every homomorphism from
+  `G` to an étale finite-type affine group kills `G°`, with no reducedness hypothesis on
+  `G`), the universal property `existsUnique_comp_componentCoordinateHom` of the component
+  group among finite étale targets, and the bijection `componentEtaleHomEquiv` on
+  homomorphisms. Together the two inclusions make `G°` the unique connected normal closed
+  subgroup with étale quotient over an algebraically closed field.
 - **Represented quotients** (Layer 3). For a normal Hopf ideal `I` of a commutative Hopf
   algebra over a commutative ring, `HopfIdeal/Coinvariants/Quotient.lean` gives the
   quotient Hopf algebra `TauCeti.CommHopfAlgCat.coinvariants`, its inclusion
@@ -481,6 +513,16 @@ and 9D; `k` is a field and `H : FiniteTypeCommHopfAlgCat.{u, u} k` unless stated
   `characterLatticeFunctor_isEquivalence` of tori over a perfect field with continuous
   integral Galois lattices (Milne 12.23–12.24), and `Torus/Cocharacter/Equivalence.lean` the
   cocharacter version with its duality `cocharacterLatticeFunctorIsoDual`.
+  `DiagonalizableGroup/EssentialImage.lean` proves `essImage_coordinateRingFunctor`: the
+  finite-type commutative Hopf algebras isomorphic to some `k[X]`, `X` a finitely generated
+  commutative group, are exactly those spanned by their group-like elements
+  (`groupLikeSpannedProperty`), which is the native definition of diagonalizable;
+  `DiagonalizableGroup/Weight.lean` defines, for a comodule `V` over a coalgebra `C` over a
+  commutative semiring and a coalgebra map `π : C →ₗc[R] R[X]`, the weight submodules
+  `weightSpace V π x` of the corestriction, and proves `isInternal_weightSpace` (`V` is the
+  internal direct sum of its weight submodules) and `finite_setOf_weightSpace_ne_bot` for
+  finite `V`: every representation of a diagonalizable group, and every representation
+  restricted along a homomorphism from one, is a direct sum of its weight spaces.
 - **Unipotent and solvable groups** (Layer 5). `Unipotent/Basic.lean` defines
   `TauCeti.geometricallyUnipotentPointsCommHopfAlgProperty` and
   `TauCeti.smoothUnipotentCommHopfAlgProperty`; `Unipotent/Embedding.lean` proves, for
@@ -573,9 +615,19 @@ and 9D; `k` is a field and `H : FiniteTypeCommHopfAlgCat.{u, u} k` unless stated
   `Torus/Maximal.lean` defines `TauCeti.HopfIdeal.IsMaximalTorus`; `Torus/Existence.lean`
   proves `exists_isMaximalTorus_le` and `exists_isMaximalTorus` over any field;
   `Torus/Conjugation.lean` proves `exists_conjugate_eq_of_isMaximalTorus`: over an
-  algebraically closed field, two maximal tori are conjugate provided every diagonalizable
-  closed subgroup conjugates into a distinguished maximal torus `D` (the hypotheses
-  `hcontainI`, `hcontainJ`); the unconditional theorem is Layer 7's target.
+  algebraically closed field, two maximal tori `I` and `J` are conjugate provided each of
+  them, if diagonalizable, lies in a conjugate of a fixed maximal torus `D` (the hypotheses
+  `hcontainI`, `hcontainJ`, each an implication about that one torus; they quantify over no
+  other subgroup, and no claim about all diagonalizable subgroups is made or true: in
+  `PGL₂` the Klein four-subgroup is diagonalizable and lies in no torus); the unconditional
+  theorem, which discharges the two hypotheses for maximal tori, is Layer 7's target.
+  `Borel/ProjectiveOrbit.lean` proves
+  `isBorelOverAlgClosed_iff_exists_eq_conjugate_of_isClosed_projectiveOrbit`: if a smooth
+  connected solvable closed subgroup `D` is the stabilizer of a rational point of a closed
+  orbit in the projective space of a finite-dimensional representation, then `D` is a
+  Borel subgroup and the Borel subgroups are exactly its conjugates, with no smoothness or
+  connectedness hypothesis on the ambient group; closedness of the orbit is a hypothesis,
+  not a consequence of choosing a Chevalley line.
   `Parabolic/Basic.lean` defines `TauCeti.HopfIdeal.IsParabolicOverAlgClosed` (smooth and
   containing a Borel) and `IsParabolic` (the same after base change to an algebraic closure),
   and proves `isParabolicOverAlgClosed_iff_exists_conjugate_le`: relative to a fixed Borel,
@@ -956,12 +1008,16 @@ and tangent dimensions, not for constructing the tangent Lie algebra.
   compatibility `geometricallyConnectedCommHopfAlgProperty.baseChange_iff`, the component
   group `componentGroupScheme` with its finite étale instances, and
   `componentGroupFppfGroupObjectIso` identifying the fppf quotient by `G°` with the finite
-  constant group scheme of the connected components (the supplier contract). The targets
-  that remain are the same statements over an arbitrary field, by descent of the identity
-  component and of the component group from the algebraic closure, and the uniqueness
-  statement of Milne 5.58. *Needs:* Layer 0's dictionary; the native identity component and
-  component group; the quotient construction above; Mathlib's connected components and
-  idempotents.
+  constant group scheme of the connected components (the supplier contract). The
+  uniqueness statement of Milne 5.58 over the algebraic closure is native too: a connected
+  normal closed subgroup `N` with `G/N` étale contains `G°` by
+  `kernelHopfIdeal_le_identityComponentHopfIdeal_of_etale` applied to the quotient map, and
+  lies in `G°` by `identityComponentHopfIdeal_toIdeal_le_ker_of_connected` applied to the
+  inclusion of `N`, so `N = G°`. The targets that remain are the same statements over an
+  arbitrary field, by descent of the identity component, of the component group and of the
+  uniqueness statement from the algebraic closure. *Needs:* Layer 0's dictionary; the
+  native identity component, component group and universal property; the quotient
+  construction above; Mathlib's connected components and idempotents.
   ⚠ Reserve the term **connected–étale sequence** for *finite* group schemes; here use
   "identity component and component group", and "connected" always means the geometric
   notion.
@@ -1068,13 +1124,16 @@ rational points) is `AlgebraicGeometry/RationalPoint/Image.lean`
 The reduced locally closed orbit scheme is `TauCeti.SchemeAction.orbitScheme G x` with
 its immersion `orbitι`, `range_orbitι` and the reducedness instance for reduced G, and
 its translations are `orbitTranslation`; `orbitBaseChangeIso` compares orbit schemes
-under extension of algebraically closed fields. What remains here is the action of G on
-the orbit scheme as a group-object action in `Over (Spec k)` (the native translations are
-the individual rational-point automorphisms), the independence of the orbit scheme from
-the open/closed factorization of the immersion, and the equivariant isomorphism
-`orbitScheme G x ≅ orbitScheme G (g • x)` over the translation, with the compatibility
-of these with `orbitBaseChangeIso`. These are direct subscheme constructions; no
-representability theorem for G/H is a premise.
+under extension of algebraically closed fields; the action of G on the orbit scheme as a
+group-object action in `Over (Spec k)` is the native instance `orbitModObj` on
+`orbitOver G x`, with the immersion equivariant (`IsModHom G (orbitInclusion G x)`), and
+the base-point change `orbitSchemeIsoSmul g : orbitScheme G (g • x) ≅ orbitScheme G x`
+fixes the immersion and carries the orbit morphism to its right translate
+(`orbitSchemeIsoSmul_hom_ι`, `toOrbit_orbitSchemeIsoSmul_hom`; the supplier contract).
+What remains here is the independence of the orbit scheme from the open/closed
+factorization of the immersion, and the compatibility of the native action and of
+`orbitSchemeIsoSmul` with `orbitBaseChangeIso`. These are direct subscheme
+constructions; no representability theorem for G/H is a premise.
 
 **3A.3 Finite dimensions, including disconnected groups.** The dimension
 statements are native, on `topologicalKrullDim` with the empty set at `⊥`:
@@ -1308,11 +1367,17 @@ Layer 2; Mathlib's Chevalley constructibility, Jacobson and residue-field theore
   and `torusCommHopfAlgProperty.of_baseChange`, and the equivalence
   `characterLatticeFunctor_isEquivalence` of tori over a perfect field with continuous
   integral Galois lattices (Milne, Theorem 12.23 and Corollary 12.24, p. 240; the supplier
+  contract). Of the equivalent conditions of Milne, Theorem 12.12, p. 234, two are native:
+  `k[G]` is spanned by group-like elements exactly when `G ≅ D(X)` for a finitely
+  generated commutative group `X` (`essImage_coordinateRingFunctor`, the native
+  definition of diagonalizable), and every representation of `D(X)` is the direct sum of
+  its weight spaces, hence a sum of characters (`isInternal_weightSpace`; the supplier
   contract). The targets that remain are stability of diagonalizability under quotient
   groups (Milne, Theorem 12.8, p. 233; the supplied closed-subgroup theorem is the
-  contravariant half), the equivalent conditions of Milne, Theorem 12.12, p. 234 (every
-  representation is a sum of characters, equivalently `k[G]` is spanned by group-like
-  elements), the extension of the Galois-lattice equivalence from tori to all groups of
+  contravariant half), the converse in 12.12 (a group all of whose finite-dimensional
+  representations are sums of characters has `k[G]` spanned by group-like elements, by
+  applying the hypothesis to the regular representation on finite subcomodules), the
+  extension of the Galois-lattice equivalence from tori to all groups of
   multiplicative type (finitely generated Galois modules with torsion; the native
   equivalence is stated for tori), and over an imperfect field the descent of the
   equivalence to the separable closure. `μ_n = D(ℤ/n)`, `𝔾_m = D(ℤ)` and the non-smooth
@@ -1771,16 +1836,30 @@ representability.
   (`IsBorelOverAlgClosed.exists_le_conjugate_of_isBorelCandidate`), every Borel contains a
   maximal torus of the ambient group (`IsBorelOverAlgClosed.exists_isMaximalTorus_ge`),
   maximal tori exist over any field (`exists_isMaximalTorus`, `exists_isMaximalTorus_le`),
-  and two maximal tori are conjugate provided every diagonalizable closed subgroup
-  conjugates into a distinguished one (`exists_conjugate_eq_of_isMaximalTorus`; the
+  two maximal tori are conjugate provided each of them lies in a conjugate of a fixed
+  maximal torus (`exists_conjugate_eq_of_isMaximalTorus`, whose hypotheses `hcontainI`,
+  `hcontainJ` concern the two given tori alone; the supplier contract), and the stabilizer
+  of a rational point of a closed projective orbit, if smooth connected solvable, is a
+  Borel subgroup with the Borel subgroups as its conjugates
+  (`isBorelOverAlgClosed_iff_exists_eq_conjugate_of_isClosed_projectiveOrbit`; the
   supplier contract). The targets that remain are: that `G/B` is complete (Milne,
-  Theorem 17.9(a), p. 354; the route: by 3A.6 choose a closed orbit `G·[L]` in `P(V)` for
-  a representation `V` and a line `L` whose stabilizer is a Borel `B'`, so that
-  `G/B' ≃ G·[L]` is projective, and conclude for every Borel `B` by the native conjugacy);
-  the unconditional conjugacy of maximal tori (Milne, Theorem 17.10, p. 354), by
-  discharging the native containment hypothesis: every torus lies in a Borel
-  (`Borel/Torus.lean`), Borels are conjugate, and the maximal tori of a connected solvable
-  group are conjugate (Milne, Theorem 16.33, p. 335, through Layer 5's `G = G_u ⋊ T`); that
+  Theorem 17.9(a), p. 354; the route, for reduced `G`: let `B` be a smooth connected
+  solvable closed subgroup of maximal dimension; by Chevalley's coset criterion in its
+  native form `exists_fppfHomogeneousQuotient_iso_projectiveOrbitPoints` choose a
+  representation `V` and a line `L` with `B = Stab_G(L)`, and by Layer 5's Lie–Kolchin a
+  complete `B`-stable flag `F` of `V` through `L`, so that `Stab_G(F) = B`; the stabilizer
+  in `G` of any complete flag `F'` lies in an upper triangular group, so its reduced
+  identity component is smooth connected solvable and `dim Stab_G(F') ≤ dim B`; hence the
+  orbit of the Plücker line of `F` in `P(⊗_i Λ^i V)` has minimal dimension among the
+  orbits of flags and is closed by 3A.4; the native criterion then makes `B` a Borel
+  subgroup whose conjugates are all the Borel subgroups, `G/B ≃ G·[F]` is projective, and
+  `G/B'` is complete for every Borel `B'` by the native conjugacy; 3A.6 supplies the
+  equivariant projective embedding); the unconditional conjugacy of maximal tori (Milne, Theorem 17.10,
+  p. 354), by discharging the native containment hypotheses for two maximal tori `I` and
+  `J` and a fixed maximal torus `D`: every torus lies in a Borel (`Borel/Torus.lean`),
+  Borels are conjugate, and the maximal tori of a connected solvable group are conjugate
+  (Milne, Theorem 16.33, p. 335, through Layer 5's `G = G_u ⋊ T`), so `I` and `J` each lie
+  in a conjugate of `D`; that
   any two Borel subgroups of a connected reductive group contain a common maximal torus;
   and the Bruhat decomposition `G(k) = ⨆_{w∈W} B(k) w B(k)` with the double-coset
   identification `B\G/B ≃ W` (Milne, §21.h, p. 446; Theorem 21.45, p. 438, for Tits
@@ -1938,7 +2017,7 @@ uniqueness lemmas.
 ## Layer 7a: finite fields, Frobenius and rational points
 
 This layer owns Lang's theorem for the `q`-Frobenius, its quotient and `H¹` consequences,
-and the abstract fixed-coset lifting lemma; Layer 9E owns their extension to Steinberg
+and the coset bijection from the native fixed-coset lifting; Layer 9E owns their extension to Steinberg
 endomorphisms. Nothing in this layer is imported from a roadmap that consumes this one.
 
 Let `q=p^f`, `k=F̄_q`, and let `G₀` be a connected reductive group scheme of finite type over
@@ -1958,10 +2037,16 @@ algebra), the geometric Frobenius of the base change `k ⊗_{F_q} O(G₀)` is
 `rationalPointsMulEquiv` for the points over any domain; finiteness of the points fixed by
 a positive iterate `F^n`, for `O(G₀)` of finite type, is
 `TauCeti.FiniteField.finite_fixedSubgroup_frobeniusPoints`, and naturality in `G₀` is
-`map_fixedSubgroup_frobeniusPoints_le` (the supplier contract). The targets that remain
-are the compatibility of `G^F ≃ G₀(F_q)` with `F`-stable closed subgroup schemes (the
-subgroup's own Frobenius is the restriction) and the transport of the point-level
-Frobenius to the scheme-level endomorphism of `G` through Layer 0.
+`map_fixedSubgroup_frobeniusPoints_le`; for a closed subgroup scheme `H₀ ⊂ G₀` defined
+over `F_q`, the compatibility of `G^F ≃ G₀(F_q)` with `H₀`, that is, the points of `H₀`
+fixed by its own Frobenius are its points fixed in `G`, is
+`BialgHom.map_fixedSubgroup_frobeniusPoints_of_surjective`, with
+`mapDomain_rationalPointsMulEquivFixedSubgroupGeometricFrobenius` for the naturality of
+the equivalence and `finite_fixedSubgroup_mapDomain_geometricFrobeniusBialgHom` for the
+finiteness of `G^F` (the supplier contract). The targets that remain are the descent of
+an `F`-stable closed subgroup scheme of `G` to a closed subgroup scheme of `G₀` over
+`F_q`, after which the native compatibility applies to it, and the transport of the
+point-level Frobenius to the scheme-level endomorphism of `G` through Layer 0.
 
 **Lang's theorem.** For a smooth geometrically connected affine group scheme `G₀` of finite
 type over `F_q`, with `q`-Frobenius `F` on `G = G₀ ×_{F_q} k`, the Lang map `G(k) → G(k)`,
@@ -1991,11 +2076,17 @@ connected, `G(F_q) → G''(F_q)` is surjective. *Needs:* 3A.4's closed orbits; S
 theorem; finiteness of Frobenius fixed points above; Layer 0's points comparison.
 
 **Fixed-coset lifting.** Let `H` be a group, `σ` an automorphism of `H` and `J ≤ H` a
-`σ`-stable subgroup, not necessarily normal, on which `x ↦ x⁻¹σ(x)` is surjective. Prove
-that every `σ`-stable left coset `hJ` (one with `σ(h) ∈ hJ`) contains a `σ`-fixed element,
-and that `H^σ/J^σ → (H/J)^σ` is a bijection: if `σ(h) = hj`, choose `x ∈ J` with
-`j = xσ(x)⁻¹`, so that `σ(hx) = hx`; and if `h, h' ∈ H^σ` with `h' = hj` then `σ(j) = j`.
-This abstract argument proves the stated group-level generalization of Dudas–Michel,
+`σ`-stable subgroup, not necessarily normal, on which the Lang map is surjective. The
+lifting is native, in Mathlib's `commutatorMap` convention `x ↦ x / σ(x) = xσ(x)⁻¹`:
+`MonoidHom.exists_fixed_inv_mul_of_surjective_commutatorMap` says that every `σ`-stable
+right coset `Jn` (one with `nσ(n)⁻¹ ∈ J`) contains a `σ`-fixed element `x⁻¹n` with
+`x ∈ J`, and `MonoidHom.exists_fixed_lift_of_surjective_commutatorMap` lifts a `σ`-fixed
+element along a `σ`-equivariant surjection whose kernel is `J` (the supplier contract).
+Derive the left-coset form (a `σ`-stable `hJ`, one with `σ(h) ∈ hJ`, contains a fixed
+element) by applying the native lemma to `n = h⁻¹`, whose Lang map `x ↦ x⁻¹σ(x)`
+corresponds to the native one under inversion, and the bijection
+`H^σ/J^σ → (H/J)^σ`: surjectivity is the lifting, and if `h, h' ∈ H^σ` with `h' = hj`
+then `σ(j) = j`. This proves the stated group-level generalization of Dudas–Michel,
 Lemma 7.6(i), p. 25; its separate H¹ comparison in (ii) requires normality, whereas
 this coset bijection does not. Apply this with `H = G(k)`, `σ = F` and `J = P(k)` for every `F`-stable closed subgroup
 `P` to which Lang's theorem applies. For every
@@ -3805,7 +3896,7 @@ The elementary carriers are `PlaneBraidAcceptance.OrderedPlane` and
 `PlaneBraidAcceptance.UnorderedPlane`. Permutations act by `(σ·z)_i=z_(σ⁻¹ i)` via
 `PlaneBraidAcceptance.permute` and `PlaneBraidAcceptance.planePermutationAction`.
 The standard points are `PlaneBraidAcceptance.planeBase` and
-`PlaneBraidAcceptance.unorderedBase`; `PlaneBraidAcceptance.plane_braid` states
+`PlaneBraidAcceptance.unorderedBase`; `PlaneBraidAcceptance.nonempty_plane_braid` states
 existence of the based group equivalence on these carriers.
 
 **API.**

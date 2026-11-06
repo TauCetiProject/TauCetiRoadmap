@@ -196,7 +196,7 @@ def unorderedBase (n : ℕ) : UnorderedPlane n := Quotient.mk _ (planeBase n)
 
 /-- The fundamental group of the actual unordered plane configuration space is the
 native Artin braid group (Fox–Neuwirth, §7, pp. 123–126). -/
-theorem plane_braid (n : ℕ) :
+theorem nonempty_plane_braid (n : ℕ) :
     Nonempty (FundamentalGroup (UnorderedPlane n) (unorderedBase n) ≃* TauCeti.BraidGroup n) := by
   sorry
 
