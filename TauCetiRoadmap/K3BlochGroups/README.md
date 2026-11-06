@@ -14,7 +14,7 @@ GeneralAlgebraicKTheory §§13.8a–c owns Quillen's finite-field computation (B
 
 Layer 3 owns the shared integral pre-Bloch group, antisymmetric tensor cokernel, boundary, Bloch kernel and their field maps. Sections 3.4–3.5 provide the symbol-preserving equivalence between reduced and unreduced presentations, its natural boundary square and the induced equivalence on Bloch kernels. PolylogarithmFunctions supplies analytic functions and cross-ratios, not these algebraic carriers.
 
-PolylogarithmFunctions owns the interval Rogers function and the Bloch–Wigner function with their analytic identities (the interval function and endpoints are §6.1, reflection is §6.3, the exact interval pentagon is §6.4, and the midpoint value is §6.5). Downstream, Polylogarithms Layer 2 constructs the descended real regulator and compares it with the Borel regulator, and its Layer 4 uses the rational-curve presentation of §4.21. No regulator, dilogarithm or Habiro comparison is used to prove anything in this roadmap.
+PolylogarithmFunctions owns the interval Rogers function and the Bloch–Wigner function with their analytic identities (the interval function and endpoints are §6.1, reflection is §6.3, the exact interval pentagon is §6.4, and the midpoint value is §6.5). Downstream, Polylogarithms Layer 2 constructs the descended real regulator and compares it with the Borel regulator, PadicHodgeRegulators §4.7 evaluates the complex regulator on Suslin's Bloch classes, and Polylogarithms Layer 4 uses the rational-curve presentation of §4.21. Those weight-two regulator comparisons and their analytic scalars belong to these consumers, not to this roadmap. No regulator, dilogarithm or Habiro comparison is used to prove anything in this roadmap; the interval Rogers function enters only through the real detector of §5.8.
 
 PolylogarithmFunctions §5.8 owns the field-general projective cross-ratio, its homogeneous comparison, Möbius invariance and five-point normalization, building on `TauCeti.crossRatio_comp_eq_of_sub_eq_div` in `TauCeti/Algebra/Field/LinearFractional.lean`. Section 3.2 transports that cross-ratio to the column coordinates here and takes its reciprocal on distinct tuples. It adds the normalization adapter, the GL₂ triple stabilizer and orbit classification, and the deletion-face formulas for the symbol complex. Tau Ceti's `antisymmetricTensors` in `TauCeti/LinearAlgebra/TensorProduct/Symmetric.lean` is the negative eigenspace of the tensor flip. The object here is its cokernel analogue over arbitrary commutative rings; the integral diagonal torsion is essential. Those are distinct objects, and their comparison is asserted only where two is invertible. Cyclic norm-complex homology, Shapiro, transfer and connecting maps are consumed through the contracts below; §4.15 adds their power-map action rather than a second cyclic-homology construction.
 
@@ -1746,7 +1746,7 @@ Here E/F is an extension of finite fields, |F|=q and [E:F]=d≥1. Restriction, t
 
 The source locators for these statements are Weibel, K-book III, III.7.2(a), p61; Weibel, K-book IV, IV.1.13, p10.
 
-*Needs:* §2.1; Layers 1–4; the finite-field, arithmetic and interval Rogers contracts.
+*Needs:* §2.1; Layers 1–4; the finite-field and arithmetic contracts.
 
 For a quadratic extension E/F of finite fields and a basis e:Fin2→E, let C¹=ker(N:Eˣ→Fˣ). Construct ιe:C¹→SL₂(F) by the matrix in e of multiplication by u. Its determinant is N(u)=1 and it is injective. A basis change conjugates the matrices by the actual change-of-basis element of GL₂(F). The field norm and matrix carriers are Mathlib’s; no second norm or special-linear group is defined.
 
@@ -1797,7 +1797,7 @@ For completeness the separate characteristic-primary summand uses the Borel subg
 
 The source locators for these statements are Hutchinson 2013, arXiv v2, §3, Corollaries 3.6–3.7 and Lemma 3.8, pp14–15; Hutchinson 2013, arXiv v2, §3, Lemma 3.14, pp17–18.
 
-*Needs:* Layers 1–4; the finite-field, arithmetic and interval Rogers contracts.
+*Needs:* Layers 1–4; the finite-field and arithmetic contracts.
 
 ### 5.3 The finite stabilization equivalence
 
@@ -1830,7 +1830,7 @@ The source locators are Hutchinson 2013, arXiv v2, Corollaries 3.6–3.9, pp.14�
 - Integral stabilization at F₅ has a nontrivial kernel; the localized map is bijective.
 - For F₂⊂F₄ the two subgroup images have order 3 in H₃(SL₂(F₄);ℤ[1/2]) of order 15. For F₃⊂F₉ they have order 8 in the group of order 80. These test both characteristics and the cofinal modulus 8 in the two-primary Chern detector.
 
-*Needs:* §1.5, §2.4, §4.18, §5.1, §5.2; Layers 1–4; the finite-field, arithmetic and interval Rogers contracts.
+*Needs:* §1.5, §2.4, §4.18, §5.1, §5.2; Layers 1–4; the finite-field and arithmetic contracts.
 
 ### 5.4 The finite cross-ratio homomorphism
 
@@ -1880,7 +1880,7 @@ The source locators for these statements are Hutchinson 2013, arXiv v2, §4 Theo
 - The kernel for F₇ has order12 and the target has order4.
 - The kernel for a field of cardinality4 has order6 and target order5.
 
-*Needs:* §3.2, §3.5, §4.1, §4.0; Layers 1–4; the finite-field, arithmetic and interval Rogers contracts.
+*Needs:* §3.2, §3.5, §4.1, §4.0; Layers 1–4; the finite-field and arithmetic contracts.
 
 ### 5.5 The finite Bloch sequence and its orders
 
@@ -1921,7 +1921,7 @@ The source locators for these statements are Hutchinson 2013, arXiv v2, §7 Lemm
 - q=2 and q=3 remain outside this Bloch convention’s finite-field order formula.
 - In ℤ/24 the injections ℤ/8→ℤ/24 given by x↦3x and x↦15x both have image {0,3,6,9,12,15,18,21}, but send 1 to 3 and 15. The second is the first precomposed with x↦5x on ℤ/8, which fixes its quotient ℤ/4 and its order-two subgroup {0,4}; equality of images and these extension data do not identify the arrows.
 
-*Needs:* §3.4, §3.6, §3.13, §4.19, §5.2, §5.3, §5.4; Layers 1–4; the finite-field, arithmetic and interval Rogers contracts.
+*Needs:* §3.4, §3.6, §3.13, §4.19, §5.2, §5.3, §5.4; Layers 1–4; the finite-field and arithmetic contracts.
 
 ### 5.6 Odd coefficients and the norm-one Cartan
 
@@ -1944,7 +1944,7 @@ The source locators for these statements are CGZ 2023, §4.2 and Lemma 4.4, pp40
 - q=4,n=5 satisfies them in characteristic two: C¹ is cyclic of order 5 and all five groups are ℤ/5, since H₃(SL₂(𝔽₄),ℤ)=ℤ/30, K₃(𝔽₄)=ℤ/15 and B(𝔽₄)=B_new(𝔽₄)=ℤ/5.
 - A different cyclic generator must transform the bar-cycle image accordingly.
 
-*Needs:* §3.13, §5.1, §5.2, §5.3, §5.5; Layers 1–4; the finite-field, arithmetic and interval Rogers contracts.
+*Needs:* §3.13, §5.1, §5.2, §5.3, §5.5; Layers 1–4; the finite-field and arithmetic contracts.
 
 ### 5.7 Number-field quotient applications
 
@@ -1962,7 +1962,7 @@ Here F=ℚ(i) has r₁=0 and r₂=1. The ambient structure and the value w₂(�
 
 The source locators for these statements are Weibel, K-book III, III.7.2(c)–(d), pp61–62; Weibel, K-book VI, VI.2.1.2 p7; VI.2.2–2.3, pp8–11; VI.5.3 p24. The reduction ℤ/48→ℤ/24 pins the quotient: 24 is a nonzero kernel element and the additive quotient map has no section.
 
-*Needs:* §2.1, §2.2; Layers 1–4; the finite-field, arithmetic and interval Rogers contracts.
+*Needs:* §2.1, §2.2; Layers 1–4; the finite-field and arithmetic contracts.
 
 ### 5.8 A real detector for the universal torsion class
 
@@ -2014,7 +2014,7 @@ At q=5, integral H₃(SL₂) has order 120, its characteristic-localized part ha
 
 ### Dependencies
 
-Use Layers 1–4, GeneralAlgebraicKTheory §13.8c and KTheoryFiniteLocalFields §1.5 for the finite-field groups and their restriction and transfer, and ArithmeticKTheory §§3.2–3.4, 4.1–4.4, 5.1, 5.3–5.4 and 8.10 for the ambient number-field groups. The refined finite configuration complex, its edge map and compatibility with the monomial torsion arrow are the finite proof obligations here; no contraction by a fresh point is used for a finite set. PolylogarithmFunctions §§6.1, 6.3–6.5 supplies only the interval Rogers function and its analytic identities. Section 5.8 uses Mathlib first-order semantics, `RingPreordering.exists_linearOrder` and `TauCeti.RealClosure.exists_realClosure`; its general real-closed-field theorem precedes finite coefficient-list transfer. Downstream, Polylogarithms Layer 2 consumes these maps for its regulator comparison; PadicHodgeRegulators is an anticipated consumer.
+Use Layers 1–4, GeneralAlgebraicKTheory §13.8c and KTheoryFiniteLocalFields §1.5 for the finite-field groups and their restriction and transfer, and ArithmeticKTheory §§3.2–3.4, 4.1–4.4, 5.1, 5.3–5.4 and 8.10 for the ambient number-field groups. The refined finite configuration complex, its edge map and compatibility with the monomial torsion arrow are the finite proof obligations here; no contraction by a fresh point is used for a finite set. PolylogarithmFunctions §§6.1, 6.3–6.5 supplies only the interval Rogers function and its analytic identities. Section 5.8 uses Mathlib first-order semantics, `RingPreordering.exists_linearOrder` and `TauCeti.RealClosure.exists_realClosure`; its general real-closed-field theorem precedes finite coefficient-list transfer.
 
 ## Layer 6: Finite witnesses and coefficient comparisons
 
@@ -2286,7 +2286,7 @@ The algebraic interface offered to ColemanIntegration §L2.Fb consists of P(F), 
 
 The supply direction for this interface is K3BlochGroups Layer 3 → ColemanIntegration L2.Fb. PolylogarithmFunctions §5.8 supplies each roadmap's cross-ratio adapter independently; its Layer 6 supplies the Rogers function used here. None of these analytic inputs depends on Coleman's Bloch evaluation.
 
-Polylogarithms Layer 2 consumes the normalized K₃-to-Bloch map for its real regulator comparison, and its Layer 4 consumes the rational-curve presentation of §4.21 and the specialization lemma of §3.12; the analytic scalars belong there. PadicHodgeRegulators and HabiroNumberFields are anticipated consumers of the integral maps, finite-field conventions and finite-coefficient comparison; no section-specific contract is asserted for them. EllipticKTheory is an anticipated consumer of the indecomposable quotient (§2.1), the two-torsion kernel bound (§2.2), the rational rank (§2.5) and the Suslin sequence (§4.20). The all-curve Goncharov kernel does not disappear through one of these consumer comparisons.
+Polylogarithms Layer 2 consumes the normalized K₃-to-Bloch map of Layer 4 for its descended real regulator and its Borel normalization, and its Layer 4 consumes the rational-curve presentation of §4.21 and the specialization lemma of §3.12. PadicHodgeRegulators consumes the Layer 3 carriers (§§3.1, 3.3–3.6); the configuration map, the natural Suslin sequence and its rational isomorphism (§§4.12–4.14, 4.20, 6.6) for its evaluation of the complex regulator on Bloch classes; and the root classes and finite quotients (§§6.3–6.6) for its local K₃ calculation. The weight-two regulator comparisons and their analytic scalars belong to these two consumers; this roadmap supplies them only the algebraic maps that those comparisons evaluate. HabiroNumberFields is an anticipated consumer of the integral maps, finite-field conventions and finite-coefficient comparison; no section-specific contract is asserted for it. EllipticKTheory is an anticipated consumer of the indecomposable quotient (§2.1), the two-torsion kernel bound (§2.2), the rational rank (§2.5) and the Suslin sequence (§4.20). The all-curve Goncharov kernel does not disappear through one of these consumer comparisons.
 
 ## References
 
