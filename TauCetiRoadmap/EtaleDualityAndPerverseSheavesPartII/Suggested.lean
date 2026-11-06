@@ -30,7 +30,7 @@ geometric carriers and operations:
   Tate twists and specialization maps.
 * The pinned structure of putative and potential dualizing complexes (README §6.2),
   whose pinnings land in the integer Tate twists of EtaleCohomologyFoundations §F.0.3,
-  its regular term pinned by the cycle-class map, its construction and uniqueness,
+  its regular term pinned by the cycle-class morphism, its construction and uniqueness,
   Gabber biduality and excellent duality, and normalized local duality need the étale
   Tate twists, the local support functor, derived internal Hom and general-base
   exceptional inverse image.
@@ -68,15 +68,16 @@ theorem cohenGabber_equalCharacteristic
     (p : ℕ) [Fact p.Prime] [CharP A p] (d : ℕ)
     (hdim : ringKrullDim A = d)
     (hequi : ∀ q ∈ minimalPrimes A, ringKrullDim (A ⧸ q) = d) :
-    ∃ f : MvPowerSeries (Fin d) (IsLocalRing.ResidueField A) →+* A,
-      Function.Injective f ∧
-      (IsLocalRing.residue A).comp f = MvPowerSeries.constantCoeff ∧
-      (letI := f.toAlgebra
-       Module.Finite (MvPowerSeries (Fin d) (IsLocalRing.ResidueField A)) A ∧
-       Module.IsTorsionFree (MvPowerSeries (Fin d) (IsLocalRing.ResidueField A)) A ∧
-       Algebra.Etale (FractionRing (MvPowerSeries (Fin d) (IsLocalRing.ResidueField A)))
-         (FractionRing (MvPowerSeries (Fin d) (IsLocalRing.ResidueField A)) ⊗[
-           MvPowerSeries (Fin d) (IsLocalRing.ResidueField A)] A)) := by
+    ∃ _ : Algebra (MvPowerSeries (Fin d) (IsLocalRing.ResidueField A)) A,
+      Function.Injective (algebraMap (MvPowerSeries (Fin d) (IsLocalRing.ResidueField A)) A) ∧
+      (IsLocalRing.residue A).comp
+          (algebraMap (MvPowerSeries (Fin d) (IsLocalRing.ResidueField A)) A) =
+        MvPowerSeries.constantCoeff ∧
+      Module.Finite (MvPowerSeries (Fin d) (IsLocalRing.ResidueField A)) A ∧
+      Module.IsTorsionFree (MvPowerSeries (Fin d) (IsLocalRing.ResidueField A)) A ∧
+      Algebra.Etale (FractionRing (MvPowerSeries (Fin d) (IsLocalRing.ResidueField A)))
+        (FractionRing (MvPowerSeries (Fin d) (IsLocalRing.ResidueField A)) ⊗[
+          MvPowerSeries (Fin d) (IsLocalRing.ResidueField A)] A) := by
   sorry
 
 
@@ -90,17 +91,19 @@ theorem cohenGabber_equivariant
     (F : Type*) [Field F] [Algebra F A]
     (G : Type*) [Group G] [Finite G] (ρ : G →* RingAut A)
     (horder : IsUnit (Nat.card G : A)) (d : ℕ) (hdim : ringKrullDim A = d) :
-    ∃ f : MvPowerSeries (Fin d) (IsLocalRing.ResidueField A) →+* A,
-      Function.Injective f ∧
-      (IsLocalRing.residue A).comp f = MvPowerSeries.constantCoeff ∧
+    ∃ _ : Algebra (MvPowerSeries (Fin d) (IsLocalRing.ResidueField A)) A,
+      Function.Injective (algebraMap (MvPowerSeries (Fin d) (IsLocalRing.ResidueField A)) A) ∧
+      (IsLocalRing.residue A).comp
+          (algebraMap (MvPowerSeries (Fin d) (IsLocalRing.ResidueField A)) A) =
+        MvPowerSeries.constantCoeff ∧
       (∀ (g : G) (s : MvPowerSeries (Fin d) (IsLocalRing.ResidueField A)),
-        f (MvPowerSeries.map (IsLocalRing.ResidueField.mapEquiv (ρ g)).toRingHom s) =
-          ρ g (f s)) ∧
-      (letI := f.toAlgebra
-       Module.Finite (MvPowerSeries (Fin d) (IsLocalRing.ResidueField A)) A ∧
-       Algebra.Etale (FractionRing (MvPowerSeries (Fin d) (IsLocalRing.ResidueField A)))
-         (FractionRing (MvPowerSeries (Fin d) (IsLocalRing.ResidueField A)) ⊗[
-           MvPowerSeries (Fin d) (IsLocalRing.ResidueField A)] A)) := by
+        algebraMap (MvPowerSeries (Fin d) (IsLocalRing.ResidueField A)) A
+          (MvPowerSeries.map (IsLocalRing.ResidueField.mapEquiv (ρ g)).toRingHom s) =
+          ρ g (algebraMap (MvPowerSeries (Fin d) (IsLocalRing.ResidueField A)) A s)) ∧
+      Module.Finite (MvPowerSeries (Fin d) (IsLocalRing.ResidueField A)) A ∧
+      Algebra.Etale (FractionRing (MvPowerSeries (Fin d) (IsLocalRing.ResidueField A)))
+        (FractionRing (MvPowerSeries (Fin d) (IsLocalRing.ResidueField A)) ⊗[
+          MvPowerSeries (Fin d) (IsLocalRing.ResidueField A)] A) := by
   sorry
 
 /-- Native ring data for the prime-to-ell mixed-characteristic Cohen–Gabber theorem:
