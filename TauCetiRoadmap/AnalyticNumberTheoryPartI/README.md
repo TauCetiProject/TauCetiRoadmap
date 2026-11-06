@@ -324,6 +324,120 @@ See Koukoulopoulos, *The Distribution of Prime Numbers*, Theorem3.4(a) and proof
 
 *Needs:* `ArithmeticFunction.vonMangoldt_sum`; `Chebyshev.psi_le_const_mul_self`; `sum_mul_eq_sub_sub_integral_mul`.
 
+#### 0.11a Prime-cutoff and tail exports
+
+Export §0.11's Mertens estimate on the native finite prime sum with inclusive real
+cutoff `p ≤ x`, `x ≥ 2`, retaining its strict/inclusive comparison. Consume Mathlib's
+`Chebyshev.theta_le_log4_mul_x` for `Σ_{p≤x} log p ≤ Cx`, and derive by partial summation
+one absolute `C ≥ 0` such that
+
+\[
+\sum_{p\ge y}\frac{\log p}{p^2}\le C/y\qquad(y\ge2).
+\]
+
+State summability of the tail and give strict/inclusive, finite/infinite, and interval
+adapters. Retain the endpoint prime in exactly one interval and include prime `2`.
+The boundary term at infinity vanishes by Chebyshev. The distinct-prime-divisor bound
+`Σ_{p|q} log p/p ≤ log log q+C`, including `q≥3`, is consumed from §3.17 with its existing
+constant and native prime-factor carrier, rather than proved a second time here.
+
+Use rational prime carriers and absolute constants. Specialization of the existing
+Tau Ceti number-field Mertens theorem to the fixed field `ℚ`, together with its
+prime-ideal/rational-prime transport, also supplies the rational estimate. A constant
+for a varying quadratic field is not an absolute constant over its characters.
+
+*Needs:* §0.11, §3.17; the completed ArithmeticDirichletSeries summation and prime-power
+APIs; native Chebyshev and Abel summation. The tail derivation is the Stieltjes
+integration-by-parts identity for `dθ(t)` against `t^(-2)`, with `θ(t)=O(t)`.
+
+#### 0.11b Uniform Euler logarithmic derivatives
+
+For any complex Dirichlet character and `1<σ≤2`, prove absolute convergence and a
+character-independent bound for the prime-power contribution with exponents at least
+two. The geometric sum is bounded by `Σ_{n≥2} log n/(n(n−1))`, which is summable and
+contains no character or conductor. Consume Mathlib's `LSeries_twist_vonMangoldt_eq`
+and the continued-function comparison on `Re s>1` to export
+
+\[
+\left|\frac{L'}L(\sigma,\chi)+
+\sum_p\frac{\chi(p)\log p}{p^\sigma}\right|\le C.
+\]
+
+The constant is chosen before the modulus, character, and evaluation point. State
+summability of the displayed prime series. Include the real-valued form for real
+characters, retaining the scalar-cast comparisons and the zero values at primes
+dividing the modulus. Primitivity and nonprincipality are not needed for this
+half-plane formula.
+
+Export also one absolute bounded error in
+
+\[
+-\frac{\zeta'}\zeta(1+\eta)=\eta^{-1}+O(1),\qquad0<\eta\le1.
+\]
+
+Use `ArithmeticFunction.vonMangoldt.continuousOn_LFunctionResidueClassAux` at level
+one and `DirichletCharacter.continuousOn_neg_logDeriv_LFunctionTrivChar₁` to identify
+the regularized logarithmic derivative. Check its sign and the pole-removal identity
+before taking its bound on the compact interval. This is a consequence of the
+existing regularized function, not a new Laurent-series construction. All functions
+here are canonical continued L-functions, with series comparisons used only in their
+convergence half-plane.
+
+*Needs:* §0.11a for prime carriers; Mathlib Euler logarithmic derivatives and the
+regularized zeta function; ArithmeticDirichletSeries prime-power regrouping. The
+geometric-majorant argument above supplies the uniformity without any zero-free
+region to the left of one.
+
+#### 0.11c Weighted-prime Mellin smoothing
+
+For bounded weights on primes, use the inclusive finite sum
+`A(x)=Σ_{p≤x} a_p log p/p`. Define it by native finite primes `p≤⌊x⌋₊`; do not introduce
+another prime type. Develop the real, signed, and complex versions on the same finite
+sum and scalar maps. For `|a_p|≤1` and `η>0`, prove summability, Bochner integrability,
+and the identity
+
+\[
+\sum_p a_p\frac{\log p}{p^{1+\eta}}
+=\eta\int_1^\infty A(t)t^{-1-\eta}\,dt.
+\]
+
+Give the finite-cutoff integration-by-parts formula first, then prove the boundary
+term tends to zero and the truncated integrals and series converge. Mertens gives
+`|A(t)|≤C+log t`, which justifies the limit for every `η>0`. The initial interval
+`1≤t<2` contributes zero to `A`. A Banach-space formulation using scalar multiplication
+may supply both real and complex versions.
+
+Export linearity and monotonicity of the weighted integral under explicit integrable
+domination, and the scalar identities
+
+\[
+\eta\int_1^\infty t^{-1-\eta}\,dt=1,\qquad
+\eta\int_1^\infty(\log t)t^{-1-\eta}\,dt=\eta^{-1}.
+\]
+
+Prove integrability and Jensen's bound
+
+\[
+\eta\int_1^\infty\log\log(3t)t^{-1-\eta}\,dt
+\le\log(\log3+\eta^{-1}),
+\]
+
+then a single absolute bound `log(log3+η⁻¹)≤C log(2/η)` for `0<η≤1`.
+After `u=log t` the measure is the probability density `η exp(−ηu)du` on `u≥0`;
+its mean is `η⁻¹`, and concavity of `log` gives the displayed inequality.
+A linear majorant in `u` gives the required integrability before applying Jensen.
+
+*Needs:* §0.11a, existing Abel summation, improper-integral convergence and Bochner
+integral calculus, exponential moments, and Jensen for the logarithm. These are
+classical partial summation and scalar-integral consequences; the displayed
+derivations specify their complete prerequisite chain.
+
+`WeightedPrimeSmoothing.lean` gives suggested interfaces and endpoint checks. This
+section owns neither a new prime-sum improvement, the choice of smoothing parameter
+in a particular proof, nor its combination with a selected-zero inequality. The
+latter analytic interface is supplied directly by ZerosOfLFunctions §6.4 on the
+primitive Dirichlet record; §0.30's ray-class dictionary remains a downstream consumer.
+
 ### 0.12 Effective distance of a quadratic real zero from one
 
 For each `ε>0` there is an effectively computable `c_ε>0`, fixed before `D` and `β`, such that for every nonzero squarefree integer `D≠1` and real zero `β∈(1/2,1)` of the canonical continued primitive field-character `L(s,χ_D), 1−β≥c_ε |D|^(−1/2−ε)`. The conductor is `Q_D=|Disc(Q(√D))|`, with `|D|≤Q_D≤4|D|`; conductor/radicand conversion only changes `c_ε` effectively.
