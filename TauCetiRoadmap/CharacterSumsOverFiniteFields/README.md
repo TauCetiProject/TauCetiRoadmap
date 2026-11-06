@@ -72,8 +72,17 @@ The half-integral-weight Kloosterman sums with the theta multiplier and the Jaco
 roadmap are the finite-field sums `K(η; a, b)` of 5.3 and the integer-modulus sums `S(m, n; p^k)` of
 7.5 for odd prime powers, with a Dirichlet character and no multiplier, and neither roadmap
 restates the other's. `DeligneWeightsAndPurity` reaches Weil bounds through étale cohomology and
-weights; nothing here depends on it, and no identification of this roadmap's reciprocal roots with
-Frobenius eigenvalues of a sheaf is a target here.
+weights; nothing here depends on it. The trace-function reading of this roadmap's sums is not a
+target here either, and no target or route uses a sheaf. That reading is the following: under the
+hypotheses of 3.3, 4.5, 4.6 and 5.4, the Gauss sum `g(χ, ψ)`, the sums `∑_x χ(f(x))` and
+`∑_x ψ(f(x))` and the Kloosterman sum `K(χ; a, b)` are minus the Frobenius traces on `H¹_c` of the
+rank-one sheaves `L_χ ⊗ L_ψ` on `𝔾_m`, `L_χ(f)` on the complement of the zeros of `f`, `L_ψ(f)` on
+`𝔸¹` and `L_χ ⊗ L_ψ(a x + b x⁻¹)` on `𝔾_m`, where `L_χ` and `L_ψ` are the Kummer and Artin–Schreier
+sheaves normalized so that Frobenius at a point `x` over `E` has trace `χ(N_{E/F} x)` and
+`ψ(Tr_{E/F} x)`. By the Grothendieck–Lefschetz formula the `L`-polynomials of those sections are
+then `det(1 − T·Frob | H¹_c)`, and their reciprocal roots are Frobenius eigenvalues. At `χ = 1` the
+Kloosterman case is the rank-two case of the Kloosterman sheaf of `CongruenceSpectralGap` §4.2b,
+whose Frobenius trace at `a b` is `−K(1; a, b)`.
 
 `HypergeometricMotives` consumes this roadmap: the finite hypergeometric sums of Katz and
 Beukers–Cohen–Mellit are quotients of products of the Gauss sums `g(ω^m)` of Layer 1 for a
@@ -81,8 +90,10 @@ generator `ω` of the character group, and their rationality uses the Hasse–Da
 formula 3.4. `CurvesOverFiniteFields` borders it: this roadmap bounds *finite sums* by Stepanov's
 auxiliary-polynomial method applied to three explicit plane curves (Layer 4) and never forms a zeta
 function, a divisor, or a function field. The zeta functions of the corresponding Kummer and
-Artin–Schreier covers are `FunctionFieldArithmetic`'s (Layer 5), and the statement that the
-`L`-polynomials of Layers 3–5 divide their numerators is not restated or needed here.
+Artin–Schreier covers are `FunctionFieldArithmetic`'s (Layer 5); the comparison of the
+`L`-polynomials of Layers 3–5 with their numerators is not a target here and is not needed. It is
+not a divisibility: for `y² = x² + 1` over `𝔽_3` the `L`-polynomial of 4.5 is `1 − T`, while the
+smooth conic has zeta numerator `1` and two rational points at infinity.
 
 ### Owned here
 
@@ -198,10 +209,13 @@ Artin–Schreier covers are `FunctionFieldArithmetic`'s (Layer 5), and the state
   evaluation of this roadmap's Gauss and Jacobi sums.
 - **Zeta functions of curves and function fields** and the Riemann hypothesis for curves:
   `FunctionFieldArithmetic`, Layer 5 (the root bound `|α_i| = √q` in §5.4). Weil polynomials:
-  `CurvesOverFiniteFields`. The identification of the `L`-polynomials of Layers 3–5 with
-  numerators of zeta functions is not a statement of this roadmap. The cohomological theory of
-  weights and Deligne's theorem: `DeligneWeightsAndPurity`. The Kloosterman sheaf, the all-rank
+  `CurvesOverFiniteFields`. The comparison of the `L`-polynomials of Layers 3–5 with numerators
+  of zeta functions is not a statement of this roadmap. The cohomological theory of weights and
+  Deligne's theorem: `DeligneWeightsAndPurity`. The Kloosterman sheaf, the all-rank
   hyper-Kloosterman sums and their Deligne bound: `CongruenceSpectralGap` §§4.2a–4.2b.
+- **Kummer and Artin–Schreier sheaves** `L_χ`, `L_ψ`, and every sheaf-theoretic identification of
+  the sums of this roadmap (the trace-function reading recorded above): not targets of this
+  roadmap, which defines no sheaf and proves each of its bounds without one.
 - **Half-integral-weight Kloosterman sums** with the theta multiplier:
   `GeometryOfNumbersAndQuadraticArithmetic` §4.3.
 - **Finite hypergeometric sums**, Greene's and Katz's functions: `HypergeometricMotives`, which
@@ -212,9 +226,11 @@ Artin–Schreier covers are `FunctionFieldArithmetic`'s (Layer 5), and the state
 - **The general mixed Weil bound** `|∑_x χ(f(x)) ψ(g(x))| ≤ (deg f + deg g − 1)√q` for arbitrary
   `f, g`, and Weil bounds for rational functions beyond `a x^d + b x^{−d}`: not targets of this
   roadmap; the twisted Kloosterman case is 5.5.
-- **Equidistribution of Kloosterman angles** (Katz's vertical Sato–Tate law) and the Kloosterman
-  sheaf: `DeligneWeightsAndPurity` and `CongruenceSpectralGap` §4.2b. The angle `θ_F(a, b)` is
-  defined in 5.5; nothing about its distribution is.
+- **Equidistribution of Kloosterman angles** (Katz's vertical Sato–Tate law): not a target of
+  this roadmap. The angle `θ_F(a, b)` is defined in 5.5; nothing about its distribution is.
+  Deligne's equidistribution theorem is `DeligneWeightsAndPurity` §10.5 and the Kloosterman sheaf
+  is `CongruenceSpectralGap` §4.2b; the geometric monodromy group of that sheaf, which the law
+  also needs, is not a target here.
 - **`p`-adic `L`-functions** and the Dwork exponential as objects of their own:
   `DirichletPadicLFunctions`; Layer 6 contains the transport of the Gross–Koblitz formula and
   nothing further `p`-adic.
@@ -1755,8 +1771,9 @@ for the comparison in 7.3; Knightly–Li for the twisted bounds of 7.5–7.6.
 - The LMFDB's Dirichlet character pages display exactly the quantities of 7.7: `τ_2(χ)`,
   `J(χ, χ_q(1, ·))` and `K(1, 2, χ)`, with the bounds of 7.6.
 - `CurvesOverFiniteFields` and `FunctionFieldArithmetic` border this roadmap without consuming it:
-  the point counts of Layer 4 are finite sums bounded by Stepanov's method, and the identification
-  of the `L`-polynomials of Layers 3–5 with numerators of zeta functions is left to them.
+  the point counts of Layer 4 are finite sums bounded by Stepanov's method. Neither the comparison
+  of the `L`-polynomials of Layers 3–5 with numerators of zeta functions nor their trace-function
+  reading is a target of this roadmap (Scope and ownership).
 
 ## Worked examples (acceptance criteria)
 
