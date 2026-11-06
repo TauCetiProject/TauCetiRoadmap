@@ -1402,7 +1402,7 @@ F.2–F.3 finite-level operations and finiteness; EnhancedDerivedSheaves §0.3.
 ## F.4.3 Classical/pro-étale realization comparison
 
 **Classical/pro-étale realization comparison.** `VanishingCycles.etaleProetaleAdicComparison`.
-Using SchemeAndStackFoundations §2.17 construct `ν:X_proet→X_et` and finite-torsion
+Using the comparison `ν:X_proet→X_et` of SchemeAndStackFoundations §2.10 with the pro-étale structure of §2.17, construct and finite-torsion
 comparison. For locally Noetherian `X` and normalizedAdicSystems' bounded objects, form
 `K_pro=Rlim ν*K_n` and prove `Rν*K_pro≅K_Zℓ`, with ordinary and, on F.2's separated finite-type
 domain, adic compact-support cohomology comparison. This is derived pushforward comparison;
@@ -1436,7 +1436,7 @@ of module objects. Extend the comparison above from `ℤ_ℓ` to every Noetheria
 `I`-adically complete objects of `D(X_proet)`, the adic constructible complexes of Stacks 09BT,
 through `ν^*` followed by derived limit, compatibly with reductions. This classical/pro-étale
 comparison is the one theorem relating the two models of adic coefficients. (Bhatt–Scholze
-§6.8; Stacks 09BT.) *Needs:* §F.4.1; SchemeAndStackFoundations §2.17; Mathlib
+§6.8; Stacks 09BT.) *Needs:* §F.4.1; SchemeAndStackFoundations §§2.10, 2.17; Mathlib
 `Scheme.ellAdicSheaf`, `PadicAlgCl`, `ModObj`.
 
 **Checks.**
