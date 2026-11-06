@@ -1543,7 +1543,7 @@ point-level statement holds over K even when K/F_q is not algebraic; the
 finite-order argument above is used only over F̄_q.
 `StructureAcceptance.lang_surjective` states this endpoint on the native
 finite-type coordinate Hopf algebra H, with smoothness and geometric
-connectedness explicit, using `TauCeti.AlgHom.mapValue` for postcomposition
+connectedness explicit, using `AlgHom.mapValue` for postcomposition
 by F:K→K with F(a)=a^q and q=Nat.card F_q. This value equation fixes the
 Frobenius convention and imposes no reductivity hypothesis.
 Derive the consequences: `H¹(F_q, G₀) = 1` for Galois cohomology

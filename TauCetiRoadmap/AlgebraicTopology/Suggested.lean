@@ -4088,6 +4088,7 @@ abbrev RechartedInterior (m : ℕ)
     (e : E ≃L[ℝ] EuclideanSpace ℝ (Fin m)) :=
   @FreshInteriorRechart.Carrier E H M normedAddE normedSpaceE topologyH topologyM I chartedM m e
 
+@[instance_reducible]
 noncomputable def rechartedInteriorChartedSpace (m : ℕ)
     (e : E ≃L[ℝ] EuclideanSpace ℝ (Fin m)) :
     ChartedSpace (EuclideanSpace ℝ (Fin m)) (RechartedInterior (I := I) (M := M) m e) :=
@@ -4098,6 +4099,7 @@ noncomputable instance rechartedInteriorChartedSpaceInstance (m : ℕ)
     ChartedSpace (EuclideanSpace ℝ (Fin m)) (RechartedInterior (I := I) (M := M) m e) :=
   rechartedInteriorChartedSpace I m e
 
+omit t2M secondCountableM boundarylessM in
 /-- The preferred chart on the boundaryless orientation carrier is the same reparameterized
 interior chart used by `FreshInteriorRechart`: apply the original model map and then `e`. -/
 theorem rechartedInteriorChartAt_formula (m : ℕ)
@@ -4108,6 +4110,7 @@ theorem rechartedInteriorChartAt_formula (m : ℕ)
       e (I ((chartAt H (x.point : M)) (y.point : M))) := by
   exact FreshInteriorRechart.chartAt_apply I m e x y hy
 
+omit t2M secondCountableM boundarylessM in
 theorem rechartedInteriorIsManifold (m : ℕ)
     (e : E ≃L[ℝ] EuclideanSpace ℝ (Fin m)) :
     letI : ChartedSpace (EuclideanSpace ℝ (Fin m))
@@ -4118,7 +4121,7 @@ theorem rechartedInteriorIsManifold (m : ℕ)
 noncomputable instance rechartedInteriorIsManifoldInstance (m : ℕ)
     (e : E ≃L[ℝ] EuclideanSpace ℝ (Fin m)) :
     IsManifold (EuclideanModel m) ∞ (RechartedInterior (I := I) (M := M) m e) := by
-  letI : ChartedSpace (EuclideanSpace ℝ (Fin m))
+  let : ChartedSpace (EuclideanSpace ℝ (Fin m))
     (RechartedInterior (I := I) (M := M) m e) := rechartedInteriorChartedSpace I m e
   exact rechartedInteriorIsManifold I m e
 
@@ -4135,6 +4138,7 @@ noncomputable def carrierHomeomorph (m : ℕ)
     RechartedInterior (I := I) (M := M) m e ≃ₜ M :=
   FreshInteriorRechart.carrierHomeomorphOriginal I m e
 
+omit t2M secondCountableM in
 theorem carrierHomeomorph_apply (m : ℕ)
     (e : E ≃L[ℝ] EuclideanSpace ℝ (Fin m))
     (x : RechartedInterior (I := I) (M := M) m e) :
@@ -4234,9 +4238,9 @@ noncomputable def chosenSection (m : ℕ)
   locally_represented := by
     intro x hx
     let C := RechartedInterior (I := I) (M := M) m e
-    letI : ChartedSpace (EuclideanSpace ℝ (Fin m)) C := rechartedInteriorChartedSpace I m e
-    letI : IsManifold (EuclideanModel m) ∞ C := rechartedInteriorIsManifold I m e
-    letI : BoundarylessManifold (EuclideanModel m) C := rechartedInteriorBoundaryless I m e
+    let : ChartedSpace (EuclideanSpace ℝ (Fin m)) C := rechartedInteriorChartedSpace I m e
+    let : IsManifold (EuclideanModel m) ∞ C := rechartedInteriorIsManifold I m e
+    let : BoundarylessManifold (EuclideanModel m) C := rechartedInteriorBoundaryless I m e
     let S := TauCetiRoadmap.AlgebraicTopology.OrientationComparison.chosenSection
       m C (carrierOrientation I m e o)
     obtain ⟨B, hBU, hBopen, hxB, c, hc⟩ := S.locally_represented
@@ -4639,26 +4643,40 @@ variable {G : Type*} [TopologicalSpace G] [MulOneClass G] [ContinuousMul G]
 def multiplicationMap : FundamentalGroup (G × G) (1, 1) →* FundamentalGroup G 1 :=
   FundamentalGroup.mapOfEq ⟨fun x => x.1 * x.2, continuous_mul⟩ (one_mul 1)
 
-/-- Pointwise multiplication on actual homotopy classes of based loops. -/
+/-- Pointwise multiplication on actual homotopy classes of based loops. At this pin Mathlib's
+`FundamentalGroup` is the vertex group of the fundamental groupoid, so the loop classes are
+accessed through `FundamentalGroup.toPath` and `FundamentalGroup.fromPath`. -/
 def pointwise (p q : FundamentalGroup G 1) : FundamentalGroup G 1 :=
-  multiplicationMap (Path.Homotopic.prod p q)
+  multiplicationMap (FundamentalGroup.fromPath (Path.Homotopic.prod p.toPath q.toPath))
 
 theorem pointwise_one_left (p : FundamentalGroup G 1) : pointwise 1 p = p := by
+  obtain ⟨p⟩ := p
   induction p using Path.Homotopic.Quotient.ind with
   | mk p =>
     unfold pointwise multiplicationMap
     rw [FundamentalGroup.mapOfEq_apply]
-    change Path.Homotopic.Quotient.mk _ = Path.Homotopic.Quotient.mk p
+    congr 1
+    change (Path.Homotopic.Quotient.map (Path.Homotopic.prod
+      (Path.Homotopic.Quotient.mk (Path.refl (1 : G))) (Path.Homotopic.Quotient.mk p)) _).cast _ _ =
+      Path.Homotopic.Quotient.mk p
+    rw [Path.Homotopic.prod_lift, ← Path.Homotopic.Quotient.mk_map,
+      ← Path.Homotopic.Quotient.mk_cast]
     apply congrArg Path.Homotopic.Quotient.mk
     ext t
     exact one_mul (p t)
 
 theorem pointwise_one_right (p : FundamentalGroup G 1) : pointwise p 1 = p := by
+  obtain ⟨p⟩ := p
   induction p using Path.Homotopic.Quotient.ind with
   | mk p =>
     unfold pointwise multiplicationMap
     rw [FundamentalGroup.mapOfEq_apply]
-    change Path.Homotopic.Quotient.mk _ = Path.Homotopic.Quotient.mk p
+    congr 1
+    change (Path.Homotopic.Quotient.map (Path.Homotopic.prod
+      (Path.Homotopic.Quotient.mk p) (Path.Homotopic.Quotient.mk (Path.refl (1 : G)))) _).cast _ _ =
+      Path.Homotopic.Quotient.mk p
+    rw [Path.Homotopic.prod_lift, ← Path.Homotopic.Quotient.mk_map,
+      ← Path.Homotopic.Quotient.mk_cast]
     apply congrArg Path.Homotopic.Quotient.mk
     ext t
     exact mul_one (p t)
@@ -4669,9 +4687,12 @@ theorem pointwise_interchange (a b c d : FundamentalGroup G 1) :
   unfold pointwise
   rw [← map_mul]
   apply congrArg multiplicationMap
-  change Path.Homotopic.prod (b.trans a) (d.trans c) =
-    (Path.Homotopic.prod b d).trans (Path.Homotopic.prod a c)
-  exact (Path.Homotopic.comp_prod_eq_prod_comp b d a c).symm
+  change FundamentalGroup.fromPath (Path.Homotopic.prod (b.toPath.trans a.toPath)
+      (d.toPath.trans c.toPath)) =
+    FundamentalGroup.fromPath ((Path.Homotopic.prod b.toPath d.toPath).trans
+      (Path.Homotopic.prod a.toPath c.toPath))
+  exact congrArg FundamentalGroup.fromPath
+    (Path.Homotopic.comp_prod_eq_prod_comp b.toPath d.toPath a.toPath c.toPath).symm
 
 /-- The group already carried by the native fundamental group is commutative.
 No connectedness, manifold, local-contractibility or covering hypothesis is used. -/

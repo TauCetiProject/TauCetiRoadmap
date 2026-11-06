@@ -109,14 +109,14 @@ noncomputable def orbitMorphism (x : Points X) : G ⟶ X :=
   lift (𝟙 G) (toUnit G ≫ x) ≫ γ[G, X]
 
 /-- The geometric orbit is the image on all scheme points of the orbit morphism. -/
-def geometricOrbit (x : Points X) : Set X.left :=
+noncomputable def geometricOrbit (x : Points X) : Set X.left :=
   Set.range fun z : G.left => (orbitMorphism G X x).left z
 
 /-- The closure is taken in the Zariski space of X. -/
-def orbitClosure (x : Points X) : Set X.left := closure (geometricOrbit G X x)
+noncomputable def orbitClosure (x : Points X) : Set X.left := closure (geometricOrbit G X x)
 
 /-- The boundary removes the entire geometric orbit from its closure. -/
-def orbitBoundary (x : Points X) : Set X.left :=
+noncomputable def orbitBoundary (x : Points X) : Set X.left :=
   orbitClosure G X x \ geometricOrbit G X x
 
 /-- Orbit dimension uses native topological Krull dimension, with empty dimension bottom. -/
@@ -237,7 +237,7 @@ theorem lang_surjective {k : Type v} [Field k] [Finite k]
     {K : Type v} [Field K] [Algebra k K] [IsAlgClosed K]
     (F : K →ₐ[k] K) (hF : ∀ a : K, F a = a ^ Nat.card k) :
     Function.Surjective (fun g : WithConv (H →ₐ[k] K) =>
-      g⁻¹ * TauCeti.AlgHom.mapValue (H := H) F g) := by
+      g⁻¹ * AlgHom.mapValue (H := H) F g) := by
   sorry
 
 end StructureAcceptance

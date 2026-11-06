@@ -4,7 +4,7 @@ import TauCeti.Geometry.Diffeomorphism.Smale
 import TauCeti.Geometry.Diffeomorphism.Disc
 import TauCeti.Geometry.Manifold.LocallyFlat.Annulus
 import TauCeti.KnotTheory.Slice.Freedman
-import TauCeti.KnotTheory.Markov
+import TauCeti.KnotTheory.Markov.Basic
 import TauCeti.KnotTheory.BraidWord.PDCode
 import TauCeti.KnotTheory.PDCode.Oriented.Reidemeister.Equivalence
 import TauCeti.Geometry.Manifold.Riemannian.Hyperbolic.Mostow
@@ -13,7 +13,7 @@ import TauCeti.Geometry.Manifold.Riemannian.Hyperbolic.VirtualHaken
 import TauCeti.LowDimTopology.JSJDecomposition
 import TauCeti.LowDimTopology.Geometrization
 import TauCeti.Topology.VirtuallyFibered
-import TauCeti.Topology.Triangulable
+import TauCeti.Topology.Triangulable.Basic
 import TauCeti.Geometry.Manifold.Basic
 
 /-!
