@@ -1,7 +1,7 @@
 import Mathlib.Geometry.Euclidean.Volume.Measure
 import Mathlib.MeasureTheory.Function.AbsolutelyContinuous
 import Mathlib.Topology.EMetricSpace.BoundedVariation
-import TauCeti.MeasureTheory.Function.MetricDerivative
+import TauCeti.MeasureTheory.Function.MetricDerivative.Basic
 import TauCeti.Analysis.Calculus.MetricVariation
 import TauCeti.Analysis.Calculus.Sard.OutermostStratum
 
