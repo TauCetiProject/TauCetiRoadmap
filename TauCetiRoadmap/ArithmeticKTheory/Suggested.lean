@@ -20,6 +20,9 @@ the Vandiver K-group table and the Gaussian and golden tame-kernel equivalences 
 K-group/spectrum carriers and comparison maps are missing. Hermitian finiteness
 also lacks the required GW/L-spectrum carriers. The arithmetic finite CW
 model in README §3.2 lacks the arithmetic bordification and quotient carriers.
+Borel's finite-stage invariant-form comparison in README §3.4 lacks relative
+Lie algebra cohomology and invariant differential forms on symmetric spaces:
+Mathlib has only low-degree Lie algebra cochains.
 Numerical rank or degree-slot
 formulas do not state those theorems.
 -/

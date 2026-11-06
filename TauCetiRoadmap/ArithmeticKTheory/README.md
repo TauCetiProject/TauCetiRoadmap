@@ -22,7 +22,8 @@ sign symbols, the degree-two tame-kernel sequence, and K₂ of ℤ and ℚ. Thei
 comparisons used below.
 
 This roadmap owns the Tits-building and projective-lattice Steinberg
-finiteness inputs in §3.2 and the rational rank theorem for orders in §3.4.
+finiteness inputs in §3.2, and in §3.4 Borel's finite-stage invariant-form
+comparison for arithmetic groups and the rational rank theorem for orders.
 The rank-filtered Q-space assembles finite generation and extends ranks to
 finite S. Section 3.2 constructs the finite CW model of each neat arithmetic
 bordification from its rounded collar and the MorseTheory M2–M3 cell and
@@ -73,9 +74,14 @@ Mathlib’s `IsZLattice` and
 `ZLattice.covolume`; LocalGaloisGroups and
 ProfiniteArithmetic supply local and profinite arithmetic; ClassFieldTheory
 supplies the class-formation interfaces. No replacement for those roadmaps is
-introduced. Smooth curves over finite fields, arithmetic K-theory Part II,
+introduced. Smooth curves over finite fields lie outside the present scope:
+the Steinberg-homology hypothesis of the §3.2 finiteness criterion is proved
+here only for rings of integers of number fields, while the criterion itself
+holds for every Dedekind domain, so a consumer applying it to the coordinate
+ring of a smooth affine curve over a finite field supplies that hypothesis
+for its ring. Arithmetic K-theory Part II,
 regulator families and special-value formulas beyond the order comparison
-in §7.5 lie outside the present scope. The latter comparison consumes the
+in §7.5 also lie outside the present scope. The latter comparison consumes the
 IntegralIwasawaTheory §12.3 Euler-characteristic comparison and is not used in the independent
 tame-kernel presentations.
 
@@ -452,7 +458,12 @@ with complexification in degrees zero and four normalized by 1 and 2.
 
 ALS.2.2–ALS.2.3 supply Borel–Serre bordification and compact arithmetic
 quotients at neat level; ALS.5a.1 supplies the rounded smooth manifold with
-boundary and its collar. Section 3.2 supplies a finite CW model by a Morse
+boundary and its collar. ALS.F.5 supplies relative Lie algebra cochains and
+identifies invariant forms on G(ℝ)/K with them; ALS.0.4–ALS.0.5 and ALS.0.8
+supply the symmetric space, its contractibility and the proper action with
+finite stabilizers; ALS.5b.1 supplies the de Rham and relative Lie algebra
+comparison at neat level. Section 3.4 uses these for
+borelInvariantFormComparison. Section 3.2 supplies a finite CW model by a Morse
 exhaustion of its interior, then identifies boundary homology, orientation
 twist and projective-lattice duality after passage to a torsion-free neat
 subgroup. ALS.2.4 requires boundary-compatible triangulability and is not an
@@ -495,7 +506,8 @@ comparison of these stems with the shared spectrum carrier.
 ### From TauCetiRoadmap.AdelicAlgebraicGroups
 
 Section 3.6 supplies the fixed-maximal-compact Siegel covering and finite-overlap
-reduction theory consumed in the arithmetic bordification.
+reduction theory consumed in the arithmetic bordification and in the growth
+estimates on Siegel sets for §3.4's invariant-form comparison.
 
 ## How to read the build
 
@@ -1105,8 +1117,12 @@ Finally apply the connected CW H-space finite-type theorem to BQ. Direct sum
 makes it simple, so its possibly nonzero π₁ is allowed. Conclude finite
 generation of K_n(R)=π_(n+1)(BQ,0) for all n≥0 under the preceding two
 hypotheses; in particular all K_n(O_F) are finitely generated. The source also
-states a function-field result, which is not needed for this number-field
-argument. (Quillen, end of proof of Theorem 1, p. 185; K-book, IV.6.9,
+states the result for coordinate rings of smooth affine curves over finite
+fields; their Steinberg-homology hypothesis is not a target here, because the
+duality route of projectiveSteinbergHomology_fg needs a torsion-free
+finite-index subgroup, and every finite-index subgroup of SL₂(𝔽_q[t])
+contains a unipotent element of order p=char 𝔽_q.
+(Quillen, end of proof of Theorem 1, p. 185; K-book, IV.6.9,
 p. 325; Serre, III §1 Proposition 1, pp. 465–466, IV §3 Proposition 3,
 p. 479, IV §6 Proposition 9, p. 483, and V §§1–2, pp. 489–491.)
 
@@ -1189,18 +1205,99 @@ naturality and transfer.
 
 ### 3.4 Ranks, finite even groups and infinite field groups
 
+Let G be a connected semisimple ℚ-group whose group of real points G(ℝ) is
+connected, K⊆G(ℝ) a maximal compact subgroup and X=G(ℝ)/K its symmetric
+space. For every arithmetic subgroup Γ⊆G(ℚ) and every q≥0 construct
+borelInvariantFormComparison, the map
+
+```text
+j_Γ^q : H^q(Lie G(ℝ), K; ℝ) → H^q(Γ; ℝ)
+```
+
+that sends a G(ℝ)-invariant q-form on X, which is closed, to its class as a
+Γ-invariant form. Γ-invariant forms compute H^*(Γ;ℝ) because X is
+contractible, Γ acts properly with finite stabilizers and the coefficients
+are real. Prove that j_Γ^q is bijective in every degree q with
+4q<rk_ℚ(G_j) for every almost ℚ-simple factor G_j of G. A ℚ-anisotropic
+factor has ℚ-rank zero, so then no degree is asserted. (Borel 1974,
+Theorem 7.5, p. 259, with the constants of 3.3, p. 243, and 9.1(2) and
+9.5(3), pp. 261–262, the bracket of 9.5(3) being the greatest integer
+strictly below its argument by 0.1, p. 237.) In Borel's route, Γ-invariant
+forms which, with their exterior derivatives, have logarithmic growth at the
+Borel–Serre boundary compute H^*(Γ;ℝ), they are square integrable in the
+stated degrees, and the vanishing argument for square-integrable harmonic
+forms identifies their cohomology with the invariant forms (the same source,
+Theorem 7.4, p. 256, and Proposition 3.6, p. 245).
+
+For a finite-dimensional semisimple ℚ-algebra A with simple factors
+M_(n_i)(D_i), D_i a central division algebra over a number field F_i, and
+for m≥1, let G_m be the ℚ-group of elements of reduced norm one in M_m(A).
+It is the product of the groups Res_(F_i/ℚ)SL_(mn_i)(D_i), of ℚ-ranks
+mn_i−1, and G_m(ℝ) is a product of groups SL_k(ℝ), SL_k(ℂ) and SL_k(ℍ),
+hence connected. So j_Γ^q is bijective for every arithmetic Γ⊆G_m(ℚ) when
+4q<mn_i−1 for every i. For A=F and G_m=Res_(F/ℚ)SL_m with m≥2 the range is
+4q<m−1, the same for every number field F. (Borel 1977, §5.2, p. 627, for
+this specialization.) Choose K_m with K_m=K_(m+1)∩G_m(ℝ) under the block
+inclusion g↦diag(g,1); the limit over m is the stable comparison used for
+the ranks below.
+
+Its basic laws are:
+
+- On a G(ℝ)-invariant form the comparison is its class in the de Rham
+  cohomology of Γ-invariant forms; it is a homomorphism of graded algebras
+  and sends the constant 1 to 1.
+- For a homomorphism of ℚ-groups f:G→G′ with f(K)⊆K′ and f(Γ)⊆Γ′,
+  restriction along f on group cohomology after j_Γ′ equals j_Γ after
+  pullback of invariant forms along the induced map X→X′. The cases f=id
+  with Γ⊆Γ′ of finite index and the block inclusion G_m→G_(m+1) are the
+  finite-index and stabilization compatibilities.
+- In the stated range the maps are isomorphisms compatible with both
+  restrictions, so the stable comparison is an isomorphism in each degree.
+
+**Checks.**
+
+- At G=SL₂ over ℚ the range is q=0 only. The torsion-free congruence
+  subgroup Γ(3)⊆SL₂(ℤ) has index 24 and is free of rank three, so
+  H¹(Γ(3);ℝ)=ℝ³ and H²(Γ(3);ℝ)=0, while the compact dual S² gives
+  H¹=0 and H²=ℝ for the pair (sl₂(ℝ),SO(2)). Thus j¹ is not surjective
+  and j² kills the invariant area form; neither degree may be added.
+- For F=ℚ(i) and m=2, the compact dual of SL₂(ℂ)/SU(2) is S³ and the
+  invariant volume form spans H³(Lie G(ℝ),K;ℝ)=ℝ, but SL₂(ℤ[i]) has
+  virtual cohomological dimension 3−1=2, so H³(SL₂(ℤ[i]);ℝ)=0 and j³ is
+  not injective. Degree three is in the range only from m=14 on, since
+  4·3=12<m−1.
+- For F=ℚ the compact dual SU(m)/SO(m) with m≥5 has no classes in degrees
+  1 to 4 and a primitive generator in degree 5, which lies in the range
+  once 20<m−1, that is m≥22; for F=ℚ(i) the compact dual SU(m) has a
+  primitive generator in degree 3. These give K₃(ℤ)⊗ℚ=0, K₅(ℤ)⊗ℚ=ℚ and
+  K₃(ℤ[i])⊗ℚ=ℚ below.
+- At m=5 and q=1 one has 4q=m−1, which the strict inequality excludes; the
+  bound of 9.5(3) is the greatest integer strictly below (m−1)/4. A range
+  that shrinks with [F:ℚ], such as m−1>4[F:ℚ]q, is sufficient but
+  narrower: at F=ℚ(i) and q=3 it needs m≥26, whereas the range above
+  starts at m=14.
+
+*Needs:* ArithmeticLocallySymmetricSpaces ALS.F.5 for relative cochains and
+the invariant-form identification, ALS.0.4–ALS.0.5 and ALS.0.8 for the
+symmetric space, its contractibility and the proper action with finite
+stabilizers, ALS.2.2–ALS.2.3 for the Borel–Serre compactification and
+ALS.5b.1 for the de Rham comparison at neat level; AdelicAlgebraicGroups
+§3.6 for Siegel sets; integral group cohomology with finite-index descent
+for real coefficients.
+
 Prove borel_rank_order for every order R in a finite-dimensional
 semisimple ℚ-algebra A and n≥2: the actual inclusion induces
 K_n(R)⊗ℚ≃K_n(A)⊗ℚ. For a central simple algebra over a number field F,
 prove borel_rank_centralSimple: the dimension is r₁+r₂ in degree
 1 modulo four, r₂ in degree 3 modulo four, and zero in even degrees.
-Products of simple factors give the semisimple case. The proof targets are
-the stable arithmetic-group comparison with relative Lie algebra cohomology
-and the identification of primitive rational homology with rational homotopy
-of the plus H-space. Compute the stable exterior generators in degrees
-4a+1 (a≥1) at real places and 2a+1 (a≥1) at complex places, then take
-primitives. This owns the rank theorem independently of a regulator-value
-formula. (K-book, IV.1.17–1.18 and preceding argument, pp. 270–271.)
+Products of simple factors give the semisimple case. The proof uses the
+stable form of borelInvariantFormComparison for the arithmetic groups of
+reduced norm one in M_m(R) and the identification of primitive rational
+homology with rational homotopy of the plus H-space. Compute the stable
+exterior generators in degrees 4a+1 (a≥1) at real places and 2a+1 (a≥1)
+at complex places, then take primitives. This owns the rank theorem
+independently of a regulator-value formula. (K-book, IV.1.17–1.18 and
+preceding argument, pp. 270–271.)
 
 **Checks.**
 
@@ -1212,8 +1309,8 @@ formula. (K-book, IV.1.17–1.18 and preceding argument, pp. 270–271.)
   matrix size does not multiply the answer, by Morita invariance.
 
 *Needs:* §3.2, GeneralAlgebraicKTheory’s plus/Q comparison and Morita
-invariance, StableHomotopyKTheory’s rational H-space comparison, and the
-stable arithmetic and relative Lie algebra comparison proved here.
+invariance, StableHomotopyKTheory’s rational H-space comparison, and
+borelInvariantFormComparison above in its stable form.
 
 Define the numerical function ρ(n) to be r₁+r₂ at n≡1 mod 4,
 r₂ at n≡3 mod 4, and zero otherwise. Prove its even-degree vanishing and period-four behavior. Its
@@ -1389,9 +1486,10 @@ These cases test both the arithmetic and categorical finiteness inputs.
 ### Dependencies
 
 Layers 1–2; GeneralAlgebraicKTheory §§2.1–2.6, 4.8 and 4.14; StableHomotopyKTheory §§1.24–1.28, 3.36 and 7.1–7.28;
-the building, arithmetic finite CW model, Steinberg finiteness and rank targets
-of §§3.2/3.4, using ArithmeticLocallySymmetricSpaces ALS.2.2–ALS.2.3 and
-ALS.5a.1, MorseTheory M1–M3, GeometricTopology Layer 1 and ClassifyingSpaces
+the building, arithmetic finite CW model, Steinberg finiteness, invariant-form
+comparison and rank targets of §§3.2/3.4, using ArithmeticLocallySymmetricSpaces
+ALS.F.5, ALS.0.4–ALS.0.5, ALS.0.8, ALS.2.2–ALS.2.3, ALS.5a.1 and ALS.5b.1,
+AdelicAlgebraicGroups §3.6, MorseTheory M1–M3, GeometricTopology Layer 1 and ClassifyingSpaces
 Stages 3–4; finite-field K-theory; the arithmetic Witt and
 hermitian comparison/fibre-sequence contracts specified above. The hermitian
 results require those exact supplier theorems, including the low classical
@@ -4821,6 +4919,12 @@ certify the three independent tame-kernel computations.
 K3BlochGroups is a downstream consumer of the degree-three rank and
 arithmetic torsion of Layers 3–5. Its decomposable and indecomposable
 analysis and Bloch comparison are not needed to prove them.
+Regulator constructions consume §3.4's borelInvariantFormComparison at
+finite stage, for Res_(F/ℚ)SL_m in the range 4q<m−1, with its finite-index
+and block-inclusion compatibilities. Consumers applying §3.2's finiteness
+criterion to Dedekind domains other than rings of integers of number fields,
+such as coordinate rings of smooth affine curves over finite fields, supply
+its Steinberg-homology hypothesis for those rings.
 Chern classes, regulators, polylogarithms and higher
 special values consume these arithmetic groups and ranks. The basic
 odd torsion calculation uses only §5.2’s étale edge and §5.4’s real correction. Hermitian
@@ -4879,6 +4983,16 @@ All formulas and finite data use the conventions fixed here.
   integers*](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/bass-seattle.pdf),
   in *Algebraic K-Theory I*, Lecture Notes in Mathematics 341 (1973),
   pp. 179–198, especially §1, pp. 179–185.
+- Armand Borel, [*Stable real cohomology of arithmetic
+  groups*](https://www.numdam.org/item/ASENS_1974_4_7_2_235_0/),
+  *Annales scientifiques de l'École Normale Supérieure* (4) 7 (1974),
+  pp. 235–272: 0.1, p. 237; 3.3 and Proposition 3.6, pp. 243–245;
+  Theorems 7.4–7.5, pp. 256–259; 9.1 and 9.5, pp. 261–262.
+- Armand Borel, [*Cohomologie de SLₙ et valeurs de fonctions zêta aux
+  points entiers*](https://www.numdam.org/item/ASNSP_1977_4_4_4_613_0/),
+  *Annali della Scuola Normale Superiore di Pisa* (4) 4 (1977),
+  pp. 613–636, §5.2, p. 627, for the range of the comparison for
+  Res_(F/ℚ)SL_m; its n is the matrix size m here.
 - Fei Sun, [*Algebraic K-Theory and Modular Symbols*](https://arxiv.org/abs/1604.04700v1),
   version 1 (2016), pp. 5–6, for the layer poset and the comma-category
   description; the rank-one convention here is fixed explicitly.
