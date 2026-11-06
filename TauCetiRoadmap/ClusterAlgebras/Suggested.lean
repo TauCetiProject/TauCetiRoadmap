@@ -119,7 +119,7 @@ structure ClassicalSeed (P : Type*) [CoefficientSemifield P]
   zeroColumn_nonvanishing : ∀ k, (∀ i, ySeed.exchange.matrix i k = 0) →
     (coefficientMap (ySeed.coefficient k) : C) + 1 ≠ 0
 
-/-! ## The shared based quantum torus: §0.4 -/
+/-! ## Based quantum tori: §0.4 -/
 
 /-- The cocycle of a bilinear form on the exponent group. -/
 def latticeCocycle {R : Type*} [CommRing R] (u : Rˣ)
