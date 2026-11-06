@@ -63,9 +63,9 @@ Headlines stated here (README target, Lean name):
 * 10.1, 10.2, `value`, `restrict`, `SatisfiesDer2`, `SatisfiesDer3` (definitions only).
 * 11.1, 11.2, `IsCofibrationCategory`, `brown_factorization`.
 * 12.1, `isUnit_skeleton` (on `IsGrCategory`).
-* 12.6, `skeletonTwoTermMulEquiv`, `autUnitTwoTermMulEquiv` (on `IsStrictlyCommutative`, `TwoTerm`,
-  `TwoTerm.Hom`, `TwoTerm.eqHom`, `TwoTerm.eqIso`, with the label identities `TwoTerm.comp_label`,
-  `TwoTerm.eqIso_hom_label`, `TwoTerm.eqIso_inv_label`).
+* 12.6, `nonempty_skeletonTwoTerm_mulEquiv`, `nonempty_autUnitTwoTerm_mulEquiv` (on
+  `IsStrictlyCommutative`, `TwoTerm`, `TwoTerm.Hom`, `TwoTerm.eqHom`, `TwoTerm.eqIso`, with the label
+  identities `TwoTerm.comp_label`, `TwoTerm.eqIso_hom_label`, `TwoTerm.eqIso_inv_label`).
 
 Not statable at the pins, with the carrier each lacks:
 
@@ -906,12 +906,13 @@ end TwoTerm
 variable {K₁ K₀ : Type u} [AddCommGroup K₁] [AddCommGroup K₀] (d : K₁ →+ K₀)
 
 /-- **Layer 12.6.** `π₀ ch(d) = coker d`, as monoids. -/
-theorem skeletonTwoTermMulEquiv :
+theorem nonempty_skeletonTwoTerm_mulEquiv :
     Nonempty (Skeleton (TwoTerm d) ≃* Multiplicative (K₀ ⧸ d.range)) := by
   sorry
 
 /-- **Layer 12.6.** `π₁ ch(d) = ker d`, as groups. -/
-theorem autUnitTwoTermMulEquiv : Nonempty (Aut (𝟙_ (TwoTerm d)) ≃* Multiplicative d.ker) := by
+theorem nonempty_autUnitTwoTerm_mulEquiv :
+    Nonempty (Aut (𝟙_ (TwoTerm d)) ≃* Multiplicative d.ker) := by
   sorry
 
 end GrCategory

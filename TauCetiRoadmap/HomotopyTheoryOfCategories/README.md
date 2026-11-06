@@ -1439,13 +1439,13 @@ Define `IsStrictlyCommutative` and `TwoTerm d` (convention 13), with `TwoTerm.Ho
 monoidal and symmetric instances, whose proof obligations are the label identities
 `TwoTerm.comp_label`, `TwoTerm.eqIso_hom_label` and `TwoTerm.eqIso_inv_label`. `ch(d)` is a
 gr-category (`x ⊗ (−x) ≅ 𝟙_` by `TwoTerm.eqIso`) and strictly commutative (`β_{x,x}` is labelled
-`0`), each in one step from the instances. Prove `skeletonTwoTermMulEquiv` (`π₀ = coker d`) and
-`autUnitTwoTermMulEquiv` (`π₁ = ker d`). Every strictly commutative Picard groupoid is equivalent to
-some `ch(d)`, and `d ↦ ch(d)` induces an equivalence between the full subcategory of
-`DerivedCategory (ModuleCat ℤ)` of complexes with cohomology in degrees `-1, 0` and strictly
-commutative Picard groupoids with isomorphism classes of symmetric monoidal functors (Deligne, SGA 4
-XVIII, 1.4.15, for the punctual site); over a point, every strictly commutative Picard groupoid is
-equivalent to `ch(0 : π₁ → π₀)`.
+`0`), each in one step from the instances. Prove `nonempty_skeletonTwoTerm_mulEquiv`
+(`π₀ = coker d`) and `nonempty_autUnitTwoTerm_mulEquiv` (`π₁ = ker d`). Every strictly commutative
+Picard groupoid is equivalent to some `ch(d)`, and `d ↦ ch(d)` induces an equivalence between the
+full subcategory of `DerivedCategory (ModuleCat ℤ)` of complexes with cohomology in degrees `-1, 0`
+and strictly commutative Picard groupoids with isomorphism classes of symmetric monoidal functors
+(Deligne, SGA 4 XVIII, 1.4.15, for the punctual site); over a point, every strictly commutative
+Picard groupoid is equivalent to `ch(0 : π₁ → π₀)`.
 *Needs:* 12.5; Mathlib `SymmetricCategory`, `Skeleton`, `DerivedCategory`.
 
 **Checks.**
