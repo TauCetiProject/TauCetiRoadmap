@@ -90,15 +90,15 @@ groups.  Those theories consume this roadmap's chain, CW, duality, and homotopy 
 - The [profinite-cohomology roadmap](../ProfiniteCohomology/README.md) owns continuous
   cohomology of profinite groups.  The singular cohomology here is cohomology of topological
   spaces; neither development introduces a second version of the other's objects.
-- [ClassifyingSpaces](../ClassifyingSpaces/README.md) owns Milnor and
-  presentation models, their pointed CW-type uniqueness and the cellular/bar
-  projective-resolution comparisons. Stage8.8 keeps its own native nerve model
-  and compares it with those models with identity-on-π₁ normalization. Its
-  normalized model comparison consumes only the ClassifyingSpaces Stage3/4
-  model, uniqueness and resolution interfaces. Stage8.8a owns the raw nerve/bar
-  construction; Stage8.8b owns only its normalized comparison with those
-  ClassifyingSpaces models. The raw bar also supplies the abelian input used by
-  Stage 8.8c.
+- [ClassifyingSpaces](../ClassifyingSpaces/README.md) consumes Stage 8.8a's
+  native nerve/bar model, with its CW structure, K(π,1) property and π₁
+  identification, and owns the Milnor and presentation models, their pointed
+  CW-type uniqueness, the cellular/bar projective-resolution comparisons and
+  the identity-on-π₁ normalized comparison of the nerve/bar model with those
+  models; no stage here consumes those models or that comparison. Stage8.8a
+  owns the raw nerve/bar construction; Stage8.8b owns only the bar model's own
+  normalized pointed interface. The raw bar also supplies the abelian input
+  used by Stage 8.8c.
 - The ordinary Serre and Eilenberg–MacLane machinery is owned here. Stage 4.8
   owns the connected-map homology comparison, weak-equivalence invariance and
   CW approximation; Stage 5.0 owns the generic spectral sequence of a filtered
@@ -2054,25 +2054,26 @@ items 1–7 are independent of those later constructions.
    Mathlib's `SingleObj` composition and `FundamentalGroup.mul_def` conventions: both
    compose the later traversal on the left. Prove the oriented-edge identification
    is compatible with the native group operation.
-   Compare this bar model pointedly with ClassifyingSpaces' Milnor and
-   presentation models, using its Stage 3 items11–15 and Stage 4 items16–18.
    Separate the raw bar construction (8.8a), which feeds 8.8c's abelian
-   K(A,1) specialization, from the normalized ClassifyingSpaces model comparison
-   (8.8b). The latter uses only the actual CS Stage3/4 model, uniqueness and
-   resolution interfaces.
-   Construct the maps and inverse homotopies normalized by
-   κ_bar ∘ π₁(c_G)=κ_model, so the induced group map is the identity on G.
-   State the conversion between the left deck action and the native
+   K(A,1) specialization, from the bar model's normalized pointed interface
+   (8.8b). The latter uses only 8.8a, Stage 4 and 8.5.
+   For a Hausdorff CW K(G,1) Z with a chosen identification κ_Z:π₁Z≅G,
+   construct through the mapping bijection below the pointed map c_G:Z→Bπ
+   normalized by κ_bar ∘ π₁(c_G)=κ_Z, so the induced group map is the
+   identity on G; it is a weak equivalence, hence a pointed homotopy
+   equivalence by 8.5 with a pointed homotopy inverse, unique up to pointed
+   homotopy.
+   State the conversion between the left G-action on Eπ and the native
    Deck≃π₁ᵐᵒᵖ convention explicitly, including the inversion isomorphism
-   G→Gᵐᵒᵖ where used. Prove group-homomorphism naturality up to pointed
-   homotopy and the induced naturality on cohomology. For each A:Rep R G,
-   prove that pullback along c_G and the coefficient-normalized comparison
-   identify both local-system cohomology maps with the identity on native
-   groupCohomology; compare the augmentation-preserving resolution maps
-   up to chain homotopy. Keep the existing bar-label inversion below.
+   G→Gᵐᵒᵖ where used. Prove group-homomorphism naturality of c_G up to
+   pointed homotopy and the induced naturality on cohomology. Keep the
+   existing bar-label inversion below.
    The raw bar supplies the object used by 8.8c's abelian
-   specialization. The normalized comparison uses the ClassifyingSpaces Stage3/4
-   interfaces named above.
+   specialization. ClassifyingSpaces consumes 8.8a's bar model and owns its
+   normalized comparison with the Milnor and presentation models, the
+   resulting identification of the local-coefficient cohomology comparisons
+   and the comparison of the augmentation-preserving resolution maps; no
+   item here consumes those.
    Item 8.8c aliases the abelian specialization as K(A,1);
    the generic CW/cover proof is supplied only here. For each connected
    pointed CW complex X prove `[X,Bπ]_*≃Hom(π₁X,π)` and that forgetting basepoints
@@ -2421,7 +2422,7 @@ supplement or the categorical LS supplement unless named explicitly.
 | 7 Euler characteristic | 2--6, with 4.6's CPⁿ cell structure for the CPⁿ check | 1 |
 | 8.1–8.7 Hurewicz/Whitehead | 2--4 and the cited external roadmaps; proper8.5 additionally CC C1.2a S0–S3 support colimits/proper pullback and S4 jointly proper homotopy invariance and the supported-cellular comparison/countability supplement; CC-S5 is a compatibility target only | 1, 5; ordinary Hurewicz/Whitehead also alongside ordinary6–7 |
 | 8.8a raw bar/abelian input | 4, ordinary6, native nerve/realization and universal-cover APIs | 8.8c's abelian K(A,1) specialization |
-| 8.8b normalized model comparison | AT8.8a bar model; CS Stage3 items11–15 and Stage4 items16–18 | 8.9 |
+| 8.8b normalized bar-model interface | 8.8a bar model, 4, 8.5 | 8.9 |
 | 8.8c abelian EM family | 4.7, 4.8, 8.1–8.8a, 8.2's Kan/Moore comparison and 5.5's based path fibration for the loop identification; no 8.9–8.12 input | 7 |
 | 8.8d Serre classes/Hurewicz modulo a class | 4.8, 5.3 transfer, 5.5 Serre sequences and path fibrations, 8.3–8.5, 8.8c | 7 |
 | 8.9 primary relative obstructions | 4, 5.5 fibre transport, ordinary6 cellular cochains, 8.1–8.7 | 8.8b |
