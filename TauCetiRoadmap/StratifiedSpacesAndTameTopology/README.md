@@ -56,9 +56,9 @@ specializations of 4.5 and 4.7, and its lifting construction keeps an independen
 RealAnalyticGeometry R2.1 consumes the lifting data that 4.7 does not supply. The Euler
 characteristic of spaces of finite CW type is AlgebraicTopology Stage 7; no roadmap states the
 o-minimal Euler characteristic of a definable set (van den Dries, Chapter 4, §2).
-AlgebraicTopologyPartII 16.2 states an equivariant first isotopy lemma for a closed Whitney
-stratified subset with invariant control data taken as given; it is a sibling that consumes no part
-of Layer 5, and 5.5 is not a duplicate of it. The collar theorem for manifolds with boundary and the
+Thom's first isotopy lemma, with its embedded form for a map proper and stratumwise submersive on a
+closed Whitney-stratified subset (Mather, Proposition 11.1), and the controlled vector fields it is
+built on are owned here (5.4–5.5); its equivariant form is a downstream consumer. The collar theorem for manifolds with boundary and the
 tubular neighbourhood theorem are GeometricTopology Layer 1.
 
 **Out of scope.** Constructible sheaves on stratified spaces, exit-path ∞-categories and
@@ -1163,7 +1163,10 @@ Layer 4 (o-minimal structures, both parts of the cell decomposition theorem, pie
 and dimension with its independence, bijection-invariance, union and frontier laws) for the
 structure `ℝ_an,exp`, and proves the product, projection and fibre-dimension laws there;
 ImplicitAtlases Layer 6.1 stratifies each thickening over a finite poset with the sets `X^{≥s}`
-open, which is a stratification in the sense of 1.1.
+open, which is a stratification in the sense of 1.1; AlgebraicTopologyPartII 16.2 states an
+equivariant first isotopy lemma for a closed Whitney-stratified subset with invariant control data,
+which is 5.5 for the trivial action: it consumes the controlled lifts of 5.4 and the isotopy lemma
+of 5.5, and adds the averaging and equivariance step.
 
 ## References
 
