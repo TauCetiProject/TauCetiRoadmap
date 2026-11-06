@@ -22,6 +22,8 @@ Ownership is by mathematical object:
 
 Flat cohomology, virtual dimension and finite flat group schemes belong to PurityForFlatCohomology; there is no dependency on that consumer.
 
+EtaleCohomologyFoundations §F.5 owns dualizingComplex a = a^!Λ_S for every compactifiable a : X → S, together with the abstract Verdier layer; §F.0.3 owns the integer Tate twists, and §0.9 owns cycleClassMap and IsPure. Layer 6 introduces no exceptional inverse image and no twist of its own: it owns the pinned structure of §6.2 on objects of D(X, Λ), its morphisms, the dualizing predicate of §6.8, and the theorems that put the structure on Λ_X for regular X, on relative dualizing complexes and on the canonical term over an excellent base.
+
 ## Conventions
 
 Rings are commutative with identity. A local ring is nonzero, as in Mathlib's `IsLocalRing`. All scheme statements use the native `AlgebraicGeometry.Scheme`; no separatedness is imposed unless stated. Noetherianity is not replaced by finite Krull dimension. Quasi-excellence and excellence have the definitions of SchemeAndStackFoundations §0.21. Coherent topoi and coherent morphisms have the finite-limit and quasi-compactness conventions of AdicEtaleGeometry §§A1.14–A1.15. Sites, diagrams and coefficient modules live in fixed universes; one enlarges the sheaf universe when forming a topos, rather than postulating a set of all schemes or topoi.
@@ -104,6 +106,8 @@ What EtaleCohomologyFoundations must provide (gap:generic-constructibility-noeth
 This is the generic-base statement of SGA4half [Th. finitude] 1.9(i)–(ii), p. 236, proof §2, pp. 238–241; SGA4half line 7774. In §4.1 the base is a test closed subscheme Z and the maps Z_p → Z are not necessarily proper.
 
 Use §F.5 for f^! as right adjoint to Rf_! on the finite-cohomological-dimension domain of §F.2, with separated finite-type noetherian geometry as in §F.2.4. Composition is the adjoint of composition of Rf_!. Section 0.7 identifies closed-immersion f^! with the support functor, and §F.6 supplies smooth purity. These ambient operations do not assume a dualizing complex on the base.
+
+Layer 6 consumes the following by name. From §F.0.3, the integer twists `VanishingCycles.etaleTateTwists` Λ(m), with Λ(1) = Λ ⊗_(ℤ/n) μ_n for n = ringChar Λ, tensor powers for m ≥ 0 and dual powers for m < 0, defined on every scheme without hypothesis, and twist addition Λ(a) ⊗ Λ(b) ≅ Λ(a + b) under `Scheme.IsInvertibleOn n X`; these are the pinning targets of §6.2. From §0.7, the support functor i^! of `ClassicalAlgebraic.supportLocalization`, which defines RΓ_x. From §0.9, the morphism cycleClassMap i c : Λ_Z → i^!Λ_X(c)[2c] adjoint to the constructed class of a regular immersion and the predicate IsPure i c, its being an isomorphism; §6.3 pins with this map. From §F.5, dualizingComplex a = a^!Λ_S for every compactifiable a, the object on which §6.2 puts the pinned structure in the relative case. From §F.6, the named isomorphism `VanishingCycles.smoothPurity` f^!Λ ≅ Λ(d)[2d] with its composition and base-change laws, against which §6.2 checks the smooth case.
 
 ### From TauCetiRoadmap.EtaleDualityAndPerverseSheaves
 
@@ -1089,7 +1093,23 @@ A proof route is as follows. Definition (ILO XVII 2.1.2). Étale restriction and
 
 - On the empty scheme 0 is the unique potential dualizing complex.
 
-- For X separated of finite type over a field with δ(x) = dim of the closure of x, a^!Λ (EtaleDualityAndPerverseSheaves §§0.1–0.2 and EtaleCohomologyFoundations §F.5) with its purity pinnings is potential.
+- For X separated of finite type over a field with δ(x) = dim of the closure of x, the relative dualizing complex dualizingComplex a = a^!Λ of EtaleCohomologyFoundations §F.5 for the structure morphism a : X → Spec k (its duality is EtaleDualityAndPerverseSheaves §§0.1–0.2), with its purity pinnings, is potential.
+
+**The pinned structure.** Define PutativeDualizingComplex X δ for a scheme X : Scheme.{u}, a finite commutative coefficient ring Λ : Type u in the universe of X, and a dimension function δ of §5.1, carried as a function X → ℤ together with its law. The theorems of this layer take the canonical map ℤ/n → Λ bijective, n = ringChar Λ; no lifted coefficient ring occurs. It is a structure with two data fields: an object K of D(X, Λ), the derived category of `Sheaf X.smallEtaleTopology (ModuleCat Λ)` fixed by the EtaleCohomologyFoundations conventions, satisfying its bounded-below property; and, for every point x of X, an isomorphism pin x : RΓ_x(K) ≅ Λ(δ(x))[2δ(x)] in D(Spec κ(x), Λ). Here RΓ_x(K) is i_x^! of the pullback of K to Spec O_(X,x), with i_x the inclusion of the closed point and i^! the support functor of EtaleCohomologyFoundations §0.7, and Λ(m) is the integer twist of EtaleCohomologyFoundations §F.0.3 (`VanishingCycles.etaleTateTwists`) on Spec κ(x): the m-th tensor power of Λ ⊗_(ℤ/n) μ_n for m ≥ 0 and the dual power ℋom(Λ(−m), Λ) for m < 0. The pinning target is that sheaf; no class of twist data, chosen root of unity or separate normalization field enters. Define PotentialDualizingComplex X δ as the extension by one `Prop` field, the compatibility of the first paragraph made explicit: for every immediate specialization ȳ ⇝ x̄ of geometric points, the geometric stalk at ȳ of pin y, followed by the specialization isomorphism of the lisse sheaf Λ(δ(y)) along ȳ ⇝ x̄, equals sp_(ȳ→x̄) of §6.1 followed by the geometric stalk at x̄ of pin x twisted by (1)[2] and by the twist addition Λ(δ(x)) ⊗ Λ(1) ≅ Λ(δ(x) + 1) of §F.0.3; the equality δ(y) = δ(x) + 1 is the law of δ. The transition maps of §6.1 and twist addition exist on noetherian excellent X on which n is invertible, so these enter as class arguments of the structure (`Scheme.IsInvertibleOn n X` of the EtaleCohomologyFoundations conventions and `IsExcellentScheme X` of SchemeAndStackFoundations §0.21), never as fields or explicit hypotheses.
+
+A morphism of putative, or potential, dualizing complexes on (X, δ) is a morphism of the underlying objects whose induced maps on every RΓ_x commute with the pinnings; with composition in D(X, Λ) these form a category, and the uniqueness of §6.6 is a statement about its isomorphisms. The operations of the interface are constructions on the structure: restriction along an étale h : U → X for δ ∘ h, transporting the pinnings by étale base change of supports; the twist-shift K ↦ K(k)[2k] for δ + k, twisting each pinning by (k)[2k] and applying twist addition; and transport along an isomorphism K ≅ K′ in D(X, Λ). The structure lives on an object of D(X, Λ) and introduces no new functor. For a compactifiable finite-type a : X → S to a regular excellent S, the object carrying it is EtaleCohomologyFoundations §F.5's dualizingComplex a = a^!Λ_S, which that roadmap defines for every compactifiable a without a dimension or field hypothesis; §6.7(2) applied to the regular term of §6.3 on S puts the structure on it, and the Checks below treat S = Spec k. (ILO14, Exposé XVII, Définition 2.1.2, 2.2.1 and Théorème 5.1.1, pp. 263–264 and 287 (printed); ILO14 lines 12581, 13878.)
+
+*Needs:* §5.1; §6.1; EtaleCohomologyFoundations §F.0.3 for the integer twists and twist addition, §0.7 for the support functor and §F.5 for dualizingComplex; SchemeAndStackFoundations §0.21.
+
+**Checks.**
+
+- Agreement with smooth purity. Let a : X → Spec k be smooth, separated and of pure relative dimension d, with n invertible in k and δ(x) = dim of the closure of x, so δ = d − codim. Transporting the twist-shift by (d)[2d] of the regular structure of §6.3 on Λ_X along the named isomorphism `VanishingCycles.smoothPurity` a^!Λ ≅ Λ(d)[2d] of EtaleCohomologyFoundations §F.6 gives a potential structure on dualizingComplex a. At a k-rational point x its pinning RΓ_x(a^!Λ) ≅ Λ is the composition isomorphism i_x^!a^!Λ ≅ (a ∘ i_x)^!Λ = Λ of §F.5, because the smooth trace sends the cycle class of a rational point to 1. A purity isomorphism normalized so that point classes have trace −1 gives pinnings differing by −1, a different term of the structure once n ≥ 3.
+
+- On X = 𝔸¹_k with δ(η) = 1 and δ(0) = 0, the twist-shift by (1)[2] of the structure of §6.3 is Λ(1)[2] with the identity pinning at the generic point. Its pinning H²_0(𝔸¹, Λ(1)) ≅ Λ at the origin sends the Kummer class of the coordinate, the cycle class of the origin in EtaleCohomologyFoundations §F.6's Checks, to 1, and through `VanishingCycles.smoothPurity` for 𝔸¹_k it is the composition pinning of dualizingComplex a.
+
+- On Spec of a strictly henselian excellent regular local ring of dimension 2 with δ = −codim, the closed-point pinning has target the dual power Λ(−2)[−4] = ℋom(Λ(2), Λ)[−4] of §F.0.3, concentrated in degree 4. A structure built on nonnegative tensor powers alone cannot state this pinning; the normalization δ(closed point) = 0 of §6.11 moves the target to Λ.
+
+- On Spec of a separably closed field with δ ≡ 0, the term (Λ, id) has the identity as its only automorphism in the category above, although Λ has the (ℤ/n)ˣ automorphisms of D(Spec k, Λ). For n = 5, a notion of morphism forgetting the pinnings would give four automorphisms and contradict the uniqueness of §6.6.
 
 ### 6.3 The constant sheaf on a regular scheme is potentially dualizing
 
@@ -1108,6 +1128,18 @@ A proof route is as follows. The pinnings exist by absolute purity for the regul
 - For X smooth over a field, the pinnings agree with the smooth-pair cycle classes of EtaleCohomologyFoundations §F.6.
 
 - For a separably closed field, codimension is 0, and the regular potential complex is Λ in degree 0 with the identity pinning. On a strict regular surface the closed-point pinning is Λ(−2)[−4]; a convention with shift +4 would put its support in degree −4 instead of 4.
+
+**The regular term and the cycle-class map.** In the structure of §6.2 this theorem is a construction: the term of PotentialDualizingComplex X (−codim) whose object is Λ_X and whose pinning at x is built from cycleClassMap of EtaleCohomologyFoundations §0.9, the morphism adjoint to the class of `ClassicalAlgebraic.lciCycleClass`, for the closed point of Spec O_(X,x), a regular immersion of codimension c = codim x: invert that map, twist by (−c)[−2c], and use the projection formula for i^! with the lisse twist and the twist addition Λ(c) ⊗ Λ(−c) ≅ Λ of §F.0.3. The inversion is legitimate because that closed point satisfies IsPure of EtaleCohomologyFoundations §0.9, by the absolute purity of LefschetzPencilsAndVanishingCycles §0.10; the compatibility field is the theorem above. At a closed point with separable residue field of X smooth over a field the same map is the one that the smooth-pair purity of EtaleCohomologyFoundations §0.10 makes invertible, so smooth-pair purity and absolute purity pin with one class, and the Check on smooth purity in §6.2 compares structures built from the same map. No generator of a cohomology group is chosen. (ILO14, Exposé XVII, Proposition 2.4.4.1, p. 267 (printed); ILO14 line 12835.)
+
+*Needs:* §6.2; EtaleCohomologyFoundations §0.9 for cycleClassMap and IsPure and §F.0.3 for twist addition; LefschetzPencilsAndVanishingCycles §0.10.
+
+**Checks.**
+
+- On a strictly henselian trait with uniformizer π, the closed-point pinning H²_s(Λ(1)) ≅ Λ sends the Kummer class of π to 1; replacing π by uπ for a unit u leaves it unchanged, since the cycle class of the closed point does not depend on the equation.
+
+- For c = 0 the cycle-class map is the coefficient unit, so the pinning at a generic point of a regular X is the identity of Λ.
+
+- With Λ = ℤ/5 on a strict regular surface, multiplying the closed-point pinning by 2 while keeping the pinnings at the codimension-one points gives a putative term that is not potential: at an immediate specialization from a codimension-one point to the closed point the compatibility square then commutes only up to the factor 2, and 2 ≠ 1 in ℤ/5. The cycle-class pinnings satisfy the field because cycle classes compose along regular immersions (EtaleCohomologyFoundations §0.9).
 
 ### 6.4 Higher transitions and top-degree local cohomology
 
@@ -1173,7 +1205,19 @@ A proof route is as follows. Uniqueness and the τ_(≤0) statement in the norma
 
 - For X regular with δ = −codim, K_X = Λ (§6.3).
 
-- For X separated of finite type over a field with δ = dim of closure, K_X = a^!Λ.
+- For X separated of finite type over a field with δ = dim of closure, K_X = dualizingComplex a = a^!Λ of EtaleCohomologyFoundations §F.5, a : X → Spec k.
+
+**Construction and uniqueness as data.** In the structure of §6.2 the theorem is a construction with laws. Define potentialDualizingComplex X δ as the term of PotentialDualizingComplex X δ given by the construction above, whose inputs are canonical: the regular locus, the normal locus and the finite normalization of X, and the perverse extension of §6.5. Prove that between any two terms of PotentialDualizingComplex X δ there is exactly one isomorphism in the category of §6.2, and prove the τ_(≤0) and `Perv^(-2*delta)` statements for the object of potentialDualizingComplex X δ. No term is chosen from an existence statement, and the comparisons in the Checks above are these unique isomorphisms rather than equalities of objects. (ILO14, Exposé XVII, Théorème 5.1.1, p. 287 (printed); ILO14 line 13878.)
+
+*Needs:* §6.2 for the structure and its morphisms; the construction above.
+
+**Checks.**
+
+- For X regular and connected with δ = −codim, exactly one isomorphism goes from potentialDualizingComplex X δ to the term of §6.3, and the identity is the only automorphism of that term: any other unit of Λ acting on Λ_X moves the pinning at the generic point.
+
+- On a strictly henselian trait with δ(s) = 0 and δ(η) = 1, the isomorphisms from potentialDualizingComplex X δ to Λ(1)[2] with its Kummer pinning form a one-element type, although Λ(1)[2] has (ℤ/n)ˣ automorphisms in D(X, Λ).
+
+- On the empty scheme potentialDualizingComplex is 0 with the empty family of pinnings, and the uniqueness statement holds trivially.
 
 ### 6.7 Functoriality of potential dualizing complexes
 
@@ -1316,6 +1360,8 @@ On a strict regular trait, K=Λ(1)[2] has generic cohomology in degree −2 and 
 ### Dependencies
 
 Layers 1, 4–5; LefschetzPencilsAndVanishingCycles §§0.2–0.5, 0.10; AdicCoefficientsAndComparisonsPartII §PA.0.11; EtaleCohomologyFoundations §§0.7, F.5–F.6, with exceptional pullback on the finite-cohomological-dimension domain of §F.2 and the separated finite-type noetherian geometry of §F.2.4; EtaleDualityAndPerverseSheaves §§0.1–0.2 for coefficient and finite-type duality; EnhancedDerivedSheaves §§0.1–0.4; ArcTopologyAndDescent §8.9; DeformationAndDerivedPatchingAlgebra §1.10. The open-immersion tensor–Hom exchange is §6.8, using EtaleCohomologyFoundations §0.7 and EnhancedDerivedSheaves §§0.3–0.4.
+
+The pinned structure of §6.2 and the regular term of §6.3 also use EtaleCohomologyFoundations §F.0.3 for the integer twists and twist addition and §0.9 for cycleClassMap and IsPure, and SchemeAndStackFoundations §0.21 for the excellence class.
 
 ## Layer 7: Local Lefschetz and purity applications
 

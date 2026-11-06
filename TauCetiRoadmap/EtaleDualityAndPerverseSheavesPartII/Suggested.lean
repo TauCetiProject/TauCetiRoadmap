@@ -1,6 +1,6 @@
 module
 
-import Mathlib
+public import Mathlib
 
 /-!
 # Étale duality and perverse sheaves, part II: target signatures
@@ -28,9 +28,12 @@ geometric carriers and operations:
   the quasi-excellent theorem also needs the quasi-excellence predicate.
 * The top local class and higher transitions need geometric local support complexes,
   Tate twists and specialization maps.
-* Potential-dualizing existence and uniqueness, Gabber biduality and excellent
-  duality, and normalized local duality need pointwise pinned constructible étale
-  complexes, derived internal Hom and general-base exceptional inverse image.
+* The pinned structure of putative and potential dualizing complexes (README §6.2),
+  whose pinnings land in the integer Tate twists of EtaleCohomologyFoundations §F.0.3,
+  its regular term pinned by the cycle-class map, its construction and uniqueness,
+  Gabber biduality and excellent duality, and normalized local duality need the étale
+  Tate twists, the local support functor, derived internal Hom and general-base
+  exceptional inverse image.
 * Gabber's pointwise perverse t-structures need the stalk and support functors of
   the étale category; an abstract t-structure is not that missing structure.
 * Local Lefschetz needs local étale cohomology with supports and its hypersurface
@@ -45,6 +48,8 @@ Epp's elimination of wild ramification (README §1.3) is an intermediate theorem
 of the mixed-characteristic Cohen–Gabber proof, not a headline, so it is not
 stated here.
 -/
+
+@[expose] public section
 
 open scoped TensorProduct
 
