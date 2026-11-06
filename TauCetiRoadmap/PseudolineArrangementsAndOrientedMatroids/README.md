@@ -103,16 +103,17 @@ rank-3 chirotopes with no bigonal element is not a target.
    covector set (BLSWZ Proposition 3.7.2), and for an infinite `E` it can fail (L3) (Check of
    2.2). Witness: in 2.1.
 5. **Monotone arrangements.** `MonotoneArrangement n` is a family `f : Fin n → ℝ → ℝ` of
-   continuous functions such that for `i < j` some `x₀` has `f i x < f j x` for `x < x₀`,
-   `f i x₀ = f j x₀` and `f j x < f i x` for `x > x₀`: indices increase upward at the far left and
+   continuous functions with a symmetric `crossX : Fin n → Fin n → ℝ`, `0` on the diagonal, such
+   that for `i < j` and `x₀ = crossX i j`, `f i x < f j x` for `x < x₀`, `f i x₀ = f j x₀` and
+   `f j x < f i x` for `x > x₀`: indices increase upward at the far left and
    downward at the far right. The line at infinity is `none : Option (Fin n)`, last in
    `WithTop (Fin n)`. Witness: in 3.1.
 6. **Points and sides.** `MonotoneArrangement.signAt A p` sends `none` to `1` and `some i` to
    `SignType.sign (f i p.1 - p.2)`: the positive side of a pseudoline is the side below it. With
    this sign the point sign vectors are covectors (3.5); with `sign (p.2 - f i p.1)` they are the
    negatives of covectors on the `some` coordinates and are not covectors. Witness: in 3.2.
-7. **Arrangement chirotope.** `MonotoneArrangement.crossX i j` is the abscissa where `i` and `j`
-   cross. `MonotoneArrangement.chiFun` is fixed on increasing triples by
+7. **Arrangement chirotope.** `MonotoneArrangement.crossX i j`, a field of the structure, is the
+   abscissa where `i` and `j` cross. `MonotoneArrangement.chiFun` is fixed on increasing triples by
    `χ (some i, some j, some k) = sign (crossX j k - crossX i j)` for `i < j < k` and
    `χ (some i, some j, none) = 1` for `i < j`, and extended alternatingly. With this convention the
    straight line `y = a x + b` has the vector `(-1, a, b)` and the line at infinity `(0, 0, 1)`:
@@ -559,8 +560,9 @@ Layers 0–1 and Mathlib. 2.2 uses 2.1; 2.3 uses 2.2; 2.4 uses 2.1–2.2; 2.5 us
 
 ### 3.1 Monotone arrangements
 
-Define `MonotoneArrangement n` (Convention 5), `MonotoneArrangement.crossX` (symmetric,
-characterized by `f i (crossX i j) = f j (crossX i j)` for `i ≠ j`, the value at `i = j` junk),
+Define `MonotoneArrangement n` (Convention 5), whose data include `MonotoneArrangement.crossX`
+(symmetric, `f i (crossX i j) = f j (crossX i j)` for `i ≠ j`, and `0` at `i = j`, so that the
+data are determined by `f`),
 `MonotoneArrangement.IsSimple` (no three pseudolines through a common point), relabelling by
 `Fin.revPerm` combined with `x ↦ -x`, and `MonotoneArrangement.ofLines a b ha`
 (`f i x = a i * x + b i`) for strictly antitone slopes `a`.

@@ -258,9 +258,9 @@ theorem three_le_ncard_walls [Finite E] (χ : Chirotope 3 E) (hχ : χ.IsSimple)
 /-- Rank 2 and cyclic orders (Layer 2.7): signed elements carry a unique circular order in which
 `χ a b = 1` means that `b` lies strictly between `a` and `-a`. -/
 theorem exists_unique_circularOrder [Finite E] (χ : Chirotope 2 E) (hχ : χ.IsSimple) :
-    ∃! c : CircularOrder (E × ℤˣ), letI := c; ∀ a b : E × ℤˣ, a.1 ≠ b.1 →
+    ∃! c : CircularOrder (E × ℤˣ), ∀ a b : E × ℤˣ, a.1 ≠ b.1 →
       (SignType.sign (a.2 : ℤ) * SignType.sign (b.2 : ℤ) * χ ![a.1, b.1] = 1 ↔
-        sbtw a b (a.1, -a.2)) := sorry
+        @SBtw.sbtw _ c.toSBtw a b (a.1, -a.2)) := sorry
 
 end Chirotope
 
@@ -282,19 +282,19 @@ structure MonotoneArrangement (n : ℕ) where
   f : Fin n → ℝ → ℝ
   /-- Each pseudoline is continuous. -/
   continuous : ∀ i, Continuous (f i)
-  /-- Two pseudolines cross exactly once, `i` below `j` on the left. -/
-  cross : ∀ i j, i < j → ∃ x₀ : ℝ,
-    (∀ x < x₀, f i x < f j x) ∧ f i x₀ = f j x₀ ∧ ∀ x, x₀ < x → f j x < f i x
+  /-- The abscissa where `i` and `j` cross. -/
+  crossX : Fin n → Fin n → ℝ
+  /-- The crossing abscissa is symmetric. -/
+  crossX_comm : ∀ i j, crossX i j = crossX j i
+  /-- The value on the diagonal is fixed, so that the data are determined by `f`. -/
+  crossX_self : ∀ i, crossX i i = 0
+  /-- Two pseudolines cross exactly once, at `crossX i j`, `i` below `j` on the left. -/
+  cross : ∀ i j, i < j → (∀ x < crossX i j, f i x < f j x) ∧
+    f i (crossX i j) = f j (crossX i j) ∧ ∀ x, crossX i j < x → f j x < f i x
 
 namespace MonotoneArrangement
 
 variable {n : ℕ} (A : MonotoneArrangement n)
-
-/-- The abscissa where `i` and `j` cross, symmetric in `i` and `j`; the value `0` at `i = j` is
-junk. -/
-def crossX (i j : Fin n) : ℝ :=
-  if h : i < j then Classical.choose (A.cross i j h)
-  else if h' : j < i then Classical.choose (A.cross j i h') else 0
 
 /-- Simple: no three pseudolines through a common point. -/
 def IsSimple : Prop :=
@@ -332,9 +332,17 @@ theorem isUniform_chiFun_iff : Chirotope.IsUniform A.chiFun ↔ A.IsSimple := so
 def ofLines (a b : Fin n → ℝ) (ha : StrictAnti a) : MonotoneArrangement n where
   f i x := a i * x + b i
   continuous _ := by fun_prop
+  crossX i j := if i = j then 0 else (b j - b i) / (a i - a j)
+  crossX_comm i j := by
+    by_cases h : i = j
+    · subst h; rfl
+    · simp only [h, Ne.symm h, ite_false]
+      rw [← neg_div_neg_eq (b i - b j), neg_sub, neg_sub]
+  crossX_self i := by simp
   cross i j hij := by
     have h : 0 < a i - a j := sub_pos.2 (ha hij)
-    refine ⟨(b j - b i) / (a i - a j), fun x hx => ?_, ?_, fun x hx => ?_⟩
+    simp only [hij.ne, ite_false]
+    refine ⟨fun x hx => ?_, ?_, fun x hx => ?_⟩
     · have := (lt_div_iff₀ h).1 hx
       nlinarith
     · field_simp
