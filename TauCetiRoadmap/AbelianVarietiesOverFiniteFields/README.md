@@ -186,7 +186,9 @@ Suggested home: `TauCeti/AlgebraicGeometry/AbelianVariety/FiniteField/` for Laye
 ### From Mathlib
 
 - Finite fields: `Finite K`, `Fintype.card`, `Nat.card`, `GaloisField p n`, `FiniteField.card`,
-  `ringChar`, `frobenius K p`, `CharP`, `ExpChar`; `AlgebraicClosure K`, `SeparableClosure`.
+  `ringChar`, `frobenius K p`, `CharP`, `ExpChar`; `AlgebraicClosure K`, `SeparableClosure`;
+  `FiniteField.Extension K p n` and `FiniteField.algEquivExtension` (every extension of `K` of
+  degree `n` is `K`-isomorphic to that model; `Mathlib/FieldTheory/Finite/Extension.lean`).
 - Polynomials: `Polynomial.Monic`, `roots`, `aroots`, `rootSet`, `reverse`, `Polynomial.Gal`,
   `galActionHom`, `Polynomial.splittingField`, `Squarefree`, `Irreducible`,
   `UniqueFactorizationMonoid.normalizedFactors`, `Polynomial.mahlerMeasure` and
@@ -479,18 +481,24 @@ the group `A(L)` of `L`-points of the group scheme `A.toScheme` is the fixed sub
 `Nat.card (A(L)) = (End.charpoly (π_A^r)).eval 1 = Hom.deg (1 − π_A^r)`. DWP.1 §1.5 proves the count
 for its model of `𝔽_{q^r}`; the content
 here is that any two extensions of `K` of degree `r` are `K`-isomorphic (Mathlib
-`FiniteField.algEquivOfCardEq`) and `A(−)` carries isomorphisms to isomorphisms, so `#A(L)` is a
+`FiniteField.algEquivExtension`: an extension `L` with `Module.finrank K L = r` is `K`-isomorphic to
+the model `FiniteField.Extension K p r`; `FiniteField.algEquivOfCardEq` gives only a
+`ZMod p`-algebra isomorphism, which need not fix `K`) and `A(−)` carries `K`-isomorphisms to
+isomorphisms, so `#A(L)` is a
 function of `r` alone, written `#A(𝔽_{q^r})`. Corollaries: `A(K) ⊆ A(L)` as subgroups of `A(K^{sep})`
 with `#A(K) ∣ #A(L)` (because `T − 1 ∣ T^r − 1` and `∏(1 − α_i^r)/∏(1 − α_i) = ∏(1 + α_i + ⋯ + α_i^{r−1})`
 is a symmetric integer); `A(K^{sep})` is the increasing union of the `A(𝔽_{q^r})` over `r`
 ordered by divisibility; and `#A(𝔽_{q^r}) = ∏_{i=1}^{2g} (1 − α_i^r)` in `ℂ` (DWP.1 §1.5, §1.9).
-*Needs:* DWP.1 §§1.1, 1.5, 1.9; A6.1, A6.10; Mathlib `FiniteField.algEquivOfCardEq`.
+*Needs:* DWP.1 §§1.1, 1.5, 1.9; A6.1, A6.10; Mathlib `FiniteField.algEquivExtension`.
 
 **Checks.**
 
 - For P=T²−2T+5, the degree-one and degree-two counts are 4 and 32, with 4 dividing 32.
 - The dimension-zero group has one point over every extension, with P(1)=1.
 - At q=2, P=T²−2T+2 gives counts 1,5,13,25 for degrees 1,2,3,4; the degree-two count is not the square of the first.
+- For K=𝔽₄ inside L=𝔽₁₆, squaring is a field automorphism of L that sends a generator ω of 𝔽₄ to
+  ω²=ω+1; it is an isomorphism of fields of equal size but not a K-isomorphism, so it does not act
+  on the K-morphisms Spec L → A, and the transport of points uses a K-algebra isomorphism.
 
 ### 1.3 The `L`-polynomial and the functional equation
 
@@ -1165,8 +1173,9 @@ with the examples `1.2.ac`, `1.4.ae` and `2.2.ad_f`; `A(K) ⊆ A(L)` with `#A(K)
 ### 7.2 The `ℓ`-primary parts through the Tate module
 
 For a prime `ℓ ≠ p`: **`A(K)[ℓ^∞] ≃+ T_ℓ A ⧸ (T_ℓ π_A − 1)(T_ℓ A)`**. Proof: `A(K̄)[ℓ^∞] ≅ V_ℓ A / T_ℓ A`
-(A4.1), `π_A − 1` is bijective on `V_ℓ A` (no root of `P_A` is `1`, since `|α_i| = √q > 1`, DWP.1
-§1.4), and the snake lemma for `0 → T_ℓ → V_ℓ → V_ℓ/T_ℓ → 0` with the endomorphism `π_A − 1`
+(A4.1), `π_A − 1` is bijective on `V_ℓ A` (`det(π_A − 1 ∣ V_ℓ A) = (−1)^{2g} P_A(1) = P_A(1)` by
+A6.11, and `P_A(1) = #A(K) ≥ 1` by 1.2, `A(K)` containing `0`; no bound on `|α_i|` is used), and the snake
+lemma for `0 → T_ℓ → V_ℓ → V_ℓ/T_ℓ → 0` with the endomorphism `π_A − 1`
 identifies `ker(π_A − 1 ∣ V_ℓ/T_ℓ) = A(K)[ℓ^∞]` (1.2) with `coker(π_A − 1 ∣ T_ℓ)`. For `ℓ = p`:
 `A(K)[p^∞] ≃+ T_p(A[p^∞]^{ét}) ⧸ (π − 1)` with `T_p` of the étale part of rank `pRank A` (A4.5,
 6.1), by the same argument on the étale quotient (`A(K̄)[p^∞] = A[p^∞]^{ét}(K̄)`). Consequences:
@@ -1176,7 +1185,7 @@ most `pRank A`; `#A(K)[ℓ^∞] = ℓ^{v_ℓ(P_A(1))}` (the determinant of `π_A
 `T_ℓ π_A − 1` on the `ℤ_ℓ[π_A]`-module `T_ℓ A`, which depends on `A` and not only on its isogeny
 class (two isogenous varieties have different `T_ℓ A ⊆ V_ℓ A` in general: `1.5.ac` below has
 members with `ℤ/4` and with `(ℤ/2)²`).
-*Needs:* 1.2, 6.1; A4.1, A4.5, A6.11; DWP.1 §1.4.
+*Needs:* 1.2, 6.1; A4.1, A4.5, A6.11.
 
 **Checks.**
 
@@ -2235,6 +2244,54 @@ Layers 1 and 8 can start at once (8.1–8.2 and 8.4–8.6 need nothing from Laye
 8; 10 after 9; 11 after 1 and 4. Layers 2–6 and 9–11 read AS Tate, AS lattices and Part II F3.2 (Honda–Tate) wherever they use those theorems. The external inputs with the longest
 lead time are DWP.1 (every layer), A6 (Layers 1–3), Part II F0–F3 (Layers 2–6 and 9–11) and
 A4.9–A4.10 (9.2 only); Layers 8 and the polynomial-level parts of 5–6 depend on none of them.
+
+## Provenance
+
+This section is secondary: it maps milestones to existing Lean formalizations, consulted as proof
+sources and not as specifications, and prescribes nothing. Both repositories are Apache-2.0
+licensed, and a proof adapted from them rather than rewritten keeps that attribution. Neither uses
+Tau Ceti's carriers (in the first, an abelian variety is a group object over `Spec K` satisfying an
+abelian-variety predicate, not `AbelianVariety K`), so each statement is compared with the milestone
+here before it is transported. Their overlap with this roadmap is in scheme-level inputs (most of
+them consumed from the suppliers; the rest are steps of 1.2 and 7.2) and in the Weil-number
+predicate of §1.0.
+
+- formal-arithmetic-geometry/weil-conjectures, commit `55abf461d4688270382c9c982ac08a279e41c00b`:
+  - [`AlgebraicGeometry/AbelianVariety/TateModule.lean`](https://github.com/formal-arithmetic-geometry/weil-conjectures/blob/55abf461d4688270382c9c982ac08a279e41c00b/WeilConjectures/AlgebraicGeometry/AbelianVariety/TateModule.lean)
+    and [`RationalTateModule.lean`](https://github.com/formal-arithmetic-geometry/weil-conjectures/blob/55abf461d4688270382c9c982ac08a279e41c00b/WeilConjectures/AlgebraicGeometry/AbelianVariety/RationalTateModule.lean):
+    `T_ℓ A ≅ ℤ_ℓ^{2g}` and `V_ℓ A ≅ ℚ_ℓ^{2g}` for a prime `ℓ` invertible in `K`, the action of
+    `Gal(K̄/K)`, and, over a finite field, that the arithmetic Frobenius `σ ∈ Gal(K̄/K)` fixes no
+    nonzero vector of `T_ℓ A` and that `σ − 1` is bijective on `V_ℓ A`. These are A4.1's
+    `AbelianTate` and the first step of 7.2; there the Frobenius is the Galois element, and its
+    identification with `T_ℓ π_A` is DWP.1 §1.1.
+  - [`AlgebraicGeometry/AbelianVariety/Isogeny.lean`](https://github.com/formal-arithmetic-geometry/weil-conjectures/blob/55abf461d4688270382c9c982ac08a279e41c00b/WeilConjectures/AlgebraicGeometry/AbelianVariety/Isogeny.lean):
+    for `n > 0`, `[n]` is an isogeny of degree `n^{2g}` whose kernel is finite flat of order
+    `n^{2g}` (JacobianChallenge Layer E, used in 1.7);
+    [`Torsion.lean`](https://github.com/formal-arithmetic-geometry/weil-conjectures/blob/55abf461d4688270382c9c982ac08a279e41c00b/WeilConjectures/AlgebraicGeometry/AbelianVariety/Torsion.lean): `A(K̄)[n] ≅ (ℤ/n)^{2g}`
+    for `n` prime to `p` (A4.1, used in 7.2 and 7.3).
+  - [`AlgebraicGeometry/Picard/Jacobian.lean`](https://github.com/formal-arithmetic-geometry/weil-conjectures/blob/55abf461d4688270382c9c982ac08a279e41c00b/WeilConjectures/AlgebraicGeometry/Picard/Jacobian.lean): the
+    Jacobian of a proper smooth geometrically connected curve over an arbitrary field, without a
+    rational point, as a proper smooth geometrically integral commutative group of dimension `g`
+    representing `Pic⁰` (JacobianChallenge Layer E, consumed in 1.5 and 7.5). The identity
+    `P_{Jac C} = P_F` of 1.5 is not stated in it.
+  - [`ZetaLinearAlgebra/WeilNumbers.lean`](https://github.com/formal-arithmetic-geometry/weil-conjectures/blob/55abf461d4688270382c9c982ac08a279e41c00b/WeilConjectures/ZetaLinearAlgebra/WeilNumbers.lean): `q`-Weil numbers
+    of weight `w`, algebraic integers all of whose complex embeddings have absolute value
+    `q^{w/2}`, characterized through the roots of the minimal polynomial; weight `1` is the
+    convention of §1.0. The polynomial condition of
+    [`WeilFactorization.lean`](https://github.com/formal-arithmetic-geometry/weil-conjectures/blob/55abf461d4688270382c9c982ac08a279e41c00b/WeilConjectures/ZetaLinearAlgebra/WeilFactorization.lean) is on reversed
+    factors, whose roots have absolute value `q^{−i/2}` (the `L`-polynomial normalization of 1.3),
+    and the reciprocity of [`Reciprocity.lean`](https://github.com/formal-arithmetic-geometry/weil-conjectures/blob/55abf461d4688270382c9c982ac08a279e41c00b/WeilConjectures/ZetaLinearAlgebra/Reciprocity.lean) is the
+    self-duality of a cohomological trace datum, not the reciprocity `α ↦ q/α` of `P_A` in 1.3
+    (Part II F0.2).
+- AxiomMath/Weil, commit `27cdb2049be62ee2911429b47f54774078450e32`:
+  [`Defs/AlgebraicGeometry/Frobenius.lean`](https://github.com/AxiomMath/Weil/blob/27cdb2049be62ee2911429b47f54774078450e32/Weil/Defs/AlgebraicGeometry/Frobenius.lean), the
+  `q`-power Frobenius of a scheme over `𝔽_q` as a morphism over `Spec 𝔽_q`, characterized as the
+  identity on the underlying space and the `q`-th power on sections (the scheme Frobenius of
+  SchemeAndStackFoundations §0.29 that DWP.1 §1.1 starts from); and
+  [`Defs/AlgebraicGeometry/EtaleCohomology/Trace/FieldValuedPointCount.lean`](https://github.com/AxiomMath/Weil/blob/27cdb2049be62ee2911429b47f54774078450e32/Weil/Defs/AlgebraicGeometry/EtaleCohomology/Trace/FieldValuedPointCount.lean),
+  point counts over Mathlib's model `FiniteField.Extension` of `𝔽_{q^n}`, compared with an
+  arbitrary extension of degree `n` through `FiniteField.algEquivExtension`, which is the route of
+  1.2.
 
 ## References
 
