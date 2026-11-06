@@ -3567,27 +3567,28 @@ The construction has the following API.
 
 ### 2.146 Ordinary completed tensor cone
 
-Under coefficient convention C5. Construct an actual Cone(G) with point ModuleCat(Â,R̂⊗_Â N) and projections ρₙ.
+Under coefficient convention C1. Construct a native Cone G_N with point ModuleCat.of Â (R̂⊗_Â N) and components P_N,n.
 
-No noetherian, local, regular-sequence or discriminant hypothesis. The coefficient module is exactly Fin(r)→Â; no arbitrary-module completion interchange is asserted. No finite-generation condition on p.
+A and N lie in one common universe and carry explicit compatible A/Â-actions. No noetherian, locality or discriminant hypothesis; no flatness, finiteness or freeness of N is assumed. For N=Fin(r)→Â this is the cone whose components [finite-free coordinates of the completed tensor cone](#2148-finite-free-coordinates-of-the-completed-tensor-cone) identifies with the finite-free projections; no second cone is constructed there.
 
-One proof uses the following inputs and comparisons. Prove its naturality from the actual quotient evaluation coherence on pure tensors and native tensor induction.
+One proof uses the following inputs and comparisons. Use the actual quotient-transition/evaluation square on pure tensors to prove naturality.
 
 The construction has the following API.
 
-- For u∈R̂ and z∈N, ρₙ(u⊗z)=evalₙ(u)⊗z over Â.
-- For x∈R̂⊗_Â N and k∈Fin(r), cₙ(ρₙx)(k)=eₙ(ĉ(x)(k)), where ĉ is the pinned piScalarRight equivalence for R̂.
-- The n-th native cone morphism is exactly ModuleCat.ofHom(ρₙ), with the actual ordinary tensor point.
+- Under coefficient convention C1. The n-component of this cone equals the actual map P_N,n; on u⊗z it is evalₙ(u)⊗z.
+- Under coefficient convention C1. For j≤k, the k-component followed by G_N(k→j) equals the j-component.
+- Under coefficient convention C1. For b∈Â and x∈R̂⊗_Â N, the n-component sends b·x to b times its value at x.
 
 **Checks.**
 
-- In the fixture A=ℤ, γ=δ=s=t=0, p=(2) and m=2R, so that R=ℤ[u,v]/(u²), Â=ℤ₂, Qₙ=(ℤ/2ⁿ)[u,v]/(u²) and `σ=Σ_{k≥0}2^k v^k∈R̂` and N=ℤ₂, the level-3 cone projection sends σ⊗1 to (1+2v+4v²)⊗1, and its image under the transition to level 2 is the level-2 projection (1+2v)⊗1.
-- The level-zero projection is the zero map onto Q₀⊗_Â N=0.
-- Every actual cone projection is Â-linear, including completed coefficients such as 1/3 that are not elements of A: the projection of σ⊗(1/3) at level 3 is (3+6v+4v²)⊗1.
+- In the fixture A=ℤ, γ=δ=s=t=0, p=(2) and m=2R, so that R=ℤ[u,v]/(u²), Â=ℤ₂, Qₙ=(ℤ/2ⁿ)[u,v]/(u²) and `σ=Σ_{k≥0}2^k v^k∈R̂`, and N=ℤ₂, the level-3 component sends σ⊗1 to (1+2v+4v²)⊗1, and the transition to level 2 carries this to (1+2v)⊗1, the level-2 component of σ⊗1; components evaluating modulo m instead of mⁿ would send σ⊗1 to 1⊗1 at every level.
+- In the same fixture the components are Â-linear for completed scalars that are not in A: σ⊗(1/3)=(1/3)·(σ⊗1), and its level-3 component is (3+6v+4v²)⊗1 since 1/3≡3 modulo 8. In R̂⊗_ℤ ℤ₂ the elements σ⊗(1/3) and (1/3)σ⊗1 differ, so a cone built on the tensor product over A instead of Â would not have this value forced.
+- For the non-free coefficient module N=ℤ₂/(4) in the same fixture, Qₙ⊗_Â N=Qₙ/4Qₙ is 𝔽₂[u,v]/(u²) at level 1 and (ℤ/4)[u,v]/(u²) at every level n≥2; the level-1 component sends 1⊗1̄ to 1⊗1̄≠0, and for every n≥2 the n-component sends σ⊗1̄ to (1+2v)⊗1̄, because 2ᵏvᵏ⊗1̄=vᵏ⊗2ᵏ·1̄=0 for k≥2. A construction restricted to free N has no component here, and one that recorded the level-n truncation 1+2v+⋯+2ⁿ⁻¹vⁿ⁻¹ of σ in Qₙ instead of its image in Qₙ⊗_Â N would not see that the components stabilise from level 2 on.
+- For N=ℚ₂ in the same fixture every Qₙ⊗_Â N is zero, so every component is zero although the point R̂⊗_Â ℚ₂=R̂[1/2] is not; a definition asserting joint injectivity of the components for arbitrary N would be false, which is why the limit statements of this layer require N finite projective.
 
-(Deduction using `TensorProduct.map_tmul` and `TensorProduct.map_comp` in `Mathlib/LinearAlgebra/TensorProduct/Map.lean`, lines 59 and 104. The construction-specific inputs are [completed-chart coefficient-linear evaluation](#2115-completed-chart-coefficient-linear-evaluation), [the actual completed coefficient algebra](#277-the-actual-completed-coefficient-algebra), [finite quotient transition over completed coefficients](#269-finite-quotient-transition-over-completed-coefficients), [native completed-coefficient tensor diagram](#2104-native-completed-coefficient-tensor-diagram), [ordinary completed tensor projection](#2130-ordinary-completed-tensor-projection).; [knudsen2](#references), Appendix Proposition 6, pp. 194–195, for the surrounding two-base completion problem; the displayed native diagram calculation is the deduction specified here.)
+(Deduction using `TensorProduct.map_tmul` and `TensorProduct.map_comp` in `Mathlib/LinearAlgebra/TensorProduct/Map.lean`, lines 59 and 104. The construction-specific inputs are [ordinary completed tensor projections](#2131-ordinary-completed-tensor-projections), [completed-chart coefficient-linear evaluation](#2115-completed-chart-coefficient-linear-evaluation).; [knudsen2](#references), Appendix Proposition 6, pp. 194–195, for the surrounding two-base completion problem; the displayed native diagram calculation is the deduction specified here.)
 
-*Needs:* [completed-chart coefficient-linear evaluation](#2115-completed-chart-coefficient-linear-evaluation), [the actual completed coefficient algebra](#277-the-actual-completed-coefficient-algebra), [finite quotient transition over completed coefficients](#269-finite-quotient-transition-over-completed-coefficients), [native completed-coefficient tensor diagram](#2104-native-completed-coefficient-tensor-diagram), [ordinary completed tensor projection](#2130-ordinary-completed-tensor-projection), `AdicCompletion`, `AdicCompletion.evalₐ`, `DFunLike.ext`, `ModuleCat.hom_injective`, `ModuleCat.of`, `ModuleCat.ofHom`, `TensorProduct.induction_on`.
+*Needs:* [ordinary completed tensor projections](#2131-ordinary-completed-tensor-projections), [completed-chart coefficient-linear evaluation](#2115-completed-chart-coefficient-linear-evaluation), `TensorProduct`.
 
 ### 2.147 Completed coordinate of a cone lift
 
@@ -3611,31 +3612,31 @@ The construction has the following API.
 
 (Deduction using `TensorProduct.piScalarRightHom_tmul` in `Mathlib/LinearAlgebra/TensorProduct/Pi.lean`, line 140. The construction-specific inputs are [assembly of completed-chart quotient families](#2116-assembly-of-completed-chart-quotient-families), [the actual completed coefficient algebra](#277-the-actual-completed-coefficient-algebra), [finite-free quotient tensor coordinates](#2117-finite-free-quotient-tensor-coordinates), [finite quotient transition over completed coefficients](#269-finite-quotient-transition-over-completed-coefficients), [native completed-coefficient tensor diagram](#2104-native-completed-coefficient-tensor-diagram).; [knudsen2](#references), Appendix Proposition 6, pp. 194–195, for the surrounding two-base completion problem; the displayed native diagram calculation is the deduction specified here.)
 
-*Needs:* [assembly of completed-chart quotient families](#2116-assembly-of-completed-chart-quotient-families), [the actual completed coefficient algebra](#277-the-actual-completed-coefficient-algebra), [finite-free quotient tensor coordinates](#2117-finite-free-quotient-tensor-coordinates), [finite quotient transition over completed coefficients](#269-finite-quotient-transition-over-completed-coefficients), [native completed-coefficient tensor diagram](#2104-native-completed-coefficient-tensor-diagram), `AdicCompletion`, `AdicCompletion.evalₐ`, `TensorProduct`.
+*Needs:* [ordinary completed tensor cone](#2146-ordinary-completed-tensor-cone), [assembly of completed-chart quotient families](#2116-assembly-of-completed-chart-quotient-families), [the actual completed coefficient algebra](#277-the-actual-completed-coefficient-algebra), [finite-free quotient tensor coordinates](#2117-finite-free-quotient-tensor-coordinates), [finite quotient transition over completed coefficients](#269-finite-quotient-transition-over-completed-coefficients), [native completed-coefficient tensor diagram](#2104-native-completed-coefficient-tensor-diagram), `AdicCompletion`, `AdicCompletion.evalₐ`, `TensorProduct`.
 
-### 2.148 Ordinary completed tensor cone
+### 2.148 Finite-free coordinates of the completed tensor cone
 
-Under coefficient convention C1. Construct a native Cone G_N with point ModuleCat.of Â (R̂⊗_Â N) and components P_N,n.
+Under coefficient convention C5. Identify the components of the cone of [ordinary completed tensor cone](#2146-ordinary-completed-tensor-cone) at N=Fin(r)→Â, with its restricted A-action and the scalar tower A→Â→N, with the projections ρₙ of [ordinary completed tensor projection](#2130-ordinary-completed-tensor-projection), and compute them in the coordinates cₙ of [finite-free quotient tensor coordinates](#2117-finite-free-quotient-tensor-coordinates).
 
-A and N lie in one common universe and carry explicit compatible A/Â-actions. No noetherian, locality or discriminant hypothesis; no flatness of N is assumed.
+No noetherian, local, regular-sequence or discriminant hypothesis. The coefficient module is exactly Fin(r)→Â; no arbitrary-module completion interchange is asserted. No finite-generation condition on p. This target constructs no cone: the cone is that of §2.146, and only the finite-free identification and coordinate formula are added.
 
-One proof uses the following inputs and comparisons. Use the actual quotient-transition/evaluation square on pure tensors to prove naturality.
+One proof uses the following inputs and comparisons. Both P_N,n and ρₙ are eₙ⊗id_N, so the components agree by construction; prove the coordinate formula on pure tensors from the quotient evaluation coherence of cₙ and extend by tensor induction.
 
 The construction has the following API.
 
-- Under coefficient convention C1. The n-component of this cone equals the actual map P_N,n; on u⊗z it is evalₙ(u)⊗z.
-- Under coefficient convention C1. For j≤k, the k-component followed by G_N(k→j) equals the j-component.
-- Under coefficient convention C1. For b∈Â and x∈R̂⊗_Â N, the n-component sends b·x to b times its value at x.
+- For u∈R̂ and z∈N, the n-component sends u⊗z to evalₙ(u)⊗z over Â, and equals ρₙ.
+- For x∈R̂⊗_Â N and k∈Fin(r), cₙ(ρₙx)(k)=eₙ(ĉ(x)(k)), where ĉ is the pinned piScalarRight equivalence for R̂.
+- The n-th native cone morphism is exactly ModuleCat.ofHom(ρₙ), with the actual ordinary tensor point.
 
 **Checks.**
 
-- Under coefficient convention C1. For every n, u∈R̂ and z∈N, the n-component of the ordinary cone sends u⊗z to evalₙ(u)⊗z.
-- Under coefficient convention C1. For j≤k, the ordinary cone k-component followed by the actual transition G_N(k→j) equals its j-component.
-- Under coefficient convention C1. For every n, b∈Â and x∈R̂⊗_Â N, the ordinary cone n-component sends b·x to b times its value at x.
+- In the fixture A=ℤ, γ=δ=s=t=0, p=(2) and m=2R, so R=ℤ[u,v]/(u²), Â=ℤ₂ and Qₙ=(ℤ/2ⁿ)[u,v]/(u²), with `σ=Σ_{k≥0}2^k v^k∈R̂`, r=2 and x=σ⊗(1,1/3): ĉ(x)=(σ,(1/3)σ), and at level 2 the two coordinates of ρ₂(x) are 1+2v and 3+2v, since 1/3≡3 modulo 4; a formula that ignored the index k would give equal coordinates.
+- For x=u⊗(0,1) with r=2 the coordinates at every level n≥1 are 0 and the class of u in Qₙ, which is nonzero since u≠0 in Q₁=𝔽₂[u,v]/(u²); a coordinate formula valued in Â instead of in Qₙ could not record u.
+- With r=1 the formula reduces to the identification Qₙ⊗_Â Â≅Qₙ: the single coordinate of ρ₃(σ⊗1) is 1+2v+4v²=e₃(σ); a coordinate read after the transition to level 2 would give 1+2v. With r=0 the point R̂⊗_Â 0 is zero and there are no coordinates.
 
-(Deduction using `TensorProduct.map_tmul` and `TensorProduct.map_comp` in `Mathlib/LinearAlgebra/TensorProduct/Map.lean`, lines 59 and 104. The construction-specific inputs are [ordinary completed tensor projections](#2131-ordinary-completed-tensor-projections), [completed-chart coefficient-linear evaluation](#2115-completed-chart-coefficient-linear-evaluation).; [knudsen2](#references), Appendix Proposition 6, pp. 194–195, for the surrounding two-base completion problem; the displayed native diagram calculation is the deduction specified here.)
+(Deduction using `TensorProduct.piScalarRightHom_tmul` in `Mathlib/LinearAlgebra/TensorProduct/Pi.lean`, line 140, and `TensorProduct.map_tmul` in `Mathlib/LinearAlgebra/TensorProduct/Map.lean`, line 59. The construction-specific inputs are [ordinary completed tensor cone](#2146-ordinary-completed-tensor-cone), [ordinary completed tensor projection](#2130-ordinary-completed-tensor-projection), [finite-free quotient tensor coordinates](#2117-finite-free-quotient-tensor-coordinates), [completed-chart coefficient-linear evaluation](#2115-completed-chart-coefficient-linear-evaluation), [the actual completed coefficient algebra](#277-the-actual-completed-coefficient-algebra).; [knudsen2](#references), Appendix Proposition 6, pp. 194–195, for the surrounding two-base completion problem; the displayed native diagram calculation is the deduction specified here.)
 
-*Needs:* [ordinary completed tensor projections](#2131-ordinary-completed-tensor-projections), [completed-chart coefficient-linear evaluation](#2115-completed-chart-coefficient-linear-evaluation), `TensorProduct`.
+*Needs:* [ordinary completed tensor cone](#2146-ordinary-completed-tensor-cone), [ordinary completed tensor projection](#2130-ordinary-completed-tensor-projection), [finite-free quotient tensor coordinates](#2117-finite-free-quotient-tensor-coordinates), [completed-chart coefficient-linear evaluation](#2115-completed-chart-coefficient-linear-evaluation), [the actual completed coefficient algebra](#277-the-actual-completed-coefficient-algebra), `AdicCompletion`, `AdicCompletion.evalₐ`, `ModuleCat.ofHom`, `TensorProduct.piScalarRight`.
 
 ### 2.149 Original-ring scalar in tensor evaluations
 
@@ -4005,9 +4006,9 @@ The construction has the following API.
 - For a=1/3∈Â, (C_J((1/3)·f))₂(v)=(1/3)·([uv]⊗1)=[3uv]⊗1, since 1/3≡3 modulo 4, while (C_J(f))₂(v)=[uv]⊗1; the Â-action on the projected family is not through 1.
 - The maps m(u) and m(v) have projected families that differ already at level 1: `(C_J(m(v)))₁(u)=[uv]⊗1≠0` in `𝔽₂[u,v]/(u²)⊗_{ℤ₂}ℤ₂` while `(C_J(m(u)))₁(u)=0`.
 
-(Deduction using `LinearMap.comp_apply` in `Mathlib/Algebra/Module/LinearMap/Defs.lean`, line 495. The construction-specific inputs are [compatible quotient hom families](#2119-compatible-quotient-hom-families), [ring-linear finite tensor projection](#2158-ring-linear-finite-tensor-projection), [ordinary completed tensor cone](#2148-ordinary-completed-tensor-cone).)
+(Deduction using `LinearMap.comp_apply` in `Mathlib/Algebra/Module/LinearMap/Defs.lean`, line 495. The construction-specific inputs are [compatible quotient hom families](#2119-compatible-quotient-hom-families), [ring-linear finite tensor projection](#2158-ring-linear-finite-tensor-projection), [ordinary completed tensor cone](#2146-ordinary-completed-tensor-cone).)
 
-*Needs:* [compatible quotient hom families](#2119-compatible-quotient-hom-families), [ring-linear finite tensor projection](#2158-ring-linear-finite-tensor-projection), [ordinary completed tensor cone](#2148-ordinary-completed-tensor-cone), `TensorProduct`.
+*Needs:* [compatible quotient hom families](#2119-compatible-quotient-hom-families), [ring-linear finite tensor projection](#2158-ring-linear-finite-tensor-projection), [ordinary completed tensor cone](#2146-ordinary-completed-tensor-cone), `TensorProduct`.
 
 ### 2.167 Ring-linear tensor comparison for the section dual
 
@@ -4325,9 +4326,9 @@ The construction has the following API.
 - Any actual cone-point morphism factoring all levels equals the specified IsLimit lift.
 - With r=0 every cone point maps to the zero module and the lift is zero.
 
-(Deduction using `TensorProduct.map_tmul` and `TensorProduct.map_comp` in `Mathlib/LinearAlgebra/TensorProduct/Map.lean`, lines 59 and 104. The construction-specific inputs are [the actual completed coefficient algebra](#277-the-actual-completed-coefficient-algebra), [finite-free ordinary tensor cone lift](#2164-finite-free-ordinary-tensor-cone-lift), [finite quotient transition over completed coefficients](#269-finite-quotient-transition-over-completed-coefficients), [native completed-coefficient tensor diagram](#2104-native-completed-coefficient-tensor-diagram), [ordinary completed tensor cone](#2146-ordinary-completed-tensor-cone), [ordinary completed tensor projection](#2130-ordinary-completed-tensor-projection).; [knudsen2](#references), Appendix Proposition 6, pp. 194–195, for the surrounding two-base completion problem; the displayed native diagram calculation is the deduction specified here.)
+(Deduction using `TensorProduct.map_tmul` and `TensorProduct.map_comp` in `Mathlib/LinearAlgebra/TensorProduct/Map.lean`, lines 59 and 104. The construction-specific inputs are [the actual completed coefficient algebra](#277-the-actual-completed-coefficient-algebra), [finite-free ordinary tensor cone lift](#2164-finite-free-ordinary-tensor-cone-lift), [finite quotient transition over completed coefficients](#269-finite-quotient-transition-over-completed-coefficients), [native completed-coefficient tensor diagram](#2104-native-completed-coefficient-tensor-diagram), [ordinary completed tensor cone](#2146-ordinary-completed-tensor-cone), [finite-free coordinates of the completed tensor cone](#2148-finite-free-coordinates-of-the-completed-tensor-cone), [ordinary completed tensor projection](#2130-ordinary-completed-tensor-projection).; [knudsen2](#references), Appendix Proposition 6, pp. 194–195, for the surrounding two-base completion problem; the displayed native diagram calculation is the deduction specified here.)
 
-*Needs:* [the actual completed coefficient algebra](#277-the-actual-completed-coefficient-algebra), [finite-free ordinary tensor cone lift](#2164-finite-free-ordinary-tensor-cone-lift), [finite quotient transition over completed coefficients](#269-finite-quotient-transition-over-completed-coefficients), [native completed-coefficient tensor diagram](#2104-native-completed-coefficient-tensor-diagram), [ordinary completed tensor cone](#2146-ordinary-completed-tensor-cone), [ordinary completed tensor projection](#2130-ordinary-completed-tensor-projection), `AdicCompletion`, `AdicCompletion.evalₐ`, `CategoryTheory.Limits.IsLimit`, `DFunLike.ext`, `ModuleCat.hom_injective`, `ModuleCat.ofHom`, `TensorProduct`.
+*Needs:* [the actual completed coefficient algebra](#277-the-actual-completed-coefficient-algebra), [finite-free ordinary tensor cone lift](#2164-finite-free-ordinary-tensor-cone-lift), [finite quotient transition over completed coefficients](#269-finite-quotient-transition-over-completed-coefficients), [native completed-coefficient tensor diagram](#2104-native-completed-coefficient-tensor-diagram), [ordinary completed tensor cone](#2146-ordinary-completed-tensor-cone), [finite-free coordinates of the completed tensor cone](#2148-finite-free-coordinates-of-the-completed-tensor-cone), [ordinary completed tensor projection](#2130-ordinary-completed-tensor-projection), `AdicCompletion`, `AdicCompletion.evalₐ`, `CategoryTheory.Limits.IsLimit`, `DFunLike.ext`, `ModuleCat.hom_injective`, `ModuleCat.ofHom`, `TensorProduct`.
 
 ### 2.183 Completion of the actual residue quotient
 
@@ -5415,7 +5416,7 @@ The family base need not map flatly to or from the hull base. The section point 
 - Over k with γ=δ=0 the form u² has discriminant 0 and k[[u,v]]/(u²) is a double line, not a node; it is excluded by the nodal hypothesis rather than covered by the chart.
 - Over A=ℤ_(2) with γ=1, δ=s=t=0, Â=ℤ₂ and R̂_x=ℤ₂[[u,v]]/(u²+uv); its closed fibre is the node over 𝔽₂, where the discriminant 1 is still a unit.
 
-([knudsen2012](#references), Proposition 2.1, §2, pp. 5–10; Corollary 3.2, pp. 12–13. Supplies the pointed hull with the two section coordinates, and its completed ideal calculation.; [ile](#references), §7, pp. 24–26, application of the pointed local calculation to stabilization. Uses formal local comparisons to transfer the polynomial construction to the family.)
+([knudsen2012](#references), Proposition 2.1, §2, pp. 5–10; Corollary 3.2, pp. 12–13. Supplies the pointed hull with the two section coordinates, and its completed ideal calculation.; [ile](#references), §7, pp. 25–27, application of the pointed local calculation to stabilization. Uses formal local comparisons to transfer the polynomial construction to the family.)
 
 *Needs:* AlgebraicModuliForArithmeticGeometry §§8.1–8.3, StableReduction Layer 1, [normal form of a pointed nodal deformation](#210-normal-form-of-a-pointed-nodal-deformation), [knudsen completion theorem](#2230-knudsen-completion-theorem), [arbitrary completed-coefficient exchange](#2235-arbitrary-completed-coefficient-exchange), [completion of the polynomial section dual](#2135-completion-of-the-polynomial-section-dual), [completion of the actual residue quotient](#2183-completion-of-the-actual-residue-quotient).
 
@@ -5429,7 +5430,7 @@ One proof uses the following inputs and comparisons. Use the local Gorenstein th
 
 A residue generator changes by a unit on overlaps and must descend as a line. Arbitrary base change is justified by relative reflexivity; the generic flat-base-change theorem for internal Hom alone is insufficient.
 
-([knudsen2](#references), Lemma 2.2, pp. 175–176; Definition 2.3, p. 176. Uses the section dual, its residue line and their base-change compatibility.; [knudsen2012](#references), Main Lemma, p. 3, and §4, p. 13. Supplies the sheaf form of the ideal, dual and residue assertions.; [ile](#references), §7, pp. 24–26. Globalizes the local section-ideal theorem for stabilization.)
+([knudsen2](#references), Lemma 2.2, pp. 175–176; Definition 2.3, p. 176. Uses the section dual, its residue line and their base-change compatibility.; [knudsen2012](#references), Main Lemma, p. 3, and §4, p. 13. Supplies the sheaf form of the ideal, dual and residue assertions.; [ile](#references), §7, pp. 25–27. Globalizes the local section-ideal theorem for stabilization.)
 
 *Needs:* SchemeAndStackFoundations §0.9, StableReduction Layer 2, [section ideal of a local gorenstein family](#2233-section-ideal-of-a-local-gorenstein-family), [pointed hull and completed family chart](#2236-pointed-hull-and-completed-family-chart), [base change for relative stable reflexivity](#2232-base-change-for-relative-stable-reflexivity), [log dualizing sheaves over arbitrary bases](#03-log-dualizing-sheaves-over-arbitrary-bases).
 
@@ -5530,7 +5531,7 @@ One proof uses the following inputs and comparisons. On a distinguished affine H
 
 Distinguish completion after coefficient base change from a bare tensor product with R_pd. State the ideals of formal completion on each distinguished affine and then localize at the point under test. Together with the collision calculation, cover every possible location of Δ.
 
-([knudsen2012](#references), Theorem 5.1, especially the flatness argument, pp. 14–16. Transfers the explicit nodal affine-chart calculation through the completed pointed local model.; [ile](#references), §7, pp. 24–26. Discusses the formal local reduction of stabilization to these charts.; [stacks-completion](#references), Algebra Lemma 10.97.3, tag 00MC. Faithfully flat local completion reflects module flatness.)
+([knudsen2012](#references), Theorem 5.1, especially the flatness argument, pp. 14–16. Transfers the explicit nodal affine-chart calculation through the completed pointed local model.; [ile](#references), §7, pp. 25–27. Discusses the formal local reduction of stabilization to these charts.; [stacks-completion](#references), Algebra Lemma 10.97.3, tag 00MC. Faithfully flat local completion reflects module flatness.)
 
 *Needs:* SchemeAndStackFoundations §§0.3, 0.8–0.9, 0.11, 0.17–0.21, SchemeAndStackFoundations §4.8, DeformationAndDerivedPatchingAlgebra §3.3, [pointed hull and completed family chart](#2236-pointed-hull-and-completed-family-chart), [global section dual and residue line](#2237-global-section-dual-and-residue-line), [knudsen completion theorem](#2230-knudsen-completion-theorem), [the ordered surjection to the section dual](#256-the-ordered-surjection-to-the-section-dual).
 
@@ -5578,7 +5579,7 @@ One proof uses the following inputs and comparisons. On an affine base descend t
 
 A finite-presentation module can have a dual that fails arbitrary base change in general; the section-ideal theorem is the essential extra input. Do not replace the infinite graded contraction ring by an unjustified interchange of an infinite limit: use the finite Veronese presentation of the single-marking contraction of StableReduction Layer 3. A non-qcqs base is handled by local affine constructions and descent.
 
-([knudsen2](#references), §2, pp. 171–179, especially the base-change claims in Definition 2.3 and Corollary 2.6. The geometric constructions are natural over family bases; this theorem supplies their explicit approximation extension.; [ile](#references), Proposition 3.5, pp. 6–7, and §7, pp. 24–26. Arbitrary coefficient change of the section dual is the local algebra input; the approximation part is a deduction using the cited foundational suppliers.)
+([knudsen2](#references), §2, pp. 171–179, especially the base-change claims in Definition 2.3 and Corollary 2.6. The geometric constructions are natural over family bases; this theorem supplies their explicit approximation extension.; [ile](#references), Proposition 3.5, pp. 6–7, and §7, pp. 25–27. Arbitrary coefficient change of the section dual is the local algebra input; the approximation part is a deduction using the cited foundational suppliers.)
 
 *Needs:* SchemeAndStackFoundations §0.9, StableReduction Layer 2, StableReduction Layer 3, [global section dual and residue line](#2237-global-section-dual-and-residue-line), [finite-stage models of pointed curve diagrams](#01-finite-stage-models-of-pointed-curve-diagrams).
 
