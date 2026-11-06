@@ -7,7 +7,12 @@ public import Mathlib
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is
 `README.md`. This file states the smooth and topological Poincaré theorems and
-compatible smoothing against the pinned Mathlib and Tau Ceti APIs.
+compatible smoothing against the pinned Mathlib and Tau Ceti APIs. The endpoint
+contracts correspond to Mathlib's `Wanted/Geometry/Manifold/PoincareConjecture.lean`
+statements `SimplyConnectedSpace.nonempty_homeomorph_sphere_three` and
+`SimplyConnectedSpace.nonempty_sdiffeomorph_sphere_three`; the generalized smooth
+contract is `ContinuousMap.HomotopyEquiv.NonemptyDiffeomorphSphere` from
+`Mathlib/Geometry/Manifold/PoincareConjecture.lean`.
 
 Not statable at the pins: existence of Ricci flow with surgery for every
 normalized closed orientable initial metric (Morgan–Tian, Theorem 15.9 and
@@ -32,7 +37,7 @@ theorem poincare_3d_smooth {M : Type*} [TopologicalSpace M] [T2Space M]
     Nonempty (M ≃ₘ⟮𝓡 3, 𝓡 3⟯ sphere (0 : EuclideanSpace ℝ (Fin 4)) 1) := by
   sorry
 
-/-- Layer 14: a compatible smooth atlas exists on the original topological carrier. -/
+/-- Target 14.1: a compatible smooth atlas exists on the original topological carrier. -/
 theorem smoothable_closed_three_manifold {M : Type*} [TopologicalSpace M] [T2Space M]
     [ChartedSpace (EuclideanSpace ℝ (Fin 3)) M] [CompactSpace M] :
     ∃ atlas : ChartedSpace (EuclideanSpace ℝ (Fin 3)) M,
@@ -50,5 +55,10 @@ theorem poincare_3d_topological {M : Type*} [TopologicalSpace M] [T2Space M]
   let : IsManifold (𝓡 3) ∞ M := hSmooth
   obtain ⟨e⟩ := poincare_3d_smooth (M := M)
   exact ⟨e.toHomeomorph⟩
+
+/-- Target 15.2: the smooth Poincaré adapter for a homotopy-equivalent sphere. -/
+theorem poincare_3d_smooth_homotopyEquiv {M : Type*} [TopologicalSpace M] [T2Space M] :
+    ContinuousMap.HomotopyEquiv.NonemptyDiffeomorphSphere M 3 := by
+  sorry
 
 end TauCetiRoadmap.Poincare3D

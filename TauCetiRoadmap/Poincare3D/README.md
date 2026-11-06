@@ -35,7 +35,9 @@ geometric-decomposition vocabulary and statement. This roadmap owns the Ricci-su
 finite-extinction proof programme for Poincaré described here;
 Layer 15 supplies the topological endpoint named in GeometricTopology Layer 8.
 GeometricTopology Layer 11 owns the dimension-three triangulation and
-Hauptvermutung theorems; Layer 14 here owns dimension-three compatible smoothing.
+Hauptvermutung theorems. Target 14.1 here owns the absolute dimension-three
+smoothing result needed by the endpoint; target 14.2 records the separate
+comparison target for compatibility with a prescribed PL structure.
 Use the supplier's manifold, collar, gluing, connected-sum and PL carriers throughout.
 
 ## Exact supplier contracts
@@ -45,13 +47,21 @@ Use the supplier's manifold, collar, gluing, connected-sum and PL carriers throu
 `ContinuousMap.HomotopyEquiv`, `HomotopyGroup.Pi`, singular homology, and the native
 covering-space and measure/integration APIs. Compact charted manifolds obtain
 second countability from `ChartedSpace.secondCountable_of_sigmaCompact`.
+The pinned smooth Poincaré contract is
+`ContinuousMap.HomotopyEquiv.NonemptyDiffeomorphSphere` in
+`Mathlib/Geometry/Manifold/PoincareConjecture.lean`. The three-dimensional
+contracts implemented here are the corresponding `proof_wanted` statements
+`SimplyConnectedSpace.nonempty_homeomorph_sphere_three` and
+`SimplyConnectedSpace.nonempty_sdiffeomorph_sphere_three` in
+`Wanted/Geometry/Manifold/PoincareConjecture.lean`; `Wanted` records the desired
+statements and does not supply their proofs.
 
 | Supplier | Exact material consumed | Material owned here |
 | --- | --- | --- |
-| [GeometricTopology](../GeometricTopology/README.md), Layers 1, 2, 7 and 11 and its smooth-implies-PL comparison | Smooth/PL manifolds, collars, gluing, connected sum with parameterized ball embeddings and the disc theorem, smooth triangulation, locally flat embeddings, geometric structures, realization, combinatorial/PL comparison and Moise's dimension-three triangulation/Hauptvermutung theorems | The three-dimensional neck/cap consequences, actual Ricci surgery and reconstruction, compatible PL-to-smooth existence and native atlas transport in Layer 14 |
+| [GeometricTopology](../GeometricTopology/README.md), Layers 1, 2, 7 and 11 | Smooth/PL manifolds, collars, gluing, connected sum with parameterized ball embeddings and the disc theorem, locally flat embeddings, geometric structures, realization, combinatorial/PL comparison and Moise's dimension-three triangulation/Hauptvermutung theorems | The three-dimensional neck/cap consequences, actual Ricci surgery and reconstruction, absolute smoothing and native atlas transport in Layer 14.1, and the separate prescribed-PL comparison target in Layer 14.2 |
 | [AlgebraicTopology](../AlgebraicTopology/README.md), Stages 1–6 and 8 | van Kampen, finite CW comparison, homology/cohomology, integral manifold duality, Hurewicz, relative homotopy, higher-group comparison | Closed-three-manifold consequences, regular loop-family comparison, surgery ancestry and class transport |
 | [DifferentialGeometry](../DifferentialGeometry/README.md), Layers 0–3, 5–10, 12 | Tensor/form calculus, orientations, smooth flows, Sard, integration/Stokes, metric density and scalar operators | Ricci-flow and moving-curve specializations |
-| [HopfRinow](../../Completed/HopfRinow/README.md), Layers 0–4 | Levi-Civita connection, geodesic flow, normal balls, length and metric completeness | Time-dependent comparisons, reduced paths, complete pointed flow limits |
+| [HopfRinow](../HopfRinow/README.md), Layers 0–4 | Levi-Civita connection, geodesic flow, normal balls, length and metric completeness | Time-dependent comparisons, reduced paths, complete pointed flow limits |
 | [RiemannianGeometry](../RiemannianGeometry/README.md), R1–R5a and R7.0 | Tensor/curvature conventions, variations, Jacobi fields, comparison geometry, model metrics, immersion area calculus and scalar Bochner identity | Ricci-surgery estimates, branched sphere/filling analysis and curve shortening in a moving ambient three-manifold |
 | [PDE](../PDE/README.md), Lanes A, C–F; [ComplexKahlerGeometry](../ComplexKahlerGeometry/README.md), K5a | Sobolev/weak compactness, elliptic/parabolic regularity, scalar maximum principles and real compact-bundle Sobolev/elliptic theory | The noncompact cap construction and moving-curve nonlinear problems, with their extra localization/compactness estimates |
 | [RicciFlow](../RicciFlow/README.md), Layers 1–5 (R1–R5) | Metric variation, compact-bundle parabolic theory, DeTurck, compact-flow existence/uniqueness/continuation, global Shi estimates and curvature evolution/maximum principles on closed manifolds | Localized Shi estimates and their complete noncompact applications in Layer 2, Hamilton–Ivey and differential Harnack specializations, pointed compactness, reduced geometry, ancient solutions and all surgery/extinction targets below |
@@ -62,11 +72,12 @@ second countability from `ChartedSpace.secondCountable_of_sigmaCompact`.
 `TauCeti/Topology/TriangulationConjecture.lean`. The dimension-three proof is
 GeometricTopology Layer 11's target, supported by its
 [Moise extract](../GeometricTopology/references/moise-triangulation-dim3.md).
-Smooth triangulation is the smooth-implies-PL target of GeometricTopology's
-smoothing-and-triangulation comparison, built from its chart-based PL and
-combinatorial-manifold APIs in Layers 1 and 11; its
-[Munkres extract](../GeometricTopology/references/munkres-smoothing-triangulations.md)
-states Theorems 10.5 and 10.6.
+Only target 14.2 additionally consumes item 1 (smooth implies PL) of
+GeometricTopology's separate smoothing-and-triangulation comparison, built
+from its chart-based PL and combinatorial-manifold APIs in Layers 1 and 11.
+Its [Munkres extract](../GeometricTopology/references/munkres-smoothing-triangulations.md)
+states Theorems 10.5 and 10.6. Target 14.1 constructs the absolute smooth atlas
+from Moise 35.3 and Cairns III, independently of that comparison.
 Use `HomotopyGroup.pathLoopSpaceMulEquiv` from
 `TauCeti/Topology/Homotopy/HomotopyGroup/LoopSpace.lean` for the based-loop shift.
 Import the native covariant-derivative, curvature, geodesic and covering APIs
@@ -154,13 +165,15 @@ using different normalizations.
 | Layer 11 | Layer 7, Layer 8, Layer 9, Layer 10 | Width comparison and finite extinction |
 | Layer 12 | Layer 1, Layer 6, Layer 7, Layer 8, Layer 11 | Reconstruction from finite actual surgery history |
 | Layer 13 | Layer 1, Layer 6, Layer 12 | Classification of simply connected factors; smooth endpoint |
-| Layer 14 | none | Dimension-three compatible smoothing and native atlas adapter |
-| Layer 15 | Layer 13, Layer 14 | Topological endpoint and hypothesis transport |
+| Layer 14 | none | Absolute smoothing in 14.1; prescribed-PL compatibility in 14.2 |
+| Layer 15 | Layer 13, target 14.1; Layer 1 for 15.2 | Topological endpoint and homotopy-equivalence formulations |
 
 Each row also consumes the exact external suppliers named above. The topology
 and smoothing branches start from their algebraic-topology and PL suppliers;
-Layer 14 consumes GeometricTopology Layer 11's compatible triangulation theorem
-and builds the PL-to-smooth theorem.
+Target 14.1 consumes GeometricTopology Layer 11's compatible triangulation theorem
+and builds the absolute smoothing theorem consumed by 15.1. Target 14.2
+separately builds prescribed-PL compatibility using the smooth-implies-PL
+comparison.
 The width branch can be built independently of surgery existence until Layer 11
 joins them. Layer 6 defines local operations before Layer 7 proves they can be iterated,
 and Layer 11 uses the flow constructed by Layer 7.
@@ -178,21 +191,39 @@ Prove that an orientable three-manifold contains no embedded
 two-sided projective plane, using its normal orientation and the induced
 orientation on a two-sided hypersurface.
 
-Sources: Hatcher, §1.2, Theorem 1.20 (van Kampen); §3.3, Theorem 3.30
-(Poincaré duality); §4.1, Theorem 4.5, p. 346 (Whitehead); and §4.2,
-Theorem 4.32 (Hurewicz).
+For a connected Hausdorff topological three-manifold without boundary, prove
+that noncompactness implies `H₃(M;ℤ)=0`. Build this dimension-three
+corollary here from AlgebraicTopology Stages 2–3's singular chains, pair/triple
+sequences and excision, and Stage 6.3's local-homology computations on
+coordinate balls. Follow Hatcher, §3.3, Lemma 3.27 and Proposition 3.29,
+p. 239: prove compact-support local-class detection using finite chart covers,
+then use connectedness and a point outside a cycle's compact support to force
+its local classes to vanish. Prove this form for Hausdorff manifolds with the
+stated charts; the finite-cover argument on compact supports supplies it
+without a global countability or paracompactness assumption. Deduce that a homotopy equivalence
+`M ≃ₕ 𝕊³` forces compactness: it gives `H₃(M;ℤ)≅ℤ`, contradicting that
+vanishing if M were noncompact. Homotopy invariance also transports simple
+connectedness from the sphere. State these consequences for topological
+manifolds, before choosing a smooth atlas, so that target 15.2 applies them
+to both endpoint presentations.
+
+Sources: Hatcher, §1.2, Theorem 1.20 (van Kampen); §3.3, Proposition 3.29,
+p. 239 (noncompact homology) and Theorem 3.30 (Poincaré duality); §4.1,
+Theorem 4.5, p. 346 (Whitehead); and §4.2, Theorem 4.32 (Hurewicz).
 
 **API.**
 
 - Basepoint and orientation transport.
 - Natural homology/homotopy comparisons.
-- Induced maps of equivalences.
+- Induced maps of equivalences and compactness/simple-connectedness detection
+  from a homotopy equivalence with the three-sphere.
 
 **Checks.**
 
 - The round three-sphere has the displayed integral homology and higher homotopy groups.
 - The Poincaré homology sphere satisfies the homology conclusion but fails simple connectedness.
 - The sphere bundle over the circle has a nontrivial fundamental group.
+- Euclidean three-space is noncompact with `H₃=0`; it fails the sphere-homotopy hypothesis.
 
 *Needs:* GeometricTopology Layers 1 and 11; AlgebraicTopology Stages 1–6 and 8.
 
@@ -1408,81 +1439,110 @@ sums and collared gluing.
 
 ## Layer 14: Compatible smoothing in dimension three
 
-### 14.1. Compatible PL smoothing and native atlas
+### 14.1. Smooth atlas on a closed topological three-manifold
 
 For every compact Hausdorff topological three-manifold without boundary,
-construct a compatible smooth atlas. Consume GeometricTopology Layers 1 and 11
-for chart-based PL structures, realization, subdivisions and the
-combinatorial/PL comparison, and Layer 11's dimension-three triangulation and
-Hauptvermutung theorems (Moise, Theorems 35.3 and 36.2, printed pp. 252–253).
-The native `TauCeti.TriangulationConjecture 3` is the closed-case proposition;
-consume the stronger compatible combinatorial triangulation supplied by
-Moise's theorem to obtain the PL structure. Its underlying realization
-predicate is `TauCeti.IsTriangulable`.
+construct a smooth atlas on the original topological carrier. Consume
+GeometricTopology Layers 1 and 11 for chart-based PL structures, realization,
+subdivisions and the dimension-three triangulation theorem (Moise Theorem 35.3,
+printed p. 252). The native `TauCeti.TriangulationConjecture 3` is the
+closed-case proposition; consume the stronger compatible combinatorial
+triangulation supplied by Moise's theorem to obtain the PL structure. Its
+underlying realization predicate is `TauCeti.IsTriangulable`.
 
-For every Hausdorff second-countable PL three-manifold without boundary,
-prove here the existence of a compatible smooth structure. Build the
-normal-position construction of Cairns, Theorem III, p. 797, proved in §§7–11,
-to give the triangulated topological manifold an analytic atlas and hence a
-smooth atlas. Cairns's connected/countable convention on p. 796 applies to
-each connected component; second countability gives countably many components.
-
-To obtain compatibility with the prescribed PL structure, smoothly triangulate
-the resulting smooth manifold using GeometricTopology's smooth-implies-PL comparison (Munkres,
-*Elementary Differential Topology*, Theorem 10.6, pp. 103–104). Apply
-GeometricTopology Layer 11's Hauptvermutung to obtain a PL homeomorphism from
-the prescribed PL manifold to that smooth triangulation, and pull back the
-smooth atlas along this homeomorphism. Prove subdivision and overlap
-compatibility and preservation of the original topology. Keep triangulation,
-compatible PL structure and compatible smooth atlas distinct in the adapter.
-
-Construct `smoothable_closed_three_manifold` as an alternative `ChartedSpace`
-on the original `TopologicalSpace M`, with an `IsManifold (𝓡 3) ∞ M` witness,
-as in `Suggested.lean`. An explicitly homeomorphic smooth carrier is an
-equivalent intermediate presentation; prove its transport to the same-carrier
-atlas. Prove compatibility with the original topology and preservation of
-compactness, Hausdorffness and the homotopy hypotheses needed by Layer 15.
+First prove absolute smoothing for every Hausdorff second-countable
+triangulated topological three-manifold without boundary, including
+noncompact manifolds. Build the normal-position construction of Cairns,
+Theorem III, p. 797, proved in §§7–11, to give it an analytic atlas and hence
+a smooth atlas. Cairns's connected/countable convention on p. 796 applies
+to each connected component; second countability gives countably many open
+components, whose smooth atlases unite. Specialize to the compact Moise
+triangulation to construct `smoothable_closed_three_manifold` as an
+alternative `ChartedSpace` on the original `TopologicalSpace M` with an
+`IsManifold (𝓡 3) ∞ M` witness, exactly as in `Suggested.lean`. Prove the
+same-carrier transport when starting with an explicitly homeomorphic smooth
+carrier. This is existence of a smooth atlas with the original topology;
+compatibility with a prescribed PL structure is addressed in 14.2.
 
 The smoothing adapter covers disconnected and empty manifolds. Compactness
 and local connectedness give finitely many open-and-closed connected
-components. Apply the compatible-smoothing theorem componentwise and unite
-the compatible atlases; on the empty carrier the smoothness conditions are
+components. Apply the absolute smoothing theorem componentwise and unite the
+compatible atlases; on the empty carrier the smoothness conditions are
 vacuous. Compactness and the chart structure also supply paracompactness and
 countability.
 
 **API.**
 
-- Compatible smoothing, subdivision/overlap compatibility, topology preservation and
-  transport between same-carrier and homeomorphic presentations.
+- Absolute smoothing on the original carrier, topology preservation and transport
+  between same-carrier and homeomorphic presentations.
 
 **Checks.**
 
-- The standard sphere returns a compatible smooth atlas.
+- The standard sphere returns a smooth atlas on its original topology.
 - Two disjoint spheres are smoothed componentwise; the empty carrier is included.
 - Ordinary triangulability alone is kept distinct from the compatible combinatorial/PL input.
-- Pullback along the PL homeomorphism gives an atlas compatible with the prescribed PL structure.
 
-*Needs:* GeometricTopology Layers 1 and 11, including Moise 35.3/36.2, and its
-smooth-implies-PL comparison; native manifold and realization APIs.
+*Needs:* GeometricTopology Layers 1 and 11, including Moise Theorem 35.3;
+Cairns, Theorem III; native manifold and realization APIs.
+
+### 14.2. Compatibility with a prescribed PL structure
+
+For a Hausdorff second-countable PL three-manifold without boundary, prove the
+separate reusable result that the smooth atlas is compatible with the prescribed
+PL structure. Apply 14.1's absolute theorem to its given triangulation,
+then smoothly triangulate that smooth manifold using GeometricTopology's separate
+smoothing-and-triangulation comparison, item 1 (smooth implies PL; Munkres,
+*Elementary Differential Topology*, Theorem 10.6, pp. 103–104). Apply
+GeometricTopology Layer 11's Hauptvermutung (Moise Theorem 36.2, printed
+p. 253) to obtain a PL homeomorphism from the prescribed PL manifold to that
+smooth triangulation, and pull back the smooth atlas along this homeomorphism.
+Prove subdivision and overlap compatibility and preservation of the original
+topology. The endpoint in 15.1 consumes only the absolute smoothing in 14.1.
+
+Keep triangulation, compatible PL structure and compatible smooth atlas
+distinct in the adapter. Transport the result to an alternative `ChartedSpace`
+on the original `TopologicalSpace M` when a homeomorphic smooth carrier is
+used. In the compact case preserve compactness, Hausdorffness and the
+homotopy hypotheses under that identification.
+
+**API.**
+
+- Prescribed-PL-compatible smoothing, subdivision/overlap compatibility, topology
+  preservation and transport between same-carrier and homeomorphic presentations.
+
+**Checks.**
+
+- Pullback along the PL homeomorphism gives an atlas compatible with the prescribed PL structure.
+- A smooth triangulation of the pulled-back atlas is PL homeomorphic to the prescribed one.
+- The pulled-back atlas induces the original topology.
+
+*Needs:* 14.1; GeometricTopology Layer 11 Hauptvermutung, Moise Theorem 36.2;
+GeometricTopology's separate smoothing-and-triangulation comparison, item 1
+(smooth implies PL; Munkres Theorem 10.6).
 
 ### Examples
 
-The standard sphere returns a compatible smooth atlas.
+The sphere and a finite disjoint union of spheres have smooth atlases on
+their original topology. A prescribed PL structure is carried to a compatible
+smooth atlas through the PL homeomorphism.
 
 ### Dependencies
 
-GeometricTopology Layers 1 and 11 and its smooth-implies-PL comparison;
-native topological and smooth manifold vocabulary.
+For 14.1: GeometricTopology Layers 1 and 11 (Moise 35.3), Cairns III and native
+manifold/realization APIs. For 14.2 additionally: GeometricTopology Layer 11's
+Hauptvermutung (Moise 36.2) and its separate smoothing-and-triangulation
+comparison, item 1. Target 15.1 consumes 14.1.
 
 ## Layer 15: Topological endpoint and transport
 
 ### 15.1. Topological endpoint and presentation transport
 
 Transport compactness, Hausdorffness, connectedness and simple connectedness
-through the Layer 14 identification. Apply Layer 13 to the resulting smooth manifold
-and forget the smooth structure of its diffeomorphism to obtain the exact
-topological `Homeomorph` endpoint in `Suggested.lean`. A new atlas on the same
-topological carrier preserves these properties. Expose the general
+through the target 14.1 identification. Apply Layer 13 to the resulting smooth
+manifold and forget the smooth structure of its diffeomorphism to obtain
+`poincare_3d_topological`, the exact topological `Homeomorph` endpoint in
+`Suggested.lean`. A new atlas on the same topological carrier preserves
+these properties. Expose the general
 homeomorphism/diffeomorphism transport lemmas used in this assembly.
 
 Provide the adapter to GeometricTopology Layer 8's Poincaré statement.
@@ -1495,15 +1555,19 @@ closed manifolds. The full geometric torus-decomposition
 statement `TauCeti.GeometrizationConjecture` remains the GeometricTopology
 target identified in the scope section.
 
-Complete both endpoint proofs in the implementation library by composing the
-constructions and theorems in Layers 1–14.
+The topological endpoint has exactly the hypotheses and conclusion recorded
+as `SimplyConnectedSpace.nonempty_homeomorph_sphere_three` in Mathlib's
+`Wanted/Geometry/Manifold/PoincareConjecture.lean`. The smooth endpoint in
+13.1 matches `SimplyConnectedSpace.nonempty_sdiffeomorph_sphere_three`
+there. Complete their proofs by composing the constructions and theorems
+above; `Wanted` supplies their specification.
 
-Source: Morgan–Tian, Corollary 0.2(a), together with the smoothing theorem in Layer 14.
+Source: Morgan–Tian, Corollary 0.2(a), together with the smoothing theorem in 14.1.
 
 **API.**
 
-- Compatible-atlas installation, forgetting diffeomorphisms, compatible metrization and
-  exact native endpoint transport.
+- Compatible-atlas installation, forgetting diffeomorphisms, compatible metrization
+  and exact native endpoint transport.
 
 **Checks.**
 
@@ -1513,13 +1577,53 @@ Source: Morgan–Tian, Corollary 0.2(a), together with the smoothing theorem in 
 
 *Needs:* 13.1; 14.1; native Diffeomorph.toHomeomorph and topology transport.
 
+### 15.2. Homotopy-equivalence formulations
+
+For a Hausdorff topological three-manifold without boundary and a homotopy
+equivalence `M ≃ₕ 𝕊³`, use 1.1's topological consequences to obtain
+`SimplyConnectedSpace M` and `CompactSpace M`. Homotopy equivalences preserve
+simple connectedness and ordinary homology; `H₃(M;ℤ)≅ℤ` contradicts the
+noncompact vanishing theorem if M is noncompact. The manifold top-homology
+criterion supplies compactness with exactly the Hausdorff and chart
+hypotheses of Mathlib's homotopy-equivalence contract.
+
+For each charted smooth structure, apply 13.1 to prove
+`poincare_3d_smooth_homotopyEquiv` from `Suggested.lean`, whose conclusion is
+Mathlib's existing predicate
+`ContinuousMap.HomotopyEquiv.NonemptyDiffeomorphSphere M 3`. It quantifies over
+all compatible smooth atlases and assumes neither compactness nor simple
+connectedness as an extra input. Apply 15.1 in the topological presentation to
+prove the dimension-three case of the wanted contract
+`ContinuousMap.HomotopyEquiv.nonempty_homeomorph_sphere` in
+`Wanted/Geometry/Manifold/PoincareConjecture.lean`.
+
+Sources: Hatcher, §3.3, Proposition 3.29, p. 239, for the noncompact homology
+criterion in 1.1; Mathlib's Poincaré contract and the two endpoint theorems above.
+
+**API.**
+
+- Compactness and simple-connectedness consequences of a sphere homotopy
+  equivalence, and the smooth/topological homotopy-equivalence formulations.
+
+**Checks.**
+
+- The identity homotopy equivalence of the standard sphere yields the sphere endpoint.
+- Euclidean three-space is excluded by `H₃=0`, even though it is simply connected.
+- A contractible space can be homotopy equivalent to a compact point and noncompact;
+  compactness detection uses the positive-dimensional sphere and manifold hypotheses.
+
+*Needs:* 1.1; 13.1; 15.1; AlgebraicTopology Stages 1–3 for homotopy/homology
+invariance; native Mathlib Poincaré predicate.
+
 ### Examples
 
-The resulting homeomorphism has the original topology as its source.
+The identity homotopy equivalence of the standard sphere yields both adapter
+forms; Euclidean three-space is rejected by the top-homology check.
 
 ### Dependencies
 
-Layers 13 and 14; native homeomorphism and diffeomorphism APIs.
+Layer 1 target 1.1; Layer 13 target 13.1; Layer 15 target 15.1; AlgebraicTopology
+Stages 1–3; native Mathlib Poincaré predicate.
 
 ## Downstream consumers
 
@@ -1528,8 +1632,9 @@ ordinary/spacetime comparisons, localized compactness and ancient-solution
 theory in Layers 2–5 serve further Ricci-flow geometry. Layers 6–8 and 12
 provide actual surgery, component-transport and finite-history assembly APIs.
 Layers 9–11 provide loop-family filling and deformation estimates with explicit
-error budgets. Layer 14 supplies compatible smoothing for closed topological
-three-manifolds independently of the extinction argument.
+error budgets. Target 14.1 supplies absolute smoothing for closed topological
+three-manifolds independently of the extinction argument; target 14.2 records
+the separate prescribed-PL comparison.
 
 ## Worked examples
 
@@ -1575,8 +1680,9 @@ their transport/restriction laws and their estimates:
   [*Correction to Section 19.2*](https://arxiv.org/abs/1512.00699v1):
   the connection variation, linear curvature term and family consequences
   required in Layer 10.
-- A. Hatcher, *Algebraic Topology* (2002), §§1.2, 3.3, 4.1 and 4.2:
-  van Kampen, manifold duality, Hurewicz and Whitehead.
+- A. Hatcher, [*Algebraic Topology* (2002)](https://pi.math.cornell.edu/~hatcher/AT/AT.pdf),
+  §§1.2, 3.3, 4.1 and 4.2: van Kampen, manifold duality, Hurewicz and Whitehead;
+  Proposition 3.29, p. 239, for noncompact top-homology vanishing in 1.1.
 - C. B. Morrey, [*The problem of Plateau on a Riemannian
   manifold*](https://doi.org/10.2307/1969401), Ann. Math. 49 (1948), 807–851;
   S. Hildebrandt, *Boundary behavior of minimal surfaces*, Arch. Rational
@@ -1606,8 +1712,8 @@ their transport/restriction laws and their estimates:
   analytic coordinates on triangulated three-manifolds.
 - J. Munkres, *Elementary Differential Topology*, Annals of Mathematics
   Studies 54 (1966), Theorems 10.5–10.6, pp. 103–104: uniqueness and existence of
-  smooth triangulations, consumed from GeometricTopology's smooth-implies-PL
-  comparison in Layer 14.
+  smooth triangulations, used by the separate GeometricTopology
+  smoothing-and-triangulation comparison consumed in target 14.2.
 - M. Hirsch, *Differential Topology*, GTM 33 (1976), Chapter 4 §6,
   Theorem 6.6, p. 117: the disc theorem underlying GeometricTopology Layer 1's
   independence of the ball embeddings in connected sum.
