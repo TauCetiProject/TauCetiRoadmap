@@ -1,6 +1,6 @@
-import TauCeti.Geometry.Manifold.Instances.OnePoint
+import TauCeti.Geometry.Manifold.Instances.OnePoint.Basic
 import TauCeti.Geometry.Manifold.Instances.Quotient
-import TauCeti.Geometry.Manifold.Gluing
+import TauCeti.Geometry.Manifold.Gluing.Basic
 import Mathlib.Analysis.Complex.Basic
 import Mathlib.Geometry.Manifold.Instances.Quotient
 import Mathlib.Geometry.Manifold.LocalDiffeomorph
@@ -113,7 +113,7 @@ theorem quotientMk_isLocalBiholomorph
     (_holo : ∀ g : G, ContMDiff 𝓘(ℂ, E) 𝓘(ℂ, E) ∞ fun x : M ↦ g • x) :
     IsLocalDiffeomorph 𝓘(ℂ, E) 𝓘(ℂ, E) ∞
       (Quotient.mk (MulAction.orbitRel G M)) := by
-  letI : ContMDiffConstSMul 𝓘(ℂ, E) ∞ G M := ⟨_holo⟩
+  let : ContMDiffConstSMul 𝓘(ℂ, E) ∞ G M := ⟨_holo⟩
   exact TauCeti.isLocalDiffeomorph_quotientMk
 
 end ComplexQuotient
