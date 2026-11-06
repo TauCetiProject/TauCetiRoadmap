@@ -1,0 +1,121 @@
+TauCeti.Toric.Fan.exists_partialDiffeomorph_analyticBoundaryComponent_normalForm.{u} {N V : Type u} [AddCommGroup N]
+  [AddCommGroup V] [Module ℝ V] {i : N →+ V} (Φ : Fan i) (hΦ : Φ.IsRegular) (x : ↑(Φ.analyticRealization hΦ))
+  (n : WithTop ℕ∞) :
+  ∃ s j e,
+    x ∈ e.source ∧
+      (∀ (ρ : Φ.Ray), x ∈ Φ.analyticBoundaryComponent hΦ ρ ↔ ρ ∈ s) ∧
+        ∀ y ∈ e.source,
+          ∀ (ρ : Φ.Ray), y ∈ Φ.analyticBoundaryComponent hΦ ρ ↔ ∃ (hρ : ρ ∈ s), ↑e.toPartialEquiv y (j ⟨ρ, hρ⟩) = 0
+TauCeti.Toric.Fan.exists_contMDiffOn_analyticBoundaryComponent_eq_zero_transverse_curve.{u} {N V : Type u}
+  [AddCommGroup N] [AddCommGroup V] [Module ℝ V] {i : N →+ V} (Φ : Fan i) (hΦ : Φ.IsRegular) (ρ : Φ.Ray)
+  {x : ↑(Φ.analyticRealization hΦ)} (hx : x ∈ Φ.analyticBoundaryComponent hΦ ρ) :
+  ∃ U F γ,
+    IsOpen U ∧
+      x ∈ U ∧
+        ContMDiffOn (modelWithCornersSelf ℂ (Fin (Module.finrank ℤ N) → ℂ)) (modelWithCornersSelf ℂ ℂ) (↑⊤) F U ∧
+          ContMDiff (modelWithCornersSelf ℂ ℂ) (modelWithCornersSelf ℂ (Fin (Module.finrank ℤ N) → ℂ)) (↑⊤) γ ∧
+            γ 0 = x ∧
+              (∀ (t : ℂ), γ t ∈ U) ∧ (∀ y ∈ U, y ∈ Φ.analyticBoundaryComponent hΦ ρ ↔ F y = 0) ∧ ∀ (t : ℂ), F (γ t) = t
+TauCeti.Toric.Fan.exists_contMDiffOn_analyticBoundaryComponent_eq_zero_mvfderiv_surjective.{u} {N V : Type u}
+  [AddCommGroup N] [AddCommGroup V] [Module ℝ V] {i : N →+ V} (Φ : Fan i) (hΦ : Φ.IsRegular)
+  (x : ↑(Φ.analyticRealization hΦ)) :
+  ∃ U F,
+    IsOpen U ∧
+      x ∈ U ∧
+        ContMDiffOn (modelWithCornersSelf ℂ (Fin (Module.finrank ℤ N) → ℂ))
+            (modelWithCornersSelf ℂ ({ ρ // x ∈ Φ.analyticBoundaryComponent hΦ ρ } → ℂ)) (↑⊤) F U ∧
+          (∀ y ∈ U, Function.Surjective ⇑(d% F y)) ∧
+            ∀ y ∈ U,
+              ∀ (ρ : Φ.Ray),
+                y ∈ Φ.analyticBoundaryComponent hΦ ρ ↔ ∃ (hρ : x ∈ Φ.analyticBoundaryComponent hΦ ρ), F y ⟨ρ, hρ⟩ = 0
+TauCeti.Toric.FanHom.isProperMap_analyticMap_iff.{u} {N N' V V' : Type u} [AddCommGroup N] [AddCommGroup N']
+  [AddCommGroup V] [AddCommGroup V'] [Module ℝ V] [Module ℝ V'] {i : N →+ V} {i' : N' →+ V'} {Φ : Fan i} {Ψ : Fan i'}
+  (f : FanHom Φ Ψ) (hΦ : Φ.IsRegular) (hΨ : Ψ.IsRegular) (hΦ0 : Nonempty ↑Φ.cones) :
+  IsProperMap ⇑(CategoryTheory.ConcreteCategory.hom (f.analyticMap hΦ hΨ)) ↔
+    ∀ (τ : ↑Ψ.cones), ⇑f.realMap ⁻¹' ↑↑τ = ⋃ σ, ⋃ (_ : PointedCone.map f.realMap ↑σ ≤ ↑τ), ↑↑σ
+TauCeti.Toric.FanHom.isProperMap_analyticMap_of_isEmpty.{u} {N N' V V' : Type u} [AddCommGroup N] [AddCommGroup N']
+  [AddCommGroup V] [AddCommGroup V'] [Module ℝ V] [Module ℝ V'] {i : N →+ V} {i' : N' →+ V'} {Φ : Fan i} {Ψ : Fan i'}
+  (f : FanHom Φ Ψ) (hΦ : Φ.IsRegular) (hΨ : Ψ.IsRegular) [IsEmpty ↑Φ.cones] :
+  IsProperMap ⇑(CategoryTheory.ConcreteCategory.hom (f.analyticMap hΦ hΨ))
+TauCeti.Toric.FanHom.not_forall_preimage_realMap_eq_iUnion_of_isEmpty.{u} {N N' V V' : Type u} [AddCommGroup N]
+  [AddCommGroup N'] [AddCommGroup V] [AddCommGroup V'] [Module ℝ V] [Module ℝ V'] {i : N →+ V} {i' : N' →+ V'}
+  {Φ : Fan i} {Ψ : Fan i'} (f : FanHom Φ Ψ) [IsEmpty ↑Φ.cones] (hΨ0 : Nonempty ↑Ψ.cones) :
+  ¬∀ (τ : ↑Ψ.cones), ⇑f.realMap ⁻¹' ↑↑τ = ⋃ σ, ⋃ (_ : PointedCone.map f.realMap ↑σ ≤ ↑τ), ↑↑σ
+TauCeti.Toric.Fan.compactSpace_analyticRealization_iff_isComplete.{u} {N V : Type u} [AddCommGroup N] [AddCommGroup V]
+  [Module ℝ V] {i : N →+ V} (Φ : Fan i) (hΦ : Φ.IsRegular) (hΦ0 : Nonempty ↑Φ.cones) :
+  CompactSpace ↑(Φ.analyticRealization hΦ) ↔ Φ.IsComplete
+TauCeti.Toric.Fan.compactSpace_analyticRealization_iff_isEmpty_or_isComplete.{u} {N V : Type u} [AddCommGroup N]
+  [AddCommGroup V] [Module ℝ V] {i : N →+ V} (Φ : Fan i) (hΦ : Φ.IsRegular) :
+  CompactSpace ↑(Φ.analyticRealization hΦ) ↔ IsEmpty ↑Φ.cones ∨ Φ.IsComplete
+TauCeti.Toric.Fan.algebraicAnalyticDiffeomorph {N V : Type} [AddCommGroup N] [AddCommGroup V] [Module ℝ V] {i : N →+ V}
+  {Φ : Fan i} (hΦ : Φ.IsRegular) (n : WithTop ℕ∞) :
+  Diffeomorph (modelWithCornersSelf ℂ (Fin (Module.finrank ℤ N) → ℂ))
+    (modelWithCornersSelf ℂ (Fin (Module.finrank ℤ N) → ℂ)) Φ.AlgebraicComplexPoint (↑(Φ.analyticRealization hΦ)) n
+TauCeti.Toric.Fan.AlgebraicComplexPoint.ofAffinePoint.{u_1} {N : Type} {V : Type u_1} [AddCommGroup N] [AddCommGroup V]
+  [Module ℝ V] {i : N →+ V} {Φ : Fan i} (σ : ↑Φ.cones) (x : AffineSemigroupComplexPoint ↥(dualSemigroup ⋯ ↑σ)) :
+  Φ.AlgebraicComplexPoint
+TauCeti.Toric.Fan.AlgebraicComplexPoint.ofAffinePoint_eq_ofAffinePoint_iff.{u_1} {N : Type} {V : Type u_1}
+  [AddCommGroup N] [AddCommGroup V] [Module ℝ V] {i : N →+ V} {Φ : Fan i} {σ τ : ↑Φ.cones}
+  (x : AffineSemigroupComplexPoint ↥(dualSemigroup ⋯ ↑σ)) (y : AffineSemigroupComplexPoint ↥(dualSemigroup ⋯ ↑τ)) :
+  Fan.AlgebraicComplexPoint.ofAffinePoint σ x = Fan.AlgebraicComplexPoint.ofAffinePoint τ y ↔
+    ∃ z, faceAffinePointMap ⋯ ⋯ z = x ∧ faceAffinePointMap ⋯ ⋯ z = y
+TauCeti.Toric.FanHom.algebraicAnalyticEquiv_naturality {N N' V V' : Type} [AddCommGroup N] [AddCommGroup N']
+  [AddCommGroup V] [AddCommGroup V'] [Module ℝ V] [Module ℝ V'] {i : N →+ V} {i' : N' →+ V'} {Φ : Fan i} {Ψ : Fan i'}
+  (f : FanHom Φ Ψ) (hΦ : Φ.IsRegular) (hΨ : Ψ.IsRegular) (p : Φ.AlgebraicComplexPoint) :
+  (Fan.algebraicAnalyticEquiv hΨ) (f.algebraicComplexPointMap p) =
+    (CategoryTheory.ConcreteCategory.hom (f.analyticMap hΦ hΨ)) ((Fan.algebraicAnalyticEquiv hΦ) p)
+TauCeti.Toric.Fan.analyticProdDiffeomorph.{u} {N N' V V' : Type u} [AddCommGroup N] [AddCommGroup N'] [AddCommGroup V]
+  [AddCommGroup V'] [Module ℝ V] [Module ℝ V'] {i : N →+ V} {i' : N' →+ V'} (Φ : Fan i) (Ψ : Fan i') (hΦ : Φ.IsRegular)
+  (hΨ : Ψ.IsRegular) (n : WithTop ℕ∞) :
+  Diffeomorph (modelWithCornersSelf ℂ (Fin (Module.finrank ℤ (N × N')) → ℂ))
+    ((modelWithCornersSelf ℂ (Fin (Module.finrank ℤ N) → ℂ)).prod
+      (modelWithCornersSelf ℂ (Fin (Module.finrank ℤ N') → ℂ)))
+    (↑((Φ.prod Ψ).analyticRealization ⋯)) (↑(Φ.analyticRealization hΦ) × ↑(Ψ.analyticRealization hΨ)) n
+TauCeti.Toric.Fan.isLocalDiffeomorph_subfanAnalyticMap.{u} {N V : Type u} [AddCommGroup N] [AddCommGroup V] [Module ℝ V]
+  {i : N →+ V} (Φ : Fan i) (hΦ : Φ.IsRegular) (S : Set (PointedCone ℝ V)) (hS : S ⊆ Φ.cones)
+  (hface : ∀ ⦃σ τ : PointedCone ℝ V⦄, σ ∈ S → τ.IsFaceOf σ → τ ∈ S) (n : WithTop ℕ∞) :
+  IsLocalDiffeomorph (modelWithCornersSelf ℂ (Fin (Module.finrank ℤ N) → ℂ))
+    (modelWithCornersSelf ℂ (Fin (Module.finrank ℤ N) → ℂ)) n
+    ⇑(CategoryTheory.ConcreteCategory.hom (Φ.subfanAnalyticMap hΦ S hS hface))
+TauCeti.Toric.FanEquiv.analyticDiffeomorph.{u} {N N' V V' : Type u} [AddCommGroup N] [AddCommGroup N'] [AddCommGroup V]
+  [AddCommGroup V'] [Module ℝ V] [Module ℝ V'] {i : N →+ V} {i' : N' →+ V'} {Φ : Fan i} {Ψ : Fan i'} (e : FanEquiv Φ Ψ)
+  (hΦ : Φ.IsRegular) (hΨ : Ψ.IsRegular) (n : WithTop ℕ∞) :
+  Diffeomorph (modelWithCornersSelf ℂ (Fin (Module.finrank ℤ N) → ℂ))
+    (modelWithCornersSelf ℂ (Fin (Module.finrank ℤ N') → ℂ)) (↑(Φ.analyticRealization hΦ)) (↑(Ψ.analyticRealization hΨ))
+    n
+TauCeti.Toric.specMap_smul_eq_lift_comp_affineToricSchemeAction.{u_3} {N : Type} {V : Type u_3} [AddCommGroup N]
+  [AddCommGroup V] [Module ℝ V] {i : N →+ V} (hi : IsIntegralLattice i) (σ : PointedCone ℝ V) (t : ComplexTorus N)
+  (x : AffineSemigroupComplexPoint ↥(dualSemigroup hi σ)) :
+  AlgebraicGeometry.Spec.map (CommRingCat.ofHom (t • x).toRingHom) =
+    CategoryTheory.CategoryStruct.comp
+      (CategoryTheory.Limits.pullback.lift (AlgebraicGeometry.Spec.map (CommRingCat.ofHom (t • default).toRingHom))
+        (AlgebraicGeometry.Spec.map (CommRingCat.ofHom x.toRingHom)) ⋯)
+      (affineToricSchemeAction hi σ)
+TauCeti.Toric.Fan.AlgebraicComplexPoint.coe_smul {N V : Type} [AddCommGroup N] [AddCommGroup V] [Module ℝ V]
+  {i : N →+ V} {Φ : Fan i} (t : ComplexTorus N) (p : Φ.AlgebraicComplexPoint) :
+  ↑(t • p) =
+    CategoryTheory.CategoryStruct.comp
+      (CategoryTheory.Limits.pullback.lift (AlgebraicGeometry.Spec.map (CommRingCat.ofHom (t • default).toRingHom)) ↑p
+        ⋯)
+      Φ.algebraicRealizationAction
+'TauCeti.Toric.Fan.exists_partialDiffeomorph_analyticBoundaryComponent_normalForm' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'TauCeti.Toric.Fan.exists_contMDiffOn_analyticBoundaryComponent_eq_zero_transverse_curve' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'TauCeti.Toric.Fan.exists_contMDiffOn_analyticBoundaryComponent_eq_zero_mvfderiv_surjective' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'TauCeti.Toric.FanHom.isProperMap_analyticMap_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'TauCeti.Toric.FanHom.isProperMap_analyticMap_of_isEmpty' depends on axioms: [propext, Classical.choice, Quot.sound]
+'TauCeti.Toric.FanHom.not_forall_preimage_realMap_eq_iUnion_of_isEmpty' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'TauCeti.Toric.Fan.compactSpace_analyticRealization_iff_isComplete' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'TauCeti.Toric.Fan.compactSpace_analyticRealization_iff_isEmpty_or_isComplete' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'TauCeti.Toric.Fan.algebraicAnalyticDiffeomorph' depends on axioms: [propext, Classical.choice, Quot.sound]

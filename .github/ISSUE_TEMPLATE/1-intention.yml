@@ -18,92 +18,117 @@ body:
       label: Roadmap area
       description: Which roadmap does this intention sit in?
       options:
+        - AbhyankarLemma
         - AdicEtaleGeometry
-        - AdicSpaces
         - AdicSpacesPartII
         - AdicSpacesPartIII
+        - AdicSpacesPartIV
         - AffineLieAlgebras
         - AffineMorseLefschetz
         - AlgebraicCurves
         - AlgebraicTopology
         - AlgebraicVectorBundles
         - AmenableGroups
-        - AnalyticToricGeometry
+        - BanachAlgebras
         - BanachSpaceTheory
         - BelyiMaps
         - BordismFormalGroups
+        - BorelEquivalenceRelations
+        - CFSGBasicProperties
         - CFSGStatement
-        - Chebotarev
+        - CharacteristicClasses
+        - ChevalleyGroups
         - ClassFieldTheory
         - ClassicalArithmeticCompletion
         - ClassifyingSpaces
+        - CoboundaryExpansion
         - CombinatorialHeegaardFloer
         - CompactOperators
         - ComplexCurveModuli
         - ComplexKahlerGeometry
+        - ComplexManifolds
         - ComplexTori
-        - ConformalMapping
+        - ComputabilityTheory
+        - CountableModelCounting
         - DGAInfinity
         - DGFloer
-        - DenseGraphLimits
         - DerivedModuleAlgebra
+        - DiagrammaticCoherence
         - DifferentialGeometry
         - DiophantineApproximationAndTranscendence
+        - ECM
+        - EllipticCohomology
         - EllipticCurves
+        - EllipticIntegrals
         - EnhancedDerivedSheaves
-        - Exchangeability
+        - EtaleCohomologyFoundations
+        - EtaleMassFormula
+        - FactorRigidity
         - FinancialMathematics
+        - FiniteGroupExtensionSplitting
+        - FlagVarieties
         - FormalLaurentPuiseux
+        - FreeGroupsAndLimitGroups
         - FreeProbability
         - FuchsianOrbifolds
         - GeneralizedCohomology
+        - GeometricCurrents
         - GeometricMeasureTheory
         - GeometricRepresentationCategories
         - GeometricTopology
-        - GlobalNumberFields
         - GlobalQuadraticForms
         - GraphConnectivityAndFlows
+        - GroebnerGeometry
         - GrothendieckEulerForms
         - HamiltonianFloerOperations
         - HeegaardFloer
-        - HeightsAndUnits
-        - HopfRinow
+        - HopfologicalAlgebra
         - Hyperfunctions
-        - InfinitaryLogic
+        - ImaginaryQuadraticClassNumber
+        - InfinitaryModelExistence
         - IntegralLattices
         - Isoperimetry
         - JacobianChallenge
+        - KacMoody
         - KhovanovHomology
-        - LocalFieldsRamification
-        - LocalGaloisGroups
+        - LFunctions
+        - LieGroupoidsPoisson
+        - LocalPurity
+        - LocalVariationalFieldTheory
+        - MarkovChainsAndRenewal
         - MassFormula
         - ModularCurves
         - ModularForms
         - MorseNovikov
         - MorseTheory
+        - Neuromanifolds
         - NewtonPolygons
+        - NilpotentOrbits
         - NoncommutativeGeometry
-        - NumberFieldArithmetic
-        - OneParameterSemigroups
         - OperatorAlgebraDynamics
         - OperatorTheory
         - OptimalTransport
         - Orbifolds
-        - OrthogonalSpinGroups
         - PDE
         - PadicFunctionalAnalysis
         - PadicMeasuresIwasawaAlgebras
-        - PeripheralActions
+        - PerfectoidSpaces
         - PivotalSpherical
-        - PolynomialGaloisGroups
         - PositiveScalarCurvature
-        - ProfiniteArithmetic
+        - PrimitivePrimeDivisors
         - ProfiniteCohomology
-        - ProfiniteProPGroups
+        - PseudodifferentialOperators
+        - PseudoholomorphicCurveAnalysis
+        - PurityOfBranchLocus
         - QuadraticFormInvariants
+        - QuantumEnvelopingAlgebras
         - QuantumGroups
-        - RealAlgebraicGeometry
+        - QuaternionicAnalysis
+        - RandomMatrices
+        - Rank24LatticeConstructions
+        - RealAnalyticGeometry
         - ReductiveGroups
+        - ReductiveGroupsPartII
         - ReflectionInvariantTheory
         - Regularity
         - RepresentationTheory
@@ -112,12 +137,28 @@ body:
         - RigidAnalyticGeometry
         - SchemeAndStackFoundations
         - SchubertGeometry
+        - SeibergWittenTheory
+        - SmoothBundlesConnections
         - SpinGeometry
+        - SporadicOrders
         - StablePeriodicCurved
         - StableReduction
         - StandardDistributions
+        - Subfactors
+        - SubspaceTheorem
+        - SuccessiveMinima
+        - SymplecticFieldTheory
+        - SymplecticGeometry
+        - TauberianBoundaryConvergence
         - TaubesGromov
+        - TemperleyLieb
+        - ThetaSeries
+        - TopologicalKTheory
+        - TopologicalSheafCohomology
+        - TypeAHeckeAlgebras
+        - VonNeumannAlgebras
         - Yamabe
+        - ZerosOfLFunctions
         - ZigzagPreprojective
     validations:
       required: true
