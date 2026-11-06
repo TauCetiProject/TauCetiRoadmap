@@ -35,6 +35,13 @@ standard Cartan family and one integral datum per valid type. The exported
 validity and long-root predicate are names for the native declarations, not new
 definitions.
 
+The decomposition of a finite root system into irreducible components (§6.1),
+with orthogonality under every invariant form, is owned here; developments that
+split a root system into component blocks, such as the component cycles of
+RootSystemsPartII §3.3, consume it. The Weyl/based factorization of root
+automorphisms (§5.1) is owned here; ReductiveGroups §9A.1a-L consumes it for its
+cover-lift comparison.
+
 [LieHighestWeight, Layers 1–2](../LieHighestWeight/README.md#layer-2-weights-of-a-module-and-their-integrality)
 owns the representation-theoretic weight lattices, fundamental and dominant
 weights; its Layer 6 owns the Weyl character and dimension formulas. The
@@ -1149,7 +1156,8 @@ lives as follows.
   `TauCeti.openWeylChamber` and `TauCeti.longestElement`.
 - RootSystemsPartII Layers 1–4 consume the native positive roots, chambers,
   classification and numbered data, the marked presentation of §2.1, the based
-  automorphisms of §§5.1–5.2 for its folds.
+  automorphisms of §§5.1–5.2 for its folds, and the components of §6.1 for its
+  component cycles.
 - EnriquesSurfaces §5.2 is the integral lattice application of the general
   geometric results of Layer 1; its geometric and congruence statements supply
   nothing in the reverse direction.
