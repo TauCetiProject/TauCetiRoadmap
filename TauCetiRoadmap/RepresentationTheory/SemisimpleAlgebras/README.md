@@ -78,6 +78,10 @@ multiplicative Lean notation, with identity [K].
 
 ## Exact supplier contracts
 
+The pinned libraries are those of the content repository's `lake-manifest.json`: Mathlib at
+`1b1ccf4b` and Tau Ceti at `2fd255d9`. Every declaration name, file path and line number in this
+section and in the consumed layers is read at these revisions.
+
 ### From Mathlib
 
 The paths in this section are relative to the Mathlib repository.
