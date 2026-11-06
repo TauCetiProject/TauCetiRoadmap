@@ -25,7 +25,7 @@ lacks the Frobenius polynomial. None is replaced here by an arbitrary polynomial
 predicate standing for the missing geometry.
 -/
 
-public section
+@[expose] public section
 
 universe u v
 

@@ -113,6 +113,10 @@ Suggested home: `TauCeti/AlgebraicGeometry/AbelianVariety/FiniteField/` for Laye
 - **Genus-2 curves and their invariants** (Igusa–Clebsch, automorphism groups,
   hyperellipticity in genus `≥ 3`): `HyperellipticCurves`. Layer 10 uses only
   "the Jacobian of a smooth projective curve of genus `g` over `𝔽_q`" from JacobianChallenge.
+- **The comparison of the étale cohomology of a curve with the torsion of its Jacobian**: the
+  Galois-equivariant Kummer isomorphism `H¹(C_{K^{sep}}, μ_{ℓⁿ}) ≅ J[ℓⁿ](K^{sep})` is DWP.1 §1.6,
+  and its untwisted form is InverseGaloisAndArithmeticFundamentalGroups §IG.0.T1; 1.5 consumes the
+  first, and the second only through DWP.1 §1.6.
 
 ### Additional boundaries
 
@@ -307,13 +311,23 @@ Suggested home: `TauCeti/AlgebraicGeometry/AbelianVariety/FiniteField/` for Laye
   estimate: every root of `P_{π_A}` has absolute value `q^{1/2}` under every complex embedding;
   §1.5 the count `#A(𝔽_{q^m}) = deg(1 − π_A^m) = P_{π_A^m}(1) = ∏ (1 − a_i^m)` with its bound,
   for its model of `𝔽_{q^m}`; §1.9 `P_{π_A^m}` has roots `a_i^m`. This roadmap writes `π_A`
-  for `AbelianVariety.frobenius A` and `P_A` for `End.charpoly π_A`.
+  for `AbelianVariety.frobenius A` and `P_A` for `End.charpoly π_A`. From the same layer, §1.6:
+  the Jacobian clause for curves and the **Galois-equivariant Kummer isomorphism**, which §1.6
+  owns: for a smooth projective geometrically connected curve `C` over `K` with Jacobian
+  `J = Pic⁰_{C/K}` (no rational point of `C` assumed), a prime `ℓ ≠ p` and `n ≥ 1`, the named
+  isomorphism `H¹(C_{K^{sep}}, μ_{ℓⁿ}) ≅ J[ℓⁿ](K^{sep})` induced by `μ_{ℓⁿ} ⊂ 𝔾_m` and
+  `Pic⁰(C_{K^{sep}}) = J(K^{sep})`, with `μ_{ℓⁿ} = (ℤ/ℓⁿ)(1)` of EtaleCohomologyFoundations §F.0.3,
+  commuting with `Gal(K^{sep}/K)` and carrying `ζ ↦ ζ^ℓ` to `[ℓ]`, so that in the limit it
+  identifies `H¹(C_{K^{sep}}, ℤ_ℓ(1))` with `AbelianTate J ℓ`. It is stated for the Jacobian of
+  JacobianChallenge itself, not through a structure bundling a Jacobian with its torsion; 1.5
+  consumes it.
 - From **InverseGaloisAndArithmeticFundamentalGroups** §IG.0.T1, consumed only through the
   Jacobian clause of DWP.1 §1.6 in 1.5: for a smooth proper geometrically connected curve `C` over
   `K` with Jacobian `J` and a prime `ℓ ≠ p`, the finite-level comparison
   `H¹(C_{K^{sep}}, ℤ/ℓⁿ) ≅ Hom(J[ℓⁿ](K^{sep}), ℤ/ℓⁿ)` over the separable closure, compatible with
   reduction in `n`, and the curve trace `1 − Tr(H¹) + q` for the `q`-power Frobenius. No statement
-  here applies it directly, and no Kummer isomorphism with `μ_{ℓⁿ}` coefficients is consumed.
+  here applies it directly; its twisted counterpart with `μ_{ℓⁿ}` coefficients is the Kummer
+  isomorphism of DWP.1 §1.6 above.
 - From *PEL moduli*, M0.1 `PositiveInvolution` and M0.2 `albertTypes`: the Albert
   classification of division algebras with positive involution, used only to read off the
   shape of `End⁰(A) ⊗ ℝ`.
@@ -341,7 +355,10 @@ Suggested home: `TauCeti/AlgebraicGeometry/AbelianVariety/FiniteField/` for Laye
   lies in `r⁻¹ ∑_i ℤ e_i`; 8.1 consumes it for the finiteness of `𝓞_E` and of the overorders.
 - From [JacobianChallenge](../JacobianChallenge/README.md) Layer E: the dual abelian variety
   and `f^∨`, polarizations `φ_L`, principal polarizations as isomorphisms, the principal
-  polarization of a Jacobian, and `[n]` as an isogeny of degree `|n|^{2g}`.
+  polarization of a Jacobian, and `[n]` as an isogeny of degree `|n|^{2g}`. From its Layer D:
+  the Picard scheme of a projective geometrically integral curve over any field, with no rational
+  point assumed, whose neutral component `Pic⁰_{C/K}` is the Jacobian of 1.5, of dimension `g` by
+  Layer E.
 - From [EllipticCurves](../EllipticCurves/README.md) Layer 3: `frobeniusTrace`, the Hasse
   bound, the zeta function, the geometric predicates `IsSupersingular`/`IsOrdinary`
   (`E[p](Kˢᵉᵖ) = 0` or not in that roadmap's prose; the pinned `WeierstrassCurve.IsSupersingular`
@@ -578,21 +595,50 @@ for `g ≤ 2` the two counts `#A(𝔽_q) = P_A(1)` and `#A(𝔽_{q²}) = P_A(1) 
 ### 1.5 Jacobians: `P_{Jac C}` is the Weil polynomial of the function field
 
 For a smooth projective geometrically connected curve `C / K` of genus `g` with function field `F`
-and Jacobian `J = Jac C` (JacobianChallenge Layer E, `dim J = g`): `P_J = P_F`, the Weil polynomial
+and Jacobian `J = Jac C` (JacobianChallenge Layers D–E: the neutral component `Pic⁰_{C/K}` of the
+Picard scheme, `dim J = g`; no rational point of `C` is assumed, and a curve over `𝔽_q` may have
+none): `P_J = P_F`, the Weil polynomial
 of FunctionFieldArithmetic §§5.3–5.4, and `#C(𝔽_{q^r}) = N_r(F) = q^r + 1 − ∑ α_i^r` for all `r`
 (FunctionFieldArithmetic §5.4: `L_F` is the reversed characteristic polynomial of the Frobenius of
 the Jacobian, DWP.1 §1.6, and gives the count from its roots; FunctionFieldArithmetic §§5.3–5.4 is the
 integer form). Hence the `curve_counts` of a Jacobian class are honest counts (7.4 below only
 *defines* them from `P_A`), and `#J(K) = P_J(1) = h_F` is the class number of the function field
-(FunctionFieldArithmetic §5.3). The Jacobian clause of DWP.1 §1.6 rests on a Frobenius-equivariant
-comparison of the étale `H¹` of `C_{K^{sep}}` with the `ℓ`-power torsion of `J(K^{sep})`, `ℓ ≠ p`,
-which DWP.1 imports from InverseGaloisAndArithmeticFundamentalGroups §IG.0.T1 in the finite-level
-form `H¹(C_{K^{sep}}, ℤ/ℓⁿ) ≅ Hom(J[ℓⁿ](K^{sep}), ℤ/ℓⁿ)` over the separable closure. This roadmap
-consumes the resulting identity and proves no comparison of cohomology with torsion of its own; in
-particular it states no Kummer isomorphism `H¹(C_{K^{sep}}, μ_{ℓⁿ}) ≅ J[ℓⁿ](K^{sep})`, whose limit
-is the Tate-twisted `H¹(C_{K^{sep}}, ℤ_ℓ(1))`, the twist that the fourth Check pins.
-*Needs:* 1.4; DWP.1 §1.6 (with the InverseGaloisAndArithmeticFundamentalGroups §IG.0.T1 comparison
-it imports); JacobianChallenge Layer E; FunctionFieldArithmetic §§5.3–5.4.
+(FunctionFieldArithmetic §5.3).
+
+**The Kummer isomorphism (supplied).** The Jacobian enters the étale cohomology of `C` through the
+Galois-equivariant Kummer isomorphism, which DWP.1 §1.6 owns and this milestone consumes; this
+roadmap proves no comparison of cohomology with torsion of its own. For a prime `ℓ ≠ p` and
+`n ≥ 1`, let `μ_{ℓⁿ}` be the étale sheaf of `ℓⁿ`-th roots of unity, the twist `(ℤ/ℓⁿ)(1)` of
+EtaleCohomologyFoundations §F.0.3. The map induced by the inclusion `μ_{ℓⁿ} ⊂ 𝔾_m`, followed by
+`Pic(C_{K^{sep}})[ℓⁿ] = Pic⁰(C_{K^{sep}})[ℓⁿ] = J[ℓⁿ](K^{sep})`, is an isomorphism
+
+```text
+H¹(C_{K^sep}, μ_{ℓⁿ}) ≅ J[ℓⁿ](K^sep).
+```
+
+It is a named isomorphism, data and not an existence statement. The inputs, step by step: the
+Kummer sequence `1 → μ_{ℓⁿ} → 𝔾_m → 𝔾_m → 1` is exact on the étale site because `ℓ` is invertible;
+Hilbert 90 identifies `H¹(C_{K^{sep}}, 𝔾_m)` with `Pic(C_{K^{sep}})`, so by exactness the image is
+the `ℓⁿ`-torsion; the kernel is the cokernel of `ℓⁿ` on `H⁰(C_{K^{sep}}, 𝔾_m) = (K^{sep})ˣ` (`C` is
+proper, smooth and geometrically connected), which is zero because `X^{ℓⁿ} − a` is separable for
+`a ≠ 0` and so has a root in `K^{sep}`; a torsion class has degree `0` because the degree takes
+values in `ℤ`; and `Pic⁰(C_{K^{sep}}) = J(K^{sep})` because the smooth curve `C` has a
+`K^{sep}`-point. The isomorphism commutes with the action of `Gal(K^{sep}/K)` on both sides, and
+it carries the map induced by `ζ ↦ ζ^ℓ` from `μ_{ℓ^{n+1}}` to `μ_{ℓⁿ}` to
+`[ℓ] : J[ℓ^{n+1}] → J[ℓⁿ]`. In the limit it
+identifies `H¹(C_{K^{sep}}, ℤ_ℓ(1)) := lim_n H¹(C_{K^{sep}}, μ_{ℓⁿ})` with `T_ℓ J = AbelianTate J ℓ`
+(A4.1, on `K^{sep}`-points as in Conventions), and arithmetic Frobenius acts on it as
+`AbelianTate.map π_J` (DWP.1 §1.1). Geometric Frobenius therefore acts on
+`H¹(C_{K^{sep}}, ℚ_ℓ) = H¹(C_{K^{sep}}, ℚ_ℓ(1)) ⊗ ℚ_ℓ(−1)` as `q · π_J⁻¹`, whose characteristic
+polynomial is `P_J` because the roots of `P_J` are stable under `α ↦ q/α` (1.3); the curve trace
+`1 − Tr(Frob^r ∣ H¹) + q^r` is then the count `q^r + 1 − ∑ α_i^r` above.
+InverseGaloisAndArithmeticFundamentalGroups §IG.0.T1, which DWP.1 also imports, supplies the
+untwisted form `H¹(C_{K^{sep}}, ℤ/ℓⁿ) ≅ Hom(J[ℓⁿ](K^{sep}), ℤ/ℓⁿ)`; on `H¹(C_{K^{sep}}, ℚ_ℓ)` both
+forms give geometric Frobenius the characteristic polynomial `P_J`, and they differ by the twist
+that the fourth and fifth Checks pin.
+*Needs:* 1.3, 1.4; DWP.1 §§1.1, 1.6 (the Kummer isomorphism, with the
+InverseGaloisAndArithmeticFundamentalGroups §IG.0.T1 comparison it imports); A4.1;
+EtaleCohomologyFoundations §F.0.3; JacobianChallenge Layers D–E; FunctionFieldArithmetic §§5.3–5.4.
 
 **Checks.**
 
@@ -603,6 +649,15 @@ it imports); JacobianChallenge Layer E; FunctionFieldArithmetic §§5.3–5.4.
   `H¹(C_(K^sep), ℚ_ℓ)`, the dual of V_ℓJ, is the transpose of π_J, of trace 2, and the trace formula
   gives 1 − 2 + 5 = 4 points. On the twisted `H¹(C_(K^sep), ℚ_ℓ(1)) ≅ V_ℓJ` it acts as π_J⁻¹, with
   roots (1∓2i)/5 and trace 2/5, and the same formula would give 1 − 2/5 + 5 = 28/5, not an integer.
+- For the same curve and ℓ = 3, arithmetic Frobenius acts on J[3](K^sep) ≅ (ℤ/3)² with
+  characteristic polynomial T² − 2T + 5 ≡ T² + T + 2, of trace 2, and on μ₃ as ζ ↦ ζ⁵ = ζ⁻¹. On
+  `H¹(C_(K^sep), ℤ/3) = H¹(C_(K^sep), μ₃) ⊗ μ₃^(⊗−1)` it therefore has trace −2 ≡ 1, as on
+  `Hom(J[3](K^sep), ℤ/3)`, where it acts by the inverse transpose, of trace 2 · 5⁻¹ ≡ 1. No
+  isomorphism `H¹(C_(K^sep), ℤ/3) ≅ J[3](K^sep)` is Galois-equivariant: the μ₃ coefficients are part
+  of the Kummer isomorphism, not a choice of generator.
+- At ℓ = p = 5 the same curve is ordinary (5 ∤ 2), so J[5](K^sep) ≅ ℤ/5, while μ₅ is the trivial
+  étale sheaf in characteristic 5 (a reduced ring has no nontrivial fifth root of unity there) and
+  `H¹(C_(K^sep), μ₅) = 0`: the hypothesis ℓ ≠ p is needed.
 
 ### 1.6 The elliptic comparison
 
@@ -668,7 +723,7 @@ The trace-2 elliptic class over 𝔽₅ has P=T²−2T+5, L=1−2T+5T² and coun
 
 ### Dependencies
 
-Mathlib polynomial and finite-field APIs, with `PerfectField.ofFinite` and `separableClosure.eq_top_iff` for the comparison of separable-closure and algebraic-closure points; Part II F0.2–F0.3; DWP.1; AbelianSchemesAndArithmeticModuli A6; NewtonPolygons §§2.1, 3.3; FunctionFieldArithmetic §§5.3–5.4; InverseGaloisAndArithmeticFundamentalGroups §IG.0.T1 through DWP.1 §1.6.
+Mathlib polynomial and finite-field APIs, with `PerfectField.ofFinite` and `separableClosure.eq_top_iff` for the comparison of separable-closure and algebraic-closure points; Part II F0.2–F0.3; DWP.1; AbelianSchemesAndArithmeticModuli A6; NewtonPolygons §§2.1, 3.3; FunctionFieldArithmetic §§5.3–5.4; the Kummer isomorphism of DWP.1 §1.6, with `μ_{ℓⁿ}` from EtaleCohomologyFoundations §F.0.3 and `AbelianTate` from AbelianSchemesAndArithmeticModuli A4.1; JacobianChallenge Layers D–E; InverseGaloisAndArithmeticFundamentalGroups §IG.0.T1 through DWP.1 §1.6.
 
 ## Layer 2: the Tate module and the endomorphism field
 
