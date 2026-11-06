@@ -1,13 +1,17 @@
-import Mathlib
-import TauCeti.Algebra.BrauerGroup.Group
-import TauCeti.AlgebraicGeometry.Cohomology.Genus
-import TauCeti.AlgebraicGeometry.Cohomology.Module.Base
-import TauCeti.AlgebraicGeometry.Curves.StableReduction.Model.Basic
-import TauCeti.AlgebraicGeometry.LineBundle.Class
-import TauCeti.AlgebraicGeometry.Modules.Differentials.Basic
-import TauCeti.AlgebraicGeometry.Morphisms.PureRelativeDimension
-import TauCeti.AlgebraicGeometry.Scheme.CodimensionOnePoint
-import TauCeti.RingTheory.KrullDimension.FiniteType
+module
+
+public import Mathlib
+public import TauCeti.Algebra.BrauerGroup.Group
+public import TauCeti.AlgebraicGeometry.Cohomology.Genus
+public import TauCeti.AlgebraicGeometry.Cohomology.Module.Base
+public import TauCeti.AlgebraicGeometry.Curves.StableReduction.Model.Basic
+public import TauCeti.AlgebraicGeometry.LineBundle.Class
+public import TauCeti.AlgebraicGeometry.Modules.Differentials.Basic
+public import TauCeti.AlgebraicGeometry.Morphisms.PureRelativeDimension
+public import TauCeti.AlgebraicGeometry.Scheme.CodimensionOnePoint
+public import TauCeti.RingTheory.Etale.IndEtale
+public import TauCeti.RingTheory.Henselization.Local
+public import TauCeti.RingTheory.KrullDimension.FiniteType
 
 /-!
 # Scheme, stack, cohomology and intersection foundations: target signatures
@@ -21,6 +25,13 @@ Headline theorems that are not statable at the pins, and what each lacks:
   homeomorphism, an isomorphism for étale morphisms, finite locally free of rank `p^d` in smooth
   relative dimension `d`, base change). The pinned Mathlib has no Frobenius endomorphism of a
   scheme; a body for it needs locality of the `p`-power map on stalks.
+* §0.12: the étale local ring at a geometric point is a strict henselization of the Zariski
+  local ring (Stacks 04HX). The pins have no ring map from the Zariski stalk to the fibre of the
+  étale structure presheaf; the file states the consequences that need none (henselian, with
+  separably closed residue field).
+* §2.10: full faithfulness of the étale-to-pro-étale comparison. Its statement needs the left
+  adjoint `ν^*` composed with the universe lift of coefficients, both targets of README.md
+  §2.10; the file states `ν` and `ν_*`.
 * §1.23: the Keel–Mori theorem (an algebraic stack of finite presentation with finite inertia
   has a coarse moduli space). The pins have no algebraic stack (a stack in groupoids with
   representable diagonal and a smooth atlas), no inertia stack and no coarse moduli space;
@@ -58,9 +69,11 @@ Headline theorems that are not statable at the pins, and what each lacks:
   combinatorial data, not this pairing.
 -/
 
-universe u
+@[expose] public section
 
 namespace TauCetiRoadmap.SchemeAndStackFoundations
+
+universe u
 
 noncomputable section
 
@@ -140,58 +153,55 @@ theorem unibranch_finite_components {X Y : Scheme.{u}} [IsLocallyNoetherian X]
         IsClosed (U : Set Y) ∧ IsFinite (U.ι ≫ p) ∧ Etale (U.ι ≫ p) := by
   sorry
 
-/-! ### §0.12 The henselization of a pair -/
+/-! ### §0.12 Henselizations of local rings and strict local rings -/
+
+/-- `Rh` is a henselization of the local ring `R` with residue field `L`: a henselian local ring
+that is an ind-étale `R`-algebra, whose residue field is `L` compatibly with the residue map of
+`R`. With `L` the residue field of `R` it recognises the henselization, with `L` a separable
+closure the strict henselization. Stacks, Definition 10.155.3 (04GQ). -/
+class IsLocalRing.IsHenselization (R : Type u) [CommRing R] [IsLocalRing R]
+    (L : Type u) [Field L] [Algebra (IsLocalRing.ResidueField R) L]
+    (Rh : Type u) [CommRing Rh] [IsLocalRing Rh] [Algebra R Rh] : Prop where
+  henselianRing : HenselianRing Rh (IsLocalRing.maximalIdeal Rh)
+  indEtale : TauCeti.Algebra.IndEtale R Rh
+  exists_residueFieldEquiv : ∃ e : L ≃+* IsLocalRing.ResidueField Rh, ∀ r : R,
+    e (algebraMap (IsLocalRing.ResidueField R) L (IsLocalRing.residue R r)) =
+      IsLocalRing.residue Rh (algebraMap R Rh r)
 
 namespace Henselization
 
-variable {R : Type u} [CommRing R]
-
-/-- The canonical map `R/I → B/IB`. -/
-abbrev reducedMap (I : Ideal R) (B : CommAlgCat.{u} R) :
-    R ⧸ I →+* B ⧸ I.map (algebraMap R B) :=
-  Ideal.quotientMap (I.map (algebraMap R B)) (algebraMap R B) Ideal.le_comap_map
-
-/-- Étale neighbourhoods of `(R, I)`: étale `R`-algebras `B` with `R/I ≅ B/IB`.
-Stacks, Lemma 15.12.1, construction. -/
-def IsNeighbourhood (I : Ideal R) : ObjectProperty (CommAlgCat.{u} R) :=
-  fun B => Algebra.Etale R B ∧ Function.Bijective (reducedMap I B)
-
-/-- The category of étale neighbourhoods of `(R, I)`. -/
-abbrev Neighbourhood (I : Ideal R) := (IsNeighbourhood I).FullSubcategory
-
-theorem neighbourhood_isFiltered (I : Ideal R) : IsFiltered (Neighbourhood I) := by sorry
-attribute [instance] neighbourhood_isFiltered
-
-theorem neighbourhood_essentiallySmall (I : Ideal R) :
-    EssentiallySmall.{u} (Neighbourhood I) := by sorry
-attribute [instance] neighbourhood_essentiallySmall
-
-/-- The neighbourhood diagram on a small model. -/
-noncomputable def diagram (I : Ideal R) :
-    SmallModel.{u} (Neighbourhood I) ⥤ CommAlgCat.{u} R :=
-  (equivSmallModel.{u} (Neighbourhood I)).inverse ⋙ (IsNeighbourhood I).ι
-
-/-- The henselization `R^h` of the pair `(R, I)`: the colimit of its étale neighbourhoods. -/
-noncomputable def algebra (I : Ideal R) : CommAlgCat.{u} R := colimit (diagram I)
-
-/-- The extended ideal `I^h = I · R^h`. -/
-noncomputable abbrev extended (I : Ideal R) : Ideal (algebra I) :=
-  I.map (algebraMap R (algebra I))
-
-/-- `(R^h, I^h)` is a henselian pair. Stacks, Lemma 15.12.1. -/
-theorem henselian (I : Ideal R) : HenselianRing (algebra I) (extended I) := by sorry
-
-/-- Universal property: every map from `R` to a henselian pair carrying `I` into the ideal
-factors uniquely through `R^h`. Stacks, Lemma 15.12.1. -/
-theorem existsUnique_lift (I : Ideal R) {S : Type u} [CommRing S]
-    (J : Ideal S) [HenselianRing S J] (f : R →+* S) (hf : I ≤ J.comap f) :
-    ∃! g : algebra I →+* S, g.comp (algebraMap R (algebra I)) = f := by sorry
-
-/-- A henselian pair is its own henselization. -/
-theorem fixed_of_henselian (I : Ideal R) [HenselianRing R I] :
-    Nonempty (algebra I ≃ₐ[R] R) := by sorry
+/-- The henselization of a local ring along its maximal ideal, built in Tau Ceti as the colimit
+of its étale neighbourhoods, is a henselization with the residue field of `R`.
+Stacks, Lemma 15.12.3 (0A03). -/
+theorem local_henselization (R : Type u) [CommRing R] [IsLocalRing R] :
+    IsLocalRing.IsHenselization R (IsLocalRing.ResidueField R)
+      (TauCeti.Henselization.algebra (IsLocalRing.maximalIdeal R)) := by
+  sorry
 
 end Henselization
+
+/-- The étale local ring of `S` at a geometric point `s : Spec Ω ⟶ S`, `Ω` separably closed: the
+fibre at Mathlib's point `pointSmallEtale s` of the structure presheaf `U ↦ Γ(U, 𝒪_U)` of the
+small étale site. Stacks, Definition 59.33.2 (03PS). -/
+def Scheme.strictLocalRing {S : Scheme.{u}} {Ω : Type u} [Field Ω] [IsSepClosed Ω]
+    (s : Spec (.of Ω) ⟶ S) : CommRingCat.{u} :=
+  (Scheme.pointSmallEtale s).presheafFiber.obj
+    ((Scheme.Etale.forget S ⋙ Over.forget S).op ⋙ Scheme.Γ)
+
+/-- The étale local ring at a geometric point is a henselian local ring.
+Stacks, Lemma 59.33.1 (04HX). -/
+theorem Scheme.henselianLocalRing_strictLocalRing {S : Scheme.{u}} {Ω : Type u} [Field Ω]
+    [IsSepClosed Ω] (s : Spec (.of Ω) ⟶ S) : HenselianLocalRing (Scheme.strictLocalRing s) := by
+  sorry
+
+attribute [instance] Scheme.henselianLocalRing_strictLocalRing
+
+/-- The residue field of the étale local ring at a geometric point is separably closed, so the
+ring is strictly henselian. Stacks, Lemma 59.33.1 (04HX) and Definition 59.32.6 (03QK). -/
+theorem Scheme.isSepClosed_residueField_strictLocalRing {S : Scheme.{u}} {Ω : Type u} [Field Ω]
+    [IsSepClosed Ω] (s : Spec (.of Ω) ⟶ S) :
+    IsSepClosed (IsLocalRing.ResidueField (Scheme.strictLocalRing s)) := by
+  sorry
 
 /-! ### §0.20 Japanese and Nagata rings -/
 
@@ -277,10 +287,11 @@ theorem IsQuasiExcellentRing.isNagata (R : Type u) [CommRing R]
 
 end Excellence
 
-/-! ### §0.23a Étale topological invariance -/
+/-! ### §0.23a The étale-site functor and étale topological invariance -/
 
-/-- Base change on Mathlib's small étale categories. -/
-def smallEtaleBaseChange {X Y : Scheme.{u}} (f : X ⟶ Y) : Y.Etale ⥤ X.Etale := by
+/-- The functor of small étale sites of a morphism `f : X ⟶ Y`: base change `V ↦ V ×_Y X`.
+Stacks, Lemma 34.4.17 (021I). -/
+def Scheme.Hom.etaleSite {X Y : Scheme.{u}} (f : X ⟶ Y) : Y.Etale ⥤ X.Etale := by
   letI : MorphismProperty.HasPullbacksAlong (@Etale : MorphismProperty Scheme.{u}) f :=
     ⟨fun _ _ => inferInstance⟩
   letI : MorphismProperty.IsStableUnderBaseChangeAlong
@@ -288,22 +299,53 @@ def smallEtaleBaseChange {X Y : Scheme.{u}} (f : X ⟶ Y) : Y.Etale ⥤ X.Etale 
     ⟨fun h hp => MorphismProperty.IsStableUnderBaseChange.of_isPullback h hp⟩
   exact MorphismProperty.Over.pullback @Etale ⊤ f
 
+/-- Base change of étale schemes is continuous for the small étale topologies: it defines the
+morphism of sites `X_ét → Y_ét`. Stacks, Lemma 34.4.17 (021I). -/
+theorem Scheme.Hom.etaleSite_isContinuous {X Y : Scheme.{u}} (f : X ⟶ Y) :
+    (Scheme.Hom.etaleSite f).IsContinuous (Scheme.smallEtaleTopology Y)
+      (Scheme.smallEtaleTopology X) := by
+  sorry
+
+attribute [instance] Scheme.Hom.etaleSite_isContinuous
+
+/-- Base change of étale schemes preserves finite limits. -/
+theorem Scheme.Hom.etaleSite_preservesFiniteLimits {X Y : Scheme.{u}} (f : X ⟶ Y) :
+    PreservesFiniteLimits (Scheme.Hom.etaleSite f) := by
+  sorry
+
+/-- Base change along a composite is base change along the factors, by Mathlib's
+`MorphismProperty.Over.pullbackComp`. Stacks, Lemma 34.4.18 (021J). -/
+def Scheme.Hom.etaleSiteComp {X Y Z : Scheme.{u}} (f : X ⟶ Y) (g : Y ⟶ Z) :
+    Scheme.Hom.etaleSite (f ≫ g) ≅ Scheme.Hom.etaleSite g ⋙ Scheme.Hom.etaleSite f := by
+  letI : MorphismProperty.HasPullbacksAlong (@Etale : MorphismProperty Scheme.{u}) f :=
+    ⟨fun _ _ => inferInstance⟩
+  letI : MorphismProperty.HasPullbacksAlong (@Etale : MorphismProperty Scheme.{u}) g :=
+    ⟨fun _ _ => inferInstance⟩
+  letI : MorphismProperty.IsStableUnderBaseChangeAlong
+      (@Etale : MorphismProperty Scheme.{u}) f :=
+    ⟨fun h hp => MorphismProperty.IsStableUnderBaseChange.of_isPullback h hp⟩
+  letI : MorphismProperty.IsStableUnderBaseChangeAlong
+      (@Etale : MorphismProperty Scheme.{u}) g :=
+    ⟨fun h hp => MorphismProperty.IsStableUnderBaseChange.of_isPullback h hp⟩
+  exact MorphismProperty.Over.pullbackComp f g
+
 /-- Base change along a universal homeomorphism is fully faithful and essentially surjective.
 Stacks, Theorem 59.45.2 (04DZ). -/
-theorem smallEtaleBaseChange_isEquivalence {X Y : Scheme.{u}} (f : X ⟶ Y)
+theorem Scheme.Hom.isEquivalence_etaleSite {X Y : Scheme.{u}} (f : X ⟶ Y)
     (hf : (topologically IsHomeomorph).universally f) :
-    (smallEtaleBaseChange f).IsEquivalence := by sorry
+    (Scheme.Hom.etaleSite f).IsEquivalence := by sorry
 
 /-- A universal homeomorphism induces an equivalence with scheme base change as forward functor. -/
 def universalHomeomorphismEtaleEquivalence {X Y : Scheme.{u}} (f : X ⟶ Y)
     (hf : (topologically IsHomeomorph).universally f) : Y.Etale ≌ X.Etale := by
-  letI := smallEtaleBaseChange_isEquivalence f hf
-  exact (smallEtaleBaseChange f).asEquivalence
+  letI := Scheme.Hom.isEquivalence_etaleSite f hf
+  exact (Scheme.Hom.etaleSite f).asEquivalence
 
-/-- The forward functor of topological invariance is scheme base change. -/
+/-- The forward functor of topological invariance is the étale-site functor, so its identity,
+composition and base-change comparisons are those of `Scheme.Hom.etaleSite`. -/
 theorem universalHomeomorphismEtaleEquivalence_functor {X Y : Scheme.{u}} (f : X ⟶ Y)
     (hf : (topologically IsHomeomorph).universally f) :
-    (universalHomeomorphismEtaleEquivalence f hf).functor = smallEtaleBaseChange f := by
+    (universalHomeomorphismEtaleEquivalence f hf).functor = Scheme.Hom.etaleSite f := by
   sorry
 
 /-- The forward and inverse functors preserve covering sieves. -/
@@ -314,43 +356,6 @@ theorem universalHomeomorphismEtaleEquivalence_coverPreserving {X Y : Scheme.{u}
     CoverPreserving (Scheme.smallEtaleTopology X) (Scheme.smallEtaleTopology Y)
       (universalHomeomorphismEtaleEquivalence f hf).inverse := by
   sorry
-
-/-- Identity compatibility uses the canonical pullback comparison. -/
-theorem universalHomeomorphismEtaleEquivalence_id (X : Scheme.{u})
-    (hX : (topologically IsHomeomorph).universally (𝟙 X)) :
-    ∃ e : (universalHomeomorphismEtaleEquivalence (𝟙 X) hX).functor ≅ 𝟭 X.Etale,
-      ∀ V : X.Etale, (e.hom.app V).left = pullback.fst V.hom (𝟙 X) := by sorry
-
-/-- Composition compatibility is the associativity comparison for scheme pullbacks. -/
-theorem universalHomeomorphismEtaleEquivalence_comp {X Y Z : Scheme.{u}}
-    (f : X ⟶ Y) (g : Y ⟶ Z)
-    (hf : (topologically IsHomeomorph).universally f)
-    (hg : (topologically IsHomeomorph).universally g)
-    (hfg : (topologically IsHomeomorph).universally (f ≫ g)) :
-    ∃ e : (universalHomeomorphismEtaleEquivalence (f ≫ g) hfg).functor ≅
-        (universalHomeomorphismEtaleEquivalence g hg).functor ⋙
-          (universalHomeomorphismEtaleEquivalence f hf).functor,
-      ∀ V : Z.Etale,
-        (e.hom.app V).left ≫ pullback.fst (pullback.snd V.hom g) f ≫
-            pullback.fst V.hom g = pullback.fst V.hom (f ≫ g) ∧
-        (e.hom.app V).left ≫ pullback.snd (pullback.snd V.hom g) f =
-          pullback.snd V.hom (f ≫ g) := by sorry
-
-/-- In a cartesian square the equivalence commutes with arbitrary base change. -/
-theorem universalHomeomorphismEtaleEquivalence_baseChange {X Y Y' : Scheme.{u}}
-    (f : X ⟶ Y) (g : Y' ⟶ Y)
-    (hf : (topologically IsHomeomorph).universally f)
-    (hf' : (topologically IsHomeomorph).universally (pullback.snd f g)) :
-    ∃ e : (universalHomeomorphismEtaleEquivalence f hf).functor ⋙
-          smallEtaleBaseChange (pullback.fst f g) ≅
-        smallEtaleBaseChange g ⋙
-          (universalHomeomorphismEtaleEquivalence (pullback.snd f g) hf').functor,
-      ∀ V : Y.Etale,
-        (e.hom.app V).left ≫ pullback.fst (pullback.snd V.hom g) (pullback.snd f g) ≫
-            pullback.fst V.hom g =
-          pullback.fst (pullback.snd V.hom f) (pullback.fst f g) ≫ pullback.fst V.hom f ∧
-        (e.hom.app V).left ≫ pullback.snd (pullback.snd V.hom g) (pullback.snd f g) =
-          pullback.snd (pullback.snd V.hom f) (pullback.fst f g) := by sorry
 
 /-! ### §0.27 Flat base change of annihilators -/
 
@@ -785,6 +790,69 @@ universe v w
 
 open _root_.CategoryTheory _root_.CategoryTheory.Limits _root_.AlgebraicGeometry
 open scoped _root_.TensorProduct
+
+/-! ### §2.1 Sheaf functors of the small étale sites -/
+
+section EtaleSheafFunctors
+
+variable {X Y : Scheme.{u}} (f : X ⟶ Y) (A : Type w) [Category.{u} A]
+
+/-- `f_*` on sheaves on the small étale sites: precomposition with base change. -/
+abbrev Scheme.etalePushforward :
+    Sheaf (Scheme.smallEtaleTopology X) A ⥤ Sheaf (Scheme.smallEtaleTopology Y) A :=
+  (Scheme.Hom.etaleSite f).sheafPushforwardContinuous A (Scheme.smallEtaleTopology Y)
+    (Scheme.smallEtaleTopology X)
+
+/-- `f_*` has a left adjoint for coefficients with colimits of size `u` and sheafification on
+`X_ét`; no Noetherian or separatedness hypothesis. Stacks, Lemma 34.4.17 (021I). -/
+theorem Scheme.isRightAdjoint_etalePushforward [HasWeakSheafify (Scheme.smallEtaleTopology X) A]
+    [HasColimitsOfSize.{u, u} A] : (Scheme.etalePushforward f A).IsRightAdjoint := by
+  sorry
+
+attribute [instance] Scheme.isRightAdjoint_etalePushforward
+
+/-- `f^{-1}`: pullback of sheaves on the small étale sites, left adjoint to `f_*`. -/
+abbrev Scheme.etalePullback [HasWeakSheafify (Scheme.smallEtaleTopology X) A]
+    [HasColimitsOfSize.{u, u} A] :
+    Sheaf (Scheme.smallEtaleTopology Y) A ⥤ Sheaf (Scheme.smallEtaleTopology X) A :=
+  (Scheme.Hom.etaleSite f).sheafPullback A (Scheme.smallEtaleTopology Y)
+    (Scheme.smallEtaleTopology X)
+
+/-- The adjunction `f^{-1} ⊣ f_*`. -/
+def Scheme.etaleAdjunction [HasWeakSheafify (Scheme.smallEtaleTopology X) A]
+    [HasColimitsOfSize.{u, u} A] :
+    Scheme.etalePullback f A ⊣ Scheme.etalePushforward f A :=
+  (Scheme.Hom.etaleSite f).sheafAdjunctionContinuous A (Scheme.smallEtaleTopology Y)
+    (Scheme.smallEtaleTopology X)
+
+/-- `f^{-1}` is exact on Grothendieck abelian coefficients. -/
+theorem Scheme.preservesFiniteLimits_etalePullback [Abelian A] [IsGrothendieckAbelian.{u} A]
+    [HasSheafify (Scheme.smallEtaleTopology X) A] [HasColimitsOfSize.{u, u} A] :
+    PreservesFiniteLimits (Scheme.etalePullback f A) := by
+  sorry
+
+end EtaleSheafFunctors
+
+/-! ### §2.10 The étale and pro-étale sites -/
+
+/-- The inclusion of the small étale site into the pro-étale site: étale morphisms are weakly
+étale. -/
+def Scheme.toProEt (X : Scheme.{u}) : X.Etale ⥤ X.ProEt :=
+  MorphismProperty.Over.changeProp (Q := ⊤) (Q' := ⊤) X etale_le_weaklyEtale le_rfl
+
+/-- The inclusion is continuous: it defines the morphism of sites `ν : X_proét → X_ét`.
+Bhatt–Scholze 2014, §5.1. -/
+theorem Scheme.toProEt_isContinuous (X : Scheme.{u}) :
+    (Scheme.toProEt X).IsContinuous (Scheme.smallEtaleTopology X) (Scheme.ProEt.topology X) := by
+  sorry
+
+attribute [instance] Scheme.toProEt_isContinuous
+
+/-- `ν_*`, for coefficients in the universe `u + 1` of Mathlib's pro-étale sheaves. -/
+abbrev Scheme.proetalePushforward (X : Scheme.{u}) (A : Type w) [Category.{u + 1} A] :
+    Sheaf (Scheme.ProEt.topology X) A ⥤ Sheaf (Scheme.smallEtaleTopology X) A :=
+  (Scheme.toProEt X).sheafPushforwardContinuous A (Scheme.smallEtaleTopology X)
+    (Scheme.ProEt.topology X)
 
 /-! ### §2.5–§2.7 Vanishing theorems and local cohomology -/
 

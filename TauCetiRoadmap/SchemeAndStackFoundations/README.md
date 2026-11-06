@@ -210,8 +210,8 @@ pinned libraries; each is cited where it lives and is not a target here.
   the affine case of §0.27; Mathlib's `Functor.relativelyRepresentable.of_diag`, `diag_iff`,
   `respectsIso`, `MorphismProperty.relative.rep`, `relative_map_iff` and
   `GroupExtension.rightHom_inl` are helper lemmas of §1.3 and §1.25;
-  `CategoryTheory.Sheaf.cohomologyPresheafObjIsoOverH` and
-  `TauCeti.Topology.subsingleton_H_succ_of_isFlasque` are helper lemmas of §2.5.
+  Mathlib's `CategoryTheory.Sheaf.H'` (cohomology of an object of a site) and
+  `TauCeti.Topology.subsingleton_H_succ_of_isFlasque` are inputs of §2.5.
 
 **Interfaces consumed by the arithmetic roadmaps.** The crystalline, prismatic, analytic and ℓ-adic
 roadmaps consume this roadmap through comparison maps whose theorems they own; this roadmap fixes only
@@ -248,7 +248,10 @@ pro-étale site foundations (§2.17), Picard torsors (§3.6), adic thickening sy
 and Chow's lemma (§§4.12, 4.14), the moduli stack of stable pointed curves with its finite projective
 cover (§4.15), de Jong's alterations (§§4.16–4.20), the theorem on formal functions (§4.9, consumed by
 JacobianChallenge Layer C), and projective bundles with the splitting principle (§5.4) are planned
-here for the roadmaps that import them.
+here for the roadmaps that import them. So are the recognition predicate of henselizations and
+the strict local rings of schemes (§0.12), the étale-site functor of a morphism (§0.23a), the
+sheaf functors `f^{-1} ⊣ f_*` of the small étale sites (§2.1), their slices (§2.5) and the single
+étale/pro-étale comparison `ν` with its change of coefficient universe (§2.10).
 
 ## Conventions
 
@@ -341,7 +344,7 @@ complete rings, including the rings in `CompleteLocalAlg` and `AdicRing`.
 Recovering actual global sections of `Spf` additionally requires the formal-scheme
 comparison of §4.7.
 
-**From Mathlib** (`6b7abb3c76`). `AlgebraicGeometry.Scheme`, `Spec`, `Scheme.Opens`, `affineOpens`,
+**From Mathlib** (`1b1ccf4b08`). `AlgebraicGeometry.Scheme`, `Spec`, `Scheme.Opens`, `affineOpens`,
 `AffineZariskiSite`, gluing, `Limits.pullback` of schemes; the morphism classes `Flat`, `Smooth`,
 `SmoothOfRelativeDimension`, `Etale`, `IsProper`, `IsSeparated`, `IsFinite`, `IsDominant`,
 `IsClosedImmersion`, `IsOpenImmersion`, `IsAffineHom`, `LocallyOfFiniteType`,
@@ -386,7 +389,7 @@ not another module local-cohomology functor. The affine Ext computations in §3.
 `CategoryTheory.Abelian.Ext` from
 `Mathlib/Algebra/Homology/DerivedCategory/Ext/Basic.lean`.
 
-**From Tau Ceti** (`a91d3aaf`). `TauCeti.AlgebraicGeometry.QuasicoherentAlgebra`,
+**From Tau Ceti** (`2fd255d9`). `TauCeti.AlgebraicGeometry.QuasicoherentAlgebra`,
 `CategoryTheory.CommMon.relativeSpec`, `CommMon.sectionsPresheaf`,
 `CommMon.isLocalization_basicOpen`; `Scheme.Modules.Cohomology`, `Scheme.Modules.eulerCharBelow`
 (`TauCeti/AlgebraicGeometry/Cohomology/EulerCharacteristic.lean`), `AlgebraicGeometry.Scheme.genus`
@@ -398,7 +401,7 @@ not another module local-cohomology functor. The affine Ext computations in §3.
 `TauCeti.Model`, `genericFiber`, `specialFiberι`, `FiniteDVRExtension`;
 `TauCeti.CommHopfAlgCat.fppfQuotientSheaf`, `isPullback_fppfQuotientTorsor`,
 `TauCeti.ConstantGroup.groupScheme`, `linearlyReductiveAffineGroupSchemeProperty`;
-`TauCeti.AlgebraicGeometry.AbelianVariety` with `dim`; `TauCeti.derivationToDualNumberEquivLift`;
+`TauCeti.AlgebraicGeometry.AbelianVariety` with `dim`; `TauCeti.derivationToTrivSqZeroExtEquivLift`;
 `TauCeti.AffineInvariantQuotient.quotient` and `.projection`; `SheafOfModules.dual`, `monoidalClosed`;
 `TauCeti.AlgebraicGeometry.FinitelyPresentedSheaf`;
 `TauCeti.IsIntegralClosure.finite_mvPolynomial_of_isPurelyInseparable`, `finite_of_injective`;
@@ -433,6 +436,25 @@ Picard–Brauer obstruction), E (abelian varieties), F (Abel–Jacobi). **From A
 classes), 12 (the dictionary). **From ClassFieldTheory** Layers 5 and 10 and **ProfiniteCohomology**
 Layers 9–10 (continuous cohomology, Hilbert 90 and Kummer theory for fields).
 
+**From the pins, for the étale-site and henselization targets** (§§0.12, 0.23a, 2.1, 2.5, 2.10,
+2.17). Mathlib: `MorphismProperty.Over.pullback`, `MorphismProperty.Over.pullbackComp`,
+`MorphismProperty.Over.pullbackCongr`, `MorphismProperty.Over.changeProp`, `etale_le_weaklyEtale`,
+`Scheme.Etale.forget`, `Scheme.AffineEtale`, `Scheme.pointSmallEtale`,
+`GrothendieckTopology.Point.presheafFiber`, `GrothendieckTopology.Point.toPresheafFiber`,
+`GrothendieckTopology.over`, `Functor.IsContinuous`, `Functor.sheafPushforwardContinuous`,
+`Functor.sheafPullback`, `Functor.sheafAdjunctionContinuous`, `HasWeakSheafify`,
+`IsGrothendieckAbelian`, `sheafCompose`, `ModuleCat.uliftFunctor`, `AddCommGrpCat.uliftFunctor`,
+`Pseudofunctor`, `LocallyDiscrete.mkPseudofunctor`, `Bicategory.Adj`, `Scheme.Modules.pseudofunctor`,
+`HenselianRing`, `HenselianLocalRing`, `IsSepClosed`, `separableClosure`. Tau Ceti, in
+`TauCeti/RingTheory/Henselization/`: `TauCeti.Henselization.algebra`,
+`TauCeti.Henselization.extended`, `TauCeti.Henselization.henselian`,
+`TauCeti.Henselization.existsUnique_lift`, `TauCeti.Henselization.lift`,
+`TauCeti.Henselization.algEquivOfHenselianRing`, `TauCeti.Henselization.henselianLocalRing`,
+`TauCeti.Henselization.residueField_map_bijective`, `TauCeti.Henselization.existsUnique_isLocalHom`;
+in `TauCeti/RingTheory/Etale/IndEtale.lean`: `TauCeti.Algebra.IndEtale`; in
+`TauCeti/RingTheory/StrictHenselization/`, the carrier of ModularCurves 4D:
+`TauCeti.StrictHenselization.algebra`, `TauCeti.StrictHenselization.lift`.
+
 ### Scheme and site contracts owned here
 
 | Section | Interface and convention |
@@ -441,6 +463,11 @@ Layers 9–10 (continuous cohomology, Hilbert 90 and Kummer theory for fields).
 | §0.29 / *SchemeFrobenius.absoluteFrobenius*, *SchemeFrobenius.schemeFrobeniusTwist*, *SchemeFrobenius.relativeFrobenius*, *SchemeFrobenius.iteratedSchemeFrobenius* | Arbitrary characteristic-`p` schemes have absolute and relative maps with distinct codomains; smooth pure relative dimension `d` gives finite locally free relative Frobenius of rank `p^d`. |
 | §0.29 / *SchemeFrobenius.qPowerFrobenius* | Over a field of order `q = p^a`, the specified absolute iterate is a map over that field. Its base change fixes extension-field scalars and is compared with relative Frobenius. |
 | §0.30 / `NormalSchemes.IsNormalScheme`, `NormalSchemes.codimensionOneMap`, `NormalSchemes.ramificationIdxAt` | Normality is stalkwise (integrally closed domains). Points of coheight one map to points of coheight one under finite dominant morphisms of integral schemes whose target is Noetherian and locally of finite type over a field, or normal; the ramification index at a point is Mathlib's `Ideal.ramificationIdx` of the stalk maximal ideal. |
+| §0.12 / `IsLocalRing.IsHenselization`, `Scheme.strictLocalRing` | One recognition predicate for every model of the henselization and of the strict henselization of a local ring (henselian, ind-étale, prescribed residue field); the étale local ring at an unbundled geometric point `Spec (.of Ω) ⟶ S`, `Ω` separably closed, is a strict henselization of the Zariski local ring. |
+| §0.23a / `Scheme.Hom.etaleSite`, `Scheme.Hom.etaleSiteComp` | Base change on Mathlib's small étale sites for every morphism of schemes: continuous, finite-limit preserving and pseudofunctorial; the universal-homeomorphism equivalence is this functor. |
+| §2.1 / `Scheme.etalePullback`, `Scheme.etalePushforward`, `Scheme.etaleAdjunction` | `f^{-1} ⊣ f_*` on `Sheaf (Scheme.smallEtaleTopology X) A` for every `A` with `Category.{u} A`, `X : Scheme.{u}`; `f^{-1}` is exact for Grothendieck abelian `A`; no Noetherian, separatedness or finiteness hypothesis. |
+| §2.5 / *Etale.overEquiv* | The slice of the small étale site of `X` at `U` is the small étale site of `U.left`, as a site. |
+| §2.10 / `Scheme.toProEt`, `Scheme.proetalePushforward` | `ν^* ⊣ ν_*` between sheaves on the small étale and pro-étale sites, with coefficients in universe `u + 1` on the pro-étale side; coefficients change universe only in *Scheme.proetaleComparison*. |
 
 ### Other supplier contracts
 
@@ -1023,14 +1050,14 @@ from the Jacobian condition alone. *Needs:* Mathlib `Scheme.Hom.normalization`,
   and there are no component inclusions.
 - `jacobian_test_not_finite`: for a nonzero ring `A` and `R = A[t]` and `f = t x − 1`, the Jacobian is `t`, already a
   unit in `R[x]/(t x − 1) = A[t, t⁻¹]`, which is étale over `A[t]` and not finite.
-- `IsLocalRing.not_isUnibranch_node`: for a field `k` of characteristic not `2`, the local ring of
+- *IsLocalRing.not_isUnibranch_node*: for a field `k` of characteristic not `2`, the local ring of
   `k[x, y]/(y² − x²(x + 1))` at the origin is not unibranch (two branches).
-- `IsLocalRing.isGeometricallyUnibranch_cusp`: the local ring of `k[x, y]/(y² − x³)` at the origin
+- *IsLocalRing.isGeometricallyUnibranch_cusp*: the local ring of `k[x, y]/(y² − x³)` at the origin
   is geometrically unibranch (normalisation `k[t]`, one point above the origin, residue field `k`).
-- `IsLocalRing.isUnibranch_not_isGeometricallyUnibranch_real`: the local ring of
+- *IsLocalRing.isUnibranch_not_isGeometricallyUnibranch_real*: the local ring of
   `ℝ[x, y]/(x² + y²)` at the origin is unibranch (its normalisation `ℂ[t]` is local above it) but
   not geometrically unibranch (residue extension `ℂ/ℝ` is separable of degree `2`).
-- `IsLocalRing.isGeometricallyUnibranch_of_field`: every field is geometrically unibranch.
+- *IsLocalRing.isGeometricallyUnibranch_of_field*: every field is geometrically unibranch.
 
 *Lean:* `unibranch_finite_components` (for `p` finite and étale);
 *unibranch_finite_components_eventual_sequences*, the unibranch predicates, their
@@ -1069,9 +1096,11 @@ diagonal is an open immersion near `x` (Stacks, Lemmas 29.36.10 (02V5), 29.36.11
 
 ### 0.12 Étale neighbourhoods and the henselization of a pair
 
-The strand `Henselization` of `Suggested.lean` carries the definitions, the main theorem and the
-universal property listed on the *Lean:* line below; the other lemmas of this subsection are
-specified in this README only.
+The pinned Tau Ceti library implements the definitions, the main theorem and the universal
+properties of the first paragraph under `TauCeti.Henselization` (listed under the supplier contracts);
+`Suggested.lean` states the recognition predicate and the strict local rings of the last two
+paragraphs against that implementation, and the other lemmas of this subsection are specified in
+this README only.
 For a ring `R` and ideal `I`, define `IsNeighbourhood I : ObjectProperty
 (CommAlgCat R)`: `B` is an étale `R`-algebra (Mathlib `Algebra.Etale`) such that the canonical map
 `reducedMap I B : R/I → B/IB` is bijective; `Neighbourhood I` is the full subcategory (Stacks, Lemma
@@ -1095,8 +1124,8 @@ I` is bijective), *extended_le_jacobson* (`extended I` lies in the Jacobson radi
 `existsUnique_lift`: for every henselian pair `(S, J)` and ring map `f : R → S` with `f(I) ⊆ J` there
 is a unique `R`-algebra map `algebra I → S` carrying `extended I` into `J`; `fixed_of_henselian`: if
 `(R, I)` is henselian then `R → algebra I` is an isomorphism; `local_henselization`: for a local ring
-`R` with maximal ideal `m`, `algebra m` is the henselization of the local ring (Stacks, Lemma 15.12.3
-(0A03)). The étale-section lemmas that the universal property rests on: `etale_section_selector`
+`R` with maximal ideal `m` and residue field `κ`, `IsLocalRing.IsHenselization R κ (algebra m)`,
+the recognition predicate of the next paragraph (Stacks, Lemma 15.12.3 (0A03)). The étale-section lemmas that the universal property rests on: `etale_section_selector`
 (an `R`-algebra section `σ : B → R` of an étale algebra is given by an idempotent `e` with
 `B[1/e] ≅ R`), `etale_selector_kernel` (its kernel is generated by `1 − e`),
 `etale_section_product`, `etale_section_localization`, `etale_lift_unique` (two sections agreeing
@@ -1123,12 +1152,95 @@ the universal property, with `map_comp_unit`, `map_extended_le`, `map_id`, `map_
 - `etale_section_idempotent`: for `𝔽_5 × 𝔽_5 → 𝔽_5` the selector is `(1, 0)` and the kernel is
   `(0, 1)`; `derivative_not_unit`: `x² − 1` over `𝔽_2` has a non-simple root at `1`.
 
-*Lean:* `Henselization.reducedMap`, `Henselization.IsNeighbourhood`, `Henselization.Neighbourhood`,
-`Henselization.neighbourhood_isFiltered`, `Henselization.neighbourhood_essentiallySmall`,
-`Henselization.diagram`, `Henselization.algebra`, `Henselization.extended`,
-`Henselization.henselian`, `Henselization.existsUnique_lift`, `Henselization.fixed_of_henselian`;
-the identity and three `(ℤ, (5))` neighbourhood Checks, the zero- and unit-ideal
-henselizations, the fixed-pair case and the finite-field case are specified in this README only.
+*Lean:* none for the first paragraph: its carrier is the pinned Tau Ceti implementation
+`TauCeti.Henselization.reducedMap`, `TauCeti.Henselization.IsNeighbourhood`,
+`TauCeti.Henselization.Neighbourhood`, `TauCeti.Henselization.neighbourhood_isFiltered`,
+`TauCeti.Henselization.neighbourhood_essentiallySmall`, `TauCeti.Henselization.diagram`,
+`TauCeti.Henselization.algebra`, `TauCeti.Henselization.extended`, the `HenselianRing` instance
+`TauCeti.Henselization.henselian`, `TauCeti.Henselization.existsUnique_lift` and
+`TauCeti.Henselization.algEquivOfHenselianRing` (the fixed-pair isomorphism); the identity and
+three `(ℤ, (5))` neighbourhood Checks, the zero- and unit-ideal henselizations, the fixed-pair case
+and the finite-field case are specified in this README only.
+
+**Henselizations of local rings.** For a local ring `R` with residue field `κ`, a field `L` with a
+`κ`-algebra structure and a local ring `Rh` with an `R`-algebra structure, define the class
+`IsLocalRing.IsHenselization R L Rh`: `Rh` is henselian (Mathlib `HenselianRing Rh 𝔪_{Rh}`), `Rh`
+is an ind-étale `R`-algebra (§0.13's ind-étale predicate, implemented in the pinned Tau Ceti library as
+`TauCeti.Algebra.IndEtale`), and some ring isomorphism `L ≅ κ(Rh)` carries the image in `L` of
+every `r ∈ R` to the residue of the image of `r` in `Rh`; the structure map is then local. One
+predicate recognises every model of the henselization (`L = κ`) and of the strict henselization
+(`L` a separable closure of `κ`) (Stacks, Definition 10.155.3 (04GQ)); it carries no hypothesis on
+`L`, and no model exists unless `L` is separable algebraic over `κ`. `local_henselization` is its
+instance for `TauCeti.Henselization.algebra 𝔪`. Prove uniqueness through the canonical lifts,
+with no choice in the comparison maps: *IsLocalRing.IsHenselization.bijective_lift*, for
+`IsHenselization R κ Rh` the lift `TauCeti.Henselization.lift : algebra 𝔪 → Rh` of the universal
+property is bijective; and *IsLocalRing.IsHenselization.bijective_strictLift*, for
+`IsHenselization R L Rh` and an `R`-algebra map `φ : L → κ(Rh)` realising its residue
+identification, `TauCeti.StrictHenselization.lift φ : TauCeti.StrictHenselization.algebra R L → Rh`
+is bijective (Stacks, Lemma 10.154.7 (08HT)). With *IsLocalRing.isHenselization_strictHenselization*
+(`TauCeti.StrictHenselization.algebra R Ω`, the carrier of ModularCurves 4D, satisfies
+`IsHenselization R Ω` for every separable closure `Ω` of `κ`) this identifies every strict
+henselization with that carrier. *Needs:* §0.13 (ind-étale algebras); ModularCurves 4D; Mathlib
+`HenselianRing`, `HenselianLocalRing`, `IsLocalRing.ResidueField`, `IsLocalRing.residue`; Tau Ceti
+`TauCeti.Henselization.algebra`, `TauCeti.Henselization.lift`,
+`TauCeti.Henselization.henselianLocalRing`, `TauCeti.Henselization.residueField_map_bijective`,
+`TauCeti.Henselization.existsUnique_isLocalHom`, `TauCeti.Algebra.IndEtale`,
+`TauCeti.StrictHenselization.algebra`, `TauCeti.StrictHenselization.lift`.
+
+**Strict local rings of schemes.** For a scheme `S`, a separably closed field `Ω : Type u` and an
+unbundled geometric point `s : Spec (.of Ω) ⟶ S`, as Mathlib's `Scheme.pointSmallEtale` takes it,
+define `Scheme.strictLocalRing s : CommRingCat`, the fibre at `Scheme.pointSmallEtale s`
+(Mathlib `GrothendieckTopology.Point.presheafFiber`) of the structure presheaf
+`U ↦ Γ(U, 𝒪_U)` of `S.Etale`, that is, the colimit of the rings of étale neighbourhoods of `s`
+(Stacks, Definition 59.33.2 (03PS)). Write `x` for the image of `s` and `κ^sep` for the separable
+closure of `κ(x)` in `Ω` (Mathlib `separableClosure`). Define the canonical map
+*Scheme.stalkToStrictLocalRing s* `: 𝒪_{S,x} → strictLocalRing s` (an open neighbourhood of `x` is
+an étale neighbourhood of `s`) and prove *Scheme.isHenselization_strictLocalRing*:
+`IsHenselization 𝒪_{S,x} κ^sep (strictLocalRing s)` through that map (Stacks, Lemma 59.33.1 (04HX)).
+Its consequences `Scheme.henselianLocalRing_strictLocalRing` and
+`Scheme.isSepClosed_residueField_strictLocalRing` say that the étale local ring is strictly
+henselian (Stacks, Definition 59.32.6 (03QK)), and with the previous paragraph it is
+`TauCeti.StrictHenselization.algebra 𝒪_{S,x} κ^sep`. Define *Scheme.strictLocalization s*
+`:= Spec (strictLocalRing s)` with its morphism to `S` and prove
+*Scheme.isLimitStrictLocalizationCone s*: it is the limit in schemes of the cofiltered diagram of
+affine étale neighbourhoods of `s`, whose transition maps are affine (Stacks, Definition 59.33.2
+(03PS) for the scheme and Lemma 32.2.1 (01YW) for limits of affine schemes). Prove once, for every presheaf `P` on `S.Etale` with values in a category with colimits
+of size `u`, *Scheme.isIso_toPresheafFiber_of_strictlyHenselian*: if `S = Spec R` with `R` a
+henselian local ring with separably closed residue field and `s` is the closed point with `Ω` the
+residue field, then the canonical map `P(S) → P_s` (Mathlib
+`GrothendieckTopology.Point.toPresheafFiber` at the identity neighbourhood) is an isomorphism,
+because the identity neighbourhood is cofinal (Stacks, Lemma 59.55.1 (03QO), stated there for
+sheaves of sets). The case `R = Ω` is the identification of sections over a separably closed field
+with stalks, for every coefficient category. *Needs:* the previous paragraph; Mathlib
+`Scheme.pointSmallEtale`, `GrothendieckTopology.Point.presheafFiber`,
+`GrothendieckTopology.Point.toPresheafFiber`, `Scheme.Etale.forget`, `Scheme.Γ`, `separableClosure`,
+`IsSepClosed`.
+
+**Checks.**
+- *isHenselization_field*: a field `k` satisfies `IsHenselization k k k`, and every henselian local
+  ring `R` satisfies `IsHenselization R κ R`.
+- *isHenselization_reject_completion*: `ℤ_p` is henselian local with residue field `𝔽_p` but is not
+  `IsHenselization ℤ_(p) 𝔽_p ℤ_p`: it is not ind-étale over `ℤ_(p)`, since by uniqueness it would be
+  the countable ring `ℤ_(p)^h` of §0.13's *henselization_padic*. Dropping the ind-étale clause
+  admits it.
+- *isHenselization_reject_residue*: `TauCeti.StrictHenselization.algebra ℤ_(p) 𝔽̄_p` is henselian
+  local and ind-étale with residue field `𝔽̄_p`; it satisfies `IsHenselization ℤ_(p) 𝔽̄_p` and not
+  `IsHenselization ℤ_(p) 𝔽_p`.
+- *strictLocalRing_finiteField*: for `S = Spec 𝔽_p` and `s : Spec 𝔽̄_p → S`, `strictLocalRing s` is
+  the separable closure `𝔽̄_p` of `𝔽_p`, while the henselization of the local ring is `𝔽_p`.
+- *zariski_stalk_not_henselian*: for `S = Spec ℤ_(5)` the Zariski stalk at the closed point is
+  `ℤ_(5)`, which is not henselian (`x² + 1` has the simple roots `2, 3` modulo `5` and no root in
+  `ℚ`); the étale local ring at a geometric closed point is henselian.
+- *sections_reject_nonclosed_residue*: for `R = ℤ_(5)^h` (residue field `𝔽_5`, not separably
+  closed), `s : Spec 𝔽̄_5 → Spec R` through the closed point and `P` the sheaf represented by
+  `Spec R[x]/(x² − 2)`, an étale `R`-scheme with no `R`-point because `2` is not a square modulo
+  `5`, `P(S)` is empty while `P_s` is not: the separably closed residue field is needed for
+  sections to be the stalk.
+
+*Lean:* `IsLocalRing.IsHenselization`, `Henselization.local_henselization`,
+`Scheme.strictLocalRing`, `Scheme.henselianLocalRing_strictLocalRing`,
+`Scheme.isSepClosed_residueField_strictLocalRing`; the uniqueness and comparison targets, the
+strict localization, the sections theorem and the six controls are specified in this README only.
 
 ### 0.13 Ind-étale algebras and the properties of the henselization
 
@@ -1242,7 +1354,7 @@ Define `Module.depth I M` for an ideal `I` and module `M` over a ring `R`: the s
 the lengths `r` of sequences `f_1, …, f_r ∈ I` that are weakly `M`-regular (each `f_i` a
 non-zero-divisor on `M/(f_1, …, f_{i−1})M`), and `IsLocalRing.depth M := depth m M` for a local ring
 (Stacks, Definition 10.72.1 (00LI) for finite `M`, with the description by such sequences in Lemma
-10.72.2 (0AUI); regular sequences are Definition 10.68.1 (00LF)); `depth 0 = ⊤`. API: `IsLocalRing.depth_eq_top_iff` (`M = 0`
+10.72.2 (0AUI); regular sequences are Definition 10.68.1 (00LF)); `depth 0 = ⊤`. API: *IsLocalRing.depth_eq_top_iff* (`M = 0`
 exactly, for `M` finite over a Noetherian local `R`), `depth_le_supportDim` (for a **nonzero**
 finite module `M` over a **Noetherian local** ring, `depth M ≤ dim Supp M`, with depth embedded
 in `WithBot ℕ∞`; Stacks, Lemma 10.72.3 (00LK)),
@@ -1610,29 +1722,33 @@ subsection's geometry, without finiteness or invertibility hypotheses.
 
 For every universal homeomorphism `f : X → Y`, construct
 `universalHomeomorphismEtaleEquivalence f : Y.Etale ≌ X.Etale` on Mathlib's categories of
-schemes étale over the base. Its forward functor is `smallEtaleBaseChange f`, the scheme
-pullback functor: an object `V → Y` goes to `V ×_Y X → X`. Prove full faithfulness and
+schemes étale over the base. Its forward functor is `Scheme.Hom.etaleSite f`, the étale-site
+functor of the last paragraph of this subsection: an object `V → Y` goes to `V ×_Y X → X`. Prove full faithfulness and
 essential surjectivity for all étale objects, and identify both the forward and inverse
 functors as cover-preserving for `Scheme.smallEtaleTopology`. In particular, jointly
 surjective families correspond to jointly surjective families; this is an equivalence of
 sites, with the specified base-change functor, unit and counit.
 
 The only geometric hypothesis is that `f` is a universal homeomorphism, in the sense of
-§0.23. There is no Noetherian, finite-type, reducedness or coefficient restriction. Give the
-canonical identity comparison and, for universal homeomorphisms `X → Y → Z`, the comparison
-between pullback along the composite and successive pullbacks. For every `Y' → Y`, write
-`X' = X ×_Y Y'`, `f' : X' → Y'` and `g_X : X' → X`. Construct the natural isomorphism
-between the functors `g_X* ∘ f*` and `f'* ∘ g*`; §0.23 gives the universal-homeomorphism
-hypothesis for `f'`. Require the identity, associativity and composite-base-change coherence
-laws for these comparisons, including compatibility with the unit and counit of the
-equivalences. Sheaf transport of constants, module coefficients, stalks, sections and
+§0.23. There is no Noetherian, finite-type, reducedness or coefficient restriction. The
+identity, composition and base-change comparisons of these equivalences are data of the
+étale-site functor, transported along `universalHomeomorphismEtaleEquivalence_functor`: the
+identity comparison is *Scheme.Hom.etaleSiteId*; for universal homeomorphisms `X → Y → Z` the
+comparison between pullback along the composite and successive pullbacks is
+`Scheme.Hom.etaleSiteComp`; for every `Y' → Y`, with `X' = X ×_Y Y'`, `f' : X' → Y'` and
+`g_X : X' → X`, the natural isomorphism between `g_X* ∘ f*` and `f'* ∘ g*` is
+*Scheme.Hom.etaleSiteBaseChange*, and §0.23 gives the universal-homeomorphism hypothesis for
+`f'`. Their identity, associativity and composite-base-change coherence laws are those of the
+pseudofunctor of the last paragraph; in addition, require compatibility of these comparisons with
+the unit and counit of the equivalences. Sheaf transport of constants, module coefficients, stalks, sections and
 cohomology belongs to EtaleCohomologyFoundations.
 
 *Source:* Stacks, §59.45 [Topological invariance of the small étale site](https://stacks.math.columbia.edu/tag/04DY),
 Theorems 59.45.1–59.45.2 ([04DZ](https://stacks.math.columbia.edu/tag/04DZ)); the covering
 condition is joint surjectivity and is preserved and reflected by universal homeomorphisms.
 
-*Needs:* §0.23; Mathlib `AlgebraicGeometry.Scheme.Etale`, `Scheme.smallEtaleTopology`,
+*Needs:* §0.23; the étale-site functor of the last paragraph; Mathlib
+`AlgebraicGeometry.Scheme.Etale`, `Scheme.smallEtaleTopology`,
 `Scheme.smallEtalePretopology`, `MorphismProperty.Over.pullback`,
 `CategoryTheory.Equivalence`, `CategoryTheory.CoverPreserving`, scheme pullbacks and their
 canonical comparison isomorphisms.
@@ -1653,15 +1769,55 @@ canonical comparison isomorphisms.
   routes give the same comparison on étale objects and covers; with identity base change the
   comparison is the unit comparison.
 
-*Lean:* `smallEtaleBaseChange`, `smallEtaleBaseChange_isEquivalence`,
-`universalHomeomorphismEtaleEquivalence`,
+*Lean:* `Scheme.Hom.isEquivalence_etaleSite`, `universalHomeomorphismEtaleEquivalence`,
 `universalHomeomorphismEtaleEquivalence_functor`,
-`universalHomeomorphismEtaleEquivalence_coverPreserving`,
-`universalHomeomorphismEtaleEquivalence_id`, `universalHomeomorphismEtaleEquivalence_comp`,
-`universalHomeomorphismEtaleEquivalence_baseChange` (the three comparison-isomorphism
-prototypes assert existence with their projection characterizations; the comparison data
-and coherence are the targets above).
+`universalHomeomorphismEtaleEquivalence_coverPreserving`; the comparison data are those of the
+étale-site functor below.
 The nil-kernel, cusp, node, quadratic-field and successive-base-change controls are specified in this README only.
+
+**The étale-site functor of a morphism.** This paragraph is a prerequisite of the equivalence
+above and of the sheaf functors of §2.1. For every morphism `f : X ⟶ Y` of schemes, define
+`Scheme.Hom.etaleSite f : Y.Etale ⥤ X.Etale`, base change `V ↦ V ×_Y X` (Mathlib's
+`MorphismProperty.Over.pullback` for the étale property); the equivalence above is this functor
+when `f` is a universal homeomorphism. Prove `Scheme.Hom.etaleSite_isContinuous`: it is continuous
+for `Scheme.smallEtaleTopology Y` and `Scheme.smallEtaleTopology X`, since it sends jointly
+surjective families to jointly surjective families and commutes with fibre products (Stacks,
+Lemma 34.4.17 (021I)); and `Scheme.Hom.etaleSite_preservesFiniteLimits`. Together they make it a
+morphism of sites `X_ét → Y_ét`. Define *Scheme.Hom.etaleSiteId X*
+`: etaleSite (𝟙 X) ≅ 𝟭 X.Etale`, whose component at `V` is the first projection `V ×_X X → V`;
+`Scheme.Hom.etaleSiteComp f g : etaleSite (f ≫ g) ≅ etaleSite g ⋙ etaleSite f`, Mathlib's
+`MorphismProperty.Over.pullbackComp` (Stacks, Lemma 34.4.18 (021J)); and, for a cartesian square
+with sides `f`, `g` and their base changes, *Scheme.Hom.etaleSiteBaseChange*, composed of
+`etaleSiteComp` along both factorizations of the diagonal and Mathlib's
+`MorphismProperty.Over.pullbackCongr` of `pullback.condition`. Prove the coherence laws: the
+associativity of `etaleSiteComp` for three composable morphisms and its compatibility with
+*etaleSiteId* on either side. Assemble them as *Scheme.etaleSitePseudofunctor*, a Mathlib
+`Pseudofunctor` from `LocallyDiscrete Scheme.{u}ᵒᵖ` to `Cat` built with
+`LocallyDiscrete.mkPseudofunctor`, with `map` given by `etaleSite`, `mapId` by *etaleSiteId* and
+`mapComp` by `etaleSiteComp`; its axioms are the coherence laws. There is no hypothesis on `f` or on
+the schemes. *Needs:* Mathlib `MorphismProperty.Over.pullback`,
+`MorphismProperty.Over.pullbackComp`, `MorphismProperty.Over.pullbackCongr`,
+`Functor.IsContinuous`, `PreservesFiniteLimits`, `Pseudofunctor`, `LocallyDiscrete.mkPseudofunctor`.
+
+**Checks.**
+
+- *etaleSite_openImmersion*: for an open immersion `j : U → X`, `etaleSite j` sends `V → X` to
+  `V ×_X U → U`, the restriction of `V` to `U`, and sends a jointly surjective family over `X` to a
+  jointly surjective family over `U`.
+- *etaleSite_empty*: for the morphism from the empty scheme to `Y`, every étale `Y`-scheme goes to
+  the empty scheme.
+- *etaleSiteComp_projections*: the component of `etaleSiteComp f g` at `V` commutes with the
+  projections to `V`, as in Mathlib's `MorphismProperty.Over.pullbackComp_left_fst_fst`, and the
+  component of *etaleSiteId* at `V` is the first projection.
+- *etaleSite_reject_equivalence*: for `Spec 𝔽_{p²} → Spec 𝔽_p`, the étale `𝔽_p`-scheme
+  `Spec 𝔽_{p²}` has two endomorphisms over `𝔽_p` and its base change, two points over `𝔽_{p²}`,
+  has four: `etaleSite` is continuous with its comparisons for every morphism, but it is fully
+  faithful only under the universal-homeomorphism hypothesis of the equivalence above.
+
+*Lean:* `Scheme.Hom.etaleSite`, `Scheme.Hom.etaleSite_isContinuous`,
+`Scheme.Hom.etaleSite_preservesFiniteLimits`, `Scheme.Hom.etaleSiteComp`; the identity and
+base-change comparisons, the coherence laws, the pseudofunctor and the four controls are
+specified in this README only.
 
 ### 0.24 Perfect schemes and perfection
 
@@ -3365,7 +3521,9 @@ proper-pushforward API; Hilbert 90 for fields, Kummer theory and
 continuous cohomology are ProfiniteCohomology Layers 9–10; the field Brauer group as `H²` is
 QuadraticFormInvariants Layer 7. Étale supports, the étale `f^!`, absolute purity and purity for
 the Brauer group are EtaleDualityAndPerverseSheaves; algebraic stacks are Layer 1; Chow groups are
-Layer 5.
+Layer 5. Module coefficients on the small étale site of `X : Scheme.{u}` are `ModuleCat.{u} Λ`, and
+a general coefficient category `A` has `Category.{u} A`; the one change of coefficient universe is
+§2.10's comparison with the pro-étale site.
 
 ### 2.1 Pullback and higher direct images on sites
 
@@ -3410,6 +3568,50 @@ coefficients, retaining their constructibility and Tor hypotheses.
 - `Sheaf.test_higherDirectImage_zero_eq`: `R⁰f_* F` is Mathlib's `sheafPushforwardContinuous`.
 - `Sheaf.test_higherDirectImage_sepClosed_base`: for `f : X → Spec k`, `k` separably closed, the
   global sections of `R^i f_* F` are `H^i(X_ét, F)`.
+
+**The small étale site.** Specialize to Mathlib's small étale sites in the universe of the
+scheme: for `X : Scheme.{u}` the coefficient category is any `A` with `Category.{u} A`, for module
+coefficients `ModuleCat.{u} Λ`, and no coefficient category is lifted to another universe. For
+`f : X ⟶ Y` define `Scheme.etalePushforward f A`, `f_*`, as Mathlib's
+`Functor.sheafPushforwardContinuous` of §0.23a's `Scheme.Hom.etaleSite f`. Prove
+`Scheme.isRightAdjoint_etalePushforward` when `A` has colimits of size `u` and
+`HasWeakSheafify (Scheme.smallEtaleTopology X) A`: the left Kan extension exists because its index
+categories have essentially small cofinal subcategories (affine étale neighbourhoods, Mathlib's
+`Scheme.AffineEtale`), with no Noetherian, separatedness or finiteness hypothesis. Define
+`Scheme.etalePullback f A`, `f^{-1}`, as Mathlib's `Functor.sheafPullback` of `etaleSite f`, and
+`Scheme.etaleAdjunction f A : etalePullback f A ⊣ etalePushforward f A`, Mathlib's
+`Functor.sheafAdjunctionContinuous`. Prove `Scheme.preservesFiniteLimits_etalePullback` for
+abelian `A` with `IsGrothendieckAbelian.{u} A`: `f^{-1}` is exact, and for
+`A = AddCommGrpCat.{u}` it is the exact inverse image through which *Sheaf.H.pullback* above
+computes étale cohomology pullback. Define *Scheme.etalePullbackComp f g*
+`: etalePullback (f ≫ g) A ≅ etalePullback g A ⋙ etalePullback f A` as the mate of
+§0.23a's `etaleSiteComp` under the adjunctions, *Scheme.etalePushforwardComp* from
+`etaleSiteComp` and Mathlib's `Functor.sheafPushforwardContinuousComp`, and the identity
+comparisons from *Scheme.Hom.etaleSiteId*; assemble them as *Scheme.etaleSheafPseudofunctor A*,
+a `Pseudofunctor` from `LocallyDiscrete Scheme.{u}ᵒᵖ` to `Adj Cat` built with
+`LocallyDiscrete.mkPseudofunctor`, in the shape of Mathlib's `Scheme.Modules.pseudofunctor` for
+module sheaves, with coherence inherited from §0.23a's pseudofunctor. Derived functors and base
+change of these sheaf functors are downstream constructions on this pseudofunctor. *Needs:*
+§0.23a; Mathlib `Functor.sheafPushforwardContinuous`, `Functor.sheafPullback`,
+`Functor.sheafAdjunctionContinuous`, `Functor.sheafPushforwardContinuousComp`, `HasWeakSheafify`,
+`IsGrothendieckAbelian`, `Scheme.AffineEtale`, `Bicategory.Adj`, `Scheme.Modules.pseudofunctor`.
+
+**Checks.**
+- *etalePushforward_globalSections*: for `f : X → Y`, the value of `(etalePushforward f A).obj F`
+  on the terminal étale `Y`-scheme `Y` is the value of `F` on `Y ×_Y X ≅ X`: global sections of
+  `f_* F` are global sections of `F`.
+- *etalePullback_openImmersion*: for an open immersion `j : U → X`, the value of
+  `(etalePullback j A).obj F` on an étale `U`-scheme `W` is the value of `F` on `W → U → X`.
+- *etalePushforward_reject_exact*: for `k` algebraically closed, `n` invertible in `k` and
+  `f : 𝔾_{m,k} → Spec k`, `f_*` is not exact on abelian sheaves: `R¹f_* μ_n` is
+  `H¹((𝔾_{m,k})_ét, μ_n) ≅ k[t, t⁻¹]^× / (k[t, t⁻¹]^×)^n ≅ ℤ/n ≠ 0` by the Kummer sequence (§2.11),
+  while `f^{-1}` is exact.
+- *etaleAdjunction_library*: `etaleAdjunction f A` is Mathlib's
+  `Functor.sheafAdjunctionContinuous` for `etaleSite f`, definitionally.
+
+*Lean:* `Scheme.etalePushforward`, `Scheme.isRightAdjoint_etalePushforward`,
+`Scheme.etalePullback`, `Scheme.etaleAdjunction`, `Scheme.preservesFiniteLimits_etalePullback`;
+the comparisons, the pseudofunctor and the four controls are specified in this README only.
 
 ### 2.2 Leray and Čech spectral sequences
 
@@ -3492,8 +3694,8 @@ abelian; it does not supply that classification. *Needs:* §2.3; Mathlib `Sheaf.
 
 ### 2.5 Slice sites, Godement resolutions, flasque sheaves, Grothendieck vanishing, filtered colimits
 
-Prove `slice_site_cohomology`: for an object `U` of a site, `H^n(C/U, F|_U) = H^n(U, F)`, Mathlib's
-`cohomologyPresheafObjIsoOverH` (Stacks, Lemma 21.7.1 (03F3)). Define `godementResolution F` for an
+Prove `slice_site_cohomology`: for an object `U` of a site, `H^n(C/U, F|_U) = H^n(U, F)`, comparing
+Mathlib's `Sheaf.H` of the restriction to `J.over U` with Mathlib's `Sheaf.H' F n U` (Stacks, Lemma 21.7.1 (03F3)). Define `godementResolution F` for an
 abelian sheaf (or `O_X`-module) on a topological space `X` with enough points: the cosimplicial
 resolution `F → f_* f^* F → f_* f^* f_* f^* F → ⋯` for `f : ⨆_x {x} → X`, as a cochain complex, with
 `godementResolution_quasiIso` (the augmentation is a quasi-isomorphism), `_isFlasque` (every term is
@@ -3515,7 +3717,7 @@ in abelian sheaves (Stacks, Lemma 21.16.1 (0739), Section 21.16 (0737)). A globa
 specialization requires a terminal object belonging to `B` with these same covering and
 Čech-product conditions; a basis of quasi-compact opens alone does not give this specialization.
 *Needs:* §2.1; Mathlib `TopCat.Sheaf`, `IsFlasque`, `NoetherianSpace`,
-`topologicalKrullDim`, `cohomologyPresheafObjIsoOverH`; Tau Ceti
+`topologicalKrullDim`, `GrothendieckTopology.over`, `Sheaf.H'`; Tau Ceti
 `Topology.subsingleton_H_succ_of_isFlasque`.
 
 **Checks.**
@@ -3538,6 +3740,36 @@ specialization requires a terminal object belonging to `B` with these same cover
 
 *Lean:* `SiteCohomology.noetherianSpace_vanishing` (abelian sheaves on a Noetherian topological
 space of Krull dimension `≤ d`).
+
+**Slices of the small étale site.** For `X : Scheme.{u}` and `U : X.Etale` define
+*Etale.overEquiv U* `: Over U ≌ U.left.Etale`. A pair `(V, φ : V ⟶ U)` goes to
+`φ.left : V.left → U.left`, which is étale because `V.hom = φ.left ≫ U.hom` with `V.hom` and
+`U.hom` étale (Mathlib `AlgebraicGeometry.Etale.of_comp`); an étale `W → U.left` goes to `W → U.left → X` with its
+map to `U`. Prove *Etale.overEquiv_coverPreserving*: both functors are continuous and
+cover-preserving for Mathlib's `(Scheme.smallEtaleTopology X).over U`
+(`GrothendieckTopology.over`) and `Scheme.smallEtaleTopology U.left`, so that the slice of the
+small étale site at `U` is the small étale site of `U.left` as a site, and define
+*Etale.overSheafEquiv* `: Sheaf ((Scheme.smallEtaleTopology X).over U) A ≌
+Sheaf (Scheme.smallEtaleTopology U.left) A` for every coefficient category `A`. Prove
+*Etale.overEquiv_restriction*: under this equivalence, restriction of a sheaf on `X_ét` to the
+slice is `Scheme.etalePullback U.hom A` of §2.1 (for étale `U.hom` both are precomposition with
+`W ↦ (W → U.left → X)`). With *slice_site_cohomology* above it identifies `H^n(U, F)` on the site
+`X_ét` with `H^n(U.left_ét, F|_U)`. This is the slice-site input for the Čech spectral sequence
+of §2.2, for the Godement and filtered-colimit statements of this subsection and for extension by
+zero along étale maps, which is constructed downstream. *Needs:* §2.1, §0.23a; Mathlib
+`GrothendieckTopology.over`, `AlgebraicGeometry.Etale.of_comp`, `Scheme.smallEtaleTopology`.
+
+**Checks.**
+- *overEquiv_terminal*: for `U` the identity of `X`, `Over U` is `X.Etale` and *overEquiv U* is
+  the identity up to the canonical isomorphisms.
+- *overEquiv_open*: for an open immersion `U.hom`, the coverings of `U.left` correspond to the
+  families of étale `X`-schemes over `U` that are jointly surjective onto their common target.
+- *overEquiv_reject_forget*: for `U = X ⊔ X → X`, the fold map, `U.left.Etale` is equivalent to
+  `X.Etale × X.Etale`, not to `X.Etale`: the slice remembers the map to `U`, and the forgetful
+  functor `Over U → X.Etale` is not an equivalence.
+- *overEquiv_degreeZero*: in degree `0` the identification of cohomology is the identity of `F(U)`.
+
+The slice-site targets of this paragraph and their four controls are specified in this README only.
 
 ### 2.6 Quasi-coherent cohomology
 
@@ -3757,6 +3989,52 @@ Mathlib `etaleTopology`, `fppfTopology`, `Opens.grothendieckTopology`.
 - `test_fppf_not_etale_mu_p`: over `Spec 𝔽_p[t, t⁻¹]`, `H¹_fppf(X, μ_p) ≅ ℤ/p` while `H¹_ét(X, μ_p) = 0`: the fppf
   group is `Γ(X, O)^×/p` by the Kummer sequence (§2.11) while the étale sheaf `μ_p` has trivial
   sections on reduced schemes.
+
+**The étale and pro-étale sites.** Define `Scheme.toProEt X : X.Etale ⥤ X.ProEt`, the inclusion
+of étale `X`-schemes among weakly étale ones (Mathlib's `MorphismProperty.Over.changeProp` along
+`etale_le_weaklyEtale`). Prove `Scheme.toProEt_isContinuous` for `Scheme.smallEtaleTopology X` and
+Mathlib's `Scheme.ProEt.topology X`, and *Scheme.toProEt_preservesFiniteLimits*; together they give
+the morphism of sites `ν : X_proét → X_ét`. Mathlib's pro-étale sheaves live in universe `u + 1`:
+for a coefficient category `A` with `Category.{u+1} A` define `Scheme.proetalePushforward X A`,
+`ν_*`, as Mathlib's `Functor.sheafPushforwardContinuous` of `toProEt X`, its left adjoint
+*Scheme.proetalePullback X A*, `ν^*`, as Mathlib's `Functor.sheafPullback` when `A` has colimits of
+size `u + 1` and `HasWeakSheafify (Scheme.ProEt.topology X) A`, the adjunction
+*Scheme.proetaleAdjunction X A* `: ν^* ⊣ ν_*`, and prove *Scheme.preservesFiniteLimits_proetalePullback*
+for Grothendieck abelian `A`. The change of coefficient universe happens once: for a ring
+`Λ : Type u`, define *Scheme.proetaleComparison X Λ*
+`: Sheaf (Scheme.smallEtaleTopology X) (ModuleCat.{u} Λ) ⥤
+Sheaf (Scheme.ProEt.topology X) (ModuleCat.{u+1} Λ)`, Mathlib's `sheafCompose` with
+`ModuleCat.uliftFunctor` followed by `ν^*`, and its abelian-group form with
+`AddCommGrpCat.uliftFunctor`, the lift Mathlib's `Scheme.EllAdicCohomology` uses. Every comparison
+between étale data in universe `u` and pro-étale data factors through it. Prove
+*Scheme.proetaleComparison_fullyFaithful*: the comparison is fully faithful, as are its forms for
+sheaves of sets and of abelian groups, and for a weakly étale affine `U = lim U_i` with affine étale
+`U_i` the value of `ν^* F` on `U` is `colim F(U_i)` (Bhatt–Scholze 2014, §5.1). `ν` is natural in
+`X`: for `f : X → Y`, *Scheme.toProEt_baseChange* identifies `toProEt` after §0.23a's
+`etaleSite f` with the pro-étale base change after `toProEt`, and *comparison_comp* above includes
+`ν`. Étale sheaves and their cohomology live on Mathlib's small étale site throughout; Mathlib's big
+étale topology enters only as the intermediate step *epsilonFppfEtale* of the fppf comparisons
+above, whose statements end on `X_ét`. *Needs:* §0.23a, §2.1; Mathlib `Scheme.ProEt`, `Scheme.ProEt.topology`,
+`MorphismProperty.Over.changeProp`, `etale_le_weaklyEtale`, `Functor.sheafPushforwardContinuous`,
+`Functor.sheafPullback`, `sheafCompose`, `ModuleCat.uliftFunctor`, `AddCommGrpCat.uliftFunctor`,
+`Scheme.EllAdicCohomology`.
+
+**Checks.**
+- *toProEt_obj*: `toProEt X` sends an étale `V → X` to the same morphism, weakly étale by
+  `etale_le_weaklyEtale` (Mathlib's `MorphismProperty.Over.changeProp_obj_left` and
+  `MorphismProperty.Over.changeProp_obj_hom`).
+- *proetaleComparison_constant*: the comparison sends the constant sheaf `ℤ/n` to the constant
+  pro-étale sheaf `ℤ/n` in universe `u + 1`.
+- *proetale_reject_ellAdic*: for `X = Spec k`, `k` algebraically closed, the counit
+  `ν^*ν_* F → F` is not an isomorphism for `F` Mathlib's `Scheme.ellAdicSheaf ℓ` lifted to
+  universe `u + 1`: on the weakly étale `Spec` of the locally constant `k`-valued functions on the
+  profinite set `ℤ_ℓ`, its source consists of the locally constant maps to `ℤ_ℓ` and its target of
+  the continuous ones, so `ν^*` does not commute with the inverse limit `ℤ_ℓ = lim ℤ/ℓⁿ`.
+- *toProEt_empty*: for the empty scheme both sites have only empty objects and every sheaf
+  category is a point.
+
+*Lean:* `Scheme.toProEt`, `Scheme.toProEt_isContinuous`, `Scheme.proetalePushforward`; the pullback,
+the adjunction, the comparison and the four controls are specified in this README only.
 
 ### 2.11 Hilbert 90, the Kummer and Artin–Schreier sequences, finite pushforward
 
@@ -4060,6 +4338,15 @@ algebras, for w-contractibility); Mathlib `ProEt.topology`, `Limits`, `Epi`, `De
 
 *Lean:* `Proetale.IsReplete`, `Proetale.isReplete_proetale`; *test_etale_not_replete*
 (stated for the topos of sheaves of sets on `(Spec ℚ)_ét`) is specified in this README only.
+
+**The comparison with the étale site.** The morphism of sites `ν : X_proét → X_ét` used with
+these foundations is §2.10's `Scheme.toProEt`, with `ν^* ⊣ ν_*` and the single change of
+coefficient universe *Scheme.proetaleComparison*; this subsection constructs no second comparison.
+Repleteness and left-completeness are statements about Mathlib's `Scheme.ProEt.topology X` in
+universe `u + 1`, and they apply to étale sheaves and complexes through that comparison: for a
+tower of étale sheaves of `Λ`-modules with epimorphic transitions, `R lim` is formed after
+*Scheme.proetaleComparison*, which preserves epimorphisms, and *IsReplete.derived_limits* computes
+it as `lim`. *Needs:* §2.10.
 
 ### 2.18 Derived categories of quasi-coherent complexes
 
@@ -5267,10 +5554,10 @@ the carrier this is a deformation functor in the sense of Remark 90.16.9 (06JA).
 whose kernel `I` is killed by `m_{A'}`, in particular along a small extension, when nonempty, form
 a torsor under `T_F ⊗ I`, with `act(0,x)=x`, `act(v+w,x)=act(v,act(w,x))` and a unique translator
 between any two lifts; Lemma 90.17.5 (06JI)), `PredeformationFunctor.map` (functoriality on tangent spaces), `tangent_eq_derivations`
-(for `h_R`, `T = Der_Λ(R, k)` through Tau Ceti's `derivationToDualNumberEquivLift`). Define `prorep
+(for `h_R`, `T = Der_Λ(R, k)` through Tau Ceti's `derivationToTrivSqZeroExtEquivLift` with `TrivSqZeroExt k k = k[ε]`). Define `prorep
 R : PredeformationFunctor Λ k` for `R ∈ Ĉ_Λ`, `h_R(A) = {f : R →ₐ[Λ] A | ρ_A ∘ f = ρ_R}`, with maps given by composition. The
 augmentation condition is part of the carrier, rather than an unspecified choice of a functor. *Needs:* §4.2; Mathlib
-`DualNumber`; Tau Ceti `derivationToDualNumberEquivLift`.
+`DualNumber`; Tau Ceti `derivationToTrivSqZeroExtEquivLift`.
 
 The functor `vanishingSubterminal a b ha` has a point at `A` precisely when
 `a_A = 0` or `b_A = 0`; `ha` supplies vanishing of `a` in the residue field.
@@ -7496,7 +7783,10 @@ The perfectoid and adic roadmaps import henselization of pairs (§0.12), the exc
 `VanishingCycles.finiteCoefficientCohomology`, `VanishingCycles.etaleBaseChange`,
 `VanishingCycles.etaleProetaleAdicComparison` consume our sites and abelian D⁺ functors
 (§§2.1–2.2), coefficient sheaves and Kummer theorem (§§2.9–2.11), universal-homeomorphism geometry
-(§§0.23–0.23a) and pro-étale foundations (§2.17), retaining their finite/adic coefficient hypotheses.
+(§§0.23–0.23a) and pro-étale foundations (§2.17), retaining their finite/adic coefficient hypotheses;
+their sheaf functors, slices, geometric stalks and pro-étale realization are built on
+`Scheme.Hom.etaleSite`, `Scheme.etalePullback`, `Scheme.etalePushforward`, *Etale.overEquiv*,
+`Scheme.strictLocalRing` and `Scheme.toProEt` (§§0.12, 0.23a, 2.1, 2.5, 2.10).
 FiniteFlatGroupsAndIntegralPadicHodgeTheory
 consumes §0.29 for scheme Frobenius and constructs the group-specific Frobenius and Verschiebung.
 DerivedModuleAlgebra constructs the full cotangent complex and derived module algebra downstream;
