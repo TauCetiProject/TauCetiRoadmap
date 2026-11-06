@@ -6,7 +6,7 @@ import TauCeti.LinearAlgebra.IntegralLattice.Rationalization
 import TauCeti.LinearAlgebra.IntegralLattice.RootLattice.TypeA.Basic
 import TauCeti.LinearAlgebra.IntegralLattice.RootLattice.TypeA.ZeroSum
 import TauCeti.LinearAlgebra.IntegralLattice.RootLattice.TypeD.Basic
-import TauCeti.LinearAlgebra.IntegralLattice.RootLattice.TypeE
+import TauCeti.LinearAlgebra.IntegralLattice.RootLattice.TypeE.Basic
 import TauCeti.NumberTheory.ModularForms.DiamondOperators
 import TauCeti.NumberTheory.ModularForms.Fricke.Matrix
 import TauCeti.NumberTheory.ModularForms.LevelOne.GradedRing

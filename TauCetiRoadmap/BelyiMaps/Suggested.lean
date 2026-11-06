@@ -1,6 +1,6 @@
 import Mathlib
 import TauCeti.AlgebraicTopology.FundamentalGroup.BasepointChange
-import TauCeti.AlgebraicTopology.UniversalCover.Classification.ActionCover
+import TauCeti.AlgebraicTopology.UniversalCover.Classification.ActionCover.Basic
 import TauCeti.AlgebraicTopology.UniversalCover.Classification.Bijection
 import TauCeti.AlgebraicTopology.UniversalCover.Classification.DeckGroup
 import TauCeti.AlgebraicTopology.UniversalCover.Deck.FundamentalGroup.UniversalCover
