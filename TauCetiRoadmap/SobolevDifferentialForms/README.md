@@ -32,7 +32,7 @@ This roadmap owns, for real-valued forms on open subsets of `EuclideanSpace ℝ 
 It leaves to named owners:
 
 - the Gram inner product on alternating maps, their identification with exterior powers and the
-  pointwise Hodge star to ComplexKahlerGeometry K5a, implemented in Tau Ceti;
+  pointwise Hodge star to Tau Ceti;
 - scalar Sobolev spaces, Lipschitz domains, the scalar trace and Rellich to PDE Lane A, implemented in
   Tau Ceti;
 - Gauss–Green, BV traces and BV gluing to GeometricMeasureTheory G6;
@@ -111,10 +111,10 @@ All as Tau Ceti implements them on its main branch, most later than the pinned r
   (`Sobolev/LipschitzDomain/RellichKondrachov.lean`); `W1p.frontierTrace`, `W1p.ker_frontierTrace`
   (`Sobolev/LipschitzDomain/Trace/Frontier.lean`).
 
-### From TauCetiRoadmap.ComplexKahlerGeometry
-
-K5a owns the pointwise Gram inner product and Hodge star, specialised here to `V = E` with the standard
-orientation. They are implemented by the Tau Ceti declarations above.
+The pointwise Gram inner product and Hodge star are used with `V = E` and the standard orientation.
+`Orientation.formHodgeStar` is Mathlib's `exteriorPower.hodgeStar` on `⋀ᵏ V`, transported to alternating
+forms along `TauCeti.alternatingFormEquiv`. ComplexKahlerGeometry K5a specialises the same Mathlib star
+to `⋀ᵏ V*`; this roadmap does not use K5a, and the comparison of the two stars is K5a's to state.
 
 ### From TauCetiRoadmap.PDE
 
@@ -206,7 +206,8 @@ dimension, it acts on `𝓓(Ω, Covector n k)`. Define the test-form codifferent
 
 ### Dependencies
 
-Mathlib's exterior powers and `extDeriv`; ComplexKahlerGeometry K5a.
+Mathlib's exterior powers and `extDeriv`; Tau Ceti's Gram inner product and Hodge star of
+alternating forms.
 
 ## Layer 2: the weak exterior derivative
 
