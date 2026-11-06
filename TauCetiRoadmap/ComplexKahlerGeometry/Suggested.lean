@@ -2,7 +2,7 @@ import Mathlib.Analysis.Complex.Basic
 import Mathlib.Analysis.FunctionalSpaces.BesselPotentialSpace
 import Mathlib.Analysis.Distribution.Distribution
 import Mathlib.Geometry.Manifold.VectorField.LieBracket
-import TauCeti.Geometry.Symplectic.Manifold.AlmostComplex
+import TauCeti.Geometry.Symplectic.Manifold.AlmostComplex.Basic
 import TauCeti.Geometry.Symplectic.Manifold.TwoForm
 import TauCeti.Analysis.Complex.CauchyIntegralPolydisc
 import TauCetiRoadmap.DifferentialGeometry.Suggested
