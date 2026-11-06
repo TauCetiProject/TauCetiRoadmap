@@ -39,8 +39,9 @@ Weil-polynomial layers: a natural number `q` and a polynomial `P : ℤ[X]`, with
 **Suggested home.** `TauCeti/NumberTheory/FunctionField/Zeta/` for Layers 2–4 (the Weil
 polynomial of a function field, the bounds, the comparisons), and
 `TauCeti/NumberTheory/WeilPolynomial/` for Layer 1 (the polynomial theory, which imports nothing
-from the function-field side). [`Suggested.lean`](Suggested.lean) states the headline theorems
-against the pinned libraries; it is not the roadmap.
+from the function-field side beyond FunctionFieldArithmetic §5.6's polynomial predicate
+`IsLPolynomialData`, consumed by 1.11). [`Suggested.lean`](Suggested.lean) states the headline
+theorems against the pinned libraries; it is not the roadmap.
 
 ## Scope and ownership
 
@@ -1108,9 +1109,13 @@ all `2g` roots: a pair of non-real conjugate roots with Frobenius angle `θ` (1.
 Theorem 4.10(a), p. 46 (for a monic integer polynomial of degree `n` whose roots are `q`-Weil
 integers of weight `1`, the coefficient `b_1` of `−T^{n−1}` satisfies `|b_1| ≤ n·m/2` with
 `m := ⌊2√q⌋`; here `n = 2g` and `b_1 = q + 1 − N_1(F)`) and §4.7.2.2, p. 48 (the bound
-`|N_X(q) − q − 1| ≤ g·m` for a smooth projective geometrically irreducible curve, with equality
-only when every root `α` satisfies `α² + mα + q = 0`); Serre 1983 and Stichtenoth Theorem 5.3.1
-state the same bound (uncertified locators). A proof route is:
+`|N_X(q) − q − 1| ≤ g·m` for a smooth projective geometrically irreducible curve, with the
+equality `N_X(q) − q − 1 = g·m` only when every root `α` satisfies `α² + mα + q = 0`; the lower
+equality `N_X(q) − q − 1 = −g·m` then holds only when every root satisfies `α² − mα + q = 0`, by
+Theorem 4.10(b) applied to `P(−T)`: at `q = 2`, `m = 2`, the curve `1.2.c` of the worked examples
+attains the upper equality with roots `−1 ± i`, which satisfy `α² + 2α + 2 = 0`, and `1.2.ac`
+attains the lower one with roots `1 ± i`, which satisfy `α² − 2α + 2 = 0`); Serre 1983 and
+Stichtenoth Theorem 5.3.1 state the same bound (uncertified locators). A proof route is:
 with `x_1, …, x_g` the roots of the real Weil polynomial `h_{P_F}` (1.4; `x_i = α_i + ᾱ_i =
 2√q cos(π θ_i)`, one per `α ↦ q/α`-orbit, so a real root `±√q` of multiplicity `2` gives one
 `x_i = ±2√q`) and `m := ⌊2√q⌋`, the numbers `m + 1 + x_i` and `m + 1 − x_i` are positive, and
@@ -1300,7 +1305,8 @@ These examples fix the point-count, valuation and angle conventions. `L` is the 
   (`N_2 = 5 ≥ N_1`, `N_3 = 13`, `N_6 = 65 ≥ N_2, N_3`), roots `1 ± i` of modulus `√2`,
   `p`-rank `0`, slopes `[1/2, 1/2]`, supersingular, angle `1/4`, angle rank `0`, real Weil
   polynomial `u − 2`, `ℚ(π) = ℚ(i)` (discriminant `−4`), Galois group `C₂`. Hasse–Weil
-  `|1 − 3| = 2 ≤ 2√2`; Serre `≤ 1 · ⌊2√2⌋ = 2` with equality.
+  `|1 − 3| = 2 ≤ 2√2`; Serre `≤ 1 · ⌊2√2⌋ = 2` with the lower equality `N_1 − 3 = −2` (its roots
+  `1 ± i` satisfy `α² − 2α + 2 = 0`, the lower-sign clause of 3.2).
 - **`1.2.ab`: `y² + xy = x³ + x² + 1` over `𝔽_2`** (ordinary): `N_1 = 2`, `L = 1 − T + 2T²`,
   `P = T² − T + 2`, roots `(1 ± i√7)/2` (the check of `DeligneWeightsAndPurity` §0.1),
   `p`-rank `1`, slopes `[0, 1]`, ordinary, angle `≈ 0.38497`, angle rank `1`, real Weil polynomial
@@ -1308,7 +1314,8 @@ These examples fix the point-count, valuation and angle conventions. `L` is the 
 - **`1.2.a`: `y² + y = x³` over `𝔽_2`**: `N_1 = 3`, `L = 1 + 2T²`, `P = T² + 2`, `a = 0`,
   supersingular, angle `1/2`, `h = 3`, `N_2 = N_3 = N_4 = 9` (so `N_d ≤ N_r` is not strict).
 - **`1.2.c`: `y² + y = x³ + x` over `𝔽_2`** (maximal, 3.5 in the non-square-`q` sense of attaining
-  Serre's bound): `N_1 = 5 = 2 + 1 + 1 · ⌊2√2⌋`, `L = 1 + 2T + 2T²`, angle `3/4`, supersingular,
+  Serre's bound): `N_1 = 5 = 2 + 1 + 1 · ⌊2√2⌋` (the upper equality of 3.2: its roots `−1 ± i`
+  satisfy `α² + 2α + 2 = 0`), `L = 1 + 2T + 2T²`, angle `3/4`, supersingular,
   `a = −2 ≠ 0` with `p = 2 ∣ a` — the example that keeps supersingularity `p ∣ a` rather than `a = 0`
   (convention 13).
 - **`1.3.ad`: `y² = x³ − x − 1` over `𝔽_3`**: `N_1 = 1`, `L = 1 − 3T + 3T²`, `P = T² − 3T + 3`,
