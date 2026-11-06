@@ -22,6 +22,7 @@ Headline theorems stated here (README target, Lean name):
   `R`-linear endomorphisms of `A`, which needs no connection carrier.
 * 2.0, `apply_eq_zero_of_mem_frobeniusImage` and `kaehlerD_eq_zero_iff` (on `frobeniusImage`).
 * 2.3, `exists_unit_horizontal_iff` (rank one in one variable, on a bare local ring).
+  2.4 is its instance `A = κ(x)`, `D = d/dx`; the residue form of 2.4 is a Check of the README.
 * 4.1, `exists_intCast_eq_of_forall_pow_sub_mem` (Kronecker's theorem).
 * 4.3, `honda` (on `RatFunc`, with `ratFuncD`, `ratFuncPCurvature`, `ratFuncOfInt` and
   `ratFuncMod`).
@@ -35,6 +36,8 @@ Not statable at the pins, with the carrier each lacks:
 * 3.1–3.2 (the easy direction) and 4.4 (the Kummer trivialisation): they lack, in addition,
   schemes of finite presentation over a finitely generated `ℤ`-domain with their reductions at
   closed points, and the connection carrier on them.
+
+4.2 (partial fractions and reduction) is a step of the proof of 4.3 and stays in the README.
 -/
 
 @[expose] public section

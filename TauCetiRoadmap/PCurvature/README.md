@@ -292,7 +292,8 @@ Consequently, when `Ω¹_{A/R}` is free on `ds_1, …, ds_r`, `ψ` is determined
   `E = ∂_x + ∂_y`, `E(x) = 1`). For odd `p` the same connection has
   `ψ(∂_x + ∂_y) = x^p = ψ(∂_x) + ψ(∂_y)`.
 - `p`-linearity needs no flatness: for the same connection and `a ∈ A`,
-  `ψ(a ∂_y) = (a ∂_y + a x)^2 = a^2 x^2 = a^2 ψ(∂_y)` in characteristic `2`; linearity in `D`
+  `ψ(a ∂_y) = (a ∂_y + a x)^2 − ∇_{(a ∂_y)^[2]} = a^2 x^2 = a^2 ψ(∂_y)` in characteristic `2`,
+  with `(a ∂_y)^[2] = a ∂_y(a) ∂_y`; linearity in `D`
   (`ψ(a D) = a ψ(D)`) would give `a x^2`, false for `a = x`.
 - The finiteness of the coordinates is used: over `κ = 𝔽_p(x_0, x_1, …)`, `Der_{𝔽_p}(κ) ≅ κ^ℕ`
   is a product, a derivation is not a finite combination of the `∂_i`, and the reduction to the
@@ -529,9 +530,12 @@ to `S`. Suppose there is a finite étale `F ⊗_S A`-algebra `B_F`, faithfully f
 such that for every maximal ideal `m` of `S_f` (whose residue field is finite of characteristic
 `p_m`), the reduction of `(A, M, ∇)` modulo `m` has zero `p_m`-curvature. Proof: spread out
 `B_F` and the isomorphism over some `S_f` (SchemeAndStackFoundations §0.9, `spreading_out_models`
-and `finite_presentation_limits`, with the properties finite, étale and surjective), reduce
-modulo `m`, and apply 3.1. In rank one over `ℚ(x)` this is Bostan–Caruso–Roques 2024,
-Theorem 3.5.
+and `finite_presentation_limits`, with the properties finite and étale). The spread-out cover
+`Spec B → Spec A_f` is surjective: it is finite étale, so its image is open and closed; the image
+contains the generic fibre `Spec A_F`, which is dense in `Spec A_f` because `A` is flat over the
+domain `S` (going down puts every minimal prime of `A` over `(0)`); and a closed and open set
+containing a dense set is everything. Reduce modulo `m` and apply 3.1. In rank one over `ℚ(x)` this
+is Bostan–Caruso–Roques 2024, Theorem 3.5.
 *Needs:* 3.1; SchemeAndStackFoundations §0.9; CrystallineCohomology CR.1.3 (base change).
 
 **Checks.**
@@ -540,8 +544,11 @@ Theorem 3.5.
   for `p` odd, `ψ = 0` by 1.4 with `c = 1/2 ∈ 𝔽_p`.
 - `∇ = d + dx` on `ℤ[x]`: `ψ = 1` modulo every `p`, so no finite étale cover trivialises it (the
   solution `e^{−x}` is transcendental).
-- The dense open is needed: `∇ = d + (1/2) dx/x` over `S = ℤ` is not defined modulo `2`; the
-  conclusion "at all closed points of `Spec S`" would be false or meaningless there.
+- The dense open is needed: over `S = ℤ`, `A = ℤ[x, 1/(x^2 + 1)]`, `M = A`,
+  `∇ = d + x dx/(x^2 + 1)` is trivialised over `ℚ(x)` by `t^2 = x^2 + 1` (`t^{−1}` is horizontal).
+  Modulo `2`, `a = x/(x + 1)^2` has a double pole and `ψ = a^2 + a′ = 1/(x + 1)^4 ≠ 0`; for odd `p`,
+  `a = (1/2)/(x − i) + (1/2)/(x + i)` has residues in `𝔽_p` and `ψ = 0`. The open is `D(2)`, where
+  `t^2 − x^2 − 1` becomes separable.
 
 ### Examples
 
