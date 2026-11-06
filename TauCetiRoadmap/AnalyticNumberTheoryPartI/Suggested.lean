@@ -6,7 +6,8 @@ import Mathlib
 **This file is not the roadmap and is not exhaustive.** The definitive document is
 `README.md`; these statements suggest Lean forms for its headline results.
 
-Layer 0 states finite-order Hadamard factorization and Siegel–Walfisz; Siegel's
+Layer 0 states the uniform prime-series and Mellin-smoothing interfaces of §§0.11a–0.11c,
+finite-order Hadamard factorization and Siegel–Walfisz; Siegel's
 theorem itself is ImaginaryQuadraticClassNumber's (`quadratic_LFunction_siegel`) and is
 not restated. Layer 1 states Davenport cancellation, the half-interval explicit
 formula, Dirichlet-polynomial means, Selberg density, Mestre's general Weil formula
@@ -37,6 +38,89 @@ open scoped BigOperators Classical
 namespace TauCetiRoadmap.AnalyticNumberTheoryPartI
 
 /-! ## Layer 0: Entire functions and quantitative primes -/
+
+section WeightedPrimeSmoothing
+
+/-! ### Uniform prime series and Mellin smoothing (§§0.11a–0.11c)
+
+The weighted prime sum is a finite sum over Mathlib's `Nat.primesLE`, and the smoothing
+integrals are Bochner integrals over `Set.Ioi 1`. These statements take the prime estimates of
+§§0.11 and 3.17 and Mathlib's Euler logarithmic-derivative series as inputs. -/
+
+open MeasureTheory
+
+/-- Inclusive cutoff, with nonprime indices removed by the native predicate. -/
+def weightedPrimeSum {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
+    (a : ℕ → E) (x : ℝ) : E :=
+  ∑ p ∈ Nat.primesLE ⌊x⌋₊,
+    (Real.log p / p : ℝ) • a p
+
+theorem prime_tail_bound :
+    ∃ C : ℝ, 0 ≤ C ∧ ∀ y : ℝ, 2 ≤ y →
+      (∑' p : Nat.Primes, if y ≤ (p : ℕ) then
+        Real.log (p : ℕ) / ((p : ℕ) : ℝ) ^ 2 else 0) ≤ C / y := by
+  sorry
+
+/-- Absolute bounded error, chosen before level, character, and evaluation point. -/
+theorem uniform_logDeriv_prime_sum :
+    ∃ C : ℝ, 0 ≤ C ∧ ∀ (q : ℕ) [NeZero q] (χ : DirichletCharacter ℂ q),
+      ∀ σ : ℝ, 1 < σ → σ ≤ 2 →
+        Summable (fun p : Nat.Primes =>
+          χ (p : ℕ) * ((Real.log (p : ℕ) / ((p : ℕ) : ℝ) ^ σ : ℝ) : ℂ)) ∧
+        ‖logDeriv χ.LFunction (σ : ℂ) + ∑' p : Nat.Primes,
+          χ (p : ℕ) * ((Real.log (p : ℕ) / ((p : ℕ) : ℝ) ^ σ : ℝ) : ℂ)‖ ≤ C := by
+  sorry
+
+theorem uniform_regularized_zeta :
+    ∃ C : ℝ, 0 ≤ C ∧ ∀ η : ℝ, 0 < η → η ≤ 1 →
+      ‖-logDeriv riemannZeta ((1 + η : ℝ) : ℂ) - (1 / η : ℂ)‖ ≤ C := by
+  sorry
+
+/-- One identity covers real and complex bounded weights. -/
+theorem prime_mellin_identity {E : Type*} [NormedAddCommGroup E]
+    [NormedSpace ℝ E] [CompleteSpace E] (a : ℕ → E)
+    (ha : ∀ p, p.Prime → ‖a p‖ ≤ 1) (η : ℝ) (hη : 0 < η) :
+    Summable (fun p : Nat.Primes =>
+      (Real.log (p : ℕ) / ((p : ℕ) : ℝ) ^ (1 + η)) • a p) ∧
+    IntegrableOn (fun t : ℝ => t ^ (-1 - η) • weightedPrimeSum a t) (Set.Ioi 1) ∧
+    (∑' p : Nat.Primes,
+      (Real.log (p : ℕ) / ((p : ℕ) : ℝ) ^ (1 + η)) • a p) =
+      η • ∫ t in Set.Ioi (1 : ℝ), t ^ (-1 - η) • weightedPrimeSum a t := by
+  sorry
+
+theorem mellin_mass (η : ℝ) (hη : 0 < η) :
+    η * (∫ t in Set.Ioi (1 : ℝ), t ^ (-1 - η)) = 1 := by
+  sorry
+
+theorem mellin_log_moment (η : ℝ) (hη : 0 < η) :
+    η * (∫ t in Set.Ioi (1 : ℝ), Real.log t * t ^ (-1 - η)) = 1 / η := by
+  sorry
+
+theorem mellin_mono (η : ℝ) (hη : 0 < η) (f g : ℝ → ℝ)
+    (hf : IntegrableOn (fun t => f t * t ^ (-1 - η)) (Set.Ioi 1))
+    (hg : IntegrableOn (fun t => g t * t ^ (-1 - η)) (Set.Ioi 1))
+    (hfg : ∀ t ∈ Set.Ioi (1 : ℝ), f t ≤ g t) :
+    η * (∫ t in Set.Ioi (1 : ℝ), f t * t ^ (-1 - η)) ≤
+      η * (∫ t in Set.Ioi (1 : ℝ), g t * t ^ (-1 - η)) := by
+  sorry
+
+theorem mellin_loglog_bound (η : ℝ) (hη : 0 < η) :
+    IntegrableOn (fun t : ℝ => Real.log (Real.log (3 * t)) * t ^ (-1 - η))
+      (Set.Ioi 1) ∧
+    η * (∫ t in Set.Ioi (1 : ℝ), Real.log (Real.log (3 * t)) * t ^ (-1 - η)) ≤
+      Real.log (Real.log 3 + 1 / η) := by
+  sorry
+
+theorem mellin_loglog_coarse :
+    ∃ C : ℝ, 0 ≤ C ∧ ∀ η : ℝ, 0 < η → η ≤ 1 →
+      Real.log (Real.log 3 + 1 / η) ≤ C * Real.log (2 / η) := by
+  sorry
+
+example (a : ℕ → ℝ) : weightedPrimeSum a (1 : ℝ) = 0 := by sorry
+
+example : weightedPrimeSum (fun _ => (1 : ℝ)) 2 = Real.log 2 / 2 := by sorry
+
+end WeightedPrimeSmoothing
 
 /-- The von Mangoldt sum `ψ(x; a, q)` over `n ≤ x` with `n ≡ a mod q`. -/
 def psiAP (q : ℕ) (a : ZMod q) (x : ℝ) : ℝ :=

@@ -2,7 +2,7 @@
 
 **Summary.** Quantitative primes, explicit formulas, Hecke and Artin comparisons, multiplicative means, smooth numbers and proved zeta moments.
 
-`Suggested.lean` states the headline theorems on native library carriers: finite-order Hadamard factorization and Siegel–Walfisz (Layer 0); Davenport cancellation, half-interval and Weil explicit formulas, Dirichlet-polynomial means, Selberg density and conditional prime errors (Layer 1); Louboutin and bounded-degree Brauer–Siegel (Layer 2); and Shiu, Halász, Dickman, Landau–Ramanujan, restricted Sathe–Selberg, Atkinson, zeta moments and the Beurling remainder equivalence (Layer 3). Its definitions serve those statements. Other API names below specify library targets.
+`Suggested.lean` states the headline theorems on native library carriers: the uniform prime-series and Mellin-smoothing interfaces of §§0.11a–0.11c, finite-order Hadamard factorization and Siegel–Walfisz (Layer 0); Davenport cancellation, half-interval and Weil explicit formulas, Dirichlet-polynomial means, Selberg density and conditional prime errors (Layer 1); Louboutin and bounded-degree Brauer–Siegel (Layer 2); and Shiu, Halász, Dickman, Landau–Ramanujan, restricted Sathe–Selberg, Atkinson, zeta moments and the Beurling remainder equivalence (Layer 3). Its definitions serve those statements. Other API names below specify library targets.
 
 ## Scope and ownership
 
@@ -326,12 +326,11 @@ See Koukoulopoulos, *The Distribution of Prime Numbers*, Theorem3.4(a) and proof
 
 #### 0.11a Prime-cutoff and tail exports
 
-Follow the Mertens-weight interface of [Mathlib PR #44061](https://github.com/leanprover-community/mathlib4/pull/44061),
-its concrete prime/von Mangoldt weights in [#44062](https://github.com/leanprover-community/mathlib4/pull/44062),
-and the theorem exports in [#41394](https://github.com/leanprover-community/mathlib4/pull/41394),
-including `Mertens.abs_sum_log_prime_div_sub_le` on `Nat.primesLE`. Use these shapes
-for the supplied rational Mertens estimates, building unavailable results in Tau Ceti
-and replacing them with upstream imports when available. Arbitrary bounded weights
+State the rational Mertens estimates on Mathlib's finite set of primes `Nat.primesLE n`
+(the primes `p ≤ n`), and name and shape them as Mathlib's Mertens-weight interface
+develops: the interface itself, its prime and von Mangoldt weights, and the Mertens
+theorems it exports for those weights. Whatever of this Mathlib does not provide is
+built here in that shape. Arbitrary bounded weights
 in §0.11c are coefficients on this native prime sum, not another Mertens-weight structure.
 
 Export §0.11's Mertens estimate on the native finite prime sum with inclusive real
@@ -363,7 +362,7 @@ integration-by-parts identity for `dθ(t)` against `t^(-2)`, with `θ(t)=O(t)`.
 For any complex Dirichlet character and `1<σ≤2`, prove absolute convergence and a
 character-independent bound for the prime-power contribution with exponents at least
 two. The geometric sum is bounded by `Σ_{n≥2} log n/(n(n−1))`, which is summable and
-contains no character or conductor. Consume Mathlib's `LSeries_twist_vonMangoldt_eq`
+contains no character or conductor. Consume Mathlib's `DirichletCharacter.LSeries_twist_vonMangoldt_eq`
 and the continued-function comparison on `Re s>1` to export
 
 \[
@@ -440,8 +439,8 @@ integral calculus, exponential moments, and Jensen for the logarithm. These are
 classical partial summation and scalar-integral consequences; the displayed
 derivations specify their complete prerequisite chain.
 
-`WeightedPrimeSmoothing.lean` gives suggested interfaces and endpoint checks. This
-section owns neither a new prime-sum improvement, the choice of smoothing parameter
+`Suggested.lean` gives suggested forms for these interfaces, with two endpoint checks
+on the weighted prime sum. This section owns neither a new prime-sum improvement, the choice of smoothing parameter
 in a particular proof, nor its combination with a selected-zero inequality. The
 latter analytic interface is supplied directly by ZerosOfLFunctions §6.4 on the
 primitive Dirichlet record; §0.30's ray-class dictionary remains a downstream consumer.
