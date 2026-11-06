@@ -48,6 +48,20 @@ The source paths above are in [Mathlib](https://github.com/leanprover-community/
 and [Tau Ceti](https://github.com/TauCetiProject/TauCeti). Adopt their APIs, including
 changes from active upstream work; build missing comparisons in Tau Ceti.
 
+For the degenerate cases, follow [Mathlib PR #42272](https://github.com/leanprover-community/mathlib4/pull/42272):
+`algEquivDualNumber`, `algEquivDualNumberOfDiscrZero`, and `algEquivProdOfDiscrSq` on
+the same `QuadraticAlgebra` carrier. In Q4 translate its discriminant hypotheses
+using `discr r 0 = 4r` and invertibility of two. For quadratic-field and embedding
+comparisons also follow [#36347](https://github.com/leanprover-community/mathlib4/pull/36347),
+[#36387](https://github.com/leanprover-community/mathlib4/pull/36387),
+[#43490](https://github.com/leanprover-community/mathlib4/pull/43490),
+[#43491](https://github.com/leanprover-community/mathlib4/pull/43491),
+[#43493](https://github.com/leanprover-community/mathlib4/pull/43493), and
+[#44156](https://github.com/leanprover-community/mathlib4/pull/44156). Build the required
+interfaces in Tau Ceti with those shapes when unavailable at its dependency, and
+replace them with upstream imports when available. None of these comparisons
+justifies identifying a presented order with the maximal order without its index data.
+
 ## Q0. Carrier comparisons
 
 Relate real-valued complex characters, quadratic multiplicative characters, and
