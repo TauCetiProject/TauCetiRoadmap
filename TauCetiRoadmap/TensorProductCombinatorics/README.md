@@ -257,7 +257,7 @@ the README carries every target, API and Check.
   `TauCeti.schurPolyBasis` (`Schur/Basis.lean`) and
   `TauCeti.symmetricHomogeneousSubmodule` (`Symmetric/Homogeneous.lean`):
   finite-alphabet Schur polynomials and homogeneous symmetric polynomials.
-- `TauCeti.IsConvexPolyhedron` (`TauCeti/Analysis/Convex/Polyhedron.lean`:
+- `TauCeti.IsConvexPolyhedron` (`TauCeti/Analysis/Convex/Polyhedron/Basic.lean`:
   finitely many continuous affine inequalities, no boundedness) and
   `IsPiecewiseAffineOn` (`TauCeti/Topology/PL/Map.lean`).
 - `TauCeti.kostantPartition`, `TauCeti.IsKostantPartition`
