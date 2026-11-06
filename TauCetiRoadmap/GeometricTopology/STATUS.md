@@ -1,48 +1,55 @@
-<!--tauceti-status:v1 {"roadmap":"GeometricTopology","to_sha":"d96e9ceca01f4548b817649c5ae95e33c6fc3ae4","ts":"2026-10-25T09:09:58Z"}-->
-<!--tauceti-coverage:v1 {"layers":[{"id":"Layer 1","remaining":"collars of general manifold boundaries, gluing along boundary pieces, handles and connected sum","state":"partial"},{"id":"Layer 2","remaining":"local flatness of general PL embeddings against the PL groupoid","state":"partial"},{"id":"Layer 3","state":"done"},{"id":"Layer 4","remaining":"Reidemeister's theorem, the converse of Markov's theorem, polygonal knots to diagrams","state":"partial"},{"id":"Layer 5","remaining":"Dehn filling along a slope and the unknot surgery identities","state":"partial"},{"id":"Layer 6","remaining":"the concordance group, the cobordism category, the Tristram-Levine signature of actual knots, the tau import","state":"partial"},{"id":"Layer 7","remaining":"a proof of Mostow invariance of hyperbolic volume, and the Weeks manifold with its minimal-volume statement","state":"partial"},{"id":"Layer 8","state":"done"},{"id":"Layer 9","remaining":"existence of a Heegaard splitting for every closed 3-manifold","state":"partial"},{"id":"Layer 10","remaining":"existence of Thom classes, hence Euler classes, for nontrivial oriented plane bundles","state":"partial"},{"id":"Layer 11","remaining":"Whitehead's converse: every PL manifold admits a combinatorial triangulation","state":"partial"}],"readme_sha":"09fa231ae4a2502600315abdae4983a939d1d3ad6ba6fd18c116acf5915222fb","roadmap":"GeometricTopology","to_sha":"d96e9ceca01f4548b817649c5ae95e33c6fc3ae4"}-->
+<!--tauceti-status:v1 {"roadmap":"GeometricTopology","to_sha":"6b391d7924044abbf36eec52a61dece9f9999e16","ts":"2026-11-05T21:11:17Z"}-->
+<!--tauceti-coverage:v1 {"layers":[{"id":"Layer 1","remaining":"the global collar of a general boundary, gluing along boundary pieces, handle attachment","state":"partial"},{"id":"Layer 2","remaining":"local flatness of general PL embeddings against the PL groupoid","state":"partial"},{"id":"Layer 3","state":"done"},{"id":"Layer 4","remaining":"Reidemeister's theorem, the converse of Markov's theorem, polygonal knots to diagrams","state":"partial"},{"id":"Layer 5","remaining":"well-definedness of Dehn filling still assumes the gluing is isotopic to a linear torus map","state":"done"},{"id":"Layer 6","remaining":"the concordance group, the cobordism category, the Tristram-Levine signature of actual knots, the tau import","state":"partial"},{"id":"Layer 7","remaining":"a proof of Mostow invariance of hyperbolic volume","state":"partial"},{"id":"Layer 8","state":"done"},{"id":"Layer 9","remaining":"existence of a Heegaard splitting for every closed 3-manifold","state":"partial"},{"id":"Layer 10","state":"done"},{"id":"Layer 11","remaining":"Whitehead's converse: every PL manifold admits a combinatorial triangulation","state":"partial"}],"readme_sha":"4c1e7d510ffab6bcc71aed0a84871482f0a69a32136169a7f2f8bea571471d2f","roadmap":"GeometricTopology","to_sha":"6b391d7924044abbf36eec52a61dece9f9999e16"}-->
 # Status: GeometricTopology
 
-This file documents the status of the GeometricTopology roadmap up until `d96e9ce` (2026-10-25T09:09:58Z). There may have been subsequent updates.
+This file documents the status of the GeometricTopology roadmap up until `6b391d7` (2026-11-05T21:11:17Z). There may have been subsequent updates.
 
 It is generated, and its prose is not security-validated; see
 https://github.com/TauCetiProject/TauCetiProgress for what that means.
 
 ## Where this roadmap stands
 
-**At a glance.** Layers 3 and 8 are done. `Diff(M)` is a topological group, and the eight Thurston geometries come with their full isometry groups, alongside the geometrization and JSJ statements. Every other layer is partial. Gluing along a boundary, Dehn filling, the concordance group and the existence of Heegaard splittings have not begun.
+**At a glance.** Layers 3, 5, 8 and 10 are done: the topological group `Diff(M)`, Dehn surgery, the Thurston geometries, and foliation Euler classes. Every other layer is partial. The concordance group, gluing along boundary pieces, handles, and the existence of Heegaard splittings have not begun.
 
 ### Named results
 
-- **Combinatorial manifolds are PL manifolds**: the polyhedron of a positive-dimensional combinatorial manifold has a half-space atlas with PL transition maps, possibly with boundary ([`exists_chartedSpace_hasGroupoid_PLGroupoid`](https://taucetiproject.org/docs/TauCeti/AlgebraicTopology/SimplicialComplex/CombinatorialManifold/PL.html#PreAbstractSimplicialComplex.IsCombinatorialManifold.exists_chartedSpace_hasGroupoid_PLGroupoid)).
-- **Markov invariance of the HOMFLY polynomial**: the HOMFLY polynomial of a braid closure, built by interpolating the `sl_N` Jimbo traces, satisfies the skein relation and is unchanged by Markov moves ([`MarkovEquiv.homfly_eq`](https://taucetiproject.org/docs/TauCeti/KnotTheory/Homfly/Existence.html#TauCeti.MarkovEquiv.homfly_eq)). The Jones polynomial and the Alexander module are likewise invariant under all three Reidemeister moves on diagrams.
-- **The Jordan–Brouwer separation theorem**: the complement of an embedded `n`-sphere in `Sⁿ⁺¹` has exactly two path components, proved with singular homology ([`natCard_zerothHomotopy_sphere_compl_range_eq_two`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/AlgebraicTopology/Singular/JordanBrouwer.html#TauCeti.natCard_zerothHomotopy_sphere_compl_range_eq_two)).
-- **`Diff(M)` is a topological group**: for a compact manifold, composition and inversion are continuous in the weak Whitney topology ([`Diffeomorph.isTopologicalGroup`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Geometry/Diffeomorphism/Inversion.html#Diffeomorph.isTopologicalGroup)).
-- **The isometry groups of the model geometries**: for example, the isometry group of Nil is `Nil ⋊ O(2)` ([`Nil.semidirectProductIsomMulEquiv`](https://taucetiproject.org/docs/TauCeti/Geometry/Manifold/Riemannian/Nil/Stabilizer.html#TauCeti.Nil.semidirectProductIsomMulEquiv)). The other geometries are covered too, with `SL₂ℝ~` described only as an extension.
+- **The connected sum is well defined**: for connected, oriented, σ-compact smooth manifolds, the connected sum along balls that induce opposite orientations does not depend on the balls, up to diffeomorphism ([`nonempty_diffeomorph_of_isOrientationReversingAt`](https://taucetiproject.org/docs/TauCeti/Geometry/Manifold/ConnectedSum/Independence.html#TauCeti.ConnectedSum.nonempty_diffeomorph_of_isOrientationReversingAt)). The sphere is a unit for it ([`M # Sⁿ ≅ M`](https://taucetiproject.org/docs/TauCeti/Geometry/Manifold/ConnectedSum/Oriented.html#TauCeti.OrientedConnectedSum.nonempty_diffeomorph_sphere)).
+- **Isotopy extension**: for a compact source, smooth isotopy of embeddings extends to an ambient diffeotopy, so isotopy and ambient isotopy agree ([`smoothAmbientIsotopic_iff_smoothIsotopic`](https://taucetiproject.org/docs/TauCeti/Geometry/Manifold/SmoothIsotopy/Extension.html#TauCeti.smoothAmbientIsotopic_iff_smoothIsotopic)).
+- **`Diff(M)` is a topological group**: for a compact manifold, composition and inversion are continuous in the weak Whitney topology ([`Diffeomorph.isTopologicalGroup`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Geometry/Diffeomorphism/Inversion.html#Diffeomorph.isTopologicalGroup)). Orthogonal maps of `Sⁿ` are [isotopic exactly when their determinants agree](https://taucetiproject.org/docs/TauCeti/Geometry/Diffeomorphism/Sphere/Isotopy.html#TauCeti.joined_orthogonalToDiffSphere_iff).
+- **Markov invariance of the HOMFLY polynomial**: the HOMFLY polynomial of a braid closure satisfies the skein relation and is unchanged by Markov moves ([`MarkovEquiv.homfly_eq`](https://taucetiproject.org/docs/TauCeti/KnotTheory/Homfly/Existence.html#TauCeti.MarkovEquiv.homfly_eq)).
+- **Combinatorial manifolds are PL manifolds**: the polyhedron of a combinatorial manifold has a half-space atlas whose transition maps are PL ([`exists_chartedSpace_hasGroupoid_PLGroupoid`](https://taucetiproject.org/docs/TauCeti/AlgebraicTopology/SimplicialComplex/CombinatorialManifold/PL.html#PreAbstractSimplicialComplex.IsCombinatorialManifold.exists_chartedSpace_hasGroupoid_PLGroupoid)).
 
 ### Notable definitions and infrastructure
 
-- **A genuine hyperbolic metric** ([`UpperHalfSpace.hyperbolicMetric`](https://taucetiproject.org/docs/TauCeti/Geometry/Manifold/Riemannian/Hyperbolic/UpperHalfSpace/Metric.html#TauCeti.UpperHalfSpace.hyperbolicMetric)): the upper half-space is complete with sectional curvature `−1`. It is a model for the bundled notion that hyperbolic volume uses.
-- **Framed knot exteriors**: the [knot exterior](https://taucetiproject.github.io/TauCeti/docs/TauCeti/LowDimTopology/SolidTorusNeighborhood/Exterior.html#TauCeti.knotExterior) is a 3-manifold whose boundary is a torus. That torus has a [framing number](https://taucetiproject.org/docs/TauCeti/LowDimTopology/DehnSurgery/SeifertFraming.html#TauCeti.IsSolidTorusNeighborhood.framingNumber) and a preferred longitude that is null-homologous in the complement. These are the meridian and longitude conventions that Dehn filling needs.
-- **The Euler class of a foliation** ([`Foliation.eulerClass`](https://taucetiproject.org/docs/TauCeti/Geometry/Manifold/Foliation/EulerClass.html#TauCeti.Foliation.eulerClass)): the class is read off a Thom class of the tangent field and paired against fundamental classes of surfaces. This lets [Thurston's Euler class inequality](https://taucetiproject.org/docs/TauCeti/Geometry/Manifold/Foliation/EulerClass.html#TauCeti.ThurstonEulerClassInequality) and Yazdi's refutation of the Euler class one conjecture be stated.
+- **Dehn fillings**: a knot or link exterior has a filling along every slope, built as a pushout. `∞`-, `0`- and `p/q`-surgery on the unknot give `S³`, `S¹ × S²` and lens spaces. General surgery on a framed sphere specialises to integral Dehn surgery. These carry the statements of Property P, Property R, cosmetic surgery and Akbulut–Kirby. One input to well-definedness is not formalized: that every torus homeomorphism is isotopic to a linear one.
+- **The Weeks manifold and hyperbolic volume**: the Weeks manifold is defined as the `(5, 5/2)` surgery on the Whitehead link, which makes the [Gabai–Meyerhoff–Milley theorem](https://taucetiproject.org/docs/TauCeti/Geometry/Manifold/Riemannian/Hyperbolic/Weeks.html#TauCeti.GabaiMeyerhoffMilleyTheorem) stateable against the volume of a [hyperbolic metric](https://taucetiproject.org/docs/TauCeti/Geometry/Manifold/Riemannian/Hyperbolic/UpperHalfSpace/Metric.html#TauCeti.UpperHalfSpace.hyperbolicMetric).
+- **Thom classes, hence [foliation Euler classes](https://taucetiproject.org/docs/TauCeti/Geometry/Manifold/Foliation/EulerClass.html#TauCeti.Foliation.eulerClass)**: every oriented vector bundle has a Thom class. So a transversely orientable codimension-one foliation of an orientable manifold has an Euler class, and Thurston's inequality is no longer at risk of holding vacuously.
 
 ### Roadmap coverage
 
-- **Layers 3 and 8** are done.
-- **Layer 11** has the PL structure on combinatorial manifolds, CW structures on realizations, and cellular chains identified with simplicial chains, so that [simplicial homology is singular homology](https://taucetiproject.org/docs/TauCeti/AlgebraicTopology/SimplicialComplex/Realization/CWComplex/OrderedChainComplex.html#TauCeti.orderedSimplicialHomologyIsoSingularHomology). Only Whitehead's converse is missing.
-- **Layer 9** has [rank at most Heegaard genus](https://taucetiproject.org/docs/TauCeti/LowDimTopology/Heegaard/FundamentalGroup.html#TauCeti.rank_fundamentalGroup_le_heegaardGenus) for manifolds that have a splitting, and lens spaces have genus one. What is missing is that every closed 3-manifold has a splitting.
-- **Layer 10** has all of its statements. However, Thom classes, and with them Euler classes, are known to exist only for trivial bundles.
-- **Layer 4** has HOMFLY, Jones and Alexander invariants of diagrams and braids, and the braid and diagram routes to Jones agree. Reidemeister's theorem, the converse of Markov's theorem, and the passage from polygonal knots to diagrams are missing.
-- **Layer 2** is done except for local flatness of general PL embeddings.
-- **Layers 1, 5, 6 and 7** are partial:
-  - Layer 1 has local collars, tubular neighbourhoods, a disc theorem and invariance of domain, but no gluing, handles or connected sum.
-  - Layer 5 has slopes, lens spaces and framed exteriors, but no Dehn filling.
-  - Layer 6 has the concordance relations and the smooth and topological slice genus, but no concordance group.
-  - In Layer 7, volume is metric-independent only under an assumed Mostow rigidity, and there is no Weeks manifold.
+- **Done: Layers 3, 5, 8 and 10.**
+- **Layer 1** has:
+  - the connected sum with its independence theorem;
+  - local collars, Brown's collaring theorem for compact domains, and tubular neighbourhoods;
+  - gluing along open subsets.
+
+  It lacks the global smooth collar of a general boundary, gluing along boundary pieces, and handles. Dehn filling and sphere surgery use topological pushouts instead.
+- **Layer 2** is done except for local flatness of general PL embeddings. PL curves are covered.
+- **Layer 4** has HOMFLY, Jones and Alexander invariants of diagrams and braids. It lacks Reidemeister's theorem, the converse of Markov's theorem, and the passage from polygonal knots to diagrams.
+- **Layer 6** has the concordance relations and the slice genera, but no concordance group.
+- **Layer 7** has the Weeks manifold and the Gabai–Meyerhoff–Milley statement. Volume is metric-independent only under an assumed Mostow rigidity.
+- **Layer 9** has:
+  - rank at most Heegaard genus;
+  - genus at most one for every filling of the unknot's exterior;
+  - genus exactly one for `S¹ × S²`.
+
+  Existence of a splitting for every closed 3-manifold is missing.
+- **Layer 11** has the realization API that the revised README asks for: maps, restrictions, compact subsets in finite subcomplexes, glued homotopies, and the CW structure. Only Whitehead's converse is missing.
 
 ## The frontier
 
-- **Gluing along the boundary**: global collar data is defined, but there is no gluing construction. Dehn filling, handles, connected sum and Heegaard regluing all wait on it.
-- **Dehn filling and the unknot surgeries**: the [unknot's exterior is a solid torus](https://taucetiproject.org/docs/TauCeti/LowDimTopology/SolidTorusNeighborhood/Unknot.html#TauCeti.unknotExteriorHomeomorph) with meridian and longitude exchanged, which is the input for `0`- and `∞`-surgery. The filling itself needs gluing.
-- **Thom classes of oriented plane bundles**: existence is known only for trivial bundles. Without it, every foliation Euler-class statement could hold vacuously.
-- **Every closed 3-manifold has a Heegaard splitting**: this would make the Heegaard genus unconditional. It needs a triangulation or Morse-function argument, together with gluing.
-- **Whitehead's converse**: every PL manifold should admit a combinatorial triangulation. This would close the reconciliation of Layer 11 with the PL groupoid.
+- **Gluing along the boundary**: smooth gluing would give handles, handlebodies and Heegaard regluing. It needs a global collar theorem for general boundaries; only compact domains are covered so far, and only topologically.
+- **Torus homeomorphisms are isotopic to linear ones**: this one classical fact would make Dehn filling depend only on the slope, without the current hypothesis on the gluing.
+- **Every closed 3-manifold has a Heegaard splitting**: this would make the Heegaard genus unconditional. It needs a triangulation or a Morse-function argument.
+- **The concordance group**: connected sum of knots and the quotient by concordance, smooth and topological. The `τ` import and the Tristram–Levine signature of actual knots wait on it.
+- **Whitehead's theorems**: one direction is that every PL manifold has a combinatorial triangulation. The other is that every smooth manifold is triangulable, and there secant approximation on edgewise subdivisions and embedded simplices at interior points are in place, but the existence theorem is not.
