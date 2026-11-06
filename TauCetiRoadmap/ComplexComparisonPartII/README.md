@@ -356,6 +356,14 @@ consumer can import the connection, canonical-extension, Gauss–Manin, proper-l
 outputs of C5); rigid and dagger de Rham cohomology (AdicSpacesPartII); the Kodaira–Spencer
 normalisation of modular curves (ModularCurvesPartII, R12.5).
 
+C1.9 also owns the Riemann-surface structure of the analytification of a smooth separated
+complex curve on Mathlib's manifold carrier, its comparison with §C-1.1's analytic ring sheaf,
+the meromorphic function field of a Riemann surface, and the named curve comparison maps from
+rational functions to meromorphic functions and from line-bundle classes to analytic Picard
+classes. The algebraic curve, Weil-divisor and line-bundle carriers are Tau Ceti's and are not
+redefined. C6.3 owns the named unit map of Artin comparison; the compact-support, relative and
+adic comparisons of C6.4–C6.6 are its exchange-map variants.
+
 ## Conventions
 
 - **Analytic spaces.** A complex analytic space is an object of `ComplexAnalyticSpace`: locally
@@ -435,6 +443,16 @@ normalisation of modular curves (ModularCurvesPartII, R12.5).
   targets require complex analytic spaces, analytification, algebraic-space derived
   categories, global form and connection complexes or constructible étale coefficients
   that are not available at the pins; their statements are specified in this README.
+- **Universes.** Schemes are `X : Scheme.{u}` over `Spec (CommRingCat.of (ULift.{u} ℂ))`, and
+  finite coefficient rings are `Λ : Type u`. Analytic spaces, the analytification `X^an` and its
+  underlying space `T_X`, a `TopCat.{u}`, live in the same universe `u`. Étale sheaves in
+  `Sheaf X.smallEtaleTopology (ModuleCat.{u} Λ)` and sheaves on `T_X` with values in
+  `ModuleCat.{u} Λ` are therefore compared without lifting coefficients. The universe-zero local
+  models of `ℂⁿ` are transported along `ULift` once, inside the definition of
+  `ComplexAnalyticSpace`; for `u = 0`, `ULift.ringEquiv` identifies the base with
+  `Spec (CommRingCat.of ℂ)`. Mathlib's `smoothSheafCommRing` requires the manifold and its
+  coefficient ring to lie in one universe, so for complex manifolds it exists in universe zero
+  only; C1.9 states the Riemann-surface comparison on section rings in every universe.
 
 ## Exact supplier contracts
 
@@ -474,6 +492,15 @@ normalisation of modular curves (ModularCurvesPartII, R12.5).
   `ContMDiffVectorBundle`, `topologicalKrullDim`, `LocallyContractibleSpace` (a predicate).
 - Singular chains: `AlgebraicTopology.singularChainComplexFunctor` (singular cohomology itself is
   not in Mathlib at the pin; see AlgebraicTopology below).
+- Riemann surfaces and meromorphic functions (C1.9): `ChartedSpace` with `chartAt`,
+  `MDifferentiableOn`, `smoothSheafCommRing` (manifold and coefficient ring in one universe),
+  `MeromorphicAt`, `meromorphicOrderAt`, `Filter.codiscrete`, `AlgebraicGeometry.Scheme.functionField`,
+  the morphism class `AlgebraicGeometry.Smooth`, `CategoryTheory.Skeleton`, `RingEquiv.ofBijective`
+  and `ULift.ringEquiv`.
+- Étale and topological carriers of Artin comparison (C6.3): `AlgebraicGeometry.Scheme.smallEtaleTopology`,
+  `AlgebraicGeometry.Scheme.AffineEtale`, `Opens.grothendieckTopology`, `DerivedCategory`,
+  `CategoryTheory.Functor.mapDerivedCategory` (an exact functor on derived categories),
+  `CategoryTheory.IsIso`, `CategoryTheory.inv` and `CategoryTheory.asIso`.
 
 ### From Tau Ceti (pinned)
 
@@ -538,6 +565,18 @@ normalisation of modular curves (ModularCurvesPartII, R12.5).
   `TauCeti.Geometry.RealAlgebraic.Semialgebraic.Basic` and `.Function`: polynomial sign sets,
   finite Boolean operations, polynomial inverse images and graph-defined maps. C6.0 extends
   AffineMorseLefschetz A4’s compact compatible triangulations using these carriers.
+- Curves, Weil divisors and line bundles, used by C1.9's curve maps:
+  `AlgebraicGeometry.Scheme.IsCurveOver k` in `TauCeti.AlgebraicGeometry.Curves.Basic` (integral,
+  proper and one-dimensional over a field `k : Type u`); `TauCeti.AlgebraicGeometry.LineBundleClass X`
+  in `TauCeti.AlgebraicGeometry.LineBundle.Class` (isomorphism classes of line bundles, a
+  commutative group under tensor product); `TauCeti.AlgebraicGeometry.SchemeWeilDivisor X` in
+  `TauCeti.AlgebraicGeometry.WeilDivisor.Scheme.Basic`, with
+  `TauCeti.AlgebraicGeometry.SchemeWeilDivisor.orderAt` (the order of a nonzero rational function
+  at a codimension-one point), `TauCeti.AlgebraicGeometry.SchemeWeilDivisor.toLineBundleClass`
+  (the class of `O_X(D)`) and `TauCeti.AlgebraicGeometry.SchemeWeilDivisor.globalSectionsEquivRiemannRochSpace`
+  (global sections of `O_X(D)` as the rational functions with poles bounded by `D`), on Noetherian
+  integral schemes of dimension at most one whose codimension-one local rings are discrete
+  valuation rings.
 
 ### From TauCetiRoadmap roadmaps
 
@@ -612,7 +651,7 @@ normalisation of modular curves (ModularCurvesPartII, R12.5).
   cohomology and base change, relative dualizing sheaves of curves.
 - **AlgebraicCurves.** Layer 12B–12C: the regular projective model of a function field and the
   anti-equivalence with regular projective curves (algebraic only; the comparison with compact
-  Riemann surfaces is excluded there and is built in C4 here); Layer 2: normal affine charts
+  Riemann surfaces is excluded there and is built in C1.9 and C4 here); Layer 2: normal affine charts
   and their DVR/place dictionary. C4.5 constructs the open immersion into the projective model.
 - **Completed HodgeStructures.** Abstract pure, polarized and mixed Hodge structures, Tate twists and
   morphisms, implemented as the Tau Ceti declarations above.
@@ -761,7 +800,7 @@ Theorems 3.3–3.4, pp. 7–8; §4, pp. 12–14; Theorem 10.3 and Lemma 10.4, pp
 - Dividing by `z²` gives a remainder `a+bz` and completion `ℂ[[z]]`; the quotient germ ring `ℂ{z}/(z²)` retains `z`.
 - For the row `(z,w)`, the relation `(−w,z)` is a local generator of its relation module; this tests coherence beyond functions in one variable.
 
-Define `ComplexAnalyticSpace` as a locally `ℂ`-ringed space locally isomorphic to `(V(I), (O_U/I)|_(V(I)))`, for an open `U` in `ℂⁿ` and a finitely generated ideal sheaf `I` of analytic functions. Use the full subcategory of Mathlib's `Over ((Spec (CommRingCat.of ℂ)).toLocallyRingedSpace)` selected by this local-model condition; its morphisms are local ringed-space morphisms commuting with the structure maps to `Spec ℂ`. No Hausdorff axiom is imposed globally. Local charts are Hausdorff. Its API constructs coherent closed quotients, open restrictions, open gluing and fibre products, and proves coherence of the structure sheaf. Fibre products are locally the product of the ambient charts with the pulled-back defining ideals and the equality equations for the two maps; the sheaf quotient supplies the universal property. Open gluing reuses the ringed-space gluing and preserves the local-model predicate. These operations retain nilpotents. A smooth manifold structure alone does not supply this category. (Freitag II, Definitions 2.1–2.3 and Remark 2.4, pp. 47–48; the finite-limit and open-gluing assertions follow from the given local models.)
+Define `ComplexAnalyticSpace` as a locally `ℂ`-ringed space locally isomorphic to `(V(I), (O_U/I)|_(V(I)))`, for an open `U` in `ℂⁿ` and a finitely generated ideal sheaf `I` of analytic functions. For each universe `u`, use the full subcategory of Mathlib's `Over ((Spec (CommRingCat.of (ULift.{u} ℂ))).toLocallyRingedSpace)` in `LocallyRingedSpace.{u}` selected by this local-model condition, the models being transported to universe `u` along `ULift`; its morphisms are local ringed-space morphisms commuting with the structure maps to `Spec ℂ`. No Hausdorff axiom is imposed globally. Local charts are Hausdorff. Its API constructs coherent closed quotients, open restrictions, open gluing and fibre products, and proves coherence of the structure sheaf. Fibre products are locally the product of the ambient charts with the pulled-back defining ideals and the equality equations for the two maps; the sheaf quotient supplies the universal property. Open gluing reuses the ringed-space gluing and preserves the local-model predicate. These operations retain nilpotents. A smooth manifold structure alone does not supply this category. (Freitag II, Definitions 2.1–2.3 and Remark 2.4, pp. 47–48; the finite-limit and open-gluing assertions follow from the given local models.)
 
 **Checks.**
 
@@ -770,7 +809,7 @@ Define `ComplexAnalyticSpace` as a locally `ℂ`-ringed space locally isomorphic
 - `I=(xy)` has two tangent directions at zero and is not a smooth one-dimensional manifold there.
 - Gluing two lines along `ℂ ∖ {0}` gives a locally analytic non-Hausdorff space.
 
-Define `complexSchemeAnalytification` as a functor from the full subcategory of `Over (Spec (CommRingCat.of ℂ))` selected by `LocallyOfFiniteType` on the structure morphism to `ComplexAnalyticSpace`; morphisms are over `ℂ`. Its value `X^an` has a canonical local `ℂ`-ringed-space morphism `φ_X:X^an→X`, where `X` is viewed as a locally ringed space over `Spec ℂ`. For `Spec(ℂ[x₁,…,xₙ]/I)`, take the coherent analytic quotient by `I` in `ℂⁿ`, without radicalizing `I`; polynomial evaluation defines `φ_X`. Principal algebraic opens become analytic opens because a germ is invertible exactly when its value is nonzero. Glue these local models over any affine open cover, including infinite covers. No global finite-type, separatedness, reducedness or smoothness assumption is imposed. (SGA 1 XII, Theorem and Definition 1.1 and its construction, retyped pp. 239–241, original pp. 312–315.)
+Define `complexSchemeAnalytification`, for each universe `u`, as a functor from the full subcategory of `Over (Spec (CommRingCat.of (ULift.{u} ℂ)))`, whose objects are schemes `X : Scheme.{u}`, selected by `LocallyOfFiniteType` on the structure morphism to `ComplexAnalyticSpace` in the same universe; morphisms are over `ℂ`. The underlying space of `X^an` is the set of complex points of `X`, a `TopCat.{u}`, and its ring sheaf is `CommRingCat.{u}`-valued (*Conventions*, Universes). Its value `X^an` has a canonical local `ℂ`-ringed-space morphism `φ_X:X^an→X`, where `X` is viewed as a locally ringed space over `Spec ℂ`. For `Spec(ℂ[x₁,…,xₙ]/I)`, take the coherent analytic quotient by `I` in `ℂⁿ`, without radicalizing `I`; polynomial evaluation defines `φ_X`. Principal algebraic opens become analytic opens because a germ is invertible exactly when its value is nonzero. Glue these local models over any affine open cover, including infinite covers. No global finite-type, separatedness, reducedness or smoothness assumption is imposed. (SGA 1 XII, Theorem and Definition 1.1 and its construction, retyped pp. 239–241, original pp. 312–315.)
 
 Its universal property is the bijection `Hom_an(A,X^an) ≃ Hom_{lrs,ℂ}(A,X)`, given by composition with `φ_X`, for every complex analytic space A, natural in A and `X`. The right-hand side is the Hom set in the same locally ringed-space over category after forgetting A's local-model condition and `X`'s scheme structure. It proves uniqueness of the ringed construction, independence of affine presentations and covers, and determines the functor on morphisms. The functor laws hold, and the naturality equation `φ_Y∘f^an=f∘φ_X`. These are equalities of local ringed-space morphisms, including the sheaf maps. (SGA 1 XII, 1.1–1.2, retyped pp. 239–241.)
 
@@ -1668,6 +1707,8 @@ K5a local estimates, K5b.0 and K6.0; AlgebraicModuliForArithmeticGeometry Layer 
 SchemeAndStackFoundations §2.2 `cech_to_cohomology`; Tau Ceti `TauCeti.montel`; TauCetiRoadmap.DifferentialGeometry (Layers 0–2, 5
 and 12); Mathlib analysis
 (smooth functions, integration, Arzelà–Ascoli, open mapping theorem).
+C1.9's Riemann-surface and curve maps also use Mathlib manifolds and meromorphic functions
+and Tau Ceti's curve, Weil-divisor and line-bundle carriers listed in *Exact supplier contracts*.
 
 ### C1.9 Projective and proper coherent GAGA
 
@@ -1705,6 +1746,131 @@ Prove `properSchemeGagaEquivalence` and `properSpaceComplexGaga`: on a proper fi
 - A nonzero `Ext¹` class is carried to its corresponding analytic extension, including its injection and quotient, rather than replaced by a split direct sum.
 - `H¹(P¹,O(−2))` and its analytic counterpart are one-dimensional, while `H⁰` is zero; both degrees use the same canonical comparison.
 - On `A¹`, the analytic function `exp(z)` is not algebraic. Full faithfulness of coherent analytification on arbitrary nonproper spaces fails, so properness cannot be removed.
+
+**The Riemann surface of a smooth complex curve.** Let `C : Scheme.{u}` be separated, smooth
+(Mathlib `AlgebraicGeometry.Smooth` on its structure morphism) and of finite type over `ℂ`, of
+pure dimension one, and let `T_C` be the underlying space of `C^an` (§C-1.1). Define
+riemannSurfaceAtlas C, a Mathlib `ChartedSpace ℂ T_C`. Its atlas consists of the small
+restrictions of `t^an` for étale coordinates `t : U → A¹` on opens `U ⊆ C`: §C-1.1 makes each
+`t^an` a local biholomorphism, so these restrictions are homeomorphisms onto opens of `ℂ`. The
+chart at a point is an arbitrary member of the atlas; `IsManifold`, `MDifferentiableOn` and every
+statement below depend only on the atlas, never on that choice. Prove `IsManifold 𝓘(ℂ) ω T_C`:
+on an overlap two étale coordinates differ by a holomorphic map with holomorphic inverse, by
+§C-1.1's analytic inverse. Prove that `T_C` is Hausdorff (§C-1.1's separatedness clause), compact
+when `C` is proper, and connected when `C` is proper and connected, because
+`properSchemeGagaPushforward` in degree zero identifies the idempotents of `H⁰(C^an, O)` with those
+of `H⁰(C, O_C)`.
+
+Prove riemannSurfaceComparison C: the identity of `T_C` is an isomorphism of locally `ℂ`-ringed
+spaces from `C^an` to the analytic space of this complex manifold given by C0.3's zero-ideal
+charts. On sections, a function on an open `V ⊆ T_C` lies in §C-1.1's analytic ring sheaf exactly
+when it is `MDifferentiableOn 𝓘(ℂ) 𝓘(ℂ)` on `V`, compatibly with restriction to opens and with
+étale maps of curves; ComplexKahlerGeometry K3.0 identifies complex-differentiable and analytic
+sections. In universe zero the manifold side is the sheaf `smoothSheafCommRing 𝓘(ℂ) 𝓘(ℂ) T_C ℂ`
+and the comparison is an isomorphism of ring sheaves. For `u > 0` Mathlib has no such sheaf
+(*Conventions*, Universes), and the comparison is the stated equality of section rings, with the
+same proof. This is the dimension-one case of §C-1.1's smooth-chart comparison. Every curve
+statement of this roadmap uses this one Riemann-surface structure on `C(ℂ)` and transports along
+this isomorphism; none introduces a second atlas. (SGA 1, Exposé XII, Propositions 3.1–3.2,
+retyped pp. 244–247, for étale and smooth morphisms under analytification; the atlas and the
+comparison are constructed here.) *Needs:* §C-1.1 `complexSchemeAnalytification` (étale,
+smooth-chart, separatedness and properness comparisons); `properSchemeGagaPushforward`; C0.3's
+analytic space of a complex manifold; ComplexKahlerGeometry K3.0; Mathlib `ChartedSpace`,
+`IsManifold`, `MDifferentiableOn`, `smoothSheafCommRing`; Tau Ceti
+`AnalyticAt.exists_openPartialHomeomorph`.
+
+**Checks for the Riemann surface.**
+
+- On `P¹`, the coordinates `z` on `A¹` and `w = 1/z` on `P¹ ∖ {0}` are charts with transition
+  `z ↦ 1/z` on `ℂ*`; a function near `∞` is a section of the analytic ring sheaf exactly when
+  `w ↦ f(1/w)` is holomorphic near `0`.
+- On `G_m` the étale map `z ↦ z²` restricts near every point to a chart, while on `A¹` the same
+  map is not étale at `0` and gives no chart there, as in §C-1.2's check.
+- The nodal cubic `y² = x²(x + 1)` has an analytic space but is not smooth at the node and receives
+  no Riemann-surface structure; the smoothness hypothesis is used.
+- The affine line with doubled origin is smooth of dimension one but not separated, and its `T_C`
+  is not Hausdorff; separatedness is what makes the Riemann surface Hausdorff.
+
+**Curve GAGA as named maps.** For a connected Riemann surface `Σ` (Mathlib `ChartedSpace ℂ Σ`
+with `IsManifold 𝓘(ℂ) ω Σ`), define meromorphicFunctionField Σ: the functions `f : Σ → ℂ` with
+`MeromorphicAt (f ∘ (chartAt ℂ x).symm) (chartAt ℂ x x)` at every `x`, modulo equality along
+`Filter.codiscrete Σ`. Prove that it is a field, by the identity theorem for meromorphic chart
+expressions on the connected surface, and that the order `meromorphicOrderAt` of a chart
+expression at a point does not depend on the chart, since charts differ by biholomorphisms.
+
+Let `C : Scheme.{u}` be a smooth, separated, connected (hence integral) curve of finite type over
+`ℂ`, with Riemann surface `T_C` from riemannSurfaceAtlas C. Define functionFieldToMeromorphic C :
+`C.functionField →+* meromorphicFunctionField T_C`. A rational function regular on a dense open
+`U` analytifies to a holomorphic function on `U^an`; extend it arbitrarily to the finite set
+`T_C ∖ U^an`. Near a missing point `p` the function is `g/tᵐ` with `g` regular and `t` a local
+parameter at `p`, so its chart expression is meromorphic, and the class depends neither on `U` nor
+on the extension. Prove:
+
+1. for a closed point `p`, which is both a codimension-one point of `C` and a point of `T_C`, and a
+   nonzero rational function `f`, `SchemeWeilDivisor.orderAt p f` equals the `meromorphicOrderAt`
+   of the chart expression of the image of `f` at `p`, because a local parameter at `p`
+   analytifies to a chart coordinate with a simple zero at `p`;
+2. if `C` is proper, that is `C.IsCurveOver (ULift.{u} ℂ)`, then functionFieldToMeromorphic C is
+   bijective, and functionFieldMeromorphicEquiv C is `RingEquiv.ofBijective` applied to it.
+   Injectivity holds because the source is a field. For surjectivity, a meromorphic function `h`
+   on the compact surface `T_C` has finitely many poles; let `D` be the effective divisor of their
+   orders. By item 1 and the divisor clause for picardAnalytification below, `h` is a global
+   section of `O_C(D)^an`; `properSchemeGagaPushforward` in degree zero for `C → Spec ℂ`
+   identifies these sections with `H⁰(C, O_C(D))`, and
+   `SchemeWeilDivisor.globalSectionsEquivRiemannRochSpace` identifies the latter with the rational
+   functions whose poles are bounded by `D`.
+
+For an analytic space `T`, define analyticPicardGroup T: the isomorphism classes (Mathlib
+`CategoryTheory.Skeleton`) of invertible analytic modules, the rank-one finite locally free objects
+of `CoherentAnalyticModule T` (C0.3), a commutative group under tensor product with the dual as
+inverse. For `X` locally of finite type over `ℂ`, define picardAnalytification X :
+`LineBundleClass X →* analyticPicardGroup X^an` by `[L] ↦ [L^an]`; it is well defined and a group
+homomorphism by `CoherentAnalytification` and the tensor, dual and unit clauses of
+`coherentPullbackOperations`. Prove:
+
+1. if `X` is proper, picardAnalytification X is bijective. Full faithfulness in
+   `properSchemeGagaEquivalence` gives injectivity. Essential surjectivity gives a coherent `L`
+   with `L^an` invertible, and `L` is invertible because local freeness of rank one descends along
+   the faithfully flat stalk maps of `completedAnalyticStalkComparison`. The agreement of Picard
+   groups in C2.2 is this bijection;
+2. for `C` as above and `D : SchemeWeilDivisor C`, picardAnalytification C sends
+   `SchemeWeilDivisor.toLineBundleClass D` to the class of `O_{C^an}(D)`, the analytic module of
+   meromorphic functions of order at least `−D(p)` at every `p`. The isomorphism
+   `O_C(D)^an ≅ O_{C^an}(D)` is induced by functionFieldToMeromorphic C and uses the order
+   compatibility above. For proper `C`, with function-field bijectivity, the principal divisors of
+   the two sides agree, so every holomorphic line bundle on `T_C` has a nonzero meromorphic
+   section.
+
+The description of analyticPicardGroup through `H¹(X^an, O^×)`, used by C5.4's exponential
+sequence, is a theorem about this group and not its definition. Neither curve comparison is stated
+as the existence of an isomorphism: consumers use the named maps and their inverses. (SGA 1,
+Exposé XII, Theorem 4.4 and its proof, retyped pp. 250–251, for GAGA; the function-field, order
+and divisor statements follow by the arguments given.) *Needs:* riemannSurfaceAtlas C and
+riemannSurfaceComparison C (above); `properSchemeGagaPushforward`; `properSchemeGagaEquivalence`;
+`CoherentAnalytification`; `coherentPullbackOperations`; C0.3 (`holomorphicBundleDictionary`);
+§C-1.2 `completedAnalyticStalkComparison`; Tau Ceti `AlgebraicGeometry.Scheme.IsCurveOver`,
+`TauCeti.AlgebraicGeometry.LineBundleClass`, `TauCeti.AlgebraicGeometry.SchemeWeilDivisor.orderAt`,
+`TauCeti.AlgebraicGeometry.SchemeWeilDivisor.toLineBundleClass`,
+`TauCeti.AlgebraicGeometry.SchemeWeilDivisor.globalSectionsEquivRiemannRochSpace`; Mathlib
+`AlgebraicGeometry.Scheme.functionField`, `MeromorphicAt`, `meromorphicOrderAt`,
+`Filter.codiscrete`, `CategoryTheory.Skeleton`, `RingEquiv.ofBijective`.
+
+**Checks for curve GAGA.**
+
+- On `P¹` the coordinate `z` has order `1` at `0` and `−1` at `∞` on both sides; `exp(z)`,
+  holomorphic on the chart `ℂ`, has an essential singularity at `∞` and lies in neither field.
+- On `A¹` the map `ℂ(z) → meromorphicFunctionField ℂ` is injective but misses `exp(z)`;
+  bijectivity needs properness.
+- For the projective closure `E` of `y² = x³ − x`, the functions `x` and `y` have orders `−2` and
+  `−3` at the point at infinity on both sides, and `x` has order `2` at `(0, 0)`, where `y` is a
+  local parameter; the principal divisor `2(0, 0) − 2∞` of `x` has degree zero.
+- On `P¹`, picardAnalytification sends the class of `O(1)`, which is
+  `SchemeWeilDivisor.toLineBundleClass` of one point, to the class of `AnalyticTwist 1 1`, with
+  two-dimensional `H⁰`; the class of `O(−1)` has none. So the map on `Pic = ℤ` is the identity on
+  degrees, not its negative.
+- For the affine curve `E ∖ {∞}`, the algebraic Picard group is `Pic⁰(E) ≅ E(ℂ)`, while every
+  holomorphic line bundle on the noncompact Riemann surface `T_E ∖ {∞}` is trivial; without
+  properness picardAnalytification is not injective.
 
 ## Layer C2: Projective and proper consequences of coherent GAGA
 
@@ -4157,16 +4323,19 @@ of C0–C4 for the finite-cover analytic algebraization constructed in this targ
 ### C6.3 Finite-level Artin comparison for constructible coefficients
 
 **Finite-level Artin comparison for constructible coefficients — `artinComparison`.**
-For every finite-type `X/ℂ`, finite commutative `Λ` and `K ∈ Dᵇ_c(X_ét,Λ)`, construct
+For every `X : Scheme.{u}` of finite type over `ℂ`, finite commutative `Λ : Type u` and
+`K ∈ Dᵇ_c(X_ét,Λ)`, construct
 the site morphism `ε_X : (T_X)_lh → X_ét` by analytifying étale maps as local
 homeomorphisms. The small local-homeomorphism site with jointly surjective covers has
 the same sheaf category as the open-set site of `T_X`; prove and use this equivalence.
 Define `K^an = ε_X^*K`, preserving stalks, finite lissity and constructibility.
 Its derived tensor and coefficient-change maps retain the Tor bounds needed to stay
-bounded; dual comparisons carry the supplier's perfect-source hypotheses. The unit gives the canonical comparison
-`RΓ_ét(X,K) → RΓ(T_X,K^an)`; prove it is an equivalence of enhanced derived
-`Λ`-module objects, natural in `X` and `K`. No smoothness, properness or separatedness
-hypothesis is imposed on `X`.
+bounded; dual comparisons carry the supplier's perfect-source hypotheses. The unit of
+`ε_X^* ⊣ Rε_{X*}` gives the canonical comparison artinComparisonMap X K :
+`RΓ_ét(X,K) → RΓ(T_X,K^an)`, specified at the end of this section; `artinComparison` is the
+statement that this named map is an isomorphism (`IsIso`) in the derived category of
+`Λ`-modules, natural in `X` and `K`, so that its lift to the enhancement is an equivalence.
+No smoothness, properness or separatedness hypothesis is imposed on `X`.
 
 Prove comparison through elementary fibrations. Construct `U ⊂ Ubar → S` with
 `Ubar → S` a smooth projective relative curve with geometrically connected fibres and
@@ -4212,6 +4381,47 @@ Its localization and finite-open Mayer–Vietoris use étale module coefficients
   Thus `K` lies in `Dᵇ_c` and comparison is the identity, while `K` is outside `Dᵇ_ctf`.
 - The constant group `ℤ/2 ⊕ ℤ/4`, viewed over its annihilator ring `ℤ/4`, also lies outside
   ctf and is covered by the ambient theorem and its singular corollary.
+- On `G_m = Spec ℂ[z, z⁻¹]` take `Λ = ℤ/n` with `n ≥ 3` and `K = Λ(1)`, which is `μ_n` by
+  EtaleCohomologyFoundations §F.0.3. Both `H¹_ét(G_m, Λ(1))` and `H¹(ℂ*, μ_n)` are free of rank
+  one over `ℤ/n`, so isomorphisms between them exist and are not unique: the negative of one is
+  another. In degree one artinComparisonMap sends the Kummer class of the coordinate `z` to the
+  class of the topological `μ_n`-torsor of `n`-th roots of `z`, whose transport along the
+  positive loop is multiplication by `exp(2πi/n)`. The negated isomorphism sends it to the class
+  with transport `exp(−2πi/n) ≠ exp(2πi/n)`. So the comparison on `G_m` is the canonical map,
+  which a statement of the form `Nonempty (_ ≃ _)` would not determine; in degree zero both
+  sides are `μ_n(ℂ)` and the map is the identity.
+
+**The comparison as `IsIso` of a named unit map.** The carriers are those of *Conventions*,
+Universes: `X : Scheme.{u}` over `Spec (CommRingCat.of (ULift.{u} ℂ))` and `Λ : Type u`. The
+étale side is EtaleCohomologyFoundations' carrier `Sheaf X.smallEtaleTopology (ModuleCat.{u} Λ)`,
+`D(X,Λ)` is Mathlib's `DerivedCategory` of it, and `K` satisfies that roadmap's §F.1 object
+property for `Dᵇ_c` (bounded with constructible cohomology sheaves). The topological side is
+`Sheaf (Opens.grothendieckTopology T_X) (ModuleCat.{u} Λ)` on the `TopCat.{u}` space `T_X`, so
+both sides live in one universe and no lift occurs in the statement. The pullback `ε_X^*` is exact
+and induces `D(X,Λ) ⥤ D(T_X,Λ)` through Mathlib's `CategoryTheory.Functor.mapDerivedCategory`;
+its right adjoint `Rε_{X*}` and the derived adjunction come from EnhancedDerivedSheaves §§0.1–0.4.
+Define etaleAnalyticUnit X K : `K ⟶ Rε_{X*} ε_X^* K`, the unit of that adjunction in `D(X,Λ)`,
+and artinComparisonMap X K : `RΓ_ét(X,K) ⟶ RΓ(T_X, ε_X^* K)`, the image of the unit under
+`RΓ_ét` followed by the canonical isomorphism `RΓ_ét ∘ Rε_{X*} ≅ RΓ(T_X, −)`. The headline
+`artinComparison` is `IsIso (artinComparisonMap X K)` for every `K` in `Dᵇ_c`. Applied to the
+affine étale `U → X`, which are of finite type over `ℂ` and form Mathlib's dense subsite
+`AlgebraicGeometry.Scheme.AffineEtale`, it is equivalent to `IsIso (etaleAnalyticUnit X K)`.
+The degree-`q` comparison of cohomology groups is the map induced by artinComparisonMap X K. For a
+sheaf `F` in degree zero, after forgetting to abelian groups, it is the map on Mathlib's `Sheaf.H`
+given by `CategoryTheory.Abelian.Ext.mapExactFunctor` of the exact functor `ε_X^*`, which sends
+the constant sheaf to the constant sheaf. The inverse comparison is `CategoryTheory.inv` of the
+named map, or `CategoryTheory.asIso` where an isomorphism is required. Neither this theorem nor its singular corollaries nor the compact-support,
+relative and adic comparisons of §§C6.4–C6.6 is stated as `Nonempty (_ ≅ _)`, as an existential
+over isomorphisms, or through an isomorphism recovered by `Classical.choose`; in those sections an
+exchange map being an equivalence means `IsIso` of that named map, built from the same adjunction.
+An abstract isomorphism between the
+two sides carries no class, product, trace or connecting map, while Kummer, Chern and cycle
+classes, traces and monodromy are transported along this one map. (SGA 4 XVI §4, for the
+comparison morphism induced by the morphism of topoi `ε_X`.)
+*Needs:* §C-1.1 (universe-`u` analytification); EtaleCohomologyFoundations Conventions and §F.1
+(the étale carrier, `D(X,Λ)` and the `Dᵇ_c` object property); EnhancedDerivedSheaves §§0.1–0.4
+(derived adjunction); Mathlib `AlgebraicGeometry.Scheme.smallEtaleTopology`, `DerivedCategory`,
+`CategoryTheory.Functor.mapDerivedCategory`, `Opens.grothendieckTopology`, `CategoryTheory.IsIso`.
 
 ### C6.4 Compact-support Artin comparison
 

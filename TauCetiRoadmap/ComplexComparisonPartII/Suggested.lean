@@ -1,5 +1,7 @@
-import Mathlib
-import TauCeti.AlgebraicTopology.Cohomology.Basic
+module
+
+public import Mathlib
+public import TauCeti.AlgebraicTopology.Cohomology.Basic
 
 /-!
 # Complex comparison: target statements
@@ -23,6 +25,9 @@ The other headline results require mathematical objects absent from the pins:
   sheaves alone do not supply these objects.
 * C1/C2's Cartan A/B, Cartan–Serre finiteness, analytic Serre theorems, proper coherent
   GAGA, base change and geometric dictionaries require those analytic spaces and functors.
+  So does C1.9's curve GAGA: the Riemann-surface structure on the analytification of a smooth
+  complex curve and the named maps from rational functions to meromorphic functions and from
+  line-bundle classes to analytic Picard classes.
 * C3's proper-support existence, coherent/Picard algebraicity, Picard components and
   formal parameters, and derived GAGA require algebraic spaces, their ringed étale sites,
   quasi-coherent derived categories and moduli stacks.
@@ -37,11 +42,15 @@ The other headline results require mathematical objects absent from the pins:
 * C6's stratified topology, Riemann existence and finite, compact-support, relative and
   adic Artin comparison require the classical space of complex points of a general scheme,
   constructible étale coefficient categories and normalized adic systems. The native
-  topological local-system carrier alone does not supply these comparisons.
+  topological local-system carrier alone does not supply these comparisons. Artin
+  comparison is `IsIso` of the named unit map of the analytic-to-étale site morphism, for
+  `X : Scheme.{u}` and coefficients in `Type u`, never an existential.
 
 These missing carriers are constructions specified in the README; none is replaced here
 by a predicate parameter or an arbitrary comparison map.
 -/
+
+@[expose] public section
 
 namespace TauCetiRoadmap.ComplexComparisonPartII
 
