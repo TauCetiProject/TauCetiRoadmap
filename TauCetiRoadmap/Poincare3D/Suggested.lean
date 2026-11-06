@@ -25,10 +25,12 @@ with its filling-width, ancestry and finite-history assembly interfaces.
 
 @[expose] public section
 
-open scoped Manifold ContDiff
+open scoped Manifold ContDiff ContinuousMap
 open Metric (sphere)
 
 namespace TauCetiRoadmap.Poincare3D
+
+/-! ## Layer 13: Factor classification and the smooth endpoint -/
 
 /-- Layer 13: the smooth three-dimensional Poincaré theorem, on the native sphere. -/
 theorem poincare_3d_smooth {M : Type*} [TopologicalSpace M] [T2Space M]
@@ -37,6 +39,8 @@ theorem poincare_3d_smooth {M : Type*} [TopologicalSpace M] [T2Space M]
     Nonempty (M ≃ₘ⟮𝓡 3, 𝓡 3⟯ sphere (0 : EuclideanSpace ℝ (Fin 4)) 1) := by
   sorry
 
+/-! ## Layer 14: Compatible smoothing in dimension three -/
+
 /-- Target 14.1: a compatible smooth atlas exists on the original topological carrier. -/
 theorem smoothable_closed_three_manifold {M : Type*} [TopologicalSpace M] [T2Space M]
     [ChartedSpace (EuclideanSpace ℝ (Fin 3)) M] [CompactSpace M] :
@@ -44,6 +48,8 @@ theorem smoothable_closed_three_manifold {M : Type*} [TopologicalSpace M] [T2Spa
       letI : ChartedSpace (EuclideanSpace ℝ (Fin 3)) M := atlas
       IsManifold (𝓡 3) ∞ M := by
   sorry
+
+/-! ## Layer 15: Topological endpoint and transport -/
 
 /-- Layer 15: the compatible atlas transports the smooth theorem to the topological target. -/
 theorem poincare_3d_topological {M : Type*} [TopologicalSpace M] [T2Space M]
@@ -59,6 +65,14 @@ theorem poincare_3d_topological {M : Type*} [TopologicalSpace M] [T2Space M]
 /-- Target 15.2: the smooth Poincaré adapter for a homotopy-equivalent sphere. -/
 theorem poincare_3d_smooth_homotopyEquiv {M : Type*} [TopologicalSpace M] [T2Space M] :
     ContinuousMap.HomotopyEquiv.NonemptyDiffeomorphSphere M 3 := by
+  sorry
+
+/-- Target 15.2: the topological Poincaré adapter for a homotopy-equivalent sphere
+(Mathlib's wanted `ContinuousMap.HomotopyEquiv.nonempty_homeomorph_sphere` at `n = 3`). -/
+theorem poincare_3d_topological_homotopyEquiv {M : Type*} [TopologicalSpace M] [T2Space M]
+    [ChartedSpace (EuclideanSpace ℝ (Fin 3)) M] :
+    M ≃ₕ sphere (0 : EuclideanSpace ℝ (Fin 4)) 1 →
+      Nonempty (M ≃ₜ sphere (0 : EuclideanSpace ℝ (Fin 4)) 1) := by
   sorry
 
 end TauCetiRoadmap.Poincare3D

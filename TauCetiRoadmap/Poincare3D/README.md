@@ -61,7 +61,7 @@ statements and does not supply their proofs.
 | [GeometricTopology](../GeometricTopology/README.md), Layers 1, 2, 7 and 11 | Smooth/PL manifolds, collars, gluing, connected sum with parameterized ball embeddings and the disc theorem, locally flat embeddings, geometric structures, realization, combinatorial/PL comparison and Moise's dimension-three triangulation/Hauptvermutung theorems | The three-dimensional neck/cap consequences, actual Ricci surgery and reconstruction, absolute smoothing and native atlas transport in Layer 14.1, and the separate prescribed-PL comparison target in Layer 14.2 |
 | [AlgebraicTopology](../AlgebraicTopology/README.md), Stages 1–6 and 8 | van Kampen, finite CW comparison, homology/cohomology, integral manifold duality, Hurewicz, relative homotopy, higher-group comparison | Closed-three-manifold consequences, regular loop-family comparison, surgery ancestry and class transport |
 | [DifferentialGeometry](../DifferentialGeometry/README.md), Layers 0–3, 5–10, 12 | Tensor/form calculus, orientations, smooth flows, Sard, integration/Stokes, metric density and scalar operators | Ricci-flow and moving-curve specializations |
-| [HopfRinow](../HopfRinow/README.md), Layers 0–4 | Levi-Civita connection, geodesic flow, normal balls, length and metric completeness | Time-dependent comparisons, reduced paths, complete pointed flow limits |
+| [HopfRinow](../../Completed/HopfRinow/README.md), Layers 0–4 | Levi-Civita connection, geodesic flow, normal balls, length and metric completeness | Time-dependent comparisons, reduced paths, complete pointed flow limits |
 | [RiemannianGeometry](../RiemannianGeometry/README.md), R1–R5a and R7.0 | Tensor/curvature conventions, variations, Jacobi fields, comparison geometry, model metrics, immersion area calculus and scalar Bochner identity | Ricci-surgery estimates, branched sphere/filling analysis and curve shortening in a moving ambient three-manifold |
 | [PDE](../PDE/README.md), Lanes A, C–F; [ComplexKahlerGeometry](../ComplexKahlerGeometry/README.md), K5a | Sobolev/weak compactness, elliptic/parabolic regularity, scalar maximum principles and real compact-bundle Sobolev/elliptic theory | The noncompact cap construction and moving-curve nonlinear problems, with their extra localization/compactness estimates |
 | [RicciFlow](../RicciFlow/README.md), Layers 1–5 (R1–R5) | Metric variation, compact-bundle parabolic theory, DeTurck, compact-flow existence/uniqueness/continuation, global Shi estimates and curvature evolution/maximum principles on closed manifolds | Localized Shi estimates and their complete noncompact applications in Layer 2, Hamilton–Ivey and differential Harnack specializations, pointed compactness, reduced geometry, ancient solutions and all surgery/extinction targets below |
@@ -192,15 +192,16 @@ two-sided projective plane, using its normal orientation and the induced
 orientation on a two-sided hypersurface.
 
 For a connected Hausdorff topological three-manifold without boundary, prove
-that noncompactness implies `H₃(M;ℤ)=0`. Build this dimension-three
-corollary here from AlgebraicTopology Stages 2–3's singular chains, pair/triple
-sequences and excision, and Stage 6.3's local-homology computations on
-coordinate balls. Follow Hatcher, §3.3, Lemma 3.27 and Proposition 3.29,
-p. 239: prove compact-support local-class detection using finite chart covers,
-then use connectedness and a point outside a cycle's compact support to force
-its local classes to vanish. Prove this form for Hausdorff manifolds with the
-stated charts; the finite-cover argument on compact supports supplies it
-without a global countability or paracompactness assumption. Deduce that a homotopy equivalence
+that noncompactness implies `H₃(M;ℤ)=0`. Consume AlgebraicTopology Stage 6
+item 3's compact-support local-homology lemma: for compact `K⊂M`, the group
+`H₃(M,M∖K;ℤ)` injects into its local images at points of K, and
+`Hᵢ(M,M∖K;ℤ)=0` for `i>3`. Apply the supplier lemma on finite unions of
+coordinate balls around the compact supports and transport by excision;
+these neighborhoods are second countable, so M needs no global countability
+or paracompactness assumption. Following Hatcher, §3.3, Proposition 3.29,
+p. 239, use connectedness and a point outside a cycle's compact support to
+force its local classes to vanish, then use the pair/triple exact sequences
+to conclude that its ordinary homology class vanishes. Deduce that a homotopy equivalence
 `M ≃ₕ 𝕊³` forces compactness: it gives `H₃(M;ℤ)≅ℤ`, contradicting that
 vanishing if M were noncompact. Homotopy invariance also transports simple
 connectedness from the sphere. State these consequences for topological
@@ -225,7 +226,8 @@ Theorem 4.5, p. 346 (Whitehead); and §4.2, Theorem 4.32 (Hurewicz).
 - The sphere bundle over the circle has a nontrivial fundamental group.
 - Euclidean three-space is noncompact with `H₃=0`; it fails the sphere-homotopy hypothesis.
 
-*Needs:* GeometricTopology Layers 1 and 11; AlgebraicTopology Stages 1–6 and 8.
+*Needs:* GeometricTopology Layers 1 and 11; AlgebraicTopology Stages 1–6 and 8,
+including Stage 6 item 3's compact-support uniqueness and relative vanishing.
 
 ### 1.2. Round and quotient models
 
@@ -1593,7 +1595,8 @@ Mathlib's existing predicate
 `ContinuousMap.HomotopyEquiv.NonemptyDiffeomorphSphere M 3`. It quantifies over
 all compatible smooth atlases and assumes neither compactness nor simple
 connectedness as an extra input. Apply 15.1 in the topological presentation to
-prove the dimension-three case of the wanted contract
+prove `poincare_3d_topological_homotopyEquiv` from `Suggested.lean`, the
+dimension-three case of the wanted contract
 `ContinuousMap.HomotopyEquiv.nonempty_homeomorph_sphere` in
 `Wanted/Geometry/Manifold/PoincareConjecture.lean`.
 
