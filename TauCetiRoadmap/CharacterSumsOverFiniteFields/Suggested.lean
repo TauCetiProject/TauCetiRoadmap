@@ -41,10 +41,10 @@ the quadratic Gauss sum over the prime field (1.4), which is proved in `Analytic
 of `CongruenceSpectralGap` §4.2a and of `S(m, n; c)` with `AutomorphicSpectralTheory` §1.16's sum
 (7.3), neither of whose carriers is at the pins; and 7.7, which only names characters.
 
-Recorded in `README.md` but owned downstream, and so not stated here: the trace-function
-interpretation 3.6 of the `L`-series as `L`-functions of rank-one étale sheaves on the affine line,
-and the sheaf-theoretic identifications of Gauss, Jacobi and Kloosterman sums through the
-Artin–Schreier and Kummer sheaves (README, *Not owned here*).
+Recorded in `README.md` as background and not a target, and so not stated here: the
+trace-function interpretation 3.6 of the `L`-series as `L`-functions of rank-one étale sheaves on
+the affine line, and the sheaf-theoretic identifications of Gauss, Jacobi and Kloosterman sums
+through the Artin–Schreier and Kummer sheaves (README, *Not owned here*).
 -/
 
 @[expose] public section

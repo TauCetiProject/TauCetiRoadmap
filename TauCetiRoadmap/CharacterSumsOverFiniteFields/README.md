@@ -72,17 +72,11 @@ The half-integral-weight Kloosterman sums with the theta multiplier and the Jaco
 roadmap are the finite-field sums `K(η; a, b)` of 5.3 and the integer-modulus sums `S(m, n; p^k)` of
 7.5 for odd prime powers, with a Dirichlet character and no multiplier, and neither roadmap
 restates the other's. `DeligneWeightsAndPurity` reaches Weil bounds through étale cohomology and
-weights; nothing here depends on it. The trace-function reading of this roadmap's sums is not a
-target here either, and no target or route uses a sheaf. That reading is the following: under the
-hypotheses of 3.3, 4.5, 4.6 and 5.4, the Gauss sum `g(χ, ψ)`, the sums `∑_x χ(f(x))` and
-`∑_x ψ(f(x))` and the Kloosterman sum `K(χ; a, b)` are minus the Frobenius traces on `H¹_c` of the
-rank-one sheaves `L_χ ⊗ L_ψ` on `𝔾_m`, `L_χ(f)` on the complement of the zeros of `f`, `L_ψ(f)` on
-`𝔸¹` and `L_χ ⊗ L_ψ(a x + b x⁻¹)` on `𝔾_m`, where `L_χ` and `L_ψ` are the Kummer and Artin–Schreier
-sheaves normalized so that Frobenius at a point `x` over `E` has trace `χ(N_{E/F} x)` and
-`ψ(Tr_{E/F} x)`. By the Grothendieck–Lefschetz formula the `L`-polynomials of those sections are
-then `det(1 − T·Frob | H¹_c)`, and their reciprocal roots are Frobenius eigenvalues. At `χ = 1` the
-Kloosterman case is the rank-two case of the Kloosterman sheaf of `CongruenceSpectralGap` §4.2b,
-whose Frobenius trace at `a b` is `−K(1; a, b)`.
+weights; nothing here depends on it. The trace-function reading of this roadmap's `L`-series, in
+which, under the hypotheses of 3.3, 4.5, 4.6 and 5.4, the Gauss sums, the polynomial sums of
+Layer 4 and the Kloosterman sums are minus the geometric-Frobenius traces on `H¹_c` of rank-one
+sheaves on `𝔾_m` and `𝔸¹`, is background recorded in 3.6 to fix the normalization that relates
+the two sides. It is not a target of this roadmap, and no target or route here uses a sheaf.
 
 `HypergeometricMotives` consumes this roadmap: the finite hypergeometric sums of Katz and
 Beukers–Cohen–Mellit are quotients of products of the Gauss sums `g(ω^m)` of Layer 1 for a
@@ -213,9 +207,20 @@ smooth conic has zeta numerator `1` and two rational points at infinity.
   of zeta functions is not a statement of this roadmap. The cohomological theory of weights and
   Deligne's theorem: `DeligneWeightsAndPurity`. The Kloosterman sheaf, the all-rank
   hyper-Kloosterman sums and their Deligne bound: `CongruenceSpectralGap` §§4.2a–4.2b.
-- **Kummer and Artin–Schreier sheaves** `L_χ`, `L_ψ`, and every sheaf-theoretic identification of
-  the sums of this roadmap (the trace-function reading recorded above): not targets of this
-  roadmap, which defines no sheaf and proves each of its bounds without one.
+- **Kummer and Artin–Schreier sheaves** `ℒ_χ`, `ℒ_ψ` and every sheaf-theoretic identification of
+  the sums of this roadmap: Gauss and Jacobi sums as Frobenius traces on the compactly supported
+  cohomology of rank-one sheaves on `𝔾_m` and `𝔸¹ ∖ {0, 1}`, Kloosterman sums as Frobenius traces
+  of a Kloosterman sheaf, and the trace-function reading 3.6 of the `L`-series. None is a target of
+  this roadmap, which defines no sheaf and proves each of its bounds without one. Where they are
+  named (3.6), `ℒ_ψ` and `ℒ_χ` are the rank-one lisse sheaves on `𝔾_a` and `𝔾_m` obtained from the
+  Lang torsors by the characters `ψ` and `χ`, normalized as in SGA 4½, *Sommes trig.*, 1.4,
+  Définition 1.7 and (1.7.6)–(1.7.7): geometric Frobenius at a point `x` over `𝔽_{q^n}` has trace
+  `ψ(Tr x)` on `ℒ_ψ` and `χ(N x)` on `ℒ_χ`. This is the normalization of the Artin–Schreier sheaf
+  that `CongruenceSpectralGap` §4.2b consumes, and its Kloosterman sheaf is built from that sheaf by
+  multiplicative convolution, `R^{k−1}mult_!(ℒ_ψ ⊠ ⋯ ⊠ ℒ_ψ)` on `𝔾_m`, with geometric-Frobenius
+  trace `(−1)^{k−1}` times the raw hyper-Kloosterman sum. At `k = 2`, replacing the first factor by
+  `ℒ_χ ⊗ ℒ_ψ` gives a sheaf whose geometric-Frobenius trace at `r ∈ Fˣ` is `−K(χ; 1, r)`, and 5.1's
+  scaling `K(χ; a, b) = χ(a)⁻¹ K(χ; 1, a b)` reaches every `K(χ; a, b)` with `a b ≠ 0`.
 - **Half-integral-weight Kloosterman sums** with the theta multiplier:
   `GeometryOfNumbersAndQuadraticArithmetic` §4.3.
 - **Finite hypergeometric sums**, Greene's and Katz's functions: `HypergeometricMotives`, which
@@ -242,20 +247,6 @@ smooth conic has zeta numerator `1` and two rational points at infinity.
   not targets; no roadmap at the pins declares them. The worked examples name a character by its
   Conrey index, spelled out in prose for prime `q` (the character is determined by its value on the
   least primitive root), and nothing depends on the name.
-- **Sheaf-theoretic identifications of the sums**: Gauss and Jacobi sums as Frobenius traces on
-  the compactly supported cohomology of rank-one sheaves on `𝔾_m` and `𝔸¹ ∖ {0, 1}`, and
-  Kloosterman sums as Frobenius traces of a Kloosterman sheaf, are not targets here. They are
-  stated with the Artin–Schreier sheaf `ℒ_ψ` (`artinSchreierSheaf ψ`) and the Kummer sheaf `ℒ_χ`
-  (`kummerSheaf χ`) of `FourierDeligneTransform`, which applies
-  `EtaleCohomologyFoundations` §F.0.3's rank-one lisse sheaves from torsors and characters to the
-  Lang torsors of `𝔾_a` and `𝔾_m`, normalized so that geometric Frobenius at a point `x` over
-  `𝔽_{q^n}` has trace `ψ(Tr x)` on `ℒ_ψ` and `χ(N x)` on `ℒ_χ`. One construction serves every
-  roadmap that needs these sheaves, and none is defined here. The Kloosterman sheaf of
-  `CongruenceSpectralGap` §4.2b is built from the same Artin–Schreier sheaf by multiplicative
-  convolution, `R^{k−1}mult_!(ℒ_ψ ⊠ ⋯ ⊠ ℒ_ψ)` on `𝔾_m`; at `k = 2`, replacing the first factor by
-  `ℒ_χ ⊗ ℒ_ψ` gives the sheaf whose geometric-Frobenius trace at `r ∈ Fˣ` is `−K(χ; 1, r)`, and
-  5.1's scaling `K(χ; a, b) = χ(a)⁻¹ K(χ; 1, a b)` reaches every `K(χ; a, b)` with `a b ≠ 0`.
-  The trace-function interpretation of this roadmap's `L`-series is recorded in 3.6.
 
 ## Conventions
 
@@ -999,25 +990,30 @@ For the quadratic character over `𝔽_3` lifted to `𝔽_9`, the sum is `−1`,
 not `3`; for an order-six character over `𝔽_7` paired with itself and lifted to `𝔽_49`,
 the norm is `7`. *Needs:* 3.3, 2.2.
 
-### 3.6 The trace-function interpretation, owned downstream
+### 3.6 The trace-function interpretation (background, not a target)
 
 Every `L`-series that this roadmap proves to be a polynomial is the `L`-function of a
 constructible sheaf of rank at most one on the affine line, and its reciprocal roots are
-geometric-Frobenius eigenvalues on compactly supported cohomology. That statement is a bridge
-theorem owned downstream by `WeilConjectures`, Layer WC.1, where the `L`-functions of sheaves and
-complexes over a finite field are formed beside its zeta series. It is recorded here to fix one
-normalization on both sides; no statement of this roadmap depends on it, and the elementary
-bounds of Layers 4–5 stay the route of record here and an independent check on the
-cohomological ones.
+geometric-Frobenius eigenvalues on compactly supported cohomology. This subsection records that
+reading to fix the normalization that relates the two sides. It is not a target of this roadmap:
+no statement or route here depends on it, and the elementary bounds of Layers 4–5 are the route of
+record and an independent check on the cohomological ones. The sheaf-side facts it quotes belong
+to the roadmaps cited at each step: the `L`-function of a constructible coefficient sheaf over a
+finite field with its determinant formula (`DeligneWeightsAndPurity` §1.10), the rational
+Grothendieck–Lefschetz formula for every power of Frobenius
+(`InverseGaloisAndArithmeticFundamentalGroups` §IG.0.T3), the curve Euler–Poincaré formula
+(`CongruenceSpectralGap` §4.2b) and the weight bound for `H^i_c` (`DeligneWeightsAndPurity` §7.12).
+The identification of those `L`-functions with the `L`-series of 3.1 concerns this roadmap's
+`L(λ, T)`, which none of those roadmaps consumes; it is recorded here as background only.
 
-The statement. Fix a prime `ℓ ≠ p`, a finite extension `M_ℓ` of `ℚ_ℓ` containing the `p(q − 1)`-th
+The reading. Fix a prime `ℓ ≠ p`, a finite extension `M_ℓ` of `ℚ_ℓ` containing the `p(q − 1)`-th
 roots of unity, and a field embedding `ι_ℓ : M_ℓ → ℂ`. For a constructible `M_ℓ`-sheaf `𝒦` on `𝔸¹_F`
 and a closed point, that is a monic irreducible `P ∈ F[X]`, let `t_𝒦(P)` be the trace of
 geometric Frobenius on the geometric stalk of `𝒦` at `P`. If every geometric stalk of `𝒦` has
 rank at most one and `λ` is monic multiplicative with `λ(P) = ι_ℓ(t_𝒦(P))` for every `P`, then
 (i) `L(λ, T) = ι_ℓ(L(𝔸¹_F, 𝒦, T))`, Euler factor by Euler factor, both sides read as the `tprod`
-of 3.1; (ii) by the rational Grothendieck–Lefschetz trace formula
-(`InverseGaloisAndArithmeticFundamentalGroups` §IG.0.T3),
+of 3.1; (ii) by the determinant formula of `DeligneWeightsAndPurity` §1.10 and the trace formula
+of `InverseGaloisAndArithmeticFundamentalGroups` §IG.0.T3,
 `L(λ, T) = ∏_{i=0}^{2} ι_ℓ det(1 − T·Frob | H^i_c(𝔸¹_{F̄}, 𝒦))^{(−1)^{i+1}}`, and for `E/F` of
 degree `n`, `extensionSum E λ = ∑_i (−1)^i ι_ℓ tr(Frob^n | H^i_c(𝔸¹_{F̄}, 𝒦))`, `Frob` being
 geometric Frobenius. With `ℒ_ψ` and `ℒ_χ` the Artin–Schreier and Kummer sheaves of *Not owned
@@ -1033,19 +1029,33 @@ here*, `j : 𝔾_m → 𝔸¹` the inclusion and `U_f` the complement of the zer
 
 So in each case the `L`-polynomial is `ι_ℓ det(1 − T·Frob | H¹_c)` and its degree is the rank of
 `H¹_c`: the bounds `≤ m − 1` of 4.5 and `≤ n − 1` of 4.6 are equalities, and the reciprocal roots
-of 4.7, 4.8 and 5.4 are Frobenius eigenvalues. The ranks are Euler–Poincaré counts (the
-`CongruenceSpectralGap` §4.2b formula): tame of rank one on `m` punctures for 4.5, Swan conductor
-`n` at `∞` for 4.6, Swan conductor `1` at each of `0` and `∞` for 5.4; `H²_c` vanishes because the
-geometric monodromy is nontrivial, which is the hypothesis on `f` or on `ψ`. Deligne's weight
-bound on `H¹_c` (`DeligneWeightsAndPurity`) then gives `|ω_i| ≤ √q` again, the inequalities that
-4.7, 4.8 and 5.5 prove by Stepanov's method. (Deligne, SGA 4½, *Sommes trigonométriques*; Katz,
-*Gauss Sums, Kloosterman Sums, and Monodromy Groups*, Ch. 4.)
+of 4.7, 4.8 and 5.4 are Frobenius eigenvalues. The ranks are Euler–Poincaré counts
+`χ_c = rank · χ_c(U) − ∑ Swan` on the open curve `U` carrying the lisse part: for 3.3, `U = 𝔾_m`
+with Swan conductor `1` at `∞` when `ψ ≠ 1`, so `χ_c = −1` (and `χ_c = 0` when `ψ = 1 ≠ χ`); for
+4.5, `U = U_f` with `χ_c(U_f) = 1 − m` and a tame Kummer pullback, so `χ_c = 1 − m`; for 4.6,
+`U = 𝔸¹` with Swan conductor `n` at `∞`, so `χ_c = 1 − n`; for 5.4, `U = 𝔾_m` with Swan conductor
+`1` at each of `0` and `∞`, so `χ_c = −2`. `H⁰_c` vanishes on these affine curves, and `H²_c`
+vanishes because the geometric monodromy is nontrivial: in 3.3 by `ψ ≠ 1`, or by `χ ≠ 1` when
+`ψ = 1`; in 4.5 by the hypothesis on `f`; in 4.6 by `ψ ≠ 1` and `p ∤ n`; in 5.4 by `a b ≠ 0`.
+Deligne's weight bound for `H¹_c` (weights `≤ 1` for a sheaf pure of weight `0`,
+`DeligneWeightsAndPurity` §7.12) then gives `|ω_i| ≤ √q` again, the inequalities that 4.7, 4.8 and
+5.5 prove by Stepanov's method. (SGA 4½, *Sommes trig.*: 1.4, Définition 1.7 and (1.7.6)–(1.7.7)
+for the sheaves and their normalization; Scholie 1.9 for the trace formula over every `𝔽_{q^n}`;
+(3.2.1) for the Euler–Poincaré formula; Exemple 3.5 for `∑_x ψ(f(x))`; Proposition 4.2 for the
+Gauss sum; Théorème 7.4 at `n = 2` for the untwisted Kloosterman sum.)
 
 **Checks.**
 
 - (Gauss sum over `𝔽_3`) `χ = η`, `ψ = ψ_F`: `H¹_c(𝔾_m, ℒ_η ⊗ ℒ_ψ)` has rank one with
   eigenvalue `ω = −g(η) = −i√3`, so `L = 1 + i√3 T` as in 3.3's Checks, and the trace of `Frob²`
   gives `extensionSum 𝔽_9 λ = −ω² = 3 = g(η_9)`.
+- (Deligne's Gauss-sum sign) *Sommes trig.* (4.1.1) writes `τ(χ, ψ) = −∑_x ψ(x) χ⁻¹(x)`, which is
+  `−g(χ⁻¹, ψ)` here, and its Proposition 4.2 makes `τ(χ, ψ)` the geometric-Frobenius eigenvalue on
+  the `H¹_c` of the sheaf with traces `ψ(x) χ⁻¹(x)`, the row 3.3 with `χ⁻¹` in place of `χ`. So the
+  eigenvalue on `H¹_c(𝔾_m, ℒ_χ ⊗ ℒ_ψ)` is `τ(χ⁻¹, ψ) = −g(χ, ψ)`. Over `𝔽_7`, with `χ` the cubic
+  character with `χ(3) = e(1/3)`, `g(χ) = 2.3705 − 1.1751 i`, so that eigenvalue is
+  `−2.3705 + 1.1751 i`; Deligne's `τ(χ, ψ) = −g(χ⁻¹) = −2.3705 − 1.1751 i` is its complex
+  conjugate, and reading it as the eigenvalue for `ℒ_χ ⊗ ℒ_ψ` flips the imaginary part.
 - (both characters trivial) `𝒦 = j_! M_ℓ`: `H¹_c` and `H²_c` have rank one with eigenvalues `1`
   and `q`, so `L = (1 − T)/(1 − qT)`, the value in 3.1's Checks. The `L`-series is not a
   polynomial because `H²_c ≠ 0`, which is why 3.3 excludes `χ = 1 = ψ`.
@@ -1068,8 +1078,8 @@ characters and every `m ∣ 12`).
 ### Dependencies
 
 3.1–3.2 are polynomial algebra over `F` and need Mathlib only; 3.3–3.5 need Layers 0 (0.6) and 1
-(1.4), and 2.2; 3.4 consumes `ClassicalArithmeticCompletion` §7.29. 3.6 is owned downstream by
-`WeilConjectures`, and nothing in this roadmap depends on it.
+(1.4), and 2.2; 3.4 consumes `ClassicalArithmeticCompletion` §7.29. 3.6 is background and not a
+target; nothing in this roadmap depends on it.
 
 ## Layer 4: Stepanov's method and Weil's bounds for polynomial sums
 
@@ -1849,7 +1859,7 @@ for the comparison in 7.3; Knightly–Li for the twisted bounds of 7.5–7.6.
 - `CurvesOverFiniteFields` and `FunctionFieldArithmetic` border this roadmap without consuming it:
   the point counts of Layer 4 are finite sums bounded by Stepanov's method. Neither the comparison
   of the `L`-polynomials of Layers 3–5 with numerators of zeta functions nor their trace-function
-  reading is a target of this roadmap (Scope and ownership).
+  reading (3.6) is a target of this roadmap (Scope and ownership).
 
 ## Worked examples (acceptance criteria)
 
@@ -2095,6 +2105,14 @@ for primitive `χ` modulo `p³`, so the untwisted constant fails for twisted sum
 
 **N. M. Katz, *Gauss Sums, Kloosterman Sums, and Monodromy Groups*, Annals of Math. Studies 116.**
 Cited only as the boundary for the equidistribution of Kloosterman angles; nothing is consumed.
+
+**P. Deligne, *Cohomologie étale* (SGA 4½), Lecture Notes in Math. 569, Springer 1977, exposé
+*Applications de la formule des traces aux sommes trigonométriques* [Sommes trig.].** 1.4,
+Définition 1.7 and (1.7.6)–(1.7.7): the sheaves of the Lang torsors of `𝔾_a` and `𝔾_m` and the
+normalization of their geometric-Frobenius traces; Scholie 1.9: the trace formula over every
+`𝔽_{q^n}`; (3.2.1): the Euler–Poincaré formula; Exemple 3.5, Proposition 4.2 and Théorème 7.4: the
+cohomology of `∑_x ψ(f(x))`, of the Gauss sum (with the sign of (4.1.1)) and of the Kloosterman
+sums. Background for 3.6 and *Not owned here*; nothing is consumed.
 
 **The LMFDB knowls** `character.dirichlet.gauss_sum`, `character.dirichlet.jacobi_sum`,
 `character.dirichlet.kloosterman_sum` (the definitions of 7.1–7.3) and `character.dirichlet.conrey`
