@@ -383,7 +383,10 @@ Define `IsGroupoidFibration p`: every `g : p.obj x ⟶ b` lifts to some `φ : x 
 iff every lift of `g` out of `x` ends in the component of `x` in `F`),
 `IsGroupoidFibration.mapConnectedComponents_eq_iff` (at `π₀ F`: the fibres of `π₀ F → π₀ E` are
 the orbits of `Aut_B(p x)`, acting through endpoints of lifts) and
-`IsGroupoidFibration.mapConnectedComponents_eq_mk_iff` (at `π₀ E`).
+`IsGroupoidFibration.mapConnectedComponents_eq_mk_iff` (at `π₀ E`). The exactness statements at
+`Aut_E(x)` and at `π₀ F` hold for every functor of groupoids and are stated without the fibration
+hypothesis: the morphisms of the fibre are by definition those lying over `𝟙`, and a zigzag in a
+groupoid composes to a single morphism, whose image under `p` is the required `g`.
 *Needs:* Mathlib `Functor.IsHomLift`, `Functor.Fiber`, `Functor.Fiber.fiberInclusion`,
 `Functor.mapAut`, `ConnectedComponents`.
 
@@ -394,6 +397,10 @@ the orbits of `Aut_B(p x)`, acting through endpoints of lifts) and
 - For `1 → ℤ/2`, `B1 ⥤ B(ℤ/2)` is not a fibration (the generator has no lift). There the
   right-hand side of `mem_range_mapAut_iff` holds vacuously for the generator, which is not in the
   range: the theorem is false without the fibration hypothesis.
+- `mapConnectedComponents_eq_mk_iff` needs the fibration hypothesis: for `E` discrete on `{a, b}`,
+  `B` the indiscrete groupoid on `{0, 1}`, `p a = 0` and `p b = 1`, the component `[b]` lies over
+  the component of `p a`, but the range of `π₀` of the fibre over `0` is `{[a]}`, and `0 ⟶ 1` has
+  no lift out of `a`.
 - For a `G`-set `X`, `ActionCategory.π : ActionCategory G X ⥤ SingleObj G` is a fibration whose
   fibre is the discrete category `X`; the sequence is `1 → 1 → Stab(x) → G → X → X/G → 1`, the
   boundary sending `g` to `g • x`: `g` lifts to an automorphism of `x` iff `g • x = x`, and the
@@ -591,12 +598,14 @@ Layer 2. Within the layer, 3.2 and 3.3 use 3.1.
 Prove that `W_N` (convention 4) is a basic localizer (Cisinski 2004, Theorem 2.1.13): FS1–FS3
 and LF2 from the simplicial weak equivalences of GeneralizedCohomology G2 item 1. LF3 follows
 the route of Theorem 2.1.13: for `u : A ⥤ B` over `C`, the functors `∫_C (A/c) ⥤ A` and
-`∫_C (B/c) ⥤ B` have left adjoint sections, hence are in `W_N` (2.3); and
+`∫_C (B/c) ⥤ B` have left adjoint sections, hence are in `W_N`, because a natural transformation
+induces a simplicial homotopy of nerves, so the nerve of such a functor is a homotopy equivalence,
+hence a weak equivalence (GeneralizedCohomology G2 item 1); and
 `∫_C (A/c) ⥤ ∫_C (B/c)` is in `W_N`, since both sides are, up to Thomason's comparison
 (StableHomotopyKTheory §2.29), homotopy colimits of the nerves of the slices, and objectwise weak
 equivalences give a weak equivalence of homotopy colimits (§2.26). Prove that `W_N` is stable
 under `A ↦ Aᵒᵖ`.
-*Needs:* 2.1, 2.3, StableHomotopyKTheory §§2.26, 2.29, GeneralizedCohomology G2 item 1.
+*Needs:* 2.1, StableHomotopyKTheory §§2.26, 2.29, GeneralizedCohomology G2 item 1.
 
 **Checks.**
 
@@ -680,10 +689,10 @@ for `n = 1`): a functor `F` is in `W₁` iff the nerve of `F` is a `1`-equivalen
 sets, bijective on `π₀` and an isomorphism on `π₁` at every vertex, since `π₁` of the nerve of `A`
 is the automorphism group in `Π₁ A` (StableHomotopyKTheory §1.21); the `1`-equivalences are the
 localizer `W_1` of Cisinski 2006, 9.2.1, by Corollary 9.2.15, and their inverse image under the
-nerve is a basic localizer (Cisinski 2004, Corollary 2.2.4, with 4.2). Layers 1–2 do not suffice:
+nerve is a basic localizer (Cisinski 2004, Corollary 2.2.4, with 3.3). Layers 1–2 do not suffice:
 a strict colimit of groupoids does not preserve objectwise equivalences, so LF3 for `W₁` has no
 fibre-by-fibre proof on free groupoids.
-*Needs:* 4.2, StableHomotopyKTheory §1.21, GeneralizedCohomology G2 item 1.
+*Needs:* 3.3, StableHomotopyKTheory §1.21, GeneralizedCohomology G2 item 1.
 
 **Checks.**
 
@@ -700,7 +709,7 @@ fibre-by-fibre proof on free groupoids.
 ### Dependencies
 
 Layers 1–3, GeneralizedCohomology G2 item 1 and StableHomotopyKTheory §§1.21, 2.26, 2.29, 2.30
-and 2.34. Within the layer, 4.2 uses 4.1, 4.4 uses 4.2, 4.5 uses 4.2, and 4.6 uses 4.2.
+and 2.34. Within the layer, 4.2 uses 4.1, 4.4 uses 4.2 and 4.5 uses 4.2; 4.6 uses 3.3.
 
 ## Layer 5: Thomason's model structure
 

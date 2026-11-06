@@ -278,8 +278,9 @@ namespace IsGroupoidFibration
 variable {E B : Type u} [Groupoid.{v} E] [Groupoid.{v} B] {p : E ⥤ B}
 
 /-- **Layer 1.4.** Exactness at `Aut_E(x)` of the sequence of a fibration: the automorphisms of
-`x` in the fibre `F` over `p x` are those sent to `𝟙` by `p`. -/
-theorem range_mapAut_fiberInclusion (hp : IsGroupoidFibration p) (x : E) :
+`x` in the fibre `F` over `p x` are those sent to `𝟙` by `p`. This holds for every functor of
+groupoids. -/
+theorem range_mapAut_fiberInclusion (p : E ⥤ B) (x : E) :
     ((Functor.Fiber.fiberInclusion (p := p) (S := p.obj x)).mapAut ⟨x, rfl⟩).range =
       (p.mapAut x).ker := by
   sorry
@@ -293,8 +294,9 @@ theorem mem_range_mapAut_iff (hp : IsGroupoidFibration p) (x : E) (g : Aut (p.ob
 
 /-- **Layer 1.4.** Exactness at `π₀ F`: two objects of the fibre over `p x` lie in one component
 of `E` iff one lies in the component of an endpoint of a lift, out of the other, of an
-automorphism of `p x` (the fibres of `π₀ F → π₀ E` are the orbits of `Aut_B(p x)`). -/
-theorem mapConnectedComponents_eq_iff (hp : IsGroupoidFibration p) (x : E)
+automorphism of `p x` (the fibres of `π₀ F → π₀ E` are the orbits of `Aut_B(p x)`). This holds
+for every functor of groupoids. -/
+theorem mapConnectedComponents_eq_iff (p : E ⥤ B) (x : E)
     (y y' : p.Fiber (p.obj x)) :
     Functor.Fiber.fiberInclusion.mapConnectedComponents (Quotient.mk'' y) =
         Functor.Fiber.fiberInclusion.mapConnectedComponents (Quotient.mk'' y') ↔
