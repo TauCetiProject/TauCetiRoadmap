@@ -45,16 +45,14 @@ This roadmap owns:
   closed unit disc, Hermite interpolation with ultrametric bounds, Baker's auxiliary function on
   the diagonal over `ℂ_[p]`, and Baker's theorem over `ℂ_[p]` (Layer 8).
 
-The [Local fields and ramification](../LocalFieldsRamification/README.md) roadmap owns
-`localExponential` and `localLogarithm` on a finite extension `K` of `ℚ_p`: their construction,
-their convergence and continuity on the deep units, and the isomorphism `U(K,i) ≃ 𝓂[K]^i` (its
-"Deep units in mixed characteristic"). This roadmap owns only the facts of 8.1 about Mathlib's
-`NormedSpace.exp` in a normed field over `ℚ_p`, that is, with a norm making it a normed
-`ℚ_[p]`-algebra, which Layer 8 needs for `ℂ_[p]`. That roadmap normalises the absolute value of
-`K`, which in general is not such a norm; but Mathlib's `spectralNorm.normedAlgebra` makes `K` a
-normed `ℚ_[p]`-algebra whose norm has the normalised absolute value as a power, so that roadmap's
-convergence milestone for `localExponential` can be derived from 8.1. This roadmap does not depend
-on that one.
+Tau Ceti has the exponential and the logarithm on the deep units of a finite extension `K` of
+`ℚ_p`, from the [Local fields and ramification](../../Completed/LocalFieldsRamification/README.md)
+roadmap: `TauCeti.deepUnitExpLogEquiv`, for `e < (p − 1) i`, is the isomorphism of topological
+groups `U(K,i) ≃ₜ* Multiplicative (𝓂[K] ^ i)` given by the logarithm, with the exponential as its
+inverse. This roadmap owns only the facts of 8.1 about Mathlib's `NormedSpace.exp` in a normed
+field over `ℚ_p`, that is, with a norm making it a normed `ℚ_[p]`-algebra, which Layer 8 needs for
+`ℂ_[p]`; `ℂ_[p]` is not a finite extension of `ℚ_p`, so that declaration does not give 8.1. This
+roadmap does not depend on that one.
 
 The
 [Diophantine approximation and transcendence](../DiophantineApproximationAndTranscendence/README.md)
@@ -88,8 +86,8 @@ Not in this roadmap, and not owned by any other roadmap unless stated:
 - the `p`-adic Schneider–Lang criterion, and elliptic analogues;
 - a `p`-adic logarithm function on `ℂ_[p]`: Layer 8 is stated through the exponential;
 - Weierstrass division and preparation, and the theory of Tate algebras, which the
-  [Foundations of adic spaces](../AdicSpaces/README.md) roadmap owns (its §0.5). Tau Ceti already
-  has Weierstrass division with Gauss-norm bounds, which 8.3 consumes.
+  [Foundations of adic spaces](../../Completed/AdicSpaces/README.md) roadmap owns (its §0.5). Tau
+  Ceti already has Weierstrass division with Gauss-norm bounds, which 8.3 consumes.
 
 ### Coordination with Mathlib
 
