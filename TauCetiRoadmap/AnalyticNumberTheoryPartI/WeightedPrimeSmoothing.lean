@@ -21,7 +21,7 @@ namespace TauCetiRoadmap.AnalyticNumberTheoryPartI.WeightedPrimeSmoothing
 /-- Inclusive cutoff, with nonprime indices removed by the native predicate. -/
 def weightedPrimeSum {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
     (a : ℕ → E) (x : ℝ) : E :=
-  ∑ p ∈ (Finset.range (⌊x⌋₊ + 1)).filter Nat.Prime,
+  ∑ p ∈ Nat.primesLE ⌊x⌋₊,
     (Real.log p / p : ℝ) • a p
 
 theorem prime_tail_bound :
