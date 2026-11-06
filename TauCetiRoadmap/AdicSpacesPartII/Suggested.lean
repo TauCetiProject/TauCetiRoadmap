@@ -5,7 +5,7 @@ import TauCeti.AlgebraicGeometry.AdicSpace.Spa.Completion.Homeomorph
 import TauCeti.AlgebraicGeometry.AdicSpace.Spa.StructurePresheaf.GlobalSections
 import TauCeti.AlgebraicGeometry.AdicSpace.Spa.StructurePresheaf.SheafyRing
 import TauCeti.RingTheory.Huber.Padic.Field
-import TauCeti.RingTheory.Huber.Completion
+import TauCeti.RingTheory.Huber.Completion.Basic
 import TauCeti.Topology.Spectral.ProConstructible
 
 /-!
