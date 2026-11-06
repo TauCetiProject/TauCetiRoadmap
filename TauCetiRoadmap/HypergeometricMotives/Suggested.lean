@@ -610,14 +610,16 @@ and `ω ^ m` is Mathlib's `zpow` on the group `MulChar F ℂ`. -/
 
 section FiniteSums
 
-variable {F : Type*} [Field F] [Fintype F] [DecidableEq F]
+variable {F : Type*} [Field F] [Finite F] [DecidableEq F]
 
 /-- `𝔮 = q - 1`. -/
-abbrev qm (F : Type*) [Fintype F] : ℕ := Fintype.card F - 1
+abbrev qm (F : Type*) [Finite F] : ℕ := Nat.card F - 1
 
 /-- **4.3**, `g(m) = gaussSum (ω ^ m) ψ` for `m : ℤ`. With Mathlib's `ω 0 = 0`, `g(0) = -1` for
 nontrivial `ψ`. -/
-def gaussSumPow (ω : MulChar F ℂ) (ψ : AddChar F ℂ) (m : ℤ) : ℂ := gaussSum (ω ^ m) ψ
+def gaussSumPow (ω : MulChar F ℂ) (ψ : AddChar F ℂ) (m : ℤ) : ℂ :=
+  letI := Fintype.ofFinite F
+  gaussSum (ω ^ m) ψ
 
 /-- **4.1**, the integer parameter `𝔮 · rep x` of an admissible class (`𝔮 • x = 0`); the floor
 makes it total. -/
@@ -645,6 +647,7 @@ def hypergeometricSum (ω : MulChar F ℂ) (ψ : AddChar F ℂ) (a b : Multiset 
 /-- **4.2**, Katz's exponential sum over the torus `t ∏ x_i = ∏ y_j`:
 `∑ ψ(∑ x_i - ∑ y_j) ∏ ω^{a_i}(x_i) ∏ ω^{-b_j}(y_j)`, the parameters listed. -/
 def katzExpSum (ω : MulChar F ℂ) (ψ : AddChar F ℂ) (a b : List ℤ) (t : F) : ℂ :=
+  letI := Fintype.ofFinite F
   ∑ x : Fin a.length → F, ∑ y : Fin b.length → F,
     if t * ∏ i, x i = ∏ j, y j then
       ψ (∑ i, x i - ∑ j, y j) * ∏ i, (ω ^ a.get i) (x i) * ∏ j, (ω ^ (-b.get j)) (y j)
@@ -681,13 +684,15 @@ theorem hypergeometricSum_swap (ω : MulChar F ℂ) (ψ : AddChar F ℂ) (a b : 
   sorry
 
 /-- **4.12**, Greene's binomial coefficient `(A over B) = B(-1)/q · J(A, B̄)` (Definition 2.4). -/
-def greeneBinom (A B : MulChar F ℂ) : ℂ := B (-1) / Fintype.card F * jacobiSum A B⁻¹
+def greeneBinom (A B : MulChar F ℂ) : ℂ :=
+  letI := Fintype.ofFinite F
+  B (-1) / Nat.card F * jacobiSum A B⁻¹
 
 /-- **4.12**, Greene's `_{n+1}F_n(A_0, …, A_n; B_1, …, B_n | x)` (Definition 3.10), the sum over
 all characters written as `ω^m`, `m ∈ ℤ/𝔮`, for a generator `ω`. -/
 def greeneF (ω : MulChar F ℂ) {n : ℕ} (A : Fin (n + 1) → MulChar F ℂ) (B : Fin n → MulChar F ℂ)
     (x : F) : ℂ :=
-  (Fintype.card F : ℂ) / qm F * ∑ m ∈ Finset.range (qm F),
+  (Nat.card F : ℂ) / qm F * ∑ m ∈ Finset.range (qm F),
     greeneBinom (A 0 * ω ^ m) (ω ^ m) * (∏ i, greeneBinom (A i.succ * ω ^ m) (B i * ω ^ m)) *
       (ω ^ m) x
 
@@ -703,7 +708,7 @@ theorem greeneF_eq_katzSum (ω : MulChar F ℂ) (ψ : AddChar F ℂ) (hψ : ψ.I
     (hb : ∀ j, ((b j : ℤ) : ZMod (qm F)) ≠ 0) (ha : ∀ i, ((a i : ℤ) : ZMod (qm F)) ≠ 0)
     (hab : ∀ i j, ((a i : ℤ) : ZMod (qm F)) ≠ ((b j : ℤ) : ZMod (qm F))) (x : F) (hx : x ≠ 0) :
     greeneF ω (fun i => ω ^ a i) (fun j => ω ^ b j) x =
-      (ω ^ (∑ j, b j)) (-1) * (Fintype.card F : ℂ) ^ (1 - (n + 1 : ℤ)) *
+      (ω ^ (∑ j, b j)) (-1) * (Nat.card F : ℂ) ^ (1 - (n + 1 : ℤ)) *
         ((∏ i : Fin (n + 1),
           gaussSumPow ω ψ (a i - (Fin.cons (0 : ℤ) b : Fin (n + 1) → ℤ) i))⁻¹) *
         katzSum ω ψ (Multiset.map a Finset.univ.val)
@@ -715,12 +720,12 @@ namespace CyclotomicData
 
 section Rational
 
-variable {F : Type*} [Field F] [Fintype F] [DecidableEq F]
+variable {F : Type*} [Field F] [Finite F] [DecidableEq F]
 
 /-- **4.5**, the rational value of `H_q(α(A), β(B) | t)` for a cyclotomic datum and `N ∣ q - 1`:
 the rational number whose image in `ℂ` is the sum of 4.3 for some generator `ω` and primitive `ψ`.
 That it exists and does not depend on the choice is `hypergeometricSumRat_spec`. -/
-def hypergeometricSumRat (D : CyclotomicData) (F : Type*) [Field F] [Fintype F] [DecidableEq F]
+def hypergeometricSumRat (D : CyclotomicData) (F : Type*) [Field F] [Finite F] [DecidableEq F]
     (t : F) : ℚ :=
   Classical.epsilon fun x : ℚ => ∃ (ω : MulChar F ℂ) (ψ : AddChar F ℂ),
     orderOf ω = qm F ∧ ψ.IsPrimitive ∧
@@ -749,8 +754,8 @@ def epsilon (D : CyclotomicData) : ℤ := (-1) ^ (∑ n ∈ D.gammaSupport, n * 
 `H_q^γ(A, B | t) = ((-1)^{r+s}/(1-q)) ∑_m q^{-s(0)+s(m)} ∏_{γ(n)>0} g(nm)^{γ(n)}
 ∏_{γ(n)<0} g(-nm)^{-γ(n)} · ω(ε M⁻¹ t)^m`, which needs no congruence on `q`. -/
 def gammaVectorSum (D : CyclotomicData) (ω : MulChar F ℂ) (ψ : AddChar F ℂ) (t : F) : ℂ :=
-  ((-1) ^ (D.r + D.s) / (1 - (Fintype.card F : ℂ))) * ∑ m ∈ Finset.range (qm F),
-    (Fintype.card F : ℂ) ^ ((D.commonRootMultiplicity (qm F) m : ℤ) -
+  ((-1) ^ (D.r + D.s) / (1 - (Nat.card F : ℂ))) * ∑ m ∈ Finset.range (qm F),
+    (Nat.card F : ℂ) ^ ((D.commonRootMultiplicity (qm F) m : ℤ) -
       D.commonRootMultiplicity (qm F) 0) *
     (∏ n ∈ D.gammaSupport, gaussSumPow ω ψ (n * m) ^ (D.gamma n).toNat) *
     (∏ n ∈ D.gammaSupport, gaussSumPow ω ψ (-(n * m)) ^ (-D.gamma n).toNat) *
@@ -768,25 +773,25 @@ theorem gammaVectorSum_eq_hypergeometricSum (D : CyclotomicData)
 rational number: **from here on `H_q(A, B | t)` means this.** It is the rational number whose
 image in `ℂ` is `gammaVectorSum` for some generator `ω` and primitive `ψ`; that it exists and does
 not depend on the choice is `frobeniusSum_spec`. -/
-def frobeniusSum (D : CyclotomicData) (F : Type*) [Field F] [Fintype F] [DecidableEq F]
+def frobeniusSum (D : CyclotomicData) (F : Type*) [Field F] [Finite F] [DecidableEq F]
     (t : F) : ℚ :=
   Classical.epsilon fun x : ℚ => ∃ (ω : MulChar F ℂ) (ψ : AddChar F ℂ),
     orderOf ω = qm F ∧ ψ.IsPrimitive ∧ (x : ℂ) = D.gammaVectorSum ω ψ t
 
 /-- **4.7**, rationality of the gamma form for `p ∤ N`, for every generator `ω` and primitive `ψ`. -/
-theorem frobeniusSum_spec (D : CyclotomicData) (hp : ∀ p ∈ D.wildPrimes, ¬p ∣ Fintype.card F)
+theorem frobeniusSum_spec (D : CyclotomicData) (hp : ∀ p ∈ D.wildPrimes, ¬p ∣ Nat.card F)
     (ω : MulChar F ℂ) (hω : orderOf ω = qm F) (ψ : AddChar F ℂ) (hψ : ψ.IsPrimitive) (t : F) :
     (D.frobeniusSum F t : ℂ) = D.gammaVectorSum ω ψ t := sorry
 
 /-- **4.9**, integrality for cyclotomic data: `q^δ H_q(A, B | t) ∈ ℤ` with `δ = hodgeTwist` (2.5),
 which is sharp (`A2.2_B4`: `δ = 1`, `H_3(· | 2) = -2/3`) and implies Beukers–Cohen–Mellit's
 `q^{min(r,s) - λ} H_q ∈ ℤ`. At `t = 0` the sum is the single term `1/(1 - q)`, hence `t ≠ 0`. -/
-theorem frobeniusSum_integral (D : CyclotomicData) (hp : ∀ p ∈ D.wildPrimes, ¬p ∣ Fintype.card F)
+theorem frobeniusSum_integral (D : CyclotomicData) (hp : ∀ p ∈ D.wildPrimes, ¬p ∣ Nat.card F)
     (t : F) (ht : t ≠ 0) :
-    ∃ z : ℤ, (Fintype.card F : ℚ) ^ D.hodgeTwist * D.frobeniusSum F t = z := sorry
+    ∃ z : ℤ, (Nat.card F : ℚ) ^ D.hodgeTwist * D.frobeniusSum F t = z := sorry
 
 /-- **4.10**, the swap at the level of traces: `H_q(A, B | t) = H_q(B, A | 1/t)`. -/
-theorem frobeniusSum_swap (D : CyclotomicData) (hp : ∀ p ∈ D.wildPrimes, ¬p ∣ Fintype.card F)
+theorem frobeniusSum_swap (D : CyclotomicData) (hp : ∀ p ∈ D.wildPrimes, ¬p ∣ Nat.card F)
     (t : F) (ht : t ≠ 0) :
     D.swap.frobeniusSum F t⁻¹ = D.frobeniusSum F t := sorry
 
@@ -794,10 +799,10 @@ theorem frobeniusSum_swap (D : CyclotomicData) (hp : ∀ p ∈ D.wildPrimes, ¬p
 and primitive datum `D'`, `H_q(D | t) = ∑_{c^ρ = t} H_q(D' | c)`, both sides `0` when `t` is not
 a `ρ`-th power, for `ρ ∣ q - 1`. -/
 theorem frobeniusSum_primitiveData (D : CyclotomicData)
-    (hp : ∀ p ∈ D.wildPrimes, ¬p ∣ Fintype.card F) (hρ : D.toParameters.rotationNumber ∣ qm F)
+    (hp : ∀ p ∈ D.wildPrimes, ¬p ∣ Nat.card F) (hρ : D.toParameters.rotationNumber ∣ qm F)
     (t : F) (ht : t ≠ 0) :
     D.frobeniusSum F t =
-      ∑ c ∈ (Finset.univ.filter fun c : F => c ^ D.toParameters.rotationNumber = t),
+      ∑ᶠ c : {c : F // c ^ D.toParameters.rotationNumber = t},
         D.primitiveData.frobeniusSum F c := sorry
 
 end Rational
@@ -815,7 +820,6 @@ read in Mathlib's `GaloisField p f`: the LMFDB's `t`, not `1/t`, and the Hodge-n
 It is `a_q` for `p` good for `(D, t)` and `f ≥ 1`; at `f = 0` the field is `ZMod p` and the
 prefactor `1`, so the value is not `a_1`. -/
 def frobeniusTrace (t : ℚ) (p : ℕ) [Fact p.Prime] (f : ℕ) : ℚ :=
-  letI : Fintype (GaloisField p f) := Fintype.ofFinite _
   ((p : ℚ) ^ f) ^ D.hodgeTwist * D.frobeniusSum (GaloisField p f) (ratToField _ t)
 
 /-- **5.1**, integrality `a_q ∈ ℤ` (4.9) for `t ≠ 0`, `p` good and `f ≥ 1`. For `A2.2_B4`,
@@ -852,7 +856,9 @@ theorem frobeniusPolynomial_of_isPure (t : ℚ) (p : ℕ) [Fact p.Prime] (Λ : M
       (D.frobeniusPolynomial t p).natDegree = D.degree := sorry
 
 /-- **5.5 (ii)**, for `t ≠ 0` and `p` good, under purity the Frobenius polynomial has integer
-coefficients: the `λ ∈ Λ` have integral power sums (5.1), hence are algebraic integers. At a wild
+coefficients: the series `1 + ∑_e a_{p^e} T^e = 1 - T F'/F` is rational with integral
+coefficients (5.1), so Fatou's lemma makes its reduced denominator integral and the `λ ∈ Λ`
+algebraic integers. At a wild
 prime the traces are unconstrained values of `Classical.epsilon`, and purity alone does not make
 a multiset integral. -/
 theorem frobeniusPolynomial_int_of_isPure (t : ℚ) (ht : t ≠ 0) (p : ℕ) [Fact p.Prime]
@@ -880,18 +886,20 @@ theorem local_functional_equation (t : ℚ) (p : ℕ) [Fact p.Prime] (hsd : D.Is
       (D.frobeniusPolynomial t p).coeff (D.degree - k) * (p : ℚ) ^ (D.weight * k) =
         ε * (p : ℚ) ^ (D.weight * D.degree / 2) * (D.frobeniusPolynomial t p).coeff k := sorry
 
-/-- **5.5**, the sign `ε_p = (-1)^d ∏λ / p^{wd/2}` is `+1` in the symplectic case when each of
-the two square roots `±p^{w/2}` occurs in `Λ` with even multiplicity (in particular when none
-occurs): the involution `λ ↦ p^w/λ` pairs off the other elements. `Λ = {√p, -√p}` is the
-instance with odd multiplicities and `ε_p = -1`. For the realization the alternating Poincaré
-pairing supplies the even multiplicities, a target of README 5.0. -/
+/-- **5.5**, the symplectic sign: when `w` is odd and each of the two square roots `±p^{w/2}`
+occurs in the pure self-dual multiset `Λ` with even multiplicity (in particular when none occurs),
+the top coefficient of the Frobenius polynomial is `coeff d = p^{wd/2}`, i.e. `ε_p = +1` in the
+local functional equation. Through 5.5 (i) the coefficient is `(-1)^d ∏λ`, and the involution
+`λ ↦ p^w/λ` pairs off the elements other than `±p^{w/2}`. `Λ = {√p, -√p}` is the instance with
+odd multiplicities, where `coeff 2 = -p`. For the realization the alternating Poincaré pairing
+supplies the even multiplicities, a target of README 5.0. -/
 theorem local_sign_eq_one_of_odd_weight (t : ℚ) (p : ℕ) [Fact p.Prime] (hw : Odd D.weight)
     (Λ : Multiset ℂ) (hcard : Multiset.card Λ = D.degree)
     (hΛ : ∀ z ∈ Λ, ‖z‖ = (p : ℝ) ^ ((D.weight : ℝ) / 2))
     (htr : ∀ e : ℕ, 1 ≤ e → (D.frobeniusTrace t p e : ℂ) = (Λ.map fun z => z ^ e).sum)
     (hsd : Λ.map (fun z => (p : ℂ) ^ D.weight / z) = Λ)
     (hfix : ∀ z : ℂ, z ^ 2 = (p : ℂ) ^ D.weight → Even (Λ.count z)) :
-    (-1) ^ D.degree * Λ.prod = (p : ℂ) ^ (D.weight * D.degree / 2) := sorry
+    (D.frobeniusPolynomial t p).coeff D.degree = (p : ℚ) ^ (D.weight * D.degree / 2) := sorry
 
 /-- **5.9**, the tame conductor exponent at a tame prime (Roberts–Rodriguez-Villegas (13.1)):
 `rank (h_0^{v_p(t)} - 1)` at the cusp `zero` (`v_p(t) > 0`), `rank (h_∞^{-v_p(t)} - 1)` at the cusp
@@ -927,7 +935,7 @@ end CyclotomicData
 
 section PointCounts
 
-variable {F : Type*} [Field F] [Fintype F] [DecidableEq F]
+variable {F : Type*} [Field F] [Finite F] [DecidableEq F]
 
 /-- **6.1**, the Legendre curve `y² = x(x - 1)(x - λ)`, with Weierstrass coefficients
 `(0, -(1 + λ), 0, λ, 0)`. -/
@@ -936,11 +944,11 @@ def legendreFamily (lam : F) : WeierstrassCurve F := ⟨0, -(1 + lam), 0, lam, 0
 /-- **6.1**, Ono's count (Beukers–Cohen–Mellit Theorem 1.2): for odd `q` and `λ ≠ 0, 1`,
 `|E_λ(𝔽_q)| = q + 1 - (-1)^{(q-1)/2} H_q(1/2, 1/2; 1, 1 | λ)`, the count being Mathlib's point type
 (the affine solutions and the point at infinity). -/
-theorem legendre_point_count (hq : Odd (Fintype.card F)) (ω : MulChar F ℂ)
+theorem legendre_point_count (hq : Odd (Nat.card F)) (ω : MulChar F ℂ)
     (hω : orderOf ω = qm F) (ψ : AddChar F ℂ) (hψ : ψ.IsPrimitive) (lam : F) (h0 : lam ≠ 0)
     (h1 : lam ≠ 1) :
     (Nat.card (legendreFamily lam).toAffine.Point : ℂ) =
-      Fintype.card F + 1 - (-1) ^ ((Fintype.card F - 1) / 2) *
+      Nat.card F + 1 - (-1) ^ ((Nat.card F - 1) / 2) *
         hypergeometricSum ω ψ {((qm F / 2 : ℕ) : ℤ), ((qm F / 2 : ℕ) : ℤ)} {0, 0} lam := sorry
 
 /-- **6.2**, the cubic family `y² + xy + λy = x³`, the image of `y² + xy + y = λx³` under
@@ -953,17 +961,17 @@ def cubicDatum : CyclotomicData := ⟨{3}, {1, 1}, by decide, by decide, by deci
 /-- **6.2**, Beukers–Cohen–Mellit Corollary 1.7 at every `q` coprime to `6`, with `H_q` the value
 of the gamma form of 4.7 (no congruence on `q`): for `λ ≠ 0` and `27λ ≠ 1`,
 `|E'_λ(𝔽_q)| = q + 1 - H_q(1/3, 2/3; 1, 1 | 27λ)`. -/
-theorem cubic_point_count (h6 : Nat.Coprime (Fintype.card F) 6) (lam : F) (h0 : lam ≠ 0)
+theorem cubic_point_count (h6 : Nat.Coprime (Nat.card F) 6) (lam : F) (h0 : lam ≠ 0)
     (h1 : 27 * lam ≠ 1) :
     (Nat.card (cubicFamily lam).toAffine.Point : ℚ) =
-      Fintype.card F + 1 - cubicDatum.frobeniusSum F (27 * lam) := sorry
+      Nat.card F + 1 - cubicDatum.frobeniusSum F (27 * lam) := sorry
 
 /-- **6.2**, the cubic root-count datum `([3], [1,2])`, distinct from the elliptic datum. -/
 def cubicRootDatum : CyclotomicData := ⟨{3}, {1, 2}, by decide, by decide, by decide⟩
 
 /-- **6.2**, Beukers–Cohen–Mellit Corollary 1.6: the zeros of `x³ + 3x² - 4t` over
 any finite field of cardinality coprime to six are counted by `1 + H_q(1/3,2/3;1,1/2 | t)`. -/
-theorem cubic_root_count (h6 : Nat.Coprime (Fintype.card F) 6) (t : F)
+theorem cubic_root_count (h6 : Nat.Coprime (Nat.card F) 6) (t : F)
     (h0 : t ≠ 0) (h1 : t ≠ 1) :
     (Nat.card {x : F // x ^ 3 + 3 * x ^ 2 - 4 * t = 0} : ℚ) =
       1 + cubicRootDatum.frobeniusSum F t := sorry
@@ -986,8 +994,8 @@ theorem weighted_torus_point_count {r s : ℕ} (p : Fin (r + 1) → ℕ)
     (ω : MulChar F ℂ) (hω : orderOf ω = qm F) (ψ : AddChar F ℂ)
     (hψ : ψ.IsPrimitive) (t : F) (ht : t ≠ 0) :
     (Nat.card (weightedTorusPoints p q t) : ℂ) =
-      (qm F : ℂ) ^ (r + s) / Fintype.card F +
-        (1 / ((Fintype.card F : ℂ) * qm F)) *
+      (qm F : ℂ) ^ (r + s) / Nat.card F +
+        (1 / ((Nat.card F : ℂ) * qm F)) *
           ∑ m ∈ Finset.range (qm F),
             (∏ i, gaussSumPow ω ψ ((p i : ℤ) * m)) *
             (∏ j, gaussSumPow ω ψ (-((q j : ℤ) * m))) *

@@ -73,12 +73,14 @@ cyclotomic dictionary (`Data`), the zigzag (`Hodge`), the Levelt matrices and th
 - **General motives and realizations.** `MotivesAndAlgebraicCycles` §§4.17, 5.2–5.9
   supplies compact-support motives, the Nori abelian category and its geometric comparison;
   §§2.6–2.8 supplies the classical realization operations on smooth projective varieties.
-  `EtaleCohomologyFoundations` §§F.4–F.6 supplies the rational adic operations and duality.
+  `EtaleCohomologyFoundations` §§F.2.1–F.2.5 supplies base change and compact-support
+  cohomology, and §§F.4.5, F.5–F.6 the rational realization, duality and Gysin maps.
   The hypergeometric subquotient and its comparison maps are constructed in 5.0 here.
 - **Frobenius-module linear algebra.** `DeligneWeightsAndPurity` 0.9, 0.10, 0.15 and 0.16 supply
   purity of Frobenius-stable subspaces and quotients, the determinant–trace identity, Tate twists
   and the eigenvalue symmetry of a Frobenius-equivariant perfect pairing; 5.0 and 5.5 apply them to
-  the hypergeometric realization. Section 0.16 does not treat self-paired multiplicities or
+  the hypergeometric realization, and §4.4 supplies Fatou's lemma for the integrality of the
+  Frobenius polynomial in 5.5 (ii). Section 0.16 does not treat self-paired multiplicities or
   signs; 5.5 proves the sign `ε_p` of the hypergeometric local functional equation, for the
   realization from the even multiplicities of `±p^{w/2}` that its alternating pairing forces
   through 0.16 (iii) and Tau Ceti's `LinearMap.BilinForm.IsAlt.even_finrank`.
@@ -107,10 +109,12 @@ cyclotomic dictionary (`Data`), the zigzag (`Hodge`), the Levelt matrices and th
   analysis. Section 5.0 constructs the filtered geometric realization needed for Fedorov's
   Hodge-number theorem; a general analytic theory of hypergeometric functions is outside this scope.  Levelt's theorem is stated as a statement about
   matrix groups, as Beukers–Heckman state it, with no differential equation in its hypotheses.
-- **Character sums over finite fields** that are not hypergeometric sums: Kloosterman sums,
-  Morita's `p`-adic Gamma function and the Gross–Koblitz formula, and the `p`-adic evaluation of
-  `H_q` that Magma and Sage use (an algorithm), are the sibling roadmap
-  `CharacterSumsOverFiniteFields`' (its 6.4, 6.5).  The Hasse–Davenport product relation is
+- **Character sums over finite fields** that are not hypergeometric sums: Kloosterman sums and
+  the `p`-adic evaluation of `H_q` that Magma and Sage use (an algorithm) are the sibling roadmap
+  `CharacterSumsOverFiniteFields`' (its 6.4, 6.5).  Morita's `p`-adic Gamma function and the
+  Gross–Koblitz formula are constructed in `DirichletPadicLFunctions` §§4.1, 4.4–4.5, which
+  `CharacterSumsOverFiniteFields` 6.4–6.5 restate for Jacobi-sum evaluations; neither is a target
+  here.  The Hasse–Davenport product relation is
   consumed from `ClassicalArithmeticCompletion` 7.29.
 - **General Hodge–Newton inequalities.** Mazur's inequality is outside this roadmap;
   5.4 specializes the supplied polygon objects and defines ordinarity.
@@ -135,7 +139,7 @@ degrees.  Each row below says which LMFDB data pin it.
 | Cusps and `t` | In the LMFDB's `t`, **`t → 0` is the cusp of `h_0`** (the `B`-side: near `t = 0` the local exponents are `1 − β_j`) and **`t → ∞` the cusp of `h_∞`** (the `A`-side); `t → 1` is the cusp of the pseudo-reflection `h_1`.  Hence for a tame prime, `v_p(t) > 0` reads `h_0`, `v_p(t) < 0` reads `h_∞`, `v_p(t − 1) > 0` reads `h_1` (5.9).  This is Roberts–Rodriguez-Villegas (13.1) ("`τ = ∞` if `k` is negative, and `τ = 0` if `k` is positive", `k = ord_p(t)`), and it is what the LMFDB's tame conductor exponents force: all 53 tame `(motive, p)` pairs of the degree-2 motives agree with it and 24 contradict the opposite reading, e.g. `A2.2_B1.1_t-3.1` at `p = 3` has `c_3 = 1`, `F_3 = 1 − T` (`h_0 = C(Φ_1²)⁻¹` gives `2 − 1`; `h_∞ = C(Φ_2²)` would give `2`). |
 | Good, tame, wild | `p` is **wild** for `(A, B)` if `p` divides some element of `A ∪ B` (equivalently some `n` with `γ(n) ≠ 0`, equivalently the common denominator `N := lcm(A ∪ B)` of `α ∪ β`).  For `t ≠ 1`, `p` is **tame** for `(A, B, t)` if it is not wild and `v_p(t) ≠ 0` or `v_p(t − 1) > 0`; for `t = 1` no prime is tame.  **Good** means neither.  `H_q(α, β | ·)` at `q = p^f` is defined for every `p` not wild (4.7), and the trace `a_q(A, B; t)` for every good `p` and `f ≥ 1`. |
 | Zigzag and Hodge vector | List the `2d` representatives in `(0, 1]` of `α` and `β`, with multiplicity, in increasing order; an `α` and a `β` never share a representative (disjointness), but copies of one class of `α` (or of `β`) are equal and adjacent, and their order among themselves is immaterial.  Start at height `0`; at an `α` record the current height and step up by `1`; at a `β` step down by `1`.  `h_k :=` the number of `α`'s recorded at height `k`.  The `c` copies of a class `a ∈ α` are recorded at the `c` consecutive heights `Z(a) − c, …, Z(a) − 1`, with `Z` the counting function of 2.1.  For `d > 0` the heights recorded form an interval `[m, m + w]`; the **weight** is `w` and the **Hodge vector** is `(h_m, …, h_{m+w})`, written `(h^{0,w}, …, h^{w,0})` with `h^{p, w−p} := h_{m+p}`.  It is a palindrome for cyclotomic data (2.4), so the orientation is immaterial there.  The LMFDB knowl "hgm.zigzagplot" is this procedure.  Witness: `A2.2_B1.1` (`α = (1/2, 1/2)`, `β = (1, 1)`) records the two copies of `1/2` at heights `0` and `1`, so `w = 1` and the Hodge vector is `(1, 1)`; recording both at `Z(1/2) − 1 = 1` would give `w = 0` and `(2)`. |
-| Type | **symplectic** if `w` is odd, **orthogonal** if `w` is even (knowl "hgm.type"; by 2.6 the LMFDB's extra clause "`d` even" is automatic for odd `w`). |
+| Type | **symplectic** if `w` is odd, **orthogonal** if `w` is even (knowl "hgm.type"; by 2.6, `d` is even whenever `w` is odd). |
 | Hodge normalisation | For `d > 0`, `δ(A, B) := (w + 1 − m_A − m_B)/2`, an integer by the parity law 2.5, `≥ 0`, and equal to `−m` (minus the least recorded height of the zigzag) when `1 ∉ A` (2.5); for the empty datum set `δ = 0`.  The motive the LMFDB displays is Hodge-normalised (Hodge numbers `h^{p, w−p}` for `0 ≤ p ≤ w`), and its trace is `q^δ · H_q`; `H_q` alone is the trace of the Tate twist `H(A, B, t)(δ)`.  Witness (LMFDB data): `A2.2_B4` has `δ = 1`, and `A2.2_B4_t2.1` has `F_3(T) = 1 + 2T + 3T²`, `a_3 = −2 = 3 · H_3(1/2, 1/2; 1/4, 3/4 | 2)` with `H_3 = −2/3`.  `δ = 0` for `A2.2.2.2_B1.1.1.1`, `A4.2.2_B3.1.1` and every datum with `m_A + m_B = w + 1`; `δ = 2` for `A6.4.4.3_B12.2.2.2.1`.  Sage's `padic_H_value` carries the same factor (its `D = −min zigzag`, the same number). |
 | Characters on `𝔽_q` | `𝔮 := q − 1`.  `ω : MulChar 𝔽_q ℂ` is a fixed character of order `𝔮` (a generator; exists by `exists_mulChar_orderOf_eq_card_units`), `ψ : AddChar 𝔽_q ℂ` a fixed nontrivial additive character, `g(m) := gaussSum (ω ^ m) ψ` for `m : ℤ`, and `ω(0) = 0` (Mathlib's convention), so `g(0) = −1`.  A parameter `a ∈ α` with `𝔮 • a = 0` in `ℚ/ℤ` has an integer `a𝔮 ∈ ℤ/𝔮`, and `ω^{a𝔮}` is well defined.  `H_q` does not depend on `ψ` (4.4), and changing `ω` to `ω^u` replaces `(α, β)` by `(uα, uβ)` (4.4), so for cyclotomic data it depends on nothing (4.5). |
 | The four sums | `S_q(α, β | t) := (1/𝔮) ∑_{m ∈ ℤ/𝔮} ∏_i g(m + α_i𝔮) g(−m − β_i𝔮) · ω((−1)^d t)^m`; `H_q(α, β | t) := −∏_i (g(α_i𝔮) g(−β_i𝔮))^{-1} · S_q(α, β | t)`, which is Beukers–Cohen–Mellit Definition 1.1 since `−1/𝔮 = 1/(1 − q)`; Katz's `Hyp_q(α, β | t)` is the exponential sum over the torus `t x_1⋯x_d = y_1⋯y_d` of 4.2; Greene's `_{n+1}F_n` is Definition 3.10 of his paper, in his normalization.  **`H_q` is the one that enters the arithmetic layer.** |
@@ -151,7 +155,7 @@ degrees.  Each row below says which LMFDB data pin it.
 
 - Gauss and Jacobi sums over a finite field with values in any commutative ring, `gaussSum`,
   `jacobiSum`, and their algebra (`gaussSum_mul_gaussSum_eq_card`, `gaussSum_mulShift_eq`,
-  `star_gaussSum_eq`, `gaussSum_frob`, `jacobiSum_eq_gaussSum_mul_gaussSum_div_gaussSum`,
+  `star_gaussSum_eq`, `jacobiSum_eq_gaussSum_mul_gaussSum_div_gaussSum`,
   `gaussSum_pow_eq_prod_jacobiSum`, `MulChar.ringHomComp`, `jacobiSum_ringHomComp`)
   (`Mathlib/NumberTheory/GaussSum.lean`, `Mathlib/NumberTheory/JacobiSum/Basic.lean`);
   Beukers–Cohen–Mellit Theorems 2.1 and 2.2 are these.  Assumed: every multiplicative character,
@@ -288,7 +292,9 @@ Frobenius-module linear algebra of the same layer is consumed by 5.0 and 5.5: 0.
 multiplies geometric Frobenius by `q^{−r}` and lowers the weight by `2r`) and 0.16 (under a
 perfect pairing with `⟨Fx, Fy⟩ = c⟨x, y⟩` the eigenvalue multiset is stable under `α ↦ c/α` and the
 pairing is perfect between the generalized eigenspaces of `α` and `c/α`). Section 4.3 supplies
-smooth-projective purity for the compactification image of 5.0.
+smooth-projective purity for the compactification image of 5.0, and §4.4 Fatou's lemma (the
+normalized integral numerator/denominator theorem for a rational series in `ℤ[[t]]` with constant
+term `1`), the integrality input of 5.5 (ii).
 
 ### From TauCetiRoadmap.PolynomialGaloisGroups and TauCetiRoadmap.NumberFieldArithmetic
 
@@ -324,9 +330,9 @@ Sections 2.9 and 5.4 specialize these, with `v_p(p) = 1`.
 
 ### From the geometric cohomology suppliers
 
-`EtaleCohomologyFoundations` §§F.4–F.6 supplies rational adic cohomology with compact support,
-base change, Gysin maps and duality. `ComplexComparisonPartII` §§C5.1, C5.3–C5.4 and C5.6
-supplies the filtered de Rham and Betti comparison, including smooth nonproper varieties.
+`EtaleCohomologyFoundations` §§F.2.1–F.2.5 supplies base change and compact-support cohomology,
+and §§F.4.5, F.5–F.6 its rational realization, duality and Gysin maps. `ComplexComparisonPartII`
+§§C5.1, C5.3–C5.4 and C5.6 supplies the filtered de Rham and Betti comparison, including smooth nonproper varieties.
 `ResolutionOfSingularitiesCharacteristicZero` §§5.2, 5.5, 6.2–6.4 supplies smooth SNC
 compactifications and resolution of graph closures for common refinements. These are the inputs for the hypergeometric
 image and comparison in 5.0; none is reconstructed here.
@@ -864,7 +870,8 @@ also hold, with the block form of 2.1, on the `1161` data of the Checks of 2.2.
 Prove that if `weight` is odd then `d` is even (same symmetry: an odd weight forces the fixed
 classes to contribute an even displacement), and define
 `type D := if Even weight then orthogonal else symplectic`.  Prove `type (swap D) = type D` and
-that the LMFDB's rule "symplectic iff `w` odd and `d` even" agrees.  Acceptance: the same `1593`
+that the type is symplectic iff `w` is odd and `d` is even (the second clause being automatic).
+Acceptance: the same `1593`
 data.  `Suggested.lean` writes the two values as `MotiveType.orthogonal` and
 `MotiveType.symplectic` of the type `MotiveType`, and states the parity law as
 `even_degree_of_odd_weight`.
@@ -1214,7 +1221,10 @@ keeps `V = (ℂ^d, 0)` out).  Prove: if `rotationNumber (α, β) = r > 1` then `
 imprimitive with `k = r`: by 1.8, `q_∞` and `q_0` are polynomials in `X^r`, so in the cyclic model
 `ℂ[X]/(q_∞)` of 3.4 the subspaces `V_i := span {X^j : j ≡ i (mod r)}`, `0 ≤ i < r`, are each
 nonzero and are permuted cyclically by both companion matrices.
-Beukers–Heckman Theorem 5.8, the converse for interlacing-free data, is cited; the LMFDB's
+Beukers–Heckman Theorem 5.8 is cited for the shape of the imprimitive case: when the reflection
+subgroup is irreducible, `Γ(α, β)` is imprimitive iff, up to exchanging the two sets, `{a_j} = a·μ_n`
+and `{b_j} = b·μ_p ∪ c·μ_q` with `p + q = n` coprime and `a^n = b^p c^q`; it is a
+characterisation of imprimitivity, not a converse of the rotation-number statement.  The LMFDB's
 `imprim` column is the rotation number of 1.8 and is read through this milestone.
 `Suggested.lean` writes the predicate as `IsImprimitive` and the theorem as
 `isImprimitive_of_rotationNumber`.
@@ -1394,8 +1404,8 @@ by `ω^u` for `u ∈ (ZMod 𝔮)ˣ` gives `H_{ω^u}(a, b | t) = H_ω(u a, u b | 
 `star_gaussSum_eq`.  Over `𝔽_p` with `ζ_𝔮 ↦ ζ_𝔮^p` being the Frobenius of 
 [Chebotarev](../../Completed/Chebotarev/README.md) Layer 4, this is also `H_q(pa, pb | t)`.
 
-*Needs:* 4.3; Mathlib `gaussSum_mulShift_eq`, `star_gaussSum_eq`, `gaussSum_frob`,
-`MulChar.ringHomComp`; Tau Ceti `map_gaussSumOfPrimitiveRoot` as the pattern.
+*Needs:* 4.3; Mathlib `gaussSum_mulShift_eq`, `star_gaussSum_eq`, `MulChar.ringHomComp`; Tau Ceti
+`map_gaussSumOfPrimitiveRoot` as the pattern.
 
 ### 4.5 Rationality for cyclotomic data
 
@@ -1650,7 +1660,7 @@ from Layer 4 and those that are implications from the purity hypothesis 5.5, whi
 
 For a positive-degree cyclotomic datum and `t ∈ ℚ ∖ {0,1}`, construct the hypergeometric
 cohomological subquotient as follows. For primitive gamma data of length `κ + 3`, use the
-canonical toric hypersurface of Roberts–Rodriguez-Villegas (3.1)–(3.3), §3, pp. 3–4,
+canonical toric hypersurface of Roberts–Rodriguez-Villegas (3.2)–(3.3), §3, p. 3,
 equivalently `∑ x_i = ∑ y_j`, `(t/M) ∏ x_i^{p_i} = ∏ y_j^{q_j}` in the projective torus,
 where `p_i` and `−q_j` are the positive and negative gamma entries.
 In its hypersurface presentation `X ⊂ T = 𝔾_m^{κ+1}`, form the primitive compact-support
@@ -1719,7 +1729,7 @@ monodromies are the triple of 3.2, with the parameter and character normalizatio
   would retain dimension `2`. Here `κ = w = j = 0`.
 
 *Needs:* Layers 1–4; `MotivesAndAlgebraicCycles` §§4.17, 5.2–5.9, 6.8, 2.6–2.8;
-`EtaleCohomologyFoundations` §§F.4–F.6; `ComplexComparisonPartII` §§C5.1, C5.3–C5.4, C5.6;
+`EtaleCohomologyFoundations` §§F.2.1–F.2.5, F.4.5, F.5–F.6; `ComplexComparisonPartII` §§C5.1, C5.3–C5.4, C5.6;
 `ResolutionOfSingularitiesCharacteristicZero` §§5.2, 5.5, 6.2–6.4;
 `HodgeStructures` Layers 0–2; `DeligneWeightsAndPurity` §§0.9, 0.15, 0.16, 4.3;
 `ArithmeticGaloisRepresentations` §§2.4–2.7, 3.1–3.3.
@@ -1856,10 +1866,15 @@ elements of `Λ` as Weil `p`-numbers of weight `w` in the sense of
 [`DeligneWeightsAndPurity`](../DeligneWeightsAndPurity/README.md) 0.1 (in prose; the Lean form
 carries the absolute-value condition directly).  Prove, **assuming `IsPure D t p`**: (i)
 `frobeniusSeries = ∏_{λ ∈ Λ} (1 − λT)`, a polynomial of degree exactly `d`, so
-`frobeniusPolynomial` is it; (ii) for `t ≠ 0` and `p` good, the `λ ∈ Λ` are algebraic integers, because their power sums
-`frobeniusTrace D t (p^e)`, `e ≥ 1`, are integers (5.1) (an `ℓ`-adic pole of `∑_e (∑_λ λ^e) T^e =
-∑_λ λT/(1 − λT)` inside the unit disc would contradict integral coefficients), so the coefficients
-of `frobeniusPolynomial` are rational algebraic integers and `frobeniusPolynomial ∈ ℤ[T]`; (iii) `|coeff k| ≤ C(d, k) p^{kw/2}`; (iv) `Λ` is determined
+`frobeniusPolynomial` is it; (ii) for `t ≠ 0` and `p` good, `frobeniusPolynomial ∈ ℤ[T]`: with
+`F := frobeniusPolynomial`, (i) gives `1 + ∑_{e ≥ 1} frobeniusTrace D t (p^e) T^e = 1 − T F′(T)/F(T)`,
+a rational series with integer coefficients (5.1) and constant term `1`, so by Fatou's lemma
+(`DeligneWeightsAndPurity` §4.4, the normalized integral numerator/denominator theorem: such a
+series is `A/B` with `A, B ∈ ℤ[T]` coprime and `A(0) = B(0) = 1`) its reduced denominator `B` lies
+in `ℤ[T]`; the poles of `−T F′/F = ∑_λ λT/(1 − λT)` are the `1/λ` for the distinct `λ ∈ Λ`, each
+simple with residue a multiplicity, so `B = ∏_{λ distinct} (1 − λT)`, every `λ` is a root of the
+monic reverse polynomial of `B` and hence an algebraic integer, and the coefficients of `F`, rational
+by 5.2 and algebraic integers as elementary symmetric functions of `Λ`, lie in `ℤ`; (iii) `|coeff k| ≤ C(d, k) p^{kw/2}`; (iv) `Λ` is determined
 by `D, t, p`; (v) `coeff d = ±p^{wd/2}` (a rational integer of absolute value `p^{wd/2}`), so the
 Newton polygon of 5.4 has the endpoints `(0, 0)` and `(d, wd/2)` of the Hodge polygon (2.9).  Assuming in addition the **self-duality** `Λ = {p^w/λ : λ ∈ Λ}` (`IsSelfDual D t p`), prove the **local
 functional equation** `p^{wd/2} T^d F_p(1/(p^w T)) = ε_p F_p(T)`, i.e.
@@ -1883,7 +1898,9 @@ theorem and Deligne's purity for the realization, targeted in 5.0.
 `Suggested.lean` states (i), (ii), (iii), the local functional equation and the symplectic sign
 as `frobeniusPolynomial_of_isPure`, `frobeniusPolynomial_int_of_isPure`,
 `abs_coeff_frobeniusPolynomial_le`, `local_functional_equation` and
-`local_sign_eq_one_of_odd_weight`; (ii) carries `t ≠ 0` and `p` good because at a wild prime the
+`local_sign_eq_one_of_odd_weight`, the last with the conclusion `coeff d = p^{wd/2}` on
+`frobeniusPolynomial` (that is, `ε_p = 1`) under the multiset hypotheses of `IsSelfDual` and the
+even-multiplicity proviso; (ii) carries `t ≠ 0` and `p` good because at a wild prime the
 traces are values of `Classical.epsilon` with nothing to pin them, and purity alone does not make
 a multiset integral (`Λ = {(3 + 4i)/5, (3 − 4i)/5}` has rational power sums, absolute values `1`
 and non-integral elements).  (i), (iii) and the functional equation follow from `Λ` alone; (i)
@@ -1909,10 +1926,17 @@ are equal.
   `F = (1 − 5T²)² = 1 − 10T² + 25T⁴`, `∏ λ = 25 = 5^{wd/2}` and `ε = +1`; each square root occurs
   twice.  A proviso "no `λ² = p^w`" would exclude this multiset although its sign is `+1`, and
   `Λ = {√5, √5}` (`d = 2`, `∏ λ = 5`, `ε = +1`) is a second such instance.
+- The Fatou route of (ii) on `A2.2_B1.1`, `t = 2`, `p = 5`: the series `1 + ∑_e a_{5^e} T^e` is
+  `1 − 2T − 6T² + 22T³ − 14T⁴ − ⋯ = (1 − 5T²)/(1 + 2T + 5T²)`, whose reduced denominator has
+  integer coefficients and constant term `1`, and whose reverse `X² + 2X + 5` is monic with roots
+  `−1 ± 2i`, the elements of `Λ`.  The control `Λ = {(3 ± 4i)/5}` has first power sum `6/5`, so
+  its series is not in `ℤ[[T]]` and Fatou's lemma does not apply; its denominator
+  `1 − (6/5)T + T²` is not integral.
 - The degree-`0` datum: `Λ = ∅`, `F = 1`, `ε = 1`, and every statement holds trivially.
 
 *Needs:* 2.6, 2.9, 5.1, 5.2, 5.4; Mathlib `Multiset.prod_X_sub_C_coeff`, the norm on `ℂ`;
-`DeligneWeightsAndPurity` 0.10 (route for (i)); for the realization sign, 5.0,
+`DeligneWeightsAndPurity` 0.10 (route for (i)) and §4.4 (Fatou's lemma, for (ii)); for the
+realization sign, 5.0,
 `DeligneWeightsAndPurity` 0.16 and Tau Ceti `LinearMap.BilinForm.IsAlt.even_finrank`.
 
 ### 5.6 Acceptance Euler factors
@@ -2506,8 +2530,8 @@ or the hypergeometric point-count identities, so Layers 1–4 and 6 have no coun
     (`AlgebraicGeometry.eq_zetaSeries_iff`).
   - [`RingTheory/PowerSeries/Fatou.lean`](https://github.com/AxiomMath/Weil/blob/27cdb2049be62ee2911429b47f54774078450e32/Weil/RingTheory/PowerSeries/Fatou.lean): Fatou's lemma
     (`PowerSeries.exists_int_coprime_mul_eq_of_rat`) and the Gauss lemma for a rational factor with
-    constant coefficient `1` of an integral polynomial. Applied to `1 + ∑_e a_{p^e} T^e`, they give
-    an integrality argument for 5.5 (ii) in place of its `ℓ`-adic pole argument.
+    constant coefficient `1` of an integral polynomial. Applied to `1 + ∑_e a_{p^e} T^e`, they are
+    the Fatou input of 5.5 (ii), which Tau Ceti takes from `DeligneWeightsAndPurity` §4.4.
   - [`LinearAlgebra/Charpoly/FunctionalEquation.lean`](https://github.com/AxiomMath/Weil/blob/27cdb2049be62ee2911429b47f54774078450e32/Weil/LinearAlgebra/Charpoly/FunctionalEquation.lean):
     for a monic polynomial whose roots are stable under `μ ↦ q^n/μ`, `Weil.coeff_zero_eq_sign_mul_pow`
     computes its constant coefficient as `ε q^{n·deg/2}`, with `ε = 1` for odd `n` when every square
@@ -2590,7 +2614,8 @@ or the hypergeometric point-count identities, so Layers 1–4 and 6 have no coun
   *J. Algebra* **400** (2014), 161–184.  The Bézout form of a hypergeometric datum.  Cited for
   3.8's context; no statement of it is a target.
 - K. Ono, "Values of Gaussian hypergeometric series", *Trans. Amer. Math. Soc.* **350** (1998),
-  1205–1223.  Theorem 1.2 of Beukers–Cohen–Mellit is its Legendre-family count.
+  1205–1223.  Theorem 1, p. 1210, the prime-field Legendre count that Beukers–Cohen–Mellit
+  Theorem 1.2 restates.
 - M. Watkins, *Hypergeometric motives package*, Magma, 2015, and the LMFDB source
   `lmfdb/hypergm/{main.py, web_family.py, hodge.py}` with knowls `hgm.*`.  The conventions of the
   database: `t`, the Levelt matrices, `p`-parts, the zigzag plot, `mu_nu`, the determinant recipe.
