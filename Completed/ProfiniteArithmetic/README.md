@@ -43,9 +43,6 @@ The roadmap owns:
   rings; the idempotents `ω_ℓ` of that decomposition; the unit group `ẑˣ` with its unit criterion;
   and the assembly of a compatible system of characters `G →* (ZMod n)ˣ` into one character
   `G →* ẑˣ`;
-- the universal property of profinite completion, and with it `TauCeti.zHat.lift`, for profinite
-  targets in every universe, as a generalization of the existing Tau Ceti declarations in place
-  (see *Changes to existing Tau Ceti declarations* below);
 - the profinite power `x ^ᶻ a`, which is `TauCeti.zHat.lift x` applied to `a`, for `x` in a
   profinite group of any universe and `a ∈ ẑ`, with its complete calculus: agreement with integer
   powers, the additive and multiplicative laws, naturality under continuous homomorphisms and hence
@@ -181,9 +178,6 @@ consumes the implementation directly.
 | its graded pieces and bracket | `TauCeti.gradedPiece`, `TauCeti.gradedMk`, `gradedMk_surjective`, `gradedMk_eq_gradedMk_iff`, `TauCeti.gradedPieceZeroEquiv`, `gradedPieceZeroEquiv_gradedMk`, `TauCeti.gradedBracket`, `gradedBracket_gradedMk`, `gradedBracket_self`, `gradedBracket_jacobi`, `gradedMap_gradedBracket` |
 | detecting `ℤ_p` in degree zero | `TauCeti.isProP_multiplicative_padicInt` |
 
-The profinite integers and the universal property of profinite completion are extended here, not
-only consumed: see *Changes to existing Tau Ceti declarations*.
-
 ### From Mathlib
 
 `ZMod`, `ZMod.castHom`, `PadicInt`, `PadicInt.toZModPow`, `PadicInt.toZMod`, the inverse-limit
@@ -202,17 +196,14 @@ universal property `PadicInt.lift` with `PadicInt.lift_spec` and `PadicInt.lift_
 `IsCompact.nonempty_iInter_of_directed_nonempty_isCompact_isClosed`, `DirectSum`, `LieRing`,
 `LieAlgebra`.
 
-Mathlib has no ring of profinite integers, no profinite power, no group structure on
-`ContinuousMulEquiv G G`, no `ℤ_p`-power on a nonabelian group, and no graded Lie ring of a lower
-central series. Tau Ceti has three of these, and this roadmap consumes them: the `ℤ_p`-power on a
-pro-`p` group, the profinite completion `TauCeti.zHat` of `ℤ` as a group with its universal
-property for targets in `Type`, and the lower `p`-series with its graded bracket for every `p`,
-whose case `p = 0` is the closed lower central series. Neither has the ring structure on `ẑ`, a
-group or a topology on `G ≃ₜ* G`, the outer automorphism group, or the `ℤ_p`-linear graded Lie
-algebra of the closed series; each is built here, the ring structure on Tau Ceti's own
-`TauCeti.zHat`. The `FLT` project's `ZHat` is the same ring presented as compatible residues in
-`∏ n, ZMod n`; Layer 0.2 proves that presentation as a characterization of `ẑ`, so a comparison
-with `ZHat` is a theorem, not a second definition.
+The roadmap uses Tau Ceti's ring on `Additive TauCeti.zHat`, its completion and profinite-power
+maps, its continuous and outer automorphism groups with the congruence and quotient topologies,
+and its lower `p`-series with graded bracket, scalar action and abelianization comparison. The
+closed lower central series is the case `p = 0`. Each layer specifies the intrinsic API and its
+comparison with these Tau Ceti declarations; the pro-`p` theorem of 2.4 is Tau Ceti's, and 2.4
+adds its description by compatible families of finite automorphisms. The `FLT` project's `ZHat`
+presents the same ring by compatible residues in `∏ n, ZMod n`; Layer 0.2 proves that
+characterization of `ẑ`, so its comparison is a theorem, not a second definition.
 
 ## How to read the build
 
@@ -335,32 +326,22 @@ about `TauCeti.zHat` itself.
 
 ### 1.1 The power `x ^ᶻ a`
 
-- **The universal property in every universe.** Tau Ceti's
+- **The universal property (Tau Ceti).** Tau Ceti's
   `TauCeti.ProfiniteCompletion.continuousMonoidHomEquiv` identifies continuous homomorphisms from
   the profinite completion of `G` to a profinite group `P` with homomorphisms `G →* P`, for `P`
-  in the universe of `G`, because Mathlib's `ProfiniteGrp.ProfiniteCompletion.homEquiv` is an
-  adjunction between categories in one universe. It is generalized in place to profinite `P` in
-  any universe, and `TauCeti.zHat.lift` with it (see *Changes to existing Tau Ceti
-  declarations*). The construction is level by level: for `f : G →* P` and an open normal `U` of
-  `P`, the composite `G → P ⧸ U` has finite-index kernel `K`, so it factors through the finite
-  quotient `G ⧸ K` onto which the completion projects (Tau Ceti's
-  `TauCeti.ProfiniteCompletion.coordinateHom`); these maps are compatible in `U`, and
-  `TauCeti.existsUnique_monoidHom_mk'_comp_eq` assembles them into a homomorphism from the
-  completion to `P`, continuous by `TauCeti.continuous_iff_forall_continuous_mk`. Uniqueness is
-  `TauCeti.ProfiniteCompletion.continuousMonoidHom_ext`, which already allows targets in any
-  universe. On targets in the universe of `G` the generalized equivalence is the existing one, so
-  every current use of `TauCeti.zHat.lift` is unchanged (`zHat.lift_eq_tauCeti`).
+  in any universe, although Mathlib's `ProfiniteGrp.ProfiniteCompletion.homEquiv` is an adjunction
+  between categories in one universe: the inverse is built from the presentation of `P` as the
+  limit of its finite quotients. Uniqueness is
+  `TauCeti.ProfiniteCompletion.continuousMonoidHom_ext`. `TauCeti.zHat.lift`, for targets in any
+  universe, is defined from it, and this roadmap uses both as they are.
 - **Definition.** For `x` in a profinite group `G` of any universe, `x ^ᶻ a` is
   `TauCeti.zHat.lift x` applied to `a` read multiplicatively (`zpowHat`). Continuity in `a` and the
   additive laws are those of the continuous homomorphism `TauCeti.zHat.lift x`, and uniqueness is
   `TauCeti.zHat.lift_unique`: a continuous homomorphism out of `TauCeti.zHat` sending the generator
   to `x` is `TauCeti.zHat.lift x`. There is no second powering construction.
   *Needs:* TC `TauCeti.ProfiniteCompletion.continuousMonoidHomEquiv`,
-  `TauCeti.ProfiniteCompletion.coordinateHom`,
-  `TauCeti.ProfiniteCompletion.continuousMonoidHom_ext`,
-  `TauCeti.existsUnique_monoidHom_mk'_comp_eq`, `TauCeti.continuous_iff_forall_continuous_mk`,
-  `TauCeti.zHat.lift` and its lemmas; M `ProfiniteGrp.ProfiniteCompletion.homEquiv`, `zpowersHom`;
-  L0.1.
+  `TauCeti.ProfiniteCompletion.continuousMonoidHom_ext`, `TauCeti.zHat.lift` and its lemmas;
+  M `zpowersHom`; L0.1.
 
   API checklist for `^ᶻ`:
   - Constructors: `zpowHat`, from `TauCeti.zHat.lift`.
@@ -618,8 +599,8 @@ about `TauCeti.zHat` itself.
   `lcsGradedPieceZeroEquiv : gr_0(G) ≃ₜ+ Additive (TopologicalAbelianization G)`, pinned on
   classes by `lcsGradedPieceZeroEquiv_mk`. Its algebraic part is Tau Ceti's
   `TauCeti.gradedPieceZeroEquiv` together with `γ_1(G) = closure ⁅G, G⁆`
-  (`closedLowerCentralSeries_one`). Neither Mathlib nor Tau Ceti states the identification, so this
-  roadmap owns it.
+  (`closedLowerCentralSeries_one`); the topological inverse is Tau Ceti's
+  `TauCeti.lcsGradedPieceZeroEquiv`.
 - **The bracket (Tau Ceti).** `lcsBracket G j k` is Tau Ceti's
   `TauCeti.gradedBracket 0 G j k : gr_j(G) →+ gr_k(G) →+ gr_{j+k+1}(G)`, induced by the commutator,
   with the defining equation `lcsBracket_mk` on classes. Tau Ceti proves it biadditive,
@@ -685,7 +666,7 @@ comparison with the pro-`p` completion of a discrete free nilpotent group is use
   the topological generators `x_i`, so it is a closed subgroup containing a dense one, hence
   everything. For injectivity, the continuous homomorphism `F → Multiplicative ℤ_[p]` with
   `x_i ↦ ofAdd 1` and `x_k ↦ 1` for `k ≠ i` (`TauCeti.freeProP.lift`; `Multiplicative ℤ_[p]` is
-  pro-`p` by Tau Ceti's `isProP_multiplicative_padicInt`) kills `γ_1(F)`, so it factors through
+  pro-`p` by `TauCeti.isProP_multiplicative_padicInt`) kills `γ_1(F)`, so it factors through
   `gr_0(F)`, and it sends `Σ_k [x_k ^[p] a_k]` to `a_i`, because continuous homomorphisms commute
   with `^[p]` (`map_padicPow`).
 -  **The detecting group.** `HeisenbergZp p` is Tau Ceti's Heisenberg group over `ℤ_p`,
@@ -759,9 +740,8 @@ Layer 1 except where a `^[ℓ]` statement is involved.
   `Additive TauCeti.zHat`, with `a * b = TauCeti.zHat.lift a b`, and the ring axioms, the ring
   topology and the inverse-limit description by the `ZMod n` are theorems about that carrier; no
   second carrier and no comparison isomorphism between carriers exists.
-- The universal property of profinite completion and `TauCeti.zHat.lift` are generalized in place
-  to profinite targets in every universe. There is one lift, and `zHat.lift_eq_tauCeti` says that
-  on targets in `Type` it is the existing one.
+- The universal property of profinite completion and `TauCeti.zHat.lift` are Tau Ceti's, for
+  profinite targets in every universe; there is one lift.
 - `component ℓ` is a ring homomorphism that agrees with Tau Ceti's
   `TauCeti.zHat.maximalProPQuotientEquivPadicInt`, and `ẑ ≃ ∏_ℓ ℤ_ℓ` is an isomorphism of
   topological rings.
@@ -781,8 +761,10 @@ Layer 1 except where a `^[ℓ]` statement is involved.
   automorphism for all of `N`.
 - Profiniteness of `ContinuousAut G` is stated for a topologically finitely generated profinite
   `G` and nowhere else.
-- The finite `p`-group theorem of 2.4 is proved by the free action on generating tuples, and
-  the pro-`p` theorem is its inverse limit.
+- The finite `p`-group theorem of 2.4 is proved by the free action on generating tuples. The
+  pro-`p` theorem is Tau Ceti's, and the global kernel is described as the compatible families
+  of finite Frattini-trivial automorphisms inside Tau Ceti's closed embedding; no transition map
+  on arbitrary full finite kernels is presumed.
 - The congruence topology is the initial topology for the **discrete** topology `⊥` on each
   finite automorphism group, and `ContinuousAut.continuous_mapQuotient` says so.
 - The closed lower central series is Tau Ceti's lower `p`-series at `p = 0`, 0-based, and no
@@ -795,8 +777,8 @@ Layer 1 except where a `^[ℓ]` statement is involved.
   characteristic quotients, and the action of `ContinuousOut G` on
   `ClosedSubgroupConjClasses G`, are pinned declarations with computation theorems.
 - The topological characteristicity of `TauCeti.proPKernel` and `TauCeti.proPFrattini` is Tau
-  Ceti's, applied directly; the Heisenberg group is Tau Ceti's, and only its topology is added
-  here.
+  Ceti's, applied directly; the Heisenberg group and its topology are Tau Ceti's, and the
+  congruence-level comparison and neighbourhood-basis targets use those Tau Ceti declarations.
 - `gr_0` and `gr_1` of a free pro-`p` group of finite rank have the bases `x̄_i` and
   `[x̄_i, x̄_j]` (`i < j`) by theorems proved with detecting homomorphisms, to `ℤ_p` and to the
   Heisenberg group over `ℤ_p`; no comparison with the completion of a discrete free nilpotent
