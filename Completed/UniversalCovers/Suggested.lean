@@ -167,12 +167,14 @@ theorem existsUnique_continuousMap_lifts_of_range_le {A E : Type u} [Topological
 
 variable [LocallyPathConnectedSpace X] [PathConnectedSpace X] [SemilocallySimplyConnectedSpace X]
 
+omit [PathConnectedSpace X] in
 /-- **Milestone 7 — the cover attached to `H ≤ π₁(X, x₀)`.** Its descended endpoint projection is
 a covering map, and the subgroup it recovers at the quotient basepoint is `H` itself. -/
 theorem isCoveringMap_subgroupQuotientProj (H : Subgroup (FundamentalGroup X x₀)) :
     IsCoveringMap (UniversalCover.subgroupQuotientProj x₀ H) :=
   UniversalCover.isCoveringMap_subgroupQuotientProj x₀ H
 
+omit [PathConnectedSpace X] in
 theorem range_recovered_subgroup (H : Subgroup (FundamentalGroup X x₀)) :
     (FundamentalGroup.mapOfEq
       (x := UniversalCover.SubgroupQuotient.basepoint x₀ H) (y := x₀)
@@ -194,6 +196,7 @@ theorem exists_range_eq_map_conj {E F : Type u} [TopologicalSpace E] [Topologica
           (MulAut.conj γ).toMonoidHom :=
   hq.exists_range_eq_map_conj_of_homeomorph_comp_eq hpe hqf h hcomp hj
 
+omit [PathConnectedSpace X] in
 /-- **Milestone 8 — the Galois correspondence, pointed.** Every pointed connected cover is the
 cover of exactly one subgroup. -/
 theorem existsUnique_subgroup {E : Type u} [TopologicalSpace E] [PathConnectedSpace E]
@@ -203,6 +206,7 @@ theorem existsUnique_subgroup {E : Type u} [TopologicalSpace E] [PathConnectedSp
         UniversalCover.subgroupQuotientProj x₀ H ∘ h = p :=
   UniversalCover.existsUnique_subgroup_homeomorph_subgroupQuotient (x₀ := x₀) hp hpe
 
+omit [PathConnectedSpace X] in
 /-- **The Galois correspondence, unpointed.** Two subgroup quotients are isomorphic as covers
 exactly when the subgroups are conjugate. -/
 theorem isomorphic_iff_conjugate (H K : Subgroup (FundamentalGroup X x₀)) :
@@ -324,7 +328,7 @@ example {N : Type u} [Fintype N] [Nontrivial N] [DecidableEq N] (p : ℝ) (x : A
 /-- **Milestone 12 — `π₁(S¹) ≅ ℤ`.** -/
 noncomputable def circleFundamentalGroupMulEquiv :
     FundamentalGroup UnitAddCircle 0 ≃* Multiplicative ℤ :=
-  UnitAddCircle.fundamentalGroupMulEquiv
+  AddCircle.windingNumberIso (p := 1) 0
 
 /-- **Milestone 13 — `π_n(Tᵏ)`.** The fundamental group of a torus is the product of copies of
 `ℤ`, and every higher homotopy group vanishes. -/
