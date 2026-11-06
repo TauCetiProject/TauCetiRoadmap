@@ -294,32 +294,37 @@ section KMS
 
 variable [PartialOrder A]
 
-/-- A `β`-KMS state for `β > 0`, in the upper-strip convention: a positive functional `φ` of norm
-one such that for all `a, b` there is a bounded continuous function on the closed strip
-`0 ≤ Im z ≤ β`, holomorphic inside, with boundary values `F(t) = φ(a α_t(b))` and
-`F(t + iβ) = φ(α_t(b) a)`. The order on `A` is the C*-order, carried by `[StarOrderedRing A]`. -/
+/-- A `β`-KMS state, one predicate for every real `β`: a positive functional `φ` of norm one such
+that for all `a, b` there is a bounded continuous function on the closed strip between the lines
+`Im z = 0` and `Im z = β`, holomorphic inside, with boundary values `F(t) = φ(a α_t(b))` and
+`F(t + iβ) = φ(α_t(b) a)`. For `β > 0` the strip is `0 ≤ Im z ≤ β` and for `β < 0` it is the
+reversed strip `β ≤ Im z ≤ 0`; for `β = 0` it is the real line with empty interior, the two
+boundary conditions say `φ(a α_t(b)) = φ(α_t(b) a)`, and the `0`-KMS states are the tracial
+states. The order on `A` is the C*-order, carried by `[StarOrderedRing A]`. -/
 def IsKMS [StarOrderedRing A] (α : Multiplicative ℝ →* (A ≃⋆ₐ[ℂ] A)) (β : ℝ)
     (φ : A →P[ℂ] ℂ) : Prop :=
-  0 < β ∧ ‖(φ : A →L[ℂ] ℂ)‖ = 1 ∧ ∀ a b : A,
+  ‖(φ : A →L[ℂ] ℂ)‖ = 1 ∧ ∀ a b : A,
     ∃ F : ℂ → ℂ,
-      ContinuousOn F {z | 0 ≤ z.im ∧ z.im ≤ β} ∧
-      DifferentiableOn ℂ F {z | 0 < z.im ∧ z.im < β} ∧
-      Bornology.IsBounded (F '' {z | 0 ≤ z.im ∧ z.im ≤ β}) ∧
+      ContinuousOn F {z | z.im ∈ Set.uIcc 0 β} ∧
+      DifferentiableOn ℂ F {z | z.im ∈ Set.uIoo 0 β} ∧
+      Bornology.IsBounded (F '' {z | z.im ∈ Set.uIcc 0 β}) ∧
       (∀ t : ℝ, F t = φ (a * α (Multiplicative.ofAdd t) b)) ∧
       ∀ t : ℝ, F ((t : ℂ) + (β : ℂ) * Complex.I) =
         φ (α (Multiplicative.ofAdd t) b * a)
 
-/-- A KMS state at positive temperature is invariant under the dynamics; this is not a
-consequence of the trace condition at `β = 0` (Bratteli–Robinson, Proposition 5.3.3). -/
+/-- A KMS state at nonzero `β`, on either strip, is invariant under the dynamics; this is not a
+consequence of the trace condition at `β = 0`, which the evaluation states of the rotation action
+on `C(S¹)` satisfy without being invariant (Bratteli–Robinson, Proposition 5.3.3). -/
 theorem kms_invariant [StarOrderedRing A] (α : Multiplicative ℝ →* (A ≃⋆ₐ[ℂ] A))
     (hα : ∀ a, Continuous fun t : ℝ => α (Multiplicative.ofAdd t) a)
-    {β : ℝ} {φ : A →P[ℂ] ℂ} (hφ : IsKMS α β φ) (t : ℝ) (a : A) :
+    {β : ℝ} (hβ : β ≠ 0) {φ : A →P[ℂ] ℂ} (hφ : IsKMS α β φ) (t : ℝ) (a : A) :
     φ (α (Multiplicative.ofAdd t) a) = φ a := by
   sorry
 
-/-- The analytic KMS identity: if the orbit of `b` has an entire `A`-valued extension `F`, then
-`φ(a F(iβ)) = φ(b a)`, the strip function of `(a, b)` agreeing with `z ↦ φ(a F(z))` by reflection
-across the real axis (Bratteli–Robinson, Proposition 5.3.7). -/
+/-- The analytic KMS identity, for every real `β`: if the orbit of `b` has an entire `A`-valued
+extension `F`, then `φ(a F(iβ)) = φ(b a)`, the strip function of `(a, b)` agreeing with
+`z ↦ φ(a F(z))` by reflection across the real axis; at `β = 0` it is the trace identity
+(Bratteli–Robinson, Proposition 5.3.7). -/
 theorem kms_entire_identity [StarOrderedRing A] (α : Multiplicative ℝ →* (A ≃⋆ₐ[ℂ] A))
     (hα : ∀ a, Continuous fun t : ℝ => α (Multiplicative.ofAdd t) a)
     {β : ℝ} {φ : A →P[ℂ] ℂ} (hφ : IsKMS α β φ)

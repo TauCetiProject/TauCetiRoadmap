@@ -30,6 +30,22 @@ models of D2 and D6; KMS states, ground states and the KMS simplex (D7); CAR
 and Weyl algebras with their free equilibrium states (D8); and quantum spin
 systems with the thermodynamic limit (D9).
 
+This roadmap is the single owner of the following objects, which other
+roadmaps consume rather than rebuild (their consumers are listed under
+Downstream consumers): the scalar twisted group C*-algebras `C*(G,ω)` and
+`C*_r(G,ω)` with the twisted left-regular representation, the comparison
+with `twistedMonoidAlgebra` for discrete G, the canonical trace, the gauge
+action of the dual of a discrete abelian G and the amenable full=reduced
+theorem (D1.CentralTwists, D2.CentralTwists); the Schrödinger family of
+`M×M̂` on `L²(M)` with its bicharacter `ω((m,χ),(n,ψ))=ψ(m)`
+(D1.CentralTwists); the Polish strong unitary group `U(H)_s` with its
+coefficient Borel structure, automatic continuity of Borel homomorphisms
+from Polish groups into separable metrizable groups, the circle extension `E_ω` of a Borel multiplier with
+its Mackey topology, the strong-Borel ω-representations and the twisted
+left-regular family `λ^ω` (D1.BorelPrefix), and the single-weight fibres
+`J_k(E_ω)≅C*(G,ω^k)` (D1.TwistedBorel); and the Fourier isomorphism
+`C*(G)≅C₀(Ĝ)` of a locally compact abelian group (D4.Harmonic).
+
 It leaves to named roadmaps:
 
 - The unitary Stone–von Neumann theorem for the real Heisenberg group and
@@ -40,15 +56,18 @@ It leaves to named roadmaps:
   made in neither.
 - The decomposition of `C*(E_ω)` into all central weights and its type-I
   consequences: NoncompactQuantumSymmetry M2 (the all-central-weights
-  criterion after M2.FixedTwistTypeI), which builds
-  the circle extension `E_ω` and its weight-one sector from its own Layer M1
-  (the subsection on Borel multipliers and locally continuous extension
-  cocycles) and Layer P.3. D1.TwistedBorel stops at the single-weight fibers
-  `J_k(E_ω)≅C*(G,ω^k)`; the all-weight decomposition is not built here.
+  criterion after M2.FixedTwistTypeI), which builds on the extension `E_ω`
+  of D1.BorelPrefix and the single-weight fibres `J_k(E_ω)≅C*(G,ω^k)` of
+  D1.TwistedBorel; the all-weight decomposition is not built here. The
+  antiunitary and projective unitary groups with their local sections
+  (NoncompactQuantumSymmetry P.2) and the comparison of Borel multipliers
+  with locally continuous ones (its M1, the subsection on Borel multipliers
+  and locally continuous extension cocycles) are also that roadmap's.
 - Pimsner–Voiculescu and Connes–Thom sequences and the free-basis K-group
   calculation: OperatorKTheory K7. The dimension-group classification of AF
-  algebras and the translation-lifting construction: CStarClassification
-  CL5. The concrete Toeplitz algebra on `ℓ²(ℕ)`: CStarAlgebras C8.
+  algebras: CStarClassification CL2–CL3. The translation-lifting
+  construction: CStarClassification CL5 (§§5.7–5.8). The concrete
+  Toeplitz algebra on `ℓ²(ℕ)`: CStarAlgebras C8.
 - The independent full/reduced norm obstruction for F₂: FreeProbability F3;
   it is not a prerequisite for the Powers argument of D2.FreeGroups.
 - The von Neumann crossed products `M⋊̄G` themselves, with the regular–normal
@@ -82,12 +101,23 @@ It leaves to named roadmaps:
   representation. D5.Fields keeps only the identification of SA-B85's
   standard-fibre model, in which every fibre is a subspace of one `ℓ²(ℕ)`,
   with a measurable field in that sense.
-- The generic Fock/second-quantization API and the normalization adapter
-  `Φ_D8(h)=(a(h)+a†(h))/√2` on its invariant domain: QuantumFoundations
-  Layer 6 (6.3–6.4). D8 is the single owner of the CCR/CAR and Weyl
-  algebraic relations, their regular representations and their basic field
-  operators; RelativisticQuantumFieldTheory consumes D8's Weyl
-  representation and the Fock adapter of QuantumFoundations 6.4.
+- Second quantization on the Fock carriers: QuantumFoundations §6.3 owns
+  `Γ(U)` and `dΓ(A)` with their domains and the number operator N with
+  `D(N)` and `D(N^(1/2))`; QuantumFoundations §6.4 owns the CCR on `D(N)`,
+  the closures of the creation and annihilation operators, the essential
+  self-adjointness of the Segal field `(a(f)+a†(f))/√2` on the
+  finite-particle domain with the identification of its closure as D8's
+  Stone generator `Φ(f)` of `t↦π_F(W(tf))`, and the vacuum cyclicity and
+  irreducibility of `π_F`. D8 is the single owner of the CCR/CAR and Weyl
+  algebraic relations, their regular representations and Stone field
+  operators, and of the antisymmetric and symmetric Fock carriers with
+  their vacuum, the sector formulas for the creation and annihilation
+  operators, the bosonic finite-particle domain with the CCR and the
+  Segal-field identities on it, the exponential vectors and the Fock Weyl
+  representation `π_F` with its strong continuity in f and its vacuum
+  characteristic function; both QuantumFoundations sections consume these.
+  RelativisticQuantumFieldTheory consumes D8's Weyl representation and the
+  second-quantization interface of QuantumFoundations §§6.3–6.4.
 
 General non-Hausdorff groupoids, groupoid primitive-ideal classification and
 interacting continuum gases are outside this roadmap. So are the dual Haar
@@ -632,7 +662,8 @@ comparison. In this bicharacter case prove
 `ω(−x,x)=ω(x,−x)=ω(x,x)⁻¹`, so the scalar star can also be written
 `f*(x)=overline(f(−x))ω(x,x)`; the adjoint of Π_x instead has the factor
 `overline(ω(x,−x))`. These identities fix the phase conventions consumed
-by Heisenberg-module constructions.
+by the Heisenberg modules of HeisenbergImprimitivity (Layer 1), which
+builds the commutator character and the lattice theory on this family.
 
 **Checks.**
 
@@ -929,7 +960,8 @@ using regular representations. Apply it to a coefficient exact sequence:
 exactness of A followed by exactness of the amenable group's reduced
 crossed-product functor proves the assertion. Include the full-product
 identification and generator formulas for G=ℤ, used by
-CStarClassification CL5's translation and lifting construction.
+CStarClassification CL5's crossed-product lift and translation crossed
+product (§§5.7–5.8).
 For compact G
 also identify the regular decomposition through Peter–Weyl, reusing
 RepresentationTheory/CompactGroups.
@@ -1074,6 +1106,27 @@ generator formulas. Include the corresponding maximal/full comparison.
 For α trivial and ω scalar identify
 `A⋊_(id,ω)G≃A⊗max C*(G,ω)` and
 `A⋊_(id,ω),r G≃A⊗min C*_r(G,ω)` with their actual generators.
+
+For scalar ω on a discrete G (A=ℂ, α trivial) the expectation is the
+canonical trace `τ=E` of `C*_r(G,ω)`: prove that it is a faithful tracial
+state, the trace property on generators being `ω(s,s⁻¹)=ω(s⁻¹,s)`, the
+cocycle identity at `(s,s⁻¹,s)`. For discrete abelian G construct the gauge
+action of the compact dual `Ĝ=PontryaginDual G`. For `γ∈Ĝ` the family
+`s↦γ(s)u_s` satisfies the same twisted product and star laws, since
+`γ(s)γ(t)=γ(st)`, so the universal property gives a *-automorphism `α̂_γ`
+of `C*(G,ω)` with `α̂_γ(u_s)=γ(s)u_s`; on `C*_r(G,ω)` it is implemented by
+the multiplication unitary `M_γ` of γ on `ℓ²(G)`, with
+`M_γV_sM_γ*=γ(s)V_s` for the projective unitaries
+`V_sξ(r)=ω(s,s⁻¹r)ξ(s⁻¹r)` above, and q intertwines the two. On finitely supported
+elements `α̂_γ` multiplies the coefficient of `u_s` by `γ(s)`. Prove that
+`γ↦α̂_γ` is a point-norm continuous action, by density of the finitely
+supported elements and isometry of each `α̂_γ`, and that
+`∫_Ĝ α̂_γ(x)dγ=E(x)1` for the normalized Haar measure of Ĝ, from
+`∫_Ĝ γ(s)dγ=0` for `s≠e`: the characters of a discrete abelian group
+separate its points (Mathlib
+`CharacterModule.exists_character_apply_ne_zero_of_ne_zero`, through
+`ℚ/ℤ⊆𝕋`). Hence the fixed-point algebra of either completion is ℂ1.
+
 For compact G compare the regular decomposition with the weight sector of
 the compact scalar extension when ω is scalar.
 
@@ -1084,9 +1137,9 @@ prerequisite for this C* theory.
 The dependency order is C1/A7/D1.Modules → D1.CentralTwists →
 D2.CentralTwists. The scalar Borel route is A7/C1 → D1.BorelPrefix →
 D1.TwistedBorel. The all-weight decomposition and its type-I applications
-are NoncompactQuantumSymmetry M2's, built there from its own extension
-`E_ω`; nothing in D1 depends on them or on von Neumann crossed-product
-duality.
+are NoncompactQuantumSymmetry M2's, built there on the extension `E_ω` of
+D1.BorelPrefix and the fibres of D1.TwistedBorel; nothing in D1 depends
+on them or on von Neumann crossed-product duality.
 
 **Checks.**
 
@@ -1105,12 +1158,24 @@ duality.
   `(A⊗min D)⋊_(id,ω⊗1),rG` agree on the generators `(a u_s)⊗d` and
   `(a⊗d)u_s`; the induced cocycle `ω⊗1` has values in `M(A⊗D)`, not in
   `A⊗D`.
+- Gauge action for G=ℤ/2 and `ω(a,a)=−1`: `C*(G,ω)` is spanned by `1,u_a`
+  with `u_a²=−1`, isomorphic to `ℂ⊕ℂ` by `u_a↦(i,−i)`. The nontrivial
+  character `γ(a)=−1` sends `u_a↦−u_a`, swapping the two summands, and
+  `(x+α̂_γ(x))/2=x₀` for `x=x₀+x₁u_a`, which is `E(x)1`; the fixed-point
+  algebra is ℂ1. The map `u_a↦iu_a`, which does not come from a character,
+  is not a homomorphism: `(iu_a)²=1≠ω(a,a)`.
+- Trace for G=(ℤ/2)² and `ω((a,b),(a′,b′))=(−1)^(ba′)`: the generators
+  `u=u_(1,0)` and `v=u_(0,1)` satisfy `u²=v²=1` and `uv=−vu`, so
+  `C*(G,ω)≅M_2(ℂ)` by two anticommuting Pauli matrices, and τ is the
+  normalized trace `Tr/2`, with `τ(u)=τ(v)=τ(uv)=0`; the untwisted algebra
+  for ω=1 is instead the commutative `C(Ĝ)≅ℂ⁴`.
 
 *Needs:* D1.CentralTwists (twisted L¹, full completion, multiplier maps,
 cochain transport); D2 (regular module, expectation, P₁/P₂ approximation,
 tensor identification); D1.Modules with `gap:hilbert-module-induction`
 (induced Hilbert spaces); CStarAlgebras C5–C7 (tensor products, nuclearity,
-exactness).
+exactness); Mathlib `PontryaginDual` (compact for discrete G) and
+`CharacterModule.exists_character_apply_ne_zero_of_ne_zero`.
 
 ### D2.FreeGroups. Powers averaging, simplicity and the canonical trace
 
@@ -1438,8 +1503,10 @@ D1 with D1.Modules and D1.CentralTwists; BanachAlgebras A7; AmenableGroups
 RepresentationTheory/CompactGroups (Peter–Weyl); FreeProbability F3 is a
 comparison, not an input; Mathlib `lp`, `lp.single`, `AddCircle`,
 `MulAction.IsPretransitive`, `FreeGroup.toWord`, `FreeGroup.reduce`,
-`StarAlgebra.adjoin`, `StarSubalgebra.topologicalClosure` and
-`IsSimpleRing`; the induced Hilbert spaces of `gap:hilbert-module-induction`.
+`StarAlgebra.adjoin`, `StarSubalgebra.topologicalClosure`,
+`IsSimpleRing`, `PontryaginDual` and
+`CharacterModule.exists_character_apply_ne_zero_of_ne_zero`; the induced
+Hilbert spaces of `gap:hilbert-module-induction`.
 
 ## D3. Induction and imprimitivity
 
@@ -2237,7 +2304,7 @@ refining cylinder functions to higher levels, not by treating Y_v as finite. Pro
 identification of its algebra with the corresponding finite-dimensional
 matrix inductive limit, including the incidence multiplicities. This is
 the groupoid model of AF algebras; their dimension-group classification
-belongs to CStarClassification. For `2≤n<∞`, construct the full-shift
+belongs to CStarClassification CL2–CL3. For `2≤n<∞`, construct the full-shift
 groupoid of triples `(x,k−l,y)` with `shift^k x=shift^l y`.
 Give the Deaconu–Renault topology with basic bisections
 `Z(U,k,l,V)={(x,k−l,y):x∈U,y∈V,shift^k x=shift^l y}`, where the two
@@ -2352,17 +2419,23 @@ extensions of their orbits. Gaussian smearing gives a dense invariant
 time-shift and strip bounds, with the star relation
 `τ_z(a)*=τ_(conjugate z)(a*)`.
 
-For β>0 define a β-KMS state ω by bounded continuous functions on
-`0≤Im z≤β`, holomorphic in the interior, with boundary values
-`F_ab(t)=ω(a τ_t(b))` and `F_ab(t+iβ)=ω(τ_t(b)a)` (`IsKMS`). Prove the
-equivalent analytic identity `ω(a τ_(iβ)(b))=ω(ba)` (`kms_entire_identity`,
+For every real β define a β-KMS state ω by bounded continuous functions on
+the closed strip between the lines `Im z=0` and `Im z=β`, holomorphic in
+its interior, with boundary values
+`F_ab(t)=ω(a τ_t(b))` and `F_ab(t+iβ)=ω(τ_t(b)a)` (`IsKMS`, a single
+predicate for all β). For β>0 the strip is `0≤Im z≤β`; for β<0 it is the
+reversed strip `β≤Im z≤0` with the same boundary values; for β=0 it is the
+real line with empty interior, the two boundary conditions say
+`ω(a τ_t(b))=ω(τ_t(b)a)` for all t, and the 0-KMS states are exactly the
+tracial states. Prove the
+equivalent analytic identity `ω(a τ_(iβ)(b))=ω(ba)` for every real β
+(`kms_entire_identity`,
 for an entire A-valued extension of the orbit of b: the strip function of
 (a,b) and `z↦ω(aτ_z(b))` agree on ℝ and hence on the strip by reflection
 across the real axis), the norm bound
 `|F_ab(z)|≤‖a‖‖b‖`, and the sufficiency of checking on a norm-dense invariant
-algebra of entire elements. Treat β<0 on the reversed strip, and β=0 as
-the full space of tracial states. Prove invariance for β≠0
-(`kms_invariant`, stated for β>0; the reversed strip is the same argument);
+algebra of entire elements. Prove invariance for β≠0
+(`kms_invariant`, on either strip);
 it is not a consequence of the β=0 trace condition. Develop pullback under equivariant
 quotients, tensor products of KMS states, restrictions to invariant
 subalgebras when the restriction has norm one, and stability under weak-*
@@ -2389,8 +2462,7 @@ not be invariant; use this example to distinguish the β=0 convention.
 analytic vectors); CStarAlgebras C2 (states); Mathlib `DifferentiableOn`,
 `Bornology.IsBounded`, `PositiveLinearMap`.
 
-For β≠0 construct, from invariance (`kms_invariant` for β>0 and its
-reversed-strip mirror for β<0), the GNS implementing unitary group `U_tπ_ω(a)Ω_ω=π_ω(τ_t(a))Ω_ω`, prove it is strongly continuous
+For β≠0 construct, from invariance (`kms_invariant`), the GNS implementing unitary group `U_tπ_ω(a)Ω_ω=π_ω(τ_t(a))Ω_ω`, prove it is strongly continuous
 from the point-norm continuity of τ, and extend τ to the double commutant
 `M=π_ω(A)''` (Mathlib's `VonNeumannAlgebra`) by `τ̄_t=Ad U_t`, a group of
 *-automorphisms of M whose orbits `t↦τ̄_t(x)` are continuous for the weak
@@ -2808,9 +2880,30 @@ of a positive-definite matrix through the Hermitian functional calculus).
 - NoncompactQuantumSymmetry consumes D1 (covariant pairs, integrated forms,
   group C*-algebras), D3 (Green imprimitivity, modular normalization,
   induction in stages) and D5 (Haar-system groupoid convolution and
-  disintegration).
-- CStarClassification CL5 consumes D2's full and reduced products by ℤ with
-  their generator formulas.
+  disintegration). Its P.2 consumes D1.BorelPrefix's Polish strong unitary
+  group, coefficient Borel structure and automatic continuity; its M1
+  consumes D1.BorelPrefix's `E_ω` with its Mackey topology, the strong-Borel
+  ω-representations and the twisted left-regular family `λ^ω`; its M2
+  consumes D1.TwistedBorel's fibres `J_k(E_ω)≅C*(G,ω^k)`; its Layer 0
+  consumes D4.Harmonic's Fourier isomorphism `C*(N)≅C₀(N̂)`, in the
+  positive-character convention that VonNeumannAlgebras V11 shares.
+- CStarClassification consumes D2's full and reduced products by ℤ with
+  their generator formulas, coefficient-tensor identification and
+  exactness, and D3's imprimitivity, in CL5 (§§5.7–5.8); D6's universal
+  `O_n` in CL4–CL5; and D8's CAR algebra as the limit of the `M_(2ⁿ)` in
+  CL3.
+- HeisenbergImprimitivity, the HilbertModules child roadmap on phase-space
+  lattices, consumes D1.CentralTwists' Schrödinger family on `L²(M)` with
+  its projective relation, adjoint phase and strong continuity (its
+  Layer 1, §1.1), and the scalar twisted group C*-algebras `C*(L,c)` of a
+  discrete abelian L with their ℓ¹ algebra and `twistedMonoidAlgebra`
+  comparison, universal property, twisted regular representation, canonical
+  trace, gauge action and full=reduced theorem from D1.CentralTwists and
+  D2.CentralTwists (its Layer 3, §3.1).
+- CompactQuantumMetricSpaces specializes the same twisted group
+  C*-algebras to its quantum tori `C*(ℤᵈ,σ_Θ)` (§6.0), with the twisted
+  regular model `λ_Θ(p)δ_q=σ_Θ(p,q)δ_(p+q)`, the trace and the gauge
+  action of `𝕋ᵈ`, and consumes D2's amenable norm comparison.
 - OperatorKTheory K7 consumes the crossed products of D1–D2 and the duality
   of D4.
 - LieGroupoidsPoisson names D5 as the consumer of its topological groupoid
@@ -2819,16 +2912,18 @@ of a positive-definite matrix through the Hermitian functional calculus).
   `C₀(X)` representation.
 - FreeProbability F3 compares its F₂ norm obstruction with D2.FreeGroups and
   records D6 as the owner of the finite universal `O_n`.
-- QuantumFoundations Layer 6 (6.3–6.4) consumes D8's Fock carriers, its
-  sector formulas for the creation and annihilation operators and the
-  Segal-field adapter; the Fock implementation `Γ(U)b̄(f)Γ(U)*=b̄(Uf)` of a
-  one-particle unitary U built there is the case `V=0` of D8's universal CAR
-  automorphism. RelativisticQuantumFieldTheory consumes D8's Weyl
+- QuantumFoundations Layer 6 (§§6.3–6.4) consumes D8's Fock carriers, the
+  sector formulas for the creation and annihilation operators, the
+  finite-particle domain with its CCR and Segal-field identities, the Fock
+  Weyl representation with its strong continuity and the Stone field
+  operators; the Fock
+  implementation `Γ(U)b̄(f)Γ(U)*=b̄(Uf)` of a one-particle unitary U built
+  there is the case `V=0` of D8's universal CAR automorphism.
+  RelativisticQuantumFieldTheory consumes D8's Weyl representation.
+- FactorRigidity, Subfactors, QuantumGroups, NoncommutativeGeometry and
+  CategoricalOperatorAlgebras cite D1–D2, D6, D7 or D8 for crossed
+  products, Cuntz algebras, KMS states or the CAR algebra with its Fock
   representation.
-- FactorRigidity, Subfactors, CompactQuantumMetricSpaces, QuantumGroups,
-  NoncommutativeGeometry and CategoricalOperatorAlgebras cite D1–D2, D6, D7
-  or D8 for crossed products, Cuntz algebras, KMS states or the CAR algebra
-  with its Fock representation.
 
 ## Sources and API alignment
 
