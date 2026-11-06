@@ -908,8 +908,8 @@ points of the slices form a `u`-small conservative family (6.2).
 
 ### Dependencies
 
-Layers 1, 2 and 4, AdicSpacesPartII R0.19.10, and Mathlib. Within the layer, 6.2 uses 6.1 and 6.4
-uses 6.2–6.3.
+Layers 1–4, AdicSpacesPartII R0.19.10, and Mathlib. Within the layer, 6.2 uses 6.1 and 6.4 uses
+3.1 and 6.2–6.3.
 
 ## Layer 7: locales and localic topoi
 
@@ -1121,8 +1121,8 @@ Theorem 1, for `S` quasi-locally compact, that is core-compact, and `T` any spac
 II.2, VII.4), and then `Sh(S × T)` is the product `Sh(S) × Sh(T)` of topoi; this covers every
 locally compact `S`. Prove `not_isFrameCoproduct_opens_rat_prod`: for `S = T = ℚ` the map is not
 injective, `Opens (ℚ × ℚ)` is not the frame coproduct, and `Sh(ℚ × ℚ)` is not the product of
-`Sh(ℚ)` with itself (Stone Spaces II 2.14; Isbell 1972, 2.3 (3), p. 18; Isbell 1981, Theorem 2,
-applied to the dense copies `ℚ` and `ℚ + √2` of `ℝ`).
+`Sh(ℚ)` with itself (Stone Spaces II 2.14; Isbell 1972, the remark before 2.4 and the proof of 2.4,
+p. 18; Isbell 1981, Theorem 2, applied to the dense copies `ℚ` and `ℚ + √2` of `ℝ`).
 *Needs:* 8.1, 8.2, 8.3; Mathlib `Opens.comap`, `LocallyCompactSpace`.
 
 **Checks.**
@@ -1181,7 +1181,8 @@ that material: sites appear there only as bases of coefficient stacks.
   scientifiques et industrielles 1252, Hermann (1958). Chapitre II, §1 (presheaves and sheaves
   of sets on a topological space).
 - [Isbell 1972] J. R. Isbell, « Atomless parts of spaces », *Mathematica Scandinavica* 31 (1972),
-  5–32: locales, localic products, and 2.3 (3), p. 18, the product `ℚ × ℚ`.
+  5–32: locales, localic products, and the remark before 2.4 and the proof of 2.4, p. 18, the
+  square of `ℚ`.
 - [Isbell 1981] J. R. Isbell, « Product spaces in locales », *Proceedings of the American
   Mathematical Society* 81 (1981), 116–118: Theorem 1 (the localic product `X × Y` is a space when
   `X` is quasi-locally compact and `Y` is a space) and Theorem 2 (two subspaces of a Hausdorff
