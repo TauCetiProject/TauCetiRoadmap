@@ -3,7 +3,7 @@ import TauCeti.Algebra.Lie.HighestWeight.CentralCharacter.DotOrbit
 import TauCeti.Algebra.Lie.HighestWeight.Minuscule
 import TauCeti.Algebra.Lie.HighestWeight.Tensor
 import TauCeti.Algebra.Lie.HighestWeight.Weyl.Dimension
-import TauCeti.LinearAlgebra.SymmetricAlgebra.AdjointAction
+import TauCeti.LinearAlgebra.SymmetricAlgebra.LieModule
 import TauCeti.LinearAlgebra.SymmetricAlgebra.Homogeneous
 import TauCeti.Algebra.Lie.UniversalEnveloping.PBW.Homogeneous
 import TauCeti.Algebra.Lie.Presentation.Serre.Killing
@@ -158,13 +158,13 @@ noncomputable def lieInvariantSymmetricAlgebra
   carrier := {p | ∀ x : L, ⁅x, p⁆ = 0}
   mul_mem' hp hq := by
     intro x
-    simp only [TauCeti.SymmetricAlgebra.lie_eq_adjointDerivation] at hp hq ⊢
+    simp only [TauCeti.SymmetricAlgebra.lie_eq_lieModuleDerivation] at hp hq ⊢
     rw [Derivation.leibniz, hp x, hq x]
     simp
   add_mem' hp hq := by intro x; rw [lie_add, hp x, hq x]; simp
-  algebraMap_mem' r := by intro x; simp [TauCeti.SymmetricAlgebra.lie_eq_adjointDerivation]
+  algebraMap_mem' r := by intro x; simp [TauCeti.SymmetricAlgebra.lie_eq_lieModuleDerivation]
   zero_mem' := by intro x; simp
-  one_mem' := by intro x; simp [TauCeti.SymmetricAlgebra.lie_eq_adjointDerivation]
+  one_mem' := by intro x; simp [TauCeti.SymmetricAlgebra.lie_eq_lieModuleDerivation]
 
 /-- Restriction along the Killing-orthogonal projection from L to its Cartan subalgebra. -/
 noncomputable def lieCartanRestriction : SymmetricAlgebra K L →ₐ[K] SymmetricAlgebra K H :=

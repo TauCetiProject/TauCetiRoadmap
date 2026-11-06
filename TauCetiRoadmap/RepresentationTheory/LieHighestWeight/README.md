@@ -1511,7 +1511,7 @@ its root system.
   vector for the specialization μ=−ρ, and the raw projection for HC_lin.
 - **Lie-algebra Chevalley restriction and the filtered proof.** Construct
   `lieInvariantSymmetricAlgebra`, the subalgebra of Mathlib's `SymmetricAlgebra K L`
-  killed by native `TauCeti.SymmetricAlgebra.adjointDerivation`. Consume the canonical
+  killed by native `TauCeti.SymmetricAlgebra.lieModuleDerivation`. Consume the canonical
   Mathlib `Module.Dual` action `⁅x,φ⁆(y)=−φ(⁅x,y⁆)`, with
   `coadjointRepresentation := LieModule.toEnd K L (Module.Dual K L)`, and its
   coadjointDerivation through native `derivationOfEnd`, with the generator equation.
@@ -1745,7 +1745,7 @@ its root system.
   Prove linearInvariants_homogeneous_component using the native symmetric grading;
   ordinary invariants form a graded subalgebra, whereas dot invariants need not.
   Likewise export lieInvariantSymmetricAlgebra_homogeneous_component from native
-  `adjointDerivation_mem_homogeneousSubmodule`, and cartanEquivDual_weylGroup
+  `lieModuleDerivation_mem_homogeneousSubmodule`, and cartanEquivDual_weylGroup
   from native `rootInvariantForm.isOrthogonal_reflection` and simple-coreflection
   generation, to transport polynomial restrictions between S(H*) and S(H).
   Degree induction on the linear side using graded Chevalley and these exhaustive nonnegative filtrations
@@ -1919,7 +1919,7 @@ characteristic-zero field (Etingof, proof of Theorem 13.5, p. 69).
 - In sl₂, h is not invariant because e·h=−2e≠0.
 - In sl₂, h²+4ef is invariant: e acts by −4eh+4eh=0 and f by 4fh−4hf=0.
 
-*Needs:* native `TauCeti.SymmetricAlgebra.lie_eq_adjointDerivation` and the
+*Needs:* native `TauCeti.SymmetricAlgebra.lie_eq_lieModuleDerivation` and the
 symmetric grading.
 
 Define `lieCartanRestriction` by the symmetric-algebra map of the
