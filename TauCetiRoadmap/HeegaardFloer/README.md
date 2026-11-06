@@ -55,11 +55,16 @@ DGFloer, MorseNovikov, AnalyticStableMaps, ComplexCurveModuli,
 ConvexityToric, CotangentLagrangian, HamiltonianReduction,
 HamiltonianSystems, HamiltonianFloerOperations, FukayaTheory and the
 gauge-theoretic roadmaps consume this roadmap and supply nothing to it; the
-notions those roadmaps generalize or specialize (the finite-filtration
-spectral sequence of M.8, the return-map germ of F0.6, the genus-zero
-factorization of F2.6b, the punctured and bordered domain interfaces of
-F5.0) are owned here, and their comparisons with the consumers'
-constructions are listed under Downstream consumers.
+finite-filtration adapter of M.8 and the local return germ of F0.6 are
+constructed here to precede the trajectory applications. DGFloer Layer 1
+item 3 specifies the broader filtered-complex convergence theory, and
+MorseNovikov N5 specifies a general-field return germ as well as its
+closed-one-form application. The common finite-filtration and local-germ
+interfaces have this earlier owner; the downstream comparisons below
+identify them with those independently specified constructions. F2.6b
+owns the genus-zero factorization and F5.0 the punctured/bordered
+interfaces needed here; their downstream extensions retain their own
+additional hypotheses.
 
 The layers below are numbered 1–8 in build order and every target keeps its
 lane tag in its heading, so both names resolve: Layer 1 is Lane M (M.n is
@@ -163,8 +168,8 @@ theory on compact oriented Riemannian manifolds: the H² realization of the
 Hodge Laplacian, harmonic projection, Green operator, orthogonal
 harmonic/exact/coexact splitting, the de Rham Hodge theorem identified
 with DifferentialGeometry 8.5's de Rham cohomology, the sign law
-`d*=(−1)^(m(k+1)+1)*d*` and the Sobolev-scale elliptic estimate of the
-Green operator; Layer 1's Hodge-Laplacian target and F2.1's primitive
+`d*=(−1)^(m(k+1)+1)*d*` and its Sobolev elliptic estimate for the Hodge Laplacian; derive the
+Green-operator Sobolev bound in F2.1 from this estimate on the harmonic complement; Layer 1's Hodge-Laplacian target and F2.1's primitive
 selector use them.
 
 ## How to read the build
@@ -189,7 +194,7 @@ carriers, nice moves and combinatorial complexes. F4.A–C here own their
 smooth pointed cut-system realization, represented-manifold reconstruction,
 Spinᶜ/Chern comparison and globally admissible presentation/connectivity.
 F4.M owns the balanced multipointed geometric and analytic bridges used by
-reconciliation1. These constructions consume the combinatorics and GT's
+R1 (§8.1). These constructions consume the combinatorics and GT's
 ordinary splitting theory; neither supplier asserts these smooth identifications.
 
 ---
@@ -208,6 +213,8 @@ these foundations; F1 consumes PH, which consumes PDE Lane A. Each application r
 constructs the gluing maps and comparisons used by its counts.
 
 ## Layer 1: Morse homology
+
+### Lane M: Morse homology (Stage 0)
 
 Work on a closed smooth real manifold with a smooth Morse function f and
 metric g, using the flow of −grad f. Compactness, Morse–Smale transversality
@@ -242,6 +249,18 @@ native invariant-graph/dichotomy extension specified above. Establish the global
 properties used for a Morse gradient, rather than inferring them from a
 local graph. Prove the λ-lemma and the transverse intersection theorem.
 
+
+**Stable and unstable parametrizations.**
+
+- At a hyperbolic zero their tangent spaces are the stable and unstable spectral subspaces, and their images are invariant under the appropriate half-flow.
+- Compact graph pieces vary continuously in C¹ under the stated C¹ field perturbations; smooth parameter families retain their separate regularity theorem.
+
+**Checks.**
+
+- For V(x,y)=(−x,2y), Wˢ is y=0 and Wᵘ is x=0, of dimensions 1 and 1; exchanging them gives the wrong limits e^(−t)x and e^(2t)y.
+- For V(x)=−x on ℝ, stable dimension is 1 and unstable dimension is 0; the unstable manifold is the single zero.
+- For V=0 on ℝ, the eigenvalue is 0 and every point is stationary; the hyperbolic hypothesis fails, so no exponential attraction is inferred.
+
 *Needs:* MorseTheory M1's critical points and normalized charts; DifferentialGeometry Layer 3's maximal flows; the native local invariant-manifold and exponential-dichotomy results; F0.4 consumes only the C¹-continuity of compact graph pieces stated here.
 
 ### 1.0b Standard metrics (M.0b)
@@ -264,6 +283,18 @@ For arbitrary Morse–Smale metrics, topological conjugacy transports a
 chosen corner structure; it does not make the original level evaluations
 smooth automatically.
 
+
+**Standard local metrics.**
+
+- The metric agrees with the Euclidean tensor on the prescribed closed critical balls, not merely at the critical points.
+- The normalized negative-gradient flow and the gluing parameter use the same quadratic convention.
+
+**Checks.**
+
+- For f=−x²+y², −grad f=(2x,−2y); at time log 2/2 the flow is (2x,y/2), fixing the rate 2.
+- For the half-quadratic model the same point is reached at time log 2, and e^(−T)=1/2=e^(−2t).
+- The metric 2(dx²+dy²) gives rates ±1 and therefore fails the prescribed Euclidean-germ condition, despite agreeing in index.
+
 *Needs:* F0.4's smooth relative Morse–Smale residual theorem; MorseTheory M1's normalized charts; M.0a's local dynamics; Wehrheim, Definition 1.1 and Theorem 2.6(iv) (source).
 
 ### 1.1 Parametrized and unparametrized trajectories (M.1)
@@ -279,6 +310,11 @@ compact time windows and exponential estimates uniform on compact families.
 Lyapunov decrease and index drop exclude cycles of nonconstant breaks
 (Hutchings, *Lecture notes on Morse homology*, §2.2, pp. 8–10, for the
 translation quotient and its dimension).
+
+The constructions above have the following compatibility laws.
+
+- The trajectory-to-intersection map intertwines time translation with flow; for distinct ends the quotient dimension drops by one and level-slice charts agree on overlaps.
+- Broken convergence preserves the order of critical points and the specified asymptotic evaluations.
 
 **Checks.**
 
@@ -311,6 +347,11 @@ those statements are not asserted by these locators.
 
 *Needs:* M.0b's Euclidean-near-critical pair, M.1's trajectory topology and
 F0/F1 for the Fredholm and determinant comparisons.
+
+The constructions above have the following compatibility laws.
+
+- Each ordered k-fold breaking has exactly k corner parameters, and restriction to a face agrees with its lower-level gluing map.
+- The finite-dimensional/Fredholm comparison preserves evaluation and the determinant orientation, including its translation factor.
 
 **Checks.**
 
@@ -345,13 +386,18 @@ homology, and the nongeneric saddle connection with its perturbation.
 Compute the ordinary Morse complex of ℝP² over ℤ with one generator in
 each degree0,1,2, differential d₂=±2 and d₁=0, recovering H₁=ℤ/2.
 
+The constructions above have the following compatibility laws.
+
+- The negative-flow determinant order determines the signed count and its changes under every unstable-orientation reversal.
+- The integral differential has degree −1 and squares to zero; coefficient extension and the orientation-line model carry the same complex.
+
 **Checks.**
 
 - On the sphere with maxima m₁,m₂, saddle s and minimum m, with unstable orientations making d(m₁)=d(m₂)=s, the two flow lines from s to m carry opposite signs, so d(s)=0 and H₂=ℤ⟨m₁−m₂⟩, H₁=0, H₀=ℤ; forgetting the sign at s would give d(s)=2m and H₀=ℤ/2.
 - On the torus with the standard height function the four critical points have vanishing differentials by opposite-pair cancellation, giving ℤ, ℤ², ℤ; a single wrong sign would make H₁ smaller.
 - On ℝP² over ℤ the complex is ℤ→ℤ→ℤ with d₂=±2 and d₁=0, so H₂=0, H₁=ℤ/2, H₀=ℤ; over 𝔽₂ every differential vanishes and each group is 𝔽₂, which separates the integral complex from its mod-two reduction.
 
-*Needs:* M.2's compactified moduli and corner orientations; DifferentialGeometry Layer 2's orientations and orientation local systems; Mathlib's chain complexes.
+*Needs:* M.2's compactified moduli and corner orientations; DifferentialGeometry Layer 2's orientations and orientation cover; AlgebraicTopology Stage 6.3's orientation local system; Mathlib's chain complexes.
 
 ### 1.4 Integral geometric comparison (M.4)
 
@@ -403,6 +449,18 @@ maps: six octagons, twelve quadrilaterals, eight hexagons, 48 vertices and
 72 edges. Prove every face inclusion and its outward-first M.3 sign,
 including iterated flags, and compare them with the A,D,F identities;
 the f-vector alone is not the compactification theorem.
+
+
+**Geometric comparison maps and compactified evaluations.**
+
+- The incidence map A and descending-chain map D commute with boundary, satisfy AD=id, and their opposite composite is homotopic to identity by the specified F.
+- Every compactification face is labelled by its break or original chain face, and evaluation respects these labels and the integral pushforward relations.
+
+**Checks.**
+
+- For a single positively oriented critical point, A and D act by 1 on ℤ and AD=1; replacing either by zero violates this equation.
+- The vertex-truncated square has eight edges and eight vertices, so its boundary has Euler characteristic 8−8=0, whereas the untruncated square has only four of each and misses the break faces.
+- The three-dimensional quartic model has V−E+F=48−72+(6+12+8)=2; its boundary is a sphere, and counting only six original faces gives −18.
 
 *Needs:* M.3's complex; GeometricCurrents G1–G4a (G3's integral homology comparison); MorseTheory M2's homotopy CW tower; Mathlib's singular homology; M.0b's local models for the smooth compactified evaluation.
 
@@ -561,6 +619,18 @@ direct, broken-two-edge and ordinary-breaking faces, giving
 ∂H+H∂=F_12 F_01−F_02 with the same M.3 outward-first signs. No field
 in these applications silently changes its base projection.
 
+
+**Continuation, digon and triangle maps.**
+
+- Continuation commutes with the Morse differential, and its constant-path map and reverse-path composite are identity up to the specified homotopies.
+- The triangle homotopy has boundary F₁₂F₀₁−F₀₂, with the M.3 orientation order; endpoint germs remain fixed.
+
+**Checks.**
+
+- In the circle model D=I−S and K=−I give DK=KD=S−I; each degree of the homotopy equation uses the corresponding one of these two products.
+- The small-δ path r=πρ has continuation I but critical-point tracking S, and I(1,0)=(1,0)≠(0,1)=S(1,0).
+- For the product continuation potential with constant f_t, the time eigenvalues are −C and 2C: the endpoint index shifts are 1 and 0, not two equal shifts.
+
 *Needs:* M.2's gluing; M.3's signs; M.4's singular comparison; F0.4's relative slab-potential and fixed-regular-base lift transversality theorems; M.0a's uniform λ-lemma; F0.S's finite-dimensional Sard theorem for the Cerf jet transversality.
 
 ### 1.5a Relative Morse-cobordism application (M.5a)
@@ -598,6 +668,18 @@ from L and state the actual hypotheses for an L** identification. The
 comparison is between cochain/chain maps, without replacing cohomology by
 Hom of homology over arbitrary rings. AT owns the generic relative cap/duality
 construction.
+
+
+**Relative comparison maps.**
+
+- The stopped-flow prism has its exit faces in X₀, and the incidence and descending maps induce the ordinary relative singular comparison.
+- Opposite-function cochains pair with the orientation-twisted complementary relative chains with the stated coefficient pairing.
+
+**Checks.**
+
+- For X=[0,1], X₀={0}, X₁={1}, f(t)=t, there are zero critical points and H_*([0,1],{0})=0; absolute H₀=ℤ would be the wrong comparison.
+- The field −∂t starting at 1/2 exits at time 1/2, so the stopped trajectory ends at 0; an unstopped trajectory at time 1 is −1, outside X.
+- For the oriented interval, H⁰(X)=ℤ and H₁(X,∂X)=ℤ, while H₁(X)=0; this distinguishes the complementary relative target of duality.
 
 *Needs:* MorseTheory M2's compact bands and relative handle model; M.4's relative chain subcomplex; M.5's relative continuation; AlgebraicTopology Stage 6.4's compactTriadPoincareLefschetz map and Stage 6 local-coefficient duality.
 
@@ -681,7 +763,19 @@ example.
 This rank2 negative-bundle example is distinct from M.7's Klein-bottle
 ambient surface and its rank1 negative line.
 
-*Needs:* MorseTheory M5's Morse–Bott normal form and negative bundles; M.2's isolated-point gluing; F0.7's Bott transversality; F0.0's and F1.4's determinant-line precursors; DifferentialGeometry Layer 2's orientation local systems.
+
+**Negative orientation coefficients and Bott trajectory determinants.**
+
+- Transport in the negative orientation line is the sign of the negative-bundle transition determinant; it need not equal the sign of the whole normal bundle.
+- The endpoint and fiber-product determinant maps respect the stated factor order, rank parity, iterated products and outward-first boundary law.
+
+**Checks.**
+
+- In the mapping-torus model det diag(1,−1)=−1: the rank-two negative orientation line has nontrivial monodromy.
+- The full normal transition diag(1,−1,−1) has determinant +1; replacing the negative orientation line by the full normal orientation would erase the preceding −1.
+- For C=(N,π), D=(S,π), the trajectory dimension is 2−0+1−1=2, agreeing with the Klein bottle; treating it as a circle would forget the critical-component direction.
+
+*Needs:* MorseTheory M5's Morse–Bott normal form and negative bundles; M.2's isolated-point gluing; F0.7's Bott transversality; F0.0's and F1.4's determinant-line precursors; DifferentialGeometry Layer 2's orientation cover; AlgebraicTopology Stage 6.3's orientation local system.
 
 ### 1.7 Bott complexes and cascades (M.7)
 
@@ -903,8 +997,22 @@ regular-current statement above retains every one of its regularity and
 presentation hypotheses, supplies no invariant regular Bott metric, and
 implies no vanishing of raw parametrized-chain differentials. Its comparison
 with ConvexityToric T2's compact moment-map attachment and rational
-perfection theorem is made in that consumer, on M.7's homology model and
+perfection theorem is a downstream comparison target, on M.7's homology model and
 M.8's critical-value filtration (see Downstream consumers).
+
+
+**Bott differential, cascade complex and orientation transport.**
+
+- The shifted internal differential and trajectory correspondences each have total degree −1, and their sum squares to zero with the displayed Koszul signs.
+- The cascade and current constructions carry their own compactification maps, and their comparison respects coefficient transport and continuation.
+
+**Checks.**
+
+- For the sign local system on S¹, the boundary is (−1)−1=−2, so H₀=ℤ/2 and H₁=0; a twice-around chain has coefficient 1+(−1)=0.
+- For the two-cap sphere the correspondence (a,b)↦a+b has kernel ℤ(1,−1) and cokernel 0; counting both caps with no relation would incorrectly leave H₁=ℤ.
+- For the sheared torus, ∂P+P∂=F gives D₀Φ(x,y)=(∂x+∂Py,−∂y)=ΦD(x,y); the minus sign in the shifted boundary is essential.
+- For the Klein bottle, the rank-one shift sends −2 to +2 and ℤ²/⟨(0,2)⟩=ℤ⊕ℤ/2; replacing the negative line by a trivial line would give ℤ².
+- For the four-component sphere, D₁D₂(a,b)=D₁(0,−a+b)=(0,0), ker D₂=ℤ(1,1), and ker D₁/im D₂=0.
 
 *Needs:* M.6's trajectory spaces and signs; GeometricCurrents G2–G3's orientation-line currents, interval product and rank-drop theorems; F0.7's moving-chain genericity and endpoint-relative parameter spaces; AlgebraicTopology's local-coefficient cellular comparison; ComplexKahlerGeometry K7.1–K7.2 for the projective obstruction example.
 
@@ -1026,8 +1134,7 @@ cellular/singular comparison and the finite-filtration spectral sequence
 owned above; no Serre spectral sequence of another roadmap is an input, and
 a point-fiber specialization of a later DG-coefficient theorem is not an
 input to M.4. The identification of this skeletal-filtration sequence with
-the Serre spectral sequence as constructed by DGFloer Layer 1 is that
-consumer's comparison (see Downstream consumers).
+the Serre spectral sequence as constructed by DGFloer Layer 1 is a downstream comparison target (see Downstream consumers).
 
 Include `SU(2)→SU(3)→S⁵` with block inclusion `B↦diag(1,B)` and projection
 `A↦Ae₁`, constructing its smooth local trivializations. Pull back a standard
@@ -1036,8 +1143,19 @@ Compute H_*(SU(3);ℤ), equal to ℤ in degrees0,3,5,8 and zero otherwise,
 by collapse for degree reasons, with no additive extension ambiguity.
 The ring structure `H*(SU(3);ℤ)=Λ_ℤ(x₃,x₅)` is not computed here: it uses
 the multiplicative cohomological Serre sequence of DGFloer Layer 1, a
-consumer of this layer, whose comparison with M.9a's cup product is made
-there.
+consumer of this layer, whose comparison with M.9a's cup product is a downstream target.
+
+
+**Finite filtrations and bundle comparison.**
+
+- The page differential has bidegree (−r,r−1), is natural under filtered maps, and converges to the associated graded of the image filtration on homology.
+- The bundle comparison identifies the E² local system and the abutment filtration; it does not assert a canonical splitting of that filtration.
+
+**Checks.**
+
+- The two-cap sphere has index-filtration differential d₂:ℤ²→ℤ, (a,b)↦a+b, with kernel ℤ and cokernel 0; in the value filtration the same map is d₁.
+- For a point fiber the local system is ℤ in degree 0 and zero otherwise, so E²_(p,0)=H_p(B;ℤ); a nonzero fiber-degree row would be spurious.
+- For SU(2)→SU(3)→S⁵ the four nonzero E² entries have total degrees 0,3,5,8; all potential differentials have zero target, giving four ℤ groups and no additive torsion.
 
 *Needs:* M.7's Bott complex and comparison; M.4's unstable-cell CW structure; Mathlib's `SpectralObject` and `SpectralSequence` carriers; MorseTheory M5's critical-band sequence; AlgebraicTopology's local-coefficient cellular/singular comparison; M.0b's standard base metrics for the bundle construction.
 
@@ -1059,7 +1177,7 @@ compatibility with AT products, Poincaré and relative duality, rather than
 identifying only abstract homology ranks. Compare the Morse Euler/index
 proof with CC C2.3's oriented Euler pairing after the ordinary comparison
 is available; the comparison with the orientation-free Poincaré–Hopf
-theorem of MorseNovikov N7 is made in that consumer.
+theorem of MorseNovikov N7 is a downstream comparison target.
 
 With homological grading |x|=ind_f(x) and ordered factors 1 then 2,
 choose product unstable orientations Wᵘ(p₁) followed by Wᵘ(p₂). The product
@@ -1067,6 +1185,18 @@ trajectory boundary then has the convention
 `∂(x⊗y)=∂x⊗y+(−1)^|x| x⊗∂y`: in the second-factor term its flow direction
 passes the |x|-dimensional first factor. Keep this sign with the integral
 orientation-line and Tor comparison above.
+
+
+**Product and opposite-function complexes.**
+
+- The tensor differential uses the first factor degree in its Koszul sign and agrees with the geometric product orientation.
+- Opposite-function comparison reverses index and includes the ambient orientation local system; the integral product comparison retains Tor.
+
+**Checks.**
+
+- For |x|=1, ∂x=a, ∂y=b, the mixed terms in ∂²(x⊗y) are a⊗b−a⊗b=0; using a plus sign twice gives 2a⊗b over ℤ.
+- For f on an n-manifold, a critical point of index i has opposite index n−i; at a minimum in dimension 2 these are 0 and 2.
+- On ℝP², H₂(ℝP²;ℤ)=0 but H⁰(ℝP²;ℤ)=ℤ; untwisted integral duality would fail, while the orientation-twisted top homology is ℤ.
 
 *Needs:* M.3–M.5; AlgebraicTopology Stage 5 item 1 and Stage 6 items 1–4; CharacteristicClasses C2.3's oriented Euler pairing; M.6's orientation lines for the nonorientable statement.
 
@@ -1138,14 +1268,26 @@ unital graded-ring isomorphism with AT's ordinary H^*(X;R), compatible
 with coefficient change, orientation change and continuation. Include
 the integral exterior ring of the two-torus, and the mod2 projective-plane
 ring `F2[x]/(x^3)`, |x|=1, together with the integral torsion comparison;
-additive ranks alone do not check these products. HFO H7 owns the separate
-symplectic Morse-incidence/quantum comparison, consuming this ordinary
-Morse product at its constant-class endpoint. Construct these finite
+additive ranks alone do not check these products. The downstream comparison with HFO H7's symplectic Morse-incidence
+construction identifies its constant-class endpoint with this ordinary
+Morse product; it is a comparison target, not an input here. Construct these finite
 flow-tree and diagonal comparisons following the perturbed-trajectory
 route of [Mescher, §§1–5 and AppendixA](https://arxiv.org/html/1611.07916v1),
 with the stated degree/normal-orientation conversion to M.3. The source's
 oriented-manifold treatment does not supply the nonorientable comparison
 without the coorientation argument required here.
+
+
+**Morse cochains and the counted cup product.**
+
+- The counted diagonal dualizes to the degree-zero bilinear product satisfying the cochain Leibniz law and continuation naturality.
+- The tree families provide associativity, leaf-exchange and unit homotopies, and the singular comparison identifies the induced unital graded ring.
+
+**Checks.**
+
+- On an oriented two-torus choose a,b of degree 1 with a cup b evaluating to 1; b cup a evaluates to −1, and a²=b²=0.
+- On ℝP² with 𝔽₂ coefficients, x²≠0 in degree 2 while x³=0; an exterior algebra on x would give the wrong square.
+- For two isolated points, degree-zero cochains are R×R with unit (1,1), and (1,0)(0,1)=(0,0); summing components before multiplying would lose this distinction.
 
 *Needs:* M.3's orientation lines; M.4's Morse/singular maps; M.9's product complex; F0.3's parameter transversality for the perturbed flow trees; M.1–M.2's gluing; AlgebraicTopology's cup product and Alexander–Whitney map.
 
@@ -1178,6 +1320,17 @@ Morse cochain complex (Helffer–Sjöstrand's comparison of the low-lying
 spectral subcomplex with the Morse complex, by locator). Identify de Rham/singular comparison and the
 Morse inequalities through the same maps. These semiclassical estimates
 are new targets; K5a supplies the generic closed elliptic realization.
+
+**Witten differential and integration comparison.**
+
+- The conjugated differential squares to zero, and the Witten Laplacian uses the density adjoint on the stated Sobolev domain.
+- The small spectral subcomplex maps to the Morse cochain complex by the weighted integration map, with the stated eventual isomorphism and metric hypotheses.
+
+**Checks.**
+
+- For f=x² in one dimension, the degree-zero model is −∂²+4t²x²−2t; applying it to e^(−tx²) gives 0, fixing the Hessian sign.
+- On degree-one forms for that same minimum the scalar operator is −∂²+4t²x²+2t, so e^(−tx²)dx has eigenvalue 4t rather than 0.
+- For f=−x² the zero mode is e^(−tx²)dx in degree 1, agreeing with Morse index 1; for t=0 both conjugated differentials reduce to d.
 
 *Needs:* ComplexKahlerGeometry K5a's Hilbert/Sobolev form carrier and orientation-twisted Hodge star; M.0b's standard metrics; M.4's compactified integration; M.5's continuation for the metric comparison; DifferentialGeometry Layer 8's de Rham comparison; Witten (1982) §2 and Helffer–Sjöstrand (1985) (sources, by locator).
 
@@ -1283,7 +1436,11 @@ at k>max(dim source−dim target,0), including its zero-dimensional and
 open-domain cases. Do not replace this with the native quadratic bound or
 infer kernel dimension from Fredholm index zero.
 
-Use the native FredholmPackage normal form `(x,z) -> (x,g(x,z))`, with z in
+Use Smale, An Infinite Dimensional Version of Sard's Theorem,
+Theorem (1.3), p. 862, and its local proof, pp. 862–863. Its connected,
+countable-base formulation is applied chartwise; source second countability
+gives the countable union, and the local proof uses no global countability
+of the target. Use the native FredholmPackage normal form `(x,z) -> (x,g(x,z))`, with z in
 the finite kernel and g in the finite cokernel, on the actual open coordinate
 domain. Prove the derivative/surjectivity and integer-index comparisons
 through its smooth inverse and bounded linear coordinate maps. For each fixed
@@ -1301,6 +1458,11 @@ chart. Combine closedness with the slice empty-interior statement, then use
 countably many such neighborhoods to make all critical values meagre. Prove
 the chart-change and actual zero-set localization comparisons. No Haar-null
 Sard theorem in infinite dimensions or arbitrary-index C1 genericity is claimed.
+
+The constructions above have the following compatibility laws.
+
+- The stabilized determinant charts identify fibers with det ker T tensor (det coker T)*, and changes of stabilizer satisfy the cocycle and pullback laws.
+- Orientation-cover transport composes along paths; a linear map of determinant fibers additionally retains its chosen connection or trivialization.
 
 **Checks.**
 
@@ -1335,7 +1497,9 @@ choices require their own density, openness and approximation/Baire argument
 in the specified topology; intersecting a Banach residual set with C-infinity
 is not that argument.
 
-Construct the reusable real determinant line
+Construct the reusable real determinant line (Zinger, arXiv:1304.6368v4,
+Theorem 1, p. 14, §4.3, pp. 49–54, and §§5.1–5.2, pp. 55–62,
+for stabilization, overlap and dualization comparisons)
 `det ker T tensor (det coker T)^*` on the native Fredholm operator carrier.
 For an operator-norm-continuous family, choose a finite-dimensional target
 stabilizer S at a base point and make `T plus inclusion_S : E directSum S -> F`
@@ -1429,6 +1593,11 @@ the resulting finite-C^k open dense sets with MorseTheory M3's smooth
 approximation theorem, without inferring a residual theorem on a smooth
 subspace merely by intersection. Include empty and zero-dimensional X.
 
+The constructions above have the following compatibility laws.
+
+- The finite-jet norms are equivalent under the stated atlas and transition controls, and compatible jets form a complete space.
+- Evaluation and differentiation have the stated finite-order regularity, and the universal derivative detects the native nondegenerate-critical-point predicate.
+
 **Checks.**
 
 - On S¹, f_ε(θ)=cos³θ+ε cos θ has degenerate critical points at θ=±π/2 for ε=0 (f″=0 there) and only nondegenerate ones for every small ε≠0: the Morse set is dense but not everything.
@@ -1470,6 +1639,18 @@ weights below the limiting spectral gaps. This target does not impose
 self-adjointness or a derivative of A, and does not redefine F1's
 self-adjoint spectral-flow or CZ conventions.
 
+
+**Trajectory charts and linearized section.**
+
+- The chart transition maps preserve the asymptotic conditions and the section linearization includes the chosen auxiliary connection terms.
+- The asymptotically hyperbolic operator has closed split range and the stated unstable-dimension index with weights below the gaps.
+
+**Checks.**
+
+- For A(s)=−tanh s the unstable endpoint dimensions are 1 and 0, so index=1 and ker(∂s+tanh s)=ℝ sech s.
+- For A(s)=tanh s they are 0 and 1, so index=−1, kernel 0 and cokernel ℝ sech s.
+- For A=0 the limiting gap is 0; translated and dilated unit-L² bumps have derivative norm tending to 0, so the hyperbolic Fredholm conclusion does not apply.
+
 *Needs:* F1.1's Sobolev adapters and F1.3's asymptotically hyperbolic Fredholm theory; F0.0's section implicit-function theorem; M.0a's exponential asymptotics.
 
 ### 2.5 Universal zero sets and the regular-parameter projection (F0.3)
@@ -1488,6 +1669,17 @@ gradient sections on W^(r,p) paths use finite C^ℓ metrics and C^(ℓ+1)
 functions, choose ℓ≥k+r+1, and prove C^k universal-section/projection
 regularity with this derivative budget before applying Sard–Smale.
 The low C¹ metric theorem in item4 uses finite-window arguments instead.
+
+**Universal zero manifold and parameter projection.**
+
+- The tangent projection is identified with the native linear parameter projection, with its actual kernel, cokernel and index.
+- The parameter space, derivative budget and endpoint constraints enter the section regularity and split-surjectivity hypotheses explicitly.
+
+**Checks.**
+
+- For s(x,p)=x−p on ℝ², its zero set is x=p and projection to p has derivative 1, index 0 and zero kernel.
+- For s(x,p)=p with x∈ℝ, the zero set is p=0 and its projection has kernel dimension 1 and cokernel dimension 1, hence index 0 but is not surjective.
+- For s(x,p)=0 into ℝ, the total derivative is 0 and not surjective; the zero set has dimension 2 rather than the regular expected dimension 1.
 
 *Needs:* F0.0; F0.2's trajectory sections and adjoint-ODE identification, with uniqueness for the adjoint equation; Tau Ceti `parameterProj`.
 
@@ -1578,6 +1770,11 @@ cones Baire as open subsets of these complete Fréchet spaces.
 F0.1's finite jet spaces and norm equivalences; native `contMDiff_infty`;
 segment FTOC in convex chart boxes; positive patching and regular-slab
 perturbations with support away from the fixed loci.
+
+The constructions above have the following compatibility laws.
+
+- The constrained finite-order and smooth metric carriers preserve their fixed closed germs and positive cones; restriction and jet comparison commute with those constraints.
+- The slab-potential and fixed-base-lift parameter spaces retain their prescribed base field and regular face collars under allowed perturbations.
 
 **Checks.**
 
@@ -1699,6 +1896,18 @@ For smooth data iterate these estimates through arbitrary orders to
 obtain smooth solutions and the smooth completion comparison. Carry
 all N,p,r,k,ℓ inequalities into each genericity theorem.
 
+
+**Surface-map completions and section comparisons.**
+
+- Completion-changing maps identify smooth solutions and their linearized kernels and cokernels by elliptic regularity.
+- The section and parameter projection satisfy their stated finite derivative budgets; reparametrization comparisons retain the lost derivatives.
+
+**Checks.**
+
+- On a disc, u(z)=z has ∂̄u=0 in every W^(r,p) completion in which it lies, whereas u(z)=conj z has ∂̄u=1; completion changes cannot identify these two zero sets.
+- At r=1,p=3 one has rp=3>2; at r=1,p=2 equality holds and the C⁰ embedding premise is unavailable.
+- For a smooth translation u(z+a), differentiating in a uses du; the constant function has derivative 0 while u(z)=z has derivative 1, detecting the derivative consumed by reparametrization.
+
 *Needs:* F1.1–F1.2's Sobolev and elliptic estimates; F0.0's Banach-manifold floor; the native almost-complex and tame/compatible carriers.
 
 ### 2.8 Closed-return genericity for vector fields (F0.6)
@@ -1713,7 +1922,11 @@ Banach space or apply Banach Sard–Smale to it. Every periodic orbit has
 compact image and a locally defined finite-time return germ. Exhaust the
 orbit data by compact chart windows with bounded return-time intervals,
 positive speed/transversality reserves, and the local-flow/derivative
-controls needed for each germ; prove each window's perturbation set is
+controls needed for each germ. Use Peixoto, On an approximation theorem
+of Kupka and Smale, §2, pp. 214–227, for the compact perturbation route;
+the compact-open, noncompact exhaustion and its window-uniform comparisons
+are explicit targets here, rather than an identification with the strong
+Whitney topology. For each window, prove each window's perturbation set is
 open and dense using compactly supported flow-box variations. Construct
 the transverse-section fixed-point problem so time translation is removed
 and the variable and target dimensions agree; verify C^1 is the required
@@ -1736,7 +1949,8 @@ independent of the section and the base point (Teschl, Theorem 12.4,
 p. 317, for the comparison with the monodromy of the first variational
 equation). Only local flows around the compact orbit are used; sections
 are open germs and no invariant transverse disc is assumed. MorseNovikov
-N5 applies this germ to −α♯ (see Downstream consumers). No completeness of every field,
+N5 specifies its own general-field germ; the downstream comparison identifies
+that germ with this one before specializing to −α♯. No completeness of every field,
 bounded geometry, finite orbit set, or compactness of X is assumed.
 The resulting set of fields is dense and residual in Γ^k(TX); every
 nonstationary primitive periodic orbit and every positive iterate has a
@@ -1759,6 +1973,18 @@ complete pseudo-gradient, and specify direct-limit/locally-finite support
 and relative comparisons before any global homology assertion. Local
 Morse attachments assert none
 of these extra global hypotheses.
+
+
+**Return germs and compact-open parameter topology.**
+
+- Local hitting maps have the reverse-branch inverse and conjugate primitive return germs and their positive iterates.
+- The compact-window perturbation sets are open dense under the stated reserves, and their countable intersection gives the all-iterate residual conclusion.
+
+**Checks.**
+
+- For P(x)=2x and section transition h(x)=3x, hPh⁻¹(x)=2x and both derivatives have eigenvalue 2; the iterate m has derivative 2^m≠1.
+- For P(x)=−x, the primitive derivative −1 avoids 1 but the second iterate has derivative 1; primitive nondegeneracy alone is insufficient.
+- For a nonzero field on S¹, the transverse space has dimension 0 and det(I−DP)=1 by the empty determinant convention; a zero-dimensional ambient manifold has no nonstationary orbit.
 
 *Needs:* M.0a's local dynamics and λ-lemma; F0.1–F0.3's function-space and generic-section floors; DifferentialGeometry Layer 3's local flows; F0.S's finite-dimensional Sard theorem; MorseTheory M2's compact bands for the noncompact Morse remark; Teschl §6.4 and §12.2 (source).
 
@@ -1809,6 +2035,18 @@ genericity theorem is asserted. Arbitrary Bott f also has its small
 ordinary Morse perturbation and M.3 homology; M.7 proves comparison
 with its Bott constructions.
 
+
+**Bott parameter spaces and free endpoint operators.**
+
+- Weighted section charts include tangent endpoint variables and impose the specified matching maps on iterated trajectories.
+- Relative genericity fixes already regular face data, and the determinant comparison carries the same endpoint and translation factors as M.6.
+
+**Checks.**
+
+- For an isolated critical point dim C=0, the free endpoint space is 0 and the Bott operator reduces to the fixed-end Morse operator.
+- For a critical circle with λ_C=2 mapping to a point with λ_D=0, the trajectory dimension is 2−0+1−1=2; omitting TC would give 1.
+- For X=Y=T=ℝ with α=β=id, the matching derivative (v,w)↦v−w has kernel dimension 1 and rank 1; for two constant maps its rank is 0, so the transverse fiber-product theorem cannot be applied.
+
 *Needs:* MorseTheory M5's Bott normal form; F1.3–F1.5's weighted-end Fredholm theory and extended operators; F0.0's sharp Sard–Smale; F0.3's universal sections; Zhou §8 and Banyaga–Hurtubise Definitions 10–11 (sources).
 
 ### Examples
@@ -1838,6 +2076,18 @@ their products, composition and change-of-variables theorems (PH1.2), and PH6.1'
 cover: strips `ℝ×[0,1]` and cylindrical ends, with their translation-invariant norms, the
 actual transition maps between end charts and compact charts, and parameter dependence of
 the norms and composition estimates in the form F0/F2 use.
+
+**Strip and end Sobolev adapters.**
+
+- On every compact piece of a strip or cylindrical end, the translation-invariant norms are equivalent to PH6.1's norms under the stated transition maps between end charts and compact charts.
+- Multiplication and nonlinear composition respect the totally real boundary conditions and the specified regularity budgets with constants uniform along the ends; on ends the chosen uniform bounds and weights are retained, and the parameter dependence has the form F0/F2 use.
+
+**Checks.**
+
+- On the strip ℝ×[0,1], a section supported in [0,1]×[0,1] and its translate by s=5 have the same W¹,p norm; a norm built from one fixed compact chart would not see the translate.
+- With the totally real boundary ℝ⊂ℂ on both edges of the strip, the constant section 1 satisfies the boundary condition and the constant i fails it.
+- For k=1,p=3 the multiplication threshold is kp=3>2; k=1,p=2 gives 2 and does not satisfy the advertised embedding/algebra premise.
+- On the infinite cylinder, the constant section has infinite L² norm, while e^(−sqrt(1+s²)) is square-integrable; a finite-chart construction must not silently admit all constants on the ends.
 
 *Needs:* PH1, PH6.1; DifferentialGeometry Layer 0's bundle calculus.
 
@@ -1883,6 +2133,18 @@ by the Neumann series. Export this as a standalone local Hölder boundary-proble
 identify its Sobolev realization on common data when regularity permits.
 These direct disc constructions use no closed-surface RR theorem.
 
+**Planar solution operators and normalized boundary solver.**
+
+- PH3.1's Cauchy–Green and Beurling operators satisfy ∂̄T=id and ∂T=B in the normalization ∂̄=(∂s+i∂t)/2 used here, with boundedness on the stated support/Hölder spaces.
+- The augmented real-boundary solver is a bounded isomorphism in the Sobolev form consumed from PH6.3 and PH7.2 and in the Hölder form owned here, and the two realizations agree on common data.
+
+**Checks.**
+
+- For h(z)=1+z³, e^(−3iθ/2)h(e^(iθ))=2 cos(3θ/2) is real, ∂̄h=0, h(0)=1 and ∂s h(0)=0.
+- For h(z)=z+z², the same boundary rotation gives 2 cos(θ/2), and the center/first jet are (0,1). Thus center evaluation alone leaves a nonzero kernel.
+- In the full kernel a₀+a₁z+conj(a₁)z²+conj(a₀)z³, vanishing center and first jet force a₀=a₁=0 and hence h=0.
+- With ∂̄=(∂s+i∂t)/2, ∂̄conj z=1 and ∂̄z=0; omitting the factor 1/2 would give 2 for the first value.
+
 *Needs:* PH2.3–PH2.4, PH3, PH6.1, PH6.3, PH7.2's disc computation; Mathlib's Cauchy integral
 formula and one-variable complex analysis; the Hölder boundary problem and its Neumann-series
 perturbation are owned here.
@@ -1892,8 +2154,9 @@ perturbation are owned here.
 Own spectral flow for real or complex self-adjoint Fredholm families
 on a fixed Hilbert space. Consume
 [SelfAdjointSpectralTheory](../OperatorTheory/SelfAdjointSpectralTheory/README.md)'s
-unbounded spectral measure SA-E01, common-domain graph calculus and
-native `Resolvent.Unbounded`. Construct spectral flow from its finite spectral projections
+unbounded spectral measure SA-E01, its graph-norm/core results and
+native `Resolvent.Unbounded`. Construct the common-domain family and
+graph-gap transport adapters here under the domain hypotheses below. Construct spectral flow from its finite spectral projections
 and prove partition independence, concatenation, direct sum, reversal,
 endpoint-fixed homotopy and the regular-crossing formula (positive
 crossings count positively). Include unbounded families with common
@@ -1914,6 +2177,18 @@ the operator-domain or Fredholm assertions.
 Construct escaping approximate kernels when a limiting eigenvalue is0
 and prove the resulting failure of Fredholmness. Use finite-time evolution
 and dichotomy projections, not a normalized-limit map that loses linearity.
+
+
+**Spectral flow and its common-domain realization.**
+
+- Spectral flow is additive under concatenation/direct sum, changes sign under reversal and is invariant under endpoint-fixed admissible homotopies.
+- The ∂s−A index comparison uses the fixed graph domain, invertible endpoints and the displayed negative sign.
+
+**Checks.**
+
+- A(s)=tanh s crosses upward once, so SF=1 but ind(∂s−A)=−1; the cokernel is ℝ sech s.
+- Reversing the path gives SF=−1 and kernel ℝ sech s for ∂s+tanh s, hence index 1.
+- For A=1 there are no crossings and SF=0; e^s and e^(−s) are not globally L², giving kernel and cokernel both 0.
 
 *Needs:* SelfAdjointSpectralTheory SA-E01's spectral measure and native `Resolvent.Unbounded`; Mathlib `ContinuousLinearMap.IsFredholm`.
 
@@ -1956,7 +2231,111 @@ with translation and parameter factors explicitly ordered as in M.3.
 Any linear fibre transport carries its chosen connection/trivialization;
 it is not supplied by the orientation transport alone.
 
-*Needs:* Tau Ceti `maslovIndex`, `maslovIndex_map` and `maslovIndex_prod`; F1.3's spectral flow; F0.0's determinant lines and orientation transport; Robbin–Salamon's path index (source).
+**Stabilized linear gluing.** Construct the analytic gluing comparison for
+real-linear CR operators D₁,D₂ on the actual cylindrical Sobolev domains
+of F1.1, with the matched ends modeled by the same invertible self-adjoint
+asymptotic operator A. Fix end coordinates, bundle identifications, neck
+cutoffs and the first-order principal symbols. Require exponential convergence
+through the spatial and parameter derivatives used by the stated Sobolev/C^k
+estimates. Glue the positive end of D₁ to the negative end of D₂ with neck
+length 2R. Prove the cutoff/splicing and reverse-cutting bounds, the
+commutator error estimates and the uniform estimates on the stabilized
+complements specified below, for all sufficiently large R. Uniform family statements retain a compact parameter
+set, a common positive end spectral gap and the required coefficient bounds.
+No nonlinear moduli-space compactness or regularity is an input.
+
+For each piece choose a finite-dimensional stabilizer Sᵢ in its target,
+represented by smooth compactly supported sections and projecting
+isomorphically to coker Dᵢ. Construct these representatives using density
+and the native Fredholm splitting. Then Dᵢ plus the inclusion of Sᵢ is
+surjective, and its kernel identifies with ker Dᵢ. Splice the stabilizers
+into the glued target and construct the surjective augmented operator
+`D_R ⊕ j_R : X_R ⊕ (S₁⊕S₂) → Y_R`, with a uniformly bounded right
+inverse in the specified glued Sobolev norms. Correct the pregluing maps
+to obtain a linear isomorphism from `ker D₁⊕ker D₂` to the augmented
+kernel E_R. Project E_R to S₁⊕S₂ to obtain the finite obstruction map
+b_R. Construct every map and prove the exact sequence
+
+`0 → ker D_R → ker D₁⊕ker D₂ →[b_R] S₁⊕S₂ → coker D_R → 0`.
+
+Consume F0.0's native finite-extension/Fredholm exact-sequence algebra,
+including `kerCoprodHom`, `parameterProj` and `parameterToCoker` where their
+actual hypotheses apply; the splicing, right inverse and E_R comparison
+are analytic targets here. Prove closed range/Fredholmness of D_R and
+`ind D_R=ind D₁+ind D₂`, together with the ordered determinant-line
+isomorphism and its cutoff, stabilization, parameter and iterated-gluing
+compatibilities. Fix the order D₁,D₂ and S₁,S₂ and use F0.0's exact-sequence
+Koszul signs. Separate kernel/cokernel direct sums require b_R=0; prove
+them under that additional hypothesis. In particular the surjective-piece
+case has no obstruction spaces.
+
+For a continuous or C^k operator family, construct the exact-coker
+stabilizer subbundles on constant-kernel/cokernel-rank parameter ranges,
+with their correspondingly regular splittings and uniformly controlled
+inverse maps on compact subsets. These rank hypotheses are additional to
+the end gap and coefficient bounds. Retain rank-jumping families: on each
+sufficiently small parameter neighborhood choose fixed, possibly larger
+finite-dimensional Sᵢ making the augmented pieces surjective. Their
+kernels Eᵢ form finite-rank bundles and the analytic gluing constructs
+`E₁⊕E₂≃E_R`. The sequence then has E₁⊕E₂ in its middle term, rather
+than ker D₁⊕ker D₂. Prove this version's index, determinant, overlap and
+refinement comparisons; use a finite cover for compact parameter families.
+No family of unaugmented kernels or cokernels is asserted to be a bundle
+across a rank jump. The zero-eigenvalue end problem uses F1.5's weights,
+free endpoint variables and matching conditions; it is not an application
+of this nondegenerate-end statement without those adapters.
+
+**Kernel/cokernel cancellation on a neck.** On the real line take
+`D₁=∂s+tanh s` and `D₂=∂s−tanh s`, as bounded maps
+`W¹,²(ℝ;ℝ)→L²(ℝ;ℝ)`. Prove their kernel/cokernel dimensions are
+respectively `(1,0)` and `(0,1)`, with the nonzero space generated by
+`sech s`. The matched asymptotic coefficient in the convention
+`D=∂s−a(s)` is −1. For R≥1 define
+
+`a_R(s)=1−tanh(s+R)+tanh(s−R)`, `D_R=∂s−a_R(s)`.
+
+After translating to the two centers, prove convergence in every local
+C^k norm to D₁ and D₂ as R→∞, and the required exponential tail bounds.
+Both unglued exterior ends of D_R have coefficient +1. Its positive
+fundamental solution is
+`F_R(s)=exp(s) cosh(s−R)/cosh(s+R)`; prove `F_R'=a_R F_R` and
+`F_R(s)/exp(s)→exp(∓2R)` as s→±∞. The adjoint homogeneous solution is
+`1/F_R`. Neither is globally square-integrable. Construct the bounded
+inverse by
+`u(s)=−F_R(s)∫_(s)^∞ f(t)/F_R(t) dt`, first on compactly supported smooth
+f and then on L², proving the actual W¹,² estimate for each fixed R.
+Thus both glued kernel and cokernel vanish: the one-dimensional b_R is
+nonzero and cancels the piece kernel against the piece cokernel.
+
+The inverse norms are not uniform before stabilization. Choose a fixed
+smooth real cutoff η equal to1 on [−1,1] and supported in (−2,2), and
+normalize `ξ_R(s)=η((s+R)/R) sech(s+R)` in L². Prove its norms before
+normalization are bounded below and
+`‖D_R ξ_R‖_L²≤C exp(−R)` with C independent of R≥1, after normalization
+as well. Hence `‖D_R⁻¹‖_(L²→W¹,²)≥c exp(R)` for a fixed c>0.
+Complexify and use the zero Fourier mode to realize the same cancellation
+for the actual cylinder CR operators `∂s+i∂t−a(s)` on ℝ×(ℝ/ℤ).
+Prove |a_R|≤1 and that all nonzero Fourier modes have a uniform end gap,
+so they contribute no kernel or cokernel. The real dimensions of the
+complexified piece spaces are2, while both glued spaces remain zero.
+These examples validate index additivity and refute separate unqualified
+kernel/cokernel additivity.
+
+
+**Boundary indices, determinant comparison and stabilized gluing.**
+
+- The native loop comparison preserves phase degree; path and CZ indices obey the stated sign, homotopy and concatenation conventions.
+- The augmented gluing map identifies E₁⊕E₂ with E_R, and projection to stabilizers gives the displayed exact sequence and ordered determinant isomorphism.
+- Only on constant-rank parameter ranges are exact kernel/cokernel bundles asserted; larger local stabilizers handle rank jumps.
+
+**Checks.**
+
+- For a small positive rotation on ℝ², signature(S)=2 and CZ=−1; for H=ε(x²+y²)/2 with ι_Xω=dH the rotation is clockwise and CZ=+1.
+- The tanh pieces have dimensions (ker,coker)=(1,0),(0,1), while the glued scalar operator has (0,0); b_R is a nonzero map ℝ→ℝ and 0=1+(−1) is the index sum.
+- At R=0 the displayed scalar formulas give a₀=1, F₀=e^s and F₀′=F₀; neither e^s nor e^(−s) lies in L²(ℝ). This calibrates the formula, outside the large-neck estimate.
+- For the finite family T_t:ℝ→ℝ, x↦tx, kernel/cokernel dimensions jump from (0,0) to (1,1) at 0; augmenting by ℝ gives a one-dimensional kernel for every t, excluding an unaugmented bundle across the jump.
+
+*Needs:* F1.1's actual cylindrical Sobolev domains and norms; F1.2's local elliptic and cutoff/commutator estimates; F1.3's common-domain end estimates and spectral flow; Tau Ceti `maslovIndex`, `maslovIndex_map` and `maslovIndex_prod`; F0.0's determinant lines and orientation transport; Robbin–Salamon's path index (source).
 
 ### 3.5 Cauchy–Riemann Riemann–Roch and weighted ends (F1.5)
 
@@ -2026,7 +2405,18 @@ verifies the weighted-tail conditions before consuming this theorem.
 These linear theorems precede
 the moduli-space dimension and orientation applications.
 
-*Needs:* PH6–PH7; F1.2's local estimates and similarity principle; F1.3–F1.4; CharacteristicClasses C3.2; AlgebraicTopology Stage 7.1 and Stage 8.7; F0.0's determinant gluing.
+**Boundary-loop and weighted-end index adapters.**
+
+- The closed and bordered index maps agree with the chosen Chern and native Maslov carriers, with direct-sum and gluing compatibility.
+- Exponential weights shift the asymptotic spectrum, and free endpoint variables and matching conditions contribute their actual finite dimensions.
+
+**Checks.**
+
+- For the trivial complex line on S², χ=2 and c₁=0 give real index 2; for its tangent line c₁=2 the index is 2+4=6.
+- On the disc with constant real boundary, n=1, χ=1 and μ=0 give index 1, agreeing with the real constant kernel.
+- For the boundary line e^(3iθ/2)ℝ, μ=3 and the disc index is 4, agreeing with the four real coefficients in the F1.2 kernel; using twice the native Maslov index would give 7.
+
+*Needs:* PH6–PH7; F1.2's local estimates and similarity principle; F1.3–F1.4; CharacteristicClasses C2.3 and C3.2; AlgebraicTopology Stage 7.1 and Stage 8.7; F0.0's determinant gluing.
 
 ### Examples
 
@@ -2082,9 +2472,19 @@ Prove the **domain-local Moser lemma**: for a smooth symplectic family
 `J : TopologicalSpace.Opens ℝ` contains [0,1],
 with slice forms obtained by `mpullback` along x↦(t,x); define their
 time derivative slice-wise; closedness and nondegeneracy apply to these
-vertical slices. Consume DG 3.5's full maximal time-dependent flow, including
-two-time composition, joint smoothness, inverses and the compact-time escape
-criterion, to obtain compact global flow through [0,1]. Prove the time-dependent pullback differentiation
+vertical slices. Consume DG 3.5's time-dependent local existence and
+DG 3.2–3.4's autonomous maximal-flow calculus. Construct the maximal
+two-time flow Φ(t,s,x) by the autonomous suspension (1,X_t) on J×M,
+with its open domain of triples whose solution exists from s to t.
+Prove uniqueness, joint smoothness, Φ(s,s,x)=x, the two-time composition
+law and inverse Φ(s,t,·) wherever defined. If a solution has a finite
+endpoint in J and stays in a fixed compact subset of M, prove extension
+across that endpoint by the autonomous escape criterion on a compact
+time interval times that subset. Deduce existence through [0,1] on compact M;
+for noncompact M retain this compact-containment hypothesis. These are
+constructions from the suspension, not extra premises of local existence
+(Lee, Introduction to Smooth Manifolds, second edition, Theorem 9.48
+and Lemma 9.19). Prove the time-dependent pullback differentiation
 identity and the corresponding restriction/naturality statements.
 Derive the smooth-parameter local primitive corollary from DG 5.4's
 homotopyOperator under radial chart contraction centred at x₀, with
@@ -2118,7 +2518,7 @@ it is linear, so `S(0)=0`. For exact η the harmonic part Hη vanishes and
 d on exact forms, and exactness enters only there. Prove that S is
 continuous in the compact-source C-infinity topology with the finite
 derivative loss `r_k=⌊dim M/2⌋`, that is `‖Sη‖_(C^k)≤C_k‖η‖_(C^(k+r_k))`,
-from K5a's Sobolev-scale elliptic estimate `‖Gη‖_(H^(s+2))≤C‖η‖_(H^s)`
+by deriving `‖Gη‖_(H^(s+2))≤C‖η‖_(H^s)` from K5a's Laplacian estimate and bounded Green inverse on the harmonic complement
 (two derivatives gained by G, one lost by d*) and the Sobolev embedding
 `H^s⊂C^k` for `s>k+dim M/2` on compact M. For a jointly smooth family
 `η_t` of k-forms over a finite-dimensional parameter manifold, prove that
@@ -2168,10 +2568,18 @@ normalization |ω|²=2(a²+b²+c²) are the Check values of this construction.
 CotangentLagrangian C4 owns only submanifold-relative primitive selection
 and its neighbourhood refinements, consuming the domain-local lemma here.
 Cite the Darboux-by-Moser development in `t4v1/damian_formalizare`,
-`MorseFloer/Part2/Darboux.lean`, as existing work; any integration follows the
-repository's author-coordination and licence requirements.
+`MorseFloer/Part2/Darboux.lean`, as existing work.
+
+The constructions above have the following compatibility laws.
+
+- Contraction inversion acts on arbitrary covectors and depends smoothly on the base and the specified two-form family.
+- The maximal two-time flow, primitive selector and pullback differentiation obey their domain restrictions; Moser uses the negative primitive in its defining contraction.
 
 **Checks.**
+
+- For X_t(x)=x², Φ(t,s,x)=x/(1−(t−s)x) on its maximal interval. At x=1,s=0 there is a pole at t=1; local existence does not give a flow through [0,1]. At x=0 the solution is constantly 0.
+- For X_t(x)=t on ℝ, Φ(t,s,x)=x+(t²−s²)/2 and Φ(s,t,Φ(t,s,x))=x; composition through r adds (r²−s²)/2+(t²−r²)/2=(t²−s²)/2.
+- For X_t=0 on a compact M, Φ(t,s,x)=x for every t,s∈J and the suspended time coordinate advances at speed 1. Escape from J at a finite endpoint is excluded by requiring that endpoint to lie in J.
 
 - On ℝ² with ω=dx∧dy the Darboux chart at the origin is the identity, form₀ is ω itself and the standard model has m=1; on ℝ² with ω=e^x dx∧dy the chart (x,y)↦(e^x−1,y) pulls dx∧dy back to ω, so a theorem returning only linear charts would fail.
 - On ℝ⁴ the closed form x₁dx₁∧dx₂+dx₃∧dx₄ is degenerate along x₁=0, so no Darboux chart exists at the origin; the pointwise nondegeneracy hypothesis excludes it, and the odd-dimensional ℝ³ carries no nondegenerate two-form at all.
@@ -2219,6 +2627,17 @@ arbitrary-genus closed-source normalization is a downstream generalization
 (AnalyticStableMaps §0.5 consumes this floor, see Downstream consumers).
 Construct Oh's boundary-injectivity for totally real boundary separately.
 
+**Local branch and adapted-coordinate comparisons.**
+
+- Local multiplicities and similarity factorizations are independent of coordinates, and isolated zeros are asserted only for a nonzero solution.
+- The adapted normal coefficients have the stated transverse control, and the accumulation factorization retains its stronger C² hypothesis.
+
+**Checks.**
+
+- For u(z)=z², du=2z vanishes only at 0 and the local covering degree is 2; confusing criticality with a constant map would lose this branch.
+- For u₀(z)=(z,0), u₁(ζ)=(ζ²,0), the coincidence factorization is φ(ζ)=ζ², whose derivative at 0 is 0; the second branch need not be immersed.
+- The constant zero map has an entire disc of zeros and critical points, so the nonconstant hypothesis excludes it from the isolated-zero statement.
+
 *Needs:* F1.2's vector similarity principle (PH3.5) and PH5.1's elliptic regularity; F1.1's Sobolev adapters; McDuff–Salamon Lemmas 2.4.1–2.4.3 (source, by locator).
 
 ### 4.3 Compactness (F2.3)
@@ -2227,13 +2646,41 @@ Construct Oh's boundary-injectivity for totally real boundary separately.
 
 Construct a smooth auxiliary J-Hermitian metric making JTL orthogonal to TL and with vanishing Levi-Civita second fundamental form near K_L. Consume [HopfRinow Layer1](../../Completed/HopfRinow/README.md#layer-1-the-geodesic-equation-the-flow-and-the-exponential-map)'s Levi-Civita regularity and pullback/along-curve differentiation, and [RiemannianGeometry R1/R5a](../RiemannianGeometry/README.md#r5a-immersion-geometry-and-first-variation)'s curvature and second fundamental form, with DG's metric/partition calculus. Own the two-parameter pullback-connection adapter, torsion-free identity ∇_t u_s=∇_s u_t, and chart energy/curvature calculation here. Use adapted submanifold coordinates and local metric jets, patched by cutoffs whose derivatives in JTL vanish along L. Prove Δw≥−c w² and zero normal derivative of w=|u_s|²=|du|²/2. Reflect the scalar density evenly and prove the boundary mean-value estimate.
 
-Construct the tube adapter from GT Layer1's general-ambient orthogonal tube for an initial smooth metric g₀ with TL⊥JTL. Prove `(tangentRange)ᗮ=J(tangentRange)` by orthogonality and maximal dimension. Retain GT's zero-section derivative, smooth inverse and positive radius function; restrict to a uniform compact core over K_L. Use its native `RiemannianBundle`/`IsContMDiffRiemannianBundle` and compatible `IsRiemannianManifold` length/edist comparison. On this J-normal tube put β_(y,ν)(ζ)=−g_L(J⁻¹ν,dπ ζ), ν∈JT_yL. Prove β vanishes on the zero section, dβ tames J after shrinking the core, and |β|≤C dist(·,L). Consume the native linear Liouville pairing/sign; this analytic primitive is constructed on the supplied normal tube.
+Consume GT Layer 1's normal-bundle neighborhood diffeomorphism.
+Construct here its orthogonal exponential realization for the initial smooth
+metric g₀ with TL⊥JTL, using HopfRinow Layer 1's exponential map.
+For a closed embedded L in a finite-dimensional Hausdorff second-countable
+ambient manifold, identify the normal quotient with the g₀-orthogonal complement
+and prove `(tangentRange)ᗮ=J(tangentRange)`. Construct a positive smooth
+radius function ρ on L such that exp restricted to |ν|<ρ(y) is a
+diffeomorphism onto a neighborhood of L. Prove exp(y,0)=i(y) and, in the
+zero-section splitting, d exp_(y,0)(v,ν)=di_y(v)+ν. Prove smoothness of
+the inverse, shrink ρ over the compact K_L to a positive uniform radius,
+and compare bundle norm with distance to L on the resulting compact core.
+These exponential, derivative and radius comparisons are targets here;
+a neighborhood diffeomorphism alone does not specify them. The proof
+uses HopfRinow Layer 1's derivative of exp at zero, the inverse-function
+theorem and the radius-shrinking argument of Lee, Introduction to Smooth
+Manifolds, second edition, Theorem 6.24, pp. 139–140; Lee's stated
+Euclidean-ambient theorem is the model for this general-ambient adapter. Use its native `RiemannianBundle`/`IsContMDiffRiemannianBundle` and compatible `IsRiemannianManifold` length/edist comparison. On this J-normal tube put β_(y,ν)(ζ)=−g_L(J⁻¹ν,dπ ζ), ν∈JT_yL. Prove β vanishes on the zero section, dβ tames J after shrinking the core, and |β|≤C dist(·,L). Consume the native linear Liouville pairing/sign; this analytic primitive is constructed on the normalized tube above.
 
 For a finite-energy punctured half-disc, boundary mean-value makes all small semicircle arc lengths tend to0 and places the tail in the tube core, since its arc endpoints lie in K_L. Stokes on punctured half-annuli, with β|TL=0 and vanishing inner-arc action, gives E(u;B_r∩H)≤c length(u(r e^(iθ)))²≤c′rE′(r). Construct the integration adapter from DG5.6's Green identity on inset regions and C¹ limits at each nonpunctured boundary arc. Derive power decay E≤Cr^(2μ) and |du|≤Cr^(μ−1), for some μ>0, hence du∈L^p for some p>2. Radial lengths and angular diameters give a continuous limit, with boundary value in closed L. In one target chart the bounded map and L^p derivatives give W^(1,p) on the open half-disc, distributional CR equation there, and the Sobolev trace agrees with its continuous L-valued values on the straight edge. Construct the trace/chart comparison with F1.2's weak boundary-bootstrap formulation and obtain smooth extension and the extended CR equation.
 
 Include finite-regularity versions with explicit derivative budgets: for each integer m≥3, smoothness through C^(m+2) of J and the auxiliary metric and C^(m+3) of the embedded boundary data suffices for a C^m extension, under the same energy/compact-image conditions and C³ regularity of the original solution up to the nonpunctured edge. In the scalar reflection step retain at least C³ for u and C² for J/metric. The smooth-data case gives a smooth extension. Construct the interior removal branch using the supplied taming form and uniform compact-image localization of its short-loop action/monotonicity estimates. Prove the plane/sphere and half-plane/disc end identifications on the same fixed-domain carriers.
 
 Then construct Gromov compactness for strips/discs with maximally totally real boundary under energy bounds and these compact-image/uniform-geometry hypotheses, bubbling into trees of discs and spheres. Prove the rescaling, boundary charts and named estimate/removal comparisons before using the bubble conclusion. The domain scope is fixed genus-zero surfaces.
+
+
+**Normalized tube and compactness/removal adapters.**
+
+- The exponential tube fixes the zero section, has differential (v,ν)↦di(v)+ν there, and has a smooth inverse on the chosen positive-radius domain.
+- The boundary primitive vanishes along TL and satisfies its distance bound; rescaling and removal preserve the compact-image and regularity hypotheses.
+
+**Checks.**
+
+- For L=ℝ⊂ℂ with the Euclidean metric, exp(x,iy)=x+iy and its vertical derivative is i; composing with fiber dilation 2 gives 2i and fails the required normalization.
+- In that model β=−y dx and dβ=dx∧dy, with |β|=|y|=dist(x+iy,L); the opposite sign would give a negative taming form.
+- A constant half-disc has energy 0 and extends constantly across its puncture. For u(z)=1/z the energy near 0 diverges, so finite-energy removal cannot be applied.
 
 *Needs:* F1.1–F1.2; F2.2's unique continuation; Tau Ceti `SmoothEmbedding`, `IsMaximalTotallyReal` and `tangentRange`; HopfRinow Layer 1; RiemannianGeometry R1 and R5a; GeometricTopology Layer 1's tube; DifferentialGeometry 5.6's Green identity; Mathlib's Hofer lemma.
 
@@ -2244,6 +2691,18 @@ theorems, by locator; for strips, Floer–Hofer–Salamon, *Transversality in el
 theory for the symplectic action*, Duke Math. J. 80 (1995), 251–292, §5, by locator): universal
 moduli spaces over Banach spaces of `J`'s, Sard–Smale via somewhere-injectivity.
 
+
+**Universal holomorphic section and regular moduli.**
+
+- The universal derivative is split-surjective only under the specified injective-point and allowed-variation hypotheses.
+- The parameter projection identifies its regular values with regular curves at the stated Fredholm index and derivative budget.
+
+**Checks.**
+
+- For an embedded complex line the preimage of a regular image point has size 1, permitting an isolated local variation.
+- For z↦z² on the sphere, a generic image point has two preimages; it fails the somewhere-injective hypothesis.
+- A constant map has du=0, so its J-variation term Y∘du∘j is 0; the injective-point argument supplies no surjectivity for it.
+
 *Needs:* F0.0's sharp Sard–Smale and F0.5's finite-C^ℓ almost-complex parameter spaces; F2.2's somewhere injectivity; F1.2's adjoint identification.
 
 ### 4.5 Gluing (F2.5)
@@ -2253,6 +2712,18 @@ Chapter 10, its gluing theorem and surjectivity sections, by locator): pregluing
 right inverses, quadratic estimates, Newton iteration, *including* surjectivity
 onto neighborhoods of broken configurations, the historically under-written
 half.
+
+
+**Nonlinear gluing map.**
+
+- The correction solves the nonlinear section with the fixed asymptotic and matching data, and is unique in the stated controlled neighborhood.
+- The gluing charts cover a neighborhood of the broken stratum and their overlaps and ordered determinant maps respect iterated gluing.
+
+**Checks.**
+
+- For two rigid pieces with one breaking parameter, the glued dimension is 0+0+1=1; counting a translation parameter twice would give 2.
+- For three rigid pieces there are two independent neck parameters, so the corner has codimension 2, not 3.
+- In the linear surjective-piece case both obstruction spaces are 0, so the augmented sequence gives ker D_R≃ker D₁⊕ker D₂; the tanh cancellation example has obstruction dimension 1 and is excluded from this special case.
 
 *Needs:* F1.5's extended-end operators and weights; F0.0's determinant gluing; F2.3's compactness; F1.2's estimates.
 
@@ -2333,6 +2804,11 @@ FuchsianOrbifolds Layer5's independent branched-cover Euler formula
 This order precedes nonlinear moduli and uses no nonlinear uniformization
 or GW theorem.
 
+The constructions above have the following compatibility laws.
+
+- The Möbius action and its marked normalizations agree on the native projective-line carrier, including the infinity chart.
+- The ordered triple, first jet and second jet parametrizations retain their distinctness and nonzero-derivative hypotheses and commute with their stated stabilizers.
+
 **Checks.**
 
 - The unique Möbius map with (0,1,∞)↦(1,0,∞) is z↦1−z and the unique one with (0,1,∞)↦(1,∞,0) is z↦1/(1−z); a definition allowing all of ℂ⋊ℂ* to fix three points would not have uniqueness.
@@ -2353,7 +2829,7 @@ with the derivative budget from F0.
 Own the genus-zero factorization through a simple sphere, built from this
 roadmap's F2.2a–c local vanishing/coincident-germ and F2.3 removal floors
 (Wendl, *Lectures on holomorphic curves in symplectic and contact geometry*,
-arXiv:1011.1690v3.2, Proposition 4.3 and Definitions 4.4–4.5, pp. 131–132;
+arXiv:1011.1690v2 (internal Version 3.2), Proposition 4.3 and Definitions 4.4–4.5, printed p. 121;
 McDuff–Salamon, second edition, Proposition 2.5.1, by locator). For a
 nonconstant J-holomorphic sphere u with finite exceptional set
 B=u⁻¹(u(Crit u)), define on S²∖B the relation Γ₀: two points are related
@@ -2418,6 +2894,11 @@ well-defined evaluation `[u,z]↦u(z)`. Construct target-symplectomorphism,
 parameter, marking and representative-change comparisons. Nonregular
 loci retain their actual topology, without an asserted manifold structure.
 
+The constructions above have the following compatibility laws.
+
+- The factorization has a positive-degree branched cover, a simple factor and the stated uniqueness up to reparametrization.
+- The marked quotient and evaluation respect representative changes; manifold dimensions are asserted only on the regular locus.
+
 **Checks.**
 
 - For u(z)=(z²,0) composed with an embedded line, d=2 and R=2 (ramification e=2 at 0 and at ∞), so 2=2·2−2 and u_*[S²]=2[line]; the simple factor is the line itself.
@@ -2445,7 +2926,8 @@ side. This pointwise linear statement needs no integrability and no
 closedness. Deduce the pointwise chain
 `(1/2)|du|²≥|∂_su∧∂_tu|_g≥ω(∂_su,∂_tu)` for a map u from a conformal
 surface, the first with equality exactly when du is conformal and the
-second exactly when the image plane is J-complex and positively oriented,
+second exactly when rank du≤1, or rank du=2 and its image plane is
+J-complex and positively oriented,
 both together exactly when `∂_tu=J∂_su`; integrating gives
 `E(u)≥Area_g(u)≥ω(A)`, with equality throughout exactly for J-holomorphic
 u. For merely tame J only the energy identity for J-holomorphic maps above
@@ -2469,7 +2951,15 @@ quotient convergence and family/evaluation continuity, then compactness
 from the countable metrizable models. Include the standard ℂP² line
 moduli, dual-projective-plane and line-point incidence identifications.
 
+The constructions above have the following compatibility laws.
+
+- Closed-surface energy is conformally invariant; precomposition with a holomorphic branched cover of degree d≥1 multiplies it by d. For compatible J it equals symplectic area on J-holomorphic maps, and zero energy on a connected source forces constancy.
+- Under the minimum-area hypothesis, the quotient convergence and evaluation retain integral homology class and rule out multiple positive components.
+
 **Checks.**
+
+- For u(s,t)=s in ℂ, the energy density is 1/2, wedge area is 0 and symplectic area is 0. The second inequality is an equality at rank one, while the first is strict and u_t=0≠i=Ju_s.
+- For a constant map all three densities are 0, rank du=0 and u_t=Ju_s=0; the combined equality criterion includes this case.
 
 - On ℂ with ω=dx∧dy, J=i and the Euclidean metric, v=1 and w=i give ω(v,w)=1=|v∧w|, equality with (a,b)=(0,1); w=−i gives ω(v,w)=−1<1=|v∧w|, so a model with J replaced by −J, whose equality planes are (v,−Jv), fails this witness; w=1+i gives ω(v,w)=1 and |v∧w|²=1·2−1²=1, equality with (a,b)=(1,1), so equality does not force w⊥v.
 - The holomorphic map z↦z² has ∂_su=2z, ∂_tu=2iz and ½|du|²=|∂_su∧∂_tu|=ω(∂_su,∂_tu)=4|z|² at every point, while z↦z̄ has ½|du|²=|∂_su∧∂_tu|=1 and ω(∂_su,∂_tu)=−1: its image planes are complex but negatively oriented, so its area equals the domain's while ∫u*ω is the negative; the orientation clause of the equality case separates the two.
@@ -2516,6 +3006,18 @@ Degree+1 implies surjectivity. Nonregular endpoints require a regular
 approximation/compactness passage or another explicit regularity theorem.
 The path interior need not keep a spatial germ fixed when only its final
 endpoint has that prescribed germ.
+
+
+**Universal sphere evaluation and degree.**
+
+- The marked evaluation map descends under reparametrization, and the oriented universal family has boundary final minus initial moduli.
+- Localized variations and endpoint-relative smoothing preserve the allowed perturbation region; the evaluation degree is unchanged along the stated compact cobordisms.
+
+**Checks.**
+
+- On S²×S² with product J, the one-marked A-ruling evaluation is the identity parametrization of the product, with degree +1.
+- A constant path gives equal endpoint degrees 1−1=0, matching the total oriented boundary degree.
+- Reversing the orientation of the same evaluation domain changes degree +1 to −1 without changing its image; a rank-only test would miss the sign.
 
 *Needs:* F0.0 and F0.5; F2.6b–c; F1.2's adjoint sections; AlgebraicTopology's relative fundamental classes; McDuff–Salamon §3.2 (source, by locator).
 
@@ -2650,6 +3152,18 @@ Compute the source tests: smoothing/genus/index changes from δ, and an
 embedded Lagrangian S² has square−2 because J's tangent-to-normal
 identification reverses the induced normal orientation.
 
+
+**Local intersections and four-dimensional regularity.**
+
+- Local intersection numbers are invariant under the allowed relative perturbations and add to the integral homological intersection number.
+- The normal operator and its adjoint carry their stated Chern/zero-count identifications; common image components are excluded from isolated intersection counts.
+
+**Checks.**
+
+- The two coordinate complex lines in ℂ² meet with local intersection +1; reversing one real orientation would give −1 and is incompatible with complex orientation.
+- The graphs w=0 and w=z² meet with multiplicity 2 at 0, whereas w=0 and w=z meet with multiplicity 1.
+- Coincident graphs w=0 and w=0 have a whole complex line of intersections, so no isolated finite local number is assigned.
+
 *Needs:* F1.2's Hölder Cauchy/Beurling estimates, Beltrami inverse and disc solver; F2.2's local floor and F2.6b's no-open-noninjective-set lemma; F1.5's line Riemann–Roch; CharacteristicClasses' Euler and Whitney-sum comparisons; Micallef–White and Hartman–Wintner (sources).
 
 ### 4.6f Nonsqueezing (F2.6f)
@@ -2683,6 +3197,10 @@ large unrelated factor areas alone do not establish the same area gap.
 *Needs:* F2.1's relative compatible-structure extension; F1's line
 Riemann–Roch; F2.6c–d's compactness and evaluation degree; F2.2's
 holomorphic monotonicity with local multiplicity.
+
+The constructions above have the following compatibility laws.
+
+- The compactification and evaluation construction retains the specified class, marked point and common compact image; it identifies the limiting curve through that point.
 
 **Checks.**
 
@@ -2780,6 +3298,18 @@ that smaller neighborhood. Prove these extension/collar/support assertions
 for this cap union and apply F2.1's compact-support Moser flow. Restrict
 to the end-fixed symplectomorphism X≃ℝ⁴.
 
+
+**Ruling and relative recognition maps.**
+
+- The two ruling evaluations and their transverse intersections determine the product identification, with the seed and cap normalizations retained.
+- The radial modification fixes the smaller caps and the resulting primitive vanishes there before the relative Moser flow is used.
+
+**Checks.**
+
+- For A=[S²×pt] and B=[pt×S²], A²=B²=0 and A·B=1; swapping a self-intersection for the mixed one would lose uniqueness of leaf intersections.
+- For the radial cutoff with b=0 near the inner cap, det dρ=0; for b=1 near the outer boundary, det dρ=1. Nonnegative Jacobian does not imply that ρ itself is a diffeomorphism.
+- If α=df on the cap neighborhood and χ=1 there, α−d(χf)=0 there and d(α−d(χf))=dα globally; merely multiplying α by a cutoff would add an unwanted dχ∧α term.
+
 *Needs:* F2.6b–f; F2.1's compact-support Moser flow; DifferentialGeometry's open-manifold de Rham comparison; AlgebraicTopology's Mayer–Vietoris sequence and intersection forms; McDuff–Salamon Theorem 9.4.7 (source, by locator).
 
 ### 4.6h The equal-area group (F2.6h)
@@ -2847,6 +3377,18 @@ compute the intersection/area-preserving integral H₂ actions as identity
 and swap, realize swap by factor exchange and prove the split homotopy
 comparison with `(SO(3)×SO(3))⋊ℤ/2`.
 
+
+**Symplectic subgroup and relative deformation.**
+
+- The subgroup topology and action on integral H₂ use the native diffeomorphism topology; G₀ is the kernel of that action.
+- The frame/jet normalization and polar deformation fix the rotation subgroup pointwise and respect the quotient by the center.
+
+**Checks.**
+
+- At g=I, H=I and P=(H+I)/sqrt(tr H+2)=2I/2=I; the deformation fixes I.
+- For g=diag(2,1/2), H=diag(4,1/4), sqrt(tr H+2)=5/2 and P=diag(2,1/2), with P²=H and det P=1.
+- The equal-area factor swap sends A to B and B to A, so its H₂ matrix is [[0,1],[1,0]] and it is outside G₀; a product rotation acts by I and lies in G₀.
+
 *Needs:* GeometricTopology Layer 3's Diff topology; F2.6g's rulings; F2.6a's PSU/adjoint comparisons; LieGroups Layer 9 and the SU(2)/SO(3) example; F2.1's primitive selector and Moser field; Mathlib `CFC.sqrt`.
 
 ### 4.7 Compact Lagrangians and forced holomorphic discs (F2.7)
@@ -2861,7 +3403,7 @@ range into the doubled-real model and prove equivalence with native
 `SymplecticForm.IsIsotropic.isLagrangian_of_finrank`; include the range
 finrank and orthogonal-complement comparisons. Under the real-linear identification (x,y)↦x+iy, prove `stdSymplecticForm(v,w)=Im⟨v,w⟩_ℂ=ω₀(v,w)`, where ω₀=Σdx_j∧dy_j, J₀=i and the real Euclidean inner product is Re⟨·,·⟩_ℂ. Include the differential of this identification. Orient D by ds∧dt and its boundary counterclockwise; set |du|²=|u_s|²+|u_t|². The operator below is 2∂bar in F1.2's convention. Put α=(1/2)Σ(x_jdy_j−y_jdx_j); construct dα=ω₀ and d(i*α)=0 from the standard linear differential-form and native Liouville comparison before the energy calculation.
 
-1. **Boundary mapping spaces and index.** Consume [GeometricTopology Layer1's smooth Euclidean tubular diffeomorphism](../GeometricTopology/README.md), including its smooth inverse, projection to L, and positive uniform radius for compact L. Composing the inverse tube with its base projection gives a smooth retraction near i(L), with r_L∘i=id; its restriction supplies smooth lifts of boundary maps to L. Do not identify the native quotient normal-space construction with this tube theorem.
+1. **Boundary mapping spaces and index.** Specialize F2.3's normalized exponential tube to the Euclidean metric, with its smooth inverse, projection to L, and positive uniform radius for compact L. Composing the inverse tube with its base projection gives a smooth retraction near i(L), with r_L∘i=id; its restriction supplies smooth lifts of boundary maps to L. Do not identify the native quotient normal-space construction with this tube theorem.
 
    Construct the boundary-adapted local-addition adapter and W^(1,p) mapping-space charts, p>2, in the component of constant maps. Use the smooth tube retraction r_L and smooth orthogonal projections P_T(y),P_N(y). For q=i(y)+ν in a small tube put y′=r_L(i(y)+P_T(y)v) and
    `B(q,v)=i(y′)+P_N(y′)(ν+P_N(y)v)`.
@@ -2871,9 +3413,9 @@ finrank and orthogonal-complement comparisons. Under the real-linear identificat
 
 2. **Forcing and image bounds.** Put R=max_(x∈L)|i(x)| and C=2R; prove R>0 from the positive-dimensional embedding and nonemptiness. Fix |a|>C. Begin with H_base(λ,z,w)=λ Re⟨a,w⟩_ℂ, so ∇_w Re⟨a,w⟩_ℂ=a. Keep H(0,z,w)=0, H(1,z,w)=Re⟨a,w⟩_ℂ and H(λ,z,w)=λ Re⟨a,w⟩_ℂ for |w|≥C, with smooth extensions across the parameter endpoints.
 
-   Consume [DG5.6.3's oriented circle Green identity](../DifferentialGeometry/README.md#layer-56-greens-theorem-for-planar-regions-and-curves). Apply it componentwise on discs D_r with r<1, where u is smooth on a neighborhood, and pass to r→1 using C¹ continuity up to the boundary. F1.1's W^(r,p) embedding for r≥2,p>2 and F1.2's bootstrap supply that regularity. This radial-limit adapter uses the open discs and the stated boundary continuity. If u_s+i u_t=a with u(∂D)⊂i(L), the identity on D_r is `πr²a=r∫₀^(2π)e^(iθ)u(re^(iθ))dθ`; hence `πa=∫₀^(2π)e^(iθ)u(e^(iθ))dθ` and |a|≤2R. Thus the λ=1 solution space is empty. Where |u|>C the forcing is constant, so u is harmonic and |u|² is subharmonic. The boundary has |u|≤R<C; use [PDE Lane C.13's weak maximum principle](../PDE/README.md#lane-c-maximum-principles-and-potential-theory) on each positive superlevel component to prove |u|≤C everywhere. The exclusion estimate uses radius R, while the image estimate uses radius C.
+   Specialize [DG5.6.3's planar Green theorem](../DifferentialGeometry/README.md#layer-56-greens-theorem-for-planar-regions-and-curves). Apply it componentwise on discs D_r with r<1, where u is smooth on a neighborhood, and pass to r→1 using C¹ continuity up to the boundary. F1.1's W^(r,p) embedding for r≥2,p>2 and F1.2's bootstrap supply that regularity. This radial-limit adapter uses the open discs and the stated boundary continuity. If u_s+i u_t=a with u(∂D)⊂i(L), the identity on D_r is `πr²a=r∫₀^(2π)e^(iθ)u(re^(iθ))dθ`; hence `πa=∫₀^(2π)e^(iθ)u(e^(iθ))dθ` and |a|≤2R. Thus the λ=1 solution space is empty. Where |u|>C the forcing is constant, so u is harmonic and |u|² is subharmonic. The boundary has |u|≤R<C; use [PDE Lane C.13's weak maximum principle](../PDE/README.md#lane-c-maximum-principles-and-potential-theory) on each positive superlevel component to prove |u|≤C everywhere. The exclusion estimate uses radius R, while the image estimate uses radius C.
 
-3. **Energy and fixed-disc compactness.** Consume native `SymplecticForm.stdComplexLineEnergyDensity_sub_two_mul_symplecticForm` and the `stdComplexLineEnergy` integral carrier. Instantiate the density identity with the real differential and the forcing equation, and prove the finite-integrability comparison with its real integral; retain signed symplectic area rather than the native integral of its positive part for arbitrary differentials. Derive the square-completion identity `(1/2)∫_D|du|²=∫_D u*ω₀+(1/2)∫_D|∇_w H(λ,z,u)|²`. The same DG5.6.3 radial-limit adapter gives ∫_D u*ω₀=∮_(∂D)u*α. The boundary loop is null-homotopic in L in the constant relative class. Apply DG8.4’s factorization of closed-form periods through singular H₁ to i*α to obtain area0; no smooth extension of a mapping-space homotopy is presumed. The image bound and bounded forcing therefore give uniform energy. Extend F2.3's fixed-domain rescaling construction to these inhomogeneous sections: the bounded forcing tends to zero after interior or boundary rescaling. A derivative blowup produces a nonconstant standard-holomorphic plane or half-plane, with the compact-image and uniform totally-real geometry hypotheses retained. Use F2.3's interior and boundary puncture-removal theorem to obtain a sphere or disc bubble. Spheres in ℂⁿ are constant by exactness/Stokes and the holomorphic energy identity; also give the coordinate maximum-principle proof.
+3. **Energy and fixed-disc compactness.** Consume native `SymplecticForm.stdComplexLineEnergyDensity_sub_two_mul_symplecticForm` and the `stdComplexLineEnergy` integral carrier. Instantiate the density identity with the real differential and the forcing equation, and prove the finite-integrability comparison with its real integral; retain signed symplectic area rather than the native integral of its positive part for arbitrary differentials. Derive the square-completion identity `(1/2)∫_D|du|²=∫_D u*ω₀+(1/2)∫_D|∇_w H(λ,z,u)|²`. The same DG5.6.3 radial-limit adapter gives ∫_D u*ω₀=∮_(∂D)u*α. The boundary loop is null-homotopic in L in the constant relative class. Construct the factorization of closed-form periods through singular H₁ from DG8.4's smooth-chain integration and DG8.5's comparison, and apply it to i*α to obtain area0; no smooth extension of a mapping-space homotopy is presumed. The image bound and bounded forcing therefore give uniform energy. Extend F2.3's fixed-domain rescaling construction to these inhomogeneous sections: the bounded forcing tends to zero after interior or boundary rescaling. A derivative blowup produces a nonconstant standard-holomorphic plane or half-plane, with the compact-image and uniform totally-real geometry hypotheses retained. Use F2.3's interior and boundary puncture-removal theorem to obtain a sphere or disc bubble. Spheres in ℂⁿ are constant by exactness/Stokes and the holomorphic energy identity; also give the coordinate maximum-principle proof.
 
    Under the contradiction assumption that no nonconstant disc with boundary in the chosen component exists, prove compactness without bubbling in the original parametrized solution space. For a fixed smooth H obtain smooth convergence up to the boundary. For H varying in nearby bounded C^ℓ families, prove the finite-order W^(r,p) compactness and continuous operator dependence needed for openness of transversality. No varying-domain compactification is used.
 
@@ -2893,11 +3435,23 @@ finrank and orthogonal-complement comparisons. Under the real-linear identificat
 
    Consume [AT Stage6.3's canonical twisted relative fundamental class and outward-first boundary formula](../AlgebraicTopology/README.md), together with Stage2.3/2.6's pair exact sequence and coefficient-system naturality, and Stage6.1/6.3's coefficient-change comparison. In this application reduce the integral orientation local system to constant ℤ/2 by sending either local orientation generator to1; prove compatibility with transport and the boundary identification. This sends [Z,∂Z] to its mod2 relative class, whose connecting image is the sum of boundary point generators. Pair exactness gives i_*∂[Z,∂Z]=0 in H₀(Z;ℤ/2), whereas the single point maps to1 under total-coefficient augmentation. Derive the contradiction. This application constructs that coefficient reduction and count, consuming the existing fundamental class; it does not introduce a second generic degree or one-manifold classification theory.
 
-6. **Periods and exact Lagrangians.** For α=(1/2)Σ(x_jdy_j−y_jdx_j), prove dα=ω₀ and d(i*α)=0. The DG5.6.3 radial-limit Stokes identity of items2–3 and positive holomorphic area give `∫_(∂D)u*α=∫_D u*ω₀>0`. Lift the smooth boundary loop to L using the smooth tube retraction of item1. Consume [DG8.4's integration map on singular homology and DG8.5's normalized de Rham comparison](../DifferentialGeometry/README.md#layer-8-the-de-rham-theorem), on AT's existing singular carriers. The nonzero period proves both that this loop has nonzero real H₁ class and that [i*α]≠0 in de Rham H¹. Export nonzero real H₁ for each component.
+6. **Periods and exact Lagrangians.** For α=(1/2)Σ(x_jdy_j−y_jdx_j), prove dα=ω₀ and d(i*α)=0. The DG5.6.3 radial-limit Stokes identity of items2–3 and positive holomorphic area give `∫_(∂D)u*α=∫_D u*ω₀>0`. Lift the smooth boundary loop to L using the smooth tube retraction of item1. Use [DG8.4's integration on smooth chains and DG8.5's normalized de Rham comparison](../DifferentialGeometry/README.md#layer-8-the-de-rham-theorem), on AT's existing singular carriers. The nonzero period proves both that this loop has nonzero real H₁ class and that [i*α]≠0 in de Rham H¹. Export nonzero real H₁ for each component.
 
    Define exactness by i*α=dF for a smooth real F on L and deduce that no nonempty compact embedded exact Lagrangian exists in ℂⁿ. DG6.2's star-convex Poincaré lemma (using DG5.4's homotopy operator) on ℂⁿ proves this condition is independent of the primitive of ω₀. Identify `StrongDual ℝ (EuclideanSpace ℝ (Fin n))` with its Euclidean vector space by `InnerProductSpace.toDual`. With native cotangent coordinates (q,p)=(x,y), λ_can=Σy_jdx_j and ω_can=−dλ_can, prove α=−λ_can+(1/2)dΣx_jy_j and ω₀=ω_can. Thus (q,p)↦q+ip is symplectic for the native cotangent sign convention. The course primitive Σx_jdy_j differs from α by (1/2)dΣx_jy_j and has the same periods.
 
-*Needs:* GeometricTopology Layer 1's tube; F1.1, F1.2, F1.4 and F1.5; F0.0 and F0.3's Sard–Smale and splitting; F2.3's rescaling and removal; DifferentialGeometry 5.4, 5.6.3, 6.2 and 8.4–8.5; PDE Lane C.13; AlgebraicTopology Stages 2.3, 2.6, 6.1 and 6.3; Tau Ceti `SmoothEmbedding`, `stdSymplecticForm`, `levelSetChartedSpace` and `isManifold_levelSet`; Mathlib `ContDiffMapSupportedIn`.
+
+**Forced-disc section and Liouville-period comparison.**
+
+- The boundary section spaces and parameterized operators retain their center/jet normalization, common image bound and finite regularity.
+- The period map is constructed through smooth-chain integration and the singular comparison; it detects a nonzero real H₁ class in the specified component.
+
+**Checks.**
+
+- For L=S¹⊂ℂ and u(z)=z, α=(x dy−y dx)/2 gives ∮α=π=∫_D dx∧dy>0.
+- For a constant disc both area and boundary period are 0, so it cannot witness the nonconstant conclusion.
+- For L=ℝ⊂ℂ, compactness fails; reflection or the harmonic imaginary-part maximum principle makes every disc with boundary in ℝ constant, showing that compactness cannot be dropped.
+
+*Needs:* F2.3's normalized tube; F1.1, F1.2, F1.4 and F1.5; F0.0 and F0.3's Sard–Smale and splitting; F2.3's rescaling and removal; DifferentialGeometry 5.4, 5.6.3, 6.2 and 8.4–8.5; PDE Lane C.13; AlgebraicTopology Stages 2.3, 2.6, 6.1 and 6.3; Tau Ceti `SmoothEmbedding`, `stdSymplecticForm`, `levelSetChartedSpace` and `isManifold_levelSet`; Mathlib `ContDiffMapSupportedIn`.
 
 ### Examples
 
@@ -2953,6 +3507,18 @@ the stated finite nondegenerate generators and all F1/F2 regularity/gluing
 hypotheses; both declared geometric sectors instantiate this interface.
 Hamiltonian invariance carries those allowed-family witnesses.
 
+
+**Liouville and confined strip data.**
+
+- The cylindrical end records the radial coordinate, contact-type structure and exact boundary primitives; the chosen supports lie below a fixed radial level.
+- The no-escape estimate supplies one compact image set for the actual differential and continuation families before curve compactness is applied.
+
+**Checks.**
+
+- For the zero section of T*S¹, λ restricts to 0 and the primitive can be 0; for y=c its period is 2πc, nonzero when c≠0.
+- A constant strip at a generator inside {ρ<R} has energy 0 and stays there; exactness alone would also hold for constants placed arbitrarily far out in the ambient end, so fixed asymptotics matter.
+- For a subharmonic radial function with boundary and asymptotic values at most R, an interior maximum R+1 contradicts the maximum principle; a formula with the opposite Laplacian sign would not give this conclusion.
+
 *Needs:* F1–F2's local estimates, removal and fixed-domain compactness (F2.3); the Liouville-domain geometry stated here; PDE Lane C.13's maximum principle; Abouzaid–Seidel Lemma 7.2 (source).
 
 ### 5.2 Action, energy, the strip complex and invariance (F3)
@@ -2979,6 +3545,11 @@ construction independently; FK owns its categorical/polygon/self-comparison
 applications and their own confinement. No F3 prerequisite is a later FK count.
 The special nonexact Heegaard continuation below has its own admissibility and
 energy package; no general monotone chapter is required as its replacement.
+
+The constructions above have the following compatibility laws.
+
+- The action and continuation-energy identities use the chosen reference, primitive and Hamiltonian sign data.
+- The strip differential, continuation and composition homotopies preserve those data and compare with the actual Morse complex in the small exact-graph model.
 
 **Checks.**
 
@@ -3054,6 +3625,10 @@ converse based diffeomorphism for every move. Track markings, generators,
 domain maps and basepoints; the resulting presentation theorem connects any
 two diagrams for the same based oriented Y. A path moving the basepoint has
 its specified basepoint-moving map, not an identity imposed by quotienting.
+
+The constructions above have the following compatibility laws.
+
+- The smooth realization and reconstruction preserve the oriented represented manifold, cut-system labels and basepoint under each allowed geometric move.
 
 **Checks.**
 
@@ -3136,6 +3711,10 @@ The comparison API includes:
   difference gr(x)−gr(y)=μ(φ)−2n_z(φ); the Spinᶜ difference convention
   does not reverse this grading convention.
 
+The constructions above have the following compatibility laws.
+
+- Generator and periodic-domain extraction commute with the stated Spinᶜ, Chern and basepoint-change comparisons, including the low-genus branches.
+
 **Checks.**
 
 - In the genus-one diagram on ℝ²/ℤ² with α=(1,0), β=(1,3),
@@ -3206,6 +3785,10 @@ The finite-set, family and marking comparisons above are additional
 construction targets with their stated uniform estimates. Use this input
 for promoting the specified move equivalences of item4 to HF̂(Y,s).
 
+The constructions above have the following compatibility laws.
+
+- Admissible presentation changes preserve the selected Spinᶜ conditions and maintain the declared weak or strong periodic-domain bounds.
+
 **Checks.**
 
 - For the S¹×S² diagram in which α and β meet twice, the two bigons D₁, D₂ between them give the periodic domain P=D₁−D₂ with coefficients +1 and −1, so the diagram is weakly admissible.
@@ -3214,7 +3797,7 @@ for promoting the specified move equivalences of item4 to HF̂(Y,s).
 
 *Needs:* F4.A–B; Tau Ceti `WeaklyAdmissible`; Ozsváth–Szabó Lemmas 5.2–5.8 and Proposition 7.2 (sources).
 
-### 6.4 Balanced multipointed geometry shared with reconciliation1 (F4.M)
+### 6.4 Balanced multipointed geometry shared with R1 (§8.1) (F4.M)
 
 The mod-two homology comparisons use Ozsváth–Stipsicz–Szabó,
 arXiv:0912.0830v3, Theorems 10.2–10.3, p. 91; its Theorem 10.4 on the
@@ -3269,6 +3852,18 @@ orientations and the actual signs. This early balanced hat construction
 also supplies the relevant underlying geometry to F5, without consuming
 its later link-hypercube or bordered pairing theorems.
 
+
+**Balanced multipointed geometric adapters.**
+
+- The smooth realization retains every labelled basepoint and compares its domains, divisor multiplicities and represented manifold with the balanced combinatorial data.
+- Basepoint changes and stabilization maps distinguish raw, stable and twisted coefficient models and commute with their declared comparisons.
+
+**Checks.**
+
+- For the twice-pointed S³ model, raw hat rank is 2, while the once-pointed rank is 1; one W factor accounts for the ratio 2.
+- For a balanced sphere class with b basepoints the Maslov index is 2b: at b=1 it is 2, at b=2 it is 4.
+- The twisted differential 1+t becomes 0 at t=1, so augmentation restores two generators; it cannot be applied to quotient homology as though it were exact.
+
 *Needs:* F4.A–C; CombinatorialHeegaardFloer Lane H; F1–F2's local estimates for the bigon/rectangle count; Ozsváth–Stipsicz–Szabó Theorems 10.2–10.4 (sources).
 
 ### 6.5 Symmetric-product geometry and the Lagrangian realization (F4.1)
@@ -3288,7 +3883,18 @@ and make both tori Lagrangian for this form. Totally-real boundary analysis
 remains the general F1/F2 input; it does not substitute for the Lagrangian
 form needed by this Hamiltonian-handleslide route.
 
-*Needs:* ComplexKahlerGeometry K1 for the complex structure of Sym^g(Σ); F4.A–B; Perutz, arXiv:0801.0564v2, Proposition 1.1 and Theorem 1.2 (source).
+**Symmetric product and geometric tori.**
+
+- The symmetric-product charts and divisor agree under permutation and include the collision locus; the product torus realization retains its Lagrangian and divisor-avoidance conditions.
+- The chosen form has the stated cohomology class and product behavior near the tori, with area balance retained for the handleslide.
+
+**Checks.**
+
+- For genus 1, Sym¹(Σ)=Σ and V_z={z}; there is no nontrivial permutation quotient.
+- For two local points z₁,z₂, coordinates (z₁+z₂,z₁z₂) are unchanged by their swap; at z₁=z₂=0 both vanish and the collision remains in the symmetric product.
+- On a product of two circles, a product tangent basis has ω(v₁,v₂)=0 for the split form, while a torus meeting V_z fails the required basepoint-divisor avoidance even if isotropic.
+
+*Needs:* ComplexKahlerGeometry K1 for complex-manifold charts and holomorphic transitions; F4.A–B; Perutz, arXiv:0801.0564v2, Proposition 1.1 and Theorem 1.2 (source).
 
 ### 6.6 Geometric index and Spinᶜ comparison (F4.2)
 
@@ -3298,8 +3904,23 @@ Compare the native rational expression `e(D)+n_x(D)+n_y(D)` with the
 analytic index of each actual Whitney class using F1's boundary
 clutching/spectral-flow construction. Record geometric integrality,
 the Chern-period and sphere identities and the low-genus variants
-before using them for finiteness or graded counts. This milestone
+before using them for finiteness or graded counts (Lipshitz,
+arXiv:math/0502404v2, Corollary 4.10, with the index corrections of
+arXiv:1301.4919v1, §§1.1–1.2; Ozsváth–Szabó, arXiv:math/0101206v4,
+Lemma 3.3, p. 22, and Theorem 4.9, for the sphere and Chern-period laws). This milestone
 supplies the comparison; a formal rational expression is not its proof.
+
+
+**Geometric index comparison.**
+
+- The actual Whitney-class extraction identifies the analytic index with the rational domain expression and proves its integrality on represented classes.
+- Chern-period, sphere and change-of-generator comparisons respect their low-genus hypotheses and basepoint multiplicities.
+
+**Checks.**
+
+- A bigon has e=1/2 and two point averages 1/4, giving μ=1; replacing averages by counts changes this value.
+- In the annular-basepoint S¹×S² diagram, the signed bigon difference has coefficients (0,1,−1) and μ=0, while the positive sum (0,1,1) fails 1+1=2·0.
+- In the stated higher-genus sphere-class range, μ=2 and n_z=1, so μ−2n_z=0; this is not an assertion of that sphere carrier in genus 1.
 
 *Needs:* F4.A–B; F1.4–F1.5; Tau Ceti `maslovIndex`.
 
@@ -3311,7 +3932,9 @@ the required product behavior; prove the comparison with the chosen smooth
 symplectic form. On F4.C's actual fixed-Spinᶜ weak/strong admissible
 data construct positive-domain/periodic-domain finiteness and energy
 bounds with fixed asymptotics, Maslov index and n_z before
-compactification. Compare the native all-periodic finiteness theorem
+compactification (Ozsváth–Szabó, arXiv:math/0101206v4, Lemmas 4.13–4.14,
+pp. 38–39; triangle admissibility and finiteness in Definition 8.8
+and Lemmas 8.9–8.11, pp. 67–68). Compare the native all-periodic finiteness theorem
 only where its stronger hypothesis holds; prove the zero-Chern-slice
 version needed by the stated weak condition. Give uniform
 compact-parameter versions.
@@ -3330,13 +3953,26 @@ Verify low-genus variants separately rather than reuse π₂=ℤ outside its
 range. This early finiteness/energy floor is independent of the later
 triangle cobordism-map counts. An exact-strip theorem is not this input.
 
+
+**Admissible analytic data and triangle floor.**
+
+- The nearly-symmetric parameter spaces preserve the divisor and product restrictions, and their universal section has the stated allowed variations.
+- Weak and strong admissibility give their respective finiteness conclusions on the actual Spinᶜ slice; triangle gluing preserves relative area and index data.
+
+**Checks.**
+
+- For a periodic domain with coefficients (0,1,−1) and zero Chern pairing, both signs occur; its nonzero multiples still have both signs.
+- A nonzero zero-Chern periodic domain with coefficients (0,1,0) has no negative coefficient and violates weak admissibility; the zero domain is excluded from that test.
+- Adding k copies of a nonnegative zero-area/index periodic domain would give infinitely many nonnegative candidates at the same constraints; the admissibility condition is what rules out this pattern, not positivity alone.
+
 *Needs:* F0.0 and F0.3's universal sections and Sard–Smale; F4.C's admissibility; F4.2's index; F2.3's boundary compactness.
 
 ### 6.8 HF̂ over 𝔽₂ and allowed Heegaard continuation (F4.4)
 
 Construct ∂²0 with
 the actual divisor/boundary-degeneration analysis. For a handleslide use
-the two-intersection local pattern, the area-balanced Lagrangian form and
+Perutz, arXiv:0801.0564v2, Proposition 1.1 and Theorem 1.2, pp. 3–4,
+and the two-intersection local pattern, the area-balanced Lagrangian form and
 basepoint outside the sliding region; construct its Hamiltonian isotopy
 and fixed-end reparametrization. Build moving-boundary section spaces,
 operators and determinant identifications, converting the generator sign
@@ -3349,7 +3985,8 @@ with nearly-symmetric J and the original diagram complex. The hat map
 uses n_z0. Track the CF∞ lattice/subcomplex/quotient maps producing CF−
 and CF+, and their integral orientation-system extension in item5.
 Prove isotopy, auxiliary/form and stabilization comparisons on their
-actual allowed data. Compare the handleslide map with the triangle map
+actual allowed data (Ozsváth–Szabó, arXiv:math/0101206v4, Theorem 7.3,
+p. 53, Theorem 9.5, pp. 84–85, and Theorems 10.1–10.2, pp. 91–92). Compare the handleslide map with the triangle map
 on the declared admissible triples by the section gluing/degeneration
 comparison, including its chain homotopy and orientation/divisor data;
 do not claim that
@@ -3360,6 +3997,17 @@ sequences to promote these specified diagram equivalences to the
 invariant of the represented oriented based Y. Retain the chosen
 move maps; coherent independence of arbitrary paths and nontrivial
 basepoint actions are the JTZ milestone, not a quotient declaration.
+
+**Hat complex and allowed continuation maps.**
+
+- The differential counts the declared index-one, n_z=0 classes and squares to zero by the compactified boundary analysis.
+- Allowed move maps are chain equivalences with inverse and composition homotopies, and their triangle comparison preserves divisors, gradings and coefficient conventions.
+
+**Checks.**
+
+- The minimal genus-one S³ diagram has one generator and no nonconstant n_z=0 index-one disc, giving hat rank 1.
+- The standard L(3,1) diagram has three generators in different Spinᶜ structures and zero differential, giving rank 3; unpointed rank alone would not test their labels.
+- The annular-basepoint S¹×S² diagram has two bigons from the same source to target, so their count is 1+1=0 over 𝔽₂, giving rank 2.
 
 *Needs:* F4.3 and F4.3a; F2.3–F2.5; F4.1's Lagrangian form; F4.A and F4.C's presentation theorem; F1.4's Conley–Zehnder convention; Perutz, arXiv:0801.0564v2, Theorem 1.2 (source).
 
@@ -3417,6 +4065,17 @@ the specified tower, exterior-action and torsion hypotheses; do not
 use the rational-homology-sphere definition without them. Naturality
 then constructs the coherent based systems and the actual
 nontrivial basepoint-moving actions on these normalized theories.
+
+**Flavors, absolute grading and correction terms.**
+
+- The U-subcomplex and quotient maps respect the differential and the chosen orientation system; triangle maps retain the declared admissibility data.
+- The torsion-Spinᶜ absolute grading is normalized by reference cobordisms and the tower image defines d only in its specified range.
+
+**Checks.**
+
+- For the product cobordism of a rational homology sphere, χ=σ=c₁²=0, so the grading shift is 0.
+- For S³ the tower image has lowest grading 0 and d(S³)=0; shifting every generator by 1 preserves relative grading but fails this normalization.
+- For a single blowup with c₁²=−1, χ increased by 1 and σ decreased by 1, the change in the shift numerator is −1−2+3=0, fixing the signature coefficient.
 
 *Needs:* F4.4; F0.0's orientation systems; F4.B's index comparisons; F5.3's gluing where polygons are used; Ozsváth–Szabó, arXiv:math/0101206v4, Theorem 3.15, arXiv:math/0110169v2, Theorem 7.1, and arXiv:math/0110170v2, Definition 4.1 (sources).
 
@@ -3484,6 +4143,18 @@ actual shared compact-image, sign, cap and grading data and does not supply
 F3's analytic construction by a reverse dependency. None of the bordered
 counts is obtained merely by invoking a generic Fukaya category.
 
+
+**Labelled domains, normalization and plumbing.**
+
+- Normalization retains two branch flags for each node, all original marks and end labels, and its automorphism arrows respect those labels.
+- Plumbing and forgetting auxiliary marks are compatible with base change and the stated stability/convergence conditions; each analytic completion uses these actual domains.
+
+**Checks.**
+
+- A genus-zero constant component with three special points has stability value 2g−2+n=1>0 and finite automorphism group.
+- With two special points the value is 0 and the sphere fixing 0,∞ still has automorphisms z↦az for every a≠0; finite stability fails.
+- Two spheres joined at one node, each with two other marks, each have n=3 and stability value 1. Counting the node only once leaves one branch with value 0, incorrectly destabilizing it.
+
 *Needs:* F0, F1, F2 and F4 as listed; BEHWZ §4 (source); DGAInfinity Layers 0–4; CombinatorialHeegaardFloer Lanes ALG and G.
 
 ### 7.1 Cylindrical curves and corrected indices (F5.1)
@@ -3543,11 +4214,15 @@ multiplicity and index constraints to prove finiteness of each coefficient in
 the selected hat/minus/plus/infinity chain carrier, with its stated support or
 completion. Positivity alone does not imply that finiteness.
 
+The constructions above have the following compatibility laws.
+
+- The cylindrical domain extraction preserves asymptotics and basepoint multiplicities, and its index comparison includes the corrected signed double-point contribution.
+
 **Checks.**
 
 - For the genus-one bigon domain A with two acute corners, e(A)=1−2·(1/4)=1/2 and n_x(A)=n_y(A)=1/4, so μ(A)=1/2+1/4+1/4=1 and ind(u)=g−χ(S)+2e(A)=1−1+1=1 for the embedded disc source S.
 - For the constant class with g=1 the source is a single trivial strip, so χ(S)=1, e=n_x=n_y=0 and both formulas give 0; a formula omitting g would give −1.
-- Concatenating the bigon A from x to y with the bigon B from y to x gives a periodic class with e=1 and n_x=n_y=1/2, so μ(A*B)=2=μ(A)+μ(B), as additivity requires; a formula using the number of corners at x instead of the quadrant average would give n_x=1 and μ=3.
+- In the genus-one S¹×S² diagram with basepoint in the annulus, both positive bigons A and B run from x to y. Their sum has region coefficients (0,1,1), which fail the periodicity equation D₁+D₂=2D₀ since 2≠0. Concatenate A with the inverse class of B, a signed class with no positive holomorphic representative: A−B has coefficients (0,1,−1), e=0 and both point averages 0, so μ(A*B⁻¹)=0=1+(−1). This agrees with the native periodic-domain calculation in Tau Ceti, LowDimTopology/Heegaard/CircleTimesSphere.lean.
 
 *Needs:* F5.0; F4.A–C; F1.3–F1.5's weighted ends and indices; F0.0's sharp Sard–Smale; Lipshitz §§2–4 and the erratum (sources).
 
@@ -3644,6 +4319,11 @@ and bordered stability conditions retain their own domain data.
   Proposition B.4); the corresponding boundary/corner comparison is an
   additional F5.2 target with F5.0's domain and asymptotic data.
 
+The constructions above have the following compatibility laws.
+
+- Building equivalences preserve labels and matching asymptotics; convergence respects integral homology and the stated energy/action balance.
+- The compactness theorem retains stability, common compact-image geometry and all end hypotheses, and does not assert additivity of a supremum energy.
+
 **Checks.**
 
 - A constant sphere has E_omega=E_lambda=0. With two special points,
@@ -3722,6 +4402,18 @@ quasi-nearly-symmetric/split hypotheses and the erratum's index corrections.
 The based naturality and all family/polygon compatibility statements here
 require the separate continuation and gluing comparisons specified above.
 
+
+**Gluing counts and cylindrical comparison.**
+
+- The gluing maps preserve labels, asymptotic conditions and determinant orientations and cover the prescribed neighborhoods of broken curves.
+- The cylindrical/symmetric-product chain comparison identifies generators, divisor multiplicities and counts, not just homology dimensions.
+
+**Checks.**
+
+- For genus 1 an embedded bigon has χ=1, e=1/2 and index 1−1+2·(1/2)=1 in the cylindrical formula.
+- A trivial strip has χ=1, e=0 and index 1−1=0; dropping the source-Euler term would give 1.
+- For two successive index-one pieces the index sum is 2, and quotienting the common translation leaves a one-dimensional moduli space whose ends are the broken pairs.
+
 *Needs:* F5.1–F5.2; F0.0 and F1.4's determinant gluing; F4.4's regular model; Lipshitz Propositions 13.2–13.7 and the erratum (sources).
 
 ### 7.4 The bordered algebra and finite tensor interface (F5.4)
@@ -3778,6 +4470,11 @@ boundedness of all iterated structure maps. Prove associativity and
 homotopy-invariance with their actual one-/two-sided boundedness conditions;
 an infinite formal sum is not an ordinary tensor differential.
 
+The constructions above have the following compatibility laws.
+
+- Strand multiplication respects composability and crossing-number additivity; resolving one crossing defines the differential with its square-zero and Leibniz laws.
+- The matched-circle and grading-set adapters preserve primitive idempotents, boundary orientation and the declared coefficient conventions.
+
 **Checks.**
 
 - In A(4,2) the product of φ=(1↦3, 2↦2) and ψ=(2↦4, 3↦3), each with one inversion, is the composition (1↦3, 2↦4) with no inversion; since 0≠1+1 the product is zero, whereas in A(3,1) the product of (1↦2) and (2↦3) is (1↦3) with 0=0+0 and is nonzero.
@@ -3826,11 +4523,16 @@ classical F2 bordered constructions distinct from F4's integral orientation
 systems; an integral enhancement requires its actual signed chord/strand
 and gluing comparisons and is not inferred from the F2 pairing theorem.
 
+The constructions above have the following compatibility laws.
+
+- The type-A and type-D structures obey their equations and grading conventions, with boundedness sufficient to make the box differential a finite sum.
+- The pairing identifies generators and differential counts over the same algebra after boundary reversal; mapping-cylinder and bimodule compositions retain their parametrizations.
+
 **Checks.**
 
 - The same two solid tori glued along the three boundary parametrizations of the genus-one splittings of S³, S¹×S² and L(p,1) must give pairing homology of rank 1, 2 and p; a pairing theorem that ignored the boundary parametrization would return one answer for all three.
 - The one-generator type-D structure δ¹(x)=ρ₁₂⊗x over the torus algebra satisfies the structure equation (dρ₁₂=0 and ρ₁₂²=0) but is unbounded, since δ^k(x)=ρ₁₂⊗⋯⊗ρ₁₂⊗x≠0 for every k; paired with a type-A module whose m_(k+1)(y,ρ₁₂,…,ρ₁₂) is nonzero for every k, the box differential would be an infinite sum, so one-sided boundedness is a hypothesis of the tensor.
-- Reversing the orientation of the matched circle exchanges A(Z) and A(−Z), and the pairing requires ∂Y₁=F=−∂Y₂; pairing CFA(Y₁) over A(Z) with a type-D structure over A(Z) instead of A(−Z) is undefined, since the idempotent rings do not match.
+- With ∂Y₁=F(Z) and ∂Y₂=F(−Z), CFA(Y₁) is right type A over A(Z), while CFD(Y₂) is left type D over A(−(−Z))=A(Z): both factors use the same algebra. In genus one the idempotent ring is 𝔽₂×𝔽₂; right and left generators y and x supported at the same primitive idempotent give y⊗x≠0 and differential 0 when their differentials and higher operations vanish. Opposite primitive idempotents give y⊗x=0. Boundary reversal is essential, but it must not be mistaken for a mismatch of the tensor algebra (LOT Theorem 1.3, p. 5).
 
 *Needs:* F5.4; F5.1–F5.3's bordered adapters; F4.A–C; Lipshitz–Ozsváth–Thurston Theorem 1.3 (source).
 
@@ -3878,6 +4580,10 @@ without the pointed stabilization theorem. For links retain component
 variables and Alexander multigradings and the corresponding basepoint
 factors. Reconciliation3 consumes these chain-level comparisons and their
 grading/filtration conventions, not just an equality of homology ranks.
+
+The constructions above have the following compatibility laws.
+
+- The Alexander and Maslov differences, basepoint filtrations and associated-graded differential agree with the specified Spinᶜ and Seifert-class normalization.
 
 **Checks.**
 
@@ -3972,6 +4678,18 @@ extra class; do not commute homology and nonflat augmentation.
 These are three distinct theorems, all owned here; none is replaced
 by the other two or by a bare rank calculation.
 
+
+**Raw, stable and twisted comparison maps.**
+
+- The raw comparison retains its basepoint factors, the stable comparison records them explicitly, and the twisted comparison respects its coefficient labels.
+- Coefficient change is performed on chain complexes with the required derived comparison; naturality is attached to specified diagram identifications.
+
+**Checks.**
+
+- The twice-pointed S³ raw complex has rank 2=1·dim W; forgetting W would incorrectly predict 1.
+- Over R=𝔽₂[t,t⁻¹], multiplication by 1+t has kernel 0 and cokernel R/(1+t)≃𝔽₂.
+- After t=1 the chain differential is 0, giving two 𝔽₂ groups; Tor₁^R(R/(1+t),𝔽₂)=𝔽₂ accounts for the extra group lost by underived homology substitution.
+
 *Needs:* F4.M; CombinatorialHeegaardFloer Lane H; F4.C's admissible connectivity; Ozsváth–Stipsicz–Szabó Theorems 10.2–10.4 (source).
 
 ### 8.2 Completed lattice/surgery comparison and its extension problems (R2)
@@ -4052,6 +4770,18 @@ uncorrected ordinary-lattice equality for broader graphs are comparison
 problems, not conclusions of the cited theorem. See [the precise tree
 theorem and its proof](https://arxiv.org/html/2111.14962v4).
 
+
+**Completed lattice and surgery comparison.**
+
+- The comparison is defined on the completed coefficient and support carriers and is compatible with the surgery maps and declared filtrations.
+- Contractions satisfy the stated homotopy sign and continuity, so extension and convergence arguments apply to the actual completed complexes.
+
+**Checks.**
+
+- A single −1-framed plumbing vertex has boundary S³ and completed minus homology one 𝔽₂[[U]] tower; replacing the completion by polynomials changes the carrier.
+- In 𝔽₂[[U]], (1+U)(1+U+U²+⋯)=1, whereas no polynomial is an inverse of 1+U in 𝔽₂[U].
+- For the two-term acyclic pair with differential 1 and h=−1, dh+hd=−id=ip−id for i=p=0; the opposite homotopy sign gives +id over ℤ.
+
 *Needs:* F4.5's flavors, triangles and surgery maps; F5's multi-diagram hypercubes; CombinatorialHeegaardFloer Lane L; Zemke (source).
 
 ### 8.3 Grid homology equals knot Floer homology (R3)
@@ -4060,6 +4790,18 @@ Manolescu–Ozsváth–Sarkar ([arXiv:math/0607691](https://arxiv.org/abs/math/0
 invariant agrees with `HFK̂`, computed holomorphically from doubly-pointed
 diagrams via the cylindrical reformulation of Lane F5. Depends on F5 and the
 combinatorial Lane G.
+
+
+**Grid and holomorphic knot comparison.**
+
+- The rectangle-to-disc comparison preserves Alexander and Maslov gradings, the filtered differential and the stated stabilization factors.
+- The induced isomorphisms intertwine the specified moves and basepoint data; a rank equality is not the natural comparison.
+
+**Checks.**
+
+- For an n=2 unknot grid the rank is 2=1·2^(n−1); at n=3 it is 4, detecting a missing stabilization factor.
+- The two V generators have bidegrees (0,0) and (−1,−1), so tensoring lowers both gradings on the second summand, not Maslov alone.
+- For the trefoil generators with (A,M)=(1,0),(0,−1),(−1,−2), the graded Euler polynomial is t−1+t⁻¹; forgetting Maslov parity would give t+1+t⁻¹.
 
 *Needs:* F5.6; CombinatorialHeegaardFloer Lane G; Manolescu–Ozsváth–Sarkar Theorem 1.1 (source).
 
@@ -4080,37 +4822,48 @@ CombinatorialHeegaardFloer Lanes H, G, L and ALG; Zemke, Ozsváth–Stipsicz–S
 
 ## Downstream consumers
 
-None of the roadmaps below supplies an input to this one; each consumes the
-sections named and makes its own comparisons there.
+The following are intended downstream comparisons, with the existing
+consumer scopes distinguished from the interfaces constructed here.
+None is an input to this roadmap.
 
-- **DGFloer** consumes F0, F1.1–F1.5, F2.1, F2.2a and F2.2c, F2.6d and Lane M
-  (its auxiliary Morse complex). Its Layer 1 Serre spectral sequence is
-  compared with M.8's skeletal-filtration sequence there, and its
-  multiplicative sequence supplies the ring structure of H*(SU(3);ℤ).
-- **MorseNovikov** consumes Lane M, F0 and M.5; its N5 applies F0.6's
-  return-map germ to −α♯, and its N7 compares its orientation-free
-  Poincaré–Hopf theorem with M.9's Euler identity.
-- **AnalyticStableMaps** consumes F1.1–F1.3 and F2.2–F2.3; its §0.5
-  generalizes F2.6b's genus-zero factorization to arbitrary genus.
-  **ComplexCurveModuli** consumes F2.6a's genus-zero model, and
-  **GromovWittenTheory** consumes through those two.
-- **ConvexityToric** (SymplecticGeometry) consumes F2.1's Darboux and Moser
-  theory; its T2 compares its moment-map perfection theorem with M.7–M.8.
-  **CotangentLagrangian** and **HamiltonianReduction** consume F2.1's
-  primitive selection, Moser calculus and time-dependent pullback
-  differentiation; **HamiltonianSystems** Layer 1 specializes F2.1's
-  contraction inverse to differentials of Hamiltonians.
-- **HamiltonianFloerOperations** consumes F0, F1 and F2, and its H7 consumes
-  M.9a's cup product at its constant-class endpoint. **FukayaTheory** FK4.2
-  compares its arity-one structure with F3.
+- **DGFloer Layer 1 items 2–3** specifies ordinary Serre and general
+  filtered-complex spectral sequences. Compare its finite-filtration
+  specialization with M.8 on the same filtered complex, including the
+  homological differential and induced filtration. Its broader convergence
+  and multiplicative theory remains there. Its Lane 7 uses the F0/F1/F2
+  analytic substrate with its own action/index convention transport.
+- **MorseNovikov N5** already specifies a general C^k local return germ,
+  independent of Novikov support hypotheses. Identify it with F0.6 by the
+  unique local hitting-time branch; under a change of section both have
+  P_q=h P_p h⁻¹ and DP_q=Dh DP_p Dh⁻¹, hence the same derivative spectrum.
+  Its closed-one-form application and local fixed-point index remain there.
+  Compare its N7 orientation-free Poincaré–Hopf result with M.9 after the
+  ordinary Morse/singular comparison.
+- **AnalyticStableMaps §0.5** uses F2.2–F2.3 for its arbitrary-genus
+  normalization; compare the genus-zero restriction with F2.6b.
+  **ComplexCurveModuli** uses the genus-zero domain model of F2.6a.
+  **GromovWittenTheory** uses the F1/F2 analytic substrate directly as well
+  as the stable-map and domain constructions of those two roadmaps.
+- **ConvexityToric T2** obtains moment-map perfection from MorseTheory M5
+  and characteristic classes. Compare with M.7–M.8 only under the actual
+  invariant regular-current hypotheses there. **CotangentLagrangian C4**
+  and **HamiltonianReduction** use relative Moser constructions;
+  their specialization of F2.1 must retain the primitive and domain data.
+  **HamiltonianSystems Layer 1** specializes contraction inversion to df.
+- **HamiltonianFloerOperations H7** constructs its Morse-incidence quantum
+  comparison. The ordinary constant-class endpoint is to be compared with
+  M.9a's cup product, including coefficients and signs.
+  **FukayaTheory FK4.2** compares its arity-one operation with F3 using the
+  same compact-image, cap and grading hypotheses.
 - **InstantonFloerTheory**, **SeibergWittenTheory**, **TaubesGromov**,
-  **FourManifolds**, **SymplecticFieldTheory** and **GaugeQuiltFieldTheory**
-  consume the analytic layers F0, F1 and F2 (the sharp Sard–Smale theorem,
-  determinant lines, the Cauchy–Riemann estimates, intersection positivity)
-  at their stated hypotheses.
-- **RiemannianGeometry** records Lane M as the owner of Morse homology, and
-  **CombinatorialHeegaardFloer** records the reconciliations R1–R3 as owned
-  here.
+  **SymplecticFieldTheory** and **GaugeQuiltFieldTheory** have their own
+  analytic applications. The determinant, regular-value and CR interfaces
+  here are available at their stated hypotheses; this does not assert that
+  each consumer imports every F0–F2 construction. **FourManifolds** names
+  F0 as its analytic input.
+- **RiemannianGeometry** assigns ordinary Morse homology to Lane M;
+  **CombinatorialHeegaardFloer Lanes H, G and L** supplies the complexes
+  compared with the holomorphic theories in R1–R3.
 
 ## Worked examples
 
@@ -4200,8 +4953,8 @@ Concrete checks that rule out vacuous or mis-stated definitions:
 - A. Juhász, D. Thurston, I. Zemke,
   [arXiv:1210.4996](https://arxiv.org/abs/1210.4996): naturality, the capstone.
 - C. Wendl, *Lectures on holomorphic curves in symplectic and contact geometry*,
-  [arXiv:1011.1690v3.2](https://arxiv.org/abs/1011.1690), Proposition 4.3 and
-  Definitions 4.4–4.5, pp. 131–132: the factorization through a simple curve (F2.6b).
+  [arXiv:1011.1690v2](https://arxiv.org/abs/1011.1690v2), internal Version 3.2, Proposition 4.3 and
+  Definitions 4.4–4.5, printed p. 121: the factorization through a simple curve (F2.6b).
 - D. McDuff, D. Salamon, *Introduction to Symplectic Topology*, third edition,
   Oxford, 2017, §3.2: Darboux's theorem (F2.1), by locator.
 - G. Teschl, *Ordinary Differential Equations and Dynamical Systems*, AMS GSM 140,
@@ -4233,3 +4986,18 @@ Concrete checks that rule out vacuous or mis-stated definitions:
 - P. Kronheimer, T. Mrowka, *Monopoles and Three-Manifolds*, Cambridge, 2007: not
   a target, but the gold standard of analytic completeness the analytic lanes
   should hold themselves to.
+
+- S. Smale, *An Infinite Dimensional Version of Sard's Theorem*, Amer. J. Math.
+  87 (1965), 861–866, Theorem (1.3) and its local proof, pp. 862–863:
+  F0.0's sharp Fredholm regular-value theorem.
+- A. Zinger, *The Determinant Line Bundle for Fredholm Operators: Construction,
+  Properties, and Classification*, [arXiv:1304.6368v4](https://arxiv.org/abs/1304.6368v4),
+  Theorem 1, p. 14, §4.3 and §§5.1–5.2: F0.0's determinant families.
+- J. Lee, *Introduction to Smooth Manifolds*, second edition, Springer, 2013,
+  Theorem 9.48 and Lemma 9.19: the suspension and escape route in F2.1;
+  Theorem 6.24, pp. 139–140: the Euclidean tube and radius argument used
+  with HopfRinow's exponential differential for F2.3's normalized tube.
+- M. M. Peixoto, *On an approximation theorem of Kupka and Smale*,
+  Journal of Differential Equations 3 (1967), 214–227, §2: F0.6's
+  compact-window genericity route, cited by locator; the noncompact
+  compact-open extension is constructed in F0.6.
