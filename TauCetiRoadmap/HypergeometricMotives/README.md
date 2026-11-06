@@ -75,6 +75,13 @@ cyclotomic dictionary (`Data`), the zigzag (`Hodge`), the Levelt matrices and th
   §§2.6–2.8 supplies the classical realization operations on smooth projective varieties.
   `EtaleCohomologyFoundations` §§F.4–F.6 supplies the rational adic operations and duality.
   The hypergeometric subquotient and its comparison maps are constructed in 5.0 here.
+- **Frobenius-module linear algebra.** `DeligneWeightsAndPurity` 0.9, 0.10, 0.15 and 0.16 supply
+  purity of Frobenius-stable subspaces and quotients, the determinant–trace identity, Tate twists
+  and the eigenvalue symmetry of a Frobenius-equivariant perfect pairing; 5.0 and 5.5 apply them to
+  the hypergeometric realization. Section 0.16 does not treat self-paired multiplicities or
+  signs; 5.5 proves the sign `ε_p` of the hypergeometric local functional equation, for the
+  realization from the even multiplicities of `±p^{w/2}` that its alternating pairing forces
+  through 0.16 (iii) and Tau Ceti's `LinearMap.BilinForm.IsAlt.even_finrank`.
 - **General local invariants.** `ArithmeticGaloisRepresentations` §§2.4–2.7, 3.1–3.3 supplies
   Weil–Deligne representations, Euler polynomials, epsilon factors and Artin/Swan conductors.
   Sections 5.9–5.10 specialize these to the constructed realization at every prime.
@@ -201,6 +208,9 @@ built from traces.
   Euler-product carrier that the L-functions roadmap fills from the Euler factors of Layer 5.
 - `TauCeti.NumberTheory.Chebotarev.GaloisCharacter.Cyclotomic.Basic`: the cyclotomic Artin map,
   the vocabulary for 4.4's Frobenius statement.
+- `TauCeti.LinearAlgebra.BilinearForm.SymplecticBasis`: `LinearMap.BilinForm.IsAlt.even_finrank`,
+  a finite-dimensional vector space over a field carrying a nondegenerate alternating bilinear
+  form has even dimension; the parity input of the realization sign in 5.5.
 - `TauCeti.AlgebraicGeometry.EllipticCurve.PointCount`: `WeierstrassCurve.pointCount`, the
   projective point count of a Weierstrass equation over a finite field, with
   `WeierstrassCurve.pointCount_eq_card_point` identifying it with `Nat.card` of Mathlib's point
@@ -271,8 +281,14 @@ here.
 
 [`DeligneWeightsAndPurity`](../DeligneWeightsAndPurity/README.md), Layer DWP.0, 0.1–0.2: Weil
 `q`-numbers of integer weight and their closure properties; 5.5's purity hypothesis is phrased with
-them in prose, and its Lean form carries the absolute-value condition directly. Section 4.3
-supplies smooth-projective purity for the compactification image of 5.0.
+them in prose, and its Lean form carries the absolute-value condition directly. The
+Frobenius-module linear algebra of the same layer is consumed by 5.0 and 5.5: 0.9
+(purity of an `F`-stable subspace and of the quotient), 0.10 (for `D(t) = det(1 − tF)`,
+`−t D′(t)/D(t) = ∑_{n ≥ 1} Tr(F^n) t^n`), 0.15 (a Tate twist by `r`
+multiplies geometric Frobenius by `q^{−r}` and lowers the weight by `2r`) and 0.16 (under a
+perfect pairing with `⟨Fx, Fy⟩ = c⟨x, y⟩` the eigenvalue multiset is stable under `α ↦ c/α` and the
+pairing is perfect between the generalized eigenspaces of `α` and `c/α`). Section 4.3 supplies
+smooth-projective purity for the compactification image of 5.0.
 
 ### From TauCetiRoadmap.PolynomialGaloisGroups and TauCetiRoadmap.NumberFieldArithmetic
 
@@ -1663,7 +1679,10 @@ monodromies are the triple of 3.2, with the parameter and character normalizatio
   Frobenius at `p^f`, `f ≥ 1`, has trace `p^{fδ} H_(p^f)(D | t)`; prove the comparison with
   the gamma expression even when `N` does not divide `p^f − 1`. Identify its determinant
   polynomial with 5.2 and derive 5.5's purity and self-duality hypotheses from the construction
-  (Katz Theorems 8.4.2, 8.8.1–8.8.2; Roberts–Rodriguez-Villegas (10.1), §11, pp. 10–11).
+  (Katz Theorems 8.4.2, 8.8.1–8.8.2; Roberts–Rodriguez-Villegas (10.1), §11, pp. 10–11). The
+  Frobenius-module steps of that derivation (purity passing to Frobenius-stable subspaces and
+  quotients, the weight shift of the twist by `j`, and stability of the eigenvalue multiset under
+  `λ ↦ p^w/λ` from the pairing) are `DeligneWeightsAndPurity` 0.9, 0.15 and 0.16.
 - The Betti–de Rham comparison identifies the dimensions of the Hodge filtration quotients
   with 2.2's zigzag vector. The geometric pairing has target `ℚ(−w)`, is perfect and is
   symmetric for even `w`, alternating for odd `w`; the corresponding geometric monodromy
@@ -1702,7 +1721,7 @@ monodromies are the triple of 3.2, with the parameter and character normalizatio
 *Needs:* Layers 1–4; `MotivesAndAlgebraicCycles` §§4.17, 5.2–5.9, 6.8, 2.6–2.8;
 `EtaleCohomologyFoundations` §§F.4–F.6; `ComplexComparisonPartII` §§C5.1, C5.3–C5.4, C5.6;
 `ResolutionOfSingularitiesCharacteristicZero` §§5.2, 5.5, 6.2–6.4;
-`HodgeStructures` Layers 0–2; `DeligneWeightsAndPurity` §4.3;
+`HodgeStructures` Layers 0–2; `DeligneWeightsAndPurity` §§0.9, 0.15, 0.16, 4.3;
 `ArithmeticGaloisRepresentations` §§2.4–2.7, 3.1–3.3.
 
 ### 5.1 The Frobenius trace
@@ -1846,11 +1865,18 @@ Newton polygon of 5.4 has the endpoints `(0, 0)` and `(d, wd/2)` of the Hodge po
 functional equation** `p^{wd/2} T^d F_p(1/(p^w T)) = ε_p F_p(T)`, i.e.
 `coeff (d − k) = ε_p · coeff k · p^{(d − 2k) w/2}`, with `ε_p := (−1)^d ∏ λ / p^{wd/2} ∈ {±1}`
 (Roberts–Rodriguez-Villegas §11, "Poincaré duality"; the factor `(−1)^d` makes `coeff d = ε_p p^{wd/2}`,
-and for an elliptic curve `F_p = 1 − a_p T + pT²` gives `ε_p = 1`).  When `w` is odd (so `d` is even
-by 2.6) and no `λ ∈ Λ` has `λ² = p^w`, prove `ε_p = 1`: `Λ` splits into pairs `{λ, p^w/λ}`.  The
-proviso is needed: `Λ = {√p, −√p}` (`w = 1`, `d = 2`) is pure and self-dual, with `F_p = 1 − pT²`
-and `ε_p = −1`.  For the realization `ε_p = 1` whenever `w` is odd, because its Poincaré pairing is
-alternating; prove this as a consequence of 5.0’s pairing comparison. These
+and for an elliptic curve `F_p = 1 − a_p T + pT²` gives `ε_p = 1`).  When `w` is odd and each of
+the two square roots `±p^{w/2}` of `p^w` occurs in `Λ` with even multiplicity (in particular when
+neither occurs), prove `ε_p = 1`: self-duality gives `λ` and `p^w/λ` the same multiplicity, so the
+elements other than `±p^{w/2}` split into pairs `{λ, p^w/λ}` of product `p^w`, the even number
+`2a` of copies of `p^{w/2}` and `2b` of `−p^{w/2}` contribute `p^{w(a+b)}`, `d` is even, and
+`∏ λ = p^{wd/2}`.  The proviso is needed: `Λ = {√p, −√p}` (`w = 1`, `d = 2`) is pure and
+self-dual, with `F_p = 1 − pT²` and `ε_p = −1`.  For the realization `ε_p = 1` whenever `w` is
+odd: its Poincaré pairing is alternating and Frobenius-equivariant with scalar `p^w`, so it
+restricts to a perfect alternating pairing on the generalized eigenspace of each eigenvalue
+`λ` with `λ² = p^w` (`DeligneWeightsAndPurity` 0.16 (iii)), whose dimension is therefore even
+(`LinearMap.BilinForm.IsAlt.even_finrank`), and the multiset statement applies; prove this as a
+consequence of 5.0’s pairing comparison. These
 implications are what the LMFDB's displayed `F_p(T)` relies on; the hypothesis itself is Katz's
 theorem and Deligne's purity for the realization, targeted in 5.0.
 
@@ -1860,7 +1886,12 @@ as `frobeniusPolynomial_of_isPure`, `frobeniusPolynomial_int_of_isPure`,
 `local_sign_eq_one_of_odd_weight`; (ii) carries `t ≠ 0` and `p` good because at a wild prime the
 traces are values of `Classical.epsilon` with nothing to pin them, and purity alone does not make
 a multiset integral (`Λ = {(3 + 4i)/5, (3 − 4i)/5}` has rational power sums, absolute values `1`
-and non-integral elements).  (i), (iii) and the functional equation follow from `Λ` alone.
+and non-integral elements).  (i), (iii) and the functional equation follow from `Λ` alone; (i)
+follows from Newton's identities of 5.2 read through `Multiset.prod_X_sub_C_coeff`, or from the
+determinant–trace identity `−T D′(T)/D(T) = ∑_{e ≥ 1} Tr(F^e) T^e` of `DeligneWeightsAndPurity`
+0.10 (ii) for the diagonal endomorphism `F` of `ℂ^d` with eigenvalue multiset `Λ`, since in
+characteristic `0` two series with constant coefficient `1` and the same logarithmic derivative
+are equal.
 
 **API.**
 
@@ -1872,11 +1903,17 @@ and non-integral elements).  (i), (iii) and the functional equation follow from 
 
 - `A2.2_B1.1`, `t = 2`, `p = 5`: `Λ = {−1 ± 2i}`, `|λ| = √5 = 5^{1/2}`, power sums `−2, −6`;
   pure, self-dual, `ε_5 = (+1) · 5/5 = 1`.
-- `Λ = {√5, −√5}` (`w = 1`, `d = 2`): pure and self-dual, `F = 1 − 5T²`, `ε = −1`: the proviso
-  "no `λ² = p^w`" of the symplectic sign is needed.
+- `Λ = {√5, −√5}` (`w = 1`, `d = 2`): pure and self-dual, `F = 1 − 5T²`, `ε = −1`: each square
+  root of `5` occurs once, an odd multiplicity, so the proviso of the symplectic sign is needed.
+- `Λ = {√5, √5, −√5, −√5}` (`w = 1`, `d = 4`): pure and self-dual,
+  `F = (1 − 5T²)² = 1 − 10T² + 25T⁴`, `∏ λ = 25 = 5^{wd/2}` and `ε = +1`; each square root occurs
+  twice.  A proviso "no `λ² = p^w`" would exclude this multiset although its sign is `+1`, and
+  `Λ = {√5, √5}` (`d = 2`, `∏ λ = 5`, `ε = +1`) is a second such instance.
 - The degree-`0` datum: `Λ = ∅`, `F = 1`, `ε = 1`, and every statement holds trivially.
 
-*Needs:* 2.6, 2.9, 5.1, 5.2, 5.4; Mathlib `Multiset.prod_X_sub_C_coeff`, the norm on `ℂ`.
+*Needs:* 2.6, 2.9, 5.1, 5.2, 5.4; Mathlib `Multiset.prod_X_sub_C_coeff`, the norm on `ℂ`;
+`DeligneWeightsAndPurity` 0.10 (route for (i)); for the realization sign, 5.0,
+`DeligneWeightsAndPurity` 0.16 and Tau Ceti `LinearMap.BilinForm.IsAlt.even_finrank`.
 
 ### 5.6 Acceptance Euler factors
 
@@ -2451,6 +2488,61 @@ primitive datum `γ/2 = [−1,−1,2]` of degree `1` (1.9), `w = 0`, imprimitive
 - Finite-field character-sum roadmaps read the finite hypergeometric sums `H_q` of Layer 4 and
   the gamma-vector form 4.7 as the hypergeometric instance of their Gauss- and Jacobi-sum
   identities.
+
+## Provenance
+
+This section is secondary: it maps Layer 5 targets to two existing Lean formalisations of the Weil
+conjectures, prescribes nothing, and changes neither the ownership nor the statements above. Both
+are released under the Apache-2.0 licence and build against Lean and Mathlib versions other than
+this repository's pins; adapting a proof from either is coordinated with its authors and keeps that
+attribution. Neither treats hypergeometric data, Gauss or Jacobi sums, Levelt matrices, the zigzag
+or the hypergeometric point-count identities, so Layers 1–4 and 6 have no counterpart there.
+
+- [AxiomMath/Weil](https://github.com/AxiomMath/Weil/tree/27cdb2049be62ee2911429b47f54774078450e32), which follows Freitag–Kiehl:
+  - [`Defs/AlgebraicGeometry/EtaleCohomology/Trace/ZetaSeries.lean`](https://github.com/AxiomMath/Weil/blob/27cdb2049be62ee2911429b47f54774078450e32/Weil/Defs/AlgebraicGeometry/EtaleCohomology/Trace/ZetaSeries.lean)
+    forms the zeta series of a scheme over a finite field by substituting `∑_{n ≥ 1} (N_n/n) t^n`,
+    `N_n` the number of points over the degree-`n` extension, into `PowerSeries.exp ℚ`, the construction of 5.2 with exponent `+∑` in place of `−∑`, and
+    characterises it by its constant coefficient and logarithmic derivative
+    (`AlgebraicGeometry.eq_zetaSeries_iff`).
+  - [`RingTheory/PowerSeries/Fatou.lean`](https://github.com/AxiomMath/Weil/blob/27cdb2049be62ee2911429b47f54774078450e32/Weil/RingTheory/PowerSeries/Fatou.lean): Fatou's lemma
+    (`PowerSeries.exists_int_coprime_mul_eq_of_rat`) and the Gauss lemma for a rational factor with
+    constant coefficient `1` of an integral polynomial. Applied to `1 + ∑_e a_{p^e} T^e`, they give
+    an integrality argument for 5.5 (ii) in place of its `ℓ`-adic pole argument.
+  - [`LinearAlgebra/Charpoly/FunctionalEquation.lean`](https://github.com/AxiomMath/Weil/blob/27cdb2049be62ee2911429b47f54774078450e32/Weil/LinearAlgebra/Charpoly/FunctionalEquation.lean):
+    for a monic polynomial whose roots are stable under `μ ↦ q^n/μ`, `Weil.coeff_zero_eq_sign_mul_pow`
+    computes its constant coefficient as `ε q^{n·deg/2}`, with `ε = 1` for odd `n` when every square
+    root of `q^n` is a root of even multiplicity and `ε = (−1)^N` for even `n`, `N` the multiplicity
+    of `q^{n/2}`. Its odd case is `local_sign_eq_one_of_odd_weight` with the same multiplicity
+    hypothesis.
+- [formal-arithmetic-geometry/weil-conjectures](https://github.com/formal-arithmetic-geometry/weil-conjectures/tree/55abf461d4688270382c9c982ac08a279e41c00b), which proves Weil II through the Fourier
+  transform of Laumon and Katz:
+  - [`ZetaLinearAlgebra/DetTrace.lean`](https://github.com/formal-arithmetic-geometry/weil-conjectures/blob/55abf461d4688270382c9c982ac08a279e41c00b/WeilConjectures/ZetaLinearAlgebra/DetTrace.lean)
+    (`LinearMap.inv_charpolyRev_eq_exp`, `det(1 − tF)⁻¹ = exp(∑_{n ≥ 1} Tr(F^n) t^n/n)` over a field
+    of characteristic `0`) and
+    [`ZetaLinearAlgebra/CharpolyRevExpand.lean`](https://github.com/formal-arithmetic-geometry/weil-conjectures/blob/55abf461d4688270382c9c982ac08a279e41c00b/WeilConjectures/ZetaLinearAlgebra/CharpolyRevExpand.lean):
+    the endomorphism form of 5.5 (i), which `DeligneWeightsAndPurity` 0.10 plans for Tau Ceti.
+  - [`ZetaLinearAlgebra/Fatou.lean`](https://github.com/formal-arithmetic-geometry/weil-conjectures/blob/55abf461d4688270382c9c982ac08a279e41c00b/WeilConjectures/ZetaLinearAlgebra/Fatou.lean) with
+    [`ZetaLinearAlgebra/NormalizedGauss.lean`](https://github.com/formal-arithmetic-geometry/weil-conjectures/blob/55abf461d4688270382c9c982ac08a279e41c00b/WeilConjectures/ZetaLinearAlgebra/NormalizedGauss.lean): Fatou's
+    lemma with uniqueness of the reduced fraction.
+  - [`ZetaLinearAlgebra/FrobeniusModule.lean`](https://github.com/formal-arithmetic-geometry/weil-conjectures/blob/55abf461d4688270382c9c982ac08a279e41c00b/WeilConjectures/ZetaLinearAlgebra/FrobeniusModule.lean) and
+    [`ZetaLinearAlgebra/FrobeniusModule/`](https://github.com/formal-arithmetic-geometry/weil-conjectures/tree/55abf461d4688270382c9c982ac08a279e41c00b/WeilConjectures/ZetaLinearAlgebra/FrobeniusModule): a
+    finite-dimensional space with an automorphism, `ι`-purity of weight `w` relative to `q`
+    (`FrobeniusModule.IsPureOfWeight`), the Tate twist (`FrobeniusModule.tateTwist`), duals, and the
+    weights of subobjects, quotients and subquotients (`FrobeniusModule/Map.lean`,
+    `FrobeniusModule/Exact.lean`). The multiset `Λ` of 5.5's `IsPure` is the eigenvalue multiset of
+    such a module read in `ℂ`; for Tau Ceti this layer is `DeligneWeightsAndPurity` Layer DWP.0.
+  - [`ZetaLinearAlgebra/FunctionalEquation.lean`](https://github.com/formal-arithmetic-geometry/weil-conjectures/blob/55abf461d4688270382c9c982ac08a279e41c00b/WeilConjectures/ZetaLinearAlgebra/FunctionalEquation.lean):
+    for a trace datum of length `2n` that is self-dual under perfect pairings with similitude
+    factor `q^n`, the complex roots of the reciprocal characteristic polynomials in complementary
+    degrees correspond under `z ↦ (q^n z)⁻¹`
+    (`TraceDatum.roots_map_charpolyRev_rev`). This is the self-duality half of
+    `local_functional_equation`; the file does not compute the sign `ε_p`.
+  - [`WeilSheaf/LisseExtension.lean`](https://github.com/formal-arithmetic-geometry/weil-conjectures/blob/55abf461d4688270382c9c982ac08a279e41c00b/WeilConjectures/WeilSheaf/LisseExtension.lean) and
+    [`WeilSheaf/MiddleExtension.lean`](https://github.com/formal-arithmetic-geometry/weil-conjectures/blob/55abf461d4688270382c9c982ac08a279e41c00b/WeilConjectures/WeilSheaf/MiddleExtension.lean): lisse Weil sheaves on a
+    smooth curve over a finite field, their extension across a point with trivial local monodromy,
+    and the identification of a lisse sheaf with the direct image of its restriction to a dense
+    open. These concern arbitrary smooth curves; nothing is specific to `𝔾_m ∖ {1}` or to the
+    hypergeometric sheaf of 5.0.
 
 ## References
 

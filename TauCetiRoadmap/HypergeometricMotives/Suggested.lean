@@ -880,15 +880,17 @@ theorem local_functional_equation (t : ℚ) (p : ℕ) [Fact p.Prime] (hsd : D.Is
       (D.frobeniusPolynomial t p).coeff (D.degree - k) * (p : ℚ) ^ (D.weight * k) =
         ε * (p : ℚ) ^ (D.weight * D.degree / 2) * (D.frobeniusPolynomial t p).coeff k := sorry
 
-/-- **5.5**, the sign `ε_p = (-1)^d ∏λ / p^{wd/2}` is `+1` in the symplectic case when no `λ`
-squares to `p^w`; the unconditional `ε_p = 1` for the realization is Poincaré duality with an
-alternating pairing, a target of README 5.0. -/
+/-- **5.5**, the sign `ε_p = (-1)^d ∏λ / p^{wd/2}` is `+1` in the symplectic case when each of
+the two square roots `±p^{w/2}` occurs in `Λ` with even multiplicity (in particular when none
+occurs): the involution `λ ↦ p^w/λ` pairs off the other elements. `Λ = {√p, -√p}` is the
+instance with odd multiplicities and `ε_p = -1`. For the realization the alternating Poincaré
+pairing supplies the even multiplicities, a target of README 5.0. -/
 theorem local_sign_eq_one_of_odd_weight (t : ℚ) (p : ℕ) [Fact p.Prime] (hw : Odd D.weight)
     (Λ : Multiset ℂ) (hcard : Multiset.card Λ = D.degree)
     (hΛ : ∀ z ∈ Λ, ‖z‖ = (p : ℝ) ^ ((D.weight : ℝ) / 2))
     (htr : ∀ e : ℕ, 1 ≤ e → (D.frobeniusTrace t p e : ℂ) = (Λ.map fun z => z ^ e).sum)
     (hsd : Λ.map (fun z => (p : ℂ) ^ D.weight / z) = Λ)
-    (hfix : ∀ z ∈ Λ, z ^ 2 ≠ (p : ℂ) ^ D.weight) :
+    (hfix : ∀ z : ℂ, z ^ 2 = (p : ℂ) ^ D.weight → Even (Λ.count z)) :
     (-1) ^ D.degree * Λ.prod = (p : ℂ) ^ (D.weight * D.degree / 2) := sorry
 
 /-- **5.9**, the tame conductor exponent at a tame prime (Roberts–Rodriguez-Villegas (13.1)):
