@@ -23,8 +23,8 @@ This roadmap owns, by layer:
   concave inequalities, weak Lp and the Lorentz gauges, and the identification of Lp(B(H),Tr)
   and weak Lp(B(H),Tr), for every 0<p<∞, with the operators whose approximation numbers are
   p-summable, respectively `O((j+1)^(−1/p))`. On B(H) the Schatten quasi-ideals S_p for 0<p<1
-  and the weak Schatten classes are these spaces: their quasi-norm, ideal, completeness and
-  Hölder laws are the B(H) instances of the general laws, not a second construction on a
+  and the weak Schatten classes are these spaces: their quasi-norm, adjoint, ideal, completeness
+  and Hölder laws are the B(H) instances of the general laws, not a second construction on a
   sequence model. VonNeumannAlgebras V10.TracialLp owns the τ-measurable operator algebra
   and Lp(M,τ) for 1≤p<∞ with completeness, Hölder, L¹=M_* and L²=GNS; Layer 1 extends that
   construction to smaller exponents and does not rebuild it.
@@ -363,10 +363,11 @@ and that `‖x‖_p=(∑_j a_j(x)^p)^(1/p)` (Hiai, Example 5.2(1)). For 1≤p<�
 Lp(B(H),Tr) isometrically with OperatorTheory/OperatorIdeals' Schatten class S_p; for p=∞ the
 space is B(H) itself, not the compact operators. For 0<p<1 it presents the Schatten quasi-ideal
 S_p as Lp(B(H),Tr), so its p-triangle inequality, the ideal estimates `‖bxc‖_p≤‖b‖‖c‖‖x‖_p`,
-completeness of the p-metric and Hölder's inequality `‖xy‖_r≤‖x‖_p‖y‖_q` for p,q,r>0 with
-1/r=1/p+1/q are the B(H) instances of §1.3 and §1.4 and are not proved again on a sequence
-model. On M_d(ℂ) the identification is the formula `‖x‖_p=(∑_j s_j(x)^p)^(1/p)` with
-Mathlib's `LinearMap.singularValues` and the unnormalized trace.
+adjoint invariance `‖x*‖_p=‖x‖_p`, completeness of the p-metric and Hölder's inequality
+`‖xy‖_r≤‖x‖_p‖y‖_q` for p,q,r>0 with 1/r=1/p+1/q are the B(H) instances of §1.3 and §1.4 and
+are not proved again on a sequence model. On M_d(ℂ) the identification is the formula
+`‖x‖_p=(∑_j s_j(x)^p)^(1/p)` with Mathlib's `LinearMap.singularValues` and the unnormalized
+trace.
 *Needs:* §1.1, §1.3, §1.4; OperatorTheory/OperatorIdeals Parts A–B; Mathlib
 `MeasureTheory.Lp`, `LinearMap.singularValues`; Hiai, Example 4.13(1), Lemma 4.16(2),
 Example 4.15(1) and Example 5.2(1).
@@ -1446,10 +1447,11 @@ Layer 8 needs Layers 5–7, VonNeumannAlgebras V8, BanachSpaceTheory B1, and Mat
 
 - FreeProbability consumes Layer 4 (I4): the Lp inclusions and faithful normal expectations of
   §4.3.
-- NoncommutativeGeometry consumes Layer 1 (I1): tracial Lp including 0<p<1, Hölder, the
-  quasi-norm inequalities and weak Lp, specialized to B(H) by the approximation-number
-  identifications of §1.5 and §1.6, which give the Schatten quasi-ideals S_p for 0<p<1, the
-  weak Schatten classes and `S_(1,∞)`.
+- NoncommutativeGeometry N3–N4 consume Layer 1 (I1) on B(H) with its trace and do not rebuild
+  it: the Schatten quasi-ideals S_p for 0<p<1 as Lp(B(H),Tr) (§1.5), with the p-triangle
+  inequality, the ideal bounds, adjoint invariance and completeness of the p-metric (§1.3),
+  Hölder's inequality with constant one for all positive exponents (§1.4), and the weak
+  Schatten classes with the weak trace class `S_(1,∞)` (§1.6).
 - VonNeumannAlgebras Layer 11 names Layer 4 (I4) as the owner of the Lp inclusions and
   contractive projections attached to Takesaki's expectation.
 
