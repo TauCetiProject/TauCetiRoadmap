@@ -1,7 +1,7 @@
 module
 
-import Mathlib
-import TauCeti.RingTheory.Huber.TopologicallyFiniteType
+public import Mathlib
+public import TauCeti.RingTheory.Huber.TopologicallyFiniteType.Basic
 
 /-!
 # Arc topology and descent: target signatures
@@ -9,7 +9,9 @@ import TauCeti.RingTheory.Huber.TopologicallyFiniteType
 The roadmap is README.md; this file is not the roadmap. It states the roadmap's
 headline theorems against the pinned APIs. Its real-bodied predicates only express
 valuation lifting, perfect characteristic-p schemes and coefficient torsion on native
-carriers; they do not construct replacement sites, topoi or cohomology theories.
+carriers; they do not construct replacement sites, topoi or cohomology theories. Etale
+sheaves are taken on Mathlib's small etale site, with coefficients in the universe of the
+scheme; cardinal-bounded sites belong to the arc-topos only.
 
 The following headline theorems are not statable at the pins:
 * The finitary arc-descent/excision/aic-excision equivalence and rank-one detection
@@ -17,8 +19,10 @@ The following headline theorems are not statable at the pins:
   sheaf categories and coherent augmented totalizations.
 * Unrestricted Milnor excision and formal glueing lack the coherent arc-topos,
   sheafified representable pushouts and small-limit-valued sheaf carriers.
-* Arc-descent of separated etale objects and constructible finite-set sheaves
-  lacks the general constructible-sheaf category and its categorical descent functor.
+* Arc-descent of etale objects (section 6.6), stated as `Pseudofunctor.IsStack` for the
+  arc topology, lacks that topology as a `GrothendieckTopology` on qcqs schemes, the
+  pseudofunctor assembled from Tau Ceti's finite etale base change
+  `TauCeti.FiniteEtaleScheme.pullback`, and the constructible finite-set sheaf category.
 * Characteristic-zero h-differential and h-de Rham arc-descent lacks the h-form
   cohomology functor, its coherent finitary extension and filtered enhancement.
 * Perfect-complex arc-hyperdescent lacks the coherent symmetric monoidal Perf
@@ -39,6 +43,8 @@ The following headline theorems are not statable at the pins:
 The torsion/constructible arc-descent and perfectoid-basis/structure-sheaf results
 of PrismaticCohomology section 2.0 are supplier inputs, not additional targets here.
 -/
+
+@[expose] public section
 
 open CategoryTheory CategoryTheory.Limits AlgebraicGeometry Opposite
 
