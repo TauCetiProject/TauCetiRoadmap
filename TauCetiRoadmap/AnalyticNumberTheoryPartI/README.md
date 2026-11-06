@@ -326,6 +326,14 @@ See Koukoulopoulos, *The Distribution of Prime Numbers*, Theorem3.4(a) and proof
 
 #### 0.11a Prime-cutoff and tail exports
 
+Follow the Mertens-weight interface of [Mathlib PR #44061](https://github.com/leanprover-community/mathlib4/pull/44061),
+its concrete prime/von Mangoldt weights in [#44062](https://github.com/leanprover-community/mathlib4/pull/44062),
+and the theorem exports in [#41394](https://github.com/leanprover-community/mathlib4/pull/41394),
+including `Mertens.abs_sum_log_prime_div_sub_le` on `Nat.primesLE`. Use these shapes
+for the supplied rational Mertens estimates, building unavailable results in Tau Ceti
+and replacing them with upstream imports when available. Arbitrary bounded weights
+in §0.11c are coefficients on this native prime sum, not another Mertens-weight structure.
+
 Export §0.11's Mertens estimate on the native finite prime sum with inclusive real
 cutoff `p ≤ x`, `x ≥ 2`, retaining its strict/inclusive comparison. Consume Mathlib's
 `Chebyshev.theta_le_log4_mul_x` for `Σ_{p≤x} log p ≤ Cx`, and derive by partial summation
