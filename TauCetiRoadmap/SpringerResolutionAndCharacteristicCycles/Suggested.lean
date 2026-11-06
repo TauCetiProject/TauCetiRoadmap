@@ -27,7 +27,7 @@ They do not supply the following, and nothing is stated in place of the headline
   of a split reductive group (the scheme representing the fppf quotient), its associated Borel Lie
   bundle and the incidence schemes `g̃ ⊂ G/B × 𝔤` and `X = g̃ ×_𝔤 g̃` built from it.
 * The field and reductive-centre comparisons of the Springer resolution and the conormal
-  description of the Steinberg components (§§6.1–6.6). These lack the flag scheme, the nilpotent
+  description of the Steinberg components (§§6.1–6.5). These lack the flag scheme, the nilpotent
   cone as the zero fibre of the adjoint quotient of a split reductive group, and the cotangent and
   conormal bundles of schemes.
 * Filtration-independence of characteristic cycles of coherent D-modules (§§8.4–8.6), Kashiwara's

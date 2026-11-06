@@ -18,7 +18,7 @@ This roadmap owns the Grothendieck simultaneous and double incidence schemes, th
 - SchemeAndStackFoundations §§0.2, 0.4, 0.7–0.9, 0.16–0.21, 0.30, 1.1, 2.6, 2.18 and 5.1 owns modules over relative spectra, coherent extension, dimension, spreading, CM and Serre conditions, excellence, normal schemes, descent, coherent cohomology, ordinary derived quasi-coherent operations and dimension-graded cycles. The finite-type dimension grading is consumed from §5.1. Layer 7 identifies its finite component basis and extends the component-support subgroup to arbitrary Noetherian finite-dimensional schemes, including completed local spectra.
 - PadicLocalLanglandsForGL2Qp §0.5 owns affine generic-length module cycles on Spec A, their exact additivity and quotient comparison; DeformationAndDerivedPatchingAlgebra §6.7 reuses that carrier by definitional abbreviation and supplies its own applications. Layer 7 glues the affine construction on schemes and identifies the Springer support; it does not redefine the affine cycle. DeformationAndDerivedPatchingAlgebra §§1.13–1.15 supply finite-module completion and §1.16 supplies maps on local completions and their flatness. EnhancedDerivedSheaves §§0.1–0.4 and E1.3–E1.4 owns generic derived sheaf enhancement and functor coherence; Layer 9 owns the D-specific transfer and filtered homological results.
 
-Analytic or completed category O, Galois representations, trianguline spaces, general Springer representations and rational-equivalence quotients are outside the scope. The strict algebraic category O, its integrability and its KL multiplicities are placed in §§10.4, 12.1 and 11.3, respectively, so localisation and the cycle identities have a single direction of supply. The root-wall and Lie-invariant comparisons needed by the geometry are specified as supplier contracts, not inferred from the existence of root data.
+Analytic or completed category O, Galois representations, trianguline spaces, general Springer representations and rational-equivalence quotients are outside the scope. The strict algebraic category O, its integrability and its KL multiplicities are placed in §§10.4, 12.1 and 11.3, respectively, so localisation and the cycle identities have a single direction of supply. The Jordan and centralizer, regular-Borel torsor, invariant-form and isogeny, and root-wall comparisons needed by the geometry are specified as four supplier contracts, not inferred from the existence of root data.
 
 ## Conventions
 
@@ -59,9 +59,15 @@ The Bruhat order ≤ on W is `CoxeterSystem.BruhatLE` in TauCeti/GroupTheory/Cox
 
 Layers 2, 3, 7, 8 and 9 supply, respectively, the Lie/adjoint dictionary, quotient and torsor interfaces, split roots and Bruhat decomposition, central isogenies, and pinned Chevalley–Demazure models. Layers 10A–10B supply rational T-weight labels, integration with its toral and root-action equations, and split dominant highest-weight modules with field descent and characteristic-zero simplicity. Layers 11C–11D supply the complex regular-semisimple centralizer and cameral quotient. The root-subgroup and flag comparisons retain the specified B and T after base change. Layer 7's decomposition is not alone a scheme-theoretic Schubert closure-order theorem.
 
-What ReductiveGroups must provide (gap:lie-invariants): For split connected reductive G over a field of characteristic zero or p>h, supply the arbitrary-field Lie Jordan and centralizer-dimension comparisons needed in §§2.2–2.3, the regular-semisimple Borel W-torsor and quasi-finiteness of the regular-Borel morphism; supply invariant symmetric forms and Lie/flag comparisons under central isogenies of invertible degree, the rank-one centralizer/root-vector regularity on a single root wall used in §5.3 in the same characteristic range.
+What ReductiveGroups must provide (gap:lie-invariants): For split connected reductive G over a field of characteristic zero or p>h, supply the Lie-algebra Jordan decomposition over every such field and the centralizer-dimension comparisons between an element, its semisimple part and its geometric conjugates that §§2.2–2.3 use to define and compare the regular and regular semisimple loci.
 
-The extension is in the ReductiveGroups, Part II direction. This contract concerns algebraic groups over fields, distinct from the local-field building and parahoric direction of ReductiveGroupsPartII. The root-wall input is used in §5.3; the characteristic-zero invariant quotient in §6.1 uses FormalConnectionsOpers F4.3. Neither consumes Springer normality.
+What ReductiveGroups must provide (gap:regular-borel-torsor): In the same characteristic range, supply the theorem that a regular element of g lies in only finitely many Borel subalgebras, so that the regular-Borel morphism of §2.3 is quasi-finite, and that the Borels containing the centralizer torus of a regular semisimple element form a W-torsor.
+
+What ReductiveGroups must provide (gap:lie-isogeny-forms): In the same characteristic range, supply a nondegenerate invariant symmetric form on g with a chosen form on the centre, and the comparisons of Lie algebras, flag schemes and incidence schemes under central isogenies of degree invertible in k, including G_der^sc×Z(G)°→G; these are used in §§4.2, 4.3, 6.1 and 6.3.
+
+What ReductiveGroups must provide (gap:root-wall-regularity): In the same characteristic range, over an algebraically closed field, supply the regularity of z+c·e_β for z on exactly one root wall α, c≠0 and β=±α, through the rank-one centralizer and root-vector computation used in §5.3.
+
+Each of these four extensions is in the ReductiveGroups, Part II direction: the Jordan and centralizer comparisons extend Layers 2 and 7, the regular-Borel torsor and the root-wall regularity extend Layer 7, and the invariant forms and isogeny comparisons extend Layers 8–9. These contracts concern algebraic groups over fields, distinct from the local-field building and parahoric direction of ReductiveGroupsPartII. The characteristic-zero invariant quotient in §6.1 uses FormalConnectionsOpers F4.3. None of them consumes Springer normality.
 
 ### From TauCetiRoadmap.ShimuraData
 
@@ -292,20 +298,20 @@ The construction has the following API.
 - For SL₂, zero is not regular, whereas diag(a,−a) is regular semisimple when a≠0.
 - Computed values for SL₂ E₁₂; zero; diag(1,−1): centralizer dimensions 1,3,1; regularities yes,no,yes; semisimple no,yes,yes.
 
-*Needs:* ReductiveGroups Layer 2; ReductiveGroups Layer 7; §2.1.
+*Needs:* ReductiveGroups Layer 2; ReductiveGroups Layer 7 and the Lie-invariant contract; §2.1.
 
 ### 2.3 Properness and the regular covering
 
 Assume the reductive-group and characteristic hypotheses of the conventions. The scheme g̃ is smooth and geometrically integral of dimension D. The map q is proper and surjective; q⁻¹(gʳᵉᵍ)→gʳᵉᵍ is quasi-finite (hence finite), and q⁻¹(gʳˢ)→gʳˢ is finite étale of constant degree |W|. (BHS19, Proposition 2.1.1, pp. 310–311 (BHS19 line 465)).
 
-One proof route is as follows. Smoothness and dimension follow from the bundle of rank dim B over F. Closed incidence in F×g gives properness. Every geometric Lie-algebra element is contained in a Borel subalgebra; this proves surjectivity. The regular-element Borel-finiteness theorem gives quasi-finiteness. Over a regular semisimple element the Borels containing its centralizer torus form the W-torsor; root-coordinate differentials prove étaleness. The Lie-invariant supplier contract provides these exact centralizer comparisons.
+One proof route is as follows. Smoothness and dimension follow from the bundle of rank dim B over F. Closed incidence in F×g gives properness. Every geometric Lie-algebra element is contained in a Borel subalgebra; this proves surjectivity. The regular-element Borel-finiteness theorem gives quasi-finiteness. Over a regular semisimple element the Borels containing its centralizer torus form the W-torsor; root-coordinate differentials prove étaleness. The Lie-invariant contract provides the centralizer comparisons; the regular-Borel-torsor contract provides the finiteness of Borels through a regular element and the W-torsor.
 
 **Checks.**
 
 - For SL₂, the regular semisimple fibre has two flags, while a regular nonzero nilpotent has one geometric flag. The latter statement is not a claim of étaleness there; q is ramified and is not birational.
 - Computed values for torus; SL₂ generic semisimple; regular nilpotent: degrees 1,2; one geometric flag at E₁₂ with ramification, so generic degree 2 is not birational.
 
-*Needs:* Mathlib `AlgebraicGeometry.IsFinite.of_isProper_of_locallyQuasiFinite`; §2.1; §1.2; §2.2; ReductiveGroups Layer 7; SchemeAndStackFoundations §§0.4, 0.7–0.9, 0.17–0.21, 4.13.
+*Needs:* Mathlib `AlgebraicGeometry.IsFinite.of_isProper_of_locallyQuasiFinite`; §2.1; §1.2; §2.2; ReductiveGroups Layer 7 and the Lie-invariant and regular-Borel-torsor contracts; SchemeAndStackFoundations §§0.4, 0.7–0.9, 0.17–0.21, 4.13.
 
 ### Examples
 
@@ -313,7 +319,7 @@ For SL₂ the Grothendieck resolution g̃ is the rank-two bundle over P¹ of pai
 
 ### Dependencies
 
-Mathlib `AlgebraicGeometry.IsFinite.of_isProper_of_locallyQuasiFinite`; AlgebraicVectorBundles L0B–L2B and the associated-bundle descent contract; Mathlib `CategoryTheory.Limits.pullback`; ReductiveGroups Layer 2; ReductiveGroups Layer 7; SchemeAndStackFoundations §§0.4, 0.7–0.9, 0.17–0.21, 4.13. Internal inputs are the precise subsections cited in each needs line.
+Mathlib `AlgebraicGeometry.IsFinite.of_isProper_of_locallyQuasiFinite`; AlgebraicVectorBundles L0B–L2B and the associated-bundle descent contract; Mathlib `CategoryTheory.Limits.pullback`; ReductiveGroups Layer 2; ReductiveGroups Layer 7 and the Lie-invariant and regular-Borel-torsor contracts; SchemeAndStackFoundations §§0.4, 0.7–0.9, 0.17–0.21, 4.13. Internal inputs are the precise subsections cited in each needs line.
 
 ## Layer 3: Double incidence and its components
 
@@ -524,7 +530,7 @@ The construction has the following API.
 - For the one-variable Weyl relation over F₃, [∂³,x]=3∂²=0 and [∂,x³]=3x²=0; replacing the Frobenius centre by just the characteristic-zero scalar centre misses these operators.
 - In type A₁ at p=3, ν=0 has ⟨ν−ρ,α∨⟩=−1 and is regular; ν=ρ has pairing 0 and is excluded: L_B(ρ)=O(−1) is a nonzero module over the ν=ρ twisted operators, with Frobenius character χ=0, and RΓ(P¹,O(−1))=0, so RΓ is not an equivalence there; ν=2ρ has pairing 1 and is regular, and ν=4ρ has pairing 3 and is excluded. The untransported condition ⟨ν+ρ,α∨⟩∉3Z would admit ν=ρ, with pairing 2, and exclude the regular ν=2ρ. For the empty word, both convolution-unit maps are the identity, whereas the zero kernel would act as zero.
 
-*Needs:* §§1.1, 2.1 and 3.5; ReductiveGroups Layers 2, 7 and 9; SchemeAndStackFoundations §§2.18 and 2.22; EnhancedDerivedSheaves §§0.1–0.4; the Lie-invariant and associated-bundle contracts; the crystalline-operator and localisation constructions in this subsection.
+*Needs:* §§1.1, 2.1 and 3.5; ReductiveGroups Layers 2, 7 and 9; SchemeAndStackFoundations §§2.18 and 2.22; EnhancedDerivedSheaves §§0.1–0.4; the Lie-isogeny-forms and associated-bundle descent contracts; the crystalline-operator and localisation constructions in this subsection.
 
 ### 4.3 Cohen–Macaulayness in the required generality
 
@@ -539,7 +545,7 @@ One proof route is as follows. After passing to an algebraic closure, replace G 
 - The type A₁ test applies in characteristic 3 as well as characteristic zero, and the torus test is affine space t. The scaling argument must reach generic points outside an arbitrary initial neighbourhood of the special fibre.
 - Computed values for A₁ at p=3; torus; flat disjoint-union counterexample: 3>2; depth t=r=dimension; generic bad component depth 0<1 while special fibre depth=dimension=0.
 
-*Needs:* §4.2; ReductiveGroups Layer 7; ReductiveGroups Layer 9; SchemeAndStackFoundations §§0.7, 0.17–0.18; §3.5; ReductiveGroups Layer 8.
+*Needs:* §4.2; ReductiveGroups Layer 7; ReductiveGroups Layer 9; SchemeAndStackFoundations §§0.7, 0.17–0.18; §3.5; ReductiveGroups Layer 8 and the Lie-isogeny-forms contract.
 
 ### 4.4 Flatness of the Cartan projections
 
@@ -560,7 +566,7 @@ For SL₂ every Cartan fibre of X_e and of X_s has dimension 2=D−r, and both c
 
 ### Dependencies
 
-DeformationAndDerivedPatchingAlgebra §3.3; EnhancedDerivedSheaves §§0.1–0.4; ReductiveGroups Layer 2; ReductiveGroups Layer 7; ReductiveGroups Layer 8; ReductiveGroups Layer 9; SchemeAndStackFoundations §§0.7, 0.17–0.18; SchemeAndStackFoundations §§2.18 and 2.22; the Lie-invariant and associated-bundle contracts; the crystalline-operator and localisation constructions of §4.2. Internal inputs are the precise subsections cited in each needs line.
+DeformationAndDerivedPatchingAlgebra §3.3; EnhancedDerivedSheaves §§0.1–0.4; ReductiveGroups Layer 2; ReductiveGroups Layer 7; ReductiveGroups Layer 8; ReductiveGroups Layer 9; SchemeAndStackFoundations §§0.7, 0.17–0.18; SchemeAndStackFoundations §§2.18 and 2.22; the Lie-isogeny-forms and associated-bundle descent contracts; the crystalline-operator and localisation constructions of §4.2. Internal inputs are the precise subsections cited in each needs line.
 
 ## Layer 5: Normality of the incidence components
 
@@ -603,7 +609,7 @@ One proof route is as follows. The length inequality places the indicated root s
 - For SL₂ the reflection wall is z=0 and z+cE₁₂ is regular for c≠0, although its semisimple part z is not regular. This is exactly the boundary case needed for R₁.
 - Computed values for SL₂ α-wall; GL₃ wall a=b≠c; torus: z=0 with E₁₂ centralizer dimension 1; diag(a,a,c)+E₁₂ centralizer dimension 3 in gl₃; no reflection for torus.
 
-*Needs:* §5.2; §2.2; ReductiveGroups Layer 7; ReductiveGroups Layer 2.
+*Needs:* §5.2; §2.2; ReductiveGroups Layer 7 and the root-wall-regularity contract; ReductiveGroups Layer 2.
 
 ### 5.4 Normality of the incidence components
 
@@ -624,7 +630,7 @@ For GL₃ and the three-cycle w with w(e₁)=e₂, a point of X_w with first Car
 
 ### Dependencies
 
-SchemeAndStackFoundations §4.13; Mathlib `LinearMap.ker`; ReductiveGroups Layer 2; ReductiveGroups Layer 7. Internal inputs are the precise subsections cited in each needs line.
+SchemeAndStackFoundations §4.13; Mathlib `LinearMap.ker`; ReductiveGroups Layer 2; ReductiveGroups Layer 7 and the root-wall-regularity contract. Internal inputs are the precise subsections cited in each needs line.
 
 ## Layer 6: Springer and conormal geometry
 
@@ -644,7 +650,7 @@ One proof route is to consume FormalConnectionsOpers F4.3's restriction, generat
 - For GL₂ the quotient coordinates can be trace and determinant, and their zero fibre is the nilpotent cone. The centre gives a direct counterexample to using the Killing form as a nondegenerate reductive form.
 - Computed values for torus; sl₂; gl₂ invariant form: quotient t→t identity, zero fibre point; sl₂ quotient coordinate a²+bc; trace form on gl₂ nondegenerate while Killing form vanishes on scalar centre.
 
-*Needs:* ReductiveGroups Layers 8–9 and the Lie-invariant contract; NilpotentOrbits N1 and N5.0; FormalConnectionsOpers F4.3; ReductiveGroups Layer 2; ReductiveGroups Layer 7; §2.2; §3.2; SchemeAndStackFoundations §§0.4, 0.7–0.9, 0.17–0.21, 4.13.
+*Needs:* ReductiveGroups Layers 8–9 and the Lie-isogeny-forms contract; NilpotentOrbits N1 and N5.0; FormalConnectionsOpers F4.3; ReductiveGroups Layer 2; ReductiveGroups Layer 7; §2.2; §3.2; SchemeAndStackFoundations §§0.4, 0.7–0.9, 0.17–0.21, 4.13.
 
 ### 6.2 The Springer resolution
 
@@ -683,11 +689,11 @@ One proof route is as follows. Compute T*_(gB)F=Ad(g)b⊥=Ad(g)u. The natural mo
 - For a positive-rank torus T*F is a point while g̃=t has positive dimension. For SL₂ the signed pair (−ψ,ψ) has moment sum zero; the unsigned pair need not.
 - Computed values for SL₂; two cotangent factors; torus: dim T*F=2; product 4 and moment −ψ+ψ=0 versus 2ψ; torus cotangent point versus g̃×g̃ dimension 2r.
 
-*Needs:* NilpotentOrbits N7; §6.2; §1.3; ReductiveGroups Layer 2.
+*Needs:* NilpotentOrbits N7; §6.2; §6.1; §1.3; ReductiveGroups Layer 2 and the Lie-isogeny-forms contract.
 
 ### 6.4 The reduced Steinberg variety
 
-Define Z=(X×_c{0})_red, and define Z_w as the reduced closure in Z of V′_w=π⁻¹(U_w)∩Z. There is a canonical isomorphism Z≅(𝒩̃×_𝒩𝒩̃)_red. The raw fibre-product comparison without reduction is a separate target, not part of this definition. (BHS19, §2.4 and Proposition 2.4.1, pp. 320–321 (BHS19 line 842)).
+Define Z=(X×_c{0})_red, and define Z_w as the reduced closure in Z of V′_w=π⁻¹(U_w)∩Z. There is a canonical isomorphism Z≅(𝒩̃×_𝒩𝒩̃)_red. Whether the scheme fibre product 𝒩̃×_𝒩𝒩̃ is itself reduced is not asserted; every cycle statement below is about the reduced Z, and the Steinberg display of BHS19 is read in the reduced-variety convention. (BHS19, §2.4 and Proposition 2.4.1, pp. 320–321 (BHS19 line 842)).
 
 One proof route is as follows. Form the nilpotent fibre of the common operator map and then its reduction. After reduction the two Borel conditions force both toral parts to vanish; compare the two reduced functors on reduced test schemes or radical ideals. Define each component by reduced closure, retaining its label from the relative-position orbit.
 
@@ -707,22 +713,7 @@ The construction has the following API.
 
 *Needs:* §3.1; §6.1; §6.2; §3.5; §5.1.
 
-### 6.5 Scheme comparison for the Steinberg fibre product
-
-Let Q=𝒩̃×_𝒩𝒩̃ be the scheme fibre product in characteristic zero. The canonical closed immersion Z≅Q_red→Q is an isomorphism if and only if Q is reduced. Thus Z≅Q without reduction is conditional on radicality of the local incidence ideals; equality of geometric points alone does not establish that condition. (BHS19, Beginning of §2.4, pp. 319–320, displayed Steinberg comparison (BHS19 line 800)).
-
-This comparison is precisely the conditional statement. It imposes no unproved radicality assumption on subsequent targets. Nilpotent thickenings with the same geometric points cannot be identified by a point-set argument.
-
-One proof route is as follows. Construct the closed immersion from the reduced fibre product. The immersion is an isomorphism exactly when the nilradical sheaf of Q vanishes. Reducedness of Q is a hypothesis of this conditional comparison, not an input supplied elsewhere. The BHS display may be read in the reduced-variety convention; it is not used as a scheme-level reducedness theorem, and no subsequent cycle theorem assumes it.
-
-**Checks.**
-
-- For a torus both raw and reduced Springer fibre products are a point. In higher rank this elementary case does not prove radicality; the comparison remains conditional on reducedness of Q and is not used by the cycle identities.
-- Computed values for Q=Spec k; Q=Spec k[ε]/ε²: reduction map is iso with lengths 1=1; nonreduced reduction map has source length 1 and target length 2, so no iso.
-
-*Needs:* §6.4; §6.2; §6.1.
-
-### 6.6 Components and conormal closures
+### 6.5 Components and conormal closures
 
 Z is equidimensional of dimension 2N; its irreducible components are exactly the distinct Z_w, w∈W. Under the signed cotangent embedding, Z_w is the reduced conormal closure of U_w. Each V′_w→U_w is a vector bundle of rank N−ℓ(w). No CM or normality assertion for Z_w is included. (BHS19, Proposition 2.4.1, p. 320; §2.4, p. 321 (BHS19 line 842)).
 
@@ -741,7 +732,7 @@ For SL₂ the nilpotent cone is the quadric cone a²+bc=0 and the Springer resol
 
 ### Dependencies
 
-FormalConnectionsOpers F4.3; NilpotentOrbits N1, N5.0 and N7; ReductiveGroups Layer 2; ReductiveGroups Layer 7; ReductiveGroups Layers 8–9 and the Lie-invariant contract; SchemeAndStackFoundations §§0.4, 0.7–0.9, 0.17–0.21, 4.13. Internal inputs are the precise subsections cited in each needs line.
+FormalConnectionsOpers F4.3; NilpotentOrbits N1, N5.0 and N7; ReductiveGroups Layer 2; ReductiveGroups Layer 7; ReductiveGroups Layers 8–9 and the Lie-isogeny-forms contract; SchemeAndStackFoundations §§0.4, 0.7–0.9, 0.17–0.21, 4.13. Internal inputs are the precise subsections cited in each needs line.
 
 ## Layer 7: Integral cycles and Cartan zero fibres
 
@@ -767,7 +758,7 @@ The construction has the following API.
 - On Y=A¹, Z₁(Y) has the one generator [A¹]; the native zero-dimensional cycle [0] is not an element of this top-dimensional subgroup.
 - Computed values for coordinate axes; point; A¹: Z₁(axes)=Z²; Z₀(point)=Z; Z₁(A¹)=Z while [0] has degree 0.
 
-*Needs:* §6.6; SchemeAndStackFoundations §5.1; Mathlib `AlgebraicGeometry.AlgebraicCycle`; Mathlib `Finsupp`.
+*Needs:* §6.5; SchemeAndStackFoundations §5.1; Mathlib `AlgebraicGeometry.AlgebraicCycle`; Mathlib `Finsupp`.
 
 ### 7.2 Gluing the affine generic-length cycle
 
@@ -1143,7 +1134,7 @@ One proof route is as follows. Choose an equivariant good filtration locally. Di
 - For H=Z/2 swapping the two points of Y=Spec k⊔Spec k there is one orbit with trivial stabilizer; its trivial connection O_Y=k⊕k is the unique simple equivariant object, yet it is not a simple D_Y-module, since δ at either point is a D_Y-submodule that is not H-stable. For connected H, strong equivariance is a property of the underlying D_Y-module inherited by D_Y-submodules, so the two readings agree.
 - Computed values for G_m on point; SL₂ double flags: weight 1 rejected; two orbits and two trivial rank-one orbit simples; moment on signed pair −ψ+ψ=0.
 
-*Needs:* §9.8; §9.7; §9.6; §6.3; §6.6; §1.1; ReductiveGroups Layer 7.
+*Needs:* §9.8; §9.7; §9.6; §6.3; §6.5; §1.1; ReductiveGroups Layer 7.
 
 ### Examples
 
@@ -1278,7 +1269,7 @@ One proof route is as follows. The simple object is the intermediate extension o
 - For SL₂ both orbit closures are smooth, so ℒ_e=[Z_e] and ℒ_s=[Z_s]; the off-diagonal simple coefficient vanishes even though the corresponding Verma coefficient does not.
 - Computed values for SL₂ e,s and smooth orbit closures: a_e,e=a_s,s=1; a_s,e=a_e,s=0; simple cycles (1,0),(0,1).
 
-*Needs:* §10.4; §10.3; §9.9; §9.6; §8.6; §6.6; §1.4.
+*Needs:* §10.4; §10.3; §9.9; §9.6; §8.6; §6.5; §1.4.
 
 ### 11.3 The Kazhdan–Lusztig multiplicity theorem
 
@@ -1319,7 +1310,7 @@ One proof route is as follows. The component family is the defining free basis. 
 - For SL₂ the component and simple bases coincide, while the zero-fibre basis is [Z_e], [Z_e]+[Z_s]. The transition has integral determinant 1 and inverse with one negative off-diagonal entry.
 - Computed values for A₁; torus: A=identity; M=((1,0),(1,1)), det=1 and inverse ((1,0),(−1,1)); torus matrix (1).
 
-*Needs:* §7.1; §6.6; §11.2; §11.3.
+*Needs:* §7.1; §6.5; §11.2; §11.3.
 
 ### Examples
 
@@ -1508,7 +1499,7 @@ One proof route is as follows. Take a prime filtration of the finite local modul
 - For a point and a two-dimensional module, completion leaves cycle coefficient 2. For the irreducible nodal curve in the nodal-curve example in §14.1, completion must preserve the sum of both formal branches rather than one chosen branch.
 - Computed values for point k²; node structure sheaf; smaller-support point on curve: 2=2·1; one global coefficient 1 becomes (1,1) on two formal branches; degree-1 cycle of point module 0 before and after completion.
 
-*Needs:* §14.1; §7.2; §7.4; §6.6; DeformationAndDerivedPatchingAlgebra §§1.13–1.16; SchemeAndStackFoundations §§0.16, 0.21 and the equidimensional-completion contract.
+*Needs:* §14.1; §7.2; §7.4; §6.5; DeformationAndDerivedPatchingAlgebra §§1.13–1.16; SchemeAndStackFoundations §§0.16, 0.21 and the equidimensional-completion contract.
 
 ### 14.3 The completed simple cycles
 
