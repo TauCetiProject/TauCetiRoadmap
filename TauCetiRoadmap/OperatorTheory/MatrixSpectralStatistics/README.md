@@ -247,18 +247,18 @@ concentration.
 
 ## Worked examples (acceptance criteria)
 
-### Part A
+### Part A — rank factorization and positive-semidefinite Gram factorization
 
 The rank-factorization characterization is `MSS-A01`–`MSS-A03`; the Gram characterization is
 `MSS-A04`–`MSS-A07`; the two natural uniqueness actions are `MSS-A08`–`MSS-A09`.
 
-### Part B
+### Part B — matrix spectra and spectral measurability
 
 The deterministic entrywise-to-spectral path is `MSS-B03`–`MSS-B08`. The continuous and
 fixed-threshold measurable spectral constructions are `MSS-B09`–`MSS-B14`. The convergence-in-
 measure consumers are `MSS-B16`–`MSS-B19`.
 
-### Part C
+### Part C — sample moments and matrix concentration
 
 The `1/r` sample-mean scale is `MSS-C02`–`MSS-C05`; the exact add-one scatter calculus is
 `MSS-C06`–`MSS-C14`; and the sample-second-moment concentration path is `MSS-C15`–`MSS-C23`.
