@@ -243,6 +243,13 @@ Mathlib and Tau Ceti only, through the contracts above. No other layer is an inp
 
 ## Layer 1: simple modules, Schur, and isotypic components
 
+The earlier separate Layer 1.5 is now §1.3 of this layer; Layers 0–6 keep their numbers, so a
+citation of Layers 1.5–2 reads as §1.3 and Layer 2.
+
+| Earlier label | Present location |
+| --- | --- |
+| Layer 1.5: every simple module is a minimal left ideal | §1.3 Simple modules as minimal left ideals |
+
 ### 1.1 Schur's lemma
 
 Over any ring, `Module.End.instDivisionRing` makes the endomorphism ring of a simple module a
