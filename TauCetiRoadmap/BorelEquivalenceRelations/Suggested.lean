@@ -72,9 +72,12 @@ theorem IsGδ.polishSpace {X : Type u} [TopologicalSpace X] [PolishSpace X] {s :
     (hs : IsGδ s) : PolishSpace s := by
   sorry
 
-/-- The converse (Alexandrov), as in Mathlib PR #42912 for a metrizable ambient space. -/
-theorem isGδ_of_polishSpace_subtype {X : Type u} [TopologicalSpace X]
-    [TopologicalSpace.MetrizableSpace X] {s : Set X} [PolishSpace s] : IsGδ s := by
+/-- The converse (Alexandrov), as in Mathlib PR #42912: a subset of a `T6` space that is
+completely metrizable in the subspace topology is Gδ. Metrizable spaces are `T6`, and Polish
+subspaces are the separable case. -/
+theorem _root_.TopologicalSpace.IsCompletelyMetrizableSpace.isGδ {X : Type u}
+    [TopologicalSpace X] [T6Space X] {s : Set X}
+    (hs : TopologicalSpace.IsCompletelyMetrizableSpace s) : IsGδ s := by
   sorry
 
 theorem _root_.IsGδ.standardBorelSpace {X : Type u} [TopologicalSpace X] [PolishSpace X]
