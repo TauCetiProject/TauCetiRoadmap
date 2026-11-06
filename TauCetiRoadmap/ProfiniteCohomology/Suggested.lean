@@ -10,13 +10,16 @@ import TauCeti.RepresentationTheory.Homological.ContCohomology.Corestriction.Bas
 import TauCeti.RepresentationTheory.Homological.ContCohomology.DegreeZero
 import TauCeti.RepresentationTheory.Homological.ContCohomology.DeltaNaturality
 import TauCeti.RepresentationTheory.Homological.ContCohomology.Evens.Class
-import TauCeti.RepresentationTheory.Homological.ContCohomology.ExactCochains
+import TauCeti.RepresentationTheory.Homological.ContCohomology.ExactCochains.Basic
+import TauCeti.RepresentationTheory.Homological.ContCohomology.ExactCochains.Topology
 import TauCeti.RepresentationTheory.Homological.ContCohomology.ExplicitFunctoriality
 import TauCeti.RepresentationTheory.Homological.ContCohomology.FiniteQuotient.Basic
 import TauCeti.RepresentationTheory.Homological.ContCohomology.FiniteQuotient.Colimit
 import TauCeti.RepresentationTheory.Homological.ContCohomology.FiniteQuotient.DegreeTwoDescent
 import TauCeti.RepresentationTheory.Homological.ContCohomology.Functoriality
-import TauCeti.RepresentationTheory.Homological.ContCohomology.GroupCohomologyIso
+import TauCeti.RepresentationTheory.Homological.ContCohomology.GroupCohomologyIso.Basic
+import TauCeti.RepresentationTheory.Homological.ContCohomology.GroupCohomologyIso.CoeffMap
+import TauCeti.RepresentationTheory.Homological.ContCohomology.GroupCohomologyIso.Corestriction
 import TauCeti.RepresentationTheory.Homological.ContCohomology.HomologySequence
 import TauCeti.RepresentationTheory.Homological.ContCohomology.Inflation.ConnectingMap
 import TauCeti.RepresentationTheory.Homological.ContCohomology.Inflation.Comparison
@@ -25,7 +28,7 @@ import TauCeti.RepresentationTheory.Homological.ContCohomology.ProjectionFormula
 import TauCeti.RepresentationTheory.Homological.ContCohomology.Shapiro.Basic
 import TauCeti.RepresentationTheory.Homological.ContCohomology.SmoothDiscrete.Basic
 import TauCeti.RepresentationTheory.Homological.ContCohomology.Transgression
-import TauCeti.RepresentationTheory.Homological.ContCohomology.Cup.ConnectingMap
+import TauCeti.RepresentationTheory.Homological.ContCohomology.Cup.ConnectingMap.Basic
 import TauCeti.RepresentationTheory.Homological.ContCohomology.TrivialF2
 import TauCeti.FieldTheory.Galois.AbsoluteGaloisGroup.FiniteExtension
 import TauCeti.FieldTheory.GaloisCohomology.BrauerTorsion
@@ -1491,7 +1494,7 @@ theorem explicitDelta0_apply (S : DiscreteShortExact G A B C) (c : H0 G C) (b : 
     (hb : S.proj b = (c : C)) (a : G → A) (ha : ∀ g : G, S.incl (a g) = g • b - b)
     (hmem : a ∈ Z1 G A) :
     explicitDelta0 G A B C S c = H1pi G A ⟨a, hmem⟩ :=
-  TauCeti.ContCohomology.DiscreteShortExact.explicitDelta0_apply S c hb hmem ha
+  TauCeti.ContCohomology.DiscreteShortExact.explicitDelta0_apply S c hb ha
 
 /-- **Layer 5, the connecting map `δ¹ : H¹(G, C) → H²(G, A)`.** -/
 noncomputable abbrev explicitDelta1 (S : DiscreteShortExact G A B C) : H1 G C →+ H2 G A :=
@@ -1504,7 +1507,7 @@ theorem explicitDelta1_apply (S : DiscreteShortExact G A B C) (f : Z1 G C)
     (e : G → B) (he : Continuous e) (hef : ∀ g : G, S.proj (e g) = (f : G → C) g)
     (a : G × G → A) (ha : ∀ q : G × G, S.incl (a q) = d1 G B e q) (hmem : a ∈ Z2 G A) :
     explicitDelta1 G A B C S (H1pi G C f) = H2pi G A ⟨a, hmem⟩ :=
-  TauCeti.ContCohomology.DiscreteShortExact.explicitDelta1_apply S f he hef hmem
+  TauCeti.ContCohomology.DiscreteShortExact.explicitDelta1_apply S f he hef
     fun g h => (ha (g, h)).trans (TauCeti.ContCohomology.d1_apply e g h)
 
 /-- **Layer 5, exactness at `H⁰(G, A)`,** the first of the eight nodes (NSW (1.3.2)). -/
@@ -3082,7 +3085,7 @@ theorem cohomologicalDimensionLE_iff_torsion (n : ℕ) :
     CohomologicalDimensionLE p G n ↔
       ∀ (M : Type u) [AddCommGroup M] [TopologicalSpace M] [DiscreteTopology M]
         [DistribMulAction G M] [ContinuousSMul G M],
-        AddMonoid.IsTorsion M → ∀ i : ℕ, n < i →
+        IsAddTorsion M → ∀ i : ℕ, n < i →
           AddCommGroup.primaryComponent
             ((continuousCohomology ℤ G i).obj (ofDiscreteModule G M)) p = ⊥ :=
   sorry
@@ -4365,7 +4368,8 @@ noncomputable def indexTwoCharacter (U : Subgroup G) (hU : U.index = 2) :
   map_one' := by simp [U.one_mem]
   map_mul' x y := by
     have h := Subgroup.mul_mem_iff_of_index_two hU (a := x) (b := y)
-    by_cases hx : x ∈ U <;> by_cases hy : y ∈ U <;> (simp [hx, hy, h]; try decide)
+    by_cases hx : x ∈ U <;> by_cases hy : y ∈ U <;> simp [hx, hy, h]
+    decide
 
 /-- The character vanishes on `U`. -/
 theorem toAdd_indexTwoCharacter_of_mem {U : Subgroup G} (hU : U.index = 2) {γ : G} (h : γ ∈ U) :
@@ -5083,14 +5087,14 @@ noncomputable abbrev trivialF2 : TopRep ℤ G :=
   TauCeti.trivialF2 G
 
 /-- **Layer 13, restriction preserves the trivial `𝔽₂` object,** on the nose: Tau Ceti's
-`TauCeti.res_trivialF2`, as an isomorphism. -/
+`TauCeti.res_trivialF2_hom`, as an isomorphism. -/
 noncomputable def trivialF2Res (S : Subgroup G) :
     (TopRep.resFunctor S.subtype).obj (trivialF2 G) ≅ trivialF2 S :=
-  eqToIso (TauCeti.res_trivialF2 G S)
+  eqToIso (TauCeti.res_trivialF2_hom S.subtype)
 
 /-- **Layer 13, restriction on cohomology with trivial `𝔽₂` coefficients,** Tau Ceti's
 `TauCeti.trivialF2ResMap`: the generic restriction `res` followed by the identification
-`TauCeti.res_trivialF2` (`TauCeti.trivialF2ResMap_def`). -/
+`TauCeti.res_trivialF2_hom` (`TauCeti.trivialF2ResMap_def`). -/
 noncomputable abbrev trivialF2ResMap (S : Subgroup G) (n : ℕ) :
     (continuousCohomology ℤ G n).obj (trivialF2 G) ⟶
       (continuousCohomology ℤ S n).obj (trivialF2 S) :=
@@ -5332,20 +5336,23 @@ noncomputable def f2Pairing (G : Type u) [Group G] [TopologicalSpace G] [IsTopol
 /-- **Layer 13, the image of an open subgroup in a quotient,** `U ⧸ N` as an open subgroup of
 `G ⧸ N`, for closed normal `N ≤ U`. The inflation compatibility of the norm is a statement about
 these two groups, so the subgroup has to be named before it can be stated. It is Tau Ceti's
-`TauCeti.quotientOpenSubgroup` (`TauCeti/Topology/Algebra/Group/Quotient/Basic.lean`), which needs
+`Subgroup.quotientOpenSubgroup` (`TauCeti/Topology/Algebra/Group/Quotient/Basic.lean`), which needs
 neither the closedness of `N` nor `N ≤ U`. -/
 abbrev quotientOpenSubgroup (N : Subgroup G) [N.Normal] (_hN : IsClosed (N : Set G))
     (U : OpenSubgroup G) (_hNU : N ≤ U) :
     OpenSubgroup (G ⧸ N) :=
-  TauCeti.quotientOpenSubgroup N U
+  Subgroup.quotientOpenSubgroup N U
 
-/-- **Layer 13, the index is unchanged by passing to the quotient,** for `N ≤ U`: Tau Ceti's
-`TauCeti.quotientOpenSubgroup_index`. Without it the two sides of the inflation compatibility below
-sit in different degrees. -/
+/-- **Layer 13, the index is unchanged by passing to the quotient,** for `N ≤ U`: the image
+subgroup `U.map (mk' N)` has the index of `U` by Mathlib's `Subgroup.index_map_eq`, since
+`ker (mk' N) = N ≤ U`. Without it the two sides of the inflation compatibility below sit in
+different degrees. -/
 theorem quotientOpenSubgroup_index (N : Subgroup G) [N.Normal] (hN : IsClosed (N : Set G))
     (U : OpenSubgroup G) (hNU : N ≤ U) :
-    (quotientOpenSubgroup N hN U hNU).toSubgroup.index = U.toSubgroup.index :=
-  TauCeti.quotientOpenSubgroup_index N U hNU
+    (quotientOpenSubgroup N hN U hNU).toSubgroup.index = U.toSubgroup.index := by
+  rw [quotientOpenSubgroup, Subgroup.toSubgroup_quotientOpenSubgroup]
+  exact Subgroup.index_map_eq _ (QuotientGroup.mk'_surjective N)
+    (by rwa [QuotientGroup.ker_mk'])
 
 /-- **Layer 13, the invariants of the trivial `𝔽₂` object are the trivial `𝔽₂` object.** -/
 noncomputable def trivialF2Quotient (N : Subgroup G) [N.Normal] (hN : IsClosed (N : Set G))
