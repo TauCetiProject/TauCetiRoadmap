@@ -5,8 +5,8 @@ import TauCeti.AlgebraicGeometry.LineBundle.Basic
 import TauCeti.AlgebraicGeometry.Modules.TensorProduct
 import TauCeti.AlgebraicGeometry.Modules.Pullback.Basic
 import TauCeti.AlgebraicGeometry.RelativeSpec.Functor
-import TauCeti.Algebra.Category.ModuleCat.Sheaf.SymmetricPower
-import TauCeti.Algebra.Category.ModuleCat.Sheaf.ExteriorPower
+import TauCeti.Algebra.Category.ModuleCat.Sheaf.SymmetricPower.Basic
+import TauCeti.Algebra.Category.ModuleCat.Sheaf.ExteriorPower.Basic
 
 /-!
 # Algebraic vector bundles: target signatures

@@ -164,7 +164,7 @@ At Tau Ceti `a91d3aa`:
   (TauCeti/AlgebraicGeometry/LineBundle/Basic.lean), and `FinitelyPresentedSheaf X`;
 - powers: `SheafOfModules.symmetricPower`, `SheafOfModules.exteriorPower`, the sheafification of
   the sectionwise powers, with their degree-zero and degree-one isomorphisms
-  (TauCeti/Algebra/Category/ModuleCat/Sheaf/SymmetricPower.lean, ExteriorPower.lean);
+  (TauCeti/Algebra/Category/ModuleCat/Sheaf/SymmetricPower/Basic.lean, ExteriorPower/Basic.lean);
 - relative Spec (TauCeti/AlgebraicGeometry/RelativeSpec/): `CommMon.relativeSpec`,
   `CommMon.relativeSpecToBase`, `CommMon.isPullback_relativeSpecCover`, `QuasicoherentAlgebra`,
   `AffineSchemeOver`, `relativeSpec`, `TauCeti.AlgebraicGeometry.relativeSpecAffineIso`.
