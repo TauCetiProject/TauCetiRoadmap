@@ -23,6 +23,20 @@ public import TauCeti.RingTheory.StrictHenselization.MaximalIdeal
 public import TauCeti.RingTheory.StrictHenselization.Etale
 public import TauCeti.RingTheory.StrictHenselization.Lift
 public import TauCeti.RingTheory.StrictHenselization.Map
+public import TauCeti.CategoryTheory.EffectiveEpi.Descent
+public import TauCeti.AlgebraicGeometry.Descent.Affine
+public import TauCeti.AlgebraicGeometry.Descent.AffineMorphism
+public import TauCeti.AlgebraicGeometry.Descent.FiniteLocallyFree
+public import TauCeti.AlgebraicGeometry.Descent.MorphismProperty
+public import TauCeti.AlgebraicGeometry.Descent.Proj
+public import TauCeti.AlgebraicGeometry.FiniteEtale.Galois.Basic
+public import TauCeti.AlgebraicGeometry.FiniteEtale.EtaleLocallySplit
+public import TauCeti.AlgebraicGeometry.PicardFunctor.Relative
+public import TauCeti.AlgebraicGeometry.PicardFunctor.PicZero.Fppf
+public import TauCeti.AlgebraicGeometry.PicardFunctor.Abel.Fppf
+public import TauCeti.AlgebraicGeometry.AffineGroupScheme.CartierDuality.Constant
+public import TauCeti.AlgebraicGeometry.AffineGroupScheme.CartierDuality.BaseChange
+public import TauCeti.AlgebraicGeometry.AffineGroupScheme.CartierDuality.Rank
 
 /-!
 # Modular curves, following Katz–Mazur: target signatures
@@ -50,9 +64,14 @@ quotients), KM 8.1.1 and 8.1.5 (coarse moduli schemes and their quotients), the
 quotient-smoothness theorem of KM's Notes Added in Proof (Layer 9D), the base-change lemma for
 invariant rings of Layer 9E, the algebraic reduction of geometric irreducibility of Layer 5C, and
 the clauses of Layer 4D not at the pin (the separably closed residue field of the strict
-henselization, its Noetherianity, and the completion statements). KM 2.3.1 and the killed-by-rank
-theorem of Layer 0B are proved at the pinned Tau Ceti and are cited in `README.md`, §Exact
-supplier contracts, not restated.
+henselization, its Noetherianity, and the completion statements). KM 2.3.1, the killed-by-rank
+theorem of Layer 0B, the Galois description of finite étale schemes over a field (Layer 0D), the
+affine, finite locally free and closed-subscheme cases of effective faithfully flat descent with
+the descent of sections and morphisms (Layer 0E), Cartier duality over an affine base (Layer 0B),
+and the relative Picard functor with its
+rigidified form, its degree-zero subsheaf and the Abel–Jacobi map (Layer 2D) are proved or
+constructed at the pinned Tau Ceti and are cited in `README.md`, §Exact supplier contracts, not
+restated.
 
 Headline theorems not statable at the pins, and what each lacks:
 
@@ -63,7 +82,11 @@ Headline theorems not statable at the pins, and what each lacks:
   Isomorphism Theorem KM 6.2.1: the generator scheme `Gˣ`, the relative subgroup Grassmannian of
   Layer 0G over a non-affine base and Drinfeld generators;
 * the dual isogeny, Cartier–Nishi duality and the scheme-theoretic Weil pairing (KM 2.5–2.8): the
-  relative Picard functor of Layer 2D and the multiplicative group over an arbitrary base;
+  pullback homomorphism `Pic⁰(φ)` of degree-zero relative Picard sheaves along a homomorphism `φ`
+  of elliptic curves and the normalised Poincaré bundle of Layer 2D, from which the dual, the
+  Cartier–Nishi pairing and `e_N` are constructed, and Cartier duality over a non-affine base
+  (Layer 0B). The relative Picard functor with its degree-zero subsheaf, Cartier duality over an
+  affine base, and `𝔾_m` and `μ_N` as fpqc sheaves over any base are at the pin;
 * the coarse `j`-line KM 8.2.1: the `j`-invariant of an elliptic curve over a base as a morphism
   to `Spec ℤ[j]` (Layer 1C);
 * `Y₁(N)`, `Y_full(N)`, `Y(ρ)` (Layer 5) and every statement of Layer 10: the quotient curves
@@ -139,6 +162,50 @@ attribute [local instance] CategoryTheory.Over.cartesianMonoidalCategory
 #check @TauCeti.StrictHenselization.exists_isLocalHom_lift
 #check @TauCeti.StrictHenselization.existsUnique_algHom_of_etale
 #check @TauCeti.StrictHenselization.existsUnique_map
+#check @AlgebraicGeometry.Scheme.fpqcTopology
+#check @AlgebraicGeometry.GeometricallyConnected
+#check @TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat
+#check @TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat.cartierDuality
+#check @TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat.cartierDual
+#check @TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat.cartierDualDualIso
+#check @TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat.cartierDualBaseChangeIso
+#check @TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat.finrank_cartierDual
+#check @TauCeti.ConstantGroup.finiteLocallyFreeGroupScheme
+#check @TauCeti.DiagonalizableGroup.finiteLocallyFreeGroupScheme
+#check @TauCeti.ConstantGroup.cartierDualIso
+#check @TauCeti.DiagonalizableGroup.cartierDualIso
+#check @TauCeti.DescentDatum
+#check @TauCeti.DescentDatum.baseChange
+#check @TauCeti.sectionDescentEquiv
+#check @TauCeti.homDescentEquiv
+#check @TauCeti.DescentDatum.baseChangeHomEquiv
+#check @TauCeti.DescentDatum.Hom.descendIso
+#check @TauCeti.DescentDatum.exists_isAffine_baseChange_hom_isIso
+#check @TauCeti.DescentDatum.descended
+#check @TauCeti.DescentDatum.isIso_toBaseChangeDescended_hom
+#check @TauCeti.DescentDatum.isPullback_toDescended
+#check @TauCeti.DescentDatum.exists_finiteLocallyFree_baseChange_hom_isIso
+#check @AlgebraicGeometry.IsClosedImmersion.descendsAlong_surjective_inf_flat_inf_quasiCompact
+#check @AlgebraicGeometry.IsFinite.descendsAlong_surjective_inf_flat_inf_quasiCompact
+#check @TauCeti.DescentDatum.isClosedImmersion_descended_hom
+#check @TauCeti.Algebra.DescentDatum.isPullback_proj_map_descendedGradedVal
+#check @TauCeti.FiniteEtaleScheme
+#check @TauCeti.FiniteEtaleScheme.essImage_mapGrp_ι_iff
+#check @TauCeti.FiniteEtaleScheme.isFinite_hom_left
+#check @TauCeti.FiniteEtaleScheme.etale_hom_left
+#check @AlgebraicGeometry.Scheme.Hom.exists_split_etaleLocally
+#check @TauCeti.FiniteEtaleScheme.galoisEquivalence
+#check @TauCeti.FiniteEtaleScheme.galoisEquivalenceGrp
+#check @TauCeti.FiniteEtaleScheme.galoisEquivalenceCommGrp
+#check @TauCeti.FiniteEtaleScheme.galoisEquivalenceAlternatingPairingEquiv
+#check @TauCeti.AlgebraicGeometry.relativePicardPresheaf
+#check @TauCeti.AlgebraicGeometry.rigidifiedPicardFunctor
+#check @TauCeti.AlgebraicGeometry.rigidifiedPicardFunctorIso
+#check @TauCeti.AlgebraicGeometry.relativePicardFppfSheaf
+#check @TauCeti.AlgebraicGeometry.relativePicardDegreeZeroSubfunctor
+#check @TauCeti.AlgebraicGeometry.relativePicardDegreeZeroFppfSheaf
+#check @TauCeti.AlgebraicGeometry.relativePicardDegreeZeroFppfSheafι
+#check @TauCeti.AlgebraicGeometry.abelJacobiMapToPicZeroFppf
 
 universe u v
 

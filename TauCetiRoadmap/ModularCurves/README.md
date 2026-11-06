@@ -57,9 +57,12 @@ supplier contract, and is not built here; no unconditional irreducibility theore
 Picard scheme are not reconstructed here. This roadmap consumes the line-bundle,
 curve-cohomology, Riemann–Roch, Serre-duality, and cohomology-and-base-change foundations from the
 [Jacobian Challenge roadmap](../JacobianChallenge/README.md). It then proves the relative
-genus-one consequences needed here. In particular, because the present Jacobian Challenge
-contract constructs the Picard scheme only for a curve over a field, Layer 2D owns the narrowly
-scoped relative Picard functor and Poincaré bundle for an elliptic curve over an arbitrary base.
+genus-one consequences needed here. In particular, because the Jacobian Challenge contract
+constructs the Picard scheme only for a curve over a field, Layer 2D owns, for an elliptic curve
+over an arbitrary base, the representability of the degree-zero relative Picard sheaf by the curve
+itself and the Poincaré bundle. The relative Picard functor over an arbitrary base, its rigidified
+form, its degree-zero subsheaf and the Abel–Jacobi map are Tau Ceti's (§Exact supplier
+contracts).
 
 This roadmap owns the scheme-theoretic theory of elliptic curves needed for modular curves.
 Equation-level arithmetic is Tau Ceti's and the Elliptic Curves roadmap's. The direct
@@ -85,11 +88,12 @@ supplier has not stated would have to invent them, which is the failure mode thi
 everywhere else.
 
 The fppf descent statements for line bundles and the additional scheme data used here are proved
-in Layer 0E from the shared descent infrastructure; they are not attributed to the field-valued
-Picard endpoint of the Jacobian Challenge.
+in Layer 0E from Tau Ceti's descent library (§Exact supplier contracts); they are not attributed to
+the field-valued Picard endpoint of the Jacobian Challenge.
 
 This roadmap retains the relative-curve divisor lemmas special to KM, the explicit computation of
-`π_*𝒪_E(n[0])`, the relative genus-one Picard and Poincaré construction, elliptic autoduality, the
+`π_*𝒪_E(n[0])`, the representability of the relative genus-one Picard sheaf and the Poincaré
+construction, elliptic autoduality, the
 comparison of the two constructions of the dual isogeny, Cartier–Nishi kernel duality, and the Weil
 pairing.
 
@@ -206,8 +210,12 @@ and locally of finite presentation give a locally constant rank), Mathlib's rela
 normalisation `Scheme.Hom.normalization` with `toNormalization`, `fromNormalization`,
 `normalizationDesc` and `normalization.hom_ext` (Layer 10), the group objects `GrpObj`,
 `IsCommMonObj` and `IsMonHom` of a cartesian monoidal category with the group structure on
-morphisms into a commutative group object (Convention 2 and Layer 2A), and `FormalGroup` (Layer
-7G) are consumed as they stand.
+morphisms into a commutative group object (Convention 2 and Layer 2A), `FormalGroup` (Layer 7G),
+`AlgebraicGeometry.Scheme.fpqcTopology` (file `Mathlib/AlgebraicGeometry/Sites/Fpqc.lean`) with its
+instance that the fpqc topology is subcanonical and its instances that a flat surjective morphism
+which is quasi-compact, or locally of finite presentation, is an effective epimorphism (Layer 0E),
+and `AlgebraicGeometry.GeometricallyConnected`, every fibre over a field-valued point connected
+(Layer 2D), are consumed as they stand.
 
 ### From Tau Ceti
 
@@ -336,6 +344,80 @@ morphisms into a commutative group object (Convention 2 and Layer 2A), and `Form
   colimit of pointed étale neighbourhoods, with the properties of Stacks, Tag 04GP, its universal
   property (Tag 08HQ), the Stacks-form points of étale algebras (Tag 04GT), its functoriality
   (Tag 04GU) and its compatibility with quotients.
+- `TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat R` with
+  `FiniteLocallyFreeCommAffineGroupSchemeCat.cartierDuality`, `cartierDual` and
+  `cartierDualDualIso` (file
+  `TauCeti/AlgebraicGeometry/AffineGroupScheme/CartierDuality/FiniteLocallyFree.lean`),
+  `cartierDualBaseChangeIso` (file `CartierDuality/BaseChange.lean`), `finrank_cartierDual` (file
+  `CartierDuality/Rank.lean`), and `ConstantGroup.finiteLocallyFreeGroupScheme`,
+  `DiagonalizableGroup.finiteLocallyFreeGroupScheme`, `ConstantGroup.cartierDualIso` and
+  `DiagonalizableGroup.cartierDualIso` (file `CartierDuality/Constant.lean`): over a commutative
+  ring `R`, the finite locally free commutative affine group schemes over `Spec R`, Cartier duality
+  on them as an anti-equivalence with the double-dual isomorphism, its compatibility with base
+  change along `Spec R' ⟶ Spec R`, the equality of the rank functions of `G` and its dual, and the
+  finite constant and diagonalizable group schemes of a finite commutative group with their mutual
+  duality, with no invertibility hypothesis on the order. Layer 0B globalises these to an arbitrary
+  base.
+- `TauCeti.DescentDatum p X` (file `TauCeti/CategoryTheory/Limits/Shapes/Pullback/DescentDatum.lean`):
+  a descent datum relative to `p : S' ⟶ S` on an object `X` over `S'`, in action form with the
+  cocycle condition, and the canonical datum `DescentDatum.baseChange p X₀` on a base change.
+  `TauCeti.sectionDescentEquiv`, `TauCeti.homDescentEquiv`, `DescentDatum.baseChangeHomEquiv` and
+  `DescentDatum.Hom.descendIso` (file `TauCeti/CategoryTheory/EffectiveEpi/Descent.lean`): sections
+  descend uniquely along `p` when `p` is an effective epimorphism, morphisms over `S` descend
+  uniquely when the base change of `p` to the source is one, and an object with an isomorphism of
+  descent data to a given datum is unique up to unique isomorphism; Mathlib's instances make every
+  flat surjective quasi-compact `p` qualify. `DescentDatum.exists_isAffine_baseChange_hom_isIso`
+  (file `TauCeti/AlgebraicGeometry/Descent/Affine.lean`): for a flat morphism `p` of affine schemes,
+  every descent datum on an affine scheme over `S'` is effective. `DescentDatum.descended`,
+  `DescentDatum.isIso_toBaseChangeDescended_hom` and `DescentDatum.isPullback_toDescended` (file
+  `Descent/AffineMorphism.lean`): over an arbitrary `S`, for `p` affine and flat, a descent datum
+  on a scheme affine over `S'` is effective with descended scheme `D.descended`, and `X ⟶ S'` is
+  the base change of `D.descended ⟶ S`. `DescentDatum.exists_finiteLocallyFree_baseChange_hom_isIso`
+  (file `Descent/FiniteLocallyFree.lean`): for a faithfully flat ring map `R → S`, a finite locally
+  free scheme over `Spec S` with a descent datum descends to a finite locally free scheme over
+  `Spec R` whose rank pulls back to the original rank.
+  `IsClosedImmersion.descendsAlong_surjective_inf_flat_inf_quasiCompact`,
+  `IsFinite.descendsAlong_surjective_inf_flat_inf_quasiCompact` and
+  `DescentDatum.isClosedImmersion_descended_hom` (file `Descent/MorphismProperty.lean`): being a
+  closed immersion and being finite descend along flat surjective quasi-compact morphisms, so for
+  `p` affine, flat and surjective a descent datum on a closed subscheme of `S'` descends to a closed
+  subscheme of `S`. `TauCeti.Algebra.DescentDatum.isPullback_proj_map_descendedGradedVal` (file
+  `Descent/Proj.lean`): for `S` flat over `R` and a graded descent datum on an `ℕ`-graded
+  `S`-algebra `B`, `Proj B` is the base change of `Proj` of the descended graded algebra. These
+  are the cases of Layer 0E at the pin.
+- `TauCeti.FiniteEtaleScheme S` (file `TauCeti/AlgebraicGeometry/FiniteEtale/Basic.lean`), the full
+  subcategory of `Over S` on the finite étale `S`-schemes, with
+  `FiniteEtaleScheme.essImage_mapGrp_ι_iff` (file `FiniteEtale/GroupScheme.lean`): a group scheme
+  over `S` is a group object of `FiniteEtaleScheme S` exactly when its underlying scheme is finite
+  and étale over `S`; the instances `FiniteEtaleScheme.isFinite_hom_left` and
+  `FiniteEtaleScheme.etale_hom_left` (file `FiniteEtale/Basic.lean`): a morphism of finite étale
+  `S`-schemes is finite and étale; `AlgebraicGeometry.Scheme.Hom.exists_split_etaleLocally` (file
+  `FiniteEtale/EtaleLocallySplit.lean`): a finite étale morphism becomes a finite disjoint union of
+  copies of the base on an affine étale neighbourhood of any base point. For a field `K` and a
+  separable closure `Ω` of `K` (`IsSepClosed Ω` and `IsGalois K Ω`),
+  `FiniteEtaleScheme.galoisEquivalence K Ω`, an equivalence
+  `FiniteEtaleScheme (Spec K) ≌ ContAction FintypeCat Gal(Ω/K)` sending `Spec A` to the
+  `Gal(Ω/K)`-set of `Ω`-points of `A`, monoidal and braided for the cartesian structures, with the
+  induced equivalences `galoisEquivalenceGrp` and `galoisEquivalenceCommGrp` on group and
+  commutative group objects and the bijection `galoisEquivalenceAlternatingPairingEquiv` on
+  bilinear alternating pairings (file `FiniteEtale/Galois/Basic.lean`): the Galois description of
+  Layer 0D.
+- `TauCeti.AlgebraicGeometry.relativePicardPresheaf f` (file
+  `TauCeti/AlgebraicGeometry/PicardFunctor/Relative.lean`), the presheaf of commutative groups
+  `T ↦ Pic(X_T)/Pic(T)` on `Over S` for any `f : X ⟶ S`; `rigidifiedPicardFunctor f x₀ hx₀` (file
+  `PicardFunctor/Rigidified.lean`), the classes of line bundles rigidified along the base-changed
+  section `x₀`, with `rigidifiedPicardFunctorIso` identifying it with the relative Picard presheaf;
+  `relativePicardFppfSheaf f` (file `PicardFunctor/Fppf.lean`), the sheafification of the latter
+  for `Scheme.fppfTopology.over S`; `relativePicardDegreeZeroSubfunctor f` (file
+  `PicardFunctor/PicZero/Basic.lean`), the classes whose degree on the fibre at every point with
+  values in an algebraically closed field is zero; for `f` proper, smooth of relative dimension one
+  and `GeometricallyConnected`, `relativePicardDegreeZeroFppfSheaf f` with its map
+  `relativePicardDegreeZeroFppfSheafι` to `relativePicardFppfSheaf f` (file
+  `PicardFunctor/PicZero/Fppf.lean`), and, for a section `x₀`, the Abel–Jacobi map
+  `abelJacobiMapToPicZeroFppf f hx₀`, `x ↦ 𝒪(Γₓ − x₀_T)`, from the functor of points of `X` over
+  `S` to the degree-zero sheaf (file `PicardFunctor/Abel/Fppf.lean`). Layer 2D items 1–2 are these
+  objects for `f = E.structureMap` and `x₀ = E.zero`; representability, the open-and-closed
+  property of the degree-zero part, and the Poincaré bundle are not at the pin.
 
 Each of these is pinned by a `#check` in `Suggested.lean`.
 
@@ -384,9 +466,11 @@ The roadmap uses the following existing material.
   2A, 4D, and 7B.
 - Representable functors, `Over`-categories, and scheme gluing.
 - The Jacobian Challenge roadmap's line-bundle, coherent-cohomology,
-  and cohomology-and-base-change contracts. Its Picard-scheme endpoint is presently stated over a
-  field; the relative elliptic Picard and Poincaré construction is therefore an explicit milestone
-  in Layer 2D rather than an assumed supplier theorem. The descent package used here is Layer 0E.
+  and cohomology-and-base-change contracts. Its Picard-scheme endpoint is stated over a field.
+  The relative Picard functor over an arbitrary base and its degree-zero subsheaf are Tau Ceti's;
+  their representability for an elliptic curve and the Poincaré construction are milestones of
+  Layer 2D rather than assumed supplier theorems. The descent package used here is Tau Ceti's
+  descent library together with the remaining cases proved in Layer 0E.
 
 The projective Weierstrass model with its structure morphism and zero section, its properness,
 its smoothness when `W.IsElliptic` and its integrality over a domain are Tau Ceti's (§Exact
@@ -497,13 +581,24 @@ D_S(M) = Spec_S 𝒪_S[M],
 μ_N = D_S(ℤ/Nℤ).
 ```
 
-Over `S=Spec R`, the coordinate algebra of `G_S` is `Map(G,R)`.
+Over `S=Spec R`, the coordinate algebra of `G_S` is `Map(G,R)`; over an affine base both group
+schemes are Tau Ceti's (`ConstantGroup.finiteLocallyFreeGroupScheme R G` and
+`DiagonalizableGroup.finiteLocallyFreeGroupScheme R G` for a finite commutative group `G`, with
+`μ_N` the case `G = ℤ/Nℤ`), and the constructions over `S` glue them.
 
-Construct Cartier duality as a contravariant anti-equivalence on finite locally free commutative
-group schemes. Prove evaluation, biduality, preservation of rank, and arbitrary base change. Prove
-exactness for fppf-exact short sequences whose terms are finite locally free, and derive the
-kernel–quotient comparison only under the hypotheses which keep both objects in this category. In
-particular, prove
+Cartier duality over an affine base `Spec R` is Tau Ceti's (§Exact supplier contracts): the
+anti-equivalence `FiniteLocallyFreeCommAffineGroupSchemeCat.cartierDuality` on finite locally free
+commutative affine group schemes over `R`, with biduality `cartierDualDualIso`, preservation of
+the rank function `finrank_cartierDual`, compatibility with base change along `Spec R' ⟶ Spec R`
+`cartierDualBaseChangeIso`, and the dualities `ConstantGroup.cartierDualIso` and
+`DiagonalizableGroup.cartierDualIso` between finite constant and diagonalizable groups. Identify
+these group schemes over `Spec R` with `FiniteFlatCommGroupScheme (Spec R)`, and construct Cartier
+duality as a contravariant anti-equivalence on `FiniteFlatCommGroupScheme S` over an arbitrary
+base by gluing the affine dualities along these base-change isomorphisms; prove evaluation,
+biduality, preservation of rank, and arbitrary base change for it. Prove exactness for fppf-exact
+short sequences whose terms are finite locally free, and derive the kernel–quotient comparison only
+under the hypotheses which keep both objects in this category. In particular, prove, over an
+arbitrary base,
 
 ```text
 ((ℤ/Nℤ)_S)ᴰ ≅ μ_N,
@@ -519,7 +614,8 @@ endomorphism. This is the input which turns a Drinfeld point of exact order `N` 
 `N`-torsion section and which makes the factorisation construction of the dual isogeny possible.
 
 **Dependencies.** Mathlib's affine group-scheme and Hopf-algebra APIs, in particular
-`AlgebraicGeometry/Group/Affine.lean` and `Morphisms/FlatRank.lean`.
+`AlgebraicGeometry/Group/Affine.lean` and `Morphisms/FlatRank.lean`, and Tau Ceti's Cartier duality
+over an affine base (§Exact supplier contracts).
 
 ### 0C. Finite quotients and torsors
 
@@ -557,23 +653,53 @@ after elliptic curves exist, in Layer 2B.
 ### 0D. Finite étale schemes and Galois actions
 
 Develop the finite étale results used by the level structures: sections, fibre cardinalities, local
-constancy, cancellation, and descent.
+constancy, and descent. Cancellation (a morphism between finite étale `S`-schemes is finite and
+étale: the instances `FiniteEtaleScheme.isFinite_hom_left` and `FiniteEtaleScheme.etale_hom_left`)
+and splitting on an étale neighbourhood of each base point
+(`AlgebraicGeometry.Scheme.Hom.exists_split_etaleLocally`, Stacks, Tag 04HN) are Tau Ceti's
+(§Exact supplier contracts).
 
-Over a field `K`, construct the equivalence between finite étale `K`-schemes and finite continuous
-`Gal(Kˢ/K)`-sets. Prove that it preserves products and transports group objects, commutative group
-objects, homomorphisms, and alternating pairings. This is the input for `V_ρ` in Layer 5C.
+Over a field `K` with separable closure `Ω`, the equivalence between finite étale `K`-schemes and
+finite continuous `Gal(Ω/K)`-sets is Tau Ceti's `FiniteEtaleScheme.galoisEquivalence K Ω`. It
+preserves finite products, and Tau Ceti transports along it group objects with their
+homomorphisms (`galoisEquivalenceGrp`), commutative group objects (`galoisEquivalenceCommGrp`) and
+bilinear alternating pairings (`galoisEquivalenceAlternatingPairingEquiv`); none of this is
+rebuilt here. A group scheme over `Spec K` whose underlying scheme is finite étale enters these
+equivalences through `FiniteEtaleScheme.essImage_mapGrp_ι_iff`. This is the input for `V_ρ` in
+Layer 5C.
 
-**Dependencies.** Mathlib's finite étale and Galois theory.
+**Dependencies.** Mathlib's finite étale and Galois theory, and Tau Ceti's finite étale schemes and
+their Galois description (§Exact supplier contracts).
 
 ### 0E. Effective descent and spreading out
 
-Prove effective faithfully flat descent, with cocycle and uniqueness statements, in the exact
-forms used below:
+Effective faithfully flat descent, with cocycle and uniqueness statements, is used below in the
+following forms. Those at the pin are consumed from Tau Ceti and Mathlib (§Exact supplier
+contracts) and are not reproved:
 
-- affine schemes;
-- finite locally free schemes and closed subschemes;
-- sections and morphisms;
-- projective relative curves equipped with a compatibly descended relatively ample line bundle;
+- sections and morphisms along a flat surjective morphism which is quasi-compact or locally of
+  finite presentation (`TauCeti.sectionDescentEquiv`, `TauCeti.homDescentEquiv`,
+  `DescentDatum.baseChangeHomEquiv`, with Mathlib's effective-epimorphism instances and the
+  subcanonical `Scheme.fpqcTopology`);
+- schemes affine over `S'` along an affine flat `p : S' ⟶ S`, over an arbitrary base `S`, with the
+  descended scheme and its cartesian square (`DescentDatum.descended`,
+  `DescentDatum.isIso_toBaseChangeDescended_hom`, `DescentDatum.isPullback_toDescended`), and
+  affine schemes over affine bases (`DescentDatum.exists_isAffine_baseChange_hom_isIso`);
+- finite locally free schemes over an affine base, with their rank
+  (`DescentDatum.exists_finiteLocallyFree_baseChange_hom_isIso`), and closed subschemes along an
+  affine, flat and surjective `p` (`DescentDatum.isClosedImmersion_descended_hom`);
+- the base change of `Proj` of a descended graded algebra
+  (`TauCeti.Algebra.DescentDatum.isPullback_proj_map_descendedGradedVal`).
+
+Prove the remaining forms:
+
+- schemes affine over `S'` along a flat surjective quasi-compact `p` which need not be affine
+  (Stacks, Tag 0245): over each affine open `U` of `S`, replace `p` by a finite disjoint union of
+  affine opens covering `p⁻¹ U`, to which the second case above applies, and glue;
+- finite locally free schemes, with their rank, over an arbitrary base, and closed subschemes along
+  a `p` which need not be affine, by the same reduction;
+- projective relative curves equipped with a compatibly descended relatively ample line bundle,
+  from the `Proj` comparison applied to the section ring of the line bundle;
 - group objects and homomorphisms on an underlying scheme already descended by one of these
   effective cases;
 - the group law and all group axioms;
@@ -589,7 +715,8 @@ the original base after enlargement. Equality on geometric fibres is not used as
 equality over a nonreduced base. The elliptic application using `𝒪_E(3[0])` is Layer 1E, after that
 line bundle has been constructed.
 
-**Dependencies.** Mathlib's descent and finite-presentation machinery.
+**Dependencies.** Mathlib's descent, fpqc-topology and finite-presentation machinery, and Tau
+Ceti's descent library (§Exact supplier contracts).
 
 ### 0F. Hom-schemes and closed loci
 
@@ -1015,14 +1142,29 @@ and target of both composition identities.
 ### 2D. Picard duality and comparison of the duals
 
 Construct the relative genus-one Picard package needed here rather than assuming the field-valued
-Jacobian endpoint in arbitrary families. For an elliptic curve `E/S`:
+Jacobian endpoint in arbitrary families. For an elliptic curve `E/S`, write `π = E.structureMap`:
 
-1. define the fppf Picard functor as the sheafification of
-   `T ↦ Pic(E_T)/Pic(T)`, and its zero-rigidified version;
-2. define the degree-zero open-and-closed subfunctor using fibrewise degree;
+1. the fppf Picard functor, the sheafification of `T ↦ Pic(E_T)/Pic(T)`, and its zero-rigidified
+   version are Tau Ceti's `relativePicardFppfSheaf π`, `relativePicardPresheaf π` and
+   `rigidifiedPicardFunctor π E.zero E.zero_comp` with `rigidifiedPicardFunctorIso` (§Exact
+   supplier contracts), consumed as they stand;
+2. prove that `π` is `GeometricallyConnected`: the fibre over a field-valued point `Spec K ⟶ S` is
+   an elliptic curve over `K` (`EllipticCurveGeom.baseChange`), which by its pointed Weierstrass
+   atlas over the one-point base is the projective model of an elliptic Weierstrass curve over
+   `K`, integral by `WeierstrassCurve.isIntegral_projModel` and therefore connected. The atlas is
+   what the argument uses: a disjoint union of two elliptic curves over `K`, pointed in one of
+   them, is smooth and proper of relative dimension one with a section, and is not geometrically
+   connected. The degree-zero subfunctor defined by fibrewise degree and its fppf sheafification
+   are then Tau Ceti's `relativePicardDegreeZeroSubfunctor π` and
+   `relativePicardDegreeZeroFppfSheaf π`. Prove that the degree-zero part is open and closed: for a
+   line bundle on `E_T`, the set of points of `T` at which its fibre degree vanishes is open and
+   closed in `T`, the fibre degree `χ(L_t) − χ(𝒪_t)` being locally constant in the flat proper
+   family `E_T ⟶ T` (Jacobian Challenge proper-flat cohomology contract);
 3. for a degree-zero line bundle `L`, apply the positive-degree theorem of Layer 1C to `L([0])`:
    prove fppf locally that it has a unique effective divisor of degree one, descend the resulting
-   section, and deduce that `P↦𝒪_E([P]-[0])` represents the degree-zero subfunctor by `E` itself;
+   section, and deduce that the Abel–Jacobi map `P↦𝒪_E([P]-[0])`, Tau Ceti's
+   `abelJacobiMapToPicZeroFppf π E.zero_comp`, is an isomorphism from the functor of points of
+   `E` onto the degree-zero sheaf, so that `E` itself represents it;
 4. on `E×_S E`, start with `L₀=𝒪(Δ-E×[0]-[0]×E)` and normalize it along both zero
    sections. If `i₁(P)=(P,0)`, `i₂(Q)=(0,Q)`, and `c=(0,0)`, use
 
@@ -1091,8 +1233,10 @@ with the factorisation construction on each open-and-closed degree stratum; this
 locally constant degree as one integer. Transport the composition and degree theorems for isogenies
 to the restricted operation, while the endomorphism identity in Layer 2F uses the general operation.
 
-**Dependencies.** Layers 0A, 0E, 1C–1D, and 2C, and the Jacobian Challenge contracts for invertible
-sheaves, coherent cohomology, and cohomology and base change.
+**Dependencies.** Layers 0A, 0E, 1C–1D, and 2C, Tau Ceti's relative Picard functor with its
+degree-zero subsheaf and Abel–Jacobi map, `EllipticCurveGeom.baseChange` and
+`WeierstrassCurve.isIntegral_projModel` (§Exact supplier contracts), and the Jacobian Challenge
+contracts for invertible sheaves, coherent cohomology, and cohomology and base change.
 
 ### 2E. Cartier–Nishi duality and the Weil pairing
 
@@ -2861,9 +3005,10 @@ The diagram records the two principal build lanes. The dependency paragraph of e
 definitive about direct mathematical dependencies; the bullets below record the cross-links between
 the lanes.
 
-- Layer 0A and the Jacobian Challenge cohomology package meet in Layer 1C. Layer 2D then constructs
-  the relative genus-one Picard and Poincaré objects which the present supplier does not yet provide
-  over an arbitrary base; it also consumes the basic isogeny theory of 2C.
+- Layer 0A and the Jacobian Challenge cohomology package meet in Layer 1C. Layer 2D then proves,
+  on Tau Ceti's relative Picard functor over an arbitrary base, the representability of its
+  degree-zero part by the curve and constructs the Poincaré bundle, which the Jacobian Challenge
+  provides only over a field; it also consumes the basic isogeny theory of 2C.
 - The naive structures of 3N, the general moduli formalism, and the direct Tate construction may
   proceed in parallel with the integral Drinfeld loci. Layer 3N branches directly from 2A and the
   finite étale and quotient infrastructure, not from Layers 3A–3D.
@@ -2968,6 +3113,24 @@ not a Lake dependency, and its declarations require reconciliation with the pinn
 migration. Its files carry Apache-2.0 headers and the repository carries the Apache-2.0 root
 licence; any adaptation must retain the file-level notices and be coordinated with the AINTLIB
 authors. No AINTLIB code is transferred by this roadmap.
+
+Two Apache-2.0 Lean repositories outside Tau Ceti,
+[AxiomMath/Weil](https://github.com/AxiomMath/Weil/tree/27cdb2049be62ee2911429b47f54774078450e32)
+and [formal-arithmetic-geometry/weil-conjectures](https://github.com/formal-arithmetic-geometry/weil-conjectures/tree/55abf461d4688270382c9c982ac08a279e41c00b),
+formalise scheme-level inputs of Layers 0, 2 and 4. Neither contains modular curves, neither is a
+dependency, and both are built against other Lean and Mathlib versions, so a statement read there
+is compared with the target here before it is used, and a proof adapted from them rather than
+rewritten keeps the Apache-2.0 attribution. What they share with this roadmap is at the pin and
+is consumed from Tau Ceti: the Galois equivalence for finite étale schemes over a field (Layer
+0D), effective descent of affine schemes along an affine flat cover and descent of sections and
+morphisms (Layer 0E), the relative Picard fppf sheaf with its degree-zero part (Layer 2D, items
+1–2), and the strict henselisation of Layer 4D, which Tau Ceti builds on the roadmap's carrier
+while both repositories work with strict local rings of schemes at geometric points. The one
+pointer to a target not at the pin is the file
+[`AlgebraicGeometry/Descent/AffineDescentEffective.lean`](https://github.com/AxiomMath/Weil/blob/27cdb2049be62ee2911429b47f54774078450e32/Weil/AlgebraicGeometry/Descent/AffineDescentEffective.lean)
+of AxiomMath/Weil: a descent datum whose structure morphism is affine is effective along a flat
+surjective quasi-compact morphism which need not be affine (Stacks, Tag 0245), the first of the
+remaining forms of Layer 0E. Its descent data are that repository's, not `TauCeti.DescentDatum`.
 
 The dependency-sensitive statements of KM are at the following printed pages:
 
