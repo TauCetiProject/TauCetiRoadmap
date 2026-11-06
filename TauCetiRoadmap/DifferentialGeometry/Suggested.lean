@@ -39,19 +39,19 @@ import TauCeti.Geometry.Lie.IntegralCurve
 import TauCeti.Geometry.Manifold.Boundary.Charts
 import TauCeti.Geometry.Manifold.IntegralCurve.Flow
 import TauCeti.Geometry.Manifold.IntegralCurve.Maximal
-import TauCeti.Geometry.Manifold.LocalDiffeomorph
+import TauCeti.Geometry.Manifold.LocalDiffeomorph.Basic
 import TauCeti.Geometry.Manifold.LocallyFlat.Basic
 import TauCeti.Geometry.Manifold.TwoForm.Closed
 import TauCeti.Geometry.Manifold.Riemannian.VolumeDensity.Volume
 import TauCeti.Geometry.Manifold.VectorBundle.CovariantDerivative.LeviCivita.Regularity
 import TauCeti.Geometry.Manifold.VectorBundle.Riemannian.Riesz
 import TauCeti.Analysis.Contour.Winding.Number.Basic
-import TauCeti.Analysis.Contour.PiecewiseC1On
+import TauCeti.Analysis.Calculus.ContDiff.PiecewiseC1On
 import TauCeti.Analysis.Contour.Winding.Number.Homotopy
 import TauCeti.Analysis.Contour.Winding.Proximity
 import TauCeti.Analysis.Contour.Winding.UnboundedComponent
 import TauCeti.Analysis.Normed.Module.FilledHull
-import TauCeti.MeasureTheory.Function.MetricDerivative
+import TauCeti.MeasureTheory.Function.MetricDerivative.Basic
 import TauCeti.MeasureTheory.Integral.DivergenceTheorem
 
 /-!
@@ -716,7 +716,8 @@ noncomputable def legacySmoothTwoFormEquiv [IsManifold I 1 M] [IsManifold I ∞ 
 theorem legacySmoothTwoFormEquiv_apply [IsManifold I 1 M] [IsManifold I ∞ M]
     (φ : TauCeti.SmoothTwoForm I M) (x : M)
     (v w : TangentSpace I x) :
-    (legacySmoothTwoFormEquiv φ : RoughForm I M ℝ 2) x ![v, w] = φ x v w :=
+    (legacySmoothTwoFormEquiv φ : RoughForm I M ℝ 2) x ![v, w] =
+      (φ : RoughForm I M ℝ 2) x ![v, w] :=
   sorry
 
 /-- **Layer 0.4, acceptance.** Over the model `𝓘(ℝ, E)` the manifold pullback is the flat
@@ -2035,7 +2036,7 @@ theorem Henstock_eq_intervalIntegral {f : ℝ → ℝ} {a b r : ℝ} (hab : a < 
 
 /-- Existing contour cycles use this stronger regularity, which supplies absolute continuity. -/
 theorem absolutelyContinuousOnInterval_of_piecewiseC1 {γ : ℝ → ℂ} {a b : ℝ}
-    (hγ : TauCeti.Contour.IsPiecewiseC1On γ a b) :
+    (hγ : TauCeti.IsPiecewiseC1On γ a b) :
     AbsolutelyContinuousOnInterval γ a b :=
   sorry
 
