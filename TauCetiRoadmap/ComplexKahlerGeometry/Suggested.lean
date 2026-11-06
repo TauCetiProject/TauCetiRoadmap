@@ -1,6 +1,8 @@
-import Mathlib
-import TauCeti.Geometry.Symplectic.Manifold.AlmostComplex.Basic
-import TauCeti.Geometry.Symplectic.Manifold.TwoForm
+module
+
+public import Mathlib
+public import TauCeti.Geometry.Symplectic.Manifold.AlmostComplex.Basic
+public import TauCeti.Geometry.Symplectic.Manifold.TwoForm
 
 /-!
 # Complex manifolds, Dolbeault theory, and Kähler geometry: target signatures
@@ -46,7 +48,7 @@ Not statable at the pins, so nothing is stated in their place:
   and the elliptic flat lines are roadmap constructions.
 -/
 
-noncomputable section
+@[expose] public noncomputable section
 
 namespace TauCetiRoadmap.ComplexKahlerGeometry
 

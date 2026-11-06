@@ -590,8 +590,8 @@ K4.P owns, on every complex manifold, the holomorphic exponential sequence, the
 isomorphism `Pic_hol(M)≃H¹(M,𝒪×)` and the identification of its connecting map
 with the integral first Chern class of the underlying smooth line. It answers
 K3SurfacesAndSymplecticBoundedness's integral-Chern comparison request, and
-ComplexComparisonPartII C5.4, K3Surfaces 1.1 and GeometricQuantization consume
-this construction rather than restating it. The normalization is one and the same
+ComplexComparisonPartII C5.4, K3Surfaces 1.1 and GeometricQuantization §3.3
+consume this construction rather than restating it. The normalization is one and the same
 in the two conventions in use: `c₁(O(1))·[ℂP¹]=+1` for SmoothBundlesConnections
 B6.2's dual-character Hopf line, equivalently `c₁(O(−1))·[ℂP¹]=−1` as
 ComplexComparisonPartII writes it, both against K1's complex orientation.
@@ -665,10 +665,14 @@ corollary additionally consumes TopologicalKTheory T1.6d's unstabilized
 rank-one smoothing interface specified above. These are its explicit lower
 inputs. Its conditional Picard isomorphism uses supplied vanishing and does
 not assume Borel–Weil, Kodaira embedding, flag cohomology or K7's section
-dimension calculations. GeometricQuantization proves the flag-specific
-vanishing `H^q(K/H,𝒪)=0` for q>0 by K5/K6 harmonic theory and the actual
-isotropy weights, and SchubertGeometry S5 proves its algebraic counterpart on
-Schubert varieties; both consume K4.P.
+dimension calculations. K4.P owns the generic `Pic_hol(M)`, the exponential
+segment and the conditional `c₁` isomorphism on every complex manifold.
+GeometricQuantization §3.3 owns the compact-flag application: it proves
+`H^q(K/H,𝒪)=0` for q>0 by K5/K6 harmonic theory and the actual isotropy
+weights, deduces `Pic_hol(K/H)≃H²(K/H;ℤ)` from the generic segment, and
+identifies its root-degree basis. SchubertGeometry S5's vanishing on Schubert
+varieties is algebraic coherent cohomology; it uses no holomorphic Picard group
+and is neither an input nor a consumer of K4.P.
 
 *Needs:* K2's Čech/derived comparison; K3's function sheaf; K4's line bundles;
 SmoothBundlesConnections B6.1–B6.2; TopologicalKTheory T1.6d (rank one);
