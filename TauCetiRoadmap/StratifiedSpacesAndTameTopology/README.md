@@ -58,8 +58,8 @@ characteristic of spaces of finite CW type is AlgebraicTopology Stage 7; no road
 o-minimal Euler characteristic of a definable set (van den Dries, Chapter 4, §2).
 Thom's first isotopy lemma, with its embedded form for a map proper and stratumwise submersive on a
 closed Whitney-stratified subset (Mather, Proposition 11.1), and the controlled vector fields it is
-built on are owned here (5.4–5.5); its equivariant form is a downstream consumer. The collar theorem for manifolds with boundary and the
-tubular neighbourhood theorem are GeometricTopology Layer 1.
+built on are owned here (5.4–5.5); its equivariant form is a downstream consumer. The collar theorem
+for manifolds with boundary and the tubular neighbourhood theorem are GeometricTopology Layer 1.
 
 **Out of scope.** Constructible sheaves on stratified spaces, exit-path ∞-categories and
 2-categories, constructible stacks and hypercoverings; intersection homology; Whitney's condition
