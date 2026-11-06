@@ -34,10 +34,9 @@ primary and Mathlib-native; the analytic and categorical layers are introduced w
   built through finite-dimensional enveloping-algebra targets, derivation-stable cofinite ideals in
   characteristic zero, and central `p`-polynomials with Krull intersection in positive characteristic.
 - [**Semisimple Lie algebras: sl₂, highest weight, and the Weyl character formula**](LieHighestWeight/README.md)
-  - sl₂ as the engine case, the root-space decomposition, weights, Verma modules and `L(λ)`, the
-  highest-weight classification, Weyl's complete reducibility, the Weyl character and dimension
-  formulas, the isotypic decomposition toolkit with the minuscule Pieri rule, and reductive Lie
-  algebras with the concrete `gl_n` theory.
+  - on top of the native highest-weight theory, Weyl formulas and minuscule Pieri rule: normalized
+  tensor comparisons, the split Serre presentation, explicit exceptional models, reductive
+  centres with the concrete `gl_n` theory, and affine Weyl geometry.
 - [**Finite-dimensional representations of the classical groups**](ClassicalGroups/README.md) - the
   standard representation and its tensor powers, the Weyl construction via Young symmetrizers, highest
   weights, Schur polynomials as characters, the Weyl dimension formula, and branching rules.

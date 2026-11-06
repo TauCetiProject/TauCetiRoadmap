@@ -1,31 +1,33 @@
-import Mathlib
-import TauCeti.Algebra.Lie.HighestWeight.CentralCharacter.DotOrbit
-import TauCeti.Algebra.Lie.HighestWeight.Minuscule
-import TauCeti.Algebra.Lie.HighestWeight.Tensor
-import TauCeti.Algebra.Lie.HighestWeight.Weyl.Dimension
-import TauCeti.LinearAlgebra.SymmetricAlgebra.LieModule
-import TauCeti.LinearAlgebra.SymmetricAlgebra.Homogeneous
-import TauCeti.Algebra.Lie.UniversalEnveloping.PBW.Homogeneous
-import TauCeti.Algebra.Lie.Presentation.Serre.Killing
-import TauCeti.Algebra.Lie.GeneralLinear.Carrier
-import TauCeti.Algebra.Octonion.Derivation
-import TauCeti.Algebra.AlbertAlgebra.Basic
-import TauCeti.LinearAlgebra.SymmetricPower.Basic
-import TauCeti.Algebra.Lie.UniversalEnveloping.Prod
-import TauCeti.Algebra.Lie.UniversalEnveloping.Abelian
-import TauCeti.Algebra.Lie.UniversalEnveloping.PBW.Finite
+module
+
+public import Mathlib
+public import TauCeti.Algebra.Lie.HighestWeight.Weyl.Dimension
+public import TauCeti.LinearAlgebra.SymmetricAlgebra.LieModule
+public import TauCeti.LinearAlgebra.SymmetricAlgebra.Homogeneous
+public import TauCeti.Algebra.Lie.UniversalEnveloping.PBW.Homogeneous
+public import TauCeti.Algebra.Lie.Presentation.Serre.Killing
+public import TauCeti.Algebra.Octonion.Derivation
+public import TauCeti.Algebra.AlbertAlgebra.Basic
+public import TauCeti.LinearAlgebra.SymmetricPower.Basic
+public import TauCeti.Algebra.Lie.UniversalEnveloping.Prod
+public import TauCeti.Algebra.Lie.UniversalEnveloping.Abelian
+public import TauCeti.Algebra.Lie.UniversalEnveloping.PBW.Finite
 
 /-!
 # Lie highest weights: target signatures
 
-The roadmap is README.md; this file is not the roadmap. It states the remaining headline
-theorems against the pinned APIs: the normalized polynomial/symmetric-power comparison, normalized PBW symmetrization, minuscule tensor products,
-the invariant-form symmetry sign, Chevalley restriction, filtered Harish-Chandra,
-central-character orbits, the split Serre presentation, exceptional split identifications,
-the general-linear Pieri rule, and the normalized center of an abelian direct product.
+The roadmap is README.md; this file is not the roadmap. It states the headline
+theorems against the pinned APIs: the normalized polynomial/symmetric-power comparison, the
+central-monic finiteness adapter, normalized PBW symmetrization, the invariant-form symmetry
+sign, the split Serre presentation, the exceptional split identifications G2, F4, E8 and E6/E7,
+and the normalized center of an abelian direct product.
 The central-monic finiteness adapter retains its arbitrary-field coefficient subalgebra.
 The native highest-weight classification, Weyl formulas, complete reducibility, rank-one
-spectrum and dimensions, and general-linear classification are supplier contracts in README.md.
+spectrum and dimensions, general-linear classification, the minuscule and dual-standard
+Pieri rules, the Lie and Weyl invariants with the Killing-orthogonal restriction and
+Chevalley's restriction theorem, and the Harish-Chandra isomorphisms with the
+central-character orbit theorem are supplier contracts in README.md, consumed by name and
+not restated here.
 
 The compact real-form comparisons lack the positive division-octonion and formally real
 Albert carriers. The Vinberg E8 and Freudenthal E6/E7 model comparisons lack their constructed
@@ -49,6 +51,8 @@ Littlewood-Richardson rule are supplier gaps named in README.md, not headlines o
 roadmap; the compact Frobenius-Schur criterion is native at the pin
 (`ContRepresentation.frobeniusSchurIndicator_trichotomy`) and is a supplier contract.
 -/
+
+@[expose] public section
 
 namespace TauCetiRoadmap.RepresentationTheory.LieHighestWeight
 
@@ -109,17 +113,7 @@ variable {H : LieSubalgebra K L} [H.IsCartanSubalgebra] [IsTriangularizable K H 
 
 include algClosedK
 
-/-! ## Layer 6: minuscule tensor multiplicities -/
-
-/-- For dominant integral highest weights, tensoring with a minuscule module has
-multiplicity one precisely at the dominant translates of its weights. -/
-theorem minuscule_pieri (base : (LieAlgebra.IsKilling.rootSystem H).Base)
-    {lam mu : Module.Dual K H} (hlam : TauCeti.IsDominantIntegral base lam)
-    (hmu : TauCeti.IsMinuscule base mu) (nu : Module.Dual K H)
-    (hnu : TauCeti.IsDominantIntegral base nu) :
-    TauCeti.tensorMultiplicity base lam mu nu =
-      if genWeightSpace (TauCeti.irreducibleQuotient base mu) ⇑(nu - lam) ≠ ⊥
-      then 1 else 0 := sorry
+/-! ## Layer 5: the invariant-form symmetry sign -/
 
 /-- On an irreducible self-dual highest-weight module, the invariant form has symmetry
 sign given by the parity of the pairing with the sum of the positive coroots. -/
@@ -135,73 +129,9 @@ theorem invariantForm_isSymm_iff_tits_sign
     ((∀ v w, B v w = - B w v) ↔
       (-1 : ℤˣ) ^ (∑ i : {j : H.root // base.IsPos j}, TauCeti.coweightPairing lam i) = -1) := sorry
 
-/-! ## Layer 7: Chevalley restriction, Harish-Chandra and Serre -/
-
-/-- The symmetric-algebra elements of degree at most n. -/
-def symmetricDegreeLE (n : ℕ) : Submodule K (SymmetricAlgebra K H) :=
-  ⨆ k ≤ n, TauCeti.SymmetricAlgebra.homogeneousSubmodule K H k
-
-/-- Ordinary Weyl invariance, expressed by evaluation on the Cartan dual. -/
-noncomputable def linearInvariants : Subalgebra K (SymmetricAlgebra K H) where
-  carrier := {p | ∀ (w : (LieAlgebra.IsKilling.rootSystem H).weylGroup)
-    (lam : Module.Dual K H), SymmetricAlgebra.lift (w • lam) p = SymmetricAlgebra.lift lam p}
-  mul_mem' hp hq := by intro w lam; simp only [map_mul, hp w lam, hq w lam]
-  add_mem' hp hq := by intro w lam; simp only [map_add, hp w lam, hq w lam]
-  algebraMap_mem' r := by intro w lam; simp
-  zero_mem' := by intro w lam; simp
-  one_mem' := by intro w lam; simp
-
-/-- Lie invariants in the symmetric algebra for the native adjoint derivation action. -/
-noncomputable def lieInvariantSymmetricAlgebra
-    {K : Type*} [Field K] [CharZero K] {L : Type u} [LieRing L] [LieAlgebra K L] :
-    Subalgebra K (SymmetricAlgebra K L) where
-  carrier := {p | ∀ x : L, ⁅x, p⁆ = 0}
-  mul_mem' hp hq := by
-    intro x
-    simp only [TauCeti.SymmetricAlgebra.lie_eq_lieModuleDerivation] at hp hq ⊢
-    rw [Derivation.leibniz, hp x, hq x]
-    simp
-  add_mem' hp hq := by intro x; rw [lie_add, hp x, hq x]; simp
-  algebraMap_mem' r := by intro x; simp [TauCeti.SymmetricAlgebra.lie_eq_lieModuleDerivation]
-  zero_mem' := by intro x; simp
-  one_mem' := by intro x; simp [TauCeti.SymmetricAlgebra.lie_eq_lieModuleDerivation]
-
-/-- Restriction along the Killing-orthogonal projection from L to its Cartan subalgebra. -/
-noncomputable def lieCartanRestriction : SymmetricAlgebra K L →ₐ[K] SymmetricAlgebra K H :=
-  SymmetricAlgebra.map K
-    ((LieAlgebra.IsKilling.cartanEquivDual H).symm.toLinearMap.comp
-      (H.subtype.dualMap.comp
-        ((killingForm K L).toDual
-          (LieAlgebra.IsKilling.killingForm_nondegenerate K L)).toLinearMap))
-
-/-- Chevalley restriction is the graded algebra equivalence induced by the actual
-Killing-orthogonal restriction map, not an unspecified algebra isomorphism. -/
-theorem exists_lieChevalleyRestrictionIso :
-    ∃ e : lieInvariantSymmetricAlgebra (K := K) (L := L) ≃ₐ[K]
-        linearInvariants (K := K) (H := H),
-      (∀ p, (e p : SymmetricAlgebra K H) = lieCartanRestriction p) ∧
-      ∀ (n : ℕ) (p : lieInvariantSymmetricAlgebra (K := K) (L := L)),
-        (p : SymmetricAlgebra K L) ∈ TauCeti.SymmetricAlgebra.homogeneousSubmodule K L n ↔
-        (e p : SymmetricAlgebra K H) ∈ TauCeti.SymmetricAlgebra.homogeneousSubmodule K H n := sorry
-
-/-- The raw triangular PBW projection induces a filtered Harish-Chandra isomorphism
-onto dot invariants. Both directions of the filtration comparison are part of the conclusion. -/
-theorem exists_harishChandraIso (base : (LieAlgebra.IsKilling.rootSystem H).Base) :
-    ∃ e : Subalgebra.center K (UniversalEnvelopingAlgebra K L) ≃ₐ[K] TauCeti.dotInvariants base,
-      (∀ z, (e z : SymmetricAlgebra K H) = TauCeti.hcProjection base z) ∧
-      ∀ (n : ℕ) (z : Subalgebra.center K (UniversalEnvelopingAlgebra K L)),
-        (z : UniversalEnvelopingAlgebra K L) ∈ TauCeti.UniversalEnvelopingAlgebra.pbwFiltration K L n ↔
-        (e z : SymmetricAlgebra K H) ∈ symmetricDegreeLE n := sorry
-
-/-- Two Verma central characters agree exactly on a Weyl dot orbit; this does not
-assert the stronger composition-factor linkage theorem of category O. -/
-theorem centralCharacter_eq_iff_dotOrbit (base : (LieAlgebra.IsKilling.rootSystem H).Base)
-    (lam mu : Module.Dual K H) :
-    TauCeti.vermaCentralCharacter base lam = TauCeti.vermaCentralCharacter base mu ↔
-      ∃ w : (LieAlgebra.IsKilling.rootSystem H).weylGroup,
-        mu = TauCeti.dotAction (LieAlgebra.IsKilling.rootSystem H) base w lam := sorry
-
 end General
+
+/-! ## Layer 7: the split Serre presentation -/
 
 section Serre
 variable {K : Type*} [Field K] [CharZero K]
@@ -240,18 +170,7 @@ theorem finrank_e6_e7 (K : Type*) [Field K] [CharZero K] :
     Module.finrank K (LieAlgebra.e₆ (R := K)) = 78 ∧
       Module.finrank K (LieAlgebra.e₇ (R := K)) = 133 := sorry
 
-/-! ## Layer 9: the general-linear Pieri rule -/
-
-attribute [local instance 100] LieRing.ofAssociativeRing
-
-/-- Tensoring the native general-linear highest-weight module with the dual standard
-module gives one copy of each dominant weight obtained by subtracting a coordinate vector. -/
-theorem gl_dual_standard_pieri {K : Type*} [Field K] [CharZero K] [IsAlgClosed K]
-    {n : ℕ} (mu : Fin n → K) (hmu : TauCeti.IsGlDominantIntegral mu) :
-    Nonempty (TensorProduct K (Module.Dual K (Fin n → K)) (TauCeti.glIrreducible n mu)
-        ≃ₗ⁅K, Matrix (Fin n) (Fin n) K⁆
-      ⨁ t : {t : Fin n // TauCeti.IsGlDominantIntegral (mu - Pi.single t 1)},
-        TauCeti.glIrreducible n (mu - Pi.single (t : Fin n) 1)) := sorry
+/-! ## Layer 9: the normalized product center -/
 
 section ReductiveCenter
 variable (K : Type u) [Field K]
