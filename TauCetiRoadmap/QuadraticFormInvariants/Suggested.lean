@@ -1,13 +1,13 @@
 import Mathlib
 import TauCetiRoadmap.ProfiniteCohomology.Suggested
-import TauCetiRoadmap.LocalFieldsRamification.Suggested
+import Completed.LocalFieldsRamification.Suggested
 import TauCetiRoadmap.ClassFieldTheory.Suggested
 import TauCeti.Algebra.Quaternion.BrauerClass
-import TauCeti.LinearAlgebra.QuadraticForm.RegularFormClass.Hasse
+import TauCeti.LinearAlgebra.QuadraticForm.RegularFormClass.Hasse.Basic
 import TauCeti.LinearAlgebra.QuadraticForm.RegularFormClass.Clifford
 import TauCeti.Algebra.CrossedProduct.CentralSimple
 import TauCeti.FieldTheory.GaloisCohomology.MuTwo.Basic
-import TauCeti.NumberTheory.LocalField.QuadraticForm.Defect
+import TauCeti.NumberTheory.LocalField.QuadraticForm.Defect.Basic
 import TauCeti.NumberTheory.LocalField.QuadraticForm.Bimultiplicativity
 import TauCeti.LinearAlgebra.QuadraticForm.Transfer.Basic
 import TauCeti.LinearAlgebra.Matrix.PinPlusPlane.Basic
@@ -875,7 +875,7 @@ theorem cliffordHomI2Bar_mk [Invertible (2 : K)] (x : ↥(fundamentalIdeal K ^ 2
 /-! ## Layer 6A: consuming the Local Fields Ramification substrate
 
 The general arithmetic of a nonarchimedean local field belongs to the
-[Local Fields Ramification roadmap](../LocalFieldsRamification/README.md), and this sublayer consumes it rather than
+[Local Fields Ramification roadmap](../../Completed/LocalFieldsRamification/README.md), and this sublayer consumes it rather than
 building a second copy. The normalized valuation is
 `TauCetiRoadmap.LocalFieldsRamification.normalizedValuation`, the unit filtration is
 `TauCetiRoadmap.LocalFieldsRamification.unitFiltration`, the absolute ramification index
@@ -919,7 +919,7 @@ noncomputable abbrev dyadicLevel [Invertible (2 : K)] : ℕ :=
 characteristic `2` the two agree, by the supplier's
 `absoluteRamificationIndex_eq_natCastValuation`, which is Tau Ceti's; this is the only place the
 reserved name is used, and it is what lets a consumer that already has `K/ℚ_2` quote either. -/
-theorem dyadicLevel_eq_absoluteRamificationIndex [Invertible (2 : K)] [Fact (Nat.Prime 2)]
+theorem dyadicLevel_eq_absoluteRamificationIndex [Invertible (2 : K)]
     [Algebra ℚ_[2] K] [ValuativeExtension ℚ_[2] K] [Module.Finite ℚ_[2] K] :
     dyadicLevel K = absoluteRamificationIndex K 2 :=
   (TauCeti.dyadicLevel_def _).trans (TauCeti.absoluteRamificationIndex_eq_natCastValuation K 2).symm
@@ -3229,7 +3229,7 @@ theorem pinE1_mul_pinT_pow_four [Invertible (2 : F)] {r2 : F} (hr2 : r2 ^ 2 = 2)
   have hsq : (pinE1 * pinT r2) ^ 2 = !![0, -1; 1, 0] := by
     ext i j; fin_cases i <;> fin_cases j <;>
       simp [pow_two, pinT, pinE1, pinE2, Matrix.mul_apply, Fin.sum_univ_two]
-    all_goals first | ring1 | linear_combination hq | linear_combination -hq
+    all_goals first | linear_combination hq | linear_combination -hq
   rw [show 4 = 2 * 2 from rfl, pow_mul, hsq]
   ext i j; fin_cases i <;> fin_cases j <;> simp [pow_two, Matrix.mul_apply, Fin.sum_univ_two]
 
