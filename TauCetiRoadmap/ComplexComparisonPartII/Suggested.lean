@@ -26,8 +26,10 @@ The other headline results require mathematical objects absent from the pins:
 * C1/C2's Cartan A/B, Cartan–Serre finiteness, analytic Serre theorems, proper coherent
   GAGA, base change and geometric dictionaries require those analytic spaces and functors.
   So does C1.9's curve GAGA: the Riemann-surface structure on the analytification of a smooth
-  complex curve and the named maps from rational functions to meromorphic functions and from
-  line-bundle classes to analytic Picard classes.
+  complex curve and the named maps from rational functions to the pinned field of meromorphic
+  functions (`TauCeti.RiemannSurface.MeromorphicFunction`) and from line-bundle classes to
+  analytic Picard classes; the target field exists at the pins, the source analytification
+  does not.
 * C3's proper-support existence, coherent/Picard algebraicity, Picard components and
   formal parameters, and derived GAGA require algebraic spaces, their ringed étale sites,
   quasi-coherent derived categories and moduli stacks.
@@ -87,7 +89,7 @@ theorem schwartzFiniteness {E F : Type*}
 /-- C5.1: constant-sheaf and singular cohomology agree for arbitrary abelian coefficients
 on a semilocally contractible space. No Hausdorff or paracompactness assumption is imposed.
 The singular chain coefficient object `ULift ℤ` is free of rank one in the space's universe. -/
-theorem sheafSingularComparison (T : TopCat.{u}) (hT : LocallyContractibleSpace T)
+theorem nonempty_sheafSingularComparison (T : TopCat.{u}) (hT : LocallyContractibleSpace T)
     (A : AddCommGrpCat.{u}) (q : ℕ) :
     Nonempty
       (Sheaf.H.{u}
