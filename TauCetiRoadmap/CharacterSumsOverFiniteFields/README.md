@@ -11,7 +11,7 @@ modulus `ℤ/cℤ`, which is where the LMFDB displays them: the Dirichlet charac
 `τ_a(χ)`, `J(χ, ψ)` and `K(a, b, χ)` for every modulus, together with the bounds Weil's theorem
 gives for them.
 
-The primary carrier is a finite field `F` (`[Field F] [Fintype F]`, `q = Fintype.card F`,
+The primary carrier is a finite field `F` (`[Field F] [Finite F]`, `q = Nat.card F`,
 `p = ringChar F`), a multiplicative character `χ : MulChar F ℂ` and an additive character
 `ψ : AddChar F ℂ`, exactly Mathlib's vocabulary, so that Mathlib's `gaussSum χ ψ` and
 `jacobiSum χ ψ` are the Gauss and Jacobi sums of record and nothing is redefined. Where a theorem
@@ -252,7 +252,7 @@ smooth conic has zeta numerator `1` and two rational points at infinity.
 
 | Object | Convention |
 |---|---|
-| The field | `F` with `[Field F] [Fintype F]`; `q = Fintype.card F`; `p = ringChar F`, a prime; `f` with `q = p ^ f`. A general finite commutative ring is `R` with `[CommRing R] [Fintype R]`, and `ZMod c` is the integer-modulus case. |
+| The field | `F` with `[Field F] [Finite F]`; `q = Nat.card F`; `p = ringChar F`, a prime; `f` with `q = p ^ f`. The sums over `F`, and Mathlib's `gaussSum` and `jacobiSum`, which take a `Fintype` structure, read `F` through `Fintype.ofFinite F`; any two `Fintype` structures on `F` are equal (`Fintype.subsingleton`), so every statement applies to a finite field however its `Fintype` instance arises. A general finite commutative ring is `R` with `[CommRing R] [Fintype R]`, and `ZMod c` is the integer-modulus case. |
 | Multiplicative characters | Mathlib's `MulChar F ℂ`: `χ(0) = 0` **for every `χ`, including `χ = 1`**. So `∑_x χ(x) = 0` for `χ ≠ 1`, `∑_x 1(x) = q − 1`, `g(1) = −1` and `J(1, 1) = q − 2`. This is also the LMFDB's convention: its principal character `χ_q(1, ·)` is `0` off the units, so `τ_1(χ_q(1,·)) = μ(q)`. ⚠ Sources that set `χ(0) = 1` for the trivial character (Lidl–Niederreiter) shift `g(1)`, `J(1, χ)` and `J(1, 1)` by `1`; every statement here is checked against Mathlib's convention. |
 | The quadratic character | `η_F := (quadraticChar F).ringHomComp (Int.castRingHom ℂ)`, the unique character of order `2` when `p ≠ 2`; for `p = 2` it is `1`. "`η`" always means this. |
 | Characters of order `d` | Exist iff `d ∣ q − 1` (`MulChar.exists_mulChar_orderOf`). A **generator** `ω` of the character group is a character of exact order `q − 1`; the choice is a parameter of every statement that mentions one. The Teichmüller character of Layer 6 is the generator canonically attached to a prime of `ℚ(ζ_{q−1})` above `p`. |
@@ -330,9 +330,11 @@ Dirichlet characters: `DirichletCharacter R n := MulChar (ZMod n) R`, `changeLev
 `sum_char_inv_mul_char_eq` (orthogonality over `ZMod n`), `gaussSum_mulShift_of_isPrimitive`
 (`gaussSum χ (e.mulShift a) = χ⁻¹ a * gaussSum χ e` for primitive `χ`, every `a : ZMod N`),
 `gaussSum_eq_zero_of_isPrimitive_of_not_isPrimitive`, `factorsThrough_of_gaussSum_ne_zero`,
-`DirichletCharacter.rootNumber`.
+`DirichletCharacter.rootNumber`, `DirichletCharacter.conductor_ne_zero` (`conductor χ ≠ 0` at
+nonzero level).
 
-Finite fields and polynomials: `Algebra.trace`, `Algebra.norm`, `Algebra.norm_zero`,
+Finite fields and polynomials: `Fintype.ofFinite`, `Fintype.subsingleton`, `Nat.card`,
+`Algebra.trace`, `Algebra.norm`, `Algebra.norm_zero`,
 `FiniteField.trace_to_zmod_nondegenerate`, `FiniteField.roots_X_pow_card_sub_X`,
 `FiniteField.splits_X_pow_card_sub_X`, `GaloisField p n`, `FiniteField.algEquivOfCardEq`,
 `Polynomial.hasseDeriv` with `hasseDeriv_mul`, `hasseDeriv_apply`, `Polynomial.rootMultiplicity`,
@@ -428,7 +430,7 @@ roadmap and need the first two streams.
 
 ## Layer 0: characters of a finite field
 
-Throughout, `F` is a finite field, `p = ringChar F`, `q = Fintype.card F`.
+Throughout, `F` is a finite field, `p = ringChar F`, `q = Nat.card F`.
 
 ### 0.1 The canonical additive character
 
@@ -1673,7 +1675,9 @@ Record and prove: for `χ` primitive, `τ_a(χ) = χ(a)⁻¹ τ(χ)` for every `
 `ψ_N⁻¹ = ψ_N.mulShift (−1)` (`inv_mulShift`) and `gaussSum χ⁻¹ (ψ_N.mulShift (−1)) = χ(−1) τ(χ⁻¹)`
 (`gaussSum_mulShift_of_isPrimitive` for `χ⁻¹`, which is primitive with `χ`); for `χ` of conductor
 `f` with primitive character `χ^∗` (`DirichletCharacter.primitiveCharacter`), the **imprimitive
-formula** `τ(χ) = μ(N/f) χ^∗(N/f) τ(χ^∗)` (`gaussSum_eq_moebius_mul`), in particular `τ(χ) = 0`
+formula** `τ(χ) = μ(N/f) χ^∗(N/f) τ(χ^∗)` (`gaussSum_eq_moebius_mul`; `τ(χ^∗)` is read on
+`ZMod f`, which needs `f ≠ 0`: Mathlib's `DirichletCharacter.conductor_ne_zero`, recorded as the
+instance `instNeZeroConductor`), in particular `τ(χ) = 0`
 unless `N/f` is squarefree and prime to `f`, and `τ(1_N) = μ(N)`; the **Chinese-remainder
 formula** `τ(χ) = χ₁(c₂) χ₂(c₁) τ(χ₁) τ(χ₂)` for `N = c₁ c₂` coprime and `χ = χ₁ χ₂` as in 0.7
 (`gaussSum_mul_of_coprime`). *Needs:* 0.7, 1.1, Mathlib, Tau Ceti.
