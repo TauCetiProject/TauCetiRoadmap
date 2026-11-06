@@ -1,538 +1,721 @@
 # Roadmap: classifying spaces of discrete groups
 
-A group has a topological shadow. For a discrete group `G`, a `K(G, 1)` is a path-connected space
-with fundamental group `G` and no higher homotopy, and among spaces of CW type it is determined by
-`G` up to homotopy equivalence. Its singular homology is the group homology of `G`, so the algebraic
-invariants Mathlib already defines are invariants of a space, and the covering-space theory of the
-[universal-covers roadmap](../../Completed/UniversalCovers/README.md) becomes a tool for computing
-them.
+**Summary.** A group has a topological shadow. For a discrete group `G`, a `K(G, 1)` is a
+path-connected space with fundamental group `G` and no higher homotopy, and among spaces of CW
+type it is determined by `G` up to homotopy equivalence. Its singular homology is the group
+homology of `G`, so the algebraic invariants Mathlib defines are invariants of a space, and the
+covering-space theory of the [universal-covers roadmap](../../Completed/UniversalCovers/README.md)
+becomes a tool for computing them.
 
-That roadmap ends with *recognition*: a space whose universal cover is weakly contractible is a
-`K(G, 1)`, with circles and tori as examples. It leaves *construction* open, and says so. This
-roadmap constructs one for an arbitrary group, twice.
+The pinned Tau Ceti already builds this theory for its two models. The directory
+`TauCeti/AlgebraicTopology/ClassifyingSpace/` constructs Milnor's model `TauCeti.classifyingSpace G`
+(the orbit space of the countable join of copies of `G`) and the cellular model
+`TauCeti.cellularClassifyingSpace R` (the presentation complex of `⟨S | R⟩` with cells of dimension
+at least three attached to kill the higher homotopy groups), proves that both are Hausdorff CW
+`K(G, 1)` spaces for every group, compares them, proves the uniqueness of `K(G, 1)` spaces of CW
+type up to a change of base point, makes the classifying space a functor to the pointed homotopy
+category, builds the cellular resolutions of the trivial module and compares them with Mathlib's
+standard resolution, and identifies the singular (co)homology of Milnor's model, with trivial and
+with local coefficients, with Mathlib's `groupHomology` and `groupCohomology`. All of that is
+consumed here by exact name; none of it is planned again.
 
-**Both models are wanted.** The simplicial one, Milnor's countable join, is uniform in `G` and
-needs no presentation; it is the shorter path to an unconditional existence theorem. The cellular
-one, the presentation complex with higher cells attached, is the model every later homological
-argument is written against, and it is what connects to cellular chains. Building both and
-proving they agree is not duplication: the comparison is the theorem that makes "the" classifying
-space well defined, and each model proves things about the other that are awkward in its own
-terms. A third model, the realization of the nerve of `G` as a one-object category, is built by
-the algebraic-topology roadmap; its comparison with the two models here, normalised to be the
-identity on `G`, is also a theorem of this roadmap.
+What remains, and what this roadmap owns, is the passage from the models to an *arbitrary*
+Hausdorff CW `K(G, 1)` and, more generally, to an arbitrary path-connected Hausdorff CW complex
+mapping into an aspherical space: Hatcher's Proposition 1B.9 in full generality (every
+homomorphism of fundamental groups is induced by a pointed map, unique up to homotopy relative
+to the base point), the pointed form of the uniqueness theorem, and the comparison of the
+(co)homology of any Hausdorff CW `K(G, 1)` with group (co)homology, fixed by the chosen
+identification of the fundamental group, natural in the space and the group, and with local
+coefficients. The acceptance test `Suggested.lean` states these four headlines:
+`exists_continuousMap_mapOfEq_eq_of_isAspherical`, `exists_homotopyEquiv_of_isAspherical`,
+`nonempty_twistedHomology_iso_groupHomology` and `nonempty_twistedCohomology_iso_groupCohomology`.
 
-Suggested home: `TauCeti/AlgebraicTopology/ClassifyingSpace/`.
+Suggested home: `TauCeti/AlgebraicTopology/ClassifyingSpace/`, next to the pinned development.
 
-## Scope and completion criterion
+## Scope and ownership
 
 The roadmap is complete when Tau Ceti supplies all of the following, for an arbitrary group `G`
-with no finiteness, countability, presentation or torsion hypothesis, and with the naturality
-stated in each clause.
+with no finiteness, countability, presentation or torsion hypothesis.
 
-1. Two constructions of a pointed space with fundamental group `G` and vanishing higher homotopy:
-   the realization of the countable join of copies of `G` modulo the free `G`-action, and a
-   cellular model built from a presentation. Each is proved path-connected, locally
-   path-connected and semilocally simply connected, so that the classification theorems of the
-   universal-covers roadmap apply to it, and each carries a CW structure.
-2. Uniqueness: any two `K(G, 1)` spaces of the same group, *both* of CW type, are homotopy
-   equivalent, by a homotopy equivalence realizing any prescribed isomorphism of fundamental
-   groups; in particular the two models above agree, and both agree with the nerve model of the
-   algebraic-topology roadmap. The hypothesis on both spaces cannot be weakened: a point and the
-   Warsaw circle are both `K(1, 1)` spaces and are not homotopy equivalent.
-3. Functoriality: a group homomorphism induces a map of classifying spaces, well defined up to
-   homotopy, inducing the given homomorphism on fundamental groups, and respecting identities and
-   composition in the homotopy category.
-4. The comparison with algebra: the singular homology of the classifying space is Mathlib's
-   `groupHomology`, and its cohomology with coefficients in a `G`-module is Mathlib's
-   `groupCohomology`, naturally in the group and in the coefficients.
+1. **Maps into aspherical spaces** (Layer 1, items 1.1 and 1.2). For a path-connected Hausdorff
+   CW complex `X` with base point `x` and an aspherical space `Y` with base point `y`, every
+   homomorphism `π₁(X, x) →* π₁(Y, y)` is induced by a pointed map, and two pointed maps inducing
+   the same homomorphism are homotopic relative to the base point. The pinned library proves
+   the existence clause when `X` is a cellular model and the uniqueness clause when `X` has a
+   single `0`-cell; the general source is owned here.
+2. **Pointed uniqueness** (Layer 1, item 1.3). Two aspherical Hausdorff CW complexes are homotopy
+   equivalent by an equivalence whose forward map preserves the base points and induces any
+   prescribed isomorphism of fundamental groups. The pinned uniqueness theorem realizes the
+   isomorphism only after a change of base point along a path; the pointed form is owned here,
+   together with its corollary that any Hausdorff CW `K(G, 1)` is pointedly homotopy equivalent to
+   both pinned models, compatibly with the identifications of the fundamental groups.
+3. **(Co)homology of any Hausdorff CW `K(G, 1)`** (Layer 2). The comparison of its singular
+   homology and cohomology with `groupHomology` and `groupCohomology`, with trivial coefficients
+   (items 2.1 and 2.2) and with the local system of a representation of `G` (item 2.3), fixed by
+   the chosen identification `Ψ : π₁(X, x) ≃* G`, natural in `(X, Ψ)` along pointed maps and in
+   the coefficients, and agreeing with the pinned isomorphisms on Milnor's model.
+
+What this roadmap leaves to others, by object:
+
+- **The two models, their comparison, functoriality, resolutions and (co)homology** are theorems
+  of the pinned Tau Ceti, listed by name and file under *From Tau Ceti* below. Nothing about the
+  countable join, the presentation complex, the killing tower, the transfer of CW structures
+  along a free quotient covering, the cellular resolutions or the comparison with
+  `Rep.standardResolution` is a target here. In particular the existence of a Hausdorff CW
+  `K(G, 1)` for every group and of a two-dimensional Hausdorff CW complex with fundamental group
+  `G` are pinned theorems (`TauCeti.exists_isEilenbergMacLaneSpaceOne`,
+  `TauCeti.exists_isEilenbergMacLaneSpaceOne_cellularClassifyingSpace`, and
+  `TauCeti.PresentationComplex` of the tautological presentation `Group.Presentation.ofFreeGroupHom`
+  with `TauCeti.PresentationComplex.isEmpty_cell`), not acceptance tests of this roadmap.
+- **The nerve model** of `G`, the realization of the nerve of `G` as a one-object category, and
+  its comparison with the two pinned models normalised to the identity on `G`, belong to the
+  [algebraic-topology roadmap](../AlgebraicTopology/README.md), Stage 8 items 8a and 8b. The
+  models that comparison is normalised against are the pinned `TauCeti.classifyingSpace G` and
+  `TauCeti.cellularClassifyingSpace R`, with the pinned identifications of their fundamental
+  groups and the pinned uniqueness theorems, so that item consumes Tau Ceti and nothing of this
+  roadmap. This roadmap consumes nothing from the algebraic-topology roadmap either: the CW
+  machinery its routes use (the homotopy extension property of skeleta, the killing tower,
+  Whitehead's theorem, the homotopy invariance of singular and twisted (co)homology) is at the
+  pin. Segal's remark comparing the nerve model with Milnor's join (Segal 1968, §3) is the
+  background for the relation between the two; it is not a target of either roadmap.
+- **Covering-space theory** is the universal-covers roadmap's, complete: the universal cover,
+  deck transformations, quotient covers by a group action (Mathlib's `IsQuotientCoveringMap`),
+  the `π_n` API and the recognition of `K(G, 1)` spaces from a weakly contractible universal
+  cover. Its convention is inherited: the deck group of the universal cover is the *opposite* of
+  the fundamental group, and the pinned declarations that fix the directions are named under
+  *Conventions*.
+- **Continuous cohomology of profinite groups** is the
+  [profinite-cohomology roadmap](../ProfiniteCohomology/README.md)'s. The group cohomology
+  compared here is Mathlib's discrete one; neither development introduces a second version of the
+  other's objects.
 
 Groups are discrete throughout. `K(G, n)` for `n ≥ 2`, deloopings and spectra are not in scope.
 
-The acceptance test `Suggested.lean` states the headline theorems that are statable at the pins:
-the existence of a Hausdorff CW `K(G, 1)` for every group
-(`exists_cwComplex_isEilenbergMacLaneSpaceOne`), the two-dimensional complex with fundamental
-group `G` (`exists_cwComplex_dim_le_two_fundamentalGroup_mulEquiv`), the realization of
-homomorphisms by pointed maps (`exists_continuousMap_mapOfEq_eq_of_isAspherical`), uniqueness
-(`exists_homotopyEquiv_of_isAspherical`), and the homology and cohomology comparisons
-(`nonempty_singularHomology_iso_groupHomology`, `nonempty_singularCohomology_iso_groupCohomology`).
-The models themselves, their comparison and the resolution comparison are constructions and are
-targets of this document only.
+## Conventions
 
-## Ownership and dependencies
+- **CW `K(G, 1)`.** A Hausdorff space `X` with `Topology.CWComplex (Set.univ : Set X)`, a point
+  `x` and `TauCeti.IsEilenbergMacLaneSpaceOne G X x`: `X` is path-connected, its homotopy groups
+  at `x` vanish from degree two on, and `π₁(X, x) ≃* G`. "Aspherical" is `TauCeti.IsAspherical X x`,
+  the same without the identification. A Hausdorff CW complex has CW type
+  (`TauCeti.CWType.of_cwComplex_univ`), which is what the pinned uniqueness theorems and
+  Whitehead's theorem (`ContinuousMap.IsWeakHomotopyEquivalence.homotopyEquiv`) assume.
+- **The identification `Ψ`.** A CW `K(G, 1)` comes with a chosen `Ψ : π₁(X, x) ≃* G`; every
+  comparison of Layer 2 is defined from `(X, x, Ψ)` and changes by the automorphism of `G` when
+  `Ψ` changes. For Milnor's model `BG := TauCeti.classifyingSpace G`, based at
+  `b₀ := TauCeti.classifyingSpaceBasepoint G`, the identification is the pinned
+  `TauCeti.classifyingSpaceFundamentalGroupMulEquiv G`; for the cellular model it is
+  `TauCeti.cellularClassifyingSpaceFundamentalGroupMulEquiv R`, under which the generator `s`
+  corresponds to the loop around the `s`-th circle of the presentation complex
+  (`TauCeti.cellularClassifyingSpaceFundamentalGroupMulEquiv_symm_apply`).
+- **The direction of `π₁(BG) ≃* G`.** Write `EG := TauCeti.universalGSpace G` for the countable
+  join, `p_G := TauCeti.classifyingSpaceProj G` for the orbit map, and for a loop `γ` at `b₀`
+  write `m(γ)` for the label of the end point `(0, m(γ))` of the lift of `γ` starting at the
+  vertex `(0, 1)`. The pinned identification sends `γ` to `g` exactly when that end point is the
+  vertex `(0, g⁻¹)` (`TauCeti.classifyingSpaceFundamentalGroupMulEquiv_apply_eq_iff`): it is
+  `γ ↦ m(γ)⁻¹`. The inverse is forced by the conventions on both sides. Under Mathlib's
+  `FundamentalGroup.mul_def`, `p * q = q.trans p` runs `q` first; its lift runs the lift of `q`
+  to `(0, m(q))` and then `m(q)` times the lift of `p`, ending at `(0, m(q) * m(p))`, so
+  `m(p * q) = m(q) * m(p)` and the label is an anti-homomorphism; the left action
+  `h • (i, g) = (i, h * g)` (`TauCeti.instMulActionUniversalGSpace`) identifies `G` with the deck
+  group by translation (`TauCeti.classifyingSpaceDeckMulEquiv`), and Tau Ceti's deck group is the
+  opposite of the fundamental group (`TauCeti.UniversalCover.deckFundamentalGroupEquiv`, whose
+  inverse sends the class of `γ` to the deck transformation carrying the base lift to the end
+  point of the lift of `γ⁻¹`, `TauCeti.UniversalCover.deckFundamentalGroupEquiv_symm_op`).
 
-This roadmap constructs classifying spaces and compares them with group cohomology. It builds no
-covering-space theory, no realization theory of simplicial complexes and no general CW machinery:
-the attachment of cells, the CW structure on the union of an expanding tower of CW complexes and
-the killing of a homotopy group by attaching cells are consumed from the algebraic-topology
-roadmap. It owns the two models (Stages 1 and 2), one piece of CW machinery that no other roadmap
-owns, the transfer of CW structures along the quotient covering map of a free action (Stage 3,
-item 13), the pointed comparison of the nerve model with the two models built here (Stage 3,
-item 14), the chain-level comparison of the cellular chains of a universal cover with the bar
-resolution (Stage 4, items 16 and 18), and the resulting identification of the (co)homology
-comparisons of the three models (Stage 4, item 17). Everything else is owned elsewhere and cited
-here.
+  **Checks.**
+  - `G = S₃`, `s = (1 2)`, `t = (2 3)`, and loops `ℓ_s`, `ℓ_t` with `m(ℓ_s) = s`, `m(ℓ_t) = t`:
+    `m(ℓ_s * ℓ_t) = t * s`, while `s * t ≠ t * s`. The map `γ ↦ m(γ)⁻¹` sends `ℓ_s * ℓ_t` to
+    `(t * s)⁻¹ = s⁻¹ * t⁻¹ = s * t`, the product of the images; the map `γ ↦ m(γ)` would send it
+    to `t * s ≠ s * t` and is not a homomorphism. An abelian group cannot detect this.
+  - `G = ℤ`, written additively, so the base vertex is `(0, 0)`: the loop whose lift ends at
+    `(0, 1)` goes to `−1`. The sign is invisible to the `S₃` test, and the `S₃` test is invisible
+    to this one; both are needed. The pinned comparison of the circle with `B(ℤ)`
+    (`TauCeti.classifyingSpaceFundamentalGroupMulEquiv_mapOfEq_circleToClassifyingSpace`)
+    sends the counterclockwise loop to `1`, so the map wrapping the circle around a loop `γ`
+    with `m(γ) = −1`.
+  - `G = 1`: `BG = EG` is the infinite simplex, contractible; the identification is the unique
+    map.
+- **The deck action on a universal cover.** Tau Ceti's based-path universal cover carries a left
+  action of the fundamental group itself, `g • mk x q = mk x (g⁻¹.toPath.trans q)`
+  (`TauCeti.UniversalCover.smul_mk`): `g` acts by prepending the inverse loop class. For the
+  cellular model the presented group acts through the inverse of its identification
+  (`TauCeti.cellularClassifyingSpace_universalCover_smul_def`), and for this action the end-point
+  projection is a quotient covering map
+  (`TauCeti.isQuotientCoveringMap_cellularClassifyingSpace_universalCover`). For Milnor's model
+  the countable join is the universal cover (`TauCeti.universalGSpaceHomeomorphUniversalCover`,
+  a pointed homeomorphism over `BG`), and under it `g` acts by the left translation of the
+  previous bullet.
 
-- The [universal-covers roadmap](../../Completed/UniversalCovers/README.md), complete, owns
-  the universal cover, deck transformations, quotient covers by a group action
-  (Mathlib's `IsQuotientCoveringMap`), the Galois correspondence, the `π_n` API, and the
-  recognition of `K(G, 1)` spaces from a weakly contractible universal cover (its item 14).
-  Stage 1 below consumes its recognition criterion and its standing-hypothesis API rather than
-  reproving them. Its convention is inherited: the deck group of the universal cover is the
-  *opposite* of the fundamental group (its Stage 1 item 5), so the identification `π₁(BG) ≅ G`
-  fixes a direction; Stage 1 item 5 fixes it, with a Check on `S₃` that detects the other choice.
-- The [geometric-topology roadmap](../GeometricTopology/README.md), Layer 11, owns the polyhedron
-  `|K|` of an abstract simplicial complex, its weak topology, and its realization API: maps
-  induced by simplicial maps, restriction to a subset of the vertices, the factorization of a map
-  out of a compact space through a finite vertex restriction, the contraction of a realized
-  cone onto its apex, and the CW structure on `|K|` whose cells are the simplices, with its
-  cellular chains the ordered simplicial chains. Stages 1, 3 and 4 consume those and add
-  nothing general about realizations.
-- The [algebraic-topology roadmap](../AlgebraicTopology/README.md) owns van Kampen through the
-  fundamental groupoid with its group-presentation corollaries (its Stage 1 item 4), local
-  coefficient systems (its Stage 2 item 6), CW pairs, cellular approximation, cofibrations,
-  skeletal induction, the attachment of cells to a Hausdorff space, the CW structure on the union
-  of an expanding tower of CW subcomplexes with its Hausdorffness and compact factorization, and
-  the comparison between Mathlib's categorical and classical CW structures (its Stage 4 item 5),
-  the CW structure of a realized simplicial set (its Stage 4 item 7), cellular chains and their
-  comparison with singular homology, with constant and with local coefficients (its Stage 4
-  items 1 to 3), CW approximation and spaces of CW type (its Stage 4 item 8), singular homology
-  (its Stage 2), the Hurewicz and Whitehead theorems for spaces of CW type (its Stage 8 items 3
-  and 5), the nerve model of the classifying space with its `K(G, 1)` property and its
-  identification of `π₁` (its Stage 8 item 8a), and the construction that kills a homotopy group
-  of a CW complex by attaching cells, with its connectivity and preserved-lower-group claims (its
-  Stage 8 item 8c). Stage 2 below consumes van Kampen, the Stage 4 CW machinery and the killing
-  construction; Stage 3 consumes Whitehead, CW type and the nerve model; Stage 4 consumes
-  Hurewicz, the cellular comparison and the local coefficient systems. The algebraic-topology
-  roadmap is a supplier of this roadmap; no target here is an input to any of its layers, and the
-  comparison of its nerve model with the models here is owned here, not there.
-- The [profinite-cohomology roadmap](../ProfiniteCohomology/README.md) owns continuous cohomology
-  of profinite groups. The group cohomology compared here is Mathlib's discrete one; neither
-  development introduces a second version of the other's objects.
+  **Checks.**
+  - `G = ℤ`, the circle as `K(ℤ, 1)`: with the resolution `ℤ[ℤ] → ℤ[ℤ] → ℤ` of the pinned
+    `TauCeti.cellularClassifyingSpaceResolution`, the first map is multiplication by `t − 1` for
+    the generator `t`; the other convention would give `t⁻¹ − 1`, also exact, and the two are
+    distinguished by the `S₃` Check above, not by the circle.
+  - `G = 1`: the action is trivial and the universal cover is the space itself.
+- **Orientation of the join.** The cells of `EG` are the simplices of the countable join,
+  enumerated by increasing index (`TauCeti.universalGSpaceVertexOrder`); the explicit
+  comparison with `Rep.standardComplex` sends `{(i₀, g₀), …, (iₙ, gₙ)}` with `i₀ < ⋯ < iₙ` to
+  `(g₀, …, gₙ)`.
+- **Coefficients.** `k` is a commutative ring in the universe of `G`, because Mathlib's `Rep k G`
+  keeps `k` and `G` in one universe; the integral statements are the case `k = ℤ`, `G : Type`.
+  Singular homology is Mathlib's `AlgebraicTopology.singularHomologyFunctor`, whose value on
+  `ModuleCat.of k k` is by definition the homology of Tau Ceti's `TauCeti.singularChains k`;
+  singular cohomology is `TopCat.singularCohomology`; homology and cohomology with local
+  coefficients are `TauCeti.LocalCoefficientSystem.twistedHomology` and
+  `TauCeti.LocalCoefficientSystem.twistedCohomology`.
 
-## Inventory: what Mathlib and Tau Ceti already give
+## Exact supplier contracts
 
-- **Group (co)homology.** `Mathlib/RepresentationTheory/Homological/GroupCohomology/` and
-  `.../GroupHomology/` define the functors, their long exact sequences, low-degree descriptions,
-  functoriality and Shapiro's lemma, over `Rep k G`. This roadmap compares against them and does
-  not define a third theory.
-- **The bar resolution.** `Mathlib/RepresentationTheory/Homological/Resolution.lean` defines
-  `classifyingSpaceUniversalCover`, the simplicial `G`-set `[n] ↦ Gⁿ⁺¹` with the diagonal action,
-  and the projective resolution it gives. That is the simplicial-set model of `EG`; it is a
-  different object from the spaces built here, and the name is Mathlib's, so the spaces below
-  take names in the `TauCeti` namespace. Stage 4 relates the two.
-- **Singular homology and cohomology.** Mathlib supplies the singular homology functor on
-  topological spaces, with values in modules over a commutative ring, together with its homotopy
-  invariance; this roadmap consumes it from Mathlib as it stands. Tau Ceti's
-  `TauCeti/AlgebraicTopology/Cohomology/` supplies singular cohomology `TopCat.singularCohomology`
-  as the cohomology of the dual of the singular chains.
-- **Simplicial complexes.** Mathlib's `AbstractSimplicialComplex`
-  (`Mathlib/AlgebraicTopology/SimplicialComplex/Basic.lean`) is the abstract complex: a family of
-  nonempty finite faces, closed under nonempty subsets and containing every singleton.
-  `TauCeti/AlgebraicTopology/SimplicialComplex/` adds its realization with the weak topology, the
-  combinatorial join and cone, subdivision and collapse. The realization theory this roadmap
-  needs on top of that belongs to Layer 11 of the geometric-topology roadmap.
-- **Covering spaces.** Mathlib's `IsQuotientCoveringMap` (`Mathlib/Topology/Covering/Quotient.lean`)
-  is the predicate on the orbit map of a group action: a quotient map, a continuous action, and
-  local disjointness of the translates of a neighbourhood. `TauCeti/AlgebraicTopology/UniversalCover/`
-  and `TauCeti/AlgebraicTopology/EilenbergMacLane/` supply the universal cover, its deck group,
-  `IsAspherical`, `IsEilenbergMacLaneSpaceOne` and the recognition theorems.
-- **Presented groups.** `Mathlib/GroupTheory/PresentedGroup.lean` and
-  `Mathlib/GroupTheory/FreeGroup/` supply presentations, free groups and their universal property.
-  Every group has the tautological presentation on its own elements, so Stage 2 needs no
-  finiteness hypothesis.
+### From Mathlib
 
-## Stage 1: the simplicial model
+- `groupHomology`, `groupCohomology`, `groupHomology.map`, `groupCohomology.map`,
+  `groupHomology.δ`, `groupCohomology.δ`, `Rep.trivial`, `Rep.ihom`, `Rep.standardComplex`,
+  `Rep.standardResolution` and `classifyingSpaceUniversalCover`
+  (`Mathlib/RepresentationTheory/Homological/`): the algebraic side of every comparison. Nothing
+  is assumed beyond their definitions and the functoriality Mathlib proves.
+- `PresentedGroup`, `FreeGroup`, `Group.Presentation`, `Group.Presentation.ofFreeGroupHom` and
+  `Group.Presentation.presentedGroupEquiv` (`Mathlib/GroupTheory/`): presentations, and the
+  tautological presentation of a group by its own elements, which is why no finiteness
+  hypothesis appears anywhere.
+- `IsQuotientCoveringMap` (`Mathlib/Topology/Covering/Quotient.lean`), `FundamentalGroup`,
+  `FundamentalGroup.mapOfEq`, `FundamentalGroup.mul_def`, `ContinuousMap.HomotopyEquiv`,
+  `ContinuousMap.HomotopicRel`, `Topology.CWComplex`, `Topology.RelCWComplex.skeletonLT`,
+  `Topology.CWComplex.cell` and `AlgebraicTopology.singularHomologyFunctor`.
 
-Milnor's construction: the countable join of copies of `G`, realized with the weak topology, is
-weakly contractible and carries a free `G`-action whose orbit map is a covering. The realization
-is written `EG`, the orbit space `BG`, the orbit map `p_G : EG → BG`.
+### From Tau Ceti
 
-1. **The countable join complex.** For a family `A : ℕ → Type u`, the abstract simplicial complex
-   on `Σ i, A i` whose faces are the nonempty finite sets meeting each index at most once
-   (Milnor 1956, the join `G * G * ⋯`; Segal 1968, §2, the remark comparing `BG` with Milnor's
-   join). Give its face and barycentric-coordinate descriptions, the simplicial maps induced by
-   maps of the families, and the inclusions of the subjoins on a finite set of indices. For the
-   constant family `A i = G` write `EG` for the realization, based at the vertex `(0, 1)`.
-   *Needs:* Mathlib `AbstractSimplicialComplex`; GeometricTopology Layer 11 (the realization
-   `|K|`, the maps induced by simplicial maps, the restriction to a set of vertices).
+The pinned directory `TauCeti/AlgebraicTopology/ClassifyingSpace/` is consumed as it stands. By
+file:
 
-   **Checks.**
-   - For the trivial group the faces are all nonempty finite subsets of the vertex set
-     `{(i, 1) : i ∈ ℕ}`: the infinite simplex. A definition asking each face to meet *every*
-     index would have no finite faces at all.
-   - For `G = ℤ/2`, written additively with elements `0` and `1`, the set `{(0, 0), (0, 1)}` is
-     not a face (two vertices at index `0`) and
-     `{(0, 0), (1, 1)}` is a face. A definition that forgot the one-vertex-per-index condition
-     would admit the first, and the translates of an open star in item 3 would then meet.
-   - For a family with `A i` empty for every `i` the vertex set is empty and the complex has no
-     faces; the realization is empty and item 2 does not apply to it.
-2. **Weak contractibility.** When `A i` is nonempty for infinitely many `i`, the realization is
-   path-connected and all its homotopy groups vanish. The argument: a generalized loop has
-   compact image, so by Layer 11 it factors through the restriction to finitely many vertices
-   (the weak-topology form of Hatcher, Proposition A.1, p. 520); choose an index no face of that
-   restriction touches, and cone the loop off there. Package the dimension-one case as
-   `SimplyConnectedSpace`. *Needs:* GeometricTopology Layer 11 (the factorization of a map out of
-   a compact space through a finite vertex restriction, the contraction of a realized cone onto
-   its apex); Mathlib `HomotopyGroup`, `SimplyConnectedSpace`.
-3. **The action and the orbit cover.** The left action `h • (i, g) = (i, h * g)`, its action laws,
-   the continuity of each translation, and freeness. The sets where the coordinate at `(i, g)` is
-   positive are open, and their translates by distinct group elements are disjoint, because a face
-   meets each index at most once; that is the local disjointness `IsQuotientCoveringMap` asks for.
-   A group freely permuting the simplices of a complex acts as a covering space action: Hatcher,
-   Example 1B.7, p. 89, makes this argument for the nerve model and it is the same for the join.
-   `BG` is the orbit space with the quotient topology, `p_G` the orbit map, `b₀` the class of
-   `(0, 1)`. Give the quotient the API a user needs without unfolding it: two points have the same
-   image exactly when a unique group element carries one to the other, the fibre over a point is
-   an orbit, a continuous `G`-invariant map descends, and `G ≃* Deck(p_G)` compatibly with the
-   action. *Needs:* Mathlib `MulAction`, `MulAction.orbitRel`, `IsQuotientCoveringMap`;
-   GeometricTopology Layer 11 (barycentric coordinates are continuous on `|K|`); Tau Ceti
-   `TauCeti.Deck.IsQuotientCoveringMap.deckMulEquiv` (the acting group of a quotient covering map
-   with preconnected nonempty total space is its deck group, by translation).
-4. **The standing hypotheses.** Total space and orbit space are path-connected and locally
-   path-connected: a closed simplex is convex, hence locally path-connected, the realization is a
-   quotient of the disjoint union of its closed simplices, and the orbit space is a quotient of
-   the realization, so `Topology.IsQuotientMap.locallyPathConnectedSpace` applies at each step.
-   The orbit space is semilocally simply connected because it is covered by a simply connected
-   space. *Needs:* (2), (3); Mathlib `Topology.IsQuotientMap.locallyPathConnectedSpace`;
-   GeometricTopology Layer 11 (`|K|` is the quotient of the disjoint union of its closed
-   simplices); Tau Ceti `TauCeti.SemilocallySimplyConnectedSpace.of_isCoveringMap` (the base of a
-   surjective covering map with simply connected total space is semilocally simply connected).
-5. **It is a `K(G, 1)`.** With (2), (3), (4) and the recognition criterion of the universal-covers
-   roadmap (its item 14): `π₁(BG, b₀) ≃* G` and the higher homotopy groups vanish, so
-   `IsEilenbergMacLaneSpaceOne G BG b₀`. The direction of the isomorphism is fixed as follows.
-   For a loop `γ` at `b₀` write `m(γ)` for the label of the end point `(0, m(γ))` of its lift
-   starting at `(0, 1)`. Under Mathlib's `FundamentalGroup.mul_def`, `p * q = q.trans p` runs `q`
-   first; its lift runs the lift of `q` to `(0, m(q))` and then `m(q)` times the lift of `p`, ending
-   at `(0, m(q) * m(p))`, so `m(p * q) = m(q) * m(p)` and the label is an anti-homomorphism. The
-   isomorphism `π₁(BG, b₀) ≃* G` is `γ ↦ m(γ)⁻¹`. It is the composite of the inversion
-   `π₁ ≃* π₁ᵐᵒᵖ`, the inverse of Tau Ceti's `TauCeti.UniversalCover.deckFundamentalGroupEquiv`
-   (`Deck ≃* π₁ᵐᵒᵖ`, whose inverse sends the class of `γ` to the deck transformation carrying the
-   base lift to the end point of the lift of `γ`), and the inverse of `G ≃* Deck(p_G)` of (3):
-   `γ ↦ γ⁻¹ ↦ (translation by m(γ⁻¹) = m(γ)⁻¹) ↦ m(γ)⁻¹`. Items 11, 16 and 17 inherit this choice.
-   State the unconditional existence theorem for an arbitrary group, and identify `p_G`, with
-   its chosen base point, with the based-path universal cover by a pointed homeomorphism over the
-   base. *Needs:* (2), (3), (4); UniversalCovers item 14; Tau Ceti
-   `TauCeti.UniversalCover.deckFundamentalGroupEquiv` (the deck group of the universal cover is
-   the opposite of `π₁`), `IsEilenbergMacLaneSpaceOne`, `IsAspherical`.
+- **Milnor's model** (`CountableJoin.lean`, `Action.lean`, `WeakContractibility.lean`,
+  `Contractible.lean`, `Basic.lean`): `TauCeti.universalGSpace G`, its base point
+  `TauCeti.universalGSpaceBasepoint G`, the map `MonoidHom.universalGSpaceMap` of a homomorphism
+  with its base-point, identity and composition laws; the free action
+  `TauCeti.instMulActionUniversalGSpace` with `TauCeti.instIsCancelSMulUniversalGSpace` and the
+  disjointness of translates of an open star
+  (`TauCeti.eq_one_of_image_smul_openStarRealization_inter_nonempty`); simple connectivity
+  `TauCeti.instSimplyConnectedSpaceUniversalGSpace`, the vanishing of all homotopy groups
+  `TauCeti.subsingleton_homotopyGroup_universalGSpace` and contractibility
+  `TauCeti.instContractibleSpaceUniversalGSpace`; the orbit space `TauCeti.classifyingSpace G`,
+  the orbit map `TauCeti.classifyingSpaceProj G` with
+  `TauCeti.isQuotientCoveringMap_classifyingSpaceProj`, the base point
+  `TauCeti.classifyingSpaceBasepoint G`, the quotient API
+  (`TauCeti.classifyingSpaceProj_eq_iff_existsUnique`,
+  `TauCeti.preimage_classifyingSpaceProj_singleton`, `TauCeti.classifyingSpaceLift`),
+  `TauCeti.classifyingSpaceDeckMulEquiv : G ≃* deck p_G`, and the standing hypotheses
+  `TauCeti.instPathConnectedSpaceClassifyingSpace`,
+  `TauCeti.instLocallyPathConnectedSpaceClassifyingSpace` and
+  `TauCeti.instSemilocallySimplyConnectedSpaceClassifyingSpace`.
+- **Its fundamental group** (`EilenbergMacLane.lean`):
+  `TauCeti.classifyingSpaceFundamentalGroupMulEquiv G : π₁(BG, b₀) ≃* G` with
+  `TauCeti.classifyingSpaceFundamentalGroupMulEquiv_apply_eq_iff`,
+  `TauCeti.isEilenbergMacLaneSpaceOne_classifyingSpace G`,
+  `TauCeti.subsingleton_homotopyGroup_classifyingSpace`, the existence theorem
+  `TauCeti.exists_isEilenbergMacLaneSpaceOne` (a locally path-connected, semilocally simply
+  connected `K(G, 1)` in the universe of `G`), and
+  `TauCeti.universalGSpaceHomeomorphUniversalCover`.
+- **Functoriality** (`Functoriality.lean`, `HomotopyFunctor.lean`): `MonoidHom.classifyingSpaceMap`
+  with `MonoidHom.classifyingSpaceMap_proj`, `MonoidHom.classifyingSpaceMap_basepoint`,
+  `MonoidHom.classifyingSpaceMap_id`, `MonoidHom.classifyingSpaceMap_comp` and
+  `MonoidHom.classifyingSpaceFundamentalGroupMulEquiv_mapOfEq` (the induced map on `π₁` is `φ`
+  under the identifications); the functors `TauCeti.classifyingSpaceFunctor` to based spaces and
+  `TauCeti.classifyingSpaceHomotopyFunctor` to the pointed homotopy category, the natural
+  isomorphism `TauCeti.classifyingSpaceHomotopyFunctorCompFundamentalGroupFunctorIso` from
+  `B ⋙ π₁` to the identity, faithfulness, and for the cellular model
+  `TauCeti.fundamentalGroupFunctor_map_bijective_cellularClassifyingSpace` (pointed homotopy
+  classes of maps into a space without higher homotopy are the homomorphisms of fundamental
+  groups) and `TauCeti.quotient_map_eq_quotient_map_comp_cellularClassifyingSpace`.
+- **CW structures** (`CWComplex.lean`): `TauCeti.instCWComplexUniversalGSpace` (cells the
+  simplices, enumerated by `TauCeti.universalGSpaceVertexOrder`), the free cellular action
+  `TauCeti.instMulActionCellUniversalGSpace` with `TauCeti.instIsCancelSMulCellUniversalGSpace`
+  and `TauCeti.smul_openCell_universalGSpace`, and on the orbit space
+  `TauCeti.instCWComplexClassifyingSpace`, `TauCeti.instT2SpaceClassifyingSpace` and
+  `TauCeti.classifyingSpaceCellEquiv` (the `n`-cells of `BG` are the orbits of `n`-simplices,
+  with characteristic maps `TauCeti.map_classifyingSpaceCellEquiv_symm_mk`). The general transfer
+  of a CW structure along the quotient covering map of a free cellular action is
+  `IsQuotientCoveringMap.cwComplexQuotient` (`TauCeti/Topology/CWComplex/Classical/OrbitSpace.lean`).
+- **The presentation complex and the cellular model** (`PresentationComplex.lean`,
+  `Cellular.lean`, and `TauCeti/AlgebraicTopology/Homotopy/KillHomotopyGroups.lean`):
+  `TauCeti.PresentationComplex R` with `TauCeti.PresentationComplex.fundamentalGroupMulEquiv`
+  (van Kampen's group-presentation corollary), `TauCeti.PresentationComplex.instCWComplex`,
+  `TauCeti.PresentationComplex.cellOneEquiv`, `TauCeti.PresentationComplex.cellTwoEquiv` and
+  `TauCeti.PresentationComplex.isEmpty_cell` (no cells above dimension two); the killing tower
+  `TauCeti.killHomotopyGroups n X x` of any Hausdorff pointed space and `n ≥ 1`, with
+  `TauCeti.bijective_homotopyGroupMap_killHomotopyGroupsIncl` (unchanged `π_k` for `k < n`),
+  `TauCeti.subsingleton_homotopyGroup_killHomotopyGroups` (vanishing from `n` on),
+  `TauCeti.isEilenbergMacLaneSpaceOne_killHomotopyGroups`, `TauCeti.killHomotopyGroupsCWComplex`,
+  `TauCeti.cwType_killHomotopyGroups`, the extension theorems
+  `TopCat.Hom.exists_killHomotopyGroupsIncl_comp_eq` and
+  `TauCeti.exists_mapOfEq_comp_killHomotopyGroupsFundamentalGroupMulEquiv`; the cellular model
+  `TauCeti.cellularClassifyingSpace R := killHomotopyGroups 2 (PresentationComplex R) _` with
+  `TauCeti.cellularClassifyingSpaceFundamentalGroupMulEquiv`,
+  `TauCeti.isEilenbergMacLaneSpaceOne_cellularClassifyingSpace`,
+  `TauCeti.instCWComplexCellularClassifyingSpace`, its single `0`-cell
+  `TauCeti.skeletonLT_one_cellularClassifyingSpace`, the pointed maps out of it
+  `TauCeti.exists_mapOfEq_cellularClassifyingSpace` and their uniqueness
+  `TauCeti.homotopicRel_of_mapOfEq_eq_cellularClassifyingSpace`, and
+  `TauCeti.PresentationComplex.homotopyEquivCellularClassifyingSpace` (an aspherical presentation
+  complex is already the model).
+- **Comparison and uniqueness** (`Comparison.lean`, `Uniqueness.lean`):
+  `TauCeti.cellularClassifyingSpaceHomotopyEquiv R hY φ`, the homotopy equivalence from the
+  cellular model to any aspherical space of CW type realizing `φ` by a pointed forward map
+  (`TauCeti.cellularClassifyingSpaceHomotopyEquiv_toFun_basepoint`,
+  `TauCeti.mapOfEq_cellularClassifyingSpaceHomotopyEquiv_toFun_apply`), unique up to pointed
+  homotopy (`TauCeti.homotopicRel_cellularClassifyingSpaceHomotopyEquiv_toFun`), whose inverse
+  induces `φ⁻¹` after a change of base point
+  (`TauCeti.exists_path_map_cellularClassifyingSpaceHomotopyEquiv_invFun`); the comparison of the
+  two models `TauCeti.cellularHomotopyEquivClassifyingSpace R e` for `e : PresentedGroup R ≃* G`,
+  inducing `e` under the two identifications
+  (`TauCeti.classifyingSpaceFundamentalGroupMulEquiv_mapOfEq_cellularHomotopyEquivClassifyingSpace`)
+  and determined by `e` up to pointed homotopy
+  (`TauCeti.homotopicRel_cellularHomotopyEquivClassifyingSpace_toFun`); the standing hypotheses of
+  the cellular model, `TauCeti.instSemilocallySimplyConnectedSpaceCellularClassifyingSpace` and,
+  through `TauCeti.instDeltaGeneratedSpaceOfCWComplexUniv`, local path-connectedness, packaged
+  with existence in `TauCeti.exists_isEilenbergMacLaneSpaceOne_cellularClassifyingSpace`; and the
+  uniqueness theorems `TauCeti.IsAspherical.exists_homotopyEquiv` (aspherical spaces of CW type
+  are homotopy equivalent by an equivalence realizing a prescribed isomorphism of fundamental
+  groups up to a change of base point along a path),
+  `TauCeti.IsEilenbergMacLaneSpaceOne.nonempty_homotopyEquiv` and
+  `TauCeti.IsAspherical.exists_homotopyEquiv_classifyingSpace`.
+- **Resolutions** (`Resolution.lean`, `Acyclic.lean`, `StandardComplex.lean`,
+  `StandardResolution.lean`, `Naturality.lean`, `PresentedGroupResolution.lean`):
+  `TauCeti.universalGSpaceResolution k G`, the ordered chains of the countable join as a
+  projective resolution of `Rep.trivial k G k`, exact by
+  `TauCeti.quasiIso_orderedSimplicialChainComplexAugmentation_indexedJoin`; the explicit chain
+  map `TauCeti.universalGSpaceChainComplexToStandardComplex` to `Rep.standardComplex k G`
+  (module level `TauCeti.universalGSpaceToStandardComplex`), the homotopy equivalence of
+  resolutions `TauCeti.universalGSpaceStandardHomotopyEquiv` whose forward map it is, its
+  homotopy `TauCeti.universalGSpaceChainComplexToStandardComplexHomotopy` to Mathlib's abstract
+  comparison, and its naturality `MonoidHom.universalGSpaceChainComplexToStandardComplex_naturality`;
+  for the cellular model `TauCeti.cellularClassifyingSpaceResolution R k`, an instance of the
+  general `TauCeti.cellularResolutionOfIsAspherical`
+  (`TauCeti/AlgebraicTopology/EilenbergMacLane/Resolution.lean`: the lifted cellular chains of
+  the universal cover of an aspherical Hausdorff CW complex are a projective resolution).
+- **(Co)homology of Milnor's model** (`Homology.lean`, `Cohomology.lean`,
+  `LocalCoefficients.lean`, `FirstHomology.lean`):
+  `TauCeti.classifyingSpaceSingularHomologyIsoGroupHomology k G n : Hₙ(BG; k) ≅ Hₙ(G, k)`,
+  natural in the group (`MonoidHom.classifyingSpaceSingularHomologyIsoGroupHomology_hom_naturality`:
+  the map of `MonoidHom.classifyingSpaceMap φ` goes to `groupHomology.map φ`);
+  `TauCeti.classifyingSpaceSingularCohomologyIsoGroupCohomology k G M n : Hⁿ(BG; M) ≅ Hⁿ(G, M)`
+  for a `k`-module `M`, natural in the coefficients
+  (`TauCeti.classifyingSpaceSingularCohomologyIsoGroupCohomology_hom_naturality`), in the group
+  (`MonoidHom.classifyingSpaceSingularCohomologyIsoGroupCohomology_hom_naturality`) and carrying
+  the Bockstein of a short exact sequence of modules to `groupCohomology.δ`
+  (`TauCeti.singularCohomologyBockstein_comp_classifyingSpaceSingularCohomologyIsoGroupCohomology_hom`);
+  with local coefficients, the local system `TauCeti.classifyingSpaceLocalSystem k A` of a
+  representation `A : Rep k G` through the orbit map, with
+  `TauCeti.classifyingSpaceTwistedHomologyIsoGroupHomology : Hₙ(BG; A) ≅ Hₙ(G, A)` and
+  `TauCeti.classifyingSpaceTwistedCohomologyIsoGroupCohomology : Hⁿ(BG; A, N) ≅ Hⁿ(G, Homₖ(A, N))`,
+  natural in `A` and compatible with the connecting maps of short exact sequences
+  (`TauCeti.classifyingSpaceTwistedHomologyIsoGroupHomology_hom_naturality`,
+  `TauCeti.twistedHomologyδ_comp_classifyingSpaceTwistedHomologyIsoGroupHomology_hom`); and in
+  degree one `TauCeti.classifyingSpaceFirstHomologyAddEquiv : H₁(BG; ℤ) ≃+ Gᵃᵇ` through Hurewicz,
+  with `TauCeti.classifyingSpaceFirstHomologyAddEquivGroupHomology` to Mathlib's `H₁(G, ℤ)`.
+- **Examples** (`Circle.lean`, `WedgeCircles.lean`, `Torus.lean`, `FiniteCyclic.lean`,
+  `Torsion.lean`): `TauCeti.circleHomotopyEquivClassifyingSpace` with a pointed forward map
+  inducing the identity of `ℤ`
+  (`TauCeti.classifyingSpaceFundamentalGroupMulEquiv_mapOfEq_circleToClassifyingSpace`);
+  `TauCeti.wedgeCirclesHomotopyEquivClassifyingSpace` and
+  `TauCeti.wedgeCirclesHomotopyEquivCellularClassifyingSpace` for a free group, with
+  `TauCeti.isZero_groupHomology_freeGroup` in degrees at least two;
+  `TauCeti.torusHomotopyEquivClassifyingSpace` with
+  `TauCeti.finrank_groupHomology_pi_multiplicative_int` (rank `card ι choose n`);
+  for a finite cyclic group `TauCeti.classifyingSpaceSingularHomologyIntLinearEquivOdd`
+  (`ℤ/n` in odd degrees) and `TauCeti.subsingleton_classifyingSpace_singularHomology_int_of_even`
+  (zero in positive even degrees, in particular `H₂ = 0`); and for a finite group
+  `TauCeti.natCard_nsmul_classifyingSpace_singularHomology_eq_zero`.
 
-   **Checks.**
-   - `G = S₃`, `s = (1 2)`, `t = (2 3)`, and loops `ℓ_s`, `ℓ_t` with `m(ℓ_s) = s`, `m(ℓ_t) = t`:
-     `m(ℓ_s * ℓ_t) = t * s`, while `s * t ≠ t * s`. The map `γ ↦ m(γ)⁻¹` sends `ℓ_s * ℓ_t` to
-     `(t * s)⁻¹ = s⁻¹ * t⁻¹ = s * t`, the product of the images; the map `γ ↦ m(γ)` would send it
-     to `t * s ≠ s * t` and is not a homomorphism. An abelian group cannot detect this.
-   - `G = ℤ`, written additively, so the base vertex is `(0, 0)`: the loop whose lift ends at
-     `(0, 1)` goes to `−1`. The sign is invisible to the `S₃`
-     test, and the `S₃` test is invisible to this one; both are needed.
-   - `G = 1`: `BG = EG` is the infinite simplex, contractible; the isomorphism is the unique map.
-6. **Functoriality.** For `φ : G →* H` the induced maps on `EG` and `BG`: continuity, preservation
-   of base points, compatibility with the orbit maps, and the identity and composition laws. Under
-   the isomorphisms of (5) the induced map on fundamental groups is `φ`: the lift of the image
-   loop ends at `(0, φ(m(γ)))`, and inversion commutes with `φ`. This functoriality is strict, not
-   just up to homotopy; Stage 3's is the homotopy-invariant statement that applies to any model.
-   *Needs:* (1), (3), (5); GeometricTopology Layer 11 (the map `|f|` induced by a simplicial map,
-   with its identity and composition laws).
+Other pinned Tau Ceti declarations the routes below use, each named at the target that uses it:
+`TauCeti.IsAspherical`, `TauCeti.IsEilenbergMacLaneSpaceOne`
+(`TauCeti/AlgebraicTopology/EilenbergMacLane/Basic.lean`);
+`TauCeti.homotopicRel_singleton_of_mapOfEq_eq_of_cwComplex` and
+`TauCeti.homotopicRel_skeletonLT_one_of_forall_homotopicRel`
+(`TauCeti/AlgebraicTopology/EilenbergMacLane/Homotopic.lean`);
+`TauCeti.IsAspherical.isWeakHomotopyEquivalence_iff`
+(`TauCeti/AlgebraicTopology/EilenbergMacLane/WeakHomotopyEquivalence.lean`);
+`ContinuousMap.IsWeakHomotopyEquivalence.homotopyEquiv` and
+`ContinuousMap.IsWeakHomotopyEquivalence.homotopyEquiv_toFun`
+(`TauCeti/AlgebraicTopology/Homotopy/Whitehead.lean`); `TauCeti.CWType` and
+`TauCeti.CWType.of_cwComplex_univ` (`TauCeti/Topology/CWComplex/Classical/CWType.lean`);
+`TauCeti.zeroSkeletonDiscreteTopology` (`TauCeti/Topology/CWComplex/Classical/Zero.lean`);
+`TauCeti.hasHomotopyExtensionProperty_skeletonLT`
+(`TauCeti/Topology/Homotopy/Extension/CWComplex.lean`);
+`FundamentalGroup.fundamentalGroupMulEquivOfPath`,
+`ContinuousMap.Homotopy.fundamentalGroupMulEquivOfPath_evalAt_map` and
+`ContinuousMap.Homotopy.exists_path_fundamentalGroupMulEquivOfPath_map_comp`
+(`TauCeti/AlgebraicTopology/FundamentalGroup/BasepointChange.lean`);
+`ContinuousMap.HomotopyEquiv.singularHomologyIso`
+(`TauCeti/AlgebraicTopology/Singular/Homotopy/Invariance.lean`) and
+`isIso_singularCohomologyMap` (`TauCeti/AlgebraicTopology/Cohomology/HomotopyInvariance.lean`);
+`TauCeti.LocalCoefficientSystem.ofRepresentation`,
+`TauCeti.LocalCoefficientSystem.monodromyRepresentation_ofRepresentation` and
+`TauCeti.LocalCoefficientSystem.ofRepresentationMonodromyIso`
+(`TauCeti/AlgebraicTopology/LocalCoefficient/Representation.lean`);
+`TauCeti.LocalCoefficientSystem.pullbackHomotopyIso` (`TauCeti/AlgebraicTopology/LocalCoefficient.lean`);
+`ContinuousMap.HomotopyEquiv.isIso_twistedHomologyMap`
+(`TauCeti/AlgebraicTopology/Singular/Twisted/HomotopyInvariance/Basic.lean`),
+`TopCat.Homotopy.twistedCohomologyMap_eq_comp`
+(`TauCeti/AlgebraicTopology/Cohomology/Twisted/HomotopyInvariance.lean`),
+`twistedHomologyConstantIso` and `twistedCohomologyConstantIso`
+(`TauCeti/AlgebraicTopology/Singular/Twisted/Basic.lean`,
+`TauCeti/AlgebraicTopology/Cohomology/Twisted/Basic.lean`),
+`twistedHomology₀IsoCoinvariants` (`TauCeti/AlgebraicTopology/Singular/Twisted/Coinvariants.lean`)
+and `monodromy_smul` (`TauCeti/AlgebraicTopology/LocalCoefficient/QuotientCovering/Basic.lean`);
+`TauCeti.UniversalCover.smul_mk`, `TauCeti.UniversalCover.deckFundamentalGroupEquiv` and
+`TauCeti.UniversalCover.deckFundamentalGroupEquiv_symm_op`
+(`TauCeti/AlgebraicTopology/UniversalCover/`).
 
-## Stage 2: the cellular model
+## How to read the build
 
-The presentation complex, with higher cells attached to kill the homotopy the presentation does
-not control.
+Layer 1 proves Hatcher's Proposition 1B.9 for an arbitrary path-connected Hausdorff CW source,
+by reducing to the pinned theorems: the killing tower turns the source into a CW `K(π₁, 1)`
+containing it, the pinned uniqueness theorem supplies a map out of that into the target, and the
+homotopy extension property of the `0`-skeleton moves the base point and, in the uniqueness
+clause, makes two maps agree on the `0`-skeleton so that the pinned one-skeleton criterion
+applies. Its last item upgrades the pinned uniqueness up to base-point change to pointed
+uniqueness, by Whitehead's theorem. Layer 2 defines the comparison of the (co)homology of an
+arbitrary Hausdorff CW `K(G, 1)` with group (co)homology by pulling the pinned comparison for
+Milnor's model back along the pointed comparison map of Layer 1, proves that the result depends
+only on the chosen identification of the fundamental group, that it is natural, and that it
+extends to local coefficients. Layer 2 depends on Layer 1; Layer 1 depends only on the pins.
 
-7. **The presentation complex.** For a group presentation, generators `S` and relators
-   `R ⊆ FreeGroup S`, the complex with one vertex, a one-cell for each generator and a two-cell
-   attached along each relator. Prove that its fundamental group is `PresentedGroup R`, by the
-   group-presentation corollary of van Kampen (Hatcher, Corollary 1.28, p. 52); the
-   wedge-of-circles case is the free group. Applied to the tautological presentation of `G`, with
-   a generator `x_g` for every `g ∈ G` and the relator `x_g * x_h * x_{g h}⁻¹` for every pair
-   `(g, h)`, this is the headline `exists_cwComplex_dim_le_two_fundamentalGroup_mulEquiv`: every
-   group is the fundamental group of a path-connected Hausdorff CW complex with no cells above
-   dimension two.
-   *Needs:* AlgebraicTopology Stage 1 item 4 (the group-presentation corollary of van Kampen) and
-   Stage 4 item 5 (attaching cells to a Hausdorff CW complex gives a Hausdorff CW complex);
-   Mathlib `PresentedGroup`, `FreeGroup`, `Topology.CWComplex`.
+## Layer 1: maps into aspherical spaces and pointed uniqueness
 
-   **Checks.**
-   - `R = ∅`: the wedge of circles indexed by `S`, with fundamental group `FreeGroup S`. A
-     definition attaching the two-cells along the generators instead of the relators would give
-     a wedge of disks, which is simply connected.
-   - `S = ∅`: a point, with trivial fundamental group.
-   - `S = {a}`, `R = {aⁿ}` with `n ≥ 1`: the disk with its boundary wrapped `n` times around a
-     circle, with fundamental group `ℤ/n`; for `n = 1` the complex is contractible.
-   - The tautological presentation of the trivial group has one generator `x` and, for the pair
-     `(1, 1)`, the relator `x * x * x⁻¹`, which reduces to `x`; so the complex is a disk. A
-     definition that omitted that relator would give a circle, whose fundamental group is not
-     trivial.
-8. **Killing a homotopy group.** For a Hausdorff CW complex `Y` and `n ≥ 2`, the complex obtained
-   by attaching `(n + 1)`-cells along a generating family of `π_n(Y)`: the inclusion is an
-   isomorphism on `π_k` for `k < n` and kills `π_n`. Cellular approximation and the compactness of
-   a sphere's image supply both halves (Hatcher, Example 4.16, p. 354, the first step of a
-   Postnikov tower; Proposition A.1, p. 520, for compactness). This construction, with its
-   connectivity and preserved-lower-group claims, is owned by AlgebraicTopology Stage 8 item 8c
-   and is consumed here, not reproved: this roadmap only applies it to the presentation complex.
-   *Needs:* AlgebraicTopology Stage 8 item 8c (the higher-cell killing construction) and Stage 4
-   item 5 (cellular approximation, attaching cells to a Hausdorff CW complex); UniversalCovers
-   (the `π_n` API); Mathlib `HomotopyGroup`.
-9. **The tower and its union.** Iterating (8) from the presentation complex gives an expanding
-   sequence of Hausdorff CW complexes, each a subcomplex of the next. Its union with the final
-   topology carries the classical `CWComplex (Set.univ : Set _)` structure of AlgebraicTopology
-   Stage 4 item 5, whose cells are the disjoint union of the cells added at each stage, and is
-   Hausdorff; the same item supplies that a map from a compact space into the union factors
-   through a finite stage. Prove that the union has the fundamental group of the presentation
-   complex and no higher homotopy: a map from a sphere or a cube factors through a finite stage,
-   where (8) applies (Hatcher, Example 4.16, p. 354; Proposition A.1, p. 520). *Needs:* (7),
-   (8); AlgebraicTopology Stage 4 item 5 (the CW structure on the union of a tower of
-   subcomplexes, its Hausdorffness, and compact factorization through a finite stage); Mathlib
-   `Topology.CWComplex`.
-10. **A cellular `K(G, 1)` for any group.** Feed the tautological presentation of `G` into (7) and
-    the tower into (9). State the existence theorem and its standing hypotheses in the same form
-    as Stage 1's, so that the two are comparable statements and not merely two constructions.
-    Either model proves the headline `exists_cwComplex_isEilenbergMacLaneSpaceOne`: a Hausdorff CW
-    `K(G, 1)` exists for every group `G`, with no hypothesis beyond `Group G`; for the simplicial
-    model the CW structure is Stage 3 item 13. *Needs:* (7), (9); Tau Ceti
-    `IsEilenbergMacLaneSpaceOne`.
+Throughout, `X` is a path-connected Hausdorff CW complex with base point `x`, and `(Y, y)` is an
+aspherical pointed space, `TauCeti.IsAspherical Y y`: path-connected with vanishing homotopy
+groups from degree two on. The target needs no CW structure.
 
-## Stage 3: uniqueness and the comparison of the models
+### 1.1 Existence of a pointed map realizing a homomorphism
 
-11. **Maps out of a CW complex into an aspherical space.** For a path-connected Hausdorff CW
-    complex `X` with base point `x` and any space `Y` with base point `y` that is aspherical
-    (`IsAspherical Y y`), every homomorphism `π₁(X, x) →* π₁(Y, y)` is induced by a pointed map,
-    unique up to homotopy relative to the base point (Hatcher, Proposition 1B.9, p. 90; the
-    headline `exists_continuousMap_mapOfEq_eq_of_isAspherical`). The source is any connected CW
-    complex, not only a cellular `K(G, 1)`; the target needs no CW structure. This is the
-    obstruction-theoretic step, proved by extending over skeleta: a one-cell goes to a loop
-    representing the image of its class, a two-cell's boundary is a relation in `π₁(X)` and so
-    maps to a null-homotopic loop, and over a cell of dimension `n ≥ 3` the extension problem is
-    solvable because `π_{n−1}(Y) = 0`; uniqueness is the same argument for `X × [0, 1]` relative
-    to `X × {0, 1} ∪ {x} × [0, 1]`. With the identifications of (5) and (10), every `φ : G →* H`
-    is induced by a pointed map between any two CW models, unique up to pointed homotopy.
-    *Needs:* AlgebraicTopology Stage 4 item 5 (skeletal induction, the homotopy extension
-    property of a CW pair); UniversalCovers (the `π_n` API); Mathlib `FundamentalGroup.mapOfEq`,
-    `ContinuousMap.HomotopicRel`; Tau Ceti `IsAspherical`.
-12. **Uniqueness.** Two `K(G, 1)` spaces of the same group, both of CW type (homotopy
-    equivalent to a CW complex, in the algebraic-topology roadmap's sense), are homotopy
-    equivalent, by an equivalence inducing any prescribed isomorphism on fundamental groups
-    (Hatcher, Theorem 1B.8, p. 90; for Hausdorff CW complexes the headline
-    `exists_homotopyEquiv_of_isAspherical`). First replace the source by a homotopy equivalent CW
-    complex, transporting the prescribed isomorphism along the equivalence together with the
-    change of base point it forces (the equivalence is not pointed). By (11) a pointed map
-    realizing the isomorphism exists and is a weak homotopy equivalence; Whitehead's theorem makes
-    it a homotopy equivalence, and this is where CW type is needed on *both* sides. Without it the
-    statement is false: a point and the Warsaw circle are both path-connected with trivial
-    homotopy groups, but the Warsaw circle is not contractible (Schwamberger–Vogt 2009, §2).
-    Deduce that the classifying space is well defined in the homotopy category of spaces of CW
-    type. *Needs:* (11); AlgebraicTopology Stage 8 item 5 (Whitehead's theorem for Hausdorff CW
-    complexes and spaces of CW type) and Stage 4 item 8 (spaces of CW type); Mathlib
-    `ContinuousMap.HomotopyEquiv`.
+Prove that every homomorphism `φ : π₁(X, x) →* π₁(Y, y)` is induced by a pointed map
+`f : X → Y`, `f x = y`, `FundamentalGroup.mapOfEq f hf = φ` (Hatcher, Proposition 1B.9, p. 90,
+existence clause; the headline `exists_continuousMap_mapOfEq_eq_of_isAspherical`, whose
+existence clause this is). Route, through the pinned theorems rather than through a maximal tree.
+`X' := TauCeti.killHomotopyGroups 2 X x` is a Hausdorff CW complex of CW type containing `X`
+(`TauCeti.killHomotopyGroupsCWComplex`, `TauCeti.cwType_killHomotopyGroups`), aspherical, and
+its fundamental group is identified with `π₁(X, x)` by the inclusion `ι`
+(`TauCeti.isEilenbergMacLaneSpaceOne_killHomotopyGroups`,
+`TauCeti.killHomotopyGroupsFundamentalGroupMulEquiv`). The only pinned maps out of an arbitrary
+space into an aspherical one are the homotopy inverses of the pinned equivalences from the
+cellular model, so take a presentation `R` of `π₁(X, x)`
+(`TauCeti.exists_isEilenbergMacLaneSpaceOne_cellularClassifyingSpace`) with
+`C := TauCeti.cellularClassifyingSpace R` and `ψ : π₁(C) ≃* π₁(X, x)`, and the pinned homotopy
+equivalence `c : C ≃ₕ X'` realizing `ψ` followed by the inclusion isomorphism by a pointed
+forward map (`TauCeti.cellularClassifyingSpaceHomotopyEquiv`), with homotopy inverse `d : X' → C`
+and a path `δ` from `d (ι x)` to the base point of `C` along which `d` induces the inverse
+isomorphism (`TauCeti.exists_path_map_cellularClassifyingSpaceHomotopyEquiv_invFun`). The pinned
+`TauCeti.exists_mapOfEq_cellularClassifyingSpace` gives a pointed map `g : C → Y` inducing
+`φ ∘ ψ`. Then `g ∘ d ∘ ι : X → Y` sends `x` to `g (d (ι x))` and, after the change of base point
+along `g ∘ δ`, induces `φ` (`FundamentalGroup.fundamentalGroupMulEquivOfPath`). Finally move the base point: the
+`0`-skeleton of `X` is discrete (`TauCeti.zeroSkeletonDiscreteTopology`), so the family of paths
+that follows `g ∘ δ` at the vertex `x` and is constant at every other vertex is a homotopy on
+the `0`-skeleton, which the homotopy extension property of the `0`-skeleton
+(`TauCeti.hasHomotopyExtensionProperty_skeletonLT` with `k = 1`) extends to a homotopy `H` of
+`g ∘ d ∘ ι`; its end map `f` satisfies `f x = y`, and it induces `φ` because a homotopy changes
+the induced map on `π₁` exactly by the change of base point along the trace of the base point
+(`ContinuousMap.Homotopy.fundamentalGroupMulEquivOfPath_evalAt_map`), which here is `g ∘ δ`.
+When `X` has a single `0`-cell the last step is void and the construction agrees with the pinned
+one for `X = C`. *Needs:* Tau Ceti `TauCeti.killHomotopyGroups`,
+`TauCeti.isEilenbergMacLaneSpaceOne_killHomotopyGroups`,
+`TauCeti.killHomotopyGroupsFundamentalGroupMulEquiv`, `TauCeti.cwType_killHomotopyGroups`,
+`TauCeti.exists_isEilenbergMacLaneSpaceOne_cellularClassifyingSpace` (a presentation of
+`π₁(X, x)`), `TauCeti.cellularClassifyingSpaceHomotopyEquiv`,
+`TauCeti.exists_path_map_cellularClassifyingSpaceHomotopyEquiv_invFun`,
+`TauCeti.exists_mapOfEq_cellularClassifyingSpace`, `TauCeti.zeroSkeletonDiscreteTopology`,
+`TauCeti.hasHomotopyExtensionProperty_skeletonLT`,
+`ContinuousMap.Homotopy.fundamentalGroupMulEquivOfPath_evalAt_map`; Mathlib
+`FundamentalGroup.mapOfEq`.
 
-    **Checks.**
-    - `G = 1`: an aspherical Hausdorff CW complex with trivial fundamental group is contractible.
-    - The Warsaw circle: path-connected, every homotopy group trivial, not contractible, so a
-      statement without the CW-type hypothesis on the second space is false. It is the negative
-      control, and it is not a CW complex, so the theorem does not apply to it.
-13. **CW structures and coverings.** Let `p : E → B` be the quotient covering map of a free
-    action of `G` on `E` (`IsQuotientCoveringMap p G`). (Brown, *Cohomology of Groups*, §I.4,
-    free `G`-CW complexes; tom Dieck, *Transformation Groups*, §II.1, `G`-CW complexes and their
-    orbit spaces.)
-    - If `B` is a Hausdorff CW complex, `E` carries the lifted CW structure: its `n`-cells are
-      the lifts of the characteristic maps of the `n`-cells of `B`, which exist and are
-      determined by the lift of one point because a disk is simply connected and locally
-      path-connected. `G` permutes these cells freely, with exactly one orbit over each cell of
-      `B`, and `p` is cellular.
-    - If `E` is a Hausdorff CW complex, each element of `G` carries every open cell onto an
-      open cell, and `G` acts freely on the set of cells (`g • e = e` only for `g = 1`), then
-      `B` is a Hausdorff CW complex whose `n`-cells are the `G`-orbits of `n`-cells of `E`, with
-      characteristic maps `p ∘ φ` for a chosen representative `φ` of each orbit, and `p` is
-      cellular.
+**Checks.**
+- `X = TauCeti.cellularClassifyingSpace R`: the construction returns a map pointed homotopic to
+  the pinned one of `TauCeti.exists_mapOfEq_cellularClassifyingSpace`, by item 1.2.
+- `X` the circle, `Y = B(ℤ)`, `φ` the identity of `ℤ` under the pinned identifications: the map
+  is pointed homotopic to `TauCeti.circleToClassifyingSpace`, which wraps the circle once around a
+  loop representing the generator; a construction that forgot to move the base point would end at
+  `g (d (ι x)) ≠ b₀` in general and would not be a pointed map at all.
+- `φ` trivial: the constant map at `y` realizes it; for `X` the circle and `Y` the circle this
+  says the constant map, and by item 1.2 every pointed map of degree zero, is null-homotopic
+  relative to the base point.
+- Negative control on the target: `Y = S²` is path-connected with trivial `π₁` but `π₂ ≠ 0`, and
+  for `X = S²` the identity and the constant map both induce the trivial homomorphism on `π₁`
+  yet are not homotopic (they have different degrees), so the uniqueness clause of 1.2 fails
+  without asphericity; the existence clause for `Y = S²` holds for trivial reasons only.
 
-    In both cases the cellular chain complex of `E` is a complex of free `ℤ[G]`-modules, with
-    basis one chosen lift of each cell of `B`. Applied to Stage 1, with the CW structure on
-    `|K|` from Layer 11 (which `G` permutes because it acts by simplicial automorphisms, freely
-    on simplices because `g ≠ 1` changes every vertex label), the second case makes
-    `BG` a CW complex whose `n`-cells are the `G`-orbits of `n`-simplices of the
-    countable join. Applied to the universal cover of the cellular model
-    of Stage 2, the first case gives its lifted CW structure. *Needs:* Mathlib
-    `IsQuotientCoveringMap`, `Topology.CWComplex`, `IsCoveringMap.liftPath` (path lifting);
-    UniversalCovers Stage 2 item 6 (the general lifting criterion, for lifting a characteristic
-    map); GeometricTopology Layer 11 (the CW structure on `|K|`
-    and the action of a simplicial automorphism on its cells); AlgebraicTopology Stage 4 item 1
-    (cellular chains).
+### 1.2 Uniqueness relative to the base point
 
-    **Checks.**
-    - `G = ℤ` acting on `E = ℝ` by translation over `B = S¹` with one `0`-cell and one `1`-cell:
-      the lifted structure has the integers as `0`-cells and the unit intervals as `1`-cells, one
-      `ℤ`-orbit of each; the cellular complex is `ℤ[ℤ] → ℤ[ℤ]`, `1 ↦ t − 1`. A definition taking
-      all lifts of a point as one cell would not be a CW structure at all.
-    - `G = 1`: both constructions return the given structure.
-    - Negative control for the second case: `ℤ` acting on `ℝ² ∖ {0}` by `(x, y) ↦ (2x, y/2)` is
-      free with a quotient covering map, but the orbit space is not Hausdorff, so no CW structure
-      on `ℝ² ∖ {0}` is permuted by this action with a free action on cells; the cellular
-      hypothesis cannot be dropped in favour of freeness alone.
-    - The free `ℤ[G]`-module of `n`-chains of `E` has rank the number of `n`-cells of `B`: for
-      the join of the trivial group, every rank is one.
-14. **The models agree.** By (13) the simplicial model of Stage 1 is a CW complex, and
-    therefore by (12) it is homotopy equivalent to the cellular model of Stage 2, compatibly
-    with the identifications of the fundamental group. Give the homotopy equivalence and its
-    inverse up to homotopy, not only an existence statement.
+Prove that two pointed maps `f, g : X → Y` with `FundamentalGroup.mapOfEq f hf =
+FundamentalGroup.mapOfEq g hg` are homotopic relative to `{x}` (Hatcher, Proposition 1B.9, p. 90,
+uniqueness clause; the uniqueness clause of `exists_continuousMap_mapOfEq_eq_of_isAspherical`).
+The pinned `TauCeti.homotopicRel_singleton_of_mapOfEq_eq_of_cwComplex` proves this when the
+`0`-skeleton of `X` is `{x}`, and `TauCeti.homotopicRel_skeletonLT_one_of_forall_homotopicRel`
+proves, for any CW complex, that `f` and `g` are homotopic relative to the whole `0`-skeleton as
+soon as for every path `γ` in `X` between points of the `0`-skeleton the paths `f ∘ γ` and
+`g ∘ γ` are homotopic relative to their end points. Route: `X` is path-connected, so choose for
+every vertex `v` a path `σ_v` from `x` to `v`, with `σ_x` constant. The paths
+`(g ∘ σ_v)⁻¹ · (f ∘ σ_v)` from `g v` to `f v`, constant at `v = x`, form a homotopy on the
+discrete `0`-skeleton; extend it by the homotopy extension property of the `0`-skeleton to a
+homotopy from `g` to a map `g'` that agrees with `f` on the `0`-skeleton and is homotopic to `g`
+relative to `x`, hence induces the same map on `π₁(X, x)` as `g`. For a path `γ` from a vertex
+`a` to a vertex `b`, the loop `σ_a · γ · σ_b⁻¹` at `x` has the same image under `f` and `g'`,
+and unwinding the definition of `g'` on `σ_a` and `σ_b` this is the statement that `f ∘ γ` and
+`g' ∘ γ` are homotopic relative to the end points. The pinned criterion gives `f ≃ g'` relative
+to the `0`-skeleton, and concatenating with `g' ≃ g` relative to `x` gives the claim. *Needs:*
+Tau Ceti `TauCeti.homotopicRel_skeletonLT_one_of_forall_homotopicRel`,
+`TauCeti.zeroSkeletonDiscreteTopology`, `TauCeti.hasHomotopyExtensionProperty_skeletonLT`,
+`ContinuousMap.Homotopy.fundamentalGroupMulEquivOfPath_evalAt_map`; Mathlib
+`ContinuousMap.HomotopicRel`, `FundamentalGroup.mapOfEq`.
 
-    The nerve model of AlgebraicTopology Stage 8 item 8a, the realization of the nerve of `G` as
-    a one-object category with its CW structure and its identification of `π₁` with `G` (the edge
-    labelled `g` goes to `g`), is a Hausdorff CW `K(G, 1)`, so (12) also gives pointed homotopy
-    equivalences `c_G` from it to each of the two models here. Normalise them by requiring that
-    the identification of (5), respectively (10), composed with `π₁(c_G)`, is the nerve model's
-    identification, so that the induced map on `G` is the identity; by (11) each `c_G` is then
-    unique up to pointed homotopy. Prove that `c_G` is natural in `G` up to pointed homotopy for
-    the strict functoriality of (6) and the nerve model's, and state the conversion between the
-    left deck action of (3) and the universal-covers roadmap's `Deck ≃* π₁ᵐᵒᵖ`, including the
-    inversion of (5), so that the two identifications of `π₁` with `G` are compared on the nose
-    and not up to an unmarked automorphism. *Needs:* (5), (6), (10), (11), (12), (13);
-    AlgebraicTopology Stage 8 item 8a (the nerve model, its CW structure through Stage 4 item 7,
-    its `K(G, 1)` property and its identification of `π₁`).
+**Checks.**
+- `X` with a single `0`-cell: `g' = g`, and the statement is the pinned
+  `TauCeti.homotopicRel_singleton_of_mapOfEq_eq_of_cwComplex`.
+- `X` a wedge of two circles with two `0`-cells joined by an edge, `Y` the circle, `f` and `g`
+  maps of degrees `(1, 0)` on the two circles that differ by a rotation of the image on the
+  edge: `g'` straightens the edge, and the criterion sees only the loop classes. A proof that
+  skipped the agreement on the `0`-skeleton could not apply the pinned criterion, whose
+  hypothesis requires `f ∘ γ` and `g ∘ γ` to have the same end points.
+- Together with item 1.1, pointed maps `X → Y` up to pointed homotopy are exactly the
+  homomorphisms `π₁(X, x) →* π₁(Y, y)`; for `X = C` the cellular model this is the pinned
+  `TauCeti.fundamentalGroupFunctor_map_bijective_cellularClassifyingSpace`.
 
-    **Checks.**
-    - `G = 1`: all three models are contractible CW complexes and every comparison is a homotopy
-      equivalence to a point.
-    - `G = ℤ/2`: the inversion in the normalisation is invisible; `G = S₃` with the loops of
-      item 5's Check detects a comparison normalised to inversion instead of the identity.
-15. **Homotopy functoriality.** The classifying space is a functor from groups to the pointed
-    homotopy category, and the strict functoriality of Stage 1.6 refines it. *Needs:* (6),
-    (11), (14).
+### 1.3 Pointed uniqueness and the pointed comparison with the models
 
-## Stage 4: group homology and cohomology
+Prove that two aspherical Hausdorff CW complexes `(X, x)` and `(Y, y)` with an isomorphism
+`e : π₁(X, x) ≃* π₁(Y, y)` are homotopy equivalent by an equivalence `F` with `F x = y` and
+`FundamentalGroup.mapOfEq F hF = e` (Hatcher, Theorem 1B.8, p. 90; the headline
+`exists_homotopyEquiv_of_isAspherical`). By 1.1 there is a pointed map `F` inducing `e`; it is a
+weak homotopy equivalence because both spaces are aspherical and `e` is bijective
+(`TauCeti.IsAspherical.isWeakHomotopyEquivalence_iff`), and Whitehead's theorem for spaces of CW
+type makes it the forward map of a homotopy equivalence
+(`ContinuousMap.IsWeakHomotopyEquivalence.homotopyEquiv`,
+`ContinuousMap.IsWeakHomotopyEquivalence.homotopyEquiv_toFun`; a Hausdorff CW complex has CW
+type by `TauCeti.CWType.of_cwComplex_univ`). The homotopy inverse is not asserted to be pointed.
+Both CW hypotheses are needed: a point and the Warsaw circle are both path-connected with
+trivial homotopy groups, and the Warsaw circle is not contractible (Schwamberger–Vogt 2009, §2).
 
-16. **The chain-level comparison.** For a `K(G, 1)` CW complex `B` with universal cover `E`,
-    and any CW structure on `E` for which each element of `G` carries open cells onto open cells
-    and `G` acts freely on the set of cells (the lifted one of (13) always qualifies), the
-    augmented cellular chain complex of `E` is a free resolution of the trivial module `ℤ` over
-    `ℤ[G]`, packaged as a `ProjectiveResolution (Rep.trivial ℤ G ℤ)` (Brown, *Cohomology of
-    Groups*, §I.4). The `G`-action is the deck action, transported along the isomorphism
-    `G ≃* Deck(E)` defined from the chosen `Ψ : π₁(B, b) ≃* G` ((5) for the simplicial model,
-    (10) for the cellular one): `g` acts by the deck transformation carrying the base point of
-    `E` to the end point of the lift of a loop `γ` with `Ψ(γ) = g⁻¹`, that is, by the inverse of
-    Tau Ceti's `TauCeti.UniversalCover.deckFundamentalGroupEquiv` applied to the class of
-    `Ψ⁻¹(g⁻¹)`. This is a homomorphism because the deck group is the opposite of `π₁` and
-    inversion is an anti-homomorphism; for the simplicial model, where `Ψ(γ) = m(γ)⁻¹`, the loop
-    with `Ψ(γ) = g⁻¹` has `m(γ) = g`, so `g` acts by the left translation of (3). Freeness is
-    (13). Exactness: `E` is simply connected with vanishing
-    higher homotopy groups, so the absolute Hurewicz theorem of the algebraic-topology roadmap
-    (its Stage 8 item 3) makes its reduced singular homology vanish, and the comparison of
-    cellular with singular homology (its Stage 4 item 3) transfers this to the augmented cellular
-    complex. Construct it for both models: the cellular model of Stage 2, and the simplicial
-    model, where `E` is `EG` with the CW structure of Layer 11 (ordered by index), so that the
-    cells are the simplices of the countable join. *Needs:* (5), (13); AlgebraicTopology Stage 8
-    item 3 (the absolute Hurewicz theorem) and Stage 4 item 3 (cellular versus singular
-    homology); Tau Ceti `TauCeti.UniversalCover.deckFundamentalGroupEquiv`; Mathlib
-    `CategoryTheory.ProjectiveResolution`, `Rep.trivial`.
+Deduce the **pointed comparison with the models**: for a CW `K(G, 1)` `(X, x)` with
+identification `Ψ`, a pointed homotopy equivalence `c_X : X → BG` with
+`classifyingSpaceFundamentalGroupMulEquiv G ∘ π₁(c_X) = Ψ`, unique up to pointed homotopy by
+1.2, and likewise `c'_X : X → TauCeti.cellularClassifyingSpace R` for a presentation
+`e : PresentedGroup R ≃* G`, with `e ∘ cellularClassifyingSpaceFundamentalGroupMulEquiv R ∘ π₁(c'_X) = Ψ`.
+The two are related by the pinned comparison of the models: `c_X` is pointed homotopic to
+`TauCeti.cellularHomotopyEquivClassifyingSpace R e ∘ c'_X`, by 1.2 and
+`TauCeti.classifyingSpaceFundamentalGroupMulEquiv_mapOfEq_cellularHomotopyEquivClassifyingSpace`.
+*Needs:* (1.1), (1.2); Tau Ceti `TauCeti.IsAspherical.isWeakHomotopyEquivalence_iff`,
+`ContinuousMap.IsWeakHomotopyEquivalence.homotopyEquiv`, `TauCeti.CWType.of_cwComplex_univ`,
+`TauCeti.isEilenbergMacLaneSpaceOne_classifyingSpace`,
+`TauCeti.isEilenbergMacLaneSpaceOne_cellularClassifyingSpace`,
+`TauCeti.cellularHomotopyEquivClassifyingSpace`; Mathlib `ContinuousMap.HomotopyEquiv`.
 
-    **Checks.**
-    - `G = 1`: the augmented complex of a contractible CW complex is exact.
-    - `G = ℤ`, the circle: `ℤ[ℤ] → ℤ[ℤ] → ℤ`, with first map multiplication by `t − 1` and the
-      augmentation `t ↦ 1`, is exact; a definition acting by the deck transformation of the other
-      convention would give `t⁻¹ − 1`, which is also exact but is a different map and is detected
-      by `S₃` in (14).
-17. **Homology and cohomology.** `H_*(BG; k)` is Mathlib's `groupHomology` of the trivial module
-    `k`, and `H^*(BG; k)` is `groupCohomology` of the trivial module, for every commutative ring
-    `k` and naturally in `G`; for any Hausdorff CW `K(G, 1)`, not only the models, by (12). These
-    are the headlines `nonempty_singularHomology_iso_groupHomology` and
-    `nonempty_singularCohomology_iso_groupCohomology`. With a `G`-module `M`, the homology of `BG`
-    with local coefficients in the local system that `M` defines through the identification of
-    (5) is `groupHomology` of `M`, and cohomology likewise is `groupCohomology`. The isomorphisms
-    come from (16) and the comparison maps of (18): the cellular chains of `BG` with coefficients
-    in `M` are the coinvariants of the resolution of (16) tensored with `M`, and the cellular
-    cochains are the equivariant homomorphisms into `M`. State naturality in both variables and
-    compatibility with the long exact sequences.
+**Checks.**
+- `G = 1`: an aspherical Hausdorff CW complex with trivial fundamental group is contractible,
+  by a pointed homotopy equivalence with a point.
+- The Warsaw circle: path-connected, every homotopy group trivial, not contractible, so a
+  statement without the CW hypothesis on the second space is false. It is the negative control,
+  and it is not a CW complex, so the theorem does not apply to it.
+- `X` the circle, `Ψ` the degree: `c_X` is pointed homotopic to
+  `TauCeti.circleToClassifyingSpace`, the forward map of the pinned
+  `TauCeti.circleHomotopyEquivClassifyingSpace`, which induces the identity of `ℤ`; the
+  comparison normalised to `Ψ⁻¹` would be the map of degree `−1`, detected by the `ℤ` Check of
+  the Conventions.
+- `X = BG` with `Ψ` the pinned identification: `c_X` is pointed homotopic to the identity; a
+  definition that chose the base-point-changed equivalence of
+  `TauCeti.IsAspherical.exists_homotopyEquiv_classifyingSpace` without the correction of 1.1
+  would not be pointed.
 
-    For the nerve model of AlgebraicTopology Stage 8 item 8a, prove that pullback along the
-    normalised comparison `c_G` of (14), followed by the identification of the local systems
-    through the nerve model's `π₁ ≅ G`, carries the cohomology comparison of the nerve model to
-    the one of the model here, and that the composite is the identity on `groupCohomology` for
-    every `A : Rep R G`; likewise for homology. This is what makes the three models' comparisons
-    one comparison. *Needs:* (5), (14), (16), (18); AlgebraicTopology Stage 2 item 6 (local
-    coefficient systems) and Stage 4 item 3 (cellular chains with local coefficients and their
-    comparison with singular homology), Stage 8 item 8a; Mathlib `groupHomology`,
-    `groupCohomology`, `AlgebraicTopology.singularHomologyFunctor`; Tau Ceti
-    `TopCat.singularCohomology`.
-18. **Comparison with the bar resolution.** The resolution of (16) for the simplicial model is
-    *not* isomorphic to Mathlib's standard resolution `Rep.standardResolution ℤ G`, built on
-    `Rep.standardComplex` from the simplicial `G`-set `classifyingSpaceUniversalCover`: already for
-    the trivial group the countable join has countably many vertices, while the standard complex has
-    one generator in degree zero. The comparison is a chain homotopy equivalence. Give the explicit
-    augmentation-preserving `G`-equivariant chain map from the join to the standard complex sending
-    the `n`-simplex `{(i₀, g₀), …, (iₙ, gₙ)}`, with `i₀ < ⋯ < iₙ` and oriented by increasing index,
-    to `(g₀, …, gₙ)`; it is a chain map because Layer 11 identifies the cellular boundary with the
-    alternating sum of faces; prove that it is natural in `G` for the maps of Stage 1.6, and that it
-    is a homotopy equivalence of projective resolutions lifting the identity of `ℤ`, so that it
-    agrees up to chain homotopy with Mathlib's `ProjectiveResolution.homotopyEquiv`. The topological
-    and algebraic computations of the same group are then the same computation.
+### Examples
 
-    For the nerve model, whose universal cover is the realization of `classifyingSpaceUniversalCover`
-    and whose cellular chains are the normalised standard complex (the quotient of
-    `Rep.standardComplex` by the degenerate simplices), prove that the chain map induced on the
-    resolutions of (16) by a cellular approximation of the lift of `c_G` agrees up to chain
-    homotopy with the explicit map above followed by the normalisation. *Needs:* (14), (16);
-    GeometricTopology Layer 11 (the cellular boundary of a simplex is the alternating sum of its
-    faces); AlgebraicTopology Stage 8 item 8a; Mathlib `Rep.standardResolution`,
-    `Rep.standardComplex`, `classifyingSpaceUniversalCover`,
-    `CategoryTheory.ProjectiveResolution.homotopyEquiv`.
+The circle, a wedge of circles and a finite torus are CW `K(G, 1)` spaces for `ℤ`, a free
+group and `ℤⁿ`, and the pinned equivalences `TauCeti.circleHomotopyEquivClassifyingSpace`,
+`TauCeti.wedgeCirclesHomotopyEquivClassifyingSpace` and `TauCeti.torusHomotopyEquivClassifyingSpace`
+are instances of 1.3 up to pointed homotopy: the first is pointed already, the other two
+realize their identifications after a change of base point along a pinned path, and 1.3 says
+the base point can be corrected without changing the induced map.
 
-    **Checks.**
-    - `G = 1`, degree zero: the join has `ℤ^(ℕ)` and the standard complex `ℤ`, so the map is not
-      an isomorphism; a definition claiming an isomorphism is refuted here.
-    - The face `j` of `{(i₀, g₀), …, (iₙ, gₙ)}` goes to the `j`-th face `(g₀, …, ĝⱼ, …, gₙ)`, so
-      the alternating sums match the differential of `Rep.standardComplex`.
-19. **Checks.** `H_1(BG; ℤ) ≅ G` abelianized, for every `G`. The circle is a `K(ℤ, 1)`, a wedge of
-    circles is a `K(F, 1)` for the free group on the same index set, and the `n`-torus is a
-    `K(ℤⁿ, 1)`; in each case the homology computed topologically agrees with the algebraic answer.
-    The first two are proved here; the circle and torus cases must be *compared* with the
-    universal-covers roadmap's examples rather than restated. `H_2(ℤ/n; ℤ) = 0` on both sides.
-    *Needs:* (17); AlgebraicTopology Stage 8 item 3 (the degree-one Hurewicz theorem);
-    UniversalCovers items 11 to 13.
+### Dependencies
 
-## Ordering
+Only the pins: the pinned classifying-space directory, the killing tower, the homotopy
+extension property of skeleta, the basepoint-change lemmas and Whitehead's theorem, all named
+above. No other roadmap.
 
-Stage 1 is independent of Stages 2 to 4 once Layer 11 of the geometric-topology roadmap has the
-realization API it owns, and it is the shortest route to the existence theorem. Stage 2 waits on
-van Kampen, cellular approximation, the cell-attachment and tower-union constructions and the
-killing construction from the algebraic-topology roadmap. Stage 3 needs both models, the CW
-structure on `|K|` from Layer 11, Whitehead's theorem from the algebraic-topology roadmap, and,
-for the comparison with the nerve model, that roadmap's Stage 8 item 8a. Stage 4 needs Stage 3's
-CW structures along
-coverings, the Hurewicz theorem and the cellular-singular comparison from the algebraic-topology
-roadmap, and Stage 3's comparisons to transport its conclusions between the models.
+## Layer 2: group homology and cohomology of a CW `K(G, 1)`
 
-## Acceptance checks
+Throughout, `(X, x)` is a Hausdorff CW `K(G, 1)` with chosen identification
+`Ψ : π₁(X, x) ≃* G`, `c_X : X → BG` is its pointed comparison map of 1.3, and `k` is a
+commutative ring in the universe of `G`.
 
-- The existence theorem applies to an uncountable group with no finite presentation, with no
-  hypothesis to discharge beyond `Group G`.
-- The simplicial model for `ℤ` is homotopy equivalent to the circle, and the equivalence induces
-  the identity on `ℤ` under the two identifications of the fundamental group, with the direction
-  of Stage 1 item 5.
-- For a free group, the cellular model is a wedge of circles and the simplicial model is homotopy
-  equivalent to it.
-- The uniqueness theorem assumes CW type on both spaces; it is not stated for an arbitrary pair of
-  `K(G, 1)` spaces, which the Warsaw circle refutes.
-- The comparison with the bar resolution is a chain homotopy equivalence of augmented
-  `ℤ[G]`-complexes, not a chain isomorphism, and it is the explicit map of (18).
-- `H_2(BG; ℤ)` for a finite cyclic group agrees with the algebraic answer, which is a case where
-  the topological computation is not the shorter one and the comparison earns its keep.
-- The comparison with the nerve model is normalised to the identity on `G`, and the `S₃` Check of
-  Stage 1 item 5 distinguishes it from the comparison normalised to inversion.
+### 2.1 Homology with trivial coefficients
+
+Define the comparison `Hₙ(X; k) ≅ Hₙ(G, k)` as the composite of the isomorphism on singular
+homology induced by the homotopy equivalence `c_X`
+(`ContinuousMap.HomotopyEquiv.singularHomologyIso`) with the pinned
+`TauCeti.classifyingSpaceSingularHomologyIsoGroupHomology k G n`. Its API:
+
+- It depends only on `(X, x, Ψ)`: two choices of `c_X` are pointed homotopic (1.2) and
+  homotopic maps induce the same map on singular homology.
+- For `X = BG` and `Ψ` the pinned identification it is the pinned isomorphism, because `c_X` is
+  then homotopic to the identity.
+- Naturality in `(X, Ψ)`: for a pointed map `f : X → X'` between CW `K(G, 1)` and `K(H, 1)`
+  spaces and `φ : G →* H` with `Ψ' ∘ π₁(f) = φ ∘ Ψ`, the square formed by `f_*`, the two
+  comparisons and `groupHomology.map φ` commutes. Route: `c_{X'} ∘ f` and
+  `MonoidHom.classifyingSpaceMap φ ∘ c_X` are pointed maps `X → BH` inducing `φ ∘ Ψ` under the
+  identifications, hence pointed homotopic by 1.2, and the pinned naturality
+  `MonoidHom.classifyingSpaceSingularHomologyIsoGroupHomology_hom_naturality` finishes.
+- Changing `Ψ` by an automorphism `α` of `G` changes the comparison by
+  `groupHomology.map α` on the trivial module, which is the identity of `Hₙ(G, k)` only when `α`
+  acts trivially on homology; the comparison is a function of `Ψ`, not of `X` alone.
+- In degree one, the composite with the Hurewicz isomorphism is the abelianization of `Ψ`,
+  followed by Mathlib's `H₁(G, ℤ) ≅ Gᵃᵇ`; for `X = BG` this is the pinned
+  `TauCeti.classifyingSpaceFirstHomologyAddEquivGroupHomology`.
+
+The existence statement, for any Hausdorff CW `K(G, 1)` and every `n`, is a theorem of the pin by
+transport: `TauCeti.IsEilenbergMacLaneSpaceOne.nonempty_homotopyEquiv` gives some homotopy
+equivalence with `BG`, and the pinned isomorphism transports along it. It is therefore not an
+acceptance test; the content of this item is the canonical choice and its naturality. *Needs:*
+(1.3); Tau Ceti `ContinuousMap.HomotopyEquiv.singularHomologyIso`,
+`TauCeti.classifyingSpaceSingularHomologyIsoGroupHomology`,
+`MonoidHom.classifyingSpaceSingularHomologyIsoGroupHomology_hom_naturality`,
+`TauCeti.classifyingSpaceFirstHomologyAddEquivGroupHomology`; Mathlib
+`AlgebraicTopology.singularHomologyFunctor`, `groupHomology.map`.
+
+**Checks.**
+- `X` the circle, `Ψ` the degree, `k = ℤ`, `n = 1`: the class of the counterclockwise loop goes
+  to the class of the `1`-chain `1 ∈ ℤ` in `H₁(ℤ, ℤ)`, that is, to `1` under `H₁(ℤ, ℤ) ≅ ℤ`; a
+  comparison built through `Ψ⁻¹` sends it to `−1`.
+- `G = ℤ/n`, `k = ℤ`, `n = 2`: both sides are zero (pinned
+  `TauCeti.subsingleton_classifyingSpace_singularHomology_int_of_even` on the left, the
+  two-periodic resolution on the right), and in degree one both sides are `ℤ/n`; a comparison
+  that silently used the trivial group would give `0` in degree one.
+- `G` free on `S`, `X` the wedge of circles, `n ≥ 2`: both sides vanish
+  (`TauCeti.isZero_groupHomology_freeGroup`); the `n`-torus, `n ≥ 1`: both sides are free of
+  rank `n choose i` in degree `i` (`TauCeti.finrank_groupHomology_pi_multiplicative_int`).
+- `X = BG`, `Ψ` pinned: the comparison is the pinned isomorphism on the nose, not merely
+  isomorphic to it.
+
+### 2.2 Cohomology with trivial coefficients
+
+Define `Hⁿ(X; M) ≅ Hⁿ(G, M)` for a `k`-module `M` as the composite of the isomorphism on singular
+cohomology induced by `c_X` (homotopy invariance, `isIso_singularCohomologyMap`) with the pinned
+`TauCeti.classifyingSpaceSingularCohomologyIsoGroupCohomology k G M n`. Its API: independence of
+the choice of `c_X`; agreement with the pinned isomorphism for `X = BG`; naturality in `(X, Ψ)`
+along pointed maps as in 2.1, with `groupCohomology.map φ`, through
+`MonoidHom.classifyingSpaceSingularCohomologyIsoGroupCohomology_hom_naturality`; naturality in
+`M` through `TauCeti.classifyingSpaceSingularCohomologyIsoGroupCohomology_hom_naturality`; and
+compatibility with the Bockstein of a short exact sequence `0 → M₁ → M₂ → M₃ → 0` of modules,
+carried to `groupCohomology.δ` through
+`TauCeti.singularCohomologyBockstein_comp_classifyingSpaceSingularCohomologyIsoGroupCohomology_hom`
+and the naturality of the Bockstein under `c_X`. As in 2.1, the bare existence statement is a
+theorem of the pin by transport and is not an acceptance test. *Needs:* (1.3); Tau Ceti
+`isIso_singularCohomologyMap`, `TauCeti.classifyingSpaceSingularCohomologyIsoGroupCohomology`
+and its three naturality theorems; Mathlib `groupCohomology.map`, `groupCohomology.δ`.
+
+**Checks.**
+- `X` the circle, `M = k`: `H¹(X; k) ≅ H¹(ℤ, k) = Hom(ℤ, k) = k`, the generator going to the
+  homomorphism `1 ↦ 1`; through `Ψ⁻¹` it would go to `1 ↦ −1`.
+- `G = ℤ/2`, `k = M = 𝔽₂`: `Hⁿ(G, 𝔽₂) = 𝔽₂` in every degree, so the comparison is nonzero in
+  every degree, and the Bockstein of `0 → ℤ/2 → ℤ/4 → ℤ/2 → 0` is an isomorphism
+  `H¹ → H²`; a comparison that dropped the Bockstein compatibility would still be an
+  isomorphism in each degree, so this Check is the one that tests the last clause.
+- `G = 1`: both sides are `M` in degree zero and zero above.
+
+### 2.3 Local coefficients
+
+For a representation `A : Rep k G`, define the local coefficient system `L_A` on `X` as
+`TauCeti.LocalCoefficientSystem.ofRepresentation x (A.ρ.comp Ψ.toMonoidHom)`: every fibre is the
+module of `A`, and a path class acts through `Ψ` and the action of `G` on `A`, so that its
+monodromy representation at `x` is `A ∘ Ψ` on the nose
+(`TauCeti.LocalCoefficientSystem.monodromyRepresentation_ofRepresentation`). Prove:
+
+- `Hₙ(X; L_A) ≅ Hₙ(G, A)` for every `n` (the headline
+  `nonempty_twistedHomology_iso_groupHomology`), and for a `k`-module `N`,
+  `Hⁿ(X; L_A, N) ≅ Hⁿ(G, Homₖ(A, N))`, `N` with the trivial action (the headline
+  `nonempty_twistedCohomology_iso_groupCohomology`). Route: the pullback of the pinned local
+  system `TauCeti.classifyingSpaceLocalSystem k A` along `c_X` has monodromy at `x` given by the
+  monodromy of the pinned system at `b₀` composed with `π₁(c_X)`; the monodromy of the pinned
+  system at `b₀` is `A` read through the pinned identification, a computation from
+  `monodromy_smul` (transport along a loop in the fibre `(A ⊗ k[p_G⁻¹ b₀])_G` is the action of the
+  group element the loop represents, with the inversion of the Conventions); so the pullback has
+  monodromy `A ∘ Ψ`, and `TauCeti.LocalCoefficientSystem.ofRepresentationMonodromyIso` identifies
+  it with `L_A`. Then `c_X` induces an isomorphism on twisted homology
+  (`ContinuousMap.HomotopyEquiv.isIso_twistedHomologyMap`), and the pinned
+  `TauCeti.classifyingSpaceTwistedHomologyIsoGroupHomology` finishes; for cohomology, the same
+  with `TopCat.Homotopy.twistedCohomologyMap_eq_comp` and
+  `TauCeti.classifyingSpaceTwistedCohomologyIsoGroupCohomology`.
+- The isomorphisms are natural in `A` and carry the connecting maps of a short exact sequence of
+  representations to `groupHomology.δ` and `groupCohomology.δ`, through the pinned
+  `TauCeti.classifyingSpaceTwistedHomologyIsoGroupHomology_hom_naturality` and
+  `TauCeti.twistedHomologyδ_comp_classifyingSpaceTwistedHomologyIsoGroupHomology_hom`.
+- For the trivial representation `A = Rep.trivial k G k`, `L_A` is the constant system and the
+  isomorphism is that of 2.1 through `twistedHomologyConstantIso`; likewise for cohomology
+  through `twistedCohomologyConstantIso`.
+
+*Needs:* (1.3), (2.1); Tau Ceti `TauCeti.LocalCoefficientSystem.ofRepresentation`,
+`TauCeti.LocalCoefficientSystem.monodromyRepresentation_ofRepresentation`,
+`TauCeti.LocalCoefficientSystem.ofRepresentationMonodromyIso`,
+`TauCeti.LocalCoefficientSystem.pullbackHomotopyIso`, `monodromy_smul`,
+`TauCeti.classifyingSpaceLocalSystem`, `TauCeti.classifyingSpaceTwistedHomologyIsoGroupHomology`,
+`TauCeti.classifyingSpaceTwistedCohomologyIsoGroupCohomology`,
+`ContinuousMap.HomotopyEquiv.isIso_twistedHomologyMap`,
+`TopCat.Homotopy.twistedCohomologyMap_eq_comp`, `twistedHomologyConstantIso`,
+`twistedCohomologyConstantIso`; Mathlib `Rep.ihom`, `Rep.trivial`.
+
+**Checks.**
+- `A` trivial: recovers 2.1 and 2.2.
+- `G = ℤ`, `X` the circle, `A = k` with the generator acting by a unit `u`: `H₀(X; L_A)` is the
+  coinvariants `k/(u − 1)k` (`twistedHomology₀IsoCoinvariants`) and `H₁` is the kernel of
+  `u − 1`, which agree with `H₀(ℤ, A)` and `H₁(ℤ, A)` computed from the resolution
+  `k[ℤ] → k[ℤ]`, `1 ↦ t − 1`; a definition of `L_A` that ignored the action (the constant
+  system) would give `k` in degree zero, wrong as soon as `u ≠ 1`.
+- `G = ℤ/2`, `k = ℤ`, `A = ℤ` with the sign action: `H₀(ℤ/2, A) = ℤ/2`, `H₁(ℤ/2, A) = 0`,
+  `H₂(ℤ/2, A) = ℤ/2`, the opposite parity pattern from the trivial coefficients
+  (`H₁ = ℤ/2`, `H₂ = 0`); a definition confusing `A` with the trivial representation is detected
+  in degree one.
+- `G = S₃`, `A = k` with the sign character: the monodromy of `L_A` along a loop representing a
+  transposition is `−1`; a definition through `Ψ⁻¹` gives the same monodromy, since
+  characters factor through the abelianization, so the direction is tested by the `S₃` Check of
+  the Conventions on `c_X`, not here.
+
+### Examples
+
+For the circle, the wedge of circles, the torus and a finite cyclic group, the pinned
+computations of the (co)homology of Milnor's model (`Circle.lean`, `WedgeCircles.lean`,
+`Torus.lean`, `FiniteCyclic.lean`) transport along 2.1 to the geometric models, and for the torus
+and the wedge the pinned `TauCeti.torusSingularHomologyIsoGroupHomology` and
+`TauCeti.wedgeCirclesSingularHomologyIsoGroupHomology` are the comparisons of 2.1 on the nose,
+by its independence of the choice of `c_X`. `H₁(X; ℤ) ≅ Gᵃᵇ` for every Hausdorff CW `K(G, 1)` is
+the degree-one clause of 2.1.
+
+### Dependencies
+
+Layer 1; the pinned (co)homology comparisons for Milnor's model and the pinned homotopy
+invariance of singular and twisted (co)homology, all named above. No other roadmap.
+
+## Downstream consumers
+
+- The [algebraic-topology roadmap](../AlgebraicTopology/README.md), Stage 8 item 8b, compares
+  its nerve model with the pinned models `TauCeti.classifyingSpace G` and
+  `TauCeti.cellularClassifyingSpace R`, normalised to the identity on `G`; its inputs are the
+  pinned identifications and the pinned uniqueness theorems, not targets of this roadmap. The
+  [characteristic-classes roadmap](../CharacteristicClasses/README.md) consumes the classifying
+  space of `ℤ/2` through that item.
+- Any roadmap computing the (co)homology of a group from a geometric `K(G, 1)` that is not one
+  of the pinned models (a surface group from a closed surface, a right-angled Artin group from a
+  cube complex) consumes Layer 2 with that model and its own identification `Ψ`.
 
 ## References
 
 - J. Milnor, "Construction of universal bundles, II", *Ann. of Math.* **63** (1956), 430–436,
-  [DOI](https://doi.org/10.2307/1970012). The countable join and its free action.
-- A. Hatcher, *Algebraic Topology*, Cambridge, 2002. Section 1.2, Corollary 1.28, p. 52, for the
-  presentation complex; Section 1.B, Example 1B.7, p. 89, Theorem 1B.8 and Proposition 1B.9,
-  p. 90, for `K(G, 1)` spaces, maps into them and their uniqueness; Section 4.1, Example 4.16,
-  p. 354, for killing homotopy groups; Appendix A, Proposition A.1, p. 520, for the compactness of
-  a map's image in a CW or weak-topology complex.
-- K. S. Brown, *Cohomology of Groups*, GTM 87, Springer, 1982, Chapters I to III. The comparison
-  of the cellular chains of a `K(G, 1)` with the bar resolution, and free `G`-CW complexes
-  (Section I.4).
-- T. tom Dieck, *Transformation Groups*, de Gruyter, 1987, Section II.1. `G`-CW complexes and
-  their orbit spaces.
+  [DOI](https://doi.org/10.2307/1970012). The countable join and its free action, the pinned
+  model.
+- A. Hatcher, *Algebraic Topology*, Cambridge, 2002. Section 1.B, Theorem 1B.8 and Proposition
+  1B.9, p. 90, for maps into `K(G, 1)` spaces and their uniqueness (Layer 1); Chapter 0,
+  Proposition 0.16, p. 15, for the homotopy extension property of CW pairs, which the pinned
+  `TauCeti.hasHomotopyExtensionProperty_skeletonLT` supplies for skeleta.
+- K. S. Brown, *Cohomology of Groups*, GTM 87, Springer, 1982, Chapter III, Section 1, for
+  homology and cohomology with coefficients in a module as the (co)invariants of a projective
+  resolution, the algebraic side of Layer 2.
 - R. Schwamberger and R. M. Vogt, "Dold spaces in homotopy theory", *Algebr. Geom. Topol.* **9**
   (2009), [DOI](https://doi.org/10.2140/agt.2009.9.1585), Section 2. The Warsaw circle as a space
   with trivial homotopy groups that is not contractible.
 - G. Segal, "Classifying spaces and spectral sequences", *Publ. IHES* **34** (1968),
-  [DOI](https://doi.org/10.1007/BF02684591), Section 2. The simplicial viewpoint on the same
-  construction.
+  [DOI](https://doi.org/10.1007/BF02684591), Section 3. The remark comparing the classifying
+  space of `G` as a one-object category with Milnor's join.
