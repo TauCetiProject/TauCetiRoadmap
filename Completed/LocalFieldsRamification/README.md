@@ -12,27 +12,31 @@ fields: normalized valuations, unit filtrations and power classes, unramified ex
 Frobenius, Eisenstein and tame extensions, lower and upper ramification groups and the Herbrand
 functions, the norm on the unit filtration, the different and the discriminant, and, inside the
 absolute Galois group, inertia, wild inertia and the marked Iwasawa presentation of the tame
-quotient. All of that is proved in the pinned Tau Ceti, on Mathlib's carriers
-(`IsNonarchimedeanLocalField`, `ValuativeRel`, `ValuativeExtension`), and is consumed here by name.
-What remains is the arithmetic that makes ramification breaks of abelian extensions integral:
-Sen's congruence for the lower breaks of a totally ramified cyclic extension of degree `pʳ`
-(Layer 1) and the Hasse–Arf theorem for every finite abelian extension (Layer 2), together with
-three complements on the native carriers (Layer 0). The end theorems are
-`pow_succ_dvd_lowerIndex_sub` and `hasseArf`.
+quotient, and the Hasse–Arf theorem for every finite abelian extension
+(`TauCeti.LocalFieldsRamification.hasseArf`, recorded in Layer 2). All of that is proved in the
+pinned Tau Ceti, on Mathlib's carriers (`IsNonarchimedeanLocalField`, `ValuativeRel`,
+`ValuativeExtension`), and is consumed here by name. What remains is the finer arithmetic of the
+lower breaks of a totally ramified cyclic extension of degree `pʳ`: their list, Sen's congruence
+between consecutive breaks and the explicit Herbrand formula for the upper breaks (Layer 1),
+together with three complements on the native carriers (Layer 0). The end theorem is
+`pow_succ_dvd_lowerIndex_sub`.
 
 The implementation review and exact-source inventory are in [COMPLETION.md](COMPLETION.md).
-`Suggested.lean` contains admitted targets; it is not the completion certificate.
+`Suggested.lean` contains the admitted Layer 1 target; it is not the completion certificate.
 
 ## Scope and ownership
 
-**Owned here.** The targets of Layers 0–2: the comparison of `U(ℚ_p, i)` with congruences in
+**Owned here.** The targets of Layers 0–1: the comparison of `U(ℚ_p, i)` with congruences in
 `ℤ_p`, the unshifted norm inclusion on the unit filtration and the dyadic square-class count in
-degree form (Layer 0); the lower-break list, Sen's congruence and the integrality of upper breaks
-of a totally ramified cyclic `p`-power extension (Layer 1); detection of abelian upper breaks in
-cyclic subextensions, reduction of a positive cyclic break to the totally ramified `p`-part, and
-the Hasse–Arf theorem (Layer 2).
-No other roadmap on main or among the open roadmap proposals owns Sen's congruence or the general
-Hasse–Arf theorem; the consumers listed under *Downstream consumers* import Hasse–Arf from here.
+degree form (Layer 0); the lower-break list, Sen's congruence and the Herbrand formula for the
+upper breaks of a totally ramified cyclic `p`-power extension (Layer 1). No other roadmap owns
+Sen's congruence.
+Layer 2 states no target: Hasse–Arf for finite abelian extensions of nonarchimedean local fields,
+with its cyclic detection and `p`-part reduction, is Tau Ceti's, and the consumers listed under
+*Downstream consumers* use it from there. Hasse–Arf over a complete discretely valued field with
+separable residue extension, whose residue field need not be finite, is owned by
+the roadmap **RamificationOfCompleteDiscretelyValuedFields** (§3a.3), which recovers Tau Ceti's
+theorem on a nonarchimedean local field.
 
 **Already in the library.** The rest of the subject is proved in the pinned Tau Ceti, and the exact declarations are listed under *Exact supplier contracts*:
 
@@ -52,7 +56,9 @@ Hasse–Arf theorem; the consumers listed under *Downstream consumers* import Ha
   Frobenius twist, the Herbrand functions, the upper numbering with the quotient and tower
   theorems, the integral depth `ψℕ`, the Herbrand-shifted norm inclusion, the five regimes of the
   graded norm of a cyclic extension of prime degree with their index and conductor consequences,
-  and Hasse–Arf for extensions of prime degree;
+  and Hasse–Arf for extensions of prime degree, for cyclic extensions of prime-power degree and
+  for every finite abelian extension, with the detection of abelian breaks in cyclic
+  subextensions (Layer 2);
 - the different and the discriminant, Hilbert's different formula, the tame criterion, the wild
   bounds and invariance under `K`-isomorphism;
 - inertia, arithmetic Frobenius lifts, wild inertia and its pro-`p` Sylow identification, the
@@ -146,9 +152,10 @@ residue field `𝓀[K]` of order `q` and residue characteristic `p`. A finite ex
 Each item names the declarations consumed and the file under `TauCeti/NumberTheory/LocalField/`
 unless another directory is given. Hypotheses are as at the pin.
 
-- *Finite extensions* (`FiniteExtension/Basic.lean`, `FiniteExtension/IntermediateField.lean`):
-  `TauCeti.finiteExtensionValuativeRel`, `TauCeti.finiteExtension_isNonarchimedeanLocalField`,
-  `TauCeti.finiteExtensionValuation_isEquiv`, `TauCeti.finiteExtensionValuativeRel_eq`,
+- *Finite extensions* (`AlgebraicExtension/Basic.lean`, `FiniteExtension/Basic.lean`,
+  `FiniteExtension/IntermediateField.lean`):
+  `TauCeti.algebraicExtensionValuativeRel`, `TauCeti.finiteExtension_isNonarchimedeanLocalField`,
+  `TauCeti.algebraicExtensionValuation_isEquiv`, `TauCeti.algebraicExtensionValuativeRel_eq`,
   `TauCeti.finiteIntermediateFieldValuativeRel`, `TauCeti.finiteIntermediateFieldTopology`,
   `TauCeti.finiteIntermediateField_isNonarchimedeanLocalField`,
   `TauCeti.finiteIntermediateField_valuativeExtension`; the integer-ring algebra and its
@@ -178,7 +185,10 @@ unless another directory is given. Hypotheses are as at the pin.
   `Unramified/Existence.lean`, `Unramified/Rigidity.lean`, `Unramified/Lattice.lean`,
   `Unramified/Maximal.lean`, `Unramified/ZHat.lean`, `Norm/Unramified/Basic.lean`):
   `TauCeti.IsUnramified`, `TauCeti.isUnramified_iff_ramificationIndex_eq_one`,
-  `TauCeti.frobeniusAlgEquiv`, `TauCeti.valuation_frobeniusAlgEquiv_sub_pow`,
+  `TauCeti.isUnramified_iff_etale` (étaleness of the integer rings),
+  `TauCeti.residueFieldAutEquiv`, `TauCeti.frobeniusAlgEquiv`,
+  `TauCeti.orderOf_frobeniusAlgEquiv`, `TauCeti.valuation_frobeniusAlgEquiv_sub_pow`,
+  `TauCeti.eq_frobeniusAlgEquiv_of_valuation_sub_pow_lt_one`,
   `TauCeti.unramifiedExtension`, `TauCeti.existsUnique_isUnramified_finrank_eq`,
   `TauCeti.IsUnramified.existsUnique_algEquiv_residueFieldHom_eq`,
   `TauCeti.finiteUnramifiedSubextensionDegreeEquiv`, `TauCeti.maximalUnramifiedExtension`,
@@ -210,7 +220,7 @@ unless another directory is given. Hypotheses are as at the pin.
   `TauCeti.tameCharacter_conj_of_smul_eq_pow`.
 - *Herbrand functions and upper numbering* (`Herbrand/Basic.lean`, `Herbrand/Tower.lean`,
   `Herbrand/UpperQuotient.lean`, `Herbrand/Jump.lean`, `Herbrand/Unramified.lean`,
-  `Herbrand/HasseArf.lean`):
+  `Herbrand/HasseArf/PrimeDegree.lean`):
   `TauCeti.LocalFieldsRamification.RamificationIndexDomain`,
   `TauCeti.LocalFieldsRamification.herbrandOrderIso`, `TauCeti.LocalFieldsRamification.herbrand`,
   `TauCeti.LocalFieldsRamification.inverseHerbrand`,
@@ -224,6 +234,13 @@ unless another directory is given. Hypotheses are as at the pin.
   `TauCeti.LocalFieldsRamification.lowerRamificationGroup_eq_bot_of_isUnramified`,
   `TauCeti.LocalFieldsRamification.UpperJump.exists_eq_intCast_of_finrank_prime`
   (Hasse–Arf for prime degree).
+- *Hasse–Arf* (`Herbrand/CyclicReduction.lean`, `Herbrand/PPrimary.lean`,
+  `Herbrand/HasseArf/CyclicPGroup.lean`, `Herbrand/HasseArf/Abelian.lean`):
+  `TauCeti.LocalFieldsRamification.upperJump_iff_exists_isCyclic_intermediateField`,
+  `TauCeti.LocalFieldsRamification.UpperJump.eq_neg_one_or_eq_zero_of_nonpos`,
+  `TauCeti.LocalFieldsRamification.UpperJump.exists_isPGroup_intermediateField_of_isCyclic_of_pos`,
+  `TauCeti.LocalFieldsRamification.UpperJump.exists_eq_intCast_of_isPGroup`,
+  `TauCeti.LocalFieldsRamification.hasseArf`.
 - *Norms* (`Norm/Basic.lean`, `Norm/Herbrand.lean`, `Norm/Graded.lean`, `Norm/AfterBreak.lean`,
   `Norm/Surjectivity.lean`, `Norm/Conductor.lean`): `TauCeti.normalizedValuation_norm`,
   `TauCeti.map_normUnits_unitFiltration_psiNat_le`, `TauCeti.normGradedMap`,
@@ -253,17 +270,30 @@ unless another directory is given. Hypotheses are as at the pin.
 - *Profinite groups* (`TauCeti/Topology/Algebra/Group/Profinite/`): `TauCeti.IsProP`,
   `TauCeti.IsProPSylow`, `TauCeti.presentedProfiniteGroup`, `TauCeti.zHat`.
 
+**Former layer numbers.** This roadmap formerly numbered the material above as Layers 0–4. A
+citation by one of those numbers resolves as follows; current Layers 0–2 are the sections below.
+
+| Former label | Content | Now |
+|---|---|---|
+| Layer 0 | local fields and their finite extensions: induced structures, uniqueness, normalized valuation, `e`, `f`, valuations of natural numbers, absolute ramification index | *Finite extensions*; *Valuations and `e`, `f`* |
+| Layer 1 | units: the unit filtration and its graded pieces, Teichmüller, the structure of `Kˣ`, deep units in mixed characteristic, power classes, openness, square classes | *Units*; *Power classes*; the dyadic count in degree form is 0.3 |
+| Layer 2 | unramified extensions: the predicate and étale comparison, residue correspondence, Frobenius, existence and uniqueness, the maximal unramified extension, norms | *Unramified extensions* |
+| Layer 3 | ramification: Eisenstein, tame and wild extensions, monogenicity, lower numbering and its quotient embeddings, Herbrand functions and upper numbering, norms on the unit filtration, the different and discriminant | *Ramified extensions*; *Lower numbering*; *Herbrand functions and upper numbering*; *Norms* (the unshifted inclusion is 0.2); *Different and discriminant* |
+| Layer 3, Hasse–Arf | integrality of the upper breaks of a finite abelian extension | *Hasse–Arf*; Layer 2 |
+| Layer 3, consumer contract with Counting Totally Ramified Extensions | the single-extension invariants that the counting roadmap imports | *Ramified extensions*; *Different and discriminant*; families and counting are **MassFormula**'s |
+| Layer 4 | the tame quotient of the absolute Galois group: inertia, wild inertia, the tame character, the Iwasawa presentation and its geometric form | *Absolute Galois group*; *Profinite groups* |
+
 No other roadmap supplies this one.
 
 ## How to read the build
 
 Layer 0 adds three short complements to the native carriers and depends on nothing else here.
-Layer 1 is the independent arithmetic input: for a totally ramified cyclic extension of degree
-`pʳ` it lists the lower breaks, proves Sen's congruence between consecutive ones and converts them
-into integral upper breaks through the Herbrand integral. Layer 2 reduces an arbitrary positive
-upper break of a finite abelian extension to that case (cyclic detection, removal of the
-unramified part, removal of the tame part) and concludes Hasse–Arf. Neither layer uses local
-reciprocity, class field theory or the prime-degree norm computations.
+Layer 1 is the arithmetic of a totally ramified cyclic extension of degree `pʳ`: it lists the
+lower breaks, proves Sen's congruence between consecutive ones and converts them into upper
+breaks through the Herbrand integral. Sen's induction uses neither local reciprocity nor the
+norm computations. Layer 2 records Tau Ceti's Hasse–Arf theorem: an upper break of a finite
+abelian extension is detected in a cyclic subextension, a positive one in its cyclic `p`-part,
+and there the norm-conductor argument makes it integral. Layer 2 states no target.
 
 ## Layer 0: complements on the native carriers
 
@@ -391,7 +421,10 @@ of valuation `k` with `v_L(σ(α_k)/α_k − 1) = c_k` as a product of conjugate
 shows that the values `k + c_k` with `v_p(k) < n` are pairwise distinct, and expands a suitable
 trace-like element in the `α_k` to contradict `v_p(c_{p^{n−1}} − c_{p^n}) < n`. The source works
 over a complete discrete valuation field with perfect residue field, which covers every
-nonarchimedean local field, in either characteristic. *Needs:* 1.1; Tau Ceti
+nonarchimedean local field, in either characteristic. With the formula of 1.3, whose derivation
+uses only 1.1, the congruence says exactly that `u_{j+1} − u_j` is an integer, so it also follows
+from Tau Ceti's `TauCeti.LocalFieldsRamification.UpperJump.exists_eq_intCast_of_isPGroup`
+(2.2). *Needs:* 1.1; Tau Ceti
 `TauCeti.IsLocalRing.lowerIndex`, `TauCeti.IsTotallyRamified`; Mathlib `Subgroup.zpowers`.
 
 - For every `j` with `j + 1 < r`, the consecutive lower breaks `b_j`, `b_{j+1}` satisfy
@@ -415,7 +448,9 @@ Prove that the upper breaks of `L/F` are `u_0 = b_0` and
 integer. The formula is the Herbrand integral, whose slope on `(b_a, b_{a+1}]` is
 `#G_t/#G_0 = p^{−(a+1)}` by 1.1, together with the correspondence of upper and lower breaks under
 `φ`; integrality is 1.2 (Serre, *Local Fields*, IV §3; Fesenko–Vostokov, III (4.3), proof of the
-Theorem, p. 92). *Needs:* 1.1, 1.2; Tau Ceti `TauCeti.LocalFieldsRamification.herbrand`,
+Theorem, p. 92). Integrality alone, without the formula, is Tau Ceti's
+`TauCeti.LocalFieldsRamification.UpperJump.exists_eq_intCast_of_isPGroup`; the target here is the
+formula. *Needs:* 1.1, 1.2; Tau Ceti `TauCeti.LocalFieldsRamification.herbrand`,
 `TauCeti.LocalFieldsRamification.upperJump_herbrand_iff`.
 
 - `u` is an upper break of `L/F` exactly when `u = φ(b_j)` for some `j < r`, and every such `u` is
@@ -439,29 +474,20 @@ Tau Ceti lower index, lower ramification groups and Herbrand functions; 1.1 → 
 
 ## Layer 2: the Hasse–Arf theorem
 
+Everything in this layer is a theorem of the pinned Tau Ceti and is consumed by name; the layer
+states no target. It fixes the statements and Checks that Layer 1 and the downstream consumers
+rely on. The structures on an intermediate field are the canonical ones induced from the base
+(`TauCeti.finiteIntermediateFieldValuativeRel` and its companions).
+
 ### 2.1 Detection in a cyclic subextension
 
-Let `L/K` be finite abelian and `u ∈ [−1, ∞)`. Prove that `u` is an upper break of `L/K` if and
-only if there is an intermediate field `F` with `F/K` cyclic, `u` an upper break of `F/K`, and
-`Gal(F/K)^v = 1` for every `v > u`. The local-field structures on `F` are those induced from
-`K`. This follows from the upper quotient theorem and finite abelian group decomposition
-(Fesenko–Vostokov, III (3.5), Theorem (Herbrand), pp. 85–86, for nonnegative indices; at `−1`
-the quotient map is surjective on the full groups).
-
-A route is to write `ψ_{L/K}(u) = i ∈ ℤ`, so `G_{i+1} ⊊ G_i`. Choose `g ∈ G_i ∖ G_{i+1}`.
-In the finite abelian group `G/G_{i+1}`, a cyclic coordinate of `g` is nonidentity. Composing
-that coordinate projection with `G → G/G_{i+1}` gives a surjection onto a finite cyclic group.
-Its kernel `H` contains `G_{i+1}` but not `g`; thus `G/H` is cyclic. For every `v > u`,
-`⌈ψ(v)⌉ ≥ i + 1`, so `G^v ⊆ H`, whereas `G^u ⊈ H`. The upper quotient theorem for the fixed
-field `F = L^H` gives the asserted last break. Conversely, a strict drop in the quotient
-forces a strict drop in `G`, by antitonicity and the same quotient theorem. This argument uses
-no integrality of upper breaks. *Needs:* Mathlib
-`CommGroup.equiv_prod_multiplicative_zmod_of_finite`, `IntermediateField.fixedField`,
-`IsGalois.normalAutEquivQuotient`; Tau Ceti
-`TauCeti.LocalFieldsRamification.upperJump_herbrand_iff`,
-`TauCeti.LocalFieldsRamification.lowerJump_eq_intCast`,
-`TauCeti.LocalFieldsRamification.map_restrictNormalHom_upperRamificationGroup` and the finite
-intermediate-field structures in the supplier contracts.
+Let `L/K` be finite abelian and `u ∈ [−1, ∞)`. Then `u` is an upper break of `L/K` if and only if
+there is an intermediate field `F` with `F/K` cyclic, `u` an upper break of `F/K`, and
+`Gal(F/K)^v = 1` for every `v > u`
+(`TauCeti.LocalFieldsRamification.upperJump_iff_exists_isCyclic_intermediateField`). It follows
+from the upper quotient theorem and the decomposition of a finite abelian group into cyclic
+factors, and uses no integrality of upper breaks (Fesenko–Vostokov, III (3.5), Theorem
+(Herbrand), pp. 85–86).
 
 - Every upper break is the last upper break of some cyclic subextension, and every upper
   break of a cyclic subextension is an upper break of the original extension.
@@ -483,41 +509,39 @@ intermediate-field structures in the supplier contracts.
 
 ### 2.2 Reduction of a positive break to the totally ramified `p`-part
 
-Let `F/K` be a finite cyclic extension and `u > 0` an upper break of `F/K`. Let `F₀` be the maximal
-unramified subextension and let `E` be the fixed field in `F` of the prime-to-`p` part of
-`Gal(F/F₀)`. Prove that `u` is an upper break of `E/F₀`, which is totally ramified and cyclic of
-`p`-power order. Route: for indices `t ≥ 0` the lower groups of `F/K` and of `F/F₀` agree, and
-both Herbrand integrals have the denominator `#G_0`, so the upper filtrations agree on `[0, ∞)`;
-then `G^u ⊆ G_1`, a `p`-group meeting the prime-to-`p` subgroup trivially, so `G^u` and every
-`G^v` with `v > u` map isomorphically into the quotient, and the quotient theorem makes `u` an
-upper break of `E/F₀` (Serre, *Local Fields*, IV §3; Fesenko–Vostokov,
-III (4.3), first paragraph of the proof, p. 91). *Needs:* Tau Ceti
-`TauCeti.LocalFieldsRamification.map_restrictNormalHom_upperRamificationGroup`,
-`Subgroup.upperRamificationGroup_fixedField`,
-`TauCeti.LocalFieldsRamification.lowerIndex_restrictScalars`, `TauCeti.isPGroup_ramificationGroup`,
-`TauCeti.isTotallyRamified_unramifiedExtension_inertiaDegree`.
+Let `F/K` be a finite cyclic extension, `p` the residue characteristic and `u > 0` an upper break
+of `F/K`. The fixed field `E` of the prime-to-`p` part of `Gal(F/K)` is Galois over `K` with
+cyclic group of `p`-power order, and `u` is an upper break of `E/K`
+(`TauCeti.LocalFieldsRamification.UpperJump.exists_isPGroup_intermediateField_of_isCyclic_of_pos`);
+`E/K` is totally ramified whenever `F/K` is.
+Every upper break of a finite Galois extension with cyclic group of `p`-power order is an integer
+(`TauCeti.LocalFieldsRamification.UpperJump.exists_eq_intCast_of_isPGroup`), in particular every
+upper break of the totally ramified extensions of Layer 1.
+The reduction holds because `G^u ⊆ G_1` is a `p`-group for `u > 0`, which meets the prime-to-`p`
+part trivially, so the quotient theorem keeps `u` a break (Serre, *Local Fields*, IV §3;
+Fesenko–Vostokov, III (4.3), first paragraph of the proof, p. 91).
 
-- Every positive upper break of a cyclic extension is an upper break of a totally ramified cyclic
-  `p`-power subextension of it over its maximal unramified subextension.
+- Every positive upper break of a cyclic extension is an upper break of its cyclic `p`-power
+  quotient, and is an integer.
 
 **Checks.**
 
 - Unramified `F/K`: there is no positive break (Tau Ceti's upper groups vanish on `[0, ∞)`), so the
   statement is empty.
-- `F = ℚ_2(i)`: `F₀ = ℚ_2`, the prime-to-`2` part of the group is trivial, `E = F`, and the break
-  `1` is unchanged.
+- `F = ℚ_2(i)`: the prime-to-`2` part of the group is trivial, `E = F`, and the break `1` is
+  unchanged.
 - `F = ℚ_3(ζ_9)/ℚ_3` (cyclic of order `6`): the break `1` survives in the degree-`3` subfield, while
   the tame break `0` is not positive and is excluded.
 
 ### 2.3 Hasse–Arf
 
-Prove that every upper break of a finite abelian extension `L/K` of nonarchimedean local fields is
-an integer (`hasseArf`). Route: 2.1 detects an upper break `u` in a cyclic subextension. If `u ≤ 0`,
-then `u ∈ {−1, 0}`, because the upper filtration is constant on `(−1, 0]`. If `u > 0`, 2.2 moves it
-to a totally ramified cyclic `p`-power extension, where 1.3 makes it integral (Serre, *Local
-Fields*, V §7; Fesenko–Vostokov, 2nd ed., III (4.3), Theorem (Hasse–Arf), pp. 91–92).
-Neither local reciprocity nor the prime-degree norm computations enter. *Needs:* 1.3, 2.1, 2.2;
-Tau Ceti `TauCeti.LocalFieldsRamification.UpperJump`; Mathlib `IsAbelianGalois`.
+Every upper break of a finite abelian extension `L/K` of nonarchimedean local fields is an integer
+(`TauCeti.LocalFieldsRamification.hasseArf`, under `IsAbelianGalois K L`). The proof detects an
+upper break `u` in a cyclic subextension by 2.1. If `u ≤ 0`, then `u ∈ {−1, 0}`, because the upper
+filtration is constant on `(−1, 0]`
+(`TauCeti.LocalFieldsRamification.UpperJump.eq_neg_one_or_eq_zero_of_nonpos`). If `u > 0`, 2.2
+moves it to a cyclic `p`-power extension, where it is integral (Serre, *Local Fields*, V §7;
+Fesenko–Vostokov, 2nd ed., III (4.3), Theorem (Hasse–Arf), pp. 91–92).
 
 - For finite abelian `L/K`, every `u` with `G^v ⊊ G^u` for all `v > u` is an integer.
 - Consequently the jumps of `v ↦ G^v` are among `−1, 0, 1, 2, …`; in particular this includes
@@ -540,20 +564,20 @@ Tau Ceti `TauCeti.LocalFieldsRamification.UpperJump`; Mathlib `IsAbelianGalois`.
 
 ### Dependencies
 
-Layer 1 (1.3); Mathlib finite abelian group decomposition; Tau Ceti upper numbering and its
-quotient theorem. Sections 2.1 and 2.2 are independent reductions; together with 1.3 they supply 2.3.
+Tau Ceti only, as listed under *Hasse–Arf* in the supplier contracts; nothing here depends on
+Layer 1.
 
 ## Downstream consumers
 
-- **ClassFieldTheory** consumes the local arithmetic through the Tau Ceti declarations above, and
-  Hasse–Arf for the integrality of conductors (Layer 7).
+- **ClassFieldTheory** consumes the local arithmetic through the Tau Ceti declarations above,
+  including Hasse–Arf (Layer 2) for the integrality of conductors (its Layer 7).
 - **NumberFieldArithmetic** consumes local monogenicity, the lower filtration and the local
   different through the same Tau Ceti declarations.
 - **MassFormula** consumes `e`, `f`, total ramification, Eisenstein generators, the different and
   discriminant exponents and their invariance, and the Eisenstein power-basis valuation formula.
 - **LocalGaloisGroups** consumes the unit filtration, Frobenius, inertia and the tame quotient.
-- Roadmaps on Galois representations and on curves over local fields import Hasse–Arf from
-  Layer 2 for the integrality of Artin and Swan conductors.
+- Roadmaps on Galois representations and on curves over local fields use Tau Ceti's `hasseArf`
+  (Layer 2) for the integrality of Artin and Swan conductors.
 
 ## References
 
