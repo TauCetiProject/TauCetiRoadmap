@@ -1,5 +1,5 @@
 import Mathlib
-import TauCetiRoadmap.LocalFieldsRamification.Suggested
+import Completed.LocalFieldsRamification.Suggested
 
 /-!
 # Totally ramified extensions of a local field: target signatures
@@ -24,7 +24,7 @@ ultimate target — **no** mass formula counting the totally ramified extensions
 ⚠ **The ramification-theoretic substrate is consumed, not built here.** Total ramification,
 Eisenstein generators, monogenicity, the different and the discriminant, the exponent `d`, and
 the tame criterion are targets of the *local fields and ramification* roadmap
-(`../LocalFieldsRamification/README.md`), imported above and used by exact name:
+(`../../Completed/LocalFieldsRamification/README.md`), imported above and used by exact name:
 `LocalFieldsRamification.IsTotallyRamified` (with `isTotallyRamified_iff_inertiaDegree_eq_one`
 and `isTotallyRamified_iff_exists_eisenstein_generator`), `exists_integerRing_adjoin_eq_top`,
 `differentExponent` and `discriminantExponent` with their invariance theorems
@@ -378,7 +378,7 @@ theorem mem_eisensteinSet_iff (n : ℕ) (hn : 0 < n) (a : Fin n → K) :
 compact with nonempty interior, so `Measure.addHaarMeasure` on it is the paper's measure; the
 statements below take the normalization as a hypothesis instead, which keeps them free of a
 bespoke measure definition. -/
-def integerBox (n : ℕ) : Set (Fin n → K) :=
+noncomputable def integerBox (n : ℕ) : Set (Fin n → K) :=
   Set.univ.pi fun _ => (𝒪[K] : Set K)
 
 /-- **The measure of the Eisenstein region** is `q ^ (−n) · (1 − q ^ (−1))` — the normalization
