@@ -1,6 +1,8 @@
-import Mathlib
-import TauCeti.Algebra.Coalgebra.Comodule.Finite.Preadditive
-import TauCeti.Algebra.Coalgebra.Comodule.Finite.Symmetric
+module
+
+public import Mathlib
+public import TauCeti.Algebra.Coalgebra.Comodule.Finite.Preadditive
+public import TauCeti.Algebra.Coalgebra.Comodule.Finite.Symmetric
 
 /-!
 # Motives and algebraic cycles: target signatures
@@ -63,8 +65,13 @@ The geometric headlines require carriers absent at Mathlib `6b7abb3` and Tau Cet
   and Picard descent; height and arithmetic-theta theorems need arithmetic cycle
   pairings, compatible realizations, Shimura towers and theta cycles. Abstract Hodge
   structures, line-bundle classes or supplied bilinear forms alone do not state these
-  results. Conjectures themselves are predicates to formulate, not assertions here.
+  results. The finite-field Künneth theorem of README §7.4 states its canonical integral
+  Frobenius factor family through `ℓ`-adic cohomology with geometric Frobenius and acts by
+  polynomials in the Frobenius graph on Chow correspondences; neither carrier is present.
+  Conjectures themselves are predicates to formulate, not assertions here.
 -/
+
+@[expose] public section
 
 namespace TauCetiRoadmap.MotivesAndAlgebraicCycles
 
