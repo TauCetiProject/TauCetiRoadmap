@@ -22,7 +22,7 @@ The following objects have other owners, and are not additional constructions he
 - RootSystems Layers 1 and 2 own the sign and length theory of Coxeter systems and the marked Weyl presentation; the chamber, fundamental-domain, longest-element and integral root-datum declarations its supplier contract lists are native to Tau Ceti and are consumed directly. RootSystemsPartII §1.1 owns integral root dominance on the retained lattice. The affine combinatorics and dominant-subtraction extensions requested below are supplier contracts stated here, rather than assertions of §1.1. This roadmap owns the shrunken-chamber condition (§0.3), its ADLV factorization (§5.2) and the 2ρ∨ Newton range (§8.4).
 - VStackSheavesAndLisseCategories §VS4.0, Newton geometry, owns the partial order on B(G) by equal integral Kottwitz invariant and Newton dominance. BunGAndNewtonStrata §§0.6, 0.8 and 1.7–1.45 owns the Kottwitz set B(G), families of G-isocrystals, σ-centralizers, split-rank defect, integral κ, Newton invariants, Levi comparison, straight classes, Galois averages, ordered norms and central lifts. The generic norm and centralizer comparison are used only to construct the geometric isomorphism in §3.6. Superbasic classification and the three Newton-poset/cell inputs below are supplier contracts in that direction. The comparison of Newton-cell and ADLV dimensions belongs to §4.3 here.
 - GeometricSatakeAndFusion GS0, “Witt bounds, determinant lines and projective models”, owns flag and Grassmannian carriers, flag incidence and its two fibre bounds; GS1 owns semi-infinite geometry; GS2 §2.6, rational Witt convolution and semismallness, owns spherical geometric semismallness. The variants here are their bσ-graph pullbacks and top-stratum attainment, with explicit bounded-model compatibility.
-- SchemeAndStackFoundations §§0.7, 0.9, 0.23–0.26 and Layer 1 owns general dimension, limits, perfection and descent. TraceFormula Layer 11 owns the finite-type Grothendieck–Lefschetz theorem in the CohomologicalPointCounting family. Its application to the perfect models in §3.1 is part of the local Lang comparison, not a second generic trace theorem.
+- SchemeAndStackFoundations §§0.7, 0.9, 0.23–0.26 and Layer 1 owns general dimension, limits, perfection and descent. InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T2–IG.0.T3 owns the finite-type Grothendieck–Lefschetz theorem with finite and rational constructible coefficients. Its application to the perfect models in §3.1 is part of the local Lang comparison, not a second generic trace theorem.
 - SmoothRepresentationsOfLocalGroups SR.1.5 owns the affine-Hecke algebra direction; its twisted cocenter extension is requested as the twisted affine cocenter contract. The geometric dimension-equals-degree comparison belongs to §1.3 here.
 
 The comparisons of κ-labelled components of the ambient flag varieties and Grassmannians in §3.2, and the
@@ -77,7 +77,7 @@ comparison in §3.2.
 - In split adjoint A₁ the base alcove has α-values (−1,0). The element s t^(nα∨), n ≥ 1, sends it to (2n,2n+1), has length 2n+1 and η = s; for b = 1 the virtual dimension is (2n+1+1)/2 = n+1.
 - In GL₂, ρ = (1/2,−1/2). For μ = (1,0) and basic slopes (1/2,1/2), split ranks 2 and 1 give defect 1 and the spherical value 1/2 − 1/2 = 0; absolute ranks would give defect 0 and the value 1/2. This basic witness cannot detect the Newton sign, since 〈ρ,ν〉 = 0.
 - To pin the Newton sign, take GL₂, μ = ν = (1,0) and b = diag(ϖ,1): the defect is 0 and dim X_μ(b) = 〈ρ,μ−ν〉 = 0, whereas the reversed sign gives 〈ρ,μ+ν〉 = 1.
-- On H²_c of the affine line the geometric Frobenius trace is q, and H¹_c is zero. Arithmetic Frobenius acts by q⁻¹ on that one-dimensional ℚ_ℓ-space. The trace convention in §3.1 is geometric; σ in every point condition is arithmetic. This witness is also required of the TraceFormula convention bridge.
+- On H²_c of the affine line the geometric Frobenius trace is q, and H¹_c is zero. Arithmetic Frobenius acts by q⁻¹ on that one-dimensional ℚ_ℓ-space. The trace convention in §3.1 is geometric; σ in every point condition is arithmetic. This witness is also required of the Grothendieck–Lefschetz supplier's Frobenius convention.
 - With h = 2, the lattice having leading indices ℕ has residue basis {0,1} and determinant component 0; shifting every leading index by 1 gives basis {1,2}, sum 3 and component 1. Reversing the volume sign fails this witness.
 - For an unramified degree-three extension, τ_i = σ^(−i)τ₀ gives (σb)_τ₀ = σ(b_τ₁), and ordered norm b₀σ(b₁)σ²(b₂). A positive embedding cycle changes the second factor. Degree two alone cannot detect that mistake.
 
@@ -230,11 +230,11 @@ and Layer 1, algebraic spaces, torsors, descent and fibre products. Finite-type 
 applied to compatible bounded models, then passed to the supremum in §0.5. The generic-point lower-bound
 argument for the particular ADLV chain diagrams belongs to §§0.5 and 6.3 here.
 
-### From TauCetiRoadmap.TraceFormula
+### From TauCetiRoadmap.InverseGaloisAndArithmeticFundamentalGroups
 
-Consume Layer 11, Grothendieck–Lefschetz for constructible coefficients, from the CohomologicalPointCounting
-family. Use separated finite-type finite-field models, bounded constructible complexes of finite Tor
-dimension, compact supports, and ℓ ≠ p; the ℚ_ℓ form uses the family's EllAdicRealization comparison. Section
+Consume §IG.0.T2, finite-coefficient Grothendieck–Lefschetz, and §IG.0.T3, the rational constructible trace
+formula for all powers. Use separated finite-type finite-field models, bounded constructible complexes of finite Tor
+dimension descended over the finite field, compact supports, and ℓ ≠ p; the ℚ_ℓ form is §IG.0.T3 through the normalized rational realization. Section
 3.1 constructs and compares the particular separated pfp perfect-space models before applying this input.
 Arithmetic and geometric Frobenius are inverse in the supplier's convention as in the affine-line witness
 above. No restriction ℓ ≠ 2 is imposed when p ≠ 2.
@@ -814,7 +814,7 @@ used in the Levi reduction; ν_G is the G-dominant representative. (zhu17, Proof
 A proof route is as follows. Separate the supplied equivariant vector-group quotients from the new loop-space
 construction. Check that coefficient truncations define admissible perfect morphisms and that the dimension
 correction is the root-slope sum. Construct compatible perfect and finite-type models, then apply the
-TraceFormula supplier at ℓ ≠ p with bounded constructible compactly supported coefficients.
+Grothendieck–Lefschetz formula of InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T2–IG.0.T3 at ℓ ≠ p with bounded constructible compactly supported coefficients.
 
 The Lang comparison requires geometric loop models, admissibility and dimensions in addition to the filtration; it does not follow from a point-set bijection with a Lie algebra. For the cohomological
 application take ℓ ≠ p and the constant ℚ_ℓ-complex on the separated finite-type model over a common finite residue extension; geometric
@@ -828,7 +828,7 @@ perfection before the fixed-point argument (zhu17, Appendix A.3.4, pp. 480–481
 - For the upper unipotent subgroup of GL₃, N[2]=U₁₃ and N[3]=1 give quotients G_a² and G_a in every characteristic. The commutator of 1+E₁₂ and 1+E₂₃ is 1+E₁₃, also in characteristic 2, whereas a whole-group additive identification would have trivial commutator.
 
 *Needs:* ReductiveGroupsPartII RG2.3, parahoric-subgroup; SchemeAndStackFoundations §§0.7, 0.9, 0.23–0.26;
-TraceFormula Layer 11 and its coefficient and compact-support suppliers; GeometricSatakeAndFusion GS0, Witt
+InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T2–IG.0.T3 and their coefficient and compact-support suppliers; GeometricSatakeAndFusion GS0, Witt
 bounds and projective models; ReductiveGroupsPartII RG2.3; the unipotent linearization contract.
 
 ### 3.2 Componentwise adjoint reduction
@@ -1091,8 +1091,8 @@ BunGAndNewtonStrata §1.30, products and unramified restriction of scalars; BunG
 GeometricSatakeAndFusion GS1; GeometricSatakeAndFusion GS1 §1.4, affine semi-infinite intersections; GeometricSatakeAndFusion
 GS2 §2.4, ambient Hecke convolution; GeometricSatakeAndFusion GS2 §2.6, rational Witt convolution and semismallness;
 ReductiveGroupsPartII RG2.3; ReductiveGroupsPartII RG2.3, associated-parahorics; ReductiveGroupsPartII RG2.3,
-parahoric-subgroup; SchemeAndStackFoundations §§0.7, 0.9, 0.23–0.26; TraceFormula Layer 11 and its coefficient
-and compact-support suppliers. The individual Needs paragraphs specify the additional comparison constructions
+parahoric-subgroup; SchemeAndStackFoundations §§0.7, 0.9, 0.23–0.26; InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T2–IG.0.T3
+and their coefficient and compact-support suppliers. The individual Needs paragraphs specify the additional comparison constructions
 used by each route.
 
 ## Layer 4: generic Newton classes and cordiality
