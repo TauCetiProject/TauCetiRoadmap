@@ -11,14 +11,18 @@ nullhomotopy application in F6.6–F6.7.
 
 ## Carriers, conventions and owners
 
-Use Mathlib's `FormalGroup R`, `FormalGroup.IsComm` and
-`MvPowerSeries (Fin 2) R`, with the existing substitution and coefficient APIs.
-Follow the proposed `FormalGroupHom`, `FormalGroupIso` and `addInvX` designs in
-Mathlib [#38213](https://github.com/leanprover-community/mathlib4/pull/38213)
-and [#36167](https://github.com/leanprover-community/mathlib4/pull/36167),
-including [#41710](https://github.com/leanprover-community/mathlib4/pull/41710)'s
-topologically nilpotent point carrier. Construct the missing APIs in Tau Ceti
-with these shapes; adopt Mathlib's resulting APIs when they arrive.
+Use Mathlib's `FormalGroup R`, `FormalGroup.IsComm`, `FormalGroup.Point`,
+`FormalGroup.map`, `FormalGroup.𝔾ₐ`, `FormalGroup.𝔾ₘ` and
+`MvPowerSeries (Fin 2) R`, with the existing substitution and coefficient
+APIs, and Tau Ceti's formal-group tree `TauCeti.RingTheory.FormalGroup`:
+the bundled homomorphisms `TauCeti.FormalGroupHom` and isomorphisms
+`TauCeti.FormalGroupIso` (strict ones through
+`TauCeti.FormalGroupIso.IsStrict`), the inverse series
+`FormalGroup.addInvX`, the n-series `FormalGroup.nsmulSeries`, the
+topologically nilpotent point carrier `FormalGroup.TopNilpotentPoint`,
+coordinate changes `TauCeti.FormalCoordinate` and the Lazard ring
+`TauCeti.LazardRing`. F1 names the declarations consumed from this tree;
+nothing it provides is planned again.
 
 GeneralizedCohomology G2–G5 supplies spectral models, derived smash/function
 objects, represented theories, projective/Thom orientations, MU and its
@@ -52,140 +56,255 @@ choices, with explicit comparison maps between choices.
 
 ## F1. Formal-group algebra and universality
 
-State the n-series recursion `[0]_F=0`, `[n+1]_F=F([n]_F,X)` on the native
-`PowerSeries R` carrier as `formalNSeries`, and compare it with
-natural-number multiplication of the coordinate point `formalVariable` in
-`FormalGroup.Point F Unit` (a proved worked example in the acceptance file).
-The pinned Tau Ceti has no n-series module, so own the n-series API on
-`formalNSeries`: [n]_F has zero constant coefficient and linear
-coefficient n, and the addition law [m+n]_F=F([m]_F,[n]_F) and the
-composition law [mn]_F=[m]_F∘[n]_F hold for every formal group, as the
-monoid laws of `FormalGroup.Point F Unit` read on the series; [n]_F
-commutes with base change. For a commutative F and a prime p prove the
-prime-series decomposition: over an 𝔽_p-algebra either [p]_F=0 or
-[p]_F=g(X^(p^h)) with h≥1 and g'(0)≠0 (Ravenel, Lemma A2.2.7, applied to
-the endomorphism [p]_F, whose linear coefficient p vanishes), so that over
-every commutative ring [p]_F reduces modulo p to a series in X^p and p
-divides the coefficient of X^k in [p]_F whenever p∤k. Build the inverse series,
-base change, morphisms, isomorphisms and strict isomorphisms on the native
-carriers, extending the same n-series with its base-change,
-coordinate-change and integer-indexed inverse comparisons. Prove substitution
-exists under its actual zero/nilpotent-constant hypotheses, coefficient
-recurrences, uniqueness, composition, identities and inverse laws. Extend
-the same native `FormalGroup.Point F Unit` carrier
-`{f : MvPowerSeries Unit R // PowerSeries.HasSubst f}` to complete
-Hausdorff linearly topologized algebras with topologically nilpotent
-elements;
-prove convergence and continuous functoriality rather than assuming every
-power series can be evaluated everywhere.
+Everything in this layer except the height classification at its end is a
+theorem of the pinned Tau Ceti, in the modules of
+`TauCeti.RingTheory.FormalGroup` named below; consume it by name. The
+remaining target, Lazard's classification over separably closed fields, is
+the layer's only headline.
 
-Construct the Lazard ring L as the quotient of the polynomial ring over ℤ
-on a_ij, i,j≥1, by all coefficient relations for commutativity and
-associativity of X+Y+Σa_ij X^iY^j. Construct its universal native commutative
-formal group and prove the natural bijection
-Hom_ring(L,R) ≃ {F : FormalGroup R // F.IsComm}. Prove the graded version
-and Lazard's polynomial theorem L≅ℤ[x₁,x₂,…], |x_n|=2n, with an explicit
-generator construction and integral independence argument. Build the
-homogeneous symmetric additive 2-cocycle comparison first: for n≥2 let
-C_n(X,Y)=((X+Y)^n−X^n−Y^n)/d_n, an integral polynomial,
-where d_n=p if n is a power of a prime p and d_n=1 otherwise.
-For every commutative ring R prove that the normalized degree-n symmetric
-cocycles are uniquely R-multiples of C_n, with coefficient/base-change
-comparison. Prove the integral coefficient and gcd equations, including
-torsion coefficient rings; a characteristic-zero logarithm does not prove
-this assertion. Use this single cocycle lemma in Lazard's polynomial
-construction and in the exponent-two specialization below. Build strict
-coordinate-change representability by L[b₁,b₂,…], including source, target,
-counit, composition and inverse maps and all Hopf-algebroid equations.
+**n-series, inverses, homomorphisms and points.** The n-series [n]_F is
+`FormalGroup.nsmulSeries` (module `NSMul.Basic`), the value of n times the
+coordinate point `FormalGroup.tautologicalPoint` of `FormalGroup.Point F Unit`
+(module `AddInv`); `nsmulSeries_zero` and `nsmulSeries_succ` are the
+recursion [0]_F=0, [n+1]_F=F([n]_F,X), `constantCoeff_nsmulSeries` and
+`coeff_one_nsmulSeries` give zero constant coefficient and linear
+coefficient n, `nsmulSeries_add` and `nsmulSeries_mul` are the addition law
+[m+n]_F=F([m]_F,[n]_F) and the composition law [mn]_F=[m]_F∘[n]_F for every
+formal group, `map_nsmulSeries` (module `NSMul.BaseChange`) is base change,
+and for a commutative F `FormalGroup.nsmulHom` is [n]_F as an endomorphism
+of F. For a commutative F and a prime p, `natCast_dvd_coeff_nsmulSeries`
+says p divides the coefficient of X^k in [p]_F whenever p∤k,
+`exists_nsmulSeries_eq_of_prime` writes [p]_F=p·X·u+X^p·h with u(0)=1 over
+every ring, and `exists_order_nsmulSeries_eq_pow` (module `Height.Basic`)
+says that when p=0 in R and [p]_F≠0 its order is a power of p; the general
+form of Ravenel's Lemma A2.2.7 for a nonzero homomorphism f:F→G over a
+field of characteristic p is
+`TauCeti.FormalGroupHom.exists_iso_comp_iterateFrobeniusHom` (module
+`Frobenius.Factorization`): f=g∘Frob^h for a unique isomorphism g from
+the Frobenius twist of F to G, with ord f=p^h. The inverse series is
+`FormalGroup.addInvX`, with `subst_addInvX_X_eq_zero`, linear coefficient
+−1 (`coeff_one_addInvX`), base change `map_addInvX` and the group structure
+on `FormalGroup.Point F σ`; the integer-indexed series are
+`FormalGroup.zsmulSeries` (module `ZSMul`) with `zsmulSeries_neg_one`,
+`zsmulSeries_add` and `zsmulSeries_mul`. A homomorphism is
+`TauCeti.FormalGroupHom F G` (module `Hom`): a series with zero constant
+term intertwining the two laws, with identity, composition, the induced
+map `applyPoint` on points, base change `FormalGroupHom.map` and
+`coeff_one_comp`; an isomorphism is `TauCeti.FormalGroupIso F G`, a
+forward and an inverse homomorphism whose substitutions are mutually
+inverse, with `symm`, `trans`, `isUnit_coeff_one`, `FormalGroupHom.toIso`
+(a homomorphism with unit linear coefficient is an isomorphism), the class
+`IsStrict` (linear coefficient one) and base change `FormalGroupIso.map`.
+A coordinate change is `TauCeti.FormalCoordinate R` (a series with zero
+constant term and unit linear coefficient) acting on `FormalGroup R` by
+φ•F=φ(F(φ⁻¹X,φ⁻¹Y)) (module `CoordinateChange.Basic`), with
+`FormalGroup.smulIso : FormalGroupIso F (φ • F)` and
+`isStrict_smulIso_iff`; `exists_iso_lifting_coordinate` (module
+`CoordinateChange.Lifting`) lifts a coordinate change of the reduction
+along a surjection with surjective unit map. Points in a complete
+Hausdorff linearly topologized R-algebra A are
+`FormalGroup.TopNilpotentPoint F A` (module `TopNilpotentPoint.Basic`): the
+topologically nilpotent elements of A under x+_Fy=F(x,y), with the group
+laws proved by evaluating the power-series identities, the convergent-sum
+characterisations `hasSum_val_add` and `hasSum_val_neg`, functoriality
+`TopNilpotentPoint.map` along continuous algebra maps, the comparison
+`pointEquivTopNilpotentPoint` with `FormalGroup.Point F σ`, the induced
+continuous homomorphisms `toTopNilpotentPointHom` and equivalences
+`toTopNilpotentPointContinuousAddEquiv` (modules `TopNilpotentPoint.Hom`
+and `TopNilpotentPoint.Topology`).
 
-The pinned libraries have no invariant differential and no formal-group
-logarithm, so own them, shaped so that a library module with the same
-statements replaces them by deletion. For every formal group F over R
-define the normalized invariant differential as the power series
-P(T)=F_X(0,T)⁻¹, the inverse of the derivative of F in its first
-variable evaluated at (0,T); it exists over every R because that
-derivative has constant coefficient 1. Prove P(0)=1 and the invariance
-P(F(X,Y))·F_X(X,Y)=P(X), by differentiating the associativity law
-F(F(U,X),Y)=F(U,F(X,Y)) in U at U=0, and for a commutative F the same
-law in the second variable, P(F(X,Y))·F_Y(X,Y)=P(Y). Over a ℚ-algebra R
-and a commutative F define the logarithm log_F as the power series with
-zero constant coefficient and derivative P, so that its coefficient of
-T^n is p_(n−1)/n for n≥1, where P=Σ p_n T^n. Prove that log_F has
-linear coefficient one, that log_F(F(X,Y))=log_F(X)+log_F(Y), and that a
-power series g satisfies g(F(X,Y))=g(X)+g(Y) precisely when g=c·log_F
-for some c∈R, by differentiating in the first variable at X=0, which
-gives g'=g'(0)·P (Ravenel, Theorem A2.1.6, and the uniqueness of the
-strict logarithm in the proof of Lemma A2.1.9). Define the exponential
-exp_F as the substitution inverse of log_F and prove
-F(X,Y)=exp_F(log_F(X)+log_F(Y)), so that log_F is a strict isomorphism
-from F to the additive formal group. Extend these with base-change and
-coordinate-change comparisons and the bundled strict isomorphism to the
-additive formal group. Prove the additive and multiplicative examples and
-their logarithms. Checks: for the additive group P=1, log=T and exp=T;
-for the multiplicative group X+Y+XY, P=(1+T)⁻¹,
-log_F=Σ_(n≥1)(−1)^(n+1)T^n/n and exp_F=e^T−1, and
+**Lazard ring, cocycle lemma and Hopf algebroid.** `TauCeti.LazardRing`
+(module `LazardRing.Basic`) is the quotient of ℤ[a_ij : i,j≥1] by the
+commutativity and associativity relations `LazardRing.relations` of
+X+Y+Σa_ij X^iY^j; `LazardRing.formalGroup` is the universal commutative
+law and `TauCeti.LazardRing.lift` is the natural bijection
+Hom_ring(L,R) ≃ {F : FormalGroup R // F.IsComm}, with `map_lift`,
+`coe_lift_symm` and the naturality `lift_map`. The grading
+`LazardRing.grading` puts a_ij in degree 2(i+j−1), is a `GradedAlgebra`,
+and `gradedLift` is the graded universal property for graded coefficient
+rings. Lazard's polynomial theorem is `TauCeti.LazardRing.mvPolynomialEquiv`,
+an isomorphism of ℤ-algebras from the polynomial ring on ℕ+ sending the n-th
+variable to `LazardRing.generator n` of degree 2n (module `Indecomposable`,
+with `generator_mem_grading` and the cotangent basis `cotangentBasis` of
+the augmentation ideal modulo its square), with the integral independence
+`algebraicIndependent_generator` (module `Independence`). The homogeneous
+symmetric additive 2-cocycle lemma is `TauCeti.existsUnique_eq_smul_lazardCocycle`
+(module `SymmetricCocycle.Classification`): over every commutative ring R a
+homogeneous symmetric additive 2-cocycle of degree n≥2 is uniquely r·C_n
+for `TauCeti.lazardCocycle n R`, C_n=((X+Y)^n−X^n−Y^n)/d_n with
+d_n=`TauCeti.lazardGcd n` (p when n is a power of the prime p,
+`lazardGcd_prime_pow`, and 1 otherwise,
+`lazardGcd_eq_one_of_not_isPrimePow`), including torsion coefficient
+rings; `map_lazardCocycle` is its base change and `aeval_diag_lazardCocycle`
+its diagonal value. Strict coordinate changes are represented by
+L[b₁,b₂,…]=`MvPolynomial ℕ+ LazardRing` with the universal strict
+coordinate `TauCeti.universalStrictCoordinate` and the bijection
+`TauCeti.LazardRing.coordinateChangeLift` (module `CoordinateChange.Lazard`);
+the Hopf-algebroid structure maps are `LazardRing.rightUnit`, `counit`,
+`coproduct` and `conjugation` (modules `CoordinateChange.Lazard` and
+`CoordinateChange.HopfAlgebroid`), with `coproduct_coassoc`, the counit
+laws `tensorLift_counit_id_comp_coproduct` and
+`tensorLift_id_counit_comp_coproduct`, the antipode laws
+`tensorLift_conjugation_id_comp_coproduct` and
+`tensorLift_id_conjugation_comp_coproduct`, `conjugation_conjugation`,
+`counit_conjugation` and `conjugation_comp_rightUnit`; the gradings
+`coordinateGrading` and `coordinateTensorGrading` (module
+`CoordinateChange.Grading`) put b_i in degree 2i, and the structure maps
+are graded (modules `CoordinateChange.Homogeneous` and
+`CoordinateChange.Coproduct`). F2 identifies this Hopf algebroid with
+(MU_*, MU_*MU).
+
+**Invariant differential, logarithm and exponential.**
+`FormalGroup.invariantDifferential` (module `Logarithm.Basic`) is
+P(T)=F_X(0,T)⁻¹ for every formal group over every ring, with P(0)=1
+(`constantCoeff_invariantDifferential`), the invariance
+P(F(X,Y))·F_X(X,Y)=P(X) for every F (`subst_invariantDifferential_mul_pderiv`)
+and, for commutative F, P(F(X,Y))·F_Y(X,Y)=P(Y)
+(`subst_invariantDifferential_mul_pderiv_one`), base change
+`map_invariantDifferential`, and the values P=1 and P=(1+T)⁻¹ for the
+additive and multiplicative groups (`invariantDifferential_𝔾ₐ`,
+`invariantDifferential_𝔾ₘ`). Over a ℚ-algebra R, `FormalGroup.log` has
+coefficient p_(n−1)/n in degree n≥1 where P=Σp_nT^n (`coeff_log`), zero
+constant coefficient, linear coefficient one (`coeff_one_log`), derivative
+P (`derivative_log`) and is additive along F (`subst_toPowerSeries_log`);
+`subst_toPowerSeries_eq_add_iff` says a series g is additive along F
+precisely when g=c·log_F for some c∈R (Ravenel, Theorem A2.1.6 for the
+existence; the uniqueness of the strict logarithm is the one asserted in
+the proof of Lemma A2.1.9); `FormalGroup.exp` is the substitution inverse
+(`subst_exp_log`, `subst_log_exp`), `toPowerSeries_eq_subst_exp` is
+F(X,Y)=exp_F(log_F(X)+log_F(Y)), `FormalGroup.logIso` is the bundled
+strict isomorphism from F to the additive group (instance `IsStrict`) and
+`eq_logIso` its uniqueness among strict isomorphisms to the additive
+group; `map_log` and `map_exp` are base change. Naturality under
+homomorphisms (`TauCeti.FormalGroupHom.subst_log`, and
+`coeffOneEquiv`: over a ℚ-algebra the homomorphisms F→G between
+commutative laws are classified by their linear coefficient) and under
+coordinate change (`log_smul`: the logarithm of φ•F is φ'(0)·log_F(φ⁻¹X),
+and `exp_smul`) are in module `Logarithm.Naturality`; the logarithm of a
+rescaled law over rings without ℚ is module `Logarithm.Rescale`; the
+examples `log_𝔾ₐ`, `exp_𝔾ₐ`, `log_𝔾ₘ`, `exp_𝔾ₘ` give T, T, log(1+T)
+and e^T−1. Checks, as values that must agree with these declarations: for
+the additive group P=1, log=T and exp=T; for the multiplicative group
+X+Y+XY, P=(1+T)⁻¹, log_F=Σ_(n≥1)(−1)^(n+1)T^n/n and exp_F=e^T−1, and
 P(F(X,Y))·F_X(X,Y)=(1+Y)/((1+X)(1+Y))=P(X), whereas the un-inverted
 series 1+T fails invariance since (1+F(X,Y))(1+Y)≠1+X; over a ℚ-algebra
 the additive series along the additive group are exactly the multiples
 c·T, so T² is not additive, whereas X² is additive along X+Y precisely
 over rings with 2=0, since (X+Y)²−X²−Y²=2XY, the setting of the
-exponent-two paragraph below. The exponent-two
-characteristic-two construction below is a separate integral argument;
-the ℚ-algebra logarithm does not apply there.
+exponent-two paragraph below. The exponent-two construction below is a
+separate integral argument; the ℚ-algebra logarithm does not apply there.
 
-For every commutative coefficient ring R with 2=0 and commutative native
-formal group F with [2]_F=0, construct its normalized strict logarithm
-g_F(X)=X+Σ_(i≥1) a_i X^(i+1), with
-g_F(F(X,Y))=g_F(X)+g_F(Y) and a_(2^k−1)=0 for every k≥1.
-Prove existence, uniqueness
-(`exists_unique_normalized_exponentTwo_logarithm`), base-change naturality
-and the inverse strict exponential. Pin the direction: g_F maps F to the
-additive group; its inverse f_F satisfies F(f_F(X),f_F(Y))=f_F(X+Y).
-Bundle g_F and f_F as the forward/inverse `FormalGroupHom` maps in
-the cited `FormalGroupIso` shape, prove both substitution inverses and
-`FormalGroupIso.IsStrict`, and compare the normalized coefficient
-existence/uniqueness prototype with that bundled isomorphism. The raw
-power series and the formal-group isomorphism are linked by this target.
-Prove the polynomial obstruction lemma used in the degree-by-degree
-construction. A normalized homogeneous symmetric additive 2-cocycle of
-degree n≥2 with zero diagonal is an R-multiple of
-(X+Y)^n−X^n−Y^n for n not a power of two, and is zero when n is a
-power of two. In the latter degree include the divided-binomial integral
-cocycle reduced mod 2 and prove its nonzero diagonal excludes it here.
-Derive this from the preceding any-ring cocycle lemma and binary binomial
-identities: d_n is odd except at powers of two, and C_(2^k)(X,X)
-has odd integral coefficient. Thus it applies to every R with 2=0; no coefficient field or
-division by two is assumed. Apply the lemma to the first nonvanishing
-homogeneous error g(F)−g(X)−g(Y), prove all compatible truncations and
-pass to actual formal power series by coefficient completeness.
-For arbitrary h∈R[[X]] prove h(X+Y)=h(X)+h(Y) precisely when
-h=Σ_(j≥0) b_j X^(2^j), including zero constant term; strict additive
-automorphisms have b₀=1. Use this to prove the logarithm normalization
-and its uniqueness, and describe all other strict coordinates by composing
-with those additive automorphisms. For the degree-one real-orientation
-coordinate give the graded version with a_i in homological degree i,
-and its coefficient-wise base-change laws. This algebraic lane
-precedes F2's universal characteristic-two ring comparison.
+**Exponent two.** For a commutative F over any ring R with [2]_F=0 (which
+forces 2=0 in R, `natCast_eq_zero_of_nsmulSeries_eq_zero`), the normalized
+strict logarithm g_F(X)=X+Σ_(i≥1)a_iX^(i+1) with a_(2^k−1)=0 for every
+k≥1 and g_F(F(X,Y))=g_F(X)+g_F(Y) is `FormalGroup.exponentTwoLog` (module
+`ExponentTwo.Basic`), with `constantCoeff_exponentTwoLog`,
+`coeff_one_exponentTwoLog`, `coeff_two_pow_exponentTwoLog` and
+`subst_toPowerSeries_exponentTwoLog`; its existence and uniqueness is
+`FormalGroup.existsUnique_logarithm_of_nsmulSeries_eq_zero` (module
+`Logarithm.InfiniteHeight`), stated for every prime p with [p]_F=0: there
+is exactly one g with g(0)=0, g'(0)=1, vanishing coefficients in the
+degrees p^k for k≥1, and g(F(X,Y))=g(X)+g(Y); `eq_exponentTwoLog`
+identifies every such g with g_F, and `map_exponentTwoLog` is base-change
+naturality. The inverse strict exponential f_F is
+`FormalGroup.exponentTwoExp` (module `ExponentTwo.Iso`), with the direction
+pinned by `subst_exponentTwoExp_toPowerSeries`: F(f_F(X),f_F(Y))=f_F(X+Y),
+so g_F maps F to the additive group and f_F maps the additive group to F;
+the bundled strict isomorphism is `FormalGroup.exponentTwoLogIso` (instance
+`IsStrict`, forward series g_F, inverse series f_F), and
+`eq_exponentTwoLogIso_iff` says an isomorphism from F to the additive
+group is this one precisely when it is strict with no term of degree 2^k,
+k≥1. The characteristic-two forms of the cocycle lemma are
+`TauCeti.existsUnique_eq_smul_add_pow_sub_pow_sub_pow_of_two_eq_zero`
+(module `SymmetricCocycle.CharTwo`): when 2=0 in R and n is not a power of
+two, a homogeneous symmetric additive 2-cocycle of degree n is uniquely
+r·((X+Y)^n−X^n−Y^n), and `eq_zero_of_two_eq_zero_of_aeval_X_X_eq_zero`:
+in degree 2^k such a cocycle with zero diagonal is zero, because the
+reduction mod 2 of C_(2^k) has diagonal value a^(2^k) at a
+(`aeval_diag_lazardCocycle_two_pow`); both derive from the any-ring lemma
+through `lazardCocycle_eq_add_pow_sub_pow_sub_pow_of_two_eq_zero`, with
+no coefficient field and no division by two. The additive series along
+the additive group when a prime p vanishes in R are
+`PowerSeries.subst_X_add_X_eq_add_iff_of_natCast_eq_zero` (module
+`AdditiveSeries`): h(X+Y)=h(X)+h(Y) precisely when h is supported in the
+degrees p^j, j≥0; the strict additive series along an exponent-two F are
+exactly the composites of g_F with a strict such automorphism
+(`subst_toPowerSeries_eq_add_iff_existsUnique_subst_exponentTwoLog`, module
+`ExponentTwo.Coordinates`). The universal graded ring is
+`TauCeti.ExponentTwoLazardRing` (module `ExponentTwo.Universal`), the
+polynomial ring over 𝔽₂ on generators a_i for i≥1 with i+1 not a power
+of two, with `ExponentTwoLazardRing.lift`, the bijection from commutative
+laws with [2]_F=0 over R to ring homomorphisms out of it, the grading
+`ExponentTwoLazardRing.grading` with a_i in degree i and the graded lift
+`gradedLift`; `ExponentTwoLazardRing.ofLazardRing` (module
+`ExponentTwo.Lazard`) is the surjection from the Lazard ring with its
+kernel `ker_ofLazardRing`, and the exponent-two coordinate-change Hopf
+algebroid with `rightUnit`, `counit` and `coordinateChangeLift` is module
+`ExponentTwo.CoordinateChange`. F2 identifies this ring with MO_* for the
+degree-one real orientation.
 
-Use `formalNSeries F p` as the p-series and define height over
-characteristic-p fields, including height
-∞ for the additive group: `formalHeight` is the least h with a nonzero
-coefficient of X^(p^h) in [p]_F, and ∞ when [p]_F=0. Prove base extension
-invariance, the p-power form of its first nonzero term (so that this least
-h is the degree of the first nonzero term) and coordinate independence of
-height. Define an isomorphism of formal groups as a substitution φ with
-zero constant term and unit linear coefficient intertwining the two laws
-(`IsFormalGroupIso`); prove it has a substitution inverse and that the
-inverse intertwines the laws in the other direction. Prove the
-classification over separably closed characteristic-p fields: two
-one-dimensional commutative formal groups are isomorphic precisely when
-heights agree, including the infinite-height additive class
-(`exists_formalGroupIso_iff_formalHeight_eq`; Ravenel, Theorem A2.2.12).
-Over 𝔽_p itself the forward direction holds but the converse fails: the
-multiplicative group and its nontrivial Galois twists have height one and
-are not isomorphic over 𝔽_p, so separable closure is needed. This supplies
-ModularCurves' height-classification application. EllipticCurves Layer1 owns
-the elliptic logarithm/exponential instances; it consumes this generic API.
+**Height and Lazard's classification.** Over a field K,
+`FormalGroup.height F p` (module `Height.Basic`) is ⊤ when [p]_F=0 and
+otherwise log_p of the order of [p]_F (`height_eq_top_iff`); for a
+commutative F over a field of characteristic p, `height_eq_natCast_iff`
+says the height is h precisely when the first nonzero term of [p]_F has
+degree p^h, `one_le_height`, `height_eq_one_iff`, base extension
+invariance `height_map`, coordinate independence `height_smul`,
+isomorphism invariance `TauCeti.FormalGroupIso.height_eq`, and
+`height_𝔾ₐ`=⊤, `height_𝔾ₘ`=1; `height_eq_top_iff_nonempty_formalGroupIso_𝔾ₐ`
+(module `Logarithm.InfiniteHeight`) is the infinite-height case of the
+classification over every field of characteristic p: F has height ∞
+precisely when it is isomorphic to the additive group; for finite height
+h, `existsUnique_iso_comp_iterateFrobeniusHom_eq_nsmulHom_of_height_eq`
+(module `Frobenius.Factorization`) factors [p]_F uniquely as the h-fold
+Frobenius followed by an isomorphism from the Frobenius twist. Over any
+ring the height ideals I_(p,n) are `FormalGroup.heightIdeal` (module
+`Height.Ideal`), with `heightIdeal_eq_bot_iff_le_height` comparing them
+with the height over fields; F5 consumes them.
+
+Prove Lazard's classification over separably closed fields: for a
+separably closed field k of characteristic p and commutative
+one-dimensional formal groups F and G over k, `TauCeti.FormalGroupIso F G`
+is nonempty precisely when `FormalGroup.height F p` equals
+`FormalGroup.height G p`, the infinite-height class included
+(`nonempty_formalGroupIso_iff_height_eq`; Ravenel, Theorem A2.2.12, which
+says that every law of height n over k is isomorphic to the p-typical
+Honda law of height n, the additive law for n=∞). The forward direction
+is `TauCeti.FormalGroupIso.height_eq` and the infinite-height case is
+`height_eq_top_iff_nonempty_formalGroupIso_𝔾ₐ`. Ravenel's route for finite
+height: by Cartier's theorem (A2.1.18) replace F and G by isomorphic
+p-typical laws, parametrized by the images of the generators v_i of the
+p-typical Lazard ring V (A2.1.24, A2.1.25), and seek the isomorphism in
+the form of a formal sum Σ^F t_i x^(p^i); the coefficient equations
+(A2.2.13), from the right-unit formula of Theorem A2.2.6, begin with
+t₀·θ(v_h)=t₀^(p^h) and continue degree by degree with equations whose
+derivative in the new unknown is a unit, so each is separable and has a
+root in k. The degree-by-degree obstruction theory for this induction is
+at the pin: when an approximate homomorphism f from F to G has
+homomorphism defect vanishing below degree n, the degree-n part of the
+defect is c·C_n (`exists_homogeneousComponent_homDefect_eq_smul_lazardCocycle`,
+module `Obstruction`), removable by a strict correction in degree n when
+d_n is a unit, vanishing automatically in degree p^k for k<h
+(`succ_le_order_sub_of_lt_height`, module `LeadingDifference`), and read
+off the p-series in degree p^k (`homogeneousComponent_homDefect_eq_smul_lazardCocycle`),
+which is where the separable equations above arise. *Needs:*
+`FormalGroup.height`, `TauCeti.FormalGroupIso` and the pinned p-series,
+Frobenius, obstruction and leading-difference APIs named above; for
+Ravenel's route also F3's p-typical coordinates and Hazewinkel
+generators, which are a route input, not an input of the statement.
+Checks: the additive and multiplicative groups over an algebraic closure
+of 𝔽_p have heights ∞ and 1 (`height_𝔾ₐ`, `height_𝔾ₘ`) and are not
+isomorphic, which the statement forbids and a definition of height that
+returned 0 for the additive group would not; for F=G the identity series
+X is the isomorphism and the heights agree trivially; over 𝔽_p itself the
+forward direction holds but the converse fails: the multiplicative group
+and its nontrivial Galois twists have height one and are not isomorphic
+over 𝔽_p, since an 𝔽_p-isomorphism commutes with the Frobenius
+endomorphism X^p, which these twists send to different elements of the
+common endomorphism ring ℤ_p, so separable closure is needed. This
+supplies ModularCurves' height-classification application. EllipticCurves
+Layer1 owns the elliptic logarithm/exponential instances; it consumes the
+pinned generic API.
 
 ## F2. Complex orientations and Quillen's theorem
 
@@ -345,12 +464,13 @@ and both Euler classes. Pass to RP∞×RP∞ through the two finite-stage
 towers, proving surjective transition maps, the required lim¹ vanishing
 and the completed graded E^*[[x,y]] comparison before defining F. Prove 2·1=0
 and F(x,x)=0 from the square-triviality of the universal real line.
-Use F1's normalized exponent-two logarithm to construct the universal
-graded characteristic2 formal-group ring with
-[2]_F=0 and identify it with MO_*, using the unoriented coefficient ring
+Identify the universal graded characteristic-2 formal-group ring with
+[2]_F=0, which is F1's pinned `TauCeti.ExponentTwoLazardRing` (the
+polynomial ring over 𝔽₂ on generators in the degrees other than 2^k−1,
+with its graded lift), with MO_*, using the unoriented coefficient ring
 computed below and Quillen's unoriented operation proof
-(Quillen 1969, Theorem 3). Prove the polynomial generators in degrees other
-than 2^k−1 and the orientation/change-of-coordinate universal property.
+(Quillen 1969, Theorem 3), and prove the orientation/change-of-coordinate
+universal property of MO.
 TangentialBordism consumes these real formal laws; its geometric cycles
 and manifold representatives are not inputs here.
 
@@ -430,8 +550,8 @@ true π_* before applying the stable weak-equivalence criterion.
 Identify its underlying module with the wedge, and the weakly equivalent
 product, of Σ^dH(R_d), for d∈ℤ, and prove its represented homology is
 H_*(−;𝔽₂)⊗_(𝔽₂)R. Construct the ordinary real Thom orientation and
-its coordinate x_H; for the prescribed law use F1's normalized
-exponential to define x_F=f_F(x_H). Build its multiplicative Thom
+its coordinate x_H; for the prescribed law use the pinned exponent-two
+exponential `FormalGroup.exponentTwoExp` (F1) to define x_F=f_F(x_H). Build its multiplicative Thom
 classes and MO→HR map, identify the coefficient map and law through
 HR^*(RP∞)=R[[x_H]]. Construct the natural map h_*(X,A)→HR_*(X,A)
 induced by MO→HR; prove it an isomorphism after the Conner–Floyd
@@ -711,8 +831,9 @@ Transport the exactness theorem to MU through the actual p-typical
 Hopf-algebroid comparison. Construct the weak equivalence between the
 MU_(p) cooperation groupoid and (A,Γ) using F3's strict p-typicalization,
 its extension/descent comodule functors, unit/counit and finite-presentation
-comparisons. Define the height ideals I_(p,n) in MU_(p)* from the
-[p]-series of its chosen formal group and compare them with the
+comparisons. Take the height ideals I_(p,n) in MU_(p)* as the pinned
+`FormalGroup.heightIdeal` (F1) of its chosen formal group, invariant under
+coordinate change by `heightIdeal_smul`, and compare them with the
 p-typical ideals. Prove independence of lifts of v_i modulo preceding
 height ideals and of the specified coordinate changes. This identifies
 the criterion on an MU_*-module without pretending the quotient
@@ -2218,7 +2339,7 @@ these layers; neither is an input to Lazard, Quillen or BP construction.
 
 - Quillen, [*Elementary proofs of some results of cobordism theory using Steenrod operations*](https://people.math.rochester.edu/faculty/doug/otherpapers/QuillenElem.pdf).
 - Adams, *Stable Homotopy and Generalised Homology*, for orientations and cooperations.
-- Ravenel, [*Complex Cobordism and Stable Homotopy Groups of Spheres*](https://www.sas.rochester.edu/mth/sites/doug-ravenel/mybooks/ravenel3rd.pdf), for p-typical cooperations and Adams–Novikov constructions, and Appendix 2 (Theorems A2.1.6, A2.2.12 and Lemma A2.2.7) for the formal-group logarithm, p-series and height.
+- Ravenel, [*Complex Cobordism and Stable Homotopy Groups of Spheres*](https://www.sas.rochester.edu/mth/sites/doug-ravenel/mybooks/ravenel3rd.pdf), for p-typical cooperations and Adams–Novikov constructions, and Appendix 2 (Theorems A2.1.6, A2.1.18, A2.2.6 and A2.2.12, Lemmas A2.1.9 and A2.2.7, Definitions A2.1.24–A2.1.25 and equation (A2.2.13)) for the formal-group logarithm, p-series, height and the height classification over separably closed fields.
 - Bousfield, [*The localization of spectra with respect to homology*](https://doi.org/10.1016/0040-9383(79)90018-1), Topology 18 (1979), §6, Theorem 6.6, for the identification of the HF_p-nilpotent completion of a bounded-below spectrum with its derived p-completion.
 - Landweber–Ravenel–Stong, [*Periodic cohomology theories defined by elliptic curves*](https://people.math.rochester.edu/faculty/doug/mypapers/lrs.pdf), for exactness and elliptic examples.
 - Wilson, *The Ω-spectrum for Brown–Peterson cohomology II*, and Hovey, [*The homotopy of MString and MU⟨6⟩ at large primes*](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/Hovey-bpbp1.pdf), for the Hopf-ring interfaces.
