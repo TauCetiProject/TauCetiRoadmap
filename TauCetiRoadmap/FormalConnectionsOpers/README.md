@@ -52,8 +52,12 @@ intrinsic descriptions.
   jet, universal bijection, composition maps and localization, and the analytic
   differential-operator and connection dictionaries. §2.2 consumes C5.1's algebraic operator
   interface and builds symbols, the Atiyah sequence and the Lie–Rinehart enveloping algebra on
-  top of it; §2.4 realizes the smooth constant-dimensional restriction on fixed manifold models
-  and owns the tangent, toric, group and gauge comparisons.
+  top of it. This roadmap takes complex points, their classical topology and all these
+  comparisons from C−1.1 alone and builds on no second analytification. §2.4 owns the
+  complex-manifold structure on the complex points of a separated smooth finite-type complex
+  scheme of constant differential dimension `d`: the atlas modelled on `Fin d → ℂ`, its maximal
+  atlas and holomorphic morphisms, the tangent isomorphism and the toric, group and gauge
+  comparisons. A roadmap that needs this manifold structure takes it from §2.4.
   No proper GAGA or global algebraization theorem is a prerequisite of any lane here.
 - **ComplexKahlerGeometry K1, K3.0, K4** owns joint holomorphic inverse and implicit maps,
   regular-zero-set submanifolds, finite-dimensional Cauchy/analyticity, the holomorphic
@@ -71,7 +75,10 @@ intrinsic descriptions.
   Bruhat structure, the classification of split reductive groups by root data, pinned Chevalley
   groups over `ℤ`, and the complex reductive coset-affineness theorem. §4.3 owns the
   ordered-root-product, complex-point generation and analytic matrix applications; §3A.5 owns
-  the loop-Grassmannian reduction-locus application of 6B.
+  the loop-Grassmannian reduction-locus application of 6B. §4.3 also owns the complex Lie group
+  `G(ℂ)` of every affine algebraic group `G` over `ℂ`, on the native Hopf-point carrier, with the
+  identification of its Lie algebra with the counit derivations and their convolution bracket;
+  ReductiveGroups Layer 11 consumes it.
 - **LieHighestWeight Layer 7** owns the Lie-algebra Chevalley restriction theorem over every
   algebraically closed characteristic-zero field, with the `Int(L)·H` density argument and the
   homogeneous-degree compatibility. §4.3 imports it and owns only the adapters: group invariants
@@ -210,6 +217,11 @@ Both signs are recomputed in §§7.2 and 8.2. `G(ℂ)` always means the native H
   convolution Lie bracket in `TauCeti.Algebra.AlgebraicGroup.Tangent.Lie.Basic`: the algebraic Lie
   algebra of §3.1 and §4.3. Algebraic-group base change and the native `ProjectiveGeneralLinear`
   group scheme.
+- `TauCeti.smoothCommHopfAlgProperty_of_charZero` and
+  `TauCeti.HopfAlgebra.finrank_lie_eq_ringKrullDim_of_charZero` in
+  `TauCeti/Algebra/AlgebraicGroup/Smooth/CharZero.lean`: Cartier's theorem that a finite-type
+  commutative Hopf algebra over a field of characteristic zero is smooth, and the equality of the
+  dimension of its counit derivations with its Krull dimension, for §4.3's lower dictionary.
 - `TauCeti.chartedSpaceOfIsOpenEmbedding` and `TauCeti.isManifold_chartedSpaceOfIsOpenEmbedding`
   in `TauCeti/Geometry/Manifold/Gluing.lean`: the manifold structure glued from open embeddings,
   after the topology, open embeddings, cover and holomorphic local deck maps are proved (§2.4 and
@@ -1389,12 +1401,15 @@ consumed by NilpotentOrbits and used for the comparison with CharacteristicClass
 proof here; and the principal `sl₂`, exponents, Kostant slice, regular locus and Drinfeld–Sokolov
 normal form. No part consumes a compact Chevalley theorem.
 
-**Lower dictionary.** First establish the algebraic rank required by §2.4. For a connected
-reductive complex affine group `G = Spec H`, put `I = ker ε` and let `𝔤` be the native
-counit-valued derivations `Derivation ℂ H (TauCeti.Bialgebra.CounitAlgebra ℂ H ℂ)`. Construct the
-algebraic left Maurer–Cartan trivialization `Ω¹_(H/ℂ) ≃ H ⊗_ℂ (I/I²)` and `I/I² ≃ 𝔤^∨`,
-compatible with translations and base change. Smoothness and finite type give finite local
-freeness, so `Ω¹_(G/ℂ)` has constant rank `d = dim_ℂ 𝔤` before analytification. Take
+**Lower dictionary.** First establish the algebraic rank required by §2.4. For an affine
+algebraic group `G = Spec H` over `ℂ`, with `H` finitely generated, put `I = ker ε` and let `𝔤`
+be the native counit-valued derivations `Derivation ℂ H (TauCeti.Bialgebra.CounitAlgebra ℂ H ℂ)`.
+Construct the algebraic left Maurer–Cartan trivialization `Ω¹_(H/ℂ) ≃ H ⊗_ℂ (I/I²)` and
+`I/I² ≃ 𝔤^∨`, compatible with translations and base change. Smoothness, from Tau Ceti's
+`TauCeti.smoothCommHopfAlgProperty_of_charZero`, and finite type give finite local freeness, so
+`Ω¹_(G/ℂ)` has constant rank `d = dim_ℂ 𝔤` before analytification, and
+`TauCeti.HopfAlgebra.finrank_lie_eq_ringKrullDim_of_charZero` identifies `d` with the Krull
+dimension of `H`. Take
 ReductiveGroups Layer 1's faithful closed representation, apply §2.4 with this rank, and identify
 its topology and atlas with the matrix-subspace realization including `det⁻¹` on `GL_N`. Use the
 Spec adjunction to identify its point carrier with native `TauCeti.HopfAlgebra.points`, namely
@@ -1409,7 +1424,11 @@ from germ derivations to the displayed global counit derivations. Its inverse lo
 `D(a/s) = D(a)/ε(s) − ε(a)D(s)/ε(s)²` for `ε(s) ≠ 0`; prove representative independence, Leibniz
 and the two inverse laws. Compose this with `τ_e`. Prove bracket compatibility with no minus sign:
 `D^L h = Σ h_(1) D(h_(2))`, with coproduct `Δ = μ*` and the left group factor first; thus the
-commutator at `1` evaluates to `D*E − E*D`, the native counit bracket.
+commutator at `1` evaluates to `D*E − E*D`, the native counit bracket. These steps use neither
+connectedness nor reductivity, only ReductiveGroups Layers 0–2 and §2.4, and are stated for every
+affine algebraic group over `ℂ`: this is the single construction of the complex Lie group `G(ℂ)`
+and of the identification of its Lie algebra with the counit derivations, and ReductiveGroups
+Layer 11 consumes it. From the realification comparison on, `G` is connected reductive.
 
 Own the realification comparison: with ComplexManifolds Milestone 1's named realification `G(ℂ)_ℝ`
 of the same carrier, construct the real-linear tangent equivalence from the underlying real vector
@@ -1572,10 +1591,10 @@ coefficientwise; prove existence, uniqueness, freeness and recovery of the gauge
 - Regular nilpotents in `𝔰𝔩₂` are the nonzero nilpotents, one orbit containing `f`; the zero
   matrix is nilpotent with centralizer of dimension `3`, not regular.
 
-*Needs:* §2.4; §4.2; ReductiveGroups Layers 1–4, 6–9; LieHighestWeight Layer 7; LieGroups
+*Needs:* §2.4; §4.2; ReductiveGroups Layers 0–4, 6–9; LieHighestWeight Layer 7; LieGroups
 Layers 0, 6, 7; ComplexManifolds Milestone 1; ComplexKahlerGeometry K1, K3.0; CharacteristicClasses
 C5.1 (comparison only); Mathlib `GroupLieAlgebra`, `LeftInvariantDerivation`, `Matrix.exp`;
-Tau Ceti counit derivations and gluing.
+Tau Ceti counit derivations, characteristic-zero smoothness and gluing.
 
 ### 4.4 Regular and punctured opers; central isogenies (F4.4)
 
@@ -2442,8 +2461,8 @@ GeometricRepresentationCategories.
   restriction isomorphism with its rational descent, and the finite principal triple, exponents,
   Kostant slice and regular-nilpotent/simple-component/unique-Borel theorems.
 - **ReductiveGroups Layer 11** consumes §4.3's lower smooth/holomorphic dictionary for its
-  analytic charts; **SchubertGeometry** and **ComplexKahlerGeometry** consume §2.4's fixed-model
-  comparison.
+  analytic charts: the complex Lie group `G(ℂ)` with its Lie-algebra identification, and the
+  connectedness and central/derived comparisons for connected reductive `G`.
 - **KacMoody KM8A** consumes Layer 3A's polynomial and formal loop functors, Iwahori and positive
   subgroups, full-cocharacter normalizer quotients, loop Cartan decomposition and positive-orbit
   comparison, and compares its
