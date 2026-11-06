@@ -142,7 +142,7 @@ The Hodge witness has GL₂ bound (1,0), Schubert dimension 1, generic flag P¹,
 
 ### From TauCetiRoadmap.DiamondsAndVStacksPartII
 
-Sections D10.8–D10.9 supply proper monomorphisms and v-closures; D10.12 supplies full faithfulness for proper flat normal schemes, D10.13 its absolutely weakly normal form, and D10.14–D10.15 flat-closure comparison and normal model recovery. Sections D11.5, D11.11–D11.14 and D11.16–D11.20 supply tubes, rich smelted kimberlites, component comparison, π-adic triples and the proper criterion. D11.4 supplies the kimberlite of a formal scheme, used in §7.8. D11.20's normality criterion is applied after an algebraically closed residue extension. D11.14's closed-specialization hypothesis is satisfied by the perfectly finite-type admissible locus.
+Sections D10.8–D10.9 supply proper monomorphisms and v-closures; D10.12 supplies full faithfulness for proper flat normal schemes, D10.13 its absolutely weakly normal form, D10.14 flat-closure comparison, and D10.15 the uniqueness of a proper flat normal model with prescribed diamond together with the existence and uniqueness of the scheme morphism to Gr(d,Λ)_(O_E) with prescribed diamond under an integral Hodge embedding. Sections D11.5, D11.11–D11.14 and D11.16–D11.20 supply tubes, rich smelted kimberlites, component comparison, π-adic triples and the proper criterion. D11.4 supplies the kimberlite of a formal scheme, used in §7.8. D11.20's normality criterion is applied after an algebraically closed residue extension. D11.14's closed-specialization hypothesis is satisfied by the perfectly finite-type admissible locus.
 
 What DiamondsAndVStacksPartII must provide (gap:general-tube-cohomology): In D11, give the three comparisons of GL Theorem 4.7 for a prekimberlite over a rank-one valuation ring, spatial generic diamond of finite cohomological dimension, perfectly finite-type reduction and ℓ-torsion coefficients with ℓ≠p, retaining algebraicity of nearby cycles for the comparison with the étale-neighbourhood limit (GL pp. 8–9; GL line 391).
 
@@ -292,7 +292,7 @@ The construction has the following properties:
 
 - Return M_E≅ℱ_(G,{μ}) with its comparison map.
 - The integral level action is the unique action whose diamond is the action on the closure.
-- Two normal proper representatives with these specified maps are uniquely isomorphic over O_E.
+- Two normal proper representatives with these specified maps are uniquely isomorphic over O_E; this is DiamondsAndVStacksPartII §D10.15(1), applied to the composite of the two specified comparison maps.
 - Finite reflex-field base change agrees when the base-changed scheme remains normal with geometrically reduced special fibre.
 
 **Checks.**
@@ -304,7 +304,7 @@ The construction has the following properties:
 
 Weak normalization alone does not certify the final scheme specification.
 
-*Needs:* §0.4; DiamondsAndVStacksPartII §D10.12; SchemeAndStackFoundations §§0.8, 0.30 and 4.13; gap:trait-normality.
+*Needs:* §0.4; DiamondsAndVStacksPartII §D10.12; DiamondsAndVStacksPartII §D10.15; SchemeAndStackFoundations §§0.8, 0.30 and 4.13; gap:trait-normality.
 
 ### 0.6 Good integral Hodge embeddings
 
@@ -334,7 +334,7 @@ For GL₂ and μ=(1,0), E=F, h=2,d=1 and the generic flag is P¹. For μ=0 it is
 
 ### Dependencies
 
-ReductiveGroupsPartII RG2.2; ReductiveGroupsPartII RG2.3; ModularCurves §0G; ReductiveGroupsPartII RG2.1; GeometricSatakeAndFusion GS0, §0.6 “Generic Schubert bounds”; GeometricSatakeAndFusion GS0, §0.32 “Integral parahoric ind-properness”; GeometricSatakeAndFusion GS4, §4.17 “Integral local models and admissible special fibres”; GeometricSatakeAndFusion GS4, §4.18 “Functoriality of integral local models”; DiamondsAndVStacksPartII §D10.9; DiamondsAndVStacksPartII §D10.12; SchemeAndStackFoundations §§0.8, 0.30 and 4.13; gap:trait-normality. The internal section references above give the additional ordering within this layer.
+ReductiveGroupsPartII RG2.2; ReductiveGroupsPartII RG2.3; ModularCurves §0G; ReductiveGroupsPartII RG2.1; GeometricSatakeAndFusion GS0, §0.6 “Generic Schubert bounds”; GeometricSatakeAndFusion GS0, §0.32 “Integral parahoric ind-properness”; GeometricSatakeAndFusion GS4, §4.17 “Integral local models and admissible special fibres”; GeometricSatakeAndFusion GS4, §4.18 “Functoriality of integral local models”; DiamondsAndVStacksPartII §D10.9; DiamondsAndVStacksPartII §D10.12; DiamondsAndVStacksPartII §D10.15; SchemeAndStackFoundations §§0.8, 0.30 and 4.13; gap:trait-normality. The internal section references above give the additional ordering within this layer.
 
 ## Layer 1: polynomial closures and comparisons
 
@@ -593,13 +593,13 @@ The proof order is polynomial embeddings → normal recovery → canonical repre
 
 ### 3.2 Integral Hodge maps and normalizations of images
 
-Let (F,G,{μ},𝒢) be a minuscule local model datum of Hodge type with an integral Hodge embedding 𝒢↪GL(Λ), and let M be a normal flat projective O_E-scheme with a specified isomorphism M^♦≅M^v as in §0.5. Then the functorial scheme map M→Gr(d,Λ)_(O_E) identifies M with the normalization of its schematic image. Goodness is the stronger assertion that this map is a closed immersion. The diagram of geometric special-fibre points with the Witt Grassmannians commutes. For standard data the theorem applies to M=M^can of §3.1; for the acceptable data of §7.7 it applies to the normal model of §7.6; its proof uses neither construction. (KPZ, §3.1.9 and diagram(3.1.10), p. 17; KPZ line 761).
+Let (F,G,{μ},𝒢) be a minuscule local model datum of Hodge type with an integral Hodge embedding 𝒢↪GL(Λ), and let M be a normal flat projective O_E-scheme with a specified isomorphism M^♦≅M^v as in §0.5. The scheme map M→Gr(d,Λ)_(O_E) whose diamond is the functoriality map M^v→M^v_(GL(Λ),μ_d) exists and is unique by DiamondsAndVStacksPartII §D10.15(2); its hypothesis M^v_(GL(Λ),μ_d)=Gr(d,Λ)^♦ is §1.6, and its existence needs only that M is proper, flat and normal. This roadmap proves that this map identifies M with the normalization of its schematic image. Goodness is the stronger assertion that this map is a closed immersion. The diagram of geometric special-fibre points with the Witt Grassmannians commutes. For standard data the theorem applies to M=M^can of §3.1; for the acceptable data of §7.7 it applies to the normal model of §7.6; its proof uses neither construction. (KPZ, §3.1.9 and diagram(3.1.10), p. 17; KPZ line 761).
 
-One proof proceeds as follows. Construct the diamond map and lift it by proper normal full faithfulness. Use generic closed immersion, properness and geometric-fibre injectivity to get a finite birational map onto the image. Normality of the source gives the normalization; identify the point map by specialization functoriality.
+One proof proceeds as follows. Take the scheme map supplied by D10.15(2). Use generic closed immersion, properness and geometric-fibre injectivity to get a finite birational map onto the image. Normality of the source gives the normalization; identify the point map by specialization functoriality.
 
 Normalizing an image is not the same statement as image normality. The theorem does not require the standard range: for p=5, G=G_m×H with H simply connected of trialitarian type D₄ split by a tame cubic extension, V the scalar twist of the Galois-stable sum of the three eight-dimensional minuscule representations and μ(z)=(z,1), the datum is of Hodge type with h=d=24 but outside the standard range; the target Gr(24,Λ) is a point and the normalization map is the identity.
 
-*Needs:* §0.5; §0.6; DiamondsAndVStacksPartII §D10.12; GeometricSatakeAndFusion GS0, §0.32 “Integral parahoric ind-properness”; SchemeAndStackFoundations §§0.20–0.21 and 0.30; ModularCurves §0G.
+*Needs:* §0.5; §0.6; §1.6; DiamondsAndVStacksPartII §D10.15; DiamondsAndVStacksPartII §D10.12; GeometricSatakeAndFusion GS0, §0.32 “Integral parahoric ind-properness”; SchemeAndStackFoundations §§0.20–0.21 and 0.30; ModularCurves §0G.
 
 ### 3.3 Good embeddings cut out by descent endomorphisms
 
@@ -873,13 +873,13 @@ At the SL₂ neutral translation in S_(α∨), each root contributes t⁻¹X_α,
 
 ### 5.1 Frobenius orbit steps and rank-one local groups
 
-For the equal-characteristic companion of a minuscule local abelian-type datum (p>2) at a very special parahoric, identify its Schubert order with the integral positive Σ-coroot order on the actual inertia-coinvariant cocharacter lattice. For distinct Frobenius-fixed dominant λ<μ, import the invariant coroot-step theorem to choose an orbit sum β with λ<λ+β≤μ. Identify this selected orbit with a short relative-root rank-one subgroup, retaining the valued-root normalization, possible multipliable roots, and the unchanged central cocharacter coordinate. The map from the orbit sum on the coroot lattice to the short relative-root subgroup is part of the valued-root comparison; it is not inferred merely from the order inequality. (KZ, §5.2.1 and proof of Proposition 5.2.3, pp. 48–50; KZ line 2120).
+For the equal-characteristic companion of a minuscule local abelian-type datum (p>2) at a very special parahoric, identify its Schubert order with the integral positive Σ-coroot order on the actual inertia-coinvariant cocharacter lattice. For distinct Frobenius-fixed dominant λ<μ, import the invariant coroot-step theorem to choose an orbit sum β with λ<λ+β≤μ. Identify this selected orbit with a short relative-root rank-one subgroup, retaining the valued-root normalization, possible multipliable roots, and the unchanged central cocharacter coordinate. The map from the orbit sum on the coroot lattice to the short relative-root subgroup is part of the valued-root comparison; it is not inferred merely from the order inequality. The companion group throughout this layer is that of the auxiliary prime-to-p Hodge cover G′ of §1.5 through which §3.1 builds M^can: the strata of the datum are the orbits of the companion parahoric on M^can_k, which agree with the G^ad-orbits, and p∤|π₁(G′^der)| holds by the construction of §1.5. No condition on π₁(G^der) of the datum itself is imposed. (KZ, §5.2.1 and proof of Proposition 5.2.3, pp. 48–50; KZ line 2120; KZ line 2130).
 
 One proof proceeds as follows. Use the actual root datum and valuation normalization of the companion group. Apply the finite invariant-step theorem; the sum ranges over distinct roots in the orbit, rather than repeating them to the automorphism order. Use the valued-root classification to distinguish SL₂ from standard and nonstandard SU₃ and identify the target translation increment.
 
 The root theorem is existential: an arbitrary orbit sum need not preserve dominance.
 
-*Needs:* §3.4; RootSystemsPartII §4.3, “The existential orbit-sum step”; RootSystemsPartII §4.4, “Ambient cocharacters, central directions and torsion”; ReductiveGroupsPartII RG2.1; ReductiveGroupsPartII RG2.2.
+*Needs:* §3.4; §3.1; §1.5; RootSystemsPartII §4.3, “The existential orbit-sum step”; RootSystemsPartII §4.4, “Ambient cocharacters, central directions and torsion”; ReductiveGroupsPartII RG2.1; ReductiveGroupsPartII RG2.2.
 
 ### 5.2 Split and unitary rank-one Schubert curves
 
@@ -906,13 +906,13 @@ The nonstandard formula is not asserted in characteristic 2.
 
 ### 5.3 Closed rank-one flag comparison
 
-In the rank-one comparison used above, the map from the simply connected rank-one flag factors through the neutral component of the image group flag. Under p∤|π₁(H)| for the semisimple image H, its simply connected central cover identifies that component; the subsequent rank-one inclusion is a proper monomorphism and hence a closed immersion. The condition follows from p∤|π₁(G^der)| for the companion group: the kernel of G_α→G^der lies in the kernel of G^sc→G^der, whose order divides |π₁(G^der)|. This covers the SU₃ image when p=3. No central-cover identification of the entire disconnected affine flag is asserted. (KZ, Proof of Proposition 5.2.3, p. 50; KZ line 2179; PR, §6.a.1, pp. 24–25; PR line 916).
+In the rank-one comparison used above, the map from the simply connected rank-one flag factors through the neutral component of the image group flag. Under p∤|π₁(H)| for the semisimple image H, its simply connected central cover identifies that component; the subsequent rank-one inclusion is a proper monomorphism and hence a closed immersion. The condition holds for the companion of the cover G′ of §5.1: the kernel of G_α→G′^der lies in the kernel of G′^sc→G′^der, whose order divides |π₁(G′^der)|, and p∤|π₁(G′^der)| by §1.5. This covers the SU₃ image when p=3. No central-cover identification of the entire disconnected affine flag is asserted. (KZ, Proof of Proposition 5.2.3, p. 50; KZ line 2179; PR, §6.a.1, pp. 24–25; PR line 916).
 
-One proof proceeds as follows. Bound the kernel of the rank-one simply connected group G_α→G^der by the kernel of G^sc→G^der, which has order dividing |π₁(G^der)|. Use the central kernel calculation to see that all kernel loops are positive loops; retain the prime-to-p hypothesis. Identify the neutral component using the Kottwitz map. Apply the specified algebraic flag representability, ind-properness and monomorphism criterion for the rank-one subgroup.
+One proof proceeds as follows. Bound the kernel of the rank-one simply connected group G_α→G′^der by the kernel of G′^sc→G′^der, which has order dividing |π₁(G′^der)|, prime to p by §1.5. Use the central kernel calculation to see that all kernel loops are positive loops. Identify the neutral component using the Kottwitz map. Apply the specified algebraic flag representability, ind-properness and monomorphism criterion for the rank-one subgroup.
 
 For p dividing the central kernel order the argument on nonreduced test rings fails.
 
-*Needs:* §5.1; gap:algebraic-loop-representability; gap:prime-to-p-central-components; ReductiveGroupsPartII RG2.3; `AlgebraicGeometry.IsClosedImmersion.iff_isProper_and_mono`.
+*Needs:* §5.1; §1.5; gap:algebraic-loop-representability; gap:prime-to-p-central-components; ReductiveGroupsPartII RG2.3; `AlgebraicGeometry.IsClosedImmersion.iff_isProper_and_mono`.
 
 ### 5.4 Rational points lift to positive loops
 
@@ -926,7 +926,7 @@ For nonzero λ, t^λ can have poles; only the conjugating g is required to be a 
 
 ### 5.5 Same-residue-field curve theorem
 
-Assume p>2 and a connected very special equal-characteristic companion level for the standard local abelian-type data, with p∤|π₁(G^der)| for the companion root-subgroup comparison. Let λ<μ be Frobenius-fixed dominant strata in the integral Σ-coroot order and y∈S_λ(F_q). There is a smooth geometrically connected curve C/F_q, an F_q-point c and a morphism f:C→S_μ with f(c)=y, whose inverse image of a strictly higher stratum is dense open. The field of c and the field of definition of C are exactly F_q. (KZ, Proposition 5.2.3 and proof, pp. 49–52; KZ line 2179).
+Assume p>2 and a connected very special equal-characteristic companion level, in the sense of §5.1, for the standard local abelian-type data; no hypothesis on π₁(G^der) is imposed, since the rank-one comparison of §5.3 runs on the companion of the prime-to-p cover G′. Let λ<μ be Frobenius-fixed dominant strata in the integral Σ-coroot order and y∈S_λ(F_q). There is a smooth geometrically connected curve C/F_q, an F_q-point c and a morphism f:C→S_μ with f(c)=y, whose inverse image of a strictly higher stratum is dense open. The field of c and the field of definition of C are exactly F_q. (KZ, Proposition 5.2.3 and proof, pp. 49–52; KZ line 2179).
 
 One proof proceeds as follows. Choose the invariant coroot step and construct its rank-one curve over the appropriate finite residue extension. Evaluate the split or unitary rank-one formula on a single parameter a in A¹_(F_q), embedded as scalar constants in the finite extension K. This defines the A¹ map into the restriction-of-scalars flag directly; no finite-field Bertini step is used. Translate first by t^λ and then by the rational positive-loop lift of y. Take C=A¹_(F_q) and c=0; the explicit double-coset calculation sends G_m into the chosen strictly higher stratum.
 
@@ -936,7 +936,7 @@ This theorem raises the stratum without extending F_q; it does not assert that e
 
 ### Examples
 
-For SL₂ with λ=0 and μ=α∨ over F₃, a↦x_−(t⁻¹a) has value 1 at 0 and lies in the higher orbit on G_m; the rational marked point remains F₃-rational. In the nonstandard SU₃ chart, c=a,d=−a²/2 gives τ(c)c+d+τ(d)=a²−a²/2−a²/2=0. At a=1 in F₃ the three terms are 1,1,1 and sum to 0. In F₂ the denominator 2 vanishes (KZ proof of Proposition 5.2.3, pp. 50–52; KZ line 2218).
+For SL₂ with λ=0 and μ=α∨ over F₃, a↦x_−(t⁻¹a) has value 1 at 0 and lies in the higher orbit on G_m; the rational marked point remains F₃-rational. In the nonstandard SU₃ chart, c=a,d=−a²/2 gives τ(c)c+d+τ(d)=a²−a²/2−a²/2=0. At a=1 in F₃ the three terms are 1,1,1 and sum to 0. In F₂ the denominator 2 vanishes (KZ proof of Proposition 5.2.3, pp. 50–52; KZ line 2218). For G=GL₆/μ₃ with μ the image of (1,0,0,0,0,0) at p=3, a standard datum with G^der=SL₆/μ₃ and |π₁(G^der)|=3 at hyperspecial, hence very special, level, the curve theorem of §5.5 applies: a cover of §1.5 is G′=GL₆ with its standard representation, its companion over F₃((t)) is GL₆, and each rank-one subgroup SL₂ of §5.3 maps injectively into it. The same holds for the rank-one subgroups of SL₆/μ₃ itself, since SL₂∩μ₃=1; a hypothesis p∤|π₁(G^der)| on the datum would have excluded this case although KZ Proposition 5.2.3 covers it.
 
 ### Dependencies
 
