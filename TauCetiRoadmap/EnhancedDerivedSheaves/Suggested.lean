@@ -5,15 +5,16 @@ public import Mathlib
 /-!
 # Enhanced derived sheaves: target signatures
 
-**This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. The statements here suggest Lean forms for particular milestones, so that
-contributors and reviewers converge on names and signatures; discharging all of them
-finishes neither a layer nor the roadmap.
+The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
+theorems against the pinned Mathlib and Tau Ceti APIs, with simple definitions on native
+carriers, each with `sorry`.
 
 The statable headlines are the local smallness of the derived category of a Grothendieck
 abelian category, which makes `HasDerivedCategory` a global instance in the universe of the
-Grothendieck abelian structure; invertible objects of a monoidal category as the units of
-Mathlib's skeleton monoid; the global projective-dimension bound for regular rings, both
+Grothendieck abelian structure; the stability under tensor products of the presheaf maps
+inverted by étale sheafification, which makes Mathlib's sheaf tensor product and its symmetry
+global instances on étale module sheaves; invertible objects of a monoidal category as the
+units of Mathlib's skeleton monoid; the global projective-dimension bound for regular rings, both
 implications of Kunz's theorem, radical/flat/idempotent Frobenius-root ideals, Tor independence
 and homological bounds for perfect algebras (including the intrinsic Tor bound twice the
 Krull dimension), finite freeness of bounded saturated valuation
@@ -30,8 +31,10 @@ The following headline families are not statable at the pins:
 * Layers E0, 0 and E1: dg-nerve stability, presentability and the enhanced sheaf comparisons
   lack the dg nerve, coherent mapping-space framework and enhanced ringed-site category D∞(O).
   The functorial K-flat replacement of étale module sheaves and the derived tensor product on
-  their derived category lack K-flat complexes and a monoidal structure on Mathlib's
-  `DerivedCategory`. Tensor–Hom, Koszul realization, perfect-scheme base change and
+  their derived category lack K-flat complexes, a braiding on `HomologicalComplex` and a
+  monoidal structure on Mathlib's `DerivedCategory`; the internal Hom of étale module sheaves
+  and the Koszul braiding on their complexes are data, so they are not stated with `sorry`.
+  Tensor–Hom, Koszul realization, perfect-scheme base change and
   algebraic-space perfect pushforward additionally need enhanced functors and
   quasicoherent/perfect subcategories.
 * Layer E3: relative Kan-extension lifting, representability, adjoints and accessible
@@ -86,6 +89,41 @@ noncomputable instance IsGrothendieckAbelian.hasDerivedCategory : HasDerivedCate
     (HomologicalComplex.quasiIso C (ComplexShape.up ℤ)).Q
 
 end GrothendieckAbelian
+
+section EtaleTensor
+
+open AlgebraicGeometry
+
+/-- **Local isomorphisms of étale module presheaves are stable under tensor products**
+(`Scheme.smallEtaleTopology_W_isMonoidal`, Section 0.2): for a scheme `X` and a commutative
+ring `Λ`, the presheaf maps on the small étale site that sheafification inverts are stable
+under tensoring with any presheaf of `Λ`-modules on either side. Mathlib's instance
+`GrothendieckTopology.W.monoidal` proves this only when the enriched Hom limits indexed by the
+site exist in `ModuleCat.{u} Λ`; here the site is `X.Etale : Type (u + 1)`, so the statement is
+proved on the `u`-small model of `X.AffineEtale` and transported along
+`GrothendieckTopology.W.transport_isMonoidal`. -/
+theorem Scheme.smallEtaleTopology_W_isMonoidal (X : Scheme.{u}) (Λ : Type u) [CommRing Λ] :
+    (X.smallEtaleTopology.W (A := ModuleCat.{u} Λ)).IsMonoidal := by
+  sorry
+
+/-- **The ordinary tensor product of étale module sheaves**
+(`Scheme.smallEtaleSheafMonoidalCategory`, Section 0.2): Mathlib's `Sheaf.monoidalCategory`,
+the sheafification of the presheaf tensor product with unit the constant sheaf `Λ_X`, under the
+stability hypothesis `Scheme.smallEtaleTopology_W_isMonoidal`. -/
+noncomputable instance Scheme.smallEtaleSheafMonoidalCategory (X : Scheme.{u}) (Λ : Type u)
+    [CommRing Λ] : MonoidalCategory (Sheaf X.smallEtaleTopology (ModuleCat.{u} Λ)) :=
+  haveI := Scheme.smallEtaleTopology_W_isMonoidal X Λ
+  Sheaf.monoidalCategory _ _
+
+/-- **The symmetry of the étale tensor product** (`Scheme.smallEtaleSheafSymmetricCategory`,
+Section 0.2): Mathlib's `Sheaf.symmetricCategory`, the symmetry of `ModuleCat.{u} Λ` carried
+through sheafification, on the monoidal structure `Scheme.smallEtaleSheafMonoidalCategory`. -/
+noncomputable instance Scheme.smallEtaleSheafSymmetricCategory (X : Scheme.{u}) (Λ : Type u)
+    [CommRing Λ] : SymmetricCategory (Sheaf X.smallEtaleTopology (ModuleCat.{u} Λ)) :=
+  haveI := Scheme.smallEtaleTopology_W_isMonoidal X Λ
+  Sheaf.symmetricCategory _ _
+
+end EtaleTensor
 
 section InvertibleObjects
 
@@ -167,16 +205,21 @@ theorem perfectRing_tor_eq_zero (A B C : Type u) [CommRing A] [CommRing B] [Comm
       (ModuleCat.of A C)) := by
   sorry
 
+/-- **The perfect polynomial algebra over `R`** (`perfectPolynomialAlgebra`, README E1.6): the
+perfection `PerfectClosure (MvPolynomial (Fin n) R) p` of `R[X₁, …, Xₙ]` is an `R`-algebra
+through the constants `MvPolynomial.C` followed by the map to the perfection. -/
+noncomputable instance perfectPolynomialAlgebra (R : Type u) [CommRing R] (p : ℕ) [Fact p.Prime]
+    [CharP R p] (n : ℕ) : Algebra R (PerfectClosure (MvPolynomial (Fin n) R) p) :=
+  ((PerfectClosure.of (MvPolynomial (Fin n) R) p).comp MvPolynomial.C).toAlgebra
+
 /-- The quotient of a perfect polynomial algebra by the radical of `m` equations has
 Tor dimension at most `m` over the base (`perfectPresentation_torDimension_le`, README E1.6;
-BS17 Proposition 11.29). -/
+BS17 Proposition 11.29). The `R`-module structure of the quotient comes from
+`perfectPolynomialAlgebra`. -/
 theorem perfectPresentation_torDimension_le (R : Type u) [CommRing R]
     (p : ℕ) [Fact p.Prime] [CharP R p] [PerfectRing R p]
     (n m : ℕ) (f : Fin m → MvPolynomial (Fin n) R) (M : ModuleCat.{u} R) (i : ℕ) :
-    let P := PerfectClosure (MvPolynomial (Fin n) R) p
-    letI : Algebra R P :=
-      ((PerfectClosure.of (MvPolynomial (Fin n) R) p).comp MvPolynomial.C).toAlgebra
-    let S := P ⧸ (Ideal.span (Set.range
+    let S := PerfectClosure (MvPolynomial (Fin n) R) p ⧸ (Ideal.span (Set.range
       (fun j => PerfectClosure.of (MvPolynomial (Fin n) R) p (f j)))).radical
     IsZero (((CategoryTheory.Tor (ModuleCat.{u} R) (m + i + 1)).obj
       (ModuleCat.of R S)).obj M) := by
