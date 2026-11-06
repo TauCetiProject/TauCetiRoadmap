@@ -132,11 +132,11 @@ Newton polygon and function-field zeta theory belong to the named suppliers belo
 | `angles` (`av.fq.frobenius_angles`), `angle_rank`, `angle_corank` | here | 1.7 |
 | `number_fields`, `galois_groups` (`av.fq.number_field`, `av.fq.galois_group`) | here (the field and the group); their labels are not a target | 1.8 |
 | `is_simple`, `simple_distinct`, `simple_multiplicities`, `geom_squarefree` at the level of `P` | here (irreducibility, isotypy, squarefreeness, factor multiset of `P` and of `P^{(r)}`); the equivalence with simplicity of the variety: `AbelianVarietiesOverFiniteFields` | 1.9, 1.10 |
-| `is_primitive`, `primitive_models` | `AbelianVarietiesOverFiniteFields` 5.5 (a base-change model must be realized, which is Honda–Tate); the finite set of polynomial models `weilRoots` it searches: 1.10 | 1.10 (supplier) |
-| `twists`, `twist_count`, `max_twist_degree` | `AbelianVarietiesOverFiniteFields` 5.6 (over realized classes); the polynomial relation IsTwistOver and the degree twistDegree it is decided by: 1.10; the order of the stored list is not a target | 1.10 (supplier) |
-| `geometric_extension_degree` | `AbelianVarietiesOverFiniteFields` 5.4 (the endomorphism field); the polynomial invariant geometricExtensionDegree it equals: 1.10 | 1.10 (supplier) |
+| `is_primitive`, `primitive_models` | `AbelianVarietiesOverFiniteFields` 5.5 (a base-change model must be realized, which is Honda–Tate); the finite set of polynomial models `weilRoots` it searches: 1.10 | 1.10, offered to that roadmap |
+| `twists`, `twist_count`, `max_twist_degree` | `AbelianVarietiesOverFiniteFields` 5.6 (over realized classes); the polynomial relation IsTwistOver and the degree twistDegree it is decided by: 1.10; the order of the stored list is not a target | 1.10, offered to that roadmap |
+| `geometric_extension_degree` | `AbelianVarietiesOverFiniteFields` 5.4 (the endomorphism field); the polynomial invariant geometricExtensionDegree it equals: 1.10 | 1.10, offered to that roadmap |
 | `curve_counts` (`av.fq.curve_point_counts`), `abvar_counts` (`ag.fq.point_counts`) | here as the sequences `P` determines (1.11); their equality with `N_r(F)` for a Jacobian: `AbelianVarietiesOverFiniteFields` | 1.11, 2.2 |
-| `is_geometrically_simple` | `AbelianVarietiesOverFiniteFields` 5.3; the polynomial-level sufficient condition IsGeometricallyIrreducible (every Weil power irreducible): 1.10 | 1.10 (supplier) |
+| `is_geometrically_simple` | `AbelianVarietiesOverFiniteFields` 5.3; the polynomial-level sufficient condition IsGeometricallyIrreducible (every Weil power irreducible): 1.10 | 1.10, offered to that roadmap |
 | `has_jacobian`, `has_principal_polarization`, `size`, `is_cyclic`, `noncyclic_primes`, `curves`, `jacobian_count`, `hyp_count` | `AbelianVarietiesOverFiniteFields` (the counts as definitions: its 10.6); the stored `curves` list is not a target | — |
 | `av.fq.class_number_1` (the eight curves of class number one) | not owned here; the polynomial-level necessary conditions are 3.4 and 1.11 | — |
 | `g2c` good Euler factors (`g2c.good_lfactors`) | `HyperellipticCurves` (the reduction), reading the `L`-polynomial FunctionFieldArithmetic §5.3 attaches to the reduced curve's function field through 2.1 and 3.1 | *Downstream consumers* |
@@ -148,14 +148,21 @@ At the pin of this repository (consumed by name, see *Exact supplier contracts*)
 listed there, including `TauCeti.genus`, `Divisor.classNumber` and `classNumber_pos`,
 `genus_eq_genus_of_constantCompositum_eq_top`, `IsEllipticFunctionField`,
 `Place.IsWeierstrassCoordinates` with `exists_isWeierstrassCoordinates_of_genus_eq_one`,
-`Place.degreeOneEquivDegreeZeroClassGroup`; and the elliptic-curve point count and Hasse bound named
-above.
+`Place.degreeOneEquivDegreeZeroClassGroup`; the elliptic-curve point count and Hasse bound named
+above; the Newton-polygon library `TauCeti/NumberTheory/NewtonPolygon/` (`Polynomial.newtonPolygon`,
+`Polynomial.newtonSlopes`, `Polynomial.newtonSlopes_mul`, `Polynomial.newtonSlopes_eq_map_roots`),
+which 1.6 reads; the zeta function `WeierstrassCurve.zetaFunction` with
+`WeierstrassCurve.coeff_finrank_logOf_zetaFunction` and `WeierstrassCurve.zetaFunction_eq_mul_inv`
+(`TauCeti/AlgebraicGeometry/EllipticCurve/Isogeny/Frobenius/Zeta.lean`) and the points fixed by the
+`q`-power map (`TauCeti/AlgebraicGeometry/EllipticCurve/Affine/Point/Frobenius/Fixed.lean`), which
+4.2 compares with; and the Hermitian function field `TauCeti.IsHermitianCoordinates` with
+`exists_isHermitianCoordinates`, `IsHermitianCoordinates.isIntegrallyClosedIn` and
+`IsHermitianCoordinates.two_mul_genus_eq` (`TauCeti/FieldTheory/FunctionField/Hermitian/`), the
+acceptance instance of 3.5.
 
-Not at the pin (cited in prose, with no Lean declaration here): the Newton-polygon modules
-`TauCeti/NumberTheory/NewtonPolygon/*`; `WeierstrassCurve.zetaFunction`
-(`TauCeti/AlgebraicGeometry/EllipticCurve/Isogeny/Frobenius/Zeta.lean`) and the fixed-point model
-`Affine/Point/FrobeniusFixed.lean`; the Hermitian function field
-`TauCeti/FieldTheory/FunctionField/Hermitian/*`.
+Not at the pin: FunctionFieldArithmetic's zeta series, `L`-polynomial and counts `N_r` for
+`r ≥ 2`, DeligneWeightsAndPurity's `IsWeilNumber`, and a `p`-adic `AddValuation ℤ (WithTop ℝ)`
+normalised by `v(q) = 1`; the statements that name them are stated in this README only.
 
 ### Further scope exclusions
 
@@ -177,7 +184,13 @@ non-exact constants is handled only by passing to its exact constant field).
    FunctionFieldArithmetic Layer 5. `q := Nat.card k`,
    `g := TauCeti.genus k F`. Exactness of constants is the hypothesis under which `L(0) = k`,
    degrees are the honest ones and `L_F` has degree `2g`; over a non-exact constant field the
-   definitions below return junk and the theorems carry `hex`.
+   definitions below return junk and the theorems carry `hex`. Witness: `F = 𝔽_4(t)` over
+   `k = 𝔽_2` fails `hex` (`𝔽_4 ⊆ F` is integral over `k`). Every place has even `k`-degree, so
+   `Z(F, T) = 1/((1 − T²)(1 − 4T²))` is the zeta function of `F / 𝔽_4` in `T²`, and
+   `(1 − T)(1 − 2T) Z = 1/((1 + T)(1 + 2T)) = 1 − 3T + 7T² − ⋯` is not a polynomial; `N_1 = 0`,
+   and Tau Ceti's `genus 𝔽_2 F` is the truncated value `0` (every `deg D + 1 − ℓ(D)` is `≤ −1`,
+   `RiemannRoch/Genus.lean`), so Serre's bound 3.2 without `hex` would read `|0 − 3| ≤ 0`. Over
+   its exact constants `𝔽_4`, `F` is `ℙ¹` with `N_1 = 5 = q + 1`.
 2. **Counts.** `a_d(F)`, `A_n(F)` and `N_r(F)` are FunctionFieldArithmetic §5.1's `placeCount d`,
    `effectiveDivisorCount n` and `pointCount r`: `Nat.card` of the places of degree `d`, `Nat.card`
    of the effective divisors of degree `n`, and `N_r := ∑_{d ∣ r} d · a_d` over `Nat.divisors r`
@@ -227,7 +240,7 @@ non-exact constants is handled only by passing to its exact constant field).
    [NewtonPolygons](../NewtonPolygons/README.md) Convention 2, of the **`L`-polynomial**
    `reverse P` (constant term `1`, so the polygon starts at `(0, 0)`, as the LMFDB knowl
    `lf.newton_polygon` says) for the additive valuation `v := v_p / r`, normalised so that
-   `v(q) = 1`. Its slope multiset `slopes P` (that roadmap's `newtonSlopes`) has `2g` entries in
+   `v(q) = 1`. Its slope multiset `slopes P` (that roadmap's `newtonSlopes`, Tau Ceti's `Polynomial.newtonSlopes`) has `2g` entries in
    `[0, 1] ∩ ℚ`, is symmetric under `s ↦ 1 − s`, and with that roadmap's orientation its slopes are
    the normalised `p`-adic valuations of the `α_i` taken in `ℚ̄_p`. The **`p`-rank** is defined
    elementarily, `pRank p P := natDegree P − sInf {j | p ∤ P.coeff j}` (for monic `P` the set
@@ -318,8 +331,12 @@ The implementation of the
   constants (its Layer 8), and the elliptic dictionary with Weierstrass coordinates (its Layer 10).
   Everything is consumed by the Tau Ceti declaration names listed under *Exact supplier contracts*; this
   roadmap adds no second definition of any of them. The Hermitian function field `y^q + y = x^{q+1}`
-  with its translation group is not at the pin (Scope and ownership) and is cited by module
-  path in prose: `TauCeti/FieldTheory/FunctionField/Hermitian/*`.
+  is Tau Ceti's `TauCeti.IsHermitianCoordinates K q x y` (`Hermitian/Basic.lean`; `x`
+  transcendental, `K(x, y) = F`, the equation), which exists over every field for `1 < q`
+  (`exists_isHermitianCoordinates`), has exact constants and `2g = q(q − 1)` when `1 < q` and
+  `(q : K) = 0` (`IsHermitianCoordinates.isIntegrallyClosedIn`, `IsHermitianCoordinates.two_mul_genus_eq`,
+  `Hermitian/Genus.lean`), and carries its translation group (`Hermitian/Translation.lean`); 3.5
+  consumes it.
 - From [FunctionFieldArithmetic](../FunctionFieldArithmetic/README.md), the whole zeta-function
   theory of a function field over a finite constant field, with its names: §0.2
   `exists_divisor_degree_eq_one` (a divisor of degree one exists); §5.1 `placeCount d`
@@ -348,12 +365,16 @@ The implementation of the
   every `N_r(F)`; Layer 3 and 4.1 consume it.
 - From [NewtonPolygons](../NewtonPolygons/README.md): the Newton polygon of a polynomial for an
   additive valuation with an explicit normalisation (its Conventions 1–4 and §2.1), the finite slope
-  multiset (§2.1, §3.3) and the product rule for slopes (§3.2). That roadmap names
-  `Polynomial.newtonPolygon` (§2.1); `Polynomial.newtonSlopes f v` for the finite slope multiset
-  and `newtonSlopes_mul`, `newtonSlopes_eq_map_roots` for its §3.2 and §3.3 are this roadmap's
-  suggested names for those targets, not declarations at the pin. The Newton polygon of a Weil
-  polynomial (1.6) is that polygon
-  for the `p`-adic valuation normalised by `v(q) = 1`, and no second polygon or envelope is defined
+  multiset (§2.1, §3.3) and the product rule for slopes (§3.2). Tau Ceti implements these at the
+  pin in `TauCeti/NumberTheory/NewtonPolygon/`: `Polynomial.newtonPolygon f v` for `f : R[X]` over
+  a ring and `v : AddValuation R (WithTop ℝ)` (`Basic.lean`), the finite slope multiset
+  `Polynomial.newtonSlopes f v` (`Slopes.lean`), `Polynomial.newtonSlopes_mul` (slopes add on
+  products when neither polygon is `⊤`, `Mul.lean`) and `Polynomial.newtonSlopes_eq_map_roots`
+  (over a commutative domain in which only `0` has infinite valuation, the slopes of a split
+  polynomial are the `−v(α)` of its nonzero roots, `Roots.lean`); with `L = reverse P` and
+  `L(T) = ∏ (1 − α_i T)`, the root `1/α_i` gives the slope `v(α_i)`, as convention 9 says. The
+  Newton polygon of a Weil polynomial (1.6) is that polygon for the `p`-adic valuation
+  normalised by `v(q) = 1`, and no second polygon or envelope is defined
   here. The `p`-rank and the supersingular / ordinary / almost-ordinary predicates have elementary
   coefficient definitions of their own (1.6), and their identification with slope data is a theorem.
 - From [EllipticCurves](../EllipticCurves/README.md) Layer 3, as implemented in Tau Ceti:
@@ -362,11 +383,14 @@ The implementation of the
   `frobeniusTrace_sq_le_four_mul_card`. Layer 4 identifies these with `N_1(F)` and with the
   coefficient of `T` in `L_F` for the function field of an elliptic curve; the Hasse bound is then
   the `g = 1` case of the Hasse–Weil bound consumed above, and the proofs are reconciled, not
-  duplicated. Its zeta function
-  `WeierstrassCurve.zetaFunction : ℚ⟦X⟧` with `zetaRatFunc`, `logOf_zetaFunction` and
-  `zetaFunction_eq_mul_inv`, and its model of record for `E(𝔽_{qⁿ})` as the fixed points of the
-  `q`-power map (both not at the pin, *Scope and ownership*), are the objects 4.2 compares
-  with.
+  duplicated. Its zeta function is Tau Ceti's `WeierstrassCurve.zetaFunction : ℚ⟦X⟧`, for
+  `[Finite F]` and `[W.IsElliptic]`, defined as `exp (∑_{n ≥ 1} deg(1 − π^n) T^n / n)` with `π`
+  the `q`-power Frobenius isogeny, together with `coeff_finrank_logOf_zetaFunction` (for a finite
+  extension `E / F` of degree `n`, the `n`-th coefficient of its logarithm is
+  `(W⁄E).pointCount / n`), `logOf_zetaFunction`, `zetaRatFunc` and `zetaFunction_eq_mul_inv`
+  (`Isogeny/Frobenius/Zeta.lean`); its model of record for `E(𝔽_{qⁿ})`, the points fixed by the
+  `q`-power map, is `WeierstrassCurve.Affine.Point.ncard_setOf_map_frobeniusAlgHom_eq_self`
+  (`Affine/Point/Frobenius/Fixed.lean`). These are the objects 4.2 compares with.
 - From the Deligne weights roadmap `DeligneWeightsAndPurity` (directory
   `TauCetiRoadmap/DeligneWeightsAndPurity/`): §0.1 `IsWeilNumber q n α` (algebraic over `ℚ`, every
   complex root of the minimal polynomial of modulus `q^{n/2}`, with `1 < q`) and §0.2–0.3 (products,
@@ -649,7 +673,7 @@ integer pairs `(x,y)` with `0≤x≤g`, `y≥0` and `y` strictly below the polyg
 - Supersingular genus two has heights `0,1/2,1`, giving `0+1+1=2=2(2+2)/4`;
   genus three gives `0+1+1+2=4=(3+1)²/4`; genus zero gives zero.
 
-*Needs:* §§1.1, 1.4; NewtonPolygons Conventions 1–4 and §§2.1, 3.2–3.3; Mathlib `padicValInt`, `IsPrimePow`, `Nat.factorization`.
+*Needs:* §§1.1, 1.4; NewtonPolygons Conventions 1–4 and §§2.1, 3.2–3.3 (Tau Ceti `Polynomial.newtonSlopes`, `Polynomial.newtonSlopes_mul`, `Polynomial.newtonSlopes_eq_map_roots`); Mathlib `padicValInt`, `IsPrimePow`, `Nat.factorization`.
 
 ### 1.7 Frobenius angles and the angle rank
 
@@ -1134,10 +1158,15 @@ every root is that endpoint; multiply the linear factors to recover `L_F`. Thus
 `g ≥ 1`); dually `N_1 = q + 1 − 2g√q` iff `L_F = (1 − √q T)^{2g}`. On the carrier this reads: for
 `[Finite k]` with `Nat.card k = q₀²`, `N_1(F) = q₀² + 1 + 2 g q₀ ⟺ L_F = (1 + q₀ T)^{2g}`, and
 `N_1(F) = q₀² + 1 − 2 g q₀ ⟺ L_F = (1 − q₀ T)^{2g}`. The Hermitian function field
-`y^{q₀} + y = x^{q₀+1}` over `𝔽_{q₀²}`  is the acceptance instance, in
-the worked examples at `q₀ = 2` where it is the elliptic curve `1.4.e`.
+`y^{q₀} + y = x^{q₀+1}` over `𝔽_{q₀²}`, for `q₀` a power of the characteristic (Tau Ceti
+`IsHermitianCoordinates 𝔽_{q₀²} q₀ x y`, whose constants are exact and whose genus is
+`q₀(q₀ − 1)/2` by `IsHermitianCoordinates.isIntegrallyClosedIn` and
+`IsHermitianCoordinates.two_mul_genus_eq`, as `(q₀ : 𝔽_{q₀²}) = 0`), is the acceptance instance: it
+has `N_1 = q₀³ + 1 = q₀² + 1 + 2 g q₀` (Stichtenoth §6.4, uncertified locator), so
+`L = (1 + q₀ T)^{q₀(q₀ − 1)}`; at `q₀ = 2` it is the elliptic curve `1.4.e` of the worked examples
+(`g = 1`, `N_1 = 9`), and at `q₀ = 3` it has `g = 3` and `N_1 = 28`.
 
-*Needs:* §3.1; equality in the triangle inequality for complex numbers of fixed modulus.
+*Needs:* §3.1; equality in the triangle inequality for complex numbers of fixed modulus; Tau Ceti `IsHermitianCoordinates` for the acceptance instance.
 
 ### Examples
 
@@ -1145,7 +1174,7 @@ At `(q,g)=(2,1)`, `N_1=1` gives Serre equality `|1−3|=2`; Ihara gives an upper
 
 ### Dependencies
 
-Layers 1–2; FunctionFieldArithmetic §§5.1, 5.3–5.4; SchemeAndStackFoundations §5.11; integrality, arithmetic–geometric mean and Cauchy–Schwarz.
+Layers 1–2; FunctionFieldArithmetic §§5.1, 5.3–5.4; SchemeAndStackFoundations §5.11; integrality, arithmetic–geometric mean and Cauchy–Schwarz; Tau Ceti's Hermitian function field for the instance of 3.5.
 
 ## Layer 4: comparison contracts
 
@@ -1202,14 +1231,33 @@ that is a statement about which traces occur, Waterhouse's list, which the sibli
 
 ### 4.2 Elliptic curves: the zeta function
 
-With `WeierstrassCurve.zetaFunction : ℚ⟦X⟧ := exp (∑ #E(𝔽_{qⁿ}) T^n / n)` of EllipticCurves Layer 3 (`#E(𝔽_{qⁿ})` is the fixed-point count of the `q`-power map), and `F` as in 4.1: `(zeta k F).map (Int.castRingHom ℚ) =
-W.zetaFunction` for FunctionFieldArithmetic's `zeta k F`, from its §5.1 (`zeta_logDeriv`:
-`log Z = ∑ N_r T^r/r` over `ℚ`; `pointCount_eq`: `N_r(F)` is the count of rational places of the
-degree-`r` constant extension) and the fixed-point model (the rational places of `F·𝔽_{qⁿ}` other
-than the one at infinity are the affine points fixed by the `q^n`-power map). Its
-`zetaFunction_eq_mul_inv` is then FunctionFieldArithmetic §5.3's rationality at `g = 1`.
+With Tau Ceti's `WeierstrassCurve.zetaFunction : ℚ⟦X⟧` (the exponential of
+`∑_{n ≥ 1} deg(1 − π^n) T^n / n`, EllipticCurves Layer 3's zeta function; the supplier contracts
+give its point-count form), and `F`, `P`, `W`, `x`, `y` as in 4.1, whose `W.IsElliptic` supplies
+the instance: **`(zeta k F).map (Int.castRingHom ℚ) = W.zetaFunction`** for FunctionFieldArithmetic's
+`zeta k F`. A proof route: both series have constant coefficient `1`, so it suffices to compare
+logarithms. FunctionFieldArithmetic §5.1's `zeta_logDeriv` gives `log Z = ∑ N_r T^r / r` over
+`ℚ`, and its `pointCount_eq` makes `N_r(F)` the number of degree-one places of a model `F' / k'` of
+the degree-`r` constant extension (convention 3). That model has exact constants `k'` and genus
+one (AlgebraicCurves Layer 8; Tau Ceti `genus_eq_genus_of_constantCompositum_eq_top`), the place
+of `F'` over `P` has degree one, and `x, y` are Weierstrass coordinates for `W.baseChange k'`
+there, so 4.1 over `k'` gives `N_1(F') = (W⁄k').pointCount`; by
+`coeff_finrank_logOf_zetaFunction` with `E = k'` this is `r` times the `r`-th coefficient of
+`log W.zetaFunction`. Its `zetaFunction_eq_mul_inv` is then FunctionFieldArithmetic §5.3's
+rationality at `g = 1`.
 
-*Needs:* §4.1; FunctionFieldArithmetic §§5.1, 5.3; EllipticCurves Layer 3 zeta function and Frobenius-fixed points.
+**Checks.**
+
+- For `1.2.ac`, `L = 1 − 2T + 2T²` and `a = 2`, so `W.zetaRatFunc` is
+  `(1 − 2T + 2T²)/((1 − T)(1 − 2T))`; the logarithmic coefficients `N_1/1 = 1` and `N_2/2 = 5/2`
+  agree with `deg(1 − π) = 1` and `deg(1 − π²) = 5` (`N_2 = 4 + 1 − (a² − 2q) = 5`).
+- Degenerate coefficient: both series have constant coefficient `1` (`A_0 = 1`, one effective
+  divisor of degree `0`; `constantCoeff_zetaFunction`), and both logarithms have constant
+  coefficient `0`.
+- Wrong model excluded: counting only the affine points fixed by the `q^n`-power map, without the
+  point at infinity, would give `N_1 = 0` for `1.2.ac` and the logarithmic coefficient `0 ≠ 1`.
+
+*Needs:* §4.1; FunctionFieldArithmetic §§5.1, 5.3; AlgebraicCurves Layer 8; Tau Ceti `WeierstrassCurve.zetaFunction`, `coeff_finrank_logOf_zetaFunction`, `genus_eq_genus_of_constantCompositum_eq_top`.
 
 ### 4.3 Weil numbers across the two predicates
 
@@ -1234,7 +1282,7 @@ For the degree-one place at infinity on `y²+y=x³+x+1` over `𝔽₂`, `N_1=poi
 
 ### Dependencies
 
-Layers 1–3; AlgebraicCurves Layer 10; EllipticCurves Layer 3; FunctionFieldArithmetic §§5.1, 5.3–5.4; SchemeAndStackFoundations §5.11; DeligneWeightsAndPurity §§0.1–0.3.
+Layers 1–3; AlgebraicCurves Layers 8 and 10; EllipticCurves Layer 3 and its Tau Ceti zeta function; FunctionFieldArithmetic §§5.1, 5.3–5.4; SchemeAndStackFoundations §5.11; DeligneWeightsAndPurity §§0.1–0.3.
 
 ## Worked examples (acceptance criteria)
 
@@ -1366,6 +1414,29 @@ definitions and the computed Checks specify the conventions independently.
   `dickson_one_one_eval_add_inv` for parameter `1`; its docstring cites R. Lidl, G. L. Mullen,
   G. Turnwald, *Dickson polynomials*, Pitman Monographs 65, Longman, 1993) — the Dickson
   polynomials of 1.4.
+- Existing formalisations, consulted as proof sources and not as specifications (both Apache-2.0;
+  a proof adapted from them keeps that attribution).
+  [formal-arithmetic-geometry/weil-conjectures](https://github.com/formal-arithmetic-geometry/weil-conjectures/tree/55abf461d4688270382c9c982ac08a279e41c00b)
+  works with a smooth proper geometrically integral curve `X → Spec k`, a scheme rather than this
+  roadmap's function-field carrier: `Scheme.Hom.abs_pointCount_sub_le_two_mul_genus`
+  (`|N_n − q^n − 1| ≤ 2g q^{n/2}` for `n ≠ 0`) and
+  `Scheme.Hom.natDegree_eq_two_mul_genus_of_isWeilFactorization` (`WeilConjectures/ZetaFunction/HasseWeil.lean`,
+  with the degree argument in `ZetaFunction/CurveZeta.lean`) are the scheme forms of the
+  Hasse–Weil bound FunctionFieldArithmetic §5.4 supplies (restated for virtual counts in 1.11) and
+  of 2.1's degree `2g`; `exists_isWeilFactorization_of_smoothProper`
+  (`ZetaFunction/SmoothProper.lean`) gives integral factors with functional equation and Riemann
+  hypothesis (2.1, 3.1); `pointCount_eq_of_pointCount_one_eq`
+  (`ZetaFunction/TraceFormulaExamples.lean`) is the genus-one recursion of 2.4; and its
+  `IsWeilNumber q w α` (`ZetaLinearAlgebra/WeilNumbers.lean`: algebraic over `ℚ`, every complex
+  conjugate of modulus `q^{w/2}`, no integrality) is the scalar side of 1.1 and 4.3.
+  [AxiomMath/Weil](https://github.com/AxiomMath/Weil/tree/27cdb2049be62ee2911429b47f54774078450e32)
+  proves the Weil estimate for smooth proper schemes over a finite field (`satisfiesWeilEstimate`,
+  `Weil/AlgebraicGeometry/EtaleCohomology/Trace/DeligneWeilConjecture.lean`) and the passage to the
+  field of constants `k'`, where the reversed Frobenius polynomial over `k` is the one over `k'`
+  evaluated at `T^{[k' : k]}` (`exists_fieldOfConstants_rationalFrobeniusCharpolyReverse_eq_comp`,
+  `Trace/FieldOfConstantsFrobenius.lean`), the scheme form of convention 1's witness. Neither
+  states Layer 1's polynomial theory, the bounds of 3.2–3.3 or a comparison with Tau Ceti's
+  carriers (Layer 4).
 - LMFDB knowls `av.fq.weil_polynomial`, `av.fq.l-polynomial`, `nf.weil_polynomial`,
   `av.fq.lmfdb_label`, `av.fq.frobenius_angles`, `av.fq.angle_rank`, `av.fq.newton_elevation`,
   `av.fq.p_rank`, `av.fq.ordinary`, `av.fq.supersingular`, `av.fq.number_field`,

@@ -2,7 +2,7 @@ module
 
 public import Mathlib
 public import TauCeti.FieldTheory.FunctionField.RiemannRoch.ClassNumber
-public import TauCeti.FieldTheory.FunctionField.Elliptic.WeierstrassEquation
+public import TauCeti.FieldTheory.FunctionField.Elliptic.Nonsingular
 public import TauCeti.AlgebraicGeometry.EllipticCurve.PointCount
 public import TauCeti.AlgebraicGeometry.EllipticCurve.Supersingular
 
@@ -28,11 +28,12 @@ Headline theorems not statable at the pins, and what each lacks:
   `L`-polynomial `L_F` or the counts `N_r` for `r ≥ 2`, which are FunctionFieldArithmetic's
   (`zeta_rationality`, `pointCount`) and not at the pin.
 * 1.6's slope statements (slopes in `[0, 1]`, symmetry `s ↦ 1 − s`, the slope–root dictionary,
-  the elevation): they need the slope multiset of a Newton polygon, NewtonPolygons §§2.1, 3.3,
-  not at the pin; the elementary predicates `pRank`, `IsOrdinary`, `IsSupersingular` and the
-  ordinariness test are stated.
-* 4.2, the comparison of the zeta function of an elliptic curve: it names
-  `WeierstrassCurve.zetaFunction`, not at the pin.
+  the elevation): they are statements about the slope multiset of the Newton polygon of
+  `reverse P` (NewtonPolygons §§2.1, 3.3) for the valuation `v_p / r` of `ℤ` normalised by
+  `v(q) = 1`, and no `AddValuation ℤ (WithTop ℝ)` is at the pin; the elementary predicates
+  `pRank`, `IsOrdinary`, `IsSupersingular` and the ordinariness test are stated.
+* 4.2, the comparison of the zeta function of an elliptic curve with that of its function
+  field: it names FunctionFieldArithmetic's `zeta k F` (§5.1), not at the pin.
 * 4.3, the equivalence of the two Weil-number predicates: it names `IsWeilNumber` of
   DeligneWeightsAndPurity, a roadmap target.
 
