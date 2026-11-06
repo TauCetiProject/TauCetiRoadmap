@@ -12,9 +12,9 @@ The following headline theorems are not statable at the pins with a few simple d
 * Relative regular root geometry lacks the finite-root stack and its morphism properties.
 * The coherent infinite root stack, its fpqc quotient and arbitrary base change lack the
   coherent root pseudofunctor and the represented band-action quotient.
-* Infinite affine coinvariants (README §3.182) lack the factorial root colimit `C_A(f)` and its
+* Infinite affine coinvariants (README §3.163) lack the factorial root colimit `C_A(f)` and its
   left coaction `η_f` by the group algebra `A[ℚ/ℤ]`; both are constructions of Layer 3
-  (§§3.37, 3.84 and 3.153), not simple definitions.
+  (§§3.31, 3.71 and 3.134), not simple definitions.
 * The infinite DVR zero-section gerbe, fpqc Kummer classification and non-fppf torsor lack the
   relative infinite gerbe and fpqc torsor groupoid carriers.
 * The root Picard square quotient and signed adelic equivalence lack the root Picard stack,
