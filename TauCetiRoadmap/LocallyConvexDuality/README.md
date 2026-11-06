@@ -28,8 +28,9 @@ Suggested home: `TauCeti/Analysis/LocallyConvex/`, beside Mathlib's
 beyond Mathlib's `BarrelledSpace` (Layers 0 and 1); the weak and Mackey topologies of an arbitrary
 pairing and the Mackey–Arens theorem (Layer 2); Grothendieck's completeness theorem, the
 completeness of strong duals and the reflexivity criteria of Bourbaki 1950 (Layer 3); the class of
-(DF)-spaces (Layer 4); the injective tensor product of locally convex spaces and the general notion
-of nuclear locally convex space with its characterisations and permanence properties (Layer 5).
+(DF)-spaces (Layer 4); the injective tensor product of locally convex spaces, Grothendieck's
+characterisations of nuclear spaces by the tensor products and by nuclear maps into Banach spaces,
+and the permanence properties of Layer 5 beyond closed subspaces and finite sums (Layer 5).
 
 **Supplied.** Mathlib supplies barrelled spaces with Banach–Steinhaus, polynormable spaces, von
 Neumann bounded sets, polars, weak duals and the strong topology on `E →L[𝕜] F`. The completed
@@ -42,8 +43,12 @@ BanachSpaceTheory B4's. They are consumed by name; no second carrier is built.
 Fréchet–Schwartz and DFS strong-dual calculus, the DFS open-mapping theorem and the nuclearity of
 its smooth-section spaces: those are statements about the strong duals of Fréchet–Schwartz spaces, a
 special case of Layer 4 here, and they stay with their analytic consumers. AutomorphicSpectralTheory
-§§0.11 and 0.13 keep their nuclear Fréchet and LF test spaces and their kernel theorem, stated for
-those function spaces; the general notion of nuclear space of Layer 5 is the one they specialise.
+§0.11 defines Fréchet spaces, nuclear maps and nuclear spaces, the last by Banach factorisation of
+the maps `Ê_q → Ê_p` between seminorm completions (Grothendieck's criterion (c)), for Hausdorff
+locally convex complex spaces, and §0.13 its nuclear LF kernel theorem; SpectralManifolds SM3
+extends the definition to real scalars and proves the independence of the defining seminorm
+family and the finite-sum and closed-subspace criteria. Layer 5 consumes that definition and
+defines no second notion of nuclear space.
 Kernel theorems for particular function spaces (Schwartz's kernel theorem and its LF variants) stay
 with the roadmaps of those function spaces. Non-archimedean locally convex spaces are
 PadicFunctionalAnalysis's (the theory of Perez-Garcia–Schikhof 2010). The open mapping and closed
@@ -92,7 +97,8 @@ or `ℂ` and its dual, it is here; if it names a particular function space, it i
 - `Bornology.IsVonNBounded`, `Bornology.IsVonNBounded.image`, `NormedSpace.isVonNBounded_iff`,
   `LinearMap.continuousAt_zero_of_locally_bounded` (`Mathlib/Analysis/LocallyConvex/Bounded.lean`,
   `ContinuousOfBounded.lean`).
-- `LinearMap.polar`, `LinearMap.polar_isClosed`, `LinearMap.subset_bipolar`, `WeakBilin`,
+- `LinearMap.polar`, `LinearMap.polar_isClosed`, `LinearMap.subset_bipolar`, `WeakBilin` with
+  `WeakBilin.instTopologicalSpace` (the weak topology `σ(E, F)` of 2.1 is this instance on `E`),
   `WeakDual`, `WeakDual.toStrongDual`, `StrongDual.toWeakDual`, `topDualPairing`, `StrongDual`.
 - The strong topology and uniformity on `E →SL[σ] F`
   (`Mathlib/Topology/Algebra/Module/Spaces/ContinuousLinearMap.lean`) and
@@ -110,6 +116,13 @@ Banach projective tensor product. Used in Layer 5 only.
 **From BanachSpaceTheory** (B4). The Banach injective tensor norm and its completion, and the
 nuclear operators between Banach spaces as the range of `E* ⊗π F → (E →L[𝕜] F)` with the quotient
 norm. Used in Layer 5 only.
+
+**From AutomorphicSpectralTheory** (§0.11). Fréchet spaces, nuclear maps, and nuclear spaces as the
+Hausdorff locally convex complex spaces whose strengthened seminorm quotient maps admit nuclear
+Banach factorisations. Used in 5.2–5.4.
+
+**From SpectralManifolds** (SM3). The same definitions over `ℝ`, the independence of the defining
+seminorm family, and the finite-sum and closed-subspace criteria. Used in 5.2 and 5.4.
 
 ## How to read the build
 
@@ -157,7 +170,7 @@ maps from a barrelled space to a polynormable space is equicontinuous (Bourbaki 
 *Topologie générale*, ch. IX (Bourbaki 1974). Prove its two corollaries (Corollaires 1 and 2, p. 7):
 the pointwise limit of a bounded filter, or of a filter with a countable basis, of continuous linear
 maps from a barrelled space is a continuous linear map and the convergence is uniform on precompact
-sets; and the dual form (Proposition 1 and its corollary, p. 7): a subset of `E′` is weakly bounded
+sets; and the dual form (Proposition 1 and its corollary, p. 6): a subset of `E′` is weakly bounded
 iff it lies in the polar of a barrel. *Needs:* 0.1, Mathlib `WithSeminorms.banach_steinhaus`,
 `LinearMap.polar`.
 
@@ -475,9 +488,12 @@ set is a neighbourhood of `0` (Grothendieck 1954, Part I). *Needs:* Mathlib
 
 ### 4.2 Strong duals of Fréchet spaces
 
-Prove `dfSpace_strongDual`: the strong dual of a Fréchet space is a (DF)-space (Grothendieck 1954,
-Part I, the first result announced in Grothendieck 1950b). *Needs:* 4.1, 3.3, Mathlib
-`FirstCountableTopology`, `CompleteSpace`.
+Prove `dfSpace_strongDual`: the strong dual of a metrizable locally convex space is a
+(DF)-space (Grothendieck 1954, Part I, the first result announced in Grothendieck 1950b), in
+particular that of a Fréchet space. Completeness is not used: a metrizable space is bornological
+(1.2), so strongly bounded subsets of `E′` are equicontinuous, and the polars of a countable basis
+of neighbourhoods form a fundamental sequence of bounded sets. *Needs:* 4.1, 3.3, 1.2, Mathlib
+`FirstCountableTopology`.
 
 **Checks.**
 
@@ -547,10 +563,10 @@ products of equicontinuous subsets of `E′` and `F′` (the bi-equicontinuous t
 than `ε`, that `ε` is the Banach injective norm of BanachSpaceTheory B4 for normed spaces, and that
 `E ⊗̂ε F` embeds in the bi-equicontinuous separately continuous bilinear forms on `E′_σ × F′_σ` when
 `E` and `F` are complete (same pages). The completed injective tensor product respects subspaces
-and arbitrary products (Jarchow 1981, Theorem 1, p. 351), the route to the subspace and product
-clauses of 5.4; the algebraic tensor product it completes is Bourbaki, *Algèbre*, ch. II, §3
-(Bourbaki 2007). *Needs:* NoncommutativeGeometry N1 (`E ⊗̂π F`),
-BanachSpaceTheory B4 (injective norm), 3.3.
+(Grothendieck 1952, Ch. I, no. 5) and commutes with arbitrary products, a direct check on the
+defining seminorms; these are the route to the subspace and product clauses of 5.4. The algebraic
+tensor product it completes is Bourbaki, *Algèbre*, ch. II, §3 (Bourbaki 2007). *Needs:*
+NoncommutativeGeometry N1 (`E ⊗̂π F`), BanachSpaceTheory B4 (injective norm), 3.3.
 
 **Checks.**
 
@@ -561,13 +577,16 @@ BanachSpaceTheory B4 (injective norm), 3.3.
 
 ### 5.2 Nuclear spaces
 
-Call a separated locally convex space `E` nuclear when the canonical map `E ⊗̂π F → E ⊗̂ε F` is a
-topological isomorphism for every separated locally convex `F`; it suffices to test Banach spaces
-`F`, and `E` is nuclear iff its completion is (Grothendieck 1952, Ch. II, no. 2, p. 100;
-Grothendieck 1955, Ch. II, §2, no. 1). Prove Grothendieck's characterisation (Grothendieck 1952,
-Ch. II, Théorème 1, p. 100): `E` is nuclear iff every continuous linear map from `E` to a Banach
-space is nuclear, iff for every weakly closed equicontinuous disk `A ⊆ E′` there is another `B ⊇ A`
-with `E′_A → E′_B` nuclear. *Needs:* 5.1, BanachSpaceTheory B4 (nuclear operators), 3.3.
+Nuclear spaces are AutomorphicSpectralTheory §0.11's, with SpectralManifolds SM3's real-scalar
+case: a Hausdorff locally convex space whose strengthened seminorm quotient maps `Ê_q → Ê_p` admit
+nuclear Banach factorisations. Prove Grothendieck's Théorème 1 (Grothendieck 1952, Ch. II,
+Théorème 1, p. 100) as the equivalence of that definition with the two properties owned here: the
+canonical map `E ⊗̂π F → E ⊗̂ε F` is a topological isomorphism for every separated locally convex
+`F`, equivalently for every Banach space `F`; and every continuous linear map from `E` to a Banach
+space is nuclear. Prove that `E` is nuclear iff its completion is (Grothendieck 1952, Ch. II,
+no. 2, p. 100; Grothendieck 1955, Ch. II, §2, no. 1). *Needs:* 5.1, AutomorphicSpectralTheory
+§0.11 (nuclear spaces), SpectralManifolds SM3 (real scalars), BanachSpaceTheory B4 (nuclear
+operators), 3.3.
 
 **Checks.**
 
@@ -592,13 +611,15 @@ p. 101). *Needs:* 5.2, 3.4, Mathlib `MontelSpace`.
 
 ### 5.4 Permanence of nuclearity
 
-Prove: subspaces, separated quotients, arbitrary products and countable direct sums of nuclear
+Closed subspaces and finite sums of nuclear spaces are nuclear by SpectralManifolds SM3. Prove:
+arbitrary subspaces, separated quotients, arbitrary products and countable direct sums of nuclear
 spaces are nuclear; `E ⊗̂π F` is nuclear for nuclear `E`, `F`; and a Fréchet or (DF)-space is
 nuclear iff its strong dual is (Grothendieck 1952, Ch. II, Théorème 3, p. 102). Not a target:
 nuclearity is a three-space property, an extension of nuclear spaces being nuclear (Dierolf–Roelcke
 1981, Proposition 3.8); the splitting theory of Fréchet spaces behind such extensions is
 Wengenroth 2003. A monograph treatment of 5.2–5.4 is Pietsch 1972, Chapters 5 (nuclear locally
-convex spaces) and 6 (permanence properties of nuclearity). *Needs:* 5.2, Layer 4.
+convex spaces) and 6 (permanence properties of nuclearity). *Needs:* 5.2, Layer 4,
+SpectralManifolds SM3 (closed subspaces, finite sums).
 
 **Checks.**
 
@@ -615,7 +636,8 @@ convex spaces) and 6 (permanence properties of nuclearity). *Needs:* 5.2, Layer 
 
 ### Dependencies
 
-Layers 3 and 4; NoncommutativeGeometry N1; BanachSpaceTheory B4; Mathlib `MontelSpace`.
+Layers 3 and 4; NoncommutativeGeometry N1; BanachSpaceTheory B4; AutomorphicSpectralTheory §0.11;
+SpectralManifolds SM3; Mathlib `MontelSpace`.
 
 ## Downstream consumers
 
@@ -647,7 +669,7 @@ spaces, where bornologification replaces the topology, is Frölicher–Kriegl 19
 - A. Grothendieck, « Résumé des résultats essentiels dans la théorie des produits tensoriels
   topologiques et des espaces nucléaires », *Ann. Inst. Fourier* 4 (1952), 73–112.
   doi:10.5802/aif.46; Zbl 0055.09705.
-- A. Grothendieck, « Sur les espaces (F) et (DF) », *Summa Brasil. Math.* 3 (1954), 57–121.
+- A. Grothendieck, « Sur les espaces (F) et (DF) », *Summa Brasil. Math.* 3 (1954), 57–123.
   Zbl 0058.09803.
 - A. Grothendieck, *Produits tensoriels topologiques et espaces nucléaires*, Mem. Amer. Math. Soc.
   16 (1955). doi:10.1090/memo/0016; Zbl 0064.35501.
@@ -677,7 +699,6 @@ spaces, where bornologification replaces the topology, is Frölicher–Kriegl 19
   Zbl 0359.46004.
 - L. Waelbroeck, *Topological Vector Spaces and Algebras*, Lecture Notes in Math. 230, Springer,
   1971. doi:10.1007/BFb0061235; Zbl 0225.46001.
-- H. Jarchow, *Locally Convex Spaces*, Teubner, 1981. Zbl 0466.46001.
 - K. Floret, « Some aspects of the theory of locally convex inductive limits », in *Functional
   Analysis: Surveys and Recent Results II*, North-Holland Math. Studies 38, 1980, 205–237.
   Zbl 0461.46002.

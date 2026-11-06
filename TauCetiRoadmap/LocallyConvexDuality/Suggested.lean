@@ -31,7 +31,8 @@ Headline theorems stated here:
   barrelled and bornological locally convex spaces carry their Mackey topology.
 * README 3.1, `completeSpace_iff`: Grothendieck's completeness theorem.
 * README 3.2, `completeSpace_strongDual`: the strong dual of a bornological space is complete.
-* README 4.2, `dfSpace_strongDual`: the strong dual of a Fréchet space is a (DF)-space.
+* README 4.2, `dfSpace_strongDual`: the strong dual of a metrizable locally convex space is a
+  (DF)-space.
 * README 4.3, `DFSpace.continuous_of_continuousOn`: on a (DF)-space, a linear map continuous on
   bounded sets is continuous.
 * README 4.4, `DFSpace.completeSpace_strongDual` and `DFSpace.firstCountableTopology_strongDual`:
@@ -131,7 +132,7 @@ variable {E F : Type*} [AddCommGroup E] [Module 𝕜 E] [AddCommGroup F] [Module
 `x ↦ B x y` continuous. -/
 @[instance_reducible]
 def weakTopology (B : E →ₗ[𝕜] F →ₗ[𝕜] 𝕜) : TopologicalSpace E :=
-  TopologicalSpace.induced (fun x y => B x y) Pi.topologicalSpace
+  WeakBilin.instTopologicalSpace B
 
 /-- The absolutely convex subsets of `F` that are compact for `σ(F, E)`. -/
 def mackeyFamily (B : E →ₗ[𝕜] F →ₗ[𝕜] 𝕜) : Set (Set F) :=
@@ -214,9 +215,10 @@ class DFSpace [TopologicalSpace E] : Prop where
     (∀ n, U n ∈ 𝓝 (0 : E) ∧ AbsConvex 𝕜 (U n) ∧ IsClosed (U n)) →
     (∀ s : Set E, IsVonNBounded 𝕜 s → Absorbs 𝕜 (⋂ n, U n) s) → (⋂ n, U n) ∈ 𝓝 (0 : E)
 
-/-- **The strong dual of a Fréchet space is a (DF)-space** (README 4.2; Grothendieck 1954). -/
+/-- **The strong dual of a metrizable locally convex space is a (DF)-space** (README 4.2;
+Grothendieck 1954); in particular that of a Fréchet space. -/
 theorem dfSpace_strongDual [UniformSpace E] [IsUniformAddGroup E] [ContinuousSMul 𝕜 E]
-    [PolynormableSpace 𝕜 E] [T2Space E] [CompleteSpace E] [FirstCountableTopology E] :
+    [PolynormableSpace 𝕜 E] [T2Space E] [FirstCountableTopology E] :
     DFSpace 𝕜 (StrongDual 𝕜 E) := by
   sorry
 
