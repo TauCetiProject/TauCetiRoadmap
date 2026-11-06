@@ -73,7 +73,8 @@ roadmap are the finite-field sums `K(η; a, b)` of 5.3 and the integer-modulus s
 7.5 for odd prime powers, with a Dirichlet character and no multiplier, and neither roadmap
 restates the other's. `DeligneWeightsAndPurity` reaches Weil bounds through étale cohomology and
 weights; nothing here depends on it, and no identification of this roadmap's reciprocal roots with
-Frobenius eigenvalues of a sheaf is a target here.
+Frobenius eigenvalues of a sheaf is a target here: 3.6 records that identification as a bridge
+theorem owned downstream by `WeilConjectures`, Layer WC.1.
 
 `HypergeometricMotives` consumes this roadmap: the finite hypergeometric sums of Katz and
 Beukers–Cohen–Mellit are quotients of products of the Gauss sums `g(ω^m)` of Layer 1 for a
@@ -199,7 +200,9 @@ Artin–Schreier covers are `FunctionFieldArithmetic`'s (Layer 5), and the state
 - **Zeta functions of curves and function fields** and the Riemann hypothesis for curves:
   `FunctionFieldArithmetic`, Layer 5 (the root bound `|α_i| = √q` in §5.4). Weil polynomials:
   `CurvesOverFiniteFields`. The identification of the `L`-polynomials of Layers 3–5 with
-  numerators of zeta functions is not a statement of this roadmap. The cohomological theory of
+  numerators of zeta functions is not a statement of this roadmap, and their identification with
+  `L`-functions of rank-one sheaves on the affine line is the downstream bridge theorem recorded
+  in 3.6. The cohomological theory of
   weights and Deligne's theorem: `DeligneWeightsAndPurity`. The Kloosterman sheaf, the all-rank
   hyper-Kloosterman sums and their Deligne bound: `CongruenceSpectralGap` §§4.2a–4.2b.
 - **Half-integral-weight Kloosterman sums** with the theta multiplier:
@@ -226,6 +229,20 @@ Artin–Schreier covers are `FunctionFieldArithmetic`'s (Layer 5), and the state
   not targets; no roadmap at the pins declares them. The worked examples name a character by its
   Conrey index, spelled out in prose for prime `q` (the character is determined by its value on the
   least primitive root), and nothing depends on the name.
+- **Sheaf-theoretic identifications of the sums**: Gauss and Jacobi sums as Frobenius traces on
+  the compactly supported cohomology of rank-one sheaves on `𝔾_m` and `𝔸¹ ∖ {0, 1}`, and
+  Kloosterman sums as Frobenius traces of a Kloosterman sheaf, are not targets here. They are
+  stated with the Artin–Schreier sheaf `ℒ_ψ` (`artinSchreierSheaf ψ`) and the Kummer sheaf `ℒ_χ`
+  (`kummerSheaf χ`) of `FourierDeligneTransform`, which applies
+  `EtaleCohomologyFoundations` §F.0.3's rank-one lisse sheaves from torsors and characters to the
+  Lang torsors of `𝔾_a` and `𝔾_m`, normalized so that geometric Frobenius at a point `x` over
+  `𝔽_{q^n}` has trace `ψ(Tr x)` on `ℒ_ψ` and `χ(N x)` on `ℒ_χ`. One construction serves every
+  roadmap that needs these sheaves, and none is defined here. The Kloosterman sheaf of
+  `CongruenceSpectralGap` §4.2b is built from the same Artin–Schreier sheaf by multiplicative
+  convolution, `R^{k−1}mult_!(ℒ_ψ ⊠ ⋯ ⊠ ℒ_ψ)` on `𝔾_m`; at `k = 2`, replacing the first factor by
+  `ℒ_χ ⊗ ℒ_ψ` gives the sheaf whose geometric-Frobenius trace at `r ∈ Fˣ` is `−K(χ; 1, r)`, and
+  5.1's scaling `K(χ; a, b) = χ(a)⁻¹ K(χ; 1, a b)` reaches every `K(χ; a, b)` with `a b ≠ 0`.
+  The trace-function interpretation of this roadmap's `L`-series is recorded in 3.6.
 
 ## Conventions
 
@@ -844,8 +861,10 @@ For `λ : F[X] → ℂ` with `λ(1) = 1` and `λ(g h) = λ(g) λ(h)` for monic `
 `L(λ, T) = ∑_{d ≥ 0} (∑_{g monic, deg g = d} λ(g)) T^d ∈ ℂ⟦T⟧` (`lSeries`), the coefficient sums
 being over the `q^d` monic polynomials `X^d + ∑_{i<d} c_i X^i` indexed by `c : Fin d → F`
 (`monicOfCoeffs c`). Prove the **Euler product**
-`L(λ, T) = ∏_{P monic irreducible} (1 − λ(P) T^{deg P})⁻¹` as an identity of power series (unique
-factorization in `F[X]`, with the finite products converging `T`-adically), and the **logarithmic
+`L(λ, T) = ∏_{P monic irreducible} (1 − λ(P) T^{deg P})⁻¹` as an identity of power series: a
+`tprod` over the monic irreducibles in Mathlib's `PowerSeries.WithPiTopology`, the family being
+multipliable because each degree has finitely many irreducibles (unique factorization in `F[X]`,
+with the finite partial products converging coefficientwise), and the **logarithmic
 derivative identity** `T · L'(λ, T) / L(λ, T) = ∑_{n ≥ 1} S_n(λ) T^n` with
 `S_n(λ) = ∑_{P} deg P · λ(P)^{n / deg P}` over the monic irreducibles of degree dividing `n`.
 Prove the **polynomial criterion**: if `∑_{deg g = d} λ(g) = 0` for all
@@ -967,6 +986,65 @@ For the quadratic character over `𝔽_3` lifted to `𝔽_9`, the sum is `−1`,
 not `3`; for an order-six character over `𝔽_7` paired with itself and lifted to `𝔽_49`,
 the norm is `7`. *Needs:* 3.3, 2.2.
 
+### 3.6 The trace-function interpretation, owned downstream
+
+Every `L`-series that this roadmap proves to be a polynomial is the `L`-function of a
+constructible sheaf of rank at most one on the affine line, and its reciprocal roots are
+geometric-Frobenius eigenvalues on compactly supported cohomology. That statement is a bridge
+theorem owned downstream by `WeilConjectures`, Layer WC.1, where the `L`-functions of sheaves and
+complexes over a finite field are formed beside its zeta series. It is recorded here to fix one
+normalization on both sides; no statement of this roadmap depends on it, and the elementary
+bounds of Layers 4–5 stay the route of record here and an independent check on the
+cohomological ones.
+
+The statement. Fix a prime `ℓ ≠ p`, a finite extension `M_ℓ` of `ℚ_ℓ` containing the `p(q − 1)`-th
+roots of unity, and a field embedding `ι_ℓ : M_ℓ → ℂ`. For a constructible `M_ℓ`-sheaf `𝒦` on `𝔸¹_F`
+and a closed point, that is a monic irreducible `P ∈ F[X]`, let `t_𝒦(P)` be the trace of
+geometric Frobenius on the geometric stalk of `𝒦` at `P`. If every geometric stalk of `𝒦` has
+rank at most one and `λ` is monic multiplicative with `λ(P) = ι_ℓ(t_𝒦(P))` for every `P`, then
+(i) `L(λ, T) = ι_ℓ(L(𝔸¹_F, 𝒦, T))`, Euler factor by Euler factor, both sides read as the `tprod`
+of 3.1; (ii) by the rational Grothendieck–Lefschetz trace formula
+(`InverseGaloisAndArithmeticFundamentalGroups` §IG.0.T3),
+`L(λ, T) = ∏_{i=0}^{2} ι_ℓ det(1 − T·Frob | H^i_c(𝔸¹_{F̄}, 𝒦))^{(−1)^{i+1}}`, and for `E/F` of
+degree `n`, `extensionSum E λ = ∑_i (−1)^i ι_ℓ tr(Frob^n | H^i_c(𝔸¹_{F̄}, 𝒦))`, `Frob` being
+geometric Frobenius. With `ℒ_ψ` and `ℒ_χ` the Artin–Schreier and Kummer sheaves of *Not owned
+here*, `j : 𝔾_m → 𝔸¹` the inclusion and `U_f` the complement of the zeros of `f`, the four
+`L`-series of this roadmap are:
+
+| `λ` | `𝒦` | Compactly supported cohomology |
+|---|---|---|
+| 3.3, `χ(∏ roots) ψ(∑ roots)` | `j_!(ℒ_χ ⊗ ℒ_ψ)` | only `H¹_c`, of rank `1`, when `ψ ≠ 1`; zero when `ψ = 1 ≠ χ` |
+| 4.5, `mulCharResultant χ f` | `f^*ℒ_χ` on `U_f`, extended by zero | only `H¹_c`, of rank `m − 1`, when `f` is not `c h^{ord χ}` |
+| 4.6, `addCharTrace ψ f` | `f^*ℒ_ψ` | only `H¹_c`, of rank `n − 1`, when `ψ ≠ 1` and `p ∤ n = deg f` |
+| 5.4, `κ` | `j_!(ℒ_χ ⊗ ℒ_ψ(a x + b x⁻¹))` | only `H¹_c`, of rank `2`, for `a, b ∈ F^×` |
+
+So in each case the `L`-polynomial is `ι_ℓ det(1 − T·Frob | H¹_c)` and its degree is the rank of
+`H¹_c`: the bounds `≤ m − 1` of 4.5 and `≤ n − 1` of 4.6 are equalities, and the reciprocal roots
+of 4.7, 4.8 and 5.4 are Frobenius eigenvalues. The ranks are Euler–Poincaré counts (the
+`CongruenceSpectralGap` §4.2b formula): tame of rank one on `m` punctures for 4.5, Swan conductor
+`n` at `∞` for 4.6, Swan conductor `1` at each of `0` and `∞` for 5.4; `H²_c` vanishes because the
+geometric monodromy is nontrivial, which is the hypothesis on `f` or on `ψ`. Deligne's weight
+bound on `H¹_c` (`DeligneWeightsAndPurity`) then gives `|ω_i| ≤ √q` again, the inequalities that
+4.7, 4.8 and 5.5 prove by Stepanov's method. (Deligne, SGA 4½, *Sommes trigonométriques*; Katz,
+*Gauss Sums, Kloosterman Sums, and Monodromy Groups*, Ch. 4.)
+
+**Checks.**
+
+- (Gauss sum over `𝔽_3`) `χ = η`, `ψ = ψ_F`: `H¹_c(𝔾_m, ℒ_η ⊗ ℒ_ψ)` has rank one with
+  eigenvalue `ω = −g(η) = −i√3`, so `L = 1 + i√3 T` as in 3.3's Checks, and the trace of `Frob²`
+  gives `extensionSum 𝔽_9 λ = −ω² = 3 = g(η_9)`.
+- (both characters trivial) `𝒦 = j_! M_ℓ`: `H¹_c` and `H²_c` have rank one with eigenvalues `1`
+  and `q`, so `L = (1 − T)/(1 − qT)`, the value in 3.1's Checks. The `L`-series is not a
+  polynomial because `H²_c ≠ 0`, which is why 3.3 excludes `χ = 1 = ψ`.
+- (eigenvalue of weight zero) over `𝔽_7`, `f = X² − X`, `χ = η`: `m = 2` and
+  `∑_x η(x² − x) = −1`, so `L(λ_f, T) = 1 − T`, of degree exactly `m − 1`, with reciprocal root
+  `1` rather than of absolute value `√7`; the local monodromy `η² = 1` at `∞` contributes this
+  eigenvalue. An equality `|ω_i| = √q` cannot replace the inequality of 4.7.
+- (no cohomology) `ψ = 1 ≠ χ`: `H^i_c(𝔾_m, ℒ_χ) = 0` for every `i` and `L = 1`, the case `k = 0`
+  of 3.2's Checks.
+- (Kloosterman over `𝔽_3`) `a = b = 1`, `χ = 1`: `H¹_c` has rank two, `L = 1 − T + 3T²`, and the
+  trace of `Frob²` gives `K_9(1, 1) = 5`, as in 5.4's Checks.
+
 ### Examples
 
 `g(η_9) = 3 = −(−g(η_3))² = −(−i√3)²`, while `g(η_3)² = −3`: the relation is `−g' = (−g)^n`, not
@@ -977,7 +1055,8 @@ characters and every `m ∣ 12`).
 ### Dependencies
 
 3.1–3.2 are polynomial algebra over `F` and need Mathlib only; 3.3–3.5 need Layers 0 (0.6) and 1
-(1.4), and 2.2; 3.4 consumes `ClassicalArithmeticCompletion` §7.29.
+(1.4), and 2.2; 3.4 consumes `ClassicalArithmeticCompletion` §7.29. 3.6 is owned downstream by
+`WeilConjectures`, and nothing in this roadmap depends on it.
 
 ## Layer 4: Stepanov's method and Weil's bounds for polynomial sums
 
@@ -1757,6 +1836,8 @@ for the comparison in 7.3; Knightly–Li for the twisted bounds of 7.5–7.6.
 - `CurvesOverFiniteFields` and `FunctionFieldArithmetic` border this roadmap without consuming it:
   the point counts of Layer 4 are finite sums bounded by Stepanov's method, and the identification
   of the `L`-polynomials of Layers 3–5 with numerators of zeta functions is left to them.
+- `WeilConjectures`, Layer WC.1, owns the trace-function interpretation 3.6 and consumes for it
+  the `L`-series of 3.1–3.2 and the `L`-polynomials of 3.3, 4.5, 4.6 and 5.4.
 
 ## Worked examples (acceptance criteria)
 
