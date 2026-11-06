@@ -421,11 +421,12 @@ and `AlgebraicGeometry.GeometricallyConnected`, every fibre over a field-valued 
 - `TauCeti.StrictHenselization.lift` (file `TauCeti/RingTheory/StrictHenselization/Lift.lean`),
   the `R`-algebra map from the strict henselisation to a henselian local `R`-algebra `S` determined
   by an `R`-algebra map `Ω → κ_S`, and `TauCeti.Algebra.IndEtale` with
-  `TauCeti.Algebra.IndEtale.of_isColimit` (file `TauCeti/RingTheory/Etale/IndEtale.lean`): an
-  `R`-algebra is ind-étale when it is a small filtered colimit of étale `R`-algebras in
-  `CommAlgCat R`, base and algebra in one universe, and the point of a colimit cocone of such a
-  diagram is ind-étale. Layer 4D states `IsHenselization` on the latter and builds the comparison
-  of a henselisation with the strict henselisation from the former.
+  `TauCeti.Algebra.IndEtale.of_isColimit` and `TauCeti.Algebra.IndEtale.flat` (file
+  `TauCeti/RingTheory/Etale/IndEtale.lean`): an `R`-algebra is ind-étale when it is a small
+  filtered colimit of étale `R`-algebras in `CommAlgCat R`, base and algebra in one universe, the
+  point of a colimit cocone of such a diagram is ind-étale, and an ind-étale algebra is flat.
+  Layer 4D states `IsHenselization` on the latter and builds the comparison of a henselisation
+  with the strict henselisation from the former.
 
 Each of these is pinned by a `#check` in `Suggested.lean`.
 
@@ -1614,9 +1615,9 @@ two*, so it depends on the corrected reading.
 
 This layer owns the required general scheme-level API:
 
-- strict henselisation, strictly henselian local rings, the recognition and uniqueness of
-  henselisations, and completion of strict henselisations (the paragraph *Strict henselisation*
-  below);
+- strict henselisation, strictly henselian local rings, the recognition of henselisations, the
+  maps out of them and their uniqueness, and completion of strict henselisations (the paragraph
+  *Strict henselisation* below);
 - comparison of a finite moduli scheme after strict henselisation and completion;
 - regular schemes in terms of regular local rings and Krull dimension at a point;
 - preservation and reflection of regularity and dimension under completion of noetherian local rings
@@ -1660,10 +1661,12 @@ predicate `IsHenselization` below recognises `R^h` as a case without constructin
 - **Strictly henselian local rings** (Stacks, Tag 04GF). The class `IsStrictlyHenselianLocalRing S`
   extends Mathlib's `HenselianLocalRing S` by the field `isSepClosed_residueField`: the residue
   field of `S` is separably closed. The instance `IsStrictlyHenselianLocalRing.of_isSepClosed`
-  builds it from the pair `HenselianLocalRing S` and `IsSepClosed (ResidueField S)`, and the parent
-  instance with the field recover the pair, so statements at the pin that take the pair (such as
-  `exists_isLocalHom_lift`) and statements that take the class are interchangeable. Prove
-  `IsStrictlyHenselianLocalRing.tfae`: for a local ring `(S, 𝔪_S, κ_S)` the following are
+  builds it from the pair `HenselianLocalRing S` and `IsSepClosed (ResidueField S)`, so a statement
+  that takes the class applies under the pair. Conversely the parent projection is an instance and
+  the field is supplied by name: it is not an instance, as Mathlib's `IsSepClosure.sep_closed` is
+  not, since with `of_isSepClosed` it would close a cycle of instances; a statement at the pin that
+  takes the pair (such as `exists_isLocalHom_lift`) applies under the class with that one term.
+  Prove `IsStrictlyHenselianLocalRing.tfae`: for a local ring `(S, 𝔪_S, κ_S)` the following are
   equivalent: `S` is strictly henselian; `S` is henselian and `κ_S` is separably closed; every
   étale `S`-algebra `T` with a prime `𝔮` lying over `𝔪_S` has a unique `S`-algebra retraction
   `τ : T → S` with `τ⁻¹(𝔪_S) = 𝔮` (Stacks, Tag 04GG, (8)). From the first two to the third: the
@@ -1706,8 +1709,8 @@ predicate `IsHenselization` below recognises `R^h` as a case without constructin
   `𝔪_{(R^{sh})^∧}`-adic topology (clause (d)), and `((R^∧)^{sh})^∧ = (R^{sh})^∧` (clause (f)).
   The clauses of Tag 06LJ that involve the henselisation `R^h` are not used by this roadmap and
   are not stated. Completions are Mathlib's `AdicCompletion` at the maximal ideal.
-- **Recognising a henselisation** (Stacks, Tags 04GQ and 08HT). For a commutative ring `R`, a
-  field `L` with an `R`-algebra structure, and an `R`-algebra map `ψ : A → L` with `A` in the
+- **Recognising a henselisation** (Stacks, Tags 04GQ, 08HR and 08HT). For a commutative ring `R`,
+  a field `L` with an `R`-algebra structure, and an `R`-algebra map `ψ : A → L` with `A` in the
   universe of `R`, the class `IsHenselization ψ` has three fields: `A` is a henselian local ring
   (`henselianLocalRing`), `A` is ind-étale over `R` (`indEtale`, Tau Ceti's
   `TauCeti.Algebra.IndEtale`: a small filtered colimit of étale `R`-algebras in `CommAlgCat R`),
@@ -1721,27 +1724,35 @@ predicate `IsHenselization` below recognises `R^h` as a case without constructin
   separable closure, `toTarget : R^{sh} → Ω` is a henselisation. The first and third fields are
   `henselianLocalRing` and `toTarget_surjective` at the pin; the second is
   `TauCeti.Algebra.IndEtale.of_isColimit` applied to the colimit presentation of `algebra R Ω`
-  over the small model of `Neighbourhood R Ω`. The target `IsHenselization.bijective_of_comp_eq`
-  is the uniqueness (Tag 08HT): if `ψ : A → L` and `χ : B → L` are henselisations of `R` at the
-  same point, every `R`-algebra map `f : A → B` with `χ ∘ f = ψ` is bijective. The comparison of a
-  henselisation `ψ : A → Ω` with `R^{sh}` is therefore data and never a chosen isomorphism:
-  `TauCeti.StrictHenselization.lift`, along the map `Ω → κ_A` inverse to the residue
-  isomorphism induced by `ψ`, is an `R`-algebra map `R^{sh} → A` compatible with `toTarget` and
-  `ψ`, the only one by `existsUnique_lift`, and `AlgEquiv.ofBijective` turns it into the unique
-  `R`-algebra isomorphism over `Ω`.
+  over the small model of `Neighbourhood R Ω`. The target `IsHenselization.existsUnique_comp_eq`
+  gives the maps out of a henselisation (Tag 08HR): if `ψ : A → L` is a henselisation of `R` and
+  `χ : B → L` is a surjective `R`-algebra map from a henselian local ring `B`, there is exactly one
+  `R`-algebra map `f : A → B` with `χ ∘ f = ψ`; it is the map of Tag 08HR for the prime `ker ψ` and
+  the residue map `κ_A ≅ L ≅ κ_B`. Surjectivity of `χ` is necessary for existence, since `L` must
+  embed in `κ_B` over `R`. The target `IsHenselization.bijective_of_comp_eq` is the uniqueness:
+  if moreover `χ : B → L` is a henselisation at the same point, every such `f` is bijective. The
+  two together are Tag 08HT: two henselisations at the same point are isomorphic over `L` by
+  exactly one `R`-algebra isomorphism, `AlgEquiv.ofBijective` of the unique compatible map, so the
+  comparison is data and never a chosen isomorphism. For `A = R^{sh}` the map is
+  `TauCeti.StrictHenselization.lift` along the map `Ω → κ_B` inverse to the residue isomorphism
+  induced by `χ`, compatible with `toTarget` and `χ`, the only one by `existsUnique_lift`.
 - **Discrete valuation rings** (Stacks, Tag 0AP3, the passage from `R` to `R^{sh}`). The target
   `StrictHenselization.isDiscreteValuationRing_algebra`: for a discrete valuation ring `R` and a
   separable closure `Ω` of its residue field, `R^{sh}` is a discrete valuation ring with residue
-  field `Ω`, and a uniformizer `π` of `R` is a uniformizer of `R^{sh}`. It is stated on the
-  instance `StrictHenselization.isDomain_algebra`: for `R` a local normal domain, `R^{sh}` is a
-  domain (Stacks, Tag 06DI, which also gives normality, a prose target). Proof: `R^{sh}` is a
+  field `Ω`; the target `StrictHenselization.irreducible_algebraMap`: an irreducible element `π`
+  of `R`, that is a uniformizer, has irreducible image in `R^{sh}`, so it is a uniformizer of
+  `R^{sh}`. The first is stated on the instance `StrictHenselization.isDomain_algebra`: for `R` a
+  local normal domain, `R^{sh}` is a domain (Stacks, Tag 06DI, which also gives normality, a prose
+  target). Proof: `R^{sh}` is a
   Noetherian (`isNoetherianRing_strictHenselization_iff`) local domain whose maximal ideal is
-  `π R^{sh}` (`maximalIdeal_eq_map`), and `π ≠ 0` in `R^{sh}` because `R → R^{sh}` is flat and
-  local, hence injective; a Noetherian local domain whose maximal ideal is principal and nonzero is
-  a discrete valuation ring. This is the strictly henselian trait at a closed point of a curve,
-  consumed by the strictly henselian traits of EtaleCohomologyFoundations §F.3a, and through them
-  by the nearby cycles of LefschetzPencilsAndVanishingCycles Layer LPV.0 and the local monodromy
-  arguments of the Weil conjectures at points of curves.
+  `π R^{sh}` (`maximalIdeal_eq_map`), and `π ≠ 0` in `R^{sh}` because `R → R^{sh}` is flat
+  (`TauCeti.Algebra.IndEtale.flat` with `StrictHenselization.isHenselization`) and local, hence
+  faithfully flat and injective; a Noetherian local domain whose maximal ideal is principal and
+  nonzero is a discrete valuation ring, and a generator of its maximal ideal is irreducible. This
+  is the strictly henselian trait at a closed point of a curve, consumed by the strictly henselian
+  traits of EtaleCohomologyFoundations §F.3a, and through them by the nearby cycles of
+  LefschetzPencilsAndVanishingCycles Layer LPV.0 and the local monodromy arguments of the Weil
+  conjectures at points of curves.
 
 Checks for the strict henselisation:
 
@@ -1777,18 +1788,39 @@ Checks for the strict henselisation:
   closed, both `R` (through `R → κ → Ω`) and `R^{sh}` (through `toTarget`) would be henselisations
   at `Ω`, and the compatible map `R → R^{sh}`, not surjective, would contradict
   `IsHenselization.bijective_of_comp_eq`.
+- For `R = ℤ_(p)` and the completion `ℤ_p` with its residue map to `𝔽_p`, which is henselian local
+  and surjective but not a henselisation, `IsHenselization.existsUnique_comp_eq` gives exactly one
+  `ℤ_(p)`-algebra map `ℤ_(p)^h → ℤ_p` over `𝔽_p`, and it is not surjective (`ℤ_(p)^h` is
+  countable): `IsHenselization.bijective_of_comp_eq` needs the target to be a henselisation. For
+  `A = B = R^{sh}` with `R = ℤ_(p)` and `Ω` an algebraic closure of `𝔽_p`, the `R`-algebra
+  automorphisms of `R^{sh}` correspond to the automorphisms of `Ω` over `𝔽_p` (by
+  `existsUnique_lift`), but only the identity is compatible with `toTarget`: a uniqueness
+  statement without the compatibility `χ ∘ f = ψ` would be false. For `χ` the composite
+  `ℤ_(p)^h → 𝔽_p → Ω`, not surjective, there is no map `R^{sh} → ℤ_(p)^h` over `Ω`, since `Ω` has
+  no `𝔽_p`-embedding in `𝔽_p`; the surjectivity hypothesis cannot be dropped.
+- For the local ring `R` of the node `y² = x²(1 + x)` at the origin over a field `k` of
+  characteristic not `2`, a local domain that is not normal, `R^{sh}` is not a domain: `1 + x` has
+  a square root `s ≡ 1` in `R^{sh}` (henselianity at the simple root `1`), and
+  `(y − xs)(y + xs) = 0` with neither factor zero: the completion of `R^{sh}` is
+  `Ω[[x, y]]/((y − xs)(y + xs))` for `Ω` the separable closure of `k`, in which both factors are
+  nonzero. The normality hypothesis of `StrictHenselization.isDomain_algebra` cannot be dropped.
 - For a field `k`, a local normal domain that is not a discrete valuation ring, `k^{sh}` is the
   separable closure `Ω`: a domain (`StrictHenselization.isDomain_algebra`) but not a discrete
   valuation ring, so the hypothesis of `StrictHenselization.isDiscreteValuationRing_algebra` cannot
   be weakened to normality. For `R = 𝔽_p[t]_(t)`, `R^{sh}` is a discrete valuation ring with
-  uniformizer `t` and residue field a separable closure of `𝔽_p`.
+  uniformizer `t` and residue field a separable closure of `𝔽_p`. For `R = ℤ_(p)` the image of `p`
+  in `R^{sh}` is irreducible (`StrictHenselization.irreducible_algebraMap`), while in the ramified
+  extension `ℤ_(p)[√p]`, a discrete valuation ring that is not ind-étale over `ℤ_(p)`, `p` is the
+  square of the uniformizer `√p`: a construction that adjoined a root of `X² − p` would fail this
+  Check.
 
 *Needs:* Mathlib `CommAlgCat`, `Over`,
 `ObjectProperty.FullSubcategory`, `IsFiltered`, `SmallModel`, `Limits.colimit`, `Algebra.Etale`,
 `HenselianLocalRing`, `IsSepClosure`, `IsSepClosed`, `Ideal.ResidueField`, `IsRegularLocalRing`,
 `AdicCompletion`, `Algebra.FormallySmooth`, `Algebra.IsSeparable`, `List.TFAE`,
-`IsDiscreteValuationRing`, `IsIntegrallyClosed`, `AlgEquiv.ofBijective`; Tau Ceti
-`TauCeti.Algebra.IndEtale` and `TauCeti.StrictHenselization.lift`.
+`IsDiscreteValuationRing`, `IsIntegrallyClosed`, `Irreducible`, `AlgEquiv.ofBijective`; Tau Ceti
+`TauCeti.Algebra.IndEtale`, `TauCeti.Algebra.IndEtale.flat` and
+`TauCeti.StrictHenselization.lift`.
 
 **Dependencies.** Layers 4A and 4C and Mathlib's regular-local-ring theory.
 
@@ -3138,8 +3170,10 @@ the lanes.
   `IsStrictlyHenselianLocalRing`) for its strictly henselian traits, and
   LefschetzPencilsAndVanishingCycles Layer LPV.0 consumes those traits. Layer 4D's
   `IsHenselization` serves every henselisation, including the henselisation of a local ring (the
-  case `L = κ`) and the strict local rings of schemes at geometric points of
-  SchemeAndStackFoundations §0.12, which consumes Layer 4D.
+  case `L = κ`), and compares every model of one with every other through
+  `IsHenselization.existsUnique_comp_eq` and `IsHenselization.bijective_of_comp_eq`.
+  SchemeAndStackFoundations consumes Layer 4D's strict henselisation (its scope and ownership, and
+  the geometric unibranchness of §0.10).
 
 ## Worked examples
 
