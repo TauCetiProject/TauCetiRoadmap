@@ -39,9 +39,10 @@ The following headline statements require geometric objects absent from the pinn
   polarizations. These are needed for the degree pieces as subschemes, the relative Jacobian as
   an abelian scheme and its canonical principal polarization. The curve determinant also needs
   relative derived pushforward and perfect cohomology complexes.
-* Layers 2–3: the relative Picard torsors and Abel morphisms, the theta divisor for an arbitrary
-  degree-one divisor, the dual Jacobian and its universal Poincaré bundle. These are needed for the
-  Abel immersion and finiteness theorems, the theta pullbacks, the curve-square and diagonal
+* Layers 2–3: the representing Picard torsors (the Abel map on functors of points,
+  `graphDivisor ≫ abelMap`, exists at the pin; the scheme morphism `X → Pic¹_{X/S}` needs its
+  representing object), the theta divisor for an arbitrary degree-one divisor, the dual Jacobian
+  and its universal Poincaré bundle. These are needed for the Abel immersion and finiteness theorems, the theta pullbacks, the curve-square and diagonal
   identities, and relative ampleness of canonical twice-theta.
 * Layer 4 outside §4.9: intrinsic algebraic equivalence of line bundles and the relative Picard
   identity components. These are needed to state relative autoduality and the actual and bi-zero
@@ -211,13 +212,20 @@ theorem triangularIsomorphism {S : Scheme.{u}} (A : Over S) [GrpObj A] (n : ℕ)
       R.hom = triangularForward A n ∧ R.inv = triangularInverse A n := by
   sorry
 
+/-- Base change along `f` is a monoidal functor for the chosen fibre products of `Over S`. -/
+instance overPullbackMonoidal {S S' : Scheme.{u}} (f : S' ⟶ S) : (Over.pullback f).Monoidal :=
+  Functor.Monoidal.ofChosenFiniteProducts _
+
+/-- The group law of the base change of a group object, pulled back along `f`. -/
+instance overPullbackGrpObj {S S' : Scheme.{u}} (f : S' ⟶ S) (A : Over S) [GrpObj A] :
+    GrpObj ((Over.pullback f).obj A) :=
+  Functor.grpObjObj
+
 /-- Both directions of the triangular isomorphism commute with arbitrary base extension
 through the canonical product comparison, using the pulled-back group law (README §5.5). -/
 theorem triangularBaseChange {S S' : Scheme.{u}} (f : S' ⟶ S)
     (A : Over S) [GrpObj A] (n : ℕ) :
     let F := Over.pullback f
-    letI : F.Monoidal := Functor.Monoidal.ofChosenFiniteProducts F
-    letI : GrpObj (F.obj A) := Functor.grpObjObj
     let C := PreservesProduct.iso F (fun _ : Fin (n + 1) => A)
     (F.map (triangularForward A n) ≫ C.hom =
       C.hom ≫ triangularForward (F.obj A) n) ∧
