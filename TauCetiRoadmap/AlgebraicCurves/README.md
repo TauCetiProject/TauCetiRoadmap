@@ -344,14 +344,20 @@ relationships are in §[Coordination](#coordination).
   Weierstrass equation over arbitrary exact constants, without a discriminant condition,
   is the theorem `exists_isWeierstrassCoordinates_of_genus_eq_one` of namespace
   `TauCeti.Place` (`TauCeti/FieldTheory/FunctionField/Elliptic/WeierstrassEquation.lean`). The
-  pinned Tau Ceti also proves the headline theorems of Layers 0–7 and 10, each cited
+  pinned Tau Ceti also proves every headline theorem of this roadmap, each cited
   at its layer by its pinned name: among them the product formula
   `TauCeti.Divisor.degree_principal`, Riemann's theorem, the Riemann–Roch theorem
   `TauCeti.isRiemannRochDivisor_weilDifferentialDivisor`, Clifford's theorem
   `TauCeti.Divisor.two_mul_dim_le_degree_add_two`, the Hurwitz genus formula
   `TauCeti.hurwitz_genus_formula`, genus invariance under finite separable constant
-  extension `TauCeti.genus_eq_genus_of_constantCompositum_eq_top` and the Hurwitz bound
-  `TauCeti.natCard_le_eighty_four_mul_genus_sub_one`. New targets are stated on these
+  extension `TauCeti.genus_eq_genus_of_constantCompositum_eq_top`, the Hurwitz bound
+  `TauCeti.natCard_le_eighty_four_mul_genus_sub_one`, the tensor-domain criterion
+  `TauCeti.isDomain_tensorProduct_of_separating`, genus non-increase under algebraic constant
+  extension `TauCeti.genus_le_genus_of_constantCompositum_eq_top`, the residue theorem
+  `TauCeti.finsum_traceResidue_kaehlerBasisOfSeparating_coord_eq_zero`, finiteness of the
+  automorphism group in genus at least two `TauCeti.finite_algEquiv_of_two_le_genus` and the
+  anti-equivalence `TauCeti.AlgebraicGeometry.RegularProjectiveCurveCat.equivFunctionFieldCat`.
+  New targets are stated on these
   carriers, through a comparison with any differently spelled statement, never on a
   parallel copy.
 - **Adjacent, no mathematical overlap**: graph Riemann–Roch (Baker–Norine, sorry-free
@@ -394,9 +400,9 @@ corresponding material in Mathlib replaces ours by deletion plus an import.
 ## The build, in layers
 
 The ordering below is the dependency order. Where the pinned Tau Ceti already proves a
-headline theorem, the layer cites it by its pinned name; `Suggested.lean` states the
-headline theorems the pinned libraries do not prove (Layer 8's tensor-domain criterion
-and genus non-increase, Layer 11's finiteness theorem) on the pinned carriers.
+headline theorem, the layer cites it by its pinned name; every headline theorem of this
+roadmap is proved at the pin, so `Suggested.lean` states nothing and its docstring names
+them.
 Stichtenoth (2nd ed., GTM 254) is the primary source; section citations are given per
 layer, theorem-level citations per milestone.
 
@@ -887,9 +893,11 @@ one** — this layer states them.
      neither geometric regularity of the complete model nor conserved genus.
   2. **Regular field extension** means generic separable generation AND
      `IsIntegrallyClosedIn k F`. Prove its equivalent tensor-domain criterion:
-     for every extension K/k, `K⊗[k]F` is a domain
-     (`isDomain_tensorProduct_of_isSeparable`, the direction from the regular-field
-     condition; `ℂ ⊗[ℝ] ℂ(x)` and the exact-constant inseparable field
+     for every extension K/k, `K⊗[k]F` is a domain (the direction from the
+     regular-field condition is the pinned `TauCeti.isDomain_tensorProduct_of_separating`,
+     which gives `IsDomain (F ⊗[k] A)` for every `k`-algebra `A` that is a domain, from
+     exact constants and a transcendental `x` with `F/k(x)` separable;
+     `ℂ ⊗[ℝ] ℂ(x)` and the exact-constant inseparable field
      `𝔽_p(a, b)(x, y)`, `y^p = a + b x^p`, are its negative controls); its fraction field has exact
      constants K and is again a one-variable function field. Prove the induced
      scalar maps, linear disjointness and `[F:k(x)]=[F_K:K(x)]`. Over perfect k,
@@ -901,7 +909,10 @@ one** — this layer states them.
      early cut 12B.0, available from Layer 2, not the later 12E cohomology dictionary.
      Prove that its K-base-change is smooth proper geometrically integral and is
      the regular model of `Frac(K⊗[k]F)`. The identity map of fraction fields
-     extends uniquely to a model isomorphism. This condition holds over perfect k
+     extends uniquely to a model isomorphism. Genus conservation along this base change
+     is the pinned `TauCeti.AlgebraicGeometry.genus_functionField_eq_of_isPullback`
+     (`X` smooth, proper and geometrically integral over `k`, `Y = X ×_k K` for any field
+     extension `K/k`: `g(K(Y)/K) = g(k(X)/k)`). This condition holds over perfect k
      with exact constants, and over characteristic zero; over imperfect k it is
      additional data, not a synonym for item 1 or item 2.
   The perfect-k specialization retains each original degree/irreducibility
@@ -964,9 +975,12 @@ one** — this layer states them.
   is neither needed for this deduction nor asserted.
 - **Inseparable constant-extension pathology and general drop estimates.** Keep
   the general genus-never-increases theorem for algebraic constant extension
-  (`genus_le_genus_of_constantCompositum_eq_top`: exact `k`, `k′/k` algebraic and
-  `F′ = F·k′` give `g(F′/k′) ≤ g(F/k)`, with no separability of `k′/k` and no
-  exactness of `k′` in `F′`):
+  (the pinned `TauCeti.genus_le_genus_of_constantCompositum_eq_top`: `k′/k` algebraic and
+  `F′ = F·k′` give `g(F′/k′) ≤ g(F/k)`, with no separability of `k′/k`, no exactness of
+  `k` in `F` and no exactness of `k′` in `F′`; the strict drop for `y² = x^p − t` over
+  `k = 𝔽_p(t)`, `k′ = 𝔽_p(t^(1/p))`, from `(p − 1)/2` to `0`, is the pinned
+  `TauCeti.GenusDrop.genus_lt_genus` for odd `p`, and `TauCeti.CharTwoGenusDrop.genus_lt_genus`
+  is the `p = 2` drop of Layer 10's `y² = x³ + a` from `1` to `0`):
   specify the chosen reduced compositum/normalization and its full constant field,
   then compare the normalized genus, rather than calling a possibly nonreduced
   tensor product a field. First prove the finite-extension case on the SAME
@@ -1089,12 +1103,18 @@ one** — this layer states them.
   characteristic `p` and `s ∉ k^p`). Over perfect `k`, **every function field is separably
   generated** (`TauCeti.IsFunctionField.exists_transcendental_and_isSeparable_adjoin_of_perfectField`),
   any `z` with `v_P(z) ≢ 0 (mod p)` is separating, and Frobenius gives `F^{pⁿ} ≅ F`
-  with the same genus (Prop. 3.10.2 — Layer 9's entry ticket); genus bounds:
-  `g ≤ 1 + n(g₁ − 1) + deg C` (Prop. 3.11.1), **Castelnuovo's inequality**
-  `g ≤ n₁g₁ + n₂g₂ + (n₁−1)(n₂−1)` for `F = F₁F₂` (Thm. 3.11.3), **Riemann's
-  inequality** `g ≤ ([F:k(x)] − 1)([F:k(y)] − 1)` (Cor. 3.11.4), and the plane-model
-  bound `g ≤ ½(n−1)(n−2)` (Prop. 3.11.5) — required proved theorems, with the
-  algebraically-closed reduction in their proofs made explicit.
+  with the same genus (Prop. 3.10.2 — Layer 9's entry ticket); genus bounds, each pinned
+  over an arbitrary exact constant field:
+  `g ≤ 1 + n(g₁ − 1) + deg C` for `F/F₁` of degree `n` with a basis of `F` over `F₁` inside
+  `L(C)` (Prop. 3.11.1, `TauCeti.genus_le_one_add_finrank_mul_genus_sub_one_add_degree`),
+  **Castelnuovo's inequality** `g ≤ n₁g₁ + n₂g₂ + (n₁−1)(n₂−1)` for `F = F₁F₂`
+  (Thm. 3.11.3, `TauCeti.genus_le_finrank_mul_genus_add_finrank_mul_genus_add` under a
+  separating element of `F`, with the perfect-field form
+  `TauCeti.genus_le_finrank_mul_genus_add_finrank_mul_genus_add_of_perfectField`),
+  **Riemann's inequality** `g ≤ ([F:k(x)] − 1)([F:k(y)] − 1)` for `F = k(x, y)`
+  (Cor. 3.11.4, `TauCeti.genus_le_finrank_sub_one_mul_finrank_sub_one`), and the plane-model
+  bound `g ≤ ½(n−1)(n−2)` for `F = k(x, y)` with `n = [F : k(x)]` and `y ∈ L((x)_∞)`
+  (Prop. 3.11.5, `TauCeti.genus_le_finrank_sub_one_mul_finrank_sub_two_div_two`).
 
 ### Layer 9: Kähler differentials, residues, and the comparison
 
@@ -1185,8 +1205,13 @@ Stichtenoth's.)
   `(z·δ(x))_P(u)=Tr_(F_P/k)(res_P(uz dx))`. Perfectness makes each
   finite residue extension separable, so the preceding completion charts
   define these components. Deduce the residue theorem
-  `Σ_P Tr_(F_P/k)(res_P(ω))=0`. For algebraically closed k this is
-  the ordinary sum of coefficient residues. Keep Layer 5's abstract
+  `Σ_P Tr_(F_P/k)(res_P(ω))=0` (the pinned
+  `TauCeti.finsum_traceResidue_kaehlerBasisOfSeparating_coord_eq_zero`: perfect exact `k`, a
+  prime element `t_P` chosen at each place, the trace residues of `ω/dt_P` summed over the
+  places of every degree). For algebraically closed k this is
+  the ordinary sum of coefficient residues (the pinned
+  `TauCeti.finsum_kaehlerResidueOfPerfectField_eq_zero`, with the residue at a rational
+  place `TauCeti.Place.kaehlerResidueOfPerfectField`). Keep Layer 5's abstract
   Weil-differential sum identity at its stated generality; the geometric
   trace-residue comparison here has the displayed perfectness hypothesis.
 
@@ -1426,11 +1451,18 @@ Hartshorne IV as the written sources of record.
   **with the equality case pinned: exactly `2g + 2` Weierstrass points occur iff `F` is
   hyperelliptic** (every branch place then has the maximal weight `g(g−1)/2`), so a
   **non-hyperelliptic** `F` has **at least `2g + 3`** Weierstrass points. (The
-  Wronskian route; Stichtenoth's Rem. 1.6.9 cites the counts without proof, so this is
-  built here from Goldschmidt's treatment, not imported.)
+  Wronskian route; Stichtenoth's Rem. 1.6.9 cites the counts without proof. The counts are
+  pinned over algebraically closed `k` with exact constants and gaps pairwise distinct in
+  `k`, with `g ≥ 2` for the lower bounds:
+  `TauCeti.ncard_setOf_weierstrassWeight_ne_zero_le_genus_pow_three_sub_genus`,
+  `TauCeti.two_mul_genus_add_two_le_ncard_setOf_weierstrassWeight_ne_zero`, the equality case
+  `TauCeti.isHyperellipticFunctionField_iff_ncard_setOf_weierstrassWeight_ne_zero_eq` and
+  `TauCeti.two_mul_genus_add_three_le_ncard_setOf_weierstrassWeight_ne_zero`.)
 - **Finiteness for `g ≥ 2`, by the exact route** — the headline theorem over
-  algebraically closed characteristic-zero `k` (`finite_algEquiv_of_two_le_genus`; the
-  hyperelliptic case is the pinned `TauCeti.finite_algEquiv_of_finrank_adjoin_eq_two`), stated and proved as two cases, with
+  algebraically closed `k`, pinned as `TauCeti.finite_algEquiv_of_two_le_genus` under exact
+  constants and the hypothesis that the Weierstrass gaps at every place are pairwise distinct
+  in `k` (automatic in characteristic zero; the hyperelliptic case is
+  `TauCeti.finite_algEquiv_of_finrank_adjoin_eq_two`), stated and proved as two cases, with
   every prerequisite named (finiteness of the *full* group is this milestone;
   the Hurwitz bound below is a separate statement about an already-finite subgroup):
   `Aut(F/k̄)` acts on the finite set `𝒲` of Weierstrass points (the gap sequence is
@@ -1526,7 +1558,10 @@ definitions.
   regularity, and establish smoothness of the regular model over perfect k.
   Over imperfect k keep geometric regularity as additional model input. Smooth
   and proper/geometrically integral base change uses the native base-change
-  structures. The resulting model has the fraction field of 12B.0a and is the
+  structures, and conserves the genus of the function field (the pinned
+  `TauCeti.AlgebraicGeometry.genus_functionField_eq_of_isPullback`, for `X` smooth, proper
+  and geometrically integral over `k` and `Y = X ×_k K`). The resulting model has the
+  fraction field of 12B.0a and is the
   unique regular projective model, so normalization/base-change comparisons are
   actual scheme isomorphisms. Normality alone on the original model does not
   justify commuting normalization with purely inseparable constants.
@@ -1606,7 +1641,13 @@ definitions.
   regular. Prove `k(X_F) ≃ₐ[k] F` and identify closed points with places. Finally prove
   **projectivity**: a finite morphism is projective and projective morphisms compose,
   so `X_F → Spec k` is projective. This named step matches the target category; proper
-  is not silently substituted for projective.
+  is not silently substituted for projective. The model, its function field and its
+  projectivity are pinned: `TauCeti.AlgebraicGeometry.twoChartModel` (the pushout of the
+  spectra of the two chart rings of `x`), `TauCeti.AlgebraicGeometry.twoChartModel.functionFieldEquiv`
+  (`k(X_F) ≃ₐ[k] F`), `TauCeti.AlgebraicGeometry.twoChartModel.exists_isClosedImmersion_proj`
+  (a closed immersion of `X_F` over `k` into the projective space of a finite-dimensional
+  `k`-vector space) and `AlgebraicGeometry.Scheme.isProjectiveOver_of_isCurveOver` (every
+  regular proper curve over `k` is projective over `k`).
 - **12C — morphisms and the anti-equivalence.**
   *Prerequisites*: 12A–12B and the universal property of normalization.
   *Categories*: on the field side, field extensions with
@@ -1625,7 +1666,11 @@ definitions.
   normalization of `ℙ¹_k` in its function field (choose a nonconstant rational function
   and use the finite map it induces); then construct both natural isomorphisms. These
   milestones produce the single **anti-equivalence**, not just an object-level
-  correspondence. Acceptance instance (the merged
+  correspondence; it is the pinned
+  `TauCeti.AlgebraicGeometry.RegularProjectiveCurveCat.equivFunctionFieldCat`
+  (`RegularProjectiveCurveCat k ≌ (FunctionFieldCat k)ᵒᵖ`: the function-field functor, with
+  the model functor as inverse) and, on regular proper curves,
+  `TauCeti.AlgebraicGeometry.RegularProperCurveCat.equivFunctionFieldCat`. Acceptance instance (the merged
   [EllipticCurves](../EllipticCurves/README.md) contract): specialized to
   `W.FunctionField`, the anti-equivalence induces its isogeny-to-scheme-morphism
   correspondence, and "the place at `O₁` restricting to the place at `O₂`" is the
@@ -1646,11 +1691,20 @@ definitions.
   claimed for an arbitrary regular model over an imperfect field. *New definitions*:
   none — this sublayer is exactly the **comparison contract**, stated
   as named milestones on this side so whichever route lands first, the other refactors
-  onto it: (i) `H⁰(X, 𝒪_X(D)) ≅ L(D)` under 12D's identification; (ii) the
-  cohomological genus `dim H¹(X, 𝒪_X)` equals this roadmap's `genus k F` —
+  onto it: (i) `H⁰(X, 𝒪_X(D)) ≅ L(D)` under 12D's identification (the pinned
+  `TauCeti.AlgebraicGeometry.SchemeWeilDivisor.globalSectionsEquivRiemannRochSpace`); (ii) the
+  cohomological genus `dim H¹(X, 𝒪_X)` equals this roadmap's `genus k F` (the pinned
+  `TauCeti.AlgebraicGeometry.SchemeWeilDivisor.genus_eq_genus_functionField`, for a curve with
+  DVR codimension-one local rings and `k` exact in `k(X)`, and on the model
+  `TauCeti.AlgebraicGeometry.twoChartModel.genus_eq_genus`) —
   equivalently `h¹(𝒪(D)) = i(D) = ℓ(W − D)`, so **function-field RR + the dictionary ⟺
-  the `χ`-form RR + Serre duality**; (iii) the dualizing sheaf `ω_{X/k}` corresponds to
-  the canonical class `W` with `deg ω = 2g − 2` matching. The contract is *this list*;
+  the `χ`-form RR + Serre duality** (the pinned
+  `TauCeti.AlgebraicGeometry.SchemeWeilDivisor.cohomologyOneDualEquivCohomologyZero`,
+  `H¹(X, 𝒪_X(D))^∨ ≃ H⁰(X, 𝒪_X(K − D))` for `K` a divisor in the canonical class);
+  (iii) the dualizing sheaf `ω_{X/k}` corresponds to
+  the canonical class `W` with `deg ω = 2g − 2` matching (the degree is the pinned
+  `TauCeti.AlgebraicGeometry.SchemeWeilDivisor.relativeDegree_eq_two_mul_genus_sub_two`). The
+  contract is *this list*;
   neither roadmap builds the other's side. Everything here is over the field `k`: the
   **relative** theory (proper-flat pushforwards, cohomology and base change,
   `π_*𝒪(n·[0])` locally free) is JacobianChallenge Layer-C territory and no milestone
