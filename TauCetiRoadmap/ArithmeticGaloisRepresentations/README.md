@@ -1508,8 +1508,12 @@ FSY = Fresán–Sabbah–Yu 2022.
 `F̄_v` is the compositum `F_v · ι(F̄)`; hence an `F_v`-automorphism of `F̄_v` fixing `ι(F̄)` is the
 identity, and every finite extension of `F_v` inside `F̄_v` is `F_v(ι(β))` for some `β ∈ F̄`. The proof
 approximates the roots of a separable polynomial over `F_v` by roots of a polynomial over `F` and
-applies Krasner's lemma (Deligne 1973, 3.12, p. 533). *Needs:* Mathlib `IsKrasner.krasner`;
-`TauCetiRoadmap.LocalFieldsRamification` layer 0 (finite extensions of local fields).
+applies Krasner's lemma, Mathlib's `IsKrasner.krasner`. For `F = ℚ` the statement is that the
+elements of the completion of `ℚ̄` at a place above `p` that are algebraic over `ℚ_p` form an
+algebraic closure of `ℚ_p`, with the stabiliser of the place mapping isomorphically onto `G_{ℚ_p}`
+(Darmon–Diamond–Taylor 2007, §2.1, p. 51); the argument over a number field `F` is the same.
+*Needs:* Mathlib `IsKrasner.krasner`; `TauCetiRoadmap.LocalFieldsRamification` layer 0 (finite
+extensions of local fields).
 
 **Decomposition and inertia groups.** Let `O` be the integral closure of `𝓞_F` in `F̄`; `G_F` acts on
 `O` through `GaloisRep.toIntegralClosure` (Mathlib's `AlgEquiv.mapIntegralClosure`). For a maximal
@@ -5070,7 +5074,7 @@ for any `δ ≥ 1` with `1+p^δ` in the image of the `p`-adic cyclotomic charact
 `ρ̄(G_{F(ζ_{p^N})})` is constant for `N ≥ 1 + δ` (`p ≥ 5`) and `N ≥ 2 + δ` (`p = 3`).
 Such a `δ` exists because the cyclotomic image is open; if `p` is unramified in `F`, take `δ = 1`.
 Vastness is invariant under twists (BCGP21, Def. 7.5.2, Lemma 7.5.3, Rem.
-7.5.4, Lemma 7.5.5, Defs. 7.5.6 and 7.5.11, pp. 198–201).
+7.5.4, Lemma 7.5.5, Def. 7.5.6, Rem. 7.5.8, Def. 7.5.11, pp. 198–201).
 
 **Checks.**
 - `Sp₄(F_7)` is enormous; `SL₂(F_5) ≀ ℤ/2` is weakly enormous but not enormous; `SL₂(F_3) ≀ ℤ/2` is
