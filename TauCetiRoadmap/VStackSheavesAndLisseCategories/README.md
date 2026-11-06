@@ -36,6 +36,8 @@ The Hecke and Satake constructions are consumers: their geometry and kernel acti
 
 The general solid theory in VS2 has its own dependency chain. It uses neither the Artin property nor ULA. Completed ULA/solid comparisons are in VS3; solid divisor descent and partial support are in VS4. These placements keep generic solidity reusable independently of the geometry of `Bun_G`.
 
+In addition to the input table, the coefficient stages of VS3.3 use EtaleCohomologyFoundations: the invertibility class `Scheme.IsInvertibleOn` (Conventions and §F.0.1), the normalized `(Λ,I)`-systems of §F.4.1, the pro-étale coefficient ring objects of §F.4.3, and the rational and `ℚ̄_ℓ` categories of §F.4.5. This roadmap adds the identification of those ring objects with its relative-discrete coefficients, and the coefficient forms of the constructible-to-solid embedding. The adic categories on v-stacks remain those of AdicCoefficientsAndComparisons L0.
+
 ## Conventions
 
 Fix the residual characteristic `p`. The geometric torsion statements use a coefficient ring `Λ` with `nΛ=0` for an integer `n` prime to `p`. For a single prime, write `ℓ≠p`. Each exceptional operation retains the compactifiability, representability, separation and dimension hypotheses stated at its use. A locally finite transcendence dimension is not a global finite bound.
@@ -67,6 +69,8 @@ The pins are Mathlib `6b7abb3c7686292736be2955bd3eb9ebf63b456a` and Tau Ceti `a9
 
 Mathlib's `CategoryTheory.ObjectProperty.FullSubcategory.mk`, `.obj` and `.property` supply the solid-subcategory constructor and projections. `CategoryTheory.ObjectProperty.hom_ext` and `CategoryTheory.ObjectProperty.fullyFaithfulι` supply extensionality and full faithfulness of its inclusion. Sectionwise restriction is `CategoryTheory.sheafCompose` applied to `ModuleCat.restrictScalars`; identity and composition use `ModuleCat.restrictScalarsId` and `ModuleCat.restrictScalarsComp`. These are the coefficient restriction functors used in VS2.2. Mathlib's `Condensed/EffectiveEpi.lean` supplies `CategoryTheory.IsRegularEpiCategory CondensedSet`; `CategoryTheory.regularEpiOfEpi` and `CategoryTheory.RegularEpi.effectiveEpi` then give effectiveness of every condensed-set epimorphism. VS2.3 uses this result directly. Nöbeling freeness is the existing `LocallyConstant.freeOfProfinite`, rather than a target.
 
+Mathlib's [`PadicAlgCl`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/NumberTheory/Padics/Complex.lean) is the algebraic closure of `ℚ_ℓ` that carries the `ℚ̄_ℓ` coefficient stage. [`AlgebraicGeometry.Scheme.ellAdicSheaf`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/AlgebraicGeometry/Sites/ElladicCohomology.lean) is the sheaf `U ↦ C(U,ℤ_ℓ)` on the pro-étale site of a scheme; it is the `ℤ_ℓ` stage there. VS3.3 compares the relative-discrete coefficients with these objects and does not redefine them.
+
 ### From the geometric and enhanced roadmaps
 
 The following contracts specify the consumed mathematics. The carrier and operation hypotheses remain those of each named section; the layers below construct the additional comparisons on the same enhancement.
@@ -82,6 +86,7 @@ The following contracts specify the consumed mathematics. The carrier and operat
 - **Global dualizing normalization in VS5.1.** For the torsion `Bun_G` dualizing object, implement the complement/purity extension of the Haar-normalized local system from the semistable locus in the proof of FS Theorem V.5.1, pp.180–181. Preserve the prime-to-`p` coefficient conditions and the dependence of the displayed trivialization on the Haar choices. The homology adjunction itself is independent of those choices.
 - **Connected-kernel homology in VS4.2.** In the stratum comparison, calculate the unit homology of the nonproper Banach–Colmez fibres integrally. Use the eligible nonproper torsion comparison of FS Proposition VII.5.2 and the ball trace; justify unit detection using the required bounded finitely presented cone or derived-completion hypothesis, then extend by solid scalar extension. Proper smooth Poincaré duality cannot be applied to these nonproper fibres, and `mod-ℓ` reductions alone do not detect an arbitrary rational solid object. This is the precise integral-to-solid interface used in the proof of FS Proposition VII.7.1, pp.271–272.
 - **Coefficient descent (EnhancedDerivedSheaves §§E1.4 and E4.4–E4.5).** The coefficient-change targets below assert preservation. A converse based on faithfully flat scalar extension additionally requires descent of perfect derived complexes with a uniform finite Tor-amplitude bound. Finite generation of an ordinary module does not establish that converse.
+- **Coefficient stages and scheme coefficients (EtaleCohomologyFoundations Conventions and §§F.0.1, F.4.1, F.4.3 and F.4.5; VS3.3, coefficient stages).** Invertibility of `ℓ` on a scheme `X` is the single class `Scheme.IsInvertibleOn ℓ X`: `ℓ` is a unit in every residue field. Over a field `k` and for nonempty `X`, it is equivalent to `(ℓ : k) ≠ 0` (`Scheme.isInvertibleOn_iff_ne_zero`). Under `Scheme.IsInvertibleOn (ringChar (Λ/I)) X`, §F.4.1 forms normalized systems over a Noetherian pair `(Λ,I)` with `Λ/I` finite. Thus `(ℤ_ℓ,(ℓ))` and `(𝒪_E,𝔪_E)` give the same kind of object. §F.4.3 supplies the pro-étale coefficient ring objects. `ℤ_ℓ,X` is `Scheme.ellAdicSheaf ℓ` by definition, `𝒪_E,X` and `E_X` are the sheaves of continuous maps to `𝒪_E` and `E`, and `ℚ̄_ℓ,X` is the sheaf of continuous maps to `PadicAlgCl ℓ` that locally take values in a finite extension of `ℚ_ℓ`. Change of coefficients along `ℤ_ℓ→𝒪_E→E→ℚ̄_ℓ` is scalar extension of module objects. §F.4.5 supplies rationalization as derived scalar extension along `𝒪_E,X→E_X`, and `D_c^b(X,ℚ̄_ℓ)` as the 2-colimit of the `D_c^b(X,E)` over finite `E/ℚ_ℓ`. These are scheme objects on the pro-étale site. The adic categories of small v-stacks, their reconstruction from finite levels and their completed operations remain those of AdicCoefficientsAndComparisons L0.
 
 
 ## How to read the build
@@ -990,7 +995,7 @@ For the analytification diamond `X` of a separated finite-type `C`-scheme over a
 
 Throughout this target, `C` is a complete algebraically closed nonarchimedean field and `ℓ≠p`. `X` is the analytification of a separated scheme of finite type over `C`. (FS, Example VII.5.1(a)–(`b`), pp.264–265.)
 
-*Needs:* [VS2/torsion-solid-comparisons](#torsion-embeddings-into-solid-categories), [VS3/completed-ula-solid-duality](#completed-ula-and-solid-kernel-duality), EnhancedDerivedSheaves §E5:presentability.1, [VS1/ula-analytification](#ula-and-analytification), `EtaleCohomologyFoundations F.5–F.6`, `EtaleCohomologyFoundations F.5–F.6`.
+*Needs:* [VS2/torsion-solid-comparisons](#torsion-embeddings-into-solid-categories), [VS3/completed-ula-solid-duality](#completed-ula-and-solid-kernel-duality), EnhancedDerivedSheaves §E5:presentability.1, [VS1/ula-analytification](#ula-and-analytification), `EtaleCohomologyFoundations F.5–F.6`, EtaleCohomologyFoundations §§F.4.1–F.4.2 (normalized systems and their classical realization, the source `D_c^b(X_alg,ℤ_ℓ)`).
 
 ### VS3.2. Relative-discrete lisse category, adjoint projection and operations
 
@@ -1056,6 +1061,35 @@ Throughout this target, `Λ_disc→Λ′_disc` is a map of discrete `ℤ_ℓ-alg
 
 *Needs:* [VS3/lisse-category-definition](#lisse-coefficient-categories), [VS2/relative-solid-homology](#relative-solid-homology), EnhancedDerivedSheaves §E4.1, `AdicCoefficientsAndComparisons L0/completed-tensor-and-colimits`.
 
+#### Coefficient stages and scheme coefficients
+
+Fix `ℓ≠p` and write `ℚ̄_ℓ` for Mathlib's `PadicAlgCl ℓ`. Let `E⊂E′` be finite extensions of `ℚ_ℓ` inside it. The coefficient stages are the relative-discrete coefficients `Λ=ℤ_ℓ⊗_(ℤ_ℓ,disc)Λ_disc` of the conventions, for `Λ_disc` in the chain `ℤ_ℓ→𝒪_E→𝒪_E′→E→E′→ℚ̄_ℓ`. The stage maps are the lisse scalar extensions of [VS3/lisse-coefficient-change](#lisse-scalar-extension-and-completion) along this chain.
+
+Prove that on a profinite set `S` the stage rings take the following values: `C(S,ℤ_ℓ)`, `C(S,𝒪_E)`, `C(S,E)`, and the continuous maps `S→ℚ̄_ℓ` with values in a single finite extension of `ℚ_ℓ`. View `S` as a pro-étale object over a separably closed field. These values are then the sections over `S` of the pro-étale coefficient ring objects of EtaleCohomologyFoundations §F.4.3: `ℤ_ℓ,X`, which is `Scheme.ellAdicSheaf ℓ`, and `𝒪_E,X`, `E_X` and `ℚ̄_ℓ,X`. On these sections the stage maps are the ring maps `ℤ_ℓ,X→𝒪_E,X→E_X→ℚ̄_ℓ,X` that give the change of coefficients there. Hence the `ℚ̄_ℓ` stage is the filtered colimit of the `E` stages, not the completion of `ℚ̄_ℓ`, and lisse scalar extension along the stages is coherent for composites.
+
+Let `X` be the analytification diamond of a separated finite-type scheme `X_alg` over `C`, as in VS3.1. Then `Scheme.IsInvertibleOn ℓ X_alg` holds, by `Scheme.isInvertibleOn_iff_ne_zero`: `C` has characteristic `0` or `p`, so `(ℓ : C) ≠ 0`. Under this class, EtaleCohomologyFoundations §§F.4.1–F.4.5 supply three categories:
+
+- `D_c^b(X_alg,𝒪_E)` from normalized `(𝒪_E,𝔪_E)`-systems, where `ringChar (𝒪_E/𝔪_E)=ℓ`;
+- `D_c^b(X_alg,E)` by derived scalar extension along `𝒪_E,X→E_X`;
+- `D_c^b(X_alg,ℚ̄_ℓ)` as the 2-colimit of the `D_c^b(X_alg,E)`.
+
+Construct the `𝒪_E` form of the [solid embedding of VS3.1](#solid-embedding-of-constructible-coefficients) as the same composite of algebraic Verdier duality and solid duality, taken over `𝒪_E`. Prove that it is fully faithful with compact bounded image, by the proof of VS3.1 over `𝒪_E`, and prove:
+
+1. It commutes with scalar extension along `ℤ_ℓ→𝒪_E→𝒪_E′`, because both dualities commute with scalar extension along these finite free maps.
+2. Followed by solid scalar extension to `E`, it factors through rationalization as a fully faithful functor `D_c^b(X_alg,E)→D_solid(X,E)`. The reason is compactness: for `A`,`B` in the integral image, `Hom(A,B⊗E)=Hom(A,B)⊗_(ℤ_ℓ)ℚ_ℓ`, which is the rational Hom of §F.4.5.
+3. The `ℚ̄_ℓ` form, the colimit of the `E` forms, is fully faithful on `D_c^b(X_alg,ℚ̄_ℓ)` by the same compactness argument.
+
+Throughout this target, `C` is a complete algebraically closed nonarchimedean field, `ℓ≠p`, and `E/ℚ_ℓ` is finite inside `PadicAlgCl ℓ`. `X_alg` is a separated scheme of finite type over `C`. No stage comparison is asserted for `ℓ=p`. (FS, VII.6, coefficient convention before Definition VII.6.1, p.268; Example VII.5.1(a)–(`b`), pp.264–265.)
+
+*Needs:* [VS3/lisse-coefficient-change](#lisse-scalar-extension-and-completion), [VS3/constructible-solid-embedding](#solid-embedding-of-constructible-coefficients), [VS3/lisse-comparisons](#discrete-and-torsion-lisse-comparisons), EtaleCohomologyFoundations Conventions and §§F.0.1, F.4.1, F.4.3 and F.4.5 (`Scheme.IsInvertibleOn`, normalized systems, pro-étale coefficient ring objects, rationalization and the `ℚ̄_ℓ` 2-colimit), Mathlib `PadicAlgCl` and `AlgebraicGeometry.Scheme.ellAdicSheaf`.
+
+**Checks.**
+
+- At a geometric point `Spa C`, `D_lis(Spa C,Λ)≃D(Λ_disc)` turns the stages into `D(𝒪_E)→D(E)→D(ℚ̄_ℓ)`, and scalar extension into ordinary base change of complexes.
+- On `S=ℕ∪{∞}`, choose roots `ℓ^(1/n)` and send `n↦ℓ^(n+1/n)` and `∞↦0`. This map is continuous into `ℚ̄_ℓ`, but it is not a section of the `ℚ̄_ℓ` stage: its values generate extensions of `ℚ_ℓ` of unbounded degree `n`.
+- For `X_alg=Spec C`, the `𝒪_E` form sends the constant system `𝒪_E` to `𝒪_E` at the point. The rational form sends `𝒪_E/ℓ` to zero and `𝒪_E` to `E`.
+- If `C` has characteristic `p` and `X_alg` is nonempty, `Scheme.isInvertibleOn_iff_ne_zero` shows that `Scheme.IsInvertibleOn p X_alg` fails, so the scheme inputs are unavailable for `ℓ=p`.
+
 ### VS3.4. Point localization in the precise acyclic-neighborhood setup
 
 The localization is proved in the specified acyclic-neighborhood situation. The closed geometric point contributes the relatively discrete derived category, while homology extends the complement. The neighborhood hypothesis is part of the statement.
@@ -1074,7 +1108,7 @@ At a geometric point, an infinite sum of the coefficient unit is lisse and need 
 
 ### Dependencies
 
-*Needs:* VS0–VS2; AdicCoefficientsAndComparisons L0; EnhancedDerivedSheaves E3–E5; EtaleCohomologyFoundations F.5–F.6.
+*Needs:* VS0–VS2; AdicCoefficientsAndComparisons L0; EnhancedDerivedSheaves E3–E5; EtaleCohomologyFoundations Conventions, §§F.0.1, F.4.1–F.4.3, F.4.5 and F.5–F.6.
 
 ## Layer VS4: Classifying stacks, Newton strata and compact generation
 

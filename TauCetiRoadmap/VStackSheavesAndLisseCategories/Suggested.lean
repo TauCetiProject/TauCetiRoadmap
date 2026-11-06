@@ -1,4 +1,6 @@
-import Mathlib
+module
+
+public import Mathlib
 
 /-!
 # Artin v-stacks, solid and lisse coefficients: target signatures
@@ -15,7 +17,9 @@ descent and partial-support vanishing need small v-stacks and their étale categ
 VS1's ULA/kernel-adjoint criterion, Jacobian criterion, Braden theorem and Drinfeld descent
 need diamonds, relative Fargues–Fontaine curves and their coefficient operations. VS2's
 solid sheaf homology and VS3's lisse comparisons need the enhanced geometric solid and lisse
-categories. VS4's Newton-stratum equivalences and compact generation, and VS5's torsion and
+categories; VS3.3's coefficient stages also need the relative-discrete condensed coefficient
+rings and the pro-étale coefficient ring objects of `EtaleCohomologyFoundations` §F.4.3.
+VS4's Newton-stratum equivalences and compact generation, and VS5's torsion and
 lisse Bernstein–Zelevinsky duality, Verdier exchange, Künneth formulas, perfect-invariant ULA
 criteria and scalar-change comparisons additionally need `Bun_G`, its strata and charts.
 Tau Ceti's Huber pairs and smooth discrete representations alone do not supply these objects.
@@ -27,13 +31,13 @@ an ordinary derived category alone does not supply them. The condensed cohomolog
 and finite-power Breen–Deligne resolution are inputs to solidification, specified in the README.
 -/
 
-noncomputable section
+@[expose] public section
+
+namespace TauCetiRoadmap.VStackSheavesAndLisseCategories
 
 open CategoryTheory
 
 universe u v
-
-namespace TauCetiRoadmap.VStackSheavesAndLisseCategories
 
 /-- Integer-solid condensed abelian groups, on the pinned solidity predicate (VS2.1). -/
 abbrev SolidAb :=
