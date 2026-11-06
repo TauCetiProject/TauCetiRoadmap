@@ -41,6 +41,12 @@ Existing results are inputs, not tasks to prove a second time. Missing prerequis
 within a cited supplier are targets of that supplier; the targets below specify the
 additional comparisons that join these developments.
 
+For Hadamard bounds, follow the finite-matrix API in
+[Mathlib PR #40683](https://github.com/leanprover-community/mathlib4/pull/40683) where
+it overlaps I4. Consume the existing absolute-value and determinant-expansion
+estimates as well; build missing row/embedding adapters in Tau Ceti, adopting the
+upstream interface rather than waiting for that PR or creating another norm.
+
 ## I0. Finite polynomial spaces and jet evaluation
 
 For a finite set of monomial exponents, construct its coefficient-supported submodule
