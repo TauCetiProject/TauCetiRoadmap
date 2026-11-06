@@ -2431,7 +2431,8 @@ PseudoholomorphicCurveAnalysis PH1–PH7, which consume PDE Lane A; Differential
 ## Layer 4: J-holomorphic curves
 
 McDuff–Salamon (*J-holomorphic Curves and Symplectic Topology*, 2nd ed.) as spine,
-with boundary versions from Oh and Floer–Hofer–Salamon:
+with boundary versions from Oh, and with Floer–Hofer–Salamon's cylinder transversality
+adapted to strips:
 
 ### 4.1 Symplectic and almost-complex foundations (F2.1)
 
@@ -2687,9 +2688,13 @@ Then construct Gromov compactness for strips/discs with maximally totally real b
 ### 4.4 Transversality (F2.4)
 
 (McDuff–Salamon Chapter 3, §§3.1–3.2, the regular-structure and universal-moduli-space
-theorems, by locator; for strips, Floer–Hofer–Salamon, *Transversality in elliptic Morse
-theory for the symplectic action*, Duke Math. J. 80 (1995), 251–292, §5, by locator): universal
-moduli spaces over Banach spaces of `J`'s, Sard–Smale via somewhere-injectivity.
+theorems, by locator; for Hamiltonian cylinders `ℝ × S¹ → M`, Floer–Hofer–Salamon,
+*Transversality in elliptic Morse theory for the symplectic action*, Duke Math. J. 80 (1995),
+251–292, §5, by locator, whose unique-continuation and injective-point route is adapted here
+to strips with totally real boundary, using the boundary injective-point argument of Y.-G. Oh,
+*Fredholm theory of holomorphic discs under the perturbation of boundary conditions*, Math. Z.
+222 (1996), 505–520, by locator): universal moduli spaces over Banach spaces of `J`'s,
+Sard–Smale via somewhere-injectivity.
 
 
 **Universal holomorphic section and regular moduli.**
@@ -4921,7 +4926,10 @@ Concrete checks that rule out vacuous or mis-stated definitions:
   spectral subcomplex with the Morse complex (M.10).
 - A. Floer, H. Hofer, D. Salamon, *Transversality in elliptic Morse theory for the
   symplectic action*, Duke Math. J. 80 (1995), 251–292, §5, by locator: transversality
-  for strips (F2.4).
+  for Hamiltonian cylinders, adapted to strips (F2.4). Y.-G. Oh, *Fredholm theory of
+  holomorphic discs under the perturbation of boundary conditions*, Math. Z. 222 (1996),
+  505–520, by locator: generic regularity of discs with totally real boundary through
+  boundary injective points (F2.4).
 - M. Audin, M. Damian, *Morse Theory and Floer Homology*, April 23, 2013
   author draft, Proposition 2.1.5, p. 28; M. Schwarz, *Morse Homology*,
   Birkhäuser, 1993; K. Wehrheim,
