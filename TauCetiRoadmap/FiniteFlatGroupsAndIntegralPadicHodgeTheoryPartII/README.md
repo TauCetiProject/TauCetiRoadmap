@@ -12,7 +12,7 @@ The following ownership boundaries determine the direction of supply.
 - The crystalline Dieudonné crystal and Grothendieck–Messing equivalence are stated by AbelianSchemesAndArithmeticModuli §A4.CR.7.2. CrystallineCohomology §CR.7.1 supplies the general coefficient calculus.
 - General Grassmannians belong to ModularCurves §0G; torsor descent, Hartogs, formal schemes, deformation functors and smooth lifting belong to SchemeAndStackFoundations §§0.6, 1.15, 2.3 and 4.1–4.12. Their tensor-display applications are the targets here.
 - ReductiveGroupsPartII §§RG2.1.5, RG2.3.3, RG2.3.5 and RG2.4.3 owns Kottwitz maps, parahorics, full fixers, classical lattice-chain stabilizers, tame hyperspecial lattices and affine Weyl combinatorics. In particular the ordinary-Levi fixer intersection is assigned to that owner through the exact contract below. Layer 3 owns the type-A and Dᴴ scalar enlargements and paired trace/different lattice constructions needed to prove its very-good existence theorems.
-- GeometricSatakeAndFusion Layer GS0, §0.31 “Witt affine flags and components” and §0.37 “Bounded admissible affine flag loci”, owns the integral Grassmannian, component labels and v-sheaf local models. Its scheme-representative, normality, good-embedding and tangent extensions used here have the exact supplier contract below. They are geometric inputs, rather than consequences of a smooth integral fixer.
+- GeometricSatakeAndFusion Layer GS0, §0.31 “Witt affine flags and components” and §0.37 “Bounded admissible affine flag loci”, owns the integral Grassmannian, component labels and v-sheaf local models. GeometricSatakeAndFusionPartII owns the scheme geometry of integral local models used here: good integral Hodge embeddings (§0.6), the closed local-model immersion after a representation power (§2.4), the normal scheme representative of the v-sheaf local model (§3.1), and the curve-spanned tangent theorems for affine Schubert varieties and for reductive Weil-restriction special fibres (§§4.10–4.11). These are consumed with the hypotheses stated there, as geometric inputs rather than consequences of a smooth integral fixer; none of them is constructed here.
 - VectorBundlesAndIsocrystals Layer 6, “Integral group torsors and Frobenius”, states the integral scheme tensor–torsor dictionary. PadicHodgeTheory §5.5 states G-isocrystals, B(G), Newton and Kottwitz invariants, general perfect-residue admissibility and the period-torsor class theorem. The rational tensor-isomorphism torsor for two admissible, conjugate filtrations over a finite extension of ℚ̆_p is a consequence of that theorem and is consumed here; §5.17 reaches residue fields algebraic over 𝔽_p by unramified base change, and the remaining perfect residue fields through the exact supplier contract below (gap:perfect-residue-period-torsor-comparison). These constructions are not repeated.
 - The Fontaine PD envelope and absolute period-ring structures belong to DerivedDeRhamCohomology §PD.7 and PadicPeriodRings §§3 and 4.1. This roadmap constructs the relative-cover Frobenius and filtration in §5.2 and the relative p-divisible comparison in §5.5. Only the relative ring constants theorem is a supplier extension.
 - ShimuraVarieties §7.0i owns absolute Hodge tensors and their rational family realizations. The rational absolute-Hodge crystalline comparison is the extension in its exact contract below; the local integral p-divisible comparison is owned here. Integral moduli spaces and global tensor extension on them are downstream applications. Lubin–Tate formal modules, local reciprocity through them and quasi-canonical lifts are not constructed here.
@@ -99,13 +99,17 @@ The purity ring is the one in Anschuetz22, §10 and Proposition 10.3, author p.3
 
 Consume Layer GS0 §0.31, “Witt affine flags and components”, for geometric component labels π₁(G)_I and residual Frobenius; §0.37, “Bounded admissible affine flag loci”, supplies the integral v-sheaf local model, admissible special fibre and functoriality. Connected parahoric and full-fixer components are different quotients. For G_m, the component of p is 1, and the standard lattice has component 0.
 
-What GeometricSatakeAndFusion must provide (gap:scheme-local-model-representative): For a local-model triple over a p-adic field F satisfying p>2, local abelian type, and essentially tame classical adjoint factors without triality, the normalized flat projective scheme Mloc of KPZ26 (3.2.13), with reduced special fibre and generic flag variety, represents the intrinsic integral v-sheaf local model; retain its functorial adjoint and restriction-of-scalars comparisons (KPZ26, Theorem 3.2.15 and §3.4.2, pp.20 and 28; KPZ26 line 895).
+### From TauCetiRoadmap.GeometricSatakeAndFusionPartII
 
-What GeometricSatakeAndFusion must provide (gap:scheme-local-model-hodge-immersion): For a quasi-tame local-model triple with G=∏ᵢ Res_(K_i/F) H_i, each H_i tamely split and classical, p odd, and a Hodge embedding ρ factoring as KPZ26 (3.3.24), some repeated sum ρ^⊕m with m≥1 admits a lattice Λ, a quasi-parahoric 𝒢′ with (𝒢′)°=𝒢°, and a closed local-model immersion into Gr(d,Λ) over the reflex integers, with the specified full-fixer cases of Remark 3.3.26 and the standard division-algebra representations in its proof (KPZ26, Theorem 3.3.25, p.26; KPZ26 lines 1125–1140 and 3100–3106).
+Consume §0.6, “Good integral Hodge embeddings”: an integral Hodge embedding is a Hodge representation with a closed group-scheme embedding 𝒢↪GL(Λ), Λ an O_F-lattice, and it is good when the functorial map of scheme local models is a closed immersion into the rank-d Grassmannian over O_E; goodness is a condition on the local-model map, separate from closedness of the group map, and the lattice-chain variant uses GL(𝓛) and tot(𝓛) (KPZ26, Definition 3.4.4, p.28; KPZ26 line 1234).
 
-What GeometricSatakeAndFusion must provide (gap:schubert-curve-spanned-tangents): For a mod-p abelian-type pair (G,μ) over k with p∤|π₁(Gder)| and no Dᴴ factors, every tangent space of the affine Schubert variety S_μ is spanned by tangent images of smooth formal k[[t]]-curves through that point (KPZ26, Theorem 4.1.6, p.31; KPZ26 lines 1363–1365).
+Consume §3.1, “The canonical model in the classical abelian-type range”: for a local-model triple over a p-adic field F in the standard range, p>2, local abelian type and essentially tame classical adjoint factors without triality, the normalized flat projective scheme Mloc of KPZ26 (3.2.13), with geometrically reduced special fibre and generic flag variety, represents the intrinsic integral v-sheaf local model of GeometricSatakeAndFusion §0.37, independently of the auxiliary choices, together with its functorial adjoint and restriction-of-scalars comparisons (KPZ26, Theorem 3.2.15 and §3.4.2, pp.20 and 28; KPZ26 line 895).
 
-What GeometricSatakeAndFusion must provide (gap:local-model-curve-spanned-tangents): Under the standard assumptions p>2, local abelian type and essentially tame classical adjoint factors, if 𝒢≅Res_(O_K/O_F) ℋ for ℋ/O_K reductive, the tangent spaces of the special-fibre local model are spanned by smooth formal curves at every point of the minimal stratum, and at every point when there are no Dᴴ factors (KPZ26, Theorem 4.4.3, p.47; KPZ26 lines 2049–2055).
+Consume §2.4, “Closed embeddings after a representation power”: for a quasi-tame local-model triple with G=∏ᵢ Res_(K_i/F) H_i, each H_i tamely split and classical, p odd, and a Hodge embedding ρ factoring as KPZ26 (3.3.24), some repeated sum ρ^⊕m with m≥1 admits a lattice Λ, a quasi-parahoric 𝒢′ with (𝒢′)°=𝒢° and a closed immersion 𝒢′↪GL(Λ), and the local-model map is a closed immersion into Gr(md,Λ) over the reflex integers; the cases of Remark 3.3.26 in which 𝒢′=𝒢 can be taken, and the standard division-algebra representations of its proof, are part of that section (KPZ26, Theorem 3.3.25 and Remark 3.3.26, pp.26–27; KPZ26 lines 1125–1140 and 3100–3106).
+
+Consume §4.10, “Curve-spanning theorem for affine Schubert varieties”: for a pair (G,μ) of mod-p abelian type over an algebraically closed field k of characteristic p, here k=F̄_p, with G split classical, p∤|π₁(Gder)| and no Dᴴ factors, every tangent space of the affine Schubert variety S_μ is spanned by the tangent images of smooth formal k[[t]]-curves through that point (KPZ26, Theorem 4.1.6, p.31; KPZ26 lines 1363–1365).
+
+Consume §4.11, “Reductive Weil-restriction special fibres”: in the standard range, if 𝒢≅Res_(O_K/O_F) ℋ for ℋ/O_K reductive, the tangent spaces of the special-fibre local model are spanned by smooth formal curves at every point of the minimal stratum, and at every point when there are no Dᴴ factors (KPZ26, Theorem 4.4.3, p.47; KPZ26 lines 2049–2055).
 
 The general geometry is consumed with the hypotheses of those four theorems; normality is not deduced from the immersion. The nonexceptional very-good theorem below also keeps its R-smooth centralizer and prime-to-p fundamental-group assumptions (KPZ26, §§3.1–3.4 and 4.1–4.4, pp.15–47; KPZ26 lines 717, 895, 1125, 1363 and 2049).
 
@@ -585,7 +589,7 @@ The API includes the following facts.
 
 ### 2.1 Integral tensor and local-model datum
 
-Fix p>2, k=F̄_p, W=W(k), a finite free Z_p-module Λ, and a family s_a in the direct sum of mixed tensor powers of Λ and Λ∨. Require a smooth affine full fixer G̃⊂GL(Λ), with connected reductive generic fibre G, cut out scheme-theoretically by s_a on every Z_p-algebra. Write 𝒢=G̃ for this full fixer and 𝒢° for its connected parahoric subgroup. Call G acceptable when G^ad is a product of restrictions of scalars of adjoint groups that split tamely over their respective fields. A good integral Hodge embedding includes scalars, a minuscule weight-(0,1) conjugacy class and a compatible closed immersion of its supplied flat normal local model into Gr(d,Λ). A point x and a tensor frame D(H₀)≅Λ_W complete the marked datum. For generic-fixer and cocharacter statements retain the full fixer even when 𝒢°≠𝒢. (KPZ26, §5.2, pp.52–54; KPZ26 line 2291; KZ25, §3.2.1–3.2.3, pp.22–23; KZ25 line 969).
+Fix p>2, k=F̄_p, W=W(k), a finite free Z_p-module Λ, and a family s_a in the direct sum of mixed tensor powers of Λ and Λ∨. Require a smooth affine full fixer G̃⊂GL(Λ), with connected reductive generic fibre G, cut out scheme-theoretically by s_a on every Z_p-algebra. Write 𝒢=G̃ for this full fixer and 𝒢° for its connected parahoric subgroup. Call G acceptable when G^ad is a product of restrictions of scalars of adjoint groups that split tamely over their respective fields. A good integral Hodge embedding is the notion of GeometricSatakeAndFusionPartII §0.6, taken with the scalars and a minuscule weight-(0,1) conjugacy class: the scheme local-model map of the normal representative of its §3.1 is a closed immersion into Gr(d,Λ) over O_E. A point x and a tensor frame D(H₀)≅Λ_W complete the marked datum. For generic-fixer and cocharacter statements retain the full fixer even when 𝒢°≠𝒢. (KPZ26, §5.2, pp.52–54; KPZ26 line 2291; KZ25, §3.2.1–3.2.3, pp.22–23; KZ25 line 969).
 
 The API includes the following facts.
 
@@ -601,9 +605,9 @@ The API includes the following facts.
 - If the integral fixer is disconnected, identifying it with its connected parahoric is rejected.
 - The identity in Λ⊗Λ∨ is fixed by every automorphism; treating Λ∨ as another covariant copy fails.
 
-A proof can proceed as follows. Use the scheme stabilizer rather than only its Z_p-points. Import the group scheme and local-model carriers; package their specified embedding as input. The scheme-local-model representative and Hodge-immersion extensions are part of the exact supplier contracts, so this definition does not assert that every parahoric datum has a good embedding.
+A proof can proceed as follows. Use the scheme stabilizer rather than only its Z_p-points. Import the group scheme and local-model carriers; package their specified embedding as input. The normal scheme representative and the Hodge immersion are GeometricSatakeAndFusionPartII §§3.1 and 2.4, so this definition does not assert that every parahoric datum has a good embedding.
 
-*Needs:* ReductiveGroupsPartII §§RG2.3.3 and RG2.3.5; SchemeAndStackFoundations §§1.15 and 2.3; PadicHodgeTheory §5.5; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.2.10–R07.2.12; gap:scheme-local-model-representative; gap:scheme-local-model-hodge-immersion; gap:full-fixer-cutting-tensors.
+*Needs:* ReductiveGroupsPartII §§RG2.3.3 and RG2.3.5; SchemeAndStackFoundations §§1.15 and 2.3; PadicHodgeTheory §5.5; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.2.10–R07.2.12; GeometricSatakeAndFusionPartII §§0.6, 2.4 and 3.1; gap:full-fixer-cutting-tensors.
 
 
 ### 2.2 Height-one tensor filtration lattice
@@ -643,9 +647,9 @@ The API includes the following facts.
 - A filtration outside the local-model closed subscheme does not correspond to a map from R_G.
 - For ramified E the base is O_Ĕ, not W(k) with the ramification of E ignored.
 
-A proof can proceed as follows. Take the indicated completed local rings and pull back the universal summand. Obtain flatness, normality and the orbit description from gap:scheme-local-model-representative, and the specified immersion from gap:scheme-local-model-hodge-immersion; formal completion alone does not establish these properties.
+A proof can proceed as follows. Take the indicated completed local rings and pull back the universal summand. Obtain flatness, normality and the orbit description from GeometricSatakeAndFusionPartII §3.1, and the specified immersion from its §2.4; formal completion alone does not establish these properties.
 
-*Needs:* §2.1 (integral tensor and local-model datum); §1.1 (universal marked filtration pair); SchemeAndStackFoundations §§4.1–4.4 and 4.7–4.8; ModularCurves §0G; gap:scheme-local-model-representative; gap:scheme-local-model-hodge-immersion.
+*Needs:* §2.1 (integral tensor and local-model datum); §1.1 (universal marked filtration pair); SchemeAndStackFoundations §§4.1–4.4 and 4.7–4.8; ModularCurves §0G; GeometricSatakeAndFusionPartII §§2.4 and 3.1.
 
 
 ### 2.4 Integral tensors on the filtration lattice
@@ -821,7 +825,7 @@ For the split height-two filtration the Eisenstein modification is 𝔖e₁⊕E(
 
 ### Dependencies
 
-Layers 0–1; ReductiveGroupsPartII §§RG2.3.3 and RG2.3.5; PadicHodgeTheory §5.5; FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.2.27 (`deJongBoundedFormalFunctions`); the scheme-local-model, purity and flatness supplier contracts.
+Layers 0–1; ReductiveGroupsPartII §§RG2.3.3 and RG2.3.5; PadicHodgeTheory §5.5; FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.2.27 (`deJongBoundedFormalFunctions`); GeometricSatakeAndFusionPartII §§0.6, 2.4 and 3.1; the purity and flatness supplier contracts.
 
 
 ## Layer 3: very-good criteria and existence theorems
@@ -937,9 +941,9 @@ A proof can proceed as follows. Transfer tensors across the intertwiners. For n�
 
 For K/Q_p finite, a central division K-algebra D and m≥1, put G=`Res_{K/Q_p}GL_m(D)`, with standard representation on D^m or its specified opposite-dual representation. Every building point has a right-O_D periodic chain realizing its fixer; for the weight-(0,1) Hodge cocharacter types of this standard representation, the resulting good integral embedding is very good at all points. This includes p|ind(D) for these representations and does not cover arbitrary central quotients or other fundamental-weight representations. (KPZ26, §6.3.1–Proposition 6.3.2 and Remark 6.3.3, pp.70–71; good-embedding input Theorem 3.3.25, p.26; KPZ26 line 3097).
 
-A proof can proceed as follows. Import the O_D-chain stabilizer from ReductiveGroupsPartII §RG2.2.4 (*division-algebra-building*) and the stated good local-model immersion from gap:scheme-local-model-hodge-immersion. The standard integral group is cut out by the right-O_D endomorphisms, so apply the endomorphism criterion. The opposite action is the contragredient action, with its matching cocharacter sign.
+A proof can proceed as follows. Import the O_D-chain stabilizer from ReductiveGroupsPartII §RG2.2.4 (*division-algebra-building*) and the stated good local-model immersion from GeometricSatakeAndFusionPartII §2.4. The standard integral group is cut out by the right-O_D endomorphisms, so apply the endomorphism criterion. The opposite action is the contragredient action, with its matching cocharacter sign.
 
-*Needs:* ReductiveGroupsPartII §RG2.2.4 (*division-algebra-building*); §3.8 (endomorphism and centralizer criterion); gap:scheme-local-model-representative; gap:scheme-local-model-hodge-immersion.
+*Needs:* ReductiveGroupsPartII §RG2.2.4 (*division-algebra-building*); §3.8 (endomorphism and centralizer criterion); GeometricSatakeAndFusionPartII §§2.4 and 3.1.
 
 
 ### 3.12 Independence of the determining segment
@@ -955,11 +959,11 @@ A proof can proceed as follows. Place two determining segments in a common finit
 
 Let (G,{μ},𝒢) satisfy p>2, local abelian type, and essentially tame classical adjoint factors, excluding triality. Assume (NE): no Dᴴ factor and no type-A adjoint factor `Res_{F/Q_p}PGL_m(D)` with p dividing ind(D). Let 𝒢 be the stabilizer of a point generic in its facet, let the centralizer of a maximal Q̆_p-split torus be R-smooth, and let p∤|π₁(Gder)|. Suppose `G⊂G′=∏Res_{F_i/Q_p}H_i` with equal derived groups, each H_i tamely split over F_i, and faithful minuscule representations ρ_i whose total ρ′ and restriction ρ are Hodge embeddings. There is a periodic Z_p-chain L in V such that the extension to GL(L), equivalently `ρ^{⊕r}` on tot(L), is good and very good at every local-model point. (KPZ26, Standard assumptions 3.1.5, p.16; Theorem 6.1.1, pp.62–65; KPZ26 line 2710).
 
-A proof can proceed as follows. Import the tame hyperspecial realization, fixed-point models, lattice-chain stabilizers and total-lattice direct-summand statements supplied by ReductiveGroupsPartII §RG2.3.5. Use the supplied local-model adjoint/restriction comparison and curve-spanned tangent theorem for the split classical model to get very-goodness of the ambient restriction-of-scalars embedding. Cut G out by endomorphisms; use summand descent and unramified detection to obtain the required total representation. The tangent inputs are gap:schubert-curve-spanned-tangents and gap:local-model-curve-spanned-tangents.
+A proof can proceed as follows. Import the tame hyperspecial realization, fixed-point models, lattice-chain stabilizers and total-lattice direct-summand statements supplied by ReductiveGroupsPartII §RG2.3.5. Use the supplied local-model adjoint/restriction comparison and curve-spanned tangent theorem for the split classical model to get very-goodness of the ambient restriction-of-scalars embedding. Cut G out by endomorphisms; use summand descent and unramified detection to obtain the required total representation. The tangent inputs are GeometricSatakeAndFusionPartII §§4.10 and 4.11.
 
 Retain the Q̆_p-split-torus R-smoothness hypothesis and every representation condition; do not assert this for all wild type-A central quotients.
 
-*Needs:* ReductiveGroupsPartII §§RG2.3.3 and RG2.3.5; §3.7 (curve-spanned tangent criterion); §3.8 (endomorphism and centralizer criterion); §3.6 (very-goodness descends to a summand); §2.12 (unramified coefficient detection); §3.12 (independence of the determining segment); gap:scheme-local-model-representative; gap:scheme-local-model-hodge-immersion; gap:schubert-curve-spanned-tangents; gap:local-model-curve-spanned-tangents.
+*Needs:* ReductiveGroupsPartII §§RG2.3.3 and RG2.3.5; §3.7 (curve-spanned tangent criterion); §3.8 (endomorphism and centralizer criterion); §3.6 (very-goodness descends to a summand); §2.12 (unramified coefficient detection); §3.12 (independence of the determining segment); GeometricSatakeAndFusionPartII §§2.4, 3.1, 4.10 and 4.11.
 
 
 ### 3.14 Very-good Dᴴ PEL representations
@@ -976,7 +980,7 @@ A proof can proceed as follows. Import ReductiveGroupsPartII §RG2.3.5’s GO⁺
 
 The RG supplier owns the algebraic lattice theorem. Verify connected-closure and pairing assumptions before invoking §3.5.
 
-*Needs:* ReductiveGroupsPartII §§RG2.3.3 and RG2.3.5; §3.5 (very-goodness for the generic neutral closure); §3.8 (endomorphism and centralizer criterion); §2.12 (unramified coefficient detection); §3.13 (very-good chains in the nonexceptional cases); §3.10 (isomorphic copies preserve very-goodness); §3.6 (very-goodness descends to a summand); gap:scheme-local-model-representative; gap:scheme-local-model-hodge-immersion; gap:full-fixer-cutting-tensors.
+*Needs:* ReductiveGroupsPartII §§RG2.3.3 and RG2.3.5; §3.5 (very-goodness for the generic neutral closure); §3.8 (endomorphism and centralizer criterion); §2.12 (unramified coefficient detection); §3.13 (very-good chains in the nonexceptional cases); §3.10 (isomorphic copies preserve very-goodness); §3.6 (very-goodness descends to a summand); GeometricSatakeAndFusionPartII §§2.4 and 3.1; gap:full-fixer-cutting-tensors.
 
 
 ### 3.15 Symplectic type-A central enlargement
@@ -1045,7 +1049,7 @@ For the nodal special fibre xy=0, the two coordinate curves have derivatives e�
 
 ### Dependencies
 
-Layers 0–2; ReductiveGroupsPartII §RG2.3.5; gap:scheme-local-model-representative; gap:scheme-local-model-hodge-immersion; gap:schubert-curve-spanned-tangents; gap:local-model-curve-spanned-tangents.
+Layers 0–2; ReductiveGroupsPartII §RG2.3.5; GeometricSatakeAndFusionPartII §§0.6, 2.4, 3.1, 4.10 and 4.11.
 
 
 ## Layer 4: adapted deformations and integral recognition
@@ -1184,7 +1188,7 @@ A proof can proceed as follows. After a finite scalar extension and a marked �
 
 Regularity of R_G[1/p] turns equality of tangent spaces into the completed-ideal containment; finite dimensionality of the tangent spaces gives the stabilization; p-torsion-freeness of the quotients gives the contraction, by `IsLocalization.algebraMap_mem_map_algebraMap_iff`; T-adic separatedness gives ∩ₙI_n=ker(R_E→S), by `Ideal.iInf_pow_smul_eq_bot_of_le_jacobson`.
 
-*Needs:* §4.10 (four infinitesimal adaptedness criteria); §4.9 (interpolation of two tensor displays); §1.6 (the rational section preserves lifted tensors); §2.3 (completed orbit deformation ring); SchemeAndStackFoundations §§4.1–4.4 and 4.7–4.8; ModularCurves §0G; Mathlib `Ideal.iInf_pow_smul_eq_bot_of_le_jacobson` and `IsLocalization.algebraMap_mem_map_algebraMap_iff`; gap:scheme-local-model-representative; gap:scheme-local-model-hodge-immersion; gap:formal-dvr-point-detection.
+*Needs:* §4.10 (four infinitesimal adaptedness criteria); §4.9 (interpolation of two tensor displays); §1.6 (the rational section preserves lifted tensors); §2.3 (completed orbit deformation ring); SchemeAndStackFoundations §§4.1–4.4 and 4.7–4.8; ModularCurves §0G; Mathlib `Ideal.iInf_pow_smul_eq_bot_of_le_jacobson` and `IsLocalization.algebraMap_mem_map_algebraMap_iff`; GeometricSatakeAndFusionPartII §§2.4 and 3.1; gap:formal-dvr-point-detection.
 
 
 ### 4.12 Versal adapted deformation theorem
@@ -1208,7 +1212,7 @@ A proof can proceed as follows. First prove equality of DVR-valued points using 
 - A deformation over k[ε]/ε² is tested after lifting to O_Ĕ[[t]] with t↦ε; its nilpotent ε is invisible to every map from k[ε]/ε² to O_K. Reduced-base lifting is therefore necessary before point detection.
 - In O_K[[T]], the series T^m lies in (T^n) exactly when m≥n, so ∩ₙ(T^n)=0; separatedness retains the second interpolation endpoint.
 
-*Needs:* §4.7 (hoff’s infinitesimal compatibility condition); §4.6 (a tensor-preserving first-order rigid section); §4.9 (interpolation of two tensor displays); §4.11 (adapted dvr points factor through the local-model quotient); §2.8 (dieudonné display with parahoric structure); gap:formal-dvr-point-detection; gap:scheme-local-model-representative.
+*Needs:* §4.7 (hoff’s infinitesimal compatibility condition); §4.6 (a tensor-preserving first-order rigid section); §4.9 (interpolation of two tensor displays); §4.11 (adapted dvr points factor through the local-model quotient); §2.8 (dieudonné display with parahoric structure); gap:formal-dvr-point-detection; GeometricSatakeAndFusionPartII §3.1.
 
 
 ### 4.14 Recognition from integral étale tensors
@@ -1227,7 +1231,7 @@ At a height-two ordinary point the ambient tangent module has rank 1. Imposing t
 
 ### Dependencies
 
-Layers 0–3; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.3.2–R07.3.3 and R07.4.16–R07.4.25; VectorBundlesAndIsocrystals Layer 6, “Integral group torsors and Frobenius”; SchemeAndStackFoundations §§0.6, 4.1 and 4.7–4.8; the purity and point-detection contracts.
+Layers 0–3; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.3.2–R07.3.3 and R07.4.16–R07.4.25; VectorBundlesAndIsocrystals Layer 6, “Integral group torsors and Frobenius”; SchemeAndStackFoundations §§0.6, 4.1 and 4.7–4.8; GeometricSatakeAndFusionPartII §§2.4 and 3.1; the purity and point-detection contracts.
 
 
 ## Layer 5: hyperspecial comparisons and lattice specialization
@@ -1568,9 +1572,9 @@ A proof can proceed as follows. Use the ordinary class and integral conjugacy th
 
 In the ordinary normalization the special Hodge filtration lifts to an M-valued cocharacter λ̃ central in M, G-conjugate to the prescribed Hodge cocharacter. It is defined over a finite extension of the completed reflex base. For the toral local model of this central type, its chosen point yields an M-invariant direct-summand filtration after every allowed O_K extension. (KZ25, Lemma 3.4.3, p.27; KZ25 line 1168).
 
-A proof can proceed as follows. Import the σ-straight Levi normalization and its central cocharacter. Use the one-point generic torus orbit and its flat closure to lift the special filtration. The central local-model point uses gap:scheme-local-model-representative.
+A proof can proceed as follows. Import the σ-straight Levi normalization and its central cocharacter. Use the one-point generic torus orbit and its flat closure to lift the special filtration. The central local-model point uses the normal scheme representative of GeometricSatakeAndFusionPartII §3.1.
 
-*Needs:* §6.1 (ordinary tensor datum); ReductiveGroupsPartII §§RG2.3.3 and RG2.3.5; gap:ordinary-levi-full-fixer; gap:scheme-local-model-representative; gap:scheme-local-model-hodge-immersion.
+*Needs:* §6.1 (ordinary tensor datum); ReductiveGroupsPartII §§RG2.3.3 and RG2.3.5; gap:ordinary-levi-full-fixer; GeometricSatakeAndFusionPartII §§2.4 and 3.1.
 
 
 ### 6.3 Central ordinary Breuil–Kisin lift
@@ -1635,7 +1639,7 @@ For H₀=`μ_{p∞}`⊕ℚ_p/ℤ_p and E(u)=u−p, the central construction give
 
 ### Dependencies
 
-Layers 0–2 and 4–5; ReductiveGroupsPartII §§RG2.1.5, RG2.3.3, RG2.3.5 and RG2.4.3; PadicHodgeTheory §5.5; the ordinary-Levi and purity contracts. The explicit ordinary lift uses no very-goodness hypothesis.
+Layers 0–2 and 4–5; ReductiveGroupsPartII §§RG2.1.5, RG2.3.3, RG2.3.5 and RG2.4.3; PadicHodgeTheory §5.5; GeometricSatakeAndFusionPartII §§2.4 and 3.1; the ordinary-Levi and purity contracts. The explicit ordinary lift uses no very-goodness hypothesis.
 
 ## Downstream consumers
 
