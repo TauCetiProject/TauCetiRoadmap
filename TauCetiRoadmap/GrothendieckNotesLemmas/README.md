@@ -1,36 +1,45 @@
 # Roadmap: general lemmas in commutative algebra, topology and linear algebra
 
-**Summary.** Twenty-seven general targets on Mathlib's native carriers, in five independent
+**Summary.** Thirty-two general targets on Mathlib's native carriers, in five independent
 layers. Layer 1: binomial coefficients modulo a prime (`p ^ e ∣ n` iff `p` divides every
 `n.choose k` with `0 < k < p ^ e`, for `p` prime; `(p ^ a − 1).choose k ≡ (−1) ^ k mod p` for
 `k ≤ p ^ a − 1`), the kernel of the Hasse derivatives of orders `0 < k < p ^ e` over a commutative
 ring of prime characteristic `p` and their linearity over `R[X ^ (p ^ e)]`, the criterion
 `IsCoprime (X − C a) q ↔ IsUnit (q.eval a)` over a commutative ring, the determinant `1` of the
-symmetric Pascal matrix, and `(u v) ^ n = u ^ n v ^ n ⁅v, u⁆ ^ (n.choose 2)` in a group where
-`⁅v, u⁆` commutes with `u` and `v`. Layer 2: flatness of finite products, bijectivity of
-`M ⊗ Π Pᵢ → Π (M ⊗ Pᵢ)` for `M` finitely presented, Noetherian rings as the rings whose finitely
-generated modules are finitely presented, the range of `f.rTensor N` in the coordinates of a
-basis of `N`, injectivity of the `I`-primary component of an injective module over a Noetherian
-ring, adic completeness for a nilpotent ideal, a retraction of `T ⊗[S] Ω[S⁄R] → Ω[T⁄R]` when
-`H¹(L_{T⁄S}) = 0` and `Ω[T⁄S]` is projective, rational multiples of an indivisible lattice vector,
-injective = divisible over a principal ideal domain with quotients of injectives injective, and
-the associated primes of `F ⁄ pF` for `F` flat. Layer 3: the Leibniz rule for finite products and
-integer powers of units, and the commutator of a derivation with a multiplication. Layer 4: the
-exponential law for the compact-open topology with `X` locally compact or `R1Space`, and an
-openness criterion in Noetherian quasi-sober spaces. Layer 5: right zeros of finite monoids, the
-Cauchy–Binet formula, the Binet–Cauchy and Lagrange identities, Pólya's `ℤ`-basis of the
-integer-valued polynomials, traces of odd powers of a difference of idempotent matrices, and common
-denominators in the Grothendieck group of a commutative monoid. Each statement carries its exact
-hypotheses in its target below.
+symmetric Pascal matrix, `(u v) ^ n = u ^ n v ^ n ⁅v, u⁆ ^ (n.choose 2)` in a group where
+`⁅v, u⁆` commutes with `u` and `v`, the perfectness of the normal closure of a perfect subgroup,
+and, over any commutative ring, `Res(∏ᵢ (X − αᵢ), Q) = ∏ᵢ Q(αᵢ)` for a formal degree of `Q` at
+least its degree, with the reversed order and the value `∏ᵢ ∏ⱼ (αᵢ − βⱼ)` on two products of
+linear factors. Layer 2: flatness of finite products, bijectivity of `M ⊗ Π Pᵢ → Π (M ⊗ Pᵢ)` for
+`M` finitely presented, Noetherian rings as the rings whose finitely generated modules are
+finitely presented, the range of `f.rTensor N` in the coordinates of a basis of `N`, injectivity
+of the `I`-primary component of an injective module over a Noetherian ring, adic completeness for
+a nilpotent ideal, a retraction of `T ⊗[S] Ω[S⁄R] → Ω[T⁄R]` when `H¹(L_{T⁄S}) = 0` and `Ω[T⁄S]`
+is projective, rational multiples of an indivisible lattice vector, injective = divisible over a
+principal ideal domain with quotients of injectives injective, the associated primes of `F ⁄ pF`
+for `F` flat, Baer's criterion for `K ⁄ A` over a principal ideal domain `A` with fraction field
+`K`, with `(K ⁄ A)[t] ≅ A ⁄ (t)` for `t ≠ 0` over any domain, and finite length of finitely
+generated torsion modules over a Noetherian ring of Krull dimension at most one. Layer 3: the
+Leibniz rule for finite products and integer powers of units, and the commutator of a derivation
+with a multiplication. Layer 4: the exponential law for the compact-open topology with `X`
+locally compact or `R1Space`, and an openness criterion in Noetherian quasi-sober spaces. Layer 5:
+right zeros of finite monoids, the Cauchy–Binet formula, the Binet–Cauchy and Lagrange
+identities, Pólya's `ℤ`-basis of the integer-valued polynomials, traces of odd powers of a
+difference of idempotent matrices, common denominators in the Grothendieck group of a commutative
+monoid, and simple modules over an algebraically closed field, finite-dimensional over it,
+determined up to isomorphism by their traces. Each statement carries its exact hypotheses in its
+target below.
 
 ## Scope and ownership
 
 **Owned here.** The statements of Layers 1–5 in the generality stated, each on Mathlib's native
 carriers (`Polynomial.hasseDeriv`, `commutatorElement`, `Module.Flat`, `TensorProduct.piRightHom`,
 `Ideal.primaryComponent`, `KaehlerDifferential`, `Derivation`, `ContinuousMap.curry`,
-`Set.powersetCard`, `Ring.choose`, `Algebra.GrothendieckGroup`), and the one carrier this roadmap
-defines, the subalgebra `Polynomial.intValued` of `ℚ[X]` (5.4). Each target generalises or
-completes a Mathlib or Tau Ceti statement named in its `*Needs:*` line; none restates one.
+`Set.powersetCard`, `Ring.choose`, `Algebra.GrothendieckGroup`, `Polynomial.resultant`,
+`Group.IsPerfect`, `Submodule.torsionBy`, `IsFiniteLength`, `LinearMap.trace`), and the one
+carrier this roadmap defines, the subalgebra `Polynomial.intValued` of `ℚ[X]` (5.4). Each target
+generalises or completes a Mathlib or Tau Ceti statement named in its `*Needs:*` line; none
+restates one.
 
 **Left to other roadmaps.**
 
@@ -44,6 +53,17 @@ completes a Mathlib or Tau Ceti statement named in its `*Needs:*` line; none res
 - *The cotangent complex and its low-degree terms*: DerivedModuleAlgebra, §§0.4, 0.7 and 0.8.
   Target 2.7 and Layer 3 use only Mathlib's `KaehlerDifferential`, `Algebra.H1Cotangent` and
   `Derivation`, and no derived object.
+- *Gaussian binomial coefficients and Cauchy's `q`-binomial theorem* over every commutative ring,
+  `∏ i < n, (1 + t ^ i z) = ∑ k ≤ n, t ^ (k.choose 2) [n, k]_t z ^ k`, whose value at `z = −1` is
+  the vanishing alternating sum for `n ≥ 1`: ArithmeticStatisticsPartIV, §3.2. The symmetric
+  Laurent Gaussian binomials are QuantumEnvelopingAlgebras, §0.3.
+- *Elementary matrices over a ring, the perfectness of `Eₙ(R)` for `n ≥ 3` and Whitehead's
+  lemma*: AlgebraicKTheory, §1.3.
+- *The perfect radical*, the subgroup generated by all perfect subgroups, perfect and normal:
+  StableHomotopyKTheory, §3.8. Target 1.8 is the normal closure of a single perfect subgroup.
+- *Commutative squares in abelian categories*, pullbacks and pushouts read on the sequence through
+  the biproduct: GrothendieckEulerForms, Layer 0 (the bicartesian characterisation of pushouts and
+  pullbacks, for an abelian category with its canonical exact structure).
 
 **Supplied at the pins and not restated.** The `p`-adic Mahler basis is Mathlib's
 (`PadicInt.mahlerEquiv`); target 5.4 is the statement over `ℤ ⊆ ℚ`. Over an Artinian ring the
@@ -81,17 +101,23 @@ Grothendieck group is `Submonoid.LocalizationMap.eq_iff_exists` for the top subm
   theorem), `Nat.Prime.dvd_choose_pow`, `Nat.add_choose_eq` (Vandermonde), `Polynomial.hasseDeriv`
   with `Polynomial.hasseDeriv_mul`, `Polynomial.expand`, `Polynomial.eval`,
   `Polynomial.isCoprime_X_sub_C_of_isUnit_sub`, `IsCoprime`, `Ring.choose`, `fwdDiff`.
+- Resultants: `Polynomial.resultant`, `Polynomial.resultant_prod_left`,
+  `Polynomial.resultant_X_sub_C_left`, `Polynomial.resultant_comm`, `Polynomial.eval_prod`.
 - Groups and matrices: `commutatorElement` (scoped notation `⁅a, b⁆`), `Commute`,
-  `Commute.commutatorElement_pow_left`, `Matrix.det`, `Matrix.submatrix`, `Matrix.trace`,
-  `Matrix.trace_mul_comm`, `IsIdempotentElem`, `Set.powersetCard`,
-  `Set.powersetCard.ofFinEmbEquiv`.
+  `Commute.commutatorElement_pow_left`, `Group.IsPerfect`, `Subgroup.isPerfect_iff`,
+  `Subgroup.normalClosure`, `Subgroup.normalClosure_le_normal`, `Matrix.det`,
+  `Matrix.submatrix`, `Matrix.trace`, `Matrix.trace_mul_comm`, `IsIdempotentElem`,
+  `Set.powersetCard`, `Set.powersetCard.ofFinEmbEquiv`.
 - Modules: `Module.Flat`, `Module.Flat.directSum_iff`, `Module.Flat.of_linearEquiv`,
   `TensorProduct.piRightHom`, `Module.FinitePresentation`, `Module.Finite`, `IsNoetherianRing`,
   `TensorProduct.equivFinsuppOfBasisRight`, `LinearMap.rTensor`, `Module.Basis`,
   `Ideal.primaryComponent`, `Module.Injective`, `Module.Baer`, `Module.Baer.injective`,
   `Module.Baer.of_injective`, `Module.Baer.of_divisible`, `IsPrincipalIdealRing`,
   `Submodule.mkQ`, `IsAdicComplete`, `IsNilpotent`, `IsSMulRegular`, `quotTensorEquivQuotSMul`,
-  `Submodule.IsAssociatedPrime`, `Ideal.map`, `Ideal.comap`, `AddSubgroup`.
+  `Submodule.IsAssociatedPrime`, `Ideal.map`, `Ideal.comap`, `AddSubgroup`, `IsFractionRing`,
+  `Algebra.linearMap`, `Submodule.torsionBy`, `Module.IsTorsion`, `IsFiniteLength`,
+  `isFiniteLength_iff_isNoetherian_isArtinian`, `isFiniteLength_quotient_span_singleton`,
+  `Ring.KrullDimLE`.
 - Differentials and derivations: `KaehlerDifferential.mapBaseChange`,
   `KaehlerDifferential.exact_mapBaseChange_map`, `Algebra.H1Cotangent`,
   `Algebra.H1Cotangent.exact_δ_mapBaseChange`, `Algebra.FormallySmooth`, `Derivation`,
@@ -101,6 +127,9 @@ Grothendieck group is `Submonoid.LocalizationMap.eq_iff_exists` for the top subm
   (for `LocallyCompactSpace (X × Y)`), `Homeomorph.curry`, `R1Space`, `LocallyCompactSpace`,
   `TopologicalSpace.NoetherianSpace`, `QuasiSober`, `StableUnderGeneralization`,
   `PrimeSpectrum.isOpen_of_stableUnderGeneralization_of_isConstructible`.
+- Simple modules and traces: `IsSimpleModule`, `IsAlgClosed`, `LinearMap.trace`,
+  `Module.toModuleEnd`, `IsSimpleModule.algebraMap_end_bijective_of_isAlgClosed`,
+  `Module.Finite.toModuleEnd_moduleEnd_surjective` (Jacobson density).
 - Inner products and monoids: `RCLike`, `Finset.sum_mul_sq_le_sq_mul_sq`, `Monoid`, `MonoidHom`,
   `Equiv.Perm`,
   `Algebra.GrothendieckGroup`, `Algebra.GrothendieckGroup.of`, `Submonoid.LocalizationMap.surj`,
@@ -116,15 +145,17 @@ Nothing is consumed from another roadmap.
 ## How to read the build
 
 The five layers are independent of one another, and within a layer the only dependencies are
-1.1 → 1.3 → 1.4 and 3.1 → 3.2, and, in 2.9 and 2.10, the later statements on the earlier ones.
-Layer 1 is arithmetic of binomial coefficients and polynomials in prime characteristic, with
-two determinantal or group identities that rest on Vandermonde's convolution and on `n.choose 2`.
-Layer 2 is module theory: flatness, finite presentation, injective modules, adic completeness,
-Kähler differentials and associated primes. Layer 3 extends Mathlib's derivation API. Layer 4 is
-general topology. Layer 5 collects finite monoids, determinants and traces, two classical
-identities, and integer-valued polynomials. The smallest targets are 1.5, 2.1, 2.6, 3.1 and 3.2.
+1.1 → 1.3 → 1.4, 2.9 → 2.11 and 3.1 → 3.2, and, in 1.9, 2.9 and 2.10, the later statements on the
+earlier ones. Layer 1 is arithmetic of binomial coefficients and polynomials in prime
+characteristic, two determinantal or group identities that rest on Vandermonde's convolution and
+on `n.choose 2`, perfect subgroups, and resultants against products of linear factors. Layer 2 is
+module theory: flatness, finite presentation, injective modules, adic completeness, Kähler
+differentials, associated primes, the module `K ⁄ A` and torsion modules of finite length.
+Layer 3 extends Mathlib's derivation API. Layer 4 is general topology. Layer 5 collects finite
+monoids, determinants and traces, two classical identities, integer-valued polynomials, and simple
+modules recognised by their traces. The smallest targets are 1.5, 1.8, 2.1, 2.6, 3.1 and 3.2.
 
-## Layer 1: binomial coefficients, Hasse derivatives, a determinant and commutators
+## Layer 1: binomial coefficients, Hasse derivatives, a determinant, commutators, resultants
 
 ### 1.1 Prime powers dividing `n`
 
@@ -244,16 +275,71 @@ Hall–Petrescu formula. Route: `v u = d u v`, hence `v ^ n u = d ^ n u v ^ n`, 
   excluded: in the quaternion group `Q₈`, `d = ⁅j, i⁆ = −1` has `d ² = 1`, but
   `(i j) ² = −1 ≠ 1 = i ² j ²`.
 
+### 1.8 The normal closure of a perfect subgroup
+
+Prove `Subgroup.isPerfect_normalClosure`: in a group `G`, if a subgroup `H` is perfect
+(`Group.IsPerfect H`, that is `⁅H, H⁆ = H`), then so is its normal closure `N`, the smallest normal
+subgroup containing `H` (classical). Route: the commutator subgroup `⁅N, N⁆` is normal, since `N`
+is, and contains `⁅H, H⁆ = H`; hence it contains `N`, by minimality of the normal closure.
+*Needs:* Mathlib `Group.IsPerfect`, `Subgroup.isPerfect_iff`, `Subgroup.normalClosure`,
+`Subgroup.normalClosure_le_normal`.
+
+**Checks.**
+
+- `H = ⊥` is perfect and its normal closure is `⊥`.
+- The normal closure can be larger than `H` and is still perfect: in the wreath product
+  `(𝔄₅ × 𝔄₅) ⋊ C₂`, the swap conjugates `H = 𝔄₅ × 1` to `1 × 𝔄₅`, and the normal closure is
+  `𝔄₅ × 𝔄₅`, perfect, of order `3600 ≠ 60`.
+- Perfectness of `H` is needed: in `𝔖₃`, the normal closure of `⟨(1 2)⟩` is `𝔖₃`, whose
+  commutator subgroup is `𝔄₃`; and the statement is not about subgroups of a perfect group, since
+  `𝔄₄ ≤ 𝔄₅` is not perfect (its commutator subgroup is the Klein group).
+
+### 1.9 Resultants against products of linear factors
+
+Prove `Polynomial.resultant_prod_X_sub_C_left`: over a commutative ring `R`, for a finite set `s`,
+`α : s → R` and `Q : R[X]` read with formal degree `n ≥ Q.natDegree`, the resultant of
+`P = ∏ i ∈ s, (X − C (α i))` (with its own degree) and `Q` is `∏ i ∈ s, Q.eval (α i)`. No
+hypothesis on `R`: Mathlib's `Polynomial.resultant_eq_prod_eval` asks for a domain and a split
+polynomial, and its file records this statement as the goal it is after. Prove
+`Polynomial.resultant_prod_X_sub_C_right`: in the reversed order, for `Q.natDegree ≤ m`, the
+resultant `Q.resultant P m P.natDegree` is `(−1) ^ (m · #s) · ∏ i ∈ s, Q.eval (α i)`. Prove
+`Polynomial.resultant_prod_X_sub_C_prod_X_sub_C`: for two products of linear factors, with the
+default degrees, `Res(∏ i ∈ s, (X − C (α i)), ∏ j ∈ t, (X − C (β j))) = ∏ i ∈ s, ∏ j ∈ t,
+(α i − β j)` (classical). Route: multiplicativity `Polynomial.resultant_prod_left`, whose
+leading-coefficient hypothesis holds because each factor is monic (after `nontriviality R`), and
+`Polynomial.resultant_X_sub_C_left` on each factor; then `Polynomial.resultant_comm` for the
+reversed order, and `Polynomial.eval_prod` for the two-product form. *Needs:* Mathlib
+`Polynomial.resultant`, `Polynomial.resultant_prod_left`, `Polynomial.resultant_X_sub_C_left`,
+`Polynomial.resultant_comm`, `Polynomial.eval_prod`.
+
+**Checks.**
+
+- The orientation: over `ℤ`, `Res(X − 2, X − 5) = 2 − 5 = −3` and `Res(X − 5, X − 2) = 3`; a
+  formula with `βⱼ − αᵢ` would give the opposite signs. The reversed order agrees: with `m = 1`,
+  `(−1) ^ 1 · (2 − 5) = 3`.
+- `s = ∅`: `P = 1` and the resultant is the empty product `1`. For `Q = C c` constant and
+  `n = 0`, both sides are `c ^ #s`.
+- Over `ℤ`, `α = (0, 1)` and `Q = X − 2`: `P = X ² − X`, and `Res(P, Q) = Q(0) Q(1) = (−2)(−1) =
+  2`; the reversed order gives `(−1) ^ (1 · 2) · 2 = 2`, which is `P(2) = 2`, as
+  `Polynomial.resultant_X_sub_C_left` predicts for `Q` on the left. Repeated roots are allowed:
+  `α = (1, 1)` gives `Q(1) ² = 1`.
+
 ### Examples
 
 - `Nat.pow_dvd_iff_forall_dvd_choose` at `p = 5`, `e = 1`, `n = 10`: `10, 45, 120, 210` are all
   multiples of `5`.
 - Over `ZMod 2`, the Hasse derivatives of orders `1, 2, 3` all vanish on `X ^ 4 + X ^ 8`.
+- 1.8 in `𝔖₅`: the normal closure of the perfect subgroup `𝔄₅` is `𝔄₅` itself; in `GL₃(𝔽₂)`,
+  simple of order `168`, every perfect subgroup other than `1` has normal closure the whole group.
+- 1.9 with `t` the roots of a second split polynomial: the resultant of
+  `X ² − 1 = (X − 1)(X + 1)` and `X − 3` is `(1 − 3)(−1 − 3) = 8`.
 
 ### Dependencies
 
 Mathlib: Lucas's theorem, Vandermonde's identity, `Polynomial.hasseDeriv`, `Polynomial.expand`,
-`commutatorElement`. Within the layer: 1.1 → 1.3 → 1.4.
+`commutatorElement`, `Group.IsPerfect`, `Subgroup.normalClosure`, `Polynomial.resultant`. Within
+the layer: 1.1 → 1.3 → 1.4, and in 1.9 the reversed order and the two-product form use the first
+statement.
 
 ## Layer 2: modules, flatness, finite presentation, injective modules
 
@@ -431,16 +517,65 @@ nonzero class. *Needs:* Mathlib `Module.Flat`, `IsSMulRegular`, `quotTensorEquiv
   `ℤ[i] ⁄ 5 ≅ 𝔽₅ × 𝔽₅` has the two associated primes `(2 + i)` and `(2 − i)`, neither equal to
   `5ℤ[i]`, both over `(5)`.
 
+### 2.11 The module `K ⁄ A`
+
+Let `A` be a domain with fraction field `K`, and write `K ⁄ A` for
+`K ⧸ LinearMap.range (Algebra.linearMap A K)`. Prove `IsFractionRing.baer_quotient_range`: when
+`A` is a principal ideal ring, `K ⁄ A` satisfies Baer's criterion, hence is an injective
+`A`-module. Prove `IsFractionRing.nonempty_torsionBy_linearEquiv`: over any such `A` and for
+`t ≠ 0`, the submodule `(K ⁄ A)[t]` of elements killed by `t` (`Submodule.torsionBy`) is
+isomorphic to `A ⁄ (t)` (classical; these are the two facts behind the duality
+`M ↦ Hom(M, K ⁄ A)` of finite-length modules over a principal ideal domain). Route: `K ⁄ A` is
+divisible, since `r ≠ 0` is invertible in `K`, and 2.9 applies; the map `a ↦ a ⁄ t mod A` has
+kernel `tA`, as `a ⁄ t ∈ A` iff `t ∣ a`, and image `(K ⁄ A)[t]`, as `t k ∈ A` writes `k = b ⁄ t`.
+*Needs:* Mathlib `IsFractionRing`, `Algebra.linearMap`, `Submodule.torsionBy`, `Module.Baer`;
+2.9 (`Module.Baer.of_isPrincipalIdealRing`).
+
+**Checks.**
+
+- `A = ℤ`, `K = ℚ`: `ℚ ⁄ ℤ` is divisible, hence Baer; `(ℚ ⁄ ℤ)[6] = (1 ⁄ 6)ℤ ⁄ ℤ ≅ ℤ ⁄ 6`, of order
+  `6`.
+- `t ≠ 0` is needed: `(K ⁄ A)[0]` is all of `ℚ ⁄ ℤ`, which is torsion and not isomorphic to
+  `ℤ ⁄ (0) = ℤ`. A unit `t` gives `0 ≅ A ⁄ A`.
+- Principal ideals are needed for the first statement: over `A = k[x, y]`, `K ⁄ A` is divisible,
+  but if it were injective, `0 → A → K → K ⁄ A → 0` would give `A` injective dimension at most
+  `1`, whereas `Ext² (A ⁄ (x, y), A) ≅ k ≠ 0` by the Koszul resolution.
+
+### 2.12 Finitely generated torsion modules have finite length
+
+Prove `Module.IsTorsion.isFiniteLength`: over a Noetherian commutative ring `R` of Krull dimension
+at most one (`Ring.KrullDimLE 1 R`), a finitely generated module `M` that is torsion
+(`Module.IsTorsion`: every element is killed by a nonzerodivisor) has finite length; in
+particular, over a principal ideal domain such a module is Artinian (classical). Route: the product
+`x` of nonzerodivisors killing a finite set of generators is a nonzerodivisor with `x M = 0`, so
+`M` is a quotient of `(R ⧸ (x)) ^ n`, of finite length by Mathlib's
+`isFiniteLength_quotient_span_singleton`. *Needs:* Mathlib `Module.IsTorsion`, `IsFiniteLength`,
+`isFiniteLength_quotient_span_singleton`, `isFiniteLength_iff_isNoetherian_isArtinian`,
+`Ring.KrullDimLE`, `IsNoetherianRing`.
+
+**Checks.**
+
+- `R = ℤ`, `M = ℤ ⁄ 12`: length `3`, from `0 ⊂ 6ℤ ⁄ 12 ⊂ 3ℤ ⁄ 12 ⊂ ℤ ⁄ 12`, with factors
+  `ℤ ⁄ 2`, `ℤ ⁄ 2`, `ℤ ⁄ 3`.
+- Each hypothesis is needed: `ℤ` is finitely generated and not torsion, and has infinite length;
+  `ℚ ⁄ ℤ` is torsion and not finitely generated, and has the infinite chain of subgroups
+  `(1 ⁄ 2 ^ n)ℤ ⁄ ℤ`; over `k[x, y]`, of dimension `2`, the torsion module `k[x, y] ⁄ (x)` is
+  finitely generated and contains the infinite descending chain `(y ^ n)`.
+- `R` a field (dimension `0`): a torsion module is `0`, of length `0`. Over the zero ring every
+  module is `0`.
+
 ### Examples
 
 - 2.2 with `M = ℤ ⁄ n` over `ℤ`: `ℤ ⁄ n ⊗ Π Pᵢ ≅ Π (Pᵢ ⁄ n Pᵢ)`.
-- 2.9 over `k[t]`: `k(t) ⁄ k[t]` is divisible, hence an injective `k[t]`-module.
+- 2.9 over `k[t]`: `k(t) ⁄ k[t]` is divisible, hence an injective `k[t]`-module, which is 2.11 for
+  `A = k[t]`; its `t`-torsion `t⁻¹ k[t] ⁄ k[t]` is `k[t] ⁄ (t) ≅ k`.
+- 2.12 over the Dedekind domain `ℤ[√−5]`: `ℤ[√−5] ⁄ (2, 1 + √−5)` is torsion and of length `1`.
 
 ### Dependencies
 
 Mathlib module theory as listed in the supplier contracts; Tau Ceti `Module.Flat.pi`. Within the
-layer, in 2.9 the statement on quotients uses the equivalence, and in 2.10 the statement on
-associated primes uses the regularity statement.
+layer, in 2.9 the statement on quotients uses the equivalence, in 2.10 the statement on
+associated primes uses the regularity statement, and the first statement of 2.11 uses 2.9.
 
 ## Layer 3: derivations
 
@@ -650,15 +785,44 @@ the two denominators. *Needs:* Mathlib `Algebra.GrothendieckGroup`, `Algebra.Gro
 - `M = ({1, e}, ·)` with `e ² = e`: the group is trivial, and `of e = of 1`, with `c = e` in
   `Submonoid.LocalizationMap.eq_iff_exists`.
 
+### 5.7 Simple modules are determined by their traces
+
+Prove `IsSimpleModule.nonempty_linearEquiv_of_trace_eq`: let `k` be an algebraically closed field,
+of any characteristic, `A` a `k`-algebra, not necessarily finite-dimensional, and `S`, `T` simple
+`A`-modules that are finite-dimensional over `k` (with `IsScalarTower k A S` and
+`IsScalarTower k A T`). If `LinearMap.trace k S (Module.toModuleEnd k S a)` equals
+`LinearMap.trace k T (Module.toModuleEnd k T a)` for every `a : A`, then `S` and `T` are
+isomorphic as `A`-modules (classical). Route: if `S ≄ T`, Schur's lemma
+(`IsSimpleModule.algebraMap_end_bijective_of_isAlgClosed`) makes every endomorphism of `S × T` a
+pair of scalars, so the Jacobson density theorem for the semisimple module `S × T`
+(`Module.Finite.toModuleEnd_moduleEnd_surjective`) yields `a : A` acting as a rank-one idempotent
+on `S` and as `0` on `T`, of traces `1` and `0`. *Needs:* Mathlib `IsSimpleModule`, `IsAlgClosed`,
+`LinearMap.trace`, `Module.toModuleEnd`, `IsSimpleModule.algebraMap_end_bijective_of_isAlgClosed`,
+`Module.Finite.toModuleEnd_moduleEnd_surjective`.
+
+**Checks.**
+
+- `A = k[X]`: the simple modules are `k[X] ⁄ (X − λ)`, on which `X` has trace `λ`, so distinct `λ`
+  are told apart, as the statement requires.
+- Simplicity cannot be weakened to semisimplicity in characteristic `p`: over `k = 𝔽̄_p` and
+  `A = k`, the semisimple modules `k ^ p` and `0` have the same trace `p · a = 0` for every `a`,
+  and are not isomorphic. In characteristic `0` the trace of `1` is the dimension.
+- `IsAlgClosed` cannot be dropped in characteristic `p`: for `k = 𝔽_p(t)` and the purely
+  inseparable `L = k(t ^ (1 ⁄ p))`, the field trace `L → k` is identically `0`, so the two simple
+  modules `L × 0` and `0 × L` of `A = L × L` have equal (zero) traces and are not isomorphic,
+  being killed by different idempotents.
+
 ### Examples
 
 - 5.2 with `n = card ι` gives `det (A B) = det A · det B` for square matrices.
 - 5.4: `X ³ = 6 Ring.choose X 3 + 6 Ring.choose X 2 + Ring.choose X 1`.
+- 5.7 for `A = k[G]` with `G` a finite group: two irreducible representations over an algebraically
+  closed field with the same character are isomorphic, in every characteristic.
 
 ### Dependencies
 
-Mathlib `Matrix`, `Set.powersetCard`, `RCLike`, `Ring.choose`, `Algebra.GrothendieckGroup`.
-The targets of the layer are independent of one another.
+Mathlib `Matrix`, `Set.powersetCard`, `RCLike`, `Ring.choose`, `Algebra.GrothendieckGroup`,
+`LinearMap.trace` and the density theorem. The targets of the layer are independent of one another.
 
 ## Downstream consumers
 

@@ -18,7 +18,9 @@ Headline theorems stated here (README target, Lean name):
   1.3, `Polynomial.forall_hasseDeriv_eq_zero_iff_exists_expand`; 1.4,
   `Polynomial.hasseDeriv_expand_mul`; 1.5, `Polynomial.isCoprime_X_sub_C_iff`; 1.6,
   `Matrix.det_pascal`; 1.7, `mul_pow_of_commute_commutatorElement` and
-  `mul_pow_prime_of_commute_commutatorElement`.
+  `mul_pow_prime_of_commute_commutatorElement`; 1.8, `Subgroup.isPerfect_normalClosure`; 1.9,
+  `Polynomial.resultant_prod_X_sub_C_left`, `Polynomial.resultant_prod_X_sub_C_right` and
+  `Polynomial.resultant_prod_X_sub_C_prod_X_sub_C`.
 * 2.1, `Module.Flat.pi_iff` and `Module.Flat.prod_iff`; 2.2,
   `Module.FinitePresentation.piRightHom_bijective`; 2.3,
   `isNoetherianRing_iff_forall_finitePresentation`; 2.4,
@@ -27,7 +29,9 @@ Headline theorems stated here (README target, Lean name):
   `KaehlerDifferential.exists_retraction_mapBaseChange`; 2.8, `AddSubgroup.rat_smul_mem_iff`; 2.9,
   `Module.Baer.of_isPrincipalIdealRing`,
   `Module.injective_iff_forall_smul_surjective` and `Module.Injective.quotient`; 2.10,
-  `Module.Flat.isSMulRegular_quotient_smul_top` and `Submodule.IsAssociatedPrime.comap_eq_of_flat`.
+  `Module.Flat.isSMulRegular_quotient_smul_top` and `Submodule.IsAssociatedPrime.comap_eq_of_flat`;
+  2.11, `IsFractionRing.baer_quotient_range` and `IsFractionRing.nonempty_torsionBy_linearEquiv`;
+  2.12, `Module.IsTorsion.isFiniteLength`.
 * 3.1, `Derivation.leibniz_prod` and `Derivation.leibniz_zpow_units`; 3.2,
   `Derivation.lie_mulLeft` and `Derivation.mulLeft_mul_mul_mulLeft_inv`.
 * 4.1, `ContinuousMap.continuous_curry_of_locallyCompactSpace`,
@@ -37,7 +41,8 @@ Headline theorems stated here (README target, Lean name):
   `Finset.sum_sum_mul_sub_mul_mul_mul_sub_mul` and `RCLike.sum_sum_norm_mul_sub_mul_sq`; 5.4,
   `Polynomial.mem_intValued_iff_forall_natCast` and `Polynomial.exists_basis_intValued`; 5.5,
   `Matrix.trace_sub_pow_odd_of_isIdempotentElem`; 5.6,
-  `GrothendieckGroup.exists_eq_div_of_and_eq_div_of`.
+  `GrothendieckGroup.exists_eq_div_of_and_eq_div_of`; 5.7,
+  `IsSimpleModule.nonempty_linearEquiv_of_trace_eq`.
 
 Every headline of the README is statable at the pins and stated. The homeomorphism of README 4.1
 is the bundling of its two continuity theorems and is not restated; the basis of README 5.4 is
@@ -51,7 +56,7 @@ namespace TauCetiRoadmap.GrothendieckNotesLemmas
 open Polynomial
 open scoped TensorProduct KaehlerDifferential
 
-/-! ## Layer 1: binomial coefficients, Hasse derivatives, a determinant and commutators -/
+/-! ## Layer 1: binomial coefficients, Hasse derivatives, a determinant, commutators, resultants -/
 
 /-- For a prime `p`, `p ^ e` divides `n` if and only if `p` divides `n.choose k` for every
 `0 < k < p ^ e` (a consequence of Lucas's theorem). -/
@@ -104,6 +109,39 @@ open scoped commutatorElement in
 theorem mul_pow_prime_of_commute_commutatorElement {G : Type*} [Group G] {p : ℕ}
     (hp : p.Prime) (hp2 : p ≠ 2) {u v : G} (hu : Commute u ⁅v, u⁆) (hv : Commute v ⁅v, u⁆)
     (hd : ⁅v, u⁆ ^ p = 1) : (u * v) ^ p = u ^ p * v ^ p := by
+  sorry
+
+/-- The normal closure of a perfect subgroup is perfect (`Subgroup.isPerfect_iff`, and
+`Subgroup.normalClosure_le_normal` applied to the normal subgroup `⁅N, N⁆`). -/
+theorem Subgroup.isPerfect_normalClosure {G : Type*} [Group G] (H : Subgroup G)
+    [Group.IsPerfect H] : Group.IsPerfect (Subgroup.normalClosure (H : Set G)) := by
+  sorry
+
+/-- Over any commutative ring, the resultant of `∏ i ∈ s, (X - C (α i))` and `Q`, read with a
+formal degree `n ≥ Q.natDegree`, is `∏ i ∈ s, Q.eval (α i)`, by `Polynomial.resultant_prod_left`
+and `Polynomial.resultant_X_sub_C_left`; Mathlib's `Polynomial.resultant_eq_prod_eval` is stated
+over a domain. -/
+theorem Polynomial.resultant_prod_X_sub_C_left {R ι : Type*} [CommRing R] (s : Finset ι)
+    (α : ι → R) (Q : R[X]) {n : ℕ} (hn : Q.natDegree ≤ n) :
+    (∏ i ∈ s, (X - C (α i))).resultant Q (∏ i ∈ s, (X - C (α i))).natDegree n =
+      ∏ i ∈ s, Q.eval (α i) := by
+  sorry
+
+/-- The same in the reversed order: for `Q.natDegree ≤ m`, the resultant of `Q` and
+`∏ i ∈ s, (X - C (α i))` is `(-1) ^ (m * s.card) * ∏ i ∈ s, Q.eval (α i)`
+(by `Polynomial.resultant_comm`). -/
+theorem Polynomial.resultant_prod_X_sub_C_right {R ι : Type*} [CommRing R] (s : Finset ι)
+    (α : ι → R) (Q : R[X]) {m : ℕ} (hm : Q.natDegree ≤ m) :
+    Q.resultant (∏ i ∈ s, (X - C (α i))) m (∏ i ∈ s, (X - C (α i))).natDegree =
+      (-1) ^ (m * s.card) * ∏ i ∈ s, Q.eval (α i) := by
+  sorry
+
+/-- The resultant of two products of linear factors, with the default degrees, is
+`∏ i ∈ s, ∏ j ∈ t, (α i - β j)` (by `Polynomial.eval_prod`). -/
+theorem Polynomial.resultant_prod_X_sub_C_prod_X_sub_C {R ι κ : Type*} [CommRing R]
+    (s : Finset ι) (t : Finset κ) (α : ι → R) (β : κ → R) :
+    (∏ i ∈ s, (X - C (α i))).resultant (∏ j ∈ t, (X - C (β j))) =
+      ∏ i ∈ s, ∏ j ∈ t, (α i - β j) := by
   sorry
 
 /-! ## Layer 2: modules, flatness, finite presentation, injective modules -/
@@ -216,6 +254,29 @@ theorem Submodule.IsAssociatedPrime.comap_eq_of_flat {A B F : Type*} [CommRing A
     [Module.Flat A F] {p : Ideal A} [p.IsPrime] {P : Ideal B}
     (hP : ((p.map (algebraMap A B)) • (⊤ : Submodule B F)).IsAssociatedPrime P) :
     P.comap (algebraMap A B) = p := by
+  sorry
+
+/-- Over a principal ideal domain `A` with fraction field `K`, the module `K ⧸ A` satisfies
+Baer's criterion (it is divisible, and README 2.9 applies). -/
+theorem IsFractionRing.baer_quotient_range (A K : Type*) [CommRing A] [IsPrincipalIdealRing A]
+    [Field K] [Algebra A K] [IsFractionRing A K] :
+    Module.Baer A (K ⧸ LinearMap.range (Algebra.linearMap A K)) := by
+  sorry
+
+/-- For a domain `A` with fraction field `K` and `t ≠ 0`, the elements of `K ⧸ A` killed by `t`
+form a module isomorphic to `A ⧸ (t)`, through `a ↦ a / t mod A`. -/
+theorem IsFractionRing.nonempty_torsionBy_linearEquiv {A K : Type*} [CommRing A] [Field K]
+    [Algebra A K] [IsFractionRing A K] {t : A} (ht : t ≠ 0) :
+    Nonempty (Submodule.torsionBy A (K ⧸ LinearMap.range (Algebra.linearMap A K)) t ≃ₗ[A]
+      A ⧸ Ideal.span {t}) := by
+  sorry
+
+/-- Over a Noetherian ring of Krull dimension at most one, a finitely generated torsion module has
+finite length (Mathlib's `isFiniteLength_quotient_span_singleton` is the cyclic case; over a
+principal ideal domain, `isFiniteLength_iff_isNoetherian_isArtinian` makes it Artinian). -/
+theorem Module.IsTorsion.isFiniteLength {R M : Type*} [CommRing R] [IsNoetherianRing R]
+    [Ring.KrullDimLE 1 R] [AddCommGroup M] [Module R M] [Module.Finite R M]
+    (hM : Module.IsTorsion R M) : IsFiniteLength R M := by
   sorry
 
 /-! ## Layer 3: derivations -/
@@ -364,6 +425,21 @@ theorem GrothendieckGroup.exists_eq_div_of_and_eq_div_of {M : Type*} [CommMonoid
     (x y : Algebra.GrothendieckGroup M) :
     ∃ a b c : M, x = Algebra.GrothendieckGroup.of a / Algebra.GrothendieckGroup.of c ∧
       y = Algebra.GrothendieckGroup.of b / Algebra.GrothendieckGroup.of c := by
+  sorry
+
+/-- Over an algebraically closed field `k`, in any characteristic, two simple modules over a
+`k`-algebra `A` that are finite-dimensional over `k` and have the same trace function
+`a ↦ LinearMap.trace k _ (Module.toModuleEnd k _ a)` are isomorphic (Schur's lemma
+`IsSimpleModule.algebraMap_end_bijective_of_isAlgClosed` and Jacobson density). -/
+theorem IsSimpleModule.nonempty_linearEquiv_of_trace_eq {k A S T : Type*} [Field k]
+    [IsAlgClosed k] [Ring A] [Algebra k A]
+    [AddCommGroup S] [Module A S] [Module k S] [IsScalarTower k A S] [IsSimpleModule A S]
+    [FiniteDimensional k S]
+    [AddCommGroup T] [Module A T] [Module k T] [IsScalarTower k A T] [IsSimpleModule A T]
+    [FiniteDimensional k T]
+    (h : ∀ a : A, LinearMap.trace k S (Module.toModuleEnd k S a) =
+      LinearMap.trace k T (Module.toModuleEnd k T a)) :
+    Nonempty (S ≃ₗ[A] T) := by
   sorry
 
 end TauCetiRoadmap.GrothendieckNotesLemmas
