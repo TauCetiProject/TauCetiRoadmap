@@ -177,8 +177,10 @@ into Seifert fibred and finite-volume hyperbolic pieces. -/
 theorem geometrization_conjecture : TauCeti.GeometrizationConjecture := by
   sorry
 
-/-- The Poincaré conjecture: a closed simply connected `3`-manifold is homeomorphic to `S³`. -/
-theorem poincare_conjecture (M : Type u) [TopologicalSpace M]
+/-- The Poincaré conjecture (Perelman; Morgan–Tian, Corollary 0.2(a)): a closed simply
+connected `3`-manifold is homeomorphic to `S³`. No homeomorphism is canonical, so the theorem
+asserts that one exists. -/
+theorem nonempty_homeomorph_sphere_of_simplyConnected (M : Type u) [TopologicalSpace M]
     [ChartedSpace (EuclideanSpace ℝ (Fin 3)) M] [IsManifold (𝓡 3) 0 M] [CompactSpace M]
     [T2Space M] [SecondCountableTopology M] [SimplyConnectedSpace M] :
     Nonempty (M ≃ₜ sphere (0 : EuclideanSpace ℝ (Fin 4)) 1) := by

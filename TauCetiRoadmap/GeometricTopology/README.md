@@ -2,8 +2,8 @@
 
 **Summary.** This roadmap builds the geometric topology of manifolds that Mathlib does not yet
 have, from the smooth-manifold and tangent-bundle level upwards: manifolds with boundary and
-their collars, gluing along boundary faces, connected sums, tubular neighbourhoods and handle
-decompositions (Layer 1); locally flat embeddings and the annulus theorem (Layer 2);
+their collars, gluing along boundary faces, handle attachment, connected sums and tubular
+neighbourhoods (Layer 1); locally flat embeddings and the annulus theorem (Layer 2);
 diffeomorphism groups with the weak Whitney topology, isotopy extension and the Smale
 conjecture (Layer 3); knots and links in a general manifold with their presentations,
 invariants and minima (Layer 4); Dehn surgery (Layer 5); knot concordance (Layer 6);
@@ -29,9 +29,8 @@ This roadmap owns the following, by layer.
   along codimension-zero boundary faces, handle attachment, connected sum with explicit
   choices and its independence, the normal bundle and variable-radius tubes, the tubular
   neighbourhood theorem in a general Riemannian ambient manifold and metric-independence
-  of the normal bundle's smooth structure, handle decompositions of compact cobordisms, handle cancellation and the Whitney move in
-  dimension at least five, and the comparison between smooth and PL structures in
-  dimension two.
+  of the normal bundle's smooth structure, and the comparison between smooth and PL
+  structures in dimension two.
 - **Layer 2.** The structural theory of locally flat embeddings beyond what Tau Ceti has at
   the pins (composition and codimension-one collaring), Brown's generalized Schoenflies
   theorem, and the statement of the annulus theorem in every dimension.
@@ -119,6 +118,12 @@ This roadmap leaves the following to other roadmaps.
   distributions and the Frobenius theorem, integration of forms, Riemannian metrics and the
   existence of a smooth metric. **HopfRinow** owns the Levi-Civita connection, geodesics, the
   exponential map, normal neighbourhoods and the Hopf–Rinow theorem.
+- **HomotopySpheres** owns the handle theory of compact cobordisms, built on Layer 1.3's
+  handle attachment and Layer 1.5's tubes: the ordered handle decomposition of a Morse
+  function, reordering, creation and cancellation of handle pairs, handle slides and the
+  same-index basis change, the local Whitney move, and Whitney discs in codimension at
+  least three and on the five-dimensional level (HomotopySpheres §§1.2–1.6). No layer of
+  this roadmap uses them.
 - **SurfaceTopology** owns the classification of compact surfaces and surface mapping class
   groups; **PlanarTopology** owns Radó's theorem, the two-dimensional Hauptvermutung and the
   two-dimensional Schoenflies theorem. **TypeAHeckeAlgebras** owns the Hecke algebras and
@@ -255,7 +260,7 @@ This roadmap leaves the following to other roadmaps.
 ### From Tau Ceti
 
 The following pinned declarations supply the carriers and results used below. Layer 1.5
-constructs the smooth normal bundle and variable-radius tubes, Layer 1.7 proves the compact
+constructs the smooth normal bundle and variable-radius tubes, Layer 1.6 proves the compact
 PL comparison, Layer 4.6 constructs the HOMFLY coefficient substitution, and Layer 5.1
 constructs the compact link exterior.
 
@@ -282,8 +287,6 @@ constructs the compact link exterior.
   `TauCeti.instTopologicalSpaceTotalSpaceNormalSubspace` gives the normal total space its
   subspace topology; it does not supply vector-bundle trivializations or smooth structure.
 - **Immersions** (`Geometry/Manifold/Immersion.lean`): `TauCeti.isImmersion_iff_forall_isImmersionAt`.
-- **Morse functions** (`Geometry/Manifold/Morse/Basic.lean`): `TauCeti.IsMorse`,
-  `TauCeti.IsMorseOn`, `TauCeti.IsManifoldNondegenerateCriticalPoint`.
 - **The PL groupoid** (`Geometry/Manifold/PLGroupoid.lean`, `Topology/PL/`):
   `TauCeti.IsPiecewiseAffineOn`, `TauCeti.IsPLOn`, `TauCeti.PLPregroupoid`,
   `TauCeti.PLGroupoid I`, `TauCeti.PLGroupoid_le_continuousGroupoid`, closure under restriction,
@@ -459,12 +462,13 @@ unit disc, where the gauge is the norm.
 
 The layers group the targets by subject; the build order is the order of the `*Needs:*`
 lines, target by target, and it is not the numerical order of the layers. Layer 1 is the
-spine: boundaries, collars, gluing, connected sums, tubular neighbourhoods and handles, in
-every dimension; everything later that cuts a manifold open and reglues it is an instance.
+spine: boundaries, collars, gluing, handle attachment, connected sums and tubular
+neighbourhoods, in every dimension; everything later that cuts a manifold open and reglues
+it is an instance.
 Four groups of targets are built before the layer numbering suggests. The disc theorem of
 Layer 3.3, which needs only the tubes of Layer 1.5, precedes the connected sum of Layer 1.4.
 The realizations, Moise's theorems and the smooth triangulations of Layers 11.1–11.3, which
-need only Layer 1.7, precede Layer 1.8, the three-dimensional case of the annulus theorem in
+need only Layer 1.6, precede Layer 1.7, the three-dimensional case of the annulus theorem in
 Layer 2.3, and Layers 8 and 9. The exterior of Layer 5.1, built from Layers 1.2, 1.5, 3.3
 and 4.1, precedes the Alexander module of Layer 4.4. The decomposition theorems of Layers
 8.1–8.4, which need Layers 1, 4.4, 5.1 and 11.2, precede the cyclic surgery theorem of
@@ -475,6 +479,11 @@ and for its finite-volume part the Dehn filling of Layer 5.2 and the irreducibil
 Layer 8.2; Layer 9 (Heegaard splittings) needs Layers 1, 7, 8 and 11; and Layer 10 (foliations) needs
 Layers 1, 5, 7, 8 and 9. Each layer ends with its examples and its dependencies on the
 others.
+
+Section anchors that other roadmaps link to resolve as follows:
+
+- `#layer-1-manifold-library-buildout-general-dimension-general-structure-group` → Layer 1;
+- `#layer-4-knot-theory-done-properly-owned-here` → Layer 4.
 
 ## Layer 1: manifolds with boundary, gluing, tubular neighbourhoods and handles
 
@@ -718,50 +727,7 @@ space by `(x,v) ↦ f x + v` (Lee, *Introduction to Smooth Manifolds*, Theorem 6
   tube map fails to be injective near the double point: the embedding hypothesis is not
   removable.
 
-### 1.6 Handle decompositions, cancellation and the Whitney move
-
-Consume `TauCeti.IsMorse` and `TauCeti.IsManifoldNondegenerateCriticalPoint`. For a compact
-cobordism `W` between closed manifolds `M₀` and `M₁` (a compact manifold with
-`∂W = M₀ ⊔ M₁`) and a Morse function `h : W → [0, 1]` with `h⁻¹(0) = M₀`, `h⁻¹(1) = M₁` and
-distinct critical values, prove that `W` is diffeomorphic rel `M₀` to `M₀ × [0, 1]` with one
-`λ`-handle attached for each critical point of index `λ`, attached in the order of the
-critical values (Milnor, *Lectures on the h-cobordism theorem*, §3). Prove the existence of
-such a Morse function on every compact cobordism (Milnor, §2). Prove handle cancellation: a
-`k`-handle and a `(k+1)`-handle whose attaching sphere and belt sphere meet transversely in
-exactly one point can be removed without changing the diffeomorphism type rel the rest of
-the boundary (Milnor, Theorem 5.4). Prove the Whitney move: in a manifold of dimension
-`d ≥ 5`, two transverse submanifolds of complementary dimensions `p, q` with `p, q ≥ 3` (or
-`p = 2`, `q ≥ 3` and simply connected complement of the `q`-dimensional one) and two
-intersection points of opposite sign connected by an embedded framed Whitney disc with
-interior disjoint from both, can be isotoped to remove the two points (Milnor, Theorem 6.6).
-
-- Handle slides and the reordering of handles of the same index, and the dual decomposition
-  obtained from `1 − h`, which exchanges indices `λ` and `d − λ`.
-- Every closed connected `d`-manifold has a handle decomposition with exactly one `0`-handle
-  and exactly one `d`-handle, the two clauses being dual under `1 − h`; a closed manifold with
-  `c` components has at least `c` handles of each of the indices `0` and `d`.
-- The chain complex of a handle decomposition computes the singular homology of `W` relative
-  to `M₀`.
-
-**Checks.**
-- The height function on `S²` has two critical points of indices `0` and `2`: one `0`-handle
-  and one `2`-handle, glued along their common boundary circle as in Layer 1.3.
-- The height function on the standard torus of revolution has four critical points of
-  indices `0, 1, 1, 2`; the two `1`-handles attached to the `0`-handle give a punctured torus
-  and the `2`-handle caps it.
-- A `0`-handle and a `1`-handle whose attaching `S⁰` meets the belt sphere of the `0`-handle in
-  one point cancel: `D^d` with one `0`- and one `1`-handle glued this way is `D^d` again.
-- In dimension `4` the Whitney disc need not embed, and the Whitney move fails in general:
-  the hypothesis `d ≥ 5` is essential and the four-dimensional theory is FourManifolds'.
-- `S² ⊔ S²` has no handle decomposition with a single `0`-handle: each component needs its own
-  `0`-handle and, dually, its own `2`-handle, so connectedness is needed for both clauses of
-  the single-handle statement.
-
-*Needs:* Tau Ceti `TauCeti.IsMorse`, `TauCeti.IsManifoldNondegenerateCriticalPoint`; Layer 1.1,
-Layer 1.3, Layer 1.5; DifferentialGeometry Layer 3 (gradient-like flows); Mathlib singular
-homology.
-
-### 1.7 PL manifolds through charts
+### 1.6 PL manifolds through charts
 
 A PL manifold is a charted space `M` with `HasGroupoid M (TauCeti.PLGroupoid I)` for the
 Euclidean or half-space model; a PL map is a continuous map that is `TauCeti.IsPLOn` in every
@@ -800,7 +766,7 @@ homeomorphism of boundaries with PL collars produces a PL manifold, parallel to 
 *Needs:* Tau Ceti `TauCeti.PLGroupoid`, `TauCeti.IsPLOn`, `TauCeti.IsPiecewiseAffineOn`,
 Mathlib `HasGroupoid`, finite-dimensional compactness.
 
-### 1.8 Compact smooth surfaces
+### 1.7 Compact smooth surfaces
 
 Consume SurfaceTopology Layer 8 for the classification of compact surfaces and the standard
 models, and PlanarTopology Layers 5 and 8 for Radó's theorem and the uniqueness of PL and
@@ -846,10 +812,10 @@ torus summands, and prove `rank H₁(F; ℚ) = 2g` when `F` is closed and
 *Needs:* SurfaceTopology Layer 8, Layer 9; PlanarTopology Layer 5, Layer 8; Layer 1.2,
 Layer 1.4; Layer 11.3 (smooth triangulations); Mathlib singular homology.
 
-### 1.8.1 Polyhedral surfaces and explicit Euclidean embedding models
+### 1.7.1 Polyhedral surfaces and explicit Euclidean embedding models
 
 Make the elementary claims about surfaces spanning knots precise in the
-compact smooth/PL category, using 1.8's classification and its finite
+compact smooth/PL category, using 1.7's classification and its finite
 triangulation comparison. The embedding is part of the conclusion; abstract
 surface classification does not give a particular ambient realization.
 
@@ -874,7 +840,7 @@ surface classification does not give a particular ambient realization.
 
 2. **Classification parameters and boundary gluing.** State the connected
    classification as an abstract PL homeomorphism and smooth diffeomorphism
-   to the 1.8 standard models. A mixed presentation with p handles, q
+   to the 1.7 standard models. A mixed presentation with p handles, q
    crosscaps and r boundary circles has `χ=2−2p−q−r`. For q=0 its orientable
    genus is p; for q>0 its nonorientable genus is `k=q+2p`, not the old q.
    Construct the relative handle-to-two-crosscaps move in the presence of a
@@ -1013,7 +979,7 @@ The constructions, separation, quotient and gluing proofs above are targets here
   band, nonorientable with nonempty boundary, does: the separation argument needs the
   surface closed, and the embedding criterion constrains only closed components.
 
-*Needs:* 1.1–1.5,1.7–1.8, the independent two-dimensional triangulation/smoothing
+*Needs:* 1.1–1.7, the independent two-dimensional triangulation/smoothing
 prefix of 11.3 and the relative collared-pair adapter from11.2; SurfaceTopology's compact classification, PlanarTopology's
 surface/plane comparisons; finite simplicial complexes, normal-position and
 transversality from DifferentialGeometry, native projectivization, Euclidean
@@ -1024,16 +990,16 @@ supplies later knot and JSJ applications without consuming their classifications
 
 The sphere `Sⁿ` as the double of `Dⁿ`; `S³` as two solid tori glued by the factor swap;
 `S¹ × S²` as two solid tori glued by the identity; the connected sum `T² # T²` of genus two;
-the tube of the unit circle in `ℝ²`; the height-function handle decompositions of `S²` and `T²`;
-the PL circle as the boundary of a triangle.
+the tube of the unit circle in `ℝ²`; the annulus and the Möbius band as `D²` with one
+`1`-handle attached; the PL circle as the boundary of a triangle.
 
 ### Dependencies
 
 Mathlib's manifold library; Tau Ceti's boundary manifold, collars, gluing of atlases, smooth
-embeddings and normal spaces, Euclidean tubes and Morse predicates; DifferentialGeometry
+embeddings and normal spaces, and Euclidean tubes; DifferentialGeometry
 (corners, flows, metrics); HopfRinow (exponential map, normal neighbourhoods);
 SurfaceTopology and PlanarTopology (surfaces); Layer 3.3 for the ambient isotopy of ball
-embeddings used in Layer 1.4, and Layer 11.3 for the smooth triangulations used in Layer 1.8.
+embeddings used in Layer 1.4, and Layer 11.3 for the smooth triangulations used in Layer 1.7.
 
 ## Layer 2: locally flat embeddings
 
@@ -3113,7 +3079,7 @@ premise.
 Prove that every nonempty oriented link `L ⊂ S³` bounds a compact connected oriented
 Seifert surface: construct the raw Seifert-algorithm surface, then join its distinct
 components by oriented interior tubes preserving the boundary (Lickorish, Theorem 2.2). Define the genus
-`g(L)` as the least genus of a Seifert surface (Layer 1.8 genus), and for a knot prove
+`g(L)` as the least genus of a Seifert surface (Layer 1.7 genus), and for a knot prove
 `g(K) = 0` iff `K` is the unknot, `g(K # J) = g(K) + g(J)` (Lickorish, Theorem 2.4, by cutting a
 minimal surface along a decomposing sphere, with the full geometric proof in 4.3.4), so that every knot is a finite connected sum of
 prime knots. Define the Seifert form on `H₁(F; ℤ)` of a Seifert surface by
@@ -3239,7 +3205,7 @@ clauses are consumers of that API, with no return edge from their computed matri
   `Vᵀ − V` has determinant `4`; it is not the matrix of a Seifert surface of a knot,
   so the unimodularity hypothesis on `P` is necessary.
 
-*Needs:* Layer 1.8 (surfaces and genus), Layer 1.5; Tau Ceti
+*Needs:* Layer 1.7 (surfaces and genus), Layer 1.5; Tau Ceti
 `TauCeti.KnotTheory.IntegralSquareMatrix.SEquivalent`; Mathlib singular homology.
 
 ### 4.3.1 Quadratic refinements and proper links
@@ -3376,7 +3342,7 @@ Mathlib coefficient change and singular homology.
 
 ### 4.3.2 Finite disc-band surfaces and canonical Seifert surfaces
 
-Construct finite embedded disc-band presentations, using Layer1.8's
+Construct finite embedded disc-band presentations, using Layer1.7's
 compact-surface classification and Layer4.2's realized diagram conventions.
 The data contain d disjoint discs, b rectangular bands, their two distinct
 attaching interval occurrences, cyclic interval orders on each disc,
@@ -3458,14 +3424,14 @@ The boundary knot moves by the induced ambient isotopy. An abstract graph
 contraction is not this spatial straightening theorem.
 
 For an arbitrary compact connected surface with nonempty boundary, consume
-SurfaceTopology's classification and Layer1.8's smooth/PL comparison to
+SurfaceTopology's classification and Layer1.7's smooth/PL comparison to
 construct a finite one-disc model. Its band count is `2g+r−1` in the
 orientable case and `k+r−1` in the nonorientable case. Prove that two
 one-disc finite band surfaces are homeomorphic as unmarked abstract
 surfaces iff their band counts, boundary counts and orientability agree.
 This classification does not identify their embedded placements. A
 noncompact surface such as `S¹×[0,∞)` is outside the finite-model theorem;
-closed surfaces use the separate standard models from Layer1.8.
+closed surfaces use the separate standard models from Layer1.7.
 
 **Raw Seifert surfaces and genus minima.** For a nonempty oriented link
 diagram with n crossings, s Seifert circles and μ link components,
@@ -3512,7 +3478,7 @@ canonical surface need not be either minimum.
   G=0. One interior tube gives a connected annulus spanning the unlink;
   its Euler characteristic is0, while the raw surface's is2.
 
-*Needs:* Layer1.8 (compact-surface classification and smooth/PL comparison),
+*Needs:* Layer1.7 (compact-surface classification and smooth/PL comparison),
 Layer1.5 (collars and tubes), Layer3.3 (supported ambient isotopy extension),
 Layer4.2 (realized diagrams and local Reidemeister moves), Layer4.3's basic
 Seifert/linking carriers; 4.3.4 for ordinary-genus minimum and trefoil
@@ -3531,7 +3497,7 @@ so the connectedness hypothesis of the one-disc normal form cannot be dropped.
 ### 4.3.3 Different spanning surfaces with the same boundary
 
 Construct a concrete pair of embedded surfaces bounding the SAME trefoil,
-using 1.8.1's ambient models and 4.3.2's canonical Seifert construction.
+using 1.7.1's ambient models and 4.3.2's canonical Seifert construction.
 For `R>ε>0` take the embedded Möbius strip with quotient coordinates
 `(s,t)∈[0,2π]×[−ε,ε]`, `(0,t)∼(2π,−t)`, parametrized by
 
@@ -3564,9 +3530,9 @@ knot or all their ambient isotopy types.
   around the core, an unknot; with `3s/2` the boundary winds twice around the core and
   three times in the meridional direction, the torus knot `T(2, 3)`.
 
-*Needs:* 1.8–1.8.1,4.2,4.3,4.3.2 and the marked torus-knot construction of 4.11.
+*Needs:* 1.7–1.7.1,4.2,4.3,4.3.2 and the marked torus-knot construction of 4.11.
 The explicit trefoil applications consume the early surface prefix; they
-supply no premise of1.8.1 or of generic disc-band classification.
+supply no premise of1.7.1 or of generic disc-band classification.
 
 ### 4.3.4 Surface compression and ordinary genus additivity
 
@@ -3605,7 +3571,7 @@ back to those later consumers is used.
    disconnected output use the sum of the Euler characteristics. Own the
    collar-compatible finite-circle gluing identity `χ(A∪_C B)=χ(A)+χ(B)`
    used here, where C is the specified finite disjoint union of circles;
-   distinguish the boundary-interval subtraction in 1.8.1. The output is
+   distinguish the boundary-interval subtraction in 1.7.1. The output is
    connected or has exactly two components according to whether the
    attaching curve is nonseparating or separating. In the first case prove
    `g(F)=g(F_D)+1`. In the second prove `b₁+b₂=b(F)` and
@@ -3639,7 +3605,7 @@ back to those later consumers is used.
 
 3. **The lower bound at a decomposing sphere.** For oriented knots
    `K=K₁#K₂`, construct the boundary-connected sum of minimum surfaces
-   using 1.8.1 to prove `g(K)≤g(K₁)+g(K₂)`. For the reverse inequality take
+   using 1.7.1 to prove `g(K)≤g(K₁)+g(K₂)`. For the reverse inequality take
    a minimum surface F transverse to the two-point decomposing sphere S,
    keeping its boundary fixed. Among such minimum surfaces minimize the
    number of circle components of `F∩S`. Its boundary has two points, so
@@ -3711,7 +3677,7 @@ No crossing-number additivity or bound on factor crossing numbers follows.
 - A genus-one knot is prime: a factorization `K = K₁ # K₂` with both factors nontrivial
   would need `g(K₁) + g(K₂) = 1` with both summands at least `1`.
 
-*Needs:* 1.1–1.5, 1.8–1.8.1, 2.2–2.3, 3.3, 4.1; the basic Seifert/linking
+*Needs:* 1.1–1.5, 1.7–1.7.1, 2.2–2.3, 3.3, 4.1; the basic Seifert/linking
 carriers of 4.3 and the independent embedded disc-band, raw-surface and
 routing prefix of 4.3.2; the independent relative PL/smooth comparison
 in 11.2; actual compact surface classification,
@@ -12474,9 +12440,10 @@ topological consequences: the Poincaré conjecture, every closed simply connecte
 `3`-manifold is homeomorphic to `S³` (Morgan–Tian, *Ricci Flow and the Poincaré Conjecture*,
 Clay Math. Monographs 3 (2007), Corollary 0.2(a), the special case of their Theorem 0.1 on
 closed `3`-manifolds whose fundamental group is a free product of finite and infinite cyclic
-groups), stated as `poincare_conjecture`; the elliptization of closed `3`-manifolds with finite
-fundamental group (Morgan–Tian, Corollary 0.2(b)); and the comparison with Thurston's
-formulation through the eight model geometries `TauCeti.ModelGeometry`: a closed orientable
+groups), stated as `nonempty_homeomorph_sphere_of_simplyConnected`; the elliptization of
+closed `3`-manifolds with finite fundamental group (Morgan–Tian, Corollary 0.2(b)); and the
+comparison with Thurston's formulation through the eight model geometries
+`TauCeti.ModelGeometry`: a closed orientable
 Seifert fibred manifold carries one of the six geometries `S³`, `E³`, `S² × ℝ`, `ℍ² × ℝ`,
 `Nil`, `SL₂~` according to its Euler number and base orbifold Euler characteristic, the
 `Sol` manifolds are the torus bundles and semi-bundles with hyperbolic monodromy, and the
@@ -12552,7 +12519,7 @@ handle, raising the genus by one.
 - The gluing map for `S¹ × S²` and for `S³` differ by the factor swap, which is not isotopic
   to the identity of the torus; the splitting depends on the mapping class of `φ`.
 
-*Needs:* Layer 1.3, Layer 1.8, Layer 11.2; SurfaceTopology Layer 9; Tau Ceti `TauCeti.Orientable`.
+*Needs:* Layer 1.3, Layer 1.7, Layer 11.2; SurfaceTopology Layer 9; Tau Ceti `TauCeti.Orientable`.
 
 ### 9.2 Heegaard genus, rank and Li's theorem
 
@@ -12595,7 +12562,7 @@ manifolds; `T³` as a genus-three manifold.
 
 ### Dependencies
 
-Layer 1.3 (gluing), Layer 1.8 (surfaces), Layer 11.2 (triangulations), Layer 8.2 (prime
+Layer 1.3 (gluing), Layer 1.7 (surfaces), Layer 11.2 (triangulations), Layer 8.2 (prime
 decomposition), Layer 7.3 (hyperbolic manifolds for Li's examples); SurfaceTopology Layer 9;
 Mathlib's group rank.
 
@@ -12746,7 +12713,7 @@ with the pushed-forward characteristic maps.
 
 Prove Moise's theorems: every topological `3`-manifold is triangulable, `TauCeti.IsTriangulable`,
 by a combinatorial triangulation, and any two triangulations of a `3`-manifold have a
-common subdivision, so a `3`-manifold has a PL structure in the sense of Layer 1.7 unique
+common subdivision, so a `3`-manifold has a PL structure in the sense of Layer 1.6 unique
 up to PL homeomorphism isotopic to the identity (Moise, *Geometric Topology in Dimensions 2
 and 3*, Theorems 35.3 and 36.2; Bing, Ann. of Math. 69 (1959)). Prove that every PL
 `3`-manifold admits a smooth structure compatible with its PL structure, unique up to
@@ -12772,7 +12739,7 @@ every closed topological `3`-manifold is triangulable, as `moise_triangulation`,
   boundaries have a common subdivision, as the Hauptvermutung asserts.
 
 *Needs:* Tau Ceti `TauCeti.IsTriangulable`, `TauCeti.IsCombinatoriallyTriangulable`,
-`TauCeti.PLGroupoid`; Layer 1.7, Layer 11.1; PlanarTopology Layers 5 and 8.
+`TauCeti.PLGroupoid`; Layer 1.6, Layer 11.1; PlanarTopology Layers 5 and 8.
 
 ### 11.3 Smooth triangulations and combinatorial manifolds
 
@@ -12780,7 +12747,7 @@ Prove the Cairns–Whitehead theorem: every smooth manifold admits a smooth tria
 homeomorphism from a realization whose restriction to each closed simplex is a smooth
 embedding with injective differential, unique up to PL homeomorphism (Whitehead, *On
 C¹-complexes*, Ann. of Math. 41 (1940); Munkres, Theorems 10.5 and 10.6). Hence every smooth
-manifold is a PL manifold in the sense of Layer 1.7, and the PL structure is unique. Prove
+manifold is a PL manifold in the sense of Layer 1.6, and the PL structure is unique. Prove
 that the realization of a combinatorial `n`-manifold (`IsCombinatorialManifold K n`, locally
 finite with countably many vertices) is a PL `n`-manifold, and that every PL manifold admits a
 combinatorial triangulation (Rourke–Sanderson, *Introduction to Piecewise-Linear Topology*,
@@ -12819,7 +12786,7 @@ manifold of one dimension less.
   across edges, as the definition does not require.
 
 *Needs:* Tau Ceti `PreAbstractSimplicialComplex.IsCombinatorialManifold`, `IsCombinatorialSphere`,
-`IsCombinatorialBall`, `TauCeti.PLGroupoid`; Layer 1.7, Layer 11.1.
+`IsCombinatorialBall`, `TauCeti.PLGroupoid`; Layer 1.6, Layer 11.1.
 
 ### 11.4 Manolescu's theorem
 
@@ -12884,7 +12851,7 @@ no PL structure; the dunce hat; the tetrahedral smooth triangulation of `S²`.
 ### Dependencies
 
 Tau Ceti's simplicial complexes, realizations, combinatorial manifolds, collapse,
-triangulability and the two propositions; Layer 1.7 (PL manifolds); PlanarTopology Layers 5
+triangulability and the two propositions; Layer 1.6 (PL manifolds); PlanarTopology Layers 5
 and 8; Mathlib CW complexes.
 
 ## Downstream consumers
@@ -12894,8 +12861,9 @@ and 8; Mathlib CW complexes.
 - **CharacteristicClasses**, **GeneralizedCohomology**, **TopologicalKTheory**,
   **MorseTheory**, **RiemannianGeometry**, **IndexTheory**, **HomotopySpheres**,
   **AffineMorseLefschetz** and **ComplexKahlerGeometry** consume Layer 1: collars, gluing,
-  connected sums, tubular neighbourhoods and the metric-independent normal bundle, and the
-  handle decompositions.
+  connected sums, tubular neighbourhoods and the metric-independent normal bundle.
+  HomotopySpheres builds its handle decompositions, cancellation and Whitney moves
+  (HomotopySpheres §§1.2–1.6) on Layer 1.3's handle attachment and Layer 1.5's tubes.
 - **MorseTheory** also consumes Layer 2.2's generalized Schoenflies theorem for a bicollared
   sphere, which is proved here and is the topological input of its target M4.1.
 - **TeichmullerGeometry** consumes Layer 3's topological group `Diff(M)` and isotopy
@@ -12941,8 +12909,7 @@ and 8; Mathlib CW complexes.
   Theorems 5.3, 6.1, 6.3, 6.6; Chapter 8, Theorems 1.3 and 3.1. J. Lee, *Introduction to
   Smooth Manifolds*, 2nd ed., Springer GTM 218 (2013): Theorems 6.24, 9.25, 9.26. J. Lee,
   *Introduction to Riemannian Manifolds*, 2nd ed., Springer GTM 176 (2018): Theorem 5.25.
-- J. Milnor, *Lectures on the h-Cobordism Theorem*, Princeton (1965): §§2–3, Theorems 5.4 and
-  6.6. R. Palais, *Extending diffeomorphisms*, Proc. Amer. Math. Soc. 11 (1960), 274–277;
+- R. Palais, *Extending diffeomorphisms*, Proc. Amer. Math. Soc. 11 (1960), 274–277;
   *Local triviality of the restriction map for embeddings*, Comment. Math. Helv. 34 (1960),
   305–312. J. Cerf, *Topologie de certains espaces de plongements*, Bull. Soc. Math. France 89
   (1961), 227–380.
