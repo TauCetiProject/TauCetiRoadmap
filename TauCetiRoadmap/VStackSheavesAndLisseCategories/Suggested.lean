@@ -18,7 +18,8 @@ VS1's ULA/kernel-adjoint criterion, Jacobian criterion, Braden theorem and Drinf
 need diamonds, relative Fargues–Fontaine curves and their coefficient operations. VS2's
 solid sheaf homology and VS3's lisse comparisons need the enhanced geometric solid and lisse
 categories; VS3.3's coefficient stages also need the relative-discrete condensed coefficient
-rings and the pro-étale coefficient ring objects of `EtaleCohomologyFoundations` §F.4.3.
+rings and the pro-étale coefficient ring objects on schemes (`Scheme.ellAdicSheaf` for `ℤ_ℓ`
+and the `𝒪_E`, `E` and `ℚ̄_ℓ` ring objects that VS3.3 defines).
 VS4's Newton-stratum equivalences and compact generation, and VS5's torsion and
 lisse Bernstein–Zelevinsky duality, Verdier exchange, Künneth formulas, perfect-invariant ULA
 criteria and scalar-change comparisons additionally need `Bun_G`, its strata and charts.
