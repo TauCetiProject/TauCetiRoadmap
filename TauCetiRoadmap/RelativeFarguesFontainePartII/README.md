@@ -1777,7 +1777,7 @@ Construct the general Fréchet–Stein and coadmissible-system interface over an
 
 One proof route uses the following steps. Prove the general system theorem by canonical Banach quotient topologies and complete dense inverse-limit correction, with right-flat transitions making kernels coherent. Use the compact field/PID dichotomy, torsion-free restriction and the common dense ring to verify the annular hypotheses. No assertion that every coadmissible module is finitely generated is made.
 
-(FF17, §11.2.1, pp. 369–370; ST02, §3, definition and Theorems A/B, pp. 7–9; Corollaries 3.1–3.5, pp. 9–10; Lemma 3.6, pp. 10–11.)
+(FF17, §11.2.1, pp. 369–370; ST02, §3, definition and Theorems A/B, pp. 7–9; Corollaries 3.1–3.5, pp. 9–11; Lemma 3.6, p. 11.)
 
 **Checks.**
 
