@@ -26,10 +26,7 @@ isomorphism from the right coinvariants of the unipotent radical's defining idea
 Layer 7's conjugacy of Borel subgroups over an algebraically closed field; Layer 7a's
 Lang surjectivity for smooth geometrically connected groups over finite fields; and the SL
 coordinate presentation of the worked examples; Layer 11A's plane-configuration
-fundamental-group/braid-group equivalence and permutation-map nonsplitting. Layer 9A.1a-L's
-group of kernel-fixing lifts of a central extension by `ℤˣ` is defined here on Mathlib's
-`GroupExtension`, with its projection; its kernel theorem and the signed ADE instance are README
-targets.
+fundamental-group/braid-group equivalence and permutation-map nonsplitting.
 
 Not statable at the pins, hence not stated, with the missing carrier named:
 * Layers 0–1: the category of rational algebraic group representations and its comparison
@@ -312,50 +309,6 @@ theorem permutation_nonsplit (n : ℕ) (hn : 2 ≤ n) :
   sorry
 
 end PlaneBraidAcceptance
-
-/-! ## Layer 9A: kernel-fixing lifts of a central extension by `ℤˣ` -/
-
-namespace CoverLifts
-
-variable {E : Type*} {Q : Type*} {A : Type*} [Group E] [Group Q] [Group A]
-
-/-- For a group extension `1 → ℤˣ → E → Q → 1` and an action `ρ` of `A` on `Q`, the pairs
-`(φ, a)` of an automorphism `φ` of `E` and an element `a` of `A` such that `φ` fixes the image of
-`ℤˣ` pointwise and covers the action of `a` on `Q`. -/
-def liftSubgroup (S : GroupExtension ℤˣ E Q) (ρ : A →* MulAut Q) :
-    Subgroup (MulAut E × A) where
-  carrier := {p | (∀ s, p.1 (S.inl s) = S.inl s) ∧
-    ∀ e, S.rightHom (p.1 e) = ρ p.2 (S.rightHom e)}
-  one_mem' := ⟨fun s => by simp, fun e => by simp⟩
-  mul_mem' := by
-    rintro ⟨φ, a⟩ ⟨ψ, b⟩ ⟨hφ₁, hφ₂⟩ ⟨hψ₁, hψ₂⟩
-    refine ⟨fun s => ?_, fun e => ?_⟩
-    · show φ (ψ (S.inl s)) = S.inl s
-      rw [hψ₁, hφ₁]
-    · show S.rightHom (φ (ψ e)) = ρ (a * b) (S.rightHom e)
-      rw [hφ₂, hψ₂, map_mul, MulAut.mul_apply]
-  inv_mem' := by
-    rintro ⟨φ, a⟩ ⟨hφ₁, hφ₂⟩
-    refine ⟨fun s => ?_, fun e => ?_⟩
-    · show φ⁻¹ (S.inl s) = S.inl s
-      conv_lhs => rw [← hφ₁ s]
-      exact MulAut.inv_apply_self E φ (S.inl s)
-    · show S.rightHom (φ⁻¹ e) = ρ a⁻¹ (S.rightHom e)
-      have h := hφ₂ (φ⁻¹ e)
-      rw [MulAut.apply_inv_self E φ] at h
-      rw [h, map_inv, MulAut.inv_apply_self Q (ρ a)]
-
-/-- The group of kernel-fixing lifts. -/
-abbrev LiftGroup (S : GroupExtension ℤˣ E Q) (ρ : A →* MulAut Q) := liftSubgroup S ρ
-
-/-- The projection of a lift to the element of `A` it covers. -/
-def projection (S : GroupExtension ℤˣ E Q) (ρ : A →* MulAut Q) :
-    LiftGroup S ρ →* A where
-  toFun l := l.val.2
-  map_one' := rfl
-  map_mul' _ _ := rfl
-
-end CoverLifts
 
 end TauCetiRoadmap.ReductiveGroups
 

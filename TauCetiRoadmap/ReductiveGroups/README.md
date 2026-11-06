@@ -2185,10 +2185,7 @@ algebra by its Killing-semisimple part.
    maps. Use native `GroupExtension.Equiv` for extension transport and its
    existing section-ratio/quotient APIs for the corresponding comparison laws.
    Prove closure, inverse and identity by these equations and use the
-   native subgroup group structure. `Suggested.lean` declares this subgroup, for any
-   `GroupExtension ℤˣ E Q` and any action `A →* MulAut Q`, as `CoverLifts.liftSubgroup`,
-   with `CoverLifts.LiftGroup` its group and `CoverLifts.projection` the homomorphism
-   to `A`; the ADE cover is an instance. Export its cover action, projection to A,
+   native subgroup group structure. Export its cover action, projection to A,
    conjugation/change-of-order maps, and the literal action on simple lifts,
    section values, τ, products, inverses and root fibers. This is the group of
    **all** compatible lifts, not one silently selected lift per root isometry.
