@@ -139,7 +139,10 @@ The baseline is Mathlib `6b7abb3c7686292736be2955bd3eb9ebf63b456a` and Tau Ceti 
 
 ### From other roadmaps
 
-These are section-level mathematical suppliers. The Lean imports in [Suggested.lean](Suggested.lean) are `Mathlib` and `TauCetiRoadmap.SchemeAndStackFoundations.Suggested`; the contracts below name specification targets, not additional imports or declarations already available at the library pins.
+These are section-level mathematical suppliers. [Suggested.lean](Suggested.lean) imports `Mathlib`,
+`TauCetiRoadmap.SchemeAndStackFoundations.Suggested`, and
+`TauCetiRoadmap.PurityOfBranchLocus.Suggested`; the contracts below name specification targets,
+not declarations already available at the library pins.
 
 | Supplier sections | Supplied contract | Consumers here |
 | --- | --- | --- |
@@ -151,6 +154,7 @@ These are section-level mathematical suppliers. The Lean imports in [Suggested.l
 | This roadmap §§0.1–0.4 | Ringed-site enhancement, K-injective and K-flat replacements, tensor–Hom, coherent derived limits and exact functor calculus; §0.3 also supplies `ℓ`-adic module completion over `ℤ` | E1 and E3 comparisons, E2:towers, E5:abstract tensor comparison, E4 specialization |
 | `DerivedModuleAlgebra` §0.I.1, §§0.2, 0.4–0.17, §1.T.1, §§1.1–1.5 (including §1.1.1) | Module K-injective replacements and K-flat tensor models, ordinary cotangent and power functors with their functorial laws, elementary towers and `ML`/Milnor, module derived limits and Hom, completeness, Koszul completion towers and regular-quotient models | §§0.1–0.3, E1.2, E1.F3.H1, E1.8.DMA.1, E2:towers, E4, E5:cotangent-export |
 | `DerivedModuleAlgebra` §0.K.1 | Linear-functional Koszul complexes, maps, signed tensor formulas, multiplication null-homotopies and finite weakly regular resolutions | E1.5–E1.6 and E4 |
+| `PurityOfBranchLocus` §0.3 | The ordinary local-algebra chain, including `isRegularLocalRing_of_projectiveDimension_residueField` from 00OC and the comparison between `globalDimension` and Mathlib's pointwise projective-dimension bound | E1.6 and its regularity applications |
 | `SchemeAndStackFoundations` §0.9, Layers 1–2 and §2.18; `JacobianChallenge` Layer C; `StableReduction` Layer 2 | Scheme approximation, algebraic-space sites and module descent, and scheme coherent cohomology with base change; E1.9 constructs the space pushforward and approximation extensions | E1.9 |
 | `PerfectoidSpaces` P0.1–P0.2, P0.5–P0.15, P7.16a | Basic and compatible-root setups, almost modules and algebras, almost projectivity and finite étale algebra; regularity of finite-variable power-series rings over fields | E1.6–E1.7 |
 
@@ -690,7 +694,7 @@ DerivedModuleAlgebra §0.K.1 supplies `koszulComplex φ` for any linear function
 
 A perfect `𝔽_p`-algebra is a commutative ring of characteristic p on which Frobenius is bijective (Mathlib's `PerfectRing R p`, with inverse roots from `frobeniusEquiv`). The perfection of an `𝔽_p`-algebra is the colimit along Frobenius, Mathlib's `PerfectClosure` (as in `TauCetiRoadmap.SchemeAndStackFoundations` §0.24), not Mathlib's inverse-limit `Perfection`. A regular ring is a Noetherian ring all of whose localizations at primes are regular local rings (Mathlib's `IsRegularRing` and `IsRegularLocalRing`).
 
-**Global dimension of regular rings** (`isRegularRing_projectiveDimension_le`, `isRegularLocalRing_of_projectiveDimension_residueField`). Let R be a regular ring of finite Krull dimension d (`IsRegularRing R` and `ringKrullDim R ≤ d`). Then every R-module, finitely generated or not, has projective dimension at most d (`CategoryTheory.HasProjectiveDimensionLE (ModuleCat.of R M) d`). Conversely, a Noetherian local ring whose residue field has finite projective dimension is a regular local ring, of dimension equal to that projective dimension. Hence a Noetherian ring has global dimension d exactly when it is regular of Krull dimension d. (Stacks, Commutative Algebra, Proposition 10.110.1, tag 00O7, Proposition 10.110.5, tag 00OC, and Lemma 10.110.8, tag 00OE; Lemma 10.109.12, tag 065T, reduces arbitrary modules to cyclic ones.)
+**Global dimension of regular rings** (`isRegularRing_projectiveDimension_le`). Let R be a regular ring of finite Krull dimension d (`IsRegularRing R` and `ringKrullDim R ≤ d`). Then every R-module, finitely generated or not, has projective dimension at most d (`CategoryTheory.HasProjectiveDimensionLE (ModuleCat.of R M) d`). The local residue-field criterion and dimension equality come from PurityOfBranchLocus §0.3's `isRegularLocalRing_of_projectiveDimension_residueField` and `isRegularLocalRing_tfae`, rather than being separate E1.6 targets. Together these yield the characterization of a Noetherian ring of global dimension d as regular of Krull dimension d. (Stacks, Commutative Algebra, Proposition 10.110.1, tag 00O7, Proposition 10.110.5, tag 00OC, and Lemma 10.110.8, tag 00OE; Lemma 10.109.12, tag 065T, reduces arbitrary modules to cyclic ones.)
 
 **Checks.**
 
@@ -805,9 +809,9 @@ Provide `frobeniusRootIdeal`, `frobeniusRootIdeal_radical` `(J_f = √(f))`, `fr
 - For `𝔽_p[ε]/(ε²)` Frobenius is not flat, and the ring is not regular.
 - For a perfect field, Frobenius is an isomorphism and the regular local ring has dimension zero.
 
-*Proof route.* Pass to complete local rings (completion preserves Frobenius flatness) and choose a Cohen presentation. Flat Frobenius makes `R → R_perf` faithfully flat; finite global dimension of the perfection descends to finite Tor dimension, hence finite projective dimension, of the residue field over R, and `isRegularLocalRing_of_projectiveDimension_residueField` applies.
+*Proof route.* Pass to complete local rings (completion preserves Frobenius flatness) and choose a Cohen presentation. Flat Frobenius makes `R → R_perf` faithfully flat; finite global dimension of the perfection descends to finite Tor dimension, hence finite projective dimension, of the residue field over R, and PurityOfBranchLocus §0.3's `isRegularLocalRing_of_projectiveDimension_residueField` applies.
 
-*Needs:* `completeNoetherianLocal_cohenPresentation`; `frobeniusFlat_completion`; `regularity_of_completion`; `perfect_projectiveDimension_le`; `isRegularLocalRing_of_projectiveDimension_residueField`; Mathlib `IsRegularRing`, `frobenius`, `RingHom.Flat`.
+*Needs:* `completeNoetherianLocal_cohenPresentation`; `frobeniusFlat_completion`; `regularity_of_completion`; `perfect_projectiveDimension_le`; PurityOfBranchLocus §0.3's `isRegularLocalRing_of_projectiveDimension_residueField`; Mathlib `IsRegularRing`, `frobenius`, `RingHom.Flat`.
 
 ### E1.7 Bounded saturated valuation modules
 
