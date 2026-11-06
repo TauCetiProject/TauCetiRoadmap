@@ -1,6 +1,8 @@
-import Mathlib
-import TauCeti.AlgebraicGeometry.AdicSpace.ValuationSpectrum.Basic
-import TauCeti.RepresentationTheory.Homological.ContCohomology.CohomologicalDimension.Basic
+module
+
+public import Mathlib
+public import TauCeti.AlgebraicGeometry.AdicSpace.ValuationSpectrum.Basic
+public import TauCeti.RepresentationTheory.Homological.ContCohomology.CohomologicalDimension.Basic
 
 /-!
 # Classical analytic étale cohomology: target signatures
@@ -20,12 +22,16 @@ The other headline results are not stated because their required structures are 
 from the pins:
 
 * Layer 1's strict-local fibre and continuity theorems need analytic étale and pro-étale
-  sites, geometric points, and pseudo-adic support sites.
+  sites, geometric points, and pseudo-adic support sites. Its site functors and stalks under
+  the scheme names, its constructible stratifications and its analytic adic systems need the
+  same sites.
 * Layer 2's henselian, scheme–adic and perfectoid approximation comparisons need those
   sites and henselization of Huber pairs along pro-special supports. The nonabelian
   Zariski–Riemann assertion also needs nonabelian sheaf cohomology.
 * Layer 3's local-lattice and monodromy theorems need analytic rational local systems,
-  strict Berkovich spaces and their analytic covering category.
+  strict Berkovich spaces and their analytic covering category. Its isogeny category is a
+  Serre-quotient localization of towers of étale sheaves descended along preadic affinoid
+  coverings, which need preadic spaces.
 * Layer 4's completion and inertia-equivariant nearby-cycle comparisons, perverse
   coefficient comparisons and Bloch–Kato–Hyodo theorem need formal étale sites and generic
   fibres, nearby-cycle objects, perverse realizations and logarithmic differential sheaves.
@@ -45,6 +51,8 @@ from the pins:
   comparisons, and frontier duality need analytification on étale sheaves, support
   localization and the analytic trace. A radial subset alone supplies none of these sites.
 -/
+
+@[expose] public section
 
 namespace TauCetiRoadmap.ClassicalAdicEtaleCohomology
 
