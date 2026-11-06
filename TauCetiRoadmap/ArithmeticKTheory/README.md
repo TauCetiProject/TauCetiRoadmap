@@ -310,9 +310,10 @@ element. For odd prime p, §3.1 supplies p-integrality of pB_n for positive
 even n; when p−1∤n it supplies p-integrality of B_n/n and its residue invariance
 for all positive even indices congruent modulo p−1, including indices divisible
 by p. It also supplies the Teichmüller–Bernoulli comparison in the finite range.
-§3.3 supplies `classComponent_zero` and character reflection; §4.5 supplies
-`herbrand_ribet`. Sections 5.1 and 5.4 supply `IsRegularPrime`,
-`kummer_criterion` and `regular_prime_power_class_number`. Section 7.2 applies
+§3.3 supplies the vanishing of the exponent-zero class component and
+character reflection; §4.5 supplies `herbrand_ribet`. Sections 5.1 and 5.4
+supply `IsRegularPrime`, `kummer_criterion` and
+`regular_prime_power_class_number`. Section 7.2 applies
 the criterion to the divided Bernoulli sequence; §7.3 transports the supplied
 class module to the localized Picard module. No class-action or projector
 carrier is reconstructed here. The AINTLIB source signatures and their index
@@ -322,15 +323,17 @@ integrality interfaces are the supplier's targets, beyond those source signature
 ### From TauCetiRoadmap.SchemeKTheoryOperations
 
 Sections 3.6–3.7 supply general Dedekind localization, Cartan comparison,
-finite-pushforward naturality, the DVR boundary valuation and
-`dvrBoundary_flat_ramification`. Section 2.3 assembles this ramification square
-on the arithmetic residue direct sums.
+finite-pushforward naturality, the DVR boundary valuation and its
+flat-ramification law: after a local flat map of DVRs with ramification index
+e, the boundary of the extended class is e times the pulled-back boundary.
+Section 2.3 assembles this ramification square on the arithmetic residue
+direct sums.
 
 ### From TauCetiRoadmap.KTheoryLowDegrees
 
-Sections 5.1–5.5 supply rank–Picard, projective classification and
-`dedekindTransferCoordinates`, including virtual negative ranks. Section 8.1
-supplies determinant and §§11.1–11.3 the arithmetic SK₁ and S-unit comparisons.
+Sections 5.1–5.5 supply rank–Picard, projective classification and the
+transfer formula in rank–Picard coordinates, including virtual negative
+ranks. Section 8.1 supplies determinant and §§11.1–11.3 the arithmetic SK₁ and S-unit comparisons.
 
 ### From TauCetiRoadmap.K2SymbolsBrauer
 
@@ -628,8 +631,8 @@ res₁(u) = u,                  tr₁(v) = N_(E/F)(v).
 
 In particular tr₀res₀ is multiplication by [B]=(d,c_B) in K₀(O); it need not
 be multiplication by d. On K₁, tr₁res₁(u)=u^d. Include tower identities,
-compatibility with S-enlargement, and the projection formula. Specialize KTheoryLowDegrees §5.5, `dedekindTransferCoordinates`, to
-§1.2's finite injective Dedekind extension, using the supplied
+compatibility with S-enlargement, and the projection formula. Specialize KTheoryLowDegrees §5.5's transfer formula in rank–Picard
+coordinates to §1.2's finite injective Dedekind extension, using the supplied
 `ClassGroup.relNorm` normalization. The displayed coordinates and their
 S-enlargement compatibility are the arithmetic specialization.
 (K-book, Exercise II.2.2 and II.2.2(b), p. 78; V.6.6.3–6.6.4, p. 410.)
@@ -824,9 +827,9 @@ and homomorphism laws, while id and tower_apply specify identity and
 composition. These also apply to the general finite-fibre direct-sum
 assembly of additive homomorphisms, with the arithmetic weights substituted.
 
-Apply SchemeKTheoryOperations §3.6, `dvrBoundary_flat_ramification`,
-at each w|v after localizing §1.2's finite projective extension; §3.7 supplies
-the Dedekind localization assembly. The support pullback has length e(w/v).
+Apply SchemeKTheoryOperations §3.6's flat-ramification law for the DVR
+boundary at each w|v after localizing §1.2's finite projective extension;
+§3.7 supplies the Dedekind localization assembly. The support pullback has length e(w/v).
 It is not an equivalence K(B/w^e)≃K(k(w))^e. Assemble these supplied local
 squares into the arithmetic coordinate map, with finite support, tower and
 S-enlargement compatibility. (K-book, V.6.6.3–6.6.4, p. 410.)
