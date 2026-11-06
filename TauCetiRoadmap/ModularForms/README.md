@@ -5,9 +5,10 @@ on the analytic forms, Hecke actions, newforms, periods and L-functions in Mathl
 The remaining end theorems are integral Hecke polynomiality in arbitrary positive rank,
 cross-level strong multiplicity one, weight-one coefficient arithmetic, Galois stability,
 general-level dimension formulas and the level-one Eichler–Selberg trace formula. The build
-includes character Eisenstein series, partial Atkin–Lehner operators, twists and newform orbit
-invariants, and the uniformisation and scheme–analytic comparison of the level moduli on which
-the weight-one arithmetic rests, with all primes and all positive congruence levels retained.
+includes character Eisenstein series, the eta transformation and eta quotients, partial
+Atkin–Lehner operators, twists and newform orbit invariants, and the uniformisation and
+scheme–analytic comparison of the level moduli on which the weight-one arithmetic rests,
+with all primes and all positive congruence levels retained.
 
 ## Scope and ownership
 
@@ -20,6 +21,11 @@ Atkin–Lehner character transport and the trivial-character sign theory, Satake
 and conditional angles, complex conjugation of newforms, the Fricke
 functional equation, the level-one graded ring, and the full-index valence formula.
 Mathlib supplies the continued modular-form L-function. The exact contracts follow below.
+
+This roadmap owns the transformation of Mathlib's Dedekind eta function under SL₂(ℤ):
+the translation law, the principal-root inversion law, the multiplier at every element
+with its Dedekind-sum value, and the eta-quotient criterion with its cusp orders (§0.2).
+Mathlib supplies η, Δ defined as η²⁴, and the inversion law in another root normalization.
 
 FuchsianOrbifolds Layers 3–6 own cusp charts, compactification, compact-surface degree theory
 and the level-one sphere identification. Ownership of the normalized level-one j-function
@@ -103,6 +109,12 @@ is (√N)^(2−k) times the native weight-k slash by the matrix (0,−1;N,0). Wi
 - `CongruenceSubgroup.Gamma`, `CongruenceSubgroup.Gamma0`, `CongruenceSubgroup.Gamma1`,
   `UpperHalfPlane.qExpansion`, the Eisenstein series, `CuspForm.discriminant`, and
   `ModularForm.discriminant_ne_zero`: subgroup, expansion and level-one analytic inputs.
+- `ModularForm.eta` and `ModularForm.eta_ne_zero` in
+  `Mathlib/NumberTheory/ModularForms/DedekindEta.lean`: η(τ)=e^(2πiτ/24)∏(1−qⁿ) and its
+  nonvanishing on ℍ. `ModularForm.discriminant` and `ModularForm.eta_comp_eq_csqrt_I_inv` in
+  `Mathlib/NumberTheory/ModularForms/Discriminant.lean`: Δ is defined as η²⁴, and
+  η(−1/τ)=(√i)⁻¹√τ·η(τ) on ℍ with `Complex.sqrt` the principal root. Neither file states the
+  translation law of η itself or its multiplier at a general element of SL₂(ℤ); §0.2 does.
 - `ModularForm.dimension_level_one` and `ModularForm.sturm_bound_levelOne` in
   `Mathlib/NumberTheory/ModularForms/LevelOne/DimensionFormula.lean`.
 - `ModularForm.L` in `Mathlib/NumberTheory/ModularForms/LFunction.lean` is the continued
@@ -181,6 +193,11 @@ All paths in this list start at `TauCeti/NumberTheory/`.
   `HeckeRing.GL2.EigenformAwayFromLevel.exists_newform_eigenvalue_eq` in
   `ModularForms/Newforms/Decomposition.lean`. These supply full eigen-ness, the orthogonal
   basis and primitive-associate existence; §5.1 strengthens the uniqueness across levels.
+- `HeckeRing.GL2.Newform.qExpansion_coeff_prime_sq_of_factorization_eq_one`,
+  `HeckeRing.GL2.Newform.norm_qExpansion_coeff_prime_of_factorization_conductor_eq` and
+  `HeckeRing.GL2.Newform.qExpansion_coeff_prime_eq_zero_of_factorization_conductor_lt` in
+  `ModularForms/Newforms/BadPrime/Classification.lean`: for p∣N, v=v_p(N) and c=v_p(cond χ),
+  a_p²=χ⁽ᵖ⁾(p)p^(k−2) if v=1 and c=0, |a_p|=p^((k−1)/2) if c=v, and a_p=0 otherwise.
 - `HeckeRing.GL2.Newform.eq_of_forall_notMem_qExpansion_coeff_eq` and
   `HeckeRing.GL2.Newform.level_eq_of_dvd_of_forall_prime_eigenvalue_eq` in
   `ModularForms/Newforms/StrongMultiplicityOne.lean`: respectively fixed level/character
@@ -225,6 +242,11 @@ All paths in this list start at `TauCeti/NumberTheory/`.
   `TauCeti.CharacterField_le_CoefficientField` in `ModularForms/Newforms/Fields.lean`, and
   `TauCeti.numberField_CoefficientField` in `ModularForms/Newforms/NumberField.lean`.
   The last theorem, and newform coefficient integrality there, require k ≥ 2.
+- `TauCeti.ModularForm.eta_eq_exp_mul_tprod` and `TauCeti.ModularForm.eta_neg_one_div_sq` in
+  `ModularForms/DedekindEta.lean`: η as e^(2πiτ/24) times the Euler product on all of ℂ, and
+  the root-free square η(−1/τ)²=−iτη(τ)² on ℍ. `TauCeti.kroneckerSym` in
+  `LegendreSymbol/KroneckerSymbol.lean`: the Kronecker symbol (a/b) at every integer b,
+  including b=2 and b=−1, with `TauCeti.kroneckerSym_mul_left` for products in a.
 - `TauCeti.hurwitzClassNumber` in `HurwitzClassNumber.lean` has H(0)=−1/12,
   H(3)=1/3, H(4)=1/2. `ModularForms/LevelOne/PeriodPolynomial/` supplies period-polynomial
   spaces and their dimension count; `ModularForms/LevelOne/TraceFormula/` supplies the
@@ -276,6 +298,21 @@ input across layers, not a build-order inversion. Layer 11 uses the integral-per
 formula. Each Needs list names the statement's carriers and one proof route; another proof
 may use different inputs. `Suggested.lean` contains only the remaining statable headlines.
 
+Citations of the earlier layer labels resolve as follows; the other layers and §§10A–10C
+keep their topics, with the parts now supplied by Mathlib and Tau Ceti listed above.
+
+| Earlier label | Where the content is now |
+|---|---|
+| Layer 0, diamond operators and character spaces | Tau Ceti character spaces and parity, above; Layer 0 now holds §§0.1–0.2 |
+| Layer 2, Hecke ring and Hecke operators | Tau Ceti Hecke rings and operators, above; §§2.1–2.2 |
+| Layer 3, Petersson product and old/new spaces | Tau Ceti old and new spaces, above; §3.1 |
+| Layer 4, newforms, full eigen-ness, bad-prime coefficients, conductor | Tau Ceti newforms, full eigen-ness and bad-prime classification, above; §4.1 |
+| Layer 6, Atkin–Lehner and Fricke operators | Tau Ceti Atkin–Lehner and Fricke operators, above; §6.1 |
+| Layer 8, integral Hecke algebra and coefficient fields | Tau Ceti coefficient fields and integrality for k≥2, above; §§8.0–8.1 |
+| Layer 8G, Galois stability, character field, rationality | §8.2; the character field is Tau Ceti's |
+| Layer 10, Sturm bound | `TauCeti.ModularForm.eq_of_sturm_bound`, above |
+| Worked examples, target η²⁴=Δ | §0.2; Δ=η²⁴ is Mathlib's definition |
+
 ## Layer 0: character Eisenstein series
 
 ### 0.1 Eisenstein series and the constant-term quotient
@@ -320,13 +357,65 @@ weight-two corrections. The extension and comparison API must include:
 *Needs:* native character spaces and parity; Mathlib Eisenstein series, Dirichlet characters,
 Gauss sums and q-expansions; native primitive Eisenstein decomposition for k≥3.
 
+### 0.2 The eta transformation and eta quotients
+
+For Im τ>0 prove η(τ+1)=e^(πi/12)η(τ) and η(−1/τ)=√(−iτ)·η(τ), with the principal root,
+positive at τ=i. The second is Mathlib's (√i)⁻¹√τ·η(τ) rewritten: for 0<arg τ<π both roots
+have argument (arg τ−π/2)/2 (Apostol, Theorem 3.1). For γ=(a b; c d)∈SL₂(ℤ) prove
+`etaTransformation`: there is a constant ε(γ) with ε(γ)²⁴=1 and
+η(γτ)=ε(γ)·(cτ+d)^(1/2)·η(τ) on ℍ, with the principal root; for c>0,
+
+    ε(γ) = exp(πi·((a+d)/(12c) − s(d,c) − 1/4)),
+    s(d,c) = Σ_{r=1}^{c−1} (r/c)·(dr/c − ⌊dr/c⌋ − 1/2).
+
+Here s(d,c) is the Dedekind sum and the −1/4 converts Apostol's root √(−i(cτ+d)) to
+√(cτ+d) (Apostol, Theorem 3.4, whose ε uses s(−d,c)=−s(d,c)). For existence and
+τ-independence: the 24th power of the quotient η(γτ)/((cτ+d)^(1/2)η(τ)) is 1 by the
+level-one modularity of Δ; for c≠0 the quotient is continuous on the connected half-plane,
+since cτ+d avoids the negative real axis, so it is constant; for c=0 it is constant outright.
+
+Then prove the eta-quotient criterion. Let N≥1, let r_δ∈ℤ for the positive divisors δ of
+N, and put f(τ)=∏_δ η(δτ)^(r_δ), k=½Σ_δ r_δ and m=∏_δ δ^(r_δ). If k∈ℤ,
+Σ_δ δ·r_δ≡0 and Σ_δ (N/δ)·r_δ≡0 modulo 24, then f|_kγ=χ(d)f for every γ∈Γ₀(N), where
+χ(d)=((−1)^k m/d) is the Kronecker symbol `TauCeti.kroneckerSym`, expanded multiplicatively
+in m as ((−1)^k/d)∏_δ(δ/d)^(r_δ). For d∣N and gcd(c,d)=1 the order of f at the cusp c/d,
+in the local parameter of that cusp, is
+
+    (N/24)·Σ_δ gcd(d,δ)²·r_δ / (gcd(d,N/d)·d·δ).
+
+If every such order is nonnegative then f∈M_k(N,χ), and if every one is positive then
+f∈S_k(N,χ) (Ono, Theorems 1.64–1.65). The proof applies `etaTransformation` to
+(a bδ; c/δ d)∈SL₂(ℤ), which sends δτ to δ·γτ with the same factor cτ+d, and evaluates the
+product of the multipliers with the two congruences.
+
+**Checks.**
+- At τ=i, √(−i·i)=1 and (√i)⁻¹√i=1, so the two root normalizations agree there. The 24th
+  powers of the two generator laws are Δ(τ+1)=Δ(τ) and Δ(−1/τ)=τ¹²Δ(τ), since (−i)¹²=1.
+- ε(T)=e^(πi/12); ε(S)=e^(−πi/4), with root √τ; ε(−I)=−i, because the principal root of −1
+  is i. For (1 0; n 1), s(1,n)=(n−1)(n−2)/(12n) and the formula gives e^(−πni/12), which
+  is the value obtained by composing S, T^(−n) and S; dropping the −1/4 gives the wrong
+  value at n=3.
+- For η(z)²η(11z)², both congruence sums are 24, k=2, m=11², χ is trivial and the order at
+  both cusps ∞ and 0 is 1: this is the weight-two cusp form at level 11.
+- For η(z)η(23z), both sums are 24, k=1, m=23 and χ=(−23/·) is odd; the orders at ∞ and 0
+  are 1, so it lies in S₁(23,χ).
+- For η(z)η(11z), Σ_δ δ·r_δ=12, and the translation law gives f(τ+1)=e^(πi)f(τ)=−f(τ): it
+  is not invariant under T∈Γ₀(11), so the congruences cannot be dropped.
+
+*Needs:* Mathlib η, its nonvanishing, Δ=η²⁴ with its level-one modularity and the inversion
+law; native eta product formula and Kronecker symbol; native character spaces; Mathlib's
+cusp conditions for holomorphy and vanishing at every cusp.
+
 ### Examples
 
 E₄ and E₂−2E₂(2z) distinguish the ordinary and exceptional-weight constructions.
+The products η(z)η(11z) and η(z)η(23z) separate a failed congruence from a weight-one form
+with odd character.
 
 ### Dependencies
 
-Only the analytic, character and Eisenstein supplier contracts enter this layer.
+Only the analytic, character, Eisenstein, eta and Kronecker-symbol supplier contracts enter
+this layer.
 
 ## Layer 1: geometric orders and the projective valence formula
 
@@ -1338,6 +1427,8 @@ EllipticPeriods §2.4 consumes its lattice–modular comparison g₂ = (4π⁴/3
 AlgebraicModularFormsAndSerreWeights consumes the rational coefficient theory of Layer 8 and
 reaches §10D through ModularCurvesPartII §7.1 for its geometric forms. ModularCurves'
 external uniformisation contract concerns its twisted curve and is not discharged by §10D.
+QSeriesPartitionsAndMockModularForms takes the eta transformation of §0.2, generator laws
+and multiplier, for its metaplectic eta cocycle.
 LeanBridge consumes finite-coefficient uniqueness and
 newform invariants for its explicit examples; its computations are not library targets here.
 
@@ -1348,7 +1439,7 @@ Fricke eigenvalue −1. Its functional-equation sign is +1, which forces even an
 not nonvanishing at the center. The product η(z)η(11z) has translation multiplier −1
 since 1+11=12 is not divisible by 24; it is not a Dirichlet-nebentypus weight-one form.
 The product η(z)η(23z) has weight 1 and the odd quadratic character modulo 23; 1+23=24
-and 23+1=24 satisfy the eta-product congruences (the eta transformation law).
+and 23+1=24 satisfy the eta-quotient congruences of §0.2.
 
 At level 37 and weight two, genus 2 and absence of lower-level cusp forms give a
 newspace of dimension 2. This alone does not say whether the two newforms are rational
@@ -1382,6 +1473,11 @@ or the Galois-group assertion (leanbridge lines 39–45 and 698–718).
 - F. Diamond and J. Shurman, *A First Course in Modular Forms*, GTM 228, 2005:
   Theorem 1.5.1; §§3.2–3.9, Theorems 3.5.1 and 3.6.1; §§4.5–4.8; Theorems 5.8.2–5.8.3,
   Propositions 5.8.4–5.8.5 and 5.9.1; §6.5. Use the author errata for pp.74–75 and 90.
+- T. M. Apostol, *Modular Functions and Dirichlet Series in Number Theory*, GTM 41, 2nd ed.,
+  1990: Theorems 3.1 and 3.4 for the eta transformation and its Dedekind-sum multiplier.
+- K. Ono, *The Web of Modularity: Arithmetic of the Coefficients of Modular Forms and
+  q-series*, CBMS Regional Conference Series in Mathematics 102, 2004: Theorems 1.64 and 1.65
+  for the eta-quotient criterion and the orders at cusps.
 - T. Miyake, *Modular Forms*, 1989: §§4.5–4.6, Theorem 4.6.19 and Corollary 4.6.20;
   Lemma 4.3.10(2) for the level-Nm² twist.
 - G. Shimura, *Introduction to the Arithmetic Theory of Automorphic Functions*, 1971:

@@ -8,7 +8,8 @@ import TauCeti.NumberTheory.HeckeRing.GLn.PolynomialRing.Basic
 # Modular forms: target signatures
 
 The roadmap is README.md; this file is not the roadmap. It states the roadmap's headline
-theorems against the pinned APIs: arbitrary-rank integral Hecke polynomiality, cross-level
+theorems against the pinned APIs: the transformation of the Dedekind eta function under
+SL₂(ℤ), arbitrary-rank integral Hecke polynomiality, cross-level
 strong multiplicity one, sharp convergence, rational descent, weight-one coefficient
 arithmetic, Galois stability, coefficient twisting, newspace dimensions, and the level-one
 Eichler–Selberg trace formula. Supplied results are cited in the README, not restated here.
@@ -30,6 +31,24 @@ namespace TauCetiRoadmap.ModularForms
 
 open CongruenceSubgroup UpperHalfPlane HeckeRing.GL2
 open scoped ModularForm
+
+/-! ## Layer 0: the eta transformation -/
+
+/-- Dedekind's functional equation: under each element of SL₂(ℤ), Mathlib's eta function
+transforms by a 24th root of unity times the principal square root of the automorphy factor.
+For positive lower-left entry c the root of unity is
+exp(πi((a+d)/(12c) − s(d,c) − 1/4)), with the Dedekind sum s(d,c) written out below
+(Apostol, Theorem 3.4; the −1/4 converts his root of −i(cτ+d) to the root of cτ+d). -/
+theorem etaTransformation (γ : Matrix.SpecialLinearGroup (Fin 2) ℤ) :
+    ∃ ε : ℂ, ε ^ 24 = 1 ∧
+      (∀ τ : UpperHalfPlane, ModularForm.eta ((γ • τ : UpperHalfPlane) : ℂ) =
+        ε * Complex.sqrt ((γ 1 0 : ℂ) * τ + (γ 1 1 : ℂ)) * ModularForm.eta τ) ∧
+      (0 < γ 1 0 → ε = Complex.exp (Real.pi * Complex.I *
+        (((γ 0 0 + γ 1 1 : ℤ) : ℂ) / (12 * (γ 1 0 : ℂ)) -
+          ∑ r ∈ Finset.Ioo (0 : ℤ) (γ 1 0), ((r : ℂ) / (γ 1 0 : ℂ)) *
+            (((Int.fract (((γ 1 1 * r : ℤ) : ℝ) / (γ 1 0 : ℝ)) : ℝ) : ℂ) - 1 / 2) -
+          1 / 4))) := by
+  sorry
 
 /-! ## Layer 2: integral Hecke polynomiality -/
 
