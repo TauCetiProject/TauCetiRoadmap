@@ -43,9 +43,28 @@ Layer 7c uses its complex specialization.
 
 The embedding theorem and the matrix-coefficient criterion for faithfulness of a
 finite-dimensional comodule, the fppf homogeneous quotient sheaf of an affine group by a
-closed subgroup, and the implication from linear reductivity of the geometric fibre to
-reductivity are proved in the pinned Tau Ceti; they are consumed in the supplier contracts
-below and are not targets. The relative Hopf reductivity predicate, its isomorphism
+closed subgroup, and the equivalence of reductivity and linear reductivity in characteristic
+zero are proved in the pinned Tau Ceti; they are consumed in the supplier contracts
+below and are not targets. So are the orbit geometry of scheme actions over an algebraically
+closed field (local closedness, the boundary dimension bound, closed orbits, the reduced,
+smooth and proper orbit schemes and the scheme-theoretic stabilizer), the identity component
+and the finite étale component group, the represented quotient by a normal closed subgroup of
+a geometrically reduced group, the Jordan decomposition of points, the equivalence of tori
+over a perfect field with continuous Galois lattices, the Lie–Kolchin theorem, the torus and
+reductive quotients by the unipotent radical, the radical, centre, derived subgroup,
+semisimplicity and central isogenies, the existence and conjugacy of Borel subgroups, the
+existence of maximal tori, the parabolic predicate, the represented dynamic subgroups with
+their Levi decomposition, the finite Weyl group of a diagonalizable subgroup, Matsushima's
+representability of a homogeneous quotient by a linearly reductive subgroup, the
+`q`-Frobenius on points with `G₀(F_q) ≃ G^F`, the pseudo-reductive predicate, and split
+maximal tori and pinnings over a connected base: the supplier contracts below name each with
+its hypotheses, and Layers 3–8 and 9D keep as targets only what those contracts say remains
+(the quotient theorem for nonreduced groups, completeness of `G/B` and `G/P`, the
+unconditional conjugacy of maximal tori, root data and the Bruhat decomposition, the
+all-field Levi complement of a parabolic, the full Nagata theorem, `G = R(G)·G_der` and the
+simply connected cover, imperfect-field descents, Lang's theorem, the base change of a
+pinning and the constant-root-datum pinning on a disconnected base, and the perfect-field
+and separable-extension facts of pseudo-reductivity). The relative Hopf reductivity predicate, its isomorphism
 invariance and arbitrary base change, and the diagonalizable group-scheme anti-equivalence
 and closed-subgroup stability of diagonalizability are also supplied by Tau Ceti;
 Layers 4 and 9D retain their additional comparisons. The native k-unipotent
@@ -177,21 +196,53 @@ prove them equivalent** rather than committing.
   `I` is minimal, in the contravariant Hopf-ideal order, among Hopf ideals whose quotient is
   smooth, geometrically connected and geometrically solvable; `TauCeti.HopfIdeal.conjugate I g`
   (`HopfIdeal/Conjugation.lean`) is the Hopf ideal of the conjugate `gKg⁻¹` of the subgroup
-  `K` cut out by `I` by the rational point `g : WithConv (H →ₐ[k] k)`. `Borel/Conjugation.lean`
-  proves conjugacy of Borel subgroups only under the hypothesis that every Borel subgroup
-  conjugates into a given candidate (`exists_conjugate_eq_of_isBorelOverAlgClosed`); the
-  unconditional theorem is Layer 7's target. `Reductive/LinearlyReductive.lean` proves
+  `K` cut out by `I` by the rational point `g : WithConv (H →ₐ[k] k)`. `Borel/Conjugacy/Existence.lean`
+  proves `TauCeti.HopfIdeal.IsBorelOverAlgClosed.exists_conjugate_eq`: any two Borel
+  subgroups of a finite-type affine group over an algebraically closed field are conjugate
+  by a rational point, with no smoothness, reducedness or connectedness hypothesis on the
+  ambient group; Layer 7 consumes it. `Reductive/LinearlyReductive.lean` proves
   `TauCeti.reductiveCommHopfAlgProperty.of_smooth_of_geometricallyConnected_of_baseChange_linearlyReductive`:
   a smooth, geometrically connected finite-type Hopf algebra whose base change to an algebraic
   closure is linearly reductive (`TauCeti.linearlyReductiveCommHopfAlgProperty`, every
   finite-dimensional comodule with carrier in the base universe is completely reducible) is
-  reductive; the characteristic-zero converse is Layer 6's target. The dynamic modules
-  provide cocharacter-defined parabolic,
-  Levi, unipotent point subgroups and a pointwise Levi decomposition. Their documentation
-  does not establish representability of arbitrary dynamic subfunctors or the algebraic
-  intersection/transporter results below. `Frobenius.Points` and `Frobenius.FixedPoints`
-  provide pointwise Frobenius maps and fixed-point comparisons; they do not prove finiteness
-  for every endomorphism or Lang–Steinberg.
+  reductive. `Reductive/CompleteReducibility.lean` proves the characteristic-zero converse
+  `TauCeti.reductiveCommHopfAlgProperty.linearlyReductive` over every field of
+  characteristic zero (no algebraic closedness or splitting hypothesis), the complete
+  reducibility `TauCeti.Comodule.isCompletelyReducible_of_reductive` of every rational
+  representation of a reductive group there, and the equivalence
+  `TauCeti.reductiveCommHopfAlgProperty_iff_linearlyReductive` for geometrically connected
+  finite-type groups, smoothness being supplied by Cartier; Layer 6 consumes them. The
+  dynamic modules provide, for a cocharacter `l : H →ₐc[R] LaurentPolynomial R` of a
+  commutative Hopf algebra over any commutative ring, the closed subgroups `P(λ)`, `U(λ)`
+  and `Z(λ)` as Hopf ideals (`TauCeti.Cocharacter.parabolicDefiningHopfIdeal` in
+  `Dynamic/Representability.lean`, `leviDefiningHopfIdeal` in
+  `Dynamic/Levi/Representability.lean`, `unipotentDefiningHopfIdeal` in
+  `Dynamic/Unipotent/Representability.lean`), each with the isomorphism of its point functor
+  with the pointwise dynamic subgroup (`parabolicPointsIso`, `leviPointsIso`,
+  `unipotentPointsIso`), their smoothness for smooth finite-type `H` over a Noetherian ring
+  (`Dynamic/Smooth.lean`), the semidirect decomposition `P(λ)(A) ≃ U(λ)(A) ⋊ Z(λ)(A)` on
+  every value algebra (`TauCeti.Cocharacter.leviDecompositionMulEquiv`,
+  `Dynamic/LeviDecomposition/Basic.lean`) and its naturality in `A` (`leviDecompositionNatIso`,
+  `Dynamic/LeviDecomposition/Naturality.lean`), conjugation of cocharacters by rational
+  points (`Dynamic/Conjugation.lean`), the opposite cocharacter (`Dynamic/Opposite.lean`)
+  and, for reductive `H` over a field, `P(λ) = G` exactly when `Z(λ) = G`
+  (`leviDefiningHopfIdeal_eq_bot_iff`), in which case `U(λ) = 1`
+  (`unipotentDefiningHopfIdeal_eq_augmentation`), and over an algebraically closed field of
+  characteristic zero `P(λ) = G` exactly when `λ` has no negative adjoint weights
+  (`Dynamic/Reductive.lean`). They do not identify `P(λ)` with a parabolic subgroup in the
+  sense of the predicate below, nor prove the intersection and transporter results of
+  Layer 7b. `Frobenius/FiniteField.lean` provides, for a Hopf algebra `H` over a finite field
+  `K` with `q` elements and a commutative `K`-algebra `A`, the `q^n`-Frobenius on points
+  `TauCeti.FiniteField.frobeniusPoints` (postcomposition with `x ↦ x^(q^n)` on `A`), the
+  identification `TauCeti.FiniteField.rationalPointsMulEquiv` of the `q`-Frobenius-fixed
+  points over a domain with the `K`-points, the geometric Frobenius
+  `TauCeti.FiniteField.geometricFrobeniusBialgHom` of the base change `k ⊗_K H` with
+  `TauCeti.FiniteField.rationalPointsMulEquivFixedSubgroupGeometricFrobenius : G₀(K) ≃ G^F`,
+  the finiteness `TauCeti.FiniteField.finite_fixedSubgroup_frobeniusPoints` of the points
+  fixed by a positive iterate of Frobenius when `H` is of finite type and `A` is a domain,
+  and naturality in `H` (`map_fixedSubgroup_frobeniusPoints_le`); `Frobenius/GeneralLinear.lean`
+  gives the matrix form on a closed subgroup of `GLₙ`. They do not prove finiteness of the
+  fixed points of an arbitrary endomorphism, nor Lang or Lang–Steinberg.
 - Mathlib's root-system and Coxeter modules provide abstract combinatorial structures.
   Tau Ceti has concrete torus, GL, SL, and symplectic root-data carriers. These are
   reusable instances, not general root extraction or classification.
@@ -315,6 +366,251 @@ needed to construct that subgroup.
 - In the fppf quotient 𝔾_m/μ₂, the square class of 2 over ℚ lifts after
   ℚ→ℚ(√2), with (√2)²=2; there is no rational square root. A pointwise
   surjectivity assertion would therefore misstate the sheaf quotient.
+
+### Native orbit geometry
+
+`TauCeti/AlgebraicGeometry/GroupAction/` proves the orbit theory of Layer 3A. For a base
+scheme `S`, a group object `G` and a `G`-module `X` in `Over S` (the native `GrpObj` and
+`ModObj`), and a section `x : 𝟙 ⟶ X`, `Orbit/Basic.lean` defines the geometric orbit
+`TauCeti.SchemeAction.orbit G x` as the range of the underlying map of the orbit morphism
+`TauCeti.orbitMap G x`, its closure `TauCeti.SchemeAction.orbitClosure` and boundary
+`TauCeti.SchemeAction.orbitBoundary`, with translation invariance. Over an algebraically
+closed field `k`, for `G` and `X` of finite type (locally of finite type with compact
+underlying spaces; `QuasiCompact.compactSpace_of_compactSpace` converts a quasi-compact
+structure morphism), `LocallyClosed.lean` proves constructibility, that the closed points of
+the orbit are the rational translates of `x` (`orbit_inter_closedPoints`), transitivity of
+`G(k)` on them, local closedness `TauCeti.SchemeAction.isLocallyClosed_orbit`, closedness of
+the boundary, `dim Z_x = dim O_x` (`topologicalKrullDim_orbitClosure`) and the strict bound
+`TauCeti.SchemeAction.topologicalKrullDim_orbitBoundary_lt`, with no smoothness,
+reducedness, separatedness, connectedness or irreducibility hypothesis; `ClosedOrbit.lean`
+proves that a boundary orbit has smaller dimension, that an orbit of minimal dimension is
+closed, `TauCeti.SchemeAction.exists_isClosed_orbit_subset_orbitClosure` (every orbit closure
+contains the closed orbit of a rational point) and `TauCeti.SchemeAction.exists_isClosed_orbit`
+for nonempty `X`. `Orbit/Scheme.lean` defines the locally closed orbit scheme
+`TauCeti.SchemeAction.orbitScheme G x` with its immersion `orbitι` (an `IsImmersion`
+instance, `range_orbitι : Set.range (orbitι G x) = orbit G x`), reduced when `G` is reduced,
+with the translation isomorphisms `orbitTranslation`; `Orbit/Closure.lean` the
+scheme-theoretic orbit closure `orbitClosureScheme` with `range_orbitClosureι`;
+`Orbit/Smooth.lean` the smoothness instance of the orbit scheme over `k` for reduced `G`
+(dense smooth locus spread by translations) and `smooth_orbitClosureToBase_of_isClosed`;
+`Orbit/Proper.lean` that `orbitι` is a closed immersion exactly when the orbit is closed,
+`isClosed_orbit_of_isProper` for separated `X`, and for proper `X`
+`isProper_orbitToBase_of_isClosed`, `isProper_orbitToBase_iff` and
+`exists_isProper_orbit_subset_orbitClosure`; `Stabilizer.lean` the scheme-theoretic
+stabilizer `TauCeti.SchemeAction.stabilizer G x` as a closed subgroup, affine and of finite
+type when `G` is, smooth in characteristic zero for affine finite-type `G`
+(`smooth_stabilizer`), with `stabilizer.fiberSmulIso` for the fibres over translates;
+`Orbit/Stabilizer.lean` the kernel-pair description and `smooth_toOrbit_iff`: for reduced
+`G` the orbit map is smooth exactly when the stabilizer is; `Orbit/BaseChange.lean` the
+compatibility of orbit schemes with extension of algebraically closed fields
+(`orbitBaseChangeIso`); `Orbit/Functoriality.lean` and `Orbit/FixedPoint.lean` the
+equivariant and fixed-point comparisons. `AlgebraicGeometry/RationalPoint/Image.lean` is the
+Jacobson adapter: `Scheme.Hom.exists_comp_eq_iff_mem_range` lifts rational points along a
+morphism of finite-type schemes over `k`, and constructible subsets, inclusions of ranges
+and surjectivity are detected on rational points
+(`IsConstructible.subset_iff_forall_rationalPoint`, `IsLocallyClosed.exists_rationalPoint_mem`,
+`range_subset_range_iff_forall_rationalPoint`, `surjective_iff_forall_rationalPoint`).
+`Algebra/AlgebraicGroup/Representation/ProjectiveOrbit/ClosedOrbit.lean` proves the
+projective case used by 3A.6, `exists_isClosed_range_projectiveOrbitMap_subset_closure`,
+and `ProjectiveOrbit/Quotient.lean` represents the fppf quotient `G/N` by a reduced group
+over an algebraically closed field by a projective orbit
+(`fppfHomogeneousQuotientIsoProjectiveOrbitPoints`,
+`exists_fppfHomogeneousQuotient_iso_projectiveOrbitPoints`). Layer 3A consumes these and
+retains the complex comparison of 3A.5, the equivariant-isomorphism and
+independence-of-factorization API of 3A.2, 3A.6 and 3A.7.
+
+### Native structure theory
+
+The following declarations of `TauCeti/Algebra/AlgebraicGroup/` are consumed by Layers 3–8
+and 9D; `k` is a field and `H : FiniteTypeCommHopfAlgCat.{u, u} k` unless stated.
+
+- **Identity component and component group** (Layer 3). Over an algebraically closed `k`,
+  `Connected/Comultiplication.lean` defines `TauCeti.HopfAlgebra.identityComponentHopfIdeal`;
+  `Connected/GroupScheme.lean` the quotient `TauCeti.FiniteTypeCommHopfAlgCat.identityComponent`
+  with `geometricallyConnected_identityComponent`, the group scheme `identityComponentSpec`
+  and its inclusion `identityComponentSpecι`; `Connected/Normal.lean` normality;
+  `Connected/Characteristic.lean` and `Connected/BaseChange.lean` the characteristic-subgroup
+  and base-change compatibilities (`geometricallyConnectedCommHopfAlgProperty.baseChange_iff`).
+  `Connected/ComponentGroup/Basic.lean` defines the fppf quotient `componentGroupFppfSheaf`;
+  `FiniteEtale.lean` the represented `componentGroupScheme` with its affine, finite and étale
+  instances; `Representable.lean` the isomorphism `componentGroupFppfGroupObjectIso` of the
+  fppf quotient by `G°` with the finite constant group scheme of `π₀(Spec H)`; `Exact.lean`
+  and `Galois.lean` exactness and the Galois action.
+- **Represented quotients** (Layer 3). For a normal Hopf ideal `I` of a commutative Hopf
+  algebra over a commutative ring, `HopfIdeal/Coinvariants/Quotient.lean` gives the
+  quotient Hopf algebra `TauCeti.CommHopfAlgCat.coinvariants`, its inclusion
+  `coinvariantsι` and the universal property `liftCoinvariants` for maps whose kernel
+  contains `I`. For `H` of finite type and geometrically reduced over a field,
+  `HopfIdeal/Coinvariants/FiniteType.lean` proves `finiteType_coinvariants`,
+  `faithfullyFlat_coinvariantsι` and `finitePresentation_coinvariantsι`, and
+  `Fppf/Quotient/Coinvariants.lean` the representability
+  `TauCeti.CommHopfAlgCat.coinvariantsFppfQuotientIso` of the fppf quotient sheaf by the
+  coinvariants; `Fppf/Quotient/Kernel.lean` the fppf first isomorphism theorem
+  `kernelFppfQuotientIso`; `HopfIdeal/Quotient/Kernel/Exact.lean` the predicate
+  `TauCeti.CommHopfAlgCat.IsShortExact` with its kernel description, exactness on points and
+  base change; `HopfIdeal/Quotient/Image/` image factorizations. No reducedness is needed
+  for the quotient Hopf algebra itself; the representability statements assume geometric
+  reducedness of `H`.
+- **Jordan decomposition** (Layer 4). For a commutative Hopf `k`-algebra `H` and a perfect
+  extension field `K`, `Representation/JordanDecomposition/Basic.lean` defines
+  `TauCeti.HopfAlgebra.Point.semisimplePart`, `unipotentPart` and `jordanDecomposition` of a
+  point `g : WithConv (H →ₐ[k] K)`, and proves `jordanDecomposition_spec` (the parts commute,
+  multiply to `g`, and act in every finite-dimensional comodule by the linear Jordan factors)
+  and `isSemisimple_isUnipotent_unique`; `Naturality.lean` proves naturality under Hopf maps
+  (`jordanDecomposition_mapDomain`), `ScalarExtension.lean` under extension of the value
+  field (`jordanDecomposition_mapValue`); `Commutative.lean` and `ClosedFactors.lean` give,
+  for a reduced commutative group, the Hopf endomorphism `semisimplePartBialgHom` and the
+  closed factors `G ≅ G_s × G_u`; `Radical.lean` identifies the unipotent radical of a
+  solvable group with the kernel of the unipotent part, and `MaximalTorus.lean` its maximal
+  torus with the kernel of the semisimple part.
+- **Diagonalizable groups, tori and multiplicative type** (Layer 4).
+  `DiagonalizableGroup/Exact.lean` proves `isShortExact_mapDomainBialgHom_iff`: over a
+  nonzero commutative ring, `D(N) → D(M) → D(L)` is short exact exactly when
+  `1 → L → M → N → 1` is; `DiagonalizableGroup/Cocharacter.lean` defines the cocharacter
+  `cocharacter ψ` of `D(X)` attached to `ψ : X →* Multiplicative ℤ` with its pairing laws;
+  `Torus/Basic.lean` the predicates `TauCeti.splitTorusCommHopfAlgProperty` and
+  `TauCeti.torusCommHopfAlgProperty`; `MultiplicativeType/Basic.lean`
+  `TauCeti.multiplicativeTypeCommHopfAlgProperty`; `MultiplicativeType/CharacterLattice.lean`
+  finite generation of the geometric character group; `MultiplicativeType/GaloisModule.lean`
+  the continuous absolute-Galois actions on characters and cocharacters;
+  `MultiplicativeType/Splitting.lean` and `Torus/Splitting.lean` splitting over a finite
+  extension and `torusCommHopfAlgProperty.of_baseChange`; `MultiplicativeType/Normal.lean`
+  that a normal multiplicative-type subgroup of a geometrically connected group is central;
+  `MultiplicativeType/LinearlyReductive.lean` linear reductivity of multiplicative-type
+  groups; `Torus/CharacterLattice/Equivalence.lean` the equivalence
+  `characterLatticeFunctor_isEquivalence` of tori over a perfect field with continuous
+  integral Galois lattices (Milne 12.23–12.24), and `Torus/Cocharacter/Equivalence.lean` the
+  cocharacter version with its duality `cocharacterLatticeFunctorIsoDual`.
+- **Unipotent and solvable groups** (Layer 5). `Unipotent/Basic.lean` defines
+  `TauCeti.geometricallyUnipotentPointsCommHopfAlgProperty` and
+  `TauCeti.smoothUnipotentCommHopfAlgProperty`; `Unipotent/Embedding.lean` proves, for
+  reduced finite-type `H` over an algebraically closed field with unipotent points, that
+  every nonzero finite-dimensional comodule has a nonzero fixed vector
+  (`hasNonzeroFixedVector_of_forall_isUnipotentPoint`) and the closed embedding into some
+  `U_n` (`exists_isClosedImmersion_upperUnitriangularGroupScheme`);
+  `Unipotent/ClosedSubgroup.lean`, `Unipotent/Extension.lean` (`…_iff_kernel`),
+  `Unipotent/Product.lean` and `Unipotent/Solvable.lean` stability under closed subgroups,
+  quotients, extensions and products, and solvability; `Unipotent/Connected.lean`
+  connectedness in characteristic zero; `Representation/UnipotentPoint/NoCharacters.lean`
+  the absence of characters. `Solvable/LieKolchin.lean` proves, for reduced connected
+  finite-type `H` over an algebraically closed field with solvable rational points,
+  `hasNonzeroWeightVector_of_isSolvable` and
+  `exists_basis_coefficientMatrix_isUpperTriangular_of_isSolvable`, and their forms
+  `…_of_geometricallySolvable` for the geometric predicates. `Solvable/UnipotentRadical.lean`
+  proves `torus_coinvariants_unipotentRadical` (`G/R_u(G)` is a torus for reduced connected
+  solvable `G` over an algebraically closed field), `mem_quotientPointsSubgroup_unipotentRadical_iff`
+  (a rational point lies in `R_u(G)` exactly when unipotent) and
+  `unipotentRadicalDefiningIdeal_eq_characterKernelIdeal`; `Solvable/Derived/Unipotent.lean`
+  that the derived subgroup of a solvable group is unipotent; `Solvable/SemidirectProduct.lean`
+  solvability of semidirect products. `PseudoReductive/Basic.lean` proves
+  `TauCeti.FiniteTypeCommHopfAlgCat.reductive_coinvariants_unipotentRadical`: over an
+  algebraically closed field the affine quotient of a smooth geometrically connected group by
+  its unipotent radical is reductive, in every characteristic, and
+  `pseudoReductive_coinvariants_unipotentRadical` over any field. `Unipotent/Radical/BaseChange.lean`
+  (`unipotentRadicalDefiningIdeal_baseChange_le`), `Unipotent/Radical/AffineQuotient.lean`
+  (the radical of the quotient by the radical is trivial), `Unipotent/Radical/Image.lean` and
+  `Unipotent/Radical/Faithful.lean` give the base-change inequality, the quotient, image and
+  faithful-representation facts.
+- **Radical, centre, derived subgroup, semisimplicity, isogenies** (Layer 6).
+  `Solvable/Radical/Construction.lean` defines `TauCeti.FiniteTypeCommHopfAlgCat.solvableRadicalDefiningIdeal`
+  and `solvableRadical` with `eq_solvableRadicalDefiningIdeal_iff`, and
+  `Solvable/Radical/{Basic,Maximal,Isomorphism,BaseChange,Quotient,Semisimple,Characteristic}.lean`
+  its maximality, isomorphism transport, base change, quotient and characteristic-subgroup
+  properties. `Solvable/Radical/Reductive.lean` proves `torus_solvableRadical` and
+  `isCentral_solvableRadicalDefiningIdeal`: the radical of a reductive group is a central
+  torus, over every field and in every characteristic; `Solvable/Radical/Center.lean` that
+  over an algebraically closed field of characteristic zero it is the identity component of
+  the scheme-theoretic centre. `Center/Basic.lean` defines `TauCeti.CommHopfAlgCat.centerDefiningIdeal`
+  and `centerPointsSubgroup` with `mem_centerPointsSubgroup_iff`; `Center/Reduced.lean` the
+  reduced centre; `Center/Quotient.lean` the pointwise quotient; `Reductive/CenterQuotient.lean`
+  the represented quotient `centerQuotient` of a reductive group by its full scheme-theoretic
+  centre, faithfully flat with kernel the centre, and `isCentralIsogeny_centerQuotientι_of_moduleFinite`.
+  `Derived/Basic.lean` defines `TauCeti.CommHopfAlgCat.derivedDefiningIdeal` and
+  `derivedGroupScheme`, normal; `Derived/Connected.lean` and `Derived/Smooth.lean` its
+  connectedness and smoothness; `Derived/Reductive.lean` and `Derived/Semisimple.lean` that
+  the derived subgroup of a reductive group is reductive and semisimple
+  (`reductiveCommHopfAlgProperty.semisimple_derived`), over every field. `Semisimple/Basic.lean`
+  defines `TauCeti.semisimpleCommHopfAlgProperty`; `Semisimple/RadicalQuotient.lean` proves
+  `semisimple_coinvariants_solvableRadical` over an algebraically closed field;
+  `Semisimple/Center/Finite.lean` finiteness of the centre of a semisimple group;
+  `Semisimple/Center/RepresentableQuotient.lean` that the adjoint quotient is a central
+  isogeny with semisimple target; `Isogeny/Basic.lean` defines `TauCeti.CommHopfAlgCat.IsIsogeny`
+  and `IsCentralIsogeny`, and `Semisimple/Isogeny/Source.lean` proves semisimplicity across
+  central isogenies; `SimplyConnected/Basic.lean` defines
+  `TauCeti.simplyConnectedSemisimpleCommHopfAlgProperty` (every central isogeny onto the
+  group is an isomorphism). For Nagata's theorem, `Solvable/LinearlyReductive.lean` proves
+  `linearlyReductiveCommHopfAlgProperty_iff_torus_of_isSolvable` for reduced connected
+  solvable groups over an algebraically closed field, `Reductive/Solvable.lean`
+  `torus_of_geometricallySolvable` for reductive groups over any field, and
+  `LinearlyReductive/AdditiveSubgroup.lean` that a linearly reductive finite-type group whose
+  rational points contain the additive group of `k` lives in characteristic zero;
+  `LinearlyReductive/FiniteSubgroup.lean` the order restrictions on finite subgroups.
+- **Matsushima representability** (Layer 6B). For a closed subgroup `N` of an affine group
+  `G = Spec H` over a commutative ring cut out by `I`, `Fppf/Quotient/Homogeneous/Coinvariants.lean`
+  defines the descended map `TauCeti.HopfIdeal.fppfHomogeneousQuotientToCoinvariantsPoints`
+  from the fppf homogeneous quotient to the fppf sheaf of points of `Spec` of the
+  coinvariants (`Fppf/Basic.lean` supplies `TauCeti.HopfAlgebra.pointsFppfSheaf`), proves it
+  an isomorphism when `I` is generated by the coinvariants vanishing at the identity and `H`
+  is faithfully flat and finitely presented over them, hence
+  `TauCeti.HopfIdeal.fppfHomogeneousQuotientIsoCoinvariantsPoints` for every linearly
+  reductive closed subgroup of a geometrically reduced finite-type affine group over a
+  field (any characteristic, `N` not necessarily normal, smooth or connected) and
+  `isIso_fppfHomogeneousQuotientToCoinvariantsPoints_of_reductive` for every reductive closed
+  subgroup in characteristic zero, with the universal property `coinvariantsPointsHomEquiv`;
+  `Fppf/Quotient/Homogeneous/GeneralLinear.lean` gives `GLₙ/G` for a faithful representation
+  of a reductive group in characteristic zero; `HopfIdeal/Coinvariants/InvariantTheory.lean`
+  the Hilbert–Nagata finite generation `finiteType_coinvariants_of_isLinearlyReductive`, and
+  `HopfIdeal/Coinvariants/Flat.lean` faithful flatness over the invariants.
+- **Borel subgroups, maximal tori, parabolics, Weyl group** (Layer 7). `Borel/Existence.lean`
+  proves `exists_minimal_isBorelCandidate` and `exists_geometricBorel`: every finite-type
+  affine group has a Borel subgroup over an algebraic closure; `Borel/Conjugacy/Existence.lean`
+  the conjugacy theorem named above; `Borel/Conjugacy/Containment.lean`
+  `IsBorelOverAlgClosed.exists_le_conjugate_of_isBorelCandidate` (every smooth connected
+  solvable closed subgroup conjugates into a given Borel) and
+  `IsBorelOverAlgClosed.exists_isMaximalTorus_ge` (every Borel contains a maximal torus of
+  the ambient group); `Borel/Radical.lean`, `Borel/Torus.lean` and
+  `Borel/IdentityComponent.lean` the radical, torus and identity-component comparisons.
+  `Torus/Maximal.lean` defines `TauCeti.HopfIdeal.IsMaximalTorus`; `Torus/Existence.lean`
+  proves `exists_isMaximalTorus_le` and `exists_isMaximalTorus` over any field;
+  `Torus/Conjugation.lean` proves `exists_conjugate_eq_of_isMaximalTorus`: over an
+  algebraically closed field, two maximal tori are conjugate provided every diagonalizable
+  closed subgroup conjugates into a distinguished maximal torus `D` (the hypotheses
+  `hcontainI`, `hcontainJ`); the unconditional theorem is Layer 7's target.
+  `Parabolic/Basic.lean` defines `TauCeti.HopfIdeal.IsParabolicOverAlgClosed` (smooth and
+  containing a Borel) and `IsParabolic` (the same after base change to an algebraic closure),
+  and proves `isParabolicOverAlgClosed_iff_exists_conjugate_le`: relative to a fixed Borel,
+  parabolic means smooth and containing a rational conjugate of it. For a closed
+  diagonalizable subgroup `D(X) → G` given by a surjection `π : H →ₐc[R] MonoidAlgebra R X`
+  over a ring with connected spectrum, `DiagonalizableGroup/Normalizer/WeylGroup.lean`
+  defines `BialgHom.weylGroup π hπ ≤ MulAut X`, the image of the rational normalizer, with
+  `normalizerQuotientCentralizerEquiv`, `finite_weylGroup` over a field, its action on the
+  nontrivial adjoint weights, and `conjugate_parabolicDefiningHopfIdeal_cocharacter` and its
+  Levi and unipotent companions; it does not assert that `D(X)` is a maximal torus or that
+  the Weyl group is generated by reflections.
+- **Split maximal tori and pinnings** (Layer 8). `SplitTorus/Maximal.lean` defines
+  `TauCeti.SplitMaximalTorus R H r`: a surjective coordinate map onto the standard rank-`r`
+  split torus whose kernel is a maximal torus on every algebraically closed geometric
+  fibre, with `definingIdeal`, `splitTorus_quotient`, `isMaximalTorus_geometricFiber`,
+  transport `comapOfIso` along isomorphisms, and `baseChange` along `R → S` with
+  `definingIdeal_baseChange`. `Borel/Over.lean` defines `TauCeti.HopfIdeal.IsBorelOver`
+  (smooth, Borel on every geometric fibre). `Pinning/Basic.lean` defines, for a projective
+  cotangent space, the positive roots `SplitMaximalTorus.IsPositiveRoot T B` relative to a
+  closed subgroup `B` (nontrivial adjoint weights whose root space lies in `Lie(B)`), the
+  simple roots `IsSimpleRoot`, and over a base with connected spectrum the structure
+  `TauCeti.Pinning R H r` for smooth finite-type `H`: relative reductivity, a chosen split
+  maximal torus, a Borel ideal containing it, and a linear equivalence `R ≃ₗ[R] 𝔤_α` for
+  every simple root, with `rootVector`; `Pinning/Isomorphism.lean` the transport
+  `Pinning.comapOfIso` with `comapOfIso_torus`, `comapOfIso_borel` and
+  `comapOfIso_rootVector`; `Pinning/BaseChange.lean` only the identification
+  `Pinning.rootSpaceBaseChangeEquiv` of a scalar-extended simple root space with a chosen
+  one, not the base change of a pinning as a pinning.
+- **Pseudo-reductive groups** (Layer 9D). `PseudoReductive/Basic.lean` defines
+  `TauCeti.pseudoReductiveCommHopfAlgProperty` (smooth, geometrically connected, trivial
+  `k`-unipotent radical) and proves `reductiveCommHopfAlgProperty.pseudoReductive`,
+  `pseudoReductiveCommHopfAlgProperty_iff_reductive` over an algebraically closed field,
+  `pseudoReductiveCommHopfAlgProperty_of_kernel_eq_unipotentRadical`,
+  `pseudoReductive_coinvariants_unipotentRadical` over any field, and
+  `AdditiveGroup.not_pseudoReductiveCommHopfAlgProperty_coordinateHopfAlgebra`.
 
 ## How to read the build
 
@@ -625,14 +921,25 @@ and tangent dimensions, not for constructing the tangent Lie algebra.
   (needs the conjugation/adjoint morphism at Hopf level). The quotient `G/H` is first the
   native **fppf sheaf quotient** (`CommHopfAlgCat.fppfHomogeneousQuotient` for any closed
   `H`, `TauCeti.CommHopfAlgCat.fppfQuotientSheaf` for normal `H`); whether it is represented
-  by a scheme (and when by an *affine* one, e.g. `H` reductive, by Matsushima in Layer 6B)
-  is a **theorem with hypotheses**, not automatic. Prove that every normal closed subgroup
-  of an affine group scheme of finite type over a field is the kernel of a quotient map to
-  an affine group scheme, that the quotient sheaf is then represented by it, and the short
-  exact sequences and isomorphism theorems this gives (Milne, Theorem 5.14 and
-  Proposition 5.18, pp. 102–103). *Needs:* the native fppf quotient sheaves; Layer 1's
-  faithful representations (the quotient is constructed inside a representation);
-  SchemeAndStackFoundations §§1.13–1.15 for torsors.
+  by a scheme (and when by an *affine* one, e.g. `H` reductive, by the native Matsushima
+  representability consumed in Layer 6B) is a **theorem with hypotheses**, not automatic.
+  For a geometrically reduced `G` of finite type over a field and a normal closed `H` the
+  theorem is native: consume `TauCeti.CommHopfAlgCat.coinvariants` as the affine quotient
+  `G/H`, `coinvariantsι` as the quotient map, `liftCoinvariants` as its universal property,
+  `finiteType_coinvariants`, `faithfullyFlat_coinvariantsι` and
+  `finitePresentation_coinvariantsι`, the representability
+  `TauCeti.CommHopfAlgCat.coinvariantsFppfQuotientIso` of the fppf quotient sheaf, the fppf
+  first isomorphism theorem `kernelFppfQuotientIso` and the short-exactness predicate
+  `TauCeti.CommHopfAlgCat.IsShortExact` with its kernel, points and base-change laws (the
+  supplier contract; Milne, Theorem 5.14 and Proposition 5.18, pp. 102–103). The targets
+  that remain are the quotient theorem for a nonreduced `G` of finite type (the represented
+  quotient by a normal closed subgroup, its faithful flatness and the representability of
+  the fppf quotient sheaf without the geometric-reducedness hypothesis; Milne, Theorem 5.14,
+  p. 102, whose proof constructs the quotient inside a representation), the isomorphism
+  theorems in that generality, and the transport of all of these to scheme group objects
+  through Layer 0. *Needs:* the native fppf quotient sheaves and represented quotients;
+  Layer 1's faithful representations (the nonreduced quotient is constructed inside a
+  representation); SchemeAndStackFoundations §§1.13–1.15 for torsors.
 - **Identity component `G°` and component group `π₀(G)`:** `G°` is the connected
   component of the identity; it is a closed normal subgroup scheme, its formation commutes
   with extension of the base field, and it is geometrically connected (Milne,
@@ -641,8 +948,20 @@ and tangent dimensions, not for constructing the tangent Lie algebra.
   `k` and `k̄` survives in `π₀(G) = G/G°`, whose `k`-points need not exhaust its geometric
   points. `π₀(G)` is a finite étale group scheme and `G°` is the unique connected normal
   subgroup with étale quotient (Milne, Proposition 5.58, p. 114); no smoothness or
-  perfectness hypothesis is needed for this. *Needs:* Layer 0's dictionary; the quotient
-  construction above; Mathlib's connected components and idempotents.
+  perfectness hypothesis is needed for this. Over an algebraically closed field all of this
+  is native: consume `TauCeti.HopfAlgebra.identityComponentHopfIdeal`,
+  `TauCeti.FiniteTypeCommHopfAlgCat.identityComponent` with
+  `geometricallyConnected_identityComponent`, `identityComponentSpec` and
+  `identityComponentSpecι`, the normality of `Connected/Normal.lean`, the base-change
+  compatibility `geometricallyConnectedCommHopfAlgProperty.baseChange_iff`, the component
+  group `componentGroupScheme` with its finite étale instances, and
+  `componentGroupFppfGroupObjectIso` identifying the fppf quotient by `G°` with the finite
+  constant group scheme of the connected components (the supplier contract). The targets
+  that remain are the same statements over an arbitrary field, by descent of the identity
+  component and of the component group from the algebraic closure, and the uniqueness
+  statement of Milne 5.58. *Needs:* Layer 0's dictionary; the native identity component and
+  component group; the quotient construction above; Mathlib's connected components and
+  idempotents.
   ⚠ Reserve the term **connected–étale sequence** for *finite* group schemes; here use
   "identity component and component group", and "connected" always means the geometric
   notion.
@@ -669,7 +988,8 @@ and tangent dimensions, not for constructing the tangent Lie algebra.
 
 ### Dependencies
 
-Layers 0–2; the native fppf quotient sheaves; SchemeAndStackFoundations §§1.13–1.15.
+Layers 0–2; the native fppf quotient sheaves, represented quotients, identity component and
+component group; SchemeAndStackFoundations §§1.13–1.15.
 
 ## Layer 3A: algebraic actions, orbit boundaries and projective closed orbits
 
@@ -684,7 +1004,13 @@ closure; do not turn a geometric orbit or closed point into a k-rational one
 without a descent argument. Retain the standing distinction between smooth
 groups and arbitrary finite-type group schemes. In characteristic zero use
 the supplied Cartier smoothness theorem and its scheme comparison when starting from the
-latter. No reductivity hypothesis belongs in the orbit-existence theorem.
+latter. No reductivity hypothesis belongs in the orbit-existence theorem. The orbit
+theorems of 3A.1–3A.4 and the proper, smooth and stabilizer statements of 3A.5 are proved
+at the pin, under weaker hypotheses than stated here (finite type over an algebraically
+closed field, with no smoothness, affineness or separatedness; reduced G for the reduced
+and smooth orbit schemes), in `TauCeti/AlgebraicGeometry/GroupAction/`; the supplier
+contract "Native orbit geometry" lists them. This phase consumes them and retains the
+adapters and comparisons named below.
 
 **3A.1 Actual action and orbit maps.** Use native `GrpObj` and `ModObj` in
 the cartesian monoidal category of schemes over Spec k. Its action is a
@@ -701,23 +1027,21 @@ k-valued points. Define the stabilizer as the scheme fibre over x, with its
 actual subgroup structure and fibre translation isomorphisms. A set-theoretic
 stabilizer does not supply the scheme-theoretic kernel or a smoothness proof.
 
-Suggested.lean uses `OrbitAcceptance.Points` for these rational points,
-`OrbitAcceptance.orbitMorphism` for μ_x, and `OrbitAcceptance.geometricOrbit`,
-`OrbitAcceptance.orbitClosure`, `OrbitAcceptance.orbitBoundary` and
-`OrbitAcceptance.orbitDimension` for O_x, Z_x, Z_x\O_x and native Krull dimension.
-Their APIs are the action, translation, image, closure and dimension laws in
-§§3A.1–3A.3. The headline signatures are
-`OrbitAcceptance.orbit_locallyClosed`, `OrbitAcceptance.exists_reduced_orbit_model`,
-`OrbitAcceptance.boundary_dimension_lt`, `OrbitAcceptance.exists_closed_orbit_in_closure`
-and `OrbitAcceptance.exists_closed_orbit`. All require an algebraically closed
-field, smooth affine quasi-compact G, and separated finite-type X; the last
-requires a nonempty set of rational points. The other existence assertion starts
-with a specified rational point. Finite type is expressed by locally finite type
-and quasi-compactness, with smoothness supplying local finite type for G.
-(Milne, Algebraic Groups (2017), Proposition 1.65(b,c), pp. 26–27, and
-Proposition 1.66, pp. 27–28; the nonreduced target has the same underlying
-space as its reduction.) *Needs:* native scheme group actions and Chevalley;
-SchemeAndStackFoundations §0.7; reduced locally closed subschemes.
+The orbit morphism is the native `TauCeti.orbitMap G x`, the geometric orbit, its
+closure and boundary are `TauCeti.SchemeAction.orbit`, `orbitClosure` and
+`orbitBoundary` (the range of the underlying map of the orbit morphism, its closure in
+the Zariski space of X, and their difference), and the stabilizer is the native
+scheme-theoretic `TauCeti.SchemeAction.stabilizer G x`, a closed subgroup, affine and of
+finite type when G is, with `stabilizer.fiberSmulIso` for the fibres over translates.
+The comparison of the closed points of O_x with the G(k)-orbit of x is
+`orbit_inter_closedPoints`, and transitivity of G(k) on them is
+`exists_translation_eq_of_mem_orbit_inter_closedPoints`. Dimension is the native
+`topologicalKrullDim`, with the empty set at `⊥`. (Milne, Algebraic Groups (2017),
+Proposition 1.65(b,c), pp. 26–27, and Proposition 1.66, pp. 27–28; the nonreduced
+target has the same underlying space as its reduction.) What this subsection adds is
+the product, inverse-translation, equalizer, base-change and equivariant-map laws of
+the action on test-scheme points, stated through Layer 0's point functors. *Needs:*
+native scheme group actions, orbits and stabilizers; SchemeAndStackFoundations §0.7.
 
 **Checks.**
 - For 𝔾_m acting on ℙ¹ by t·[x:y]=[tx:y], the orbit of [1:1] is
@@ -731,69 +1055,62 @@ SchemeAndStackFoundations §0.7; reduced locally closed subschemes.
   connectedness of G is unnecessary. On the empty X there are zero rational
   points and no closed-orbit existence conclusion.
 
-**3A.2 Constructible image and local closedness.** Derive that μ_x is
-quasi-compact and locally of finite presentation from finite type over k,
-the Noetherian target and separatedness/quasi-separatedness; do not add
-these conclusions as unexplained action data. Consume native
-`Scheme.Hom.isLocallyConstructible_image` / `isConstructible_image`
-(Chevalley) at their exact hypotheses. Supply the finite-type-over-k
-Jacobson adapter: closed points have residue field k; a nonempty
-constructible set contains a closed point; and constructible subsets are
-determined by their closed points. Consume native `residueFieldIsoBase`,
-`pointOfClosedPoint`, `pointEquivClosedPoint` and
-`LocallyOfFiniteType.jacobsonSpace` at their actual hypotheses. The
-remaining image/fibre and constructible-set comparisons are bounded
-adapters here, not new point or residue-field carriers. For a closed point in the image, a
-nonempty finite-type fibre has a k-point. Prove that a dense constructible
-set in a Noetherian space contains an open subset dense in every
-irreducible component of its closure. Apply this to O_x⊂Z_x, choose a
-closed point of that open subset, and translate it by G(k). The translates
-are open in Z_x and cover exactly the orbit on closed points; Jacobson
-constructible detection identifies their union with O_x as a subset of the
-whole scheme space. Thus O_x is open in Z_x and locally closed in X.
-Construct its reduced locally closed subscheme and immersion into X,
-including the action restriction, independence of the open/closed
-factorization, equivariant isomorphisms and algebraically closed field
-extension comparisons. These are direct image/subscheme constructions;
-no representability theorem for G/H is a premise.
+**3A.2 Constructible image and local closedness.** Local closedness of O_x in X
+is the native `TauCeti.SchemeAction.isLocallyClosed_orbit`, proved from
+constructibility of the orbit (`isConstructible_orbit`, Chevalley) and transitivity of
+G(k) on its closed points through
+`TauCeti.isLocallyClosed_of_isConstructible_of_closedPoints_transitive`; the Jacobson
+adapter (closed points have residue field k, rational points lift along morphisms of
+finite-type k-schemes, constructible sets and inclusions of ranges are detected on
+rational points) is `AlgebraicGeometry/RationalPoint/Image.lean`
+(`Scheme.Hom.exists_comp_eq_iff_mem_range`, `IsConstructible.subset_iff_forall_rationalPoint`,
+`IsLocallyClosed.exists_rationalPoint_mem`, `range_subset_range_iff_forall_rationalPoint`).
+The reduced locally closed orbit scheme is `TauCeti.SchemeAction.orbitScheme G x` with
+its immersion `orbitι`, `range_orbitι` and the reducedness instance for reduced G, and
+its translations are `orbitTranslation`; `orbitBaseChangeIso` compares orbit schemes
+under extension of algebraically closed fields. What remains here is the action of G on
+the orbit scheme as a group-object action in `Over (Spec k)` (the native translations are
+the individual rational-point automorphisms), the independence of the orbit scheme from
+the open/closed factorization of the immersion, and the equivariant isomorphism
+`orbitScheme G x ≅ orbitScheme G (g • x)` over the translation, with the compatibility
+of these with `orbitBaseChangeIso`. These are direct subscheme constructions; no
+representability theorem for G/H is a premise.
 
-**3A.3 Finite dimensions, including disconnected groups.** Consume
-SchemeAndStackFoundations0.7 and native topological Krull dimension rather
-than introducing a second dimension function. Prove the bounded helpers
-needed here: finite-type schemes over k have finite dimension; a proper
-closed subset of an irreducible finite-dimensional finite-type k-scheme
-has strictly smaller dimension; a nonempty open in such an irreducible
-component has the same dimension; and dimension of a finite union of
-closed components is their maximum. Treat the empty set with dimension
-−∞, not dimension0. For Z_x, the finitely many irreducible components
-are permuted transitively by G(k). Prove this using closed orbit points
-away from component intersections and transitivity on O_x(k). A point of
-O_x cannot lie in two components: translate an orbit point belonging to
-only one component to that point. It follows that all components have
-the same dimension d=dim O_x and the boundary misses a dense open in
-each. Hence dim(Z_x\O_x)<dim O_x, and every boundary orbit O_y has
-strictly smaller dimension. Prove closure stability and orbit containment
-before applying the bound. Do not assume Z_x irreducible or assert that
-every closed orbit has the globally smallest dimension.
+**3A.3 Finite dimensions, including disconnected groups.** The dimension
+statements are native, on `topologicalKrullDim` with the empty set at `⊥`:
+`topologicalKrullDim_orbitClosure` (dim Z_x = dim O_x), the strict bound
+`TauCeti.SchemeAction.topologicalKrullDim_orbitBoundary_lt`
+(dim(Z_x\O_x) < dim O_x, proved without assuming Z_x irreducible, through the native
+`AlgebraicGeometry.topologicalKrullDim_closure_of_isLocallyClosed`), closedness of the boundary
+`isClosed_orbitBoundary`, and `topologicalKrullDim_orbit_lt_of_mem_orbitBoundary`
+(every boundary orbit O_y has strictly smaller dimension). Consume
+SchemeAndStackFoundations §0.7 and the native dimension rather than introducing a second
+dimension function. What remains here is the component statement these theorems do not
+make: the finitely many irreducible components of Z_x are permuted transitively by G(k),
+no point of O_x lies in two of them, and all have dimension dim O_x; prove it from the
+native closed-point transitivity by translating an orbit point lying in a single
+component. Do not assert that every closed orbit has the globally smallest dimension.
 
-**3A.4 Existence of closed orbits.** In a nonempty X, minimize the natural
-number dim O_x over its k-points. If the boundary is nonempty, its
-finite-type closed locus has a k-point y, contradicting the strict bound.
-Thus an orbit of minimal dimension is closed. Apply the same argument
-inside every Z_x to prove that each orbit closure contains a closed orbit.
-Export the actual chosen point, containment, closed immersion of its
-reduced orbit model, and change-of-choice statements; uniqueness is not
-claimed. This is a generic algebraic action theorem, not a highest-line
-or adjoint-only substitute. The argument also gives closed orbits in
-nonproper X, but supplies compactness only with properness.
+**3A.4 Existence of closed orbits.** Native: an orbit of minimal dimension is closed
+(`isClosed_orbit_of_forall_mem_orbitClosure`), every orbit
+closure contains the closed orbit of a rational point
+(`TauCeti.SchemeAction.exists_isClosed_orbit_subset_orbitClosure`), every nonempty closed
+G(k)-stable subset contains one (`exists_isClosed_orbit_subset_of_isClosed`), and a
+nonempty X has a closed orbit (`TauCeti.SchemeAction.exists_isClosed_orbit`); the closed
+orbit's scheme is a closed subscheme by `isClosedImmersion_orbitι_iff`. These are generic
+algebraic action theorems, not highest-line or adjoint-only substitutes, and they give
+closed orbits in nonproper X. What remains here is only the packaging consumed later: the
+chosen point with its containment and change-of-choice statements (uniqueness is not
+claimed), and compactness, which needs properness (3A.5).
 
-**3A.5 Properness and the complex comparison.** If X is proper over k,
-the closed orbit model is proper; in particular apply the existing
-SchemeAndStackFoundations0.3 relative-Proj/projective-space carrier and
-the projective-morphism properness theorem to projective X. Consume native
-`IsProper (Proj.toSpecZero 𝒜)` at its `Algebra.FiniteType (𝒜 0) A`
-hypothesis and transport through the actual projective-space/closed-immersion
-maps.
+**3A.5 Properness and the complex comparison.** If X is proper over k, the closed
+orbit scheme is proper: native `isProper_orbitToBase_of_isClosed`,
+`isProper_orbitToBase_iff` and `exists_isProper_orbit_subset_orbitClosure`, and
+conversely `isClosed_orbit_of_isProper` for separated X. For projective X apply the
+existing SchemeAndStackFoundations §0.3 relative-Proj/projective-space carrier and the
+projective-morphism properness theorem: consume native `IsProper (Proj.toSpecZero 𝒜)` at
+its `Algebra.FiniteType (𝒜 0) A` hypothesis and transport through the actual
+projective-space/closed-immersion maps.
 
 **Classical complex points.** For every locally finite-type ℂ-scheme X, construct
 the classical topology on X(ℂ), the set of ℂ-morphisms Spec ℂ → X. On an affine
@@ -843,33 +1160,31 @@ finite-type complex opens of the base, and §0.3's projective geometry.
   has local dimensions 0 and 1 and no single fixed-dimensional chart model.
 
 The closed orbit in a projective X therefore has compact complex points. To obtain the
-orbit's complex manifold, prove that the reduced orbit
-model is smooth: over the perfect field ℂ its nonempty smooth locus
-meets each component, and translations spread it to the whole orbit.
-Consume native `Scheme.Hom.dense_smoothLocus_of_perfectField` and its
-open smooth locus, restricting to the reduced component loci as needed.
-Apply these smooth charts, component by component when dimensions differ, to the orbit and to
+orbit's complex manifold, use that the reduced orbit scheme is smooth: this is the native
+smoothness instance of `orbitToBase G x` in `Orbit/Smooth.lean` for reduced G (its proof
+spreads the dense smooth locus `Scheme.Hom.dense_smoothLocus_of_perfectField` by
+translations), with `smooth_orbitClosureToBase_of_isClosed` for a closed orbit.
+Apply the smooth charts, component by component when dimensions differ, to the orbit and to
 `G` itself, a smooth closed subscheme of some `GLₙ` by Layer 1: `G(ℂ)` is a
 complex manifold, and multiplication, unit and inverse are holomorphic because
 they are induced by scheme morphisms, so `G(ℂ)` is a complex Lie group whose Lie algebra is
 identified with Layer 2's tangent Lie algebra by the chart at the identity. This
 complex Lie-group dictionary is owned here and consumed by Layer 11. Compare it
 with LieGroups Layer 2's closed-subgroup theorem for the stabilizer `H(ℂ)`,
-which is closed in `G(ℂ)`. Pin H=Stab_G(x), the actual map G(ℂ)→O_x(ℂ) and its
-fibres. Consume SmoothBundlesConnections B1.0 for regular fibres and fibre
+which is closed in `G(ℂ)`. Pin H=Stab_G(x), the native scheme-theoretic stabilizer,
+smooth over ℂ by the native `smooth_stabilizer` (characteristic zero), so that the orbit
+map G→O_x is smooth by the native `smooth_toOrbit_iff`; pin the actual map G(ℂ)→O_x(ℂ)
+and its fibres. Consume SmoothBundlesConnections B1.0 for regular fibres and fibre
 products of submersions and Mathlib's submersion normal form, and
 SmoothBundlesConnections B1.1/B1.4 for the principal-bundle and
 homogeneous-space quotient; no constant-rank theorem beyond the submersion case,
 and no torus, conjugacy or Weyl theorem, is needed. Prove the complex orbit map
-is a holomorphic submersion using characteristic-zero separability:
-prove the generic maximal-rank statement from the actual function-field
-extension and Jacobian criterion, then spread the smooth/rank locus by
-the source/target translation equations. This bounded orbit-map
-separability/rank adapter is part of this phase, not assumed action data.
-Then construct holomorphic local sections by the analytic inverse theorem.
+is a holomorphic submersion from the smoothness of the algebraic orbit map just cited,
+through the smooth-chart dictionary: a smooth morphism of smooth ℂ-schemes is a
+holomorphic submersion on complex points. Then construct holomorphic local sections by the analytic inverse theorem.
 Prove the induced biholomorphic homogeneous-space
-identification G(ℂ)/H(ℂ)≃O_x(ℂ). This is downstream of the direct
-orbit construction and the characteristic-zero stabilizer-smoothness
+identification G(ℂ)/H(ℂ)≃O_x(ℂ). This is downstream of the native
+orbit scheme and the native characteristic-zero stabilizer-smoothness
 theorem. It does not assume an algebraic quotient G/H was already
 represented. **Checks.**
 - The classical topology gives ℂ for 𝔸¹ and the continuous map z↦z² on 𝔾_m; at z=2
@@ -892,7 +1207,9 @@ linearization. Consume the generic relative-Proj/tautological line and
 projective-space H⁰ calculation from SchemeAndStackFoundations0.3/2.6
 and AlgebraicVectorBundles. Prove the actual natural identification
 H⁰(P(V*),O(1))≃V (using finite-dimensional double duality) and its
-equivariance. Choose a closed orbit X in P(V*) by 3A.4; construct the
+equivariance. Choose a closed orbit X in P(V*) by 3A.4, in its projective form
+`exists_isClosed_range_projectiveOrbitMap_subset_closure` of
+`Representation/ProjectiveOrbit/ClosedOrbit.lean`; construct the
 G-equivariant restriction r:V→H⁰(X,O(1)|X), including multiplication,
 pullback and section evaluation in trivializations. At x=[ℓ] choose
 v with ℓ(v)≠0, proving r≠0. Its kernel is a rational G-submodule;
@@ -955,33 +1272,55 @@ its prerequisites.
 
 ### Dependencies
 
-Layers 0–1 and Layer 3's group-object vocabulary; SchemeAndStackFoundations §§0.3, 0.7,
+Layers 0–1 and Layer 3's group-object vocabulary; the native orbit geometry of the
+supplier contract (`TauCeti/AlgebraicGeometry/GroupAction/`, `RationalPoint/Image.lean`,
+`Representation/ProjectiveOrbit/ClosedOrbit.lean`); SchemeAndStackFoundations §§0.3, 0.7,
 0.8, 2.6, 4.12 and AlgebraicVectorBundles; SmoothBundlesConnections B1.0, B1.1, B1.4; LieGroups
 Layer 2; Mathlib's Chevalley constructibility, Jacobson and residue-field theorems,
 `topologicalKrullDim`, submersion normal form and analytic inverse function theorem.
 
 
 ## Layer 4: Jordan decomposition, diagonalizable groups, tori
-- **Jordan decomposition.** For a locally finite automorphism `α` of a vector space over
-  a perfect field, construct the unique commuting factorization `α = α_s α_u` with `α_s`
-  semisimple and `α_u` locally unipotent (Milne, Theorem 9.17, p. 170). For an affine
-  group scheme `G` of finite type over a perfect field `k` and `g ∈ G(k)`, construct the
-  unique `g_s, g_u ∈ G(k)` with `g = g_s g_u = g_u g_s` such that `ρ(g_s) = ρ(g)_s` and
-  `ρ(g_u) = ρ(g)_u` for every finite-dimensional representation `ρ` (Milne, Theorem 9.18,
-  p. 170); prove functoriality under homomorphisms. Over an imperfect field state only the
-  geometric decomposition over `k̄`. *Needs:* Layer 1's comodule dictionary and the regular
-  representation; Mathlib's Jordan–Chevalley decomposition of a single endomorphism.
+- **Jordan decomposition.** For an affine group scheme `G` over `k` and a point
+  `g ∈ G(K)` with values in a perfect extension field `K`, the unique `g_s, g_u ∈ G(K)`
+  with `g = g_s g_u = g_u g_s` such that `ρ(g_s) = ρ(g)_s` and `ρ(g_u) = ρ(g)_u` for every
+  finite-dimensional representation `ρ` (Milne, Theorem 9.18, p. 170) are native:
+  consume `TauCeti.HopfAlgebra.Point.semisimplePart`, `unipotentPart`,
+  `jordanDecomposition` with `jordanDecomposition_spec` and
+  `isSemisimple_isUnipotent_unique`, the naturality `jordanDecomposition_mapDomain` under
+  homomorphisms and `jordanDecomposition_mapValue` under extension of the value field, and
+  for a reduced commutative group the closed factors `G ≅ G_s × G_u` of
+  `JordanDecomposition/ClosedFactors.lean` (the supplier contract). Over an imperfect field
+  this gives only the geometric decomposition over `k̄`, by taking `K = k̄`. The target that
+  remains is the locally finite form: for a locally finite automorphism `α` of a vector
+  space over a perfect field, the unique commuting factorization `α = α_s α_u` with `α_s`
+  semisimple and `α_u` locally unipotent (Milne, Theorem 9.17, p. 170), and its agreement
+  with the point decomposition on the regular representation. *Needs:* Layer 1's comodule
+  dictionary and the regular representation; the native point decomposition; Mathlib's
+  Jordan–Chevalley decomposition of a single endomorphism.
 - **Diagonalizable groups and groups of multiplicative type:** consume the native
-  scheme anti-equivalence specified in the supplier contract. Develop its character-group
-  comparison and exactness in both directions and stability of diagonalizability under quotient groups (Milne,
-  Theorems 12.8–12.9, p. 233); the equivalent conditions of Milne, Theorem 12.12, p. 234
-  (every representation is a sum of characters, equivalently `k[G]` is spanned by group-like
-  elements); `μ_n = D(ℤ/n)`, `𝔾_m = D(ℤ)`; the non-smooth example `μ_p` in characteristic `p`.
-  Groups of multiplicative type are those that become diagonalizable over `k̄`, classified
-  by finitely generated abelian groups with a continuous Galois action (Milne,
-  Theorem 12.23, p. 240). (*Cartier duality* proper is the duality of **finite locally free**
-  commutative group schemes, a related but distinct statement to develop separately.)
-  *Needs:* the native diagonalizable scheme equivalence; Layer 0's dictionary; Layer 1's comodules; Mathlib's group algebras and
+  scheme anti-equivalence specified in the supplier contract, the exactness in both
+  directions `isShortExact_mapDomainBialgHom_iff` of `DiagonalizableGroup/Exact.lean`
+  (Milne, Theorem 12.9, p. 233), the predicates `TauCeti.multiplicativeTypeCommHopfAlgProperty`,
+  `torusCommHopfAlgProperty` and `splitTorusCommHopfAlgProperty`, the finite generation
+  of the geometric character group, the continuous Galois actions on characters and
+  cocharacters of `MultiplicativeType/GaloisModule.lean`, splitting over a finite extension
+  and `torusCommHopfAlgProperty.of_baseChange`, and the equivalence
+  `characterLatticeFunctor_isEquivalence` of tori over a perfect field with continuous
+  integral Galois lattices (Milne, Theorem 12.23 and Corollary 12.24, p. 240; the supplier
+  contract). The targets that remain are stability of diagonalizability under quotient
+  groups (Milne, Theorem 12.8, p. 233; the supplied closed-subgroup theorem is the
+  contravariant half), the equivalent conditions of Milne, Theorem 12.12, p. 234 (every
+  representation is a sum of characters, equivalently `k[G]` is spanned by group-like
+  elements), the extension of the Galois-lattice equivalence from tori to all groups of
+  multiplicative type (finitely generated Galois modules with torsion; the native
+  equivalence is stated for tori), and over an imperfect field the descent of the
+  equivalence to the separable closure. `μ_n = D(ℤ/n)`, `𝔾_m = D(ℤ)` and the non-smooth
+  `μ_p` in characteristic `p` are Checks. (*Cartier duality* proper is the duality of
+  **finite locally free** commutative group schemes, a related but distinct statement to
+  develop separately.)
+  *Needs:* the native diagonalizable scheme equivalence, exactness and torus–lattice
+  equivalence; Layer 0's dictionary; Layer 1's comodules; Mathlib's group algebras and
   `GroupLike`; the supplied closed-subgroup theorem.
   **Check.** In characteristic p, the coordinate surjection
   k[t,t⁻¹] → k[t]/(t^p−1) presents μ_p⊂𝔾_m. The target has group-like basis
@@ -989,10 +1328,14 @@ Layer 2; Mathlib's Chevalley constructibility, Jacobson and residue-field theore
   stability does not require reducedness.
 - **Tori:** split and non-split; the **character lattice** `X*(T)` and **cocharacter
   lattice** `X_*(T)` with their perfect pairing `⟨χ, λ⟩`, defined by `χ ∘ λ : 𝔾_m → 𝔾_m`,
-  `t ↦ t^⟨χ,λ⟩`: the input to root data. Prove that a torus is split exactly when its
-  Galois action on `X*` is trivial, and that `X*` and `X_*` are free of the same rank with
-  the pairing perfect. *Needs:* the diagonalizable-group dictionary above; Mathlib's
-  `RootPairing` vocabulary for the pairing.
+  `t ↦ t^⟨χ,λ⟩`: the input to root data. The cocharacter of `D(X)` attached to
+  `ψ : X →* Multiplicative ℤ` and its pairing laws are the native
+  `DiagonalizableGroup/Cocharacter.lean`, and the duality of the character and cocharacter
+  lattices of a torus is the native `cocharacterLatticeFunctorIsoDual`. The targets that
+  remain are that a torus is split exactly when its Galois action on `X*` is trivial, and
+  the statement of the perfect pairing as Mathlib's `RootPairing` vocabulary on the two
+  free lattices of equal rank. *Needs:* the diagonalizable-group dictionary above; the
+  native cocharacters and lattice duality; Mathlib's `RootPairing` vocabulary.
 
 ### Examples
 
@@ -1015,18 +1358,29 @@ Layer 2; Mathlib's Chevalley constructibility, Jacobson and residue-field theore
 
 ### Dependencies
 
-Layers 0–1; Mathlib's Jordan–Chevalley decomposition, group algebras and group-like
-elements; RootSystems for the pairing vocabulary.
+Layers 0–1; the native Jordan decomposition of points, diagonalizable-group exactness,
+multiplicative-type predicates and torus–lattice equivalence; Mathlib's Jordan–Chevalley
+decomposition, group algebras and group-like elements; RootSystems for the pairing
+vocabulary.
 
 ## Layer 5: solvable and unipotent groups; the unipotent radical
 - **Unipotent groups** (correct, comodule definition): `G` is unipotent iff every nonzero
   representation has a nonzero fixed vector, equivalently every finite-dimensional
-  representation is unipotent (Milne, 6.45, p. 135, and Proposition 14.3, p. 280). Prove the
-  equivalent conditions: `G` embeds as a closed subgroup of the upper-triangular unipotent
-  `Uₙ` for some `n`; `k[G]` is coconnected (Milne, Theorem 14.5, p. 281); and that a
-  unipotent group has a central normal series with quotients subgroups of `𝔾_a`, hence is
-  nilpotent (Milne, Proposition 14.21, p. 284). Prove stability under subgroups, quotients
-  and extensions. *Needs:* Layer 1's comodules and the embedding theorem; Layer 3's quotients.
+  representation is unipotent (Milne, 6.45, p. 135, and Proposition 14.3, p. 280). The
+  native predicates are `TauCeti.geometricallyUnipotentPointsCommHopfAlgProperty` (every
+  geometric point is unipotent) and `TauCeti.smoothUnipotentCommHopfAlgProperty`; native
+  too are the fixed-vector direction `hasNonzeroFixedVector_of_forall_isUnipotentPoint`
+  for reduced groups over an algebraically closed field, the closed embedding
+  `exists_isClosedImmersion_upperUnitriangularGroupScheme` into some `Uₙ`, stability under
+  closed subgroups, quotients, extensions (`…_iff_kernel`) and products, solvability,
+  the absence of characters and connectedness in characteristic zero (the supplier
+  contract). The targets that remain are the comodule characterization itself for
+  nonreduced groups (the fixed-vector condition on every nonzero comodule is equivalent to
+  the geometric-points predicate; the native direction is for reduced groups only, and the
+  converse is not native), coconnectedness of `k[G]` (Milne, Theorem 14.5, p. 281), and the
+  central normal series with quotients subgroups of `𝔾_a`, hence nilpotence (Milne,
+  Proposition 14.21, p. 284). *Needs:* Layer 1's comodules and the embedding theorem; the
+  native unipotent predicates; Layer 3's quotients.
   - ⚠ "No nontrivial characters" is **not** equivalent to unipotent (e.g. `SLₙ` has no
     nontrivial characters but is semisimple). The implication is one-way: a *connected
     unipotent* group has no nontrivial characters; the converse needs solvability.
@@ -1036,20 +1390,35 @@ elements; RootSystems for the pairing vocabulary.
 - **Lie–Kolchin and solvable groups.** A smooth connected solvable group over an
   algebraically closed field is trigonalizable: it stabilizes a line in every nonzero
   representation and embeds in the upper-triangular `Bₙ` (Milne, Theorem 16.30, p. 334).
-  For a smooth connected solvable `G` over a perfect field, use its native
-  unipotent radical `G_u`; prove `G/G_u` a torus and, over `k̄`, the
-  decomposition `G = G_u ⋊ T` for a maximal torus `T` (Milne, Theorem 16.33, p. 335).
-  *Needs:* the unipotent theory above; Layer 4's tori; Layer 3's quotients.
+  This is native: `hasNonzeroWeightVector_of_isSolvable` and
+  `exists_basis_coefficientMatrix_isUpperTriangular_of_isSolvable` for reduced connected
+  groups with solvable rational points, and the `…_of_geometricallySolvable` forms
+  (`Solvable/LieKolchin.lean`). For a smooth connected solvable `G` over an algebraically
+  closed field, `G/G_u` a torus is the native `torus_coinvariants_unipotentRadical`, and
+  the unipotent rational points are those of `G_u` (`mem_quotientPointsSubgroup_unipotentRadical_iff`).
+  The targets that remain are the torus quotient over a perfect field (by descent from
+  `k̄`, using `unipotentRadicalDefiningIdeal_baseChange_le`), and over `k̄` the
+  decomposition `G = G_u ⋊ T` for a maximal torus `T` as a semidirect product of group
+  schemes (Milne, Theorem 16.33, p. 335; the native `Solvable/SemidirectProduct.lean` gives
+  solvability of a semidirect product, not the splitting). *Needs:* the unipotent theory
+  above; the native Lie–Kolchin theorem and torus quotient; Layer 4's tori; Layer 3's
+  quotients.
 - **Radical descent and quotient comparison.** For a smooth connected G over
   a perfect field k, compare the native k-unipotent radical with the geometric
   radical: the base change of its closed inclusion to k̄ identifies with the
-  native radical inclusion of G over k̄. Prove that the represented quotient
-  G/R_u(G) is reductive, and that this quotient identification commutes with
-  arbitrary extension of k (Milne, Remark 17.94(a), p. 382, and
-  Propositions 19.9 and 19.11, pp. 399–400). Over an imperfect field the radical of G over k̄ need not descend;
+  native radical inclusion of G over k̄ (the native inequality is
+  `unipotentRadicalDefiningIdeal_baseChange_le`; the equality over a perfect field is the
+  target). The reductivity of the represented quotient G/R_u(G) is native over an
+  algebraically closed field (`TauCeti.FiniteTypeCommHopfAlgCat.reductive_coinvariants_unipotentRadical`,
+  every characteristic) and its pseudo-reductivity over any field
+  (`pseudoReductive_coinvariants_unipotentRadical`); prove from the descent that over a
+  perfect field the quotient is reductive, and that this quotient identification commutes
+  with arbitrary extension of k (Milne, Remark 17.94(a), p. 382, and Propositions 19.9 and
+  19.11, pp. 399–400). Over an imperfect field the radical of G over k̄ need not descend;
   Layer 9D treats the native k-radical and the pseudo-reductive distinction.
-  *Needs:* the native radical and its maximality; the unipotent theory above;
-  Layer 3's normal quotients; Layer 0's base-change comparisons.
+  *Needs:* the native radical, its maximality and base-change inequality; the native
+  reductive quotient over `k̄`; the unipotent theory above; Layer 3's normal quotients;
+  Layer 0's base-change comparisons.
 
 ### Examples
 
@@ -1075,7 +1444,8 @@ elements; RootSystems for the pairing vocabulary.
 
 ### Dependencies
 
-Layers 1, 3 and 4; Milne Chapters 6, 14 and 16 as cited.
+Layers 1, 3 and 4; the native unipotent, Lie–Kolchin and unipotent-radical declarations of
+the supplier contract; Milne Chapters 6, 14 and 16 as cited.
 
 ## Layer 5P: the shared polynomial-unipotent exponential and logarithm
 
@@ -1103,16 +1473,35 @@ exponential of a nilpotent element.
 ## Layer 6: reductive and semisimple groups
 - **Reductive:** smooth, connected, with `R_u(G_{k̄})` trivial; the native predicate is
   `TauCeti.reductiveCommHopfAlgProperty`. **Semisimple:** radical `R(G)` (maximal connected
-  normal solvable smooth, geometric) trivial (Milne, 6.44 and 6.46, p. 135). Develop the
-  radical, the centre `Z(G)`, the derived group `G_der`, **central isogenies**, and the
-  simply connected and adjoint forms: these are not optional for the classification. Prove
-  that for reductive `G` the radical is the maximal central torus: over a perfect field
-  it is `(Z(G)_red)°`; over an arbitrary field it is the descent of the geometric
-  central torus. Prove that descent, rather than assuming reduction over an imperfect
-  field commutes with base change (Milne, §19.a, p. 400, and Corollary 17.62(b)–(c), pp. 372–373). Prove
-  that `G_der` is semisimple with `G = R(G)·G_der`, and that `Z(G)` is of multiplicative
-  type (Conrad, Reductive Group Schemes, Theorem 3.3.4, p. 98, over a field). *Needs:*
-  Layer 5's radicals; Layer 4's tori and multiplicative type; Layer 3's quotients.
+  normal solvable smooth, geometric) trivial (Milne, 6.44 and 6.46, p. 135); the native
+  predicate is `TauCeti.semisimpleCommHopfAlgProperty`. The radical
+  (`solvableRadicalDefiningIdeal`, `solvableRadical`), the centre `Z(G)`
+  (`centerDefiningIdeal`), the derived group `G_der` (`derivedDefiningIdeal`,
+  `derivedGroupScheme`), central isogenies (`IsIsogeny`, `IsCentralIsogeny`) and the simply
+  connected predicate (`simplyConnectedSemisimpleCommHopfAlgProperty`) are native, with:
+  for reductive `G` over any field the radical is a central torus
+  (`torus_solvableRadical`, `isCentral_solvableRadicalDefiningIdeal`), over an
+  algebraically closed field of characteristic zero it is `Z(G)°`
+  (`Solvable/Radical/Center.lean`), `G_der` is reductive and semisimple
+  (`reductiveCommHopfAlgProperty.semisimple_derived`), `G/R(G)` is semisimple over `k̄`
+  (`semisimple_coinvariants_solvableRadical`), the quotient `G/Z(G)` by the full
+  scheme-theoretic centre is represented and is a central isogeny when `Z(G)` is finite
+  (`Reductive/CenterQuotient.lean`), the centre of a semisimple group is finite and its
+  adjoint quotient is semisimple (`Semisimple/Center/`), and semisimplicity passes across
+  central isogenies (the supplier contract). The targets that remain are: that the
+  radical is the maximal central torus, over a perfect field `(Z(G)_red)°` (the native
+  statement is characteristic zero over `k̄`), and over an arbitrary field the descent of
+  the geometric central torus, proved rather than assumed, since reduction over an
+  imperfect field need not commute with base change (Milne, §19.a, p. 400, and
+  Corollary 17.62(b)–(c), pp. 372–373); `G = R(G)·G_der` (the multiplication map
+  `R(G) × G_der → G` is a central isogeny; Conrad, Reductive Group Schemes,
+  Corollary 5.3.3, p. 164, over a field); that `Z(G)` is of multiplicative type (Conrad,
+  Reductive Group Schemes, Theorem 3.3.4, p. 98, over a field; the native
+  `MultiplicativeType/Normal.lean` is the converse, that a normal multiplicative-type
+  subgroup is central); and the existence of the simply connected
+  cover of a semisimple group (the native predicate says what it is, not that it exists).
+  *Needs:* Layer 5's radicals; the native radical, centre, derived and isogeny declarations;
+  Layer 4's tori and multiplicative type; Layer 3's quotients.
 - **Alternative characterization, linearly reductive:** every f.d. representation is completely
   reducible; the native predicates are `TauCeti.Coalgebra.IsLinearlyReductive` and
   `TauCeti.linearlyReductiveCommHopfAlgProperty` (Milne, Definition 12.52, p. 248).
@@ -1121,18 +1510,22 @@ exponential of a nilpotent element.
   reductivity of the geometric fibre to reductivity, for smooth geometrically connected
   groups, is supplied by
   `TauCeti.reductiveCommHopfAlgProperty.of_smooth_of_geometricallyConnected_of_baseChange_linearlyReductive`
-  and is not restated. The target is the converse in **characteristic 0**: a reductive
-  group is linearly reductive, so that reductive ⇔ linearly reductive for smooth connected
-  affine groups there (Milne, Theorem 22.42, p. 477; the headline signature is
-  `StructureAcceptance.linearlyReductive_of_reductive`), and its corollary that an arbitrary
-  affine group of finite type in characteristic 0 is linearly reductive iff `G°` is
-  reductive (Milne, Corollary 22.43, p. 478). Over an algebraically closed field of
-  characteristic `p`, prove that a **smooth connected affine** group is linearly reductive
-  iff it is a torus (Nagata; Milne, Proposition 12.54 and Remark 12.56, pp. 248–249).
-  Provide both definitions and the char-0 equivalence so downstream work can pick either.
-  *Needs:* Layer 1's comodules; Layer 5's unipotent groups; the supplied implication; the
-  Reynolds-operator or Casimir argument for complete reducibility of semisimple Lie algebra
-  representations in characteristic zero (LieHighestWeight) for the proof route.
+  and is not restated; neither is the converse in **characteristic 0**, which is the native
+  `TauCeti.reductiveCommHopfAlgProperty.linearlyReductive` over every field of
+  characteristic zero, with `TauCeti.Comodule.isCompletelyReducible_of_reductive` for
+  every rational representation and the equivalence
+  `TauCeti.reductiveCommHopfAlgProperty_iff_linearlyReductive` for geometrically connected
+  groups (Milne, Theorem 22.42, p. 477; the supplier contract). The targets that remain
+  are its corollary that an arbitrary affine group of finite type in characteristic 0 is
+  linearly reductive iff `G°` is reductive (Milne, Corollary 22.43, p. 478; the native
+  equivalence assumes geometric connectedness). Nagata's theorem, that over an
+  algebraically closed field of characteristic `p` a smooth connected affine group is
+  linearly reductive iff it is a torus, needs the root subgroups of a reductive group and
+  is a Layer 7 target; its solvable case is native here
+  (`linearlyReductiveCommHopfAlgProperty_iff_torus_of_isSolvable`). Provide both
+  definitions and the char-0 equivalence so downstream work can pick either. *Needs:*
+  Layer 1's comodules; Layer 5's unipotent groups; the supplied implication and its
+  characteristic-zero converse.
 
 ### Examples
 
@@ -1156,8 +1549,8 @@ exponential of a nilpotent element.
 
 ### Dependencies
 
-Layers 1, 3, 4, 5; the supplied linear-reductivity implication; LieHighestWeight for the
-characteristic-zero complete reducibility input.
+Layers 1, 3, 4, 5; the supplied linear-reductivity equivalence and the native radical,
+centre, derived, semisimple and isogeny declarations.
 
 ## Layer 6A: characteristic-zero Levi complements for general affine groups
 
@@ -1321,22 +1714,31 @@ the native cofree and fixed-point comodule interfaces.
 ## Layer 6B: complex reductive coset affineness
 
 - **Complex reductive coset affineness.** For a smooth connected affine reductive
-  complex algebraic group A and a closed subgroup H with reductive identity component, construct
-  the fpqc quotient A/H and prove it is the affine scheme Spec(O(A)^H).
-  Include disconnected H by exact invariants under H° and averaging over the finite
-  component group H/H° in characteristic zero (Milne, Corollary 22.43, p. 478).
-  Build the Reynolds map using Layer6's characteristic-zero complete reducibility,
-  finite generation of the invariant algebra, and the closed-orbit quotient and
-  torsor identification; expose the quotient map, universal property and base
-  changes at the exact stated hypotheses. In particular apply this to GL_n/G
-  for every faithful closed reductive G→GL_n. This is the Matsushima construction
-  owned here; FormalConnectionsOpers F6 consumes it and owns its loop-Grassmannian
-  reduction-locus/ind-stage application. Keep the general quotient discussion and
-  its hypotheses, without asserting arbitrary closed-subgroup quotients affine. The quotient
-  sheaf is the native `CommHopfAlgCat.fppfHomogeneousQuotient` and the invariant algebra is
-  `TauCeti.HopfIdeal.coinvariants`; the theorem is that the former is represented by `Spec`
-  of the latter. *Needs:* Layer 6's characteristic-zero complete reducibility; Layer 3's
-  quotient sheaves and torsors; Layer 3A's closed orbits; Layer 1's faithful representations.
+  complex algebraic group A and a closed subgroup H with reductive identity component, the
+  fppf quotient A/H is the affine scheme Spec(O(A)^H). The quotient sheaf is the native
+  `CommHopfAlgCat.fppfHomogeneousQuotient`, the invariant algebra is
+  `TauCeti.HopfIdeal.coinvariants`, and the representability is native: the descended map
+  `TauCeti.HopfIdeal.fppfHomogeneousQuotientToCoinvariantsPoints` is an isomorphism for
+  every linearly reductive closed subgroup of a geometrically reduced finite-type affine
+  group over any field (`fppfHomogeneousQuotientIsoCoinvariantsPoints`, with the finite
+  generation
+  `finiteType_coinvariants_of_isLinearlyReductive` and the universal property
+  `coinvariantsPointsHomEquiv`), hence for every reductive closed subgroup in characteristic
+  zero (`isIso_fppfHomogeneousQuotientToCoinvariantsPoints_of_reductive`), and in
+  particular for GL_n/G with G→GL_n a faithful representation of a reductive group
+  (`Fppf/Quotient/Homogeneous/GeneralLinear.lean`); the supplier contract names them. The
+  target that remains is the disconnected case: a closed subgroup H whose identity
+  component is reductive is linearly reductive in characteristic zero (Layer 6's corollary
+  of Milne 22.43, averaging over the finite component group H/H°; Milne, Corollary 22.43,
+  p. 478), so that the native representability applies to it; expose the quotient map,
+  universal property and base changes at these hypotheses, and transport the result to
+  scheme group objects through Layer 0. This is the Matsushima statement owned here, as
+  the consumption of the native theorem; FormalConnectionsOpers F6 consumes it and owns its
+  loop-Grassmannian reduction-locus/ind-stage application. Keep the general quotient
+  discussion and its hypotheses, without asserting arbitrary closed-subgroup quotients
+  affine. *Needs:* Layer 6's characteristic-zero corollary for disconnected groups; the
+  native Matsushima representability; Layer 3's quotient sheaves and torsors; Layer 1's
+  faithful representations.
 
 ### Examples
 
@@ -1354,57 +1756,88 @@ the native cofree and fixed-point comodule interfaces.
 
 ### Dependencies
 
-Layers 1, 3, 3A, 6; the native homogeneous quotient sheaf and coinvariants.
+Layers 1, 3, 6; the native homogeneous quotient sheaf, coinvariants and Matsushima
+representability.
 
 ## Layer 7: structure theory
 - **Borel subgroups and maximal tori.** Over an algebraically closed field a Borel
   subgroup is a maximal smooth connected solvable closed subgroup (Milne, Definition 17.6,
-  p. 353; natively `TauCeti.HopfIdeal.IsBorelOverAlgClosed`). Prove that any two Borel
-  subgroups are conjugate by a rational point and that `G/B` is complete (Milne,
-  Theorem 17.9, p. 354). The headline signature is
-  `StructureAcceptance.exists_conjugate_eq_of_isBorelOverAlgClosed`, stated for every
-  finite-type affine group: its Borel subgroups are those of the smooth identity component
-  of its reduction, to which the smooth connected case is applied. Prove that any two
-  maximal tori are conjugate (Milne, Theorem 17.10, p. 354) and that any two Borel
-  subgroups of a connected reductive group contain a common maximal torus. Prove the Bruhat
-  decomposition `G(k) = ⨆_{w∈W} B(k) w B(k)` and the double-coset identification `B\G/B ≃ W`
-  here (Milne, §21.h, p. 446; Theorem 21.45, p. 438, for Tits systems). These algebraic
-  prerequisites are consumed by Layer 7b. The route to conjugacy is the Borel fixed-point
-  theorem for the action of one Borel on the complete variety `G/B'` of another, built on
-  Layer 3A's closed orbits and Layer 5's Lie–Kolchin theorem. *Needs:* Layer 5's Lie–Kolchin
-  and solvable groups; Layer 3A's orbit theorems; Layer 3's quotients; Layer 4's tori; the
-  native Borel predicate and conjugation of Hopf ideals.
+  p. 353; natively `TauCeti.HopfIdeal.IsBorelOverAlgClosed`). Existence of Borel
+  subgroups (`exists_minimal_isBorelCandidate`, `exists_geometricBorel`) and conjugacy of
+  any two by a rational point (`TauCeti.HopfIdeal.IsBorelOverAlgClosed.exists_conjugate_eq`,
+  for every finite-type affine group, not necessarily smooth, reduced or connected; Milne,
+  Theorem 17.9(b), p. 354) are native, as are: every smooth connected solvable closed
+  subgroup conjugates into a given Borel
+  (`IsBorelOverAlgClosed.exists_le_conjugate_of_isBorelCandidate`), every Borel contains a
+  maximal torus of the ambient group (`IsBorelOverAlgClosed.exists_isMaximalTorus_ge`),
+  maximal tori exist over any field (`exists_isMaximalTorus`, `exists_isMaximalTorus_le`),
+  and two maximal tori are conjugate provided every diagonalizable closed subgroup
+  conjugates into a distinguished one (`exists_conjugate_eq_of_isMaximalTorus`; the
+  supplier contract). The targets that remain are: that `G/B` is complete (Milne,
+  Theorem 17.9(a), p. 354; the route: by 3A.6 choose a closed orbit `G·[L]` in `P(V)` for
+  a representation `V` and a line `L` whose stabilizer is a Borel `B'`, so that
+  `G/B' ≃ G·[L]` is projective, and conclude for every Borel `B` by the native conjugacy);
+  the unconditional conjugacy of maximal tori (Milne, Theorem 17.10, p. 354), by
+  discharging the native containment hypothesis: every torus lies in a Borel
+  (`Borel/Torus.lean`), Borels are conjugate, and the maximal tori of a connected solvable
+  group are conjugate (Milne, Theorem 16.33, p. 335, through Layer 5's `G = G_u ⋊ T`); that
+  any two Borel subgroups of a connected reductive group contain a common maximal torus;
+  and the Bruhat decomposition `G(k) = ⨆_{w∈W} B(k) w B(k)` with the double-coset
+  identification `B\G/B ≃ W` (Milne, §21.h, p. 446; Theorem 21.45, p. 438, for Tits
+  systems). These algebraic prerequisites are consumed by Layer 7b. *Needs:* Layer 5's
+  Lie–Kolchin and solvable groups; the native Borel existence, conjugacy and containment
+  theorems; Layer 3A's orbit theorems; Layer 3's quotients; Layer 4's tori; the native
+  Borel predicate and conjugation of Hopf ideals.
 - **Parabolic subgroup schemes and Levi decompositions.** For a connected smooth
-  affine reductive group of finite type over a field `k`, define its parabolic
-  `k`-subgroups `P` as the smooth closed subgroups with `G/P` complete, and prove over `k̄`
-  that these are exactly the subgroups containing a Borel (Milne, Definition 17.15 and
-  Theorem 17.16, p. 356); define their Levi complements (Conrad–Feng, Definition H.1.1,
-  p. 238). Prove that the geometric unipotent
+  affine reductive group of finite type over a field `k`, the native parabolic predicate
+  `TauCeti.HopfIdeal.IsParabolic` (smooth and containing a Borel after base change to an
+  algebraic closure, with `IsParabolicOverAlgClosed` over `k̄` and the relative form
+  `isParabolicOverAlgClosed_iff_exists_conjugate_le`) is Milne's Theorem 17.16
+  characterization. Prove that these are exactly the smooth closed subgroups `P` with
+  `G/P` complete (Milne, Definition 17.15 and Theorem 17.16, p. 356); define their Levi
+  complements (Conrad–Feng, Definition H.1.1, p. 238). Prove that the geometric unipotent
   radical of `P` descends to a smooth connected `k`-split normal subgroup `U`,
   and that a reductive `k`-subgroup `L` exists with `P=L⋉U`. Prove that conjugation
   by `U(k)` acts simply transitively on the Levi `k`-subgroups of this fixed `P`, and that
   every maximal `k`-torus of `P` lies in exactly one of them (Conrad–Feng,
   Proposition 12.3.1, p. 127).
   These targets hold over every field; they include the algebraically closed case.
-  Build the cocharacter description `P=P_G(λ)`, `U=U_G(λ)`, `L=Z_G(λ)` and its
-  scheme-level comparison with the pointwise dynamic APIs (Conrad, Reductive Group
-  Schemes, Theorem 4.1.7, p. 112, for the representability, smoothness and multiplication
-  isomorphism of the dynamic subgroups; Conrad–Feng,
+  The cocharacter description `P=P_G(λ)`, `U=U_G(λ)`, `L=Z_G(λ)` is native as represented
+  closed subgroups with their point-functor isomorphisms, smoothness over a Noetherian
+  base, the natural semidirect decomposition `P(λ)(A) ≃ U(λ)(A) ⋊ Z(λ)(A)` and the
+  conjugation and opposite-cocharacter laws (the supplier contract; Conrad, Reductive
+  Group Schemes, Theorem 4.1.7, p. 112). What remains is their comparison with the
+  predicate above: for reductive `G`, `P_G(λ)` is parabolic, `U_G(λ)` is its unipotent
+  radical and `Z_G(λ)` a Levi complement, and every parabolic `k`-subgroup is some
+  `P_G(λ)` (Conrad–Feng,
   [*Reductive Groups over Fields*](https://math.stanford.edu/~conrad/249BW16Page/handouts/AMSalggroups2.pdf),
   Proposition 12.3.1 and Appendix H).
   Layer 7b owns the additional finite-field intersection, transporter, and rational-point
   comparisons; its common-Levi statements take the specified `F`-stable complement as input.
-  *Needs:* the Borel theory above; Layer 5's unipotent radicals; Layer 4's cocharacters and
-  tori; Tau Ceti's dynamic point subgroups.
+  *Needs:* the Borel theory above; the native parabolic predicate and dynamic subgroups;
+  Layer 5's unipotent radicals; Layer 4's cocharacters and tori.
 - **Root datum** `(X*(T), Φ, X_*(T), Φ^∨)` of `(G, T)` with its **Weyl group**: do the
   **split** case first (split maximal torus, or work over `k̄`), consuming
   `LinearAlgebra/RootSystem/*` and `GroupTheory/Coxeter/*`; construct the roots as the
   nonzero weights of `T` on `Lie(G)`, the rank-one subgroups `G_α` with their coroots
   (Milne, Theorem 21.11, p. 428), and prove that `N_G(T)/T` is generated by the reflections
   `s_α` and acts on `X*(T)` as the Weyl group of the root datum (Milne, Theorem 21.37,
-  p. 435); then add the **absolute root
-  datum with Galois action** and the **relative root system** for non-split groups.
-  *Needs:* Layer 2's adjoint representation and Layer 4's torus weights; RootSystems
+  p. 435); the group `N_G(T)(k)/Z_G(T)(k)` acting on `X*(T)`, its finiteness and its
+  action on the adjoint weights are the native `BialgHom.weylGroup` of the supplier
+  contract, so the target is the reflection generation and the identification with the
+  Weyl group of the extracted datum. Prove here, from the root subgroups, Nagata's theorem:
+  over an algebraically closed field of characteristic `p`, a smooth connected affine
+  group is linearly reductive iff it is a torus (Milne, Proposition 12.54 and Remark 12.56,
+  pp. 248–249); its native inputs are the solvable case
+  `linearlyReductiveCommHopfAlgProperty_iff_torus_of_isSolvable`, the reductive solvable
+  case `torus_of_geometricallySolvable`, the supplied implication from linear reductivity
+  to reductivity, and `charZero_of_isLinearlyReductive_of_injective_additiveHom` (a
+  linearly reductive group containing `𝔾_a(k)` lives in characteristic zero), and what
+  the root subgroups add is that a nonsolvable reductive group contains a copy of `𝔾_a`.
+  Then add the **absolute root datum with Galois action** and the **relative root system**
+  for non-split groups.
+  *Needs:* Layer 2's adjoint representation and Layer 4's torus weights; the native Weyl
+  group of a diagonalizable subgroup; Layer 6's linear-reductivity facts; RootSystems
   Layers 1–3 and the native root, chamber and longest-element declarations of its
   supplier contract; Mathlib's `RootPairing`.
 - **Bruhat decomposition** and **BN-pairs / Tits systems** (Milne, Theorem 21.45,
@@ -1436,8 +1869,9 @@ Layers 1, 3, 3A, 6; the native homogeneous quotient sheaf and coinvariants.
 
 ### Dependencies
 
-Layers 2–5 and 3A; Layer 7C for the ordered coordinates of the cells; RootSystems
-Layers 1–3 and its native chamber and longest-element contract; Tau Ceti's Borel, reductive and dynamic interfaces; Mathlib's root pairings
+Layers 2–6 and 3A; Layer 7C for the ordered coordinates of the cells; RootSystems
+Layers 1–3 and its native chamber and longest-element contract; Tau Ceti's Borel, torus,
+parabolic, Weyl-group, reductive and dynamic interfaces; Mathlib's root pairings
 and Coxeter groups.
 
 ## Layer 7C: ordered unipotent factors and the contraction proof of Bruhat coordinates
@@ -1516,15 +1950,18 @@ equivalence `G^F ≃ G₀(F_q)` and its compatibility with morphisms and `F`-sta
 subgroup schemes. Reserve “split q-Frobenius” for the case that `G₀` is split. State
 separately the standard field-Frobenius and Steinberg hypotheses in every result.
 
-Tau Ceti's `TauCeti.Bialgebra.iterateFrobeniusPoints` supplies the iterated prime-power
-point map for its `ℤ`-bialgebra carrier. For a commutative `ℤ`-Hopf algebra, the fixed-point
-equivalence `TauCeti.Bialgebra.frobeniusFixedPointsMulEquiv` identifies points fixed by that
-map with points over the Frobenius-fixed coefficient ring; `Frobenius.FixedPoints` supplies
-the corresponding pointwise comparison. Extend the point-functor comparison to arbitrary
-`F_q`-forms, including nonsplit forms, at the hypotheses above.
-
-Prove finiteness of `G^F` and of the rational points of named `F`-stable closed subgroup
-schemes, and functoriality on these finite groups.
+The `q`-Frobenius on points of an arbitrary `F_q`-form, including nonsplit forms, is the
+native `TauCeti.FiniteField.frobeniusPoints` (postcomposition with `x ↦ x^q` on the value
+algebra), the geometric Frobenius of the base change `k ⊗_{F_q} O(G₀)` is
+`TauCeti.FiniteField.geometricFrobeniusBialgHom`, and the equivalence `G^F ≃ G₀(F_q)` is
+`TauCeti.FiniteField.rationalPointsMulEquivFixedSubgroupGeometricFrobenius`, with
+`rationalPointsMulEquiv` for the points over any domain; finiteness of the points fixed by
+a positive iterate `F^n`, for `O(G₀)` of finite type, is
+`TauCeti.FiniteField.finite_fixedSubgroup_frobeniusPoints`, and naturality in `G₀` is
+`map_fixedSubgroup_frobeniusPoints_le` (the supplier contract). The targets that remain
+are the compatibility of `G^F ≃ G₀(F_q)` with `F`-stable closed subgroup schemes (the
+subgroup's own Frobenius is the restriction) and the transport of the point-level
+Frobenius to the scheme-level endomorphism of `G` through Layer 0.
 
 **Lang's theorem.** For a smooth geometrically connected affine group scheme `G₀` of finite
 type over `F_q`, with `q`-Frobenius `F` on `G = G₀ ×_{F_q} k`, the Lang map `G(k) → G(k)`,
@@ -1544,7 +1981,8 @@ finite-order argument above is used only over F̄_q.
 `StructureAcceptance.lang_surjective` states this endpoint on the native
 finite-type coordinate Hopf algebra H, with smoothness and geometric
 connectedness explicit, using `AlgHom.mapValue` for postcomposition
-by F:K→K with F(a)=a^q and q=Nat.card F_q. This value equation fixes the
+by F:K→K with F(a)=a^q and q=Nat.card F_q, the convention of the native
+`TauCeti.FiniteField.frobeniusPoints` at `n = 1`. This value equation fixes the
 Frobenius convention and imposes no reductivity hypothesis.
 Derive the consequences: `H¹(F_q, G₀) = 1` for Galois cohomology
 with coefficients in `G₀(k)`; every `F`-stable `G(k)`-torsor has a fixed point; and for an
@@ -1603,7 +2041,8 @@ point map with this construction.
 
 ### Dependencies
 
-Layers 0 and 3 for the point comparison and subgroup hypotheses; Layer 3A and SchemeAndStackFoundations §0.7 for
+Layers 0 and 3 for the point comparison and subgroup hypotheses; the native Frobenius on
+points and its fixed-point comparisons; Layer 3A and SchemeAndStackFoundations §0.7 for
 the proof of Lang's theorem; Layer 7 for the reductive examples.
 
 ## Layer 7b: algebraic parabolics and Levi intersections
@@ -1974,15 +2413,23 @@ presentation with connected reductive geometric fibres, together with a split ma
  torus T≃D_S(M) for a finite free lattice M. Require the roots and
  coroots to be constant sections of M and M∨ and each root space to be free of rank one.
  These conditions are part of the relative split datum, even on disconnected bases. Over fields use Layer 6's predicate; over rings use the
-native relative Hopf predicate through Layer 0's dictionary. This specifies input data,
+native relative Hopf predicate through Layer 0's dictionary. The chosen split maximal
+torus is the native `TauCeti.SplitMaximalTorus R H r` of the supplier contract: a
+surjective coordinate map onto the standard rank-`r` split torus, maximal on every
+algebraically closed geometric fibre (`isMaximalTorus_geometricFiber`), with its
+`definingIdeal`, `splitTorus_quotient`, transport `comapOfIso` along isomorphisms and
+`baseChange` along any `R → S` with `definingIdeal_baseChange`. This specifies input data,
 not existence for a given root datum (Conrad, Definition 5.1.1, p. 136).
 
 **API.**
-- Isomorphisms of split data identify the maximal tori and their character lattices.
-- Base change to a nonempty base retains the specified torus and its splitting,
-  including nonreduced bases; over the empty base the group is empty and the root datum
-  cannot be recovered from its fibres.
-- The root datum retains both lattices and the central directions, not just a Dynkin diagram.
+- Isomorphisms of split data identify the maximal tori (native `comapOfIso`) and their
+  character lattices.
+- Base change to a nonempty base retains the specified torus and its splitting (native
+  `baseChange`), including nonreduced bases; over the empty base the group is empty and
+  the root datum cannot be recovered from its fibres.
+- The root datum retains both lattices and the central directions, not just a Dynkin
+  diagram; the constancy of roots and coroots and the rank-one freeness of the root spaces
+  are the conditions this subsection adds to the native torus datum.
 
 **Checks.**
 - A split torus of rank r has X=Y=ℤʳ and no roots; r=0 gives the trivial group.
@@ -1995,12 +2442,27 @@ not existence for a given root datum (Conrad, Definition 5.1.1, p. 136).
 
 A pinning of split data is a positive system in the constant root datum, its associated
 Borel containing T, and a generator of each simple-root line; equivalently use the corresponding normalized simple-root
-parameterizations. Transport these data under isomorphism and base change (Conrad,
-Definition 6.1.1 and Remark 6.1.2, pp. 186–187). Existence and classification are Layer 9D's targets.
+parameterizations (Conrad, Definition 6.1.1 and Remark 6.1.2, pp. 186–187). Over a base
+with connected spectrum this is the native `TauCeti.Pinning R H r` of the supplier
+contract: relative reductivity, a `SplitMaximalTorus`, a Borel ideal (`IsBorelOver`)
+containing it, and a linear equivalence `R ≃ₗ[R] 𝔤_α` for each simple root, the positive
+and simple roots being read off the Borel (`SplitMaximalTorus.IsPositiveRoot`,
+`IsSimpleRoot`), with `rootVector` and the transport `Pinning.comapOfIso` along
+isomorphisms (`comapOfIso_torus`, `comapOfIso_borel`, `comapOfIso_rootVector`). The
+targets that remain are the base change of a pinning along `R → S` with `S` of connected
+spectrum, as a pinning (the native `Pinning.rootSpaceBaseChangeEquiv` identifies the
+scalar-extended simple root spaces; the base change of the Borel ideal and of the
+reductivity datum, and the matching of simple roots, are to be proved), the comparison of
+the native Borel-determined positive system with a positive system chosen in the constant
+root datum, and on a disconnected base the pinning of the constant root datum as the
+family of native pinnings over the connected components. Existence and classification are
+Layer 9D's targets.
 
 **API.**
-- A pinned isomorphism preserves the torus, Borel and every labelled simple-root parameter.
-- Base change takes each chosen root-line generator to the corresponding generator.
+- A pinned isomorphism preserves the torus, Borel and every labelled simple-root parameter
+  (native `comapOfIso_torus`, `comapOfIso_borel`, `comapOfIso_rootVector`).
+- Base change takes each chosen root-line generator to the corresponding generator
+  (native `rootSpaceBaseChangeEquiv_tmul` on the root spaces).
 - Changing generators rescales the parameters; their labels and scalars are retained.
 
 **Checks.**
@@ -2020,9 +2482,10 @@ to its construction.
 ### Dependencies
 
 Layers 0, 4, 6 and Layer 7's root datum and root subgroup constructions; the native
-relative reductivity predicate; RootSystems §3.1 and the native Dynkin classification and
-numbered integral models (`TauCeti.existsUnique_dynkinType`,
-`TauCeti.DynkinType.simplyConnectedRootDatum`) of its supplier contract.
+relative reductivity predicate, split maximal tori and pinnings; RootSystems §3.1 and the
+native Dynkin classification and numbered integral models
+(`TauCeti.existsUnique_dynkinType`, `TauCeti.DynkinType.simplyConnectedRootDatum`) of its
+supplier contract.
 
 ## Layer 9: pinned Chevalley–Demazure group schemes over `ℤ`
 
@@ -2921,13 +3384,17 @@ IntegralLattices; Tau Ceti's Kostant form, Serre presentation and Geck construct
 - **Pseudo-reductive basic theory over arbitrary fields.** For any field k, start with
   smooth connected affine finite-type k-groups. Use the native k-unipotent
   radical and its isomorphism transport, including restriction of automorphisms.
-  Construct its represented quotient and compare the quotient projection with
-  the native radical inclusion through Layer 0's dictionary and Layer 3's
-  normal-quotient theorem. Define pseudo-reductive to mean this subgroup is trivial.
-  Prove reductive implies pseudo-reductive and equality of the two notions over perfect
-  fields. For a finite separable extension K/k, prove that the k-unipotent radical commutes
-  with extension to K, hence pseudo-reductivity is preserved and reflected by that
-  extension. Do not claim pseudo-reductivity survives arbitrary inseparable extension. Identify the radical
+  Its represented quotient is the native coinvariant quotient of Layer 3, pseudo-reductive
+  by the native `pseudoReductive_coinvariants_unipotentRadical`; compare the quotient
+  projection with the native radical inclusion through Layer 0's dictionary. The predicate
+  is the native `TauCeti.pseudoReductiveCommHopfAlgProperty` (smooth, geometrically
+  connected, trivial `k`-unipotent radical), with `reductiveCommHopfAlgProperty.pseudoReductive`
+  (reductive implies pseudo-reductive), `pseudoReductiveCommHopfAlgProperty_iff_reductive`
+  over an algebraically closed field, and the non-example `𝔾_a` (the supplier contract).
+  Prove equality of the two notions over every perfect field, by descent of the unipotent
+  radical from `k̄`. For a finite separable extension K/k, prove that the k-unipotent
+  radical commutes with extension to K, hence pseudo-reductivity is preserved and reflected
+  by that extension. Do not claim pseudo-reductivity survives arbitrary inseparable extension. Identify the radical
   after algebraic closure and the obstruction to descending it. Keep the schematic center
   without an unproved smoothness assertion.
 
