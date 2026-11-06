@@ -415,10 +415,10 @@ no seed stores these local conclusions or Laurent membership as fields.
 `s_i>0` and `s_i b_ij = -s_j b_ji`. An exchange matrix is `B` with a symmetrizer as
 data; `μ_k` acts on `B` alone. Write `[a]_+ = max(a,0)`. For `k∈K`, define
 
-$$
+```math
 b'_{ij}=\begin{cases}-b_{ij}&i=k\text{ or }j=k,\\
 b_{ij}+[b_{ik}]_+[b_{kj}]_+-[-b_{ik}]_+[-b_{kj}]_+&\text{otherwise}.\end{cases}
-$$
+```
 
 For finite I,K, an extended matrix is `B̃ : Matrix I K ℤ` with a mutable
 embedding `row:K↪I`, whose principal block `B̃(row i,j)` is an exchange matrix.
@@ -455,12 +455,12 @@ Construct the inverse equivalences with FZ tuples `(x,y,B)`, `x` a transcendence
 over `ℤ[P]` generating `F` with `ℤ[P]`. Mutation `μ_k` is `B ↦ μ_kB`, `x'_i=x_i`
 (`i≠k`), and
 
-$$
+```math
 x'_k=\frac{y_k\prod_i x_i^{[b_{ik}]_+}+\prod_i x_i^{[-b_{ik}]_+}}
 {(y_k\oplus1)x_k},\qquad
 y'_j=\begin{cases}y_k^{-1}&j=k,\\
 y_jy_k^{[b_{kj}]_+}(y_k\oplus1)^{-b_{kj}}&j\ne k.\end{cases}
-$$
+```
 
 Prove the numerator nonzero, `x'` a transcendence basis generating `F`, `μ_k`
 involutive on seeds and `Y`-seeds, and that forgetting the chart commutes with `μ_k`.
@@ -566,11 +566,11 @@ column was zero before it; for these columns reversal preserves `H_k(1)`.
 Define mutation by the matrix and form mutations above,
 `H'_k(T)=T^{r_k}H_k(T⁻¹)`, `H'_j=H_j` for `j≠k`, and
 
-$$
+```math
 X'_k=\sum_{l=0}^{r_k}h_{k,l}
  M(-e_k+l[\beta_k]_++(r_k-l)[-\beta_k]_+),
-\qquad X'_a=X_a\quad(a\ne\operatorname{row}(k)).
-$$
+\qquad X'_a=X_a\quad(a\ne\mathrm{row}(k)).
+```
 
 Prove preservation of column divisibility and degrees, nonvanishing of the
 exchange sum, quasi-commutation for Λ', faithfulness of the new chart using
@@ -689,11 +689,11 @@ or positivity of ν or w is required. For an ordinary quantum seed this is
 than k. Construct §0.5's exchange data with `x=X_k`, `y=X'_k`, `E=X'_kX_k∈C`.
 Prove
 
-$$
+```math
 X'_k=H_k(u^{\nu_k}M(\beta_k))M(\alpha_k),\qquad
 P_{k,n}=\prod_{h=1}^n H_k(u^{(2h-1)\nu_k}M(\beta_k)),\qquad
 (X'_k)^n=P_{k,n}M(\alpha_k)^n.
-$$
+```
 
 Relate these central products to §0.5's ordered products by
 `P_n=P_{k,n}M(α_k)^nX_k^n`. For any set S of coordinates excluding k and
@@ -708,10 +708,10 @@ centrality and coefficient criteria are instances of these polynomial results.
 **P2 / Q2 — two directions.** For distinct mutable i,j, let C be the chart of
 all other coordinates and `H_ij=C⟨X_i,X'_i,X_j,X'_j⟩`. Prove
 
-$$
+```math
 (T_s\cap T_{\mu_i(s)})\cap(T_s\cap T_{\mu_j(s)})
 =H_{ij}=C\langle X_i,X'_i,X_j,X''_j\rangle,
-$$
+```
 
 where `X''_j` is the j-coordinate of `μ_jμ_i(s)`.
 
@@ -766,10 +766,10 @@ equalities, and the finite polynomial formula gives one-step membership.
 Full column rank supplies these hypotheses by Q2 and §1.1's rank invariance.
 The resulting common Laurent theorem is
 
-$$
-\forall p,\omega\in\operatorname{List}(K),\ \forall a\in I,\qquad
+```math
+\forall p,\omega\in\mathrm{List}(K),\ \forall a\in I,\qquad
 X_{a;\mu_\omega(s)}\in T_{\mu_p(s)}.
-$$
+```
 
 Construct the unique finite R-linear representative in each chart, proving
 evaluation, re-rooting, reindexing and ambient transport laws. Derive
@@ -931,12 +931,12 @@ semifield evaluations `F_{j;t}|_P` are those of `F^+_{j;t}` and presuppose no
 nonnegativity of coefficients. Prove `F_{j;0}=1` and, for `t'=μ_k(t)` with entrywise
 positive parts,
 
-$$
+```math
 F_{k;t'}F_{k;t}
 =u^{[c_{k;t}]_+}\prod_i F_{i;t}^{[b_{ik;t}]_+}
 +u^{[-c_{k;t}]_+}\prod_i F_{i;t}^{[-b_{ik;t}]_+},
 \qquad F_{j;t'}=F_{j;t}\ (j\ne k).
-$$
+```
 
 Deduce that `F_{k;t}` divides the right side in `ℤ[u_i]`; divisibility is not a premise of
 the construction of `F`. Grade `ℤ[u_i^{±1}][x_i^{±1}]` by `ℤ^K` with `deg x_i=e_i`,
@@ -977,14 +977,14 @@ Let `h_{k;t}∈ℤ^K` be the exponent vector of `(1⊕Y_{k;t})|_{Trop(K)}(u)∈T
 `û_j=u_j∏_i x_i^{(B₀)_ij}`, prove in `Qsf(K⊔K)` and `Qsf(K)`, for the subtraction-free
 representatives of `X` and `F`:
 
-$$
+```math
 X_{k;t'}X_{k;t}=
 \frac{1+Y_{k;t}(\widehat u)}{u^{h_{k;t}}}
 \prod_i X_{i;t}^{[-b_{ik;t}]_+},\qquad
 F_{k;t'}F_{k;t}=
 \frac{1+Y_{k;t}(u)}{u^{h_{k;t}}}
 \prod_i F_{i;t}^{[-b_{ik;t}]_+}.
-$$
+```
 
 For a seed pattern in `F` over any `P` with initial `(x,y,B₀)`, let `N_{j;t}∈F` be the
 Laurent evaluation of `X_{j;t}` at `x_i↦x_i`, `u_i↦y_i`, and `D_{j;t}=F_{j;t}|_P(y)∈P`.
@@ -992,11 +992,11 @@ Prove the separation theorem `x_{j;t}=N_{j;t}/D_{j;t}` for every reachable `t` a
 without a Laurent theorem for this pattern, positivity of `F_{j;t}` or signs of
 `c`-vectors. With L6b's grading identity, prove
 
-$$
+```math
 x_{j;t}=x^{g_{j;t}}\,
 \frac{F_{j;t}|_F(\widehat y_1,\ldots,\widehat y_n)}
 {F_{j;t}|_P(y_1,\ldots,y_n)}.
-$$
+```
 
 **L8 — Laurent expansions over coefficient semifields.** For every coefficient semifield `P` and seed `s` in
 `F` over `ℤ[P]`, prove `x_{j;t}∈L_{ℤ[P],s}` for every reachable `t` and `j∈K`, from L5
@@ -1168,10 +1168,10 @@ columns, suppose also `r_k∣d_k`. Construct the degree-compatible principal
 extension with frozen block `D_r=diag(r_k)`. Put `D_d=diag(d_k)`,
 `V=diag(d_k/r_k)` and
 
-$$
+```math
 \widetilde B_{\rm pr}=\begin{pmatrix}B\\D_r\end{pmatrix},\qquad
 \Lambda_{\rm pr}=\begin{pmatrix}0&-V\\V&D_r^{-1}B^TV\end{pmatrix}.
-$$
+```
 
 Here the lower-right block has entries `b_ji(d_j/r_j)/r_i`; the displayed
 inverse denotes these exact integer divisions. Prove integrality, alternation,
@@ -1290,10 +1290,10 @@ lattice seed, not functions of `B̃`.
 `A_s=Spec C[M°]`, `X_s=Spec C[N]`. With `s'=μ_k^+(s)`, construct rational maps
 `μ_k:A_s⇢A_{s'}`, `μ_k:X_s⇢X_{s'}` by
 
-$$
+```math
 \mu_k^*z^m=z^m(1+z^{p_1^*(e_k)})^{-\langle d_ke_k,m\rangle},\qquad
 \mu_k^*z^n=z^n(1+z^{e_k})^{-d_k\{n,e_k\}}.
-$$
+```
 
 Here `m∈M°`, `n∈N`, and the pairing is evaluated on `d_ke_k∈N°`.
 For `e_k=0` both maps are the identity. Otherwise the X exchange factor is
@@ -1307,15 +1307,15 @@ domains. In an adapted basis presentation the A nonvanishing condition is §1.4'
 For an adapted basis presentation, put `A_i=z^{f_i}`, `X_i=z^{e_i}` and prove
 that the character formulas give
 
-$$
+```math
 \mu_k^*A'_k=A_k^{-1}\left(\prod_i A_i^{[\varepsilon_{ki}]_+}
 +\prod_i A_i^{[-\varepsilon_{ki}]_+}\right),\qquad \mu_k^*A'_i=A_i\ (i\ne k),
-$$
+```
 
-$$
+```math
 \mu_k^*X'_k=X_k^{-1},\qquad
 \mu_k^*X'_i=X_iX_k^{[\varepsilon_{ik}]_+}(1+X_k)^{-\varepsilon_{ik}}\ (i\ne k).
-$$
+```
 
 For `latticeToFZ(s)`, the first is §1.4's exchange relation (frozen `A_j` as `z_j`)
 and the second, for `i∈I_uf`, §1.2's `y`-mutation with `y_i=X_i` and `+` for `⊕`.
