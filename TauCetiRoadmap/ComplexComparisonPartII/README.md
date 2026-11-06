@@ -140,10 +140,10 @@ The analytic ownership and stage order are:
 | Interface | Owner and supplied stage | What this roadmap adds and what the supplier retains |
 | --- | --- | --- |
 | Parameter-dependent one-variable `∂̄` solver, local Dolbeault lemma and fine Dolbeault resolution | ComplexKahlerGeometry K2 | C1.1 compares K2's fine resolution with C0's sheaves. The scalar compact-support Cauchy–Green operator and the finite-rank Runge operator are scalar inputs K2 consumes; this roadmap does not consume them |
-| Proper-submersion trivialization (Ehresmann's theorem) on real manifolds | ComplexComparisonPartII C5.2 `ehresmannFibration` | Proved here from DifferentialGeometry Layer 3's flows and Layer 12's metrics; no earlier roadmap owns it. C5.2 applies it to holomorphic submersions and to analytified proper smooth morphisms, and later roadmaps consume it from here |
+| Proper-submersion trivialization (Ehresmann's theorem) on real manifolds | SmoothBundlesConnections B1.5; ComplexComparisonPartII C5.2 `ehresmannFibration` | The smooth form (a proper surjective submersion is, on each connected component of the base, a locally trivial smooth fibre bundle, with product charts, pullback and restriction) is SmoothBundlesConnections B1.5 and is not restated. C5.2 applies it to holomorphic submersions and to analytified proper smooth morphisms, with the base-change clause, and later roadmaps consume that holomorphic application from here |
 | Integral first Chern class of holomorphic line bundles, its exponential-sequence cocycle and its curvature comparison | CharacteristicClasses C1.5/C3 (the class of the underlying complex line) and C4.1–C4.2 (rank-one curvature comparison); ComplexComparisonPartII C5.4 | C5.4 constructs the holomorphic-to-smooth forgetful adapter, proves the exponential-sequence description `δu` and identifies the Chern-connection form `(i/2π)Θ` with the real image of the class |
 | Native holomorphic sheaf, convergent local algebra and primitive Oka relations | ComplexKahlerGeometry K2–K4 | C-1 adds analytic quotients, nilpotents and gluing; RealAnalyticGeometry R3.2 supplies native coherence; C0 descends it to analytic spaces |
-| Algebraic strict-SNC compactifications and labelled étale coordinates | ResolutionOfSingularitiesCharacteristicZero §§1.3, 6.2, 6.4 / `sncBoundary`, `sncCompactification`, `sncCoordinates` | The prescribed smooth quasi-projective open is unchanged in a smooth projective compactification with globally smooth labelled boundary components and local equation `t₁⋯t_b=0`; C-1.4 supplies `analyticPolydisc`, `sncPolydiscChart` and `snc_exists_polydiscChart` by analytification and the analytic inverse-function theorem |
+| Algebraic strict-SNC compactifications and labelled étale coordinates | ResolutionOfSingularitiesCharacteristicZero §1.3 (birth-ordered SNC boundary), §6.2 (SNC compactification), §6.4 (SNC coordinates) | The prescribed smooth quasi-projective open is unchanged in a smooth projective compactification with globally smooth labelled boundary components and local equation `t₁⋯t_b=0`; C-1.4 supplies `analyticPolydisc`, `sncPolydiscChart` and `snc_exists_polydiscChart` by analytification and the analytic inverse-function theorem |
 | Scheme analytification and its algebraic-to-holomorphic prefix | ComplexComparisonPartII C-1.1, C0.4 and C5.1–C5.2 | FormalConnectionsOpers F2.4 uses the same complex points, ring sheaf, open restrictions, fibre products, smooth charts and étale local isomorphisms. F2.4 retains fixed-model maximal atlases, second countability, tangent/derivation, toric, group and gauge comparisons; these use the prefix without proper GAGA |
 | Ordinary algebraic differential operators and all-order principal parts | ComplexComparisonPartII C5.1 | C5.1 states the characteristic-free order predicate, commutator/order laws, localization and all-order principal parts with their universal property, and owns their analytic comparison. C5.1 is the single owner of these characteristic-free definitions and their laws. FormalConnectionsOpers F2.2 consumes from C5.1 the order predicate, relation module, principal-parts quotient, universal jet, composition maps and universal property; C5.1 does not consume FormalConnectionsOpers, which itself uses C-1.1, C0.3–C0.4 and C5.1–C5.2. The stage order is: the algebraic interface (no analytification or GAGA) → C5.1's `DifferentialOperatorAnalytification` → FormalConnectionsOpers F2.4's connection applications. F2.2 retains symbols, Atiyah sequences and Lie–Rinehart PBW, which assumes projectivity |
 | Bundle–sheaf equivalence at fixed and componentwise varying rank, holomorphic connections and the absolute flat category equivalences | ComplexKahlerGeometry K4 on native Mathlib bundles and `SheafOfModules`, including K4.ComponentwiseFiniteRankAssembly (all connection-preserving maps, rank zero, the empty base and unbounded ranks across components) | C0.3 identifies K4's componentwise assembly with the finite locally free subcategory of `CoherentAnalyticModule`, comparing its clopen rank-stratum presentation with K4's componentwise one on the same section sheaf; C1.3 fixes Chern curvature conventions; C5.2's `holomorphicConnectionDictionary` identifies the analytic connection carriers with K4's and transports the algebraic connection operations; `analyticFlatConnectionLocalSystem` adds holomorphic parameters and specializes over a point to K4's full category equivalence |
@@ -199,8 +199,9 @@ here uses no stage of this roadmap.
   C5.5 analytic adapters → C5.6–C5.7 comparisons. No supplier uses C5's GAGA or Hodge theory
   to construct these cores; the supplier section order between the crystalline and derived
   roadmaps is retained.
-- *ResolutionOfSingularitiesCharacteristicZero, §§1.3, 6.2, 6.4.* `sncBoundary`,
-  `sncCompactification` and `sncCoordinates`: a smooth quasi-projective finite-type variety
+- *ResolutionOfSingularitiesCharacteristicZero, §§1.3, 6.2, 6.4.* The birth-ordered SNC
+  boundary (§1.3), SNC compactification (§6.2) and SNC coordinates (§6.4), all prose targets
+  of that roadmap: a smooth quasi-projective finite-type variety
   in characteristic zero embeds unchanged as a dense open in a smooth projective variety
   with reduced strict-SNC complement, globally smooth labelled components and local étale
   equations `t₁⋯t_b=0`. §C-1.4 supplies the analytic polydisc charts from this algebraic datum.
@@ -325,7 +326,8 @@ open cover with its inclusion equivalence (`TopCat.smallSingularSubcomplex`,
 `TauCeti.smallSingularChainHomotopyEquiv`), and the stability of Fredholm operators under compact
 perturbation (`ContinuousLinearMap.IsFredholm.add_of_isCompactOperator`), together with the Riesz
 theory of a compact perturbation of the identity on a Banach space over `ℝ` or `ℂ`
-(`IsCompactOperator.isClosed_range_one_sub`, `IsCompactOperator.finiteDimensional_quotient_range_one_sub`:
+(`IsCompactOperator.isClosed_range_pow_one_sub`, applied with exponent `1`, and
+`IsCompactOperator.finiteDimensional_quotient_range_one_sub`:
 `1 − K` has closed range and finite-dimensional cokernel for compact `K`). These are used, not
 restated: `SmallSingularCochains` (C5.1) measures smallness by a nesting of neighbourhoods attached
 to the barycentres of the faces of a simplex rather than by one open cover, and `schwartzFiniteness` (C1.6) perturbs a surjection
@@ -366,6 +368,10 @@ the sphere are Tau Ceti's (`TauCeti.RiemannSurface` and `TauCeti.holomorphicStru
 *Exact supplier contracts*), as are the algebraic curve, Weil-divisor and line-bundle carriers;
 none is redefined. C6.3 owns the named unit map of Artin comparison; the compact-support, relative and
 adic comparisons of C6.4–C6.6 are its exchange-map variants.
+
+Renamed target: the C5.1 constant-sheaf/singular comparison, which consuming roadmaps cite as
+sheafSingularComparison, is stated as `nonempty_sheafSingularComparison` (its `Nonempty` form,
+as explained in C5.1); the two names denote the same target.
 
 ## Conventions
 
@@ -562,11 +568,14 @@ adic comparisons of C6.4–C6.6 are its exchange-map variants.
 - `ContinuousLinearMap.IsFredholm.add_of_isCompactOperator` (compact perturbations of Fredholm
   operators are Fredholm), for Banach spaces. This supplies the finite-kernel case;
   `schwartzFiniteness` treats a surjection with no finite-kernel hypothesis.
-- `IsCompactOperator.isClosed_range_one_sub` and
-  `IsCompactOperator.finiteDimensional_quotient_range_one_sub` in
-  `TauCeti.Analysis.Normed.Operator.Compact.RieszTheory` (with
-  `IsCompactOperator.finiteDimensional_ker_one_sub` for the kernel): for a compact operator `K`
-  on a Banach space over `ℝ` or `ℂ`, `1 − K` has closed range and finite-dimensional cokernel.
+- `IsCompactOperator.isClosed_range_pow_one_sub` (every power of `1 − K` has closed range; the
+  exponent `1` is used) and `IsCompactOperator.finiteDimensional_quotient_range_one_sub` in
+  `TauCeti.Analysis.Normed.Operator.Compact.RieszTheory`: for a compact operator `K` on a
+  Banach space over `ℝ` or `ℂ` (an `IsRCLikeNormedField`, the space complete), `1 − K` has
+  closed range and finite-dimensional cokernel. The kernel of `1 − K` is finite-dimensional by
+  `ContinuousLinearMap.finiteDimensional_ker_of_compact_estimate` in
+  `TauCeti.Analysis.Normed.Operator.Compact.Estimate`, applied to `T = 1 − K`, the compact
+  error `K`, and the constant `1` of the triangle inequality `‖x‖ ≤ ‖(1 − K)x‖ + ‖Kx‖`.
   Over `ℂ` this is the case `g = id`, `h = −K` of `schwartzFiniteness`, which extends it to an arbitrary
   continuous surjection `g` between Fréchet spaces.
 - `TauCeti.IsSemialgebraic`, `TauCeti.IsSemialgebraicOn`, `TauCeti.IsSemialgebraicMap` in
@@ -688,10 +697,18 @@ adic comparisons of C6.4–C6.6 are its exchange-map variants.
   derivative; Layer 2: orientations; Layer 5: integration of top forms and Stokes; Layer 6:
   `deRhamCohomology`; Layer 8: the de Rham theorem `deRhamEquiv`; Layer 9: Poincaré duality and
   `finiteDimensional_deRhamCohomology` for compact manifolds; Layer 12: Riemannian metrics and
-  `laplaceBeltrami = div ∘ grad`; Layer 3: flows of vector fields, their completeness and
-  smooth dependence. All over `ℝ`; ComplexKahlerGeometry K2–K5 supplies the complex/Hermitian
-  and Hodge adapters; Layers 3 and 12 are the inputs to C5.2’s `ehresmannFibration`, which
-  proves the proper-submersion trivialization theorem here.
+  `laplaceBeltrami = div ∘ grad`. All over `ℝ`; ComplexKahlerGeometry K2–K5 supplies the
+  complex/Hermitian and Hodge adapters.
+- **SmoothBundlesConnections.** B1.5, Ehresmann's fibration theorem: a proper surjective
+  smooth submersion of finite-dimensional Hausdorff second-countable boundaryless real
+  manifolds is, on each connected component of the base, a locally trivial smooth fibre bundle
+  with model fibre the fibre over one chosen point of that component, with smooth product
+  charts `π⁻¹(U) ≃ U × π⁻¹(b)` whose first projection is the submersion, fibrewise
+  diffeomorphisms between the fibres of a component, and pullback and restriction of the
+  charts; different components may have non-diffeomorphic fibres, and the regular fibres carry
+  B1.0's submanifold structure. C5.2's `ehresmannFibration` applies this to holomorphic
+  submersions and to analytified proper smooth morphisms and adds nothing to the smooth
+  statement.
 - **AlgebraicTopology.** Stage 6: singular cochains with coefficients in an arbitrary module
   (abelian groups over `ℤ`), universal coefficients, cup and cap products, orientation and
   fundamental class, Poincaré duality; Stage 6.1: direct local-system cochains, relative
@@ -981,8 +998,8 @@ For the proof, import the analytic/algebraic completed-stalk identification from
 
 ### C-1.4 Holomorphic SNC coordinates
 
-Consume ResolutionOfSingularitiesCharacteristicZero §§6.2, 6.4's `sncCompactification`
-and `sncCoordinates`. For a smooth quasi-projective finite-type complex variety `U`,
+Consume ResolutionOfSingularitiesCharacteristicZero §6.2's SNC compactification
+and §6.4's SNC coordinates. For a smooth quasi-projective finite-type complex variety `U`,
 the former supplies a smooth projective compactification containing the given `U`
 unchanged, with reduced strict-SNC boundary and globally smooth labelled components.
 The latter supplies étale coordinates with boundary equation `t₁⋯t_b=0`, with each
@@ -993,15 +1010,15 @@ Prove `analyticPolydisc`. For the complex analytification of a smooth finite-typ
 
 ([Edward Bierstone and Pierre D. Milman](https://arxiv.org/abs/alg-geom/9508005), §3, Definition 3.2 and Lemma 3.3, preprint p. 22 (regular coordinate systems and their Jacobian criterion), Lemma 3.5, p. 23 (expansion in regular coordinates), and the normal-crossings divisor convention of §1, Theorem 1.10, p. 7 (a principal ideal generated locally by a monomial in suitable coordinates), for the analytic deduction from the supplied algebraic coordinates using the inverse-function theorem).
 
-For the proof, analytify the étale coordinate chart supplied by `sncCoordinates` and its invertible Jacobian; then apply the complex analytic inverse-function theorem and shrink its image to a product of sufficiently small discs; then use the supplied labelled component equations to identify the punctured factors; shrink away from nonincident components.
+For the proof, analytify the étale coordinate chart supplied by the SNC coordinates of §6.4 and its invertible Jacobian; then apply the complex analytic inverse-function theorem and shrink its image to a product of sufficiently small discs; then use the supplied labelled component equations to identify the punctured factors; shrink away from nonincident components.
 
-*Needs:* ResolutionOfSingularitiesCharacteristicZero §§1.3, 6.2, 6.4 (`sncBoundary`, `sncCompactification`, `sncCoordinates`); §C-1.1; Mathlib `OpenPartialHomeomorph.hasFPowerSeriesAt_symm`, Tau Ceti `TauCeti.ContDiffOn.exists_openPartialHomeomorph`.
+*Needs:* ResolutionOfSingularitiesCharacteristicZero §1.3 (birth-ordered SNC boundary), §6.2 (SNC compactification), §6.4 (SNC coordinates); §C-1.1; Mathlib `OpenPartialHomeomorph.hasFPowerSeriesAt_symm`, Tau Ceti `TauCeti.ContDiffOn.exists_openPartialHomeomorph`.
 
 Do not define a new analytic inverse-function theorem. At the Mathlib pin, `AnalyticAt.hasStrictFDerivAt` gives the strict derivative of an analytic map; `HasStrictFDerivAt.toOpenPartialHomeomorph`, `HasStrictFDerivAt.mem_toOpenPartialHomeomorph_source`, `HasStrictFDerivAt.eventually_left_inverse` and `HasStrictFDerivAt.eventually_right_inverse` provide its local inverse when the derivative is a continuous linear equivalence. `OpenPartialHomeomorph.analyticAt_symm'` proves that this inverse is analytic. The linear equivalence and the complete normed-space assumptions are material. These declarations apply to finite-dimensional complex coordinates with their normed-space structures. Inverse uniqueness lets the resulting analytic germs glue. A nonzero derivative is required in dimension one; in dimension `n` the full Jacobian must be invertible.
 
 Define `sncPolydiscChart` for a smooth finite-type complex scheme or locally separated space `M`, a finite ordered SNC divisor `E`, a point `x`, and the `b` distinct components of `E` through `x`. Its data are an analytic neighbourhood of `x`, positive radii `r_i`, and a biholomorphism to a polydisc in `ℂⁿ` taking `x` to zero and the labelled boundary components to `z₁=0,…,z_b=0`. In particular `b≤n`. Its API states equality of the reduced boundary, the complement isomorphism, restriction to smaller positive radii, equivariance under relabelling, and transport along an étale chart. Define the punctured polydisc using the product of open metric balls and the inequalities `z_i≠0` for `i<b`. No separate competing notion of a complex manifold or polydisc is introduced.
 
-Prove `snc_exists_polydiscChart`: ResolutionOfSingularitiesCharacteristicZero §6.4's `sncCoordinates` supplies, on an étale chart, regular parameters whose first `b` entries define the labelled components. Their Jacobian at `x` is invertible. Analytification and the analytic inverse theorem produce local holomorphic coordinates; shrink the target neighbourhood to a product of discs with positive radii, avoiding every boundary component not through `x`. Its inverse image is the desired chart, and the vanishing equations identify `E`. Restricting the same biholomorphism identifies the complement with `(Δ*)^b×Δ^(n−b)`. This argument includes dimension zero and empty boundary. For a space, first use the local analytic quotient chart from §C-1.2. The existence assertion is local and assumes no compactness. For smooth quasi-projective varieties, the compactification is supplied by that roadmap's §6.2 `sncCompactification` and retains the given smooth open unchanged. (Deligne, Théorie de Hodge II, (3.1.2), p. 31, the proof of (3.1.9), pp. 33–34, and (3.2.1), pp. 34–35; Mathlib's analytic inverse APIs just cited.)
+Prove `snc_exists_polydiscChart`: ResolutionOfSingularitiesCharacteristicZero §6.4's SNC coordinates supply, on an étale chart, regular parameters whose first `b` entries define the labelled components. Their Jacobian at `x` is invertible. Analytification and the analytic inverse theorem produce local holomorphic coordinates; shrink the target neighbourhood to a product of discs with positive radii, avoiding every boundary component not through `x`. Its inverse image is the desired chart, and the vanishing equations identify `E`. Restricting the same biholomorphism identifies the complement with `(Δ*)^b×Δ^(n−b)`. This argument includes dimension zero and empty boundary. For a space, first use the local analytic quotient chart from §C-1.2. The existence assertion is local and assumes no compactness. For smooth quasi-projective varieties, the compactification is supplied by that roadmap's §6.2 SNC compactification and retains the given smooth open unchanged. (Deligne, Théorie de Hodge II, (3.1.2), p. 31, the proof of (3.1.9), pp. 33–34, and (3.2.1), pp. 34–35; Mathlib's analytic inverse APIs just cited.)
 
 **Checks.**
 
@@ -1011,7 +1028,7 @@ Prove `snc_exists_polydiscChart`: ResolutionOfSingularitiesCharacteristicZero §
 - `(u,v)↦(u+v²,v)` has inverse `(u,v)↦(u−v²,v)`; both composites give `(u,v)`. The nonlinear sign is detected by this two-term coordinate witness.
 - `xy=0` as the ambient curve is singular at zero; it is not a smooth two-dimensional SNC ambient chart. The definition distinguishes the boundary divisor from its ambient space.
 
-*Needs:* §§C-1.1–C-1.3; ResolutionOfSingularitiesCharacteristicZero §§1.3, 6.2, 6.4 (`sncBoundary`, `sncCompactification`, `sncCoordinates`) for algebraic SNC boundaries, compactifications and étale coordinate charts; Mathlib analytic inverse APIs cited above.
+*Needs:* §§C-1.1–C-1.3; ResolutionOfSingularitiesCharacteristicZero §1.3 (birth-ordered SNC boundary), §6.2 (SNC compactification) and §6.4 (SNC coordinates) for algebraic SNC boundaries, compactifications and étale coordinate charts; Mathlib analytic inverse APIs cited above.
 
 ## Layer C0: Coherent analytic modules and coherent analytification
 
@@ -2980,42 +2997,38 @@ the parameter integral keeps holomorphic dependence on the base. For coefficient
 isomorphism (Deligne 1970, I.2.23(ii)–(iii) and proof, printed pp. 15–19).
 *Needs:* `HolomorphicDeRham`; `holomorphicPoincare`; `analyticFlatConnectionLocalSystem`.
 
-Prove `ehresmannFibration`, the proper-submersion trivialization theorem, in its smooth form
-and then in its holomorphic application. Smooth form: for a proper surjective smooth
-submersion `f : T → S` of finite-dimensional Hausdorff second-countable real smooth
-manifolds without boundary, every point `s` of `S` has an open neighbourhood `V` and a
-diffeomorphism `f⁻¹(V) ≅ V × f⁻¹(s)` whose first projection is `f`; the regular fibres are
-closed submanifolds, and these trivializations assemble, componentwise on `S`, into a smooth
-`FiberBundle` atlas of `Trivialization` charts smooth in both directions, with model fibre
-`f⁻¹(s)` on the component of `s`, together with restriction and pullback maps. Route: choose
-a Riemannian metric on `T`; on a coordinate chart `V` of `S` around `s`, lift its coordinate
-vector fields to the vector fields on `f⁻¹(V)` orthogonal to the fibres and `f`-related to
-them; because `f` is proper, their flows starting in `f⁻¹(s)` exist for all times below a
-uniform bound, and the map sending `(v, y)` to the flow of the lifts from `y ∈ f⁻¹(s)` to
-the fibre over `v` is the required diffeomorphism after shrinking `V` (tom Dieck,
-*Differential Manifolds*, January 2009, Theorems 2.2.1 and 2.2.3 and Corollary 2.2.4,
-pp. 52–53). No earlier roadmap owns this theorem; it is proved here on Mathlib's manifolds
-and bundles, and later roadmaps consume it from here.
+Prove `ehresmannFibration`, the holomorphic application of Ehresmann's fibration theorem.
+The smooth form is SmoothBundlesConnections B1.5 and is consumed, not restated: a proper
+surjective smooth submersion `f : T → S` of finite-dimensional Hausdorff second-countable
+real smooth manifolds without boundary is, on each connected component of `S`, a locally
+trivial smooth fibre bundle with model fibre `f⁻¹(s)` for one chosen point `s` of that
+component, with product charts `f⁻¹(V) ≃ V × f⁻¹(s)` over coordinate balls `V` whose first
+projection is `f`, smooth in both directions, with fibrewise diffeomorphisms between the
+fibres of one component, with pullback and restriction of the charts, and with the regular
+fibres carrying B1.0's submanifold structure (tom Dieck, *Differential Manifolds*, January
+2009, Theorems 2.2.1 and 2.2.3 and Corollary 2.2.4, pp. 52–53, for the statement consumed).
 
 Holomorphic application: for a proper surjective holomorphic submersion `f : T → S` of
 finite-dimensional Hausdorff second-countable complex manifolds without boundary, use
 ComplexManifolds Milestone 1's restriction-of-scalars structures and functorial
 map/derivative comparison to prove `Manifold.IsSubmersion I J ∞ f` for the underlying real
-models; the native continuous map has the same properness and surjectivity, so the smooth
-form applies. Compare the total-space identification with the original `T`; both chart
-maps are smooth for the underlying real models. For a proper smooth surjective morphism of
-smooth separated finite-type complex schemes, prove these hypotheses for its analytification
-using §C-1.1's properness and local analytic submersion comparisons.
+models, which are manifolds of B1.5's kind; the native continuous map has the same properness
+and surjectivity, so B1.5 applies and gives, componentwise on `S`, a smooth `FiberBundle`
+atlas of `Trivialization` charts. Compare the total-space identification with the original
+`T`; both chart maps are smooth for the underlying real models. For a proper smooth
+surjective morphism of smooth separated finite-type complex schemes, prove these hypotheses
+for its analytification using §C-1.1's properness and local analytic submersion comparisons.
 
 For a holomorphic base map `g : S′ → S` between these manifolds, identify the native
 pullback bundle with `T ×_S S′ → S′` on its submersion fibre-product manifold. Pull back
 each chart, retaining the projection square and fibre map; prove the identity and
 composition comparisons. The trivializations after base change are the pullbacks of the
-chosen ones, not chosen independently. This theorem supplies `relativeBettiLocalSystem`
-(Deligne 1970, I.2.24–2.25, p. 19).
-*Needs:* DifferentialGeometry Layer 3 (flows of vector fields, their completeness and
-smooth dependence) and Layer 12 (Riemannian metrics); ComplexManifolds Milestone 1's
-realification and atlas-transport maps; §C-1.1; Mathlib `Manifold.IsSubmersion`,
+chosen ones, not chosen independently: the pulled-back charts are the pullbacks of B1.5's
+charts, with the identity and composition comparisons. This theorem supplies
+`relativeBettiLocalSystem` (Deligne 1970, I.2.24–2.25, p. 19).
+*Needs:* SmoothBundlesConnections B1.5 (the proper-submersion trivialization, its
+componentwise model fibre, product charts, pullback and restriction); ComplexManifolds
+Milestone 1's realification and atlas-transport maps; §C-1.1; Mathlib `Manifold.IsSubmersion`,
 `FiberBundle`, `Trivialization`.
 
 **Checks.**
@@ -3901,7 +3914,7 @@ Specialize the supplier's divisorial log structure (CR.5:log-algebra.4, “Divis
 API: at an `r`-fold crossing the chart is `ℕʳ`; it is trivial on `U`; and multiplying a local
 equation by a unit gives the same structure (Kato, §1.5(1), printed p. 194, and Example 2.5(1), pp. 197–198). *Needs:*
 CrystallineCohomology CR.5:log-algebra.4, “Divisorial log structures”; `FineLogChart`;
-ResolutionOfSingularitiesCharacteristicZero §6.2 (`sncCompactification`, SNC boundaries).
+ResolutionOfSingularitiesCharacteristicZero §6.2 (SNC compactification, SNC boundaries).
 
 **Checks.**
 
@@ -4059,7 +4072,7 @@ algebraizes the lattice and connection. Its API: restriction to an open; pullbac
 and II.5.1–5.9, pp. 91–98, with the replacement proof of II.4.1 in the author's 1971 erratum,
 pp. 1–3). *Needs:* the curve-condition `RegularSingular` definition; `CanonicalLogExtension`;
 `analyticFlatConnectionLocalSystem`; `DifferentialOperatorAnalytification`;
-ResolutionOfSingularitiesCharacteristicZero §6.2 (`sncCompactification`) and
+ResolutionOfSingularitiesCharacteristicZero §6.2 (SNC compactification) and
 §C1.9 (`properSchemeGagaEquivalence`).
 
 The residue-strip functions also have an elementary API. For `a ∈ ℂ`,
@@ -4091,7 +4104,7 @@ such tensors to a smaller field of definition is an additional arithmetic input 
 Use `analyticFlatConnectionLocalSystem` for the analytic horizontal-section functor, its rank
 property, unit and evaluation counit, and its tensor/dual compatibility. On a smooth quasi-projective
 `U`, take the canonical logarithmic extension on an SNC compactification
-(`sncCompactification`), algebraize it and its logarithmic connection by proper GAGA
+(ResolutionOfSingularitiesCharacteristicZero §6.2), algebraize it and its logarithmic connection by proper GAGA
 (`properSchemeGagaEquivalence` and `DifferentialOperatorAnalytification`), and algebraize horizontal
 maps by moderate growth; a general `U` is covered by quasi-projective opens (Deligne 1970, II.5.7–5.9
 and proof, printed pp. 96–98, with the corrected II.4.1; Caraiani–Scholze, *On the generic part of the
@@ -4099,7 +4112,7 @@ cohomology of compact unitary Shimura varieties*, arXiv:1511.02418v1, §2.3, PDF
 on a Hodge-type Shimura variety to make horizontal Hodge tensors algebraic).
 *Needs:* `CanonicalLogExtension`; `analyticFlatConnectionLocalSystem`; `relativePoincare`;
 `DifferentialOperatorAnalytification`;
-§C1.9 `properSchemeGagaEquivalence`; ResolutionOfSingularitiesCharacteristicZero §6.2 `sncCompactification`;
+§C1.9 `properSchemeGagaEquivalence`; ResolutionOfSingularitiesCharacteristicZero §6.2 (SNC compactification);
 SchemeAndStackFoundations Layer 1.
 
 Prove `regularSingularDeRhamComparison`: for a smooth variety `U` of finite type over `ℂ` and a regular
@@ -4218,8 +4231,8 @@ claimed (Qian, arXiv:2103.00106, Theorem 1.8, pp. 3–4, and Proposition 3.6 and
 
 C0–C4; §§C-1.1–C-1.4/C1.9; AlgebraicModuliForArithmeticGeometry Layers 1–3;
 ResolutionOfSingularitiesCharacteristicZero Layers 1–6 (resolution and SNC compactification);
-SchemeAndStackFoundations (Layer 1, Layer 2 including §§2.19–2.20, §4.12, Layer 5); TauCetiRoadmap.DifferentialGeometry (Layers 0–3,
-5, 6, 8, 9 and 12); TauCetiRoadmap.AlgebraicTopology (Stages 6 and 8); TauCetiRoadmap.PDE (Lanes A,
+SchemeAndStackFoundations (Layer 1, Layer 2 including §§2.19–2.20, §4.12, Layer 5); TauCetiRoadmap.DifferentialGeometry (Layers 0–2,
+5, 6, 8, 9 and 12); TauCetiRoadmap.SmoothBundlesConnections (B1.5); TauCetiRoadmap.AlgebraicTopology (Stages 6 and 8); TauCetiRoadmap.PDE (Lanes A,
 D and E); TauCetiRoadmap.AlgebraicVectorBundles (L0C);
 CharacteristicClasses C1.5, C3, C4.1–C4.2; TauCetiRoadmap.JacobianChallenge (Layer C);
 Tau Ceti `TauCeti.Hodge.HodgeStructureOn`, `TauCeti.Hodge.Conjugation`,
