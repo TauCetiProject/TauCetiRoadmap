@@ -49,12 +49,13 @@ here; what one does inside a universe is elsewhere.
   `V_ 1 = {∅}`; `x ∈ V_ o ↔ ZFSet.rank x < o` (`ZFSet.mem_vonNeumann`). Some authors index the
   hierarchy so that `V_α` is the sets of rank `≤ α`; here `V_ (o + 1) = (V_ o).powerset`
   (`ZFSet.vonNeumann_add_one`).
-- **Inaccessible** means Mathlib's `Cardinal.IsInaccessible`, which is uncountable. Williams 1969
-  and Tarski 1938 call inaccessible « in the narrower sense » the cardinals `α` such that unions of
-  fewer than `α` sets of size `< α` have size `< α`, and `2^ξ < α` for `ξ < α`; these are `0`, `ℵ₀`
-  and Mathlib's inaccessible cardinals (`1` and `2` fail, since `2^0 = 1` and `2^1 = 2`). Hence
-  the separate case `V_ω` in 1.2. Witness: `ℵ₀` is regular and a strong limit, and
-  `¬ Cardinal.IsInaccessible ℵ₀` since `ℵ₀ < ℵ₀` fails.
+- **Inaccessible** means Mathlib's `Cardinal.IsInaccessible`, which is uncountable. Kruse 1965,
+  p. 96, calls inaccessible the cardinals `α` such that unions of fewer than `α` sets of size `< α`
+  have size `< α`, and `2^ξ < α` for `ξ < α`; these are `0`, `ℵ₀` and Mathlib's inaccessible
+  cardinals (`1` and `2` fail, since `2^0 = 1` and `2^1 = 2`). Williams 1969, p. 1, calls them
+  inaccessible « in the narrower sense » with the second clause read `ξ^η < α` for `ξ, η < α`,
+  which also admits `2`. Hence the separate case `V_ω` in 1.2. Witness: `ℵ₀` is regular and a
+  strong limit, and `¬ Cardinal.IsInaccessible ℵ₀` since `ℵ₀ < ℵ₀` fails.
 - **Universe axioms.** The structure `IsGrothendieckUniverse U` has the five fields of Williams
   1969, p. 1 (UA1–UA5): `U` is transitive, closed under `powerset`, closed under singletons,
   closed under unions `⋃ i, f i` of families `f : I → ZFSet` of elements of `U` indexed by an
@@ -83,8 +84,9 @@ here; what one does inside a universe is elsewhere.
 - `ZFSet.card`, `ZFSet.card_mono` (`Mathlib/SetTheory/ZFC/Cardinal.lean`).
 - `Cardinal.IsInaccessible`, `Cardinal.IsInaccessible.isRegular`,
   `Cardinal.IsInaccessible.isStrongLimit`, `Cardinal.IsInaccessible.preBeth_ord`,
-  `Cardinal.IsRegular`, `Cardinal.IsStrongLimit`, `Cardinal.preBeth`, `Cardinal.ord`,
-  `Cardinal.le_preBeth_ord` (`Mathlib/SetTheory/Cardinal/Regular.lean`, `Aleph.lean`).
+  `Cardinal.IsRegular`, `Cardinal.preBeth`, `Cardinal.ord`, `Cardinal.le_preBeth_ord`
+  (`Mathlib/SetTheory/Cardinal/Regular.lean`, `Aleph.lean`), and `Cardinal.IsStrongLimit`
+  (`Mathlib/SetTheory/Cardinal/Order.lean`).
 
 **From Tau Ceti.** Nothing is consumed from Tau Ceti.
 
@@ -123,8 +125,13 @@ pair `{x, y} ∈ U` iff the ordered pair `ZFSet.pair x y ∈ U`, so UA1–UA5 im
 conversely for nonempty `U`; `x ∪ y`, `x ×ˢ y` (`ZFSet.prod`), the set of functions from `x` to
 `y`, and the product of a family indexed by an element of `U` are in `U` when their data are; and
 `ZFSet.card x < ZFSet.card U` for `x ∈ U` (Gabriel 1962, Ch. 0, §1, p. 328, the corollaries listed
-after the axioms). Prove that `ZFSet.omega ∈ U` iff `U` has an infinite element. *Needs:* 0.1,
-Mathlib `ZFSet.mem_powerset`, `ZFSet.pair`, `ZFSet.prod`, `ZFSet.card_mono`.
+after the axioms). For a universe `U`, let `α(U)` be the least cardinal `α` with `card x < α` for
+every `x ∈ U`; it exists by the bound `card x < card U`. Prove from UA1, UA2, UA4 and closure
+under subsets that `α(U)` is regular and a strong limit, and Kruse's criterion
+`x ∈ U ↔ x ⊆ U ∧ card x < α(U)` (Kruse 1965, Theorem 1, (a)⇒(b), p. 98). Prove that
+`ZFSet.omega ∈ U` iff `U` has an infinite element; the direction from an infinite element uses
+the criterion. *Needs:* 0.1, Mathlib `ZFSet.mem_powerset`, `ZFSet.pair`, `ZFSet.prod`,
+`ZFSet.card_mono`, `Cardinal.IsRegular`, `Cardinal.IsStrongLimit`.
 
 **Checks.**
 
@@ -133,6 +140,9 @@ Mathlib `ZFSet.mem_powerset`, `ZFSet.pair`, `ZFSet.prod`, `ZFSet.card_mono`.
 - `card x < card U` is strict: for `U = V_ ω`, every element is finite and `card U = ℵ₀`.
 - The union `x ∪ y` is the union of the family `![x, y]` indexed by `V_ 2 ∈ U`, which is how UA4
   yields binary unions.
+- For `U = V_ ω`, `α(U) = ℵ₀`: every element is finite and `V_ n ∈ U` has `card (V_ n) ≥ n`. The
+  criterion reads `x ∈ V_ ω ↔ x ⊆ V_ ω ∧ x` finite; the direction ⇒ alone follows from UA1 and
+  the bound, and the direction ⇐ is the one that builds elements of `U`.
 
 ### Examples
 
@@ -149,7 +159,8 @@ Mathlib: `ZFSet`, `ZFSet.IsTransitive`, `ZFSet.powerset`, `ZFSet.iUnion`, `ZFSet
 
 Prove `isGrothendieckUniverse_vonNeumann`: `V_ κ.ord` is a universe for every inaccessible
 `κ : Cardinal.{u}`, and `isGrothendieckUniverse_vonNeumann_omega0`: `V_ ω` is a universe (Williams
-1969, (b) and (c), p. 2, quoting Shepherdson 1952). Route: `V_ κ.ord` is transitive; a set of rank
+1969, (b) and (c), p. 2, quoting Shepherdson 1952, with Kruse 1965, Theorem 1, (b)⇒(a), p. 98).
+Route: `V_ κ.ord` is transitive; a set of rank
 `< κ.ord` has power set of rank `< κ.ord` because `κ.ord` is a limit; and if `I ∈ V_ κ.ord` and each
 `f i ∈ V_ κ.ord`, then `card I < κ` and regularity of `κ` bounds `sup_i rank (f i) < κ.ord`. Prove
 `ZFSet.card (V_ κ.ord) = κ` (Mathlib `ZFSet.card_vonNeumann` and
@@ -172,12 +183,14 @@ Prove `isGrothendieckUniverse_vonNeumann`: `V_ κ.ord` is a universe for every i
 ### 1.2 Williams's theorem
 
 Prove `isGrothendieckUniverse_iff`: a set `U` is a universe iff `U = V_ ω` or `U = V_ κ.ord` for an
-inaccessible `κ` (Williams 1969, Theorem 1, p. 2, using Kruse 1965: for a universe `U` there is a
-narrow-sense inaccessible `α` with `x ∈ U ⇒ x ⊆ U ∧ card x < α`). Route: with `α = card U`, prove
-`V_ α.ord ⊆ U` by induction on ranks below `α.ord` (UA2, UA1, UA4), and `U ⊆ V_ α.ord` by
-regularity: a `∈`-minimal element of `U \ V_ α.ord` would be a subset of `V_ α.ord` of cardinality
-`< α`, hence of rank `< α.ord`. *Needs:* 0.2, 1.1, Mathlib `ZFSet.regularity`, `ZFSet.rank`,
-`ZFSet.rank_lt_of_mem`, `ZFSet.vonNeumann_subset_of_le`.
+inaccessible `κ` (Williams 1969, Theorem 1, p. 2, using Kruse 1965, Theorem 1, p. 98). Route: with
+`α = α(U)` of 0.2, prove `V_ α.ord ⊆ U` by induction on ranks below `α.ord`: at a successor,
+`V_ (β + 1) = (V_ β).powerset` is a subset of `U` of cardinality `< α` (strong limit), hence in `U`
+by Kruse's criterion; at a limit `β`, `V_ β` is the union of the `V_ γ`, `γ < β`, indexed by
+`β.toZFSet ∈ U` (UA4). Prove `U ⊆ V_ α.ord` by regularity of `ZFSet`: a `∈`-minimal element of
+`U \ V_ α.ord` would be a subset of `V_ α.ord` of cardinality `< α`, hence of rank `< α.ord`
+because `α` is regular. *Needs:* 0.2 (`α(U)` and Kruse's criterion), 1.1, Mathlib
+`ZFSet.regularity`, `ZFSet.rank`, `ZFSet.rank_lt_of_mem`, `ZFSet.vonNeumann_subset_of_le`.
 
 **Checks.**
 
@@ -185,20 +198,26 @@ regularity: a `∈`-minimal element of `U \ V_ α.ord` would be a subset of `V_ 
 - No other countable universe: `V_ n` for `n : ℕ` fails UA2 at `V_ (n - 1)` when `n ≥ 1`, and
   `V_ 0 = ∅` fails UA5.
 - The equality, not only an inclusion, is needed for 2.1: `V_ ω ⊆ V_ κ.ord` and `V_ ω ≠ V_ κ.ord`.
+- Regularity of `α` is used in the second inclusion: for the singular strong limit `ℶ_ω`, the set
+  `{V_ (ℶ_ n).ord : n ∈ ω}` is a subset of `V_ ℶ_ω.ord` of cardinality `ℵ₀ < ℶ_ω` and of rank
+  `ℶ_ω.ord`. With `α = card U` in place of `α(U)` the route would need 1.3 to know `α` regular.
 
 ### 1.3 The cardinal of a universe
 
-Prove `IsGrothendieckUniverse.isInaccessible_card`: a universe `U` with `ZFSet.omega ∈ U` has
-inaccessible cardinality, and `IsGrothendieckUniverse.eq_vonNeumann_card`: `U = V_ (card U).ord`
-(Williams 1969, Theorem 2, p. 3, with Theorem 1). Zermelo 1930 proves the second-order form: the
+Prove `card U = α(U)` for every universe `U` (Williams 1969, Theorem 2, p. 3:
+`card (V_ κ.ord) = κ`), and from it `IsGrothendieckUniverse.eq_vonNeumann_card`:
+`U = V_ (card U).ord` for every universe, and `IsGrothendieckUniverse.isInaccessible_card`: `card U`
+is inaccessible in Mathlib's sense exactly when `ZFSet.omega ∈ U` (Williams 1969, Theorems 1
+and 2, pp. 2–3). Zermelo 1930 proves the second-order form: the
 models of his axioms (« Normalbereiche ») are the `V_κ` with `κ` a « Grenzzahl », and each is
 determined by `κ`; an English translation of Zermelo 1930 is in Ewald 1996, vol. II,
-pp. 1208–1233. *Needs:* 1.1, 1.2.
+pp. 1208–1233. *Needs:* 0.2, 1.1, 1.2.
 
 **Checks.**
 
-- For `U = V_ ω`, `card U = ℵ₀` is not inaccessible in Mathlib's sense: the hypothesis
-  `ZFSet.omega ∈ U` is needed.
+- For `U = V_ ω`, `card U = preBeth ω = ℵ₀` and `ℵ₀.ord = ω`, so `U = V_ (card U).ord` holds;
+  but `ℵ₀` is not inaccessible in Mathlib's sense, so `isInaccessible_card` needs
+  `ZFSet.omega ∈ U`.
 - For `κ` inaccessible, `card (V_ κ.ord) = κ` and `V_ (card (V_ κ.ord)).ord = V_ κ.ord`.
 - The cardinal determines the universe: two universes containing `ω` with the same cardinality
   are equal.

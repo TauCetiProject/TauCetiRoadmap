@@ -23,7 +23,7 @@ Headline theorems stated here:
   inaccessible.
 * README 1.3, `IsGrothendieckUniverse.isInaccessible_card` and
   `IsGrothendieckUniverse.eq_vonNeumann_card`: a universe containing `ω` has inaccessible
-  cardinality `κ` and is `V_κ`.
+  cardinality, and every universe `U` is `V_ (card U).ord`.
 * README 2.1, `IsGrothendieckUniverse.mem_or_eq_or_mem`: universes are totally ordered by
   membership.
 * README 2.2, `exists_least_isGrothendieckUniverse`: a set lying in some universe lies in a least
@@ -63,7 +63,7 @@ structure IsGrothendieckUniverse (U : ZFSet.{u}) : Prop where
 /-! ## Layer 1: universes are the inaccessible stages -/
 
 /-- **`V_κ` is a universe** for every inaccessible `κ` (README 1.1; Williams 1969, (b) and (c),
-p. 2, after Shepherdson 1951). -/
+p. 2, after Shepherdson 1952). -/
 theorem isGrothendieckUniverse_vonNeumann {κ : Cardinal.{u}} (hκ : κ.IsInaccessible) :
     IsGrothendieckUniverse (V_ κ.ord) := by
   sorry
@@ -87,9 +87,9 @@ theorem IsGrothendieckUniverse.isInaccessible_card {U : ZFSet.{u}} (hU : IsGroth
   sorry
 
 /-- **A universe is the stage of its cardinal** (README 1.3; Williams 1969, Theorems 1 and 2,
-pp. 2–3). -/
-theorem IsGrothendieckUniverse.eq_vonNeumann_card {U : ZFSet.{u}} (hU : IsGrothendieckUniverse U)
-    (hω : omega ∈ U) : U = V_ (card U).ord := by
+pp. 2–3): this holds for every universe, `V_ω` included. -/
+theorem IsGrothendieckUniverse.eq_vonNeumann_card {U : ZFSet.{u}} (hU : IsGrothendieckUniverse U) :
+    U = V_ (card U).ord := by
   sorry
 
 /-! ## Layer 2: the order of universes and the universe axiom -/
