@@ -71,18 +71,25 @@ compact-perturbation index foundation.
 ## How they depend on one another
 
 
-| roadmap                        | direct roadmap prerequisites                                                                                 |
+| roadmap                        | direct prerequisites within the family                                                                     |
 | ------------------------------ | ---------------------------------------------------------------------------------------------------------- |
 | `PolarDecomposition`           | Mathlib                                                                                                    |
 | `OrthogonalGeometry`           | Mathlib                                                                                                    |
 | `Majorization`                 | `PolarDecomposition`, `OrthogonalGeometry`                                                                 |
 | `PrincipalAngles`              | `PolarDecomposition`, `OrthogonalGeometry`, `Majorization`                                                 |
-| `SelfAdjointSpectralTheory`    | `OrthogonalGeometry`, `OneParameterSemigroups`, `BanachSpaceTheory` B1/B5 (SA-B63/65 only) |
+| `SelfAdjointSpectralTheory`    | `OrthogonalGeometry`                                                                                       |
 | `OperatorIdeals`               | `PolarDecomposition`, `Majorization`                                                                       |
 | `MatrixSpectralStatistics`     | `PolarDecomposition`                                                                                       |
-| `ToeplitzOperators`            | Mathlib Fourier/projection APIs, Tau Ceti circle degree, `BanachSpaceTheory` B5, `CStarAlgebras` C1/C5/C8, `OperatorKTheory` K4 |
+| `ToeplitzOperators`            | none (Mathlib and Tau Ceti)                                                                                |
 | `SpectralSubspacePerturbation` | `PolarDecomposition`, `Majorization`, `PrincipalAngles`, `SelfAdjointSpectralTheory`                       |
 
+
+The table records only the dependencies of the children on one another. Each child is a
+roadmap in its own right, ordered against its own suppliers; its suppliers outside the family,
+with the sections it consumes, are fixed in that child's own supplier contracts and are not
+prerequisites of the family as a whole. For example, the C*-algebra and Calkin-algebra inputs of
+`ToeplitzOperators` are needed by no other child, and the external inputs of
+`SelfAdjointSpectralTheory` are recorded below.
 
 `PrincipalAngles` needs `Majorization` for Davis's eigenvalue-change bound, which runs
 through Birkhoff's theorem and the permutation-orbit convex hull. `OperatorIdeals` needs it
