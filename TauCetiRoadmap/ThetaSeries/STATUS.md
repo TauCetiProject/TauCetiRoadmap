@@ -1,38 +1,54 @@
-<!--tauceti-status:v1 {"roadmap":"ThetaSeries","to_sha":"e8ea0d187d0e20fa24ab5f68cfc27b2d40b876bd","ts":"2026-10-25T17:19:50Z"}-->
-<!--tauceti-coverage:v1 {"layers":[{"id":"Layer 1","remaining":"the Gaussian transforms of 1F, in cpow and even-rank integer-power form","state":"partial"},{"id":"Layer 2","remaining":"orthogonal sums in 2A, scaling (2B), the bridge (2D), level (2E), Fricke partner (2F), shell convolution (2G), Kronecker symbol (2H)","state":"partial"},{"id":"Layer 3","remaining":"functoriality (3D) and the rank-one comparison with jacobiTheta (3E)","state":"partial"},{"id":"Layer 4","remaining":"the inversion laws 4B and 4C and the consistency checks 4D","state":"partial"},{"id":"Layer 5","state":"untouched"},{"id":"Layer 6","state":"untouched"},{"id":"Layer 7","state":"untouched"},{"id":"Layer 8","state":"untouched"}],"readme_sha":"b57483b2741b1dc916f6a0566debb3839f2c2697c451306112e045c7b30934db","roadmap":"ThetaSeries","to_sha":"e8ea0d187d0e20fa24ab5f68cfc27b2d40b876bd"}-->
+<!--tauceti-status:v1 {"roadmap":"ThetaSeries","to_sha":"385ec2ddd8ddf8cc779b78c176308cb9c6b55499","ts":"2026-11-06T09:09:35Z"}-->
+<!--tauceti-coverage:v1 {"layers":[{"id":"Layer 1","state":"done"},{"id":"Layer 2","state":"done"},{"id":"Layer 3","state":"done"},{"id":"Layer 4","state":"done"},{"id":"Layer 5","state":"done"},{"id":"Layer 6","remaining":"the closed form of G_L(a, c) (6E) and the lattice character chi_L at the level (6F)","state":"partial"},{"id":"Layer 7","remaining":"evaluate the Gauss-sum scalar as chi_L(d) in 7C and 7E, the bundled forms (7D, 7E), diamond and cusp-form statements of 7F","state":"partial"},{"id":"Layer 8","state":"done"}],"readme_sha":"12fbbd9d41f41ebb1590ee1becdc726854d35c46d8264d1110afe4d343bf6533","roadmap":"ThetaSeries","to_sha":"385ec2ddd8ddf8cc779b78c176308cb9c6b55499"}-->
 # Status: ThetaSeries
 
-This file documents the status of the ThetaSeries roadmap up until `e8ea0d1` (2026-10-25T17:19:50Z). There may have been subsequent updates.
+This file documents the status of the ThetaSeries roadmap up until `385ec2d` (2026-11-06T09:09:35Z). There may have been subsequent updates.
 
 It is generated, and its prose is not security-validated; see
 https://github.com/TauCetiProject/TauCetiProgress for what that means.
 
 ## Where this roadmap stands
 
-**At a glance.** Layer 1's analytic engine works: Poisson summation over a full lattice is proved in all three sign forms. Only the Gaussian transforms are missing. The theta series exist with convergence, holomorphy, q-expansions and the translation law. The inversion law, the level, the bridge to the rational model and everything modular have not begun.
+**At a glance.** Layers 1 to 5 and Layer 8 are done. That covers Poisson summation, the lattice model, the theta series, both transformation laws, level-one modularity, and the identities for E₈, rank 16 and Leech. The summit is partial. Θ_L transforms under Γ₀(N) by a scalar given as an explicit Gauss sum, but that scalar has not yet been evaluated as χ_L(d), and the bundled form does not exist.
 
 ### Named results
 
-- **Poisson summation for a lattice** — for a Schwartz function f and a full lattice L in a finite-dimensional real inner product space, the sum of f over v + L is the inverse covolume times the sum over L^∨ of 𝓕f(m)·e(⟪v, m⟫) ([`SchwartzMap.tsum_eq_tsum_dual_fourier`](https://taucetiproject.org/docs/TauCeti/Analysis/Fourier/PoissonSummation.html#SchwartzMap.tsum_eq_tsum_dual_fourier)). The reflected form and the minus-phase form for even f, which the roadmap asks for, are proved alongside it.
-- **The q-expansion of a theta series** — for an even lattice, the m-th coefficient of Θ_L in q = e^{2πiτ} is the number of lattice vectors of half-norm m ([`ZLattice.IsEven.qExpansion_thetaSeries_coeff`](https://taucetiproject.org/docs/TauCeti/NumberTheory/ModularForms/ThetaSeries/QExpansion.html#ZLattice.IsEven.qExpansion_thetaSeries_coeff)). The analogues for integral lattices in period 2, and for coset series in q_N together with their support condition, are also proved.
-- **The translation law** — the theta series of an even lattice is invariant under T in every weight ([`ZLattice.IsEven.thetaSeries_slash_T`](https://taucetiproject.org/docs/TauCeti/NumberTheory/ModularForms/ThetaSeries/Translation.html#ZLattice.IsEven.thetaSeries_slash_T)), and a coset series is multiplied by e(q_L(γ)) ([`ZLattice.IsEven.thetaCoset_one_vadd`](https://taucetiproject.org/docs/TauCeti/NumberTheory/ModularForms/ThetaSeries/Translation.html#ZLattice.IsEven.thetaCoset_one_vadd)), so it is invariant under T^N once N‖γ‖²/2 is an integer.
-- **The determinant–index identity** — for an integral lattice the squared covolume is the order of the discriminant group L^∨/L ([`ZLattice.IsIntegral.det_eq_card_discriminantGroup`](https://taucetiproject.org/docs/TauCeti/Algebra/Module/ZLattice/Determinant.html#ZLattice.IsIntegral.det_eq_card_discriminantGroup)). The unimodularity criteria (self-dual iff covolume one iff determinant one iff trivial discriminant group) follow from it.
-- **The dual's theta series as a sum of coset series** — for integral L, Θ_{L^∨} is the finite sum of θ_γ over the discriminant group ([`ZLattice.IsIntegral.thetaSeries_dual_eq_sum`](https://taucetiproject.org/docs/TauCeti/NumberTheory/ModularForms/ThetaSeries/DiscriminantGroup.html#ZLattice.IsIntegral.thetaSeries_dual_eq_sum)).
+- **The level-one theorem** — the theta series of an even unimodular lattice of rank 2k is a modular form of weight k for SL(2, ℤ) ([`ZLattice.thetaForm`](https://taucetiproject.org/docs/TauCeti/NumberTheory/ModularForms/ThetaSeries/LevelOne.html#ZLattice.thetaForm)), and its rank is divisible by 8 ([`ZLattice.IsEven.eight_dvd_finrank`](https://taucetiproject.org/docs/TauCeti/NumberTheory/ModularForms/ThetaSeries/LevelOne.html#ZLattice.IsEven.eight_dvd_finrank)).
+- **The inversion law** — in rank 2k, Θ_L(−1/τ) = (covol L)⁻¹ (−i)^k τ^k Θ_{L^∨}(τ) ([`ZLattice.thetaSeries_S_smul`](https://taucetiproject.org/docs/TauCeti/NumberTheory/ModularForms/ThetaSeries/Inversion.html#ZLattice.thetaSeries_S_smul)). The vector-valued form is proved for every integral lattice ([`ZLattice.IsIntegral.thetaCoset_S_smul`](https://taucetiproject.org/docs/TauCeti/NumberTheory/ModularForms/ThetaSeries/Inversion.html#ZLattice.IsIntegral.thetaCoset_S_smul)).
+- **The theta series of the Leech lattice** — it is E₄³ − 720Δ ([`TauCeti.IntegralLattice.thetaSeries_realModel_leechLattice_eq_E₄_cube_sub_mul_discriminant`](https://taucetiproject.org/docs/TauCeti/NumberTheory/ModularForms/ThetaSeries/Leech.html#TauCeti.IntegralLattice.thetaSeries_realModel_leechLattice_eq_E₄_cube_sub_mul_discriminant)). So r_Λ(2m) = (65520/691)(σ₁₁(m) − τ(m)), and the kissing number 196560 is an output.
+- **The theta series does not determine the lattice** — E₈ ⊕ E₈ and D₁₆⁺ both have theta series E₄², yet they are not isometric ([`TauCeti.IntegralLattice.not_forall_exists_map_eq_of_thetaSeries_eq`](https://taucetiproject.org/docs/TauCeti/NumberTheory/ModularForms/ThetaSeries/RankSixteen.html#TauCeti.IntegralLattice.not_forall_exists_map_eq_of_thetaSeries_eq)).
+- **The Γ₀(N) law with the Gauss sum unevaluated** — for A in Γ₀(N) with c > 0, Θ_L ∣[k] A = (−i)^k c^{−k} (covol L)⁻¹ G_L(a, c) Θ_L ([`ZLattice.IsEven.thetaSeries_slash_eq_gaussSum_smul`](https://taucetiproject.org/docs/TauCeti/NumberTheory/ModularForms/ThetaSeries/CosetSplitting.html#ZLattice.IsEven.thetaSeries_slash_eq_gaussSum_smul)). This is Hecke–Schoeneberg up to one evaluation.
 
 ### Notable definitions and infrastructure
 
-- **The theta series** [`ZLattice.thetaSeries`](https://taucetiproject.org/docs/TauCeti/NumberTheory/ModularForms/ThetaSeries/Basic.html#ZLattice.thetaSeries) and the coset series [`ZLattice.thetaCoset`](https://taucetiproject.org/docs/TauCeti/NumberTheory/ModularForms/ThetaSeries/Basic.html#ZLattice.thetaCoset) are holomorphic in both the `DifferentiableOn` and the chart sense, bounded at i∞ with value 1 there, and real and nonzero on the imaginary axis. That is everything the bundled modular form and the rank-8 argument will need from Layer 3.
-- **Shells and representation numbers** ([`ZLattice.representationNumber`](https://taucetiproject.org/docs/TauCeti/Algebra/Module/ZLattice/Shell.html#ZLattice.representationNumber)) are defined as sets with finiteness theorems, as the roadmap asks. They come with r_L(0) = 1, isometry invariance, the growth bound O(t^{n/2}), and the parity constraints for even and integral lattices and their cosets.
-- **The dual lattice and the integral, even and unimodular predicates** ([`ZLattice.dual`](https://taucetiproject.org/docs/TauCeti/Algebra/Module/ZLattice/Dual.html#ZLattice.dual), [`ZLattice.IsEven`](https://taucetiproject.org/docs/TauCeti/Algebra/Module/ZLattice/Integral.html#ZLattice.IsEven)), with biduality, the inverse covolume of the dual, and isometry invariance. Every later hypothesis is phrased in these.
+- **The level** ([`ZLattice.level`](https://taucetiproject.org/docs/TauCeti/Algebra/Module/ZLattice/Level.html#ZLattice.level)), with its divisibility properties and the exact level of the Fricke partner. Every Γ₀(N) statement is phrased in terms of it.
+- **The rational and real models** ([`ZLattice.ratModel`](https://taucetiproject.org/docs/TauCeti/Algebra/Module/ZLattice/RationalModel.html#ZLattice.ratModel), [`TauCeti.IntegralLattice.realModel`](https://taucetiproject.org/docs/TauCeti/Algebra/Module/ZLattice/RealModel.html#TauCeti.IntegralLattice.realModel)) match discriminant forms, shells and level, and transfer non-isometry. This is how E₈, Leech and the rank-16 pair come in from Tau Ceti's lattice library.
+- **Gauss sums of a lattice** ([`ZLattice.gaussSum`](https://taucetiproject.org/docs/TauCeti/Algebra/Module/ZLattice/GaussSum.html#ZLattice.gaussSum)), with twisted and coset variants that vanish where the coset splitting needs them to.
 
 ### Roadmap coverage
 
-Layer 1 is done except for the Gaussians (1F). The general theorem (1A), the orthonormal-basis case standing in for ℤⁿ (1B), the change of variables (1C), dual and covolume transport (1D) and standalone summability (1E) are all proved. Layer 2 is partial. 2C is done. 2A lacks preservation under orthogonal sums. 2G lacks the convolution identity and the identification with `vectorsOfNorm`, and its coset congruence uses an arbitrary N in place of the level. Scaling (2B), the bridge (2D), the level (2E), the Fricke partner (2F) and the Kronecker symbol (2H) have not started. Layer 3 is done for 3A–3C, but functoriality (3D: isometry, orthogonal sums, scaling) and the rank-one comparison with `jacobiTheta` (3E) are missing. Layer 4 is partial: the translation law (4A) is done, while inversion (4B, 4C) and the consistency checks (4D) are not. Layers 5 to 8 are untouched.
+Layers 1 to 5 and Layer 8 are done:
+
+- **Layer 1** includes the Gaussian transforms.
+- **Layer 2** covers 2A to 2H.
+- **Layer 3** includes functoriality and the comparison with `jacobiTheta`.
+- **Layer 4** includes the 4D checks.
+- **Layer 5** includes the ℂ[E₄, Δ] decomposition.
+- **Layer 8.** The E₈-specific identity `TauCeti.IntegralLattice.thetaSeries_realModel_typeE₈RootLattice` is in the library, as are the reciprocity law and Milgram's formula, although this window's record does not include them.
+
+Layer 6 is partial. Done: 6A, the odd-modulus evaluation 6D, and the fact that the weight is even when the level divides 2 ([`ZLattice.IsEven.even_of_level_dvd_two`](https://taucetiproject.org/docs/TauCeti/Algebra/Module/ZLattice/Milgram.html#ZLattice.IsEven.even_of_level_dvd_two)). Missing: the closed form 6E and the character χ_L of 6F. Only the Kronecker conductor criterion exists so far.
+
+Layer 7 is partial. Done:
+
+- the reductions 7A and the splitting 7B;
+- 7C and 7E, each with the Gauss sum unevaluated;
+- boundedness at every cusp;
+- the Fricke law of 7F in both normalisations.
 
 ## The frontier
 
-- **Gaussians (1F).** Prove that the Gaussian and its translates are Schwartz and compute the Fourier transform, in both the `cpow` and the even-rank integer-power forms. Poisson summation is ready, so this is the only thing between it and inversion.
-- **Inversion (4B, 4C).** Apply Poisson summation to the Gaussian to get the scalar S-law and the general-translate form, then split the dual sum into cosets to get the vector-valued law over the discriminant group.
-- **Functoriality and the rank-one test (3D, 3E).** Prove isometry invariance, the product formula for orthogonal sums and the scaling identity, then check Θ_ℤ against `jacobiTheta`. 3D waits on orthogonal sums from 2A.
-- **Finishing 2A and 2B.** Orthogonal sums in `WithLp 2 (E × F)`, then scaling with its √m criteria under `Nontrivial E`. These also unlock Layer 5's reduction to rank ≡ 4 mod 8.
-- **The bridge and the level (2D, 2E).** Without the level, the coset results carry N as a hypothesis, and Layers 6 and 7 cannot be stated. The Kronecker symbol (2H) is independent and can proceed in parallel.
+- **The closed form of G_L(a, c) (6E).** Combine reciprocity with [the odd-modulus evaluation](https://taucetiproject.org/docs/TauCeti/Algebra/Module/ZLattice/GaussSum.html#ZLattice.IsEven.dualGaussSum_eq_jacobiSym) at t = −c. Both inputs exist.
+- **The character χ_L (6F).** Use 6E at c = N to get (D_L/a) = 1 for a ≡ 1 mod N. Then use [the conductor criterion](https://taucetiproject.org/docs/TauCeti/NumberTheory/LegendreSymbol/KroneckerSymbol.html#TauCeti.conductor_kroneckerChar_dvd_iff) to bring the primitive Kronecker character down to modulus N. This waits on 6E.
+- **Hecke–Schoeneberg (7C, 7D).** Substitute the evaluated constant into the Γ₀(N) law using [`TauCeti.ModularForm.slash_eq_smul_of_mem_Gamma0_of_pos_odd`](https://taucetiproject.org/docs/TauCeti/NumberTheory/ModularForms/CongruenceSubgroups/PositiveOdd/Slash.html#TauCeti.ModularForm.slash_eq_smul_of_mem_Gamma0_of_pos_odd). Then bundle the result in `modFormCharSpace k χ_L` and check that N = 1 recovers the level-one form.
+- **Coset series on Γ(N) (7E).** Use 6E to show that the scalar in the Γ(N) splitting is 1, then bundle each θ_γ as a form for Γ(N).
+- **The rest of 7F.** Show that Θ_L is never a cusp form and that it has diamond eigenvalue χ_L(d). Both follow once the bundled form exists.
