@@ -3,23 +3,39 @@ module
 public import Mathlib
 
 /-!
-# Equivariant intersection theory: target signatures for Layer 0
+# Equivariant intersection theory and Picard groups of quotient stacks: target signatures
 
-**This file is not the roadmap and is not exhaustive.** The definitive document is `README.md`.
-The statements here suggest Lean forms for the milestones of Layer 0 (graded rings and their
-homogeneous units), which use Mathlib only, so that contributors and reviewers converge on names
-and signatures. `sorry` is allowed in this human-owned roadmap library: these are goals, not
-proofs. Definitions have real bodies; only theorem statements are `sorry`.
+The roadmap is `README.md`. This file states the roadmap's headline theorems against the pinned
+Mathlib, each with `sorry`, together with the definitions their statements need, all with real
+bodies on native carriers. The API around each target, the special cases and the Checks stay in
+the README.
 
-A `𝔾_m`-action on an affine scheme `Spec A` is a `ℤ`-grading `𝒜` of `A`, and a linearisation of the
-trivial line bundle is a grading `ℳ` of the `A`-module `A` compatible with `𝒜`. If `ℳ` has a
-homogeneous generator, a unit of `A` in some `ℳ c`, then `ℳ` is a shift of `𝒜`
-(`eq_map_mulLeft_of_isUnit_mem`), and two shifts are isomorphic iff their difference is the degree
-of a homogeneous unit; `ShiftClassGroup 𝒜` is the group of shifts up to isomorphism. A homogeneous
-generator exists when `A` has no idempotents other than `0` and `1`
-(`exists_isUnit_mem_of_connected`); without that hypothesis `ShiftClassGroup 𝒜` can be smaller than
-the group of all gradings (`k × k` with the trivial grading: `ℤ` against `ℤ²`). For `Spec A`
-connected with `Pic A = 0`, `ShiftClassGroup 𝒜` is `Pic [Spec A / 𝔾_m]` (README, 1.2 and 1.4).
+Headline theorems stated here (README target, Lean name):
+
+* 0.1, `mem_homogeneousUnitDegrees_iff` and `eq_map_mulLeft_of_isUnit_mem` (shift
+  classification), on `homogeneousUnitDegrees` and `ShiftClassGroup`.
+* 0.2, `isUnit_laurentPolynomial_iff` (the units of a Laurent ring over a domain) and
+  `exists_isUnit_mem_of_connected` (a homogeneous generator on a connected spectrum).
+* 0.3, `awayGrading_isInternal`, on `awayGrading`.
+* 0.4, `homogeneousUnitDegrees_weighted` and `homogeneousUnitDegrees_away_prime`.
+* 0.5, `depressedDiscr_mem` and `depressedDiscr_prime`, on `genericDepressed`,
+  `depressedWeight` and `depressedDiscr`.
+
+Not statable at the pins, with the carrier each lacks:
+
+* 1.1–1.3 (the groupoid of `G`-linearised invertible sheaves, `Pic^G(X)`, the graded description
+  over `Spec A`, the exact sequences) and 1.4 (`Pic [X/G] ≅ Pic^G(X)`, change of group, slices):
+  they lack linearised invertible sheaves, which rest on the actions of group spaces
+  (SchemeAndStackFoundations §1.13), and the quotient stacks `actionQuotient G X` (§1.21) with
+  `Stacks.QCoh` (§1.22).
+* 2.1–2.3 (equivariant Chow groups, their operations, classifying spaces) and 2.4
+  (`Pic^G(X) ≅ A¹_G(X)`): they lack, in addition, the Chow groups `ChowGroup κ X k` of
+  SchemeAndStackFoundations §5.1 with the operations of §§5.2–5.6, and so equivariant Chow groups.
+* 3.1 (weighted affine space minus a divisor), 3.2 (`Pic M_{1,1} ≅ ℤ/12`), 3.3 (the orders of
+  Arsie–Vistoli and the Picard group of `[M_{0,2g+2}/𝔖_{2g+1}]`) and 3.4
+  (`Pic [M_{0,n}/𝔖ₙ₋₁] ≅ ℤ/(n − 1)(n − 2)`): they lack all of the above, and the moduli stacks
+  `M_{1,1}` and `M_{0,n}` (SchemeAndStackFoundations §4.15). Their graded input is stated here:
+  `homogeneousUnitDegrees_away_prime` with `depressedDiscr_mem` and `depressedDiscr_prime`.
 -/
 
 @[expose] public section
@@ -27,6 +43,8 @@ connected with `Pic A = 0`, `ShiftClassGroup 𝒜` is `Pic [Spec A / 𝔾_m]` (R
 namespace TauCetiRoadmap.EquivariantIntersectionTheory
 
 open MvPolynomial
+
+/-! ## Layer 0: graded rings and homogeneous units -/
 
 section Graded
 
@@ -53,6 +71,14 @@ grading of the `A`-module `A` compatible with `𝒜` and the unit `u` lies in `�
 theorem eq_map_mulLeft_of_isUnit_mem (𝒜 ℳ : ℤ → Submodule R A) [GradedAlgebra 𝒜]
     [DirectSum.Decomposition ℳ] [SetLike.GradedSMul 𝒜 ℳ] {c : ℤ} (u : Aˣ) (hu : (u : A) ∈ ℳ c)
     (n : ℤ) : ℳ n = (𝒜 (n - c)).map (LinearMap.mulLeft R (u : A)) := by
+  sorry
+
+/-- **Layer 0.2.** Over a domain, the units of the Laurent ring `R[t, t⁻¹]` are the monomials
+`c tⁿ` with `c` a unit of `R`. -/
+theorem isUnit_laurentPolynomial_iff {S : Type*} [CommRing S] [IsDomain S]
+    (u : LaurentPolynomial S) :
+    IsUnit u ↔
+      ∃ (c : S) (n : ℤ), IsUnit c ∧ u = LaurentPolynomial.C c * LaurentPolynomial.T n := by
   sorry
 
 /-- **Layer 0.2.** On a connected spectrum every grading of the `A`-module `A` compatible with `𝒜`
@@ -82,18 +108,19 @@ section Weighted
 
 variable {σ K : Type*} [Field K]
 
-/-- **Layer 0.4.** With positive weights, the only homogeneous units of `K[σ]` are the nonzero
-constants. -/
-theorem homogeneousUnitDegrees_weighted (w : σ → ℤ) (hw : ∀ i, 0 < w i) :
+/-- **Layer 0.4.** For any weights, the units of `K[σ]` are the nonzero constants, homogeneous of
+degree `0` only. -/
+theorem homogeneousUnitDegrees_weighted (w : σ → ℤ) :
     homogeneousUnitDegrees (weightedHomogeneousSubmodule K w) = ⊥ := by
   sorry
 
-/-- **Layer 0.4.** Inverting a prime weighted-homogeneous polynomial of weight `e > 0`: the
-homogeneous units of `K[σ]_f` are the `c fᵏ`, so their degrees are the multiples of `e`, and
-`[ (𝔸^σ ∖ {f = 0}) / 𝔾_m ]` has `ShiftClassGroup ≅ ℤ/e`, its whole Picard group (README, 3.1). -/
-theorem homogeneousUnitDegrees_away_prime [Finite σ] (w : σ → ℤ) (hw : ∀ i, 0 < w i)
+/-- **Layer 0.4.** Inverting a prime weighted-homogeneous polynomial `f` of weight `e`: the units of
+`K[σ]_f` are the `c fᵏ`, `c ∈ Kˣ`, `k ∈ ℤ`, so their degrees are the multiples of `e`. With
+positive weights on a finite `σ`, `ShiftClassGroup ≅ ℤ/e` is the Picard group of
+`[(𝔸^σ ∖ {f = 0}) / 𝔾_m]` (README, 3.1). -/
+theorem homogeneousUnitDegrees_away_prime (w : σ → ℤ)
     {f : MvPolynomial σ K} {e : ℤ} (hf : f ∈ weightedHomogeneousSubmodule K w e)
-    (hprime : Prime f) (he : 0 < e) :
+    (hprime : Prime f) :
     homogeneousUnitDegrees (awayGrading (weightedHomogeneousSubmodule K w) hf) =
       AddSubgroup.zmultiples e := by
   sorry
@@ -126,15 +153,6 @@ theorem depressedDiscr_mem (m : ℕ) (hm : 2 ≤ m) :
 
 /-- **Layer 0.5.** In characteristic zero the discriminant is prime in `K[a₂, …, aₘ]`. -/
 theorem depressedDiscr_prime [CharZero K] (m : ℕ) (hm : 2 ≤ m) : Prime (depressedDiscr K m) := by
-  sorry
-
-/-- **Layer 0.5.** The graded computation behind `Pic [M_{0,n}/𝔖ₙ₋₁] ≅ ℤ/(n − 1)(n − 2)`, with
-`m = n − 1`, `n ≥ 3` (README, 3.4). -/
-theorem homogeneousUnitDegrees_depressed [CharZero K] (m : ℕ) (hm : 2 ≤ m) :
-    homogeneousUnitDegrees
-        (awayGrading (weightedHomogeneousSubmodule K (depressedWeight m))
-          (depressedDiscr_mem K m hm)) =
-      AddSubgroup.zmultiples ((m : ℤ) * (m - 1)) := by
   sorry
 
 end Discriminant
