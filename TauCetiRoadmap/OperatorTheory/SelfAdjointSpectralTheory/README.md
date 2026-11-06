@@ -92,6 +92,12 @@ TauCeti/MeasureTheory/
   the existing real-bilinear multiplication pairing.
 - **Measure theory**: `Measure`, `IsFiniteMeasure`, regularity, Riesz–Markov–Kakutani for
   positive functionals, `StieltjesFunction`, dominated convergence, `Lp`.
+- **BanachSpaceTheory B5's scalar-measure layer**: B5.ScalarIntegral (scalar
+  vector-integral linearity and signed parts), B5.ScalarDensity (integral against a
+  scalar density), B5.AbsContRegular (absolute-continuity regularity),
+  B5.ScalarUniqueness (scalar-measure uniqueness on continuous tests) and
+  B5.BoundedApprox (bounded continuous approximation in L¹) — Part B consumes
+  these and constructs no second scalar-measure integral.
 - **Topology and analysis**: `Submodule.topologicalClosure`, orthogonal projections and
   `HasOrthogonalProjection`, Neumann series, `Tendsto` filters.
 
@@ -416,7 +422,8 @@ measure and its half-line form-bound projections.
   `VectorMeasure.integral` with the ℝ-bilinear
   multiplication pairing `ContinuousLinearMap.mul ℝ ℂ`. Supply the needed
   generic complex homogeneity and measure-linearity comparisons from
-  SA-B81–82. Do not construct another scalar-measure integral.
+  BanachSpaceTheory B5.ScalarIntegral and B5.ScalarDensity. Do not construct
+  another scalar-measure integral.
 - **SA-B44 — Abstract operator integral.** Construct `P.integral` as a
   unital star-algebra homomorphism on the same bounded-Borel algebra, by
   disjoint simple functions and uniform approximation, independent of
@@ -468,12 +475,10 @@ measure and its half-line form-bound projections.
   Borel K, for any `RCLike 𝕜`, a finite family of finite regular
   positive measures ν_j and a measurable f:K→𝕜 with `∀ x, ‖f x‖≤M`,
   M≥0, and ε>0, construct g∈C(K,𝕜) with the same bound and
-  `∫‖f−g‖dν_j<ε` simultaneously. Apply native
-  `ContinuousMap.toLp_denseRange` to Σν_j, using native finite-sum
-  regularity, then radial clipping to retain the bound. Scalar-measure
+  `∫‖f−g‖dν_j<ε` simultaneously. Apply BanachSpaceTheory
+  B5.BoundedApprox to Σν_j, using native finite-sum regularity. Scalar-measure
   variation tests are the instances ν_j=|μ_j|. For each fixed finite
-  test family construct a sequence with L¹ errors tending to zero. This generic
-  layer also supplies BanachSpaceTheory B5's variation-norm comparison.
+  test family construct a sequence with L¹ errors tending to zero.
 - **SA-B59 — Representation PVM.** For unital
   `π:C(K,ℂ)→⋆ₐ[ℂ]B(H)`, with K compact Hausdorff and Borel, construct
   `ProjValMeasure.ofRepresentation π` on the same normalized carrier.
@@ -485,16 +490,17 @@ measure and its half-line form-bound projections.
   continuous/compactly-supported comparison. Use these maps
   to prove the indicator laws, multiplicativity and strong countable
   additivity. Prove measure-level sesquilinearity and conjugate symmetry
-  by SA-B84’s scalar-measure uniqueness on continuous tests. Before
+  by BanachSpaceTheory B5.ScalarUniqueness on continuous tests. Before
   applying it, prove `|μ_(ξ,ψ)|≤¼Σ_(k=0..3) μ_(ξ+i^kψ)`, hence
-  finite regular variation by positive RMK regularity and SA-B83. Use
+  finite regular variation by positive RMK regularity and BanachSpaceTheory
+  B5.AbsContRegular. Use
   this domination in the subsequent approximations.
   Name the intermediate operator map `representationBorelOperator π f`
   on all bounded Borel symbols: with `continuousLinearMapOfBilin`'s
   convention `⟪B♯v,w⟫=B(v,w)`, take `(B♯)†`. Prove contractivity and
   the weighted matrix-element identity
   `μ_(ξ,representationBorelOperator π g ψ)=μ_(ξ,ψ).withDensity g (mul ℝ ℂ)`:
-  first for continuous g using π and SA-B84 uniqueness on continuous tests,
+  first for continuous g using π and BanachSpaceTheory B5.ScalarUniqueness on continuous tests,
   then for bounded Borel g by SA-B58 approximation and SA-B64's
   change-of-density identity. Use this to prove multiplicativity before
   defining the indicator projections,
@@ -503,7 +509,7 @@ measure and its half-line form-bound projections.
   on Mathlib and preceding B targets.
 - **SA-B60 — Regularity.** Every diagonal measure of `ofRepresentation π`
   has native `Measure.Regular`, consuming `RealRMK.regular_rieszMeasure`.
-  Consume SA-B83's finite absolute-continuity regularity theorem;
+  Consume BanachSpaceTheory B5.AbsContRegular's finite absolute-continuity regularity theorem;
   consume SA-B59’s polarization/domination proof of regular scalar variation. No private
   complex-regularity predicate is introduced.
 - **SA-B61 — Representation recovery.** Prove
@@ -522,11 +528,10 @@ measure and its half-line form-bound projections.
   `μ.withDensity g (ContinuousLinearMap.mul ℝ ℂ)` for g·μ. Consume
   `VectorMeasure.variation_withDensity` and `variation_transpose_eq` to
   obtain `|g·μ|=|μ|.withDensity (fun x=>‖g x‖ₑ)`. Prove finite regular variation
-  by SA-B83 and the bound `|g·μ|≤‖g‖∞|μ|`. Own the change-of-density
+  by BanachSpaceTheory B5.AbsContRegular and the bound `|g·μ|≤‖g‖∞|μ|`. Own the change-of-density
   formula `∫ᵛ f d(g·μ)=∫ᵛ f·g dμ`, first for simple f then bounded
   Borel f by uniform approximation; prove `(gh)·μ=g·(h·μ)`, constants and
   native `VectorMeasure.withDensity_congr` for a.e.-independence.
-  This target is independent of BanachSpaceTheory.
 - **SA-B65 — Goldstine limit comparison.** BanachSpaceTheory B1's Goldstine theorem gives
   uniformly norm-bounded continuous nets converging against every regular
   measure to the Borel bidual image. Prove their π-images converge weakly
@@ -601,77 +606,6 @@ measure and its half-line form-bound projections.
   and adjoint laws. Use native `single`, `evalCLM` and `IsHilbertSum`;
   the coordinate bound `‖T_i x_i‖≤M‖x_i‖` lands directly in ℓ².
   This precedes the direct-sum representation.
-
-- **SA-B81 — Scalar vector-integral linearity.** Over `RCLike 𝕜`, use
-  native scalar vector measures μ of finite variation and pairing `mul ℝ 𝕜`.
-  Define `I_μ(f)=∫ᵛ x,f x ∂[mul ℝ 𝕜;μ]`. Prove
-  `I_μ(c f)=c I_μ(f)`, `I_(μ+ν)(f)=I_μ(f)+I_ν(f)` and
-  `I_(c μ)(f)=c I_μ(f)` under the corresponding variation-integrability
-  hypotheses. Consume native `integral_add_vectorMeasure`,
-  `integral_finsetSum_vectorMeasure` and real `integral_smul_vectorMeasure`;
-  build the remaining scalar-homogeneity comparisons. Bounded measurable
-  functions are given as f:X→𝕜 with measurability and an explicit bound,
-  independently of the Borel symbol algebra.
-  For scalar measures with values in any `RCLike 𝕜`, construct their
-  signed parts by native `VectorMeasure.mapRangeL` using
-  `RCLike.reCLM` and `RCLike.imCLM`. Prove the pointwise reconstruction
-  `μ(B)=(re μ(B):𝕜)+I·(im μ(B):𝕜)` and its measure identity,
-  real-linearity, variation domination and compatibility with native
-  `SignedMeasure` and `ComplexMeasure.re/im`. These parts precede B84
-  and BanachSpaceTheory B5; no ℝ-or-ℂ case split is used.
-  Name these maps `scalarMeasureRealPart` and `scalarMeasureImagPart`,
-  using the native real-linear `VectorMeasure.mapRangeL` forms. Define
-  `scalarMeasureOfReal := VectorMeasure.mapRangeL RCLike.ofRealCLM`
-  on signed measures and state the reconstruction
-  `μ=scalarMeasureOfReal(re μ)+I•scalarMeasureOfReal(im μ)`.
-  Prove `|(re μ)|≤|μ|`, `|(im μ)|≤|μ|` and
-  `|scalarMeasureOfReal σ|=|σ|`, with each variation on its native
-  measure carrier; these bounds give the required integral comparisons.
-  For real-valued f integrable against μ.variation, prove that the real
-  and imaginary parts of `I_μ(ofReal∘f)` are `I_(re μ)(f)` and
-  `I_(im μ)(f)`. For signed σ and f integrable against σ.variation, prove
-  `I_(scalarMeasureOfReal σ)(ofReal∘f)=ofReal(I_σ(f))`. Prove
-  `scalarMeasureOfReal(ν.withDensityᵥ r)=ν.withDensityᵥ(ofReal∘r)`
-  for r∈L¹(ν), setwise by native `withDensityᵥ_apply` and `integral_ofReal`.
-  Derive the integral comparisons by simple-function comparison and variation
-  bounds, before the density theorem in BanachSpaceTheory. Prove the
-  signed integral split for `ν₁.toSignedMeasure−ν₂.toSignedMeasure`
-  when ν₁,ν₂ are finite and f is integrable against each, using native
-  `integral_toSignedMeasure`, `integral_sub_vectorMeasure` and
-  `Measure.variation_toSignedMeasure`, including equality of the native
-  `<•` and `mul ℝ ℝ` pairings. Deduce the Jordan split for f integrable
-  against σ.variation. Export their integrability and naturality
-  APIs as part of this initial scalar-integration layer.
-- **SA-B82 — Integral against a scalar density.** Over `RCLike 𝕜`,
-  embed a finite positive measure ν as `ν.withDensityᵥ (fun _ =>1)`,
-  with value `(ν.real B : 𝕜)` on measurable B and variation ν.
-  Prove `I_(ν.withDensityᵥ g)(f)=∫x,f(x)g(x)dν` when g∈L¹(ν)
-  and f:X→𝕜 is measurable and satisfies `∀ x, ‖f x‖≤M` for some M≥0.
-  Give the g=1 scalar comparison and a.e.-invariance. Consume native
-  `Measure.variation_withDensityᵥ`.
-- **SA-B83 — Absolute-continuity regularity.** A finite Borel measure
-  absolutely continuous with respect to a finite regular Borel measure
-  on a compact Hausdorff space is regular. Prove ε–δ absolute continuity,
-  then transfer inner/open approximation; domination is a corollary.
-  Consume Mathlib `Measure/Regular`'s native instance chain
-  `Regular → InnerRegularCompactLTTop → InnerRegular`, finite-sum
-  inner regularity, and the finite Borel R₁-space instance
-  `InnerRegularCompactLTTop → Regular`; it supplies finite-sum regularity.
-  Consume `VectorMeasure.variation_smul` and the same native regularity
-  instances for finite scalar multiples. For scalar μ,ν, use native
-  `variation_sub_le`/`variation_add_le`, then this sum regularity and
-  domination to prove regularity of |μ−ν| and |μ+ν|. This precedes
-  B58, representation PVMs and the regular-measure dual.
-
-- **SA-B84 — Scalar-measure uniqueness.** On compact Hausdorff Borel K,
-  for any `RCLike 𝕜`, a scalar measure μ with finite regular variation is zero
-  if its `mul ℝ 𝕜` integral vanishes on every f∈C(K,𝕜).
-  Prove the corresponding equality theorem for two such measures.
-  Consume B81’s signed real/imaginary parts and reconstruction, their
-  native Jordan decomposition and `SignedMeasure.totalVariation_eq_variation`
-  for domination of the Jordan parts, SA-B83 for their regularity, SA-B81 for signed-part integral comparisons, and
-  native `Measure.ext_of_integral_eq_on_compactlySupported`. This is
-  independent of BanachSpaceTheory; B5 consumes it for injectivity.
 
 - **SA-B85 — Cyclic multiplication models and multiplicity.** For a unital
   π:C(K,ℂ)→⋆ₐ[ℂ]B(H), K compact metrizable with its Borel structure,
@@ -761,7 +695,8 @@ measure and its half-line form-bound projections.
   symbol merely because its integral is suggested.
 
 **Milestone B1 — symbols and scalar integration.** SA-B01, SA-B37–39,
-SA-B81–84, SA-B64 and SA-B58, all independent of PVMs.
+SA-B64 and SA-B58, all independent of PVMs, consuming BanachSpaceTheory
+B5.ScalarIntegral–B5.BoundedApprox.
 
 **Milestone B2 — abstract PVMs and integration.** SA-B14–25 and SA-B40–53.
 
@@ -1371,7 +1306,9 @@ generated-group compatibility is `SA-E46`; multiplication-operator spectral proj
 **Internal.** Part B's SA-B85 consumes V4.0.Fields' independent measurable-field
 construction after the representation PVM and normal spectral calculus.
 SA-B63 and SA-B65 consume
-BanachSpaceTheory B1/B5 for the bidual/Goldstine comparison. Construct symbols/approximation, then abstract PVM integration, then the
+BanachSpaceTheory B1/B5 for the bidual/Goldstine comparison; the scalar-integration
+targets SA-B43, SA-B58–60 and SA-B64 consume BanachSpaceTheory
+B5.ScalarIntegral–B5.BoundedApprox. Construct symbols/approximation, then abstract PVM integration, then the
 compact-space representation PVM before specializing it to cfcHom.
 SA-B05 and SA-B30 use that same construction, and SA-B54 is definitional.
 SA-B35 uses the bounded compact-spectrum coordinate and SA-B51's reindexing.

@@ -46,10 +46,12 @@ unitary classification; the unbounded-operator roadmap (OperatorTheory/Unbounded
 type p and cotype q with their transport API; NoncommutativeIntegration §7.5 consumes
 them. B5.LocalHaarDual owns the local-null L∞ carrier of an arbitrary regular Haar
 measure; AmenableGroups Layer 7 works on the native global `Lp ℝ ∞ μ` and declines a
-local carrier, and no roadmap on main consumes the local one. B5 consumes SelfAdjointSpectralTheory Part B's generic scalar-measure
-integration, regularity and bounded continuous-approximation layer
-(SA-B81–84 and SA-B58), which is independent
-of PVMs, representations and this roadmap's bidual comparison.
+local carrier, and no roadmap on main consumes the local one. B5 owns the generic
+scalar-measure integration, signed-part, density, regularity, uniqueness and bounded
+continuous-approximation layer (B5.ScalarIntegral, B5.ScalarDensity, B5.AbsContRegular,
+B5.ScalarUniqueness and B5.BoundedApprox), which is independent of PVMs, representations
+and this roadmap's bidual comparison; SelfAdjointSpectralTheory consumes it for its
+representation projection-valued measures.
 
 ## B1. Duality and weak topologies
 
@@ -941,6 +943,86 @@ half-period composition on Lᵖ[0,1], for every 1≤p≤∞, have norm 1.
 Prove the half-period map is measure preserving
 and its induced operator is an isometric involution on a.e. classes.
 
+**B5.ScalarIntegral — scalar vector-integral linearity and signed parts.** Over
+`RCLike 𝕜`, on a measurable space X, use native scalar vector measures μ of finite
+variation and the real-bilinear pairing `ContinuousLinearMap.mul ℝ 𝕜`. Write
+`I_μ(f)=∫ᵛ x,f x ∂[mul ℝ 𝕜;μ]`. Prove `I_μ(c f)=c I_μ(f)`,
+`I_(μ+ν)(f)=I_μ(f)+I_ν(f)` and `I_(c μ)(f)=c I_μ(f)` under the corresponding
+variation-integrability hypotheses. Consume native `integral_add_vectorMeasure`,
+`integral_finsetSum_vectorMeasure` and real `integral_smul_vectorMeasure`; build
+the remaining scalar-homogeneity comparisons. Bounded measurable functions are
+given as f:X→𝕜 with measurability and an explicit bound, independently of any
+Borel symbol algebra. For scalar measures with values in any `RCLike 𝕜`,
+construct their signed parts by native `VectorMeasure.mapRangeL` using
+`RCLike.reCLM` and `RCLike.imCLM`. Prove the pointwise reconstruction
+`μ(B)=(re μ(B):𝕜)+I·(im μ(B):𝕜)` and its measure identity, real-linearity,
+variation domination and compatibility with native `SignedMeasure` and
+`ComplexMeasure.re/im`. These parts precede B5.ScalarUniqueness and the M(K)
+construction below; no ℝ-or-ℂ case split is used. Name these maps
+`scalarMeasureRealPart` and `scalarMeasureImagPart`, using the native real-linear
+`VectorMeasure.mapRangeL` forms. Define
+`scalarMeasureOfReal := VectorMeasure.mapRangeL RCLike.ofRealCLM` on signed
+measures and state the reconstruction
+`μ=scalarMeasureOfReal(re μ)+I•scalarMeasureOfReal(im μ)`. Prove `|(re μ)|≤|μ|`,
+`|(im μ)|≤|μ|` and `|scalarMeasureOfReal σ|=|σ|`, with each variation on its
+native measure carrier; these bounds give the required integral comparisons.
+For real-valued f integrable against μ.variation, prove that the real and
+imaginary parts of `I_μ(ofReal∘f)` are `I_(re μ)(f)` and `I_(im μ)(f)`. For
+signed σ and f integrable against σ.variation, prove
+`I_(scalarMeasureOfReal σ)(ofReal∘f)=ofReal(I_σ(f))`. Prove
+`scalarMeasureOfReal(ν.withDensityᵥ r)=ν.withDensityᵥ(ofReal∘r)` for r∈L¹(ν),
+setwise by native `withDensityᵥ_apply` and `integral_ofReal`. Derive the
+integral comparisons by simple-function comparison and variation bounds, before
+the Radon–Nikodym density construction below. Prove the signed integral split
+for `ν₁.toSignedMeasure−ν₂.toSignedMeasure` when ν₁,ν₂ are finite and f is
+integrable against each, using native `integral_toSignedMeasure`,
+`integral_sub_vectorMeasure` and `Measure.variation_toSignedMeasure`, including
+equality of the native `<•` and `mul ℝ ℝ` pairings. Deduce the Jordan split for
+f integrable against σ.variation. Export their integrability and naturality APIs
+as part of this scalar-integration layer.
+
+**B5.ScalarDensity — integral against a scalar density.** Over `RCLike 𝕜`, embed
+a finite positive measure ν as `ν.withDensityᵥ (fun _ =>1)`, with value
+`(ν.real B : 𝕜)` on measurable B and variation ν. Prove
+`I_(ν.withDensityᵥ g)(f)=∫x,f(x)g(x)dν` (`integral_withDensityᵥ`) when g∈L¹(ν)
+and f:X→𝕜 is measurable and satisfies `∀ x, ‖f x‖≤M` for some M≥0. Give the
+g=1 scalar comparison and a.e.-invariance. Consume native
+`Measure.variation_withDensityᵥ`.
+
+**B5.AbsContRegular — absolute-continuity regularity.** A finite Borel measure
+absolutely continuous with respect to a finite regular Borel measure on a
+compact Hausdorff space is regular. Prove ε–δ absolute continuity, then
+transfer inner/open approximation; domination is a corollary. Consume Mathlib
+`Measure/Regular`'s native instance chain
+`Regular → InnerRegularCompactLTTop → InnerRegular`, finite-sum inner
+regularity, and the finite Borel R₁-space instance
+`InnerRegularCompactLTTop → Regular`; it supplies finite-sum regularity.
+Consume `VectorMeasure.variation_smul` and the same native regularity
+instances for finite scalar multiples. For scalar μ,ν, use native
+`variation_sub_le`/`variation_add_le`, then this sum regularity and domination
+to prove regularity of |μ−ν| and |μ+ν|. This precedes the M(K) construction
+below.
+
+**B5.ScalarUniqueness — scalar-measure uniqueness on continuous tests.** On
+compact Hausdorff Borel K, for any `RCLike 𝕜`, a scalar measure μ with finite
+regular variation is zero if its `mul ℝ 𝕜` integral vanishes on every
+f∈C(K,𝕜). Prove the corresponding equality theorem for two such measures.
+Consume B5.ScalarIntegral's signed real/imaginary parts and reconstruction,
+their native Jordan decomposition and `SignedMeasure.totalVariation_eq_variation`
+for domination of the Jordan parts, B5.AbsContRegular for their regularity,
+B5.ScalarIntegral for signed-part integral comparisons, and native
+`Measure.ext_of_integral_eq_on_compactlySupported`. The M(K) construction
+below consumes it for injectivity.
+
+**B5.BoundedApprox — bounded continuous approximation in L¹.** On compact
+Hausdorff Borel K, for any `RCLike 𝕜`, a finite regular positive measure ν, a
+measurable f:K→𝕜 with `∀ x, ‖f x‖≤M`, M≥0, and ε>0, construct g∈C(K,𝕜) with
+the same bound and `∫‖f−g‖dν<ε`. Apply native `ContinuousMap.toLp_denseRange`
+to ν, then radial clipping to retain the bound. For fixed f construct a
+sequence with L¹ errors tending to zero. The M(K) norm equality below consumes
+it at ν=|μ|; SelfAdjointSpectralTheory consumes it for finite families of test
+measures.
+
 This milestone uses arbitrary measure spaces for Lᵖ, 1<p<∞, and
 finitely additive global-L∞ duality, σ-finite spaces for the native-global L¹/L∞ duality,
 the separately constructed local-Haar L∞ endpoint below for arbitrary regular Haar measure,
@@ -951,7 +1033,7 @@ measures and the weak-star topology. Use the submodule of
 `MeasureTheory.VectorMeasure K 𝕜` with finite regular variation, normed by
 `(ν.variation Set.univ).toReal`; compare with native `SignedMeasure` and
 `ComplexMeasure`. Use native `VectorMeasure.variation_smul` for scalar
-closure and norm homogeneity, with SA-B83's regularity comparisons.
+closure and norm homogeneity, with B5.AbsContRegular's regularity comparisons.
 For the signed measure δ₀−δ₁ on [0,1], with A={0,1}, prove
 |μ(A)|=0 but the supremum of |μ(K)| over compact K⊆A is 1 (and so is the supremum of μ(K)).
 Thus unsigned inner regularity cannot be applied to signed/complex values;
@@ -961,9 +1043,9 @@ Construct the norm and Dirac maps; write
 `M(K)` for this normed measure submodule. Consume `VectorMeasure.integral`
 for its integration pairing, using `ContinuousLinearMap.mul ℝ 𝕜`
 over any `RCLike 𝕜`. Consume
-SelfAdjointSpectralTheory SA-B81–82's 𝕜-linearity and scalar-integral
-comparison, SA-B83’s finite absolute-continuity regularity lemma, and
-SA-B84’s generic scalar-measure uniqueness for injectivity. Prove this normed
+B5.ScalarIntegral and B5.ScalarDensity's 𝕜-linearity and scalar-integral
+comparison, B5.AbsContRegular's finite absolute-continuity regularity lemma, and
+B5.ScalarUniqueness's generic scalar-measure uniqueness for injectivity. Prove this normed
 dual identification, continuous-function evaluation and the variation norm. Use
 `VectorMeasure.variation`, native scalar Radon–Nikodym
 derivatives and `RealRMK.rieszMeasure`. Construct positive and negative parts
@@ -971,14 +1053,14 @@ of real bounded functionals using `Λ⁺(f)=sup{Λ(g):0≤g≤f}` for `f≥0`;
 prove additivity, boundedness and extension to a positive linear functional.
 Apply RMK to those parts. For general RCLike-valued functionals, restrict to real-valued
 functions and represent their real and imaginary parts. Reconstruct the
-measure using SA-B81 and extend from real tests using 𝕜-linearity. Build the
+measure using B5.ScalarIntegral and extend from real tests using 𝕜-linearity. Build the
 Radon–Nikodym density construction below before proving norm equality: at
 ν=|μ| it gives μ=ν.withDensityᵥ h and ‖h‖=1 ν-a.e. The integral bound proves
 ‖Λ_μ‖≤ν(K). For the reverse inequality, choose a measurable representative of
-conj(h) bounded by one everywhere, apply SA-B58 to approximate it in L¹(ν)
-by continuous functions with the same bound, and use SA-B82's pairing identity.
+conj(h) bounded by one everywhere, apply B5.BoundedApprox to approximate it in L¹(ν)
+by continuous functions with the same bound, and use B5.ScalarDensity's pairing identity.
 Their integrals against μ tend to ν(K), hence ν(K)≤‖Λ_μ‖. This uses only
-native signed Radon–Nikodym theory and SA-B81–84/58, independently of the dual
+native signed Radon–Nikodym theory and B5.ScalarIntegral–B5.BoundedApprox, independently of the dual
 identification. Prove surjectivity by the RMK parts construction, then transport
 completeness from the strong dual through this onto linear isometry. Export the
 resulting isometric dual equivalence and its weak-star evaluation laws.
@@ -998,7 +1080,7 @@ Transport completeness through this isometry. Include empty and already
 compact X, and compare with the preceding M(K) construction when X=K.
 *Needs:* Mathlib `OnePoint`, `MeasureTheory.VectorMeasure`,
 `VectorMeasure.variation`, `VectorMeasure.variation_smul`; the compact-space
-M(K) construction above; SelfAdjointSpectralTheory SA-B81–84.
+M(K) construction above; B5.ScalarIntegral–B5.ScalarUniqueness above.
 
 For nonempty `K`, prove that the extreme points of its dual unit ball are
 exactly `λδ_x`, `|λ|=1`, by splitting variation on measurable sets and
@@ -1029,15 +1111,15 @@ constructions: for a weakly null sequence of regular scalar measures `(νₙ)`,
 form the finite regular measure `ν=∑ 2^(−n−1)|νₙ|`. Prove that
 for every finite regular positive ν `g↦ν.withDensityᵥ g` is an
 isometric embedding `L¹(ν)→M(K)` with closed range, consuming native
-`Measure.variation_withDensityᵥ` and SA-B82's pairing identity
+`Measure.variation_withDensityᵥ` and B5.ScalarDensity's pairing identity
 `⟨f,ν.withDensityᵥ g⟩=∫fg dν`. For ℂ, identify the generic density below with native
-`ComplexMeasure.rnDeriv` using SA-B81’s real/imaginary compatibility;
+`ComplexMeasure.rnDeriv` using B5.ScalarIntegral's real/imaginary compatibility;
 consume native `integrable_rnDeriv`. For ℝ consume native
 `SignedMeasure.absolutelyContinuous_iff_withDensityᵥ_rnDeriv_eq` and
 `SignedMeasure.totalVariation_eq_variation`. For general RCLike 𝕜,
 for `[SigmaFinite ν]` and `|μ|≪ν`, construct the integrable density
-`h=rnDeriv(re μ,ν)+I·rnDeriv(im μ,ν)` from SA-B81’s signed parts.
-Prove `μ=ν.withDensityᵥ h` using their absolute continuity and SA-B81’s
+`h=rnDeriv(re μ,ν)+I·rnDeriv(im μ,ν)` from B5.ScalarIntegral's signed parts.
+Prove `μ=ν.withDensityᵥ h` using their absolute continuity and B5.ScalarIntegral's
 reconstruction, and specialize to the same native ℝ and ℂ derivatives.
 Consume `Integrable.withDensityᵥ_eq_iff` for a.e.-uniqueness and
 `Measure.variation_withDensityᵥ` for
