@@ -215,8 +215,9 @@ These choices are part of the statements, not implementation details.
   matrix of a valid type, and the principal submatrix away from the affine node, in the Bourbaki
   numbering, is the finite Cartan matrix.
 - Corners and Morita theory: the corner algebra instance `IsIdempotentElem.Corner.instAlgebra`
-  (`TauCeti/RingTheory/Idempotents/Corner/Basic.lean`), `IsIdempotentElem.cornerEquivalence`
-  (`TauCeti/RingTheory/Morita/Corner.lean`), `TauCeti.IsBasic`
+  (`TauCeti/RingTheory/Idempotents/Corner/Basic.lean`, re-exported by
+  `TauCeti/RingTheory/Morita/Corner.lean`, the module `Suggested.lean` imports for it),
+  `IsIdempotentElem.cornerEquivalence` (`TauCeti/RingTheory/Morita/Corner.lean`), `TauCeti.IsBasic`
   (`TauCeti/RingTheory/Semisimple/BasicAlgebra.lean`).
 - Quivers: `TauCeti.pathAlgebra`, `TauCeti.preprojectiveRelator`, `TauCeti.doubledVertexIdempotent`,
   `TauCeti.preprojectiveAlgebra` (`TauCeti/RepresentationTheory/Quiver/Preprojective/Basic.lean`);

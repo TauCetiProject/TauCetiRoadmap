@@ -4,7 +4,7 @@ import TauCeti.LinearAlgebra.RootSystem.AffineDynkinType.Basic
 import TauCeti.LinearAlgebra.RootSystem.AffineDynkinType.Deletion
 import TauCeti.CategoryTheory.GrothendieckGroup.Split
 import TauCeti.RepresentationTheory.RepresentationRing.Basic
-import TauCeti.RingTheory.Idempotents.Corner.Basic
+import TauCeti.RingTheory.Morita.Corner
 import TauCeti.RepresentationTheory.Quiver.Preprojective.Basic
 import TauCeti.RepresentationTheory.Quiver.Zigzag.Orientation
 import TauCeti.RepresentationTheory.Quiver.Zigzag.Relations
@@ -14,7 +14,10 @@ import TauCeti.RepresentationTheory.Quiver.Zigzag.Relations
 
 `README.md` is the roadmap; this file is not.  It states the roadmap's headline theorems against
 the pinned Mathlib and Tau Ceti, each with `sorry`, together with the few definitions with real
-bodies that the statements need.
+bodies that the statements need.  The corner algebra instance `IsIdempotentElem.Corner.instAlgebra`
+that the Layer 4 and 5 statements need is imported through `TauCeti.RingTheory.Morita.Corner`,
+whose Morita equivalence `IsIdempotentElem.cornerEquivalence` is what their fullness hypothesis
+feeds.
 
 Stated here:
 
