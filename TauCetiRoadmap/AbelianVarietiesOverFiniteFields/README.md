@@ -167,7 +167,7 @@ Suggested home: `TauCeti/AlgebraicGeometry/AbelianVariety/FiniteField/` for Laye
 | Decomposition | By A6.5, `A ~ ∏ A_i^{n_i}` with `A_i` simple, pairwise non-isogenous, unique up to isogeny and order; by Part II F0.2 (`P_{A×B} = P_A P_B`) and 1.8, `P_A = ∏ P_{A_i}^{n_i}`. Each `P_{A_i}` is a power `m_i^{e_i}` of a monic irreducible `m_i ∈ ℤ[T]` (Layer 3), so the factorization of `P_A` into irreducibles is `∏ m_i^{e_i n_i}`, and the decomposition is read off `P_A` through Honda–Tate (Part II F3.2; Layer 4), which says which `e_i` occur. The LMFDB field `is_squarefree` (knowl `av.squarefree`: no simple factor occurs with exponent `> 1`) is **all `n_i = 1`**, equivalently `P_A = ∏ m_i^{e(m_i)}` with the `m_i` distinct (every irreducible factor to exactly its Honda–Tate exponent, Layer 4), equivalently `End⁰(A) = ∏ D_i` is a product of division algebras with no matrix factor (3.4); `is_geometrically_squarefree` is the same condition for `A_{𝔽_{q^d}}` with `d` the geometric extension degree (5.3, 5.4). It is *weaker* than `Squarefree P_A` in `ℚ[T]`, which is all `n_i = 1` *and* all `e_i = 1`, equivalently `End⁰(A) = ℚ[π_A]` commutative; `Squarefree P_A` is the hypothesis of the `ℤ[π, V]` dictionary of Layers 8–9 and is never called `is_squarefree` here. Every simple class is `is_squarefree`: `2.2.a_ae` is simple with `P_A = (T² − 2)²`, so `is_squarefree` holds and `Squarefree P_A` fails. The simple factors are a `Multiset` of isogeny classes; their order on a page is a database convention, not a target. |
 | Endomorphism algebra | `End⁰(A) := ℚ ⊗[ℤ] End A`, the convention of *Abelian schemes and arithmetic moduli*. `Hom⁰(A, B) := ℚ ⊗[ℤ] (Additive (A ⟶ B))`. For simple `A`, `End⁰(A)` is a division algebra with centre `ℚ(π_A)`; `divalg_dim := Module.finrank (Center) (End⁰ A)`, a square `e²`; the LMFDB `divalg_dim` is this `e²`. |
 | Local invariants | For a place `v` of a number field `F` and a central simple `F`-algebra `D`, `inv_v D ∈ ℚ/ℤ` is ClassFieldTheory's `invMap` (finite `v`) or `infiniteInvAt` (archimedean `v`) applied to the class of `D ⊗_F F_v` under the QFI 7B comparison. With CFT's normalization by *arithmetic* Frobenius, Tate's formula reads `inv_v(End⁰ A) = (ord_v π / ord_v q) · [F_v : ℚ_p] mod 1` at `v ∣ p`, `1/2` at real `v`, `0` elsewhere (Part II F1.11, F3.2; Layer 3). The LMFDB stores `inv_v` as a reduced fraction in `[0, 1)`. |
-| Tate module | `T_ℓ A := AbelianTate A ℓ` (A4.1) for a prime `ℓ ≠ p`, `V_ℓ A := ℚ_ℓ ⊗ T_ℓ A`. Never used at `ℓ = p`. |
+| Tate module | `T_ℓ A := AbelianTate A ℓ = TateModule ℓ (A(K^{sep}))` (A4.1, on `SeparableClosure K`-points) for a prime `ℓ ≠ p`, with the continuous action of `Gal(K^{sep}/K)` through the points; `V_ℓ A := ℚ_ℓ ⊗ T_ℓ A`. Statements written with `A(K̄)` or `A[n](K̄)`, `K̄ = AlgebraicClosure K`, are read through the comparison of 1.2. `TateModule ℓ (A(K))` of the finite group of rational points is zero and is never meant (2.1). Never used at `ℓ = p`. |
 | Twist | `B` is a twist of `A` when `A.baseChange (AlgebraicClosure K) ≅ B.baseChange (AlgebraicClosure K)` (knowl `av.twist`); the LMFDB's twist table is at the level of isogeny classes, where it means `IsIsogenous (A.baseChange L) (B.baseChange L)` for some finite `L/K`, the *extension degree* of a twist is the least `[L : K]`; `twists` ranges over the classes `B ≠ A` of the twist class of `A`, `twist_count` is the **size of the twist class, `A` included** (so `1` for a class without twists: `1.4.ae` has four twists and `twist_count = 5`), and `max_twist_degree` the largest degree of a `B ≠ A`, `0` when there are none (5.6). |
 | Endomorphism field, geometric extension degree | The endomorphism field of `A` is the least subextension `L ⊆ K^{sep}` of `K` with `End (A_L) = End (A_{K^{sep}})`; it is `𝔽_{q^d}` and `d` is `geometric_extension_degree` (5.4). |
 | `p`-rank, Newton polygon | `p`-rank of `A` is `Module.finrank (ZMod p) (A[p](AlgebraicClosure K))`, the dimension of the geometric `p`-torsion (6.1). The Newton polygon of `A` is the Newton polygon of `P_A` at `p` with the `q`-normalized valuation `ord_q = ord_p / ord_p q`, as a list of `2g` slopes in `[0, 1]` in increasing order (§1.0's polygon of `P_A`); the LMFDB `slopes`. Ordinary: `p`-rank `= g`; supersingular: every slope `1/2`; almost ordinary: Newton elevation `1` (6.3). |
@@ -264,7 +264,8 @@ Suggested home: `TauCeti/AlgebraicGeometry/AbelianVariety/FiniteField/` for Laye
   function of an elliptic curve, and its Layer 1 for `End E` of an ordinary curve being an order
   of `ℚ(π_q)` containing `ℤ[π_q]`; GlobalNumberFields Layer 11 for the conductor-prime extension
   and contraction maps between invertible ideals of an order and ideals of the maximal order. The
-  identification of `A(K)` with the fixed points of `π_A` on `A(K^{sep})` is 1.2 here.
+  identification of `A(K)` with the fixed points of `π_A` on `A(K^{sep})`, and the comparison of
+  `A(K^{sep})` with `A(AlgebraicClosure K)`, are 1.2 here.
 - From *Abelian schemes and arithmetic moduli*, Layer A6: `Hom.deg` and `End.degRat` (A6.1),
   `homTateInjective` (A6.2), the abelian image (A6.3), `IsSimple`, `simpleEndDivision` (A6.4),
   `poincareReducibility` with the uniqueness of simple factors and multiplicities (A6.5),
@@ -276,7 +277,10 @@ Suggested home: `TauCeti/AlgebraicGeometry/AbelianVariety/FiniteField/` for Laye
   `π` semisimple on `V_ℓ A`), `weilRestriction`, `weilRestrictionAbelian`,
   `weilRestrictionTate` (A6.30–A6.33), `QuadraticAbelianTwist` (A6.34); and its A4.1
   `AbelianTate` (`T_ℓ A = TateModule ℓ (A(K^{sep}))`, free of rank `2g`, with its continuous
-  Galois action, `AbelianTate.map`, `AbelianTate.modPow`, `AbelianTate.dualPairing`) and A3.9
+  Galois action, `AbelianTate.map`, `AbelianTate.modPow`, `AbelianTate.dualPairing`; its target
+  signature is `OverField.tateModule A ℓ`, Tau Ceti's `TateModule` of `OverField.geometricPoints A`,
+  the morphisms `Spec (SeparableClosure K) ⟶ A` over `Spec K`, so the points are fixed on the
+  separable closure and 1.2 compares them with `AlgebraicClosure K`-points) and A3.9
   `Polarization.rosati`.
 - From **AbelianSchemesAndArithmeticModuliPartII** (abbreviated Part II): F0.2
   (Frobenius polynomial reciprocity and products), F0.3 (Weil numbers), F0.4 (isotropic image),
@@ -304,6 +308,12 @@ Suggested home: `TauCeti/AlgebraicGeometry/AbelianVariety/FiniteField/` for Laye
   §1.5 the count `#A(𝔽_{q^m}) = deg(1 − π_A^m) = P_{π_A^m}(1) = ∏ (1 − a_i^m)` with its bound,
   for its model of `𝔽_{q^m}`; §1.9 `P_{π_A^m}` has roots `a_i^m`. This roadmap writes `π_A`
   for `AbelianVariety.frobenius A` and `P_A` for `End.charpoly π_A`.
+- From **InverseGaloisAndArithmeticFundamentalGroups** §IG.0.T1, consumed only through the
+  Jacobian clause of DWP.1 §1.6 in 1.5: for a smooth proper geometrically connected curve `C` over
+  `K` with Jacobian `J` and a prime `ℓ ≠ p`, the finite-level comparison
+  `H¹(C_{K^{sep}}, ℤ/ℓⁿ) ≅ Hom(J[ℓⁿ](K^{sep}), ℤ/ℓⁿ)` over the separable closure, compatible with
+  reduction in `n`, and the curve trace `1 − Tr(H¹) + q` for the `q`-power Frobenius. No statement
+  here applies it directly, and no Kummer isomorphism with `μ_{ℓⁿ}` coefficients is consumed.
 - From *PEL moduli*, M0.1 `PositiveInvolution` and M0.2 `albertTypes`: the Albert
   classification of division algebras with positive involution, used only to read off the
   shape of `End⁰(A) ⊗ ℝ`.
@@ -334,8 +344,9 @@ Suggested home: `TauCeti/AlgebraicGeometry/AbelianVariety/FiniteField/` for Laye
   polarization of a Jacobian, and `[n]` as an isogeny of degree `|n|^{2g}`.
 - From [EllipticCurves](../EllipticCurves/README.md) Layer 3: `frobeniusTrace`, the Hasse
   bound, the zeta function, the geometric predicates `IsSupersingular`/`IsOrdinary`
-  (`E[p](Kˢᵉᵖ) = 0` or not) and the criterion `IsSupersingular p E ↔ p ∣ frobeniusTrace E`
-  over a finite field.
+  (`E[p](Kˢᵉᵖ) = 0` or not in that roadmap's prose; the pinned `WeierstrassCurve.IsSupersingular`
+  reads `E[p](AlgebraicClosure K)`, and the two agree over a finite field by 1.2) and the criterion
+  `IsSupersingular p E ↔ p ∣ frobeniusTrace E` over a finite field.
 - From **AbelianSchemesAndArithmeticModuli**, A3.13 and A6.15, rationalNSAmpleCone:
   symmetric homomorphisms are Néron–Severi classes, and relative to a polarization the ample
   cone is the positive Rosati cone in every characteristic. Section 10.1 transports this
@@ -476,8 +487,8 @@ SchemeAndStackFoundations §0.29 (`qPowerFrobenius` is natural for all `K`-morph
 
 For a finite extension `L / K` of degree `r` (any `L` with `[Algebra K L] [Module.Finite K L]`),
 the group `A(L)` of `L`-points of the group scheme `A.toScheme` is the fixed subgroup of
-`π_A^r` acting on `A(K^{sep})` (equivalently `A(AlgebraicClosure K)`, `K` being perfect), that is
-`A(L) = ker (1 − π_A^r)(K^{sep})`; it is finite; and
+`π_A^r` acting on `A(K^{sep})` (equivalently on `A(AlgebraicClosure K)`, by the comparison
+below), that is `A(L) = ker (1 − π_A^r)(K^{sep})`; it is finite; and
 `Nat.card (A(L)) = (End.charpoly (π_A^r)).eval 1 = Hom.deg (1 − π_A^r)`. DWP.1 §1.5 proves the count
 for its model of `𝔽_{q^r}`; the content
 here is that any two extensions of `K` of degree `r` are `K`-isomorphic (Mathlib
@@ -489,7 +500,22 @@ function of `r` alone, written `#A(𝔽_{q^r})`. Corollaries: `A(K) ⊆ A(L)` as
 with `#A(K) ∣ #A(L)` (because `T − 1 ∣ T^r − 1` and `∏(1 − α_i^r)/∏(1 − α_i) = ∏(1 + α_i + ⋯ + α_i^{r−1})`
 is a symmetric integer); `A(K^{sep})` is the increasing union of the `A(𝔽_{q^r})` over `r`
 ordered by divisibility; and `#A(𝔽_{q^r}) = ∏_{i=1}^{2g} (1 − α_i^r)` in `ℂ` (DWP.1 §1.5, §1.9).
-*Needs:* DWP.1 §§1.1, 1.5, 1.9; A6.1, A6.10; Mathlib `FiniteField.algEquivExtension`.
+
+**Separable-closure and algebraic-closure points.** The points of A4.1 and of the Tate module are
+`SeparableClosure K`-points; this roadmap also writes `K̄ = AlgebraicClosure K`. Since `K` is
+finite it is perfect (Mathlib `PerfectField.ofFinite`), so `K̄` is separable over `K`
+(`Algebra.IsAlgebraic.isSeparable_of_perfectField`), `separableClosure K K̄ = ⊤`
+(`separableClosure.eq_top_iff`), and the inclusion `ι : SeparableClosure K → K̄` is a `K`-algebra
+isomorphism (`IntermediateField.topEquiv`). Precomposition with `Spec ι` is therefore a group
+isomorphism `A(K^{sep}) ≃+ A(K̄)`; it is natural in `A` (it commutes with postcomposition by every
+`f : A ⟶ B`), carries the action of `σ ∈ Gal(K^{sep}/K)` to that of `ι σ ι⁻¹ ∈ Gal(K̄/K)`, and
+restricts to `A[n](K^{sep}) ≃+ A[n](K̄)` for every `n ≥ 1`, powers of `p` included. Transport along
+`ι` identifies `End (A.baseChange (SeparableClosure K))` with `End (A.baseChange K̄)` as rings,
+compatibly with `End.baseChange` from `End A`. Every `A(K̄)`, `A[n](K̄)` and `End(A_{K̄})` below is
+read through this comparison; its one input is that `K` is perfect.
+*Needs:* DWP.1 §§1.1, 1.5, 1.9; A6.1, A6.10; Mathlib `FiniteField.algEquivExtension`,
+`PerfectField.ofFinite`, `Algebra.IsAlgebraic.isSeparable_of_perfectField`,
+`separableClosure.eq_top_iff`, `IntermediateField.topEquiv`; Tau Ceti `End.baseChange`.
 
 **Checks.**
 
@@ -499,6 +525,10 @@ ordered by divisibility; and `#A(𝔽_{q^r}) = ∏_{i=1}^{2g} (1 − α_i^r)` in
 - For K=𝔽₄ inside L=𝔽₁₆, squaring is a field automorphism of L that sends a generator ω of 𝔽₄ to
   ω²=ω+1; it is an isomorphism of fields of equal size but not a K-isomorphism, so it does not act
   on the K-morphisms Spec L → A, and the transport of points uses a K-algebra isomorphism.
+- Over K=𝔽₂ every element of K̄ lies in some `𝔽_(2^r)`, a root of the separable polynomial
+  `X^(2^r) − X` (derivative −1), so it lies in SeparableClosure K and ι is onto. Over the imperfect
+  field 𝔽_p(t), the root `t^(1/p) ∈ K̄` of `X^p − t = (X − t^(1/p))^p` is inseparable and not in
+  SeparableClosure K, so ι is not onto: finiteness of K is the hypothesis the comparison uses.
 
 ### 1.3 The `L`-polynomial and the functional equation
 
@@ -554,14 +584,25 @@ of FunctionFieldArithmetic §§5.3–5.4, and `#C(𝔽_{q^r}) = N_r(F) = q^r + 1
 the Jacobian, DWP.1 §1.6, and gives the count from its roots; FunctionFieldArithmetic §§5.3–5.4 is the
 integer form). Hence the `curve_counts` of a Jacobian class are honest counts (7.4 below only
 *defines* them from `P_A`), and `#J(K) = P_J(1) = h_F` is the class number of the function field
-(FunctionFieldArithmetic §5.3).
-*Needs:* 1.4; DWP.1 §1.6; JacobianChallenge Layer E; FunctionFieldArithmetic §§5.3–5.4.
+(FunctionFieldArithmetic §5.3). The Jacobian clause of DWP.1 §1.6 rests on a Frobenius-equivariant
+comparison of the étale `H¹` of `C_{K^{sep}}` with the `ℓ`-power torsion of `J(K^{sep})`, `ℓ ≠ p`,
+which DWP.1 imports from InverseGaloisAndArithmeticFundamentalGroups §IG.0.T1 in the finite-level
+form `H¹(C_{K^{sep}}, ℤ/ℓⁿ) ≅ Hom(J[ℓⁿ](K^{sep}), ℤ/ℓⁿ)` over the separable closure. This roadmap
+consumes the resulting identity and proves no comparison of cohomology with torsion of its own; in
+particular it states no Kummer isomorphism `H¹(C_{K^{sep}}, μ_{ℓⁿ}) ≅ J[ℓⁿ](K^{sep})`, whose limit
+is the Tate-twisted `H¹(C_{K^{sep}}, ℤ_ℓ(1))`, the twist that the fourth Check pins.
+*Needs:* 1.4; DWP.1 §1.6 (with the InverseGaloisAndArithmeticFundamentalGroups §IG.0.T1 comparison
+it imports); JacobianChallenge Layer E; FunctionFieldArithmetic §§5.3–5.4.
 
 **Checks.**
 
 - For the elliptic curve of trace 2 over 𝔽₅, both the curve and Jacobian counts are 4 and 32.
 - For ℙ¹ over 𝔽₅ the curve has 6 points, its Jacobian has 1 point, and its L-polynomial is 1.
 - For P=(T²−2)² at q=2 the second virtual curve count is 5−8=−3, so no curve has this Jacobian polynomial.
+- For the trace-2 curve over 𝔽₅ (P_J = T²−2T+5, roots 1±2i), geometric Frobenius on the untwisted
+  `H¹(C_(K^sep), ℚ_ℓ)`, the dual of V_ℓJ, is the transpose of π_J, of trace 2, and the trace formula
+  gives 1 − 2 + 5 = 4 points. On the twisted `H¹(C_(K^sep), ℚ_ℓ(1)) ≅ V_ℓJ` it acts as π_J⁻¹, with
+  roots (1∓2i)/5 and trace 2/5, and the same formula would give 1 − 2/5 + 5 = 28/5, not an integer.
 
 ### 1.6 The elliptic comparison
 
@@ -627,7 +668,7 @@ The trace-2 elliptic class over 𝔽₅ has P=T²−2T+5, L=1−2T+5T² and coun
 
 ### Dependencies
 
-Mathlib polynomial and finite-field APIs; Part II F0.2–F0.3; DWP.1; AbelianSchemesAndArithmeticModuli A6; NewtonPolygons §§2.1, 3.3; FunctionFieldArithmetic §§5.3–5.4.
+Mathlib polynomial and finite-field APIs, with `PerfectField.ofFinite` and `separableClosure.eq_top_iff` for the comparison of separable-closure and algebraic-closure points; Part II F0.2–F0.3; DWP.1; AbelianSchemesAndArithmeticModuli A6; NewtonPolygons §§2.1, 3.3; FunctionFieldArithmetic §§5.3–5.4; InverseGaloisAndArithmeticFundamentalGroups §IG.0.T1 through DWP.1 §1.6.
 
 ## Layer 2: the Tate module and the endomorphism field
 
@@ -645,22 +686,38 @@ Milne AV II §2.
 
 ### 2.1 The Galois representation on the Tate module
 
-For `ℓ ≠ p`, `T_ℓ A = AbelianTate A ℓ` is a free `ℤ_ℓ`-module of rank `2g` with a continuous
-action of `G_K = Gal(K^{sep}/K) ≅ ℤ̂` in which the arithmetic Frobenius acts as `AbelianTate.map π_A`
-(DWP.1 §1.1). Milestones: the image of `G_K` in `GL(T_ℓ A)` is the closure of the subgroup
+For `ℓ ≠ p`, `T_ℓ A = AbelianTate A ℓ = TateModule ℓ (A(K^{sep}))` is a free `ℤ_ℓ`-module of rank
+`2g` with a continuous action of `G_K = Gal(K^{sep}/K) ≅ ℤ̂`, through its action on `A(K^{sep})`, in
+which the arithmetic Frobenius acts as `AbelianTate.map π_A` (DWP.1 §1.1). Comparison with
+algebraic-closure points: `TateModule.map` of the isomorphism `A(K^{sep}) ≃+ A(K̄)` of 1.2 and of its
+inverse are mutually inverse (Tau Ceti `TateModule.map_comp`, `TateModule.map_id`), so they give a
+`ℤ_ℓ`-linear isomorphism `T_ℓ A ≃ TateModule ℓ (A(K̄))` that commutes with `AbelianTate.map f` for
+every `f : A ⟶ B` and carries the action of `σ` to that of `ι σ ι⁻¹`; the rank, A4.1's
+`AbelianTate.modPow` and the `A(K̄)[ℓ^∞]` of 7.2 transfer along it. The Tate module of the rational
+points is not this Galois module: `A(K)` is finite (1.2), and in a group killed by `ℓ^m` a compatible
+family with `ℓ x_{n+1} = x_n` has `x_n = ℓ^m x_{n+m} = 0`, so `TateModule ℓ (A(K)) = 0` for every
+`ℓ`; `A(K)` enters only as `ker(π_A − 1)` on `A(K^{sep})` (1.2) and through 7.2.
+Milestones: the image of `G_K` in `GL(T_ℓ A)` is the closure of the subgroup
 generated by `T_ℓ π_A`; a `ℤ_ℓ`-linear map `φ : T_ℓ A → T_ℓ B` is `G_K`-equivariant iff
 `φ ∘ T_ℓ π_A = T_ℓ π_B ∘ φ`; so `Hom_{G_K}(T_ℓ A, T_ℓ B) = {φ | φ π_A = π_B φ}` and
 `End_{G_K}(V_ℓ A)` is the commutant of `π_A` in `End_{ℚ_ℓ}(V_ℓ A)`; `π_A` acts semisimply on
 `V_ℓ A` (A6.21), so `V_ℓ A` is a semisimple `ℚ_ℓ[π_A]`-module and `ℚ_ℓ[π_A] ⊆ End(V_ℓ A)` is a
 product of fields; `charpoly (T_ℓ π_A) = P_A` (A6.11). Geometric Frobenius is `π_A⁻¹` on `V_ℓ A`
 and never enters a statement below.
-*Needs:* A4.1, A6.11, A6.21; DWP.1 §1.1; Tau Ceti `TateModule`.
+*Needs:* 1.2; A4.1, A6.11, A6.21; DWP.1 §1.1; Tau Ceti `TateModule`, `TateModule.map_comp`,
+`TateModule.map_id`.
 
 **Checks.**
 
 - For π=1+2i, the matrix on the basis 1,2i is ((1,−4),(1,1)), of trace 2 and determinant 5.
 - Its inverse has determinant 1/5, distinguishing geometric from arithmetic Frobenius.
 - The zero-dimensional Tate module has rank 0 and characteristic polynomial 1.
+- For E: y² = x³ + x over 𝔽₅ (trace 2, P = T²−2T+5), x³ + x = x(x² + 1) has the roots 0, 2, 3 in
+  𝔽₅, so all of E[2](K^sep) ≅ (ℤ/2)² is rational and E(𝔽₅) ≅ (ℤ/2)², of order P(1) = 4. At level
+  one the rational and the separable-closure 2-torsion coincide, yet TateModule 2 (E(𝔽₅)) = 0
+  (2 kills E(𝔽₅), so every component `x_n = 2 x_(n+1)` vanishes) while T₂E ≅ ℤ₂² carries a Frobenius
+  of trace 2 and determinant 5: the Tate module of the rational points is not the Galois module, and
+  a definition compared only at level one would not separate them.
 
 ### 2.8 Homomorphisms after base change and the endomorphism field
 
@@ -671,8 +728,9 @@ unity among the ratios
 finite extension (A6.7: `Hom` is finitely generated, and each generator is defined over a finite
 extension, `Hom.baseChange` being injective). The **endomorphism field** of `A` is the least
 subextension `L ⊆ K^{sep}` with `End(A_L) = End(A_{K^{sep}})`; it exists and is `𝔽_{q^d}` for a
-unique `d ≥ 1`, which Layer 5 identifies with §1.0's `geometricExtensionDegree P_A`.
-*Needs:* 1.1; AS Tate; A6.7; Tau Ceti `Hom.baseChange`.
+unique `d ≥ 1`, which Layer 5 identifies with §1.0's `geometricExtensionDegree P_A`. Layer 5
+writes `End(A_{K̄})` for `End(A_{K^{sep}})`, the two being identified by 1.2.
+*Needs:* 1.1, 1.2; AS Tate; A6.7; Tau Ceti `Hom.baseChange`.
 
 **Checks.**
 
@@ -686,7 +744,7 @@ The trace-2 class over 𝔽₂ has endomorphism-field degree 4 and commutant dim
 
 ### Dependencies
 
-Layer 1; AS Tate; AbelianSchemesAndArithmeticModuli A4.1 and A6.7.
+Layer 1; AS Tate; AbelianSchemesAndArithmeticModuli A4.1 and A6.7; Tau Ceti `TateModule` with its functoriality.
 
 ## Layer 3: the endomorphism algebra of a simple abelian variety
 
@@ -1031,8 +1089,10 @@ additive on products, and an isogeny invariant (an isogeny of degree prime to `p
 isomorphism on `A[p^∞]`; one of degree a power of `p` preserves the étale height, A4.5), and
 `pRank A^∨ = pRank A` (Cartier duality). For `g = 1` it is `0` or `1`, and
 `pRank E = 0 ↔ IsSupersingular p E` in the sense of [EllipticCurves](../EllipticCurves/README.md)
-Layer 3.
-*Needs:* A4.5; JacobianChallenge Layer E (duals); EllipticCurves Layer 3.
+Layer 3. That roadmap states the predicate on `E[p](K^{sep})`, while the pinned
+`WeierstrassCurve.IsSupersingular` is stated on `E[p](AlgebraicClosure K)` (its file records that
+over an imperfect field the two differ); over the finite `K` here they agree by 1.2.
+*Needs:* 1.2; A4.5; JacobianChallenge Layer E (duals); EllipticCurves Layer 3.
 
 **Checks.**
 
@@ -1172,8 +1232,8 @@ with the examples `1.2.ac`, `1.4.ae` and `2.2.ad_f`; `A(K) ⊆ A(L)` with `#A(K)
 
 ### 7.2 The `ℓ`-primary parts through the Tate module
 
-For a prime `ℓ ≠ p`: **`A(K)[ℓ^∞] ≃+ T_ℓ A ⧸ (T_ℓ π_A − 1)(T_ℓ A)`**. Proof: `A(K̄)[ℓ^∞] ≅ V_ℓ A / T_ℓ A`
-(A4.1), `π_A − 1` is bijective on `V_ℓ A` (`det(π_A − 1 ∣ V_ℓ A) = (−1)^{2g} P_A(1) = P_A(1)` by
+For a prime `ℓ ≠ p`: **`A(K)[ℓ^∞] ≃+ T_ℓ A ⧸ (T_ℓ π_A − 1)(T_ℓ A)`**. Proof: `A(K^{sep})[ℓ^∞] ≅ V_ℓ A / T_ℓ A`
+(A4.1, on the separable-closure points of the Tate module; `A(K̄)` by 1.2), `π_A − 1` is bijective on `V_ℓ A` (`det(π_A − 1 ∣ V_ℓ A) = (−1)^{2g} P_A(1) = P_A(1)` by
 A6.11, and `P_A(1) = #A(K) ≥ 1` by 1.2, `A(K)` containing `0`; no bound on `|α_i|` is used), and the snake
 lemma for `0 → T_ℓ → V_ℓ → V_ℓ/T_ℓ → 0` with the endomorphism `π_A − 1`
 identifies `ker(π_A − 1 ∣ V_ℓ/T_ℓ) = A(K)[ℓ^∞]` (1.2) with `coker(π_A − 1 ∣ T_ℓ)`. For `ℓ = p`:
@@ -2261,14 +2321,16 @@ predicate of §1.0.
     and [`RationalTateModule.lean`](https://github.com/formal-arithmetic-geometry/weil-conjectures/blob/55abf461d4688270382c9c982ac08a279e41c00b/WeilConjectures/AlgebraicGeometry/AbelianVariety/RationalTateModule.lean):
     `T_ℓ A ≅ ℤ_ℓ^{2g}` and `V_ℓ A ≅ ℚ_ℓ^{2g}` for a prime `ℓ` invertible in `K`, the action of
     `Gal(K̄/K)`, and, over a finite field, that the arithmetic Frobenius `σ ∈ Gal(K̄/K)` fixes no
-    nonzero vector of `T_ℓ A` and that `σ − 1` is bijective on `V_ℓ A`. These are A4.1's
-    `AbelianTate` and the first step of 7.2; there the Frobenius is the Galois element, and its
-    identification with `T_ℓ π_A` is DWP.1 §1.1.
+    nonzero vector of `T_ℓ A` and that `σ − 1` is bijective on `V_ℓ A`. Its points are over `K̄`
+    and A4.1's `AbelianTate` is on `K^{sep}`-points; over the finite fields here the two Tate modules
+    are identified by 1.2 and 2.1, and then these are A4.1's `AbelianTate` and the first step of
+    7.2; there the Frobenius is the Galois element, and its identification with `T_ℓ π_A` is
+    DWP.1 §1.1.
   - [`AlgebraicGeometry/AbelianVariety/Isogeny.lean`](https://github.com/formal-arithmetic-geometry/weil-conjectures/blob/55abf461d4688270382c9c982ac08a279e41c00b/WeilConjectures/AlgebraicGeometry/AbelianVariety/Isogeny.lean):
     for `n > 0`, `[n]` is an isogeny of degree `n^{2g}` whose kernel is finite flat of order
     `n^{2g}` (JacobianChallenge Layer E, used in 1.7);
     [`Torsion.lean`](https://github.com/formal-arithmetic-geometry/weil-conjectures/blob/55abf461d4688270382c9c982ac08a279e41c00b/WeilConjectures/AlgebraicGeometry/AbelianVariety/Torsion.lean): `A(K̄)[n] ≅ (ℤ/n)^{2g}`
-    for `n` prime to `p` (A4.1, used in 7.2 and 7.3).
+    for `n` prime to `p` (A4.1 on `K^{sep}`-points, transported by 1.2; used in 7.2 and 7.3).
   - [`AlgebraicGeometry/Picard/Jacobian.lean`](https://github.com/formal-arithmetic-geometry/weil-conjectures/blob/55abf461d4688270382c9c982ac08a279e41c00b/WeilConjectures/AlgebraicGeometry/Picard/Jacobian.lean): the
     Jacobian of a proper smooth geometrically connected curve over an arbitrary field, without a
     rational point, as a proper smooth geometrically integral commutative group of dimension `g`
