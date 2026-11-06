@@ -19,7 +19,7 @@ The full 85-module catalog, including `TamelyRamified/Comparison.lean`, and the 
 probes pass at that revision, producing 26 standard-only axiom reports. The earlier 84-module
 replay below remains dated evidence at its stated source revision.
 
-The review reads the whole normative README: Layers 0–4, their API lists and hypotheses, the Counting Totally Ramified Extensions consumer boundary, the acceptance examples, and the implementation-provenance appendix. The table groups implementations by mathematical requirement, rather than equating the admitted suggested forms with completion. `Suggested.lean` is retained at the roadmap repository's older `358314d4ab97` pin as a prototype; it contains target placeholders and old finite-extension aliases. It is not a proof certificate for current source.
+The review reads the whole normative README in its former numbering: Layers 0–4, their API lists and hypotheses, the Counting Totally Ramified Extensions consumer boundary, the acceptance examples, and the implementation-provenance appendix. The tables below keep that numbering; the README's *Former layer numbers* table maps each former layer to its item under *Exact supplier contracts*, and the former Layer 3 Hasse–Arf row to the current Layer 2. The table groups implementations by mathematical requirement, rather than equating the admitted suggested forms with completion. `Suggested.lean` states only the open Layer 1 target, Sen's congruence, on the current pin. It is not a proof certificate for current source.
 
 ## Whole-roadmap implementation inventory
 
