@@ -736,6 +736,11 @@ The API includes:
 - For `y²=x⁵−x` over ℚ, the rational branch points are −1,0,1 and infinity: the count is 4.
 - For `y²+y=x⁵` over `𝔽₂`, there are no affine fixed points and one fixed point at infinity; total 1.
 - At `(0,0)` on `y²+y=x⁵`, the involution gives `(0,−1)` and then `(0,0)`; in characteristic two it exchanges y=0 and y=1, so it is not the identity.
+- On the chart `z=1`, `R[x][y]/(y²+hy−f)` is free over `R[x]` on `1, y`, with `Tr(y)=−h`,
+  `Tr(y²)=2f+h²` and trace-form determinant `2(2f+h²)−h² = 4f+h²`, the Weierstrass form: `π` is
+  étale exactly off its roots, which in characteristic 2 are the roots of `h`. For `y²+y=x⁵` over
+  `𝔽₂` the determinant is the unit 1, so no affine point is a branch point, whereas locating branch
+  points at the roots of `f=x⁵` would put one over `x=0`.
 
 ### Examples
 
@@ -2112,6 +2117,11 @@ NeronModelsAndSemistableAbelianVarieties §5.0c.
   hence one point at infinity, not two.
 - A sextic with nonsquare leading coefficient has infinity contribution `1−1=0`;
   a square leading coefficient gives `1+1=2`. The mixed quadratic count also works at q=2.
+- At q=3, `1−9T⁴` has inverse roots `±√3, ±i√3`, all of absolute value `√3` and permuted by
+  `α ↦ 3/α`, so it satisfies the reciprocity `L(1/(qT)) = T^{−4} lc(L)^{−1} L(T)`; yet its
+  leading coefficient is `−q²` and `L(1)=−8` is not a group order. Root symmetry alone allows
+  `a₄=±q²` (and then `a₂=0` when `a₄=−q²`); the shape above needs the leading coefficient
+  `a_{2g}=q^g` of FunctionFieldArithmetic §5.3.
 
 *Needs:* 0.6, 3.5; FunctionFieldArithmetic §§5.1 (`pointCount_eq`), 5.3 (`L_F`),
 5.6 (Newton identities and reciprocal symmetry); NeronModelsAndSemistableAbelianVarieties
@@ -2415,6 +2425,111 @@ and not a gap in the parity theorem. Conductor `2⁴·3·7` (stored; the odd par
   `Aut(C_{𝔽̄₇}) = C₁₀` (`x ↦ ζ₅ x`, `y ↦ ±y`) but `Aut(C) = C₂`, since `5 ∤ 7 − 1` and `𝔽₇` has no
   primitive fifth root of unity; over `𝔽₁₁` (`11 ≡ 1 mod 5`) `Aut(C) = C₁₀` already over the
   ground field.
+
+## Provenance
+
+This section is secondary: it maps milestones of this roadmap to existing Lean formalisations,
+which are consulted to check statements, hypotheses and proof structure, and it prescribes
+nothing; ownership, statements and routes are those above. The three repositories are released
+under the Apache-2.0 licence and build against Lean and Mathlib versions other than this
+repository's pins (formal-arithmetic-geometry/weil-conjectures on Lean `v4.33.1`, AxiomMath/Weil
+on `v4.34.0-rc2`, AxiomMath/Stacks on `v4.35.0`). A proof adapted from them rather than rewritten keeps that attribution, and
+adapting one is coordinated with its authors. None of them uses `Model R g`, `𝒢_g` or Tau Ceti's
+function-field vocabulary, so each statement is compared with the milestone here before it is
+transported. The statements below are those of the declarations at the commits named.
+
+Most of the overlap is with inputs that 5.3 consumes rather than proves. The integrality, the
+degree `2g` and the symmetry of the `L`-polynomial come from FunctionFieldArithmetic §5.3, by
+counting effective divisors, and the Euler factor of the Jacobian from
+NeronModelsAndSemistableAbelianVarieties §5.0c, through the Frobenius endomorphism; neither route
+passes through `ℓ`-adic cohomology. The hyperelliptic material among the three is in
+AxiomMath/Stacks: the weighted double cover of 0.2 for `h = 0` and `f` split with nonzero roots,
+and one genus-one function field in characteristic 2.
+None of the three has invariants of binary forms, coordinate changes or minimal models of
+hyperelliptic equations, cluster pictures, the inertia invariants `H¹_ét(C_K̄, ℚ_ℓ)^{I_K}` of a
+curve over a local field and the Artin conductors of 4.7–4.9 and 5.4, or the `x − T` descent of
+5.2. The inertia files of AxiomMath/Stacks and weil-conjectures treat the geometric counterpart:
+inertia at a boundary point `y` of an open `j : U ⊂ C`, such as a missing point of a curve over a
+finite or algebraically closed field, with the stalk of `j_*` of a local system at `y` as its
+inertia invariants (AxiomMath/Stacks
+[`EtaleCohomology/ProperBaseChange/BoundaryInertiaInvariants.lean`](https://github.com/AxiomMath/Stacks/blob/5ed82d14634e8d9576bb844c7bd4e3da66d450e7/StacksFrontier/AlgebraicGeometry/EtaleCohomology/ProperBaseChange/BoundaryInertiaInvariants.lean)
+and
+[`EtaleCohomology/Trace/CurvePointInertiaStalk.lean`](https://github.com/AxiomMath/Stacks/blob/5ed82d14634e8d9576bb844c7bd4e3da66d450e7/StacksFrontier/AlgebraicGeometry/EtaleCohomology/Trace/CurvePointInertiaStalk.lean)),
+and the action of Frobenius on tame inertia (weil-conjectures
+[`AlgebraicGeometry/FundamentalGroup/TameInertia.lean`](https://github.com/formal-arithmetic-geometry/weil-conjectures/blob/55abf461d4688270382c9c982ac08a279e41c00b/WeilConjectures/AlgebraicGeometry/FundamentalGroup/TameInertia.lean));
+the conductor files of weil-conjectures
+([`AlgebraicGeometry/ConductorSections.lean`](https://github.com/formal-arithmetic-geometry/weil-conjectures/blob/55abf461d4688270382c9c982ac08a279e41c00b/WeilConjectures/AlgebraicGeometry/ConductorSections.lean))
+concern the conductor ideal of a normalisation.
+
+- formal-arithmetic-geometry/weil-conjectures, commit `55abf461d4688270382c9c982ac08a279e41c00b`:
+  - [`ZetaFunction/IntegralFrobeniusFactors.lean`](https://github.com/formal-arithmetic-geometry/weil-conjectures/blob/55abf461d4688270382c9c982ac08a279e41c00b/WeilConjectures/ZetaFunction/IntegralFrobeniusFactors.lean):
+    for `X` smooth, proper and geometrically connected of pure dimension `d` over `𝔽_q`, each
+    `det(1 − T·F | Hⁱ(X_k̄, ℚ̄_ℓ))`, `0 ≤ i ≤ 2d`, is the image of one `Pᵢ ∈ ℤ[T]` with
+    `Pᵢ(0) = 1`, the same for every `ℓ ≠ p`, and `Z(X, T) = ∏ᵢ Pᵢ(T)^{(−1)^{i+1}}`
+    (`AlgebraicGeometry.Scheme.integral_frobenius_factors`). For a curve, `P₁` is the
+    `L`-polynomial of 5.3 in cohomological form.
+  - [`ZetaFunction/CurveZeta.lean`](https://github.com/formal-arithmetic-geometry/weil-conjectures/blob/55abf461d4688270382c9c982ac08a279e41c00b/WeilConjectures/ZetaFunction/CurveZeta.lean):
+    `deg P₁ = 2g` for a smooth proper integral curve with `H⁰(C, 𝒪_C) = k`, by F. K. Schmidt's count
+    of effective divisors, with a Weil factorisation of `Z` whose middle factor satisfies the
+    Riemann hypothesis among its hypotheses
+    (`AlgebraicGeometry.Scheme.natDegree_eq_two_mul_arithmeticGenus_of_isWeilFactorization`).
+    FunctionFieldArithmetic §5.3 obtains the degree from the same count without the Riemann
+    hypothesis.
+  - [`ZetaFunction/ClassicalFunctionalEquation.lean`](https://github.com/formal-arithmetic-geometry/weil-conjectures/blob/55abf461d4688270382c9c982ac08a279e41c00b/WeilConjectures/ZetaFunction/ClassicalFunctionalEquation.lean):
+    the reciprocity `Pᵢ(q^{−d} t^{−1}) = t^{−deg Pᵢ} (lc P_{2d−i})^{−1} P_{2d−i}(t)` and the classical
+    functional equation with a sign `ε = ±1` (`AlgebraicGeometry.WeilFunctionalEquation.eval_zpow_mul_inv`,
+    `AlgebraicGeometry.weilSign_eq_one_or_eq_neg_one`). At `d = i = 1` with `deg P₁ = 4` the
+    reciprocity gives `a₄ = ±q²` and `a₃ = a₁a₄/q`, so the genus-2 shape of 5.3 also needs the
+    leading coefficient `q²`; the Check `1 − 9T⁴` of 5.3 is the case `a₄ = −q²`.
+  - [`AlgebraicGeometry/Curve/FiniteMapToLine.lean`](https://github.com/formal-arithmetic-geometry/weil-conjectures/blob/55abf461d4688270382c9c982ac08a279e41c00b/WeilConjectures/AlgebraicGeometry/Curve/FiniteMapToLine.lean):
+    a finite morphism from a smooth affine integral curve over a perfect field of positive
+    characteristic to `𝔸¹`, étale over a dense open, with no control of its degree
+    (`AlgebraicGeometry.AffineSpace.exists_isFinite_etale_morphismRestrict`); and, among the
+    morphism files,
+    [`Morphisms/FiniteFlatDiscriminantBranchSupport.lean`](https://github.com/formal-arithmetic-geometry/weil-conjectures/blob/55abf461d4688270382c9c982ac08a279e41c00b/WeilConjectures/AlgebraicGeometry/Morphisms/FiniteFlatDiscriminantBranchSupport.lean)
+    and [`FiniteFlatTraceDiscriminantGluing.lean`](https://github.com/formal-arithmetic-geometry/weil-conjectures/blob/55abf461d4688270382c9c982ac08a279e41c00b/WeilConjectures/AlgebraicGeometry/Morphisms/FiniteFlatTraceDiscriminantGluing.lean),
+    the trace discriminant of a finite locally free morphism and its branch locus (the files cite
+    Stacks Tag 0BVH). For the degree-two map `π` of 0.2 that discriminant is the Weierstrass form
+    `4f + h²` (the trace-form Check of 0.6). Neither is specific to double covers.
+- AxiomMath/Weil, commit `27cdb2049be62ee2911429b47f54774078450e32`:
+  - [`AlgebraicGeometry/EtaleCohomology/Trace/CharpolyIntegrality.lean`](https://github.com/AxiomMath/Weil/blob/27cdb2049be62ee2911429b47f54774078450e32/Weil/AlgebraicGeometry/EtaleCohomology/Trace/CharpolyIntegrality.lean):
+    for `X` smooth and proper over a finite field and `ℓ ≠ p`, each `det(1 − tF_ν | H^ν(X_k̄, ℚ_ℓ))`
+    has integer coefficients, independent of `ℓ`
+    (`Weil.exists_map_int_eq_rationalFrobeniusCharpolyReverse`,
+    `Weil.exists_map_int_eq_rationalFrobeniusCharpolyReverse_and`; the file cites Freitag–Kiehl
+    IV.1, Theorem 1.2). Its degree is a Betti number only in
+    [`Trace/BettiNumberGoodReduction.lean`](https://github.com/AxiomMath/Weil/blob/27cdb2049be62ee2911429b47f54774078450e32/Weil/AlgebraicGeometry/EtaleCohomology/Trace/BettiNumberGoodReduction.lean),
+    for a variety arising by good reduction from `ℂ` and with Artin's comparison theorem and the
+    finite generation of `H^*(Y(ℂ), ℤ)` as hypotheses
+    (`Weil.natDegree_rationalFrobeniusCharpolyReverse_eq_bettiNumber_of_inputs`).
+  - [`AlgebraicGeometry/EtaleCohomology/Trace/DeligneFunctionalEquation.lean`](https://github.com/AxiomMath/Weil/blob/27cdb2049be62ee2911429b47f54774078450e32/Weil/AlgebraicGeometry/EtaleCohomology/Trace/DeligneFunctionalEquation.lean):
+    Poincaré duality for the characteristic polynomials of Frobenius
+    (`Weil.isCharpolyDual_rationalFrobenius`), even multiplicity of the eigenvalues `±q^{n/2}` in
+    odd middle degree `n` (`Weil.even_bettiNumber_and_even_rootMultiplicity`) and the functional
+    equation (`Weil.prod_aeval_inv_rationalFrobeniusCharpolyReverse_zpow_eq`). For a curve the
+    even multiplicity gives `det(F | H¹) = q^g`, the leading coefficient `q²` of 5.3 in genus 2.
+  - [`Definitions.lean`](https://github.com/AxiomMath/Weil/blob/27cdb2049be62ee2911429b47f54774078450e32/Weil/Definitions.lean),
+    `AlgebraicGeometry.Scheme.ArisesByGoodReduction`: a scheme `S₀` over a field `κ` arises by good
+    reduction of a scheme `Y` over `ℂ` when both are fibres of one smooth projective morphism over an
+    integral domain of finite type over `ℤ` (the file cites Freitag–Kiehl IV.1.2, Remark b). It
+    relates a variety over `κ` to one over `ℂ`; it is not the predicate HasGoodReduction of 3.5,
+    a property of a curve over the fraction field of a discrete valuation ring. A model over `ℤ`
+    whose discriminant is prime to `p` gives an instance, through the smooth projective family of
+    0.2–0.3 over `ℤ[1/Δ]`; nothing here uses the notion.
+- AxiomMath/Stacks, commit `5ed82d14634e8d9576bb844c7bd4e3da66d450e7`:
+  - [`StacksFrontier/AlgebraicGeometry/Constructions/ProjHyperellipticDoubleCover.lean`](https://github.com/AxiomMath/Stacks/blob/5ed82d14634e8d9576bb844c7bd4e3da66d450e7/StacksFrontier/AlgebraicGeometry/Constructions/ProjHyperellipticDoubleCover.lean):
+    over a field `k` with `λ₁, …, λ_{2d} ∈ k^×` and `d ≥ 1`, the scheme
+    `Proj k[U, V, Z]/(Z² − ∏ᵢ(U − λᵢV))` with weights `1, 1, d`, which is the weighted-projective
+    model of 0.2 for `(f, h) = (∏ᵢ(X − λᵢ), 0)` and `g = d − 1`. It is covered by the charts
+    `D₊(U)` and `D₊(V)` (the charts `x = 1` and `z = 1` of 0.2), every twist `𝒪(n)` is
+    invertible, `𝒪(1)` is ample, `Γ(𝒪(n))` is the space of binary forms of degree `n` in `U, V`
+    for `n < d`, and `𝒪(n)` is very ample only for `n ≥ d` (the file cites Stacks Tag 01VP); so
+    for such a model of genus `g ≥ 1` the twist `𝒪(1)` is ample but not very ample.
+  - [`StacksFrontier/NumberTheory/Drinfeld/SupersingularCurve.lean`](https://github.com/AxiomMath/Stacks/blob/5ed82d14634e8d9576bb844c7bd4e3da66d450e7/StacksFrontier/NumberTheory/Drinfeld/SupersingularCurve.lean):
+    the function field of `y² + y = x³ + x + 1` over `𝔽₂` as `AdjoinRoot` of an irreducible
+    quadratic over `RatFunc (ZMod 2)`, the shape of `W.FunctionField` in 0.4 at `g = 1`, with the
+    involution `y ↦ y + 1` (convention 6 with `h = 1`) and the automorphism `x ↦ x + 1`,
+    `y ↦ y + x`, whose square is that involution.
 
 ## References
 
