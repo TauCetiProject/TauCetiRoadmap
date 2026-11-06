@@ -15,7 +15,9 @@ Consume, without duplicating their core constructions:
 - [VonNeumannAlgebras V4.Normality](../VonNeumannAlgebras/README.md#v4-preduals-normality-and-normal-representations) for normal representations; V4.0.Fields for measurable Hilbert fields, rectangular decomposable-map transport and change of measure consumed by M1/M2/M4/M5/M6; V4.0.Decomposition, via SelfAdjointSpectralTheory SA-B85, for the separable `C₀(X)` spectral representation and central decomposition consumed by M2.TypeIDisintegration, M2.ParameterizedRefinement and M3’s mass-sector decomposition; V11 for Pontryagin duality, Haar normalization and Plancherel.
 - [RepresentationTheory/CompactGroups](../RepresentationTheory/CompactGroups/README.md) for compact little groups and Peter–Weyl; LieGroups and [LieHighestWeight](../RepresentationTheory/LieHighestWeight/README.md) for Lie groups, Lie algebras, highest weights and compact-fiber data. These are not noncompact unitary-dual classifications.
 - Mathlib's `LieAlgebra.HasTrivialRadical.instIsKilling` (`Mathlib/Algebra/Lie/CartanCriterion.lean`, Cartan's criterion over a characteristic-zero domain) with `LieAlgebra.IsSemisimple.instHasTrivialRadical`, and Tau Ceti's `TauCeti.exists_isCompl_of_isKilling` (`TauCeti/Algebra/Lie/HighestWeight/CompleteReducibility.lean`, Weyl's complete reducibility over a field of characteristic zero for a finite-dimensional Lie algebra with nondegenerate Killing form and a finite-dimensional module), from which Layer P.4 proves the degree-one and degree-two Whitehead lemmas; Tau Ceti's `TauCeti.FactorSet` (`TauCeti/GroupTheory/GroupExtension/Of/FactorSet.lean`) and `TauCeti.isProjectiveRepEquivExtensionHom` (`TauCeti/RepresentationTheory/ProjectiveRepresentation/Extension.lean`) for the algebra of factor sets, their extensions, rescaling and projective linearization, consumed by Layer P.3.
-- Layer P below owns the projective-symmetry prerequisites: rays, the unitary–antiunitary group and Wigner's theorem (P.1); strong-operator Polish groups, coefficient and quotient Borel structures, the local section of `U(H)→PU(H)` and Pettis's theorem (P.2); normalized locally continuous multipliers and their topological extensions (P.3); finite-dimensional Lie smoothing, differentiation, integration and the real Whitehead lemmas (P.4); free-particle position and momentum (P.5); and the permutation projectors of completed tensor powers (P.6). This roadmap proves these and the noncompact measurable and induced-representation results named here.
+- Layer P below owns the projective-symmetry prerequisites: rays, the unitary–antiunitary group and Wigner's theorem (P.1); strong-operator Polish groups, coefficient and quotient Borel structures, the local section of `U(H)→PU(H)`, Pettis's theorem, the Polishness of second-countable locally compact spaces and the corollary that a connected group mapping continuously to `PUA(H)` lands in `PU(H)` (P.2); normalized locally continuous multipliers and their topological extensions (P.3); finite-dimensional Lie smoothing, differentiation, integration and the real Whitehead lemmas (P.4); free-particle position and momentum (P.5); and the permutation projectors of completed tensor powers (P.6). This roadmap proves these and the noncompact measurable and induced-representation results named here.
+- Scalar Borel circle extensions and the abelian Fourier isomorphism are owned here too. M1 owns the twisted left-regular family `λ^ω` with its strong-Borel measurability, the correspondence between strong-Borel ω-representations and representations of `E_ω` on which the central circle acts by scalars, and the Mackey–Weil locally compact topology on `E_ω`. M2 owns the decomposition `C*(E_ω)≅⊕_k J_k(E_ω)` with `J_k(E_ω)≅C*(G,ω^k)` for every integer k. Layer 0 owns `C*(N)≅C₀(N̂)` for every locally compact abelian N. OperatorAlgebraDynamics D1, D3 and D5 are consumed here as listed above; OperatorAlgebraDynamics consumes these Borel and Fourier statements from here rather than restating them.
+- [SmoothBanachRepresentations Layers 0–4](../RepresentationTheory/SmoothBanachRepresentations/README.md) for the Gårding space and smooth-vector calculus of strongly continuous Banach representations, which M0 specializes to unitary Hilbert representations. M0 owns the Hilbert-adjoint statements on that domain: skew-symmetry of real generators, Nelson's operator, analytic vectors, and the elliptic and central closures.
 - Tau Ceti's pinned Lorentzian Clifford/Spin equivalence in `TauCeti/LinearAlgebra/CliffordAlgebra/Spin/Real/ThreeOne.lean` and Hermitian-vector model in `TauCeti/LinearAlgebra/CliffordAlgebra/RealForm/ThreeOne.lean` for the `Spin(3,1)≃SL(2,ℂ)` / Lorentz cover interface. The group-action and orbit proofs remain targets here.
 
 The analytic operator domains and self-adjoint spectral calculus are supplied by OperatorTheory/SelfAdjointSpectralTheory and OperatorTheory/UnboundedOperators. RelativisticQuantumFieldTheory RQFT0–RQFT2 owns field-side Lorentzian coordinate/Fourier conventions, exact solution carriers, causal Green operators, Lorentz-spinor and classical-to-quantum field bridges; NQS M4 owns the group/metric/cover and Lorentz-representation conventions; RQFT3–RQFT10 own operator-valued distributions, Wightman/Haag–Kastler axioms, spin-statistics, Shale implementability, perturbative renormalization and scattering. LocalVariationalFieldTheory LVF1–LVF6 owns finite-order Euler–Lagrange/Noether theory, stress-energy and classical momentum/current constructions. These field and variational roadmaps own the listed field applications; M0–M6 do not consume RQFT field constructions. Their common Lorentz/Spin and operator inputs are the pinned native and supplier APIs above. Layer P is consumed by M1 (P.1–P.3), M2 (P.2), M3 (P.3–P.5), M4 (P.1–P.4), M5.Coding (P.2) and M6 (P.6); it consumes no M-layer. M1/M2/M4/M5 also consume HilbertModules H3, and M5 consumes HilbertModules H5. RQFT2 and RQFT3 consume M2/M4 for the named noncompact representation data; RQFT11 consumes M4 for the helicity models it names. This fixes the milestone direction of the shared field applications. No field theorem follows merely from a unitary representation of spacetime symmetry.
@@ -89,6 +91,7 @@ Their generic theories remain in the supplying roadmaps.
 
 | Supplier | Interface consumed here | First consumer |
 | --- | --- | --- |
+| [SmoothBanachRepresentations Layers 0–4](../RepresentationTheory/SmoothBanachRepresentations/README.md) | Integrated operators `π(f)` of compactly supported smooth tests and the Gårding space they span, smooth vectors with their Fréchet topology and density, mixed-word domains, the derived Lie and enveloping actions, and the convolution, transport, conjugation and integration-by-parts laws, for strongly continuous Banach representations and hence unitary ones | M0 item 1 |
 | PseudodifferentialOperators P5/P6 | Local interior distributional elliptic regularity and Sobolev estimates | M0’s smooth/elliptic-vector bridge |
 | RiemannianGeometry R1/R2/R4, [HopfRinow](../HopfRinow/README.md) | Symmetric-space curvature, Jacobi/Hessian comparison, Cartan–Hadamard and complete closed-ball compactness | M0’s Cartan/maximal-compact argument |
 | [SpinRepresentations Layer7](../RepresentationTheory/SpinRepresentations/README.md) | Compact spin/Clifford fibers and spin-weight data | M0’s compact-type comparison |
@@ -131,9 +134,20 @@ L¹ functions and their C*-norm density extends this to every algebra element.
 
 For a continuous action of H on locally compact abelian N construct
 `C*(N⋊H)≃C*(N)⋊H≃C₀(N̂)⋊H` from D1's universal covariant pairs,
-comparing both integrated forms. Construct the abelian Fourier C*-map
-using V11's character/Fourier conventions and CStarAlgebras' commutative
-Gelfand theorem. Pin the action modulus by `μ_N(hA)=δ(h)μ_N(A)`;
+comparing both integrated forms. Own the abelian Fourier isomorphism for
+every locally compact abelian N: the transform `f̂(χ)=∫f(n)χ(n)dn`, in
+V11's positive-character convention, extends from L¹(N) to a
+*-isomorphism `C*(N)≅C₀(N̂)` of D1's full group C*-algebra, so the
+universal norm of f is `sup_χ|f̂(χ)|` and the regular quotient
+`C*(N)→C*_r(N)` is injective. Prove it as follows. C*(N) is commutative,
+so by CStarAlgebras' commutative Gelfand theorem its norm is the supremum
+over its characters; through D1's integrated-form correspondence each
+character is the integrated form of exactly one χ∈N̂ and sends f to
+f̂(χ). V11 gives `‖λ(f)‖=sup|f̂|` and identifies the character space of
+`C*_r(N)` with N̂, so the universal and reduced norms agree and V11's
+Gelfand identification of `C*_r(N)` transports to C*(N), with the
+weak-star topology of characters equal to the compact-open topology of
+N̂. Pin the action modulus by `μ_N(hA)=δ(h)μ_N(A)`;
 the semidirect left Haar measure is `δ(h)⁻¹ dn dh`. The M4 Lorentz
 action has |det h|=1, hence δ=1. Prove the Fourier conjugation uses
 `h·χ(n)=χ(h⁻¹n)`. For each model orbit identify H/Hχ with that orbit
@@ -147,7 +161,7 @@ crossed-product notation.
 
 ### Examples
 
-For the trivial group, C*(G)=ℂ and the nonzero trivial representation has support {1}. For an abelian dilation h:x↦2x on ℝ, δ(h)=2 and the dual action sends frequency ξ to ξ/2.
+For the trivial group, C*(G)=ℂ and the nonzero trivial representation has support {1}. For an abelian dilation h:x↦2x on ℝ, δ(h)=2 and the dual action sends frequency ξ to ξ/2. For N=ℤ with characters `χ_z(n)=zⁿ`, the point mass at 1 has `f̂(χ_z)=z`, so `C*(ℤ)≅C(𝕋)` sends the generator to the identity function of 𝕋; the conjugate-character convention would send it to `z̄`.
 
 ### Dependencies
 
@@ -262,7 +276,12 @@ embedding by native `Measurable.measurableEmbedding` (Lusin–Souslin): the two
 on `PU(H)` and `PUA(H)` use the grade and the phase-invariant products
 `⟨e_i,Ue_j⟩·conj⟨e_k,Ue_l⟩`, which separate classes because a nonzero entry
 `⟨e_k,Ue_l⟩` recovers U from V up to the unimodular factor
-`conj⟨e_k,Ve_l⟩/conj⟨e_k,Ue_l⟩`.
+`conj⟨e_k,Ve_l⟩/conj⟨e_k,Ue_l⟩`. Deduce the criterion for maps: for a
+measurable space X and `φ:X→U(H)`, φ is Borel iff `x↦φ(x)h` is Borel into
+H for every h, iff `x↦⟨e_i,φ(x)e_j⟩` is Borel for all i,j (evaluation at h
+and the inner product with e_i are continuous, and the coefficients
+generate the Borel structure). M1's strong-Borel families are Borel maps
+into `U(H)` in this sense.
 
 Construct the explicit local section consumed by M1. For a unit vector ξ, the
 set `W_ξ={[U] : ⟨ξ,Uξ⟩≠0}` is an open identity neighbourhood in `PU(H)`, and in
@@ -283,20 +302,34 @@ M1 and M2 cite this as the Banach–Pettis theorem. Mathlib's
 `AddMonoidHom.continuous_of_measurable`
 (`MeasureTheory/Measure/Haar/NormedSpace.lean`) covers only locally compact
 normed additive groups mapping to real normed spaces and does not apply to
-`PU(H)`. Deduce that a continuous homomorphism from a connected topological
+`PU(H)`. Prove `polishSpace_of_locallyCompactSpace`: a second-countable
+locally compact Hausdorff space is Polish. Its one-point compactification is
+compact Hausdorff and second countable, because a countable exhaustion by
+compact sets gives a countable neighbourhood base at infinity, hence
+metrizable; the space is an open subset of it, and native
+`IsOpen.polishSpace` applies. Thus every second-countable locally compact
+group is an admissible source and target, which is how M1 and M2 apply the
+theorem. Deduce that a continuous homomorphism from a connected topological
 group to `PUA(H)` lands in `PU(H)`, because ε is continuous to the discrete
 group ℤ/2; M4 consumes this for the connected Lorentz and Poincaré components.
+P.2 owns this corollary; other theories of projective lifts cite it here.
 
 *Needs:* P.1; Mathlib `PointwiseConvergenceCLM`, `PolishSpace`,
-`QuotientGroup.borelSpace`, `Measurable.measurableEmbedding` and the Baire
+`QuotientGroup.borelSpace`, `Measurable.measurableEmbedding`,
+`IsOpen.polishSpace`, the one-point compactification and the Baire
 category theorem.
 
 - `U(H)`, `UA(H)`, `PU(H)` and `PUA(H)` are Polish groups for separable H≠0,
   their Borel structures are generated by the stated coefficient functions, and
   the quotient Borel structures of `PU(H)` and `PUA(H)` are their Borel
   structures.
+- A map from a measurable space to `U(H)` is Borel exactly when its vector
+  orbits, equivalently its basis coefficients, are Borel.
 - `s_ξ` is a continuous normalized section of `U(H)→PU(H)` over `W_ξ`.
-- A Borel homomorphism between Polish groups is continuous.
+- A Borel homomorphism between Polish groups is continuous, and a
+  second-countable locally compact Hausdorff space is Polish.
+- A continuous homomorphism from a connected topological group to `PUA(H)`
+  lands in `PU(H)`.
 
 **Checks.**
 
@@ -310,6 +343,10 @@ category theorem.
 - Every Borel character of ℝ is `t↦exp(ict)`; a Hamel-basis additive map f
   gives a discontinuous character `exp(if)`, which is not Borel, so the
   measurability hypothesis cannot be dropped.
+- ℚ is second countable and Hausdorff but not locally compact, and it is not
+  Polish: it is a countable union of nowhere dense singletons, so it fails
+  the Baire property. Local compactness cannot be dropped from
+  `polishSpace_of_locallyCompactSpace`.
 
 ### P.3 Locally continuous multipliers and topological extensions
 
@@ -639,7 +676,8 @@ subrepresentations by the subtype topology; the native operator-norm-continuity
 lemma requires a stronger hypothesis. Consume CompactGroups for finite-dimensional
 compact irreducibles, characters and Peter–Weyl density, LieGroups for the Lie
 algebra/exponential and enveloping differential operators, LieHighestWeight
-for PBW, and UO-E03 for the analytic-vector operator criterion.
+for PBW, SmoothBanachRepresentations Layers 0–4 for the Gårding space and the
+smooth-vector calculus, and UO-E03 for the analytic-vector operator criterion.
 
 Own the extension of Peter–Weyl to arbitrary strongly continuous unitary Hilbert
 representations of compact K. With Haar(K)=1, define
@@ -674,11 +712,17 @@ K prove a U(𝔤_ℂ)-isomorphism is automatically K-equivariant by integration 
 K-orbit spaces; do not identify the full Gårding space with the K-finite space.
 
 1. For every strongly continuous unitary representation of a finite-dimensional
-   Lie group, construct the dense invariant Gårding space by integrated
-   `C_c∞(G)` functions and the smooth-vector submodule. Build the derived Lie
-   action, mixed-word domains and the complexified enveloping-algebra action,
-   with `X*=-X` for real Lie algebra elements. Prove the integration by parts,
-   convolution and π(g)-transport laws on those domains. Construct the positive
+   Lie group, consume SmoothBanachRepresentations Layers 0–4, read on the
+   complex Banach space H: the integrated operators π(f) of `C_c∞(G)` tests and
+   the dense invariant Gårding space they span, the smooth-vector submodule with
+   its Fréchet topology and density, mixed-word domains, the derived Lie and
+   complexified enveloping-algebra actions, and the convolution, π(g)-transport,
+   Ad-conjugation and integration-by-parts laws on those domains. Own the
+   Hilbert-adjoint statement on smooth vectors:
+   `⟨dπ(X)v,w⟩=−⟨v,dπ(X)w⟩` for real X, by differentiating
+   `⟨π(exp tX)v,π(exp tX)w⟩=⟨v,w⟩` at t=0, so dπ(u*) is contained in the
+   adjoint of dπ(u) for the involution of U(𝔤_ℂ) with `X*=-X` on real Lie
+   algebra elements. Construct the positive
    auxiliary Nelson operator `N=1−Σdπ(X_i)²`; prove essential self-adjointness,
    graph cores for its powers and enveloping-operator Sobolev bounds. Pin
    Nelson's Theorem3 comparison as a **sufficient one-way statement**:
@@ -694,9 +738,10 @@ K-orbit spaces; do not identify the full Gårding space with the K-finite space.
    symbol is nonzero at every nonzero real covector. Consume
    PseudodifferentialOperators P5/P6's local interior distributional regularity
    and cutoff Sobolev estimates on G for that symbol, and prove their
-   representation-vector/weak matrix-coefficient adapters here. Fix the
-   differential dictionary: `R_X f(g)=d/dt|₀ f(exp(tX)g)` is right invariant,
-   and `dπ(X)π(f)=π(−R_X f)` for left Haar and left integrated action.
+   representation-vector/weak matrix-coefficient adapters here. Use
+   SmoothBanachRepresentations' differential dictionary:
+   `R_X f(g)=d/dt|₀ f(exp(tX)g)` is right invariant, and
+   `dπ(X)π(f)=π(−R_X f)` for left Haar and left integrated action.
    The assignment X↦−R_X transports the enveloping Lie/involution laws;
    prove its sign/order comparison with the source's right-invariant algebra.
    For power cores use symmetry and ellipticity of N^m and self-adjoint
@@ -710,8 +755,9 @@ K-orbit spaces; do not identify the full Gårding space with the K-finite space.
    domain to the closures. For a symmetric central Z the displayed
    commutation hypothesis follows from centrality; the corollary proves
    essential self-adjointness of dπ(Z), without asserting that arbitrary
-   symmetric enveloping elements have this property. Prove the general covariance
-   `π(g)dπ(Z)π(g)⁻¹=dπ(Ad(g)Z)` on the Gårding core. For Z fixed by Ad(G),
+   symmetric enveloping elements have this property. The covariance
+   `π(g)dπ(Z)π(g)⁻¹=dπ(Ad(g)Z)` on the Gårding core is the mixed-word form of
+   SmoothBanachRepresentations' conjugation law. For Z fixed by Ad(G),
    hence for every central Z when G is connected, prove π(g) transports
    the Gårding core and dπ(Z), hence transports its closure and commutes
    with its spectral projections. After this closure theorem, use spectral
@@ -985,7 +1031,7 @@ The trivial representation has one trivial compact type with multiplicity one. A
 
 ### Dependencies
 
-P.1–P.4; RepresentationTheory/CompactGroups and LieGroups; AutomorphicFormsOnReductiveGroups §2.1; PseudodifferentialOperators P5/P6; RiemannianGeometry R1/R2/R4; HopfRinow. Each numbered bridge states the additional analytic inputs its route uses.
+P.1–P.4; RepresentationTheory/CompactGroups and LieGroups; AutomorphicFormsOnReductiveGroups §2.1; SmoothBanachRepresentations Layers 0–4; PseudodifferentialOperators P5/P6; RiemannianGeometry R1/R2/R4; HopfRinow. Each numbered bridge states the additional analytic inputs its route uses.
 
 ## Layer 4: M1 — Systems of imprimitivity and induction
 
@@ -1302,7 +1348,8 @@ on the separable Hilbert space H=L²(L):
 Prove unitarity and `λ_g^ω λ_h^ω=ω(g,h)λ_(gh)^ω` from left invariance
 and the cocycle law. Prove that g↦λ_g^ω is strong-Borel: use countable
 dense vectors, Borel representatives, joint measurability of the displayed
-formula and measurability of its scalar matrix-coefficient integrals.
+formula and measurability of its scalar matrix-coefficient integrals, so
+that g↦λ_g^ω is Borel into U(H) by P.2's criterion for maps.
 Consequently its projective map L→PU(H) is a Borel homomorphism and is
 continuous by Layer P.2's Pettis theorem. Consume Layer P.2's local
 continuous section of U(H)_s→PU(H) to obtain a lift v_g continuous on
@@ -1328,6 +1375,18 @@ Borel phase b is asserted. Apply Layer P.4's smoothing and locally smooth
 extension theory only after this comparison. Prove the corresponding
 Borel group isomorphism with the pullback extension of the continuous
 projective map is topological by Layer P.2's Pettis theorem.
+
+Prove the correspondence between strong-Borel ω-representations and
+representations of the extension, with `E_ω` carrying the Mackey–Weil
+topology owned above. A strong-Borel ω-representation on a separable Hilbert space H is
+a Borel map `V:L→U(H)` with `V_1=Id` and `V_gV_h=ω(g,h)V_(gh)`. Then
+`(z,g)↦zV_g` is a Borel homomorphism `E_ω→U(H)`, hence strongly continuous
+by Layer P.2's Pettis theorem, and `(z,1)` acts by z. Conversely, for a
+strongly continuous unitary representation W of `E_ω` on H with
+`W(z,1)=z·Id`, the map `g↦W(1,g)` is a strong-Borel ω-representation. Prove
+that the two assignments are mutually inverse and preserve intertwiners,
+direct sums and unitary equivalence. Applied to λ^ω this gives the
+weight-one left-regular representation of `E_ω` on L²(L).
 
 Prove the generic perfect-character lemma: if L is a connected
 finite-dimensional Lie group with perfect Lie algebra, every Borel
@@ -1532,7 +1591,7 @@ hypothesis by M2 before applying the general theorem.
 
 ### Examples
 
-For H=G the quotient is a point, k_s(g,*)=g for s(*)=1 and r_g=1, so induction returns σ. For H={1} and left Haar measure, k_s=1 and r_g=1, giving left translation on L²(G).
+For H=G the quotient is a point, k_s(g,*)=g for s(*)=1 and r_g=1, so induction returns σ. For H={1} and left Haar measure, k_s=1 and r_g=1, giving left translation on L²(G). For L=ℤ/2 with `ω(a,a)=−1`, the twisted regular family has `(λ_a^ω)²=−Id=ω(a,a)λ_e^ω`, so the corresponding representation of `E_ω` sends (1,a) to an operator of order four, whereas the untwisted regular representation has `λ_a²=Id`.
 
 ### Dependencies
 
@@ -8947,6 +9006,17 @@ RelativisticQuantumFieldTheory RQFT2/RQFT3 uses the M2/M4 noncompact representat
 models and RQFT11 uses the named helicity models. Those field applications consume
 this roadmap's group representations and operator comparisons in the direction
 specified in Scope and ownership.
+
+OperatorAlgebraDynamics consumes, for scalar Borel twisted group algebras and
+the abelian Fourier transform, P.2's Polish unitary group, coefficient Borel
+structure and automatic continuity, M1's twisted regular family, strong-Borel
+correspondence and Mackey–Weil topology on `E_ω`, M2's fibres
+`J_k(E_ω)≅C*(G,ω^k)`, and Layer 0's isomorphism `C*(N)≅C₀(N̂)`. The
+OperatorAlgebraDynamics targets consumed here, D1, D3 and D5, do not rest on
+these statements, so no target depends on itself through the two roadmaps.
+
+QuantumFoundations consumes Layer P, including P.2's corollary that a connected
+group mapping continuously to `PUA(H)` lands in `PU(H)`, and the M-layer models.
 
 ## References
 

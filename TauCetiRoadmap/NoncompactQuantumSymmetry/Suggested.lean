@@ -10,8 +10,9 @@ import Mathlib
 The roadmap is README.md; this file is not the roadmap. It states the roadmap's
 headline theorems against the pinned APIs, with simple definitions on native carriers.
 The stated headlines are Wigner reconstruction, automatic continuity of Polish-group
-homomorphisms, both characteristic-zero Whitehead lemmas, equivariant Polish realization,
-and the strongly continuous unitary induced representation on the actual L² carrier.
+homomorphisms, Polishness of second-countable locally compact spaces, both
+characteristic-zero Whitehead lemmas, equivariant Polish realization, and the strongly
+continuous unitary induced representation on the actual L² carrier.
 
 The following further headlines are not statable on the pinned carriers:
 * P.2–P.4's unitary/antiunitary quotient-topology and locally continuous extension
@@ -83,6 +84,14 @@ theorem continuous_of_measurable_hom
     [Group H] [TopologicalSpace H] [IsTopologicalGroup H] [PolishSpace H]
     [MeasurableSpace H] [BorelSpace H] (f : G →* H) (hf : Measurable f) :
     Continuous f := by
+  sorry
+
+/-- A second-countable locally compact Hausdorff space is Polish (README P.2), so
+second-countable locally compact groups are admissible in
+`continuous_of_measurable_hom`. -/
+theorem polishSpace_of_locallyCompactSpace (X : Type*) [TopologicalSpace X] [T2Space X]
+    [LocallyCompactSpace X] [SecondCountableTopology X] :
+    PolishSpace X := by
   sorry
 
 /-- Every one-cocycle of a finite-dimensional semisimple Lie algebra over a
