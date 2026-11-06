@@ -15,7 +15,7 @@ The following constructions belong to the named suppliers and have no second con
 - ClassicalGroupsPartII §§CG.0.4–CG.0.5 and CG.2.4–CG.2.6 owns the reciprocal torus, Weyl action and full character ring. Section 0.1 specializes them to counting coefficients. FunctionFieldArithmetic §§0.2–0.3 and 5.1–5.4 owns the degree-one divisor, Picard comparison and zeta formulas.
 - SchemeKTheoryOperations §§6.2.1–6.2.2 owns special λ-rings and Adams operations. HabiroNahmSeries §5.1 owns the augmentation-complete ordinary multivariate logarithm and exponential over a ℚ-algebra and the plethystic coefficient family over ℚ(q), including uniqueness and admissibility. HabiroCyclotomicCompletions §1.1 owns elementary simultaneous q-and-series Adams substitution and its plethystic exponential on tℚ((q))[[t]]. The complete-Adams contract below extends the supplied plethystic calculus to complete filtered rational special λ-algebras and their coefficient parameters.
 - QSeriesPartitionsAndMockModularForms §§2.4 and 3.5 owns q-binomial and ordinary partition-series interfaces. Its Macdonald admissibility contract below asks that one roadmap for both generic modified Macdonald admissibility and Mellit's regular-sequence deformation theorem. RepresentationTheory/SchurWeyl Layer 7 supplies finite-variable Schur polynomials and the Frobenius characteristic. Its stable symmetric-function continuation is specified by the separate contract below, including the Hall pairing and finite-alphabet maps. The Macdonald contract depends on that continuation, with no second symmetric-function carrier. The generic theorem is an input to Layer 10, whose own deformation is the curve partition identity.
-- DeligneWeightsAndPurity §§0.10, 0.12, 0.16–0.18, 7.15 and 10.5 owns Frobenius linear algebra, projective purity and equidistribution. EtaleDualityAndPerverseSheaves §§0.4 and 0.6–0.7 owns duality and trace comparisons. CohomologicalPointCounting’s “The combined endpoint” section and ComplexComparisonPartII §C6.6 own compact cohomology and comparison. Section 9.3 compares the compact cohomology of a fixed complex Higgs space with a finite-field fibre of its spread-out.
+- DeligneWeightsAndPurity §§0.10, 0.12, 0.16–0.18, 7.15 and 10.5 owns Frobenius linear algebra, projective purity and equidistribution. EtaleDualityAndPerverseSheaves §§0.4 and 0.6–0.7 owns duality and trace comparisons. EtaleCohomologyFoundations §§0.7–0.8, F.2.4–F.2.5, F.3 and F.4.5–F.4.6 owns compact cohomology, its base change and its rational realization; InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T3–IG.0.T4 owns the trace formula; ComplexComparisonPartII §C6.6 owns comparison. Section 9.3 compares the compact cohomology of a fixed complex Higgs space with a finite-field fibre of its spread-out.
 - Mathlib already has Young diagrams, transpose, Jacobson-radical structure and the general-linear-group cardinality; Tau Ceti already has arm and leg lengths; these are used with their pinned hypotheses. No second partition carrier or general-linear-group counting theorem is planned.
 
 Mellit's parabolic theorem is outside this roadmap. It states that every marked count of §11.1, with flags padded by zero jumps to a common length, is the corresponding coefficient of the plethystic logarithm H^HLV of the genus-g Hausel–Letellier–Rodriguez-Villegas kernel with one puncture per marked point, taken at t=1. That coefficient lies in ℚ[q,σ_1^(±1),…,σ_g^(±1)], where σ_i is one Frobenius coordinate from each reciprocal pair; its average over the reciprocal Weyl group is an element of R_g with the same curve specializations, and the coefficient does not depend on the degree (M20P, arXiv v1, Theorem 7.1 and Corollary 7.4, pp.54–55; M20P line 2433 and M20P line 2503). Its route goes through parabolic sheaves with nilpotent endomorphisms and the affine Springer fibre interpretation of modified Macdonald polynomials; §11.2 proves the K_g statement by the parabolic Hall route.
@@ -177,15 +177,19 @@ What EtaleDualityAndPerverseSheaves must provide (gap:affine-bundle-compact-shif
 
 Section 0.4 supplies top cohomology on the geometric components, including Frobenius descent; §0.6 supplies rational realization. Its dimension counts geometric components even if Frobenius permutes them; its trace counts the fixed components. For two exchanged components the top representation has dimension 2 and trace 0 at the first Frobenius power, so dimension is not inferred from that trace alone.
 
-### From TauCetiRoadmap.CohomologicalPointCounting
+### From TauCetiRoadmap.EtaleCohomologyFoundations
 
-Its “The combined endpoint” section, using FrobeniusGeometry, CompactSupport Layers 6–8, EllAdicRealization Layers 7–9 and TraceFormula Layers 11–12, supplies geometric compact cohomology, localization and the Grothendieck trace formula on finite-type schemes, with the scheme-Frobenius/geometric-Galois convention bridge. Use the constructible compact direct-image complexes of CompactSupport Layer 8 and EllAdicRealization Layer 9 and the coefficient comparisons below in finite-type spread-outs. For A¹ and G_m, the compact alternating traces are respectively q and q−1; ordinary cohomology would give the wrong latter trace.
+Sections 0.7–0.8 and F.2.4–F.2.5 supply compactly supported cohomology of separated finite-type schemes, with localization triangles, Mayer–Vietoris, proper comparison and arbitrary base change of the compact direct image. Section F.3 supplies bounded constructibility of the compact direct image and finite, bounded, perfect geometric compact cohomology. Sections F.4.5–F.4.6 supply the rational realization, finite-dimensional H_c^i with continuous Galois action, and the finite-field Frobenius actions on it. Sections F.10.1–F.10.2b supply rational points as Frobenius fixed points and the scheme-Frobenius/geometric-Galois convention bridge. Use the constructible compact direct-image complexes of §§F.3 and F.4.5 and the coefficient comparisons below in finite-type spread-outs.
+
+### From TauCetiRoadmap.InverseGaloisAndArithmeticFundamentalGroups
+
+Sections IG.0.T3–IG.0.T4 supply the rational constructible Grothendieck–Lefschetz trace formula for every finite extension and the constant-sheaf point count `#X(F_{q^r})=∑_i(−1)^i Tr(Frob_q^r | H_c^i(X_kbar,Q_ℓ))` on separated finite-type schemes over a finite field. For A¹ and G_m, the compact alternating traces are respectively q and q−1; ordinary cohomology would give the wrong latter trace.
 
 ### From TauCetiRoadmap.ComplexComparisonPartII
 
 Sections C6.3–C6.6 supply ordinary and compact-support étale–singular comparison for separated finite-type complex schemes, finite, integral and rational coefficients, compatible with localization, cups and traces. Use the constant coefficient object on the Higgs scheme, with the normalized rational realization and the uniform constructibility bounds of C6.6.
 
-Section 9.3 uses a dense open with locally constant compact-cohomology ranks in a spread-out of the specified complex curve and its Higgs space. CompactSupport Layer 8 and EllAdicRealization Layer 9 supply constructibility and coefficient realization; no identification of unrelated complex curves is required.
+Section 9.3 uses a dense open with locally constant compact-cohomology ranks in a spread-out of the specified complex curve and its Higgs space. EtaleCohomologyFoundations §§F.3 and F.4.5 supply constructibility and coefficient realization; no identification of unrelated complex curves is required.
 
 ## How to read the build
 
@@ -1278,7 +1282,7 @@ Prove the following statement. For g≥1,r>0,gcd(r,d)=1 and ℓ≠p, the geometr
 
 One route is as follows. The proper weighted Hitchin map gives limits and projective smooth fixed components. Use the symplectic form of scaling weight one to pair tangent weights a and 1−a and obtain the dimension identities. Apply the BB filtrations and the compact cohomology of affine bundles. Purity of the projective bases forces the spectral sequences to degenerate by weights; use the opposite action on the reduced core Λ. The comparisons with Λ_sch use reduction invariance, not affine strata on the thickening.
 
-*Needs:* §7.3; §8.1; DeligneWeightsAndPurity §§0.10, 0.12, 0.16–0.18, 1.7; EtaleDualityAndPerverseSheaves §§0.4, 0.6–0.7; CompactSupport Layers 6–8; EllAdicRealization Layers 7–9; TraceFormula Layers 11–12; DeligneWeightsAndPurity §§7.15, 8.8–8.11; EtaleDualityAndPerverseSheaves, affine-bundle contract.
+*Needs:* §7.3; §8.1; DeligneWeightsAndPurity §§0.10, 0.12, 0.16–0.18, 1.7; EtaleDualityAndPerverseSheaves §§0.4, 0.6–0.7; EtaleCohomologyFoundations §§0.7–0.8, F.2.4–F.2.5, F.3, F.4.5–F.4.6; InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T3–IG.0.T4; DeligneWeightsAndPurity §§7.15, 8.8–8.11; EtaleDualityAndPerverseSheaves, affine-bundle contract.
 
 **Checks.**
 
@@ -1303,9 +1307,9 @@ One route is as follows. Clear the q^m−1 denominators by a monic polynomial in
 
 Prove the following statement. For a smooth connected projective complex curve of genus g≥1 and gcd(r,d)=1, define the signed polynomial P_c(H;t)=∑_n(−1)^n dim H_c^n(H(C),Q)t^n. Then `P_c(H;t)=t^{2D}A_{g,r,d}(t,…,t)`, with q=t² in the paired relation. The unsigned polynomial is `t^{2D}A_{g,r,d}(−t,…,−t)`. The top compact degree is 4D. (S16, Corollary 1.3, p.300; §6.10, pp.350–351; S16 line 122).
 
-One route is as follows. For the specified complex curve, spread the curve, a degree-d line class and the coprime stable Higgs moduli over a finitely generated integral subring R⊂ℂ, inverting an auxiliary prime ℓ. Shrink Spec R so that the curve is smooth projective of genus g and the separated finite-type Higgs scheme π has the base-change moduli interpretation of §7.3. CompactSupport Layer 8 and EllAdicRealization Layer 9 make Rπ_!ℚ_ℓ bounded constructible. Choose a dense connected open U on which each of its finitely many cohomology sheaves is lisse. The embedding R→ℂ lands over the generic point, hence in U. Choose a closed point s∈U, whose residue field is finite. Compact base change identifies both stalks with the respective geometric compact cohomology; lissity makes their dimensions equal in every degree. Apply §§8.3 and 9.1–9.2 at s, then the compact Artin comparison of ComplexComparisonPartII §§C6.4 and C6.6 at ℂ. This proves the formula for the given complex fibre without a genus-wise topological identification (S16, §6.10, p.351; S16 line 3020).
+One route is as follows. For the specified complex curve, spread the curve, a degree-d line class and the coprime stable Higgs moduli over a finitely generated integral subring R⊂ℂ, inverting an auxiliary prime ℓ. Shrink Spec R so that the curve is smooth projective of genus g and the separated finite-type Higgs scheme π has the base-change moduli interpretation of §7.3. EtaleCohomologyFoundations §§F.3 and F.4.5 make Rπ_!ℚ_ℓ bounded constructible. Choose a dense connected open U on which each of its finitely many cohomology sheaves is lisse. The embedding R→ℂ lands over the generic point, hence in U. Choose a closed point s∈U, whose residue field is finite. Compact base change identifies both stalks with the respective geometric compact cohomology; lissity makes their dimensions equal in every degree. Apply §§8.3 and 9.1–9.2 at s, then the compact Artin comparison of ComplexComparisonPartII §§C6.4 and C6.6 at ℂ. This proves the formula for the given complex fibre without a genus-wise topological identification (S16, §6.10, p.351; S16 line 3020).
 
-*Needs:* §7.3; §8.3; §9.2; §9.1; CompactSupport Layers 6–8; EllAdicRealization Layers 7–9; TraceFormula Layers 11–12; ComplexComparisonPartII §§C6.3–C6.6; CohomologicalPointCounting, The combined endpoint.
+*Needs:* §7.3; §8.3; §9.2; §9.1; EtaleCohomologyFoundations §§0.7–0.8, F.2.4–F.2.5, F.3, F.4.5–F.4.6; InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T3–IG.0.T4; ComplexComparisonPartII §§C6.3–C6.6.
 
 **Checks.**
 
@@ -1319,7 +1323,7 @@ Prove the following statement. For g≥1 and gcd(r,d)=1, Λ=(Λ_sch)_red is pure
 
 One route is as follows. Combine the two BB formulas using m_i+b_i=D and projective Poincaré duality on each Z_i. Take traces to obtain the reciprocal formula with q^D. Use purity and the degree shifts by twice the affine ranks to identify top cohomology with the origin coefficient; use top cohomology of a proper equidimensional scheme to count geometric components.
 
-*Needs:* §9.1; §9.2; §9.3; EtaleDualityAndPerverseSheaves §§0.4, 0.6–0.7; CompactSupport Layers 6–8; EllAdicRealization Layers 7–9; TraceFormula Layers 11–12.
+*Needs:* §9.1; §9.2; §9.3; EtaleDualityAndPerverseSheaves §§0.4, 0.6–0.7; EtaleCohomologyFoundations §§0.7–0.8, F.2.4–F.2.5, F.3, F.4.5–F.4.6; InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T3–IG.0.T4.
 
 **Checks.**
 
@@ -1335,14 +1339,14 @@ In rank one and genus two, the signed compact polynomial is t⁴(1−t)⁴ and t
 - §8.1.
 - DeligneWeightsAndPurity §§0.10, 0.12, 0.16–0.18, 1.7.
 - EtaleDualityAndPerverseSheaves §§0.4, 0.6–0.7.
-- CompactSupport Layers 6–8; EllAdicRealization Layers 7–9; TraceFormula Layers 11–12.
+- EtaleCohomologyFoundations §§0.7–0.8, F.2.4–F.2.5, F.3, F.4.5–F.4.6; InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T3–IG.0.T4.
 - DeligneWeightsAndPurity §§7.15, 8.8–8.11.
 - EtaleDualityAndPerverseSheaves, affine-bundle contract.
 - §8.3.
 - §4.9.
 - §0.1.
 - §6.5.
-- ComplexComparisonPartII §§C6.3–C6.6; CohomologicalPointCounting, The combined endpoint.
+- ComplexComparisonPartII §§C6.3–C6.6.
 
 ## Layer 10: Mellit integrality and degree independence
 
