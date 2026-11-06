@@ -757,7 +757,8 @@ Use `Finsupp.logHeight`; `Height`: `mulHeight`, `logHeight₁_eq_logHeight`, `He
 
 ### 1.4 Wronskians and separation of variables
 
-Define `Polynomial.hasseWronskian` as follows. Define `hasseWronskian g` as det(Dᵏgₗ) with rows 0≤k<m. The empty determinant is 1. Over any commutative ring, multiplying by ∏k<m k! gives the ordinary Wronskian; for two columns it is g₀g₁′−g₀′g₁. (P22, Def. 3.3.1, pp. 85-87.)
+Use the native `Polynomial.hasseWronskian` from Tau Ceti's
+`RingTheory/Polynomial/HasseWronskian.lean`: det(Dᵏgₗ) with rows 0≤k<m. The empty determinant is 1. Over any commutative ring, multiplying by ∏k<m k! gives the ordinary Wronskian; for two columns it is g₀g₁′−g₀′g₁. (P22, Def. 3.3.1, pp. 85-87.)
 
 Its API includes `Polynomial.hasseWronskian_fin_two`: W(a, b)=Mathlib's wronskian a b=a b' − a' b; `Polynomial.hasseWronskian_fin_zero`: The empty Wronskian is 1; `Polynomial.hasseWronskian_fin_one`: W(g_0)=g_0; `Polynomial.prod_factorial_mul_hasseWronskian`: (∏_k k!) W(g)=det(derivative^[k] g_l), the classical Wronskian (Remark 3.3.6); `Polynomial.hasseWronskian_eq_zero_of_not_linearIndependent`: Linearly dependent families have W=0 (Lemma 3.3.2); `Polynomial.hasseWronskian_comp_perm`: Permuting the family multiplies W by the sign; `Polynomial.hasseWronskian_map`: W commutes with coefficient ring maps.
 
@@ -778,6 +779,71 @@ is imposed on the converse below.
 - Over ℤ/4ℤ the singleton constant 2 is dependent, since 2·2=0, but W(2)=2≠0. A commutative ring is insufficient for dependence to imply vanishing; the characteristic-zero ring ℚ×ℚ has the analogous example (1,0).
 
 For polynomial families over a characteristic-zero field, linear independence is equivalent to nonvanishing of this Wronskian. (P22, Lem. 3.3.2, Prop. 3.3.3, pp. 86.)
+
+#### Degree and multiplicity estimates for polynomial spaces
+
+On the same native carrier, prove the following general bounds. For `g : Fin ℓ → K[X]`
+over a field and nonzero Wronskian `W(g)`,
+
+\[
+\deg W(g)+\ell(\ell-1)/2\le\sum_j\deg g_j.
+\]
+
+The nonvanishing hypothesis makes every column nonzero. Give the `natDegree` form
+with `Σ_{k<ℓ} k` for the derivative deduction, and the common-degree-cap consequence
+`natDegree W + ℓ(ℓ-1)/2 ≤ ℓ d` when all column degrees are at most `d`.
+Include the coarse bound `natDegree W ≤ ℓ d` valid even for zero Wronskians,
+and the empty determinant convention. These are determinant-expansion bounds using
+`degree (D^[k] f) ≤ degree f - k`; vanishing entries contribute no nonzero term.
+
+Let `V ≤ K[X]` have dimension `ℓ`, with `K` of characteristic zero, let `b` be any
+basis indexed by `Fin ℓ`, and let `0 ≠ f ∈ V`. At any `a : K`, if `f` has root
+multiplicity `m`, prove
+
+\[
+(X-a)^{(m+1)-\ell}\mid W(b).
+\]
+
+The exponent uses natural subtraction, so it is `max(0,m-ℓ+1)` in integer notation.
+Equivalently, `rootMultiplicity a W(b) ≥ (m+1)-ℓ`. Extend `f` to a basis, where its
+derivative column has the required common factor, then use the constant nonzero
+determinant of the basis change and the existing characteristic-zero Wronskian
+criterion. Do not require every vector of `V` to vanish to order `m`.
+
+Prove invariance of these multiplicity bounds under changing the basis and extending
+the coefficient field. For a finite set of distinct points `S`, allow a different
+nonzero `f_a ∈ V` at each point, and export
+
+\[
+\sum_{a\in S}\bigl((\operatorname{mult}_a f_a+1)-\ell\bigr)
+\le \deg W(b).
+\]
+
+Use the existing root-multiplicity sum bound and state nonvanishing of `W(b)` before
+converting divisibility to a numerical bound. The zero-dimensional space has no
+nonzero `f`; the empty set of points gives the empty sum.
+
+**Source and derivation.** P22 §3.3 supplies the determinant, nonvanishing, and
+basis-change machinery. The degree estimate follows term by term from the Hasse
+coefficient formula. The multiplicity estimate is the basis-extension and single-column
+factor argument just given, using the classical fact that differentiation loses at
+most its order in root multiplicity. These are elementary polynomial-space consequences,
+independent of any particular bivariate specialization or auxiliary matrix.
+
+**Checks.** For `ℓ=1` the multiplicity bound is equality. For `V=span(1,X^m)`,
+`m≥1`, the two-column Wronskian has multiplicity `m-1` at zero. For
+`V=span(1,X,…,X^(ℓ-1))` the Hasse Wronskian is one and the degree deduction is
+sharp. Keep the characteristic-zero hypothesis in the polynomial-space nonvanishing
+and numerical multiplicity consequences; the existing `𝔽₂` example still applies.
+
+`WronskianBounds.lean` prototypes these interfaces directly against the implemented
+carrier. Arithmetic interpolation consumes the bounds; it does not own another
+Wronskian or a new absolute value. A rank argument for a particular bivariate
+specialization is an application, rather than part of these general estimates.
+For related upstream work, [Mathlib PR #42046](https://github.com/leanprover-community/mathlib4/pull/42046)
+develops two-polynomial Wronskian dependence lemmas. Follow its API where it overlaps;
+the finite-family degree and polynomial-space multiplicity bounds here use the
+native Hasse Wronskian and include their own constructions.
 
 Define `MvPolynomial.genWronskian` as follows. Define `genWronskian D f` as det(D^(Dₖ)fₗ). An admissible row family satisfies |Dₖ|≤k with indices starting at 0; admissibility is a theorem hypothesis. (P22, p. 87.)
 

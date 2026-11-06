@@ -1,6 +1,7 @@
 import Mathlib
 import TauCeti.NumberTheory.NumberField.Global.Places.Extension
 import TauCeti.RingTheory.KrullDimension.FiniteType
+import TauCeti.RingTheory.Polynomial.HasseWronskian
 
 /-!
 # DiophantineApproximationAndTranscendence: representative target signatures
@@ -631,16 +632,7 @@ example : l1Norm ((_root_.Polynomial.X - 1) ^ 2 : ℤ[X]) = 4 := sorry
 /-- Unit test `Polynomial.l1Norm.test_one`: ‖1‖ = 1 in ℤ[X]. -/
 example : l1Norm (1 : ℤ[X]) = 1 := sorry
 
-section hasseWronskian
-
-variable {R : Type*} [CommRing R]
-
-/-- The Wronskian of a family of one-variable polynomials, built from divided derivatives:
-`det (hasseDeriv k (g l))`. -/
-noncomputable def hasseWronskian {m : ℕ} (g : Fin m → R[X]) : R[X] :=
-  Matrix.det (Matrix.of fun (k l : Fin m) => _root_.Polynomial.hasseDeriv (k : ℕ) (g l))
-
-end hasseWronskian
+open _root_.Polynomial (hasseWronskian)
 
 /-- Dependence over an integral domain forces the divided-derivative Wronskian to vanish. -/
 theorem hasseWronskian_eq_zero_of_not_linearIndependent {R : Type*} [CommRing R]
