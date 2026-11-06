@@ -13,11 +13,12 @@ the file states nothing. The headline theorems, and what each lacks, are:
   coordinate changes on zero fibers, quotient, freeness, product-projection and covering
   axioms), the virtual cochain complex of Layer V2 (the finite interval/flag total of Layer
   V0.11 applied to relative invariant singular chains on deformation spaces) and cover-colimit
-  Čech cohomology with sheaf coefficients on compact Hausdorff spaces (Layer V0.7). None
-  exists at the pins: Mathlib's `CategoryTheory.cechComplexFunctor` is the Čech complex of one
-  fixed cover, its `CategoryTheory.Sheaf.H` is derived-functor cohomology on a site that the
-  roadmap does not compare with its Čech cohomology, and the virtual class is a functional
-  constructed from these complexes.
+  Čech cohomology with sheaf coefficients (TopologicalSheafCohomology TS1.2, the carrier that
+  Layer V0.7 fixes for every Čech group here). None exists at the pins: Mathlib's
+  `CategoryTheory.cechComplexFunctor` and Tau Ceti's ordered Čech complex are complexes of one
+  fixed cover, Mathlib's `CategoryTheory.Sheaf.H` is derived-functor cohomology on a site, which
+  this roadmap does not use, and the virtual class is a functional constructed from these
+  complexes.
 * The boundary law, cobordism and refinement invariance, regular-manifold normalization and the
   Euler comparison (Layer V5). They need the virtual class, relative Čech cohomology of the pair
   (X, ∂X) and, for the Euler comparison, the zero-set atlas of a smooth section.

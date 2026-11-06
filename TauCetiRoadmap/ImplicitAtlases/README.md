@@ -6,7 +6,7 @@
 
 This roadmap owns:
 
-- finite-index group products, obstruction sums, integral orientation lines of real vector spaces and their sign conventions, finite-group invariant chains and the independent-parity adapters used by the engine, together with the sheaf theory on locally compact Hausdorff spaces that the engine runs on: K-sheaves and homotopy K-sheaves, Čech cohomology with sheaf coefficients on compact Hausdorff spaces, pure homotopy K-sheaves, extension by zero and finite quotients, manifold orientation sheaves with closed-subset duality, and finite interval diagrams with pure gluing (Layer 0);
+- finite-index group products, obstruction sums, integral orientation lines of real vector spaces and their sign conventions, finite-group invariant chains and the independent-parity adapters used by the engine, together with the sheaf theory on locally compact Hausdorff spaces that the engine runs on: K-sheaves and homotopy K-sheaves, compact supports and pullbacks of Čech cohomology with sheaf coefficients, the compact-cover Čech hypercohomology of complexes of K-presheaves on compact Hausdorff spaces and its comparison with the open-cover hypercohomology of TopologicalSheafCohomology §1.4, pure homotopy K-sheaves, extension by zero and finite quotients, manifold orientation sheaves with closed-subset duality, and finite interval diagrams with pure gluing (Layer 0);
 - topological implicit atlases with and without boundary, their smooth enhancement, subatlases, restrictions and reindexing (Layer 1);
 - deformation spaces, partial and global virtual cochain complexes and their interval diagrams (Layer 2);
 - local orientability, the virtual orientation sheaf, partial and global purity and the virtual/Čech comparison (Layer 3);
@@ -17,8 +17,9 @@ This roadmap owns:
 
 What it builds on, and does not plan again:
 
-- **AlgebraicTopology.** Relative singular chains and local coefficients (Stage 2), subdivision, excision and Mayer–Vietoris (Stage 3), the Alexander–Whitney, shuffle and Eilenberg–Zilber maps with their relative and local-coefficient versions (Stage 5, item 1), cochains, cup and cap products, the cup/cross comparison, and manifold orientation and duality with the compact-support local-homology lemma on boundaryless second-countable manifolds (Stage 6).
+- **AlgebraicTopology.** Relative singular chains, coordinate orientations and local coefficients (Layer 2), subdivision, excision and Mayer–Vietoris (Layer 3), the Alexander–Whitney, shuffle and Eilenberg–Zilber maps with their relative and local-coefficient versions (§5.1), cochains, cup and cap products, the cup/cross comparison, and manifold orientation and duality with the compact-support local-homology lemma on boundaryless second-countable manifolds (Layer 6, §§6.1–6.4).
 - **CharacteristicClasses.** The constant-coefficient Čech/singular comparison on paracompact Hausdorff spaces of CW type (§C1.2b) the Thom class of an oriented vector bundle (§C2, item 1) and the representation of the Euler class by the zero locus of a transverse section (§C2, item 3).
+- **TopologicalSheafCohomology.** The open-cover Čech complex and Čech cohomology of a presheaf of modules on any space, with refinement independence, finite-cover cofinality on compact spaces and vanishing on the empty space (TS1.1–TS1.2), and the bounded-below open-cover hypercohomology of complexes of sheaves on compact Hausdorff spaces with its first spectral sequence (§1.4). Every Čech group of this roadmap, the domain of the virtual class included, is the Čech cohomology of TS1.2.
 - **DGAInfinity, Layer 0.** Signed graded tensor and Koszul-sign conventions for complexes.
 - **AbelianSchemesAndArithmeticModuliPartII, §B2.9.** Invariance of domain in equal real dimension: a continuous injection from an open subset of ℝ^m to ℝ^m is an open embedding, and its consequence for boundaryless topological manifolds. Layer 6 consumes it and proves only the cell-like-stratum consequences.
 
@@ -38,7 +39,7 @@ The engine takes an implicit atlas as input. It does not construct nodal curve d
 | Complexes | Cochain degree q ∈ ℤ, differential of degree +1; native shift `C[k]^q = C^(q+k)` with differential `(−1)^k d` |
 | Parity | The source differential is odd; the independent parity τ = σ − q of §0.5 is retained, not only the native cochain sign |
 | Orientation hypothesis | Every statement involving the virtual orientation sheaf, the Čech comparison, the virtual class or its laws assumes the atlas is locally orientable (§3.1); Layers 1 and 2 and the chain-level constructions do not |
-| Class | A functional on degree-d Čech cohomology with coefficients in the virtual orientation sheaf, relative to the boundary where present |
+| Class | A functional on degree-d Čech cohomology (TopologicalSheafCohomology TS1.2) with coefficients in the virtual orientation sheaf, relative to the boundary where present |
 | Naturality | Dual pullback along continuous maps with stated coefficient data; no atlas-to-atlas degree formula |
 
 Signs are read in ℤ/2: an exponent such as d(q − d) with d negative is reduced modulo 2, never computed after `Int.toNat`.
@@ -50,9 +51,9 @@ Signs are read in ℤ/2: an exponent such as d(q − d) with d negative is reduc
 - `TopPair` and `TopPair.ofSubset` (Mathlib/Topology/Category/TopPair.lean): a pair is an embedding A → X; the subset constructor gives the pair (X, A) for A ⊆ X. No compactness, Hausdorffness or nonemptiness is part of the structure. Used for (D, D∖Z_K) in Layer 2 and (E, E∖0) in Layer 0 and Layer 4.
 - `Representation`, `Representation.invariants`, `GroupAlgebra.average`, `Representation.averageMap` and `Representation.isProj_averageMap` (Mathlib/RepresentationTheory/Invariants.lean): fixed vectors of a representation and the averaging projection, which requires the group order to be invertible in the ground ring. Used in §0.3.
 - `CochainComplex.shiftFunctor` (Mathlib/Algebra/Homology/HomotopyCategory/Shift.lean): the shift `K[n]^i = K^(i+n)` with differential multiplied by `(−1)^n`. Used for every reindexing comparison in Layer 2, Layer 4 and Layer 7.
-- `CategoryTheory.cechComplexFunctor` (Mathlib/CategoryTheory/Sites/SheafCohomology/Cech.lean): the Čech complex of a presheaf on a fixed cover. Used in §0.7 on a fixed cover and through §0.7 in §6.5.
-- `TopCat.Sheaf` (Mathlib/Topology/Sheaves/Sheaf.lean), `TopCat.Presheaf.stalk` (Mathlib/Topology/Sheaves/Stalks.lean), `TopCat.Sheaf.pushforward` and `TopCat.Sheaf.pullback` (Mathlib/Topology/Sheaves/Functors.lean): sheaves on a topological space, stalks, and pushforward and pullback along a continuous map. Mathlib has no extension by zero, no K-sheaves and no colimit-over-covers Čech cohomology; §0.6–§0.9 construct them.
-- `CategoryTheory.Sheaf.H` (Mathlib/CategoryTheory/Sites/SheafCohomology/Basic.lean): derived-functor cohomology of an abelian sheaf on a site, the `Ext` groups from the constant sheaf ℤ. Not used: the engine uses only the Čech cohomology of §0.7, and no target of this roadmap compares the two.
+- `CategoryTheory.cechComplexFunctor` (Mathlib/CategoryTheory/Sites/SheafCohomology/Cech.lean): the Čech complex of a presheaf on a fixed cover. Used through TopologicalSheafCohomology TS1.1 in §0.7 and §6.5.
+- `TopCat.Sheaf` (Mathlib/Topology/Sheaves/Sheaf.lean), `TopCat.Presheaf.stalk` (Mathlib/Topology/Sheaves/Stalks.lean), `TopCat.Sheaf.pushforward` and `TopCat.Sheaf.pullback` (Mathlib/Topology/Sheaves/Functors.lean): sheaves on a topological space, stalks, and pushforward and pullback along a continuous map. Mathlib has no extension by zero, no K-sheaves and no colimit-over-covers Čech cohomology; §0.6 and §0.9 construct the first two, and TopologicalSheafCohomology TS1.2 supplies the third.
+- `CategoryTheory.Sheaf.H` (Mathlib/CategoryTheory/Sites/SheafCohomology/Basic.lean): derived-functor cohomology of an abelian sheaf on a site, the `Ext` groups from the constant sheaf ℤ. Not used: the engine uses only Čech cohomology; its comparison with derived-functor cohomology on compact Hausdorff spaces is TopologicalSheafCohomology §1.3 and is not an input here.
 - `TopologicalSpace.Compacts`: compact subsets, the index category of K-presheaves in Layer 2 and Layer 3.
 - `ModuleCat`, `TopCat`, `Module.finrank`, `EuclideanSpace` and `Topology.IsOpenEmbedding`: the carriers of coefficients, spaces, obstruction dimensions, local models and open embeddings.
 
@@ -65,16 +66,22 @@ Signs are read in ℤ/2: an exponent such as d(q − d) with d negative is reduc
 
 ### From TauCetiRoadmap.AlgebraicTopology
 
-- Stage 2: relative singular chains, homology of pairs and local coefficient systems. Used in §0.2, §0.4 and §0.10.
-- Stage 3: subdivision, excision and binary Mayer–Vietoris with local coefficients. Used in §0.10 and §3.2.
-- Stage 5, item 1: the Alexander–Whitney, shuffle and Eilenberg–Zilber chain-homotopy equivalences for singular chains with their natural, local-coefficient and relative versions. Used in §0.4.
-- Stage 6: cochains, cup and cap products, the cup/cross comparison, and manifold orientation and duality on its Hausdorff second-countable carriers, including the compact-support local-homology lemma: for a boundaryless m-manifold U, a compact K ⊆ U and a module-valued local system L, H_i(U, U∖K; L) = 0 for i > m. Used in §0.10, §5.5 and §7.3.
+- Layer 2 (§2.1, §2.3, §2.5, §2.6): relative singular chains, homology of pairs, the coordinate orientation generators of local homology and local coefficient systems. Used in §0.2, §0.4 and §0.10.
+- Layer 3 (§§3.1–3.4): subdivision, excision and binary Mayer–Vietoris with local coefficients. Used in §0.10 and §3.2.
+- §5.1: the Alexander–Whitney, shuffle and Eilenberg–Zilber chain-homotopy equivalences for singular chains with their natural, local-coefficient and relative versions. Used in §0.4.
+- Layer 6: cochains (§6.1), cup and cap products and the cup/cross comparison (§6.2), and manifold orientation and duality on its Hausdorff second-countable carriers (§§6.3–6.4), including the compact-support local-homology lemma of §6.3: for a boundaryless m-manifold U, a compact K ⊆ U and a module-valued local system L, H_i(U, U∖K; L) = 0 for i > m. Used in §0.10, §5.5 and §7.3.
 
 ### From TauCetiRoadmap.CharacteristicClasses
 
 - §C1.2b: the Čech/singular comparison with constant coefficients on paracompact Hausdorff spaces of CW type. Used in §5.5.
 - §C2, item 1: the Thom class of an oriented real vector bundle with its naturality and uniqueness. Used for the diagonal Thom class in §7.3 and the Euler pairing in §5.6.
 - §C2, item 3: the zero locus of a transverse smooth section, with its orientation, represents the Euler class through the Thom class. Used in §5.6.
+
+### From TauCetiRoadmap.TopologicalSheafCohomology
+
+- TS1.1 (§1.1): for an indexed family of opens and a presheaf of R-modules on an arbitrary space, the tuple, ordered and order-free Čech complexes with their comparisons, including repeated indices, raw refinement maps and their prism homotopies. Used in §0.7 and §6.5.
+- TS1.2 (§1.2): open-cover Čech cohomology of a presheaf of R-modules as the filtered colimit over covers, independent of refinement functions, computed by finite covers on compact spaces, zero in negative degrees, equal to the sections of a sheaf in degree 0, zero on the empty space, and natural in coefficients and in restriction to open subspaces. Used in §0.7 and, through §0.7, for every Čech group of this roadmap.
+- §1.4: for a complex of sheaves on a compact Hausdorff space bounded below by one integer, the open-cover Čech hypercohomology with its strongly convergent first spectral sequence `E₁^(p,q) = Čech^q(X; F^p)`. Used in §0.7.
 
 ### From TauCetiRoadmap.DGAInfinity
 
@@ -86,7 +93,7 @@ Signs are read in ℤ/2: an exponent such as d(q − d) with d negative is reduc
 
 ## How to read the build
 
-Layer 0 fixes the coefficient, orientation-line, invariant and parity conventions and builds the sheaf theory the engine runs on: K-sheaves, Čech cohomology on compact Hausdorff spaces, purity, extension by zero and finite quotients, manifold duality for closed subsets and finite interval diagrams with pure gluing. Layer 1 states the atlas axioms on topological data only. Layer 2 builds deformation spaces from the atlas and their chain complexes; nothing there needs an orientation hypothesis. Layer 3 introduces local orientability, constructs the virtual orientation sheaf and proves that the virtual complex computes Čech cohomology with coefficients in it. Layer 4 defines the global relative trace and composes it with the Layer 3 comparison to obtain the virtual class, then proves it is independent of the finite subatlas. Layer 5 proves the standard laws of that class. Layer 6 adds cell-like strata and products; Layer 7 constructs fiber-product atlases and identifies the virtual class of a fiber product with a supported Gysin pairing. Every layer after Layer 0 is built only from earlier layers and the suppliers above.
+Layer 0 fixes the coefficient, orientation-line, invariant and parity conventions and builds the sheaf theory the engine runs on: K-sheaves, compact supports and pullbacks of the Čech cohomology of TopologicalSheafCohomology, compact-cover Čech hypercohomology and its comparison with open-cover hypercohomology, purity, extension by zero and finite quotients, manifold duality for closed subsets and finite interval diagrams with pure gluing. Layer 1 states the atlas axioms on topological data only. Layer 2 builds deformation spaces from the atlas and their chain complexes; nothing there needs an orientation hypothesis. Layer 3 introduces local orientability, constructs the virtual orientation sheaf and proves that the virtual complex computes Čech cohomology with coefficients in it. Layer 4 defines the global relative trace and composes it with the Layer 3 comparison to obtain the virtual class, then proves it is independent of the finite subatlas. Layer 5 proves the standard laws of that class. Layer 6 adds cell-like strata and products; Layer 7 constructs fiber-product atlases and identifies the virtual class of a fiber product with a supported Gysin pairing. Every layer after Layer 0 is built only from earlier layers and the suppliers above.
 
 ## Layer 0: Coefficients, local orientations, sheaf cohomology and chain interfaces (V0)
 
@@ -108,7 +115,7 @@ Define, for a finite subset I of the index type A, the group Γ_I = ∏_(α∈I)
 
 ### 0.2 Orientation lines of real vector spaces
 
-Define the integral orientation line of a finite-dimensional real vector space E of dimension m as `o_E = H_m(E, E∖0; ℤ)`, its scalar extension to R and its dual, and the action of a real linear automorphism by the sign of its determinant (Pardon, Definition 4.1.1, p. 34). Its independent parity is m mod 2. Construct the ordered direct-sum, tensor, dual and permutation comparisons, using AlgebraicTopology Stage 2 generators and scalar extension of local homology classes. For a rank-one integral line use the canonical pairing `o_E ⊗ o_E^∨ → ℤ` after forgetting parity. On each regular topological manifold construct the orientation sheaf/local-system dictionary, including `j_*` of the interior orientation and `j_!` for the relative version at a boundary; a boundary point's absolute local top homology is zero and is not identified with its orientation fiber.
+Define the integral orientation line of a finite-dimensional real vector space E of dimension m as `o_E = H_m(E, E∖0; ℤ)`, its scalar extension to R and its dual, and the action of a real linear automorphism by the sign of its determinant (Pardon, Definition 4.1.1, p. 34). Its independent parity is m mod 2. Construct the ordered direct-sum, tensor, dual and permutation comparisons, using the coordinate orientation generators of AlgebraicTopology §2.5 and scalar extension of local homology classes. For a rank-one integral line use the canonical pairing `o_E ⊗ o_E^∨ → ℤ` after forgetting parity. On each regular topological manifold construct the orientation sheaf/local-system dictionary, including `j_*` of the interior orientation and `j_!` for the relative version at a boundary; a boundary point's absolute local top homology is zero and is not identified with its orientation fiber.
 
 - `o_E` is free of rank one, and a linear automorphism acts by the sign of its determinant.
 - The ordered identification `o_(E⊕F) ≅ o_E ⊗ o_F` is natural in isomorphisms and associative; exchanging the summands acts by `(−1)^(dim E · dim F)`.
@@ -120,7 +127,7 @@ Define the integral orientation line of a finite-dimensional real vector space E
 - For E = ℝ: the reflection x ↦ −x acts on `o_ℝ = H_1(ℝ, ℝ∖0) ≅ ℤ` by −1 and the scaling x ↦ 2x acts by +1; a model acting by the determinant itself would give 2.
 - For E = ℝ ⊕ ℝ: exchanging the two odd factors of `o_ℝ ⊗ o_ℝ` acts by −1, while −id on ℝ² acts by +1 and −id on ℝ³ acts by −1.
 
-*Needs:* AlgebraicTopology Stage 2; §0.10 for the manifold dictionary.
+*Needs:* AlgebraicTopology Layer 2; §0.10 for the manifold dictionary.
 
 ### 0.3 Finite-group invariants
 
@@ -140,7 +147,7 @@ Use Mathlib's `Representation.invariants` and averaging `Representation.averageM
 
 ### 0.4 Relative chains and product adapters
 
-Reuse Tau Ceti's `TopPair.singularChainComplexFunctor` and `TopPair.twistedChainComplex` as the quotient by subspace chains, extending the homological index by zero below 0 before integer reindexing. Construct the coefficient, pair-map, cone and finite-group adapters. Use the Alexander–Whitney, shuffle and Eilenberg–Zilber maps with their relative and local-coefficient versions from AlgebraicTopology Stage 5 item 1, with the signed symmetry and associativity of the shuffle map, and construct their finite-group invariant versions on the pairs below, comparing with `TopCat.eilenbergZilberHomotopyEquiv`. Every strict identity used to define an interval diagram is proved on this chain model; an abstract monoidal derived equivalence is not a strict chain map.
+Reuse Tau Ceti's `TopPair.singularChainComplexFunctor` and `TopPair.twistedChainComplex` as the quotient by subspace chains, extending the homological index by zero below 0 before integer reindexing. Construct the coefficient, pair-map, cone and finite-group adapters. Use the Alexander–Whitney, shuffle and Eilenberg–Zilber maps with their relative and local-coefficient versions from AlgebraicTopology §5.1, with the signed symmetry and associativity of the shuffle map, and construct their finite-group invariant versions on the pairs below, comparing with `TopCat.eilenbergZilberHomotopyEquiv`. Every strict identity used to define an interval diagram is proved on this chain model; an abstract monoidal derived equivalence is not a strict chain map.
 
 - The relative shuffle map is a chain map on pairs `(X, A) × (Y, B) → (X × Y, A × Y ∪ X × B)`, associative and unital, with symmetry sign `(−1)^(pq)` on degrees (p, q).
 - Twisted and invariant versions are natural in coefficient morphisms and equivariant maps.
@@ -151,7 +158,7 @@ Reuse Tau Ceti's `TopPair.singularChainComplexFunctor` and `TopPair.twistedChain
 - For (ℝ, ℝ∖0): H_1 = ℤ and H_0 = 0, since ℝ∖0 has two components and ℝ one.
 - The shuffle product of two 1-simplices followed by the factor swap differs from the swapped product by −1.
 
-*Needs:* Tau Ceti `TopPair.singularChainComplexFunctor`, `TopPair.twistedChainComplex`, `TopCat.eilenbergZilberHomotopyEquiv`; AlgebraicTopology Stage 2 and Stage 5 item 1.
+*Needs:* Tau Ceti `TopPair.singularChainComplexFunctor`, `TopPair.twistedChainComplex`, `TopCat.eilenbergZilberHomotopyEquiv`; AlgebraicTopology Layer 2 and §5.1.
 
 ### 0.5 Parity normalization
 
@@ -188,10 +195,11 @@ Throughout §0.6–§0.11 a space is locally compact Hausdorff (Pardon, Conventi
 
 ### 0.7 Čech cohomology on compact Hausdorff spaces
 
-For a sheaf F of R-modules on X define Ȟ^•(X; F) as the colimit over open covers of the cohomology of the Čech complex, with refinements as transition maps, Ȟ^•_K(X; F) with supports in a compact K by replacing F(U) with the kernel of F(U) → F(U∖K), and Ȟ^•_c(X; F) as the colimit over K (Pardon, Definition A.4.3, p. 119). On a fixed cover use Mathlib's `CategoryTheory.cechComplexFunctor`; orient each Čech simplex through its orientation line, so that the differential is defined without a vertex order. For a complex of K-presheaves on compact X define Ȟ^• as the colimit over finite compact covers of the total Čech complex (Pardon, Definition A.4.10, p. 121). Define pullback along a continuous map, and along a proper map for compact supports (Pardon, Definitions A.4.6, p. 120, and A.4.21, p. 124).
+For a sheaf F of R-modules on X, Ȟ^•(X; F) is the open-cover Čech cohomology of TopologicalSheafCohomology TS1.2, the colimit over open covers with refinements as transition maps, computed on each cover with the order-free complex of TS1.1, in which each Čech simplex is oriented through its orientation line so that the differential is defined without a vertex order (Pardon, Definition A.4.3 and footnote 42, p. 119). Define Ȟ^•_K(X; F) with supports in a compact K as the TS1.2 cohomology of the presheaf U ↦ ker(F(U) → F(U∖K)), and Ȟ^•_c(X; F) as the colimit over K (Pardon, Definition A.4.3, p. 119). Every open-cover group Ȟ^•(X; F) below, the domain of the virtual class of §4.3 included, is that of TS1.2. For a complex of K-presheaves on compact X define Ȟ^• as the colimit over finite compact covers of the total Čech complex, with refinement maps and their prism homotopies given by the TS1.1 formulas on compact covers (Pardon, Definition A.4.10, p. 121). Define pullback along a continuous map, and along a proper map for compact supports (Pardon, Definitions A.4.6, p. 120, and A.4.21, p. 124).
 
-- Different refinement maps between two covers induce the same map on Čech cohomology (Pardon, Remark A.4.1, p. 119).
-- On compact X, finite open covers compute Ȟ^• and Ȟ^•_c = Ȟ^• (Pardon, Lemmas A.4.4–A.4.5, p. 120); for a sheaf, the open-cover and compact-cover definitions agree through the equivalence of §0.6 (Pardon, Lemma A.4.11, p. 122).
+- The refinement independence of the open-cover groups (Pardon, Remark A.4.1, p. 119), their computation by finite open covers on compact X (Pardon, Lemma A.4.4, p. 120) and their vanishing on the empty space (Pardon, Remark A.4.2, p. 119) are TS1.2, consumed and not proved again. The compact-cover groups are independent of the refinement maps, and Ȟ^•_c = Ȟ^• on compact X (Pardon, Lemma A.4.5, p. 120).
+- For a sheaf F on compact X, the compact-cover group of the K-sheaf attached to F by §0.6 agrees with the TS1.2 group of F (Pardon, Lemma A.4.11, p. 122).
+- For a complex F of sheaves of R-modules on compact Hausdorff X with F^q = 0 for all q < b, and F^K the complex of K-sheaves attached to it by §0.6, the open-cover hypercohomology of TopologicalSheafCohomology §1.4 is naturally isomorphic to the compact-cover Ȟ^•(X; F^K). On a finite open cover {U_i} choose compact K_i ⊆ U_i that still cover X, which exist because X is normal, and restrict F(U_I) → F^K(K_I). After the colimit the map does not depend on the shrinking. It respects the filtrations by internal degree, its first pages are the sheaf comparison above in each internal degree, and both first spectral sequences converge strongly under the lower bound, so it is an isomorphism. It is natural in F, compatible with shifts, cones and pullback along continuous maps, and for F concentrated in one degree it is the sheaf comparison.
 - A quasi-isomorphism of complexes of K-presheaves induces an isomorphism on Ȟ^•, and a bounded-below complex has the convergent Čech hypercohomology spectral sequence (Pardon, Lemmas A.4.12–A.4.13, p. 122).
 - For a complex satisfying the first two homotopy K-sheaf axioms the map H^•F(X) → Ȟ^•(X; F) is an isomorphism, and for a K-presheaf satisfying the first two K-sheaf axioms F(X) → Ȟ^0(X; F) is an isomorphism (Pardon, Proposition A.4.14, p. 122; Lemma A.4.15, p. 123).
 - For complexes satisfying the third homotopy K-sheaf axiom with homology vanishing in sufficiently negative degrees, a map that is a quasi-isomorphism on all stalks induces an isomorphism on Ȟ^•; for two such homotopy K-sheaves, a map is a quasi-isomorphism if and only if it is one on all stalks (Pardon, Proposition A.4.18 and Corollary A.4.19, p. 123).
@@ -202,8 +210,10 @@ For a sheaf F of R-modules on X define Ȟ^•(X; F) as the colimit over open cov
 - For S¹ covered by two open arcs whose intersection has two components, the Čech complex with constant coefficients ℤ is `ℤ² → ℤ²`, (a, b) ↦ (b − a, b − a), so Ȟ^0 = ℤ and Ȟ^1 = ℤ; the one-set cover {S¹} gives Ȟ^1 = 0, so a definition by one fixed cover rather than the colimit is wrong.
 - For the Warsaw circle W, Ȟ^1(W; ℤ) = ℤ while singular H^1(W; ℤ) = 0 (W is path connected with trivial singular homology in positive degrees); a definition by singular cochains would lose the class that Layer 4 pairs against.
 - For X = ∅ the empty cover is final and Ȟ^•(∅; F) = 0 (Pardon, Remark A.4.2, p. 119), in agreement with the Layer 4 class of the empty atlas.
+- Shrinking the two open arcs of the first check to the closed upper and lower semicircles, which meet in the two points (±1, 0), gives the compact-cover complex ℤ² → ℤ², (a, b) ↦ (b − a, b − a), and restriction maps the open-cover complex isomorphically onto it. Two closed arcs inside the open ones that meet in a single point do not cover S¹, and their complex ℤ² → ℤ has H^1 = 0; the shrinking must still cover X.
+- On a point, F = (ℤ → ℤ) in degrees 0 and 1 with differential 2 has open-cover and compact-cover hypercohomology ℤ/2 in degree 1 and zero otherwise, and the comparison is the identity of ℤ/2; a comparison applied to the terms of F separately, ignoring its differential, would give ℤ in degrees 0 and 1.
 
-*Needs:* §0.6; Mathlib `CategoryTheory.cechComplexFunctor`, `TopCat.Sheaf.pullback`.
+*Needs:* §0.6; TopologicalSheafCohomology TS1.1, TS1.2 and §1.4; Mathlib `CategoryTheory.cechComplexFunctor`, `TopCat.Sheaf.pullback`.
 
 ### 0.8 Pure homotopy K-sheaves
 
@@ -242,7 +252,7 @@ For an open inclusion j : U → X define j_! F as the subsheaf of j_* F of secti
 For a topological manifold M of dimension n, with no second countability or paracompactness assumed (Pardon, Convention A.6.1, p. 125), define the orientation sheaf o_M as the sheaf whose K-sections are H_n(M, M∖K), of parity n (Pardon, Definition A.6.2, p. 126). For M with boundary, inclusion j of the interior and i of the boundary, define `o_M = j_* o_(M∖∂M)` and `o_(M rel∂) = j_! o_(M∖∂M)`.
 
 - o_M and o_(M rel∂) on the interior are locally isomorphic to the constant sheaf ℤ, and `0 → o_(M rel∂) → o_M → i_* o_(∂M) → 0`, whose last map is the boundary map of the pair (M, ∂M), is exact on stalks (Pardon, Definition A.6.2, p. 126).
-- For compact K ⊆ M and a local system L of R-modules, H_q(M, M∖K; L) = 0 for q > n, uniformly in K. For a boundaryless Hausdorff second-countable M this is the compact-support local-homology lemma of AlgebraicTopology Stage 6 (Hatcher, Lemma 3.27(b), p. 236), consumed and not proved again. For a boundaryless M without second countability, excision of the closed set M∖U (Stage 3) identifies H_q(M, M∖K; L) with H_q(U, U∖K; L) for a finite union U of charts containing K, which is Hausdorff and second countable. For M with boundary this roadmap adds the half-space model, where H∖K is contractible for a compact convex K meeting the boundary hyperplane, and runs the same Mayer–Vietoris induction over compact convex pieces of charts.
+- For compact K ⊆ M and a local system L of R-modules, H_q(M, M∖K; L) = 0 for q > n, uniformly in K. For a boundaryless Hausdorff second-countable M this is the compact-support local-homology lemma of AlgebraicTopology §6.3 (Hatcher, Lemma 3.27(b), p. 236), consumed and not proved again. For a boundaryless M without second countability, excision of the closed set M∖U (AlgebraicTopology §3.3) identifies H_q(M, M∖K; L) with H_q(U, U∖K; L) for a finite union U of charts containing K, which is Hausdorff and second countable. For M with boundary this roadmap adds the half-space model, where H∖K is contractible for a compact convex K meeting the boundary hyperplane, and runs the same Mayer–Vietoris induction over compact convex pieces of charts.
 - For a closed subset i : Z → M and a closed tamely embedded codimension-0 submanifold with boundary N ⊆ ∂M, with j : M° ∪ N° → M, there is a canonical isomorphism `H^•[C_(n−1−•)(N, N∖Z) → C_(n−•)(M, M∖Z)] ≅ Ȟ^•_c(Z; i^* j_! j^* o_M)`, and for N = ∅ `H_(n−•)(M, M∖Z) ≅ Ȟ^•_c(Z; i^* o_(M rel∂))` (Pardon, Lemma A.6.4, p. 127). The route is §0.6 Lemma A.6.3, purity (§0.8) on the one-point compactification of Z and §0.9.
 
 **Checks.**
@@ -251,7 +261,7 @@ For a topological manifold M of dimension n, with no second countability or para
 - For M = Z = [0, ∞) and N = ∅: H_(1−q)([0, ∞)) is ℤ at q = 1 and Ȟ^1_c([0, ∞); o_(M rel∂)) = Ȟ^1_c((0, ∞); ℤ) = ℤ, whereas Ȟ^•_c([0, ∞); o_M) = 0 in every degree: o_M in place of o_(M rel∂) is wrong.
 - For M = [0, ∞) and K = {0}: H_q(M, M∖0) = 0 for all q, so the boundary stalk of o_M is not the absolute local homology there; the stalk ℤ of o_M at 0 comes from j_*.
 
-*Needs:* §0.6, §0.8, §0.9; AlgebraicTopology Stages 2, 3 and 6.
+*Needs:* §0.6, §0.8, §0.9; AlgebraicTopology Layers 2, 3 and 6.
 
 ### 0.11 Finite interval diagrams and pure gluing
 
@@ -277,7 +287,7 @@ The orientation line of ℝ with its reflection, the swap of two odd lines, the 
 
 ### Dependencies
 
-AlgebraicTopology Stages 2, 3, 5 (item 1) and 6; DGAInfinity Layer 0; Mathlib and Tau Ceti as listed.
+AlgebraicTopology Layers 2, 3 and 6 and §5.1; TopologicalSheafCohomology TS1.1, TS1.2 and §1.4; DGAInfinity Layer 0; Mathlib and Tau Ceti as listed.
 
 ## Layer 1: Topological implicit atlases (V1)
 
@@ -471,7 +481,7 @@ with vanishing higher singleton cohomology (Pardon, Lemma 4.3.1, pp. 37–38; Le
 - For K disjoint from V_I ∩ V_J, H^0(R_IJ)(K) = 0.
 - For Y = pt and k = 1: H_c^1(ℝ) = ℤ and H_c^0(ℝ) = 0, so the suspension shifts degree by exactly 1.
 
-*Needs:* §2.2, §3.1; §0.6, §0.9, §0.10; AlgebraicTopology Stage 3.
+*Needs:* §2.2, §3.1; §0.6, §0.9, §0.10; AlgebraicTopology Layer 3.
 
 ### 3.3 Footprint conditions
 
@@ -512,7 +522,7 @@ For the manifold atlas, Layer 3 recovers Poincaré duality with the orientation 
 
 ### Dependencies
 
-Layers 0–2; AlgebraicTopology Stage 3.
+Layers 0–2; AlgebraicTopology Layer 3.
 
 ## Layer 4: Global obstruction trace and the rational virtual class (V4)
 
@@ -651,7 +661,7 @@ For the oriented rational functional of §5.4, if Y is a finite CW complex, or i
 - For the Warsaw circle W (compact, not CW), Čech^1(W; ℚ) = ℚ while singular H_1(W; ℚ) = 0; a functional on Čech^1 need not come from a singular class on W, and the realization is stated only on the target.
 - For Y = S¹ and f : S¹ → S¹ of degree k, the realization of f_*[S¹] is k times the fundamental class.
 
-*Needs:* §5.4; CharacteristicClasses §C1.2b; AlgebraicTopology Stage 6.
+*Needs:* §5.4; CharacteristicClasses §C1.2b; AlgebraicTopology Layer 6.
 
 ### 5.6 Regular-manifold normalization and the Euler comparison
 
@@ -676,7 +686,7 @@ The interval [0, 1] tests the boundary triangle, the boundary law and its sign; 
 
 ### Dependencies
 
-Layers 0–4; CharacteristicClasses §C1.2b and §C2; AlgebraicTopology Stage 6.
+Layers 0–4; CharacteristicClasses §C1.2b and §C2; AlgebraicTopology Layer 6.
 
 ## Layer 6: Cell-like strata and products (V6)
 
@@ -753,7 +763,7 @@ Construct the compact rational Čech external product for virtual orientation li
 - For the Warsaw circle W and a point: Čech^1(W × pt) = Čech^1(W) = ℚ, although singular H^1(W) = 0, so a singular Künneth theorem would give the wrong answer.
 - For d₁ = d₂ = 1 the factor swap X₁ × X₂ → X₂ × X₁ changes the product class on a (1, 1) class a ⊠ b by (−1)^(1·1) = −1.
 
-*Needs:* §6.4, §3.4; §0.7; AlgebraicTopology Stage 6.
+*Needs:* §6.4, §3.4; §0.7; TopologicalSheafCohomology TS1.1; AlgebraicTopology Layer 6.
 
 ### Examples
 
@@ -761,7 +771,7 @@ The square [0, 1]² as a product of two interval atlases tests the corner strati
 
 ### Dependencies
 
-Layers 0–5; AlgebraicTopology Stage 6; AbelianSchemesAndArithmeticModuliPartII §B2.9.
+Layers 0–5; AlgebraicTopology Layer 6; AbelianSchemesAndArithmeticModuliPartII §B2.9.
 
 ## Layer 7: Transverse fiber products and application interfaces (V7)
 
@@ -824,7 +834,7 @@ API:
 - In the same example ū = 0, since it is pulled back from H¹(ℝ²) = 0; defining H(ι_*) as cup product with ū would give 0 ≠ i_!(1, 0). The class (1, 0) is not restricted from any neighborhood of f(Z) = {0} in M, but it is restricted from two disjoint arcs around Z in S¹, which is why a extends in P.
 - In the same example i^*(1) = (1, 1) and i_!(1, 1) = η − η = 0 = 1 ⌣ ū, as `i_!(i^*b) = b ⌣ ū` requires.
 
-*Needs:* §7.1, §7.2, §3.4, §4.3; §0.7; CharacteristicClasses §C2 item 1; AlgebraicTopology Stage 6.
+*Needs:* §7.1, §7.2, §3.4, §4.3; §0.7; CharacteristicClasses §C2 item 1; AlgebraicTopology Layer 6.
 
 ### 7.4 Application interface
 
@@ -846,11 +856,11 @@ Two transverse zeros of sin θ on S¹ over ℝ give a nonzero supported Gysin ma
 
 ### Dependencies
 
-Layers 0–6; CharacteristicClasses §C2; AlgebraicTopology Stage 6.
+Layers 0–6; CharacteristicClasses §C2; AlgebraicTopology Layer 6.
 
 ## Downstream consumers
 
-AnalyticStableMaps, GromovWittenTheory, SymplecticFieldTheory, DGFloer and HamiltonianFloerOperations consume Layers 0–6 (labelled V0–V6) as the generic virtual-class engine; GromovWittenTheory and HamiltonianFloerOperations also consume the fiber-product identity of §7.3. ComplexCurveModuli refers to the division of labour of §7.4.
+AnalyticStableMaps, GromovWittenTheory, SymplecticFieldTheory, DGFloer and HamiltonianFloerOperations consume Layers 0–6 (labelled V0–V6) as the generic virtual-class engine; GromovWittenTheory and HamiltonianFloerOperations also consume the fiber-product identity of §7.3. ComplexCurveModuli refers to the division of labour of §7.4. The virtual class is a functional on the Čech cohomology of TopologicalSheafCohomology TS1.2 (§0.7), so consumers evaluate it directly on classes of that carrier, pulled back along continuous maps by §0.7.
 
 ## References
 
