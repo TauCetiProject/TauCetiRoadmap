@@ -3,7 +3,6 @@ module
 public import Mathlib
 public import TauCeti.Analysis.SpecialFunctions.Erf
 public import TauCeti.Analysis.SpecialFunctions.Hermite.Function.Basic
-public import TauCeti.Analysis.SpecialFunctions.RegularizedHypergeometric
 
 /-!
 # Parabolic cylinder functions: suggested target signatures
@@ -20,7 +19,7 @@ intended bodies so that the conventions are checked by the compiler: Mathlib's r
 Kummer function `Complex.regularizedHGFun {a} {b}` (written `𝐌(a, b)` here), the parameter-first
 argument order `(a, z)`, reciprocal Gamma factors in the initial values of `U` and `V`, principal
 complex powers, and the sector filter `Bornology.cobounded ℂ ⊓ 𝓟 {z | |arg z| ≤ θ}`. Theorems
-are stated with `sorry` (allowed in this human-owned roadmap library).
+are stated with `sorry`.
 
 The general tools (Watson's lemma, line shifts across poles, Gamma bounds on vertical strips and
 exponential Mellin inversion) belong to the AsymptoticExpansions roadmap and are not restated here.
@@ -48,11 +47,6 @@ local notation "sectorAtTop " θ =>
   Bornology.cobounded ℂ ⊓ 𝓟 (Set.ofPred fun z : ℂ => |Complex.arg z| ≤ θ)
 
 /-! ### Layer 1: the regularized Kummer function -/
-
-/-- **1.1** The series statement is a specialization of the existing Tau Ceti API. -/
-theorem hasSum_regularizedKummer (a b z : ℂ) :
-    HasSum (fun n => regularizedHGFunCoeff {a} {b} n * z ^ n) (𝐌(a, b) z) :=
-  Complex.hasSum_regularizedHGFun (by simp) z
 
 /-- **1.2** The derivative of `𝐌(a, b, ·)` (DLMF 13.3.15, regularized). -/
 theorem hasDerivAt_regularizedHGFun_singleton (a b z : ℂ) :
@@ -260,10 +254,6 @@ theorem parabolicCylinderD_natCast (n : ℕ) (z : ℂ) :
     parabolicCylinderD n z = exp (-z ^ 2 / 4) * Polynomial.aeval z (Polynomial.hermite n) :=
   sorry
 
-/-- **5.2** The Hermite bridge has real values before taking the real part. -/
-theorem parabolicCylinderD_natCast_sqrt_two_mul_im (n : ℕ) (x : ℝ) :
-    (parabolicCylinderD n (Real.sqrt 2 * x)).im = 0 := sorry
-
 /-- **5.2** Tau Ceti's Hermite function is a normalized `D_n(√2 x)`. -/
 theorem hermiteFunction_eq_parabolicCylinderD (n : ℕ) (x : ℝ) :
     TauCeti.hermiteFunction n x =
@@ -274,36 +264,18 @@ The notation `Hh_{-1}(z)` in the README abbreviates `exp (-z ^ 2 / 2)` separatel
 def repeatedGaussianIntegral (n : ℕ) (z : ℂ) : ℂ :=
   ∫ t in Ioi (0 : ℝ), (t : ℂ) ^ n / n ! * exp (-((z + t) ^ 2) / 2)
 
-/-- **5.3** Absolute convergence for every index and complex argument. -/
-theorem integrableOn_repeatedGaussianIntegral (n : ℕ) (z : ℂ) :
-    IntegrableOn (fun t : ℝ => (t : ℂ) ^ n / n ! * exp (-((z + t) ^ 2) / 2))
-      (Ioi 0) := sorry
-
 /-- **5.3** Each repeated Gaussian integral is entire. -/
 theorem differentiable_repeatedGaussianIntegral (n : ℕ) :
     Differentiable ℂ (repeatedGaussianIntegral n) := sorry
-
-/-- **5.3** Differentiation at index zero. -/
-theorem hasDerivAt_repeatedGaussianIntegral_zero (z : ℂ) :
-    HasDerivAt (repeatedGaussianIntegral 0) (-exp (-z ^ 2 / 2)) z := sorry
 
 /-- **5.3** Differentiation lowers a positive index. -/
 theorem hasDerivAt_repeatedGaussianIntegral_succ (n : ℕ) (z : ℂ) :
     HasDerivAt (repeatedGaussianIntegral (n + 1)) (-repeatedGaussianIntegral n z) z := sorry
 
-/-- **5.3** The first recurrence, including its Gaussian boundary term. -/
-theorem repeatedGaussianIntegral_one (z : ℂ) :
-    repeatedGaussianIntegral 1 z = exp (-z ^ 2 / 2) - z * repeatedGaussianIntegral 0 z := sorry
-
 /-- **5.3** The recurrence at natural indices. -/
 theorem repeatedGaussianIntegral_add_two (n : ℕ) (z : ℂ) :
     (n + 2 : ℂ) * repeatedGaussianIntegral (n + 2) z =
       repeatedGaussianIntegral n z - z * repeatedGaussianIntegral (n + 1) z := sorry
-
-/-- **5.3** The value at zero; the real power of `2` is coerced to `ℂ`. -/
-theorem repeatedGaussianIntegral_zero_right (n : ℕ) :
-    repeatedGaussianIntegral n 0 =
-      (Real.rpow 2 (((n : ℝ) - 1) / 2) : ℂ) * Gamma (((n : ℂ) + 1) / 2) / n ! := sorry
 
 /-- **5.3** Reality and positivity on the real line. -/
 theorem repeatedGaussianIntegral_ofReal_pos (n : ℕ) (x : ℝ) :
@@ -334,19 +306,15 @@ theorem parabolicCylinderU_eq_integral {a : ℂ} (ha : -1 / 2 < a.re) (z : ℂ) 
 theorem parabolicCylinderU_ofReal_pos {a : ℝ} (ha : -1 / 2 < a) (x : ℝ) :
     (parabolicCylinderU a x).im = 0 ∧ 0 < (parabolicCylinderU a x).re := sorry
 
-/-- **6.3** Absolute convergence of DLMF 12.5.4, also for complex argument. -/
-theorem integrableOn_parabolicCylinderU_cos_integrand {a : ℂ} (ha : a.re < 1 / 2) (z : ℂ) :
-    IntegrableOn (fun t : ℝ => (t : ℂ) ^ (-a - 1 / 2) * exp (-(t : ℂ) ^ 2 / 2) *
-      cos (z * t + (a / 2 + 1 / 4) * π)) (Ioi 0) := sorry
-
 /-- **6.3** DLMF 12.5.4 as a Bochner integral over `Ioi 0`. -/
 theorem parabolicCylinderU_eq_integral_cos {a : ℂ} (ha : a.re < 1 / 2) (z : ℂ) :
     parabolicCylinderU a z = Real.sqrt (2 / π) * exp (z ^ 2 / 4) *
       ∫ t in Ioi (0 : ℝ), (t : ℂ) ^ (-a - 1 / 2) * exp (-(t : ℂ) ^ 2 / 2) *
         cos (z * t + (a / 2 + 1 / 4) * π) := sorry
 
-/-- **6.6(a)** The modulus product from Euler's Gamma limit, including convergence. -/
-theorem hasProd_Gamma_norm_quotient {x : ℝ} (hx : 0 < x) (y : ℝ) :
+/-- **6.6(a)** The modulus product DLMF 5.8.3 from Euler's Gamma limit, including convergence,
+for every real `x` that is not a nonpositive integer. -/
+theorem hasProd_Gamma_norm_quotient {x : ℝ} (hx : ∀ n : ℕ, x ≠ -(n : ℝ)) (y : ℝ) :
     HasProd (fun k : ℕ => 1 + y ^ 2 / (x + k) ^ 2)
       (Real.Gamma x ^ 2 / ‖Gamma ((x : ℂ) + y * I)‖ ^ 2) := sorry
 
@@ -389,25 +357,6 @@ theorem exists_norm_barnes_kernel_mul_cos_le {A z : ℂ} (hz0 : z ≠ 0)
     ∃ C : ℝ, 0 < C ∧ ∃ K : ℕ, ∀ y : ℝ,
       ‖𝓑(A, z, ((c : ℂ) + y * I)) * cos (π * ((c : ℂ) + y * I))‖ ≤
         C * (1 + |y|) ^ K * Real.exp (-(π / 2 - 2 * |arg z|) * |y|) := sorry
-
-/-- **6.6(c)** Vanishing of horizontal connectors on every compact positive real strip. -/
-theorem tendsto_integral_barnes_kernel_horizontal {A z : ℂ} (hz0 : z ≠ 0)
-    (hz : |arg z| < 3 * π / 4) {c₁ c₂ : ℝ} (hc : 0 < c₁) (hcc : c₁ ≤ c₂) :
-    Tendsto (fun T : ℝ => ∫ x in c₁..c₂, 𝓑(A, z, ((x : ℂ) + T * I))) atTop (𝓝 0) ∧
-      Tendsto (fun T : ℝ => ∫ x in c₁..c₂, 𝓑(A, z, ((x : ℂ) + T * I))) atBot (𝓝 0) := sorry
-
-/-- **6.6(c)** Absolute convergence of the `U` Barnes kernel on every admissible line. -/
-theorem integrable_parabolicCylinderU_barnes_kernel {A z : ℂ} (hz0 : z ≠ 0)
-    (hz : |arg z| < 3 * π / 4) {c : ℝ} (hc : 0 < c)
-    (havoid : ∀ n : ℕ, 2 * c ≠ A.re + n) :
-    Integrable (fun y : ℝ => 𝓑(A, z, ((c : ℂ) + y * I))) := sorry
-
-/-- **6.6(c)** Absolute convergence of the `V` Barnes kernel in its smaller sector. -/
-theorem integrable_parabolicCylinderV_barnes_kernel {A z : ℂ} (hz0 : z ≠ 0)
-    (hz : |arg z| < π / 4) {c : ℝ} (hc : 0 < c)
-    (havoid : ∀ n : ℕ, 2 * c ≠ A.re + n) :
-    Integrable (fun y : ℝ => 𝓑(A, z, ((c : ℂ) + y * I)) *
-      cos (π * ((c : ℂ) + y * I))) := sorry
 
 /-- **6.7** DLMF 12.5.8 on a straight separating line. -/
 theorem parabolicCylinderU_eq_barnes_integral {a z : ℂ} (hz0 : z ≠ 0)
@@ -519,6 +468,33 @@ theorem exists_eq_const_mul_parabolicCylinderU {a : ℂ} {f : ℂ → ℂ} (hf :
 
 /-! ### Layer 8: integrals and addition theorems -/
 
+/-- **8.1** DLMF 12.12.1. -/
+theorem integral_exp_mul_cpow_mul_parabolicCylinderU (a : ℂ) {μ : ℂ} (hμ : 0 < μ.re) :
+    (∫ t in Ioi (0 : ℝ), exp (-(t : ℂ) ^ 2 / 4) * (t : ℂ) ^ (μ - 1) * parabolicCylinderU a t) =
+      Real.sqrt π * (2 : ℂ) ^ (-(μ + a + 1 / 2) / 2) * Gamma μ / Gamma ((μ + a + 3 / 2) / 2) :=
+  sorry
+
+/-- **8.1** DLMF 12.12.2. -/
+theorem integral_exp_three_mul_cpow_mul_parabolicCylinderU {a : ℂ} (ha : a.re < -1 / 2) :
+    (∫ t in Ioi (0 : ℝ), exp (-3 * (t : ℂ) ^ 2 / 4) * (t : ℂ) ^ (-a - 3 / 2) *
+        parabolicCylinderU a t) =
+      (2 : ℂ) ^ (1 / 4 + a / 2) * Gamma (-a - 1 / 2) * cos (π * (a / 4 + 1 / 8)) := sorry
+
+/-- **8.1** DLMF 12.12.3. -/
+theorem integral_exp_mul_cpow_mul_parabolicCylinderU_div {a : ℂ} (ha : a.re < 1 / 2)
+    {x : ℝ} (hx : 0 < x) :
+    (∫ t in Ioi (0 : ℝ), exp (-(t : ℂ) ^ 2 / 4) * (t : ℂ) ^ (-a - 1 / 2) *
+        parabolicCylinderU a t / ((x : ℂ) ^ 2 + (t : ℂ) ^ 2)) =
+      Real.sqrt (π / 2) * Gamma (1 / 2 - a) * (x : ℂ) ^ (-a - 3 / 2) * exp ((x : ℂ) ^ 2 / 4) *
+        parabolicCylinderU (-a) x := sorry
+
+/-- **8.1** DLMF 12.12.4, with `Ū(a, z) = Γ(½ − a) V(a, z)` (DLMF 12.2.21) written out. -/
+theorem parabolicCylinderU_sq_add_sq_eq_integral {a : ℂ} (ha : a.re < 1 / 2) (z : ℂ) :
+    parabolicCylinderU a z ^ 2 + (Gamma (1 / 2 - a) * parabolicCylinderV a z) ^ 2 =
+      (2 : ℂ) ^ (3 / 2 : ℂ) / π * Gamma (1 / 2 - a) *
+        ∫ t in Ioi (0 : ℝ), exp (2 * a * t + z ^ 2 * Real.tanh t / 2) /
+          Real.sqrt (Real.sinh (2 * t)) := sorry
+
 /-- **8.2** The addition theorem DLMF 12.13.1. -/
 theorem hasSum_parabolicCylinderU_add (a x y : ℂ) :
     HasSum (fun m : ℕ => exp (x * y / 2 + y ^ 2 / 4) * ((-y) ^ m / m !) *
@@ -576,5 +552,28 @@ theorem parabolicCylinderW_eq (a x : ℝ) :
     (parabolicCylinderW a x : ℂ) = Real.sqrt (k / 2) * Real.exp (π * a / 4) *
       (exp (I * ρ) * parabolicCylinderU (I * a) (x * exp (-(π * I / 4))) +
         exp (-(I * ρ)) * parabolicCylinderU (-(I * a)) (x * exp (π * I / 4))) := sorry
+
+/-- **9.6** DLMF 12.14.13; `ε = 1` and `ε = -1` select the upper and lower signs. -/
+theorem parabolicCylinderW_zero_left {x : ℝ} (hx : 0 < x) (ε : ℝ) (hε : ε = 1 ∨ ε = -1) :
+    (parabolicCylinderW 0 (ε * x) : ℂ) = (2 : ℂ) ^ (-(5 / 4 : ℂ)) * Real.sqrt (π * x) *
+      (besselJ (-1 / 4) ((x : ℂ) ^ 2 / 4) - ε * besselJ (1 / 4) ((x : ℂ) ^ 2 / 4)) := sorry
+
+/-- **9.6** DLMF 12.14.14, as the derivative of `t ↦ W(0, εt)`. -/
+theorem deriv_parabolicCylinderW_zero_left {x : ℝ} (hx : 0 < x) (ε : ℝ) (hε : ε = 1 ∨ ε = -1) :
+    (deriv (fun t => parabolicCylinderW 0 (ε * t)) x : ℂ) =
+      -((2 : ℂ) ^ (-(9 / 4 : ℂ))) * x * Real.sqrt (π * x) *
+        (besselJ (3 / 4) ((x : ℂ) ^ 2 / 4) + ε * besselJ (-3 / 4) ((x : ℂ) ^ 2 / 4)) := sorry
+
+/-- **9.7** DLMF 12.14.17–12.14.23: the expansion of
+`s(x) = e^{−iω}(√(x/2k) W(a, x) + i √(kx/2) W(a, −x))` as `x → +∞`. -/
+theorem isBigO_parabolicCylinderW_sub_sum (a : ℝ) (N : ℕ) :
+    let k := Real.sqrt (1 + Real.exp (2 * π * a)) - Real.exp (π * a)
+    (fun x : ℝ =>
+        exp (-((x ^ 2 / 4 - a * Real.log x + π / 4 + gammaHalfPhase a / 2 : ℝ) : ℂ) * I) *
+          (Real.sqrt (x / (2 * k)) * parabolicCylinderW a x +
+            I * Real.sqrt (k * x / 2) * parabolicCylinderW a (-x)) -
+        ∑ r ∈ Finset.range N, (-I) ^ r * (ascPochhammer ℂ (2 * r)).eval (1 / 2 + I * a) /
+          (2 ^ r * (r ! : ℂ) * (x : ℂ) ^ (2 * r)))
+      =O[atTop] fun x : ℝ => x ^ (-(2 * N : ℝ)) := sorry
 
 end TauCetiRoadmap.SpecialFunctionsParabolicCylinder

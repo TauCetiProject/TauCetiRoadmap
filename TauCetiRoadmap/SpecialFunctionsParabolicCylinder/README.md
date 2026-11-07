@@ -315,14 +315,18 @@ Write `𝐌(a, b, z) = Complex.regularizedHGFun {a} {b} z`.
 
 Specialize Tau Ceti's `Complex.hasSum_regularizedHGFun` to singleton parameter multisets to obtain
 `HasSum (fun n ↦ regularizedHGFunCoeff {a} {b} n * z ^ n) (𝐌(a, b, z))` for all `a, b, z`
-(`hasSum_regularizedKummer`), with absolute convergence from the existing entire power series. The
+with absolute convergence from the existing entire power series. The
 initial value `𝐌(a, b, 0) = Γ(b)⁻¹` is Mathlib's `Complex.regularizedHGFun_zero`.
+
+*Needs:* Tau Ceti `Complex.hasSum_regularizedHGFun`; Mathlib `Complex.regularizedHGFun_zero`.
 
 ### 1.2 Derivative
 
 `HasDerivAt (𝐌(a, b, ·)) (a * 𝐌(a + 1, b + 1, z)) z` for all `a, b, z`
 (`hasDerivAt_regularizedHGFun_singleton`). This is [DLMF 13.3.15](https://dlmf.nist.gov/13.3#E15)
 divided by `Γ(b)`, extended to every `b` through the regularized series.
+
+*Needs:* 1.1; termwise differentiation of the entire series.
 
 ### 1.3 Kummer's equation
 
@@ -336,9 +340,13 @@ the entire series and the coefficient recurrence `(k + 1)(b + k) c_{k+1} = (a + 
 `c_k = regularizedHGFunCoeff {a} {b} k`. Mathlib's `regularizedHGFunCoeff_add_one` gives it
 when `b + k ≠ 0`; when `b + k = 0` both sides vanish, because `Γ(0)⁻¹ = 0` gives `c_k = 0`.
 
+*Needs:* 1.1–1.2; Mathlib `regularizedHGFunCoeff_add_one` and `Complex.Gamma_neg_nat_eq_zero`.
+
 ### 1.4 Kummer's transformation
 
 DLMF 13.2.39: `𝐌(a, b, z) = e^z 𝐌(b − a, b, −z)` (`regularizedHGFun_singleton_eq_exp_mul`).
+
+*Needs:* 1.1; Cauchy products of entire power series and Pochhammer identities.
 
 ### 1.5 Analyticity in the parameters
 
@@ -348,12 +356,16 @@ following 13.2.4. For fixed `b, z`, `a ↦ 𝐌(a, b, z)` is entire
 `a, z`, `b ↦ 𝐌(a, b, z)` is entire. The function `(a, z) ↦ 𝐌(a, b, z)` is continuous on
 `ℂ × ℂ`. The proof route is locally uniform convergence of the series in `(a, b, z)`.
 
+*Needs:* 1.1; Mathlib `TendstoLocallyUniformlyOn.differentiableOn`.
+
 ### 1.6 Polynomial cases
 
 [DLMF §13.2(i)](https://dlmf.nist.gov/13.2#i), following 13.2.5.
 For `n : ℕ` and every `b`, including nonpositive integral `b`,
 `𝐌(−n, b, z) = ∑_{k≤n} (−n)_k z^k / (k! Γ(b + k))`, the finite sum of the regularized
 series 13.2.3; in particular it is a polynomial in `z` of degree at most `n`.
+
+*Needs:* 1.1; Mathlib `regularizedHGFunCoeff_eq_zero_right` and `ascPochhammer`.
 
 ### Examples
 
@@ -381,6 +393,15 @@ Tau Ceti's `Complex.hasSum_regularizedHGFun`.
 - `u₁(a, z) = e^{z²/4} ∑ₖ (∏_{r<k} (a − ½ − 2r)) z^{2k} / (2k)!` (12.4.5);
 - `u₂(a, z) = e^{z²/4} ∑ₖ (∏_{r<k} (a − 3/2 − 2r)) z^{2k+1} / (2k+1)!` (12.4.6).
 
+**Checks.**
+- `u₁(−½, z) = e^{−z²/4}` and `u₂(−3/2, z) = z e^{−z²/4}`: the products in the first two series
+  vanish from `k = 1` on; a sign error in `a + ½ + 2r` or `a + 3/2 + 2r` leaves an infinite series.
+- `u₁(½, z) = e^{z²/4}`, from the third series; it fixes the sign of `a − ½ − 2r` in 12.4.5.
+- `u₁(a, 0) = 1` and `u₂′(a, 0) = 1` for every `a`; they fix the factors `Γ(½)` and `Γ(3/2)` in the
+  Kummer forms.
+
+*Needs:* 1.1; the exponential series.
+
 ### 2.2 Analyticity
 
 [DLMF §12.2(i)](https://dlmf.nist.gov/12.2#i) and
@@ -388,12 +409,16 @@ Tau Ceti's `Complex.hasSum_regularizedHGFun`.
 `u₁` and `u₂` are entire in `z` for fixed `a` and entire in `a` for fixed
 `z`, and jointly continuous.
 
+*Needs:* 1.5.
+
 ### 2.3 Weber's equation
 
 DLMF 12.2.2. `u₁(a, ·)` and `u₂(a, ·)` solve it (`deriv_deriv_parabolicCylinderEven`,
 `deriv_deriv_parabolicCylinderOdd`), with initial values
 `u₁(a, 0) = 1`, `u₁′(a, 0) = 0`, `u₂(a, 0) = 0`, `u₂′(a, 0) = 1`. Parity:
 `u₁(a, −z) = u₁(a, z)` and `u₂(a, −z) = −u₂(a, z)`.
+
+*Needs:* 1.2–1.3 and the chain rule.
 
 ### 2.4 Wronskian and uniqueness
 
@@ -403,13 +428,17 @@ DLMF 12.2.2. `u₁(a, ·)` and `u₂(a, ·)` solve it (`deriv_deriv_parabolicCyl
 - Hence every solution equals `f 0 · u₁(a, ·) + f′(0) · u₂(a, ·)`
   (`eq_parabolicCylinderEven_add_parabolicCylinderOdd`).
 
-For the equation and normalized solutions, see [DLMF §12.2(i)](https://dlmf.nist.gov/12.2#i)
-and [12.7.12–12.7.13](https://dlmf.nist.gov/12.7#E12). Differentiate the Wronskian and use
-the equation to show its derivative is zero. For uniqueness, write the Taylor coefficients
-of a solution at zero as `c_n`; they satisfy
-`(n + 2)(n + 1)c_{n+2} = a c_n + c_{n−2}/4`, where negative-index coefficients are zero.
-Zero initial values force every coefficient to vanish, and the identity theorem extends
-the equality to `ℂ`. This supplies a direct analytic proof without another ODE prerequisite.
+The constancy of the Wronskian is Abel's identity [DLMF 1.13.5](https://dlmf.nist.gov/1.13#E5) with
+`f = 0`, and the uniqueness of the solution with prescribed `w` and `w′` at a point, with the
+fundamental pair 1.13.2–1.13.3, is stated in [DLMF §1.13(i)](https://dlmf.nist.gov/1.13#i).
+Differentiate the Wronskian and use the equation to show its derivative is zero. For uniqueness,
+write the Taylor coefficients of a solution at zero as `c_n`; they satisfy
+`(n + 2)(n + 1)c_{n+2} = a c_n + c_{n−2}/4`, where negative-index coefficients are zero. Zero
+initial values force every coefficient to vanish, and the identity theorem extends the equality to
+`ℂ`. This supplies a direct analytic proof without another ODE prerequisite.
+
+*Needs:* 2.2–2.3; Mathlib analytic Taylor series and
+`AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq`.
 
 ### 2.5 Rotations
 
@@ -418,11 +447,12 @@ with parameter `a`, then `z ↦ f (−z)` solves it with parameter `a`, and `z �
 with parameter `−a`. The same holds for `z ↦ f (e^{±iπ/4} z)` relating DLMF 12.2.2 with parameter
 `∓ia` to DLMF 12.2.3 with parameter `a`.
 
+*Needs:* 2.3 and the chain rule.
+
 ### Examples
 
-- At `a = −½` the first series of 2.1 terminates, `u₁(−½, z) = e^{−z²/4}`, and the third gives
-  the same function as `e^{z²/4} ∑ₖ (−1)^k z^{2k}/(2^k k!)`. Likewise `u₂(−3/2, z) = z e^{−z²/4}`
-  and `u₁(½, z) = e^{z²/4}`.
+- At `a = −½` the third series of 2.1 gives `u₁(−½, z) = e^{z²/4} ∑ₖ (−1)^k z^{2k}/(2^k k!)`, the
+  same function as the terminating first series.
 - `(e^{−z²/4})″ = (z²/4 − ½) e^{−z²/4}` and `(z e^{−z²/4})″ = (z²/4 − 3/2) z e^{−z²/4}`, the
   equation 2.3 at `a = −½` and `a = −3/2`.
 
@@ -442,17 +472,24 @@ and `D_ν` solve DLMF 12.2.2 (DLMF 12.2.4 for
 entirety statements are `differentiable_parabolicCylinderU` and
 `differentiable_parabolicCylinderU_left`.
 
+*Needs:* 2.2–2.3; Mathlib `Complex.differentiable_one_div_Gamma`.
+
 ### 3.2 Values at the origin
 
 DLMF 12.2.6–12.2.9. These are `U(a, 0)` (`parabolicCylinderU_zero_right`), `U′(a, 0)`, `V(a, 0)`
 and `V′(a, 0)` in the pinned reciprocal-Gamma forms, valid for every `a` with Mathlib's
 totalized Gamma function.
 
-**Normalization checks.** `U(−½, z) = e^{−z²/4}` and `U(−3/2, z) = z e^{−z²/4}`
-test the reciprocal-Gamma zeros in the even and odd coefficients, respectively.
-`U′(½, 0) = −1` detects the sign of the odd coefficient; `U′(−½, 0) = 0` does not
-detect it because that coefficient vanishes. `V(½, z) = √(2/π) e^{z²/4}` tests the
-second normalization, and `D₂(z) = (z² − 1)e^{−z²/4}` tests the probabilists' Hermite convention.
+**Checks.**
+- `U′(½, 0) = −1`; the opposite sign of the coefficient of `u₂` gives `+1`. (`U′(−½, 0) = 0` does
+  not detect that sign, because the coefficient vanishes there.)
+- `U(−½, z) = e^{−z²/4}` and `U(−3/2, z) = z e^{−z²/4}`: the coefficient of `u₂`, respectively of
+  `u₁`, vanishes because `Γ(0)⁻¹ = 0`.
+- `V(½, z) = √(2/π) e^{z²/4}`, since the coefficient of `u₂` contains `Γ(0)⁻² = 0`.
+- `D₂(z) = (z² − 1) e^{−z²/4}`; the physicists' Hermite convention would give
+  `(4z² − 2) e^{−z²/4}`.
+
+*Needs:* 3.1 and the initial values of 2.3.
 
 ### 3.3 Wronskians
 
@@ -469,10 +506,15 @@ DLMF 12.2.10–12.2.12:
 Each holds for all `a` and `z`. In particular `U(a, ·)` and `V(a, ·)` are linearly
 independent for every `a`.
 
+*Needs:* 2.4, 2.5 and 3.2; Mathlib `Complex.Gamma_mul_Gamma_one_sub` and
+`Complex.Gamma_mul_Gamma_add_half`.
+
 ### 3.4 Special parameters
 
 DLMF 12.2.13, 12.2.14: `U(−n − ½, −z) = (−1)ⁿ U(−n − ½, z)` and
 `V(n + ½, −z) = (−1)ⁿ V(n + ½, z)` for `n : ℕ`.
+
+*Needs:* 2.3 and 3.2.
 
 ### 3.5 Connection formulas
 
@@ -506,11 +548,15 @@ Also prove the rearrangement of 12.2.15,
 `V(a, z) = Γ(½ + a)/π · (sin(πa) U(a, z) + U(a, −z))`, for
 `½ + a ∉ {0, −1, −2, …}`.
 
+*Needs:* 2.4, 2.5 and 3.2–3.3; Mathlib Gamma reflection and duplication.
+
 ### 3.6 The general quadratic equation
 
 DLMF 12.2.1 and the prose of §12.2(i). For `α ≠ 0`
 and `s` with `s⁴ = −4α`, if `f` solves DLMF 12.2.2 with parameter `(β²/(4α) − γ)/s²`, then
 `z ↦ f (s (z + β/(2α)))` solves `w″ + (αz² + βz + γ) w = 0` (`quadratic_equation_of_weber`).
+
+*Needs:* The chain rule.
 
 ### 3.7 Oscillatory equation
 
@@ -518,9 +564,10 @@ DLMF 12.2.3. `z ↦ U(ia, z e^{−iπ/4})` and
 `z ↦ U(−ia, z e^{iπ/4})` solve DLMF 12.2.3. In Whittaker's notation the first is
 `D_{−½−ia}(z e^{−iπ/4})`.
 
+*Needs:* 2.5 and 3.1.
+
 ### Examples
 
-- The normalization checks of 3.2.
 - At `a = −½`, `Γ(0)⁻¹ = 0`: 12.2.11 gives `𝒲{U(−½, z), U(−½, −z)} = 0`, as the evenness of
   `e^{−z²/4}` requires, and 12.2.15 reduces to `U(−½, −z) = U(−½, z)`, which is also 3.4 at
   `n = 0`.
@@ -540,6 +587,8 @@ DLMF 12.8.1–12.8.4, for all `a, z`:
 - `U′(a, z) − (z/2) U(a, z) + U(a − 1, z) = 0`;
 - `2U′(a, z) + U(a − 1, z) + (a + ½) U(a + 1, z) = 0`.
 
+*Needs:* 2.4 and 3.2; Mathlib `Complex.Gamma_add_one`.
+
 ### 4.2 `V` recurrences
 
 DLMF 12.8.5–12.8.8, for all `a, z`:
@@ -547,6 +596,8 @@ DLMF 12.8.5–12.8.8, for all `a, z`:
 - `V′(a, z) − (z/2) V(a, z) − (a − ½) V(a − 1, z) = 0`;
 - `V′(a, z) + (z/2) V(a, z) − V(a + 1, z) = 0`;
 - `2V′(a, z) − V(a + 1, z) − (a − ½) V(a − 1, z) = 0`.
+
+*Needs:* 2.4 and 3.2; Mathlib `Complex.Gamma_add_one`.
 
 ### 4.3 Iterated derivatives
 
@@ -560,10 +611,14 @@ DLMF 12.8.9–12.8.12. For `m : ℕ`:
 The Pochhammer symbol is `(ascPochhammer ℂ m).eval (½ + a)`, and the iterated derivative is
 Mathlib's `iteratedDeriv`.
 
+*Needs:* 4.1–4.2; Mathlib `iteratedDeriv_succ` and `ascPochhammer_succ_right`.
+
 ### 4.4 Whittaker's notation
 
 The recurrences in Whittaker's notation:
 `D_{ν+1}(z) − z D_ν(z) + ν D_{ν−1}(z) = 0` and `D_ν′(z) + (z/2) D_ν(z) − ν D_{ν−1}(z) = 0`.
+
+*Needs:* 4.1.
 
 ### Examples
 
@@ -590,11 +645,23 @@ Here `He_n(z)` is `aeval z (Polynomial.hermite n)`, and `F` is Dawson's integral
 `F(z) = e^{−z²} ∫₀¹ z e^{(sz)²} ds`. This roadmap introduces `F` as `dawson`, an entire function
 (`differentiable_dawson`), with `F′ = 1 − 2zF` (`hasDerivAt_dawson`) and `F(0) = 0`.
 
+**Checks.**
+- `F(z) = z − 2z³/3 + O(z⁵)` as `z → 0`.
+- `F(−z) = −F(z)`.
+- `F(iy) = i (√π/2) e^{y²} erf y` for real `y`, with `TauCeti.Real.erf`; this distinguishes `F` from
+  `e^{z²} ∫₀^z e^{−t²} dt`.
+
+*Needs:* 2.4, 3.2 and 4.1; Mathlib `Polynomial.hermite` and
+`deriv_gaussian_eq_hermite_mul_gaussian`; Tau Ceti `Polynomial.derivative_hermite` and
+`Polynomial.hermite_add_two`; Mathlib `hasDerivAt_integral_of_dominated_loc_of_deriv_le` for `F`.
+
 ### 5.2 The Hermite function bridge
 
 For real `x`,
 `TauCeti.hermiteFunction n x = (D_n(√2 x)).re / √(n! √π)` (`hermiteFunction_eq_parabolicCylinderD`),
-and `D_n(√2 x)` is real (`parabolicCylinderD_natCast_sqrt_two_mul_im`).
+and `D_n(√2 x)` is real.
+
+*Needs:* 5.1; Tau Ceti `TauCeti.hermiteFunction`.
 
 ### 5.3 The repeated Gaussian integrals
 
@@ -602,23 +669,31 @@ DLMF 12.7.7. The family is indexed by `n : ℕ`:
 `Hh_n(z) = repeatedGaussianIntegral n z = ∫₀^∞ tⁿ/n! · e^{−(z+t)²/2} dt` for `z : ℂ`, using
 `MeasureTheory.integral` over `Set.Ioi 0`. The notation `Hh_{−1}(z)` abbreviates `e^{−z²/2}`; it is
 not an additional integer-indexed function. Build the following basic API:
-- absolute convergence of the defining integral for every `n, z`
-  (`integrableOn_repeatedGaussianIntegral`), and entirety of `Hh_n` in `z`
+- absolute convergence of the defining integral for every `n, z`, and entirety of `Hh_n` in `z`
   (`differentiable_repeatedGaussianIntegral`);
 - `Hh₀′(z) = −e^{−z²/2}` and `Hh_{n+1}′(z) = −Hh_n(z)` for `n : ℕ`
-  (`hasDerivAt_repeatedGaussianIntegral_zero`, `hasDerivAt_repeatedGaussianIntegral_succ`);
-- `Hh₁(z) = e^{−z²/2} − z Hh₀(z)` (`repeatedGaussianIntegral_one`) and
+  (the second is `hasDerivAt_repeatedGaussianIntegral_succ`);
+- `Hh₁(z) = e^{−z²/2} − z Hh₀(z)` and
   `(n + 2) Hh_{n+2}(z) = Hh_n(z) − z Hh_{n+1}(z)` for `n : ℕ` (`repeatedGaussianIntegral_add_two`);
-- `Hh_n(0) = 2^{(n−1)/2} Γ((n + 1)/2) / n!` (`repeatedGaussianIntegral_zero_right`), and reality
-  and positivity of `Hh_n(x)` for real `x` (`repeatedGaussianIntegral_ofReal_pos`);
+- `Hh_n(0) = 2^{(n−1)/2} Γ((n + 1)/2) / n!`, and reality and positivity of `Hh_n(x)` for real `x`
+  (`repeatedGaussianIntegral_ofReal_pos`);
 - `U(n + ½, z) = e^{z²/4} Hh_n(z)` for `n : ℕ` (`parabolicCylinderU_nat_add_one_half`). The
   `n = −1` case of DLMF 12.7.7 is the identity `U(−½, z) = e^{−z²/4}` in 5.1.
+
+**Checks.**
+- `Hh₀(x) = √(π/2) erfc(x/√2)` for real `x`, which fixes the sign of `z` in `(z + t)²`.
+- `Hh₀(0) = √(π/2)`, `Hh₁(0) = 1` and `Hh₂(0) = √(2π)/4`; the factor `1/n!` is visible at `n = 2`.
+- The first recurrence differentiates to `Hh₁′ = −Hh₀`, consistent with `Hh₀′ = −e^{−z²/2}`.
 
 In the value at zero, `2^{(n−1)/2}` uses `Real.rpow`, with `(n−1)/2` computed after
 casting `n` to `ℝ`, and the resulting real value is coerced to `ℂ`. Gaussian decay
 supplies the integrability and differentiation bounds; integration by parts gives the
 recurrences. Establish the bridge to `U` from these identities and the initial-value
 uniqueness of Layer 2, using the initial values from Layer 3.
+
+*Needs:* 2.4 and 3.2; Mathlib `integral_gaussian_complex`,
+`hasDerivAt_integral_of_dominated_loc_of_deriv_le` and
+`MeasureTheory.integral_Ioi_mul_deriv_eq_deriv_mul`.
 
 ### 5.4 Complementary error function
 
@@ -628,13 +703,12 @@ DLMF 12.7.5, 12.7.6. For real `x`:
 
 Here `erfc` is `TauCeti.Real.erfc`, and the second statement uses `iteratedDeriv` on `ℝ`.
 
+*Needs:* 4.3 and 5.3; Tau Ceti `TauCeti.Real.erfc`.
+
 ### Examples
 
-- `Hh₀(0) = √(π/2)` and `Hh₁(0) = 1`, both from the value at zero and directly from
-  `∫₀^∞ e^{−t²/2} dt = √(π/2)` and `∫₀^∞ t e^{−t²/2} dt = 1`.
 - `U(½, 0) = √(π/2)`, once from 12.7.7 with `Hh₀(0)` and once from 12.7.5 with `erfc 0 = 1`.
 - `TauCeti.hermiteFunction 0 x = π^{−1/4} e^{−x²/2} = D₀(√2 x)/√(√π)`.
-- `F(z) − z + 2z³/3 = O(z⁵)` as `z → 0`, from `F′ = 1 − 2zF` and `F(0) = 0`.
 
 ### Dependencies
 
@@ -651,10 +725,15 @@ DLMF 12.5.1. For `Re a > −½` and all `z`:
 
 with the integral over `Set.Ioi 0` and absolutely convergent (`parabolicCylinderU_eq_integral`).
 
+*Needs:* 2.4 and 3.2; Tau Ceti `TauCeti.differentiableOn_integral_mul_cexp_neg_mul`; Mathlib
+`Complex.Gamma_eq_integral`.
+
 ### 6.2 Positivity
 
 For real `a > −½` and real `x`, `U(a, x)` is real and positive (`parabolicCylinderU_ofReal_pos`).
 For real `a` and real `x`, `U(a, x)` and `V(a, x)` are real.
+
+*Needs:* 3.2 and 6.1.
 
 ### 6.3 Further real integrals
 
@@ -672,10 +751,12 @@ DLMF 12.5.2–12.5.4:
   `U(a, z) = √(2/π) e^{z²/4} ∫₀^∞ t^{−a−½} e^{−t²/2} cos(zt + π(a/2 + ¼)) dt`.
 
 All three integrals converge absolutely under their stated hypotheses and are expressed
-using `MeasureTheory.integral` over `Set.Ioi 0`; for 12.5.4 these are
-`integrableOn_parabolicCylinderU_cos_integrand` and `parabolicCylinderU_eq_integral_cos`. In
+using `MeasureTheory.integral` over `Set.Ioi 0`; 12.5.4 is `parabolicCylinderU_eq_integral_cos`. In
 [DLMF 12.5.4](https://dlmf.nist.gov/12.5#E4), the condition `Re a < ½` ensures
 integrability at zero, and the Gaussian dominates the growth of the complex cosine at infinity.
+
+*Needs:* 3.2 and 6.1; Mathlib changes of variables on `Set.Ioi 0` and
+`hasDerivAt_integral_of_dominated_loc_of_deriv_le`.
 
 ### 6.4 Loop integral
 
@@ -688,6 +769,9 @@ The lower lip runs from `−∞` to `−r` with phase `e^{−iπq}`; the circle 
 counterclockwise from angle `−π` to `π`; the upper lip runs from `−r` to `−∞` with phase
 `e^{iπq}`. This fixes both ray signs. The circle term is the parameterized `circleIntegral`
 with the principal power, split at the cut and read by its one-sided boundary values.
+
+*Needs:* 6.1; Mathlib `circleIntegral`, `Complex.integral_boundary_rect_eq_zero_of_differentiableOn`
+and Gamma reflection.
 
 ### 6.5 Straight-line contour integrals
 
@@ -702,6 +786,9 @@ Both `V` contours run from left to right, with `dt = ds`. All powers are princip
 the upper line the negative-real-end argument approaches `+π`, and on the lower line it
 approaches `−π`, giving respectively `e^{+iπ(a−½)}` and `e^{−iπ(a−½)}` at the cut.
 
+*Needs:* 2.4 and 6.1; Mathlib `integral_gaussian_complex` and
+`Complex.integral_boundary_rect_eq_zero_of_differentiableOn`.
+
 ### 6.6 Gamma identities, Gamma residues and Barnes kernel bounds
 
 The general tools are consumed from AsymptoticExpansions: the pole-separated Gamma bound on
@@ -709,7 +796,7 @@ vertical strips (§8.6), the line shift with simple poles and its iteration (§8
 exponential Mellin inversion (§8.7). This subsection adds what is particular to Gamma and to the
 Barnes kernels of 6.7.
 
-**(a) Gamma products.** For `x > 0`, prove convergence and the modulus identity
+**(a) Gamma products.** For real `x ∉ {0, −1, −2, …}`, prove convergence and the modulus identity
 [DLMF 5.8.3](https://dlmf.nist.gov/5.8#E3):
 
 `∏_{k≥0} (1 + y²/(x + k)²) = Γ(x)² / |Γ(x + iy)|²` (`hasProd_Gamma_norm_quotient`).
@@ -730,17 +817,26 @@ Derive the affine-chain factor for `Γ(A − 2t)` at `t = (A + n)/2`, including 
 poles of the Barnes kernels in the form `F(t) = φ(t)/(t − p)` required by AsymptoticExpansions §8.2,
 and `φ(p)` is `TauCeti.Contour.residue F p`.
 
+*Needs:* Mathlib `Complex.Gamma_add_one` and `Complex.tendsto_self_mul_Gamma_nhds_zero`;
+ContourIntegration `TauCeti.Contour.residue_eq_of_tendsto_sub_mul`.
+
 **(c) Bounds for the Barnes kernels.** For `B(A, z, t) = Γ(t) Γ(A − 2t) 2^t z^{2t}` and fixed
 admissible `A, z, c` as in 6.7, prove a bound `C (1 + |y|)^K exp(−κ|y|)` for `|B(A, z, c + iy)|`,
 with `κ = 3π/2 − 2|arg z|` (`exists_norm_barnes_kernel_le`). For the kernel multiplied by `cos(πt)`,
 use `κ = π/2 − 2|arg z|` (`exists_norm_barnes_kernel_mul_cos_le`). Prove the corresponding tail
 bounds uniformly when `c` ranges over a compact positive interval, and locally uniformly in the
 parameters on admissible lines, using a common positive lower bound for `κ` on compact subsets of
-the sector. Deduce absolute integrability (`integrable_parabolicCylinderU_barnes_kernel`,
-`integrable_parabolicCylinderV_barnes_kernel`), vanishing horizontal connector integrals at both
-ends (`tendsto_integral_barnes_kernel_horizontal`), and holomorphy of the line integrals in `A` and
-`z` on their admissible open sets. These bounds discharge the integrability and connector hypotheses
-of the line shift of AsymptoticExpansions §8.2 and the analytic continuation in 6.7.
+the sector. Deduce absolute integrability on every admissible line, vanishing horizontal connector
+integrals at both ends on every compact positive strip `c₁ ≤ Re t ≤ c₂`, and holomorphy of the line
+integrals in `A` and `z` on their admissible open sets. These bounds discharge the integrability and
+connector hypotheses of the line shift of AsymptoticExpansions §8.2 and the analytic continuation in
+6.7.
+
+**Checks.**
+- `|2^{c+iy} z^{2(c+iy)}| = 2^c |z|^{2c} e^{−2y arg z}`, the source of `2|arg z|` in `κ`.
+- `|Γ(c + iy)|` decays like `e^{−π|y|/2}` and `|Γ(A − 2c − 2iy)|` like `e^{−π|y|}`, up to powers of
+  `|y|`, so the Gamma factors contribute `3π/2`; `|cos(π(c + iy))| ∼ e^{π|y|}/2` lowers it by `π`.
+- At `A = 1` the kernel has a simple pole at `t = ½` with residue `−√(π/2) z`.
 
 *Needs:* AsymptoticExpansions §8.6 for the two Gamma factors.
 
@@ -787,6 +883,9 @@ the upward line integral `2πi` times the sum of residues of `Γ(t) Γ(A − 2t)
 In `R_n(A₊, z, 1)`, `1` denotes the constant function. Both residue sums are finite.
 Each right-hand side is independent of its admissible line and obeys the corresponding
 sector restriction above. The symbols `A₊`, `A₋` and `R_n` are notation within this subsection.
+
+*Needs:* 3.5, 6.1 and 6.6; AsymptoticExpansions §§8.2 and 8.7; Mathlib
+`MeasureTheory.integral_integral_swap` and the identity theorem.
 
 ### Examples
 
@@ -844,6 +943,8 @@ subsection:
   Prove the corresponding identities for the coefficients and truncated sums, and
   propagate the remainder bounds downwards in integer shifts to every complex `a`.
 
+*Needs:* 4.1 and 6.1; AsymptoticExpansions Layer 1 and §4.3; Mathlib's identity theorem.
+
 ### 7.2 `V` in its sector
 
 DLMF 12.9.2. For every `a`, `δ ∈ (0, π/4)` and `N`, as `z → ∞` in
@@ -853,6 +954,8 @@ DLMF 12.9.2. For every `a`, `δ ∈ (0, π/4)` and `N`, as `z → ∞` in
 (`isBigO_parabolicCylinderV_sub_sum`),
 
 the corresponding `HasAsymptoticExpansion` with the scale `z ↦ (z^{2s})⁻¹`.
+
+*Needs:* 3.5 and 7.1.
 
 ### 7.3 Adjacent sectors
 
@@ -898,11 +1001,15 @@ Gamma and phase factors, are excluded from the comparison and are absorbed in th
 constant, which may depend on `a`, `σ`, `δ` and `N`. These statements apply at zeros of
 reciprocal Gamma as well. All powers inherited from `z` are expressed in `w` as above.
 
+*Needs:* 3.5 and 7.1–7.2.
+
 ### 7.4 Consequences on the real line
 
 - `U(a, x) ∼ x^{−a−½} e^{−x²/4}` and `V(a, x) ∼ √(2/π) x^{a−½} e^{x²/4}` as `x → +∞`, as
   `Asymptotics.IsEquivalent` statements.
 - `U(a, ·)` tends to `0` along `atTop`, and `|V(a, x)| → ∞` along `atTop`.
+
+*Needs:* 7.1–7.2.
 
 ### 7.5 The recessive solution
 
@@ -910,6 +1017,8 @@ If `f` solves DLMF 12.2.2 and `f(x) → 0` as `x → +∞` along the real axis, 
 `f = f(0)/U(a, 0) · U(a, ·)` when `U(a, 0) ≠ 0`, and in all cases `f` is a constant multiple of
 `U(a, ·)` (`exists_eq_const_mul_parabolicCylinderU`). Proof route: the Wronskian with `V(a, ·)` and
 the growth of `V` from 7.4.
+
+*Needs:* 3.3 and 7.4.
 
 ### Examples
 
@@ -931,19 +1040,19 @@ the connections of Layer 3 give 7.2–7.3; 7.4–7.5 use those expansions and th
 ### 8.1 Integrals
 
 DLMF 12.12.1–12.12.4:
-- For every `a : ℂ` and `Re μ > 0` (12.12.1):
+- For every `a : ℂ` and `Re μ > 0` (12.12.1, `integral_exp_mul_cpow_mul_parabolicCylinderU`):
 
   `∫₀^∞ e^{−t²/4} t^{μ−1} U(a, t) dt = √π 2^{−(μ+a+½)/2} Γ(μ) / Γ((μ+a+3/2)/2)`.
 
-- For `Re a < −½` (12.12.2):
+- For `Re a < −½` (12.12.2, `integral_exp_three_mul_cpow_mul_parabolicCylinderU`):
 
   `∫₀^∞ e^{−3t²/4} t^{−a−3/2} U(a, t) dt = 2^{¼+a/2} Γ(−a−½) cos(π(a/4 + ⅛))`.
 
-- For `Re a < ½` and real `x > 0` (12.12.3):
+- For `Re a < ½` and real `x > 0` (12.12.3, `integral_exp_mul_cpow_mul_parabolicCylinderU_div`):
 
   `∫₀^∞ e^{−t²/4} t^{−a−½} U(a, t)/(x²+t²) dt = √(π/2) Γ(½−a) x^{−a−3/2} e^{x²/4} U(−a, x)`.
 
-- For `Re a < ½` and every `z : ℂ` (12.12.4):
+- For `Re a < ½` and every `z : ℂ` (12.12.4, `parabolicCylinderU_sq_add_sq_eq_integral`):
 
   `U(a, z)² + Ū(a, z)² = 2^{3/2}/π · Γ(½−a) · ∫₀^∞ e^{2at + z² tanh(t)/2}/√(sinh(2t)) dt`.
 
@@ -954,6 +1063,8 @@ It receives no separate definition. The square root in the integral is the posit
 square root for `t > 0`. All four integrals are absolutely convergent over `Set.Ioi 0`;
 convergence at `∞` uses Layer 7.
 
+*Needs:* 6.1 and 7.4; Mathlib `MeasureTheory.integral_integral_swap` and the Gamma integral.
+
 ### 8.2 Addition theorems
 
 DLMF 12.13.1–12.13.4, for all `a, x, y`, as `HasSum` statements:
@@ -961,6 +1072,8 @@ DLMF 12.13.1–12.13.4, for all `a, x, y`, as `HasSum` statements:
 - `U(a, x + y) = e^{−xy/2 − y²/4} ∑_m (−1)^m (½ + a)_m y^m/m! · U(a + m, x)`;
 - `V(a, x + y) = e^{xy/2 + y²/4} ∑_m (−1)^m (½ − a)_m y^m/m! · V(a − m, x)`;
 - `V(a, x + y) = e^{−xy/2 − y²/4} ∑_m y^m/m! · V(a + m, x)`.
+
+*Needs:* 4.3; Mathlib `DifferentiableOn.hasFPowerSeriesOnBall`.
 
 ### 8.3 The rotational addition theorem
 
@@ -998,6 +1111,8 @@ This is integrable for `x > 0`, or for `x = 0` and `Re a < −½`. At zero the c
 terminating parameters give finite sums. For the Abel statement set `t = arctan r`
 in the interior formula and let `r → 1⁻`, using continuity of its prefactor and left-hand side.
 
+*Needs:* 5.1, 6.1 and 8.2; Mathlib `integral_gaussian_complex`; Tau Ceti `TauCeti.Real.erf`.
+
 ### Examples
 
 - 12.12.1 at `a = −½`: both sides equal `2^{μ/2−1} Γ(μ/2)`, the right-hand side by the
@@ -1022,9 +1137,18 @@ for real `x`. `W(a, ·)` is smooth on `ℝ`, solves `w″ + (x²/4 − a) w = 0`
 (`deriv_deriv_parabolicCylinderW`), and has the initial values DLMF 12.14.1–12.14.2,
 `parabolicCylinderWZero a` and `parabolicCylinderWDerivZero a`.
 
+**Checks.**
+- `W(a, 0) > 0` and `W′(a, 0) < 0`.
+- `−2 W(a, 0) W′(a, 0) = 1`, the Wronskian 12.14.3 at `x = 0`; the Gamma quotients cancel.
+- `W(0, 0) = 2^{−1/2} √π / Γ(¾)`, the limit `x → 0+` of 12.14.13, by `Γ(¼) Γ(¾) = π√2`.
+
+*Needs:* 2.2–2.5.
+
 ### 9.2 Wronskian
 
 DLMF 12.14.3: `𝒲{W(a, x), W(a, −x)} = 1` for all `x` (`parabolicCylinderW_mul_deriv_neg_sub`).
+
+*Needs:* 2.4 and 9.1.
 
 ### 9.3 Connection with `U`
 
@@ -1037,6 +1161,13 @@ as pinned:
 
 This includes `Γ(½ + ia) = |Γ(½ + ia)| e^{iφ₂(a)}` (`Gamma_one_half_add_mul_I`), with
 `φ₂(a) = gammaHalfPhase a`.
+
+**Checks** for `φ₂`.
+- `φ₂(0) = 0`.
+- `φ₂(−a) = −φ₂(a)`, since `Re ψ(½ − it) = Re ψ(½ + it)`.
+- `φ₂′(0) = ψ(½) = −γ − 2 log 2`.
+
+*Needs:* 3.5, 3.7 and 9.1; Mathlib `Complex.digamma` and Gamma reflection.
 
 ### 9.4 Power series
 
@@ -1055,25 +1186,33 @@ For every real `a, x`, prove absolute convergence and the `HasSum` identities
 `w₁(a, x) = ∑_{n≥0} α_n(a) x^{2n}/(2n)!` and
 `w₂(a, x) = ∑_{n≥0} β_n(a) x^{2n+1}/(2n+1)!`.
 
+*Needs:* 2.1 and 9.1.
+
 ### 9.5 Kummer form
 
 DLMF 12.14.15, 12.14.16. The even and odd solutions are
 `Re(e^{−ix²/4} Γ(½) 𝐌(¼ − ia/2, ½, ix²/2))` and
 `Re(x e^{−ix²/4} Γ(3/2) 𝐌(¾ − ia/2, 3/2, ix²/2))`.
 
+*Needs:* 2.1 and 9.1.
+
 ### 9.6 The case `a = 0`
 
 DLMF 12.14.13, 12.14.14. For `x > 0`:
 - `W(0, ±x) = 2^{−5/4} √(πx) (J_{−1/4}(x²/4) ∓ J_{1/4}(x²/4))`, with Mathlib's
-  `Complex.besselJ`;
+  `Complex.besselJ` (`parabolicCylinderW_zero_left`);
 - `deriv (fun t ↦ W(0, t)) x = −2^{−9/4} x √(πx) (J_{3/4}(x²/4) + J_{−3/4}(x²/4))` (12.14.14, upper
   sign);
 - `deriv (fun t ↦ W(0, −t)) x = −2^{−9/4} x √(πx) (J_{3/4}(x²/4) − J_{−3/4}(x²/4))` (12.14.14,
   lower sign).
 
-These identities are read in `ℂ` after coercing their real left-hand sides and prefactors.
+The two derivative identities are `deriv_parabolicCylinderW_zero_left`, with `ε = 1` and `ε = −1`
+selecting the upper and lower signs. These identities are read in `ℂ` after coercing their real left-hand sides
+and prefactors.
 The lower-sign derivative is that of the composite function `t ↦ W(0, −t)`; it equals
 `−(deriv (fun t ↦ W(0, t))) (−x)`.
+
+*Needs:* 9.4; Mathlib `Complex.besselJ`.
 
 ### 9.7 Large `x`
 
@@ -1081,17 +1220,17 @@ DLMF 12.14.17–12.14.23. For `x > 0` let
 `ω = x²/4 − a log x + π/4 + φ₂/2`, and define
 `s(x) = e^{−iω} (√(x/(2k)) W(a, x) + i √(kx/2) W(a, −x))`.
 - The identities DLMF 12.14.17–12.14.18 hold with `s₁ = Re s` and `s₂ = Im s`.
-- For every `N`, as `x → +∞`:
+- For every `N`, as `x → +∞` (`isBigO_parabolicCylinderW_sub_sum`):
 
   `s(x) − ∑_{r<N} (−i)^r (½ + ia)_{2r} / (2^r r! x^{2r}) = O(x^{−2N})`.
 
 - Consequently `W(a, x) = √(2k/x) (cos ω + O(x^{−2}))` and
   `W(a, −x) = √(2/(kx)) (sin ω + O(x^{−2}))`.
 
+*Needs:* 7.1 and 9.3.
+
 ### Examples
 
-- 9.2 at `x = 0`: the Wronskian is `−2 W(a, 0) W′(a, 0) = 2 · 2^{−3/4} · 2^{−1/4} = 1`, from the
-  pinned initial values, whose Gamma quotients cancel.
 - 9.4 at `a = 0`: `α₁(0) = α₃(0) = 0` and `α₂(0) = −½`, so `w₁(0, x) = 1 − x⁴/48 + O(x⁸)`,
   consistent with `w″ = −(x²/4) w`.
 
@@ -1100,6 +1239,10 @@ DLMF 12.14.17–12.14.23. For `x > 0` let
 Layers 2–4 and 7; Mathlib `Complex.besselJ`, Gamma, digamma and real integration.
 9.1–9.2 use rotated initial-value solutions; 9.3 uses their Gamma initial values and the
 continuous phase; 9.4 uses the ODE coefficient recurrence; 9.7 uses the rotated `U` expansion.
+
+## Downstream consumers
+
+- **QuantumFoundations** consumes Kummer's equation for `𝐌` (1.3) and its polynomial cases (1.6).
 
 ## Beyond this roadmap (a roadmap for a roadmap; do not implement)
 
