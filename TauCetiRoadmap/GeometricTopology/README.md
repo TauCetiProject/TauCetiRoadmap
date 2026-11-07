@@ -124,8 +124,12 @@ This roadmap leaves the following to other roadmaps.
   same-index basis change, the local Whitney move, and Whitney discs in codimension at
   least three and on the five-dimensional level (HomotopySpheres §§1.2–1.6). No layer of
   this roadmap uses them.
-- **SurfaceTopology** owns the classification of compact surfaces and surface mapping class
-  groups; **PlanarTopology** owns Radó's theorem, the two-dimensional Hauptvermutung and the
+- This roadmap owns the smooth classification of compact surfaces (Layer 1.7) and the
+  mapping class groups of compact surfaces with their Dehn twists, including Lickorish's
+  twist theorem (Layer 1.7.2); the combinatorial classification of surfaces up to
+  homeomorphism that **SurfaceTopology** states is not consumed here, since SurfaceTopology
+  consumes Layer 11.1's ordered-simplex chain complex and CW structure. **PlanarTopology**
+  owns Radó's theorem, the two-dimensional Hauptvermutung and the
   two-dimensional Schoenflies theorem. **TypeAHeckeAlgebras** owns the Hecke algebras and
   the Ocneanu trace. **SuccessiveMinima** owns the successive minima of a discrete full
   lattice for a convex body and their attainment by a real basis of lattice vectors; Layer 7.3.1
@@ -422,14 +426,12 @@ The Levi-Civita connection and its regularity, the geodesic flow, the exponentia
 domain (Layer 1); normal neighbourhoods and the Gauss lemma (Layer 2); the Hopf–Rinow theorem
 (Layer 3).
 
-### From TauCetiRoadmap.SurfaceTopology and TauCetiRoadmap.PlanarTopology
+### From TauCetiRoadmap.PlanarTopology
 
-SurfaceTopology Layer 8 supplies the classification of compact surfaces (the standard surfaces
-of each genus, orientability and number of boundary components, and the Euler
-characteristic); its Layer 9 supplies mapping class groups of surfaces and the comparison
-between their PL, smooth and topological forms. PlanarTopology Layer 5 supplies Radó's
+PlanarTopology Layer 5 supplies Radó's
 theorem and the two-dimensional Hauptvermutung, Layer 7 the two-dimensional Schoenflies
-theorem, and Layer 8 the uniqueness of PL and smooth structures in dimension two.
+theorem, and Layer 8 the uniqueness of PL and smooth structures in dimension two and the
+comparison of smooth and topological isotopy of surface diffeomorphisms.
 
 ### From TauCetiRoadmap.TypeAHeckeAlgebras
 
@@ -505,9 +507,9 @@ topological predicate `TauCeti.IsCollar` is what a smooth collar forgets to.
   boundary for a small time depending smoothly on the point. *Needs:* Mathlib `IsManifold`,
   `ModelWithCorners.boundary`; Tau Ceti `TauCeti.isManifold_boundary`,
   `TauCeti.IsLocallyCollared`; DifferentialGeometry Layer 3 (flows).
-- The restriction of a collar to `∂M × [0, ε)` is a collar for every `0 < ε ≤ 1`, and the
-  reparametrization by an orientation-preserving diffeomorphism of `[0, 1)` fixing `0` is a
-  collar.
+- For every `0 < ε ≤ 1`, the restriction of a collar to `∂M × [0, ε)` composed with the
+  rescaling `(x, t) ↦ (x, εt)` of `∂M × [0, 1)` is a collar, and so is the precomposition
+  of a collar with `id × ψ` for any diffeomorphism `ψ` of `[0, 1)` fixing `0`.
 - Any two smooth collars of `M` agree after shrinking up to a diffeomorphism of `M` isotopic
   to the identity through diffeomorphisms fixing `∂M` pointwise (Hirsch, Chapter 4 §6).
 - The interior `M ∖ ∂M` is a smooth boundaryless manifold, and the inclusion of the interior
@@ -516,8 +518,10 @@ topological predicate `TauCeti.IsCollar` is what a smooth collar forgets to.
   a collar of each boundary component.
 
 **Checks.**
-- The closed interval `[0, 1]` has the collar `({0} × [0, 1/2)) ∪ ({1} × [0, 1/2))` sending
-  `(0, t)` to `t` and `(1, t)` to `1 − t`; a definition that forgot the open-image
+- The closed interval `[0, 1]` has the collar `{0, 1} × [0, 1) → [0, 1]` sending `(0, t)` to
+  `t/2` and `(1, t)` to `1 − t/2`, with image `[0, 1/2) ∪ (1/2, 1]`, open in `[0, 1]`; the
+  same formulas without the factor `1/2` send `(0, 1/2)` and `(1, 1/2)` to the same point
+  and are not an embedding of `{0, 1} × [0, 1)`. A definition that forgot the open-image
   condition would also accept the constant map `(x, t) ↦ x`, which is not an embedding.
 - The circle has empty boundary; its unique collar is the empty embedding, and the
   existence theorem is vacuous rather than false.
@@ -768,8 +772,7 @@ Mathlib `HasGroupoid`, finite-dimensional compactness.
 
 ### 1.7 Compact smooth surfaces
 
-Consume SurfaceTopology Layer 8 for the classification of compact surfaces and the standard
-models, and PlanarTopology Layers 5 and 8 for Radó's theorem and the uniqueness of PL and
+Consume PlanarTopology Layers 5 and 8 for Radó's theorem and the uniqueness of PL and
 smooth structures in dimension two. Build the independent two-dimensional
 triangulation/smoothing adapter needed here: construct finite arc/triangle
 subdivisions in coordinate discs and half-discs, smooth their edges/vertices
@@ -781,14 +784,25 @@ surface-embedding or knot classifications. Prove the smooth classification: ever
 smooth surface, with or without boundary, is diffeomorphic to exactly one of the standard
 smooth models, the orientable surface of genus `g` with `b` boundary components (built from
 `S²` by `g` connected sums with `T²` and `b` ball removals, Layers 1.2 and 1.4) or the
-non-orientable surface with `k ≥ 1` crosscaps and `b` boundary components. Define the genus
+non-orientable surface with `k ≥ 1` crosscaps and `b` boundary components (Hirsch,
+*Differential Topology*, Chapter 9, Theorems 3.5, 3.7, 3.10 and 3.11: two compact connected
+surfaces are diffeomorphic iff they have the same Euler characteristic, the same number of
+boundary components and the same orientability, by induction on the saddles of a Morse
+function; the route through a smooth triangulation, Layer 11.3, and Radó's theorem is the
+alternative). Define the genus
 of a compact connected orientable surface `F` as `(2 − χ(F) − b)/2`, where `χ(F)` is the Euler
 characteristic and `b` the number of boundary components, prove this agrees with the number of
 torus summands, and prove `rank H₁(F; ℚ) = 2g` when `F` is closed and
 `rank H₁(F; ℚ) = 2g + b − 1` when `b ≥ 1`.
 
 - Two diffeomorphisms of a compact surface that are isotopic as homeomorphisms are smoothly
-  isotopic (PlanarTopology Layer 8); mapping class groups are SurfaceTopology Layer 9's.
+  isotopic (PlanarTopology Layer 8); mapping class groups are Layer 1.7.2's.
+- A compact connected orientable surface of genus `g` contains `g` disjoint embedded circles
+  with connected complement, and any `g + 1` disjoint embedded circles disconnect it
+  (Hirsch, Chapter 9, Theorem 3.6 for closed surfaces; cap the boundary circles otherwise);
+  a compact connected non-orientable surface contains a Möbius band, and the largest number
+  of disjoint Möbius bands it contains is its crosscap number `k` (Hirsch, Chapter 9,
+  Lemmas 3.8 and 3.9 and Theorem 3.10 for closed surfaces, and capping otherwise).
 - A compact connected orientable surface with nonempty boundary is a disc with `2g + b − 1`
   bands attached; its first homology is free of rank `2g + b − 1`. Its intersection
   form is the pullback of the standard form on the capped surface under the
@@ -809,8 +823,9 @@ torus summands, and prove `rank H₁(F; ℚ) = 2g` when `F` is closed and
   non-compact surfaces (the plane and the open annulus are both non-compact of genus zero
   and not diffeomorphic).
 
-*Needs:* SurfaceTopology Layer 8, Layer 9; PlanarTopology Layer 5, Layer 8; Layer 1.2,
-Layer 1.4; Layer 11.3 (smooth triangulations); Mathlib singular homology.
+*Needs:* PlanarTopology Layer 5, Layer 8; Layer 1.2, Layer 1.4, Layer 1.5 (tubes of
+circles); Layer 11.3 (smooth triangulations); DifferentialGeometry (Morse functions on
+compact manifolds); Mathlib singular homology.
 
 ### 1.7.1 Polyhedral surfaces and explicit Euclidean embedding models
 
@@ -980,25 +995,115 @@ The constructions, separation, quotient and gluing proofs above are targets here
   surface closed, and the embedding criterion constrains only closed components.
 
 *Needs:* 1.1–1.7, the independent two-dimensional triangulation/smoothing
-prefix of 11.3 and the relative collared-pair adapter from11.2; SurfaceTopology's compact classification, PlanarTopology's
+prefix of 11.3 and the relative collared-pair adapter from11.2; Layer 1.7's compact classification, PlanarTopology's
 surface/plane comparisons; finite simplicial complexes, normal-position and
 transversality from DifferentialGeometry, native projectivization, Euclidean
 spaces, matrices and stereographic projection. The model/separation prefix
 supplies later knot and JSJ applications without consuming their classifications.
+
+### 1.7.2 Mapping class groups of compact surfaces and Dehn twists
+
+Let `F` be a compact connected smooth surface, with or without boundary. Define the
+mapping class group `Mod(F)` of `F` as the group of isotopy classes of diffeomorphisms of
+`F` that fix `∂F` pointwise, the isotopies fixing `∂F` pointwise throughout and taken in
+the topology of Layer 3.1; when `F` is oriented, define `Mod⁺(F)` as the subgroup of
+classes of orientation-preserving diffeomorphisms. When `∂F` is nonempty every
+diffeomorphism fixing `∂F` pointwise preserves orientation, so the two groups coincide
+there. A smooth embedded circle `c` in the interior of `F` is two-sided when its tube
+(Layer 1.5) is an annulus rather than a Möbius band; on an orientable `F` every embedded
+circle is two-sided. Define the Dehn twist `T_c` about a two-sided `c` as the
+diffeomorphism that is the identity outside a closed tube `(ℝ/ℤ) × [0, 1]` of `c`, with
+coordinates `([θ], t)` and `c = {t = 1/2}`, and is `([θ], t) ↦ ([θ + φ(t)], t)` on the
+tube for a smooth `φ : [0, 1] → [0, 1]` equal to `0` near `0` and to `1` near `1`; when `F`
+is oriented, the tube is oriented so that `dθ ∧ dt` agrees with the orientation of `F`,
+which fixes the direction of the twist.
+
+- The class of `T_c` in `Mod(F)` does not depend on the tube, on `φ` or on the orientation
+  of `c`, depends on `c` only through its isotopy class, and satisfies
+  `f T_c f⁻¹ = T_{f(c)}` for every diffeomorphism `f` fixing `∂F`; reversing the
+  orientation of `F` replaces `T_c` by its inverse. A twist about a circle bounding a disc
+  in `F` is the identity class.
+- Alexander's trick: `Mod(D²)` is trivial, by the isotopy `f_s(x) = s f(x/s)` for
+  `|x| < s` and `f_s(x) = x` otherwise, straightened to a smooth isotopy by
+  PlanarTopology Layer 8 (Farb–Margalit, *A Primer on Mapping Class Groups*,
+  Lemma 2.1); `Mod⁺(S²)` is trivial, from `Diff(S²) ≃ O(3)` (Layer 3.4).
+- `Mod(annulus)` is infinite cyclic, generated by the twist about the core circle
+  (Farb–Margalit, Proposition 2.4): the lift to `ℝ × [0, 1]` of the image of the radial
+  arc `{[0]} × [0, 1]` under `Tⁿ` starts at angular coordinate `0` and ends at `n`, and this
+  integer is an invariant of the class relative to the boundary.
+- The torus: for an oriented `F = T²` the action on `H₁(T²; ℤ) ≅ ℤ²` is an isomorphism
+  `Mod⁺(T²) ≅ SL₂(ℤ)` and `Mod(T²) ≅ GL₂(ℤ)` (Farb–Margalit, Theorem 2.5). For a two-sided
+  `c` oriented in an oriented `F`, `T_c` acts on `H₁(F; ℤ)` by `[x] ↦ [x] + (c · x)[c]`,
+  with `c · x` the intersection pairing of Layer 1.7 and the sign convention of the
+  oriented tube above.
+- Cutting: for a two-sided circle `c` in the interior of `F`, the complement `F_c` of an
+  open tube of `c` is a compact surface with `χ(F_c) = χ(F)` and two more boundary
+  circles; for a proper arc `a` (an embedded arc meeting `∂F` exactly in its endpoints,
+  transversally), the complement of an open tube is a compact surface with
+  `χ = χ(F) + 1`, with one boundary circle fewer when the endpoints lie on distinct
+  boundary circles and one more when they lie on the same one. A diffeomorphism of `F`
+  fixing `∂F` that carries `c` (or `a`) to itself restricts to a diffeomorphism of the cut
+  surface fixing its boundary, and twists of the cut surface are twists of `F`.
+- Lickorish's twist theorem: for `F` compact connected orientable, `Mod⁺(F)` is generated
+  by Dehn twists (Lickorish, *A representation of orientable combinatorial 3-manifolds*,
+  Ann. of Math. 76 (1962), 531–540, the twist theorem; Farb–Margalit, Theorem 4.1 for the
+  closed case, by induction on the genus and then on the number of boundary circles through
+  the cutting above, the disc and the annulus being the base cases); for closed `F` of
+  genus `g ≥ 1` the twists about Lickorish's `3g − 1` standard circles suffice (Lickorish,
+  *A finite set of generators for the homeotopy group of a 2-manifold*, Proc. Cambridge
+  Philos. Soc. 60 (1964), 769–778, its main theorem, with the corrigendum in 62 (1966)).
+  Layer 5.2's Lickorish–Wallace theorem and Layer 9.1's dependence of a Heegaard
+  splitting on the mapping class of its gluing consume this.
+
+**Checks.**
+- On the oriented torus with ordered basis `([a], [b])` of `H₁`, `a · b = +1`, the twists
+  act by the matrices `T_a = [[1, 1], [0, 1]]` and `T_b = [[1, 0], [−1, 1]]` (columns the
+  images of `[a]`, `[b]`): `T_a[b] = [b] + [a]` since `a · b = +1`, and `T_b[a] = [a] − [b]`
+  since `b · a = −1`. These two matrices generate `SL₂(ℤ)`, which is Lickorish's
+  `3g − 1 = 2` for `g = 1`; the inverse convention would give `T_a[b] = [b] − [a]`.
+- The factor swap of `T²` acts by `[[0, 1], [1, 0]]`, of determinant `−1`: it reverses
+  orientation and is not isotopic to the identity, which is why `S³` and `S¹ × S²` of
+  Layer 1.3 differ; the map `−I` (the involution `(x, y) ↦ (−x, −y)` of `ℝ²/ℤ²`) lies in
+  `SL₂(ℤ)` and is a nontrivial class of `Mod⁺(T²)` although it carries every unoriented
+  circle to an isotopic one; and `Mod⁺(T²)` is not abelian: `T_a T_b[a] = [a] − [b] − [a]
+  = −[b]` while `T_b T_a[a] = [a] − [b]`.
+- On the annulus the twist `T` is not trivial relative to the boundary, the radial arc's
+  lift ending at angular coordinate `1`; a definition allowing the isotopy to rotate one
+  boundary circle would make `T` trivial, and `Mod(annulus)` would collapse to `1`.
+- The core circle of the Möbius band is one-sided: its tube is a Möbius band, no twist is
+  defined about it, and the two-sidedness hypothesis is necessary; a circle bounding a
+  disc in `T²` has the identity twist, so the twists do not act freely on circles.
+- A compact surface with nonempty boundary has `Mod(F) = Mod⁺(F)`: the differential of a
+  diffeomorphism fixing a boundary circle pointwise is the identity on the boundary
+  tangent line and sends an inward vector to an inward vector, so its determinant is
+  positive. For the closed torus the swap shows the two groups differ.
+- Cutting `T²` along a nonseparating circle gives an annulus (`χ = 0`, two boundary
+  circles); cutting the annulus along a radial arc, whose ends lie on distinct boundary
+  circles, gives a disc (`χ = 1 = 0 + 1`, one boundary circle); cutting the disc along a
+  chord, whose ends lie on the same circle, gives two discs (`χ = 2`, two boundary
+  circles): a formula that always lowered the boundary count by one would get the chord
+  wrong.
+
+*Needs:* Layer 1.5 (tubes of circles), Layer 1.7 (the classification, Euler characteristic
+and intersection pairing), Layer 3.1 (the topology on diffeomorphism groups), Layer 3.3
+(isotopy extension), Layer 3.4 (`Diff(S²) ≃ O(3)`); PlanarTopology Layer 8 (smooth versus
+topological isotopy); Mathlib `Matrix.SpecialLinearGroup`, `Matrix.GeneralLinearGroup`,
+singular homology.
 
 ### Examples
 
 The sphere `Sⁿ` as the double of `Dⁿ`; `S³` as two solid tori glued by the factor swap;
 `S¹ × S²` as two solid tori glued by the identity; the connected sum `T² # T²` of genus two;
 the tube of the unit circle in `ℝ²`; the annulus and the Möbius band as `D²` with one
-`1`-handle attached; the PL circle as the boundary of a triangle.
+`1`-handle attached; the PL circle as the boundary of a triangle; the Dehn twist about the
+core of the annulus and the two twists generating `SL₂(ℤ)` on the torus.
 
 ### Dependencies
 
 Mathlib's manifold library; Tau Ceti's boundary manifold, collars, gluing of atlases, smooth
 embeddings and normal spaces, and Euclidean tubes; DifferentialGeometry
 (corners, flows, metrics); HopfRinow (exponential map, normal neighbourhoods);
-SurfaceTopology and PlanarTopology (surfaces); Layer 3.3 for the ambient isotopy of ball
+PlanarTopology (surfaces); Layer 3.3 for the ambient isotopy of ball
 embeddings used in Layer 1.4, and Layer 11.3 for the smooth triangulations used in Layer 1.7.
 
 ## Layer 2: locally flat embeddings
@@ -2223,7 +2328,7 @@ The decoder, geometric realization and supporting-disc/move construction are out
 *Needs:* Layer 4.2 and4.2.4, native `BasedOrientedGaussCode`,
 `OrientedPDCode`, `PDCode`, perfect matchings, permutation-triple faces and
 `IsPlanar`; Layer 4.2's finite plane realization, PlanarTopology's Jordan/separation;
-SurfaceTopology's compact-surface classification; Layers 4.4,4.7,4.8 and 4.10
+Layer 1.7's compact-surface classification; Layers 4.4,4.7,4.8 and 4.10
 for the seven-crossing polynomial, minimum and rational-reference comparisons.
 Those latter computations consume the decoding and do not supply its planarity.
 
@@ -3426,7 +3531,7 @@ The boundary knot moves by the induced ambient isotopy. An abstract graph
 contraction is not this spatial straightening theorem.
 
 For an arbitrary compact connected surface with nonempty boundary, consume
-SurfaceTopology's classification and Layer1.7's smooth/PL comparison to
+Layer1.7's classification and smooth/PL comparison to
 construct a finite one-disc model. Its band count is `2g+r−1` in the
 orientable case and `k+r−1` in the nonorientable case. Prove that two
 one-disc finite band surfaces are homeomorphic as unmarked abstract
@@ -3485,7 +3590,7 @@ Layer1.5 (collars and tubes), Layer3.3 (supported ambient isotopy extension),
 Layer4.2 (realized diagrams and local Reidemeister moves), Layer4.3's basic
 Seifert/linking carriers; 4.3.4 for ordinary-genus minimum and trefoil
 minimality consumers. The realization/routing prefix does not use those
-minimum/calibration outputs; SurfaceTopology Layer8 and PlanarTopology
+minimum/calibration outputs; Layer1.7 and PlanarTopology
 Layers5,8; native `Graph`, `Equiv.Perm`, finite matching/orbit quotients and
 `ZMod 2` linear maps. The finite-presentation, embedded-spine and relative
 straightening adapters are constructed here.
@@ -9504,13 +9609,13 @@ matrices. Termination uses finite PL subdivisions, a finite crossing list and na
 finite-word extraction; arithmetic normalization then uses Euclid's decreasing
 remainder.
 
-Use SurfaceTopology Layer 9
+Use Layer 1.7.2
 for compact-surface curve/arc cuts, boundary-relative isotopy and mapping-class
 vocabulary, and PlanarTopology's separation, collars and disc straightening. This
 section supplies the four-marked-point specialization: replace the points by small
 boundary circles, compare the boundary-relative cut system after capping them again, and
 realize the permitted point permutations by actual half-twists with collar maps.
-SurfaceTopology's compact boundary-fixed theory does not already supply arbitrary
+The boundary-fixed theory of Layer 1.7.2 does not already supply arbitrary
 puncture motion. Consume 4.2.8's geometric braids and relative tangles with their native
 `BraidWord` conventions; the cap and cup composition closing a four-strand braid by two
 arcs on each face is the four-plat closure, built here from 4.10.1's marked gluing.
@@ -10816,7 +10921,7 @@ granny knots as composite knots with equal Alexander polynomials.
 
 Layer 1 (surfaces, tubes, connected sums), Layer 2.2 (Schoenflies), Layer 3.3 (isotopy
 extension), Layer 5.1 (the exterior); Tau Ceti's knot-theory carriers; Mathlib's quandles and
-braid words; TypeAHeckeAlgebras H1, H2; SurfaceTopology Layer 8; ReductiveGroups §11A
+braid words; TypeAHeckeAlgebras H1, H2; ReductiveGroups §11A
 (strand systems and the native braid group, for Layer 4.2.8). The signature statements
 about torus knots and unknotting numbers are Layer 6.2's and the surgery-theoretic
 unknotting-number theorems are Layer 5.4's; both consume this layer.
@@ -10884,7 +10989,10 @@ gluing of `Dᵏ⁺¹ × Sⁿ⁻ᵏ⁻¹`, and prove that Dehn surgery with integ
   `H₁ ≅ ℤ/p` (and `ℤ` for `p = 0`); the fillings of `K` and of its mirror satisfy
   `S³_{p/q}(K̄) ≅ −S³_{−p/q}(K)`.
 - Lickorish–Wallace: every closed connected orientable `3`-manifold is integer surgery on a
-  framed link in `S³` (Lickorish, Chapter 12; Rolfsen, *Knots and Links*, Chapter 9).
+  framed link in `S³` (Lickorish, Chapter 12; Rolfsen, *Knots and Links*, Chapter 9), from a
+  Heegaard splitting (Layer 9.1) whose gluing map is a product of Dehn twists by
+  Lickorish's twist theorem (Layer 1.7.2), each twist realized by a surgery on a parallel
+  of its circle pushed into a handlebody.
 - The filling along the longitude of the unknot's exterior is `S¹ × S²`, and along
   `p μ + q λ` it is the lens space `TauCeti.LensSpace p` with the parameter determined by `q`
   (Rolfsen, Chapter 9, §B).
@@ -10902,7 +11010,7 @@ gluing of `Dᵏ⁺¹ × Sⁿ⁻ᵏ⁻¹`, and prove that Dehn surgery with integ
 - In general dimension, surgery on `S⁰ ⊂ Sⁿ` with the standard framing gives `S¹ × Sⁿ⁻¹`,
   and surgery on an unknotted `Sⁿ⁻¹ ⊂ Sⁿ` with the standard framing gives `S⁰ × Sⁿ ≅ Sⁿ ⊔ Sⁿ`.
 
-*Needs:* Layer 1.3, Layer 5.1; Tau Ceti `TauCeti.Slope`, `TauCeti.FramedBoundaryTorus.slopeEquiv`,
+*Needs:* Layer 1.3, Layer 1.7.2, Layer 5.1, Layer 9.1; Tau Ceti `TauCeti.Slope`, `TauCeti.FramedBoundaryTorus.slopeEquiv`,
 `TauCeti.LensSpace`, `TauCeti.SolidTorus`.
 
 ### 5.3 Property P, Property R and cosmetic surgery
@@ -12216,8 +12324,8 @@ applications; it does not assume hyperbolization or a finite knot table.
 *Needs:* 8.1–8.2 and 8.3's Haken/normal-surface prefix, independently of its closed
 rigidity conclusion; 11.1–11.2 for finite relative CW/PL models; collars, gluing and
 supported isotopy from Layers 1–3; native fundamental groups, basepoint-path
-equivalences, higher homotopy and homotopy extension; SurfaceTopology's compact-surface
-classification and torus mapping classes. The characteristic-submanifold extension of 8.5–8.5.1 consumes this hierarchy and
+equivalences, higher homotopy and homotopy extension; Layer 1.7's compact-surface
+classification and Layer 1.7.2's torus mapping classes. The characteristic-submanifold extension of 8.5–8.5.1 consumes this hierarchy and
 relative-rigidity prefix and supplies no premise back to it.
 
 ### 8.4 Seifert fibred spaces
@@ -12274,7 +12382,7 @@ most two exceptional fibres, and the family `M(0, 0; 1/2, −1/2, α/β) = M(−
   of the genus, `b` and the exceptional pairs alone would not separate them.
 
 *Needs:* Tau Ceti `TauCeti.IsSeifertFibration`, `TauCeti.IsSeifertFibered`, `TauCeti.SolidTorus`,
-`TauCeti.SolidTorus.fiberSetoid`; Layer 5.1, Layer 8.3; SurfaceTopology Layer 8.
+`TauCeti.SolidTorus.fiberSetoid`; Layer 5.1, Layer 8.3; Layer 1.7.
 
 ### 8.5 The JSJ theorem
 
@@ -12344,8 +12452,8 @@ directly to a compact core would give the wrong boundary convention.
   the special case of the relative statement; the solid torus `S¹ × D²` lies outside the
   hypotheses because its boundary torus compresses.
 
-*Needs:* Layers 1–5, 8.1–8.5, 11.2; SurfaceTopology's boundary maps and isotopy
-classification. The relative JSJ proof is GeometricTopology, Part II's, as for the closed
+*Needs:* Layers 1–5, 8.1–8.5, 11.2; Layer 1.7.2's mapping classes of the boundary tori
+and their isotopy classification. The relative JSJ proof is GeometricTopology, Part II's, as for the closed
 theorem; 8.5.2 consumes the statement.
 
 ### 8.5.2 Prime-knot groups and exterior rigidity
@@ -12499,7 +12607,7 @@ hyperbolic knot exteriors; the Poincaré homology sphere.
 Layer 1 (connected sums, gluing), Layer 5 (exteriors, fillings), Layer 7 (hyperbolic
 structures), Layer 11.2 (PL structures in dimension three); Tau Ceti's irreducibility,
 incompressibility, Seifert fibration, torus decomposition and geometrization carriers;
-SurfaceTopology Layer 8.
+Layer 1.7.
 
 ## Layer 9: Heegaard splittings
 
@@ -12515,8 +12623,8 @@ orientations (Layer 1.3), and prove existence: every closed connected orientable
 `3`-manifold has a Heegaard splitting, from a triangulation (Layer 11.2) as the regular
 neighbourhoods of the `1`-skeleton and of the dual `1`-skeleton (Scharlemann, *Heegaard
 splittings of compact 3-manifolds*, arXiv math/0007144, §2.1). Prove that isotopic gluing maps
-give diffeomorphic manifolds, that `φ` matters only through its mapping class
-(SurfaceTopology Layer 9), and that a splitting may be stabilized by adding a trivial
+give diffeomorphic manifolds (Layer 1.3), that `φ` matters only through its mapping class
+(Layer 1.7.2), and that a splitting may be stabilized by adding a trivial
 handle, raising the genus by one.
 
 - Non-orientable closed `3`-manifolds also have splittings, into non-orientable handlebodies
@@ -12539,7 +12647,7 @@ handle, raising the genus by one.
 - The gluing map for `S¹ × S²` and for `S³` differ by the factor swap, which is not isotopic
   to the identity of the torus; the splitting depends on the mapping class of `φ`.
 
-*Needs:* Layer 1.3, Layer 1.7, Layer 11.2; SurfaceTopology Layer 9; Tau Ceti `TauCeti.Orientable`.
+*Needs:* Layer 1.3, Layer 1.7, Layer 1.7.2, Layer 11.2; Tau Ceti `TauCeti.Orientable`.
 
 ### 9.2 Heegaard genus, rank and Li's theorem
 
@@ -12583,7 +12691,8 @@ manifolds; `T³` as a genus-three manifold.
 ### Dependencies
 
 Layer 1.3 (gluing), Layer 1.7 (surfaces), Layer 11.2 (triangulations), Layer 8.2 (prime
-decomposition), Layer 7.3 (hyperbolic manifolds for Li's examples); SurfaceTopology Layer 9;
+decomposition), Layer 7.3 (hyperbolic manifolds for Li's examples); Layer 1.7.2 (mapping
+classes);
 Mathlib's group rank.
 
 ## Layer 10: foliations of 3-manifolds
@@ -12926,7 +13035,8 @@ and 8; Mathlib CW complexes.
   the shorter `3M.pdf` on the same page numbers the same statements differently from
   Proposition 1.12 on).
 - M. Hirsch, *Differential Topology*, Springer GTM 33 (1976): Chapter 2 §1; Chapter 4,
-  Theorems 5.3, 6.1, 6.3, 6.6; Chapter 8, Theorems 1.3 and 3.1. J. Lee, *Introduction to
+  Theorems 5.3, 6.1, 6.3, 6.6; Chapter 8, Theorems 1.3 and 3.1; Chapter 9, Theorems 3.5,
+  3.6, 3.7, 3.10, 3.11 and Lemmas 3.8, 3.9. J. Lee, *Introduction to
   Smooth Manifolds*, 2nd ed., Springer GTM 218 (2013): Theorems 6.24, 9.25, 9.26. J. Lee,
   *Introduction to Riemannian Manifolds*, 2nd ed., Springer GTM 176 (2018): Theorem 5.25.
 - R. Palais, *Extending diffeomorphisms*, Proc. Amer. Math. Soc. 11 (1960), 274–277;
@@ -12957,7 +13067,12 @@ and 8; Mathlib CW complexes.
   8.6, 8.9, 8.19), Chapter 9, Chapter 10, Chapter 12, Chapter 15, Chapter 16 (Proposition
   16.10). G. Burde, H. Zieschang, *Knots*, 2nd ed., de Gruyter (2003), Chapter 1. D. Rolfsen,
   *Knots and Links*, Publish or Perish (1976), Chapter 9. J. Birman, *Braids, Links, and
-  Mapping Class Groups*, Ann. of Math. Stud. 82 (1974), Chapter 2.
+  Mapping Class Groups*, Ann. of Math. Stud. 82 (1974), Chapter 2. W. B. R. Lickorish, *A
+  representation of orientable combinatorial 3-manifolds*, Ann. of Math. 76 (1962),
+  531–540; *A finite set of generators for the homeotopy group of a 2-manifold*, Proc.
+  Cambridge Philos. Soc. 60 (1964), 769–778, and its corrigendum, 62 (1966), 679–681.
+  B. Farb, D. Margalit, *A Primer on Mapping Class Groups*, Princeton Math. Ser. 49 (2012),
+  Lemma 2.1, Proposition 2.4, Theorem 2.5, Theorem 4.1.
 - P. Freyd, D. Yetter, J. Hoste, W. B. R. Lickorish, K. Millett, A. Ocneanu, *A new polynomial
   invariant of knots and links*, Bull. Amer. Math. Soc. 12 (1985), 239–246, p. 244
   (mutation, pretzel permutations and the two-tangle composition formula).
@@ -12975,8 +13090,8 @@ and 8; Mathlib CW complexes.
   §3. H. Morton, *Threading knot diagrams*, Math. Proc. Cambridge Philos. Soc. 99 (1986),
   247–260, Theorem 1. K. Perko, *On the classification of knots*, Proc. Amer. Math. Soc.
   45 (1974), 262–266. J. Hoste, M. Thistlethwaite, J. Weeks, *The first 1,701,936
-  knots*, Math. Intelligencer 20 (1998), 33–48, Table 1. T. Kindred, *Alternating links
-  have representativity 2*, arXiv 2008.06490, §2.2. M. Teragaito, *Hyperbolic knots with
+  knots*, Math. Intelligencer 20 (1998), 33–48, Table 1. T. Kindred, *A geometric proof of
+  the flyping theorem*, arXiv 2008.06490, §2.2, Definition 2.11 and footnote 11. M. Teragaito, *Hyperbolic knots with
   three toroidal Dehn surgeries*, Bull. Aust. Math. Soc. (2018), DOI
   10.1017/S0004972718000539, §4.1. A. Lecuona, A. Wand, *Fibered ribbon pretzels*, arXiv
   2408.03644, §2. L. Kauffman, S. Lambropoulou, *On the classification of rational
