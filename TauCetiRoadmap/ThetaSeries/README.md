@@ -90,7 +90,7 @@ is the following.
   and its index and unimodularity criteria (*Layer 4: overlattices and isotropic subgroups*); and
   the rank-one and ADE lattices `rankOne`, `typeARootLattice`, `checkerboardLattice` (type `Dₙ` in
   Conway–Sloane coordinates, with its spinor class), `typeE₈RootLattice` and the glued
-  `d8PlusLattice ≅ E₈`, with their discriminant forms (*Layer 5: rank one and ADE discriminant
+  `checkerboardPlusLattice 8 ≅ E₈`, with their discriminant forms (*Layer 5: rank one and ADE discriminant
   forms*).  Its `ofIntegralForm`, the rationalization of an integral form on a finite free
   `ℤ`-module, is the constructor the bridge of 2D uses.  This roadmap adds no competing definition
   of any of these; it transports them across the Layer-2 bridge.
@@ -979,7 +979,7 @@ computation.  `L` is even of even rank `n = 2k` and level `N`.
   determine the lattice.  Both lattices and their non-isometry are the
   [integral quadratic forms and lattices roadmap](../IntegralLattices/README.md)'s **6D**, which
   constructs them — `E₈²` as the orthogonal sum, `D₁₆⁺` by the even-overlattice gluing of its 1F
-  along the spinor class of `D₁₆`, as Tau Ceti glues `d8PlusLattice` — proves them even
+  along the spinor class of `D₁₆`, as Tau Ceti glues `checkerboardPlusLattice 8` — proves them even
   unimodular of rank `16` and in one genus, and separates them by their root systems.  They reach
   this roadmap through the converse direction of the bridge 2D: `realModel` of each lattice, and
   the transfer statement of 2D, which turns 6D's non-isometry into the absence of a real linear
