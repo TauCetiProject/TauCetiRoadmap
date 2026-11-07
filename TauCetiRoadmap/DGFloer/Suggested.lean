@@ -1,203 +1,158 @@
-import Mathlib.Topology.Homotopy.HomotopyGroup
-import Mathlib.Topology.CompactOpen
-import TauCeti.Algebra.Homology.DG.Module.Right.Defs
-import TauCeti.Topology.Homotopy.HomotopyGroup.LoopSpace
+module
+
+public import Mathlib
+public import TauCeti.AlgebraicTopology.EilenbergMacLane.Basic
+public import TauCeti.AlgebraicTopology.Singular.LocalHomology.FundamentalClass
+public import TauCeti.Geometry.Symplectic.Cotangent.Bundle.Liouville
+public import TauCeti.Geometry.Symplectic.Hamiltonian.AlmostExistence
 
 /-!
-# Morse and Floer homology with DG coefficients: target signatures
+# Morse and Floer homology with DG local coefficients: target signatures
 
-**This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. The statements here suggest Lean forms for particular milestones, so that
-contributors and reviewers converge on names and signatures; discharging all of them
-finishes neither a layer nor the roadmap.
+The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
+theorems against the pinned Mathlib and Tau Ceti, each admitted with `sorry`. Discharging the
+statements here finishes neither a layer nor the roadmap.
 
-The Layer 4 declarations below illustrate only the finite-generator algebraic complex.
-Layer 4.5 additionally constructs an arbitrary-small-CW, finite-support semi-free Brown
-resolution, its path-space augmentation comparison and the resulting derived tensor maps.
-Those topological and infinite-basis targets are specified in README.md; neither finite
-matrix Maurer--Cartan data nor the finite `P → M` prototype supplies their resolution proof.
+Stated here:
 
-Only Layer 0 (singular cubes), Layer 2 (Moore paths) and Layer 4 (twisting cocycles over a
-DG algebra) are prototyped: they rest on material that exists in Mathlib and Tau Ceti today.
-The Moore-path carrier is the strict-concatenation model; it is not homeomorphic to the
-fixed-interval loop space, and the two are compared by a homotopy equivalence (README, standing
-conventions). In Layer 4, `P → M` stands for `M ⊗_A K_m`, where `K_m` is the twisted complex of
-free left modules of the README; the coefficient `m x y` acts on the right of `α`.
-The twisting equation is written in the source's homological sign convention on a
-cohomologically graded algebra, through the grading bridge `C^{-n} = C_n` of the README; its
-comparison with the DG roadmap's `(MC)` is acceptance criterion 2.
+* the mod-2 vanishing theorem (README Layer 1 item 4): a simply connected space with vanishing
+  reduced mod-2 singular homology has uniquely 2-divisible higher homotopy groups;
+* Theorem A of the source in its two cases (README Layer 10 item 5): on the cotangent bundle of a
+  closed connected oriented manifold that is not aspherical, respectively not rationally
+  aspherical, every regular level of a proper function enclosing the image of a closed oriented
+  manifold of degree `±1`, respectively of nonzero degree, has the contractible almost existence
+  property, on the pinned carriers `TauCeti.CotangentBundle.symplecticForm`,
+  `TauCeti.SmoothTwoForm.HasContractibleAlmostExistence` and
+  `TauCeti.HomologicalOrientation.mapFundamentalClass`;
+* the torus criterion (README Layer 11 item 3): a compact connected Lie group is aspherical
+  exactly when it is a torus.
+
+The source's Lemma 3.41 (README Layer 10 item 4) is the pinned
+`TauCeti.isAspherical_iff_doubleLoopSpace_singularHomology`, and the twisted complex of a twisting
+cocycle (README Layer 4) is the pinned `TauCeti.TwistingCocycle.twistedCochainComplex`; neither is
+restated here.
+
+Not statable at the pins, each with the carrier it lacks:
+
+* Theorem C (README Layer 10 item 5): a mod-2 fundamental class of a closed non-orientable
+  manifold, for the mod-2 degree of `π ∘ φ`; the pinned fundamental class
+  `TauCeti.HomologicalOrientation.fundamentalClass` is integral and needs an orientation.
+* Theorems L and M (README Layer 10 items 1–2): symplectic homology with DG coefficients, its
+  spectral invariants, and DG Morse homology of `(W, ∂W)`; the capacities they bound are pinned
+  (`TauCeti.SmoothTwoForm.relContractibleHZCapacity`,
+  `TauCeti.SmoothTwoForm.contractibleHZCapacity`).
+* Theorem J and the comparison `FH_*(X; 𝓕) ≅ H_{*+n}(X; i_X^*𝓕)` (README Layer 8 item 6): the
+  Hamiltonian Floer complex, hence moduli spaces of Floer cylinders.
+* Theorem K, the DG Viterbo isomorphism (README Layer 9 item 3): symplectic homology `SH_*` and
+  DG Morse homology of the free loop space.
+* The fibration theorem `H_*(B; C_*(F')) ≅ H_*(E)` (README Layer 5 item 4): the DG Morse complex,
+  that is, the Barraud–Cornea twisting cocycle of the compactified Morse trajectory spaces; the
+  loop DG algebra, the DG local system `TauCeti.fibrationLocalSystem` of a map and the twisted
+  complex of a twisting cocycle are pinned.
+* The Arnold bound on contractible 1-periodic orbits (README Layer 7.C.6g): the first Chern class
+  on spherical classes, for the spherical monotonicity hypothesis; the pinned Floer cap classes
+  take the Chern number as an abstract homomorphism.
+* The Serre spectral sequences (README Layer 1 item 2): the local system of fibre homology of a
+  Serre fibration, the coefficient system of `E²`. The pinned fibre-homology local system
+  `TauCeti.fiberLocalSystem` is built from a lifting function of a Hurewicz fibration.
+* The Floer–Novikov torsion invariant (README Layer 7.T.8): Floer complexes over Novikov rings.
 -/
+
+@[expose] public section
 
 namespace TauCetiRoadmap.DGFloer
 
-open scoped unitInterval
+universe u
 
-/-! ## Layer 0: cubical singular chains -/
+open scoped unitInterval ContDiff
 
-/-- A **singular `n`-cube** in `X`: a continuous map from the cube `Iⁿ`. -/
-abbrev SingularCube (X : Type*) [TopologicalSpace X] (n : ℕ) := C(Fin n → I, X)
+/-! ## Layer 1: topological prerequisites -/
 
-namespace SingularCube
+open scoped Topology in
+/-- **Mod-2 vanishing** (README Layer 1 item 4). A simply connected space `Y` whose singular
+homology with coefficients in the abelian group `ℤ/2` vanishes in every positive degree has
+every higher homotopy group uniquely 2-divisible: squaring is a bijection on `π_{n+2}(Y, y)`.
+The coefficients are Mathlib's singular homology with values in `ModuleCat ℤ`, evaluated on the
+`ℤ`-module `ZMod 2`, lifted to the universe of `Y`. The proof is the one-step lemma of the
+README, iterated through the Whitehead tower, with the mod-2 Serre spectral sequence and the
+vanishing of `H̃_*(K(A, n); 𝔽₂)` for a `ℤ[1/2]`-module `A`. -/
+theorem bijective_sq_homotopyGroup_of_mod_two_acyclic (Y : TopCat.{u}) [SimplyConnectedSpace Y]
+    (hY : ∀ n : ℕ, 1 ≤ n → Subsingleton
+      (((AlgebraicTopology.singularHomologyFunctor (ModuleCat.{u} ℤ) n).obj
+        (ModuleCat.of ℤ (ULift.{u} (ZMod 2)))).obj Y))
+    (n : ℕ) (y : Y) : Function.Bijective (fun a : π_ (n + 2) Y y ↦ a ^ 2) := sorry
 
-variable {X Y : Type*} [TopologicalSpace X] [TopologicalSpace Y]
+/-! ## Layer 10: the criteria and their applications to cotangent bundles -/
 
-/-- A singular cube is **degenerate** when it does not depend on at least one coordinate
-(Massey's convention; it is closed under the cross product, unlike Serre's). -/
-def IsDegenerate {n : ℕ} (s : SingularCube X n) : Prop :=
-  ∃ i : Fin n, ∀ x y : Fin n → I, (∀ j, j ≠ i → x j = y j) → s x = s y
+section TheoremA
 
-/-- The **cross product** of singular cubes: the first `p` coordinates feed `s`, the last `q`
-feed `t`. It is strictly associative up to the canonical identification of index types. -/
-def prod {p q : ℕ} (s : SingularCube X p) (t : SingularCube Y q) :
-    SingularCube (X × Y) (p + q) :=
-  ⟨fun x ↦ (s fun i ↦ x (Fin.castAdd q i), t fun j ↦ x (Fin.natAdd p j)), by fun_prop⟩
+open TauCeti
+open scoped Manifold Topology
 
-/-- The cross product of a degenerate cube with any cube is degenerate. -/
-theorem IsDegenerate.prod_left {p q : ℕ} {s : SingularCube X p} (hs : s.IsDegenerate)
-    (t : SingularCube Y q) : (s.prod t).IsDegenerate := sorry
+variable {E : Type} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
 
-/-- The cross product of any cube with a degenerate cube is degenerate. -/
-theorem IsDegenerate.prod_right {p q : ℕ} (s : SingularCube X p) {t : SingularCube Y q}
-    (ht : t.IsDegenerate) : (s.prod t).IsDegenerate := sorry
-
-end SingularCube
-
-/-! ## Layer 2: Moore paths -/
-
-/-- A **Moore path** in `X`: a length `L ≥ 0` and a path on `[0, ∞)` that is stopped at time
-`L`. Concatenation of Moore paths is strictly associative with strict units. -/
-structure MoorePath (X : Type*) [TopologicalSpace X] where
-  /-- The length of the path. -/
-  length : ℝ
-  length_nonneg : 0 ≤ length
-  /-- The path, parametrized by `[0, ∞)`. -/
-  toFun : C(Set.Ici (0 : ℝ), X)
-  /-- The path is stopped from time `length` on. -/
-  stopped : ∀ t : Set.Ici (0 : ℝ), length ≤ t →
-    toFun t = toFun ⟨length, length_nonneg⟩
-
-namespace MoorePath
-
-variable {X : Type*} [TopologicalSpace X]
-
-/-- The starting point of a Moore path. -/
-def source (γ : MoorePath X) : X := γ.toFun ⟨0, Set.mem_Ici.2 le_rfl⟩
-
-/-- The end point of a Moore path. -/
-def target (γ : MoorePath X) : X := γ.toFun ⟨γ.length, γ.length_nonneg⟩
-
-/-- Concatenation of Moore paths: lengths add, and the second path starts where the first
-stops. -/
-def trans (γ δ : MoorePath X) (h : γ.target = δ.source) : MoorePath X := sorry
-
-theorem length_trans (γ δ : MoorePath X) (h : γ.target = δ.source) :
-    (γ.trans δ h).length = γ.length + δ.length := sorry
-
-/-- Concatenation of Moore paths is strictly associative. -/
-theorem trans_assoc (γ δ ε : MoorePath X) (h₁ : γ.target = δ.source)
-    (h₂ : δ.target = ε.source) (h₁₂ : (γ.trans δ h₁).target = ε.source)
-    (h₂₃ : γ.target = (δ.trans ε h₂).source) :
-    (γ.trans δ h₁).trans ε h₁₂ = γ.trans (δ.trans ε h₂) h₂₃ := sorry
-
-end MoorePath
-
-/-! ## Layer 4: twisting cocycles and the twisted complex -/
-
-section Twisting
-
-variable {R A : Type*} [CommRing R] [Ring A] [Algebra R A]
-  {𝒜 : ℤ → Submodule R A} [GradedAlgebra 𝒜] {d : A →ₗ[R] A}
-
-/-- A **twisting cocycle** over the DG algebra `(𝒜, d)` on a finite set `P` of generators
-graded by `ind`. In homological notation `m x y` has degree `ind x - ind y - 1`, so under the
-grading bridge it lies in cohomological degree `ind y - ind x + 1`. The twisting equation is the
-source's `∂m_{x,y} = Σ_z (-1)^{ind x - ind z} m_{x,z} m_{z,y}`.
-
-The one-sidedness condition is part of the data: it does not follow from the degree and the
-twisting equation over an arbitrary DG algebra (README, Layer 4 item 1), but it is automatic over
-a cohomologically nonpositive algebra (`TwistingCocycle.one_sided_of_nonpos`). -/
-structure TwistingCocycle (h : TauCeti.IsDGAlgebra 𝒜 d) (P : Type*) [Fintype P] (ind : P → ℤ)
-    where
-  /-- The coefficient of `y` in the twisted differential of `x`. -/
-  m : P → P → A
-  mem_graded : ∀ x y, m x y ∈ 𝒜 (ind y - ind x + 1)
-  twisting : ∀ x y, d (m x y) = ∑ z, (ind x - ind z).negOnePow • (m x z * m z y)
-  /-- Strict upper-triangularity for the order by `ind`. -/
-  one_sided : ∀ x y, ind x ≤ ind y → m x y = 0
-
-omit [GradedAlgebra 𝒜] in
-/-- Over a cohomologically nonpositive algebra (for instance `C_*(ΩB)` through the grading
-bridge), the degree condition alone forces one-sidedness. -/
-theorem TwistingCocycle.one_sided_of_nonpos {P : Type*} {ind : P → ℤ} (m : P → P → A)
-    (hm : ∀ x y, m x y ∈ 𝒜 (ind y - ind x + 1)) (h𝒜 : ∀ n, 0 < n → 𝒜 n = ⊥) :
-    ∀ x y, ind x ≤ ind y → m x y = 0 := by
-  intro x y hxy
-  have h := hm x y
-  rw [h𝒜 _ (by omega)] at h
-  exact (Submodule.mem_bot R).1 h
-
-variable {M : Type*} [AddCommGroup M] [Module R M] [Module Aᵐᵒᵖ M] [IsScalarTower R Aᵐᵒᵖ M]
-
-/-- The **grading involution** `α ↦ (-1)^{|α|} α` of an internally graded module, which carries
-the Koszul sign of the twisted differential. -/
-def gradingInvolution (ℳ : ℤ → Submodule R M) [DirectSum.Decomposition ℳ] : M →ₗ[R] M := sorry
-
-theorem gradingInvolution_of_mem (ℳ : ℤ → Submodule R M) [DirectSum.Decomposition ℳ] {q : ℤ}
-    {α : M} (hα : α ∈ ℳ q) : gradingInvolution ℳ α = q.negOnePow • α := sorry
-
-/-- The twisted complex `M ⊗_A K_m`, with `M ⊗ ⟨P⟩` identified with `P → M`, is graded in total
-degree `n` by `f x ∈ ℳ (n + ind x)`: the generator `x` sits in cohomological degree `-ind x`. -/
-def totalGrading (ℳ : ℤ → Submodule R M) {P : Type*} (ind : P → ℤ) (n : ℤ) :
-    Submodule R (P → M) where
-  carrier := {f | ∀ x, f x ∈ ℳ (n + ind x)}
-  add_mem' hf hg x := add_mem (hf x) (hg x)
-  zero_mem' _ := zero_mem _
-  smul_mem' c _ hf x := Submodule.smul_mem _ c (hf x)
-
-variable {h : TauCeti.IsDGAlgebra 𝒜 d} {P : Type*} [Fintype P] [DecidableEq P] {ind : P → ℤ}
-  {ℳ : ℤ → Submodule R M}
-  [SetLike.GradedSMul (TauCeti.InternalGrading.ofDecomposition 𝒜).opposite.piece ℳ]
-  [DirectSum.Decomposition ℳ]
-
-/-- The twisted differential on `M ⊗_A K_m`, identified with `P → M`. Its `y`-component is
-`(D f) y = ∂(f y) + Σ_x (m_{x,y} acting on the right) (ε (f x))`, where `ε = gradingInvolution ℳ`
-carries the Koszul sign. On a homogeneous elementary tensor this is
-`D(α ⊗ x) = ∂α ⊗ x + (-1)^{|α|} Σ_y α · m_{x,y} ⊗ y` (`twistedDifferential_single`). The right
-`A`-action on `M` enters the construction itself, so the map depends on it: for `A = ℚ × ℚ` acting
-on `M = ℚ` through either projection, with `ind x = 1`, `ind y = 0` and `m x y = (1, 0)`, the two
-actions give `D(1 ⊗ x) = 1 ⊗ y` and `D(1 ⊗ x) = 0` (acceptance criterion 2).
-
-`R`-linearity needs the two actions on `M` to commute, `[SMulCommClass R Aᵐᵒᵖ M]`; the instance
-is bound on the definition and used in `map_smul'`, so it is retained in the signature. -/
-def twistedDifferential [SMulCommClass R Aᵐᵒᵖ M] (m : TwistingCocycle h P ind)
-    (ℳ : ℤ → Submodule R M) [DirectSum.Decomposition ℳ] (dM : M →ₗ[R] M) :
-    (P → M) →ₗ[R] (P → M) where
-  toFun f y := dM (f y) + ∑ x, MulOpposite.op (m.m x y) • gradingInvolution ℳ (f x)
-  map_add' f g := by
-    funext y
-    simp only [Pi.add_apply, map_add, smul_add, Finset.sum_add_distrib]
-    abel
-  map_smul' r f := by
-    funext y
-    simp only [Pi.smul_apply, map_smul, RingHom.id_apply, smul_add, Finset.smul_sum, smul_comm r]
-
-/-- Evaluation on a homogeneous elementary tensor `α ⊗ x`, with `α` of degree `q`. -/
-theorem twistedDifferential_single (m : TwistingCocycle h P ind) (dM : M →ₗ[R] M) (x : P)
-    {q : ℤ} {α : M} (hα : α ∈ ℳ q) :
-    twistedDifferential m ℳ dM (Pi.single x α) =
-      Pi.single x (dM α) + ∑ y, Pi.single y (q.negOnePow • (MulOpposite.op (m.m x y) • α)) :=
+/-- **Theorem A of the source, first case** (README Layer 10 item 5; the source's Theorem A,
+proved as its Theorem 5.10). Let `Q` be a closed connected oriented `n`-manifold that is not
+aspherical, `S` a closed oriented `n`-manifold, and `φ : S → T*Q` continuous such that `π ∘ φ`
+has degree `d = ±1`: `(π ∘ φ)_*[S] = d • [Q]` in `H_n(Q; ℤ)`. Let `F : T*Q → ℝ` be smooth with
+compact sublevel sets, `c` a regular value of `F`, and `F < c` on `φ(S)`, so that the hypersurface
+`F⁻¹(c)` bounds the relatively compact domain `{F < c}` containing `φ(S)`. Then `F⁻¹(c)` has the
+contractible almost existence property for the canonical symplectic form `ω = -dλ`: for some
+`ε > 0`, almost every regular level `F⁻¹(c')` with `|c' - c| < ε` carries a closed characteristic
+contractible in `T*Q`. The source's form `Σ dpᵢ ∧ dqᵢ` is `-ω`, and almost existence does not see
+the sign of the form. -/
+theorem hasContractibleAlmostExistence_of_not_isAspherical {Q S : Type} [TopologicalSpace Q]
+    [T2Space Q] [ChartedSpace E Q] [IsManifold 𝓘(ℝ, E) ∞ Q] [CompactSpace Q] [ConnectedSpace Q]
+    [TopologicalSpace S] [T2Space S] [ChartedSpace E S] [CompactSpace S]
+    (oQ : HomologicalOrientation Q E (Module.finrank ℝ E))
+    (oS : HomologicalOrientation S E (Module.finrank ℝ E)) (q : Q) (hQ : ¬ IsAspherical Q q)
+    (φ : C(S, CotangentBundle 𝓘(ℝ, E) Q)) {d : ℤ}
+    (hd : oS.mapFundamentalClass rfl
+        ((⟨Bundle.TotalSpace.proj, FiberBundle.continuous_proj _ _⟩ :
+          C(CotangentBundle 𝓘(ℝ, E) Q, Q)).comp φ) =
+      d • oQ.mapFundamentalClass rfl (ContinuousMap.id Q))
+    (hd₁ : IsUnit d) (F : CotangentBundle 𝓘(ℝ, E) Q → ℝ)
+    (hF : ContMDiff (𝓘(ℝ, E).prod 𝓘(ℝ, E →L[ℝ] ℝ)) 𝓘(ℝ) ∞ F)
+    (hFc : ∀ b : ℝ, IsCompact (F ⁻¹' Set.Iic b)) {c : ℝ}
+    (hc : IsRegularValue (𝓘(ℝ, E).prod 𝓘(ℝ, E →L[ℝ] ℝ)) 𝓘(ℝ) F c) (hφ : ∀ s, F (φ s) < c) :
+    (CotangentBundle.symplecticForm 𝓘(ℝ, E) Q).HasContractibleAlmostExistence Set.univ F c :=
   sorry
 
-/-- The twisted differential raises the total degree by one. -/
-theorem twistedDifferential_mem_totalGrading (m : TwistingCocycle h P ind) {dM : M →ₗ[R] M}
-    (hM : TauCeti.IsDGRightModule h ℳ dM) {n : ℤ} {f : P → M} (hf : f ∈ totalGrading ℳ ind n) :
-    twistedDifferential m ℳ dM f ∈ totalGrading ℳ ind (n + 1) := sorry
+/-- **Theorem A of the source, second case** (README Layer 10 item 5; the source's Theorem A,
+proved as its Theorem 5.10). As in the first case, with the hypotheses on `Q` and on the degree
+exchanged: `Q` is not a rational `K(π, 1)`, that is, some `π_ℓ(Q)` with `ℓ ≥ 2` has nonzero
+rationalization `π_ℓ(Q) ⊗ ℚ`, equivalently is not a torsion group, and the degree `d` of `π ∘ φ`
+is nonzero. -/
+theorem hasContractibleAlmostExistence_of_not_isTorsion_homotopyGroup {Q S : Type}
+    [TopologicalSpace Q] [T2Space Q] [ChartedSpace E Q] [IsManifold 𝓘(ℝ, E) ∞ Q] [CompactSpace Q]
+    [ConnectedSpace Q] [TopologicalSpace S] [T2Space S] [ChartedSpace E S] [CompactSpace S]
+    (oQ : HomologicalOrientation Q E (Module.finrank ℝ E))
+    (oS : HomologicalOrientation S E (Module.finrank ℝ E)) (q : Q)
+    (hQ : ∃ n : ℕ, ¬ IsMulTorsion (π_ (n + 2) Q q))
+    (φ : C(S, CotangentBundle 𝓘(ℝ, E) Q)) {d : ℤ}
+    (hd : oS.mapFundamentalClass rfl
+        ((⟨Bundle.TotalSpace.proj, FiberBundle.continuous_proj _ _⟩ :
+          C(CotangentBundle 𝓘(ℝ, E) Q, Q)).comp φ) =
+      d • oQ.mapFundamentalClass rfl (ContinuousMap.id Q))
+    (hd₀ : d ≠ 0) (F : CotangentBundle 𝓘(ℝ, E) Q → ℝ)
+    (hF : ContMDiff (𝓘(ℝ, E).prod 𝓘(ℝ, E →L[ℝ] ℝ)) 𝓘(ℝ) ∞ F)
+    (hFc : ∀ b : ℝ, IsCompact (F ⁻¹' Set.Iic b)) {c : ℝ}
+    (hc : IsRegularValue (𝓘(ℝ, E).prod 𝓘(ℝ, E →L[ℝ] ℝ)) 𝓘(ℝ) F c) (hφ : ∀ s, F (φ s) < c) :
+    (CotangentBundle.symplecticForm 𝓘(ℝ, E) Q).HasContractibleAlmostExistence Set.univ F c :=
+  sorry
 
-/-- The twisted differential squares to zero when `M` is a DG right module. -/
-theorem twistedDifferential_sq (m : TwistingCocycle h P ind) {dM : M →ₗ[R] M}
-    (hM : TauCeti.IsDGRightModule h ℳ dM) (f : P → M) :
-    twistedDifferential m ℳ dM (twistedDifferential m ℳ dM f) = 0 := sorry
+end TheoremA
 
-end Twisting
+/-! ## Layer 11: the finite cover of a compact connected Lie group -/
+
+/-- **The torus criterion** (README Layer 11 item 3): a compact connected Lie group is
+aspherical exactly when it is isomorphic, as a topological group, to a torus `(S¹)^r`. The
+proof is through the finite covering `T × K → G` of README Layer 11 item 1 and `π₃(K) ≠ 0` for a
+nontrivial compact simply connected semisimple `K` (item 2). -/
+theorem isAspherical_iff_exists_continuousMulEquiv_torus
+    {E H G : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [TopologicalSpace H]
+    (I₀ : ModelWithCorners ℝ E H) [TopologicalSpace G] [ChartedSpace H G] [Group G]
+    [LieGroup I₀ ∞ G] [CompactSpace G] [ConnectedSpace G] :
+    TauCeti.IsAspherical G 1 ↔ ∃ r : ℕ, Nonempty (G ≃ₜ* (Fin r → Circle)) := sorry
 
 end TauCetiRoadmap.DGFloer
