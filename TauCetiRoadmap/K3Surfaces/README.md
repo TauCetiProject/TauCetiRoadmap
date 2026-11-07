@@ -21,9 +21,16 @@ EtaleCohomologyFoundations, Hasse–Minkowski isotropy to GlobalQuadraticForms,
 the Castelnuovo–Zariski rationality criterion to
 NeronModelsAndSemistableAbelianVarietiesPartII and Enriques' ruledness theorem
 to SchemeAndStackFoundations through the contract stated under the supplier
-contracts. K0.A owns the vector-field unirationality reduction and the
-Picard-number theorem ρ(X)=22 for unirational K3 surfaces; the Part II roadmap
-consumes them. Linear analytic
+contracts. K0.A owns the vector-field unirationality reduction over
+algebraically closed fields of every positive characteristic, 2 included, and
+the Picard-number theorem ρ(X)=22 for unirational K3 surfaces over algebraically
+closed fields of every characteristic; both binders are wider than that of its
+vanishing theorem, and the Part II roadmap consumes both. Restricted Lie
+algebras, Jacobson's formula and the p-th power of a derivation of a commutative
+algebra belong to PCurvature §§0.1–0.3; §0.2 here owns only their passage to
+vector fields on a scheme and the p-closed vector field it produces. The norm of
+invertible sheaves along finite locally free morphisms belongs to ModularCurves §2B
+and Ogg's formula to NeronModelsAndSemistableAbelianVarieties §5.3e. Linear analytic
 Hodge theory belongs to ComplexKahlerGeometry K5–K6. Generic discriminant forms and
 overlattices belong to IntegralLattices §§1B–1F; their native constructions are used
 below. The gluing theorem is the extension/restriction criterion for a
@@ -37,7 +44,7 @@ extension, including its all-characteristic, Picard-lattice and symplectic-bound
 
 ## Conventions
 
-An algebraic K3 surface over an algebraically closed field k is a smooth proper geometrically integral surface X/k with an invertible-sheaf isomorphism ω_X≃O_X and H¹(X,O_X)=0. Keep a choice of this isomorphism, or equivalently a nonzero two-form σ, as input to constructions that use it. Changing σ by a unit must produce the stated comparison maps. Smooth proper surfaces over a field are projective (Huybrechts draft §1.1, Definition 1.1 and Remark 1.2, p.7). The differential-vanishing theorem here has algebraically closed k of characteristic p>2; the complex lane supplies the characteristic-zero counterpart.
+An algebraic K3 surface over an algebraically closed field k is a smooth proper geometrically integral surface X/k with an invertible-sheaf isomorphism ω_X≃O_X and H¹(X,O_X)=0. Keep a choice of this isomorphism, or equivalently a nonzero two-form σ, as input to constructions that use it. Changing σ by a unit must produce the stated comparison maps. Smooth proper surfaces over a field are projective (Huybrechts draft §1.1, Definition 1.1 and Remark 1.2, p.7). The differential-vanishing theorem here has algebraically closed k of characteristic p>2; the complex lane supplies the characteristic-zero counterpart. The restricted structure on vector fields and the unirationality reduction of §0.2 hold in every positive characteristic, and its rank-22 theorem over every algebraically closed field.
 
 Analytic manifolds and local base charts are finite-dimensional, Hausdorff and second-countable. The complex analytic lane includes compact connected complex surfaces with trivial canonical bundle and H¹(O)=0. K1 constructs their Kähler structure theorem, rather than building Kählerness into an unexplained comparison with the algebraic definition. Analytic surfaces need not be projective. Algebraic surfaces over ℂ and analytic surfaces admitting a positive-square integral (1,1)-class are related by the actual analytification/algebraization equivalence below. Every H² integral object is the actual singular cohomology of the underlying space, with its cup pairing and complex scalar-extension maps.
 
@@ -69,7 +76,11 @@ TauCeti/AlgebraicGeometry/Modules/Differentials/Basic.lean,
 and `TauCeti.AlgebraicGeometry.Scheme.Modules.Cohomology` in
 TauCeti/AlgebraicGeometry/Cohomology/Basic.lean. These retain the actual structure
 morphism, sheaf and cohomology group. Global vector fields are morphisms
-from relative differentials to `SheafOfModules.unit`.
+from relative differentials to `SheafOfModules.unit`;
+`AlgebraicGeometry.Scheme.relativeDifferentialsHomEquiv`, in the same
+Differentials/Basic.lean, identifies them with
+`AlgebraicGeometry.Scheme.Modules.Derivation` of the structure sheaf, the
+compatible families of k-derivations of the rings of sections over all opens.
 
 Use `TauCeti.IntegralLattice`, `TauCeti.IntegralLattice.Isometry`,
 `TauCeti.IntegralLattice.IsNondegenerate`,
@@ -93,7 +104,9 @@ Each row specifies the sections consumed and their exact output.
 | --- | --- | --- |
 | SchemeAndStackFoundations 0.3, 1.17, 1.23, 2.2–2.3, 2.6, 2.11, 2.20, 4.9, 4.11, 5.9–5.10 and the ruledness contract below | projective schemes and finite-group quotients; stack/groupoid descent; Čech-to-derived comparison and abelian torsor/H¹ identification; Hilbert 90 and the Kummer sequence; coherent cohomology, duality, Kähler differentials and proper base change; adjunction, Noether's formula, surface Riemann–Roch and the Hodge index theorem; Enriques' ruledness theorem in every characteristic | a K3 period map, analytic Kuranishi space, global Torelli, or the rationality of a given quotient surface |
 | AlgebraicModuliForArithmeticGeometry 1.1–1.3, 7.3, 7.8 and 8.1–8.3 (with SchemeAndStackFoundations Layer4) | projective-space and coherent-quotient carriers (§§1.1–1.3); Picard lifting (§7.3); Artin test groupoids and tangent/obstruction maps (§§8.1–8.3); effective algebraic families under the algebraicity/effectivity hypotheses of §7.8 | the vanishing of K3 obstruction spaces or an unrestricted universal coarse family |
-| AlgebraicCurves Layers 9/10/12, JacobianChallenge A–D, StableReduction Layers 4–6 | relative genus-one curves, Jacobians/Picard torsors, Weierstrass and minimal regular models, intersection/coherent-duality and projectivity constructions | the K0.A vector-field theorem or a genus-one fibration on an arbitrary K3 |
+| AlgebraicCurves Layers 9/10/12, JacobianChallenge A–D, StableReduction Layers 4–6 | relative genus-one curves, Jacobians/Picard torsors, Weierstrass and minimal regular models, intersection/coherent-duality and projectivity constructions; finite-dimensionality of coherent cohomology of proper k-schemes (JacobianChallenge Layer B) | the K0.A vector-field theorem or a genus-one fibration on an arbitrary K3 |
+| PCurvature §§0.1–0.3 | Jacobson's formula, with its correction term vanishing on commuting elements (§0.1); restricted Lie algebras over a commutative ring of characteristic p, their morphisms and restricted subalgebras (§0.2); the p-th iterate of a derivation of a commutative algebra of characteristic p as a derivation, with the scalar law, Hochschild's formula, the commutator law, Jacobson additivity, the restricted Lie algebra of all derivations and compatibility with localization (§0.3) | vector fields on a scheme, the existence of a p-closed vector field, or the quotient by one |
+| ModularCurves §2B; NeronModelsAndSemistableAbelianVarieties §5.3e | the norm functor on invertible sheaves along finite locally free morphisms, with its base-change, tensor-product and tower laws; Ogg's formula v(Δ_min)=f(E)+m−1 for elliptic curves over complete discrete valuation rings with perfect residue field, in every residue characteristic | the canonical-divisor formula of a p-closed quotient or the fibre configurations of a K3 pencil |
 | ComplexComparisonPartII C−1.1–C0.7, C1.9, C2, C4.1–C4.4 and C5.4 | actual scheme/space analytification, coherent GAGA and ideal/section/bundle/morphism dictionaries, analytic proper images and cycle currents; C5.4’s exponential sequence and integral first-Chern comparison | a K3 family, positive-square algebraization criterion or global Torelli |
 | CKG K1–K4, K5a/K5b, K6.0–K6.1, K7 and the holomorphic Picard comparison contract below | type/Dolbeault calculus, analytic sets and coherent gluing, holomorphic bundles, elliptic estimates, compact Hodge/Serre and projective Kähler examples; the comparison Pic_hol(M)≃H¹(M,O_Mˣ) with its gluing inverse and laws | K3 Kählerness, nonlinear Monge–Ampère existence, K3 periods or Torelli |
 | IndexTheory I6, I7.1–I7.3 and I8; CharacteristicClasses C1–C7 | actual Dolbeault index/Todd, Euler/signature and holomorphic fixed-map traces for isolated nondegenerate fixed points (including the empty fixed set), with symbol, orientation and Chern normalizations | the K3-specific numerical specialization, simple connectivity or surface isomorphism |
@@ -195,18 +208,88 @@ and surface Riemann–Roch.
 
 ### 0.2 Algebraic absence of vector fields in characteristic p>2 (K0.A)
 
-For every algebraically closed k of characteristic p>2 and every algebraic K3 X/k, prove `algebraicK3_differential_vanishing`: H⁰(X,T_X)=0 and H⁰(X,Ω¹_X)=0. In Lean these mean subsingleton morphisms Ω¹_X→O_X and subsingleton degree-zero sheaf cohomology, respectively (Martin v3, Corollary 1.1, p.4 and proof p.40; Huybrechts draft §1.1, p.7, contraction). This is a required early algebraic theorem. It must not consume unobstructed K3 moduli, a Witt lift, Hodge symmetry in positive characteristic, an Enriques numerical lattice or K6 Torelli. The following proof route requires the constructions in steps 1–4 at this layer.
+For every algebraically closed k of characteristic p>2 and every algebraic K3 X/k, prove `algebraicK3_differential_vanishing`: H⁰(X,T_X)=0 and H⁰(X,Ω¹_X)=0. In Lean these mean subsingleton morphisms Ω¹_X→O_X and subsingleton degree-zero sheaf cohomology, respectively (Martin v3, Corollary 1.1, p.4 and proof p.40; Huybrechts draft §1.1, p.7, contraction). This is a required early algebraic theorem. It must not consume unobstructed K3 moduli, a Witt lift, Hodge symmetry in positive characteristic, an Enriques numerical lattice or K6 Torelli. The following proof route requires the restricted structure on vector fields, the unirationality reduction (U) stated after it, and the constructions in steps 1–4 at this layer.
 
-1. First build the surface-resolution adapter needed for these quotients: take a separating projective pencil on the normal excellent projective quotient whose base locus is smooth and whose generic member avoids its finite singular set, resolve its base points, and use StableReduction Layer 4's normalized-blowup resolution of models with smooth generic curve over each relevant local base DVR. Prove the covers glue to a projective resolution and retain canonical discrepancies. Curve normalization in SchemeAndStackFoundations §4.13 is not this surface theorem, and a characteristic-zero Hironaka input is not permitted. From a nonzero global vector field, first produce a nonzero p-closed derivation in the restricted Lie algebra of global derivations; prove this reduction over the algebraically closed field. Its saturated rank-one distribution is p-closed. Construct its height-one purely inseparable quotient from the invariant subalgebras, the normalization, local zero/divisorial data, the canonical-divisor formula and its minimal-resolution comparison. Carry additive and multiplicative p-closed cases separately, with the actual restricted p-power of derivations. Write L=O_X(Δ) for the saturation of the line spanned by the derivation in T_X, with Δ≥0 the divisorial part of its zero locus, π:X→Y for the quotient, which is normal and projective because the Frobenius of X factors through it, and f:Ỹ→Y for the minimal resolution, obtained from the adapter by contracting the (−1)-curves of the exceptional locus (Liedtke, Theorem 4.2, p.20). The quotient is smooth exactly where T_X/L is locally free, and the canonical-divisor formula gives π^*ω_Y≃L^(−(p−1)) over the smooth locus of Y (Huybrechts draft Proposition 9.4.6, p.180). Prove that Y is rational in two cases, so that X, purely inseparable over a rational surface through the Frobenius factorization X→Y→X^(1), is unirational (Huybrechts draft Proposition 9.4.6, pp.180–181; Rudakov–Šafarevič 1976, Theorem 5 and Corollary 1, pp.1216–1217). (a) Divisorial case Δ≠0: a section of ω_Ỹ^n with n>0 restricts to the smooth locus of Y, pulls back to a section of O_X(−n(p−1)Δ) over the complement of finitely many points of X, extends by normality and vanishes because Δ is a nonzero effective divisor; so every plurigenus of Ỹ is zero and Ỹ is birationally ruled over a smooth curve C with h¹(Ỹ,O_Ỹ)=g(C)=b₁(Ỹ)/2, by Enriques' ruledness theorem of the SchemeAndStackFoundations contract (gap:enriques-ruledness) stated under the supplier contracts. Blow up X at the finitely many indeterminacy points of X⇢Ỹ to a morphism ρ:X″→Ỹ (Liedtke, §4.3, p.20); ρ_*ρ^*=deg(ρ)·id on H¹_ét(Ỹ,ℚ_ℓ) by the projection formula and Poincaré duality of EtaleCohomologyFoundations F.5–F.6, so b₁(Ỹ)≤b₁(X″)=b₁(X)=0, the equality by the blow-up decomposition F.7 and the vanishing by the Kummer computation in (i) below, which uses no unirationality. Hence h¹(Ỹ,O_Ỹ)=0 and h⁰(ω_Ỹ²)=0, and Ỹ is rational by the Castelnuovo–Zariski criterion of NeronModelsAndSemistableAbelianVarietiesPartII §6.1. (b) Isolated case Δ=0, so L=O_X and T_X/L≃I_Z for the finite zero scheme Z of the derivation: π^*ω_Y is trivial over the smooth locus of Y, so ω_Y^p is trivial there by the norm along the finite flat π, and ω_Ỹ^p≃O_Ỹ(Σb_iE_i) with integers b_i and E_i the exceptional curves of f. The exceptional intersection form is negative definite by the Hodge index theorem of SchemeAndStackFoundations §5.10, since the pullback of an ample class of Y has positive square and is orthogonal to every E_i; minimality gives K_Ỹ·E_j≥0 for every j; hence every b_i≤0. If some plurigenus of Ỹ were nonzero, the anti-effective divisor nΣb_iE_i would be linearly equivalent to an effective one, so every b_i=0 and K_Ỹ is numerically trivial; then each E_i is a smooth rational curve of square −2 by the adjunction formula of SchemeAndStackFoundations §5.10, negative definiteness makes each connected exceptional curve a tree of n_i such curves meeting transversally (two of them meet at most once, and a cycle of m of them has square 0), with ℓ-adic Euler number n_i+1, and the localization sequence of compact-support cohomology (EtaleCohomologyFoundations F.2.5) gives e(Ỹ)=e(Y)+Σn_i, where e(Y)=e(X)=24 because π is a universal homeomorphism (EtaleCohomologyFoundations F.0.4) and e(X)=24 by the étale Gauss–Bonnet count in (i) below. Noether's formula on Ỹ with K_Ỹ²=0 and h⁰(ω_Ỹ)≤1 gives e(Ỹ)=12χ(O_Ỹ)≤24, so Σn_i=0, Y is smooth, T_X/L≃I_Z is locally free, Z=∅ and the derivation is nowhere zero, making T_X an extension of O_X by O_X with c₂(T_X)=0, against c₂=24 from §0.1. Hence every plurigenus of Ỹ vanishes and Ỹ is rational by the argument of (a). Then produce the pencil in four named sub-targets of K0.A. (i) A unirational K3 surface over an algebraically closed field has Picard number ρ(X)=22: resolve the indeterminacy of a dominant rational map ℙ²⇢X to a morphism π:Y→X from a blow-up of ℙ², whose H²_ét is spanned by cycle classes by the blow-up decomposition of EtaleCohomologyFoundations F.7; π^* is injective on H²_ét(X,ℚ_ℓ(1)) because π_*π^*=deg(π)·id by the projection formula and Poincaré duality of EtaleCohomologyFoundations F.5–F.6; π^* and π_* carry the cycle classes of EtaleCohomologyFoundations §0.9 to cycle classes, and the cycle-class map is injective on NS(X)⊗ℚ_ℓ because it respects intersection numbers and Pic(X)=Num(X) on a K3; hence H²_ét(X,ℚ_ℓ(1)) is spanned by cycle classes and ρ(X)=b₂(X) (Huybrechts draft Proposition 17.2.7, pp.367–368). Compute b₂(X)=22: the étale Gauss–Bonnet identity of EtaleCohomologyFoundations F.6 gives Σ(−1)ⁱbᵢ=deg c₂(T_X)=24 with §0.1’s Noether computation; b₀=b₄=1; and b₁=b₃=0 because H¹_ét(X,μ_ℓⁿ)≃Pic(X)[ℓⁿ] by the Kummer sequence and Hilbert 90 of SchemeAndStackFoundations §2.11 (the global units of X are kˣ, which is ℓ-divisible), Pic(X) is torsion-free by Riemann–Roch (a torsion line bundle has χ=2, so it or its dual is effective, and an effective torsion bundle is trivial; Huybrechts draft Remark 1.2.5, p.12), and b₃=b₁ by Poincaré duality. (ii) NS(X), of signature (1,21) by the Hodge index theorem of SchemeAndStackFoundations §5.10, is an indefinite rational quadratic space of rank at least five, hence isotropic over ℚ by the Hasse–Minkowski theorem of GlobalQuadraticForms §5.5, whose local isotropy in rank at least five comes from its own prerequisites (Huybrechts draft Proposition 11.1.3, p.208); clear denominators to a primitive isotropic class. (iii) By Riemann–Roch that class or its negative is effective; carry it into the nef cone by finitely many reflections in smooth rational curves, each step lowering the degree against a fixed ample class (Huybrechts draft Remark 8.2.13, p.151), to a primitive nef D₀ with D₀²=0, and prove that D₀ is base point free and moves in a pencil whose Stein factorization is the relatively minimal genus-one fibration (Huybrechts draft Proposition 2.3.10, p.32). (iv) Prove the generic fibre is smooth, that there are no multiple fibres, and that there are at least two singular fibres. In characteristic at least five the generic member of (iii) is a smooth genus-one curve; in characteristic three, establish the smooth-generic-fibre pencil construction, selecting the class of (ii) inside the rank-22 Néron–Severi lattice of (i), rather than silently substituting a quasi-elliptic fibration. This vector-field-to-pencil lemma is part of K0.A, with its invariant-function, divisor, Riemann–Roch and resolution proof, not an assumption that every K3 is elliptic. In particular it proves ρ(X)=22 from unirationality rather than assuming Picard rank at least five, and it does not assume the desired differential vanishing.
+**Restricted structure on vector fields.** Let X be a scheme over a field k of
+characteristic p>0. By `AlgebraicGeometry.Scheme.relativeDifferentialsHomEquiv`,
+a global vector field, a morphism Ω¹_X→O_X of relative differentials over k, is
+the same as a compatible family D=(D_U) of k-derivations of the rings of sections Γ(X,U) over all opens U. Define
+D^[p] openwise as the family of p-th iterates of the D_U, and the bracket openwise as
+the commutator; the same definition on each open subscheme gives the p-th power of
+local vector fields. On rings this is PCurvature §0.3; the passage to schemes is
+owned here.
+
+- For every open U the p-th iterate of D_U is a k-derivation of Γ(X,U), by
+  PCurvature §0.3 when Γ(X,U) is nonzero and trivially on the zero ring; it commutes
+  with restriction because each D_U does, so D^[p] is again a vector field. On an
+  affine open Spec A it is PCurvature §0.3's p-th power on Der_k(A), and its
+  restriction to a basic open is that section's compatibility with localization.
+- Bracket and D↦D^[p] make the global vector fields a restricted Lie algebra over k
+  in the sense of PCurvature §0.2: (cD)^[p]=c^p·D^[p] for c∈k, ad(D^[p])=(ad D)^p,
+  and (D+E)^[p]=D^[p]+E^[p]+Λ_p(D,E) with Jacobson's Lie polynomial Λ_p. Each law
+  holds openwise by PCurvature §0.3, and a vector field is determined by its family
+  of derivations.
+- For a local vector field D and a local function f, Hochschild's formula
+  (fD)^[p]=f^p·D^[p]+((fD)^(p−1)(f))·D holds (PCurvature §0.3). Pullback along an
+  isomorphism of k-schemes is an isomorphism of restricted Lie algebras.
+- For X proper over k the global vector fields are finite-dimensional over k
+  (JacobianChallenge Layer B). If moreover k is algebraically closed and some global
+  vector field is nonzero, then some global vector field D≠0 has additive type,
+  D^[p]=0, or multiplicative type, D^[p]=D (Rudakov–Šafarevič 1976, §1, Lemma 1 and
+  its Corollary, pp.1206–1207). Route: the iterates E^[p^i] of a nonzero E commute,
+  since ad(E^[p^i])=(ad E)^(p^i) kills E, so ad E kills every iterate and so does
+  every power of ad E; they span a finite-dimensional abelian
+  restricted subalgebra on which Jacobson's correction term vanishes (PCurvature
+  §0.1) and the p-map φ is p-semilinear. If φ is not injective, a nonzero kernel
+  vector has additive type. Otherwise φ(x)=M·x^(p) in a basis, with M invertible; the
+  k-algebra k[x₁,…,x_n]/(x_i^p−Σ_j N_ij x_j), N=M^(−1), is étale of dimension p^n,
+  so φ has p^n>1 fixed vectors, and a nonzero one has multiplicative type.
+
+**Checks.**
+
+- On the affine line, ∂_x^[p]=0 and (x∂_x)^[p]=x∂_x, since (x∂_x)(x^n)=n·x^n and
+  n^p≡n modulo p; the coefficientwise model (f∂_x)^[p]=f^p∂_x would give x^p∂_x.
+- Hochschild's correction term with f=x and D=∂_x is ((x∂_x)^(p−1)(x))·∂_x=x∂_x, so
+  (x∂_x)^[p]=x^p·0+x∂_x, agreeing with the previous Check; omitting the correction
+  term gives 0.
+- On ℙ¹ with affine coordinate t, the fields ∂_t, t∂_t and t²∂_t are global (in
+  s=1/t they are −s²∂_s, −s∂_s and −∂_s), and (t²∂_t)^[p]=0 because
+  (t²∂_t)^p(t^n)=n(n+1)⋯(n+p−1)·t^(n+p) and p divides a product of p consecutive
+  integers; both types occur among the global fields of the proper curve ℙ¹.
+- On ℙ¹×ℙ¹ with affine coordinates t and u, for k≠𝔽_p and c∈k∖𝔽_p, the global field
+  D=t∂_t+c·u∂_u has D^[p]=t∂_t+c^p·u∂_u, which is not a multiple of D; so a nonzero
+  field need not itself be p-closed, while t∂_t=(c^p·D−c·D^[p])/(c^p−c) is a nonzero
+  field of multiplicative type in the subalgebra its iterates span.
+- Over the empty open the ring of sections is zero and every derivation of it is
+  zero; a construction requiring characteristic exactly p of every ring of sections
+  would fail there, since the zero ring has characteristic 1. In characteristic 0
+  the iterate is not a derivation: ∂_x²(x·x)=2 on the affine line over ℚ, while the
+  Leibniz rule for ∂_x² would give x·0+x·0=0; for p=2 the value 2 is 0.
+
+**The unirationality reduction (U).** For every algebraically closed field k of
+characteristic p>0, p=2 included, and every algebraic K3 surface X/k with a nonzero
+global vector field, X is unirational: there is a dominant rational map ℙ²_k⇢X
+(Huybrechts draft Proposition 9.4.6, pp.180–181, for every p>0; Rudakov–Šafarevič
+1976, §2, Theorem 5 and Corollary 1, pp.1216–1217). Step 1 proves (U) through its
+cases (a) and (b) and uses p>2 nowhere: the canonical-divisor exponent p−1 is
+positive for every prime, and the resolution, ruledness, Castelnuovo–Zariski,
+Euler-number and Noether inputs carry no characteristic hypothesis. The vanishing
+theorem applies (U) at p>2; at p=2, outside that theorem's binder, the Part II
+roadmap applies it.
+
+1. First build the surface-resolution adapter needed for these quotients: take a separating projective pencil on the normal excellent projective quotient whose base locus is smooth and whose generic member avoids its finite singular set, resolve its base points, and use StableReduction Layer 4's normalized-blowup resolution of models with smooth generic curve over each relevant local base DVR. Prove the covers glue to a projective resolution and retain canonical discrepancies. Curve normalization in SchemeAndStackFoundations §4.13 is not this surface theorem, and a characteristic-zero Hironaka input is not permitted. From a nonzero global vector field, take the nonzero global field D of additive or multiplicative type given by the restricted structure above. Its saturated rank-one distribution is p-closed: Hochschild's formula keeps the p-th power of every local multiple of D in O_X·D, and sending a local section of the saturation to its p-th power modulo the saturation is p-linear with values in the torsion-free quotient of T_X by the saturation, hence zero because it vanishes where the saturation is O_X·D. Construct its height-one purely inseparable quotient from the invariant subalgebras, the normalization, local zero/divisorial data, the canonical-divisor formula and its minimal-resolution comparison. Carry the additive and multiplicative cases separately, with the p-th power of vector fields defined above. Write L=O_X(Δ) for the saturation of the line spanned by the derivation in T_X, with Δ≥0 the divisorial part of its zero locus, π:X→Y for the quotient, which is normal and projective because the Frobenius of X factors through it, and f:Ỹ→Y for the minimal resolution, obtained from the adapter by contracting the (−1)-curves of the exceptional locus (Liedtke, Theorem 4.2, p.20). The quotient is smooth exactly where T_X/L is locally free, and the canonical-divisor formula gives π^*ω_Y≃L^(−(p−1)) over the smooth locus of Y (Huybrechts draft Proposition 9.4.6, p.180). Prove (U): Y is rational in two cases, so that X, purely inseparable over a rational surface through the Frobenius factorization X→Y→X^(1), is unirational (Huybrechts draft Proposition 9.4.6, pp.180–181; Rudakov–Šafarevič 1976, Theorem 5 and Corollary 1, pp.1216–1217). (a) Divisorial case Δ≠0: a section of ω_Ỹ^n with n>0 restricts to the smooth locus of Y, pulls back to a section of O_X(−n(p−1)Δ) over the complement of finitely many points of X, extends by normality and vanishes because Δ is a nonzero effective divisor; so every plurigenus of Ỹ is zero and Ỹ is birationally ruled over a smooth curve C with h¹(Ỹ,O_Ỹ)=g(C)=b₁(Ỹ)/2, by Enriques' ruledness theorem of the SchemeAndStackFoundations contract (gap:enriques-ruledness) stated under the supplier contracts. Blow up X at the finitely many indeterminacy points of X⇢Ỹ to a morphism ρ:X″→Ỹ (Liedtke, §4.3, p.20); ρ_*ρ^*=deg(ρ)·id on H¹_ét(Ỹ,ℚ_ℓ) by the projection formula and Poincaré duality of EtaleCohomologyFoundations F.5–F.6, so b₁(Ỹ)≤b₁(X″)=b₁(X)=0, the equality by the blow-up decomposition F.7 and the vanishing by the Kummer computation in (i) below, which uses no unirationality. Hence h¹(Ỹ,O_Ỹ)=0 and h⁰(ω_Ỹ²)=0, and Ỹ is rational by the Castelnuovo–Zariski criterion of NeronModelsAndSemistableAbelianVarietiesPartII §6.1. (b) Isolated case Δ=0, so L=O_X and T_X/L≃I_Z for the finite zero scheme Z of the derivation: π^*ω_Y is trivial over the smooth locus of Y, so ω_Y^p is trivial there: over that locus π is finite locally free of degree p, and the norm functor of ModularCurves §2B along π sends π^*ω_Y to ω_Y^p, since on local trivializations the norm of a unit pulled back from Y is its p-th power; and ω_Ỹ^p≃O_Ỹ(Σb_iE_i) with integers b_i and E_i the exceptional curves of f. The exceptional intersection form is negative definite by the Hodge index theorem of SchemeAndStackFoundations §5.10, since the pullback of an ample class of Y has positive square and is orthogonal to every E_i; minimality gives K_Ỹ·E_j≥0 for every j; hence every b_i≤0. If some plurigenus of Ỹ were nonzero, the anti-effective divisor nΣb_iE_i would be linearly equivalent to an effective one, so every b_i=0 and K_Ỹ is numerically trivial; then each E_i is a smooth rational curve of square −2 by the adjunction formula of SchemeAndStackFoundations §5.10, negative definiteness makes each connected exceptional curve a tree of n_i such curves meeting transversally (two of them meet at most once, and a cycle of m of them has square 0), with ℓ-adic Euler number n_i+1, and the localization sequence of compact-support cohomology (EtaleCohomologyFoundations F.2.5) gives e(Ỹ)=e(Y)+Σn_i, where e(Y)=e(X)=24 because π is a universal homeomorphism (EtaleCohomologyFoundations F.0.4) and e(X)=24 by the étale Gauss–Bonnet count in (i) below. Noether's formula on Ỹ with K_Ỹ²=0 and h⁰(ω_Ỹ)≤1 gives e(Ỹ)=12χ(O_Ỹ)≤24, so Σn_i=0, Y is smooth, T_X/L≃I_Z is locally free, Z=∅ and the derivation is nowhere zero, making T_X an extension of O_X by O_X with c₂(T_X)=0, against c₂=24 from §0.1. Hence every plurigenus of Ỹ vanishes and Ỹ is rational by the argument of (a). Then produce the pencil in four named sub-targets of K0.A. (i) For every algebraically closed field k, of any characteristic, a unirational K3 surface X/k has Picard number ρ(X)=22; no step of this sub-target uses the characteristic: resolve the indeterminacy of a dominant rational map ℙ²⇢X to a morphism π:Y→X from a blow-up of ℙ², whose H²_ét is spanned by cycle classes by the blow-up decomposition of EtaleCohomologyFoundations F.7; π^* is injective on H²_ét(X,ℚ_ℓ(1)) because π_*π^*=deg(π)·id by the projection formula and Poincaré duality of EtaleCohomologyFoundations F.5–F.6; π^* and π_* carry the cycle classes of EtaleCohomologyFoundations §0.9 to cycle classes, and the cycle-class map is injective on NS(X)⊗ℚ_ℓ because it respects intersection numbers and Pic(X)=Num(X) on a K3; hence H²_ét(X,ℚ_ℓ(1)) is spanned by cycle classes and ρ(X)=b₂(X) (Huybrechts draft Proposition 17.2.7, pp.367–368). Compute b₂(X)=22: the étale Gauss–Bonnet identity of EtaleCohomologyFoundations F.6 gives Σ(−1)ⁱbᵢ=deg c₂(T_X)=24 with §0.1’s Noether computation; b₀=b₄=1; and b₁=b₃=0 because H¹_ét(X,μ_ℓⁿ)≃Pic(X)[ℓⁿ] by the Kummer sequence and Hilbert 90 of SchemeAndStackFoundations §2.11 (the global units of X are kˣ, which is ℓ-divisible), Pic(X) is torsion-free by Riemann–Roch (a torsion line bundle has χ=2, so it or its dual is effective, and an effective torsion bundle is trivial; Huybrechts draft Remark 1.2.5, p.12), and b₃=b₁ by Poincaré duality. (ii) NS(X), of signature (1,21) by the Hodge index theorem of SchemeAndStackFoundations §5.10, is an indefinite rational quadratic space of rank at least five, hence isotropic over ℚ by the Hasse–Minkowski theorem of GlobalQuadraticForms §5.5, whose local isotropy in rank at least five comes from its own prerequisites (Huybrechts draft Proposition 11.1.3, p.208); clear denominators to a primitive isotropic class. (iii) By Riemann–Roch that class or its negative is effective; carry it into the nef cone by finitely many reflections in smooth rational curves, each step lowering the degree against a fixed ample class (Huybrechts draft Remark 8.2.13, p.151), to a primitive nef D₀ with D₀²=0, and prove that D₀ is base point free and moves in a pencil whose Stein factorization is the relatively minimal genus-one fibration (Huybrechts draft Proposition 2.3.10, p.32). (iv) Prove the generic fibre is smooth, that there are no multiple fibres, and that there are at least two singular fibres. In characteristic at least five the generic member of (iii) is a smooth genus-one curve; in characteristic three, establish the smooth-generic-fibre pencil construction, selecting the class of (ii) inside the rank-22 Néron–Severi lattice of (i), rather than silently substituting a quasi-elliptic fibration. This vector-field-to-pencil lemma is part of K0.A, with its invariant-function, divisor, Riemann–Roch and resolution proof, not an assumption that every K3 is elliptic. In particular it proves ρ(X)=22 from unirationality rather than assuming Picard rank at least five, and it does not assume the desired differential vanishing.
 2. For that actual pencil f:X→ℙ¹, construct the map of connected automorphism group schemes to Aut(ℙ¹), its vertical kernel and horizontal image, and their tangent maps. Use the Jacobian/torsor model to determine the vertical component when there are no multiple fibres. Determine which α_p or μ_p horizontal actions extend across every minimal regular fibre by local Weierstrass coordinates, including wild conductor contributions. The corrected fibre analysis, not an unrestricted linearization assertion about a non-linearly-reductive group, is the producer.
-3. Prove the resulting exhaustive alternatives with nonzero vector field: c₂=0; a rational Jacobian isotrivial surface with two singular fibres; the characteristic-three exceptional two-fibre configurations; or a single-singular-fibre isotrivial case in the small characteristics. Compute the local discriminant/conductor and component contributions using the minimal equations and Ogg's formula. Show none of the alternatives with at least two singular fibres has c₂=24. The characteristic-three wild alternatives must be explicitly eliminated, not discarded with the characteristic-two branch.
+3. Prove the resulting exhaustive alternatives with nonzero vector field: c₂=0; a rational Jacobian isotrivial surface with two singular fibres; the characteristic-three exceptional two-fibre configurations; or a single-singular-fibre isotrivial case in the small characteristics. Compute the local discriminant/conductor and component contributions using the minimal equations and Ogg's formula in every residue characteristic, 3 included (NeronModelsAndSemistableAbelianVarieties §5.3e, applied to the completed local rings of ℙ¹, whose residue field k is perfect). Show none of the alternatives with at least two singular fibres has c₂=24. The characteristic-three wild alternatives must be explicitly eliminated, not discarded with the characteristic-two branch.
 4. Conclude that D could not exist, transport through contraction, and export zero-section and functorial global-section statements. Supply the algebraic Serre-dual consequence H²(T_X)=0 separately, with its actual duality map; this consequence is not an input to steps 1–3.
 
 One proof route is the corrected algebraic vector-field argument. The historical Rudakov–Shafarevich intermediate elliptic statements require corrections; Martin's *Infinitesimal automorphisms of algebraic varieties and vector fields on elliptic surfaces*, Theorem D and Corollary 1.1, identifies the corrected route. The needed pencil and local-action statements above are explicit K0.A theorem targets with their own construction. A reference to that paper does not install a proof or a new assumed vanishing axiom.
 
 An Enriques consumer may pull back Ω¹_S⊗K_S along its finite étale canonical cover X→S, trivialize the pulled-back K_S by the actual cover algebra, use faithful flatness to obtain an injection on H⁰ and then use K0.A. Algebraic Serre duality identifies its vanishing with H²(S,T_S)=0. This consumer requires no conclusion about Num(S), no Picard-preserving lift and no complex period. Characteristic zero has the independent algebraic-to-complex/spreading or complex Hodge proof with its exact field-of-definition descent; characteristic two is stated separately.
 
-*Needs:* §0.1; AlgebraicCurves Layers 9/10/12, JacobianChallenge A–D and
+*Needs:* §0.1; Tau Ceti `AlgebraicGeometry.Scheme.relativeDifferentialsHomEquiv`
+and PCurvature §§0.1–0.3 for the restricted structure on vector fields, with
+JacobianChallenge Layer B for its finite dimension on a proper surface;
+AlgebraicCurves Layers 9/10/12, JacobianChallenge A–D and
 StableReduction Layers 4–6 for the genus-one and minimal-model inputs;
 SchemeAndStackFoundations §§1.17, 2.11, 2.20, 5.9–5.10 for quotient, Hilbert 90
 and Kummer, duality, Noether, Riemann–Roch and Hodge index inputs;
@@ -217,7 +300,9 @@ theorem on the resolved quotient; EtaleCohomologyFoundations §0.9 and F.5–F.7
 classes, Poincaré duality, the projection formula, étale Gauss–Bonnet and the
 blow-up decomposition, F.0.4 for the invariance of étale cohomology under the
 universal homeomorphism X→Y and F.2.5 for the localization sequence of
-compact-support cohomology; GlobalQuadraticForms §5.5 for Hasse–Minkowski isotropy.
+compact-support cohomology; GlobalQuadraticForms §5.5 for Hasse–Minkowski isotropy;
+ModularCurves §2B for the norm along the quotient map in case (b);
+NeronModelsAndSemistableAbelianVarieties §5.3e for Ogg's formula in step 3.
 Step 1 also constructs the vector-field-to-pencil
 argument used in Martin v3, proof of Corollary 1.1, p.40, citing
 Rudakov–Shafarevich, p.1502 (primary locator uncertified); Theorem D alone
@@ -244,6 +329,16 @@ a power of 3 to be 21 or 15, respectively, which is impossible. The
 one-singular-fibre alternative fails the at-least-two hypothesis. Characteristic 2 is outside this theorem's binder,
 although the cited vanishing itself holds there (Gounelas–Liedtke v1,
 Proposition 2.2(2), p.6).
+The binder of the reduction (U) includes p=2: there the canonical-divisor
+exponent is p−1=1, so in case (a) a pulled-back pluricanonical section lies in
+O_X(−nΔ) and still vanishes for Δ≠0. The K3 hypotheses of (U) are needed: an
+abelian surface A has a two-dimensional space of global vector fields and a
+nowhere-zero one, but c₂(T_A)=0, so case (b) reaches no contradiction, and A is not
+unirational, since the pullback–pushforward argument of (i), applied to H¹_ét of a
+blow-up of ℙ², would give b₁(A)=0 whereas b₁(A)=4. Sub-target (i) is vacuous in
+characteristic 0: a dominant rational map from ℙ² is separable there, and composed with the resolution of its indeterminacy
+it would pull the nowhere-zero two-form σ back to a nonzero two-form on a blow-up of
+ℙ², which has none; so (i) does not contradict the complex bound ρ≤20.
 
 ### Dependencies
 
@@ -918,7 +1013,9 @@ fixed-curve formula.
 EnriquesSurfaces E1 uses §0.2 and Layers 1–2. Its E6.U0–U4 uses Layer 7
 and strong Torelli for primitive canonical-cover pullback and automorphism
 descent with the actual ample cone and discriminant compatibility retained.
-K3SurfacesAndSymplecticBoundedness Part II extends these K3 foundations.
+K3SurfacesAndSymplecticBoundedness Part II extends these K3 foundations; it
+consumes §0.2's vanishing theorem, its unirationality reduction (U) at p=2 and
+step 1's rank theorem (i).
 
 ## References
 
@@ -951,8 +1048,10 @@ K3SurfacesAndSymplecticBoundedness Part II extends these K3 foundations.
 - Rudakov–Šafarevič, *Inseparable morphisms of algebraic surfaces*,
   Math. USSR Izv. 10 (1976), 1205–1237,
   [DOI 10.1070/IM1976v010n06ABEH001833](https://doi.org/10.1070/IM1976v010n06ABEH001833),
-  §2, Theorem 5 and Corollaries 1–2, pp.1216–1217, for the rationality of the
-  quotient by a p-closed vector field and its consequences.
+  §1, Lemma 1 and its Corollary, pp.1206–1207, for the existence of a p-closed
+  vector field, and §2, Theorem 5 and Corollaries 1–2, pp.1216–1217, for the
+  rationality of the quotient by a p-closed vector field and its consequences, in
+  every positive characteristic.
 - Liedtke, *Algebraic Surfaces in Positive Characteristic*,
   [arXiv:0912.4291v4](https://arxiv.org/abs/0912.4291v4), Theorem 4.2, p.20
   (Castelnuovo's contraction), §4.3, p.20 (resolution of indeterminacy),
