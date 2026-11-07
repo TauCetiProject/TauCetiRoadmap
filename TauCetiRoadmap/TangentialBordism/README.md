@@ -242,7 +242,7 @@ retain their native hypotheses and chosen smooth structures.
 | --- | --- | --- |
 | [AlgebraicTopology](../AlgebraicTopology/README.md), Layers2–4,6,8 and 8.13 | arbitrary CW skeleta/cofibrations, ordinary chains/cochains/products, relative fundamental classes and duality, 6.3's homological orientation system and its comparison with smooth orientations, EM carriers and representability; 8.13's smoothing of continuous maps into a compact boundaryless manifold relative to a closed set, parametric transversality and relative transversality, for boundaryless sigma-compact Hausdorff second-countable sources | B4 owns the integral higher diagonals and generic ordinary mod2 cup-i/Sq/Adem/Wu package; ordinary cohomology carriers remain AT; B1.6 owns the Sard theorem in unequal dimensions and the extension of 8.13's three theorems to sources with corners, facewise |
 | [DifferentialGeometry](../DifferentialGeometry/README.md), 2.1, 2.2, 5.5b | 2.1's manifold orientation, the pinned `TauCeti.Manifold.Orientation` (the quotient of `OrientationLift`, a model orientation with locally constant chart signs obeying the transition-Jacobian rule); 2.2's oriented-atlas criterion for boundaryless manifolds, in the direction from an orientation to an oriented atlas (2.2's orientation-preserving maps, pullback and product orientations and the direction from an oriented atlas to an orientation are realised at the pin and consumed from it, as in From Tau Ceti); 5.5b's smooth face structure and face-indexed abstract boundary of a manifold with corners, with the outward-first orientation of its sheets and the product boundary sign | B1.1 owns the comparisons of this one orientation with cycle and witness records (the faces of a witness among 5.5b's boundary sheets included), frames, local homology, half-space and corner atlases in dimension at least2, and the point sign σ; B1.6 owns the Sard theorem in unequal dimensions and derives its transversality theorems from it |
-| [GeometricTopology](../GeometricTopology/README.md), Layer1, Layer4.3.1, Layer11 and item1 of the smoothing-and-triangulation comparison | finite nonsingular-F₂ quadratic Arf algebra (Layer4.3.1, declared below as gap:finite-quadratic-arf); collar neighbourhoods, gluing along a codimension-zero piece of the boundary, handle attachment and tubular neighbourhoods with their normal bundles (Layer1); the CW structure on the realization `|K|` of a simplicial complex, one cell per simplex (Layer11); Whitehead's smooth triangulation of a smooth manifold (item1) | B1.6 owns neat embeddings, relative/parametric transversality with relative Whitney approximation, corner rounding, compact neighbourhoods, doubles; B1.5 owns the relative boundary triangulation |
+| [GeometricTopology](../GeometricTopology/README.md), Layer1, Layer4.3.1, Layer11.1 and Layer11.3 | finite nonsingular-F₂ quadratic Arf algebra (Layer4.3.1, declared below as gap:finite-quadratic-arf); collar neighbourhoods, gluing along a codimension-zero piece of the boundary, handle attachment and tubular neighbourhoods with their normal bundles (Layer1); the CW structure on the realization `|K|` of a simplicial complex, one cell per simplex (Layer11.1); Whitehead's smooth triangulation of a smooth manifold (Layer11.3) | B1.6 owns neat embeddings, relative/parametric transversality with relative Whitney approximation, corner rounding, compact neighbourhoods, doubles; B1.5 owns the relative boundary triangulation |
 | [SmoothBundlesConnections](../SmoothBundlesConnections/README.md), B1.4 | free proper smooth quotients, their principal projections and submersion uniqueness, homogeneous spaces and native discrete quotient comparison | B1.5 only adapts their tangent and structure data to cycles |
 | StringOrientation S1.3, S1.5, S2.2, S2.3, S5.3 | S1.3's existence criterion and H³-torsor of String lifts; S1.5's Cayley plane OP² (trace-one idempotents of the exceptional Jordan algebra), F₄ with its transitive action and Spin(9) isotropy, the cells, H*(OP²;ℤ)=ℤ[u]/(u³), p₂=6u, p₄=39u², the Euler class 3u², signature 1, the unique Spin structure and String lift class, and p(HP²)=1+2u+7u²; S2.2's isomorphism Ω^θ_n≅π_nMθ for every G5 bundle diagram θ, natural and multiplicative; S2.3's Ω^fr_n≅π_nS and π₃S≅ℤ/24 with generator ν; S5.3's equivalence MSpin[1/2]≃MSO[1/2] | B5 owns the finite-rank bijections, the theories over spaces and pairs and the comparison of their point specializations with S2.2–S2.3; B4.8 owns the odd-primary Adams and comodule-algebra refinement; Layer 9 owns the carrier identification, charts, Clifford module, sign witness and the HP^k Pontryagin formula |
 | [DGFloer](../DGFloer/README.md), Layer1 items2–3 | the ordinary homology and multiplicative cohomology Serre spectral sequence of a Serre fibration over a CW base, with local coefficients | B4.2 owns transgression, Kudo's theorem and Borel's transgression theorem, and B4.7 their odd-prime forms |
@@ -339,8 +339,8 @@ criterion and face-indexed corners are DifferentialGeometry 2.1, 2.2 and
 `TauCeti.dense_isRegularValue`, and its unequal-dimension form is a target
 of this item; collars, gluing along a piece of the boundary, handle attachment and
 tubular neighbourhoods are GeometricTopology Layer1; the CW structure on
-`|K|` is GeometricTopology Layer11 and Whitehead's smooth triangulation
-is item1 of GeometricTopology's smoothing-and-triangulation comparison.
+`|K|` is GeometricTopology Layer11.1 and Whitehead's smooth triangulation
+is GeometricTopology Layer11.3.
 This item owns the following.
 - **Neat Euclidean embeddings.** Mathlib's
   `exists_embedding_euclidean_of_compact` gives, for a compact Hausdorff
@@ -625,9 +625,9 @@ boundary using their fibre half-space charts, radial collars and native
 vector-bundle transition maps. Compare all these chosen carriers with the
 literal quotient/total-space sets and their topology. Consume Whitehead's
 smooth triangulation of every smooth manifold without boundary
-(GeometricTopology, item1 of the smoothing-and-triangulation comparison)
+(GeometricTopology Layer11.3)
 and the CW structure on the realization of a finite simplicial complex
-(GeometricTopology Layer11). Own here the relative
+(GeometricTopology Layer11.1). Own here the relative
 refinement in which a collared boundary, or a chosen
 union of faces, is a subcomplex: for every compact smooth manifold N with
 boundary there are a finite simplicial complex K, a subcomplex L and a
@@ -656,7 +656,7 @@ Its API includes:
 - The trivial real line disc bundle over a point is [−1,1] with two boundary points; its rank-zero disc is a point with empty sphere boundary.
 - The interval has two vertex cells and one edge, with its boundary the two-vertex subcomplex.
 
-*Needs:* B1.6; SmoothBundlesConnections B1.4; GeometricTopology Layers 1 and 11 and smoothing item 1; CharacteristicClasses C1 bundle carriers.
+*Needs:* B1.6; SmoothBundlesConnections B1.4; GeometricTopology Layers 1, 11.1 and 11.3; CharacteristicClasses C1 bundle carriers.
 
 ### 2.4 Collared witnesses (B1.2)
 
@@ -801,7 +801,7 @@ Signed points, collared intervals, the Hopf quotient, the Fermat quartic and the
 
 ### Dependencies
 
-DifferentialGeometry §§2.1–2.2 and 5.5b; Tau Ceti `TauCeti.addHaar_image_criticalPoints_eq_zero` and the orientation carrier `TauCeti.Manifold.Orientation` with its pinned reversal, pullback, product and boundary orientation; AlgebraicTopology 6.3 and 8.13; GeometricTopology Layer 1, Layer 11 and smoothing item 1; SmoothBundlesConnections B1.4; SpinGeometry G4; AffineMorseLefschetz A0, A5–A6; ComplexKahlerGeometry K7.1.
+DifferentialGeometry §§2.1–2.2 and 5.5b; Tau Ceti `TauCeti.addHaar_image_criticalPoints_eq_zero` and the orientation carrier `TauCeti.Manifold.Orientation` with its pinned reversal, pullback, product and boundary orientation; AlgebraicTopology 6.3 and 8.13; GeometricTopology Layers 1, 11.1 and 11.3; SmoothBundlesConnections B1.4; SpinGeometry G4; AffineMorseLefschetz A0, A5–A6; ComplexKahlerGeometry K7.1.
 
 ## Layer 3: geometric bordism as a homology theory
 
@@ -2197,8 +2197,8 @@ Choose the actual Spin lift through SpinGeometry G4. Consume
 SpinRepresentations L7's native Hamilton-quaternion comparison and its
 topological refinement `Spin(3)≃S³`; derive π₀,π₁,π₂=0 using the sphere
 homotopy/Hurewicz interfaces. On the at-most-three-dimensional CW model
-of a smooth triangulation of M (GeometricTopology's Whitehead triangulation
-and its Layer11 simplicial CW structure; for boundary, B1.5's relative
+of a smooth triangulation of M (GeometricTopology Layer11.3's Whitehead triangulation
+and its Layer11.1 simplicial CW structure; for boundary, B1.5's relative
 refinement),
 use CC's numerable-principal-bundle classification and AT8's relative
 obstruction construction to build a section of this Spin principal bundle
@@ -2219,7 +2219,7 @@ early lift criterion does not depend on this bordism application.
 - The coordinate frame on ℝ³ and on the closed half-space has determinant 1, with coordinate maps inverse to each other; negating its first vector gives determinant −1 and fails positivity for the same orientation.
 - A countable disjoint union of oriented half-spaces admits the componentwise coordinate frames, each of determinant 1; compactness and connectedness are unnecessary. On the empty manifold the frame and both total-space maps are empty functions.
 
-*Needs:* B2.4; B3.2(c), B3.3–B3.4; B4.3–B4.6; B6.1–B6.2; B1.5–B1.6; SpinGeometry G4; SpinRepresentations Layer 7; AlgebraicTopology Layer 8; CharacteristicClasses C1.
+*Needs:* B2.4; B3.2(c), B3.3–B3.4; B4.3–B4.6; B6.1–B6.2; B1.5–B1.6; GeometricTopology Layers 11.1 and 11.3; SpinGeometry G4; SpinRepresentations Layer 7; AlgebraicTopology Layer 8; CharacteristicClasses C1.
 
 ### 8.5 Projective boundary constructions (B3.5)
 
@@ -2270,7 +2270,7 @@ The odd Spin torus has Arf 1; the Lie Spin T³ bounds the specified signature �
 
 ### Dependencies
 
-Layers 1–7; StringOrientation S2.3; SpinGeometry G4; AlgebraicTopology Layers 6 and 8; GeometricTopology Layer 1; SpinRepresentations Layer 7; GeneralizedCohomology G4.
+Layers 1–7; StringOrientation S2.3; SpinGeometry G4; AlgebraicTopology Layers 6 and 8; GeometricTopology Layers 1, 11.1 and 11.3; SpinRepresentations Layer 7; GeneralizedCohomology G4.
 
 ## Layer 9: exceptional projective geometry
 
