@@ -8,9 +8,9 @@ This roadmap owns the additive and stable-envelope comparisons, acyclic-domain t
 
 GeneralAlgebraicKTheory §§3.12–3.14, Layers 5–7, §§9.8–9.17, Layers 10–12 and §13.6 own classical plus/Q/S comparisons, products, transfers, Nil categories, Bass contraction, negative K-theory and enhanced-model invariance. RefinedTraceMethods §4.9 already states exact sequences in Cat∞perf, connective stable S-theory, the nonconnective suspension construction, K(Perf(A)) and global truncating invariants; §4.18 states the correction algebra and global truncating excision, while §4.10 supplies coherent multiplicative K. Their constructions, APIs and boundary tests are supplier obligations. RefinedTraceMethods §4.6 states relative localizing motives over a rigid monoidal base and §4.10 the tensor units of absolute finitary invariants; the A-linear weakly additive motives over an E∞-ring A, their tensor unit and the K₀ comparison (§8.1a) are different objects and are owned here, as is the all-cyclic THH assembly equivalence used in §10.4. AInfCohomology §AI.7.2 owns the circle Tate construction, Tate-orbit lemma and bounded-below residual comparison; RefinedTraceMethods §2.3 owns the bounded-above Tate fixpoint lemma. The restricted acyclic-domain predicates and consequences here add a condition on every auxiliary ring, rather than another global definition. The compact-kernel target adds its K-theory fiber sequence to EnhancedDerivedSheaves E5:presentability.3's categorical quotient. EnhancedDerivedSheaves E5:descent owns commutative finite-index Amitsur module descent; §8.2 allows associative algebras and proves the rational-unit criterion for ε-nilpotent towers.
 
-BordismFormalGroups F1–F3 and F6.1–F6.4 already state formal-group algebra, complex orientations, MU/BP/Morava coefficients, homological localization, nilpotence, type, periodicity, p-local finite localization and Hopkins–Ravenel smashing. GeneralizedCohomology G2, G4.5 and G5.1–5.4 supply spectra, orientations, finite duality, Thom diagrams and KU/KO models. TopologicalKTheory T4 and T7 own their geometric Bott and coefficient comparisons, using HomotopySpheres §4B's real Bott theorem. The new variants here are the all-spectra finite-localization extension, the truncated-theory Bousfield classes, and their chromatic comparison consequences.
+BordismFormalGroups F1–F3 and F6.1–F6.4 already state formal-group algebra, complex orientations, MU/BP/Morava coefficients, homological localization, nilpotence, type, periodicity, p-local finite localization and Hopkins–Ravenel smashing. GeneralizedCohomology G2, G4.5 and G5.1–5.4 supply spectra, orientations, finite duality, Thom diagrams and KU/KO models. TopologicalKTheory T4 and T7 own their geometric Bott and coefficient comparisons, including the eightfold real periodicity given by multiplication by b. The new variants here are the all-spectra finite-localization extension, the truncated-theory Bousfield classes, and their chromatic comparison consequences.
 
-EllipticCohomology E1–E4 and E6 state the generalized elliptic moduli, the height-one and height-two Morava realizations and automorphism actions, the sheaf Otop, tmf/Tmf/TMF, discriminant inversion and level sheaves. Their all-height realization and spectral affineness extensions are exact supplier contracts below. The modular chromatic input comparison and its K-theory applications here use those same spectra. HomotopySpheres §3B owns the James word filtration, connected James equivalence and James–Hopf map; the reduced stable splitting is stated as a supplier contract below. EllipticCohomology E5 owns units and coherent Thom orientation data; the relative module-colimit interface is stated as a supplier contract below. The characteristic-p Thom theorem and its filtered families here are specializations of that shared construction.
+EllipticCohomology E1–E4 and E6 state the generalized elliptic moduli, the height-one and height-two Morava realizations and automorphism actions, the sheaf Otop, tmf/Tmf/TMF, discriminant inversion and level sheaves. Their all-height realization and spectral affineness extensions are exact supplier contracts below. The modular chromatic input comparison and its K-theory applications here use those same spectra. The James reduced product with its word filtration, the connected James equivalence, the James–Hopf maps and the stable James splitting are owned here (§§4.30b–4.30c). EllipticCohomology E5 owns the stable J-homomorphism that gives the sign Thom spectra of §§4.31–4.32. EllipticCohomology E5 owns units and coherent Thom orientation data; the relative module-colimit interface is stated as a supplier contract below. The characteristic-p Thom theorem and its filtered families here are specializations of that shared construction.
 
 QWittVectors §§1.1–1.6 owns big Witt vectors, including arbitrary truncation sets, their topology and operations; HabiroRings consumes that theory and is not its owner. HabiroCohomologyFoundationsPartII §0.1 owns the spherical lifts of perfect p-complete δ-rings, built by spherical Witt vectors; §6.1a here forms the Lubin–Tate ring of a perfect algebra from them by base change, and StableHomotopyKTheoryPartII §4.8 is their finite-field case. KTheoryLowDegrees §§1.1–1.3 owns projective K₀, and GeneralAlgebraicKTheory §§13.8a–13.8c owns the ordinary finite-field Brauer–Quillen theorem. KTheoryFiniteLocalFields §§1.1–1.6 supplies its normalized coefficient and completion refinements, and its §0.4 owns the odd-primary height-one functor `heightOneFromZeroSpace` on the pointed homotopy category; §4.11 here is the coherent Bousfield–Kuhn functor for every prime and every height n≥1, which agrees with that functor at n=1 and p odd. SchemeKTheoryOperations Layers 1–5 owns enhanced scheme K-theory, descent geometry and Bass comparisons; its KH and Karoubi–Villamayor extension is stated as a supplier contract below. MotivicEtaleKTheory §7.2 concerns a Deligne regulator comparison, not finite-coefficient étale K-descent, so the latter interface is assigned to KTheoryFiniteLocalFields §6.5a.
 
@@ -34,7 +34,7 @@ Use `SSet.Quasicategory` in `Mathlib/AlgebraicTopology/Quasicategory/Basic.lean`
 
 ### From Tau Ceti
 
-Use `TauCeti.ExactStructure` in `TauCeti/CategoryTheory/Exact/ExactStructure.lean`, with the zero-object and binary-biproduct assumptions in its actual signature. Use `TauCeti.finiteProjectiveModulesExactStructure` and `TauCeti.finiteProjectiveModulesExactStructure_eq_split` in `TauCeti/Algebra/Category/ModuleCat/CartanMap/Basic.lean`; the induced exact structure on finite projective left modules equals the split one. It is the ordinary comparison input, not a spectral module category. For degree-zero comparisons use `TauCeti.SplitK0` in `TauCeti/CategoryTheory/GrothendieckGroup/Split.lean`, `TauCeti.AbelianK0` in `TauCeti/CategoryTheory/GrothendieckGroup/Abelian.lean`, and `TauCeti.TriangulatedK0` in `TauCeti/CategoryTheory/GrothendieckGroup/Triangulated.lean`. Their ambient categories carry, respectively, binary biproducts and zero morphisms; an abelian structure; or a preadditive structure with zero object, additive integer shifts and a pretriangulated structure, with essential smallness for the quotient universe. Use `TauCeti.SplitK0.finrankEquiv` in `TauCeti/CategoryTheory/GrothendieckGroup/FiniteDimensionalVectorSpace.lean` for the additive equivalence with ℤ on `FGModuleCat` over a field, retaining its `Small` universe hypothesis; it sends a vector space to its dimension. These ordinary groups do not provide a K-spectrum.
+Use `TauCeti.ExactStructure` in `TauCeti/CategoryTheory/Exact/ExactStructure.lean`, with the zero-object and binary-biproduct assumptions in its actual signature. Use `TauCeti.finiteProjectiveModulesExactStructure` and `TauCeti.finiteProjectiveModulesExactStructure_eq_split` in `TauCeti/Algebra/Category/ModuleCat/CartanMap/Basic.lean`; the induced exact structure on finite projective left modules equals the split one. It is the ordinary comparison input, not a spectral module category. For degree-zero comparisons use `TauCeti.SplitK0` in `TauCeti/CategoryTheory/GrothendieckGroup/Split.lean`, `TauCeti.AbelianK0` in `TauCeti/CategoryTheory/GrothendieckGroup/Abelian.lean`, and `TauCeti.TriangulatedK0` in `TauCeti/CategoryTheory/GrothendieckGroup/Triangulated.lean`. Their ambient categories carry, respectively, binary biproducts and zero morphisms; an abelian structure; or a preadditive structure with zero object, additive integer shifts and a pretriangulated structure, with essential smallness for the quotient universe. Use `TauCeti.SplitK0.finrankEquiv` in `TauCeti/CategoryTheory/GrothendieckGroup/FiniteDimensionalVectorSpace.lean` for the additive equivalence with ℤ on `FGModuleCat` over a field, retaining its `Small` universe hypothesis; it sends a vector space to its dimension. These ordinary groups do not provide a K-spectrum. Use `TauCeti.MooreLoopSpace` in `TauCeti/Topology/PathSpace/Moore.lean` for Moore loops: loops of variable length whose concatenation is strictly associative and unital and continuous, compared with loops on the unit interval by `TauCeti.MooreLoopSpace.homotopyEquivPath`. Use `ContinuousMap.IsWeakHomotopyEquivalence` in `TauCeti/Topology/Homotopy/HomotopyGroup/WeakHomotopyEquivalence.lean` for weak homotopy equivalences: bijections on path components and on all homotopy groups at every basepoint.
 
 ### From TauCetiRoadmap.GeneralAlgebraicKTheory
 
@@ -185,13 +185,7 @@ Consume G2's concrete symmetric spectral model, derived smash and stable mapping
 
 ### From TauCetiRoadmap.TopologicalKTheory
 
-Consume T4's complex Bott comparison and T7.1's real coefficient and multiplicative comparisons with GeneralizedCohomology G5.4. HomotopySpheres §4B supplies the real Bott loop theorem. In the same names a, b of TopologicalKTheory T7 and u for the complex Bott class, the relation a²=4b and complexification c(a)=2u², c(b)=u⁴ agree with the conventions above; at p=2 the factor 4 is retained.
-
-### From TauCetiRoadmap.HomotopySpheres
-
-What HomotopySpheres must provide (gap:stable-james-splitting): Supply a natural reduced stable equivalence Σ∞ΩΣW≃⋁_(r≥1)Σ∞W^∧r for every connected pointed CW space W, compatible with the word filtration and its smash-power quotients.
-
-Consume §3B's pointed CW James filtration J_rW, quotient J_rW/J_(r−1)W≃W^∧r and connected equivalence J_∞W≃ΩΣW. For W=S² the r-th stage has one cell in each dimension 0,2,…,2r; J₀W=* has zero reduced suspension spectrum. W=S⁰ gives the free monoid ℕ rather than ΩS¹≃ℤ and is excluded from the connected comparison.
+Consume T4's complex Bott comparison and T7.1's real coefficient and multiplicative comparisons with GeneralizedCohomology G5.4. T7.1 exports the real coefficient ring ℤ[η,a,b,b⁻¹]/(2η,η³,ηa,a²−4b) with η, a and b in homotopy degrees 1, 4 and 8; multiplication by b is the eightfold real periodicity in every degree. In the same names a, b of TopologicalKTheory T7 and u for the complex Bott class, the relation a²=4b and complexification c(a)=2u², c(b)=u⁴ agree with the conventions above; at p=2 the factor 4 is retained.
 
 ### From TauCetiRoadmap.EllipticCohomology
 
@@ -211,7 +205,7 @@ What EllipticCohomology must provide (gap:elliptic-spectral-affineness): Prove t
 
 What EllipticCohomology must provide (gap:all-height-morava-realization): Extend the marked Goerss–Hopkins–Miller realization and coherent semilinear automorphism action to every finite height h≥1 over every perfect characteristic-p field, preserving the universal formal-group map and the chosen deformation identification.
 
-Consume E1's generalized elliptic compactification and formal neighborhoods, E2 items 2–3's height-one and height-two Morava E realizations and obstruction machinery, E3's Otop and tmf/Tmf/TMF, E4's surviving Δ²⁴ class of degree 576 and the comparison Tmf[(Δ²⁴)⁻¹]≃TMF, E5's units/Thom orientation data, and E6's level sheaves and deck actions. The full semilinear residue-field actions are retained. Locally π₂ᵣOtop=ωʳ and π₂ᵣ₊₁Otop=0; global Tmf is not required to be even. The all-height and spectral-module refinements are specified below.
+Consume E1's generalized elliptic compactification and formal neighborhoods, E2 items 2–3's height-one and height-two Morava E realizations and obstruction machinery, E3's Otop and tmf/Tmf/TMF, E4's surviving Δ²⁴ class of degree 576 and the comparison Tmf[(Δ²⁴)⁻¹]≃TMF, E5's units/Thom orientation data and its stable J-homomorphism bo→bgl₁(S), whose infinite loop map BO→BGL₁(S) classifies the universal stable spherical fibration, and E6's level sheaves and deck actions. On π₁ the J-homomorphism sends the Möbius class of π₁BO=ℤ/2 to −1∈π₀GL₁(S)=ℤˣ, since the one-point compactification of the Möbius line has monodromy of degree −1. The full semilinear residue-field actions are retained. Locally π₂ᵣOtop=ωʳ and π₂ᵣ₊₁Otop=0; global Tmf is not required to be even. The all-height and spectral-module refinements are specified below.
 
 ### From TauCetiRoadmap.QWittVectors
 
@@ -275,7 +269,7 @@ Consume §§1.1–2.7's Perf(X), enhanced scheme K and continuity comparisons, �
 
 ## How to read the build
 
-Layers 0–3 compare the supplied enhanced K-theory with compact localization, additive/projective and plus models, restricted truncation, stable envelopes and bounded hearts. Layer 4 first supplies the chromatic interfaces its proofs need, then proves acyclic truncation, categorical vanishing and both forms of Theorem A without using purity. Layer 5 obtains the high-height trace comparison before the CMNN induction and proves purity only after that induction. Its base n=2 uses Mitchell; the high-height trace is used only in positive induction steps. Layer 6 combines the independent upper and lower bounds; the lower-bound route may use the preceding purity theorem. Layers 7–10 give the coefficient examples, descent, height-one structure, additive comparison, continuity and assembly. Within a layer, the explicit Needs lists specify mathematical dependencies rather than imposing one proof route. The target signatures in Suggested.lean use only the pinned carriers; all spectral headline theorems require carriers beyond those pins and are named in its module documentation.
+Layers 0–3 compare the supplied enhanced K-theory with compact localization, additive/projective and plus models, restricted truncation, stable envelopes and bounded hearts. Layer 4 first supplies the chromatic interfaces and the James construction its proofs need, then proves acyclic truncation, categorical vanishing and both forms of Theorem A without using purity. Layer 5 obtains the high-height trace comparison before the CMNN induction and proves purity only after that induction. Its base n=2 uses Mitchell; the high-height trace is used only in positive induction steps. Layer 6 combines the independent upper and lower bounds; the lower-bound route may use the preceding purity theorem. Layers 7–10 give the coefficient examples, descent, height-one structure, additive comparison, continuity and assembly. Within a layer, the explicit Needs lists specify mathematical dependencies rather than imposing one proof route. The target signatures in Suggested.lean use only the pinned carriers; all spectral headline theorems require carriers beyond those pins and are named in its module documentation.
 
 ## Layer 0: K-theory on supplied stable categories
 
@@ -1209,6 +1203,67 @@ A proof route is as follows. Since ko=τ≥0KO, the cofiber of ko→KO is τ≤�
 
 *Needs:* GeneralizedCohomology G5.4 and TopologicalKTheory T7.1 (ko, KO, the classes a and b and the relation a²=4b); §4.2 (Periodic homotopy groups); §4.3 (Telescope acyclicity criteria); EnhancedDerivedSheaves E5:abstract.1–4 (modules over E∞-rings and their relative tensor product).
 
+### 4.30b The James reduced product
+
+For a pointed space (W,w₀), the James reduced product J(W) is the free monoid on the points of W in which w₀ is the unit. Its points are the finite words w₁⋯w_k with no letter equal to w₀; the product is concatenation and the empty word is the unit. As a space, J(W) is the quotient of ⊔_(k≥0)W^×k by the map that deletes every letter equal to w₀. Its word-length filtration J₀W⊂J₁W⊂⋯ has J_rW equal to the image of W^×r, so J₀W is the unit and J₁W is a copy of W. Fix a continuous d:W→[0,1] with d⁻¹(0)={w₀}. The James map j:J(W)→Ω^MΣW, into the Moore loops on the reduced suspension, is the continuous monoid map sending each letter w to the loop s↦[w,s/d(w)] of length d(w). For every connected pointed CW complex W, j is a weak homotopy equivalence.
+
+Throughout this target, W is a pointed CW complex whose basepoint is a 0-cell. W^×k carries the product CW structure, whose topology is the compactly generated refinement of the product topology; it is the product topology when W is locally compact or has countably many cells. J(W) carries the quotient topology from ⊔_kW^×k. Ω^M is the Moore loop space: loops of variable length whose concatenation is strictly associative, with the constant loop of length zero as unit. The r-fold smash power W^∧r is the quotient of W^×r by its fat wedge, the tuples with some coordinate equal to w₀. Only the James theorem assumes W connected.
+
+(james, the reduced product and its equivalence with ΩΣX; hatcher, §3.C for J(X) and its CW structure, §4.J for J(X)≃ΩΣX with X a connected CW complex and §4.K for quasifibrations; hatcher, Appendix, Theorem A.6 for products of CW complexes.)
+
+A proof route is as follows. For the universal property, multiply the images of the letters on W^×k; this is compatible with deleting w₀ because f(w₀)=1. The cells of J(W) other than the unit are the products of k≥1 positive-dimensional cells of W, and such a product lies in J_rW exactly when k≤r. The quotient W^×r→J_rW maps the complement of the fat wedge homeomorphically onto J_rW∖J_(r−1)W, which gives the filtration quotients. For the James theorem, glue J(W)×CW, with CW the reduced cone, to J(W) along J(W)×W through the multiplication (u,w)↦uw. Projecting to CW/W=ΣW gives the Dold–Thom quasifibration over ΣW with fibre J(W), and its total space is contractible by induction over the word filtration. The union and deformation criteria apply because right multiplication by a point of the connected space W is homotopic to the identity. The map of quasifibrations into the Moore path fibration over ΣW is j on fibres, and the five lemma on the two long exact sequences shows that j induces isomorphisms on all homotopy groups.
+
+The interface includes:
+
+- A pointed map f:W→M into a monoid in compactly generated spaces with f(w₀)=1 extends to exactly one continuous monoid map J(W)→M that agrees with f on J₁W.
+- A pointed map g:W→W′ induces J(g) letter by letter. J(g) preserves identities, composition and every stage J_r.
+- J(W) is a CW complex. Its cells other than the unit are the products e₁×⋯×e_k of positive-dimensional cells of W, and J_rW is the subcomplex of products with k≤r. The multiplication J_rW×J_sW→J_(r+s)W is cellular. For compact Hausdorff W, J(W) is a topological monoid in the product topology.
+- The composite W^×r→J_rW→J_rW/J_(r−1)W factors through a homeomorphism W^∧r≅J_rW/J_(r−1)W, natural in W. So J_(r−1)W→J_rW→W^∧r is a cofiber sequence.
+- Suppose every positive-dimensional cell of W has dimension at least c≥1. Then every cell outside J_rW has dimension at least (r+1)c, so J_rW→J(W) is ((r+1)c−1)-connective in the convention of §4.13. Each π_iJ(W) is the colimit of the π_iJ_rW. For W=S², looping the composite J_rS²→J(S²)→ΩS³ gives the 2r-connective maps ΩJ_rS²→Ω²S³ used in §4.32.
+- A map p:E→B is a quasifibration when (E,p⁻¹(b))→(B,b) induces bijections on relative homotopy groups at every b∈B and every point of p⁻¹(b); its fibres then satisfy the long exact homotopy sequence. Union criterion: p is a quasifibration if B is the union of open sets U and V such that p is one over U, over V and over U∩V. Deformation criterion: p is a quasifibration if some deformation of E into a subspace E′ covers a deformation of B into a subspace B′, the restriction E′→B′ is a quasifibration, and the end of the deformation carries each fibre p⁻¹(b) to the fibre over the image of b by a weak homotopy equivalence.
+- j is a continuous monoid map. Changing d changes j by a homotopy through monoid maps. On J₁W, j is homotopic to the adjoint of the identity of ΣW, and it is natural in pointed maps up to homotopy.
+- For k≥1 the James–Hopf map h_k:J(W)→J(W^∧k) sends w₁⋯w_n to a product of one-letter words. The factors are w_(i₁)∧⋯∧w_(i_k), one for each k-element subset i₁<⋯<i_k of {1,…,n}, taken in lexicographic order. Deleting a basepoint letter deletes exactly the factors that contain it, so h_k is well defined and continuous. It is natural in pointed maps and h₁ is the identity. h_k is trivial on J_(k−1)W. On J_kW, h_k is the quotient J_kW→W^∧k followed by the inclusion of W^∧k as J₁(W^∧k).
+
+**Checks.**
+
+- W=S⁰ is not connected. J(S⁰) is the discrete monoid ℕ, whereas ΩΣS⁰≃ΩS¹ has its components indexed by ℤ.
+- W=S¹ is connected but not simply connected. J_rS¹ has one cell in each dimension 0,1,…,r, and π₁J(S¹)=ℤ=π₂S²=π₁ΩS².
+- W=*: J(W) is the one-point monoid, every stage equals J₀W, and the reduced suspension spectrum of J₀W is zero.
+- W=S², c=2: J(S²) has one cell in each even dimension, so J_rS²→J(S²) is (2r+1)-connective. For r=1, S²→ΩS³ is an isomorphism on π₂=ℤ and is onto on π₃: the Hopf class η goes to the generator of π₄S³=ℤ/2.
+- On J₃W, h₂ sends w₁w₂w₃ to (w₁∧w₂)(w₁∧w₃)(w₂∧w₃). On J₂S¹, h₂ is the collapse onto J₂S¹/J₁S¹≅S².
+
+*Needs:* §4.13 (Postnikov and connected-cover conventions); AlgebraicTopology Stages 4 and 8.
+
+### 4.30c Stable James splitting
+
+For every pointed CW complex W, Σ∞_+J(W) is the free E₁-ring on the reduced suspension spectrum Σ∞W. The E₁-map T(Σ∞W)=⊕_(r≥0)(Σ∞W)^⊗r→Σ∞_+J(W) that extends Σ∞W→Σ∞_+J₁W⊂Σ∞_+J(W) is an equivalence of E₁-rings. It restricts to equivalences ⊕_(r≤s)(Σ∞W)^⊗r≃Σ∞_+J_sW and induces the identity on the quotients Σ∞W^∧s. Removing the unit summand gives the reduced splitting Σ∞J(W)≃⊕_(r≥1)Σ∞W^∧r.
+
+If W is connected, composing with the James equivalence of §4.30b gives an equivalence of E₁-rings S[ΩΣW]≃T(Σ∞W), where S[ΩΣW] is the loop algebra of §1.4. It also gives the reduced stable James splitting Σ∞ΩΣW≃⊕_(r≥1)Σ∞W^∧r. This splitting is natural in pointed maps of W up to homotopy and compatible with the word filtration and its smash-power quotients. For connected W the splitting already holds after one suspension: ΣJ(W)≃⋁_(r≥1)ΣW^∧r.
+
+Throughout this target, W is a pointed CW complex whose basepoint is a 0-cell, with the conventions of §4.30b. Σ∞W is the cofiber of the basepoint inclusion S→Σ∞_+W, and (Σ∞W)^⊗r≃Σ∞W^∧r. The statements about ΩΣW and the one-suspension splitting assume W connected.
+
+(lmmt line 919, Corollary 4.14 proof, p.1030; hatcher, §4.I for the splitting of ΣJ(X) with X a connected CW complex; lurie-ha, §4.1.1 for free associative algebras.)
+
+A proof route is as follows. The E₁-map exists by the universal property of T. On the r-th summand it is Σ∞ of the r-fold product W^×r→J_rW, restricted to the top summand of the product splitting Σ∞_+(W^×r)≃⊕_(S⊆{1,…,r})Σ∞W^∧S. Its composite with the collapse Σ∞_+J_rW→Σ∞W^∧r is therefore the identity, so the map splits the cofiber sequences of §4.30b. Induction on r and passage to the colimit give the equivalence; no connectivity is used. For one suspension, compose Σh_r with Σj for W^∧r and the evaluation ΣΩΣ(W^∧r)→ΣW^∧r, and add these maps in the suspension co-H structure. The sum is finite on each ΣJ_nW because h_r is trivial on J_(r−1)W. The same filtration argument makes the result a homology isomorphism between simply connected CW complexes, so the homological Whitehead theorem applies.
+
+The interface includes:
+
+- The tensor algebra T(V)=⊕_(r≥0)V^⊗r on a spectrum V, with the concatenation product, is the free E₁-ring on V. E₁-maps T(V)→R correspond to maps of spectra V→R, naturally in V and in the E₁-ring R.
+- The equivalence Σ∞_+J(W)≃T(Σ∞W) is natural in pointed maps of W. The augmentation induced by J(W)→* is the projection of T(Σ∞W) onto its unit summand S.
+- For every field k, H_*(J(W);k)≅T(H̃_*(W;k)) as algebras under the Pontryagin product. The same holds over a commutative ring R when H̃_*(W;R) is a free R-module. Integrally, H̃_*(J(W);ℤ)≅⊕_(r≥1)H̃_*(W^∧r;ℤ), Künneth Tor terms included. For connected W, j transports these to H_*(ΩΣW), which is the Bott–Samelson theorem.
+- The one-suspension splitting is natural in the pointed homotopy category and restricts on ΣJ_nW to an equivalence with ⋁_(r≤n)ΣW^∧r.
+- For every spectrum E, E⊗Σ∞J(W)≃⊕_(r≥1)E⊗Σ∞W^∧r.
+
+**Checks.**
+
+- For W=S⁰ the J(W) form holds without connectedness: J(S⁰) is the discrete monoid ℕ, and Σ∞_+ℕ≃⊕_(n≥0)S=T(S) with π₀=ℤ[t]. The loop form fails, since S[ΩΣS⁰]≃S[ℤ] has π₀=ℤ[t,t⁻¹].
+- For W=*, both sides are S and the reduced splitting has no summands.
+- For W=S^c with c≥1, Σ∞ΩS^(c+1)≃⊕_(r≥1)S^(rc). The rational homology of ΩS^(c+1) is ℚ in each degree divisible by c.
+- Let W=M(ℤ/2,3) be the cofiber of degree two on S³. The r=2 summand gives H̃₇(J(W);ℤ)≅Tor₁^ℤ(ℤ/2,ℤ/2)=ℤ/2, while the tensor algebra on H̃_*(W;ℤ), which is ℤ/2 in degree 3, vanishes in degree 7. So the integral answer is the smash-power sum, not a tensor algebra on integral homology. Over 𝔽₂, H̃_*(W;𝔽₂) has classes in degrees 3 and 4, and the tensor algebra has rank two in degree 7, matching H̃₇(W∧W;𝔽₂).
+- For W=S¹, ΣΩS²≃⋁_(r≥1)S^(r+1).
+
+*Needs:* §4.30b (The James reduced product); §1.4 (Waldhausen A-theory); StableHomotopyKTheory Layers 3–7; GeneralizedCohomology G2; EnhancedDerivedSheaves E5:abstract.1–4; AlgebraicTopology Stages 4, 5 and 8.
+
 ### 4.31 Hopkins–Mahowald Thom theorem
 
 For a prime p, the double-loop map Ω²S³→BGL₁(S_p^∧) selected by the unit 1−p has Thom E₂-ring HF_p. Restricting to Ω²(S³⟨4⟩), where S³⟨4⟩ is the fiber of the identity-on-π₃ map S³→K(ℤ,3), gives Hℤ_p. The index follows §4.13: S³⟨4⟩ is the 3-connected cover, killing π₃, while S³⟨3⟩=S³. These are Thom colimits of lines over S_p^∧. At p=2 there is also the integral sign map Ω²S³→BO→BGL₁S; its Thom ring is HF₂, and after 2-localization its connected-cover restriction has Thom ring Hℤ_(2). This 2-local connected-cover model gives the James family used below.
@@ -1225,7 +1280,7 @@ A proof route is as follows. Use the module-colimit Thom universal property to i
 - The fiber S³⟨4⟩ of S³→K(ℤ,3), identity on π₃, has zero π₂ and π₃, and π₄=π₄S³=ℤ/2; under §4.13 S³⟨3⟩ is S³ itself with π₃=ℤ, so the cover index 4 is forced. Replacing the target by K(ℤ_p,3) gives π₂=ℤ_p/ℤ.
 - p=2; completed and integral cover variants: unit 1−2=−1; π₀ Thom values 𝔽₂,ℤ₂,ℤ; fiber(S³→K(ℤ,3)) has π₂=0, whereas target K(ℤ₂,3) gives π₂=ℤ₂/ℤ.
 
-*Needs:* EllipticCohomology E5, with the module-colimit extension in the supplier contract; §4.13 (Postnikov and connected-cover conventions); HomotopySpheres §3B, with the stable splitting contract; StableHomotopyKTheory Layers 3–7; BordismFormalGroups F6.1; HomotopySpheres §4C; gap:spectral-units-and-lines; gap:relative-thom-colimit; gap:multiplicative-thom-refinement.
+*Needs:* EllipticCohomology E5, with the module-colimit extension in the supplier contract; §4.13 (Postnikov and connected-cover conventions); §4.30b (The James reduced product); StableHomotopyKTheory Layers 3–7; BordismFormalGroups F6.1; EllipticCohomology E5 (the stable J-homomorphism bo→bgl₁(S)); gap:spectral-units-and-lines; gap:relative-thom-colimit; gap:multiplicative-thom-refinement.
 
 ### 4.32 James-filtered Thom spectra
 
@@ -1262,7 +1317,7 @@ A proof route for acyclicity is as follows. The equality π₀y(m)=𝔽_p makes 
 - For p=3,m=2,i=1 the vanishing-line slope is 1/(18−2)=1/16, whereas the v₁ slope is 1/(6−2)=1/4. The strict difference 3/16 forces each iterated class above the line; at i=m both slopes are 1/16, so this argument asserts no vanishing there.
 - For p=5,m=2,i=1 the slopes are 1/(50−2)=1/48 and 1/(10−2)=1/8; their difference is 5/48>0. Both denominators are nonzero, and the positive slope difference gives v₁-power torsion; replacing i<m by i≤m would lose this strict inequality.
 
-*Needs:* HomotopySpheres §3B, with the stable splitting contract; EllipticCohomology E5, with the module-colimit extension in the supplier contract; §4.31 (Hopkins–Mahowald Thom theorem); §4.13 (Postnikov and connected-cover conventions); §4.3 (Telescope acyclicity criteria, including completion invariance); §4.4 (Ring-spectrum acyclicity comparison); BordismFormalGroups F6.3 (periodicity, Margolis homology and Adams comparisons); gap:relative-thom-colimit; gap:multiplicative-thom-refinement.
+*Needs:* §4.30b (The James reduced product, including the connectivity of its word filtration); EllipticCohomology E5, with the module-colimit extension in the supplier contract and the stable J-homomorphism bo→bgl₁(S); §4.31 (Hopkins–Mahowald Thom theorem); §4.13 (Postnikov and connected-cover conventions); §4.3 (Telescope acyclicity criteria, including completion invariance); §4.4 (Ring-spectrum acyclicity comparison); BordismFormalGroups F6.3 (periodicity, Margolis homology and Adams comparisons); gap:relative-thom-colimit; gap:multiplicative-thom-refinement.
 
 ### 4.33 Acyclicity under the James splitting
 
@@ -1279,7 +1334,7 @@ A proof route is as follows. Smash the stable James splitting with E. Every posi
 - At p=2,n=1, adjoining a mod-3 Moore space M(ℤ/3,1) to a 2-primary type-2 example leaves 2-local type unchanged but contributes ΣS/3≠0 after inverting 2. The integral wedge fails the hypothesis. A p-local finite spectrum of type at least 2 instead has p-inversion zero.
 - W=*; E=Hℚ; W=S²: reduced James sum of *=0; for S² the summands are S^(2r), r≥1, so rational homology is ℚ in positive even degrees and not acyclic.
 
-*Needs:* HomotopySpheres §3B, with the stable splitting contract; §4.3 (Telescope acyclicity criteria); BordismFormalGroups F6.2–F6.3.
+*Needs:* §4.30c (Stable James splitting); §4.3 (Telescope acyclicity criteria); BordismFormalGroups F6.2–F6.3.
 
 ### 4.34 Ordinary-homology detection of the H∞ unit
 
@@ -1522,7 +1577,7 @@ At p=2, H𝔽₃ distinguishes global p-inversion from rationalization: the two 
 
 ### Dependencies
 
-AlgebraicTopology Stages 4 and 8; BordismFormalGroups F1–F3; BordismFormalGroups F6.1; BordismFormalGroups F6.2; BordismFormalGroups F6.2–F6.3; BordismFormalGroups F6.4; EllipticCohomology E1–E4 and E6, with the spectral comparisons in the supplier contract; EllipticCohomology E2, with the all-height extension in the supplier contract; EllipticCohomology E5, with the module-colimit extension in the supplier contract; EnhancedDerivedSheaves E0.4, E5:abstract.1–4 and E5:presentability.1–3; GeneralAlgebraicKTheory §§3.12–3.14, 6.9, 6.19, 7.1–7.7, 9.8–9.17, 10.1–10.13 and 11.15–11.16; GeneralizedCohomology G2 and G5.1; GeneralizedCohomology G5.4 and TopologicalKTheory T7.1; HomotopySpheres §3B, with the stable splitting contract; HomotopySpheres §4C; KTheoryFiniteLocalFields §0.4 (Height-one localization and realization); KTheoryFiniteLocalFields §§1.1–1.6 and 6.5a; KTheoryLowDegrees §§1.1–1.3 and 13.1; Layer 0; Layer 1; Layer 2; ModularCurves §7E (p-divisible groups and formal heights); QWittVectors §§1.1–1.6; RefinedTraceMethods §4.10 and GeneralAlgebraicKTheory §§7.1–7.7; RefinedTraceMethods §4.18, Truncating invariants: nil-invariance and excision; RefinedTraceMethods §4.9 and EnhancedDerivedSheaves E5:abstract.2 and E5:presentability.1–2; RefinedTraceMethods §4.9, Connective K-theory of small stable ∞-categories; RefinedTraceMethods §4.9, Nonconnective K-theory by the suspension construction; RefinedTraceMethods §§2.1–2.5; SchemeKTheoryOperations §§1.1–2.7, 3.1–3.5, 4.1–4.3, 4.12 and 5.2–5.9; StableHomotopyKTheory Layers 3–7.
+AlgebraicTopology Stages 4, 5 and 8; BordismFormalGroups F1–F3; BordismFormalGroups F6.1; BordismFormalGroups F6.2; BordismFormalGroups F6.2–F6.3; BordismFormalGroups F6.4; EllipticCohomology E1–E4 and E6, with the spectral comparisons in the supplier contract; EllipticCohomology E2, with the all-height extension in the supplier contract; EllipticCohomology E5, with the module-colimit extension in the supplier contract and the stable J-homomorphism; EnhancedDerivedSheaves E0.4, E5:abstract.1–4 and E5:presentability.1–3; GeneralAlgebraicKTheory §§3.12–3.14, 6.9, 6.19, 7.1–7.7, 9.8–9.17, 10.1–10.13 and 11.15–11.16; GeneralizedCohomology G2 and G5.1; GeneralizedCohomology G5.4 and TopologicalKTheory T7.1; KTheoryFiniteLocalFields §0.4 (Height-one localization and realization); KTheoryFiniteLocalFields §§1.1–1.6 and 6.5a; KTheoryLowDegrees §§1.1–1.3 and 13.1; Layer 0; Layer 1; Layer 2; ModularCurves §7E (p-divisible groups and formal heights); QWittVectors §§1.1–1.6; RefinedTraceMethods §4.10 and GeneralAlgebraicKTheory §§7.1–7.7; RefinedTraceMethods §4.18, Truncating invariants: nil-invariance and excision; RefinedTraceMethods §4.9 and EnhancedDerivedSheaves E5:abstract.2 and E5:presentability.1–2; RefinedTraceMethods §4.9, Connective K-theory of small stable ∞-categories; RefinedTraceMethods §4.9, Nonconnective K-theory by the suspension construction; RefinedTraceMethods §§2.1–2.5; SchemeKTheoryOperations §§1.1–2.7, 3.1–3.5, 4.1–4.3, 4.12 and 5.2–5.9; StableHomotopyKTheory Layers 3–7.
 
 ## Layer 5: Trace comparison, CMNN vanishing and purity
 
@@ -1929,7 +1984,7 @@ A proof route is as follows. Use the James splitting of Σ∞_+ΩΣW as the tens
 - W contractible gives the identity equivalence A(*)≃A(ΣW).
 - W=*; W with reduced suspension spectrum finite p-local of type m>n: Σ∞*=0; A(*)→A(Σ*) is id; every reduced James smash summand has detector value 0.
 
-*Needs:* §1.4 (Waldhausen A-theory); §5.5 (The chromatic purity theorem); HomotopySpheres §3B, with the stable splitting contract.
+*Needs:* §1.4 (Waldhausen A-theory); §5.5 (The chromatic purity theorem); §4.30c (Stable James splitting).
 
 ### 7.8 K-theory of James-filtered Thom spectra
 
@@ -1955,7 +2010,7 @@ At j=1 the iterated finite-p comparison has source K(ℤ/pʳ) and target Hℤ, w
 
 ### Dependencies
 
-BordismFormalGroups F1–F3; HomotopySpheres §3B, with the stable splitting contract; KTheoryLowDegrees §§1.1–1.3 and 13.1; Layer 1; Layer 2; Layer 3; Layer 4; Layer 5; Layer 6; RefinedTraceMethods §4.10 and GeneralAlgebraicKTheory §§7.1–7.7.
+BordismFormalGroups F1–F3; KTheoryLowDegrees §§1.1–1.3 and 13.1; Layer 1; Layer 2; Layer 3; Layer 4; Layer 5; Layer 6; RefinedTraceMethods §4.10 and GeneralAlgebraicKTheory §§7.1–7.7.
 
 ## Layer 8: Rational-transfer descent and modular examples
 
@@ -2415,7 +2470,7 @@ Layer 1; Layer 3; Layer 4; Layer 5; RefinedTraceMethods §4.9 and EnhancedDerive
 
 ## Downstream consumers
 
-ChromaticHomotopyTheory Layers 0–6 import §§4.2–4.16 and 4.18–4.33, including §4.30a (its Layers 4–5 name §§4.3–4.4, 4.14 and 4.20–4.24); its Part II imports §§5.2, 5.5 and 6.5. §4.30a supplies the real Bott comparison of its Layer 5, and §§4.15–4.16 supply the existential connectivity bound; the sharp value m=n+1 is that roadmap's, as recorded in Scope and ownership. The generic Morava realization, units/Thom colimit and James splitting retain the named supplier owners in Exact supplier contracts. Arithmetic K-theory and regulator developments consume purity and the height-one KH/cdh comparison through the named suppliers. Galois descent for Lubin–Tate and modular coefficients consumes Layer 8, with all equivariant structure retained. Iterated and assembled K-theory use Layers 7 and 10. These consumers do not enter the proof of Theorem A or the CMNN induction.
+ChromaticHomotopyTheory Layers 0–6 import §§4.2–4.16 and 4.18–4.33, including §4.30a (its Layers 4–5 name §§4.3–4.4, 4.14 and 4.20–4.24); its Part II imports §§5.2, 5.5 and 6.5. §4.30a supplies the real Bott comparison of its Layer 5, and §§4.15–4.16 supply the existential connectivity bound; the sharp value m=n+1 is that roadmap's, as recorded in Scope and ownership. The generic Morava realization and the units/Thom colimit retain the named supplier owners in Exact supplier contracts; the James reduced product and the stable James splitting are §§4.30b–4.30c here. Arithmetic K-theory and regulator developments consume purity and the height-one KH/cdh comparison through the named suppliers. Galois descent for Lubin–Tate and modular coefficients consumes Layer 8, with all equivariant structure retained. Iterated and assembled K-theory use Layers 7 and 10. These consumers do not enter the proof of Theorem A or the CMNN induction.
 
 ## Worked examples
 
@@ -2461,7 +2516,11 @@ For cyclic assembly take G=ℤ and R=KU. The object G/G is terminal in the famil
 
 - **hahn**: Jeremy Hahn, *[On the Bousfield classes of H-infinity ring spectra](https://arxiv.org/pdf/1612.04386v2)*. Theorem and section numbering of arXiv:1612.04386v2. Locators use this edition; source-line numbers identify its extraction.
 
+- **hatcher**: Allen Hatcher, *[Algebraic Topology](https://pi.math.cornell.edu/~hatcher/AT/AT.pdf)*, Cambridge University Press, 2002. Section 3.C for the reduced product J(X), Sections 4.I–4.K for the splitting of ΣJ(X), the equivalence J(X)≃ΩΣX and quasifibrations, and Theorem A.6 of the Appendix for products of CW complexes, in the author-hosted text.
+
 - **hs**: Fabian Hebestreit and Wolfgang Steimle, *[Stable moduli spaces of hermitian forms](https://arxiv.org/pdf/2103.13911v5)*. Theorem and section numbering of arXiv:2103.13911v5. Locators use this edition; source-line numbers identify its extraction.
+
+- **james**: I. M. James, *Reduced product spaces*, Annals of Mathematics 62 (1955), pp.170–197.
 
 - **kuhn-guide**: Nicholas J. Kuhn, *[A guide to telescopic functors](https://arxiv.org/pdf/0802.0510v1)*. Theorem and section numbering of arXiv:0802.0510v1. Locators use this edition; source-line numbers identify its extraction.
 
@@ -2470,6 +2529,8 @@ For cyclic assembly take G=ℤ and R=KU. The object G/G is terminal in the famil
 - **lmmt**: Markus Land, Akhil Mathew, Lennart Meier and Georg Tamme, *[Purity in chromatically localized algebraic K-theory](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/LMMT2a.pdf)*. Published JAMS 37 (2024), pp.1011–1040; journal theorem numbering and pagination, compared with the preprint. Locators use this edition; source-line numbers identify its extraction.
 
 - **lt**: Markus Land and Georg Tamme, *[On the K-theory of pullbacks](https://arxiv.org/pdf/1808.05559v3)*. Theorem and section numbering of arXiv:1808.05559v3. Locators use this edition; source-line numbers identify its extraction.
+
+- **lurie-ha**: Jacob Lurie, *[Higher Algebra](https://www.math.ias.edu/~lurie/papers/HA.pdf)*, §4.1.1, free associative algebras and their description as tensor algebras, in the author-hosted text.
 
 - **may-nilpotence**: Akhil Mathew, Niko Naumann and Justin Noel, *[On a nilpotence conjecture of J. P. May](https://arxiv.org/pdf/1403.2023v3)*. Theorem and section numbering of arXiv:1403.2023v3. Locators use this edition; source-line numbers identify its extraction.
 
