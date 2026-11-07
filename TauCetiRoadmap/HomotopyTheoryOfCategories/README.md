@@ -66,15 +66,16 @@ and direct categories finds no other owner.
 | Quillen exact categories and Grothendieck groups | GrothendieckEulerForms | not used |
 
 The boundary in one sentence: if a statement is about small categories up to a class of weak
-equivalences defined categorically or through nerves, about presheaves on a small category,
-diagrams in a derivator, direct categories, non-singular presheaves or monoidal groupoids, it is
-here; if it passes through the topological realisation of a nerve, is about simplicial sets or
-spaces alone, about the Reedy model structure, about topoi, or about stacks on schemes, it belongs
-to the owner named above. Sites appear here only as bases of coefficient stacks (Layer 13).
+equivalences defined categorically or through nerves, about presheaves on a small category, diagrams
+in a derivator, direct categories, non-singular presheaves or monoidal groupoids, it is here; if it
+passes through the topological realisation of a nerve, is about simplicial sets or spaces alone,
+about topoi, or about stacks on schemes, it belongs to the owner named above. Sites appear here only
+as bases of coefficient stacks (Layer 13).
 
 **Out of scope.** Generalized, elegant and Eilenberg–Zilber Reedy categories; weighted
 (co)limits and skeletal filtrations; geometric realisation of non-singular presheaves; regular CW
-complexes.
+complexes; Reedy model structures on diagram categories, their latching and matching objects and
+their cofibrant generation (recalled in 8.3).
 
 ## Conventions
 
@@ -1027,10 +1028,13 @@ opposite on `Δᵒᵖ`, its truncations to `SimplexCategory.Truncated n` (7.4), 
   to `1`.
 - On `Δᵒᵖ` the opposite structure has the monomorphisms of `Δ`, reversed, as its lowering class.
 
-Not a target: for a cofibrantly generated model category `M` and any Reedy category `C`, the Reedy
-model structure on `M^C` is cofibrantly generated, with generators the pushout-products of the
-generating (trivial) cofibrations with the boundary inclusions `∂C^c ↪ C^c` (Hirschhorn 2003,
-Theorem 15.6.27; Riehl–Verity, TAC 2014, Proposition 7.7). No model structure is built here.
+Not a target: for a cofibrantly generated model category `M` and a small category `C` with an
+`ℕ`-valued Reedy structure, the Reedy model structure on `M^C` is cofibrantly generated, with
+generators the pushout-products of the generating (trivial) cofibrations with the boundary
+inclusions `∂C(c, −) ↪ C(c, −)` of the representables (Riehl–Verity, TAC 2014, Definition 2.1,
+Lemma 3.17, Corollary 6.7 and Proposition 7.7). For small Reedy categories graded by an ordinal it
+is Hirschhorn 2003, Theorem 15.6.27. A large discrete category has a proper class of boundary
+inclusions, so smallness is needed. No Reedy model structure is built in this roadmap.
 
 ### 8.4 The semi-simplex category
 
