@@ -66,13 +66,17 @@ variable {H : Type u} [NormedAddCommGroup H] [InnerProductSpace ℂ H] [Complete
 
 /-! ## Layer 0: C*-algebra and state prerequisites -/
 
-/-- **Gelfand–Naimark.** Every unital C*-algebra `A` has a faithful representation on a complete
-complex Hilbert space in the universe of `A`: the direct sum of the GNS representations of its
-states (README, Layer 0; Peterson, Corollary 4.1.7, p. 58). For the zero algebra the Hilbert space
-is `0`. -/
-theorem exists_faithful_representation (A : Type u) [CStarAlgebra A] :
+/-- **Gelfand–Naimark.** Every C*-algebra `A`, possibly nonunital and nonseparable, has a faithful
+nondegenerate representation on a complete complex Hilbert space in the universe of `A`: the
+direct sum of the GNS representations of its states, nondegenerate because the classes `[ab]`,
+which lie in the range, are dense in each summand (README, Layer 0; Peterson, Corollary 4.1.7,
+p. 58). For a unital `A` nondegeneracy forces `π 1 = 1`, so the unital theorem is the special
+case. For the zero algebra the Hilbert space is `0`, on which the zero representation is injective
+and nondegenerate. -/
+theorem exists_faithful_nondegenerate_representation (A : Type u) [NonUnitalCStarAlgebra A] :
     ∃ (K : Type u) (_ : NormedAddCommGroup K) (_ : InnerProductSpace ℂ K) (_ : CompleteSpace K)
-      (π : A →⋆ₐ[ℂ] (K →L[ℂ] K)), Function.Injective π := by
+      (π : A →⋆ₙₐ[ℂ] (K →L[ℂ] K)), Function.Injective π ∧
+        Dense (Submodule.span ℂ {ξ : K | ∃ a η, π a η = ξ} : Set K) := by
   sorry
 
 /-- **Separable faithful representation on `ℓ²`.** Every nonzero separable C*-algebra, possibly

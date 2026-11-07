@@ -312,11 +312,15 @@ recovery of the functional (`PositiveLinearMap.inner_gnsVector_coe`,
 (`PositiveLinearMap.denseRange_gnsStarAlgHom_gnsVector`). Add unitary uniqueness and
 transport/restriction lemmas; prove state separation and construct the faithful direct-sum
 representation (Gelfand–Naimark) from these representations (Peterson, Propositions 4.1.4–4.1.5,
-p. 56, Theorem 4.1.6, p. 57, and Corollary 4.1.7, p. 58; the theorem is stated for unital
-algebras; restrict a unitization representation to the closed span of A acting on its Hilbert
-space and use the approximate unit to obtain the nondegenerate nonunital construction). For a
-unital C*-algebra A, the faithful representation on a complete complex Hilbert space in the
-universe of A, the zero space when A=0, is `exists_faithful_representation`.
+p. 56, Theorem 4.1.6, p. 57, and Corollary 4.1.7, p. 58; the GNS theorem 4.1.6 is stated for
+unital algebras and the corollary for every C*-algebra; restrict a unitization representation to
+the closed span of A acting on its Hilbert space and use the approximate unit to obtain the
+nondegenerate nonunital construction). The headline is stated for every C*-algebra A, possibly
+nonunital and nonseparable: a faithful nondegenerate representation on a complete complex Hilbert
+space in the universe of A, the zero space when A=0 (the zero representation of the zero algebra
+is nondegenerate, the span of its range being 0, dense in 0), is
+`exists_faithful_nondegenerate_representation`; for unital A nondegeneracy forces the unit to act
+as the identity, so the unital theorem is its special case.
 *Needs:* Mathlib `PositiveLinearMap`, `PositiveLinearMap.exists_norm_apply_le`, Banach–Alaoglu,
 `Analysis/Convex/KreinMilman` and `PositiveLinearMap.GNS`; Tau Ceti `PositiveLinearMap.gnsVector`
 and its lemmas; BanachSpaceTheory B1's weak-dual comparison.
@@ -347,10 +351,11 @@ nonzero positive elements. Form the norm-convergent positive series
 ψ=Σ_n 2^(-n-1)φ_n, prove ‖ψ‖=1 and ψ(a*a)>0 for a≠0, and use the
 native `PositiveLinearMap.GNS` and `gnsNonUnitalStarAlgHom` on this faithful
 state. Prove separability from the dense image of A and the bound
-‖[a]‖≤‖a‖. Prove faithfulness and nondegeneracy using the native positive
-contractive approximate unit and the dense classes [a]; do not assume an
-unimplemented canonical GNS cyclic-vector theorem. When A is unital, use
-`gnsStarAlgHom` and retain unit preservation.
+‖[a]‖≤‖a‖. For nonunital A there is no class of the unit; prove faithfulness
+and nondegeneracy from the native positive contractive approximate unit and the
+dense classes [a]. When A is unital, use `gnsStarAlgHom`, retain unit
+preservation, and take the cyclic vector and the density of its orbit from
+`PositiveLinearMap.gnsVector` and `PositiveLinearMap.denseRange_gnsStarAlgHom_gnsVector`.
 
 For A≠0, amplify this nonzero separable GNS carrier by the countable
 Hilbert sum `lp (fun _ : ℕ => ψ.GNS) 2`, with diagonal action. Prove the
@@ -3916,8 +3921,7 @@ Prove the equivalent unital formulation for nonzero unital algebras and
 the upgrade to pointwise σ-strong* convergence by convex combinations. Prove
 injectivity iff semidiscreteness for arbitrary von Neumann algebras by the
 reductions below. Prove the commuting-representation minimal-norm criterion
-(Takesaki III XV.3, Theorem 3.1 and Definition 3.5; Anantharaman–Popa, §§10.2–10.3, pp. 161–172,
-and Peterson, §6.3, pp. 100–104, for the finite case): for every concrete
+(Takesaki III XV.3, Theorem 3.1 and Definition 3.5): for every concrete
 von Neumann algebra M⊆B(H), with no separability hypothesis, injectivity
 and semidiscreteness are equivalent to
 `‖Σᵢ xᵢyᵢ‖≤‖Σᵢ xᵢ⊗yᵢ‖_min` for finite xᵢ∈M,yᵢ∈M′.
@@ -3947,7 +3951,10 @@ extending τ and central under M, prove the Powers–Størmer inequality
 `‖a^(1/2)-b^(1/2)‖₂²≤‖a-b‖₁` for positive L¹ elements, and prove Connes's finite-rank
 Følner criterion: finite subsets of the left action admit nonzero finite-rank projections
 whose Hilbert–Schmidt commutators divided by their Hilbert–Schmidt norms are arbitrarily
-small, with normalized compressed traces approximating τ. Derive finite-dimensional
+small, with normalized compressed traces approximating τ (Anantharaman–Popa, Definition 10.2.1
+and Proposition 10.2.2, p. 161, Proposition 10.2.5, p. 163, Theorems 10.2.8 and 10.2.9,
+pp. 164–165, and Theorem 10.3.1, p. 166; Peterson, Theorem 6.3.8, p. 103, for hypertraces versus
+conditional expectations). Derive finite-dimensional
 CP approximations through normal finite-matrix maps: prove the
 spatial-norm continuity of the commuting left/right multiplication
 representation on M⊙Mᵒᵖ, and use CP separation/extension to obtain
