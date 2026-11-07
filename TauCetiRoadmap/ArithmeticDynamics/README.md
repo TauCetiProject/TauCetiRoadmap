@@ -68,14 +68,17 @@ potential theory and Galois theory are consumed through the contracts in the ind
   Hilbert irreducibility. The preimage tower, arboreal action and the
   integrally closed coefficient-ring specialization comparison of §5.39
   belong here; that comparison uses the native `Polynomial.Gal` root action.
-- ProbabilisticAndMetricNumberTheory §§4.1–4.3 owns pointwise Birkhoff and §5.2
-  finite Shannon entropy. GeometryOfNumbersAndQuadraticArithmetic §4.2 owns
-  measurable partition labels, partition and conditional entropy, itinerary joins,
-  entropy rates and measure entropy. Sections 2.6–2.7 compare their finite-label
-  conventions and add fibre-entropy bounds, Shannon–McMillan–Breiman,
-  endomorphism ergodic decomposition with entropy integration, and comparison
-  with topological entropy. The endomorphism decomposition includes noninvertible
-  maps, beyond the supplier's group-action component kernels.
+- ProbabilisticAndMetricNumberTheory §§4.1–4.3 owns pointwise Birkhoff.
+  GeometryOfNumbersAndQuadraticArithmetic §4.2 owns measurable partition labels,
+  finite-label Shannon entropy with its chain rule, addition for independent
+  labels and alphabet bound, countable and conditional partition entropy,
+  itinerary joins, entropy rates and measure entropy. Sections 2.6–2.7 add
+  invariance under almost-everywhere equality of labels, the finite-label
+  supremum formula for measure entropy, fibre-entropy bounds,
+  Shannon–McMillan–Breiman, endomorphism ergodic decomposition with entropy
+  integration, and comparison with topological entropy. The endomorphism
+  decomposition includes noninvertible maps, beyond the supplier's group-action
+  component kernels.
 - ArithmeticGaloisRepresentations §1.11 owns reductive quotients of affine
   schemes over fields and excellent DVRs. The global quotient over Spec ℤ, the
   Rat_d stability calculation and the dynamical identifications belong to §0.28.
@@ -83,6 +86,13 @@ potential theory and Galois theory are consumed through the contracts in the ind
   and Banach-contraction decomposition require the explicit additional contracts
   in the indicated layers. They are distinct from set quotients, local measures
   and Hilbert-space spectral theory.
+- Postcritically finite maps, the critical height and its adelic line bundle on
+  the chosen parameter cover, and bifurcation currents belong here (§§0.34, 4.5,
+  4.49, 6.5, 6.8, 6.40). DeMarco–Mavraki–Ye's bounded-geometry and
+  small-critical-height theorems for subvarieties of M_d, and DeMarco–Krieger–Ye's
+  bielliptic genus-2 application, are outside this roadmap.
+  ArithmeticDynamicsPartII is the roadmap of Markoff dynamics over finite fields;
+  it does not continue this bifurcation material.
 
 Uniform boundedness, dynamical Lehmer and unrestricted dynamical Mordell–Lang
 are conjectural statements, used only under explicitly stated hypotheses. The
@@ -273,17 +283,15 @@ Consume RestrictedPowerSeries §2.4: a nonzero restricted power series over a co
 
 **Endpoint checks.** The polynomial z(z−1) has last dominant index 2 and exactly two integral zeros. For odd p, the analytic function (1+p)^z−1 has only the zero z=0; at p=2 use 5^z−1. These follow from the injectivity of the exponential on pℤ_p for odd p and on 4ℤ₂. The expansion Σ binom(z,i)p^i is a Mahler expansion, so its binomial coefficients are not the monomial coefficients to which Strassmann applies. At p=2 the continuous function 3^z instead has a parity factor and requires two analytic residue classes.
 
-### From TauCetiRoadmap.ProbabilisticAndMetricNumberTheory — §§4.1–4.3, 5.2
+### From TauCetiRoadmap.ProbabilisticAndMetricNumberTheory — §§4.1–4.3
 
 Consume §4.1 `birkhoff_pointwise` and `birkhoff_pointwise_ergodic`, with the
 construction and identification in §§4.2–4.3: on any probability space, for a
 measure-preserving T and integrable real f, native time averages converge almost
 everywhere to conditional expectation on `MeasurableSpace.invariants T`, and to
-the integral when T is ergodic. Consume §5.2 `finiteEntropy` and
-`finiteMutualInformation`, the finite chain rule, independence and alphabet-size
-bounds, with natural logarithms and zero-mass terms equal to zero. Only this
-independent finite probability API is used; its arithmetic applications supply
-no input to Layer 2.
+the integral when T is ergodic. Only these pointwise statements are used; the
+arithmetic applications of that roadmap supply no input to Layer 2. Finite-label
+entropy comes from GeometryOfNumbersAndQuadraticArithmetic §4.2 below.
 
 ### From TauCetiRoadmap.GeometryOfNumbersAndQuadraticArithmetic — §4.2
 
@@ -293,10 +301,16 @@ Consume the **Entropy and Haar measure on leaves** paragraph's
 and `measureEntropy`, together with `atomInformation` and
 `conditionalLabelEntropy` for standard Borel labels and their conditional-kernel
 atom evaluation. Consume their measurable-label, chain-rule, relabeling,
-independence and subadditive-limit API. Use probability measures here and natural
-logarithms; the measure entropy retains +∞. Section 2.6 compares the supremum
-over countable finite-entropy labels with that over finite labels, and compares
-the finite-label specialization with ProbabilisticAndMetricNumberTheory §5.2;
+independence and subadditive-limit API. For measurable labels into finite
+nonempty alphabets with discrete σ-algebras on a probability space, with no
+standard-Borel assumption on the underlying space, this includes the value
+−Σᵢ pᵢ log pᵢ with zero-mass atoms contributing zero, the finite-sum comparison
+with `countablePartitionEntropy`, the joint-label chain rule, addition for
+independent labels and the alphabet bound 0≤H≤log(card alphabet). Use
+probability measures here and natural logarithms; the measure entropy retains
++∞. Section 2.6 compares the supremum over countable finite-entropy labels with
+that over finite labels and proves invariance under almost-everywhere equality
+of labels;
 §2.7 adds conditional entropy against a
 sub-σ-algebra and the endomorphism and topological comparison theorems.
 
@@ -971,7 +985,7 @@ Prove the following basic API.
 
 **Endpoint checks.** Under n ↦ n + 1 on ℕ the orbit of 0 is ℕ; under the identity every orbit is a singleton. Under z ↦ z² − 1 on ℤ the orbit of 1 is {1, 0, −1} (Silverman, AWS notes, Example 2).
 
-Applications include Silverman, AWS notes, §1 — preperiodic and wandering points are those with finite and infinite orbit; Call–Silverman, Corollary 1.1.1(a) — the orbit of a point of canonical height zero has bounded height, hence is finite; Preperiodic iff the forward orbit is finite — the finite-orbit characterisation of preperiodic points; Zero Tate limit and Northcott give preperiodicity — Northcott applied to the forward orbit; ArithmeticDynamicsPartIIBifurcation (DeMarco–Mavraki–Ye §2.2) — a map is PCF when every critical point has a finite forward orbit.
+Applications include Silverman, AWS notes, §1 — preperiodic and wandering points are those with finite and infinite orbit; Call–Silverman, Corollary 1.1.1(a) — the orbit of a point of canonical height zero has bounded height, hence is finite; Preperiodic iff the forward orbit is finite — the finite-orbit characterisation of preperiodic points; Zero Tate limit and Northcott give preperiodicity — Northcott applied to the forward orbit; Postcritically finite rational maps (Layer 6; DeMarco–Mavraki–Ye §2.2) — a map is PCF when every critical point has a finite forward orbit.
 
 ### 0.2 Preperiodic points of a self-map
 
@@ -1006,7 +1020,7 @@ Prove the following basic API.
 
 **Endpoint checks.** 1 is preperiodic but not periodic for z ↦ z² − 1 on ℤ; 2 is wandering (Silverman, AWS notes, Example 2). For g ↦ g^d (d ≥ 2) on a group the preperiodic points are the torsion elements (AWS notes, Exercise A).
 
-Applications include Call–Silverman, Corollary 1.1.1 — preperiodic points are exactly the points of canonical height zero, and form a set of bounded height; Silverman, AWS notes, Theorem 15 (Northcott) — PrePer(ϕ, K) is finite for a number field K; ĥ_f(P) = 0 iff P is preperiodic (ℙ¹) — the target predicate of the zero-height criterion; Layer 3 — finiteness of preperiodic points of bounded degree for a fixed polarized morphism; Layer 6 and ArithmeticDynamicsPartIIBifurcation — PCF maps: all critical points preperiodic; ĥ_crit = 0.
+Applications include Call–Silverman, Corollary 1.1.1 — preperiodic points are exactly the points of canonical height zero, and form a set of bounded height; Silverman, AWS notes, Theorem 15 (Northcott) — PrePer(ϕ, K) is finite for a number field K; ĥ_f(P) = 0 iff P is preperiodic (ℙ¹) — the target predicate of the zero-height criterion; Layer 3 — finiteness of preperiodic points of bounded degree for a fixed polarized morphism; Postcritically finite rational maps and Zero critical height characterises postcritically finite maps (Layer 6) — PCF maps: all critical points preperiodic; ĥ_crit = 0.
 
 ### 0.3 Iterates of an endomorphism act on points by its powers
 
@@ -1357,7 +1371,7 @@ Prove the following basic API.
 
 **Endpoint checks.** deg(z²) = 2 and (z²)^n = `z^{2^n}` as rational maps. Over 𝔽_p, z^p ≠ z as rational maps although they agree on ℙ¹(𝔽_p) (see The action of a rational map on ℙ¹(K)).
 
-Applications include Silverman, AWS notes, §2 — rational maps ϕ ∈ K(z) of degree d and their iterates ϕ^n; Call–Silverman, Example 3 — morphisms of ℙⁿ of degree d ≥ 2 with φ*η = dη; The canonical height of a rational map of ℙ¹ — the canonical height ĥ_f of f with deg f ≥ 2; ClassicalArithmeticCompletion §6.37 — the power map z ↦ z^d; Layer 2 – Layer 6 — every later layer quantifies over rational maps of ℙ¹; ArithmeticDynamicsPartIIBifurcation — families of rational maps and the moduli space M_d.
+Applications include Silverman, AWS notes, §2 — rational maps ϕ ∈ K(z) of degree d and their iterates ϕ^n; Call–Silverman, Example 3 — morphisms of ℙⁿ of degree d ≥ 2 with φ*η = dη; The canonical height of a rational map of ℙ¹ — the canonical height ĥ_f of f with deg f ≥ 2; ClassicalArithmeticCompletion §6.37 — the power map z ↦ z^d; Layer 2 – Layer 6 — every later layer quantifies over rational maps of ℙ¹; The moduli space M_d(K) of degree-d maps and Bifurcation currents in critically marked moduli (Layer 4) — families of rational maps and the moduli space M_d.
 
 ### 0.19 The action of a rational map on ℙ¹(K)
 
@@ -1694,7 +1708,7 @@ Prove the following basic API.
 
 **Endpoint checks.** M₀(K) is a point. 1/z² and 2/z² are different points of M₂(ℚ) with the same image in M₂(ℚ̄) (a conjugacy γ must preserve the critical points {0, ∞}, forcing γ(z) = cz or c/z with c³ = 2).
 
-Applications include DeMarco–Mavraki–Ye, §1–§2 — PCF-special subvarieties of M_d and the critical height on M_d(ℚ̄); Milnor, Lemma 3.1 — M₂ ≅ A² through (σ₁, σ₂); Layer 6 — the critical height as a function on M_d and Ingram's comparison with a moduli height; ArithmeticDynamicsPartIIBifurcation — imports M_d and its critically marked cover.
+Applications include DeMarco–Mavraki–Ye, §1–§2 — PCF-special subvarieties of M_d and the critical height on M_d(ℚ̄); Milnor, Lemma 3.1 — M₂ ≅ A² through (σ₁, σ₂); Layer 6 — the critical height as a function on M_d and Ingram's comparison with a moduli height; Critical height as an adelic height and equidistribution of PCF maps in moduli (Yuan–Zhang) (Layer 4) — uses M_d and its critically marked maps alongside the chosen parameter cover S_d.
 
 **Construction.** [Geometric invariant theory for the moduli spaces M_d and M_d^cm as schemes](#028-geometric-invariant-theory-for-dynamical-moduli).
 
@@ -1759,7 +1773,7 @@ Prove the following basic API.
 
 **Endpoint checks.** z³ over ℚ: 0 and ∞, each twice. z^p over 𝔽_p: Jac = 0 and the definition returns no critical points. Milnor's normal form z(z + μ₁)/(μ₂z + 1): Jac = 2(μ₂X₀² + 2X₀X₁ + μ₁X₁²).
 
-Applications include DeMarco–Mavraki–Ye, §2.1 and §2.4 — the marked critical points c₁, …, `c_{2d−2}` and ĥ_crit(f) = Σ ĥ_f(c); Milnor, §6 — critically marked quadratic maps; Silverman, AWS notes, Exercise E — critical points of f^n along the orbit; The critical height of a rational map — the critical height sums the canonical heights of the critical points; ArithmeticDynamicsPartIIBifurcation — PCF maps and bifurcation currents T_i attached to the critical points.
+Applications include DeMarco–Mavraki–Ye, §2.1 and §2.4 — the marked critical points c₁, …, `c_{2d−2}` and ĥ_crit(f) = Σ ĥ_f(c); Milnor, §6 — critically marked quadratic maps; Silverman, AWS notes, Exercise E — critical points of f^n along the orbit; The critical height of a rational map — the critical height sums the canonical heights of the critical points; Postcritically finite rational maps (Layer 6) and Bifurcation currents in critically marked moduli (Layer 4) — PCF maps and bifurcation currents T_i attached to the critical points.
 
 ### 0.32 Conjugation by GL₂(R) preserves good reduction
 
@@ -1844,7 +1858,7 @@ Prove the following basic API.
 
 **Endpoint checks.** Over any field, d = 1 gives no critical points and M₁^cm = M₁. Over an algebraically closed field of characteristic zero, for example ℂ: for d = 2, z² has one preimage (z ↦ 1/z swaps its critical points 0, ∞ and commutes with z²); z²+1 has two. For d = 3 over the same field, z³ has the nonidentity automorphism z ↦ −z fixing each critical point 0 and ∞, so ordering critical points alone does not remove stabilizers.
 
-Applications include DeMarco–Mavraki–Ye, §2.1, (2.1) — the marked critical points cᵢ and the bifurcation currents Tᵢ; Milnor, Lemma 6.1 — M₂^cm as the surface A³(A − 1) = BC; Layer 6 — the critical height on M_d^cm; ArithmeticDynamicsPartIIBifurcation — imports the critically marked cover.
+Applications include DeMarco–Mavraki–Ye, §2.1, (2.1) — the marked critical points cᵢ and the bifurcation currents Tᵢ; Milnor, Lemma 6.1 — M₂^cm as the surface A³(A − 1) = BC; Layer 6 — the critical height on M_d^cm; Critical height as an adelic height and equidistribution of PCF maps in moduli (Yuan–Zhang) (Layer 4) — uses the critically marked maps, kept distinct from the chosen parameter cover S_d.
 
 **Construction.** [Geometric invariant theory for the moduli spaces M_d and M_d^cm as schemes](#028-geometric-invariant-theory-for-dynamical-moduli).
 
@@ -2485,13 +2499,19 @@ For integrable real f their limit is conditional expectation on the invariant
 limits use positive lengths.
 
 Represent a finite measurable partition by a measurable label a:X→I with finite
-nonempty discrete alphabet I; its atoms are a⁻¹{i}, including empty atoms. Prove
-that GeometryOfNumbersAndQuadraticArithmetic §4.2's finite partition entropy
-equals ProbabilisticAndMetricNumberTheory §5.2's finite Shannon entropy of a.
-The join has label (a,b), its atoms are intersections, and its conditional chain
-rule is the supplied finite joint-law chain rule. Transport these comparisons
-through bijective relabeling and μ-almost-everywhere equality. The supplied length-n
-itinerary has labels (a(x),…,a(T^[n−1]x)); at n=0 it is the unique empty tuple.
+nonempty discrete alphabet I; its atoms are a⁻¹{i}, including empty atoms. Write
+Hμ(P) for GeometryOfNumbersAndQuadraticArithmetic §4.2's finite partition entropy
+of a. The join has label (a,b), its atoms are intersections, and its conditional
+chain rule is the supplied joint-label chain rule. Prove that composing a with an
+injection e:I→ℕ leaves the countable partition entropy of the label, and of each
+of its itineraries, equal to the finite value, because the added atoms are empty;
+this is how finite labels enter the supplied measure entropy over ℕ-valued
+labels. Prove that labels equal μ-almost everywhere have the same atom masses and
+hence the same entropy; that almost-everywhere equality passes to joins, and to
+itineraries because preimages of null sets under the measure-preserving T are
+null; and hence that their entropy rates agree. Invariance under bijective
+relabeling is supplied. The supplied length-n itinerary has labels
+(a(x),…,a(T^[n−1]x)); at n=0 it is the unique empty tuple.
 Write hμ(T,P) for its supplied entropy rate, the limit of Hμ(Pⁿ)/n over n≥1,
 and hμ(T) for the supplied measure entropy. Prove that truncating countable
 finite-entropy labels gives hμ(T)=sup over finite P of hμ(T,P), retaining +∞
@@ -2503,8 +2523,13 @@ source's base-two entropies by log 2).
 **Checks.**
 
 - A constant label on a one-point probability space has masses (1,0) after an
-  empty atom is added; both entropy formulas give 0, and the empty itinerary has
+  empty atom is added; its finite entropy and the countable entropy of its
+  composite with an injection into ℕ both give 0, and the empty itinerary has
   entropy 0. Alphabet size alone would incorrectly give log 2.
+- On [0,1] with Lebesgue measure, the labels 1_[0,1/2) and 1_[0,1/2] differ only
+  at 1/2. Both have entropy log 2, and their join has masses (1/2,0,0,1/2) and
+  entropy log 2, the value of a fair bit joined with itself, not the 2 log 2 of
+  two independent fair bits.
 - Two independent fair bits have joint entropy 2 log 2 and conditional entropy
   log 2; a fair bit joined with itself has joint entropy log 2 and conditional
   entropy 0. The pair-label join preserves this distinction.
@@ -2516,7 +2541,7 @@ source's base-two entropies by log 2).
   For the two-point flip the averages tend to (1,1), as the ergodic supplier
   statement requires.
 
-*Needs:* ProbabilisticAndMetricNumberTheory §§4.1–4.3, 5.2;
+*Needs:* ProbabilisticAndMetricNumberTheory §§4.1–4.3;
 GeometryOfNumbersAndQuadraticArithmetic §4.2, Entropy and Haar measure on leaves;
 Mathlib measurable spaces, `Ergodic`, conditional expectation and finite sums.
 
@@ -4128,7 +4153,7 @@ For z ↦ z^d over ℂ the Julia set is the unit circle and its canonical measur
 
 ### Dependencies
 
-Layers 0–1 and the Layer 0 power map (§0.27a); TropicalAndBerkovichArithmetic §§0.21–0.23, 1.1–1.3, 3.3, 6.1–6.5 analytic line, potentials, energy and model measures; AlgebraicModuliForArithmeticGeometry §7.10.2 common analytic substrate; ComplexComparisonPartII §C−1.1 complex analytification; Layer 2 The native analytic projective line/Layer 2 Nonarchimedean potential theory and local degrees native analytic geometry, carrier comparisons and potential theory; ConformalMapping local analysis, sphere charts and finite-degree theory; ProbabilisticAndMetricNumberTheory §§4.1–4.3, 5.2 pointwise Birkhoff and finite Shannon entropy; GeometryOfNumbersAndQuadraticArithmetic §4.2 partition labels and entropy; the explicit Riesz, meromorphic Montel, contraction, fibre-entropy, partition-information and entropy-integration extensions.
+Layers 0–1 and the Layer 0 power map (§0.27a); TropicalAndBerkovichArithmetic §§0.21–0.23, 1.1–1.3, 3.3, 6.1–6.5 analytic line, potentials, energy and model measures; AlgebraicModuliForArithmeticGeometry §7.10.2 common analytic substrate; ComplexComparisonPartII §C−1.1 complex analytification; Layer 2 The native analytic projective line/Layer 2 Nonarchimedean potential theory and local degrees native analytic geometry, carrier comparisons and potential theory; ConformalMapping local analysis, sphere charts and finite-degree theory; ProbabilisticAndMetricNumberTheory §§4.1–4.3 pointwise Birkhoff; GeometryOfNumbersAndQuadraticArithmetic §4.2 partition labels, finite-label Shannon entropy, countable and conditional entropy and measure entropy; the explicit Riesz, meromorphic Montel, contraction, fibre-entropy, partition-information and entropy-integration extensions.
 
 ## Layer 3: Periodic equations, dynatomic curves and certified arithmetic
 
@@ -8658,7 +8683,7 @@ Prove the following basic API.
 
 **Endpoint checks.** ĥ_crit(P_d) = 0; ĥ_crit(z² + c) = `ĥ_{z²+c}(0)` since ∞ is fixed. ĥ_crit(f_t) = 0 for the Legendre Lattès maps.
 
-Applications include Ingram, Theorem 1 — ĥ_crit is commensurate with an ample Weil height on M_d off the flexible Lattès locus (Ingram's theorem: the critical height is a moduli height); DeMarco–Mavraki–Ye, Theorems 1.5, 1.6, 1.8 — small critical height and the essential minimum on subvarieties of M_d, in the bifurcation Part II; DeMarco–Mavraki–Ye §2.4 (Yuan–Zhang) — ĥ_crit is the height of an adelic line bundle on the critically marked cover, whose equidistribution (Layer 4) governs PCF parameters; Benedetto et al., §11 and §16 — the critical height as the natural height on moduli space and the zeros as PCF maps.
+Applications include Ingram, Theorem 1 — ĥ_crit is commensurate with an ample Weil height on M_d off the flexible Lattès locus (Ingram's theorem: the critical height is a moduli height); DeMarco–Mavraki–Ye, Theorems 1.5, 1.6, 1.8 — small critical height and the essential minimum on subvarieties of M_d, which lie outside this roadmap; DeMarco–Mavraki–Ye §2.4 (Yuan–Zhang) — ĥ_crit is the height of an adelic line bundle on the critically marked cover, whose equidistribution (Layer 4) governs PCF parameters; Benedetto et al., §11 and §16 — the critical height as the natural height on moduli space and the zeros as PCF maps.
 
 ### 6.9 Quantitative branch point near a small attracting multiplier
 
@@ -9397,7 +9422,7 @@ Prove the following basic API.
 
 **Endpoint checks.** Families of polynomials: announced by Favre–Gauthier (Benedetto et al., after Conjecture 11.6).
 
-Applications include Benedetto et al., Conjectures 11.5–11.6 — the dynamical analogue of André–Oort: PCF maps play the role of special points; DeMarco–Mavraki–Ye, Remark 1.7 and Theorems 1.1–1.2 — uniform bounded-geometry results for PCF-special subvarieties obtained without the classification this conjecture predicts (bifurcation Part II).
+Applications include Benedetto et al., Conjectures 11.5–11.6 — the dynamical analogue of André–Oort: PCF maps play the role of special points; DeMarco–Mavraki–Ye, Remark 1.7 and Theorems 1.1–1.2 — uniform bounded-geometry results for PCF-special subvarieties obtained without the classification this conjecture predicts (outside this roadmap).
 
 ### 6.51 Transport through a primitive root
 
@@ -9542,7 +9567,7 @@ Prove the following basic API.
 
 **Endpoint checks.** For E_t, x itself is a standard projection with branch set {0, 1, t, ∞}.
 
-Applications include DeMarco–Krieger–Ye, Conjecture 1.3 and Corollary 8.2 — common torsion images π₁(E₁^tors) ∩ π₂(E₂^tors) for pairs of standard projections with three common branch values; DeMarco–Krieger–Ye, §9.1 (Proposition 9.1) — bielliptic genus-2 curves as lifts of the diagonal under π₁ × π₂ (the uniformity Part II); Flexible Lattès maps and the flexible Lattès locus — the Lattès map descends [n] through a standard projection.
+Applications include DeMarco–Krieger–Ye, Conjecture 1.3 and Corollary 8.2 — common torsion images π₁(E₁^tors) ∩ π₂(E₂^tors) for pairs of standard projections with three common branch values; DeMarco–Krieger–Ye, §9.1 (Proposition 9.1) — bielliptic genus-2 curves as lifts of the diagonal under π₁ × π₂ (outside this roadmap); Flexible Lattès maps and the flexible Lattès locus — the Lattès map descends [n] through a standard projection.
 
 ### 6.58 The height of a specialised point grows like its degree
 
