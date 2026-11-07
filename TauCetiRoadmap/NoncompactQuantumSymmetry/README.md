@@ -6,14 +6,14 @@
 
 Consume, without duplicating their core constructions:
 
-- CompactGroups Layer 5 (`gap:banach-gfinite-density`, the gap AutomorphicFormsOnReductiveGroups §2.1 declares there) for the topology-free finite-orbit-span predicate `IsGFinite`, the submodule `gFiniteSubmodule` with its addition, scalar, invariance and equivariant-map API, and the Banach density theorem `gFiniteSubmodule_dense` for strongly continuous complex Banach representations of compact Hausdorff groups; AutomorphicFormsOnReductiveGroups §2.1 for its abbreviation `IsKFinite` of that predicate on the restriction to K and its identification of the orbit span of the restricted native representation with the span of the actual orbit `π(k)v`. These two early interfaces have no automorphic, globalization or NQS analytic prerequisite; M0 owns the further Hilbert multiplicity, completed-tensor and smooth/analytic comparisons.
+- CompactGroups (`gap:banach-gfinite-density`, the gap that AutomorphicFormsOnReductiveGroups records against CompactGroups in its supplier contracts and consumes in §2.1) for the topology-free finite-orbit-span predicate `IsGFinite`, the submodule `gFiniteSubmodule` with its addition, scalar, invariance and equivariant-map API, and the Banach density theorem `gFiniteSubmodule_dense` for strongly continuous complex Banach representations of compact Hausdorff groups; AutomorphicFormsOnReductiveGroups §2.1 for its abbreviation `IsKFinite` of that predicate on the restriction to K and its identification of the orbit span of the restricted native representation with the span of the actual orbit `π(k)v`. These two early interfaces have no automorphic, globalization or NQS analytic prerequisite; M0 owns the further Hilbert multiplicity, completed-tensor and smooth/analytic comparisons.
 
 - [OperatorAlgebraDynamics D1](../OperatorAlgebraDynamics/README.md#d1-covariant-representations-and-full-crossed-products) for covariant pairs, integrated forms, group C*-algebras and continuous actions; [D3](../OperatorAlgebraDynamics/README.md#d3-induction-and-imprimitivity) for Green imprimitivity, modular normalization, induction in stages and interior tensor induction.
 - OperatorAlgebraDynamics D3 supplies the equivalence between module and Hilbert-space induction for closed subgroups. HilbertModules H3 supplies interior tensor products, correspondence induction and the Rieffel correspondence; H5 supplies C₀(X)-algebras, their fibres and continuous Hilbert fields. H5 also supplies the small unitary dual as pure states modulo equivalence of their cyclic GNS representations; M0a retains the separable GCR/factor-type-I comparison.
 - AffineLieAlgebras A1 owns finite-dimensional complex Whitehead vanishing for its current-algebra classification. P.4 extends that result to finite-dimensional semisimple Lie algebras and modules over every characteristic-zero field, including the real forms used here; it does not redevelop the complex current-algebra application.
 - CStarAlgebras for full group C*-algebras and type-I hypotheses; OperatorAlgebraDynamics D5 for Haar-system groupoid convolution/disintegration; VonNeumannAlgebras V2 for completed Hilbert tensors. M3 consumes Layer P.5's free-particle position, momentum and Fourier core; the other Layer P interfaces are named below and at their uses.
 - [VonNeumannAlgebras V4.Normality](../VonNeumannAlgebras/README.md#v4-preduals-normality-and-normal-representations) for normal representations; V4.0.Fields for measurable Hilbert fields, rectangular decomposable-map transport and change of measure consumed by M1/M2/M4/M5/M6; V4.0.Decomposition, via SelfAdjointSpectralTheory SA-B85, for the separable `C₀(X)` spectral representation and central decomposition consumed by M2.TypeIDisintegration, M2.ParameterizedRefinement and M3’s mass-sector decomposition; V11 for Pontryagin duality, Haar normalization and Plancherel.
-- [RepresentationTheory/CompactGroups](../RepresentationTheory/CompactGroups/README.md) for compact little groups and Peter–Weyl; LieGroups and [LieHighestWeight](../RepresentationTheory/LieHighestWeight/README.md) for Lie groups, Lie algebras, highest weights and compact-fiber data. These are not noncompact unitary-dual classifications.
+- [RepresentationTheory/CompactGroups](../RepresentationTheory/CompactGroups/README.md) for compact little groups; Tau Ceti's unitarization, Schur orthogonality and Peter–Weyl basis named under "From Tau Ceti"; LieGroups and [LieHighestWeight](../RepresentationTheory/LieHighestWeight/README.md) for Lie groups, Lie algebras, highest weights and compact-fiber data. These are not noncompact unitary-dual classifications.
 - Mathlib's `LieAlgebra.HasTrivialRadical.instIsKilling` (`Mathlib/Algebra/Lie/CartanCriterion.lean`, Cartan's criterion over a characteristic-zero domain) with `LieAlgebra.IsSemisimple.instHasTrivialRadical`, and Tau Ceti's `TauCeti.exists_isCompl_of_isKilling` (`TauCeti/Algebra/Lie/HighestWeight/CompleteReducibility.lean`, Weyl's complete reducibility over a field of characteristic zero for a finite-dimensional Lie algebra with nondegenerate Killing form and a finite-dimensional module), from which Layer P.4 proves the degree-one and degree-two Whitehead lemmas; Tau Ceti's `TauCeti.FactorSet` (`TauCeti/GroupTheory/GroupExtension/Of/FactorSet.lean`) and `TauCeti.isProjectiveRepEquivExtensionHom` (`TauCeti/RepresentationTheory/ProjectiveRepresentation/Extension.lean`) for the algebra of factor sets, their extensions, rescaling and projective linearization, consumed by Layer P.3.
 - Layer P below owns the projective-symmetry prerequisites: rays, the unitary–antiunitary group and Wigner's theorem (P.1); the graded and projective Polish groups `UA(H)`, `PU(H)` and `PUA(H)` with their coefficient and quotient Borel structures, the local section of `U(H)→PU(H)` and the corollary that a connected group mapping continuously to `PUA(H)` lands in `PU(H)` (P.2); normalized locally continuous multipliers and their topological extensions (P.3); finite-dimensional Lie smoothing, differentiation, integration and the real Whitehead lemmas (P.4); free-particle position and momentum (P.5); and the permutation projectors of completed tensor powers (P.6). This roadmap proves these and the noncompact measurable and induced-representation results named here.
 - OperatorAlgebraDynamics D1.BorelPrefix for the Polish strong-operator unitary group `U(H)_s` of a separable H with its coefficient Borel structure and criterion for Borel maps, Pettis's theorem (automatic continuity of Borel homomorphisms from a Polish group into a separable metrizable group), the Polishness of second-countable locally compact groups, the Mackey–Weil lcsc topology on the circle extension `E_ω` of a normalized Borel multiplier, the correspondence of strong-Borel ω-representations with representations of `E_ω` on which the central circle acts by scalars, and the strong-Borel twisted left-regular family `λ^ω`; D1.TwistedBorel for the single-weight fibres `J_k(E_ω)≅C*(G,ω^k)`; D4.Harmonic for the Fourier isomorphism `C*(N)≅C₀(N̂)` of the full group C*-algebra of a locally compact abelian N in the positive-character convention. These are consumed at P.2, M1, M2 and Layer 0 and are not restated. This roadmap keeps what OperatorAlgebraDynamics leaves to it: the graded and projective groups `UA(H)`, `PU(H)`, `PUA(H)` with their Borel structures and local sections (P.2), the comparison of Borel multipliers with locally continuous extension cocycles (M1), and the all-central-weights decomposition `C*(E_ω)≅⊕_k J_k(E_ω)` with its type-I consequences (M2).
@@ -64,6 +64,43 @@ strong orbit continuity separate. P.3 consumes `TauCeti.FactorSet` and
 over a characteristic-zero field. M4 uses the native real Clifford/Hermitian
 comparison named in Scope and ownership.
 
+The compact-group inputs are the following pinned declarations, each for a
+compact topological group G with Borel σ-algebra, its Haar probability
+measure and a continuous representation `π : ContRepresentation 𝕜 G V`
+(continuous into `V →L[𝕜] V`), 𝕜 being ℝ or ℂ:
+
+- `ContRepresentation.isUnitarizable`
+  (`TauCeti/RepresentationTheory/Compact/Unitarizable.lean`): for a complete
+  inner-product space V there is a self-adjoint S with `re⟨Sv,v⟩>0` for v≠0
+  and `(π g)†∘S∘(π g)=S` for every g.
+- `ContRepresentation.exists_isUnitary_congr`
+  (`TauCeti/RepresentationTheory/Compact/UnitaryModel.lean`): for
+  finite-dimensional V there is a continuous linear automorphism e of V
+  for which the conjugated representation satisfies `ContRepresentation.IsUnitary`.
+- `ContRepresentation.schur_orthogonality_self` and
+  `ContRepresentation.schur_orthogonality_basis`
+  (`TauCeti/RepresentationTheory/Compact/SchurOrthogonality.lean`): for 𝕜
+  algebraically closed and a unitary, algebraically irreducible π on V of
+  dimension d, the L² inner product of the matrix coefficients
+  `g↦⟨π(g)v₁,w₁⟩` and `g↦⟨π(g)v₂,w₂⟩` is `d⁻¹·conj⟨v₁,v₂⟩·⟨w₁,w₂⟩`, and in
+  an orthonormal basis `⟨π_ij,π_kl⟩=d⁻¹δ_jlδ_ik` with `π_ij(g)=⟨π(g)e_j,e_i⟩`;
+  `ContRepresentation.schur_orthogonality` (same file): matrix coefficients
+  of inequivalent finite-dimensional irreducibles, the second unitary, are
+  L²-orthogonal.
+- `TauCeti.stdPeterWeylBasis`
+  (`TauCeti/RepresentationTheory/Compact/PeterWeyl.lean`): for 𝕜
+  algebraically closed, the normalized matrix coefficients of chosen
+  representatives of the unitary irreducible classes form a Hilbert basis of
+  `L²(G)`, identified elementwise by `TauCeti.coe_stdPeterWeylBasis`.
+
+Inner products here are Mathlib's, conjugate-linear in the first variable,
+as in Conventions. For G=𝕋, π(z)=z on ℂ, v₁=w₁=w₂=1 and v₂=i, the
+coefficients are `z⁻¹` and `−iz⁻¹`, so the left side of the first identity
+is `∫conj(z⁻¹)·(−iz⁻¹)dz=−i` and the right side is `conj⟨1,i⟩=conj(i)=−i`;
+placing the conjugation on the w-factor instead would give `+i`. A finite
+group is the case of the discrete topology, where Haar probability is
+normalized counting measure.
+
 ### From TauCetiRoadmap.HilbertModules
 
 H3 supplies the balanced Hausdorff-completed interior tensor, its associator,
@@ -92,16 +129,16 @@ Their generic theories remain in the supplying roadmaps.
 | Supplier | Interface consumed here | First consumer |
 | --- | --- | --- |
 | [SmoothBanachRepresentations Layers 0–4](../RepresentationTheory/SmoothBanachRepresentations/README.md) | Integrated operators `π(f)` of compactly supported smooth tests and the Gårding space they span, smooth vectors with their Fréchet topology and density, mixed-word domains, the derived Lie and enveloping actions, and the convolution, transport, conjugation and integration-by-parts laws, for strongly continuous Banach representations and hence unitary ones | M0 item 1 |
-| CompactGroups Layer 5 (`gap:banach-gfinite-density`); AutomorphicFormsOnReductiveGroups §2.1 | The field-general finite-orbit-span predicate `IsGFinite`, the submodule `gFiniteSubmodule` with its addition, scalar, invariance and equivariant-map API, and the Banach density theorem `gFiniteSubmodule_dense` for strongly continuous complex Banach representations of compact Hausdorff groups; from §2.1, the abbreviation `IsKFinite` on the restriction to K and its orbit-span identification for restricted native continuous representations | M0 item 3 |
+| CompactGroups (`gap:banach-gfinite-density`); AutomorphicFormsOnReductiveGroups §2.1 | The field-general finite-orbit-span predicate `IsGFinite`, the submodule `gFiniteSubmodule` with its addition, scalar, invariance and equivariant-map API, and the Banach density theorem `gFiniteSubmodule_dense` for strongly continuous complex Banach representations of compact Hausdorff groups; from §2.1, the abbreviation `IsKFinite` on the restriction to K and its orbit-span identification for restricted native continuous representations | M0 item 3 |
 | OperatorAlgebraDynamics D1.BorelPrefix, D1.TwistedBorel, D4.Harmonic | The Polish group `U(H)_s` with its coefficient Borel structure, Pettis's theorem and the Polishness of lcsc groups; the Mackey–Weil topology on `E_ω`, the strong-Borel correspondence and `λ^ω`; the fibres `J_k(E_ω)≅C*(G,ω^k)`; the Fourier isomorphism `C*(N)≅C₀(N̂)` | Layer 0, P.2, M1, M2 |
 | PseudodifferentialOperators P5/P6 | Local interior distributional elliptic regularity and Sobolev estimates | M0’s smooth/elliptic-vector bridge |
-| RiemannianGeometry R1/R2/R4, [HopfRinow](../HopfRinow/README.md) | Symmetric-space curvature, Jacobi/Hessian comparison, Cartan–Hadamard and complete closed-ball compactness | M0’s Cartan/maximal-compact argument |
+| RiemannianGeometry R1/R2/R4, [Completed/HopfRinow](../../Completed/HopfRinow/README.md) Layer 3 | Symmetric-space curvature, Jacobi/Hessian comparison, Cartan–Hadamard; from Hopf–Rinow, compactness of closed balls in a complete connected Riemannian manifold | M0’s Cartan/maximal-compact argument |
 | [SpinRepresentations Layer7](../RepresentationTheory/SpinRepresentations/README.md) | Compact spin/Clifford fibers and spin-weight data | M0’s compact-type comparison |
 | InductionRestriction 2.1 | Almost-conjugacy and permutation representations | M1’s finite-quotient deck models |
 | LieGroupoidsPoisson G0 item0, [OperatorAlgebraDynamics D5](../OperatorAlgebraDynamics/README.md#d5-haar-groupoids-convolution-and-disintegration) | Topological groupoid, Haar convolution, full completion and disintegration | M5’s deformation groupoid |
 | CStarAlgebras C1/C2 | C1 ideal/approximate-unit APIs; C2 separable prime⇒primitive, primitive ideals, hull-kernel topology and separable second countability, pure-state/GNS, nonzero irreducibility⇔scalar commutant, Kadison transitivity with its norm bound and quotient-norm lower semicontinuity | M0a.TypeIComparison first; M2.TypeIDisintegration and M2.RectangularField; M5’s labelled dual topology |
 | UnboundedOperators UO-B04/B05 | Strongly commuting joint PVM and multiparameter Stone theorem | M4’s joint translation spectrum |
-| [RepresentationTheory/SchurWeyl Layers 3–5](../RepresentationTheory/SchurWeyl/README.md) | Complete complex Specht models and dimensions; CompactGroups Layers 1/4 supply unitarization/coefficient orthogonality; M6 owns the arbitrary-Hilbert tensor bridge | M6.FiniteTree Young fields |
+| [RepresentationTheory/SchurWeyl Layers 3–5](../RepresentationTheory/SchurWeyl/README.md) | Complete complex Specht models and dimensions; Tau Ceti's `ContRepresentation.exists_isUnitary_congr`, `ContRepresentation.schur_orthogonality_self` and `ContRepresentation.schur_orthogonality` supply unitarization and coefficient orthogonality; M6 owns the arbitrary-Hilbert tensor bridge | M6.FiniteTree Young fields |
 | MetaplecticAutomorphicForms Layer 0, 0.1–0.13 | Bilinear Heisenberg extension `E_B` of a scalar-valued bilinear form, its inverse, commutator and centre formulas, the half-alternating specialization, the isometry action on `E_B` and its joint continuity | M5.AffineG5’s scalar-centre η-Heisenberg group |
 | LaguerreJacobi A/B contract | Weighted Laguerre polynomials and complete normalized radial basis, with M5’s explicit parameter/unitary adapter | M5’s conformal radial model |
 
@@ -657,7 +694,7 @@ restrictions; this Hilbert-space condition is distinguished from algebraic
 `Representation.IsIrreducible`. Prove strong-continuity transport to native
 subrepresentations by the subtype topology; the native operator-norm-continuity
 lemma requires a stronger hypothesis. Consume CompactGroups for finite-dimensional
-compact irreducibles, characters and Peter–Weyl density, LieGroups for the Lie
+compact irreducibles and characters, `TauCeti.stdPeterWeylBasis` for Peter–Weyl density, LieGroups for the Lie
 algebra/exponential and enveloping differential operators, LieHighestWeight
 for PBW, SmoothBanachRepresentations Layers 0–4 for the Gårding space and the
 smooth-vector calculus, and UO-E03 for the analytic-vector operator criterion.
@@ -672,7 +709,7 @@ sums to1, and `H_τ≅τ⊗Hom_K(τ,H)`. Normalize the multiplicity Hilbert prod
 `⟨A,B⟩=tr(A*B)/d_τ`, so the evaluation `v⊗A↦Av` is isometric; prove
 basis independence, positivity, completeness and the completed-tensor comparison
 using VNA V2. Prove compact-type projections preserve the
-Gårding space by compact-measure convolution of its test functions. Consume the topology-free algebraic prefix of CompactGroups Layer 5 (`gap:banach-gfinite-density`): its `IsGFinite`, `gFiniteSubmodule`, addition, scalar, invariance and equivariant-map APIs are the common owner. Consume from AutomorphicFormsOnReductiveGroups §2.1 its abbreviation `IsKFinite π K v` of that predicate on `(π.restrict K.subtype).toRepresentation`, together with its identification of the orbit span of that restricted representation with the span of the actual orbit `π(k)v`, and use the shared addition theorem. NQS owns the Hilbert isotypic-projector, multiplicity, completed-tensor and smooth/analytic-vector comparisons above and below, rather than a second primitive compact-finiteness definition. The compact-finite density input is the compact Banach theorem `gFiniteSubmodule_dense` of the same CompactGroups gap; these two early interfaces introduce no automorphic/globalization prerequisites. K-finite vectors
+Gårding space by compact-measure convolution of its test functions. Consume the topology-free algebraic prefix of the CompactGroups gap `gap:banach-gfinite-density`: its `IsGFinite`, `gFiniteSubmodule`, addition, scalar, invariance and equivariant-map APIs are the common owner. Consume from AutomorphicFormsOnReductiveGroups §2.1 its abbreviation `IsKFinite π K v` of that predicate on `(π.restrict K.subtype).toRepresentation`, together with its identification of the orbit span of that restricted representation with the span of the actual orbit `π(k)v`, and use the shared addition theorem. NQS owns the Hilbert isotypic-projector, multiplicity, completed-tensor and smooth/analytic-vector comparisons above and below, rather than a second primitive compact-finiteness definition. The compact-finite density input is the compact Banach theorem `gFiniteSubmodule_dense` of the same CompactGroups gap; these two early interfaces introduce no automorphic/globalization prerequisites. K-finite vectors
 are exactly the algebraic sum of the H_τ, including infinite multiplicity before
 admissibility is proved. For strongly continuous π and a compact subgroup K
 as in M0, admissible means every H_τ, equivalently every multiplicity
@@ -789,8 +826,8 @@ K-orbit spaces; do not identify the full Gårding space with the K-finite space.
    infinitesimal character.
    *Needs:* SmoothBanachRepresentations Layers 0–4 (integrated operators, Gårding and
    smooth-vector domains, derived actions and their convolution, transport, conjugation
-   and integration-by-parts laws); LieGroups Layer 2 (exponential and BCH analytic
-   charts); UnboundedOperators UO-E03 (analytic-vector criterion);
+   and integration-by-parts laws); LieGroups Layers 0 and 3 (the exponential map; BCH and
+   the analytic local group law); UnboundedOperators UO-E03 (analytic-vector criterion);
    SelfAdjointSpectralTheory (spectral calculus of the closures of N and of central Z);
    PseudodifferentialOperators P5/P6 (interior elliptic regularity and Sobolev
    estimates); VonNeumannAlgebras (commutants, for the bounded Schur lemma); Nelson
@@ -821,7 +858,7 @@ K-orbit spaces; do not identify the full Gårding space with the K-finite space.
    of squared distance in the global exponential coordinates. For a compact subgroup L minimize
    `x↦∫_L d(x,l·o)² dl`: prove properness and strict convexity from that
    bound, existence by complete finite-dimensional closed-ball compactness,
-   and uniqueness, consuming HopfRinow's complete closed-ball compactness.
+   and uniqueness, consuming Completed/HopfRinow Layer 3 (closed balls of a complete connected Riemannian manifold are compact).
    Haar invariance makes the minimizer L-fixed, so L lies
    in a conjugate of K; maximality gives equality for maximal compact L.
    Transport the construction to the given K and prove compatibility with
@@ -962,14 +999,14 @@ K-orbit spaces; do not identify the full Gårding space with the K-finite space.
    *Needs:* item 1 (smooth and analytic vectors, central closures); LieGroups Layers
    2, 5, 7 and 9 (Lie-group structure, covers and lifts, automatic smoothness, the
    semisimple Cartan specialization); LieHighestWeight (PBW); RiemannianGeometry
-   R1/R2/R4 and HopfRinow (symmetric-space curvature and complete closed-ball
+   R1/R2/R4 and Completed/HopfRinow Layer 3 (symmetric-space curvature and complete closed-ball
    compactness); SpinRepresentations Layer 7 (compact spin fibres); Tau Ceti
    `TauCeti.QuadraticMap.specialOrthogonalGroup`, `TauCeti.realCliffordForm` and
    `TauCeti.realSpinThreeOneEquivSpecialLinear` (the SO₀(3,1) and SL(2,ℂ) examples);
    Mathlib `Matrix.Orthogonal`-style indefinite Gram matrices as named.
 
 3. Use the shared algebraic compact-finite predicate and submodule of
-   CompactGroups Layer 5 (`gap:banach-gfinite-density`) on the restricted
+   CompactGroups (`gap:banach-gfinite-density`) on the restricted
    representation, through the abbreviation `IsKFinite` of
    AutomorphicFormsOnReductiveGroups §2.1. Consume the sum/scalar/equivariant-map
    API and compact Banach density theorem of that gap and §2.1's identification
@@ -1020,12 +1057,13 @@ K-orbit spaces; do not identify the full Gårding space with the K-finite space.
    representation, including boundary and discrete/limit constituents.
 
    *Needs:* items 1 and 2 (Gårding and analytic vectors, Harish-Chandra admissibility);
-   CompactGroups Layer 5 (`gap:banach-gfinite-density`: the compact-finite predicate,
+   CompactGroups (`gap:banach-gfinite-density`: the compact-finite predicate,
    submodule API and compact Banach density theorem) and
    AutomorphicFormsOnReductiveGroups §2.1 (the abbreviation `IsKFinite` and the
    orbit-span identification for restricted representations); P.4 (finite-dimensional Lie smoothing and
    differentiation); UnboundedOperators UO-E03 and Nelson's analytic-vector theorem;
-   LieGroups Layers 0–3 (finite-dimensional integration of homomorphisms).
+   LieGroups Layers 0–3 (exponential map and Lie functor) and Layers 4–5 (integration of
+   Lie-algebra homomorphisms from simply connected groups, simply connected covers).
 
 4. Prove that these three groups are CCR. For f∈C_c∞(G), let P_R be the sum
    of compact K-types with nonnegative Δ_K-eigenvalue λ_τ≤R, **including λ_τ=0**.
@@ -1082,7 +1120,7 @@ The trivial representation has one trivial compact type with multiplicity one. A
 
 ### Dependencies
 
-P.1–P.4; RepresentationTheory/CompactGroups (Layer 5 with its gap `banach-gfinite-density`) and LieGroups; AutomorphicFormsOnReductiveGroups §2.1 (`IsKFinite` and the orbit-span identification); SmoothBanachRepresentations Layers 0–4; PseudodifferentialOperators P5/P6; RiemannianGeometry R1/R2/R4; HopfRinow. Each numbered bridge states the additional analytic inputs its route uses.
+P.1–P.4; RepresentationTheory/CompactGroups (its gap `banach-gfinite-density`) and LieGroups; AutomorphicFormsOnReductiveGroups §2.1 (`IsKFinite` and the orbit-span identification); SmoothBanachRepresentations Layers 0–4; PseudodifferentialOperators P5/P6; RiemannianGeometry R1/R2/R4; Completed/HopfRinow Layer 3. Each numbered bridge states the additional analytic inputs its route uses.
 
 ## Layer 4: M1 — Systems of imprimitivity and induction
 
@@ -2395,9 +2433,82 @@ at the boundary, and the full irreducible classification and exhaustion.
 
 **M4.ParticleLabels — little-group data and energy branches.**
 
-Derive which little-group data yield massive spin, helicity, and continuous-spin models. Separate the two null-orbit time orientations and impose positive energy as an additional spectral restriction.
+Work on the connected cover `ℝ⁴⋊SL(2,ℂ)` with the representatives and
+stabilizers fixed above. Every orbit of the dual action is locally closed
+(a sheet of a hyperboloid, a punctured half-cone, the one-sheeted
+hyperboloid, or the origin), so M2's regular Mackey classification applies.
+Prove that the irreducible strongly continuous unitary representations
+whose joint translation PVM is concentrated on a given orbit are exactly
+the following induced models, pairwise inequivalent for distinct labels
+(the connected induction classification of Mackey1958 Theorems 8.1 and
+9.1):
 
-*Needs:* M2 (the regular Mackey classification of `ℝ⁴⋊SL(2,ℂ)` with the stabilizers of M4.SL2R); M4.SL2R (the six orbit types and the null stabilizer `δ(w,θ)`); UnboundedOperators UO-B04/B05 (the joint spectral condition defining positive energy).
+- **Timelike.** For m>0 and ε_E∈{+1,−1}, on the orbit
+  `{p : q(p)=m², ε_E p₃>0}` of `(0,0,0,ε_E m)`, whose native Hermitian
+  matrix is `ε_E m I` with stabilizer SU(2): the massive models
+  `M_(ε_E,m,j)=P_(m,j)^ε_E`, j∈½ℕ₀, induced from `χ_(0,0,0,ε_E m)` times
+  the spin-j representation of SU(2). On M0's core `q(P)=m²` and
+  `W_μW^μ=−m²ℏ²j(j+1)`; the central element −I acts by `(−1)^(2j)`.
+- **Null.** For ε_E∈{+1,−1}, on the orbit `{p≠0 : q(p)=0, ε_E p₃>0}` of
+  `(0,0,ε_E,ε_E)`, with stabilizer Δ: the finite-helicity models
+  `ρ_(ε_E,ℓ)=H_(ε_E,h)=F_h^ε_E`, ℓ=2h∈ℤ, whose Δ-character is trivial on ℂ
+  and is `exp(ihθ)` on the rotation `δ(0,θ)`; and the continuous-spin
+  models `C_(ε_E,ρ,e)`, also written `C_(ρ,e)^ε_E`, with ρ>0 and e∈{0,½},
+  induced from the ℂ-character `w↦exp(i Re(conj ζ w))`, |ζ|=ρ, on its
+  stabilizer `{δ(w,θ) : θ∈{0,2π}}` in Δ, extended by the value
+  `η_e=exp(2πie)` at the central element `δ(0,2π)=−I`. On M0's core the first satisfy
+  `W^μ=ℏh P^μ`, with physical helicity `ε_E ℏh`, and the second
+  `q(W)=−(ℏρ)² Id` at this reference energy.
+- **Spacelike.** For r>0, on the connected orbit `{p : q(p)=−r²}` of
+  `(0,0,r,0)`: the models `S_(r;τ)`, τ in the unitary dual of
+  `SL(2,ℝ)≅SU(1,1)` listed in M4.SL2R.
+- **Zero.** On {0}: the models `Z_Λ` on which translations act trivially,
+  Λ in the unitary dual of SL(2,ℂ) classified in M4.Endpoints.
+
+Every irreducible representation is one of these: by M2 its translation
+PVM has an ergodic measure class for the regular action and is therefore
+concentrated on a single orbit. M5.PoincareDual owns the topology of the
+whole list.
+
+For the energy branches prove, for every strongly continuous unitary
+representation of the cover, that `spectrum(H)⊆[0,∞)` holds exactly when
+the joint translation spectrum lies in the closed forward cone
+`V̄₊={p : q(p)≥0, p₃≥0}`. The joint spectrum is closed and invariant
+under every L(A), because `U(A)E(B)U(A)⁻¹=E(L(A)B)`; a point outside V̄₊
+with p₃≥0 is spacelike, and its orbit contains points of negative energy.
+Hence an irreducible model has positive energy exactly when it is
+`P_(m,j)^+`, `F_h^+`, `C_(ρ,e)^+` or some `Z_Λ`. The past timelike and past
+null models have energy spectra `(−∞,−m]` and `(−∞,0]`, and every
+spacelike model has energy spectrum ℝ. The orientation ε_E is part of the
+label: `P_(m,j)^+` and `P_(m,j)^−` have the same mass and spin and
+disjoint energy spectra `[m,∞)` and `(−∞,−m]`, so they are inequivalent.
+
+**Checks.**
+
+- On the spacelike orbit the points `(0,0,r cosh t,r sinh t)`, t∈ℝ, have
+  `q=−r²cosh²t+r²sinh²t=−r²` and energy `r sinh t`, which takes every real
+  value, so `S_(r;τ)` fails positive energy. Testing positivity only at the
+  orbit representative `(0,0,r,0)`, whose energy is 0, would wrongly admit it.
+- The stabilizer of a nonzero ℂ-character in `Δ≅ℂ⋊(ℝ/4πℤ)` contains θ=2π,
+  since `exp(2πi)ζ=ζ`, and θ=2π is the central −I. So for each (ε_E,ρ) there
+  are two continuous-spin models, e=0 and e=½, distinguished by −I acting as
+  +1 or −1. Taking θ modulo 2π, as for the ordinary Poincaré group, leaves only
+  e=0.
+- The stabilizer of `(0,0,0,m)` is `{A : A(mI)A†=mI}=SU(2)`, so j=½ occurs,
+  with dimension 2 and −I acting by −1, and `W_μW^μ=−m²ℏ²·¾`. The rotation
+  group SO(3) of the ordinary Poincaré group would admit only integral j.
+- The future finite-helicity model `F_h^+` has energy spectrum `[0,∞)`,
+  although its PVM gives the point 0 measure zero, so it has positive energy
+  without a mass gap; the past model `F_h^−` has `W=ℏhP` and physical
+  helicity `−ℏh`, so identifying the helicity with h on both branches flips
+  its sign there.
+
+*Needs:* M2 (the regular Mackey classification, its exhaustion and the
+concentration of an irreducible PVM on one orbit); M4.SL2R (the six orbit
+types, the stabilizers, the null stabilizer `δ(w,θ)` and the SL(2,ℝ) dual);
+M4.Endpoints (the SL(2,ℂ) dual for the zero orbit); M0 item 1 (the common
+core for the Pauli–Lubanski identities); UnboundedOperators UO-B04/B05 (the
+joint translation PVM and the spectrum of H).
 
 **M4.TypeI — null and Poincaré type-I/GCR comparisons.**
 
@@ -4159,7 +4270,8 @@ principal parametrization when taking supports and closures.
 **M5.CompactInductionSupport — one Lorentz compact-support adapter.**
 
 This support formula is a derived result. *Needs:* M5.LorentzTemperedSupport,
-M4's compact-type lattice, CompactGroups Layer 4 coefficient orthogonality,
+M4's compact-type lattice, Tau Ceti's coefficient orthogonality
+`ContRepresentation.schur_orthogonality_self` and `ContRepresentation.schur_orthogonality`,
 CStarAlgebras C2.AnnHull and HilbertModules H3; the external induction/ideal
 comparison is Echterhoff2010 equation (5.4), p.20, and Proposition 5.16, p.23.
 The compact-isotype/annihilator argument below supplies the additional
@@ -5952,7 +6064,7 @@ spaces replace finite isotypic spaces for the noncompact preimage
 K̃=ℝ×Spin(4). Prove their algebraic sum dense in the original M4 null-cone
 Hilbert space, by the explicit radial/angular eigenfunction expansion and its
 completeness, before using it as an analytic core. For angular completeness
-consume CompactGroups' Peter–Weyl theorem on SU(2) and project to the
+consume the Peter–Weyl basis `TauCeti.stdPeterWeylBasis` on SU(2) and project to the
 specified U(1)-covariant sections. Separate the actual H₀ radial equation,
 compute its change of variable, parameter and normalization, and identify
 its eigenfunctions with the Laguerre function basis from
@@ -9063,8 +9175,9 @@ formulas. Preserve every two-factor sign and multiplicity computed above.
 obtain `U_σ=∫⊕1_(H_c)⊗u_T^c(σ)dμ̄(c)` in each tree. The preceding
 local compositions compute u_T^c; finite-group relations hold on a common
 conull set. Consume SchurWeyl Layers 3–5 for the complete finite-dimensional
-Specht list and dimensions, CompactGroups Layer 1 for finite-group
-unitarization and Layer 4 for coefficient orthogonality, and M0 for the
+Specht list and dimensions, Tau Ceti's `ContRepresentation.exists_isUnitary_congr`
+for finite-group unitarization and `ContRepresentation.schur_orthogonality_self`
+with `ContRepresentation.schur_orthogonality` for coefficient orthogonality, and M0 for the
 arbitrary-Hilbert compact isotypic/Hom normalization. The concrete finite
 models are native `TauCeti.spechtModuleℂ` with
 `TauCeti.existsUnique_nonempty_iso_spechtModuleℂ`; prove the identification of the
@@ -9150,7 +9263,8 @@ three-atom PairField Checks distinguish effective support and probability normal
 P.6; M0 compact multiplicities; M1.MeasuredTensor; M2.TypeIDisintegration,
 RectangularField, ParameterizedRefinement and DerivedDI; the complete M3/M4
 models; VonNeumannAlgebras V2 and V4.0.Fields; SchurWeyl Layers 3–5;
-CompactGroups Layers 1/4; native finite-kernel RN and disintegration.
+Tau Ceti `ContRepresentation.exists_isUnitary_congr`, `ContRepresentation.schur_orthogonality_self`
+and `ContRepresentation.schur_orthogonality`; native finite-kernel RN and disintegration.
 The order is ordered pair transforms → effective-support normalization →
 smaller-block measures and onto maps → parent maps → local grafting → Young fields.
 
