@@ -223,6 +223,14 @@ pp. 1208–1233. *Needs:* 0.2, 1.1, 1.2.
 - The cardinal determines the universe: two universes containing `ω` with the same cardinality
   are equal.
 
+Not a target: without choice, 1.3 breaks down while the form `U = V_κ` of 1.2 survives. In ZF a
+universe `U` is `V_κ` for `κ` the set of ordinals in `U`, by induction on rank with UA1, UA2 and
+UA4 (own argument); and `V_κ` is a universe when `κ` is v-inaccessible, that is, when `V_κ` models
+second-order ZF (Blass–Dimitriou–Löwe 2007, §2, Proposition 4). A symmetric Cohen extension of a
+model of ZFC with an inaccessible `κ` keeps `κ` v-inaccessible and has no well-ordering of `P(ω)`
+(ibid., Theorem 17, with Corollary 16), so there `V_κ` is a universe whose cardinal is not
+defined, and `κ` is not inaccessible in the injective sense (ibid., Proposition 6).
+
 ### Examples
 
 - `V_ ω`, the hereditarily finite sets, is the least universe.
@@ -282,6 +290,12 @@ equivalence. *Needs:* 1.2, 1.3, 0.2, Mathlib `Cardinal.le_preBeth_ord`.
 - Replacing Mathlib's inaccessibles by regular cardinals on the right would make the right side
   true (successor cardinals are regular) while the left side is not provable, so the strong limit
   condition matters.
+
+Not a target: over ZF without choice, the universe axiom of 2.3 does not prove choice, whereas
+choice is a theorem of ZF with Tarski's axiom `A` (Tarski 1939, §2, p. 182). Own argument: start
+from a model of ZFC with a proper class of inaccessibles and take the symmetric Cohen extension of
+Blass–Dimitriou–Löwe 2007, Theorem 17; each ground inaccessible `κ` stays v-inaccessible
+(Corollary 16), so every set lies in a universe `V_κ`, while `P(ω)` has no well-ordering.
 
 ### Examples
 
@@ -374,3 +388,7 @@ of the universe machinery the cohomological applications need.
   artiniens, cardinaux inaccessibles », undated, item 875) and n° 453 (« Univers et symbole τ »,
   1965, item 1031). Unpublished typescripts, cited by number:
   https://archives-bourbaki.ahp-numerique.fr/.
+- A. Blass, I. M. Dimitriou, B. Löwe, « Inaccessible cardinals without the axiom of choice »,
+  *Fund. Math.* 194 (2007), no. 2, 179–189, doi:10.4064/fm194-2-3: §2, Propositions 4 and 6,
+  Corollary 16, Theorem 17.
+- A. Tarski, « On well-ordered subsets of any set », *Fund. Math.* 32 (1939), 176–183: §2.
