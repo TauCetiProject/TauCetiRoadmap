@@ -15,24 +15,37 @@ operators and subtopoi of a Grothendieck topos; the points of a small site as th
 topos, and Deligne's theorem for a small precoherent category with pullbacks; localic topoi as the
 topoi `Sh(L)` of frames `L : Type u`, with sublocales of `L` as subtopoi of `Sh(L)`; and, for
 spaces `S, T : Type u` with `S` core-compact, `Opens (S × T)` as the frame coproduct of `Opens S`
-and `Opens T`, which fails for `S = T = ℚ`.
+and `Opens T`, which fails for `S = T = ℚ`. Essential geometric morphisms are the ones whose
+inverse image preserves `u`-small products, and a Grothendieck topos is a presheaf topos exactly
+when its essential points jointly reflect isomorphisms (Roos). On abelian sheaves of a small site
+`(C, J)` and an object `c : C`, extension by zero along `Sheaf (J.over c) → Sheaf J` is exact and
+faithful; when the sheafified representable of `c` is subterminal, its counit `j_!j^*F → F` is a
+monomorphism whose cokernel restricts to zero, sections with support in the closed complement
+give the right adjoint `i^!` of `i_*`, and the first local cohomology sheaf is the cokernel of
+`F → j_*j^*F`; abelian sheaves on `ℝ` have no nonzero projective object.
 
-Suggested homes: `TauCeti/CategoryTheory/Topos/` for Layers 1–6 and 8, and
-`TauCeti/Order/Locale/` with `TauCeti/CategoryTheory/Topos/Localic/` for Layer 7.
+Suggested homes: `TauCeti/CategoryTheory/Topos/` for Layers 1–6 and 8,
+`TauCeti/Order/Locale/` with `TauCeti/CategoryTheory/Topos/Localic/` for Layer 7, and
+`TauCeti/CategoryTheory/Topos/Abelian/` for Layer 9.
 
 ## Scope and ownership
 
-**Owned here.** The topos-level half of the subject: statements about a category that is
-equivalent to a sheaf category, without the site being part of the data, and about the maps
-between such categories. That is: the predicate, Giraud's theorem and the structure of a topos
-(Layer 1); geometric morphisms, their 2-cells, the 2-category of topoi, morphisms of sites and
-Diaconescu's theorem (Layer 2); slices and étale morphisms (Layer 3); subtopoi, universal closure
-operators, Lawvere–Tierney topologies, open and closed subtopoi, gluing and the surjection–embedding
-factorization (Layer 4); connected, locally connected, local, hyperconnected and localic morphisms
-(Layer 5); points of a topos and Deligne's theorem (Layer 6); localic topoi (Layer 7); fibre
-products of topoi, coproducts of frames, the way-below relation, core-compact and scattered spaces,
-and products of sober spaces (Layer 8). A search of the roadmaps on main for Grothendieck topoi,
-geometric morphisms, subtopoi, frame coproducts and core-compact spaces finds no other owner.
+**Owned here.** The topos-level half of the subject: statements about a category that is equivalent
+to a sheaf category, without the site being part of the data, and about the maps between such
+categories. That is: the predicate, Giraud's theorem and the structure of a topos (Layer 1);
+geometric morphisms, their 2-cells, the 2-category of topoi, morphisms of sites and Diaconescu's
+theorem (Layer 2); slices and étale morphisms (Layer 3); subtopoi, universal closure operators,
+Lawvere–Tierney topologies, open and closed subtopoi, gluing and the surjection–embedding
+factorization (Layer 4); connected, locally connected, local, hyperconnected, localic and essential
+morphisms (Layer 5); points of a topos, essential points, Roos's characterization of presheaf topoi
+and Deligne's theorem (Layer 6); localic topoi (Layer 7); fibre products of topoi, coproducts of
+frames, the way-below relation, core-compact and scattered spaces, and products of sober spaces
+(Layer 8); and abelian sheaves on a slice and on an open–closed decomposition of a topos: extension
+by zero, the recollement sequence, sections with support and `i^!`, the first local cohomology
+sheaf, and the absence of projectives on `ℝ` (Layer 9). A search of the roadmaps on main and in the
+open pull requests for Grothendieck topoi, geometric morphisms, subtopoi, essential morphisms, frame
+coproducts, core-compact spaces and abelian sheaves on an open–closed decomposition of a topos finds
+no other owner.
 
 **Left to other roadmaps.** Topoi of schemes and algebraic spaces (small and big étale, Nisnevich,
 fppf and pro-étale sites, replete topoi, their ringed topoi and comparison morphisms) are
@@ -50,17 +63,32 @@ the underlying morphism of each of their morphisms of ringed topoi is a `Geometr
 classifying topos `B G` of a group (Layer 1, Examples) is not the topological classifying space of
 ClassifyingSpaces.
 
+**Abelian sheaves: the boundary.** Layer 9 states the topos-level abelian statements, for an
+arbitrary small site, an object `c` and the open subtopos of a subterminal `ℓ c`; the following
+are their specializations, owned elsewhere and not restated. Extension by zero along an open
+immersion of schemes, `i^!`, sections supported on a closed subscheme and the localization
+triangles in enhanced derived categories of étale sheaves are EtaleCohomologyFoundations §0.7.
+Sections with support in a closed subset of a topological space, the sheaf `H_Z(F)`, local
+cohomology groups and sheaves with their spectral sequence, and the triangle
+`RΓ_Z(X, K) → RΓ(X, K) → RΓ(U, K) →` are SchemeAndStackFoundations §2.7. The slice-free module
+`O_U = j_{U!}(O|_U)` of a ringed site, with its representing property and the generating family it
+forms, is EnhancedDerivedSheaves E1.1. Tau Ceti's
+`TauCeti.CategoryTheory.SheafExtensionByZero.preservesFiniteLimits_sheafPullback` is the case of
+target 9.1 on a preorder site, in particular on `Opens X`. Pro-categories are AdicSpacesPartII
+R0.19.9; the points of Layer 6 are described by filtering functors (2.5), not by pro-objects.
+
 **Mathlib's open work.** Mathlib has open work on power objects in cartesian monoidal categories,
 under the names `PowerObject` and `IsPowerObjectOf`, and on locally connected sites with their
 `π₀`, under the name `GrothendieckTopology.IsLocallyConnectedSite`; targets 1.3 and 5.2 use those
 names and signatures.
 
 **Out of scope.** Elementary topoi axiomatized without a site (the subobject classifier of a sheaf
-category is used, from Mathlib, as a property of that category); ringed and module-theoretic
-topoi; fibred and indexed topoi beyond the slice-wise conditions of Layer 5; open, proper, tidy and
-atomic geometric morphisms; classifying topoi of geometric theories. Open morphisms, their descent
-theory and the representation of every Grothendieck topos by a localic groupoid are Joyal–Tierney
-1984; proper and tidy morphisms, with their stability under pullback, are Moerdijk–Vermeulen 2000.
+category is used, from Mathlib, as a property of that category); ringed topoi and sheaves of modules
+over a sheaf of rings, beyond the abelian sheaves of Layer 9; fibred and indexed topoi beyond the
+slice-wise conditions of Layer 5; open, proper, tidy and atomic geometric morphisms; classifying
+topoi of geometric theories. Open morphisms, their descent theory and the representation of every
+Grothendieck topos by a localic groupoid are Joyal–Tierney 1984; proper and tidy morphisms, with
+their stability under pullback, are Moerdijk–Vermeulen 2000.
 
 ## Conventions
 
@@ -116,6 +144,17 @@ theory and the representation of every Grothendieck topos by a localic groupoid 
    `TopCat.Sheaf` (sheaves on a space as in Godement, chapitre II, §1). Witness: for the
    two-element frame `{⊥ < ⊤}` the empty sieve covers `⊥`, so a sheaf is its value at `⊤` and
    `Sh(L) ≌ Type u`; for the one-element frame `Sh(L)` is the degenerate topos.
+9. **Abelian sheaves.** For a small site `(C, J)` and `c : C`, abelian sheaves are
+   `Sheaf J AddCommGrpCat.{u}`, abelian by Mathlib's `sheafIsAbelian`, and `j` is the localization
+   at `c`: restriction `j^*` is `J.overPullback AddCommGrpCat.{u} c`, extension by zero `j_!` is
+   `(Over.forget c).sheafPullback AddCommGrpCat.{u} (J.over c) J` with
+   `Functor.sheafAdjunctionContinuous`, and `j_*` is `Functor.sheafPushforwardCocontinuous` with
+   `Functor.sheafAdjunctionCocontinuous`, so `j_! ⊣ j^* ⊣ j_*`. Under 3.1 this is the étale
+   morphism of `ℓ c`; it is an open subtopos when `ℓ c` is subterminal, and the *closed part* of
+   abelian sheaves is then the full subcategory of the `G` with `j^*G = 0` (SGA 4 IV 14.3). Witness:
+   on the Sierpiński space with `U = {o}`, `j_!ℤ` has stalk `ℤ` at `o` and `0` at `c`, whereas the
+   extension by the empty sheaf of the underlying sheaf of sets has the empty stalk at `c`: the two
+   functors written `j_!` differ (SGA 4 IV 11.3.2).
 
 ## Exact supplier contracts
 
@@ -155,6 +194,15 @@ theory and the representation of every Grothendieck topos by a localic groupoid 
   `IsCompact.elim_directed_cover`, `QuasiSober`, `T0Space`, `Pi.instT0Space`, `Prod.instT0Space`,
   `Preperfect`, `IsCompactElement`, `isCompactElement_iff_le_of_directed_sSup_le`,
   `Algebra.GrothendieckGroup`.
+- Essential morphisms: `Functor.IsLeftAdjoint`,
+  `isRightAdjoint_of_preservesLimits_of_isCoseparating` (`Adjunction/AdjointFunctorTheorems`),
+  `Limits.Pi.map`, `Sigma.desc`, `Pi.lift`, `IsIdempotentComplete`, `Idempotents.Karoubi`.
+- Abelian sheaves: `sheafIsAbelian` (`Sites/Abelian`), `GrothendieckTopology.overPullback`,
+  `Functor.sheafPullback`, `Functor.sheafAdjunctionContinuous`,
+  `Functor.sheafPushforwardCocontinuous`, `Functor.sheafAdjunctionCocontinuous`, `kernel`,
+  `cokernel`, `kernel.map`, `Functor.Additive`, `Functor.rightDerived` (`Abelian/RightDerived`),
+  the instance `IsGrothendieckAbelian.enoughInjectives`, `Projective`,
+  `TopCat.Presheaf.stalk`, `stalkSkyscraperSheafAdjunction` (`Topology/Sheaves/Skyscraper`).
 
 **From Tau Ceti.** Nothing is consumed: Tau Ceti has no topos-level declaration.
 
@@ -179,7 +227,10 @@ defines the classes of morphisms on Layers 2–4 and proves the hyperconnected�
 factorization. Layer 6 identifies points of a site with points of its topos (the case
 `E = Type u` of Diaconescu's theorem) and consumes AdicSpacesPartII R0.19.10 for coherent topoi.
 Layer 7 compares locales and localic topoi on Layers 4–5. Layer 8 builds fibre products on
-Layers 2, 3, 5 and 7 and ends with products of spaces.
+Layers 2, 3, 5 and 7 and ends with products of spaces. Layer 9 passes to abelian sheaves on the
+slices of Layer 3 and the open and closed subtopoi of Layer 4: extension by zero, the recollement
+sequence, sections with support and the first local cohomology sheaf, and ends with the absence of
+projectives on `ℝ`. Essential morphisms (5.6) and essential points (6.5) close Layers 5 and 6.
 
 ## Layer 1: Grothendieck topoi and Giraud's theorem
 
@@ -784,6 +835,38 @@ hyperconnected and localic is equivalent to `Type u`.
   sections morphism of the degenerate topos is localic and not connected; its factorization is the
   identity of the degenerate topos followed by itself.
 
+### 5.6 Essential morphisms
+
+Define `GeometricMorphism.IsEssential` (`f.inverse.IsLeftAdjoint`: a further left adjoint
+`f_! ⊣ f^*` exists). Prove `GeometricMorphism.isEssential_iff_preservesProducts`: between
+Grothendieck topoi, `f` is essential if and only if `f.inverse` preserves `u`-small products
+(SGA 4 IV, Exercice 7.6 a)). Route: with finite limits, products give all `u`-small limits; then
+Mathlib's `isRightAdjoint_of_preservesLimits_of_isCoseparating` applies, the objects
+`(ihom G).obj Ω` for `G` in a `u`-small separating family (1.4) forming a coseparating family,
+since `X ↪ (ihom X).obj Ω` and a cover `∐ Gᵢ ⟶ X` embeds `(ihom X).obj Ω` into
+`∏ (ihom Gᵢ).obj Ω`; `E` is well-powered by 1.2. Prove that étale morphisms (3.2) and locally
+connected morphisms (5.2) are essential, that essential morphisms compose, and that the global
+sections morphism of a Grothendieck topos is essential exactly when it is locally connected (5.2,
+the case `F = Type u`); for a space `X`, `Sh(X) → Type u` is essential exactly when `X` is locally
+connected (SGA 4 IV, Exercice 7.6 i)).
+*Needs:* 1.2, 1.3, 1.4, 2.1, 3.2, 5.2; Mathlib `Functor.IsLeftAdjoint`,
+`isRightAdjoint_of_preservesLimits_of_isCoseparating`.
+
+**Checks.**
+
+- The étale morphism of `Bool` in `Type u` is essential: its inverse image `S ↦ (S, S)` has the
+  left adjoint `(A, B) ↦ A ⊕ B` (3.2), and it preserves products, `(∏ Sᵢ, ∏ Sᵢ)`.
+- The global sections morphism of `Sh(ℚ)` is not essential: `ℚ` is not locally connected (5.2), and
+  the constant functor does not preserve the product `∏ₙ Bool`. The constant sheaf on the set
+  `∏ₙ Bool` has the locally constant maps `ℚ → ∏ₙ Bool` as global sections, the product of the
+  constant sheaves `Bool` has all continuous maps into the Cantor space, and an embedding
+  `ℚ ↪ ∏ₙ Bool` (`ℚ` is zero-dimensional and second countable) is continuous and injective, hence
+  not locally constant.
+- Preserving finite limits and colimits is not enough: the point `x` of `Sh(ℝ)` (Convention 3)
+  is not essential, since `x` has no smallest open neighbourhood (SGA 4 IV, Exercice 7.6 b)),
+  while the points `o` and `c` of the Sierpiński space are, with smallest neighbourhoods `{o}` and
+  the whole space.
+
 ### Examples
 
 - Connected, locally connected and local: `Type u`, presheaves on a category with a terminal
@@ -792,8 +875,8 @@ hyperconnected and localic is equivalent to `Type u`.
 
 ### Dependencies
 
-Layers 2–4 and Mathlib, and for 5.2 the locally connected sites of Mathlib's open work. Within the
-layer, 5.3 uses 5.1, 5.4 uses 5.1, and 5.5 uses 5.4.
+Layers 1–4 and Mathlib, and for 5.2 the locally connected sites of Mathlib's open work. Within the
+layer, 5.3 uses 5.1, 5.4 uses 5.1, 5.5 uses 5.4, and 5.6 uses 5.2.
 
 ## Layer 6: points, fibre functors and coherent topoi
 
@@ -899,6 +982,41 @@ points of the slices form a `u`-small conservative family (6.2).
 - `Sh(ℕ)` for discrete `ℕ`, locally coherent and not coherent (6.3), has enough points, the
   points `n : ℕ`, consistently with the theorem.
 
+### 6.5 Essential points and presheaf topoi
+
+A point `p` of `E` is *essential* when `p.IsEssential` (5.6). Prove that `p` is essential exactly
+when its fibre functor `p.inverse` is representable, by an object that is connected, nonempty and
+projective (`E(X, −)` preserves coproducts and epimorphisms), giving an equivalence, covariant by
+Convention 4 and Yoneda, between the full subcategory of essential points and that of connected
+nonempty projective objects (SGA 4 IV, Exercice 7.6 c)). Prove
+`exists_equiv_presheaf_iff_essential_points`: a Grothendieck topos `E` is equivalent to
+`Cᵒᵖ ⥤ Type u` for a small `C` if and only if a `u`-small family of essential points jointly
+reflects isomorphisms, equivalently the connected nonempty projective objects form a separating
+family (SGA 4 IV, Exercice 7.6 d), due to Roos). For small `C`, prove that the essential points of
+`Cᵒᵖ ⥤ Type u` form the idempotent completion `Idempotents.Karoubi C`, so that `C` is recovered
+from its presheaf topos up to equivalence exactly when `IsIdempotentComplete C` (SGA 4 IV,
+Exercice 7.6 e)). Prove that in `Cᵒᵖ ⥤ Type u` a `u`-small product of epimorphisms is an
+epimorphism (`epi_piMap_presheaf`) and `u`-small products distribute over `u`-small coproducts
+(`isIso_sigma_pi_presheaf`): both are computed objectwise in `Type u`, the first by choice.
+*Needs:* 5.6, 6.2; Mathlib `Functor.IsLeftAdjoint`, `Limits.Pi.map`, `Sigma.desc`, `Pi.lift`,
+`IsIdempotentComplete`, `Idempotents.Karoubi`.
+
+**Checks.**
+
+- For a group `G`, `B G` is a presheaf topos with one essential point up to isomorphism, the
+  canonical one: the only idempotent of `G` is `1`. For the monoid `{1, e}` with `e² = e`, its
+  presheaf topos has two non-isomorphic essential points, from the idempotents `1` and `e`; an
+  isomorphism between them in the Karoubi envelope would write `1` as a product containing `e`
+  (SGA 4 IV, Exercice 7.7 a)).
+- `Sh(ℝ)` has enough points (6.2) and no essential point (5.6), so it is not a presheaf topos;
+  consistently, products of epimorphisms are not epimorphisms there: for
+  `Iₙ,ₖ = ((k − 1)/n, (k + 1)/n)`, each `∐ₖ ℓ(Iₙ,ₖ) ⟶ ⊤` is an epimorphism, but a section of the
+  product over an open interval `W ∋ 0` would put `W` inside an interval of length `2/n` for every
+  `n`, so `∏ₙ ∐ₖ ℓ(Iₙ,ₖ) ⟶ ⊤` is not an epimorphism.
+- Distributivity in `Type u`: `∏_{i : Fin 2} (PUnit ⊕ PUnit)` has 4 elements, as does the
+  coproduct over the 4 maps `Fin 2 → Fin 2` of `PUnit × PUnit`. In abelian groups it fails:
+  `(ℤ ⊕ ℤ) × (ℤ ⊕ ℤ)` has rank 4 and the direct sum of the four `ℤ × ℤ` has rank 8.
+
 ### Examples
 
 - The points of `B G` form a connected groupoid in which each object has automorphism group
@@ -908,8 +1026,8 @@ points of the slices form a `u`-small conservative family (6.2).
 
 ### Dependencies
 
-Layers 1–4, AdicSpacesPartII R0.19.10, and Mathlib. Within the layer, 6.2 uses 6.1 and 6.4 uses
-3.1 and 6.2–6.3.
+Layers 1–5, AdicSpacesPartII R0.19.10, and Mathlib. Within the layer, 6.2 uses 6.1, 6.4 uses 3.1
+and 6.2–6.3, and 6.5 uses 6.2 and 5.6.
 
 ## Layer 7: locales and localic topoi
 
@@ -1136,13 +1254,13 @@ p. 18; Isbell 1981, Theorem 2, applied to the dense copies `ℚ` and `ℚ + √2
 
 Not targets. 8.5 does not extend to infinite products of locally compact spaces. Products of any
 family of compact Hausdorff spaces are spatial (Isbell 1972, Theorem 2.9, p. 22), and so are
-countable products of completely metrizable spaces (Theorem 3.12, p. 30); but the product locale
-of uncountably many separable completely metrizable spaces is the paracompact reflection of their
-product space (Theorem 3.13, p. 31). Since `ℕ^{ω₁}` is not normal (Stone 1948, Theorem 3,
-p. 980), the localic product of `ω₁` copies of the discrete, locally compact `ℕ` is not spatial
-(also Bannister 2024, Corollary 3.13). Regular epimorphisms of locales are not stable under pullback, so the category
-of locales is not regular: every space is a quotient of a scattered space (8.4), which has no
-nonempty pointless sublocale, and pulling such a quotient back along a nonempty pointless
+countable products of completely metrizable spaces (Theorem 3.12, p. 30); but the product locale of
+uncountably many separable completely metrizable spaces is the paracompact reflection of their
+product space (Theorem 3.13, p. 31). Since `ℕ^{ω₁}` is not normal (Stone 1948, Theorem 3, p. 980),
+the localic product of `ω₁` copies of the discrete, locally compact `ℕ` is not spatial (also
+Bannister 2024, Corollary 3.13). Regular epimorphisms of locales are not stable under pullback, so
+the category of locales is not regular: every space is a quotient of a scattered space (8.4), which
+has no nonempty pointless sublocale, and pulling such a quotient back along a nonempty pointless
 sublocale gives the empty locale (Isbell 1972, p. 14, before Theorem 1.7).
 
 ### Examples
@@ -1155,11 +1273,163 @@ sublocale gives the empty locale (Isbell 1972, p. 14, before Theorem 1.7).
 
 Layers 1–5 and 7 and Mathlib. Within the layer, 8.2 uses 8.1, 8.4 uses 8.1, and 8.5 uses 8.1–8.3.
 
+## Layer 9: abelian sheaves, extension by zero and supports
+
+Throughout, `(C, J)` is a small site, `c : C`, and `j_!`, `j^*`, `j_*` are as in Convention 9.
+The hypothesis that `ℓ c` is subterminal is
+`Mono (terminal.from ((presheafToSheaf J (Type u)).obj (yoneda.obj c)))`. By 1.4, whose site may be
+chosen to contain any given subterminal, every open subtopos of a Grothendieck topos arises this
+way.
+
+### 9.1 Extension by zero
+
+Prove `preservesFiniteLimits_sheafPullback_overForget` and `faithful_sheafPullback_overForget`:
+extension by zero `(Over.forget c).sheafPullback AddCommGrpCat.{u} (J.over c) J` preserves finite
+limits, so it is exact, and it is faithful (SGA 4 IV 11.3.1). Route: on presheaves it is
+`(j_!N)(d) = ⨁_{u : d ⟶ c} N(u)`, which is exact and has a monomorphic unit `N ⟶ j^*j_!N`; since
+`Over.forget c` is continuous and cocontinuous, the sheaf version is the sheafification of the
+presheaf one, and sheafification is exact. For a space `X` and `U : Opens X`, prove that the stalk
+of `j_!F` at `x` is `F_x` for `x ∈ U` and `0` otherwise (`TopCat.Presheaf.stalk`), and that a
+section of `j_!F` over `V` is a section of `F` over `V ∩ U` whose support is closed in `V`.
+*Needs:* 3.1; Mathlib `Functor.sheafPullback`, `Functor.sheafAdjunctionContinuous`,
+`GrothendieckTopology.overPullback`, `sheafIsAbelian`, `TopCat.Presheaf.stalk`.
+
+**Checks.**
+
+- On the Sierpiński space with `U = {o}`, `j_!ℤ` has stalks `ℤ` at `o` and `0` at `c`, and its
+  sheaf of sets has the stalk `{0}` at `c`, not the empty stalk of the set-level extension
+  (Convention 9; SGA 4 IV 11.3.2).
+- Extension by zero is not the direct image: on `ℝ` with `U = (0, ∞)`, the stalk at `0` of `j_*ℤ`
+  is `ℤ` (sections over `(0, ε)`, connected), and that of `j_!ℤ` is `0`.
+- For `E = Type u` and the étale morphism of `Bool`, extension by zero is `(A, B) ↦ A ⊕ B` on
+  pairs of abelian groups, exact and faithful; its unit `(A, B) ⟶ (A ⊕ B, A ⊕ B)` is the pair of
+  inclusions, a monomorphism, as the proof of faithfulness requires.
+
+### 9.2 The recollement sequence
+
+Assume `ℓ c` subterminal, so that `j` is the open subtopos `o(ℓ c)` with closed complement
+`i : c(ℓ c) → E` (4.3). Prove `recollement_extensionByZero`: for every abelian sheaf `F` the counit
+`j_!j^*F ⟶ F` is a monomorphism and its cokernel `Q` satisfies `j^*Q = 0`. Prove that the abelian
+sheaves of the closed subtopos are, through `i_*`, the full subcategory of the `G` with `j^*G = 0`,
+and that `Q ≅ i_*i^*F`, giving the exact sequence `0 → j_!j^*F → F → i_*i^*F → 0` natural in `F`
+(SGA 4 IV 14.3 and Proposition 14.6, (14.6.1)). Under the gluing of 4.4, `F` is a triple
+`(M, N; N ⟶ i^*j_*M)` and the sequence is `0 → (M, 0) → (M, N) → (0, N) → 0`.
+*Needs:* 4.3, 4.4, 9.1; Mathlib `Functor.sheafAdjunctionContinuous`, `cokernel`.
+
+**Checks.**
+
+- Sierpiński space, `U = {o}`: a sheaf is `r : A ⟶ B` with `A = F(X)` and `B = F({o})`;
+  `j_!j^*F` is `0 ⟶ B` (a section over `X` must have closed support inside `{o}`, so it is `0`),
+  and the sequence is `0 → (0, B) → (A, B) → (A, 0) → 0`, with `(A, 0)` the stalk `A` at `c`.
+- The subterminal hypothesis is needed: for the étale morphism of `Bool` in `Type u`, the counit
+  `P ⊕ P ⟶ P` is the codiagonal, whose kernel `{(p, −p)}` is `ℤ` for `P = ℤ`.
+- For `ℓ c` terminal, `j_!j^* ≅ 𝟭` and the cokernel is `0`; for `ℓ c` initial, `j_!j^*F = 0` and
+  `F` lies in the closed part.
+
+### 9.3 Sections with support and `i^!`
+
+Define `restrictionUnit J c F : F ⟶ j_*j^*F`, the unit of `Functor.sheafAdjunctionCocontinuous`,
+and the *support functor* `supportFunctor J c`, with `F ↦ kernel (restrictionUnit J c F)` on
+objects and `kernel.map` on morphisms, an additive functor: its value is the subsheaf
+`i_*i^!F` of sections of `F` supported in the closed part. Prove
+`bijective_comp_kernelι_of_isZero`: for every `G` with `j^*G = 0`, composition with the inclusion
+`(supportFunctor J c).obj F ⟶ F` is a bijection from maps into it to maps `G ⟶ F`, so that `i^!`
+is right adjoint to `i_*` on abelian sheaves and `i_*i^!F` is the largest subsheaf of `F` killed
+by `j^*` (SGA 4 IV 14.4, Proposition 14.5, (14.6.2) and Proposition 14.8). For a space `X`, a
+closed `Z` with complement `U` and `V` open, prove that the sections of `i_*i^!F` over `V` are the
+sections of `F` over `V` whose support lies in `Z`.
+*Needs:* 9.2; Mathlib `Functor.sheafPushforwardCocontinuous`,
+`Functor.sheafAdjunctionCocontinuous`, `kernel`, `kernel.map`, `Functor.Additive`.
+
+**Checks.**
+
+- Sierpiński space with `Z = {c}`: `j_*j^*F` is `𝟙 : B ⟶ B`, `restrictionUnit` is `(r, 𝟙)`, and
+  `i^!F = ker r` while `i^*F = A`. For the constant sheaf `ℤ`, `r = 𝟙`, so `i^!ℤ = 0` and
+  `i^*ℤ = ℤ`: `i^!` is not `i^*`.
+- On `ℝ` with `Z = {0}`, `i^!ℤ = 0` (a locally constant section vanishing off `0` vanishes), while
+  for the skyscraper sheaf `ℤ` at `0`, `i^!` is the stalk `ℤ`.
+- The hypothesis `j^*G = 0` is needed for the bijection: for `G = F = ℤ` on the Sierpiński space,
+  the identity of `ℤ` does not factor through `i_*i^!ℤ = 0`.
+
+### 9.4 The first local cohomology sheaf
+
+The *local cohomology sheaves* of `F` with support in the closed part are the right derived
+functors `(supportFunctor J c).rightDerived q`, computed with the injective resolutions of the
+Grothendieck abelian category `Sheaf J AddCommGrpCat.{u}`. Assume `ℓ c` subterminal and prove
+`nonempty_cokernel_iso_rightDerived_one`: `cokernel (restrictionUnit J c F)` is isomorphic to
+`((supportFunctor J c).rightDerived 1).obj F`; and, for `q ≥ 1`, that the `(q + 1)`-th local
+cohomology sheaf of `F` is isomorphic to the `q`-th right derived functor of `j_*` applied to
+`j^*F`. Route: for an injective `I`, `I ⟶ j_*j^*I` is an epimorphism, since on sections over `d`
+it is restriction `Hom(ℤ_d, I) → Hom(ℤ_{ℓ d × ℓ c}, I)` along a monomorphism of free abelian
+sheaves (`ℓ d × ℓ c ⟶ ℓ d` is mono); so `0 → supportFunctor J c → 𝟭 → j^* ⋙ j_* → 0` is exact on
+injectives, `j^*` is exact and preserves injectives (its left adjoint `j_!` is exact, 9.1), and the
+long exact sequence of derived functors gives both statements (Kashiwara–Schapira 1990,
+Chapter II).
+*Needs:* 9.1, 9.3; Mathlib `Functor.rightDerived`, `IsGrothendieckAbelian.enoughInjectives`,
+`cokernel`.
+
+**Checks.**
+
+- On `ℝ` with `Z = {0}` and `F = ℤ`: `j_*j^*ℤ` has stalk `ℤ²` at `0` (two half-lines), the unit is
+  the diagonal there, and its cokernel is the skyscraper `ℤ` at `0`: the first local cohomology
+  sheaf of `ℤ` at a point of `ℝ` is `ℤ`.
+- On the Sierpiński space with `Z = {c}` and `F = ℤ`, `restrictionUnit` is `(𝟙, 𝟙)`, an
+  isomorphism, so the first local cohomology sheaf of `ℤ` is `0`.
+- For `ℓ c` terminal, `supportFunctor J c` is `0` and so are its derived functors; for `ℓ c`
+  initial, `j_*j^*F = 0`, the support functor is the identity, and its first derived functor is
+  `0`, the cokernel of `F ⟶ 0`.
+
+### 9.5 Abelian sheaves on `ℝ` have no projectives
+
+Prove `isZero_of_projective_sheaf_real`: every projective object of
+`Sheaf (Opens.grothendieckTopology ℝ) AddCommGrpCat.{0}` is zero; in particular abelian sheaves on
+`ℝ` do not have enough projectives, and derived functors on them are computed with injectives.
+Route: let `P` be projective, `x : ℝ`, and `s` a section over an open interval `N ∋ x` with
+nonzero germ at `x`; choose `ε > 0` with `[x − ε, x + ε] ⊆ N`, `V = (x − ε, x + ε)`, and a
+homomorphism `h : P_x → ℚ/ℤ` with `h(s_x) ≠ 0` (`ℚ/ℤ` is an injective cogenerator). The map
+`(ℚ/ℤ)_V := j_!(ℚ/ℤ) ⟶ i_*(ℚ/ℤ)` to the skyscraper at `x` is an epimorphism (an isomorphism on the
+stalk at `x`, the target having zero stalks elsewhere), so the map `P ⟶ i_*(ℚ/ℤ)` adjoint to `h`
+(`stalkSkyscraperSheafAdjunction`) lifts to `φ : P ⟶ (ℚ/ℤ)_V`. By 9.1, `(ℚ/ℤ)_V` has no nonzero
+section over `N`: its support would be open and closed in the connected `V` and closed in `N`,
+which `V` is not. So `φ(s) = 0`, contradicting `h(s_x) ≠ 0`. Hence every stalk of `P` is `0`.
+*Needs:* 9.1, 9.2; Mathlib `Projective`, `Opens.grothendieckTopology`, `TopCat.Presheaf.stalk`,
+`stalkSkyscraperSheafAdjunction`.
+
+**Checks.**
+
+- On the one-point space, `ℤ` is projective: the hypothesis on the space matters, and the
+  statement is about `ℝ`, not about every topos.
+- On the Sierpiński space, `j_!ℤ` for `U = {o}` is a nonzero projective: `Hom(j_!ℤ, F) = F({o})`,
+  the stalk at `o`, is exact in `F`. The argument fails there because `{o}` is the smallest
+  neighbourhood of `o`.
+- The key vanishing: for `V = (−1, 1)` and `N = (−2, 2)`, `ℤ_V(N) = 0`, while `ℤ_V(V) = ℤ`.
+
+### Examples
+
+- For `E = Type u` and the étale morphism of a set `X`, abelian sheaves on `E/X` are `X`-indexed
+  families of abelian groups and extension by zero is their direct sum.
+- On a space `X` with `U` open and `Z` closed complement, `0 → j_!ℤ_U → ℤ → i_*ℤ_Z → 0` is the
+  recollement sequence of `ℤ` (SGA 4 IV (14.10.1)).
+
+### Dependencies
+
+Layers 3 and 4 and Mathlib. Within the layer, 9.2 uses 9.1, 9.3 uses 9.2, 9.4 uses 9.1 and 9.3,
+and 9.5 uses 9.1 and 9.2.
+
 ## Downstream consumers
 
 No roadmap on main cites this one. HomotopyTheoryOfCategories names it as the owner of
 Grothendieck topoi, their points and morphisms and the classifying topos `B G`, and uses none of
 that material: sites appear there only as bases of coefficient stacks.
+
+## Research context
+
+Presheaf topoi have the two exactness properties of 6.5: `u`-small products of epimorphisms are
+epimorphisms, and `u`-small products distribute over `u`-small coproducts. Whether the converse
+holds, that is, whether every Grothendieck topos with both properties is a presheaf topos, is not
+settled in the sources cited here: Roos's theorem (6.5) characterizes presheaf topoi by their
+essential points, and the question asks whether these two properties of limits force enough
+essential points. It is not a target. `Sh(ℝ)` fails the first property (6.5, Checks).
 
 ## References
 
@@ -1168,7 +1438,10 @@ that material: sites appear there only as bases of coefficient stacks.
   pullback along a cocontinuous functor; §5 for induced topologies), Exposé IV (1.2 and the
   appendix for Giraud's criteria; 3.1–3.2 for morphisms of topoi and morphisms between them; 4.9
   for morphisms of sites; §5 for induced topoi; §6, especially 6.3, for points and fibre functors;
-  §9, especially 9.5, for open and closed subtopoi and gluing), Exposé VI (2.3 for coherent topoi;
+  Exercice 7.6 a)–i) for essential morphisms and essential points, with Roos's theorem in 7.6 d),
+  and Exercice 7.7 a); §9, especially 9.5, for open and closed subtopoi and gluing; 11.3.1–11.3.3
+  for extension by zero of modules along a localization; §14, 14.3–14.8 and (14.10.1), for the
+  recollement sequences, `i^!` and sections with support), Exposé VI (2.3 for coherent topoi;
   Théorème 9.0 and §9 for Deligne's theorem).
 - [Elephant] P. T. Johnstone, *Sketches of an Elephant: A Topos Theory Compendium*, Oxford Logic
   Guides 43–44, Oxford University Press (2002). Part A: A4.1 (geometric morphisms), A4.2
@@ -1188,6 +1461,9 @@ that material: sites appear there only as bases of coefficient stacks.
   Cambridge University Press (1982). Chapter II, §§1–2 (frames, locales, nuclei and sublocales,
   coproducts of frames by C-ideals, products of locally compact spaces, 2.14 for `ℚ × ℚ`), §3
   (spaces and sober spaces); Chapter VII, §4 (locally compact spaces and continuous lattices).
+- [Kashiwara–Schapira 1990] M. Kashiwara, P. Schapira, *Sheaves on Manifolds*, Grundlehren der
+  mathematischen Wissenschaften 292, Springer (1990). doi:10.1007/978-3-662-02661-8. Chapter II
+  (sheaves with supports and their derived functors).
 - [Godement] R. Godement, *Topologie algébrique et théorie des faisceaux*, Actualités
   scientifiques et industrielles 1252, Hermann (1958). Chapitre II, §1 (presheaves and sheaves
   of sets on a topological space).

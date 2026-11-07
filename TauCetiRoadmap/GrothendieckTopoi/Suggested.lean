@@ -9,8 +9,9 @@ public import Mathlib
 This file states the roadmap's headline theorems against the pinned Mathlib and Tau Ceti, each
 with `sorry`, together with the definitions their statements need, all with real bodies on
 native carriers. The API around each target, the special cases and the Checks stay in the README.
-The proof obligations of the category of geometric morphisms and of the canonical topology of a
-frame are proved, since the headlines use both.
+The proof obligations of the category of geometric morphisms, of the canonical topology of a
+frame and of the support functor (its functoriality and additivity, which `Functor.rightDerived`
+needs) are proved, since the headlines use them.
 
 Three design choices are fixed here. `IsGrothendieckTopos` is a `Prop`: the site is not data.
 A geometric morphism is named after its direct image, so `GeometricMorphism E F` has
@@ -42,9 +43,12 @@ Headlines stated here (README target, Lean name):
 * 5.1, 5.4, `GeometricMorphism.IsConnected`, `GeometricMorphism.IsHyperconnected`,
   `GeometricMorphism.IsLocalic`.
 * 5.5, `GeometricMorphism.exists_hyperconnected_localic`.
+* 5.6, `GeometricMorphism.IsEssential` and `GeometricMorphism.isEssential_iff_preservesProducts`.
 * 6.1, `nonempty_point_equivalence`.
 * 6.2, `hasEnoughPoints_sheaf_iff` (on `HasEnoughPoints`).
 * 6.4, `hasEnoughPoints_coherentTopology` (Deligne's theorem).
+* 6.5, `exists_equiv_presheaf_iff_essential_points` (Roos's theorem), `epi_piMap_presheaf`,
+  `isIso_sigma_pi_presheaf`.
 * 7.1, `Frame.grothendieckTopology`.
 * 7.2, `GeometricMorphism.isLocalic_iff_nonempty_equiv_sheaf`.
 * 7.4, `exists_sublocale_orderIso_subtopos`.
@@ -52,6 +56,11 @@ Headlines stated here (README target, Lean name):
 * 8.3, `CompleteLattice.WayBelow`, `CoreCompactSpace`, `LocallyCompactSpace.coreCompactSpace`.
 * 8.4, `quasiSober_pi`, `quasiSober_prod`.
 * 8.5, `isFrameCoproduct_opens_prod`, `not_isFrameCoproduct_opens_rat_prod`.
+* 9.1, `preservesFiniteLimits_sheafPullback_overForget`, `faithful_sheafPullback_overForget`.
+* 9.2, `recollement_extensionByZero`.
+* 9.3, `restrictionUnit`, `supportFunctor` and `bijective_comp_kernelι_of_isZero`.
+* 9.4, `nonempty_cokernel_iso_rightDerived_one`.
+* 9.5, `isZero_of_projective_sheaf_real`.
 
 Not statable at the pins, with the carrier each lacks:
 
@@ -65,6 +74,12 @@ Not statable at the pins, with the carrier each lacks:
   geometric morphisms and its universal property.
 * 8.5, the topos-level form `Sh(S × T) ≃ Sh(S) × Sh(T)`: it lacks the product of topoi, the
   fibre product of 8.1 over `Type u`; the frame-level form is stated.
+* 9.2, the identification of the cokernel with `i_*i^*F`, and 9.3, `i^!` as a functor to abelian
+  sheaves on `c(ℓ c)`: they lack an abelian category of abelian group objects of the subtopos
+  `c(ℓ c)` of 4.3; the closed part is stated as the abelian sheaves killed by `j^*`.
+* 9.4 in degrees `q + 1 ≥ 2`: it lacks an `Additive` instance for `j_*`,
+  `Functor.sheafPushforwardCocontinuous` on abelian sheaves (a right Kan extension), which
+  `Functor.rightDerived` needs; the degree-one form is stated.
 
 The constructions with no headline of their own (the bicategory of 2.2, the global sections
 morphism of 2.3, the étale morphism of 3.2, the frame of subobjects of 1.2) are targets of the
@@ -408,6 +423,19 @@ theorem GeometricMorphism.exists_hyperconnected_localic {E F : Type (u + 1)} [Ca
         Nonempty (h.comp l ≅ f) :=
   sorry
 
+/-- **Layer 5.6.** `f` is essential: its inverse image has a further left adjoint `f_!`. -/
+def GeometricMorphism.IsEssential {E : Type u₁} [Category.{v₁} E] {F : Type u₂}
+    [Category.{v₂} F] (f : GeometricMorphism E F) : Prop :=
+  f.inverse.IsLeftAdjoint
+
+/-- **Layer 5.6.** Between Grothendieck topoi, `f` is essential exactly when its inverse image
+preserves `u`-small products (SGA 4 IV, Exercice 7.6 a)). -/
+theorem GeometricMorphism.isEssential_iff_preservesProducts {E F : Type (u + 1)}
+    [Category.{u} E] [Category.{u} F] (hE : IsGrothendieckTopos E) (hF : IsGrothendieckTopos F)
+    (f : GeometricMorphism E F) :
+    f.IsEssential ↔ ∀ ι : Type u, PreservesLimitsOfShape (Discrete ι) f.inverse :=
+  sorry
+
 /-! ## Layer 6: points, fibre functors and coherent topoi -/
 
 /-- **Layer 6.1.** Points of a site are the points of its topos, covariantly (SGA 4 IV 6.3). -/
@@ -430,6 +458,35 @@ theorem hasEnoughPoints_sheaf_iff {C : Type u} [SmallCategory C] (J : Grothendie
 theorem hasEnoughPoints_coherentTopology (C : Type u) [SmallCategory C] [Precoherent C]
     [HasPullbacks C] : GrothendieckTopology.HasEnoughPoints.{u} (coherentTopology C) :=
   sorry
+
+/-- **Layer 6.5. Roos's theorem** (SGA 4 IV, Exercice 7.6 d)): a Grothendieck topos is a
+presheaf topos exactly when a `u`-small family of essential points jointly reflects
+isomorphisms. -/
+theorem exists_equiv_presheaf_iff_essential_points {E : Type (u + 1)} [Category.{u} E]
+    (hE : IsGrothendieckTopos E) :
+    (∃ (C : Type u) (_ : SmallCategory C), Nonempty (E ≌ (Cᵒᵖ ⥤ Type u))) ↔
+      ∃ (ι : Type u) (p : ι → GeometricMorphism (Type u) E), (∀ i, (p i).IsEssential) ∧
+        ∀ {A B : E} (φ : A ⟶ B), (∀ i, IsIso ((p i).inverse.map φ)) → IsIso φ :=
+  sorry
+
+section Presheaf
+
+variable {C : Type u} [SmallCategory C]
+
+/-- **Layer 6.5.** In a presheaf topos a `u`-small product of epimorphisms is an epimorphism. -/
+theorem epi_piMap_presheaf {ι : Type u} {X Y : ι → Cᵒᵖ ⥤ Type u} (f : ∀ i, X i ⟶ Y i)
+    (hf : ∀ i, Epi (f i)) : Epi (Limits.Pi.map f) :=
+  sorry
+
+/-- **Layer 6.5.** In a presheaf topos `u`-small products distribute over `u`-small coproducts:
+the canonical map `∐_{k : ∀ i, K i} ∏ᵢ X i (k i) ⟶ ∏ᵢ ∐_{j : K i} X i j` is an isomorphism. -/
+theorem isIso_sigma_pi_presheaf {ι : Type u} {K : ι → Type u} (X : ∀ i, K i → Cᵒᵖ ⥤ Type u) :
+    IsIso (Sigma.desc fun k : (∀ i, K i) => Pi.lift fun i => Pi.π (fun i => X i (k i)) i ≫
+      Sigma.ι (X i) (k i) :
+        (∐ fun k : (∀ i, K i) => ∏ᶜ fun i => X i (k i)) ⟶ ∏ᶜ fun i => ∐ X i) :=
+  sorry
+
+end Presheaf
 
 /-! ## Layer 7: locales and localic topoi -/
 
@@ -535,6 +592,90 @@ open TopologicalSpace in
 theorem not_isFrameCoproduct_opens_rat_prod :
     ¬ IsFrameCoproduct (Opens.comap (⟨Prod.fst, continuous_fst⟩ : C(ℚ × ℚ, ℚ)))
       (Opens.comap (⟨Prod.snd, continuous_snd⟩ : C(ℚ × ℚ, ℚ))) :=
+  sorry
+
+/-! ## Layer 9: abelian sheaves, extension by zero and supports -/
+
+section Abelian
+
+variable {C : Type u} [SmallCategory C] (J : GrothendieckTopology C) (c : C)
+
+/-- **Layer 9.1.** Extension by zero of abelian sheaves along the localization at `c` is exact
+(SGA 4 IV 11.3.1). -/
+theorem preservesFiniteLimits_sheafPullback_overForget :
+    PreservesFiniteLimits ((Over.forget c).sheafPullback AddCommGrpCat.{u} (J.over c) J) :=
+  sorry
+
+/-- **Layer 9.1.** Extension by zero of abelian sheaves is faithful (SGA 4 IV 11.3.1). -/
+theorem faithful_sheafPullback_overForget :
+    ((Over.forget c).sheafPullback AddCommGrpCat.{u} (J.over c) J).Faithful :=
+  sorry
+
+/-- **Layer 9.2. The recollement sequence** (SGA 4 IV 14.6.1): when the sheafified
+representable of `c` is subterminal, the counit `j_!j^*F ⟶ F` is a monomorphism and its cokernel
+restricts to zero. -/
+theorem recollement_extensionByZero
+    (hc : Mono (terminal.from ((presheafToSheaf J (Type u)).obj (yoneda.obj c))))
+    (F : Sheaf J AddCommGrpCat.{u}) :
+    Mono (((Over.forget c).sheafAdjunctionContinuous AddCommGrpCat.{u} (J.over c) J).counit.app
+        F) ∧
+      IsZero ((J.overPullback AddCommGrpCat.{u} c).obj (cokernel
+        (((Over.forget c).sheafAdjunctionContinuous AddCommGrpCat.{u} (J.over c) J).counit.app
+          F))) :=
+  sorry
+
+/-- **Layer 9.3.** The unit `F ⟶ j_*j^*F` of restriction to `c` on abelian sheaves. -/
+noncomputable abbrev restrictionUnit (F : Sheaf J AddCommGrpCat.{u}) :
+    F ⟶ ((Over.forget c).sheafPushforwardContinuous AddCommGrpCat.{u} (J.over c) J ⋙
+      (Over.forget c).sheafPushforwardCocontinuous AddCommGrpCat.{u} (J.over c) J).obj F :=
+  ((Over.forget c).sheafAdjunctionCocontinuous AddCommGrpCat.{u} (J.over c) J).unit.app F
+
+/-- **Layer 9.3.** The support functor `F ↦ i_*i^!F = ker (F ⟶ j_*j^*F)`: sections supported in
+the closed part. -/
+noncomputable def supportFunctor : Sheaf J AddCommGrpCat.{u} ⥤ Sheaf J AddCommGrpCat.{u} where
+  obj F := kernel (restrictionUnit J c F)
+  map {F G} f := kernel.map _ _ f
+    (((Over.forget c).sheafPushforwardCocontinuous AddCommGrpCat.{u} (J.over c) J).map
+      (((Over.forget c).sheafPushforwardContinuous AddCommGrpCat.{u} (J.over c) J).map f))
+    (((Over.forget c).sheafAdjunctionCocontinuous AddCommGrpCat.{u} (J.over c) J).unit.naturality
+      f).symm
+  map_id F := by
+    refine (cancel_mono (kernel.ι _)).1 ?_
+    simp
+  map_comp f g := by
+    refine (cancel_mono (kernel.ι _)).1 ?_
+    simp
+
+/-- **Layer 9.3.** The support functor is additive, as `Functor.rightDerived` requires. -/
+instance : (supportFunctor J c).Additive where
+  map_add {F G f g} := by
+    refine (cancel_mono (kernel.ι _)).1 ?_
+    dsimp only [supportFunctor]
+    erw [Preadditive.add_comp, kernel.lift_ι, kernel.lift_ι, kernel.lift_ι, Preadditive.comp_add]
+
+/-- **Layer 9.3.** `i^!` is right adjoint to `i_*` (SGA 4 IV 14.5): maps from an abelian sheaf
+killed by `j^*` into `F` factor uniquely through the sections of `F` supported in the closed
+part. -/
+theorem bijective_comp_kernelι_of_isZero (F G : Sheaf J AddCommGrpCat.{u})
+    (hG : IsZero ((J.overPullback AddCommGrpCat.{u} c).obj G)) :
+    Function.Bijective (fun g : G ⟶ (supportFunctor J c).obj F =>
+      g ≫ kernel.ι (restrictionUnit J c F)) :=
+  sorry
+
+/-- **Layer 9.4.** When the sheafified representable of `c` is subterminal, the first local
+cohomology sheaf of `F` is the cokernel of `F ⟶ j_*j^*F`. -/
+theorem nonempty_cokernel_iso_rightDerived_one
+    (hc : Mono (terminal.from ((presheafToSheaf J (Type u)).obj (yoneda.obj c))))
+    (F : Sheaf J AddCommGrpCat.{u}) :
+    Nonempty (cokernel (restrictionUnit J c F) ≅ ((supportFunctor J c).rightDerived 1).obj F) :=
+  sorry
+
+end Abelian
+
+open TopologicalSpace in
+/-- **Layer 9.5.** Abelian sheaves on `ℝ` have no nonzero projective object. -/
+theorem isZero_of_projective_sheaf_real
+    (P : Sheaf (Opens.grothendieckTopology ℝ) AddCommGrpCat.{0}) [Projective P] : IsZero P :=
   sorry
 
 end TauCetiRoadmap.GrothendieckTopoi
