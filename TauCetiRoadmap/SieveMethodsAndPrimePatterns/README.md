@@ -1,6 +1,6 @@
 # Roadmap: sieve methods, prime gaps and prime patterns
 
-**Summary.** Build weighted sieves from finite divisibility and local residue data, develop Brun and Selberg bounds and additive, character and quadratic large sieves, and use them to obtain maximal prime distribution, Maynard's prime clusters and Chen's prime-plus-almost-prime theorem. The same interfaces support polynomial sieves, binary quadratic values, conditional joint-spin cancellation and affine almost-prime saturation. Each application keeps its local obstructions, quantitative constants and analytic assumptions visible.
+**Summary.** Build weighted sieves from finite divisibility and local residue data, develop Brun and Selberg bounds and additive, character and quadratic large sieves, and use them to obtain maximal prime distribution, Maynard's prime clusters and Chen's prime-plus-almost-prime theorem. The same interfaces support polynomial sieves, binary quadratic values, conditional joint-spin cancellation and affine almost-prime saturation. Each application keeps its local obstructions, quantitative constants and analytic assumptions visible. The unconditional prime-distribution estimates (small conductors, Bombieri–Vinogradov, every level below one half and Barban–Davenport–Halberstam) have effective constants, because AnalyticNumberTheoryPartI §0.34 excludes Landau–Siegel zeros uniformly.
 
 ## Scope and ownership
 
@@ -10,7 +10,7 @@ The native `BoundingSieve` and `SelbergSieve` carriers, weighted sums, signed re
 
 IntegralLattices Layers 0 and 3 own even-bilinear half-norms and integral local quadratic classification. Only the count-preserving rank-two conic comparison belongs here. GlobalNumberFields Layers 3/3C and 11 own generators, units, class representatives, orders and invertible ideals. ArithmeticDirichletSeries owns ideal norm fibres and ideal arithmetic functions; ClassFieldTheory Layer 14 owns Hilbert reciprocity; Chebotarev Layer 13 owns the principal-class natural prime count. None of these arithmetic theories is reconstructed as sieve data. Tau Ceti at the pins has `TauCeti.Multiquadratic.fundamentalDiscriminantChar`, the quadratic Dirichlet character of a fundamental discriminant; ThetaSeries §2H owns the Kronecker symbol and the character for every nonzero discriminant D≡0,1 mod 4. Layer 0 owns only its numerical natural-argument, real-valued sieve adapter, with zero value at zero and comparison for |D|>1. ErdosProgressionPowers §3.1 owns the uniform Gram-row, maximum-row and diagonal/off-diagonal inequalities; the weighted denominator inequality here is stronger and remains a target.
 
-AnalyticNumberTheoryPartI §§0.10–0.11, 0.21, 0.26, 0.32, 1.2a, 3.22, 3.24, 3.26, 3.34–3.35 supplies the quantitative prime, small-conductor, divisor-moment, divisor-subpower and smooth-number inputs at their stated strengths. AnalyticNumberTheoryPartI §1.5a owns the weighted finite Hilbert inequality, with constant 3π/2 and local spacings; the uniform-spacing constant π/δ of §2.9 is owned here, because the sharp additive large-sieve constant N−1+δ⁻¹ needs exactly π. InverseGaloisAndArithmeticFundamentalGroups §IG.2.5 owns fixed-model Lang–Weil. GeometryOfNumbersAndQuadraticArithmetic §4.1 owns general lattice counting, and AdelicAlgebraicGroups §4.2 owns algebraic-group strong approximation. The additional subgroup, analytic and curvature estimates are owned in §§0.11, 1.1, 2.7, 3.0 and 5.4.
+AnalyticNumberTheoryPartI §§0.10–0.11, 0.18, 0.21, 0.26, 0.32, 0.34, 1.2a, 3.22, 3.24, 3.26, 3.34–3.35 supplies the quantitative prime, small-conductor, divisor-moment, divisor-subpower and smooth-number inputs at their stated strengths. Its uniform exclusion of Landau–Siegel zeros (§0.34) leaves no exceptional zero or exceptional conductor to treat here, and every small-conductor constant in this roadmap is effective. AnalyticNumberTheoryPartI §1.5a owns the weighted finite Hilbert inequality, with constant 3π/2 and local spacings; the uniform-spacing constant π/δ of §2.9 is owned here, because the sharp additive large-sieve constant N−1+δ⁻¹ needs exactly π. InverseGaloisAndArithmeticFundamentalGroups §IG.2.5 owns fixed-model Lang–Weil. GeometryOfNumbersAndQuadraticArithmetic §4.1 owns general lattice counting, and AdelicAlgebraicGroups §4.2 owns algebraic-group strong approximation. The additional subgroup, analytic and curvature estimates are owned in §§0.11, 1.1, 2.7, 3.0 and 5.4.
 
 AnalyticNumberTheoryPartII §5.29 owns the odd-squarefree quadratic large sieve, its primitive-real form and square-pair correction, uniformly in both cutoffs and arbitrary complex coefficients. Layer 2 retains the unrestricted bilinear consequence and prime-denominator applications. ArithmeticStatisticsPartV §3.30, “Conditional joint-spin prime bound”, owns the arithmetic setup, unit-averaged sequence, generator independence, Type I and Type II estimates and prime-ideal cancellation. Layer 5 retains the general short-character progression/subset transfer, the ideal-symbol comparison, the generic coefficient and prime-extraction interfaces, and the spin-sign equidistribution consequence. The generic prime-extraction theorem allows any bounded ideal sequence satisfying its two estimates; it does not reconstruct the supplied joint-spin chain.
 
@@ -64,7 +64,9 @@ The pinned comparison is `TauCeti.Multiquadratic.fundamentalDiscriminantChar D h
 
 ### From TauCetiRoadmap.AnalyticNumberTheoryPartI
 
-Use §0.32 at q=1 for the prime number theorem with every fixed logarithmic saving; §0.10 for primes in a fixed multiplicative interval; §0.11 for Σ_(p≤x)(log p)/p=log x+O(1); §0.21 for reciprocal-prime Mertens and uniform intervals; §§0.26 and 0.31 for positive prime Euler products; §0.32 for Siegel–Walfisz in its stated range; and §§3.1, 3.26 for divisor subpower bounds. The additional uniform analytic statements are targets below. In particular, no small-conductor estimate is inferred from Bombieri–Vinogradov itself.
+Use §0.32 at q=1 for the prime number theorem with every fixed logarithmic saving; §0.10 for primes in a fixed multiplicative interval; §0.11 for Σ_(p≤x)(log p)/p=log x+O(1); §0.21 for reciprocal-prime Mertens and uniform intervals; §§0.26 and 0.31 for positive prime Euler products; §0.32 for Siegel–Walfisz in its stated range, with effective constants and threshold; and §§3.1, 3.26 for divisor subpower bounds. The additional uniform analytic statements are targets below. In particular, no small-conductor estimate is inferred from Bombieri–Vinogradov itself.
+
+Use §0.34, `landau_siegel_exclusion`: there is an absolute, effectively computable c_LS>0 with (1−β)log q≥c_LS for every real zero β∈(0,1) of L(s,χ), for every primitive nonprincipal real Dirichlet character χ of conductor q≥3, with no finite range of conductors set aside. It is consumed through §0.18, the character prime number theorem without an exceptional-zero term: for a primitive nonprincipal χ of conductor N>1 and X above an absolute threshold, |Σ_(m≤X)χ(m)Λ(m)|≤C X exp(−c log X/(√(log X)+log N))(log N)⁴, with c,C and the threshold absolute and effective; the term −X^β/β of an exceptional zero is absent. Through §0.18 it also makes §0.32 effective. Layer 3 consumes §§0.18 and 0.34 in §3.0 and inherits their effectivity in §§3.2–3.4; no statement here carries an exceptional-zero alternative.
 
 Use §3.34, `smoothCount_dickman`, for the fixed-parameter positive-density count and §3.35, “Rankin smooth-number upper bound”, for the Rankin estimate with x≥1,y≥2,σ>0. The native count is positive integers only: #Nat.smoothNumbersUpTo(N,z+1)≤N^δ∏_(p≤z)(1−p^(−δ))⁻¹ for δ>0. Treat N=0, z=0,1 and N<1 directly. Distinct integers are counted once. The extremely-smooth tail is proved in §1.4 from the Rankin estimate.
 
@@ -2422,19 +2424,31 @@ Prove the cofactor versions by retaining the actual coprimality mask, with all c
 
 *Needs:* AnalyticNumberTheoryPartI §§3.22, 3.24 `zetaFourthMoment.divisorDiagonal` and 3.26; native totient Euler factors and nonnegative Euler-product comparison.
 
-**Maximal small-conductor estimates.** For every A,B>0 there are C>0 and x₀≥3 such that x≥x₀, a nonprincipal primitive χ of positive conductor r≤(log x)^B, and every positive integer s satisfy
+**Maximal small-conductor estimates.** Prove `SieveArithmeticDistribution.small_conductor_maximal`. There are absolute, effectively computable c>0 and C>0 such that every real x≥2, every nonprincipal primitive χ of conductor r and every positive integer s satisfy
 
-`sup_(0≤y≤x) |Σ_(1≤n≤y,(n,s)=1) Λ(n)χ(n)| ≤ C x/(log x)^A + C log(2s) log x`.
+`sup_(0≤y≤x) |Σ_(1≤n≤y,(n,s)=1) Λ(n)χ(n)| ≤ C x exp(−c log x/(√(log x)+log r)) (log r)⁴ + C log(2s) log x`.
 
-The constant is uniform in χ,s,x. Prove the maximal estimate from conductor-uniform Siegel–Walfisz, splitting small y and retaining the removed prime powers dividing s. Apply this to the original von Mangoldt sum before Vaughan decomposition; arbitrary convolution coefficients are not asserted to cancel. For the switched Chen sequence prove the separate nonprincipal estimate M₂≪N/(log N)^2.01 at the moduli ≤log¹⁰⁰N of CHEN-73-CN Lemma 6, equations (5)–(11), pp.117–123, in §5.5's switched triple target, with the actual coefficients and contour/fourth-moment argument there.
+There is no exceptional-zero term and no exceptional conductor. Consequently, for every A,B>0 there are C_(A,B)>0 and x₀(A,B)≥3, effectively computable from A and B, such that x≥x₀(A,B) and r≤(log x)^B give
+
+`sup_(0≤y≤x) |Σ_(1≤n≤y,(n,s)=1) Λ(n)χ(n)| ≤ C_(A,B) x/(log x)^A + C_(A,B) log(2s) log x`.
+
+This logarithmic-range form is the one consumed in §§3.2, 3.4 and 5.5. The constants are uniform in χ,r,s,x,y. Siegel–Walfisz gives only the logarithmic range, and classically with an ineffective constant; the uniform form is stronger in both respects.
+
+([LS-EXCLUSION](#references), Theorem 1, and [GREEN-LS](#references), Theorem 1.1, through AnalyticNumberTheoryPartI §§0.34 and 0.18.)
+
+*Proof sketch.* Apply AnalyticNumberTheoryPartI §0.18 to the original von Mangoldt sum at every cutoff y above its absolute threshold. For c≤1 the envelope y exp(−c log y/(√(log y)+log r)) increases with y≥2, because the derivative of L/(√L+ℓ) in L is at most 1/(√L+ℓ)<1 for L≥log 2 and ℓ≥log 3; so the supremum is controlled at y=x. Cutoffs below the threshold contribute a bounded amount, absorbed in C since (log r)⁴≥(log 3)⁴>1 and the envelope at x is at least x exp(−c√(log x)). The mask (n,s)=1 removes only prime powers p^k≤y with p|s, of total weight at most ω(s)log y≤2 log(2s) log x. For the logarithmic range, log r≤B log log x≤(1/2)√(log x) once x≥x₀(B), so the first term is at most C x exp(−(2c/3)√(log x))(B log log x)⁴≤C x/(log x)^A for x≥x₀(A,B).
+
+In §3.2 apply this estimate to the original von Mangoldt sum before Vaughan decomposition; arbitrary convolution coefficients are not asserted to cancel. For the switched Chen sequence prove the separate nonprincipal estimate M₂≪N/(log N)^2.01 at the moduli ≤log¹⁰⁰N of CHEN-73-CN Lemma 6, equations (5)–(11), pp.117–123, in §5.5's switched triple target, with the actual coefficients and contour/fourth-moment argument there.
 
 **Checks.**
 
 - For χ modulo 3 at x=y=3 and s=1, the sum is −log 2; its norm is log 2.
 - With the same χ,x,y and s=2 the sum is zero: the only contributing prime power 2 is removed.
 - The principal character at modulus 1 gives ψ(3)=log 6; it is excluded, and its growing main term must not be treated as a small-conductor error.
+- No primitive nonprincipal character has conductor 1 or 2, so r≥3 and log r≥log 3>0; no conductor, in particular no real-character conductor, is set aside.
+- At s=12 the mask removes the prime powers of 2 and 3 only: up to y=10 their weight is 3 log 2+2 log 3=log 72, at most ω(12)log 10=2 log 10.
 
-*Needs:* AnalyticNumberTheoryPartI §0.32, including conductor-uniform character PNT and its exceptional-zero treatment; prime-power support of native von Mangoldt; Layer 2 §2.4 Vaughan identity only after the original small-conductor contribution is separated.
+*Needs:* AnalyticNumberTheoryPartI §0.18, the character prime number theorem without an exceptional-zero term; AnalyticNumberTheoryPartI §0.34 `landau_siegel_exclusion`, which removes that term from §0.18 and makes its constants effective; prime-power support of native von Mangoldt; Layer 2 §2.4 Vaughan identity only after the original small-conductor contribution is separated.
 
 ### 3.1 the prime level of distribution
 
@@ -2566,35 +2580,35 @@ The maximum is over all reduced residues, and C is independent of every displaye
 
 *Needs:* Layer 3 §3.2 arithmetic progression discrepancy; Layer 3 §3.2 primitive-conductor reduction of discrepancies; Layer 3 §3.2 separate cofactor bounds for convolution; Mathlib `ArithmeticFunction.mul_apply`.
 
-**Maximal Bombieri–Vinogradov theorem.** Prove `SieveArithmeticDistribution.bombieri_vinogradov_maximal`. For every A>0 there exist B,C>0 and x₀≥3 such that x≥x₀ and 1≤Q≤sqrt x/(log x)^B imply `Σ_{1≤q≤Q}` `max_{(a,q)=1}` `sup_{0≤y≤x}|ψ(y;q,a)−y/φ(q)|≤Cx/(log` x)^A. ψ includes prime powers through native von Mangoldt. Maximality in y is explicitly required by Chen and weighted sieves. The source’s fixed-x version is a consequence.
+**Maximal Bombieri–Vinogradov theorem.** Prove `SieveArithmeticDistribution.bombieri_vinogradov_maximal`. For every A>0 there exist B,C>0 and x₀≥3, effectively computable from A, such that x≥x₀ and 1≤Q≤sqrt x/(log x)^B imply `Σ_{1≤q≤Q}` `max_{(a,q)=1}` `sup_{0≤y≤x}|ψ(y;q,a)−y/φ(q)|≤Cx/(log` x)^A. ψ includes prime powers through native von Mangoldt. Maximality in y is explicitly required by Chen and weighted sieves. The source’s fixed-x version is a consequence.
 
-Unconditional conclusion; constants depend on A. Separate analytic small-conductor and hyperbola/maximal proof inputs remain explicit proof requirements.
+Unconditional conclusion; B, C and x₀ depend only on A and are effective. This effective form is stronger than the source's theorem, whose constants are ineffective through Siegel's theorem; here effectivity comes from AnalyticNumberTheoryPartI §0.34 through the small-conductor estimate of §3.0, and every other input (Vaughan's identity, the large sieve, divisor moments and the prime number theorem at q=1) has effective constants. Separate analytic small-conductor and hyperbola/maximal proof inputs remain explicit proof requirements.
 
 ([KED-ANT-18](#references), Theorem 18.4, §18.2; KED-chap-bombieri Theorem 17.1.)
 
-*Proof sketch.* Use the exact Vaughan identity and coefficient energies, then split Type I/II regions with an actual complete hyperbola covering. Treat small conductors with a uniform Siegel–Walfisz/exceptional-zero estimate; large conductors use the finite large sieve with all cofactor/dyadic losses retained. For the maximum in y add the required maximal decomposition and rebalance B against its logarithmic losses. Change the mean from ψ(y)/φ(q) to y/φ(q) using AnalyticNumberTheoryPartI §0.32 at q=1 and totient sum. Prove a complete hyperbola covering and retain the incomplete-logarithm boundary; the source-sensitive conventions give the necessary corrections.
+*Proof sketch.* Use the exact Vaughan identity and coefficient energies, then split Type I/II regions with an actual complete hyperbola covering. Treat small conductors with the logarithmic-range form of the maximal small-conductor estimate of §3.0, which carries no exceptional-zero term; large conductors use the finite large sieve with all cofactor/dyadic losses retained. For the maximum in y add the required maximal decomposition and rebalance B against its logarithmic losses. Change the mean from ψ(y)/φ(q) to y/φ(q) using AnalyticNumberTheoryPartI §0.32 at q=1 and totient sum. Prove a complete hyperbola covering and retain the incomplete-logarithm boundary; the source-sensitive conventions give the necessary corrections.
 
-*Needs:* Layer 3 §3.2 arithmetic progression discrepancy; Layer 2 §2.4 weighted vaughan identity on a finite hyperbola; Layer 2 §2.5 primitive bilinear tail through a dyadic endpoint; Layer 3 §3.2 convolution discrepancy mean value; AnalyticNumberTheoryPartI §0.32; Layer 3 §3.0 maximal small-conductor estimates; Layer 3 §3.0 divisor moments over reciprocal totients; AnalyticNumberTheoryPartI §0.32 at q=1.
+*Needs:* Layer 3 §3.2 arithmetic progression discrepancy; Layer 2 §2.4 weighted vaughan identity on a finite hyperbola; Layer 2 §2.5 primitive bilinear tail through a dyadic endpoint; Layer 3 §3.2 convolution discrepancy mean value; AnalyticNumberTheoryPartI §0.32; Layer 3 §3.0 maximal small-conductor estimates; Layer 3 §3.0 divisor moments over reciprocal totients; AnalyticNumberTheoryPartI §0.32 at q=1; AnalyticNumberTheoryPartI §0.34 `landau_siegel_exclusion`, through §0.18 and Layer 3 §3.0, for the effective constants.
 
 ### 3.3 Bombieri–Vinogradov gives every level below one half
 
-**Bombieri–Vinogradov: every level θ<1/2.** Prove `SieveDistribution.primesHaveLevel_of_lt_half`. For every θ<1/2 the primes have level of distribution θ in the sense of Maynard (1.3).
+**Bombieri–Vinogradov: every level θ<1/2.** Prove `SieveDistribution.primesHaveLevel_of_lt_half`. For every θ<1/2 the primes have level of distribution θ in the sense of Maynard (1.3), effectively: for each A>0 the implied constant and the threshold in x are effectively computable from θ and A.
 
-The input is the Bombieri–Vinogradov theorem in ψ-form at a fixed cutoff (Kedlaya Theorem 18.4), which Layer 3 `SieveArithmeticDistribution.bombieri_vinogradov_maximal` contains: for every A>0 there are c(A),B(A) with `Σ_{q≤Q}` `max_{(a,q)=1}|ψ(x;q,a)−x/φ(q)|≤c·x(log` `x)^{−A}` for `Q=x^{1/2}(log` `x)^{−B}.` The argument below applies it at every cutoff t in (t₀,x]. The conclusion compares with π(x)/φ(q), as Maynard does, and not with li(x)/φ(q).
+The input is the Bombieri–Vinogradov theorem in ψ-form at a fixed cutoff (Kedlaya Theorem 18.4), which Layer 3 `SieveArithmeticDistribution.bombieri_vinogradov_maximal` contains with effective constants: for every A>0 there are effectively computable c(A),B(A) with `Σ_{q≤Q}` `max_{(a,q)=1}|ψ(x;q,a)−x/φ(q)|≤c·x(log` `x)^{−A}` for `Q=x^{1/2}(log` `x)^{−B}.` The argument below applies it at every cutoff t in (t₀,x]. The conclusion compares with π(x)/φ(q), as Maynard does, and not with li(x)/φ(q).
 
 ([MAYNARD-2015](#references), §1, p. 384; [KED-ANT-18](#references), §18.2, Theorem 18.4 (Bombieri–Vinogradov).)
 
 *Proof sketch.* Input: Kedlaya Theorem 18.4. Its N=1 term alone gives |ψ(x) − x| ≤ c·x(log `x)^{−A}.` Prime powers: in every progression |ψ(t;q,a) − θ(t;q,a)| ≤ |ψ(t) − θ(t)| ≤ 2√t·log t (Mathlib abs_psi_sub_theta_le_sqrt_mul_log). Summed over q≤x^θ this costs `O(x^{θ+1/2}` log x), which is O(x/(log x)^A) because θ<1/2. Abel summation with f = 1/log (sum_mul_eq_sub_sub_integral_mul): π(x;q,a) = θ(x;q,a)/log x + ∫_2^x θ(t;q,a)/(t log²t) dt, and the same holds for π(x) with θ(t). Hence |π(x;q,a) − π(x)/φ(q)| ≤ E(x;q)/log x + ∫_2^x E(t;q)/(t log²t) dt + `φ(q)^{−1}(|θ(x)` − x|/log x + ∫_2^x |θ(t) − t|/(t log²t) dt), where E(t;q) = `max_{(a,q)=1}` |θ(t;q,a) − t/φ(q)|. Split the integrals at t₀ = x/(log `x)^{A+2}.` For t≤t₀ the trivial bound E(t;q) ≤ (t/q + 1 + t/φ(q))·log t suffices. For t₀<t≤x and x large, x^θ ≤ `t^{1/2}(log` `t)^{−B}` because θ<1/2, so Theorem 18.4 at t covers every q≤x^θ. Sum over q≤x^θ using `Σ_{q≤y}` 1/φ(q) = O(log y). Every term is O(x/(log x)^A).
 
-θ<1/2 is strict: the theorem gives no level 1/2 (Maynard, p. 384). Instance: θ = 1/2 − ε is the input of Maynard Theorem 1.3. The implied constants are ineffective, through Siegel's theorem inside Theorem 18.4. Maynard's remark after Lemma 5.2 records this.
+θ<1/2 is strict: the theorem gives no level 1/2 (Maynard, p. 384). Instance: θ = 1/2 − ε is the input of Maynard Theorem 1.3. The implied constants are effective. Every step above is explicit, and the input is the effective form of Theorem 18.4 in §3.2. There the classical source of ineffectivity, Siegel's theorem, is replaced by AnalyticNumberTheoryPartI §0.34 through §0.18 and §3.0. Maynard's remark after Lemma 5.2 records the ineffectivity of the classical input; the effective form is the stronger statement and is the one stated.
 
-*Needs:* Layer 3 `SieveDistribution.PrimesHaveLevel`; Mathlib `Chebyshev.psi`; Mathlib `Chebyshev.theta`; Mathlib `Chebyshev.abs_psi_sub_theta_le_sqrt_mul_log`; Mathlib `sum_mul_eq_sub_sub_integral_mul`; Layer 3 `SieveArithmeticDistribution.bombieri_vinogradov_maximal`; Layer 3 §3.0 divisor moments over reciprocal totients at j=0.
+*Needs:* Layer 3 `SieveDistribution.PrimesHaveLevel`; Mathlib `Chebyshev.psi`; Mathlib `Chebyshev.theta`; Mathlib `Chebyshev.abs_psi_sub_theta_le_sqrt_mul_log`; Mathlib `sum_mul_eq_sub_sub_integral_mul`; Layer 3 `SieveArithmeticDistribution.bombieri_vinogradov_maximal`; Layer 3 §3.0 divisor moments over reciprocal totients at j=0; AnalyticNumberTheoryPartI §0.34 `landau_siegel_exclusion`, through Layer 3 `SieveArithmeticDistribution.bombieri_vinogradov_maximal`, for the effective constants.
 
 ### 3.4 transfers, variance and the Barban–Davenport–Halberstam theorem
 
 **Weighted prime-distribution transfer.** The maximal ψ estimate yields the maximal prime-counting estimate with supremum over real 2≤y≤x for π(y;q,a)−li(y)/φ(q), where li(y)=∫₂^y dt/log t, and the fixed-x discrepancy π(x;q,a)−π(x)/φ(q), with arbitrary prescribed log saving after increasing B. For a fixed integer j≥0, weighting the modulus sum by τ(q)^j is allowed after increasing the log budget and using second moments; it is not inferred by a pointwise bound τ(q)≤log^j q.
 
-Every A>0; j fixed; same Q≤sqrt x/(log x)^B; reduced residue classes.
+Every A>0; j fixed; same Q≤sqrt x/(log x)^B; reduced residue classes. The constants are effective, inherited from §3.2.
 
 ([KED-ANT-18](#references), Theorem 18.4 and Maynard (1.3), §§18.2 and source application.)
 
@@ -2657,15 +2671,15 @@ The constant is independent of f,x,Q,Δ; the norm is explicitly squared ([KED-AN
 
 *Needs:* Layer 3 §3.2 arithmetic progression discrepancy; Layer 3 §3.4 squared conductor sums with separate ranges.
 
-**Barban–Davenport–Halberstam theorem.** Prove `SieveArithmeticDistribution.barban_davenport_halberstam`. For every A>0 there are B,C>0,x₀≥3 such that x≥x₀ and 1≤Q≤x/(log x)^B imply `Σ_{q≤Q}Σ_{a` units modq}|ψ(x;q,a)−x/φ(q)|²≤Cx²/(log x)^A. This is a second moment, not a maximum over residues.
+**Barban–Davenport–Halberstam theorem.** Prove `SieveArithmeticDistribution.barban_davenport_halberstam`. For every A>0 there are B,C>0,x₀≥3, effectively computable from A, such that x≥x₀ and 1≤Q≤x/(log x)^B imply `Σ_{q≤Q}Σ_{a` units modq}|ψ(x;q,a)−x/φ(q)|²≤Cx²/(log x)^A. This is a second moment, not a maximum over residues.
 
-Unconditional theorem; all constants quantified; prime powers included.
+Unconditional theorem; all constants quantified and effective; prime powers included. The source's constants are ineffective through the Siegel–Walfisz input; here the small-conductor input is §3.0, with no exceptional-zero term (AnalyticNumberTheoryPartI §0.34), and the variance estimates above have absolute constants.
 
 ([KED-chap-bombieri](#references), Theorem 17.4; KED-18 Theorem 18.5 and Exercise 18.4.4.)
 
-*Proof sketch.* Apply the variance route to a Vaughan decomposition, importing small-conductor estimates and bounding all cofactor sums. Use the PNT error to replace the reduced-residue mean by x/φ(q). Prove the course’s exercise with the retained logarithmic losses; no implication from BV alone at Q≈x is asserted.
+*Proof sketch.* Apply the variance route to a Vaughan decomposition, importing the logarithmic-range small-conductor estimate of §3.0 and bounding all cofactor sums. Use the PNT error to replace the reduced-residue mean by x/φ(q). Prove the course’s exercise with the retained logarithmic losses; no implication from BV alone at Q≈x is asserted.
 
-*Needs:* Layer 3 §3.4 arithmetic discrepancy second moment; Layer 3 `SieveArithmeticDistribution.bombieri_vinogradov_maximal`; AnalyticNumberTheoryPartI §0.32; Layer 3 §3.0 maximal small-conductor estimates; Layer 3 §3.0 divisor moments over reciprocal totients; AnalyticNumberTheoryPartI §0.32 at q=1.
+*Needs:* Layer 3 §3.4 arithmetic discrepancy second moment; Layer 3 `SieveArithmeticDistribution.bombieri_vinogradov_maximal`; AnalyticNumberTheoryPartI §0.32; Layer 3 §3.0 maximal small-conductor estimates; Layer 3 §3.0 divisor moments over reciprocal totients; AnalyticNumberTheoryPartI §0.32 at q=1; AnalyticNumberTheoryPartI §0.34 `landau_siegel_exclusion`, through §0.18 and Layer 3 §3.0, for the effective constants.
 
 **Bilinear congruence correlation with retained losses.** For nonzero integers a,b, real x,y≥1,Q≥2, supports [1,x],[1,y] and the all-moduli Δ hypothesis for f, the sum over q≤Q coprime to ab of the absolute deviation of Σ_(am≡bn modq,(mn,q)=1)f(m)g(n) from φ(q)⁻¹(Σ_(m,q)=1 f(m))(Σ_(n,q)=1 g(n)) is at most
 
@@ -2696,7 +2710,7 @@ The modulus sum includes every positive q≤Q coprime to |ab|; C is independent 
 
 ### Analytic requirements
 
-Write q=rs with primitive conductor r and cofactor s=q/r; r and s need not be coprime. The induced character is its primitive character times 1_(gcd(n,s)=1). Retain this coprimality mask in every coefficient sequence and use the all-cofactor estimates. Use an exact Vaughan hyperbola covering, retaining dyadic J until a stronger aggregate removes it. Choose U,V and the mesh for every prescribed saving, including maximal cutoff decomposition. AnalyticNumberTheoryPartI §0.32 and Layer 3 §3.0 maximal small-conductor estimates give the required small-conductor, cofactor and exceptional-zero estimates and their conductor/log ranges.
+Write q=rs with primitive conductor r and cofactor s=q/r; r and s need not be coprime. The induced character is its primitive character times 1_(gcd(n,s)=1). Retain this coprimality mask in every coefficient sequence and use the all-cofactor estimates. Use an exact Vaughan hyperbola covering, retaining dyadic J until a stronger aggregate removes it. Choose U,V and the mesh for every prescribed saving, including maximal cutoff decomposition. AnalyticNumberTheoryPartI §§0.18, 0.32 and Layer 3 §3.0 maximal small-conductor estimates give the required small-conductor and cofactor estimates and their conductor/log ranges. AnalyticNumberTheoryPartI §0.34 leaves no exceptional zero to treat, so every constant of this layer is effective.
 
 The intermediate log³, log⁵ and log⁴ estimates coexist with the full log² convolution, variance and correlation endpoints. The convolution separates the j=0 and j=1 cofactor moments; the variance retains the τ(s)²/φ(s) sum and splits according to Δ(1+log Q)≤1 or ≥1. Each divisor exponent j and saving A requires a fresh BV budget. Partial summation for π is uniform in real 2≤y≤x and centred at li(y)/φ(q); the ψ maximum still ranges over 0≤y≤x; fixed-x π(x)/φ(q) centering is a separate transfer.
 
@@ -2710,7 +2724,7 @@ At modulus one both discrepancies vanish. Nonpositive prime levels therefore hol
 
 ### Dependencies
 
-Layer 2. External inputs: AnalyticNumberTheoryPartI §0.32; Layer 3 §3.0 divisor moments over reciprocal totients; Layer 3 §3.0 maximal small-conductor estimates.
+Layer 2. External inputs: AnalyticNumberTheoryPartI §§0.18, 0.32 and 0.34; Layer 3 §3.0 divisor moments over reciprocal totients; Layer 3 §3.0 maximal small-conductor estimates.
 
 ## Layer 4: prime tuples and Maynard clusters
 
@@ -2935,7 +2949,7 @@ The main term is diagonal in y: the change of variables diagonalizes the quadrat
 
 *Proof sketch.* Expand as for S₁ (5.15). The inner sum runs over one class mod q = W∏[dᵢ,eᵢ] and is coprime to q exactly when d_m = e_m = 1. It equals X_N/φ(q) + O(E(N,q)), where X_N = #{N≤n<2N : n prime} and E is windowError (5.16)–(5.18). Error: q is squarefree and less than R²W, and each q arises from at most `τ_{3k}(q)` tuples. With λ_max ≪ y_max(log R)^k the error is ≪ y_max²(log `R)^{2k}` `Σ_{q<R²W}` `μ²(q)τ_{3k}(q)E(N,q).` Cauchy–Schwarz with E(N,q) ≪ N/φ(q) and PrimesHaveLevel.sum_windowError (R²W < `N^{θ−δ}` for large N) give ≪ y_max²N/(log N)^A (5.19)–(5.20). Main term: write 1/φ([dᵢ,eᵢ]) = `(φ(dᵢ)φ(eᵢ))^{−1}` `Σ_{uᵢ|dᵢ,eᵢ}` g(uᵢ) (5.21), remove the cross coprimality with Möbius sums, and substitute `y⁽ᵐ⁾` (5.23) to get (5.24). Terms with `s_{i,j}` ≠ 1 contribute the D₀ error (5.25). Replace X_N by N/log N + O(N/(log N)²), by the prime number theorem (AnalyticNumberTheoryPartI §0.32 at q=1); the error is absorbed (5.26)–(5.27).
 
-This is the only use of the arithmetic hypothesis. Unconditional results come from Layer 3 `SieveDistribution.primesHaveLevel_of_lt_half`. The implied constants are ineffective through Bombieri–Vinogradov (remark after Lemma 5.2).
+This is the only use of the arithmetic hypothesis. Unconditional results come from Layer 3 `SieveDistribution.primesHaveLevel_of_lt_half`, at every θ<1/2. With that input the implied constants and the threshold in N are effective, because the level estimate is (Layer 3 §3.3, through AnalyticNumberTheoryPartI §0.34). Maynard's remark after Lemma 5.2 notes the ineffectivity of the classical Bombieri–Vinogradov input, which the exclusion of Landau–Siegel zeros removes.
 
 *Needs:* Layer 4 §4.2 maynard's multidimensional sieve weights; Layer 4 §4.4 size of λ in terms of y (maynard (5.9)); Layer 4 §4.2 the w-trick residue v₀ (maynard (4.1)); Layer 3 `SieveDistribution.PrimesHaveLevel`; Layer 3 §3.0 divisor moments over reciprocal totients; AnalyticNumberTheoryPartI §0.32 at q=1; Layer 1 §1.1 selberg’s diagonal sum in dimension one.
 
@@ -4126,6 +4140,10 @@ The following conventions fix the mathematical statements at the cited versions.
 - **BOMBIERI-1971.** Enrico Bombieri; Proposition 1 and its proof attributed to Atle Selberg. [A note on the large sieve](https://www.impan.pl/shop/en/publication/transaction/download/product/97707). Acta Arithmetica 18 (1971), 401–404, DOI 10.4064/aa-18-1-401-404.
 
 - **BENNETT-SIKSEK-2020.** Michael A. Bennett and Samir Siksek. [A conjecture of Erdős, supersingular primes and short character sums](https://annals.math.princeton.edu/wp-content/uploads/annals-v191-n2-p02-s.pdf). Annals of Mathematics 191 (2020), 355–392, DOI 10.4007/annals.2020.191.2.2.
+
+- **LS-EXCLUSION.** OpenAI. *Uniform exclusion of Landau–Siegel zeros*. Preprint, 2026, open repository; Theorem 1 is the uniform exclusion consumed through AnalyticNumberTheoryPartI §0.34.
+
+- **GREEN-LS.** Ben Green. *On Landau–Siegel zeros*. Hexagon 2610.00311, 2026; Theorem 1.1, the inert-prime estimate of AnalyticNumberTheoryPartI §0.34c.
 
 - **MAYNARD-2015.** James Maynard. [Small gaps between primes](https://annals.math.princeton.edu/wp-content/uploads/annals-v181-n1-p07-p.pdf). Annals of Mathematics 181 (2015), no. 1, 383–413, DOI 10.4007/annals.2015.181.1.7 (printed page = PDF page + 382). The published edition is cited; the preprint editions are arXiv:1311.4600 v1, v2 and v3.
 

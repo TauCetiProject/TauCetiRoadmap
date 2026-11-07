@@ -9,8 +9,12 @@ The headlines are the Selberg weighted Gram, Brun fundamental and upper-sieve in
 progression and twin/Goldbach upper bounds; Brun convergence; additive, primitive and
 polynomial Farey large sieves; the prime quadratic-symbol bilinear bound;
 Jutila’s unweighted and weighted real-character means; Linnik's exceptional-prime bound; Smith's bilinear bound and the
-Koymans–Pagano row mean; Vaughan's identity; logarithm-square convolution, variance and
-congruence-correlation estimates; Bombieri–Vinogradov and its maximal and second-moment forms; Maynard clusters and variational growth; and Chen's two theorems.
+Koymans–Pagano row mean; Vaughan's identity; the uniform small-conductor estimate;
+logarithm-square convolution, variance and congruence-correlation estimates;
+Bombieri–Vinogradov and its maximal and second-moment forms; Maynard clusters and
+variational growth; and Chen's two theorems. The unconditional prime-distribution statements
+have effective constants, through the exclusion of Landau–Siegel zeros in
+AnalyticNumberTheoryPartI §0.34; a Lean statement records the shape, not the effectivity.
 
 The finite-character
 Gram bound from lattice discrepancies and binary convex sieve lack the L-domain
@@ -325,7 +329,8 @@ def PrimesHaveLevel (θ : ℝ) : Prop :=
 as an explicit hypothesis of the conditional gap theorem. -/
 def ElliottHalberstam : Prop := ∀ θ : ℝ, θ < 1 → PrimesHaveLevel θ
 
-/-- Bombieri–Vinogradov gives every θ<1/2 in Maynard’s normalization. -/
+/-- Bombieri–Vinogradov gives every θ<1/2 in Maynard’s normalization. For each saving the
+implied constant and threshold are effective, through `bombieri_vinogradov_maximal`. -/
 
 theorem primesHaveLevel_of_lt_half {θ : ℝ} (hθ : θ < 1 / 2) : PrimesHaveLevel θ := by
   sorry
@@ -334,6 +339,19 @@ end SieveDistribution
 namespace SieveArithmeticDistribution
 open Finset
 attribute [local instance] Classical.propDecidable
+
+/-- The maximal small-conductor estimate: one pair of absolute constants for every primitive
+nonprincipal character, every conductor, every coprimality cofactor and every cutoff `y ≤ x`.
+There is no exceptional-zero term; `c` and `C` are effective, through the uniform exclusion of
+Landau–Siegel zeros (AnalyticNumberTheoryPartI §§0.18, 0.34). -/
+theorem small_conductor_maximal :
+    ∃ c C : ℝ, 0 < c ∧ 0 < C ∧ ∀ (r s : ℕ) (χ : DirichletCharacter ℂ r) (x y : ℝ),
+      χ.IsPrimitive → χ ≠ 1 → 0 < s → 2 ≤ x → 0 ≤ y → y ≤ x →
+      ‖∑ n ∈ (Icc 1 ⌊y⌋₊).filter (fun n => n.Coprime s),
+          (ArithmeticFunction.vonMangoldt n : ℂ) * χ n‖ ≤
+        C * x * Real.exp (-(c * Real.log x / (Real.sqrt (Real.log x) + Real.log r))) *
+            Real.log r ^ 4 + C * Real.log (2 * s) * Real.log x := by
+  sorry
 
 /-- Progression discrepancy centred on the reduced-residue mean; zero at modulus zero.
 The arithmetic function vanishes at zero by its native carrier. -/
@@ -361,7 +379,8 @@ theorem convolution_discrepancy_mean :
           (1 + Real.log Q) ^ 2 := by sorry
 
 /-- Maximal von Mangoldt distribution: the supremum includes both residue and cutoff.
-The centre y/φ(q) includes prime powers. -/
+The centre y/φ(q) includes prime powers. `B`, `C` and `x₀` are effectively computable from `A`:
+the small conductors use `small_conductor_maximal`, with no exceptional-zero term. -/
 theorem bombieri_vinogradov_maximal (A : ℝ) (hA : 0 < A) :
     ∃ B C x₀ : ℝ, 0 < B ∧ 0 < C ∧ 3 ≤ x₀ ∧ ∀ x Q : ℝ,
       x₀ ≤ x → 1 ≤ Q → Q ≤ Real.sqrt x / Real.log x ^ B →
@@ -385,7 +404,8 @@ theorem arithmetic_discrepancy_second_moment :
         ‖arithmeticDiscrepancy f x q a‖ ^ 2) ≤
         C * E * (Δ * x + Q) * (1 + Real.log Q) ^ 2 := by sorry
 
-/-- The second moment sums all reduced residues, with its own logarithmic modulus cutoff. -/
+/-- The second moment sums all reduced residues, with its own logarithmic modulus cutoff.
+`B`, `C` and `x₀` are effectively computable from `A`, as in `bombieri_vinogradov_maximal`. -/
 theorem barban_davenport_halberstam (A : ℝ) (hA : 0 < A) :
     ∃ B C x₀ : ℝ, 0 < B ∧ 0 < C ∧ 3 ≤ x₀ ∧ ∀ x Q : ℝ,
       x₀ ≤ x → 1 ≤ Q → Q ≤ x / Real.log x ^ B →
