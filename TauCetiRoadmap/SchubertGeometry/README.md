@@ -1,6 +1,6 @@
 # Roadmap: schubert geometry, Demazure sections and flag K-theory
 
-**Summary.** Build the scheme and section interfaces for Schubert varieties in general reductive flag varieties: relative incidence and universal bundles, root-coordinate cells and their closures, all-word Bott–Samelson operations, dominant line-bundle cohomology, compatible Frobenius splitting, all-degree standard monomial theory, exact divisor multiplicities and algebraic flag K-rings. The finite-type LS-chain/path engine and its geometric section comparison are part of this construction. Compare the complex realization with holomorphic Lefschetz characters and the existing finite Grassmannian topology. Suggested homes are `TauCeti/AlgebraicGeometry/Schubert/` and `TauCeti/RepresentationTheory/LSPath/`.
+**Summary.** Build the scheme and section interfaces for Schubert varieties in general reductive flag varieties: relative incidence and universal bundles, root-coordinate cells and their closures, all-word Bott–Samelson operations, dominant line-bundle cohomology, compatible Frobenius splitting, all-degree standard monomial theory, exact divisor multiplicities and algebraic flag K-rings. The finite-type Lakshmibai–Seshadri path engine is consumed from the pinned Tau Ceti, whose `TauCeti/RepresentationTheory/LSPath/` and `TauCeti/RepresentationTheory/Crystal/` files already prove its paths, root operators, string lengths, central transport, bond arithmetic and normal-crystal algebra; this roadmap completes it (operator stability of the path set, components, characters and the tensor rule) and builds its geometric section comparison. Compare the complex realization with the existing compact flag topology. The suggested home is `TauCeti/AlgebraicGeometry/Schubert/`.
 
 Use schemes, sheaves of modules, root data and rational representations at their stated hypotheses. A point-set rank condition is a comparison interface for a scheme, not its definition as a variety. Singular Schubert varieties are not declared smooth.
 
@@ -14,7 +14,17 @@ listed in the supplier contracts below. Abstract Coxeter combinatorics
 (exchange, deletion, Matsumoto's theorem, the Bruhat order and its parabolic
 quotients), the Weyl group of a root datum as a Coxeter system and the
 numbered integral root data are already in the pinned Tau Ceti and are
-consumed from it directly, as listed in the supplier contracts. S1.0–1 owns
+consumed from it directly, as listed in the supplier contracts. So are the
+integral Demazure operators of a root datum (their strings, localization
+identity, idempotence, braid relations, word independence, Levi and wall
+cases and longest-element formula), the normal crystals (strict morphisms,
+components, direct sums, tensor products with Kashiwara's tie convention,
+central weight twists and formal characters) and the Lakshmibai–Seshadri
+encodings with their rational paths, root operators, string lengths, bond
+arithmetic, central transport, stretching and convexity: S3.3–3.4 own only
+the geometric interpretation of the Demazure operators through sections, and
+S4 owns the operator stability, component, character and tensor theorems of
+the path set. S1.0–1 owns
 the relative parabolic quotients and finite-locally-free flag incidence needed
 here; S2 owns the
 integral word models and S5.6 their Schubert closure and base-change theory.
@@ -29,6 +39,13 @@ Pic_hol(M)≃H¹(M,𝒪^×) of a complex manifold and its exponential sequence a
 not targets here. The ordinary holomorphic Picard group of the compact flag
 K/H, its root-degree basis and the compact character-to-degree forgetful map
 belong to GeometricQuantization §§3.3–3.4.
+The holomorphic Lefschetz fixed-point formula on the flag and word
+analytifications, the word fixed-point formula for the torus Euler character
+χ_T(Z_Q,π_Q*L(λ)) that it gives, and the comparison of that formula with
+S3's Demazure recurrence are not targets here: they are left to a
+SchubertGeometry Part II placed after IndexTheory, whose I8 builds the
+generic holomorphic fixed-map trace; nothing is imported from IndexTheory in
+this roadmap.
 The type-A coordinate-path comparison
 and tableau applications are downstream consumers of the general path theory.
 
@@ -114,6 +131,205 @@ root datum on the diagonal character lattice `ULift (Fin n) →₀ ℤ`, with ro
 e_i−e_j for i≠j; it keeps the central character e₁+⋯+eₙ, which the simply
 connected type-A datum does not have.
 
+The integral Demazure operators are in
+`TauCeti/LinearAlgebra/RootSystem/Weyl/Demazure/`. For a root datum P (a root
+pairing over ℤ) and a root index i, `RootPairing.demazureOperator P i`
+(`Basic.lean`) is the ℤ-linear endomorphism D_i of the group ring
+`AddMonoidAlgebra ℤ M` of the weight lattice sending e^x, with m=⟨x,α_i∨⟩,
+to the string e^x+e^(x−α_i)+⋯+e^(x−mα_i) for m≥0, to 0 for m=−1 and to
+−(e^(x+α_i)+⋯+e^(x+(−m−1)α_i)) for m≤−2
+(`RootPairing.demazureOperator_single_of_coroot'_eq_natCast`,
+`RootPairing.demazureOperator_single_of_coroot'_eq_neg_one`,
+`RootPairing.demazureOperator_single_of_coroot'_eq_neg_natCast_sub_one`);
+`RootPairing.one_sub_single_neg_root_mul_demazureOperator` is the
+localization identity (1−e^(−α_i))D_i(f)=f−e^(−α_i)s_i(f),
+`RootPairing.demazureOperator_eq_iff` says it characterizes D_i because
+`RootPairing.isLeftRegular_one_sub_single_neg_root` makes 1−e^(−α_i) a
+non-zero-divisor, `RootPairing.demazureOperator_demazureOperator` is
+D_i²=D_i, `RootPairing.demazureOperator_eq_self_iff` says D_i fixes exactly
+the s_i-invariants and `RootPairing.demazureOperator_eq_self_of_isWeylInvariant`
+that it fixes Weyl invariants. `Braid.lean` proves the rank-two braid
+relations (`RootPairing.commute_demazureOperator_of_isOrthogonal`,
+`RootPairing.demazureOperator_braid_three`,
+`RootPairing.demazureOperator_braid_four`,
+`RootPairing.demazureOperator_braid_six`), their form for the Coxeter matrix
+of a base (`RootPairing.prod_map_demazureOperator_braidWord`), word
+independence of D_(i₁)⋯D_(i_r) along reduced words of one Weyl group element
+for a finite reduced root datum with a base
+(`RootPairing.prod_map_demazureOperator_eq_of_wordProd_eq`) and D_iD_w=D_w for
+a left descent s_i of w
+(`RootPairing.demazureOperator_mul_prod_map_demazureOperator_of_isLeftDescent`).
+`LongestElement.lean` proves Demazure's formula
+Δ·D_(w₀)(f)=Σ_(w∈W) sgn(w)e^(wρ−ρ)w(f) for a reduced word of the longest
+element, with Δ the Weyl denominator and the right side the dot
+alternatization J(f) (`RootPairing.weylDenominator_mul_prod_map_demazureOperator`
+and its value `RootPairing.weylDenominator_mul_prod_map_demazureOperator_single`
+on e^λ), together with J(1)=Δ (`RootPairing.dotAlternatization_one`) and the
+Weyl invariance `RootPairing.isWeylInvariant_prod_map_demazureOperator` of
+D_(w₀)(f). `Parabolic.lean` proves the Levi case D_vf=f for v∈W_J and
+W_J-invariant f (`RootPairing.prod_map_demazureOperator_apply_eq_self_of_mem_parabolic`),
+the dependence of D_wf on the coset wW_J
+(`RootPairing.prod_map_demazureOperator_apply_eq_of_inv_mul_mem_parabolic`),
+the wall case that D_w(e^λ) depends only on wλ for dominant λ
+(`RootPairing.prod_map_demazureOperator_single_eq_of_smul_eq`) and the
+recursion D_iχ_ξ=χ_(s_iξ) for ⟨ξ,α_i∨⟩≥0 and D_iχ_ξ=χ_ξ for ⟨ξ,α_i∨⟩≤0
+(`RootPairing.demazureOperator_prod_map_demazureOperator_single_of_coroot'_nonneg`,
+`RootPairing.demazureOperator_prod_map_demazureOperator_single_of_coroot'_nonpos`).
+These files treat the combinatorial operator only: identifying D_w(e^λ) with
+the character of H⁰(X(w),L(λ)) or of a module is not in them, and the
+positive-denominator operator Δ_i of the Knutson handout is not defined
+there.
+
+Normal crystals are in `TauCeti/RepresentationTheory/Crystal/`.
+`TauCeti.NormalCrystal P b B` (`Basic.lean`) bundles, over a root datum with a
+base, a weight map, partial raising and lowering maps e_i,f_i:B→Option B and
+natural string lengths ε_i,φ_i with the partial-inverse law, the weight
+change by α_i, the string identities and φ_i−ε_i=⟨wt,α_i∨⟩; the file also
+has the dual crystal, the iterated operators with their string criteria
+(`TauCeti.NormalCrystal.isSome_eIter_iff`, `TauCeti.NormalCrystal.isSome_fIter_iff`),
+strict morphisms `TauCeti.NormalCrystal.StrictHom`, strict isomorphisms
+`TauCeti.NormalCrystal.StrictIso` and transport along a bijection
+`TauCeti.NormalCrystal.transport`. `Component.lean` has the crystal graph,
+restriction to an operator-closed subset, the connected components
+`TauCeti.NormalCrystal.component` as crystals and the decomposition
+`TauCeti.NormalCrystal.sigmaComponentsIso` into their direct sum
+(`Sigma.lean`); `Tensor.lean` has the tensor product
+`TauCeti.NormalCrystal.tensor` on B₁×B₂ with Kashiwara's tie convention (on a
+tie e_i acts on the left factor and f_i on the right), its functoriality,
+associator and duality; `WeightTwist.lean` has the central weight twist
+`TauCeti.NormalCrystal.weightTwist` by a weight killed by the simple coroots,
+with its zero, addition and duality laws, the one-element crystal
+`TauCeti.NormalCrystal.central` and the identification of the twist with
+tensoring by it; `Character.lean` has the formal character
+`TauCeti.NormalCrystal.formalCharacter` of a finite crystal in
+`AddMonoidAlgebra ℤ X`, its Weyl invariance
+`TauCeti.NormalCrystal.isWeylInvariant_formalCharacter` for a finite reduced
+root datum and its invariance under strict isomorphism;
+`StringReflection.lean` has the string reversal and its weight-fibre
+bijection. No crystal structure on the Lakshmibai–Seshadri paths, and no
+identification of a formal character with a module character, is in these
+files.
+
+The Lakshmibai–Seshadri path engine is in
+`TauCeti/RepresentationTheory/LSPath/`, over an ordered field 𝕜 (ℚ for the
+rational theory) and a vector space V reached from the weight lattice by an
+additive map. `TauCeti.PLPath 𝕜 V` (`PLPath.lean`) is the piecewise-linear
+path up to nondecreasing surjective piecewise-linear reparametrization,
+modelled by its reduced segment list: `TauCeti.PLPath.normalize` removes
+stationary segments and merges adjacent segments on a common ray using only
+the vector-space operations, `TauCeti.PLPath.ofSegments_eq_ofSegments_iff`
+says two segment lists present one path exactly when the elementary moves
+relate them, and the file has the concatenation monoid,
+`TauCeti.PLPath.endpoint`, `TauCeti.PLPath.reverse`, `TauCeti.PLPath.straight`
+and the linear image `TauCeti.PLPath.map`. `Reparametrization.lean` has timed
+presentations, their parametrized paths `TauCeti.PLPath.evalTimed`, the
+reparametrization relation `TauCeti.PLPath.IsReparam` and the faithfulness
+theorem `TauCeti.PLPath.ofSegments_map_snd_eq_iff_exists_isReparam`: two timed
+presentations of positive duration present one path exactly when they are
+reparametrizations of a common one, rationality preserved.
+`RootOperator.lean` has the minimal height `TauCeti.PLPath.minHeight` of a
+linear form along a path, Littelmann's operators `TauCeti.PLPath.lower` and
+`TauCeti.PLPath.raise` for a vector x and a form f (the simple root and the
+pairing with its coroot), with `none` for Kashiwara's 0, their presentation
+independence `TauCeti.PLPath.lower_ofSegments`, the criteria
+`TauCeti.PLPath.lower_eq_none_iff` and `TauCeti.PLPath.raise_eq_none_iff`, the
+endpoint changes `TauCeti.PLPath.endpoint_of_lower_eq_some` and
+`TauCeti.PLPath.endpoint_of_raise_eq_some` by ∓x and the minimal-height
+changes by ∓1 when f(x)=2; `PartialInverse.lean` proves
+`TauCeti.PLPath.lower_eq_some_iff` and `TauCeti.PLPath.raise_eq_some_iff`
+(partial inverses on all paths); `StringLength.lean` proves the string
+criteria `TauCeti.PLPath.isSome_lowerIter_iff` and
+`TauCeti.PLPath.isSome_raiseIter_iff` and the identities φ=f(π(1))−h and
+ε=−h when these are natural numbers
+(`TauCeti.PLPath.isSome_lowerIter_iff_of_eq_natCast`,
+`TauCeti.PLPath.isSome_raiseIter_iff_of_eq_natCast`); `Concatenation.lean`
+proves the tensor rule `TauCeti.PLPath.lower_mul` and
+`TauCeti.PLPath.raise_mul` for a concatenation with integral comparison gap;
+`LinearMap.lean` the naturality `TauCeti.PLPath.lower_map` and
+`TauCeti.PLPath.raise_map`. `TauCeti.LSPath P b λ` (`Basic.lean`) is
+Littelmann's encoding (τ;a) of a path of shape λ for a finite reduced root
+datum with a base: strictly decreasing minimal coset representatives of the
+stabilizer parabolic `RootPairing.wallIndices` of λ, rational times
+0=a₀<⋯<a_(l+1)=1 and an a_(j+1)-chain at each internal break, with its
+distinguished timed presentation `TauCeti.LSPath.timed`, its path
+`TauCeti.LSPath.toPLPath`, the straight encoding `TauCeti.LSPath.straight`,
+the two-direction encodings `TauCeti.LSPath.simple`, finiteness
+`TauCeti.LSPath.finite` for dominant λ and `TauCeti.LSPath.isAChain` (every
+saturated chain between consecutive directions is an a-chain).
+`Realization.lean` proves `TauCeti.LSPath.toPLPath_injective` for a dominant
+shape and a realization injective on Wλ with no two orbit points on a common
+ray; `Distinguished.lean` proves the uniqueness
+`TauCeti.PLPath.IsDistinguished.unique` of a presentation with velocities in
+a set and changes of velocity at every break, that the presentation of an
+encoding is distinguished for dominant λ (`TauCeti.LSPath.isDistinguished_timed`),
+that adding t↦tχ is not well defined on reparametrization classes
+(`TauCeti.PLPath.not_exists_shiftTimed_on_paths`) and defines the central
+shift `TauCeti.PLPath.shiftDistinguished` on paths with a distinguished
+presentation; `Central/Transport.lean` has the bijection
+`TauCeti.LSPath.centralTransport χ : LSPath P b λ ≃ LSPath P b (λ+χ)` for χ
+killed by the simple coroots, equal on realized paths to the central shift
+(`TauCeti.LSPath.toPLPath_centralTransport`), with
+`TauCeti.LSPath.centralTransport_straight`, the endpoint law
+`TauCeti.LSPath.endpoint_toPLPath_centralTransport`, the minimal-height law
+`TauCeti.LSPath.minHeight_toPLPath_centralTransport` and the additivity, zero
+and inverse laws `TauCeti.LSPath.toPLPath_centralTransport_centralTransport`,
+`TauCeti.LSPath.toPLPath_centralTransport_zero` and
+`TauCeti.LSPath.toPLPath_centralTransport_neg`; `Highest.lean` proves that the
+straight encoding is the only one killed by every raising operator
+(`TauCeti.LSPath.forall_raise_eq_none_iff`); `Integrality.lean` proves
+integrality of the endpoint against integral forms and of the minimal
+simple-coroot heights of a realized encoding
+(`TauCeti.LSPath.exists_minHeight_eq_intCast`), hence the exact string lengths
+(`TauCeti.LSPath.exists_neg_minHeight_eq_natCast_and_apply_endpoint_sub_minHeight_eq_natCast`);
+`ConvexHull.lean` proves π(t)∈t·Conv(S) for a timed presentation with
+velocities in S (`TauCeti.PLPath.evalTimed_mem_smul_convexHull`), containment
+in Conv(S) when 0∈Conv(S) (`TauCeti.PLPath.evalTimed_mem_convexHull`) and, with
+`RootPairing.zero_mem_convexHull_orbit_weylGroup` (`Weyl/Barycenter.lean`),
+containment in Conv(Wλ) for a root system with finite Weyl group
+(`TauCeti.PLPath.evalTimed_mem_convexHull_orbit_weylGroup`); `Stretch.lean`
+and `Subdivision.lean` have the positive-integer stretch
+`TauCeti.LSPath.stretch`, its dilation law `TauCeti.LSPath.toPLPath_stretch`
+and the uniform integral subdivision
+`TauCeti.LSPath.exists_uniform_subdivision`. The bond arithmetic is in
+`TauCeti/LinearAlgebra/RootSystem/`: `RootPairing.reflectionBond`
+(`ReflectionBond.lean`) is the bond ⟨y,β∨⟩=−⟨x,β∨⟩ of weights y=s_βx for a
+positive root β, with `RootPairing.reflectionBond_self` and the central
+invariance `TauCeti.reflectionBond_smul_add` (`Weyl/CoverBond.lean`);
+`Weyl/ParabolicQuotient.lean` identifies the orbit Wλ of a dominant weight
+with W/W_λ through minimal coset representatives (`RootPairing.wallIndices`,
+`RootPairing.parabolic_wallIndices_eq_stabilizer`,
+`TauCeti.existsUnique_isMinimalCosetRep_smul_eq`) and proves the reflection
+test in its three cases
+(`TauCeti.bruhatLE_and_ne_iff_coroot'_neg_of_isMinimalCosetRep`,
+`TauCeti.eq_iff_coroot'_eq_zero_of_isMinimalCosetRep`); `Weyl/CoverBond.lean`
+proves the unique positive root label of a cover of W/W_λ
+(`TauCeti.existsUnique_isPos_reflection_smul_eq_of_minimalCosetRepCovBy`), the
+strict positivity `TauCeti.reflectionBond_pos_of_minimalCosetRepCovBy` and the
+integrality `TauCeti.exists_nat_reflectionBond_eq_of_minimalCosetRepCovBy` of
+its bond, and the bond ⟨λ,α_i∨⟩ of the cover of the identity by a simple
+reflection off the walls (`TauCeti.reflectionBond_simple_smul_one_smul`);
+`Weyl/ChainBond.lean` has the bond gcd `TauCeti.bondGcd` of a saturated chain
+(0 for the empty chain), the a-chain predicate `TauCeti.IsAChain`, the
+criterion `TauCeti.isAChain_iff_den_dvd_bondGcd`, Littelmann's form
+`TauCeti.isAChain_iff_forall_coroot'`, the concatenation law
+`TauCeti.bondGcd_smash` and the integrality of heights along a-chains;
+`Weyl/IntervalBondGcd.lean` has the interval gcd `TauCeti.intervalBondGcd` and
+its chain independence `TauCeti.bondGcd_eq_intervalBondGcd`, proved by a
+chain-sorting induction along a left descent, with
+`TauCeti.intervalBondGcd_self`, `TauCeti.intervalBondGcd_eq_gcd` and the
+a-chain criteria `TauCeti.exists_isAChain_iff_den_dvd_intervalBondGcd` and
+`TauCeti.forall_isAChain_iff_den_dvd_intervalBondGcd`;
+`Weyl/ReflectedChain.lean` reflects saturated chains lying on one side of a
+simple wall (`CoxeterSystem.MinimalCosetRepChain.simpleMul`,
+`CoxeterSystem.MinimalCosetRepChain.bondGcd_simpleMul`) and proves
+Littelmann's chain conditions at the two ends of a reflected piece
+(`TauCeti.IsAChain.exists_isAChain_simple_mul_last`,
+`TauCeti.IsAChain.exists_isAChain_simple_mul_head`). These files do not prove
+that the root operators carry the realized path of an encoding of shape λ to
+the realized path of another encoding of shape λ, do not put a
+normal-crystal structure on `TauCeti.LSPath`, and do not prove the
+component, character or tensor theorems; those are S4's targets.
+
 ### From the named roadmap suppliers
 
 - [ModularCurves §0G](../ModularCurves/README.md) owns finite-locally-free Grassmannian representability, its charts and universal quotient. Native `Module.Grassmannian R M q` stores a submodule with locally free quotient of rank q; an r-dimensional subspace of k^N corresponds to q=N−r. S1.1 constructs flags as closed incidence subschemes of products of those Grassmannians; a coherent quotient of a non-locally-free sheaf is not needed for this construction.
@@ -122,12 +338,11 @@ connected type-A datum does not have.
 - [GroebnerGeometry G5](../GroebnerGeometry/README.md) owns polynomial minor/shuffle/straightening/Gröbner statements, flag-minor algebra and its GT initial algebra. S6 supplies the scheme, homogeneous coordinate, section and restriction identifications. The original flag algebra is not identified with its toric initial algebra.
 - [SchemeAndStackFoundations](../SchemeAndStackFoundations/README.md) supplies generic coherent cohomology, ample Serre, relative derived pushforward/base change and coherent/perfect K-theory at its stated scope; [StableReduction Layer2](../StableReduction/README.md) supplies relative Proj using AlgebraicVectorBundles L2A's single graded quasicoherent algebra and affine-ring interfaces. AlgebraicVectorBundles supplies tensor, dual, exterior and determinant sheaves and their pullbacks. These generic constructions are not redefined here.
 - [TopologicalKTheory T1.5](../TopologicalKTheory/README.md) supplies the single finite subspace Grassmannian and finite Schubert characteristic maps. LieGroups supplies compact full flags and their homogeneous complex comparisons. S9 compares these with the algebraic models; it does not rebuild their existing carriers.
-- [IndexTheory I8](../IndexTheory/README.md) owns the generic holomorphic fixed-map trace construction, in addition to its Dolbeault/Hodge and equivariant index machinery. S9 owns the flag/Bott–Samelson specialization and its section-action convention.
 - [ComplexKahlerGeometry K3–K4](../ComplexKahlerGeometry/README.md) supplies finite-dimensional holomorphic germs, Weierstrass division, local analytic sets and the holomorphic sheaf/bundle calculus. S9.0 extends these local objects to analytic spaces with nilpotents and coherent analytification; K4's bundle theory alone is not coherent GAGA. RealAnalyticGeometry R3.2 supplies the native coherent module-sheaf predicate, coherent kernels and Cartan A/B on Stein manifolds. SchemeAndStackFoundations §§2.2, 2.6 and 4.12 supply algebraic coherent pushforward, projective-space cohomology and Chow modification for its proof.
 
 ## How to read the build
 
-Construct in this order: S1's relative carriers and early root cells; S2's word/incidence API; S3's early line bundles and rank-one derived push-pull; S4.1–5's root-data LS combinatorics; S5's splitting/normalization/coherent comparisons; S7.1–2's divisor valuations; S4.6–7 and S6's geometric path sections and all-degree bases; S7.3's cycle comparison; S8's K-rings; S9's analytic and existing-owner comparisons. S4.1–5 is independent of Schubert splitting, vanishing, SMT and the concrete typeA implementation. S4.6–7 is its geometric application, after S5 and S7.1–2. The generic finite-type engine is the single root-data owner; S9.5 gives its type-A root-datum specialization. The algebraic Steinberg supplier is independent of all these geometric conclusions. The analytic fixed-point argument is a later comparison, not a premise for algebraic vanishing or SMT.
+Construct in this order: S1's relative carriers and early root cells; S2's word/incidence API; S3's early line bundles and rank-one derived push-pull; S4.1–5's completion of the native Lakshmibai–Seshadri path engine; S5's splitting/normalization/coherent comparisons; S7.1–2's divisor valuations; S4.6–7 and S6's geometric path sections and all-degree bases; S7.3's cycle comparison; S8's K-rings; S9's analytic and existing-owner comparisons. S4.1–5 is independent of Schubert splitting, vanishing, SMT and the concrete typeA implementation. S4.6–7 is its geometric application, after S5 and S7.1–2. The generic finite-type engine is the single root-data owner; S9.5 gives its type-A root-datum specialization. The algebraic Steinberg supplier is independent of all these geometric conclusions.
 
 Suggested.lean lists the headline theorems and the carriers missing at the pins.
 The API targets and worked calculations belong to this README.
@@ -513,60 +728,71 @@ Construct the regular-function realization ∇λ from the rational representatio
 
 ### 3.3 Integral signed-string operators (S3.3)
 
-For every integer m, specialize SchemeAndStackFoundations §2.6's projective-space cohomology to H⁰/H¹(P¹,O(m)), and construct its actual rank-one T-weight, functoriality, residue/Serre pairing and zero-case comparisons. Build the relative P¹ pushforward and higher-direct-image comparison on the actual rank-one bundle. Define the integral Demazure Euler operator by finite signed root strings. For dominant string length m=⟨λ,α_i∨⟩≥0 it gives Σ_(j=0)^m e^(λ−jα_i); for m=−1 it is0, and for m≤−2 use the negative H¹ string. Prove its localization identity D_i(eλ)=(eλ−e^(−α_i)e^(s_iλ))/(1−e^(−α_i)).
-   **Positive-denominator convention.** Also construct the Knutson Demazure handout's operator
-   Δ_i(p)=(p−e^(α_i)s_i(p))/(1−e^(α_i)) on the integral group ring of the
-   actual character lattice. With weight inversion ι(eλ)=e^(−λ), prove
-   Δ_i=ιD_iι. Define it integrally before localization: for
-   m=⟨λ,α_i∨⟩, it sends eλ to Σ_(j=0)^(−m)e^(λ+jα_i) when m≤0,
-   to0 when m=1, and to −Σ_(j=1)^(m−1)e^(λ−jα_i) when m≥2.
-   Prove these finite strings give the displayed rational identity and
-   independence of a presentation. In particular they prove divisibility
-   over ℤ without an analytic removable-pole argument. For
-   N=p−e^(α_i)s_i(p), the exact identity is s_i(N)=−e^(−α_i)N,
-   rather than unweighted antisymmetry. Deduce s_iΔ_i(p)=Δ_i(p),
-   Δ_i²=Δ_i and the braid comparisons by the actual inversion conjugacy.
+For every integer m, specialize SchemeAndStackFoundations §2.6's projective-space cohomology to H⁰/H¹(P¹,O(m)), and construct its actual rank-one T-weight, functoriality, residue/Serre pairing and zero-case comparisons. Build the relative P¹ pushforward and higher-direct-image comparison on the actual rank-one bundle. The integral Demazure Euler operator D_i on the group ring of the character lattice is the native `RootPairing.demazureOperator`, applied to the root datum of G: for m=⟨λ,α_i∨⟩≥0 it gives Σ_(j=0)^m e^(λ−jα_i), for m=−1 it gives 0, and for m≤−2 it gives the negative string −Σ_(j=1)^(−m−1) e^(λ+jα_i); its localization identity (1−e^(−α_i))D_i(eλ)=eλ−e^(−α_i)e^(s_iλ) is `RootPairing.one_sub_single_neg_root_mul_demazureOperator`, and D_i²=D_i is `RootPairing.demazureOperator_demazureOperator`. Prove that the string D_i(eλ) is the T-character of H⁰(P¹,O(m))−H¹(P¹,O(m)) on the rank-one quotient P_i/B−, with the fibre weights of S3.1 and the ℙ¹ cohomology above; this geometric identification is the target, and the operator is not defined again.
+   **Positive-denominator convention.** Define the Knutson Demazure handout's
+   operator Δ_i on the same group ring as the conjugate Δ_i=ιD_iι by the
+   weight inversion ι(eλ)=e^(−λ), and prove its finite-string form: for
+   m=⟨λ,α_i∨⟩ it sends eλ to Σ_(j=0)^(−m)e^(λ+jα_i) when m≤0, to 0 when
+   m=1, and to −Σ_(j=1)^(m−1)e^(λ−jα_i) when m≥2 (the three native string
+   lemmas of D_i transported by ι), and the rational identity
+   Δ_i(p)=(p−e^(α_i)s_i(p))/(1−e^(α_i)) as the transport of the native
+   localization identity, so that divisibility over ℤ needs no analytic
+   removable-pole argument. For N=p−e^(α_i)s_i(p), the exact identity is
+   s_i(N)=−e^(−α_i)N, rather than unweighted antisymmetry. Deduce
+   s_iΔ_i(p)=Δ_i(p), Δ_i²=Δ_i and the braid comparisons from the native
+   laws for D_i by the inversion conjugacy.
 
    Compare the positive-Borel/left-crank convention of KnutsonDemazure, pp. 1–4, with the
-   current negative-Borel/right-word one through S1's inversion and S3's
+   negative-Borel/right-word one through S1's inversion and S3's
    associated-line/opposition maps. In particular left multiplication
    s_iw becomes w⁻¹s_i after inverting the Weyl index; retain the actual
    character inversion and longest-representative fibre factors as well.
-   For that handout's left-crank map, compute the two base fixed fibres with
-   their actual bundle lift, obtaining Δ_i. Use S5's cohomological comparison
-   to pass from Euler character to H⁰ in the dominant case. If the next
-   Demazure product is unchanged, the same comparison proves that Δ_i fixes
-   the corresponding character; at the longest word each simple operator
-   fixes the result, hence it is Weyl invariant. The character formula and
-   its exercises use these maps, not a guessed sign or an assumed equality
-   of the two Borel conventions. This late geometric comparison is not a
-   prerequisite for the separate early Laurent/Haar proof of the formula.
+   Use S5's cohomological comparison to pass from Euler character to H⁰ in
+   the dominant case. If the next Demazure product is unchanged, the same
+   comparison proves that Δ_i fixes the corresponding character; at the
+   longest word each simple operator fixes the result, hence it is Weyl
+   invariant, and `RootPairing.demazureOperator_eq_self_of_isWeylInvariant`
+   is the converse on the native side. The character formula and its
+   exercises use these maps, not a guessed sign or an assumed equality of
+   the two Borel conventions. The handout's derivation of Δ_i from the two
+   fixed fibres of the left-crank map is a fixed-point argument; it belongs
+   to the Part II named in the scope, and this comparison does not use it.
 
-   The signed-string operator's API is ℤ-linearity, the finite-string
-   formula, the localization identity and inversion conjugacy with Δ_i.
+   The API of the geometric interpretation is the identification of each
+   native string with a rank-one Euler character, its functoriality in the
+   fibre weight, and the inversion conjugacy with Δ_i.
 
    **Checks.**
 
-   - For pairing m=0, D_i(eλ)=eλ, with augmentation 1.
-   - For m=−1, D_i(eλ)=0; retaining either endpoint would give augmentation 1.
-   - For m=−2, D_i(eλ)=−e^(λ+α_i), with augmentation −1;
-     replacing Euler cohomology by H⁰ would incorrectly give 0.
+   - For pairing m=0, D_i(eλ)=eλ, with augmentation 1 (the native string
+     lemma at string length 0).
+   - For m=−1, D_i(eλ)=0 (`RootPairing.demazureOperator_single_of_coroot'_eq_neg_one`);
+     retaining either endpoint would give augmentation 1.
+   - For m=−2, D_i(eλ)=−e^(λ+α_i), with augmentation −1
+     (`RootPairing.demazureOperator_single_of_coroot'_eq_neg_natCast_sub_one`
+     at string length 1); replacing Euler cohomology by H⁰ on the geometric
+     side would incorrectly give 0.
+   - For m=1 the handout's Δ_i(eλ) is 0 while D_i(eλ)=eλ+e^(λ−α_i): the two
+     conventions differ on the same weight, and only their conjugates by ι
+     agree.
 
    *Needs:* SchemeAndStackFoundations §2.6's projective-line cohomology;
-   S1's rank-one quotient; S3.1's line convention; the group ring of the
-   actual character lattice. The finite-string algebra is independent of S5;
-   only the geometric H⁰ interpretation needs S5's vanishing.
+   S1's rank-one quotient; S3.1's line convention; the native
+   `RootPairing.demazureOperator` with its string, localization and
+   idempotence lemmas on the group ring of the actual character lattice.
+   The finite-string algebra is native and independent of S5; only the
+   geometric H⁰ interpretation needs S5's vanishing.
 
 
 ### 3.4 Demazure and Weyl characters (S3.4)
 
-Prove D_i²=D_i, the finite braid relations and word-independence for the required push-pull operators, keeping Euler classes distinct from individual H⁰ outside the vanishing range. For dominant λ, S5 supplies the actual no-higher-cohomology/pullback comparison needed to identify char H⁰(X(w),Lλ)=D_i₁…D_ir(eλ). Prove wall/Levi and longest-word cases, including the full Weyl character formula at characteristic0 and the induced/Weyl formal character in characteristicp. Do not replace a positive-characteristic induced module by a simple module.
+The operator identities are native: D_i²=D_i, the braid relations and the word independence of D_w=D_(i₁)⋯D_(i_r) along reduced words (`RootPairing.prod_map_demazureOperator_eq_of_wordProd_eq`, which applies `TauCeti.matsumoto` to the monoid of ℤ-linear endomorphisms of the group ring), D_iD_w=D_w for a left descent, the Levi and wall cases and the recursion D_iχ_ξ=χ_(s_iξ) for ⟨ξ,α_i∨⟩≥0 and D_iχ_ξ=χ_ξ for ⟨ξ,α_i∨⟩≤0 (`Parabolic.lean`), and Demazure's longest-element formula Δ·D_(w₀)(f)=Σ_(w∈W) sgn(w)e^(wρ−ρ)w(f) (`RootPairing.weylDenominator_mul_prod_map_demazureOperator`). Prove the geometric statements on top of them, keeping Euler classes distinct from individual H⁰ outside the vanishing range. For every word Q=(i₁,…,i_r), reduced or not, prove that the torus Euler character χ_T(Z_Q,π_Q*L(λ)) of S2's word scheme is the composite of the operators D_(i_j) applied to eλ, in the order fixed by S2.1's crank convention, by the rank-one push-pull of S3.3 along the tower. For dominant λ, S5 supplies the no-higher-cohomology/pullback comparison needed to identify char H⁰(X(w),Lλ)=D_w(eλ), the Demazure character formula; the native word independence and wall case say that the right side depends only on the coset wW_λ, as X(w) in G/P_λ does. Prove the wall/Levi and longest-word geometric cases: at w₀, char H⁰(G/B−,L(λ))=D_(w₀)(eλ), so the native longest-element formula with J(1)=Δ is the Weyl character formula for the formal character of ∇(λ) in every characteristic. In characteristic 0 identify it with the character of the simple module; in characteristic p it is the induced/Weyl formal character, which need not be the character of L(λ). Do not replace a positive-characteristic induced module by a simple module.
 
-*Needs:* S3.3 for signed strings; the native `TauCeti.matsumoto`, applied to the monoid of ℤ-linear endomorphisms of the group ring, for word-independence once the braid relations hold; S5.5 and S5.7 for the dominant geometric interpretation. LLM Theorem 5, p. 299 gives the corresponding iterated character formula; S3.3 transports its convention.
+*Needs:* S3.3 for the geometric rank-one strings; the native `RootPairing.demazureOperator` laws of `Braid.lean`, `LongestElement.lean` and `Parabolic.lean`; S2.3 for the word tower; S5.5 and S5.7 for the dominant geometric interpretation. LLM Theorem 5, p. 299 gives the corresponding iterated character formula; S3.3 transports its convention.
 
 ### 3.5 Highest-line embeddings (S3.5)
 
-Construct coordinate maps for the complete linear system and the extremal-line orbit, and prove their scheme-theoretic comparison. Basepoint freeness and injectivity on geometric points do not prove a closed immersion in characteristicp. Own the exact stabilizer/separability and closed-immersion argument for the chosen canonical model; for a general highest-weight representation state the actual stabilizer conditions. Test the SL₂ Frobenius representation, where the orbit map can be purely inseparable.
+Construct coordinate maps for the complete linear system and the extremal-line orbit, and prove their scheme-theoretic comparison. Basepoint freeness and injectivity on geometric points do not prove a closed immersion in characteristicp. Own the exact stabilizer/separability and closed-immersion argument for the chosen canonical model; for a general highest-weight representation state the actual stabilizer conditions. Test the SL₂ Frobenius representation, where the orbit map can be purely inseparable. Over ℂ in type A the statement is BrionFlags §1.4: the product of the Plücker maps X→∏_d Gr(d,n)→∏_d ℙ(Λ^dℂⁿ) is a closed immersion and L(χ_d) is the pull-back of O(1) under X→Gr(d,n)→ℙ(Λ^dℂⁿ) (BrionFlags lines 562–568 and 653–654, pp. 15 and 17), and Proposition 1.4.1, p. 14 (BrionFlags lines 549–552) says that a divisor is ample exactly when it is a positive combination of the Schubert divisors and that every ample divisor on the flag variety is very ample; the closed-immersion argument through the scheme stabilizer in every characteristic is the target here.
 
 - Evaluation is equivariant and descends to the stated quotient with its scheme stabilizer.
 - Its line pullback is the specified L(λ), including its linearization.
@@ -578,7 +804,7 @@ Construct coordinate maps for the complete linear system and the extremal-line o
 - With λ=0 the map has point image and differential rank 0; it is not an embedding of ℙ¹.
 - In characteristic p the Frobenius-twisted natural representation gives [x:y]↦[x^p:y^p], with differential 0 although the geometric point map is bijective.
 
-*Needs:* S3.1–3.2; S3.1's global generation and the scheme closed-immersion criterion; ReductiveGroups scheme stabilizers.
+*Needs:* S3.1–3.2; S3.1's global generation and the scheme closed-immersion criterion; ReductiveGroups scheme stabilizers. BrionFlags Proposition 1.4.1 and the Plücker closed immersion (lines 549–552 and 562–568) give the complex type-A statement.
 
 ### 3.6 A₂ signed-string character calculation (S3.6)
 
@@ -640,81 +866,93 @@ On ℙ¹ the rank-one Euler dimensions for m=0, −1, −2 are 1, 0, −1. For t
 
 ### Dependencies
 
-S1–S2; SchemeAndStackFoundations §2.6; the named rational-representation supplier; the native `TauCeti.matsumoto` for S3.4 and `TauCeti.GeneralLinear.diagonalRootDatum` for S3.6. Dominant geometric section characters additionally use S5.
+S1–S2; SchemeAndStackFoundations §2.6; the named rational-representation supplier; the native `RootPairing.demazureOperator` files for S3.3–3.4 and `TauCeti.GeneralLinear.diagonalRootDatum` for S3.6. Dominant geometric section characters additionally use S5.
 
 ## Layer 4: Finite-type LS chains, root operators and section indices (S4)
 
 
 ### 4.1 Paths and crystals (S4.1)
 
-On a fixed finite root datum build the normal path-crystal category using actual partial maps e_i,f_i:B→Option B, weight, ε_i and φ_i, their partial-inverse/weight/string identities, strict morphisms, components, tensor products with stated tie convention, and transport through actual isomorphisms. The paths below supply the objects; no classification of arbitrary abstract edge-labelled graphs is assumed from rank-one identities alone. For the actual finite root datum construct rational PL paths in X⊗ℝ starting at0 with integral endpoint, their finite rational presentations, equivalence under nondecreasing surjective PL reparametrizations, concatenation, reversal, and equality/normalization APIs. On parametrized representatives define addition of the linear central path t↦tχ for χ annihilating every coroot (equivalently W-fixed); this formula is not an operation on arbitrary reparametrization classes. S4.3 constructs the well-defined central transport on distinguished LS representatives. Remove stationary pieces and merge adjacent positively collinear segments before choosing a rational PL presentation. Prove existence of rational normalized presentations and equivalence by common rational subdivisions, with presentation-independent comparison maps; Euclidean arc lengths need not be rational. The constant path is separate. For an LS path retain its distinguished constant-speed-on-directions presentation with slopes in Wλ and prove uniqueness up to the admitted reparametrizations, including the central/zero-weight cases. Neither all rational paths nor all integral-endpoint paths form a finite crystal.
+The path carrier and the crystal algebra are native. Rational piecewise-linear paths in X⊗ℚ starting at 0, up to nondecreasing surjective piecewise-linear reparametrization, are `TauCeti.PLPath ℚ V` for V=ℚ⊗X, presented by segment lists whose normal form `TauCeti.PLPath.normalize` removes stationary segments and merges adjacent positively collinear ones; `TauCeti.PLPath.ofSegments_eq_ofSegments_iff` identifies presentations related by the elementary moves, `TauCeti.PLPath.ofSegments_map_snd_eq_iff_exists_isReparam` identifies timed presentations that are reparametrizations of a common rational one, and concatenation, `TauCeti.PLPath.endpoint`, `TauCeti.PLPath.reverse` and `TauCeti.PLPath.straight` are the native operations; Euclidean arc lengths play no role. Adding the linear central path t↦tχ, for χ annihilating every simple coroot (equivalently W-fixed), is the native `TauCeti.PLPath.shiftTimed` on timed presentations and is not an operation on reparametrization classes (`TauCeti.PLPath.not_exists_shiftTimed_on_paths`); on a path with a distinguished presentation, whose velocities lie in Wλ and change at every break, it is `TauCeti.PLPath.shiftDistinguished`, well defined by `TauCeti.PLPath.IsDistinguished.unique`, and `TauCeti.LSPath.isDistinguished_timed` says that the presentation of a Lakshmibai–Seshadri encoding by its directions and breaks is distinguished for dominant λ, including λ=0, where the only distinguished presentation is the constant path. The normal path-crystal category is `TauCeti.NormalCrystal` with its partial maps e_i,f_i:B→Option B, weight, ε_i and φ_i, the partial-inverse, weight and string identities, strict morphisms, components (`TauCeti.NormalCrystal.component`, `TauCeti.NormalCrystal.sigmaComponentsIso`), tensor products with Kashiwara's tie convention (`TauCeti.NormalCrystal.tensor`) and transport through bijections (`TauCeti.NormalCrystal.transport`); no classification of arbitrary abstract edge-labelled graphs is assumed from rank-one identities alone.
+
+Construct on these carriers what the native files leave open. Define the set of rational paths with integral endpoint, as a subtype of `TauCeti.PLPath ℚ V`, and its ambient partial root operators from `TauCeti.PLPath.lower` and `TauCeti.PLPath.raise` with x=α_i and f=⟨−,α_i∨⟩; prove that neither all rational paths nor all integral-endpoint paths form a finite crystal, and that a path whose minimal simple-coroot heights and endpoint pairings are integers has the normal string lengths ε_i=−min H_i and φ_i=H_i(1)−min H_i (`TauCeti.PLPath.isSome_raiseIter_iff_of_eq_natCast`, `TauCeti.PLPath.isSome_lowerIter_iff_of_eq_natCast`). The normal crystal on the Lakshmibai–Seshadri encodings of a dominant shape is S4.3's target; S4.1 owns the general dictionary between operator-closed sets of integral paths and normal crystals: a set of paths closed under the ambient operators, on which every minimal simple-coroot height and every endpoint pairing is an integer, is a `TauCeti.NormalCrystal` with weight the endpoint and the string lengths above, and a path map between two such sets that commutes with the operators and preserves endpoints is a strict morphism.
    For the path carrier, the API consists of presentation equivalence,
    reparametrization-invariant endpoints and concatenation, and comparison by
-   common rational subdivisions. For the crystal, the API consists of partial
-   inverse root maps, weight changes, finite string lengths and strict morphisms.
+   common rational subdivisions, all native. For the crystal dictionary, the
+   API consists of the operator-closed-set construction, its weight map and
+   string lengths, and the strict morphisms it produces.
 
    **Checks for rational paths.**
 
-   - The constant path has endpoint 0 and no nonzero segment; normalization
-     must not divide by its total segment length 0.
+   - The constant path has endpoint 0 and no nonzero segment
+     (`TauCeti.PLPath.ofSegments_eq_one_iff`); normalization must not divide
+     by its total segment length 0, and the native normal form divides by
+     nothing.
    - The straight GL₂ path (t,0) and its subdivision at t=1/2 give the same
-     class and endpoint (1,0); treating presentations as paths would distinguish them.
+     class and endpoint (1,0) (`TauCeti.PLPath.straight_smul_mul_straight_smul`);
+     treating presentations as paths would distinguish them.
    - For the reparametrization in the worked examples, phi(1/2)=1/4:
      the shifted point (3/4,1/2) has x−2y=−1/4, while the canonical
-     shifted point (1,1/2) has x−2y=0.
+     shifted point (1,1/2) has x−2y=0; this is the native obstruction
+     `TauCeti.PLPath.not_exists_shiftTimed_on_paths` in coordinates.
 
    **Checks for crystals.**
 
    - The zero-weight one-point component has no raising or lowering edges
-     and both string lengths 0; a loop would violate the weight change.
+     and both string lengths 0 (`TauCeti.NormalCrystal.central` at χ=0); a loop
+     would violate the weight change, as `TauCeti.NormalCrystal.e_ne_some_self`
+     says.
    - In the SL₂ highest-weight-one string the two weights are 1 and −1:
-     lowering takes the first to the second, and raising reverses it.
+     lowering takes the first to the second, and raising reverses it
+     (`TauCeti.NormalCrystal.e_eq_some_iff`).
    - At the lower endpoint the raising string has length 1 and the lowering
-     string length 0; exchanging the two lengths gives the wrong endpoint.
+     string length 0; exchanging the two lengths gives the wrong endpoint,
+     since φ_i−ε_i=⟨wt,α_i∨⟩ is a field of `TauCeti.NormalCrystal`.
 
-   *Needs:* Mathlib `RootDatum`, `RootPairing.Base` and `RootPairing.weylGroup`; the native `TauCeti.weylCoxeterSystem` and `CoxeterSystem.BruhatLE`; the native `TauCeti.DynkinType.simplyConnectedRootDatum` and `TauCeti.GeneralLinear.diagonalRootDatum` for the SL₂ and GL₂ Checks; Mathlib finite lists and rational arithmetic. The path definitions follow Littelmann1995, §1.
+   *Needs:* Mathlib `RootDatum`, `RootPairing.Base` and `RootPairing.weylGroup`; the native `TauCeti.PLPath`, `TauCeti.PLPath.lower`, `TauCeti.PLPath.raise`, `TauCeti.PLPath.shiftDistinguished` and `TauCeti.NormalCrystal` with the files named in the supplier contract; the native `TauCeti.weylCoxeterSystem` and `CoxeterSystem.BruhatLE`; the native `TauCeti.DynkinType.simplyConnectedRootDatum` and `TauCeti.GeneralLinear.diagonalRootDatum` for the SL₂ and GL₂ Checks. The path definitions follow Littelmann1995, §1.
 
 
 ### 4.2 Root operators (S4.2)
 
-Define running coroot heights H_i(t)=⟨π(t),α_i∨⟩ and the actual raising/lowering operators using record-decreasing/record-increasing segments, equal-height excursions and the final root translation. State the first/last cut-time and tie conventions. Prove presentation/subdivision/reparametrization independence, partial inverses and endpoint changes ±α_i. Before using simplified whole-interval reflections, prove the needed local-minimum integrality on the relevant LS components. Distinguish ambient rational formulas from the normal integral crystal identities ε_i=−min H_i and φ_i=H_i(1)−min H_i.
+The running coroot heights H_i(t)=⟨π(t),α_i∨⟩, their minimum `TauCeti.PLPath.minHeight`, and the raising/lowering operators `TauCeti.PLPath.raise` and `TauCeti.PLPath.lower` by record-decreasing/record-increasing segments, equal-height excursions and the final root translation, with their last/first cut-time and tie conventions, are native, as are presentation/subdivision/reparametrization independence (`TauCeti.PLPath.lower_ofSegments`), the partial-inverse law on all paths (`TauCeti.PLPath.lower_eq_some_iff`), the endpoint changes ∓α_i, the minimal-height changes ∓1 and the ambient string criteria (`TauCeti.PLPath.isSome_lowerIter_iff`, `TauCeti.PLPath.isSome_raiseIter_iff`): f_i^n π is defined exactly when n≤H_i(1)−min H_i and e_i^n π exactly when n≤−min H_i. The integrality that turns these into the normal identities ε_i=−min H_i and φ_i=H_i(1)−min H_i on realized Lakshmibai–Seshadri paths is also native (`TauCeti.LSPath.exists_minHeight_eq_intCast`, `TauCeti.LSPath.exists_neg_minHeight_eq_natCast_and_apply_endpoint_sub_minHeight_eq_natCast`); ambient rational formulas on other paths are distinguished from these integral identities.
 
-- The domain conditions distinguish missing root arrows from zero vectors.
-- Changing presentations preserves the path class and endpoint.
-- Raising and lowering are partial inverses and change the endpoint by the specified root.
+Prove the operator stability that these files leave open (Littelmann1995, Proposition 4.7 and Corollary 2, pp. 511–512). For dominant λ and an encoding π of shape λ, if f_i(π) is defined on the realized path then it is the realized path of an encoding of shape λ: reflect in s_i the directions of the piece between the last minimum of H_i and the first later time at which H_i has risen by one, insert that time as a new break, and merge equal adjacent directions; the same for e_i with the first minimum and the last earlier time. The chain conditions at the two ends of the reflected piece are `TauCeti.IsAChain.exists_isAChain_simple_mul_last` and `TauCeti.IsAChain.exists_isAChain_simple_mul_head`, and the reflected interior chains are `CoxeterSystem.MinimalCosetRepChain.simpleMul`. Transport the operators from realized paths to encodings through `TauCeti.LSPath.toPLPath_injective`. Before using simplified whole-interval reflections, use the native local-minimum integrality on the relevant components.
+
+- The domain conditions distinguish missing root arrows (`none`) from zero vectors.
+- Changing presentations preserves the path class, the operators and the endpoint.
+- Raising and lowering are partial inverses and change the endpoint by the specified root; on encodings of a dominant shape they land in encodings whenever they are defined on the realized paths.
 
 **Checks.**
 
-- The SL₂ straight highest-weight-one path has height t; lowering ends at −1 and raising returns endpoint 1.
-- At its lower endpoint the next lowering is undefined, rather than a loop at weight −1.
+- The SL₂ straight highest-weight-one path has height t; lowering ends at −1 (`TauCeti.PLPath.lower_straight`) and raising returns endpoint 1.
+- At its lower endpoint the next lowering is undefined (`TauCeti.PLPath.lower_eq_none_iff`), rather than a loop at weight −1.
 - A central GL₂ path (t,t) has both simple-coroot height and root-string lengths 0; adding a subdivision does not create a root arrow.
+- For SL₂ and shape 2, lowering the straight encoding gives the encoding (s₁,1; 0,1/2,1) of endpoint 0, and lowering again gives the reflected straight encoding (s₁; 0,1) of endpoint −2; a stability proof that forgot to merge equal adjacent directions would return the list (s₁,s₁) with a break, which is not an encoding.
 
-*Needs:* S4.1; the roots, coroots and pairing of Mathlib's `RootPairing`. The cut-time and excursion construction is Littelmann1995 §1.
+*Needs:* S4.1; the roots, coroots and pairing of Mathlib's `RootPairing`; the native operator, string-length and integrality files named in the supplier contract; the native chain lemmas of `Weyl/ReflectedChain.lean`. The cut-time and excursion construction is Littelmann1995 §1; the stability is Littelmann1995, Proposition 4.7, pp. 511–512.
 
 ### 4.3 LS chains and interval bonds (S4.3)
 
-For dominant λ construct the operator component B(λ) of the straight path. Encode it by decreasing cosets τ₁>⋯>τ_s in W/W_λ and rational breaks0=a₀<a₁<⋯<a_s=1. For each internal break a_j require an a_j-chain: a saturated decreasing Bruhat chain of orbit weights ξ₀=τ_jλ,…,ξ_l=τ_(j+1)λ, ξ_h=s_βh ξ_(h−1), β_h positive, ⟨ξ_(h−1),β_h∨⟩<0 and a_j⟨ξ_(h−1),β_h∨⟩ integral. Prove this condition is equivalent to the generated-path definition, with merged repeated directions and the correct coset Bruhat order. Prove finiteness from finite W and bounded break denominators, operator stability, weight/string formulas and a unique highest path. Include λ=0, chamber walls, nontrivial central characters and empty root systems. For a W-fixed character a∈X, let B(μ)^a have weight wt+a and the same root operators and string data; prove it is a normal crystal. For W-fixed χ,σ∈X, construct a strict crystal isomorphism T(λ,χ;σ):B(λ)^(σ+χ)→B(λ+χ)^σ. Its underlying path function is independent of σ; σ=0 gives central transport from the weight-twisted B(λ). First prove that an LS class has a unique parametrized representative whose slopes lie in Wλ, after equal adjacent directions are merged; λ=0 uses the constant representative. Apply π(t)↦π(t)+tχ to that representative, so each slope becomes wλ+χ=w(λ+χ). Prove the unchanged simple-coroot heights give the same operator cut times and root actions. Prove the strict-map identity T(λ,0;σ)=id, the additive composition law T(λ+χ,ψ;σ)∘T(λ,χ;σ+ψ)=T(λ,χ+ψ;σ), and the inverse formula (T(λ,χ;σ))^−1=T(λ+χ,−χ;σ+χ), for all central χ,ψ,σ. These offsets make each displayed source, intermediate object and target identical as weighted crystals. Include λ+χ=0, pure central weights and the empty root system. Do not apply the same pointwise formula to an arbitrary representative of the ambient path quotient.
-   First export the reflection/order test on the actual quotient W/W_λ. For a positive root β and an orbit weight uλ, negative pairing ⟨uλ,β∨⟩ gives s_βu<u, positive pairing gives s_βu>u, and zero pairing gives the same weight and coset. Compare the minimal quotient representatives, not arbitrary W labels for equal weights. A weak inequality does not give a strict comparison on a chamber wall.
+The Lakshmibai–Seshadri encodings of shape λ are the native `TauCeti.LSPath P b λ`: decreasing minimal coset representatives τ₀>⋯>τ_s of W/W_λ and rational breaks 0=a₀<a₁<⋯<a_(s+1)=1 with an a_j-chain at each internal break, that is a saturated decreasing Bruhat chain of orbit weights ξ₀=τ_(j−1)λ,…,ξ_l=τ_jλ, ξ_h=s_(β_h)ξ_(h−1), β_h positive, ⟨ξ_(h−1),β_h∨⟩<0 and a_j⟨ξ_(h−1),β_h∨⟩ integral (`TauCeti.IsAChain`, `TauCeti.isAChain_iff_forall_coroot'`). The reflection/order test on the quotient W/W_λ, comparing minimal representatives and not arbitrary W labels for equal weights, the unique positive root label and the positive integral bond b_λ(x,y)=−⟨xλ,β∨⟩=⟨yλ,β∨⟩ of a cover, the bond gcd of a saturated chain with the empty-chain value 0, the chain-independent interval gcd d_λ(u,v) with d_λ(u,u)=0 and d_λ(u,w)=gcd(d_λ(u,v),d_λ(v,w)), the criterion that for a=p/q in lowest terms with q>0 one saturated a-chain from u to v exists iff q divides d_λ(u,v) iff every saturated chain from u to v is an a-chain, finiteness of the encodings of a dominant shape (`TauCeti.LSPath.finite`), the straight and two-direction encodings, the convexity π(t)∈t·Conv(Wλ) of the distinguished representative with the containment in Conv(Wλ) when 0∈Conv(Wλ) (which holds for a finite Weyl group, while a nonzero pure central λ has π(t)=tλ outside {λ} for t<1), and the central transport `TauCeti.LSPath.centralTransport χ : LSPath P b λ ≃ LSPath P b (λ+χ)` with its path formula and its endpoint, height, straight-path, additivity, zero and inverse laws are all native, in the files named in the supplier contract. None of this is constructed again here; incomparable endpoints have no chain and are outside the interval gcd API, and central translation leaves stabilizers and bonds unchanged, so zero and pure central weights and empty root systems give a singleton quotient.
 
-   For comparable u≥v in this quotient define the positive cover bond b_λ(x,y)=−⟨xλ,β∨⟩=⟨yλ,β∨⟩ when x>y is a cover and yλ=s_βxλ, β positive. Prove existence and uniqueness of its positive root label and integrality/strict positivity of the bond. For a saturated chain C from u to v, let d(C) be the gcd of its bonds. Construct the chain-independent interval gcd d_λ(u,v), with the empty-chain convention d_λ(u,u)=0. Give its combinatorial proof before S5: construct maximal-chain connectivity by rank-two intermediate replacements in every parabolic Bruhat interval using a reflection/deletion-order shelling or an explicit chain-sorting induction from the native `CoxeterSystem.strongExchange` and `CoxeterSystem.deletionCondition`; then prove equality of the two local bond gcds for each actual rank-two interval with two intermediates. Carry the actual conjugated root/coroot labels and λ through the A₁×A₁, A₂, B₂/C₂ and G₂ calculations, including singular quotient cases. Some quotient rank-two intervals have only one intermediate; no alternative chain is assumed there. These connectivity and arithmetic lemmas are construction targets here, not assumed consequences of Matsumoto or of abstract diamond shape. Gcd associativity then propagates local equality along the chain moves. Extend the same edge-integrality definition of a saturated a-chain to every rational a; actual internal LS breaks still require 0<a<1. For a=p/q in lowest terms with q>0, prove that one saturated a-chain exists iff q divides d_λ(u,v) iff every saturated chain from u to v is an a-chain. Use the native finite-gcd divisibility API and coprime denominator cancellation. Incomparable endpoints have no chain and are outside this comparable-interval gcd API. Keep actual coroots in nonsimply-laced types. Central translation leaves stabilizers and bonds unchanged; zero/pure-central weights and empty root systems give a singleton quotient. This proof uses no Schubert divisor, vanishing or SMT premise. S7 subsequently compares the already-defined bonds with its geometric multiplicities.
+Prove on these carriers what the native files leave open. First, S4.2's operator stability makes `TauCeti.LSPath P b λ`, for dominant λ, an operator-closed set of integral paths; by S4.1's dictionary it is a `TauCeti.NormalCrystal` B(λ) with weight the endpoint, and `TauCeti.LSPath.forall_raise_eq_none_iff` says the straight encoding is its only element killed by all e_i. Prove that B(λ) is connected, that is the operator component of the straight encoding: every encoding is f_(i₁)⋯f_(i_r) of the straight one (Littelmann1995, Corollary 3, p. 512), because an encoding whose first direction τ₀ is not the identity has some ⟨τ₀λ,α_i∨⟩<0, so e_i is defined on it by the native integrality, and at the top of its e_i-string the first direction has become s_iτ₀, which is shorter by the reflection test; induct on the length of τ₀ and then on the number of directions. This is the equivalence of the chain encoding with the generated-path definition. Include λ=0, chamber walls, nontrivial central characters and empty root systems. For a W-fixed character a∈X, B(μ)^a is the native `TauCeti.NormalCrystal.weightTwist` of B(μ) by a, with the same root operators and string data. For W-fixed χ,σ∈X, construct the strict crystal isomorphism T(λ,χ;σ):B(λ)^(σ+χ)→B(λ+χ)^σ from `TauCeti.LSPath.centralTransport χ`: its underlying bijection is independent of σ, it preserves the twisted weights because the transported endpoint moves by χ (`TauCeti.LSPath.endpoint_toPLPath_centralTransport`), and it commutes with the root operators because the transported realized path is the central shift of the original (`TauCeti.LSPath.toPLPath_centralTransport`), which commutes with lowering and raising for forms killing χ (`TauCeti.PLPath.lower_ofSegments_shiftTimed`, `TauCeti.PLPath.raise_ofSegments_shiftTimed`). Prove T(λ,0;σ)=id, the composition law T(λ+χ,ψ;σ)∘T(λ,χ;σ+ψ)=T(λ,χ+ψ;σ) and the inverse formula (T(λ,χ;σ))⁻¹=T(λ+χ,−χ;σ+χ) from the native zero, additivity and inverse laws of the transport, for all central χ,ψ,σ, including λ+χ=0, pure central weights and the empty root system; these offsets make each displayed source, intermediate object and target identical as weighted crystals. The same pointwise formula is not applied to an arbitrary representative of the ambient path quotient. S7 subsequently compares the native bonds with its geometric multiplicities.
 
-   Prove the convexity API for the distinguished LS representative: π(t)∈t·Conv(Wλ), or equivalently π(t)/t∈Conv(Wλ) for 0<t≤1; at t=0 prove π(0)=0 directly. Write π(t) as the finite sum of its elapsed nonnegative segment durations times slopes in Wλ, with total duration t, and apply the native `Convex.sum_mem`, `subset_convexHull` and `convex_convexHull` APIs to the normalized durations. If 0∈Conv(Wλ), deduce π(t)∈Conv(Wλ); in semisimple finite type establish this premise by averaging the orbit. A nonzero pure central λ has orbit {λ} and π(t)=tλ, so the unscaled containment is not asserted for an arbitrary reductive weight. This parametrized formula concerns the distinguished representative; the unparametrized path image has the corresponding representative-independent containment when its premise holds.
-
-- Cover bonds use actual coroot pairings and are invariant under central translation.
-- On comparable endpoints, interval gcd divisibility is equivalent to the saturated a-chain condition.
-- LS concatenations and central transport preserve the distinguished-representative convention.
+- Cover bonds use actual coroot pairings and are invariant under central translation (`TauCeti.reflectionBond_smul_add`).
+- On comparable endpoints, interval gcd divisibility is equivalent to the saturated a-chain condition (`TauCeti.exists_isAChain_iff_den_dvd_intervalBondGcd`).
+- Concatenations and central transport preserve the distinguished-representative convention, and B(λ) is a connected normal crystal with highest element the straight encoding.
 
 **Checks.**
 
-- A rank-one cover at highest weight 2 has bond 2; a=1/2 is allowed and a=1/3 is not, since 2·(1/2)=1 and 2·(1/3)=2/3.
-- For equal endpoints the bond list is empty and its gcd is 0; every positive denominator divides 0, agreeing with the empty chain.
-- For nonzero central λ, at t=1/2 the path equals λ/2, which belongs to (1/2)Conv{λ} and not to {λ}.
+- A rank-one cover at highest weight 2 has bond 2 (`TauCeti.reflectionBond_simple_smul_one_smul`); a=1/2 is allowed and a=1/3 is not, since 2·(1/2)=1 and 2·(1/3)=2/3 (`TauCeti.isAChain_iff_den_dvd_bondGcd` on the one-cover chain).
+- For equal endpoints the bond list is empty and its gcd is 0 (`TauCeti.intervalBondGcd_self`); every positive denominator divides 0, agreeing with the empty chain.
+- For nonzero central λ, at t=1/2 the path equals λ/2, which belongs to (1/2)Conv{λ} and not to {λ}; the native unscaled containment needs 0∈Conv(Wλ).
+- For SL₂ and shape 2, B(λ) has the three encodings (1; 0,1), (s₁,1; 0,1/2,1) and (s₁; 0,1), of weights 2, 0 and −2, reached from the first by zero, one and two lowerings; a model that admitted the break 1/3 would have five elements and the wrong character.
 
-*Needs:* S4.1–4.2; the native quotient Bruhat order `CoxeterSystem.MinimalCosetRepCovBy`, `CoxeterSystem.MinimalCosetRepChain` and `CoxeterSystem.exists_minimalCosetRepChain`; the coroots of Mathlib's `RootPairing`; Mathlib finite gcd and convex-hull APIs. CFL Definition 2.1 and §7.1 give the bond condition; the earlier combinatorial chain-connectivity proof remains a target here.
+*Needs:* S4.1–4.2; the native `TauCeti.LSPath`, `TauCeti.LSPath.centralTransport` and `TauCeti.NormalCrystal.weightTwist`; the native bond files `ReflectionBond.lean`, `Weyl/ParabolicQuotient.lean`, `Weyl/CoverBond.lean`, `Weyl/ChainBond.lean` and `Weyl/IntervalBondGcd.lean`; the native quotient Bruhat order `CoxeterSystem.MinimalCosetRepCovBy`, `CoxeterSystem.MinimalCosetRepChain` and `CoxeterSystem.exists_minimalCosetRepChain`; the coroots of Mathlib's `RootPairing`. CFL Definition 2.1 and §7.1 give the bond condition; the connectedness is Littelmann1995, Corollary 3, p. 512.
 
 ### 4.4 Characters and tensor components (S4.4)
 
-Construct the generic finite-type character/component theorem, not just its typeA specialization. Prove the root-operator word-distance bound, linked-path subdivision/gluing lemmas and positive-integer stretching required to compare arbitrary dominant rational PL paths of endpoint λ with the straight component. Prove the tensor-component theorem and translated-chamber multiplicity rule, including the actual tensor-factor convention. Derive the formal Weyl/Demazure characters from these finite sets and the rational representation supplier. In characteristic0 compare with simple rational modules; in characteristicp compare the formal Weyl/induced characters, which need not be the simple L(λ) characters; a crystal graph indexes weights and partial root operators, without asserting that actual Lie generators are single-target on a weight basis. The adjoint SL₃ example distinguishes simple generators from all root operators.
+Construct the generic finite-type character/component theorem on the native carriers, not just its typeA specialization. Positive-integer stretching is the native `TauCeti.LSPath.stretch` with the dilation law `TauCeti.LSPath.toPLPath_stretch` and the uniform integral subdivision `TauCeti.LSPath.exists_uniform_subdivision`; the ambient tensor rule for a concatenation is the native `TauCeti.PLPath.lower_mul` and `TauCeti.PLPath.raise_mul` (Kashiwara's tie convention: on the concatenation p*q, lowering acts on p when ε(q)<φ(p) and on q when φ(p)≤ε(q)), and the tensor product of crystals is `TauCeti.NormalCrystal.tensor`. Prove the root-operator word-distance bound and the linked-path subdivision/gluing lemmas required to compare an arbitrary dominant rational PL path of endpoint λ with the straight component, and the isomorphism theorem: the operator component of a path π with π(t) dominant for all t and π(1)=λ is strictly isomorphic to B(λ) (Littelmann1995, Theorem 7.1, p. 518, through Theorem 6.3, p. 517). Prove that the concatenation B(λ)*B(μ) is the native tensor crystal B(λ)⊗B(μ), and the tensor-component theorem: it is the direct sum of the components B(λ+π(1)) over the encodings π∈B(μ) with λ+π(t) dominant for all t (Littelmann1995, §10, p. 521), with the translated-chamber multiplicity rule and the actual tensor-factor convention. Derive the formal characters: the formal character `TauCeti.NormalCrystal.formalCharacter` of B(λ) satisfies Weyl's formula Σ_(w∈W) sgn(w)e^(wρ)·char B(λ)=Σ_(w∈W) sgn(w)e^(w(λ+ρ)) (Littelmann1995, Theorem 9.1, p. 520), hence equals D_(w₀)(eλ) by the native longest-element formula and J(1)=Δ of S3.4, and compare it with the rational representation supplier. In characteristic0 compare with simple rational modules; in characteristicp compare the formal Weyl/induced characters, which need not be the simple L(λ) characters; a crystal graph indexes weights and partial root operators, without asserting that actual Lie generators are single-target on a weight basis. The adjoint SL₃ example distinguishes simple generators from all root operators.
 
    **Checks for the adjoint comparison.** Work in characteristic zero and
    use the six matrix units E_ab, a≠b, with H₁=E₁₁−E₂₂ and
@@ -733,15 +971,19 @@ Construct the generic finite-type character/component theorem, not just its type
      The one-dimensional root spaces force these lines for any weight basis.
 
    *Needs:* Mathlib's `RootDatum` for the finite root datum; ReductiveGroups' rational
-   representations and their formal characters; S4.1–3's path operators;
+   representations and their formal characters; S4.1–3's crystal B(λ); the
+   native `TauCeti.LSPath.stretch`, `TauCeti.PLPath.lower_mul`,
+   `TauCeti.NormalCrystal.tensor` and `TauCeti.NormalCrystal.formalCharacter`;
+   S3.4's native longest-element formula;
    Mathlib matrix multiplication for the displayed bracket calculation.
-   The character/component route is Littelmann1995, Theorems 7.1 and 9.1
-   and §10; the matrix controls are direct deductions from the bracket formula.
+   The character/component route is Littelmann1995, Theorems 6.3, 7.1 and 9.1,
+   pp. 517–520, and §10, p. 521; the matrix controls are direct deductions
+   from the bracket formula.
 
 
 ### 4.5 Chain simplices (S4.5)
 
-Construct fixed-chain simplices and their face identifications after equal adjacent directions are merged. The finite LS set is the subset satisfying the break-chain integrality conditions; it is not the whole continuum of a simplex. Give the six-vertex S₃ Bruhat-chain complex and its four maximal tetrahedra, distinguishing this realization from the fixed-λ finite path set. The type-A root-datum specialization is S9.5, after the generic construction. No concrete tableau theorem is a premise of this generic component theorem.
+Construct fixed-chain simplices and their face identifications after equal adjacent directions are merged. The finite LS set is the subset of the simplex points whose breaks satisfy the native a-chain conditions `TauCeti.IsAChain`, that is the encodings `TauCeti.LSPath` with the given direction chain; it is not the whole continuum of a simplex. Give the six-vertex S₃ Bruhat-chain complex and its four maximal tetrahedra, distinguishing this realization from the fixed-λ finite path set. The type-A root-datum specialization is S9.5, after the generic construction. No concrete tableau theorem is a premise of this generic component theorem.
 
 - Removing a repeated direction gives the same face point.
 - Common faces glue through their identical direction and duration data.
@@ -751,9 +993,9 @@ Construct fixed-chain simplices and their face identifications after equal adjac
 
 - A one-vertex chain gives a point, not an interval.
 - For the S₃ Bruhat poset there are six vertices and four maximal saturated chains from e to w₀, hence four maximal tetrahedra.
-- For a rank-one bond 2, the only internal LS break is 1/2; the simplex also contains 1/3, which fails the integral break test.
+- For a rank-one bond 2, the only internal LS break is 1/2; the simplex also contains 1/3, which fails the integral break test `TauCeti.isAChain_iff_den_dvd_bondGcd`.
 
-*Needs:* S4.3 and the native `CoxeterSystem.BruhatLE` and `CoxeterSystem.MinimalCosetRepChain`. The simplex realization is the barycentric-duration construction on these chains.
+*Needs:* S4.3 and the native `TauCeti.LSPath`, `CoxeterSystem.BruhatLE` and `CoxeterSystem.MinimalCosetRepChain`. The simplex realization is the barycentric-duration construction on these chains.
 
 ### 4.6 Geometric path sections (S4.6)
 
@@ -783,7 +1025,7 @@ For λ=0 the LS component is a singleton with weight 0. A pure central λ has π
 
 ### Dependencies
 
-Mathlib `RootDatum` and the native Coxeter, Bruhat and numbered root-datum declarations of the supplier contracts; ReductiveGroups rational representations. The path proof route is Littelmann1995, §1, Theorems 7.1 and 9.1, and §10. S4.6–7 additionally use S5 and S7.1–2.
+Mathlib `RootDatum` and the native Coxeter, Bruhat, numbered root-datum, Demazure, crystal, Lakshmibai–Seshadri path and bond declarations of the supplier contracts; ReductiveGroups rational representations. The path proof route is Littelmann1995, §1, Proposition 4.7 and Corollaries 2–3, Theorems 6.3, 7.1 and 9.1, and §10. S4.6–7 additionally use S5 and S7.1–2.
 
 ## Layer 5: Splitting, normality, restriction and cohomology (S5)
 
@@ -889,10 +1131,10 @@ Construct the all-word coherent comparison with the actual image
    vanishing on the image and hence on the word model. This constructs the
    actual H⁰ restriction/pullback isomorphism as well as its higher-degree
    comparison; equality of dimensions or of Euler characters is insufficient.
-   The empty word and Q=(i,i) are explicit tests. Before S9's Lefschetz trace
-   application, compare the specified torus-linearized bundle and section
-   action through this same isomorphism. Generic fixed-map traces remain
-   at IndexTheory I8; they are not a premise of this algebraic comparison.
+   The empty word and Q=(i,i) are explicit tests. Compare the specified
+   torus-linearized bundle and section action through this same
+   isomorphism, so that the torus characters of the two sides agree; no
+   fixed-point trace is a premise of this algebraic comparison.
 
 - The derived comparison uses the unit O→Rπ_*O and its composition law.
 - Projection formula transports it to every specified invertible sheaf, without a dominance hypothesis.
@@ -997,7 +1239,7 @@ Choose the normalized extremal section nonzero on C(w). For v=w s_β with β>0 a
 
 ### 7.2 Boundary multiplicities (S7.2)
 
-Distinguish the effective Cartier divisor of the full section from individual Schubert boundary Weil divisors, which need not be Cartier. In the minuscule lane all nonzero coefficients are1 and recover the reduced hyperplane/Pieri boundary used in S6. For general λ retain multiplicities in the cycle/class formula and use an actual coherent boundary filtration; do not tensor a fictitious invertible O(−X(v)) for every component. Include zero coefficients, λ=0 and the empty divisor.
+Distinguish the effective Cartier divisor of the full section from individual Schubert boundary Weil divisors, which need not be Cartier. Over ℂ in type A, BrionFlags Proposition 1.4.5, pp. 17–18 (BrionFlags lines 667–685), gives the divisor Σ_i(λ_i−λ_(i+1))X_(s_i) of the B−-eigenvector p_λ and the divisor Σ(λ_i−λ_j)X_(ws_ij) of its restriction p_(wλ)|X_w over the Schubert divisors of X_w; its Weil class is defined because X_w is nonsingular in codimension one, BrionFlags Proposition 1.3.5, p. 13 (lines 501–509 and 683). In the minuscule lane all nonzero coefficients are1 and recover the reduced hyperplane/Pieri boundary used in S6. For general λ retain multiplicities in the cycle/class formula and use an actual coherent boundary filtration; do not tensor a fictitious invertible O(−X(v)) for every component. Include zero coefficients, λ=0 and the empty divisor.
 
 - The Cartier divisor of the normalized section on X(w) has Weil class Σ⟨λ,β∨⟩[X(v)], and its ideal sheaf is the image of L(λ)^(−1)→O_X(w).
 - In the minuscule lane every cover in W/W_λ has coefficient 1, so the divisor is the reduced union of the boundary Schubert divisors.
@@ -1009,7 +1251,7 @@ Distinguish the effective Cartier divisor of the full section from individual Sc
 - In Gr(2,4) with the standard flag, the Schubert variety X_(1)={V : V∩F₂≠0} is the quadric cone p₃₄=0, p₁₃p₂₄=p₁₄p₂₃ in ℙ⁴ with vertex the point p₁₂; its extremal Plücker coordinate p₂₄ cuts the reduced Cartier divisor X_(2)+X_(1,1), the planes X_(2) with p₂₃=p₂₄=0 and X_(1,1) with p₁₄=p₂₄=0 through the vertex, and neither plane alone is Cartier at the vertex. The pivots (2,4) give λ=(1,0) and dimension 4−1=3. In contrast, X_(2,1) has pivots (1,3), consists of F₁⊂V⊂F₃, and is the smooth ℙ(F₃/F₁)≃ℙ¹ of dimension 4−3=1.
 - On the GL₃ full flag with λ=ω₁ and w=s₁s₂, the divisor is X(s₂) with multiplicity 1 and X(s₁) does not occur, in agreement with S7.1's coefficients 1 and 0.
 
-*Needs:* S7.1; SchemeAndStackFoundations divisor and cycle classes; S5.2's reduced boundary ideals. For O(m) on ℙ¹ the multiplicity is m, giving 0,1,2 at m=0,1,2 rather than a constant multiplicity 1.
+*Needs:* S7.1; SchemeAndStackFoundations divisor and cycle classes; S5.2's reduced boundary ideals; S5.4 for the codimension-one regularity of X(w) in every characteristic. BrionFlags Propositions 1.3.5 and 1.4.5 give the complex type-A divisor and its codimension-one regularity. For O(m) on ℙ¹ the multiplicity is m, giving 0,1,2 at m=0,1,2 rather than a constant multiplicity 1.
 
 ### 7.3 Cycle comparison (S7.3)
 
@@ -1130,7 +1372,7 @@ For ℙ¹, put t=[O(−1)]; then (1−t)²=0, while its rank is 1. The point fla
 
 S3, S5–S7; SchemeAndStackFoundations coherent/perfect K-theory and Euler pushforward; the actual line-character map and stated isogeny hypotheses.
 
-## Layer 9: Complex realization, fixed-map traces and existing comparisons (S9)
+## Layer 9: Complex realization and existing comparisons (S9)
 
 ### 9.0 Coherent analytification and proper comparison (S9.0)
 
@@ -1248,34 +1490,6 @@ Over ℂ compare the actual algebraic flag, Schubert and word schemes with their
 
 *Needs:* S1–S2 and S3.1; S9.0; LieGroups Layer 8 and TopologicalKTheory T1.5. This is the specialization of SGA1 XII.1.1 and XII.4.2 to these models.
 
-### 9.2 Holomorphic Lefschetz input (S9.2)
-
-Consume the following map-level holomorphic Lefschetz interface from IndexTheory's fixed-map trace construction. If f:M→M is holomorphic on a compact Hausdorff second-countable finite-dimensional boundaryless complex manifold, all fixed points are isolated with det_ℂ(1−df_x)≠0, E is a holomorphic vector bundle and φ:f*E→E is a specified holomorphic bundle map, then the alternating trace of φ∘f* on coherent/Dolbeault cohomology is Σ_x tr(φ_x)/det_ℂ(1−df_x). The generic construction owns positive-time heat smoothing/trace class, cohomological supertrace and the local graph/diagonal calculation; arbitrary pullback is not assumed L²-bounded and f need not be an isometry.
-
-*Needs:* IndexTheory I8, with its holomorphic fixed-map trace and bundle-lift hypotheses; S9.0 coherent/Dolbeault comparison. For the identity of a point, numerator and determinant are 1, giving trace 1; the identity of ℙ¹ does not meet the isolated-fixed-point hypothesis.
-
-### 9.3 Word fixed-point formula (S9.3)
-
-For section action (g·s)(x)=g_Es(g^−1x), apply that formula with f=g^−1 and φ=g_E on pulled-back fibres. The differential pullback has the eigenvalues of df, not automatically their inverses. At e of G/B−, tangent weight+α for t gives df for t^−1 with weight−α; the denominator is1−e^(−α) and the fibre contributes eλ. For the word model use S2's actual subword weights to prove χ_T(Z,π*Lλ)=Σ_ε e^(w_rλ)/∏_j(1−e^(−β_j)) in the stated localization. Prove for generic t that its fixed points are exactly those sections and every denominator is nonzero. A finite whole-torus fixed locus does not make the expression defined for every t.
-
-- The localization sum uses the inverse group element in the base map and the given lift on the bundle.
-- Prefix products determine both tangent and fibre weights at every fixed subword.
-- Character identities hold in the localization, then descend by the finite-string cancellation.
-
-**Checks.**
-
-- For SL₂ with weight-one torus value z=2 and L(1), the two contributions are 2/(1−1/4)=8/3 and (1/2)/(1−4)=−1/6; their sum is 5/2=z+z⁻¹.
-- At z=1 both denominators vanish, although the character is 2; the localized summands cannot be evaluated individually there.
-- For the empty word, the product of denominators is 1 and the sum is the single fibre character eλ.
-
-*Needs:* S2.3; S3.1 and S3.3; S9.1–9.2. The two-term formula fixes the action convention before the word induction.
-
-### 9.4 Character comparison (S9.4)
-
-Sum the rank-one contributions to obtain S3's exact Demazure recurrence and compare with the independently constructed algebraic Euler/vanishing argument. Prove polynomial cancellation of the localization formula and its integral character meaning. The full longest-word result recovers the Weyl character formula in the stated characteristic-zero analytic lane. It does not prove positive-characteristic geometric vanishing by itself.
-
-*Needs:* S9.3; S3.3's integral cancellation; S5.5 and S5.7 for H⁰ interpretation. For SL₂ and O(−2), Euler characteristic is −1 but h⁰=0, so this comparison must retain Euler classes outside the dominant range.
-
 ### 9.5 Type-A path specialization (S9.5)
 
 Specialize S4.1–5 to the full type-A root datum, retaining the GLₙ central
@@ -1285,11 +1499,11 @@ root-operator and central-transport laws. For GL₂ the straight path t↦(t,0)
 has height t and lowers to t↦(0,t); a central shift by (1,1) preserves the
 height and changes the endpoint to (2,1).
 
-*Needs:* S4.1–5; the native `TauCeti.GeneralLinear.diagonalRootDatum n`, which carries the GLₙ central lattice, and, for n≥2, `TauCeti.DynkinType.simplyConnectedRootDatum` at type A_(n−1) for the SLₙ restriction.
+*Needs:* S4.1–5; the native `TauCeti.LSPath.centralTransport`; the native `TauCeti.GeneralLinear.diagonalRootDatum n`, which carries the GLₙ central lattice, and, for n≥2, `TauCeti.DynkinType.simplyConnectedRootDatum` at type A_(n−1) for the SLₙ restriction.
 
 - Adjacent coordinate differences are the simple-coroot heights under the type-A map.
 - Endpoint, concatenation and root operators commute with specialization.
-- Canonical LS central transport keeps the GLₙ central lattice.
+- The native central transport `TauCeti.LSPath.centralTransport` keeps the GLₙ central lattice.
 
 **Checks.**
 
@@ -1367,7 +1581,7 @@ For the proper dual-number point, algebraic and analytic H⁰ both retain ℂ[ε
 
 ### Dependencies
 
-S1–S8 at the targets that use them; S9.0 for coherent analytification and proper GAGA; LieGroups Layer 8; IndexTheory I8; HamiltonianReduction R2a; AlgebraicTopology Stage 5, item 3 (finite-covering transfer) and MorseTheory M2.
+S1–S8 at the targets that use them; S9.0 for coherent analytification and proper GAGA; LieGroups Layer 8; HamiltonianReduction R2a; AlgebraicTopology Stage 5, item 3 (finite-covering transfer) and MorseTheory M2.
 
 ## Worked examples
 
@@ -1504,10 +1718,11 @@ comparisons for its ordinary Picard and forgetful-map conclusions.
 
 ## References
 
-Proof routes include Allen Knutson's Math 261 handouts named below; Littelmann's *Paths and root operators in representation theory* for the finite path/linking construction; Lakshmibai–Littelmann–Magyar's *Standard monomial theory for Bott–Samelson varieties*, Compositio Mathematica 130 (2002), Theorem 4 (§1.3, p. 299) and Theorem 6 (§1.4, p. 301), for the standard bases and section/vanishing comparisons; and the root-coordinate/splitting/coherent constructions stated in S5. For the finite saturated-chain bond theorem use Chirivì–Fang–Littelmann, [*LS algebras, valuations and Schubert varieties*, arXiv:2203.12992v1, Definition 2.1 (p. 4) and §7.1 (p. 18)](https://arxiv.org/abs/2203.12992v1), in its dominant-weight/minimal-parabolic-coset setting; construct its chain-independent gcd through the combinatorial targets of S4.3. Each cited generic foundation retains its single owner.
+Proof routes include Allen Knutson's Math 261 handouts named below; Peter Littelmann, *Paths and root operators in representation theory*, Annals of Mathematics 142 (1995), 499–525, read from the author's Cologne page (Littelmann1995), for the finite path/linking construction: Proposition 4.7 and Corollaries 2–3, pp. 511–512 (Littelmann1995 lines 502–526), Theorem 6.3, p. 517 (line 726), Theorem 7.1, p. 518 (line 747), Theorem 9.1, p. 520 (line 815) and §10, p. 521 (lines 848–865); Lakshmibai–Littelmann–Magyar's *Standard monomial theory for Bott–Samelson varieties*, Compositio Mathematica 130 (2002), Theorem 4 (§1.3, p. 299) and Theorem 6 (§1.4, p. 301), for the standard bases and section/vanishing comparisons; and the root-coordinate/splitting/coherent constructions stated in S5. For the finite saturated-chain bond theorem use Chirivì–Fang–Littelmann, [*LS algebras, valuations and Schubert varieties*, arXiv:2203.12992v1, Definition 2.1 (p. 4) and §7.1 (p. 18)](https://arxiv.org/abs/2203.12992v1), in its dominant-weight/minimal-parabolic-coset setting; construct its chain-independent gcd through the combinatorial targets of S4.3. Each cited generic foundation retains its single owner.
 
-Source keys: LLM denotes the published 2002 article, with
-Theorem 4 at LLM line 251 and Theorem 6 at LLM line 324. CFL denotes
+Source keys: LLM denotes the 2002 article, read in the author copy on
+Peter Magyar's page, whose theorem numbering is that of the published
+article, with Theorem 4 at LLM line 263 and Theorem 6 at LLM line 338. CFL denotes
 arXiv:2203.12992v1, with Definition 2.1 at CFL line 188 and the Schubert
 bond specialization at CFL line 960. The latter uses a dominant weight and
 minimal representatives in the parabolic Weyl quotient; its characteristic-zero
@@ -1528,7 +1743,10 @@ The scheme-theoretic nilpotent generality is taken from SGA1.
 
 Michel Brion, *Lectures on the geometry of flag varieties*,
 arXiv:math/0410240v1 (2004), §§1.1–1.4, 2.1–2.3 and 3.3–3.4
-(BrionFlags). This source works over ℂ, with type-A coordinates; its
+(BrionFlags): Proposition 1.3.5, p. 13 (BrionFlags lines 501–509),
+Proposition 1.4.1, p. 14 (lines 549–552), the Plücker closed immersion,
+p. 15 (lines 562–568), Proposition 1.4.3, p. 16 (lines 613–618) and
+Proposition 1.4.5, pp. 17–18 (lines 667–685). This source works over ℂ, with type-A coordinates; its
 complex proofs do not supply the positive-characteristic splitting argument.
 Allen Knutson's handouts for Math 261 (Berkeley, 2001–2002), on his Cornell
 course pages: KnutsonBorelWeil, *Representations of U(n): the Borel–Weil
