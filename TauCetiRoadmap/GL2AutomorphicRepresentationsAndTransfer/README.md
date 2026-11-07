@@ -4,8 +4,9 @@
 
 The definitive specification is this README. [`Suggested.lean`](Suggested.lean) states
 Chevalley congruence, full-local character prescription, fixed-central-character supercuspidal
-projectivity, quaternion ramification realization and local-global isomorphism, finite projective
-lifting, Fong–Swan lifting, the characteristic-two dihedral classification, and the Frobenius
+projectivity, quaternion ramification realization and local-global isomorphism, the algebraic
+coefficient action and its symmetric-power comparison, finiteness and dimension of quaternionic level
+forms, the good-place local Hecke relation, finite projective lifting, Fong–Swan lifting, the characteristic-two dihedral classification, and the Frobenius
 coefficient conclusions of odd solvable Artin modularity over ℚ and characteristic-two solvable
 residual modularity on the pinned library carriers, with admitted proofs. It is not an exhaustive checklist. The local Langlands,
 automorphic transfer and residual modularity conclusions need local types, automorphic classes,
@@ -74,9 +75,12 @@ R17.4 upgrades the same base-change outputs to all-place Weil–Deligne compatib
 R17.4/metaplectic-adjoint-input owns the theta-integral input
 needed for the adjoint lift. R17.4/whittaker-type-adjoint-converse owns the
 Whittaker-type-module converse and constituent argument, including the nongeneric boundary.
-QuaternionicModularForms §§1.3, 2.1–2.2 and 3.1 owns classical coefficient conventions,
-the definite quaternionic form-space functor and its opposite-Hecke action;
+R17.3.8a–R17.3.8d own the algebraic coefficient modules with their determinant normalization,
+the quaternionic level forms with their evaluation and norms, the classical quaternionic form
+spaces and their Hecke operators, specializing AutomorphicFormsOnReductiveGroups §7.4's abstract
+level-form carrier and opposite-ring Hecke action to quaternion algebras over number fields;
 R17.3/definite-hilbert-exports owns their comparison with Pan’s spaces and JL spectrum.
+Overconvergent quaternionic forms are outside this roadmap.
 
 ArithmeticGaloisRepresentations, Layers 1–5 and §§7.1–7.2, 7.6, owns continuous representations, lattices,
 Weil–Deligne objects, Artin/Swan conductors, finite-image classification, recognition and Galois
@@ -143,6 +147,13 @@ quotient map provide the spectral periodization and the additive Q/Z carrier.
 `Field.absoluteGaloisGroup` supply the algebraic and arithmetic carriers of the lifting
 milestones; Brauer-character construction and arithmetic lifting are targets here.
 
+`MvPolynomial.restrictSupport` and `MvPolynomial.basisMonomials` carry the coefficient modules of
+R17.3.8a, and `MvPowerSeries.IsRestricted` the restricted algebra of its analytic comparison.
+`Algebra.TensorProduct.includeRight`, `IsDedekindDomain.FiniteAdeleRing` and `IsModuleTopology`
+give the finite adelic units of a quaternion algebra and their topology in R17.3.8b.
+`IsHeckeTriple` and `HeckeCosetModule` (`Mathlib.NumberTheory.HeckeRing.Defs`) give the
+double-coset modules of R17.3.8d.
+
 ### From Tau Ceti
 
 At Tau Ceti `a91d3aa`, import the following APIs rather than reproducing them.
@@ -182,6 +193,12 @@ At Tau Ceti `a91d3aa`, import the following APIs rather than reproducing them.
 - `TauCeti.Algebra.Quaternion.Split`: `TauCeti.QuaternionAlgebra.oneEquivMatrix` identifies
   `QuaternionAlgebra K 1 0 1` with 2×2 matrices. Global realization with prescribed nonsplit
   places and comparison of two quaternion algebras use the contracts below.
+- `TauCeti.NumberTheory.HeckeRing.Associativity`, with `Basic` and `Degree` in the same directory:
+  the ring structure on `HeckeCosetModule Δ H ℤ` for a Hecke triple, its basis elements
+  `HeckeCosetModule.single` and the degree homomorphism `LeftCosetModule.deg`. R17.3.8d states the
+  good-place relation in this ring.
+- `TauCeti.Algebra.CentralSimple.SkolemNoether`: `TauCeti.skolemNoether` makes the splittings of
+  R17.3.8c unique up to conjugation.
 
 ### From roadmaps
 
@@ -331,13 +348,19 @@ lifting, and §5.14, eigenform lifting with weight shifts),
 R15.5A.1–R15.5A.3 classical cohomology and Galois attachments,
 and R15.6 (§7.4–§7.5, residual modularity witness), supplies the geometric residual-form interface.
 
-[QuaternionicModularForms](https://github.com/WilliamCoram/TauCetiRoadmap/blob/fe4c14dbe4381c62726cce20430bb84799a5a2e0/TauCetiRoadmap/QuaternionicModularForms/README.md),
-§1.3 (classical coefficient dictionary), §2.1 (abstract forms and stabilizer-invariant
-evaluation), §2.2 (classical definite forms) and §3.1 (opposite-Hecke action), supplies the
-canonical finite-level form-space and operator interfaces used in R17.3/definite-hilbert-exports.
-Consume these classical targets independently of its split-p analytic-weight theory.
-R17.3 supplies the division-p algebraic coefficient adapter, level colimit, Pan comparison,
-norm-character decomposition and JL spectrum. These are target-level supplier contracts.
+AutomorphicFormsOnReductiveGroups §7.4 supplies the abstract level-form carrier for a group, a
+subgroup, a level and a right coefficient module, its evaluation/reconstruction equivalence without
+finiteness hypotheses, coefficient maps, restriction and trace, the slash operators, the
+opposite-ring action of the double-coset Hecke ring and `inverseActionHeckeEquiv`; its §7.6
+supplies the central-character submodule. AdelicAlgebraicGroups §5.3, *quaternion-class-sets* and
+*definite-quaternion-stabilizers*, supplies finite quaternionic class sets at compact open levels
+with surjective refinement maps, and stabilizers finite modulo the centre for totally definite
+algebras. RestrictedPowerSeries §§0.1 and 2.2 supplies the restricted algebra and analytic
+substitution of R17.3.8a's analytic-coefficient comparison. R17.3.8a–R17.3.8d specialize these to
+quaternion algebras and construct the classical coefficient modules, form spaces and Hecke
+operators that R17.3/definite-hilbert-exports compares with Pan's spaces. R17.3 also constructs the
+division-p algebraic coefficient adapter, level colimit, Pan comparison, norm-character
+decomposition and JL spectrum.
 
 GlobalNumberFields, Layers 2, 7–10, supplies moduli, ray subgroups, finite ray quotients and
 characters. ClassFieldTheory, Layers 7, 9–11, supplies reciprocity, local Weil groups and the global
@@ -381,7 +404,9 @@ explicit parameters on that correspondence. R16.4–R16.6 constructs the Hecke-f
 and the classical/Hilbert dictionary from the named automorphic suppliers.
 R17.1 consumes PadicLocalLanglandsForGL2Qp §6.9 at degree two and constructs the
 quaternionic parameter, split and real comparisons; R17.2–R17.3 constructs the matching
-test functions and global transfer.
+test functions and global transfer. Within R17.3, R17.3.8a–R17.3.8d build the classical
+quaternionic coefficient modules, form spaces and Hecke operators before R17.3.9 compares them
+with Pan's spaces.
 
 After R16.1 construct R17.5/global-weil-group. Within R17.4 first consume
 AutomorphicSpectralTheory §7.1 weak prime-cyclic transfer, descent, cuspidality and fibres;
@@ -1660,20 +1685,322 @@ Let `(π′, π)` be the cohomological JL pair of coefficient-conjugation, and `
 
 *Source:* [cdn20-global], §5.2.1, p. 44; §5.2.1, footnote 21, p. 44.
 
+### R17.3.8a Algebraic coefficient modules and determinant normalization
+
+Let K be a commutative ring, ι a finite set, `n : ι → ℕ` and `s : ι → ℤ`. The algebraic coefficient
+module `L_{n,s}(K)` is the K-module of polynomials in variables `z_i` (i ∈ ι) of degree at most `n_i`
+in `z_i`, Mathlib's `MvPolynomial.restrictSupport` on the exponents bounded by n. For
+`γ=(γ_i)` in `∏_i GL₂(K)` with `γ_i=(a_i b_i; c_i d_i)`, the weight-(n,s) slash is the K-linear map
+
+`P|γ = ∏_i det(γ_i)^{s_i}(c_iz_i+d_i)^{n_i} · P((a_iz_i+b_i)/(c_iz_i+d_i))`,
+
+that is, `z^m ↦ ∏_i det(γ_i)^{s_i}(a_iz_i+b_i)^{m_i}(c_iz_i+d_i)^{n_i−m_i}` on monomials
+(`algWeightSlash`). Writing `z_i^{m_i}` as `X_i^{m_i}Y_i^{n_i−m_i}`, the slash is
+`det(γ_i)^{s_i}·P(a_iX_i+b_iY_i, c_iX_i+d_iY_i)` in each factor, so `P|(γδ)=(P|γ)|δ` and
+`L_{n,s}(K)` is a right `∏_i GL₂(K)`-module (`algWeightSlash_mem`, `algWeightSlash_mul`,
+`algWeightSlash_one`, `algWeightAction`). A homomorphism from a group or monoid into `∏_i GL₂(K)`,
+such as the splittings of R17.3.8c, makes it a right module over the source. At a finite place v of
+a number field F, with a set `Σ_v` of field embeddings `F_v → K`, GL₂(F_v) acts through
+`γ ↦ (σ(γ))_{σ∈Σ_v}`.
+
+Prove the following API.
+- Basis and rank: the monomials `z^m` with `m_i ≤ n_i` form a basis, so `L_{n,s}(K)` is free of
+  rank `∏_i(n_i+1)` (`finrank_algWeight`). It is the tensor product over i of the one-variable
+  modules with the product action; for empty ι it is the trivial line.
+- Symmetric powers: in one variable and over every commutative ring, `z^m ↦ e₁^m e₂^{n−m}`
+  identifies `L_{n,s}(K)` with the carrier of `TauCeti.symPowerRep` K 2 n and carries `(·)|γ` to
+  `det(γ)^s·Sym^n(γᵀ)`. Since `γᵀ = det(γ)·wγ⁻¹w⁻¹` for `w=(0 1; −1 0)`, composing with
+  `Sym^n(w)⁻¹` identifies the left action `g ↦ (·)|g⁻¹` with `Sym^n(standard₂)⊗det^{−n−s}`, the
+  twist `Representation.charTwist` of `TauCeti.symPowerRep` by `det^{−n−s}`
+  (`algWeight_equiv_symPowerRep`). When `n!` is a unit in K this is the contragredient of
+  `Sym^n(standard₂)⊗det^s`. In R16.6.3's notation, `L_{n,s}` with this left action is `V_τ` with
+  `k_τ=n_τ+2` and `m_τ=−n_τ−s_τ`, so `k_τ+2m_τ=2−n_τ−2s_τ`.
+- Scalars: a scalar u in the factor i acts on the right by `u^{n_i+2s_i}`.
+- Global units: for a number field F, a field K of characteristic zero and a set Σ of embeddings
+  F → K, a unit u ∈ `𝒪_F^×` acting through `(σ(u))_{σ∈Σ}` acts by `∏_{σ∈Σ}σ(u)^{n_σ+2s_σ}`. If F
+  is totally real, K contains a normal closure of F (so that `Hom(F,K)` has [F:ℚ] elements) and
+  `Σ=Hom(F,K)`, this character of `𝒪_F^×` has finite image exactly when `n_σ+2s_σ` is independent
+  of σ. A constant value w gives `N_{F/ℚ}(u)^w=±1`.
+  Conversely, a relation `∏_σσ(u)^{w_σ}=1` on a finite-index subgroup of units holds inside the
+  compositum of the `σ(F)`, so it may be read in ℂ, where the `σ` become the real embeddings; taking
+  logarithms of absolute values, Dirichlet's unit theorem (Mathlib
+  `NumberField.Units.dirichletUnitTheorem.unitLattice_span_eq_top`) puts `(w_σ)` orthogonal to the
+  trace-zero hyperplane. For other F or Σ, finiteness of the central image is a hypothesis wherever
+  it is used.
+- Normalized determinant: at a finite place v with uniformizer `ϖ_v`, put
+  `ν_alg(x)=∏_{σ∈Σ_v}σ(x)^{s_σ}` and `ν_norm(x)=ν_alg(ϖ_v^{−ord_v x}x)` for x ∈ `F_v^×`. Both are
+  characters, they agree on `𝒪_v^×`, and `ν_alg=ν_alg(ϖ_v)^{ord_v}·ν_norm`. Replacing
+  `∏_σσ(det γ)^{s_σ}` by `ν_norm(det γ)` defines the normalized right action of GL₂(F_v). It agrees
+  with the algebraic action when `det γ ∈ 𝒪_v^×`; when `ord_v det γ = e` the algebraic slash is
+  `ν_alg(ϖ_v)^e` times the normalized one. Hence, for coefficients formed at a set T of places
+  containing v and a level U with `Nrd(U_w) ⊂ 𝒪_w^×` at every w ∈ T (for instance U compact), the two
+  conventions give the same level forms, and on a double coset of determinant valuation e at v a
+  Hecke operator of R17.3.8d with algebraic coefficients is `ν_alg(ϖ_v)^e` times its normalized
+  counterpart, and replacing `ϖ_v` by `uϖ_v`, u ∈ `𝒪_v^×`, multiplies this scalar by `ν_alg(u)^e`.
+- Nebentypus: for t ≥ 1 let `Σ₀(ϖ_v^t)` be the monoid of matrices in GL₂(F_v) with entries in
+  `𝒪_v`, `c ∈ ϖ_v^t𝒪_v` and `d ∈ 𝒪_v^×`. For a character `ε : (𝒪_v/ϖ_v^t)^× → K^×`, γ ∈ `Σ₀(ϖ_v^t)`
+  acts on `L_{n,s}(ε)` by `ε(d mod ϖ_v^t)` times either slash. Since `d_{γδ} ≡ d_γd_δ mod ϖ_v^t`
+  on this monoid, this is a right action.
+- Analytic coefficients: let K be a complete nonarchimedean field. The inclusion of `L_{n,s}(K)` in
+  the restricted algebra `K⟨z_i⟩` at unit radii (RestrictedPowerSeries §0.1, Mathlib
+  `MvPowerSeries.IsRestricted`) is injective. Let γ ∈ `∏_i GL₂(K)` have entries of norm at most one,
+  `|c_i|<1` and `|d_i|=1`; these γ form a monoid. The series
+  `(a_iz_i+b_i)/(c_iz_i+d_i)=(a_iz_i+b_i)d_i⁻¹Σ_k(−c_iz_i/d_i)^k` has Gauss norm at most one, so
+  RestrictedPowerSeries §2.2's substitution defines
+  `f ↦ ∏_i det(γ_i)^{s_i}(c_iz_i+d_i)^{n_i}·f((a_iz_i+b_i)/(c_iz_i+d_i))` on `K⟨z_i⟩`. This is a right
+  action of that monoid, and the inclusion intertwines it with the algebraic slash.
+
+**Checks.**
+- For n=0 the module is the line K, on which γ acts by `∏_i det(γ_i)^{s_i}`; at s=0 this is the
+  trivial character.
+- In one variable with n=1, s=0, `γ=(1 1; 0 1)` and `δ=(1 0; 1 1)`: `1|γ=1`, so
+  `(1|γ)|δ=z+1=1|(γδ)` with `γδ=(2 1; 1 1)`, while `1|(δγ)=z+2`. A formula that composed the slash
+  as a left action would exchange the two.
+- The scalar −1 acts on `L_{1,0}` by −1 and trivially on `L_{2,−1}`, whose left action is
+  `Sym²(standard₂)⊗det⁻¹`, the adjoint representation when 2 is a unit.
+- Over ℚ(√3) with Σ both embeddings and u=2+√3: for (n,s)=((1,1),(0,1)), `n+2s=(1,3)` and u acts by
+  `σ₁(u)σ₂(u)³=N(u)σ₂(u)²=σ₂(7+4√3)`, which is not a root of unity; for (n,s)=((2,0),(0,1)),
+  `n+2s=(2,2)` and u acts by `N(u)²=1`.
+- For n=0, one embedding and s=1, `diag(ϖ_v,1)` acts by `σ(ϖ_v)` in the algebraic convention and by
+  1 in the normalized one; a scalar unit u acts by `σ(u)²` in both.
+- For n=1, s=0 and g=diag(2,1) over ℚ, `(·)|g⁻¹` fixes 1 and halves z, matching the eigenvalues 1
+  and 1/2 of `standard₂⊗det⁻¹` at g.
+- For `γ=(1 0; ϖ 1)` in a p-adic field, `z/(ϖz+1)=z−ϖz²+ϖ²z³−⋯` is restricted; for `(1 0; 1 1)` the
+  substitution `z/(z+1)` has a pole at z=−1 in the closed unit disc, so the condition `|c_i|<1` is
+  needed.
+
+*Needs:* Mathlib `MvPolynomial.restrictSupport`, `MvPolynomial.basisMonomials`,
+`Matrix.GeneralLinearGroup.det`, `MvPowerSeries.IsRestricted` and
+`NumberField.Units.dirichletUnitTheorem.unitLattice_span_eq_top`; Tau Ceti `TauCeti.symPowerRep` and
+`Representation.charTwist`; R16.6.3; RestrictedPowerSeries §§0.1 and 2.2.
+
+*Source:* [gross99], the algebraic coefficient representations of definite groups, here in the
+homogeneous polynomial model for GL₂; [nt26], §1.2, p. 8, for the highest-weight convention
+matched with R16.6.3. The transpose identity, the normalization identities and the unit computation
+are proved from the definitions and the cited unit theorem.
+
+### R17.3.8b Quaternionic level forms, evaluation and norms
+
+Let F be a number field and D a quaternion algebra over F, that is, a central simple F-algebra of
+dimension four (Mathlib `Algebra.IsCentral`, `IsSimpleRing`, `Module.finrank`), split or not,
+definite or not. Put `D_f^×=(D⊗_F𝔸_{F,f})^×` with the units topology of the finite free
+`𝔸_{F,f}`-algebra (AdelicAlgebraicGroups §5.3), and embed D^× diagonally (`quaternionDiagonal`). Let R
+be a commutative ring, A an R-module, Δ ⊂ `D_f^×` a submonoid acting on A on the right through a
+homomorphism `Δ^op → End_R(A)`, written `a ↦ a|δ`, and U ⊂ Δ a subgroup. The module `M_D(U,A)` of
+quaternionic level forms is AutomorphicFormsOnReductiveGroups §7.4's abstract carrier at
+`G₀=D_f^×`, `Γ=D^×` and `J=U`: the functions φ on `D_f^×` with `φ(γgu)=φ(g)|u` for γ ∈ D^× and
+u ∈ U (`quaternionLevelForms`). Its slash operators `(φ|δ)(g)=φ(gδ⁻¹)|δ`, coefficient maps,
+restriction and trace are those of §7.4.
+
+For open U the class set `Cl(U)=D^×\D_f^×/U` is finite. AdelicAlgebraicGroups §5.3,
+*quaternion-class-sets*, proves this at compact open levels, and an open U contains the compact
+open subgroup `U∩(𝒪_D⊗_{𝒪_F}𝒪̂_F)^×` for any order `𝒪_D`, whose class set maps onto `Cl(U)`. For representatives `x_1,…,x_h`, §7.4's evaluation equivalence becomes the finite sum
+`M_D(U,A) ≃ ⊕_i A^{Γ_i}`, `φ ↦ (φ(x_i))_i`, where `Γ_i=U∩x_i⁻¹D^×x_i` acts through Δ.
+
+Prove the following API.
+- Finiteness: for open U, a Noetherian R and a finite A, `M_D(U,A)` is a finite R-module
+  (`quaternionLevelForms_finite`); if A is free of rank r and every `Γ_i` acts trivially, it is free
+  of rank `h·r`.
+- Representatives: replacing `x_i` by `γx_iu`, with γ ∈ D^× and u ∈ U, replaces the coordinate
+  `φ(x_i)` by `φ(x_i)|u` and `Γ_i` by `u⁻¹Γ_iu`.
+- Levels: for open U′ ⊂ U, the refinement map `Cl(U′)→Cl(U)` of AdelicAlgebraicGroups §5.3 is
+  surjective, so representatives of `Cl(U′)` may be chosen of the form `x_iu` with u ∈ U.
+  Restriction `M_D(U,A)→M_D(U′,A)` is injective, with coordinate `φ(x_i)|u` at `x_iu`; when [U:U′]
+  is finite, `tr∘res=[U:U′]·id` (§7.4).
+- Colimits: for a family of open levels directed by reverse inclusion, the restriction maps are
+  injective, so the filtered colimit of the `M_D(U,A)` is the union of their images in the
+  A-valued functions on `D_f^×`. R17.3.9 applies this to levels shrinking at one place.
+- Central characters: let ψ be a character of the centre `𝔸_{F,f}^×` of `D_f^×`, trivial on `F^×`,
+  with `a|z=ψ(z)a` for z ∈ `U∩𝔸_{F,f}^×`. The forms with `φ(gz)=ψ(z)φ(g)` are
+  AutomorphicFormsOnReductiveGroups §7.6's central submodule. They are the level forms at the open
+  level `U𝔸_{F,f}^×` for the action extended by `a|(uz)=ψ(z)(a|u)`, so the statements above apply.
+- Norms: let R be a normed commutative ring, A a normed R-module with `‖ra‖≤‖r‖‖a‖`, U open, and
+  suppose that `C_U=sup_{u∈U}‖a ↦ a|u‖` is finite. For fixed representatives put
+  `‖φ‖=max_i‖φ(x_i)‖`. Then `M_D(U,A)` is complete when A is, being a finite sum of closed
+  invariant subspaces. After a change of representatives the new norm lies between `C_U⁻¹` and `C_U`
+  times the old one; it is the same norm when U acts isometrically. A bounded U-equivariant coefficient
+  map A → A′ induces a map of norm at most its own. With representatives of `Cl(U′)` of the form
+  `x_iu`, restriction to an open U′ ⊂ U has norm at most `C_U`; when A is ultrametric (Mathlib
+  `IsUltrametricDist`) and [U:U′] is finite, so does the trace `Σ_{u∈U/U′}φ(·u)|u⁻¹`. Neither
+  the definition nor these bounds uses finite stabilizers, total reality or definiteness.
+
+**Checks.**
+- For D=M₂(ℚ) and U=GL₂(ℤ̂) there is one class, with `Γ_1=GL₂(ℤ)`, so `M_D(U,A)=A^{GL₂(ℤ)}`; it is
+  zero whenever −1 ∈ GL₂(ℤ) acts on A by −1 and 2 is not a zero divisor on A.
+- For Hamilton's quaternions over ℚ at the Hurwitz maximal-order level there is one class whose
+  stabilizer is the group of 24 Hurwitz units (AdelicAlgebraicGroups §5.3 Checks), so `M_D(U,A)` is
+  the invariants of that finite group.
+- The zero module gives the zero space; a single class with trivial stabilizer action gives A,
+  isometrically.
+- Two classes with trivial stabilizers give `‖φ‖=max(‖φ(x_1)‖,‖φ(x_2)‖)`, which is ultrametric when
+  A is; the equivalent norm `‖φ(x_1)‖+‖φ(x_2)‖` is not.
+- The bounds need `C_U` finite: if some u ∈ U acted on A=ℚ_p by multiplication by p, replacing
+  `x_i` by `x_iu^{−n}` would multiply `‖φ(x_i)‖` by `pⁿ`.
+
+*Needs:* AutomorphicFormsOnReductiveGroups §§7.4 and 7.6; AdelicAlgebraicGroups §1.5 and §5.3,
+*quaternion-class-sets*; Mathlib `Algebra.TensorProduct.includeRight`,
+`IsDedekindDomain.FiniteAdeleRing`, `IsModuleTopology` and `IsUltrametricDist`.
+
+*Source:* [gross99], the decomposition of algebraic modular forms at a level into a finite sum of
+invariants of the arithmetic stabilizers; the norm statements follow from that decomposition and
+the ultrametric inequality.
+
+### R17.3.8c Classical quaternionic forms
+
+Keep F and D as in R17.3.8b and let K be a field. Fix a finite set T of finite places of F, for each
+v ∈ T a finite set `Σ_v` of field embeddings `F_v → K`, and for σ ∈ `Σ_v` an `F_v`-algebra
+homomorphism `ι_{v,σ} : D⊗_FF_v → M₂(K)`, where `M₂(K)` is an `F_v`-algebra through σ. Such a
+homomorphism exists exactly when `D_v⊗_{F_v,σ}K` splits; at a split place it comes from a
+splitting `D_v ≃ M₂(F_v)`, and at a ramified place it exists for instance when K contains a
+quadratic extension of `σ(F_v)`, in particular when K is algebraically closed. The map
+`ι_T(g)=(ι_{v,σ}(g_v))_{v,σ}` is a homomorphism `D_f^× → ∏_{v,σ}GL₂(K)`, through which R17.3.8a's
+action makes `L_{n,s}(K)` a right `D_f^×`-module. For open U, the classical quaternionic forms of
+weight (n,s) are `M_{n,s}(U;K)=M_D(U,L_{n,s}(K))` with `Δ=D_f^×`. At a finite place v where D splits, with
+a fixed identification `D_v ≃ M₂(F_v)` and `U_v` inside the preimage of `Σ₀(ϖ_v^t)`, R17.3.8a's
+nebentypus twist by ε at v gives `M_{n,s}(U,ε;K)`, with Δ the elements of `D_f^×` whose component at
+v lies in the preimage of `Σ₀(ϖ_v^t)`; v need not lie in T.
+
+Prove the following API.
+- Dimension: `M_{n,s}(U;K)` is finite-dimensional, of dimension `Σ_i dim L_{n,s}(K)^{Γ_i}`; when
+  every `Γ_i` acts trivially it has dimension `#Cl(U)·∏_σ(n_σ+1)` (`classicalForms_finrank`).
+- Coefficient extension: for a field extension K′/K, with `ι_{v,σ}` composed with
+  `M₂(K) → M₂(K′)`, `M_{n,s}(U;K)⊗_KK′ ≅ M_{n,s}(U;K′)`, compatibly with level maps and R17.3.8d's
+  Hecke operators. The invariants of a finite-dimensional representation are cut out by finitely
+  many linear conditions, and there are finitely many classes.
+- Splittings: two choices of the `ι_{v,σ}` are conjugate (Tau Ceti `TauCeti.skolemNoether`): if
+  `ι′_{v,σ}=h_{v,σ}ι_{v,σ}h_{v,σ}⁻¹` with `h=(h_{v,σ}) ∈ ∏GL₂(K)`, the coefficient map `P ↦ P|h⁻¹`
+  carries the space formed with ι to the space formed with ι′, compatibly with level maps and
+  Hecke operators.
+- Definite case: let F be totally real (Mathlib `NumberField.IsTotallyReal`) and D ramified at every
+  real place. For compact open U, the central subgroup `F^×∩U` of `Γ_i` has finite index
+  (AdelicAlgebraicGroups §5.3, *definite-quaternion-stabilizers*), so `Γ_i` acts on `L_{n,s}(K)`
+  through a finite group `H_i` whenever `F^×∩U` acts through a finite group, for instance when K
+  contains a normal closure of F, `⊔_vΣ_v=Hom(F,K)` and `n_σ+2s_σ` is parallel (R17.3.8a). If
+  `|H_i|` is a unit in K, then `e_i=|H_i|⁻¹Σ_{h∈H_i}h` is a projector onto `L_{n,s}(K)^{Γ_i}`, and
+  the image of `dim L_{n,s}(K)^{Γ_i}` in K is `|H_i|⁻¹Σ_{h∈H_i}tr(h)`; in characteristic zero this
+  is the dimension.
+
+**Checks.**
+- Hamilton's quaternions over ℚ, ramified at 2 and ∞, with T={3}, K an algebraically closed field
+  of characteristic zero containing ℚ_3, and the Hurwitz maximal-order level: there is one class,
+  whose stabilizer is the group of 24 Hurwitz units. For (n,s)=(2ℓ,−ℓ) the centre ±1 acts
+  trivially, and the quotient of order 12 acts through the rotation group of a tetrahedron on the
+  (2ℓ+1)-dimensional representation of SO(3). Averaging its character gives dimensions 1, 0, 0, 1
+  for ℓ=0, 1, 2, 3: the constants, and the dimensions 0, 0, 1 of the weight-4, 6 and 8 cusp forms
+  on Γ₀(2), all new at 2, as global Jacquet–Langlands predicts for this algebra.
+- For D=M₂(ℚ), U=GL₂(ℤ̂), T={p} with the identity splitting and (n,s)=(10,−5), the stabilizer
+  GL₂(ℤ) contains SL₂(ℤ), which is Zariski dense in SL₂, so it has no nonzero invariants on
+  `Sym^{10}`: the space is zero, although S₁₂(SL₂(ℤ)) contains Δ. The classical forms of a split
+  algebra are not cusp forms.
+- For F=ℚ(√3), D=ℍ⊗ℚ(√3), T the places above an odd prime p, K a p-adic field containing √3,
+  `Σ=Hom(F,K)` and (n,s)=((1,1),(0,1)),
+  the unit 2+√3 lies in every stabilizer at a maximal level and acts by the scalar `σ₂(7+4√3)`,
+  which is not 1, so the space is zero; for (n,s)=((2,0),(0,1)) it acts trivially.
+- For n=0, s=0 the space is the K-valued functions on `Cl(U)`, for every K.
+
+*Needs:* R17.3.8a; R17.3.8b; AdelicAlgebraicGroups §5.3, *quaternion-class-sets* and
+*definite-quaternion-stabilizers*; Tau Ceti `TauCeti.skolemNoether`; Mathlib `Algebra.IsCentral`,
+`IsSimpleRing` and `NumberField.IsTotallyReal`.
+
+*Source:* [gross99], algebraic modular forms with coefficients in an algebraic representation;
+[loeffler11], Assumption 3.1.3 and Proposition 3.1.4, p. 15, for finite stabilizers of a group
+compact modulo its centre at infinity.
+
+### R17.3.8d Hecke operators on quaternionic forms
+
+For U ⊂ Δ with Mathlib's `IsHeckeTriple Δ U U`, AutomorphicFormsOnReductiveGroups §7.4 supplies on
+`M_D(U,A)` the operators `T_ηφ=Σ_tφ|x_t` for `UηU=⊔_tUx_t ⊂ Δ`, independent of the representatives,
+and the extension of η ↦ `T_η` to a homomorphism from the opposite of the Hecke ring on
+`HeckeCosetModule Δ U ℤ` (Tau Ceti's product) to `End_R M_D(U,A)`. Specialize at a finite place v
+where D splits, with a fixed `j_v : D_v ≃ M₂(F_v)`, and a level `U=U^vU_v` whose component at v is
+the preimage under `j_v` of `GL₂(𝒪_v)`, `K₀(𝔭_v^t)` or `K₁(𝔭_v^t)`, t ≥ 1 (the subgroups of
+AutomorphicLFunctionsAndLocalFactors AL.2.2, compared in R16.1.3). Let `η_v ∈ D_f^×` be
+`j_v⁻¹(diag(ϖ_v,1))` at v and 1 elsewhere, the quaternionic counterpart of R16.1.3's `heckeGen v`,
+let `η′_v` be `j_v⁻¹(diag(ϖ_v²,1))` at v and 1 elsewhere, and let `ϖ_v ∈ D_f^×` also denote the
+central element equal to `ϖ_v` at v and 1 elsewhere. Take `Δ=D_f^×` for the algebraic coefficients
+of R17.3.8c and the preimage of `Σ₀(ϖ_v^t)` for nebentypus coefficients. Define:
+
+- at `U_v=GL₂(𝒪_v)`: `T_v=[Uη_vU]`, `T_{v²}=[Uη′_vU]` and the central `S_v=[Uϖ_vU]=Uϖ_v`;
+- at `U_v=K₀(𝔭_v^t)` or `K₁(𝔭_v^t)`: the operator `U_{ϖ_v}=[Uη_vU]`;
+- at `U_v=K₁(𝔭_v^t)`: the diamond operators `⟨d⟩=[UδU]=Uδ` for d ∈ `(𝒪_v/𝔭_v^t)^×`, with δ ∈ `D_f^×`
+  equal at v to `j_v⁻¹` of an element of `K₀(𝔭_v^t)` whose lower-right entry is congruent to d, and
+  1 elsewhere.
+
+Prove the following API.
+- Right cosets: at `GL₂(𝒪_v)`, `T_v`, `T_{v²}` and `S_v` have `q_v+1`, `q_v²+q_v` and 1 right
+  cosets. At `K₀(𝔭_v^t)` and `K₁(𝔭_v^t)`, `Uη_vU=⊔_αUx_α`, where `x_α` is
+  `j_v⁻¹((ϖ_v 0; ϖ_v^tα 1))` at v and 1 elsewhere and α runs over any set of representatives of the
+  residue field: `x_α=η_v·(1 0; ϖ_v^tα 1)`, and `x_αx_{α′}⁻¹=(1 0; ϖ_v^{t−1}(α−α′) 1)` lies in the
+  level exactly when α ≡ α′ mod `𝔭_v`, giving `q_v` distinct cosets, which is the degree. Every
+  `x_α` lies in `Σ₀(ϖ_v^t)` with lower-right entry 1, and the operator does not depend on the
+  representatives.
+- Diamonds: `⟨d⟩` depends only on d, by R16.1.3's isomorphism `K₀(𝔭^t)/K₁(𝔭^t) ≅ (𝒪/𝔭^t)^×`;
+  the double coset is a single coset because `K₀(𝔭_v^t)` normalizes `K₁(𝔭_v^t)`; `⟨d⟩⟨d′⟩=⟨dd′⟩`;
+  and with δ chosen as `diag(1,d)` at v, `⟨d⟩` commutes with `U_{ϖ_v}` and with the operators at
+  other places.
+- Good-place relation: in the local Hecke ring of `GL₂(𝒪_v)` inside the invertible integral
+  matrices of GL₂(F_v) (`gl2Integral`, `gl2IntegralMonoid`, `gl2Integral_isHeckeTriple`),
+  `T_v²=T_{v²}+(q_v+1)S_v` (`gl2_hecke_T_sq`). The products of the `q_v+1` cosets of
+  `diag(ϖ_v,1)` have determinant valuation two, so they lie in the double cosets of
+  `diag(ϖ_v²,1)` and of `ϖ_v`; the first occurs with coefficient one, and Tau Ceti's degree
+  homomorphism `LeftCosetModule.deg` turns the relation into `(q_v+1)²=(q_v²+q_v)+c`, so
+  `c=q_v+1`. Double cosets supported at v multiply as in the local ring, so through `j_v` and
+  extension by 1 away from v the relation holds among the operators on `M_D(U,A)`. Every term has
+  determinant valuation two at v, so by R17.3.8a it holds in both the normalized and the algebraic
+  coefficient conventions.
+- Inversion: for `Δ=D_f^×`, `[Uη_v⁻¹U]=S_v⁻¹T_v` and `[Uϖ_v⁻¹U]=S_v⁻¹`, because
+  `η_v⁻¹=ϖ_v⁻¹·j_v⁻¹(diag(1,ϖ_v))` and `diag(1,ϖ_v)` lies in `GL₂(𝒪_v)diag(ϖ_v,1)GL₂(𝒪_v)`.
+  With AutomorphicFormsOnReductiveGroups §7.4's `inverseActionHeckeEquiv`, this converts the
+  opposite-ring action into the left weighted coset sums used in R17.3.9.
+- Distinct places: for good places v ≠ w, `[Uη_vU][Uη_wU]=[Uη_vη_wU]=[Uη_wU][Uη_vU]`, with
+  `(q_v+1)(q_w+1)` right cosets, and likewise for `S_v`, `T_{v²}` and the operators at deeper
+  levels; operators supported at distinct places commute.
+- Hecke algebra: let `U=∏_wU_w` and let S be a finite set of places such that for every v ∉ S, D
+  splits at v, `j_v` is fixed and `U_v=j_v⁻¹(GL₂(𝒪_v))`. The R-subalgebra of `End_R M_D(U,A)` generated by `T_v`, `S_v` and `S_v⁻¹` for
+  v ∉ S is commutative by the previous item, and Hecke eigensystems are characters of it.
+  Commutativity is proved here, not assumed.
+- Bounds: on R17.3.8b's normed model with A ultrametric, write `x_ix_t⁻¹=γx_ju` with γ ∈ D^× and
+  u ∈ U; then `(T_ηφ)(x_i)=Σ_tφ(x_j)|(ux_t)`, so `‖T_η‖≤max_{i,t}‖a ↦ a|(ux_t)‖`, which is at
+  most one when Δ acts by norm-nonincreasing operators.
+
+**Checks.**
+- At `F_v=ℚ_3`, `T_v`, `T_{v²}`, `S_v` and `U_{ϖ_v}` have 4, 12, 1 and 3 right cosets; on constant
+  forms with trivial coefficients they act by these numbers, and 4²=12+4·1.
+- The operator of all integral matrices of determinant valuation two is `T_{v²}+S_v`, for which the
+  relation reads `T_v²=(T_{v²}+S_v)+q_vS_v`; mixing the two forms puts `q_v` in place of `q_v+1`.
+- At t=2, letting α run over all of `𝒪_v/𝔭_v²` instead of a residue system lists every coset of
+  `U_{ϖ_v}` `q_v` times; at `q_v=2` that is four matrices for two cosets.
+- At a place where `D_v` is a division algebra, the units of its maximal order are normal in
+  `D_v^×`, and the double coset of a uniformizer of `D_v`, of reduced-norm valuation one, is a single
+  coset: there is no `(q_v+1)`-sheeted operator there.
+- On a form in AutomorphicFormsOnReductiveGroups §7.6's central submodule with trivial coefficients
+  and central character ψ, `S_v` acts by `ψ(ϖ_v)⁻¹`, so `S_v⁻¹T_v` and `T_v` differ by `ψ(ϖ_v)`; a
+  dictionary that drops `S_v⁻¹` fails as soon as `ψ(ϖ_v) ≠ 1`.
+- At the good places 3 and 5, `T_3T_5` has 4·6=24 right cosets and equals `T_5T_3`.
+
+*Needs:* R17.3.8a; R17.3.8b; R17.3.8c; AutomorphicFormsOnReductiveGroups §§7.4 and 7.6; R16.1.3;
+AutomorphicLFunctionsAndLocalFactors AL.2.2 (GL₂ newvectors); Mathlib `IsHeckeTriple` and
+`HeckeCosetModule`; Tau Ceti `HeckeCosetModule.single` and `LeftCosetModule.deg`.
+
+*Source:* [shimura71], Chapter 3, Proposition 3.3 (the degree homomorphism) and Theorem 3.24 (the
+relations among T(p), T(p²) and T(p,p)), whose coset count applies to `GL₂(𝒪_v)` with `q_v` in
+place of p.
+
 ### R17.3.9 Definite quaternionic weights and cuspidal transfer
 
-For totally real F and D ramified at every real place, algebraic real types of a non-norm π′ transfer to the matching discrete series, `Sym^{k−2}↔D_k`. In Pan's ℚ algebra ramified at {p,∞}, `A_{(k,0)}` uses `W^{(k,0)}`, dual to the algebraic `D_p×` type of highest weight (0,−k). For k≥1 its `T_S` spectrum is indexed by cusp π with that infinity infinitesimal character, `(π^∞)^{K^p}≠0` and `π_p` special or supercuspidal, hence lies in `σ_{k+2,1}^{K^p}` on `M_{k+2}(K^p)·t`; t carries the cyclotomic action. For k=0 split `A_{(0,0)}=A^c⊕A^1`: `A^1` factors through Nrd and has spectrum `σ_0`, while `A^c` gives `σ_{2,1}`. Consume the canonical classical finite-level spaces and Hecke actions of QuaternionicModularForms §§1.3, 2.1–2.2 and 3.1.
+For totally real F and D ramified at every real place, algebraic real types of a non-norm π′ transfer to the matching discrete series, `Sym^{k−2}↔D_k`. In Pan's ℚ algebra ramified at {p,∞}, `A_{(k,0)}` uses `W^{(k,0)}`, dual to the algebraic `D_p×` type of highest weight (0,−k). For k≥1 its `T_S` spectrum is indexed by cusp π with that infinity infinitesimal character, `(π^∞)^{K^p}≠0` and `π_p` special or supercuspidal, hence lies in `σ_{k+2,1}^{K^p}` on `M_{k+2}(K^p)·t`; t carries the cyclotomic action. For k=0 split `A_{(0,0)}=A^c⊕A^1`: `A^1` factors through Nrd and has spectrum `σ_0`, while `A^c` gives `σ_{2,1}`. Use the classical finite-level spaces of R17.3.8b–R17.3.8c and the Hecke actions of R17.3.8d.
 
 **The classical coefficient and Hecke adapter to Pan’s spaces.** For D/ℚ ramified at
 {p,∞}, fix a splitting of `D_p` over a finite p-adic coefficient field and extend scalars
 to `C_p`. Let τ be the algebraic left action on `W^{(k,0)}`, the dual of the type of highest
-weight (0,−k). Supply QuaternionicModularForms §2.1 with the right coefficient action
-`w|u=τ(u_p)⁻¹w`. Compare this action, by the dual/opposite-action dictionary, with §1.3’s
-classical symmetric-power coefficients and determinant normalization. This is an algebraic
+weight (0,−k). Form R17.3.8b's level forms with the right coefficient action
+`w|u=τ(u_p)⁻¹w`. By R17.3.8a's symmetric-power comparison this coefficient is `L_{k,−k}`, so
+with the splitting at p as the datum of R17.3.8c the finite-level spaces are classical spaces of
+R17.3.8c, in R17.3.8a's algebraic determinant convention. This is an algebraic
 coefficient adapter at the division place; no splitting `D_p≅M₂(ℚ_p)` or split-p analytic
 weight theorem is an input. For `U=K^p U_p` the supplied transformation law is exactly
 `f(γgu)=τ(u_p)⁻¹f(g)`. Prove that the filtered colimit over shrinking compact open `U_p`,
-using §2.1’s level inclusions, is Pan’s `A_{(k,0)}^{K^p}`. Its `D_p×` action is
+using R17.3.8b's level inclusions, is Pan’s `A_{(k,0)}^{K^p}`. Its `D_p×` action is
 (h·f)(g)=τ(h)f(gh); prove smoothness of this corrected action. Compare central actions
 explicitly: a scalar `z_p` acts on coefficients by `z_p^k`, so the level law uses `z_p^{-k}`;
 if `f(gz)=ω_raw(z)f(g)`, the corrected central action is `z_p^kω_raw(z)`.
@@ -1681,13 +2008,16 @@ Carry this relation when specifying a fixed automorphic central character.
 The colimit and the comparison commute with coefficient extension and tame level change.
 
 Use Pan’s main involution to fix the away-p split identifications and `K^p`. Compare
-QuaternionicModularForms §3.1’s action of the opposite Hecke ring with Pan’s left
+R17.3.8d's action of the opposite Hecke ring with Pan’s left
 operators through the double-coset inversion anti-involution. On functions the supplied
 slash by δ is `τ(δ_p)⁻¹f(gδ⁻¹)`, the corrected left action of δ⁻¹. Prove the corresponding
 finite-sum identities and transport eigencharacters. With these split identifications,
-inversion sends the good coset `T_ℓ` to `S_ℓ⁻¹T_ℓ` and `S_ℓ` to `S_ℓ⁻¹`; to obtain Pan’s
-`T_ℓ,S_ℓ` use the inverse cosets in the opposite action. Include §1.3’s determinant
-rescaling when passing from normalized to algebraic coefficients. Thus the resulting
+inversion sends the good coset `T_ℓ` to `S_ℓ⁻¹T_ℓ` and `S_ℓ` to `S_ℓ⁻¹` (R17.3.8d); to obtain Pan’s
+`T_ℓ,S_ℓ` use the inverse cosets in the opposite action. At ℓ ∉ S the coefficient action is
+trivial, so no determinant rescaling enters; the powers of ℓ come from central elements. By left
+invariance under the global ℓ ∈ ℚ^×, `S_ℓ` is right translation by the central element equal to ℓ
+at every place other than ℓ; when that element lies in U it acts through `τ(ℓ)⁻¹=ℓ^{−k}` at p, and
+otherwise its components away from p and ℓ act through the tame central character. Thus the resulting
 `T_S=ℤ_p[T_ℓ,S_ℓ:ℓ∉S]` action has Pan’s normalization, including its cyclotomic factor t.
 A coefficient-field embedding and the finite tensor weight comparison identify the
 classical spaces with their complex automorphic realization before applying JL.
@@ -1700,9 +2030,9 @@ the inverse-coset formulas; test two noncommuting normalizing singleton cosets t
 order reversal. At the division place p the algebraic coefficient construction and level
 colimit remain defined without a split-p analytic chart.
 
-*Needs:* PadicLocalLanglandsForGL2Qp §6.9; QuaternionicModularForms §1.3 (classical coefficient dictionary), §2.1 (abstract forms and evaluation), §2.2 (classical definite forms), §3.1 (opposite-Hecke action); R17.3/global-jl; R17.3/split-hecke; R17.1; R16.6.
+*Needs:* PadicLocalLanglandsForGL2Qp §6.9; R17.3.8a (coefficient modules and normalization); R17.3.8b (level forms, evaluation and level maps); R17.3.8c (classical forms); R17.3.8d (Hecke operators, opposite-ring action and inversion); R17.3/global-jl; R17.3/split-hecke; R17.1; R16.6.
 
-*Source:* [pan26-global], §5.4.1, pp.68–69 (main involution); §5.4.10 and Definition 5.4.11(1)–(3), p.71 (coefficients, level union and norm quotient); §5.5.5, pp.75–76 (Hecke normalization and spectrum). The right-action and inverse-coset identities above give the comparison with QuaternionicModularForms §§1.3, 2.1–2.2 and 3.1.
+*Source:* [pan26-global], §5.4.1, pp.68–69 (main involution); §5.4.10 and Definition 5.4.11(1)–(3), p.71 (coefficients, level union and norm quotient); §5.5.5, pp.75–76 (Hecke normalization and spectrum). The right-action and inverse-coset identities above give the comparison with R17.3.8a–R17.3.8d.
 
 ### R17.3.10 Indefinite transfer and the parity input
 
@@ -1742,11 +2072,11 @@ Cohomological JL and R16.4/cohomological-rationality rationality give an actual 
 
 ### Examples
 
-For split D, JL fixes every cusp class and excludes an Eisenstein principal series from the discrete domain. With division ramification {p,∞}, a compatible weight-two Steinberg cusp has a local norm-character partner at p. Two local signs −1 multiply to +1, while a rationality-field equality does not by itself remove the Schur obstruction.
+For split D, JL fixes every cusp class and excludes an Eisenstein principal series from the discrete domain. With division ramification {p,∞}, a compatible weight-two Steinberg cusp has a local norm-character partner at p. Two local signs −1 multiply to +1, while a rationality-field equality does not by itself remove the Schur obstruction. For Hamilton's quaternions over ℚ at the Hurwitz level, the classical spaces of R17.3.8c in weights (2ℓ,−ℓ) have dimensions 1, 0, 0, 1 for ℓ=0, 1, 2, 3, matching the norm character and the weight-4, 6 and 8 newforms of level two.
 
 ### Dependencies
 
-PadicLocalLanglandsForGL2Qp §6.9; R16.1–R16.6; R17.1–R17.2; ArithmeticLocallySymmetricSpaces ALS.F.6–F.7; R16.4/cohomological-rationality; GlobalQuadraticForms §4.4; QuaternionicModularForms §§1.3, 2.1–2.2, 3.1 for classical form spaces and Hecke actions; R17.3/definite-hilbert-exports for their coefficient and spectral comparisons.
+PadicLocalLanglandsForGL2Qp §6.9; R16.1–R16.6; R17.1–R17.2; ArithmeticLocallySymmetricSpaces ALS.F.6–F.7; R16.4/cohomological-rationality; GlobalQuadraticForms §4.4; AutomorphicFormsOnReductiveGroups §§7.4 and 7.6, AdelicAlgebraicGroups §5.3 and RestrictedPowerSeries §§0.1 and 2.2 for the quaternionic coefficient modules, form spaces and Hecke operators of R17.3.8a–R17.3.8d; R17.3/definite-hilbert-exports for their coefficient and spectral comparisons.
 
 ## Layer R17.4: Cyclic, solvable and cubic base change
 
@@ -2840,9 +3170,6 @@ R16.3 and R16.6; R17.4–R17.5; ArithmeticGaloisRepresentations Layers 1–5; Al
 
 ## Downstream consumers
 
-- QuaternionicModularForms §2.4 uses R16.1.6's finite-level adapter in the split case
-  D=M₂(F), and its §2.6 uses R16.2.13's principal series of GL₂(ℂ); R17.3.9 consumes its
-  §§1.3, 2.1–2.2 and 3.1 as stated above.
 - ModularityAndLanglandsExtensions §1.2 uses R17.5's solvable Artin automorphy;
   its local Langlands and transfer inputs use R16.3 and R17.4–R17.5.
 - AutomorphicGaloisRepresentationsPartII's independent classical and Hilbert member
@@ -2913,6 +3240,9 @@ R16.3 and R16.6; R17.4–R17.5; ArithmeticGaloisRepresentations Layers 1–5; Al
 [henniart83]: https://www.numdam.org/item/10.24033/msmf.295.pdf "Henniart, La conjecture de Langlands locale pour GL(3), Mém. SMF11–12 (1983)."
 [henniart02]: https://smf.emath.fr/system/files/2017-08/smf_bull_130_587-602.pdf "Henniart, Une caractérisation de la correspondance de Langlands locale pour GL(n). BSMF130 (2002),587–602."
 [deligne73]: https://publications.ias.edu/sites/default/files/Number20.pdf "Deligne, Les constantes des équations fonctionnelles des fonctions L. LNM349 (1973),501–597."
+[gross99] B. H. Gross, Algebraic modular forms. Israel J. Math. 113 (1999), 61–93.
+[loeffler11]: https://arxiv.org/pdf/0901.2279v3 "D. Loeffler, Overconvergent algebraic automorphic forms. Proc. London Math. Soc. 102 (2011), 193–228; arXiv v3 pagination."
+[shimura71] G. Shimura, Introduction to the arithmetic theory of automorphic functions. Publ. Math. Soc. Japan 11, Iwanami Shoten and Princeton University Press (1971).
 
 [artin-tate] Artin–Tate, Class Field Theory, Chapter XV (Weil groups).
 [tate-global] Tate, Global class field theory, §11.6 (Weil groups), in Cassels–Fröhlich.
