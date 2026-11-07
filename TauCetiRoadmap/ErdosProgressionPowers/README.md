@@ -85,12 +85,14 @@ ClassicalArithmeticCompletion §§1.51 and 4.41 own squareclass characters and t
 quartic descent. ImaginaryQuadraticClassNumber H3.1 owns CM integrality and the
 complex uniformization comparison. AlgebraicCurves Layers 7 and 12E own Hurwitz and the function-field/scheme genus
 comparison. Those general constructions are supplied by name, not specified again.
-LocalFieldsRamification Layers 3–4 own the lower and upper ramification
-filtrations, inertia, wild inertia and their finite-quotient comparisons.
 
 Mathlib owns integer gcd, factorization, valuations, finite products, the native
 Weierstrass invariants, Dirichlet characters and continued L-functions, qualitative
-Roth, and the Stirling sequence. Tau Ceti owns the projective point-count trace.
+Roth, and the Stirling sequence. Tau Ceti owns the projective point-count trace and
+the ramification theory of nonarchimedean local fields that the conductors rest on:
+the lower and upper ramification filtrations of a finite Galois extension, the
+Herbrand functions with Herbrand's quotient theorem, and inertia and wild inertia
+in the absolute Galois group with their restrictions to finite Galois subextensions.
 The specialized invariant identities here retain the progression hypotheses; there
 is no second generic invariant or point-count API. AnalyticNumberTheoryPartI §§0.2–0.6, 0.8, 0.16, 0.18–0.20, 0.25, 0.34, 1.4, 1.7 and
 3.1 own the generic prime estimates, the uniform exclusion of Landau–Siegel
@@ -260,6 +262,35 @@ Use `WeierstrassCurve.quadraticTwistPointEquiv_map_eq_quadraticCharacter_smul_ma
 from the same file for the Galois-equivariance sign over a separable quadratic
 extension; the split class uses the identity comparison.
 
+For the local ramification theory under the conductors, K and L are
+nonarchimedean local fields (`IsNonarchimedeanLocalField`, with `ValuativeRel`,
+compatible topology and `ValuativeExtension K L`) and L/K is finite.
+Use `TauCeti.LocalFieldsRamification.lowerRamificationGroup`, the lower
+filtration of `L ≃ₐ[K] L` indexed by ℤ, with `lowerRamificationGroup_zero`
+(G_0 is the inertia group of the maximal ideal of 𝒪[L]),
+`lowerRamificationGroup_antitone` and
+`lowerRamificationGroup_eq_bot_of_largestLowerJump_lt` (G_i is trivial above the
+largest lower jump), in `TauCeti/NumberTheory/LocalField/RamificationGroup.lean`.
+For L/K Galois use `TauCeti.LocalFieldsRamification.herbrand`,
+`TauCeti.LocalFieldsRamification.inverseHerbrand` and
+`TauCeti.LocalFieldsRamification.upperRamificationGroup`, with `G^v = G_{ψ(v)}` on
+`[−1, ∞)`, in `TauCeti/NumberTheory/LocalField/Herbrand/Basic.lean`, and Herbrand's
+quotient theorem `TauCeti.LocalFieldsRamification.map_restrictNormalHom_upperRamificationGroup`
+in `TauCeti/NumberTheory/LocalField/Herbrand/UpperQuotient.lean`: for a finite tower
+M/L/K with L/K and M/K Galois, restriction maps G^v(M/K) onto G^v(L/K).
+Use `TauCeti.inertiaSubgroup` in
+`TauCeti/NumberTheory/LocalField/Unramified/Inertia/Basic.lean` and
+`TauCeti.wildInertiaSubgroup` in `TauCeti/NumberTheory/LocalField/WildInertia.lean`,
+the subgroups I_K ⊇ P_K of the absolute Galois group fixing the maximal unramified
+and the maximal tamely ramified extension. For a finite Galois subextension L of
+the algebraic closure with a compatible local-field structure,
+`TauCeti.map_inertiaSubgroup_restrictNormalHom` (in
+`TauCeti/NumberTheory/LocalField/Unramified/Inertia/Finite.lean`) and
+`TauCeti.map_wildInertiaSubgroup_restrictNormalHom` (in the wild-inertia file)
+identify the images of I_K and P_K in Gal(L/K) with G_0(L/K) and G_1(L/K).
+These hypotheses and the normalized integer valuation are retained in the
+supplied conductor setting of ArithmeticGaloisRepresentations §§3.1–3.3.
+
 ### From TauCetiRoadmap.EllipticCurves
 
 Consume Layer 2's actual torsion Galois action and its functoriality, Layer 3's
@@ -411,18 +442,6 @@ the original trace, so a_q(G_(D,λ))=quadraticChar(D)·a_q(F_λ). The
 progression hypotheses, the Case partition, the progression obstructions and
 the nontriviality of the odd character conductor are targets of this
 roadmap's Layer 2.
-
-### From TauCetiRoadmap.LocalFieldsRamification
-
-Consume Layer 3's lower and upper ramification filtrations and the Herbrand
-quotient theorem, and Layer 4's inertia, wild inertia and finite-level
-restriction comparisons. The pinned lower filtration is
-`TauCeti.LocalFieldsRamification.lowerRamificationGroup` in
-`TauCeti/NumberTheory/LocalField/RamificationGroup.lean`, with
-`lowerRamificationGroup_zero`, `lowerRamificationGroup_antitone` and
-`lowerRamificationGroup_eq_bot_of_largestLowerJump_lt`. Its finite Galois
-local-field hypotheses and normalized integer valuation are retained in
-the supplied conductor setting of ArithmeticGaloisRepresentations §§3.1–3.3.
 
 ### From TauCetiRoadmap.ClassicalArithmeticCompletion
 
@@ -912,7 +931,7 @@ and Theorem 4, pp. 359–360; Lemmas 3.3, 3.5, pp. 362–363.)
 - N=1 with g₀⁺(1)=0 gives F_K(1)=1, G_K(1)=4 and H_K(1)=4; replacing the maximum by the first term loses the dyadic constraint.
 - N=11 with g₀⁺(11)=1 gives μ(11)=12, μ(44)=72 and H_K(11)=169; replacing the newspace by a Γ₁ space changes this value.
 
-*Needs:* EllipticCurves Layers 2–4 and Layer 8’s semistable conductor comparison; NeronModelsAndSemistableAbelianVarieties §§5.3g–5.3h; EllipticCurveModularity R29.3, R29.4 and R29.6; SerreWeightAndLevelOptimisation §§6.1–6.3; AutomorphicGaloisRepresentations §1.5; EtaleCohomologyFoundations §F.4.0; ArithmeticGaloisRepresentations §1.9 and §§3.1–3.3; WeightsInEtaleCohomology R34.5–R34.6; ModularForms Layers 2–4, 8 and 10; EllipticCurveModularityPartII §§1.4–1.8, 2.2, 4.7 and 5.4–5.5 (EC.0–EC.4); LocalFieldsRamification Layers 3–4; §0.9's prime estimates only for the later progression level bounds.
+*Needs:* EllipticCurves Layers 2–4 and Layer 8’s semistable conductor comparison; NeronModelsAndSemistableAbelianVarieties §§5.3g–5.3h; EllipticCurveModularity R29.3, R29.4 and R29.6; SerreWeightAndLevelOptimisation §§6.1–6.3; AutomorphicGaloisRepresentations §1.5; EtaleCohomologyFoundations §F.4.0; ArithmeticGaloisRepresentations §1.9 and §§3.1–3.3; WeightsInEtaleCohomology R34.5–R34.6; ModularForms Layers 2–4, 8 and 10; EllipticCurveModularityPartII §§1.4–1.8, 2.2, 4.7 and 5.4–5.5 (EC.0–EC.4); Tau Ceti `TauCeti.inertiaSubgroup`, `TauCeti.wildInertiaSubgroup`, `TauCeti.LocalFieldsRamification.lowerRamificationGroup` and `TauCeti.LocalFieldsRamification.upperRamificationGroup`; §0.9's prime estimates only for the later progression level bounds.
 
 ### 1.2 Progression Frey specialization
 
@@ -1085,7 +1104,7 @@ At n=d=1 the first model has coefficients (0,2,0,−3,0), while the equal-sum mo
 
 ### Dependencies
 
-Layer 0; EllipticCurveModularityPartII §§1.4–1.8, 2.2, 4.7 and 5.4–5.5 (EC.0–EC.4); EllipticLegendreCharacterInterfaces §5.1; WeightsInEtaleCohomology R34.5–R34.6; EllipticCurves Layers 2–4, 8 and its worked Frey example; NeronModelsAndSemistableAbelianVarieties §§5.3g–5.3h; EllipticCurveModularity R29.3, R29.4 and R29.6; SerreWeightAndLevelOptimisation §§6.1–6.3; AutomorphicGaloisRepresentations §1.5; ModularForms Layers 2–4, 8 and 10; EtaleCohomologyFoundations §F.4.0; ArithmeticGaloisRepresentations §1.9 and §§3.1–3.3; LocalFieldsRamification Layers 3–4. Explicit numerical level bounds additionally use the general prime estimates of Layer 0; their proof is independent of the Frey application.
+Layer 0; EllipticCurveModularityPartII §§1.4–1.8, 2.2, 4.7 and 5.4–5.5 (EC.0–EC.4); EllipticLegendreCharacterInterfaces §5.1; WeightsInEtaleCohomology R34.5–R34.6; EllipticCurves Layers 2–4, 8 and its worked Frey example; NeronModelsAndSemistableAbelianVarieties §§5.3g–5.3h; EllipticCurveModularity R29.3, R29.4 and R29.6; SerreWeightAndLevelOptimisation §§6.1–6.3; AutomorphicGaloisRepresentations §1.5; ModularForms Layers 2–4, 8 and 10; EtaleCohomologyFoundations §F.4.0; ArithmeticGaloisRepresentations §1.9 and §§3.1–3.3; Tau Ceti's local ramification filtrations, inertia and wild inertia (supplier contracts). Explicit numerical level bounds additionally use the general prime estimates of Layer 0; their proof is independent of the Frey application.
 
 ## Layer 2: Legendre cases and the simultaneous character family
 
