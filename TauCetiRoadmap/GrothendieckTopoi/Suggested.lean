@@ -1,6 +1,7 @@
 module
 
 public import Mathlib
+public import TauCeti.Topology.Sheaves.LocalCohomology.Basic
 
 /-!
 # Grothendieck topoi: target signatures
@@ -10,8 +11,8 @@ This file states the roadmap's headline theorems against the pinned Mathlib and 
 with `sorry`, together with the definitions their statements need, all with real bodies on
 native carriers. The API around each target, the special cases and the Checks stay in the README.
 The proof obligations of the category of geometric morphisms, of the canonical topology of a
-frame and of the support functor (its functoriality and additivity, which `Functor.rightDerived`
-needs) are proved, since the headlines use them.
+frame, of the support functor (its functoriality and additivity) and the additivity of `j_*`,
+which `Functor.rightDerived` needs, are proved, since the headlines use them.
 
 Three design choices are fixed here. `IsGrothendieckTopos` is a `Prop`: the site is not data.
 A geometric morphism is named after its direct image, so `GeometricMorphism E F` has
@@ -58,8 +59,11 @@ Headlines stated here (README target, Lean name):
 * 8.5, `isFrameCoproduct_opens_prod`, `not_isFrameCoproduct_opens_rat_prod`.
 * 9.1, `preservesFiniteLimits_sheafPullback_overForget`, `faithful_sheafPullback_overForget`.
 * 9.2, `recollement_extensionByZero`.
-* 9.3, `restrictionUnit`, `supportFunctor` and `bijective_comp_kernelι_of_isZero`.
-* 9.4, `nonempty_cokernel_iso_rightDerived_one`.
+* 9.3, `restrictionUnit`, `supportFunctor`, `bijective_comp_kernelι_of_isZero` and, on a space,
+  `nonempty_supportFunctor_iso_supportedSectionsFunctor`.
+* 9.4, `nonempty_cokernel_iso_rightDerived_one`,
+  `nonempty_rightDerived_succ_iso_rightDerived_pushforward` and, on a space,
+  `nonempty_rightDerived_supportFunctor_iso_supportedHSheaf`.
 * 9.5, `isZero_of_projective_sheaf_real`.
 
 Not statable at the pins, with the carrier each lacks:
@@ -77,9 +81,6 @@ Not statable at the pins, with the carrier each lacks:
 * 9.2, the identification of the cokernel with `i_*i^*F`, and 9.3, `i^!` as a functor to abelian
   sheaves on `c(ℓ c)`: they lack an abelian category of abelian group objects of the subtopos
   `c(ℓ c)` of 4.3; the closed part is stated as the abelian sheaves killed by `j^*`.
-* 9.4 in degrees `q + 1 ≥ 2`: it lacks an `Additive` instance for `j_*`,
-  `Functor.sheafPushforwardCocontinuous` on abelian sheaves (a right Kan extension), which
-  `Functor.rightDerived` needs; the degree-one form is stated.
 
 The constructions with no headline of their own (the bicategory of 2.2, the global sections
 morphism of 2.3, the étale morphism of 3.2, the frame of subobjects of 1.2) are targets of the
@@ -670,7 +671,54 @@ theorem nonempty_cokernel_iso_rightDerived_one
     Nonempty (cokernel (restrictionUnit J c F) ≅ ((supportFunctor J c).rightDerived 1).obj F) :=
   sorry
 
+/-- **Layer 9.4.** Extension of sections `j_*` is additive on abelian sheaves, as
+`Functor.rightDerived` requires: it is a right adjoint, so it preserves binary products. -/
+noncomputable instance :
+    ((Over.forget c).sheafPushforwardCocontinuous AddCommGrpCat.{u} (J.over c) J).Additive :=
+  have : PreservesLimitsOfShape (Discrete WalkingPair)
+      ((Over.forget c).sheafPushforwardCocontinuous AddCommGrpCat.{u} (J.over c) J) :=
+    ((Over.forget c).sheafAdjunctionCocontinuous AddCommGrpCat.{u} (J.over c)
+      J).rightAdjoint_preservesLimits.preservesLimitsOfShape
+  have := ((Over.forget c).sheafAdjunctionCocontinuous AddCommGrpCat.{u} (J.over c)
+    J).isRightAdjoint
+  Functor.additive_of_preserves_binary_products _
+
+/-- **Layer 9.4.** When the sheafified representable of `c` is subterminal, the `(q + 2)`-th local
+cohomology sheaf of `F` is the `(q + 1)`-th right derived functor of `j_*` at `j^*F`
+(Kashiwara–Schapira 1990, Chapter II). -/
+theorem nonempty_rightDerived_succ_iso_rightDerived_pushforward
+    (hc : Mono (terminal.from ((presheafToSheaf J (Type u)).obj (yoneda.obj c))))
+    (F : Sheaf J AddCommGrpCat.{u}) (q : ℕ) :
+    Nonempty (((supportFunctor J c).rightDerived (q + 2)).obj F ≅
+      (((Over.forget c).sheafPushforwardCocontinuous AddCommGrpCat.{u} (J.over c) J).rightDerived
+        (q + 1)).obj ((J.overPullback AddCommGrpCat.{u} c).obj F)) :=
+  sorry
+
 end Abelian
+
+section Space
+
+open TopologicalSpace
+
+variable (X : TopCat.{u}) (U : Opens X)
+
+/-- **Layer 9.3.** On a space, the support functor of an open `U` is Tau Ceti's supported-section
+functor of the closed complement `U.compl`. -/
+theorem nonempty_supportFunctor_iso_supportedSectionsFunctor :
+    Nonempty (supportFunctor (Opens.grothendieckTopology X) U ≅
+      Sheaf.supportedSectionsFunctor U.compl) :=
+  sorry
+
+/-- **Layer 9.4.** On a space, the local cohomology sheaves of the support functor of an open `U`
+are Tau Ceti's local cohomology sheaves `𝓗_Zⁿ(F)` of the closed complement `Z = U.compl`
+(Kashiwara–Schapira 1990, Chapter II). -/
+theorem nonempty_rightDerived_supportFunctor_iso_supportedHSheaf
+    (F : Sheaf (Opens.grothendieckTopology X) AddCommGrpCat.{u}) (n : ℕ) :
+    Nonempty (((supportFunctor (Opens.grothendieckTopology X) U).rightDerived n).obj F ≅
+      F.supportedHSheaf U.compl n) :=
+  sorry
+
+end Space
 
 open TopologicalSpace in
 /-- **Layer 9.5.** Abelian sheaves on `ℝ` have no nonzero projective object. -/

@@ -21,8 +21,11 @@ when its essential points jointly reflect isomorphisms (Roos). On abelian sheave
 `(C, J)` and an object `c : C`, extension by zero along `Sheaf (J.over c) → Sheaf J` is exact and
 faithful; when the sheafified representable of `c` is subterminal, its counit `j_!j^*F → F` is a
 monomorphism whose cokernel restricts to zero, sections with support in the closed complement
-give the right adjoint `i^!` of `i_*`, and the first local cohomology sheaf is the cokernel of
-`F → j_*j^*F`; abelian sheaves on `ℝ` have no nonzero projective object.
+give the right adjoint `i^!` of `i_*`, the first local cohomology sheaf is the cokernel of
+`F → j_*j^*F`, and the `(q + 2)`-th is the `(q + 1)`-th right derived functor of `j_*` at `j^*F`;
+on a space `X` and `U : Opens X`, the support functor and its right derived functors are Tau
+Ceti's supported sections and local cohomology sheaves of `U.compl`; abelian sheaves on `ℝ` have
+no nonzero projective object.
 
 Suggested homes: `TauCeti/CategoryTheory/Topos/` for Layers 1–6 and 8,
 `TauCeti/Order/Locale/` with `TauCeti/CategoryTheory/Topos/Localic/` for Layer 7, and
@@ -41,8 +44,8 @@ morphisms (Layer 5); points of a topos, essential points, Roos's characterizatio
 and Deligne's theorem (Layer 6); localic topoi (Layer 7); fibre products of topoi, coproducts of
 frames, the way-below relation, core-compact and scattered spaces, and products of sober spaces
 (Layer 8); and abelian sheaves on a slice and on an open–closed decomposition of a topos: extension
-by zero, the recollement sequence, sections with support and `i^!`, the first local cohomology
-sheaf, and the absence of projectives on `ℝ` (Layer 9). A search of the roadmaps on main and in the
+by zero, the recollement sequence, sections with support and `i^!`, local cohomology sheaves,
+and the absence of projectives on `ℝ` (Layer 9). A search of the roadmaps on main and in the
 open pull requests for Grothendieck topoi, geometric morphisms, subtopoi, essential morphisms, frame
 coproducts, core-compact spaces and abelian sheaves on an open–closed decomposition of a topos finds
 no other owner.
@@ -61,16 +64,24 @@ Layer 6. Enhanced and derived categories of sheaves on ringed topoi are Enhanced
 the ringed topoi of rigid and adic spaces are AdicSpacesPartII and RigidAnalyticGeometry §8.3;
 the underlying morphism of each of their morphisms of ringed topoi is a `GeometricMorphism`. The
 classifying topos `B G` of a group (Layer 1, Examples) is not the topological classifying space of
-ClassifyingSpaces.
+ClassifyingSpaces. The Grothendieck topoi in which `u`-small products of epimorphisms are
+epimorphisms and `u`-small products distribute over `u`-small coproducts, the two properties of
+presheaf topoi stated in 6.5, are characterized by TotallyDistributiveTopoi §§2.4–2.5 and 3.5.
 
 **Abelian sheaves: the boundary.** Layer 9 states the topos-level abelian statements, for an
 arbitrary small site, an object `c` and the open subtopos of a subterminal `ℓ c`; the following
 are their specializations, owned elsewhere and not restated. Extension by zero along an open
 immersion of schemes, `i^!`, sections supported on a closed subscheme and the localization
 triangles in enhanced derived categories of étale sheaves are EtaleCohomologyFoundations §0.7.
-Sections with support in a closed subset of a topological space, the sheaf `H_Z(F)`, local
-cohomology groups and sheaves with their spectral sequence, and the triangle
-`RΓ_Z(X, K) → RΓ(X, K) → RΓ(U, K) →` are SchemeAndStackFoundations §2.7. The slice-free module
+On a topological space, the sections of an abelian sheaf with support in a closed subset, the
+sheaf `Γ_Z(F)` they form, the supported-section functor and the local cohomology sheaves
+`𝓗_Zⁿ(F)` are Tau Ceti's `CategoryTheory.Sheaf.supportedSections`,
+`CategoryTheory.Sheaf.supportedSectionsSheaf`, `CategoryTheory.Sheaf.supportedSectionsFunctor`
+and `CategoryTheory.Sheaf.supportedHSheaf`; targets 9.3 and 9.4 identify the support functor and
+its right derived functors with them on `Opens X`, and define nothing on spaces. Cohomology with
+supports of sheaves of modules on ringed spaces and schemes, local cohomology modules with their
+spectral sequence, and the triangle `RΓ_Z(X, K) → RΓ(X, K) → RΓ(U, K) →` are
+SchemeAndStackFoundations §2.7. The slice-free module
 `O_U = j_{U!}(O|_U)` of a ringed site, with its representing property and the generating family it
 forms, is EnhancedDerivedSheaves E1.1. Tau Ceti's
 `TauCeti.CategoryTheory.SheafExtensionByZero.preservesFiniteLimits_sheafPullback` is the case of
@@ -202,9 +213,22 @@ their stability under pullback, are Moerdijk–Vermeulen 2000.
   `Functor.sheafPushforwardCocontinuous`, `Functor.sheafAdjunctionCocontinuous`, `kernel`,
   `cokernel`, `kernel.map`, `Functor.Additive`, `Functor.rightDerived` (`Abelian/RightDerived`),
   the instance `IsGrothendieckAbelian.enoughInjectives`, `Projective`,
-  `TopCat.Presheaf.stalk`, `stalkSkyscraperSheafAdjunction` (`Topology/Sheaves/Skyscraper`).
+  `TopCat.Presheaf.stalk`, `stalkSkyscraperSheafAdjunction` (`Topology/Sheaves/Skyscraper`),
+  `Functor.additive_of_preserves_binary_products` (`Preadditive/AdditiveFunctor`),
+  `Adjunction.rightAdjoint_preservesLimits`, `TopologicalSpace.Opens.compl`.
 
-**From Tau Ceti.** Nothing is consumed: Tau Ceti has no topos-level declaration.
+**From Tau Ceti** (at the pin), for a space `X : TopCat.{u}`, a closed `S : Closeds X` and
+`F : Sheaf (Opens.grothendieckTopology X) AddCommGrpCat.{u}`, in the namespace
+`CategoryTheory.Sheaf`:
+
+- `TauCeti/Topology/Sheaves/SupportedCohomology.lean`: `supportedSections F S W`, the subgroup of
+  sections of `F` over `W` whose restriction to `W ∖ S` vanishes.
+- `TauCeti/Topology/Sheaves/LocalCohomology/Basic.lean`: `supportedSectionsSheaf F S`, the sheaf
+  `Γ_S(F)` of these sections; `supportedSectionsFunctor S`, the additive functor `F ↦ Γ_S(F)`; and
+  `supportedHSheaf F S n`, the local cohomology sheaf `𝓗_Sⁿ(F)`, the sheafification of
+  `W ↦ H_Sⁿ(W, F)`.
+
+Targets 9.3 and 9.4 consume them. Tau Ceti has no topos-level declaration.
 
 **From AdicSpacesPartII.** R0.19.10, namespace `TauCetiRoadmap.AdicSpacesPartII.Topos`, for
 `Sheaf J (Type u)` on a small site: the predicates `Topos.IsQuasicompact`,
@@ -840,11 +864,12 @@ hyperconnected and localic is equivalent to `Type u`.
 Define `GeometricMorphism.IsEssential` (`f.inverse.IsLeftAdjoint`: a further left adjoint
 `f_! ⊣ f^*` exists). Prove `GeometricMorphism.isEssential_iff_preservesProducts`: between
 Grothendieck topoi, `f` is essential if and only if `f.inverse` preserves `u`-small products
-(SGA 4 IV, Exercice 7.6 a)). Route: with finite limits, products give all `u`-small limits; then
-Mathlib's `isRightAdjoint_of_preservesLimits_of_isCoseparating` applies, the objects
-`(ihom G).obj Ω` for `G` in a `u`-small separating family (1.4) forming a coseparating family,
-since `X ↪ (ihom X).obj Ω` and a cover `∐ Gᵢ ⟶ X` embeds `(ihom X).obj Ω` into
-`∏ (ihom Gᵢ).obj Ω`; `E` is well-powered by 1.2. Prove that étale morphisms (3.2) and locally
+(SGA 4 IV, Exercice 7.6 a)). Route: for `f : E → F`, with finite limits, products give all
+`u`-small limits; then Mathlib's `isRightAdjoint_of_preservesLimits_of_isCoseparating` applies to
+`f.inverse : F ⥤ E`, whose hypotheses bear on its domain `F`: the objects `(ihom G).obj Ω` for
+`G` in a `u`-small separating family of `F` (1.4) form a coseparating family of `F`, since
+`X ↪ (ihom X).obj Ω` and a cover `∐ Gᵢ ⟶ X` embeds `(ihom X).obj Ω` into `∏ (ihom Gᵢ).obj Ω`;
+`F` is well-powered by 1.2. Prove that étale morphisms (3.2) and locally
 connected morphisms (5.2) are essential, that essential morphisms compose, and that the global
 sections morphism of a Grothendieck topos is essential exactly when it is locally connected (5.2,
 the case `F = Type u`); for a space `X`, `Sh(X) → Type u` is essential exactly when `X` is locally
@@ -1335,11 +1360,18 @@ objects and `kernel.map` on morphisms, an additive functor: its value is the sub
 `bijective_comp_kernelι_of_isZero`: for every `G` with `j^*G = 0`, composition with the inclusion
 `(supportFunctor J c).obj F ⟶ F` is a bijection from maps into it to maps `G ⟶ F`, so that `i^!`
 is right adjoint to `i_*` on abelian sheaves and `i_*i^!F` is the largest subsheaf of `F` killed
-by `j^*` (SGA 4 IV 14.4, Proposition 14.5, (14.6.2) and Proposition 14.8). For a space `X`, a
-closed `Z` with complement `U` and `V` open, prove that the sections of `i_*i^!F` over `V` are the
-sections of `F` over `V` whose support lies in `Z`.
+by `j^*` (SGA 4 IV 14.4, Proposition 14.5, (14.6.2) and Proposition 14.8). For a space
+`X : TopCat.{u}` and `U : Opens X`, prove `nonempty_supportFunctor_iso_supportedSectionsFunctor`:
+`supportFunctor (Opens.grothendieckTopology X) U` is isomorphic to Tau Ceti's
+`CategoryTheory.Sheaf.supportedSectionsFunctor U.compl`, whose value on `F` has as sections over
+`V` the group `CategoryTheory.Sheaf.supportedSections F U.compl V` of sections of `F` vanishing on
+`V ∩ U`. Route: on `Opens X`, `j_*j^*F` has sections `F(V ∩ U)` over `V` and `restrictionUnit` is
+restriction, so both functors are the kernel of the same map.
 *Needs:* 9.2; Mathlib `Functor.sheafPushforwardCocontinuous`,
-`Functor.sheafAdjunctionCocontinuous`, `kernel`, `kernel.map`, `Functor.Additive`.
+`Functor.sheafAdjunctionCocontinuous`, `kernel`, `kernel.map`, `Functor.Additive`,
+`Opens.grothendieckTopology`, `TopologicalSpace.Opens.compl`; Tau Ceti
+`CategoryTheory.Sheaf.supportedSections`, `CategoryTheory.Sheaf.supportedSectionsSheaf`,
+`CategoryTheory.Sheaf.supportedSectionsFunctor`.
 
 **Checks.**
 
@@ -1351,22 +1383,33 @@ sections of `F` over `V` whose support lies in `Z`.
 - The hypothesis `j^*G = 0` is needed for the bijection: for `G = F = ℤ` on the Sierpiński space,
   the identity of `ℤ` does not factor through `i_*i^!ℤ = 0`.
 
-### 9.4 The first local cohomology sheaf
+### 9.4 Local cohomology sheaves
 
 The *local cohomology sheaves* of `F` with support in the closed part are the right derived
 functors `(supportFunctor J c).rightDerived q`, computed with the injective resolutions of the
 Grothendieck abelian category `Sheaf J AddCommGrpCat.{u}`. Assume `ℓ c` subterminal and prove
 `nonempty_cokernel_iso_rightDerived_one`: `cokernel (restrictionUnit J c F)` is isomorphic to
-`((supportFunctor J c).rightDerived 1).obj F`; and, for `q ≥ 1`, that the `(q + 1)`-th local
-cohomology sheaf of `F` is isomorphic to the `q`-th right derived functor of `j_*` applied to
-`j^*F`. Route: for an injective `I`, `I ⟶ j_*j^*I` is an epimorphism, since on sections over `d`
-it is restriction `Hom(ℤ_d, I) → Hom(ℤ_{ℓ d × ℓ c}, I)` along a monomorphism of free abelian
-sheaves (`ℓ d × ℓ c ⟶ ℓ d` is mono); so `0 → supportFunctor J c → 𝟭 → j^* ⋙ j_* → 0` is exact on
+`((supportFunctor J c).rightDerived 1).obj F`; and
+`nonempty_rightDerived_succ_iso_rightDerived_pushforward`: for every `q : ℕ`, the `(q + 2)`-th
+local cohomology sheaf of `F` is isomorphic to the `(q + 1)`-th right derived functor of `j_*`
+applied to `j^*F`, `j_*` being additive as a right adjoint that preserves binary products
+(Mathlib's `Functor.additive_of_preserves_binary_products`). Route: for an injective `I`,
+`I ⟶ j_*j^*I` is an epimorphism, since on sections over `d` it is restriction
+`Hom(ℤ_d, I) → Hom(ℤ_{ℓ d × ℓ c}, I)` along a monomorphism of free abelian sheaves
+(`ℓ d × ℓ c ⟶ ℓ d` is mono); so `0 → supportFunctor J c → 𝟭 → j^* ⋙ j_* → 0` is exact on
 injectives, `j^*` is exact and preserves injectives (its left adjoint `j_!` is exact, 9.1), and the
 long exact sequence of derived functors gives both statements (Kashiwara–Schapira 1990,
+Chapter II). For a space `X : TopCat.{u}`, `U : Opens X`, an abelian sheaf `F` and `n : ℕ`, prove
+`nonempty_rightDerived_supportFunctor_iso_supportedHSheaf`: the `n`-th local cohomology sheaf
+`((supportFunctor (Opens.grothendieckTopology X) U).rightDerived n).obj F` is isomorphic to Tau
+Ceti's `F.supportedHSheaf U.compl n`, the sheafification of `W ↦ H_Zⁿ(W, F)` for `Z = U.compl`.
+Route: by 9.3, the left side is the `n`-th cohomology sheaf of `Γ_Z(I•)` for an injective
+resolution `I•` of `F`, the sheafification of the presheaf `W ↦ Hⁿ(Γ_Z(W, I•))`; since
+`Γ_Z(W, I) = Hom(ℤ_{W, W ∖ Z}, I)`, this presheaf is `W ↦ H_Zⁿ(W, F)` (Kashiwara–Schapira 1990,
 Chapter II).
 *Needs:* 9.1, 9.3; Mathlib `Functor.rightDerived`, `IsGrothendieckAbelian.enoughInjectives`,
-`cokernel`.
+`cokernel`, `Functor.additive_of_preserves_binary_products`,
+`Adjunction.rightAdjoint_preservesLimits`; Tau Ceti `CategoryTheory.Sheaf.supportedHSheaf`.
 
 **Checks.**
 
@@ -1413,23 +1456,19 @@ which `V` is not. So `φ(s) = 0`, contradicting `h(s_x) ≠ 0`. Hence every stal
 
 ### Dependencies
 
-Layers 3 and 4 and Mathlib. Within the layer, 9.2 uses 9.1, 9.3 uses 9.2, 9.4 uses 9.1 and 9.3,
+Layers 3 and 4, Mathlib, and Tau Ceti's supported sections and local cohomology sheaves (9.3,
+9.4). Within the layer, 9.2 uses 9.1, 9.3 uses 9.2, 9.4 uses 9.1 and 9.3,
 and 9.5 uses 9.1 and 9.2.
 
 ## Downstream consumers
 
 No roadmap on main cites this one. HomotopyTheoryOfCategories names it as the owner of
 Grothendieck topoi, their points and morphisms and the classifying topos `B G`, and uses none of
-that material: sites appear there only as bases of coefficient stacks.
-
-## Research context
-
-Presheaf topoi have the two exactness properties of 6.5: `u`-small products of epimorphisms are
-epimorphisms, and `u`-small products distribute over `u`-small coproducts. Whether the converse
-holds, that is, whether every Grothendieck topos with both properties is a presheaf topos, is not
-settled in the sources cited here: Roos's theorem (6.5) characterizes presheaf topoi by their
-essential points, and the question asks whether these two properties of limits force enough
-essential points. It is not a target. `Sh(ℝ)` fails the first property (6.5, Checks).
+that material: sites appear there only as bases of coefficient stacks. TotallyDistributiveTopoi
+consumes 5.2, 5.6, 6.5 and 7.1. The converse of the two exactness properties of presheaf topoi in
+6.5 fails there: sheaves on `[0, 1)` with the lower topology satisfy both without being a presheaf
+topos (TotallyDistributiveTopoi 3.5), and the topoi satisfying both are the essential subtopoi of
+presheaf topoi (TotallyDistributiveTopoi 2.4).
 
 ## References
 
