@@ -47,12 +47,14 @@ This roadmap owns:
 
 Tau Ceti has the exponential and the logarithm on the deep units of a finite extension `K` of
 `ℚ_p`, from the [Local fields and ramification](../../Completed/LocalFieldsRamification/README.md)
-roadmap: `TauCeti.deepUnitExpLogEquiv`, for `e < (p − 1) i`, is the isomorphism of topological
-groups `U(K,i) ≃ₜ* Multiplicative (𝓂[K] ^ i)` given by the logarithm, with the exponential as its
-inverse. This roadmap owns only the facts of 8.1 about Mathlib's `NormedSpace.exp` in a normed
-field over `ℚ_p`, that is, with a norm making it a normed `ℚ_[p]`-algebra, which Layer 8 needs for
-`ℂ_[p]`; `ℂ_[p]` is not a finite extension of `ℚ_p`, so that declaration does not give 8.1. This
-roadmap does not depend on that one.
+roadmap: `TauCeti.deepUnitExpLogEquiv`, for a depth `i` with `e < (p − 1) i` where `e` is the
+absolute ramification index of `K` over `ℚ_p`, is the isomorphism of topological groups
+`U(K,i) ≃ₜ* Multiplicative (𝓂[K] ^ i)` given by the logarithm on the deep units
+`U(K,i) = 1 + 𝓂[K]^i`, with the exponential on `𝓂[K]^i` as its inverse. This roadmap owns only
+the facts of 8.1 about Mathlib's `NormedSpace.exp` in a normed field over `ℚ_p`, that is, with a
+norm making it a normed `ℚ_[p]`-algebra, which Layer 8 needs for `ℂ_[p]`; `ℂ_[p]` is not a finite
+extension of `ℚ_p`, so that declaration does not give 8.1. This roadmap does not depend on that
+one.
 
 The
 [Diophantine approximation and transcendence](../DiophantineApproximationAndTranscendence/README.md)
@@ -1373,6 +1375,8 @@ below are interfaces: they change only together with the consumers.
   (`PadicBaker.eq_zero_of_add_sum_mul_eq_zero`), with its disc and algebraicity hypotheses.
 - The integral Iwasawa theory roadmap, for the algebraic-number form of Baker–Brumer and abelian
   Leopoldt: 8.10.
+- The Euler systems and the cyclotomic main conjecture roadmap, for the algebraic-number form of
+  Baker–Brumer: 8.10.
 
 ## References
 
