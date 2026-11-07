@@ -1,7 +1,6 @@
 module
 
 public import Mathlib
-public import TauCeti.AlgebraicTopology.Cellular.Comparison
 public import TauCeti.AlgebraicTopology.Cohomology.Cap.Basic
 public import TauCeti.AlgebraicTopology.Cohomology.Cup
 public import TauCeti.AlgebraicTopology.EilenbergMacLane.Basic
@@ -11,9 +10,9 @@ public import TauCeti.Topology.Homotopy.HomotopyGroup.Map
 # Algebraic topology of spaces and manifolds: target signatures
 
 The roadmap is README.md; this file is not the roadmap. It states headline theorems
-against the pinned Mathlib and Tau Ceti APIs. The headlines are cellular comparison,
-transfer, Wang and Künneth, Cartan–Leray and Serre convergence, local orientation and
-Poincaré–Lefschetz duality, Euler characteristic, Hurewicz and Whitehead, topological
+against the pinned Mathlib and Tau Ceti APIs. The headlines are transfer, Wang and
+Künneth, Cartan–Leray and Serre convergence, local orientation and Poincaré–Lefschetz
+duality, Euler characteristic, Hurewicz and Whitehead, topological
 restriction-tower and Milnor comparisons, ordinary representability and obstruction theory,
 Brouwer, proper deformation retraction, finite CW type of compact smooth manifolds and the
 homology-sphere recognition corollary, and the LS cup-length bound.
@@ -27,9 +26,9 @@ Hurewicz lacks a Hurewicz map from the native cubical homotopy groups to singula
 homology (no Hurewicz module at the pins), and an abstract isomorphism would be a
 stand-in, so it is not stated. Relative Hurewicz lacks relative homotopy-group carriers
 and their canonical Hurewicz map. The topological Milnor comparison lacks the
-skeletal restriction-tower adapter, its canonical limit/cohomology comparison and
-the supplier's derived-limit carrier; no generic module-tower theorem is stated in
-its place. The normalized representability and EM-loop headlines lack
+skeletal restriction-tower adapter and its canonical limit/cohomology comparison;
+the generic tower algebra is Tau Ceti's, and no generic module-tower theorem is
+stated in its place. The normalized representability and EM-loop headlines lack
 the supplier's functorial normalized EM family and its universal class. The obstruction
 extension criteria lack the cellular obstruction and difference constructions with
 their transport. Proper Whitehead lacks the supported cellular/singular comparison. Of the smooth-manifold CW-type headlines,
@@ -44,8 +43,8 @@ The README also specifies the full naturality and filtration conclusions of Wang
 Künneth, Cartan–Leray and Serre. Their canonical chain maps and abutment filtrations
 are not supplied by the pins. The transfer existence statement below uses actual
 singular complexes; it does not introduce a putative chosen transfer. The native
-ordinary pair, excision, Mayer–Vietoris, van Kampen and finite-dimensional cellular
-comparisons are supplier contracts in the README.
+ordinary pair, excision, Mayer–Vietoris, van Kampen and cellular comparisons, the last
+in every CW dimension for module coefficients, are supplier contracts in the README.
 -/
 
 public section
@@ -65,17 +64,6 @@ theorem brouwerFixedPoint_compactConvex {E : Type u} [NormedAddCommGroup E] [Nor
     [FiniteDimensional ℝ E] (C : Set E) (hne : C.Nonempty)
     (hcompact : IsCompact C) (hconvex : Convex ℝ C) (f : ContinuousMap C C) :
     ∃ x : C, Function.IsFixedPt f x := by
-  sorry
-
-/-! ## Layer 4: arbitrary-dimensional cellular comparison -/
-
-/-- Cellular homology agrees with relative singular homology in every degree,
-without a finite-dimensional restriction on the relative CW complex. -/
-theorem cellularSingularComparison (R : Type u) [CommRing R]
-    (X : Type u) [TopologicalSpace X] [T2Space X] (A : Set X)
-    [RelCWComplex (Set.univ : Set X) A] (M : ModuleCat.{u} R) (n : ℕ) :
-    Nonempty ((TauCeti.cellularChainComplex (Set.univ : Set X) M).homology n ≅
-      (TauCeti.complexBasePair (Set.univ : Set X)).singularHomology M n) := by
   sorry
 
 /-! ## Layer 5: finite-cover transfer -/
@@ -293,7 +281,7 @@ degree other than `0` and `n` and is `ℤ` in degree `n ≥ 2` is homotopy equiv
 standard sphere `Sⁿ`: Hurewicz gives a map `Sⁿ → X` inducing an isomorphism on homology
 (Hatcher, Theorem 4.32, p.366) and homological Whitehead makes it a homotopy equivalence
 (Hatcher, Corollary 4.33, p.367). -/
-theorem simplyConnectedHomologySphere_homotopyEquiv_sphere (n : ℕ) (hn : 2 ≤ n)
+theorem nonempty_homotopyEquiv_sphere_of_homologySphere (n : ℕ) (hn : 2 ≤ n)
     (X : Type u) [TopologicalSpace X] [SimplyConnectedSpace X] (model : CWTypeModel X)
     (hvanish : ∀ k : ℕ, k ≠ 0 → k ≠ n →
       IsZero (((AlgebraicTopology.singularHomologyFunctor (ModuleCat.{u} ℤ) k).obj
