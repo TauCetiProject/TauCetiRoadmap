@@ -1,3 +1,4 @@
+module
 import Mathlib
 import TauCeti.NumberTheory.BinaryQuadraticForm.Reduction
 import TauCeti.NumberTheory.NumberField.Monogenic
@@ -48,13 +49,20 @@ open scoped NumberField
 namespace TauCetiRoadmap.ArithmeticStatisticsPartV
 namespace FieldStatistics
 
+/-- A finite subextension of the algebraic closure of a number field is a number field;
+this instance supplies `NumberField K.val` to every statement below. -/
+instance numberField_of_mem (F : Type*) [Field F] [NumberField F]
+    (K : {L : IntermediateField F (AlgebraicClosure F) // FiniteDimensional F L}) :
+    NumberField K.val :=
+  haveI : FiniteDimensional F K.val := K.property
+  NumberField.of_module_finite F K.val
+
 /-- The signed cubic field counts have the Davenport–Heilbronn leading constants.
 Each embedded field is weighted by its automorphism order divided by three,
 so that each rational isomorphism class contributes one. -/
 theorem davenportHeilbronn_cubicFields :
     let count := fun (ε : ℤ) (X : ℝ) =>
       ∑ᶠ K : {L : IntermediateField ℚ (AlgebraicClosure ℚ) // FiniteDimensional ℚ L},
-        letI : NumberField K.val := @NumberField.mk _ _ inferInstance K.property
         if Module.finrank ℚ K.val = 3 ∧ 0 < ε * NumberField.discr K.val ∧
             ((ε * NumberField.discr K.val : ℤ) : ℝ) < X then
           (Nat.card (K.val ≃ₐ[ℚ] K.val) : ℝ) / 3 else 0
@@ -67,7 +75,6 @@ and two over imaginary quadratic fields, with strict discriminant cutoffs. -/
 theorem davenportHeilbronn_threeTorsion :
     let total := fun (m : ℕ) (ε : ℤ) (X : ℝ) =>
       ∑ᶠ K : {L : IntermediateField ℚ (AlgebraicClosure ℚ) // FiniteDimensional ℚ L},
-        letI : NumberField K.val := @NumberField.mk _ _ inferInstance K.property
         if Module.finrank ℚ K.val = 2 ∧ 0 < ε * NumberField.discr K.val ∧
             ((ε * NumberField.discr K.val : ℤ) : ℝ) < X then
           (Nat.card {c : ClassGroup (𝓞 K.val) // c ^ m = 1} : ℝ) else 0
@@ -84,7 +91,6 @@ Effectivity is part of the specification and is not expressed by the signature. 
 theorem fouvryKluners_fourRankMoments :
     let total := fun (k : ℕ) (ε : ℤ) (t : Option (Fin 3)) (X : ℝ) =>
       ∑ᶠ K : {L : IntermediateField ℚ (AlgebraicClosure ℚ) // FiniteDimensional ℚ L},
-        letI : NumberField K.val := @NumberField.mk _ _ inferInstance K.property
         let D := NumberField.discr K.val
         if Module.finrank ℚ K.val = 2 ∧ 0 < ε * D ∧ ((ε * D : ℤ) : ℝ) < X ∧
             (match t with
@@ -107,7 +113,6 @@ for each sign and each fundamental-discriminant congruence family. -/
 theorem fouvryKluners_fourRankLaw :
     let count := fun (rank : Option ℕ) (ε : ℤ) (t : Option (Fin 3)) (X : ℝ) =>
       ∑ᶠ K : {L : IntermediateField ℚ (AlgebraicClosure ℚ) // FiniteDimensional ℚ L},
-        letI : NumberField K.val := @NumberField.mk _ _ inferInstance K.property
         let D := NumberField.discr K.val
         if Module.finrank ℚ K.val = 2 ∧ 0 < ε * D ∧ ((ε * D : ℤ) : ℝ) < X ∧
             (match t with
@@ -130,7 +135,6 @@ signature-dependent values. Each of the three conjugate subfields has weight one
 theorem bhargava_cubicTwoTorsionMean :
     let total := fun (narrow : Bool) (m r : ℕ) (X : ℝ) =>
       ∑ᶠ K : {L : IntermediateField ℚ (AlgebraicClosure ℚ) // FiniteDimensional ℚ L},
-        letI : NumberField K.val := @NumberField.mk _ _ inferInstance K.property
         if Module.finrank ℚ K.val = 3 ∧
             Module.finrank ℚ (IntermediateField.normalClosure ℚ K.val
               (AlgebraicClosure ℚ)) = 6 ∧
@@ -148,7 +152,6 @@ Normal-closure degree n! expresses the full permutation group on n embeddings. -
 theorem bhargava_quarticQuinticFields (n : ℕ) (hn : n = 4 ∨ n = 5) :
     let count := fun (r : ℕ) (X : ℝ) =>
       ∑ᶠ K : {L : IntermediateField ℚ (AlgebraicClosure ℚ) // FiniteDimensional ℚ L},
-        letI : NumberField K.val := @NumberField.mk _ _ inferInstance K.property
         if Module.finrank ℚ K.val = n ∧
             Module.finrank ℚ (IntermediateField.normalClosure ℚ K.val
               (AlgebraicClosure ℚ)) = n.factorial ∧
@@ -168,8 +171,6 @@ theorem bhargavaShankarWang_numberFieldCount (F : Type*) [Field F] [NumberField 
     (n : ℕ) (hn : 2 ≤ n ∧ n ≤ 5) :
     let count := fun X : ℝ =>
       ∑ᶠ K : {L : IntermediateField F (AlgebraicClosure F) // FiniteDimensional F L},
-        letI : FiniteDimensional F K.val := K.property
-        letI : NumberField K.val := NumberField.of_module_finite F K.val
         if Module.finrank F K.val = n ∧
             Module.finrank F (IntermediateField.normalClosure F K.val
               (AlgebraicClosure F)) = n.factorial ∧
@@ -191,7 +192,6 @@ all rational field isomorphism classes, including the D₄ contribution in degre
 theorem allFields_degree_le_five (n : ℕ) (hn : 2 ≤ n ∧ n ≤ 5) :
     let count := fun X : ℝ =>
       ∑ᶠ K : {L : IntermediateField ℚ (AlgebraicClosure ℚ) // FiniteDimensional ℚ L},
-        letI : NumberField K.val := @NumberField.mk _ _ inferInstance K.property
         if Module.finrank ℚ K.val = n ∧ |(NumberField.discr K.val : ℝ)| < X then
           (Nat.card (K.val ≃ₐ[ℚ] K.val) : ℝ) / n else 0
     ∃ c : ℝ, 0 < c ∧ Tendsto (fun X => count X / X) atTop (𝓝 c) := by sorry
@@ -201,7 +201,6 @@ in every degree and signature, with the full symmetric normal-closure group. -/
 theorem monogenicField_lowerBound (n r : ℕ) (hn : 2 ≤ n) (hr : 2 * r ≤ n) :
     let count := fun X : ℝ =>
       ∑ᶠ K : {L : IntermediateField ℚ (AlgebraicClosure ℚ) // FiniteDimensional ℚ L},
-        letI : NumberField K.val := @NumberField.mk _ _ inferInstance K.property
         if Module.finrank ℚ K.val = n ∧
             Module.finrank ℚ (IntermediateField.normalClosure ℚ K.val
               (AlgebraicClosure ℚ)) = n.factorial ∧
@@ -218,7 +217,6 @@ theorem monogenicField_shortGenerator_lowerBound (n r : ℕ)
     (hn : 2 ≤ n) (hr : 2 * r ≤ n) :
     let count := fun Y : ℝ =>
       ∑ᶠ K : {L : IntermediateField ℚ (AlgebraicClosure ℚ) // FiniteDimensional ℚ L},
-        letI : NumberField K.val := @NumberField.mk _ _ inferInstance K.property
         if Module.finrank ℚ K.val = n ∧
             Module.finrank ℚ (IntermediateField.normalClosure ℚ K.val
               (AlgebraicClosure ℚ)) = n.factorial ∧
@@ -234,7 +232,6 @@ theorem monogenicField_shortGenerator_lowerBound (n r : ℕ)
 theorem roberts_cubicFieldsSecondary (δ : ℝ) (hδ : 0 < δ) :
     let count := fun (ε : ℤ) (X : ℝ) =>
       ∑ᶠ K : {L : IntermediateField ℚ (AlgebraicClosure ℚ) // FiniteDimensional ℚ L},
-        letI : NumberField K.val := @NumberField.mk _ _ inferInstance K.property
         if Module.finrank ℚ K.val = 3 ∧ 0 < ε * NumberField.discr K.val ∧
             ((ε * NumberField.discr K.val : ℤ) : ℝ) < X then
           (Nat.card (K.val ≃ₐ[ℚ] K.val) : ℝ) / 3 else 0
@@ -250,7 +247,6 @@ with the real and imaginary factors and the power-saving error retained. -/
 theorem davenportHeilbronn_threeTorsionSecondary (δ : ℝ) (hδ : 0 < δ) :
     let total := fun (m : ℕ) (ε : ℤ) (X : ℝ) =>
       ∑ᶠ K : {L : IntermediateField ℚ (AlgebraicClosure ℚ) // FiniteDimensional ℚ L},
-        letI : NumberField K.val := @NumberField.mk _ _ inferInstance K.property
         if Module.finrank ℚ K.val = 2 ∧ 0 < ε * NumberField.discr K.val ∧
             ((ε * NumberField.discr K.val : ℤ) : ℝ) < X then
           (Nat.card {c : ClassGroup (𝓞 K.val) // c ^ m = 1} : ℝ) else 0
@@ -268,8 +264,6 @@ theorem schmidt_fieldCount_uniform (m n : ℕ) (hm : 1 ≤ m) (hn : 2 ≤ n) :
     ∃ C : ℝ, 0 < C ∧ ∀ (F : Type*) [Field F] [NumberField F],
       Module.finrank ℚ F = m → ∀ X : ℝ, 1 ≤ X →
         (∑ᶠ K : {L : IntermediateField F (AlgebraicClosure F) // FiniteDimensional F L},
-          letI : FiniteDimensional F K.val := K.property
-          letI : NumberField K.val := NumberField.of_module_finite F K.val
           if Module.finrank F K.val = n ∧ |(NumberField.discr K.val : ℝ)| ≤ X then
             (Nat.card (K.val ≃ₐ[F] K.val) : ℝ) / n else 0) ≤
           C * X ^ (((n : ℝ) + 2) / 4) := by sorry
@@ -287,7 +281,6 @@ exponents of Lemke Oliver and Thorne, with constants depending on the degree and
 theorem lemkeOliverThorne_fieldCount :
     let count := fun (n : ℕ) (X : ℝ) =>
       ∑ᶠ K : {L : IntermediateField ℚ (AlgebraicClosure ℚ) // FiniteDimensional ℚ L},
-        letI : NumberField K.val := @NumberField.mk _ _ inferInstance K.property
         if Module.finrank ℚ K.val = n ∧ |(NumberField.discr K.val : ℝ)| ≤ X then
           (Nat.card (K.val ≃ₐ[ℚ] K.val) : ℝ) / n else 0
     let bound := fun (n : ℕ) (a : ℝ) =>
@@ -318,8 +311,6 @@ theorem galois_count_threeEighths_of_largeSubgroups
     (hG : 4 < Nat.card G) (δ : ℝ) (hδ : 0 < δ) :
     let count := fun X : ℝ =>
       ∑ᶠ K : {L : IntermediateField k (AlgebraicClosure k) // FiniteDimensional k L},
-        letI : FiniteDimensional k K.val := K.property
-        letI : NumberField K.val := NumberField.of_module_finite k K.val
         if Module.finrank k K.val = Nat.card G ∧ Normal k K.val ∧
             Nonempty ((K.val ≃ₐ[k] K.val) ≃* G) ∧
             |(NumberField.discr K.val : ℝ)| /
@@ -333,8 +324,6 @@ theorem galois_count_threeEighths
     (hG : 4 < Nat.card G) (δ : ℝ) (hδ : 0 < δ) :
     let count := fun X : ℝ =>
       ∑ᶠ K : {L : IntermediateField k (AlgebraicClosure k) // FiniteDimensional k L},
-        letI : FiniteDimensional k K.val := K.property
-        letI : NumberField K.val := NumberField.of_module_finite k K.val
         if Module.finrank k K.val = Nat.card G ∧ Normal k K.val ∧
             Nonempty ((K.val ≃ₐ[k] K.val) ≃* G) ∧
             |(NumberField.discr K.val : ℝ)| /
@@ -414,7 +403,6 @@ theorem kluners_cyclotomic_lowerBound :
       (Multiplicative (ZMod 3)) (Multiplicative (ZMod 2)) (Multiplicative (ZMod 3))).range
     let count := fun X : ℝ =>
       ∑ᶠ K : {L : IntermediateField ℚ (AlgebraicClosure ℚ) // FiniteDimensional ℚ L},
-        letI : NumberField K.val := @NumberField.mk _ _ inferInstance K.property
         if HasGaloisType (k := ℚ) (E := K.val) G ∧
             |(NumberField.discr K.val : ℝ)| ≤ X then
           (Nat.card (K.val ≃ₐ[ℚ] K.val) : ℝ) / 6 else 0
@@ -426,7 +414,6 @@ theorem binaryFormField_lowerBound (n r : ℕ) (hn : 3 ≤ n) (hodd : Odd n)
     (hr : 2 * r ≤ n) :
     let count := fun X : ℝ =>
       ∑ᶠ K : {L : IntermediateField ℚ (AlgebraicClosure ℚ) // FiniteDimensional ℚ L},
-        letI : NumberField K.val := @NumberField.mk _ _ inferInstance K.property
         if Module.finrank ℚ K.val = n ∧
             Module.finrank ℚ (IntermediateField.normalClosure ℚ K.val
               (AlgebraicClosure ℚ)) = n.factorial ∧
@@ -441,15 +428,11 @@ The top field is normal over ℚ, so embedded pairs are precisely ℚ-isomorphis
 theorem unramifiedAlternatingExtension_lowerBound (n : ℕ) (hn : 3 ≤ n) (hodd : Odd n) :
     let count := fun (ε : ℤ) (X : ℝ) =>
       ∑ᶠ L : {E : IntermediateField ℚ (AlgebraicClosure ℚ) // FiniteDimensional ℚ E},
-        letI : FiniteDimensional ℚ L.val := L.property
-        letI : NumberField L.val := @NumberField.mk _ _ inferInstance L.property
         ∑ᶠ k : IntermediateField ℚ L.val,
-          letI : NumberField k := NumberField.of_module_finite ℚ k
           if Module.finrank ℚ k = 2 ∧ Squarefree (NumberField.discr k) ∧
               Normal ℚ L.val ∧ IsGalois k L.val ∧
               Nonempty ((L.val ≃ₐ[ℚ] L.val) ≃* Equiv.Perm (Fin n)) ∧
               (∃ K : IntermediateField ℚ L.val,
-                letI : NumberField K := NumberField.of_module_finite ℚ K
                 Module.finrank ℚ K = n ∧ Squarefree (NumberField.discr K) ∧
                   IntermediateField.normalClosure ℚ K L.val = ⊤) ∧
               Nonempty ((L.val ≃ₐ[k] L.val) ≃* alternatingGroup (Fin n)) ∧
@@ -508,7 +491,6 @@ theorem pell_fixedPrimeFactor_lower (t : ℕ) (ht : 1 ≤ t) :
 theorem cyclicPrime_fieldCount (p : ℕ) (hp : p.Prime) :
     let count := fun X : ℝ =>
       ∑ᶠ K : {L : IntermediateField ℚ (AlgebraicClosure ℚ) // FiniteDimensional ℚ L},
-        letI : NumberField K.val := @NumberField.mk _ _ inferInstance K.property
         if Module.finrank ℚ K.val = p ∧ Normal ℚ K.val ∧
             |(NumberField.discr K.val : ℝ)| ≤ X then (1 : ℝ) else 0
     ∃ C : ℝ, 0 < C ∧ ∀ X : ℝ, 1 ≤ X →
@@ -519,7 +501,6 @@ theorem fixedResolvent_cubicFields (F : Type*) [Field F] [NumberField F]
     (hF : Module.finrank ℚ F = 2) :
     let count := fun X : ℝ =>
       ∑ᶠ K : {L : IntermediateField ℚ (AlgebraicClosure ℚ) // FiniteDimensional ℚ L},
-        letI : NumberField K.val := @NumberField.mk _ _ inferInstance K.property
         if Module.finrank ℚ K.val = 3 ∧
             Module.finrank ℚ (IntermediateField.normalClosure ℚ K.val
               (AlgebraicClosure ℚ)) = 6 ∧
@@ -537,8 +518,6 @@ theorem quadraticFieldCount_uniform (m : ℕ) (hm : 1 ≤ m) (ε : ℝ) (hε : 0
     ∃ C : ℝ, 0 < C ∧ ∀ (F : Type*) [Field F] [NumberField F],
       Module.finrank ℚ F = m → ∀ X : ℝ, 1 ≤ X →
       (∑ᶠ K : {L : IntermediateField F (AlgebraicClosure F) // FiniteDimensional F L},
-        letI : FiniteDimensional F K.val := K.property
-        letI : NumberField K.val := NumberField.of_module_finite F K.val
         if Module.finrank F K.val = 2 ∧
             |(NumberField.discr K.val : ℝ)| / |(NumberField.discr F : ℝ)| ^ 2 ≤ X then
           (1 : ℝ) else 0) ≤ C *
@@ -550,15 +529,11 @@ theorem twoExtension_fieldCount (k : Type*) [Field k] [NumberField k]
     (m : ℕ) (hm : 1 ≤ m) :
     let count := fun X : ℝ =>
       ∑ᶠ K : {L : IntermediateField k (AlgebraicClosure k) // FiniteDimensional k L},
-        letI : FiniteDimensional k K.val := K.property
-        letI : NumberField K.val := NumberField.of_module_finite k K.val
         if Module.finrank k K.val = 2 ^ m ∧
             (∃ a : ℕ, Module.finrank k (IntermediateField.normalClosure k K.val
               (AlgebraicClosure k)) = 2 ^ a) ∧ |(NumberField.discr K.val : ℝ)| ≤ X then
           (1 : ℝ) else 0
     let w := fun F : {L : IntermediateField k (AlgebraicClosure k) // FiniteDimensional k L} =>
-      letI : FiniteDimensional k F.val := F.property
-      letI : NumberField F.val := NumberField.of_module_finite k F.val
       if Module.finrank k F.val = 2 ^ (m - 1) ∧
           (∃ a : ℕ, Module.finrank k (IntermediateField.normalClosure k F.val
             (AlgebraicClosure k)) = 2 ^ a) then
@@ -574,16 +549,12 @@ theorem twoExtension_threeTorsionMean (k : Type*) [Field k] [NumberField k]
     (m : ℕ) (hm : 1 ≤ m) :
     let total := fun (ℓ : ℕ) (X : ℝ) =>
       ∑ᶠ K : {L : IntermediateField k (AlgebraicClosure k) // FiniteDimensional k L},
-        letI : FiniteDimensional k K.val := K.property
-        letI : NumberField K.val := NumberField.of_module_finite k K.val
         if Module.finrank k K.val = 2 ^ m ∧
             (∃ a : ℕ, Module.finrank k (IntermediateField.normalClosure k K.val
               (AlgebraicClosure k)) = 2 ^ a) ∧ |(NumberField.discr K.val : ℝ)| ≤ X then
           (Nat.card {c : ClassGroup (𝓞 K.val) // c ^ ℓ = 1} : ℝ) else 0
     let w := fun (ℓ : ℕ)
       (F : {L : IntermediateField k (AlgebraicClosure k) // FiniteDimensional k L}) =>
-      letI : FiniteDimensional k F.val := F.property
-      letI : NumberField F.val := NumberField.of_module_finite k F.val
       if Module.finrank k F.val = 2 ^ (m - 1) ∧
           (∃ a : ℕ, Module.finrank k (IntermediateField.normalClosure k F.val
             (AlgebraicClosure k)) = 2 ^ a) then
@@ -614,16 +585,11 @@ theorem relativeWreath_threeTorsionMean (k : Type*) [Field k] [NumberField k]
     (htrans : MulAction.IsPretransitive H (Fin d)) (u : ℕ) :
     let baseCount := fun X : ℝ =>
       ∑ᶠ F : {L : IntermediateField k (AlgebraicClosure k) // FiniteDimensional k L},
-        letI : FiniteDimensional k F.val := F.property
-        letI : NumberField F.val := NumberField.of_module_finite k F.val
         if HasGaloisType (k := k) (E := F.val) H ∧
             |(NumberField.discr F.val : ℝ)| ≤ X then (1 : ℝ) else 0
     let total := fun (ℓ : ℕ) (X : ℝ) =>
       ∑ᶠ K : {L : IntermediateField k (AlgebraicClosure k) // FiniteDimensional k L},
-        letI : FiniteDimensional k K.val := K.property
-        letI : NumberField K.val := NumberField.of_module_finite k K.val
         ∑ᶠ F : IntermediateField k K.val,
-          letI : NumberField F := NumberField.of_module_finite k F
           if HasGaloisType (k := k) (E := K.val) (quadraticWreathType H) ∧
               Module.finrank F K.val = 2 ∧
               NumberField.InfinitePlace.nrRealPlaces K.val +
@@ -643,7 +609,6 @@ theorem relativeWreath_threeTorsionMean (k : Type*) [Field k] [NumberField k]
 theorem mertens_positiveDefiniteForms :
     let count := fun X : ℝ =>
       ∑ᶠ D : ℕ+,
-        letI : NeZero (D : ℕ) := ⟨D.ne_zero⟩
         if (D : ℝ) < X then
           (Nat.card (MulAction.orbitRel.Quotient
             (Matrix.SpecialLinearGroup (Fin 2) ℤ)
@@ -679,16 +644,11 @@ theorem lowDegree_alternatingMoment (k : Type*) [Field k] [NumberField k]
     (ha : a ≤ NumberField.InfinitePlace.nrRealPlaces k) :
     let denominator := fun X : ℝ =>
       ∑ᶠ F : {L : IntermediateField k (AlgebraicClosure k) // FiniteDimensional k L},
-        letI : FiniteDimensional k F.val := F.property
-        letI : NumberField F.val := NumberField.of_module_finite k F.val
         if Module.finrank k F.val = 2 ∧ NumberField.InfinitePlace.nrRealPlaces F.val = 2 * a ∧
             |(NumberField.discr F.val : ℝ)| < X then (1 : ℝ) else 0
     let numerator := fun X : ℝ =>
       ∑ᶠ L : {E : IntermediateField k (AlgebraicClosure k) // FiniteDimensional k E},
-        letI : FiniteDimensional k L.val := L.property
-        letI : NumberField L.val := NumberField.of_module_finite k L.val
         ∑ᶠ F : IntermediateField k L.val,
-          letI : NumberField F := NumberField.of_module_finite k F
           if Module.finrank k F = 2 ∧ Normal k L.val ∧ IsGalois F L.val ∧
               Nonempty ((L.val ≃ₐ[k] L.val) ≃* Equiv.Perm (Fin n)) ∧
               Nonempty ((L.val ≃ₐ[F] L.val) ≃* alternatingGroup (Fin n)) ∧
@@ -710,7 +670,6 @@ theorem quarticTorsion_fieldCounts (ε : ℝ) (hε : 0 < ε) :
     let a := 1 / (6 * (1 - β / Real.log 2))
     let alternatingCount := fun X : ℝ =>
       ∑ᶠ K : {L : IntermediateField ℚ (AlgebraicClosure ℚ) // FiniteDimensional ℚ L},
-        letI : NumberField K.val := @NumberField.mk _ _ inferInstance K.property
         if HasGaloisType (k := ℚ) (E := K.val) (alternatingGroup (Fin 4)) ∧
             |(NumberField.discr K.val : ℝ)| ≤ X then
           (Nat.card (K.val ≃ₐ[ℚ] K.val) : ℝ) / 4 else 0
@@ -719,7 +678,6 @@ theorem quarticTorsion_fieldCounts (ε : ℝ) (hε : 0 < ε) :
     ∀ (F : Type*) [Field F] [NumberField F], Module.finrank ℚ F = 2 →
       ∃ C : ℝ, 0 < C ∧ ∀ X : ℝ, 1 ≤ X →
         (∑ᶠ K : {L : IntermediateField ℚ (AlgebraicClosure ℚ) // FiniteDimensional ℚ L},
-          letI : NumberField K.val := @NumberField.mk _ _ inferInstance K.property
           if Module.finrank ℚ K.val = 4 ∧
               Module.finrank ℚ (IntermediateField.normalClosure ℚ K.val
                 (AlgebraicClosure ℚ)) = 24 ∧
@@ -732,8 +690,6 @@ theorem cubicTwoTorsion_relativeMean (F : Type*) [Field F] [NumberField F]
     (a : ℕ) (ha : a ≤ NumberField.InfinitePlace.nrRealPlaces F) :
     let total := fun (ℓ : ℕ) (X : ℝ) =>
       ∑ᶠ K : {L : IntermediateField F (AlgebraicClosure F) // FiniteDimensional F L},
-        letI : FiniteDimensional F K.val := K.property
-        letI : NumberField K.val := NumberField.of_module_finite F K.val
         if Module.finrank F K.val = 3 ∧
             Module.finrank F (IntermediateField.normalClosure F K.val
               (AlgebraicClosure F)) = 6 ∧
