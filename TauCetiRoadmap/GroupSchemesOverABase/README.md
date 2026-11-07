@@ -1030,10 +1030,10 @@ The étale-local conjugacy of maximal tori in 5.2 cannot be improved to Zariski-
 over `S = Spec k`, Zariski-local means global, and over a field `k ≠ k_s` there are in general
 several `G(k)`-conjugacy classes of maximal tori, for instance in `GL_n`, where maximal tori
 correspond to maximal étale commutative subalgebras of `M_n(k)` and non-isomorphic separable
-extensions of degree `n` give non-conjugate tori (Conrad, « Reductive group schemes », Remark A.1.3). Over a strictly
-henselian local base all maximal tori of a reductive group are conjugate (the same, proof of
-Proposition 6.4.4, from Theorem 3.2.6). In the smooth affine case the étale-local statement is
-SGA 3, Exp. XII, 1.7 c).
+extensions of degree `n` give non-conjugate tori (Conrad, « Reductive group schemes », Remark
+A.1.3). Over a strictly henselian local base all maximal tori of a reductive group are conjugate
+(the same, proof of Proposition 6.4.4, from Theorem 3.2.6). In the smooth affine case the
+étale-local statement is SGA 3, Exp. XII, 1.7 c).
 
 ## References
 
@@ -1045,7 +1045,8 @@ SGA 3, Exp. XII, 1.7 c).
 - B. Conrad, « A modern proof of Chevalley's theorem on algebraic groups », *J. Ramanujan Math.
   Soc.* 17 (2002), 1–18, Thm. 1.1.
 - B. Conrad, « Reductive group schemes », in *Autour des schémas en groupes* I, Panoramas et
-  Synthèses 42–43, SMF (2014), Lemma B.3.1.
+  Synthèses 42–43, SMF (2014), Lemma B.3.1; Theorem 3.2.6, Proposition 6.4.4 and Remark A.1.3, in
+  the numbering of the author's version.
 - M. Demazure, P. Gabriel, *Groupes algébriques* I, Masson (1970), III, §3, 5.4 and 8.2.
 - A. Grothendieck, « Techniques de construction et théorèmes d'existence en géométrie
   algébrique III : préschémas quotients », Séminaire Bourbaki 6 (1960/61), exp. 212, 99–118,
