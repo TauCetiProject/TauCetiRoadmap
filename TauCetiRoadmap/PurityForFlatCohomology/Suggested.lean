@@ -11,9 +11,9 @@ public import TauCeti.RingTheory.RegularLocalRing.Basic
 pinned Mathlib and Tau Ceti, the headline theorems of the roadmap that are statable there, each
 with `sorry`, together with the few definitions their statements need: the punctured spectrum of a
 semilocal ring (README §0.1), Cohen presentations, complete intersections and the virtual
-dimension (§1.1), and pullback of finite étale schemes (§1.8). The stated headlines are
+dimension (§1.1), and pullback of finite étale schemes (§1.6). The stated headlines are
 Zariski–Nagata purity in virtual dimension `≥ 2` and `≥ 3` (Česnavičius–Scholze, *Purity for flat
-cohomology*, Theorem 3.3.1; README §1.8), Gabber's conjecture on the local Picard group of
+cohomology*, Theorem 3.3.1; README §1.6), Gabber's conjecture on the local Picard group of
 complete intersections of dimension `≥ 3` and the vanishing of the local Picard group of a regular
 local ring (*loc. cit.* Theorem 7.2.1; README §7.6; the vanishing for complete intersections of
 dimension `≥ 4` is `localCI_parafactorial` of DeformationAndDerivedPatchingAlgebra §6.9 and is not
@@ -25,7 +25,7 @@ The following headline theorems are not statable at the pinned libraries.
 
 * Purity for flat cohomology of complete intersections and of regular local rings
   (*loc. cit.* Theorems 6.2.3 and 6.2.7; README §§6.2, 6.5), Gabber's étale-depth bound and its
-  extension to all finite étale coefficients (Theorems 3.2.4 and 6.2.4; §§1.6, 6.3) and global
+  extension to all finite étale coefficients (Theorems 3.2.4 and 6.2.4; §§1.4, 6.3) and global
   purity (Theorem 7.1.2; §7.1). They need fppf (and étale) cohomology with supports, or at least
   restriction maps on fppf cohomology of a scheme along an open immersion. Mathlib's
   `CategoryTheory.Sheaf.cohomologyPresheaf` requires its input sheaf to take values in
@@ -127,7 +127,7 @@ def virtualDimension (R : Type u) [CommRing R] [IsLocalRing R] : ℤ :=
 /-- Pullback of finite étale schemes along a morphism `f : Y ⟶ X`, as Mathlib's
 `MorphismProperty.Over.pullback` for the property "finite and étale": the restriction functor
 `FEt.pullback` of LocalPurity §1.1, restated here because a roadmap's file does not import another
-roadmap's module. README §1.8. -/
+roadmap's module. README §1.6. -/
 def finiteEtalePullback {X Y : Scheme.{u}} (f : Y ⟶ X) :
     MorphismProperty.Over (@IsFinite ⊓ @Etale : MorphismProperty Scheme.{u}) ⊤ X ⥤
       MorphismProperty.Over (@IsFinite ⊓ @Etale : MorphismProperty Scheme.{u}) ⊤ Y := by
@@ -138,7 +138,7 @@ def finiteEtalePullback {X Y : Scheme.{u}} (f : Y ⟶ X) :
 /-- **Zariski–Nagata purity in virtual dimension `≥ 2`.** For a Noetherian local ring `R` of
 virtual dimension at least `2`, pullback from finite étale schemes over `Spec R` to finite étale
 schemes over the punctured spectrum is fully faithful, and the punctured spectrum is connected.
-Česnavičius–Scholze, Theorem 3.3.1(a). README §1.8. -/
+Česnavičius–Scholze, Theorem 3.3.1(a). README §1.6. -/
 theorem zariskiNagata_full_faithful_connected (R : Type u) [CommRing R] [IsLocalRing R]
     [IsNoetherianRing R] (h : 2 ≤ virtualDimension R) :
     (finiteEtalePullback (puncturedSpectrum R).ι).Full ∧
@@ -149,7 +149,7 @@ theorem zariskiNagata_full_faithful_connected (R : Type u) [CommRing R] [IsLocal
 /-- **Zariski–Nagata purity in virtual dimension `≥ 3`.** For a Noetherian local ring `R` of
 virtual dimension at least `3`, pullback from finite étale schemes over `Spec R` to finite étale
 schemes over the punctured spectrum is an equivalence of categories. No excellence, normality or
-complete-intersection hypothesis is made. Česnavičius–Scholze, Theorem 3.3.1(b). README §1.8. -/
+complete-intersection hypothesis is made. Česnavičius–Scholze, Theorem 3.3.1(b). README §1.6. -/
 theorem zariskiNagata_isEquivalence (R : Type u) [CommRing R] [IsLocalRing R]
     [IsNoetherianRing R] (h : 3 ≤ virtualDimension R) :
     (finiteEtalePullback (puncturedSpectrum R).ι).IsEquivalence := by
