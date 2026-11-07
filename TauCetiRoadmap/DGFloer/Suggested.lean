@@ -42,8 +42,12 @@ Not statable at the pins, each with the carrier it lacks:
   1-periodic orbits of a time-dependent Hamiltonian flow and `c₁` on spherical classes.
 * The degree-one Hurewicz isomorphism (README Layer 1 item 1): AlgebraicTopology Stage 8.3's
   Hurewicz map on native singular homology, of which the theorem asserts bijectivity.
-* The Serre spectral sequences (README Layer 1 item 2): the Serre-fibration predicate and the
-  filtered-complex spectral sequence, both targets of README Layer 1.
+* The Serre spectral sequences (README Layer 1 item 2): the local system of fibre homology of a
+  Serre fibration, the coefficient system of `E²`. The pinned Tau Ceti has the Serre-fibration
+  predicate `TauCeti.TopCat.serreFibrations` and the spectral sequence of a filtered space
+  `TauCeti.filteredSpaceSpectralSequence`, but its fibre-homology local system
+  `TauCeti.fiberLocalSystem` is built from a lifting function of a Hurewicz fibration, and no
+  fibre-homology local system of a Serre fibration is at the pins.
 * The Floer–Novikov torsion invariant (README Layer 7.T.8): Floer complexes over Novikov rings.
 
 In Layer 4, `P → M` stands for `M ⊗_A K_m`, where `K_m` is the twisted complex of free left
