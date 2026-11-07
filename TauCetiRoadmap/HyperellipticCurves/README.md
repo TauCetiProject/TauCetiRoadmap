@@ -2060,11 +2060,24 @@ field `K` of characteristic different from two: the map is the Kummer map
 `J(K)/2J(K) → H¹(K, J[2])` followed by `H¹(K, J[2]) → H¹(K, Res_{L/K} μ₂) = L^×/L^{×2}`, and
 since `2g + 1` is odd `J[2] ≅ ker(N : Res_{L/K} μ₂ → μ₂)` is a direct summand of
 `Res_{L/K} μ₂` (the diagonal `μ₂` has norm `(−1)^{2g+1} = −1`), so the second map is injective
-(Schaefer 1995, odd-degree descent, for the identification with the Kummer map; the
-cohomological description over an arbitrary field of characteristic not two is Poonen–Schaefer,
-author version, Section 9, Theorem 9.3, under its Section 4 standing hypothesis of a field of
-characteristic not `p`, for the even-degree model obtained by moving the branch point `∞` to a
-finite rational point; this normalization is derived from the displayed coordinate change).
+(Schaefer 1995, odd-degree descent, for the identification with the Kummer map; this
+normalization is derived from the displayed coordinate change). Poonen–Schaefer, author version,
+prove this in their even-degree setting over any field satisfying their Section 4 standing
+hypotheses (characteristic not `p`, a primitive `p`-th root of unity in the field, and `∞` not a
+branch point): Theorem 9.4 (p. 16) is the cohomological description of the `x − T` map, and
+Theorem 11.3, case (a) (p. 23), says that the `x − T` map is injective on `J(K)/2J(K)` when the
+polynomial has a factor of odd degree over `K` and the curve has a rational divisor class of degree
+one. Apply them with `p = 2` to the model `y² = f̃(x)`, `deg f̃ = 2g + 2`, obtained by a coordinate
+change on `ℙ¹` that sends a point `c ∈ K` with `f(c) ≠ 0` to `∞`; such a point exists when `K` has
+more than `2g + 1` elements. In that model the branch point `∞` of the original model becomes a
+rational root of `f̃`, hence a linear factor, and the curve point above it is rational, a divisor
+class of degree one. Under `K[T]/(f̃) ≅ K × L` the target `(K × L)^×` modulo squares and `K^×` is
+`L^×/L^{×2}`, and on degree-zero divisors the `x − T` map of that model agrees with the one here,
+since the constant factors cancel. A finite `K` with at most `2g + 1`
+elements reduces to that case through an extension `K'/K` of odd degree: restriction followed by
+corestriction is multiplication by `[K' : K]`, so `H¹(K, J[2]) → H¹(K', J[2])` and
+`L^×/L^{×2} → (L ⊗ K')^×/(L ⊗ K')^{×2}` are injective, and the identification and the kernel
+descend from `K'` to `K`.
 On a degree-zero divisor away from infinity, the a-factors cancel, recovering the usual x−T
 evaluation. (b) Over a number field `K`, its image is unramified outside any finite S
 containing all archimedean places, places above 2, places where a coefficient of f is
@@ -2105,9 +2118,10 @@ knowl `g2c.two_selmer_rank`. The `M = Aˣ/Aˣ²` and `normM` carriers of Tau Cet
 - For g=2 over ℚ₂ the image order is `4·#J(ℚ₂)[2]`; for an odd p it is `#J(ℚ_p)[2]`, not four times that order.
 - Over a degree-two extension of ℚ₂ the factor is `2^{2·2}=16`, so the base field degree cannot be dropped.
 - For g=2 over ℂ, torsion order 16 and the local analytic factor `2^{-4}` give image order 1; over ℝ, torsion order 4 gives image order `4/4=1`.
-- Over `ℝ`, for `y² = x³ − x` (`g = 1`, `L = ℝ[T]/(T³ − T) ≅ ℝ³`, `L^×/L^{×2} ≅ (±1)³`): the
-  point `(2, √6)` maps to the sign vector `(+, +, +)` and the point `(−1/2, √(3/8))` to
-  `(−, −, +)`, so the image has order 2 `= #J(ℝ)[2]/2^g = 4/2`, as `J(ℝ) ≅ ℝ/ℤ × ℤ/2` has
+- Over `ℝ`, for `y² = x³ − x` (`g = 1`, `L = ℝ[T]/(T³ − T) ≅ ℝ³` by evaluation at
+  `T = 1, 0, −1`, `L^×/L^{×2} ≅ (±1)³`): the point `(2, √6)` maps to the sign vector `(+, +, +)`
+  of `(1, 2, 3)` and the point `(−1/2, √(3/8))` to the sign vector `(−, −, +)` of
+  `(−3/2, −1/2, 1/2)`, so the image has order 2 `= #J(ℝ)[2]/2^g = 4/2`, as `J(ℝ) ≅ ℝ/ℤ × ℤ/2` has
   `J(ℝ)/2J(ℝ)` of order 2; a kernel strictly larger than `2J(ℝ)` (the whole of `J(ℝ)`, since the
   identity component is 2-divisible) would send `(−1/2, √(3/8))`, which lies on the other
   component, to a square class, and it does not.
@@ -2528,8 +2542,11 @@ concern the conductor ideal of a normalisation.
   - [`Definitions.lean`](https://github.com/AxiomMath/Weil/blob/27cdb2049be62ee2911429b47f54774078450e32/Weil/Definitions.lean),
     `AlgebraicGeometry.Scheme.ArisesByGoodReduction`: a scheme `S₀` over a field `κ` arises by good
     reduction of a scheme `Y` over `ℂ` when both are fibres of one smooth projective morphism over an
-    integral domain of finite type over `ℤ` (the file labels it `def_fk401_good_reduction` and
-    cites no text; the notion is Freitag–Kiehl IV.1.2, Remark b). It
+    integral domain of finite type over `ℤ`. The file tags it with the label
+    `def_fk401_good_reduction`, which by the convention of the repository's `Weil/Attr.lean` names an
+    item of Freitag–Kiehl IV.1, and gives no finer locator; the sibling file
+    [`AlgebraicGeometry/Morphisms/GoodReductionInvertPrime.lean`](https://github.com/AxiomMath/Weil/blob/27cdb2049be62ee2911429b47f54774078450e32/Weil/AlgebraicGeometry/Morphisms/GoodReductionInvertPrime.lean),
+    on the same notion, cites Freitag–Kiehl IV.1.2, Remark b), p. 257. It
     relates a variety over `κ` to one over `ℂ`; it is not the predicate HasGoodReduction of 3.5,
     a property of a curve over the fraction field of a discrete valuation ring. A model over `ℤ`
     whose discriminant is prime to `p` gives an instance, through the smooth projective family of
