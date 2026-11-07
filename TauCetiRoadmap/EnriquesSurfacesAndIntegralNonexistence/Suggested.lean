@@ -1,7 +1,7 @@
 import Mathlib
 import TauCeti.LinearAlgebra.IntegralLattice.Discriminant.Group
 import TauCeti.LinearAlgebra.IntegralLattice.Examples
-import TauCeti.LinearAlgebra.IntegralLattice.RootLattice.D8Plus.Basic
+import TauCeti.LinearAlgebra.IntegralLattice.RootLattice.D8Plus.Isometry
 import TauCeti.LinearAlgebra.IntegralLattice.Orthogonal.Sum
 import TauCeti.LinearAlgebra.IntegralLattice.Scaling
 
@@ -12,8 +12,8 @@ The roadmap is README.md; this file is not the roadmap. It states the roadmap's
 headline theorems against the pinned APIs: the positive-cone decomposition in the
 Enriques numerical lattice, the dyadic representative comparison, and the two native
 discriminant groups. The pins are
-Mathlib 6b7abb3c7686292736be2955bd3eb9ebf63b456a and
-Tau Ceti a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039.
+Mathlib 1b1ccf4b088b32fa3f23f2de1127433254a81e1e and
+Tau Ceti 2fd255d997f47c0b5d834ee416c7015d55444ce5.
 
 The numerical-lattice isometry of an Enriques surface is not statable at these pins:
 the geometric Enriques predicate and numerical surface Picard quotient are missing.
@@ -39,10 +39,11 @@ open TauCeti
 
 /-! ## Layer 1: half-fibres, canonical coverings and exceptionality -/
 
-/-- The native integral model `U ⊕ E₈(−1)` for the Enriques numerical lattice. -/
+/-- The native integral model `U ⊕ E₈(−1)` for the Enriques numerical lattice: the hyperbolic
+plane plus the negated `E₈` root lattice. -/
 noncomputable def enriquesNumericalLattice :
     IntegralLattice ((Fin 2 → ℚ) × (Fin 8 → ℚ)) :=
-  IntegralLattice.hyperbolicPlane.orthogonalSum (-IntegralLattice.d8PlusLattice)
+  IntegralLattice.hyperbolicPlane.orthogonalSum (-IntegralLattice.typeE₈RootLattice)
 
 /-- Every positive-square integral class in one positive cone of `U ⊕ E₈(−1)`
 splits into two nonzero nonnegative-square classes in that cone's closure
@@ -111,12 +112,16 @@ noncomputable def secondLattice : IntegralLattice (Fin 10 → ℚ) :=
     intro i j
     fin_cases i <;> fin_cases j <;> decide)
 
-/-- The first ten-curve lattice has discriminant group `(ℤ/2)²`. -/
+/-- The first ten-curve lattice has discriminant group `(ℤ/2)²`: it has order four and
+exponent two (SCH23, §12, matrix (14)). -/
 theorem firstLattice_discriminant_group :
-    Nonempty (firstLattice.DiscriminantGroup ≃+ (ZMod 2 × ZMod 2)) := by sorry
+    Nat.card firstLattice.DiscriminantGroup = 4 ∧
+      AddMonoid.exponent firstLattice.DiscriminantGroup = 2 := by sorry
 
-/-- The second ten-curve lattice has discriminant group `(ℤ/2)²`. -/
+/-- The second ten-curve lattice has discriminant group `(ℤ/2)²`: it has order four and
+exponent two (SCH23, §12, matrix (16)). -/
 theorem secondLattice_discriminant_group :
-    Nonempty (secondLattice.DiscriminantGroup ≃+ (ZMod 2 × ZMod 2)) := by sorry
+    Nat.card secondLattice.DiscriminantGroup = 4 ∧
+      AddMonoid.exponent secondLattice.DiscriminantGroup = 2 := by sorry
 
 end TauCetiRoadmap.EnriquesSurfacesAndIntegralNonexistence
