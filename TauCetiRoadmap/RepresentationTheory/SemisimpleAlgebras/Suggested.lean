@@ -1,6 +1,8 @@
-import Mathlib
-import TauCeti.Algebra.BrauerGroup.Group
-import TauCeti.Algebra.CentralSimple.Splitting
+module
+
+public import Mathlib
+public import TauCeti.Algebra.BrauerGroup.Group
+public import TauCeti.Algebra.CentralSimple.Splitting
 
 /-!
 # Semisimple algebras: target signatures
@@ -25,6 +27,8 @@ The file imports Tau Ceti's Brauer group law (`TauCeti.BrauerGroup.instCommGroup
 the splitting predicate `TauCeti.Algebra.IsSplittingField` into this namespace, because
 QuadraticFormInvariants reads both through this module; neither is a new declaration.
 -/
+
+@[expose] public section
 
 namespace TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras
 
