@@ -11,8 +11,10 @@ explicit definitions needed to state them.
 The statable headlines are the analytic q-binomial and Euler identities, Ramanujan's
 bilateral summation, Bailey's transformation, both Rogers–Ramanujan counting and
 analytic identities, the quintuple product, rank/crank equidistribution, prime-power
-partition congruences, the completed Lerch elliptic and full modular laws, and the
-identification of the third-order f with the rank specialization.
+partition congruences, the completed Lerch elliptic and full modular laws, the
+identification of the third-order f with the rank specialization, and the T and S
+transformation laws of the completed third-order vector H₃ = F₃ − G₃, whose
+correction is a period integral of three unary theta series along a vertical ray.
 
 The following full headlines are not statable at the pins:
 * Layer 7's general signature-(r−1,1) theta transformations need the negative-cone
@@ -21,9 +23,16 @@ The following full headlines are not statable at the pins:
   harmonic weak Maass and weakly holomorphic Weil-form spaces with all-cusp growth.
 * Layer 9's arbitrary-pole Jacobi decomposition needs meromorphic Jacobi data,
   mixed Laurent–Taylor residues and the completed polar-kernel construction.
-* Layers 6, 10 and 11's torsion, classical mock-vector and root-of-unity rank
-  completions, with their shadows and all-cusp assertions, need those mock-form
-  spaces and their normalized Fourier-correction and cusp-coordinate carriers.
+* The shadow, harmonicity and all-cusp growth assertions of Layers 6, 10 and 11
+  (the torsion Lerch completions, the xi-images and cusp bounds of the third-, fifth-
+  and seventh-order vectors, and the root-of-unity rank completions) need the
+  half-integral-weight harmonic spaces, the xi operator and the cusp coordinates of
+  Layer 8.
+The fifth- and seventh-order T and S laws of §§10.6 and 10.8 use the same
+vector-completion mechanism as the third-order laws stated here, with the thirteen
+unilateral series of §10.3 and the thirty unary corrections of §§10.5 and 10.7 in
+place of f, ω and the three third-order theta series; the third-order vector is the
+acceptance test of that mechanism, and those larger vectors remain README targets.
 These constructions remain README targets; no substitute statements are made for them.
 -/
 
@@ -267,6 +276,72 @@ noncomputable def thirdOrderF (q : ℂ) : ℂ :=
 theorem thirdOrderF_rank (q : ℂ) (hq : ‖q‖ < 1) :
     HasSum (fun n : ℕ =>
       (∑ p : Nat.Partition n, (-1 : ℂ) ^ partitionRank p) * q ^ n) (thirdOrderF q) := by
+  sorry
+
+/-- Ramanujan's third-order ω on the open unit disc, with the squared odd products
+`(q;q²)²_(n+1)`; Bringmann–Ono (2.1). -/
+noncomputable def thirdOrderOmega (q : ℂ) : ℂ :=
+  ∑' n : ℕ, q ^ (2 * n * n + 2 * n) / P[q, (q ^ 2), (n + 1)] ^ 2
+
+/-- The alternating unary theta series g₀(τ) = Σ_(n∈ℤ) (−1)ⁿ (n+1/3) exp(3πi(n+1/3)²τ) of
+weight 3/2; Bringmann–Ono (2.4). -/
+noncomputable def thirdOrderG0 (τ : ℂ) : ℂ :=
+  ∑' n : ℤ, (-1 : ℂ) ^ n * ((n : ℂ) + 1 / 3) *
+    Complex.exp (3 * Real.pi * Complex.I * ((n : ℂ) + 1 / 3) ^ 2 * τ)
+
+/-- The unary theta series g₁(τ) = −Σ_(n∈ℤ) (n+1/6) exp(3πi(n+1/6)²τ); Bringmann–Ono (2.4). -/
+noncomputable def thirdOrderG1 (τ : ℂ) : ℂ :=
+  -∑' n : ℤ, ((n : ℂ) + 1 / 6) *
+    Complex.exp (3 * Real.pi * Complex.I * ((n : ℂ) + 1 / 6) ^ 2 * τ)
+
+/-- The unary theta series g₂(τ) = Σ_(n∈ℤ) (n+1/3) exp(3πi(n+1/3)²τ); Bringmann–Ono (2.4). -/
+noncomputable def thirdOrderG2 (τ : ℂ) : ℂ :=
+  ∑' n : ℤ, ((n : ℂ) + 1 / 3) *
+    Complex.exp (3 * Real.pi * Complex.I * ((n : ℂ) + 1 / 3) ^ 2 * τ)
+
+/-- The holomorphic third-order vector F₃ = (q^(−1/24) f(q), 2q^(1/3) ω(q^(1/2)),
+2q^(1/3) ω(−q^(1/2))), every fractional q-power meaning exp(2πirτ); Bringmann–Ono (2.2). -/
+noncomputable def thirdOrderVector (τ : ℂ) : Fin 3 → ℂ :=
+  ![Complex.exp (-(2 * Real.pi * Complex.I * τ) / 24) *
+      thirdOrderF (Complex.exp (2 * Real.pi * Complex.I * τ)),
+    2 * Complex.exp (2 * Real.pi * Complex.I * τ / 3) *
+      thirdOrderOmega (Complex.exp (Real.pi * Complex.I * τ)),
+    2 * Complex.exp (2 * Real.pi * Complex.I * τ / 3) *
+      thirdOrderOmega (-Complex.exp (Real.pi * Complex.I * τ))]
+
+/-- The period integral ∫_(−τ̄)^(i∞) g(z)/√(−i(z+τ)) dz along the vertical ray z = −τ̄ + it,
+t > 0, on which −i(z+τ) = 2 Im τ + t is a positive real, so the root is the real one. -/
+noncomputable def rayPeriod (g : ℂ → ℂ) (τ : ℂ) : ℂ :=
+  ∫ t in Set.Ioi (0 : ℝ),
+    Complex.I * g (-(starRingEnd ℂ) τ + Complex.I * t) / ((Real.sqrt (2 * τ.im + t) : ℝ) : ℂ)
+
+/-- The nonholomorphic correction G₃ = 2i√3 ∫_(−τ̄)^(i∞) (g₁, g₀, −g₂)(z)/√(−i(z+τ)) dz;
+Bringmann–Ono (2.3). -/
+noncomputable def thirdOrderCorrection (τ : ℂ) : Fin 3 → ℂ :=
+  ![2 * Complex.I * (Real.sqrt 3 : ℂ) * rayPeriod thirdOrderG1 τ,
+    2 * Complex.I * (Real.sqrt 3 : ℂ) * rayPeriod thirdOrderG0 τ,
+    -(2 * Complex.I * (Real.sqrt 3 : ℂ) * rayPeriod thirdOrderG2 τ)]
+
+/-- The completed third-order vector H₃ = F₃ − G₃; Bringmann–Ono (2.5). -/
+noncomputable def thirdOrderCompletion (τ : ℂ) : Fin 3 → ℂ :=
+  thirdOrderVector τ - thirdOrderCorrection τ
+
+/-- The translation law H₃(τ+1) = T₃ H₃(τ) with T₃ = [[ζ₂₄⁻¹,0,0],[0,0,ζ₃],[0,ζ₃,0]]:
+the ω components are exchanged; Zwegers, as stated in Bringmann–Ono, Theorem 2.1. -/
+theorem thirdOrderCompletion_T (τ : ℂ) (hτ : 0 < τ.im) :
+    thirdOrderCompletion (τ + 1) =
+      ![Complex.exp (-(2 * Real.pi * Complex.I) / 24) * thirdOrderCompletion τ 0,
+        Complex.exp (2 * Real.pi * Complex.I / 3) * thirdOrderCompletion τ 2,
+        Complex.exp (2 * Real.pi * Complex.I / 3) * thirdOrderCompletion τ 1] := by
+  sorry
+
+/-- The inversion law H₃(−1/τ) = √(−iτ) S₃ H₃(τ) with S₃ = [[0,1,0],[1,0,0],[0,0,−1]] and
+the principal root, positive at τ = i; Zwegers, as stated in Bringmann–Ono, Theorem 2.1. -/
+theorem thirdOrderCompletion_S (τ : ℂ) (hτ : 0 < τ.im) :
+    thirdOrderCompletion (-1 / τ) =
+      ![Complex.sqrt (-Complex.I * τ) * thirdOrderCompletion τ 1,
+        Complex.sqrt (-Complex.I * τ) * thirdOrderCompletion τ 0,
+        -(Complex.sqrt (-Complex.I * τ) * thirdOrderCompletion τ 2)] := by
   sorry
 
 end

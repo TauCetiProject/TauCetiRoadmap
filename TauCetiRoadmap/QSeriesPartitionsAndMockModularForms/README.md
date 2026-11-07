@@ -126,7 +126,7 @@ On a real coordinate ball, every distributional solution of a linear elliptic di
 
 ## How to read the build
 
-Layers 1–2 build coefficient domains and the complete normalized series calculus. Layers 3–4 supply the polynomial limits, partition adapters, statistics and arithmetic extractions. Layers 5–6 fix theta/eta roots, Lerch defects, period integrals and rational characteristic transformations. Layer 7 builds the full negative-cone and isotropic-boundary theta construction. Layer 8 builds the harmonic and mock spaces on those imported automorphy structures, with the exact Fourier and xi interfaces. Layer 9 treats every pole order in meromorphic Jacobi decomposition. Layers 10–11 identify actual classical q-series and rank specializations with their completions. `Suggested.lean` is the acceptance test: it states the q-binomial, Euler, bilateral Ramanujan and Bailey theorems; both Rogers–Ramanujan counting and analytic identities; the quintuple product; rank/crank equidistribution and prime-power congruences; the full completed Lerch elliptic and modular laws; and the third-order f/rank identity. Its module docstring identifies the remaining headlines whose constructions or automorphic carriers are absent at the pins. Its finite-product notation expands to Mathlib finite products. Each subsection below retains the complete API and discriminating Checks; these specify library work independently of the acceptance-test declarations.
+Layers 1–2 build coefficient domains and the complete normalized series calculus. Layers 3–4 supply the polynomial limits, partition adapters, statistics and arithmetic extractions. Layers 5–6 fix theta/eta roots, Lerch defects, period integrals and rational characteristic transformations. Layer 7 builds the full negative-cone and isotropic-boundary theta construction. Layer 8 builds the harmonic and mock spaces on those imported automorphy structures, with the exact Fourier and xi interfaces. Layer 9 treats every pole order in meromorphic Jacobi decomposition. Layers 10–11 identify actual classical q-series and rank specializations with their completions. `Suggested.lean` is the acceptance test: it states the q-binomial, Euler, bilateral Ramanujan and Bailey theorems; both Rogers–Ramanujan counting and analytic identities; the quintuple product; rank/crank equidistribution and prime-power congruences; the full completed Lerch elliptic and modular laws; the third-order f/rank identity; and the translation and inversion laws of the completed third-order vector. Its module docstring identifies the remaining headlines whose constructions or automorphic carriers are absent at the pins. Its finite-product notation expands to Mathlib finite products. Each subsection below retains the complete API and discriminating Checks; these specify library work independently of the acceptance-test declarations.
 
 ## Layer 1: finite, integer-indexed and formal q-products
 
@@ -1492,7 +1492,7 @@ The public laws are:
 - 2φ−f=f+4ψ=Σ_(n∈ℤ)(−q)^(n²)/P(−q;q).
 - The displayed definitions agree coefficientwise with their complex realizations.
 
-`thirdOrderF` is the function f on |q|<1, and `thirdOrderF_rank` identifies it with the rank specialization at −1. Prove absolute convergence of each of the four series. The first three nonconstant coefficients of f give the equivalent derivative values f′(0)=1, f″(0)=−4, f‴(0)=18.
+`thirdOrderF` is the function f on |q|<1, `thirdOrderOmega` is the function ω with its squared odd products, and `thirdOrderF_rank` identifies f with the rank specialization at −1. Prove absolute convergence of each of the four series. The first three nonconstant coefficients of f give the equivalent derivative values f′(0)=1, f″(0)=−4, f‴(0)=18.
 
 For the proof, apply product bounds and the quadratic exponent for convergence. The rank adapter proves f=R(−1). Prove the two theta-quotient relations by clearing the constant-one products and the unilateral binomial identities; their formal versions follow coefficientwise.
 
@@ -1530,12 +1530,12 @@ The bilateral rank identity has sum P(q;q)R_rank(z;q)/(1−z), and the bilateral
 
 ### 10.2 the third-order completed vector
 
-Prove the third-order completed vector with the following hypotheses. Put g₀(τ)=Σ_(n∈ℤ)(−1)^n(n+1/3)exp(3πi(n+1/3)²τ), g₁(τ)=−Σ_(n∈ℤ)(n+1/6)exp(3πi(n+1/6)²τ), g₂(τ)=Σ_(n∈ℤ)(n+1/3)exp(3πi(n+1/3)²τ). Define G₃=2i√3∫_(−conj τ)^(i∞)(g₁,g₀,−g₂)(z)/√(−i(z+τ))dz and H₃=F₃−G₃. Then H₃(τ+1)=T₃H₃(τ), H₃(−1/τ)=√(−iτ)S₃H₃(τ), with T₃=[[ζ₂₄⁻¹,0,0],[0,0,ζ₃],[0,ζ₃,0]] and S₃=[[0,1,0],[1,0,0],[0,0,−1]]. It is harmonic of weight 1/2, has all-cusp exponential growth, and ξH₃=−2√6·conj((g₁,g₀,−g₂)(−conj τ)). G₃ is bounded on vertical approach to every rational cusp. (BringmannOno2006, (2.3)–(2.5), Theorem 2.1, pp. 5–6, lines 279–337; Zwegers2002 §4.5 lines 5104–5121; BringmannOno2006 line 279.)
+Prove the third-order completed vector with the following hypotheses. Put g₀(τ)=Σ_(n∈ℤ)(−1)^n(n+1/3)exp(3πi(n+1/3)²τ), g₁(τ)=−Σ_(n∈ℤ)(n+1/6)exp(3πi(n+1/6)²τ), g₂(τ)=Σ_(n∈ℤ)(n+1/3)exp(3πi(n+1/3)²τ) (`thirdOrderG0`, `thirdOrderG1`, `thirdOrderG2`). Define G₃=2i√3∫_(−conj τ)^(i∞)(g₁,g₀,−g₂)(z)/√(−i(z+τ))dz and H₃=F₃−G₃, where F₃ is the vector of §10.1 (`thirdOrderVector`). The integral is taken along the vertical ray z=−conj τ+it, t>0, on which −i(z+τ)=2 Im τ+t is a positive real and the root is the real one; `rayPeriod` is this ray integral of a given function, `thirdOrderCorrection` is G₃ and `thirdOrderCompletion` is H₃. Then H₃(τ+1)=T₃H₃(τ), H₃(−1/τ)=√(−iτ)S₃H₃(τ), with T₃=[[ζ₂₄⁻¹,0,0],[0,0,ζ₃],[0,ζ₃,0]] and S₃=[[0,1,0],[1,0,0],[0,0,−1]] and the principal root of the Conventions. It is harmonic of weight 1/2, has all-cusp exponential growth, and ξH₃=−2√6·conj((g₁,g₀,−g₂)(−conj τ)). G₃ is bounded on vertical approach to every rational cusp. (BringmannOno2006, (2.3)–(2.5), Theorem 2.1, pp. 5–6, lines 279–337; Zwegers2002 §4.5 lines 5104–5121; BringmannOno2006 line 279.)
 
 The public laws are:
 
-- The displayed T₃ matrix.
-- The displayed S₃ matrix.
+- The displayed T₃ matrix: `thirdOrderCompletion_T` states H₃(τ+1)=(ζ₂₄⁻¹H₃,₁, ζ₃H₃,₃, ζ₃H₃,₂)(τ) for Im τ>0.
+- The displayed S₃ matrix: `thirdOrderCompletion_S` states H₃(−1/τ)=√(−iτ)(H₃,₂, H₃,₁, −H₃,₃)(τ) for Im τ>0.
 - The displayed exact shadow vector.
 - The correction is bounded on every vertical rational-cusp approach.
 - Put Q₃=(η(τ)/η(2τ))jacobiTheta₂(1/2,2τ), the weakly holomorphic theta quotient with its inherited rational-characteristic multiplier. The completions of q^(−1/24)φ and q^(−1/24)ψ are (H₃,₁+Q₃)/2 and (Q₃−H₃,₁)/4.
@@ -1548,6 +1548,8 @@ For the proof, use the bilateral rank identity at z=−1 and the bilateral omega
 **Checks.**
 
 - third s two: S₃²=I; the accompanying square-root factors account for the metaplectic central action.
+- third fixed point: at τ=i the inversion law reads H₃(i)=S₃H₃(i), so H₃,₁(i)=H₃,₂(i) and H₃,₃(i)=0; numerically F₃,₃(i) and G₃,₃(i) both equal 0.2263 and cancel, while H₃,₁(i)=H₃,₂(i)=0.5066. The holomorphic vector F₃ alone has F₃,₁(i)=1.3017≠F₃,₂(i)=0.2690, and the sign F₃+G₃ or the root −√(−iτ) fails the law by order one.
+- third t exchange under the correction: g₀(z+1)=e(1/6)g₂(z), g₂(z+1)=e(1/6)g₀(z) and g₁(z+1)=e(1/24)g₁(z), so the ray integrals of G₃ transform by the same T₃ as the holomorphic components; a diagonal T₃ would require H₃,₂=H₃,₃, which fails at τ=0.17+1.1i.
 - third first correction: The first correction in H₃ is −2C(1/6,0;3τ), with nonzero shadow +2√6g(1/6,0;3τ).
 - third t exchange: The leading 2q^(1/3) terms in both ω components transform by ζ₃ and exchange the signs of q^(1/2).
 - third related constants: The relations φ=f+2ψ and Q₃=q^(−1/24)(f+4ψ) give φ(0)=1 and ψ(0)=0; reversing the ψ projection fails its first coefficient.
