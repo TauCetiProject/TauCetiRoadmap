@@ -116,8 +116,8 @@ theorem finite_puncture_cusp_comparison
     ∃ Γ : Subgroup PSL(2, ℝ),
       (∀ g : PSL(2, ℝ), g ∈ Γ ↔
         ∀ z : UpperHalfPlane, f (g • z) = f z) ∧
-      ∃ hd : DiscreteTopology Γ, letI := hd;
-        Γ.IsCofinite ∧
+      Γ.IsCofinite ∧
+      ∀ [DiscreteTopology Γ],
         ∃ e : Diffeomorph 𝓘(ℂ) 𝓘(ℂ)
           Γ.CompactifiedQuotient (OnePoint ℂ) ω,
           (∀ z : UpperHalfPlane,
