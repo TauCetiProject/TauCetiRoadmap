@@ -84,9 +84,10 @@ here; what one does inside a universe is elsewhere.
 - `ZFSet.card`, `ZFSet.card_mono` (`Mathlib/SetTheory/ZFC/Cardinal.lean`).
 - `Cardinal.IsInaccessible`, `Cardinal.IsInaccessible.isRegular`,
   `Cardinal.IsInaccessible.isStrongLimit`, `Cardinal.IsInaccessible.preBeth_ord`,
-  `Cardinal.IsRegular`, `Cardinal.preBeth`, `Cardinal.ord`, `Cardinal.le_preBeth_ord`
-  (`Mathlib/SetTheory/Cardinal/Regular.lean`, `Aleph.lean`), and `Cardinal.IsStrongLimit`
-  (`Mathlib/SetTheory/Cardinal/Order.lean`).
+  `Cardinal.IsRegular`, `Cardinal.preBeth`, `Cardinal.le_preBeth_ord`
+  (`Mathlib/SetTheory/Cardinal/Regular.lean`, `Aleph.lean`), `Cardinal.IsStrongLimit`
+  (`Mathlib/SetTheory/Cardinal/Order.lean`), and `Cardinal.ord`
+  (`Mathlib/SetTheory/Ordinal/Basic.lean`).
 
 **From Tau Ceti.** Nothing is consumed from Tau Ceti.
 
