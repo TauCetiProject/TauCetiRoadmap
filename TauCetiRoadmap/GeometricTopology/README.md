@@ -1857,11 +1857,12 @@ choose a local axis along which both oriented edge tangents have positive
 component; round by smooth graphs over that axis, and prove choice
 independence by graph interpolation and3.3's smooth isotopy extension.
 This gives the actual native smooth-circle embeddings and diffeotopies
-corresponding to these polygonal certificates. This proves problem25
-without assuming Reidemeister completeness.
+corresponding to these polygonal certificates. This proves that regular polygonal
+knots with combinatorially equivalent diagrams are equivalent, with smooth
+diffeotopies between their roundings, without assuming Reidemeister completeness.
 
-For problem22 triangulate a convex planar polygon by nonintersecting
-interior diagonals and remove ears until three vertices remain. Give the
+For the equivalence of a convex planar polygon with the triangle, triangulate it by
+nonintersecting interior diagonals and remove ears until three vertices remain. Give the
 nondegenerate triangle moves, collision-free support and orientation
 comparisons, including the allowed collinear-subdivision convention.
 The result is an actual triangle/unknot equivalence, not only an abstract
@@ -2296,7 +2297,7 @@ equivalences, simultaneous reflection and reversal with the corresponding transp
 target sets. The unlink problem itself is not decided here, and a bounded obstruction does
 not prove a link nontrivial.
 
-**The local obstruction and problem17.** If a positive-crossing diagram admits no
+**The local obstruction.** If a positive-crossing diagram admits no
 decreasing type I/II move and no type III move, prove that every movie to zero crossings
 has a first non-isotopy move increasing the count; its peak therefore exceeds its
 starting count. More generally, if no diagram reachable by moves preserving the crossing
@@ -2975,18 +2976,19 @@ provides a geometric comparison for completing the simultaneous construction;
 state and prove the precise adapter for the disc-arc strings rather than
 identifying them with a threading solely because they are simple.
 
-**Checks.** Treat empty and crossing-free multi-component diagrams directly.
-For a single bad projected edge check c=−a−b's two strict determinant signs
-and the interior barycentre; contrast this with a spatial triangle whose
-interior meets another strand and hence is inadmissible. On the standard trefoil
-diagram drawn as the closure of `σ₁³` with o at the axis, every edge is good, no
-triangle move is needed and the axis route returns `σ₁³` with covering degree 2;
-the closure of `(σ₁σ₂⁻¹)²` behaves the same way with degree 3. With o chosen in the
-unbounded face the total winding about o is 0, so bad edges exist and triangle moves
-are necessary. For the
-standard closures of the identity n-braid, `σ₁³` and `(σ₁σ₂⁻¹)²`, verify the
-cut/closure adapters recover their marked geometric braids and degree/cycle
-data. The procedure is not required to minimize strand count.
+**Checks.**
+- Empty and crossing-free multi-component diagrams are treated directly.
+- For a single bad projected edge, check `c = −a − b`'s two strict determinant signs and
+  the interior barycentre; contrast this with a spatial triangle whose interior meets
+  another strand and hence is inadmissible.
+- On the standard trefoil diagram drawn as the closure of `σ₁³` with `o` at the axis, every
+  edge is good, no triangle move is needed and the axis route returns `σ₁³` with covering
+  degree `2`; the closure of `(σ₁σ₂⁻¹)²` behaves the same way with degree `3`.
+- With `o` chosen in the unbounded face the total winding about `o` is `0`, so bad edges
+  exist and triangle moves are necessary.
+- For the standard closures of the identity `n`-braid, `σ₁³` and `(σ₁σ₂⁻¹)²`, verify that
+  the cut/closure adapters recover their marked geometric braids and degree/cycle data;
+  the procedure is not required to minimize strand count.
 
 *Needs:*4.2/4.2.4's finite realized diagrams, polygonal/smooth comparison and
 supported moves; Layer1.5's relative isotopy extension; PlanarTopology's
@@ -3728,23 +3730,24 @@ pairs (i,h(i)),(j,h(j)) with i<j, prove:
 Here i,j denote the marked pair labels in entry subscripts. Prove that these exhaust all
 possibilities: strict interleaving in the same column is excluded by h being the next
 occurrence. Use the symmetric distant-column condition `abs(column(i)−column(j))>1`,
-with the difference in ℤ; the source's one-sided inequality in step4 does not exclude
-both orders. Prove every case by an actual supported push-off and signed mixed-crossing
+with the difference in ℤ, as in the source's step 4, which states the condition with
+absolute values. Prove every case by an actual supported push-off and signed mixed-crossing
 computation, including the zero entries and the choice of which curve is pushed. The
 matrix is an output of these geometric rules, not an arbitrary form realizing its
 Alexander polynomial. This builds the full finite matrix procedure and its correctness,
 coefficient/ordering transports, and surface homology API. For disconnected raw surfaces
 retain all components; use4.3.2's specified joining tubes and compare their forms before
 using a connected-surface Alexander formula. Signature comparisons use6.2's independent
-link theory.
-
-**Checks.** The empty n-strand word gives n discs and a zero-dimensional matrix; a
-one-crossing two-strand word gives a disc and no cycles. The positive three-letter
-two-strand word has matrix `[−1,0;1,−1]` in this cycle order. Reversing that basis order
-gives the native trefoil matrix `[−1,1;0,−1]`. A change of basis order is not a change
-in crossing sign. The algebraic procedure and its geometric correctness precede the
+link theory. The algebraic procedure and its geometric correctness precede the
 signature and polynomial applications below; no later knot-table or hyperbolic
 classification is a premise.
+
+**Checks.**
+- The empty `n`-strand word gives `n` discs and a zero-dimensional matrix.
+- A one-crossing two-strand word gives a disc and no cycles.
+- The positive three-letter two-strand word has matrix `[−1,0;1,−1]` in this cycle order;
+  reversing that basis order gives the native trefoil matrix `[−1,1;0,−1]`. A change of
+  basis order is not a change in crossing sign.
 
 *Needs:* 4.2's native words, closures and geometric realization;4.3's linking/push-off
 theory;4.3.2's finite band surfaces, incidence spines, Euler identities and integral
@@ -3798,9 +3801,12 @@ Seifert presentation to prove the trivial-module/perfect-commutator criterion.
   `(1 − (−t)ⁿ)/(1 + t) = Σ_{j<n} (−t)^j`, which at `t = −1` equals `n` and for `n = 3` is
   `1 − t + t²`, the trefoil's; for `n = 0` it is `0`, as the two-component unlink has infinite
   cyclic Alexander module and zero order.
-- The untwisted Whitehead double of the trefoil has `Δ = 1` and is not the unknot (its genus
-  is `1` and it is not slice by Layer 6), so `Δ = 1` does not detect the unknot: the
-  normalization `Δ(1) = 1` excludes `−Δ`, nothing more.
+- The untwisted Whitehead double of the trefoil has `Δ = 1` and is not the unknot (its
+  companion torus is essential and its genus is `1`, Layer 4.11), so `Δ = 1` does not detect
+  the unknot: the normalization `Δ(1) = 1` excludes `−Δ`, nothing more. It is topologically
+  slice by Layer 6.4, and its Levine–Tristram signatures all vanish since `Δ` has no root on
+  the unit circle, so Layer 6.2 does not obstruct it either: that it is not smoothly slice is
+  a Floer-theoretic fact outside this roadmap.
 - `Δ(−1)` is odd for every knot, since `V − Vᵀ` is unimodular and `V + Vᵀ ≡ V − Vᵀ (mod 2)`.
 
 *Needs:* Layer 4.3, Layer 5.1 (the exterior); Tau Ceti `TauCeti.KnotTheory.alexanderMatrix`,
@@ -4374,14 +4380,18 @@ the descended invariant, not a coefficient map taking a Laurent unit to zero. Pr
 naturality and agreement of the independently constructed invariants by skein
 uniqueness, preserving the full nonempty-link domain.
 
-**Checks.** From actual realized codes and marked Seifert surfaces, require ∇_U=1,
-∇_positiveHopf=z, ∇_negativeHopf=−z, ∇_rightTrefoil=1+z², and ∇_figureEight=1−z². The
-Hopf Seifert matrices are[−1] and[1]; the first gives D_V=s−s⁻¹ in the stated
-convention. The opposite half-determinant would give its negative. For the two-component
-unlink, ∇=0, while the source's positive-i Jones specialization is s+s⁻¹ and the native
-Jones value is−s−s⁻¹. For every knot both component phases are1. The four-band example
-in4.4.4 gives ∇=1−16z²+64z⁴ and a₂=−16. Verify the j-substitution in the actual native
-Laurent carrier. These are comparison tests, not a new polynomial carrier.
+**Checks.**
+- From actual realized codes and marked Seifert surfaces, require `∇_U = 1`,
+  `∇_positiveHopf = z`, `∇_negativeHopf = −z`, `∇_rightTrefoil = 1 + z²` and
+  `∇_figureEight = 1 − z²`.
+- The Hopf Seifert matrices are `[−1]` and `[1]`; the first gives `D_V = s − s⁻¹` in the
+  stated convention, and the opposite half-determinant would give its negative.
+- For the two-component unlink `∇ = 0`, while the source's positive-`i` Jones
+  specialization is `s + s⁻¹` and the native Jones value is `−s − s⁻¹`.
+- For every knot both component phases are `1`.
+- The four-band example in 4.4.4 gives `∇ = 1 − 16z² + 64z⁴` and `a₂ = −16`.
+- Verify the `j`-substitution in the actual native Laurent carrier; these are comparison
+  tests, not a new polynomial carrier.
 
 *Needs:* 4.2's realized oriented diagrams and descending moves;4.3's connected link
 surfaces, linking and geometric S-equivalence;4.3.4's selected-component sums;4.4's
@@ -8544,13 +8554,15 @@ for n≥2 arbitrary odd twist parameters2k_i+1≥7: write S=Σk_i, give the same
 primality/decomposition certificates, S−1≤u(P)≤S+1 and u(P#mirror P)≤2S−n+2, hence
 deficit at least n−4. No exact unknotting number of these pretzels is assumed.
 
-**Checks.** The native braid tuple has20 letters, exponent sum0, and permutation
-orbit0→4→2→1→3→0 after the direct zero-based encoding; its first two sign switches
-preserve that permutation. All five length15 DT words use each even encounter2,…,30
-exactly once. These finite checks are distinct from their planar realizations and marked
-knot comparisons. The signature lower bound for T#mirror T is zero, whereas that for T#T
-is6. The n=4 intermediate construction includes the identity T≼T at its lower endpoint.
-The prime-deficit construction uses n≥5 for a positive deficit.
+**Checks.**
+- The native braid tuple has `20` letters, exponent sum `0` and permutation orbit
+  `0→4→2→1→3→0` after the direct zero-based encoding; its first two sign switches preserve
+  that permutation.
+- All five length-`15` DT words use each even encounter `2, …, 30` exactly once; these
+  finite checks are distinct from their planar realizations and marked knot comparisons.
+- The signature lower bound for `T # mirror T` is zero, whereas that for `T # T` is `6`.
+- The `n = 4` intermediate construction includes the identity `T ≼ T` at its lower endpoint.
+- The prime-deficit construction uses `n ≥ 5` for a positive deficit.
 
 *Needs:* Layers4.2–4.4,4.7.1,4.9–4.11 for realized diagrams, sum balls, finite
 crossing-change movies, Seifert matrices and torus/pretzel models; 6.2's signature
@@ -9335,12 +9347,15 @@ crossing switches gives a nontrivial knot by the rational-tangle calculation abo
 Conclude that no minimal-crossing diagram realizes u(K), without claiming all knots'
 minimal diagrams have the same diagram unknotting number.
 
-**Checks.** The empty-circle diagram has u_D=0. The standard three-crossing
-trefoil diagram has u_D=u(K)=1. The minimal-example switch counts
-`(0,1,1)` give numerator −3, while `(1,1,1)` gives −1. The alternative
-word E has 14 crossings, not 10; its switched zero boxes must not be
-discarded before projective evaluation. The unmodified pair `(29,6)` has
-coprime coordinates and the same inverse-denominator knot as `(29,5)`.
+**Checks.**
+- The empty-circle diagram has `u_D = 0`; the standard three-crossing trefoil diagram has
+  `u_D = u(K) = 1`.
+- The minimal-example switch counts `(0,1,1)` give numerator `−3`, while `(1,1,1)` gives
+  `−1`.
+- The alternative word `E` has `14` crossings, not `10`; its switched zero boxes must not
+  be discarded before projective evaluation.
+- The unmodified pair `(29,6)` has coprime coordinates and the same inverse-denominator
+  knot as `(29,5)`.
 
 *Needs:* realized diagrams, Reidemeister equivalence and finite plane codes;
 the earlier numerical-invariant minimum/movie and descending constructions;
@@ -10393,17 +10408,19 @@ the same polynomial does not establish a genus upper bound. The six-circle matri
 `V₃−E_(4,4)`, with the matrix unit indexed from1, has fourth diagonal entry−1 where V₃
 has0; keep these different inputs and their actual geometric comparisons distinct.
 
-**Checks.** For n=1 and `(a₀,a₁)=(1,−1)`, β=α=(1) and λ=[1].
-For n=2 and a=(−1,4,−5), β=(−1,2), α=(−1,3) and the first λ row is
-(3,−1). For n=3 and a=(1,−6,15,−19), β=(1,−4,6), α=(1,−4,8) and
-the first row is (8,−4,1). Check all central coefficients and source shifts.
-For p=t^n the solver has every β_j=0 and α_(n−1)=n−1; that parameter
-calculation does not prove a nontrivial knot. The unit-polynomial branch
-uses the separate Whitehead construction above. The trefoil and
-figure-eight realize `t−1+t⁻¹` and `−t+3−t⁻¹`; the solver's normal forms
-need not be those named knots. The six-circle matrix `V₃−E_(4,4)` and V₃ have ordinary
-polynomials `1−5t+11t²−13t³+11t⁴−5t⁵+t⁶` and
-`1−6t+15t²−19t³+15t⁴−6t⁵+t⁶`, respectively.
+**Checks.**
+- For `n = 1` and `(a₀,a₁)=(1,−1)`: `β = α = (1)` and `λ = [1]`.
+- For `n = 2` and `a = (−1,4,−5)`: `β = (−1,2)`, `α = (−1,3)` and the first `λ` row is
+  `(3,−1)`.
+- For `n = 3` and `a = (1,−6,15,−19)`: `β = (1,−4,6)`, `α = (1,−4,8)` and the first row is
+  `(8,−4,1)`. Check all central coefficients and source shifts.
+- For `p = tⁿ` the solver has every `β_j = 0` and `α_(n−1) = n − 1`; that parameter
+  calculation does not prove a nontrivial knot, and the unit-polynomial branch uses the
+  separate Whitehead construction above.
+- The trefoil and figure-eight realize `t−1+t⁻¹` and `−t+3−t⁻¹`; the solver's normal forms
+  need not be those named knots.
+- The six-circle matrix `V₃−E_(4,4)` and `V₃` have ordinary polynomials
+  `1−5t+11t²−13t³+11t⁴−5t⁵+t⁶` and `1−6t+15t²−19t³+15t⁴−6t⁵+t⁶`, respectively.
 
 *Needs:* Layers4.2–4.4 (realized diagrams, crossing changes, Seifert/Fox
 comparison and genus bound) and4.11 (the nontrivial Whitehead double).
@@ -11554,13 +11571,16 @@ theory in 6.2 retains its separate scope.
    zero at every such safe parameter. A slice-disk metabolizer alone does not prove this
    genus-h comparison. No assumption of concordance to a Seifert-genus-h knot is used.
 
-**Checks.** With the native sign the realized trefoil has raw values 0 on the arc
-through 1 and −2 on the arc through −1. At `exp(±iπ/3)` the adjacent values are 0 and
-−2, giving σ̄=−1; compute its actual singular raw value −1 by the zero determinant and
-negative trace, independently of the averaging definition. The figure-eight has no unit
-Alexander roots and raw and averaged functions identically zero. Stabilization preserves
-both functions, including at roots, while it increases the chosen matrix's nullity at 1
-by two.
+**Checks.**
+- With the native sign the realized trefoil has raw values `0` on the arc through `1` and
+  `−2` on the arc through `−1`.
+- At `exp(±iπ/3)` the adjacent values are `0` and `−2`, giving `σ̄ = −1`; compute its
+  actual singular raw value `−1` by the zero determinant and negative trace, independently
+  of the averaging definition.
+- The figure-eight has no unit Alexander roots and raw and averaged functions identically
+  zero.
+- Stabilization preserves both functions, including at roots, while it increases the chosen
+  matrix's nullity at `1` by two.
 
 Retain the integral algebraic regression `A=[[0,−1],[1,1]]`, `V=[[0₂,A],[Aᵀ−I₂,I₂]]`.
 Verify its skew form is standard symplectic, the first ℤ² summand is primitive
