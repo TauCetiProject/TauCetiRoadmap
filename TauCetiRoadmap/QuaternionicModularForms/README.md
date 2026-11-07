@@ -7,17 +7,20 @@ forms. The inputs are the quaternion norm form and base change of Tau Ceti, the 
 definite stabiliser theorem of AdelicAlgebraicGroups §5.3, the restricted-series, Banach-module and
 Fredholm libraries of RestrictedPowerSeries, PadicFunctionalAnalysis, CompactOperators and
 NewtonPolygons, and the automorphic forms of ArithmeticLocallySymmetricSpaces. The roadmap builds
-local integral data and double-coset certificates, analytic weight actions, Banach form spaces with
-property (Pr), certified Hecke matrices, compactness of the controlling `U_p`, Fredholm series and
-finite-slope summands, an integral annular model over the boundary of weight space, and Bol's
-identity with theta maps. Its end theorems are: compactness of the controlling operator on
-overconvergent forms of a totally definite algebra (§3.3); the Fredholm series, its finite-slope
-summands and slope bounds (§§4.1–4.2); integrality of the annular Fredholm series and its agreement
-with the analytic series (§4.4); the factorisation `H_κ(T)=det(1−TU_p|M_cl)·H_κ′(p^{k+1}T)` and
-small-slope classicality over `ℚ` (§5.3); the realisation of definite algebraic forms by cuspidal
-automorphic representations of `Dˣ` (§2.5); and, for `M₂(F)` over an imaginary quadratic field, the
-comparison of weight-`(k,k)` Bianchi cusp forms with Williams's adelic forms and with cuspidal
-cohomology of Bianchi threefolds (§2.6).
+local integral data and double-coset certificates, algebraic coefficient modules over every
+commutative ring, analytic weight actions, level forms and classical forms for every quaternion
+algebra over every number field, Banach form spaces with property (Pr), certified Hecke matrices,
+compactness of the controlling `U_p`, Fredholm series, finite-slope summands and families, an
+integral annular model over the boundary of weight space, and Bol's identity with partial theta
+maps. Its end theorems are: compactness of the controlling operator on overconvergent forms of a
+totally definite algebra (§3.3); the Fredholm series, its finite-slope summands and slope bounds
+(§§4.1–4.2); integrality of the annular Fredholm series and its agreement with the analytic series
+(§4.4); the partial determinant identity `H_κ(T)=H_{W_τ}(T)·H_{κ′_τ}(τ(π_v)^{r_τ}T)`, with the
+factorisation `H_κ(T)=det(1−TU_p|M_cl)·H_κ′(p^{k+1}T)` over `ℚ`, and small-slope classicality for
+totally definite algebras over totally real fields (§5.3); the realisation of definite algebraic
+forms by cuspidal automorphic representations of `Dˣ` (§2.5); and, for `M₂(F)` over an imaginary
+quadratic field, the comparison of weight-`(k,k)` Bianchi cusp forms with Williams's adelic forms
+and with cuspidal cohomology of Bianchi threefolds (§2.6).
 
 ## Scope and ownership
 
@@ -27,17 +30,22 @@ This roadmap owns:
   units, the levels `U₀(𝔫)`, `U₁(𝔫)`, the finite idelic norm character, the local monoids
   `Σ₀(t)`, `Σ₁(t)` and their double-coset decompositions (Layer 0);
 - the structure of `GL_1(D)` as a connected reductive inner form of `GL₂` (§0.1) and the fibres of
-  class-set refinement along the levels used here (§0.3);
-- analytic and algebraic weight actions on restricted series and polynomial modules, with their
-  determinant normalisations (Layer 1);
-- the Banach structure on quaternionic form spaces, analytic and overconvergent forms, the
-  level/radius comparison, stabiliser averaging and property (Pr) (§§2.1–2.3);
+  class-set refinement, in their group-theoretic form (§0.3);
+- analytic weight actions on restricted series, and the algebraic coefficient modules over every
+  commutative ring with their splittings, determinant normalisations and nebentypus (Layer 1);
+- quaternionic level forms at every open level and classical forms for every quaternion algebra,
+  with their finiteness, level maps, colimits, central characters, coefficient extension, change of
+  splittings and Banach structure; analytic and overconvergent forms, the level/radius comparison,
+  stabiliser averaging and property (Pr) (§§2.1–2.3);
 - the specialisation of ArithmeticLocallySymmetricSpaces' automorphic forms to `Dˣ` over every
   number field, the definite automorphic realisation and the Bianchi comparisons (§§2.4–2.6);
-- the Hecke operators `U_v`, `T_v`, `S_v` and diamond operators, certified matrices, and compactness
-  of the controlling operator (Layer 3);
-- the application of the Fredholm and slope theory to these operators, the annular Mahler model
-  and its estimates (Layer 4), and Bol's identity, theta maps and classicality over `ℚ` (Layer 5).
+- the Hecke operators `U_v`, `T_v`, `T_{v²}`, `S_v` and diamond operators, their inversion formulas
+  and the commutative Hecke algebra they generate, certified matrices, and compactness of the
+  controlling operator (Layer 3);
+- the application of the Fredholm and slope theory to these operators, families over every
+  `F_v`, the annular Mahler model and its estimates (Layer 4), and Bol's identity, partial theta
+  maps, the partial determinant identity and small-slope classicality over totally real fields
+  (Layer 5).
 
 It consumes and does not restate:
 
@@ -75,10 +83,10 @@ Serre weights belong to AlgebraicModularFormsAndSerreWeights; the characteristic
 derivative of Layer 5 is a different operation. Class-set enumerations and operator computations
 for individual quaternion orders are not targets of this roadmap.
 
-**Generality.** The local data of Layer 0, the coefficient actions of Layer 1, the Banach form
-spaces of §2.1 and the algebraic Hecke operators of §§3.1–3.2 carry no total-reality or
-definiteness hypothesis; local analytic constructions need a splitting only at the places where
-they are used. The stabiliser finiteness consumed from AdelicAlgebraicGroups §5.3 requires `F`
+**Generality.** The local data of Layer 0, the coefficient actions of Layer 1, the form spaces of
+§2.1, the classical forms of §2.2 and the algebraic Hecke operators of §§3.1–3.2 carry no
+total-reality or definiteness hypothesis; local analytic constructions need a splitting only at the
+places where they are used. The stabiliser finiteness consumed from AdelicAlgebraicGroups §5.3 requires `F`
 totally real and `D` ramified at every real place; this condition makes `Dˣ(F⊗ℝ)` compact modulo
 its centre (Loeffler, Assumption 3.1.3 and Proposition 3.1.4, p. 15). At a complex place
 `D⊗_Fℂ≃M₂(ℂ)` and compactness fails, so nondefinite forms use the archimedean realisation of
@@ -137,11 +145,19 @@ its centre (Loeffler, Assumption 3.1.3 and Proposition 3.1.4, p. 15). At a compl
 
 - `QuaternionAlgebra`, `Quaternion` (`ℍ[R,a,b]`, `ℍ[R]`), `Algebra.TensorProduct`,
   `Algebra.IsCentral`, `IsSimpleRing`, `Module.finrank`.
+- `MvPolynomial.restrictSupport` (`Mathlib/RingTheory/MvPolynomial/Basic.lean`), the carrier of the
+  algebraic coefficient modules of §1.3;
+  `NumberField.Units.dirichletUnitTheorem.unitLattice_span_eq_top`
+  (`Mathlib/NumberTheory/NumberField/Units/DirichletTheorem.lean`).
+- `Subgroup.normalCore`, `Subgroup.subgroupOf`, `Subgroup.relIndex`; `Representation.averageMap`
+  and `Representation.isProj_averageMap` (`Mathlib/RepresentationTheory/Invariants.lean`), for a
+  finite group whose order is invertible in the scalars.
 - `NumberField`, `NumberField.IsTotallyReal`, `IsDedekindDomain.FiniteAdeleRing`,
   `IsModuleTopology`.
 - `DoubleCoset.Quotient`, `IsHeckeTriple` and `HeckeCosetModule` (`Mathlib/NumberTheory/HeckeRing/Defs.lean`).
-- `PowerSeries.IsRestricted` (`Mathlib/RingTheory/PowerSeries/Restricted.lean`) and
-  `PowerSeries.derivative` (`Mathlib/RingTheory/PowerSeries/Derivative.lean`).
+- `PowerSeries.IsRestricted` (`Mathlib/RingTheory/PowerSeries/Restricted.lean`),
+  `PowerSeries.derivative` (`Mathlib/RingTheory/PowerSeries/Derivative.lean`) and
+  `Nat.descFactorial`.
 - `SymmetricPower` (`Mathlib/LinearAlgebra/TensorPower/Symmetric.lean`), `Representation`.
 - `ContinuousLinearMap`, `IsCompactOperator`, `ZeroAtInftyContinuousMap` (`C₀(ℕ,R)`),
   `Matrix.det`, `Matrix.charpoly`.
@@ -160,6 +176,13 @@ its centre (Loeffler, Assumption 3.1.3 and Proposition 3.1.4, p. 15). At a compl
   `TauCeti.PowerSeries.norm_eq_gaussNorm`).
 - `TauCeti.SU2.symPower` (`TauCeti/RepresentationTheory/SU2/SymmetricPower.lean`) and
   `TauCeti.SU2.isIrreducible_symPower` (`TauCeti/RepresentationTheory/SU2/Irreducible.lean`).
+- `TauCeti.symPowerRep` (`TauCeti/RepresentationTheory/ClassicalGroups/SymmetricPower.lean`), the
+  symmetric-power representation of `GL n k` over a commutative ring, and
+  `Representation.charTwist` (`TauCeti/RepresentationTheory/CharacterTwist.lean`), the twist by a
+  linear character.
+- `TauCeti.skolemNoether` (`TauCeti/Algebra/CentralSimple/SkolemNoether.lean`): two algebra maps
+  from a central simple algebra to a finite-dimensional simple algebra over a field are conjugate
+  by a unit.
 
 ### From TauCetiRoadmap.AdelicAlgebraicGroups
 
@@ -231,8 +254,9 @@ actions on restricted series and on polynomial coefficients. Layer 2 forms the B
 forms, the analytic and overconvergent stages and property (Pr), and in §§2.4–2.6 specialises the
 automorphic theory to `Dˣ`, realises definite algebraic forms automorphically and treats Bianchi
 forms. Layer 3 defines the Hecke operators, their certified matrices and proves compactness. Layer 4
-applies the Fredholm and slope theory, including the annular model. Layer 5 proves Bol's identity,
-the theta–Hecke relation, the determinant factorisation and classicality over `ℚ`.
+applies the Fredholm and slope theory, including families and the annular model. Layer 5 proves
+Bol's identity, the partial theta–Hecke relations, the partial determinant identity and small-slope
+classicality over totally real fields, with Buzzard's factorisation over `ℚ`.
 
 ## Layer 0: quaternion algebras, levels and certificates
 
@@ -321,16 +345,27 @@ compact subgroup. *Needs:* §0.1; AdelicAlgebraicGroups §4.6; Mathlib
 ### 0.3 Class-set refinement
 
 Write `Cl(U)=Dˣ\D_fˣ/U`, finite with representatives and factorisations by AdelicAlgebraicGroups
-§5.3. **Refinement fibres.** For compact open `U′ ⊂ U` and `x∈D_fˣ`, prove that the fibre of the
-refinement map `Cl(U′) → Cl(U)` over the class of `x` is in bijection with the orbit set
-`Γ_x\U/U′`, where `Γ_x=U∩x⁻¹Dˣx` acts on `U/U′` by left multiplication, through
-`Γ_x u U′ ↦ Dˣ x u U′`. Deduce
-`#Cl(U′) = Σ_{[x]∈Cl(U)} #(Γ_x\U/U′)`, and, when every `Γ_x` lies in the normal core
-`∩_{u∈U}uU′u⁻¹` (so acts trivially on `U/U′`), `#Cl(U′)=[U:U′]·#Cl(U)`. *Needs:* AdelicAlgebraicGroups §5.3; Mathlib `DoubleCoset.Quotient`.
+§5.3 for compact open `U`, over every number field and for every quaternion algebra. An open
+subgroup `U` that is not compact, such as `U𝔸_{F,f}ˣ`, contains the compact open subgroup
+`U∩(𝒪_D⊗_{𝒪_F}Ô_F)ˣ` for any order `𝒪_D`, whose class set maps onto `Cl(U)`; so `Cl(U)` is finite
+for every open `U`.
 
-- The bijection is natural in `U′` and compatible with composition of refinements.
+**Refinement fibres.** Let `G₀` be a group, `Γ≤G₀` a subgroup and `U′≤U≤G₀` subgroups; no
+topology, finiteness or definiteness enters. For `x∈G₀` let `Γ_x=U∩x⁻¹Γx` act on `U/U′` by left
+multiplication. Prove that the refinement map `Γ\G₀/U′ → Γ\G₀/U` is surjective and that its fibre
+over `ΓxU` is in bijection with the orbit set `Γ_x\U/U′` through `Γ_x u U′ ↦ Γ x u U′`. Deduce,
+when `Γ\G₀/U` and `[U:U′]` are finite, `#(Γ\G₀/U′) = Σ_{[x]∈Γ\G₀/U} #(Γ_x\U/U′)`, and, when every
+`Γ_x` lies in the normal core `∩_{u∈U}uU′u⁻¹` of `U′` in `U` (so acts trivially on `U/U′`),
+`#(Γ\G₀/U′)=[U:U′]·#(Γ\G₀/U)`. The case used throughout is `G₀=D_fˣ`, `Γ=Dˣ` and open levels
+`U′⊂U` with `[U:U′]` finite (for instance `U` compact), where the formulas compute `#Cl(U′)` from
+`Cl(U)`. *Needs:* AdelicAlgebraicGroups §5.3; Mathlib `DoubleCoset.Quotient`,
+`Subgroup.normalCore`, `Subgroup.subgroupOf`, `Subgroup.relIndex`.
+
+- Replacing `x` by `γxu`, with `γ∈Γ` and `u∈U`, conjugates `Γ_x` to `u⁻¹Γ_xu`, and the two
+  bijections differ by left multiplication by `u` on `U/U′`.
+- The bijection is natural in `U′` and compatible with composition of refinements `U″≤U′≤U`.
 - For a normal `U′ ⊲ U`, the fibre is the quotient of `U/U′` by the image of `Γ_x`.
-- No definiteness hypothesis is used; finiteness of the fibres is the finiteness of `U/U′`.
+- Finiteness of the fibres is the finiteness of `U/U′`; `Γ_x` may be infinite.
 
 **Checks.**
 - For `U′=U` every fibre has one element, and the formula gives `#Cl(U)`.
@@ -338,8 +373,11 @@ refinement map `Cl(U′) → Cl(U)` over the class of `x` is in bijection with t
   and `U′=U∩U₁(3)`, `uU′ ↦ (0,1)u⁻¹ mod 3` identifies `U/U′` with the 8 nonzero rows of `𝔽₃²`, and
   `Γ_1` acts through its reduction, which is all of `SL₂(𝔽₃)` (order 24, injective on finite-order
   units at an odd prime). `SL₂(𝔽₃)` is transitive on nonzero rows, so `#Cl(U′)=1`, not `8`.
-- For `D=M₂(F)` over an imaginary quadratic field (§0.5 setting), the fibres are still finite
-  although `Γ_x` is infinite: finiteness comes from `U/U′`, not from `Γ_x`.
+- For `D=M₂(F)` over an imaginary quadratic field (Layer 0's Examples), the fibres are still
+  finite although `Γ_x` is infinite: finiteness comes from `U/U′`, not from `Γ_x`.
+- In `G₀=S₃` with `Γ=⟨(01)⟩`, `U=G₀` and `U′=⟨(12)⟩` there is one class at `U`, and `Γ` has two
+  orbits on the three cosets of `U′`: it swaps `U′` and `(01)U′` and fixes `(02)U′`, because
+  `(01)(02)=(02)(12)`. So `#(Γ\G₀/U′)=2`, not `[U:U′]=3`, and not `1`.
 
 ### 0.4 Local monoids and double-coset certificates
 
@@ -381,8 +419,8 @@ space is the automorphic specialisation of §2.6.
 ### Dependencies
 
 AdelicAlgebraicGroups §§1.2, 1.5, 4.6, 5.3; ReductiveGroups Layer 6; Tau Ceti quaternion norm form,
-base change, splitting and Hecke ring; Mathlib `DoubleCoset.Quotient`, `IsHeckeTriple`,
-`IsDedekindDomain.FiniteAdeleRing`.
+base change, splitting and Hecke ring; Mathlib `DoubleCoset.Quotient`, `Subgroup.normalCore`,
+`Subgroup.subgroupOf`, `Subgroup.relIndex`, `IsHeckeTriple`, `IsDedekindDomain.FiniteAdeleRing`.
 
 ## Layer 1: weights and coefficient actions
 
@@ -460,18 +498,48 @@ expansion data. On an integral norm model the bounds `‖j_κ(γ)‖≤1` and `�
 
 ### 1.3 Algebraic weights and normalisation
 
-For `n_σ∈ℕ`, `v_σ∈ℤ`, define `L_{n,v}=⊗_σ Sym^{n_σ}(K²)⊗det^{v_σ}` in the polynomial convention whose
-action is `∏_σ(c_σz_σ+d_σ)^{n_σ}(det γ_σ)^{v_σ}` times substitution. Identify it with the
-coordinatewise degree-bounded polynomials, prove dimension `∏_σ(n_σ+1)`, stability and injection
-into analytic coefficients, allowing a finite-order character constant on the discs of the level.
-The dictionary to the sources' weights is `k_σ=n_σ+2`, `w_σ=v_σ+n_σ+1` (Buzzard, *Eigenvarieties*,
-§8, p. 70). Comparing with Mathlib's `SymmetricPower` with its left action uses the
-opposite-action/dual adapter of §2.5. *Needs:* §1.2;
-Mathlib `SymmetricPower`.
+For a commutative ring `R`, a finite set `Σ` of labels, `n:Σ→ℕ` and `v:Σ→ℤ`, define `L_{n,v}(R)` as
+the `R`-module of polynomials in variables `z_σ`, `σ∈Σ`, of degree at most `n_σ` in each `z_σ`
+(Mathlib `MvPolynomial.restrictSupport` on the exponents bounded by `n`), with the right action of
+`∏_σGL₂(R)` given by `P|γ=∏_σ(det γ_σ)^{v_σ}(c_σz_σ+d_σ)^{n_σ}·P((a_σz_σ+b_σ)/(c_σz_σ+d_σ))`, that is
+`z^m ↦ ∏_σ(det γ_σ)^{v_σ}(a_σz_σ+b_σ)^{m_σ}(c_σz_σ+d_σ)^{n_σ−m_σ}`. Writing `z_σ^{m_σ}` as
+`X_σ^{m_σ}Y_σ^{n_σ−m_σ}`, the action is `(det γ_σ)^{v_σ}P(a_σX_σ+b_σY_σ,c_σX_σ+d_σY_σ)` in each
+factor, which gives the right-action law. A monoid homomorphism `Δ→∏_σGL₂(R)` makes `L_{n,v}(R)` a
+right `Δ`-module. Two actions are used.
 
-- Over a totally real field, global algebraicity requires `n_σ+2v_σ` parallel, equivalently finite
-  image of the central unit action; over a general number field the finite-image hypothesis is
-  kept explicitly.
+- **Splittings.** For a field `K`, a finite set `T` of finite places of `F` and, for `v∈T`, a set
+  `Σ_v` of field embeddings `σ:F_v→K` with `F_v`-algebra homomorphisms
+  `ι_{v,σ}:D⊗_FF_v→M₂(K)` (`M₂(K)` an `F_v`-algebra through `σ`), `D_fˣ` acts through
+  `g↦(ι_{v,σ}(g_v))_{v,σ}`. Such `ι_{v,σ}` exists exactly when `D_v⊗_{F_v,σ}K` splits: at a split
+  place through a splitting `D_v≃M₂(F_v)`, and at a ramified place for instance when `K` contains a
+  quadratic extension of `σ(F_v)`.
+- **Integral monoids.** At a split place `v|p` with the splitting of Convention 1, the matrices
+  of `Σ₀(t)` (§0.4) have integral entries but not unit determinants, so they do not map to
+  `GL₂(𝒪_K)`. The same formula with `(det γ_σ)^{v_σ}` replaced by the normalised determinant below,
+  a character with unit values, is a right action of `Σ₀(t)` through the embeddings `σ∈Σ_v` over
+  every `𝒪_K`-algebra `R`. A nebentypus `ε:(𝒪_v/π_v^t)ˣ→Rˣ` multiplies it by `ε(d mod π_v^t)`, still
+  a right action because `d_{γδ}≡d_γd_δ mod π_v^t` on `Σ₀(t)`.
+
+Prove that the monomials `z^m`, `m_σ≤n_σ`, form an `R`-basis, so that `L_{n,v}(R)` is free of rank
+`∏_σ(n_σ+1)`, the tensor product over `σ` of the one-variable modules, and compatible with base
+change `R→R′`; and that over a complete field it injects into the analytic coefficients of
+§§1.1–1.2, compatibly with the actions in the normalised convention. In one variable and over every
+commutative ring, `z^m↦e₁^me₂^{n−m}` identifies `L_{n,v}(R)` with the carrier of Tau Ceti's
+`TauCeti.symPowerRep R 2 n` and carries `(·)|γ` to `det(γ)^v·Sym^n(γᵀ)`; since `γᵀ=det(γ)·wγ⁻¹w⁻¹`
+for `w=((0,1),(−1,0))`, composing with `Sym^n(w)⁻¹` identifies the left action `g↦(·)|g⁻¹` with
+`Sym^n(std)⊗det^{−n−v}`, the twist `Representation.charTwist` of `TauCeti.symPowerRep` by
+`det^{−n−v}`. When `n!` is a unit in `R` this is the contragredient of `Sym^n(std)⊗det^v`, the form
+used in §2.5. The dictionary to the sources' weights is `k_σ=n_σ+2`, `w_σ=v_σ+n_σ+1` (Buzzard,
+*Eigenvarieties*, §8, p. 70). *Needs:* §§0.4, 1.2; Mathlib `MvPolynomial.restrictSupport`,
+`SymmetricPower`; Tau Ceti `TauCeti.symPowerRep`, `Representation.charTwist`.
+
+- A scalar `uI` in the factor `σ` acts by `u^{n_σ+2v_σ}`.
+- Over a totally real field, with `K` containing a normal closure of `F` and `Σ` all embeddings
+  `F→K`, global algebraicity requires `n_σ+2v_σ` parallel, equivalently finite image of the
+  central unit action: a parallel value `w` gives `N_{F/ℚ}(u)^w=±1`, and conversely Dirichlet's
+  unit theorem (Mathlib `NumberField.Units.dirichletUnitTheorem.unitLattice_span_eq_top`) puts
+  `(n_σ+2v_σ)_σ` orthogonal to the trace-zero hyperplane. Over a general number field the
+  finite-image hypothesis is kept explicitly.
 - The algebraic determinant character is `ν_alg(x)=∏_σ σ(x)^{v_σ}`; with `ord_v(π_v)=1` the
   normalised extension is `ν_norm(x)=ν_alg(π_v^{−ord_v(x)}x)`, and
   `ν_alg(x)=ν_alg(π_v)^{ord_v(x)}ν_norm(x)`.
@@ -489,6 +557,12 @@ Mathlib `SymmetricPower`.
   `A^{Γ_x}` in characteristic zero.
 - Over `ℚ(√2)` with `(n_1,n_2)=(0,2)`, `v=(0,0)`, `n_σ+2v_σ` is not parallel and the unit
   `1+√2` acts by `σ_2(1+√2)^{2}≠1`, an element of infinite order.
+- Over `R=𝒪_K` with `n=0` and `v=−1`, the algebraic action of `diag(π,1)∈Σ₀(1)` would multiply by
+  `σ(π)⁻¹∉𝒪_K`, so it is not defined integrally, while the normalised action multiplies by `1`;
+  with `v=1` both are defined and differ by `σ(π)`.
+- In one variable with `n=1`, `v=0`, `γ=((1,1),(0,1))` and `δ=((1,0),(1,1))`: `1|γ=1`, so
+  `(1|γ)|δ=z+1=1|(γδ)` with `γδ=((2,1),(1,1))`, while `1|(δγ)=z+2`; a formula composing as a left
+  action exchanges the two.
 
 ### 1.4 Several places and disc stages
 
@@ -523,27 +597,50 @@ For `p=3`, trivial determinant twist and `n_w(u)=exp(w log u)` on `1+3ℤ₃`, e
 ### Dependencies
 
 Layer 0; RestrictedPowerSeries §§0.1, 1.1–1.3, 2.2–2.4; PadicFunctionalAnalysis §§1.1, 4.1–4.6,
-5.2–5.5; CompactOperators §0.3; AdicSpacesPartII R0.5; Mathlib `SymmetricPower`.
+5.2–5.5; CompactOperators §0.3; AdicSpacesPartII R0.5; Mathlib `SymmetricPower`,
+`MvPolynomial.restrictSupport`, `NumberField.Units.dirichletUnitTheorem.unitLattice_span_eq_top`;
+Tau Ceti `TauCeti.symPowerRep`, `Representation.charTwist`.
 
 ## Layer 2: spaces of quaternionic forms
 
 ### 2.1 Forms on `D_fˣ` and their Banach structure
 
-Specialise AutomorphicFormsOnReductiveGroups §7.4's carrier to `G₀=D_fˣ`, `Γ=Dˣ` and a level `U`
-contained in the monoid `Δ` of a right coefficient action, giving `M(U,A)` over any number field,
-with its evaluation equivalence `M(U,A) ≃ ∏_i A^{Γ_{c_i}}` at representatives `c_i` of `Cl(U)`.
-For a finite class set and a Banach `R`-module `A` with bounded `U`-action, transfer the supremum
-norm of the invariant product to `M(U,A)`. Prove completeness, boundedness of the change of
+Specialise AutomorphicFormsOnReductiveGroups §7.4's carrier to `G₀=D_fˣ`, `Γ=Dˣ` and an open
+subgroup `U`, compact or not, contained in the monoid `Δ` of a right coefficient action on a module
+`A` over a commutative ring `R`. This gives `M(U,A)` over every number field and for every quaternion
+algebra, with §7.4's slash operators, coefficient maps, restriction and trace, and its evaluation
+equivalence `M(U,A) ≃ ⊕_i A^{Γ_{c_i}}` at representatives `c_i` of the finite set `Cl(U)` (§0.3).
+*Needs:* AutomorphicFormsOnReductiveGroups §§7.4, 7.6; AdelicAlgebraicGroups §5.3; §0.3.
+
+- **Finiteness.** For a Noetherian `R` and a finite `R`-module `A`, `M(U,A)` is a finite `R`-module;
+  if `A` is free of rank `r` and every `Γ_{c_i}` acts trivially, it is free of rank `#Cl(U)·r`.
+- **Representatives.** Replacing `c_i` by `γc_iu`, with `γ∈Dˣ` and `u∈U`, replaces the coordinate
+  `φ(c_i)` by `φ(c_i)|u` and `Γ_{c_i}` by `u⁻¹Γ_{c_i}u`.
+- **Levels.** For open `U′⊂U`, representatives of `Cl(U′)` may be chosen of the form `c_iu` with
+  `u∈U` (§0.3). Restriction `M(U,A)→M(U′,A)` is injective, with coordinate `φ(c_i)|u` at `c_iu`;
+  when `[U:U′]` is finite, the trace `(tr φ)(g)=Σ_{u∈U/U′}φ(gu)|u⁻¹`, summed over left cosets,
+  satisfies `tr∘res=[U:U′]·id`.
+- **Colimits.** For open levels directed by reverse inclusion the restriction maps are injective,
+  so the filtered colimit of the `M(U,A)` is the union of their images in the `A`-valued functions
+  on `D_fˣ`.
+- **Central characters.** Let `ψ:𝔸_{F,f}ˣ→Rˣ` be a character trivial on `Fˣ` with `a|z=ψ(z)a` for
+  `z∈U∩𝔸_{F,f}ˣ`. The forms with `φ(gz)=ψ(z)φ(g)` are AutomorphicFormsOnReductiveGroups §7.6's
+  central submodule; extending the action to the open subgroup `U𝔸_{F,f}ˣ` by
+  `a|(uz)=ψ(z)(a|u)`, well defined by the compatibility on `U∩𝔸_{F,f}ˣ`, identifies it with §7.4's
+  carrier at the open level `U𝔸_{F,f}ˣ`, so the finiteness, representative, level and colimit
+  statements apply to it.
+
+**Banach structure.** For a Banach `R`-module `A` with bounded `U`-action, transfer the supremum
+norm of the invariant sum to `M(U,A)`. Prove completeness, boundedness of the change of
 representatives (an isometry when `U` acts isometrically), and boundedness of coefficient maps and
-level restriction/trace maps with their norm constants. *Needs:* AutomorphicFormsOnReductiveGroups
-§7.4; AdelicAlgebraicGroups §5.3; PadicFunctionalAnalysis §§0.3, 1.1.
+level restriction/trace maps with their norm constants. *Needs:* PadicFunctionalAnalysis §§0.3, 1.1.
 
 - The norm is independent of the representatives up to the constant `sup_u ‖·|u‖`.
 - Restriction `M(U,A)→M(U′,A)` has norm at most `sup_{u∈U}‖·|u‖` (one for an isometric action),
-  since a representative `c_iu` of `Cl(U′)` has value `φ(c_i)|u`; the trace `Σ_{u∈U/U′}φ|u` has
-  the same bound by the ultrametric inequality.
+  since a representative `c_iu` of `Cl(U′)` has value `φ(c_i)|u`; for ultrametric `A` and finite
+  `[U:U′]` the trace has the same bound by the ultrametric inequality.
 - Neither the algebraic definition nor the norm needs finite stabilisers, total reality or
-  definiteness; finiteness of the class set is used only to make the product finite.
+  definiteness; finiteness of the class set is used only to make the sum finite.
 
 **Checks.**
 - For the zero module `M(U,0)=0`; for a one-element class set with trivial stabiliser action,
@@ -552,16 +649,41 @@ level restriction/trace maps with their norm constants. *Needs:* AutomorphicForm
   equivalent but not ultrametric.
 - For a non-isometric action with `‖·|u‖=|p|^{−1}` on one class, changing that representative
   by `u` multiplies the coordinate norm by up to `p`, so the change is bounded but not isometric.
+- For `D=M₂(ℚ)` and `U=GL₂(Ẑ)` there is one class, with `Γ_1=GL₂(ℤ)`, so `M(U,A)=A^{GL₂(ℤ)}`; it is
+  zero whenever `−I` acts by `−1` and `2` is not a zero divisor on `A`. The stabiliser is infinite
+  and the space is not a space of cusp forms.
+- The trace runs over left cosets `uU′`: on `U=S₃` (acting trivially on `A=ℤ`, with `Γ` trivial
+  and `G₀=U`) and `U′={1,(01)}`, a form at level `U′` is a function constant on left cosets, and a
+  sum `Σφ(gu)` over representatives of the right cosets `U′u` depends on the representatives.
+- If `z₀∈U∩𝔸_{F,f}ˣ` acts trivially on `A=R` but `ψ(z₀)≠1`, every central-character form satisfies
+  `(ψ(z₀)−1)φ=0`, so the central submodule is zero over a domain: the compatibility on
+  `U∩𝔸_{F,f}ˣ` is what makes the extended action exist.
 
 ### 2.2 Classical, analytic and overconvergent spaces
 
-Assume `F` totally real and `D` totally definite. Define classical forms `M(U,L_{n,v})`, analytic
-forms `M(U,A_{κ,r})` at each admissible radius, and overconvergent forms as the filtered colimit
-under restriction `M(U,A_{κ,r}) → M(U,A_{κ,r′})`, `0<r′≤r` tending to zero coordinatewise. Prove the
-restriction maps injective, using the coefficient-recovery hypotheses, before describing the
-colimit as a union; a norm or a Fredholm determinant always refers to one Banach stage (Buzzard,
-*Eigenvarieties*, §10). Prove the polynomial inclusion and its Hecke compatibility with §1.3's
-scalar. *Needs:* §§1.3–1.4, 2.1.
+**Classical forms.** For every number field `F` and every quaternion algebra `D`, a field `K` and
+splittings `ι_{v,σ}` at a finite set `T` of finite places, split or ramified (§1.3), the classical
+forms of weight `(n,v)` at an open level `U` are `M(U,L_{n,v}(K))` with `Δ=D_fˣ`; at a split place
+`v|p` whose level component lies in the preimage of `Σ₀(t)`, take `Δ` the elements whose
+`v`-component lies there and allow §1.3's nebentypus. Prove that `M(U,L_{n,v}(K))` is finite
+dimensional, of dimension `Σ_i dim L_{n,v}(K)^{Γ_{c_i}}`, which is `#Cl(U)·∏_σ(n_σ+1)` when every
+stabiliser acts trivially. For a field extension `K′/K`, with each `ι_{v,σ}` composed with
+`M₂(K)→M₂(K′)`, prove `M(U,L_{n,v}(K))⊗_KK′ ≅ M(U,L_{n,v}(K′))`, compatibly with level maps and the
+Hecke operators of §3.1: the invariants of a finite-dimensional representation are cut out by
+finitely many linear equations, and there are finitely many classes. Prove independence of the
+splittings: two choices are conjugate, `ι′_{v,σ}=h_{v,σ}ι_{v,σ}h_{v,σ}⁻¹` with `h∈∏GL₂(K)` (Tau Ceti
+`TauCeti.skolemNoether`, applied to the central simple `K`-algebra `D_v⊗_{F_v,σ}K`), and
+`φ↦(g↦φ(g)|h⁻¹)` carries the space formed with `ι` onto the space formed with `ι′`, compatibly
+with level maps and Hecke operators. *Needs:* §§1.3, 2.1; Tau Ceti `TauCeti.skolemNoether`.
+
+**Analytic and overconvergent forms.** Assume `F` totally real and `D` totally definite, split at
+the selected places. Define analytic forms `M(U,A_{κ,r})` at each admissible radius, and
+overconvergent forms as the filtered colimit under restriction `M(U,A_{κ,r}) → M(U,A_{κ,r′})`,
+`0<r′≤r` tending to zero coordinatewise. Prove the restriction maps injective, using the
+coefficient-recovery hypotheses, before describing the colimit as a union; a norm or a Fredholm
+determinant always refers to one Banach stage (Buzzard, *Eigenvarieties*, §10). Prove the inclusion
+of classical forms with coefficients formed at the selected places and its Hecke compatibility with
+§1.3's scalar. *Needs:* §§1.3–1.4, 2.1.
 
 **Level/radius comparison.** For `U` with full `GL₂(𝒪_v)` component at each selected place, `t≥1`,
 `s≥0`, and a weight with analytic thickening on the neighbourhood of radius `r|π|^{s+t}`, prove the
@@ -575,6 +697,15 @@ p. 75, and Lemma 12.1, p. 78). *Needs:* §§0.3, 0.4, 1.4.
   forms of level `U∩U₀(π^{t+s})`.
 
 **Checks.**
+- For `D=M₂(ℚ)`, `U=GL₂(Ẑ)`, `T={p}` with the identity splitting and `(n,v)=(10,−5)`, the space
+  is `L_{10,−5}(K)^{GL₂(ℤ)}=0`, because `SL₂(ℤ)` is Zariski dense in `SL₂` and `Sym^{10}` has no
+  nonzero `SL₂`-invariants in characteristic zero, although `S₁₂(SL₂(ℤ))` contains `Δ`: the
+  classical forms of a split algebra are not cusp forms.
+- For Hamilton's algebra over `ℚ` and `T={2}`, no splitting `D_2≃M₂(ℚ₂)` exists, but `ι_2` exists
+  for `K⊇ℚ₂(i)`, since `−1` is a square there and `(−1,−1)` splits; the classical forms with
+  coefficients at `2` are defined, while Layer 1's analytic coefficients are not.
+- For `n=0`, `v=0` the classical forms are the `K`-valued functions on `Cl(U)`, for every `K`,
+  every `F` and every `D`, of dimension `#Cl(U)`.
 - At `s=0` the comparison is the identity.
 - With one class, trivial stabilisers and degree-`k` coefficients, the dimension of locally
   polynomial forms on `p^s` discs is `p^s(k+1)`, matching `[U₀(p^t):U₀(p^{t+s})]=p^s` classes
@@ -589,9 +720,11 @@ Assume `Cl(U)` finite. If every stabiliser acts trivially, evaluation gives
 `#Cl(U)·∏_σ(n_σ+1)`. For totally definite `D`, prove that an admissible weight's stabiliser action
 factors through a finite group once its central action has finite image, from AdelicAlgebraicGroups
 §5.3; for families require a common finite quotient. If each image group `H_i` has order invertible
-in `R`, define `E_i=|H_i|⁻¹∑_{h∈H_i} slash(h)`, prove it is a bounded idempotent with image
-`A^{Γ_i}`, and deduce property (Pr) for `M(U,A)` from PadicFunctionalAnalysis §2.2. *Needs:* §§1.3,
-2.1; AdelicAlgebraicGroups §5.3; PadicFunctionalAnalysis §2.2.
+in `R`, define `E_i=|H_i|⁻¹∑_{h∈H_i} slash(h)` (Mathlib `Representation.averageMap` for the left
+action `h↦slash(h⁻¹)`, with `Representation.isProj_averageMap`), prove it is a bounded idempotent
+with image `A^{Γ_i}`, and deduce property (Pr) for `M(U,A)` from PadicFunctionalAnalysis §2.2.
+*Needs:* §§1.3, 2.1; AdelicAlgebraicGroups §5.3; PadicFunctionalAnalysis §2.2; Mathlib
+`Representation.averageMap`, `Representation.isProj_averageMap`.
 
 - For an isometric action `‖E_i‖≤‖|H_i|⁻¹‖`, which can exceed one.
 - `E=∏_iE_i` is a bounded projection of the block model onto `M(U,A)`.
@@ -862,7 +995,8 @@ finite-stabiliser or averaging hypothesis of §2.3 enters the Bianchi theory. Fo
 Layers 0–1; AutomorphicFormsOnReductiveGroups §§2.3, 2.6, 4.3, 5.5, 7.2, 7.4–7.6;
 AdelicAlgebraicGroups §§4.5, 5.3; ArithmeticLocallySymmetricSpaces ALS.F.1, F.5–F.7, 0.4, 0.6–0.8,
 1.1, 1.3, 3.1, 5b.1, 5b.4, 5b.5; PadicFunctionalAnalysis §§0.3, 1.1, 2.2; KleinianGroups Layers 0
-and 3; Tau Ceti `TauCeti.SU2.symPower`.
+and 3; Tau Ceti `TauCeti.SU2.symPower`, `TauCeti.skolemNoether`; Mathlib
+`Representation.averageMap`, `Representation.isProj_averageMap`.
 
 ## Layer 3: Hecke operators and compactness
 
@@ -878,11 +1012,20 @@ degree homomorphism of the Hecke ring forces the remaining coefficient,
 `(q_v+1)²=(q_v²+q_v)+(q_v+1)` (a deduction from Tau Ceti's Hecke ring). Every term has determinant
 valuation `2` at `v`, so in §1.3's normalisation each of `T_v²`, `T_{v²}` and `S_v` is
 `ν_alg(ϖ_v)^{−2}` times its algebraic-twist counterpart and the relation is the same in both
-normalisations. Prove the commutation of operators at distinct places, and boundedness on
-the Banach model of §2.1 with norm at most `max_t‖slash(x_t)‖`. Define the Hecke algebra used for
-eigenforms as the subalgebra generated by the specified commuting operators, without assuming
-commutativity as input. *Needs:* §§0.4, 2.1; AutomorphicFormsOnReductiveGroups §7.4; Tau Ceti
-`TauCeti/NumberTheory/HeckeRing`.
+normalisations. For `Δ=D_fˣ`, prove the inversion formulas `[Uη_v⁻¹U]=S_v⁻¹T_v` and
+`[Uϖ_v⁻¹U]=S_v⁻¹` at good places, `η_v=diag(ϖ_v,1)`: `η_v⁻¹=ϖ_v⁻¹·diag(1,ϖ_v)` and
+`diag(1,ϖ_v)∈GL₂(𝒪_v)diag(ϖ_v,1)GL₂(𝒪_v)`. With AutomorphicFormsOnReductiveGroups §7.4's
+`inverseActionHeckeEquiv` this converts the opposite-ring action into the left weighted coset sums
+of Convention 9 and §2.5. For a factorisable level `U=∏_wU_w`, prove the commutation of operators
+at distinct places, and that diamond operators represented by `diag(1,d)` at `v` commute with
+`U_v`. Prove boundedness on the Banach model of §2.1 with norm at most `max_t‖slash(x_t)‖`. For a
+finite set `S` of places such that, for `v∉S`, `D` splits at `v`, the splitting is fixed and
+`U_v=GL₂(𝒪_v)`, the `R`-subalgebra of `End_R M(U,A)` generated by `T_v`, `S_v` and `S_v⁻¹` for `v∉S`,
+together with the `U_v` and diamond operators at the selected places, is commutative; this is
+proved from the preceding commutations and the centrality of `ϖ_v`, not assumed, and Hecke
+eigensystems are characters of it. Level maps, the coefficient extension and the change of
+splittings of §2.2 commute with these operators. *Needs:* §§0.4, 2.1, 2.2;
+AutomorphicFormsOnReductiveGroups §7.4; Tau Ceti `TauCeti/NumberTheory/HeckeRing`.
 
 - `U_v` has `#k_v` terms and `T_v` has `#k_v+1`; both preserve `M(U,A)` for the levels of §0.4.
 - With isometric slash operators `‖T_η‖≤1`.
@@ -897,6 +1040,12 @@ commutativity as input. *Needs:* §§0.4, 2.1; AutomorphicFormsOnReductiveGroups
   valuation `2`, which is `T_{v²}+S_v`, not the single double coset.
 - At `t=0` the double coset of `diag(π_v,1)` has `q_v+1` right cosets, at every `t≥1` it has `q_v`:
   `U_v` is not the specialisation of `T_v` to a deeper level.
+- On a central-character form (§2.1) with trivial coefficients and character `ψ`,
+  `(S_vφ)(g)=φ(gϖ_v⁻¹)=ψ(ϖ_v)⁻¹φ(g)`, so `S_v⁻¹T_v` and `T_v` differ by `ψ(ϖ_v)`; a dictionary
+  between the opposite-ring and left actions that drops `S_v⁻¹` fails as soon as `ψ(ϖ_v)≠1`.
+- At a place where `D_v` is a division algebra the units of its maximal order are normal in
+  `D_vˣ`, and the double coset of a uniformiser of `D_v` is a single coset: there is no
+  `(q_v+1)`-sheeted operator there, so the good-place relation is stated only at split places.
 
 ### 3.2 Certified matrices
 
@@ -1017,16 +1166,19 @@ infinite-dimensional modules via CompactOperators §1.7's `c0_completedBaseChang
 extensions prove the algebraic/completed comparison. For an affinoid family of weights with common
 level and radius construct the Banach module of forms and the entire Fredholm series, with uniform
 analytic bounds and a common finite stabiliser quotient; prove specialisation, compatibility on
-smaller domains and preservation of nilpotent coefficients. For the universal unit character
-construct ordinary analytic families on domains with `‖T‖≤b<1`, `T=κ(exp(q))−1`, `q=p` for odd
-`p` and `q=4` for `p=2`, proving a uniform version of PadicFunctionalAnalysis §§5.4–5.5 with depth
-and radius depending on `b`. *Needs:* §§4.1–4.2; CompactOperators §1.7; AdicSpacesPartII R0.5;
-PadicFunctionalAnalysis §§5.3–5.5.
+smaller domains and preservation of nilpotent coefficients. For the universal character of `𝒪_vˣ`
+fix `N>e_v/(p−1)`, `e_v` the ramification index of `F_v/ℚ_p`, so that `log` is an isometric
+isomorphism `1+π_v^N𝒪_v→π_v^N𝒪_v` and `1+π_v^N𝒪_v` is a free `ℤ_p`-module with a basis
+`u_1,…,u_{d_v}`, `d_v=[F_v:ℚ_p]`. With `T_i=κ(u_i)−1`, construct the families of analytic forms on
+the domains `max_i‖T_i‖≤b<1`, with level and radius depending on `b`, proving a uniform version of
+PadicFunctionalAnalysis §§5.4–5.5 for each `u_i`; every affinoid subdomain of the open weight
+polydisc lies in one of these domains. For `F_v=ℚ_p` this is the single coordinate
+`T=κ(exp(q))−1`, `q=p` for odd `p` and `q=4` for `p=2` (`N=1` and `N=2`). *Needs:* §§4.1–4.2;
+CompactOperators §1.7; AdicSpacesPartII R0.5; PadicFunctionalAnalysis §§5.3–5.5.
 
 - Restriction to a smaller domain or deeper stage commutes with the action and its Fredholm
   comparison uses the maps of §4.1.
-- There is no common ordinary analytic stage over all `p⁻¹<|T|<1`; the annular construction is
-  §4.4.
+- There is no single analytic stage over all `p⁻¹<|T|<1`; the annular construction is §4.4.
 
 **Checks.**
 - Scalar extension to a finite splitting field preserves `H_κ` coefficientwise.
@@ -1034,7 +1186,10 @@ PadicFunctionalAnalysis §§5.3–5.5.
   to every field-valued point, so compatibility is a series identity.
 - The zero form space has `H_κ=1`.
 - At `p=3` the family `n_w` of Layer 1's Examples has `T=exp(3w)−1`, of Gauss norm `|3|=1/3<1` on
-  `K⟨w⟩` (the terms `3^nw^n/n!` have `v_3≥2` for `n≥2`), inside the ordinary range.
+  `K⟨w⟩` (the terms `3^nw^n/n!` have `v_3≥2` for `n≥2`), inside the domain `‖T‖≤1/3`.
+- For `F_v=ℚ₃(√−3)`, with `e_v=2`, the bound `N>e_v/(p−1)=1` is needed: `π_v=1−ζ₃` is a
+  uniformiser, `ζ₃∈1+π_v𝒪_v` has `log ζ₃=0`, so `1+π_v𝒪_v` has torsion and no `ℤ₃`-basis, while
+  `1+π_v²𝒪_v` is free of rank `2`.
 
 ### 4.4 Integral annular forms in weighted Mahler coordinates
 
@@ -1098,108 +1253,162 @@ For `h=1` and `α=|t|`, the annular series specialises to a series whose `n`th c
 Layers 0–3; CompactOperators §§1.2, 1.4–1.7, Layers 3–4; NewtonPolygons Layer 2; PadicFunctionalAnalysis
 §§2.6, 3.2, 5.3–5.6; AdicSpacesPartII R0.5.
 
-## Layer 5: theta and small-slope classicality over ℚ
+## Layer 5: theta maps and small-slope classicality
 
-This layer takes `F=ℚ`, `D` definite and split at `p`, and classical-shape weights of polynomial
-degree `k≥0`; put `r=k+1`. The finite-order part is constant on the discs of the wild level. The
-target weight has degree parameter `−k−2`, with the same finite character and normalised
-determinant factor.
+This layer takes `F` totally real and `D` totally definite and split at every place of the set `P`
+of selected places, with the analytic forms of §§2.2–2.3 and the operators of Layer 3. A weight
+`κ=(n,ν₀)` has **classical shape at** a label `τ∈Σ_v`, `v∈P`, if `n(u)=τ(u)^{n_τ}n^τ(u)` with an
+integer `n_τ≥0` and the expansion of `n^τ` on `1+π_v^t𝒪_v` free of the coordinate `x_τ`; put
+`r_τ=n_τ+1`. Since `n(cz+d)=n(d)n(1+cz/d)` for `γ∈Σ₀(t)`, the automorphy factor of such a weight is
+`(τ(c)z_τ+τ(d))^{n_τ}` times a factor free of `z_τ`, on every disc of every stage. Its **theta
+target** `κ′_τ` replaces `τ^{n_τ}` by `τ^{−n_τ−2}` in `n` and multiplies `ν₀` by `τ^{r_τ}`, with the
+determinant character extended to `F_vˣ` by `x↦ν(x)τ(x)^{r_τ}`, which is not normalised in the sense
+of Convention 5; the scalar action `n(u)ν₀(u)²` is unchanged. Over `ℚ` there is one label:
+classical-shape weights have polynomial degree `k=n_τ≥0` and `r=k+1`, their finite-order part is
+constant on the discs of the wild level, and §5.2 untwists the target to degree parameter `−k−2`
+with the original determinant character.
 
 ### 5.1 Derivatives and Bol's identity
 
-Use RestrictedPowerSeries §2.3's bounded derivative `D^rz^m=(m)_rz^{m−r}`, of norm at most one on
-the unit disc, with kernel the polynomials of degree at most `k` in characteristic zero; on a disc
-`z=a+p^sw` carry the scale `p^{−sr}`. Prove the local Bol identity, for `N=az+b`, `L=cz+d`,
-`d≠0`: `D^r(N^{j+r}L^{−(j+1)})=(ad−bc)^r(j+r)_rN^jL^{−(j+r+1)}`, and deduce
-`D^r(f|κγ)=det(γ)^r(D^rf)|κ′γ` when the automorphy factors are exactly `u_γL^k` and `u_γL^{−k−2}`
-for the same constant `u_γ`, first on polynomials and then by continuity (Buzzard, *On p-adic
-families of automorphic forms*, §7, p. 19). *Needs:* §1.2; RestrictedPowerSeries §2.3; Mathlib
-`PowerSeries.derivative`.
+Use RestrictedPowerSeries §2.3's bounded derivative `D^rz^m=(m)_rz^{m−r}`, `(m)_r` the falling
+factorial, of norm at most one on the unit disc, with kernel the polynomials of degree below `r` in
+characteristic zero; on a disc `z=a+ρw` it carries the scale `ρ^{−r}`. Write `D_τ` for the
+derivative in the variable `z_τ`. Prove the local Bol identity, for `N=az+b`, `L=cz+d`, `d≠0` and
+all `j,r≥0`: `D^r(N^{j+r}L^{−(j+1)})=(ad−bc)^r(j+r)_rN^jL^{−(j+r+1)}`. Deduce the analytic Bol
+identity: for `κ` of classical shape at `τ` and every `γ` at which both actions are defined,
+`D_τ^{r_τ}(f|_κγ)=(D_τ^{r_τ}f)|_{κ′_τ}γ`, first on polynomials and then by continuity (Buzzard, *On
+p-adic families of automorphic forms*, §7, p. 19, in one variable). *Needs:* §1.2;
+RestrictedPowerSeries §2.3; Mathlib `PowerSeries.derivative`, `Nat.descFactorial`.
 
-- The kernel of `D^r` on a union of discs is the locally polynomial functions.
+- The kernel of `D_τ^{r_τ}` on a union of discs is the functions locally polynomial of degree at
+  most `n_τ` in `z_τ`.
 - For `r>0`, `D^r` on the closed unit disc has dense range but is not surjective.
+- In one variable over `ℚ`, with automorphy factors `u_γL^k` and `u_γL^{−k−2}` for the same
+  constant `u_γ`, the identity reads `D^r(f|_κγ)=det(γ)^r(D^rf)|_{κ″}γ`, `κ″` the untwisted target.
 
 **Checks.**
 - At `r=1`, `j=0`: `D(N/L)=(ad−bc)/L²`.
 - At `r=1`, differentiating an extra factor `1+cz` at `f=1` gives `c`, whereas a formula in `D(f)`
   alone gives `0`; Bol fails for arbitrary locally analytic characters.
 - For `γ=1`, Bol reduces to `D^r(z^{j+r})=(j+r)_rz^j`.
+- For `F_v=ℚ_p`, trivial `κ` (so `n_τ=0`, `r_τ=1`) and `γ=diag(p,1)`: `f|_κγ(z)=f(pz)` and
+  `D(f(pz))=p·f′(pz)=(Df)|_{κ′_τ}γ`, since `κ′_τ` has automorphy factor `(cz+d)^{−2}=1` and
+  determinant character `x↦x`; with a normalised target the factor `p` is missing.
 
 ### 5.2 Theta on forms and Hecke compatibility
 
-Using §0.2's `c`, define `(Θ^rφ)(g)=c(g)^{−r}D^r(φ(g))`. Prove that it maps weight-`κ` forms to
-weight-`κ′` forms boundedly and that `Θ^rT_η=|nrd(η)|_f^{−r}T′_ηΘ^r` (Buzzard, *On p-adic families
-of automorphic forms*, §7, p. 19). Its kernel on a single-disc stage is the classical subspace; on
-several discs, locally polynomial forms, identified with classical forms of deeper level by §2.2.
-*Needs:* §§0.2, 2.2, 3.1, 5.1.
+Define the partial theta map `Θ_τφ(g)=D_τ^{r_τ}(φ(g))`. Prove that it is a bounded map
+`M(U,A_{κ,r})→M(U,A_{κ′_τ,r})` with `Θ_τT_η=T′_ηΘ_τ` for every double coset in the monoid of the
+coefficient actions, `T′_η` formed with the twisted target. In §1.3's normalised convention for the
+target the relation acquires `τ(π_v)^{r_τe}` on a double coset of determinant valuation `e` at `v`:
+`Θ_τU_v=τ(π_v)^{r_τ}U′_vΘ_τ`, while `Θ_τ` commutes with `U_w` for `w∈P∖{v}` and with `T_w`, `S_w`
+and diamond operators away from `P`. Its kernel consists of the forms whose values are locally
+polynomial of degree at most `n_τ` in `z_τ`. If `κ` has classical shape at every label of
+`Σ_P=⊔_{v∈P}Σ_v`, with `ν₀` algebraic and `n_σ+2v_σ` parallel, the intersection of these kernels is a
+space of classical forms of §2.2: of level `U` on a single-disc stage, and of the deeper level of
+§2.2's level/radius comparison on a stage of smaller radius. *Needs:* §§0.2, 2.2, 3.1, 5.1.
 
-- In representative coordinates `Θ^r=diag(c(cᵢ)^{−r})·D^r`.
-- The dimension of the kernel is `h(k+1)` (or `h·p^s(k+1)` on `p^s` discs) under trivial stabiliser
-  action.
+Over `ℚ` use §0.2's `c(g)=|nrd(g)|_f·det(g_p)`, a continuous homomorphism `D_fˣ→Kˣ`, trivial on `Dˣ`
+and equal to `det(u_p)` on compact subgroups. Multiplication by `c^{−r}` carries the twisted target
+to the weight with the original determinant character, and `Θ^r=c^{−r}D^r` satisfies
+`Θ^rT_η=|nrd(η)|_f^{−r}T′_ηΘ^r` (Buzzard, *On p-adic families of automorphic forms*, §7, p. 19).
+For totally real `F≠ℚ` no character of `Dˣ\D_fˣ` restricts to `u↦τ(nrd u_v)^{r_τ}` on a compact open
+subgroup, so the general statement keeps the twisted target.
+
+- Over `ℚ`, in representative coordinates `Θ^r=diag(c(cᵢ)^{−r})·D^r`.
+- Over `ℚ` with trivial stabiliser action the kernel of `Θ^r` has dimension `h(k+1)`, or
+  `h·p^s(k+1)` on `p^s` discs.
 
 **Checks.**
-- The scalars for `U_p`, `T_ℓ` and `S_ℓ` are `p^r`, `ℓ^r` and `ℓ^{2r}`.
-- At `k=0`, `Θ^1=c(g)^{−1}D` kills exactly the forms with constant values.
+- Over `ℚ` the scalars for `U_p`, `T_ℓ` and `S_ℓ` are `p^r`, `ℓ^r` and `ℓ^{2r}`.
+- At `k=0` over `ℚ`, `Θ^1=c(g)^{−1}D` kills exactly the forms with constant values.
 - Omitting `c(cᵢ)^{−r}` changes the intertwining by the factor `c(cᵢ)^r/c(c_j)^r` between blocks,
   nontrivial when the representatives have distinct `c`.
+- Over `ℚ(√2)` with `ε=1+√2`, some power `ε^m` lies in a given compact open level and is central in
+  `Dˣ`, while `τ(nrd ε^m)^{r}=τ(ε)^{2mr}≠1` for `r≥1`: no character of `Dˣ\D_fˣ` untwists the target.
 
 ### 5.3 Determinant identity and classicality
 
-At a single-disc level with trivial stabiliser action, let `M=M(U,A_κ)` and `W=M_cl` its
-`U_p`-stable polynomial subspace, with bounded decomposition `M=W⊕N`, so that
-`U_p=((U_cl,B),(0,V))` with `V` the induced operator on `M/W`. Prove
-`H_κ(T)=det(1−TU_cl)·H_V(T)` by CompactOperators §1.6, after checking the coordinate projections
-and compactness of `V`. On `N`, theta is a shift followed by the nonzero factorial diagonal `D` and
-§5.2's constants, with `DV=p^rU_p′D`; CompactOperators §1.4's diagonal intertwining gives
-`H_V(T)=H_κ′(p^rT)`, hence
+Take a stage on which every stabiliser acts trivially on both `A_{κ,r}` and `A_{κ′_τ,r}`, and let
+`M=M(U,A_{κ,r})`. Then `W_τ=ker Θ_τ` is closed and `U_P`-stable, with the bounded complement `N_τ`
+spanned by the monomials of degree at least `r_τ` in `z_τ` in the disc coordinates, so that
+`U_P=((U_P|W_τ,B),(0,V))` with `V` the operator induced on `M/W_τ≅N_τ`. Prove
+`H_κ(T)=H_{W_τ}(T)·H_V(T)` by CompactOperators §1.6, after checking the coordinate projections and
+compactness of `V`. On `N_τ`, `Θ_τ` is a shift followed by a diagonal map with nonzero entries
+(falling factorials and disc scales), intertwining `V` with `c_τU′_P`, `c_τ=τ(π_v)^{r_τ}` in the
+normalised convention; CompactOperators §1.4's diagonal intertwining gives `H_V(T)=H_{κ′_τ}(c_τT)`,
+hence the partial determinant identity
 
 ```text
-H_κ(T) = det(1−TU_p|M_cl) · H_κ′(p^rT),
+H_κ(T) = H_{W_τ}(T) · H_{κ′_τ}(τ(π_v)^{r_τ} T),
 ```
 
-without a bounded inverse to `D`. **Classicality.** For all levels where both actions are defined
-and the target `U_p` has norm at most one, prove: if `(U_p−λ)^Nf=0`, `λ≠0` and `v_p(λ)<r`, then
-`Θ^rf=0`, since `U′_p−λ/p^r` is invertible by the Neumann series; hence the classical and
-overconvergent slope-`≤h` summands agree for `h<r`, with no trivial-stabiliser hypothesis (Buzzard,
-*On p-adic families of automorphic forms*, Proposition 4, p. 19, whose `θ^{1−k}` and cutoff
+without a bounded inverse to the diagonal. Over `ℚ` at a single-disc level, `W` is the
+finite-dimensional `U_p`-stable polynomial subspace `M_cl`, the target is untwisted as in §5.2, and
+
+```text
+H_κ(T) = det(1−TU_p|M_cl) · H_κ′(p^rT).
+```
+
+**Classicality.** Prove that the normalised target operator `U′_v` has norm at most one on every
+stage where the automorphy factors of `κ′_τ` on `U` and on the coset representatives have Gauss
+norm at most one, as for field-valued weights. On such stages prove the strict small-slope
+criterion: if `(U_v−μ)^Nf=0` with `μ≠0` and `v_p(μ)<r_τ/e_v`, `e_v` the ramification index of
+`F_v/ℚ_p`, then `Θ_τf=0`, since `U′_v−μ/τ(π_v)^{r_τ}` is invertible by the Neumann series. Hence,
+for `κ` of classical shape at every label with `ν₀` algebraic and `n_σ+2v_σ` parallel, a
+simultaneous generalised eigenvector of the `U_v`, `v∈P`, with nonzero eigenvalues `μ_v` and
+`v_p(μ_v)<min_{τ∈Σ_v}r_τ/e_v` for every `v`, lies in every `ker Θ_τ` and is classical. When every
+`U_v` has norm at most one, the classical and overconvergent summands of slope at most `h` agree for
+`h<min_{v∈P,τ∈Σ_v}r_τ/e_v`, with no trivial-stabiliser hypothesis. Over `ℚ` the cutoff is `r=k+1`
+(Buzzard, *On p-adic families of automorphic forms*, Proposition 4, p. 19, whose `θ^{1−k}` and cutoff
 `k−1` are our `Θ^r` and `r` after the shift `k_Buzzard=k+2`). *Needs:* §§4.1, 5.2; CompactOperators
 §§1.4, 1.6.
 
 - Other determinant normalisations shift the cutoff through §1.3's scalar.
+- The partial determinant identity needs trivial stabiliser action on both weights; the
+  classicality criterion does not.
 - No converse bound on classical slopes, critical-slope classification or Jacquet–Langlands
   comparison is claimed.
 
 **Checks.**
-- Degree zero has cutoff `1`: `v_p(λ)<1` forces classicality.
+- Degree zero over `ℚ` has cutoff `1`: `v_p(λ)<1` forces classicality.
 - Rescaling `U_p` by `p` shifts the cutoff by one.
 - The strict inequality is needed: at `v_p(λ)=r` the eigenvalue `λ/p^r` of `U′_p` is a unit and
   the Neumann argument fails.
+- At a place with `e_v=2` and `n_τ=0`, `|τ(π_v)|=p^{−1/2}`, so the cutoff is `v_p(μ)<1/2`; reading
+  the cutoff as `r_τ=1` would wrongly cover an eigenvalue with `v_p(μ)=3/4`.
 
 ### Examples
 
 For `k=0` over `ℚ` with one class and trivial stabiliser action, `M_cl` is the line of constants,
 on which `U_p` acts by the number `p` of cosets (trivial weight, `ν=1`), so
 `H_κ(T)=(1−pT)·H_κ′(pT)`. The constants are classical of slope exactly `r=1`: at the boundary the
-classicality theorem says nothing, and classicality here comes from the definition of `M_cl`.
+classicality theorem says nothing, and classicality here comes from the definition of `M_cl`. For
+`F` real quadratic with `p` split, `P` the two places above `p`, each with one label and `F_v=ℚ_p`,
+and a weight of classical shape at both labels with `n=(n_1,n_2)`, `n_1+2v_1=n_2+2v_2`: a
+simultaneous generalised eigenvector of `U_{v_1}` and `U_{v_2}` with `v_p(μ_{v_i})<n_i+1` for `i=1,2`
+is classical.
 
 ### Dependencies
 
 Layers 0–4; RestrictedPowerSeries §2.3; CompactOperators §§1.4, 1.6; Mathlib
-`PowerSeries.derivative`.
+`PowerSeries.derivative`, `Nat.descFactorial`.
 
 ## Downstream consumers
 
-- GL2AutomorphicRepresentationsAndTransfer, R17.3: quaternionic Jacquet–Langlands and the
-  comparison with Pan's spaces use §§1.3, 2.1–2.2 and 3.1.
-- HilbertModularVarietiesAndShimuraCurves, R18.3: definite quaternionic class sets, integral weights
-  and fixed-central-character forms use §§0.1–0.3, 1.3, 2.1–2.2 and 3.1, with the class-set
-  finiteness of AdelicAlgebraicGroups §5.3.
-- AutomorphicGaloisRepresentations: quaternionic eigenvarieties use §§1.1–1.4, 2.1–2.3, 3.1–3.3,
-  Layer 4 and §5.3.
-- PadicFamilies: definite class sets and refinement maps, through AdelicAlgebraicGroups §5.3 and
-  §0.3 here.
-- CompletedCohomologyAndLocalGlobalCompatibility, QuaternionArithmetic and HilbertModularForms use
-  the forms and Hecke operators of §§2.1 and 3.1.
+- GL2AutomorphicRepresentationsAndTransfer, R17.3: quaternionic Jacquet–Langlands, the definite
+  weights and cuspidal transfer of R17.3.9, with coefficients at a ramified place, and the
+  comparison with Pan's spaces use §§0.2–0.4, 1.3, 2.1–2.2 and 3.1.
+- HilbertModularVarietiesAndShimuraCurves, R18.3 and R18.5: definite quaternionic class sets and
+  their refinement fibres, integral weights and fixed-central-character forms use §§0.1–0.3, 1.3,
+  2.1–2.2 and 3.1, with the class-set finiteness of AdelicAlgebraicGroups §5.3.
+- AutomorphicGaloisRepresentations, §0.3: quaternionic finite-slope families and eigenvarieties
+  over totally real fields use §§1.1–1.4, 2.1–2.3, 3.1–3.3, Layer 4 and Layer 5.
+- PadicFamilies, Layer 5: definite class sets, level forms, refinement maps, restriction and trace,
+  through AdelicAlgebraicGroups §5.3 and §§0.3, 2.1 here.
+- CompletedCohomologyAndLocalGlobalCompatibility (§§1.6–1.7, 2.7), QuaternionArithmetic and
+  HilbertModularForms use the class sets, forms and Hecke operators of §§0.3, 2.1 and 3.1, with the
+  integral and central-character coefficients of §§1.3 and 2.1.
 
 ## References
 
