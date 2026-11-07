@@ -34,10 +34,12 @@ owns general closed-form representation, and VariationalMethods §§2.3, 5.1–5
 its energy-space and compact-pair specializations; R5b owns the normal-Jacobi
 geometric form and its boundary-domain identification.
 
-The constant-curvature Ricci and scalar contractions are already in Tau Ceti,
-and real Lipschitz extension is already in Mathlib; the exact declarations
-are in the supplier contracts. These are inputs to the curvature and smoothing
-applications, not additional construction targets.
+The constant-curvature Ricci and scalar contractions, chartwise null sets and
+Sard's theorem in equal dimensions are already in Tau Ceti, and real Lipschitz
+extension is already in Mathlib; the exact declarations are in the supplier
+contracts. These are inputs to the curvature, nullity and smoothing
+applications, not additional construction targets. R4.6 owns the transfer of
+chartwise nullity to the Riemannian volume, which R6 reuses for the focal set.
 DGFloer Layer 1 item 7 owns the complex projective form comparison
 ω_g=π·ω_FS, including closedness and the integral-one normalization on CP¹.
 R1 owns the round Hopf quotient metrics, curvature and geodesic periods;
@@ -115,6 +117,23 @@ Use `TauCeti.inducedRiemannianMetric` and `TauCeti.inducedRiemannianMetric_inner
 in `TauCeti/Geometry/Manifold/Riemannian/Induced.lean` for a C^(n+1) map
 with injective differential into a real inner-product space. R5a.3 uses its
 pullback inner-product equation to identify the paraboloid metric, with n=∞.
+Use `TauCeti.IsNullSet` in `TauCeti/Geometry/Manifold/Measure.lean` for null
+subsets of a manifold: a set is null when its image in every extended chart is
+null for every Haar measure on the model; subsets and countable unions of null
+sets are null, and on a finite-dimensional model a null set has empty interior.
+Use `TauCeti.isNullSet_image_criticalPoints` in
+`TauCeti/Geometry/Manifold/Sard/EqualDimension.lean` for Sard's theorem in
+equal dimensions: for a differentiable map from a Lindelöf manifold to a
+manifold whose finite-dimensional model has the same dimension, the image of
+the set of non-regular points is null. Every Sard application in this roadmap
+has this form (`exp_p` on `T_pM` in R4.6, the normal exponential and the
+Euclidean normal map in R6), and the standing second countability gives the
+Lindelöf hypothesis. Use `TauCeti.riemannianVolume_apply_of_subset` and
+`TauCeti.chartRiemannianVolume_apply` in
+`TauCeti/Geometry/Manifold/Riemannian/VolumeDensity/` for the value of the
+Riemannian volume on a measurable subset of a chart source, the Lebesgue
+integral of the chart density over its chart image; R4.6 owns the transfer
+from chartwise nullity to the Riemannian volume built on them.
 The pointwise hypotheses of the curvature contractions include the displayed tensor identity; no curvature
 value is inferred from an empty family of two-planes in dimensions zero or one.
 
@@ -130,10 +149,12 @@ The following contracts specify each supplier and section consumed.
   transport. Use its existing `alongCurveWithin` carrier and proved chart-change laws;
   R2 supplies the remaining arbitrary-section regularity and reparametrization
   extensions needed for iterated covariant differentiation.
-- [DifferentialGeometry](../DifferentialGeometry/README.md), Layers 0–3,5–10,12:
-  ordinary forms and exterior calculus, orientation, smooth flows, manifold Sard (Layer 10),
+- [DifferentialGeometry](../DifferentialGeometry/README.md), Layers 0–3, 5–9, 12:
+  ordinary forms and exterior calculus, orientation, smooth flows,
   integration/Stokes, de Rham/singular comparison, metrics, gradient/Hessian,
-  divergence and the canonical density/measure bridge.
+  divergence and the canonical density/measure bridge. Sard's theorem is not
+  consumed from it: every Sard application here is between manifolds of equal
+  dimension and uses the pinned Tau Ceti theorem named in the Tau Ceti contract.
 - [SmoothBundlesConnections](../SmoothBundlesConnections/README.md), B1.4–B1.5/B2–B5/B6.0:
   actual smooth pullback/tensor/dual/End bundles, metric connections and their
   induced derivatives, curvature, parallel transport/holonomy, and real/complex
@@ -1191,12 +1212,25 @@ Supply annulus/restricted-polar versions, small-ball limit1, measure-zero cut lo
    the same conclusion holds when `dist(p,q)<inj(M)`. On connected complete M prove cut-time
    continuity on the unit tangent sphere bundle, valued in (0,∞], and
    cut-time characterization by first
-   conjugacy or loss of uniqueness, closedness/measurability and volume-nullity
-   using Sard for conjugate values. Cover the remaining locus by countably
+   conjugacy or loss of uniqueness, closedness/measurability and volume-nullity.
+   The conjugate values of p are the critical values of `exp_p` on `T_pM`, a
+   differentiable map between manifolds of the same dimension, so they are
+   chartwise null by `TauCeti.isNullSet_image_criticalPoints`; the critical
+   set is closed in `T_pM`, so its image is σ-compact and measurable. Cover
+   the remaining locus by countably
    many pairs of nonsingular inverse-exponential branches; their equal-distance
    locus is a regular hypersurface because distinct minimizing geodesics have
-   distinct terminal velocities. Prove chart nullity and its canonical-volume
-   comparison, including the infinite-cut-time convention. Prove the cut
+   distinct terminal velocities. Prove chart nullity, including the
+   infinite-cut-time convention. Own the transfer of chartwise nullity to the
+   Riemannian volume: a subset of M that is `TauCeti.IsNullSet` has
+   `TauCeti.riemannianVolume` zero, because countably many chart sources cover
+   M, the volume of a measurable subset of a chart source is the integral of
+   the continuous chart density over its chart image
+   (`TauCeti.chartRiemannianVolume_apply`), and a Haar-null chart image lies
+   in a Borel null set whose preimage in the chart source is measurable;
+   conversely a subset of a chart source of Riemannian volume zero has
+   Lebesgue-null chart image, the chart density being positive. Hence the cut
+   locus of p has Riemannian volume zero. Prove the cut
    relation is closed and symmetric and that squared distance is smooth
    off this relation, including its smooth extension across the diagonal.
    Supply the smooth polar-coordinate domain and full-measure integration
@@ -1236,9 +1270,23 @@ Supply annulus/restricted-polar versions, small-ball limit1, measure-zero cut lo
      would assert false uniqueness.
    - On unit Sⁿ, n≥2, inj(p)=π and the antipode has transverse conjugate
      multiplicity n−1; the metric scaled by 4 has inj(p)=2π.
+   - On ℝⁿ with the identity chart and the flat metric, chartwise nullity is
+     Lebesgue nullity and the Riemannian volume is Lebesgue measure (chart
+     density 1), so the transfer changes nothing. A transfer that read nullity
+     in the chart at one point only would miss the part of a set outside that
+     chart's source: on S¹ the antipode of p lies outside a chart at p whose
+     source omits it, so nullity is quantified over every chart.
+   - On the flat square torus ℝ²/ℤ² the cut locus of the image of the origin
+     is the image of the two segments x=½ and y=½: closed, of total length 2,
+     so nonempty and not discrete, yet of Riemannian area zero; its image in
+     the unit-square chart is two segments, Lebesgue null. On unit S² the
+     conjugate locus of p is the single antipode, so volume-nullity does not
+     record its multiplicity n−1=1.
 
    *Needs:* HopfRinow Layers 2–4; R2 (differential of exp); R3 (index);
-   SmoothBundlesConnections B6.0; DifferentialGeometry Layer 10 (Sard).
+   SmoothBundlesConnections B6.0; Tau Ceti `TauCeti.isNullSet_image_criticalPoints`
+   (Sard in equal dimensions), `TauCeti.IsNullSet` and
+   `TauCeti.chartRiemannianVolume_apply` (null-set transfer).
 
 7. Consume the existing `TauCeti` round-sphere RiemannianBundle and
    `Riemannian/Hyperbolic.lean`, `Hyperbolic/UpperHalfSpace.lean` objects and
@@ -2115,8 +2163,10 @@ by nonzero Jacobi fields satisfying
 `X(0)∈T_pM`, `(D_tX)(0)+S_(γ′(0))X(0)∈ν_pM`, `X(t₀)=0`.
 Prove the converse geodesic-variation realization and compare derivatives of
 normal exp in base/fiber directions with the induced normal connection.
-Manifold Sard then proves the focal set has measure zero for the ambient
-Riemannian measure; relate chart Lebesgue nullity to the canonical density.
+The normal exponential is a differentiable map from its open domain in the
+n-manifold νM, second countable, to the n-manifold N, so
+`TauCeti.isNullSet_image_criticalPoints` makes the focal set chartwise null in
+N, and R4.6's transfer makes it null for the ambient Riemannian measure.
 
 For a finite interval a<b, a geodesic γ normal to the immersed initial
 submanifold at γ(a)=f(p), and final endpoint fixed, use the subspace
@@ -2176,9 +2226,9 @@ the closed image, compact because f is a homeomorphism onto its image. Prove
 that h_q has a degenerate critical point at p exactly when q−f(p) is normal
 at p and (p,q−f(p)) is a critical point of the normal map (p,v)↦f(p)+v, so
 the set of q for which some critical point of h_q is degenerate is the image
-of the focal set; prove it Lebesgue null by Sard's theorem for this C¹ map
-between manifolds of the same dimension, with the standing second
-countability. Hence for every C² closed embedding and Lebesgue-almost every
+of the focal set; prove it Lebesgue null by `TauCeti.isNullSet_image_criticalPoints`
+for this C¹ map from the second-countable n-manifold νM to ℝⁿ, where chartwise
+nullity for the identity chart of ℝⁿ is Lebesgue nullity. Hence for every C² closed embedding and Lebesgue-almost every
 q, h_q is proper with only nondegenerate critical points, and for a smooth
 closed embedding h_q is a proper Morse function for almost every q (the
 almost-everywhere nondegeneracy is Milnor, *Morse Theory*, §6, Theorem 6.6).
@@ -2203,9 +2253,11 @@ for smooth embeddings, and compactness supplies a uniform radius. These
 Euclidean constructions are independent of R1–R4; the focal/Jacobi/index
 consequences follow from R2–R4.
 
-*Needs:* Mathlib `MeasureTheory.addHaar_image_eq_zero_of_det_fderivWithin_eq_zero`
-(equal-dimension Sard in a chart), DifferentialGeometry Layer 10 (manifold
-Sard), GeometricTopology Layer 1 (normal bundle, tubular neighbourhood),
+*Needs:* Tau Ceti `TauCeti.isNullSet_image_criticalPoints` (Sard in equal
+dimensions, on manifolds), with Mathlib
+`MeasureTheory.addHaar_image_eq_zero_of_det_fderivWithin_eq_zero` as its
+chart-level form, R4.6 (transfer of chartwise nullity to the Riemannian
+volume), GeometricTopology Layer 1 (normal bundle, tubular neighbourhood),
 Tau Ceti `TauCeti.exists_isTubularNeighborhood_normalBundle` and
 `TauCeti.manifoldMorseIndex`, HopfRinow (Completed) Layers 2–3 (exponential
 domain), R2 (Jacobi fields), R3 (index form), R5a (B, S, normal connection),
@@ -2220,7 +2272,8 @@ t=1/2,1,2 the Hessian values are 1,0,−2 and the index/nullity pairs are
 ### Dependencies
 
 The Euclidean focal calculation uses R5a and the normal-bundle comparison;
-its genericity uses DifferentialGeometry Layer 10 and equal-dimension Sard.
+its genericity uses the pinned equal-dimension Sard theorem and R4.6's
+null-set transfer.
 General focal/index theory also uses R2–R3 and R4.2 moving-endpoint variation.
 No finite fundamental group or global space-form theorem enters the Euclidean proof.
 
