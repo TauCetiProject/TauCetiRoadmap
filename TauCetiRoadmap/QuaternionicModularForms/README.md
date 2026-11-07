@@ -204,8 +204,9 @@ its centre (Loeffler, Assumption 3.1.3 and Proposition 3.1.4, p. 15). At a compl
   discreteness of the cuspidal spectrum (iv); ALS.F.7 algebraic weights, Wigner's lemma and the
   invariants `(q₀,ℓ₀)`; ALS.0.4 `X^G`; ALS.0.6–0.8 `X_U`, its decomposition and proper
   discontinuity; ALS.1.1 local systems; ALS.1.3 neat refinement; ALS.3.1 Hecke action on
-  invariants; ALS.5b.1 level maps; ALS.5b.4 boundary restriction; ALS.5b.5 cuspidal cohomology and
-  its decomposition.
+  invariants; ALS.5b.1 level maps; ALS.5b.4 the decomposition of cohomology by associate classes of
+  parabolics, under its Franke hypothesis, and its Eisenstein (`{B}`) summand; ALS.5b.5 cuspidal
+  cohomology and its decomposition.
 
 ### From TauCetiRoadmap.AutomorphicFormsOnReductiveGroups
 
@@ -385,7 +386,7 @@ At a selected local field `L=F_v`, define `Σ₀(t)` for `t≥1` as the matrices
 `a,b,c,d∈𝒪_L`, `d∈𝒪_Lˣ`, `c∈π^t𝒪_L`, `det γ≠0`, and `Σ₁(t)` as its submonoid with
 `d−1∈π^t𝒪_L`. Prove closure, the action on `𝒪_L` by `z ↦ (az+b)/(cz+d)`, and the comparison with
 the norm-bound formulation `‖c‖≤ρ<1`. On invertible integral matrices these give `U₀` and `U₁`.
-Jacobs's `Σ_α` is our `Σ₀(α)` (Jacobs, §1.5, p. 18). *Needs:* §0.2.
+Jacobs's `Σ_α` is our `Σ₀(α)` (Jacobs, Definition 1.27, p. 19). *Needs:* §0.2.
 
 **Certificates.** For a level with local component `U₀(π^t)` or `U₁(π^t)`, `t≥1`, prove the disjoint
 decomposition `Uη_vU=⊔_α Ux_α` into right cosets of `U`, with `η_v=diag(π,1)`,
@@ -671,10 +672,23 @@ stabiliser acts trivially. For a field extension `K′/K`, with each `ι_{v,σ}`
 `M₂(K)→M₂(K′)`, prove `M(U,L_{n,v}(K))⊗_KK′ ≅ M(U,L_{n,v}(K′))`, compatibly with level maps and the
 Hecke operators of §3.1: the invariants of a finite-dimensional representation are cut out by
 finitely many linear equations, and there are finitely many classes. Prove independence of the
-splittings: two choices are conjugate, `ι′_{v,σ}=h_{v,σ}ι_{v,σ}h_{v,σ}⁻¹` with `h∈∏GL₂(K)` (Tau Ceti
-`TauCeti.skolemNoether`, applied to the central simple `K`-algebra `D_v⊗_{F_v,σ}K`), and
-`φ↦(g↦φ(g)|h⁻¹)` carries the space formed with `ι` onto the space formed with `ι′`, compatibly
-with level maps and Hecke operators. *Needs:* §§1.3, 2.1; Tau Ceti `TauCeti.skolemNoether`.
+splittings. For `Δ=D_fˣ`, two choices are conjugate, `ι′_{v,σ}=h_{v,σ}ι_{v,σ}h_{v,σ}⁻¹` with
+`h∈∏GL₂(K)` (Tau Ceti `TauCeti.skolemNoether`, applied to the central simple `K`-algebra
+`D_v⊗_{F_v,σ}K`), and `φ↦(g↦φ(g)|h⁻¹)` carries the space formed with `ι` onto the space formed
+with `ι′`, compatibly with level maps and with every Hecke operator of §3.1, because
+`ι(x)h⁻¹=h⁻¹ι′(x)` for all `x∈D_fˣ` and the slash is a right action. For the `Σ₀(t)` variant at a
+split place `v`, where the action is §1.3's normalised one through Convention 1's splitting
+`ι_v:D_v≃M₂(F_v)`, let `ι′_v=h_vι_vh_v⁻¹` be a second `F_v`-splitting, `h_v∈GL₂(F_v)` (the same
+theorem over `F_v`), and assume `ι′_v(U_v)⊂Σ₀(t)`, so that the space formed with `ι′` exists; then
+the same map carries the `ι`-space onto the `ι′`-space, compatibly with level maps and with the
+operators `[UηU]` of every `η` with `ι_v(η)` and `ι′_v(η)` in `Σ₀(t)`, because the normalised
+determinant depends only on `det`, which conjugation preserves, and the two actions of §1.3 agree
+on level units. With a nebentypus `ε` the map does not carry forms to forms in general, since
+conjugation changes the entry `d`: assume in addition `d(h_vγh_v⁻¹)≡d(γ) mod π_v^t` for every
+`γ∈Σ₀(t)` with `h_vγh_v⁻¹∈Σ₀(t)`. Both hypotheses hold for `h_v∈F_vˣ·U₀(π_v^t)`: the scalar
+factor conjugates trivially, and modulo `π_v^t` the factor in `U₀(π_v^t)`, its inverse and every
+`γ∈Σ₀(t)` are upper triangular, where the lower-right entry is multiplicative. *Needs:* §§1.3,
+2.1; Tau Ceti `TauCeti.skolemNoether`.
 
 **Analytic and overconvergent forms.** Assume `F` totally real and `D` totally definite, split at
 the selected places. Define analytic forms `M(U,A_{κ,r})` at each admissible radius, and
@@ -706,6 +720,15 @@ p. 75, and Lemma 12.1, p. 78). *Needs:* §§0.3, 0.4, 1.4.
   coefficients at `2` are defined, while Layer 1's analytic coefficients are not.
 - For `n=0`, `v=0` the classical forms are the `K`-valued functions on `Cl(U)`, for every `K`,
   every `F` and every `D`, of dimension `#Cl(U)`.
+- Negative control for the nebentypus variant: take `n=0`, `v=0`, so that `L_{0,0}(K)=K` with
+  `γ∈Σ₀(t)` acting by `ε(d_γ mod π_v^t)`, the level component `U_v` the matrices of `GL₂(𝒪_v)`
+  with `b,c∈π_v^t𝒪_v`, and `ι′_v=wι_vw⁻¹` with `w=((0,1),(−1,0))`, which sends `((a,b),(c,d))` to
+  `((d,−c),(−b,a))`, so that `ι′_v(U_v)=ι_v(U_v)⊂Σ₀(t)`. For `u∈U_v` with `ι_v(u)=diag(α,1)` and
+  `ε(α)≠1`, an `ι`-form satisfies `φ(gu)=ε(1)φ(g)=φ(g)` and an `ι′`-form `φ(gu)=ε(α)φ(g)`; the
+  slash by `w⁻¹` is the identity on `K`, so it carries no nonzero `ι`-form to an `ι′`-form, and
+  indeed `d(wγw⁻¹)=a_γ`, which is `α≢1` for this `u`, and `w∉F_vˣ·U₀(π_v^t)`, since a scalar multiple of a matrix with
+  `c∈π_v^t` and unit determinant cannot have `a=0` and `c=−1`. Without `ε` the two spaces are
+  both the functions on `Cl(U)` and the map is the identity.
 - At `s=0` the comparison is the identity.
 - With one class, trivial stabilisers and degree-`k` coefficients, the dimension of locally
   polynomial forms on `p^s` discs is `p^s(k+1)`, matching `[U₀(p^t):U₀(p^{t+s})]=p^s` classes
@@ -966,8 +989,9 @@ space.) *Needs:* ALS.F.5, F.7, 1.1, 1.3, 5b.1, 5b.5.
   `[UηU]` on the twisted form is `q_v^{k/4}` times Williams's; at `k=0` the two agree.
 - At `k=0`, `τ_0=Sym²(ℂ²)⊗det⁻¹` is three dimensional and `S_{0,0}(U,ω)` consists of the
   vector-valued harmonic forms of Şengün §5, matching `H^1_cusp(X_U,ℂ)`.
-- Cuspidal cohomology is a proper summand of `H^1(X_U,ℂ)` in general: restriction to the boundary
-  tori is nonzero on Eisenstein classes (ALS.5b.4).
+- Cuspidal cohomology is a proper summand of `H^1(X_U,ℂ)` in general: in the decomposition by
+  associate classes of parabolics (ALS.5b.4) the `{B}`-summand is spanned by Eisenstein classes, and
+  it is the only summand besides the cuspidal `{G}`-summand for `GL₂`.
 - For `λ_τ=(1,0)`, `λ_τ̄=(0,0)`: `a+b′=1≠0=b+a′`, so `S_{V_λ^∨}(U,ω)=0` although `V_λ` is a local
   system on `X_U`; `λ_τ=λ_τ̄=(k,0)` has `a+b′=k=b+a′` and gives `V_{k,k}`.
 - `diag(u,1)` with `u∈Ô_Fˣ`, `u≢1 mod 𝔫` lies in `U₁(𝔫)` and not in `Ω₁(𝔫)`; since `Ô_Fˣ→(𝒪_F/𝔫)ˣ`
@@ -1023,8 +1047,9 @@ finite set `S` of places such that, for `v∉S`, `D` splits at `v`, the splittin
 `U_v=GL₂(𝒪_v)`, the `R`-subalgebra of `End_R M(U,A)` generated by `T_v`, `S_v` and `S_v⁻¹` for `v∉S`,
 together with the `U_v` and diamond operators at the selected places, is commutative; this is
 proved from the preceding commutations and the centrality of `ϖ_v`, not assumed, and Hecke
-eigensystems are characters of it. Level maps, the coefficient extension and the change of
-splittings of §2.2 commute with these operators. *Needs:* §§0.4, 2.1, 2.2;
+eigensystems are characters of it. Level maps, the coefficient extension and, under §2.2's
+hypotheses on the conjugating element, the change of splittings commute with these operators.
+*Needs:* §§0.4, 2.1, 2.2;
 AutomorphicFormsOnReductiveGroups §7.4; Tau Ceti `TauCeti/NumberTheory/HeckeRing`.
 
 - `U_v` has `#k_v` terms and `T_v` has `#k_v+1`; both preserve `M(U,A)` for the levels of §0.4.
@@ -1059,7 +1084,7 @@ For a split invariant model use `BE` as ambient extension, with image in the inv
 *Needs:* §§2.1, 2.3, 3.1.
 
 - The operator on forms and its determinant are independent of the certificate, the representatives
-  and the chosen splitting.
+  and, under §2.2's hypotheses on the conjugating element, the chosen splitting.
 - `B` is a finite matrix of bounded operators on `A`.
 
 **Checks.**
