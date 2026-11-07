@@ -486,7 +486,7 @@ instance carrierSecondCountable [SecondCountableTopology M] : SecondCountableTop
 /-- Preferred charts on the fresh carrier. The exact coordinate formula is recorded in
 `chartAt_apply`; the geometric construction is the restriction of the original extended chart to
 the open interior, followed by the linear homeomorphism `e`. -/
-noncomputable def chartAt [IsManifold I ∞ M] :
+noncomputable def chartAt :
     (x : C) → OpenPartialHomeomorph C (EuclideanSpace ℝ (Fin m)) := by
   sorry
 
@@ -910,7 +910,6 @@ theorem localTopOrientationTensorIso_coefficientExtension (m : ℕ) (M : Type)
         ((orientationLocalSystemFiberIso m M x).hom o) ℓ) = ℓ ⊗ₜ[ℤ] o := by
   sorry
 
-set_option maxHeartbeats 800000 in
 /-- The compact-support existence and uniqueness theorem consumes the actual local section. -/
 theorem compactSupportTopClass_existsUnique (R : Type) [CommRing R] (m : ℕ) (M : Type)
     [TopologicalSpace M] [T2Space M] [SecondCountableTopology M]

@@ -359,7 +359,10 @@ Every declaration below exists at the pinned Tau Ceti and is consumed as it stan
   (`Slice/Basic.lean`); `TauCeti.SmoothSliceSurface`, `TauCeti.sliceGenus : ℕ∞`,
   `TauCeti.IsSmoothlySlice.sliceGenus_eq_zero` (`Slice/Genus.lean`);
   `TauCeti.FreedmanSliceTheorem` (`Slice/Freedman.lean`); `TauCeti.GridDiagram`, `GridLink`,
-  `GridDiagram.MovesTo` (`Grid/Move/Basic.lean`).
+  `GridDiagram.MovesTo` (`Grid/Move/Basic.lean`); the Morse–Sard theorem
+  `TauCeti.addHaar_image_criticalPoints_eq_zero` and the density of regular values
+  `ContDiff.dense_compl_image_criticalPoints` (`Analysis/Calculus/Sard/OutermostStratum.lean`),
+  consumed in charts by 4.3 and 10.3.
 - Layer 5: `TauCeti.SolidTorus`, `TauCeti.IsSolidTorusNeighborhood`,
   `TauCeti.exists_isSolidTorusNeighborhood` for `C²` circles in `ℝ³`,
   `IsSolidTorusNeighborhood.frontier_image` and `exteriorFrontierHomeomorph`
@@ -532,8 +535,9 @@ Every declaration below exists at the pinned Tau Ceti and is consumed as it stan
   Layer 4: Riemannian isometries and the transport of the connection along them, consumed by 7.2.
 - AlgebraicTopology: singular homology and cohomology of CW complexes, fundamental classes, cup
   products, the cellular chain complex and its comparison with singular homology, consumed by
-  10.2, 10.3 and 11.2; DifferentialGeometry's degree of a smooth map of closed oriented manifolds,
-  consumed by 3.1.
+  10.2, 10.3 and 11.2; the homological characterization in Stage 6.5 of the degree of a map of
+  closed oriented connected manifolds (`f_*[M] = deg f · [N]` on the fundamental classes),
+  consumed by 3.1, 3.2 and 10.2.
 - CharacteristicClasses: nothing is consumed; C2 compares its rank-two Euler class with the plane
   construction of 10.2 on the native `TauCeti.eulerClass`.
 - CombinatorialHeegaardFloer: nothing is consumed; Lane K consumes Layer 4 and Lane G consumes 6.3.
@@ -1022,11 +1026,13 @@ made in this roadmap. Define the **orientation-preserving subgroup** `Diff⁺(M)
 oriented manifold as the subgroup of diffeomorphisms preserving the orientation of a chosen
 oriented atlas (positive Jacobian of every chart change), and prove that it is open and closed.
 For a closed oriented *connected* `M` prove that `Diff⁺(M)` is the kernel of the degree
-homomorphism `Diff(M) → {±1}` (the degree of a smooth map of closed oriented connected manifolds
-is DifferentialGeometry's, Layer 10), so that it has index at most two; the degree is not defined
-for disconnected `M`, where the atlas description is the only one. Define `Diff(M, ∂M)` as
-`TauCeti.RelativeDiff I M ∞ (I.boundary M)` for `M` with boundary; `TauCeti.DiscDiff n` is the
-case of the closed ball.
+homomorphism `Diff(M) → {±1}`, so that it has index at most two. The degree of a map
+`f : M → N` of closed oriented connected `n`-manifolds is read homologically, as the integer `d`
+with `f_*[M] = d · [N]` in `H_n(N; ℤ) ≅ ℤ` for the fundamental classes of AlgebraicTopology
+Stage 6; this is AlgebraicTopology 6.5's homological characterization of the manifold degree, and
+it needs no smoothness. The degree is not defined for disconnected `M`, where the atlas
+description is the only one. Define `Diff(M, ∂M)` as `TauCeti.RelativeDiff I M ∞ (I.boundary M)`
+for `M` with boundary; `TauCeti.DiscDiff n` is the case of the closed ball.
 
 - `Diff(M)` is a Hausdorff topological group for compact `M`; `Diff(M, ∂M)` and `Diff⁺(M)` are
   closed subgroups and topological groups.
@@ -1059,8 +1065,9 @@ case of the closed ball.
 *Needs:* the native `TauCeti.Diff`, `Diffeomorph.weakWhitneyTopology`,
 `Diffeomorph.continuous_eval_const`, `Diffeomorph.t2Space_weakWhitney`,
 `Diffeomorph.isTopologicalGroup`, `TauCeti.RelativeDiff`, `TauCeti.DiscDiff`, `TauCeti.Orientable`;
-Mathlib `Diffeomorph`, `IsTopologicalGroup`; DifferentialGeometry Layer 10 (the degree of a map of
-closed oriented connected manifolds); 1.1 (manifolds with boundary).
+Mathlib `Diffeomorph`, `IsTopologicalGroup`; AlgebraicTopology Stage 6 (fundamental classes,
+`H_n(M; ℤ) ≅ ℤ` for closed oriented connected `M`, and the homological characterization of the
+degree in 6.5); 1.1 (manifolds with boundary).
 
 ### 3.2 Smooth families and the reference inclusion
 
@@ -1078,8 +1085,6 @@ of topological groups and that it lands in `Diff⁺(Sⁿ)` exactly on `SO(n + 1)
   `Diff(M)` (`TauCeti.Diffeotopy.toPath`).
 - The reference inclusion is a continuous injective homomorphism from a compact group, hence a
   closed embedding.
-- The antipodal map `−1 ∈ O(n + 1)` has degree `(−1)^{n+1}`, so it lies in `Diff⁺(Sⁿ)` exactly for
-  odd `n`.
 
 **Checks.**
 
@@ -1087,15 +1092,17 @@ of topological groups and that it lands in `Diff⁺(Sⁿ)` exactly on `SO(n + 1)
   path in `Diff(S¹)`; the family `t ↦ (rotation by `|t|`)` is continuous but not jointly smooth,
   and it is still a continuous map into `Diff(S¹)`, which is why the converse is only up to
   homotopy.
-- `−1 ∈ O(2)` is the rotation by `π`, of degree `+1`; `−1 ∈ O(3)` is the antipodal map of `S²`,
-  of degree `−1`; the formula `(−1)^{n+1}` gives `+1` and `−1`.
+- The antipodal map `−1 ∈ O(n + 1)` has determinant `(−1)^{n+1}`, so it lies in `Diff⁺(Sⁿ)`
+  exactly for odd `n`, and its degree is `(−1)^{n+1}`, a composite of `n + 1` reflections of
+  degree `−1` each: `−1 ∈ O(2)` is the rotation by `π`, of degree `+1`, and `−1 ∈ O(3)` is the
+  antipodal map of `S²`, of degree `−1`.
 - The inclusion `O(4) → Diff(S³)` sends the diagonal matrix `diag(−1, 1, 1, 1)` to a reflection
   of `S³`, which is not in `Diff⁺(S³)`, so `Diff(S³) → {±1}` is surjective.
 
 *Needs:* the native `Diffeomorph.ofSmoothFamily`, `TauCeti.continuousOrthogonalToDiffSphere`,
 `LinearIsometryEquiv.unitSphereDiffHom`, `TauCeti.Diffeotopy` and `TauCeti.Diffeotopy.toPath`;
 Mathlib `Matrix.orthogonalGroup`, `ContinuousMap.Homotopy`, `Topology.IsClosedEmbedding`; 3.1 (the
-topology and `Diff⁺`); DifferentialGeometry Layer 10 (`degree_antipodal`).
+topology, `Diff⁺` and the homological degree).
 
 ### 3.3 The Smale conjecture, Cerf's theorem and Watanabe's theorem
 
@@ -1173,7 +1180,8 @@ stated in `Suggested.lean`.
 
 Mathlib's `Diffeomorph`, `ContMDiffMap` and `HomotopyGroup`; the native group, topology,
 inversion, relative subgroup, sphere inclusion, Smale and Watanabe declarations of the supplier
-contracts; DifferentialGeometry's degree for `Diff⁺`; Layer 1 for manifolds with boundary.
+contracts; AlgebraicTopology Stage 6's fundamental classes, for the homological degree of 3.1;
+Layer 1 for manifolds with boundary.
 
 ## Layer 4: knot theory, done properly (owned here)
 
@@ -1344,8 +1352,10 @@ Lane K's (Cromwell's theorem), which consumes the hub.
 `TauCeti.BraidWord.ArtinEquiv`, `TauCeti.MarkovEquiv`, `TauCeti.OrientedPDCode.ReidemeisterEquiv`,
 `TauCeti.SmoothLinkEmbedding.relabel`, `SmoothLinkEmbedding.SmoothAmbientIsotopic`,
 `TauCeti.markovEquiv_sigma_last_one_one`; Mathlib `Manifold.IsImmersion`, `Equiv.Perm`; 4.1; 4.2
-(planarity, moves); DifferentialGeometry Layer 10 (Sard's theorem, for the density of generic
-directions).
+(planarity, moves); the native Morse–Sard theorem `TauCeti.addHaar_image_criticalPoints_eq_zero`
+and the density of regular values `ContDiff.dense_compl_image_criticalPoints`, applied in charts,
+for the density of generic directions (the non-generic directions are images of critical sets of
+smooth maps between Euclidean spaces).
 
 ### 4.4 Sliceness and the slice genus
 
@@ -2146,8 +2156,12 @@ that of its orientation double cover divided by two, and the non-orientable case
 **Checks.**
 
 - `H₁` of the `5, 5/2` filling: the linking matrix of the Whitehead link is zero and the surgery
-  presentation gives `H₁ = ℤ/5 ⊕ ℤ/5`, of order `25`; the `1, 1` filling gives `S³`, so the slopes
-  matter.
+  presentation gives `H₁ = ℤ/5 ⊕ ℤ/5`, of order `25`. The `1, 1` filling has surgery matrix the
+  identity, so `H₁ = 0`, and it is still not `S³`: blowing down the `+1`-framed unknotted component
+  puts one full twist into the two strands of the Whitehead curve that pass through its spanning
+  disc and leaves the curve's coefficient at `1 − 0² = 1`, so the filling is `+1`-surgery on a
+  twist knot with one full twist, the trefoil or the figure-eight (determinant `3` or `5`, never
+  `1`), and by 5.4 (`gordon_luecke_theorem`) no such surgery is `S³`.
 - The coefficient `5/2` is read in the preferred framing of the Whitehead curve alone, whose
   preferred longitude is null-homologous in the complement of that component whatever the other
   component does (`surgerySlope`); read in the framing of a neighbourhood with framing number `n`
@@ -2405,19 +2419,25 @@ the sign of the orbifold Euler characteristic of the base and the Euler number o
 (Scott, Sections 4 and 5), and conversely (closed `sol` manifolds are cut along a fibre
 torus into `T² × (0, 1)`, which is Seifert fibred). Prove that the prime decomposition (8.2)
 reduces every closed orientable `3`-manifold to irreducible ones and `S¹ × S²`, so that the
-theorem describes all of them. Derive the **Poincaré conjecture**: a closed simply connected
-`3`-manifold is diffeomorphic to `S³`. The route: a simply connected closed `3`-manifold is
-orientable, prime (van Kampen and 8.2) hence irreducible (8.2, since `S¹ × S²` is not simply
-connected), and atoroidal (no `π₁`-injective torus), so its geometric torus decomposition is empty
-and it is Seifert fibred or hyperbolic; a hyperbolic closed manifold has infinite `π₁`, and a simply
-connected Seifert fibred space is `S³` (Scott, Section 3, the classification of Seifert fibred
-spaces with finite fundamental group).
+theorem describes all of them. Derive the **Poincaré conjecture**
+(`nonempty_diffeomorph_sphere_of_simplyConnectedSpace`): a closed simply connected `3`-manifold is
+diffeomorphic to `S³`. The route: a simply connected closed `3`-manifold `M` is orientable, so by
+Kneser's theorem (8.2) it is the iterated connected sum of a finite family of prime manifolds,
+each simply connected by van Kampen. No summand is `S¹ × S²`, whose `π₁` is `ℤ`, so each is
+irreducible (8.2); a simply connected irreducible closed `3`-manifold is atoroidal (no
+`π₁`-injective torus), so its geometric torus decomposition is empty and it is Seifert fibred or
+hyperbolic; a hyperbolic closed manifold has infinite `π₁`, and a simply connected Seifert fibred
+space is `S³` (Scott, Section 3, the classification of Seifert fibred spaces with finite
+fundamental group). So every summand would be diffeomorphic to `S³`, which is not prime
+(`not_isPrimeManifold_sphere`): the family is empty, and `M` is diffeomorphic to `S³`
+(`isIteratedConnectedSum_zero_iff`).
 
 - `GeometrizationConjecture`: `∀ M` closed orientable irreducible, `∃ n T,
   IsGeometricTorusDecomposition T`.
 - Each piece of a geometric torus decomposition is Seifert fibred or finite-volume hyperbolic;
   Thurston's form: each piece carries one of the eight geometries with finite volume.
-- Poincaré: `∀ M` closed smooth `3`-manifold with `SimplyConnectedSpace M`, `M ≃ₘ S³`.
+- Poincaré (`nonempty_diffeomorph_sphere_of_simplyConnectedSpace`): `∀ M` closed smooth
+  `3`-manifold with `SimplyConnectedSpace M`, `Nonempty (M ≃ₘ S³)`.
 
 **Checks.**
 
@@ -2436,9 +2456,10 @@ spaces with finite fundamental group).
   `S² × S¹` has `π₁ = ℤ`. Only `S³` satisfies the hypothesis, which is the content of the theorem.
 
 *Needs:* the native `TauCeti.IsGeometricTorusDecomposition`, `TauCeti.GeometrizationConjecture`,
-`TauCeti.IsFiniteVolumeHyperbolic`; Mathlib `Diffeomorph`, `SimplyConnectedSpace`, `Metric.sphere`;
-7.2; 8.1 (the eight geometries); 8.2 (the prime decomposition); 8.3 (Seifert fibred spaces and the
-JSJ theorem).
+`TauCeti.IsFiniteVolumeHyperbolic`, `TauCeti.not_isPrimeManifold_sphere`,
+`TauCeti.isIteratedConnectedSum_zero_iff`; Mathlib `Diffeomorph`, `SimplyConnectedSpace`,
+`Metric.sphere`; AlgebraicTopology Stage 1 (van Kampen); 7.2; 8.1 (the eight geometries); 8.2 (the
+prime decomposition); 8.3 (Seifert fibred spaces and the JSJ theorem).
 
 ### Examples
 
@@ -2512,9 +2533,11 @@ a non-orientable splitting (Scharlemann, Section 2.1: from a triangulation, Mois
 - Two subsets homeomorphic to handlebodies of different genera cannot form a splitting: the
   structure carries one `genus`, and the frontiers, closed surfaces of genus `g` and `h`, would
   have to coincide.
-- Two closed solid tori in `S³` covering it and meeting in a disc of their boundaries rather than
-  in the whole boundary torus do not form a splitting: the intersection is not the frontier of
-  either piece, which `ofIsClosed` asks for.
+- The closed solid tori `L = {‖z‖ ≤ ‖w‖}` and `R = {‖w‖ ≤ 2‖z‖}` of `S³ ⊆ ℂ²` cover `S³` and
+  are each homeomorphic to `handlebody 1`, but they do not form a splitting: they meet in the
+  thickened torus `1/5 ≤ ‖z‖² ≤ 1/2`, whose points with `1/5 < ‖z‖² < 1/2` lie in the interiors of
+  both, so neither `L ∩ R ⊆ closure Lᶜ` nor `L ∩ R ⊆ closure Rᶜ` holds and `ofIsClosed` does not
+  apply; the frontier of `L` is the torus `‖z‖ = ‖w‖`, strictly smaller than `L ∩ R`.
 
 *Needs:* the native `TauCeti.handlebody`, `TauCeti.planarSurface`, `TauCeti.HeegaardSplitting`
 with `ofIsClosed`, `symm`, `transHomeomorph`, `TauCeti.hemisphereHeegaardSplitting`,
@@ -2719,8 +2742,8 @@ fundamental classes).
 vanishing, `Foliation.thomPair`, `Foliation.IsThomClass`, `Foliation.eulerClass`,
 `Foliation.IsEulerClass`, `TauCeti.HomologicalOrientation.evalFundamentalClass`;
 AlgebraicTopology Stage 4 (cellular cochains) and Stage 6 (cohomology, cup products, fundamental
-classes); DifferentialGeometry Layer 10 (the degree of a section on the boundary of a `2`-cell);
-10.1 (the tangent plane bundle of a foliation).
+classes, and the homological degree of 6.5, for the degree on the boundary circle of a `2`-cell
+of a section over the `1`-skeleton); 10.1 (the tangent plane bundle of a foliation).
 
 ### 10.3 The Thurston norm
 
@@ -2787,8 +2810,10 @@ with `|⟨e, [S]⟩| = −χ(S) > 0` gives `x*(e) ≥ |⟨e, [S]⟩| / x([S]) �
 - The zero class is bounded and never sharp (`not_eulerClassNormOne_zero`), as `x*(0) = 0 ≠ 1`.
 
 *Needs:* AlgebraicTopology Stage 6 (Poincaré duality and `H₂(M; ℤ)`) and Stage 8 (representability
-of `H¹` by maps to the circle); DifferentialGeometry Layer 10 (regular values and Sard's theorem,
-for the representing surfaces); Mathlib `Seminorm`; the native `TauCeti.EulerClassBounded`,
+of `H¹` by maps to the circle); the native Morse–Sard theorem
+`TauCeti.addHaar_image_criticalPoints_eq_zero` and `ContDiff.dense_compl_image_criticalPoints`,
+applied in charts, for a regular value of a smooth map to `S¹` whose preimage is the representing
+surface; Mathlib `Seminorm`; the native `TauCeti.EulerClassBounded`,
 `TauCeti.EulerClassNormOne`, `TauCeti.HomologicalOrientation.evalFundamentalClass`,
 `TauCeti.FiniteCWType`, `TauCeti.eulerChar`; 2.1 (embedded surfaces); 7.2 (hyperbolic manifolds);
 8.3 (incompressible surfaces).

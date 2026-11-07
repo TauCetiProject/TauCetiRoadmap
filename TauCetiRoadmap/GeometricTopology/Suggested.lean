@@ -235,7 +235,7 @@ theorem geometrization_theorem : TauCeti.GeometrizationConjecture.{u} := by
 
 /-- **The Poincaré conjecture** (Perelman): a closed simply connected smooth `3`-manifold is
 diffeomorphic to the round three-sphere. README, 8.4. -/
-theorem poincare_conjecture (M : Type) [MetricSpace M]
+theorem nonempty_diffeomorph_sphere_of_simplyConnectedSpace (M : Type) [MetricSpace M]
     [ChartedSpace (EuclideanSpace ℝ (Fin 3)) M] [IsManifold (𝓡 3) ∞ M] [CompactSpace M]
     [SimplyConnectedSpace M] :
     Nonempty (M ≃ₘ⟮𝓡 3, 𝓡 3⟯ Metric.sphere (0 : EuclideanSpace ℝ (Fin 4)) 1) := by
