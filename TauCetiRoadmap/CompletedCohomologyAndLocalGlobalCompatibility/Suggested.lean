@@ -1,4 +1,6 @@
 import Mathlib
+import TauCeti.LinearAlgebra.Matrix.GeneralLinearGroup.Diagonal.Basic
+import TauCeti.NumberTheory.HeckeRing.Associativity
 
 /-!
 # Completed cohomology and p-adic local–global compatibility: target signatures
@@ -7,10 +9,13 @@ import Mathlib
 `README.md`. This file is the acceptance test for the roadmap’s headline theorems against the
 pinned APIs. It contains no substitutes for headlines whose carriers are missing.
 
-No headline theorem is statable against the pinned Mathlib
-`6b7abb3c7686292736be2955bd3eb9ebf63b456a` and Tau Ceti
-`a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`. The signatures require the following
-mathematical objects, whose construction is specified in the README:
+Against the pinned Mathlib `6b7abb3c7686292736be2955bd3eb9ebf63b456a` and Tau Ceti
+`a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`, only the local statements at a split place of
+§0.7 are statable: the hyperspecial subgroup `GL_n(𝒪)` of a nonarchimedean local field, its
+Hecke pair with `GL_n`, the minuscule operators `T^{(j)}`, their coset counts, the quadratic
+relation for `T^{(1)}` and the inversion identity. They are stated at the end of this file.
+The other headline signatures require the following mathematical objects, whose
+construction is specified in the README:
 
 * The integral-isomorphism criterion of §0.1 requires the category of O-torsion-free,
   ϖ-adically admissible representations over a complete local noetherian O-algebra,
@@ -34,7 +39,10 @@ mathematical objects, whose construction is specified in the README:
   The definite unitary input of §0.7 specializes the common forms carrier and weighted
   Hecke adapter of AutomorphicFormsOnReductiveGroups §§7.4–7.5, with inverse coefficient
   action and the stated monoid-extension and base-change hypotheses. Its arithmetic
-  unitary group, weight/type normalization and completed tower are also required.
+  unitary group with the split identifications, the unitary level forms with their
+  class-set evaluation and norms, the split-place operators acting on them, the tame Hecke
+  algebra, the weight/type normalization and the completed tower are also required; only
+  the local Hecke ring at a split place is available.
 * The non-Eisenstein injectivity and regular-representation theorem of §1.4, classical
   comparison and density of §§2.1–2.2, Serre-weight theorem of §2.4 and homological and
   quaternionic comparisons of §§2.6–2.8 require the actual modular, Shimura-curve and
@@ -93,12 +101,89 @@ mathematical objects, whose construction is specified in the README:
   inflation along the natural quotient between ramification-restricted Galois groups.
 
 Absolute Galois groups, continuous representations, general linear groups, adic
-completions, completed group algebras, continuous functions, annihilators and spectra
-exist at these pins. They do not supply the arithmetic towers or the local functors
-above. Defining those objects requires their mathematical constructions, beyond a few
-auxiliary definitions on these carriers. Consequently no headline signatures are given.
+completions, completed group algebras, continuous functions, annihilators, spectra,
+nonarchimedean local fields and double-coset Hecke rings exist at these pins. They do not
+supply the arithmetic towers, the definite unitary groups or the local functors above.
+Defining those objects requires their mathematical constructions, beyond a few auxiliary
+definitions on these carriers. Consequently the only signatures given are the split-place
+statements of §0.7.
 -/
 
 namespace TauCetiRoadmap.CompletedCohomologyAndLocalGlobalCompatibility
+
+/-! ## §0.7: the Hecke ring at a split place
+
+At a place `v = ww^c` of `F̃⁺` split in `F̃`, the identification `ι_w` carries a hyperspecial
+level to `GL_n(𝒪)` for the valuation ring `𝒪` of the nonarchimedean local field `F̃_w`. The
+split-place operators of §0.7 are the images of the double cosets below under the ring
+homomorphism from this local Hecke ring to the endomorphisms of the unitary level forms. -/
+
+section SplitPlaceHecke
+
+open Matrix ValuativeRel
+open scoped HeckeCosetModule
+
+variable (L : Type*) [Field L] [ValuativeRel L] [TopologicalSpace L]
+  [IsNonarchimedeanLocalField L]
+
+/-- §0.7: `GL_n` of the valuation ring, as a subgroup of `GL_n(L)`. -/
+noncomputable def glnIntegral (n : ℕ) : Subgroup (GL (Fin n) L) :=
+  (GeneralLinearGroup.map (𝒪[L]).subtype).range
+
+/-- §0.7: `GL_n(L)` commensurates `GL_n` of the valuation ring, so the two form a Hecke
+pair. -/
+theorem glnIntegral_isHeckeTriple (n : ℕ) :
+    IsHeckeTriple (⊤ : Submonoid (GL (Fin n) L)) (glnIntegral L n) (glnIntegral L n) := by
+  sorry
+
+variable {L}
+
+/-- §0.7: the diagonal matrix `diag(ϖ, …, ϖ, 1, …, 1)` with `ϖ` in the first `j` entries. -/
+noncomputable def minusculeDiag (n : ℕ) (ϖ : Lˣ) (j : ℕ) : GL (Fin n) L :=
+  TauCeti.diagGL fun i : Fin n ↦ if (i : ℕ) < j then ϖ else 1
+
+/-- §0.7: the split-place operator `T^{(j)} = [K diag(ϖ^{(j)}, 1^{(n-j)}) K]` in the Hecke ring
+of `GL_n(L)` relative to `K = GL_n(𝒪)`, with integer coefficients. -/
+noncomputable def splitHeckeT (n : ℕ) (ϖ : Lˣ) (j : ℕ) :
+    HeckeRing (⊤ : Submonoid (GL (Fin n) L)) (glnIntegral L n) ℤ :=
+  HeckeCosetModule.single ℤ
+    (HeckeCoset.mk (glnIntegral L n) (glnIntegral L n)
+      ⟨minusculeDiag n ϖ j, Submonoid.mem_top _⟩) 1
+
+/-- §0.7: for a uniformizer `ϖ` and `j ≤ n`, the double coset of `diag(ϖ^{(j)}, 1^{(n-j)})` is
+the union of as many cosets `gK` as there are `j`-dimensional subspaces of `𝓀^n`. -/
+theorem splitHeckeT_degree (n : ℕ) (ϖ : Lˣ)
+    (hϖ : ∃ h : (ϖ : L) ∈ 𝒪[L], Irreducible (⟨ϖ, h⟩ : 𝒪[L])) {j : ℕ} (hj : j ≤ n) :
+    (HeckeCoset.mk (glnIntegral L n) (glnIntegral L n)
+        (⟨minusculeDiag n ϖ j, Submonoid.mem_top _⟩ : (⊤ : Submonoid (GL (Fin n) L)))).degree =
+      Nat.card {W : Submodule 𝓀[L] (Fin n → 𝓀[L]) // Module.finrank 𝓀[L] W = j} := by
+  sorry
+
+/-- §0.7: for `n ≥ 2` and a uniformizer `ϖ`, with `q` the residue cardinality,
+`(T^{(1)})² = [K diag(ϖ², 1, …, 1) K] + (q + 1) T^{(2)}`. -/
+theorem splitHeckeT_one_mul_self {n : ℕ} (hn : 2 ≤ n) (ϖ : Lˣ)
+    (hϖ : ∃ h : (ϖ : L) ∈ 𝒪[L], Irreducible (⟨ϖ, h⟩ : 𝒪[L])) :
+    haveI := glnIntegral_isHeckeTriple L n
+    splitHeckeT n ϖ 1 * splitHeckeT n ϖ 1 =
+      HeckeCosetModule.single ℤ
+          (HeckeCoset.mk (glnIntegral L n) (glnIntegral L n)
+            ⟨TauCeti.diagGL (Pi.mulSingle (⟨0, by omega⟩ : Fin n) (ϖ ^ 2)),
+              Submonoid.mem_top _⟩) 1 +
+        ((Nat.card 𝓀[L] + 1 : ℕ) : ℤ) • splitHeckeT n ϖ 2 := by
+  sorry
+
+/-- §0.7: the scalar operator `T^{(n)}` times the double coset of
+`diag(ϖ^{(j)}, 1^{(n-j)})⁻¹` is `T^{(n-j)}`, so `[K diag(ϖ^{(j)}, 1^{(n-j)})⁻¹ K]` is
+`(T^{(n)})⁻¹ T^{(n-j)}`. -/
+theorem splitHeckeT_mul_inverse (n : ℕ) (ϖ : Lˣ) (j : ℕ) :
+    haveI := glnIntegral_isHeckeTriple L n
+    splitHeckeT n ϖ n *
+        HeckeCosetModule.single ℤ
+          (HeckeCoset.mk (glnIntegral L n) (glnIntegral L n)
+            ⟨(minusculeDiag n ϖ j)⁻¹, Submonoid.mem_top _⟩) 1 =
+      splitHeckeT n ϖ (n - j) := by
+  sorry
+
+end SplitPlaceHecke
 
 end TauCetiRoadmap.CompletedCohomologyAndLocalGlobalCompatibility
