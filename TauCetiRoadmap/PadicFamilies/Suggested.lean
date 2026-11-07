@@ -106,7 +106,7 @@ theorem perfect_complex_ordinary_projector
             (HomotopyCategory.quotient _ _).obj C)
           (π : (HomotopyCategory.quotient _ _).obj C ⟶
             (HomotopyCategory.quotient _ _).obj D),
-          π ≫ ι = e ∧ ι ≫ π = 𝟙 _ := by
+          π ≫ ι = e.asHom ∧ ι ≫ π = 𝟙 _ := by
   sorry
 
 /-- Pilloni's representative independence (README §0a.25): a derived comparison of locally
