@@ -44,9 +44,9 @@ similitude roadmap.
   and consumes Layers 2–4 here; no layer here uses Layer 9. The connected rational
   fixed-vector and intertwiner comparison on the SO/Sp carriers is a target of
   Layer 3A here, not an input from that GL application.
-- Positive roots, chambers, the longest element, the Cartan classification and the
-  numbered integral models are native in Tau Ceti and are consumed directly; RootSystems
-  §3.2 supplies the type A Weyl group as a permutation group.
+- Positive roots, dominant chambers and the oriented Cartan-type predicate are native in
+  Tau Ceti and are consumed directly; RootSystems §3.2 supplies the type A Weyl group as a
+  permutation group.
   SpinRepresentations consumes Layer 0's standard module and orthogonal group, and its
   Layers 4–5 own the spin and half-spin modules, whose restriction comparison §6.2
   here consumes; the two directions are at different layers. ClassicalGroupsPartII owns
@@ -213,7 +213,7 @@ The structural tensor-square splitting is `TauCeti.tensorSquareRepEquiv`
 For characters consume the one-row and one-column identities
 `TauCeti.char_weylFDRepOfShape_diagonal_of_colLen_le_one` and
 `TauCeti.char_weylFDRepOfShape_diagonal_of_rowLen_le_one`
-(`TauCeti/RepresentationTheory/ClassicalGroups/WeylModule/Character.lean:94,133`).
+(`TauCeti/RepresentationTheory/ClassicalGroups/WeylModule/Character.lean:93,132`).
 The general input is the unevaluated Frobenius sum
 `TauCeti.char_weylFDRepOfShape_diagramOf_diagonal_eq_sum_spechtChar`
 (`TauCeti/RepresentationTheory/ClassicalGroups/WeylModule/SchurWeyl.lean:162`).
@@ -231,33 +231,22 @@ For §5.1 consume `TauCeti.eval_one_diagramSchurPoly_eq_card_boundedSSYT`
 (`TauCeti/RepresentationTheory/ClassicalGroups/WeylDimension/Basic.lean:256`). These count tableaux and patterns and compare
 products; the identification with module dimension is owned here.
 For the uniqueness of Schur coefficients in §4.1 consume the Schur basis
-`TauCeti.schurPolyBasis` (`TauCeti/RingTheory/MvPolynomial/Symmetric/Schur/Basis.lean:298`)
+`TauCeti.schurPolyBasis` (`TauCeti/RingTheory/MvPolynomial/Symmetric/Schur/Basis.lean:301`)
 of the homogeneous symmetric polynomials of each degree d, indexed by the
 partitions of d with at most as many parts as variables; homogeneity separates
 different degrees.
 
 Root and Weyl geometry is consumed from these declarations, each for a root pairing
 `P` with a base `b`: the positive roots `TauCeti.posRoots`
-(`TauCeti/LinearAlgebra/RootSystem/Positive.lean:131`, characteristic-zero
-coefficients); the closed dominant chamber `RootPairing.dominantChamber`
-(`TauCeti/LinearAlgebra/RootSystem/Chamber.lean:141`, ordered coefficients) and
-its Weyl translates `TauCeti.openWeylChamber`
-(`TauCeti/LinearAlgebra/RootSystem/Weyl/Chamber.lean:111`); the longest element
-`TauCeti.longestElement` (`TauCeti/LinearAlgebra/RootSystem/LongestElement.lean:197`,
-finite reduced crystallographic spanning root systems over a characteristic-zero
-domain); the
+(`TauCeti/LinearAlgebra/RootSystem/Positive.lean:114`, characteristic-zero
+coefficients); the closed dominant chamber `TauCeti.dominantChamber`
+(`TauCeti/LinearAlgebra/RootSystem/Chamber.lean:137`, ordered coefficients); and the
 oriented Cartan-type predicate `TauCeti.HasCartanType`
-(`TauCeti/LinearAlgebra/RootSystem/DynkinType.lean:418`) with the classification
-`TauCeti.existsUnique_dynkinType`
-(`TauCeti/LinearAlgebra/RootSystem/FiniteType/Classification.lean:136`, for finite
-nonempty, spanning, reduced, crystallographic and irreducible root systems over a
-characteristic-zero domain; valid ranks are A≥1, B≥2, C≥3, D≥4); the numbered
-integral models `TauCeti.DynkinType.simplyConnectedRootDatum` and
-`TauCeti.DynkinType.simplyConnectedBase`
-(`TauCeti/LinearAlgebra/RootSystem/SimplyConnectedRootDatum/Assembly.lean:77,92`); and the
-type A Weyl group of the numbered model, `TauCeti.DynkinType.typeAWeylGroupEquiv`
-(`TauCeti/LinearAlgebra/RootSystem/Weyl/TypeA/Basic.lean:124`), equivalent to the
-permutations of the n+1 coordinates.
+(`TauCeti/LinearAlgebra/RootSystem/DynkinType.lean:416`, for a crystallographic root
+pairing): the Cartan matrix of `b` agrees with the standard Cartan matrix of the named
+type after one simultaneous relabelling of rows and columns, without transposition, so
+that B and C are distinguished from rank 3 on while B₂ and C₂ coincide (the native
+validity predicate on types excludes C₂, and the valid ranks are A≥1, B≥2, C≥3, D≥4).
 
 The abstract semisimple Lie theory is consumed from these declarations, for a Killing
 Lie algebra with a splitting Cartan subalgebra over a field of characteristic zero; the
@@ -266,27 +255,25 @@ algebraically closed, which ℂ is: the
 integral weight lattice `TauCeti.integralWeightLattice`
 (`TauCeti/Algebra/Lie/Weights/WeightLattice.lean:188`) and the integrality of weights
 on coroots `TauCeti.exists_int_apply_coroot`
-(`TauCeti/Algebra/Lie/Weights/Integrality.lean:202`); the Verma modules and their
+(`TauCeti/Algebra/Lie/Weights/Integrality.lean:198`); the Verma modules and their
 irreducible quotients `TauCeti.VermaModule` and `TauCeti.irreducibleQuotient`
 (`TauCeti/Algebra/Lie/HighestWeight/Verma.lean:195,525`); the unique dominant integral
 highest weight of a finite-dimensional irreducible module,
 `TauCeti.existsUnique_isDominantIntegral_highestWeight_of_finiteDimensional_irreducible`
-(`TauCeti/Algebra/Lie/HighestWeight/Existence.lean:234`), and the finite-dimensionality
-criterion `TauCeti.finiteDimensional_iff_isDominantIntegral_of_isHighestWeightVector`
-(`TauCeti/Algebra/Lie/HighestWeight/FiniteDimensional.lean:122`); complete reducibility
+(`TauCeti/Algebra/Lie/HighestWeight/Existence.lean:240`); complete reducibility
 `TauCeti.exists_isCompl_of_isKilling`
 (`TauCeti/Algebra/Lie/HighestWeight/CompleteReducibility.lean:259`); and, for a
 finite-dimensional module generated by a highest-weight vector, the Weyl character
 formula `TauCeti.formalCharacter_mul_weylDenominator_eq_weylNumerator`
-(`TauCeti/Algebra/Lie/HighestWeight/Weyl/Character.lean:324`) and the Weyl dimension
+(`TauCeti/Algebra/Lie/HighestWeight/Weyl/Character.lean:319`) and the Weyl dimension
 formula `TauCeti.finrank_eq_prod_coweightPairing_div`
-(`TauCeti/Algebra/Lie/HighestWeight/Weyl/Dimension.lean:116`).
+(`TauCeti/Algebra/Lie/HighestWeight/Weyl/Dimension.lean:113`).
 
 For §3A.2 consume Cartier's theorem `TauCeti.smoothCommHopfAlgProperty_of_charZero`
-(`TauCeti/Algebra/AlgebraicGroup/Smooth/CharZero.lean:151`): a finite-type commutative
+(`TauCeti/Algebra/AlgebraicGroup/Smooth/CharZero.lean:148`): a finite-type commutative
 Hopf algebra over a field of characteristic zero is smooth. Consume also
 `Submodule.exists_subcomodule_iff_forall_differential_mem`
-(`TauCeti/Algebra/AlgebraicGroup/Representation/LieStable.lean:85`): for a comodule
+(`TauCeti/Algebra/AlgebraicGroup/Representation/LieStable.lean:80`): for a comodule
 over a finite-type Hopf algebra with connected spectrum, over an algebraically closed
 field of characteristic zero, a subspace is a subcomodule exactly when it is stable
 under the differentiated action of every derivation at the counit. It is stated for
@@ -502,7 +489,7 @@ double-centralizer theorem. The Schur/highest-weight isomorphism is Layer 3.
 
 The GLₙ route uses native group-level torus/transvection theory. For the other connected
 classical groups, consume the native root data, dominant chambers and Weyl groups
-(`TauCeti.posRoots`, `RootPairing.dominantChamber`, `RootPairing.weylGroup`), RootSystems
+(`TauCeti.posRoots`, `TauCeti.dominantChamber`, `RootPairing.weylGroup`), RootSystems
 §3.2 for type A, and the native semisimple highest-weight theorem
 `TauCeti.existsUnique_isDominantIntegral_highestWeight_of_finiteDimensional_irreducible`.
 
@@ -994,8 +981,13 @@ independence of the Schur polynomials of bounded height.
 Prove `schur_character`: for every n, every Young diagram μ and every
 `t : Fin n → ℂˣ`, the character of `TauCeti.schurFunctor n μ` at
 `TauCeti.diagGL t` equals the evaluation of `TauCeti.diagramSchurPoly n ℂ μ`
-at the entries of t. No height bound is needed: both sides vanish for taller
-shapes (Macdonald, Appendix A, (8.4), printed p. 163).
+at the entries of t. No height bound is needed. For μ of height at most n this
+is the classical character identity (Macdonald, Appendix A, (8.4), printed p. 163,
+stated there for the representations `R_λ` with `ℓ(λ) ≤ m`); for taller shapes
+both sides vanish: the Schur module is zero (Fulton–Harris, Theorem 6.3(1), p. 77;
+the native `TauCeti.weylModuleOfShape_eq_bot_iff`), and the native Schur
+polynomial is a sum over semistandard tableaux with entries below n, of which
+there are none.
 For μ of height at most n, transport this identity through
 `nonempty_schurFunctor_iso_rationalWeylFDRep` to the rational Weyl model with row weight μ.
 
@@ -1140,8 +1132,9 @@ For the Spin covers, use the lifted inclusions and the same inequalities on
 rows which are either all integral or all in ℤ+1/2, preserving that coset at
 each restriction. Integral rows descend to SO; the half-integral rows do not.
 The comparison on spin and half-spin carriers consumes SpinRepresentations
-Layers 4–5, including its SpinHighestWeights and branching contracts; it does
-not construct a second spin representation. Spin₃ weight 1/2 restricts to
+Layers 4–5, including its spin and half-spin modules and SpinHighestWeights; it does
+not construct a second spin representation, and the spin branching itself, with
+half-integral rows, is a target of this section and §6.7. Spin₃ weight 1/2 restricts to
 Spin₂ weights ±1/2. Spin₂ characters have weights in (1/2)ℤ in SO coordinates;
 on Spin₁={±1} they restrict to the character with value (−1)^(2μ) at −1.
 
@@ -1896,7 +1889,7 @@ coefficients in every characteristic-zero field); the Sp statements are §3A.3's
 
 ## References
 
-- A. I. Molev, [*Gelfand–Tsetlin bases for classical Lie algebras*, arXiv:math/0211289v2](https://arxiv.org/abs/math/0211289v2), §§2.1–2.4, 3.1–3.4 and 4.1–4.3: Theorems 2.3/2.7, printed pp. 9/11, Proposition 2.4, p. 10, Capelli (2.21)–(2.22), p. 16, type-C (3.10), p. 31, Lemma 3.4 and Theorem 3.5, pp. 34–35. Consecutive orthogonal branching is (4.4)/(4.7), printed pp. 48/50, and its vectors are Theorems 4.1–4.4, pp. 49–52. The source signed-coordinate and type-C shifts are fixed explicitly in Layers 6/6B.
+- A. I. Molev, [*Gelfand–Tsetlin bases for classical Lie algebras*, arXiv:math/0211289v2](https://arxiv.org/abs/math/0211289v2), §§2.1–2.4, 3.1–3.4 and 4.1–4.3: Theorems 2.3/2.7, printed pp. 9/11, Proposition 2.4, p. 10, Capelli (2.21)–(2.22), p. 16, type-C (3.10), p. 31, (3.13), Lemma 3.4 and Theorem 3.5, pp. 33–34. Consecutive orthogonal branching is (4.4)/(4.7), printed pp. 48/50, and its vectors are Theorems 4.1–4.4, pp. 49–52. The source signed-coordinate and type-C shifts are fixed explicitly in Layers 6/6B.
 
 - W. Fulton, J. Harris, *Representation Theory: A First Course*, Springer GTM 129 (1991) - the primary
   reference for tensor operations (§1.1, pp. 4–5), Young images and the
