@@ -1,3 +1,5 @@
+module
+
 import Mathlib
 import TauCeti.Topology.Algebra.Group.Profinite.ZHat.Ring
 import TauCeti.Topology.Algebra.Group.Profinite.ZHat.ZMod
@@ -6,7 +8,6 @@ import TauCeti.Topology.Algebra.Group.Profinite.ZHat.Units
 import TauCeti.Algebra.Module.Torsion.TateModule
 import TauCeti.AlgebraicGeometry.EllipticCurve.TateModule.Basic
 import TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny.Basic
-import TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny.Degree
 import TauCeti.NumberTheory.ModularForms.CongruenceSubgroups.Basic
 import TauCeti.LinearAlgebra.Matrix.SpecialLinearGroup.Basic
 
@@ -14,36 +15,57 @@ import TauCeti.LinearAlgebra.Matrix.SpecialLinearGroup.Basic
 # Adelic Galois images and modular curves `X_H`: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive specification is
-`README.md`. This file states only what can be stated over Mathlib and the pinned Tau Ceti: the
-carrier `GL₂(Ẑ)` and its open subgroups with their level, index, `±H`, standard subgroups, `Γ_H`
-and genus data, the adelic Tate module, the isogeny-class vocabulary with Mazur's torsion theorem
-and the class-size corollary of Kenku's theorem, and `GSp₄`. The other targets — the Cartan
-subgroups of composite level, rational cusps and cusp orbits, the entanglement index, the
-index-two subgroups `S_χ`, the adelic representation and its image with their invariants, Serre
-curves and Serre's open image theorem — are specified, with their definitions and Checks, in
-`README.md` only. `sorry` is permitted for proofs in this human-owned repository: these are
-targets, not implementations.
+`README.md`. This file states what can be stated over Mathlib and the pinned Tau Ceti: the
+carrier `GL₂(Ẑ)` with its reductions and the inverse-limit property, open subgroups with their
+level, index, `±H`, `Γ₀(N)`, `Γ_H` and genus data, Serre's lifting theorem, the commutator
+subgroup of `GL₂(Ẑ)`, twists and Gassmann invariance, the adelic Tate module, the size of an
+isogeny class, Mazur's torsion theorem with the realisation of all fifteen groups, the class-size
+corollary of Kenku's theorem, and the order of `GSp₄(𝔽_ℓ)`. `sorry` is permitted for proofs in
+this human-owned repository: these are targets, not implementations.
+
+**Targets not stated here, and the carrier each one lacks at the pin.** The finite-group
+definitions of Layers 0–2 left to `README.md` (the Cartan subgroups of composite level and of an
+imaginary quadratic order, rational cusps and cusp orbits, the entanglement index, the subgroups
+`S_χ`, agreeable closures, isogeny orbits) are definitions over the carriers used below, specified
+with their Checks in `README.md`. The arithmetic and moduli headlines need carriers that do not
+exist at the pin:
+- the adelic representation `ρ_E`, its image as a conjugacy class, its level, index and
+  non-maximal primes, Serre curves and division fields (Layer 3) need a continuous Galois action
+  on `adelicTateModule`, assembled from Tau Ceti's `tateModuleGaloisRepresentation` over all `ℓ`,
+  with a frame identifying it with `GL₂(Ẑ)`; the image then lands in Tau Ceti's
+  `ClosedSubgroupConjClasses`;
+- Serre's open image theorems and the CM counterpart (Layer 4) need, besides `ρ_E`, the geometric
+  endomorphism ring of an elliptic curve (the non-CM hypothesis `GeometricEnd E = ℤ` of the
+  elliptic-curves roadmap) and the action of an imaginary quadratic order on `T̂E`;
+- every statement about the curve `X_H` (its cusps and points, CM points, isolated points, fibre
+  products, twists, local points; Layer 5) needs the coarse modular curve `X_H` of the second
+  modular-curves roadmap, and the Jacobian statements need the Jacobian of a curve over `ℚ` and
+  isogenies of abelian varieties;
+- the isogeny matrix, graph, class degree, isogeny degrees and the dictionary with `X₀(N)` (Layer
+  6) need the predicate "cyclic isogeny of degree `n` over the base field" and `X₀(N)`; the steps
+  of Mazur's chain need the rational points of the curves `X₁(N)` and `X₀(N)`;
+- the mod-`ℓ` images of abelian surfaces and their types (Layer 7) need the Jacobian of a
+  genus-two curve with its `ℓ`-torsion and Weil pairing.
 
 **The carrier.** The profinite integers are Tau Ceti's `TauCeti.zHat` in its additive
 presentation `ẑ := Additive TauCeti.zHat` (at `Type`), with the ring structure of
 `TauCeti.Topology.Algebra.Group.Profinite.ZHat.Ring`; `GL₂(Ẑ)` is Mathlib's `GL (Fin 2) ẑ` with
 the topology of units of the topological ring of matrices. There is no second carrier: `GL₂(Ẑ)`
-is not defined as an inverse limit, and that it is one is the theorem `red_ext`. Open subgroups
-are Mathlib's `OpenSubgroup` (`README.md`, Pinned conventions 1).
+is not defined as an inverse limit, and that it is one is the pair of theorems `red_ext`
+(uniqueness of a compatible lift) and `exists_red_eq` (existence). Open subgroups are Mathlib's
+`OpenSubgroup` (`README.md`, Pinned conventions 1).
 
 **Conventions visible in the signatures.** Reductions are indexed by `ℕ+` (convention 1); the
 level is `sInf` of the positive `N` with `Γ(N) ≤ H` (convention 3); `±H` is Mathlib's
 `Subgroup.adjoinNegOne` (convention 4); `Γ_H` is the preimage of `H` under
 `SpecialLinearGroup.mapGL`, and every genus-type invariant is read on `Γ_{±H}` (conventions 5–6);
-the genus is a rational number by definition and an integer by theorem (Layer 1.4); the isogeny
-matrix entry is the minimum degree over all isogenies (convention 12); `GSp₄` is defined by
-`g J gᵀ = ν J` with Mathlib's `Matrix.J` (convention 14).
+the genus is a rational number by definition and an integer by theorem (Layer 1.4); `GSp₄` is
+defined by `g J gᵀ = ν J` with Mathlib's `Matrix.J` (convention 14).
 
-**Exceptions to "every proof is `sorry`".** The instances, `continuous_red`,
-`similitude_unique`, and the openness, subgroup and homomorphism fields of the definitions are
-proved. `pslIndex_gamma0_prime_pow` is a bridge check:
-its last step is the real application of Tau Ceti's `CongruenceSubgroup.Gamma0_prime_power_index`
-to the comparison theorem `congruenceSubgroup_gamma0`, so the elaborator checks that the roadmap's
+**Exceptions to "every proof is `sorry`".** The instances, `continuous_red`, and the openness and
+subgroup fields of the definitions are proved. `pslIndex_gamma0_prime_pow` is a bridge check: its
+last step is the real application of Tau Ceti's `CongruenceSubgroup.Gamma0_prime_power_index` to
+the comparison theorem `congruenceSubgroup_gamma0`, so the elaborator checks that the roadmap's
 `Γ_H` is Mathlib's `Gamma0` on the nose. The example after `card_GL2_zmod` checks that the finite
 reductions are Mathlib's finite groups.
 -/
@@ -93,10 +115,17 @@ theorem continuous_red (n : ℕ+) : Continuous (red n) :=
 /-- **Layer 0.1.** Every reduction is surjective. -/
 theorem red_surjective (n : ℕ+) : Function.Surjective (red n) := sorry
 
-/-- **Layer 0.1, the inverse-limit property.** Two elements with the same image under every
-reduction are equal; with `red_surjective` and the compatible-family lifting this is
-`GL₂(Ẑ) ≅ lim GL₂(ℤ/n)` as a theorem about the carrier. -/
+/-- **Layer 0.1, the inverse-limit property: uniqueness.** Two elements with the same image under
+every reduction are equal. -/
 theorem red_ext {g h : GL2Zhat} (H : ∀ n : ℕ+, red n g = red n h) : g = h := sorry
+
+/-- **Layer 0.1, the inverse-limit property: existence.** A family of elements of the `GL₂(ℤ/n)`
+compatible under the reductions `ℤ/m → ℤ/n` for `n ∣ m` is the family of reductions of one element
+of `GL₂(Ẑ)`. With `red_ext` this is `GL₂(Ẑ) ≅ lim GL₂(ℤ/n)` as a theorem about the carrier. -/
+theorem exists_red_eq (x : ∀ n : ℕ+, GL (Fin 2) (ZMod n))
+    (hx : ∀ (m n : ℕ+) (h : (n : ℕ) ∣ m),
+      GeneralLinearGroup.map (ZMod.castHom h (ZMod n)) (x m) = x n) :
+    ∃ g : GL2Zhat, ∀ n : ℕ+, red n g = x n := sorry
 
 /-- **Layer 0.1.** The principal congruence subgroup `Γ(n) := ker (red n)`, open. -/
 noncomputable def Gamma (n : ℕ+) : OpenSubgroup GL2Zhat :=
@@ -135,10 +164,6 @@ instance (H : OpenSubgroup GL2Zhat) : H.1.FiniteIndex :=
   haveI := Subgroup.quotient_finite_of_isOpen H.1 H.isOpen
   Subgroup.finiteIndex_of_finite_quotient
 
-/-- **Layer 0.2.** The index is the index of the image at any level `N` with `Γ(N) ≤ H`. -/
-theorem index_eq_index_map (H : OpenSubgroup GL2Zhat) (N : ℕ+) (hN : (Gamma N).1 ≤ H.1) :
-    H.1.index = (H.1.map (red N)).index := sorry
-
 /-- **Layer 0.2.** `±H`, Mathlib's `Subgroup.adjoinNegOne` (`README.md`, Pinned conventions 4);
 open because it contains the open `H`. -/
 noncomputable def pm (H : OpenSubgroup GL2Zhat) : OpenSubgroup GL2Zhat :=
@@ -150,9 +175,6 @@ def IsFine (H : OpenSubgroup GL2Zhat) : Prop := (-1 : GL2Zhat) ∉ H.1
 /-- **Layer 0.2.** The projective index is the index of `±H`: `index H / 2` for fine `H`. -/
 theorem index_pm_of_isFine (H : OpenSubgroup GL2Zhat) (h : IsFine H) :
     (pm H).1.index = H.1.index / 2 := sorry
-
-/-- **Layer 0.2.** For coarse `H`, `±H = H`. -/
-theorem pm_eq_self_of_not_isFine (H : OpenSubgroup GL2Zhat) (h : ¬ IsFine H) : pm H = H := sorry
 
 /-- **Layer 0.2.** Surjective determinant (`README.md`, 0.2, `IsFullDet`). -/
 def IsFullDet (H : OpenSubgroup GL2Zhat) : Prop :=
@@ -179,54 +201,6 @@ noncomputable def Gamma0Zhat (N : ℕ+) : OpenSubgroup GL2Zhat :=
       simpa [red] using congrArg (fun x : GL (Fin 2) (ZMod N) =>
         (x : Matrix (Fin 2) (Fin 2) (ZMod N)) 1 0) (MonoidHom.mem_ker.mp hg)) (Gamma N).isOpen }
 
-/-- **Layer 0.3.** The standard open subgroup `Γ₁(N)`: the preimage of `[[1, *], [0, *]]`. -/
-noncomputable def Gamma1Zhat (N : ℕ+) : OpenSubgroup GL2Zhat :=
-  let G : Subgroup GL2Zhat :=
-    { carrier := {g | zHat.toZMod N ((g : Matrix (Fin 2) (Fin 2) ẑ) 1 0) = 0 ∧
-        zHat.toZMod N ((g : Matrix (Fin 2) (Fin 2) ẑ) 0 0) = 1}
-      one_mem' := by simp
-      mul_mem' := fun hg hh => by simp_all [Matrix.mul_apply, Fin.sum_univ_two]
-      inv_mem' := fun {g} hg => by
-        obtain ⟨h10, h00⟩ := hg
-        have hd : IsUnit (g : Matrix (Fin 2) (Fin 2) ẑ).det :=
-          (Matrix.isUnit_iff_isUnit_det _).mp g.isUnit
-        have key : zHat.toZMod N (g : Matrix (Fin 2) (Fin 2) ẑ).det =
-            zHat.toZMod N ((g : Matrix (Fin 2) (Fin 2) ẑ) 1 1) := by
-          simp [Matrix.det_fin_two, h10, h00]
-        refine ⟨by simp [Matrix.coe_units_inv, Matrix.inv_def, Matrix.adjugate_fin_two, h10], ?_⟩
-        simp only [Matrix.coe_units_inv, Matrix.inv_def, Matrix.adjugate_fin_two,
-          Matrix.smul_apply, Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero,
-          Matrix.empty_val', Matrix.cons_val_fin_one, smul_eq_mul, map_mul]
-        rw [← key, ← map_mul, Ring.inverse_mul_cancel _ hd, map_one] }
-  { G with
-    isOpen' := Subgroup.isOpen_mono (H₂ := G) (fun g hg => by
-      have h := MonoidHom.mem_ker.mp hg
-      exact ⟨by simpa [red] using congrArg (fun x : GL (Fin 2) (ZMod N) =>
-          (x : Matrix (Fin 2) (Fin 2) (ZMod N)) 1 0) h,
-        by simpa [red] using congrArg (fun x : GL (Fin 2) (ZMod N) =>
-          (x : Matrix (Fin 2) (Fin 2) (ZMod N)) 0 0) h⟩) (Gamma N).isOpen }
-
-/-- **Layer 0.3.** The split Cartan `C_s(N)` of level `N`, the preimage of the diagonal matrices:
-the Cartan of `ℤ/N × ℤ/N` in its standard basis (`README.md`, 0.3 and 2.1). -/
-noncomputable def splitCartanZhat (N : ℕ+) : OpenSubgroup GL2Zhat :=
-  let G : Subgroup GL2Zhat :=
-    { carrier := {g | zHat.toZMod N ((g : Matrix (Fin 2) (Fin 2) ẑ) 0 1) = 0 ∧
-        zHat.toZMod N ((g : Matrix (Fin 2) (Fin 2) ẑ) 1 0) = 0}
-      one_mem' := by simp
-      mul_mem' := fun hg hh => by simp_all [Matrix.mul_apply, Fin.sum_univ_two]
-      inv_mem' := fun hg => by
-        simp_all [Matrix.coe_units_inv, Matrix.inv_def, Matrix.adjugate_fin_two] }
-  { G with
-    isOpen' := Subgroup.isOpen_mono (H₂ := G) (fun g hg => by
-      have h := MonoidHom.mem_ker.mp hg
-      exact ⟨by simpa [red] using congrArg (fun x : GL (Fin 2) (ZMod N) =>
-          (x : Matrix (Fin 2) (Fin 2) (ZMod N)) 0 1) h,
-        by simpa [red] using congrArg (fun x : GL (Fin 2) (ZMod N) =>
-          (x : Matrix (Fin 2) (Fin 2) (ZMod N)) 1 0) h⟩) (Gamma N).isOpen }
-
-/-- **Layer 0.3.** `−I ∈ Γ₀(N)` for every `N`. -/
-theorem neg_one_mem_Gamma0Zhat (N : ℕ+) : (-1 : GL2Zhat) ∈ (Gamma0Zhat N).1 := sorry
-
 /-- **Layer 0.3.** `Γ₀(N)` has surjective determinant. -/
 theorem isFullDet_Gamma0Zhat (N : ℕ+) : IsFullDet (Gamma0Zhat N) := sorry
 
@@ -242,13 +216,6 @@ theorem isCongruenceSubgroup_congruenceSubgroup (H : OpenSubgroup GL2Zhat) :
 /-- **Layer 0.4.** The comparison with Mathlib: `Γ_{Γ₀(N)} = Gamma0 N`. -/
 theorem congruenceSubgroup_gamma0 (N : ℕ+) :
     congruenceSubgroup (Gamma0Zhat N) = CongruenceSubgroup.Gamma0 N := sorry
-
-/-- **Layer 0.4.** `±Γ₀(N) = Γ₀(N)`. -/
-theorem pm_Gamma0Zhat (N : ℕ+) : pm (Gamma0Zhat N) = Gamma0Zhat N := sorry
-
-/-- **Layer 0.4.** The `SL₂`-level of `H`: the least `M` with Mathlib's `Gamma M ≤ Γ_H`. -/
-noncomputable def sl2Level (H : OpenSubgroup GL2Zhat) : ℕ :=
-  sInf {M : ℕ | 0 < M ∧ CongruenceSubgroup.Gamma M ≤ congruenceSubgroup H}
 
 /-- **Layer 0.4.** The `PSL₂`-index of `H`: the index of `Γ_{±H}` in `SL(2, ℤ)`
 (`README.md`, Pinned conventions 5). -/
@@ -266,12 +233,15 @@ theorem closure_range_mapGL :
       ((GeneralLinearGroup.det : GL2Zhat →* ẑˣ).ker : Set GL2Zhat) := sorry
 
 /-- **Bridge check (Layer 0.4), not `sorry` at its last step.** The `PSL₂`-index of `Γ₀(pᵏ)` is
-`p^(k−1)(p+1)`: after the comparison theorems, this is Tau Ceti's
-`CongruenceSubgroup.Gamma0_prime_power_index` on the nose. -/
+`p^(k−1)(p+1)`: after `±Γ₀(N) = Γ₀(N)` (Mathlib's `Subgroup.adjoinNegOne_eq_self_iff`) and the
+comparison theorem, this is Tau Ceti's `CongruenceSubgroup.Gamma0_prime_power_index` on the nose. -/
 theorem pslIndex_gamma0_prime_pow (p : ℕ) (hp : p.Prime) (k : ℕ) (hk : 0 < k) (N : ℕ+)
     (hN : (N : ℕ) = p ^ k) :
     pslIndex (Gamma0Zhat N) = p ^ (k - 1) * (p + 1) := by
-  rw [pslIndex, pm_Gamma0Zhat, congruenceSubgroup_gamma0, hN]
+  have hpm : pm (Gamma0Zhat N) = Gamma0Zhat N :=
+    OpenSubgroup.toSubgroup_injective
+      (Subgroup.adjoinNegOne_eq_self_iff.mpr (by simp [Gamma0Zhat]))
+  rw [pslIndex, hpm, congruenceSubgroup_gamma0, hN]
   exact CongruenceSubgroup.Gamma0_prime_power_index p hp k hk
 
 /-! ## Layer 1: cusps, elliptic points and the genus -/
@@ -321,14 +291,40 @@ noncomputable def genus (H : OpenSubgroup GL2Zhat) : ℚ :=
 surface `X(Γ_{±H})` of the modular-forms roadmap's Layer 10B. -/
 theorem exists_genus_eq_natCast (H : OpenSubgroup GL2Zhat) : ∃ g : ℕ, genus H = g := sorry
 
-/-- **Layer 1.2.** `genus ⊤ = 0`. -/
-theorem genus_top : genus ⊤ = 0 := sorry
-
-/-- **Layer 1.5.** The covering degree `X(Γ_{±H}) → X(Γ_{±G})` for `H ≤ G`. -/
+/-- **Layer 1.5.** The degree `pslIndex H / pslIndex G` of `X(Γ_{±H}) → X(Γ_{±G})` for `H ≤ G`
+is an integer. -/
 theorem pslIndex_div (H G : OpenSubgroup GL2Zhat) (hHG : H ≤ G) :
     pslIndex G ∣ pslIndex H := sorry
 
-/-! ## Layer 2: twists and Gassmann equivalence -/
+/-! ## Layer 2: Serre's lifting theorem, the commutator subgroup, twists, Gassmann equivalence -/
+
+section Lifting
+
+variable (ℓ : ℕ) [Fact ℓ.Prime]
+
+/-- **Layer 2.2 (Serre's lifting theorem).** For a prime `ℓ ≥ 5`, a closed subgroup of `SL₂(ℤ_ℓ)`
+whose reduction modulo `ℓ` is all of `SL₂(𝔽_ℓ)` is all of `SL₂(ℤ_ℓ)` (`README.md`, 2.2). -/
+theorem eq_top_of_isClosed_of_map_eq_top (hℓ : 5 ≤ ℓ) (H : Subgroup SL(2, ℤ_[ℓ]))
+    (hH : IsClosed (H : Set SL(2, ℤ_[ℓ])))
+    (hmap : H.map (SpecialLinearGroup.map (PadicInt.toZMod (p := ℓ))) = ⊤) : H = ⊤ := sorry
+
+/-- **Layer 2.2, the `GL₂` form.** For a prime `ℓ ≥ 5`, a closed subgroup `H ≤ GL₂(ℤ_ℓ)` whose
+reduction contains `SL₂(𝔽_ℓ)` contains `SL₂(ℤ_ℓ)`, hence is the full preimage of its determinant
+image: `H` is open exactly when `det H` is, and `H = GL₂(ℤ_ℓ)` exactly when `det H = ℤ_ℓˣ`. -/
+theorem eq_comap_map_det_of_isClosed (hℓ : 5 ≤ ℓ) (H : Subgroup (GL (Fin 2) ℤ_[ℓ]))
+    (hH : IsClosed (H : Set (GL (Fin 2) ℤ_[ℓ])))
+    (hsl : (SpecialLinearGroup.toGL : SL(2, ZMod ℓ) →* GL (Fin 2) (ZMod ℓ)).range ≤
+      H.map (GeneralLinearGroup.map (PadicInt.toZMod (p := ℓ)))) :
+    H = (H.map GeneralLinearGroup.det).comap GeneralLinearGroup.det := sorry
+
+end Lifting
+
+/-- **Layer 2.4.** The (abstract) commutator subgroup of `GL₂(Ẑ)` is the kernel of
+`(det, ε ∘ red 2)`, where the sign `ε` of `GL₂(𝔽₂) ≅ S₃` takes the value `1` exactly on the `x`
+with `x ^ 3 = 1`, the identity and the two elements of order three. In particular it is closed, and
+`(det, ε ∘ red 2) : GL₂(Ẑ) → ẑˣ × {±1}` is the abelianisation (`README.md`, 2.4). -/
+theorem mem_commutator_iff (g : GL2Zhat) :
+    g ∈ commutator GL2Zhat ↔ GeneralLinearGroup.det g = 1 ∧ red 2 g ^ 3 = 1 := sorry
 
 /-- **Layer 2.6.** Twists: equal intersections with `SL₂(Ẑ)` (`README.md`, 2.6). -/
 def IsTwist (H₁ H₂ : OpenSubgroup GL2Zhat) : Prop :=
@@ -373,20 +369,11 @@ theorem finrank_adelicTateModule (E : WeierstrassCurve F) [E.IsElliptic] :
 
 end Arithmetic
 
-/-! ## Layer 6: isogeny classes over `ℚ` -/
+/-! ## Layer 6: isogeny classes, Mazur and Kenku over `ℚ` -/
 
 section Isogeny
 
 variable {F : Type} [Field F]
-
-/-- **Layer 6.2 (convention 12).** The isogeny-matrix entry: the minimum degree of an isogeny
-`E → E'` over the base field, `0` (the `sInf` of the empty set) when there is none. By 6.1 the
-minimum is attained by a cyclic isogeny. -/
-noncomputable def minIsogenyDegree (E E' : WeierstrassCurve.Affine F) : ℕ :=
-  sInf (Set.range fun φ : Isogeny E E' => φ.degree)
-
-/-- **Layer 6.2.** Isogenous curves over `F`. -/
-def IsIsogenous (E E' : WeierstrassCurve.Affine F) : Prop := Nonempty (Isogeny E E')
 
 /-- **Layer 6.2.** The size of the isogeny class over `F`: the number of `F`-isomorphism classes
 (Weierstrass models up to a change of variables over `F`) of elliptic curves `E'` admitting an
@@ -398,11 +385,22 @@ noncomputable def isogenyClassSize (E : WeierstrassCurve.Affine F) : ℕ :=
 
 end Isogeny
 
-/-- **Layer 6.4 (Mazur's torsion theorem).** The torsion subgroup of `E(ℚ)` has order in
-`{1, …, 10, 12, 16}`; the fifteen group structures are `README.md`, 6.4. -/
-theorem mazur_torsion_card (E : WeierstrassCurve ℚ) [E.IsElliptic] :
-    Nat.card (AddCommGroup.torsion E.toAffine.Point) ∈
-      ({1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 16} : Finset ℕ) := sorry
+/-- **Layer 6.4 (Mazur's torsion theorem).** The torsion subgroup of `E(ℚ)` is isomorphic to
+`ℤ/n` with `1 ≤ n ≤ 10` or `n = 12`, or to `ℤ/2 × ℤ/2n` with `1 ≤ n ≤ 4`. -/
+theorem mazur_torsion (E : WeierstrassCurve ℚ) [E.IsElliptic] :
+    (∃ n ∈ ({1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12} : Finset ℕ),
+      Nonempty (AddCommGroup.torsion E.toAffine.Point ≃+ ZMod n)) ∨
+    ∃ n ∈ ({1, 2, 3, 4} : Finset ℕ),
+      Nonempty (AddCommGroup.torsion E.toAffine.Point ≃+ ZMod 2 × ZMod (2 * n)) := sorry
+
+/-- **Layer 6.4.** Each of Mazur's fifteen groups is the torsion subgroup of `E(ℚ)` for some
+elliptic curve `E/ℚ`. -/
+theorem mazur_torsion_exists :
+    (∀ n ∈ ({1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12} : Finset ℕ), ∃ E : WeierstrassCurve ℚ,
+      E.IsElliptic ∧ Nonempty (AddCommGroup.torsion E.toAffine.Point ≃+ ZMod n)) ∧
+    ∀ n ∈ ({1, 2, 3, 4} : Finset ℕ), ∃ E : WeierstrassCurve ℚ,
+      E.IsElliptic ∧ Nonempty (AddCommGroup.torsion E.toAffine.Point ≃+ ZMod 2 × ZMod (2 * n)) :=
+  sorry
 
 /-- **Layer 6.5, a corollary of Kenku's theorem.** An isogeny class over `ℚ` has at most eight
 curves, and its size is one of `1, 2, 3, 4, 6, 8`. Mazur's and Kenku's isogeny theorems are
@@ -417,9 +415,12 @@ section GSp4
 
 variable (R : Type*) [CommRing R]
 
-/-- **Layer 7.1 (convention 14).** `GSp₄(R) = {g : g J gᵀ = ν J, ν ∈ Rˣ}` with Mathlib's
-`Matrix.J (Fin 2) R`, a subgroup of `GL (Fin 2 ⊕ Fin 2) R` containing Mathlib's
-`symplecticGroup` as the kernel of the similitude. -/
+/-- **Layer 7.1 (convention 14).** `GSp₄(R) = {g : g J gᵀ = ν J for some ν ∈ Rˣ}` with Mathlib's
+`Matrix.J (Fin 2) R`, a subgroup of `GL (Fin 2 ⊕ Fin 2) R`. This is the rank-four case of
+ArithmeticGaloisRepresentations §7.3's `SimilitudeGroup.GSp` (Gram matrix `−Matrix.J`, the same
+group since `g (−J) gᵀ = ν (−J)` iff `g J gᵀ = ν J`), which owns the group, its multiplier and their
+laws; that roadmap's file cannot be imported, so this local carrier exists only to state
+`card_GSp4_zmod` and is not a second owner. -/
 noncomputable def GSp4 : Subgroup (GL (Fin 2 ⊕ Fin 2) R) where
   carrier := {g | ∃ ν : Rˣ, (g : Matrix _ _ R) * Matrix.J (Fin 2) R * (g : Matrix _ _ R)ᵀ =
     (ν : R) • Matrix.J (Fin 2) R}
@@ -451,54 +452,10 @@ noncomputable def GSp4 : Subgroup (GL (Fin 2 ⊕ Fin 2) R) where
           rw [smul_smul, ← Units.val_mul, inv_mul_cancel, Units.val_one, one_smul]
       _ = _ := by rw [h2]
 
-/-- **Layer 7.1.** The multiplier `ν` of an element of `GSp₄(R)` is unique: it is the
-`(inr 0, inl 0)` entry of `g J gᵀ`, as that entry of `J` is `1`. -/
-theorem similitude_unique {g : GL (Fin 2 ⊕ Fin 2) R} {ν μ : Rˣ}
-    (hν : (g : Matrix _ _ R) * Matrix.J (Fin 2) R * (g : Matrix _ _ R)ᵀ =
-      (ν : R) • Matrix.J (Fin 2) R)
-    (hμ : (g : Matrix _ _ R) * Matrix.J (Fin 2) R * (g : Matrix _ _ R)ᵀ =
-      (μ : R) • Matrix.J (Fin 2) R) :
-    ν = μ := by
-  have := congrFun (congrFun (hν.symm.trans hμ) (Sum.inr 0)) (Sum.inl 0)
-  ext; simpa [Matrix.J] using this
-
-/-- **Layer 7.1.** The similitude character `ν : GSp₄(R) →* Rˣ`, `g J gᵀ = ν(g) J`. -/
-noncomputable def similitude : GSp4 R →* Rˣ where
-  toFun g := Classical.choose g.2
-  map_one' := similitude_unique R (Classical.choose_spec (1 : GSp4 R).2)
-    (by simp : ((1 : GSp4 R) : GL (Fin 2 ⊕ Fin 2) R).val * Matrix.J (Fin 2) R *
-      ((1 : GSp4 R) : GL (Fin 2 ⊕ Fin 2) R).valᵀ = ((1 : Rˣ) : R) • Matrix.J (Fin 2) R)
-  map_mul' g h := by
-    refine similitude_unique R (Classical.choose_spec (g * h).2) ?_
-    have key : ∀ ν μ : Rˣ,
-        (g : GL (Fin 2 ⊕ Fin 2) R).val * Matrix.J (Fin 2) R * (g : GL (Fin 2 ⊕ Fin 2) R).valᵀ =
-          (ν : R) • Matrix.J (Fin 2) R →
-        (h : GL (Fin 2 ⊕ Fin 2) R).val * Matrix.J (Fin 2) R * (h : GL (Fin 2 ⊕ Fin 2) R).valᵀ =
-          (μ : R) • Matrix.J (Fin 2) R →
-        ((g * h : GSp4 R) : GL (Fin 2 ⊕ Fin 2) R).val * Matrix.J (Fin 2) R *
-          ((g * h : GSp4 R) : GL (Fin 2 ⊕ Fin 2) R).valᵀ =
-          ((ν * μ : Rˣ) : R) • Matrix.J (Fin 2) R := by
-      intro ν μ hg hh
-      calc _ = (g : GL (Fin 2 ⊕ Fin 2) R).val * ((h : GL (Fin 2 ⊕ Fin 2) R).val *
-            Matrix.J (Fin 2) R * (h : GL (Fin 2 ⊕ Fin 2) R).valᵀ) *
-            (g : GL (Fin 2 ⊕ Fin 2) R).valᵀ := by
-            simp [Matrix.transpose_mul, Matrix.mul_assoc]
-        _ = _ := by
-            rw [hh, Matrix.mul_smul, Matrix.smul_mul, hg, smul_smul, mul_comm]; rfl
-    exact key _ _ (Classical.choose_spec g.2) (Classical.choose_spec h.2)
-
-/-- **Layer 7.1.** The symplectic group is the kernel of the similitude: the carrier of
-`(similitude R).ker` is Mathlib's `symplecticGroup (Fin 2) R`. -/
-theorem mem_symplecticGroup_iff (g : GSp4 R) :
-    g ∈ (similitude R).ker ↔ (g.1 : Matrix _ _ R) ∈ Matrix.symplecticGroup (Fin 2) R := sorry
-
 /-- **Layer 7.1.** `|GSp₄(𝔽_ℓ)| = (ℓ − 1) ℓ⁴ (ℓ² − 1)(ℓ⁴ − 1)`. -/
 theorem card_GSp4_zmod (ℓ : ℕ) [Fact ℓ.Prime] :
     Nat.card (GSp4 (ZMod ℓ)) = (ℓ - 1) * ℓ ^ 4 * (ℓ ^ 2 - 1) * (ℓ ^ 4 - 1) := sorry
 
 end GSp4
-
-/-- **Layer 7.1.** `GSp₄(Ẑ)` as a subgroup of `GL₄(ẑ)`. -/
-noncomputable abbrev GSp4Zhat : Subgroup (GL (Fin 2 ⊕ Fin 2) ẑ) := GSp4 ẑ
 
 end TauCetiRoadmap.AdelicImagesAndModularCurves
