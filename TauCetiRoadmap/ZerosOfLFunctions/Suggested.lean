@@ -15,13 +15,19 @@ Stated here:
 * Layer 5, Hadamard's factorization of an entire function of order at most one, and its instance
   `zetaEntireCompletion`;
 * Layer 6, the de la Vallée Poussin region for `ζ`, and the uniform region for Dirichlet
-  L-functions with its exceptional-zero clause and the normalization `c ≤ log 3 / 2`;
+  L-functions, free of every zero, with the normalization `c ≤ log 3 / 2`;
 * Layer 7, the Riemann–von Mangoldt formula for `ζ`, and its conductor-uniform form for
   primitive Dirichlet characters;
 * Layer 8, the truncated explicit formula for `Chebyshev.psi`, the Weil explicit formula for `ζ`
   over smooth compactly supported test functions, the effective prime ideal theorem over an
   arbitrary number field (8.5), and the effective prime number theorem in arithmetic
-  progressions (the `K = ℚ` case of the ray-class count of 8.7).
+  progressions uniform in the modulus (the `K = ℚ` case of the ray-class count of 8.7).
+
+The two `K = ℚ` statements without exceptional zero, `dirichletLFunction_zeroFreeRegion` and
+`primeCounting_progression_effective`, take one input from outside this roadmap: the exclusion of
+Landau–Siegel zeros, `(1 − β) log q ≥ c_LS` for every real zero `β ∈ (0, 1)` of every primitive
+real nonprincipal Dirichlet L-function of conductor `q ≥ 3`, stated in AnalyticNumberTheoryPartI
+§0.34 and consumed downstream.
 
 Not statable at the pins:
 
@@ -32,7 +38,8 @@ Not statable at the pins:
   `Re s ≥ 1`; and neither library has its continuation to `ℂ`, its completion, or the
   L-function of a Hecke character. The exceptional-zero terms of 8.5–8.8 are defined from those
   completions and are absent for the same reason; for a fixed field and modulus the stated
-  estimates hold with or without them;
+  estimates hold with or without them, and over `ℚ` the exclusion of Landau–Siegel zeros removes
+  them;
 * the general ray-class count of 8.7 and its abelian Chebotarev transport 8.8: Mathlib has no
   ray class group, no Artin symbol and no Frobenius-class prime count, and the Tau Ceti revision
   this file is built against supplies none of them.
@@ -117,23 +124,21 @@ theorem riemannZeta_zeroFreeRegion :
     ∃ c : ℝ, 0 < c ∧ ∀ s : ℂ, s ≠ 1 → 1 - c / Real.log (|s.im| + 3) ≤ s.re →
       riemannZeta s ≠ 0 := sorry
 
-/-- **Layer 6.3–6.4 at `K = ℚ`, the region for Dirichlet L-functions.** There is one absolute
-constant `c`, with `0 < c ≤ log 3 / 2`, such that for every modulus `q ≥ 1` and every Dirichlet
-character `χ` modulo `q`, a zero `ρ` of `L(·, χ)` with `Re ρ ≥ 1 − c / log (q (|Im ρ| + 3))` is
-real, simple, and occurs only for a real character (`χ² = 1`), and there is at most one such
-zero (Davenport §14). Zeros are read through the meromorphic order, so the pole of the principal
-character at `s = 1` is never one. The bound `c ≤ log 3 / 2` puts the whole region in
-`Re s ≥ 1/2`, which is what the transfer between a character and its primitive source uses. -/
+/-- **Layer 6.3–6.4 at `K = ℚ`, the region for Dirichlet L-functions, without exception.** There
+is one absolute, effective constant `c`, with `0 < c ≤ log 3 / 2`, such that for every modulus
+`q ≥ 1` and every Dirichlet character `χ` modulo `q`, `L(·, χ)` has no zero `ρ` with
+`Re ρ ≥ 1 − c / log (q (|Im ρ| + 3))`. The classical region (Davenport §14) allows one simple
+real zero of a real character; the exclusion of Landau–Siegel zeros,
+`(1 − β) log q' ≥ c_LS` for the primitive source of conductor `q' ≥ 3`, rules it out once
+`c ≤ c_LS`. That exclusion is stated in AnalyticNumberTheoryPartI §0.34 and consumed downstream.
+Zeros are read through the meromorphic order, so the pole of a principal character at `s = 1`,
+of order `−1`, is allowed. The bound `c ≤ log 3 / 2` puts the whole region in `Re s ≥ 1/2`, where
+the Euler factors deleted from an imprimitive character do not vanish. -/
 theorem dirichletLFunction_zeroFreeRegion :
     ∃ c : ℝ, 0 < c ∧ c ≤ Real.log 3 / 2 ∧
-      ∀ (q : ℕ) [NeZero q] (χ : DirichletCharacter ℂ q),
-        (∀ ρ : ℂ, 1 - c / Real.log (q * (|ρ.im| + 3)) ≤ ρ.re →
-          0 < meromorphicOrderAt (DirichletCharacter.LFunction χ) ρ →
-          ρ.im = 0 ∧ χ ^ 2 = 1 ∧ meromorphicOrderAt (DirichletCharacter.LFunction χ) ρ = 1) ∧
-        ∀ ρ₁ ρ₂ : ℂ, 1 - c / Real.log (q * (|ρ₁.im| + 3)) ≤ ρ₁.re →
-          1 - c / Real.log (q * (|ρ₂.im| + 3)) ≤ ρ₂.re →
-          0 < meromorphicOrderAt (DirichletCharacter.LFunction χ) ρ₁ →
-          0 < meromorphicOrderAt (DirichletCharacter.LFunction χ) ρ₂ → ρ₁ = ρ₂ := sorry
+      ∀ (q : ℕ) [NeZero q] (χ : DirichletCharacter ℂ q) (ρ : ℂ),
+        1 - c / Real.log (q * (|ρ.im| + 3)) ≤ ρ.re →
+          meromorphicOrderAt (DirichletCharacter.LFunction χ) ρ ≤ 0 := sorry
 
 /-! ## Layer 7: the Riemann–von Mangoldt formula -/
 
@@ -207,16 +212,20 @@ theorem primeIdealCount_effective (K : Type*) [Field K] [NumberField K] :
           ∫ t in (2 : ℝ)..x, (Real.log t)⁻¹)
         =O[atTop] fun x ↦ x * Real.exp (-c * Real.sqrt (Real.log x)) := sorry
 
-/-- **Layer 8.7 at `K = ℚ`, the effective prime number theorem in arithmetic progressions.**
-There is an absolute `c > 0` such that for every modulus `q ≥ 1` and residue `a` prime to `q`,
-`π(x; q, a) = Li(x)/φ(q) + O(x exp(−c √log x))`, the implied constant depending on `q`
-(Davenport §20; for fixed `q` a possible exceptional term `Li(x^β)/φ(q)` is absorbed). The
-main term is the offset logarithmic integral `∫₂ˣ dt / log t`, not `x / log x`. At `q = 1`
-this is de la Vallée Poussin's `π(x) = Li(x) + O(x exp(−c √log x))`. -/
+/-- **Layer 8.7 at `K = ℚ`, the prime number theorem in arithmetic progressions, uniform in the
+modulus.** There are absolute, effective constants `c > 0` and `A` such that for every modulus
+`q ≥ 1`, every residue `a` prime to `q` and every `x ≥ 2`,
+`|π(x; q, a) − Li(x)/φ(q)| ≤ A x exp(−c √log x)`. The content is the range `q ≤ exp(√log x)`:
+there it is Davenport §20 with the exceptional term `Li(x^β)/φ(q)` removed by the exclusion of
+Landau–Siegel zeros, through the conductor-uniform character estimate (both stated in
+AnalyticNumberTheoryPartI, §§0.34 and 0.18, and consumed downstream). For larger `q` the
+trivial count `π(x; q, a) ≤ x/q + 1` suffices. The main term is the offset logarithmic integral
+`∫₂ˣ dt / log t`, not `x / log x`. At `q = 1` this is de la Vallée Poussin's
+`π(x) = Li(x) + O(x exp(−c √log x))`. -/
 theorem primeCounting_progression_effective :
-    ∃ c : ℝ, 0 < c ∧ ∀ q a : ℕ, 0 < q → Nat.Coprime a q →
-      (fun x : ℝ ↦ ((((Nat.primesBelow (⌊x⌋₊ + 1)).filter (· ≡ a [MOD q])).card : ℕ) : ℝ) -
-          (∫ t in (2 : ℝ)..x, (Real.log t)⁻¹) / q.totient)
-        =O[atTop] fun x ↦ x * Real.exp (-c * Real.sqrt (Real.log x)) := sorry
+    ∃ c A : ℝ, 0 < c ∧ ∀ q a : ℕ, 0 < q → Nat.Coprime a q → ∀ x : ℝ, 2 ≤ x →
+      |((((Nat.primesBelow (⌊x⌋₊ + 1)).filter (· ≡ a [MOD q])).card : ℕ) : ℝ) -
+          (∫ t in (2 : ℝ)..x, (Real.log t)⁻¹) / q.totient| ≤
+        A * x * Real.exp (-c * Real.sqrt (Real.log x)) := sorry
 
 end TauCetiRoadmap.ZerosOfLFunctions
