@@ -1,5 +1,7 @@
-import Mathlib
-import TauCeti.AlgebraicTopology.UniversalCover.Action
+module
+
+public import Mathlib
+public import TauCeti.AlgebraicTopology.UniversalCover.Action
 
 /-!
 # AnalyticNumberTheoryPartII: headline target signatures
@@ -37,6 +39,8 @@ Selberg determinant comparison and spectral zero theorem likewise need the
 geometric scalar Laplacian realization, its spectrum and the primitive geodesic
 product of §§6.11–6.12. No arbitrary spectrum substitutes for these objects.
 -/
+
+@[expose] public section
 
 noncomputable section
 
@@ -82,7 +86,7 @@ theorem lerchContinuation_solvable :
         F =ᶠ[𝓝 x] fun y => f y.proj.val) ∧
       (F =ᶠ[𝓝 (TauCeti.UniversalCover.basepointLift lerchBasepoint :
         TauCeti.UniversalCover lerchBasepoint)] fun x => lerchIntegral x.proj.val) ∧
-      ∀ g ∈ derivedSeries (FundamentalGroup lerchDomain lerchBasepoint) 2,
+      ∀ g ∈ Subgroup.derivedSeries (FundamentalGroup lerchDomain lerchBasepoint) 2,
         ∀ x, F (g • x) = F x := by
   sorry
 
