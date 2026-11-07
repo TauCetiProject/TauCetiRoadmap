@@ -52,7 +52,7 @@ The following headline theorems are not statable at the pinned libraries.
   no Brauer group of Azumaya algebras on a scheme and no étale cohomology of `𝔾_m` with
   restriction maps.
 * Purity for groups of multiplicative type and for tori (Theorems 7.2.8–7.2.9; Česnavičius,
-  Theorems 1.4 and 6.1; §§7.15, 7.16, 8.3, 8.6): the pinned libraries have diagonalizable groups
+  Theorems 1.4 and 6.1; §§7.14, 7.15, 8.3, 8.6): the pinned libraries have diagonalizable groups
   over an affine base but groups of multiplicative type and tori only over a field, with no notion
   of either over a base scheme (GroupSchemesOverABase §2.1 plans them), and no fppf or étale
   cohomology of a group over a scheme with restriction maps, as in the first item.

@@ -37,7 +37,8 @@ SchemeAndStackFoundations, LocalPurity, ModularCurves, EtaleCohomologyFoundation
 DerivedDeRhamCohomology, DerivedModuleAlgebra, EnhancedDerivedSheaves ─────────────→ Layers 1, 3, 6
 PerfectoidSpaces, PerfectoidQuotients, PerfectoidQuotientsPartII, PrismaticCohomology,
 PrismaticCohomologyPartII, FiniteFlatGroupsAndIntegralPadicHodgeTheory ────────────→ Layers 2, 5, 6
-LefschetzPencilsAndVanishingCycles, PurityOfBranchLocus ────────────────────────────→ Layers 1, 6, 7
+LefschetzPencilsAndVanishingCycles ─────────────────────────────────────────────────→ Layers 1, 6
+PurityOfBranchLocus ────────────────────────────────────────────────────────────────→ Layer 7
 PrismaticCohomologyPartIII, DeformationAndDerivedPatchingAlgebra ───────────────────→ Layers 1–7
 ArithmeticGaloisDuality ────────────────────────────────────────────────────────────→ Layer 8
 ```
@@ -95,8 +96,10 @@ and purity for the Brauer group and for tori with the codimension-one and residu
 - *The finite étale Galois category and étale fundamental group of a scheme, étale duality on
   schemes of finite type over a field and on traits*: EtaleCohomologyFoundations §§F.0.2, F.5.
 - *Absolute cohomological purity (Gabber)*: LefschetzPencilsAndVanishingCycles §0.10.
-- *Auslander–Buchsbaum formula, maximal Cohen–Macaulay modules over regular local rings,
-  localization of regular local rings*: PurityOfBranchLocus §0.3.
+- *The Auslander–Buchsbaum formula*: PurityOfBranchLocus §0.3. The freeness of maximal
+  Cohen–Macaulay modules over regular local rings and of reflexive modules over regular local rings
+  of dimension `≤ 2`, the bound on projective dimension, factoriality in dimension `≤ 2` and the
+  regularity of localizations are already in Tau Ceti at the pin (supplier contracts).
 - *Cohen factorizations, complete-intersection homomorphisms, Avramov's criteria and the additivity
   of the complete-intersection defect*: DerivedDeRhamCohomology §§0.19, 0.21; *Bhatt's flatness
   criterion*: DerivedDeRhamCohomology §1.10.
@@ -141,7 +144,7 @@ and purity for the Brauer group and for tori with the codimension-one and residu
   diagonalizability, the character sheaf and its anti-equivalence with locally constant sheaves,
   stability under base change, subgroups, quotients and the largest subtorus):
   GroupSchemesOverABase §§1.3, 1.4, 2.1–2.3, 2.7, whose notion reduces over a field to the Tau Ceti
-  carriers. §7.14 here keeps only the two consequences the purity proofs use: the Zariski-local
+  carriers. §7.13 here keeps only the two consequences the purity proofs use: the Zariski-local
   presentation of a group of multiplicative type as the kernel of a homomorphism of tori, and the
   factorization of `[m]` through a torus with finite locally free kernel.
 - *Residue and Witt sequences of complete discretely valued fields with perfect residue field*:
@@ -270,6 +273,31 @@ Pinned at `2fd255d997f47c0b5d834ee416c7015d55444ce5`.
   homogeneous coordinate ring of §7.8. The twisting sheaf `𝒪(1)` on `Proj` is not at the pin.
 - `TauCeti.IsRegularLocalRing.isDomain` (`TauCeti/RingTheory/RegularLocalRing/Basic.lean`): the instance
   making a regular local ring a domain, so that `UniqueFactorizationMonoid R` is meaningful in §7.4.
+- `TauCeti.IsRegularLocalRing.free_of_ringKrullDim_le_depth` and
+  `TauCeti.IsRegularLocalRing.free_of_isCohenMacaulay` (Stacks 00NT), with
+  `ModuleCat.projectiveDimension_add_depth_le_ringKrullDim`
+  (`TauCeti/RingTheory/RegularLocalRing/Free.lean`): over a regular local ring `R`, a finite module
+  whose depth is at least `dim R`, in particular a Cohen–Macaulay module whose support has dimension
+  `dim R`, is free; and a nonzero finite module `M` satisfies `pd M + depth M ≤ dim R`.
+- `TauCeti.IsRegularLocalRing.free_of_isReflexive`
+  (`TauCeti/RingTheory/RegularLocalRing/DimensionTwo.lean`): over a regular local ring with
+  `ringKrullDim R ≤ 2`, a finite reflexive module (Mathlib `Module.IsReflexive`) is free.
+- `TauCeti.IsRegularLocalRing.uniqueFactorizationMonoid`
+  (`TauCeti/RingTheory/RegularLocalRing/UniqueFactorization.lean`): a regular local ring with
+  `ringKrullDim R ≤ 2` is factorial; §7.4 is the case of arbitrary dimension.
+- `TauCeti.IsRegularLocalRing.hasProjectiveDimensionLE` and the instance
+  `TauCeti.isRegularRing_of_isRegularLocalRing` (Stacks 0AFS)
+  (`TauCeti/RingTheory/RegularLocalRing/ProjectiveDimension.lean`): over a regular local ring with
+  `ringKrullDim R ≤ n` every module has projective dimension `≤ n`; and a regular local ring is a
+  regular ring, so that with Mathlib's `IsRegularRing.isRegularLocalRing_localization` its
+  localization at every prime is a regular local ring.
+- `Module.IsCohenMacaulay` (`TauCeti/RingTheory/CohenMacaulay/Basic.lean`) and
+  `TauCeti.Ring.IsCohenMacaulay` (`TauCeti/RingTheory/CohenMacaulay/Ring.lean`): a module over a local
+  ring is Cohen–Macaulay if it is zero or its depth (Mathlib `IsLocalRing.depth`,
+  `Mathlib/RingTheory/Depth/Basic.lean`, defined through `Ext` from the residue field) equals the
+  dimension of its support; a ring is Cohen–Macaulay if it is Noetherian and all its localizations at
+  primes are. These are the carriers of the depth and Cohen–Macaulay theory of SchemeAndStackFoundations
+  §0.17.
 
 ### From TauCetiRoadmap.SchemeAndStackFoundations
 
@@ -280,7 +308,9 @@ Noetherian `X` with `depth 𝒪_{X,x} ≥ 2` at every `x ∉ U`, `j^*` and `j_*`
 coherent reflexive modules on `X` and on `U`; in particular `j_*F` is coherent for coherent reflexive `F`);
 §0.9 limits of schemes, Noetherian approximation and spreading out; §§0.12–0.13 the henselization of a
 pair, `henselization_flat`, `henselization_noetherian`; §0.14 `henselian_finiteEtale_equivalence`;
-§0.17 `Module.depth`, `IsLocalRing.depth`, `Ring.IsCohenMacaulay`; §0.24 perfect schemes and
+§0.17 the theory of depth and of Cohen–Macaulay modules and rings (depth bounds, unmixedness,
+Serre's conditions), on the pinned carriers Mathlib `IsLocalRing.depth` and Tau Ceti
+`Module.IsCohenMacaulay`, `TauCeti.Ring.IsCohenMacaulay`; §0.24 perfect schemes and
 perfection; §1.15 torsors; §1.18 stacks in groupoids and gerbes; §§2.1–2.3 cohomology on sites,
 Leray and Čech spectral sequences, torsor classes; §2.7 `cohomologyWithSupport`,
 `supports_localization_triangle`, `localCohomology_module_comparison`,
@@ -320,8 +350,9 @@ fundamental class. Used locally: `H^i_𝔪(R, ℤ/ℓ) = 0` for `i < 2 dim R` wh
 
 ### From TauCetiRoadmap.PurityOfBranchLocus
 
-§0.3 `auslander_buchsbaum` (Stacks 090V), `IsRegularLocalRing.free_of_isCohenMacaulay` (Stacks
-00NT), `IsRegularLocalRing.isRegularLocalRing_localization` (Stacks 0AFS).
+§0.3 `auslander_buchsbaum` (Stacks 090V): for a nonzero finite module `M` of finite projective
+dimension over a Noetherian local ring `R`, `pd M + depth M = depth R`. The other results of that
+section used here are pinned Tau Ceti declarations (contract above).
 
 ### From TauCetiRoadmap.DerivedDeRhamCohomology
 
@@ -460,7 +491,7 @@ abelian groups, and the anti-equivalence `T ↦ X^*(T)` with inverse `F ↦ D_S(
 base change; §2.7 subgroups of multiplicative type and their quotients, corresponding to quotient
 and sub-sheaves of `X^*`, and the largest subtorus `D(X^*(T)/torsion)`; §1.3 smoothness of `D_S(M)`
 when the torsion of `M` has invertible order; §1.4 exactness of `D_S` on short exact sequences of
-finitely generated groups, with `D_S(M) → D_S(M′)` faithfully flat for `M′ ⊂ M`. §7.14 here deduces
+finitely generated groups, with `D_S(M) → D_S(M′)` faithfully flat for `M′ ⊂ M`. §7.13 here deduces
 from these only the Zariski-local kernel-of-tori presentation and the factorization of `[m]`.
 
 ## How to read the build
@@ -774,13 +805,13 @@ DeformationAndDerivedPatchingAlgebra §3.4.
 Prove: (a) a Noetherian local ring that is Cohen–Macaulay and not a complete intersection has
 `depth R = dim R > vdim(R)`; (b) every regular local ring `R̃` of dimension `≥ 3` has an ideal `I`
 generated by three elements with `pd_{R̃}(R̃/I) = dim R̃` ([Koh72] Theorem A, applied to the residue field,
-extending Burch's local theorem), hence, by
-the Auslander–Buchsbaum formula, `R = R̃/I` has `depth R = 0` while `vdim(R) ≥ dim R̃ − 3` ([CS24]
-Remark 3.2.2, p. 33). So the étale-depth bound of §1.6 is not a consequence of the depth bound for
-quasi-coherent coefficients. The three-generated ideals of maximal projective dimension are a target
-of this subsection.
-*Needs:* §1.1; SchemeAndStackFoundations §0.17 (depth, Cohen–Macaulay); PurityOfBranchLocus §0.3
-(`auslander_buchsbaum`).
+extending Burch's local theorem), hence, since `pd + depth ≤ dim R̃` for nonzero finite modules
+over the regular local ring `R̃` (the part of the Auslander–Buchsbaum formula used here),
+`R = R̃/I` has `depth R = 0` while `vdim(R) ≥ dim R̃ − 3` ([CS24] Remark 3.2.2, p. 33). So the
+étale-depth bound of §1.6 is not a consequence of the depth bound for quasi-coherent coefficients.
+The three-generated ideals of maximal projective dimension are a target of this subsection.
+*Needs:* §1.1; SchemeAndStackFoundations §0.17 (depth, Cohen–Macaulay); Tau Ceti
+`ModuleCat.projectiveDimension_add_depth_le_ringKrullDim`.
 
 **Checks.**
 - The twisted cubic cone `k⟦x, y, z, w⟧/(xz − y², yw − z², xw − yz)` is Cohen–Macaulay of dimension
@@ -797,14 +828,26 @@ Prove, for an excellent regular local ring `(R, 𝔪)` of dimension `d` and a pr
 (a) Gabber's affine Lefschetz theorem in the form used: if `R` is strictly henselian and `f ∈ 𝔪`,
 then `H^i_ét(Spec R[1/f], ℤ/ℓ) = 0` for `i > d` ([ILO14] XV, Corollaire 1.2.4, as used in [CS24]
 (3.2.3.2), p. 33);
-(b) the complex `(μ_ℓ^{⊗d})[2d]` on `(Spec R)_ét` is dualizing, normalised by the fundamental class of
-absolute purity, its restriction to an open `j : V → Spec R` is `j^*((μ_ℓ^{⊗d})[2d])` and is dualizing
-on `V`, and `Rj_* ∘ D ≅ D ∘ j_!` ([ILO14] XVII, Théorème 0.2 of the published version, Théorème 0.9 of
-arXiv v1; [ILO14] XVI, Théorème 3.1.1);
+(b) the complex `Ω = (μ_ℓ^{⊗d})[2d]` on `(Spec R)_ét` is dualizing ([ILO14] XVII, Théorème 0.2 of the
+published version, Théorème 0.9 of arXiv v1, which makes the constant sheaf dualizing on a regular
+excellent scheme; `Ω` differs from it by an invertible object), normalised by the fundamental class of
+absolute purity ([ILO14] XVI, Théorème 3.1.1); for an open immersion `j : V → Spec R`, `j^!Ω` is the
+restriction `j^*Ω` ([SGA4] XVIII, Proposition 3.1.8(iii)) and is dualizing on `V`, and
+`Rj_* ∘ D_V ≅ D ∘ j_!` for `D = RHom(−, Ω)` and `D_V = RHom(−, j^*Ω)` ([SGA5] I, Proposition 1.12(a));
+these are the references of [CS24] proof of Lemma 3.2.3, p. 33;
 (c) local duality: if `R` is strictly henselian, then for a bounded constructible complex `K` of
 `ℤ/ℓ`-modules, `H^i_𝔪(R, K)` is Pontryagin dual to the stalk at the closed point of
-`H^{−i}(RHom(K, (μ_ℓ^{⊗d})[2d]))` (SGA 5 I, (4.2.2), as used in [CS24] proof of Lemma 3.2.3, p. 33,
+`H^{−i}(RHom(K, Ω))` (SGA 5 I, (4.2.2), as used in [CS24] proof of Lemma 3.2.3, p. 33,
 which first reduces to strictly henselian `R`).
+Route: once `Ω` is dualizing on `Spec R`, the other clauses of (b) and all of (c) are formal. For the
+closed point `i : x → Spec R`, absolute purity gives `i^!Ω ≅ ℤ/ℓ`. For an open immersion `j`,
+`j^! = j^*` (EtaleCohomologyFoundations §F.5), the exchange `Rj_* D_V ≅ D j_!` is the adjunction of
+`j_!` and `j^*` under `RHom`, and biduality on `V` for `F` follows from biduality on `Spec R` for
+`j_!F`, because `j^* D D j_! F ≅ D_V D_V F` by the exchange and `j^* RHom(A, B) ≅ RHom(j^*A, j^*B)`.
+For (c), `RΓ_𝔪(R, K) = RΓ(x, i^!K)` with `x` separably closed, and applying `i^!` to biduality
+`K ≅ D D K` gives `i^!K ≅ RHom(i^*DK, i^!Ω) ≅ RHom((DK)_x, ℤ/ℓ)`; since `ℤ/ℓ` is injective over
+itself, taking `H^i` gives the duality. The bound (a) and the dualizing property of `Ω` on `Spec R`
+are Gabber's theorems at the locators above and are the substance of this target.
 *Needs:* EtaleCohomologyFoundations §F.5 (exceptional inverse image, biduality and duality on
 traits); LefschetzPencilsAndVanishingCycles §0.10 (absolute purity, which normalises (b));
 SchemeAndStackFoundations §§0.21, 2.15 (excellence, Gabber's affine proper base change).
@@ -818,6 +861,15 @@ SchemeAndStackFoundations §§0.21, 2.15 (excellence, Gabber's affine proper bas
 - The twist and shift in (b) are forced by absolute purity: for `R` strictly henselian,
   `H^{2d}_𝔪(R, μ_ℓ^{⊗d}) ≅ ℤ/ℓ` and `H^i_𝔪(R, ℤ/ℓ) = 0` for `i ≠ 2d`; a shift by `[d]` would put the
   class in the wrong degree.
+- For `d = 1`, `R` a strictly henselian excellent discrete valuation ring with fraction field `L`, `f`
+  a uniformizer and `j : Spec L → Spec R`, (c) for `K = j_!ℤ/ℓ` and the exchange of (b) give
+  `H^i_𝔪(R, j_!ℤ/ℓ) ≅ Hom(H^{2−i}(L, μ_ℓ), ℤ/ℓ)`, which is `0`, `ℤ/ℓ`, `ℤ/ℓ(−1)` for `i = 0, 1, 2`
+  (`cd_ℓ L = 1`, `H^1(L, μ_ℓ) = L^×/L^{×ℓ} ≅ ℤ/ℓ`, `H^0(L, μ_ℓ) = μ_ℓ`). The sequence
+  `0 → j_!ℤ/ℓ → ℤ/ℓ → i_*ℤ/ℓ → 0` with absolute purity (`H^i_𝔪(R, ℤ/ℓ)` is `0` for `i < 2` and
+  `ℤ/ℓ(−1)` for `i = 2`) and `H^1(k, ℤ/ℓ) = 0` for the separably closed residue field `k` gives the
+  same three groups. With the shift `[1]` in place of `[2]` the formula would give
+  `H^0_𝔪(R, j_!ℤ/ℓ) ≅ Hom(H^1(L, μ_ℓ), ℤ/ℓ) ≅ ℤ/ℓ`, although that group lies in the stalk
+  `(j_!ℤ/ℓ)_x = 0`.
 - Strict henselianity is needed in (c): for the finite field `R = 𝔽_2` (`d = 0`), `ℓ = 3`, `K = ℤ/3` and
   `i = 1`, `H^1_𝔪(R, K) = H^1(𝔽_2, ℤ/3) = Hom(Ẑ, ℤ/3) ≅ ℤ/3`, while `RHom(K, ℤ/3)` is `ℤ/3` in degree `0`,
   so its stalk in degree `−1` is `0`; over the separable closure `𝔽̄_2` both sides are `0`.
@@ -968,9 +1020,10 @@ only `H^0_𝔪(R, ℤ/ℓ) = 0`.
 
 §§0.1–0.2; DeformationAndDerivedPatchingAlgebra §3.4; DerivedDeRhamCohomology §§0.19, 0.21 and the
 complete-intersection defect contract; PerfectoidSpaces §P7.16a;
-ModularCurves Layer 4D; PurityOfBranchLocus §0.3; LefschetzPencilsAndVanishingCycles §0.10;
+ModularCurves Layer 4D; LefschetzPencilsAndVanishingCycles §0.10;
 EtaleCohomologyFoundations §§F.0.2, F.5; PrismaticCohomology §2.0; SchemeAndStackFoundations §§0.6,
-0.14, 0.17, 0.21, 2.7, 2.15, 4.7–4.8; LocalPurity §§1.1, 1.3, 2.1, 2.2.
+0.14, 0.17, 0.21, 2.7, 2.15, 4.7–4.8; LocalPurity §§1.1, 1.3, 2.1, 2.2; Tau Ceti
+`ModuleCat.projectiveDimension_add_depth_le_ringKrullDim`.
 
 ## Layer 2: The crystalline key formula over perfect schemes
 
@@ -1776,11 +1829,18 @@ Prove `free_of_endomorphisms_iso_pi`: for a regular local ring `R` and a finitel
 invoked in [CS24] proof of Theorem 7.1.3, p. 88). The homological proof of Auslander is part of this
 target; the Auslander–Buchsbaum formula alone does not show that the endomorphism condition forces
 maximal depth.
-*Needs:* PurityOfBranchLocus §0.3 (`auslander_buchsbaum`, `IsRegularLocalRing.free_of_isCohenMacaulay`);
-SchemeAndStackFoundations §0.17; Mathlib `IsRegularLocalRing`, `Module.IsReflexive`, `Module.Free`.
+*Needs:* PurityOfBranchLocus §0.3 (`auslander_buchsbaum`); Tau Ceti
+`TauCeti.IsRegularLocalRing.free_of_isCohenMacaulay` (Stacks 00NT); SchemeAndStackFoundations §0.17;
+Mathlib `IsRegularLocalRing`, `Module.IsReflexive`, `Module.Free`.
 
 **Checks.**
 - For `M = Rⁿ` the hypothesis holds with `r = n`.
+- In dimension `≤ 2` the endomorphism hypothesis is not needed, since there every finite reflexive
+  module is free (supplier contracts, Tau Ceti); the criterion has content from dimension `3` on. For
+  `R = k⟦x, y, z⟧` the second syzygy `N` of the residue field, the image of the middle Koszul map
+  `R³ → R³`, is reflexive of rank `2` with the resolution `0 → R → R³ → N → 0`; it is not free, since
+  otherwise the residue field would have projective dimension `≤ 2 < 3`. So reflexivity alone does not
+  force freeness in dimension `3`, and by the criterion no isomorphism `Hom(N, N) ≅ N^{⊕r}` exists.
 - Over the non-regular `A_1` singularity `k⟦x, y, z⟧/(xz − y²)` the ideal `(x, y)` is reflexive of rank
   one and depth `2` but not free; there `Hom(M, M) ≅ R` is not a sum of copies of `M`, so the criterion
   does not apply.
@@ -1823,12 +1883,18 @@ domain (Mathlib `UniqueFactorizationMonoid`; it is a domain by Tau Ceti `TauCeti
 and so is its strict henselization (Auslander–Buchsbaum; [SGA2] XI, Théorème 3.13(i), p. 105). Route: the strict
 henselization of a regular local ring is regular (ModularCurves Layer 4D: it is Noetherian, flat with
 closed fibre a field, so its dimension and embedding dimension are those of `R`); induct on the
-dimension: for `x ∈ 𝔪 ∖ 𝔪²`, `x` is prime, a height-one prime `P` of `R` gives a rank-one projective
-module `P[1/x]` over `R[1/x]` (locally principal by induction), which has a finite free resolution
-(PurityOfBranchLocus §0.3), hence is stably free of rank one, hence free; Nagata's criterion concludes.
-*Needs:* PurityOfBranchLocus §0.3; ModularCurves Layer 4D; SchemeAndStackFoundations §3.4 (Weil
-divisors and Picard groups); Mathlib `IsRegularLocalRing`, `UniqueFactorizationMonoid`; Tau Ceti
-`TauCeti.IsRegularLocalRing.isDomain`.
+dimension, the cases `dim R ≤ 2` being Tau Ceti `TauCeti.IsRegularLocalRing.uniqueFactorizationMonoid`:
+for `x ∈ 𝔪 ∖ 𝔪²`, `x` is prime, and a height-one prime `P ∌ x` of `R` gives a rank-one projective module
+`P[1/x]` over `R[1/x]` (locally principal by induction, the localizations of `R` at primes being
+regular local rings of smaller dimension by the Tau Ceti instance
+`TauCeti.isRegularRing_of_isRegularLocalRing`); `P` has a finite free resolution over `R`
+(projective dimension `≤ dim R` by `TauCeti.IsRegularLocalRing.hasProjectiveDimensionLE`, and finite
+projective modules over a local ring are free), so `P[1/x]` has one over `R[1/x]`, hence is stably free
+of rank one, hence free; Nagata's criterion concludes.
+*Needs:* ModularCurves Layer 4D; SchemeAndStackFoundations §3.4 (Weil divisors and Picard groups);
+Mathlib `IsRegularLocalRing`, `UniqueFactorizationMonoid`, `IsRegularRing.isRegularLocalRing_localization`;
+Tau Ceti `TauCeti.IsRegularLocalRing.isDomain`, `TauCeti.IsRegularLocalRing.uniqueFactorizationMonoid`,
+`TauCeti.IsRegularLocalRing.hasProjectiveDimensionLE`, `TauCeti.isRegularRing_of_isRegularLocalRing`.
 
 **Checks.**
 - A discrete valuation ring is factorial.
@@ -1999,14 +2065,15 @@ Prove: for a regular local ring `R` of dimension `2`, pullback is an equivalence
 `Spec R` to vector bundles on `U_R`, and from Azumaya algebras on `Spec R` to Azumaya algebras on `U_R`;
 hence `Br(R) → Br(U_R)` is bijective; if `R` is strictly henselian, `H²_ét(U_R, 𝔾_m) = 0` ([CS24] proof of
 Theorem 7.2.5, p. 90, after [Gro68] Brauer III, 6.1 b); [C19] Theorem 1.3 case (i), p. 2). Route: full
-faithfulness by Hartogs (depth `2`); for a vector bundle `E` on `U_R`, `j_*E` is reflexive
-(SchemeAndStackFoundations §0.6), hence of depth `2 = dim R`, hence free (PurityOfBranchLocus §0.3,
-`IsRegularLocalRing.free_of_isCohenMacaulay`); `j_*A` for an Azumaya `A` is free and Azumaya by
+faithfulness by Hartogs (depth `2`); for a vector bundle `E` on `U_R`, `j_*E` is coherent and
+reflexive (SchemeAndStackFoundations §0.6), so `Γ(U_R, E)` is a finite reflexive `R`-module, hence
+free because `dim R = 2` (Tau Ceti `TauCeti.IsRegularLocalRing.free_of_isReflexive`); `j_*A` for an
+Azumaya `A` is free and Azumaya by
 SchemeAndStackFoundations §2.22 `azumaya_equivalent_conditions`; for strictly henselian `R`,
 `Br(R) = Br(k) = 0` (`brauer_henselian_local`), `H²(U_R, 𝔾_m)` is torsion (§7.9) and its torsion is
 `Br(U_R)` (§7.10).
-*Needs:* §§0.1, 7.9, 7.10; SchemeAndStackFoundations §§0.6, 2.22; PurityOfBranchLocus §0.3; Mathlib
-`IsAzumaya`.
+*Needs:* §§0.1, 7.9, 7.10; SchemeAndStackFoundations §§0.6, 2.22; Tau Ceti
+`TauCeti.IsRegularLocalRing.free_of_isReflexive`; Mathlib `IsAzumaya`, `Module.IsReflexive`.
 
 **Checks.**
 - For `R = k⟦x, y⟧` every vector bundle on `U_R` is trivial.
@@ -2043,7 +2110,7 @@ dimension `≥ 3`); the remaining case is §7.11.
   the theorem and `Br(U_R) = H²(U_R, 𝔾_m)_tors` by §7.10, every nonzero class of `H²(U_R, 𝔾_m)` is
   nontorsion: `H²(R, 𝔾_m) → H²(U_R, 𝔾_m)` is not surjective although `Br(R) → Br(U_R)` is.
 
-### 7.14 Kernel-of-tori presentations of groups of multiplicative type
+### 7.13 Kernel-of-tori presentations of groups of multiplicative type
 
 For a scheme `X`, groups of multiplicative type, tori and the character sheaf `X^*(T) = ℋom(T, 𝔾_m)` are
 those of GroupSchemesOverABase §§2.1–2.3 (SGA 3 IX, 1.1 and X, 4.5; [CS24] §7.2, p. 91; [C19] §2);
@@ -2082,7 +2149,7 @@ fppf and étale cohomology agree (SchemeAndStackFoundations §2.10).
   homomorphism of tori `S_1 → S_2` is `D` of the cokernel of `X^*(S_2) → X^*(S_1)`
   (GroupSchemesOverABase §§1.4, 2.3, 2.7), of multiplicative type.
 
-### 7.15 Purity for groups of multiplicative type in degrees ≤ 2
+### 7.14 Purity for groups of multiplicative type in degrees ≤ 2
 
 Prove: let `X` be a scheme, `T` a finite type `X`-group of multiplicative type and `Z ⊂ X` closed with
 `X ∖ Z → X` quasi-compact. (a) If every `𝒪_{X,z}`, `z ∈ Z`, is Noetherian and geometrically parafactorial,
@@ -2092,7 +2159,7 @@ then `H^1(X, T)_tors ≅ H^1(X ∖ Z, T)_tors` (resp. `H²(X, T)_tors ≅ H²(X 
 a locally constant positive function; in particular, for Noetherian `X` with each `𝒪_{X,z}` a complete
 intersection of dimension `≥ 4` or regular of dimension `≥ 2`, `H²(X, 𝔾_m)_tors ≅ H²(X ∖ Z, 𝔾_m)_tors` ([CS24]
 Theorem 7.2.8, pp. 91–92; announced as Theorem 1.1.4, p. 4; footnotes 26–27). Route: (a) §0.5 gives degrees
-`≤ 1` (parafactorial rings have depth `≥ 2`); reduce by §0.2 to strictly local `X` and by §7.14 to `T = 𝔾_m`,
+`≤ 1` (parafactorial rings have depth `≥ 2`); reduce by §0.2 to strictly local `X` and by §7.13 to `T = 𝔾_m`,
 where it says that `j_*L` is a line bundle for every line bundle `L` on `X ∖ Z`, which holds by Noetherian
 induction and parafactoriality. (b) injectivity in degree `1` from §0.5(b) applied to `T`-torsors, which are affine: a complete
 intersection of dimension `≥ 3` or a regular ring of dimension `≥ 2` has depth `≥ 2`, so a torsor trivial
@@ -2101,10 +2168,10 @@ hypothesis holds for complete intersections of dimension `≥ 4` (geometric para
 DeformationAndDerivedPatchingAlgebra §6.9) and for regular rings of dimension
 `≥ 2` (§§7.4–7.5); (a) is not available in degree `1` for complete intersections of dimension `3`, which
 need not be parafactorial (the three-dimensional node has `Pic(U_R) ≅ ℤ`); for surjectivity on a class killed by `n`, choose
-`m` as in §7.14, lift through `[n] ∘ q : T → S` with finite locally free kernel `T[mn]`, and extend by §§6.2,
+`m` as in §7.13, lift through `[n] ∘ q : T → S` with finite locally free kernel `T[mn]`, and extend by §§6.2,
 6.5 and Noetherian induction; in the regular dimension-two case use (a) in degree `1` and §7.12 with Kummer
 in degree `2`.
-*Needs:* §§0.2, 0.5, 6.2, 6.5, 7.4, 7.5, 7.12, 7.14; GroupSchemesOverABase §§2.1, 2.3;
+*Needs:* §§0.2, 0.5, 6.2, 6.5, 7.4, 7.5, 7.12, 7.13; GroupSchemesOverABase §§2.1, 2.3;
 DeformationAndDerivedPatchingAlgebra §§3.4, 6.9;
 ModularCurves Layer 4D.
 
@@ -2115,16 +2182,16 @@ ModularCurves Layer 4D.
 - Geometric parafactoriality is needed in (a): for the `A_1` singularity `Pic(U_R) ≠ 0 = Pic(R)`, so
   `H^1(X, 𝔾_m) → H^1(X ∖ Z, 𝔾_m)` is not surjective.
 
-### 7.16 Purity for groups of multiplicative type in higher degrees
+### 7.15 Purity for groups of multiplicative type in higher degrees
 
 Prove: let `X` be a scheme, `T` a finite type `X`-group of multiplicative type, `d ≥ 3`, and `Z ⊂ X` closed
 with `X ∖ Z → X` quasi-compact such that every `𝒪_{X,z}`, `z ∈ Z`, is either a complete intersection of
 dimension `≥ d` all of whose strict henselizations are factorial, or regular of dimension `≥ d − 1`; then
 `H^i(X, T) → H^i(X ∖ Z, T)` is injective for `i < d` and bijective for `i < d − 1` ([CS24] Theorem 7.2.9,
 pp. 92–93; footnote 28). Route: reduce to strictly local `X` and `T = 𝔾_m`; by §7.9(a) all
-`H^i_Z(X, 𝔾_m)` are torsion (using §7.15(a) in degrees `≤ 1`), and §7.1 for `μ_n` with the Kummer sequence
+`H^i_Z(X, 𝔾_m)` are torsion (using §7.14(a) in degrees `≤ 1`), and §7.1 for `μ_n` with the Kummer sequence
 kills their `n`-torsion for `i < d`.
-*Needs:* §§0.2, 7.1, 7.4, 7.9, 7.14, 7.15; GroupSchemesOverABase §2.1; SchemeAndStackFoundations §2.11.
+*Needs:* §§0.2, 7.1, 7.4, 7.9, 7.13, 7.14; GroupSchemesOverABase §2.1; SchemeAndStackFoundations §2.11.
 
 **Checks.**
 - For `X` regular and `Z` of codimension `≥ 2` (`d = 3`) it gives bijectivity for `i ≤ 1` and injectivity
@@ -2137,7 +2204,7 @@ kills their `n`-torsion for `i < d`.
 ### Examples
 
 For `R = k⟦x_1, …, x_5⟧/(x_1x_2 − x_3x_4 + x_5²)` (a four-dimensional hypersurface): §7.6 gives
-`Pic(U_R) = 0`, §7.12 gives `Br(U_R) = Br(R) = Br(k)`, and §7.15(b) gives
+`Pic(U_R) = 0`, §7.12 gives `Br(U_R) = Br(R) = Br(k)`, and §7.14(b) gives
 `H²(R, 𝔾_m)_tors ≅ H²(U_R, 𝔾_m)_tors`.
 
 ### Dependencies
@@ -2146,7 +2213,9 @@ For `R = k⟦x_1, …, x_5⟧/(x_1x_2 − x_3x_4 + x_5²)` (a four-dimensional h
 GroupSchemesOverABase §§1.3, 1.4, 2.1–2.3, 2.7; ModularCurves Layer 4D;
 SchemeAndStackFoundations §§0.3, 0.4, 0.6, 0.17, 1.15, 1.18, 2.7, 2.9–2.11, 2.15, 2.22, 3.4;
 Tau Ceti `TauCeti.AlgebraicGeometry.LineBundleClass`, `TauCeti.MultiplicativeTypeAffineGroupSchemeCat`,
-`TauCeti.TorusAffineGroupSchemeCat`.
+`TauCeti.TorusAffineGroupSchemeCat`, `TauCeti.IsRegularLocalRing.free_of_isCohenMacaulay`,
+`TauCeti.IsRegularLocalRing.free_of_isReflexive`, `TauCeti.IsRegularLocalRing.uniqueFactorizationMonoid`,
+`TauCeti.IsRegularLocalRing.hasProjectiveDimensionLE`, `TauCeti.isRegularRing_of_isRegularLocalRing`.
 
 ## Layer 8: Purity for the Brauer group and for tori on regular schemes
 
@@ -2189,7 +2258,7 @@ then `H^i(k, T) = 0` for `i ≥ 1` and every `k`-torus `T`; (e) for a henselian 
 dimension `≥ 2` with residue field of dimension `≤ 1`, a nonzero finite étale `R`-algebra `R′` and an
 `R`-torus `T`, `H^1(U_R, T) → H^1(U_{R′}, T)` and `H²(U_R, T) → H²(U_{R′}, T)` are injective. Part (b) is
 stated for commutative `G`; see the Notes on the sources under References.
-*Needs:* §§0.1, 0.5, 7.6, 7.14; GroupSchemesOverABase §2.1; SchemeAndStackFoundations §§1.15, 2.3, 2.11, 2.15; ModularCurves
+*Needs:* §§0.1, 0.5, 7.6, 7.13; GroupSchemesOverABase §2.1; SchemeAndStackFoundations §§1.15, 2.3, 2.11, 2.15; ModularCurves
 Layer 4D.
 
 **Checks.**
@@ -2241,7 +2310,7 @@ Prove: for a scheme `X`, a closed `Z ⊂ X` with `X ∖ Z → X` quasi-compact a
 splitting of tori reduce to `T = 𝔾_m` on a strictly henselian regular local `X`; §8.4 reduces to `Z` the
 closed point; then `H^0(R, 𝔾_m) ≅ H^0(U_R, 𝔾_m)` (§0.5), `H^{>0}(R, 𝔾_m) = 0`, `Pic(U_R) = 0` (§7.6) and
 §8.1 give `H^q_𝔪(R, 𝔾_m) = 0` for `q ≤ 3`.
-*Needs:* §§0.2, 0.3, 0.5, 7.6, 7.14, 8.1, 8.4; GroupSchemesOverABase §2.1; SchemeAndStackFoundations §2.15.
+*Needs:* §§0.2, 0.3, 0.5, 7.6, 7.13, 8.1, 8.4; GroupSchemesOverABase §2.1; SchemeAndStackFoundations §2.15.
 
 **Checks.**
 - For `X = Spec R`, `R` strictly henselian regular of dimension `2` and `Z` the closed point, it is
@@ -2259,7 +2328,7 @@ and injective for `q = 3` ([C19] Theorem 6.1, p. 13), by §8.5 and the long exac
 **Checks.**
 - For `T = 𝔾_m` and `q = 1`: `Pic(X) ≅ Pic(X ∖ Z)` for regular `X` and `Z` of codimension `≥ 2`.
 - For `X = 𝔸²_ℂ` and `Z = {0}`: `Br′(𝔸²_ℂ ∖ {0}) = Br′(𝔸²_ℂ)`, although `𝔸²_ℂ ∖ {0}` is not affine.
-- For `d = 3` it strengthens §7.16 for tori to bijectivity in degree `2`.
+- For `d = 3` it strengthens §7.15 for tori to bijectivity in degree `2`.
 
 ### 8.7 Purity for the Brauer group of regular schemes
 
@@ -2282,7 +2351,7 @@ quasi-compact, and no regularity is assumed off `Z`. This is §8.6 for `T = 𝔾
 Define, for a Noetherian integral regular scheme `X` with function field `K` and an `X`-torus `T`: `T` has
 generically injective `H²` on `X` if `H²_ét(V, T) → H²_ét(Spec K, T)` is injective for every nonempty open
 `V ⊂ X` ([C19] Theorem 6.2, condition (6.2.1), p. 13; Remark 6.3, p. 14).
-*Needs:* §7.14; GroupSchemesOverABase §2.1; SchemeAndStackFoundations §2.15.
+*Needs:* §7.13; GroupSchemesOverABase §2.1; SchemeAndStackFoundations §2.15.
 
 API (each a target):
 - It passes to every nonempty open `V ⊂ X`.
@@ -2335,7 +2404,7 @@ nontrivial extension by any permutation module `ℤ[Gal(X′/X)/H]` ([CTS87] §0
 pp. 157–158; [C19] Remark 6.3, p. 14). Prove: flasque tori have generically injective `H²` ([CTS87] Theorem
 2.2(ii), pp. 161–163), and every torus direct factor of `Res_{X″/X}(𝔾_m)` for a finite étale `X″/X` is
 flasque (Shapiro's lemma and `H^1(H, ℤ) = 0`).
-*Needs:* §§7.14, 8.8; GroupSchemesOverABase §§2.1, 2.3; SchemeAndStackFoundations §§2.15, 2.22.
+*Needs:* §§7.13, 8.8; GroupSchemesOverABase §§2.1, 2.3; SchemeAndStackFoundations §§2.15, 2.22.
 
 API (each a target):
 - Quasi-trivial tori `Res_{X″/X}𝔾_m` and their direct factors are flasque.
@@ -2492,7 +2561,7 @@ punctured spectrum, §8.10 describes `Br(ℤ_p⟦x⟧)` inside `Br(Frac ℤ_p⟦
 
 ### Dependencies
 
-§§0.1–0.5, 3.5, 6.5, 7.6, 7.9–7.11, 7.14; SchemeAndStackFoundations §§1.15, 2.1–2.3, 2.11, 2.15, 2.22;
+§§0.1–0.5, 3.5, 6.5, 7.6, 7.9–7.11, 7.13; SchemeAndStackFoundations §§1.15, 2.1–2.3, 2.11, 2.15, 2.22;
 GroupSchemesOverABase §§2.1, 2.3; ModularCurves Layer 4D; ArithmeticGaloisDuality §R02.2.4.
 
 ## Downstream consumers
