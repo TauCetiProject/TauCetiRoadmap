@@ -1,3 +1,5 @@
+module
+
 import Mathlib
 import TauCeti.NumberTheory.ClassGroup.Equiv
 import TauCeti.NumberTheory.DirichletCharacter.GeneralizedBernoulli

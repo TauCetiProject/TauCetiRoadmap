@@ -24,9 +24,9 @@ Coleman map, exact sequences and real principal circular-closure quotient.
 **ColemanPowerSeries** supplies explicit carrier comparisons and refinements;
 **PadicMeasuresIwasawaAlgebras** owns measures, Iwasawa-algebra structure
 and characteristic ideals, including the finite character projectors of §4.6.
-The general character eigensubmodule is the carrier of
-CyclotomicClassGroupsAndStickelberger §0.2; §0.18 identifies its
-representation adapter with that carrier and the supplied projector range.
+Section 0.18 defines the general character eigensubmodule from Mathlib's
+`Module.End.eigenspace`; it specialises to the tame eigenspaces of
+CyclotomicClassGroupsAndStickelberger §0.2 and agrees with the supplied projector range.
 **ClassicalArithmeticCompletion** §§1.47 and
 1.55 supplies residue-character Gauss sums and their Stickelberger ideal
 factorization; **Chebotarev** Layer 10 supplies primes with a prescribed
@@ -156,6 +156,7 @@ Use the following declarations, with the stated scope.
 - `Representation.averageMap` (Mathlib/RepresentationTheory/Invariants.lean): For a finite group with invertible cardinality in the coefficient ring, the averaging map `|G|⁻¹∑ρ(g)` onto invariants. The invertibility hypothesis is required.
 - `Representation.invariants` (Mathlib/RepresentationTheory/Invariants.lean): The submodule of `Δ`-invariants of a representation.
 - `Representation.mem_invariants` (Mathlib/RepresentationTheory/Invariants.lean): `v ∈` invariants `ρ ↔ ∀ g`, `ρ g v = v`.
+- `Module.End.eigenspace` (Mathlib/LinearAlgebra/Eigenspace/Basic.lean): for an endomorphism `f` of a module over a commutative ring and a scalar `μ`, the submodule of `x` with `f x = μ • x`, with `Module.End.mem_eigenspace_iff` for membership and `Module.End.eigenspace_def` for `eigenspace f μ = ker(f − μ • 1)`. It assumes no finiteness, field or invertibility hypothesis.
 - `ZMod.unitOfCoprime` (Mathlib/Data/ZMod/Basic.lean): The unit of `ZMod n` given by `x` coprime to `n`.
 - `isUnit_of_dvd_unit` (Mathlib/Algebra/Divisibility/Units.lean): A divisor of a unit is a unit.
 - `minpoly.dvd` (Mathlib/FieldTheory/Minpoly/Field.lean): The minimal polynomial divides every polynomial vanishing at `x`.
@@ -217,11 +218,10 @@ for the statements those sections make.
 - **SelmerIwasawaCohomology.** §§0.6–0.8 (limit Kummer maps and the compact comparison); §§2.1–2.2 (the compact and rational Selmer data and the Selmer kernel equation); §§2.5–2.8 (image and preimage propagation of local conditions, the unramified condition with its coinvariant description, Greenberg's condition); §2.25 (injective Selmer restriction); §§3.1, 3.5 (the corestriction-limit description of Iwasawa cohomology under condition `(F)`, universal norms away from `p`); §4.20 (Greenberg conditions for Tate twists, their Selmer/Galois-module identifications and contragredient duals). Sections F.1–F.2 give the adapter equations.
 - **EulerSystemsAndKolyvaginSystems.** §§1.7–1.8 (Kolyvagin prime sets `R_(F,M)`, the Frobenius criterion and the finite–singular comparison map `φ^fs`); §§2.1–2.2, 2.4–2.8 (Euler polynomials, the module of Euler systems `ES(T,𝒦,N)`, conductor presentations, twists, replacement, universal systems and rigidity); §§3.1–3.4, 3.9–3.14, 3.19 (Kolyvagin's derivative classes `κ_(F,r,M)` and their local relations); §§4.3, 4.17 (Rubin's hypotheses `Hyp(K,T)` and `Hyp(K,V)`, the initial index and finite bound); §§8.2–8.8, 8.16, 8.25, 8.37–8.39 (the `Λ`-adic index of divisibility `ind_Λ`, restricted dual, weak Leopoldt and integral/rational Iwasawa bounds). Sections F.3–F.8 retain their full hypotheses and identify the cyclotomic inputs.
 - **PadicMeasuresIwasawaAlgebras.** §4.6 (`charIdempotent`, `isotypicComponent`, `isotypicComponent_spec` and the character decomposition), for finite groups with invertible group order. Section 0.18 compares its character adapter with this projector range.
-- **CyclotomicClassGroupsAndStickelberger.** §0.2 (the character eigenspace as the intersection of the kernels of `ρ(δ)−χ(δ)`, over a commutative ring, with no finiteness or invertibility hypothesis); §§2.2–2.5 (the denominator ideal, §2.3's rational smoothing identity `s_(m,b)=(b−[b])θ_m`, §2.4's smoothed Gauss descent, §2.5's `stickelbergerIdeal_annihilates` and its positive-smoothing consequence); §3.2 (vanishing of the exponent-one Teichmüller class eigenspace); §3.4 (`relativeClassNumber_character_product`, `realClassNumber_log_product`). Section F.9 transports these statements through the covariant class-group action.
+- **CyclotomicClassGroupsAndStickelberger.** §0.2 (`cyclotomicClassEigenspace p r i` for odd `p`, the tame group `Δ_r` and the character `ω^i`, a special case of the eigensubmodule that §0.18 defines); §§2.2–2.5 (the denominator ideal, §2.3's rational smoothing identity `s_(m,b)=(b−[b])θ⁰_m` for the unshifted Stickelberger element `θ⁰_m` of §F.9, §2.4's smoothed Gauss descent, §2.5's `stickelbergerIdeal_annihilates` and its positive-smoothing consequence); §3.2 (vanishing of the exponent-one Teichmüller class eigenspace); §3.4 (`relativeClassNumber_character_product`, `realClassNumber_log_product`). Section F.9 transports these statements through the covariant class-group action.
 - **DirichletPadicLFunctions.** §0.6 (`localIwasawaLog`, `localIwasawaLog_norm_eq_trace`); §§3.2, 3.4, 3.6–3.7 (`complexGaussLogValue_eq_LValue`, `leopoldt_value_one`, `bernoulliQuotient_tendsto`); §§4.1–4.5 (`existsUnique_moritaGamma`, `grossKoblitz_formula` and its analytic prerequisites); §4.14 (`ferreroGreenbergGammaSum`, `ferreroGreenberg_derivative`, `ferreroGreenberg_gauss_projection`). Sections F.10–F.11 fix the branch, Gauss sign and Gamma-sum equations used by the arithmetic applications.
-- **IntegralIwasawaTheory.** §0.1 (the cyclotomic `ℤ_p`-extension with its torsion retained); §0.3 (`cyclotomic_every_pPrime_ramifies`, `cyclotomic_no_finite_prime_splits_completely`, the Frobenius description `κ_Γ(Frob_ℓ)=⟨ℓ⟩` and linear disjointness from every finite prime-to-`p` extension); §§0.2, 1.1 (compatible cyclotomic fields, real subfields, the norm direction and the restriction of `σ_a`); §1.3 (real cyclotomic generators); §1.5 (the prime-power index); §1.7 (Sinnott's circular numbers `D_k`, generated by `−1` and the norms `N_{ℚ(μ_n)/ℚ(μ_n)∩k}(1−ζ_n^a)`, `n>1`, `n∤a`, and the circular units `C_k=E_k∩D_k`; Sinnott 1980, §4, p. 201); §1.8 (Sinnott's lattice `U` and his Theorem 4.1, p. 207: for real `k` of conductor `m`, `[E_k:C_k]=h_k·2^{[k:ℚ]−1}·(∏_{q|m}[k_{q^e}:ℚ]/[k:ℚ])·(R:U)`, with `q^e‖m` and `k_{q^e}=k∩ℚ(μ_{q^e})`, and the archimedean logarithmic image `circularLog_image`); §2.2 (completed units, principal semilocal units and `globalUnitClosure`); §2.3 (`p`-ramified and unramified modules, `pRamifiedModule_rayLimit`, `unramifiedModule_classGroupLimit`); §2.4 (`principalUnitLimit_finite`, `unramifiedModule_finite_torsion`, `classGroupDirectLimit_dual_finite_torsion`); §2.6 (weak Leopoldt: `𝔛_S(K_∞)` has `Λ`-rank `r₂(K)` and no nonzero finite submodule); §2.7 (`finiteGlobalLocalSequence` `0→D_n→E_n→U_n⊕Σ_n→𝔛_S(K_n)→Cl(K_n)(p)→0`, `infiniteGlobalLocalSequence` `0→E_∞→U_∞⊕Σ_∞→𝔛_S(K_∞)→X_∞→0`, `unitLimit_eq_limit_closures`, and the discrete Kummer sequence over `K_∞⊇μ_{2p}` with its contragredient dual); §2.8 (`uniformCapitulationBound`, including the `S`-class version for `S⊇S_p∪S_∞`); §3.1 (`onePrimeClassControl`, `onePrimeBaseClassZero`); §3.2 (`inertiaClassControl`, `inertiaKernel_transition`); §3.3 (`classNumberGrowth`); §3.5 (`rjwModuleDictionary`; `greitherRayDictionary`, with `0→𝔛_S(F_∞)_{Γ_n}→A′_real(F_n)→Γ_n→0` and `(1−e₀)A′_real(F)≅(1−e₀)𝔛_S(F_∞)_Γ` for real `F`, including the real modulus at 2; §4.23 here constructs the ordinary finite-ray comparison; the `p`-split dictionary `X′_{S_p}=X/D_∞`; Chevalley's ambiguous-class formula for cyclic extensions); §§4.1–4.2 (`bakerBrumer_algebraicNumbers`, `algebraicLog_kernel`: below); §4.3 (`unitRepresentation_augmentation`: `(O_E^×/μ(E))⊗ℚ≅ℚ[G]/ℚ·N_G` for real abelian `E`); §4.4 (`abelianLeopoldt` for every abelian field and every `p`); §5.6 (Ferrero–Washington for every abelian field); §6.3 (`bernoulliStickelberger_dictionary`: over `ℚ` with `F_n=ℚ(μ_{mp^n})`, `(m,p)=1`, the analytic value is the negative of the Bernoulli evaluation, with coefficient `a/(mp^n)−1/2` at `σ_a⁻¹` and arithmetic test character `ρ_{χ,s}(σ_x)=χ(x)⁻¹ω(x)⟨x⟩^s`; this negative evaluation gives the Kubota–Leopoldt series `f_χ`, `f_χ(u^s−1)=L_p(χ,s)`, for every `p` under its convention `q=4` at `p=2`, including `m=1`, with the Mellin relation `a(T)=u(1+T)⁻¹−1`); §§7.1–7.3 (the local norm, trace and interpolation over finite unramified arithmetic fields at every `p`; the normalized arithmetic Coleman map, principal exact sequence and real principal circular-closure quotient over `ℚ_p` at odd `p`, including finite-free coefficient change); §10.4 (`arithmeticCharacter_eulerQuotient`, the coinvariant lemma `|M_Γ|/|M^Γ|=|O/f(0)|` when `f(0)≠0`).
-- **IntegralIwasawaTheory §§4.1–4.2**: for nonzero algebraic `p`-adic units with `ℚ`-linearly independent normalized `p`-adic logarithms, those logs are independent over the embedded algebraic numbers (`bakerBrumer_algebraicNumbers`, §4.2). A common deep power meets the strict exponential-disc hypothesis, also at `p=2`, where the disc form `bakerBrumer_expDisc_linearIndependent` of §4.1e applies: on the disc `‖x‖<p^{−1/(p−1)}` of a complete, algebraically closed normed field of characteristic 0 over `ℚ_p`, points with algebraic exponentials that are `ℚ`-linearly independent are, together with 1, linearly independent over the algebraic closure of `ℚ` in that field. Sections 4.1a–4.1e of IntegralIwasawaTheory prove that disc form by Baker's extrapolation argument; the transcendence argument belongs there and is not stated here. A `p`-unit `y` is first replaced by `p^(−v_pι(y))y` at a split completion, preserving `log` while making it a local unit. Section 4.18 supplies the actual nonzero Gauss-ideal vector before applying this generic input.
-- **IntegralIwasawaTheory §4.2**: with Iwasawa's logarithm `(log_p p = 0)`, `(a) log_p α = 0` for algebraic `α ≠ 0` exactly when some power of `α` is a root of unity times a power of `p`, and `(b)` logarithms of algebraic numbers that are linearly independent over `ℚ` are linearly independent over `ℚ̄`. Section 4.18 uses it for the direct form of its nonvanishing argument, which needs neither the minus condition nor complete splitting.
+- **IntegralIwasawaTheory.** §0.1 (the cyclotomic `ℤ_p`-extension with its torsion retained); §0.3 (`cyclotomic_every_pPrime_ramifies`, `cyclotomic_no_finite_prime_splits_completely`, the Frobenius description `κ_Γ(Frob_ℓ)=⟨ℓ⟩` and linear disjointness from every finite prime-to-`p` extension); §§0.2, 1.1 (compatible cyclotomic fields, real subfields, the norm direction and the restriction of `σ_a`); §1.3 (real cyclotomic generators); §1.5 (the prime-power index); §1.7 (Sinnott's circular numbers `D_k`, generated by `−1` and the norms `N_{ℚ(μ_n)/ℚ(μ_n)∩k}(1−ζ_n^a)`, `n>1`, `n∤a`, and the circular units `C_k=E_k∩D_k`; Sinnott 1980, §4, p. 201); §1.8 (Sinnott's lattice `U` and his Theorem 4.1, p. 207: for real `k` of conductor `m`, `[E_k:C_k]=h_k·2^{[k:ℚ]−1}·(∏_{q|m}[k_{q^e}:ℚ]/[k:ℚ])·(R:U)`, with `q^e‖m` and `k_{q^e}=k∩ℚ(μ_{q^e})`, and the archimedean logarithmic image `circularLog_image`); §2.2 (completed units, principal semilocal units and `globalUnitClosure`); §2.3 (`p`-ramified and unramified modules, `pRamifiedModule_rayLimit`, `unramifiedModule_classGroupLimit`); §2.4 (`principalUnitLimit_finite`, `unramifiedModule_finite_torsion`, `classGroupDirectLimit_dual_finite_torsion`); §2.6 (weak Leopoldt: `𝔛_S(K_∞)` has `Λ`-rank `r₂(K)` and no nonzero finite submodule); §2.7 (`finiteGlobalLocalSequence` `0→D_n→E_n→U_n⊕Σ_n→𝔛_S(K_n)→Cl(K_n)(p)→0`, `infiniteGlobalLocalSequence` `0→E_∞→U_∞⊕Σ_∞→𝔛_S(K_∞)→X_∞→0`, `unitLimit_eq_limit_closures`, and the discrete Kummer sequence over `K_∞⊇μ_{2p}` with its contragredient dual); §2.8 (`uniformCapitulationBound`, including the `S`-class version for `S⊇S_p∪S_∞`); §3.1 (`onePrimeClassControl`, `onePrimeBaseClassZero`); §3.2 (`inertiaClassControl`, `inertiaKernel_transition`); §3.3 (`classNumberGrowth`); §3.5 (`rjwModuleDictionary`; `greitherRayDictionary`, with `0→𝔛_S(F_∞)_{Γ_n}→A′_real(F_n)→Γ_n→0` and `(1−e₀)A′_real(F)≅(1−e₀)𝔛_S(F_∞)_Γ` for real `F`, including the real modulus at 2; §4.23 here constructs the ordinary finite-ray comparison; the `p`-split dictionary `X′_{S_p}=X/D_∞`; Chevalley's ambiguous-class formula for cyclic extensions); §4.2 (`bakerBrumer_algebraicNumbers`, `algebraicLog_kernel`: below); §4.3 (`unitRepresentation_augmentation`: `(O_E^×/μ(E))⊗ℚ≅ℚ[G]/ℚ·N_G` for real abelian `E`); §4.4 (`abelianLeopoldt` for every abelian field and every `p`); §5.6 (Ferrero–Washington for every abelian field); §6.3 (`bernoulliStickelberger_dictionary`: over `ℚ` with `F_n=ℚ(μ_{mp^n})`, `(m,p)=1`, the analytic value is the negative of the Bernoulli evaluation, with coefficient `a/(mp^n)−1/2` at `σ_a⁻¹` and arithmetic test character `ρ_{χ,s}(σ_x)=χ(x)⁻¹ω(x)⟨x⟩^s`; this negative evaluation gives the Kubota–Leopoldt series `f_χ`, `f_χ(u^s−1)=L_p(χ,s)`, for every `p` under its convention `q=4` at `p=2`, including `m=1`, with the Mellin relation `a(T)=u(1+T)⁻¹−1`); §§7.1–7.3 (the local norm, trace and interpolation over finite unramified arithmetic fields at every `p`; the normalized arithmetic Coleman map, principal exact sequence and real principal circular-closure quotient over `ℚ_p` at odd `p`, including finite-free coefficient change); §10.4 (`arithmeticCharacter_eulerQuotient`, the coinvariant lemma `|M_Γ|/|M^Γ|=|O/f(0)|` when `f(0)≠0`).
+- **IntegralIwasawaTheory §4.2**, at every prime `p`, `p=2` included: with Iwasawa's logarithm (`log_p p = 0`), `(a)` `log_p α = 0` for algebraic `α ≠ 0` exactly when some power of `α` is a root of unity times a power of `p` (`algebraicLog_kernel`), and `(b)` logarithms of nonzero algebraic numbers that are linearly independent over `ℚ` are linearly independent over the algebraic closure `ℚ̄` of `ℚ` in `ℂ_p` (`bakerBrumer_algebraicNumbers`). That section moves an algebraic number into the exponential disc by a power and takes the disc form of Baker–Brumer from its own supplier; neither step is restated here. A `p`-unit `y` may first be replaced by `p^(−v_pι(y))y` at a split completion, which preserves `log` and makes it a local unit. Section 4.18 supplies the actual nonzero Gauss-ideal vector before applying `(b)`, and uses `(a)` and `(b)` together for the direct form of its nonvanishing argument, which needs neither the minus condition nor complete splitting.
 - **ColemanPowerSeries.** Explicit carrier comparisons and refinements of IntegralIwasawaTheory §§7.1–7.3. For one finite unramified `E/ℚ_p` at every `p`, including 2: §1.82 (the unramified determinant norm), §1.83 (the unramified integral trace `τ`), §1.93 (`τ=pψ` for the normalized trace `ψ`), §1.85 (norm and coefficient Frobenius commute), §§1.117–1.120 (interpolation with arithmetic Frobenius, the equivalence `U_∞≅B^{N=Σ}`, its topology and its coefficient-Frobenius equivariance). A finite product of unramified rings is handled componentwise, with the semilocal tower of §0.96, the componentwise norm of §0.100, its scalar and composition laws in §§0.148–0.149, and the evaluation point of §0.150, as in §4.4, step 1. The supplied IntegralIwasawaTheory §§7.2–7.3 contracts, expressed on these carriers over `ℤ_p` and for odd `p`, are: §3.46 (the principal Coleman sequence `0→ℤ_p(1)→U_{∞,1}→Λ(G)→ℤ_p(1)→0`); §2.39 `(Col=−Col₀)`; §4.24 (`Col(q(a))=([a]−1)ζ_p`, the raw image `Col₀(q(a))` being its negative); §4.27 (the real image ideal `Col(C^+_{∞,1})=I(G^+)ζ_p^+`); §4.30 (Iwasawa's real local-unit comparison `U^+_{∞,1}/C^+_{∞,1}≅Λ(Γ^+)/I(Γ^+)ζ_p`). This roadmap proves Coleman's exact sequence over unramified coefficients at every `p` ([§4.4](#44-colemans-exact-sequence-over-unramified-coefficients-including-p--2-greither-theorem-24corollary-27)), the integral image for characters of order prime to `p` ([§4.27](#427-the-integral-coleman-image-for-characters-of-order-prime-to-p-and-the-character-form-of-the-odd-prime-main-conjecture-rubin-theorems-iii29ii-and-iii210)) and Rubin's local functionals ([§0.30](#030-the-stickelberger-cohomology-family)).
 - **`TauCetiRoadmap.ClassicalArithmeticCompletion`**: §1.14 (`normResidueSymbol`, with arithmetic Artin on its first argument, skew symmetry and norm compatibility); §1.47 (for `m≥2` and a prime `P∤m` of `ℤ[ζ_m]` of norm `q`, the Gauss sum `g(P)` of the inverse `m`-th power residue character, and `Φ(P)=g(P)^m∈ℤ[ζ_m]`, `stickelbergerPhi_prime`) and §1.55 (Stickelberger's relation, `span_stickelbergerPhi`: `(Φ(P))=P^γ` with `γ=Σ_{1≤t<m,(t,m)=1}tσ_t^{−1}`, for every rational prime below `P`, including 2 when `m` is odd).
 - **`TauCetiRoadmap.Chebotarev`**: Layer 10 (`hasDirichletDensity_frobeniusPrimeSet`, with the derived infinitude of every Frobenius class in a finite Galois extension). Several conditions at once are imposed as one Frobenius class in a compositum, as in §4.9.
@@ -366,10 +366,10 @@ inertia's kernel; on a ramified lattice its propagated condition need not
 equal raw unramifiedness. (**RUBIN-ES**, I Definitions 3.1 and 3.4,
 Lemmas 3.2, 3.5 and 5.3, pp.4–7, 12.)
 
-The adapters to its §§2.7–2.8 are
-`unramifiedCondition(B)=ker res_I`,
+The adapters to its §§2.7–2.8 are the unramified condition
+`H¹_ur(K_v,B)=ker(H¹(K_v,B)→H¹(I_v,B))`,
 its coinvariant description of the unramified condition, and
-`greenbergCondition(B,F⁺B)=ker(H¹(K_v,B)→H¹(I_v,B/F⁺B))`.
+Greenberg's condition `ker(H¹(K_v,B)→H¹(I_v,B/F⁺B))`.
 The coinvariant equation is `H¹_ur(K_v,B)≅B^I/(Fr_v−1)B^I` for
 discrete torsion, compact finite-type or rational coefficients.
 The supplied API identifies the zero filtration with the unramified condition,
@@ -519,10 +519,10 @@ Chebotarev Layer 10; native Cayley–Hamilton.
 ### F.5 Twisting, Euler-factor replacement and rigidity
 
 Consume EulerSystemsAndKolyvaginSystems §§2.5–2.6's
-`EulerSystem.twist`, its evaluation equation in §2.5 and the change-of-factors map.
+twist `c↦c^χ` (§2.5), its evaluation equation in §2.5 and the change-of-factors map of §2.6.
 For finite-order `χ` with field `L`, conductor `fχ` and chosen generator
 `ξχ`, the adapter equation is
-`twistEulerSystem(c,χ)_F=Cor_(FL/F)(c_(FL)⊗ξχ)` for `(T⊗χ,𝒦,Nfχ)`.
+`c^χ_F=Cor_(FL/F)(c_(FL)⊗ξχ)` for `(T⊗χ,𝒦,Nfχ)`.
 After restriction to `FL′`, for `L⊆L′⊆𝒦` of the same conductor,
 cancelling `ξχ` gives `Σ_(δ∈Gal(FL′/F))χ(δ)δ c_(FL′)`.
 For the cyclotomic construction with `T=O(1)` and twist `χ⁻¹`, this
@@ -639,7 +639,7 @@ The supplied condition `Hyp(K,T)` requires `τ` fixing
 `K(1)`, all `p`-power roots of unity and unit radicals, free rank-one
 `T/(τ−1)T` and irreducible reduction. Its rational variant is `Hyp(K,V)`,
 with rational rank-one coinvariants and irreducible `V`. The index adapter is
-`ind_O(c)=indexOfDivisibility(c)=sup{a : c_K∈π^a H¹(K,T)+H¹(K,T)_tors}`.
+`ind_O(c)=sup{a : c_K∈π^a H¹(K,T)+H¹(K,T)_tors}`.
 With `Ω=K(1)K(W)K(μ_(p∞),(O_Kˣ)^(1/p∞))`, the two errors are the
 lengths of `H¹(Ω/K,W)∩S^Σp(K,W)` and
 `H¹(Ω/K,W*)∩S_Σp(K,W*)`, using inflation. Their finiteness uses rational
@@ -680,9 +680,9 @@ for finite global duality; ClassFieldTheory Layer 5 for local duality.
 
 Consume EulerSystemsAndKolyvaginSystems §§8.2–8.8, 8.16, 8.25 and
 8.37–8.39 for `Γ≅ℤ_p^d`, `d≥1`, with no completely split finite prime.
-The adapters `rubinIwasawaHypT=Hyp(K∞,T)` and its rational variant
+The adapters `Hyp(K∞,T)` (§8.2) and its rational variant `Hyp(K∞,V)`
 require the §F.7 hypotheses over `G_(K∞)`, including irreducibility there.
-The adapter `rubinTowerHyp=Hyp(K∞/K)` requires, when `d=1` and the
+The adapter `Hyp(K∞/K)` (§8.6) requires, when `d=1` and the
 action over `G_(K∞)` is trivial or cyclotomic, that `K` be totally real
 satisfying Leopoldt or imaginary quadratic. The supplied integral/rational
 implications, character twists and automatic cases `d≥2`, `K=ℚ` retain
@@ -692,7 +692,7 @@ with `ind_Λ(ax)=a ind_Λ(x)`, zero exactly on torsion,
 and equal to `(a)` for `x↦a` in a rank-one torsion-free quotient.
 (**RUBIN-ES**, II §3, pp.26–28, Definition 3.1, p.28.)
 
-The adapter `restrictedSelmerDual=X∞=Hom_O(colim_F S_Σp(F,W*),Φ/O)`
+The adapter `X∞=Hom_O(colim_F S_Σp(F,W*),Φ/O)` (§8.3)
 uses restriction transitions and the contragredient action. Its §8.16
 sequence is
 `0→H¹_(Iw,s)(K_p,T)/loc^s H¹_Iw(K,T)→Hom_O(S(K∞,W*),Φ/O)→X∞→0`.
@@ -738,7 +738,7 @@ Consume CyclotomicClassGroupsAndStickelberger §§2.2–2.5's denominator
 ideal, integral image, Gauss descent and annihilation. On
 `G_m=(ℤ/mℤ)ˣ`, `m≥2`, the dictionary is
 `θ⁰_m=stickelberger(m)=Σ_a(a₀/m)[a⁻¹]`,
-`J_m=denominatorIdeal(m)={x∈ℤ[G_m] : xθ⁰_m∈ℤ[G_m]}` and
+`J_m={x∈ℤ[G_m] : xθ⁰_m∈ℤ[G_m]}` (the denominator ideal) and
 `I_m=stickelbergerIdeal(m)={xθ⁰_m : x∈J_m}`.
 Its §2.3 rational smoothing identity identifies the floor coefficients
 at `[a⁻¹]` with `(b−[b])θ⁰_m`, for `b` prime to `m`.
@@ -756,7 +756,7 @@ Its positive-smoothing consequence in §2.5 has product at `x` given by
 sends `ζ_m↦ζ_m`, hence `[a⁻¹]↦σ_(a⁻¹)`; no inverse class-group action
 or odd-conductor restriction is inserted. Section 0.29 proves the actual
 application adapter
-`(b−σ_b)(θ⁰_m−½N_m)=smoothedStickelberger(m,b)−((b−1)/2)N_m`
+`(b−σ_b)(θ⁰_m−½N_m)=s_(m,b)−((b−1)/2)N_m`
 for odd `b`, and then multiplies by the required `p`-Euler factor.
 (**SHARIFI-IWASAWA**, Lemma 4.5.4 and Theorem 4.5.6, pp.115–117.)
 
@@ -852,7 +852,7 @@ Its branch and coefficient maps and inverse exponential on the strict
 small disc are consumed with their hypotheses. On `ℚ_pˣ` the kernel
 is `p^ℤ×μ_(p−1)` for odd `p`, and `2^ℤ×{±1}` at 2; the
 algebraic-number kernel and independence statements remain supplied by
-IntegralIwasawaTheory §§4.1–4.2.
+IntegralIwasawaTheory §4.2.
 Its §3.7 `bernoulliQuotient_tendsto` gives, for `w_r=2(p−1)p^r`,
 `B_(w_r)→1−p⁻¹` and `(1−p^(w_r−1))B_(w_r)→1−p⁻¹`, together
 with the actual principal residue. Sections 4.10–4.11 use these supplied limits and estimates.
@@ -874,7 +874,7 @@ with the actual principal residue. Sections 4.10–4.11 use these supplied limit
 - `log₂(−1)=0` although `−1` is a nontrivial principal unit.
   The first two terms of `log₂ 3` cancel, giving valuation 2.
 
-*Needs:* DirichletPadicLFunctions §§0.6, 3.1–3.2, 3.4, 3.6–3.7; IntegralIwasawaTheory §§4.1–4.2, 5.0, 5.3, 6.3;
+*Needs:* DirichletPadicLFunctions §§0.6, 3.1–3.2, 3.4, 3.6–3.7; IntegralIwasawaTheory §§4.2, 5.0, 5.3, 6.3;
 PadicMeasuresIwasawaAlgebras §§1–3; native Dirichlet functions and
 finite Fourier sums; LocalFieldsRamification Layers 0–2.
 
@@ -1399,14 +1399,16 @@ See **RUBIN-ES**, Chapter III, §2.1, printed p. 34 (PDF p. 44). The theorem. **
 *Needs:* [§0.15](#015-ℚab-and-n--p-satisfy-the-euler-system-hypotheses); [§0.16](#016-kummer-classes-of-the-cyclotomic-numbers); [§0.9](#09-tower-relation-for-c̃); [§0.10](#010-auxiliary-prime-relation-for-c̃); [§0.13](#013-relations-for-the-real-cyclotomic-numbers); §F.3; §F.5.
 
 ### 0.18 `χ`-components
-Use the representation adapter to the shared character eigensubmodule.
+Define the character eigensubmodule as an intersection of Mathlib eigenspaces.
 
-Let `O` be a commutative ring, `Δ` any group, `M` an `O[Δ]`-module and `χ : Δ → O^×` a character. The adapter is `M^χ = {x ∈ M : δx = χ(δ)x for all δ ∈ Δ}`, an `O`-submodule. For a compact or discrete `ℤ_p[Δ]`-module `B`, take the eigensubmodule of `B ⊗_{ℤ_p} O` without completing `B` again. It identifies with `(B ⊗_{ℤ_p} O_{χ^{−1}})^Δ` after fixing a generator of `O_{χ^{−1}}`. For a multiplicative group requiring compact completion, display `B̂=lim_r B/B^{p^r}` explicitly and use `(B̂ ⊗_{ℤ_p} O)^χ`; for finitely generated `B`, `B̂=B⊗ℤ_p`. Rubin's Definition I.6.2 uses a double dual, which preserves an existing `ℤ_p`-module, rather than this inverse-limit completion on discrete divisible modules.
+Let `O` be a commutative ring, `Δ` any group, `M` an `O[Δ]`-module and `χ : Δ → O^×` a character. Define `M^χ = ⨅δ, Module.End.eigenspace (ρ δ) (χ δ)`, the `O`-submodule `{x ∈ M : δx = χ(δ)x for all δ ∈ Δ}`. For a compact or discrete `ℤ_p[Δ]`-module `B`, take the eigensubmodule of `B ⊗_{ℤ_p} O` without completing `B` again. It identifies with `(B ⊗_{ℤ_p} O_{χ^{−1}})^Δ` after fixing a generator of `O_{χ^{−1}}`. For a multiplicative group requiring compact completion, display `B̂=lim_r B/B^{p^r}` explicitly and use `(B̂ ⊗_{ℤ_p} O)^χ`; for finitely generated `B`, `B̂=B⊗ℤ_p`. Rubin's Definition I.6.2 uses a double dual, which preserves an existing `ℤ_p`-module, rather than this inverse-limit completion on discrete divisible modules.
 
-The carrier contract is CyclotomicClassGroupsAndStickelberger §0.2:
-`M^χ` is its character eigenspace for `ρ` and `χ`. The intersection-of-kernels comparison identifies both with
-`⨅δ, ker(ρ(δ) − χ(δ) • id)`; it needs neither a finite group nor
-invertible group order. PadicMeasuresIwasawaAlgebras §4.6 owns the
+By `Module.End.eigenspace_def`, `M^χ` is
+`⨅δ, ker(ρ(δ) − χ(δ) • id)`; this needs neither a finite group nor
+invertible group order. CyclotomicClassGroupsAndStickelberger §0.2's
+`cyclotomicClassEigenspace p r i` is the special case of odd `p`, the tame
+group `Δ_r` and `χ=ω^i` on its class-group carrier; the general `Δ`, `χ`
+and `O` used here lie outside that section and are not attributed to it. PadicMeasuresIwasawaAlgebras §4.6 owns the
 character idempotents, their projector ranges and the generic decomposition.
 For finite `Δ` with `|Δ|∈O^×`, the projector-range comparison
 identifies this carrier with the range of
@@ -1422,7 +1424,7 @@ The arithmetic bounds when `p` divides `|Δ|` use the character quotients of Lay
 
 Prove this as follows.
 
-1. Identify the representation adapter with the supplied intersection of kernels by `Submodule.ext` and `ker(ρ(δ)−χ(δ) • id)={x : ρ(δ)x=χ(δ)x}`.
+1. Identify `M^χ` with the intersection of kernels by `Module.End.eigenspace_def`, and with the set-builder description by `Module.End.mem_eigenspace_iff` and `Submodule.mem_iInf`. For odd `p`, `Δ=Δ_r` and `χ=ω^i`, compare it with CyclotomicClassGroupsAndStickelberger §0.2 by `Submodule.ext`.
 2. Compare coefficient extension and the displayed compact completion with Mathlib's invariants (`Representation.invariants`) of `ρ ⊗ χ^{−1}`. The discrete input remains uncompleted.
 3. For finite `Δ` of invertible order, identify the normalized sum of §0.19 with the supplied character projector. Read exactness through Mathlib's twisted averaging and the decomposition through the supplier API.
 
@@ -1439,7 +1441,7 @@ These interfaces are used in Rubin, Chapter III (3): `H¹(ℚ_n, T^*) ≅ ((L_n^
 
 **Checks.**
 
-- The equality with CyclotomicClassGroupsAndStickelberger §0.2's character eigenspace holds for an arbitrary group and a commutative coefficient ring, including the torsion-module case below.
+- For `p=5`, `O=M=ℤ_5` and `a∈(ℤ/5ℤ)^×` acting by `ω(a)³`: `M^(ω³)=M`, while `M^ω=0`, because `ω(2)³−ω(2)=−2ω(2)` is a unit (`ω(2)` is a primitive fourth root of unity). This is the tame case `Δ_1`, `χ=ω^i` that CyclotomicClassGroupsAndStickelberger §0.2 states; the convention `δx=χ(δ)⁻¹x` interchanges the two answers.
 - For finite `Δ` with invertible order, the equality is with the supplied `isotypicComponent` range. Without invertibility the normalized sum is undefined; the regular `𝔽_p[C_p]` boundary below still has its eigensubmodule.
 - For `χ = 1`, `M^χ` is Mathlib's `ρ.invariants`.
 - For the trivial action, if multiplication by `χ(δ)−1` is injective on `M` for some `δ`, then `M^χ=0`. In particular this holds for `M=O`, `O` a domain, and `χ(δ)≠1`.
@@ -1450,7 +1452,7 @@ These interfaces are used in Rubin, Chapter III (3): `H¹(ℚ_n, T^*) ≅ ((L_n^
 
 See **RUBIN-ES**, Chapter I, §6.2, Definition 6.2, printed p. 14 (PDF p. 24). The definition. **RUBIN-ES**, Chapter I, §6.2, printed p. 15 (PDF p. 25). The exactness and decomposition API.
 
-*Needs:* CyclotomicClassGroupsAndStickelberger §0.2 (the intersection-of-kernels character eigenspace); PadicMeasuresIwasawaAlgebras §4.6 (`isotypicComponent_spec`, character projectors and decomposition); `Representation.invariants`; `Representation.mem_invariants`; `Representation.averageMap`.
+*Needs:* `Module.End.eigenspace`; `Module.End.mem_eigenspace_iff`; `Module.End.eigenspace_def`; `Submodule.mem_iInf`; CyclotomicClassGroupsAndStickelberger §0.2 (the tame special case, for the comparison only); PadicMeasuresIwasawaAlgebras §4.6 (`isotypicComponent_spec`, character projectors and decomposition); `Representation.invariants`; `Representation.mem_invariants`; `Representation.averageMap`.
 
 ### 0.19 Twisted sums
 Define the unnormalised character sum `Sχ` by the following formula.
@@ -1729,8 +1731,8 @@ Use least nonnegative representatives a modulo `m` and arithmetic `σ_a(ζ_m)=ζ
 Prove this as follows. The unshifted statement is supplied by
 CyclotomicClassGroupsAndStickelberger §2.5 through §F.9; only the half-norm shift and the Euler factor are new here.
 
-1. Write `θ_m=θ⁰_m−½N_m`, with `θ⁰_m=Σ_a(a/m)σ_a⁻¹` the Stickelberger element of §F.9 (same group-ring convention `σ_a⁻¹=[a⁻¹]`) and `N_m=Σ_aσ_a`. Then `(b−σ_b)θ_m=s_{m,b}−((b−1)/2)N_m`, where `s_{m,b}=(b−[b])θ⁰_m` is the integral floor element of §F.9 (its rational smoothing identity). Since `b` is odd, `(b−1)/2` is an integer, so the shifted element is integral.
-2. `s_{m,b}` annihilates `Cl(ℚ(μ_m))` for `m≥2` and `b` prime to `m` (§F.9, positive-smoothing annihilation; its Gauss-sum descent is the smoothed Gauss descent of the same target). `N_m` annihilates `Cl(ℚ(μ_m))` because `N_m·[𝔞]` is the class of the extension of the ideal `N_{ℚ(μ_m)/ℚ}𝔞`, and `ℚ` has class number one; equivalently `N_m=(1+c)θ⁰_m` lies in the integral Stickelberger ideal (§F.9). For `m=1` the operator is zero.
+1. Write `θ_m=θ⁰_m−½N_m`, with `θ⁰_m=Σ_a(a/m)σ_a⁻¹` the Stickelberger element of §F.9 (same group-ring convention `σ_a⁻¹=[a⁻¹]`) and `N_m=Σ_aσ_a`. Then `(b−σ_b)θ_m=s_(m,b)−((b−1)/2)N_m`, where `s_(m,b)=(b−[b])θ⁰_m` is the integral floor element of §F.9 (its rational smoothing identity). Since `b` is odd, `(b−1)/2` is an integer, so the shifted element is integral.
+2. `s_(m,b)` annihilates `Cl(ℚ(μ_m))` for `m≥2` and `b` prime to `m` (§F.9, positive-smoothing annihilation; its Gauss-sum descent is the smoothed Gauss descent of the same target). `N_m` annihilates `Cl(ℚ(μ_m))` because `N_m·[𝔞]` is the class of the extension of the ideal `N_{ℚ(μ_m)/ℚ}𝔞`, and `ℚ` has class number one; equivalently `N_m=(1+c)θ⁰_m` lies in the integral Stickelberger ideal (§F.9). For `m=1` the operator is zero.
 3. Multiplication by the additional Euler factor `1−Fr_p⁻¹` preserves the annihilator property, and the `p`-primary projection is compatible with annihilation (§F.9).
 
 **Checks.**
@@ -2645,7 +2647,7 @@ Prove this as follows.
 - For odd `p`, `±1` disappears in the pro-`p` part; for `p = 2` it disappears only after `⊗ℚ_2`, which is why `V_χ` is used.
 - For a product ring `A₁×A₂`, the nonzero element (1,0) is not a free basis. Verify faithfulness on both factors; the Amice and normal-basis comparisons supply it here.
 - For `Δ=C₂`, `p=3` and `χ` the sign character, `V_χ(ℤ₃)=0` for the trivial action, whereas `V_χ(ℤ₃[C₂])=ℚ₃`. Keeping the whole rationalized regular module instead would give dimension 2.
-- Under step 3, `[1]−[2]` maps to `(1−X)−(1−X)²=X−X²`, with linear coefficient `+1`. The opposite coordinate `X↦−X` gives `−X−X²`, with linear coefficient `−1`.
+- For every prime `p`, including 2, `1+p∈ℤ_p^×=Γ′`, and under step 3 `[1]−[1+p]` maps to `(1−X)−(1−X)^(1+p)=pX−(p(p+1)/2)X²+…`, with linear coefficient `p`. The opposite coordinate `X↦−X` gives linear coefficient `−p`, and the inverse action `[a]↦(1−X)^(a⁻¹)` gives `(1+p)⁻¹−1=−p/(1+p)`. The element `[1]−[−1]` maps to `(1−X)−(1−X)⁻¹=−2X−X²−X³−…`; it fixes the coordinate sign but not the inverse action, since `−1` is its own inverse. At `p=2` the integer 2 is not in `ℤ_2^×`, so `[2]` is not an element of `ℤ_2[[Γ′]]`.
 
 See **GREITHER-1992**, §2, before Lemma 2.11, p. 463. Working over `ℚ_p`, one character at a time.
 
@@ -3088,7 +3090,7 @@ Greither takes `g` itself and asserts `g ∈ F`. In general `g` lies only in `D`
 
 Greither's `(G1)` and `μ_χ` carry an extra factor `m` and drop `b` from the exponent. `m` is odd, so this does not change any 2-adic order.
 
-Use the primitive odd character `η=χ⁻¹` with `η(2)=1` in §F.11. Its conductor-`log` correction vanishes. The nonvanishing proof below establishes the arithmetic Gauss-ideal projection and its logarithmic comparison here. It imports only the generic algebraic-coefficient Baker–Brumer theorem from IntegralIwasawaTheory §§4.1–4.2; it does not assume the nonvanishing of the exceptional derivative, which §F.11 leaves as an input.
+Use the primitive odd character `η=χ⁻¹` with `η(2)=1` in §F.11. Its conductor-`log` correction vanishes. The nonvanishing proof below establishes the arithmetic Gauss-ideal projection and its logarithmic comparison here. It imports only the generic algebraic-coefficient Baker–Brumer theorem from IntegralIwasawaTheory §4.2; it does not assume the nonvanishing of the exceptional derivative, which §F.11 leaves as an input.
 
 Prove this as follows.
 
@@ -3098,7 +3100,7 @@ Prove this as follows.
 4. Lemma 4.8 identifies the partial-zeta sum with `L′_2(0, χ̌)·(𝔭)_χ`: the interpolation identity holds at the dense sequence `s=1−n` with `n` positive and odd. Then `L′_2(0, χ̌)=log_2(u)G′_2(0, χ̌)`, and `log_2(u)` is associated to 4. The `p`-adic `L`-function is the canonical branch compared in §F.10; the displayed logarithm identity is a theorem about its derivative.
 5. Prove the nonvanishing of the Gauss-ideal projection. Put `U⁻=(ℚ⊗O_F[1/2]^×)^{j=−1}`, writing the multiplicative group additively. The minus valuation map `U⁻→ℚ[S]⁻`, for `S` the primes above 2, is an isomorphism: its kernel consists of minus global units and is torsion before rationalization, and its cokernel is a quotient of the finite ideal class group. The quotient `W` has the same rationalization, through `[u]↦`(`u−`ju)/2. In `E⊗U⁻`, where `E` is the number field generated by the values of `χ`, `(G1)` says that the actual vector `e_χ[g_F]` has nonzero valuation `B_{1,χ⁻¹}(𝔭)_χ`. Here `e_χ` is used only over `E`, and `B_{1,χ⁻¹}≠0` for primitive odd `χ`, because §F.10 expresses `L(1,χ)` as a nonzero multiple of `B_{1,χ⁻¹}` and `L(1,χ)≠0` (`DirichletCharacter.LFunction_apply_one_ne_zero`). Thus this vector is nonzero. No integral character quotient is asserted to be an eigenspace.
 6. Prove the rational injectivity of the minus-unit logarithm. Fix `ι`:`F`↪`ℚ₂` and a rational basis of `U⁻`. After clearing denominators, represent its elements by algebraic 2-units `y₁`,…,`yᵣ` with `yᵢ·j(yᵢ)=1`; representatives `u/j(u)` suffice. A rational relation between `log₂ι(yᵢ)`, after clearing denominators again, gives an actual algebraic 2-unit `y` with `log₂ι(y)=0`. The kernel of the normalized logarithm on `ℚ₂×` is `{±1}·2^ℤ`. Injectivity of `ι` implies `y=±2ᵏ` in `F`, and `yj(y)=1` forces `k=0`. Hence `y` is torsion and the original rational combination in `U⁻` is zero. The basis logs are therefore `ℚ`-linearly independent. This uses complete splitting, which makes the chosen completion exactly `ℚ₂`, and the minus condition; it would be false for all 2-units, since `log₂(2)=0`.
-7. Prove the nonvanishing of the Gauss-logarithm projection. First replace `yᵢ` by `2^(−v₂ι(yᵢ))yᵢ`, an algebraic local unit with the same normalized logarithm. Apply IntegralIwasawaTheory §§4.1–4.2 to these units with the common normalized logarithm, including `p=2`: `ℚ`-independent `p`-adic logarithms of algebraic numbers are independent over the algebraic numbers in the chosen `p`-adic closure. This is `bakerBrumer_algebraicNumbers` of IntegralIwasawaTheory §4.2, which that roadmap derives from the disc form `bakerBrumer_expDisc_linearIndependent` of its §4.1e (the same input as in the supplier contracts); it uses no main conjecture or exceptional derivative theorem. Thus the nonzero algebraic-coefficient vector `e_χ[g_F]` of step 5 has nonzero `ι`-`log`. Equivariance expands this scalar as a nonzero multiple of `Σ_δχ⁻¹(δ)log₂ι(g_F^δ)`, with exactly the inverse-index convention of `λ`. Consequently `λ_χ(g_F)≠0`; `(G2)` then implies `G′₂(0,χ̌)≠0`. This proves, in this application, the nonvanishing that §F.11 leaves as an input, rather than assuming it or a general `p`-adic Stark conjecture.
+7. Prove the nonvanishing of the Gauss-logarithm projection. First replace `yᵢ` by `2^(−v₂ι(yᵢ))yᵢ`, an algebraic local unit with the same normalized logarithm. Apply IntegralIwasawaTheory §4.2 to these units with the common normalized logarithm, including `p=2`: `ℚ`-independent `p`-adic logarithms of algebraic numbers are independent over the algebraic numbers in the chosen `p`-adic closure. This is `bakerBrumer_algebraicNumbers` of IntegralIwasawaTheory §4.2, stated there for every `p`, 2 included; it uses no main conjecture or exceptional derivative theorem. Thus the nonzero algebraic-coefficient vector `e_χ[g_F]` of step 5 has nonzero `ι`-`log`. Equivariance expands this scalar as a nonzero multiple of `Σ_δχ⁻¹(δ)log₂ι(g_F^δ)`, with exactly the inverse-index convention of `λ`. Consequently `λ_χ(g_F)≠0`; `(G2)` then implies `G′₂(0,χ̌)≠0`. This proves, in this application, the nonvanishing that §F.11 leaves as an input, rather than assuming it or a general `p`-adic Stark conjecture.
 8. The same conclusion has a direct proof that needs neither the minus condition nor complete splitting, from IntegralIwasawaTheory §4.2. For `u∈F^×` and a homomorphism `f`:`F^×→ℂ_2`, extended `ℚ̄`-linearly to `F^×⊗ℚ̄`, the `χ`-sum `Σ_δχ^{−1}(δ)f(u^δ)`, which is the shape of `μ_χ` (with `f=v_𝔭`) and of `λ_χ` (with `f=log_2∘ι_𝔭`) as in step 3, equals `|Δ|·f(e·u)`, where `e=|Δ|^{−1}Σ_δχ^{−1}(δ)δ` is the idempotent of `χ` over `ℚ̄`. Taking `f=v_𝔭` shows `e·g_F≠0`, as in step 5. Now take `f=log_2∘ι_𝔭`, Iwasawa's branch with `log_2(2)=0`, on the `ℚ`-span `V` of the conjugates of `g_F` in `F^×⊗ℚ`. By part `(a)` of that theorem its kernel on `V` is `K=V∩ℚ·[2]`, because an algebraic number with zero logarithm has a power equal to a root of unity times a power of 2; `K` is `Δ`-stable. By part `(b)`, the logarithms of a `ℚ`-basis of a complement of `K` are linearly independent over `ℚ̄`, so the kernel of the `ℚ̄`-linear extension of `f` to `V⊗ℚ̄` is `K⊗ℚ̄`. If `λ_χ(g_F)` were zero, `e·g_F` would lie in `K⊗ℚ̄⊆ℚ̄·[2]`, and applying `e` again would give `e·g_F∈ℚ̄·e[2]=0`, because 2 is `Δ`-invariant and `χ≠1`, a contradiction. Gross's Conjecture 1.15 is not used; this rank-one case needs only Baker–Brumer. Section 4.21 uses this form at odd `p`, with `log_p` and `p` in place of `log_2` and 2.
 
 The API consists of the following statements.
@@ -3140,9 +3142,9 @@ These interfaces are used in §4.19: the lines `λ_χ⟨g_F⟩` and `μ_χ⟨g_F
 - Dropping oddness loses the argument that `B₁` is nonzero; dropping complete splitting loses step 6's assertion that the local logarithm kernel is just `{±1}·2^ℤ`, although step 8 does not use it. Neither generalization is part of the target.
 - The nonvanishing argument needs a nonzero `χ`-valuation. For `u=2`, both `μ_χ(2)` and `λ_χ(2)` vanish, because 2 is `Δ`-invariant and `log_2(2)=0`; Baker–Brumer gives `λ_χ(u)≠0` only when `e·u≠0`, as for `g_F` by `(G1)`.
 
-See **GREITHER-1992**, §4, definitions before `(G1)`, p. 490. The definitions of `W`, `M`, `μ`, `λ`. **GREITHER-1992**, §4, the Gauss sum, p. 490. Greither's claim `g ∈ F`, corrected here. **GREITHER-1992**, §4, `(G2)`, p. 491. The derivation of `(G2)`. **GROSS-DASGUPTA-2022**, §2, pp.3–5, describes the valuation/logarithm regulator convention and the algebraic-coefficient case. The elementary and Baker–Brumer deductions in steps 5–8 prove the nonvanishing of the actual Gauss projection. The generic theorem is the `p`-adic Baker–Brumer input of IntegralIwasawaTheory §§4.1–4.2. DirichletPadicLFunctions §4.14 supplies the derivative identity through §F.11.
+See **GREITHER-1992**, §4, definitions before `(G1)`, p. 490. The definitions of `W`, `M`, `μ`, `λ`. **GREITHER-1992**, §4, the Gauss sum, p. 490. Greither's claim `g ∈ F`, corrected here. **GREITHER-1992**, §4, `(G2)`, p. 491. The derivation of `(G2)`. **GROSS-DASGUPTA-2022**, §2, pp.3–5, describes the valuation/logarithm regulator convention and the algebraic-coefficient case. The elementary and Baker–Brumer deductions in steps 5–8 prove the nonvanishing of the actual Gauss projection. The generic theorem is the `p`-adic Baker–Brumer input of IntegralIwasawaTheory §4.2. DirichletPadicLFunctions §4.14 supplies the derivative identity through §F.11.
 
-*Needs:* `TauCetiRoadmap.ClassicalArithmeticCompletion` §§1.47 and 1.55 (Stickelberger's relation); [§4.1](#41-greithers-χ-parts-including-the-case-p--δ); IntegralIwasawaTheory §6.3 `(L_2(s,χ̌)=G_2(u^s−1,χ̌))`; §F.10; §F.11; `DirichletCharacter.LFunction_apply_one_ne_zero`; IntegralIwasawaTheory §4.1e (`bakerBrumer_expDisc_linearIndependent`, generic Baker–Brumer input only) and §4.2 (`bakerBrumer_algebraicNumbers`, `algebraicLog_kernel`).
+*Needs:* `TauCetiRoadmap.ClassicalArithmeticCompletion` §§1.47 and 1.55 (Stickelberger's relation); [§4.1](#41-greithers-χ-parts-including-the-case-p--δ); IntegralIwasawaTheory §6.3 `(L_2(s,χ̌)=G_2(u^s−1,χ̌))`; §F.10; §F.11; `DirichletCharacter.LFunction_apply_one_ne_zero`; IntegralIwasawaTheory §4.2 (`bakerBrumer_algebraicNumbers`, `algebraicLog_kernel`).
 
 ### 4.19 The trivial-zero formula (Greither, Lemmas 4.9–4.10 and Theorem 4.6)
 Let `p = 2`, `F` an imaginary abelian field unramified at 2 with `Δ = Gal(F/ℚ) = Δ_2 × Δ_0`, `Δ_2` cyclic and `|Δ_0|` odd, `j` complex conjugation, `F_n` the layers of the cyclotomic `ℤ_2`-extension, `A_n = A_2(F_n)`, and `χ` an odd character of `Δ`, injective on `Δ`, with `χ(2) = 1` (so 2 splits completely in `F`) and `ξ = χ|Δ_0` nontrivial; `χ̌ = ωχ^{−1}` and `Λ_χ = ℤ_2(χ)[[T]]`. With `Z`, `Z^+`, `D_0` as in the trivial-zero reduction and `μ`, `λ` as in the Gauss-sum construction: (Lemma 4.9) `|coker(λ_χ: W′_χ → 4ℤ_2(χ))| = |(Z/im Z^+)_χ|`, where `W′_χ` is the 2-adic completion of `W_χ` modulo 2-torsion, of rank one over `ℤ_2(χ)`; (Lemma 4.10) `|coker μ_χ| = |(D_0/im D_0^+)_χ|`; and (Theorem 4.6) `|½G′_2(0, χ̌)|_2^{d(χ)}·|(Z/im Z^+)_ξ|^{−1}·|(D_0)_ξ|/|(D_0^+)_ξ| = |½B_{1,χ^{−1}}|_2^{d(χ)}`.
@@ -3484,7 +3486,7 @@ Proposition 3, p.222, supplies the base and the finite norm defect.
 Stickelberger factorization and the Ferrero–Greenberg logarithm formula
 used in step 10.
 
-*Needs:* [§4.14](#414-the-main-conjecture-for-all-p-with-the-one-half-normalisation-greither-theorem-32); [§4.1](#41-greithers-χ-parts-including-the-case-p--δ); [§4.15](#415-classes-of-the-primes-above-p-and-injectivity-of-e--e-greither-lemma-42-and-corollary-43); [§4.16](#416-the-trivial-zero-reduction-when-χ2--1-greither-lemma-44-proposition-45-and-); [§4.17](#417-zz-as-a-quotient-of-2-adic-semilocal-units-greither-proposition-47); [§4.18](#418-the-gauss-sum-2-unit-with-its-valuation-and-logarithm-vectors-greither-g1-g2-and-lemma-48) (the minus-unit/Baker–Brumer argument, with odd `p`); [§4.19](#419-the-trivial-zero-formula-greither-lemmas-49410-and-theorem-46); [§4.20](#420-the-2-adic-relative-class-group-lower-bound-greither-theorem-41); IntegralIwasawaTheory §3.5 (Chevalley's ambiguous-class formula for cyclic extensions); IntegralIwasawaTheory §§2.4, 2.7 (discrete class limits and their duals); IntegralIwasawaTheory §3.2 (inertia control); `TauCetiRoadmap.ClassFieldTheory Layer 13` (cyclic Hasse norm theorem); IntegralIwasawaTheory §§4.1–4.2 (generic Baker–Brumer input); IntegralIwasawaTheory §4.2; IntegralIwasawaTheory §6.3; `TauCetiRoadmap.ClassicalArithmeticCompletion` §§1.47 and 1.55 (Stickelberger's relation); §F.11; IntegralIwasawaTheory §10.4 (`arithmeticCharacter_eulerQuotient`).
+*Needs:* [§4.14](#414-the-main-conjecture-for-all-p-with-the-one-half-normalisation-greither-theorem-32); [§4.1](#41-greithers-χ-parts-including-the-case-p--δ); [§4.15](#415-classes-of-the-primes-above-p-and-injectivity-of-e--e-greither-lemma-42-and-corollary-43); [§4.16](#416-the-trivial-zero-reduction-when-χ2--1-greither-lemma-44-proposition-45-and-); [§4.17](#417-zz-as-a-quotient-of-2-adic-semilocal-units-greither-proposition-47); [§4.18](#418-the-gauss-sum-2-unit-with-its-valuation-and-logarithm-vectors-greither-g1-g2-and-lemma-48) (the minus-unit/Baker–Brumer argument, with odd `p`); [§4.19](#419-the-trivial-zero-formula-greither-lemmas-49410-and-theorem-46); [§4.20](#420-the-2-adic-relative-class-group-lower-bound-greither-theorem-41); IntegralIwasawaTheory §3.5 (Chevalley's ambiguous-class formula for cyclic extensions); IntegralIwasawaTheory §§2.4, 2.7 (discrete class limits and their duals); IntegralIwasawaTheory §3.2 (inertia control); `TauCetiRoadmap.ClassFieldTheory Layer 13` (cyclic Hasse norm theorem); IntegralIwasawaTheory §4.2 (generic Baker–Brumer input); IntegralIwasawaTheory §6.3; `TauCetiRoadmap.ClassicalArithmeticCompletion` §§1.47 and 1.55 (Stickelberger's relation); §F.11; IntegralIwasawaTheory §10.4 (`arithmeticCharacter_eulerQuotient`).
 
 ### 4.22 The Iwasawa–Leopoldt conjecture at `p = 2` (Greither, Theorem `A`)
 Let `F/ℚ` be an imaginary abelian field unramified at 2 with Galois group `Δ = Δ_2 × Δ_0`, `Δ_2` cyclic and `|Δ_0|` odd. For every odd 2-adic character `χ` of `Δ` that is not of 2-power order (that is, `χ|Δ_0 ≠ ε`), `|A_2(F)^−_χ| = |½B_{1,χ^{−1}}|_2^{d(χ)}`, where `A_2(F)^− = {x ∈ A_2(F): x^j = −x}`, `d(χ)=[ℚ₂(χ):ℚ₂]` and `|a|₂=2^{v₂(a)}`, with `v₂(2)=1`. This valuation can be fractional when `ℤ₂(χ)` is ramified. For the single odd character `χ_2` of 2-power order (up to `ℚ_2`-conjugacy), with `L` the fixed field of `Δ_0`, `|A_2(F)_{χ_2}| = |A_2(L)^−| = 2·|½B_{1,χ_2^{−1}}|_2^{d(χ_2)}·k_L`, where `k_L = |ker(A_2(L^+) → A_2(L))| = 1`. Consequently `(1 − e_ε)A_2(F)^−` is annihilated by `½` times the images in `(1 − e_ε)ℤ_2[Δ]/(1 + j)` of the Stickelberger elements of `F`, which sharpens Stickelberger's theorem at 2.
