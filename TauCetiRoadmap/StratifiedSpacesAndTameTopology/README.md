@@ -60,8 +60,8 @@ Thom's first isotopy lemma, with its embedded form for a map proper and stratumw
 closed Whitney-stratified subset (Mather, Proposition 11.1), and the controlled vector fields it is
 built on are owned here (5.4–5.5). AlgebraicTopologyPartII 16.2 states the equivariant form for
 an involution, for a closed Whitney-stratified subset with invariant control data taken as given;
-it consumes 5.1, 5.4 and 5.5 and adds averaging of controlled lifts and equivariance of the
-trivialization, so 5.5 is not a duplicate of it. The collar theorem for manifolds with boundary
+it consumes 1.3, 5.1 and 5.4 and rebuilds the trivialization from averaged controlled lifts, so
+5.5 is not a duplicate of it. The collar theorem for manifolds with boundary
 and the tubular neighbourhood theorem are GeometricTopology Layer 1.
 
 **Out of scope.** Constructible sheaves on stratified spaces, exit-path ∞-categories and
@@ -1173,8 +1173,10 @@ Layer 4 (o-minimal structures, both parts of the cell decomposition theorem, pie
 and dimension with its independence, bijection-invariance, union and frontier laws) for the
 structure `ℝ_an,exp`, and proves the product, projection and fibre-dimension laws there;
 ImplicitAtlases Layer 6.1 stratifies each thickening over a finite poset with the sets `X^{≥s}`
-open, which is a stratification in the sense of 1.1; AlgebraicTopologyPartII 16.2 consumes 5.1,
-5.4 and 5.5 and extends the last to an involution.
+open, which is a stratification in the sense of 1.1; AlgebraicTopologyPartII 16.2 consumes 1.3
+(the frontier condition on open subsets), 5.1 (control data and their restriction to open
+subsets) and 5.4 (controlled lifts and their local flows), and proves from them the equivariant
+form of 5.5 for an involution.
 
 ## References
 
