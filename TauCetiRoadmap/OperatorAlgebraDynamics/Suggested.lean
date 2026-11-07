@@ -46,8 +46,9 @@ Not statable at the pins, with the carrier each lacks:
 - the reduced crossed product `A ⋊_{α,r} G` as an algebra, its exactness theory, and the
   universal property of `A ⋊_α G` for nondegenerate covariant homomorphisms into multiplier
   algebras: no reduced crossed-product carrier, and no extension of nondegenerate homomorphisms
-  to multiplier algebras (the Hilbert-space form of the universal property, the recovery of the
-  pair, is stated);
+  into the multiplier algebra of a C*-algebra `B` (the Hilbert-space extension is Tau Ceti's
+  `NonUnitalStarAlgHom.multiplierExtension`, and the Hilbert-space form of the universal
+  property, the recovery of the pair, is stated);
 - `A ⋊_id G ≅ A ⊗_max C*(G)`, the coefficient-tensor identification, nuclearity and exactness
   of crossed products, and Takai duality `(A ⋊_α G) ⋊_α̂ Ĝ ≅ A ⊗ K(L²(G))`: no C*-tensor
   product and no dual action on the full crossed product;

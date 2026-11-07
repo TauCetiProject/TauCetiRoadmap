@@ -112,11 +112,11 @@ It leaves to named roadmaps:
 - The von Neumann crossed products `M⋊̄G` themselves, with the regular–normal
   bridge: VonNeumannAlgebras V8 (discrete G, and the regular construction on
   `L²(G,H)` for a normal action) and V11 (second-countable G).
-  Tomita–Takesaki modular theory, the modular
+  Tomita–Takesaki modular theory with the natural cone, and the modular
   characterization `σ^ω_t=τ̄_(−βt)` of a KMS state on its GNS von Neumann
-  algebra with its converse and support qualification, and Araki's bounded
-  perturbations of faithful normal states: VonNeumannAlgebras V10; nothing
-  below has them as a prerequisite.
+  algebra with its converse and support qualification: VonNeumannAlgebras
+  V10. D7 consumes them only to build Araki's bounded perturbations `Ω^Q`
+  of faithful normal states, which are owned here (D7) and applied by D9.
 - Hilbert C*-modules beyond Mathlib's `CStarModule`: the C*-algebra `L_A(E)`
   of adjointable maps and the compact module operators `K_A(E)`, the
   interior tensor product `E⊗_φF` of two modules with its induced operators
@@ -250,6 +250,18 @@ positive characters: `f̂(χ)=∫ f(g)χ(g) dμ(g)` and
 - From Tau Ceti, at the pin, consumed as stated and not restated here (all
   files under `TauCeti/Analysis/CStarAlgebra/` unless another path is
   given):
+  - Nondegenerate representations (`Representation/Nondegenerate.lean`):
+    `NonUnitalStarAlgHom.IsNondegenerate`, density of the span of the
+    vectors `π(a)ξ`; the extension
+    `NonUnitalStarAlgHom.multiplierExtension` of a nondegenerate
+    representation π of a possibly nonunital A on a Hilbert space H to a
+    unital *-homomorphism `𝓜(ℂ,A)→B(H)`, restricting to π on A
+    (`NonUnitalStarAlgHom.multiplierExtension_coe`) and characterized by
+    `π̃(m)π(a)=π(ma)` and `π(a)π̃(m)=π(am)`; its uniqueness among
+    multiplicative maps extending π
+    (`NonUnitalStarAlgHom.eq_multiplierExtension_of_apply_coe`); and the
+    strong limit `π(m e)ξ→π̃(m)ξ` along an increasing approximate unit e
+    of A (`NonUnitalStarAlgHom.tendsto_multiplierExtension_apply`).
   - Actions (`Action/Basic.lean`, `Action/Equivariant.lean`,
     `Action/Hom.lean`, `Action/Quotient.lean`, `Action/Multiplier.lean`):
     `TauCeti.CStarAction`, an action with norm-continuous orbits on a
@@ -502,8 +514,10 @@ approximate unit of the ideal that is quasicentral in A (C1.4); and the multipli
 its strict topology, the essential-ideal universal property of A in
 `M(A)`, joint strict continuity of multiplication on bounded sets, and the
 unique strictly continuous unital extension `M(A)→M(B)` of a nondegenerate
-*-homomorphism `A→M(B)`, in particular of a nondegenerate representation
-`A→B(H)=M(K(H))` (C1.7).
+*-homomorphism `A→M(B)` into the multiplier algebra of a C*-algebra B
+(C1.7). The Hilbert-space case, the extension of a nondegenerate
+representation `A→B(H)` to `M(A)`, is Tau Ceti's
+`NonUnitalStarAlgHom.multiplierExtension` and is not part of this gap.
 
 What CStarAlgebras must provide (gap:cstar-representations): extension of
 states from a unital C*-subalgebra (C2.1); cyclic and irreducible
@@ -601,17 +615,26 @@ Prove that the integrated form of a covariant pair on a Hilbert space of
 any size is bounded by the norm of `A⋊_αG`, so that the universe of the
 indexing family in Tau Ceti's definition is immaterial: such a pair is a
 Hilbert direct sum of cyclic pairs, each on a space spanned by
-`(π⋊U)(C_c(G,A))ξ` and hence of size at most that of `C_c(G,A)`. Extend
-nondegenerate representations of A to `M(A)` and relate strict continuity of
-multiplier unitaries to strong continuity in nondegenerate Hilbert-space
-representations (`gap:cstar-ideals-multipliers`). Recover the pair: every
+`(π⋊U)(C_c(G,A))ξ` and hence of size at most that of `C_c(G,A)`. The
+extension of a nondegenerate representation π of A on a Hilbert space to
+`M(A)` is Tau Ceti's `NonUnitalStarAlgHom.multiplierExtension`, the unital
+*-homomorphism `π̃:M(A)→B(H)` restricting to π and the only multiplicative
+map that does (`NonUnitalStarAlgHom.eq_multiplierExtension_of_apply_coe`),
+with `π(m e_λ)ξ→π̃(m)ξ` along an increasing approximate unit `(e_λ)` of A
+(`NonUnitalStarAlgHom.tendsto_multiplierExtension_apply`). Prove that π̃
+sends a strictly continuous unitary multiplier map `s↦u_s` into `M(A)` to
+a strongly continuous unitary representation of G, from `π̃(u_s)π(a)=π(u_sa)`
+and the density of `π(A)H`. The extension of a nondegenerate *-homomorphism
+into `M(B)` for a C*-algebra B, with the strict topology, is
+`gap:cstar-ideals-multipliers`. Recover the pair: every
 nondegenerate representation L of `A⋊_αG` on a Hilbert space is the
 extended integrated form
 `TauCeti.CStarAction.CovariantRepresentation.integratedFull` of a covariant
 pair with nondegenerate coefficient representation
 (`exists_covariantRepresentation_integratedFull`; Williams, Proposition
-2.40, p. 59). A route: extend L to `M(A⋊_αG)` and compose it with Tau
-Ceti's canonical multipliers
+2.40, p. 59). A route: extend L to `M(A⋊_αG)` by
+`NonUnitalStarAlgHom.multiplierExtension` and compose it with Tau Ceti's
+canonical multipliers
 `TauCeti.CStarAction.FullCrossedProduct.coefficientMultiplier` and
 `TauCeti.CStarAction.FullCrossedProduct.groupMultiplier`; uniqueness is
 `TauCeti.CStarAction.CovariantRepresentation.ext_integratedOperator`. Prove
@@ -680,8 +703,10 @@ proving that the two universal properties induce inverse maps.
   first map is an isomorphism.
 
 *Needs:* BanachAlgebras A7 (vector integration, Haar modular identities,
-localized Fubini); `gap:cstar-ideals-multipliers` (multiplier extensions
-and the strict topology); `gap:cstar-tensor-limits` (the maximal tensor
+localized Fubini); Tau Ceti `NonUnitalStarAlgHom.multiplierExtension`
+(the Hilbert-space multiplier extension); `gap:cstar-ideals-multipliers`
+(extensions into `M(B)` and the strict topology); `gap:cstar-tensor-limits`
+(the maximal tensor
 product and the universal algebra on unitaries); Tau Ceti as in the
 supplier contract (actions, the convolution algebra, covariant pairs,
 `TauCeti.CStarAction.FullCrossedProduct` and its canonical multipliers and
@@ -861,7 +886,7 @@ U_s π(a) U_s*=π(α_s(a)),
 U_s U_t=π̃(ω(s,t)) U_(st).
 ```
 
-Here π̃ is the multiplier extension of `gap:cstar-ideals-multipliers`; U is not a genuine representation
+Here π̃ is Tau Ceti's `NonUnitalStarAlgHom.multiplierExtension` of π; U is not a genuine representation
 unless the represented cocycle is trivial. Construct the integrated form
 by the vector integral `T_fξ=∫π(f(s))U_sξ dμ(s)` and prove
 `‖T_f‖≤‖f‖₁` (`exists_centralIntegratedOperator`), multiplicativity and
@@ -1423,7 +1448,8 @@ no claim of middle exactness for arbitrary G is made. Reuse D2's actual
 P₁/P₂ construction, proving the twisted absorption unitary and its
 integrated estimates before concluding q is an isomorphism for amenable
 G. Prove the nuclear-coefficient and exact-coefficient consequences under
-this amenability hypothesis, using C6/C7 and the reduced tensor comparison
+this amenability hypothesis, using `gap:cstar-nuclear-exact` and the
+reduced tensor comparison
 `(A⋊_(α,ω),r G)⊗min D≃(A⊗min D)⋊_(α⊗id,ω⊗1),r G`.
 Construct the induced multiplier cocycle ω⊗1 by the nondegenerate
 coefficient tensor map, including nonunital D; prove the tensor norm and
@@ -1459,9 +1485,10 @@ At ω=1 prove that these identifications recover the entire ordinary
 D1–D2 construction and every map/expectation/norm/amenability/tensor result
 above. No von Neumann crossed product, twisted or untwisted, is a
 prerequisite for this C* theory.
-The dependency order is C1/A7/D1.Modules → D1.CentralTwists →
-D2.CentralTwists. The scalar Borel route is A7/C1 → D1.BorelPrefix →
-D1.TwistedBorel. The all-weight decomposition and its type-I applications
+The dependency order is `gap:cstar-ideals-multipliers`/A7/D1.Modules →
+D1.CentralTwists → D2.CentralTwists. The scalar Borel route is
+A7/`gap:cstar-ideals-multipliers` → D1.BorelPrefix → D1.TwistedBorel.
+The all-weight decomposition and its type-I applications
 are NoncompactQuantumSymmetry M2's, built there on the extension `E_ω` of
 D1.BorelPrefix and the fibres of D1.TwistedBorel; nothing in D1 depends
 on them or on von Neumann crossed-product duality.
@@ -1666,8 +1693,10 @@ Construct the nonzero unital quotient
 Give its quotient maps on f and U and prove the kernel assertion.
 Every nonzero irreducible representation of R is either the faithful
 standard representation or an irreducible representation of Q pulled
-back through the quotient. Prove this by restriction to the compact ideal
-and unique nondegenerate multiplier extension, with equivalence and kernel
+back through the quotient. Prove this by restriction to the compact ideal,
+whose nonzero restriction is nondegenerate and extends uniquely by Tau
+Ceti's `NonUnitalStarAlgHom.multiplierExtension` through the embedding
+`R→M(K(H))` of `gap:cstar-ideals-multipliers`, with equivalence and kernel
 comparisons. Every nonzero closed ideal of R contains K(H); hence the
 closed ideals are 0 and the inverse images of the closed ideals of Q.
 Identify `Prim(R)={η}⊔Prim(Q)`, η=0, with opens ∅ and
@@ -2096,8 +2125,9 @@ the Fourier isomorphism applied to Ĝ composed with the Pontryagin duality
 theorem of VonNeumannAlgebras V11. With `α_s(f)(t)=f(s⁻¹t)`, prove the equivalence between
 nondegenerate covariant pairs `(π,U)` for `(C₀(G),G,α)` and pairs of
 strongly continuous unitary representations U of G and V of its dual
-satisfying `U_s V_χ U_s*=conjugate(χ(s)) V_χ`. Extend π to multipliers and
-set `V_χ=π̃(t↦χ(t))`. Conversely integrate V to C*(Ĝ), use its Fourier
+satisfying `U_s V_χ U_s*=conjugate(χ(s)) V_χ`. Extend π to multipliers by
+Tau Ceti's `NonUnitalStarAlgHom.multiplierExtension` and set
+`V_χ=π̃(t↦χ(t))`. Conversely integrate V to C*(Ĝ), use its Fourier
 isomorphism with C₀(G) sending the canonical multiplier at χ to
 `t↦χ(t)`, and prove nondegeneracy, covariance and both inverse laws.
 The integrated Fourier formula is V11's positive-character transform on
@@ -2162,9 +2192,9 @@ second real-case proof is given here.
 
 *Needs:* D3 (`C₀(G)⋊G≅K(L²G)` with its integral kernels); D4.Harmonic
 (the dual group and `C*(Ĝ)≅C₀(G)`); the Pontryagin duality theorem and the
-dual Haar measure of VonNeumannAlgebras V11; Tau Ceti's integrated forms;
-`gap:cstar-ideals-multipliers` (multiplier extensions) and
-`gap:cstar-representations` (the representation theory of compact
+dual Haar measure of VonNeumannAlgebras V11; Tau Ceti's integrated forms
+and `NonUnitalStarAlgHom.multiplierExtension` (the extension of π to
+multipliers); `gap:cstar-representations` (the representation theory of compact
 operators); Mathlib `PontryaginDual`, `Lp`, `lp` and
 `LinearIsometryEquiv`; Tau Ceti `ContRepresentation.IsUnitary`.
 
@@ -2387,7 +2417,8 @@ reduction and transport theorems of VonNeumannAlgebras V4.0.Decomposition.
 
 For a nondegenerate representation L of C*(G) on separable H, put X=G⁰
 and let `ρ_L(h)=L̃(m(h))` for h∈C₀(G⁰), where m is the nondegenerate
-unit-space multiplier map constructed above and L̃ is L's multiplier extension.
+unit-space multiplier map constructed above and L̃ is L's multiplier extension
+(Tau Ceti's `NonUnitalStarAlgHom.multiplierExtension`).
 Prove ρ_L is nondegenerate: choose compactly supported unit-space cutoffs
 h_i with `0≤h_i≤1`, eventually equal to 1 on each prescribed compact subset
 of X. For f∈C_c(G), the compact sets r(supp f) and s(supp f) give
@@ -2484,7 +2515,9 @@ integrals, the decomposable-operator criterion, the reduction over a given
 diagonal and the transport theorem); SelfAdjointSpectralTheory SA-B79 and
 SA-B85 (the diagonal `C₀(G⁰)` model
 and the transport of spectral projections); D1–D2 (integrated forms, the
-group case); `gap:cstar-ideals-multipliers` (multiplier extensions) and
+group case); Tau Ceti `NonUnitalStarAlgHom.multiplierExtension` (the
+extension L̃) with `gap:cstar-ideals-multipliers` (the strict topology of
+`M(C*(G))`) and
 `gap:cstar-representations` (representations of compact operators); Mathlib standard Borel spaces and Bochner integration.
 
 ### Examples
@@ -2867,10 +2900,41 @@ and its β-KMS state is the Gibbs state of `K+P`
 (`Matrix.IsHermitian.isKMSState_perturbed_iff_eq_gibbsState`), with density
 proportional to `exp(−βK−βP)`. So the perturbation of the state that
 corresponds to adding the energy P is `Q=−βP`, and removing an energy W, as
-D9 does with the surface energy, is `P=−W` with `Q=βW`. Araki's bounded
-perturbations `Ω^Q=exp((log Δ_ω+Q)/2)Ω` of faithful normal states, their
-normalization, cocycle formula, inverse law and modular characterization,
-which reproduce this sign, are VonNeumannAlgebras V10's.
+D9 does with the surface energy, is `P=−W` with `Q=βW`.
+
+Build Araki's bounded perturbations of faithful normal states on the
+standard form of VonNeumannAlgebras V10.ModularTheory. Let M be a von
+Neumann algebra with a cyclic separating vector Ω, modular operator `Δ_Ω`,
+modular conjugation J and natural cone `P_Ω`, and let `Q=Q*∈M`. Prove
+that Ω lies in the domain of `exp(z(log Δ_Ω+Q))` for `0≤Re z≤1/2`, and
+define the perturbed vector `Ω^Q=exp((log Δ_Ω+Q)/2)Ω` as its value at
+`z=1/2`, given by the norm-convergent expansion whose n-th term is the
+iterated integral of `Δ_Ω^(s_n)QΔ_Ω^(s_(n−1))Q⋯Δ_Ω^(s_1)QΩ` over the
+simplex `s_i≥0`, `s_1+⋯+s_n≤1/2` (Araki, Relative Hamiltonian,
+Propositions 4.1 and 4.12). Prove that `Ω^Q` lies in `P_Ω`, that
+`‖Ω^Q‖≤exp(‖Q‖/2)‖Ω‖`, and that `Ω^Q` depends strongly continuously on
+Q (Araki, Proposition 4.1); that `Ω^Q` is cyclic and separating
+(Bratteli–Robinson 2, Theorem 5.4.4, cited by locator); the inverse law
+`(Ω^Q)^(−Q)=Ω` and the chain rule `(Ω^Q)^(Q')=Ω^(Q+Q')` (Araki,
+Proposition 4.5); and that Q is determined by the vector `Ω^Q` (Araki,
+Proposition 4.6). Prove the modular characterization
+`log Δ_(Ω^Q)=log Δ_Ω+Q−JQJ`, and that the modular group of the vector
+state of `Ω^Q` is `Ad(u_t)∘σ^Ω_t` for the norm-convergent Dyson cocycle
+`u_t=exp(it(log Δ_Ω+Q))exp(−it log Δ_Ω)∈M` (Araki, Propositions 4.3 and
+4.8). Write `ω^Q` for the normalized vector state of `Ω^Q`, a faithful
+normal state of M.
+
+Apply this to KMS states: for a β-KMS state ω of a unital (A,τ) with
+β≠0, whose GNS vector `Ω_ω` is separating for `M=π_ω(A)''` by Tau Ceti,
+and for `P=P*∈A`, put `Q=−βπ_ω(P)` and prove that `ω^Q` restricted to A
+is a β-KMS state of the perturbed dynamics `τ^P`: by the modular
+characterization of VonNeumannAlgebras V10.KMS the modular group of ω̄ is
+`τ̄_(−βt)`, so the modular group of `ω^Q` is `Ad(u_t)∘τ̄_(−βt)=τ̄^P_(−βt)`,
+`u_t` being the cocycle of Tau Ceti's `TauCeti.CStarAction.perturbed` for
+P at time −βt; the converse of V10.KMS then gives the strip condition for
+`τ̄^P` on M, and `TauCeti.CStarAction.IsKMSState.restrict` restricts it to
+A (Bratteli–Robinson 2, Theorem 5.4.4, cited by locator). This is the
+perturbation that D9 applies with `Q=βπ_ω(W_Φ(Λ))`, that is `P=−W_Φ(Λ)`.
 
 **Checks.**
 
@@ -2899,6 +2963,17 @@ which reproduce this sign, are VonNeumannAlgebras V10's.
   `K−P=diag(0,2)` with weights proportional to `(1,exp(−2β))`, is not a
   trace. In Araki's form, `Q=−βP=β diag(0,1)` turns the Gibbs weights
   `(1,exp(−β))` of K into `(1,exp(−β)exp(β))=(1,1)`, the trace again.
+- The perturbed vector in finite dimensions: on the GNS space of the Gibbs
+  state of K on `M_n(ℂ)`, with `⟨a,b⟩=Tr(a*b)`, `Ω=ρ^(1/2)`,
+  `ρ=exp(−βK)/Z_K`, M acting by left multiplication and `Jx=x*`, one has
+  `log Δ_Ω=L(−βK)−R(−βK)` for the left and right multiplications L and R, so
+  for `Q=−βP` the perturbed vector is `Ω^Q=exp(−β(K+P)/2)/√Z_K` and `ω^Q`
+  is the Gibbs state of `K+P`, the β-KMS state of `τ^P`; its norm satisfies
+  `‖Ω^Q‖²=Z_(K+P)/Z_K≤exp(β‖P‖)=exp(‖Q‖)`, and
+  `log Δ_(Ω^Q)=L(−β(K+P))−R(−β(K+P))=log Δ_Ω+Q−JQJ` because `JQJ=R(Q)`.
+  The opposite sign `Q=βP` gives the Gibbs state of `K−P`: for
+  `K=diag(0,1)` and `P=−diag(0,1)` that is the Gibbs state of `diag(0,2)`,
+  not the trace that `τ^P=id` requires.
 - Tensor products: for Gibbs states of `K₁` on `M_m(ℂ)` and `K₂` on
   `M_n(ℂ)` the product state has density proportional to
   `exp(−βK₁)⊗exp(−βK₂)=exp(−β(K₁⊗1+1⊗K₂))`, the Gibbs state of the
@@ -2939,8 +3014,10 @@ SelfAdjointSpectralTheory Part B as listed; D5.Fields;
 `gap:cstar-representations` and `gap:cstar-tensor-limits`; Mathlib
 `DifferentiableOn`, `Bornology.IsBounded`, `PositiveLinearMap`,
 `PositiveLinearMap.GNS`, `VonNeumannAlgebra` and `ContinuousLinearMapWOT`.
-The modular characterization on M is VonNeumannAlgebras V10's, as Scope
-and ownership records, and is consumed by nothing here.
+VonNeumannAlgebras V10.ModularTheory (the standard form
+`(M,Ω,Δ_Ω,J,P_Ω)` of a cyclic separating vector) and V10.KMS (the modular
+characterization on M with its converse) are consumed by the bounded
+perturbations `Ω^Q` only.
 
 ## D8. CAR, Weyl algebras, and free equilibrium states
 
@@ -3410,11 +3487,20 @@ of a positive-definite matrix through the Hermitian functional calculus).
   second edition: §§5.2–5.3 for CAR/CCR, analytic elements, KMS and ground
   states; Theorem 5.3.30 for the simplex; Volume 1, Lemma 4.1.19, Definition 4.1.20, Proposition 4.1.22 and
   Theorem 4.1.25 for orthogonal measures and their commutant correspondence;
-  Theorem 5.4.4 for the sign of bounded perturbations checked in finite
-  dimensions; Theorem 6.2.4,
+  Theorem 5.4.4 for the perturbed vectors `Ω^Q`, their cyclic separating
+  property and the perturbation of KMS states, whose sign is checked in
+  finite dimensions; Theorem 6.2.4,
   Definition 6.2.16 and Theorem 6.2.18 for spin dynamics and Gibbs/KMS;
   Theorems 6.2.40 and 6.2.42 for pressure and the variational principle;
   Proposition 6.2.45 for high-temperature uniqueness.
+- Huzihiro Araki, *Relative Hamiltonian for faithful normal states of a
+  von Neumann algebra*, Publ. RIMS Kyoto Univ. 9 (1973), 165–209,
+  [doi:10.2977/prims/1195192744](https://doi.org/10.2977/prims/1195192744):
+  Propositions 4.1 and 4.12 (the perturbed vector and its expansion, cone
+  membership, norm bound and continuity), 4.3 (the Dyson cocycle and the
+  modular group), 4.5 (inverse and chain laws), 4.6 (uniqueness of the
+  relative Hamiltonian) and 4.8 (the modular operator of the perturbed
+  vector); Araki's `Ψ(h)` is `Ω^h`.
 - Pierre de la Harpe, *On simplicity of reduced C*-algebras of groups*,
   arXiv:math/0509450: Definition 9 (p. 7), Corollary 12 (p. 8), Theorem 14
   with its proof (pp. 10–11) and the Dixmier-property remark (p. 19), for
