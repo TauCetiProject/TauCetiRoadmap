@@ -65,13 +65,16 @@ and this roadmap's quadratic, Wu and filling theorems. No FourManifolds
 construction is a supplier to this roadmap; StringOrientation supplies the
 sections named above and consumes nothing from here.
 
-B1.6 owns the parametric transversality theorem, the smoothing of continuous
-maps relative to a closed set (`exists_contMDiff_homotopicRel` for compact
-targets) and relative transversality. Sources are manifolds with corners,
-boundaryless ones included. B1.6 consumes nothing from AlgebraicTopology.
-AlgebraicTopology's smoothing of classifying maps into Circle, RP^N and CP^N
-and its transverse preimages of the hyperplanes (Layer 8) are the boundaryless
-compact-target case and consume B1.6. B1.5 owns smooth triangulations of
+B1.6 owns the Sard theorem on manifolds with corners in unequal dimensions
+and, for sources that are manifolds with corners, the parametric
+transversality theorem, the smoothing of continuous maps into compact
+boundaryless targets relative to a closed set
+(`exists_contMDiff_homotopicRel`), facewise relative transversality and the
+reduction of non-compact targets through doubles. For boundaryless sources
+the smoothing, parametric and relative transversality theorems are
+AlgebraicTopology 8.13's; B1.6 consumes them, and its statements differ
+from them only in the source class (corners, facewise). AlgebraicTopology
+consumes nothing from B1.6. B1.5 owns smooth triangulations of
 compact manifolds with boundary, and of compact manifolds with corners with a
 chosen union of faces, in which the boundary or those faces form a
 subcomplex. CalibratedGeometry 2.4 consumes them and adds its vertex orders,
@@ -141,6 +144,24 @@ Use `TauCeti.IsOrientedAtlas` and
 `TauCeti/Geometry/Manifold/Orientation/OrientedAtlas.lean` for the chosen orientation in
 `orientedThreeManifold_parallelization`: the atlas covers the manifold,
 lies in its maximal smooth atlas, and has positive transition determinants.
+Use `TauCeti.IsNullSet` from `TauCeti/Geometry/Manifold/Measure.lean`, the
+chartwise null sets of a manifold (null in every extended chart for every
+additive Haar measure on the model), with `TauCeti.IsNullSet.biUnion` and
+`TauCeti.IsNullSet.dense_compl`, and `TauCeti.IsRegularPoint` from
+`TauCeti/Geometry/Manifold/RegularValue.lean`, surjectivity of `mfderiv` at
+a point, as the carriers of B1.6's Sard theorem. Its flat input is the
+Morse–Sard theorem `TauCeti.addHaar_image_criticalPoints_eq_zero` from
+`TauCeti/Analysis/Calculus/Sard/OutermostStratum.lean`: for a map between
+finite-dimensional real normed spaces E and F of any two dimensions, of
+class C^k at every point of a set U with k ≥ (dim E)²+1, the image of the
+points of U where the Fréchet derivative is not surjective is null for
+every additive Haar measure on F. The manifold Sard theorems at the pin do
+not cover B1.6's uses: `TauCeti.isNullSet_image_criticalPoints` and
+`TauCeti.dense_isRegularValue` from
+`TauCeti/Geometry/Manifold/Sard/EqualDimension.lean` assume models of equal
+dimension, and `ContMDiff.isMeagre_image_criticalPoints` from
+`TauCeti/Geometry/Manifold/Sard/Meagre.lean` concludes meagreness, not
+nullity, for boundaryless manifolds.
 The orientation and closed-subgroup declarations in the contracts below
 retain their native hypotheses and chosen smooth structures.
 
@@ -148,8 +169,8 @@ retain their native hypotheses and chosen smooth structures.
 
 | Supplier | Consumed interface | Boundary |
 | --- | --- | --- |
-| [AlgebraicTopology](../AlgebraicTopology/README.md), Layers2–4,6,8 | arbitrary CW skeleta/cofibrations, ordinary chains/cochains/products, relative fundamental classes and duality, EM carriers and representability | B4 owns the integral higher diagonals and generic ordinary mod2 cup-i/Sq/Adem/Wu package; ordinary cohomology carriers remain AT |
-| [DifferentialGeometry](../DifferentialGeometry/README.md), 2.1, 2.2, 5.5, 10.2 | 2.1's manifold orientation `Manifold.Orientation` (the quotient of `OrientationLift`, a model orientation with locally constant chart signs obeying the transition-Jacobian rule); 2.2's orientation-preserving maps, product orientations and the oriented-atlas criterion for boundaryless manifolds; 5.5's face-indexed abstract boundary of a manifold with corners; 10.2's manifold Sard theorem `dense_isRegularValue` | B1.1 owns the comparisons of this one orientation with cycle and witness records, frames, local homology, half-space and corner atlases in dimension at least2, and the point sign σ; B1.6 derives transversality from 10.2 |
+| [AlgebraicTopology](../AlgebraicTopology/README.md), Layers2–4,6,8 and 8.13 | arbitrary CW skeleta/cofibrations, ordinary chains/cochains/products, relative fundamental classes and duality, EM carriers and representability; 8.13's smoothing of continuous maps into a compact boundaryless manifold relative to a closed set, parametric transversality and relative transversality, for boundaryless sigma-compact Hausdorff second-countable sources | B4 owns the integral higher diagonals and generic ordinary mod2 cup-i/Sq/Adem/Wu package; ordinary cohomology carriers remain AT; B1.6 owns the Sard theorem in unequal dimensions and the extension of 8.13's three theorems to sources with corners, facewise |
+| [DifferentialGeometry](../DifferentialGeometry/README.md), 2.1, 2.2, 5.5b | 2.1's manifold orientation `Manifold.Orientation` (the quotient of `OrientationLift`, a model orientation with locally constant chart signs obeying the transition-Jacobian rule); 2.2's orientation-preserving maps, product orientations and the oriented-atlas criterion for boundaryless manifolds; 5.5b's smooth face structure and face-indexed abstract boundary of a manifold with corners | B1.1 owns the comparisons of this one orientation with cycle and witness records, frames, local homology, half-space and corner atlases in dimension at least2, and the point sign σ; B1.6 owns the Sard theorem in unequal dimensions and derives its transversality theorems from it |
 | [GeometricTopology](../GeometricTopology/README.md), Layer1, Layer4.3.1, Layer11 and item1 of the smoothing-and-triangulation comparison | finite nonsingular-F₂ quadratic Arf algebra (Layer4.3.1, declared below as gap:finite-quadratic-arf); collar neighbourhoods, gluing along a codimension-zero piece of the boundary, handle attachment and tubular neighbourhoods with their normal bundles (Layer1); the CW structure on the realization `|K|` of a simplicial complex, one cell per simplex (Layer11); Whitehead's smooth triangulation of a smooth manifold (item1) | B1.6 owns neat embeddings, relative/parametric transversality with relative Whitney approximation, corner rounding, compact neighbourhoods, doubles; B1.5 owns the relative boundary triangulation |
 | [SmoothBundlesConnections](../SmoothBundlesConnections/README.md), B1.4 | free proper smooth quotients, their principal projections and submersion uniqueness, homogeneous spaces and native discrete quotient comparison | B1.5 only adapts their tangent and structure data to cycles |
 | StringOrientation S1.3, S1.5, S2.2, S2.3, S5.3 | S1.3's existence criterion and H³-torsor of String lifts; S1.5's Cayley plane OP² (trace-one idempotents of the exceptional Jordan algebra), F₄ with its transitive action and Spin(9) isotropy, the cells, H*(OP²;ℤ)=ℤ[u]/(u³), p₂=6u, p₄=39u², the Euler class 3u², signature 1, the unique Spin structure and String lift class, and p(HP²)=1+2u+7u²; S2.2's isomorphism Ω^θ_n≅π_nMθ for every G5 bundle diagram θ, natural and multiplicative; S2.3's Ω^fr_n≅π_nS and π₃S≅ℤ/24 with generator ν; S5.3's equivalence MSpin[1/2]≃MSO[1/2] | B5 owns the finite-rank bijections, the theories over spaces and pairs and the comparison of their point specializations with S2.2–S2.3; B4.8 owns the odd-primary Adams and comodule-algebra refinement; Layer 9 owns the carrier identification, charts, Clifford module, sign witness and the HP^k Pontryagin formula |
@@ -242,8 +263,9 @@ suppliers do not state. Each is a smooth statement on finite-dimensional
 real, Hausdorff, second-countable manifolds with corners in Mathlib's
 sense. The orientation carrier and its chart signs, the oriented-atlas
 criterion and face-indexed corners are DifferentialGeometry 2.1, 2.2 and
-5.5; manifold Sard is DifferentialGeometry 10.2's `dense_isRegularValue`;
-collars, gluing along a piece of the boundary, handle attachment and
+5.5b; manifold Sard in equal dimensions is Tau Ceti's
+`TauCeti.dense_isRegularValue`, and its unequal-dimension form is a target
+of this item; collars, gluing along a piece of the boundary, handle attachment and
 tubular neighbourhoods are GeometricTopology Layer1; the CW structure on
 `|K|` is GeometricTopology Layer11 and Whitehead's smooth triangulation
 is item1 of GeometricTopology's smoothing-and-triangulation comparison.
@@ -268,24 +290,56 @@ This item owns the following.
   derivative identifies the endpoint stabilized normal bundles. For neat
   embeddings keep the common nonnegative collar coordinate fixed and
   rotate only the remaining Euclidean coordinates.
-- **Transversality.** From DifferentialGeometry 10.2's manifold Sard
-  theorem prove the parametric transversality theorem: if F:M×S→N is
-  smooth, with S and N without boundary (S an open subset of a
+- **Sard in unequal dimensions.** For a smooth map f:M→N between
+  manifolds with corners over finite-dimensional real models, with M
+  Lindelöf (second-countable in particular) and no relation between the
+  two dimensions, prove that the image of the critical set of f, the
+  points where `mfderiv` is not surjective (the negation of
+  `TauCeti.IsRegularPoint`), is `TauCeti.IsNullSet` in N, so that by
+  `TauCeti.IsNullSet.dense_compl` the regular values of f are dense (Lee,
+  Theorem 6.10, p.129, for manifolds with or without boundary). Route: a
+  point of a face stratum of M (DifferentialGeometry 5.5b) that is
+  critical for f is critical for the restriction of f to that stratum,
+  since the derivative of the restriction is `mfderiv` composed with the
+  inclusion of the stratum's tangent space; each stratum is a boundaryless
+  Lindelöf manifold and there are countably many, so it suffices to treat
+  a boundaryless M. There, read f in pairs of charts, apply the flat
+  `TauCeti.addHaar_image_criticalPoints_eq_zero` to the chart image of the
+  critical set (its order hypothesis holds for C^∞), and take the
+  countable union over a chart subcover with `TauCeti.IsNullSet.biUnion`,
+  as `TauCeti.isNullSet_image_criticalPoints` does from its equal-dimension
+  flat input. The pinned manifold theorems do not give this:
+  `TauCeti.isNullSet_image_criticalPoints` and
+  `TauCeti.dense_isRegularValue` require `finrank ℝ E = finrank ℝ E'`, and
+  `ContMDiff.isMeagre_image_criticalPoints` concludes meagreness only.
+- **Transversality.** For boundaryless sources the three theorems of this
+  bullet are AlgebraicTopology 8.13's (parametric transversality, Lee,
+  Theorem 6.35; smoothing into compact manifolds, Lee, Theorem 6.26;
+  relative transversality, Lee, Theorem 6.36), consumed here; this item
+  states them for sources with corners, facewise, by the same route. From
+  this item's Sard theorem prove the parametric transversality theorem: if
+  F:M×S→N is smooth, with S and N without boundary (S an open subset of a
   finite-dimensional real vector space in particular), and the restriction
   of F to (open face stratum)×S is transverse to a closed embedded
   submanifold Z⊂N for every stratum of M, the interior included, then the
   s∈S for which F(−,s) fails to be transverse to Z on some stratum form a
-  null set in DifferentialGeometry 10.2's sense (`IsNullSet`), so the good
-  parameters are dense. On each stratum the bad parameters are the critical
-  values of the projection to S of the embedded submanifold F⁻¹(Z), null by
-  10.2's `isNullSet_image_criticalPoints`, and there are countably many
-  strata (Lee, Theorem 6.35, pp.145–146, for the boundaryless theorem).
+  `TauCeti.IsNullSet` in S, so the good parameters are dense. On each
+  stratum the bad parameters are the critical values of the projection to
+  S of the embedded submanifold F⁻¹(Z)∩(stratum×S), null by this item's
+  Sard theorem; that projection has source dimension
+  dim(stratum)+dim S−codim Z, equal to dim S only when
+  dim(stratum)=codim Z, so the pinned equal-dimension
+  `TauCeti.isNullSet_image_criticalPoints` does not apply to it; there are
+  countably many strata (Lee, Theorem 6.35, pp.145–146, for the
+  boundaryless theorem).
   Prove relative smoothing for a compact boundaryless Hausdorff target P:
   for a Hausdorff sigma-compact manifold with corners M, a closed
   C⊆M, an open U⊇C and a continuous f:M→P smooth on U, f is homotopic
   rel C, by an arbitrarily small homotopy, to a smooth g
   (`exists_contMDiff_homotopicRel`; Lee, Theorem 6.26, p.141, for sources
-  with boundary; DifferentialGeometry 8.3 uses only the simplex case). Route: embed P in a Euclidean space V by
+  with boundary; for boundaryless M this is AlgebraicTopology 8.13's
+  smoothing theorem, and the statement here differs from it only in
+  admitting corners and dropping second countability). Route: embed P in a Euclidean space V by
   `exists_embedding_euclidean_of_compact`; GeometricTopology Layer1's
   tubular neighbourhood of the image gives an open W⊇P and a smooth
   submersive retraction r:W→P, its bundle projection; choose a continuous
@@ -294,7 +348,8 @@ This item owns the following.
   model with corners, gives a smooth g̃:M→V within ε of f and equal to f
   on C; put g=r∘g̃, with homotopy t↦r((1−t)f+tg̃) along the segments.
   Deduce relative transversality for the same M, P, C and U and a closed
-  embedded Z⊂P: a continuous f:M→P, smooth on U, whose restriction to
+  embedded Z⊂P (AlgebraicTopology 8.13's relative transversality when M
+  is boundaryless): a continuous f:M→P, smooth on U, whose restriction to
   every face stratum is transverse to Z on U is homotopic rel C, by an
   arbitrarily small homotopy, to a smooth g transverse to Z on every face
   stratum. First smooth f rel a closed neighbourhood of C inside U. With
@@ -315,21 +370,23 @@ This item owns the following.
   every time; any face required to stay fixed in its entirety is included
   in C and must already satisfy this facewise transversality condition.
   This relative facewise theorem extends Lee’s Theorem 6.36,
-  pp.146–147. Transverse preimages are neat submanifolds with normal
+  pp.146–147, and AlgebraicTopology 8.13's relative transversality, to
+  sources with corners. Transverse preimages are neat submanifolds with normal
   bundle the pulled-back normal bundle of Z.
 - **Corner rounding.** For manifolds with boundary M and N construct a
   smooth structure with boundary on M×N, and on a gluing along part of a
   boundary, by rounding the codimension-two corner in polar coordinates
   of a product collar; prove independence of the rounding up to
   diffeomorphism fixed away from a collar of the corner, its comparison
-  with DifferentialGeometry 5.5's faces, and compatibility with
+  with DifferentialGeometry 5.5b's faces, and compatibility with
   orientations, Spin and normal structures and maps to X.
 - **Neighbourhoods and doubles.** For a compact subset K of a
   Hausdorff second-countable smooth manifold M without boundary,
   construct a compact smooth codimension-zero submanifold with boundary
-  containing K in its interior: take a regular value c, by
-  DifferentialGeometry 10.2, of a smooth proper exhaustion function f
-  with c above the maximum of f on K, and use f⁻¹((−∞,c]). For a
+  containing K in its interior: take a regular value c of a smooth
+  proper exhaustion function f:M→ℝ, dense by this item's Sard theorem
+  (source dimension dim M, target dimension 1), with c above the maximum
+  of f on K, and use f⁻¹((−∞,c]). For a
   compact M with collared boundary construct its double as
   GeometricTopology Layer1's full-boundary gluing of M and its reversal
   along the collar, with the reflection, the inclusion of M and the
@@ -342,6 +399,10 @@ Its API includes:
 
 **Checks.**
 
+- For f:ℝ→ℝ², t↦(t,0), every point is critical and the image, a line, is null in ℝ²; the equal-dimension theorem does not apply to it. For the projection ℝ²→ℝ there is no critical point and the image ℝ is not null: the theorem bounds the critical values only.
+- For M a point and f:M→ℝ² the critical set is M and its image is one point, null; this is the parametric theorem with S=N=ℝ², Z={0} and F(pt,s)=s, whose bad parameters are {0}, and no theorem assuming equal model dimensions applies to a map from a 0-manifold to ℝ².
+- For the proper exhaustion f(x)=|x|² on ℝⁿ with n≥2 the critical set is {0}, the only critical value is 0, and every c>0 is regular with f⁻¹((−∞,c]) the closed ball; the one-dimensional target excludes the equal-dimension theorem when n≠1.
+- On M=[0,∞) with f(t)=t² into ℝ the boundary point 0 is critical for f and for the restriction of f to the stratum {0}; with f(t)=t the boundary point is regular for f (derivative 1) but critical for that restriction, so the inclusion of the critical set of f into the union of the critical sets of the stratum restrictions holds, and its converse fails.
 - The function t↦t has a regular zero with derivative 1; t↦t² at 0 has derivative 0 and is not a transverse model.
 - On M=[0,1], C={0}, Z={0}⊂ℝ, f(t)=t has ambient derivative 1 but derivative of rank 0 on the fixed endpoint face: no homotopy rel C can make that face transverse. The map f(t)=1+t misses Z on that face and satisfies the fixed-face condition.
 - With C=M a smooth f is returned unchanged. For M=P the unit circle in ℂ, with W=ℂ∖{0} and r(z)=z/|z|, smoothing the constant map gives a map of degree 0, never the identity; the approximation g̃ alone leaves the circle, which is why r is applied.
@@ -350,7 +411,7 @@ Its API includes:
 - The double of [0,1] is S¹; the double of the empty manifold is empty.
 - For a compact interval K in ℝ an exhaustion sublevel with larger radius contains K in its interior; equality at the endpoint radius fails this interior condition.
 
-*Needs:* Mathlib `exists_embedding_euclidean_of_compact` and `Continuous.exists_contMDiff_approx_and_eqOn`; DifferentialGeometry §§5.5 and 10.2; GeometricTopology Layer 1 collars, gluing and tubes. No AlgebraicTopology input.
+*Needs:* Mathlib `exists_embedding_euclidean_of_compact` and `Continuous.exists_contMDiff_approx_and_eqOn`; Tau Ceti `TauCeti.addHaar_image_criticalPoints_eq_zero`, `TauCeti.IsNullSet` and `TauCeti.IsRegularPoint`; DifferentialGeometry §5.5b; GeometricTopology Layer 1 collars, gluing and tubes; AlgebraicTopology 8.13 for boundaryless sources.
 
 ### 2.2 Model transport and structures (B1.1)
 
@@ -362,7 +423,7 @@ orientation and Spin bundles under the same adapter. Closed sources use
 the boundaryless E_n model; n-dimensional relative sources use the native
 Euclidean half-space model of dimension n (n>0), and bordism witnesses
 use `modelWithCornersEuclideanHalfSpace (n+1)`. Face-indexed corner
-models come from DifferentialGeometry 5.5's abstract boundary and B1.6's
+models come from DifferentialGeometry 5.5b's abstract boundary and B1.6's
 corner rounding.
 Dimension0 has empty boundary and no half-space-of-dimension0 model.
 Construct O/SO/Spin cycles over X and compatible ξ-normal cycles. Reuse
@@ -434,7 +495,7 @@ Its API includes:
 - The positive interval has endpoint signs (−1,+1), with total 0; two positive signs would violate the boundary rule.
 - Swapping two oriented one-dimensional factors has determinant −1; swapping a zero-dimensional factor has determinant +1.
 
-*Needs:* B1.6 corner models; DifferentialGeometry §§2.1–2.2 and 5.5; SpinGeometry G4–G5.0; GeneralizedCohomology G5 bundle diagrams.
+*Needs:* B1.6 corner models; DifferentialGeometry §§2.1–2.2 and 5.5b; SpinGeometry G4–G5.0; GeneralizedCohomology G5 bundle diagrams.
 
 ### 2.3 Quotient and bundle adapters (B1.5)
 
@@ -533,7 +594,7 @@ Its API includes:
 - For ([0,1],{0,1}), the relative interval has boundary [1]−[0], not zero in H₀({0,1}).
 - For X=A every relative class becomes zero; forgetting the free face would leave an incorrect absolute class.
 
-*Needs:* B1.1–B1.2; DifferentialGeometry §5.5; GeneralizedCohomology G5 structure maps.
+*Needs:* B1.1–B1.2; DifferentialGeometry §5.5b; GeneralizedCohomology G5 structure maps.
 
 ### 2.6 Small representatives (B1.4)
 
@@ -625,7 +686,7 @@ Signed points, collared intervals, the Hopf quotient, the Fermat quartic and the
 
 ### Dependencies
 
-DifferentialGeometry §§2.1–2.2, 5.5, 10.2; GeometricTopology Layer 1, Layer 11 and smoothing item 1; SmoothBundlesConnections B1.4; SpinGeometry G4; AffineMorseLefschetz A0, A5–A6; ComplexKahlerGeometry K7.1.
+DifferentialGeometry §§2.1–2.2 and 5.5b; Tau Ceti `TauCeti.addHaar_image_criticalPoints_eq_zero`; AlgebraicTopology 8.13; GeometricTopology Layer 1, Layer 11 and smoothing item 1; SmoothBundlesConnections B1.4; SpinGeometry G4; AffineMorseLefschetz A0, A5–A6; ComplexKahlerGeometry K7.1.
 
 ## Layer 3: geometric bordism as a homology theory
 
@@ -1425,6 +1486,13 @@ the spectral one through item4's isomorphism. Give E2=H_p(X,A;Ω_q),
 naturality, coefficient monodromy where present, differentials and
 convergence; finite total degree gives finite filtration for connective
 coefficients. Do not infer collapse from an additive coefficient list.
+The absolute spectral sequence of a homology theory on a CW complex X,
+with E2=H_p(X;h_q(point)), its convergence for finite-dimensional X and
+its naturality in X are Hatcher, *Spectral Sequences*, Chapter 1, §1.1,
+General Homology Theories and Naturality, pp.18–19; the form on a CW
+pair, the finite-total-degree convergence for connective coefficients on
+an arbitrary CW pair and the comparison with the geometric filtration are
+the targets owned here.
 
 Its API includes:
 
@@ -2693,11 +2761,12 @@ StringOrientation and EllipticCohomology precede this roadmap and consume
 nothing from it. PositiveScalarCurvature consumes the associated-family transfer,
 point KO-kernel, homogeneous tangent and HP^k Pontryagin calculations for its
 metric and surgery results. CalibratedGeometry 2.4 consumes B1.5's relative
-triangulations. AlgebraicTopology Layer 8 consumes B1.6's smoothing and
-transversality for its classifying maps into Circle, RP^N and CP^N. These
-consumers provide no prerequisite of the targets above, except that
-AlgebraicTopology's other layers supply B2–B6; no B1.6 statement uses
-AlgebraicTopology.
+triangulations. AlgebraicTopology consumes nothing from B1.6: its 8.13
+owns the boundaryless-source smoothing and transversality that its
+classifying maps into Circle, RP^N and CP^N use, and B1.6 consumes 8.13
+for that case. These consumers provide no prerequisite of the targets
+above, except that AlgebraicTopology supplies B1.6's boundaryless case
+and B2–B6.
 
 ## References
 
@@ -2708,8 +2777,12 @@ AlgebraicTopology.
 - C. T. C. Wall, *Determination of the Cobordism Ring*, Annals of Math.
   72(1960),292–311, [primary paper](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/cobord.pdf).
 - J. M. Lee, *Introduction to Smooth Manifolds*, 2nd ed., Springer GTM218,
-  2013, Chapter 6 for Whitney approximation and parametric transversality,
-  and Theorems 21.10 and 21.13 for the quotient manifold theorem.
+  2013, Chapter 6 for Sard's theorem, Whitney approximation and parametric
+  transversality, and Theorems 21.10 and 21.13 for the quotient manifold theorem.
+- A. Hatcher, *Spectral Sequences*, Chapter 1,
+  [author's page](https://pi.math.cornell.edu/~hatcher/SSAT/SSch1.pdf),
+  §1.1, pp.18–19, for the Atiyah–Hirzebruch spectral sequence of a homology
+  theory, its finite-dimensional convergence and its naturality.
 - J. Munkres, *Elementary Differential Topology*, rev. ed., Annals of Math.
   Studies 54, Princeton, 1966, Chapter II, Definition 8.3 and Theorem 10.6,
   pp.80–81 and 104, for smooth triangulations and their extension from the

@@ -1,12 +1,17 @@
-import Mathlib
-import TauCeti.Geometry.Manifold.Orientation.OrientedAtlas
+module
+
+public import Mathlib
+public import TauCeti.Geometry.Manifold.Orientation.OrientedAtlas
 
 /-!
 # Tangential bordism: target signatures
 
 The roadmap is `README.md`; this file is not the roadmap. It states, against the pinned
-Mathlib and Tau Ceti, relative smoothing of continuous maps into compact boundaryless
-manifolds (Layer 2, B1.6) and smooth oriented three-manifold parallelization (Layer 8, B3.1).
+Mathlib and Tau Ceti, relative smoothing of continuous maps from manifolds with corners into
+compact boundaryless manifolds (Layer 2, B1.6) and smooth oriented three-manifold
+parallelization (Layer 8, B3.1). For boundaryless sources the smoothing statement is
+AlgebraicTopology 8.13's theorem, which this roadmap consumes; the statement here is over an
+arbitrary model with corners, and the corner-source case is what this roadmap proves.
 The finite quadratic Arf algebra consumed by Layer 1 is a declared supplier gap of
 GeometricTopology (gap:finite-quadratic-arf) and is not stated here.
 Parallelization uses native tangent bundles and a chosen native oriented atlas.
@@ -30,6 +35,8 @@ The other headline theorems are not statable at the pins:
 - the Cayley-plane theorems (B3.6–B3.9): the compact Albert algebra is not at the pins.
 -/
 
+public section
+
 namespace TauCetiRoadmap.TangentialBordism
 
 open scoped Manifold ContDiff
@@ -38,7 +45,9 @@ open scoped Manifold ContDiff
 
 /-- Relative smoothing (B1.6): a continuous map from a Hausdorff sigma-compact manifold with
 corners to a compact boundaryless Hausdorff manifold, smooth on an open neighbourhood of a
-closed set `C`, is homotopic relative to `C` to a smooth map. -/
+closed set `C`, is homotopic relative to `C` to a smooth map. When `I` is boundaryless this
+is AlgebraicTopology 8.13's smoothing theorem, consumed and not re-proved; the roadmap proves
+the case of a source with corners (Lee, Theorem 6.26, for sources with boundary). -/
 theorem exists_contMDiff_homotopicRel
     {E H M : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
     [TopologicalSpace H] (I : ModelWithCorners ℝ E H)
@@ -83,3 +92,5 @@ theorem orientedThreeManifold_parallelization
   sorry
 
 end TauCetiRoadmap.TangentialBordism
+
+end
