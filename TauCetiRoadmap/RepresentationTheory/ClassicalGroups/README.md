@@ -132,8 +132,8 @@ similitude roadmap.
   and `Matrix.GeneralLinearGroup.toLin : GL n R ≃* LinearMap.GeneralLinearGroup R (n → R)`;
   `Matrix.SpecialLinearGroup (Fin n) R` (notation `SL(n, R)`, `LinearAlgebra/Matrix/SpecialLinearGroup.lean`)
   with `Matrix.SpecialLinearGroup.toGL`; `Matrix.symplecticGroup l R` (a `Submonoid` of
-  `Matrix (l ⊕ l) (l ⊕ l) R`, with `Matrix.J`, `symplecticGroup.symJ`, `symplectic_det`,
-  `LinearAlgebra/SymplecticGroup.lean`); `Matrix.orthogonalGroup n R` and `Matrix.unitaryGroup n α`
+  `Matrix (l ⊕ l) (l ⊕ l) R`, with `Matrix.J`, `SymplecticGroup.symJ`, `SymplecticGroup.symplectic_det`,
+  `LinearAlgebra/SymplecticGroup.lean:59,102,133,149`); `Matrix.orthogonalGroup n R` and `Matrix.unitaryGroup n α`
   (`LinearAlgebra/UnitaryGroup.lean`, with `Matrix.UnitaryGroup.embeddingGL`).
 - **Representations.** `Representation k G V = G →* (V →ₗ[k] V)` (`RepresentationTheory/Basic.lean`) with the
   functorial constructions `Representation.tprod` (`V ⊗ W`), `Representation.dual` (`Module.Dual`),
@@ -146,8 +146,10 @@ similitude roadmap.
   (`RepresentationTheory/Character.lean`).
 - **Tensor, exterior, symmetric powers.** `TensorPower R d M = ⨂[R]^d M` (`LinearAlgebra/TensorPower/Basic.lean`);
   `exteriorPower R k M = ⋀[R]^k M` as a `Submodule (ExteriorAlgebra R M)` with `exteriorPower.ιMulti`,
-  `exteriorPower.map`, and a basis `exteriorPower.basis` on the `k`-subsets of a basis
-  (`LinearAlgebra/ExteriorAlgebra/Basic.lean`, `LinearAlgebra/ExteriorPower/{Basic,Basis}.lean`);
+  `exteriorPower.map`, and the basis `Module.Basis.exteriorPower` indexed by the `k`-element subsets
+  (`Set.powersetCard`) of the linearly ordered index type of a basis
+  (`LinearAlgebra/ExteriorAlgebra/Basic.lean`, `LinearAlgebra/ExteriorPower/Basic.lean`,
+  `LinearAlgebra/ExteriorPower/Basis.lean:95`);
   `SymmetricPower R ι M = Sym[R] ι M`, notation `Sym[R]^k M = Sym[R] (Fin k) M`, with `SymmetricPower.mk`,
   `SymmetricPower.tprod` (`LinearAlgebra/TensorPower/Symmetric.lean`); and `SymmetricAlgebra R M` with
   `IsSymmetricAlgebra` (`LinearAlgebra/SymmetricAlgebra/{Basic,Basis}.lean`).
@@ -160,8 +162,11 @@ similitude roadmap.
   `MvPolynomial.IsSymmetric`, `MvPolynomial.symmetricSubalgebra`; the fundamental theorem
   `MvPolynomial.esymmAlgEquiv` (`RingTheory/MvPolynomial/Symmetric/FundamentalTheorem.lean`); Newton's
   identities (`RingTheory/MvPolynomial/Symmetric/NewtonIdentities.lean`).
-- **Root systems and Lie weights (the abstract skeleton).** `RootPairing`, `RootSystem`, `RootPairing.Base`,
-  `RootPairing.cartanMatrix`, `RootPairing.weylGroup` (`LinearAlgebra/RootSystem/*`); `LieModule.Weight`,
+- **Root systems and Lie weights (the abstract skeleton).** `RootPairing` and the root-system class
+  `RootPairing.IsRootSystem` (`LinearAlgebra/RootSystem/Defs.lean:81,120`), `RootPairing.Base`
+  (`LinearAlgebra/RootSystem/Base.lean:68`), the integer Cartan matrix of a base of a crystallographic
+  root pairing `RootPairing.Base.cartanMatrix` (`LinearAlgebra/RootSystem/CartanMatrix.lean:107`), and
+  `RootPairing.weylGroup` (`LinearAlgebra/RootSystem/WeylGroup.lean:55`); `LieModule.Weight`,
   `LieModule.genWeightSpace`, `LieModule.IsTriangularizable`, and `LieAlgebra.IsKilling.rootSystem` (the root
   system of a Lie algebra, `Algebra/Lie/Weights/*`). This roadmap consumes these as the *abstract* target
   of its weight theory, together with the native Tau Ceti root and Lie declarations listed
@@ -177,7 +182,9 @@ similitude roadmap.
   and the consecutive-coordinate volume, of norm 1. The remaining targets
   are its SO equivariance, square and highest-wedge eigenspace comparison.
 - **Linear-algebra glue.** `Matrix.diagonal`, `Matrix.mulVec`, `Module.Dual`, `Matrix.toLin`,
-  `Module.finrank`, `Basis.tensorPower`/`Basis.exteriorPower` where available.
+  `Module.finrank`, and the product basis of a tensor product of finitely many free modules
+  `Basis.piTensorProduct` (`LinearAlgebra/PiTensorProduct/Basis.lean:36`), which applied to `d`
+  copies of a basis of `V` indexed by `Fin n` is a basis of `⨂[ℂ]^d V` indexed by `Fin d → Fin n`.
 
 ### From Tau Ceti
 
@@ -243,8 +250,9 @@ coefficients); the closed dominant chamber `TauCeti.dominantChamber`
 (`TauCeti/LinearAlgebra/RootSystem/Chamber.lean:137`, ordered coefficients); and the
 oriented Cartan-type predicate `TauCeti.HasCartanType`
 (`TauCeti/LinearAlgebra/RootSystem/DynkinType.lean:416`, for a crystallographic root
-pairing): the Cartan matrix of `b` agrees with the standard Cartan matrix of the named
-type after one simultaneous relabelling of rows and columns, without transposition, so
+pairing): the Cartan matrix `b.cartanMatrix` of `b` (Mathlib `RootPairing.Base.cartanMatrix`)
+agrees with the standard Cartan matrix of the named type after one simultaneous
+relabelling of rows and columns, without transposition, so
 that B and C are distinguished from rank 3 on while B₂ and C₂ coincide (the native
 validity predicate on types excludes C₂, and the valid ranks are A≥1, B≥2, C≥3, D≥4).
 
