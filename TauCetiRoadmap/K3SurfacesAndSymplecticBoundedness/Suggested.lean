@@ -123,15 +123,15 @@ theorem IsK3.noVectorFields (k : Type u) [Field k] {X : Scheme.{u}}
 
 /-- The coherent Hodge numbers of a K3 surface in every characteristic are
 1 at (0,0), (2,0), (0,2), (2,2), 20 at (1,1), and zero elsewhere;
-all these cohomology spaces are finite-dimensional. Deligne, Proposition 1.1,
-pp.59–60; Huybrechts, Chapter 1, Remark 2.5. -/
+all these cohomology spaces are finite-dimensional. The structure morphism is
+the `Over` instance, which also gives cohomology its k-module structure.
+Deligne, Proposition 1.1, pp.59–60; Huybrechts, Chapter 1, Remark 2.5. -/
 theorem IsK3.hodgeNumbers (k : Type u) [Field k] {X : Scheme.{u}}
-    (f : X ⟶ Spec (.of k)) (hX : IsK3 k f) (p q : ℕ) :
-    letI : X.Over (Spec (.of k)) := ⟨f⟩
+    [X.Over (Spec (.of k))] (hX : IsK3 k (X ↘ Spec (.of k))) (p q : ℕ) :
     Module.Finite k (TauCeti.AlgebraicGeometry.Scheme.Modules.Cohomology
-      (differentialForms k f p) q) ∧
+      (differentialForms k (X ↘ Spec (.of k)) p) q) ∧
     Module.finrank k (TauCeti.AlgebraicGeometry.Scheme.Modules.Cohomology
-      (differentialForms k f p) q) =
+      (differentialForms k (X ↘ Spec (.of k)) p) q) =
       (match p, q with
       | 0, 0 | 2, 0 | 0, 2 | 2, 2 => 1
       | 1, 1 => 20
