@@ -66,12 +66,14 @@ groups.  Those theories consume this roadmap's chain, CW, duality, and homotopy 
   about any space of CW type. The finite-dimensional Hausdorff second-countable
   smooth-manifold CW comparison consumes geometric topology's smooth triangulation;
   compact manifolds have finite CW type. Stage 8.13 consumes geometric topology's Layer 1
-  tubular neighbourhood theorem and owns, for an arbitrary compact boundaryless target
-  manifold and an arbitrary closed embedded submanifold, the smoothing of continuous maps
-  relative to a closed set and relative transversality; TangentialBordism B1.6 states the
-  corner-source extension of these two statements (facewise transversality) by the same route
-  (Euclidean embedding of the target and GeometricTopology Layer 1's tubular retraction) and
-  consumes nothing here. DeRhamCohomologyAndDuality
+  tubular neighbourhood theorem and owns, for boundaryless sigma-compact Hausdorff
+  second-countable sources, an arbitrary compact boundaryless target manifold and an
+  arbitrary closed embedded submanifold, the smoothing of continuous maps relative to a
+  closed set, the parametric transversality theorem and relative transversality.
+  TangentialBordism B1.6 consumes these three for boundaryless sources and extends them to
+  sources with corners (facewise transversality), together with its own Sard theorem in
+  unequal dimensions on manifolds with corners; nothing in this roadmap consumes
+  TangentialBordism. DeRhamCohomologyAndDuality
   Layer 5 states the analogue for families against maps into a vector space by its own route
   and consumes nothing here.
 - The [differential-geometry roadmap](../DifferentialGeometry/README.md) owns the
@@ -115,10 +117,10 @@ groups.  Those theories consume this roadmap's chain, CW, duality, and homotopy 
   bar/CW/cover proof and consumes no DGFloer EM constructor. Stage 8.10
   consumes that abelian family and DGFloer Layer 1 item 1's degree-one Hurewicz.
   DGFloer's constructor uses only AT8.1–8.7 and8.8a, preceding representability and
-  obstruction theory; its Layer 1 item 2 owns the Serre-fibration class (continuous
-  maps with the homotopy lifting property against every finite cube), the fibration
-  homotopy LES and the ordinary Serre spectral sequences consumed in 5.5; its CW approximation
-  is used in 8.11b.
+  obstruction theory; its Layer 1 item 2 owns the fibration homotopy LES and the
+  ordinary Serre spectral sequences consumed in 5.5, both built on Tau Ceti's
+  Serre-fibration predicate `TauCeti.TopCat.serreFibrations`, which 5.5 also consumes
+  directly from the library; its CW approximation is used in 8.11b.
   The standing Moore-loop comparison and Layer 2 item 3 supply loop carriers;
   Stage 4 item 8 owns the pointed compactly generated suspension–loop adjunction
   on maps and on based homotopy classes.
@@ -127,10 +129,15 @@ groups.  Those theories consume this roadmap's chain, CW, duality, and homotopy 
   4.4's kified raw quotients, 4.5's kified CW product, 8.10 and 8.11a/b.
   It is the single owner of the compact-generation adjunction, the convenient
   product and exponential, and the pointed convenient category with its
-  suspension–loop adjunction, in place of HomotopySpheres 3A.1–3A.2:
-  HomotopySpheres 3A consumes that item for its pointed cones, Puppe sequences and
-  James constructions, GeneralizedCohomology G2 consumes it for the same
-  convenient-category objects, and nothing in this roadmap consumes HomotopySpheres.
+  reduced suspension, based loop space, smash product and suspension–loop
+  adjunction, in place of HomotopySpheres 3A.1 and of those four constructions in
+  HomotopySpheres 3A.2. HomotopySpheres 3A consumes that item for its pointed cones,
+  mapping cones, Puppe sequences, co-H structure and James constructions, which stay
+  there; GeneralizedCohomology G2 consumes it for the same convenient-category
+  objects. The owner is this roadmap because HomotopySpheres 3A.2 consumes Stages 4.5
+  and 8 while items 4 and 5 of Stage 4 and items 10 and 11 of Stage 8 consume this
+  interface, so an owner in HomotopySpheres would make the two roadmaps depend on
+  each other; nothing in this roadmap consumes HomotopySpheres.
   [GeneralizedCohomology G2.1](../GeneralizedCohomology/README.md)
   owns the single simplicial-realization product comparison consumed by
   8.10 and 8.11b; its foundation uses AT4/8.2 and this compact-generation API,
@@ -277,6 +284,14 @@ The development starts from these current APIs.
   `Topology.Homotopy.MappingCylinder` / `Extension.MappingCylinder`.
   Consume the HEP, relative-CW and strong-deformation-retraction APIs in
   `Extension.Basic` / `CWComplex` / `DeformationRetract`.
+- Tau Ceti's `TauCeti.TopCat.serreFibrations`, `TauCeti.TopCat.mem_serreFibrations_iff_cube`,
+  `TauCeti.TopCat.mem_serreFibrations_pullbackFst`,
+  `TauCeti.TopCat.mem_serreFibrations_of_exists_trivialization` and
+  `TauCeti.TopCat.mem_serreFibrations_proj` in `Topology.Homotopy.SerreFibration.Basic` /
+  `FiberBundle`: the Serre-fibration predicate as a `MorphismProperty` of `TopCat`, its
+  cube characterization, base change, and the locally trivial and fibre-bundle instances
+  with no paracompactness hypothesis. Stage 5.5 consumes them and states nothing further
+  about them.
 - `HomotopyGroup`, based cubes, `ContinuousMap.HomotopyEquiv`, mapping cones and pointed cones,
   category-theoretic colimits, chain homotopies, homology functors, and exact couples.
 
@@ -1025,12 +1040,18 @@ sequence and theorems of item 1, and items 2--7, consume all of Stages 2--4.
 4. Calculate homology of finite products of circles as exterior powers, naturally under integer
    matrices acting on the first homology.  This is a theorem about the product and Kunneth maps,
    not a separately declared answer for a torus.
-5. Consume DGFloer Layer 1 item 2's Serre-fibration class (TopCat morphisms with the
-   homotopy lifting property against every finite cube) and its pullbacks; a locally
-   trivial TopCat morphism belongs to it, and so does the projection of a locally
-   trivial `FiberBundle`, which lifts homotopies of cubes without a paracompactness
-   hypothesis (Hatcher, Proposition 4.48, p. 379, whose CW-pair form specializes to the
-   pair of a cube and its empty subcomplex).
+5. Consume Tau Ceti's Serre-fibration predicate `TauCeti.TopCat.serreFibrations` (the
+   `TopCat` morphisms with the right lifting property against the bottom inclusions of
+   the disks into their cylinders), with its cube characterization
+   `TauCeti.TopCat.mem_serreFibrations_iff_cube` (homotopy lifting against every finite
+   cube), its base change `TauCeti.TopCat.mem_serreFibrations_pullbackFst`, and its
+   locally trivial instances: `TauCeti.TopCat.mem_serreFibrations_of_exists_trivialization`
+   for a TopCat morphism every point of whose base lies in the base set of a
+   trivialization, and `TauCeti.TopCat.mem_serreFibrations_proj` for the projection of a
+   `FiberBundle`, with no paracompactness hypothesis on the base (Hatcher, Proposition
+   4.48, p. 379, whose CW-pair form specializes to the pair of a cube and its empty
+   subcomplex). The predicate builds in no surjectivity: the inclusion of the empty
+   space into a point is a Serre fibration.
    Consume DGFloer Layer 1 item 2's homotopy LES and
    `arbitraryCWSerreSpectralSequence` and
    `arbitraryBaseSerreSpectralSequence`, with actual skeletal filtration,
@@ -2378,13 +2399,13 @@ items 1–7 are independent of those later constructions.
     compact targets Circle, RP^N and CP^N and their closed embedded
     submanifolds. Both targets are stated for an arbitrary compact target
     manifold and an arbitrary closed embedded submanifold: this roadmap
-    owns the smoothing of continuous maps into compact manifolds and
-    relative transversality (DifferentialGeometry 8.3 approximates smooth
-    simplices and 10.2 is Sard; Mathlib approximates maps into normed spaces
-    and embeds compact manifolds in Euclidean space); TangentialBordism
-    B1.6 states the corner-source extension of both by the same route
-    (Euclidean embedding of the target and GeometricTopology Layer 1's
-    tubular retraction).
+    owns the smoothing of continuous maps into compact manifolds, the
+    parametric transversality theorem and relative transversality
+    (DifferentialGeometry 8.3 approximates smooth simplices and 10.2 is Sard
+    in equal dimensions only; Mathlib approximates maps into normed spaces
+    and embeds compact manifolds in Euclidean space). TangentialBordism
+    B1.6 consumes all three for boundaryless sources and extends them to
+    sources with corners, facewise.
 
     *Smoothing of maps into compact manifolds.* For a boundaryless
     sigma-compact Hausdorff second-countable smooth manifold M, a compact
@@ -2433,8 +2454,21 @@ items 1–7 are independent of those later constructions.
     first the parametric transversality theorem (Lee, Theorem 6.35): for an
     open S in a finite-dimensional real space and a smooth F:M×S→P
     transverse to Z, the parameters s whose slice F(−,s) is not transverse
-    to Z form a null set, by Sard (DifferentialGeometry 10.2) applied to the
-    projection to S of the embedded submanifold F⁻¹(Z). Then take the
+    to Z form a Lebesgue-null set. They are the critical values of the
+    projection to S of the transverse preimage F⁻¹(Z), an embedded
+    submanifold of M×S of dimension w=dim M+dim S−codim Z (Lee, Theorem
+    6.30). Near each of its points a slice chart of Z presents Z as the zero
+    set of a submersion g onto ℝ^(codim Z); transversality makes the
+    derivative of g∘F, read in a chart of M×S, surjective there, and Tau Ceti's
+    `HasStrictFDerivAt.exists_isSliceChart_preimage_zero` flattens F⁻¹(Z)
+    onto an open subset of ℝ^w. Countably many such pieces cover F⁻¹(Z)
+    (M×S is second countable); on each the projection is a smooth map from
+    an open subset of ℝ^w to S, whose critical values are null by Tau
+    Ceti's flat Morse–Sard theorem `TauCeti.addHaar_image_criticalPoints_eq_zero`,
+    which imposes no relation between w and dim S. DifferentialGeometry
+    10.2's manifold Sard theorem (`TauCeti.isNullSet_image_criticalPoints`)
+    requires equal model dimensions, which hold here only when
+    dim M = codim Z. Then take the
     embedding e:P→V and the tubular retraction r:W→P of the smoothing
     target, a radius δ>0 such that the δ-neighbourhood of e(P) lies in W
     (positive by compactness of e(P) when W≠V, any δ when W=V), the open
@@ -2448,9 +2482,17 @@ items 1–7 are independent of those later constructions.
     hypothesis, so F and every slice are transverse there. Choose s outside
     the null set and put g=F(−,s); the path t↦F(−,ts) is the homotopy
     relative to A, and g=f on A because β vanishes there. *Needs:* the
-    smoothing target's embedding and tubular retraction; DifferentialGeometry
-    10.2 Sard. Checks: Z={1}⊂Circle, M=Circle, f the identity and A=∅
-    returns a g for which 1 is a regular value, as it already is for f; f
+    smoothing target's embedding and tubular retraction; Tau Ceti
+    `HasStrictFDerivAt.exists_isSliceChart_preimage_zero` and
+    `TauCeti.addHaar_image_criticalPoints_eq_zero`. Checks: for M a point,
+    P=Circle, Z={1}, S the open interval (−π,π) and F(pt,s)=exp(is), F is a
+    submersion in s and so transverse to Z; F⁻¹(Z) is the single point
+    (pt,0), of dimension 0+1−1=0, its projection to S has the critical
+    value 0, and indeed F(−,0) hits 1 with zero derivative and is not
+    transverse while every F(−,s) with s≠0 misses Z; the bad set {0} is null
+    but nonempty, and the equal-dimension Sard theorem does not apply
+    because dim F⁻¹(Z)=0≠1=dim S. For Z={1}⊂Circle, M=Circle, f the
+    identity and A=∅ the target returns a g for which 1 is a regular value, as it already is for f; f
     constant at 1 is not transverse to {1}, and for P=Circle the family
     r(f(x)+β(x)s) with β=1 rotates and rescales the constant map, so for
     every s outside the null set g⁻¹(1)=∅ is the empty representative of the
@@ -2659,7 +2701,7 @@ supplement or the categorical LS supplement unless named explicitly.
 | 8.11a mapping-space and based-loop CW type | Earlier CW/pair foundations (4) and Stage 4 item 8 compact-generation/product API only; no 8.10 or pointed-adjunction input | 7 |
 | 8.11b ordinary EM loops | 8.5, 8.10, 8.11a, DGFloer Layer 1 item 2 and standing/Layer 2 item 3 loop comparison, Stage 4 item 8 compact-generation/product API and its pointed adjunction, G2.1 foundation-only realization-product comparison | 7 |
 | 8.12 classical EM comparisons | 8.8b, 8.10, TopologicalKTheory T1.6 carrier construction and DGFloer 1.2 Serre LES via CharacteristicClasses C1.1 bundle adapter/C1.5 finite comparisons and universal sphere-bundle portion | 7 |
-| 8.13 smooth low-codimension representatives | ordinary6 duality and products, 8.7 dimension-bounded smooth triangulation, 8.10/8.12, AT4.6 real and CKG K7.1 complex projective atlases, CC C1.5 and C2 Thom/Gysin, its own smoothing of maps into compact manifolds and relative transversality to closed embedded submanifolds (Mathlib `exists_embedding_euclidean_of_compact` and `Continuous.exists_contMDiff_approx_and_eqOn`, GeometricTopology Layer 1 tubular neighbourhoods, DG10.2 Sard) | 7 and 8.11b |
+| 8.13 smooth low-codimension representatives | ordinary6 duality and products, 8.7 dimension-bounded smooth triangulation, 8.10/8.12, AT4.6 real and CKG K7.1 complex projective atlases, CC C1.5 and C2 Thom/Gysin, its own smoothing of maps into compact manifolds, parametric transversality and relative transversality to closed embedded submanifolds (Mathlib `exists_embedding_euclidean_of_compact` and `Continuous.exists_contMDiff_approx_and_eqOn`, GeometricTopology Layer 1 tubular neighbourhoods, Tau Ceti's slice-chart implicit function theorem and flat Morse–Sard theorem) | 7 and 8.11b |
 | 8.14–8.16 acceptance applications | 4.1 lifted CW structures, ordinary6.3 topological top-homology vanishing and Stage 6 universal coefficients, 8.1–8.8, 8.10 and 8.12 EM comparisons, CC C1.5 and CKG K7.1 for the Hopf model, G2.10 numerable lifting | 7 and 8.13 |
 
 In particular, Stage 1 is independent; the chain `2 -> 3 -> 4` is strict; Stages 2--4 all feed

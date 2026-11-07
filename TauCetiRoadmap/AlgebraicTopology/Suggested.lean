@@ -38,8 +38,9 @@ multiplication (Stage 1 item 6) is not stated: it is Tau Ceti's
 `FundamentalGroup.instCommGroup` at the pin.
 
 Not statable at the pins, and therefore stated nowhere in this file:
-the Cartan–Leray and Serre spectral sequences and the Wang sequence (no spectral-sequence
-carrier and no monodromy local-system carrier on the pinned singular chains); Künneth with
+the Cartan–Leray spectral sequence and the Wang sequence (no spectral-sequence carrier and no
+monodromy local-system carrier on the pinned singular chains; the Serre spectral sequences
+that Stage 5.5 applies are DGFloer Layer 1 item 2's, not this roadmap's); Künneth with
 its `Tor` term (no canonical cross-product chain map on the pinned chains); the
 local-coefficient Poincaré–Lefschetz dualities and their boundary form (no homological
 orientation local system and no twisted cap product at the pins; only the untwisted closed
