@@ -37,7 +37,7 @@ Suggested home: `TauCeti/AlgebraicGeometry/AbelianVariety/FiniteField/` for Laye
 `Points`, `DeligneModule`, `Polarization`, `Jacobian`), and
 `TauCeti/NumberTheory/NumberField/Global/Orders/` for Layer 8, in new files (`Bass`,
 `WeakEquivalence`, `CohenMacaulayType`, `Overorders`, `Etale`) beside the pinned order files
-(`Basic`, `Lattice`, `Gorenstein`, `Quadratic`, `Discriminant`, `Picard`, `IdealClassMonoid`).
+(`Basic`, `Lattice`, `Gorenstein`, `Quadratic/Basic`, `Discriminant`, `Picard`, `IdealClassMonoid`).
 
 ## Scope and ownership
 
@@ -94,8 +94,15 @@ Suggested home: `TauCeti/AlgebraicGeometry/AbelianVariety/FiniteField/` for Laye
 - **The Tate conjecture over number fields** and the finiteness theorems of Faltings
   (`FaltingsFinitenessAndIsogenyTheorems` R28.4–R28.5).
 - **Zeta functions of curves and their bounds**: FunctionFieldArithmetic §§5.3–5.4 and
-  SchemeAndStackFoundations §5.11. Polynomial Weil operations needed here are §1.0;
-  the curve-specific Serre and Ihara refinements are outside this roadmap.
+  SchemeAndStackFoundations §5.11; the curve-specific Serre and Ihara refinements are outside
+  this roadmap.
+- **Weil polynomials as polynomials** — the predicate, symmetry
+  and the real Weil polynomial, slopes, `p`-rank, ordinarity, supersingularity and elevation, angles
+  and angle rank, the number field and Galois group, the factorization predicates, Weil powers,
+  polynomial twists, Weil roots, geometric irreducibility and the geometric extension degree, the
+  virtual point counts and the Jacobian-compatibility conditions — are CurvesOverFiniteFields
+  Layer 1 (its 1.1–1.11) and 3.4, consumed by section; nothing polynomial-level is defined here,
+  and every milestone below applies those objects to `P_A`.
 - **Counting and distribution**: `#A_g(𝔽_q)`, masses, equidistribution of Frobenius angles
   (`ArithmeticStatisticsPartI`, `ArithmeticStatisticsPartVIII`); **Sato–Tate groups** and the
   Galois endomorphism types of abelian varieties over number fields (`SatoTateGroups`).
@@ -171,7 +178,7 @@ Suggested home: `TauCeti/AlgebraicGeometry/AbelianVariety/FiniteField/` for Laye
 | Frobenius | `π_A := AbelianVariety.frobenius A : End A` (DWP.1 §1.1), the `q`-power Frobenius, an endomorphism *over `K`*. Geometric Frobenius never appears except as `π_A⁻¹` on `V_ℓ A` in 2.1. `π` acts on `T_ℓ A` as the arithmetic Frobenius of `Gal(K^{sep}/K)`. |
 | Characteristic polynomial | `P_A := End.charpoly π_A ∈ ℤ[T]`, monic of degree `2g`, `P_A(T) = det(T − π_A ∣ V_ℓ A)` for every `ℓ ≠ p` (A6.10–A6.11). Roots `α_1, …, α_{2g}` with multiplicity. `P_{A,r} := End.charpoly (π_A ^ r)`, whose roots are `α_i^r`. |
 | `L`-polynomial | `L_A(T) := T^{2g} P_A(1/T) = Polynomial.reverse P_A`, constant term `1`, the LMFDB `poly`. Coefficients `1, a_1, …, a_g, q a_{g−1}, …, q^g`. |
-| Weil number, Weil polynomial | A `q`-Weil number is an algebraic integer all of whose complex conjugates have absolute value `q^{1/2}` (the predicate of §1.0; Part II F0.3 and the real-base adapter `IsWeilNumber q 1` of DWP.0 agree). A `q`-Weil polynomial is a monic `P ∈ ℤ[T]` all of whose roots are `q`-Weil numbers; it need not be the characteristic polynomial of an abelian variety (Honda–Tate, Part II F3.2, says which are; Layer 4). |
+| Weil number, Weil polynomial | A `q`-Weil number is an algebraic integer all of whose complex conjugates have absolute value `q^{1/2}` (CurvesOverFiniteFields 1.1 and its convention 7, the predicate `IsWeilPolynomial q P` on the minimal polynomial; Part II F0.3 and the real-base adapter `IsWeilNumber q 1` of DWP.0 agree). A `q`-Weil polynomial is a monic `P ∈ ℤ[T]` all of whose roots are `q`-Weil numbers; it need not be the characteristic polynomial of an abelian variety (Honda–Tate, Part II F3.2, says which are; Layer 4). |
 | Isogeny, isogenous | `IsIsogeny f` is Tau Ceti's (finite and surjective). `IsIsogenous A B := ∃ f : A ⟶ B, IsIsogeny f`; symmetry is a theorem (1.7), not a second clause. The isogeny class is the `Setoid` quotient. |
 | Simple | *Abelian schemes and arithmetic moduli* A6.4 `IsSimple`: positive dimension and no abelian subvariety other than `0` and `A`. Geometrically simple: `IsSimple (A.baseChange (AlgebraicClosure K))`. The dimension-zero variety is not simple and not squarefree-with-a-factor; it has empty decomposition. |
 | Decomposition | By A6.5, `A ~ ∏ A_i^{n_i}` with `A_i` simple, pairwise non-isogenous, unique up to isogeny and order; by Part II F0.2 (`P_{A×B} = P_A P_B`) and 1.8, `P_A = ∏ P_{A_i}^{n_i}`. Each `P_{A_i}` is a power `m_i^{e_i}` of a monic irreducible `m_i ∈ ℤ[T]` (Layer 3), so the factorization of `P_A` into irreducibles is `∏ m_i^{e_i n_i}`, and the decomposition is read off `P_A` through Honda–Tate (Part II F3.2; Layer 4), which says which `e_i` occur. The LMFDB field `is_squarefree` (knowl `av.squarefree`: no simple factor occurs with exponent `> 1`) is **all `n_i = 1`**, equivalently `P_A = ∏ m_i^{e(m_i)}` with the `m_i` distinct (every irreducible factor to exactly its Honda–Tate exponent, Layer 4), equivalently `End⁰(A) = ∏ D_i` is a product of division algebras with no matrix factor (3.4); `is_geometrically_squarefree` is the same condition for `A_{𝔽_{q^d}}` with `d` the geometric extension degree (5.3, 5.4). It is *weaker* than `Squarefree P_A` in `ℚ[T]`, which is all `n_i = 1` *and* all `e_i = 1`, equivalently `End⁰(A) = ℚ[π_A]` commutative; `Squarefree P_A` is the hypothesis of the `ℤ[π, V]` dictionary of Layers 8–9 and is never called `is_squarefree` here. Every simple class is `is_squarefree`: `2.2.a_ae` is simple with `P_A = (T² − 2)²`, so `is_squarefree` holds and `Squarefree P_A` fails. The simple factors are a `Multiset` of isogeny classes; their order on a page is a database convention, not a target. |
@@ -180,7 +187,7 @@ Suggested home: `TauCeti/AlgebraicGeometry/AbelianVariety/FiniteField/` for Laye
 | Tate module | `T_ℓ A := AbelianTate A ℓ = TateModule ℓ (A(K^{sep}))` (A4.1, on `SeparableClosure K`-points) for a prime `ℓ ≠ p`, with the continuous action of `Gal(K^{sep}/K)` through the points; `V_ℓ A := ℚ_ℓ ⊗ T_ℓ A`. Statements written with `A(K̄)` or `A[n](K̄)`, `K̄ = AlgebraicClosure K`, are read through the comparison of 1.2. `TateModule ℓ (A(K))` of the finite group of rational points is zero and is never meant (2.1). Never used at `ℓ = p`. |
 | Twist | `B` is a twist of `A` when `A.baseChange (AlgebraicClosure K) ≅ B.baseChange (AlgebraicClosure K)` (knowl `av.twist`); the LMFDB's twist table is at the level of isogeny classes, where it means `IsIsogenous (A.baseChange L) (B.baseChange L)` for some finite `L/K`, the *extension degree* of a twist is the least `[L : K]`; `twists` ranges over the classes `B ≠ A` of the twist class of `A`, `twist_count` is the **size of the twist class, `A` included** (so `1` for a class without twists: `1.4.ae` has four twists and `twist_count = 5`), and `max_twist_degree` the largest degree of a `B ≠ A`, `0` when there are none (5.6). |
 | Endomorphism field, geometric extension degree | The endomorphism field of `A` is the least subextension `L ⊆ K^{sep}` of `K` with `End (A_L) = End (A_{K^{sep}})`; it is `𝔽_{q^d}` and `d` is `geometric_extension_degree` (5.4). |
-| `p`-rank, Newton polygon | `p`-rank of `A` is `Module.finrank (ZMod p) (A[p](AlgebraicClosure K))`, the dimension of the geometric `p`-torsion (6.1). The Newton polygon of `A` is the Newton polygon of `P_A` at `p` with the `q`-normalized valuation `ord_q = ord_p / ord_p q`, as a list of `2g` slopes in `[0, 1]` in increasing order (§1.0's polygon of `P_A`); the LMFDB `slopes`. Ordinary: `p`-rank `= g`; supersingular: every slope `1/2`; almost ordinary: Newton elevation `1` (6.3). |
+| `p`-rank, Newton polygon | `p`-rank of `A` is `Module.finrank (ZMod p) (A[p](AlgebraicClosure K))`, the dimension of the geometric `p`-torsion (6.1). The Newton polygon of `A` is the Newton polygon of `P_A` at `p` with the `q`-normalized valuation `ord_q = ord_p / ord_p q`, as a list of `2g` slopes in `[0, 1]` in increasing order (CurvesOverFiniteFields 1.6's polygon of `P_A`: the Newton polygon of the `L`-polynomial `reverse P_A` for the valuation `v_p / ord_p q`); the LMFDB `slopes`. Ordinary: `p`-rank `= g`; supersingular: every slope `1/2`; almost ordinary: Newton elevation `1` (6.3). |
 | Angle rank | The angle rank of `A` is the angle rank of `P_A`: `dim_ℚ (span_ℚ {arg α_i / (2π)} ∪ {1}) − 1`, equivalently `rank ⟨α_1, …, α_{2g}, q⟩ − 1` in `ℂ^× / torsion` (6.5). Corank `g − δ`. |
 | Group of points | `A(L)` is the group of `L`-points of the group scheme, a finite abelian group for finite `L` (7.1); its invariants are Mathlib's `AddCommGroup.equiv_directSum_zmod_of_finite` data. A class is *cyclic* when `A(K)` is cyclic for every `A` in it (7.3). |
 | Frobenius order | For a simple class with `F := ℚ(π)`: `frobeniusOrder := ℤ[π, q/π] : NumberFieldOrder F`, the `ℤ`-subalgebra generated by `π` and `q/π = π̄`. For a squarefree class with `E := ℚ[T]/(P_A) = ∏ F_i` étale: the `ℤ`-subalgebra of `E` generated by the class of `T` and `q · T⁻¹`, an order in the sense of ClassicalArithmeticCompletion §7.4. Verschiebung is `V := q/π`; the LMFDB writes `F` for `π`. |
@@ -202,7 +209,8 @@ Suggested home: `TauCeti/AlgebraicGeometry/AbelianVariety/FiniteField/` for Laye
 - Polynomials: `Polynomial.Monic`, `roots`, `aroots`, `rootSet`, `reverse`, `Polynomial.Gal`,
   `galActionHom`, `Polynomial.splittingField`, `Squarefree`, `Irreducible`,
   `UniqueFactorizationMonoid.normalizedFactors`, `Polynomial.mahlerMeasure` and
-  `finite_mahlerMeasure_le` (through R28.5.1).
+  `finite_mahlerMeasure_le` (through CurvesOverFiniteFields 1.3 and FaltingsFinitenessAndIsogenyTheorems
+  R28.5.1).
 - Linear algebra: `LinearMap.charpoly`, `Matrix.charpoly`, `Module.End.IsSemisimple`,
   `Module.finrank`, `Module.Free`, `Module.Finite`, `AddCommGroup.equiv_directSum_zmod_of_finite`,
   `Submodule.IsLattice`, `Submodule.span`, `FractionalIdeal`, `ClassGroup`, `IsDedekindDomain`,
@@ -261,8 +269,10 @@ Suggested home: `TauCeti/AlgebraicGeometry/AbelianVariety/FiniteField/` for Laye
   `TauCeti/NumberTheory/NumberField/Global/Orders/Gorenstein.lean` (`NumberFieldOrder.traceDual`
   and `NumberFieldOrder.IsGorenstein`, the trace dual being invertible), `.../Orders/Lattice.lean`
   (a nonzero fractional ideal of an order is a free `ℤ`-module spanning the field),
-  `.../Orders/Quadratic.lean` (`isProperFractionalIdeal_iff_isUnit_of_finrank_eq_two`: the proper
-  fractional ideals of an order in a quadratic field are the invertible ones),
+  `.../Orders/Quadratic/Basic.lean` (`isProperFractionalIdeal_iff_isUnit_of_finrank_eq_two`: the
+  proper fractional ideals of an order in a quadratic field are the invertible ones) and
+  `.../Orders/Gorenstein.lean` again (`NumberFieldOrder.isGorenstein_of_finrank_eq_two`: every
+  order in a quadratic field is Gorenstein),
   `.../Orders/Discriminant.lean` (`discr_eq_index_sq_mul`), `.../Orders/Picard.lean` (`Pic O` is
   `ClassGroup O.toSubalgebra`, so `Pic (maximalNumberFieldOrder K)` is `ClassGroup (𝓞 K)` by
   definition), `TauCeti/Algebra/CrossedProduct/Comparison.lean` (`brauerCohomologyEquiv`),
@@ -307,6 +317,33 @@ Suggested home: `TauCeti/AlgebraicGeometry/AbelianVariety/FiniteField/` for Laye
   its End⁰(A)ˣ-orbit quotient, and finiteness. At p this uses full F,V-stable W(𝔽_q)-lattices
   with the inverse contravariant action; away from p it uses Frobenius-stable Tate lattices,
   equal to the reference lattices almost everywhere. In dimension zero both sets are singletons.
+- From [CurvesOverFiniteFields](../CurvesOverFiniteFields/README.md), Layer 1 (Weil polynomials as
+  combinatorics on `ℤ[T]`), consumed by section and never redefined: 1.1 `IsWeilPolynomial q P`
+  (monic, every complex root of modulus `√q`, `P = 1` allowed) and the `q`-Weil numbers as its
+  roots, algebraic integers all of whose conjugates have modulus `√q`; 1.2 closure under products
+  and monic integral factors; 1.3 finiteness in each degree and the coefficient bounds
+  `|coeff j| ≤ binom(n, j) q^{(n−j)/2}`; 1.4 `IsWeilSymmetric q g P` (`natDegree P = 2g` and
+  `q^j · coeff j = q^g · coeff (2g − j)`), the real Weil polynomial `realWeilPolynomial q g P`,
+  written `h_P` here, with `P(T) = T^g h_P(T + q/T)` and roots in `[−2√q, 2√q]`, and the intrinsic
+  prefix `(g, q, c_1, …, c_g)` of a monic symmetric polynomial; 1.5 the `±√q` dictionary (a Weil
+  polynomial without real roots is symmetric, a symmetric one has even real-root multiplicities,
+  and the real-rooted irreducibles are `T ∓ √q`, `T² − q`); 1.6 the Newton polygon of `reverse P`
+  for the valuation `v_p / ord_p q`, its slope multiset in `[0, 1]`, `pRank p P`, `IsOrdinary q g P`
+  with `isOrdinary_iff_not_dvd_coeff`, `IsSupersingular q P` (equivalent to all slopes `1/2` for
+  Weil `P`), almost ordinarity and the elevation; 1.7 `frobeniusAngles P`, `angleRank P` and
+  `angleRank_eq_zero_iff`; 1.8 `weilNumberField P = AdjoinRoot P_ℚ` with
+  `isCMField_weilNumberField` and the native `Polynomial.Gal P_ℚ` as the Galois group; 1.9
+  irreducibility, isotypy (`P_ℚ = m^e`) and squarefreeness with the multiset of monic irreducible
+  factors; 1.10 `weilPower hP r` (roots `α_i^r`, `aroots_weilPower`), `weilPowerSum`, polynomial
+  twists at an exponent and the twist degree, `weilRoots r P` with `weilRoots_finite`, geometric
+  irreducibility and the geometric extension degree (the lcm of the orders of the root-of-unity
+  ratios of roots); 1.11 `virtualCurveCount q hP r = q^r + 1 − ∑ α_i^r`,
+  `virtualAbvarCount hP r = ∏ (1 − α_i^r)`, their bounds, `eq_of_virtualCurveCount_eq`,
+  `eq_of_virtualAbvarCount_eq` and the Jacobian-compatibility conditions; its 3.4 for those
+  conditions read against function fields; and its 2.3 for the Weil polynomial of a constant-field
+  extension as a Weil power. Where a name there takes a monicity proof `hP`, this roadmap writes
+  the polynomial alone (`weilPower P_A r`), `P_A` being monic (A6.10). That roadmap consumes
+  nothing from this one.
 - From [FunctionFieldArithmetic](../FunctionFieldArithmetic/README.md): §5.3 (`L_F(1) = h_F`) and
   §5.4 (`L_F` is the reversed characteristic polynomial of the Frobenius of the Jacobian, and
   `N_r = q^r + 1 − ∑ α_i^r`), used in 1.5 and 7.5.
@@ -336,8 +373,10 @@ Suggested home: `TauCeti/AlgebraicGeometry/AbelianVariety/FiniteField/` for Laye
   shape of `End⁰(A) ⊗ ℝ`.
 - From *Complex multiplication and explicit reciprocity*, 5.2: the ordinary order levels and the
   supersingular level pairs that 8.3 and 9.6 compare with for `g = 1`.
-- From *Faltings finiteness and isogeny theorems*, R28.5.1 `finite_weilPolynomials`: finitely
-  many monic integer polynomials of degree `n` with all roots of absolute value `r`.
+- From *Faltings finiteness and isogeny theorems*, R28.5.1 *Finitely many Weil polynomials*
+  (stated in prose there, from Mathlib's `Polynomial.finite_mahlerMeasure_le`): finitely many
+  monic integer polynomials of degree `n` with all roots of absolute value `r`; consumed only
+  through CurvesOverFiniteFields 1.3.
 - From [GlobalNumberFields](../GlobalNumberFields/README.md) Layer 11:
   everything in the orders library named above, and `O.IsGorenstein` with the trace-dual
   criterion.
@@ -405,100 +444,6 @@ strictly earlier milestone here. Throughout, `K` is a finite field, `q = Nat.car
 Everything about `π_A` that is not already *Deligne weights and purity* DWP.1 or *Abelian schemes
 and arithmetic moduli* A6, and the isogeny relation with its first invariants. Sources: Milne
 *Abelian Varieties* (AV) II §1; Tate 1966 §1; Waterhouse 1969 Chapter 2.
-
-### 1.0 Polynomial operations for finite-field Frobenius
-
-Fix an integer q > 1. A Weil q-polynomial is a monic integral polynomial whose complex roots
-have modulus √q, including the constant polynomial 1. A reciprocal Weil polynomial of dimension
-g additionally has degree 2g and ascending coefficients cⱼ satisfying qʲcⱼ = qᵍc₂ɡ₋ⱼ for
-0 ≤ j ≤ 2g. Reciprocity is a separate condition: real roots need not occur with even
-multiplicity in an arbitrary Weil polynomial (Waterhouse, Chapter 2, pp. 526–528).
-
-**API.**
-
-- Weil polynomials are closed under products and monic integral factors. For fixed degree the
-  set is finite by the coefficient bounds |cₙ₋ⱼ| ≤ binomial(n,j) qʲᐟ² (FaltingsFinitenessAndIsogenyTheorems
-  R28.5.1). Degree zero gives the singleton {1}.
-- Reciprocal polynomials have a unique monic real Weil polynomial h of degree g satisfying
-  P(T) = Tᵍh(T + q/T); its roots lie in [−2√q,2√q]. Prove this as an identity of Laurent
-  polynomials, so there is no evaluation at T = 0. No-real-root Weil polynomials are reciprocal;
-  more generally even multiplicity of every real root suffices.
-- For an irreducible Weil polynomial, the number field is ℚ[T]/(P). If it has no real root,
-  conjugation sends π to q/π and gives a CM field with real subfield ℚ(π+q/π); real roots give
-  precisely ℚ or ℚ(√p) for q a power of p. Use the native splitting field and polynomial Galois
-  group for a general polynomial (Waterhouse, §2; Part II F0.3).
-
-**Checks.**
-
-- At q = 5, P = T²−2T+5 has h = X−2, and its reversal is 1−2T+5T²; at j = 0 and 2 the
-  reciprocal equations are respectively 5 = 5 and 25 = 25.
-- At q = 2, T²−2 is Weil but has constant coefficient −2, so it is not reciprocal of dimension 1.
-  Its square is reciprocal of dimension 2; real Honda–Tate classes are retained.
-- P = 1 has degree 0, h = 1, empty roots, and both coefficient bounds and reciprocity give 1 = 1.
-
-For a prime p and q = pʳ, r > 0, define the slope multiset from all roots in an algebraic
-closure of ℚ_p using v_p(α)/r, where v_p(p)=1. Define its p-rank as the multiplicity of slope
-zero. For reciprocal degree 2g define ordinary by p-rank g, supersingular by every slope 1/2,
-and elevation by the number of integer points (x,y) with 0≤x≤g and 0≤y strictly below the
-Newton polygon, equivalently the sum of the ceilings of its heights at x=0,…,g. Define angle rank as the rational dimension of the span of 1 and
-arg(α)/(2π), minus one; equivalently it is the multiplicative rank of the subgroup generated by
-all roots and q, modulo torsion, minus one (NewtonPolygons §§2.1 and 3.3 for slopes; LMFDB knowls
-`av.fq.newton_elevation` and `av.fq.angle_rank` for the numerical conventions).
-
-**API.**
-
-- The slopes are nonnegative; for reciprocal P they lie in [0,1], paired by s ↦ 1−s.
-  The zero-slope multiplicity equals deg P minus the least coefficient index not divisible by p. For degree
-  2g, ordinarity is equivalent to p not dividing c_g. Prove this by the Newton polygon theorem.
-- Slopes concatenate under products. Elevation is nonnegative, vanishes exactly in the ordinary
-  case, and has maximum g(g+2)/4 for even g and (g+1)²/4 for odd g at the supersingular polygon.
-  Elevation 1 is the almost-ordinary locus; state its equivalence to p-rank g−1 for g > 0.
-- Angle rank lies between 0 and g for reciprocal P, and is zero exactly for supersingular P.
-  The proof uses integrality of α²/q at all places and Kronecker's theorem. Passing from roots
-  to positive powers preserves normalized slopes and angle rank.
-
-**Checks.**
-
-- T²−2T+5 has slopes {0,1}, elevation 0 and angle rank 1; T²+2 has slopes {1/2,1/2}, elevation 1
-  and angle rank 0. This distinguishes both valuation normalization and supersingularity.
-- For (T²+2)² the slopes are four copies of 1/2 and the heights at x=0,1,2 are 0,1/2,1,
-  whose ceilings sum to 2. For P = 1 slopes are empty, elevation and p-rank are 0.
-- In q = 4, P = T²+4 has v₂(α)=1 but normalized slope 1/2, not 1; in q = 2, T²−2 fails the
-  reciprocal hypothesis, and must not be assigned an abelian-variety dimension from its degree.
-
-For monic P with roots αᵢ and n ≥ 1, define its Weil power as ∏(T−αᵢⁿ), an integral monic
-polynomial independent of the splitting field. Polynomial twists have equal Weil powers for
-some n ≥ 1; their degree is the least such n. The polynomial geometric extension degree is the
-lcm of the orders of root-of-unity ratios between roots of P, with empty lcm 1. Define Weil roots
-of P at n as the monic integral Q with Q⁽ⁿ⁾ = P, and geometric irreducibility as irreducibility
-of every positive Weil power. Define virtual abelian counts as P⁽ⁿ⁾(1) and virtual curve counts
-as qⁿ+1−∑αᵢⁿ (Waterhouse–Milne, Theorem 7, pp. 57–58; Milne AV, II §1).
-
-**API.**
-
-- Weil powers compose by multiplication of exponents and preserve products and degree. Weil
-  roots at a fixed positive exponent form a finite set by the root bounds. The twist relation
-  is an equivalence relation on fixed-q Weil polynomials of fixed degree, with finite classes.
-- Coincidences αᵢⁿ=αⱼⁿ stabilize exactly when the polynomial geometric extension degree divides n.
-  Twist degree divides the lcm of all torsion ratios between the two root multisets, by matching
-  the roots after a common power. Geometric extension degree is not twist-invariant.
-- Virtual curve counts are integers by Newton identities; virtual abelian counts are positive
-  for reciprocal P and satisfy (qⁿᐟ²−1)²ᵍ ≤ P⁽ⁿ⁾(1) ≤ (qⁿᐟ²+1)²ᵍ. For a curve, the virtual curve
-  counts are nonnegative and increase along divisibility of extension degrees (§1.5).
-
-**Checks.**
-
-- For q=2, T²+2 and T²−2T+2 have eighth powers (T−16)² and least common power 8, but their
-  geometric extension degrees are 2 and 4. Both have slopes {1/2,1/2} and angle rank 0.
-- For T²−2T+5 the first two virtual abelian counts are 4 and 32; the curve counts are also 4
-  and 32. The second Weil power is T²+6T+25, whose value at 1 is 32.
-- For P=1 the abelian count is 1 and curve count is qⁿ+1; q=1 and n=0 are excluded from the
-  positive-count theorem. For (T²−2)² at q=2 the second virtual curve count is −3, ruling out a curve.
-
-*Needs:* Mathlib polynomial roots, symmetric polynomials, Newton identities, splitting fields,
-valuations and Kronecker's theorem; NewtonPolygons §§1.1–1.3, 2.1 and 3.3 (valuation extensions, coefficient polygon and root slopes);
-Part II F0.3; FaltingsFinitenessAndIsogenyTheorems R28.5.1. The classification of realized
-polynomials is Layer 4, not an input to these definitions.
 
 ### 1.1 Naturality of the Frobenius
 
@@ -580,12 +525,16 @@ read through this comparison; its one input is that `K` is perfect.
 so `P_A(0) = q^g` — is Part II F0.2; equivalently **the root multiset of `P_A` is stable under
 `α ↦ q/α`** (by A6.21 and DWP.1 §1.3 the Rosati involution acts on `ℚ[π_A] ⊗ ℝ` as complex
 conjugation on each factor and `π_A^† = q/π_A`, so the complex conjugate of each root `α` is
-`q/α`). Consequently `P_A` is symmetric in the sense of §1.0
-(`q^j · coeff_j P_A = q^g · coeff_{2g−j} P_A`) and `L_A` has the coefficient shape
+`q/α`). Consequently `P_A` is symmetric in the sense of CurvesOverFiniteFields 1.4
+(`IsWeilSymmetric q g P_A`: `q^j · coeff_j P_A = q^g · coeff_{2g−j} P_A`) and `L_A` has the coefficient shape
 `1, a_1, …, a_g, q a_{g−1}, …, q^g` of the LMFDB `poly`. The pair `(q, P_A)` satisfies
-§1.0's `IsWeilPolynomial q P_A ∧ IsWeilSymmetric q g P_A` (DWP.1 §1.4 for the modulus; Part II
-F0.2 for the symmetry), which permits the polynomial results of §1.0 to apply to P_A.
-*Needs:* DWP.1 §§1.3, 1.4; A6.21; Part II F0.2; Mathlib `Polynomial.reverse`.
+CurvesOverFiniteFields 1.1's `IsWeilPolynomial q P_A` and 1.4's `IsWeilSymmetric q g P_A` (DWP.1
+§1.4 for the modulus; Part II F0.2 for the symmetry), which permits every polynomial result of
+CurvesOverFiniteFields Layer 1 to apply to `P_A`; in particular the real Weil polynomial
+`h_{P_A} := realWeilPolynomial q g P_A` has `P_A(T) = T^g h_{P_A}(T + q/T)` and real roots in
+`[−2√q, 2√q]` (its 1.4).
+*Needs:* DWP.1 §§1.3, 1.4; A6.21; Part II F0.2; Mathlib `Polynomial.reverse`; CurvesOverFiniteFields
+§§1.1, 1.4.
 
 **Checks.**
 
@@ -596,15 +545,16 @@ F0.2 for the symmetry), which permits the polynomial results of §1.0 to apply t
 ### 1.4 Powers of the Frobenius
 
 `P_{A,r} := End.charpoly (π_A^r)` has roots `α_1^r, …, α_{2g}^r` (DWP.1 §1.9) and equals
-`weilPower P_A r` of §1.0 (both are the characteristic polynomial of
-`π^r` on a `2g`-dimensional space whose `π` has characteristic polynomial `P_A`: compare on
-`V_ℓ A` through A6.11). Hence `#A(𝔽_{q^r}) = virtualAbvarCount P_A r` (§1.0); the sequence
-`r ↦ #A(𝔽_{q^r})` determines `P_A` (it is `∑_{S ⊆ {1..2g}} (−1)^{|S|} (∏_{i ∈ S} α_i)^r`, an
-exponential sum that determines each distinct product `∏_{i∈S} α_i` with its signed multiplicity,
-and the products of modulus `√q` are exactly the `α_i`, each with coefficient `−(multiplicity)`);
+`weilPower P_A r` of CurvesOverFiniteFields 1.10 (both are monic integer polynomials with the
+root multiset `{α_i^r}`, `aroots_weilPower` there; compare on `V_ℓ A` through A6.11). Hence
+`#A(𝔽_{q^r}) = virtualAbvarCount P_A r` (CurvesOverFiniteFields 1.11); the sequence
+`r ↦ #A(𝔽_{q^r})` determines `P_A` (its 1.11, `eq_of_virtualAbvarCount_eq`, for `q ≥ 2`: the
+sequence is `∑_{S ⊆ {1..2g}} (−1)^{|S|} (∏_{i ∈ S} α_i)^r`, an exponential sum that determines
+each distinct product `∏_{i∈S} α_i` with its signed multiplicity, and the products of modulus
+`√q` are exactly the `α_i`, each with coefficient `−(multiplicity)`);
 for `g ≤ 2` the two counts `#A(𝔽_q) = P_A(1)` and `#A(𝔽_{q²}) = P_A(1) P_A(−1)` already determine
 `a_1, a_2` linearly; and `P_{A_L} = P_{A,r}` for `[L : K] = r` (1.1).
-*Needs:* 1.1, 1.2; DWP.1 §1.9; A6.11; §1.0.
+*Needs:* 1.1, 1.2; DWP.1 §1.9; A6.11; CurvesOverFiniteFields §§1.10, 1.11.
 
 **Checks.**
 
@@ -757,7 +707,7 @@ The trace-2 elliptic class over 𝔽₅ has P=T²−2T+5, L=1−2T+5T² and coun
 
 ### Dependencies
 
-Mathlib polynomial and finite-field APIs, with `PerfectField.ofFinite` and `separableClosure.eq_top_iff` for the comparison of separable-closure and algebraic-closure points; Part II F0.2–F0.3; DWP.1; AbelianSchemesAndArithmeticModuli A6; NewtonPolygons §§2.1, 3.3; FunctionFieldArithmetic §§5.3–5.4; the Kummer isomorphism from SchemeAndStackFoundations §§2.11 and 3.6, with `μ_{ℓⁿ}` from EtaleCohomologyFoundations §F.0.3 and `AbelianTate` from AbelianSchemesAndArithmeticModuli A4.1; JacobianChallenge Layers D–E and SchemeAndStackFoundations §3.6 for Jacobians; InverseGaloisAndArithmeticFundamentalGroups §IG.0.T1 through DWP.1 §§1.6–1.7.
+Mathlib polynomial and finite-field APIs, with `PerfectField.ofFinite` and `separableClosure.eq_top_iff` for the comparison of separable-closure and algebraic-closure points; Part II F0.2–F0.3; DWP.1; AbelianSchemesAndArithmeticModuli A6; CurvesOverFiniteFields §§1.1, 1.4, 1.10, 1.11; FunctionFieldArithmetic §§5.3–5.4; the Kummer isomorphism from SchemeAndStackFoundations §§2.11 and 3.6, with `μ_{ℓⁿ}` from EtaleCohomologyFoundations §F.0.3 and `AbelianTate` from AbelianSchemesAndArithmeticModuli A4.1; JacobianChallenge Layers D–E and SchemeAndStackFoundations §3.6 for Jacobians; InverseGaloisAndArithmeticFundamentalGroups §IG.0.T1 through DWP.1 §§1.6–1.7.
 
 ## Layer 2: the Tate module and the endomorphism field
 
@@ -817,7 +767,8 @@ unity among the ratios
 finite extension (A6.7: `Hom` is finitely generated, and each generator is defined over a finite
 extension, `Hom.baseChange` being injective). The **endomorphism field** of `A` is the least
 subextension `L ⊆ K^{sep}` with `End(A_L) = End(A_{K^{sep}})`; it exists and is `𝔽_{q^d}` for a
-unique `d ≥ 1`, which Layer 5 identifies with §1.0's `geometricExtensionDegree P_A`. Layer 5
+unique `d ≥ 1`, which Layer 5 identifies with the geometric extension degree of `P_A`
+(CurvesOverFiniteFields 1.10). Layer 5
 writes `End(A_{K̄})` for `End(A_{K^{sep}})`, the two being identified by 1.2.
 *Needs:* 1.1, 1.2; AS Tate; A6.7; Tau Ceti `Hom.baseChange`.
 
@@ -864,9 +815,10 @@ real places (the invariant above `p` is `(1/2) · 2 = 0`, and `e = 1` would give
 constant term `−q ≠ q^g`), `e = 2`, `g = 2`, `P_A = (T² − q)²`: a simple supersingular abelian
 surface with `End⁰ ⊗ ℝ ≅ ℍ × ℍ`, geometrically isogenous to the square of a supersingular elliptic
 curve (5.3 below makes this precise). Every other simple `A` has `F` a CM field (totally imaginary
-quadratic over the totally real `ℚ(π_A + V_A)`), as §1.0 proves on the
-polynomial side; the Rosati involution restricts to complex conjugation of `F`.
-*Needs:* 1.3; Part II F1.11, F3.2; A6.14; §1.0.
+quadratic over the totally real `ℚ(π_A + V_A)`), as CurvesOverFiniteFields 1.8
+(`isCMField_weilNumberField`) proves on the polynomial side, with its 1.5 for the real-rooted
+irreducibles; the Rosati involution restricts to complex conjugation of `F`.
+*Needs:* 1.3; Part II F1.11, F3.2; A6.14; CurvesOverFiniteFields §§1.5, 1.8.
 
 **Checks.**
 
@@ -903,12 +855,12 @@ Layers 1–2; Part II F1.11 and F3.2; ClassFieldTheory Layers 5 and 10; Quadrati
 ## Layer 4: Honda–Tate, and Waterhouse's elliptic list
 
 Honda–Tate is Part II F3.2, consumed, with `q`-Weil numbers as in F0.3 (algebraic integers all of
-whose conjugates have absolute value `√q`; the predicate of §1.0 on their
+whose conjugates have absolute value `√q`; CurvesOverFiniteFields 1.1's predicate on their
 minimal polynomials), existence from F3.1a–F3.1c (CM types with prescribed slopes, their
 realization, effectivity of a power by CM reduction) and the Weil-restriction descent
 `P_{Res B}(T) = P_B(T^N)` of F3.1d: `A ↦ w(A)`, the conjugacy class of the roots of `m_A`, is a
 bijection from simple isogeny classes over `K` to conjugacy classes of `q`-Weil numbers,
-equivalently to monic irreducible Weil `q`-polynomials (§1.0).
+equivalently to monic irreducible Weil `q`-polynomials (CurvesOverFiniteFields 1.1, 1.9).
 Throughout this roadmap, for a monic irreducible Weil `q`-polynomial `m`, `e(m)` is the index of the
 division algebra F3.2 attaches to the class of its roots (the order of the Brauer class with the
 invariants of Layer 3, a function of `m` and `q`) and `g(m) := e(m) · deg m / 2`, so the simple
@@ -917,7 +869,7 @@ class with `m_A = m` has `P_A = m^{e(m)}` and dimension `g(m)`. With A6.5 and F0
 polynomial of an abelian variety over `K` iff `P = ∏_i m_i^{e(m_i) n_i}` with the `m_i` distinct
 monic irreducible Weil `q`-polynomials and `n_i ≥ 1`, and then `A ~ ∏ A_i^{n_i}` with
 `w(A_i) = [m_i]`; `A ↦ P_A` is a bijection from isogeny classes of dimension `g` over `K` to the set
-of such `P` of degree `2g`, which is finite (§1.0). The LMFDB knowl
+of such `P` of degree `2g`, which is finite (CurvesOverFiniteFields 1.3). The LMFDB knowl
 `av.fq.honda_tate` is this statement with Waterhouse 1969 Chapter 2 as its source. This layer keeps
 the elliptic case.
 
@@ -947,13 +899,13 @@ Over 𝔽₄₉ the trace 7 is excluded while ±14 occur.
 
 ### Dependencies
 
-Layer 3; Part II F3.2; native Weierstrass point counts.
+Layer 3; Part II F3.2; native Weierstrass point counts; CurvesOverFiniteFields §§1.1, 1.3, 1.9.
 
 ## Layer 5: decomposition, geometric data and twists
 
 The data of the LMFDB's "Decomposition", "Base change" and "Twists" boxes: every item is a
 function of `P_A` through Honda–Tate, and each milestone proves the identification of the
-polynomial-level reading (§1.0) with the statement about `A`.
+polynomial-level reading (CurvesOverFiniteFields Layer 1) with the statement about `A`.
 Sources: Milne AV II §2; Waterhouse 1969 Chapter 2; the LMFDB knowls `av.fq.number_field`,
 `av.fq.galois_group`, `ag.primitive`, `ag.base_change`.
 
@@ -967,8 +919,8 @@ AS Tate applied to the product) and conversely **the multiset is read off `P_A`*
 the image under `[m] ↦` the class with `m_A = m` (Part II F3.2) of the multiset
 `∑ (e(m_i) n_i / e(m_i)) [m_i]`, i.e. each monic irreducible factor `m_i` of multiplicity `k_i` in
 `P_A` contributes `k_i / e(m_i)` copies (Layer 4: `e(m_i) ∣ k_i`).
-`IsSimple A ↔ IsIsotypic P_A ∧ (exponent = e(m))` (A6.4; §1.0's
-`IsIsotypic` alone is "isotypic", `A ~ A_1^{n}`); `is_squarefree`, as pinned, is `∀ n_i = 1`, i.e.
+`IsSimple A ↔ P_A` is isotypic with exponent `e(m)` (A6.4; isotypy, `(P_A)_ℚ = m^e` with `m`
+irreducible and `e ≥ 1`, is CurvesOverFiniteFields 1.9, and isotypy alone is `A ~ A_1^{n}`); `is_squarefree`, as pinned, is `∀ n_i = 1`, i.e.
 `simpleFactors A` has no repeated element, equivalently every irreducible factor `m_i` of `P_A` has
 multiplicity exactly `e(m_i)`, equivalently `End⁰(A)` has no matrix factor (3.4); the stronger
 `Squarefree P_A` (all `n_i = e_i = 1`) is equivalent to `End⁰(A)` commutative and is the
@@ -976,7 +928,7 @@ hypothesis of Layers 8–9, not an LMFDB column; the LMFDB `simple_distinct` is 
 `simpleFactors A` and `simple_multiplicities` its multiplicities. `dim A = ∑ n_i g_i`. For products:
 `simpleFactors (A × B) = simpleFactors A + simpleFactors B`; for the dual:
 `simpleFactors A^∨ = simpleFactors A` (`P_{A^∨} = P_A`, 1.1).
-*Needs:* 1.1, 1.7, 1.8; Part II F0.2, F3.2, AS Tate; A6.4, A6.5; §1.0.
+*Needs:* 1.1, 1.7, 1.8; Part II F0.2, F3.2, AS Tate; A6.4, A6.5; CurvesOverFiniteFields §1.9.
 
 **Checks.**
 
@@ -995,7 +947,7 @@ coincide exactly when `α_i / α_j` is an `r`-th root of unity, which is what cr
 `P_{A,2} = (T − q)⁴`, so `A_{𝔽_{q²}} ~ E²` for the supersingular curve `E / 𝔽_{q²}` with
 `π_E = q` (Part II F3.2 over `𝔽_{q²}`: `e(T − q) = 2`), which is the precise form of "geometrically isogenous
 to the square of a supersingular elliptic curve" promised in 3.3.
-*Needs:* 1.4, 3.3, 5.1; Part II F3.2; §1.0.
+*Needs:* 1.4, 3.3, 5.1; Part II F3.2; CurvesOverFiniteFields §1.10.
 
 **Checks.**
 
@@ -1013,8 +965,9 @@ the decomposition of `A_L` stabilizes once `L` contains the endomorphism field (
 centre and the
 `n_i` of 3.4), so it suffices to test `r = d`, the geometric extension degree (5.4):
 `IsGeometricallySimple A ↔ IsSimple (A.baseChange 𝔽_{q^d})`, which by 5.1 is a condition on
-`weilPower P_A d`. Consequences: `IsGeometricallyIrreducible P_A → IsGeometricallySimple A`
-(§1.0: all `P_{A,r}` irreducible, so all `A_{𝔽_{q^r}}` simple), with the converse when
+`weilPower P_A d`. Consequences: if `P_A` is geometrically irreducible in the sense of CurvesOverFiniteFields 1.10
+(every `weilPower P_A r`, `r ≥ 1`, irreducible over `ℚ`) then `IsGeometricallySimple A` (all
+`P_{A,r}` irreducible, so all `A_{𝔽_{q^r}}` simple), with the converse when
 `e(m_d) = 1` for the irreducible `m_d` with `P_{A,d} = m_d^{e(m_d)}`; a geometrically simple `A` is
 simple; the surface of 3.3 and every supersingular `A` of dimension `≥ 2` is not geometrically
 simple (6.3). `is_geometrically_squarefree` is `is_squarefree` for `A.baseChange 𝔽_{q^d}` (5.1 over
@@ -1023,7 +976,7 @@ factor of `P_{A,d}` occurs to exactly its exponent `e` over `𝔽_{q^d}`), knowl
 `av.geometrically_squarefree`; it is stable under further extension (the decomposition has
 stabilized), fails for every supersingular `A` of dimension `≥ 2` (`A_{𝔽_{q^r}} ~ E^g`, 6.3) and for
 `2.2.a_ae` (`A_{𝔽_4} ~ E²`, 5.2) although both are `is_squarefree`.
-*Needs:* 2.8, 3.4, 5.1, 5.2; A6.4, A6.7; §1.0.
+*Needs:* 2.8, 3.4, 5.1, 5.2; A6.4, A6.7; CurvesOverFiniteFields §1.10.
 
 **Checks.**
 
@@ -1039,8 +992,8 @@ stabilized), fails for every supersingular `A` of dimension `≥ 2` (`A_{𝔽_{q
 - An extension contains all geometric endomorphisms exactly when its degree is divisible by that least degree.
 - The degree is unchanged by isogeny, but can change under twists.
 
-With `d := geometricExtensionDegree P_A` of §1.0 (the least `r ≥ 1` such
-that `(α_i/α_j)^r = 1` for every ratio of roots that is a root of unity): **the endomorphism field
+With `d` the geometric extension degree of `P_A` (CurvesOverFiniteFields 1.10; the least `r ≥ 1`
+such that `(α_i/α_j)^r = 1` for every ratio of roots that is a root of unity): **the endomorphism field
 of 2.8 is `𝔽_{q^d}`**. Proof: by 2.8, `dim_ℚ End⁰(A_{𝔽_{q^r}}) = #{(i, j) | α_i^r = α_j^r}`, which is
 nondecreasing in divisibility of `r`, maximal exactly when every root-of-unity ratio is killed by
 `r`, and `End(A_L) = End(A_{K̄})` iff this dimension is maximal (`End(A_L) ⊆ End(A_{K̄})` is an
@@ -1050,9 +1003,9 @@ because an endomorphism over `K̄` defined over `L` up to torsion is defined ove
 `d = 1` iff `End A = End A_{K̄}`, `d ∣ r` iff `End(A_{𝔽_{q^r}}) = End(A_{K̄})`, and the LMFDB's
 `endo_extensions` table lists `End⁰(A_{𝔽_{q^r}})` for `r ∣ d` (3.4). Bound: `d` divides the
 exponent of the group generated by the root-of-unity ratios, which lie in a number field of degree
-`≤ (2g)!`, so `d ≤ ` the largest order of a root of unity in such a field; the §1.0
-finiteness gives `d` finite.
-*Needs:* 2.8, 3.4; A6.2, A6.7; §1.0.
+`≤ (2g)!`, so `d ≤ ` the largest order of a root of unity in such a field (CurvesOverFiniteFields
+1.10: the lcm is over finitely many torsion ratios, so `d` is finite).
+*Needs:* 2.8, 3.4; A6.2, A6.7; CurvesOverFiniteFields §1.10.
 
 **Checks.**
 
@@ -1067,7 +1020,8 @@ finiteness gives `d` finite.
 knowl `ag.primitive` at the level of isogeny classes, the LMFDB's `is_primitive`). Milestones: with
 `q = q₀^r`, `r ≥ 2`, `B / 𝔽_{q₀}` has `P_{B_K} = weilPower P_B r` (1.4), so
 **`IsPrimitiveClass A ↔ ∀ r ≥ 2, ∀ q₀, q₀^r = q → ∀ Q ∈ weilRoots r P_A, Q is not the characteristic polynomial of an abelian variety over 𝔽_{q₀} (Part II F3.2)`**,
-where `weilRoots r P_A` (the monic `Q` with `weilPower Q r = P_A`; §1.0) is finite. The
+where `weilRoots r P_A` (the monic `Q` with `weilPower Q r = P_A`) is finite (CurvesOverFiniteFields
+1.10, `weilRoots_finite`). The
 **base-change models** of `A` are the pairs `(q₀, [B])` with
 `q₀^r = q`, `r ≥ 2` and `P_B ∈ weilRoots r P_A`, finitely many (AS Tate over `𝔽_{q₀}`); `primitiveModels A` is the
 set of those with `IsPrimitiveClass B`, the LMFDB's `primitive_models`, nonempty iff
@@ -1079,7 +1033,7 @@ trace `a` has `P_{E,2} = T² − (a² − 4)T + 4`, and `a² − 4 = 4` has no i
 `T² − 2 ∈ weilRoots 2 ((T − 2)²)` is a `2`-Weil polynomial that is not a `P_B` (Part II F3.2:
 `e(T² − 2) = 2`). Realizability is Honda–Tate, which is why the column is a statement about isogeny
 classes and lives here.
-*Needs:* 1.4; Part II F3.2, AS Tate; §1.0.
+*Needs:* 1.4; Part II F3.2, AS Tate; CurvesOverFiniteFields §1.10.
 
 **Checks.**
 
@@ -1098,11 +1052,11 @@ classes and lives here.
 At the level of isogeny classes (pinned):
 `IsTwistClass A B := ∃ r ≥ 1, IsIsogenous (A.baseChange 𝔽_{q^r}) (B.baseChange 𝔽_{q^r})`, and the
 **twist degree** `twistDegree A B` is the least such `r`.
-Milestones: `IsTwistClass A B ↔ ∃ r ≥ 1, IsTwistOver r P_A P_B` (AS Tate over `𝔽_{q^r}`, 1.4; the
-§1.0 relation `weilPower P_A r = weilPower P_B r`) and
-`twistDegree A B = twistDegree P_A P_B` (§1.0); it is an equivalence relation; the twist
-class of `A` is finite (the
-polynomial twist class of `P_A` is, §1.0, and AS Tate) and its members are the classes
+Milestones: `IsTwistClass A B ↔ ∃ r ≥ 1, P_A` and `P_B` are polynomial twists at exponent `r`
+(AS Tate over `𝔽_{q^r}`, 1.4; the relation `weilPower P_A r = weilPower P_B r` of
+CurvesOverFiniteFields 1.10) and `twistDegree A B` is the polynomial twist degree of `(P_A, P_B)`
+there; it is an equivalence relation; the twist class of `A` is finite (the polynomial twist class
+of `P_A` is, CurvesOverFiniteFields 1.10, and AS Tate) and its members are the classes
 `B` with `P_B` in the polynomial twist class of `P_A` — not every member of that polynomial class is
 a `P_B` (`T² − 2` lies in the class of `P_{1.2.a} = T² + 2` with `r = 4`, and no abelian variety
 over `𝔽_2` has it, Part II F3.2), so membership is decided by Part II F3.2; `twists A` is the set of
@@ -1116,11 +1070,11 @@ ratios `α_i / β_j`; `A_{K̄} ≅ B_{K̄}` implies `IsTwistClass A B` (an isomo
 over a finite extension, A6.7, and is an isogeny there), so a twist in the sense of knowl `av.twist`
 lies in the twist class; the quadratic twist of A6.34 has `P_{A'}(T) = P_A(−T)` and is a twist of
 degree `≤ 2`; `IsTwistClass A B` implies equal dimension and
-equal `p`-rank, slopes and angle rank of `P_A` and `P_B` (§1.0: all are invariants of
-`P_{A,r}` for one `r`). Example: over `𝔽_2` the three supersingular classes `1.2.a`, `1.2.ac`,
+equal `p`-rank, slopes and angle rank of `P_A` and `P_B` (6.4 and 6.5: all three are determined by
+`P_{A,r}` for one `r`, CurvesOverFiniteFields §§1.6, 1.7, 1.10). Example: over `𝔽_2` the three supersingular classes `1.2.a`, `1.2.ac`,
 `1.2.c` form one twist class with `max_twist_degree = 8` (`(i√2)^8 = (1 + i)^8 = 16`, and no smaller
 power works), while the ordinary classes `1.2.ab`, `1.2.b` form a class of degree `2`.
-*Needs:* 1.4, 5.4; Part II F3.2, AS Tate; A6.7, A6.34; §1.0.
+*Needs:* 1.4, 5.4; Part II F3.2, AS Tate; A6.7, A6.34; CurvesOverFiniteFields §§1.6, 1.7, 1.10.
 
 **Checks.**
 
@@ -1131,16 +1085,17 @@ power works), while the ordinary classes `1.2.ab`, `1.2.b` form a class of degre
 ### 5.7 The number field and the Galois group of a class
 
 For `A` with `P_A` irreducible (hence simple with `e = 1`): `F = ℚ(π_A) ≃ weilNumberField P_A`
-(§1.0) as `ℚ`-algebras carrying `π_A` to the root, of degree `2g`; it is a CM field with
-maximal real subfield `ℚ(π_A + V_A) ≃ AdjoinRoot h_{P_A}` (3.3; §1.0), or `ℚ(√p)`, or `ℚ`
-in the real cases; `galois_group := weilGaloisGroup P_A = Polynomial.Gal (P_A)_ℚ`, the Galois group
-of the splitting field, with its action on the `2g` roots (knowl `av.fq.galois_group`). For
+(CurvesOverFiniteFields 1.8) as `ℚ`-algebras carrying `π_A` to the root, of degree `2g`; it is a
+CM field with maximal real subfield `ℚ(π_A + V_A) ≃ AdjoinRoot h_{P_A}` (3.3; CurvesOverFiniteFields
+1.8), or `ℚ(√p)`, or `ℚ` in the real cases; `galois_group := Polynomial.Gal (P_A)_ℚ`, the Galois
+group of the splitting field (the Weil-polynomial Galois group of CurvesOverFiniteFields 1.8), with
+its action on the `2g` roots (knowl `av.fq.galois_group`). For
 reducible `P_A` the LMFDB's `number_fields` and `galois_groups` are the lists over the distinct
 irreducible factors `m_i`; each `ℚ[T]/(m_i)` is the centre `F_i` of the corresponding factor of
 `End⁰(A)` (3.4), which is the content of attaching them to `A`. The class-number, discriminant and
 signature of `F` are those of Mathlib's `NumberField` structure on `weilNumberField`; the LMFDB
 labels of the fields are not a target.
-*Needs:* 3.3, 3.4; Part II F3.2; §1.0.
+*Needs:* 3.3, 3.4; Part II F3.2; CurvesOverFiniteFields §1.8.
 
 **Checks.**
 
@@ -1154,12 +1109,12 @@ The pair T²+2 and T²−2T+2 has twist degree 8 and distinct endomorphism-field
 
 ### Dependencies
 
-Layers 1–4; AS Tate; AbelianSchemesAndArithmeticModuli A6.5, A6.7 and A6.34.
+Layers 1–4; AS Tate; AbelianSchemesAndArithmeticModuli A6.5, A6.7 and A6.34; CurvesOverFiniteFields §§1.6–1.10.
 
 ## Layer 6: `p`-rank, Newton polygon, ordinary and supersingular, angle rank
 
 The geometric invariants at `p`, each defined on `A` and then identified with the polynomial
-invariant of `P_A` from §1.0. Sources: Milne AV I §7 (`A[p]`),
+invariant of `P_A` from CurvesOverFiniteFields §§1.6–1.7. Sources: Milne AV I §7 (`A[p]`),
 Waterhouse 1969 Chapter 1 (Dieudonné modules and slopes), Waterhouse–Milne 1971 §2; the LMFDB
 knowls `av.fq.p_rank`, `av.fq.ordinary`, `av.fq.supersingular`, `av.fq.newton_elevation`,
 `av.fq.angle_rank`.
@@ -1191,20 +1146,21 @@ over an imperfect field the two differ); over the finite `K` here they agree by 
 
 ### 6.2 The Newton polygon of `A` and the slope comparison
 
-The Newton polygon of `A` is the polygon of `P_A` at `p` (pinned; §1.0), with slope multiset
-`slopes A := slopes P_A`, `2g` rationals in `[0, 1]`, symmetric under `s ↦ 1 − s` (1.3, §1.0). **Comparison:** the slopes of `P_A` are the slopes of the `F`-isocrystal `M(A) ⊗ L` of
+The Newton polygon of `A` is the polygon of `P_A` at `p` (pinned; CurvesOverFiniteFields 1.6),
+with slope multiset `slopes A := slopes P_A`, `2g` rationals in `[0, 1]`, symmetric under
+`s ↦ 1 − s` (1.3, CurvesOverFiniteFields 1.6). **Comparison:** the slopes of `P_A` are the slopes of the `F`-isocrystal `M(A) ⊗ L` of
 `A[p^∞]` (A4.5; `FiniteFlatGroupsAndIntegralPadicHodgeTheory` R07.2.15–R07.2.16 for the slope
 decomposition over `K̄` and its descent to `K`), because `π_A = F^a` acts on the isocrystal with
 characteristic polynomial `P_A` (Part II F1.3 and F1.5: `End⁰(A)^{op} ⊗ ℚ_p` is the endomorphism algebra of the isocrystal, which identifies the Frobenius) and the
 slopes of an isocrystal over a finite field are the `q`-normalized valuations of the eigenvalues of
 its linear Frobenius (R07.2.16). Consequences: **`pRank A` = multiplicity of the slope `0`** (the
 étale part of `A[p^∞]` is the slope-`0` part of the isocrystal, A4.5, and its height is the
-`p`-rank by 6.1), which is §1.0's `pRank p P_A` and the elementary criterion
-`IsOrdinary A ↔ p ∤ coeff g P_A` (§1.0); `p_rank_deficit := g − pRank A` (the LMFDB
+`p`-rank by 6.1), which is CurvesOverFiniteFields 1.6's `pRank p P_A`, and the elementary
+criterion `IsOrdinary A ↔ p ∤ coeff g P_A` (its `isOrdinary_iff_not_dvd_coeff`); `p_rank_deficit := g − pRank A` (the LMFDB
 `p_corank`). Isogenous varieties have the same polygon (1.8), and
-`slopes (A × B) = slopes A + slopes B` (§1.0, polygon of a product).
+`slopes (A × B) = slopes A + slopes B` (CurvesOverFiniteFields 1.6, polygon of a product).
 *Needs:* 1.3, 1.8, 6.1; Part II F1.3 and F1.5; A4.5; `FiniteFlatGroupsAndIntegralPadicHodgeTheory` R07.2.15,
-R07.2.16; §1.0.
+R07.2.16; CurvesOverFiniteFields §1.6.
 
 **Checks.**
 
@@ -1214,29 +1170,33 @@ R07.2.16; §1.0.
 
 ### 6.3 Ordinary, supersingular, almost ordinary; the supersingular structure theorem
 
-`IsOrdinary A := pRank A = g`; `IsSupersingular A := ∀ s ∈ slopes A, s = 1/2` (the pinned
-`WeierstrassCurve.IsSupersingular` is the `g = 1` case, 6.1; knowl `av.fq.supersingular`); `IsAlmostOrdinary A := pRank A + 1 = g`; `newtonElevation A` the
-elevation of `P_A` defined in §1.0, with `elevation = 0 ↔ IsOrdinary A`,
+`IsOrdinary A := pRank A = g`; `IsSupersingular A := ∀ s ∈ slopes A, s = 1/2` (equivalently, `P_A`
+being Weil, CurvesOverFiniteFields 1.6's coefficient predicate `IsSupersingular q P_A`; the pinned
+`WeierstrassCurve.IsSupersingular` is the `g = 1` case, 6.1; knowl `av.fq.supersingular`);
+`IsAlmostOrdinary A := pRank A + 1 = g`; `newtonElevation A` the elevation of `P_A` defined in
+CurvesOverFiniteFields 1.6, with `elevation = 0 ↔ IsOrdinary A`,
 `elevation = 1 ↔ IsAlmostOrdinary A`, and the supersingular value `(g+1)²/4` (odd `g`) or `g(g+2)/4`
 (even `g`)
-(§1.0). **Structure theorem:**
+(CurvesOverFiniteFields 1.6). **Structure theorem:**
 `IsSupersingular A ↔ ∃ r ≥ 1, ∃ E : AbelianVariety 𝔽_{q^r}, dim E = 1 ∧ IsSupersingular E ∧ IsIsogenous (A.baseChange 𝔽_{q^r}) (E^g)`
 (Oort's characterization;
 Waterhouse–Milne 1971 §2). `←`: slopes are base-change and isogeny invariants and `slopes (E^g)` is
 `{1/2}^{2g}` for supersingular `E` (6.1, 6.2 for `g = 1`: `pRank E = 0` means no slope `0`, so both
-slopes are `1/2`). `→`: all slopes `1/2` makes every `α_i / √q` a root of unity (§1.0,
+slopes are `1/2`). `→`: all slopes `1/2` makes every `α_i / √q` a root of unity (CurvesOverFiniteFields 1.7,
 Kronecker), so for `r` the lcm of their orders `α_i^r = q^{r/2}` with `r` even,
 `P_{A,r} = (T − q^{r/2})^{2g}`, and Part II F3.2 over `𝔽_{q^r}` gives `A_{𝔽_{q^r}} ~ E^g` with `E`
 the class of `T − q^{r/2}` (3.3: `e = 2`, `g(E) = 1`, supersingular with trace `2 q^{r/2}`).
 Corollaries:
-`IsSupersingular A → pRank A = 0`; for `g ≤ 2` the converse (a slope `0` is absent and the symmetric
-multiset of `≤ 4` slopes in `(0, 1)` with the integrality of the polygon's break points is all
-`1/2`; §1.0); `IsSupersingular A ↔ angleRank A = 0` (6.5); supersingularity is preserved by
+`IsSupersingular A → pRank A = 0`; for `g ≤ 2` the converse (a slope `0` is absent, and by the
+comparison of 6.2 a slope `s/t` in lowest terms occurs in the isocrystal of `A_{K̄}` with
+multiplicity divisible by `t` (Dieudonné–Manin, A4.5), so a symmetric multiset of `≤ 4` slopes in
+`(0, 1)` is all `1/2`; the polynomial polygon alone does not force this, its break points lying in
+`(1/r)ℤ` for `q = p^r` rather than in `ℤ`, CurvesOverFiniteFields 1.6); `IsSupersingular A ↔ angleRank A = 0` (6.5); supersingularity is preserved by
 isogeny, base change, products, duals, and inherited by abelian subvarieties and quotients
-(§1.0: slopes of factors). For `g = 1` the three predicates `IsSupersingular E` (this
+(CurvesOverFiniteFields 1.6: slopes of factors). For `g = 1` the three predicates `IsSupersingular E` (this
 layer), EllipticCurves' `E[p](K̄) = 0`, and `p ∣ frobeniusTrace` coincide (6.1, 1.6; the trace criterion of EllipticCurves
 Layer 3).
-*Needs:* 1.6, 3.3, 6.1, 6.2; Part II F3.2; §1.0; EllipticCurves Layer 3.
+*Needs:* 1.6, 3.3, 6.1, 6.2; Part II F3.2; A4.5; CurvesOverFiniteFields §§1.6, 1.7; EllipticCurves Layer 3.
 
 **Checks.**
 
@@ -1248,14 +1208,15 @@ Layer 3).
 
 The `p`-rank, slopes, elevation and the three predicates are invariants of the isogeny class (6.2),
 of base change (`slopes (A_L) = slopes A` as multisets: the roots `α_i^r` have `q^r`-normalized
-valuation equal to the `q`-normalized valuation of `α_i`; §1.0 for `weilPower`), of the
+valuation equal to the `q`-normalized valuation of `α_i`; `aroots_weilPower` of
+CurvesOverFiniteFields 1.10 for the roots of `P_{A_L} = weilPower P_A r`), of the
 twist class (5.6) and of the dual; `pRank (A × B) = pRank A + pRank B`;
 `IsOrdinary (A × B) ↔ IsOrdinary A ∧ IsOrdinary B`; the `p`-rank of a Jacobian is the `p`-rank of
 the curve's
-function field in the sense of §1.0 (`pRank p P_F`, 1.5). The LMFDB stores `p_rank`,
+function field in the sense of CurvesOverFiniteFields 1.6 (`pRank p P_F`, 1.5). The LMFDB stores `p_rank`,
 `p_rank_deficit`, `slopes`, `newton_elevation`, `is_ordinary`, `is_supersingular` per isogeny
 class; each is well defined by this milestone.
-*Needs:* 1.5, 1.8, 5.6, 6.1, 6.2, 6.3; §1.0.
+*Needs:* 1.5, 1.8, 5.6, 6.1, 6.2, 6.3; CurvesOverFiniteFields §§1.6, 1.10.
 
 **Checks.**
 
@@ -1266,17 +1227,20 @@ class; each is well defined by this milestone.
 ### 6.5 Angle rank and corank
 
 `frobeniusAngles A := frobeniusAngles P_A` (`g` angles `θ_i ∈ [0, 1]` with `α_i = √q e^{iπθ_i}`),
-`angleRank A := angleRank P_A` (§1.0; pinned; knowl `av.fq.angle_rank`),
+`angleRank A := angleRank P_A` (CurvesOverFiniteFields 1.7; pinned; knowl `av.fq.angle_rank`),
 `angle_corank := g − angleRank A`. Milestones: `0 ≤ angleRank A ≤ g`;
-`angleRank A = 0 ↔ IsSupersingular A` (§1.0 with 6.3); `angleRank (A.baseChange L) = angleRank A`;
+`angleRank A = 0 ↔ IsSupersingular A` (CurvesOverFiniteFields 1.7's `angleRank_eq_zero_iff` with 6.3); `angleRank (A.baseChange L) = angleRank A`;
 `angleRank (A × B) ≤ angleRank A + angleRank B`; `angleRank A` is the rank of the subgroup of
 `ℂ^× / μ_∞` generated by
-`α_1, …, α_{2g}` and `√q`, minus one (§1.0's equivalent form), so `angleRank A = g` iff the
+`α_1, …, α_{2g}` and `√q`, minus one (a milestone here: with `α_i = √q e^{iπθ_i}` and `q > 1`, a
+monomial `(√q)^m ∏ α_i^{n_i}` is a root of unity iff `m + ∑ n_i = 0` and `∑ n_i θ_i ∈ ℚ`, so the
+rank of that subgroup modulo torsion is `1 + dim_ℚ (span_ℚ{1, θ_i} / ℚ) = 1 + angleRank P_A`), so
+`angleRank A = g` iff the
 only multiplicative relations among `α_1, …, α_g, q` (one root per conjugate pair) are torsion; no
 sufficient condition for `angleRank A = g` in terms of the Galois group of `P_A` is claimed. The LMFDB's `angle_rank` is
 computed numerically (knowl `av.fq.frobenius_angles_correctness`); here it is the exact rational
 dimension and the two agree whenever the LMFDB's certificate does.
-*Needs:* 6.3; §1.0.
+*Needs:* 6.3; CurvesOverFiniteFields §1.7.
 
 **Checks.**
 
@@ -1290,7 +1254,7 @@ An ordinary elliptic curve has slopes 0,1 and elevation 0; a supersingular one h
 
 ### Dependencies
 
-Layers 1, 3 and 5; Part II F1.3 and F1.5; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.2.
+Layers 1, 3 and 5; Part II F1.3 and F1.5; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.2; AbelianSchemesAndArithmeticModuli A4.5; CurvesOverFiniteFields §§1.6, 1.7, 1.10.
 
 ## Layer 7: the group of points
 
@@ -1307,11 +1271,11 @@ For finite `L / K`: `A(L)` is a finite abelian group (1.2) of order
 `AddCommGroup.equiv_directSum_zmod_of_finite`
 (Mathlib) and `abvar_counts := (r ↦ #A(𝔽_{q^r}))_{r ≥ 1}`, of which the LMFDB stores the first ten
 terms (`1.4.ae`: `1, 9, 49, 225, 961, 3969, 16129, 65025, 261121, 1046529`). Milestones:
-the bound `(√q^r − 1)^{2g} ≤ #A(𝔽_{q^r}) ≤ (√q^r + 1)^{2g}` (§1.0; DWP.1 §1.5);
+the bound `(√q^r − 1)^{2g} ≤ #A(𝔽_{q^r}) ≤ (√q^r + 1)^{2g}` (CurvesOverFiniteFields 1.11; DWP.1 §1.5);
 **`#A(K) = 1 → g = 0 ∨ q ≤ 4`** (for `q ≥ 5` and `g > 0`, `(√q − 1)^{2g} > 1`), the hypothesis of the knowl
 `av.fq.one_rational_point`
 with the examples `1.2.ac`, `1.4.ae` and `2.2.ad_f`; `A(K) ⊆ A(L)` with `#A(K) ∣ #A(L)` (1.2).
-*Needs:* 1.2, 1.4; §1.0; Mathlib `AddCommGroup.equiv_directSum_zmod_of_finite`.
+*Needs:* 1.2, 1.4; CurvesOverFiniteFields §1.11; Mathlib `AddCommGroup.equiv_directSum_zmod_of_finite`.
 
 **Checks.**
 
@@ -1366,15 +1330,16 @@ over all members of a class; they are predicates on the class (1.7's quotient).
 
 ### 7.4 Virtual curve counts and the Jacobian obstruction
 
-`curveCounts A r := virtualCurveCount q P_A r = q^r + 1 − ∑ α_i^r` (§1.0), of which the
+`curveCounts A r := virtualCurveCount q P_A r = q^r + 1 − ∑ α_i^r` (CurvesOverFiniteFields 1.11), of which the
 LMFDB stores the first ten. Milestones: if `A ~ Jac C` then `curveCounts A r = #C(𝔽_{q^r})` (1.5); hence if
 some `curveCounts A r < 0`, or `curveCounts A r < curveCounts A s` for `s ∣ r` (points over `𝔽_{q^s}`
-are points over `𝔽_{q^r}`), or the Jacobian-compatibility conditions of §1.0 fail for `P_A`, then **no member of the class is a Jacobian**:
+are points over `𝔽_{q^r}`), or the Jacobian-compatibility conditions of CurvesOverFiniteFields 1.11 and 3.4 (nonnegative,
+divisibility-monotone counts whose Möbius sums `∑_{d ∣ r} μ(r/d) N_d` are nonnegative and divisible by `r`) fail for `P_A`, then **no member of the class is a Jacobian**:
 `hasJacobian A := ∃ C, ∃ B, IsIsogenous A B ∧ B ≅ Jac C` is false, which is the LMFDB value
 `has_jacobian = −1`. Example:
 `2.2.a_ae` has `curveCounts = [3, −3, …]`. Also: `hasJacobian A → hasPrincipalPolarization A`
 (10.2; the Jacobian's canonical principal polarization, JacobianChallenge Layer E).
-*Needs:* 1.5, 1.7; JacobianChallenge Layer E; §1.0.
+*Needs:* 1.5, 1.7; JacobianChallenge Layer E; CurvesOverFiniteFields §§1.11, 3.4.
 
 **Checks.**
 
@@ -1385,8 +1350,8 @@ are points over `𝔽_{q^r}`), or the Jacobian-compatibility conditions of §1.0
 ### 7.5 Points over extensions and the class number of a function field
 
 For `A = Jac C`: `#A(𝔽_{q^r}) = h_{F_r}`, the class number of the degree-`r` constant-field extension
-of the function field `F` of `C` (1.5; FunctionFieldArithmetic §5.3 and §1.0
-2.7), and `A(K) ≅ Cl⁰(F)` with no rational point of `C` assumed: `A(K) = Pic⁰_{C/K}(K)`
+of the function field `F` of `C` (1.5; FunctionFieldArithmetic §5.3 and CurvesOverFiniteFields 2.3:
+`P_{F_r} = weilPower P_F r` and `h_{F_r} = virtualAbvarCount P_F r`), and `A(K) ≅ Cl⁰(F)` with no rational point of `C` assumed: `A(K) = Pic⁰_{C/K}(K)`
 (SchemeAndStackFoundations §3.6 `picardComponent_zero`), which is `Pic⁰(C)` because `Pic(C)`
 embeds in `Pic_{C/K}(K)` with cokernel inside `Br(K)` (§3.6 `picardSheafPoints`) and `Br(K) = 0`
 for the finite field `K` (a finite division algebra is commutative, Mathlib `littleWedderburn`),
@@ -1396,7 +1361,7 @@ A Jacobian class with `P_A(1) = 1` (a function field of class number one, knowl
 `av.fq.class_number_1`) has `g = 0 ∨ q ≤ 4` by 7.1; the finiteness of the list of such function fields is a
 theorem about curves (the curve-specific finiteness problem), not claimed here.
 *Needs:* 1.5, 7.1; JacobianChallenge Layers A and E; SchemeAndStackFoundations §3.6; AlgebraicCurves
-Layer 12; Mathlib `littleWedderburn`; FunctionFieldArithmetic §§5.3–5.4.
+Layer 12; Mathlib `littleWedderburn`; FunctionFieldArithmetic §§5.3–5.4; CurvesOverFiniteFields §2.3.
 
 **Checks.**
 
@@ -1417,7 +1382,7 @@ Over 𝔽₅ the same elliptic class contains groups ℤ/4 and (ℤ/2)².
 
 ### Dependencies
 
-Layers 1–2 and 6; FunctionFieldArithmetic §§5.3–5.4; JacobianChallenge Layers A and E; SchemeAndStackFoundations §3.6.
+Layers 1–2 and 6; FunctionFieldArithmetic §§5.3–5.4; JacobianChallenge Layers A and E; SchemeAndStackFoundations §3.6; CurvesOverFiniteFields §§1.11, 2.3, 3.4.
 
 ## Layer 8: orders in étale algebras and the Frobenius order
 
@@ -1549,7 +1514,7 @@ on the real factors `ℚ`, `ℚ(√p)` of 3.3; knowl `av.fq.conjugate_stable`).
 **`frobeniusOrder A := Algebra.adjoin ℤ {π, V}`**, an order of `E_A` (8.1: `π` and `V` are integral,
 `V = π̄`), the LMFDB
 `ℤ[F, V]`; the **real suborder** `ℤ[π + V] ⊆ E_A^+ := ℚ[π + V]`, with `E_A^+ ≃ ℚ[T]/(h_{P_A})` for the
-real Weil polynomial (§1.0) and `[E_A : E_A^+] = 2` when `P_A` has no real root. Invariants
+real Weil polynomial (CurvesOverFiniteFields 1.4) and `[E_A : E_A^+] = 2` when `P_A` has no real root. Invariants
 (pinned): `zfv_index := index (frobeniusOrder A)`; `zfv_is_maximal := frobeniusOrder A = 𝓞_{E_A}`;
 `zfv_real_index := index (ℤ[π + V])` in `𝓞_{E_A^+}`; `zfv_rel_disc_norm := |Algebra.norm ℚ (π − V)|`,
 an integer, with the **identity `|N_{E/ℚ}(π − V)| = |disc ℤ[π, V]| / disc(ℤ[π + V])²`** (knowl
@@ -1563,7 +1528,7 @@ ring in the class is an overorder of `ℤ[π, V]`**. `ℤ[π, V]` is conjugate s
 with equality iff `V ∈ ℤ[π]`, i.e. iff `q ∈ π ℤ[π]` (`V = q/π`), which holds for `g = 1` (`V = a − π`) and fails for
 `2.2.ad_f` (`[ℤ[π, V] : ℤ[π]] = 2`). Comparison with the elliptic order `End E ⊇ ℤ[π_q]` of
 EllipticCurves Layer 1 and with *Complex multiplication and explicit reciprocity* 5.2 for `g = 1`.
-*Needs:* 1.1, 1.7, 3.3, 3.4, 8.1, 8.2; A6.7; §1.0; Tau Ceti
+*Needs:* 1.1, 1.7, 3.3, 3.4, 8.1, 8.2; A6.7; CurvesOverFiniteFields §1.4; Tau Ceti
 `discr_eq_index_sq_mul`.
 
 **Checks.**
@@ -1589,8 +1554,10 @@ The **trace dual** `Λ^∨ := {x ∈ E | Algebra.trace ℚ E (x Λ) ⊆ ℤ}`, a
 case). **`IsGorenstein Λ := Λ^∨` is invertible** (Tau Ceti `NumberFieldOrder.IsGorenstein` in
 the field case, consumed by comparison), equivalent to: every fractional ideal `I` with
 `(I : I) = Λ` is invertible (Marseglia, ideal class monoid, Proposition 2.11, p. 4); `𝓞_E` is Gorenstein; an order in
-a quadratic field is Gorenstein (Tau Ceti `Quadratic.lean`,
-`isProperFractionalIdeal_iff_isUnit_of_finrank_eq_two`: proper ideals are invertible);
+a quadratic field is Gorenstein (Tau Ceti `Gorenstein.lean`,
+`NumberFieldOrder.isGorenstein_of_finrank_eq_two`, consumed as stated; its proof applies
+`Quadratic/Basic.lean`'s `isProperFractionalIdeal_iff_isUnit_of_finrank_eq_two`, proper ideals are
+invertible, to the trace dual);
 Gorenstein is local (`Λ` Gorenstein iff `Λ_𝔪` Gorenstein for every maximal ideal `𝔪`, iff
 `dim_{Λ/𝔪} Λ^∨/𝔪Λ^∨ = 1` for all `𝔪`, 8.5). **`IsBass Λ := ∀ Λ' overorder of Λ, IsGorenstein Λ'`**
 (knowl `av.fq.bass_zfv`); equivalent to: every fractional `Λ`-ideal is invertible over its
@@ -1600,7 +1567,7 @@ Frobenius order over a prime field is Gorenstein:** for `K = 𝔽_p`, `IsGorenst
 (Centeleghe–Stix, arXiv:1501.02446v1, Theorem 11, §2, pp. 9–10; `ℤ[π, p/π] = ℤ[T, T'] / (T T' − p, h(T, T'))` is the quotient of the
 two-dimensional Gorenstein ring `ℤ[T, T']/(TT' − p)` by one equation `h`, the symmetrization of
 `P_A`, hence Gorenstein).
-*Needs:* 8.1, 8.2; Tau Ceti `Gorenstein.lean`, `Quadratic.lean`; Marseglia, ideal class monoid, Propositions 2.11 and 3.7, pp. 4–5;
+*Needs:* 8.1, 8.2; Tau Ceti `Gorenstein.lean` (`NumberFieldOrder.isGorenstein_of_finrank_eq_two`), `Quadratic/Basic.lean`; Marseglia, ideal class monoid, Propositions 2.11 and 3.7, pp. 4–5;
 Centeleghe–Stix, arXiv:1501.02446v1, Theorem 11, §2, pp. 9–10.
 
 **Checks.**
@@ -1718,7 +1685,7 @@ The order ℤ[2i] has index 2, conductor 2ℤ[i], one Picard class and two ideal
 
 ### Dependencies
 
-Layers 1 and 3 for the Frobenius specialization; ClassicalArithmeticCompletion §§7.4, 7.21, 7.49; GlobalNumberFields Layer 11; AS lattices for realizability.
+Layers 1 and 3 for the Frobenius specialization; CurvesOverFiniteFields §1.4; ClassicalArithmeticCompletion §§7.4, 7.21, 7.49; GlobalNumberFields Layer 11; AS lattices for realizability.
 
 ## Layer 9: Deligne modules, Centeleghe–Stix, and the isomorphism classes in an isogeny class
 
@@ -1740,7 +1707,7 @@ and Chapter 7 (ordinary classes); Howe 1995 §4 for duals.
 
 A Weil lattice for q > 1: a finite free `ℤ`-module `M` with `F : M →ₗ[ℤ] M` such that `F ⊗ ℚ` is
 semisimple (`Module.End.IsSemisimple`), every root of `charpoly F` is a `q`-Weil number
-(`IsWeilPolynomial q (charpoly F)` of §1.0), and `q • M ⊆ F(M)` (so `V := q F⁻¹` restricts to
+(`IsWeilPolynomial q (charpoly F)` of CurvesOverFiniteFields 1.1), and `q • M ⊆ F(M)` (so `V := q F⁻¹` restricts to
 an endomorphism of `M` with `FV = VF = q`). Morphisms are `ℤ`-linear maps commuting with `F`; the
 category is additive with finite products. Call this general object a **Weil lattice**;
 reserve **ordinary Deligne module** for its ordinary subcategory. On the subcategory with no
@@ -1775,7 +1742,7 @@ above, is `(I, x ↦ π x)`, a Deligne module with polynomial `P`, and the dicti
 statement that `I ↦ (I, π ·)` induces a bijection from `ICM R` to the isomorphism classes of
 Deligne modules with polynomial `P`.
 *Needs:* 8.3, 8.6; Mathlib `Module.End.IsSemisimple`, `LinearMap.charpoly`;
-§1.0.
+CurvesOverFiniteFields §1.1.
 
 **Checks.**
 
@@ -1946,7 +1913,7 @@ At q=4 the rank-one Weil lattice F=2 is retained, but lies outside the admissibl
 
 ### Dependencies
 
-Layers 5–8; AbelianSchemesAndArithmeticModuli A4.9–A4.10 and A5.1; Part II F3.8 and F3.10; AS lattices.
+Layers 5–8; AbelianSchemesAndArithmeticModuli A4.9–A4.10 and A5.1; Part II F3.8 and F3.10; AS lattices; CurvesOverFiniteFields §1.1.
 
 ## Layer 10: polarizations, principal polarizability, and Jacobians
 
@@ -2089,7 +2056,7 @@ without a Jacobian (`P_A = T⁴ − tT² + q²` with `t = 2q − 1`, resp. `2q �
 restriction (`a = 0` in (i) forces `b = −q`, `p ∣ b`, not ordinary), so
 **`hasPrincipalPolarization A ↔ ¬(i)` and `hasJacobian A ↔ ¬(i) ∧ ¬(ii) ∧ ¬(iii)`** for simple
 ordinary surfaces. Witnesses: `2.2.ab_ab` (i), `2.2.a_ad` (ii), `2.3.a_ae` (iii) in the worked
-examples; (iii) is vacuous for `p = 2`, where `T⁴ + (2 − 2q)T² + q²` is supersingular. **(B) All other surfaces.** Prove the full HNR classification below, including necessity and
+examples; (iii) is vacuous for `p = 2`, where `p ∣ b = 2 − 2q` makes the class non-ordinary (6.2's criterion `IsOrdinary A ↔ p ∤ coeff g P_A`), so it lies outside case (A); at `q = 4` that class, `T⁴ − 6T² + 16`, has slopes `{1/4, 1/4, 3/4, 3/4}` and is not supersingular either. **(B) All other surfaces.** Prove the full HNR classification below, including necessity and
 sufficiency over every finite field, with no ordinarity assumption. In the split case write
 P=(T²−sT+q)(T²−tT+q), where s,t are elliptic traces allowed by §4.6 and |s|≥|t|. If f is the
 p-rank, no Jacobian exists exactly when at least one of the following conditions holds
@@ -2229,16 +2196,18 @@ Layers 7–9; JacobianChallenge Layer E; AbelianSchemesAndArithmeticModuli A3.3�
 ### 11.1 The isogeny-class label prefix
 
 `labelPrefix A := (g, q, [coeff 1 L_A, …, coeff g L_A])`, the dimension, the field size and the first
-`g` coefficients of the `L`-polynomial (1.3). Milestones: it is an isogeny invariant (1.8) and
-**injective on isogeny classes** (1.3: `L_A` is determined by its first `g` coefficients and `q`
-through the symmetry `a_{2g−j} = q^{g−j} a_j`-form (0≤j≤g) of 1.3; AS Tate: `P_A` determines the class),
+`g` coefficients of the `L`-polynomial (1.3): the intrinsic prefix of the monic symmetric polynomial
+`P_A` in CurvesOverFiniteFields 1.4 (`c_j = (reverse P_A).coeff j`). Milestones: it is an isogeny
+invariant (1.8) and **injective on isogeny classes** (CurvesOverFiniteFields 1.4: for `q > 0` the
+prefix determines a monic symmetric polynomial, through the symmetry `a_{2g−j} = q^{g−j} a_j`
+(`0 ≤ j ≤ g`) of 1.3; AS Tate: `P_A` determines the class),
 with image exactly the coefficient lists of the polynomials Honda–Tate allows (Part II F3.2, as read
 in Layer 4); the base-`26` encoding `g.q.isog`
 of the list (knowl `av.fq.lmfdb_label`) and every other label component — the indices of
 endomorphism rings `[index]_i`, weak equivalence classes, Deligne modules and polarizations — are
 not targets. The dimension `g` and `q` are recovered from the prefix, and `p` from
 `q`.
-*Needs:* 1.3, 1.8; Part II F3.2, AS Tate.
+*Needs:* 1.3, 1.8; Part II F3.2, AS Tate; CurvesOverFiniteFields §1.4.
 
 **Checks.**
 
@@ -2253,7 +2222,7 @@ Every column and property of the `av.fq` pages, placed:
 | LMFDB column / knowl | Milestone |
 | --- | --- |
 | `label` prefix `g.q.isog`; `g`, `q`, `p` | 11.1; conventions |
-| `poly` (`L_A`), `av.fq.weil_polynomial`, `initial_coefficients` | 1.3 (§1.0 for the polynomial) |
+| `poly` (`L_A`), `av.fq.weil_polynomial`, `initial_coefficients` | 1.3 (CurvesOverFiniteFields 1.1 and 1.4 for the polynomial) |
 | `abvar_counts` (`ag.fq.point_counts`), `size`-type orders `#A(𝔽_{q^r})` | 1.2, 1.4, 7.1 |
 | `curve_counts` (`av.fq.curve_point_counts`) | 7.4 (1.5 for Jacobians) |
 | `is_simple`, `simple_distinct`, `simple_multiplicities`, `is_squarefree` | 5.1 |
@@ -2284,14 +2253,17 @@ The prefix (1,5,[−2]) reconstructs the trace-2 elliptic polynomial.
 
 ### Dependencies
 
-Layers 1 and 4; AS Tate. The page map only indexes preceding results.
+Layers 1 and 4; AS Tate; CurvesOverFiniteFields §1.4. The page map only indexes preceding results.
 
 
 ## Downstream consumers
 
-CurvesOverFiniteFields consumes §1.0's polynomial operations, §4.6's elliptic existence list,
-and §10.4's surface Jacobian criterion. SatoTateGroups consumes the finite-field endomorphism
-and angle invariants of Layers 3, 5 and 6. These consumers supply no input to this roadmap.
+SatoTateGroups consumes the finite-field endomorphism and angle invariants of Layers 3, 5 and 6;
+it supplies no input to this roadmap. CurvesOverFiniteFields is a supplier (its Layer 1, 2.3 and
+3.4), not a consumer: its 4.1 compares the geometric supersingularity of an elliptic curve with its
+polynomial predicate for `q = p` and `q = p²` by polynomial identities, and the agreement for every
+`q = p^r` on the traces that occur is 6.3 here (through Waterhouse's list, 4.6); that roadmap
+consumes neither.
 
 ## Worked examples
 
@@ -2403,7 +2375,9 @@ Layers 1 and 8 can start at once (8.1–8.2 and 8.4–8.6 need nothing from Laye
 1; Layers 3 and 7 after 2, in parallel; 4 after 3; 5 and 6 after 4, in parallel; 9 after 5, 6 and
 8; 10 after 9; 11 after 1 and 4. Layers 2–6 and 9–11 read AS Tate, AS lattices and Part II F3.2 (Honda–Tate) wherever they use those theorems. The external inputs with the longest
 lead time are DWP.1 (every layer), A6 (Layers 1–3), Part II F0–F3 (Layers 2–6 and 9–11) and
-A4.9–A4.10 (9.2 only); Layers 8 and the polynomial-level parts of 5–6 depend on none of them.
+A4.9–A4.10 (9.2 only); CurvesOverFiniteFields Layer 1 is read wherever a milestone applies a
+polynomial invariant to `P_A` (Layers 1, 3–9 and 11); Layer 8 depends on none of the long-lead
+inputs.
 
 ## Provenance
 
@@ -2414,7 +2388,7 @@ Tau Ceti's carriers (in the first, an abelian variety is a group object over `Sp
 abelian-variety predicate, not `AbelianVariety K`), so each statement is compared with the milestone
 here before it is transported. Their overlap with this roadmap is in scheme-level inputs (most of
 them consumed from the suppliers; the rest are steps of 1.2 and 7.2) and in the Weil-number
-predicate of §1.0.
+predicate consumed from CurvesOverFiniteFields 1.1.
 
 - formal-arithmetic-geometry/weil-conjectures, commit `55abf461d4688270382c9c982ac08a279e41c00b`:
   - [`AlgebraicGeometry/AbelianVariety/TateModule.lean`](https://github.com/formal-arithmetic-geometry/weil-conjectures/blob/55abf461d4688270382c9c982ac08a279e41c00b/WeilConjectures/AlgebraicGeometry/AbelianVariety/TateModule.lean)
@@ -2439,13 +2413,17 @@ predicate of §1.0.
     in 1.5 and 7.5). The identity
     `P_{Jac C} = P_F` of 1.5 is not stated in it.
   - [`ZetaLinearAlgebra/WeilNumbers.lean`](https://github.com/formal-arithmetic-geometry/weil-conjectures/blob/55abf461d4688270382c9c982ac08a279e41c00b/WeilConjectures/ZetaLinearAlgebra/WeilNumbers.lean): `q`-Weil numbers
-    of weight `w`, algebraic integers all of whose complex embeddings have absolute value
-    `q^{w/2}`, characterized through the roots of the minimal polynomial; weight `1` is the
-    convention of §1.0. The polynomial condition of
+    of weight `w`, elements algebraic over `ℚ` (`IsIntegral ℚ`; the file imposes no integrality
+    over `ℤ`) all of whose complex embeddings have absolute value `q^{w/2}`, characterized through
+    the roots of the minimal polynomial; at weight `1` the integral predicate of
+    CurvesOverFiniteFields 1.1 used here is strictly stronger (`(3 + 4i)√2/5` has every complex
+    embedding of modulus `√2` and is not an algebraic integer). The polynomial condition of
     [`WeilFactorization.lean`](https://github.com/formal-arithmetic-geometry/weil-conjectures/blob/55abf461d4688270382c9c982ac08a279e41c00b/WeilConjectures/ZetaLinearAlgebra/WeilFactorization.lean) is on reversed
     factors, whose roots have absolute value `q^{−i/2}` (the `L`-polynomial normalization of 1.3),
     and the reciprocity of [`Reciprocity.lean`](https://github.com/formal-arithmetic-geometry/weil-conjectures/blob/55abf461d4688270382c9c982ac08a279e41c00b/WeilConjectures/ZetaLinearAlgebra/Reciprocity.lean) is the
-    self-duality of a cohomological trace datum, not the reciprocity `α ↦ q/α` of `P_A` in 1.3
+    relation `D_i · P_{2d−i}(T) = ± charpoly(F_i)(q^d T)` between the degree-`i` and
+    degree-`(2d − i)` factors of a trace datum that is assumed self-dual
+    (`TraceDatum.C_det_mul_P_rev_of_pairing`), not the reciprocity `α ↦ q/α` of `P_A` in 1.3
     (Part II F0.2).
 - AxiomMath/Weil, commit `27cdb2049be62ee2911429b47f54774078450e32`:
   [`Defs/AlgebraicGeometry/Frobenius.lean`](https://github.com/AxiomMath/Weil/blob/27cdb2049be62ee2911429b47f54774078450e32/Weil/Defs/AlgebraicGeometry/Frobenius.lean), the
