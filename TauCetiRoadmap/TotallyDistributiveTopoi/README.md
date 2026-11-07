@@ -187,8 +187,8 @@ below it). Prove `isLocallyConnected_iff`: `L` is locally connected exactly when
 `b ≤ ⨅ i, f i (g i)` for the resulting `g`; for `⇐`, index all disjoint decompositions of `b`,
 apply the equation to them, and check that each nonzero meet e(g) of the common refinement is
 connected (a splitting e(g) = c₁ ⊔ c₂, together with the other meets e(h), is a decomposition,
-and e(g) lies below its member chosen by g). Prove also that a completely distributive frame is locally
-connected (the case of disjoint families of 1.1).
+and e(g) lies below its member chosen by g). Prove also that a completely distributive frame is
+locally connected (the case of disjoint families of 1.1).
 *Needs:* 1.1; Mathlib `Order.Frame`, `Disjoint`, `Pairwise`.
 
 **Checks.**
