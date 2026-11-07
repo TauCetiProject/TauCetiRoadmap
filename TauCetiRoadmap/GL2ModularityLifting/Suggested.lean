@@ -28,7 +28,7 @@ The other headline results require arithmetic objects absent from the pins:
   results additionally use the Breuil–Mézard cycles, completed cohomology and Pan's
   pseudodeformation spaces needed to express their LL/CC/LC hypotheses.
 * Layer 12's congruence and family transfer results need those lifting predicates, the
-  automorphic Galois attachment and the shared `AutomorphicSystemData`/`RankTwoFamily`
+  automorphic Galois attachment and the shared raw compatible-system and `RankTwoFamily`
   carriers with their good Frobenius polynomials.
 * The Galois-rank and reducible-locus consequences of §10.7a need the pro-p
   class-field and pseudodeformation objects.
