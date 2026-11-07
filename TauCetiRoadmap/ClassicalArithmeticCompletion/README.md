@@ -1689,7 +1689,7 @@ The supporting API comprises:
 
 (Michael A. Bennett and Samir Siksek, [A conjecture of Erdős, supersingular primes and short character sums](#michael-a-bennett-and-samir-siksek--a-conjecture-of-erdős-supersingular-primes-and-short-character-sums), §6, proof of Proposition 6.1 for a ∈ A(II) (p. 372).) The API lemma characterising odd part 1 by the square classes ±1, ±2 is the step the paper uses here.
 
-To prove this, squareclassDiscr u is fundamental: Tau Ceti's `isFundamentalDiscriminant_fundamentalDiscriminant` applied to the squarefree part, transported to Int.IsFundamentalDiscr.
+To prove this, squareclassDiscr u is fundamental: Tau Ceti's `isFundamentalDiscr_fundamentalDiscriminant` applied to the squarefree part, transported to Int.IsFundamentalDiscr.
 
 Primitivity with conductor |D(u)| is the primitivity of the Kronecker character.
 
@@ -1711,7 +1711,7 @@ Uniqueness among primitive characters is the lemma on primitive characters agree
 - For every nonzero u the 2-adic valuation of the conductor is 0, 2 or 3; this is the 2-adic bound in its sharp form for square-class characters.
 - BS Lemma 6.2(ii) and the characters `µ_1` to `µ_4` of Proposition 6.1 are squareclassCharacter at λ, -λ, 2λ and -2λ.
 
-*Needs:* [The squarefree part of a rational number](#118a-the-squarefree-part-of-a-rational-number); [The Kronecker character of a fundamental discriminant](#17-the-kronecker-character-of-a-fundamental-discriminant); Tau Ceti `TauCeti.Multiquadratic.isPrimitive_fundamentalDiscriminantChar` (current library); [Primitive characters agreeing at almost all primes are equal](#18-primitive-characters-agreeing-at-almost-all-primes-are-equal); Tau Ceti `TauCeti.Multiquadratic.fundamentalDiscriminant`; Tau Ceti `TauCeti.Multiquadratic.isFundamentalDiscriminant_fundamentalDiscriminant`; Tau Ceti `TauCeti.legendreSym_mul_sq`; Mathlib `padicValRat`; Mathlib `legendreSym`; Mathlib `Nat.factorization`.
+*Needs:* [The squarefree part of a rational number](#118a-the-squarefree-part-of-a-rational-number); [The Kronecker character of a fundamental discriminant](#17-the-kronecker-character-of-a-fundamental-discriminant); Tau Ceti `TauCeti.Multiquadratic.isPrimitive_fundamentalDiscriminantChar` (current library); [Primitive characters agreeing at almost all primes are equal](#18-primitive-characters-agreeing-at-almost-all-primes-are-equal); Tau Ceti `TauCeti.Multiquadratic.fundamentalDiscriminant`; Tau Ceti `TauCeti.Multiquadratic.isFundamentalDiscr_fundamentalDiscriminant`; Tau Ceti `TauCeti.legendreSym_mul_sq`; Mathlib `padicValRat`; Mathlib `legendreSym`; Mathlib `Nat.factorization`.
 
 ### 1.52 Hilbert's product formula for the degree-n Hilbert symbol
 
@@ -2422,7 +2422,7 @@ The declarations and supplier layers used by this layer are:
 - Tau Ceti `TauCeti.Multiquadratic.genusCharFun_mul_right`.
 - Tau Ceti `TauCeti.Multiquadratic.genusCharFun_natCast_eq_legendreSym`.
 - Tau Ceti `TauCeti.Multiquadratic.genusCharFun_one`.
-- Tau Ceti `TauCeti.Multiquadratic.isFundamentalDiscriminant_fundamentalDiscriminant`.
+- Tau Ceti `TauCeti.Multiquadratic.isFundamentalDiscr_fundamentalDiscriminant`.
 - Tau Ceti `TauCeti.Multiquadratic.primeDiscriminantCharFun`.
 - Tau Ceti `TauCeti.Multiquadratic.primeDiscriminantCharFun_eight`.
 - Tau Ceti `TauCeti.Multiquadratic.primeDiscriminantCharFun_neg_eight`.
