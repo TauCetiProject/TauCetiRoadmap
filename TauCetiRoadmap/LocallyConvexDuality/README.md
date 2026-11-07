@@ -562,9 +562,10 @@ products of equicontinuous subsets of `E′` and `F′` (the bi-equicontinuous t
 `E ⊗̂ε F` as its completion (Grothendieck 1952, Ch. I, no. 5, pp. 81–82). Prove that `π` is finer
 than `ε`, that `ε` is the Banach injective norm of BanachSpaceTheory B4 for normed spaces, and that
 `E ⊗̂ε F` embeds in the bi-equicontinuous separately continuous bilinear forms on `E′_σ × F′_σ` when
-`E` and `F` are complete (same pages). The completed injective tensor product respects subspaces
-(Grothendieck 1952, Ch. I, no. 5) and commutes with arbitrary products, a direct check on the
-defining seminorms; these are the route to the subspace and product clauses of 5.4. The algebraic
+`E` and `F` are complete (same pages). Prove that the completed injective tensor product respects
+subspaces (Grothendieck 1952, Ch. I, no. 6, Théorème 5, p. 83) and commutes with arbitrary
+products, a direct check on the defining seminorms. These are not the route to 5.4, since the
+projective tensor product does not respect subspaces. The algebraic
 tensor product it completes is Bourbaki, *Algèbre*, ch. II, §3 (Bourbaki 2007). *Needs:*
 NoncommutativeGeometry N1 (`E ⊗̂π F`), BanachSpaceTheory B4 (injective norm), 3.3.
 
@@ -614,7 +615,12 @@ p. 101). *Needs:* 5.2, 3.4, Mathlib `MontelSpace`.
 Closed subspaces and finite sums of nuclear spaces are nuclear by SpectralManifolds SM3. Prove:
 arbitrary subspaces, separated quotients, arbitrary products and countable direct sums of nuclear
 spaces are nuclear; `E ⊗̂π F` is nuclear for nuclear `E`, `F`; and a Fréchet or (DF)-space is
-nuclear iff its strong dual is (Grothendieck 1952, Ch. II, Théorème 3, p. 102). Not a target:
+nuclear iff its strong dual is (Grothendieck 1952, Ch. II, Théorème 3, p. 102). Route: the
+subspace clause from criterion (c) of 5.2 through Hilbert seminorms, a nuclear space having a
+basis of seminorms coming from inner products whose restrictions to a subspace keep the nuclear
+factorisations (Grothendieck 1955, Ch. II, §2, no. 2; Pietsch 1972, Chapter 5); the product
+clause from the definition of 5.2, a continuous seminorm on a product factoring through a finite
+subproduct, and SpectralManifolds SM3 for finite sums. Not a target:
 nuclearity is a three-space property, an extension of nuclear spaces being nuclear (Dierolf–Roelcke
 1981, Proposition 3.8); the splitting theory of Fréchet spaces behind such extensions is
 Wengenroth 2003. A monograph treatment of 5.2–5.4 is Pietsch 1972, Chapters 5 (nuclear locally
