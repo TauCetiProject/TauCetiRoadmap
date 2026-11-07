@@ -29,7 +29,8 @@ them. This roadmap owns:
   their identification with `σ′/σ` and `latticeQuasiPeriod`, and the homogeneity of `G_k` for all
   `k` under `Λ ↦ cΛ` (Layers 0 and 2);
 - the dictionary between the quasi-period `η(1)` of `ℤ + ℤτ` and Mathlib's
-  `EisensteinSeries.E2` (Layer 2); the comparison `g₂ = (4π⁴/3)E₄`, `g₃ = (8π⁶/27)E₆` for
+  `EisensteinSeries.E2`, and the scaled dictionary for a positive period pair (Layer 2); the
+  comparison `g₂ = (4π⁴/3)E₄`, `g₃ = (8π⁶/27)E₆` for
   `ℤ + ℤτ` is ModularForms §10D's (`G_{2m}(ℤ + ℤτ) = 2ζ(2m)E_{2m}(τ)`) and is consumed;
 - the period matrix, the period field and its transcendence degree (Layers 3, 5);
 - complex multiplication of a lattice, as an analytic property `HasCM`, and the CM relation
