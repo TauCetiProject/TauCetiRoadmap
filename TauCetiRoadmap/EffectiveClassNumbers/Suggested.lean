@@ -1,6 +1,6 @@
 import Mathlib
 import TauCeti.NumberTheory.BinaryQuadraticForm.Reduced
-import TauCeti.AlgebraicGeometry.EllipticCurve.MordellWeil.PointModTorsion
+import TauCeti.AlgebraicGeometry.EllipticCurve.MordellWeil.PointModTorsion.Basic
 
 /-!
 # EffectiveClassNumbers: target signatures
@@ -10,9 +10,15 @@ theorems against the pinned Mathlib and Tau Ceti APIs, with the simple definitio
 
 The end theorems are Oesterlé's technical theorem (§1.8), analytic and arithmetic rank three
 for the two explicit elliptic curves (§§2.12–2.13), the uniform constants 7000 and 55
-(§§3.6–3.7), the effective logarithmic bound and fixed-class-number cutoff (§§4.7–4.8),
+(§§3.6–3.7), the effective logarithmic bound and fixed-class-number cutoffs (§§4.7–4.8),
 and the sixteen-discriminant classification (§5.8). The integrated nonaxial lattice estimate
 (§0.7) and Montgomery–Weinberger exclusion (§5.4) are also deep results stated here.
+
+The polynomial cutoff of §4.8 is explicit in a constant `c₀` for the lower bound
+`L(1, χ) ≥ c₀ / log q` over primitive nonprincipal real Dirichlet characters, which
+AnalyticNumberTheoryPartI §0.9 supplies, effectively, from the uniform exclusion of
+Landau–Siegel zeros (§0.34). That statement is a roadmap target, not a Tau Ceti declaration, so
+`c₀` enters as a parameter with its defining inequality as hypothesis.
 
 The full Gross–Zagier formulas (§2.8) and vanishing of the geometric conductor-37 Heegner
 trace (§2.11) are not statable at the pins: the arithmetic Heegner-point construction on
@@ -160,12 +166,21 @@ theorem effectiveLogarithmic_bound (K : Type) [Field K] [NumberField K]
       NumberField.classNumber K := by
   sorry
 
-/-- §4.8: a computable cutoff for a fixed class number. -/
+/-- §4.8: computable cutoffs for a fixed class number `H`: two with displayed constants, and one
+polynomial in `H`, explicit in any constant `c₀` with `L(1, χ) ≥ c₀ / log q` for every primitive
+nonprincipal real character of conductor `q ≥ 3` (AnalyticNumberTheoryPartI §0.9, effective
+through the uniform exclusion of Landau–Siegel zeros of §0.34). -/
 theorem effective_cutoff (K : Type) [Field K] [NumberField K]
     (hdeg : Module.finrank ℚ K = 2) (hneg : NumberField.discr K < 0) (H : ℕ)
     (hH : NumberField.classNumber K = H) :
     ((NumberField.discr K).natAbs : ℝ) < Real.exp (2 ^ 604 * (H : ℝ) ^ 2) ∧
-      (NumberField.discr K).natAbs < 2 ^ (2 ^ 605 * H ^ 2) := by
+      (NumberField.discr K).natAbs < 2 ^ (2 ^ 605 * H ^ 2) ∧
+      ∀ c₀ : ℝ, 0 < c₀ →
+        (∀ (q : ℕ) [NeZero q] (χ : DirichletCharacter ℂ q),
+          3 ≤ q → χ.IsPrimitive → χ.IsQuadratic → χ ≠ 1 →
+            c₀ / Real.log q ≤ (DirichletCharacter.LFunction χ 1).re) →
+        ((NumberField.discr K).natAbs : ℝ) ≤
+          (4 * Real.pi * H / c₀) ^ 2 * Real.log (2 * Real.pi * H / c₀) ^ 2 := by
   sorry
 
 /-! ## Layer 5: the sixteen fields of class number three -/
