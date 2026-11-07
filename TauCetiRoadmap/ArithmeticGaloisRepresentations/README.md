@@ -363,7 +363,10 @@ extensions of nonarchimedean local fields, `TauCeti.LocalFieldsRamification.lowe
 `Ideal.isUnramifiedAt_iff_inertia_eq_bot`, `NumberField.Chebotarev.frobeniusPrimeSet`,
 `NumberField.isArithFrobAt_eq_of_isUnramifiedAt`, `Multiquadratic.galoisGroupEquiv`,
 `NumberField.exists_isArithFrobAt_multiquadratic`, `NumberField.isArithFrobAt_apply_sqrt`.
-Representation theory: `Representation.baseChange`,
+Representation theory: the jointly continuous carrier `TauCeti.ContinuousRep` with
+`TauCeti.ContinuousRep.Iso`, `TauCeti.ContinuousRep.ofCharacter`, `TauCeti.ContinuousRep.baseChange`
+and the forgetful map `TauCeti.ContinuousRep.toContRepresentation` (the carrier and operations that
+EtaleCohomologyFoundations §F.4.0 specifies), `Representation.baseChange`,
 `Representation.finrank_intertwiningMap_baseChange`, `Representation.charTwist`,
 `Representation.symmetricPower`, `Representation.exteriorPower`, `Representation.tensorPower`,
 `Subgroup.tensorInducedRepresentation`, `SymmetricPower.finrank_eq`, `ContRepresentation.linHom`,
@@ -375,7 +378,7 @@ Representation theory: `Representation.baseChange`,
 `jordanHolderMultiplicity_eq_add_of_exact`, `compositionMultiplicity_eq_of_head_eq_of_last_eq`,
 `exists_linearEquiv_directSum_isIndecomposableModule`, `haarProb`, `haarProb_apply`. Linear algebra:
 `LinearMap.GeneralLinearGroup.jordanDecomposition`, `traceBilinForm`, `traceBilinForm_nondegenerate`,
-`Matrix.det_eq_of_transpose_mul_J_mul_eq_smul`, and the `GL₂` toolkit `GL2Borel`, `GL2NonSplitTorus`,
+`Matrix.transpose_mul_J_mul_eq_smul_iff`, and the `GL₂` toolkit `GL2Borel`, `GL2NonSplitTorus`,
 `GL2WeylElement`, `diagGL`, `centralizer_diagGL`, `conjClassesGLFinTwoEquiv`,
 `exists_isConj_normalForm`, `isConj_iff_of_notMem_range_scalar`, `natCard_GL_fin_two`,
 `Matrix.SpecialLinearGroup.not_isSolvable_fin_two`. Central simple algebras: `Algebra.index`,
@@ -722,19 +725,22 @@ Sources: DDT = Darmon–Diamond–Taylor 2007, BHKT = Böckle–Harris–Khare�
 Use EtaleCohomologyFoundations §F.4.0's `ContinuousRep Γ A M`: a `Representation A Γ M` on a
 finitely generated projective `A`-module with the module topology and jointly continuous action
 `Γ × M → M`. Its `ContinuousRep.Iso`, `ContinuousRep.ofCharacter` and coefficient extension are
-supplied there. For a field `F`, use `Γ = G_F := Field.absoluteGaloisGroup F` with the Krull topology
-and Tau Ceti's profiniteness instances. The coefficient cases are `E`, discrete finite fields and
-`F̄_p`, complete Noetherian local rings with finite residue field and their adic topology,
-`ℚ̄_ℓ` and `ℂ`. The headline signatures use native `Representation` carriers with joint
+supplied there; at the pin they are Tau Ceti's `TauCeti.ContinuousRep`, `TauCeti.ContinuousRep.Iso`,
+`TauCeti.ContinuousRep.ofCharacter` and `TauCeti.ContinuousRep.baseChange`, stated for any
+topological module. For a field `F`, use `Γ = G_F := Field.absoluteGaloisGroup F` with the Krull
+topology and Tau Ceti's profiniteness instances. The coefficient cases are `E`, discrete finite
+fields and `F̄_p`, complete Noetherian local rings with finite residue field and their adic
+topology, `ℚ̄_ℓ` and `ℂ`. The headline signatures use native `Representation` carriers with joint
 continuity imposed explicitly, or continuous homomorphisms into matrix groups.
 
 **Continuity and characteristic polynomials.** Build equivariant linear morphisms
-*ContinuousRep.Hom*, automatic continuity and extensionality; the injective forgetful map
-*ContinuousRep.toContRepresentation*, with image the jointly continuous actions;
+*ContinuousRep.Hom*, automatic continuity and extensionality; injectivity of Tau Ceti's forgetful
+map `TauCeti.ContinuousRep.toContRepresentation`, with image the jointly continuous actions;
 *continuous_iff_matrixCoeff* on a finite free carrier and *continuous_iff_orbit* (equivalently,
 continuity on a finite generating family); *ContinuousRep.trivial*; and *ContinuousRep.charpoly*
 (`det(X − ρ(g))` on a free carrier) (DDT, §2.1, p. 52; NT, §1.2, p. 7; BHKT, §2, p. 5).
-*Needs:* EtaleCohomologyFoundations §F.4.0; Mathlib `ContRepresentation` and `IsModuleTopology`.
+*Needs:* EtaleCohomologyFoundations §F.4.0 (Tau Ceti `TauCeti.ContinuousRep`); Mathlib
+`ContRepresentation` and `IsModuleTopology`.
 
 **Checks.**
 - The character `a ↦ (1 + ℓ)^a` of `ℤ_ℓ` on `ℚ_ℓ` with the discrete topology is a `ContRepresentation`
@@ -745,8 +751,8 @@ continuity on a finite generating family); *ContinuousRep.trivial*; and *Continu
 
 - On the zero carrier every operator has determinant `1`, so the determinant character of §1.1 below
   is trivial there; a definition through a nonempty basis would not even be defined.
-- *toContRepresentation* is injective and its image is exactly the jointly continuous
-  `ContRepresentation`s; a definition that forgot joint continuity would make it surjective.
+- The forgetful map to `ContRepresentation` is injective and its image is exactly the jointly
+  continuous `ContRepresentation`s; a definition that forgot joint continuity would make it surjective.
 
 **Exterior powers of projective modules.** Use Tau Ceti's exterior-power scalar-extension
 comparison from `TauCeti.LinearAlgebra.ExteriorPower.BaseChange`:
@@ -1923,7 +1929,9 @@ ramification-index scaling under compatible tame identifications
 *Needs:* Layer 1; SmoothRepresentationsOfLocalGroups SR.5.2 `wd-complete-coefficients` and
 `nilpotent-exp-log`; Tau Ceti's inertia, tame and cyclotomic characters.
 The monodromy theorem itself is the supplier's headline; this specialization is an adapter and
-has no statement of its own in `Suggested.lean`.
+has no statement of its own in `Suggested.lean`. Old → new Lean name, for citing roadmaps:
+- *GaloisRep.grothendieck_quasiUnipotent* → SmoothRepresentationsOfLocalGroups SR.5.2
+  `wd-complete-coefficients`, `grothendieck_quasiUnipotent_complete`.
 
 **Checks.**
 - A finite-image representation has `N = 0`.
@@ -1945,7 +1953,7 @@ Use the supplied open topological inertia embedding, continuous surjective degre
 continuous dense map `W_K → G_K`; an arithmetic lift gives `W_K = I_K ⋊ ⟨Φ⟩`.
 The arithmetic adapter preserves these identifications, so an open-kernel Weil representation
 has finite inertia image and every parameter operation uses the same local Weil group
-(Deligne 1973, §2.2.1, p. 521; ClassFieldTheory Layer 9,
+(Deligne 1973, 2.2.2–2.2.4, pp. 521–522; ClassFieldTheory Layer 9,
 `isOpenEmbedding_inertiaToWeil`, `unramifiedCoordinate_weilDegree`).
 *Needs:* ClassFieldTheory Layer 9; Tau Ceti inertia
 and arithmetic Frobenius.
@@ -2901,16 +2909,23 @@ layer 5 (§5.9, the different localizes; §5.10, the relative discriminant valua
 
 **Hasse–Arf integrality.** Prove that for a finite group `G` acting faithfully by ring
 automorphisms on a complete discrete valuation ring `B` with perfect residue field, and a
-finite-dimensional representation `W` of `G` over a field of characteristic zero,
-`Conductor.lowerArtinConductor G B W` and `Conductor.lowerSwanConductor G B W` are natural
-numbers. These data are exactly a finite Galois `L/K` with `K` complete for a discrete valuation
-with perfect residue field, `G = Gal(L/K)` and `B = O_L` (`L = Frac B`, `K = L^G`, and `O_K = B^G`
-is again a complete discrete valuation ring with perfect residue field), so this is
-`a(W), Sw(W) ∈ ℕ` for every representation `W` of `Gal(L/K)` in characteristic zero; in residue
-characteristic `0`, `G_1 = 1` and both statements are immediate. Route: Brauer induction from the
-case of characters and the finite-image case of the local induction formula above, with Hasse–Arf
-for the characters (Serre 1961, n° 3.7, Thm 2, p. 138, and Remarque 2°, p. 139, reducing an
-arbitrary residue field to an algebraically closed one). Prove that for `V` of the setting,
+finite-dimensional representation `W` of `G` over a field `C` whose characteristic is `0` or
+differs from the residue characteristic of `B`, `Conductor.lowerArtinConductor G B W` and
+`Conductor.lowerSwanConductor G B W` are natural numbers. These data are exactly a finite Galois
+`L/K` with `K` complete for a discrete valuation with perfect residue field, `G = Gal(L/K)` and
+`B = O_L` (`L = Frac B`, `K = L^G`, and `O_K = B^G` is again a complete discrete valuation ring
+with perfect residue field), so this is `a(W), Sw(W) ∈ ℕ` for every representation `W` of
+`Gal(L/K)` over such a field; in residue characteristic `0`, `G_1 = 1` and both statements are
+immediate, whatever the characteristic of `C`. Route: in characteristic zero, Brauer induction
+from the case of characters and the finite-image case of the local induction formula above, with
+Hasse–Arf for the characters (Serre 1961, n° 3.7, Thm 2, p. 138, and Remarque 2°, p. 139,
+reducing an arbitrary residue field to an algebraically closed one); in characteristic `ℓ ≠ p`,
+the tame part `codim W^{G_0}` is a natural number and the Swan sum, which depends only on the
+semisimple restriction of `W ⊗ C̄` to the `p`-group `G_1`, is a sum over `G_0`-orbits of
+`G_1`-constituents of Swan sums of characteristic-zero representations, by the characteristic-zero
+lifts of §3.2, *Wild characters and their extensions* (Serre 1987, §1.2 (a), p. 181, states it
+over `ℚ_q` with coefficients of characteristic prime to `q`). In the residue characteristic itself
+the statement fails (the first Check below). Prove that for `V` of the setting,
 `Sw(V), a(V) ∈ ℕ`; that both are independent of the auxiliary `L`, of the algebraic closure, of the
 extension of the valuation and of the isomorphism class; that `a(V) = 0` iff `I_K` acts trivially,
 `Sw(V) = 0` iff `P_K` acts trivially, and `a(V) = codim V^{I_K}` iff `V` is tame (Serre 1987, §1.2
@@ -2919,6 +2934,18 @@ conductors of §3.2; the local induction formula above; `TauCetiRoadmap.Represen
 theorem).
 *Lean:* `Conductor.lowerConductors_integral` (the finite-level statement; the statement for `V` of
 the setting, whose inertia image may be infinite, uses the absolute filtration of §3.0).
+
+**Checks.**
+- For `L = ℚ_3(ζ_3, ∛2)`, totally ramified of degree `6` over `ℚ_3`, the different exponent is
+  `2 · 3 + 1 = 7` (`3` for `ℚ_3(∛2)`, where `(y + 2)³ − 2` is Eisenstein, and `1` for the tame
+  quadratic step); as `7 = (6 − 1) + (3 − 1)`, the lower groups are `G_0 = S₃`, `G_1 = C₃`,
+  `G_2 = 1`. The standard representation of `S₃` over `ℚ` has `codim W^{S₃} = codim W^{C₃} = 2`,
+  Artin sum `2 + (1/2) · 2 = 3` and Swan sum `1`; over `F_2` (characteristic `≠ 3`) the same plane
+  has no nonzero invariants and the same sums `3` and `1`. Over `F_3` the sum-zero plane
+  `{x ∈ F_3³ : Σ xᵢ = 0}` contains `(1, 1, 1)`, so both codimensions are `1` and the Artin sum is
+  `1 + (1/2) · 1 = 3/2`: coefficients of the residue characteristic are excluded.
+- In residue characteristic `0` (for `μ_n` acting on `ℂ[[t]]` by `t ↦ ζt`), `G_1 = 1`, the Swan sum
+  is `0` and the Artin sum is `codim W^{G_0}` over every coefficient field, `F_ℓ` included.
 
 ### 3.6 Reduction modulo `ℓ`
 
@@ -3240,21 +3267,37 @@ type pass to `F'` in these cases, "not bad dihedral" only under disjointness fro
 proof of Lemma 7.1.6, p. 1090).
 
 **Restriction to the cyclotomic field.** Let `ρ̄ : G_F → GL₂(k)` be continuous, `k` finite of
-characteristic `p`, `G = ρ̄(G_F)` and `H = ρ̄(G_{F(ζ_p)})`. Prove: (a) for `p` odd, absolute
-irreducibility on `G_{F(ζ_{p^m})}`, `G_{F(ζ_p)}` and `G_{F'}` are equivalent; (b) if `ρ̄` is
-irreducible and `ρ̄|_{G_{F(ζ_p)}}` is not absolutely irreducible, `G` lies in a Cartan normaliser; (c)
-if moreover `k = F_p` and `det ρ̄ = χ̄_p`, up to conjugacy `G = C_s^+(3)` or `G ⊂ C_ns(3)` for
-`p = 3`, and `G ⊂ C_ns^+(5)` for `p = 5` with `[F(ζ_5) : F] = 4`; (d) for `p ≥ 5`,
-`SL₂(F_p) ⊂ G ⊂ GL₂(F_p)` and `det ρ̄` trivial on `G_{F(ζ_p)}` give `H = SL₂(F_p)`, and
-`G ⊇ SL₂(F_q)`, `q ≥ 4`, gives `H ⊇ SL₂(F_q)`; (e) for `p > 3`, `ρ̄(G_{F̃}) ⊇ SL₂(F_p)` (`F̃` the
-normal closure) and `F'/F` finite, linearly disjoint from `F̄^{ker ρ̄}` with `p` unramified in `F'/ℚ`,
-`ζ_p` does not lie in the compositum of `F'` with the kernel field of the action on trace-zero
-endomorphisms; (f) if `ζ_5 ∉ F`, `G ⊂ GL₂(F_5)`, `det ρ̄ = χ̄_5` and `π(H)` is conjugate to
-`PSL₂(F_5)`, the projective kernel field does not contain `ζ_5`; (g) for `l ≥ 3`, a normal
-`Δ ⊴ GL₂(F_l)` with `det Δ = F_l^×` is `GL₂(F_l)`; (h) for `p > 2` and `ρ̄|_{G_{F(ζ_p)}}` absolutely
-irreducible, the `G_F`-invariants of the trace-zero endomorphisms of `V`, and of their twist by
-`χ̄_p`, vanish (CN, Lemmas 6.1.4 and 7.1.1, pp. 88–92; ACC+, Lemmas 7.1.6 and 7.1.8, p. 1090; KW (II),
-Lemma 4.3). *Needs:* §§4.2–4.6.
+characteristic `p`, `G = ρ̄(G_F)`, `H = ρ̄(G_{F(ζ_p)})` and `K` the kernel field of `ρ̄`. Prove: (a)
+for `p` odd and `m ≥ 1`, absolute irreducibility on `G_{F(ζ_p)}` is equivalent to absolute
+irreducibility on `G_{F(ζ_{p^m})}` (§4.6, the bad dihedral criterion) and on `G_{F'(ζ_p)}` for every
+finite separable `F'/F` linearly disjoint from `K(μ_p)` over `F`, since then `ρ̄(G_{F'(ζ_p)}) = H`
+by the previous paragraph; (b) if `ρ̄` is irreducible and `ρ̄|_{G_{F(ζ_p)}}` is not absolutely
+irreducible, `G` lies in a Cartan normaliser; (c) if moreover `k = F_p` and `det ρ̄ = χ̄_p`, up to
+conjugacy `G = C_s^+(3)` or `G ⊂ C_ns(3)` for `p = 3`, and `G ⊂ C_ns^+(5)` for `p = 5` with
+`[F(ζ_5) : F] = 4`; (d) for `p ≥ 5`, `SL₂(F_p) ⊂ G ⊂ GL₂(F_p)` and `det ρ̄` trivial on `G_{F(ζ_p)}`
+give `H = SL₂(F_p)`, and `G ⊇ SL₂(F_q)`, `q ≥ 4`, gives `H ⊇ SL₂(F_q)`; (e) for `p > 3`,
+`ρ̄(G_{F̃}) ⊇ SL₂(F_p)` (`F̃` the normal closure) and `F'/F` finite, linearly disjoint from
+`F̄^{ker ρ̄}` with `p` unramified in `F'/ℚ`, `ζ_p` does not lie in the compositum of `F'` with the
+kernel field of the action on trace-zero endomorphisms (ACC+, Lemma 7.1.6(1), proved there for
+`p > 2m + 3` with `m ≥ 1` the symmetric power, so for `p ≥ 7`; its argument also gives `p = 5`:
+disjointness gives `ad ρ̄(G_{F'}) = ad ρ̄(G_F)`, which is `PSL₂(k')` or `PGL₂(k')` for a finite
+`k' ⊇ F_p` by §4.4, with abelianisation `1` or `ℤ/2`, while `Gal(F'(ζ_p)/F') ≅ (ℤ/p)^×` is cyclic of
+order `p − 1 ≥ 4` because `p` is unramified in `F'`); (f) if `ζ_5 ∉ F`, `G ⊂ GL₂(F_5)`,
+`det ρ̄ = χ̄_5` and `π(H)` is conjugate to `PSL₂(F_5)`, the projective kernel field does not contain
+`ζ_5`; (g) for `l ≥ 3`, a normal `Δ ⊴ GL₂(F_l)` with `det Δ = F_l^×` is `GL₂(F_l)`; (h) for `p > 2`
+and `ρ̄|_{G_{F(ζ_p)}}` absolutely irreducible, the `G_F`-invariants of the trace-zero endomorphisms
+of `V`, and of their twist by `χ̄_p`, vanish (CN, Lemmas 6.1.4 and 7.1.1, pp. 88–92; ACC+, Lemmas
+7.1.6 and 7.1.8, p. 1090; KW (II), Lemma 4.3). *Needs:* §§4.2–4.6.
+
+**Checks.**
+- In (a) the disjointness cannot be dropped: if `ρ̄|_{G_{F(ζ_p)}}` is absolutely irreducible and
+  `F' = K`, then `ρ̄(G_{F'}) = ρ̄(G_{F'(ζ_p)}) = 1`, which is reducible in dimension two; here
+  `K ∩ K(μ_p) = K ≠ F`, so `K` is not linearly disjoint from `K(μ_p)`.
+- In (e) `p > 3` cannot be lowered: for `p = 3`, `G = GL₂(F_3)` and `det ρ̄ = χ̄_3`, the projective
+  image is `PGL₂(F_3) ≅ S₄` with abelianisation `ℤ/2 ≅ (ℤ/3)^×`, and since `det(λ·1) = λ² = 1` on
+  `F_3^×` the determinant factors through it, so `ζ_3` lies in the projective kernel field already
+  for `F' = F = ℚ`. For `p = 5`, `(ℤ/5)^× ≅ ℤ/4` is a quotient neither of `PSL₂(F_5) ≅ A₅` nor of
+  `PGL₂(F_5) ≅ S₅`.
 
 **Persistence of large image.** Prove that for `p ≥ 5` and a finite `G ⊂ GL₂(k̄)` containing a
 conjugate of `SL₂(F_{p^a})` with `p^a ≥ 5`, every subgroup of index `< 2p` contains that conjugate
@@ -3637,19 +3680,25 @@ continuous lift over `R`, unique up to strict conjugacy, symplectic with multipl
 
 ### 5.11 Frobenius identities
 
-**Characteristic polynomials annihilating a second representation.** Let `p` be prime,
-`ρ : G_ℚ → GL₄(ℚ̄_p)` and `s : G_ℚ → GL_n(ℚ̄_p)` continuous, `n ≥ 1`, with
-`P_ρ(Frob_l)(s(Frob_l)) = 0` for `l` in a set of density one where both are unramified,
-`P_ρ(g) = det(X − ρ(g))`. Prove that `P_ρ(g)(s(g)) = 0` for every `g ∈ G_ℚ`, and on the Zariski
-closure of `(ρ, s)(G_ℚ)` (BCGP25, §4.11, p. 109). The `GSp₄` semisimplicity
-criteria built on this are §7.6. *Needs:* §5.1, §1.5.
+**Characteristic polynomials annihilating a second representation.** Let `F` be a number field,
+`p` prime, and `ρ : G_F → GL_m(ℚ̄_p)` and `s : G_F → GL_n(ℚ̄_p)` continuous, `m, n ≥ 1`, with
+`P_ρ(Frob_v)(s(Frob_v)) = 0` for `v` in a set of finite places of Dirichlet density one at which
+both are unramified, `P_ρ(g) = det(X − ρ(g))`. The condition is well defined: replacing `g` by
+`hgh⁻¹` conjugates `P_ρ(g)(s(g))` by `s(h)`, and inertia acts trivially on both. Prove that
+`P_ρ(g)(s(g)) = 0` for every `g ∈ G_F`, and on the Zariski closure of `(ρ, s)(G_F)`: the map
+`g ↦ P_ρ(g)(s(g))` is continuous, it vanishes on the Frobenius lifts above that set, which are dense
+by §5.1, and `(A, B) ↦ P_A(B)` is polynomial in the entries. BCGP25 uses this for `F = ℚ` and
+`GSp₄`-valued `ρ` (`m = 4`) in the proofs of Props. 4.11.1–4.11.2 (BCGP25, §4.11, pp. 109–110). The
+`GSp₄` semisimplicity criteria built on this are §7.6. *Needs:* §5.1, §1.5.
 
 **Checks.**
 - For `s = ρ`, the identity is Cayley–Hamilton at every group element.
-- For `ρ = 1^{⊕4}`, a nontrivial rank-two unipotent representation satisfies the identity:
-  `(s(g) − 1)^4 = 0`. Annihilation alone does not imply semisimplicity of `s`.
-- For `ρ = 1^{⊕4}` and a nontrivial scalar character `s = χ`, the polynomial evaluates to
-  `(χ(g) − 1)^4`, nonzero for some `g`; it cannot vanish on a density-one Frobenius set.
+- For `m ≥ 2` and `ρ = 1^{⊕m}`, a nontrivial rank-two unipotent representation such as
+  `g ↦ (1, log_p χ_p(g); 0, 1)` satisfies the identity: `(s(g) − 1)^m = 0` because
+  `(s(g) − 1)^2 = 0`. Annihilation alone does not imply semisimplicity of `s`. For `m = 1` the same
+  `s` fails, since `s(g) − 1 ≠ 0` for some `g`: the identity then forces `s = 1`.
+- For `ρ = 1^{⊕m}` and a nontrivial scalar character `s = χ`, the polynomial evaluates to
+  `(χ(g) − 1)^m`, nonzero for some `g`; it cannot vanish on a density-one Frobenius set.
 
 ### 5.12 Potentially abelian representations
 
@@ -4023,7 +4072,7 @@ and Rosati adjointness are the supplied pairing API (Mumford, §§20, 23; Milne 
 
 **Determinant and oddness.** Prove that for `B` a nondegenerate alternating form of rank `2g` over a
 field and `B(hx, hy) = μ B(x, y)`, `det h = μ^g` (in matrix form over any commutative ring for
-`g = 1`, Tau Ceti's `Matrix.det_eq_of_transpose_mul_J_mul_eq_smul`); hence `det ρ_{A,ℓ} = χ_ℓ^g` for
+`g = 1`, Tau Ceti's `Matrix.transpose_mul_J_mul_eq_smul_iff`); hence `det ρ_{A,ℓ} = χ_ℓ^g` for
 any polarisation of any degree, and `det E[ℓ]` is Mathlib's `modularCyclotomicCharacter` for `E`
 elliptic. Prove that for complex conjugation `c` at a real place and every `ℓ`, `2` included, the
 `±1`-eigenspaces of `c` on `V_ℓA` are Lagrangian of dimension `g`, so `tr = 0` and `det = (−1)^g`;
@@ -4473,7 +4522,7 @@ give the Lie algebras of the group schemes `ConstantForm.groupScheme`, `Symplect
 sense of `TauCetiRoadmap.ReductiveGroups` layer 2 (BLGGT, §1.1, p. 11; BCGP21, §2.1.1, p. 15; CG, §2.1,
 p. 807). *Needs:* Mathlib `Matrix.symplecticGroup`, `Matrix.J`, `skewAdjointMatricesSubmodule`; Tau
 Ceti `Symplectic.groupScheme`, `Orthogonal.groupScheme`, `ConstantForm.groupScheme`,
-`Matrix.det_eq_of_transpose_mul_J_mul_eq_smul`; `TauCetiRoadmap.ReductiveGroups` layers 0, 2, 9.
+`Matrix.transpose_mul_J_mul_eq_smul_iff`; `TauCetiRoadmap.ReductiveGroups` layers 0, 2, 9.
 
 **Checks.**
 - `GSp₂ = GL₂` with `ν = det`; `Sp_{2m}` is Mathlib's `Matrix.symplecticGroup`, whose `J` is

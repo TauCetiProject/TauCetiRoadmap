@@ -148,12 +148,15 @@ def lowerSwanConductor (G B : Type*) [Group G] [CommRing B] [IsLocalRing B]
 /-- Artin–Arf integrality (§3.5): for a finite group acting faithfully on a complete discrete
 valuation ring with perfect residue field, that is for `G = Gal(L/K)` acting on `O_L` with `L/K`
 finite Galois in the conductor setting, the Artin and Swan conductors of every
-finite-dimensional representation in characteristic zero are natural numbers (Serre 1961,
-n° 3.7, Thm 2 and Remarque 2°). -/
+finite-dimensional representation over a field of characteristic zero or of characteristic
+different from the residue characteristic are natural numbers (Serre 1961, n° 3.7, Thm 2 and
+Remarque 2°; Serre 1987, §1.2 (a)). Coefficients of the residue characteristic are excluded:
+the sum-zero plane of `F₃³`, permuted by `S₃ = Gal(ℚ₃(ζ₃, ∛2)/ℚ₃)`, has Artin sum `3/2`. -/
 theorem lowerConductors_integral {G B : Type*} [Group G] [Finite G] [CommRing B] [IsDomain B]
     [IsDiscreteValuationRing B] [IsAdicComplete (IsLocalRing.maximalIdeal B) B]
     [PerfectField (IsLocalRing.ResidueField B)] [MulSemiringAction G B] [FaithfulSMul G B]
-    {C W : Type*} [Field C] [CharZero C] [AddCommGroup W] [Module C W] [FiniteDimensional C W]
+    {C W : Type*} [Field C] [AddCommGroup W] [Module C W] [FiniteDimensional C W]
+    (hC : ringChar C = 0 ∨ ringChar C ≠ ringChar (IsLocalRing.ResidueField B))
     (ρ : Representation C G W) :
     (∃ n : ℕ, lowerArtinConductor G B ρ = n) ∧ ∃ n : ℕ, lowerSwanConductor G B ρ = n := by
   sorry
