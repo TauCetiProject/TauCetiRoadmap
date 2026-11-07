@@ -14,47 +14,49 @@ connections, the shared bundle-distribution and Sobolev theory, Hermitian and
 Kähler Hodge theory, analytic cycles and the projective, torus and nilmanifold
 applications in Layers 1–8. ComplexManifolds Milestones 1–7 own atlas transport,
 complex orientation, quotients, gluing and holomorphic bundle operations;
-ComplexTori Milestone 1 owns lattice quotients. DifferentialGeometry Layers 0–9
-own generic forms, real integration and absolute de Rham comparison. The complex
+ComplexTori Milestone 1 owns lattice quotients. DifferentialGeometry Layers 0–5
+own generic forms and real integration, and its §§8.3–8.5 the absolute de Rham
+comparison with singular cohomology. The real de Rham complex and its cohomology are
+the pinned Tau Ceti's `TauCeti.deRhamComplex` and `TauCeti.deRhamCohomology`. The complex
 scalar extension here uses those same forms. SmoothBundlesConnections B2–B4 own
 bundle operations, metrics and connections. Layer 2 owns the scalar compact-support
 Cauchy–Green transform, finite-rank Runge approximation and simultaneous smooth and
 holomorphic parameter solver; Layer 3 owns the finite-pole stalk comparison and
 Layer 5 its planar de Rham consequence. GlobalHolomorphicFunctions owns global
-prescribed singularities, divisors and factorization beyond these inputs. Layer 5
-owns the chart-local differential-operator core that its analysis uses: operators of
-finite order between finite-rank bundles given by local coefficient expressions, their
-principal symbols, the density transpose, the metric formal adjoint, the connection
-Laplacian and the Laplace-type predicate (§5.1). PseudodifferentialOperators P1.0 owns
-jet bundles, the jet and iterated-commutator characterizations of the order filtration,
-global derivations and the connection expansion of symbols, and consumes this core;
-PseudodifferentialOperators owns the subsequent pseudodifferential calculus and Peetre
-extension. The pinned Tau Ceti owns the pointwise real Hodge star of an oriented inner
-product space, its complex-linear and conjugate-linear extensions with their type law,
-and the Hodge star and codifferential of smooth real forms; §5.1 consumes them.
+prescribed singularities, divisors and factorization beyond these inputs.
+PseudodifferentialOperators P1.0 owns the differential-operator core that Layer 5's
+analysis uses: operators of finite order between finite-rank bundles given by local
+coefficient expressions, jet bundles, principal symbols, the density transpose, the
+metric formal adjoint, the connection Laplacian ∇*∇ and the Laplace-type predicate.
+P1.0's adjoint part consumes §5.1's density line, and §5.1's distributional action and
+Laplace analysis consume P1.0's core; PseudodifferentialOperators owns the subsequent
+pseudodifferential calculus and Peetre extension. The pinned Tau Ceti owns the pointwise
+real Hodge star of an oriented inner product space, its complex-linear and
+conjugate-linear extensions with their type law, and the Hodge star and codifferential of
+smooth real forms; §5.1 consumes them. It also owns the real-analytic structure underlying
+a complex manifold and the equivalence of holomorphy with complex smoothness of every
+nonzero order, which K3.0 consumes.
 §6.1 owns the boundaryless open-pair relative de Rham comparison and the compact-support
 integration formula against AlgebraicTopology §6.3's orientation classes that its
-analytic-cycle classes use. Layer 8 owns the all-degree finite-dimensional Lie-algebra
-cochain complex; LieGroupoidsPoisson owns the manifold Lie-algebroid extension. VariationalMethods
+analytic-cycle classes use. LieGroupoidsPoisson §G1.3a owns the all-degree
+Chevalley–Eilenberg complex of a finite-dimensional real Lie algebra with coefficients in a
+module, and its Lie-algebroid extension; Layer 8 keeps the same construction over ℂ, which
+differs only in the scalar field, with the pullback, product, scalar-extension and
+invariant-form adapters it uses. VariationalMethods
 §§2–5 and UnboundedOperators UO-D06 own abstract form representation and compact
 spectral theory; Layer 5 identifies the geometric weak domains and regularity.
 
-Four roadmaps also state objects that Layers 2, 5, 6 and 8 own here; nothing is imported
+Two roadmaps also state objects that Layers 2, 5 and 6 own here; nothing is imported
 from them for those objects. GlobalHolomorphicFunctions §§0.3, 2.5 and 7.2 state the
 compact-support Cauchy–Green transform, the finite-rank Runge operator and planar
-two-form exactness. PseudodifferentialOperators P1.0 states the chart-local operator,
-density-transpose, formal-adjoint and Laplace-type core of §5.1 beside the jet theory it
-owns; PseudodifferentialOperators consumes K5a's distributions and Sobolev scale, so the
-core has its single owner here. LieGroupoidsPoisson G1.3 states the all-degree real
-Chevalley–Eilenberg complex. DeRhamCohomologyAndDuality §§2.4, 3.1–3.3 and 4.1 state, over
+two-form exactness. DeRhamCohomologyAndDuality §§2.4, 3.1–3.3 and 4.1 state, over
 every real model with corners, the relative smooth chains of an open pair, the relative
 de Rham complex with its integration map and isomorphism, and the compact-support
 integration formula; their boundaryless instances are §6.1's relative integration
 contract, and DeRhamCohomologyAndDuality is downstream of this roadmap.
 
 The acceptance statements are `finite_rank_runge_approximation` and
-`mixed_parameter_solver` in Layer 2 and
-`realified_isManifold_analytic`, `weierstrass_preparation`,
+`mixed_parameter_solver` in Layer 2 and `weierstrass_preparation`,
 `weierstrass_preparation_unique`, `weierstrass_division`, `holomorphicStalk_noetherian` and
 `holomorphicStalk_factorial` in Layer 3. The other headline theorems and their
 missing geometric carriers are listed in the module docstring of Suggested.lean.
@@ -64,8 +66,10 @@ missing geometric carriers are listed in the module docstring of Suggested.lean.
 Manifolds are finite-dimensional, Hausdorff and second-countable, without boundary;
 compactness and connectedness are stated where used. Native holomorphic sheaf
 statements use small manifold carriers, matching the universe of the scalar ring ℂ. Complex manifolds use Mathlib's
-complex `IsManifold`; holomorphic means `MDifferentiable ℂ` in charts. K3.0 proves its
-equivalence to complex analytic and complex `ContMDiff ∞` maps in finite dimensions. The complex structure J has `J²=-1`; `T^(1,0)` and `T^(0,1)` are its `+i` and `−i`
+complex `IsManifold`; holomorphic means `MDifferentiable ℂ` in charts. In finite dimensions
+over a boundaryless model, Tau Ceti's `TauCeti.contMDiff_iff_mdifferentiable` and
+`TauCeti.contMDiffOn_iff_mdifferentiableOn` identify it with complex `ContMDiff n` for every
+`n ≠ 0`, and K3.0 transports the comparison with complex analytic maps. The complex structure J has `J²=-1`; `T^(1,0)` and `T^(0,1)` are its `+i` and `−i`
 eigensubbundles in `TM⊗ℂ`. Define the type projections explicitly. Write `d=∂+∂̄` on an
 integrable complex manifold and `d^c=i(∂̄−∂)`, so `dd^c=2i∂∂̄`. Hermitian inner products
 are conjugate-linear in the first argument and linear in the second. For a real Hermitian
@@ -132,8 +136,9 @@ Complex-torus quotients follow
 theory used in K7 and the [specified ComplexTori contract](../ComplexTori/README.md).
 
 Use [DifferentialGeometry](../DifferentialGeometry/README.md)'s generic smooth forms,
-exterior derivative, pullback, wedge, integration, Stokes and de Rham comparison. Its chain integration and Stokes already allow complete vector-valued coefficients;
-its de Rham comparison is stated over ℝ. K5a owns the complex-linear manifold integration compatibility and complex-coefficient de Rham
+exterior derivative, pullback, wedge, integration and Stokes (Layers 0–5), and its §§8.3–8.5
+smooth chains, chain Stokes and de Rham comparison with singular cohomology. Its chain integration and Stokes already allow complete vector-valued coefficients;
+its de Rham comparison is stated over ℝ, for the real de Rham cohomology `TauCeti.deRhamCohomology`. K5a owns the complex-linear manifold integration compatibility and complex-coefficient de Rham
 comparison on the same generic form carrier, viewed over ℝ; do not construct a second form carrier.
 For any open Ω⊆ℂ, derive smooth complex two-form exactness from Layer 2's
 scalar solver on this same form carrier, with the coordinate primitive and
@@ -146,11 +151,19 @@ which owns the complex-manifold, chart and local-uniqueness adapters.
 bundles with complex structure, tensor/dual/Hom/complexification, Hermitian metrics,
 connections, curvature and their principal-bundle comparison maps. [PDE](../PDE/README.md)
 supplies scalar real-domain Sobolev, embedding, Rellich and elliptic estimates, not system
-estimates. Layer 5 constructs the chart-local differential-operator, symbol and
-formal-density-adjoint core after its density line, and then develops distributions and the
+estimates. [PseudodifferentialOperators P1.0](../PseudodifferentialOperators/README.md#p10-differential-operator-core)
+supplies the differential operators of finite order between finite-rank smooth bundles with
+their order filtration, principal symbols, bilinear density transpose, metric/density formal
+adjoint, the connection Laplacian ∇*∇ and the Laplace-type predicate; its adjoint part uses
+§5.1's density line, which precedes it. Layer 5 then develops distributions and the
 all-real-order Hilbert scale. It owns smooth Laplace-type regularity, the orientation-line
 twisted star of a non-orientable manifold, the complex-coefficient form star and real/complex
 Hodge theory.
+[LieGroupoidsPoisson §G1.3a](../LieGroupoidsPoisson/README.md#g13-chevalleyeilenberg-complexes)
+supplies the all-degree Chevalley–Eilenberg complex `Alt^k_ℝ(L,V)` of a finite-dimensional real
+Lie algebra L with coefficients in a Lie module V, its differential, `d²=0`, its cohomology and
+its degree-one and degree-two comparisons with Mathlib's `LieModule.Cohomology`; Layer 8
+consumes it for the real Lie algebras of nilpotent groups.
 [AlgebraicTopology](../AlgebraicTopology/README.md) owns singular cohomology
 and products. The linear Hodge-structure objects in `Completed/HodgeStructures` are a
 target for K6's comparison, not a proof of analytic Hodge theory.
@@ -166,14 +179,28 @@ module, a bilinear form inducing a bijection to its dual, a top exterior-power
 volume equivalence and k+l=dimension. Tau Ceti's `Orientation.hodgeStar` is this
 declaration for the inner product of an oriented real inner-product space and its
 volume `Orientation.volumeEquiv`; no other instance of it is used here.
-The reference connection of Layer 5's operator core and of K6's Kähler condition is
+The reference connection of the connection Laplacians Layer 5 consumes and of K6's Kähler condition is
 `CovariantDerivative.leviCivitaConnection` in
 `Mathlib/Geometry/Manifold/VectorBundle/CovariantDerivative/LeviCivita.lean`, the
 Levi-Civita connection of a positive-definite metric.
 
 **From Tau Ceti.** The finite-dimensional Cauchy and parametric contour declarations
-in `TauCeti.Analysis.Complex.CauchyIntegralPolydisc` supply Layer 3's analytic
+in `TauCeti.Analysis.Complex.CauchyIntegralPolydisc`, with Osgood's lemma
+`ContinuousOn.analyticOnNhd_of_differentiableAt_update`, supply Layer 3's analytic
 comparison; `TauCeti.Analysis.Analytic.Inverse` supplies analytic implicit functions.
+In `TauCeti/Geometry/Manifold/Complex/Analytic.lean`, for a finite-dimensional complex model
+without boundary, `IsManifold.restrictScalars_of_ne_zero` makes a complex `C^m` manifold,
+`m ≠ 0`, a real `C^n` manifold on `𝓘(ℝ,E)` for every n, in particular real analytic for
+`n = ω`; `IsManifold.maximalAtlas_subset_restrictScalars_of_ne_zero` puts every holomorphic
+chart in that real maximal atlas; and `TauCeti.contMDiff_iff_mdifferentiable`,
+`TauCeti.contMDiffOn_iff_mdifferentiableOn` and
+`TauCeti.contMDiffAt_iff_eventually_mdifferentiableAt` identify holomorphy with complex
+`C^n` smoothness for `n ≠ 0`. The real de Rham complex is `TauCeti.deRhamComplex`, with
+cohomology `TauCeti.deRhamCohomology`, closed and exact forms and the class map
+`TauCeti.deRhamCohomology.mk` (`TauCeti/Geometry/Manifold/DeRham/Basic.lean`), for real
+coefficients on `C²` manifolds; the flat Poincaré lemma is
+`StarConvex.exists_contDiffOn_forall_extDeriv_eq` (`TauCeti/Analysis/Calculus/DifferentialForm/Poincare.lean`) and the cylinder homotopy operator
+`TauCeti.homotopyOperator`, both for complete coefficient spaces.
 The smooth implicit-function theorem is Mathlib's
 `ImplicitFunctionData.contDiffAt_implicitFunction`, in
 `Mathlib/Analysis/Calculus/ImplicitContDiff.lean`.
@@ -338,8 +365,11 @@ invertibility of the composed coordinate maps and smooth regularity by
 iteration/bootstrapping. These analytic prerequisites belong here, consuming PDE's scalar
 Hölder/Schauder tools. A fixed-Hölder contraction using polydisc Cauchy–Green alone does
 not give the required derivative control. This is not a consequence of real Frobenius
-alone. LieGroupoidsPoisson consumes the eigensubbundle/involutivity dictionary and builds
-their complex Lie algebroid structures.
+alone. LieGroupoidsPoisson §G1.6 states the subalgebroid/involutivity equivalence for every
+constant-rank complex subbundle of `TM⊗ℂ` and consumes nothing from this roadmap; for the
+±i eigenbundles the equivalence of involutivity with `N_J=0` is the pinned
+`isInvolutiveComplexDistribution_eigenspace_I_iff` above, and the comparison with
+Newlander–Nirenberg is this section's.
 
 The type bundles and Nijenhuis tensor have the following API:
 
@@ -590,32 +620,33 @@ K3.0 supplies K1's holomorphic/analytic comparisons. Consume the native
 finite-dimensional complex domain, complete codomain and open-set hypotheses.
 Consume its `TauCeti.analyticAt_circleIntegral` and
 `TauCeti.analyticOnNhd_circleIntegral` for jointly analytic integrands near
-the parameter set times the integration circle. Prove Osgood separate
-holomorphy and its locally uniform contour bounds, then use that joint
-analyticity with the native parametric integral theorem. Consume Mathlib's
-one-variable Cauchy APIs as well; construct the manifold/chart transports.
-Use `AnalyticAt.restrictScalars` on the resulting analytic
-chart transitions and inverses, followed by `AnalyticAt.contDiffAt`, to build
-the realified atlas's `HasGroupoid M (contDiffGroupoid ω 𝓘(ℝ,E))`, equivalently
-real `IsManifold 𝓘(ℝ,E) ω M`, as stated by `realified_isManifold_analytic`.
-This local transition-map theorem also holds without global Hausdorffness or second
-countability. Its underlying smooth structure agrees with
-ComplexManifolds Milestone 1. Export the real-analytic transition and local defining-equation
-comparisons required by K6's analytic-set triangulation. Use the native
-`contDiffGroupoid` at order ω; no separate analytic groupoid carrier is needed.
+the parameter set times the integration circle, and its Osgood lemma
+`ContinuousOn.analyticOnNhd_of_differentiableAt_update` for continuous separately
+holomorphic functions, and use the resulting joint analyticity with the native
+parametric integral theorem. Consume Mathlib's one-variable Cauchy APIs as well.
+The realified atlas is the pinned one: `IsManifold.restrictScalars_of_ne_zero` with
+`m = ∞` and `n = ω` gives real `IsManifold 𝓘(ℝ,E) ω M` for a complex `IsManifold 𝓘(ℂ,E) ∞ M`
+on finite-dimensional E, with no Hausdorffness or second countability, and
+`IsManifold.maximalAtlas_subset_restrictScalars_of_ne_zero` puts every holomorphic chart in
+the real-analytic maximal atlas. Construct here the manifold/chart transports of these
+comparisons for holomorphic maps and their inverses, and prove that the underlying smooth
+structure agrees with ComplexManifolds Milestone 1. Export the real-analytic transition and
+local defining-equation comparisons required by K6's analytic-set triangulation. Use the
+native `contDiffGroupoid` at order ω; no separate analytic groupoid carrier is needed.
 
 The realified atlas comparison has the following API:
 
 - The real analytic transition maps are the same set maps on the same chart sources and targets.
 - Restriction of a complex analytic chart or its inverse agrees with scalar restriction of its derivative.
+- A holomorphic map between complex manifolds is real analytic between the realified manifolds, and its real derivative is the scalar restriction of its complex derivative.
 
 **Checks.**
 
 - For the complex chart transition z↦iz, the real matrix is ((0,−1),(1,0)), with determinant 1 and analytic inverse z↦−iz.
 - For E=0, the unique transition has a zero-dimensional derivative and is real analytic; there is no positive-dimensionality requirement.
-- The transition z↦bar(z) is real analytic but not complex differentiable: D(i)=−i differs from iD(1)=i. The theorem does not assert the converse.
+- The transition z↦bar(z) is real analytic but not complex differentiable: D(i)=−i differs from iD(1)=i. The realified atlas does not determine the complex one.
 
-*Needs:* Tau Ceti finite-dimensional Cauchy analyticity; `AnalyticAt.restrictScalars`; native analytic `contDiffGroupoid`.
+*Needs:* Tau Ceti finite-dimensional Cauchy analyticity and Osgood's lemma; `IsManifold.restrictScalars_of_ne_zero` and `IsManifold.maximalAtlas_subset_restrictScalars_of_ne_zero`; `AnalyticAt.restrictScalars`; ComplexManifolds Milestone 1.
 
 ### 3.1 Holomorphic stalks (K3.HolomorphicStalk)
 
@@ -961,10 +992,10 @@ layer uses DifferentialGeometry, SmoothBundlesConnections B2–B4, PDE Lane A.3,
 [UnboundedOperators UO-D06](../OperatorTheory/UnboundedOperators/README.md),
 AlgebraicTopology and Mathlib, and Mathlib's `CovariantDerivative.leviCivitaConnection`
 directly, with Tau Ceti's pointwise and smooth-form Hodge star. Construct the
-orientation-line twisted star and the density line first, then the chart-local
-differential operators, symbols and transposes below.
-Distributional action and Laplace analysis use that core. It precedes the complex-manifold
-and holomorphic-bundle applications in K5b.
+orientation-line twisted star and the density line first; PseudodifferentialOperators
+P1.0's differential operators, symbols, transposes and formal adjoints follow the density
+line, and the distributional action and Laplace analysis below use that core. It precedes
+the complex-manifold and holomorphic-bundle applications in K5b.
 
 Consume SmoothBundlesConnections B2's RCLike L² section construction. The
 bundle is DifferentialGeometry's actual alternating bundle
@@ -1024,7 +1055,7 @@ equivalence, proving basis independence and continuity of the |det| action.
 Construct the smooth real density line bundle on M with local
 transition |det D(chart change)|, its dual/tensor and pullback maps, and construct
 its `ContMDiffVectorBundle ∞` structure. Identify its smooth sections with
-chart-smooth values of DG 5.5's `RoughDensity` carrier; scalar-extend it
+chart-smooth values of DifferentialGeometry §5.5a's `RoughDensity` carrier; scalar-extend it
 to 𝕜 for complex coefficient bundles. Define
 the density-valued dual-bundle test space as the compactly supported smooth sections,
 using native `ContMDiffSection` with `ContMDiffVectorBundle ∞`, and fixed-compact
@@ -1046,9 +1077,8 @@ Consume Mathlib `TestFunction Ω F ⊤`, its LF topology and
 Build frame/chart/restriction/gluing comparisons with native real-test
 F-valued distributions. For 𝕜=ℂ, complex-linearly extend real tests; prove
 compatibility with `TemperedDistribution`'s complex-test convention.
-After the differential-operator and density-transpose construction below, construct
-the action of differential operators on distributions by the
-bilinear transpose on E*⊗density tests. Prove compactly supported
+After PseudodifferentialOperators P1.0's density transpose, construct the action of
+its differential operators on distributions by `⟨Pu,ψ⟩=⟨u,Pᵗψ⟩` on the E*⊗density tests. Prove compactly supported
 Euclidean distributions extend uniquely to tempered distributions after
 cutoff, with the explicit test-pairing and cutoff-independence on their
 support. Prove finite derivative order on each fixed compact support.
@@ -1067,77 +1097,23 @@ The star, density line, tests and distribution carriers have the following API:
 - On an empty base the test and distribution spaces are zero; on a point, δ(1)=1, ruling out the zero pairing.
 - For the planar two-form dx∧dy, u=bar(z)/(2i) satisfies ∂̄u=1/(2i)
   and d(u dz)=dx∧dy; using −1/(2i) would give −dx∧dy. The denominator 2i is nonzero.
-- For P=∂ₓ and density dx, ∫(∂ₓf)g dx=−∫f(∂ₓg)dx on compact supports, so Pᵗ=−∂ₓ; for P=x∂ₓ the transpose is −x∂ₓ−1.
+- For P=x∂ₓ on the line with density dx, Pᵗ=−x∂ₓ−1, so the action on the constant distribution 1 is ⟨P1,ψ⟩=−∫(xψ)′dx=0, matching x∂ₓ1=0; with −x∂ₓ in place of Pᵗ it would be ∫ψ dx, which is 1 for a bump ψ of integral 1.
 
-*Needs:* DifferentialGeometry §§0.1–0.4, 5.5; SmoothBundlesConnections B2–B4; Tau Ceti `Orientation.formHodgeStar`, `Orientation.complexHodgeStar`, `Orientation.barHodgeStar`, `TauCeti.alternatingFormEquiv` and `TauCeti.RoughForm.hodgeStar`; native test functions and distributions; the differential-operator construction below for operator transpose.
+*Needs:* DifferentialGeometry §§0.1–0.4, 5.5a; SmoothBundlesConnections B2–B4; Tau Ceti `Orientation.formHodgeStar`, `Orientation.complexHodgeStar`, `Orientation.barHodgeStar`, `TauCeti.alternatingFormEquiv` and `TauCeti.RoughForm.hodgeStar`; native test functions and distributions; PseudodifferentialOperators P1.0's density transpose for the operator action.
 
-#### Finite-order operators, symbols and density transpose
+#### Differential operators, consumed
 
-For finite-rank smooth real or complex bundles E,F over a boundaryless smooth real
-manifold M, construct the space of scalar-linear differential operators
-Γ∞(E)→Γ∞(F) of order at most m, m≥0: linear maps on smooth sections that are local and,
-in every chart and every pair of local frames, have the form
-`P=Σ_(|α|≤m) a_α ∂^α` with smooth matrix coefficients. Prove the chart- and frame-change
-law of the coefficients, restriction to open subsets, the smooth section-module structure
-of the operator space, composition with addition of order bounds, and that the order-zero
-operators are exactly the smooth bundle maps E→F. Covariant derivatives of
-SmoothBundlesConnections B3 connections and the exterior derivative are operators of
-order one, and connection Laplacians of order two. The jet-bundle factorization and the
-iterated-commutator characterization of the order filtration are PseudodifferentialOperators
-P1.0's, which consumes this definition; no target here uses them.
-
-- The top coefficients give a homogeneous bundle map Sym^m(T*M)⊗E→F; the principal
-  symbol is invariant under coordinate and frame changes, compatible with restriction,
-  and composition multiplies principal symbols in order.
-- In real geometric convention the top polynomial is Σ_(|α|=m)a_α ξ^α;
-  in Fourier convention it is Σ_(|α|=m)a_α(iξ)^α, complexifying real bundles,
-  so the two differ by the factor i^m.
-
-**Checks.**
-
-- For m=0, multiplication by 3 is an operator of order zero with symbol 3, and it is not
-  the zero operator; an order-zero operator is the bundle map it multiplies by.
-- At ξ=2 the geometric and Fourier symbols of ∂² are 4 and −4; a convention without the
-  factor i^m gives the same sign for both.
-- Under x=2y, ∂ₓ=(1/2)∂_y, so ∂ₓ²=(1/4)∂_y²; with dx=2dy the symbol at dx is
-  (1/4)·2²=1 in both coordinates, whereas transforming the coefficient as a scalar would give
-  1/4.
-- The composition ∂∘(x∂)=x∂²+∂ has order two and principal symbol xξ², the product of the
-  symbols ξ and xξ; the lower-order term ∂ does not contribute.
-- On a zero-dimensional base every operator has order zero and every positive-order symbol
-  is 0; for the zero bundle the operator space is 0.
-
-Construct the bilinear density transpose
-Pᵗ:Γ∞(F*⊗Dens)→Γ∞(E*⊗Dens) by
-`Pᵗψ=Σ_α(−1)^|α| ∂^α(a_α^t ψ)` in density coordinates, and prove that
-these formulas glue by compact-support integration by parts. For chosen smooth
-positive density and fiber metrics construct the formal metric adjoint
-P†:Γ∞(F)→Γ∞(E); it includes complex conjugation, unlike Pᵗ.
-Both are characterized by their integration identities for compactly supported
-sections. For a metric connection ∇ on E, prove that its negative metric trace
-of the second covariant derivative equals ∇†∇ and has Fourier symbol |ξ|²_g Id.
-Define Laplace type with scale c>0 by order at most two and symbol c|ξ|²_g Id,
-including c=1 and finite-rank real/complex bundles.
-
-- Transpose and formal adjoint reverse composition, are involutive under the
-  natural double-dual identifications and commute with restriction to open subsets.
-- The formal-adjoint Fourier symbol is the fiber adjoint of the Fourier symbol.
-  Distributional action is defined by ⟨Pu,ψ⟩=⟨u,Pᵗψ⟩, with these exact test bundles.
-- The connection Laplacian has energy ∫⟨u,∇†∇u⟩=∫|∇u|² on compact supports;
-  positive rescaling multiplies its symbol and energy by c.
-
-**Checks.**
-
-- With density dx, (∂ₓ)ᵗ=−∂ₓ and (x∂ₓ)ᵗ=−x∂ₓ−1;
-  omitting the derivative of the coefficient loses the term −1.
-- Multiplication by i has bilinear transpose i but Hermitian adjoint −i;
-  these agree on real multiplication by 2, where both are 2.
-- On the circle, ∇=d gives ∇†∇ exp(ikx)=k² exp(ikx), with eigenvalues
-  0,1,4 for k=0,1,2. For the zero fiber both the operator and its energy are 0.
-
-*Needs:* This section’s density line; native smooth sections; SmoothBundlesConnections
-B2–B4 bundle operations and induced connections; DifferentialGeometry §5.5 integration;
-Mathlib's `CovariantDerivative.leviCivitaConnection`; the local chain rule.
+Consume PseudodifferentialOperators P1.0's differential operators of order at most m between
+finite-rank smooth real or complex bundles over a boundaryless manifold, given in every chart
+and pair of frames by `P=Σ_(|α|≤m) a_α ∂^α` with smooth matrix coefficients; its principal
+symbols, with the geometric top polynomial `Σ_(|α|=m)a_α ξ^α` and the Fourier one
+`Σ_(|α|=m)a_α(iξ)^α`, which differ by the factor i^m; its bilinear density transpose
+`Pᵗ:Γ∞(F*⊗Dens)→Γ∞(E*⊗Dens)`, built on this section's density line; its metric/density
+formal adjoint P†, which includes complex conjugation, unlike Pᵗ; its connection Laplacian
+∇*∇ with Fourier symbol `|ξ|²_g Id`; and its Laplace-type predicate with scale c>0, order at
+most two and Fourier symbol `c|ξ|²_g Id`. The operator carrier, symbols, transposes, formal
+adjoints and Laplace-type predicate used in Layers 5 and 6 are these; the Hodge and Dolbeault
+Laplacians below are instances of them.
 
 ### 5.2 Distribution local structure (K5a.DistributionLocalStructure)
  Own the continuous-primitive and supported
@@ -1431,7 +1407,7 @@ transport to E is conjugate-linear and gives the second/first slot pairing
 Finite distribution order and these continuous embeddings then show every
 bundle distribution lies locally in H^(−N) for some finite N.
 The general pseudodifferential calculus consumes this shared scale; this
-Laplace-type layer uses §5.1's differential operators, not the general
+Laplace-type layer uses PseudodifferentialOperators P1.0's differential operators, not the general
 calculus or P1.1's Peetre theorem. Prove BundleSobolev E 0 and B2's
 geometric L² have the same distributional image and equivalent norms, using
 `TemperedDistribution.memSobolev_zero_iff`, the distribution map
@@ -1440,19 +1416,20 @@ and B2's chart isometries. This gives a continuous linear equivalence, not
 an isometry for the pinned atlas norm. Every formal adjoint, self-adjoint
 realization, harmonic projection and orthogonal Hodge splitting uses B2's
 inner product ∫⟨s,t⟩_h dμ; the atlas H^s inner products provide the Hilbert
-scale and compactness. Compare §5.1's formal density adjoints with that
+scale and compactness. Compare P1.0's formal density adjoints with that
 geometric L² pairing even on nonorientable real manifolds, and prove the
 real de Rham instantiation on this shared API.
 
 Own the complex-linear manifold top-form integration and pairing API by real
 and imaginary parts on DifferentialGeometry's carrier, proving agreement with
-DG8.4's existing vector-valued simplex/chain integrals and Stokes. Use that
+Tau Ceti's vector-valued simplex integral `TauCeti.SmoothSimplex.integral` and with
+DifferentialGeometry §8.4's chain integrals and Stokes. Use that
 agreement for the complex-linear de Rham integration map and its naturality. On an
 oriented real Riemannian manifold, extend compactly supported smooth top-form
 integration to integrable `f dvol_g` through the L¹ density completion;
-prove independence of the approximants. Combine DG 5.5's
-`integralTopForm_eq_integralDensity` and 12.4's
-`integral_riemannianVolume_eq_integralDensity` to prove
+prove independence of the approximants. Combine DifferentialGeometry §5.5a's agreement of
+the density integral with the top-form integral and §12.4's agreement of
+`TauCeti.riemannianVolume` with the density integral to prove
 `∫_M f dvol_g=∫ f d(riemannianVolume I M)` for integrable complex f,
 first on compactly supported smooth functions and then by L¹ density. Use
 this comparison in every L² formal-adjoint and Hodge pairing identity.
@@ -1477,8 +1454,10 @@ path fundamental theorem, so `P` is well-defined. Prove its complex linearity.
 Use the slit domains `V_+=ℂ\(-∞,0]` and `V_-=ℂ\[0,∞)`.
 The first is Mathlib's `Complex.slitPlane`, star-convex about `1` by
 `Complex.starConvex_one_slitPlane`; the second is its image under `z↦−z`, hence star-convex
-about `−1`. Apply DG6.2's smooth star-convex primitive target, constructed from DG5.4's
-radial homotopy, to obtain smooth primitives `g_+` and `g_-` of `ω` on these domains.
+about `−1`. Apply the pinned flat Poincaré lemma
+`StarConvex.exists_contDiffOn_forall_extDeriv_eq`, for the complete coefficient space ℂ,
+through DG's open-subtype flat adapter, to obtain smooth primitives `g_+` and `g_-` of `ω` on
+these domains.
 
 Split the positively oriented circle into four arcs: `1→i` and `−i→1` lie in `V_+`, while
 `i→−1` and `−1→−i` lie in `V_-`. The upper and lower overlap components are connected, so
@@ -1526,14 +1505,15 @@ complex-linear quotient comparison.
 
 As a disk regression, let `D={z:|z|<1}` with its open-subtype smooth structure and DG's existing
 form carrier with coefficients in `ℂ`. Compute `H⁰_dR(D;ℂ)≃ℂ` by a complex-linear equivalence,
-and `H¹_dR(D;ℂ)=H²_dR(D;ℂ)=0`. For degrees one and two use DG5.4's `homotopyOperator` for
+and `H¹_dR(D;ℂ)=H²_dR(D;ℂ)=0`. For degrees one and two use the pinned
+`TauCeti.homotopyOperator` of DifferentialGeometry §5.4 for
 the radial contraction `H(z,t)=tz` with complete complex coefficients; degree-two forms are
 closed by dimension. Pass from primitives to the K5a complex quotient. As a consistency check,
 compare the degree-two result with the specialization to `Ω=D` of this layer’s planar exactness consequence of K2’s scalar solver. Keep it on DG's existing form carrier.
 
-Use §5.1's differential-operator carrier and Laplace-type predicate:
-order at most 2 and Fourier principal symbol c|ξ|²_g Id for a fixed c>0.
-Use §5.1's restriction-compatible symbol and formal-adjoint maps,
+Use PseudodifferentialOperators P1.0's differential-operator carrier and Laplace-type
+predicate: order at most 2 and Fourier principal symbol c|ξ|²_g Id for a fixed c>0.
+Use P1.0's restriction-compatible symbol and formal-adjoint maps,
 bilinear density transpose and their local coordinate formulas.
 Own local elliptic estimates for these operators on finite-rank real Riemannian and
 complex Hermitian bundles over `[RCLike 𝕜]`, with smooth coefficients and
@@ -1590,7 +1570,7 @@ HamiltonianReduction R5 consumes this smooth-coefficient layer at smooth
 reference connections for the Laplace operator of `d_A⊕d_A*`. K5 computes
 the exterior-multiplication/contraction symbols to prove
 `σ_F((d_A⊕d_A*)*(d_A⊕d_A*))=|ξ|²_g Id` on each degree, for every smooth
-metric connection A, compatibly with §5.1's principal symbol and the Clifford relation. R5 owns its
+metric connection A, compatibly with P1.0's principal symbol and the Clifford relation. R5 owns its
 Sobolev-coefficient perturbation estimates, gauge-specific identifications and
 Coulomb slice.
 
@@ -1626,7 +1606,7 @@ the kernel's orthogonal complement and its projection/recovery identities.
 The geometric elliptic weak-domain identification and smoothness are owned
 here; the abstract represented operator and compact spectral arguments are
 consumed through those suppliers. For an energy form a(u,v)=⟨Du,Dv⟩,
-consume §5.3's domain-restricted D₀†D₀ comparison, with
+consume VariationalMethods §5.3's domain-restricted D₀†D₀ comparison, with
 D₀(ju)=Du on range j; its domain is {ju | Du∈Dom D₀†}. The bounded
 Hilbert adjoint of D : H¹ → L² has a different domain/codomain and cannot replace D₀†.
 Apply the same construction to Δ_d and Δ_A;
@@ -1640,9 +1620,15 @@ identification, before constructing its eigensection decomposition. On
 functions it is the negative of DG's `laplaceBeltrami=div∘grad`. Construct
 harmonic projection and Green operator, the orthogonal harmonic/exact/coexact
 splitting, and the de Rham Hodge theorem on compact real Riemannian manifolds;
-identify its cohomology with DifferentialGeometry's de Rham object.
-Own `d*=(−1)^(m(k+1)+1)*d*` on real k-forms of an oriented m-manifold
-and `*Δ_d=Δ_d*`; PDO P1.1, Riem R7.4 and K5b consume these identities.
+identify its cohomology with `TauCeti.deRhamCohomology`.
+On an oriented m-manifold d* on real k-forms is the pinned `TauCeti.SmoothForm.codifferential`,
+defined as `(−1)^(m(k+1)+1)*d*` (Demailly VI, Theorem 3.9, p. 292, with p=k−1), and its
+formal adjointness against d for compactly supported forms on a Hausdorff σ-compact
+boundaryless manifold is
+`TauCeti.SmoothForm.integralTopForm_inner_mextDeriv_eq_inner_codifferential`. Prove here that
+it equals P1.0's formal adjoint of d for the Riemannian density and B2's L² pairing, through
+the volume comparison above, and that `*Δ_d=Δ_d*`; PDO P1.1, Riem R7.4 and K5b consume these
+identities.
 
 The geometric Sobolev space and realization API includes:
 
@@ -1657,7 +1643,7 @@ The geometric Sobolev space and realization API includes:
 - For a(u,v)=2 conj(u)v with j=id on ℂ, the graph gives Au=2u and (A+1)⁻¹u=u/3; the dual-forcing map sends ℓ(v)=cv to conj(c)/3 after shift 1.
 - For D=2 id, the energy form is 4 conj(u)v and D₀†D₀=4 id; using D alone would give the wrong factor 2.
 
-*Needs:* §§5.1–5.3, including the differential-operator core; PDE Lane A.3; SmoothBundlesConnections B2; VariationalMethods §§2.2–2.4, 3.1, 4.3, 5.1–5.3; UnboundedOperators UO-D06.
+*Needs:* §§5.1–5.3; PseudodifferentialOperators P1.0's differential operators, symbols, formal adjoints and Laplace-type predicate; PDE Lane A.3; SmoothBundlesConnections B2; VariationalMethods §§2.2–2.4, 3.1, 4.3, 5.1–5.3; UnboundedOperators UO-D06.
 
 ### 5.5 Planar Hodge and Laplacian conventions
  On an arbitrary open subset
@@ -1666,9 +1652,9 @@ complex-linear extension of the real Hodge star. Prove the coordinate comparison
 on DifferentialGeometry §0.3's rough-form carrier on the open subtype.
 At regularity Cʳ, require every coefficient of an ambient representative to
 satisfy `ContDiffOn ℝ r` on the open set, with r=1 or r=2 as specified below.
-Use §1.1's exterior derivative of rough forms, and define the pointwise
-codifferential by the star formula; restriction to the smooth-section carrier
-of §0.4 agrees with the smooth formal L² adjoint on compactly supported tests:
+Use DifferentialGeometry §1.1's exterior derivative of rough forms, and define the pointwise
+codifferential by the star formula; restriction to DifferentialGeometry §0.4's smooth-section
+carrier agrees with the smooth formal L² adjoint on compactly supported tests:
 `*1=dx∧dy`, `*(dx∧dy)=1`, `*dx=dy`, `*dy=−dx`, hence
 `*dz=−i dz` and `*dbarz=i dbarz`. For a `C¹` complex-valued one-form
 `α=P dx+Q dy`, prove
@@ -1811,13 +1797,14 @@ The compact component assembly API includes:
 
 ### 5.7 Local Hermitian identities (K5b.0)
 
-Consume K1, K2, K4 and K5a's pointwise density/formal-adjoint layer.
+Consume K1, K2, K4, K5a's density line and complex stars, and PseudodifferentialOperators
+P1.0's formal adjoints.
 The Gram/type/star identities, Dolbeault formal adjoint on compact supports
 and principal symbol `σ(Δ_∂̄_E)(ξ)=½|ξ|²_g Id` below hold on arbitrary
 Hermitian complex manifolds and their open sets, without compactness.
 RealAnalyticGeometry R3.1 consumes them for its weighted noncompact estimate.
 Prove
-`dvol_g=ω^n/n!` for the complex orientation. Identify K1's
+`dvol_g=ω^n/n!` for the complex orientation (Demailly VI, (4.2), p. 296). Identify K1's
 (p,q) summands as smooth Gram-orthogonal subbundles, with their orthogonal
 splitting and coefficient-space models. Prove the complex Dolbeault
 formal-adjoint instantiation on K5a's shared density and L² API.
@@ -1829,7 +1816,8 @@ For a `(1,0)` coframe ψ orthonormal in the complexified-real Gram product,
 define wedge `e_θ=θ∧·` and `i_θ=e_θ*=ι_(θ♯)`, where ♯ is the
 conjugate-linear Gram dual. Prove `(1,0)` and `(0,1)` cotangent subspaces are
 Gram-orthogonal. For ψ_j and its conjugate, pin `i_j=e_j*`, `bar(i_j)=bar(e_j)*`,
-`e_θ i_η+i_η e_θ=⟨η,θ⟩_Gram`. In particular the two same-type
+`e_θ i_η+i_η e_θ=⟨η,θ⟩_Gram`, from the adjunction of contraction and wedge (Demailly VI,
+(3.8), p. 292; Tau Ceti's `TauCeti.adjoint_wedgeLeft` in real coefficients). In particular the two same-type
 anticommutators are δ_jk and both mixed-type anticommutators vanish.
 In coordinates use the preceding H⁻¹ formula for contraction; interior at
 the ordinary dual-frame vector is a different normalization.
@@ -1838,7 +1826,9 @@ A unitary `(1,0)` coframe φ for h_T* has Gram norm √2; prove the scaling
 `e_(φ_j)i_(φ_k)+i_(φ_k)e_(φ_j)=2δ_jk`. Transport K5a's pointwise type law to the
 complex-linear Hodge star `*:Ω^(p,q)→Ω^(n−q,n−p)`, its degree
 square identities, and the `(n−p,n−q)` type of K5a's `barStar β=*(bar β)`. Pin
-`α∧barStar β=⟨β,α⟩dvol` and `∂̄*=−*∂*`. Consume K5a's
+`α∧barStar β=⟨β,α⟩dvol` (Demailly VI, (3.6), p. 292, whose Hermitian product is linear in its
+first slot) and `∂̄*=−*∂*`, the type `(0,−1)` component of `D*=−*D*` in even real dimension
+(Demailly VI, Theorem 3.9, p. 292, and §7, p. 309). Consume K5a's
 `*Δ_d=Δ_d*` and prove `barStar Δ_∂̄=Δ_∂̄ barStar`.
 For a Hermitian holomorphic bundle E construct conjugate-linear
 `barStar_E:Ω^(p,q)(E)→Ω^(n−p,n−q)(E*)` using the fiberwise metric identification; pin
@@ -1847,6 +1837,40 @@ the identity `α∧_ev barStar_E β=⟨β,α⟩_(Gram⊗h_E)dvol_g`, using
 consequence. Use this same slot order in the Serre pairing. Prove inverse/square
 and `barStar_E Δ_∂̄_E=Δ_∂̄_(E*) barStar_E`, where E* has B2's Riesz-transported
 dual metric.
+
+The local Hermitian identities have the following API:
+
+- The volume form of the complex orientation is `ω^n/n!`, and the `(p,q)` summands are smooth
+  Gram-orthogonal subbundles whose orthogonal sum is the complexified form bundle.
+- Wedge `e_θ` and contraction `i_θ` are Gram adjoints, satisfy the anticommutation law with
+  `⟨η,θ⟩_Gram`, and `(1,0)` covectors are Gram-orthogonal to `(0,1)` covectors.
+- The complex-linear star maps type `(p,q)` to `(n−q,n−p)` and barStar maps it to
+  `(n−p,n−q)`; `barStar_E` satisfies its evaluation-wedge identity and inverse law and
+  intertwines the Dolbeault Laplacians of E and E*.
+- `−*∂*` is the compact-support formal adjoint of ∂̄ for B2's L² pairing on an arbitrary
+  Hermitian manifold, and its principal symbol makes `Δ_∂̄_E` Laplace type with scale ½.
+
+**Checks.**
+
+- On ℂ with the standard metric, ω=(i/2)dz∧dz̄=dx∧dy=ω¹/1!=dvol; on standard ℂ²,
+  ω=dx₁∧dy₁+dx₂∧dy₂ has ω²=2dx₁∧dy₁∧dx₂∧dy₂, so omitting 1/n! doubles the volume form.
+- On ℂ, *dz=dy−i dx=−i dz and *dz̄=i dz̄, so dz∧barStar(dz)=dz∧(i dz̄)=2dx∧dy, which is
+  `⟨dz,dz⟩_Gram dvol` with `⟨dz,dz⟩_Gram=1+1=2`; the complex-linear star gives dz∧*dz=0 and
+  cannot satisfy this identity.
+- For ψ=dz/√2, `(e_ψ i_ψ+i_ψ e_ψ)1=i_ψψ=⟨ψ,ψ⟩_Gram=1`, while the h_T*-unitary covector dz
+  gives 2; the mixed anticommutator vanishes because `⟨dz,dz̄⟩_Gram=1+conj(i)(−i)=0`.
+- On ℂ, `∂̄*(f dz̄)=−*∂*(f dz̄)=−2∂f/∂z`: for f=z the value is −2 and for f=z̄ it is 0;
+  integration by parts gives `⟨∂̄u,f dz̄⟩_L²=2∫conj(∂u/∂z̄)f=−2∫conj(u)∂f/∂z` for compactly
+  supported u, and the opposite sign `+*∂*` would give +2 for f=z.
+- In complex dimension 0 the volume form is the constant 1=ω⁰/0!, every positive-degree type
+  space is 0, and for the positive orientation the complex-linear star is the identity of ℂ
+  while barStar is complex conjugation, so barStar(i)=−i distinguishes them.
+
+*Needs:* K1 type projections, K2, K4 Hermitian holomorphic bundles; §5.1's density line,
+complex stars and Gram metric; PseudodifferentialOperators P1.0's formal adjoints and principal
+symbols; SmoothBundlesConnections B2 metrics and L² pairing; Tau Ceti
+`Orientation.complexHodgeStar`, `Orientation.barHodgeStar` and `TauCeti.adjoint_wedgeLeft`;
+Demailly VI (3.6), (3.8), Theorem 3.9, (4.2) and §7.
 
 
 ### 5.8 Compact Dolbeault Hodge theory (K5b.1)
@@ -1909,7 +1933,7 @@ The C² function |x|³ tests the distinction between pointwise and smooth form c
 ### Dependencies
 
 DifferentialGeometry; SmoothBundlesConnections B2–B4; PDE Lane A.3;
-§5.1 differential-operator core; VariationalMethods §§2–5; UnboundedOperators UO-D06;
+PseudodifferentialOperators P1.0's differential-operator core; VariationalMethods §§2–5; UnboundedOperators UO-D06;
 Layers 1, 2 and 4 for the complex applications.
 
 ## Layer 6: Kähler identities and Hodge decomposition
@@ -1996,7 +2020,7 @@ and `[L,d*]=4πd_c`. Prove `Δ_d=2Δ_∂=2Δ_∂̄`, preserving type
 - For f=x²+y², Δ_d f=−4 and Δ_∂f=Δ_∂̄f=−2; for f=1 all three values are 0.
 
 *Needs:* The preceding Kähler metric and Lefschetz constructions; K1/K2 type calculus;
-§5.1 local formal adjoints and §5.5 sign comparisons. Compactness is not assumed.
+PseudodifferentialOperators P1.0's local formal adjoints and §5.5 sign comparisons. Compactness is not assumed.
 
 #### Nakano curvature and twisted identities
 
@@ -2081,7 +2105,7 @@ supplier contracts, not consequences of Poincaré nondegeneracy alone.
 - For a positive oriented point and η=2, evaluation and integration are both 2; reversing its orientation gives −2 on both sides.
 
 *Needs:* DifferentialGeometry §§5.2, 8.3–8.5; AlgebraicTopology Stages 3 and 6,
-including §6.3's compact-set orientation classes; smooth partitions of unity.
+including AlgebraicTopology §6.3's compact-set orientation classes; smooth partitions of unity.
 
 On compact Kähler M prove the `∂∂̄` lemma, then prove Hodge decomposition `H^k_dR(M;ℂ)≃⊕_(p+q=k)H^(p,q)(M)`, Hodge
 conjugation/symmetry, and compatibility with wedge/singular cup product and
@@ -2181,7 +2205,7 @@ from S; do not integrate a smooth form over nonsmooth triangulation simplices.
 Construct an open neighborhood N of S in M which deformation retracts onto
 S, using AT Stage4's `cwSubcomplexNeighborhoods` and transport through the
 ambient triangulation. For k>0, cellular dimension
-vanishing, AT's real universal-coefficient comparison and DG8's de Rham
+vanishing, AT's real universal-coefficient comparison and DifferentialGeometry §8.5's de Rham
 isomorphism give `H^(2k)_dR(N)=0`. Thus every closed smooth 2k-form α on M
 restricts to `dβ` on N. Choose a smooth χ with `tsupport χ⊆N` and equal to
 one on an open neighborhood U of S, using DG's bump functions and partitions
@@ -2510,23 +2534,20 @@ Sakane's Dolbeault comparison for compact complex parallelizable nilmanifolds.
 
 #### Lie-algebra cochains in every degree
 
-For a finite-dimensional real or complex Lie algebra L and a Lie module V over the
-same field 𝕜, define C^k(L,V) as native alternating 𝕜-multilinear maps L^k→V.
-Define d:C^k→C^(k+1) by the sum of the action terms
-Σ_i(−1)^i x_i·ω(x₀,…,x̂_i,…,x_k) and bracket terms
-Σ_(i<j)(−1)^(i+j)ω([x_i,x_j],x₀,…,x̂_i,…,x̂_j,…,x_k), with the remaining
-arguments in their original order. Chevalley–Eilenberg §23, equations (23.1)–(23.2),
-pp. 115–116, gives the coefficient construction with its opposite bracket convention
-and differential divided by k+1; after reversing that bracket, multiply its degree-k
-differential by k+1 to obtain this formula. Its finite-dimensional-coefficient proof
-extends to arbitrary V because its finite-sum module/Jacobi calculation uses no
-basis or dimension bound on V. Prove alternation and d²=0 using the module
-identity and Jacobi, and construct the cochain complex and its cohomology.
-Use native linear maps and alternating maps, not another Lie-algebra carrier.
-Compare degrees one and two with `LieModule.Cohomology.oneCochain`,
-`LieModule.Cohomology.twoCochain`, `LieModule.Cohomology.d₁₂` and
-`LieModule.Cohomology.d₂₃` in `Mathlib/Algebra/Lie/Cochain.lean`; the degree-three
-comparison forgets alternation into the trilinear codomain of the last map.
+For a finite-dimensional real Lie algebra L and a Lie module V over ℝ, consume
+LieGroupoidsPoisson §G1.3a's complex `C^k(L,V)=Alt^k_ℝ(L,V)` of native alternating maps, with
+the differential given by the action terms Σ_i(−1)^i x_i·ω(x₀,…,x̂_i,…,x_k) and the bracket terms
+Σ_(i<j)(−1)^(i+j)ω([x_i,x_j],x₀,…,x̂_i,…,x̂_j,…,x_k), the remaining arguments in their original
+order, its `d²=0`, its cohomology and its comparisons with `LieModule.Cohomology.oneCochain`,
+`LieModule.Cohomology.twoCochain`, `LieModule.Cohomology.d₁₂` and `LieModule.Cohomology.d₂₃`.
+Construct here the same complex for a finite-dimensional complex Lie algebra and a complex Lie
+module, on ℂ-multilinear alternating maps with the same formula; it differs from §G1.3a's only
+in the scalar field, and its alternation, `d²=0` and degree-one and degree-two comparisons are
+proved by the same module-identity and Jacobi calculation. Chevalley–Eilenberg §23, equations
+(23.1)–(23.2), pp. 115–116, gives the coefficient construction with its opposite bracket
+convention and differential divided by k+1; after reversing that bracket, multiply its
+degree-k differential by k+1 to obtain this formula. Use native linear maps and alternating
+maps, not another Lie-algebra carrier.
 
 - Pullback by a Lie-algebra homomorphism is a chain map when the coefficient
   action on its source is restricted along that homomorphism; coefficient-module
@@ -2542,7 +2563,7 @@ comparison forgets alternation into the trilinear codomain of the last map.
 **Checks.**
 
 - For L=0, C⁰=V, every positive-degree cochain space is 0 and d=0;
-  the trivial one-dimensional abelian algebra has H⁰=𝕜 and H¹=𝕜.
+  the trivial one-dimensional abelian algebra has H⁰ and H¹ equal to the scalar field, ℝ or ℂ.
 - For [X,Y]=Z with trivial coefficients, dZ*(X,Y)=−1, while dX*=dY*=0;
   hence d²Z*=0 and H¹ of the three-dimensional Heisenberg algebra has dimension 2.
   In the source convention δZ*(X,Y)=−1/2; the degree-one factor 2 gives −1.
@@ -2551,8 +2572,9 @@ comparison forgets alternation into the trilinear codomain of the last map.
 - The Iwasawa equation dφ₃=−φ₁∧φ₂ evaluates to −1 on (X₁,X₂), agreeing
   with the real Heisenberg sign after complexification; d²φ₃=0.
 
-*Needs:* Native Lie algebras, Lie modules, alternating maps and cochain complexes;
-DifferentialGeometry §§0.1–1.4 for the invariant-to-manifold comparison only.
+*Needs:* LieGroupoidsPoisson §G1.3a's real Chevalley–Eilenberg complex; native Lie algebras,
+Lie modules, alternating maps and cochain complexes; DifferentialGeometry §§0.1–1.4 for the
+invariant-to-manifold comparison only.
 
 ### 8.2 Central reduction (K8.NilpotentCentralReduction)
  Supply the existence and lattice theorem
@@ -2643,11 +2665,10 @@ ComplexTori Milestone 1; DGFloer's filtered-complex spectral sequence.
 Layer 2 supplies the scalar Cauchy–Green transform, finite-rank Runge approximation
 and mixed-parameter solver; Layer 5 supplies planar exactness on the generic form
 carrier. Layer 3 supplies the manifold finite-pole stalk comparison. PseudodifferentialOperators
-uses Layer 5's density line, chart-local differential-operator core and analytic scale: its
-P1.0 jet theory and iterated-commutator characterization extend §5.1's operators, and its
-pseudodifferential calculus uses the analytic scale. RiemannianGeometry R7 uses §5.1's
-operator core, density transposes and connection Laplacians with K5a's Sobolev and Hodge
-analysis. LieGroupoidsPoisson extends Layer 8's Lie-algebra cochains to Lie algebroids.
+uses Layer 5's density line for P1.0's density transposes and formal adjoints, and Layer 5's
+distributions and analytic scale from P1.1 onward. RiemannianGeometry uses K5a's pointwise
+Gram metric, real star and density line, then P1.0's operators, then K5a's Sobolev scales and
+Hodge analysis.
 
 K3.0 several-variable calculus precedes K1. K1's scalar-restriction and
 orientation paragraph precedes K7.1 and SBC B1's acceptance examples;
@@ -2657,8 +2678,8 @@ use §2.1's fixed finite-rank operators and Cauchy–Green map under their state
 K4's holomorphic-section sheaf and ∂̄_E. The rest of K3 uses that local analysis and feeds K4's
 analytic-sheaf examples. K5a's orientation-twisted and complex-form
 stars, built on Tau Ceti's pointwise star, and its density bundle use DG and SBC B2
-independently of K1–K4. Its chart-local operator and transpose construction uses that density line,
-Mathlib's `CovariantDerivative.leviCivitaConnection` and SBC B3–B4's induced connections.
+independently of K1–K4. PseudodifferentialOperators P1.0's operators, density transposes and
+formal adjoints use that density line, and K5a's distributional action uses them.
 Its bundle tests, distributions and Fréchet sections use chart/frame analysis;
 the Hilbert scale, Laplace regularity and de Rham Hodge theory then use these
 constructions, SBC B2–B4, PDE Lane A.3 componentwise on finite-dimensional fibers,
@@ -2666,7 +2687,7 @@ constructions, SBC B2–B4, PDE Lane A.3 componentwise on finite-dimensional fib
 [UO-D06](../OperatorTheory/UnboundedOperators/README.md) and AT.
 UO-D06 supplies form representation to VariationalMethods §§2.3 and 5.1;
 §§3.1 and 4.3 supply compact pairs and their spectral expansion. Layer 5
-consumes the same represented operator and §5.3’s abstract differential-energy
+consumes the same represented operator and VariationalMethods §5.3’s abstract differential-energy
 adapter, and proves the geometric H²-domain comparison here.
 K5a.ComponentwiseCompact follows its component fixed-model analytic theorems
 and the smooth component-family assembly, and feeds K5b.1 for K4's holomorphic

@@ -8,7 +8,7 @@ public import Mathlib
 The roadmap is README.md; this file is not the roadmap. It states the roadmap's
 headline theorems against the pinned APIs. Finite-rank Runge approximation uses
 native open sets, connected components and holomorphic functions. The mixed smooth/holomorphic parameter
-solver and real-analytic realification use native manifold and derivative carriers.
+solver uses native manifold and derivative carriers.
 Weierstrass preparation and division use native analytic germs at the origin of
 `ℂⁿ × ℂ`. Noetherianity and unique factorization use the native holomorphic stalk. Its
 small-manifold universe matches the native sheaf with scalar ring ℂ.
@@ -120,9 +120,11 @@ theorem weierstrass_preparation {n d : ℕ} {f : (Fin n → ℂ) × ℂ → ℂ}
           f zw = u zw * (zw.2 ^ d + ∑ i : Fin d, a i zw.1 * zw.2 ^ (i : ℕ)) := by
   sorry
 
-/-- **Uniqueness in Weierstrass preparation** (Demailly II, (2.1), p. 80): two factorizations
-of the same germ as a holomorphic unit times a Weierstrass polynomial of degree `d` have the same
-unit germ and the same coefficient germs. -/
+/-- **Uniqueness in Weierstrass preparation** (Demailly II, (2.1) with the uniqueness clause of
+(2.3), p. 80): two factorizations of the same germ as a holomorphic unit times a Weierstrass
+polynomial of degree `d` have the same unit germ and the same coefficient germs. Writing
+`f = u · P` with `P = w^d + Σ a_i w^i` gives `w^d = u⁻¹ · f − Σ a_i w^i`, a division of `w^d` by
+`f` with remainder of degree below `d`, so the uniqueness of division fixes `u⁻¹` and the `a_i`. -/
 theorem weierstrass_preparation_unique {n d : ℕ} {f u u' : (Fin n → ℂ) × ℂ → ℂ}
     {a a' : Fin d → (Fin n → ℂ) → ℂ}
     (hu : AnalyticAt ℂ u 0) (hu0 : u 0 ≠ 0) (ha : ∀ i, AnalyticAt ℂ (a i) 0 ∧ a i 0 = 0)
@@ -153,15 +155,6 @@ theorem weierstrass_division {n d : ℕ} {g f : (Fin n → ℂ) × ℂ → ℂ} 
         (∀ᶠ zw in 𝓝 (0 : (Fin n → ℂ) × ℂ),
           f zw = g zw * q' zw + ∑ i : Fin d, r' i zw.1 * zw.2 ^ (i : ℕ)) →
         q' =ᶠ[𝓝 0] q ∧ ∀ i, r' i =ᶠ[𝓝 0] r i := by
-  sorry
-
-/-- A finite-dimensional complex smooth atlas is real analytic after restriction
-of scalars. No global separation or countability hypothesis is needed for this
-local transition-map assertion. -/
-theorem realified_isManifold_analytic
-    {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E] [FiniteDimensional ℂ E]
-    {M : Type*} [TopologicalSpace M] [ChartedSpace E M]
-    [IsManifold 𝓘(ℂ, E) ∞ M] : IsManifold 𝓘(ℝ, E) ω M := by
   sorry
 
 /-- The holomorphic stalk at a point of a finite-dimensional complex manifold is
