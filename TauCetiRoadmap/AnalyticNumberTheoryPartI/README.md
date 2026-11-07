@@ -1,8 +1,8 @@
 # Roadmap: analytic number theory, Part I
 
-**Summary.** Quantitative primes, explicit formulas, Hecke and Artin comparisons, multiplicative means, smooth numbers and proved zeta moments.
+**Summary.** Quantitative primes, the uniform exclusion of Landau–Siegel zeros with its effective consequences, explicit formulas, Hecke and Artin comparisons, multiplicative means, smooth numbers and proved zeta moments.
 
-`Suggested.lean` states the headline theorems on native library carriers: the uniform prime-series and Mellin-smoothing interfaces of §§0.11a–0.11c, finite-order Hadamard factorization and Siegel–Walfisz (Layer 0); Davenport cancellation, half-interval and Weil explicit formulas, Dirichlet-polynomial means, Selberg density and conditional prime errors (Layer 1); Louboutin and bounded-degree Brauer–Siegel (Layer 2); and Shiu, Halász, Dickman, Landau–Ramanujan, restricted Sathe–Selberg, Atkinson, zeta moments and the Beurling remainder equivalence (Layer 3). Its definitions serve those statements. Other API names below specify library targets.
+`Suggested.lean` states the headline theorems on native library carriers: the uniform prime-series and Mellin-smoothing interfaces of §§0.11a–0.11c, the uniform exclusion of Landau–Siegel zeros with its classification, Landau-deduction and inert-prime targets (§0.34), the effective lower bound for `L(1,χ)` (§0.9), finite-order Hadamard factorization and effective Siegel–Walfisz (Layer 0); Davenport cancellation, half-interval and Weil explicit formulas, Dirichlet-polynomial means, Selberg density and conditional prime errors (Layer 1); Louboutin and bounded-degree Brauer–Siegel (Layer 2); and Shiu, Halász, Dickman, Landau–Ramanujan, restricted Sathe–Selberg, Atkinson, zeta moments and the Beurling remainder equivalence (Layer 3). Its definitions serve those statements. Other API names below specify library targets.
 
 ## Scope and ownership
 
@@ -10,7 +10,9 @@ This part owns Layers 0–3: quantitative refinement and arithmetic comparison. 
 
 GlobalHolomorphicFunctions supplies the primary factors, generic entire products and entire logarithms; AutomorphicLFunctionsAndLocalFactors supplies the paired Hadamard theorem. The finite-order summability, good-circle estimate and polynomial-degree bound in §0.23 are enhancements here. Both suppliers precede these enhancements in the dependency order.
 
-ImaginaryQuadraticClassNumber H2.3–H2.4 owns Siegel's theorem, the ineffective lower bound `L(1,χ)≥c_ε q^(−ε)` over primitive real nonprincipal characters, together with its two-character positivity and Mellin-contour proof and the imaginary quadratic class-number bound `h(D)≥c_ε|D|^(1/2−ε)`. §0.9 imports both and plans no part of that proof; this roadmap adds only the near-one derivative bound of §0.31a and the passage from the `L`-value to a real zero gap in §0.31b. The real quadratic bound `h⁺(D)log ε_D≥c_ε D^(1/2−ε)` of §2.13 is kept here because H2.4 states only the imaginary case.
+This part owns the uniform exclusion of Landau–Siegel zeros (§0.34): an effective absolute `c_LS>0` with `(1−β)log q≥c_LS` for every real zero `β∈(0,1)` of every primitive nonprincipal real Dirichlet `L`-function of conductor `q≥3`. It also owns the effective consequences drawn here: the lower bound `L(1,χ)≥c/log q` and Siegel's bound `L(1,χ)≥c_ε q^(−ε)` with effective constants (§0.9), the emptiness of the exceptional-zero predicate at width `c_LS` (§0.1), the exception-free bounded-height Landau–Page theorem (§0.6), the character prime-number estimate without an exceptional term (§§0.18, 0.28), the effective zero gap (§0.31b) and effective Siegel–Walfisz (§0.32). ImaginaryQuadraticClassNumber H2.3–H2.4 keeps its own ineffective two-character proof of Siegel's theorem and of `h(D)≥c_ε|D|^(1/2−ε)`; this part plans no step of that proof and takes nothing from H2.3–H2.4. The real quadratic bound `h⁺(D)log ε_D≥c_ε D^(1/2−ε)` of §2.13, effective here, is kept in this part because H2.4 states only the imaginary case.
+
+Downstream consumers of §0.34 and its corollaries are ZerosOfLFunctions, ImaginaryQuadraticClassNumber, EffectiveClassNumbers, SieveMethodsAndPrimePatterns, ErdosProgressionPowers and the explicit prime-counting roadmaps; the section Downstream consumers lists the statements concerned.
 
 ### Prerequisites and boundaries
 
@@ -64,7 +66,7 @@ Consume [ArithmeticDirichletSeries Layer 1][R4] for `IdealArithmeticFunction`, `
 
 ### From ImaginaryQuadraticClassNumber
 
-H2.2 supplies `ζ_K(s)=ζ(s)L(s,χ_D)` on `Re s>1` for a quadratic field `K` of discriminant `D` and the imaginary quadratic class-number formula `h(D)=w_D√|D|L(1,χ_D)/(2π)` with the exact unit orders `w₋₃=6`, `w₋₄=4` and `w_D=2` otherwise. H2.3 supplies the real-character contour estimates of the Goldfeld proof: conjugation symmetry, vertical-line and completed-function growth, the prime-by-prime nonnegativity of the coefficients of `ζ(s)L(s,χ)L(s,ψ)L(s,χψ)` with the factors at primes dividing either conductor retained, the smoothed Mellin shift with its residues and the two-character comparison. H2.4 supplies `quadratic_LFunction_siegel`: for every `ε>0` there is `c_ε>0` with `c_ε q^(−ε)≤Re L(1,χ)` for every primitive nonprincipal `χ` modulo `q` with `χ²=1` (Mathlib's `MulChar.IsQuadratic`); and `imaginary_classNumber_lower_bound`: `c_ε|D_L|^(1/2−ε)≤h_L` for every imaginary quadratic field `L`. Both constants are ineffective and no target here makes them effective; the effective exponent-`1/2` zero gap of §0.12 is separate and uses only the class-number formula and §0.31a.
+H2.2 supplies `ζ_K(s)=ζ(s)L(s,χ_D)` on `Re s>1` for a quadratic field `K` of discriminant `D` and the imaginary quadratic class-number formula `h(D)=w_D√|D|L(1,χ_D)/(2π)` with the exact unit orders `w₋₃=6`, `w₋₄=4` and `w_D=2` otherwise. Nothing from H2.3–H2.4 is consumed. Their statements `quadratic_LFunction_siegel` (for every `ε>0` some `c_ε>0` with `c_ε q^(−ε)≤Re L(1,χ)` for every primitive nonprincipal `χ` modulo `q` with `χ²=1`, Mathlib's `MulChar.IsQuadratic`) and `imaginary_classNumber_lower_bound` (`c_ε|D_L|^(1/2−ε)≤h_L` for every imaginary quadratic field `L`) follow, with effective constants, from §0.9 together with H2.2. The effective exponent-`1/2` zero gap of §0.12 uses only the class-number formula and §0.31a.
 
 ### From LFunctions Layers 0–7 and ZerosOfLFunctions Layers 0–8
 
@@ -77,7 +79,7 @@ Use [LFunctions Layers 0–7][R9]’s completed-function records and Layer 7’s
 | [ZerosOfLFunctions 3.3–3.4][R13] | Pole-cleared conductor-uniform convexity at fixed degree and bounded shifts; order at most one for `ζ` and primitive Hecke entire completions. Finite order alone does not suffice. |
 | [ZerosOfLFunctions Layer 4][R14] | Locally finite analytic zero divisor, multiplicity-weighted restrictions, finite counts and high-height `O(log analyticQ)` local counts. Bounded-height conductor uniformity is refined here. |
 | [ZerosOfLFunctions 5.2–5.7][R15] | Zero summability/tails, `E₁(w)=(1−w)exp(w)` and its API, locally uniform unordered products, Hadamard at order `≤1` for `f(0)≠0`, and logarithmic derivative. The origin-zero adapter extends this locally. |
-| [ZerosOfLFunctions 6.2–6.4][R16] | Fixed-degree conductor-uniform regions, including `ζ`, with at most one simple real exception for real characters: `IsExceptionalZero`, `.unique`, `.divisor_eq_one`, `.sq_eq_one`. Use the supplied width; §0.1 compares `c` before inheriting these assertions. Family Landau–Page is additional. |
+| [ZerosOfLFunctions 6.2–6.4][R16] | Fixed-degree conductor-uniform regions, including `ζ`, with at most one simple real exception for real characters: `IsExceptionalZero`, `.unique`, `.divisor_eq_one`, `.sq_eq_one`. Use the supplied width; §0.1 compares `c` before inheriting these assertions, and §0.34b uses the conductor bound 6.4d. Family Landau–Page is additional, and §0.34 shows that the exception does not occur at width `c_LS`. |
 | [ZerosOfLFunctions 7.4][R17] | Multiplicity-sensitive Riemann–von Mangoldt formula with Gamma phase and safe heights. |
 | [ZerosOfLFunctions 8.2–8.8][R18] | Truncated explicit formulas with endpoint/admissible-height conventions, rational PNT remainder, fixed-character and fixed-field abelian effective estimates. Conductor-uniform character PNT and nonabelian effective Chebotarev are refinements here. |
 
@@ -174,15 +176,18 @@ Each abbreviation expands to the exact prerequisite list below; these are shared
 
 ## Layer 0: Entire functions and quantitative prime estimates
 
-Start with entire-function factorization and the pole-cancelled `ξ`-function. The prime estimates specify their zero-free regions, exceptional-zero alternatives and numerical ranges. An effective constant includes an effective threshold; Siegel constants remain ineffective. Published finite computations enter the affected literal bounds as explicit hypotheses, as specified below. No enumeration or numerical verification is a target.
+Start with entire-function factorization and the pole-cancelled `ξ`-function. The prime estimates specify their zero-free regions and numerical ranges. The milestone of this layer is the uniform exclusion of Landau–Siegel zeros (§0.34), which rests on the prime sums of §§0.11–0.11b, the dictionary of §0.30 and the effective gap of §0.12. It precedes the emptiness statement of §0.1 and §§0.6, 0.9, 0.18, 0.28, 0.31b and 0.32, none of which carries an exceptional-zero alternative; their Siegel-type constants are effective. An effective constant includes an effective threshold. Published finite computations enter the affected literal bounds as explicit hypotheses, as specified below. No enumeration or numerical verification is a target.
 
 ### 0.1 Exceptional real zero
 
 For `c>0` define the `c`-exceptional predicate for a nontrivial primitive quadratic character `χ` of conductor `N>1` by `L(β,χ)=0` and `1−c/log N<β<1`, with `β` real. The exceptional zero used in Proposition 7.1 is this predicate specialized to its effective absolute `c_star>0`; its conductor is called exceptional. The general parameter does not assert the existence of any zero. The exceptional predicate increases with the positive width parameter.
 
+By §0.34 the predicate is empty at every width `0<c≤c_LS`: a zero in the window would have `(1−β)log N<c≤c_LS`. The constant `c_star` is fixed with `c_star≤c_LS` (below), so no `c_star`-exceptional zero and no exceptional conductor exists, and §0.24 holds vacuously. This unconditional emptiness is the stronger form and is the one stated; the predicate is kept at every width for the comparison with ZerosOfLFunctions and for statements quantified over the width.
+
 - `ExceptionalRealZero.iff`: For `c>0` and `N>1`, the predicate holds exactly when `χ` is primitive, nonprincipal and quadratic, `L(β,χ)=0`, and `1−c/log N<β<1`. Equivalently, for arbitrary `c,N` it is the conjunction of all these conditions, including `c>0` and `N>1`.
 - `ExceptionalRealZero.bounds`: An exceptional `β` lies strictly below 1 and strictly above the specified logarithmic cutoff.
 - `ExceptionalRealZero.mono`: For `0<c≤c′` the `c`-exceptional predicate implies the `c′`-exceptional predicate, with `N>1`.
+- `ExceptionalRealZero.empty`: For `0<c≤c_LS` the `c`-exceptional predicate holds for no `χ`, `N` and `β`.
 
 **Checks.**
 
@@ -190,12 +195,13 @@ For `c>0` define the `c`-exceptional predicate for a nontrivial primitive quadra
 - `β=1−c/log N` is excluded by the strict inequality.
 - The principal character and `N=1` are outside the domain; `log 1` is never used as a denominator.
 - Given `c>0, N>1`, a primitive nonprincipal quadratic `χ`, a real `β` with `L(β,χ)=0` and `1−c/log N<β<1`, the `c`-exceptional predicate holds. This is conditional and makes no existence assertion.
+- At width `c_LS` the predicate is empty by §0.34; at a larger width it is a window condition and asserts neither existence nor emptiness.
 
-See [47][R47], Section 7, Proposition 7.1 and following paragraph, pp. 373-374.
+See [47][R47], Section 7, Proposition 7.1 and following paragraph, pp. 373-374; [109], Theorem 1, for the emptiness.
 
-`ExceptionalRealZero.to_supplier`: for the degree-one constant `c₁>0` of [ZerosOfLFunctions 6.3–6.4][R16] and `0<c≤min(c₁/3,log3/2)`, `c`-exceptional `β` satisfies `IsExceptionalZero` through §0.30. Indeed `N≥3`, `β>1/2` and `log analyticQ(χ,0)≤log(4N)≤3logN`, so `c/logN≤c₁/log analyticQ(χ,0)`. Conversely require the supplier predicate, stricter cutoff and primitive nonprincipal quadratic conditions. Inherit uniqueness/simplicity only at this width. Reducing `c` preserves exclusion, not existence.
+`ExceptionalRealZero.to_supplier`: for the degree-one constant `c₁>0` of [ZerosOfLFunctions 6.3–6.4][R16] and `0<c≤min(c₁/3,log3/2)`, `c`-exceptional `β` satisfies `IsExceptionalZero` through §0.30. Indeed `N≥3`, `β>1/2` and `log analyticQ(χ,0)≤log(4N)≤3logN`, so `c/logN≤c₁/log analyticQ(χ,0)`. Conversely require the supplier predicate, stricter cutoff and primitive nonprincipal quadratic conditions. Inherit uniqueness/simplicity only at this width. Reducing `c` preserves exclusion, not existence. The width comparison for `c_star` is `0<c_star≤min(c₁/3,log3/2,c_LS)`.
 
-*Needs:* `DirichletCharacter.LFunction`; §0.30; [ZerosOfLFunctions 6.3–6.4][R16].
+*Needs:* `DirichletCharacter.LFunction`; §0.30; [ZerosOfLFunctions 6.3–6.4][R16]; §0.34.
 
 ### 0.2 Chebyshev sum in a residue class
 
@@ -257,15 +263,15 @@ See [47][R47], §9 proof, p. 382; Rosser–Schoenfeld Theorem 1.
 
 ### 0.6 Bounded-height Landau–Page theorem
 
-The theorem expresses uniqueness of the primitive character and its simple real zero without asserting that an exception exists.
+The theorem expresses the absence of any exceptional zero in a bounded-height family of primitive characters.
 
-There is an effective absolute `c>0` such that among primitive Dirichlet characters of moduli `q≤T, T≥2`, there is at most one zero `ρ=β+i*t` with `|t|≤T` and `β>1-c/log T`. Any exception is a simple real zero of a real character.
+There is an effective absolute `c>0` such that, for `T≥2`, no primitive Dirichlet character of modulus `q≤T` has a zero `ρ=β+i*t` with `|t|≤T` and `β>1-c/log T`. Page's theorem and the classical Landau–Page form (at most one such zero, a simple real zero of a real character) follow at once; this exception-free form is the stronger one and is the one stated.
 
-Use ZerosOfLFunctions §§6.2–6.4 through §0.30. For `q,|t|≤T`, `log(q(|t|+2))≤3logT+O(1)`; shrink one effective width so exceptions are real and simple. Distinct primitive real characters have nonprincipal product and `ζLχ₁Lχ₂L(χ₁χ₂)` has nonnegative logarithmic coefficients and conductor `≤T²`; §0.17 excludes two exceptions. Shrink again for bounded `T`, with cutoff `>1/2` at `T=2`. For the principal character, the `ζ` region excludes nonreal zeros and `η(s)>0` gives `ζ(s)=η(s)/(1−2^(1−s))<0` on `(0,1)`. Count multiplicities.
+Use ZerosOfLFunctions §§6.2–6.4 through §0.30. For `q,|t|≤T`, `log(q(|t|+2))≤3logT+O(1)`; shrink one effective width so that a zero in the region can only be a simple real zero of a real nonprincipal character. §0.34 excludes it, since such a zero has `1−β≥c_LS/log q≥c_LS/log T`. Shrink again for bounded `T`, with cutoff `>1/2` at `T=2`. For the principal character, the `ζ` region excludes nonreal zeros and `η(s)>0` gives `ζ(s)=η(s)/(1−2^(1−s))<0` on `(0,1)`. Count multiplicities.
 
-See [47][R47], §12 opening, p. 386; Bombieri §5 p.39; Iwaniec–Kowalski Theorem 5.26.
+See [47][R47], §12 opening, p. 386; Bombieri §5 p.39; Iwaniec–Kowalski Theorem 5.26; [109], §1 and Theorem 1.
 
-*Needs:* `DirichletCharacter.LFunction`; `DirichletCharacter.conductor`; §0.30; §0.17.
+*Needs:* `DirichletCharacter.LFunction`; `DirichletCharacter.conductor`; §0.30; §0.34.
 
 ### 0.7 Quadratic real-zero separation from one
 
@@ -294,15 +300,17 @@ See [47][R47], §9 p.384; Rosser–Schoenfeld Theorem 6, p.70.
 
 ### 0.9 Siegel's theorem
 
-Siegel's theorem is imported, not planned here. ImaginaryQuadraticClassNumber H2.4 supplies, for each `ε>0`, an ineffective `c_ε>0` with `L(1,χ)≥c_ε q^(−ε)` for every primitive real nonprincipal character `χ` of conductor `q`, with the positivity, Mellin-contour and two-character proof planned in H2.3; this roadmap states no second version of the theorem and no step of that proof.
+The signature is `quadratic_LFunction_one_lower_bound`. There is an effective absolute `c>0` with `L(1,χ)≥c/log q` for every primitive real nonprincipal character `χ` of conductor `q≥3`. Consequently, for each `ε>0`, Siegel's bound `L(1,χ)≥c_ε q^(−ε)` holds with the effective constant `c_ε=ecε`, because `log q≤q^ε/(eε)`. This effective form is stronger than Siegel's ineffective theorem and is the one stated; it implies ImaginaryQuadraticClassNumber H2.4's `quadratic_LFunction_siegel`.
 
-The fundamental-discriminant form used below, `L(1,χ_D)≥c_ε|D|^(−ε)` for every fundamental discriminant `D≠1`, is the same statement read through the Multiquadratic field-character dictionary (From Tau Ceti, Multiquadratic and ContourIntegration): `χ_D` is primitive, real and nonprincipal of conductor `|D|`, so the conductor and discriminant powers coincide. The ineffectivity is the supplier's: the constant depends on the positive `L`-value of a possible exceptional character, and no target of this roadmap sharpens it. What this roadmap adds is the passage from the `L`-value bound to a real zero gap (§0.31b, through the near-one derivative bound of §0.31a) and the conductor-uniform consequences drawn in §§0.32, 1.2a, 2.13 and 2.31e.
+By §0.34 and the conductor-uniform region of [ZerosOfLFunctions 6.3–6.4][R16] through §0.30, whose only possible exception is a real zero of a real character, every zero `ρ` of `L(s,χ)` with `|Im ρ|≤1` has `Re ρ≤1−c₂/log q` for an effective absolute `c₂>0`. Put `σ₁=1+1/log q` and `σ′=1+2/log q`. For real `1≤σ≤σ₁` and such a zero, `Re 1/(σ−ρ)≤(1+2/c₂)Re 1/(σ′−ρ)`. With the local expansion of §0.30a, `|L′/L(σ,χ)|` is at most the zero sum `Σ_(|Imρ|≤1)Re 1/(σ−ρ)` plus `O(log q)`, this sum is at most `1+2/c₂` times the same sum at `σ′`, and the sum at `σ′` is `L′/L(σ′,χ)+O(log q)=O(log q)` because `|L′/L(σ′,χ)|≤−ζ′/ζ(σ′)` (§0.11b). Hence `|L′/L(σ,χ)|=O(log q)` on `[1,σ₁]`, and integrating `log L(σ,χ)` from `σ₁` down to 1 loses a bounded factor. Finally the real Euler product gives `L(σ₁,χ)≥ζ(2σ₁)/ζ(σ₁)≥(σ₁−1)/σ₁`. `L(σ,χ)` is real and positive on `[1,σ₁]` by the Euler product and Mathlib's nonvanishing on `Re s≥1`.
 
-Checks: `D=−4` gives `L(1,χ₋₄)=π/4` and `D=−3` gives `L(1,χ₋₃)=π/(3√3)`, so at these conductors the bound holds with any `c_ε≤π/(3√3)`; `D=1` is excluded, since `L(s,χ₁)=ζ(s)` has a pole at 1; the conductor of `χ_D` is `|D|` and not the radicand, so `D=−8` enters with `q=8`, not `q=2`.
+The fundamental-discriminant form used below, `L(1,χ_D)≥c/log|D|` and hence `L(1,χ_D)≥c_ε|D|^(−ε)` for every fundamental discriminant `D≠1`, is the same statement read through the Multiquadratic field-character dictionary (From Tau Ceti, Multiquadratic and ContourIntegration): `χ_D` is primitive, real and nonprincipal of conductor `|D|`, so the conductor and discriminant powers coincide. This part draws on it in §2.13; the zero gap of §0.31b, and through it §§1.2a and 2.31e, and Siegel–Walfisz (§0.32) come from §0.34 directly.
 
-See Koukoulopoulos, *The Distribution of Prime Numbers*, Theorem 12.9, p.125, for the statement in the form imported.
+Checks: `D=−4` gives `L(1,χ₋₄)=π/4` and `D=−3` gives `L(1,χ₋₃)=π/(3√3)`, so at these conductors the bound holds with any `c≤(π/(3√3))log 3`; `D=1` is excluded, since `L(s,χ₁)=ζ(s)` has a pole at 1; the conductor of `χ_D` is `|D|` and not the radicand, so `D=−8` enters with `q=8`, not `q=2`; through the class-number formula of ImaginaryQuadraticClassNumber H2.2 the bound gives `h(D)≥c√|D|/log|D|` effectively.
 
-*Needs:* ImaginaryQuadraticClassNumber H2.3–H2.4; `DirichletCharacter.LFunction`; the Multiquadratic field-character dictionary (From Tau Ceti, Multiquadratic and ContourIntegration).
+See [109], Theorem 1 and §1; [113] for the relation between the logarithmic zero gap and lower bounds for `L(1,χ)`; Koukoulopoulos, *The Distribution of Prime Numbers*, Theorem 12.9, p.125, for Siegel's ineffective statement, which the effective form implies.
+
+*Needs:* §0.34; §0.30; §0.30a; §0.11b; [ZerosOfLFunctions 6.3–6.4][R16]; `DirichletCharacter.LFunction`; `DirichletCharacter.LFunction_ne_zero_of_one_le_re`; the Multiquadratic field-character dictionary (From Tau Ceti, Multiquadratic and ContourIntegration).
 
 ### 0.10 Prime-number input
 
@@ -449,13 +457,13 @@ primitive Dirichlet record; §0.30's ray-class dictionary remains a downstream c
 
 For each `ε>0` there is an effectively computable `c_ε>0`, fixed before `D` and `β`, such that for every nonzero squarefree integer `D≠1` and real zero `β∈(1/2,1)` of the canonical continued primitive field-character `L(s,χ_D), 1−β≥c_ε |D|^(−1/2−ε)`. The conductor is `Q_D=|Disc(Q(√D))|`, with `|D|≤Q_D≤4|D|`; conductor/radicand conversion only changes `c_ε` effectively.
 
-Quadratic class-number formulas give `L(1,χ)≥c/√Q`: imaginary fields use `h≥1,w≤6`; real fields use `h≥1,ε≥(1+√5)/2` from integral trace and `norm±1`. §0.31b gives `|L′|≤C log²Q` on `[1−1/logQ,1]`. Mean value treats zeros there; otherwise `1−β≥1/logQ`. Use `Q_D≤4|D|` and effectively absorb logs into `|D|^ε`. This is the effective exponent 1/2, independent of ineffective Siegel constants.
+Quadratic class-number formulas give `L(1,χ)≥c/√Q`: imaginary fields use `h≥1,w≤6`; real fields use `h≥1,ε≥(1+√5)/2` from integral trace and `norm±1`. §0.31a gives `|L′|≤C log²Q` on `[1−1/logQ,1]`. Mean value treats zeros there; otherwise `1−β≥1/logQ`. Use `Q_D≤4|D|` and effectively absorb logs into `|D|^ε`. This is the effective exponent 1/2; it does not use §0.34, which uses it for its finitely many small conductors.
 
 Only real zeros in(1/2,1) are used; trivial negative zeros are outside the interface. No ineffective Siegel constant can discharge the effective `c_ε` contract. At `D=−1` or2 the positive conductor is4 or8, respectively; the finite small-conductor range is included effectively.
 
 See [51][R51], §7.2 proof of Proposition7.6, p.62, immediately after(7.7).
 
-*Needs:* `DirichletCharacter.LFunction`; `NumberField.classNumber`.
+*Needs:* `DirichletCharacter.LFunction`; `NumberField.classNumber`; §0.31a.
 
 ### 0.13 Exceptional quadratic squareclasses
 
@@ -549,15 +557,15 @@ See [47][R47], Proposition 7.1(i), (23), p. 373.
 
 ### 0.18 Effective character prime-number estimate
 
-Use an empty or singleton exceptional-zero sum, with absolute constants chosen before the conductor.
+No exceptional-zero term occurs; absolute constants are chosen before the conductor.
 
-For a primitive nonprincipal character `χ` of conductor `N>1` and `X` sufficiently large, `Σ_{m≤X}χ(m)*Λ(m)=-X^β/β+O(X*exp(-c*log X/(√(log X)+log N))*(log N)^4)`, with the `β` term only when an exceptional zero exists; `c>0` and the implied constant are absolute and effective.
+For a primitive nonprincipal character `χ` of conductor `N>1` and `X` sufficiently large, `Σ_{m≤X}χ(m)*Λ(m)=O(X*exp(-c*log X/(√(log X)+log N))*(log N)^4)`; `c>0`, the implied constant and the threshold are absolute and effective. This form, without the term `−X^β/β` of an exceptional zero, is the stronger one and is the one stated.
 
-Use the character explicit formula and isolate the exceptional real zero before estimating the other zeros. Optimize the height using the conductor-uniform region; preserve `log N` and the effective constants.
+Use the character explicit formula. The conductor-uniform region of ZerosOfLFunctions 6.3–6.4 (through §0.30 and §0.1's supplier comparison) contains no zero except possibly one simple real zero `β≥1/2` of a real `χ`. §0.34 gives `1−β≥c_LS/log N`, so its term satisfies `X^β/β≤2X exp(−c_LS log X/log N)`, which the stated error absorbs once `c≤c_LS`. Optimize the height using the conductor-uniform region; preserve `log N` and the effective constants.
 
-See [47][R47], Theorem 5, (26), p. 374; Iwaniec–Kowalski Theorem 5.27.
+See [47][R47], Theorem 5, (26), p. 374; Iwaniec–Kowalski Theorem 5.27; both carry the exceptional term that §0.34 removes.
 
-*Needs:* §0.1.
+*Needs:* §0.1; §0.30; §0.34.
 
 ### 0.19 Explicit reciprocal-prime estimate
 
@@ -680,11 +688,11 @@ See [51][R51], §7.2 Definition7.5 and following paragraph, p.61.
 
 ### 0.28 Quadratic prime-character interval estimate
 
-There are positive absolute effective constants `c,C` such that for every nonzero squarefree integer `D≠1`, its primitive field character `χ_D` of conductor `Q_D=|Disc(Q(√D))|`, and real `2≤u<v, |Σ_{u<p<v, p prime, p∤Q_D}χ_D(p)|≤C[E_D(v)+v exp(−c log v/(√log v+log Q_D))(log(vQ_D))⁴]`. Here `E_D(v)=v^β` if the conductor-uniform zero-free region singles out a simple real exceptional zero `β∈(1/2,1)`, and `E_D(v)=0` otherwise. Equivalently extend `χ_D` by0 at ramified primes and sum over all primes. This is an upper bound, not an asymptotic for short intervals.
+There are positive absolute effective constants `c,C` such that for every nonzero squarefree integer `D≠1`, its primitive field character `χ_D` of conductor `Q_D=|Disc(Q(√D))|`, and real `2≤u<v, |Σ_{u<p<v, p prime, p∤Q_D}χ_D(p)|≤C v exp(−c log v/(√log v+log Q_D))(log(vQ_D))⁴`. No exceptional term `v^β` occurs, since §0.18 carries none; this form is the stronger one and is the one stated. Equivalently extend `χ_D` by0 at ramified primes and sum over all primes. This is an upper bound, not an asymptotic for short intervals.
 
-Apply conductor-uniform character PNT, remove higher powers and Abel-sum to strict prime counts. Since `β>1/2`, the exceptional term is `O(x^β)`. Subtract the endpoint formulas and dominate the `u`-error by an increasing `v`-envelope, shrinking `c`/enlarging `C` for bounded heights. `|D|≤Q_D≤4|D|` recovers printed (7.7), including `log(v|D|)≥log2` at `d=−1`. These uniform power-removal and Abel/envelope adapters are targets here.
+Apply the character PNT of §0.18, remove higher powers and Abel-sum to strict prime counts. Subtract the endpoint formulas and dominate the `u`-error by an increasing `v`-envelope, shrinking `c`/enlarging `C` for bounded heights. `|D|≤Q_D≤4|D|` gives the printed (7.7), which carries an additional exceptional term, including `log(v|D|)≥log2` at `d=−1`. These uniform power-removal and Abel/envelope adapters are targets here.
 
-If `(u,v)` contains no unramified prime the sum is0; no unproved prime-existence claim is hidden in this bound. For `D=−1` use `χ_−4` and conductor `4; p=2` is excluded or contributes0. Both constants are independent of `D,u,v`; the exceptional term is omitted only under the exact same zero-free-region convention as its supplier.
+If `(u,v)` contains no unramified prime the sum is0; no unproved prime-existence claim is hidden in this bound. For `D=−1` use `χ_−4` and conductor `4; p=2` is excluded or contributes0. Both constants are independent of `D,u,v`.
 
 See [51][R51], §7.2 proof of Proposition7.6, (7.7), p.62.
 
@@ -768,27 +776,27 @@ See Koukoulopoulos, *The Distribution of Prime Numbers*, Theorem3.4(c), pp.40–
 
 **§0.31a Near-one Dirichlet derivative bounds.** Uniformly for nonprincipal `χ` modulo `q≥3` and real `σ∈[1−1/log q,1]`, `|L′(σ,χ)|≤C log²q` with an effective absolute `C`. To prove it without a zero-free hypothesis, split `−Σχ(n)log n/n^σ` at `N=q`. The finite part is at most `eΣ_{n≤q}log n/n≤C log²q`. Partial summation of the tail with `|Σ_{q<n≤v}χ(n)|≤2q` gives at most `2q∫_q^∞(σ log v+1)v^(−σ−1)dv≤C log q`; for `q≥3, σ≥1−1/log3>0`, so its denominators are uniformly bounded. The differentiated series and this integral agree by locally uniform Abel convergence on `Re s>0`.
 
-API: `dirichletL.near_one_derivative`. Checks: the principal character is excluded; `q=3` keeps a positive lower bound for `σ`; the bound is used only on the real segment `[1−1/log q,1]`, where `σ>0` and no functional equation enters; the conductor-power derivative bound at a hypothetical exceptional zero belongs to the supplier's two-character comparison (ImaginaryQuadraticClassNumber H2.3) and is not restated. Source: Koukoulopoulos Lemma11.2, p.113. *Needs:* native character partial sums and Abel summation.
+API: `dirichletL.near_one_derivative`. Checks: the principal character is excluded; `q=3` keeps a positive lower bound for `σ`; the bound is used only on the real segment `[1−1/log q,1]`, where `σ>0` and no functional equation enters; it is unconditional, and no exceptional-zero alternative enters its uses, since by §0.34 no real zero lies in `[1−c_LS/log q,1)`. Source: Koukoulopoulos Lemma11.2, p.113. *Needs:* native character partial sums and Abel summation.
 
-**§0.31b Quadratic zero separation from an `L`-value.** Let `χ` be a primitive real nonprincipal character of conductor `q≥3`. If `β` is a real zero in `[1−1/log q,1)`, the real mean-value theorem gives `1−β≥L(1,χ)/(C log²q)`; if it is farther left the same desired weaker power bound is immediate. Thus the imported Siegel bound (§0.9, ImaginaryQuadraticClassNumber H2.4) with exponent `ε/2` yields `1−β≥c_ε q^(−ε)`, with ineffective `c_ε`. The effective quadratic class-number/regulator lower bound `L(1,χ_D)≥c/√Q_D` gives the effective exponent `1/2+ε` result, using `h≥1`, the explicit imaginary roots-of-unity factor and the elementary real unit lower bound `(sqrt(D+4)+sqrt D)/2` for the positive norm-one generator. No ineffective Siegel constant enters this latter deduction.
+**§0.31b Quadratic zero separation from an `L`-value.** Let `χ` be a primitive real nonprincipal character of conductor `q≥3`. If `β` is a real zero in `[1−1/log q,1)`, the real mean-value theorem gives `1−β≥L(1,χ)/(C log²q)` (`.gap_of_lvalue`); a zero farther left has `1−β≥1/log q`. The uniform gap `.siegel_gap` is `1−β≥c_LS/log q` for every real zero `β∈(0,1)`, with the effective constant of §0.34; for each `ε>0` it gives `1−β≥c_ε q^(−ε)` with effective `c_ε`. This effective logarithmic gap is stronger than the ineffective `c_ε q^(−ε)` gap and is the one stated; `.gap_of_lvalue` with §0.9 alone gives only `1−β≫1/log³q`. The effective quadratic class-number/regulator lower bound `L(1,χ_D)≥c/√Q_D` gives the effective exponent `1/2+ε` result `.effective_quadratic_gap`, using `h≥1`, the explicit imaginary roots-of-unity factor and the elementary real unit lower bound `(sqrt(D+4)+sqrt D)/2` for the positive norm-one generator.
 
-API: `dirichletL.near_one_derivative`, `.gap_of_lvalue`, `.siegel_gap`, `.effective_quadratic_gap`. Checks: a zero left of `1−1/log q` uses the distance alternative, not the derivative interval; `q=3` is included; the principal character is excluded; `Q_D≤4|D|` is applied before absorbing logarithms. Source: Koukoulopoulos, *The Distribution of Prime Numbers*, Lemma11.2 p.113 and (12.11)–(12.12) p.124; [48][R48], Lemma6.3 pp.491–492 for the effective unit and class-number normalization.
+API: `dirichletL.near_one_derivative`, `.gap_of_lvalue`, `.siegel_gap`, `.effective_quadratic_gap`. Checks: a zero left of `1−1/log q` uses the distance alternative, not the derivative interval; `q=3` is included; the principal character is excluded; `Q_D≤4|D|` is applied before absorbing logarithms. Source: Koukoulopoulos, *The Distribution of Prime Numbers*, Lemma11.2 p.113 and (12.11)–(12.12) p.124; [48][R48], Lemma6.3 pp.491–492 for the effective unit and class-number normalization; [109], Theorem 1, for `.siegel_gap`.
 
-*Needs:* §0.31a; §0.9 (ImaginaryQuadraticClassNumber H2.4); native partial summation; the quadratic class-number formula and native unit carriers; the Multiquadratic field-character dictionary (From Tau Ceti, Multiquadratic and ContourIntegration).
+*Needs:* §0.31a; §0.34; native partial summation; the quadratic class-number formula and native unit carriers; the Multiquadratic field-character dictionary (From Tau Ceti, Multiquadratic and ContourIntegration).
 
 ### 0.32 Siegel–Walfisz theorem
 
 The prime-count signature is `siegel_walfisz_primeCount`, with `Li(x)=∫₂^x dt/log t` and the same uniform modulus range.
 
-For each `A,B>0`, uniformly for `q≤(log x)^B` and `gcd(a,q)=1, π(x;a,q)=Li(x)/φ(q)+O_{A,B}(x(log x)^−A)` as `x→∞`. The constant and threshold may be ineffective. The representative inclusive `ψ` signature is `siegel_walfisz`.
+For each `A,B>0`, uniformly for `q≤(log x)^B` and `gcd(a,q)=1, π(x;a,q)=Li(x)/φ(q)+O_{A,B}(x(log x)^−A)` as `x→∞`. The implied constant and the threshold are effective; this effective form is stronger than the classical ineffective theorem and is the one stated. The representative inclusive `ψ` signature is `siegel_walfisz`.
 
-Use conductor-uniform character PNT, imprimitive corrections and finite progression orthogonality. The imported Siegel bound (§0.9) plus the near-one derivative adapter of §0.31b gives `1−β≥c_εq^(−ε)`, uniformly in primitive real characters. For `q≤(log x)^B` choose `ε=1/[2(B+1)]<1/B` when `B>0`; then `x^(β−1)≤exp(−c_ε(log x)^(1−Bε))`, absorbing every logarithmic power. Averaging preserves the uniform bound. Remove `ψ−θ` and use ADS Abel transfer. Choose the possibly ineffective constants and threshold depending on `A,B` before `q,a,x`.
+Use the exception-free character PNT of §0.18, imprimitive corrections and finite progression orthogonality. For a primitive character of conductor `N≤q≤(log x)^B`, `log N≤B log log x≤√log x` for large `x`, so §0.18's error is at most `x exp(−(c/2)√log x)(B log log x)^4`, absorbing every logarithmic power; no exceptional term occurs, because §0.34 removes it in §0.18. Averaging preserves the uniform bound. Remove `ψ−θ` and use ADS Abel transfer. Choose the effective constants and threshold depending on `A,B` before `q,a,x`.
 
-For `B=1` one may take `ε=1/4`; the exceptional relative term is `≤exp(−c(log x)^(3/4))`. The assertion is restricted to reduced classes and logarithmic modulus growth; it is not an effective uniform theorem for every modulus.
+The assertion is restricted to reduced classes and logarithmic modulus growth; it is not a uniform theorem for every modulus.
 
-See [53][R53], §10.5 Theorem10.9 pp.62–63 and Theorem10.11 p.63; the statement here requires `a` coprime to `q`, restricts `q` to a logarithmic range and allows an ineffective constant, as Siegel's theorem forces.
+See [53][R53], §10.5 Theorem10.9 pp.62–63 and Theorem10.11 p.63; the statement here requires `a` coprime to `q` and restricts `q` to a logarithmic range. The source's constant is ineffective through Siegel's theorem; here effectivity comes from §0.34 through §0.18.
 
-*Needs:* §0.30; §0.9 (ImaginaryQuadraticClassNumber H2.4); §0.18; `DirichletCharacter.sum_char_inv_mul_char_eq`; `DirichletCharacter.LFunctionTrivChar_eq_mul_riemannZeta`; `Chebyshev.isBigO_psi_sub_theta_sqrt`; [ArithmeticDirichletSeries 6][R1]; §0.31b.
+*Needs:* §0.30; §0.18; §0.34; `DirichletCharacter.sum_char_inv_mul_char_eq`; `DirichletCharacter.LFunctionTrivChar_eq_mul_riemannZeta`; `Chebyshev.isBigO_psi_sub_theta_sqrt`; [ArithmeticDirichletSeries 6][R1].
 
 ### 0.33 Zero-free zeta strip and logarithmic bounds
 
@@ -800,23 +808,56 @@ See [59][R59], AppendixA LemmaA.1, p.541.
 
 *Needs:* [ZerosOfLFunctions 6.2][R16]; [ZerosOfLFunctions its local logarithmic derivative and zero counts][R14]; [ZerosOfLFunctions its Gamma estimates][R12]; native right-half-plane nonvanishing and the pole germ at 1; compact continuity.
 
+### 0.34 Uniform exclusion of Landau–Siegel zeros
+
+The signature is `landau_siegel_exclusion`. There is an absolute, effectively computable constant `c_LS>0` such that every real zero `β∈(0,1)` of `L(s,χ)`, for every primitive nonprincipal real Dirichlet character `χ` of conductor `q≥3`, satisfies `(1−β)log q≥c_LS`. Real means `χ²=1`, Mathlib's `MulChar.IsQuadratic`; `L(s,χ)` is the canonical continued `DirichletCharacter.LFunction`. The constant includes its threshold: every conductor `q≥3` is covered and no finite range is set aside. For an imprimitive real nonprincipal character of modulus `m` the same bound holds with `log m` in place of `log q`, since its deleted Euler factors vanish only on `Re s=0` and `m` is at least the conductor.
+
+Combine §0.34b with §0.34c at `X=q^C`, for a fixed multiple `C` of 3 with `C≥C₀` (§0.34c) and `C≥8(1+A)` (§0.34b). Mertens's estimate (§0.11a) gives `Σ_{p≤X}(log p)/p≥log X−B` with an absolute `B`, the primes dividing `q` contribute at most `log q`, and the remaining primes have `χ(p)=±1`. With `δ=(1−β)log q` the two estimates give `(C/4−1−A−AC²δ)log q≤B+K_C`, hence `δ≥1/(16AC)` once `log q>16(B+K_C)/C`. Below this effective threshold there are finitely many conductors: a zero `β≤1/2` has `δ≥(log 3)/2`, and a zero `β>1/2` has `1−β≥c q^(−1)` by the effective exponent-`1/2` gap of §0.12 at `ε=1/2`, applied to the field character that §0.34a identifies with `χ`. Take `c_LS` the least of the three effective constants.
+
+**§0.34a Real primitive characters are Kronecker characters.** `quadratic_character_kronecker`: a primitive nonprincipal real Dirichlet character `χ` of conductor `q` is the complexification of Tau Ceti's `fundamentalDiscriminantChar D`, transported to level `q`, for the fundamental discriminant `D=χ(−1)q`. In particular, with `d` the squarefree part of `D`, one has `d≠1`, `|d|≤q` and `χ(p)=(d/p)` for every odd prime `p∤q`. Decompose `χ` into its prime-power components by the Chinese remainder theorem; the only primitive real character of an odd prime-power conductor is the Legendre character of conductor `p`, and those of 2-power conductor are `ZMod.χ₄`, `ZMod.χ₈` and `ZMod.χ₈'`. Assemble with `jacobiSym.quadratic_reciprocity` and the Multiquadratic value table. Checks: `q=3` gives `D=−3`; `q=4` gives `D=−4`, `d=−1`; conductor 8 carries two characters, `D=8` and `D=−8`, with `d=2` and `d=−2`; `q=12` gives `D=12`, `d=3`; conductors `≡2 mod 4` carry none. Source: [112], Chapter 5. *Needs:* the Multiquadratic field-character dictionary (From Tau Ceti, Multiquadratic and ContourIntegration); `DirichletCharacter.IsPrimitive`; `MulChar.IsQuadratic`; `jacobiSym`.
+
+**§0.34b The Landau deduction: a real zero leaves few split primes.** `split_prime_sum_le_of_real_zero`: there is an absolute effective `A>0` such that, for `χ` and `q` as in §0.34, every real zero `β∈(0,1)` of `L(s,χ)` and every real `X≥3`, `Σ_{p≤X, χ(p)=1}(log p)/p≤A(log q+(1−β)(log X)²)`. The zero `β` is a zero of the completed function, since the Gamma factor has neither zeros nor poles on `(0,1)`. For real `1<s≤2`, ZerosOfLFunctions 6.4d (through §0.30) gives `−L′/L(s,χ)≤(1/2)log q+O(1)−Σ_ρ Re 1/(s−ρ)`, a sum of nonnegative terms over the nontrivial zeros; keep only `ρ=β`. §0.11b gives `−ζ′/ζ(s)≤1/(s−1)+O(1)`. Hence `−ζ′/ζ(s)−L′/L(s,χ)≤C log q+1/(s−1)−1/(s−β)`, and at `s=1+1/log X` the right side is at most `C log q+(1−β)(log X)²`, because `1/(s−1)−1/(s−β)=(1−β)/((s−1)(s−β))`. The left side is the series `Σ_n Λ(n)(1+χ(n))n^(−s)`, with nonnegative terms by §0.11b's Euler logarithmic derivatives, and its primes `p≤X` with `χ(p)=1` contribute at least `(2/e)Σ(log p)/p`. At `X=q^C` the bound reads `A(1/C+Cδ)log X`, so a zero with small `δ` leaves almost all of the Mertens mass `log X` to the primes with `χ(p)=−1`. Source: [109], §2, Lemma 2. *Needs:* §0.11b; §0.30; [ZerosOfLFunctions 6.4][R16].
+
+**§0.34c Inert primes carry at most three quarters of the Mertens mass.** `inert_prime_sum_le`: there is an absolute, effectively computable `C₀` such that for every integer `C≥C₀` divisible by 3 there is an effectively computable `K_C` with `Σ_{p≤X, χ(p)=−1}(log p)/p≤(3/4)log X+K_C`, `X=q^C`, for every `χ` and `q` as in §0.34. By Mertens the trivial bound is `log X+O(1)`.
+
+The proof is a determinant method. Let `d` be as in §0.34a, `K=ℚ(√d)`, `R=X`, `S=⌊X/C⌋` and `N=X^(2/3)`, an integer because `3∣C`. Take the `N²` points `P=(x+y√d,x−y√d)` with integers `0≤x,y<N`, and for `0≤r<R`, `0≤s<S` let `v_(r,s)` be the vector of the values `∂_z^j(z^r z′^s)` at these points, `0≤j<N`; its entries lie in `ℤ[√d]`. Let `G` be the `RS×RS` Gram matrix of these vectors for the pairing `⟨α,β⟩=Tr_(K/ℚ)(αβ̄)`, which is positive definite for either sign of `d` (the bar is the nontrivial automorphism when `d<0` and the identity when `d>0`); its entries are rational integers, and through the embeddings of `K` it is a Mathlib `Matrix.gram` of real vectors. Three facts about `det G` give the estimate.
+
+1. `det G` is a positive integer. `G` is positive semidefinite (`Matrix.posSemidef_gram`) and nonsingular (`Matrix.det_gram_ne_zero_iff_linearIndependent`), because the vectors are linearly independent: a nonzero polynomial of degree `<R` in `z` and `<S` in `z′` cannot vanish to order `N` in `z` at all the points. This multiplicity estimate needs only that the second coordinates are distinct and that a nonzero `F` of total degree `k` vanishes at no more than `Nk` of the points (Schwartz–Zippel on the grid, `MvPolynomial.schwartz_zippel_totalDegree`); it bounds the vanishing order along each irreducible factor `F_ℓ` by `1+ord Res_z(F_ℓ,∂_zF_ℓ)` and uses `deg_(z′)Res_z(F_ℓ,∂_zF_ℓ)≤2deg_z F_ℓ·deg_(z′)F_ℓ` (`Polynomial.resultant`, `Polynomial.resultant_eq_zero_iff`), so it applies because `N²>2RS/N+R+S`.
+2. An archimedean upper bound. Both conjugates satisfy `|x±y√d|≤N(1+√|d|)≤2N√q`, every entry of `v_(r,s)` is at most `R^N(2N√q)^(r+s)` in absolute value, and Hadamard's inequality `det G≤∏G_ii` gives `log det G≤RS(R+S)log(2N√q)+O(X³)`.
+3. A `p`-adic lower bound at each odd prime `p≤X` with `χ(p)=−1`. Then `(d/p)=−1`, so `(x+y√d)^p≡x−y√d mod pℤ[√d]` and `z^p−z′` vanishes modulo `p` at every point. Replacing `z^r z′^s` by `z^(r−ph)(z^p−z′)^h z′^s` with `h=min(⌊r/p⌋,S−1−s)` changes the row by earlier rows only, which preserves `det G`, and makes every entry of the new row divisible by `p^h`; hence `v_p(det G)≥2Σ_(r,s)min(⌊r/p⌋,S−1−s)`.
+
+Comparing `Σ_p v_p(det G)log p≤log det G` with facts 2 and 3, and using `Σ_(s<S)min(k,S−1−s)≥Sk−k²` and `⌊r/p⌋≥r/p−1`, gives `Σ_(p≤X,χ(p)=−1)(log p)/p≤(1+1/C)(2/3+1/(2C))log X+O_C(1)`, which is at most `(3/4)log X+O_C(1)` for large `C`; the prime 2 contributes `O(1)`. Hadamard's inequality for positive semidefinite real matrices, the resultant multiplicity bound and the multiplicity estimate are targets here: Mathlib has no Hadamard inequality at the pin, and `Matrix.det_le` alone loses a factor 2 in the exponent, which destroys the saving. Source: [110], Theorem 1.1, §§2–6 and Appendix A. *Needs:* §0.34a; `Matrix.gram`; `Matrix.posSemidef_gram`; `Matrix.det_gram_ne_zero_iff_linearIndependent`; `Polynomial.resultant_eq_zero_iff`; `MvPolynomial.schwartz_zippel_totalDegree`.
+
+**Checks.**
+
+- At `C=12` the comparison gives `(13/12)(17/24)=221/288>3/4`, so `C₀>12`; at `C=24` it gives `825/1152<3/4`.
+- Fact 3 needs `p` odd and `χ(p)=−1`; primes dividing `q` have `χ(p)=0`, and the prime 2 changes the sum by at most `(log 2)/2`.
+- The sign of `d` is immaterial: the trace pairing is positive definite for `d<0` and for `d>0`.
+- `q=3`: §0.34 holds with no excluded range, and a zero `β≤1/2` already gives `(1−β)log q≥(log3)/2`.
+- The principal character is excluded; its function `ζ` has no zero in `(0,1)`.
+- A zero `β=1` is impossible by `DirichletCharacter.LFunction_apply_one_ne_zero`, so the statement is about `(0,1)` only.
+
+See [109], Theorem 1, §2 and §6 for the theorem and the deduction from the prime bias; [110], Theorem 1.1 for the inert-prime estimate; [111] for an exposition.
+
+*Needs:* §§0.11a–0.11b (Mertens's estimate on native prime carriers and the uniform Euler logarithmic derivatives, including the regularized `−ζ′/ζ(1+η)`); §0.30 and [ZerosOfLFunctions 6.4][R16] (the conductor bound 6.4d for `−L′/L` on the real segment); §0.12 (the effective gap below the threshold); §§0.34a–0.34c; `DirichletCharacter.LFunction`; `DirichletCharacter.IsPrimitive`; `MulChar.IsQuadratic`; `DirichletCharacter.LFunction_apply_one_ne_zero`.
+
 ### Proof-route checks
 
 - **Finite order / Gamma:** §0.23 requires reciprocal-power summability at `floor(ρ)+1`, a compact-normal product and the polynomial logarithm bound (Yun–Zhang Appendix B.1, pp.901–902; Kupers §§14.1.1–14.1.2, pp.90–93). §0.23a adds explicit higher-derivative sector constants to the imported Stirling theory; §0.33 separately needs quantitative reciprocal bounds.
 - **Primitive formulas:** §0.30a uses imported strip growth, Euler product and divisor to obtain conductor-uniform compact-height counts and simultaneous safe heights with multiplicities. §1.4a includes parity, both safe heights and endpoint corrections. Full unsubtracted formulas and imprimitive deleted factors remain separate. Low zeros use `min(1,1/|ρ|)`, never `1/|Imρ|`.
-- **Exceptional families:** supplier6.3–6.4 gives per-character uniqueness/simplicity. Local family repulsion still requires the two-character positivity proof, conductor-product width and numerical constants. Siegel–Walfisz uses Siegel plus the uniform near-one derivative adapter and logarithmic-modulus optimization.
+- **Exceptional families:** supplier6.3–6.4 gives per-character uniqueness/simplicity, and §0.34 empties the exceptional set at width `c_LS`, so §§0.6, 0.18 and 0.28 carry no exceptional term and §0.24 holds vacuously at `c_star≤c_LS`. Local family repulsion (§§0.17, 0.27) still requires the two-character positivity proof, conductor-product width and numerical constants. Siegel–Walfisz uses §0.18 and logarithmic-modulus optimization.
 - **Numerical hypotheses and analytic bounds:** retain the finite-input hypotheses and analytic tails for conductor `24; k≥2·10^10` in progression subtraction at `k,k/2`; the strict higher-power bound; reciprocal-prime threshold286, weighted-prime threshold319 and sharp tail `10^8`; constant40's class-number/derivative comparison; and unconditional rather than RH theta tables.
-- **Siegel / Mertens:** §0.9 imports Siegel's theorem from ImaginaryQuadraticClassNumber H2.4, whose constant is ineffective; no target here makes it effective. §0.11 uses only `Σ_(n≤x)log n=xlog x−x+O(log x)` and convergence of `Σlog m/[m(m−1)]`, without quantitative PNT. §0.26 additionally needs the tilted finite product, prime-tail integral, positive-real Euler product/pole adapter and `κ=∫(1_[0,1](u)−exp(−u))/u du=γ`; reversing this integrand changes the sign.
+- **Landau–Siegel / Mertens:** §0.34 requires the classification §0.34a, the Landau deduction §0.34b and the determinant method §0.34c, whose Hadamard inequality, resultant multiplicity bound and multiplicity estimate are targets; its finitely many small conductors use §0.12, not a computation. §0.9 deduces the effective `L(1,χ)≥c/log q` from §0.34 and §0.30a; ImaginaryQuadraticClassNumber's ineffective H2.4 bounds are not inputs. §0.11 uses only `Σ_(n≤x)log n=xlog x−x+O(log x)` and convergence of `Σlog m/[m(m−1)]`, without quantitative PNT. §0.26 additionally needs the tilted finite product, prime-tail integral, positive-real Euler product/pole adapter and `κ=∫(1_[0,1](u)−exp(−u))/u du=γ`; reversing this integrand changes the sign.
 - **KP contracts:** §3.12a and §3.41 cover every fixed A. Keep `Q_d≤4|d|, log(Q_dQ_e)≤5log(|d|+4), c_Landau≤3c_star/5`, and higher-power/Abel/envelope prime-interval transfer. §2.31e supplies Aramata, integral orders, cyclic restriction and subgroup averages without general Artin holomorphy. Exact repulsion constants and original density proofs remain requirements.
 - **Green–Tao:** high-height logarithmic/reciprocal bounds, bounded-height completion and weak convexity are required. Before applying Siegel–Walfisz to growing `W(N)`, prove `W(N)≤(log N)^B`; fixed-modulus PNT is insufficient.
 
 ### Examples
 
-At modulus 1 the progression sums recover the ordinary Chebyshev sums. At modulus 2 the nonunit class 0 contains the prime 2 but no other prime, so `θ(x;0,2)=log 2` for `x≥2`. A conjectured exceptional zero is not an example of an existing zero: `β=1` and the lower cutoff are excluded by definition. The constant function 1 satisfies every upper-order bound but cannot satisfy strict derivative positivity; this explains the nonpolynomiality hypothesis.
+At modulus 1 the progression sums recover the ordinary Chebyshev sums. At modulus 2 the nonunit class 0 contains the prime 2 but no other prime, so `θ(x;0,2)=log 2` for `x≥2`. No exceptional zero exists at width `c_LS` (§0.34); at every width `β=1` and the lower cutoff are excluded by definition. The constant function 1 satisfies every upper-order bound but cannot satisfy strict derivative positivity; this explains the nonpolynomiality hypothesis.
 
 ### Dependencies
 
-Mathlib complex analysis, arithmetic functions, Chebyshev sums, Dirichlet continuation and nonvanishing; ArithmeticDirichletSeries Layers 3, 6 and 8; LFunctions Layers 4–5 and ZerosOfLFunctions Layers 0–6; the local higher-genus and `ξ` adapters. Qualitative prime theorems are consumed only through the boundary contracts.
+Mathlib complex analysis, arithmetic functions, Chebyshev sums, Dirichlet continuation and nonvanishing; Mathlib Gram matrices, resultants, Schwartz–Zippel and the Jacobi symbol for §0.34; ArithmeticDirichletSeries Layers 3, 6 and 8; LFunctions Layers 4–5 and ZerosOfLFunctions Layers 0–6; the local higher-genus and `ξ` adapters. Qualitative prime theorems are consumed only through the boundary contracts.
 
 ## Layer 1: Explicit formulas, mean values and conditional prime estimates
 
@@ -836,7 +877,7 @@ See [60][R60], Proof of Proposition 2, p.969 ('standard estimates for the gamma 
 
 The uniform frequency signature is `davenport_moebius`.
 
-For each `A>0` there is `C_A` such that for `y≥2, sup_{α∈ℝ}|Σ_{1≤r≤y}μ(r)e^{ir α}|≤C_A y(log y)^{−A}`. The constant may be ineffective through Siegel separation. The additive normalization `e^{irα}` is obtained from `e(rθ)=exp(2πirθ)` by `θ=α/(2π)`.
+For each `A>0` there is `C_A` such that for `y≥2, sup_{α∈ℝ}|Σ_{1≤r≤y}μ(r)e^{ir α}|≤C_A y(log y)^{−A}`. The constant `C_A` is effective, because the zero gap of §0.31b is; this effective form is the one stated. The additive normalization `e^{irα}` is obtained from `e(rθ)=exp(2πirθ)` by `θ=α/(2π)`.
 
 Apply the following exact convolution identity, the type-I/type-II estimates proved in Koukoulopoulos §23, and a reciprocal-`L` major-arc contour estimate. These contracts establish the full uniform result; they do not use a fixed-modulus qualitative prime theorem as a substitute.
 
@@ -856,13 +897,13 @@ Use `Σ_(n≤Z)τ(n)²≪Z log³(2Z)`, since `τ²≤τ₄` and three harmonic s
 `|Σ_(n≤x)(f∗g)(n)e(nθ)|≪(x/√U+x/√q+√(xq))log⁴(2x)`.
 The type-I bound is `O(log^(3D+1)x+x log^(D+1−C)x)`, and the type-II bound is `O(x log^(4−D/2)x+x log^(4−C/2)x)`. The choices of `D,C` make each `O_A(x/log^A x)`. In particular a pointwise divisor estimate with a fixed `x^ε` loss is not used on the `x/√q` or `√(xq)` terms.
 
-For `q<(logx)^C`, prove `mobius_small_modulus_progressions`: for each `B,C>0`, all residues `b` and `0≤y≤x`, `Σ_(n≤y,n≡b(q))μ(n)≪_(B,C)x/log^Bx`. Unit classes use orthogonality and `1/L(s,χ)`. Put `L=logx,T=exp(L^(1/3)),δ=c/log²(q(T+2))`. The zero-free region and Siegel separation with exponent `1/(4C)` place all zeros, including the possible exception, left of the wider `Re s≥1−c₀/log(q(T+2))` rectangle. On `|Ims|≤T,|Res−1|≤δ`, local expansion gives `|L′/L|≪log²(q(T+2))`. At `1+δ`, `|1/L|≤ζ(1+δ)≪1/δ`; horizontal integration over length `≤2δ` preserves this up to an absolute factor. Separate the principal pole and its reciprocal zero. This gives a fixed logarithmic-power reciprocal bound.
+For `q<(logx)^C`, prove `mobius_small_modulus_progressions`: for each `B,C>0`, all residues `b` and `0≤y≤x`, `Σ_(n≤y,n≡b(q))μ(n)≪_(B,C)x/log^Bx`. Unit classes use orthogonality and `1/L(s,χ)`. Put `L=logx,T=exp(L^(1/3)),δ=c/log²(q(T+2))`. The zero-free region and the effective zero gap `.siegel_gap` of §0.31b place all zeros left of the wider `Re s≥1−c₀/log(q(T+2))` rectangle, for `c₀≤c_LS`. On `|Ims|≤T,|Res−1|≤δ`, local expansion gives `|L′/L|≪log²(q(T+2))`. At `1+δ`, `|1/L|≤ζ(1+δ)≪1/δ`; horizontal integration over length `≤2δ` preserves this up to an absolute factor. Separate the principal pole and its reciprocal zero. This gives a fixed logarithmic-power reciprocal bound.
 
-Finite Perron at the half-integer nearest `y` avoids endpoints. Shifting to `1−δ` costs `≪yexp(−c′L^(1/3))` times a `log` power; horizontal/truncation errors are `≪x/T` times a `log` power. For `y≥x/log^Ex`, `logy∼logx`; smaller `y` uses the trivial bound with `E>B`. Deleted factors cost another `log` power. For nonunit `b` put `d=(b,q),n=dm`: nonsquarefree `d` contributes 0; otherwise `μ(dm)=μ(d)μ(m)1_((m,d)=1)`. Orthogonality modulo `q/d` and finite prime exclusions give the same bounds. Choose `B` after `A,C` to absorb polylogarithmically many residues/divisors. Abel summation costs `1+x|θ−a/q|≤1+(logx)^C`. Constants retain Siegel ineffectivity.
+Finite Perron at the half-integer nearest `y` avoids endpoints. Shifting to `1−δ` costs `≪yexp(−c′L^(1/3))` times a `log` power; horizontal/truncation errors are `≪x/T` times a `log` power. For `y≥x/log^Ex`, `logy∼logx`; smaller `y` uses the trivial bound with `E>B`. Deleted factors cost another `log` power. For nonunit `b` put `d=(b,q),n=dm`: nonsquarefree `d` contributes 0; otherwise `μ(dm)=μ(d)μ(m)1_((m,d)=1)`. Orthogonality modulo `q/d` and finite prime exclusions give the same bounds. Choose `B` after `A,C` to absorb polylogarithmically many residues/divisors. Abel summation costs `1+x|θ−a/q|≤1+(logx)^C`. All constants are effective.
 
 The named interfaces are `mobius_vaughan_identity`, `mobius_type_I_bound`, `mobius_type_II_bound`, `mobius_reciprocal_narrow_rectangle`, `mobius_small_modulus_progressions` and `mobius_major_minor_uniform`. The source's elementary type-I/type-II proofs and its exercise supply the decomposition route; the explicit polylogarithmic cutoffs and narrow reciprocal contour above provide the quantitative adapters. At `θ=0` choose `q=1`, so the major-arc branch is indispensable. At `n=1` the identity reads `−1+0+1+1=1`. A fixed rational denominator cannot be declared a minor arc.
 
-*Needs:* `ArithmeticFunction.moebius`; §0.30; §0.31b; §0.9 (ImaginaryQuadraticClassNumber H2.4); §0.30a; ADS.6 finite Perron and Abel summation.
+*Needs:* `ArithmeticFunction.moebius`; §0.30; §0.31b; §0.30a; ADS.6 finite Perron and Abel summation.
 
 ### 1.3 Admissible Weil test function
 
@@ -1290,15 +1331,15 @@ See [60][R60], §7, p970.
 
 ### 2.13 Siegel lower bound for real quadratic class number times regulator
 
-For each `ε>0, h⁺(D)log ε_D≥c_ε D^(1/2−ε)` for fundamental `D>1`, with an ineffective `c_ε>0` and the narrow regulator convention of the quadratic regulator dictionary.
+For each `ε>0, h⁺(D)log ε_D≥c_ε D^(1/2−ε)` for fundamental `D>1`, with an effective `c_ε>0` and the narrow regulator convention of the quadratic regulator dictionary; indeed `h⁺(D)log ε_D≥c√D/log D` with an effective absolute `c`. This effective form is stronger than Siegel's ineffective bound and is the one stated.
 
-Import the narrow/ordinary class-number and norm-minus-one unit dichotomy. Apply the imported Siegel bound (§0.9, ImaginaryQuadraticClassNumber H2.4) and the positive real-quadratic residue formula with the specified fundamental unit. The imaginary quadratic companion `h(D)≥c_ε|D|^(1/2−ε)` is ImaginaryQuadraticClassNumber H2.4's `imaginary_classNumber_lower_bound` and is not restated.
+Import the narrow/ordinary class-number and norm-minus-one unit dichotomy. Apply the effective bound `L(1,χ_D)≥c/log D` of §0.9 and the positive real-quadratic residue formula with the specified fundamental unit. The imaginary quadratic companion `h(D)≥c_ε|D|^(1/2−ε)` is ImaginaryQuadraticClassNumber H2.4's `imaginary_classNumber_lower_bound` and is not restated.
 
 The nontrivial real quadratic field has fundamental discriminant `D>1`; its fundamental unit and narrow regulator retain the DIT convention.
 
 See [60][R60], §6, pp967–968.
 
-*Needs:* §0.9 (ImaginaryQuadraticClassNumber H2.4); §2.5.
+*Needs:* §0.9; §2.5.
 
 ### 2.15 Explicit residue bound for Dedekind zeta functions (Louboutin)
 
@@ -1572,9 +1613,9 @@ For `K≠ℚ`, [Stark][R74], Lemmas 2–4, pp.137–141 give `κ_K≥c min(1/log
 
 If `1−β_K≥1/(4n!logD_K)`, the bound follows. Otherwise Stark Lemma 8 pp.145–146 gives a quadratic `F⊂K` without normality. Pass to normal closure `B`: Aramata makes `β_K a ζ_B` zero; `logD_B≤n!logD_K` puts it in `B`’s one-zero rectangle, where Stark Lemma 1 pp.136–137 makes it simple. For `H≤Gal(B/ℚ)`, put `Θ_H=Σ_χord_βL(s,χ)χ`. Artin induction/reciprocity gives `Res_HΘ_G=Θ_H`. On cyclic `H` the factors are holomorphic Hecke functions with nonnegative orders summing to `ord_βζ_B=1`, so `Θ_H` is linear and `|Θ_G(g)|=1`. Orthogonality gives `Σord_β(L_χ)²=1; Θ_G(1)=1` forces a unique coefficient `+1`. Reality of `β` makes that character real; `ζ_ℚ(β)≠0` excludes triviality, so it is quadratic. Its fixed field `F` lies in `K` because `ord_βζ_K` is the average over `Gal(B/K)`. This is Stark Theorem 3 pp.144–145 and also proves §2.39; Aramata alone does not imply simplicity.
 
-For that quadratic `F`, the imported Siegel bound (§0.9, ImaginaryQuadraticClassNumber H2.4) and §0.31b's zero gap give `1−β_K≥c_bD_F^−b` for each `b>0`. The different tower gives `D_F≤D_K`; take `b=a`. The finite remaining discriminant range has positive residues, and `ℚ` has `κ=1`. This is the ineffective step. The residue/class-number formula and degree-bounded archimedean factors give §§2.32,2.46. Roots of unity have bounded order since `φ(w)≤n` leaves finitely many `w`.
+For that quadratic `F`, §0.31b's zero gap `.siegel_gap` gives `1−β_K≥c_LS/log D_F`, hence `1−β_K≥c_bD_F^−b` for each `b>0`. The different tower gives `D_F≤D_K`; take `b=a`. The finite remaining discriminant range has positive residues, and `ℚ` has `κ=1`. The residue/class-number formula and degree-bounded archimedean factors give §§2.32,2.46. Roots of unity have bounded order since `φ(w)≤n` leaves finitely many `w`.
 
-Required interfaces are `dedekind_residue_lower_of_zero_gap`, `simple_dedekind_zero_linear_character`, `near_one_dedekind_zero_quadratic_subfield`, and `dedekind_residue_subpower_lower`. Their prerequisites are the §2.39b, §2.31d, meromorphic Artin/Hecke comparison, finite cyclic character orthogonality, §0.9 (ImaginaryQuadraticClassNumber H2.4) and §0.31b.
+Required interfaces are `dedekind_residue_lower_of_zero_gap`, `simple_dedekind_zero_linear_character`, `near_one_dedekind_zero_quadratic_subfield`, and `dedekind_residue_subpower_lower`. Their prerequisites are the §2.39b, §2.31d, meromorphic Artin/Hecke comparison, finite cyclic character orthogonality and §0.31b.
 
 **Checks.**
 
@@ -3142,6 +3183,17 @@ Mathlib prime factorization, divisors, convolution, Möbius and von Mangoldt fun
 
 Downstream consumers AnalyticNumberTheoryPartII, the ArithmeticStatistics parts and ModularityAndLanglandsExtensions use the prime-error, Hecke/Artin, class-number and multiplicative-mean interfaces. They supply no input to this roadmap.
 
+The uniform exclusion of Landau–Siegel zeros (§0.34) and its effective corollaries (§§0.1, 0.6, 0.9, 0.18, 0.28, 0.31b, 0.32, 1.2, 2.13) have these downstream consumers:
+
+- ZerosOfLFunctions: at `K=ℚ`, the exceptional zero of §§6.3–6.4 and the exceptional terms of §§8.6–8.8.
+- ImaginaryQuadraticClassNumber: H2.3–H2.4, including `quadratic_LFunction_siegel` and `imaginary_classNumber_lower_bound`, which §0.9 and H2.2 give with effective constants.
+- EffectiveClassNumbers: its comparison of effective and ineffective class-number bounds, through §0.9.
+- SieveMethodsAndPrimePatterns: its small-conductor and Bombieri–Vinogradov estimates, through §§0.18 and 0.32.
+- ErdosProgressionPowers: its exceptional-zero branches, through §§0.1, 0.6, 0.18 and 0.24.
+- The explicit prime-counting roadmaps: ArithmeticStatisticsPartV and ArithmeticStatisticsPartVII, through Siegel–Walfisz (§0.32) and the real-character estimates (§§0.18, 0.31b), and AnalyticNumberTheoryPartII, through §2.31e, whose quadratic step uses the effective gap of §0.31b.
+
+ZerosOfLFunctions and ImaginaryQuadraticClassNumber also stand before this part; what it takes from them (ZerosOfLFunctions Layers 0–8, ImaginaryQuadraticClassNumber H2.2) precedes §0.34, so their exception-free forms are corollaries of §0.34 and form no cycle.
+
 ## References
 
 - **47.** [Michael A. Bennett and Samir Siksek — A conjecture of Erdős, supersingular primes and short character sums][R47].
@@ -3197,6 +3249,11 @@ Downstream consumers AnalyticNumberTheoryPartII, the ArithmeticStatistics parts 
 - [106][R75] Peter J. Cho, Robert J. Lemke Oliver and Asif Zaman, *Effective Brauer–Siegel theorems for Artin `L`-functions*, arXiv:2510.02309v2.
 - [107][R81] Andrew Granville and Dimitris Koukoulopoulos, *Beyond the LSD method for the partial sums of multiplicative functions*, Ramanujan J. 49 (2019), 287–319; arXiv:1710.01389v2.
 - [108] Hugh L. Montgomery, *Zeros of L-functions*, Invent. Math. 8 (1969), 334–345.
+- [109] OpenAI, *Uniform exclusion of Landau–Siegel zeros*, preprint, 2026, open repository; Theorem 1 (statement), §2 Lemma 2 (prime bias forced by a real zero), §6 (completion of the proof).
+- [110] Ben Green, *On Landau–Siegel zeros*, Hexagon 2610.00311, 2026; Theorem 1.1, §§2–6 (the Gram determinant and its three bounds) and Appendix A (resultants).
+- [111] Terence Tao, *A sketch of the proof of non-existence of Siegel zeroes*, blog post, 2026; an exposition of the argument.
+- [112] Harold Davenport, *Multiplicative Number Theory*, 2nd ed., revised by Hugh L. Montgomery, Graduate Texts in Mathematics 74, Springer, 1980; Chapter 5 (real primitive characters).
+- [113] John B. Friedlander and Henryk Iwaniec, *A note on Dirichlet L-functions*, Expo. Math. 36 (2018), 343–350, doi:10.1016/j.exmath.2018.06.003.
 
 - **Bessel functions.** [NIST Digital Library of Mathematical Functions, Chapter10][DLMF-Bessel], particularly §§10.2,10.4,10.6,10.9,10.16; equation numbers are the locators in this unpaginated reference.
 - **Nemes.** [Gergő Nemes — Error bounds for the large-argument asymptotic expansions of the Hankel and Bessel functions][Nemes], arXiv:1606.07961v2, 2017; positive-axis remainder theory and AppendixA.

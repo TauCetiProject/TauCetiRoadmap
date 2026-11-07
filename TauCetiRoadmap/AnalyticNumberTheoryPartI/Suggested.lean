@@ -7,9 +7,10 @@ import Mathlib
 `README.md`; these statements suggest Lean forms for its headline results.
 
 Layer 0 states the uniform prime-series and Mellin-smoothing interfaces of §§0.11a–0.11c,
-finite-order Hadamard factorization and Siegel–Walfisz; Siegel's
-theorem itself is ImaginaryQuadraticClassNumber's (`quadratic_LFunction_siegel`) and is
-not restated. Layer 1 states Davenport cancellation, the half-interval explicit
+the uniform exclusion of Landau–Siegel zeros with its Kronecker-character, Landau-deduction and
+inert-prime targets (§0.34), the lower bound `L(1, χ) ≥ c / log q` (§0.9), which strengthens
+ImaginaryQuadraticClassNumber's `quadratic_LFunction_siegel`, finite-order Hadamard factorization
+and Siegel–Walfisz. Layer 1 states Davenport cancellation, the half-interval explicit
 formula, Dirichlet-polynomial means, Selberg density, Mestre's general Weil formula
 and the conditional RH/GRH prime estimates. Layer 2 states Louboutin's residue bound
 and bounded-degree Brauer–Siegel. Layer 3 states the Landau–Ramanujan and restricted
@@ -122,6 +123,64 @@ example : weightedPrimeSum (fun _ => (1 : ℝ)) 2 = Real.log 2 / 2 := by sorry
 
 end WeightedPrimeSmoothing
 
+section LandauSiegel
+
+/-! ### Uniform exclusion of Landau–Siegel zeros (§0.34) and the value at one (§0.9)
+
+A real character is a Mathlib Dirichlet character with `MulChar.IsQuadratic`; primitivity is
+`DirichletCharacter.IsPrimitive`, so the modulus `q` is the conductor. The README requires every
+constant below to be effective; effectivity is part of the specification and is not expressed by
+these signatures. -/
+
+/-- A primitive nonprincipal real character is a Kronecker character at odd primes (§0.34a). -/
+theorem quadratic_character_kronecker :
+    ∀ (q : ℕ) [NeZero q] (χ : DirichletCharacter ℂ q),
+      χ.IsPrimitive → χ.IsQuadratic → χ ≠ 1 →
+        ∃ d : ℤ, Squarefree d ∧ d ≠ 1 ∧ |d| ≤ q ∧
+          ∀ p : ℕ, p.Prime → p ≠ 2 → ¬ p ∣ q → χ (p : ZMod q) = (jacobiSym d p : ℂ) := by
+  sorry
+
+/-- The Landau deduction (§0.34b): a real zero leaves few primes with `χ p = 1`. -/
+theorem split_prime_sum_le_of_real_zero :
+    ∃ A : ℝ, 0 < A ∧ ∀ (q : ℕ) [NeZero q] (χ : DirichletCharacter ℂ q),
+      3 ≤ q → χ.IsPrimitive → χ.IsQuadratic → χ ≠ 1 →
+      ∀ β : ℝ, 0 < β → β < 1 → DirichletCharacter.LFunction χ (β : ℂ) = 0 →
+      ∀ X : ℝ, 3 ≤ X →
+        ∑ p ∈ (Nat.primesLE ⌊X⌋₊).filter (fun p : ℕ => χ (p : ZMod q) = 1),
+          Real.log p / p ≤
+          A * (Real.log q + (1 - β) * Real.log X ^ 2) := by
+  sorry
+
+/-- The inert-prime estimate (§0.34c): at `X = q ^ C` the primes with `χ p = -1` carry at most
+three quarters of the Mertens mass `log X`, up to a constant depending on `C`. -/
+theorem inert_prime_sum_le :
+    ∃ C₀ : ℕ, ∀ C : ℕ, C₀ ≤ C → 3 ∣ C → ∃ K : ℝ,
+      ∀ (q : ℕ) [NeZero q] (χ : DirichletCharacter ℂ q),
+        3 ≤ q → χ.IsPrimitive → χ.IsQuadratic → χ ≠ 1 →
+          ∑ p ∈ (Nat.primesLE (q ^ C)).filter (fun p : ℕ => χ (p : ZMod q) = -1),
+            Real.log p / p ≤
+            3 / 4 * Real.log ((q : ℝ) ^ C) + K := by
+  sorry
+
+/-- The uniform exclusion of Landau–Siegel zeros (§0.34): one absolute constant serves every
+primitive nonprincipal real character of modulus `q ≥ 3` and every real zero in `(0, 1)`. -/
+theorem landau_siegel_exclusion :
+    ∃ c : ℝ, 0 < c ∧ ∀ (q : ℕ) [NeZero q] (χ : DirichletCharacter ℂ q),
+      3 ≤ q → χ.IsPrimitive → χ.IsQuadratic → χ ≠ 1 →
+      ∀ β : ℝ, 0 < β → β < 1 → DirichletCharacter.LFunction χ (β : ℂ) = 0 →
+        (1 - β) * Real.log q ≥ c := by
+  sorry
+
+/-- The lower bound `L(1, χ) ≥ c / log q` (§0.9). Since `log q ≤ q ^ ε / (e ε)`, it gives Siegel's
+bound `L(1, χ) ≥ c_ε q ^ (-ε)` with `c_ε = e c ε`. -/
+theorem quadratic_LFunction_one_lower_bound :
+    ∃ c : ℝ, 0 < c ∧ ∀ (q : ℕ) [NeZero q] (χ : DirichletCharacter ℂ q),
+      3 ≤ q → χ.IsPrimitive → χ.IsQuadratic → χ ≠ 1 →
+        c / Real.log q ≤ (DirichletCharacter.LFunction χ 1).re := by
+  sorry
+
+end LandauSiegel
+
 /-- The von Mangoldt sum `ψ(x; a, q)` over `n ≤ x` with `n ≡ a mod q`. -/
 def psiAP (q : ℕ) (a : ZMod q) (x : ℝ) : ℝ :=
   ∑ n ∈ (Finset.Ioc 0 ⌊x⌋₊).filter (fun n : ℕ => (n : ZMod q) = a), ArithmeticFunction.vonMangoldt n
@@ -130,14 +189,16 @@ def psiAP (q : ℕ) (a : ZMod q) (x : ℝ) : ℝ :=
 def primeCountAP (q : ℕ) (a : ZMod q) (x : ℝ) : ℕ :=
   ((Finset.Ioc 0 ⌊x⌋₊).filter fun p : ℕ => p.Prime ∧ (p : ZMod q) = a).card
 
-/-- Siegel–Walfisz in ψ form, uniformly for q ≤ (log x)^B; the constant can be ineffective. -/
+/-- Siegel–Walfisz in ψ form, uniformly for `q ≤ (log x) ^ B` (§0.32). The README requires an
+effective constant and threshold, obtained from §0.34 through §0.18. -/
 theorem siegel_walfisz (A B : ℝ) (hA : 0 < A) (hB : 0 < B) :
     ∃ C > 0, ∀ᶠ x in atTop, ∀ q : ℕ, 0 < q → (q : ℝ) ≤ Real.log x ^ B →
       ∀ a : ZMod q, IsUnit a →
         |psiAP q a x - x / q.totient| ≤ C * x * Real.log x ^ (-A) := by
   sorry
 
-/-- Siegel–Walfisz transfers to prime counts with the logarithmic-integral main term. -/
+/-- Siegel–Walfisz transfers to prime counts with the logarithmic-integral main term, with the
+same effective constant and threshold (§0.32). -/
 theorem siegel_walfisz_primeCount (A B : ℝ) (hA : 0 < A) (hB : 0 < B) :
     ∃ C > 0, ∀ᶠ x in atTop, ∀ q : ℕ, 0 < q → (q : ℝ) ≤ Real.log x ^ B →
       ∀ a : ZMod q, IsUnit a →
