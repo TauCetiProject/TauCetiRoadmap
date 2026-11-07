@@ -1,6 +1,8 @@
-import Mathlib
-import TauCeti.NumberTheory.BinaryQuadraticForm.Reduced
-import TauCeti.AlgebraicGeometry.EllipticCurve.MordellWeil.PointModTorsion.Basic
+module
+
+public import Mathlib
+public import TauCeti.NumberTheory.BinaryQuadraticForm.Reduced
+public import TauCeti.AlgebraicGeometry.EllipticCurve.MordellWeil.PointModTorsion.Basic
 
 /-!
 # EffectiveClassNumbers: target signatures
@@ -33,6 +35,8 @@ EllipticCurveModularity R29.6. The rank statements name the concrete curves and 
 native rational points modulo torsion. Imaginary quadratic fields have degree two and
 negative native discriminant, and their class number is that of the maximal order.
 -/
+
+@[expose] public section
 
 open Filter MeasureTheory
 open scoped BigOperators Topology NumberField
