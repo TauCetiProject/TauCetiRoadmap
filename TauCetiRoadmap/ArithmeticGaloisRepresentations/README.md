@@ -117,7 +117,8 @@ Clifford theory, Brauer induction, projective representations and the Schur mult
 (`RepresentationTheory/SemisimpleAlgebras`, Tau Ceti's Brauer group and index); the finite-level
 lower and upper ramification filtrations, Herbrand functions, the different, Hasse–Arf,
 inertia, wild inertia and the tame quotient for nonarchimedean local fields
-(`TauCetiRoadmap.LocalFieldsRamification` Layers 3–4); the local inertia and
+(`TauCetiRoadmap.LocalFieldsRamification`, its ramification-filtration and absolute-Galois-group
+sections); the local inertia and
 wild inertia subgroups of `G_K`, arithmetic Frobenius lifts, the cyclotomic character and the
 `ℓ`-adic tame character (Tau Ceti); the local Weil group, its degree map, the local Artin map,
 `normResidue` and `characterConductorExp` (`TauCetiRoadmap.ClassFieldTheory` Layers 7 and 9).
@@ -388,12 +389,15 @@ the namespace `TauCeti`; some (the representation-theoretic ones) extend Mathlib
 
 ### From `TauCetiRoadmap.LocalFieldsRamification`
 
-Layer 0: finite extensions of nonarchimedean local fields, with Mathlib's Krasner lemma as an input;
-the comparison `F̄_v = F_v · ι(F̄)` is §2.1 here. Layer 2: `IsUnramified`, the maximal unramified
-extension with `Gal(K^ur/K) ≅ Ẑ` sending arithmetic Frobenius to `1`, and the unramified extension of
-each degree; inertia under finite extensions is §2.2 here. Layers 3–4 supply finite-local-field
-lower and upper numbering, Herbrand functions with inverse, tower and normal-quotient identities,
-the different formula and Hasse–Arf. Their absolute inertia and wild inertia are closed and normal,
+Its sections are cited by content. *Finite extensions*: finite extensions of nonarchimedean local
+fields, with Mathlib's Krasner lemma as an input; the comparison `F̄_v = F_v · ι(F̄)` is §2.1 here.
+*Unramified extensions and Frobenius*: `IsUnramified`, the maximal unramified extension with
+`Gal(K^ur/K) ≅ Ẑ` sending arithmetic Frobenius to `1`, and the unramified extension of each degree;
+inertia under finite extensions is §2.2 here. *Lower numbering*, *Herbrand functions and upper
+numbering*, *Different and discriminant* and *Hasse–Arf* supply finite-local-field lower and upper
+numbering, Herbrand functions with inverse, tower and normal-quotient identities, the different
+formula and Hasse–Arf. *The absolute Galois group* (inertia, wild inertia, the tame character and the
+Iwasawa presentation): its absolute inertia and wild inertia are closed and normal,
 map onto `G_0` and `G_1` at finite level, and have `P_K` pro-`p` and
 `I_K/P_K ≅ ∏_{ℓ ≠ p} ℤ_ℓ(1)` equivariantly for `G_K`; arithmetic Frobenius lifts form an inertia coset.
 These contracts are stated for nonarchimedean local fields, whose residue fields are finite. Their
@@ -1479,8 +1483,9 @@ the running example of a representation with two non-homothetic lattices whose r
 
 ### Dependencies
 
-Mathlib and Tau Ceti as named; `TauCetiRoadmap.LocalFieldsRamification` layers 2 and 4 (through Tau
-Ceti's inertia and Frobenius declarations); ReductiveGroupsPartII, RG2.2 and RG2.3, and
+Mathlib and Tau Ceti as named; `TauCetiRoadmap.LocalFieldsRamification` (unramified extensions and
+Frobenius; the absolute Galois group, through Tau Ceti's inertia and Frobenius declarations);
+ReductiveGroupsPartII, RG2.2 and RG2.3, and
 `TauCetiRoadmap.ReductiveGroups` layer 9, for the `Ĝ`-valued integral model, and RG2.2.2 and RG2.2.4
 for the comparison of models with the reduced building;
 IntegralHeckeAndGaloisDeterminants §1.4 for the classical Ribet lattice.
@@ -1512,7 +1517,7 @@ applies Krasner's lemma, Mathlib's `IsKrasner.krasner`. For `F = ℚ` the statem
 elements of the completion of `ℚ̄` at a place above `p` that are algebraic over `ℚ_p` form an
 algebraic closure of `ℚ_p`, with the stabiliser of the place mapping isomorphically onto `G_{ℚ_p}`
 (Darmon–Diamond–Taylor 2007, §2.1, p. 51); the argument over a number field `F` is the same.
-*Needs:* Mathlib `IsKrasner.krasner`; `TauCetiRoadmap.LocalFieldsRamification` layer 0 (finite
+*Needs:* Mathlib `IsKrasner.krasner`; `TauCetiRoadmap.LocalFieldsRamification` (finite
 extensions of local fields).
 
 **Decomposition and inertia groups.** Let `O` be the integral closure of `𝓞_F` in `F̄`; `G_F` acts on
@@ -1630,7 +1635,8 @@ and decomposition APIs. This target adds the place action and its comparisons to
 cut out by `ι`, carrying `I_K`, `P_K` and arithmetic Frobenius lifts onto `I_{Q(ι)}`, `P_{Q(ι)}` and
 arithmetic lifts at `Q(ι)`; that replacing `ι` by `ι ∘ σ` (`σ ∈ G_F`) conjugates it by `σ`; and that
 replacing `ι` by `τ₀ ∘ ι` (`τ₀ ∈ G_K`) precomposes with conjugation by `τ₀⁻¹` (Deligne 1973, 3.12,
-p. 533). *Needs:* the two targets above; `TauCetiRoadmap.LocalFieldsRamification` layer 4.
+p. 533). *Needs:* the two targets above; `TauCetiRoadmap.LocalFieldsRamification` (the absolute
+Galois group: inertia, wild inertia and Frobenius lifts).
 
 **Local restriction.** Define *GaloisRep.localRestriction* `ρ := ρ.res (`*localEmbeddingMap* `F K)`, the
 restriction `ρ_ι` of a continuous representation of `G_F` to `G_{F_v}`. Prove that `ρ(σ)` is an
@@ -1688,8 +1694,8 @@ restriction/conjugation laws; Tau Ceti `inertiaPadicTameCharacter`.
 `I_L = I_K` when `L/K` is unramified. At finite level this is the compatibility
 `G_i(L'/L) = G_i(L'/K) ∩ Gal(L'/L)` of the lower numbering with subgroups, which passes to the limit
 over finite Galois `L'/K` containing `L` (Serre, *Local Fields*, Ch. IV, §1, Prop. 2). *Needs:*
-`TauCetiRoadmap.LocalFieldsRamification` layer 2 (`IsUnramified`) and layer 4 (images of `I_K`, `P_K`
-in finite quotients).
+`TauCetiRoadmap.LocalFieldsRamification` (unramified extensions, `IsUnramified`; the absolute Galois
+group, images of `I_K`, `P_K` in finite quotients).
 
 **Ramification predicates.** Define, for a local representation, *GaloisRep.IsUnramified* (`ρ(I_K) = 1`)
 and *GaloisRep.IsTamelyRamified* (`ρ(P_K) = 1`), and for a global one *GaloisRep.IsUnramifiedAt* `ρ v`
@@ -1740,8 +1746,8 @@ continuously to `Ẑ`), trivial on `I_K` with `Φ ↦ α`. It exists iff `n ↦ 
 `λ(αβ) = λ(α)λ(β)`, coefficient change, restriction (`λ(α^f)` on `G_L`), the geometric variant
 `λ(α)(γ⁻¹)`, and the Weil-group character *GaloisRep.weilUnramifiedCharacter* `α = α^{weilDegree}`,
 defined for every `α` (Calegari–Geraghty 2018, pp. 7–8; CG, §2, p. 807). *Needs:* Mathlib
-`ProfiniteGrp.ProfiniteCompletion.lift`; `TauCetiRoadmap.LocalFieldsRamification` layer 2
-(`Gal(K^ur/K) ≅ Ẑ`).
+`ProfiniteGrp.ProfiniteCompletion.lift`; `TauCetiRoadmap.LocalFieldsRamification` (unramified
+extensions and Frobenius, `Gal(K^ur/K) ≅ Ẑ`).
 
 **Checks.**
 - `λ(q) = χ_ℓ|_{G_K}`, and the geometric variant takes `Φ` to `q⁻¹`.
@@ -2420,7 +2426,8 @@ while `V_ℓE_q` is ramified (Deligne
 ### Dependencies
 
 Layer 1; Tau Ceti's inertia, Frobenius, cyclotomic and tame declarations;
-`TauCetiRoadmap.LocalFieldsRamification` layers 0, 2, 4; `TauCetiRoadmap.ClassFieldTheory` layers 7,
+`TauCetiRoadmap.LocalFieldsRamification` (finite extensions, unramified extensions and Frobenius, the
+absolute Galois group); `TauCetiRoadmap.ClassFieldTheory` layers 7,
 9, 13; `TauCetiRoadmap.NumberFieldArithmetic` layers 2, 5.
 For §2.1a: EtaleCohomologyFoundations §F.3a.
 For §2.3: PadicLocalLanglandsForGL2Qp §0.3's fundamental characters.
@@ -2453,7 +2460,7 @@ Proposed names live in the namespace `Conductor`.
 
 ### 3.0 Ramification over perfect residue fields
 
-LocalFieldsRamification Layers 3–4 build lower and upper numbering, Herbrand functions, the
+LocalFieldsRamification builds lower and upper numbering, Herbrand functions, the
 different and Hasse–Arf for nonarchimedean local fields, whose residue fields are finite.
 RamificationOfCompleteDiscretelyValuedFields §§3a.1–3a.3 and 4a.1–4a.3 build them over the whole
 conductor setting, in both characteristics, and this section plans none of them: it records the
@@ -2485,7 +2492,7 @@ use it. *Needs:* RamificationOfCompleteDiscretelyValuedFields §3a.1 (`G_0` as t
 the residue action, `[L : K] = ef`); Mathlib `IsLocalRing.ResidueField` and the henselian
 instance `IsAdicComplete.henselianRing` of the complete integer ring, for lifting a root of the
 minimal polynomial of a primitive element of `k_L/k`; `TauCetiRoadmap.LocalFieldsRamification`
-Layer 2 (unramified extensions and Frobenius) for the finite-residue agreement.
+(unramified extensions and Frobenius) for the finite-residue agreement.
 
 **Checks.**
 - For `ℚ_2(ζ_8)/ℚ_2`, `G_0 = G_1` has order `4`, `G_2 = G_3` has order `2` and `G_4 = 1`, so
@@ -2778,7 +2785,8 @@ intersection formula `G_K^u ∩ G_L = G_L^{eu}`; and extension of the coefficien
 `Sw` and `a`, by the coefficient-extension invariance of §3.1's break decomposition and of the
 inertia invariants. *Needs:* Layer 1 (restriction, duals,
 tensor products, twists, semisimplification); Mathlib `Representation.dual`, `Representation.tprod`;
-`TauCetiRoadmap.LocalFieldsRamification` Layer 2; RamificationOfCompleteDiscretelyValuedFields
+`TauCetiRoadmap.LocalFieldsRamification` (unramified extensions and Frobenius);
+RamificationOfCompleteDiscretelyValuedFields
 §§4a.2–4a.3 (transition functions on open subgroups and the completed maximal-unramified
 comparison), as recorded in §3.0; §2.2 (inertia under finite extensions); §3.1 (breaks).
 
@@ -2891,7 +2899,8 @@ has both conductors `0`. Over `ℚ_2`, `χ_{−4}` and `χ_8` have conductors `2
 Layers 1 and 2; `TauCetiRoadmap.RamificationOfCompleteDiscretelyValuedFields` §§3a.1–3a.3 and
 4a.1–4a.3 (perfect-residue ramification, Hasse–Arf, the absolute upper filtration, transition
 functions and the completed maximal-unramified comparison);
-`TauCetiRoadmap.LocalFieldsRamification` layers 2–4;
+`TauCetiRoadmap.LocalFieldsRamification` (unramified extensions and Frobenius, the ramification
+filtration, the absolute Galois group);
 `TauCetiRoadmap.ClassFieldTheory` layers 7 (with gap:unit-filtration-reciprocity) and 9;
 `TauCetiRoadmap.NumberFieldArithmetic` layer 5;
 `TauCetiRoadmap.RepresentationTheory/InductionRestriction` layers 5–7;
@@ -2940,8 +2949,13 @@ conjugate to `diag(1, −1)`, equivalently `tr ρ(c) = 0` (Serre 1987, (1.3.8), 
 **Absolute irreducibility from oddness.** Prove that a nonscalar element of `ρ(Γ) ⊂ GL₂(k)` with split
 characteristic polynomial makes every stable line over every extension `k`-rational, so irreducibility
 and absolute irreducibility agree for such images; that an irreducible `ρ : G_F → GL₂(k)` odd at a real
-place, `char k ≠ 2`, is absolutely irreducible (Serre 1987, 3.3, p. 198); and that for `char k = 2` the
-same holds when `ρ(c_v) ≠ 1` at a real place (KW (I), Lemma 6.1, p. 10). *Needs:* §1.7.
+place, `char k ≠ 2`, is absolutely irreducible, since `ρ(c_v)` then has the distinct eigenvalues `1`
+and `−1` (Serre 1987, 3.3, p. 198); and that for `char k = 2` the same holds when `ρ(c_v) ≠ 1` at a
+real place: `ρ(c_v)` is an involution, so `(ρ(c_v) − 1)² = ρ(c_v)² + 1 = 0` in characteristic `2`, and
+`ρ(c_v)` is a nonscalar element with split characteristic polynomial `(X − 1)²`, to which the first
+clause applies. The hypothesis `ρ(c_v) ≠ 1` cannot be dropped: a representation through a totally
+real cyclic cubic field with image of order `3` in `GL₂(F₂)` is irreducible over `F₂`, has
+`ρ(c_v) = 1` at every real place, and splits over `F₄`. *Needs:* §1.7.
 
 *Lean:* `GaloisRep.isAbsolutelyIrreducible_of_isOddAt`.
 ### 4.2 Borel and Cartan subgroups
@@ -3251,8 +3265,14 @@ order of the subgroup of `ℚ^×/ℚ^{×2}` generated by the `d_i`. Prove that, 
 following are equivalent: infinitely many odd primes `p ∤ d₁ ⋯ d_r` have `(d_i/p) = ε_i` for all `i`;
 that set has Dirichlet density `2^{−m} > 0`, `2^m = [M : ℚ]`; the sign condition. In particular two
 non-squares (even with square product) are simultaneously nonresidues at infinitely many primes, and
-three non-squares with square product never are (Darmon–Diamond–Taylor 2007, Thm 2.3, p. 52, and the
-remark after Thm 2.4). *Needs:* §5.1; Mathlib `legendreSym`, `jacobiSym`; Tau Ceti
+three non-squares with square product never are. The route is Chebotarev for `M/ℚ`: for odd
+`p ∤ d₁ ⋯ d_r` the arithmetic Frobenius at `p` sends each `√d_i` to `(d_i/p) √d_i`
+(`NumberField.isArithFrobAt_apply_sqrt`), so the primes with the prescribed symbols are those whose
+Frobenius is the automorphism `σ` of the sign condition, and since `Gal(M/ℚ) ≅ (ℤ/2)^m` is abelian
+the conjugacy class of `σ` is `{σ}`, of Dirichlet density `1/[M : ℚ] = 2^{−m}` by
+`hasDirichletDensity_frobeniusPrimeSet` (Darmon–Diamond–Taylor 2007, Thm 2.3, p. 52, for the
+qualitative density of the Frobenius classes). *Needs:* §5.1; `TauCetiRoadmap.Chebotarev` layer 10
+(`hasDirichletDensity_frobeniusPrimeSet`); Mathlib `legendreSym`, `jacobiSym`; Tau Ceti
 `Multiquadratic.galoisGroupEquiv`, `NumberField.exists_isArithFrobAt_multiquadratic`,
 `NumberField.isArithFrobAt_apply_sqrt`.
 
@@ -3419,8 +3439,10 @@ of Lemma 5.3.1, p. 71). *Needs:* §5.6, §1.2, §1.6.
 **Haar measure.** Let `A` be a compact Hausdorff topological ring with additive Haar probability `μ⁺`.
 Prove that multiplication by a unit on either side preserves `μ⁺`; that for `G ⊂ A^×` compact and open
 in `A`, Tau Ceti's `haarProb G` is the normalised restriction of `μ⁺`; and that for `A = M_n(O_E)`
-with residue field of `q` elements, `μ⁺(GL_n(O_E)) = ∏_{i=1}^n (1 − q^{−i})` (Serre 1981,
-Introduction, p. 124). *Needs:* Mathlib `MeasureTheory.distribHaarChar_mul`,
+with residue field of `q` elements, `μ⁺(GL_n(O_E)) = #GL_n(F_q) / q^{n²} = ∏_{i=1}^n (1 − q^{−i})`:
+`GL_n(O_E)` is the preimage of `GL_n(F_q)` under reduction, every coset `g + ϖ M_n(O_E)` has
+`μ⁺`-measure `q^{−n²}` by translation invariance, and `#GL_n(F_q) = ∏_{i=0}^{n−1} (q^n − q^i)` is
+Mathlib's `Matrix.card_GL_field`. *Needs:* Mathlib `MeasureTheory.distribHaarChar_mul`,
 `MeasureTheory.Subgroup.index_mul_measure`, `Matrix.card_GL_field`; Tau Ceti `haarProb`.
 
 **Compact subgroup charts.** For finite `E/ℚ_ℓ` and compact `P ≤ GL_n(E)`, construct
@@ -3464,7 +3486,8 @@ Mathlib convergent power series and product integration.
 isolated points and a nonzero polynomial in `N` variables over `A`, the zero set in `A^N` is closed
 and null for the product Haar probability; and that for `G` open in `GL_n(O_E)` and a nonzero
 polynomial over `E`, the zero set on `G` is Haar-null, so a polynomial vanishing on a subset of `G` of
-positive measure is zero (Serre 1981, §6.4, proof of Prop. 13, p. 168). Prove the analytic form needed
+positive measure is zero (Serre 1981, Introduction, p. 124, for the null trace-zero locus, and §6.4,
+proof of Prop. 13, p. 168). Prove the analytic form needed
 for groups that are not open in `GL_n(O_E)`: for `G` a compact `ℓ`-adic Lie group (for instance a
 compact open subgroup of `GSp_{2a}(E)` or of the `E`-points of any smooth closed subgroup of `GL_n`)
 and a polynomial on `M_n(E)` whose restriction to `G` vanishes on no open subset, the zero set on `G`
@@ -3721,7 +3744,7 @@ a geometric torsion point identifies all geometric torsion with these unramified
 Reduction commutes with the decomposition-group action and hence with arithmetic Frobenius
 (Silverman, *The Arithmetic of Elliptic Curves*, VII.3.1(b), p. 192, and VII.7.1, pp. 201–202).
 *Needs:* EllipticCurves Layer 2 (geometric torsion), Layer 3 (finite-field Frobenius) and Layer 4
-(reduction on points and the formal-group kernel); LocalFieldsRamification Layer 2 (finite
+(reduction on points and the formal-group kernel); LocalFieldsRamification (finite
 unramified extensions); §2.1 (decomposition groups).
 
 **Checks.**
@@ -4142,7 +4165,7 @@ with Euler factor `1 − aT + qT²` (Darmon–Diamond–Taylor 2007, §2.1, p. 5
 
 Layers 1–5; AbelianSchemesAndArithmeticModuli A3, A4.1, A6.10–A6.12;
 `TauCetiRoadmap.EllipticCurves` layers 1–4; ProfiniteProPGroups Layers 0 and 3;
-`TauCetiRoadmap.LocalFieldsRamification` layer 2;
+`TauCetiRoadmap.LocalFieldsRamification` (unramified extensions and Frobenius);
 `TauCetiRoadmap.NumberFieldArithmetic` layer 5; Tau Ceti's abelian varieties, isogenies and elliptic
 Tate modules.
 

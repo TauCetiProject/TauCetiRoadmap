@@ -138,8 +138,10 @@ def IsComplexConjugation {F : Type*} [Field F] [NumberField F]
   ∃ ι : AlgebraicClosure F →+* ℂ, InfinitePlace.mk (ι.comp (algebraMap F (AlgebraicClosure F))) = v ∧
     ∀ x, ι ((show AlgebraicClosure F ≃ₐ[F] AlgebraicClosure F from c) x) = starRingEnd ℂ (ι x)
 
-/-- Odd irreducible planes are absolutely irreducible (§4.1), including the nonscalar
-complex-conjugation criterion in characteristic two (Serre 1987, §3.3; KW I, Lemma 6.1). -/
+/-- Odd irreducible planes are absolutely irreducible (§4.1): in characteristic not two `ρ(c)` has
+the distinct eigenvalues `1` and `−1` (Serre 1987, §3.3); in characteristic two a nontrivial `ρ(c)`
+is a nonscalar unipotent involution, and a nonscalar element with split characteristic polynomial
+makes every stable line rational. -/
 theorem isAbsolutelyIrreducible_of_isOddAt {F k V : Type*} [Field F] [NumberField F] [Field k]
     [AddCommGroup V] [Module k V] [FiniteDimensional k V]
     (ρ : Representation k (Field.absoluteGaloisGroup F) V) (hdim : Module.finrank k V = 2)
