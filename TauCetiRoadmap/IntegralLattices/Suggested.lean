@@ -49,8 +49,9 @@ indefinite unimodular lattices of both parities (6A), existence of even unimodul
 definite lattices exactly in ranks divisible by 8 (6B), the classification of positive definite
 unimodular lattices in rank at most 9 with the uniqueness of `E₈` (6C), the rank-16 pair
 `E₈ ⊕ E₈` and `D₁₆⁺` in one genus and not isometric (6D) with the failure of cancellation built
-on it (6H), the separation of the 24 rank-24 lattices by their root systems (6E), and
-`|O(E₈)| = 696729600` (6G); stabilization of the local density count at every
+on it (6H), the separation of the rank-24 lattices by their root systems, for the lattices of two
+rootful rows whose root sublattices are their displayed root lattices and for every rootful row
+lattice against the Leech lattice (6E), and `|O(E₈)| = 696729600` (6G); stabilization of the local density count at every
 prime and its closed value at the odd primes not dividing the determinant (7C); the Euclidean
 volumes of `SO(n)` and `O(n)` (7E); and completeness of a list of classes from the mass (9B).
 
