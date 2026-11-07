@@ -9,8 +9,9 @@ public import Mathlib
 
 README.md is the roadmap; this file is not the roadmap. It states the roadmap's
 headline theorems against the pinned Mathlib and Tau Ceti APIs: denominator
-localization for arbitrary sets of Dedekind primes and the divided-Bernoulli
-consequence of cyclotomic class-number regularity.
+localization for arbitrary sets of Dedekind primes, the divided-Bernoulli
+consequence of cyclotomic class-number regularity, and the vanishing of the
+fourth stable stem in its unstable form: π_(n+4)(Sⁿ) is trivial for n ≥ 6.
 CyclotomicClassGroupsAndStickelberger §§3.1 and 5.1 supply unrestricted
 divided-Bernoulli integrality and congruences and the finite criterion;
 §5.4 supplies prime-power class-number stability. The all-index consequence
@@ -28,12 +29,17 @@ Borel's finite-stage invariant-form comparison in README §3.4 lacks relative
 Lie algebra cohomology and invariant differential forms on symmetric spaces:
 Mathlib has only low-degree Lie algebra cochains.
 Numerical rank or degree-slot
-formulas do not state those theorems.
+formulas do not state those theorems. The stable forms of the fourth-stem
+vanishing in README §7.5 lack a stable-stem and sphere-spectrum carrier, and
+its Adams–Novikov inputs lack the Brown–Peterson spectrum; the unstable form
+below is stated on Mathlib's spheres and cubical homotopy groups.
 -/
 
 noncomputable section
 
 open IsDedekindDomain
+
+universe u
 
 namespace TauCetiRoadmap.ArithmeticKTheory
 
@@ -64,7 +70,7 @@ theorem integer_isLocalization_of_torsion_classGroup
 
 end SIntegers
 
-/-! ## Layer 7: Bernoulli numbers and regular primes -/
+/-! ## Layer 7: Bernoulli numbers, regular primes and the fourth stable stem -/
 
 /-- If an odd prime does not divide the cyclotomic class number, it divides
 no reduced numerator of B_(2k)/k for k >= 1; README §7.2. The class-number
@@ -74,6 +80,14 @@ theorem regularPrime_dividedBernoulli_num (p : ℕ) (hp : p.Prime) (hodd : Odd p
     (hreg : ¬ p ∣ NumberField.classNumber (CyclotomicField p ℚ))
     (k : ℕ) (hk : 1 ≤ k) :
     ¬ (p : ℤ) ∣ (bernoulli (2 * k) / (k : ℚ)).num := by
+  sorry
+
+/-- The fourth stable stem vanishes, in its unstable form: for `n ≥ 6` the
+`(n + 4)`-th homotopy group of the `n`-sphere is trivial at every basepoint;
+README §7.5, stableStemFour_eq_zero. -/
+theorem subsingleton_homotopyGroup_sphere_add_four (n : ℕ) (hn : 6 ≤ n)
+    (x : TopCat.sphere.{u} n) :
+    Subsingleton (HomotopyGroup.Pi (n + 4) (TopCat.sphere.{u} n : Type u) x) := by
   sorry
 
 end TauCetiRoadmap.ArithmeticKTheory
