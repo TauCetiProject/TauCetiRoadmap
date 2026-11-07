@@ -299,6 +299,8 @@ carries its own primality, finite-generation, completeness and scalar-tower hypo
   projective count as `Nat.card` of all affine solutions plus one, singular point included, the
   trace `q + 1` minus that count, and its comparison with Mathlib's point type on an elliptic model;
   `TauCeti.AlgebraicGeometry.EllipticCurve.PointCount`).
+- `WeierstrassCurve.isCharNeTwoNF_map` (`TauCeti.AlgebraicGeometry.EllipticCurve.NormalForms`):
+  the normal form `a₁ = a₃ = 0` is preserved by `W.map f` along every ring homomorphism.
 - `WeierstrassCurve.quadraticTwistOf` (`TauCeti.AlgebraicGeometry.EllipticCurve.QuadraticTwist.Basic`):
   with `a₁ = a₃ = 0`, the twist by `(0, −d/4)` multiplies `a₂, a₄, a₆` by `d, d², d³`.
 - The `x − T` descent: `WeierstrassCurve.Affine.A`, `WeierstrassCurve.Affine.M`,
@@ -501,7 +503,7 @@ The native intermediate-field structure supplies closure under addition, multipl
 A nonzero polynomial has finitely many distinct complex roots, separated by rational rectangles.
 Arb §5 (Arb line 779) supplies only the meaning of enclosing a value and bounding its error.
 
-An IsolatedAlgebraicRoot stores a nonzero polynomial f∈ℚ[X], two closed rational intervals R,I, and a proof that exactly one complex z satisfies f(z)=0 and Re(z)∈R, Im(z)∈I. Repeated polynomial roots are permitted: uniqueness concerns distinct roots, not their multiplicities. The decoded value lies in ℂ, with a proof of membership in the native relative algebraic closure of ℚ; the finite polynomial and rectangle present that value. The uniqueness proof is a separate checked obligation, not inferred from small diameter.
+An IsolatedAlgebraicRoot stores a nonzero polynomial f∈ℚ[X], two closed rational intervals R,I, a complex number z, and proofs that f(z)=0, Re(z)∈R, Im(z)∈I, and that every complex root of f in R×I equals z. Repeated polynomial roots are permitted: uniqueness concerns distinct roots, not their multiplicities. The decoded value z lies in ℂ, with a proof of membership in the native relative algebraic closure of ℚ; the finite polynomial and rectangle present that value, since two presentations with the same polynomial and rectangle have the same value. The uniqueness proof is a separate checked obligation, not inferred from small diameter.
 
 - The decoded root belongs to the native relative algebraic closure.
 - `IsolatedAlgebraicRoot.value`: Decode the unique root in ℂ, together with its algebraicity comparison.
@@ -510,7 +512,7 @@ An IsolatedAlgebraicRoot stores a nonzero polynomial f∈ℚ[X], two closed rati
 - The two conversions preserve that value, and their composites preserve it even when
   squarefree replacement changes the polynomial.
 
-Use native Polynomial and NonemptyInterval for finite data. Define the root-and-rectangle predicate explicitly and require unique existence. The uniqueness proof is part of the mathematical presentation. (Mathlib `algebraicClosure` and `mem_algebraicClosure_iff`,
+Use native Polynomial and NonemptyInterval for finite data. Define the root-and-rectangle predicate explicitly and require the root, its membership and uniqueness among roots in the rectangle. The uniqueness proof is part of the mathematical presentation. (Mathlib `algebraicClosure` and `mem_algebraicClosure_iff`,
 `Mathlib/FieldTheory/AlgebraicClosure.lean`, lines 39 and 54.) *Needs:* EffectiveDiophantineMethods §0.2; Mathlib `algebraicClosure`; Mathlib `mem_algebraicClosure_iff`; Mathlib `NonemptyInterval`.
 
 **Checks.**
@@ -1799,12 +1801,12 @@ Every generator is μ_v of an actual point. The kernel of μ_v is 2W_v(K_v) (Tau
 For every W as above and every place v there is a complete local image presentation.
 The acceptance theorems `exists_complete_localImage_padic` and
 `exists_complete_localImage_real` express this with finite lists of rational abscissae.
-Their base changes retain a₁=a₃=0. The existence statements hold for every rational
+Their base changes retain a₁=a₃=0 (Tau Ceti `WeierstrassCurve.isCharNeTwoNF_map`). The existence statements hold for every rational
 elliptic model in this normal form, independently of coefficient integrality.
 They compare the rational-abscissa data of EffectiveDiophantineMethods §3.2
 with the subgroup presentation of §3.18 without its integral-model restriction.
 
-Every coset of 2W_v(K_v) is open and infinite: multiplication by two maps a sufficiently small local Lie subgroup onto an open subgroup. Thus each coset has a point away from the finite 2-torsion subgroup and the point at infinity. The map P ↦ μ_v(P) is locally constant there, and the abscissa determines the class. The set of x ∈ K_v with f(x) a nonzero square is open, and ℚ is dense in K_v, so every class in the finite group range μ_v is the class of x − T for some rational x. Finitely many such x generate range μ_v, which gives the required finite presentation. ([Mattuck](#source-mattuck), Theorem 7, p.114, for the nonarchimedean local subgroup; [FPS](#source-fps), §7, Lemma 4, p.17, as a concrete local-generator example. The general argument uses openness of nonzero square classes, local constancy of μ, and density of ℚ in ℝ and ℚ_p.) *Needs:* cardinality completeness for arbitrary local models (3.19); Tau Ceti `WeierstrassCurve.Affine.μ`; `TauCeti.isOpen_range_powMonoidHom` in `TauCeti.NumberTheory.LocalField.PowerSubgroup.Open`; density of rational casts in ℝ and ℚ_p.
+Every coset of 2W_v(K_v) is open and infinite: multiplication by two maps a sufficiently small local Lie subgroup onto an open subgroup. Thus each coset has a point away from the finite 2-torsion subgroup and the point at infinity. The map P ↦ μ_v(P) is locally constant there, and the abscissa determines the class. The set of x ∈ K_v with f(x) a nonzero square is open, and ℚ is dense in K_v, so every class in the finite group range μ_v is the class of x − T for some rational x. Finitely many such x generate range μ_v, which gives the required finite presentation. ([Mattuck](#source-mattuck), Theorem 7, p.114, for the nonarchimedean local subgroup; [FPS](#source-fps), §7, Lemma 4, p.17, as a concrete local-generator example. The general argument uses openness of nonzero square classes, local constancy of μ, and density of ℚ in ℝ and ℚ_p.) *Needs:* cardinality completeness for arbitrary local models (3.19); Tau Ceti `WeierstrassCurve.Affine.μ`; Tau Ceti `WeierstrassCurve.isCharNeTwoNF_map`; `TauCeti.isOpen_range_powMonoidHom` in `TauCeti.NumberTheory.LocalField.PowerSubgroup.Open`; density of rational casts in ℝ and ℚ_p.
 
 **Checks.**
 
