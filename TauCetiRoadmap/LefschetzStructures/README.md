@@ -359,6 +359,11 @@ Kleiman 1994, Theorem 4.1, pp. 14–15.)
 - On `K[ξ]/(ξ^{n+1})`, `n ≥ 1`, with `𝒜 = F[L]` (Examples below), no `w_0` exists in `𝒜`, and indeed
   `π_0 ∉ 𝒜`.
 
+Not a target: the converse of `projectorsAlgebraic_of_lambdaAlgebraic` fails. For `n = 1`,
+`H = Ke₀ ⊕ Ke₂`, `L e₀ = e₂`, `A⁰ = Fe₀`, `A¹ = Fe₂`, the `F`-span of `π_0`, `π_2`, `L` is a ring
+(`L π_0 = π_2 L = L`, `π_0 L = L π_2 = L² = 0`) with `A_stable`, containing `L` and every grade
+projector; it maps `e₂` into `Ke₂`, while `Λ e₂ = e₀`, so `Λ ∉ 𝒜`.
+
 ### 1.3 The Cayley–Hamilton criterion
 
 `inv_mem_of_charpoly`: if the characteristic polynomial of every element of `𝒜` has coefficients
@@ -380,6 +385,13 @@ algebraic inverse of `L^i` is Beilinson 2012, §2.3, proof of (b).)
 - On `ℚ[ξ]/(ξ³)` with `n = 2`, `i = 0`, `𝒜 = End_ℚ H` and `u = 2Λ²`: `u L²` restricted to `H⁰` is
   multiplication by `2`, with characteristic polynomial `T − 2`; Cayley–Hamilton inverts it as
   `½`, and `w = ½ u = Λ²` on `H⁴`. `Λ` itself maps `H⁴` to `H²`.
+
+Not a target: for `X` over a finite field, with `ℓ`-adic cohomology and `F = ℚ`, `𝒜(X)` meets the
+hypotheses of `lambdaAlgebraic_of_charpoly`. An element of `𝒜(X)` preserving `H^i(X)` acts there
+as its degree-`0` part, a cycle on `X × X` whose characteristic polynomial on `H^i(X)` has
+rational coefficients (Katz–Messing 1974, Theorem 2, 2)), and the grade projectors are algebraic
+(ibid., Theorem 2, 1)). So there `B_H(X)` holds iff for each `i ≤ d` some correspondence maps
+`H^{2d−i}(X)` bijectively onto `H^i(X)`.
 
 ### 1.4 Algebraic `Λ` and positivity give nondegeneracy
 
@@ -549,6 +561,8 @@ None known.
 
 All checked on zbMATH.
 
+- N. M. Katz, W. Messing, « Some consequences of the Riemann hypothesis for varieties over finite
+  fields », *Invent. Math.* 23 (1974), 73–77: Theorem 2, pp. 76–77.
 - A. Grothendieck, « Standard conjectures on algebraic cycles », in *Algebraic Geometry
   (Internat. Colloq., Tata Inst. Fund. Res., Bombay, 1968)*, Oxford Univ. Press, 1969, 193–199.
   Zbl 0201.23301.
