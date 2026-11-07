@@ -1959,26 +1959,27 @@ BordismFormalGroups F1–F3; EnhancedDerivedSheaves E5:abstract.2, with the mult
 
 ### 8.1 ε-enlargement and descent towers
 
-Let T be a thick subcategory of small stable idempotent-complete C. For finite spectrum F let T_F be the thick closure of T and every F⊗X. For a finite set Σ of primes put T_(ε,Σ)=intersection_F T_F, where F_(q)≠0 for every q∈Σ; put T_ε=union_Σ T_(ε,Σ). An ε-object belongs to 0_ε. A tower is nilpotent if a fixed-length composite of its transition maps is null; it is rapidly convergent if it is in the thick closure of nilpotent and constant towers. An augmented cosimplicial diagram is an ε-nilpotent limit if its cofiber totalization tower lies in the ε-enlargement of the nilpotent towers.
+Let T be a thick subcategory of a stable idempotent-complete ∞-category C that need not be small; Sp and every presentable stable ∞-category are allowed. For a finite spectrum F let T_F be the smallest thick subcategory of C containing T and every F⊗X. For a finite set Σ of primes put T_(ε,Σ)=intersection_F T_F, where F_(q)≠0 for every q∈Σ; put T_ε=union_Σ T_(ε,Σ). An ε-object belongs to 0_ε. A tower is nilpotent if a fixed-length composite of its transition maps is null; it is rapidly convergent if it is in the thick closure of nilpotent and constant towers. An augmented cosimplicial diagram is an ε-nilpotent limit if its cofiber totalization tower lies in the ε-enlargement of the nilpotent towers.
 
-Throughout this target, C is small stable idempotent-complete and T is thick. Σ is finite and F ranges over finite spectra nonzero at each q∈Σ.
+Throughout this target, C is stable and idempotent-complete, not necessarily small, and T is thick; only the Verdier-quotient criterion assumes C small. Σ is finite and F ranges over finite spectra nonzero at each q∈Σ.
 
-(cmnn20 line 300, Definitions 2.1–2.3, pp.7–8; Definitions 2.14–2.16, pp.11–12.)
+(cmnn20 line 300, Definitions 2.1 and 2.3 with Proposition 2.2, pp.7–8, and line 489, Definitions 2.15–2.16, pp.11–12, all for C not necessarily small; line 339, Proposition 2.5, p.8, for small C; line 421, Example 2.10, p.10.)
 
-A proof route is as follows. Define thick closures inside C and inside its tower category, using finite-spectrum tensoring. Prove invariance under exact functors and the Verdier-quotient criterion for ε-enlargement. Compare finite partial totalizations and their cofiber tower with the augmentation.
+A proof route is as follows. Define thick closures inside C and inside its tower category Fun(ℤ≥0^op,C), using finite-spectrum tensoring; neither step uses smallness. Prove invariance under exact functors. For small C, prove the Verdier-quotient criterion inside Ind(C), using T=C∩Ind(T) and the identification of the objects of Ind(C) right orthogonal to T with Ind(C/T). Compare finite partial totalizations and their cofiber tower with the augmentation.
 
 The interface includes:
 
 - T is contained in T_ε, with T_(ε,∅)=T.
-- An exact functor carrying T into U carries T_ε into U_ε.
-- X∈T_ε exactly when its image in Idem(C/T) is an ε-object.
+- An exact functor between stable idempotent-complete ∞-categories, neither necessarily small, carrying T into U carries T_ε into U_ε and T_(ε,Σ) into U_(ε,Σ) for every finite Σ.
+- For small C, X∈T_ε exactly when its image in the idempotent-complete Verdier quotient Idem(C/T) is an ε-object.
 - An augmented cosimplicial object gives the tower cofib(X_(−1)→Tot_rX), which tests ε-nilpotent descent.
 
 **Checks.**
 
 - T_(ε,∅)=T because the zero finite spectrum is among the intersection tests.
 - A tower of zero objects is nilpotent with transition-length bound 1.
-- H(ℚ/ℤ) is annihilated by every ordinary finite chromatic localization L_n^f at every prime but is not an ε-spectrum; pointwise invisibility cannot replace the uniform ε definition.
+- In C=Sp, which is not small, H(ℚ/ℤ) is annihilated by every ordinary finite chromatic localization L_n^f at every prime, since Hℚ and every T(i) with i≥1 kill it, but it is not an ε-spectrum: an ε-object X has N·id_X=0 for some N≥1 (cmnn20 line 356, Proposition 2.6), while multiplication by N sends 1/(2N) to 1/2≠0 in ℚ/ℤ. Pointwise invisibility cannot replace the uniform ε definition.
+- For T=0, the full subcategory of finite spectra has no nonzero ε-object, while in Sp the Eilenberg–MacLane spectrum H𝔽₂ is an ε-object because 2·id=0 on it (cmnn20 Example 2.10(1),(3)). Both agree with the rule that an object of a full subcategory is an ε-object there exactly when it is one in the ambient category (Example 2.10(5)): H𝔽₂ is not a finite spectrum.
 - The ε condition has a uniform finite set of primes; arbitrary pointwise periodic acyclicity is not its definition.
 - Σ=∅; T=0; zero tower; constant tower: F=0 allowed for empty Σ, giving T_(ε,∅)=T; zero tower nilpotence length 1; constant nonzero tower rapid but not nilpotent.
 
@@ -2013,7 +2014,7 @@ The construction has the following API.
 
 ### 8.2 Rational transfer forces periodic descent
 
-In a symmetric monoidal stable idempotent-complete ∞-category C, let R be commutative, A associative, and M an A-module with a map M→R for which π₀ Map_C(1,M)⊗Q→π₀ Map_C(1,R)⊗Q has the unit of R in its image. Then R lies in the ε-enlargement of the thick tensor ideal generated by A, and CB•aug(A)⊗R is an ε-nilpotent limit. In a presentable stable target, any such diagram satisfies L_n^fX_(−1)≃L_n^fTot(X•)≃Tot(L_n^fX•), and its localized totalization tower is rapidly convergent. The tower conclusion also holds with L_T(i), i≥1, by the same ε argument.
+Let C be a stable idempotent-complete ∞-category, not necessarily small, with a symmetric monoidal structure whose tensor product is exact in each variable. Let R be commutative, A associative, and M an A-module with a map M→R for which π₀ Map_C(1,M)⊗Q→π₀ Map_C(1,R)⊗Q has the unit of R in its image. Then R lies in the ε-enlargement of the thick tensor ideal generated by A, and CB•aug(A)⊗R is an ε-nilpotent limit. In a presentable stable target, any such diagram satisfies L_n^fX_(−1)≃L_n^fTot(X•)≃Tot(L_n^fX•), and its localized totalization tower is rapidly convergent. The tower conclusion also holds with L_T(i), i≥1, by the same ε argument.
 
 Here CB•aug(A) is the augmented Amitsur cobar diagram of 1→A: its degree −1 term is 1 and degree r≥0 term is A^(⊗(r+1)). Use the associative-algebra version of this construction; the commutative Amitsur specialization is EnhancedDerivedSheaves E5:descent. Its API comprises:
 
@@ -2021,15 +2022,16 @@ Here CB•aug(A) is the augmented Amitsur cobar diagram of 1→A: its degree −
 - Every codegeneracy from degree r≥1 to r−1 multiplies the specified adjacent A-factors.
 - Algebra maps induce maps of augmented diagrams; associativity and the unit laws give the cosimplicial identities, and A=1 gives the constant diagram. Tensoring this specified augmented diagram with R is the diagram in the theorem (cmnn20 line 567, cobar construction and Proposition 2.22, manuscript pp.13–14).
 
-Throughout this target, C is stable symmetric monoidal, R commutative, A associative, and M an A-module mapping to R rationally onto its unit. The totalization conclusion uses a presentable stable target.
+Throughout this target, C is stable, idempotent-complete and symmetric monoidal with ⊗ exact in each variable, and need not be small; R is commutative, A associative, and M an A-module mapping to R rationally onto its unit. The totalization conclusion uses a presentable stable target.
 
-(cmnn20 line 798, Theorems 4.2–4.4 with proofs, p.19; Proposition 2.23, pp.13–14; Propositions 2.13 and 2.19, pp.11–13.)
+(cmnn20 line 480, the standing symmetric monoidal hypotheses with ⊗ exact in each variable, p.11; line 798, Theorems 4.2–4.4 with proofs, including the reduction to a small category at line 801, p.19; Proposition 2.23, pp.13–14; Propositions 2.13 and 2.19, pp.11–13.)
 
-A proof route is as follows. Clear finitely many rational denominators and fix their finite prime set Σ. Let J be the thick tensor ideal generated by M and T⊗1, with T a finite spectrum nonzero at every prime in Σ. In C/J form the E∞ ring B=Hom_(C/J)(1,R), with source the tensor unit and target the image of R, and multiplication induced by R. Clearing denominators gives N^k·1_B=0 for some k, so Hℚ⊗B=0 and H𝔽_q⊗B=0 for q∤N. For q∣N, T⊗B=0 and nonzero H𝔽_q-homology of T give H𝔽_q⊗B=0. Apply §4.34 to B. Its vanishing makes η:1→R null, hence id_R=μ∘(η⊗id_R)=0 and R=0 in C/J. Thus R belongs to the indicated ε-tensor ideal; the thick-ideal cobar argument yields the ε-nilpotent totalization tower. Finite chromatic localization identifies each ε-enlargement with its original thick subcategory; apply this to towers. Both localization-before-limit and limit-before-localization annihilate the cofiber tower, giving the two separate equivalences.
+A proof route is as follows. First pass to a small full subcategory C₀⊂C that is stable, idempotent-complete and closed under ⊗, and contains 1, M, R and A, the map M→R and the algebra and module structures. The inclusion C₀→C is exact and symmetric monoidal, so it carries the thick tensor ideal of C₀ generated by A into that of C, its ε-enlargement into the ε-enlargement and ε-nilpotent limits to ε-nilpotent limits (§8.1); the rational hypothesis is unchanged because C₀ is full. Work in C₀ from now on, so that the Verdier quotient below exists. Clear finitely many rational denominators and fix their finite prime set Σ. Let J be the thick tensor ideal of C₀ generated by M and T⊗1, with T a finite spectrum nonzero at every prime in Σ; since ⊗ is exact in each variable, C₀/J inherits a symmetric monoidal structure. In C₀/J form the E∞ ring B=Hom_(C₀/J)(1,R), with source the tensor unit and target the image of R, and multiplication induced by R. Clearing denominators gives N^k·1_B=0 for some k, so Hℚ⊗B=0 and H𝔽_q⊗B=0 for q∤N. For q∣N, T⊗B=0 and nonzero H𝔽_q-homology of T give H𝔽_q⊗B=0. Apply §4.34 to B. Its vanishing makes η:1→R null, hence id_R=μ∘(η⊗id_R)=0 and R=0 in C₀/J. Thus R belongs to the indicated ε-tensor ideal; the thick-ideal cobar argument yields the ε-nilpotent totalization tower. Finite chromatic localization identifies each ε-enlargement with its original thick subcategory; apply this to towers. Both localization-before-limit and limit-before-localization annihilate the cofiber tower, giving the two separate equivalences.
 
 **Checks.**
 
 - Localization commutes with this totalization by the proven uniform tower property; no general commutation with inverse limits is asserted.
+- In C=Sp, which is not small, take A=M=KU, R=KO and the realification map KU→KO. On π₀ it sends the rank-one class 1 to 2, so the integral image 2ℤ misses the unit while the rational image is ℚ; the rational hypothesis holds with N=2 and Σ={2}. The conclusion, that KO lies in the ε-enlargement of the thick tensor ideal generated by KU, agrees with Wood's equivalence KO⊗Cη≃KU: η³ acts by zero on KO because π₃KO=0, so KO is a retract of KO⊗C(η³), which lies in the thick subcategory generated by KO⊗Cη≃KU.
 - For C=Perf(ℚ), J=0 and R=ℚ×ℚ, the mapping algebra from 1 has coordinatewise product (a,b)(c,d)=(ac,bd); ambient composition instead gives E₁₂E₂₁=E₁₁ and E₂₁E₁₂=E₂₂. If B vanishes in a quotient, the unit law gives id_R=μ∘(0⊗id_R)=0, rather than a conclusion about arbitrary ambient endomorphisms.
 - A = R=unit,M=unit; rational torsor of degree 2: unit lifts to 1; cobar error tower=0; degree-two transfer sends 1/2 to 1 after rationalization.
 
@@ -2045,7 +2047,7 @@ Throughout this target, A→B is finite G-Galois E∞, B is perfect over A, and 
 
 (cmnn20 line 975, Theorem 5.6 and proof, manuscript p.22; Theorem 5.1 pp.20–21; Proposition 2.19 pp.12–13; Remark 2.9, p.9.)
 
-A proof route is as follows. Choose κ with Perf(B) κ-compact and work in Mot_κ(A) of §8.1a. Restriction Perf(B)→Perf(A) is A-linear because B is perfect over A; by naturality of K₀→K′₀ the rational K₀ transfer hitting 1 makes K′₀(Perf(B))⊗ℚ→K′₀(Perf(A))⊗ℚ hit the unit. Apply §8.2 in Mot_κ(A) with R the unit and the commutative algebra U(Perf(B)) as both the algebra and the module, so the Amitsur diagram of U(Perf(B)) is an ε-nilpotent limit; nonconnective K is weakly additive and so factors through an exact functor out of Mot_κ(A). Its totalization tower becomes rapidly convergent after finite periodic localization, so localization can be moved through this particular totalization. Identify the Galois Amitsur diagram with the G-cobar diagram. Apply the same ε-nilpotent tower argument directly for each T(i), using CMNN Remark 2.9 and Proposition 2.19, to justify both T(i)-localized comparison maps; this is not inferred by commuting a further localization with arbitrary homotopy fixed points.
+A proof route is as follows. Choose κ with Perf(B) κ-compact and work in Mot_κ(A) of §8.1a, which is presentable and stable with a tensor product preserving colimits, hence exact, in each variable, so that it lies in the scope of §8.2. Restriction Perf(B)→Perf(A) is A-linear because B is perfect over A; by naturality of K₀→K′₀ the rational K₀ transfer hitting 1 makes K′₀(Perf(B))⊗ℚ→K′₀(Perf(A))⊗ℚ hit the unit. Apply §8.2 in Mot_κ(A) with R the unit and the commutative algebra U(Perf(B)) as both the algebra and the module, so the Amitsur diagram of U(Perf(B)) is an ε-nilpotent limit; nonconnective K is weakly additive and so factors through an exact functor out of Mot_κ(A). Its totalization tower becomes rapidly convergent after finite periodic localization, so localization can be moved through this particular totalization. Identify the Galois Amitsur diagram with the G-cobar diagram. Apply the same ε-nilpotent tower argument directly for each T(i), using CMNN Remark 2.9 and Proposition 2.19, to justify both T(i)-localized comparison maps; this is not inferred by commuting a further localization with arbitrary homotopy fixed points.
 
 **Checks.**
 
@@ -2465,7 +2467,7 @@ For cyclic assembly take G=ℤ and R=KU. The object G/G is terminal in the famil
 
 - **kuhn-tate**: Nicholas J. Kuhn, *[Tate cohomology and periodic localization of polynomial functors](https://arxiv.org/pdf/math/0307173v1)*. Theorem and section numbering of arXiv:math/0307173v1. Locators use this edition; source-line numbers identify its extraction.
 
-- **lmmt**: Markus Land, Akhil Mathew, Lennart Meier and Georg Tamme, *[Purity in chromatically localized algebraic K-theory](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/LMMT2a.pdf)*. Published JAMS 37 (2024), pp.1011–1040; journal theorem numbering and pagination, compared with the preprint. Locators use this edition; source-line numbers identify its extraction.
+- **lmmt**: Markus Land, Akhil Mathew, Lennart Meier and Georg Tamme, *[Purity in chromatically localized algebraic K-theory](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/LMMT2a.pdf)*. Published JAMS 37 (2024), pp.1011–1040; journal theorem numbering and pagination, compared with the preprint. In Remark 3.11 the stable relative K-theory colimit colim_r Ω^r fib(K(S⊕Σ^rM)→K(S)) is printed as ΩM; it is ΣTHH(S;M)≃ΣM (RefinedTraceMethods §4.15), the value §6.6 uses. Locators use this edition; source-line numbers identify its extraction.
 
 - **lrrv**: Wolfgang Lück, Holger Reich, John Rognes and Marco Varisco, *[Algebraic K-theory of group rings and the cyclotomic trace map](https://arxiv.org/pdf/1504.03674v3)*, Advances in Mathematics 304 (2017). Theorem 1.19(i), p.7, and Theorem 6.1, p.25, with the very-well-pointed condition of §4J, pp.19–20; theorem numbering and pages of arXiv:1504.03674v3. Locators use this edition; source-line numbers identify its extraction.
 
