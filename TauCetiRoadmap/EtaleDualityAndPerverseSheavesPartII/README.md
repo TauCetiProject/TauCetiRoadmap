@@ -981,7 +981,7 @@ Branch comparison. Let g : X′ → X be a morphism of schemes, j : U → X an o
 
 ### 5.7 Local form of the affine Lefschetz theorem
 
-Let X be a strictly local quasi-excellent scheme of dimension d, U ⊂ X an affine open and n invertible on X. Then H^q(U, ℤ/n) = 0 for q > d. More generally, for X henselian local quasi-excellent of dimension d with residue field k and ℓ invertible on X, cd_ℓ(U) ≤ d + cd_ℓ(k) for every affine open U; if X is integral with fraction field K, cd_ℓ(K) = d + cd_ℓ(k). (ILO14, Exposé XV, Corollaire 1.2.2 and Corollaire 1.2.4, p. 220 (printed); Exposé 0, Corollaire 8, p. 5; ILO14 line 10350).
+Let X be a strictly local quasi-excellent scheme of dimension d, U ⊂ X an affine open and n invertible on X. Then H^q(U, ℤ/n) = 0 for q > d. More generally, for X henselian local quasi-excellent of dimension d with residue field k and ℓ invertible on X, cd_ℓ(U) ≤ d + cd_ℓ(k) for every affine open U; if X is integral with fraction field K, cd_ℓ(K) = d + cd_ℓ(k). (ILO14, Exposé XV, Corollaire 1.2.2 and Corollaire 1.2.4, pp. 219–220 (printed); Exposé 0, Corollaire 8, p. 5; ILO14 lines 10350, 10362, 396).
 
 X quasi-excellent; strictly local (first statement) or henselian local (second).
 
