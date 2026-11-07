@@ -133,8 +133,9 @@ groups.  Those theories consume this roadmap's chain, CW, duality, and homotopy 
   derived limit as the shifted cone of the difference map. Layer 6.0 owns the one
   generic tower construction the library lacks, the maps of shifted cones induced by
   tower maps whose squares commute up to specified homotopies, with their composition
-  and second-homotopy laws; it has no topological prerequisite, and algebraic roadmaps
-  consume it from 6.0. Layer 6.0 also owns the singular and cellular restriction-tower
+  and second-homotopy laws; it has no topological prerequisite, and its algebraic
+  consumers, DerivedModuleAlgebra §1.1's localization of the derived limit among them,
+  take it from 6.0. Layer 6.0 also owns the singular and cellular restriction-tower
   adapters and their limit comparisons; Layer 6.1 extends these comparisons to direct
   local-system cochains.
 - TopologicalSheafCohomology §§1.1–1.2 owns raw Čech refinements, the comparison
@@ -3370,6 +3371,9 @@ The objects consumers cite are carried by the following sections.
 - AffineMorseLefschetz (A4) consumes §8.1's based top pair.
 - MorseTheory (M4) consumes §6.2's categorical cover, category count, normalized category
   and cup length.
+- DerivedModuleAlgebra (§1.1's localization of the derived limit to the derived category
+  of strict towers, with its exact-functor comparison) consumes §6.0's homotopy-square
+  maps, with their composite and second-homotopy laws, alongside Tau Ceti's tower algebra.
 - FuchsianOrbifolds (Layer 5), HeegaardFloer and HomotopySpheres consume §8.7's
   `compactManifoldFiniteCWType` and `FiniteCWTypeModel`, and §7.1's
   `finiteCWEulerCharacteristic` transported through that model.
