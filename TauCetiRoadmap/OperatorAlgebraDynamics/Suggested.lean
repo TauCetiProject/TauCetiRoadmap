@@ -6,97 +6,126 @@ module
 
 public import Mathlib
 public import TauCeti.RepresentationTheory.Continuous.Unitary.Basic
+public import TauCeti.Analysis.CStarAlgebra.Representation.Nondegenerate
+public import TauCeti.Analysis.CStarAlgebra.Action.Hom
+public import TauCeti.Analysis.CStarAlgebra.Action.Covariant.Regular
+public import TauCeti.Analysis.CStarAlgebra.Action.CrossedProduct.Full
+public import TauCeti.Analysis.CStarAlgebra.Action.CrossedProduct.Functoriality
+public import TauCeti.GroupTheory.Amenable.Basic
 
 /-!
 # Operator-algebra dynamics: target signatures
 
 The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
 theorems against the pinned Mathlib and Tau Ceti, each admitted with `sorry`, together with the
-few definitions those statements need. Actions are `G →* (A ≃⋆ₐ[ℂ] A)` with point-norm
-continuity stated separately; `ContRepresentation` carries bounded operators, so strong
-continuity in the group variable is an explicit hypothesis; integrated forms are vector
-integrals, never operator-norm Bochner integrals.
+few definitions those statements need. Actions are Tau Ceti's `TauCeti.CStarAction`, covariant
+pairs its `TauCeti.CStarAction.CovariantRepresentation` (a unitary, strongly continuous group
+representation and a possibly degenerate coefficient representation), and the full crossed
+product `A ⋊_α G` its `TauCeti.CStarAction.FullCrossedProduct`, whose integrated forms
+`CovariantRepresentation.integratedFull` are defined on Hilbert spaces in the universe
+`max u v` of `G : Type u` and `A : Type v`. The full group C*-algebra `C*(G)` is the full crossed
+product of the trivial action on `ℂ`. Integrated forms are vector integrals, never operator-norm
+Bochner integrals.
 
-Stated here: the vector-integral integrated form of a covariant pair, its norm bound and its
-multiplicativity on compactly supported continuous functions (D1); the projective integrated form
-of a continuous central multiplier cocycle (D1.CentralTwists); irreducibility of the orbit
-representations (D2.OrbitRepresentations); the Powers partition property of free groups and the
-simplicity and unique trace of the reduced C*-algebra of a free group on at least two generators
-(D2.FreeGroups); the LCA Weyl classification, that every covariant pair of strongly continuous
+Stated here: the vector-integral integrated form of a covariant pair on integrable coefficient
+functions with its norm bound, the recovery of a nondegenerate covariant pair from every
+nondegenerate representation of `A ⋊_α G`, and the ideal exact sequence of full crossed products
+(D1); the projective integrated form of a continuous central multiplier cocycle
+(D1.CentralTwists); faithfulness on `A ⋊_α G` of the regular representation induced by a
+faithful representation, for amenable `G` (D2; its instance for abelian `G` is the full/reduced
+agreement of D4.Harmonic); irreducibility of the orbit representations (D2.OrbitRepresentations);
+the Powers partition property of free groups and the simplicity and unique trace of the reduced
+C*-algebra of a free group on at least two generators (D2.FreeGroups); the Fourier isomorphism
+`C*(G) ≅ C₀(Ĝ)` of the full group C*-algebra and the identification `C*(Ĝ) ≅ C₀(G)`
+(D4.Harmonic); the LCA Weyl classification, that every covariant pair of strongly continuous
 unitary representations of a locally compact Hausdorff abelian group and of its dual is a Hilbert
-sum of copies of the Schrödinger pair on `L²(G)` (D4.LCAWeyl); the residue-class Cuntz family on a
-separable Hilbert space (D6); invariance of KMS states and the analytic KMS identity (D7).
+sum of copies of the Schrödinger pair on `L²(G)` (D4.LCAWeyl); the residue-class Cuntz family on
+a separable Hilbert space (D6).
 
 Not statable at the pins, with the carrier each lacks:
-- the universal property of `A ⋊_α G`, the full and reduced comparison, the ideal exact sequence,
-  Takai duality and the twisted products `A ⋊_(α,ω) G`: no crossed-product C*-algebra;
-- the full-algebra form `C*(G) ≅ C₀(Ĝ)` of the Fourier isomorphism (the full/reduced agreement
-  for abelian `G`) and the identification `C*(Ĝ) ≅ C₀(G)` (D4.Harmonic): no group C*-algebra
-  `ℂ ⋊ G`;
-- Green and symmetric imprimitivity (D3): no crossed-product C*-algebra to serve as the
-  coefficient algebras of the imprimitivity bimodule (`CStarModule` is the module carrier, but
-  `A ⋊_α G` and `D ⋊_β H` are not available);
+- the reduced crossed product `A ⋊_{α,r} G` as an algebra, its exactness theory, and the
+  universal property of `A ⋊_α G` for nondegenerate covariant homomorphisms into multiplier
+  algebras: no reduced crossed-product carrier, and no extension of nondegenerate homomorphisms
+  to multiplier algebras (the Hilbert-space form of the universal property, the recovery of the
+  pair, is stated);
+- `A ⋊_id G ≅ A ⊗_max C*(G)`, the coefficient-tensor identification, nuclearity and exactness
+  of crossed products, and Takai duality `(A ⋊_α G) ⋊_α̂ Ĝ ≅ A ⊗ K(L²(G))`: no C*-tensor
+  product and no dual action on the full crossed product;
+- the twisted products `A ⋊_(α,ω) G` (D1.CentralTwists, D2.CentralTwists): no twisted crossed
+  product;
+- Green and symmetric imprimitivity (D3): no induced algebra and no imprimitivity-bimodule
+  carrier (a bimodule with compatible left and right inner products, full on both sides);
 - disintegration, Renault equivalence and the universal identification of `O_n` (D5–D6): no
   groupoid C*-algebra and no universal Cuntz algebra;
-- the Choquet simplex of KMS states (D7): no Choquet simplex carrier;
-- the quasi-free KMS states (D8) and the high-temperature uniqueness theorem (D9): no CAR algebra,
-  Weyl algebra or quasi-local algebra.
+- the Choquet simplex of KMS states and the factor characterisation of its extreme points (D7):
+  no Choquet simplex carrier (the invariance, analytic identity, convexity and compactness of
+  KMS states are already Tau Ceti's);
+- the quasi-free KMS states (D8) and the thermodynamic limit, variational principle and
+  high-temperature uniqueness theorem (D9): no CAR C*-algebra of a Hilbert space (Tau Ceti's CAR
+  files concern the algebraic Clifford algebra of a trace form), no Weyl C*-algebra and no
+  quasi-local algebra (the finite-volume local algebras, dynamics and Gibbs states are already
+  Tau Ceti's).
 -/
 
 @[expose] public section
 
 noncomputable section
-open MeasureTheory
-open scoped ComplexOrder MultiplierAlgebra
+open MeasureTheory TauCeti
+open scoped ComplexOrder MultiplierAlgebra CompactlySupported ZeroAtInfty
 
 namespace TauCetiRoadmap.OperatorAlgebraDynamics
 
-/-! ## D1: Covariant representations and integrated forms -/
+universe u v
 
-variable {A G H : Type*} [NonUnitalCStarAlgebra A]
-  [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
-  [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]
+/-! ## D1: Covariant representations and full crossed products -/
 
-/-- A covariant pair: `U_g π(a) = π(α_g(a)) U_g` for every `g` and `a`, stated as an identity of
-composed operators. -/
-def IsCovariant (α : G →* (A ≃⋆ₐ[ℂ] A))
-    (π : A →⋆ₙₐ[ℂ] (H →L[ℂ] H)) (U : ContRepresentation ℂ G H) : Prop :=
-  ∀ g a, (U g).comp (π a) = (π (α g a)).comp (U g)
-
-variable [MeasurableSpace G] [BorelSpace G] [LocallyCompactSpace G] [T2Space G]
-
-/-- The convolution `(f * g)(s) = ∫ f(r) α_r(g(r⁻¹ s)) dμ(r)` of coefficient functions, as a
-Bochner integral in `A`. -/
-def convolution (α : G →* (A ≃⋆ₐ[ℂ] A)) (μ : Measure G) (f g : G → A) (s : G) : A :=
-  ∫ r, f r * α r (g (r⁻¹ * s)) ∂μ
-
-/-- The integrated form of a strongly continuous unitary representation and a representation of
-`A`: for integrable `f`, the vector integrals `ξ ↦ ∫ π(f(s)) U_s ξ dμ(s)` assemble to a bounded
-operator of norm at most `‖f‖₁`. Local compactness and inner regularity are used to show that the
-integrand is strongly measurable on the σ-finite support of `f`: a continuous orbit `s ↦ U_s ξ` has
-compact, hence separable, range on each compact set, and nothing else makes it strongly measurable
-when `H` is not separable. Covariance is not needed for this bound. -/
-theorem exists_integratedOperator (π : A →⋆ₙₐ[ℂ] (H →L[ℂ] H))
-    (U : ContRepresentation ℂ G H) (hU : _root_.ContRepresentation.IsUnitary U)
-    (hcont : ∀ ξ, Continuous fun g => U g ξ)
-    (μ : Measure G) [μ.InnerRegularCompactLTTop]
-    (f : G → A) (hf : Integrable f μ) :
+/-- The integrated form of a covariant pair on integrable coefficient functions: for a
+Bochner-integrable `f : G → A`, the vector integrals `ξ ↦ ∫ π(f(s)) U_s ξ dμ(s)` assemble to a
+bounded operator of norm at most `‖f‖₁`. Tau Ceti has this operator for compactly supported
+continuous `f` and on the abstract completion of `C_c(G, A)`; this is the vector formula on
+`L¹(G, A)`. Local compactness and inner regularity make the integrand strongly measurable on the
+σ-finite support of `f`: a continuous orbit `s ↦ U_s ξ` has compact, hence separable, range on
+each compact set, and nothing else makes it strongly measurable when `H` is not separable.
+Covariance is not needed for this bound. -/
+theorem exists_integratedOperator {G A H : Type*} [Group G] [TopologicalSpace G]
+    [IsTopologicalGroup G] [LocallyCompactSpace G] [T2Space G] [MeasurableSpace G] [BorelSpace G]
+    [NonUnitalCStarAlgebra A] [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]
+    {α : CStarAction G A} (P : CStarAction.CovariantRepresentation α H)
+    (μ : Measure G) [μ.InnerRegularCompactLTTop] (f : G → A) (hf : Integrable f μ) :
     ∃ T : H →L[ℂ] H,
-      (∀ ξ, T ξ = ∫ g, π (f g) (U g ξ) ∂μ) ∧ ‖T‖ ≤ ∫ g, ‖f g‖ ∂μ := by
+      (∀ ξ, T ξ = ∫ g, P.coefficient (f g) (P.group g ξ) ∂μ) ∧ ‖T‖ ≤ ∫ g, ‖f g‖ ∂μ := by
   sorry
 
-/-- Multiplicativity of the integrated form of a covariant pair: for left Haar measure `μ` and
-compactly supported continuous `f, g`, the integrated operator of `f * g` is the composite of the
-integrated operators of `f` and `g`. Only covariance, the group law of `U` and strong continuity
-are used (Williams, Proposition 2.23, p. 49). -/
-theorem integrated_convolution (α : G →* (A ≃⋆ₐ[ℂ] A))
-    (π : A →⋆ₙₐ[ℂ] (H →L[ℂ] H)) (U : ContRepresentation ℂ G H)
-    (hcont : ∀ ξ, Continuous fun g => U g ξ) (hcov : IsCovariant α π U)
-    (μ : Measure G) [μ.IsHaarMeasure]
-    (f g : G → A) (hf : Continuous f) (hfc : HasCompactSupport f)
-    (hg : Continuous g) (hgc : HasCompactSupport g) (ξ : H) :
-    ∫ s, π (convolution α μ f g s) (U s ξ) ∂μ =
-      ∫ r, π (f r) (U r (∫ t, π (g t) (U t ξ) ∂μ)) ∂μ := by
+/-- Recovery of the pair (Williams, Proposition 2.40, p. 59): every nondegenerate representation
+`L` of the full crossed product on a Hilbert space is the extended integrated form of a covariant
+pair whose coefficient representation is nondegenerate. Uniqueness of such a pair is Tau Ceti's
+`CovariantRepresentation.ext_integratedOperator`. -/
+theorem exists_covariantRepresentation_integratedFull {G : Type u} {A : Type v}
+    {H : Type (max u v)} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
+    [LocallyCompactSpace G] [T2Space G] [MeasurableSpace G] [BorelSpace G]
+    [NonUnitalCStarAlgebra A] [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]
+    (α : CStarAction G A) (μ : Measure G) [μ.IsHaarMeasure]
+    (L : CStarAction.FullCrossedProduct α μ →⋆ₙₐ[ℂ] (H →L[ℂ] H)) (hL : L.IsNondegenerate) :
+    ∃ P : CStarAction.CovariantRepresentation α H,
+      P.coefficient.IsNondegenerate ∧ P.integratedFull μ = L := by
+  sorry
+
+/-- The ideal exact sequence of full crossed products (Williams, Proposition 3.19, p. 93): let
+`q : A → B` be a surjective equivariant homomorphism whose kernel is the closed invariant ideal
+`I`, so that `B` is the quotient `A/I` with the descended action. Then the induced maps
+`I ⋊ G → A ⋊ G → B ⋊ G` form a short exact sequence: the first is injective, the second
+surjective, and the kernel of the second is the range of the first. -/
+theorem fullCrossedProductMap_exact {G : Type u} {A B : Type v} [Group G] [TopologicalSpace G]
+    [IsTopologicalGroup G] [LocallyCompactSpace G] [T2Space G] [MeasurableSpace G] [BorelSpace G]
+    [NonUnitalCStarAlgebra A] [NonUnitalCStarAlgebra B]
+    {α : CStarAction G A} {β : CStarAction G B} (μ : Measure G) [μ.IsHaarMeasure]
+    (I : NonUnitalStarSubalgebra ℂ A) [IsClosed (I : Set A)]
+    (hI : _root_.IsInvariant (fun g a => α g a) (I : Set A))
+    (q : CStarAction.Hom α β) (hq : Function.Surjective q) (hker : ∀ a, q a = 0 ↔ a ∈ I) :
+    Function.Injective (hI.subtypeHom.fullCrossedProductMap μ) ∧
+      Function.Surjective (q.fullCrossedProductMap μ) ∧
+      ∀ x, q.fullCrossedProductMap μ x = 0 ↔
+        x ∈ Set.range (hI.subtypeHom.fullCrossedProductMap μ) := by
   sorry
 
 /-! ## D1.CentralTwists: continuous central multiplier cocycles -/
@@ -106,7 +135,8 @@ multiplier algebra `M(A) = 𝓜(ℂ, A)`. Strict continuity is expressed through
 right actions on `A`. The cocycle law `α̃_r(ω(s,t)) ω(r,st) = ω(r,s) ω(rs,t)` is stated on left
 actions, using `α̃_r(m) b = α_r(m α_r⁻¹(b))` for the unique unital extension of `α_r`; left
 multipliers determine a multiplier of a C*-algebra. -/
-structure CentralCocycle (α : G →* (A ≃⋆ₐ[ℂ] A)) where
+structure CentralCocycle {G A : Type*} [Group G] [TopologicalSpace G] [NonUnitalCStarAlgebra A]
+    (α : CStarAction G A) where
   /-- The cocycle values. -/
   value : G → G → unitary (𝓜(ℂ, A))
   /-- Centrality in the multiplier algebra. -/
@@ -131,11 +161,13 @@ a strongly continuous family of unitaries `U` with `U_e = 1`, the covariance ide
 projective law `U_s U_t = π̃(ω(s,t)) U_(st)` stated after left multiplication by `π(a)`, where
 `π(a) π̃(ω(s,t)) = π(a ω(s,t))`; nondegeneracy makes the two forms equivalent. `U` is not a
 representation unless the represented cocycle is trivial. -/
-structure CentralCovariantPair (α : G →* (A ≃⋆ₐ[ℂ] A)) (ω : CentralCocycle α) where
+structure CentralCovariantPair {G A : Type*} (H : Type*) [Group G] [TopologicalSpace G]
+    [NonUnitalCStarAlgebra A] [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]
+    (α : CStarAction G A) (ω : CentralCocycle α) where
   /-- The coefficient representation. -/
   pi : A →⋆ₙₐ[ℂ] (H →L[ℂ] H)
   /-- Nondegeneracy of the coefficient representation. -/
-  nondegenerate : Dense (Submodule.span ℂ {η : H | ∃ a ξ, pi a ξ = η} : Set H)
+  nondegenerate : pi.IsNondegenerate
   /-- The projective unitary family. -/
   unitaryMap : G → unitary (H →L[ℂ] H)
   /-- Normalization at the identity. -/
@@ -154,8 +186,10 @@ structure CentralCovariantPair (α : G →* (A ≃⋆ₐ[ℂ] A)) (ω : CentralC
 /-- The integrated form of a twisted covariant pair: the vector integrals
 `ξ ↦ ∫ π(f(s)) U_s ξ dμ(s)` of an integrable `f` assemble to a bounded operator of norm at most
 `‖f‖₁`; the same measurability argument as for `exists_integratedOperator` applies. -/
-theorem exists_centralIntegratedOperator (α : G →* (A ≃⋆ₐ[ℂ] A))
-    (ω : CentralCocycle α) (P : CentralCovariantPair (H := H) α ω)
+theorem exists_centralIntegratedOperator {G A H : Type*} [Group G] [TopologicalSpace G]
+    [IsTopologicalGroup G] [LocallyCompactSpace G] [T2Space G] [MeasurableSpace G] [BorelSpace G]
+    [NonUnitalCStarAlgebra A] [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]
+    (α : CStarAction G A) (ω : CentralCocycle α) (P : CentralCovariantPair H α ω)
     (μ : Measure G) [μ.InnerRegularCompactLTTop]
     (f : G → A) (hf : Integrable f μ) :
     ∃ T : H →L[ℂ] H,
@@ -163,16 +197,31 @@ theorem exists_centralIntegratedOperator (α : G →* (A ≃⋆ₐ[ℂ] A))
         ‖T‖ ≤ ∫ s, ‖f s‖ ∂μ := by
   sorry
 
+/-! ## D2: Regular representations and amenability -/
+
+/-- Full and reduced crossed products agree for amenable groups (Williams, Theorem 7.13,
+p. 199): if `G` is amenable, in the sense of a left-invariant mean on the bounded left uniformly
+continuous functions, and `ρ` is a faithful representation of `A`, then the regular covariant
+representation induced by `ρ` on `L²(G, H)` integrates to a faithful representation of the full
+crossed product. The representation `ρ` may be degenerate. Abelian groups are amenable, so this
+contains the full/reduced agreement for abelian `G` of D4.Harmonic. -/
+theorem injective_integratedFull_regular_of_amenable {G : Type u} {A H : Type v} [Group G]
+    [TopologicalSpace G] [IsTopologicalGroup G] [LocallyCompactSpace G] [T2Space G]
+    [MeasurableSpace G] [BorelSpace G] [TauCeti.Amenable G]
+    [NonUnitalCStarAlgebra A] [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]
+    (α : CStarAction G A) (μ : Measure G) [μ.IsHaarMeasure] [μ.Regular]
+    (ρ : A →⋆ₙₐ[ℂ] (H →L[ℂ] H)) (hρ : Function.Injective ρ) :
+    Function.Injective ((CStarAction.CovariantRepresentation.regular α ρ μ).integratedFull μ) := by
+  sorry
+
 /-! ## D2.OrbitRepresentations: discrete orbits -/
 
-omit [TopologicalSpace G] [IsTopologicalGroup G] [MeasurableSpace G] [BorelSpace G]
-  [LocallyCompactSpace G] [T2Space G] in
 /-- Irreducibility of an orbit representation. On the Hilbert sum `ℓ²(I)` of a transitive
 `G`-set `I`, let `D f` be multiplication by a point-separating family of bounded functions and
 `U g` the permutation `ξ ↦ ξ(g⁻¹ ·)`. Every bounded operator commuting with all `D f` and all `U g`
 is a scalar: point separation kills the off-diagonal matrix coefficients, and transitivity makes
 the diagonal constant. No discreteness or countability of `I` is used. -/
-theorem transitive_commutant_scalar {I F : Type*} [MulAction G I]
+theorem transitive_commutant_scalar {G I F : Type*} [Group G] [MulAction G I]
     [Nonempty I] [MulAction.IsPretransitive G I]
     (value : F → I → ℂ)
     (hsep : ∀ i j : I, i ≠ j → ∃ f : F, value f i ≠ value f j)
@@ -206,7 +255,8 @@ theorem exists_powers_partition {ι : Type*} (a b : ι) (hab : a ≠ b)
 /-- The C*-algebra generated by a family of bounded operators: the norm closure of the unital
 star subalgebra they generate. For the left-regular unitaries of a discrete group this is the
 reduced group C*-algebra. -/
-def generatedCStarAlgebra {ι : Type*} (T : ι → (H →L[ℂ] H)) : StarSubalgebra ℂ (H →L[ℂ] H) :=
+def generatedCStarAlgebra {H ι : Type*} [NormedAddCommGroup H] [InnerProductSpace ℂ H]
+    [CompleteSpace H] (T : ι → (H →L[ℂ] H)) : StarSubalgebra ℂ (H →L[ℂ] H) :=
   (StarAlgebra.adjoin ℂ (Set.range T)).topologicalClosure
 
 /-- Powers's theorem: the reduced C*-algebra of a free group on a basis with two distinct
@@ -235,15 +285,41 @@ theorem reducedFreeGroup_trace_unique {ι : Type*} [DecidableEq ι] (a b : ι) (
         (lp.single 2 (1 : FreeGroup ι) (1 : ℂ))) := by
   sorry
 
+/-! ## D4.Harmonic: the Fourier isomorphism of the group C*-algebra and `C*(Ĝ) ≅ C₀(G)` -/
+
+/-- The Fourier isomorphism of the full group C*-algebra (Williams, Proposition 3.1, p. 82): for a
+locally compact Hausdorff abelian group `G` with a regular Haar measure `μ`, the full group
+C*-algebra `C*(G) = ℂ ⋊ G` is isomorphic to `C₀(Ĝ)` by a ⋆-isomorphism sending a compactly
+supported continuous `f` to its positive-character transform `χ ↦ ∫ f(g) χ(g) dμ(g)`. -/
+theorem exists_fullGroupCStarAlgebra_equiv_zeroAtInfty_dual {G : Type u} [CommGroup G]
+    [TopologicalSpace G] [IsTopologicalGroup G] [LocallyCompactSpace G] [T2Space G]
+    [MeasurableSpace G] [BorelSpace G] (μ : Measure G) [μ.IsHaarMeasure] [μ.Regular] :
+    ∃ e : CStarAction.FullCrossedProduct (CStarAction.trivial : CStarAction G ℂ) μ ≃⋆ₐ[ℂ]
+        C₀(PontryaginDual G, ℂ),
+      ∀ (f : C_c(G, ℂ)) (χ : PontryaginDual G),
+        e (CStarAction.FullCrossedProduct.of CStarAction.trivial μ
+            (CStarAction.ConvolutionAlgebra.toConv f)) χ =
+          ∫ g, f g * (χ g : ℂ) ∂μ := by
+  sorry
+
+/-- The identification `C*(Ĝ) ≅ C₀(G)`: for a locally compact Hausdorff abelian group `G` and a
+regular Haar measure `ν` on its dual, the full group C*-algebra of `Ĝ` is isomorphic to `C₀(G)` by
+a ⋆-isomorphism sending a compactly supported continuous `f` on `Ĝ` to the function
+`t ↦ ∫ f(χ) χ(t) dν(χ)`. It is the Fourier isomorphism of `Ĝ` composed with the Pontryagin
+duality isomorphism `G ≅ (Ĝ)^`, `t ↦ (χ ↦ χ(t))`. -/
+theorem exists_fullGroupCStarAlgebra_dual_equiv_zeroAtInfty {G : Type u} [CommGroup G]
+    [TopologicalSpace G] [IsTopologicalGroup G] [LocallyCompactSpace G] [T2Space G]
+    [MeasurableSpace (PontryaginDual G)] [BorelSpace (PontryaginDual G)]
+    (ν : Measure (PontryaginDual G)) [ν.IsHaarMeasure] [ν.Regular] :
+    ∃ e : CStarAction.FullCrossedProduct
+          (CStarAction.trivial : CStarAction (PontryaginDual G) ℂ) ν ≃⋆ₐ[ℂ] C₀(G, ℂ),
+      ∀ (f : C_c(PontryaginDual G, ℂ)) (t : G),
+        e (CStarAction.FullCrossedProduct.of CStarAction.trivial ν
+            (CStarAction.ConvolutionAlgebra.toConv f)) t =
+          ∫ χ, f χ * (χ t : ℂ) ∂ν := by
+  sorry
+
 /-! ## D4.LCAWeyl: the locally compact abelian Weyl classification -/
-
-section LCAWeyl
-
-universe u
-
-variable {K : Type*} [CommGroup K] [TopologicalSpace K] [IsTopologicalGroup K]
-  [LocallyCompactSpace K] [T2Space K] [MeasurableSpace K] [BorelSpace K]
-  {E : Type u} [NormedAddCommGroup E] [InnerProductSpace ℂ E] [CompleteSpace E]
 
 /-- The LCA Weyl classification (Williams, Theorems 4.24 and 4.29, pp. 133–137): for a locally
 compact Hausdorff abelian group `K` with a regular Haar measure `μ`, a strongly continuous unitary
@@ -253,7 +329,10 @@ Hilbert sum of copies of `L²(K, μ)` indexed by some set `ι`, the multiplicity
 Schrödinger pair: in every coordinate and almost everywhere `U_s` acts by `ξ(t) ↦ ξ(s⁻¹ t)` and
 `V_χ` by `ξ(t) ↦ χ(t) ξ(t)`. `ι` is empty for `E = 0`; nondegeneracy of the integrated form of
 `V` follows from strong continuity and is not a hypothesis. -/
-theorem lcaWeyl_classification (μ : Measure K) [μ.IsHaarMeasure] [μ.Regular]
+theorem lcaWeyl_classification {K : Type*} [CommGroup K] [TopologicalSpace K]
+    [IsTopologicalGroup K] [LocallyCompactSpace K] [T2Space K] [MeasurableSpace K] [BorelSpace K]
+    {E : Type u} [NormedAddCommGroup E] [InnerProductSpace ℂ E] [CompleteSpace E]
+    (μ : Measure K) [μ.IsHaarMeasure] [μ.Regular]
     (U : ContRepresentation ℂ K E) (hU : _root_.ContRepresentation.IsUnitary U)
     (hUc : ∀ ξ, Continuous fun s => U s ξ)
     (V : ContRepresentation ℂ (PontryaginDual K) E)
@@ -268,15 +347,14 @@ theorem lcaWeyl_classification (μ : Measure K) [μ.IsHaarMeasure] [μ.Regular]
         ((W (V χ ξ)) i : K → ℂ) =ᵐ[μ] fun t => (χ t : ℂ) * ((W ξ) i : K → ℂ) t) := by
   sorry
 
-end LCAWeyl
-
 /-! ## D6: concrete Cuntz families -/
 
 /-- The residue-class Cuntz family on a Hilbert space with a Hilbert basis indexed by `ℕ`: for
 `n ≥ 1` there are isometries `S_j`, `j < n`, with `S_j b_k = b_(nk+j)`, adjoints
 `S_j* b_k = b_(k/n)` when `k ≡ j (mod n)` and `0` otherwise, `S_i* S_j = δ_ij`, and
 `∑_j S_j S_j* = 1` as identities of continuous linear maps (Cuntz, §1). -/
-theorem exists_residue_family (b : HilbertBasis ℕ ℂ H) (n : ℕ) (hn : 0 < n) :
+theorem exists_residue_family {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℂ H]
+    [CompleteSpace H] (b : HilbertBasis ℕ ℂ H) (n : ℕ) (hn : 0 < n) :
     ∃ S : Fin n → (H →L[ℂ] H),
       (∀ (j : Fin n) (k : ℕ), S j (b k) = b (n * k + j.val)) ∧
       (∀ (j : Fin n) (k : ℕ),
@@ -288,52 +366,5 @@ theorem exists_residue_family (b : HilbertBasis ℕ ℂ H) (n : ℕ) (hn : 0 < n
       (∑ j : Fin n, (S j).comp (ContinuousLinearMap.adjoint (S j))) =
         (1 : H →L[ℂ] H) := by
   sorry
-
-/-! ## D7: KMS states -/
-
-section KMS
-
-variable [PartialOrder A]
-
-/-- A `β`-KMS state, one predicate for every real `β`: a positive functional `φ` of norm one such
-that for all `a, b` there is a bounded continuous function on the closed strip between the lines
-`Im z = 0` and `Im z = β`, holomorphic inside, with boundary values `F(t) = φ(a α_t(b))` and
-`F(t + iβ) = φ(α_t(b) a)`. For `β > 0` the strip is `0 ≤ Im z ≤ β` and for `β < 0` it is the
-reversed strip `β ≤ Im z ≤ 0`; for `β = 0` it is the real line with empty interior, the two
-boundary conditions say `φ(a α_t(b)) = φ(α_t(b) a)`, and the `0`-KMS states are the tracial
-states. The order on `A` is the C*-order, carried by `[StarOrderedRing A]`. -/
-def IsKMS [StarOrderedRing A] (α : Multiplicative ℝ →* (A ≃⋆ₐ[ℂ] A)) (β : ℝ)
-    (φ : A →P[ℂ] ℂ) : Prop :=
-  ‖(φ : A →L[ℂ] ℂ)‖ = 1 ∧ ∀ a b : A,
-    ∃ F : ℂ → ℂ,
-      ContinuousOn F {z | z.im ∈ Set.uIcc 0 β} ∧
-      DifferentiableOn ℂ F {z | z.im ∈ Set.uIoo 0 β} ∧
-      Bornology.IsBounded (F '' {z | z.im ∈ Set.uIcc 0 β}) ∧
-      (∀ t : ℝ, F t = φ (a * α (Multiplicative.ofAdd t) b)) ∧
-      ∀ t : ℝ, F ((t : ℂ) + (β : ℂ) * Complex.I) =
-        φ (α (Multiplicative.ofAdd t) b * a)
-
-/-- A KMS state at nonzero `β`, on either strip, is invariant under the dynamics; this is not a
-consequence of the trace condition at `β = 0`, which the evaluation states of the rotation action
-on `C(S¹)` satisfy without being invariant (Bratteli–Robinson, Proposition 5.3.3). -/
-theorem kms_invariant [StarOrderedRing A] (α : Multiplicative ℝ →* (A ≃⋆ₐ[ℂ] A))
-    (hα : ∀ a, Continuous fun t : ℝ => α (Multiplicative.ofAdd t) a)
-    {β : ℝ} (hβ : β ≠ 0) {φ : A →P[ℂ] ℂ} (hφ : IsKMS α β φ) (t : ℝ) (a : A) :
-    φ (α (Multiplicative.ofAdd t) a) = φ a := by
-  sorry
-
-/-- The analytic KMS identity, for every real `β`: if the orbit of `b` has an entire `A`-valued
-extension `F`, then `φ(a F(iβ)) = φ(b a)`, the strip function of `(a, b)` agreeing with
-`z ↦ φ(a F(z))` by reflection across the real axis; at `β = 0` it is the trace identity
-(Bratteli–Robinson, Proposition 5.3.7). -/
-theorem kms_entire_identity [StarOrderedRing A] (α : Multiplicative ℝ →* (A ≃⋆ₐ[ℂ] A))
-    (hα : ∀ a, Continuous fun t : ℝ => α (Multiplicative.ofAdd t) a)
-    {β : ℝ} {φ : A →P[ℂ] ℂ} (hφ : IsKMS α β φ)
-    (a b : A) (F : ℂ → A) (hF : Differentiable ℂ F)
-    (hreal : ∀ t : ℝ, F t = α (Multiplicative.ofAdd t) b) :
-    φ (a * F ((β : ℂ) * Complex.I)) = φ (b * a) := by
-  sorry
-
-end KMS
 
 end TauCetiRoadmap.OperatorAlgebraDynamics
