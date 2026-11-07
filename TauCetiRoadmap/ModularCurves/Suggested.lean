@@ -96,8 +96,8 @@ henselian local rings, and the predicate recognising henselizations.
 
 Headline theorems stated here: KM 2.5.1 (pointed morphisms are homomorphisms), KM 4.7.0
 (relatively representable, affine and rigid implies representable) and its consequence KM 4.7.2
-for the naive full-level problem (the smooth affine fine curve `Y_full(N)` for `N ≥ 3` over any
-base on which `N` is invertible), KM 5.1.1 (the Axiomatic Regularity Theorem) with the
+for the naive full-level problem (the smooth affine fine curve `Y_full(N)` for `N ≥ 3` over
+every base), KM 5.1.1 (the Axiomatic Regularity Theorem) with the
 ring-theoretic core of KM 5.3.4, the First Main Theorem for `[Γ(N)]` and for `[Γ₁(N)]` (KM 5.1.1
 applied to the pinned problems), the existence of the universal formal deformation (Layer 7D),
 KM 6.6.1 (`[Γ₀(N)]` is relatively representable, finite flat of constant positive rank and
@@ -541,6 +541,255 @@ theorem hasProperty_finite (Q : KatzMazurQuotientData P P' H) [IsNoetherianRing 
 
 end KatzMazurQuotientData
 
+/-! ## Layer 4D: the strict henselization of a local ring
+
+The strict henselization `R^{sh}` of a local ring `(R, 𝔪, κ)` with respect to a separable
+closure `Ω` of `κ` is Tau Ceti's `TauCeti.StrictHenselization.algebra R Ω`, the filtered colimit
+of the étale neighbourhoods of Stacks, Lemma 10.155.11 (04GW), pointed by an `R`-algebra map to
+`Ω`, with its map `toTarget : R^{sh} →ₐ[R] Ω`. The library proves that it is henselian local, that
+`R → R^{sh}` is local, that `𝔪 R^{sh}` is its maximal ideal and the kernel of `toTarget`, that
+`toTarget` is surjective, the universal property of Stacks, Lemma 10.153.11 (08HQ), the Stacks-form
+points of étale algebras (04GT) and functoriality (04GU); README 4D cites them. Strictly
+henselian local rings form the class `IsStrictlyHenselianLocalRing` (Stacks, Definition 10.153.1
+(04GF)), with an instance from the pair `HenselianLocalRing S` and
+`IsSepClosed (ResidueField S)`. Henselizations of every kind are recognised by one predicate,
+`IsHenselization ψ`, on an `R`-algebra map `ψ : A → L` to a field: `A` henselian local and
+ind-étale over `R`, `ψ` surjective. Stated below: the clauses of Stacks 04GP not at the pin, the
+recognition of the colimit as a henselization, the maps out of a henselization (Stacks 08HR) with
+the uniqueness of Stacks 08HT, and the strict henselization of a discrete valuation ring with its
+uniformizer. -/
+
+open TauCeti.StrictHenselization in
+/-- The residue field of the strict henselization is separably closed: it is `Ω` through the
+surjection `toTarget` with kernel the maximal ideal. Stacks, Lemma 10.155.2 (04GP), (2). -/
+@[stacks 04GP "(2), separably closed residue field"]
+theorem isSepClosed_residueField_strictHenselization (R Ω : Type u) [CommRing R] [IsLocalRing R]
+    [Field Ω] [Algebra R Ω] [Algebra (IsLocalRing.ResidueField R) Ω]
+    [IsScalarTower R (IsLocalRing.ResidueField R) Ω]
+    [IsSepClosure (IsLocalRing.ResidueField R) Ω] :
+    IsSepClosed (IsLocalRing.ResidueField (algebra R Ω)) :=
+  sorry
+
+open TauCeti.StrictHenselization in
+/-- **Noetherianity.** `R` is Noetherian iff `R^{sh}` is. Stacks, Lemma 15.46.3 (06LJ), the
+equivalence (1) ⇔ (3); its other clauses are README targets. -/
+@[stacks 06LJ "(1) iff (3)"]
+theorem isNoetherianRing_strictHenselization_iff (R Ω : Type u) [CommRing R] [IsLocalRing R]
+    [Field Ω] [Algebra R Ω] [Algebra (IsLocalRing.ResidueField R) Ω]
+    [IsScalarTower R (IsLocalRing.ResidueField R) Ω]
+    [IsSepClosure (IsLocalRing.ResidueField R) Ω] :
+    IsNoetherianRing R ↔ IsNoetherianRing (algebra R Ω) :=
+  sorry
+
+/-- A local ring is *strictly henselian* if it is henselian and its residue field is separably
+closed. Stacks, Definition 10.153.1 (04GF), (2). -/
+@[stacks 04GF "(2)"]
+class IsStrictlyHenselianLocalRing (S : Type*) [CommRing S] : Prop
+    extends HenselianLocalRing S where
+  /-- The residue field is separably closed. It is not an instance, as Mathlib's
+  `IsSepClosure.sep_closed` is not: with `of_isSepClosed` it would close a cycle of instances. -/
+  isSepClosed_residueField : IsSepClosed (IsLocalRing.ResidueField S)
+
+/-- A henselian local ring with separably closed residue field is strictly henselian, so a
+statement taking the class applies under the pair; in the other direction the parent instance
+gives `HenselianLocalRing S` and the field `isSepClosed_residueField`, supplied by name, gives
+`IsSepClosed (ResidueField S)`. -/
+instance IsStrictlyHenselianLocalRing.of_isSepClosed {S : Type*} [CommRing S]
+    [HenselianLocalRing S] [IsSepClosed (IsLocalRing.ResidueField S)] :
+    IsStrictlyHenselianLocalRing S where
+  isSepClosed_residueField := ‹_›
+
+/-- **Strictly henselian local rings.** For a local ring `S`, the class, the pair "henselian with
+separably closed residue field", and unique retractions of étale neighbourhoods of the closed
+point are equivalent: every étale `S`-algebra `T` with a prime `𝔮` over the maximal ideal has a
+unique `S`-algebra map `τ : T → S` with `τ⁻¹(𝔪) = 𝔮`. Stacks, Lemma 10.153.3 (04GG), (8), where
+`κ(𝔮) = κ` holds because the residue field is separably closed; conversely a retraction of the
+standard étale algebra of a lifted separable irreducible polynomial gives a root of it in `κ`. -/
+@[stacks 04GG "(1) iff (8), strictly henselian form"]
+theorem IsStrictlyHenselianLocalRing.tfae (S : Type u) [CommRing S] [IsLocalRing S] :
+    List.TFAE
+      [IsStrictlyHenselianLocalRing S,
+        HenselianLocalRing S ∧ IsSepClosed (IsLocalRing.ResidueField S),
+        ∀ (T : Type u) [CommRing T] [Algebra S T] [Algebra.Etale S T] (𝔮 : Ideal T) [𝔮.IsPrime],
+          𝔮.comap (algebraMap S T) = IsLocalRing.maximalIdeal S →
+            ∃! τ : T →ₐ[S] S, (IsLocalRing.maximalIdeal S).comap τ = 𝔮] :=
+  sorry
+
+open TauCeti.StrictHenselization in
+/-- The strict henselization is strictly henselian: henselian at the pin, with separably closed
+residue field by `isSepClosed_residueField_strictHenselization`. -/
+instance StrictHenselization.isStrictlyHenselianLocalRing_algebra {R Ω : Type u} [CommRing R]
+    [IsLocalRing R] [Field Ω] [Algebra R Ω] [Algebra (IsLocalRing.ResidueField R) Ω]
+    [IsScalarTower R (IsLocalRing.ResidueField R) Ω]
+    [IsSepClosure (IsLocalRing.ResidueField R) Ω] :
+    IsStrictlyHenselianLocalRing (algebra R Ω) where
+  isSepClosed_residueField := isSepClosed_residueField_strictHenselization R Ω
+
+/-- A *henselization* of the ring `R` at the field-valued point `R → L`, recognised by its
+properties: `A` is a henselian local ring, ind-étale over `R` (a small filtered colimit of étale
+`R`-algebras), and `ψ : A → L` is surjective, so that it identifies `L` with the residue field of
+`A`. Nothing is assumed of `R`: `A` is a henselization of `R` at the prime `ker (R → L)`. For `R`
+local with residue field `κ`, `L = κ` gives the henselization and a separable closure `L` of `κ`
+the strict henselization, Stacks, Definition 10.155.3 (04GQ); any two henselizations at the same
+point are uniquely isomorphic over `L`, Stacks, Lemma 10.154.7 (08HT)
+(`IsHenselization.existsUnique_comp_eq` with `IsHenselization.bijective_of_comp_eq`). -/
+@[stacks 04GQ "recognised by the properties of 08HT, at any field-valued point"]
+class IsHenselization {R A : Type u} {L : Type*} [CommRing R] [CommRing A] [Algebra R A]
+    [Field L] [Algebra R L] (ψ : A →ₐ[R] L) : Prop where
+  /-- `A` is a henselian local ring. -/
+  henselianLocalRing : HenselianLocalRing A
+  /-- `A` is a small filtered colimit of étale `R`-algebras. -/
+  indEtale : TauCeti.Algebra.IndEtale R A
+  /-- `ψ` is surjective, hence identifies `L` with the residue field of `A`. -/
+  surjective : Function.Surjective ψ
+
+open TauCeti.StrictHenselization in
+/-- For a local ring `R` and a separable algebraic extension `Ω` of its residue field, in
+particular a separable closure, the colimit of pointed étale neighbourhoods with its map
+`toTarget` is a henselization of `R` at `R → Ω`. It is henselian (`henselianLocalRing`), `toTarget`
+is surjective (`toTarget_surjective`), and it is ind-étale through its colimit presentation.
+Stacks, Lemma 10.155.2 (04GP) with Lemma 10.155.11 (04GW). -/
+@[stacks 04GP "(2), (5) and ind-étale, recognition form"]
+theorem StrictHenselization.isHenselization {R Ω : Type u} [CommRing R] [IsLocalRing R]
+    [Field Ω] [Algebra R Ω] [Algebra (IsLocalRing.ResidueField R) Ω]
+    [IsScalarTower R (IsLocalRing.ResidueField R) Ω]
+    [Algebra.IsSeparable (IsLocalRing.ResidueField R) Ω] :
+    IsHenselization (toTarget R Ω) :=
+  sorry
+
+attribute [instance] StrictHenselization.isHenselization
+
+/-- **Maps out of an ind-étale algebra into a henselian local ring.** If `A` is ind-étale over
+`R`, `ψ : A → L` is an `R`-algebra map to a field and `χ : B → L` is a surjective `R`-algebra map
+from a henselian local ring, there is exactly one `R`-algebra map `f : A → B` with `χ ∘ f = ψ`.
+Stacks, Lemma 10.154.6 (08HR), in its own generality: stage by stage (Lemma 10.153.11, 08HQ, over
+the localisation of `R` at `ker (R → L)`) for the prime `ker ψ` of the étale stage and the residue
+map into `L ≅ κ(B)`. Neither henselianity of `A` nor surjectivity of `ψ` is needed, so the theorem
+applies to every étale stage `A_i` of a henselization as well as to the henselization itself,
+which is how Layer 4D uses it. Without the surjectivity of `χ` there is in general no such map:
+`L` need not embed in `κ(B)` over `R`. For `A` the strict henselization `f` is Tau Ceti's
+`lift`. -/
+@[stacks 08HR "for an ind-étale algebra and the residue map induced by ψ and χ"]
+theorem IsHenselization.existsUnique_comp_eq {R A : Type u} {B L : Type*} [CommRing R]
+    [CommRing A] [Algebra R A] [TauCeti.Algebra.IndEtale R A] [CommRing B] [Algebra R B]
+    [HenselianLocalRing B] [Field L] [Algebra R L] (ψ : A →ₐ[R] L) (χ : B →ₐ[R] L)
+    (hχ : Function.Surjective χ) : ∃! f : A →ₐ[R] B, χ.comp f = ψ :=
+  sorry
+
+/-- **Uniqueness of henselizations.** If `ψ : A → L` and `χ : B → L` are henselizations of `R` at
+the same point, every `R`-algebra map `f : A → B` with `χ ∘ f = ψ` is bijective. With
+`existsUnique_comp_eq` applied to the ind-étale `A`, which gives that exactly one such `f` exists,
+this is Stacks,
+Lemma 10.154.7 (08HT); the comparison isomorphism is `AlgEquiv.ofBijective` of that map, for `A`
+the strict henselization of Tau Ceti's `lift`, and no isomorphism is chosen. -/
+@[stacks 08HT "bijectivity of every compatible map"]
+theorem IsHenselization.bijective_of_comp_eq {R A B : Type u} {L : Type*} [CommRing R]
+    [CommRing A] [Algebra R A] [CommRing B] [Algebra R B] [Field L] [Algebra R L]
+    (ψ : A →ₐ[R] L) (χ : B →ₐ[R] L) [IsHenselization ψ] [IsHenselization χ] (f : A →ₐ[R] B)
+    (hf : χ.comp f = ψ) : Function.Bijective f :=
+  sorry
+
+open TauCeti.StrictHenselization in
+/-- The strict henselization of a local normal domain is a domain. Stacks, Lemma 15.46.6 (06DI),
+which also gives that it is normal. -/
+@[stacks 06DI "domain part"]
+theorem StrictHenselization.isDomain_algebra {R Ω : Type u} [CommRing R] [IsDomain R]
+    [IsIntegrallyClosed R] [IsLocalRing R] [Field Ω] [Algebra R Ω]
+    [Algebra (IsLocalRing.ResidueField R) Ω] [IsScalarTower R (IsLocalRing.ResidueField R) Ω]
+    [IsSepClosure (IsLocalRing.ResidueField R) Ω] :
+    IsDomain (algebra R Ω) :=
+  sorry
+
+attribute [instance] StrictHenselization.isDomain_algebra
+
+open TauCeti.StrictHenselization in
+/-- **Discrete valuation rings.** The strict henselization of a discrete valuation ring is a
+discrete valuation ring, with the uniformizer of `R` as a uniformizer: it is a Noetherian local
+domain whose maximal ideal is generated by it (`maximalIdeal_eq_map`). Stacks, Lemma 15.46.11
+(0AP3), the direction from `R` to `R^{sh}`. -/
+@[stacks 0AP3 "from R to its strict henselization"]
+theorem StrictHenselization.isDiscreteValuationRing_algebra {R Ω : Type u} [CommRing R]
+    [IsDomain R] [IsDiscreteValuationRing R] [Field Ω] [Algebra R Ω]
+    [Algebra (IsLocalRing.ResidueField R) Ω] [IsScalarTower R (IsLocalRing.ResidueField R) Ω]
+    [IsSepClosure (IsLocalRing.ResidueField R) Ω] :
+    IsDiscreteValuationRing (algebra R Ω) :=
+  sorry
+
+open TauCeti.StrictHenselization in
+/-- **Uniformizers.** For a discrete valuation ring `R`, an irreducible element of `R`, that is a
+uniformizer, stays irreducible in the strict henselization, so it is a uniformizer of the discrete
+valuation ring `R^{sh}`: its image generates `𝔪 R^{sh}`, the maximal ideal
+(`maximalIdeal_eq_map`), and it is nonzero because `R → R^{sh}` is faithfully flat. Stacks,
+Lemma 15.46.11 (0AP3) with Lemma 10.155.2 (04GP), (4). -/
+@[stacks 0AP3 "a uniformizer of R is one of its strict henselization"]
+theorem StrictHenselization.irreducible_algebraMap {R Ω : Type u} [CommRing R] [IsDomain R]
+    [IsDiscreteValuationRing R] [Field Ω] [Algebra R Ω]
+    [Algebra (IsLocalRing.ResidueField R) Ω] [IsScalarTower R (IsLocalRing.ResidueField R) Ω]
+    [IsSepClosure (IsLocalRing.ResidueField R) Ω] {ϖ : R} (hϖ : Irreducible ϖ) :
+    Irreducible (algebraMap R (algebra R Ω) ϖ) :=
+  sorry
+
+/-- **Dimension of the completion.** Stacks, Lemma 15.44.1 (07NV). -/
+@[stacks 07NV]
+theorem ringKrullDim_adicCompletion (A : Type*) [CommRing A] [IsLocalRing A] [IsNoetherianRing A] :
+    ringKrullDim (AdicCompletion (IsLocalRing.maximalIdeal A) A) = ringKrullDim A := by
+  sorry
+
+/-- **Regularity of the completion.** A Noetherian local ring is regular iff its completion is.
+Stacks, Lemma 15.44.4 (07NY). -/
+@[stacks 07NY]
+theorem isRegularLocalRing_adicCompletion_iff (A : Type*) [CommRing A] [IsLocalRing A]
+    [IsNoetherianRing A] :
+    IsRegularLocalRing A ↔ IsRegularLocalRing (AdicCompletion (IsLocalRing.maximalIdeal A) A) := by
+  sorry
+
+/-! ## Layer 5B: the full ordered-basis scheme `Y_full(N)` -/
+
+/-- KM 4.7.0 with Corollary 4.7.2 for the naive full-level problem (Layer 5B): over every base
+`B`, for `N ≥ 3`, the pinned problem `ModuliProblem.gammaNaive B N`, relatively representable by
+the open naive locus of `E[N] ×_S E[N]` and rigid at the pin, étale, finite and surjective over
+`Ell/B` where `N` is invertible, is represented by an elliptic curve over a scheme `Y_full(N)`
+affine and smooth over `B`. For `B = Spec ℤ[1/N]` this is the fine curve `Y_full(N)/ℤ[1/N]`; over
+a general `B` the representing object is the base change of `Y_full(N)/ℤ[1/N]` along
+`B → Spec ℤ`, empty over the locus of `B` where `N` is not invertible, as the problem itself is
+there (a naive structure injective on a fibre of residue characteristic `p ∣ N` would embed
+`(ℤ/pℤ)²` in the `p`-torsion of that fibre, which has at most `p` points). -/
+theorem exists_representableBy_gammaNaive (B : Scheme.{u}) (N : ℕ) (h3 : 3 ≤ N) :
+    ∃ X : EllObj B, Nonempty ((ModuliProblem.gammaNaive B N).RepresentableBy X) ∧
+      IsAffineHom X.structureMap ∧ Smooth X.structureMap :=
+  sorry
+
+/-! ## Layer 5C: geometric irreducibility, the algebraic reduction
+
+The twisted-curve application is conditional on geometric connectedness. README Layer 5C
+specifies an external scheme–analytic comparison contract; it is not an imported theorem or a
+milestone already supplied by another roadmap. The declarations here prove only the algebraic
+implication from that explicit hypothesis.
+-/
+
+/-- A nonempty connected scheme, smooth of relative dimension one over a field, is irreducible.
+Smoothness over any field gives local noetherianness and regularity, hence normality; a connected
+locally noetherian normal scheme is irreducible. Layer 5C applies this with `K = ℚ̄`. -/
+theorem irreducibleSpace_of_connectedSpace {K : Type u} [Field K]
+    (Y : Scheme.{u}) (sY : Y ⟶ Spec (CommRingCat.of K))
+    [SmoothOfRelativeDimension 1 sY] [Nonempty Y] [ConnectedSpace Y] :
+    IrreducibleSpace Y :=
+  sorry
+
+/-- Geometric irreducibility of a smooth `ℚ`-curve, given geometric connectedness: the base
+change of a smooth morphism is smooth, and `hconn` contains the nonemptiness of the base change,
+so the leaf above applies over `ℚ̄` once `hconn` is supplied. This is the reduction Layer 5C
+applies to `Y(ρ)`. The hypothesis `hconn` is not proved here; the reference route described in README Layer 5C uses complex uniformisation and a
+scheme–analytic connectedness comparison. -/
+theorem irreducibleSpace_baseChange_algebraicClosure_of_connectedSpace
+    (Y : Scheme.{0}) (sY : Y ⟶ Spec (CommRingCat.of ℚ))
+    [SmoothOfRelativeDimension 1 sY]
+    (hconn : ConnectedSpace ↥(pullback sY
+      (Spec.map (CommRingCat.ofHom (algebraMap ℚ (AlgebraicClosure ℚ)))))) :
+    IrreducibleSpace ↥(pullback sY
+      (Spec.map (CommRingCat.ofHom (algebraMap ℚ (AlgebraicClosure ℚ))))) :=
+  sorry
+
 /-! ## Layer 7: the regularity axioms and the Axiomatic Regularity Theorem -/
 
 /-- An isomorphism of `p`-divisible groups `E[p^∞] ≅ E'[p^∞]`: a compatible system of
@@ -788,7 +1037,13 @@ theorem axiomaticRegularityOfQuotients {P P' : ModuliProblem (Spec intRing.{u})}
               (Q.mapRep X).left.finrank = fun _ ↦ Nat.card H :=
   sorry
 
-/-! ## Layer 9D–9E: coarse moduli schemes -/
+/-! ## Layer 9D: coarse moduli schemes and finite quotients
+
+Coarse-moduli data with its existence and quotient theorems (KM 8.1.1–8.1.5), and the generic
+theorem behind the interior smoothness of the compactified curves of README Layer 10, stated for
+an arbitrary categorical quotient of a smooth affine relative curve over a locally noetherian base
+with regular local rings. Its application to `Y₁(N)/ℤ[1/N]` with its diamond action, giving the
+smoothness of every `Y_H`, is README Layer 9D; no modular object occurs in that signature. -/
 
 /-- Coarse-moduli data for a moduli problem (KM 8.1.1–8.1.3.1): a scheme `M(𝒫)` over `R`, natural
 classifying maps `S ⟶ M(𝒫)` for objects of `𝒫`, the universal property among such families of
@@ -821,6 +1076,32 @@ theorem exists_coarseModuliData {R : CommRingCat.{u}} (P : ModuliProblem (Spec R
     (D : P.RelRepData) (hD : D.HasProperty @IsAffineHom) : Nonempty (CoarseModuliData P) :=
   sorry
 
+/-- KM 8.1.5: `M(𝒫)/H ≅ M(𝒫/H)`. The action of `H` on `M(𝒫)` is the one induced by the
+universal property, and the comparison is compatible with classifying maps. -/
+theorem coarseModuli_quotient {R : CommRingCat.{u}} {P P' : ModuliProblem (Spec R)} {H : Type u}
+    [Group H] [Finite H] (Q : KatzMazurQuotientData P P' H)
+    (hP : Q.relRep.HasProperty @IsAffineHom) (M : CoarseModuliData P) (M' : CoarseModuliData P') :
+    ∃ (ρ : H →* Aut (Over.mk M.structureMap))
+      (q : Over.mk M.structureMap ⟶ Over.mk M'.structureMap),
+      (∀ (h : H) X α, M.classify X α ≫ (ρ h).asIso.hom.left =
+        M.classify X ((Q.act h).asIso.hom.app _ α)) ∧
+        (∀ X α, M.classify X α ≫ q.left = M'.classify X (Q.q.app _ α)) ∧
+          IsCategoricalQuotient ρ q :=
+  sorry
+
+/-- KM, Notes Added in Proof, pp. 508–509: a finite quotient of a smooth affine relative curve
+over a locally noetherian base with regular local rings is again a smooth relative curve. No
+invertibility of the order of `H` on the base is assumed, which is what makes the statement
+usable in residue characteristics `2` and `3`. -/
+theorem smoothOfRelativeDimension_one_of_isCategoricalQuotient {S Y Q : Scheme.{u}}
+    [IsLocallyNoetherian S] (_hS : ∀ s : S, IsRegularLocalRing (S.presheaf.stalk s))
+    (f : Y ⟶ S) [IsAffineHom f] [SmoothOfRelativeDimension 1 f] (g : Q ⟶ S)
+    {H : Type u} [Group H] [Finite H] (ρ : H →* Aut (Over.mk f)) (q : Over.mk f ⟶ Over.mk g)
+    (_hq : IsCategoricalQuotient ρ q) : SmoothOfRelativeDimension 1 g :=
+  sorry
+
+/-! ## Layer 9E: the coarse `j`-line, `Y₀(N)` and invariant rings -/
+
 /-- KM 8.2.1 over `ℤ` (Layer 9E): the coarse moduli scheme of the trivial problem `[Γ(1)]`, the
 pinned `ModuliProblem.gamma (Spec ℤ) 1`, is the `j`-line `Spec ℤ[j]`, and under that
 identification the classifying map of every elliptic curve `E/S` is its `j`-invariant
@@ -842,19 +1123,6 @@ theorem exists_coarseModuliData_gamma_one_of_ring (R : CommRingCat.{u}) :
         ∀ X α, M.classify X α ≫ e.hom = prod.lift X.curve.jMap X.structureMap :=
   sorry
 
-/-- KM 8.1.5: `M(𝒫)/H ≅ M(𝒫/H)`. The action of `H` on `M(𝒫)` is the one induced by the
-universal property, and the comparison is compatible with classifying maps. -/
-theorem coarseModuli_quotient {R : CommRingCat.{u}} {P P' : ModuliProblem (Spec R)} {H : Type u}
-    [Group H] [Finite H] (Q : KatzMazurQuotientData P P' H)
-    (hP : Q.relRep.HasProperty @IsAffineHom) (M : CoarseModuliData P) (M' : CoarseModuliData P') :
-    ∃ (ρ : H →* Aut (Over.mk M.structureMap))
-      (q : Over.mk M.structureMap ⟶ Over.mk M'.structureMap),
-      (∀ (h : H) X α, M.classify X α ≫ (ρ h).asIso.hom.left =
-        M.classify X ((Q.act h).asIso.hom.app _ α)) ∧
-        (∀ X α, M.classify X α ≫ q.left = M'.classify X (Q.q.app _ α)) ∧
-          IsCategoricalQuotient ρ q :=
-  sorry
-
 /-- Base change of the kernel of a linear map into a flat module over a principal ideal domain:
 if the cokernel of `f` is torsion-free, then for every `D`-algebra `R` the kernel of `f ⊗ R` is
 the base change of the kernel of `f`. The source `M` need not be flat: the image of `f` is a
@@ -869,276 +1137,6 @@ theorem ker_baseChange_of_noZeroSMulDivisors_coker {D : Type u} [CommRing D] [Is
     [NoZeroSMulDivisors D (N ⧸ LinearMap.range f)] (R : Type u) [CommRing R] [Algebra D R] :
     LinearMap.ker (LinearMap.baseChange R f) =
       LinearMap.range (LinearMap.baseChange R (LinearMap.ker f).subtype) :=
-  sorry
-
-/-! ## Layer 9D: smoothness of finite quotients
-
-The generic theorem behind the interior smoothness of the compactified curves of README Layer 10,
-stated for an arbitrary categorical quotient of a smooth affine relative curve over a locally
-noetherian base with regular local rings. Its application to `Y₁(N)/ℤ[1/N]` with its diamond
-action, giving the smoothness of every `Y_H`, is README Layer 9D; no modular object occurs in the
-signature. -/
-
-section Layer9D
-
-/-- KM, Notes Added in Proof, pp. 508–509: a finite quotient of a smooth affine relative curve
-over a locally noetherian base with regular local rings is again a smooth relative curve. No
-invertibility of the order of `H` on the base is assumed, which is what makes the statement
-usable in residue characteristics `2` and `3`. -/
-theorem smoothOfRelativeDimension_one_of_isCategoricalQuotient {S Y Q : Scheme.{u}}
-    [IsLocallyNoetherian S] (_hS : ∀ s : S, IsRegularLocalRing (S.presheaf.stalk s))
-    (f : Y ⟶ S) [IsAffineHom f] [SmoothOfRelativeDimension 1 f] (g : Q ⟶ S)
-    {H : Type u} [Group H] [Finite H] (ρ : H →* Aut (Over.mk f)) (q : Over.mk f ⟶ Over.mk g)
-    (_hq : IsCategoricalQuotient ρ q) : SmoothOfRelativeDimension 1 g :=
-  sorry
-
-end Layer9D
-
-/-! ## Layer 5B: the full ordered-basis scheme `Y_full(N)` -/
-
-/-- KM 4.7.0 with Corollary 4.7.2 for the naive full-level problem (Layer 5B): over a base `B` on
-which `N ≥ 3` is invertible, the pinned problem `ModuliProblem.gammaNaive B N`, relatively
-representable by the open naive locus of `E[N] ×_S E[N]`, étale, finite and surjective over
-`Ell/B` and rigid at the pin, is represented by an elliptic curve over a scheme `Y_full(N)` affine
-and smooth over `B`. For `B = Spec ℤ[1/N]` this is the fine curve `Y_full(N)/ℤ[1/N]`; over a
-general such `B` the representing object is its base change. -/
-theorem exists_representableBy_gammaNaive (B : Scheme.{u}) (N : ℕ)
-    (hN : ∀ b : B, (N : B.residueField b) ≠ 0) (h3 : 3 ≤ N) :
-    ∃ X : EllObj B, Nonempty ((ModuliProblem.gammaNaive B N).RepresentableBy X) ∧
-      IsAffineHom X.structureMap ∧ Smooth X.structureMap :=
-  sorry
-
-/-! ## Layer 5C: geometric irreducibility, the algebraic reduction
-
-The twisted-curve application is conditional on geometric connectedness. README Layer 5C
-specifies an external scheme–analytic comparison contract; it is not an imported theorem or a
-milestone already supplied by another roadmap. The declarations here prove only the algebraic
-implication from that explicit hypothesis.
--/
-
-/-- A nonempty connected scheme, smooth of relative dimension one over a field, is irreducible.
-Smoothness over any field gives local noetherianness and regularity, hence normality; a connected
-locally noetherian normal scheme is irreducible. Layer 5C applies this with `K = ℚ̄`. -/
-theorem irreducibleSpace_of_connectedSpace {K : Type u} [Field K]
-    (Y : Scheme.{u}) (sY : Y ⟶ Spec (CommRingCat.of K))
-    [SmoothOfRelativeDimension 1 sY] [Nonempty Y] [ConnectedSpace Y] :
-    IrreducibleSpace Y :=
-  sorry
-
-/-- Geometric irreducibility of a smooth `ℚ`-curve, given geometric connectedness: the base
-change of a smooth morphism is smooth, and `hconn` contains the nonemptiness of the base change,
-so the leaf above applies over `ℚ̄` once `hconn` is supplied. This is the reduction Layer 5C
-applies to `Y(ρ)`. The hypothesis `hconn` is not proved here; the reference route described in README Layer 5C uses complex uniformisation and a
-scheme–analytic connectedness comparison. -/
-theorem irreducibleSpace_baseChange_algebraicClosure_of_connectedSpace
-    (Y : Scheme.{0}) (sY : Y ⟶ Spec (CommRingCat.of ℚ))
-    [SmoothOfRelativeDimension 1 sY]
-    (hconn : ConnectedSpace ↥(pullback sY
-      (Spec.map (CommRingCat.ofHom (algebraMap ℚ (AlgebraicClosure ℚ)))))) :
-    IrreducibleSpace ↥(pullback sY
-      (Spec.map (CommRingCat.ofHom (algebraMap ℚ (AlgebraicClosure ℚ))))) :=
-  sorry
-
-/-! ## Layer 4D: the strict henselization of a local ring
-
-The strict henselization `R^{sh}` of a local ring `(R, 𝔪, κ)` with respect to a separable
-closure `Ω` of `κ` is Tau Ceti's `TauCeti.StrictHenselization.algebra R Ω`, the filtered colimit
-of the étale neighbourhoods of Stacks, Lemma 10.155.11 (04GW), pointed by an `R`-algebra map to
-`Ω`, with its map `toTarget : R^{sh} →ₐ[R] Ω`. The library proves that it is henselian local, that
-`R → R^{sh}` is local, that `𝔪 R^{sh}` is its maximal ideal and the kernel of `toTarget`, that
-`toTarget` is surjective, the universal property of Stacks, Lemma 10.153.11 (08HQ), the Stacks-form
-points of étale algebras (04GT) and functoriality (04GU); README 4D cites them. Strictly
-henselian local rings form the class `IsStrictlyHenselianLocalRing` (Stacks, Definition 10.153.1
-(04GF)), with an instance from the pair `HenselianLocalRing S` and
-`IsSepClosed (ResidueField S)`. Henselizations of every kind are recognised by one predicate,
-`IsHenselization ψ`, on an `R`-algebra map `ψ : A → L` to a field: `A` henselian local and
-ind-étale over `R`, `ψ` surjective. Stated below: the clauses of Stacks 04GP not at the pin, the
-recognition of the colimit as a henselization, the maps out of a henselization (Stacks 08HR) with
-the uniqueness of Stacks 08HT, and the strict henselization of a discrete valuation ring with its
-uniformizer. -/
-
-open TauCeti.StrictHenselization in
-/-- The residue field of the strict henselization is separably closed: it is `Ω` through the
-surjection `toTarget` with kernel the maximal ideal. Stacks, Lemma 10.155.2 (04GP), (2). -/
-@[stacks 04GP "(2), separably closed residue field"]
-theorem isSepClosed_residueField_strictHenselization (R Ω : Type u) [CommRing R] [IsLocalRing R]
-    [Field Ω] [Algebra R Ω] [Algebra (IsLocalRing.ResidueField R) Ω]
-    [IsScalarTower R (IsLocalRing.ResidueField R) Ω]
-    [IsSepClosure (IsLocalRing.ResidueField R) Ω] :
-    IsSepClosed (IsLocalRing.ResidueField (algebra R Ω)) :=
-  sorry
-
-open TauCeti.StrictHenselization in
-/-- **Noetherianity.** `R` is Noetherian iff `R^{sh}` is. Stacks, Lemma 15.46.3 (06LJ), the
-equivalence (1) ⇔ (3); its other clauses are README targets. -/
-@[stacks 06LJ "(1) iff (3)"]
-theorem isNoetherianRing_strictHenselization_iff (R Ω : Type u) [CommRing R] [IsLocalRing R]
-    [Field Ω] [Algebra R Ω] [Algebra (IsLocalRing.ResidueField R) Ω]
-    [IsScalarTower R (IsLocalRing.ResidueField R) Ω]
-    [IsSepClosure (IsLocalRing.ResidueField R) Ω] :
-    IsNoetherianRing R ↔ IsNoetherianRing (algebra R Ω) :=
-  sorry
-
-/-- A local ring is *strictly henselian* if it is henselian and its residue field is separably
-closed. Stacks, Definition 10.153.1 (04GF), (2). -/
-@[stacks 04GF "(2)"]
-class IsStrictlyHenselianLocalRing (S : Type*) [CommRing S] : Prop
-    extends HenselianLocalRing S where
-  /-- The residue field is separably closed. It is not an instance, as Mathlib's
-  `IsSepClosure.sep_closed` is not: with `of_isSepClosed` it would close a cycle of instances. -/
-  isSepClosed_residueField : IsSepClosed (IsLocalRing.ResidueField S)
-
-/-- A henselian local ring with separably closed residue field is strictly henselian, so a
-statement taking the class applies under the pair; in the other direction the parent instance
-gives `HenselianLocalRing S` and the field `isSepClosed_residueField`, supplied by name, gives
-`IsSepClosed (ResidueField S)`. -/
-instance IsStrictlyHenselianLocalRing.of_isSepClosed {S : Type*} [CommRing S]
-    [HenselianLocalRing S] [IsSepClosed (IsLocalRing.ResidueField S)] :
-    IsStrictlyHenselianLocalRing S where
-  isSepClosed_residueField := ‹_›
-
-/-- **Strictly henselian local rings.** For a local ring `S`, the class, the pair "henselian with
-separably closed residue field", and unique retractions of étale neighbourhoods of the closed
-point are equivalent: every étale `S`-algebra `T` with a prime `𝔮` over the maximal ideal has a
-unique `S`-algebra map `τ : T → S` with `τ⁻¹(𝔪) = 𝔮`. Stacks, Lemma 10.153.3 (04GG), (8), where
-`κ(𝔮) = κ` holds because the residue field is separably closed; conversely a retraction of the
-standard étale algebra of a lifted separable irreducible polynomial gives a root of it in `κ`. -/
-@[stacks 04GG "(1) iff (8), strictly henselian form"]
-theorem IsStrictlyHenselianLocalRing.tfae (S : Type u) [CommRing S] [IsLocalRing S] :
-    List.TFAE
-      [IsStrictlyHenselianLocalRing S,
-        HenselianLocalRing S ∧ IsSepClosed (IsLocalRing.ResidueField S),
-        ∀ (T : Type u) [CommRing T] [Algebra S T] [Algebra.Etale S T] (𝔮 : Ideal T) [𝔮.IsPrime],
-          𝔮.comap (algebraMap S T) = IsLocalRing.maximalIdeal S →
-            ∃! τ : T →ₐ[S] S, (IsLocalRing.maximalIdeal S).comap τ = 𝔮] :=
-  sorry
-
-open TauCeti.StrictHenselization in
-/-- The strict henselization is strictly henselian: henselian at the pin, with separably closed
-residue field by `isSepClosed_residueField_strictHenselization`. -/
-instance StrictHenselization.isStrictlyHenselianLocalRing_algebra {R Ω : Type u} [CommRing R]
-    [IsLocalRing R] [Field Ω] [Algebra R Ω] [Algebra (IsLocalRing.ResidueField R) Ω]
-    [IsScalarTower R (IsLocalRing.ResidueField R) Ω]
-    [IsSepClosure (IsLocalRing.ResidueField R) Ω] :
-    IsStrictlyHenselianLocalRing (algebra R Ω) where
-  isSepClosed_residueField := isSepClosed_residueField_strictHenselization R Ω
-
-/-- A *henselization* of the ring `R` at the field-valued point `R → L`, recognised by its
-properties: `A` is a henselian local ring, ind-étale over `R` (a small filtered colimit of étale
-`R`-algebras), and `ψ : A → L` is surjective, so that it identifies `L` with the residue field of
-`A`. Nothing is assumed of `R`: `A` is a henselization of `R` at the prime `ker (R → L)`. For `R`
-local with residue field `κ`, `L = κ` gives the henselization and a separable closure `L` of `κ`
-the strict henselization, Stacks, Definition 10.155.3 (04GQ); any two henselizations at the same
-point are uniquely isomorphic over `L`, Stacks, Lemma 10.154.7 (08HT)
-(`IsHenselization.existsUnique_comp_eq` with `IsHenselization.bijective_of_comp_eq`). -/
-@[stacks 04GQ "recognised by the properties of 08HT, at any field-valued point"]
-class IsHenselization {R A : Type u} {L : Type*} [CommRing R] [CommRing A] [Algebra R A]
-    [Field L] [Algebra R L] (ψ : A →ₐ[R] L) : Prop where
-  /-- `A` is a henselian local ring. -/
-  henselianLocalRing : HenselianLocalRing A
-  /-- `A` is a small filtered colimit of étale `R`-algebras. -/
-  indEtale : TauCeti.Algebra.IndEtale R A
-  /-- `ψ` is surjective, hence identifies `L` with the residue field of `A`. -/
-  surjective : Function.Surjective ψ
-
-open TauCeti.StrictHenselization in
-/-- For a local ring `R` and a separable algebraic extension `Ω` of its residue field, in
-particular a separable closure, the colimit of pointed étale neighbourhoods with its map
-`toTarget` is a henselization of `R` at `R → Ω`. It is henselian (`henselianLocalRing`), `toTarget`
-is surjective (`toTarget_surjective`), and it is ind-étale through its colimit presentation.
-Stacks, Lemma 10.155.2 (04GP) with Lemma 10.155.11 (04GW). -/
-@[stacks 04GP "(2), (5) and ind-étale, recognition form"]
-theorem StrictHenselization.isHenselization {R Ω : Type u} [CommRing R] [IsLocalRing R]
-    [Field Ω] [Algebra R Ω] [Algebra (IsLocalRing.ResidueField R) Ω]
-    [IsScalarTower R (IsLocalRing.ResidueField R) Ω]
-    [Algebra.IsSeparable (IsLocalRing.ResidueField R) Ω] :
-    IsHenselization (toTarget R Ω) :=
-  sorry
-
-attribute [instance] StrictHenselization.isHenselization
-
-/-- **Maps out of an ind-étale algebra into a henselian local ring.** If `A` is ind-étale over
-`R`, `ψ : A → L` is an `R`-algebra map to a field and `χ : B → L` is a surjective `R`-algebra map
-from a henselian local ring, there is exactly one `R`-algebra map `f : A → B` with `χ ∘ f = ψ`.
-Stacks, Lemma 10.154.6 (08HR), in its own generality: stage by stage (Lemma 10.153.11, 08HQ, over
-the localisation of `R` at `ker (R → L)`) for the prime `ker ψ` of the étale stage and the residue
-map into `L ≅ κ(B)`. Neither henselianity of `A` nor surjectivity of `ψ` is needed, so the theorem
-applies to every étale stage `A_i` of a henselization as well as to the henselization itself,
-which is how Layer 4D uses it. Without the surjectivity of `χ` there is in general no such map:
-`L` need not embed in `κ(B)` over `R`. For `A` the strict henselization `f` is Tau Ceti's
-`lift`. -/
-@[stacks 08HR "for an ind-étale algebra and the residue map induced by ψ and χ"]
-theorem IsHenselization.existsUnique_comp_eq {R A : Type u} {B L : Type*} [CommRing R]
-    [CommRing A] [Algebra R A] [TauCeti.Algebra.IndEtale R A] [CommRing B] [Algebra R B]
-    [HenselianLocalRing B] [Field L] [Algebra R L] (ψ : A →ₐ[R] L) (χ : B →ₐ[R] L)
-    (hχ : Function.Surjective χ) : ∃! f : A →ₐ[R] B, χ.comp f = ψ :=
-  sorry
-
-/-- **Uniqueness of henselizations.** If `ψ : A → L` and `χ : B → L` are henselizations of `R` at
-the same point, every `R`-algebra map `f : A → B` with `χ ∘ f = ψ` is bijective. With
-`existsUnique_comp_eq` applied to the ind-étale `A`, which gives that exactly one such `f` exists,
-this is Stacks,
-Lemma 10.154.7 (08HT); the comparison isomorphism is `AlgEquiv.ofBijective` of that map, for `A`
-the strict henselization of Tau Ceti's `lift`, and no isomorphism is chosen. -/
-@[stacks 08HT "bijectivity of every compatible map"]
-theorem IsHenselization.bijective_of_comp_eq {R A B : Type u} {L : Type*} [CommRing R]
-    [CommRing A] [Algebra R A] [CommRing B] [Algebra R B] [Field L] [Algebra R L]
-    (ψ : A →ₐ[R] L) (χ : B →ₐ[R] L) [IsHenselization ψ] [IsHenselization χ] (f : A →ₐ[R] B)
-    (hf : χ.comp f = ψ) : Function.Bijective f :=
-  sorry
-
-open TauCeti.StrictHenselization in
-/-- The strict henselization of a local normal domain is a domain. Stacks, Lemma 15.46.6 (06DI),
-which also gives that it is normal. -/
-@[stacks 06DI "domain part"]
-theorem StrictHenselization.isDomain_algebra {R Ω : Type u} [CommRing R] [IsDomain R]
-    [IsIntegrallyClosed R] [IsLocalRing R] [Field Ω] [Algebra R Ω]
-    [Algebra (IsLocalRing.ResidueField R) Ω] [IsScalarTower R (IsLocalRing.ResidueField R) Ω]
-    [IsSepClosure (IsLocalRing.ResidueField R) Ω] :
-    IsDomain (algebra R Ω) :=
-  sorry
-
-attribute [instance] StrictHenselization.isDomain_algebra
-
-open TauCeti.StrictHenselization in
-/-- **Discrete valuation rings.** The strict henselization of a discrete valuation ring is a
-discrete valuation ring, with the uniformizer of `R` as a uniformizer: it is a Noetherian local
-domain whose maximal ideal is generated by it (`maximalIdeal_eq_map`). Stacks, Lemma 15.46.11
-(0AP3), the direction from `R` to `R^{sh}`. -/
-@[stacks 0AP3 "from R to its strict henselization"]
-theorem StrictHenselization.isDiscreteValuationRing_algebra {R Ω : Type u} [CommRing R]
-    [IsDomain R] [IsDiscreteValuationRing R] [Field Ω] [Algebra R Ω]
-    [Algebra (IsLocalRing.ResidueField R) Ω] [IsScalarTower R (IsLocalRing.ResidueField R) Ω]
-    [IsSepClosure (IsLocalRing.ResidueField R) Ω] :
-    IsDiscreteValuationRing (algebra R Ω) :=
-  sorry
-
-open TauCeti.StrictHenselization in
-/-- **Uniformizers.** For a discrete valuation ring `R`, an irreducible element of `R`, that is a
-uniformizer, stays irreducible in the strict henselization, so it is a uniformizer of the discrete
-valuation ring `R^{sh}`: its image generates `𝔪 R^{sh}`, the maximal ideal
-(`maximalIdeal_eq_map`), and it is nonzero because `R → R^{sh}` is faithfully flat. Stacks,
-Lemma 15.46.11 (0AP3) with Lemma 10.155.2 (04GP), (4). -/
-@[stacks 0AP3 "a uniformizer of R is one of its strict henselization"]
-theorem StrictHenselization.irreducible_algebraMap {R Ω : Type u} [CommRing R] [IsDomain R]
-    [IsDiscreteValuationRing R] [Field Ω] [Algebra R Ω]
-    [Algebra (IsLocalRing.ResidueField R) Ω] [IsScalarTower R (IsLocalRing.ResidueField R) Ω]
-    [IsSepClosure (IsLocalRing.ResidueField R) Ω] {ϖ : R} (hϖ : Irreducible ϖ) :
-    Irreducible (algebraMap R (algebra R Ω) ϖ) :=
-  sorry
-
-/-- **Dimension of the completion.** Stacks, Lemma 15.44.1 (07NV). -/
-@[stacks 07NV]
-theorem ringKrullDim_adicCompletion (A : Type*) [CommRing A] [IsLocalRing A] [IsNoetherianRing A] :
-    ringKrullDim (AdicCompletion (IsLocalRing.maximalIdeal A) A) = ringKrullDim A := by
-  sorry
-
-/-- **Regularity of the completion.** A Noetherian local ring is regular iff its completion is.
-Stacks, Lemma 15.44.4 (07NY). -/
-@[stacks 07NY]
-theorem isRegularLocalRing_adicCompletion_iff (A : Type*) [CommRing A] [IsLocalRing A]
-    [IsNoetherianRing A] :
-    IsRegularLocalRing A ↔ IsRegularLocalRing (AdicCompletion (IsLocalRing.maximalIdeal A) A) := by
   sorry
 
 end TauCetiRoadmap.ModularCurves

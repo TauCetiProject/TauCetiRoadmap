@@ -2196,11 +2196,20 @@ For `N ≥ 3`, the rigidity of the naive full-level problem (KM 2.7.2, `isRigid_
 relative representability by the open full-level locus in `E[N]×_S E[N]`, étale, finite and
 surjective over `Ell/B` where `N` is invertible (KM 3.7.1, Layer 3N), are at the pin. Prove its
 representability by an elliptic curve over a scheme `Y_full(N)` affine and smooth over `B`, for
-every base `B` on which `N` is invertible, in particular over `ℤ[1/N]` (KM 4.7.0 and Corollary
-4.7.2): `exists_representableBy_gammaNaive` in `Suggested.lean`, the application of
+every base `B`, in particular over `ℤ[1/N]` (KM 4.7.0 and Corollary 4.7.2):
+`exists_representableBy_gammaNaive` in `Suggested.lean`. Over `ℤ[1/N]` this is the application of
 `exists_representableBy_of_isRigid` of Layer 4C together with the smoothness of the rigidified
 scheme, which is finite étale over the smooth Weierstrass base of the rigidifier. Over a general
-such `B` the representing object is the base change of `Y_full(N)/ℤ[1/N]`.
+`B` the representing object is the base change of `Y_full(N)/ℤ[1/N]` along `B → Spec ℤ`, affine
+and smooth over `B` as the base change of the composite `Y_full(N) → Spec ℤ[1/N] → Spec ℤ` of an
+affine smooth morphism with the open immersion of a principal open. It represents
+`gammaNaive B N` on all of `Ell/B`: an object `E/S` of `Ell/B` with a point of residue
+characteristic `p ∣ N` carries no naive structure, because a homomorphism `(ℤ/Nℤ)² → E(S)`
+injective on the fibre over that point would embed `(ℤ/pℤ)²`, of order `p²`, in the `p`-torsion
+of that fibre, which has at most `p` points; and `S` admits no map to `Y_full(N)` either, its
+structure map to `Spec ℤ` not factoring through `Spec ℤ[1/N]`. Both sides are empty there, and
+over the open locus of `B` where `N` is invertible both sides are the naive structures of the
+representability over `ℤ[1/N]`.
 
 Define `μ_N^prim` by the cyclotomic polynomial `Φ_N`, and prove that over `ℤ[1/N]` it is the
 open-and-closed exact-order-`N` locus in `μ_N`, finite étale of rank `φ(N)`. Construct:
