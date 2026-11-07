@@ -989,9 +989,10 @@ bundle glued by Milestone 7 from a holomorphic `GL_r` cocycle. Conversely recons
 `F`-bundle from a locally free `𝒪`-module of rank `r` at every point, transporting its local
 bases to `F`. Prove the section/reconstruction equivalence, including morphisms and pullbacks.
 This fixed-model theorem does not identify a varying-rank sheaf with a single
-`VectorBundle ℂ F E`; 4.4 supplies the locally finite-rank scope. ComplexComparisonPartII C−1.1, C0.4
-and C5.1–C5.2 and FormalConnectionsOpers F2.4 consume this layer's holomorphic bundle and
-connection carriers for analytification; this layer constructs no algebraic analytification.
+`VectorBundle ℂ F E`; 4.4 supplies the locally finite-rank scope.
+ComplexComparisonPartII C−1.1, C0.4 and C5.1–C5.2 and FormalConnectionsOpers F2.4 consume this
+layer's holomorphic bundle and connection carriers for analytification; this layer constructs no
+algebraic analytification.
 
 **Checks.**
 

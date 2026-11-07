@@ -1,6 +1,8 @@
-import Mathlib
-import TauCeti.FieldTheory.FunctionField.ConstantExtension.Algebraic
-import TauCeti.FieldTheory.FunctionField.RiemannRoch.Genus
+module
+
+public import Mathlib
+public import TauCeti.FieldTheory.FunctionField.ConstantExtension.Algebraic
+public import TauCeti.FieldTheory.FunctionField.RiemannRoch.Genus
 
 /-!
 # Algebraic curves — function fields, divisors, and Riemann–Roch: target signatures
@@ -32,6 +34,8 @@ Headline theorems that are not statable at the pins, with the missing carrier:
   regular projective model attached to a function field and no category of regular
   projective curves over a field.
 -/
+
+@[expose] public section
 
 namespace TauCetiRoadmap.AlgebraicCurves
 
@@ -92,3 +96,5 @@ theorem finite_algEquiv_of_two_le_genus {k : Type u} {F : Type v} [Field k] [Fie
   sorry
 
 end TauCetiRoadmap.AlgebraicCurves
+
+end

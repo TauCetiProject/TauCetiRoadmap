@@ -17,16 +17,17 @@ finite-rank category, locally constant ranks, finite embeddings, metrics,
 Grassmannians, Stiefel spaces and numerable BO/BU classification are
 [TopologicalKTheory T1](../TopologicalKTheory/README.md)
 dependencies. Its T6.4 supplies continuous principal/associated bundles and
-descent. Use TopK T1.5's actual finite real Grassmannians and tautological bundles.
-C1.0 and C1.1a construct their positive-rank oriented double covers, lifted
-finite cells and coordinate maps. TopK T1.6a owns the fixed-rank and stable
-colimits, universal-bundle diagrams and classifier comparison on those
-carriers. HomotopySpheres §3A and §4A
+descent. Use TopK T1.5's actual finite real Grassmannians and tautological bundles,
+and TopK T1.6a's positive-rank finite oriented carriers (orthonormal-frame
+quotients by SO(n)), their lifted finite cells and coordinate maps, and the
+fixed-rank and stable colimits, universal-bundle diagrams and classifier
+comparison on those carriers. C1.0 and C1.1a identify the determinant-sign
+orientation double cover with these oriented carriers. HomotopySpheres §3A and §4A
 supplies the earlier compactly generated substrate and consumes these
 classifiers for its later stable O/SO and ΩBSO comparison; §4A is not an
-input to the finite oriented-cover construction. Write BO(n) and BU(n)
+input to the finite oriented-cover comparison. Write BO(n) and BU(n)
 for T1.6's fixed-rank universal Grassmannians, and BSO(n) for the
-ambient-dimension colimit in `CompactlyGenerated` of C1.1a's actual finite
+ambient-dimension colimit in `CompactlyGenerated` of TopK T1.6a's actual finite
 oriented carriers. C1.1b compares these carriers and their universal bundles
 with the SO join classifier. Stable classification is consumed only for
 finite CW bases.
@@ -247,33 +248,28 @@ as separate data. For variable rank work on the clopen rank strata.
 For n≥1 identify the determinant-sign orientation double cover with the frame
 quotient by SO(n), prove its local two-sheet description independently of a
 universal classifier, and compare its chart signs with DG's tangent orientation
-cover and with a supplied orientation. C1.1a consumes this metric-independent
+cover and with a TopK T1.6a bundle orientation. C1.1a consumes this metric-independent
 cover; C1.1b owns its later universal-bundle comparison and classification,
 and C3.5 owns the separate universal Spin obstruction.
 
-1. **C1.1a. Finite oriented-cover precursor.** Before TopK T1.6,
-   consume C1.0's single determinant-sign orientation double cover and its
-   metric independence. Construct its direct-sum and cover-section comparisons
-   and path-transport sign local system using TopK T1's vector-bundle atlases
-   and T1.5's finite Stiefel quotients. Specialize C1.0's single cover to
-   TopK's tautological finite rank-n real bundle for n≥1, and use this
-   cover as the finite oriented Grassmannian. Construct its comparison with
-   the quotient of the actual orthonormal n-frame Stiefel carrier by the
-   right SO(n) action, with its tautological bundle and orientation-forgetting
-   projection. Retain the two orientations when n equals the ambient rank;
-   an ambient-SO quotient is not substituted for this full carrier. The
-   rank0 carrier below is the canonical positive point with its sign datum
-   separate. Consume T1.5's finite Schubert cells, append-last
-   ambient Fin.castSucc inclusions and V↦ℝe₀⊕shift(V) rank maps, with the new
-   positive line first, and lift these maps to the cover.
-   For positive rank construct the lifted Schubert CW cells,
-   characteristic maps and weak topology; rank0 is the canonical point.
-   Prove the closed-subcomplex and commuting rank/ambient squares.
-   For target rank n compare the rank n−1→n map with the last-column
-   SO inclusion by the cyclic block permutation corrected on the added
-   line by sign(−1)^(n−1), and its path in SO(n). Prove the bundle and
-   orientation-forgetting homotopy comparisons. This precursor uses no
-   Milnor join or TopK T6.4; TopK T1.6a owns the fixed-rank/stable oriented
+1. **C1.1a. Finite oriented-cover precursor.** Consume C1.0's single
+   determinant-sign orientation double cover and its metric independence.
+   Construct its direct-sum and cover-section comparisons and path-transport
+   sign local system using TopK T1's vector-bundle atlases and T1.5's finite
+   Stiefel quotients. Specialize C1.0's single cover to TopK's tautological
+   finite rank-n real bundle for n≥1 and identify it, over
+   `finiteGrassmannian ℝ n N`, with TopK T1.6a's `finiteOrientedGrassmannian n N`,
+   the quotient of the orthonormal n-frame Stiefel carrier by the right SO(n)
+   action, compatibly with the tautological bundles and the
+   orientation-forgetting projections. Retain the two orientations when n
+   equals the ambient rank; the rank0 carrier is the canonical positive point
+   with its sign datum separate. Prove that this identification carries TopK
+   T1.6a's lifted Schubert cells, append-last Fin.castSucc inclusions and
+   new-line-first rank maps V↦ℝe₀⊕shift(V) to the induced maps of
+   determinant-sign covers, and that TopK's last-column SO comparison, with
+   the sign (−1)^(n−1) on the added line, is the transport of the
+   determinant sign. This comparison uses no Milnor join or TopK T6.4; TopK
+   T1.6a owns the finite oriented carriers, the fixed-rank/stable oriented
    colimits and their HomotopySpheres classifier comparison.
 
    **C1.1b. Numerable joins and frame specialization.** Use TopK T6.4
@@ -368,13 +364,13 @@ and C3.5 owns the separate universal Spin obstruction.
    countable union of locally finite families; the original weights are not
    asserted locally finite in Mathlib's partition-of-unity sense. Prove functoriality under continuous homomorphisms,
    products and subgroup-associated fibrations. For finite discrete G compare the weak-topology model of
-   ClassifyingSpaces and TopK T1's O/U Grassmannian models, together with C1.1a/TopK T1.6's
+   ClassifyingSpaces and TopK T1's O/U Grassmannian models, together with TopK T1.6a's
    oriented carriers, by the actual universal-bundle maps, including
    finite-rank and stable inclusions and orientation forgetting.
    Consume C1.0's continuous orthonormal/unitary frame principal bundles
    and Gram–Schmidt charts. Construct their comparison with pulled-back
-   universal Stiefel bundles. Consume C1.1a's orientation
-   cover and TopK T1.6's fixed-rank BSO(n), stable BSO carrier and
+   universal Stiefel bundles. Consume C1.1a's orientation-cover
+   comparison and TopK T1.6's fixed-rank BSO(n), stable BSO carrier and
    oriented classifier comparison. Prove the numerable SO join/Grassmannian
    universal-bundle comparison, finite-rank and stable inclusions,
    orientation forgetting and the general paracompact oriented
@@ -1346,11 +1342,11 @@ AT8.1's relative-cell connectivity and transport theorem.
    Stabilization restricts pᵢ to pᵢ and discards classes above rank; include
    both parity steps and the Euler-square relation. The stable comparison
    consumes TopK T1.6a's weak-CW union on the stable BSO carrier and
-   C1.1a's oriented lift, new positive line first, of T1.5's rank map.
+   its oriented lift, new positive line first, of T1.5's rank map.
    Use the standard zero-based flag, with e_i=Pi.single i 1 and rank map
    V↦ℝe₀⊕shift(V); its underlying image is the closed Schubert subcomplex
-   with first pivot in Fin position0. These lifted cells belong to C1.1a,
-   and the fixed-rank and stable colimits belong to TopK T1.6a. The
+   with first pivot in Fin position0. These lifted cells and the fixed-rank
+   and stable colimits belong to TopK T1.6a. The
    stable union uses only TopK T1.6's fixed cellular tower. Compact singular-simplex images lie in finite CW
    subcomplexes by AT4, hence in a bounded-rank stage. Therefore the stable
    singular chain complex is their direct union and its cochains are the

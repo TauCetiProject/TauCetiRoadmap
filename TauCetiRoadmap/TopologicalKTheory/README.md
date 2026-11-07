@@ -72,13 +72,15 @@ manifold, bundle or group-completion vocabulary replaces an existing API.
   join-classifier input through CharacteristicClasses C1.1 consumes T6.4.
   All precede T6.6, and those classifiers do not consume the smooth upgrade
   or T6.6.
-- [CharacteristicClasses C1.1a–b](../CharacteristicClasses/README.md) supplies
-  the finite orientation-cover/cyclic-SO precursor before T1.6, then the
-  numerable join/frame specialization after T1.6 and T6.4. The early
-  precursor uses neither the join nor T6.4; stable BSO comparisons belong
-  to T1.6 and are consumed by C1.1b and T7. TopK T1.6a itself owns the
-  earlier pure finite-subset colouring lemma needed to countabilize arbitrary
-  locally finite classifier data. C1.1b's later join/frame colouring is a
+- [CharacteristicClasses C1.1a–b](../CharacteristicClasses/README.md) is a
+  consumer, with no input into this roadmap: C1.1a compares its determinant-sign
+  orientation cover with T1.6a's finite oriented carriers, and C1.1b consumes
+  T1.6's classifiers, T1.6a's countable-colour producer and T6.4 for its
+  numerable join/frame specialization. T1.6a owns the finite oriented carriers,
+  their lifted cells and the cyclic-SO comparison; stable BSO comparisons
+  belong to T1.6 and are consumed by C1.1b and T7. TopK T1.6a also owns the
+  pure finite-subset colouring lemma needed to countabilize arbitrary
+  locally finite classifier data; C1.1b's join/frame colouring is a
   consumer of that lemma, never a premise for T1.6a.
 - [ComplexKahlerGeometry K5–K7](../ComplexKahlerGeometry/README.md) supplies
   static Laplace-type estimates, Dolbeault Hodge theory, Kähler identities and
@@ -113,8 +115,8 @@ manifold, bundle or group-completion vocabulary replaces an existing API.
   and the full real Bott loop chain with its Clifford comparison. T1.5–T1.6
   own the finite Grassmannian carriers, fixed-rank BO(n)/BSO(n), stable BO/BSO
   colimits, universal bundles and their finite-CW/numerable classification.
-  CharacteristicClasses C1.1a supplies only the earlier finite oriented-cover
-  and lifted-cell precursor; C1.1b consumes these same classifier carriers.
+  T1.6a also owns the finite oriented carriers and their lifted cells;
+  CharacteristicClasses C1.1a–b consumes these same classifier carriers.
   HomotopySpheres uses them for its stable group/loop, clutching and framing
   applications; any distinct homogeneous model has a named comparison to
   these carriers, not a second classifier definition. T7 owns the geometric
@@ -297,7 +299,8 @@ these generators. Tensor products use the Koszul sign for Z/2 gradings.
    (0,τ+1) and is a homeomorphism onto the closed Schubert subcomplex of planes
    containing e₀. Prove strict commutation of rank and ambient inclusions,
    and the tautological comparison s*γ_(k+1)≅1⊕γ_k, with the new line first.
-   This finite carrier/cell/map construction precedes CC C1.1a and T1.6.
+   This finite carrier/cell/map construction precedes T1.6, including T1.6a's
+   finite oriented carriers.
    Prove the real `(n−k−1)` and complex `2(n−k)` connectivity bounds for k-frames in
    n-space. The first-column stabilizer includes its contractible off-diagonal
    factor; construct its deformation comparison with the smaller classical
@@ -381,14 +384,38 @@ these generators. Tensor products use the Koszul sign for Z/2 gradings.
 6. **T1.6a. Stable carriers and classification.** Build stable complex/unoriented real Grassmannian classification of bundles
    of bounded rank over compact bases and stable classes over finite CW bases,
    with clutching naturality. For oriented real bundles of fixed positive rank
-   n≥1 compare using CharacteristicClasses C1.1a's finite oriented-cover
-   precursor. Own the fixed-rank BSO(n) ambient colimits in this range and
+   n≥1 use the finite oriented carriers constructed below. Own the fixed-rank
+   BSO(n) ambient colimits in this range and
    `stableOrientedGrassmannian` BSO as the positive-cofinal rank-colimit on
    those lifted cells, with their universal bundle diagrams and stabilization.
    Set BSO(0)=pt for the canonically positively oriented zero bundle.
    HomotopySpheres §4A consumes this carrier/classification and owns ΩBSO≃SO
    and its comparison with its stable homogeneous-space models.
    This supplies T7's BO/BSO classification input.
+
+   **Finite oriented carriers (part of T1.6a).** For n≥1 an orientation of a
+   rank-n real bundle E is a choice of `Orientation ℝ (E x) (Fin n)` in each
+   fibre that is locally constant in every local trivialization; oriented
+   isomorphisms preserve it. For 1≤n≤N let `finiteOrientedGrassmannian n N`
+   be the quotient of T1.5's orthonormal n-frame Stiefel carrier V_n(ℝ^N) by
+   the right SO(n) action, with the quotient topology, the orientation-forgetting
+   map to `finiteGrassmannian ℝ n N` and the pulled-back tautological bundle
+   with its tautological orientation. Prove that the forgetting map is a
+   two-sheeted covering whose deck involution reverses the orientation. At
+   n=N both orientations are kept, so the carrier has two points; an
+   ambient-SO quotient is not substituted for it. Lift T1.5's finite Schubert
+   cells and characteristic maps to the cover, two lifted cells over each cell,
+   and prove that the weak topology is the quotient topology. Lift the
+   Fin.castSucc ambient inclusions and the rank maps V↦ℝe₀⊕shift(V), with the
+   new positive line first; prove that they are closed-subcomplex inclusions
+   and that the rank and ambient squares commute strictly. For target rank n
+   compare the lifted rank map from n−1 with the last-column inclusion
+   SO(n−1)→SO(n) through the cyclic block permutation, corrected on the added
+   line by the sign (−1)^(n−1), and its path in SO(n); prove the
+   tautological-bundle and orientation-forgetting homotopy comparisons. Rank 0
+   is the canonical positively oriented point, with the sign datum kept
+   separately as below. These constructions use only T1.5's carriers and
+   Stiefel bundles: no join, T6.4 or classification input.
 
    **Early countable-colour producer (part of T1.6a).** Use Mathlib's actual
    `PartitionOfUnity J X Set.univ` and its `IsSubordinate` predicate for the
@@ -457,8 +484,8 @@ these generators. Tensor products use the Koszul sign for Z/2 gradings.
    so each ambient path is a product of determinant-one plane rotations; on a
    complex comparison use unitary two-plane rotations. Verify the bundle map
    agrees on every overlap before gluing the homotopy. Prove pullback
-   naturality and the corresponding oriented lift using the early C1.1a
-   orientation cover. Positive-rank oriented frames preserve the given
+   naturality and the corresponding oriented lift using the finite oriented
+   carriers above. Positive-rank oriented frames preserve the given
    orientation; the two rank-zero signs remain separate and are not classified
    by `BSO(0)=pt`. These are early T1.6a obligations and use neither the later
    join, T6.4, Bott periodicity, nor the classification theorem itself.
@@ -501,9 +528,10 @@ these generators. Tensor products use the Koszul sign for Z/2 gradings.
    Use T1.5's finite Schubert cells and pinned rank/ambient maps to construct
    the CW structure, proving agreement of the weak topology with the
    compactly generated colimit. Construct the universal tautological bundle
-   by those compatible finite stages. CC C1.1a owns the positive-rank finite
-   oriented lift of T1.5's new-line-first rank map and its last-column SO
-   comparison; its rank0 point has the canonical positive convention above.
+   by those compatible finite stages. The finite oriented carriers above give
+   the positive-rank oriented lift of T1.5's new-line-first rank map and its
+   last-column SO comparison; the rank0 point has the canonical positive
+   convention above.
    Define `stableRealGrassmannian` and `stableComplexGrassmannian` as the
    rank-colimits of the fixed-rank unoriented real/complex carriers in
    CompactlyGenerated, with underlying weak-CW union topology and the
@@ -607,7 +635,7 @@ these generators. Tensor products use the Koszul sign for Z/2 gradings.
    **T1.6c. Actual oriented sum.**
    On the oriented model construct `stableOrientedGrassmannianWhitneySum`.
    Prove that orientation forgetting BSO→BO is the based universal double cover
-   from C1.1a's finite covers and the cellular colimits, with path/homotopy
+   from T1.6a's finite oriented covers and the cellular colimits, with path/homotopy
    lifting, consuming native IsCoveringMap.liftHomotopy and liftHomotopyRel.
    BSO and BSO×BSO are simply connected and locally path connected by their
    Hausdorff CW structures. Consume the existing Tau Ceti
@@ -669,9 +697,9 @@ these generators. Tensor products use the Koszul sign for Z/2 gradings.
    In rank one use Gr_1(𝕜^(N+1)): name `RP∞` for 𝕜=ℝ and `CP∞` for 𝕜=ℂ,
    with one cell in each nonnegative degree or each even nonnegative degree,
    respectively, using the rank-one Schubert cells just constructed.
-   CharacteristicClasses C1.5 compares these cells with AT4.6's finite RPⁿ
-   and CKG K7's finite CPⁿ characteristic maps and owns the cellular/cup comparisons
-   with these carriers. The carrier/bundle/CW construction precedes classification
+   CharacteristicClasses C1.5 consumes these cells: it compares them with AT4.6's
+   finite RPⁿ and CKG K7's finite CPⁿ characteristic maps and owns the
+   cellular/cup comparisons with these carriers. The carrier/bundle/CW construction precedes classification
    and uses earlier AT CW/Whitehead tools, without AT8.10–8.12.
    For these rank-one carriers also construct the direct finite-projective
    model before general classification: identify Gr_1(𝕜^(N+1)) with native
