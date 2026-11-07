@@ -1032,8 +1032,9 @@ Not a target: for a cofibrantly generated model category `M` and a small categor
 `ℕ`-valued Reedy structure, the Reedy model structure on `M^C` is cofibrantly generated, with
 generators the pushout-products of the generating (trivial) cofibrations with the boundary
 inclusions `∂C(c, −) ↪ C(c, −)` of the representables (Riehl–Verity, TAC 2014, Definition 2.1,
-Lemma 3.17, Corollary 6.7 and Proposition 7.7). For small Reedy categories graded by an ordinal it
-is Hirschhorn 2003, Theorem 15.6.27. A large discrete category has a proper class of boundary
+Lemma 3.17, Corollary 6.7 and Proposition 7.7). Hirschhorn 2003 states it for `ℕ`-valued degrees
+(Theorem 15.6.27, with Definition 15.1.2) and extends Chapter 15 to small Reedy categories graded
+by an ordinal in Remark 15.1.4. A large discrete category has a proper class of boundary
 inclusions, so smallness is needed. No Reedy model structure is built in this roadmap.
 
 ### 8.4 The semi-simplex category
@@ -1442,8 +1443,8 @@ Proposition 2.5 and Corollary 2.8). A Picard groupoid is strictly commutative if
 ### 12.6 Two-term complexes and Deligne over a point
 
 Define `IsStrictlyCommutative` and `TwoTerm d` (convention 13), with `TwoTerm.Hom` (a label
-`k : K⁻¹` with `x + d k = y`), the `0`-labelled `TwoTerm.eqHom` and `TwoTerm.eqIso`, and the groupoid,
-monoidal and symmetric instances, whose proof obligations are the label identities
+`k : K⁻¹` with `x + d k = y`), the `0`-labelled `TwoTerm.eqHom` and `TwoTerm.eqIso`, and the
+groupoid, monoidal and symmetric instances, whose proof obligations are the label identities
 `TwoTerm.comp_label`, `TwoTerm.eqIso_hom_label` and `TwoTerm.eqIso_inv_label`. `ch(d)` is a
 gr-category (`x ⊗ (−x) ≅ 𝟙_` by `TwoTerm.eqIso`) and strictly commutative (`β_{x,x}` is labelled
 `0`), each in one step from the instances. Prove `nonempty_skeletonTwoTerm_mulEquiv`
@@ -1593,7 +1594,8 @@ categories are compared.
 - D.-C. Cisinski, « Catégories dérivables », *Bull. SMF* 138 (2010), 317–393: 1.1 (axioms
   D0–D4), 2.1 (`Dir_f`), Theorem 2.21, 2.22, Corollary 2.24, Definition A.5.
 - P. S. Hirschhorn, *Model Categories and Their Localizations*, Mathematical Surveys and
-  Monographs 99, American Mathematical Society (2003): Theorem 15.6.27.
+  Monographs 99, American Mathematical Society (2003): Definition 15.1.2, Remark 15.1.4,
+  Theorem 15.6.27.
 - E. Riehl and D. Verity, *The theory and practice of Reedy categories*, Theory Appl. Categ. 29
   (2014), 256–301, Zbl 1302.55014, [arXiv:1304.6871](https://arxiv.org/abs/1304.6871). Item
   numbers cited in Layers 7–8 (2.3–2.7) are those of the arXiv version.
