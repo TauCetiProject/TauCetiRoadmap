@@ -6,7 +6,7 @@
 
 This roadmap owns the arithmetic specific to prime-level Eisenstein ideals and the two torsion descents. Its prime-level statements quantify over every prime `P`. The positive-genus condition appears exactly where nonzero cuspidal classes or a nonconstant map from `X₀(P)` are needed. The genus-zero levels are included in the index, torsion and quotient theorems. The resulting consumer interface distinguishes a rational torsion point from a rational cyclic isogeny: an invariant vector is excluded above 7, while a stable line with a nontrivial character can still occur.
 
-`TauCetiRoadmap.ModularCurves` and `ModularCurvesPartII` own the curves, compactifications, generalized elliptic curves, Hecke correspondences, modular Jacobians and cohomological comparisons. `TauCetiRoadmap.ModularForms` owns `q`-expansions, integral modular symbols, the classical integral Hecke algebra and coefficient fields; the integral differential lattice belongs to `ModularCurvesPartII` §§13.7–13.9. `AutomorphicFormsOnReductiveGroups` owns adelic Hecke actions and their classical normalization; the prime-level full Eisenstein order constructed below is specific to this roadmap. `FiniteFlatGroupsAndIntegralPadicHodgeTheory` owns generic finite-flat groups, admissibility, purity, extensions and their cohomology. `NeronModelsAndSemistableAbelianVarieties` owns the Néron model, components, monodromy and integral cohomological comparisons. `HeightsRationalPointsAndObstructions` owns Mordell–Weil and isogeny Kummer theory. `TauCetiRoadmap.EllipticCurves` owns local elliptic reduction, Tate uniformization and elliptic torsion representations. General connected abelian quotients are imported from `HeightsRationalPointsAndObstructions` §1.0, using `AbelianSchemesAndArithmeticModuli` §§A3.3 and A6.3–A6.5; cyclotomic class-group eigenspaces and their inverse-character vanishing belong to `CyclotomicClassGroupsAndStickelberger`, using `ClassFieldTheory` reciprocity.
+`TauCetiRoadmap.ModularCurves` and `ModularCurvesPartII` own the curves, compactifications, generalized elliptic curves, Hecke correspondences, modular Jacobians and cohomological comparisons. `q`-expansions are Mathlib's `UpperHalfPlane.qExpansion`. The weight-two Eisenstein series with and without character, integral modular symbols with their period map, the integral cusp-form Hecke algebra and newform coefficient fields are already in Tau Ceti; the supplier contracts name the declarations. `TauCetiRoadmap.ModularForms` Layer 10C owns modular forms as sections of automorphy sheaves on the compactified curve. The integral differential lattice belongs to `ModularCurvesPartII` §§13.7–13.9. `AutomorphicFormsOnReductiveGroups` owns adelic Hecke actions and their classical normalization; the prime-level full Eisenstein order constructed below is specific to this roadmap. `FiniteFlatGroupsAndIntegralPadicHodgeTheory` owns generic finite-flat groups, admissibility, purity, extensions and their cohomology. `NeronModelsAndSemistableAbelianVarieties` owns the Néron model, components, monodromy and integral cohomological comparisons. `HeightsRationalPointsAndObstructions` owns Mordell–Weil and isogeny Kummer theory. `TauCetiRoadmap.EllipticCurves` owns local elliptic reduction, Tate uniformization and elliptic torsion representations. General connected abelian quotients are imported from `HeightsRationalPointsAndObstructions` §1.0, using `AbelianSchemesAndArithmeticModuli` §§A3.3 and A6.3–A6.5; cyclotomic class-group eigenspaces and their inverse-character vanishing belong to `CyclotomicClassGroupsAndStickelberger`, using `ClassFieldTheory` reciprocity.
 
 The supplier contracts below identify the numbered targets used for integral differentials, global admissible groups, connected-Néron cohomology and cyclotomic eigenspaces. Generic dyadic amalgams come from `FiniteFlatGroupsAndIntegralPadicHodgeTheory` §§R07.G7–R07.G8; their Hecke-stable saturation is proved in §4.5 here. This roadmap owns the level-13 model identification, cusp divisors, rational torsion and geometric intersection in §8.1, and the fixed cyclotomic class-number theorem in §8.5. Their finite identities are witnesses in proofs of these arithmetic results. Generic Jacobians, divisor theory, class groups and reciprocity remain supplier constructions. The formal-immersion theorem retains its general level and the potential-good-reduction corollary retains its squarefree-level scope. The full composite-order classification, arbitrary squarefree-level Eisenstein ideals, an explicit list of all rational isogenies and general residual irreducibility are outside this roadmap’s statements. The dependencies place the abelian-scheme, finite-flat, Néron, height, integral modular-curve, automorphic-form and cyclotomic class-group inputs before their uses here. In particular the cyclotomic class-field obstruction precedes the global finite-flat Ext calculation that uses it.
 
@@ -30,13 +30,21 @@ At level 13 write `B=J₁(13)` and `S₁₃=Spec ℤ[1/13]`. The coefficient pri
 
 ### From Mathlib and Tau Ceti
 
-The baseline is Mathlib `6b7abb3c7686292736be2955bd3eb9ebf63b456a` and Tau Ceti `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`.
-
 `WeierstrassCurve.Affine.Point` is the native group of nonsingular affine Weierstrass points with the point at infinity, and `WeierstrassCurve.IsElliptic` means its discriminant is a unit. The additive order is `addOrderOf`, generated from `orderOf`; the explicit theorem `orderOf_ofAdd_eq_addOrderOf` identifies it with multiplicative order after applying `Multiplicative.ofAdd`. Its value is zero for infinite order and one for the identity. The final theorem uses this actual group and the ellipticity hypothesis. `Nat.forall_exists_prime_gt_and_modEq` supplies arbitrarily large primes in a coprime nonzero residue class, for the auxiliary-prime existence argument.
 
 `AddSubgroup.torsionBy` is the subgroup killed by an integer. Tau Ceti’s `WeierstrassCurve.torsionGaloisAction`, in `TauCeti/AlgebraicGeometry/EllipticCurve/Affine/Point/Galois.lean`, acts on this subgroup after base change by applying field automorphisms to point coordinates. Section 8.9 uses this action over `AlgebraicClosure ℚ`; fixedness means equality for every ℚ-algebra automorphism.
 
-Tau Ceti’s `LeftCosetModule.deg`, in `TauCeti.NumberTheory.HeckeRing.Degree`, is the abstract Hecke ring degree homomorphism. Its good-prime values are compatible with the degree `1+l`, but its value on a single invertible coset is `+1`; it cannot supply the Fricke eigenvalue `−1`. `AlgebraicGeometry.AbelianVariety`, in `TauCeti.AlgebraicGeometry.AbelianVariety.Basic`, supplies the bundled proper geometrically integral group-scheme carrier. The modular Jacobian and its ideal-supported quotient require their supplier constructions.
+Tau Ceti’s `LeftCosetModule.deg`, in `TauCeti.NumberTheory.HeckeRing.Degree`, is the abstract Hecke ring degree homomorphism. Its good-prime values are compatible with the degree `1+l`, but its value on a single invertible coset is `+1`; it cannot supply the Fricke eigenvalue `−1`. `TauCeti.AlgebraicGeometry.AbelianVariety`, in `TauCeti.AlgebraicGeometry.AbelianVariety.Basic`, supplies the bundled proper geometrically integral group-scheme carrier. The modular Jacobian and its ideal-supported quotient require their supplier constructions.
+
+Mathlib's `UpperHalfPlane.qExpansion`, in `Mathlib/NumberTheory/ModularForms/QExpansion.lean`, is the `q`-expansion used throughout. Write `σ₁(r)` for the divisor sum, to keep `σ` for complex conjugation. Tau Ceti's weight-two Eisenstein series are in `TauCeti/NumberTheory/ModularForms/EisensteinSeries/WeightTwo/`. `TauCeti.EisensteinSeries.correctedE2` (`Basic.lean`) is `E₂(z)−tE₂(tz)` on `Γ₀(t)`. `TauCeti.EisensteinSeries.qExpansion_coeff_correctedE2` gives its constant term `1−t` and its `qʳ`-coefficient `−24(σ₁(r)−t·σ₁(r/t))` for `r≥1`, the second term present only when `t|r`; the series is zero exactly when `t=1`. `TauCeti.EisensteinSeries.constantTermAt_correctedE2` (`ConstantTerm.lean`) gives its constant term `1−gcd(c,t)²/t` at the cusp of an `SL₂(ℤ)` matrix with lower-left entry `c`. For Dirichlet characters `ψ` modulo `u` and `φ` modulo `v` with `uv|N`, `TauCeti.EisensteinSeries.normalizedCharG2MF` (`Normalized.lean`) is the weight-two series of nebentypus `ψφ`, scaled so that its first coefficient is 1 when `φ` is primitive, the pair is not trivial and `ψ(−1)φ(−1)=1`. When the pair is not trivial and `φ` is primitive, `TauCeti.EisensteinSeries.qExpansion_normalizedCharG2MF_coeff_zero` gives its constant term `−B₂,φ/4` if `u=1` and 0 otherwise, where `B₂,φ=v·Σ_{a=1}^{v}φ(a)B₂(a/v)` is Tau Ceti's `DirichletCharacter.generalizedBernoulli`; `TauCeti.EisensteinSeries.constantTermAt_charG2MF` gives its constant terms at the other cusps.
+
+`TauCeti.ModularSymbols.periodMap_injective` (`TauCeti/NumberTheory/ModularForms/ModularSymbols/Period/Injective.lean`) states that for a finite-index `Γ≤SL₂(ℤ)` and weight `k=w+2` the period map from cusp forms on `Γ` to linear functionals on the modular symbols over `R` is injective, in particular for `R=ℤ`. `TauCeti.ModularSymbols.periodMap_heckeSlashCuspFormEnd` (`…/Period/Hecke.lean`) intertwines the operator of the double coset of a positive-determinant integral matrix on forms with the transpose of the same operator on symbols; `TauCeti.ModularSymbols.periodMap_heckeTCuspNat` is its case `T_r` on `Γ₁(N)`. `TauCeti.heckeTCuspAlgebra` (`TauCeti/NumberTheory/ModularForms/HeckeSlash/Finite.lean`) is the `ℤ`-subalgebra of the `ℂ`-linear endomorphisms of `S_k(Γ₁(N))` generated by every `T_r` with `r≥1`, bad indices included and diamond operators not; `TauCeti.heckeTCuspAlgebra_finite` proves that it is a finite `ℤ`-module for `k≥2`. The prime-level algebra `T` of §0.2 is the geometric image algebra of `ModularCurvesPartII` §13.3. Restriction to the trivial-character subspace `S₂(Γ₀(P))⊂S₂(Γ₁(P))`, which every `T_r` preserves, maps `heckeTCuspAlgebra P 2` onto the algebra generated there by the `T_r`, and §0.4 compares that algebra with `T`. `TauCeti.CoefficientField` (`…/Newforms/Fields.lean`) is the subfield of `ℂ` generated by the coefficients of a newform, and `TauCeti.numberField_CoefficientField` (`…/Newforms/NumberField.lean`) proves that it is a number field for `k≥2`.
+
+**Checks.**
+
+- At `t=11` the coefficients of `q⁰`, `q¹`, `q²`, `q¹¹` and `q²²` in `correctedE2 11` are `−10`, `−24`, `−72`, `−24` and `−72`. Divided by `−24` they are `5/12` and `1, 3, 1, 3`; the last four are the coefficients `Σ_{d|r, 11∤d}d` of `δ₁₁` in §0.3. Dropping the term `t·σ₁(r/t)` would give `12` and `36` at `r=11` and `r=22`.
+- The constant terms of `correctedE2 t` at `∞` (`c=0`) and at `0` (`c=1`) are `1−t` and `1−1/t`. For prime `t` these are the only cusps of `Γ₀(t)`; multiplied by the widths 1 and `t` they become `1−t` and `t−1`, and the residues sum to zero. At `t=1` both vanish, as `correctedE2 1 = 0` requires.
+- For the Legendre character `χ` modulo 17, `B₂,χ=(1/17)Σ_{a=1}^{16}χ(a)a²=8`. So `normalizedCharG2MF` with `ψ=1`, `φ=χ` has constant term `−2=−r` in the notation of §4.2; at 41 and 73 the values are `−8` and `−22`. With the characters exchanged (`u=17`) the constant term at `∞` is 0, so the order of the pair matters.
 
 ### From modular curves and forms
 
@@ -48,7 +56,7 @@ Tau Ceti’s `LeftCosetModule.deg`, in `TauCeti.NumberTheory.HeckeRing.Degree`, 
 - §§7.5–7.6 give the full rational coefficient pairing `β(t,f)=a₁(tf)`, including `β(T_r,f)=a_r(f)`, with bad `U`-operators included. They do not assert integral perfectness. §§14.12–14.15 give modular symbols and geometric realizations; §17.2 gives Eichler–Shimura at primes not dividing the level. §17.7 gives a semistable Tate filtration only for coefficient prime different from the residue prime.
 - §§16.1–16.7 identify newform fields, actual `A_f`, oldform contributions, prime-level quotient factors and nonconstant Abel–Jacobi projections. No quotient by an ideal in a point group replaces an abelian-variety quotient.
 
-`TauCetiRoadmap.ModularForms` Layer 0 supplies the corrected weight-two Eisenstein series, `q`-expansions with character and their transformations. Its Layer 8 supplies integral modular symbols, the integral Hecke algebra and the coefficient-field decomposition. The rational first-coefficient pairing comes from `ModularCurvesPartII` §§7.5–7.6 and the integral differential lattice from its §§13.7–13.9; the prime-level integral freeness and index theorem is proved in §0.4 here. `AutomorphicFormsOnReductiveGroups` §7.3 identifies the raw adelic good-prime Hecke operator with the classical operator at weight two, with volume-one maximal compact; its unitary normalization still differs by `√l`. The prime-level full order and its integral Eisenstein character are constructed in §0.2 here.
+`TauCetiRoadmap.ModularForms` Layer 10C identifies holomorphic sections of the weight-`k` automorphy sheaf with `M_k(Γ)` and sections with the cusp condition with `S_k(Γ)`; §7.9 uses it with `ModularCurvesPartII` §7.1 for the algebraic section comparison. The rational first-coefficient pairing comes from `ModularCurvesPartII` §§7.5–7.6 and the integral differential lattice from its §§13.7–13.9; the prime-level integral freeness and index theorem is proved in §0.4 here. `AutomorphicFormsOnReductiveGroups` §7.3 identifies the raw adelic good-prime Hecke operator with the classical operator at weight two, with volume-one maximal compact; its unitary normalization still differs by `√l`. The prime-level full order and its integral Eisenstein character are constructed in §0.2 here.
 
 **Integral differentials: `ModularCurvesPartII` §§13.7–13.9.** Section 13.7, `integral-dualizing-forms`, supplies the relative dualizing sheaf for proper, flat, finitely presented Cohen–Macaulay curves of pure relative dimension one over a locally Noetherian base. It is invertible in the Gorenstein case. Section 13.8, `integral-modular-serre-duality`, supplies base change and the perfect pairing `H⁰(ω)×H¹(O)→R` under its coherent local-freeness and cohomological base-change hypotheses. On a nodal fibre `ω` consists of differentials on the normalization with at most simple poles at node branches and opposite residues. These modular targets use `SchemeAndStackFoundations` §2.20 (relative dualizing complexes/modules and curve duality), rather than reconstructing that machinery here. Section 13.9, `integral-hecke-duality-compatibility`, supplies the transpose relation for pullback and duality trace, with the geometric correspondence and coefficient hypotheses retained. A nonflat coarse correspondence uses proper-duality trace, not division by its degree.
 
@@ -207,13 +215,13 @@ The generator family includes `1+w`; a good-prime-only ideal is not substituted.
 
 For `P≥5` and every positive integer `m`, the integral divided-divisor `q`-series `δ_P=Σ_{r≥1}(Σ_{d|r, P∤d}d)q^r` is the `q`-expansion of a weight-two cusp form modulo `m` exactly when `m` divides `n`. For `m` coprime to `P` its holomorphic modularity criterion is `m|(P−1)/2`; at 2 and 3 use the integral differential and residue formulation, not an inversion of 24. There is no corresponding holomorphic mod-`P` form with this `q`-expansion.
 
-Use corrected weight-two Eisenstein series supplied by ModularForms, and calculate its residues at both cusps. Use the integral `q`-expansion principle and the residue exact sequence, retaining the exceptional 2- and 3-primary obstructions. Use the bad-fibre argument to rule out characteristic `P`.
+Use `TauCeti.EisensteinSeries.correctedE2` at `t=P`, whose expansion divided by `−24` is `(P−1)/24+δ_P`, and calculate its residues at both cusps from `TauCeti.EisensteinSeries.constantTermAt_correctedE2`. Use the integral `q`-expansion principle and the residue exact sequence, retaining the exceptional 2- and 3-primary obstructions. Use the bad-fibre argument to rule out characteristic `P`.
 
 For `P=17` the cusp criterion detects divisibility by 4, not just the odd part of `n`. At `P=11`, `δ_P` is cuspidal modulo 5 but not modulo 25 or 11; at `P=13` it is cuspidal only modulo 1. Modulus 0 is excluded. Do not identify a formal `q`-series with an integral modular form without the supplier comparison.
 
 *Source:* [Mazur1977] II Proposition 5.12 and proof, pp. 85–87.
 
-*Needs:* §0.1, `ModularForms` Layer 0, `ModularCurvesPartII` §§13.7–13.9, `ModularCurvesPartII` §§3.6–3.7 and 4.1–4.8.
+*Needs:* §0.1, `TauCeti.EisensteinSeries.correctedE2` with `TauCeti.EisensteinSeries.qExpansion_coeff_correctedE2` and `TauCeti.EisensteinSeries.constantTermAt_correctedE2`, Mathlib `UpperHalfPlane.qExpansion`, `ModularCurvesPartII` §§13.7–13.9, `ModularCurvesPartII` §§3.6–3.7 and 4.1–4.8.
 
 ### 0.4 Hecke duality and the Eisenstein index
 
@@ -225,7 +233,7 @@ The scalar kernel is `nZ`, including its 2- and 3-primary parts. The ring is `�
 
 *Source:* [Mazur1977] II §§6,9, especially Propositions 9.3–9.4 and 9.7, pp. 87–88,94–96.
 
-*Needs:* §0.2, §0.3, `ModularForms` Layer 8, `ModularCurvesPartII` §§13.1–13.4 and 17.3, `ModularCurvesPartII` §§13.4–13.6, 14.12–14.15 and 17.2, together with §§13.7–13.9.
+*Needs:* §0.2, §0.3, `TauCeti.heckeTCuspAlgebra` and `TauCeti.heckeTCuspAlgebra_finite`, `TauCeti.CoefficientField` and `TauCeti.numberField_CoefficientField`, `ModularCurvesPartII` §§13.1–13.4 and 17.3, `ModularCurvesPartII` §§13.4–13.6, 14.12–14.15 and 17.2, together with §§13.7–13.9.
 
 ### Examples
 
@@ -233,7 +241,7 @@ At `P=11` the full character is `ℤ`-valued, while the cuspidal Eisenstein quot
 
 ### Dependencies
 
-The cuspidal-index arithmetic uses Mathlib integers and rationals. The integral order and duality use ModularForms Layers 0 and 8, ModularCurvesPartII §§7.5–7.6 and 13.1–13.6 and §§13.7–13.9, and AutomorphicFormsOnReductiveGroups §7.3 for adelic comparison.
+The cuspidal-index arithmetic uses Mathlib integers and rationals. The congruence criterion uses Tau Ceti's corrected weight-two Eisenstein series with Mathlib `q`-expansions. The integral order and duality use Tau Ceti's integral cusp-form Hecke algebra and coefficient fields, ModularCurvesPartII §§7.5–7.6 and 13.1–13.6 and §§13.7–13.9, and AutomorphicFormsOnReductiveGroups §7.3 for adelic comparison.
 
 ## Layer 1: Cusps, components and the Shimura subgroup
 
@@ -464,7 +472,7 @@ The target is a proper smooth connected group scheme over `ℚ` with a surjectiv
 
 *Source:* [Mazur1977] II §10, definitions 10.3–10.5, pp. 97–98.
 
-*Needs:* §2.2, `HeightsRationalPointsAndObstructions` §1.0; `AbelianSchemesAndArithmeticModuli` §§A3.3 and A6.3–A6.5, `ModularCurvesPartII` §§16.1–16.7, `AlgebraicGeometry.AbelianVariety` from `TauCeti.AlgebraicGeometry.AbelianVariety.Basic`.
+*Needs:* §2.2, `HeightsRationalPointsAndObstructions` §1.0; `AbelianSchemesAndArithmeticModuli` §§A3.3 and A6.3–A6.5, `ModularCurvesPartII` §§16.1–16.7, `TauCeti.AlgebraicGeometry.AbelianVariety` from `TauCeti.AlgebraicGeometry.AbelianVariety.Basic`.
 
 ### 2.4 Support and good reduction of the quotient
 
@@ -476,7 +484,7 @@ The global quotient retains the union of all Eisenstein supports, not a single r
 
 *Source:* [Mazur1977] II §10, pp. 97–98; III 3.4, pp. 150–151.
 
-*Needs:* §2.3, `ModularForms` Layer 8, `ModularCurvesPartII` §§16.1–16.7, `NeronModelsAndSemistableAbelianVarieties` §5.2, `NeronModelsAndSemistableAbelianVarieties` §5.1.
+*Needs:* §2.3, §0.4, `TauCeti.CoefficientField` and `TauCeti.numberField_CoefficientField`, `ModularCurvesPartII` §§16.1–16.7, `NeronModelsAndSemistableAbelianVarieties` §5.2, `NeronModelsAndSemistableAbelianVarieties` §5.1.
 
 ### Examples
 
@@ -557,7 +565,7 @@ The structural conclusions here are for `ℓ` odd; the existence assertion inclu
 
 *Source:* [Mazur1977] II Propositions 16.1,16.6, Corollaries 16.2–16.4, pp.124–128; §15 pp.120–124; corrected proof in Mazur–Wiles1984 §8.I.1 p.187; [MazurWiles1984Errata] §8.I, pp.187–188.
 
-*Needs:* §3.3, §3.2, `FiniteFlatGroupsAndIntegralPadicHodgeTheory` §§R07.G1–R07.G6, `ModularForms` Layer 8, `Nat.forall_exists_prime_gt_and_modEq`.
+*Needs:* §3.3, §3.2, `FiniteFlatGroupsAndIntegralPadicHodgeTheory` §§R07.G1–R07.G6, `TauCeti.heckeTCuspAlgebra_finite`, `Nat.forall_exists_prime_gt_and_modEq`.
 
 ### 3.5 Odd Eisenstein kernel structure
 
@@ -608,7 +616,7 @@ The orientation is `∞→0`. The map from invariants to the quotient is multipl
 
 *Source:* [Mazur1977] II §18, definition and Lemma 18.6, pp. 135–137.
 
-*Needs:* §1.4, §2.2, `ModularForms` Layer 8, `ModularCurvesPartII` §§13.4–13.6, 14.12–14.15 and 17.2, together with §§13.7–13.9.
+*Needs:* §1.4, §2.2, `TauCeti.ModularSymbols.periodMap_injective` and `TauCeti.ModularSymbols.periodMap_heckeSlashCuspFormEnd`, `ModularCurvesPartII` §§13.4–13.6, 14.12–14.15 and 17.2, together with §§13.7–13.9.
 
 ### 4.2 The quadratic modular unit and its Fricke relation
 
@@ -633,7 +641,7 @@ The relation `A=B` is required to make the lifted group stable under Fricke; an 
 
 *Source:* [Mazur1977] II Proposition 12.2, Lemma 12.3 and the modular-unit construction, pp.104–108; corrected by Mazur–Wiles1984 §8.I.2, pp.187–188; [MazurWiles1984Errata] §8.I, pp.187–188.
 
-*Needs:* `ModularCurves` Layer 10, `ModularForms` Layer 0, `ModularCurvesPartII` §§3.1–3.7, 4.1–4.8 and 6.3, `ModularCurvesPartII` §§3.6–3.7 and 4.1–4.8, `ModularCurvesPartII` §§13.1–13.4 and 17.3.
+*Needs:* `ModularCurves` Layer 10, `TauCeti.EisensteinSeries.normalizedCharG2MF` with `TauCeti.EisensteinSeries.qExpansion_normalizedCharG2MF_coeff_zero` and `TauCeti.EisensteinSeries.constantTermAt_charG2MF`, `ModularCurvesPartII` §§3.1–3.7, 4.1–4.8 and 6.3, `ModularCurvesPartII` §§3.6–3.7 and 4.1–4.8, `ModularCurvesPartII` §§13.1–13.4 and 17.3.
 
 ### 4.3 The exceptional dyadic subgroup
 
@@ -660,7 +668,7 @@ Both `P mod 16` cases are covered; `P=41` is not reduced to the order-four const
 
 *Source:* [Mazur1977] II Proposition 12.2, Lemma 12.3 and the construction, pp. 103–108; I §4, pp. 58–60; [MazurWiles1984Errata] §8.I, pp.187–188.
 
-*Needs:* §1.6, §2.1, §4.2, `FiniteFlatGroupsAndIntegralPadicHodgeTheory` §§R07.G1 and R07.G7, `ModularCurvesPartII` §§3.1–3.7, 4.1–4.8 and 6.3, `ModularForms` Layer 0.
+*Needs:* §1.6, §2.1, §4.2, `FiniteFlatGroupsAndIntegralPadicHodgeTheory` §§R07.G1 and R07.G7, `ModularCurvesPartII` §§3.1–3.7, 4.1–4.8 and 6.3, `TauCeti.EisensteinSeries.normalizedCharG2MF`.
 
 ### 4.4 Separation from the plus subvariety
 
@@ -714,7 +722,7 @@ The natural invariant-to-quotient map is twice the normalized isomorphism, inclu
 
 *Source:* [Mazur1977] II Lemma 18.7, Propositions 18.8–18.9 and Theorem 18.10, pp.137–139.
 
-*Needs:* §4.6, §4.1, §3.3, §1.5, `ModularForms` Layer 8.
+*Needs:* §4.6, §4.1, §3.3, §1.5, `TauCeti.ModularSymbols.periodMap_heckeSlashCuspFormEnd`.
 
 ### 4.8 Winding isomorphism and Eisenstein principality
 
@@ -734,7 +742,7 @@ The isomorphism is with `H⁺`, not the unrescaled canonical invariant quotient 
 
 ### Dependencies
 
-Layers 0–3; ModularForms Layers 0 and 8; ModularCurves Layer 10 and ModularCurvesPartII §§4, 9, 13 and 14; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.G7–R07.G8 for `D` and amalgams. Dyadic Hecke-stable saturation is proved in §4.5; odd and dyadic saturation have distinct hypotheses.
+Layers 0–3; Tau Ceti's weight-two Eisenstein series with the Legendre character and Tau Ceti's integral modular-symbol period map; ModularCurves Layer 10 and ModularCurvesPartII §§4, 9, 13 and 14; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.G7–R07.G8 for `D` and amalgams. Dyadic Hecke-stable saturation is proved in §4.5; odd and dyadic saturation have distinct hypotheses.
 
 ## Layer 5: Ogg’s rational torsion theorem
 

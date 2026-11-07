@@ -1,5 +1,7 @@
-import Mathlib
-import TauCeti.AlgebraicGeometry.EllipticCurve.Affine.Point.Galois
+module
+
+public import Mathlib
+public import TauCeti.AlgebraicGeometry.EllipticCurve.Affine.Point.Galois
 
 /-!
 # Eisenstein ideal and rational torsion: target signatures
@@ -23,6 +25,8 @@ congruence modular curve, cusps and Jacobian. The level-thirteen model, norm-19 
 J₁(13) rank zero and cusp-only rational points need X₁(13), its Jacobian and diamond action.
 These missing proof constructions do not prevent stating the elliptic conclusions below.
 -/
+
+public section
 
 namespace TauCetiRoadmap.EisensteinIdealAndRationalTorsion
 
@@ -74,3 +78,5 @@ theorem elliptic_fixed_torsion_zero (P : ℕ) (hP : P.Prime) (hLarge : 7 < P)
   sorry
 
 end TauCetiRoadmap.EisensteinIdealAndRationalTorsion
+
+end
