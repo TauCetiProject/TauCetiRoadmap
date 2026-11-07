@@ -34,9 +34,8 @@ Not statable at the pins:
 * The ramified double-cover triangle, corrected trace-quotient lift, circle obstruction and
   common-lift chase lack the equivariant sheaf cokernel, trace and derived comparison maps.
 * Equivariant Ehresmann lacks the suppliers' regular-level smooth-fibre carrier and its smooth
-  local trivialization data; stratified pair transport lacks Whitney stratifications,
-  Thom–Mather control data and controlled vector fields; the finite-index image lacks the
-  equivariant topological cohomology comparison map.
+  local trivialization data; the finite-index image lacks the equivariant topological cohomology
+  comparison map.
 
 Finite coefficient products in the diagonal and Betti theorems are the exact coefficients of
 the locally finite infinite product: for n >= 4 a factor with index r > j cannot affect degree j.
@@ -233,5 +232,246 @@ theorem fermatDoubleLoopSimplyConnected (n : ℕ) (hn : 5 ≤ n) (k : Fin n → 
     (hk : ∀ i, 1 ≤ k i) (y : fermatFiber k) :
     SimplyConnectedSpace (Ω^ (Fin 2) (fermatFiber k) y) := by
   sorry
+
+/-! ## Layer 16: smooth stratified spaces, control data and the first isotopy lemma -/
+
+section Stratified
+
+open Filter
+open scoped Topology Manifold ContDiff
+
+variable {X : Type*} [TopologicalSpace X] {ι : Type*} {d : ι → ℕ} {S : ι → Type*}
+
+/-- Stratum `i` lies in the closure of the distinct stratum `j`; under the frontier condition
+this is the incidence order of the strata (§16.1a). -/
+def StratumLT (incl : ∀ i, S i → X) (i j : ι) : Prop :=
+  i ≠ j ∧ Set.range (incl i) ⊆ closure (Set.range (incl j))
+
+variable [∀ i, TopologicalSpace (S i)] [∀ i, ChartedSpace (EuclideanSpace ℝ (Fin (d i))) (S i)]
+
+/-- A smooth stratification of `X` (§16.1a): the strata are the images of topological
+embeddings `incl i` of nonempty boundaryless smooth manifolds `S i` of dimension `d i`; they are
+pairwise disjoint and locally closed, cover `X`, form a locally finite family and satisfy the
+frontier condition. -/
+structure IsSmoothStratification (incl : ∀ i, S i → X) : Prop where
+  nonempty : ∀ i, Nonempty (S i)
+  isEmbedding : ∀ i, Topology.IsEmbedding (incl i)
+  isLocallyClosed : ∀ i, IsLocallyClosed (Set.range (incl i))
+  pairwise_disjoint : Pairwise fun i j => Disjoint (Set.range (incl i)) (Set.range (incl j))
+  iUnion_range : ⋃ i, Set.range (incl i) = Set.univ
+  locallyFinite : LocallyFinite fun i => Set.range (incl i)
+  frontier_condition : ∀ i j, (Set.range (incl i) ∩ closure (Set.range (incl j))).Nonempty →
+    Set.range (incl i) ⊆ closure (Set.range (incl j))
+
+variable (d) in
+/-- Thom–Mather control data for the strata `incl` (§16.1b): for each stratum an open tube
+around it, a retraction of the tube onto the stratum and a nonnegative tubular function
+vanishing exactly on the stratum. For incident strata `i < j` the retraction and the tubular
+function of `i` are unchanged by the retraction of `j`, and together they restrict to a smooth
+submersion from the part of stratum `j` in the tube of `i` to `S i × ℝ`. Values of the
+retractions and tubular functions off their tubes are irrelevant. -/
+structure ControlData (incl : ∀ i, S i → X) where
+  tube : ι → Set X
+  proj : ∀ i, X → S i
+  tubularFun : ι → X → ℝ
+  isOpen_tube : ∀ i, IsOpen (tube i)
+  range_subset_tube : ∀ i, Set.range (incl i) ⊆ tube i
+  continuousOn_proj : ∀ i, ContinuousOn (proj i) (tube i)
+  proj_incl : ∀ i y, proj i (incl i y) = y
+  continuousOn_tubularFun : ∀ i, ContinuousOn (tubularFun i) (tube i)
+  tubularFun_nonneg : ∀ i, ∀ x ∈ tube i, 0 ≤ tubularFun i x
+  tubularFun_eq_zero_iff : ∀ i, ∀ x ∈ tube i, tubularFun i x = 0 ↔ x ∈ Set.range (incl i)
+  proj_proj : ∀ i j, StratumLT incl i j → ∀ x ∈ tube i ∩ tube j,
+    incl j (proj j x) ∈ tube i → proj i (incl j (proj j x)) = proj i x
+  tubularFun_proj : ∀ i j, StratumLT incl i j → ∀ x ∈ tube i ∩ tube j,
+    incl j (proj j x) ∈ tube i → tubularFun i (incl j (proj j x)) = tubularFun i x
+  contMDiffOn : ∀ i j, StratumLT incl i j →
+    ContMDiffOn (𝓡 (d j)) ((𝓡 (d i)).prod 𝓘(ℝ, ℝ)) ∞
+      (fun y => (proj i (incl j y), tubularFun i (incl j y))) (incl j ⁻¹' tube i)
+  isSubmersionAt : ∀ i j, StratumLT incl i j → ∀ y ∈ incl j ⁻¹' tube i,
+    Manifold.IsSubmersionAt (𝓡 (d j)) ((𝓡 (d i)).prod 𝓘(ℝ, ℝ)) ∞
+      (fun y => (proj i (incl j y), tubularFun i (incl j y))) y
+
+/-- A map is compatible with control data when, near each stratum, it is constant along the
+retraction of that stratum (§16.1b). -/
+def ControlData.IsCompatible {incl : ∀ i, S i → X} (C : ControlData d incl) {Y : Type*}
+    (f : X → Y) : Prop :=
+  ∀ i, ∀ᶠ x in 𝓝ˢ (Set.range (incl i)), x ∈ C.tube i ∧ f (incl i (C.proj i x)) = f x
+
+/-- Control data are invariant under `σ : X → X` when `σ` preserves every tube and commutes with
+every retraction and every tubular function (§16.1b). -/
+def ControlData.IsInvariant {incl : ∀ i, S i → X} (C : ControlData d incl) (σ : X → X) : Prop :=
+  ∀ i, ∀ x ∈ C.tube i, σ x ∈ C.tube i ∧ incl i (C.proj i (σ x)) = σ (incl i (C.proj i x)) ∧
+    C.tubularFun i (σ x) = C.tubularFun i x
+
+/-- A controlled vector field (§16.1d): a smooth vector field on every stratum such that, near
+each stratum `i` and on every stratum `j` with `i < j`, the derivative of the retraction of `i`
+carries the field on `j` to the field on `i` and the derivative of the tubular function of `i`
+kills it. -/
+structure ControlData.IsControlledVectorField [∀ i, IsManifold (𝓡 (d i)) ∞ (S i)]
+    {incl : ∀ i, S i → X} (C : ControlData d incl)
+    (ξ : ∀ i, (y : S i) → TangentSpace (𝓡 (d i)) y) : Prop where
+  contMDiff : ∀ i, ContMDiff (𝓡 (d i)) (𝓡 (d i)).tangent ∞
+    (fun y => (⟨y, ξ i y⟩ : TangentBundle (𝓡 (d i)) (S i)))
+  control : ∀ i j, StratumLT incl i j → ∃ U ∈ 𝓝ˢ (Set.range (incl i)), U ⊆ C.tube i ∧
+    ∀ y : S j, incl j y ∈ U →
+      mfderiv (𝓡 (d j)) (𝓡 (d i)) (fun z => C.proj i (incl j z)) y (ξ j y) =
+          ξ i (C.proj i (incl j y)) ∧
+        mfderiv (𝓡 (d j)) 𝓘(ℝ, ℝ) (fun z => C.tubularFun i (incl j z)) y (ξ j y) = 0
+
+/-- **Integration of controlled vector fields** (§16.1d; MATHER §§9–10). On a smooth stratified
+space with control data, the stratumwise integral curves of a controlled vector field assemble
+into a continuous local flow: it is defined on an open neighbourhood of `{0} × X` whose slices
+are intervals, obeys the flow law, and moves each point of a stratum along an integral curve of
+the field on that stratum. -/
+theorem ControlData.exists_flow [∀ i, IsManifold (𝓡 (d i)) ∞ (S i)] [T2Space X]
+    [LocallyCompactSpace X] [SecondCountableTopology X]
+    {incl : ∀ i, S i → X} (hS : IsSmoothStratification incl) (C : ControlData d incl)
+    {ξ : ∀ i, (y : S i) → TangentSpace (𝓡 (d i)) y} (hξ : C.IsControlledVectorField ξ) :
+    ∃ (D : Set (ℝ × X)) (φ : ℝ × X → X), IsOpen D ∧ (∀ x, (0, x) ∈ D) ∧
+      (∀ x, Set.OrdConnected {t | (t, x) ∈ D}) ∧ ContinuousOn φ D ∧ (∀ x, φ (0, x) = x) ∧
+      (∀ s t x, (s, x) ∈ D → ((t, φ (s, x)) ∈ D ↔ (s + t, x) ∈ D)) ∧
+      (∀ s t x, (s + t, x) ∈ D → (s, x) ∈ D → φ (t, φ (s, x)) = φ (s + t, x)) ∧
+      ∀ j (y : S j), ∃ γ : ℝ → S j, γ 0 = y ∧
+        (∀ t, (t, incl j y) ∈ D → incl j (γ t) = φ (t, incl j y)) ∧
+        IsMIntegralCurveOn γ (ξ j) {t | (t, incl j y) ∈ D} := by
+  sorry
+
+variable {m : ℕ} {N : Type*} [TopologicalSpace N] [ChartedSpace (EuclideanSpace ℝ (Fin m)) N]
+
+variable (m) in
+/-- A controlled submersion to a manifold `N` (§16.1b): a continuous map compatible with the
+control data whose restriction to every stratum is a smooth submersion. -/
+structure ControlData.IsControlledSubmersion {incl : ∀ i, S i → X} (C : ControlData d incl)
+    (f : X → N) : Prop where
+  continuous : Continuous f
+  isCompatible : C.IsCompatible f
+  contMDiff : ∀ j, ContMDiff (𝓡 (d j)) (𝓡 m) ∞ (fun y => f (incl j y))
+  isSubmersionAt : ∀ j y, Manifold.IsSubmersionAt (𝓡 (d j)) (𝓡 m) ∞ (fun y => f (incl j y)) y
+
+/-- **Lifting along a controlled submersion** (§16.1d; MATHER §§9–10). Every smooth vector field on
+the base lifts along a controlled submersion to a controlled vector field. -/
+theorem ControlData.exists_isControlledVectorField_lift [∀ i, IsManifold (𝓡 (d i)) ∞ (S i)]
+    [T2Space X] [LocallyCompactSpace X]
+    [SecondCountableTopology X] [IsManifold (𝓡 m) ∞ N]
+    {incl : ∀ i, S i → X} (hS : IsSmoothStratification incl) (C : ControlData d incl)
+    {f : X → N} (hf : C.IsControlledSubmersion m f) {η : (b : N) → TangentSpace (𝓡 m) b}
+    (hη : ContMDiff (𝓡 m) (𝓡 m).tangent ∞ (fun b => (⟨b, η b⟩ : TangentBundle (𝓡 m) N))) :
+    ∃ ξ : ∀ i, (y : S i) → TangentSpace (𝓡 (d i)) y, C.IsControlledVectorField ξ ∧
+      ∀ j (y : S j),
+        mfderiv (𝓡 (d j)) (𝓡 m) (fun z => f (incl j z)) y (ξ j y) = η (f (incl j y)) := by
+  sorry
+
+/-- **Thom's first isotopy lemma, controlled form** (§16.1e; MATHER Corollary 10.2). A proper
+controlled submersion from a smooth stratified space with control data to a boundaryless
+manifold is locally trivial by stratum-preserving homeomorphisms, each restricting to the
+identity on the fibre over its base point. -/
+theorem ControlData.exists_trivialization [∀ i, IsManifold (𝓡 (d i)) ∞ (S i)] [T2Space X]
+    [LocallyCompactSpace X] [SecondCountableTopology X] [T2Space N] [SecondCountableTopology N]
+    [IsManifold (𝓡 m) ∞ N]
+    {incl : ∀ i, S i → X} (hS : IsSmoothStratification incl) (C : ControlData d incl)
+    {f : X → N} (hf : C.IsControlledSubmersion m f) (hp : IsProperMap f) (b : N) :
+    ∃ e : Bundle.Trivialization (f ⁻¹' {b}) f, b ∈ e.baseSet ∧
+      (∀ x (hx : f x = b), e x = (b, ⟨x, hx⟩)) ∧
+      ∀ x ∈ e.source, ∀ j, x ∈ Set.range (incl j) ↔ ((e x).2 : X) ∈ Set.range (incl j) := by
+  sorry
+
+variable {n : ℕ} {M : Type*} [TopologicalSpace M] [ChartedSpace (EuclideanSpace ℝ (Fin n)) M]
+
+variable (d n) in
+/-- Whitney's condition (b) for strata `i < j` of a subset `A` of `M` at a point `y` of stratum
+`i`, read in the preferred chart `e` of `M` at `y` (§16.1a): along sequences `u k` in stratum `j`
+and `v k` in stratum `i` converging to `y` with distinct images, the distance from the unit
+secant vector of `e (v k)` and `e (u k)` to the chart image of the tangent space of stratum `j`
+at `u k` tends to zero. -/
+def WhitneyB {A : Set M} (incl : ∀ i, S i → A) (i j : ι) (y : S i) : Prop :=
+  ∀ (u : ℕ → S j) (v : ℕ → S i),
+    Tendsto (fun k => (incl j (u k) : M)) atTop (𝓝 (incl i y : M)) →
+    Tendsto (fun k => (incl i (v k) : M)) atTop (𝓝 (incl i y : M)) →
+    (∀ k, (incl j (u k) : M) ≠ incl i (v k)) →
+    Tendsto (fun k =>
+        let e := extChartAt (𝓡 n) (incl i y : M)
+        let w := e (incl j (u k)) - e (incl i (v k))
+        Metric.infDist (‖w‖⁻¹ • w)
+          (SetLike.coe (LinearMap.range
+            (mfderiv (𝓡 (d j)) (𝓡 n) (fun z => e (incl j z)) (u k)).toLinearMap)))
+      atTop (𝓝 0)
+
+variable (d n) in
+/-- A Whitney stratification of a closed subset `A` of `M` (§16.1a): the strata are images of
+smooth embeddings into `M` of nonempty boundaryless manifolds; they are pairwise disjoint, cover
+`A`, form a locally finite family and satisfy the frontier condition and Whitney's condition (b)
+for every incident pair. -/
+structure IsWhitneyStratification (A : Set M) (incl : ∀ i, S i → A) : Prop where
+  isClosed : IsClosed A
+  nonempty : ∀ i, Nonempty (S i)
+  isSmoothEmbedding : ∀ i,
+    Manifold.IsSmoothEmbedding (𝓡 (d i)) (𝓡 n) ∞ (fun y => (incl i y : M))
+  pairwise_disjoint : Pairwise fun i j => Disjoint (Set.range (incl i)) (Set.range (incl j))
+  iUnion_range : ⋃ i, Set.range (incl i) = Set.univ
+  locallyFinite : LocallyFinite fun i => Set.range (incl i)
+  frontier_condition : ∀ i j, (Set.range (incl i) ∩ closure (Set.range (incl j))).Nonempty →
+    Set.range (incl i) ⊆ closure (Set.range (incl j))
+  whitneyB : ∀ i j, StratumLT incl i j → ∀ y, WhitneyB d n incl i j y
+
+/-- **Existence of control data** (§16.1c; MATHER §7). The strata of a Whitney stratified closed
+subset `A` of a Hausdorff second-countable boundaryless manifold carry control data compatible
+with every smooth map `f` to a boundaryless manifold whose restriction to each stratum is a
+submersion. The tubes, retractions and tubular functions are restrictions to `A` of smooth
+ambient ones defined on open subsets of `M`, along which `f` is constant. -/
+theorem exists_controlData_isCompatible [∀ i, IsManifold (𝓡 (d i)) ∞ (S i)]
+    [T2Space M] [SecondCountableTopology M]
+    [IsManifold (𝓡 n) ∞ M] [IsManifold (𝓡 m) ∞ N]
+    {A : Set M} {incl : ∀ i, S i → A} (hA : IsWhitneyStratification d n A incl)
+    {f : M → N} (hf : ContMDiff (𝓡 n) (𝓡 m) ∞ f)
+    (hsub : ∀ j y, Manifold.IsSubmersionAt (𝓡 (d j)) (𝓡 m) ∞ (fun z => f (incl j z)) y) :
+    ∃ C : ControlData d incl, C.IsCompatible (A.domRestrict f) ∧
+      ∀ i, ∃ (T : Set M) (π : M → S i) (ρ : M → ℝ), IsOpen T ∧ C.tube i = Subtype.val ⁻¹' T ∧
+        (∀ x ∈ C.tube i, C.proj i x = π x ∧ C.tubularFun i x = ρ x) ∧
+        ContMDiffOn (𝓡 n) (𝓡 (d i)) ∞ π T ∧ ContMDiffOn (𝓡 n) 𝓘(ℝ, ℝ) ∞ ρ T ∧
+        ∀ x ∈ T, f (incl i (π x) : M) = f x := by
+  sorry
+
+/-- **Thom's first isotopy lemma, embedded form** (§16.1e; MATHER Proposition 11.1). For a
+Whitney stratified closed subset `A` of `M` and a smooth map `f : M → N` that is proper on `A`
+and a submersion on every stratum, the restriction of `f` to `A` is locally trivial by
+stratum-preserving homeomorphisms. -/
+theorem firstIsotopyLemma [∀ i, IsManifold (𝓡 (d i)) ∞ (S i)]
+    [T2Space M] [SecondCountableTopology M] [IsManifold (𝓡 n) ∞ M]
+    [T2Space N] [SecondCountableTopology N] [IsManifold (𝓡 m) ∞ N]
+    {A : Set M} {incl : ∀ i, S i → A} (hA : IsWhitneyStratification d n A incl)
+    {f : M → N} (hf : ContMDiff (𝓡 n) (𝓡 m) ∞ f)
+    (hsub : ∀ j y, Manifold.IsSubmersionAt (𝓡 (d j)) (𝓡 m) ∞ (fun z => f (incl j z)) y)
+    (hp : IsProperMap (A.domRestrict f)) (b : N) :
+    ∃ e : Bundle.Trivialization ((A.domRestrict f) ⁻¹' {b}) (A.domRestrict f), b ∈ e.baseSet ∧
+      ∀ x ∈ e.source, ∀ j, x ∈ Set.range (incl j) ↔ ((e x).2 : A) ∈ Set.range (incl j) := by
+  sorry
+
+/-- **Equivariant stratified pair transport** (§16.2). Let `σM` and `σN` be smooth involutions
+with `f ∘ σM = σN ∘ f`, preserving `A` (through `σA`) and each of its strata, and let the
+control data be compatible with `f` and invariant under `σA`. Then over a `σN`-invariant
+neighbourhood of every `σN`-fixed point the restriction of `f` to `A` has a stratum-preserving
+trivialization intertwining `σA` with `σN` on the base and `σA` on the fibre. -/
+theorem equivariantStratifiedTransport [∀ i, IsManifold (𝓡 (d i)) ∞ (S i)]
+    [T2Space M] [SecondCountableTopology M]
+    [IsManifold (𝓡 n) ∞ M] [T2Space N] [SecondCountableTopology N] [IsManifold (𝓡 m) ∞ N]
+    {A : Set M} {incl : ∀ i, S i → A} (hA : IsWhitneyStratification d n A incl)
+    {f : M → N} (hf : ContMDiff (𝓡 n) (𝓡 m) ∞ f)
+    (hsub : ∀ j y, Manifold.IsSubmersionAt (𝓡 (d j)) (𝓡 m) ∞ (fun z => f (incl j z)) y)
+    (hp : IsProperMap (A.domRestrict f))
+    {σM : M → M} {σN : N → N} (hσM : ContMDiff (𝓡 n) (𝓡 n) ∞ σM)
+    (hσN : ContMDiff (𝓡 m) (𝓡 m) ∞ σN) (hσM2 : ∀ x, σM (σM x) = x)
+    (hσN2 : ∀ b, σN (σN b) = b) (hfσ : ∀ x, f (σM x) = σN (f x))
+    (σA : A → A) (hσA : ∀ x, (σA x : M) = σM x)
+    (hstrata : ∀ i y, σA (incl i y) ∈ Set.range (incl i))
+    (C : ControlData d incl) (hC : C.IsCompatible (A.domRestrict f)) (hCσ : C.IsInvariant σA)
+    (b : N) (hb : σN b = b) :
+    ∃ e : Bundle.Trivialization ((A.domRestrict f) ⁻¹' {b}) (A.domRestrict f), b ∈ e.baseSet ∧
+      σN ⁻¹' e.baseSet = e.baseSet ∧
+      (∀ x ∈ e.source, ∀ j, x ∈ Set.range (incl j) ↔ ((e x).2 : A) ∈ Set.range (incl j)) ∧
+      ∀ x ∈ e.source, (e (σA x)).1 = σN (e x).1 ∧ ((e (σA x)).2 : A) = σA (e x).2 := by
+  sorry
+
+end Stratified
 
 end TauCetiRoadmap.AlgebraicTopologyPartII
