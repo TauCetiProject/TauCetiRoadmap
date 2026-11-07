@@ -628,7 +628,7 @@ disproved smoothly).
 
 Mathlib's Riemannian library reaches the metric-and-distance level but stops short of
 volume and curvature, which is exactly what the hyperbolic-geometry Kirby problems need. The
-[Hopf--Rinow roadmap](../HopfRinow/README.md), Layer 1, owns the intervening Levi-Civita
+[Hopf--Rinow roadmap](../../Completed/HopfRinow/README.md), Layer 1, owns the intervening Levi-Civita
 connection; this layer consumes that shared connection rather than constructing a second one. The
 Riemannian volume measure is this layer's and is in Tau Ceti as `TauCeti.riemannianVolume`
 (`TauCeti/Geometry/Manifold/Riemannian/VolumeDensity/`); the

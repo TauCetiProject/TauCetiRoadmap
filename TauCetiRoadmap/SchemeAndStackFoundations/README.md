@@ -25,7 +25,7 @@ hypotheses.
 
 | Layer | Title | What it delivers |
 |---|---|---|
-| [0](#layer-0-schemes-and-morphisms) | Schemes and morphisms | direct-image algebras and relative Proj, coherent extension and Hartogs, dimension theory and limits, henselization of pairs, catenary, Cohen–Macaulay, Nagata and excellent rings, perfect schemes and universal homeomorphisms, étale topological invariance (§0.23a), scheme Frobenius (§0.29), ideal-sheaf comparisons |
+| [0](#layer-0-schemes-and-morphisms) | Schemes and morphisms | direct-image algebras and relative Proj, coherent extension and Hartogs, dimension theory and limits, henselization of pairs, catenary, Cohen–Macaulay, Nagata and excellent rings, perfect schemes and universal homeomorphisms, étale topological invariance (§0.23a), scheme Frobenius (§0.29), ideal-sheaf comparisons, normal schemes and ramification at a point (§0.30) |
 | [1](#layer-1-descent-algebraic-spaces-and-stacks) | Descent, algebraic spaces and stacks | fpqc/fppf descent, algebraic spaces, group spaces, groupoids, torsors and quotients, algebraic and Deligne–Mumford stacks, moduli spaces, Galois gerbs |
 | [2](#layer-2-sites-and-scheme-cohomology) | Sites and scheme cohomology | site cohomology and torsors, quasi-coherent cohomology and supports, topology comparisons, the Nisnevich site, pro-étale site foundations, coherent duality, Brauer groups, equivariant cohomology |
 | [3](#layer-3-curves-divisors-and-picard-objects) | Curves, divisors and Picard objects | genus checks, degrees and duality for vector bundles on curves, Picard groups, groupoids, norms and torsors, Picard stacks and Abel maps |
@@ -58,6 +58,7 @@ relative Proj and its comparison with the finitely generated case, extension of 
 henselization of pairs, the catenary, Cohen–Macaulay, Nagata and excellent packages, perfect schemes
 and perfection, the universal-homeomorphism equivalence of small étale sites (§0.23a),
 absolute, relative, iterated and finite-field scheme Frobenius with coherent twists (§0.29),
+normal schemes, codimension-one points under finite dominant morphisms and ramification at a point (§0.30),
 the ideal-sheaf comparison API, algebraic spaces with their small étale sites,
 group algebraic spaces, groupoids, torsors and their classes, categorical and geometric quotient predicates,
 projective quotients by finite groups, algebraic stacks, moduli spaces, Galois gerbs, the
@@ -430,6 +431,7 @@ Layers 9–10 (continuous cohomology, Hilbert 90 and Kummer theory for fields).
 | §0.23a / `universalHomeomorphismEtaleEquivalence` | Scheme base change gives the equivalence of small étale sites, preserving and reflecting covers, with coherent composition and arbitrary base change. |
 | §0.29 / `SchemeFrobenius.absoluteFrobenius`, `SchemeFrobenius.schemeFrobeniusTwist`, `SchemeFrobenius.relativeFrobenius`, `SchemeFrobenius.iteratedSchemeFrobenius` | Arbitrary characteristic-`p` schemes have absolute and relative maps with distinct codomains; smooth pure relative dimension `d` gives finite locally free relative Frobenius of rank `p^d`. |
 | §0.29 / `SchemeFrobenius.qPowerFrobenius` | Over a field of order `q = p^a`, the specified absolute iterate is a map over that field. Its base change fixes extension-field scalars and is compared with relative Frobenius. |
+| §0.30 / `NormalSchemes.IsNormalScheme`, `NormalSchemes.codimensionOneMap`, `NormalSchemes.ramificationIdxAt` | Normality is stalkwise (integrally closed domains). Points of coheight one map to points of coheight one under finite dominant morphisms of integral schemes whose target is Noetherian and locally of finite type over a field, or normal; the ramification index at a point is Mathlib's `Ideal.ramificationIdx` of the stalk maximal ideal. |
 
 ### Other supplier contracts
 
@@ -474,7 +476,8 @@ comparison API that closed immersions need.
 **Conventions of this layer.** `S_aff` is Mathlib's small affine Zariski site `S.AffineZariskiSite`.
 A quasi-coherent algebra is Tau Ceti's `TauCeti.AlgebraicGeometry.QuasicoherentAlgebra` (a commutative
 monoid in `S.Modules` with quasi-coherent underlying module), a graded one is AlgebraicVectorBundles
-L2A's `GradedQuasicoherentAlgebra`; gradings are indexed by `ℕ` with `O_S` in degree zero. Henselian
+L2A's `GradedQuasicoherentAlgebra`; gradings are indexed by `ℕ`, and the degree-zero part `A_0` is an
+`O_S`-algebra through the unit `O_S → A_0`, which is an isomorphism only where a target says so. Henselian
 pairs are Mathlib's `HenselianRing R I`; regular rings are `IsRegularRing`; regular sequences are
 `RingTheory.Sequence.IsRegular`. Perfection of an `𝔽_p`-algebra is Mathlib's colimit-along-Frobenius
 `PerfectClosure`, never the inverse-limit `Perfection`. Weil restriction is ModularCurves 0F; strict
@@ -549,18 +552,35 @@ AlgebraicVectorBundles L1B.
 
 Prove `Proj.isPullback_baseChange`: for a graded `R`-algebra `A` and `R → R'`, Mathlib's
 `Proj (A ⊗_R R')` is the base change of `Proj A` along `Spec R' → Spec R` (Stacks, Lemma 27.11.6
-(01N2)). Construct `relativeProj A` for an arbitrary `ℕ`-graded quasi-coherent `O_S`-algebra `A` with
-`A_0 = O_S` (AlgebraicVectorBundles L2A's `GradedQuasicoherentAlgebra`): the scheme over `S` glued
-from `Proj A(U)` over the affine opens `U` of `S`, with its structure morphism `relativeProj.toBase`,
-separated, with the invertible sheaves `O(n)` when `A` is generated in degree one, and the affine
-comparison `relativeProj_affine_iso : relativeProj A ≅ Proj A(S)` over `Spec A(S)` for affine `S`
-(Stacks, Lemmas 27.15.2–27.15.4 (01NO, 01NP, 01NQ)). Prove `relativeProj_baseChange`: formation of
-`relativeProj` commutes with arbitrary base change `S' → S` (Stacks, Lemma 27.16.10 (01O3)). Prove
-the compatibility `relativeProj_eq_stableReduction`: on a graded algebra that is finitely generated
-in the sense of StableReduction Layer 2, `relativeProj A` is StableReduction's relative Proj, by an
-isomorphism over `S` compatible with `O(1)` and with base change; the finitely generated construction
-is the special case, not a second carrier. *Needs:* AlgebraicVectorBundles L2A; StableReduction
-Layer 2; Mathlib `Proj`, `Proj.toSpecZero`, `GradedAlgebra`, gluing.
+(01N2)). Construct `relativeProj A` for an arbitrary `ℕ`-graded quasi-coherent `O_S`-algebra `A`
+(AlgebraicVectorBundles L2A's `GradedQuasicoherentAlgebra`), whose degree-zero part `A_0` is an
+`O_S`-algebra through the unit `O_S → A_0` and need not be `O_S` (Stacks, Situation 27.15.1 (01NN)):
+the scheme over `S` glued from `Proj A(U)` over the affine opens `U` of `S` (Stacks, Lemmas
+27.15.2–27.15.4 (01NO, 01NP, 01NQ)). Its structure morphism `relativeProj.toBase` is glued from
+the composites `Proj A(U) → Spec A(U)_0 → U` of Mathlib's `Proj.toSpecZero` with the map induced
+by `O_S(U) → A_0(U)`, and is separated (Stacks, Lemma 27.16.9 (01O2)). Construct the quasi-coherent
+twisting sheaves `O(n)`, `n ∈ ℤ`, with the graded map `A → ⊕_{n ≥ 0} (relativeProj.toBase)_* O(n)`
+(Stacks, Lemma 27.15.5 (01NR)). *Generated in degree one* means generated by `A_1` as a graded
+`A_0`-algebra; then `O(1)` is invertible and multiplication gives `O(n) ≅ O(1)^{⊗n}` (Stacks, Lemma
+27.16.11 (01O4)). Generation by `A_1` as an `O_S`-algebra is a stronger condition, forcing
+`O_S → A_0` to be surjective. Prove the affine comparison
+`relativeProj_affine_iso : relativeProj A ≅ Proj A(S)` over `S` for affine `S`. Prove
+`relativeProj_baseChange`: formation of `relativeProj` commutes with arbitrary base change
+`g : S' → S`, with degree-zero part `g^* A_0`, compatibly with `O(n)` (Stacks, Lemma 27.16.10
+(01O3)). Prove `relativeProj_veronese`: for `d ≥ 1` the Veronese subalgebra `A^{(d)} = ⊕_k A_{dk}`,
+which has the same degree-zero part `A_0`, satisfies `relativeProj A^{(d)} ≅ relativeProj A` over
+`S`, with `O(n)` corresponding to `O(dn)` (Stacks, Lemma 27.11.8 (0B5J), on affine charts). Prove
+`relativeProj_closedImmersion`: if `A_1` is of finite type and `A` is generated in degree one, the
+graded map `Sym_{O_S} A_1 → A` is surjective in every positive degree and induces a closed
+immersion `relativeProj A → relativeProj (Sym_{O_S} A_1)` over `S` pulling `O(1)` back to `O(1)`
+(Stacks, Lemmas 27.11.3 and 27.11.5 (01N0, 01N1), on affine charts), so `relativeProj A → S` is
+projective. When the unit `O_S → A_0` is an isomorphism, as for symmetric algebras and §5.4's
+projective bundles, these are the same constructions, not a second carrier. Prove the compatibility
+`relativeProj_eq_stableReduction`: on a graded algebra that is finitely generated in the sense of
+StableReduction Layer 2, whatever its degree-zero part, `relativeProj A` is StableReduction's
+relative Proj, by an isomorphism over `S` compatible with `O(1)` and with base change; the finitely
+generated construction is the special case, not a second carrier. *Needs:* AlgebraicVectorBundles
+L2A; StableReduction Layer 2; Mathlib `Proj`, `Proj.toSpecZero`, `GradedAlgebra`, gluing.
 
 **Checks.**
 - `relativeProj_polynomial`: for `A = O_S[T_0, …, T_n]` (the symmetric algebra of `O_S^{n+1}`),
@@ -568,6 +588,12 @@ Layer 2; Mathlib `Proj`, `Proj.toSpecZero`, `GradedAlgebra`, gluing.
 - `relativeProj_degreeZero`: for `A = O_S` concentrated in degree zero, `relativeProj A` is empty.
 - `relativeProj_not_generated_degree_one`: for `A = O_S[T]` with `T` in degree two, `relativeProj A`
   is `S` but `O(1)` is not invertible; invertibility of `O(1)` needs generation in degree one.
+- `relativeProj_product_degreeZero`: over `S = Spec k`, let `A = k[x, y] × k[x, y]`, so
+  `A_0 = k × k ≠ k`. Then `relativeProj A = ℙ¹_k ⊔ ℙ¹_k`, its structure morphism factors through
+  `Spec (k × k)`, and `O(1)` is invertible, restricting to `O(1)` on each component: `A` is generated
+  in degree one over `A_0`, although the `k`-subalgebra generated by `A_1` has degree-zero part `k`.
+  `relativeProj_closedImmersion` embeds it in `ℙ³_k` as two disjoint lines, and every Veronese
+  subalgebra of `A` again has degree-zero part `k × k`.
 - `relativeProj_eq_stableReduction_polynomial`: the comparison iso is the identity on `ℙ^n_S`.
 
 *Lean:* `Proj.isPullback_baseChange` (with the two maps of the square existentially quantified).
@@ -680,8 +706,29 @@ free and `(S_2)`, iff `F = j_* j^* F` for some open `j : U → X` with complemen
 on which `F` is finite locally free (Lemma 31.13.13 (0AY6)); and a reflexive sheaf has depth `≥ 2`
 at every point where `O_X` does, so it is `(S_2)` when `X` is (Lemma 31.13.11 (0EBI)). Prove `coherent_hartogs`: for a coherent `F` on a locally Noetherian `X` and a closed `Z`
 such that `depth F_x ≥ 2` at every point of `Z`, restriction `F(X) → F(X ∖ Z)` is an isomorphism
-(Stacks, Lemma 31.5.11 (0E9I)). *Needs:* §0.4, §0.17 (depth); Tau Ceti `SheafOfModules.dual`;
-Mathlib `Module.IsReflexive`, `Module.Dual.eval`.
+(Stacks, Lemma 31.5.11 (0E9I)).
+
+Without integrality: prove `IsReflexive.two_le_depth_stalk`: for a coherent reflexive `F` on a
+locally Noetherian `X` and a point `x` with `depth O_{X,x} ≥ 2`, `depth F_x ≥ 2` (Lemma 31.13.11
+(0EBI), part (1), stated there for integral `X`; `F_x` is `Hom(Hom(F_x, O_{X,x}), O_{X,x})`, so
+§0.17 `depth_hom_ge` applies, and the argument uses no integrality). Prove
+`reflexive_extension_of_depth`: for a locally Noetherian `X` and an open `j : U → X` with
+`depth O_{X,x} ≥ 2` at every `x ∉ U`, `j^*` and `j_*` are inverse equivalences between coherent
+reflexive `O_X`-modules and coherent reflexive `O_U`-modules (Lemma 31.13.12 (0EBJ), stated there
+for integral `X`; reflexive is `Scheme.Modules.IsReflexive` above). The proof is affine-local.
+For a coherent reflexive `F` on `X`, `F → j_* j^* F` is an isomorphism by
+`IsReflexive.two_le_depth_stalk` and `coherent_hartogs` applied on every open of `X` (the sheaf
+form of 0E9I). For a coherent reflexive `G` on `U`,
+extend it to a coherent `F` on `X` (§0.4 `coherent_extension`). Then `F^{∨∨}` restricts to
+`G^{∨∨} = G` and has depth `≥ 2` at every point of `X ∖ U` (§0.17 `depth_hom_ge`), so
+`F^{∨∨} = j_* G` by `coherent_hartogs` on every open of `X`, and `j_* G` is coherent. Its evaluation map
+`F^{∨∨} → F^{∨∨∨∨}` is an isomorphism over `U`. At a point of `X ∖ U` both sides have depth
+`≥ 2`, so the target has no associated prime there, and §0.17 `bijective_of_depth` makes the
+map an isomorphism. On a normal `X` the codimension-two hypothesis of
+`reflexive_extension_normal` gives this depth hypothesis. *Needs:* §0.4, §0.17 (depth,
+`depth_hom_ge`, `bijective_of_depth`); Tau Ceti `SheafOfModules.dual`; Mathlib
+`Module.IsReflexive`, `Module.Dual.eval`, `Scheme.Modules.restrictFunctor`,
+`Scheme.Modules.pushforward`.
 
 **Checks.**
 - `reflexive_extension_torsion_rejected`: on `Spec k[t]`, `F = k[t] ⊕ k[t]/(t)`
@@ -694,6 +741,16 @@ Mathlib `Module.IsReflexive`, `Module.Dual.eval`.
   `I^{∨∨} = O_X ≠ I`; a torsion-free sheaf need not be reflexive.
 - `test_hartogs_plane`: `Γ(𝔸² ∖ {0}, O) = k[x, y]` by `coherent_hartogs`; on `𝔸¹`, removing the
   origin gives `k[x, x^{-1}]`, so the depth hypothesis is essential.
+- `reflexive_extension_reducible`: over a field `k`, `X = Spec k[x, y, z, w]/(xw)` is reducible
+  and Cohen–Macaulay of dimension three, so `depth O_{X,0} = 3`; for `U = X ∖ {0}`,
+  `reflexive_extension_of_depth` gives `j_* O_U = O_X`. Lemma 31.13.12 (0EBJ) does not apply, as `X`
+  is not integral. This exercises only the direction `F → j_* j^* F` for `F = O_X`, which is
+  `coherent_hartogs`; the `j_*` direction for a reflexive sheaf on `U` that does not extend as a
+  locally free sheaf is not exercised by a check here.
+- `reflexive_extension_two_planes`: for `X` the union of the planes `V(x, y)` and `V(z, w)` in
+  `𝔸⁴_k`, meeting at the origin, `depth O_{X,0} = 1`, and for `U = X ∖ {0}` the sheaf `j_* O_U` is
+  the direct image of the structure sheaf of the disjoint union of the two planes, not `O_X`; the
+  depth hypothesis of `reflexive_extension_of_depth` is needed.
 
 ### 0.7 Local dimension and dimension theory of schemes of finite type over a field
 
@@ -1136,6 +1193,30 @@ localisations of `M_p` at primes are localisations of `M`). *Needs:* Mathlib
 `RingTheory.Sequence.IsWeaklyRegular`, `IsRegular`, `Module.support`, `Module.supportDim`,
 `Ideal.height`, `IsRegularLocalRing`, `Ext`.
 
+Prove the depth lemmas used to extend modules across a closed subset of depth `≥ 2`. Here `R` is
+Noetherian, each lemma states which modules are finite, as in Stacks, and the depth of a
+localization `M_p` is `IsLocalRing.depth` of `LocalizedModule p.primeCompl M` over
+`Localization.AtPrime p`.
+`depth_shortExact` (Algebra, Lemma 10.72.6 (00LX)): for a short exact sequence
+`0 → N' → N → N'' → 0` of nonzero finite modules over a Noetherian local ring,
+`depth N ≥ min (depth N') (depth N'')`, `depth N'' ≥ min (depth N) (depth N' − 1)` and
+`depth N' ≥ min (depth N) (depth N'' + 1)`. `depth_hom_ge` (More on Algebra, Lemma 15.24.10 (0AV5)):
+over a Noetherian local ring and finite modules `M` and `N`, for `n ≤ 2`, `n ≤ depth N` implies
+`n ≤ depth (M →ₗ[R] N)`. `injective_of_forall_localization` (Lemma 15.24.12 (0AV7)): an `R`-linear
+map `φ : M → N`, with no finiteness hypothesis, is
+injective if at every prime `p` either `φ_p` is injective or `p ∉ associatedPrimes R M`.
+`bijective_of_depth` (Lemma 15.24.13 (0AV8)): an `R`-linear map `φ : M → N` with `M` finite is
+bijective if at every prime `p` either `φ_p` is bijective, or `2 ≤ depth M_p` and
+`p ∉ associatedPrimes R N`. `depth_eq_iInf_localization_maximal` (Algebra, Lemma 10.72.11
+(0AUK)): for a finite ring map `R → S` with `R` Noetherian local and a finite `S`-module `N`,
+`Module.depth (maximalIdeal R) N` is the minimum of `depth N_𝔫` over the finitely many maximal
+ideals `𝔫` of `S`. `depth_eq_add_of_flat` (Lemma 10.163.2 (0337)): for a flat local homomorphism
+`R → S` of Noetherian local rings, `depth S = depth R + depth (S ⧸ (maximalIdeal R).map (algebraMap R S))`,
+where the last term is `IsLocalRing.depth` of the quotient as an `S`-module (it equals the depth of
+the quotient local ring over itself).
+*Needs:* the depth API above; Mathlib `associatedPrimes`, `LocalizedModule`, `Module.Flat`,
+`IsLocalHom`, `Module.Finite`.
+
 **Checks.**
 - `IsLocalRing.depth.test_residueField`: for a Noetherian local ring `R` of positive dimension,
   `depth κ = 0`.
@@ -1162,6 +1243,13 @@ localisations of `M_p` at primes are localisations of `M`). *Needs:* Mathlib
   origin is an embedded prime.
 - `Ring.IsCohenMacaulay.test_not_cm`: `k[x, y]/(x², xy)` is not Cohen–Macaulay, by the previous
   check and `isCohenMacaulay_iff_forall_satisfiesSerreS`.
+- `bijective_of_depth.test_maximal_ideal`: for `R = k[x, y]` and the inclusion `𝔪 = (x, y) → R`,
+  the map is bijective at every prime other than `𝔪`, and `depth 𝔪_𝔪 = 1`; it is not surjective,
+  so the bound `2` in `bijective_of_depth` cannot be lowered to `1`.
+- `depth_hom_ge.test_dual_maximal`: for `R = k[x, y]_{(x, y)}`, `Hom_R(𝔪, R) = R`, of depth `2`, as
+  `depth_hom_ge` predicts from `depth R = 2`.
+- `depth_eq_add_of_flat.test_polynomial`: for `R = k[x]_{(x)}` and `S = k[x, y]_{(x, y)}`,
+  `depth S = 2 = depth R + depth (S ⧸ x S)`.
 
 ### 0.18 Scheme-theoretic support and Cohen–Macaulay schemes
 
@@ -1865,6 +1953,77 @@ Mathlib `FiniteField.frobenius_pow` for the finite-field identity.
 `qPowerFrobenius`, `qPowerFrobenius_eq_iterated`, `qPowerFrobenius_over`.
 The zeroth-iterate, quadratic-field and scalar-base-change Checks are `example`s.
 
+### 0.30 Normal schemes, codimension-one points under finite morphisms, ramification at a point
+
+The suggested forms of this subsection are the strand `NormalSchemes` of `Suggested.lean`.
+
+*Normal schemes.* Define the class `IsNormalScheme X`: every local ring `X.presheaf.stalk x` is a
+domain and integrally closed (Stacks, Definition 28.7.1 (033I)). Prove
+`isNormalScheme_iff_forall_affineOpens` and its open-cover form (Lemma 28.7.2 (033J)),
+`IsNormalScheme.of_isOpenImmersion`, `IsNormalScheme.isReduced` (Lemma 28.7.3 (033K)),
+`isNormalScheme_Spec_iff` (for a domain `R`, `Spec R` is normal iff `R` is integrally closed),
+`IsNormalScheme.isIntegrallyClosed_of_isAffineOpen` (on an integral normal scheme the sections over
+a nonempty affine open are integrally closed), and `IsNormalScheme.isDiscreteValuationRing_stalk`:
+on a locally Noetherian normal scheme the stalk at a point of coheight one is a discrete valuation
+ring, hence a regular local ring (Algebra, Lemma 10.119.7 (00PD)). §4.13 *IsRegular.isNormal* is
+the instance `IsNormalScheme.of_isRegular` for this predicate.
+
+*Codimension-one points under finite dominant morphisms.* Let `f : X ⟶ Y` be finite and dominant
+with `X` and `Y` integral. Prove `coheight_eq_one_of_coheight_apply_eq_one`: a point over a point
+of coheight one has coheight one (incomparability, with dominance). Prove `coheight_apply_eq_one`:
+the image of a point of coheight one has coheight one when `Y` is locally Noetherian with
+Noetherian underlying space and `Y ⟶ Spec k` is locally of finite type for a field `k`. The proof
+applies the local formula `dim_x X = trdeg_k κ(x) + dim 𝒪_{X,x}` (Varieties, Lemma 33.20.3 (0A21))
+on `X` and on `Y`, with `dim X = dim Y` (Morphisms, Lemma 29.45.9 (0ECG)) and
+`[κ(x) : κ(f x)] < ∞`. Prove `coheight_apply_eq_one_of_isNormalScheme` when `Y` is normal and
+locally Noetherian (going down, Algebra, Proposition 10.38.7 (00H8)). Without either hypothesis the
+statement fails (Examples, Section 110.19 (02JE)). Define
+`codimensionOneMap f hf : CodimensionOnePoint X → CodimensionOnePoint Y`, where `hf` is the
+conclusion of either lemma, and prove `codimensionOneMap_surjective`,
+`finite_codimensionOneMap_fiber`, `codimensionOneMap_comp` and `codimensionOneMap_id`.
+
+*Ramification at a point.* For `f : X ⟶ Y` and `x : X` define `ramificationIdxAt f x`:
+the ramification index (Mathlib `Ideal.ramificationIdx`) of the maximal ideal of
+`X.presheaf.stalk x` over `Y.presheaf.stalk (f x)` along `f.stalkMap x`. Prove
+`ramificationIdxAt_pos` for `f` finite and dominant between integral schemes and `x` of coheight
+one, and `ramificationIdxAt_eq_dvr`: at a point of coheight one of a locally Noetherian normal
+integral `X` with `f x` of coheight one on a locally Noetherian normal integral `Y`, it is the
+ramification index of the extension of discrete valuation rings (More on Algebra, Definition
+15.113.1 (09E4)). Prove `ramificationIdxAt_comp`: for finite dominant `f : X ⟶ Y`, `g : Y ⟶ Z`
+between locally Noetherian normal integral schemes and `x` of coheight one,
+`ramificationIdxAt (f ≫ g) x = ramificationIdxAt f x * ramificationIdxAt g (f x)`. The stalk map
+of `f ≫ g` at `x` is the composite of the stalk maps (Mathlib `Scheme.Hom.stalkMap_comp`), and
+Mathlib `Ideal.ramificationIdx_tower` needs `Module.Flat`, which holds because an extension of
+discrete valuation rings is torsion free.
+
+*Regular quotients of a regular local ring.* Prove
+`exists_regularSystem_of_quotient` (Algebra, Lemma 10.106.4 (00NR)): if `R` is a
+regular local ring and `I` an ideal with `R ⧸ I` a regular local ring, then `I` is generated by
+the first `c` members of a minimal generating set `x_1, …, x_d` of the maximal ideal, for some
+`c ≤ d`. Prove its codimension-one case `isPrincipal_of_height_eq_one`: a prime
+of height one with regular quotient is generated by one element of `𝔪 ∖ 𝔪²`.
+
+*Needs:* §§0.7, 0.20, 4.13; Mathlib `IsIntegrallyClosed`, `IsDiscreteValuationRing`, `IsReduced`,
+`IsAffineOpen`, `Order.coheight`, `Algebra.HasGoingDown`, `IsFinite`, `IsDominant`,
+`Ideal.ramificationIdx`, `Ideal.ramificationIdx_tower`, `Scheme.Hom.stalkMap_comp`,
+`IsRegularLocalRing`, `Ideal.height`; Tau Ceti `TauCeti.AlgebraicGeometry.CodimensionOnePoint`,
+`TauCeti.IsRegularLocalRing.quotient_span_singleton_iff`.
+
+**Checks.**
+
+- `IsNormalScheme.test_cusp`: `Spec k[t², t³]` is integral and not normal; `Spec k[t]` is normal.
+- `codimensionOneMap.test_square`: for `x ↦ x²` on `𝔸¹_k`, `codimensionOneMap` sends the closed
+  point `x = a` to `x = a²`, and the fibre over `x = 0` is one point.
+- `ramificationIdxAt.test_square`: for `x ↦ x²` on `𝔸¹_k` with `2` invertible in `k`, the
+  ramification index is `2` at `x = 0` and `1` at `x = 1`.
+- `exists_regularSystem_of_quotient.test_parabola`: in `k[x, y]_{(x, y)}` the quotient by
+  `y − x²` is regular and `y − x² ∉ 𝔪²`; the quotient by `y² − x³` is not regular.
+
+*Lean:* `NormalSchemes.IsNormalScheme`, `NormalSchemes.coheight_apply_eq_one`,
+`NormalSchemes.coheight_apply_eq_one_of_isNormalScheme`, `NormalSchemes.codimensionOneMap`,
+`NormalSchemes.codimensionOneMap_surjective`, `NormalSchemes.ramificationIdxAt`,
+`NormalSchemes.ramificationIdxAt_comp`, `NormalSchemes.exists_regularSystem_of_quotient`.
+
 ### Examples
 
 The acceptance instances of Layer 0: the henselization of `ℤ_{(p)}` is the algebraic `p`-adic
@@ -2502,10 +2661,14 @@ affine invariant quotients of these opens (`TauCeti.AffineInvariantQuotient.quot
 scheme `Y/Γ` with `q : Y → Y/Γ` finite, surjective and `Γ`-invariant, `O_{Y/Γ} = (q_* O_Y)^Γ`, and
 `q` satisfies `IsGeometricQuotient` and `IsCategoricalQuotient` for the action groupoid. For an
 `f`-ample invertible `L` on `Y`, let `M := ⊗_{γ ∈ Γ} γ^* L` with its canonical `Γ`-linearization.
-The invariant algebra `(⊕_{k ≥ 0} f_* M^{⊗k})^Γ` is a finitely generated graded `O_S`-algebra whose
-`N`-th Veronese subalgebra is generated in degree one for some `N > 0`; `Y/Γ` is a closed subscheme
-of its relative `Proj` (§0.3), so `Y/Γ → S` is projective, and the restriction `L_Q` of `O(1)` is an
-invertible sheaf relatively ample over `S`, with `q^* L_Q ≅ M^{⊗N}` compatibly with the
+The invariant algebra `A := (⊕_{k ≥ 0} f_* M^{⊗k})^Γ` is a finitely generated graded quasi-coherent
+`O_S`-algebra. Its degree-zero part `A_0 = (f_* O_Y)^Γ` is a finite `O_S`-algebra, in general not
+`O_S`, and the theorem imposes no condition on it. For some `N > 0` the `N`-th Veronese subalgebra
+`A^{(N)}`, whose degree-zero part is again `A_0`, is generated by `A_N` as a graded `A_0`-algebra.
+`Y/Γ` is a closed subscheme of `relativeProj A^{(N)}` (§0.3, which takes this degree-zero part as
+it is; `relativeProj_veronese` identifies it with `relativeProj A`), so `Y/Γ → S` is projective by
+`relativeProj_closedImmersion`, and the restriction `L_Q` of `O(1)` is an invertible sheaf
+relatively ample over `S`, with `q^* L_Q ≅ M^{⊗N}` compatibly with the
 linearizations (Rydh 2013,
 Proposition (3.8), p. 13, Definition (3.17), p. 18, Lemma (4.3) and Theorem (4.4), p. 20,
 Proposition (4.7), case (B′), and its proof, pp. 20–22, Remark (4.9)(4), pp. 22–23; Stacks,
@@ -2566,8 +2729,14 @@ Section 39.23 (03BE)). Formation of `Y/Γ` is asserted to commute with flat base
   does not commute with the base change `ℤ → 𝔽_2`.
 - `finiteGroupQuotient_swap_projectivePlane`: over a field `k`, `Γ = ℤ/2` exchanging the factors of
   `ℙ¹_k × ℙ¹_k` fixes the diagonal pointwise; the quotient is `ℙ²_k`, the space of binary
-  quadratic forms up to scalars, via `(a, b) ↦ ab`, and with `L = O(1, 0)`, `M = O(1, 1)` and
-  `q^* O(1) ≅ M`.
+  quadratic forms up to scalars, via `q(a, b) = ab`, with `q^* O(1) ≅ O(1, 1)`. With the ample
+  `L = O(1, 1)`, `M = L ⊗ σ^* L = O(2, 2)`, the invariant algebra is `⊕_k H⁰(ℙ²_k, O(2k))`, so
+  `N = 1`, `L_Q = O_{ℙ²}(2)` and `q^* O(2) ≅ M`.
+- `finiteGroupQuotient_two_components`: over `S = Spec k`, let `Y = ℙ¹_k ⊔ ℙ¹_k`, `Γ = 1` and `L`
+  restrict to `O(1)` on each component. Then `M = L`, `N = 1` and
+  `A_0 = Γ(Y, O_Y) = k × k ≠ k`, as in every Veronese subalgebra; `A` is generated in degree one
+  over `A_0` and not over `k`, `relativeProj A = Y` and `q` is the identity. The algebra is the one
+  of §0.3's `relativeProj_product_degreeZero`.
 
 *Lean:* `Groups.IsInvariant`, `Groups.IsCategoricalQuotient`, `Groups.artinBootstrap`. The
 invariant sections, `IsGeometricQuotient`, *IsCategoricalQuotient.unique* and
@@ -4661,15 +4830,39 @@ group) and `pi1 C := Aut(𝟙_C)` (a commutative group) (Bhatt–Scholze 2017, D
 Proposition 12.15, pp. 58–59). Define `picardGroupoid X := Core (InvertibleSheaf X)` with its
 symmetric monoidal structure and `PicardGroupoid` instance, `picardGroupoid.pi0_equiv` (`π_0 ≅
 LineBundleClass X`), `pi1_equiv` (`π_1 ≅ Γ(X, O)^×`), `pullback` (a functor of Picard groupoids),
-`isStack` (fppf descent, §1.1), and `gradedPicardGroupoid X` (pairs `(L, f : X → ℤ)` with the Koszul
-sign rule; Bhatt–Scholze 2017, §4, p. 15, Construction 5.1, p. 18). *Needs:* §1.1, §2.11; Tau Ceti
-`LineBundleClass`, `InvertibleSheaf`, `SchemeWeilDivisor`, `classGroupToLineBundleClass`; Mathlib
-`CommRing.Pic`, `Core`, `Skeleton`.
+`isStack` (fppf descent, §1.1). Define `gradedPicardGroupoid X` with objects pairs `(L, f)`, where
+`L` is an invertible sheaf and `f : LocallyConstant X ℤ` is a locally constant function on the
+underlying space of `X`. A morphism `(L, f) → (M, g)` exists only when `f = g`, and is then an
+isomorphism `L ≅ M`. The tensor product is `(L, f) ⊗ (M, g) = (L ⊗ M, f + g)`, with unit `(O_X, 0)`
+and inverse `(L⁻¹, −f)`; pullback along `h : Y → X` sends `(L, f)` to `(h^* L, f ∘ h)`, the degree
+pulled back by `LocallyConstant.comap` along the underlying continuous map of `h`. The symmetry of
+`(L, f) ⊗ (M, g)` is the line-bundle symmetry `ℓ ⊗ m ↦ m ⊗ ℓ` multiplied by `(−1)^{f·g}`: since `f`
+and `g` are locally constant, the sign is constant on each clopen locus where both are constant, and
+these constant signs glue to a unit of `Γ(X, O)`. Prove `gradedPicardGroupoid.pi0_equiv`
+(`π_0 ≅ LineBundleClass X × LocallyConstant X ℤ`, equivalently `Pic(X) × H⁰(X_ét, ℤ)`) and
+`gradedPicardGroupoid.pi1_equiv` (`π_1 ≅ Γ(X, O)^×`) (Bhatt–Scholze 2017, §4, p. 15, Construction
+5.1, p. 18). *Needs:* §1.1, §2.11; Tau Ceti `LineBundleClass`, `InvertibleSheaf`,
+`SchemeWeilDivisor`, `classGroupToLineBundleClass`; Mathlib `CommRing.Pic`, `Core`, `Skeleton`,
+`LocallyConstant`.
 
 **Checks.**
 - `picardGroupoid_pi0` (`π_0 = Pic`), `picardGroupoid_field` (`π_1 = K^×` for `Spec K`),
   `picardGroupoid_projectiveLine` (`π_0 = ℤ`, `π_1 = k^×`), `picardGroupoid_not_discrete` (for
   `Γ(X, O)^× ≠ 1` the groupoid is not the discrete groupoid on `Pic X`).
+- `gradedPicardGroupoid_connected`: on connected `X` every degree is constant
+  (`LocallyConstant.eq_const`), so `π_0 ≅ LineBundleClass X × ℤ`.
+- `gradedPicardGroupoid_disjointUnion`: on `X = X₁ ⊔ X₂` the degree may take different values on the
+  two components. For `X = Spec (k × k)` with `char k ≠ 2` and `f = (0, 1)`, the self-symmetry of
+  `(O_X, f)` is multiplication by the unit `(1, −1)`.
+- `gradedPicardGroupoid_pointDegree`: on `X = 𝔸¹_ℚ`, the function equal to `1` at the origin and
+  `0` elsewhere is not locally constant, so it is no degree. Admitting it would make the self-symmetry
+  of `(O_X, f)` a unit of `ℚ[t]` with value `−1` in `κ(0)` and `1` in `ℚ(t)`, but
+  `ℚ[t]^× = ℚ^×` consists of constants.
+- `gradedPicardGroupoid_pullback_component`: for `X = X₁ ⊔ X₂` with `X₁` connected, pullback along
+  the inclusion of `X₁` sends `(L, f)` to `(L|_{X₁}, a)`, where `a` is the constant value of `f` on
+  `X₁`.
+- `gradedPicardGroupoid_degreeZero`: the objects of degree `0` and their morphisms form
+  `picardGroupoid X`, with its ordinary symmetry.
 - `classGroup_test_cone`: for the quadric cone `k[x, y, z]/(xy − z²)`, `Pic = 0` and `Cl = ℤ/2`: the
   map is injective and not surjective (not locally factorial).
 - `excision_test_affineLine_minus_point`: `Cl(𝔸¹) = 0 → Cl(𝔸¹ ∖ {0}) = 0` and the kernel of
@@ -4677,6 +4870,8 @@ sign rule; Bhatt–Scholze 2017, §4, p. 15, Construction 5.1, p. 18). *Needs:* 
   `(c, t^n) ↦ n`.
 
 *Lean:* `Picard.lineBundleClass_spec_equiv_pic` (stated as the existence of a bijection).
+`picardGroupoid` and `gradedPicardGroupoid` are specified in this README only; the degree carrier is
+Mathlib's `LocallyConstant`, not a second locally-constant-function API.
 
 ### 3.5 Norms of invertible sheaves
 
