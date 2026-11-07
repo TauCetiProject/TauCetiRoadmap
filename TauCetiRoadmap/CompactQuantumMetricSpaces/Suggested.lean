@@ -18,17 +18,18 @@ Stated here: state existence, norm detection by states and compactness of the st
 (Layer 1); full-state recovery for lower semicontinuous seminorms (Layer 2); the closed
 Lip-norm theorem for compact metric spaces and the identification of the classical state
 metric with the `1`-Wasserstein distance (Layer 3); the closed Lip-norm theorem for ergodic
-actions of compact groups and the faithful finite-dimensional unitary representation of a
-compact Lie group (Layer 4); equality of the two quantum Gromov–Hausdorff infima, the
+actions of compact groups (Layer 4); equality of the two quantum Gromov–Hausdorff infima, the
 triangle inequality, zero-distance rigidity, and completeness and the quantum compactness
 theorem in sequential form, on sequences of presentations in one universe (Layer 5).
 
 Not statable at the pins: the metric space of isometry classes of complete closed presentations
 (§5.5), a construction whose completeness is stated here on sequences instead; the
-identification `Φ_θ` (§6.1), which needs the rotation crossed product
-`A_θ`, provided by neither pinned library; and the continuity of the quantum tori
-`Θ ↦ (A_Θ, L_Θ)` in quantum Gromov–Hausdorff distance (§6.5), which needs the twisted regular
-algebra `A_Θ` (§6.0) and its Lip-norm `L_Θ` as an `ExtendedLipschitzSeminorm` on the
+identification `Φ_θ` (§6.1), which needs the rotation C*-algebra `A_θ`, provided by neither
+pinned library (Tau Ceti has only its smooth subalgebra `TauCeti.SmoothNoncommutativeTorus θ`);
+and the continuity of the quantum tori `Θ ↦ (A_Θ, L_Θ)` in quantum Gromov–Hausdorff distance
+(§6.5), which needs the twisted group C*-algebra `A_Θ = C*(ℤᵈ, σ_Θ)` (§6.0), of which the
+pinned Tau Ceti has only the finitely supported algebra `TauCeti.twistedMonoidAlgebra`, with no
+involution, norm or completion, and its Lip-norm `L_Θ` as an `ExtendedLipschitzSeminorm` on the
 self-adjoint part, whose density and kernel fields are Layer 4 and Layer 6 theorems.
 -/
 
@@ -258,19 +259,6 @@ theorem exists_closedLipNorm_actionLip [CompactSpace G] [T2Space G]
     (herg : ∀ a : A, (∀ g : G, α g a = a) → ∃ c : ℂ, a = c • (1 : A)) :
     ∃ L : ExtendedLipschitzSeminorm (1 : selfAdjoint A),
       (∀ a : selfAdjoint A, L a = actionLip ℓ α a) ∧ IsClosedLipNorm L := by
-  sorry
-
-/-- Every compact Lie group admits a faithful finite-dimensional unitary representation
-(§4.4): the route is point separation by matrix coefficients, the closed-subgroup theorem
-and finiteness of a discrete compact kernel. -/
-theorem exists_faithful_unitary_representation
-    {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
-    {H : Type*} [TopologicalSpace H] (I : ModelWithCorners ℝ E H)
-    {K : Type*} [TopologicalSpace K] [ChartedSpace H K] [Group K]
-    [LieGroup I ((⊤ : ℕ∞) : WithTop ℕ∞) K]
-    [CompactSpace K] [T2Space K] :
-    ∃ (n : ℕ) (π : K →* Matrix.unitaryGroup (Fin n) ℂ),
-      Continuous π ∧ Function.Injective π := by
   sorry
 
 end Actions

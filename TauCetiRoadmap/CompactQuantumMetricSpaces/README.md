@@ -17,7 +17,8 @@ completeness (`exists_limit_of_cauchySeq_quantumGHEDist`) and compactness
 (`totallyBounded_quantumGHEDist_iff`) theorems, stated for sequences of presentations. The end
 example is the continuity of the quantum tori
 `Θ ↦ (A_Θ, L_Θ)` in that distance, in every dimension and for every real skew-symmetric
-parameter, built on a twisted group C*-algebra of `ℤᵈ` owned here.
+parameter, built on the twisted group C*-algebra `C*(ℤᵈ, σ_Θ)` of
+[HeisenbergImprimitivity](../HilbertModules/HeisenbergImprimitivity/README.md) §3.1.
 
 ## Scope and ownership
 
@@ -28,14 +29,13 @@ Lip-norms, closed completions, full-state recovery, Lipschitz maps and quotients
 convex subsets of the state space; the classical adapters between `C(X, ℝ)`, probability
 measures and the `1`-Wasserstein distance, and the commutator seminorm of a spectral triple
 with its metric criterion; the action seminorm of a compact group acting on a C*-algebra, its
-closed Lip-norm theorem for ergodic actions, the existence of a faithful finite-dimensional
-unitary representation of a compact Lie group, central finite-character approximation and the
+closed Lip-norm theorem for ergodic actions, central finite-character approximation and the
 comparison with derivative seminorms; the order-unit quantum Gromov–Hausdorff distance, its
-admissible Lip-norms and bridges, metric laws, rigidity, completeness and compactness; the
-scalar-twisted group
-C*-algebra `A_Θ` of `ℤᵈ` for every `d` (regular model, universal property, gauge action,
-faithful coefficient trace), the continuous-field norm estimates and the metric continuity of
-quantum tori.
+admissible Lip-norms and bridges, metric laws, rigidity, completeness and compactness; for
+every `d`, the quantum-torus family `A_Θ = C*(ℤᵈ, σ_Θ)` on the common regular model `ℓ²(ℤᵈ)`
+with its identification theorem, the point-norm continuity of its gauge action and its
+gauge-finite Fourier polynomials, the continuous-field norm estimates and the metric
+continuity of quantum tori.
 
 It does not own, and does not restate:
 
@@ -50,12 +50,14 @@ It does not own, and does not restate:
   theorem or any von Neumann decomposition, and no pure-state hypothesis enters the compactness
   criterion.
 - Haar probability, averaging, unitarizability, matrix coefficients, Schur orthogonality and
-  Peter–Weyl, including point separation by matrix coefficients, which
+  Peter–Weyl, which
   [RepresentationTheory/CompactGroups](../RepresentationTheory/CompactGroups/README.md) owns
-  (its Layers 0–5); the closed-subgroup theorem, which
+  (its Layers 0–5); the closed-subgroup theorem and its corollary that continuous
+  homomorphisms of Lie groups are smooth, which
   [RepresentationTheory/LieGroups](../RepresentationTheory/LieGroups/README.md) owns (its
-  Layer 2). The faithful finite-dimensional unitary representation of a compact Lie group is
-  built here, in §4.4, from those two inputs: neither roadmap states it.
+  Layer 2); the faithful finite-dimensional unitary representation of a compact Lie group,
+  which [CharacteristicClasses](../CharacteristicClasses/README.md) owns (its C1, item 3).
+  §4.4 consumes it to build its central kernels.
 - The Haar conditional expectation, isotypic and matrix-coefficient projections, the dense
   finite-orbit star algebra, the unique faithful invariant trace and the finite-multiplicity
   theorem for ergodic actions of compact groups, which VonNeumannAlgebras owns in its
@@ -63,10 +65,12 @@ It does not own, and does not restate:
   predual bridge and its SU(2) and factor-classification applications are not inputs here.
   Finite multiplicity is a theorem about ergodic actions on C*-algebras and is not asserted for
   an arbitrary Banach representation.
-- Smooth vectors, derivatives of actions and the smooth complete Fréchet star algebra of a
-  compact Lie action, which
+- Differentiable and smooth vectors and the derivatives `dα(X)` of a strongly continuous Lie
+  group action, and the smooth complete Fréchet star algebra of such an action on a Banach star
+  algebra, which
   [SmoothBanachRepresentations](../RepresentationTheory/SmoothBanachRepresentations/README.md)
-  owns (its SB2 and SB8). Layer 4 owns the metric comparison with length functions only.
+  owns (its §§2.1 and 3.1, and its §8.1). Layer 4 owns the metric comparison with length
+  functions only.
 - Couplings, `W₁` and Kantorovich–Rubinstein duality, which
   [OptimalTransport](../OptimalTransport/README.md) owns (its Layers 0–3) and Tau Ceti
   implements. Layer 3 owns the state and probability-measure adapters, not transport duality.
@@ -82,24 +86,30 @@ It does not own, and does not restate:
   Layer 3 consumes those formulas to identify a state metric. Spinor bundles, Dirac domains,
   compact resolvents, index pairings and Connes' reconstruction axioms have their own
   geometric and analytic owners; none is inferred from a Lip-norm.
-- The discrete `ℓ²` almost-invariant-vector criterion, weak containment of the trivial
-  representation in the regular one for amenable groups and the tensoring and absorption norm
-  transfer, which [OperatorAlgebraDynamics](../OperatorAlgebraDynamics/README.md) owns (its D2);
-  the amenability of `ℤᵈ`, which [AmenableGroups](../AmenableGroups/README.md) owns (its
-  Layer 6). The Følner boxes of `ℤᵈ` and their boundary estimate are owned here (§6.3).
+- The twisted group C*-algebra `C*(L, c)` of a discrete abelian group `L` with a normalized
+  circle-valued `2`-cocycle `c`: its `ℓ¹` algebra, universal and twisted regular completions,
+  universal property, faithful canonical trace with its Fourier coefficients, gauge action of
+  the compact dual with fixed algebra `ℂ·1`, and the theorem `C*(L, c) = C*_r(L, c)`, which
+  [HeisenbergImprimitivity](../HilbertModules/HeisenbergImprimitivity/README.md) owns (its
+  §3.1), on Tau Ceti's finitely supported `TauCeti.twistedMonoidAlgebra`. Layer 6 consumes it
+  at `L = ℤᵈ`, `c = σ_Θ`. The amenability inputs of its full = reduced theorem, the discrete
+  absorption argument of [OperatorAlgebraDynamics](../OperatorAlgebraDynamics/README.md) D2 and
+  the amenability of abelian groups of [AmenableGroups](../AmenableGroups/README.md) Layer 6,
+  enter only through that section. The Følner boxes of `ℤᵈ` and their boundary estimate are
+  owned here (§6.3).
 - A metric that detects the full C*-multiplication. The distance of Layer 5 is an order-unit
   (Jordan) distance: opposite algebras with the transported Lip-norm are at distance zero
   (§5.4).
 
-**The twisted group C*-algebra of `ℤᵈ`.** No roadmap on the main branch builds the twisted
-group C*-algebra `C*(ℤᵈ, σ)` of a scalar `2`-cocycle, so §6.0 builds its regular model `A_Θ`
-and proves its universal property, gauge action and faithful coefficient trace, which the
-finite-Fourier estimates of §§6.3–6.5 use directly. §6.0 also proves the identification
-theorem: any unital C*-algebra generated by unitaries satisfying the `σ_Θ`-twisted relations
-and carrying a faithful state that kills every nonzero Fourier mode is isomorphic to `A_Θ`
-over the generators. That theorem identifies `A_Θ` with every other model of `C*(ℤᵈ, σ_Θ)`
-with a faithful coefficient trace, in particular with a reduced central twisted product built
-by a group-algebra roadmap; nothing in Layer 6 depends on such a model.
+**The quantum tori.** §6.0 specializes HeisenbergImprimitivity §3.1 to `L = ℤᵈ` and the
+bicharacter `σ_Θ`. That section's twisted regular representation at `c = σ_Θ` is the
+representation `λ_Θ(p)δ_q = σ_Θ(p, q)δ_(p+q)` used here, so `A_Θ` is its reduced algebra
+`C*_r(ℤᵈ, σ_Θ)`, and every `A_Θ` acts on the one space `ℓ²(ℤᵈ)`, which the norm-continuity
+estimates of §6.3 need. §6.0 owns the identification theorem: a unital C*-algebra generated by
+unitaries satisfying the `σ_Θ`-twisted relations and carrying a state that kills every nonzero
+Fourier mode is isomorphic to `A_Θ` over the generators, and that state is then faithful. It
+identifies `A_Θ` with every other model of `C*(ℤᵈ, σ_Θ)` carrying such a state; nothing in
+Layer 6 depends on another model.
 
 ## Conventions
 
@@ -203,8 +213,9 @@ of Rieffel 2000, Definition 5.1, from which `max(L_E, L_F, N)` is an admissible 
   composite is the integration functional of §3.3.
 - `GroupNorm` (`Mathlib/Analysis/Normed/Group/Seminorm.lean`), `IsCompactOperator`, `selfAdjoint`
   with its normed-space structure, `CStarAlgebra`, `StarAlgEquiv` (`A ≃⋆ₐ[ℂ] A`).
-- `LieGroup` (`Mathlib/Geometry/Manifold/Algebra/LieGroup.lean`), `ModelWithCorners` and
-  `Matrix.unitaryGroup` (`Mathlib/LinearAlgebra/UnitaryGroup.lean`) for the statement of §4.4.
+- `LieGroup` (`Mathlib/Geometry/Manifold/Algebra/LieGroup.lean`) and `Matrix.unitaryGroup`
+  (`Mathlib/LinearAlgebra/UnitaryGroup.lean`) for the compact Lie groups of §4.4 and their
+  finite-dimensional unitary representations.
 - `LinearIsometryEquiv` (`E ≃ₗᵢ[ℝ] F`) for the statement of §5.4.
 
 ### From Tau Ceti
@@ -215,6 +226,17 @@ of Rieffel 2000, Definition 5.1, from which `max(L_E, L_F, N)` is an admissible 
   `TauCeti.wassersteinEDist_one_eq_iSup_apply_eq_zero`
   (`TauCeti/MeasureTheory/OptimalTransport/Wasserstein/KantorovichRubinstein.lean`). The compact
   form assumes probability measures and `OpensMeasurableSpace`; no moment hypothesis.
+- `TauCeti.IsFactorSet` (a normalized multiplicative `2`-cocycle `α : G → G → kˣ`) and the
+  twisted monoid algebra `TauCeti.twistedMonoidAlgebra k G α` with its basis elements
+  `TauCeti.TwistedMonoidAlgebra.of`, the multiplication table
+  `TauCeti.TwistedMonoidAlgebra.of_mul_of` (`of g * of h = α g h • of (g * h)`), the universal
+  property `TauCeti.TwistedMonoidAlgebra.lift` (a family `u` with `u 1 = 1` and
+  `u g * u h = α g h • u (g * h)` extends to an algebra map) and
+  `TauCeti.TwistedMonoidAlgebra.equivOfCoboundary` (factor sets with
+  `β g h * c (g * h) = α g h * (c g * c h)` have isomorphic algebras, `of g ↦ c g • of g`, from
+  the `β`-algebra to the `α`-algebra) (`TauCeti/Algebra/MonoidAlgebra/Twisted/Basic.lean`). They
+  are used with `k = ℂ`, `G = Multiplicative (Fin d → ℤ)` and `σ_Θ` read in `ℂˣ`; at the pin this
+  algebra carries no involution, norm or completion.
 
 ### From other roadmaps
 
@@ -236,17 +258,20 @@ of Rieffel 2000, Definition 5.1, from which `max(L_E, L_F, N)` is an admissible 
   C*-subalgebras.
 - [RepresentationTheory/CompactGroups](../RepresentationTheory/CompactGroups/README.md)
   Layers 0–5: the normalized Haar probability and averaging operator, unitarizability, Schur
-  orthogonality of matrix coefficients, the Peter–Weyl theorem and its corollary that the
-  matrix coefficients of finite-dimensional unitary representations separate the points of
-  `G` (Layer 5, `representativeStarSubalgebra_separatesPoints`).
-- [RepresentationTheory/LieGroups](../RepresentationTheory/LieGroups/README.md) Layer 2: the
-  closed-subgroup theorem for finite-dimensional real Lie groups (a closed subgroup is an
-  embedded Lie subgroup with Lie algebra `{X : exp(tX) ∈ H ∀ t}`) and Cartan's automatic
-  smoothness of continuous homomorphisms.
+  orthogonality of matrix coefficients and the Peter–Weyl theorem.
+- [RepresentationTheory/LieGroups](../RepresentationTheory/LieGroups/README.md) Layer 2:
+  Cartan's automatic smoothness of continuous homomorphisms between finite-dimensional real Lie
+  groups, the corollary of its closed-subgroup theorem.
+- [CharacteristicClasses](../CharacteristicClasses/README.md) C1, item 3: every compact Lie
+  group, finite and disconnected ones included, has a finite-dimensional faithful unitary
+  representation, that is a continuous injective homomorphism into some `U(n)`.
 - [SmoothBanachRepresentations](../RepresentationTheory/SmoothBanachRepresentations/README.md)
-  SB2 and SB8: differentiable and smooth vectors of a strongly continuous action of a Lie
-  group, their derivatives `dα(X)`, and the smooth complete Fréchet star algebra for compact
-  Lie actions on C*-algebras.
+  §2.1: the differentiable vectors `E^k` and smooth vectors `E^∞` of a strongly continuous
+  action of a finite-dimensional real Lie group on a real or complex Banach space, with the
+  orbit derivative `dα(X)v` linear in `X`; §3.1: the Lie action `X ↦ dα(X)` on smooth vectors
+  with its seminorm estimates; §8.1: for a Banach star algebra with a star-preserving strongly
+  continuous action by bounded algebra automorphisms, the smooth elements form a dense complete
+  Fréchet star subalgebra on which every `dα(X)` is a derivation commuting with the star.
 - [OptimalTransport](../OptimalTransport/README.md) Layers 0–3: couplings, transport cost,
   pushforward of plans, `W₁` and its topology on probability measures.
 - [NoncommutativeGeometry](../NoncommutativeGeometry/README.md) N5 (spectral triples and their
@@ -260,13 +285,15 @@ of Rieffel 2000, Definition 5.1, from which `max(L_E, L_F, N)` is an admissible 
   `d(x, y) = sup {|f(x) − f(y)| : ‖∇f‖ ≤ 1}` and the Clifford-module commutator-norm theorem
   `‖[D, f]‖ = ‖∇f‖_∞` for the Dirac operator of the Hermitian Clifford module of
   [SpinGeometry](../SpinGeometry/README.md) G6.
-- [OperatorAlgebraDynamics](../OperatorAlgebraDynamics/README.md) D2: almost-invariant vectors
-  in `ℓ²(Γ)`, weak containment of the trivial representation in the regular representation of
-  an amenable discrete group, and the tensoring and absorption norm transfer
-  `‖Σ c_γ V_γ‖ ≤ ‖Σ c_γ λ_γ‖` for a unitary representation `V` and finitely supported `c`.
-- [AmenableGroups](../AmenableGroups/README.md) Layer 6: amenability of `ℤᵈ` as a finitely
-  generated abelian group. Its explicit Følner sets are intervals of `ℤ`; the boxes of `ℤᵈ`
-  and their boundary estimate are §6.3's.
+- [HeisenbergImprimitivity](../HilbertModules/HeisenbergImprimitivity/README.md) §3.1: for a
+  discrete abelian group `L` and a normalized circle-valued `2`-cocycle `c`, the twisted regular
+  representation `(λ_c(x)h)(y) = c(x, y − x)h(y − x)` on `ℓ²(L)` with reduced completion
+  `C*_r(L, c)`; the universal completion `C*(L, c)` with its universal property for
+  `c`-projective unitary representations `V_xV_y = c(x, y)V_(x+y)`; the theorem
+  `C*(L, c) = C*_r(L, c)`; the faithful canonical trace `τ(f) = f(0)` on `C*_r(L, c)`, whose
+  Fourier coefficients `x ↦ τ(aδ_x*)` determine `a`; and the gauge action `α_γ(δ_x) = γ(x)δ_x`
+  of the dual group with fixed-point algebra `ℂ·1`. Its star is
+  `f*(x) = conj(c(−x, x)) conj(f(−x))`.
 
 ## How to read the build
 
@@ -284,9 +311,10 @@ seminorm, the ergodic closed Lip-norm theorem, central finite-character approxim
 compact Lie groups and the comparison with derivative seminorms. Layer 5 defines the quantum
 Gromov–Hausdorff distance through admissible Lip-norms and proves its metric laws, rigidity,
 completeness
-and compactness. Layer 6 builds the twisted group C*-algebra of `ℤᵈ`, its Lip-norms, the
-continuous-field norm estimates and the metric continuity of quantum tori; it uses Layers 4–5
-and consumes NoncommutativeGeometry only at `d = 2`.
+and compactness. Layer 6 specializes the twisted group C*-algebra of HeisenbergImprimitivity
+§3.1 to the quantum tori `A_Θ` of `ℤᵈ` and builds their Lip-norms, the continuous-field norm
+estimates and the metric continuity of quantum tori; it uses Layers 4–5 and consumes
+NoncommutativeGeometry only at `d = 2`.
 
 ## Layer 0: Order units, states and affine representation (Q0)
 
@@ -1024,35 +1052,30 @@ invariance of `ℓ`, prove that convolution with a central positive `L¹` kernel
 `α`-equivariant unital positive contraction `P` with `L(Pa) ≤ L(a)`: centrality of the kernel
 gives `α_g(Pa) − Pa = P(α_g(a) − a)` and `‖P‖ ≤ 1` (Rieffel 2000, Lemma 8.4).
 
-Prove `exists_faithful_unitary_representation`: every compact Lie group `K` admits a faithful
-finite-dimensional unitary representation, a continuous injective homomorphism into some
-`Matrix.unitaryGroup (Fin n) ℂ`. Route: by CompactGroups Layer 5 the matrix coefficients of
-finite-dimensional unitary representations separate points, so for each `g ≠ 1` some
-representation `π_g` has `π_g(g) ≠ 1`; by LieGroups Layer 2 the common kernel of finitely many
-representations is a closed, hence embedded Lie, subgroup, with Lie algebra the common kernel
-of their differentials; finitely many representations have differentials with trivial common
-kernel on the finite-dimensional Lie algebra, so that common kernel is a discrete compact,
-hence finite, subgroup; finitely many more representations kill it, and the direct sum is
-faithful. Let `π₀` be a faithful representation containing the trivial representation
-(adjoin a trivial summand) and set `χ = |χ_π₀|²`, the character of `π₀ ⊗ π̄₀`, a nonnegative
-central continuous function with its unique maximum `dim(π₀)²` at `1`, by faithfulness
-(Rieffel 2000, §8, discussion before Proposition 8.1 and Theorem 8.2). Define
-`k_n = χⁿ / ∫ χⁿ` and prove that `k_n` concentrates at `1`: `∫_{ℓ > ε} k_n → 0` for every
-`ε > 0`. Its coefficient support is finite; let `B_n` be the self-adjoint part of the sum of
+Let `K` be a compact Lie group and take a faithful finite-dimensional unitary representation
+of `K`, a continuous injective homomorphism into some `Matrix.unitaryGroup (Fin n) ℂ`, from
+CharacteristicClasses C1, item 3. Let `π₀` be a faithful representation containing the
+trivial representation (adjoin a trivial summand) and set `χ = |χ_π₀|²`, the character of
+`π₀ ⊗ π̄₀`, a nonnegative central continuous function with its unique maximum `dim(π₀)²` at
+`1`, by faithfulness (Rieffel 2000, §8, discussion before Proposition 8.1 and Theorem 8.2).
+Define `k_n = χⁿ / ∫ χⁿ` and prove that `k_n` concentrates at `1`: `∫_{ℓ > ε} k_n → 0` for
+every `ε > 0`. Its coefficient support is finite; let `B_n` be the self-adjoint part of the sum of
 the corresponding isotypic spaces, containing `1`, with the restriction of `L`. Prove that `L`
 is finite on `B_n`: on the compact Lie group the continuous `ℓ` locally dominates a fixed
 Lie-coordinate length, using powers which leave a fixed small neighbourhood and the positive
-minimum of `ℓ` away from `1`, so smooth coefficient functions have finite `L`. Prove that
+minimum of `ℓ` away from `1`, so smooth coefficient functions have finite `L`; the
+coefficient functions are smooth because continuous homomorphisms of Lie groups are smooth
+(LieGroups Layer 2). Prove that
 `P_n = α_(k_n)` has range in `B_n`, `L(P_n a) ≤ L(a)` and `‖a − P_n a‖ ≤ δ_n L(a)` with
 `δ_n = ∫ k_n ℓ → 0` (Rieffel 2000, Lemma 8.3 and Lemma 8.4). `P_n` need not be idempotent; it
 is neither a conditional expectation nor an orthogonal projection. The trivial group gives
-`E = ℝ` with zero error and is handled directly. *Needs:* 4.3, 4.2; CompactGroups Layer 5
-(point separation); LieGroups Layer 2 (closed-subgroup theorem); Mathlib `LieGroup`,
-`Matrix.unitaryGroup`.
+`E = ℝ` with zero error and is handled directly. *Needs:* 4.3, 4.2; CharacteristicClasses
+C1, item 3 (faithful finite-dimensional unitary representation); LieGroups Layer 2 (automatic
+smoothness); Mathlib `LieGroup`, `Matrix.unitaryGroup`.
 
-- The theorem is stated for a compact Lie group modelled on a finite-dimensional real normed
-  space; disconnected and finite groups are included, and for a finite group the regular
-  representation is a witness.
+- The construction covers every compact Lie group modelled on a finite-dimensional real
+  normed space; disconnected and finite groups are included, and for a finite group the
+  regular representation is a faithful `π₀`.
 - `L(P_n a) ≤ L(a)` uses only centrality of `k_n`; conjugation invariance of `ℓ` is used only
   for `L(α_g a) = L(a)`.
 
@@ -1065,14 +1088,14 @@ is neither a conditional expectation nor an orthogonal projection. The trivial g
   for every `n ≥ 1`, `P_n = id`, `δ_n = 0`.
 - A non-faithful `π₀`: for `K = T` and `π₀ = 1 ⊕ z²`, `χ = |1 + z²|²` has maxima at `θ = 0` and
   `θ = π`, `k_n` does not concentrate at `1`, and `δ_n → π/2`, not `0`.
-- The faithful-representation theorem fails for the compact group `T^ℕ`: it is not a Lie
-  group, and every finite-dimensional unitary representation factors through finitely many
-  coordinates.
+- The Lie hypothesis is needed for a faithful `π₀`: the compact group `T^ℕ` is not a Lie group,
+  and every finite-dimensional unitary representation of it factors through finitely many
+  coordinates, so no `π₀` is faithful and no `k_n` concentrates at `1`.
 
 ### 4.5 Derivative seminorms on compact connected Lie groups
 
-For a compact connected Lie group `G` with a fixed norm on its real Lie algebra, use
-SmoothBanachRepresentations SB2's differentiable vectors and define
+For a compact connected Lie group `G` with a fixed norm on its real Lie algebra, use the
+differentiable vectors of SmoothBanachRepresentations §2.1 and define
 `L_der(a) = ‖X ↦ dα(X)a‖`, the operator norm of the differential on the unit ball of the Lie
 algebra. For the left-invariant length metric defined by that norm prove `actionLip = L_der`
 on differentiable vectors (Rieffel 1998, Theorem 3.1): integrate orbit derivatives along
@@ -1081,7 +1104,8 @@ other. Ad-invariance of the norm is needed only for conjugation invariance and e
 not for the Lip-norm theorem. Compare smooth vectors, the `C¹` domain and the maximal closed
 Lipschitz domain. For disconnected `G` the derivative seminorm alone has kernel `A^(G⁰)`, so
 the group-length construction of 4.1 is retained. *Needs:* 4.3; SmoothBanachRepresentations
-SB2 and SB8.
+§2.1 (differentiable vectors and `dα(X)`), §3.1 (the Lie action on smooth vectors) and §8.1
+(the smooth Fréchet star algebra).
 
 **Checks.**
 
@@ -1123,9 +1147,9 @@ Rotation on `C(T)`, the two-point swap, conjugation of `SU(2)` on `M₂(ℂ)`, h
 
 ### Dependencies
 
-Layers 1–3; CompactGroups Layers 0–5; LieGroups Layer 2; VonNeumannAlgebras Layer 0 and
-V8.CompactErgodicActions; SmoothBanachRepresentations SB2 and SB8; Mathlib `GroupNorm`,
-`IsCompactOperator`, `LieGroup`, `Matrix.unitaryGroup`.
+Layers 1–3; CompactGroups Layers 0–5; LieGroups Layer 2; CharacteristicClasses C1, item 3;
+VonNeumannAlgebras Layer 0 and V8.CompactErgodicActions; SmoothBanachRepresentations §§2.1,
+3.1 and 8.1; Mathlib `GroupNorm`, `IsCompactOperator`, `LieGroup`, `Matrix.unitaryGroup`.
 
 ## Layer 5: Order-unit quantum Gromov–Hausdorff distance (Q5)
 
@@ -1357,29 +1381,42 @@ No input from Layer 6 or from spectral triples.
 
 ### 6.0 The twisted group C*-algebra of ℤᵈ
 
-For `d ∈ ℕ` and a real skew-symmetric `d × d` matrix `Θ` define the twisted left regular
-representation `λ_Θ(p)δ_q = σ_Θ(p, q)δ_(p+q)` on `ℓ²(ℤᵈ)`, with `σ_Θ(p, q) = exp(πi pᵀΘq)`,
-and `A_Θ` as the C*-subalgebra of `B(ℓ²(ℤᵈ))` generated by the unitaries `W_p = λ_Θ(p)`, so
-that `W_pW_q = σ_Θ(p, q)W_(p+q)` and `W_p* = W_(−p)` (Rieffel 2000, §9, equation (9.1)).
-Prove the universal property: for unitaries `V_p` in a unital C*-algebra `B` with
-`V_pV_q = σ_Θ(p, q)V_(p+q)` there is a unique unital star homomorphism `A_Θ → B` with
-`W_p ↦ V_p`. Route: represent `B` faithfully on `H` (VonNeumannAlgebras Layer 0); the unitary
-`ξ ⊗ δ_q ↦ V_qξ ⊗ δ_q` of `H ⊗ ℓ²(ℤᵈ)` conjugates `1 ⊗ λ_Θ(p)` to `V_p ⊗ λ_0(p)`, and
-OperatorAlgebraDynamics D2's almost-invariant vectors for `ℤᵈ`, from its amenability
-(AmenableGroups Layer 6), give `‖Σ c_pV_p‖ ≤ ‖Σ c_pW_p‖` for finitely supported `c`. Define the
-gauge action of `z ∈ Tᵈ` by `α_z(W_p) = z^p W_p`, implemented spatially by the unitary
-`δ_q ↦ z^q δ_q`, and the coefficient trace `τ_Θ(a) = ⟨aδ₀, δ₀⟩`. Prove the identification
-theorem: if a unital C*-algebra `B` is generated by unitaries `V_p` satisfying the
-`σ_Θ`-twisted relations and carries a faithful state `τ_B` with `τ_B(V_p) = δ_(p,0)`, the
-universal homomorphism `A_Θ → B` is an isomorphism, since `τ_B ∘ Φ = τ_Θ` on the dense span
-and `τ_Θ` is faithful (6.1). *Needs:* VonNeumannAlgebras Layer 0; OperatorAlgebraDynamics D2;
-AmenableGroups Layer 6.
+For `d ∈ ℕ` and a real skew-symmetric `d × d` matrix `Θ`, `σ_Θ(p, q) = exp(πi pᵀΘq)` is a
+circle-valued bicharacter of `ℤᵈ`, hence a normalized `2`-cocycle, and `σ_Θ(−p, p) = 1` because
+`pᵀΘp = 0`. Define `A_Θ` as the reduced twisted group C*-algebra `C*_r(ℤᵈ, σ_Θ)` of
+HeisenbergImprimitivity §3.1 in its regular model: the C*-subalgebra of `B(ℓ²(ℤᵈ))` generated
+by the unitaries `W_p = λ_Θ(p)`, where `λ_Θ(p)δ_q = σ_Θ(p, q)δ_(p+q)` is that section's twisted
+regular representation at `c = σ_Θ`. Then `W_pW_q = σ_Θ(p, q)W_(p+q)`, `W_0 = 1` and, by its star
+formula and `σ_Θ(−p, p) = 1`, `W_p* = W_(−p)` (Rieffel 2000, §9, equation (9.1)). All `A_Θ` act
+on the one space `ℓ²(ℤᵈ)`. The finite Fourier polynomials, the span of the `W_p`, are the image
+of `TauCeti.twistedMonoidAlgebra ℂ (Multiplicative (Fin d → ℤ)) σ_Θ` under
+`TauCeti.TwistedMonoidAlgebra.lift` with `of p ↦ W_p` (`σ_Θ` read in `ℂˣ` is a
+`TauCeti.IsFactorSet`), and this map is injective because `W_pδ₀ = δ_p`.
+
+From HeisenbergImprimitivity §3.1 at `L = ℤᵈ` and `c = σ_Θ` take the following. The universal
+property, which holds for `A_Θ` because `C*(ℤᵈ, σ_Θ) = C*_r(ℤᵈ, σ_Θ)`: for unitaries `V_p` in a
+unital C*-algebra `B` with `V_pV_q = σ_Θ(p, q)V_(p+q)` there is a unique unital star homomorphism
+`A_Θ → B` with `W_p ↦ V_p`. The faithful canonical trace, here the coefficient trace
+`τ_Θ(a) = (aδ₀)(0)`, the `δ₀`-coefficient of `aδ₀` (that is `⟨δ₀, aδ₀⟩` for the inner product
+linear in its second variable), with `τ_Θ(W_p) = δ_(p,0)`. The gauge action of the dual group
+`Tᵈ`, `α_z(W_p) = z^pW_p` with `z^p = z₁^(p₁)⋯z_d^(p_d)`, with fixed algebra `ℂ·1`; on
+`ℓ²(ℤᵈ)` it is implemented by the unitary `δ_q ↦ z^qδ_q`.
+
+Prove the identification theorem: if a unital C*-algebra `B` is generated by unitaries `V_p`
+satisfying the `σ_Θ`-twisted relations and carries a state `τ_B` with `τ_B(V_p) = 0` for every
+`p ≠ 0`, then the universal homomorphism `Φ : A_Θ → B` is a star isomorphism and `τ_B` is
+faithful. Route: the range of `Φ` is closed and contains the generators, so `Φ` is onto;
+`τ_B ∘ Φ` and `τ_Θ` agree on every `W_p`, hence on `A_Θ`; if `Φ(a) = 0` then
+`τ_Θ(a*a) = τ_B(Φ(a)*Φ(a)) = 0`, so `a = 0` because `τ_Θ` is faithful; and `τ_B = τ_Θ ∘ Φ⁻¹`.
+*Needs:* HeisenbergImprimitivity §3.1; Tau Ceti `TauCeti.twistedMonoidAlgebra`,
+`TauCeti.IsFactorSet`, `TauCeti.TwistedMonoidAlgebra.lift`.
 
 - `A_Θ` for `d = 0` is `ℂ`; for `Θ = 0` it is `C*(ℤᵈ) ≅ C(Tᵈ)` through the Fourier transform;
   for `Θ` with integer entries `σ_Θ` is `±1`-valued and `A_Θ ≅ C(Tᵈ)` as well, by the
   periodicity transport of 6.5.
-- The universal property transports every model of `C*(ℤᵈ, σ_Θ)` with a faithful coefficient
-  trace onto `A_Θ`; nothing in Layer 6 depends on another model.
+- The identification theorem transports onto `A_Θ`, over the generators, every model of
+  `C*(ℤᵈ, σ_Θ)` that carries a state killing the nonzero Fourier modes; nothing in Layer 6
+  depends on another model.
 
 **Checks.**
 
@@ -1392,18 +1429,34 @@ AmenableGroups Layer 6.
   `σ_Θ(p, p′ + q)σ_Θ(p′, q) = σ_Θ(p, p′)σ_Θ(p + p′, q)` by bilinearity of `pᵀΘq`, so
   `W_pW_p′ = σ_Θ(p, p′)W_(p+p′)`; the reversed convention `σ(q, p)` would give
   `exp(−πi pᵀΘq)`, the inverse phase.
+- Agreement with the supplier's convention: HeisenbergImprimitivity's
+  `(λ_c(x)h)(y) = c(x, y − x)h(y − x)` sends `δ_q` to `c(x, q)δ_(x+q)`, which at `c = σ_Θ` is
+  `λ_Θ(x)δ_q`; the variant `c(y − x, x)h(y − x)` would give `σ_Θ(q, x) = σ_(−Θ)(x, q)`, the
+  regular model of `−Θ`, which for `d = 2` reverses the rotation relation above.
 - Faithfulness of the coefficient trace: `τ_Θ(a*a) = ‖aδ₀‖²`, and `δ₀` is separating for `A_Θ`
   because it is cyclic for the twisted right regular representation, which commutes with
-  `A_Θ`; the state `a ↦ ⟨aδ_q, δ_q⟩` at another `q` is the same functional.
+  `A_Θ`; the state `a ↦ (aδ_q)(q)` at another `q` is the same functional, since
+  `(W_pδ_q)(q) = σ_Θ(p, q)δ_(p+q)(q) = δ_(p,0)`.
+- Linearity of the trace convention: `τ_Θ(i·1) = i`, whereas `a ↦ ⟨aδ₀, δ₀⟩` for Mathlib's inner
+  product, conjugate-linear in its first variable, gives `−i` at `a = i·1` and is
+  conjugate-linear, not a state.
+- Identification theorem, negative control: for `d = 1` and `B = C({1, −1})` with
+  `V_p(t) = t^p` the relations hold and `V_1` generates `B`, but `V_2 = 1`, so no state kills
+  `V_2`, and the universal map `C(T) → C({1, −1})`, restriction of functions, is onto but not
+  injective. For `B = C(T)` with Haar integration the hypothesis holds and `Φ` is the identity;
+  faithfulness of `τ_B` is a conclusion, not a hypothesis.
 
 ### 6.1 Gauge action, trace and the identification Φ_θ
 
-Construct coefficient extraction and gauge averaging in `A_Θ`; prove strong continuity of the
-gauge action, that `τ_Θ` is a faithful trace with `τ_Θ(W_p) = δ_(p,0)`, and that the fixed
-algebra is `ℂ·1` for every `Θ`, including rational and degenerate `Θ` and `Θ = 0`. Prove that
-the gauge-finite subalgebra is exactly the finite Fourier polynomials; for `d = 0` it is `ℂ`.
-This C*-level Fourier foundation is owned here for every `d`; NoncommutativeGeometry N6 owns
-the smooth two-torus theory on the rotation algebra `A_θ`, and Layer 6 does not rebuild it.
+Prove that the gauge action of §6.0 is point-norm continuous: each `α_z` is isometric and
+`z ↦ α_z(W_p) = z^pW_p` is continuous, so continuity passes from the dense span. Construct the
+coefficient maps by gauge averaging, `E_p(a) = ∫_(Tᵈ) z^(−p) α_z(a) dz = τ_Θ(aW_p*)W_p`, and prove
+that the gauge-finite subalgebra is exactly the finite Fourier polynomials; for `d = 0` it is
+`ℂ`. That `τ_Θ` is a faithful trace, that the Fourier coefficients `τ_Θ(aW_p*)` determine `a`,
+and that the fixed algebra is `ℂ·1` for every `Θ`, including rational and degenerate `Θ` and
+`Θ = 0`, are HeisenbergImprimitivity §3.1's at `L = ℤᵈ`. This gauge analysis on `Tᵈ` is owned
+here for every `d`; NoncommutativeGeometry N6 owns the smooth two-torus theory on the rotation
+algebra `A_θ`, and Layer 6 does not rebuild it.
 For `d = 2` construct the isometric star isomorphism `Φ_θ : A_Θ(θ) → A_θ`,
 `Φ_θ(W_(m,n)) = exp(πiθmn)U₁^mU₂^n`. Route: the trace-GNS representation `π_τ` of `A_θ` on
 `L²(A_θ, τ)`, identified with `ℓ²(ℤ²)` by N7's ordered basis `e_(m,n) = [U₁^mU₂^n]`, is
@@ -1418,8 +1471,8 @@ rapidly decreasing series of `A_Θ(θ)` onto `𝒜_θ`, the phases having modulu
 intertwines `λ_Θ(θ)` with `π_τ` and commutes with every operator diagonal in the two Fourier
 bases with the same eigenvalues, in particular with the derivations `δ_j` and with N7's
 Fourier–Dirac operator `D` on `ℓ²(ℤ²) ⊗ ℂ²`. No irrationality hypothesis enters any metric
-theorem. *Needs:* 6.0; NoncommutativeGeometry N6 and N7; CompactGroups Layer 0 (Haar
-averaging on `Tᵈ`).
+theorem. *Needs:* 6.0; HeisenbergImprimitivity §3.1 (trace, Fourier coefficients, fixed
+algebra); NoncommutativeGeometry N6 and N7; CompactGroups Layer 0 (Haar averaging on `Tᵈ`).
 
 **Checks.**
 
@@ -1531,10 +1584,14 @@ Use 4.4's central finite-character kernels on `Tᵈ` to obtain finite Fourier sy
 `Ψ → Θ ⇒ dist_q((A_Ψ, L_Ψ), (A_Θ, L_Θ)) → 0`, including rational-to-irrational and
 noncommutative-to-classical limits, in every dimension and for `d = 0`, with local uniformity
 on compact parameter sets. For an integer skew matrix `N` prove `σ_(Θ+N) = (δb_N)σ_Θ` with
-`b_N(p) = exp(πi Σ_(j<k) N_jk p_jp_k)`; transport by `W_p^(Θ+N) ↦ b_N(p)W_p^Θ`, prove gauge
-equivariance and preservation of `L`, and obtain the consistent periodic presentation.
-C*-algebra isomorphism classes, primitive ideal spaces and K-theory do not vary continuously in
-this topology, and no such claim is made. *Needs:* 6.4, 6.3, 6.2, 5.3, 5.2, 4.4.
+`b_N(p) = exp(πi Σ_(j<k) N_jk p_jp_k)` and `(δb)(p, q) = b(p)b(q)/b(p + q)`. On finite Fourier
+polynomials the transport `W_p^(Θ+N) ↦ b_N(p)W_p^Θ` is
+`TauCeti.TwistedMonoidAlgebra.equivOfCoboundary` with `c = b_N`, from the `σ_(Θ+N)`-algebra to
+the `σ_Θ`-algebra; it extends to a star isomorphism `A_(Θ+N) ≅ A_Θ` by the universal property of
+§6.0 in both directions. Prove gauge equivariance and preservation of `L`, and obtain the
+consistent periodic presentation. C*-algebra isomorphism classes, primitive ideal spaces and
+K-theory do not vary continuously in this topology, and no such claim is made. *Needs:* 6.4,
+6.3, 6.2, 6.0, 5.3, 5.2, 4.4; Tau Ceti `TauCeti.TwistedMonoidAlgebra.equivOfCoboundary`.
 
 **Checks.**
 
@@ -1555,8 +1612,9 @@ function of `θ`, and the limits `θ → 0` and `θ → p/q`.
 ### Dependencies
 
 Layers 4–5 (the gauge-action Lip-norm, admissible Lip-norms and the triangle inequality);
-VonNeumannAlgebras Layer 0, OperatorAlgebraDynamics D2 and AmenableGroups Layer 6 (6.0);
-NoncommutativeGeometry N6–N7 (6.1–6.2 at `d = 2` only); CompactGroups Layer 0.
+HeisenbergImprimitivity §3.1 and Tau Ceti `TauCeti.twistedMonoidAlgebra` (6.0–6.1) with
+`TauCeti.TwistedMonoidAlgebra.equivOfCoboundary` (6.5); NoncommutativeGeometry N6–N7 (6.1–6.2 at
+`d = 2` only); CompactGroups Layer 0.
 
 ## Downstream consumers
 
@@ -1567,8 +1625,8 @@ NoncommutativeGeometry N6–N7 (6.1–6.2 at `d = 2` only); CompactGroups Layer 
   `Layer 3: Classical metrics, probabilities and commutators (Q3)`, which is the link target
   for Layer 3.
 - Roadmaps on noncommutative geometry and operator-algebra dynamics may consume the closed
-  Lip-norm theorem of §4.3, the quantum Gromov–Hausdorff distance of Layer 5 and the twisted
-  group C*-algebra of §6.0 with its identification theorem.
+  Lip-norm theorem of §4.3, the quantum Gromov–Hausdorff distance of Layer 5 and the
+  identification theorem of §6.0 for models of `C*(ℤᵈ, σ_Θ)`.
 
 ## References
 
