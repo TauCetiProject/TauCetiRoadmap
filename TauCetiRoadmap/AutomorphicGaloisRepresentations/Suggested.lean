@@ -23,9 +23,10 @@ The other headline results require objects absent at these pins. The period,
 eigenvariety and geometric realization theorems of Layer 0 need period rings,
 the quaternionic analytic form spaces of QuaternionicModularForms and Shimura
 cohomology. Layer 1's DFG comparison needs parabolic premotives and their
-Kuga–Sato projector realizations. Layer 2
-uses the weight-one Artin attachment supplied by AlgebraicModularFormsAndSerreWeights;
-its finite-group proof steps are not separate headline results here.
+Kuga–Sato projector realizations. Layer 2's comparison of the weight-one
+Artin representation of AlgebraicModularFormsAndSerreWeights §6.4 with the
+normalization of Layer 1 needs that Galois representation, which is absent at
+the pins.
 The unrestricted Hilbert attachment, character converse and irreducibility of
 Layer 3 need Hilbert automorphic representations, algebraic Hecke-character
 avatars and labelled period functors. Layer 4's Ramanujan and full local
