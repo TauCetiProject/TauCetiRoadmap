@@ -106,7 +106,8 @@ This roadmap leaves the following to other roadmaps.
   contracts*: the model geometries and geometric structures, hyperbolic metrics and their
   volumes, locally flat embeddings and Brown's bicollaring theorem, the diffeomorphism group
   with its weak Whitney topology, smooth embeddings and their normal spaces, the Euclidean
-  tubular neighbourhood with its normal vector bundle, slopes and framed boundary tori,
+  tubular neighbourhood with its normal vector bundle, Sard's theorem in its flat and its
+  boundaryless-manifold forms, slopes and framed boundary tori,
   Seifert fibrations, the sphere-bounds-a-ball condition, JSJ and geometric torus
   decompositions, Haken and virtually Haken manifolds, mapping tori, the PL groupoid,
   simplicial realization, combinatorial manifolds, collapse, triangulability, and the
@@ -115,8 +116,8 @@ This roadmap leaves the following to other roadmaps.
   the JSJ theorem, geometrization, the triangulation conjecture and Zeeman's conjecture. None
   of these is planned again here; each is cited by name where it is used.
 - **DifferentialGeometry** owns faces of manifolds with corners, flows, involutive
-  distributions and the Frobenius theorem, integration of forms, Sard's theorem, Riemannian
-  metrics and the existence of a smooth metric. **HopfRinow** owns the Levi-Civita connection, geodesics, the
+  distributions and the Frobenius theorem, integration of forms, Riemannian metrics and the
+  existence of a smooth metric. **HopfRinow** owns the Levi-Civita connection, geodesics, the
   exponential map, normal neighbourhoods and the Hopf–Rinow theorem.
 - **HomotopySpheres** owns the handle calculus of compact cobordisms, built on Layer 1.3's
   handle attachment, Layer 1.3.1's Morse functions on triads with their elementary handle
@@ -274,7 +275,7 @@ This roadmap leaves the following to other roadmaps.
   (`Mathlib/Algebra/Quandle.lean`), `PresentedGroup`, `Group.rank` for finitely generated groups
   (`Mathlib/GroupTheory/Rank.lean`), `Group.IsPerfect`, `commutator`, `ZMod`.
 
-### From Tau Ceti
+### From Tau Ceti (commit 2fd255d9)
 
 The following pinned declarations supply the carriers and results used below. Layer 1.5
 constructs the smooth normal bundle and variable-radius tubes, Layer 1.6 proves the compact
@@ -315,6 +316,17 @@ constructs the compact link exterior.
   `TauCeti.IsNondegenerateCriticalPoint.exists_morse_chart` (`NormalForm.lean`). None of the
   existence and deformation results treats a manifold with boundary, which is Layer 1.3.1's
   work.
+- **Sard's theorem** (`Analysis/Calculus/Sard/OutermostStratum.lean`,
+  `Geometry/Manifold/Sard/Meagre.lean`): the flat Morse–Sard theorem
+  `ContDiff.addHaar_image_criticalPoints_eq_zero`, for a `C^n` map between finite-dimensional
+  real normed spaces with `(dim E)² + 1 ≤ n`, so for every smooth map, with no relation between
+  the two dimensions: its critical values are null for every additive Haar measure; its
+  measure-free form `ContDiff.dense_compl_image_criticalPoints`, the regular values are dense;
+  and on manifolds `ContMDiff.isMeagre_image_criticalPoints`, the critical values of a smooth
+  map from a Lindelöf finite-dimensional boundaryless manifold to a finite-dimensional
+  boundaryless manifold, of any dimensions, form a meagre set. None of them treats a source
+  with boundary; the reduction of Layer 1.7.1's relative transversality to the boundaryless
+  interior of the disc is that section's work.
 - **The PL groupoid** (`Geometry/Manifold/PLGroupoid.lean`, `Topology/PL/`):
   `TauCeti.IsPiecewiseAffineOn`, `TauCeti.IsPLOn`, `TauCeti.PLPregroupoid`,
   `TauCeti.PLGroupoid I`, `TauCeti.PLGroupoid_le_continuousGroupoid`, closure under restriction,
@@ -440,10 +452,9 @@ constructs the compact link exterior.
 Faces of manifolds with corners and the abstract boundary (the *Boundary and corners*
 section); the fundamental theorem of flows on finite-dimensional manifolds and the two-time
 flow of a time-dependent vector field (Layer 3); involutive distributions, the Frobenius
-theorem and leaves (Layer 4); integration of densities and forms (Layer 5); Sard's theorem on
-boundaryless manifolds (Layer 10, item 10.2); existence of a smooth Riemannian metric on a
-paracompact manifold and the comparison of densities with `TauCeti.riemannianVolume`
-(Layer 12).
+theorem and leaves (Layer 4); integration of densities and forms (Layer 5); existence of a
+smooth Riemannian metric on a paracompact manifold and the comparison of densities with
+`TauCeti.riemannianVolume` (Layer 12).
 
 ### From TauCetiRoadmap.HopfRinow
 
@@ -1006,8 +1017,19 @@ surface classification does not give a particular ambient realization.
    transverse relative to its boundary. The compact PREIMAGE `H⁻¹(S)` is
    a one-manifold whose boundary counts the curve's intersections, hence
    that count is even. No embedded spanning disc is assumed: the curve
-   may be knotted. Prove the relative transversality/preimage theorem,
-   compactness and the analogous PL normal-position argument. A path
+   may be knotted. Prove the relative transversality/preimage theorem
+   and compactness: with `ρ` a bump function on `D²` that is `0` on a
+   collar of `∂D²` on which `H` is already transverse to `S` and positive
+   off that collar, the map `(x, v) ↦ H(x) + ρ(x)v` on `int D² × ℝ³` is a
+   submersion where `ρ ≠ 0` and agrees with `H` where `ρ = 0`, so it is
+   transverse to `S` and its preimage of `S` is a boundaryless
+   second-countable 4-manifold `W`; the critical values of the projection
+   `W → ℝ³` to `v` are meagre by Sard's theorem on boundaryless manifolds
+   (`ContMDiff.isMeagre_image_criticalPoints`, or chart by chart the flat
+   `ContDiff.addHaar_image_criticalPoints_eq_zero` on a countable chart
+   cover), and `H + ρv` is transverse to `S` for every regular value `v`,
+   which exists arbitrarily close to `0`. Prove the analogous PL
+   normal-position argument. A path
    joining opposite local sides in the complement would close to a curve
    with exactly one intersection; exclude it. Propagate local sides along
    the connected surface to trivialize its normal line bundle, prove the
@@ -1101,13 +1123,19 @@ The constructions, separation, quotient and gluing proofs above are targets here
 - The Klein bottle, closed and nonorientable, does not embed in `ℝ³`, while the Möbius
   band, nonorientable with nonempty boundary, does: the separation argument needs the
   surface closed, and the embedding criterion constrains only closed components.
+- A disjoint union of continuum many points is a boundaryless `0`-manifold that is not
+  Lindelöf; a bijection from it onto `ℝ³` has every point critical, so its critical values
+  are all of `ℝ³`, not meagre: the Lindelöf hypothesis of Sard's theorem is not removable,
+  and the preimage manifold `W` of item 3, an open subset of a submanifold of `int D² × ℝ³`,
+  satisfies it.
 
 *Needs:* 1.1–1.7, the independent two-dimensional triangulation/smoothing
 prefix of 11.3 and the relative collared-pair adapter from 11.2; Layer 1.7's compact classification, PlanarTopology's
-surface/plane comparisons; finite simplicial complexes; DifferentialGeometry Layer 10
-(10.2, Sard's theorem), the input of item 3's relative transversality and preimage theorem;
-native projectivization, Euclidean spaces, matrices and stereographic projection. The model/separation prefix
-supplies later knot and JSJ applications without consuming their classifications.
+surface/plane comparisons; finite simplicial complexes; Tau Ceti's Sard theorem
+(`ContMDiff.isMeagre_image_criticalPoints`, `ContDiff.addHaar_image_criticalPoints_eq_zero`,
+`ContDiff.dense_compl_image_criticalPoints`), the input of item 3's relative transversality and
+preimage theorem; native projectivization, Euclidean spaces, matrices and stereographic
+projection. The model/separation prefix supplies later knot and JSJ applications without consuming their classifications.
 
 ### 1.7.2 Mapping class groups of compact surfaces and Dehn twists
 
@@ -1232,8 +1260,9 @@ core of the annulus and the two twists generating `SL₂(ℤ)` on the torus.
 ### Dependencies
 
 Mathlib's manifold library; Tau Ceti's boundary manifold, collars, gluing of atlases, smooth
-embeddings and normal spaces, Euclidean tubes, and Morse functions on boundaryless manifolds
-(Layer 1.3.1); DifferentialGeometry (corners, flows, Sard's theorem, metrics); HopfRinow
+embeddings and normal spaces, Euclidean tubes, Morse functions on boundaryless manifolds
+(Layer 1.3.1) and Sard's theorem (Layer 1.7.1); DifferentialGeometry (corners, flows, metrics);
+HopfRinow
 (exponential map, normal neighbourhoods); PlanarTopology (surfaces); Layer 3.3 for the ambient
 isotopy of ball embeddings used in Layer 1.4, Layer 11.3 for the smooth triangulations used in
 Layer 1.7, and Layers 3.1, 3.3 and 3.4 for the diffeomorphism groups, isotopy extension and
