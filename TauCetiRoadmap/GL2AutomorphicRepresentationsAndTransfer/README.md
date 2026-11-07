@@ -25,7 +25,7 @@ nebentypus, bad-prime eigenproperties, coefficient fields and classical L-functi
 SmoothRepresentationsOfLocalGroups, SR.0–SR.4, owns smooth categories, induction, Whittaker
 functionals, types, the Bernstein centre and Satake. AdelicAlgebraicGroups, AA.0–AA.3, owns adelic
 points, Haar products, arithmetic quotient measures and anisotropic compactness.
-AutomorphicLFunctionsAndLocalFactors representation prerequisites own GLₙ archimedean
+AutomorphicLFunctionsAndLocalFactors representation prerequisites AL.R.1–AL.R.3 own GLₙ archimedean
 modules, globalizations and restricted tensors. AutomorphicSpectralTheory §§0.48–0.50 supplies
 the general reductive-group extensions of these constructions.
 ArithmeticLocallySymmetricSpaces ALS.F.6 owns automorphic forms and cuspidal classes.
@@ -74,22 +74,13 @@ R17.4 upgrades the same base-change outputs to all-place Weil–Deligne compatib
 R17.4/metaplectic-adjoint-input owns the theta-integral input
 needed for the adjoint lift. R17.4/whittaker-type-adjoint-converse owns the
 Whittaker-type-module converse and constituent argument, including the nongeneric boundary.
-QuaternionicModularForms §1.3 (algebraic weights and their determinant normalization), §2.1
-(quaternionic level forms over every number field, with evaluation, norms and level maps), §§2.2–2.3
-(classical definite spaces, stabilizer actions and the trivial-stabilizer dimension) and §3.1
-(Hecke operators, their good-place relation and commutation) owns the classical quaternionic
-coefficient modules, form spaces and Hecke operators; R17.3/definite-hilbert-exports owns the
-division-place coefficient adapter, the level colimit and the inverse-coset comparison of those
-spaces with Pan’s spaces, and their JL spectrum. The identifiers R17.3.8a–R17.3.8d name no target
-of this roadmap; citations of them resolve as follows.
-
-- R17.3.8a → QuaternionicModularForms §1.3; the comparison of `L_{n,v}` with symmetric powers is in
-  R17.3.9.
-- R17.3.8b → QuaternionicModularForms §2.1, with AutomorphicFormsOnReductiveGroups §7.4 for the
-  abstract carrier and §7.6 for the central-character submodule.
-- R17.3.8c → QuaternionicModularForms §§2.2–2.3.
-- R17.3.8d → QuaternionicModularForms §0.4 and §3.1; the inverse-coset identity
-  `[Uη_v⁻¹U]=S_v⁻¹T_v` is in R17.3.9.
+QuaternionicModularForms §1.3 (algebraic weights, their determinant normalization and their
+identification with twisted symmetric powers), §2.1 (quaternionic level forms over every number
+field, with evaluation, norms and level maps), §§2.2–2.3 (classical definite spaces, stabilizer
+actions and the trivial-stabilizer dimension) and §3.1 (Hecke operators, their good-place relation,
+commutation and inversion formulas) owns the classical quaternionic coefficient modules, form spaces
+and Hecke operators; R17.3/definite-hilbert-exports owns the division-place coefficient adapter, the
+level colimit, the comparison of §3.1's action with Pan’s `T_ℓ, S_ℓ`, and their JL spectrum.
 
 ArithmeticGaloisRepresentations, Layers 1–5 and §§7.1–7.2, 7.6, owns continuous representations, lattices,
 Weil–Deligne objects, Artin/Swan conductors, finite-image classification, recognition and Galois
@@ -145,6 +136,8 @@ and infinite local maps. `MonoidHom.domRestrict_surjective` in
 `Mathlib.GroupTheory.FiniteAbelian.Duality` extends subgroup characters with algebraically closed
 coefficients through a finite quotient. `NumberField.Units.mem_torsion` in
 `Mathlib.NumberTheory.NumberField.Units.Basic` detects torsion by archimedean absolute values.
+`Set.unit` in `Mathlib.RingTheory.DedekindDomain.SInteger` is the group of S-units of a Dedekind
+domain's fraction field; Mathlib proves no finiteness for it.
 These do not assert the arithmetic congruence or full-local prescription theorem.
 
 `Matrix.det_smul` in `Mathlib.LinearAlgebra.Matrix.Determinant.Basic` gives the scalar
@@ -195,6 +188,10 @@ At Tau Ceti `2fd255d9`, import the following APIs rather than reproducing them.
 - `TauCeti.Algebra.Quaternion.Split`: `TauCeti.QuaternionAlgebra.oneEquivMatrix` identifies
   `QuaternionAlgebra K 1 0 1` with 2×2 matrices. Global realization with prescribed nonsplit
   places and comparison of two quaternion algebras use the contracts below.
+- `TauCeti.RingTheory.DedekindDomain.SInteger.Unit`: `Set.unit_fg` gives finite generation of
+  Mathlib's S-unit group `Set.unit S K` for finite S over a Dedekind domain whose ∅-units are
+  finitely generated, and the instance `Set.unit_fg_of_units` gives it from `Monoid.FG Rˣ`, which
+  Mathlib registers for `(𝓞 K)ˣ`. Neither computes a rank.
 
 ### From roadmaps
 
@@ -208,9 +205,9 @@ irreducible infinite-dimensional GL₂ representations. SR.0 supplies the smooth
 category; SR.3a.1 compact representations and SR.3.2 cuspidal splitting supply the projectivity
 argument. SR.1 and SR.4 supply Hecke carriers, Bernstein centre and spherical parameters.
 
-AutomorphicLFunctionsAndLocalFactors, Representation prerequisites
-`archimedean-smooth-representations`, `archimedean-gln-parameters` and
-`restricted-tensor-realizations`, supply archimedean categories, normalized induction, Weil
+AutomorphicLFunctionsAndLocalFactors, representation prerequisites AL.R.1 (Archimedean Whittaker
+comparisons), AL.R.2 (Archimedean `GLₙ` parameters) and AL.R.3 (Restricted tensor
+realizations), supply archimedean categories, normalized induction, Weil
 parameters, Casselman–Wallach globalizations, Flath factorization and algebraic/Hilbert tensor
 realizations for GLₙ. AutomorphicSpectralTheory §§0.48–0.50 (`real_representation_foundations`,
 `smooth_frechet_globalization`, `restricted_tensor_factorization`) extends these constructions
@@ -346,14 +343,18 @@ and R15.6 (§7.4–§7.5, residual modularity witness), supplies the geometric r
 
 QuaternionicModularForms supplies the classical finite-level form spaces and Hecke operators used
 in R17.3/definite-hilbert-exports: §1.3, the algebraic weights `L_{n,v}` of dimension
-`∏_σ(n_σ+1)`, the parallel-weight condition and the algebraic and normalized determinant
-conventions, which differ by `ν_alg(ϖ_v)^e` on a double coset of determinant valuation e; §2.1, the
+`∏_σ(n_σ+1)`, the parallel-weight condition, the algebraic and normalized determinant
+conventions, which differ by `ν_alg(ϖ_v)^e` on a double coset of determinant valuation e, and, in
+one variable, the identification of the left action `g ↦ (·)|g⁻¹` on `L_{n,v}` with
+`Sym^n(std)⊗det^{−n−v}`; §2.1, the
 level-form module `M(U,A)` for every quaternion algebra over every number field and every right
 coefficient action, with its evaluation equivalence, norms, restriction and trace; §2.2, the
 classical spaces of a totally definite algebra; §2.3, the factorization of stabilizer actions
 through finite groups and the dimension `#Cl(U)·∏_σ(n_σ+1)` when every stabilizer acts trivially;
 §3.1, the operators `U_v`, `T_v`, `T_{v²}`, `S_v` and the diamond operators, the good-place relation
-`T_v²=T_{v²}+(q_v+1)S_v`, commutation at distinct places and the norm bound. These are its algebraic
+`T_v²=T_{v²}+(q_v+1)S_v`, commutation at distinct places, the norm bound and, for `D_fˣ` at good
+places with `η_v=diag(ϖ_v,1)`, the inversion formulas `[Uη_v⁻¹U]=S_v⁻¹T_v` and
+`[Uϖ_v⁻¹U]=S_v⁻¹`. These are its algebraic
 targets; its split-place analytic weight theory is not used. AutomorphicFormsOnReductiveGroups §7.4
 supplies `inverseActionHeckeEquiv`, which converts the opposite-ring Hecke action into weighted
 coset sums. R17.3 constructs the division-place algebraic coefficient adapter, the level colimit, the comparison
@@ -558,7 +559,7 @@ identity at a single place and inclusion under increasing depths with the corres
 restricted-product maps. The product with O(2) and U(2) at infinity is the full adelic
 compact subgroup for this level. Use the product-level and local-embedding interfaces of
 AdelicAlgebraicGroups AA.1.5; AA.5.2 gives their rational principal-level specialization.
-There is one local-to-adelic Hecke element `heckeGen v`, the extension by identity of
+There is one local-to-adelic Hecke element at v, written h_v, the extension by identity of
 `diag(ϖ_v,1)`. Its double coset is independent of the uniformizer. At a maximal compact place compare its
 `q_v+1` right cosets with the coset-system and invariant-space action of
 AutomorphicFormsOnReductiveGroups §0.5. All finite-level Hecke comparisons use this element
@@ -576,7 +577,7 @@ K₀(pⁿ)=K₁(pⁿ)·Z(O) with Z(O) the integral scalars, since g·diag(g₂�
   this level from principal congruence; diag(u,1) also belongs for every integral unit u.
   If u−1∉pᵥ, scalar u belongs at a K₀ place but not at a K₁ place; this scalar distinction
   has no witness in residue field F₂, where K₀(pᵥ)=K₁(pᵥ) and the quotient (O/pᵥ)ˣ is trivial.
-- Away from the level, the coset of `heckeGen v` has `q_v+1` right cosets; at residue size two there are three.
+- Away from the level, the double coset of h_v has `q_v+1` right cosets; at residue size two there are three.
 
 *Needs:* AutomorphicLFunctionsAndLocalFactors AL.2.2 (GL₂ newvectors) (the local K₀/K₁ subgroup
 package); Mathlib `Matrix.GeneralLinearGroup`; AdelicAlgebraicGroups §§1.1–1.2 and §1.5;
@@ -597,7 +598,8 @@ Specialize RG2.4 at finite places and AutomorphicSpectralTheory §§0.48–0.49 
 
 Fix local measures `dg_v` on GL₂(Fv), vol(GL₂(Ov))=1 at finite places outside a specified finite set; form AdelicAlgebraicGroups AA.0’s restricted Haar product. GL₂ is unimodular. For a continuous unitary idele-class character ω use AdelicAlgebraicGroups §§2.2–2.3 quotient measure and construct the central-character L² space on `Z(𝔸)GL₂(F)\GL₂(𝔸)`: f(zγg)=ω(z)f(g), with finite integral of |f|². The matrix and generic reductive realizations identify isometrically and equivariantly for right translation. Measures on elliptic centralizers are fixed separately, not inferred from `dg_v`.
 
-The intended carrier `CentralCharacterL2(F, ω, dg, dz)` is the Hilbert space of measurable
+The intended carrier, the central-character L² space `L²(Z(𝔸)GL₂(F)\GL₂(𝔸), ω)` for the measures
+dg and dz, is the Hilbert space of measurable
 sections of the Hermitian line bundle on `Z(𝔸)GL₂(F)\GL₂(𝔸)` associated to the character
 zγ↦ω(z), modulo equality almost everywhere, with ∫|f|² finite. The unitary character is
 trivial on F×, making that character well-defined on the closed subgroup Z(𝔸)GL₂(F).
@@ -651,7 +653,7 @@ translation acts by −i and the classical diamond by i, detecting the inverse c
 
 ### R16.1.7 Congruences detecting finite-index subgroups of S-units
 
-For a number field M, finitely generated subgroup E⊂M×, integer n>0 and finite set T of finite places, there is a modulus m with empty infinite part and support disjoint from T such that E∩congruenceSubgroup(m)⊂Eⁿ. Consequently, for every finite-index H⊂E one can require this intersection to lie in H: use n=exponent(E/H). `chevalley_power_congruence` states the power-detection theorem on GlobalNumberFields' existing `Modulus` and `IsCongrOne`. The subsidiary unit-outside-S lemma proves finite generation of a subgroup whose elements are units outside one finite set S. Identify E with a subgroup of HeightsAndUnits §4.2’s finite-S unit group using the unit-outside-S hypothesis, then apply `Set.unit_fg` and finite generation of subgroups of finitely generated abelian groups.
+For a number field M, finitely generated subgroup E⊂M×, integer n>0 and finite set T of finite places, there is a modulus m with empty infinite part and support disjoint from T such that E∩congruenceSubgroup(m)⊂Eⁿ. Consequently, for every finite-index H⊂E one can require this intersection to lie in H: use n=exponent(E/H). `chevalley_power_congruence` states the power-detection theorem on GlobalNumberFields' existing `Modulus` and `IsCongrOne`. The subsidiary unit-outside-S lemma proves finite generation of a subgroup whose elements are units outside one finite set S. Identify E with a subgroup of Mathlib's finite-S unit group `Set.unit S M` using the unit-outside-S hypothesis, then apply Tau Ceti's instance `Set.unit_fg_of_units` and finite generation of subgroups of finitely generated abelian groups.
 
 Proof: The saturation E₀={y∈M×: yᵃ∈E for some a>0} lies in a finitely generated S-unit group. Hence E₀/E is a finite torsion group. If u kills this quotient, an nu-th root in M of x∈E has its u-th power in E. It therefore suffices to detect powers in M, with exponent nu.
 
@@ -661,7 +663,7 @@ For odd p, or i∈M, descend pᵉ-th roots from `M(μ_{pᵉ})` one cyclotomic st
 
 Over the cyclotomic field containing `μ_{pᵉ}`, the generator-root extension L is abelian of p-power degree. Choose a prime inert in each degree-p subextension, avoiding r, generator supports, ramification and rational primes below T. Their rational primes give a modulus. Congruence to 1 gives a local pᵉ-th root by Hensel. Here all roots have the same global root field, because `μ_{pᵉ}` is in the base. A nontrivial root field contains a degree-p subextension, contradicting the chosen inert prime. Cyclotomic descent and the dyadic enlargement return the root to M.
 
-*Needs:* GlobalNumberFields Layer 7 (`Modulus`, `IsCongrOne`); Mathlib `NumberField.Units` and finitely generated abelian-group subgroups; NumberFieldArithmetic Layer 5 (valuations); Chebotarev Layer 10; LocalFieldsRamification Layer 1 (Hensel). HeightsAndUnits §4.2 `Set.unit_fg` supplies S-unit finite generation; the arbitrary-subgroup adapter and cyclotomic deductions are owned here.
+*Needs:* GlobalNumberFields Layer 7 (`Modulus`, `IsCongrOne`); Mathlib `NumberField.Units` and finitely generated abelian-group subgroups; NumberFieldArithmetic Layer 5 (valuations); Chebotarev Layer 10; LocalFieldsRamification Layer 1 (Hensel). Tau Ceti `Set.unit_fg` and `Set.unit_fg_of_units` (`TauCeti.RingTheory.DedekindDomain.SInteger.Unit`) supply S-unit finite generation; the arbitrary-subgroup adapter and cyclotomic deductions are owned here.
 
 *Source:* [chevalley51], Theorem 1 p.36, primary proof §§1–5 pp.36–39.
 
@@ -750,7 +752,7 @@ Define `h_m(α,β)=Σ_{i=0}^m α^iβ^{m−i}` for complex α,β and natural m. F
 
 Prove spherical Whittaker uniqueness in the following intrinsic form. For ψ of conductor O,
 a function with left ψ-unipotent covariance, right GL₂(O)-invariance, specified central
-character ω and the spherical `heckeGen v` eigenvalue is determined by W(1).
+character ω and the spherical eigenvalue of the Hecke element h_v of R16.1.3 is determined by W(1).
 Iwasawa coordinates reduce it to diagonal values; covariance forces the negative values
 to vanish and the Hecke recurrence determines the nonnegative ones.
 In the generic unramified representation the normalized
@@ -822,8 +824,7 @@ Let F be a nonarchimedean local field of any characteristic, carried in `Suggest
 
 On SmoothRepresentationsOfLocalGroups SR.0's fixed-ω category of complex smooth representations of G=GL₂(F), π is irreducible admissible and supercuspidal: every matrix coefficient with a functional in the smooth dual has compact support modulo the scalar centre. For any equivariant surjection q:σ→τ and intertwiner f:π→τ, construct an intertwiner h:π→σ with qh=f. The other representations need not be admissible or irreducible. In particular every surjection onto π splits. SmoothRepresentationsOfLocalGroups SR.3.2's supercuspidal decomposition and coefficient projector give the lift; fixing ω makes the characteristic-zero block semisimple by restricting unramified twists to those with trivial square on the centre. The L-coefficient comparison needs scalar descent. This imposes no normed or locally analytic topology.
 
-*Needs:* R16.2/henniart-unicity; SmoothRepresentationsOfLocalGroups
-SmoothRepresentationsOfLocalGroups SR.0 (smooth category), SmoothRepresentationsOfLocalGroups SR.3a.1 (compact representations) and
+*Needs:* SmoothRepresentationsOfLocalGroups SR.0 (smooth category), SmoothRepresentationsOfLocalGroups SR.3a.1 (compact representations) and
 SmoothRepresentationsOfLocalGroups SR.3.2 (cuspidal splitting). This target specializes their complex smooth
 representation theory to the fixed-character GL₂ category.
 
@@ -1005,7 +1006,7 @@ Archimedean local reciprocity, absolute value |z|ℂ=|z|², gamma and additive-c
 
 ### R16.3.7 Tamely dihedral representations of prime order
 
-Define `tamelyDihedral (F, ℓ)` as the subset of irreducible admissible GL₂(F) classes with the following parameter. For odd prime ℓ with q≡−1 mod ℓ, an irreducible admissible π is tamely dihedral of order ℓ precisely when `rec π=(Ind_{W_{F′}}^{W_F}θ,0)`, where F′/F is unramified quadratic and θ|I has exact order ℓ. Use the imported induced Weil representation and class of π; no second automorphic or WD carrier is defined. Induction is from `W_{F′}` to `W_F`. Since ℓ is prime to the residue characteristic, the inertia character is tame.
+Define the set of tamely dihedral classes of order ℓ of F as the subset of irreducible admissible GL₂(F) classes with the following parameter. For odd prime ℓ with q≡−1 mod ℓ, an irreducible admissible π is tamely dihedral of order ℓ precisely when `rec π=(Ind_{W_{F′}}^{W_F}θ,0)`, where F′/F is unramified quadratic and θ|I has exact order ℓ. Use the imported induced Weil representation and class of π; no second automorphic or WD carrier is defined. Induction is from `W_{F′}` to `W_F`. Since ℓ is prime to the residue characteristic, the inertia character is tame.
 
 ℓ odd prime, q residue cardinality and q≡−1 mod ℓ; θ continuous with open kernel on inertia.
 
@@ -1027,7 +1028,7 @@ Prove the following API.
 
 Every tamely dihedral π of odd prime order ℓ is supercuspidal. Its parameter is irreducible, has N=0 and Swan conductor zero; since inertia has no fixed vector, a(rec π)=2 and L(s,π)=1. The exact-order argument works also at residue characteristic two, because ℓ is odd and prime to q.
 
-The complete hypotheses of tamelyDihedral, including q≡−1 mod ℓ.
+The complete hypotheses of R16.3.7, including q≡−1 mod ℓ.
 
 *Needs:* R16.3/tamely-dihedral; R16.3/supercuspidal-parameter; ArithmeticGaloisRepresentations §3.3; R16.0/local-langlands.
 
@@ -1331,7 +1332,7 @@ At p∤N set `(A_p,B_p)=p^((k−1)/2)(α_p,β_p)`; their sum is `a_p` and produc
 
 Classical arithmetic Frobenius convention stated; `χ_cyc(arithmetic Frob_p)=p`; unitary R16.1/finite-level-comparison πf, integer k≥2.
 
-*Needs:* R16.3/tate-unitary-normalization; R16.6/classical-hecke-and-level; R16.6/hilbert-algebraic-weights; ArithmeticGaloisRepresentations §2.4; AlgebraicModularFormsAndSerreWeights R15.5A.2/classical-higher-weight-attachment.
+*Needs:* R16.3/tate-unitary-normalization; R16.6/classical-hecke-and-level; R16.6/hilbert-algebraic-weights; ArithmeticGaloisRepresentations §2.4; AlgebraicModularFormsAndSerreWeights R15.5A.2 (§6.2, classical eigenforms of weight at least two).
 
 *Source:* [nt26], §1.2 recᵀ and Hodge–Tate conventions, p. 8.
 
@@ -1461,15 +1462,17 @@ R16.0/local-langlands canonical inner-form correspondence at every finite extens
 
 ### R17.1.5 Swapped quaternion invariants in arithmetic applications
 
-Define `RamifiedExactlyAt D S` for a quaternion algebra D over a number field F and a
-finite set S of all places: `v∈S` iff every nonzero element of `D⊗_F F_v` is invertible.
+Define the predicate *D is ramified exactly at S* for a quaternion algebra D over a number field F
+and a finite set S of all places: `v∈S` iff every nonzero element of `D⊗_F F_v` is invertible.
 Prove that this is equivalent to
 `v∈S ↔ ¬ Nonempty (D⊗_F F_v ≃ₐ[F_v] M₂(F_v))` at every place.
 These are the two equivalent local division tests; over complex completions neither holds.
-Use `definiteRamifiedExactlyAt D q` over ℚ for support `{q,∞}`, and
-`indefiniteRamifiedExactlyAt D q q′` for support `{q,q′}` with q≠q′ finite.
+Over ℚ use its definite specialization, support `{q,∞}`, and its indefinite specialization,
+support `{q,q′}` with q≠q′ finite.
 The general predicate also applies to arbitrary real ramification sets over totally real F;
-the rational abbreviations introduce no new notion of quaternion algebra or order.
+the rational specializations introduce no new notion of quaternion algebra or order.
+Citations of the names RamifiedExactlyAt and ramifiedExactlyAt_iff_nonsplit refer to this
+predicate and to the equivalence of the two local division tests.
 
 **Ramification realization.** For a number field F, finite sets `S_f,S_∞` of finite/infinite places are the nonsplit places of a quaternion algebra iff `S_∞` is real and `|S_f|+|S_∞|` is even. Produce a,b∈F× and QuaternionAlgebra F a 0 b: weak approximation makes b a uniformizer at `S_f` and negative at `S_∞`; GlobalQuadraticForms §4.4's `exists_hilbertSymbol_eq_neg_one_iff_pair` prescribes `(a,b)_v=−1` precisely on S. QuadraticFormInvariants Layer 2's splitting criterion gives the local algebras. The product formula proves necessity, including real signs.
 
@@ -1722,7 +1725,7 @@ For totally real F, quaternion D and cohomological `π=JL_Dπ′`, assume R16.4'
 
 At real ramified places π′ has the matching algebraic type. Use the arithmetic pair `a_v=t_v, b_v=q_v s_v`.
 
-*Needs:* PadicLocalLanglandsForGL2Qp §6.9; R17.3/split-hecke; R17.3/strong-multiplicity-one; R16.4; R17.3/global-jl; R17.1; R16.4/cohomological-rationality; R16.4/cohomological-rationality.
+*Needs:* PadicLocalLanglandsForGL2Qp §6.9; R17.3/split-hecke; R17.3/strong-multiplicity-one; R16.4; R17.3/global-jl; R17.1; R16.4/cohomological-rationality.
 
 *Source:* [pan26-global], §5.5.5, p. 75.
 
@@ -1730,7 +1733,7 @@ At real ramified places π′ has the matching algebraic type. Use the arithmeti
 
 Let `(π′, π)` be the cohomological JL pair of coefficient-conjugation, and `L ⊂ C` a field containing `Q(π_f) = Q(π′_f)`. A p-adic coefficient field such as CDN20's is used through a fixed isomorphism `C ≅ Q̄_p`. (i) If `π′_f` and `π_f` have L-models, then at every finite `v ∉ S` the fixed identification gives an L-linear isomorphism of the L-models of `π′_v` and `π_v`, hence of their `K_v`-invariants with Hecke actions; the arithmetic Hecke eigensystems agree in L and after every extension of L. The models are absolutely irreducible, so isomorphism over C descends to L. (ii) Equality of the fields of rationality does not by itself give an L-model of `π′_f`: a Schur/descent obstruction at places of S may force a finite extension of L. Consumers therefore fix L large enough. CDN20 §5.2.1 requires the Shimura-curve representation to be defined over its coefficient field L and allows a finite extension of L (footnote 21).
 
-*Needs:* PadicLocalLanglandsForGL2Qp §6.9; R17.3/coefficient-conjugation; R16.4; R17.3/split-hecke; R16.4/cohomological-rationality; R16.4/cohomological-rationality.
+*Needs:* PadicLocalLanglandsForGL2Qp §6.9; R17.3/coefficient-conjugation; R16.4; R17.3/split-hecke; R16.4/cohomological-rationality.
 
 *Source:* [cdn20-global], §5.2.1, p. 44; §5.2.1, footnote 21, p. 44.
 
@@ -1743,11 +1746,9 @@ For totally real F and D ramified at every real place, algebraic real types of a
 to `C_p`. Let τ be the algebraic left action on `W^{(k,0)}`, the dual of the type of highest
 weight (0,−k), so that τ is `Sym^k` of the standard representation through the splitting.
 Supply QuaternionicModularForms §2.1 with the right coefficient action `w|u=τ(u_p)⁻¹w`.
-Identify this right module with §1.3's `L_{k,−k}` in its algebraic determinant convention: the
-slash `P ↦ det(γ)^v(cz+d)^nP((az+b)/(cz+d))` on polynomials of degree at most n is
-`P ↦ det(γ)^v·P∘γ` in homogeneous coordinates, so its left action `g ↦ (·)|g⁻¹` is
-`Sym^n(standard^∨)⊗det^{−v}`; since `γᵀ=det(γ)·wγ⁻¹w⁻¹` for `w=(0 1; −1 0)`, composing with
-`Sym^n(w)` identifies it with `Sym^n(standard)⊗det^{−n−v}`, which is τ at `n=k`, `v=−k`. This is
+This right module is §1.3's `L_{k,−k}` in its algebraic determinant convention: by
+QuaternionicModularForms §1.3 in one variable at `n=k`, `v=−k`, the left action `g ↦ (·)|g⁻¹` on
+`L_{k,−k}` is `Sym^k(standard)⊗det^{−k+k}=Sym^k(standard)`, which is τ. This is
 an algebraic coefficient adapter at the division place; no splitting `D_p≅M₂(ℚ_p)` or split-p
 analytic weight theorem is an input. For `U=K^p U_p` the supplied transformation law is exactly
 `f(γgu)=τ(u_p)⁻¹f(g)`. Prove that the filtered colimit over shrinking compact open `U_p`,
@@ -1765,15 +1766,16 @@ operators through the double-coset inversion anti-involution, using
 AutomorphicFormsOnReductiveGroups §7.4's `inverseActionHeckeEquiv`. On functions the supplied
 slash by δ is `τ(δ_p)⁻¹f(gδ⁻¹)`, the corrected left action of δ⁻¹. Prove the corresponding
 finite-sum identities and transport eigencharacters. With these split identifications,
-inversion sends the good coset `T_ℓ` to `S_ℓ⁻¹T_ℓ` and `S_ℓ` to `S_ℓ⁻¹`. In general, at a split
-place v with level `GL₂(𝒪_v)` and `η_v` equal to `diag(ϖ_v,1)` at v and 1 elsewhere, `η_v⁻¹` is the
-central element `ϖ_v⁻¹` at v times `diag(1,ϖ_v)`, and `diag(1,ϖ_v)` lies in
-`GL₂(𝒪_v)diag(ϖ_v,1)GL₂(𝒪_v)`, so `[Uη_v⁻¹U]=S_v⁻¹T_v` and `[Uϖ_v⁻¹U]=S_v⁻¹`. To obtain Pan’s
-`T_ℓ,S_ℓ` use the inverse cosets in the opposite action. At ℓ ∉ S the coefficient action is
-trivial, so no determinant rescaling enters; the powers of ℓ come from central elements. By left
-invariance under the global ℓ ∈ ℚ^×, `S_ℓ` is right translation by the central element equal to ℓ
-at every place other than ℓ; when that element lies in U it acts through `τ(ℓ)⁻¹=ℓ^{−k}` at p, and
-otherwise its components away from p and ℓ act through the tame central character. Thus the resulting
+QuaternionicModularForms §3.1's inversion formulas `[Uη_ℓ⁻¹U]=S_ℓ⁻¹T_ℓ` and `[Uϖ_ℓ⁻¹U]=S_ℓ⁻¹`
+at a good ℓ send the good coset `T_ℓ` to `S_ℓ⁻¹T_ℓ` and `S_ℓ` to `S_ℓ⁻¹`. To obtain Pan’s
+`T_ℓ,S_ℓ` use these inverse cosets in the opposite action: Pan's `S_ℓ`, the action of the scalar ℓ
+at ℓ, is the supplied `S_ℓ⁻¹`, and Pan's `T_ℓ` is the supplied `S_ℓ⁻¹T_ℓ`. At ℓ ∉ S the
+coefficient action is trivial, so no determinant rescaling enters; the powers of ℓ come from central
+elements. By left invariance under the global ℓ ∈ ℚ^×, the supplied `S_ℓ`, right translation by
+`ϖ_ℓ⁻¹`, is right translation by the central element equal to ℓ at every finite place other than ℓ
+and to 1 at ℓ; when that element lies in U it acts through `τ(ℓ)⁻¹=ℓ^{−k}` at p, so that Pan's
+`S_ℓ` acts by `ℓ^k`; otherwise the components of that element away from p and ℓ act through the
+tame central character. Thus the resulting
 `T_S=ℤ_p[T_ℓ,S_ℓ:ℓ∉S]` action has Pan’s normalization, including its cyclotomic factor t.
 A coefficient-field embedding and the finite tensor weight comparison identify the
 classical spaces with their complex automorphic realization before applying JL.
@@ -1785,6 +1787,10 @@ classical spaces with their complex automorphic realization before applying JL.
   Pan’s spectrum.
 - At a good split prime, `T_ℓ` and the central `S_ℓ` agree with the inverse-coset formulas; two
   noncommuting normalizing singleton cosets detect a reversed composition order.
+- At a level U containing the scalar ℓ at every finite place other than ℓ, for example the units
+  of a maximal order, the supplied `S_ℓ` acts by `ℓ^{−k}` and Pan's `S_ℓ` by `ℓ^k`; at k=2 and
+  ℓ=3 these are 1/9 and 9, so a dictionary that identified the two operators would invert the
+  central character at ℓ whenever k≥1.
 - At the division place p the algebraic coefficient construction and level colimit remain defined
   without a split-p analytic chart.
 - A scalar u acts on the adapter's coefficient by `τ(u)⁻¹=u^{−k}` and on §1.3's `L_{k,−k}` by
@@ -1799,9 +1805,9 @@ classical spaces with their complex automorphic realization before applying JL.
   These match the constant norm character at k=0 and the dimensions 0, 0, 1 of the weight-4, 6 and 8
   cusp forms on Γ₀(2), all new at 2, as global Jacquet–Langlands predicts.
 
-*Needs:* PadicLocalLanglandsForGL2Qp §6.9; QuaternionicModularForms §1.3 (algebraic weights and determinant normalization), §2.1 (level forms, evaluation and level maps), §§2.2–2.3 (classical definite spaces, stabilizer actions and dimension), §3.1 (Hecke operators and their good-place relations); AutomorphicFormsOnReductiveGroups §7.4 (`inverseActionHeckeEquiv`); R17.3/global-jl; R17.3/split-hecke; R17.1; R16.6.
+*Needs:* PadicLocalLanglandsForGL2Qp §6.9; QuaternionicModularForms §1.3 (algebraic weights, determinant normalization and the symmetric-power identification), §2.1 (level forms, evaluation and level maps), §§2.2–2.3 (classical definite spaces, stabilizer actions and dimension), §3.1 (Hecke operators, their good-place relations and inversion formulas); AutomorphicFormsOnReductiveGroups §7.4 (`inverseActionHeckeEquiv`); R17.3/global-jl; R17.3/split-hecke; R17.1; R16.6.
 
-*Source:* [pan26-global], §5.4.1, pp.68–69 (main involution); §5.4.10 and Definition 5.4.11(1)–(3), p.71 (coefficients, level union and norm quotient); §5.5.5, pp.75–76 (Hecke normalization and spectrum). The right-action, transpose and inverse-coset identities above give the comparison with QuaternionicModularForms §§1.3, 2.1–2.3 and 3.1.
+*Source:* [pan26-global], §5.4.1, pp.68–69 (main involution); §5.4.10 and Definition 5.4.11(1)–(3), p.71 (coefficients, level union and norm quotient); §5.5.5, pp.75–76 (Hecke normalization and spectrum). The comparison with QuaternionicModularForms §§1.3, 2.1–2.3 and 3.1 uses that roadmap's symmetric-power identification and inversion formulas together with the right-action law above.
 
 ### R17.3.10 Indefinite transfer and the parity input
 
@@ -2016,7 +2022,7 @@ Let T be a finite set of finite places of a number field F. Give irreducible adm
 
 Then an automorphic GL₃ representation matches Π outside T. Cuspidality and the missing local components require the adjoint-lift argument; they are not consequences of this partial converse alone.
 
-Proof: At each v∈T choose a finite-order local character of conductor above the threshold. Full-local-character-prescription gives a global finite-order χ₀ with these components. Complete Π at T by the irreducible normalized principal series I(1,1,1), and put Ξ=Π⊗χ₀. This is an admissible restricted tensor representation with idele-class central character χ₀³. For every χ unramified at T, χ₀χ is still sufficiently ramified there. The three local L-factors of `Ξ_v⊗χ_v` and its dual are 1, while `ε(s,Ξ_v⊗χ_v,ψ_v)=ε(s,χ₀,vχ_v,ψ_v)³`. Thus the displayed partial equation is exactly the full equation for Ξ⊗χ, with dual entireness and strip bounds unchanged. Apply AutomorphicLFunctionsAndLocalFactors AL.3.9.6 with n=3 and S=T, then untwist by χ₀. For T empty use that same converse theorem directly. This proves the required highly ramified variant from its distinct unramified twisting contract, rather than treating the two families as interchangeable.
+Proof: At each v∈T choose a finite-order local character of conductor above the threshold. Full-local-character-prescription gives a global finite-order χ₀ with these components. Complete Π at T by the irreducible normalized principal series I(1,1,1), and put Ξ=Π⊗χ₀. This is an admissible restricted tensor representation with idele-class central character χ₀³. For every χ unramified at T, χ₀χ is still sufficiently ramified there. The three local L-factors of `Ξ_v⊗χ_v` and its dual are 1, while `ε(s,Ξ_v⊗χ_v,ψ_v)=ε(s,χ_{0,v}χ_v,ψ_v)³`. Thus the displayed partial equation is exactly the full equation for Ξ⊗χ, with dual entireness and strip bounds unchanged. Apply AutomorphicLFunctionsAndLocalFactors AL.3.9.6 with n=3 and S=T, then untwist by χ₀. For T empty use that same converse theorem directly. This proves the required highly ramified variant from its distinct unramified twisting contract, rather than treating the two families as interchangeable.
 
 The filled tensor Ξ is generic at every place: the outside-T constituents are generic,
 I(1,1,1) at T is irreducible generic, and character twisting preserves genericity.
@@ -2037,8 +2043,8 @@ I(1,1,1) at T is irreducible generic, and character twisting preserves genericit
 For a number field F and finite S of finite places, give the shared complex eigensystem
 `(t_v,s_v)` off S in the unitary root normalization of R16.4.4, with nonzero determinant
 `e_v=q_v s_v` and root ratio different from `q_v` and `q_v⁻¹`.
-Supply generic archimedean parameters from AutomorphicLFunctionsAndLocalFactors's
-`archimedean-gln-parameters`, and a unitary Hecke central character ω with
+Supply generic archimedean parameters from AutomorphicLFunctionsAndLocalFactors AL.R.2
+(Archimedean `GLₙ` parameters), and a unitary Hecke central character ω with
 `ω_v(ϖ_v)=e_v` off S and matching archimedean determinants. Assume the usual uniform
 unramified exponent bound, so standard and dual Euler products converge in a right half-plane.
 Choose at each v∈S an auxiliary irreducible principal series B_v with determinant ω_v,
@@ -2992,7 +2998,6 @@ R16.3 and R16.6; R17.4–R17.5; ArithmeticGaloisRepresentations Layers 1–5; Al
 [cg20]: https://par.nsf.gov/servlets/purl/10184292 "Calegari–Geraghty, Minimal modularity lifting for nonregular symplectic representations. Duke169 (2020),801–896."
 [bcgp21]: https://pmihes.centre-mersenne.org/item/10.1007/s10240-021-00128-2.pdf "Boxer–Calegari–Gee–Pilloni, Abelian surfaces over totally real fields are potentially modular. IHÉS (2021)."
 [hkp10]: https://www.math.umd.edu/~tjh/IHA.apr.09.pdf "Haines–Kottwitz–Prasad, Iwahori–Hecke algebras. JRMS25 (2010); April 2009 author version."
-[aky22]: https://arxiv.org/pdf/2110.09070v4 "Atobe–Kondo–Yasuda, Local newforms for general linear groups over a nonarchimedean local field. Forum Math. Pi (2022); v4 pagination."
 [cdn20]: https://www.ams.org/journals/jams/2020-33-02/S0894-0347-2019-00935-5/S0894-0347-2019-00935-5.pdf "Colmez–Dospinescu–Nizioł, Cohomologie p-adique de la tour de Drinfeld: dimension1. JAMS33 (2020)."
 [cdn23]: https://www.cambridge.org/core/services/aop-cambridge-core/content/view/79733067FC7CB7574B408744E4387F91/S205050862300015Xa.pdf/factorisation-de-la-cohomologie-etale-p-adique-de-la-tour-de-drinfeld.pdf "Colmez–Dospinescu–Nizioł, Factorisation de la cohomologie étale p-adique de la tour de Drinfeld. Forum Math. Pi (2023)."
 [pan26]: https://arxiv.org/pdf/2209.06366 "Pan, On locally analytic vectors of completed cohomology of modular curves II. Annals203 (2026); arXiv2209.06366."
@@ -3023,8 +3028,6 @@ R16.3 and R16.6; R17.4–R17.5; ArithmeticGaloisRepresentations Layers 1–5; Al
 [bh06] C. J. Bushnell and G. Henniart, The Local Langlands Conjecture for GL(2), Springer 2006
 [clozel86]: https://backend.production.deepblue-documents.lib.umich.edu/server/api/core/bitstreams/3f8e76bd-61fa-4e50-b374-9c7298d7e482/content "Clozel, On limit multiplicities of discrete series representations in spaces of automorphic forms. Inventiones83 (1986),265–284."
 [mr00]: https://doi.org/10.4153/CJM-2000-008-9 "Mao–Rallis, Cubic Base Change for GL(2). Canadian J. Math.52 (2000),172–196."
-[jy96]: https://www.math.columbia.edu/~hj/S0002-9947-96-01549-8.pdf "Jacquet–Ye, Distinguished representations and quadratic base change for GL(3). Trans. AMS348 (1996),913–939."
-[ag11]: https://www.wisdom.weizmann.ac.il/~dimagur/SmoothTransfer.pdf "Aizenbud–Gourevitch, Smooth transfer of Kloosterman integrals (Archimedean case).1 June 2011 version,28pp."
 [deligne69]: https://www.numdam.org/article/SB_1968-1969__11__139_0.pdf "Deligne, Formes modulaires et représentations ℓ-adiques. Bourbaki355 (1969),139–172."
 [langlands73]: https://www.sunsite.ubc.ca/DigitalMathArchive/Langlands/pdf/antwerp-ps.pdf "Langlands, Modular Forms and ℓ-adic Representations, LNM349 (1973),361–500; retypeset pp.1–100."
 [prr23] V. Platonov, A. Rapinchuk and I. Rapinchuk, Algebraic Groups and Number Theory, Volume I, second edition, Cambridge 2023.

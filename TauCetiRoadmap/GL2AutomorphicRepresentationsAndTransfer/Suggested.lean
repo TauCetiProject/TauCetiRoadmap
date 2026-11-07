@@ -57,6 +57,8 @@ namespace TauCetiRoadmap.GL2AutomorphicRepresentationsAndTransfer
 
 open _root_.Matrix
 
+/-! ## Layer R16.1: Local and adelic groups -/
+
 section ArithmeticCharacterPrescription
 
 open NumberField IsDedekindDomain TauCeti.GlobalNumberFields
@@ -85,6 +87,8 @@ theorem finite_hecke_full_local_prescription
         (IdeleClassGroup.ofCompletion (𝓞 K) K w) = 1) := by sorry
 
 end ArithmeticCharacterPrescription
+
+/-! ## Layer R16.2: Local representations and newvectors -/
 
 section SupercuspidalProjectivity
 
@@ -127,6 +131,8 @@ theorem supercuspidalProjective
     ∃ lift : Representation.IntertwiningMap π σ, q.comp lift = f := by sorry
 
 end SupercuspidalProjectivity
+
+/-! ## Layer R17.1: Quaternionic local transfer -/
 
 section QuaternionRamification
 open NumberField IsDedekindDomain
@@ -175,7 +181,9 @@ theorem nonempty_quaternionAlgEquiv_of_localSplitting (a b c d : Kˣ)
 
 end QuaternionRamification
 
-open IsDedekindDomain
+/-! ## Layer R17.5: Automorphic induction and solvable Artin representations -/
+
+open IsDedekindDomain NumberField
 open scoped NumberField
 
 /-- R17.5.4: every finite continuous complex projective rank-two Galois
@@ -187,40 +195,6 @@ theorem finite_projective_lift (F : Type*) [Field F] [NumberField F]
     ∃ ρ : Field.absoluteGaloisGroup F →* GeneralLinearGroup (Fin 2) ℂ,
       IsOpen (ρ.ker : Set (Field.absoluteGaloisGroup F)) ∧ Set.Finite (Set.range ρ) ∧
         ProjGenLinGroup.mk.comp ρ = r := by sorry
-
-/-- R17.5.12: Fong–Swan lifting in every rank, with a free stable lattice
-whose reduction is the specified irreducible residual representation. -/
-theorem solvable_finite_image_integral_lift
-    (Γ : Type*) [Group Γ] [Finite Γ] (hsolv : Group.IsSolvable Γ)
-    (p : ℕ) [Fact p.Prime]
-    (k : Type*) [Field k] [CharP k p] [IsAlgClosed k]
-    (n : ℕ) (r : Γ →* GeneralLinearGroup (Fin n) k)
-    (hirr : Representation.IsIrreducible
-      ((Units.coeHom (Module.End k (Fin n → k))).comp
-        (GeneralLinearGroup.toLin.toMonoidHom.comp r))) :
-    ∃ (E : Type) (_ : Field E) (_ : NumberField E)
-      (v : HeightOneSpectrum (𝓞 E)),
-      ∃ (f : Localization.AtPrime v.asIdeal →+* k)
-        (ρ : Γ →* GeneralLinearGroup (Fin n) (Localization.AtPrime v.asIdeal))
-        (P : GeneralLinearGroup (Fin n) k),
-        (p : 𝓞 E) ∈ v.asIdeal ∧
-        RingHom.ker f = IsLocalRing.maximalIdeal (Localization.AtPrime v.asIdeal) ∧
-        ∀ g : Γ, r g = P * GeneralLinearGroup.map f (ρ g) * P⁻¹ := by sorry
-
-/-- R17.6.6: a finite irreducible rank-two representation in characteristic
-two with solvable projective image has odd dihedral projective image. -/
-theorem solvable_characteristicTwo_projective_dihedral
-    {G k : Type*} [Group G] [Field k] [CharP k 2] [IsAlgClosed k]
-    (r : G →* GeneralLinearGroup (Fin 2) k)
-    (hfinite : Set.Finite (Set.range r))
-    (hsolv : Group.IsSolvable (ProjGenLinGroup.mk.comp r).range)
-    (hirr : Representation.IsIrreducible
-      ((Units.coeHom (Module.End k (Fin 2 → k))).comp
-        (GeneralLinearGroup.toLin.toMonoidHom.comp r))) :
-    ∃ n : ℕ, 3 ≤ n ∧ Odd n ∧
-      Nonempty ((ProjGenLinGroup.mk.comp r).range ≃* DihedralGroup n) := by sorry
-
-open NumberField
 
 /-- R17.5.9: odd solvable Artin representations over ℚ have weight-one newforms
 with their arithmetic Frobenius traces and determinants. -/
@@ -242,6 +216,40 @@ theorem odd_solvable_artin_weight_one
           (σ : E ≃ₐ[ℚ] E), IsArithFrobAt ℤ σ Q →
           (UpperHalfPlane.qExpansion 1 f.toCuspForm).coeff p = (ρ σ).val.trace ∧
           f.dirichletLift p = (GeneralLinearGroup.det (ρ σ) : ℂ) := by sorry
+
+/-- R17.5.12: Fong–Swan lifting in every rank, with a free stable lattice
+whose reduction is the specified irreducible residual representation. -/
+theorem solvable_finite_image_integral_lift
+    (Γ : Type*) [Group Γ] [Finite Γ] (hsolv : Group.IsSolvable Γ)
+    (p : ℕ) [Fact p.Prime]
+    (k : Type*) [Field k] [CharP k p] [IsAlgClosed k]
+    (n : ℕ) (r : Γ →* GeneralLinearGroup (Fin n) k)
+    (hirr : Representation.IsIrreducible
+      ((Units.coeHom (Module.End k (Fin n → k))).comp
+        (GeneralLinearGroup.toLin.toMonoidHom.comp r))) :
+    ∃ (E : Type) (_ : Field E) (_ : NumberField E)
+      (v : HeightOneSpectrum (𝓞 E)),
+      ∃ (f : Localization.AtPrime v.asIdeal →+* k)
+        (ρ : Γ →* GeneralLinearGroup (Fin n) (Localization.AtPrime v.asIdeal))
+        (P : GeneralLinearGroup (Fin n) k),
+        (p : 𝓞 E) ∈ v.asIdeal ∧
+        RingHom.ker f = IsLocalRing.maximalIdeal (Localization.AtPrime v.asIdeal) ∧
+        ∀ g : Γ, r g = P * GeneralLinearGroup.map f (ρ g) * P⁻¹ := by sorry
+
+/-! ## Layer R17.6: Characteristic two and residual modularity -/
+
+/-- R17.6.6: a finite irreducible rank-two representation in characteristic
+two with solvable projective image has odd dihedral projective image. -/
+theorem solvable_characteristicTwo_projective_dihedral
+    {G k : Type*} [Group G] [Field k] [CharP k 2] [IsAlgClosed k]
+    (r : G →* GeneralLinearGroup (Fin 2) k)
+    (hfinite : Set.Finite (Set.range r))
+    (hsolv : Group.IsSolvable (ProjGenLinGroup.mk.comp r).range)
+    (hirr : Representation.IsIrreducible
+      ((Units.coeHom (Module.End k (Fin 2 → k))).comp
+        (GeneralLinearGroup.toLin.toMonoidHom.comp r))) :
+    ∃ n : ℕ, 3 ≤ n ∧ Odd n ∧
+      Nonempty ((ProjGenLinGroup.mk.comp r).range ≃* DihedralGroup n) := by sorry
 
 /-- R17.6.13: solvable residual representations in characteristic two arise from
 weight-one newforms, expressed by integral good-prime coefficients. -/
