@@ -135,6 +135,15 @@ satisfies `N_a>1`, its odd part is nontrivial and squarefree, and
 `N_a <= 8N_a^{odd}`. `Nat.maxPrimeFac` has its library values at 0 and
 1; all prime-factor inequalities here apply to conductors greater than 1.
 
+On the pinned carriers, `M` is the norm of the algorithmic conductor
+`WeierstrassCurve.algorithmicConductor` over ℤ, which is the conductor by
+Ogg's formula (supplier contracts); `M_a` is `deletionLevel` of the first
+Frey curve `progressionFreyCurve` at `ell` (§1.7); `N_a^{odd}` is `oddPart`
+of the conductor (§2.7); and the first-family coefficient `A_i` is
+`smallPart` at the length `k` of the term `t_i` (§0.4). The residual Artin
+conductor `N(rho_bar)` has no pinned carrier; its comparison with `M_a` is
+the target §1.10, not a definition.
+
 Character sums include the integer interval `k/2<m <= k`, represented by
 `floor(k/2)<m <= k`. The von Mangoldt weight includes prime
 powers. A prime-only sum is identified separately before estimating the
@@ -177,11 +186,20 @@ use `padicValInt.mul` in `Mathlib/NumberTheory/Padics/PadicVal/Basic.lean`,
 retaining `[Fact p.Prime]` and nonzero factors.
 The valuation at a zero argument is never used to deduce exponent divisibility.
 
-Use `WeierstrassCurve`, `WeierstrassCurve.Δ`, `WeierstrassCurve.c₄` and
-`WeierstrassCurve.j` in `Mathlib/AlgebraicGeometry/EllipticCurve/Weierstrass.lean`,
-and `WeierstrassCurve.Affine.Equation` in
-`Mathlib/AlgebraicGeometry/EllipticCurve/Affine/Basic.lean`. Ellipticity is
+Use `WeierstrassCurve`, `WeierstrassCurve.Δ`, `WeierstrassCurve.c₄`,
+`WeierstrassCurve.j` and the base change `WeierstrassCurve.baseChange` in
+`Mathlib/AlgebraicGeometry/EllipticCurve/Weierstrass.lean`,
+`WeierstrassCurve.Affine.Equation` in
+`Mathlib/AlgebraicGeometry/EllipticCurve/Affine/Basic.lean`, and the group
+`WeierstrassCurve.Affine.Point` of affine points with the point at infinity in
+`Mathlib/AlgebraicGeometry/EllipticCurve/Affine/Point.lean`. Ellipticity is
 `IsElliptic`, with nonzero discriminant, rather than a separate curve carrier.
+Use `WeierstrassCurve.Affine.Point.map` from the same file: an algebra map
+between two field extensions of the base ring induces a group homomorphism from
+the points over the first field to the points over the second. Applied to the
+automorphisms of an algebraic closure Ω of ℚ over ℚ it is the Galois action on
+the points over Ω; being a homomorphism, it preserves the subgroup of points
+killed by ell, which is how the residual comparison in §1.12 is stated.
 
 Use `DirichletCharacter.conductor`, `DirichletCharacter.IsPrimitive` and
 `MulChar.IsQuadratic` from
@@ -262,6 +280,28 @@ Use `WeierstrassCurve.quadraticTwistPointEquiv_map_eq_quadraticCharacter_smul_ma
 from the same file for the Galois-equivariance sign over a separable quadratic
 extension; the split class uses the identity comparison.
 
+Use `WeierstrassCurve.algorithmicConductor` in
+`TauCeti/AlgebraicGeometry/EllipticCurve/TateAlgorithm/Reduction/Conductor.lean`:
+for an elliptic curve over the fraction field of a Dedekind domain O whose
+localizations at height-one primes have perfect residue fields, the ideal of O
+whose exponent at each height-one prime is the Ogg exponent v(Δ_min)−m+1 read
+off Tate's algorithm on a local minimal equation, with
+`WeierstrassCurve.algorithmicConductor_ne_bot` and, over ℚ with O=ℤ,
+`WeierstrassCurve.pow_dvd_absNorm_algorithmicConductor_iff` (p^n divides the
+norm exactly when n is at most the Ogg exponent at p) and
+`WeierstrassCurve.one_lt_absNorm_algorithmicConductor_iff` (the norm exceeds 1
+exactly at some bad reduction). Over ℚ the norm of this ideal is the conductor
+M of the Conventions: the Ogg exponent equals the conductor exponent f(E) by
+Ogg's formula in every residue characteristic, which is
+NeronModelsAndSemistableAbelianVarieties §5.3e; the pinned declaration makes
+no such identification, and EllipticCurves Layer 8 compares the two only at
+semistable primes. Use `WeierstrassCurve.minimalDiscriminantIdeal` in
+`TauCeti/AlgebraicGeometry/EllipticCurve/MinimalModel/DiscriminantIdeal.lean`,
+the ideal whose exponent at each height-one prime is the local minimal
+discriminant valuation, invariant under change of variables
+(`WeierstrassCurve.minimalDiscriminantIdeal_smul`); over ℚ the valuation of
+its norm at a prime q is v_q(Δ_min).
+
 For the local ramification theory under the conductors, K and L are
 nonarchimedean local fields (`IsNonarchimedeanLocalField`, with `ValuativeRel`,
 compatible topology and `ValuativeExtension K L`) and L/K is finite.
@@ -315,6 +355,9 @@ threshold is not the full Γ₁ dimension.
 Consume §5.3g's elliptic conductor values over nonarchimedean local fields:
 good reduction has exponent 0 and split or nonsplit multiplicative reduction
 has exponent 1; over ℚ₂ and ℚ₃ the wild bounds are f₂≤8 and f₃≤5.
+Consume §5.3e's Ogg formula in every residue characteristic: the conductor
+exponent f(E) equals v(Δ_min)−m+1, so that over ℚ the conductor M is the norm
+of the pinned algorithmic conductor (supplier contract From Tau Ceti).
 Consume §5.3h's conductor of the actual torsion representation E[ell],
 before semisimplification. At residue characteristic p≠ell, good reduction
 gives exponent 0 and multiplicative reduction gives exponent 0 if
@@ -506,9 +549,15 @@ Consume §0.34's uniform exclusion of Landau–Siegel zeros,
 `landau_siegel_exclusion`: there is an effective absolute c_LS>0 with
 (1−β)log q≥c_LS for every real zero β∈(0,1) of every primitive nonprincipal
 real Dirichlet L-function of conductor q≥3, with no finite range of conductors
-set aside. It enters through two of the corollaries stated there, so no
-exceptional zero, exceptional conductor or conductor repulsion occurs in this
-roadmap (OpenAI2026, Theorem 1; Green2026, Theorem 1.1).
+set aside. The exclusion with an absolute constant is OpenAI2026, Theorem 1,
+whose proof argues by contradiction along a sequence of conductors and so fixes
+no value of the constant; Green2026, Theorem 1.1 is the inert-prime estimate
+that §0.34c of that roadmap uses. The effectivity of c_LS is the supplier's own
+claim: its §0.34 derives it from the explicit lower bound of its §§0.34b–0.34c
+above an effective conductor threshold and from the effective gap of its §0.12
+below that threshold. It enters through two of the corollaries stated there, so
+no exceptional zero, exceptional conductor or conductor repulsion occurs in this
+roadmap.
 Consume §0.18's effective character PNT for primitive nonprincipal characters
 of conductor N>1 and X≥X₀, with effective absolute c,C>0 and X₀ chosen before
 the character: |∑_(m≤X)χ(m)Λ(m)|≤C X exp(−c log X/(√(log X)+log N))(log N)⁴.
@@ -623,13 +672,17 @@ premise to Layers 0–6. Each simultaneous choice satisfies all its properties
 at once. Backticked local declaration names belong to
 `TauCetiRoadmap.ErdosProgressionPowers` and occur in `Suggested.lean`.
 Its headline tests are the half-interval prime-divisibility theorem (§1.9),
-the prime-exponent bound (§6.2), signed hyperbolic and positive fixed-exponent
-finiteness (§6.3), all-exponent fixed-length finiteness (§6.5), and the
-consecutive-product theorem (§7.1). The comparison-curve theorem (§1.12) and
-the full simultaneous character-family theorem (§2.7) need the arithmetic
-conductor, deletion level and residual comparison of the Frey curve, which
-are not available at the pins; the module docstring identifies these missing
-interfaces. Their full statements remain targets here.
+the comparison-curve theorem (§1.12), the simultaneous character-family
+theorem (§2.7), the prime-exponent bound (§6.2), signed hyperbolic and
+positive fixed-exponent finiteness (§6.3), all-exponent fixed-length
+finiteness (§6.5), and the consecutive-product theorem (§7.1). The
+comparison-curve and character-family statements render the conductor by the
+norm of the pinned algorithmic conductor, the deletion level by that norm and
+the norm of the pinned minimal discriminant ideal, and the residual comparison
+by a Galois-equivariant isomorphism of the geometric ell-torsion subgroups of
+the pinned points over an algebraic closure. The identification of the deletion
+level with the residual Artin conductor (§1.10) has no pinned carrier and is a
+target here only; the module docstring says so.
 
 ## Layer 0: Primitive solutions and signed factors
 
@@ -702,10 +755,12 @@ For positive odd ell and nonzero terms n+i*d, i<k, whose valuations at every pri
 - A_i>0 and z_i≠0; p|A_i implies p<k, and p||z_i| implies k≤p, for every prime p.
 - Any family with these equality, sign and support conditions agrees componentwise with the chosen family.
 - The sign of z_i is the sign of n+i*d.
+- For a nonzero term, A_i is `smallPart` at k of n+i*d: the product over the primes p<k of p^(v_p(|n+i*d|)). `smallPart` is 1 at a zero argument and when no prime lies below k, and it depends only on |t|.
 
 **Checks.**
 
 - For S(-8,1,1,-2,3), the single factor is (1,-2).
+- `smallPart` at k=3 of 64 is 64 and at k=2 of 27 is 1; at k=5 of −12 it is 12, and a definition retaining only the primes at most k would give 60 at k=5 for t=60 where the coefficient is 12.
 - For S(8,19,2,6,3), the factors are (1,2),(1,3); the prime p=k=2 belongs to the large side.
 - For n=64,d=0,k=3,ell=3 the valuation construction gives (64,1) at each index; 64 retains its full small-prime exponent and is not cube-free. This tests the construction, not S, since d=0. The alternative (1,4) is rejected because its z has the small prime 2.
 - For S(-8,7,2,2,3), the factors are (1,-2),(1,-1).
@@ -935,11 +990,14 @@ and Theorem 4, pp. 359–360; Lemmas 3.3, 3.5, pp. 362–363.)
 
 ### 1.2 Progression Frey specialization
 
-Define the triple gcd as g, the normalized coefficient triple as (a,b,c), and the first Frey curve as E below.
+Define the triple gcd as g, the normalized coefficient triple as (a,b,c), and the first Frey curve as E, which is `progressionFreyCurve` at (n,d,i,j,h), below.
 
 For integer n,d and a triple (i,j,h), put t_r=n+r*d, g=gcd(t_i,gcd(2*t_j,t_h)), a=t_i/g, b=-2*t_j/g, c=t_h/g. The specialization E has coefficients a1=a3=a6=0, a2=c-a, a4=-a*c, equivalently Y^2=X(X-a)(X+c). Under S and membership in A(k), g>0 and a,b,c are nonzero pairwise coprime with a+b+c=0. This is an application adapter to the supplier Frey model, not a second generic Frey carrier.
 
 The native five coefficients are 0,c-a,0,-a*c,0, with a,c the normalized terms. Under S and a member of A(k), g>0; g*a=t_i, g*b=-2*t_j, g*c=t_h; a+b+c=0 and every pair is coprime. The specialization equals the supplier Frey model on the normalized coefficients, under the stated normalization hypotheses.
+
+- `progressionFreyCurve` at (n,d,i,j,h) is the Weierstrass curve over ℚ with coefficients (0,c−a,0,−a*c,0), where a and c are the exact integer quotients t_i/g and t_h/g cast to ℚ; g divides t_i and t_h for every (n,d,i,j,h), so no hypothesis is needed for exactness, and g=0 only when t_i=t_j=t_h=0.
+- Under S and a member of A(k), `progressionFreyCurve` is elliptic: its discriminant is 16(abc)^2 with a,b,c nonzero (§1.3).
 
 **Checks.**
 
@@ -1015,6 +1073,17 @@ Prove the first-family reduced-level theorem with the hypotheses and conclusions
 
 For S, ell≥7 and a in A(k), the irreducible residual representation of E_a occurs in a weight-two newform at the deletion level M_a. M_a divides 2^8*A_i*A_j*A_h, its odd part is squarefree, M_a divides 2^7*product over primes q≤k of q, and M_a≤2^7*exp(1.000081*k). No identification with the prime-to-ell residual conductor is implicit.
 
+Here M_a is `deletionLevel` of `progressionFreyCurve` at ell: for an elliptic curve E over ℚ with conductor M, the norm of its algorithmic conductor, and minimal discriminant valuations v_q(Δ_min) read off the norm of its minimal discriminant ideal, `deletionLevel` is M divided by the product of the primes q∥M with ell dividing v_q(Δ_min). The prime q=ell is not excluded from the deletion.
+
+- `deletionLevel` divides M, is prime to every q∥M with ell dividing v_q(Δ_min), and retains every prime q with q²∣M.
+- For ell≥5, `deletionLevel` is the prime-to-ell residual conductor of §1.1's wrapper whenever the local hypotheses of NeronModelsAndSemistableAbelianVarieties §5.3h hold; this is §1.10's theorem, not part of the definition.
+
+**Checks.**
+
+- For 11a1 (M=11, v₁₁(Δ_min)=5), `deletionLevel` at ell=5 is 1 and at ell=3 is 11; testing ell against v₁₁(M)=1 instead of v₁₁(Δ_min) would leave 11 at ell=5.
+- For M=33 with v₃(Δ_min)=6 and v₁₁(Δ_min)=2 at ell=3, the value is 11; excluding q=ell from the deletion would give 33.
+- At a prime q with q²∣M nothing is deleted, whatever v_q(Δ_min): the deletion level of an additive prime keeps its full conductor exponent.
+
 Use the EC.4 full-two-torsion irreducibility cutoff and the supplied modularity
 witness in SerreWeightAndLevelOptimisation §§6.1–6.2. Apply the
 NeronModelsAndSemistableAbelianVarieties §§5.3g–5.3h local values to delete
@@ -1022,7 +1091,7 @@ odd multiplicative primes whose minimal discriminant valuation is divisible
 by ell. Use its wild bound at 2. Apply the supplier explicit Chebyshev
 upper bound at x=k.
 
-*Needs:* §1.3; Layer 0 — signed small-prime factorization; §1.1's modularity witness and residual-conductor wrapper; SerreWeightAndLevelOptimisation §§6.1–6.2; NeronModelsAndSemistableAbelianVarieties §§5.3g–5.3h; EllipticCurveModularityPartII §§5.4–5.5 (EC.4); §0.9's prime estimates.
+*Needs:* §1.3; Layer 0 — signed small-prime factorization; §1.1's modularity witness and residual-conductor wrapper; SerreWeightAndLevelOptimisation §§6.1–6.2; NeronModelsAndSemistableAbelianVarieties §§5.3e and 5.3g–5.3h; EllipticCurveModularityPartII §§5.4–5.5 (EC.4); §0.9's prime estimates; Tau Ceti `WeierstrassCurve.algorithmicConductor`, `WeierstrassCurve.pow_dvd_absNorm_algorithmicConductor_iff` and `WeierstrassCurve.minimalDiscriminantIdeal`; Mathlib `Nat.padicValNat_def` and `Ideal.absNorm`.
 
 ([BS20], Lemma 3.3, equation (9), and proof, pp. 361-362; Lemma 3.3 and proof, pp. 361-362; Proof of Lemma 3.3, p.362.)
 
@@ -1076,13 +1145,25 @@ Use the primorial divisibility and the explicit totient ratio bound. Combine the
 
 ### 1.12 Actual comparison elliptic curve
 
-Prove the comparison-curve theorem with the hypotheses and conclusions below.
+Prove the comparison-curve theorem `comparison_curve` with the hypotheses and conclusions below.
 
 Under H, for every a in A(k) there exists an actual elliptic curve F_a/Q with full rational two-torsion, conductor exactly M_a and residual representation at the same prime ell isomorphic to that of E_a. All subsequent choices use one such F_a for each triple.
 
-Apply the Kraus realization theorem with the coefficient-prime bridge, irreducibility and the strict threshold just proved. Fix a choice only after proving existence. A free natural-number field called conductor is not an admissible substitute for the native invariant.
+The statement is on the pinned carriers: F_a is a Weierstrass curve over ℚ with `IsElliptic`; full rational two-torsion is `HasFullRationalTwoTorsion`, that is exactly four rational points killed by 2; the conductor of F_a is the norm of its algorithmic conductor and M_a is `deletionLevel` of `progressionFreyCurve` at ell (§1.7); and the residual comparison is an isomorphism of additive groups from `ellTorsion` of E_a at ell to `ellTorsion` of F_a at ell, the subgroups of points over an algebraic closure Ω of ℚ killed by ell, commuting with the action of every automorphism of Ω over ℚ through `WeierstrassCurve.Affine.Point.map`. The ellipticity of E_a under H and membership in A(k) is §1.3; the statement carries it so that M_a is defined.
 
-*Needs:* Layer 1 — serre-weight and residual-conductor bridge; Layer 1 — kraus threshold for progression levels; EllipticCurveModularityPartII §4.7 (EC.3) for the Kraus realization theorem.
+- `HasFullRationalTwoTorsion` holds for an elliptic curve over ℚ exactly when its three nontrivial 2-torsion points are rational, equivalently when its 2-division cubic 4X³+b₂X²+2b₄X+b₆ splits over ℚ.
+- `ellTorsion` of E at ell is the kernel of multiplication by ell on E(Ω); it is stable under every automorphism of Ω over ℚ, because the point map is a group homomorphism.
+- Under H and a in A(k), `ellTorsion` of E_a at ell has ell² elements (EllipticCurves Layer 2); the definition does not assert this.
+
+**Checks.**
+
+- Y²=X(X−1)(X+3) has `HasFullRationalTwoTorsion`: its points killed by 2 are (0,0), (1,0), (−3,0) and the point at infinity, four in all; Y²=X³−2 has only the point at infinity and Y²=X(X²+1) has two, so neither satisfies it.
+- `ellTorsion` at ell=1 is the trivial subgroup and at ell=0 the whole group; the headline uses it only at the prime ell of H.
+- A conductor equal to M_a but with a 2-torsion point of F_a defined only over a quadratic field fails the full-two-torsion clause; Kraus's realization produces F_a with all three rational.
+
+Apply the Kraus realization theorem with the coefficient-prime bridge, irreducibility and the strict threshold just proved; the conductor of the realized curve is transported to the algorithmic conductor by Ogg's formula (NeronModelsAndSemistableAbelianVarieties §5.3e). Fix a choice only after proving existence. A free natural-number field called conductor is not an admissible substitute for the native invariant.
+
+*Needs:* Layer 1 — serre-weight and residual-conductor bridge; Layer 1 — kraus threshold for progression levels; EllipticCurveModularityPartII §4.7 (EC.3) for the Kraus realization theorem; NeronModelsAndSemistableAbelianVarieties §5.3e; Tau Ceti `WeierstrassCurve.algorithmicConductor` and `WeierstrassCurve.minimalDiscriminantIdeal`; Mathlib `WeierstrassCurve.Affine.Point.map`.
 
 ([BS20], Lemma 5.1, p. 365.)
 
@@ -1104,7 +1185,7 @@ At n=d=1 the first model has coefficients (0,2,0,−3,0), while the equal-sum mo
 
 ### Dependencies
 
-Layer 0; EllipticCurveModularityPartII §§1.4–1.8, 2.2, 4.7 and 5.4–5.5 (EC.0–EC.4); EllipticLegendreCharacterInterfaces §5.1; WeightsInEtaleCohomology R34.5–R34.6; EllipticCurves Layers 2–4, 8 and its worked Frey example; NeronModelsAndSemistableAbelianVarieties §§5.3g–5.3h; EllipticCurveModularity R29.3, R29.4 and R29.6; SerreWeightAndLevelOptimisation §§6.1–6.3; AutomorphicGaloisRepresentations §1.5; ModularForms Layers 2–4, 8 and 10; EtaleCohomologyFoundations §F.4.0; ArithmeticGaloisRepresentations §1.9 and §§3.1–3.3; Tau Ceti's local ramification filtrations, inertia and wild inertia (supplier contracts). Explicit numerical level bounds additionally use the general prime estimates of Layer 0; their proof is independent of the Frey application.
+Layer 0; EllipticCurveModularityPartII §§1.4–1.8, 2.2, 4.7 and 5.4–5.5 (EC.0–EC.4); EllipticLegendreCharacterInterfaces §5.1; WeightsInEtaleCohomology R34.5–R34.6; EllipticCurves Layers 2–4, 8 and its worked Frey example; NeronModelsAndSemistableAbelianVarieties §§5.3e and 5.3g–5.3h; Tau Ceti `WeierstrassCurve.algorithmicConductor` and `WeierstrassCurve.minimalDiscriminantIdeal`; Mathlib `WeierstrassCurve.Affine.Point.map`; EllipticCurveModularity R29.3, R29.4 and R29.6; SerreWeightAndLevelOptimisation §§6.1–6.3; AutomorphicGaloisRepresentations §1.5; ModularForms Layers 2–4, 8 and 10; EtaleCohomologyFoundations §F.4.0; ArithmeticGaloisRepresentations §1.9 and §§3.1–3.3; Tau Ceti's local ramification filtrations, inertia and wild inertia (supplier contracts). Explicit numerical level bounds additionally use the general prime estimates of Layer 0; their proof is independent of the Frey application.
 
 ## Layer 2: Legendre cases and the simultaneous character family
 
@@ -1273,25 +1354,29 @@ Project to primes 5 mod 8 using the previous square test and the explicit theta(
 
 ### 2.7 Simultaneous quadratic character family
 
-Prove the simultaneous character-family theorem with all the conclusions below,
+Prove the simultaneous character-family theorem `character_family` with all the conclusions below,
 including divisibility by the deletion level M_a for the same chosen character.
 
 Under H⁺ choose for every a in A(k) one pair (N_a,chi_a), with N_a>1 and chi_a a native primitive real quadratic character modulo its conductor N_a. The same choice simultaneously has: |sum over integers k/2<m≤k of chi_a(m)*Lambda(m)|>0.1239*k; N_a^odd squarefree, N_a^odd dividing M_a and A_i*A_j*A_h, N_a^odd≠1; and N_a≤8*N_a^odd. N_a is the actual native character conductor, not a freely assigned modulus.
+
+On the pinned carriers chi_a is a complex Dirichlet character of positive level N_a that is primitive (so its conductor is N_a) and quadratic (so its values are 0 and ±1, hence real); N_a^odd is `oddPart` of N_a, that is N_a divided by 2^(v₂(N_a)); M_a is `deletionLevel` of `progressionFreyCurve` at ell (§1.7), and A_i, A_j, A_h are `smallPart` at k of the three terms (§0.4). The ellipticity of E_a is carried as in §1.12.
 
 - For every a, chi_a.IsPrimitive and chi_a.conductor=N_a; it is quadratic and real.
 - The absolute half-interval von-Mangoldt sum is strictly greater than 0.1239*k.
 - N_a^odd is squarefree, divides both M_a and A_i*A_j*A_h, and N_a≤8*N_a^odd.
 - N_a^odd≠1, hence N_a>1 and chi_a is not the principal character.
+- `oddPart` of N is odd for N>0, divides N, and equals N exactly when N is odd; `oddPart` of 0 is 0.
 
 **Checks.**
 
 - Under H⁺, at every triple chi_a(1)=1.
 - Under H⁺, chi_a(0)=0 and N_a>1; the principal modulus1 character cannot be selected.
 - Under H⁺, each selected pair satisfies both the large absolute sum and the odd-support bound; selecting different pairs for the two properties does not meet the contract.
+- `oddPart` of 12 is 3 and of 16 is 1; the dyadic bound N≤8*N^odd holds at 12 (12≤24) and at 24 (24≤24) and fails at 16 and at 48, so v₂(N_a)≤3 is what it asserts. A largest squarefree divisor would give 6 at 12, not 3.
 
 Use the exhaustive partition and the respective four-character constructions. The primitive squareclass character gives the exact conductor and dyadic bound. Convert prime sums to von-Mangoldt sums by the effective prime-power tail; the strict numerical margin is0.000045875*k. Fix one finite family only after all its simultaneous conclusions hold.
 
-*Needs:* Layer 2 — case-i nonsquare and absolute projection; Layer 2 — case-ii conductor exclusion and projection; Layer 1 — first-family reduced-level bounds; ClassicalArithmeticCompletion §1.51 — quadratic character of a squareclass; ClassicalArithmeticCompletion §1.51 — odd part of a quadratic conductor is squarefree; ClassicalArithmeticCompletion §1.51 — two adic conductor bound; §0.9's prime estimates; Mathlib `DirichletCharacter.conductor`; Mathlib `DirichletCharacter.IsPrimitive`; Tau Ceti `DirichletCharacter.conductor_ringHomComp` and `DirichletCharacter.isPrimitive_ringHomComp_iff` for the injective ℤ→ℝ and ℤ→ℂ comparisons; Mathlib `ArithmeticFunction.vonMangoldt`.
+*Needs:* Layer 2 — case-i nonsquare and absolute projection; Layer 2 — case-ii conductor exclusion and projection; Layer 1 — first-family reduced-level bounds; ClassicalArithmeticCompletion §1.51 — quadratic character of a squareclass; ClassicalArithmeticCompletion §1.51 — odd part of a quadratic conductor is squarefree; ClassicalArithmeticCompletion §1.51 — two adic conductor bound; §0.9's prime estimates; Mathlib `DirichletCharacter.conductor`; Mathlib `DirichletCharacter.IsPrimitive`; Tau Ceti `DirichletCharacter.conductor_ringHomComp` and `DirichletCharacter.isPrimitive_ringHomComp_iff` for the injective ℤ→ℝ and ℤ→ℂ comparisons; Mathlib `ArithmeticFunction.vonMangoldt` and `MulChar.IsQuadratic`; Tau Ceti `WeierstrassCurve.algorithmicConductor` and `WeierstrassCurve.minimalDiscriminantIdeal` through §1.7's deletion level.
 
 ([BS20], Proposition 6.1 and its two-case construction, pp. 366-373; Proposition 6.1, p. 367; Proposition 6.1, p. 367; Case II exclusion, pp. 372–373.)
 
@@ -1486,7 +1571,7 @@ For gcd(n,d)=1, nonzero terms i<k, positive coefficients A_i dividing |n+i*d| su
 
 For each prime in the finite support union take the least maximizer of the native valuation. If j is its deleted index, each remaining valuation is bounded by v_p(|i-j|), by the term-gcd bound and maximality. The product of nonzero index differences divides j!*(k-1-j)!, which divides(k-1)!. Combine prime valuations.
 
-*Needs:* Layer 0 — gcd of progression terms; Layer 0 — signed small-prime factorization; Mathlib `padicValNat_def`; Mathlib `Nat.factorization`.
+*Needs:* Layer 0 — gcd of progression terms; Layer 0 — signed small-prime factorization; Mathlib `Nat.padicValNat_def`; Mathlib `Nat.factorization`.
 
 ([BS20], Proof of Proposition 9.1, p. 384.)
 
@@ -2155,7 +2240,9 @@ The signed factorization, local progression bounds, Legendre case analysis and s
 The generic character PNT used in Layer 3 must retain its effective error. It
 has no exceptional-zero alternative: the uniform exclusion of Landau–Siegel
 zeros (AnalyticNumberTheoryPartI §0.34) gives `(1-beta)log N>=c_LS`, with
-effective `c_LS`, for every real zero of every primitive nonprincipal real
+`c_LS` effective by that section's own derivation (its §§0.34b–0.34c above an
+effective conductor threshold and its §0.12 below it; the cited sources prove
+an absolute constant), for every real zero of every primitive nonprincipal real
 character, and its §0.18 absorbs the corresponding term. The error for a smooth
 conductor has exponent `min(c_1,1/2)`, and one character of smooth conductor
 already contradicts the lower bound of Layer 2. No conductor repulsion law and
@@ -2254,5 +2341,5 @@ The general modular and analytic inputs above retain the hypotheses and numerica
 - **RahmanRoth.** Mustazee Rahman, *Roth’s theorem on 3-term arithmetic progressions*, as quoted in BS20, §9, equation (36), p. 381.
 - **Bombieri1987.** Enrico Bombieri, *Le grand crible dans la théorie analytique des nombres*, Astérisque 18 (1987 reprint), discussion after Théorème 14.
 - **Platt2013v1.** David J. Platt, *Numerical computations concerning the GRH*, arXiv:1305.3087v1, Theorems 7.1–7.2, pp. 14–15; published in Math. Comp. 85 (2016). Its consequence is consumed from ComputationalNumberTheory §4.22; no computation is specified here.
-- **OpenAI2026.** OpenAI, *Uniform exclusion of Landau–Siegel zeros*, preprint (2026), open repository, Theorem 1. Consumed through AnalyticNumberTheoryPartI §0.34.
-- **Green2026.** Ben Green, *On Landau–Siegel zeros*, Hexagon 2610.00311 (2026), Theorem 1.1. Consumed through AnalyticNumberTheoryPartI §0.34.
+- **OpenAI2026.** OpenAI, *Uniform exclusion of Landau–Siegel zeros*, preprint (2026), open repository, Theorem 1: the exclusion with an absolute constant, proved by contradiction along a sequence of conductors. Consumed through AnalyticNumberTheoryPartI §0.34, which supplies the effective constant by its own derivation.
+- **Green2026.** Ben Green, *On Landau–Siegel zeros*, Hexagon 2610.00311 (2026), Theorem 1.1: the inert-prime estimate of AnalyticNumberTheoryPartI §0.34c. Consumed through AnalyticNumberTheoryPartI §0.34.

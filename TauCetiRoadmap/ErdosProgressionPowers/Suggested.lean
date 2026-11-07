@@ -1,23 +1,28 @@
 module
 
 import Mathlib
+import TauCeti.AlgebraicGeometry.EllipticCurve.TateAlgorithm.Reduction.Conductor
 
 /-!
 # ErdosProgressionPowers: target signatures
 
 The roadmap is README.md; this file is not the roadmap. It states the roadmap's
 headline theorems against the pinned Mathlib and Tau Ceti APIs: half-interval
-prime divisibility, the effective prime-exponent bound, signed hyperbolic and
+prime divisibility, the comparison-curve theorem, the simultaneous quadratic
+character family, the effective prime-exponent bound, signed hyperbolic and
 positive fixed-exponent finiteness, fixed-length all-exponent finiteness, and
 the Erdos-Selfridge consecutive-product theorem.
 
-The comparison-curve theorem (README section 1.12) and the full simultaneous
-quadratic-character family (section 2.7) are not statable at the pins: they need
-the arithmetic conductor and deletion level of the progression Frey curve,
-together with its residual Galois-representation comparison. The existing
-Weierstrass and Dirichlet-character carriers do not supply these invariants.
-In particular, a character statement omitting divisibility by that deletion
-level would omit part of the headline theorem, so none is stated here.
+The comparison-curve theorem (README section 1.12) and the character family
+(section 2.7) are stated on the progression Frey curve, whose conductor is
+rendered by the norm of Tau Ceti's `WeierstrassCurve.algorithmicConductor`
+(the conductor by Ogg's formula) and whose deletion level is computed from
+that norm and the norm of `WeierstrassCurve.minimalDiscriminantIdeal`; the
+residual comparison is a Galois-equivariant isomorphism of the geometric
+`ell`-torsion subgroups, with the Galois action given by Mathlib's
+`WeierstrassCurve.Affine.Point.map`. The pinned libraries carry no Artin
+conductor of the torsion representation, so the identification of the deletion
+level with that residual conductor (section 1.10) is a README target only.
 
 The existential prime-exponent statement records the numerical bound; its
 README theorem additionally requires an effectively computable threshold.
@@ -26,6 +31,8 @@ extension in Layer 7 are not asserted as theorems.
 -/
 
 open scoped BigOperators
+open WeierstrassCurve
+open scoped WeierstrassCurve Classical
 
 namespace TauCetiRoadmap.ErdosProgressionPowers
 
@@ -43,11 +50,100 @@ def primitive_solution (n d : ℤ) (k : ℕ) (y : ℤ) (ell : ℕ) : Prop :=
 def H (n d : ℤ) (k : ℕ) (y : ℤ) (ell : ℕ) : Prop :=
   primitive_solution n d k y ell ∧ 10 ^ 8 ≤ k ∧ (ell : ℝ) > Real.exp (10 ^ k : ℝ)
 
+/-- The small-prime part of an integer: the product of the prime powers of `|t|` at the primes
+below `k`. For a nonzero term of a signed factorization this is its coefficient `A_i`, which
+retains every power of every prime below `k`; it is `1` at `t = 0` and when no prime lies
+below `k`. -/
+def smallPart (k : ℕ) (t : ℤ) : ℕ :=
+  ∏ p ∈ t.natAbs.primeFactors.filter (· < k), p ^ padicValNat p t.natAbs
+
 /-! ## Layer 1: Frey families and residual comparisons -/
+
+/-- The first progression Frey curve `Y² = X(X − a)(X + c)` of a triple `(i, j, h)`: with
+`g = gcd(t_i, gcd(2 t_j, t_h))`, `a = t_i / g` and `c = t_h / g` (exact integer divisions, since
+`g` divides `t_i` and `t_h`), the curve with coefficients `(0, c − a, 0, −a c, 0)`. -/
+noncomputable def progressionFreyCurve (n d : ℤ) (i j h : ℕ) : WeierstrassCurve ℚ :=
+  let g : ℤ := Int.gcd (term n d i) (Int.gcd (2 * term n d j) (term n d h))
+  let a : ℚ := ((term n d i / g : ℤ) : ℚ)
+  let c : ℚ := ((term n d h / g : ℤ) : ℚ)
+  ⟨0, c - a, 0, -(a * c), 0⟩
+
+/-- The deletion level `M₀` of an elliptic curve over `ℚ` at a prime `ell`: its conductor `M`,
+the norm of the algorithmic conductor (the conductor by Ogg's formula), divided by the product
+of the primes `q ∥ M` such that `ell` divides `v_q(Δ_min)`, the valuation of the norm of the
+minimal discriminant ideal. The prime `q = ell` is not excluded from the deletion. -/
+noncomputable def deletionLevel (E : WeierstrassCurve ℚ) [E.IsElliptic] (ell : ℕ) : ℕ :=
+  let M := Ideal.absNorm (algorithmicConductor ℤ E)
+  let D := Ideal.absNorm (minimalDiscriminantIdeal ℤ E)
+  M / ∏ q ∈ M.primeFactors.filter (fun q => padicValNat q M = 1 ∧ ell ∣ padicValNat q D), q
+
+/-- Full rational two-torsion: the rational points killed by `2` number exactly four. -/
+def HasFullRationalTwoTorsion (E : WeierstrassCurve ℚ) : Prop :=
+  Nat.card {P : E.toAffine.Point // 2 • P = 0} = 4
+
+local notation "Ω" => AlgebraicClosure ℚ
+
+/-- The `ell`-torsion subgroup of the points of `E` over an algebraic closure of `ℚ`. -/
+noncomputable def ellTorsion (E : WeierstrassCurve ℚ) (ell : ℕ) :
+    AddSubgroup (E⁄Ω).toAffine.Point where
+  carrier := {P | ell • P = 0}
+  add_mem' := by
+    intro a b ha hb
+    change ell • (a + b) = 0
+    rw [nsmul_add]
+    change ell • a = 0 at ha
+    change ell • b = 0 at hb
+    rw [ha, hb, add_zero]
+  zero_mem' := by change ell • (0 : (E⁄Ω).toAffine.Point) = 0; simp
+  neg_mem' := by
+    intro a ha
+    change ell • a = 0 at ha
+    change ell • (-a) = 0
+    rw [neg_nsmul, ha, neg_zero]
 
 /-- Every prime in the upper half of the length divides the common difference under H. -/
 theorem half_primes_divide_d {n d : ℤ} {k : ℕ} {y : ℤ} {ell p : ℕ}
     (hH : H n d k y ell) (hp : p.Prime) (hl : k < 2*p) (hu : p ≤ k) : (p : ℤ) ∣ d := by sorry
+
+/-- The comparison-curve theorem (README section 1.12): under `H`, for every triple `(i, j, h)`
+of `A(k)` (that is `h < k`, `i < j` and `i + h = 2 j`) there is an elliptic curve `F/ℚ` with
+full rational two-torsion, conductor exactly the deletion level of the progression Frey curve
+`E` at `ell`, and an isomorphism `E[ell] ≃ F[ell]` of geometric `ell`-torsion groups commuting
+with the action of every automorphism of the algebraic closure. The ellipticity of `E` follows
+from `H` and membership in `A(k)` (section 1.3); it is carried as an instance so that the
+deletion level is defined. (BS20, Lemma 5.1, p. 365.) -/
+theorem comparison_curve {n d : ℤ} {k : ℕ} {y : ℤ} {ell : ℕ} (hH : H n d k y ell)
+    {i j h : ℕ} (hk : h < k) (hij : i < j) (hsum : i + h = 2 * j)
+    [(progressionFreyCurve n d i j h).IsElliptic] :
+    ∃ F : WeierstrassCurve ℚ, ∃ _ : F.IsElliptic, HasFullRationalTwoTorsion F ∧
+      Ideal.absNorm (algorithmicConductor ℤ F) = deletionLevel (progressionFreyCurve n d i j h) ell ∧
+      ∃ e : ellTorsion (progressionFreyCurve n d i j h) ell ≃+ ellTorsion F ell,
+        ∀ (σ : Ω ≃ₐ[ℚ] Ω) (P Q : ellTorsion (progressionFreyCurve n d i j h) ell),
+          (Q : ((progressionFreyCurve n d i j h)⁄Ω).toAffine.Point) =
+              Affine.Point.map σ.toAlgHom P →
+            (e Q : (F⁄Ω).toAffine.Point) = Affine.Point.map σ.toAlgHom (e P) := by sorry
+
+/-! ## Layer 2: Legendre cases and the simultaneous character family -/
+
+/-- The odd part `N / 2^(v₂ N)` of a natural number. -/
+def oddPart (N : ℕ) : ℕ := N / 2 ^ padicValNat 2 N
+
+/-- The simultaneous character-family theorem (README section 2.7): under `H⁺`, that is `H`
+with `k ≥ 2·10¹⁰`, every triple `(i, j, h)` of `A(k)` has a primitive quadratic Dirichlet
+character `χ` of conductor `N > 1` whose half-interval von Mangoldt sum over `k/2 < m ≤ k`
+exceeds `0.1239 k` in absolute value, whose odd part `N^odd` is squarefree, different from `1`,
+divides the deletion level of the progression Frey curve at `ell` and divides the product of the
+small-prime parts of the three terms, and with `N ≤ 8 N^odd`. (BS20, Proposition 6.1,
+p. 367.) -/
+theorem character_family {n d : ℤ} {k : ℕ} {y : ℤ} {ell : ℕ} (hH : H n d k y ell)
+    (hk : 2 * 10 ^ 10 ≤ k) {i j h : ℕ} (hk' : h < k) (hij : i < j) (hsum : i + h = 2 * j)
+    [(progressionFreyCurve n d i j h).IsElliptic] :
+    ∃ N : ℕ, ∃ _ : NeZero N, ∃ χ : DirichletCharacter ℂ N, χ.IsPrimitive ∧ χ.IsQuadratic ∧
+      ‖∑ m ∈ Finset.Ioc (k / 2) k, χ m * (ArithmeticFunction.vonMangoldt m : ℂ)‖ > 0.1239 * k ∧
+      Squarefree (oddPart N) ∧ oddPart N ≠ 1 ∧
+      oddPart N ∣ deletionLevel (progressionFreyCurve n d i j h) ell ∧
+      oddPart N ∣ smallPart k (term n d i) * smallPart k (term n d j) * smallPart k (term n d h) ∧
+      N ≤ 8 * oddPart N := by sorry
 
 /-! ## Layer 6: Effective exponent bound and fixed-length finiteness -/
 
