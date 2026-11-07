@@ -52,6 +52,14 @@ theorem exists_squarefree_radicand {D : ℤ} (hD : Int.IsFundamentalDiscr D)
       D = (if d % 4 = 1 then d else 4 * d) ∧ d.natAbs ≤ D.natAbs := by
   sorry
 
+/-- The prime-value interface consumed by ANT I §0.34a, including ramified odd primes. -/
+theorem exists_squarefree_radicand_for_character {q : ℕ} [NeZero q]
+    (χ : DirichletCharacter ℂ q) (hprim : χ.IsPrimitive) (hreal : χ.IsQuadratic)
+    (hne : χ ≠ 1) :
+    ∃ d : ℤ, Squarefree d ∧ d ≠ 1 ∧ d.natAbs ≤ q ∧
+      ∀ p : ℕ, p.Prime → p ≠ 2 → χ (p : ZMod q) = (jacobiSym d p : ℂ) := by
+  sorry
+
 /-! ## Q3: native coefficient reduction -/
 
 theorem reduction_kernel (a b : ℤ) (m : ℕ) :

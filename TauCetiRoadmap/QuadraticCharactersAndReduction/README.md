@@ -131,6 +131,23 @@ Retain `d ≠ 1` for the genuine quadratic-field case, both signs, and `|d| ≤ 
 For an imprimitive real character, export its unique primitive discriminant and Q1's
 deleted-factor formula; prove naturality under further changes of level.
 
+This layer also owns the comparison with ThetaSeries §2H: for fundamental `D`, its
+`kroneckerChar D` equals the canonical complex realization
+`fundamentalDiscriminantCharCast ℂ D hD`, after identifying their moduli. ThetaSeries
+supplies the general Kronecker construction independently of this comparison. Its
+specialization to fundamental discriminants consumes the comparison here.
+
+Export the odd-prime dictionary for both square-root parameters `r = d` and `r = D`:
+`χ(p) = (r/p)` for every odd prime, including the zero value at a ramified prime.
+Thus an inert character value supplies Q4's nonsquare reduction hypothesis without
+requiring the consumer to change square-root orders.
+
+[Analytic Number Theory Part I §0.34a](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1126)
+consumes Q0–Q2 for its primitive-character-to-squarefree-radicand interface. The
+classification and its CRT proof have this owner; that consumer specializes the
+dictionary to its prime estimates. Its subsequent inert-prime and zero-exclusion
+arguments supply no prerequisites back to this roadmap.
+
 **Source:** [MV], §9.3, Theorem 9.13, p. 297, for the nonprincipal classification,
 with Q1's local factorization. Add the conductor-one case directly. The book's
 “quadratic” convention is exact order two, whereas the native predicate includes
@@ -142,8 +159,9 @@ are fundamental. Do not infer the converse from primitivity of the constructed e
 ## Q3. Reduction of integral quadratic presentations
 
 For `A = QuadraticAlgebra ℤ a b` and any `m : ℕ`, specialize `mapRingHom` along
-`Int.castRingHom (ZMod m)`. Prove that its kernel is the principal ideal `(m)` in `A`,
-that it is surjective, and that it induces the ring equivalence
+`Int.castRingHom (ZMod m)`. Consume `mapRingHom_surjective` and its norm, trace,
+conjugation, and composition lemmas. Prove that its kernel is the principal ideal
+`(m)` in `A` and that it induces the ring equivalence
 
 \[
 A/(m)\simeq \operatorname{QuadraticAlgebra}(\mathbf Z/m\mathbf Z,\bar a,\bar b).
@@ -204,6 +222,10 @@ case is substitution at zero. See [C] and [M] for the arithmetic interpretation.
 
 **Checks:** `r = -1` at `p = 3` (conjugation) and `p = 5` (split); `r = 3` at `p = 3`
 (repeated root); exclude `p = 2` from the odd-characteristic assertions.
+For `r = 5`, the prime `2` is inert in the maximal order, whereas the reduction of
+`ℤ[√5]` modulo two is a repeated-root algebra. The field's dyadic inertness does not
+give the displayed order congruence. Prime-sum consumers separate the single prime
+`2`, whose contribution to `Σ (log p)/p` is at most `(log 2)/2`.
 
 ## Q5. Embeddings, coordinate bounds, and finite sets
 
