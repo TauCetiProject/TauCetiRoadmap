@@ -1,29 +1,61 @@
 # Roadmap: finite-dimensional representations of the classical groups
 
-The finite-dimensional representation theory of `GLₙ`, `SLₙ`, `Oₙ`, and `Spₙ` over `ℂ` is one of the
-oldest and most concrete corners of Lie theory, and it is the place where the abstract highest-weight
-machinery meets an explicit computational engine: the **standard representation** `V = ℂⁿ` and its tensor
-powers `V^{⊗d}`. Every **polynomial** irreducible representation of `GLₙ` is cut out of some `V^{⊗d}` by a
-**Young symmetrizer**; the general rational irreducibles are **determinant twists** `det^m ⊗ Sᵘ V` of these,
-with `m` an integer. A polynomial irreducible's character is a **Schur polynomial**, and its dimension is a
-**Weyl dimension formula** that is, for `GLₙ`, a product over the boxes of a Young diagram. Mathlib has the
-groups and the entire
-multilinear-algebra engine (tensor, exterior, and symmetric powers; Young diagrams; elementary,
-complete-homogeneous, and power-sum symmetric polynomials) but **nothing that turns them into
-representations**: no standard representation as a `Representation`, no decomposition of a tensor power, no
-weight-space theory for a matrix group, no Schur functions as characters, no Weyl character or dimension
-formula, and no branching rules.
+**Summary.** This roadmap develops rational representations of the complex classical
+matrix groups from their standard modules, tensor powers and Young-symmetrizer images.
+Its end theorems are the rational highest-weight classification, Schur and Weyl character
+and dimension formulas, representation-level branching, and normalized Gelfand–Tsetlin
+bases. The orthogonal and symplectic constructions retain their invariant forms, actual
+group weight lattices and multiplicity spaces.
 
-This roadmap builds that theory, with `GLₙ` primary and the standard representation and its tensor powers as
-the concrete engine. It rests on two dependencies developed in parallel: the abstract root-system and
-Weyl-group combinatorics of [`../RootSystems`](../RootSystems/README.md), and the highest-weight theory of
-semisimple Lie algebras of [`../LieHighestWeight`](../LieHighestWeight/README.md). It connects to
-[`../SchurWeyl`](../SchurWeyl/README.md) for the Young symmetrizers, the symmetric-group action on `V^{⊗d}`,
-and Schur-Weyl duality, and it overlaps [`../ReductiveGroups`](../../ReductiveGroups/README.md) on the
-algebraic-group side. The boundaries with all three are pinned in the conventions below. Suggested home:
-`TauCeti/RepresentationTheory/ClassicalGroups/`, mirroring Mathlib's `RepresentationTheory/`.
+## Scope and ownership
 
-## Standing conventions
+ClassicalGroups owns the comparison of the native rational Weyl and Schur models with
+all rational irreducible GL modules (Layers 3–5), the concrete SO/Sp group–Lie comparisons
+and rational models (Layer 3A), the normalized branching constructions (Layers 6/6B), and
+the diagonal-overgroup classification and restriction comparison (Layer 6A). Five
+programmes in this roadmap's direction are not planned here: the comparison of the native
+polynomiality predicate with ReductiveGroups §10D's matrix-monoid action, the Schur
+functor on all linear maps with its column injection into a tensor of symmetric powers
+of exterior powers, the pointwise Kan extension of functors on an endomorphism monoid,
+the mixed symmetric-tensor contraction with its Fischer decomposition, and the U(3)
+symmetric-square Pieri decomposition. Each extends the layers below and belongs to a
+continuation roadmap of this one, distinct from ClassicalGroupsPartII, which is the GSp
+similitude roadmap.
+
+- Mathlib supplies matrix groups, representations, multilinear powers and categorical
+  colimits. Tau Ceti supplies the standard and power actions, rationality predicates,
+  dominant weights, rational Weyl modules, Schur images, Schur polynomials and signed GT
+  patterns. Their constructions and native identities are consumed, not repeated.
+- SchurWeyl Layers 0–2 and 7–8 own tableaux, Young symmetrizers, the Frobenius
+  characteristic and the double-centralizer theorem, and the symmetric-function
+  theory of Schur polynomials, including any tableau formula for the coefficients of
+  a product of Schur polynomials; Layer 4 here identifies those coefficients with
+  tensor multiplicities and uses no tableau formula for them.
+- ReductiveGroups Layers 0–3, 3A and 6 own affine groups, comodules, tangent spaces,
+  closed stabilizers and linear reductivity. Its §10D owns polynomial
+  matrix-monoid extensions and the nonnegative-weight criterion; their comparison
+  with the native matrix-action predicate is not planned here. Cartier smoothness
+  and the comodule-level comparison of group-stable with Lie-stable subspaces are
+  native in Tau Ceti and are consumed by §3A.2.
+- The abstract semisimple highest-weight classification, Verma modules, complete
+  reducibility and the Weyl character and dimension formulas are native in Tau Ceti;
+  Layers 3A–6 here consume those declarations (Exact supplier contracts), not a layer of
+  LieHighestWeight. LieHighestWeight Layer 9 owns the GL differentiation application
+  and consumes Layers 2–4 here; no layer here uses Layer 9. The connected rational
+  fixed-vector and intertwiner comparison on the SO/Sp carriers is a target of
+  Layer 3A here, not an input from that GL application.
+- Positive roots, dominant chambers and the oriented Cartan-type predicate are native in
+  Tau Ceti and are consumed directly; RootSystems §3.2 supplies the type A Weyl group as a
+  permutation group.
+  SpinRepresentations consumes Layer 0's standard module and orthogonal group, and its
+  Layers 4–5 own the spin and half-spin modules, whose restriction comparison §6.2
+  here consumes; the two directions are at different layers. ClassicalGroupsPartII owns
+  the rational symplectic-similitude (GSp) theory: the multiplier-twisted contraction and
+  primitive exterior powers (CG.1.4–CG.1.5), the rational GSp highest-weight models
+  (CG.1.7) and the integral GSp representation and character rings. It consumes the Sp
+  statements of §§3A.1–3A.3 here, and none of its GSp constructions is assigned here.
+
+## Conventions
 
 - **The base field is `ℂ`.** State everything over `ℂ` (algebraically closed, characteristic `0`), where
   every finite-dimensional rational representation is completely reducible and highest-weight theory is
@@ -37,12 +69,12 @@ algebraic-group side. The boundaries with all three are pinned in the convention
   is the whole story. For `Oₙ` and `Spₙ` restriction constructs examples and drives branching, but it is
   **not** the whole story: the invariant form (a symmetric form for `Oₙ`, an alternating form for `Spₙ`)
   supplies a nonzero contraction `V ⊗ V → ℂ`, so the commutant of the group action on `V^{⊗d}` is the
-  **Brauer algebra**, not the symmetric group, and the decomposition, indexing, and stability conditions
+  **image of the Brauer algebra**, equivalently its quotient by the action kernel, and the decomposition, indexing, and stability conditions
   genuinely differ from `GLₙ`'s rather than merely shortening. Prove the connected highest-weight theory once
   over `ℂ` and specialize the classification; but treat the `Oₙ`/`Spₙ` tensor decomposition as its own
   (Brauer/invariant-contraction) development, not a corollary of the `GLₙ` one. `Oₙ` is furthermore
-  **disconnected**, so its irreducibles are governed by `SOₙ` plus an extension step, not by a Lie-algebra
-  highest weight alone.
+  **disconnected for n>0**, so its irreducibles are governed by `SOₙ` plus an extension step, not by a Lie-algebra
+  highest weight alone; O₀ is trivial.
 - **Reuse Mathlib's matrix-group and multilinear vocabulary.** `GL n ℂ` is
   `Matrix.GeneralLinearGroup (Fin n) ℂ`; `SL(n, ℂ)` is `Matrix.SpecialLinearGroup (Fin n) ℂ`; the
   symplectic and orthogonal groups are `Matrix.symplecticGroup` and `Matrix.orthogonalGroup`. A
@@ -56,11 +88,13 @@ algebraic-group side. The boundaries with all three are pinned in the convention
   group homomorphism `GL n ℂ →* GL(W)` whose matrix entries are rational functions of the entries of `g`
   and `det(g)⁻¹`; a **polynomial** one uses no `det⁻¹`. The polynomial irreducibles are indexed by
   **partitions** (`YoungDiagram` with at most `n` rows), the rational ones by **weakly decreasing integer
-  sequences** `λ₁ ≥ ⋯ ≥ λₙ` (a `DominantWeight n`), and `V^{⊗d}` is polynomial. Pin `DominantWeight n` as the
-  index type for `GLₙ`-irreducibles and identify partitions with the subset `λₙ ≥ 0`. The two are tied by the
-  **determinant twist**: for any `λ`, setting `m = λₙ` and `μ = λ - m·(1,…,1)` gives a partition `μ` with
+  sequences** `λ₁ ≥ ⋯ ≥ λₙ` (a `TauCeti.DominantWeight n`), and `V^{⊗d}` is polynomial. Pin `TauCeti.DominantWeight n` as the
+  index type for `GLₙ`-irreducibles and identify partitions with the subset of weights whose coordinates are all nonnegative. The two are tied by the
+  **determinant twist**: for n>0, setting m to the last coordinate of λ and `μ = λ - m·(1,…,1)` gives a partition `μ` with
   `V_λ ≅ det^m ⊗ V_μ`, so every rational irreducible is a `det`-power times a polynomial one and the
-  polynomial theory carries the rational theory. Rationality itself is a property of a `Representation`,
+  polynomial theory carries the rational theory (Macdonald, Appendix A(8.2),
+  p. 162, for polynomial classification, combined with the determinant twist). For n=0 the weight and shape
+  are empty, the twist is 0, and the simple module is the unit of dimension 1. Rationality itself is a property of a `Representation`,
   defined basis-independently (a comodule over `ℂ[gᵢⱼ, det⁻¹]`); the general comodule framework is
   [`../ReductiveGroups`](../../ReductiveGroups/README.md)'s Layer 1, which this roadmap **cites** rather than
   rebuilds, working with honest `Representation`s of the concrete matrix group and a coordinate-entry lemma.
@@ -69,8 +103,8 @@ algebraic-group side. The boundaries with all three are pinned in the convention
   (`Fin n → ℤ`) via `diagonal t ↦ ∏ tᵢ^{λᵢ}`. A **weight** of a `GLₙ`-representation `W` is a `λ : Fin n → ℤ`
   whose weight space `Wλ = {w | ∀ t, ρ (diagonal t) w = (∏ tᵢ^{λᵢ}) • w}` is nonzero; the weights refine
   Mathlib's `LieModule.Weight` for the Lie algebra `𝔤𝔩ₙ` under differentiation, and the identification with
-  the abstract weight lattice of [`../RootSystems`](../RootSystems/README.md) is an explicit target, not an
-  assumption. **Dominant** means weakly decreasing. Reuse `Matrix.diagonal` and Mathlib's root-datum
+  the group character lattice and the abstract Lie weight lattice is an explicit target here,
+  using the native integral weight lattice and root declarations of the supplier contracts, not an assumption. **Dominant** means weakly decreasing. Reuse `Matrix.diagonal` and Mathlib's root-datum
   vocabulary throughout.
 - **Characters are symmetric Laurent polynomials.** For `GLₙ`, evaluating `FDRep.character` at
   `diagonal (x₁, …, xₙ)` gives a symmetric Laurent polynomial in `x₁, …, xₙ`; for polynomial
@@ -84,12 +118,14 @@ algebraic-group side. The boundaries with all three are pinned in the convention
   `Equiv.Perm (Fin d)` acts on `⨂[ℂ]^d V`) and gives the character for free via Schur-Weyl. Fix the choice
   once: the symmetrizer `c_λ` is taken for the row-superstandard tableau of shape `λ`, so `Sᵘ V` is a
   definite subspace; other tableaux give canonically isomorphic images, and that isomorphism is a stated
-  lemma rather than a silent identification. Prove *separately*, via the highest-weight theory of
-  [`../LieHighestWeight`](../LieHighestWeight/README.md), that these (and their `det`-twists) exhaust the
-  irreducibles and are indexed by dominant weights. The two developments meet at the theorem `Sᵘ V ≅ V_μ` for
-  a partition `μ`. Neither is optional.
+  lemma rather than a silent identification. Prove *separately*, via native group-level
+  torus/transvection theory, that these (and their `det`-twists) exhaust the
+  rational GLₙ irreducibles and are indexed by dominant weights. The two developments meet at the theorem `Sᵘ V ≅ V_μ` for
+  a partition `μ`. Both comparisons are targets.
 
-## What Mathlib already has (consume)
+## Exact supplier contracts
+
+### From Mathlib
 
 - **The classical groups.** `Matrix.GeneralLinearGroup (Fin n) R` (notation `GL n R`,
   `LinearAlgebra/Matrix/GeneralLinearGroup/Defs.lean`) with `Matrix.GeneralLinearGroup.det : GL n R →* Rˣ`
@@ -128,258 +164,1652 @@ algebraic-group side. The boundaries with all three are pinned in the convention
   `RootPairing.cartanMatrix`, `RootPairing.weylGroup` (`LinearAlgebra/RootSystem/*`); `LieModule.Weight`,
   `LieModule.genWeightSpace`, `LieModule.IsTriangularizable`, and `LieAlgebra.IsKilling.rootSystem` (the root
   system of a Lie algebra, `Algebra/Lie/Weights/*`). This roadmap consumes these as the *abstract* target
-  of its weight theory and otherwise defers to [`../RootSystems`](../RootSystems/README.md) and
-  [`../LieHighestWeight`](../LieHighestWeight/README.md).
+  of its weight theory, together with the native Tau Ceti root and Lie declarations listed
+  under *From Tau Ceti*.
+- **Bilinear Hodge star.** `exteriorPower.hodgeStar` and
+  `exteriorPower.exteriorPower_hodgeStar_eq_wedgePairing`
+  (`Mathlib/LinearAlgebra/ExteriorPower/HodgeStar.lean:48,53`) supply a linear
+  equivalence Λ^k M→Λ^l M for a finite free module, a bilinear form whose
+  associated duality map is bijective, a volume isomorphism Λ^dim M≃R,
+  and k+l=dim M. The definition pairs its output with the degree-l exterior
+  form to obtain the volume wedge pairing; it assumes neither symmetry of B
+  nor volume norm 1. Here specialize to the symmetric identity form over ℂ
+  and the consecutive-coordinate volume, of norm 1. The remaining targets
+  are its SO equivariance, square and highest-wedge eigenspace comparison.
 - **Linear-algebra glue.** `Matrix.diagonal`, `Matrix.mulVec`, `Module.Dual`, `Matrix.toLin`,
   `Module.finrank`, `Basis.tensorPower`/`Basis.exteriorPower` where available.
 
-## What is missing (build here)
+### From Tau Ceti
 
-The **standard representation** of `GLₙ` and its restrictions to `SLₙ`, `Oₙ`, `Spₙ`; the
-**representation structure on every tensor, exterior, and symmetric power** of it, and the functor
-`Representation ⟶ Representation` on each; the notion of a **rational/polynomial** representation of the
-matrix group and the completeness of reducibility over `ℂ`; the **symmetric-group action on `V^{⊗d}`** and
-the **Young symmetrizer / Schur functor `Sᵘ V`** with its `GLₙ`-representation structure (shared with
-[`../SchurWeyl`](../SchurWeyl/README.md)); the **decomposition of `V^{⊗d}`** into Schur functors
-(Schur-Weyl duality, cited) and the small decompositions `V^{⊗2} ≅ Sym²V ⊕ ⋀²V`; the **maximal torus**, the
-**weight-space decomposition** of a rational representation, the **dominant-weight index** `DominantWeight n`
-and the **highest-weight classification** of `GLₙ`-irreducibles (built on
-[`../LieHighestWeight`](../LieHighestWeight/README.md)); the theorem that the **Schur polynomial** `s_μ`
-(built in [`../SchurWeyl`](../SchurWeyl/README.md), consumed here) is the character of the polynomial
-irreducible `V_μ`, i.e. the **Weyl character formula** specialized to `GLₙ`, together with its
-**Laurent** (determinant-twisted) form `(∏ xᵢ)^m · s_μ` for a general rational `V_λ`; the **Weyl dimension
-formula** and its `GLₙ` product form; the
-**branching rules** `GLₙ ↓ GLₙ₋₁` (and `Oₙ ↓ Oₙ₋₁`, `Spₙ ↓ Spₙ₋₂`); and the **Gelfand-Tsetlin basis** of
-`V_λ`, indexed by **Gelfand-Tsetlin patterns** (triangular integer arrays satisfying the interlacing
-inequalities `λ_{i,j+1} ≥ λ_{i,j} ≥ λ_{i+1,j+1}`) obtained by iterating that branching down the chain
-`GL₁ ⊂ ⋯ ⊂ GLₙ`, with its pattern-count dimension formula and the Gelfand-Tsetlin generators diagonalized in
-it. None of the representation-theoretic content is upstream; only the groups and the multilinear engine are.
+Consume native Tau Ceti standard, tensor, symmetric and exterior representations;
+`TauCeti.IsRationalRep`/`TauCeti.IsPolynomialRep`; diagonal torus and weight spaces; `TauCeti.DominantWeight`
+and rational Weyl representations; the row-superstandard Schur-functor image;
+finite Schur polynomials and Weyl dimensions; and Gelfand–Tsetlin patterns,
+the tableau equivalence and pattern-count dimension identity. The symmetric-group
+and double-centralizer suppliers are owned by SchurWeyl; the invariant Schur-functor
+image is owned here in Layer 2 and consumed by SchurWeyl Layer 8.
 
-Some **linear-algebra glue** is also still to build, and Layer 1 depends on it: Mathlib has no
-`FiniteDimensional` instance for `⨂[ℂ]^d V` or `Sym[ℂ]^k V`, so those (and their bases) are small targets in
-their own right; and because `⋀ᵏ V` is a submodule of the exterior algebra and `Sym[ℂ]^k V` a symmetric-power
-quotient, transporting the `GLₙ`-action and reading off traces/characters needs the functorial maps and the
-compatibility lemmas stated explicitly, not assumed.
+Build the complete API and comparisons described in the layers on those same
+carriers: power functoriality and characters, highest-weight classification,
+the Schur-functor and rational torus-character/dimension identities,
+representation-level branching, and the normalized Gelfand–Tsetlin bases and
+central operators. Consume existing finite-dimensional instances for tensor,
+symmetric and exterior powers, rather than inserting them as new hypotheses.
 
-`Suggested.lean` pins the load-bearing objects (`stdRep`, `tensorPowerRep`, `symPowerRep`, `extPowerRep`,
-`permTensorAction`, `schurFunctor`, `DominantWeight`, `weightSpace`, `irreducible`, `schurPoly`,
-`weylDimension`, the branching map, the Gelfand-Tsetlin pattern `GTPattern` and its basis `gtBasis`) and the
-named milestones below as `sorry`-targets, so each is claimable
-and the summit statements (`character_irreducible_eq_schurPoly`, `finrank_irreducible_eq_weylDimension`) are
-machine-checked to be expressible against the pinned Mathlib.
+The acceptance theorems use these carriers directly. In particular,
+`TauCeti.IsRationalRep.isInternal_weightSpace` in
+`TauCeti/RepresentationTheory/ClassicalGroups/Weight/Decomposition.lean:233`
+supplies the internal weight decomposition, and
+`TauCeti.char_tensorPowerRep` in
+`TauCeti/RepresentationTheory/ClassicalGroups/TensorPower.lean:198`
+supplies the tensor character identity. Also consume `TauCeti.char_extPowerRep_diagonal` from
+`TauCeti/RepresentationTheory/ClassicalGroups/ExteriorPower.lean:138`,
+`TauCeti.GTPattern.card_topRow_eq_weylDimension` from
+`TauCeti/RepresentationTheory/ClassicalGroups/GelfandTsetlin/Dimension.lean:187`,
+and `TauCeti.weylModuleOfShape_eq_bot_iff` from
+`TauCeti/RepresentationTheory/ClassicalGroups/WeylModule/Basic.lean:472`.
+The structural tensor-square splitting is `TauCeti.tensorSquareRepEquiv`
+(`TauCeti/RepresentationTheory/ClassicalGroups/Decomposition.lean:49`).
+For characters consume the one-row and one-column identities
+`TauCeti.char_weylFDRepOfShape_diagonal_of_colLen_le_one` and
+`TauCeti.char_weylFDRepOfShape_diagonal_of_rowLen_le_one`
+(`TauCeti/RepresentationTheory/ClassicalGroups/WeylModule/Character.lean:93,132`).
+The general input is the unevaluated Frobenius sum
+`TauCeti.char_weylFDRepOfShape_diagramOf_diagonal_eq_sum_spechtChar`
+(`TauCeti/RepresentationTheory/ClassicalGroups/WeylModule/SchurWeyl.lean:162`).
+Combine it with SchurWeyl Layer 7's Frobenius characteristic to prove the full
+Schur-character comparison in §4.2. The determinant-twist identity
+`TauCeti.char_rationalWeylFDRep`
+(`TauCeti/RepresentationTheory/ClassicalGroups/WeylModule/Rational.lean:214`)
+retains the polynomial Weyl character as an unevaluated factor.
+For §5.1 consume `TauCeti.eval_one_diagramSchurPoly_eq_card_boundedSSYT`
+(`TauCeti/RingTheory/MvPolynomial/Symmetric/Schur/Basic.lean:214`),
+`TauCeti.card_gtPattern_topRow_eq_card_ssyt`
+(`TauCeti/RepresentationTheory/ClassicalGroups/GelfandTsetlin/Tableau.lean:453`), and
+`TauCeti.GTPattern.card_topRow_eq_weylDimension`, together with
+`TauCeti.weylDimension_shift`
+(`TauCeti/RepresentationTheory/ClassicalGroups/WeylDimension/Basic.lean:256`). These count tableaux and patterns and compare
+products; the identification with module dimension is owned here.
+For the uniqueness of Schur coefficients in §4.1 consume the Schur basis
+`TauCeti.schurPolyBasis` (`TauCeti/RingTheory/MvPolynomial/Symmetric/Schur/Basis.lean:301`)
+of the homogeneous symmetric polynomials of each degree d, indexed by the
+partitions of d with at most as many parts as variables; homogeneity separates
+different degrees.
+
+Root and Weyl geometry is consumed from these declarations, each for a root pairing
+`P` with a base `b`: the positive roots `TauCeti.posRoots`
+(`TauCeti/LinearAlgebra/RootSystem/Positive.lean:114`, characteristic-zero
+coefficients); the closed dominant chamber `TauCeti.dominantChamber`
+(`TauCeti/LinearAlgebra/RootSystem/Chamber.lean:137`, ordered coefficients); and the
+oriented Cartan-type predicate `TauCeti.HasCartanType`
+(`TauCeti/LinearAlgebra/RootSystem/DynkinType.lean:416`, for a crystallographic root
+pairing): the Cartan matrix of `b` agrees with the standard Cartan matrix of the named
+type after one simultaneous relabelling of rows and columns, without transposition, so
+that B and C are distinguished from rank 3 on while B₂ and C₂ coincide (the native
+validity predicate on types excludes C₂, and the valid ranks are A≥1, B≥2, C≥3, D≥4).
+
+The abstract semisimple Lie theory is consumed from these declarations, for a Killing
+Lie algebra with a splitting Cartan subalgebra over a field of characteristic zero; the
+classification, complete reducibility and the Weyl formulas also take the field
+algebraically closed, which ℂ is: the
+integral weight lattice `TauCeti.integralWeightLattice`
+(`TauCeti/Algebra/Lie/Weights/WeightLattice.lean:188`) and the integrality of weights
+on coroots `TauCeti.exists_int_apply_coroot`
+(`TauCeti/Algebra/Lie/Weights/Integrality.lean:198`); the Verma modules and their
+irreducible quotients `TauCeti.VermaModule` and `TauCeti.irreducibleQuotient`
+(`TauCeti/Algebra/Lie/HighestWeight/Verma.lean:195,525`); the unique dominant integral
+highest weight of a finite-dimensional irreducible module,
+`TauCeti.existsUnique_isDominantIntegral_highestWeight_of_finiteDimensional_irreducible`
+(`TauCeti/Algebra/Lie/HighestWeight/Existence.lean:240`); complete reducibility
+`TauCeti.exists_isCompl_of_isKilling`
+(`TauCeti/Algebra/Lie/HighestWeight/CompleteReducibility.lean:259`); and, for a
+finite-dimensional module generated by a highest-weight vector, the Weyl character
+formula `TauCeti.formalCharacter_mul_weylDenominator_eq_weylNumerator`
+(`TauCeti/Algebra/Lie/HighestWeight/Weyl/Character.lean:319`) and the Weyl dimension
+formula `TauCeti.finrank_eq_prod_coweightPairing_div`
+(`TauCeti/Algebra/Lie/HighestWeight/Weyl/Dimension.lean:113`).
+
+For §3A.2 consume Cartier's theorem `TauCeti.smoothCommHopfAlgProperty_of_charZero`
+(`TauCeti/Algebra/AlgebraicGroup/Smooth/CharZero.lean:148`): a finite-type commutative
+Hopf algebra over a field of characteristic zero is smooth. Consume also
+`Submodule.exists_subcomodule_iff_forall_differential_mem`
+(`TauCeti/Algebra/AlgebraicGroup/Representation/LieStable.lean:80`): for a comodule
+over a finite-type Hopf algebra with connected spectrum, over an algebraically closed
+field of characteristic zero, a subspace is a subcomodule exactly when it is stable
+under the differentiated action of every derivation at the counit. It is stated for
+comodules, not for a `Representation` of a matrix group; §3A.2 supplies that transport.
+
+### From TauCetiRoadmap.ReductiveGroups
+
+Use Layers 0–1 for coordinate Hopf algebras, finite comodules and their point
+representations; Layer 2 for tangent maps; Layer 3A for closed stabilizers;
+Layer 6 for linear reductivity; and §10D for polynomial End(V)-actions,
+uniqueness, scalar degrees and the nonnegative-weight criterion over every field.
+
+### From TauCetiRoadmap.SchurWeyl
+
+Use Layers 0–2 for Young diagrams/tableaux and Young symmetrizers, Layer 7 for
+finite Schur polynomials, the Frobenius characteristic and RSK, and
+Layer 8 for the two action images and double-centralizer theorem. The Schur
+image used in that theorem is the native Tau Ceti carrier, so neither
+construction requires a return dependency on the classification here. For
+horizontal strips use `TauCeti.hsymm_mul_diagramSchurPoly` directly
+(`TauCeti/RingTheory/MvPolynomial/Symmetric/Schur/Pieri.lean:231`).
+
+### From TauCetiRoadmap.RootSystems
+
+Use §3.2, for n≥2, for the Weyl group of a root pairing of Cartan type Aₙ₋₁ as the
+symmetric group on n letters, with the simple reflections sent to the adjacent
+transpositions; it applies to the GLₙ coordinate roots eᵢ−eⱼ in ℤⁿ, which do not
+span ℤⁿ, since that comparison assumes no spanning. The B/C/D coordinate comparisons of §3A.1 use the
+native root, chamber and Cartan-type declarations above directly. The semisimple
+highest-weight and Weyl character/dimension theorems are the native declarations
+above; the connected group/Lie comparison needed to apply them to SO/Sp is proved in
+Layer 3A. LieHighestWeight Layer 9's GL-specific bridge is a consumer of the GL
+models and is not an SO/Sp supplier.
+
+## How to read the build
+
+Layers 0–2 provide concrete rational modules and functorial powers. Layers 3/3A classify GL and the form
+groups; Layers 4–5 identify their characters and dimensions. Layer 6 proves
+branching and normalized GL bases, Layer 6B resolves symplectic multiplicities,
+and Layer 6A studies diagonal overgroups and restrictions. Each target lists
+its construction and proof inputs separately from later applications.
+
+## Layer 0: the classical groups and the standard representation
+
+### 0.1 The standard representation
+
+`TauCeti.stdRep ℂ n : Representation ℂ (GL n ℂ) (Fin n → ℂ)`, the tautological
+action `g • v = (g : Matrix _ _ ℂ).mulVec v`, built from `Matrix.GeneralLinearGroup.toLin`; its bundled
+form `FDRep ℂ (GL n ℂ)`, its character (`χ_std (g) = trace g`), and its dual `V*` via
+`Representation.dual`. This is the concrete engine; everything downstream is a functor applied to it.
+
+*Needs:* `Matrix.GeneralLinearGroup.toLin`; the native standard representation and trace.
+
+### 0.2 The subgroups and the extra invariants
+
+The inclusions `SL(n,ℂ) →* GL n ℂ`
+(`Matrix.SpecialLinearGroup.toGL`), `symplecticGroup ↪ GL`, `orthogonalGroup ↪ GL`, and the restricted
+standard representation. The distinguishing structure each preserves: the volume form
+`⋀ⁿ V ≅ ℂ` (trivial for `SLₙ`), a nondegenerate symmetric form `V ≅ V*` (for `Oₙ`), a nondegenerate
+alternating form `V ≅ V*` (for `Spₙ`). State the invariance as an equivariance of the pairing; it is what
+collapses `V` and `V*` and shortens the tensor decompositions (Milne, §2.10,
+printed pp. 42–43, for the form-preserving groups; the volume statement follows
+by applying the top exterior power to the determinant-one condition).
+
+*Needs:* the native subgroup inclusions, volume and symmetric/alternating forms; Layer 1 for their exterior/tensor interpretations.
+
+### 0.3 Rational and polynomial representations
+
+`TauCeti.IsRationalRep (ρ : Representation ℂ (GL n ℂ) W)` and
+`TauCeti.IsPolynomialRep ρ` as properties. State them **basis-independently** on a finite-dimensional `W` (the matrix
+entries in one basis are rational/polynomial in `gᵢⱼ`, `det⁻¹` iff in any basis; equivalently `ρ` is a
+comodule over `ℂ[gᵢⱼ, det⁻¹]`), and expose the coordinate-entry form as a lemma. `TauCeti.stdRep`, `TauCeti.tensorPowerRep`,
+`TauCeti.symPowerRep`, `TauCeti.extPowerRep` are polynomial; `det` and its powers are the one-dimensional rational
+representations `det^m`. The coordinate/comodule dictionary uses Milne,
+§2.8, printed p. 41, and Remark 4.1 with Example 4.2, pp. 84–85; polynomiality
+of tensor, symmetric and exterior powers follows by applying their multilinear
+constructions to the polynomial entries of the standard action.
+
+*Needs:* `TauCeti.IsRationalRep`, `TauCeti.IsPolynomialRep`; ReductiveGroups Layer 1 for the coordinate/comodule comparison.
+
+### 0.4 Complete reducibility over `ℂ`
+
+Every finite-dimensional rational representation is a direct sum of
+irreducibles; `rationalRep_isSemisimple` states its native matrix-action comparison
+(Milne, Theorem 22.42, printed pp. 478–479). Its comodule input is ReductiveGroups Layer 6:
+[`../ReductiveGroups`](../../ReductiveGroups/README.md) proves the linear reductivity of `GLₙ` in
+characteristic `0` at the comodule level, and this roadmap cites it. (An in-house proof via the compact form
+`U(n)` and Weyl's unitarian trick is possible but pulls in compact-group topology, Haar/unitary averaging,
+and analytic facts that are out of scope here, so it is not the chosen route.)
+
+*Needs:* ReductiveGroups Layer 6 linear reductivity; the coordinate/comodule comparison above; finite-dimensionality.
+
+### Examples
+
+**Checks.**
+
+- On diag(2,3), the standard trace is 5 and the dual trace is 1/2+1/3=5/6.
+- Rank zero has the zero standard module, trace 0, but its zeroth tensor power
+is the one-dimensional unit, trace 1.
+- The GL₁ character t↦t⁻¹ takes 2 to 1/2: it is rational but not polynomial;
+the trivial character takes 0 to 1 in its polynomial extension.
+
+### Dependencies
+
+The coordinate-entry/comodule comparison uses ReductiveGroups Layers 0–1.
+The complete-reducibility comparison uses its Layer 6 linear reductivity and
+finite-dimensionality. The standard action and form restrictions use the native
+matrix actions and pairings only.
+
+## Layer 1: functorial constructions and tensor powers
+
+### 1.1 The tensor power representation
+
+`TauCeti.tensorPowerRep ℂ n d : Representation ℂ (GL n ℂ) (⨂[ℂ]^d (Fin n → ℂ))`,
+the `d`-fold tensor power of `TauCeti.stdRep` (diagonal action), with `char (TauCeti.tensorPowerRep ℂ n d) g = (trace g)^d`
+via `char_tensor` (Fulton–Harris, §1.1, pp. 4–5). Likewise the tensor product of two representations (`Representation.tprod`) as a
+bifunctor and the dual (`Representation.dual`).
+
+*Needs:* the native standard action, tensor-power maps and tensor-product representation.
+
+### 1.2 Symmetric and exterior power representations
+
+`TauCeti.symPowerRep ℂ n k : Representation ℂ (GL n ℂ) (Sym[ℂ]^k V)`
+and `TauCeti.extPowerRep ℂ n k : Representation ℂ (GL n ℂ) (⋀[ℂ]^k V)`, functorial via `exteriorPower.map` and the
+symmetric-power functoriality; their characters are the complete-homogeneous `hsymm` and elementary
+`esymm` symmetric polynomials in the eigenvalues of `g`, i.e.
+`char (TauCeti.symPowerRep ℂ n k) (diagonal x) = hsymm k (x)` and `char (TauCeti.extPowerRep ℂ n k) (diagonal x) = esymm k (x)`.
+In particular `⋀ⁿ V ≅ det` and `⋀ᵏ V = 0` for `k > n`
+(Fulton–Harris, (6.1)–(6.2), printed p. 77).
+
+*Needs:* the native symmetric/exterior functors, their standard actions and torus character theorems.
+
+### 1.3 The first decomposition
+
+`V^{⊗2} ≅ Sym²V ⊕ ⋀²V` as `GL n ℂ`-representations (characteristic 0), an
+isomorphism of `FDRep ℂ (GL n ℂ)`, with the symmetrizer/antisymmetrizer projections `½(1 ± swap)`. This is
+the smallest instance of the Weyl construction, used through the supplied equivariant splitting
+(Fulton–Harris, §6.1, Theorem 6.3(2), printed pp. 77–78).
+
+*Needs:* the native tensor-square equivalence and invertibility of 2.
+
+### Examples
+
+**Checks.**
+
+- For diag(2,3), the tensor-square trace is 25, the symmetric-square trace
+is 4+6+9=19, and the exterior-square trace is 6: 25=19+6.
+- In dimension 1, the symmetric square of the character t is t² and Λ²=0;
+at t=2 the splitting reads 4=4+0.
+- Degree zero gives the unit with trace 1, even for dimension 0; every positive
+tensor degree in dimension 0 gives trace 0.
+
+### Dependencies
+
+Power maps use Layer 0 and the native tensor/symmetric/exterior functors.
+The tensor-square isomorphism uses the averaging projections (1±swap)/2,
+so 2 is invertible; over characteristic 2 these projections are unavailable.
+
+## Layer 2: the Weyl construction via Young symmetrizers
+
+This layer owns the native `TauCeti.schurFunctor n μ` invariant image from
+`ClassicalGroups/WeylModule/Basic.lean`, fixed with the row-superstandard tableau;
+SchurWeyl Layer 8 consumes that same carrier. Young symmetrizers belong to
+SchurWeyl Layer 2 and the native symmetric-group action and full duality to
+SchurWeyl Layer 8. Consume the native image, invariance and vanishing results;
+construct only the remaining comparisons and API on that carrier.
+
+### 2.1 The symmetric-group action on `V^{⊗d}`
+
+`TauCeti.permTensorAction ℂ n d : Representation ℂ (Equiv.Perm (Fin d)) (⨂[ℂ]^d V)`,
+permuting tensor factors, and its **commutation** with the `GLₙ`-action (they generate each other's
+commutants: Schur-Weyl duality, cited from [`../SchurWeyl`](../SchurWeyl/README.md)).
+
+*Needs:* SchurWeyl Layer 8; native permutation action and commutation.
+
+### 2.2 Young symmetrizers and the Schur functor
+
+For `λ : YoungDiagram` with `|λ| = d`, the Young symmetrizer
+`c_λ` (from [`../SchurWeyl`](../SchurWeyl/README.md)) acts on `⨂[ℂ]^d V`; its image is the **Schur functor**
+the Schur image SᵘV, a `GLₙ`-subrepresentation of `V^{⊗d}`. Fix the choice of `c_λ` (the row-superstandard
+tableau of shape `λ`) so `Sᵘ V` is a definite subspace; images for other tableaux are canonically
+isomorphic to it, an explicit lemma. Use the native invariant-image and height-vanishing contracts; use the two extreme-case comparisons
+`S^{(d)} V ≅ Symᵈ V`, `S^{(1ᵈ)} V ≅ ⋀ᵈ V`.
+
+*Needs:* SchurWeyl Layer 2; the native Young image, height-vanishing and extreme-shape comparisons.
+
+### 2.3 The decomposition of `V^{⊗d}`
+
+`V^{⊗d} ≅ ⊕_{λ ⊢ d} (Sᵘ V) ⊗ (Specht λ)` as `GLₙ × Sₐ`-representations
+(Schur-Weyl, cited), whence `V^{⊗d} ≅ ⊕_λ (Sᵘ V)^{⊕ f^λ}` as `GLₙ`-representations, with `f^λ` the number
+of standard Young tableaux (`../SchurWeyl`). This recovers Layer 1's `⊗2` case and is the structural heart.
+
+*Needs:* SchurWeyl Layer 8 double-centralizer theorem and its native Schur and Specht carriers.
+
+### Examples
+
+**Checks.**
+
+- On a one-dimensional V, the row shape (2) gives a line and the column
+shape (1,1) gives zero; a height-blind construction fails this distinction.
+- For V=ℂ² and shape (1,1), the Young image is the line spanned by
+e₁⊗e₂−e₂⊗e₁; swapping factors acts by −1 on it.
+- The empty shape gives ℂ even for V=0; any nonempty shape of positive height
+gives zero when V=0.
+
+### Dependencies
+
+The invariant image uses Layer 1 and SchurWeyl Layer 2's Young symmetrizer.
+The tensor-power decomposition uses SchurWeyl Layer 8's two action images and
+double-centralizer theorem. The Schur/highest-weight isomorphism is Layer 3.
+
+## Layer 3: maximal torus, weights, and the highest-weight classification
+
+The GLₙ route uses native group-level torus/transvection theory. For the other connected
+classical groups, consume the native root data, dominant chambers and Weyl groups
+(`TauCeti.posRoots`, `TauCeti.dominantChamber`, `RootPairing.weylGroup`), RootSystems
+§3.2 for type A, and the native semisimple highest-weight theorem
+`TauCeti.existsUnique_isDominantIntegral_highestWeight_of_finiteDimensional_irreducible`.
+
+### 3.1 The maximal torus and weight spaces
+
+`TauCeti.diagonalTorus ℂ n : Subgroup (GL n ℂ)`, the invertible diagonal
+matrices, `≃* (Fin n → ℂˣ)`; for a rational representation `ρ` on `W`, the **weight space** `TauCeti.weightSpace ρ λ`
+for `λ : Fin n → ℤ`, and the **weight-space decomposition** `W = ⊕_λ TauCeti.weightSpace ρ λ` (simultaneous
+diagonalization of the commuting torus, over `ℂ`). Identify these group characters with the abstract Lie weight lattice
+through this layer's torus/differentiation dictionary and the native
+`TauCeti.integralWeightLattice`; the root declarations supply the root/Weyl
+geometry, not the weight lattice. The
+group-level direct sum is the diagonalizable-group theorem (Milne,
+Theorem 12.12, printed pp. 234–235); the Lie comparison sends the character
+`diag(t) ↦ ∏ t_i^(λ_i)` to `diag(h) ↦ Σ λ_i h_i` by differentiation,
+retaining the central coordinate.
+
+**Checks.**
+
+- On the standard GL₂ module at diag(2,3), weights (1,0) and (0,1)
+  act by 2 and 3, so their weight-space traces sum to 5.
+- The determinant-inverse line has weight (−1,−1) and value 1/6 at
+  diag(2,3); nonnegative-only weights would omit this rational module.
+- Over the dual numbers with ε²=0, the weight (1,−1) on
+  diag(1+2ε,1+3ε) has value 1−ε. Its differential is 2−3=−1,
+  fixing the sign and direction of the character-to-Lie-weight comparison.
+
+*Needs:* native diagonal torus and `TauCeti.IsRationalRep.isInternal_weightSpace`; `TauCeti.integralWeightLattice` and `TauCeti.exists_int_apply_coroot` only for the abstract weight dictionary.
+
+### 3.2 Dominant weights
+
+`TauCeti.DominantWeight n`, the weakly decreasing `λ : Fin n → ℤ` (antitone on `Fin n`), the
+index type for `GLₙ`-irreducibles. In rank n+1 the polynomial subset is
+`λ (Fin.last n) ≥ 0`; in rank zero the unique empty weight is polynomial.
+Equivalently require all coordinates nonnegative, which corresponds to
+Young diagrams of height at most the rank. Construct the dominance order from the
+GLₙ coordinate roots eᵢ−eⱼ, i<j, as positive roots (`TauCeti.posRoots` of the base of
+adjacent differences), compared for n≥2 with `TauCeti.integralWeightLattice` of 𝔰𝔩ₙ
+after forgetting the central coordinate. The `GLₙ` Weyl group `Sₙ` and its action on coordinates are RootSystems §3.2
+for n≥2; in ranks 0 and 1 the Weyl group is trivial. The polynomial labels
+are the partitions of Macdonald, Appendix A(8.2), printed p. 162; the
+rational labels are obtained by the determinant transport in the conventions
+(Fulton–Harris, §15.5 and Proposition 15.47, printed pp. 231–232),
+so this assertion is not an application of polynomial classification alone.
+
+*Needs:* native `TauCeti.DominantWeight` and `TauCeti.posRoots`; RootSystems §3.2 for the coordinate Weyl action; `TauCeti.integralWeightLattice` for the lattice comparison.
+
+### 3.3 Highest weight and the classification
+
+The **highest weight** of an irreducible (the maximal weight in
+dominance order, with one-dimensional weight space), and the **theorem of the highest weight**: `λ ↦ V_λ`
+is a bijection from `TauCeti.DominantWeight n` to isomorphism classes of irreducible rational `GLₙ`-representations, stated as `rational_irreducible_classification`.
+For GLₙ consume native `TauCeti.DominantWeight`, `TauCeti.IsRationalRep`, `TauCeti.IsPolynomialRep`,
+`TauCeti.rationalWeylFDRep`, and `Weight/HighestWeight.lean`. The group-level route uses
+diagonal-torus weights and elementary transvections to recognize the highest
+weight and its central character, independently of differentiation. Retain all
+integer coordinates: the central character is not discarded modulo (1,…,1).
+Identify the shape-λ Schur functor with `rationalWeylFDRep (TauCeti.weightOfShape n λ)`
+for shapes of at most n rows (`nonempty_schurFunctor_iso_rationalWeylFDRep`; Fulton–Harris,
+Theorem 6.3, printed pp. 77–78, and Proposition 15.47, p. 232); every rational irreducible is the determinant
+twist of its polynomial part. The comparison with gl_n Lie modules belongs to
+LieHighestWeight Layer 9 after this group-level classification.
+
+*Needs:* native rational Weyl modules and highest vectors; torus/transvection theory; Layer 0 complete reducibility; Layer 2 for the Schur comparison.
+
+### 3.4 `SLₙ`
+
+For n≥1, restriction along `SLₙ ↪ GLₙ` sends every rational irreducible
+GLₙ module to an irreducible SLₙ module, exhausts the rational irreducible
+SLₙ modules, and identifies exactly the dominant integer weights differing
+by an integer multiple of (1,…,1) (Fulton–Harris, §15.5 and Proposition
+15.47, printed pp. 231–232). The root/Weyl specialization is type Aₙ₋₁
+for n≥2, using RootSystems §3.2 and `TauCeti.integralWeightLattice` for the lattice comparison.
+SL₁ and SL₀ are trivial, each with just the one-dimensional trivial simple module.
+
+**Checks.**
+
+- GL₂ weights (2,1) and (1,0) both have character 5/2 at diag(2,1/2),
+  while at diag(2,3) their characters are 30 and 5. The common shift is
+  identified only after restriction to determinant one.
+- GL₂ weights (1,0) and (0,0) restrict to modules of dimensions 2 and 1,
+  so restriction does not identify weights differing by (1,0).
+- Every GL₁ weight m restricts to the character 1 on SL₁; the empty
+  GL₀ weight also has the one-dimensional trivial restriction.
+
+*Needs:* Layer 3 GL classification; scalar generation of GL over ℂ and restriction along `Matrix.SpecialLinearGroup.toGL`.
+
+### 3.5 `SOₙ` then `Oₙ`, and `Sp₂ᵣ`
+
+The connected matrix groups and their
+exact rational highest-weight classification are constructed in Layer 3A:
+SO_(2r+1) has type B_r, SO_(2r) type D_r, and Sp_(2r) type C_r,
+with their actual group character lattices and all small-rank cases.
+Their abstract Lie modules alone are not a rational-group construction.
+O remains the separate SO extension/induction problem, with its actual
+component action and low-dimensional cases; neither spin weights nor
+an unqualified Lie highest weight are automatically SO/O representations.
+
+*Needs:* Layer 3A group/Lie comparison and rational models; the component action for the O extension.
+
+### Examples
+
+**Checks.**
+
+- In rank 1 the weights −1,0,1 give values 1/2,1,2 at t=2; discarding
+the central coordinate would identify three distinct irreducibles.
+- Rank 0 has exactly one empty dominant weight and a one-dimensional simple
+representation; the zero representation is not simple.
+- Shape (1,1) in dimension 1 gives a zero Schur module, whereas truncating
+its row weight gives weight (1), a nonzero line. The row-bound hypothesis
+in the Schur/highest-weight comparison excludes this counterexample.
+
+### Dependencies
+
+The GL classification uses native torus/weight/transvection theory and
+Layer 0 complete reducibility. The Schur comparison uses Layer 2's actual
+image. The SL comparison uses scalar generation; SO/Sp use Layer 3A and the
+native semisimple highest-weight, complete-reducibility and Weyl character/dimension
+theorems, not LieHighestWeight's GL-specific Layer 9.
+
+## Layer 3A: the rational SO/Sp carriers and their exact highest weights
+
+Use `Matrix.specialOrthogonalGroup (Fin n) ℂ`, with the **trivial** star
+used by `Matrix.orthogonalGroup`, and `Matrix.symplecticGroup (Fin r) ℂ`
+on `(Fin r ⊕ Fin r) → ℂ`. The latter preserves native
+`J = [[0,−I],[I,0]]`; its matrix condition is `A J Aᵀ = J`.
+These are algebraic matrix groups, not the compact unitary groups obtained
+from complex conjugation. Construct their standard modules and rationality
+by restricting the native matrix-coefficient algebra; compare this property
+with the ReductiveGroups coordinate-comodule definition and prove basis
+independence, dual/tensor/exterior/submodule/quotient closure on the same
+carriers. No new generic comodule engine is required.
+
+For these form groups, regular matrix coefficients mean that in one finite
+basis every action entry is the evaluation of a polynomial in the matrix entries
+of the group element. This is a property of the given action, not a choice of a
+second action. Since inverses in SO and Sp are form adjoints, no inverse-determinant
+coordinate is necessary here.
+
+- Prove independence of the finite basis and agreement with the coordinate coaction.
+- Prove closure under tensor products, duals, invariant subspaces and quotients.
+- Compare the standard action's coordinate functions with the chosen form matrix.
+
+*Needs:* Layer 0; ReductiveGroups Layer 1; native matrix form and inverse identities.
+
+**Checks.**
+
+- For the standard Sp₂ representation, diag(2,1/2) acts by those very entries;
+  both diagonal coefficients are coordinate polynomials of degree 1.
+- The trivial one-dimensional action has coefficient 1, including at the identity;
+  its coefficients must not be mistaken for zero-degree-zero polynomials equal to 0.
+- On SO₂≅Gₘ, complex conjugation of a torus coordinate is an abstract group
+  character but not regular: on real positive t it equals t, whereas at t=i
+  it equals −i. A Laurent polynomial agreeing with t on all positive reals is t
+  and would give i, excluding this non-example.
+
+
+### 3A.1 Tori, lattices and differentiation
+
+For SO, pair consecutive coordinates
+and, for `i=0,…,r−1`, set `u_(i+1)=e_(2i)+I e_(2i+1)`,
+`v_(i+1)=(e_(2i)−I e_(2i+1))/2`. Their symmetric pairings are
+`(u_i,u_j)=(v_i,v_j)=0`, `(u_i,v_j)=δ_ij`; retain the last norm-one
+coordinate in odd dimension. Conjugate `diag(t,t⁻¹[,1])` through this
+specified basis to construct an actual maximal torus of the native I-form
+group, including inverse and determinant checks. For Sp use the native
+diagonal map `diag(t,t⁻¹)` on the e/f summands, acting on eᵢ by tᵢ and on fᵢ
+by tᵢ⁻¹. Its Borel subgroup consists of the block matrices `[[A,B],[0,(Aᵀ)⁻¹]]`
+in the native symplectic group, with A upper triangular; for such a block matrix
+the condition `M J Mᵀ = J` says exactly that A⁻¹B is symmetric. Its positive roots
+are ε_i−ε_j and ε_i+ε_j, i<j, and 2ε_i. Prove maximality and identify
+their **group character lattices** with `ℤ^r`, by
+`t ↦ ∏_i t_i^(λ_i)`. Construct the differentials and prove that the matrix
+roots on the actual Cartan subalgebras, with the bases of the specified Borel
+subgroups, have native Cartan types B_r, D_r and C_r (`TauCeti.HasCartanType`,
+which allows a relabelling of the base) in the valid native ranks B≥2, C≥3, D≥4.
+In the remaining ranks C₂ has native type B₂ after interchanging its two simple
+roots, D₃ has native type A₃ with simple roots ordered ε₂−ε₃, ε₁−ε₂, ε₂+ε₃,
+B₁ and C₁ have type A₁, and the reducible D₂ is treated below. The lattice,
+dominant integral weights and ρ comparison are constructed here against
+`TauCeti.integralWeightLattice`, not claimed as outputs of a root-system supplier.
+
+**Antidiagonal matrix and Borel adapter.** Order the SO isotropic basis as
+`(u₁,…,u_r,v_r,…,v₁)` in dimension 2r and
+`(u₁,…,u_r,w,v_r,…,v₁)` in dimension 2r+1, with the last norm-one
+coordinate w above. Let J_anti have entry 1 exactly on the reverse diagonal.
+Prove that this ordered basis has Gram matrix J_anti and use its explicit
+change-of-basis matrix to identify the native I-form SO group with the
+same group in coordinates satisfying `Aᵀ J_anti A=J_anti`, det A=1.
+For every matrix define `A^R=J_anti⁻¹ Aᵀ J_anti` and prove its
+product-reversal and involution identities. For invertible A prove
+`Aᵀ J_anti A=J_anti ↔ A A^R=I`, with A^R=A⁻¹ in that case;
+retain det A=1 as the separate SO condition. No conjugation of complex
+entries occurs in this symmetric-form adjoint.
+The torus becomes `diag(t₁,…,t_r,t_r⁻¹,…,t₁⁻¹)` in even dimension,
+with a middle 1 in odd dimension. In these antidiagonal coordinates identify
+the upper-triangular subgroup
+as the Borel for the positive roots ε_i−ε_j and ε_i+ε_j, i<j,
+and also ε_i in odd dimension. Its unipotent radical U consists of
+upper-triangular matrices with diagonal 1. Prove unique diagonal/unipotent
+factorization, the action of T by conjugation, and the group isomorphism
+`U ⋊ T ≃* B`, `(u,t)↦u t`, with the specified conjugation action.
+Prove multiplication against this specified semidirect group law. Consume
+the native `TauCeti.GeneralLinear.UpperTriangular` and
+`TauCeti.SpecialLinear.UpperTriangular` coordinate Hopf algebras, point
+equivalences and diagonal tori for the GL_n/SL_n comparisons. For n≥1 use
+ReductiveGroups' PGL_n quotient to construct their PGL_n maps over ℂ,
+including the scalar kernels, diagonal tori and unipotent radicals. Retain the rank-zero and
+SO₂ torus branches below; generic Borel/root theory remains ReductiveGroups'
+owner, and this item supplies its concrete matrix comparisons.
+
+*Needs:* the isotropic basis above; native transpose and matrix multiplication;
+ReductiveGroups Layer 7 for Borel structure, and the native upper-triangular
+coordinate algebras for the GL/SL comparison.
+
+**Checks.**
+
+- In dimension 2, J_anti=[[0,1],[1,0]] sends diag(2,3) to diag(3,2)
+  under the adjoint. Applying the adjoint twice recovers diag(2,3).
+- The adjoint of diag(i,1) is diag(1,i), whereas a conjugate-transpose
+  convention would give diag(1,−i); the two differ.
+- For A=diag(2,1/2), A A^R=I and AᵀJ_anti A=J_anti. For A=diag(2,3),
+  the two left sides are 6I and 6J_anti, so A fails both form-preservation tests.
+- In Sp₂ with the native J=[[0,−1],[1,0]], the unipotent [[1,1],[0,1]] satisfies
+  M J Mᵀ=J, fixes e₁ and sends f₁ to e₁+f₁, so e₁ of weight 1 is the highest
+  vector of the standard module, with value 2 at diag(2,1/2). The opposite
+  unipotent [[1,0],[1,1]] sends e₁ to e₁+f₁; reading highest weights against the
+  opposite Borel would give −1, the weight of f₁.
+- The C₂ Cartan matrix in the order (ε₁−ε₂, 2ε₂) is [[2,−1],[−2,2]], and after
+  interchanging the two roots it is [[2,−2],[−1,2]], the native B₂ matrix; without
+  the relabelling the two matrices differ in both off-diagonal entries.
+
+
+For `SO_(2r+1)`, the roots are `±ε_i±ε_j, ±ε_i`; for `SO_(2r)`,
+`±ε_i±ε_j`; for `Sp_(2r)`, `±ε_i±ε_j, ±2ε_i`.
+The SO odd and Sp group-dominant tuples are **integers**
+`λ₁≥⋯≥λ_r≥0`; SO even has
+`λ₁≥⋯≥λ_(r−1)≥|λ_r|`. Identify these as the characters dominant
+for the specified Borel, and compare with abstract Lie weights. SO does
+not acquire all weights of its simply connected spin cover. The Lie
+`sl₂` weight-1 module does not descend to SO₃; SO₃ weight `m` has
+`sl₂` weight `2m`. Treat SO₀, SO₁ and Sp₀ as trivial groups, SO₂ as
+a torus with **every integer** character, SO₃=B₁, SO₄=D₂=A₁×A₁
+(covering weights of equal parity), and Sp₂=C₁ (all nonnegative `sl₂`
+weights) explicitly. The rank-zero and torus cases are not applications
+of a semisimple theorem with missing hypotheses. Spin and half-spin
+weights remain owned by SpinRepresentations.
+
+### 3A.2 Connected rational group–Lie comparison
+
+For a smooth connected affine algebraic group G over an algebraically closed
+field k of characteristic zero and a finite-dimensional rational G-module W,
+prove that a subspace U⊆W is G-stable if and only if it is Lie(G)-stable,
+and that a vector is G-fixed if and only if its differential action vanishes.
+Apply this to the rational Hom module to identify group intertwiners with Lie
+intertwiners, respecting identities, composition and inverses. Reductivity is
+needed for the subsequent semisimplicity application, not for this comparison
+(Milne, *Algebraic Groups*, 2022 edition, Proposition 10.31, printed p. 196;
+Cartier's Theorem 3.23, printed p. 71). For comodules over the coordinate Hopf
+algebra the subspace equivalence is the native
+`Submodule.exists_subcomodule_iff_forall_differential_mem`; this section transports
+it to the given rational `Representation` carriers through their coordinate
+comodules and proves the fixed-vector and Hom forms.
+
+The native proof uses the scheme-theoretic subspace stabilizer H in G. Construct its
+closed defining equations and identify Lie(H) with the endomorphisms preserving
+U by evaluating on k[ε]/(ε²). Cartier smoothness gives dim H=dim Lie(H).
+If U is Lie-stable this equals dim G; connected smooth G is irreducible, so its
+closed subgroup H of full dimension is G. For fixed vectors use the point
+stabilizer, or the graph of k→W, 1↦w. Only after this step form the rational
+submodule and quotient. This avoids assuming the group action on a Lie-stable
+subspace as part of the argument.
+
+- Construct differentiation of the given rational action and its tensor, dual
+  and Hom compatibility before comparing invariant vectors.
+- Construct the two inverse maps on stable subspaces and on Hom spaces; both
+  retain the underlying linear subspace or map.
+- Deduce the simplicity and representation-isomorphism comparisons, and apply
+  them to the explicit SO/Sp carriers and their smoothness/connectedness data.
+
+*Needs:* `Submodule.exists_subcomodule_iff_forall_differential_mem` and Cartier's
+theorem `TauCeti.smoothCommHopfAlgProperty_of_charZero`; ReductiveGroups Layers 1–2
+(rational actions and tangent functor), Layer 3A (closed stabilizers, for the
+fixed-vector form) and its Layer 3 component/dimension theory; this section's
+differentiation and Hom construction. No GL classification or harmonic tensor decomposition is an input.
+
+**Checks.**
+
+- For the standard Sp₂ module, diag(2,1/2) fixes no nonzero coordinate vector,
+  and its Cartan differential diag(1,−1) has zero kernel: both fixed spaces
+  have dimension 0. In SO₃'s standard module the torus-fixed line is ℂw;
+  the root operator with Xw=u, Xv=−w and Xu=0 moves it, so both full
+  fixed spaces again have dimension 0.
+- In characteristic p, the Gₘ character t↦tᵖ has derivative p=0 while
+  tᵖ is not identically 1; in characteristic 3, t=2 gives 2³=2≠1. The Lie
+  fixed space has dimension 1 and the group fixed space dimension 0.
+- The sign character of the disconnected group {±1} over ℂ has Lie algebra
+  0, hence a one-dimensional Lie fixed space, but −1 acts by −1, so its
+  group fixed space is 0. For the trivial group both dimensions are 1.
+
+### 3A.3 Exterior blocks and Cartan components
+
+Construct the following rational building blocks from exterior powers of the actual
+standard modules.
+
+For C_r, r≥1, let ω(v,w)=vᵀJw with the native `Matrix.J`, so that
+ω(fᵢ,eⱼ)=δᵢⱼ and ω(eᵢ,fⱼ)=−δᵢⱼ. Define the contraction
+`κ_k : ⋀^k V → ⋀^(k−2) V` on v₁∧⋯∧v_k as the sum over 1≤a<b≤k of
+(−1)^(a+b−1) ω(v_a,v_b) times the wedge of the remaining vectors in their
+original order, so κ₂(v∧w)=ω(v,w) and κ₀=κ₁=0. Define the inverse-form wedge
+map `L_k : ⋀^k V → ⋀^(k+2) V` as left multiplication by `Ω_J=Σ_i f_i∧e_i`,
+which is the bivector Σ_i a_i∧b_i of every basis with ω(a_i,b_j)=δ_ij and
+ω(a_i,a_j)=ω(b_i,b_j)=0; put L₋₂=L₋₁=0. Prove that both maps are
+Sp-equivariant and that, for every k≥0,
+`κ_(k+2) ∘ L_k − L_(k−2) ∘ κ_k = (r−k) · id` on `⋀^k V`,
+with r−k an integer, not a truncated natural difference. Prove that κ_k is
+surjective for every k≤r+1. For 1≤k≤r let P_k be the kernel of κ_k in
+`⋀^k V` (so P₁=V): prove it simple, of highest weight ω_k=ε₁+⋯+ε_k for the
+Borel subgroup of §3A.1, with highest vector e₁∧⋯∧e_k and dimension
+`binom(2r,k)−binom(2r,k−2)`, the negative-index binomial being 0.
+For B_r use `⋀^k V`, `1≤k≤r`, whose last highest weight is `2ω_r`.
+For D_r, `r≥3`, use `⋀^k V` for `1≤k≤r−2`,
+`⋀^(r−1)V` of weight `ω_(r−1)+ω_r`, and the two invariant
+middle-exterior Hodge eigenspaces of weights `2ω_(r−1)` and `2ω_r`.
+Specialize `exteriorPower.hodgeStar` to the specified symmetric form and
+ordered volume; prove its square, SO invariance and decomposition.
+Label its two spaces by their **actual highest wedge vectors** and compute
+their eigenvalues in that convention, rather than declaring an unchecked
+`±I^r` label. Identify its complex-linear convention with
+`α∧*β=⟨α,β⟩ vol`, with vol the consecutive-coordinate standard volume.
+For `η_r=(−1)^(r(r−1)/2)(−I)^r`, prove
+`*(u₁∧⋯∧u_r)=η_r(u₁∧⋯∧u_r)` and
+`*(u₁∧⋯∧u_(r−1)∧v_r)=−η_r(u₁∧⋯∧u_(r−1)∧v_r)`.
+These label the weights `2ω_r` and `2ω_(r−1)` respectively, not a
+choice of an unproved sign. D₂ and all smaller ranks use the explicit models above.
+
+The Hodge map has source Λ^k(ℂ^(2r)) and target Λ^(2r−k)(ℂ^(2r)),
+using the bilinear exterior pairing, without complex conjugation.
+
+- Prove SO equivariance and agreement of the native wedge-pairing convention
+  with the displayed identity for the identity form and unit volume.
+- Prove that the composite stars equal (−1)^(k(2r−k)) times the identity.
+- On the middle degree construct the two eigenspace inclusions and projections,
+  with their direct-sum and highest-vector equations.
+
+*Needs:* `exteriorPower.hodgeStar` and its wedge-pairing identity;
+Layer 1 exterior powers; the symmetric form and ordered volume of §3A.1,
+with the identity Gram matrix and volume norm 1. Simplicity of the
+resulting blocks additionally uses §3A.2,
+`TauCeti.existsUnique_isDominantIntegral_highestWeight_of_finiteDimensional_irreducible`
+and `TauCeti.finrank_eq_prod_coweightPairing_div`.
+
+**Checks.**
+
+- In dimension 2, *e₁=e₂ and *e₂=−e₁, hence *u=−iu and *v=iv.
+  A conjugate-linear star would send iu to −i times *u and fail complex linearity.
+- In the same dimension, *²u=−u and *²v=−v; using +1 as the square is false.
+- In dimension 4, η₂=1, so *(u₁∧u₂)=u₁∧u₂ and
+  *(u₁∧v₂)=−u₁∧v₂. These two vectors distinguish the eigenspace labels.
+- For Sp₂ in degree 0, L₀(1)=f₁∧e₁ and κ₂(f₁∧e₁)=ω(f₁,e₁)=1=r−0. The bivector
+  e₁∧f₁ would give ω(e₁,f₁)=−1, so the native J fixes the sign of Ω_J.
+- For Sp₂ in degree 2, κ₄L₂=0 because ⋀⁴V=0, while L₀κ₂(f₁∧e₁)=f₁∧e₁; the
+  commutator is −f₁∧e₁=(1−2)f₁∧e₁, which a natural-number coefficient r−k
+  truncated to 0 would miss.
+- For Sp₄, κ₃ maps the four-dimensional ⋀³V onto the four-dimensional V with
+  rank 4, so surjectivity reaches k=r+1=3 with zero kernel; at k=4 its rank is
+  1, not 6, and binom(4,4)−binom(4,2)=−5 shows the dimension formula is only
+  for 1≤k≤r.
+
+
+For each block prove the weight calculation, nonzero highest vector,
+Lie simplicity and dimension using the earlier abstract highest-weight/Weyl
+theory and a direct exterior/contraction character or dimension calculation.
+For C, the kernel dimension follows from surjectivity of κ_k by rank–nullity.
+One route to surjectivity is the commutator identity: with H acting by r−k on
+`⋀^k V`, the operators κ, L and H satisfy the sl₂ relations [κ,L]=H, [H,κ]=2κ
+and [H,L]=−2L, and finite-dimensional sl₂ theory makes κ surjective onto every
+degree below r.
+For B the dimensions are `binom(2r+1,k)`; for D the unsplit exterior
+dimensions are `binom(2r,k)` and each middle eigenspace has half of
+`binom(2r,r)`. Prove these identities and their agreement with the
+earlier Lie Weyl dimensions on the indicated highest weights.
+Then use the stabilizer comparison to obtain group simplicity on the same
+explicit subspace. No harmonic tensor decomposition is a premise.
+
+Prove these block weights generate exactly the group-dominant monoids.
+For D, the coefficients of the two terminal fundamental weights have equal
+parity; split off their common part and then the even remainders, using
+`ω_(r−1)+ω_r`, `2ω_(r−1)`, `2ω_r`. For B the last coefficient
+is even; C has all fundamental generators. Form a tensor of the indicated
+blocks, fix its highest tensor, and take the **U(g)-submodule generated by
+that tensor**. Earlier complete reducibility and abstract highest-weight
+theory show this Cartan component is the simple module of their summed
+weight. The closed-stabilizer argument makes it a genuine rational stable
+subspace of the group tensor module. This constructs every admissible
+irreducible, including the empty tensor/unit. Differentiating arbitrary
+rational irreducibles and the Hom comparison prove uniqueness and
+exhaustiveness; compare torus characters and Weyl dimensions through the
+actual lattice dictionary. SchurWeyl's later contraction/harmonic and
+Brauer decomposition consumes these modules and is **not** their existence
+or rational-integration input. GT bases and multiplicity vectors are later
+outputs, not inputs of this construction.
+
+*Needs:* for primitive/exterior block dimensions, Layer 1, the contraction and
+inverse-form wedge commutator above, and the native highest-weight classification and Weyl dimension formula; for the
+Cartan-component construction and classification, those blocks, complete
+reducibility and §3A.2. The component of the empty tensor is the unit.
+
+For O, retain the separate index-two SO extension/induction problem,
+including O₀ trivial and O₁'s two characters. Give the actual component
+action and stabilizer of an SO isomorphism class before deciding extension
+versus induction; do not call forbidden spin weights SO representations.
+On tensor powers the commutant is the **image/quotient** of the Brauer
+diagram algebra; identify its kernel and stable faithful range, rather than
+asserting an abstract-algebra isomorphism in every dimension.
+
+### Examples
+
+**Checks.**
+
+- In rank 1, u=e₁+i e₂ and v=(e₁−i e₂)/2 have pairings (u,u)=0,
+  (v,v)=0 and (u,v)=1. With the standard orientation, *u=−i u and *v=i v.
+- For Sp₄, the primitive second exterior power has dimension 6−1=5;
+  the first exterior power has dimension 4−0=4.
+- SO₃ weight 1 corresponds to sl₂ weight 2 and dimension 3; sl₂ weight 1
+  has dimension 2 and does not descend. SO₂ permits weight −1, taking t=2
+  to 1/2; a nonnegative-only dominant convention loses it.
+
+### Dependencies
+
+The tori use matrix/form linear algebra. §3A.2 uses the listed tangent,
+stabilizer contracts, native Cartier smoothness and the native comodule
+stable-subspace theorem. Exterior/Hodge blocks use Layer 1 and the native highest-weight classification and Weyl dimension formula;
+Cartan components use complete reducibility and §3A.2. Harmonic/Brauer
+classification is not an input to those constructions.
+
+## Layer 4: characters and Schur polynomials
+
+Consume the native carriers `TauCeti.schurFunctor`, `TauCeti.diagGL`, `TauCeti.DominantWeight`,
+`TauCeti.weightOfShape`, its `detShift`/`detShiftShape`, and `TauCeti.rationalWeylFDRep`.
+Prove the full Schur-character comparison in §4.2 and transport it through
+the Layer 3 classification of an arbitrary rational irreducible.
+Thus the identification concerns actual rational modules, rather than only
+polynomials with the same numerical character. The group-multiplicity
+comparison below is the additional tensor-product target.
+
+### 4.1 Schur products and representation multiplicities
+
+Prove `schurFunctor_tensor_multiplicity`: for shapes λ, μ and natural coefficients
+`c_ν`, supported on shapes ν of height at most n, with
+`s_λ(x₁,…,xₙ) s_μ(x₁,…,xₙ) = Σ_ν c_ν s_ν(x₁,…,xₙ)`, the multiplicity of the Schur
+module of shape ν in the tensor product of the Schur modules of shapes λ and μ,
+the dimension of the intertwiner space from `TauCeti.schurFunctor n ν` into the
+tensor product, is `c_ν`. The coefficients are unique because the Schur polynomials
+of height at most n are linearly independent in n variables (the native Schur basis
+`TauCeti.schurPolyBasis` in each degree, with homogeneity across degrees);
+shapes taller than n have zero Schur polynomial and zero Schur module, so the
+support bound excludes them from both sides, and a shape ν with
+`|ν| ≠ |λ| + |μ|` has `c_ν = 0` by homogeneity and intertwiner space zero because
+the scalar matrices act on the two sides by different powers. The route is the
+character identity: by §4.2 and `char_tensor` the tensor product has torus
+character `s_λ s_μ`; by Layer 0 complete reducibility and §3.3 it is a direct sum
+of Schur modules of height at most n, so its character is the sum of their Schur
+polynomials; comparing coefficients gives the multiplicities. No tableau formula
+for `c_ν` is used or stated here; that formula is SchurWeyl's symmetric-function
+theory. Consume native `TauCeti.diagramSchurPoly`, its integer-indexed
+Jacobi–Trudi identity and its denominator-cleared bialternant identity. The
+fraction-field quotient is an interpretation after divisibility, not a polynomial
+definition (Macdonald, I(3.1), p. 40; I(3.4)–(3.5), p. 41).
+
+*Needs:* §4.2 and `char_tensor`; Layer 3 classification and the Schur/highest-weight
+isomorphism; Layer 0 complete reducibility; `TauCeti.schurPolyBasis` for the linear
+independence of the Schur polynomials of bounded height.
+
+**Checks.**
+
+- In two variables (2,3), s_(1)²=25, s_(2)=19 and s_(1,1)=6, giving 25=19+6:
+  the square of the standard module is the symmetric square plus the exterior
+  square, each once.
+- In one variable x=2, s_(1)²=4, s_(2)=4 and s_(1,1)=0, giving 4=4+0; the
+  column shape (1,1) is taller than one variable and contributes nothing on
+  either side.
+- The empty shape contributes the unit: s_empty=1, and its tensor product with
+  any shape is that shape once. A shape of size |ν|≠|λ|+|μ| has coefficient 0
+  and intertwiner space 0; an empty alphabet annihilates every nonempty shape.
+
+### 4.2 Characters are Schur polynomials
+
+Prove `schur_character`: for every n, every Young diagram μ and every
+`t : Fin n → ℂˣ`, the character of `TauCeti.schurFunctor n μ` at
+`TauCeti.diagGL t` equals the evaluation of `TauCeti.diagramSchurPoly n ℂ μ`
+at the entries of t. No height bound is needed. For μ of height at most n this
+is the classical character identity (Macdonald, Appendix A, (8.4), printed p. 163,
+stated there for the representations `R_λ` with `ℓ(λ) ≤ m`); for taller shapes
+both sides vanish: the Schur module is zero (Fulton–Harris, Theorem 6.3(1), p. 77;
+the native `TauCeti.weylModuleOfShape_eq_bot_iff`), and the native Schur
+polynomial is a sum over semistandard tableaux with entries below n, of which
+there are none.
+For μ of height at most n, transport this identity through
+`nonempty_schurFunctor_iso_rationalWeylFDRep` to the rational Weyl model with row weight μ.
+
+One route combines the native Specht-character/power-sum expression with
+SchurWeyl Layer 7's Frobenius characteristic and finite-group character
+orthogonality. The factor 1/d! is legitimate over ℂ, including d=0 with
+0!=1. Translate a diagram to its size partition with the native dictionary.
+This route does not assume a representation/tableau dimension comparison.
+
+*Needs:* Layer 2's native Schur image;
+`TauCeti.char_weylFDRepOfShape_diagramOf_diagonal_eq_sum_spechtChar`;
+SchurWeyl Layer 7 Frobenius characteristic and its finite-alphabet specialization;
+the native shape-partition dictionary. The rational Weyl reading additionally
+uses Layer 3's Schur/highest-weight isomorphism.
+
+### 4.3 The rational character is Laurent
+
+For a general `λ : TauCeti.DominantWeight n`, the torus character is a
+**Laurent** symmetric polynomial, so `TauCeti.diagramSchurPoly n ℤ · : MvPolynomial (Fin n) ℤ` cannot express it. For n>0, with
+m the last coordinate and `μ = λ - m·(1,…,1)`, the resulting identity is `char (TauCeti.rationalWeylFDRep ℂ n λ) (diagonal x) = (∏ xᵢ)^m · s_μ(x)`, the
+determinant twist of the polynomial case. For n=0 use m=0 and the empty shape; the character is 1. Keep
+`TauCeti.diagramSchurPoly` for partitions only. The general Weyl character
+formula for `SLₙ`, `Sp₂ᵣ`, `SOₙ` follows from the native Weyl character formula
+`TauCeti.formalCharacter_mul_weylDenominator_eq_weylNumerator`, transported through
+Layers 3/3A's actual group-weight dictionary, with the positive roots `TauCeti.posRoots`
+and Weyl group `RootPairing.weylGroup` of the Lie root system.
+
+*Needs:* `TauCeti.char_rationalWeylFDRep` and §4.2; Layer 3A and `TauCeti.formalCharacter_mul_weylDenominator_eq_weylNumerator` for SO/Sp.
+
+### Examples
+
+**Checks.**
+
+- Shape (2,1) on diag(2,3) gives 2²·3+2·3²=30, equal to det·trace=6·5.
+- Weight (1,−1) has det shift −1 and polynomial part (2,0); its value is
+(4+6+9)/6=19/6, not 19.
+- In rank 0 the empty Schur polynomial and empty determinant product both
+equal 1; every nonempty shape gives Schur character 0.
+
+### Dependencies
+
+Schur characters use Layer 2's native image, SchurWeyl Layer 7's Frobenius
+characteristic and column orthogonality. Rational characters use Layer 3 and
+the native determinant twist. Tensor multiplicities use the character identity
+and the native Schur basis `TauCeti.schurPolyBasis`; horizontal
+strips use the pinned Pieri theorem directly.
+
+## Layer 5: the Weyl dimension formula
+
+### 5.1 Dimension comparison
+
+`TauCeti.weylDimension λ : ℕ`, the product form
+`dim V_λ = ∏_{1 ≤ i < j ≤ n} (λ_i - λ_j + j - i) / (j - i)`, and the theorem
+`rational_dimension`, asserting
+`finrank ℂ (TauCeti.rationalWeylFDRep ℂ n λ) = TauCeti.weylDimension λ`
+for every n and every dominant integer λ, obtained from Layer 4 by evaluating
+the Schur polynomial of its determinant-shift shape at
+`x₁ = ⋯ = xₙ = 1`, with `Representation.char_one` giving the equivalent trace statement (equivalently, the specialization of the abstract Weyl dimension formula
+`∏_{α > 0} ⟨λ + ρ, α⟩ / ⟨ρ, α⟩`, the native `TauCeti.finrank_eq_prod_coweightPairing_div`,
+transported through the explicit group-lattice comparison). Use the rational-product interpretation of the native natural-valued dimension;
+its factors depend only on the differences λ_i−λ_j, so determinant twists
+preserve dimension (Macdonald, I§3, Examples 1 and 4, printed pp. 44–45,
+for specialization of the Schur polynomial; Appendix A(8.4), p. 163, for
+the representation character). For the form groups prove the analogous product formulas
+on the actual group lattices of Layer 3A using the supplied Lie formula.
+
+*Needs:* §4.2 and the native determinant-twist carrier;
+`Representation.char_one`; `TauCeti.eval_one_diagramSchurPoly_eq_card_boundedSSYT`;
+`TauCeti.card_gtPattern_topRow_eq_card_ssyt`;
+`TauCeti.GTPattern.card_topRow_eq_weylDimension`; `TauCeti.weylDimension_shift`.
+The proof reads the character at 1 as the tableau count, identifies that count
+with the signed-pattern count for the shifted shape, and uses the native product
+identity and shift invariance. It does not assume the GT basis of §6.4.
+For SO/Sp use Layer 3A and `TauCeti.finrank_eq_prod_coweightPairing_div` on the actual group lattices.
+
+### Examples
+
+**Checks.**
+
+- Weight (2,1,0) gives factors 2,2,2 and dimension 8; its determinant
+shift (1,0,−1) gives the same factors and dimension 8.
+- Weight (2,1) gives 2; in rank 1 every integer weight gives the empty
+product 1, including weight −1.
+- Rank 0 also gives the empty product 1. In every nonempty factor i<j,
+the denominator j−i is a positive integer, not truncated natural subtraction.
+
+### Dependencies
+
+The module dimension uses Layer 4's character identity and trace at 1.
+The native Weyl product and signed-pattern counting identities are inputs.
+SO/Sp dimension comparisons additionally use Layer 3A's lattice dictionary
+and the native Weyl dimension formula.
+
+## Layer 6: branching rules and Gelfand-Tsetlin bases
+
+### 6.1 `GLₙ ↓ GLₙ₋₁`
+
+The restriction of `V_λ` along `GL(n-1) ↪ GL n` (upper-left block, fixing the last
+basis vector) decomposes **multiplicity-free**: `V_λ|_{GL_{n-1}} ≅ ⊕_μ V_μ`, the sum over `μ` **interlacing**
+`λ` (`λ_i ≥ μ_i ≥ λ_{i+1}`). State it as an isomorphism of `FDRep ℂ (GL (n-1) ℂ)` and, on characters, as
+the Schur-polynomial identity `s_λ(x₁,…,x_{n-1}, 1) = ∑_{μ ≺ λ} s_μ(x₁,…,x_{n-1})` for a partition `λ`. The
+**rational** version follows by the determinant twist (the interlacing runs over integer sequences, not just
+partitions), so state both the partition form and the `TauCeti.DominantWeight`-indexed form. This is the
+Gelfand-Tsetlin engine, stated on the native block inclusion by `rationalWeyl_branching`: iterating it gives a basis of `V_λ` indexed by Gelfand-Tsetlin patterns.
+
+*Needs:* the native block inclusion and interlacing; Layer 3 rational models and complete reducibility; Molev v2 Theorem 2.1, printed pp. 7–8, with integer top rows
+for rational GL modules and the native determinant twist for negative weights.
+
+### 6.2 `SOₙ ↓ SOₙ₋₁` and `Spₙ ↓ Spₙ₋₂`
+
+For the integral SO lattices of §3A.1, prove the following consecutive
+restrictions are multiplicity-free, with exactly the indicated summands:
+
+- SO_(2r+1) to SO_(2r), r≥1: for dominant λ, sum over integral μ with
+  λ₁≥μ₁≥λ₂≥μ₂≥⋯≥λ_r≥|μ_r|. In the ordered isotropic basis
+  the subgroup fixes the middle norm-one vector w and acts on its orthogonal
+  complement (Molev v2, (4.4), printed pp. 48–49).
+- SO_(2r) to SO_(2r−1), r≥2: sum over integral μ with
+  λ₁≥μ₁≥λ₂≥⋯≥λ_(r−1)≥μ_(r−1)≥|λ_r|.
+  Set q=(u_r+v_r)/√2 and w'=i(u_r−v_r)/√2, with √2 the positive
+  real square root. The subgroup fixes q and acts on q-perpendicular,
+  whose ordered basis is (u₁,…,u_(r−1),w',v_(r−1),…,v₁).
+  Both q and w' have norm 1 and are orthogonal. This specifies the
+  embedding and its comparison with Molev's generators
+  (F_(r,i)−F_(r',i))/√2, where F_ij=E_ij−E_(j',i') and j'=2r+1−j:
+  the odd middle generator in our norm-one coordinates is i times that
+  displayed generator (Molev v2, §4.2 and (4.7), printed pp. 49–50).
+
+Construct these group homomorphisms by the indicated isometries, differentiate
+them, and give the direct-sum evaluation isomorphisms using the actual
+highest-vector lines. Characters and dimensions are consequences of those
+isomorphisms, not their definitions. SO₃ to SO₂ sends weight m≥0 to each
+integer weight −m,…,m once. Every SO₂ character restricts once to the
+unit of SO₁, and SO₁ to SO₀ is the identity between trivial groups.
+
+*Needs:* §3A.1 tori and coordinate comparisons; §3A.2 rational group/Lie
+Hom comparison; §3A.3 rational models; §6.7 orthogonal highest-vector
+construction and Molev (4.4)/(4.7). The operator construction uses neither
+these group decompositions nor a dimension-count identification as a premise.
+
+For the Spin covers, use the lifted inclusions and the same inequalities on
+rows which are either all integral or all in ℤ+1/2, preserving that coset at
+each restriction. Integral rows descend to SO; the half-integral rows do not.
+The comparison on spin and half-spin carriers consumes SpinRepresentations
+Layers 4–5, including its spin and half-spin modules and SpinHighestWeights; it does
+not construct a second spin representation, and the spin branching itself, with
+half-integral rows, is a target of this section and §6.7. Spin₃ weight 1/2 restricts to
+Spin₂ weights ±1/2. Spin₂ characters have weights in (1/2)ℤ in SO coordinates;
+on Spin₁={±1} they restrict to the character with value (−1)^(2μ) at −1.
+
+*Needs:* SpinRepresentations Layers 2–5 for the cover, inclusions, differential
+and spin carriers; the orthogonal Lie constructions of §6.7.
+
+For Sp_(2r) to Sp_(2r−2), use the last-plane inclusion and actual
+multiplicity spaces of Layer 6B. This is a separate chain, with primed rows
+(Molev v2, (3.13), Lemma 3.4 and Theorem 3.5, printed pp. 33–34).
+
+*Needs:* §3A rational Sp models and Hom comparison; Layer 6B's symplectic
+operators and multiplicity vectors.
+
+**Checks.**
+
+- SO₃ weight 1 restricts to weights −1,0,1; at t=2 its trace is
+  1/2+1+2=7/2. An absolute value condition on μ itself would lose weight −1.
+- SO₄ weight (1,0) restricts to SO₃ weights 1 and 0, giving 3+1=4.
+  The distinct inclusion SO₃ into SO₅ fixing two coordinates gives 3+1+1=5;
+  it is not a multiplicity-free consecutive restriction.
+- SO₂ weight −1 restricts to the SO₁ unit once. Spin₃ weight 1/2 has
+  dimension 2 and weights ±1/2 on Spin₂; the covering kernel acts by −1,
+  excluding descent to SO₃.
+
+### 6.3 Gelfand-Tsetlin patterns
+
+Consume native `TauCeti.GTPattern n`, the combinatorial index of the basis below, a **triangular
+array** `(λ_{i,j})_{1 ≤ i ≤ j ≤ n}` of integers (row `j` has `j` entries `λ_{1,j} ≥ ⋯ ≥ λ_{j,j}`) satisfying
+the **interlacing** (betweenness) inequalities `λ_{i,j+1} ≥ λ_{i,j} ≥ λ_{i+1,j+1}`, with **top row**
+`topRow : TauCeti.GTPattern n → (Fin n → ℤ)` reading off row `n`. The interlacing constraint ranges only over
+interior cells (where all three entries are informative), so it imposes **no sign condition** on the
+row-final entries: entries may be negative, and the rational (determinant-twisted) patterns are included
+alongside the polynomial ones. Preserve the native structure and its entry/extensionality API. For a dominant weight λ with all coordinates nonnegative
+(in rank n+1, equivalently `λ (Fin.last n) ≥ 0`) the patterns with top row `λ` **biject with semistandard Young tableaux** of shape `λ` **with
+entries in `{0,…,n-1}`**: the `j`-th row of the pattern records the shape of the sub-tableau on entries
+`< j`. Because Mathlib's `SemistandardYoungTableau λ` allows unbounded `ℕ` entries (an infinite set for a
+nonempty shape), the bijection is to the **bounded subtype** `{T // ∀ i j, (i,j) ∈ λ → T i j < n}`, reusing
+native `TauCeti.BoundedSSYT` and `TauCeti.BoundedSSYT.fiberEquiv`. Consume the full
+native `TauCeti.gtPatternEquivSSYT` from `GelfandTsetlin/Tableau.lean`: row k
+records the shape of entries < k, and its inverse fills successive strips with k−1.
+Supply the content/weight comparison with successive row-size differences used
+by the pattern basis, preserving the native pattern and bounded tableau carriers.
+
+*Needs:* native `TauCeti.GTPattern` and the tableau equivalence.
+
+### 6.4 A fixed algebraic GT basis and its action
+
+Iterated multiplicity-free
+GL₁⊂⋯⊂GLₙ branching gives the canonical pattern-indexed lines.
+Construct the normalized basis indexed by signed GT patterns with top row λ
+by choosing the following definite vector in each line, and prove the
+pattern-to-line/vector comparisons for all integer dominant λ. Use Molev's unnormalized
+algebraic vectors (Theorems 2.3/2.7), on the actual differentiated native
+rational Weyl carrier, with `l_ki=P_(i,k)−i+1` in 1-based notation.
+Fix its highest vector by the native row-superstandard polynomial image:
+construct the highest line in the ambient ordered tensor basis and scale
+its lexicographically first nonzero coefficient to 1; use the fixed native
+determinant-line basis for the determinant twist. Prove that this fixes
+a nonzero vector uniquely, and retain the empty/rank-zero unit case.
+Construct the extremal-projector/cleared Mickelsson lowering operators
+`z_ki` on finite-dimensional highest-vector spaces, including their domain,
+denominator cancellation, no-pole and action equations. The vector of P is
+the source-ordered product, for increasing `k=2,…,n`, of
+`z_(k,1)^(P_(1,k)−P_(1,k−1)) …
+z_(k,k−1)^(P_(k−1,k)−P_(k−1,k−1))` applied to that fixed vector.
+Construct the comparison with the native differentiated module through
+§3A.2's differentiation of the rational action, applied to GLₙ, which is
+smooth and connected; the Lie dictionary of LieHighestWeight Layer 9 is a
+consumer of these bases, not an input. This fixes each residual scalar;
+orthogonality alone does not fix them.
+
+Pin the matrix-unit action (Molev v2, Theorem 2.3, printed p. 9):
+`E_kk ξ_P=(Σ_i P_(i,k)−Σ_i P_(i,k−1)) ξ_P`,
+`E_(k,k+1) ξ_P=−Σ_i [∏_(j=1)^(k+1)(l_ki−l_(k+1,j)) /
+∏_(j≠i)^(k)(l_ki−l_kj)] ξ_(P+δ_ki)`, and
+`E_(k+1,k) ξ_P=Σ_i [∏_(j=1)^(k−1)(l_ki−l_(k−1,j)) /
+∏_(j≠i)^(k)(l_ki−l_kj)] ξ_(P−δ_ki)`.
+A changed nonpattern contributes the zero vector. Prove the denominator
+factors are nonzero for admitted rows; no division-by-zero convention is
+used to conceal a term. Prove the pattern-to-vector bijection and basis
+theorem from branching, for every integer dominant top row. Transport
+patterns, vectors and off-diagonal matrices under determinant shifts;
+diagonal `E_ii` acquires precisely the shift. The contravariant form with
+highest-vector norm 1 and `E_ij* = E_ji` has its separate orthogonality
+and Molev Proposition 2.4 norm formula; unit-normalized vectors are obtained
+by their positive norms. These are two related conventions, not a claim
+that the algebraic basis has integral coefficients. In the GL₃
+`(2,1,0)`/adjoint determinant-shift example exhibit the adjacent-edge
+coefficient product `1/2`, invariant under rescaling the two vectors.
+
+*Needs:* Layers 3–4; §3A.2's differentiation of the rational action; the native block inclusion and signed patterns; Molev v2 Theorems 2.3/2.7 for normalized vectors.
+
+### 6.5 The Gelfand-Tsetlin dimension formula
+
+`finrank ℂ (TauCeti.rationalWeylFDRep ℂ n λ) = #{P : TauCeti.GTPattern n with top row
+λ}`, the count of GT patterns with top row λ. The representation-level branching gives a second proof: the iterated
+multiplicity-free decomposition gives the count by induction on `n`, independently of Layer 5. *Then* compare
+with `TauCeti.weylDimension λ` and, through the pattern ↔ tableau bijection, with the tableau sum `s_λ(1,…,1)`
+that specializes Layer 4's Schur polynomial at `x = (1,…,1)`. Do not use the Layer 5 equality to justify the
+basis construction itself; the three counts agree as a downstream corollary.
+The pattern count follows by iterating Molev v2, Theorem 2.1, printed p. 8,
+and agrees with the basis in Theorem 2.3 and the tableau dictionary in
+Remark 2.2, p. 9; the rational-group statement transports these through
+§3.3 and determinant shifts, rather than identifying arbitrary Lie weights
+with rational-group characters.
+
+*Needs:* representation-level branching above and native signed-pattern counting; comparison with §5.1 follows afterward.
+
+### 6.6 The actual Capelli generators
+
+For size k define the column-ordered
+polynomial in `U(gl_k)[u]`
+`A_k(u)=Σ_(σ∈S_k) sign(σ) ∏_(c=1)^k
+(E_(σ(c),c)+δ_(σ(c),c)(u−c+1))`, multiplying columns from left
+to right. Define generator `(k,r)`, `1≤r≤k`, to be its coefficient
+of `u^(k−r)`, transported along the actual block Lie inclusion,
+enveloping map and differentiated action on V_λ. Construct those maps;
+prove centrality in U(gl_k), generation of its center, block compatibility
+and the determinant-shift formula. This is not the scalar Lie center.
+On ξ_P it acts by the **elementary symmetric polynomial**
+`e_r(P_(1,k),P_(2,k)−1,…,P_(k,k)−k+1)`.
+Prove the ordered determinant's action formula, simultaneous
+diagonalization, commutation and separation of full patterns, including
+n=0/empty products. The strict order of shifted entries recovers each
+row from these symmetric coefficients, so separation is an actual
+injectivity theorem. The total number of generators is n(n+1)/2.
+The level is the actual matrix size k and the degree satisfies 1≤r≤k
+(Molev v2, (2.21)–(2.22), printed p. 16, for the ordered determinant,
+central coefficients and scalar action; block restriction and the GT basis
+of Theorem 2.3, p. 9, give its action at every row).
+
+**Checks.**
+
+- At k=1 and weight −1, the eigenvalue polynomial is A₁(u)=u−1,
+  so generator (1,1) acts by −1; replacing rational weights by natural
+  numbers would lose this value.
+- At k=2 and weight (2,1), the shifted entries are (2,0), giving
+  A₂(u)=u(u+2)=u²+2u. Generators (2,1) and (2,2) act by 2 and 0;
+  the unshifted model (u+2)(u+1) instead gives 3 and 2.
+- A common determinant shift +1 sends (2,1) to (3,2) and gives
+  (u+3)(u+1)=u²+4u+3=A₂(u+1). A shift by −1 instead gives
+  (u+1)(u−1)=u²−1, pinning the direction of translation.
+- In rank zero there are 0(0+1)/2=0 generators. The empty determinant
+  is 1, with no coefficient indexed by 1≤r≤0; it introduces no generator.
+
+*Needs:* the differentiated action on the rational Weyl module; block Lie/enveloping maps; Molev v2 (2.21)–(2.22), printed p. 16.
+
+### 6.7 `SOₙ ↓ SOₙ₋₁`, the symplectic series, and `Spin(n) ↓ Spin(n-1)`
+
+Construct the orthogonal lowering operators on the differentiated rational
+models of §3A, using the consecutive embeddings of §6.2. In the antidiagonal
+coordinates let F_ij=E_ij−E_(j',i'), with j'=N+1−j. Fix the highest
+vector by scaling the lexicographically first nonzero coefficient of the
+highest tensor of §3A.3 to 1, then transporting it into the rational model.
+On the supplied spin carriers use their chosen highest vector instead.
+The contravariant Hermitian form has this vector of norm 1 and
+F_ij adjoint to F_ji in the source coordinates; transport that form along
+the same coordinate comparison (Molev v2, §4.3, printed p. 51).
+
+For B_r to D_r construct the extremal projector p for the target D_r and
+its cleared operators s'_ri=p F_(r+1,i) π_i on highest-vector spaces,
+where π_i is the ordered right-denominator product of the root-projector
+factorization (4.6), with its factors as specified immediately below (4.6).
+For D_r to B_(r−1) use s_ri=p F'_ri π_i, with
+F'_ri=(F_ri+F_(r',i))/√2 and the ordered right-denominator product of
+(4.10). Use the source Cartan shifts, including the two short-root factors
+in (4.10); these are not the GL or symplectic operators. Construct the
+localized projectors and the cleared enveloping elements before their
+finite-module actions, proving the clearing and specialization identities.
+The resulting maps go from a target-highest weight space of weight μ to
+that of weight μ−ε_i; at an inadmissible weight the target space is zero.
+Do not evaluate a rational formula at a pole: the cleared element defines
+its action there (Molev v2, (4.5)–(4.10), printed pp. 49–50).
+
+- Prove the actual differential actions agree after the §6.2 isometries,
+  including the factor i for the even-to-odd middle generators.
+- For B_r to D_r prove that the ordered product of (s'_ri)^(λ_i−μ_i),
+  i=1,…,r, applied to the fixed highest vector spans the restricted
+  highest line and is nonzero exactly for the rows in (4.4).
+- For D_r to B_(r−1) prove the analogous statement with
+  (s_ri)^(λ_i−μ_i), i=1,…,r−1, and (4.7).
+  Both statements concern dominant target weights with integral exponent
+  differences; negative differences are not powers to be evaluated.
+
+The two product statements are Molev v2 Theorems 4.1 and 4.2, printed
+pp. 49 and 51. Convert these vectors to group intertwiners with §3A.2;
+their direct-sum evaluation supplies §6.2. Iterate these same operators in
+the increasing-level product order of Theorems 4.3 and 4.4, printed
+pp. 51–52, to obtain bases indexed by alternating B/D rows. Prove
+independence, spanning, orthogonality and the action of each F_ij on those
+vectors from the cleared operators and enveloping relations. In particular
+F_11 acts by the signed bottom SO₂ weight. Compute the norms using the
+contravariant relations; division by their positive square roots gives the
+orthonormal convention, a separate basis from the unnormalized algebraic one.
+The symplectic basis instead uses Layer 6B's Hom-space construction.
+
+*Needs:* §3A rational models, coordinate tori, tensor highest vectors and
+rational group/Lie Hom comparison; the native `TauCeti.VermaModule`,
+`TauCeti.irreducibleQuotient` and highest-weight classification for highest
+modules, and Mathlib's `UniversalEnvelopingAlgebra` for enveloping actions; this section's orthogonal projector and
+cleared operators (Molev §2.2 and §4). The spin comparison additionally
+uses SpinRepresentations Layers 3–5. No GL basis theorem supplies these vectors.
+
+**Checks.**
+
+- For SO₃ weight 1, write the ordered basis as (u,w,v). The rank-one
+  denominator product is empty: s'=F_21, with s'u=w, s'w=−v and s'v=0.
+  The three algebraic vectors are u,w,−v, of weights 1,0,−1;
+  F_12 sends them to 0,u,w, respectively. Thus the last lowering step
+  has a minus sign in the coordinate basis.
+- On these three vectors F_11 has diagonal (1,0,−1), giving trace 0;
+  its torus has diagonal (2,1,1/2), giving trace 7/2.
+  Using a type-A dimension-two basis would give only two vectors.
+- The trivial module has one all-zero pattern and all lowering exponents 0:
+  the resulting vector is the highest vector, of squared norm 1, not zero.
+  For Spin₃ weight 1/2 the two admissible bottom rows are ±1/2, so the
+  same construction has two vectors, rather than three integral rows.
+
+### Examples
+
+**Checks.**
+
+- Top row (2,1,0) has middle rows (1,0),(1,1),(2,0),(2,1), with
+2,1,3,2 bottom rows respectively: 8 patterns and dimension 8.
+- Top row (1,0,−1) has 8 patterns after shifting every row by −1;
+forbidding negative entries would destroy this bijection.
+- GL₂ weight (1,−1) restricts to GL₁ weights −1,0,1; at t=2 the
+character is 1/2+1+2=7/2. A GL₁ weight m restricts to the unique GL₀
+module once, for every integer m.
+
+### Dependencies
+
+Branching uses Layer 3's rational models and the actual upper-left block
+inclusion. The normalized GL basis uses the differentiated matrix-unit action
+and Molev v2 Theorems 2.3/2.7, not the dimension formula as a premise.
+The orthogonal bases use §3A and §6.7 with Molev Theorems 4.1–4.4;
+their consecutive embeddings and lattice conditions are those of §6.2.
+The GT dimension theorem follows from branching, then compares with Layer 5.
+Capelli operators need the enveloping action and ordered determinant.
+
+## Layer 6B: symplectic multiplicity vectors and iterated bases
+
+The restriction is along the native inclusion fixing the **first**
+symplectic plane and acting on the last r−1 planes. Construct this
+block map and all recursive inclusions. For nonnegative dominant top row
+`a^(r)=λ`, keep an intermediate row `b^(k)` of length k between every
+two successive unprimed rows, with
+`a_i^(k)≥b_i^(k)≥a_(i+1)^(k)` for i<k,
+`a_k^(k)≥b_k^(k)≥0`, and
+`b_i^(k)≥a_i^(k−1)≥b_(i+1)^(k)` for i<k.
+The intermediate row is actual multiplicity data; discarding it loses
+vectors even in the standard Sp₄ module. Construct finite row/pattern
+types, extensionality, admissibility/empty/low-rank API and enumeration.
+
+**The signed-coordinate dictionary.** Molev orders signed indices
+`−r,…,−1,1,…,r`. Identify `−i` with native `e_(r+1−i)` and `+i`
+with `f_(r+1−i)`. Compare the signed alternating form with native
+`J=[[0,−I],[I,0]]` (an overall negative has the same preserving group),
+and conjugate every signed matrix unit before comparing brackets, Cartan
+and Borel operators. In particular `F_ii` acts as
+`E_(f_(r+1−i),f_(r+1−i))−E_(e_(r+1−i),e_(r+1−i))`.
+Thus source coordinates `0≥λ₁≥⋯≥λ_r` become
+`a_j=−λ_(r+1−j)`. Removing signed ±r fixes native e₁,f₁;
+the rank-(r−1) dictionary followed by the last-plane inclusion gives the
+same maps on every remaining signed index. Prove these equations and the
+two translated interlacing chains, rather than changing the Borel or the
+subgroup silently. Orthogonal and Spin chains keep their separate
+conventions and ownership.
+
+Explicitly the source C generator is
+`F_ij=E_ij−sgn(i)sgn(j)E_(−j,−i)`.
+Under the signed-index bijection α its native matrix is
+`E_(α(i),α(j))−sgn(i)sgn(j)E_(α(−j),α(−i))`.
+Check `XJ+JXᵀ=0` and the Cartan/positive-root identities on these
+matrices. A scalar sign change in the alternating form preserves its
+stabilizer; an unmentioned change in F_ij or in the subgroup is not allowed.
+
+**The actual operators and spectral shifts.** On the finite-dimensional
+highest-vector spaces construct Molev's Cartan projector and cleared
+Mickelsson lowering operators z, with domains, rational identities,
+denominator cancellation and pole-free action at all admitted integral
+rows. In this signed convention **ρ_i=−i**,
+`f_i=F_ii−i` and `g_i=f_i+1/2`,
+`l_i=λ_i−i+1/2`, `γ_i=ν_i−i+1/2`,
+`l_ki=λ_ki−i+1/2` and `l'_ki=λ'_ki−i+1/2`.
+The shift uses the column i, not the row k. Define the interpolation
+operator on these spaces by Molev (3.10),
+`Z_(r,−r)(u)=Σ_(i=1)^r z_(r,i)z_(i,−r)
+∏_(j≠i)(u²−g_j²)/(g_i²−g_j²)`;
+prove the indicated localized identities, the action after cancellation,
+and `Z_(r,−r)(g_i)=z_(r,i)z_(i,−r)` in the stated convention.
+The i=r endpoint uses the source's Cartan-extended operators; build that
+extension and its defining identity before using this interpolation.
+The operator coefficients stand to the left of powers of u, so evaluation at
+Cartan elements is right evaluation (Molev v2, (3.10)–(3.12), printed pp. 31–32;
+(3.30), p. 41). Do not substitute arbitrary endomorphisms for Z or z.
+
+**Checks.**
+
+- In C₂ at source highest weight (0,−1), g=(−1/2,−5/2). At u=−5/2
+  the interpolation coefficients are (0,1), since the squared nodes are
+  (1/4,25/4); at u=−1/2 they are (1,0). Omitting the half shift gives
+  (11/32,21/32) at u=−5/2 and fails the interpolation law.
+- In rank 1 the product over j≠i is empty and equals 1, so Z(g₁)=z_(1,1)z_(1,−1).
+- For source λ=(0,0), g=(−1/2,−3/2), with square difference −2; for
+  λ=(0,−1) it is −6. Generally λ_i−i+1/2 is strictly decreasing and negative,
+  so distinct admissible nodes have distinct squares and no scalar denominator
+  in this highest-weight specialization vanishes.
+
+For each admissible restricted weight μ and intermediate negative row ν,
+the **actual multiplicity vector** is the source-ordered product
+`[∏_(i=1)^(r−1) z_(r,i)^(ν_i−μ_i)
+z_(i,−r)^(ν_i−λ_i)]
+[∏_(s=l_r)^(γ_r−1) Z_(r,−r)(s)] ξ`.
+The upper endpoint is γ_r **minus 1**, not γ_(r−1). These endpoints
+are half-integers: define this as the finite product at `s=l_r+m`,
+`m=0,…,ν_r−λ_r−1`, of natural length `ν_r−λ_r≥0`; it is empty
+when that length is 0. In the iterated pattern formula the corresponding
+length is `λ'_(k,k)−λ_(k,k)`, with start `l_(k,k)`. Do not round a
+half-integer endpoint or sum only over integral spectral values. Prove its highest weight, nonzero
+value and basis status in the actual restricted highest-vector space,
+using Lemma 3.4/Theorem 3.5 and the explicit signed/native module comparison.
+Translate each such vector to a **group intertwiner**
+`V_μ → Res V_λ` through the Layer 3A Hom comparison and the unique map
+from the normalized highest vector. Prove these maps form a basis of
+the actual `Representation.IntertwiningMap` space, not a merely
+equal-cardinality auxiliary vector space. No type-A norm identity is
+assumed for type C.
+
+Construct the evaluation isomorphism
+`⊕_μ (Hom_Sp(V_μ,Res V_λ) ⊗ V_μ) ≅ Res V_λ`,
+with its actual evaluation, inverse/projections, group equivariance and
+coordinate equations. Combine the chosen Hom basis with the previously
+constructed basis of V_μ and iterate the **same** last-plane inclusions.
+This is the ordered construction of a full pattern basis; prove
+independence/spanning, branching character and dimension identities,
+coordinate changes and compatibility at every level. Neither a row count
+nor the centers of the subgroup chain constructs these vectors.
+
+For λ=(1,0), the standard Sp₄ module restricted to the last-plane Sp₂ is
+its standard V₂ plus two trivial copies. The two fixed vectors are the
+actual first-plane e₁,f₁. For μ=0 the two admissible rows are b=(1,0)
+and b=(0,0); compute the nonzero scalar comparisons of their source
+lowering vectors with those two coordinate vectors in the fixed
+normalization. Every subgroup-chain central operator has the same
+character on the two trivial copies and cannot separate them. Exhibit
+this failure and the two independent normalized Hom maps. This test,
+the Sp₂ unit/rank-zero cases and all existing GL/SO/Spin examples are
+acceptance criteria of the complete construction.
+
+### Examples
+
+**Checks.**
+
+- The standard Sp₄ highest row (1,0) has two intermediate rows over the
+  trivial Sp₂ weight and one over weight 1, giving 1+1+2=4 dimensions.
+- In C₂ source weight (0,−1), right evaluation at −5/2 selects the second
+  interpolation term: coefficients (0,1), with squared-node difference −6.
+- At rank 0 there is one empty pattern and the unit has dimension 1;
+  a lowering product of length 0 is the identity, so it cannot send the
+  chosen nonzero highest vector to zero.
+
+### Dependencies
+
+Use Layer 3A's rational models and group/Lie Hom comparison. Construct
+Mickelsson operators before the multiplicity vectors, using Molev v2
+(3.10)–(3.12), Lemma 3.4 and Theorem 3.5; evaluation and iterated bases
+then use these actual Hom maps and the same last-plane inclusions.
+
+## Layer 6A: diagonal overgroups of the complex general linear group
+
+Work with G=GLₙ(ℂ), P=G×G and the actual diagonal Δ={(g,g)}.
+In the acceptance signatures these are `DiagonalOvergroups.G`,
+`DiagonalOvergroups.P`, `DiagonalOvergroups.diagonalMap` and
+`DiagonalOvergroups.diagonal`; the two intermediate groups are
+`DiagonalOvergroups.scalarDiagonal` and `DiagonalOvergroups.determinantEqual`,
+with maps `DiagonalOvergroups.scalarDiagonalMap` and
+`DiagonalOvergroups.determinantRatio`. The exponential and its genuine
+one-parameter membership condition are `DiagonalOvergroups.pairExp` and
+`DiagonalOvergroups.realDirections`.
+This layer owns the complete concrete subgroup and restriction comparison below;
+it consumes Layers 0 and 3 and [LieGroups Layers 0–4](../LieGroups/README.md#layer-2-the-closed-subgroup-cartan-theorem)
+for exponentials, closed subgroups and uniqueness of connected integral subgroups.
+The structural matrix calculations do not require tensor multiplicities, hives,
+Borel–Weil or later compact-normalizer/exceptional constructions.
+
+**Four actual subgroups and their maps.** Define
+H_sc={(λg,g):g∈G, λ∈ℂˣ} using the native scalar-matrix homomorphism,
+and H_det=ker r for the character r(g,h)=det(g)det(h)⁻¹. Construct the
+inclusions Δ≤H_sc,H_det≤P, entrywise membership/extensionality, multiplication,
+inverse and scalar/determinant evaluation lemmas. The map
+G×ℂˣ→H_sc, (g,λ)↦(λg,g), is an algebraic-group and complex-Lie-group
+isomorphism when n>0; build its inverse by the unique scalar ratio, including
+regularity on the invertible-matrix chart. For n=0 its scalar parameter is a
+kernel, not an extra torus. The determinant-ratio character is surjective for
+n>0 using diag(u,1,…,1) in the first factor. Export the native first-isomorphism
+comparison P/H_det≃ℂˣ, with its actual character and complex topology/algebraic
+quotient maps. No quotient by Δ in all of P is a group quotient for n≥2.
+Construct the right-coset homogeneous-space maps P/Δ→G and H_det/Δ→SLₙ,
+[g,h]↦gh⁻¹, with inverse a↦[a,1], their topology/regularity and the
+explicit induced left action. These are spaces, not groups obtained from
+normal Δ. In contrast Δ is normal in H_sc; its scalar-coordinate map gives
+the genuine quotient-group and algebraic-group comparison H_sc/Δ≃ℂˣ
+for n>0. State these normality distinctions as part of the quotient API.
+
+
+**Checks for the diagonal map and subgroup.**
+
+- In rank 2, for T=[[1,1],[0,1]] and D=diag(2,1), the diagonal map
+  sends TD=[[2,1],[0,1]] to (TD,TD), equal to the product of their images;
+  DT=[[2,2],[0,1]] differs, so commutativity is not being assumed.
+- (T,T) lies in Δ, but (T,I) does not: its two coordinates differ.
+- In rank 0 the image consists of the sole pair of empty matrices; in rank 1
+  (2,3) is not in the image, whereas (2,2) is.
+
+**Checks for the determinant ratio and its kernel.**
+
+- In rank 2, r(diag(2,1),I)=2 and r(I,diag(2,1))=1/2; reversing the
+  quotient swaps the two values and is excluded by this convention.
+- r(T,I)=1, so (T,I) belongs to H_det; r(2I,I)=4, so (2I,I) does not.
+- Rank 0 has determinant ratio 1 and full kernel; at rank 1 the equation
+  r(g,h)=1 is exactly g=h, so H_det=Δ.
+
+**Checks for the scalar-diagonal map and its image.**
+
+- In rank 2, (T,2) maps to (2T,T); (2I,I) is in the image although its
+  determinant ratio is 4. Thus the scalar image is not the determinant kernel.
+- (T,I) is not in the scalar image, since the off-diagonal entry of T is 1
+  and that of every scalar matrix is 0.
+- At rank 1, (g,u)=(3,2/3) maps to (2,3), so the image is the full product.
+  At rank 0 every scalar parameter maps to the same pair, excluding injectivity.
+
+*Needs:* for these homomorphisms and their kernel/image APIs, the native GL
+scalar and determinant homomorphisms and subgroup kernel/range operations;
+for the coset and quotient comparisons, those maps and native quotient maps;
+for regularity and topology, ReductiveGroups Layers 0–3 and native matrix topology.
+
+Consume native `Subgroup.goursatFst`/`normal_goursatFst` and the quotient-group
+API. For a subgroup H containing Δ put N=H.goursatFst={a:(a,1)∈H}.
+Prove both projections surjective, N normal in G and
+(g,h)∈H iff gh⁻¹∈N. The explicit maps
+H→N×G, (g,h)↦(gh⁻¹,h), and (a,h)↦(ah,h)
+are inverse homeomorphisms, and regular inverses for closed algebraic H.
+They are not in general a direct-product group isomorphism: multiplication is
+(a,h)(b,k)=(a h b h⁻¹,hk). Identify the split exact sequence
+1→N→H→G→1 and this actual conjugation action. Prove closedness of N from H,
+and connectedness equivalence H connected iff N connected. The converse
+construction from normal N, the two inverses and inclusion-order comparison
+are specializations of the native Goursat/quotient maps, not a second generic
+subdirect-product engine. Recover H_sc from N=Z(G) and H_det from N=SLₙ.
+
+
+**Checks for the normal-kernel coordinate comparison.**
+
+- For H=Δ, N contains only I and (T,T) maps to (I,T); the inverse returns
+  (T,T). For H=P, (D,I) maps to (D,I), so N=G.
+- In H_det at rank 2, (T,I) maps to (T,I) with det T=1, while
+  (D,I) is excluded since det D=2. In H_sc the first coordinate of the
+  normal-kernel model is scalar: (2I,I) gives (2I,I).
+- With a=I, h=D, b=T and k=I, the transported product has first coordinate
+  DTD⁻¹=[[1,2],[0,1]], rather than T=[[1,1],[0,1]]. Thus the coordinate
+  bijection is a semidirect-product comparison, not a direct-product group map.
+
+*Needs:* native Goursat kernels and the preceding subgroup maps; conjugation,
+subgroup subtypes and quotient operations. Connectedness uses the explicit
+homeomorphisms and connectedness of G, proved below from matrix paths.
+Consume native GeneralLinearGroup.center_eq_range_scalar and the
+SpecialLinearGroup.toGLKerEquiv determinant-kernel dictionary. Use native
+Matrix.ProjGenLinGroup and mk for G/Z(G); identify H_sc membership with
+equality of the two actual projective images. Prove
+N_P(Δ)=H_sc, by comparing the two inner conjugations; handle n=0,1
+separately. For n≥2 also prove N_P(H_sc)=H_sc; H_det is normal in P.
+
+**Category and complete classification.** The analytic assertion is for closed
+connected complex Lie subgroups of P, with the induced topology and holomorphic
+inclusion. Equivalently, require closedness, connectedness and that its actual
+real exponential tangent space is stable under multiplication by i. State that
+equivalence using the actual matrix exponential, not an arbitrary chosen Lie
+algebra or a predicate assuming classification. Apply the closed-subgroup
+carrier comparison to obtain the complex tangent Lie subalgebra.
+
+
+For `DiagonalOvergroups.pairExp` use the two native matrix exponentials;
+for `DiagonalOvergroups.realDirections` use membership of the whole real
+one-parameter subgroup, not membership of a single exponential value.
+
+- Prove the zero-direction and scalar-parameter equations for the exponential.
+- Identify real directions with the tangent space of a closed subgroup and
+  the complex-closure condition with stability under multiplication by i.
+- Transport this identification through the diagonal, scalar and determinant
+  homomorphisms to the specified Lie kernels.
+
+**Checks for the pair exponential.**
+
+- The zero pair exponentiates to (I,I), including the empty matrix case.
+- For N=[[0,1],[0,0]], N²=0, so exp(tN)=I+tN and exp(N)=T;
+  replacing the exponential by the identity map would give N, not T.
+- In rank 1, exp(log 2,−log 2)=(2,1/2); determinants are those same
+  two scalars, pinning the signs in the two factors.
+
+**Checks for real directions and complex closure.**
+
+- For H=Δ in rank 2, (N,N) is a real direction but (N,0) is not:
+  at t=1 the latter gives (T,I), with unequal components.
+- For H=H_det, (N,0) is a real direction, since det(I+tN)=1 for every
+  real t; (I,0) is not, since at t=1 its determinant ratio is exp(2)≠1.
+- For H=r⁻¹(S¹), (iI,0) is a real direction since the ratio is exp(2it).
+  Multiplication by i gives (−I,0), whose ratio at t=1 is exp(−2),
+  of modulus less than 1; the complex-closure hypothesis therefore fails.
+
+*Needs:* native matrix exponential and its scalar/nilpotent identities;
+LieGroups Layers 0–2 for one-parameter subgroups and the closed-subgroup
+Lie algebra. Complex closure uses the actual scalar multiplication on matrices.
+
+For every n prove that a complex Lie subalgebra l⊂glₙ⊕glₙ containing the diagonal
+is one of four: diagonal, diagonal+ℂ(I,0),
+{(X,Y):tr X=tr Y}, and all; for n≥2 these four are distinct, for n=1 the
+diagonal is the trace-equal subalgebra and diagonal+ℂ(I,0) is everything, and
+for n=0 all four are zero. This
+classification and the group version below are this roadmap's own derivation
+from the native Lie-ideal structure of glₙ; no published statement is cited
+for them. The difference map (X,Y)↦X−Y has diagonal
+kernel and identifies the quotient module with glₙ under the adjoint action.
+Prove the four-case invariant-submodule classification on the native matrix
+carrier by consuming TauCeti.slIdeal_le_or_le_center from
+Algebra/Lie/GeneralLinear/Radical.lean: the stable image is an actual LieIdeal,
+and over ℂ the theorem says it contains slₙ or lies in the center.
+Consume GeneralLinear/Basic's scalar-center, trace-zero slIdeal and
+isCompl_center_derivedSeries_one_matrix (n invertible). The center is
+one-dimensional and trace has a one-dimensional quotient, so the two branches
+give exactly 0, ℂI, slₙ and glₙ, which coincide in pairs when n≤1. Supply
+those actual submodule/quotient and preimage comparisons. The existing matrix-unit
+ideal-generation proof is not repeated or replaced by a new simplicity engine.
+This excludes nontrivial graphs between the two summands and is not merely a
+comparison of four dimensions.
+Verify bracket closure and each displayed tangent kernel explicitly.
+Alternatively apply the same ideal calculation to the actual normal N above.
+Then use uniqueness of the connected integral subgroup, with the actual
+exponential inclusions and open identity patches, to recover the group,
+not just a Lie-algebra list. This proves
+H=Δ or H_sc or H_det or P (`DiagonalOvergroups.connected_complex_overgroup`). All four are closed and connected complex
+algebraic subgroups; build the determinant-kernel identification and the
+SLₙ×G homeomorphism to prove H_det connected. Prove G,SLₙ connected here
+from native Matrix.diagonal_transvection_induction_of_det_ne_zero,
+SpecialLinearGroup.diagonal_transvection_induction' and their elimination factors, continuous transvection/diagonal paths and the
+determinant section, consuming Layer 0's concrete carriers, rather than assuming this from a dimension label.
+
+State and prove also the connected closed complex algebraic subgroup version.
+Use ReductiveGroups Layers 0–3 for the coordinate/Hopf-ideal dictionary,
+characteristic-zero smoothness, kernels and components; construct these actual
+matrix subgroups on that same carrier. The concrete affine chart has both
+matrix-entry coordinates and inverse determinants. Construct its regular
+maps and tangent maps. Establish, for these closed algebraic subgroups of P,
+that Zariski connectedness and connectedness of complex points agree, using
+the actual finite component scheme and analytic open identity patch. Supply
+the needed irreducible-component-to-connected-complex-points argument in this
+application (finite affine open/curve-chain comparison over ℂ); a finite
+component count or tangent dimension by itself is not the comparison.
+As an explicit signature lane, a subgroup cut out by a set of polynomials in
+this chart is closed and its exponential tangent space is complex: for each
+polynomial evaluate along exp(zX); the resulting entire function vanishes
+for real z and hence identically. Compare this lane with the algebraic model.
+
+For n≥2 prove all four distinct, both intermediates proper, and incomparable:
+(λI,I)∈H_det iff λⁿ=1, while a noncentral determinant-one transvection
+paired with I lies in H_det\H_sc. Their intersection is exactly the image
+of G×μₙ under the same scalar map, with identity component Δ; it is NOT
+connected when n≥2. Their product/join is all P: choose an nth root of the
+determinant ratio and reduce to H_det. This is an explicit surjectivity
+argument, not an assertion of an algebraic nth-root section. Export complex
+dimensions n²,n²+1,2n²−1,2n² and their tangent-map checks. At n=1,
+H_det=Δ and H_sc=P; a connected closed complex subgroup containing Δ is
+Δ or P, with no strict intermediate. Other slope subtori do not contain Δ.
+At n=0 all groups are trivial. The category restriction is essential:
+r⁻¹(S¹) for n>0 is an additional closed connected real Lie overgroup;
+prove its actual preimage/connectedness and distinguish its real tangent
+condition from the complex list. No statement about arbitrary real connected
+overgroups, disconnected intermediate groups or positive characteristic follows.
+
+
+*Needs:* for the Lie classification, native scalar-center and trace-zero
+ideal structure over ℂ; for the connected group classification,
+that classification and LieGroups Layers 0–4. The algebraic comparison uses
+ReductiveGroups Layers 0–3 and the component-to-complex-points comparison
+specified here, rather than assuming it from the tangent calculation.
+
+**Restriction and characters.** Define the external representation on V⊗W
+by (g,h)↦ρ(g)⊗σ(h) using native `Representation.tprod` after the two
+projection pullbacks. Its Δ pullback is exactly the native tensor product.
+The external action is `DiagonalOvergroups.external`.
+For every finite-dimensional irreducible representation ρ of the abstract group
+GLₙ(ℂ), scalar matrices act by scalars, by Schur's lemma over ℂ; for a rational
+irreducible of highest weight λ evaluate this central character as
+ρ(λ₀I)=λ₀^(Σλᵢ)id, retaining all determinant twists. Prove restriction to
+SLₙ stays irreducible for every finite-dimensional irreducible ρ, rational or not
+(`DiagonalOvergroups.restrict_specialLinear_irreducible`): G is generated by SLₙ and scalar matrices over ℂ,
+and the latter act by scalars, so every SLₙ-stable subspace is G-stable.
+Native rationalWeylSLRep and its
+determinant-shift equality supply the same restricted carriers; they do not
+prove this irreducibility. The missing implication is an explicit Layer 3/6A
+comparison target, with actual nth-root generation over ℂ. Prove the external restriction to H_det
+irreducible for every two finite-dimensional irreducible ρ, σ
+(`DiagonalOvergroups.external_determinantEqual_irreducible`), since it contains both separate SLₙ factors and their external
+tensor action is irreducible by Burnside's density theorem. Consume native Schur and module-density/
+finite endomorphism APIs from SemisimpleAlgebras Layers 1/3, and explicitly
+identify the generated image with End(V)⊗End(W)=End(V⊗W); no new generic
+character or density engine is commissioned. Treat the rank 1 torus and rank 0
+trivial representations directly.
+
+Under H_sc≃G×ℂˣ the same external representation is
+(g,λ₀)↦λ₀^(Σλᵢ)(ρ(g)⊗σ(g)), where λ is ρ's highest weight.
+Construct this intertwiner, its inverse and the identity-on-carrier order
+isomorphism of invariant submodules with the diagonal tensor product, stated
+existentially as `DiagonalOvergroups.scalarRestriction_exists_orderIso`.
+Define multiplicities by actual CG Hom spaces and prove their transport
+before invoking any TPC count. Transport all diagonal tensor multiplicities;
+the extra torus carries one fixed character on the entire tensor representation. Thus H_sc
+has exactly the diagonal branching with that fixed scalar character, whereas
+H_det has none of that branching into proper summands. Neither intermediate
+supplies a new partial tensor-factorization algorithm. Tensor/LR computations
+remain in Layer 4 and TensorProductCombinatorics §2.7. Pin their consumption of
+these subgroup maps rather than inferring the source's intermediate-group
+assertion from a hive coefficient formula.
+
+
+**Checks for the external representation and restriction maps.**
+
+- For rank-one weights a=−1,b=2, (g,h)=(3,2) acts by 4/3; on the
+  diagonal (3,3) it acts by 3. Using the first factor twice would give 3
+  also at (3,2) and would fail the external-action definition.
+- At the scalar-diagonal image of (g,u)=(3,2), the action is 3/2,
+  equal to u⁻¹g. Its subspaces are the same as those of the diagonal
+  character g, despite the different scalar value.
+- At rank 0 the unit factors give a one-dimensional trivial external module;
+  if either carrier is zero, their tensor product is zero. The latter is
+  excluded from the irreducibility conclusions by their hypotheses.
+
+*Needs:* for the external action, the two projections and native tensor
+representations; for the scalar-subgroup lattice isomorphism, its fixed scalar
+central character and the subgroup parametrization; for SL and H_det
+irreducibility, Layer 3 rational classification, scalar generation of GL,
+and SemisimpleAlgebras Layers 1/3 on the actual two module carriers.
 
 ---
 
-## The build, in layers
+### Examples
 
-### Layer 0: the classical groups and the standard representation
+**Checks.**
 
-- **The standard representation.** `stdRep n : Representation ℂ (GL n ℂ) (Fin n → ℂ)`, the tautological
-  action `g • v = (g : Matrix _ _ ℂ).mulVec v`, built from `Matrix.GeneralLinearGroup.toLin`; its bundled
-  form `FDRep ℂ (GL n ℂ)`, its character (`χ_std (g) = trace g`), and its dual `V*` via
-  `Representation.dual`. This is the concrete engine; everything downstream is a functor applied to it.
-- **The subgroups and the extra invariants.** The inclusions `SL(n,ℂ) →* GL n ℂ`
-  (`Matrix.SpecialLinearGroup.toGL`), `symplecticGroup ↪ GL`, `orthogonalGroup ↪ GL`, and the restricted
-  standard representation. The distinguishing structure each preserves: the volume form
-  `⋀ⁿ V ≅ ℂ` (trivial for `SLₙ`), a nondegenerate symmetric form `V ≅ V*` (for `Oₙ`), a nondegenerate
-  alternating form `V ≅ V*` (for `Spₙ`). State the invariance as an equivariance of the pairing; it is what
-  collapses `V` and `V*` and shortens the tensor decompositions.
-- **Rational and polynomial representations.** `IsRational (ρ : Representation ℂ (GL n ℂ) W)` and
-  `IsPolynomial ρ` as properties. State them **basis-independently** on a finite-dimensional `W` (the matrix
-  entries in one basis are rational/polynomial in `gᵢⱼ`, `det⁻¹` iff in any basis; equivalently `ρ` is a
-  comodule over `ℂ[gᵢⱼ, det⁻¹]`), and expose the coordinate-entry form as a lemma. `stdRep`, `tensorPowerRep`,
-  `symPowerRep`, `extPowerRep` are polynomial; `det` and its powers are the one-dimensional rational
-  representations `det^m`.
-- **Complete reducibility over `ℂ`.** Every finite-dimensional rational representation is a direct sum of
-  irreducibles. This is a **major external dependency, not a Layer 0 deliverable**:
-  [`../ReductiveGroups`](../../ReductiveGroups/README.md) proves the linear reductivity of `GLₙ` in
-  characteristic `0` at the comodule level, and this roadmap cites it. (An in-house proof via the compact form
-  `U(n)` and Weyl's unitarian trick is possible but pulls in compact-group topology, Haar/unitary averaging,
-  and analytic facts that are out of scope here, so it is not the chosen route.)
+- In rank 2, (2I,I) belongs to the scalar-diagonal subgroup but has
+  determinant ratio 4, so is not determinant-equal. A nontrivial unipotent
+  transvection paired with I is determinant-equal but is not scalar-diagonal.
+- For n=1 the determinant-equal subgroup is the diagonal and the scalar-diagonal
+  subgroup is the full product. For n=0 all are trivial and every scalar
+  parameter has the same image, so scalar-map injectivity fails.
+- On rank-one characters of weights a=−1,b=2, (g,u)=(3,2) acts under
+  the scalar-diagonal map by (6)⁻¹·3²=3/2, equal to 2⁻¹·3^(−1+2).
+  Thus the invariant-subspace comparison retains the central character.
 
-### Layer 1: functorial constructions and tensor powers
+### Dependencies
 
-- **The tensor power representation.** `tensorPowerRep n d : Representation ℂ (GL n ℂ) (⨂[ℂ]^d (Fin n → ℂ))`,
-  the `d`-fold tensor power of `stdRep` (diagonal action), with `char (tensorPowerRep n d) g = (trace g)^d`
-  via `char_tensor`. Likewise the tensor product of two representations (`Representation.tprod`) as a
-  bifunctor and the dual (`Representation.dual`).
-- **Symmetric and exterior power representations.** `symPowerRep n k : Representation ℂ (GL n ℂ) (Sym[ℂ]^k V)`
-  and `extPowerRep n k : Representation ℂ (GL n ℂ) (⋀[ℂ]^k V)`, functorial via `exteriorPower.map` and the
-  symmetric-power functoriality; their characters are the complete-homogeneous `hsymm` and elementary
-  `esymm` symmetric polynomials in the eigenvalues of `g`, i.e.
-  `char (symPowerRep n k) (diagonal x) = hsymm k (x)` and `char (extPowerRep n k) (diagonal x) = esymm k (x)`.
-  In particular `⋀ⁿ V ≅ det` and `⋀ᵏ V = 0` for `k > n`.
-- **The first decomposition.** `V^{⊗2} ≅ Sym²V ⊕ ⋀²V` as `GL n ℂ`-representations (characteristic 0), an
-  isomorphism of `FDRep ℂ (GL n ℂ)`, with the symmetrizer/antisymmetrizer projections `½(1 ± swap)`. This is
-  the smallest instance of the Weyl construction and the first acceptance check.
-
-### Layer 2: the Weyl construction via Young symmetrizers
-
-This layer is shared with [`../SchurWeyl`](../SchurWeyl/README.md); build the symmetric-group side there and
-consume it, or build it here and export it. Pin the boundary: `../SchurWeyl` owns the group algebra
-`ℂ[Sₐ]`, the **Young symmetrizer** `c_λ ∈ ℂ[Sₐ]`, and **Schur-Weyl duality**; this roadmap owns the
-`GLₙ`-equivariant image `Sᵘ V`.
-
-- **The symmetric-group action on `V^{⊗d}`.** `permTensorAction n d : Representation ℂ (Equiv.Perm (Fin d)) (⨂[ℂ]^d V)`,
-  permuting tensor factors, and its **commutation** with the `GLₙ`-action (they generate each other's
-  commutants: Schur-Weyl duality, cited from [`../SchurWeyl`](../SchurWeyl/README.md)).
-- **Young symmetrizers and the Schur functor.** For `λ : YoungDiagram` with `|λ| = d`, the Young symmetrizer
-  `c_λ` (from [`../SchurWeyl`](../SchurWeyl/README.md)) acts on `⨂[ℂ]^d V`; its image is the **Schur functor**
-  `schurFunctor λ V`, a `GLₙ`-subrepresentation of `V^{⊗d}`. Fix the choice of `c_λ` (the row-superstandard
-  tableau of shape `λ`) so `Sᵘ V` is a definite subspace; images for other tableaux are canonically
-  isomorphic to it, an explicit lemma. Prove `Sᵘ V` is a `GLₙ`-subrepresentation (the actions commute),
-  that `Sᵘ V = 0` iff `λ` has more than `n` rows, and the two extreme cases
-  `S^{(d)} V ≅ Symᵈ V`, `S^{(1ᵈ)} V ≅ ⋀ᵈ V`.
-- **The decomposition of `V^{⊗d}`.** `V^{⊗d} ≅ ⊕_{λ ⊢ d} (Sᵘ V) ⊗ (Specht λ)` as `GLₙ × Sₐ`-representations
-  (Schur-Weyl, cited), whence `V^{⊗d} ≅ ⊕_λ (Sᵘ V)^{⊕ f^λ}` as `GLₙ`-representations, with `f^λ` the number
-  of standard Young tableaux (`../SchurWeyl`). This recovers Layer 1's `⊗2` case and is the structural heart.
-
-### Layer 3: maximal torus, weights, and the highest-weight classification
-
-Built on [`../RootSystems`](../RootSystems/README.md) (abstract root data, dominant chambers, the Weyl
-group) and [`../LieHighestWeight`](../LieHighestWeight/README.md) (theorem of the highest weight for
-semisimple Lie algebras). Cite them for the general statements; here they are specialized to the classical
-matrix groups.
-
-- **The maximal torus and weight spaces.** `diagonalTorus n : Subgroup (GL n ℂ)`, the invertible diagonal
-  matrices, `≃* (Fin n → ℂˣ)`; for a rational representation `ρ` on `W`, the **weight space** `weightSpace ρ λ`
-  for `λ : Fin n → ℤ`, and the **weight-space decomposition** `W = ⊕_λ weightSpace ρ λ` (simultaneous
-  diagonalization of the commuting torus, over `ℂ`). Identify these weights with the abstract weight lattice
-  of the root datum of `GLₙ` from [`../RootSystems`](../RootSystems/README.md).
-- **Dominant weights.** `DominantWeight n`, the weakly decreasing `λ : Fin n → ℤ` (`λ i ≥ λ (i+1)`), the
-  index type for `GLₙ`-irreducibles; the subset with `λ n ≥ 0` corresponds to `YoungDiagram`s of at most `n`
-  rows (polynomial representations). The dominance order and the `GLₙ` Weyl group `Sₙ` acting on `ℤⁿ` are
-  the specialization of [`../RootSystems`](../RootSystems/README.md)'s Weyl group.
-- **Highest weight and the classification.** The **highest weight** of an irreducible (the maximal weight in
-  dominance order, with one-dimensional weight space), and the **theorem of the highest weight**: `λ ↦ V_λ`
-  is a bijection from `DominantWeight n` to isomorphism classes of irreducible rational `GLₙ`-representations.
-  `𝔤𝔩ₙ` is **reductive, not semisimple**, so this is not a bare specialization of the semisimple theorem: the
-  `𝔰𝔩ₙ` highest-weight datum from [`../LieHighestWeight`](../LieHighestWeight/README.md) classifies only up to
-  the centre, and the extra data is the **central character** of the diagonal torus, whose integrality is
-  what upgrades a dominant `𝔰𝔩ₙ`-weight to a weakly decreasing integer sequence. Pin that central-character /
-  integrality step as an explicit target. Prove `irreducible n λ : FDRep ℂ (GL n ℂ)` is well-defined and that
-  `schurFunctor λ V ≅ irreducible n (of λ)` for a partition `λ`, joining Layer 2's concrete construction to
-  the abstract classification; the rational `V_λ` are then the `det`-twists `det^{λₙ} ⊗ V_μ`.
-- **`SLₙ`.** The corresponding statement for `SLₙ` (dominant weights modulo `(1,…,1)`), the type `Aₙ₋₁`
-  specialization from [`../RootSystems`](../RootSystems/README.md), by restriction along `SLₙ ↪ GLₙ`.
-- **`SOₙ` then `Oₙ`, and `Spₙ`.** State the highest-weight classification for the **connected** groups first:
-  `SOₙ` (type `Bₙ`/`Dₙ`) and `Spₙ` (type `Cₙ`), each cut out by the invariant form of Layer 0. `Oₙ` is
-  **disconnected** (`Oₙ / SOₙ ≅ ℤ/2`), so its irreducibles are **not** classified by a Lie-algebra highest
-  weight; handle them by the separate `SOₙ ↑ Oₙ` extension problem (a representation of `SOₙ` extends to `Oₙ`
-  in two ways or induces up, with the type `Dₙ` half-spin/`SO₂`/`SO₄` degeneracies treated by hand). Do not
-  present the type `Bₙ`/`Dₙ` pipeline as classifying `Oₙ` directly.
-
-### Layer 4: characters and Schur polynomials
-
-- **Schur polynomials (consumed, one owner).** The combinatorial Schur functions `schurPoly` and their
-  identities (Jacobi-Trudi, the tableau sum, the bialternant, Pieri, Littlewood-Richardson) are **owned by
-  [`../SchurWeyl`](../SchurWeyl/README.md)**, which already builds them; this roadmap **consumes** them and
-  does not re-define them, avoiding a second incompatible foundation. What is proved *here* is that they are
-  `GLₙ` characters (next bullet) and that the Littlewood-Richardson structure constants are the
-  tensor-product multiplicities of the `V_λ` (Layer 3). On the definitional order that matters for a Lean
-  build: `schurPoly` is defined by the tableau sum or the Jacobi-Trudi determinant `det(h_{λ_i - i + j})`
-  (both immediate in `MvPolynomial.hsymm`); the **bialternant** `s_λ = det(x_i^{λ_j+n-j}) / det(x_i^{n-j})` is
-  a *later theorem*, since the quotient is not itself an `MvPolynomial` and needs a Vandermonde-divisibility
-  argument.
-- **Characters are Schur polynomials.** The **summit of this layer**: for a partition `μ`,
-  `char (irreducible n μ) (diagonal x) = schurPoly n μ (x)`, i.e. the character of the polynomial
-  `GLₙ`-irreducible `V_μ`, restricted to the torus, is the Schur polynomial `s_μ`. This is the **Weyl
-  character formula specialized to `GLₙ`** (the bialternant is exactly Weyl's
-  `∑_w (-1)^w e^{w(λ+ρ)} / ∑_w (-1)^w e^{w ρ}`); state and prove both the group-character and the
-  symmetric-polynomial forms, related by the Layer-3 torus evaluation.
-- **The rational character is Laurent.** For a general `λ : DominantWeight n`, the torus character is a
-  **Laurent** symmetric polynomial, so `schurPoly n · : MvPolynomial (Fin n) ℤ` cannot express it. With
-  `m = λₙ` and `μ = λ - m·(1,…,1)`, state `char (irreducible n λ) (diagonal x) = (∏ xᵢ)^m · s_μ(x)`, the
-  determinant twist of the polynomial case. Keep `schurPoly` for partitions only. The general Weyl character
-  formula for `SLₙ`, `Spₙ`, `SOₙ` follows from [`../RootSystems`](../RootSystems/README.md)'s Weyl-group sum
-  over the appropriate root system.
-
-### Layer 5: the Weyl dimension formula
-
-- **The dimension of `V_λ`.** `weylDimension n λ : ℕ`, the product form
-  `dim V_λ = ∏_{1 ≤ i < j ≤ n} (λ_i - λ_j + j - i) / (j - i)`, and the theorem
-  `finrank ℂ (irreducible n λ) = weylDimension n λ` obtained from Layer 4 by evaluating `s_λ` at
-  `x₁ = ⋯ = xₙ = 1` (equivalently, the specialization of the abstract Weyl dimension formula
-  `∏_{α > 0} ⟨λ + ρ, α⟩ / ⟨ρ, α⟩` from [`../RootSystems`](../RootSystems/README.md)). The product is rational
-  term by term, so landing it in `ℕ` is itself a step: compute it in `ℚ`, prove positivity and integrality,
-  then package as `ℕ`; note that it depends only on the differences `λ_i - λ_j`, hence is invariant under the
-  determinant twist `λ ↦ λ + m·(1,…,1)`. For partitions this is the **hook-content formula**
-  `dim = ∏_{(i,j) ∈ λ} (n + j - i) / hook(i,j)`; prove the two agree. Give the `Spₙ`, `SOₙ` product forms
-  likewise.
-
-### Layer 6: branching rules and Gelfand-Tsetlin bases
-
-- **`GLₙ ↓ GLₙ₋₁`.** The restriction of `V_λ` along `GL(n-1) ↪ GL n` (upper-left block, fixing the last
-  basis vector) decomposes **multiplicity-free**: `V_λ|_{GL_{n-1}} ≅ ⊕_μ V_μ`, the sum over `μ` **interlacing**
-  `λ` (`λ_i ≥ μ_i ≥ λ_{i+1}`). State it as an isomorphism of `FDRep ℂ (GL (n-1) ℂ)` and, on characters, as
-  the Schur-polynomial identity `s_λ(x₁,…,x_{n-1}, 1) = ∑_{μ ≺ λ} s_μ(x₁,…,x_{n-1})` for a partition `λ`. The
-  **rational** version follows by the determinant twist (the interlacing runs over integer sequences, not just
-  partitions), so state both the partition form and the `DominantWeight`-indexed form. This is the
-  Gelfand-Tsetlin engine: iterating it gives a basis of `V_λ` indexed by Gelfand-Tsetlin patterns.
-- **`SOₙ ↓ SOₙ₋₁` and `Spₙ ↓ Spₙ₋₂`.** The connected orthogonal and symplectic series carry their own
-  branching theorems, cut out by the invariant form of Layer 0, but these are **type-specific** and do not
-  reuse the `GLₙ` Schur-polynomial identity unchanged: the `SOₙ` rule interlaces with its own betweenness (and
-  a parity/sign subtlety at the `Oₙ` extension), and `Spₙ` uses its own patterns and characters. State each
-  with its own index convention rather than implying a single formula transfers.
-- **Gelfand-Tsetlin patterns.** `GTPattern n`, the combinatorial index of the basis below, a **triangular
-  array** `(λ_{i,j})_{1 ≤ i ≤ j ≤ n}` of integers (row `j` has `j` entries `λ_{1,j} ≥ ⋯ ≥ λ_{j,j}`) satisfying
-  the **interlacing** (betweenness) inequalities `λ_{i,j+1} ≥ λ_{i,j} ≥ λ_{i+1,j+1}`, with **top row**
-  `topRow : GTPattern n → (Fin n → ℤ)` reading off row `n`. The interlacing constraint ranges only over
-  interior cells (where all three entries are informative), so it imposes **no sign condition** on the
-  row-final entries: entries may be negative, and the rational (determinant-twisted) patterns are included
-  alongside the polynomial ones. Pin `GTPattern` as a Mathlib-native `structure` (**nothing named
-  `GelfandTsetlin` exists in Mathlib** outside the unrelated C\*-algebra `Gelfand*` files). For a partition `λ`
-  (`λ n ≥ 0`) the patterns with top row `λ` **biject with semistandard Young tableaux** of shape `λ` **with
-  entries in `{0,…,n-1}`**: the `j`-th row of the pattern records the shape of the sub-tableau on entries
-  `< j`. Because Mathlib's `SemistandardYoungTableau λ` allows unbounded `ℕ` entries (an infinite set for a
-  nonempty shape), the bijection is to the **bounded subtype** `{T // ∀ i j, T i j < n}`, reusing
-  `SemistandardYoungTableau` and the tableau/pattern dictionary of
-  [`../SchurWeyl`](../SchurWeyl/README.md). This is where the `GLₙ` and `Sₙ` combinatorics coincide.
-- **The Gelfand-Tsetlin basis.** Iterating the `GLₙ ↓ GLₙ₋₁` branching down the full chain
-  `GL₁ ⊂ GL₂ ⊂ ⋯ ⊂ GLₙ` (each step multiplicity-free, the summands given by the interlacing condition)
-  refines `V_λ` into a direct sum of canonical **lines**, one for each sequence of interlacing choices, i.e.
-  one for each `GTPattern` with top row `λ`. The lines are canonical; a `Basis` further requires a vector in
-  each line, determined only up to scalar, so `gtBasis` also **pins a normalization** (compatibility with the
-  standard contravariant/Shapovalov form, equivalently the integral Gelfand-Tsetlin coefficients). Pin
-  `gtBasis n λ : Module.Basis {P : GTPattern n // topRow P = λ} ℂ (irreducible n λ)` and the
-  **pattern-to-basis bijection**. Since patterns carry negative entries, this holds for every
-  `λ : DominantWeight n`; the pattern ↔ tableau reading is the polynomial specialization `λ n ≥ 0`.
-- **The Gelfand-Tsetlin dimension formula.** `finrank ℂ (irreducible n λ) = #{P : GTPattern n with top row
-  λ}`, the count of GT patterns with top row `λ`. Prove it **from the branching side**: the iterated
-  multiplicity-free decomposition gives the count by induction on `n`, independently of Layer 5. *Then* compare
-  with `weylDimension n λ` and, through the pattern ↔ tableau bijection, with the tableau sum `s_λ(1,…,1)`
-  that specializes Layer 4's Schur polynomial at `x = (1,…,1)`. Do not use the Layer 5 equality to justify the
-  basis construction itself; the three counts agree as a downstream corollary.
-- **The Gelfand-Tsetlin generators.** The Gelfand-Tsetlin subalgebra is generated by the images of the
-  **centres of the universal enveloping algebras `Z(U(𝔤𝔩_k))`** (`1 ≤ k ≤ n`), embedded via the chain
-  `𝔤𝔩_1 ⊂ ⋯ ⊂ 𝔤𝔩_n` (**not** the Lie-algebra centres of the `𝔤𝔩_k`, which are only the scalars and are far
-  too small). Level `k` contributes `k` generators (the Gelfand invariants / Capelli elements, degrees
-  `1 ≤ r ≤ k`), so `gtGenerator` is indexed by `(k, r)` — in `Suggested.lean` the level is 0-based
-  (`k : Fin n`, matrix size `k + 1`, with `k + 1` generator degrees `r : Fin (k.val + 1)`), matching
-  this 1-based description at level `= k + 1`. This maximal commutative family is **simultaneously
-  diagonalized** in `gtBasis`, with eigenvalues explicit polynomials in the pattern entries; state that each
-  `gtBasis` vector is a joint eigenvector and that the joint eigencharacter **separates** the basis (distinct
-  patterns give distinct eigenvalue systems). That separation is what makes the GT basis intrinsic (the
-  eigenbasis of the subalgebra), not merely a byproduct of one choice of chain.
-- **`SOₙ ↓ SOₙ₋₁`, the symplectic series, and `Spin(n) ↓ Spin(n-1)`.** The same chain of subgroups gives
-  Gelfand-Tsetlin-type bases for the orthogonal and symplectic families: `SO_n ↓ SO_{n-1}` is again
-  multiplicity-free (the classical orthogonal Gelfand-Tsetlin construction), and the symplectic series carries
-  its own GT-type patterns. Through the double cover this intertwines with the spin groups: the branching
-  `Spin(n) ↓ Spin(n-1)` for the spin representations is the subject of the sibling
-  [`../SpinRepresentations`](../SpinRepresentations/README.md), which this layer meets at the `SOₙ`/`Spin(n)`
-  Gelfand-Tsetlin bases.
-
----
+Subgroup maps use native matrix groups, scalar matrices and Goursat.
+The four-group theorem uses LieGroups Layers 0–4 and the native matrix Lie-ideal
+classification. Rational restriction uses Layer 3, scalar generation and
+SemisimpleAlgebras Layers 1/3. No tensor-multiplicity computation is a prerequisite.
 
 ## Worked examples (acceptance criteria)
 
-- **`V^{⊗2} = Sym²V ⊕ ⋀²V`.** The isomorphism `tensorPowerRep n 2 ≅ symPowerRep n 2 ⊞ extPowerRep n 2` of
+- **`V^{⊗2} = Sym²V ⊕ ⋀²V`.** The isomorphism V⊗V ≅ Sym²V ⊕ Λ²V of
   `FDRep ℂ (GL n ℂ)` (Layer 1), checked on characters:
   `(trace g)² = char(Sym²) g + char(⋀²) g`, i.e. at a diagonal `x`, `(∑ xᵢ)² = h₂(x) + e₂(x)` with
   `h₂ = ∑_{i ≤ j} xᵢxⱼ`, `e₂ = ∑_{i < j} xᵢxⱼ` (`MvPolynomial.hsymm`, `MvPolynomial.esymm`). The Schur-functor
   reading: `S^{(2)}V = Sym²V`, `S^{(1,1)}V = ⋀²V` (Layer 2).
 - **A small Schur-polynomial character.** For `n = 2`, `λ = (2,1)`: `V_λ` has dimension
-  `weylDimension 2 (2,1) = 2` (Layer 5), and its character at `diagonal (x₁, x₂)` is
+  `the Weyl dimension of (2,1) = 2` (Layer 5), and its character at `diagonal (x₁, x₂)` is
   `s_{(2,1)}(x₁,x₂) = x₁²x₂ + x₁x₂²` (Layer 4). Equivalently `V_{(2,1)} ≅ det ⊗ V` (the determinant twist
   `m = 1`, `μ = (1,0)`), so its character is `(x₁x₂)(x₁ + x₂)`, a check against the Layer-1/Layer-3
   constructions. For `n = 3`, `λ = (1,1)`: `s_{(1,1)}(x) = e₂(x)` and `V_{(1,1)} ≅ ⋀²V`, of dimension `3`.
@@ -393,39 +1823,79 @@ matrix groups.
   representation) has exactly `8` Gelfand-Tsetlin patterns with top row `(2,1,0)`, one for each choice of an
   interlacing middle row `(a,b)` (`2 ≥ a ≥ 1`, `1 ≥ b ≥ 0`) and a bottom entry `c` (`a ≥ c ≥ b`): the four
   middle rows `(1,0),(1,1),(2,0),(2,1)` admit `2,1,3,2` bottom entries, summing to `8`. This matches both
-  `weylDimension 3 (2,1,0) = 8` (Layer 5) and the `8` semistandard Young tableaux of shape `(2,1)` with entries
+  `the Weyl dimension of (2,1,0) = 8` (Layer 5) and the `8` semistandard Young tableaux of shape `(2,1)` with entries
   in `{1,2,3}` (Layer 4, via the pattern ↔ tableau bijection), the three counts agreeing by the two
   identifications of `finrank ℂ (irreducible 3 (2,1,0))`.
 - **A rational Gelfand-Tsetlin basis for `GL₃`.** For `n = 3`, `λ = (1,0,-1)`: this is the determinant twist
   `m = -1`, `μ = (2,1,0)` of the previous example, so `V_{(1,0,-1)} ≅ det⁻¹ ⊗ V_{(2,1,0)}` still has dimension
   `8`. Its `8` Gelfand-Tsetlin patterns now have **negative** entries in some rows (top row `(1,0,-1)`), which
   the sign-free interlacing admits; a nonnegativity constraint on row-final entries would wrongly exclude
-  them. This exercises the rational branch of `gtBasis`, which the polynomial `(2,1,0)` example does not.
+  them. This exercises the rational branch of the normalized GT basis, which the polynomial `(2,1,0)` example does not.
 
-## Ordering
+## Construction routes
 
 Layer 0 (the groups and the standard representation) is the foundation and comes first; its rational/
 polynomial distinction and complete reducibility are used everywhere. Layer 1 (tensor, symmetric, exterior
 powers and their characters) needs only Layer 0 and the Mathlib multilinear engine, and already delivers the
-`⊗2` acceptance check. Layer 2 (the Weyl construction) needs Layer 1 and the Young-symmetrizer/Schur-Weyl
-input from [`../SchurWeyl`](../SchurWeyl/README.md); it can proceed in parallel with Layer 3's abstract side.
-Layer 3 (torus, weights, classification) needs Layer 0 and the highest-weight theory of
-[`../LieHighestWeight`](../LieHighestWeight/README.md) and [`../RootSystems`](../RootSystems/README.md); it is
+`⊗2` acceptance check. Layer 2's Schur-functor image needs Layer 1 and the native Young-symmetrizer input
+from SchurWeyl Layer 2. SchurWeyl Layer 8 consumes that image for its duality
+decomposition; this layer then consumes that decomposition for its GL-only
+corollary. The image and the classification of Layer 3 therefore have no duality
+prerequisite.
+Layer 3 (torus, weights, classification) needs Layer 0, the native root and
+weight-lattice declarations and RootSystems §3.2, with the native Weyl
+character/dimension formulas. Layer 3A builds the concrete SO/Sp torus, lattice,
+exterior blocks and Cartan components before the later harmonic/Brauer
+classification. Its group/Lie adapters use §3A.2, with the native comodule
+stable-subspace theorem, native Cartier smoothness and the specified ReductiveGroups
+tangent/stabilizer inputs. The GLₙ classification uses native
+group-level torus/transvection theory; the other connected classical groups use
+the native semisimple highest-weight classification; it is
 what makes "the irreducibles are indexed by dominant weights" precise, and it joins Layer 2 at
-`Sᵘ V ≅ V_λ`. Layer 4 (Schur polynomials as characters) needs Layers 2-3 and builds the missing Schur-function
-theory; Layer 5 (dimensions) is a specialization of Layer 4; Layer 6 (branching and the Gelfand-Tsetlin basis) needs
+`Sᵘ V ≅ V_λ`. Layer 4 (Schur polynomials as characters) needs Layers 2-3, native Schur
+polynomials and SchurWeyl Layer 7's independent Frobenius formula; Layer 5 (dimensions) is a specialization of Layer 4; Layer 6 (branching and the Gelfand-Tsetlin basis) needs
 Layers 3-4, and its pattern-count dimension formula reproves Layer 5's from the branching side, while its
 Gelfand-Tsetlin generators and its `SOₙ`/`Spin(n)` bases connect it to
 [`../SpinRepresentations`](../SpinRepresentations/README.md). A
 contributor can complete Layers 0-1 and the `⊗2` example independently of the abstract dependencies, then
-Layer 2 once `../SchurWeyl` lands, then Layers 3-6 as `../RootSystems` and `../LieHighestWeight` mature.
+Layer 2 from native symmetric-group and symmetrizer suppliers, followed by
+Layers 3–6 with the cited root and character dependencies.
+
+Layer 6B consumes the rational modules and Hom comparison of Layer 3A,
+then owns its projectors/cleared lowering/interpolation operators and actual
+multiplicity bases before their evaluation and pattern-basis iteration.
+No subgroup-chain central-character separation is assumed for multiplicities.
+
+Layer 6A's concrete subgroup/normal-kernel and tangent calculations use Layer 0
+and the early LieGroups Layers 0–4; the representation conclusions use Layer 3
+and native Schur/density. Its algebraic model uses ReductiveGroups Layers 0–3.
+TensorProductCombinatorics §2.7 consumes these finished subgroup/restriction maps;
+no hive, tensor-multiplicity or later compact-normalizer theorem is an input
+to the structural classification. No generic supplier receives a return dependency.
+
+## Downstream consumers
+
+LieHighestWeight Layer 9 uses the GL models and characters of Layers 2–4 for differentiation.
+SpinRepresentations uses Layer 0's standard module and orthogonal group and the orthogonal branching comparison. TensorProductCombinatorics
+§2.7 compares diagonal-overgroup restrictions with its hive multiplicities; no hive
+count supplies the subgroup classification here.
+ClassicalGroupsPartII consumes Layer 0's standard module, symplectic inclusion and
+invariant alternating form, Layers 1, 2 and 4, and the Sp statements of Layer 3A: the
+torus and dominant weights of §3A.1, the group/Lie comparison of §3A.2, and from §3A.3
+the contraction/inverse-form wedge commutator, contraction surjectivity, the highest
+weight, simplicity and dimension of the contraction kernels and the Cartan components.
+Its CG.1.4–CG.1.5 and CG.1.7 own only their GSp forms (multiplier-twisted target,
+coefficients in every characteristic-zero field); the Sp statements are §3A.3's.
 
 ## References
 
+- A. I. Molev, [*Gelfand–Tsetlin bases for classical Lie algebras*, arXiv:math/0211289v2](https://arxiv.org/abs/math/0211289v2), §§2.1–2.4, 3.1–3.4 and 4.1–4.3: Theorems 2.3/2.7, printed pp. 9/11, Proposition 2.4, p. 10, Capelli (2.21)–(2.22), p. 16, type-C (3.10), p. 31, (3.13), Lemma 3.4 and Theorem 3.5, pp. 33–34. Consecutive orthogonal branching is (4.4)/(4.7), printed pp. 48/50, and its vectors are Theorems 4.1–4.4, pp. 49–52. The source signed-coordinate and type-C shifts are fixed explicitly in Layers 6/6B.
+
 - W. Fulton, J. Harris, *Representation Theory: A First Course*, Springer GTM 129 (1991) - the primary
-  reference: the Weyl construction via Young symmetrizers (Lecture 6, 15), Schur functors and the
-  decomposition of tensor powers, Schur polynomials as `GLₙ` characters (Lecture 6, Appendix A), the Weyl
-  character and dimension formulas (Lecture 24-25), and branching (Lecture 25, Appendix).
+  reference for tensor operations (§1.1, pp. 4–5), Young images and the
+  symmetric/exterior decomposition ((6.1)–(6.2) and Theorem 6.3, pp. 77–78),
+  and the GL/SL highest-weight and determinant-twist comparison (§15.5 and
+  Proposition 15.47, pp. 231–232).
 - R. Goodman, N. R. Wallach, *Symmetry, Representations, and Invariants*, Springer GTM 255 (2009) - the
   classical groups uniformly: the standard representation and its tensor powers, highest-weight theory for
   `GLₙ`, `Oₙ`, `Spₙ`, Schur-Weyl duality, and branching rules with the interlacing conditions.
@@ -435,4 +1905,14 @@ Layer 2 once `../SchurWeyl` lands, then Layers 3-6 as `../RootSystems` and `../L
   invariant-theoretic route, Schur-Weyl duality, and Schur functions.
 - I. G. Macdonald, *Symmetric Functions and Hall Polynomials*, 2nd ed., Oxford (1995) - Chapter I: Schur
   functions, the bialternant and Jacobi-Trudi formulas, Pieri and Littlewood-Richardson rules, the
-  symmetric-function facts Layer 4 builds.
+  symmetric-function facts Layer 4 consumes and their representation comparisons: I(3.1), p. 40; I(3.4)–(3.5), p. 41; I§3 Examples 1/4, pp. 44–45; Appendix A(8.2)/(8.4), pp. 162–163. A legal institutional copy is available from [Berkeley](https://math.berkeley.edu/~corteel/MATH249/macdonald.pdf).
+
+- J. S. Milne, [*Algebraic Groups*, 2022 edition](https://www.jmilne.org/math/Books/iAG2022.pdf),
+  §§2.8–2.10, printed pp. 41–43 (matrix groups and invariant forms);
+  Remark 4.1 and Example 4.2, pp. 84–85 (coefficient comodules);
+  Theorem 12.12, pp. 234–235 (torus weight decomposition);
+  Proposition 10.31, printed p. 196 (Lie algebra of a subspace stabilizer), and
+  Theorem 3.23, printed p. 71 (Cartier smoothness), and Theorem 22.42,
+  pp. 478–479 (complete reducibility for connected reductive groups in characteristic zero); the comodule-level
+  stabilizer argument is native, and §3A.2 owns its application to the rational
+  matrix-group carriers, fixed vectors and Hom modules.
