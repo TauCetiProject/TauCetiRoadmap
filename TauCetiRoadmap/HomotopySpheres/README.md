@@ -843,8 +843,9 @@ bundle; the empty frame at n=0 does not satisfy the positive-dimensional framing
 
 ### Dependencies
 
-*Needs:* Tau Ceti `TauCeti.OrientedConnectedSum` and `TauCeti.ConnectedSum.orientation`; GeometricTopology Layer 1, §1.4 connected sum and
-The smoothing-and-triangulation comparison, item 1; AlgebraicTopology finite CW comparison,
+*Needs:* Tau Ceti `TauCeti.OrientedConnectedSum` and `TauCeti.ConnectedSum.orientation`;
+GeometricTopology Layer 1, the connected-sum laws of §1.4 and the smoothing-and-triangulation
+comparison, item 1; AlgebraicTopology finite CW comparison,
 sphere homology, Euler–Poincaré formula, Stage 6 item 4 duality and `homologicalWhitehead`;
 MorseTheory M3; Layer 1 for the h-cobordism relation and 1.2's cancellation, and, only in n≥5,
 its product theorem; Tau Ceti sphere simple connectivity for n≥2. Kervaire–Milnor Theorem 1.1
@@ -865,7 +866,7 @@ to that item; this section owns 3A.2–3A.4.
 
 #### 3A.2 Pointed cones and Puppe sequences
 
-*Needs:* AlgebraicTopology Stage 4 item 8 (compact generation and the pointed adjunction), Stage 4.5 cofibrations and contractible collapse, and Stage 8 relative homotopy.
+*Needs:* AlgebraicTopology Stage 4 item 8 (compact generation and the pointed adjunction), Stage 4 item 5 (cofibrations and contractible collapse) and Stage 8 relative homotopy.
 
 On AlgebraicTopology Stage 4 item 8's reduced suspension, based loop space, smash product and
 suspension–loop adjunction, build the reduced cone, mapping cone, cofiber sequences and Puppe
@@ -893,7 +894,7 @@ through the k-counit comparisons of AlgebraicTopology Stage 4 item 8; no unreduc
 Prove based nullhomotopies of g∘f are exactly extensions of g:X→Y
 across C_f, with F([a,t])=H(1−t,a), and deduce full kernel=image for
 [C_f,Y]_*→[X,Y]_*→[A,Y]_* as pointed sets. For closed cofibration
-inclusions, use AT4.5 pushout/contractible-collapse to construct the based
+inclusions, use AlgebraicTopology Stage 4 item 5's pushout and contractible collapse to construct the based
 equivalence C_i→X/A and both inverse homotopies. For well-pointed
 Hausdorff compactly generated A,X, prove X→C_f is a closed cofibration,
 with the actual product, union and pushout HEP/NDR construction and
@@ -907,7 +908,7 @@ quotients and convenient k constructions related by specified maps.
 Apply the based cone extension criterion at every stage to obtain the long
 exact Puppe sequence into every pointed Y, meaning the image is the full
 preimage of the constant class. Give group structures only at the stages
-supplied by suspension/loop adjunctions. AT8.11b consumes these maps for
+supplied by suspension/loop adjunctions. AlgebraicTopology Stage 8 item 11b consumes these maps for
 its distinct cup/suspension sign comparisons; it is not a premise of this
 elementary pointed exactness theorem. Preserve pointed homotopy and
 relative-subspace naturality, including the one-point and disconnected cases.
@@ -923,7 +924,7 @@ independence of the starting representative.
 
 #### 3A.4 Freudenthal comparison
 
-*Needs:* 3A.2–3; RiemannianGeometry R3 item 4; AlgebraicTopology Stage 4.4 raw sphere suspension.
+*Needs:* 3A.2–3; RiemannianGeometry R3 item 4; AlgebraicTopology Stage 4 item 4's raw sphere suspension.
 
 Transport RiemannianGeometry R3 item 4's normalized sphere suspension along the based
 ordinary-to-convenient comparisons of AlgebraicTopology Stage 4 item 8. Prove that the square with this roadmap's
@@ -1561,7 +1562,7 @@ with determinant +1. The cyclic column permutation has sign (−1)²=+1. Using
 
 *Needs:* TopologicalKTheory T1.5a–T1.6; Section 3A; DifferentialGeometry smooth bundle
 and collar comparison; CharacteristicClasses C7.3 tangent/hyperplane adapter; AlgebraicTopology
-Stage 4.6 projective quotient; GeneralizedCohomology G4.0a–G4.0b and
+Stage 4 item 6's projective quotient; GeneralizedCohomology G4.0a–G4.0b and
 ComplexKahlerGeometry K7.1/RiemannianGeometry R3.3c for the Hopf maps.
 The finite comparisons do not use Bott periodicity.
 
@@ -3131,9 +3132,10 @@ second countability and smoothness explicitly.
 
 ## Downstream consumers
 
-TopologicalKTheory T7 uses Layer 4B's real loop periodicity for its KO applications. The
-following roadmaps consume named sections here; each is later than this one in the merge order
-or, for PositiveScalarCurvature, already on main.
+TopologicalKTheory T1.6d, which comes after the classifiers T1.6a–T1.6c that 4A consumes,
+compares its classifier tower with the R₀ model of 4B.1, and T7 uses 4B.1–4B.9 for its KO
+applications. The following roadmaps consume named sections here; each is later than this one
+in the merge order or already on main.
 
 - GeneralAlgebraicKTheoryPartII §4.32 consumes 3B.1–3B.2 and 3B.4: the word filtration, the
   connectivity of its stages and the connected James equivalence J(S²) ≃ ΩS³. Its §4.33 and
@@ -3150,6 +3152,15 @@ or, for PositiveScalarCurvature, already on main.
 - PositiveScalarCurvature consumes 1.2–1.6 (ordered handle decompositions, cancellation and
   the Whitney moves), Layer 2 (homotopy spheres and Θₙ), 3C, Layers 6–8 and, from 9A.1, the
   complex e-invariant with the seventh-stem value.
+- On main, GeneralizedCohomology consumes 3A.2–3A.4 (mapping cones and Puppe sequences, the
+  stable stems and the Freudenthal comparison) and 4B, for the low homotopy groups of stable
+  BSpin; BordismFormalGroups consumes the James stages of 3B and the Toda brackets of 3C.3;
+  DGFloer consumes 3B.3–3B.4 (the James map and the homology of ΩΣX) and 4A–4B, and the
+  framed collapse it cites from Layer 5 is TangentialBordism B5.2's; CharacteristicClasses
+  consumes the quaternion-conjugation homeomorphism SO(3) ≅ S³/{±1} of 4A; MorseTheory and
+  GeometricCurrents consume 4A–4B in their later applications. AlgebraicTopology,
+  RiemannianGeometry and Orbifolds cite 3A.1 for the convenient category, which is
+  AlgebraicTopology Stage 4 item 8 (Section 3A).
 
 The internal classification applications use the following order, with the finite inputs of
 Layer 5 separated from the stable Bott comparison.
@@ -3158,9 +3169,9 @@ Layer 5 separated from the stable Bott comparison.
 | --- | --- | --- |
 | 1 h-cobordism | geometric topology, DifferentialGeometry orientations, Tau Ceti and TangentialBordism B1.6 Sard, HF Morse data, algebraic topology | 2, 10; PositiveScalarCurvature |
 | 2 small skeleton and `Theta_n` | 1, triangulation, geometric connected sum | 6, 9--10; PositiveScalarCurvature |
-| 3 James/EHP/stable stems | algebraic topology including its compactly generated substrate (Stage 4 item 8), GeneralizedCohomology G2 items 4–5 for the stable James splitting | 5, 8--9; GeneralAlgebraicKTheoryPartII, DGFloerPartII, GeometryOfNumbersAndQuadraticArithmetic, FourManifolds, PositiveScalarCurvature |
+| 3 James/EHP/stable stems | algebraic topology including its compactly generated substrate (Stage 4 item 8), GeneralizedCohomology G2 items 4–5 for the stable James splitting | 5, 8--9; GeneralAlgebraicKTheoryPartII, DGFloerPartII, GeometryOfNumbersAndQuadraticArithmetic, FourManifolds, PositiveScalarCurvature, GeneralizedCohomology, BordismFormalGroups, DGFloer |
 | 3C.5 Hopf exclusion and sphere frames | 3A.2, AlgebraicTopology cup/cross/relative products, TopologicalKTheory T2.5/T3–T4, CharacteristicClasses C6.2–3/C7.3, SpinRepresentations L7 | standard-sphere parallelizability |
-| 4 `SO`/`BSO`/Bott/`J` | AlgebraicTopology Stage 4 item 8 convenient substrate, TopologicalKTheory T1.5–T1.6 classifiers, bundles, Lie groups | 5--6, 8--9, TopologicalKTheory T7, DGFloerPartII, FourManifolds |
+| 4 `SO`/`BSO`/Bott/`J` | AlgebraicTopology Stage 4 item 8 convenient substrate, TopologicalKTheory T1.5–T1.6 classifiers, bundles, Lie groups | 5--6, 8--9, TopologicalKTheory T1.6d and T7, DGFloerPartII, FourManifolds, GeneralizedCohomology, DGFloer, CharacteristicClasses, MorseTheory, GeometricCurrents |
 | 5 smooth PT comparisons | TangentialBordism B1/B3.2/B5.2; StringOrientation S2.2–S2.3; 3A and 4A; 4C for the J action | 6, 8--9 |
 | 6 `A_n`, `P_n`, exactness | 1--2, 4--5 | 7--9; FourManifolds, PositiveScalarCurvature |
 | 7 Wall surgery | algebraic topology, geometric surgery, TangentialBordism B3.2 pure algebra, 4--6 | 8--9; GeometryOfNumbersAndQuadraticArithmetic, FourManifolds, PositiveScalarCurvature |
