@@ -918,7 +918,7 @@ families (its knowl "hgm.monodromy" cites Beukers–Heckman for them).
 Define the **Hodge polygon** by specializing `NewtonPolygons` §0.6 to the nondecreasing
 slopes `{p with multiplicity h^{p,w−p}}`, anchored at `(0,0)`, with vertices `(∑_{p < k} h^{p,w−p}, ∑_{p < k} p h^{p,w−p})`;
 prove it is convex, and for a pair stable under negation ends at `(d, wd/2)` (by 2.4).  Define the **special Hodge vector** at `t = 1`
-for a positive-degree cyclotomic datum as in Roberts–Rodriguez-Villegas §9, pp. 9–10: for even `w` decrease `h^{w/2,w/2}` by `1`, for odd
+for a positive-degree cyclotomic datum as in Roberts–Rodriguez-Villegas §9, p. 9: for even `w` decrease `h^{w/2,w/2}` by `1`, for odd
 `w` decrease the two middle numbers by `1`; prove its sum is `d − 1` or `d − 2`.  That it is the
 Hodge vector of the pure special object is a comparison target of 5.0. For the empty datum
 define the special object and vector to be zero, with the polygon a singleton.
@@ -1696,7 +1696,8 @@ monodromies are the triple of 3.2, with the parameter and character normalizatio
 - The Betti–de Rham comparison identifies the dimensions of the Hodge filtration quotients
   with 2.2's zigzag vector. The geometric pairing has target `ℚ(−w)`, is perfect and is
   symmetric for even `w`, alternating for odd `w`; the corresponding geometric monodromy
-  forms agree with 3.5 up to scalar (Fedorov, Theorem 1; Roberts–Rodriguez-Villegas (4.4), §5).
+  forms agree with 3.5 up to scalar (Fedorov, Theorem 1; Roberts–Rodriguez-Villegas §2,
+  "Orthogonal vs. symplectic", p. 3, §4, "Motivic Galois groups of HGMs", p. 5, and §5).
 - At real `t`, define the signed middle signature by the difference of the dimensions of the
   two complex-conjugation eigenspaces on the middle Hodge piece, in 5.7's LMFDB convention;
   set it to zero in odd weight. Prove the bound and parity required in 5.7. This is distinct
@@ -1705,7 +1706,7 @@ monodromies are the triple of 3.2, with the parameter and character normalizatio
   weight the invariants already give the special object; in odd weight quotient out the
   rank-one piece of weight `w − 1`. Prove the special Hodge-vector formula of 2.9 and
   retain the mixed invariant object separately. In particular the uncorrected trace sums at
-  `t = 1` need not be the trace of the pure quotient (Roberts–Rodriguez-Villegas §9, pp. 9–10).
+  `t = 1` need not be the trace of the pure quotient (Roberts–Rodriguez-Villegas §9, p. 9).
 - Restrict each constructed ℓ-adic representation to every decomposition group with `p ≠ ℓ`,
   and compare its local monodromy and pairing with the supplied Weil–Deligne adapter.
   These are the source representations for 5.9–5.10, including wild primes; local factors
@@ -1871,8 +1872,9 @@ carries the absolute-value condition directly).  Prove, **assuming `IsPure D t p
 a rational series with integer coefficients (5.1) and constant term `1`, so by Fatou's lemma
 (`DeligneWeightsAndPurity` §4.4, the normalized integral numerator/denominator theorem: such a
 series is `A/B` with `A, B ∈ ℤ[T]` coprime and `A(0) = B(0) = 1`) its reduced denominator `B` lies
-in `ℤ[T]`; the poles of `−T F′/F = ∑_λ λT/(1 − λT)` are the `1/λ` for the distinct `λ ∈ Λ`, each
-simple with residue a multiplicity, so `B = ∏_{λ distinct} (1 − λT)`, every `λ` is a root of the
+in `ℤ[T]`; the poles of `−T F′/F = ∑_{λ ∈ Λ} λT/(1 − λT)` are the `1/λ` for the distinct `λ ∈ Λ`,
+each simple with nonzero residue `−m_λ/λ` (`m_λ` the multiplicity of `λ` in `Λ`; `λ ≠ 0` because
+`|λ| = p^{w/2}`), so `B = ∏_{λ distinct} (1 − λT)`, every `λ` is a root of the
 monic reverse polynomial of `B` and hence an algebraic integer, and the coefficients of `F`, rational
 by 5.2 and algebraic integers as elementary symmetric functions of `Λ`, lie in `ℤ`; (iii) `|coeff k| ≤ C(d, k) p^{kw/2}`; (iv) `Λ` is determined
 by `D, t, p`; (v) `coeff d = ±p^{wd/2}` (a rational integer of absolute value `p^{wd/2}`), so the
@@ -1929,7 +1931,9 @@ are equal.
 - The Fatou route of (ii) on `A2.2_B1.1`, `t = 2`, `p = 5`: the series `1 + ∑_e a_{5^e} T^e` is
   `1 − 2T − 6T² + 22T³ − 14T⁴ − ⋯ = (1 − 5T²)/(1 + 2T + 5T²)`, whose reduced denominator has
   integer coefficients and constant term `1`, and whose reverse `X² + 2X + 5` is monic with roots
-  `−1 ± 2i`, the elements of `Λ`.  The control `Λ = {(3 ± 4i)/5}` has first power sum `6/5`, so
+  `−1 ± 2i`, the elements of `Λ`.  At the pole `T = 1/λ`, `λ = −1 + 2i`, the residue of
+  `−TF′/F` is `−1/λ = (1 + 2i)/5`: nonzero, and not the multiplicity `1`.
+  The control `Λ = {(3 ± 4i)/5}` has first power sum `6/5`, so
   its series is not in `ℤ[[T]]` and Fatou's lemma does not apply; its denominator
   `1 − (6/5)T + T²` is not integral.
 - The degree-`0` datum: `Λ = ∅`, `F = 1`, `ε = 1`, and every statement holds trivially.
@@ -2340,7 +2344,7 @@ lengths `r+1,s+1` so that neither list is empty. This is Beukers–Cohen–Melli
   sets even in characteristic dividing `ρ`; an étale scheme decomposition requires
   `ρ` invertible. Prove the resulting count and its agreement with 4.11 where applicable.
 - For primitive data with characteristic prime to all exponents and `Mλ ≠ 1`, construct
-  the completion of Beukers–Cohen–Mellit Definition 5.1 and prove Theorem 1.5, pp. 3–4:
+  the completion of Beukers–Cohen–Mellit Definition 5.1 and prove Theorem 1.5, p. 4:
   `#V̄_λ = P_rs(q) + (−1)^(r+s−1) q^min(r−1,s−1) H_q(D | Mλ)`, where
   `P_rs(q) = ∑_(m=0)^min(r−1,s−1) binom(r−1,m) binom(s−1,m) (q^(r+s−m−2)−q^m)/(q−1)`.
   The term `P_rs` belongs to the completion; it is not the open-torus correction term.
@@ -2571,7 +2575,8 @@ or the hypergeometric point-count identities, so Layers 1–4 and 6 have no coun
 ## References
 
 - F. Beukers, H. Cohen, A. Mellit, "Finite hypergeometric functions", *Pure Appl. Math. Q.* **11**
-  (2015), 559–589, [arXiv:1505.02900](https://arxiv.org/abs/1505.02900).  Definition 1.1 (`H_q`),
+  (2015), 559–589, [arXiv:1505.02900v2](https://arxiv.org/abs/1505.02900v2) (numbered statements,
+  equations and page locators here refer to this preprint).  Definition 1.1 (`H_q`),
   Theorem 1.2 (Ono), Theorem 1.3 (the gamma-vector form), Assumption 1.4, Theorem 1.5 (the point
   count), Corollaries 1.6–1.8, Theorems 2.1–2.2 (Gauss and Jacobi sums), Theorem 2.4
   (Stickelberger), Theorem 2.5 (Hasse–Davenport), Proposition 2.6, Lemma 2.7, Proposition 3.1
@@ -2584,8 +2589,10 @@ or the hypergeometric point-count identities, so Layers 1–4 and 6 have no coun
   **69** (2022), 914–929, [DOI](https://doi.org/10.1090/noti2491),
   [arXiv:2109.00027v1](https://arxiv.org/abs/2109.00027v1) (section, equation and page locators
   here refer to this preprint). §2 (parameters, Levelt's
-  companion matrices, the Magma reading of `(A, B)`), §3 (canonical varieties), §4 (the motive,
-  (4.4) the orthogonal/symplectic dichotomy), §5 (zigzag, Figure 5.1), §9 (`t = 1`), §10 (wild,
+  companion matrices, the Magma reading of `(A, B)`; p. 3 the orthogonal/symplectic dichotomy of
+  the monodromy form), §3 (canonical varieties), §4 (the motive; p. 5 its motivic Galois group
+  for transcendental `t` and `w > 0`, `CSp_n` for odd `w` and `CO_n` for even `w`), §5 (zigzag,
+  Figure 5.1), §9 (`t = 1`), §10 (wild,
   tame, good; (10.1) Katz's formula), §11 (Frobenius polynomials, Poincaré duality), §12 ((12.2)
   gamma factors, local invariants), §13 ((13.1) tame conductors, (13.2) the wild conjecture).
 - F. Beukers, G. Heckman, "Monodromy for the hypergeometric function `ₙFₙ₋₁`", *Invent. Math.*

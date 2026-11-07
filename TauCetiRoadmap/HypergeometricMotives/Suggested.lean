@@ -985,8 +985,9 @@ def weightedTorusPoints {r s : ℕ} (p : Fin (r + 1) → ℕ) (q : Fin (s + 1) �
     xy.2 0 = 1 ∧ (∑ i, (xy.1 i : F)) = ∑ j, (xy.2 j : F) ∧
     t * ∏ i, (xy.1 i : F) ^ p i = ∏ j, (xy.2 j : F) ^ q j}
 
-/-- **6.3**, Beukers–Cohen–Mellit Proposition 4.3, pp. 13–14: the weighted projective
-open-torus count, including singular parameters, with primitive balanced positive exponents. -/
+/-- **6.3**, Beukers–Cohen–Mellit Proposition 4.3 (arXiv:1505.02900v2, pp. 13–14): the
+weighted projective open-torus count, including singular parameters, with primitive balanced
+positive exponents. -/
 theorem weighted_torus_point_count {r s : ℕ} (p : Fin (r + 1) → ℕ)
     (q : Fin (s + 1) → ℕ) (hp : ∀ i, 0 < p i) (hq : ∀ j, 0 < q j)
     (hbal : ∑ i, p i = ∑ j, q j)
