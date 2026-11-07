@@ -191,7 +191,7 @@ corresponding column results. The implementation uses native triangular matrix a
 determinant APIs, not a structure that assumes determinant preservation.
 
 Give the real Gram-matrix version on the native `Matrix.gram` carrier. For any
-finite real matrix `U` and finite family `v` in a real inner product space, put
+finite square real matrix `U` and finite family `v` in a real inner product space, put
 `w_i = Σ_j U_ij v_j` and prove `Gram(w) = U Gram(v) Uᵀ`, hence
 `det Gram(w) = (det U)² det Gram(v)`. No independence or ambient dimension
 hypothesis is needed. In particular, a unitriangular change preserves the Gram
