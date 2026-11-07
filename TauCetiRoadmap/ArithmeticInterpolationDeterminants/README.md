@@ -196,8 +196,9 @@ finite real matrix `U` and finite family `v` in a real inner product space, put
 `det Gram(w) = (det U)² det Gram(v)`. No independence or ambient dimension
 hypothesis is needed. In particular, a unitriangular change preserves the Gram
 determinant, while scalar row factors contribute their squares. Give the complex
-counterpart with conjugation and factor `‖det U‖²`, respecting the native inner
-product convention.
+counterpart on the native inner product convention, conjugate-linear in the first
+argument: `Gram(w) = conj(U) Gram(v) Uᵀ` and the determinant factor is the complex
+cast of `‖det U‖²`.
 
 For a family of `h` univariate factors and a point `a`, suppose every ordinary
 derivative of each factor through order `K` evaluates into an ideal `J`. Prove that
