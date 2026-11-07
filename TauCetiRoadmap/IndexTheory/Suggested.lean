@@ -1,11 +1,5 @@
-import Mathlib.Analysis.Normed.Operator.Fredholm.Open
+import Mathlib
 import TauCeti.Analysis.Fredholm.Adjoint
-import Mathlib.Topology.Path
-import Mathlib.Analysis.InnerProductSpace.Adjoint
-import Mathlib.Analysis.Normed.Operator.Compact.Basic
-import Mathlib.LinearAlgebra.Matrix.Trace
-import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
-import Mathlib.Tactic
 
 /-!
 These are representative suggested interfaces, not an exhaustive checklist.
