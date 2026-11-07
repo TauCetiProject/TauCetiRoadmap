@@ -64,8 +64,8 @@ Headlines stated here (README target, Lean name):
 * 11.1, 11.2, `IsCofibrationCategory`, `brown_factorization`.
 * 12.1, `isUnit_skeleton` (on `IsGrCategory`).
 * 12.6, `nonempty_skeletonTwoTerm_mulEquiv`, `nonempty_autUnitTwoTerm_mulEquiv` (on
-  `IsStrictlyCommutative`, `TwoTerm`, `TwoTerm.Hom`, `TwoTerm.eqHom`, `TwoTerm.eqIso`, with the label
-  identities `TwoTerm.comp_label`, `TwoTerm.eqIso_hom_label`, `TwoTerm.eqIso_inv_label`).
+  `IsStrictlyCommutative`, `TwoTerm`, `TwoTerm.Hom`, `TwoTerm.eqHom`, `TwoTerm.eqIso`, with the
+  label identities `TwoTerm.comp_label`, `TwoTerm.eqIso_hom_label`, `TwoTerm.eqIso_inv_label`).
 
 Not statable at the pins, with the carrier each lacks:
 
@@ -288,7 +288,7 @@ theorem range_mapAut_fiberInclusion (p : E ⥤ B) (x : E) :
 /-- **Layer 1.4.** Exactness at `Aut_B(p x)`: `g` lifts to an automorphism of `x` iff every lift
 of `g` out of `x` ends in the component of `x` in the fibre over `p x`. -/
 theorem mem_range_mapAut_iff (hp : IsGroupoidFibration p) (x : E) (g : Aut (p.obj x)) :
-    g ∈ (p.mapAut x).range ↔ ∀ (y : p.Fiber (p.obj x)) (φ : x ⟶ y.1), p.IsHomLift g.hom φ →
+    g ∈ (p.mapAut x).range ↔ ∀ (y : p.Fiber (p.obj x)) (φ : x ⟶ y.1), p.IsHomLift g.asIso.hom φ →
       (Quotient.mk'' y : ConnectedComponents (p.Fiber (p.obj x))) = Quotient.mk'' ⟨x, rfl⟩ := by
   sorry
 

@@ -60,7 +60,6 @@ and direct categories finds no other owner.
 | The site-level `Stack.stackification` | SchemeAndStackFoundations, §1.18 | Layer 13 |
 | The Picard stack, gerbes and Abel maps of a curve | SchemeAndStackFoundations, §3.7 | not used |
 | The globe category `Globe`, globular sets, Grothendieck ∞-groupoids | GrothendieckInfinityGroupoids, 0.1 | 8.6 |
-| The simplex Reedy structure from the epi–mono factorization; latching and matching objects, the Reedy model structure, Bergner and Joyal model structures | BordismFormalGroups, F6.5 | 8.3 |
 | Homotopy groups of spaces, Hurewicz and Whitehead theorems | AlgebraicTopology, Stage 8 | not used |
 | `K(G, 1)` spaces and group cohomology of classifying spaces | ClassifyingSpaces | not used |
 | Grothendieck topoi, their points and morphisms, the classifying topos of a group | GrothendieckTopoi | not used |
@@ -162,6 +161,8 @@ complexes.
 - `nerve`, `nerveMap`, `SSet.homologyMap`, `SSet.sd`, `SSet.ex`, `SSet.hoFunctor`,
   `AddCommGrpCat`, `SimplexCategory`, `AsSmall`, `SemiSimplexCategory`, `SSet.Nonsingular`,
   `SSet.N`, `IsPushout`, `HasTerminal`, `PreservesLimit`.
+- `SimplexCategory.reedyStructure` (`Mathlib/AlgebraicTopology/Reedy/SimplexCategory.lean`), for
+  8.3 and 8.4.
 - `HomotopicalAlgebra.ReedyStructure` with `deg`, `ReedyStructure.op`, `WideSubcategory`,
   `MorphismProperty.identities`, `WellFounded.rank`, `Ordinal.omega0`, `LocallyFiniteOrderBot`,
   `Finset.Iio`, `Quiver.IsThin`, `Skeletal`, `WalkingParallelPair`, `WalkingSpan`.
@@ -193,9 +194,6 @@ the homotopy fibre is a weak equivalence when every `d → d′` induces a homot
 
 **From GrothendieckInfinityGroupoids.** 0.1, the globe category `Globe` with its `Category`
 instance, for 8.6.
-
-**From BordismFormalGroups.** F6.5, the simplex Reedy structure on `SimplexCategory` built from
-the native epi–mono factorization under Mathlib's name and statement, for 8.3 and 8.4.
 
 Neither pin has basic localizers, test categories, idempotent adjunctions, direct categories,
 non-singular presheaves on a general category, discrete fibrations, derivator axioms, cofibration
@@ -1013,15 +1011,14 @@ the degree (2.3–2.4 there); both are constructed, and the second is neither di
 
 ### 8.3 The simplex categories
 
-`SimplexCategory.reedyStructure` is Mathlib's (Mathlib master,
-`Mathlib/AlgebraicTopology/Reedy/SimplexCategory.lean`, absent at the pin):
-`ReedyStructure (epimorphisms SimplexCategory) (monomorphisms _) ℕ` with degree `len`.
-BordismFormalGroups F6.5 constructs it from the native epi–mono factorization under exactly that
-name and statement, and this target uses that construction, with no second copy. On top of it: its
+`SimplexCategory.reedyStructure` is Mathlib's
+(`Mathlib/AlgebraicTopology/Reedy/SimplexCategory.lean`):
+`ReedyStructure (epimorphisms SimplexCategory) (monomorphisms _) ℕ` with degree `len`. On top of it:
+its
 opposite on `Δᵒᵖ`, its truncations to `SimplexCategory.Truncated n` (7.4), and a Reedy structure on
 `AugmentedSimplexCategory` with degree `len + 1`, `0` for the initial object (Riehl–Verity, TAC
 2014, 2.6).
-*Needs:* 7.4, BordismFormalGroups F6.5.
+*Needs:* 7.4; Mathlib `SimplexCategory.reedyStructure`.
 
 **Checks.**
 
@@ -1029,6 +1026,11 @@ opposite on `Δᵒᵖ`, its truncations to `SimplexCategory.Truncated n` (7.4), 
 - In the augmented category, the map from the initial object to `[0]` raises the degree from `0`
   to `1`.
 - On `Δᵒᵖ` the opposite structure has the monomorphisms of `Δ`, reversed, as its lowering class.
+
+Not a target: for a cofibrantly generated model category `M` and any Reedy category `C`, the Reedy
+model structure on `M^C` is cofibrantly generated, with generators the pushout-products of the
+generating (trivial) cofibrations with the boundary inclusions `∂C^c ↪ C^c` (Hirschhorn 2003,
+Theorem 15.6.27; Riehl–Verity, TAC 2014, Proposition 7.7). No model structure is built here.
 
 ### 8.4 The semi-simplex category
 
@@ -1085,7 +1087,8 @@ its morphisms are monomorphisms, and there are two morphisms `k ⟶ n` for `k < 
 
 ### Dependencies
 
-Layer 7, BordismFormalGroups F6.5 for 8.3–8.4 and GrothendieckInfinityGroupoids 0.1 for 8.6.
+Layer 7, Mathlib `SimplexCategory.reedyStructure` for 8.3–8.4 and GrothendieckInfinityGroupoids 0.1
+for 8.6.
 
 ## Layer 9: non-singular presheaves on direct categories
 
@@ -1585,6 +1588,8 @@ categories are compared.
   Math. Blaise Pascal* 10 (2003), 195–244 (the derivator of a model category).
 - D.-C. Cisinski, « Catégories dérivables », *Bull. SMF* 138 (2010), 317–393: 1.1 (axioms
   D0–D4), 2.1 (`Dir_f`), Theorem 2.21, 2.22, Corollary 2.24, Definition A.5.
+- P. S. Hirschhorn, *Model Categories and Their Localizations*, Mathematical Surveys and
+  Monographs 99, American Mathematical Society (2003): Theorem 15.6.27.
 - E. Riehl and D. Verity, *The theory and practice of Reedy categories*, Theory Appl. Categ. 29
   (2014), 256–301, Zbl 1302.55014, [arXiv:1304.6871](https://arxiv.org/abs/1304.6871). Item
   numbers cited in Layers 7–8 (2.3–2.7) are those of the arXiv version.
