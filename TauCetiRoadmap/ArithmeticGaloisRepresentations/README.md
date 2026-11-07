@@ -2835,8 +2835,13 @@ inertia images are finite of order invertible in the coefficients; and the posit
 - The trivial representation has `N^Σ = (1)` for every `Σ`.
 - The Dirichlet character of conductor `4`, read as a character of `G_ℚ`, has `N = 4`.
 - For `p` odd, `N(ω_p) = 1` although `ω_p` ramifies at `p`: the places above `p` must be excluded.
-- `ρ̄ = χ̄_{−4} ⊕ 1` over `F_3` has `N(ρ̄) = 4`, while over `F_2` the same representation is trivial
-  with `N(ρ̄) = 1`: the conductor of a reduction is computed from the reduction.
+- `ρ̄ = χ̄_{−4} ⊕ 1` over `F_3` has `N(ρ̄) = 4`: the wild exponent `a_2 = 2` is kept for coefficients
+  of characteristic `3`, and a definition using only `codim ρ̄^{I_2}` gives `2`.
+- For `χ_{−3}` the quadratic character of `ℚ(√−3)`, ramified only at `3`, `ρ̄ = χ̄_{−3} ⊕ 1` over
+  `F_5` has `N(ρ̄) = 3`, since `χ̄_{−3}` takes the value `−1 ≠ 1` on `I_3`. Over `F_2` it is trivial,
+  since `−1 = 1` in `F_2`, and has `N(ρ̄) = 1`, whereas its `2`-adic lift `χ_{−3} ⊕ 1` on `V = ℚ_2²`
+  has `N^{(2)} = 3`: the conductor of a reduction is computed from the reduction, not from a lift. The
+  quotient `3` is §3.6's factor `3^{dim ρ̄^{I_3} − dim V^{I_3}} = 3^{2 − 1}`.
 
 ### 3.4 Functoriality
 
