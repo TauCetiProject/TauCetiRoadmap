@@ -101,7 +101,7 @@ theorem iterate_leibniz (D : Derivation R A A) (a b : A) :
 /-- **Layer 0.3.** The `p`-th power `D^[p]` of a derivation, as a derivation. -/
 noncomputable def pPow (D : Derivation R A A) : Derivation R A A :=
   Derivation.mk' ((D : Module.End R A) ^ p) fun a b => by
-    simp only [Module.End.pow_apply, Derivation.coeFn_coe, smul_eq_mul]
+    simp only [pow_apply_eq_iterate, Derivation.coeFn_coe, smul_eq_mul]
     exact iterate_leibniz p D a b
 
 /-- **Layer 0.3** (Hochschild's formula; Katz 1970, Proposition 5.3, Deligne). For `a : A`,
