@@ -30,11 +30,14 @@ The headline theorems are:
 
 None of these is statable at the pins:
 
-- Theorems 1–4 need a compact Riemann surface as the domain of a pseudoholomorphic map.
-  The pinned `TauCeti.SmoothAlmostComplexStructure` has only the constant, negated and
-  product constructors, so no complex one-manifold (not even `OnePoint ℂ`) carries an almost
-  complex structure at the pin, and the pinned `IsPseudoholomorphic` cannot be applied to a
-  map out of one.
+- Theorem 1's class and genus identities need the fundamental class `[Σ]` of a compact
+  Riemann surface and its genus, and neither is at the pin. The domain itself is: the pinned
+  `TauCeti.SmoothAlmostComplexStructure.ofComplexManifold` is the almost complex structure of
+  a complex manifold, and `TauCeti.isPseudoholomorphic_ofComplexManifold_iff` identifies the
+  pseudoholomorphic maps between complex manifolds with the holomorphic ones.
+- Theorem 3 needs a topology on the smooth tame almost complex structures, in which its
+  residual set is taken, and the moduli space of simple curves of genus g as a quotient of
+  maps by reparametrization; neither is at the pin.
 - Theorems 2, 4, 5 and 6 need nodal curves and prestable families, which are
   ComplexCurveModuli's targets and are not in the pinned Tau Ceti.
 - Theorems 3 and 5 need bundle-valued Sobolev spaces `W^{k,p}(Σ, u^*TX)`; the pinned
