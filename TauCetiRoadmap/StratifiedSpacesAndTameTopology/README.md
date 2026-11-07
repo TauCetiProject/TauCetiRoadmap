@@ -58,13 +58,22 @@ characteristic of spaces of finite CW type is AlgebraicTopology Stage 7; no road
 o-minimal Euler characteristic of a definable set (van den Dries, Chapter 4, §2).
 Thom's first isotopy lemma, with its embedded form for a map proper and stratumwise submersive on a
 closed Whitney-stratified subset (Mather, Proposition 11.1), and the controlled vector fields it is
-built on are owned here (5.4–5.5); its equivariant form is a downstream consumer. The collar theorem
+built on are owned here (5.4–5.5). AlgebraicTopologyPartII 16.2 states an equivariant first
+isotopy lemma for a closed Whitney-stratified subset with invariant control data taken as given;
+it is earlier in the merge order, consumes no part of Layer 5, and 5.5 is not a duplicate of it.
+The collar theorem
 for manifolds with boundary and the tubular neighbourhood theorem are GeometricTopology Layer 1.
 
 **Out of scope.** Constructible sheaves on stratified spaces, exit-path ∞-categories and
 2-categories, constructible stacks and hypercoverings; intersection homology; Whitney's condition
 (a) and Verdier's condition (w) as subjects; the second isotopy lemma. No roadmap on main states
-them.
+them. Not targets either: in an o-minimal structure, a definable subset of `Rⁿ` is definably
+compact (every definable curve in it has a limit in it) iff it is closed and bounded
+(Peterzil–Steinhorn 1999, Theorem 2.1, as recalled in Andújar Guerrero 2025, Remark 5.9, whose
+Theorem A compares the notions of definable compactness); smooth `Cᵏ` manifolds with corners have
+`Cᵏ` triangulations (the Cairns–Whitehead theorem, stated with corners in Murayama–Shiota 2013,
+p. 160), and compact definable `Cᵖ` manifolds with corners have definable triangulations
+(Commelin–Huber, appendix to Huber 2022, Proposition A.1).
 
 ## Conventions
 
@@ -1163,10 +1172,7 @@ Layer 4 (o-minimal structures, both parts of the cell decomposition theorem, pie
 and dimension with its independence, bijection-invariance, union and frontier laws) for the
 structure `ℝ_an,exp`, and proves the product, projection and fibre-dimension laws there;
 ImplicitAtlases Layer 6.1 stratifies each thickening over a finite poset with the sets `X^{≥s}`
-open, which is a stratification in the sense of 1.1; AlgebraicTopologyPartII 16.2 states an
-equivariant first isotopy lemma for a closed Whitney-stratified subset with invariant control data,
-which is 5.5 for the trivial action: it consumes the controlled lifts of 5.4 and the isotopy lemma
-of 5.5, and adds the averaging and equivariance step.
+open, which is a stratification in the sense of 1.1.
 
 ## References
 
@@ -1212,3 +1218,11 @@ of 5.5, and adds the averaging and equivariance step.
 - A. Grothendieck, *Esquisse d'un programme* (1984), §5 ("tame topology"), in *Geometric Galois
   Actions 1*, LMS Lecture Note Series 242 (1997). His notes on stratified spaces are in the
   Montpellier fonds, folder 150, p. 11, https://grothendieck.umontpellier.fr/150.pdf.
+- Y. Peterzil, C. Steinhorn, « Definable compactness and definable subgroups of o-minimal
+  groups », *J. London Math. Soc.* (2) 59 (1999), 769–786: Theorem 2.1.
+- P. Andújar Guerrero, « Definable compactness in o-minimal structures », *Model Theory* 4 (2025),
+  101–130, arXiv:2405.07112: Theorem A, Remark 5.9.
+- M. Murayama, M. Shiota, *Nagoya Math. J.* 212 (2013), 159–195: p. 160, triangulations of `Cᵏ`
+  manifolds with corners.
+- A. Huber, « The period isomorphism in tame geometry », arXiv:2204.01402, with an appendix by
+  J. Commelin and A. Huber: Proposition A.1.
