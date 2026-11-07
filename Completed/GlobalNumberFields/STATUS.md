@@ -1,0 +1,35 @@
+<!--tauceti-status:v1 {"roadmap":"GlobalNumberFields","to_sha":"d96e9ceca01f4548b817649c5ae95e33c6fc3ae4","ts":"2026-10-25T09:09:58Z"}-->
+<!--tauceti-coverage:v1 {"layers":[{"id":"Layer 0","state":"done"},{"id":"Layer 1","state":"done"},{"id":"Layer 2","state":"done"},{"id":"Layer 3","state":"done"},{"id":"Layer 4","state":"done"},{"id":"Layer 5","state":"done"},{"id":"Layer 6","state":"done"},{"id":"Layer 7","state":"done"},{"id":"Layer 8","state":"done"},{"id":"Layer 9","state":"done"},{"id":"Layer 10","state":"done"},{"id":"Layer 11","state":"done"}],"readme_sha":"9758201ebb7766bd14822ca2e9ba8a03f0c902afa3272e4c0f5488354cb7590e","roadmap":"GlobalNumberFields","to_sha":"d96e9ceca01f4548b817649c5ae95e33c6fc3ae4"}-->
+# Status: GlobalNumberFields
+
+This file documents the status of the GlobalNumberFields roadmap up until `d96e9ce` (2026-10-25T09:09:58Z). There may have been subsequent updates.
+
+It is generated, and its prose is not security-validated; see
+https://github.com/TauCetiProject/TauCetiProgress for what that means.
+
+## Where this roadmap stands
+
+**At a glance.** All twelve layers are now done. Layer 4, the placewise finite-adele API, was the last gap, and its projections, single-place elements, `S`-integral subrings and unit-group structure are now in the source. What remains is hand-off to the consumer roadmaps, not construction.
+
+### Named results
+
+- **The ray class ideal count** — every ray class has the same main coefficient, including the Euler factors at primes dividing the modulus, and a uniform power-saving error ([`TauCeti.GlobalNumberFields.rayClassIdealCount`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/NumberTheory/NumberField/Global/RayClass/Count/Asymptotic.html#TauCeti.GlobalNumberFields.rayClassIdealCount)).
+- **Finite-order Hecke characters are ray class characters** — a Hecke character has finite order exactly when it factors through some ray class group ([`TauCeti.GlobalNumberFields.HeckeCharacter.isFiniteOrder_iff_exists_rayClassCharacter`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/NumberTheory/NumberField/Global/HeckeCharacter/FiniteOrder.html#TauCeti.GlobalNumberFields.HeckeCharacter.isFiniteOrder_iff_exists_rayClassCharacter)). A real place divides its conductor exactly when its sign there is nontrivial ([`TauCeti.GlobalNumberFields.HeckeCharacter.mem_conductor_infinitePart_iff`](https://taucetiproject.org/docs/TauCeti/NumberTheory/NumberField/Global/HeckeCharacter/RealParity.html#TauCeti.GlobalNumberFields.HeckeCharacter.mem_conductor_infinitePart_iff)).
+- **The cyclotomic ray class group is the Galois group** — the ray class group of `ℚ` modulo `(n)·∞` is `Gal(ℚ(ζ_n)/ℚ)`, and the ray class of a prime not dividing `n` is its arithmetic Frobenius ([`TauCeti.GlobalNumberFields.ratModulusEquivGal`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/NumberTheory/NumberField/Global/Cyclotomic/RayClass.html#TauCeti.GlobalNumberFields.ratModulusEquivGal)).
+- **Picard groups of orders are ray class quotients** — `Pic O` is a quotient of the ray class group of the conductor, and `NarrowPic O` of the same group with every real place added. In each case the kernel is the classes of ideals with a suitable generator in the order, so both groups are finite ([`TauCeti.GlobalNumberFields.NumberFieldOrder.mem_ker_rayClassToPic`](https://taucetiproject.org/docs/TauCeti/NumberTheory/NumberField/Global/Orders/RayClass.html#TauCeti.GlobalNumberFields.NumberFieldOrder.mem_ker_rayClassToPic), [`TauCeti.GlobalNumberFields.NumberFieldOrder.mem_ker_rayClassToNarrowPic`](https://taucetiproject.org/docs/TauCeti/NumberTheory/NumberField/Global/Orders/NarrowPic/RayClass.html#TauCeti.GlobalNumberFields.NumberFieldOrder.mem_ker_rayClassToNarrowPic)).
+- **The Gorenstein criterion** — an order is Gorenstein exactly when every proper fractional ideal is invertible, and every monogenic order `ℤ[x]` is Gorenstein ([`TauCeti.GlobalNumberFields.NumberFieldOrder.isGorenstein_iff_forall_isUnit`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/NumberTheory/NumberField/Global/Orders/Gorenstein.html#TauCeti.GlobalNumberFields.NumberFieldOrder.isGorenstein_iff_forall_isUnit)).
+
+### Notable definitions and infrastructure
+
+- **`S`-integral finite adeles** `∏_{v∈S} K_v × ∏_{v∉S} 𝒪_v` exhaust the finite adeles, carry the product topology for finite `S`, and are the closure of the `S`-integers. This turns the restricted-product condition into something proofs can work with ([`IsDedekindDomain.FiniteAdeleRing.sIntegralAdeles`](https://taucetiproject.org/docs/TauCeti/RingTheory/DedekindDomain/FiniteAdeleRing/Basic.html#IsDedekindDomain.FiniteAdeleRing.sIntegralAdeles)).
+- **The splitting `C_K ≃ C_K¹ × ℝ>0`** is an isomorphism of topological groups determined by a choice of infinite place. It reduces questions about the full idele class group to the compact norm-one part ([`TauCeti.GlobalNumberFields.normOneProdEquiv`](https://taucetiproject.org/docs/TauCeti/NumberTheory/NumberField/Global/Ideles/Norm/Splitting.html#TauCeti.GlobalNumberFields.normOneProdEquiv)).
+- **Topological adele base change** `𝔸_K ⊗_K L ≃ 𝔸_L` is a continuous algebra equivalence that composes in towers, so idelic arguments can move open sets between `K` and `L` ([`TauCeti.GlobalNumberFields.adeleBaseChangeEquiv_tower`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/NumberTheory/NumberField/Global/Adeles/BaseChange.html#TauCeti.GlobalNumberFields.adeleBaseChangeEquiv_tower)).
+
+### Roadmap coverage
+
+Layers 0–11 are all done. Layer 4 is now complete. The finite adele ring has a projection and a single-place element at each place, integral and `S`-integral subrings, and the restricted-product condition in terms of them, and it is locally compact. Its unit group has coordinate maps, ideles concentrated at one place, and generation of the `S`-integral ideles by local units and integral units. The class group is described as the finite ideles modulo integral units and principal ideles, and finite ideles that are units on `S` map onto the ideals away from `S`, with kernel the everywhere-integral units ([`TauCeti.ker_toIdealsAway`](https://taucetiproject.org/docs/TauCeti/RingTheory/DedekindDomain/FiniteAdeleRing/Away.html#TauCeti.ker_toIdealsAway)). Layer 6 also gained the README's remark that the full idele class group is not compact, as a theorem. The class-number and unit-theorem corollaries of Layer 6 remain agreement results, not independent proofs.
+
+## The frontier
+
+- **Hand-off to consumers** — every layer's contracts are now in place. Class Field Theory, L-functions and Chebotarev can build on the ray-class count, the Hecke-character dictionary and the congruence descriptions of `Pic O` and `NarrowPic O` without further additions here.
+- **Independent idelic finiteness** — class-group finiteness and Dirichlet's unit theorem are recovered from compactness of `C_K¹` only as agreement corollaries, since compactness was proved using them. A proof of compactness that does not use them would be new work beyond the roadmap as stated.
