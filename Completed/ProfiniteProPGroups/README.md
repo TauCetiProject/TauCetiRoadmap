@@ -161,7 +161,7 @@ commutator convention in relator words is Labute's `(x,y) = x⁻¹y⁻¹xy`.
   *In Tau Ceti:* `TauCeti.exists_forall_map_eq_of_compact_t2`,
   `TauCeti.exists_forall_map_eq_of_finite`, `TauCeti.exists_forall_map_succ_eq_of_compact_t2`,
   `TauCeti.exists_forall_map_succ_eq_of_finite`,
-  `TauCeti.exists_forall_map_succ_eq_and_forall_eq_of_surjective`.
+  `TauCeti.exists_forall_map_succ_eq_and_forall_eq_of_forall_mem_range`.
   *Source:* Ribes–Zalesskii Prop. 1.1.4 for the compactness lemma.
   ⚠ The separation hypotheses of the lifting statement are needed. With `ℤ` indiscrete in every
   degree upstairs and identity transitions, `ℤ/2^k` indiscrete downstairs with the reductions, and
@@ -484,7 +484,7 @@ commutator convention in relator words is Labute's `(x,y) = x⁻¹y⁻¹xy`.
   lemmas; L3 `IsProP` API; L0 quotients.
   *In Tau Ceti:* `TauCeti.proPFrattini` with `TauCeti.isClosed_proPFrattini`,
   `ContinuousMulEquiv.map_proPFrattini_eq`, `TauCeti.proPFrattini_eq_topologicalClosure`,
-  `TauCeti.IsProP.proPFrattini_eq_iInf_isCoatom`, `TauCeti.IsProP.normal_of_isCoatom`,
+  `TauCeti.IsProP.proPFrattini_eq_profiniteFrattini` with `TauCeti.profiniteFrattini_def`, `TauCeti.IsProP.normal_of_isCoatom`,
   `IsPGroup.proPFrattini_eq_frattini`.
 
   API checklist for `proPFrattini`:
@@ -1784,7 +1784,7 @@ of the two even-rank families in the abstract classification.
   `eq_zero_of_forall_mem_of_isOpen`, `existsUnique_forall_mkQ_eq`, `quotient` and `t2Space`
   (`Topology/Algebra/Module/Compact.lean`); `TauCeti.IsCompactModule.completedGroupAlgebraModule`,
   the `Λ`-module structure on a compact `ℤ_p`-module with a continuous `Γ`-action
-  (`CompletedGroupAlgebra/Module.lean`); `TauCeti.exists_forall_map_succ_eq_and_forall_eq_of_surjective`.
+  (`CompletedGroupAlgebra/Module.lean`); `TauCeti.exists_forall_map_succ_eq_and_forall_eq_of_forall_mem_range`.
   ⚠ The lifting lemma needs its separation hypotheses, and not surjectivity of the transition
   maps, which it does not use. With `A_k = ℤ` indiscrete and identity transitions, `B_k = ℤ/2^k`
   indiscrete with the reductions, and the quotient maps between them, every other hypothesis
