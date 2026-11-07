@@ -404,8 +404,11 @@ Totaro 1999, Theorem 1.1 and Definition 1.2). Prove that such `(V, U)` exist for
 For `G`-schemes and `G`-morphisms satisfying Convention 5: proper pushforward, flat pullback, the
 localisation sequence `A^G_i(Z) → A^G_i(X) → A^G_i(X ∖ Z) → 0` for an invariant closed `Z`,
 equivariant Chern classes of equivariant vector bundles, intersection products for `X` smooth, and
-homotopy invariance for equivariant vector bundles and affine bundles (Edidin–Graham 1998, §2.3,
-Propositions 1–3), all deduced from
+homotopy invariance for equivariant vector bundles and affine bundles (Edidin–Graham 1998,
+§§2.3–2.6: Proposition 1 for proper pushforward and flat and lci pullback, Definition-Proposition 2
+and the remark after it for Chern classes and the product on smooth `X`, Proposition 3 for the
+localisation sequence; homotopy invariance is SchemeAndStackFoundations §5.2 on the mixed spaces),
+all deduced from
 SchemeAndStackFoundations §§5.2–5.6 applied to the mixed spaces of 2.1, which inherit Convention 5
 (invariant closed and open subschemes, and equivariant vector bundles, of a quasi-projective `X`
 with a linearised ample sheaf are again of that kind). Prove invariance under change of
@@ -537,9 +540,10 @@ comparison, not a target. *Needs:* 2.2, 2.4; 1.4; 3.4; SchemeAndStackFoundations
 ### 3.4 `[M_{0,n}/𝔖ₙ₋₁]` for every `n ≥ 3`
 
 Over a field of characteristic `0`, for `n ≥ 3` and `m = n − 1`, prove the following. This is the
-roadmap's own computation, by the route of items 1–4; the literature covers the even cases only,
-and the result agrees with Edidin–Hu, Theorem 1.3, for `n = 2g + 2` (in degree one) and with 3.2
-for `n = 4`.
+roadmap's own computation, by the route of items 1–4; the literature covers the even cases only.
+The result agrees with Edidin–Hu, Theorem 1.3, for `n = 2g + 2` (in degree one), and for `n = 4` it
+is compatible with 3.2 through the `μ₂`-gerbe `M_{1,1} → [M_{0,4}/𝔖₃]`, whose pullback
+`ℤ/6 → ℤ/12` is multiplication by `2` (Checks).
 
 1. `[M_{0,n}/𝔖ₙ₋₁] ≅ [U/Aff]`, with `U` the monic squarefree polynomials of degree `m` and
    `Aff = 𝔾_a ⋊ 𝔾_m` acting on `𝔸¹` by `x ↦ a x + b` and on `U` through the roots, by fixing the
