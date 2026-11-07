@@ -55,9 +55,11 @@ other owner; the flag carrier and the cartographic group are discussed below.
   triangle groups.
 - GraphConnectivityAndFlows Target 1.1 owns connectivity, components and isomorphisms of
   Mathlib's `Graph α β` and its bridges to `SimpleGraph`; skeletons (8.3) are such graphs.
-- RootSystems (Layers 2 and 4) owns Weyl groups as Coxeter systems and the longest element of a
-  Weyl group, and its §1.3 owns the faithfulness of the geometric representation of every Coxeter
-  system (`geometric_faithfulness`) and its transport to `I → ℝ`, which 10.1 consumes.
+- RootSystems owns the general Coxeter geometric sign and faithfulness theorems (its Layer 1) and
+  the marked Weyl presentation (its Layer 2); its §1.3 owns the faithfulness of the geometric
+  representation of every Coxeter system (`geometric_faithfulness`) and its transport to `I → ℝ`,
+  which 10.1 consumes. Longest elements and chambers belong to Mathlib and Tau Ceti, through
+  RootSystems' supplier contracts, and are not used here.
 - Tau Ceti owns the geometric representation of a Coxeter system (supplier contracts).
 - ConformalMapping owns the Jordan-curve material of Tau Ceti (`TauCeti.IsJordanCurve`), which is
   not used here: pseudolines are graphs of continuous functions.
@@ -197,8 +199,7 @@ and the bridge `toSimpleGraph (Graph.ofSimpleGraph H) ≃ H`, for 8.3 and 8.4.
 **From RootSystems.** §1.3, `geometric_faithfulness`: `CoxeterSystem.geometricRepresentation` is
 injective for every Coxeter system `cs : CoxeterSystem M W` on an arbitrary index type (Humphreys,
 §5.4, Corollary), and its transport to `I → ℝ` for finite `I` through
-`Finsupp.linearEquivFunOnFinite`, for 10.1 and 10.2. Its Layers 2 and 4 are named in Scope and not
-used.
+`Finsupp.linearEquivFunOnFinite`, for 10.1 and 10.2. Its Layer 2 is named in Scope and not used.
 
 Neither pin has orientations of matroids, chirotopes, sign vectors, arrangements of curves,
 wiring diagrams, signotopes or abstract polytopes.
