@@ -1,6 +1,7 @@
 module
 
 public import Mathlib
+public import TauCeti.Algebra.Homology.DerivedCategory.KInjective
 
 /-!
 # Enhanced derived sheaves: target signatures
@@ -9,9 +10,11 @@ The roadmap is `README.md`; this file is not the roadmap. It states the roadmap'
 theorems against the pinned Mathlib and Tau Ceti APIs, with simple definitions on native
 carriers, each with `sorry`.
 
-The statable headlines are the local smallness of the derived category of a Grothendieck
-abelian category, which makes `HasDerivedCategory` a global instance in the universe of the
-Grothendieck abelian structure; the stability under tensor products of the presheaf maps
+The statable headlines are the existence of K-injective resolutions of every cochain complex
+in a Grothendieck abelian category, which makes `TauCeti.HasKInjectiveResolutions` a global
+instance there; the local smallness of the derived category of a Grothendieck abelian category,
+which makes `HasDerivedCategory` a global instance in the universe of the Grothendieck abelian
+structure; the stability under tensor products of the presheaf maps
 inverted by étale sheafification, which makes Mathlib's sheaf tensor product and its symmetry
 global instances on étale module sheaves; invertible objects of a monoidal category as the
 units of Mathlib's skeleton monoid; the converse of Kunz's theorem; the homological bounds for
@@ -31,21 +34,20 @@ comparison for K-injective complexes (`TauCeti.dgNerve`,
 `TauCeti.KInjectiveDGCategory.dgNerveHomotopyCategoryEquiv`), the global-dimension bound for
 regular rings, Kunz's theorem, Frobenius-root ideals, Tor independence and the Tor bound of
 perfect presentations, pro-zero towers and pro-isomorphisms, replete categories, K-flat
-complexes and their resolutions, the Koszul braiding on complexes of modules and K-injective
-replacements of module complexes. The README cites each by name.
+complexes and their resolutions, the Koszul braiding on complexes of modules, the K-injective
+replacement functor built from `TauCeti.HasKInjectiveResolutions` and the instance of that
+class for module categories. The README cites each by name.
 
 The following headline families are not statable at the pins:
 * Layers E0, 0 and E1: the simplicial enrichment and homotopy-coherent comparison of the dg
   nerve, its stable sign comparison, presentability and the enhanced sheaf comparisons lack the
   supplied coherent mapping-space framework (right mapping spaces, categorical equivalences, the
-  stability predicate) and the enhanced ringed-site category D∞(O); K-injective resolutions of
-  sheaves of modules on a ringed site (the instance `TauCeti.HasKInjectiveResolutions` for
-  `SheafOfModules O`, Section 0.2) are a target whose statement mentions no object of this
-  roadmap. The functorial K-flat replacement of étale module sheaves and the derived tensor
-  product on their derived category lack `MonoidalPreadditive` and the Koszul braiding for the
-  étale tensor product on complexes of `ModuleCat`-valued étale sheaves and a monoidal structure
-  on Mathlib's `DerivedCategory`; the internal Hom of étale module sheaves and the Koszul
-  braiding on their complexes are data, so they are not stated with `sorry`.
+  stability predicate) and the enhanced ringed-site category D∞(O). The functorial K-flat
+  replacement of étale module sheaves and the derived tensor product on their derived category
+  lack `MonoidalPreadditive` and the Koszul braiding for the étale tensor product on complexes of
+  `ModuleCat`-valued étale sheaves and a monoidal structure on Mathlib's `DerivedCategory`; the
+  internal Hom of étale module sheaves and the Koszul braiding on their complexes are data, so
+  they are not stated with `sorry`.
   Tensor–Hom, Koszul realization, perfect-scheme base change and
   algebraic-space perfect pushforward additionally need enhanced functors and
   quasicoherent/perfect subcategories.
@@ -80,6 +82,24 @@ universe u v w z
 section GrothendieckAbelian
 
 variable (C : Type u) [Category.{v} C] [Abelian C] [IsGrothendieckAbelian.{w} C]
+
+/-- **K-injective resolutions in a Grothendieck abelian category** (Stacks, Injectives, Theorem
+19.12.6, tag 079P; Section 0.2): every cochain complex in a Grothendieck abelian category admits a
+quasi-isomorphism into a K-injective complex, the hypothesis `TauCeti.HasKInjectiveResolutions`
+under which Tau Ceti builds the K-injective replacement functor and identifies the dg nerve of
+K-injective complexes with the derived category. -/
+theorem IsGrothendieckAbelian.hasKInjectiveResolutions :
+    TauCeti.HasKInjectiveResolutions C := by
+  sorry
+
+/-- **K-injective resolutions as a global instance**
+(`IsGrothendieckAbelian.instHasKInjectiveResolutions`, Section 0.2): the instance of
+`TauCeti.HasKInjectiveResolutions` on every Grothendieck abelian category, under which Tau Ceti's
+`TauCeti.kInjectiveReplacement` and `TauCeti.KInjectiveDGCategory.dgNerveHomotopyCategoryEquiv`
+apply to sheaves of modules on every ringed site. -/
+instance IsGrothendieckAbelian.instHasKInjectiveResolutions :
+    TauCeti.HasKInjectiveResolutions C :=
+  IsGrothendieckAbelian.hasKInjectiveResolutions C
 
 /-- **Small Hom types in the derived category**
 (`IsGrothendieckAbelian.locallySmall_localization_quasiIso`, Section 0.1; Stacks 079P): in a
