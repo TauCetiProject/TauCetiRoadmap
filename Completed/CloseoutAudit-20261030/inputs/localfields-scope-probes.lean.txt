@@ -1,0 +1,107 @@
+import TauCeti.NumberTheory.LocalField.AbsoluteRamificationIndex
+import TauCeti.NumberTheory.LocalField.AlgebraicExtension.Basic
+import TauCeti.NumberTheory.LocalField.AlgebraicExtension.Tower
+import TauCeti.NumberTheory.LocalField.Norm.Conductor
+import TauCeti.NumberTheory.LocalField.DeepUnits.Basic
+import TauCeti.NumberTheory.LocalField.DeepUnits.Coordinates
+import TauCeti.NumberTheory.LocalField.Different.AlgEquiv
+import TauCeti.NumberTheory.LocalField.Different.Basic
+import TauCeti.NumberTheory.LocalField.Different.Herbrand
+import TauCeti.NumberTheory.LocalField.Different.Tower
+import TauCeti.NumberTheory.LocalField.Different.Wild
+import TauCeti.NumberTheory.LocalField.Discriminant.Basic
+import TauCeti.NumberTheory.LocalField.Eisenstein.PowerBasis
+import TauCeti.NumberTheory.LocalField.Eisenstein.TotallyRamified
+import TauCeti.NumberTheory.LocalField.FiniteExtension.IntermediateField
+import TauCeti.NumberTheory.LocalField.FiniteGalois
+import TauCeti.NumberTheory.LocalField.Frobenius
+import TauCeti.NumberTheory.LocalField.Herbrand.Basic
+import TauCeti.NumberTheory.LocalField.Herbrand.HasseArf.Abelian
+import TauCeti.NumberTheory.LocalField.Herbrand.HasseArf.CyclicPGroup
+import TauCeti.NumberTheory.LocalField.Herbrand.HasseArf.PrimeDegree
+import TauCeti.NumberTheory.LocalField.Herbrand.Jump
+import TauCeti.NumberTheory.LocalField.Herbrand.Tower
+import TauCeti.NumberTheory.LocalField.Herbrand.UpperQuotient
+import TauCeti.NumberTheory.LocalField.InertiaDegree
+import TauCeti.NumberTheory.LocalField.Monogenic
+import TauCeti.NumberTheory.LocalField.Norm.AfterBreak
+import TauCeti.NumberTheory.LocalField.Norm.Basic
+import TauCeti.NumberTheory.LocalField.Norm.Graded
+import TauCeti.NumberTheory.LocalField.Norm.Herbrand
+import TauCeti.NumberTheory.LocalField.Norm.Index
+import TauCeti.NumberTheory.LocalField.Norm.Surjectivity
+import TauCeti.NumberTheory.LocalField.Norm.Unramified.Basic
+import TauCeti.NumberTheory.LocalField.NormalizedValuation
+import TauCeti.NumberTheory.LocalField.Padic
+import TauCeti.NumberTheory.LocalField.PowerSubgroup.Basic
+import TauCeti.NumberTheory.LocalField.PowerSubgroup.Open
+import TauCeti.NumberTheory.LocalField.RamificationGroup
+import TauCeti.NumberTheory.LocalField.RamificationIndex
+import TauCeti.NumberTheory.LocalField.RootsOfUnity.Torsion
+import TauCeti.NumberTheory.LocalField.Squares
+import TauCeti.NumberTheory.LocalField.Tame.Character
+import TauCeti.NumberTheory.LocalField.Tame.Geometric
+import TauCeti.NumberTheory.LocalField.Tame.Layer
+import TauCeti.NumberTheory.LocalField.Tame.PadicCharacter
+import TauCeti.NumberTheory.LocalField.Tame.Presentation
+import TauCeti.NumberTheory.LocalField.Tame.Quotient
+import TauCeti.NumberTheory.LocalField.TamelyRamified.BaseChange
+import TauCeti.NumberTheory.LocalField.TamelyRamified.Basic
+import TauCeti.NumberTheory.LocalField.TamelyRamified.Galois
+import TauCeti.NumberTheory.LocalField.TamelyRamified.Subextension
+import TauCeti.NumberTheory.LocalField.UnitFiltration.Basic
+import TauCeti.NumberTheory.LocalField.UnitFiltration.Conjugation
+import TauCeti.NumberTheory.LocalField.UnitFiltration.ProP
+import TauCeti.NumberTheory.LocalField.UnitFiltration.Subgroup
+import TauCeti.NumberTheory.LocalField.UnitFiltration.Uniformizer
+import TauCeti.NumberTheory.LocalField.UnitsDecomposition
+import TauCeti.NumberTheory.LocalField.Unramified.BaseChange
+import TauCeti.NumberTheory.LocalField.Unramified.Basic
+import TauCeti.NumberTheory.LocalField.Unramified.Coordinate
+import TauCeti.NumberTheory.LocalField.Unramified.Criterion
+import TauCeti.NumberTheory.LocalField.Unramified.Existence
+import TauCeti.NumberTheory.LocalField.Unramified.Factorization
+import TauCeti.NumberTheory.LocalField.Unramified.Inertia.Basic
+import TauCeti.NumberTheory.LocalField.Unramified.Inertia.SeparableClosure
+import TauCeti.NumberTheory.LocalField.Unramified.Lattice
+import TauCeti.NumberTheory.LocalField.Unramified.Maximal
+import TauCeti.NumberTheory.LocalField.Unramified.Reduction
+import TauCeti.NumberTheory.LocalField.Unramified.Rigidity
+import TauCeti.NumberTheory.LocalField.Unramified.ZHat
+import TauCeti.NumberTheory.LocalField.WildInertia
+import TauCeti.NumberTheory.LocalField.WorkedExamples.CyclotomicEight.Basic
+import TauCeti.NumberTheory.LocalField.WorkedExamples.CyclotomicEight.Herbrand
+import TauCeti.NumberTheory.LocalField.WorkedExamples.CyclotomicEight.Quotient
+import TauCeti.NumberTheory.LocalField.WorkedExamples.DyadicSqrt.Five.Basic
+import TauCeti.NumberTheory.LocalField.WorkedExamples.DyadicSqrt.Herbrand
+import TauCeti.NumberTheory.LocalField.WorkedExamples.DyadicSqrt.NegOne.Ramification
+import TauCeti.NumberTheory.LocalField.WorkedExamples.DyadicSqrt.Two
+import TauCeti.NumberTheory.LocalField.WorkedExamples.Padic.Teichmuller
+import TauCeti.NumberTheory.LocalField.WorkedExamples.Padic.Two.Tame
+import TauCeti.NumberTheory.LocalField.WorkedExamples.Padic.Two.Units
+import TauCeti.NumberTheory.LocalField.WorkedExamples.TriadicSqrtThree
+import TauCeti.NumberTheory.LocalField.WorkedExamples.UnramifiedQuadratic
+import TauCeti.RingTheory.Henselian.Teichmuller
+
+#print axioms TauCeti.mem_wildInertiaSubgroup_iff_forall_restrictNormal_mem_finiteGaloisLowerRamificationGroup
+#print axioms TauCeti.map_wildInertiaSubgroup_restrictNormalHom
+#print axioms TauCeti.le_maximalTameExtension_iff
+#print axioms TauCeti.topologicalClosure_zpowers_toTameQuotient_eq_iff
+#print axioms TauCeti.exists_marked_tameQuotient_padic_two
+#print axioms Padic.mk0_five_mem_unitFiltration_two
+#print axioms Padic.not_isSquare_five
+#print axioms TauCeti.DyadicSqrtFive.frobeniusAlgEquiv_sqrtFive
+#print axioms TauCeti.DyadicSqrtFive.exists_sq_sub_five_mul_sq_eq_three
+#print axioms TauCeti.DyadicSqrtFive.not_exists_sq_sub_five_mul_sq_eq_two
+#print axioms TauCeti.DyadicSqrtTwo.differentExponent_eq_three
+#print axioms TauCeti.DyadicCyclotomicEight.differentExponent_eq_eight
+#print axioms TauCeti.DyadicCyclotomicEight.herbrand_two
+#print axioms TauCeti.DyadicCyclotomicEight.map_restrictSqrtTwo_lowerRamificationGroup_three_ne
+#print axioms TauCeti.LocalFieldsRamification.hasseArf
+#print axioms TauCeti.normGradedMap_tame_break_zero
+#print axioms TauCeti.normGradedMap_zero_before_break
+#print axioms TauCeti.normGradedMap_positive_before_break
+#print axioms TauCeti.normGradedMap_at_break
+#print axioms TauCeti.tameQuotientEquiv_toTameQuotient_frobenius
+#print axioms TauCeti.tameQuotientEquiv_toTameQuotient_tameGenerator
+#print axioms TauCeti.iwasawaCoordinate_tameQuotientEquiv
