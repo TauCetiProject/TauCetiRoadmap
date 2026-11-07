@@ -15,8 +15,10 @@ Not statable at the pins:
 
 * the connected field theory of GQ4–GQ5 (the functor from the decorated connected (2+1)-bordism
   category to `A∞(4)/S`): the pins have no category of three-bordisms decorated by bundles, no
-  `A∞` categories (Tau Ceti has `A∞` algebras and modules only), no Fukaya categories and no
-  quilted Floer theory;
+  `ℤ/4`-graded `A∞` categories with a shift autoequivalence and no `A∞` category of functors
+  (the pinned `TauCeti.AInfinityCategory` and `TauCeti.AInfinityFunctor` are `ℤ`-graded, with
+  cohomological units as a predicate and without transformations between functors), no Fukaya
+  categories and no quilted Floer theory;
 * the smooth symplectic structure, the dimension `(2g−2)(r²−1)` and `c₁ = 2r[ω]` of GQ1: the pins
   have no smooth or symplectic structure on such a quotient;
 * the elementary Lagrangian correspondences of GQ2, the relative-spin identity
