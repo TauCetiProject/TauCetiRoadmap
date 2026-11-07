@@ -23,7 +23,7 @@ What it builds on, and does not plan again:
 - **PDE** Layer 1 (A1–A7): scalar weak Sobolev spaces on domains, density, embeddings, trace, extension and Rellich compactness, consumed through the pinned `Wkp` modules and PseudoholomorphicCurveAnalysis.
 - **ComplexKahlerGeometry** K1 (pointwise complex orientation and integrability calculus), K5 (compact Hermitian elliptic theory, Dolbeault cohomology and Serre duality on compact components) and K7 (projective carriers), each on its own hypotheses. The target J here need not be integrable; an integrable-target unfolding result does not substitute for the general-J proof.
 - **ComplexCurveModuli**: normalization and flags, prestable analytic nodal families, the stable pointed chart groupoid and its universal curves, plumbing and Hardy deformation charts, properness, domain operations and the late Orbifolds adapter. It retains unstable domains and their positive-dimensional automorphisms and the integrability equations and bracket conventions of its families; this roadmap owns map-dependent stability, incidence slices and map reductions.
-- **ImplicitAtlases** Layers 0–7: the generic topological chain and sheaf theory, purity, orientation sheaves, the global relative trace, the dual-Čech virtual functional with its pushforward and finite-CW realization (§5.4–§5.5) and the transverse fiber-product extension. Its Čech carrier and the Čech/singular comparison behind §5.5 belong to its own suppliers (TopologicalSheafCohomology TS1.1–TS1.2 and CharacteristicClasses §C1.2b) and are reached here only through ImplicitAtlases. This roadmap supplies all atlas data before applying them and constructs the analytic joint-model inputs of ImplicitAtlases Layer 7, not a second engine.
+- **ImplicitAtlases** Layers 0–7: the generic topological chain and sheaf theory, purity, orientation sheaves, the global relative trace, the dual-Čech virtual functional with its pushforward and finite-CW realization (§5.4–§5.5) and the transverse fiber-product extension. Every Čech group below is the Čech cohomology of ImplicitAtlases §0.7, which ImplicitAtlases computes by the fixed-cover complexes and cofinal cover systems of TopologicalSheafCohomology TS1.1–TS1.2; the Čech/singular comparison of CharacteristicClasses §C1.2b enters only through ImplicitAtlases §5.5. Neither TopologicalSheafCohomology nor §C1.2b is consumed here directly. This roadmap supplies all atlas data before applying them and constructs the analytic joint-model inputs of ImplicitAtlases Layer 7, not a second engine.
 - **DifferentialGeometry** 8.3–8.5 (smooth singular chains, integration and the de Rham comparison), **CharacteristicClasses** C3 (integral Chern classes), **AlgebraicTopology** Stages 6 and 8 (fundamental classes of closed oriented manifolds, finite CW type of compact smooth manifolds) and **GeometricTopology**'s smoothing-and-triangulation comparison item 1 (smooth triangulation of a compact smooth manifold): consumed with their own naturality and orientation hypotheses, for the energy, Chern and index identities of Layer 0 and the target comparisons of Layer 13.
 - **Orbifolds** O1–O5: used only in §13.3's late domain-target adapter after analytic domain properness; it is not an input to the topology, compactness, reductions or gluing of Layers 0–12.
 - **MorseNovikov** N1: the generic completed Novikov coefficient ring. The Gromov–Witten development owns its curve-class, Chern and area specialization, the cohomology-valued operations, descendants and all axioms; it consumes the maps, orientations, families and joint data constructed here.
@@ -95,7 +95,8 @@ Signs are read in ℤ/2 and reduced modulo 2 before any truncation. Set-sized am
 
 ### From TauCetiRoadmap.ImplicitAtlases
 
-- Layer 1 (§1.1–1.4): the implicit-atlas axioms, boundary atlases, subatlases and reindexing. Layers 2–4: deformation spaces, virtual cochain complexes, the orientation sheaf, purity and the rational virtual class with finite-subatlas independence. Layer 5 (§5.2–§5.5): boundary and cobordism law, refinements and shrinkings, pushforward along a continuous map, and the realization of a pushed-forward functional as a unique rational singular class on a paracompact Hausdorff target of finite CW type, through CharacteristicClasses §C1.2b's Čech/singular comparison, which ImplicitAtlases consumes (§5.4–§5.5 are consumed in §13.1). Layer 6: cell-like stratified atlases and products, with the Čech external product of §6.5. Layer 7: transverse fiber products and the application interface, consumed with the joint models of Layer 12 supplied as inputs.
+- Layer 0: orientation lines of real vector spaces with their sign conventions (§0.2, consumed in §8.1); Čech cohomology of a sheaf on a compact Hausdorff space with pullback along continuous maps (§0.7), the carrier of the functional of §9.2 and of its pushforward in §13.1; local orientations and closed-subset duality (§0.10, consumed in §8.2).
+- Layer 1 (§1.1–§1.4): the implicit-atlas axioms, boundary atlases, subatlases and reindexing. Layers 2–4: deformation spaces, virtual cochain complexes, the orientation sheaf, purity and the rational virtual class with finite-subatlas independence. Layer 5 (§5.1–§5.5): the boundary exact triangle, boundary and cobordism law, refinements and shrinkings, pushforward along a continuous map, and the realization of a pushed-forward functional as a unique rational singular class on a paracompact Hausdorff target of finite CW type, through CharacteristicClasses §C1.2b's Čech/singular comparison, which ImplicitAtlases consumes (§5.4–§5.5 are consumed in §13.1). Layer 6: cell-like stratified atlases and products, with the Čech external product of §6.5. Layer 7: transverse fiber products and the application interface, consumed with the joint models of Layer 12 supplied as inputs.
 
 ### From the remaining roadmaps on main
 
@@ -929,7 +930,7 @@ Consume the same finite-action and unordered-auxiliary chart of ComplexCurveModu
 
 ### 9.2 The regular locus, the atlas and the functional
 
-Define `X_I^reg` by triviality of the thickened-tuple automorphism group together with surjectivity of the fixed-domain vertical augmented linearization, with the moving-intersection terms included, and prove its independence of the sufficiently high Sobolev completion; this is stronger than moving-domain Fredholm regularity of the unthickened map and is not the entire finite-isotropy regular orbifold locus. Global base compactness is §3.7 and is independent of these local axioms. Apply ImplicitAtlases Layers 2–4 only after the complete package is supplied, and obtain the canonical rational functional on degree-v Čech cohomology of the compact coarse moduli space with coefficients in the virtual orientation sheaf of §8.1. No identification with singular homology of a possibly wild source, no strict chain-level functional, no weighted orbifold Poincaré duality and no Gromov–Witten axiom follows from naming an atlas.
+Define `X_I^reg` by triviality of the thickened-tuple automorphism group together with surjectivity of the fixed-domain vertical augmented linearization, with the moving-intersection terms included, and prove its independence of the sufficiently high Sobolev completion; this is stronger than moving-domain Fredholm regularity of the unthickened map and is not the entire finite-isotropy regular orbifold locus. Global base compactness is §3.7 and is independent of these local axioms. Apply ImplicitAtlases Layers 2–4 only after the complete package is supplied, and obtain the canonical rational functional on the degree-v Čech cohomology (ImplicitAtlases §0.7) of the compact coarse moduli space with coefficients in the virtual orientation sheaf of §8.1. No identification with singular homology of a possibly wild source, no strict chain-level functional, no weighted orbifold Poincaré duality and no Gromov–Witten axiom follows from naming an atlas.
 
 **Checks.**
 
@@ -937,7 +938,7 @@ Define `X_I^reg` by triviality of the thickened-tuple automorphism group togethe
 - For the constant class in the stable range with `X` a point, the coarse space is `|M̄_(g,n)|`, `v = 6g − 6 + 2n`, and the functional is the fundamental class of the coarse space weighted by the generic isotropy, `1/2` for `(g, n) = (2, 0)` and `(1, 1)`.
 - For the constant class over a point with `(g, n) = (0, 3)`, `v = 0`, the coarse space is a point and the functional sends the generator of `H⁰` to 1, the isotropy being trivial; for `(1, 1)`, `v = 2`, the coarse space is the sphere `|M̄_(1,1)|` and the functional is one half of the fundamental-class pairing, the generic isotropy having order 2.
 
-*Needs:* §9.1, §3.7, §8.1; ImplicitAtlases Layers 2–4.
+*Needs:* §9.1, §3.7, §8.1; ImplicitAtlases §0.7 and Layers 2–4.
 
 ### Examples
 
@@ -946,7 +947,7 @@ Define `X_I^reg` by triviality of the thickened-tuple automorphism group togethe
 
 ### Dependencies
 
-Layers 3–8; ComplexCurveModuli D6 item 4; ImplicitAtlases Layers 1–4.
+Layers 3–8; ComplexCurveModuli D6 item 4; ImplicitAtlases §0.7 and Layers 1–4.
 
 ## Layer 10: Families, auxiliary choices, refinement and cobordism (M10)
 
@@ -1054,15 +1055,15 @@ Layers 2, 4, 7, 9–11; ComplexCurveModuli D7 item 2; ImplicitAtlases Layers 5�
 
 ### 13.1 Pushforward of the functional along a continuous map
 
-For a continuous map f from the compact moduli space to a specified compact Hausdorff target Y, apply ImplicitAtlases §5.4 to the rational dual-Čech functional of §9.2, with the coefficient map from `f⁻¹ℚ` to the orientation sheaf given by the canonical orientation of §8.1, to obtain the pushforward functional on `Čech^v(Y; ℚ)`, with its pair maps. It does not require finite CW type or Poincaré duality of the stable-map source. When Y is a finite CW complex, or carries a finite-CW homotopy comparison with its cohomology maps, apply ImplicitAtlases §5.5 to realize the pushforward as the unique class in `H_v(Y; ℚ)`, natural for maps of finite-CW targets and for homotopies: the Čech/singular comparison of CharacteristicClasses §C1.2b, the rational universal-coefficient theorem and the evaluation pairing enter through §5.5 and are not constructed again here. Products of targets use the external product of ImplicitAtlases §6.5.
+For a continuous map f from the compact moduli space to a specified compact Hausdorff target Y, apply ImplicitAtlases §5.4 to the rational dual-Čech functional of §9.2, with the coefficient map from `f⁻¹ℚ` to the orientation sheaf given by the canonical orientation of §8.1, to obtain the pushforward functional on `Čech^v(Y; ℚ)`, the constant-coefficient Čech cohomology of ImplicitAtlases §0.7 on Y with its pullback along f, with its pair maps. It does not require finite CW type or Poincaré duality of the stable-map source. When Y is a finite CW complex, or carries a finite-CW homotopy comparison with its cohomology maps, apply ImplicitAtlases §5.5 to realize the pushforward as the unique class in `H_v(Y; ℚ)`, natural for maps of finite-CW targets and for homotopies: the Čech/singular comparison of CharacteristicClasses §C1.2b, the rational universal-coefficient theorem and the evaluation pairing enter through §5.5 and are not constructed again here. Products of targets use the external product of ImplicitAtlases §6.5.
 
 **Checks.**
 
 - For Y a point the pushforward is a functional on `Čech^v(pt; ℚ)`, which is zero unless `v = 0`, where it is the degree, a rational number. For lines in `ℂP²` (`v = 4`, the moduli space being the dual plane) the pushforward along the map to a point is therefore 0, while along the identity of the dual plane its value on the generator of `Čech^4` dual to the fundamental class is 1.
 - For Y a non-finite-CW compact space such as the Hawaiian earring, the functional is defined but no unique homology class is claimed.
-- Two homotopic maps give the same pushforward, by the homotopy invariance of Čech cohomology on compact Hausdorff spaces.
+- For a finite-CW target, two homotopic maps give the same realized class, by the homotopy naturality of ImplicitAtlases §5.5. On a general compact Hausdorff target no homotopy invariance of the pushforward is claimed: none of the suppliers above states homotopy invariance of the §0.7 carrier there.
 
-*Needs:* §8.1, §9.2; ImplicitAtlases §5.4–§5.5, §6.5.
+*Needs:* §8.1, §9.2; ImplicitAtlases §0.7, §5.4–§5.5, §6.5.
 
 ### 13.2 The target `X^n`
 
@@ -1107,7 +1108,7 @@ Export the evaluation and stabilization maps, clutching, parameter families, com
 
 ### Dependencies
 
-Layers 9–12; ComplexCurveModuli D5, D6, D8; ImplicitAtlases §5.4–§5.5 and §6.5; AlgebraicTopology Stage 8; GeometricTopology; Orbifolds O1–O5; MorseNovikov N1.
+Layers 9–12; ComplexCurveModuli D5, D6, D8; ImplicitAtlases §0.7, §5.4–§5.5 and §6.5; AlgebraicTopology Stage 8; GeometricTopology; Orbifolds O1–O5; MorseNovikov N1.
 
 ## Downstream consumers
 
