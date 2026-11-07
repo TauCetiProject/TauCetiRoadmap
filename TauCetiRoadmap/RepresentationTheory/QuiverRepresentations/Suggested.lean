@@ -5,35 +5,30 @@ import TauCeti.RepresentationTheory.Quiver.Representation.VertexSimpleModule
 import TauCeti.RepresentationTheory.Quiver.Representation.AsModule
 import TauCeti.RingTheory.Semisimple.BasicAlgebra
 import TauCeti.Algebra.Module.AuslanderReiten.Translate
-import TauCeti.CategoryTheory.AlmostSplit.Uniqueness
 import TauCeti.CategoryTheory.Preadditive.MorphismIdeal.FactorThrough
 import TauCeti.CategoryTheory.Preadditive.MorphismIdeal.Additive
-import TauCeti.CategoryTheory.Preadditive.Radical.Quotient
 
 /-!
 # Quiver representations: target signatures
 
 The roadmap is README.md; this file is not the roadmap. It states the remaining headline
-theorems against the pinned APIs: basic Morita reduction, admissible presentations with the
-Ext-quiver identification, heredity of every finite path algebra and the comparison of the Hom
-differential with native Ext, the rational root-system bridge, stable translate equivalence,
-Auslander–Reiten duality, almost-split existence and identification of its left end, and the mesh
-multiplicity identity.
+theorems against the pinned APIs: the Ext-quiver identification in admissible presentations,
+heredity of every finite path algebra and the comparison of the Hom differential with native Ext,
+the rational root-system bridge, and the stable translate equivalence.
 
 Path algebras and their module equivalence, Krull–Schmidt, projective covers, injective envelopes
-and minimal injective copresentations, the Ext-Euler characteristic as the Euler form of dimension
-vectors with its inverse-Cartan form, BGP reflection and Coxeter survival, and the
-finite-dimensional Gabriel correspondence are supplied by Tau Ceti; the README specifies the
-exact declarations. The Euler–Hom–Ext identity is a corollary of the pinned Hom-minus-cokernel
-identity and the Ext comparison stated here, so it is not stated separately. Almost-split
-uniqueness extending a specified endpoint isomorphism is also supplied, by ShortComplex.IsAlmostSplit.exists_iso_τ₃_eq together
-with finite-length locality. None is restated as an admitted theorem.
+and minimal injective copresentations, Morita reduction to a basic corner, the bound-quiver
+surjection with admissible kernel, the Ext-Euler characteristic as the Euler form of dimension
+vectors with its inverse-Cartan form, BGP reflection and Coxeter survival, the
+finite-dimensional Gabriel correspondence, the module-level Auslander–Reiten translate,
+Auslander–Reiten duality, almost-split existence with the translate as left end, and the quiver
+of irreducible morphisms with its k-dimensional mesh relation are supplied by Tau Ceti; the README
+specifies the exact declarations. The Euler–Hom–Ext identity is a corollary of the pinned
+Hom-minus-cokernel identity and the Ext comparison stated here, so it is not stated separately.
+None is restated as an admitted theorem.
 
-All remaining headlines are statable. The finite AR quiver is assembled in README Layer 6 from
-the native irreducible-morphism spaces, finite-dimensional indecomposable skeleton and almost-split
-sequences. Its elementary finiteness consequence is not a separate deep acceptance theorem.
-The translate used here is the native dual transpose of an explicit minimal presentation;
-no object-level translate or arrow instance is supplied as admitted data.
+The translate used here is the native dual transpose of an explicit minimal presentation. The
+companion duality formula and the valued mesh of README Layer 6 are specified there in prose.
 -/
 
 namespace TauCetiRoadmap.QuiverRepresentations
@@ -45,18 +40,13 @@ universe u
 
 /-! ## Layer 3: finite-dimensional algebras and admissible presentations -/
 
-/-- Every finite-dimensional algebra is linearly Morita equivalent to a finite-dimensional basic
-algebra; the left-module construction uses the opposite endomorphism ring of a basic progenerator.
-Assem–Simson–Skowroński, I.6.10, with the left-module convention. -/
-theorem exists_basic_morita (k A : Type u) [Field k] [Ring A] [Algebra k A]
-    [FiniteDimensional k A] :
-    ∃ (B : Type u) (_ : Ring B) (_ : Algebra k B) (_ : FiniteDimensional k B),
-      TauCeti.IsBasic B ∧ Nonempty (MoritaEquivalence k A B) := sorry
-
 /-- A basic finite-dimensional algebra over an algebraically closed field has a finite bound-quiver
 presentation. Its vertex simples exhaust the simple modules without repetition, their pullbacks
 are the native vertex simples, and arrow multiplicities equal the indicated Ext dimensions.
 The kernel is admissible with respect to the arrow ideal, not the path algebra's Jacobson radical.
+The surjection with admissible kernel alone is
+`TauCeti.IsBasic.exists_surjective_pathAlgebra_isAdmissibleIdeal_ker`; the new content is the
+identification of the simples and of the arrow counts.
 Assem–Simson–Skowroński, II.2.1, II.3.7 and III.2.12, transposed to left modules. -/
 theorem exists_admissible_presentation (k A : Type u) [Field k] [IsAlgClosed k] [Ring A]
     [Algebra k A] [FiniteDimensional k A] (hA : TauCeti.IsBasic A) :
@@ -109,30 +99,7 @@ theorem exists_rootPairing_titsForm {Q : Type} [Quiver Q] [Fintype Q] [Nonempty 
       ∀ d : Q → ℤ, (∃ r : ι, P.root r = fun v => (d v : ℚ)) ↔
         (d ≠ 0 ∧ TauCeti.titsForm Q d = 1) := sorry
 
-/-! ## Layer 6: Auslander–Reiten duality and almost-split sequences -/
-
-attribute [local instance] HasBinaryBiproducts.of_hasBinaryCoproducts
-
-/-- The k-subspace of module morphisms generated by maps factoring through injective modules.
-For finite-dimensional algebras and finite-dimensional endpoints this is the usual injectively
-trivial subspace, defining costable Hom. -/
-def injectiveFactorSubmodule (k A : Type u) [Field k] [Ring A] [Algebra k A]
-    (M N : ModuleCat.{u} A) : Submodule k (M ⟶ N) :=
-  Submodule.span k {f | ∃ (I : ModuleCat.{u} A), Injective I ∧
-    ∃ (g : M ⟶ I) (h : I ⟶ N), g ≫ h = f}
-
-/-- AR duality identifies D Ext¹(M,N) with costable Hom(N,D Tr M), for a finite minimal
-projective presentation of M. The quotient kills injective factorizations, not projective ones. -/
-theorem auslanderReiten_duality (k A : Type u) [Field k] [Ring A] [Algebra k A]
-    [FiniteDimensional k A] (M N P₀ P₁ : ModuleCat.{u} A)
-    [Module.Finite A M] [Module.Finite A N]
-    [Module.Finite A P₀] [Module.Finite A P₁]
-    (p : P₁ ⟶ P₀) (π : P₀ ⟶ M)
-    (hp : TauCeti.IsMinimalProjectivePresentation p.hom π.hom) :
-    Nonempty (Module.Dual k (Ext M N 1) ≃ₗ[k]
-      ((N ⟶ ModuleCat.of A (TauCeti.AuslanderReitenTranslate k p.hom)) ⧸
-        injectiveFactorSubmodule k A N
-          (ModuleCat.of A (TauCeti.AuslanderReitenTranslate k p.hom)))) := sorry
+/-! ## Layer 6: stable categories and the translate equivalence -/
 
 /-- The ideal generated by morphisms factoring through projective finitely generated modules. -/
 def projectiveFactorIdeal (A : Type u) [Ring A] : TauCeti.MorphismIdeal (FGModuleCat.{u} A) :=
@@ -158,30 +125,5 @@ theorem exists_stable_translate_equivalence (k A : Type u) [Field k] [Ring A] [A
           Nonempty (T.obj ≅ ModuleCat.of A (TauCeti.AuslanderReitenTranslate k p.hom)) ∧
           Nonempty (E.functor.obj ((projectiveFactorIdeal A).quotientFunctor.obj M) ≅
             (injectiveFactorIdeal A).quotientFunctor.obj T) := sorry
-
-/-- Every nonprojective indecomposable finite-dimensional module over a finite-dimensional algebra
-ends an almost-split short exact sequence in its finitely generated module category. -/
-theorem exists_almostSplitSequence (k A : Type u) [Field k] [Ring A] [Algebra k A]
-    [FiniteDimensional k A] (M : FGModuleCat.{u} A)
-    (hM : Indecomposable M) (hP : ¬ Projective M) :
-    ∃ S : ShortComplex (FGModuleCat.{u} A), S.IsAlmostSplit ∧ Nonempty (S.X₃ ≅ M) := sorry
-
-/-- The left end of an almost-split sequence is the dual transpose of a minimal projective
-presentation of its right end. The comparison is an A-module isomorphism. -/
-theorem almostSplit_left_iso_translate (k A : Type u) [Field k] [Ring A] [Algebra k A]
-    [FiniteDimensional k A] (S : ShortComplex (FGModuleCat.{u} A)) (hS : S.IsAlmostSplit)
-    (P₀ P₁ : ModuleCat.{u} A) [Module.Finite A P₀] [Module.Finite A P₁]
-    (p : P₁ ⟶ P₀) (π : P₀ ⟶ S.X₃.obj)
-    (hp : TauCeti.IsMinimalProjectivePresentation p.hom π.hom) :
-    Nonempty (S.X₁.obj ≅ ModuleCat.of A (TauCeti.AuslanderReitenTranslate k p.hom)) := sorry
-
-/-- Over an algebraically closed field, the two sides of an AR mesh have equal arrow
-multiplicities: Irr(X,M) and Irr(τM,X) have the same k-dimension for indecomposable X. -/
-theorem almostSplit_mesh_multiplicity (k A : Type u) [Field k] [IsAlgClosed k]
-    [Ring A] [Algebra k A] [FiniteDimensional k A]
-    (S : ShortComplex (FGModuleCat.{u} A)) (hS : S.IsAlmostSplit)
-    (X : FGModuleCat.{u} A) (hX : Indecomposable X) :
-    Module.finrank k (TauCeti.irreducibleMorphismSpace k X S.X₃) =
-      Module.finrank k (TauCeti.irreducibleMorphismSpace k S.X₁ X) := sorry
 
 end TauCetiRoadmap.QuiverRepresentations
