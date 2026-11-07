@@ -46,7 +46,7 @@ The layers are C-1–C6:
 | --- | --- | --- |
 | C-1 | Analytic local foundations | `HolomorphicStructureSheaf`, `ComplexAnalyticSpace`, `complexSchemeAnalytification`, `complexSpaceAnalytification`, `completedAnalyticStalkComparison`, `sncPolydiscChart` |
 | C0 | Coherent analytic modules and coherent analytification | `CoherentAnalyticModule`, `coherentOperations`, `CoherentAnalyticIdeal`, `holomorphicBundleDictionary`, `CoherentAnalytification`, `HigherImageComparison`, `fibreDimensionLoci`, `analyticEtaleDescent`, `SpaceCoherentAnalytification` |
-| C1 | Analytic coherent cohomology | `localDolbeault`, `weightedDolbeaultEstimate`, `cartanTheoremA`, `cartanTheoremB`, `schwartzFiniteness`, `cartanSerreFiniteness`, `AnalyticTwist`, `analyticTwistCohomology`, `analyticSerreGeneration`, `analyticSerreVanishing`, `projectiveComplexGaga`, `properSchemeGagaEquivalence`, `properSpaceComplexGaga` |
+| C1 | Analytic coherent cohomology | `localDolbeault`, `weightedDolbeaultEstimate`, `cartanTheoremA`, `cartanTheoremB`, `montelTheorem`, `schwartzFiniteness`, `cartanSerreFiniteness`, `AnalyticTwist`, `analyticTwistCohomology`, `analyticSerreGeneration`, `analyticSerreVanishing`, `projectiveComplexGaga`, `properSchemeGagaEquivalence`, `properSpaceComplexGaga` |
 | C2 | Projective and proper consequences of coherent GAGA | `gagaBaseChange`, `projectiveGeometricDictionaries` |
 | C3 | Algebraic spaces: derived GAGA | `spaceQuasiCoherator`, `pseudoCoherenceDetection`, `spaceDerivedLimits`, `strongProperSupportExistence`, `cohStack_algebraic`, `relative_picard_algebraicSpace`, `picardZeroCriterion`, `picardParameter_formalEquiv`, `derivedGagaProperSpace` |
 | C4 | Analytic images, Chow algebraization and morphism comparison | `remmertProperImage`, `remmertSteinExtension`, `projectiveChowNonreduced`, `properSupportAlgebraization`, `properSourceMorphismAlgebraicity`, `affineCurveConnectedness` |
@@ -87,8 +87,10 @@ comparison, the compatibility of supplied compact elliptic/Hodge theory with geo
 comparison maps, pure Hodge structures on proper smooth schemes, Deligne's relative Hodge theorem,
 the complementary-form specialization of ComplexKahlerGeometry K5a's bundle tests and distributions
 and its current calculus with positivity, mass and local regularization, integration over analytic
-cycles, positivity of (1,1)-forms, the integral first Chern class of a holomorphic line bundle
-and its integral identification with the shared smooth first Chern class, and the Chern normalisation, sheafification and analytification of
+cycles, positivity of (1,1)-forms, the integral first Chern class of a holomorphic line bundle,
+the frame-torsor description of holomorphic line-bundle classes in `H¹(M,O_M^×)` and the holomorphic
+exponential sequence on every complex manifold, with the integral identification of its connecting
+map with the shared smooth first Chern class, and the Chern normalisation, sheafification and analytification of
 shared ordinary connections,
 regular singularities, canonical logarithmic extensions, Deligne's Riemann–Hilbert equivalence and
 nonproper comparison, the curve logarithmic and compact-support complexes with residues, and the
@@ -141,7 +143,7 @@ The analytic ownership and stage order are:
 | --- | --- | --- |
 | Parameter-dependent one-variable `∂̄` solver, local Dolbeault lemma and fine Dolbeault resolution | ComplexKahlerGeometry K2 | C1.1 compares K2's fine resolution with C0's sheaves. The scalar compact-support Cauchy–Green operator and the finite-rank Runge operator are scalar inputs K2 consumes; this roadmap does not consume them |
 | Proper-submersion trivialization (Ehresmann's theorem) on real manifolds | SmoothBundlesConnections B1.5; ComplexComparisonPartII C5.2 `ehresmannFibration` | The smooth form (a proper surjective submersion is, on each connected component of the base, a locally trivial smooth fibre bundle with product charts; pullback and restriction of the Ehresmann connection) is SmoothBundlesConnections B1.5 and is not restated. C5.2 applies it to holomorphic submersions and to analytified proper smooth morphisms, with the base-change clause, and later roadmaps consume that holomorphic application from here |
-| Integral first Chern class of holomorphic line bundles, the holomorphic exponential sequence and its curvature comparison | CharacteristicClasses C1.5/C3 (the class of the underlying complex line, with C1.5's comparison with SmoothBundlesConnections B6 on smooth bases) and C4.1–C4.2 (rank-one curvature comparison); SmoothBundlesConnections B6.1–B6.2 (the smooth exponential sequence and the exponential first Chern class of circle bundles); ComplexComparisonPartII C5.4 | C5.4 constructs the holomorphic-to-smooth forgetful adapter, the frame-torsor bijection from holomorphic line-bundle classes to `H¹(M,O_M^×)`, the holomorphic exponential sequence with its cocycle `δu`, and its reduction to the smooth class; it identifies the Chern-connection form `(i/2π)Θ` with the real image of the class. The smooth exponential identification is the suppliers' and is not restated |
+| Integral first Chern class of holomorphic line bundles, the holomorphic exponential sequence and its curvature comparison | CharacteristicClasses C1.5/C3 (the class of the underlying complex line, with C1.5's comparison with SmoothBundlesConnections B6 on smooth bases) and C4.1–C4.2 (rank-one curvature comparison); SmoothBundlesConnections B6.1–B6.2 (the smooth exponential sequence and the exponential first Chern class of circle bundles); ComplexComparisonPartII C5.4 | C5.4 is the single owner, on every complex manifold, of the holomorphic-to-smooth forgetful adapter, the frame-torsor bijection from holomorphic line-bundle classes to `H¹(M,O_M^×)`, the holomorphic exponential sequence with its cocycle `δu`, and the identification of its connecting map with the integral first Chern class through the smooth class; it identifies the Chern-connection form `(i/2π)Θ` with the real image of the class. The smooth exponential identification is the suppliers' and is not restated |
 | Native holomorphic sheaf, convergent local algebra and primitive Oka relations | ComplexKahlerGeometry K2–K4 | C-1 adds analytic quotients, nilpotents and gluing; RealAnalyticGeometry R3.2 supplies native coherence; C0 descends it to analytic spaces |
 | Algebraic strict-SNC compactifications and labelled étale coordinates | ResolutionOfSingularitiesCharacteristicZero §1.3 (birth-ordered SNC boundary), §6.2 (SNC compactification), §6.4 (SNC coordinates) | The prescribed smooth quasi-projective open is unchanged in a smooth projective compactification with globally smooth labelled boundary components and local equation `t₁⋯t_b=0`; C-1.4 supplies `sncPolydiscChart` and `snc_exists_polydiscChart` by analytification and the analytic inverse-function theorem |
 | Scheme analytification and its algebraic-to-holomorphic prefix | ComplexComparisonPartII C-1.1, C0.4 and C5.1–C5.2 | FormalConnectionsOpers F2.4 uses the same complex points, ring sheaf, open restrictions, fibre products, smooth charts and étale local isomorphisms. F2.4 retains fixed-model maximal atlases, second countability, tangent/derivation, toric, group and gauge comparisons; these use the prefix without proper GAGA |
@@ -404,7 +406,7 @@ as explained in C5.1); the two names denote the same target.
   family and an étale path or specialization datum.
 - **Classical topology.** C6 uses the underlying space of §C-1.1's
   `complexSchemeAnalytification` on finite-type complex schemes; §C6.2's Riemann existence
-  also admits schemes locally of finite type. Forgetting the ring sheaf supplies the topological carrier;
+  and the direct-image clauses (i)–(ii) of §C6.5 also admit schemes locally of finite type. Forgetting the ring sheaf supplies the topological carrier;
   its nilpotents remain in the analytic object. Global Hausdorff/paracompact and compact-support
   claims carry separatedness; arbitrary finite-type schemes retain the affine-local topology
   and ordinary comparison.
@@ -436,7 +438,7 @@ as explained in C5.1); the two names denote the same target.
   star identity is `⟨α,β⟩ = h(β,α)`, linear in the first slot. Transport this swap when
   comparing ComplexKahlerGeometry K4's Chern connection with CharacteristicClasses C4's
   curvature forms and with K5a's geometric L² pairing.
-  ComplexKahlerGeometry uses `d^c = i(∂̄−∂)`; for this roadmap's current convention
+  ComplexKahlerGeometry uses `d^c = i(∂̄−∂)`; for this roadmap's convention
   `d_c = d^c/(4π)`, hence `dd_c = (i/2π)∂∂̄`. C1.3 proves these scalar-factor
   comparisons on the supplied operators.
 - **Hodge star and Laplacian.** The Hodge star on complex forms is `ℂ`-linear, defined by
@@ -964,7 +966,7 @@ Prove `analyticRelationLocalChart`, the point at which local separatedness is us
 - The affine line with doubled origin is locally separated and has a non-Hausdorff analytification. It satisfies chart existence and fails the Hausdorff conclusion, whose separatedness hypothesis excludes it.
 - `z↦z²` at zero has derivative zero and is not locally injective. It is not an étale chart, so it cannot replace a relation's local biholomorphism.
 
-Define `completedAnalyticStalkComparison` for a finite-type complex scheme `X` and a complex point `x`. It is the canonical map `O_(X,x)→O_(X^an,x)`, with the API: the local hom, its isomorphism on maximal-ideal completions, flatness and exact analytification of coherent modules. These are extensions of the scheme analytification construction, which does not itself promise these assertions. On an affine space both completions are the same formal-power-series ring; on a closed subspace the quotient by its finitely generated ideal gives the comparison, including nilpotent equations. Localization and analytic restriction give the general chart, and flatness follows from the Noetherian local completion criterion. For a locally separated space, use the analytic and algebraic étale charts to identify the two stalks at a chosen complex point and descend this comparison. (SGA 1, Exposé XII, Theorem and Definition 1.1 and proof, retyped pp. 239–241, original pp. 312–315; Proposition 1.3.1, retyped pp. 241–242.)
+Define `completedAnalyticStalkComparison` for a complex scheme `X` locally of finite type and a complex point `x`. It is the canonical map `O_(X,x)→O_(X^an,x)`, with the API: the local hom, its isomorphism on maximal-ideal completions, flatness and exact analytification of coherent modules. These are extensions of the scheme analytification construction, which does not itself promise these assertions. On an affine space both completions are the same formal-power-series ring; on a closed subspace the quotient by its finitely generated ideal gives the comparison, including nilpotent equations. Localization and analytic restriction give the general chart, and flatness follows from the Noetherian local completion criterion. For a locally separated space, use the analytic and algebraic étale charts to identify the two stalks at a chosen complex point and descend this comparison. (SGA 1, Exposé XII, Theorem and Definition 1.1 and proof, retyped pp. 239–241, original pp. 312–315; Proposition 1.3.1, retyped pp. 241–242.)
 
 **Checks.**
 
@@ -1271,7 +1273,7 @@ there is a canonical morphism in the derived category of `O_{S^an}`-modules
 `f`; on cohomology sheaves it gives `θ^q_{f,F} : (R^q f_*F)^an → R^q f^an_* F^an` whenever the left
 side is defined as an analytification (for instance when `R^q f_*F` is coherent). The map is defined
 for all `f`; properness is only used to prove it invertible, which is
-`properSchemeGagaPushforward`. Its API: `θ⁰` is the pullback–pushforward adjunction map; a morphism of modules gives commuting squares in every degree; and for composable `f`, `g` the derived `θ` of `g ∘ f` is the composite of the exchange maps, compatibly with the Leray edge maps (SGA 1, XII, 4.1 and (4.1.1), printed pp. 247–248, for the degreewise maps `θ^q` and
+`properSchemeGagaPushforward`. Its API: `θ⁰` is the pullback–pushforward adjunction map; a morphism of modules gives commuting squares in every degree; for an open `V ⊆ S` with `f_V : f⁻¹(V) → V`, the restriction of `θ_{f,F}` to `V^an` is `θ_{f_V,F|f⁻¹(V)}` under the identifications of both direct images with their restrictions and of `V^an` with the open `φ_S⁻¹(V)`; and for composable `f`, `g` the derived `θ` of `g ∘ f` is the composite of the exchange maps, compatibly with the Leray edge maps (SGA 1, XII, 4.1 and (4.1.1), printed pp. 247–248, for the degreewise maps `θ^q` and
 their invertibility for proper `f` in Theorem 4.2, pp. 248–249; the derived form and the
 composition law are the construction given here). *Needs:* `CoherentAnalytification`;
 SchemeAndStackFoundations §2.1 `Sheaf.higherDirectImage`, §2.2 `leray_spectral_sequence`.
@@ -1823,7 +1825,7 @@ carriers listed in *Exact supplier contracts*.
 
 ### C1.9 Projective and proper coherent GAGA
 
-Prove `projectiveComplexGaga`. (i) For a scheme `S` of finite type over `ℂ`, the projection `π:P^r_S→S` and a coherent `F` on `P^r_S`, the exchange map `θ^q_{π,F}:(R^qπ_*F)^an→R^qπ^an_*F^an` of ComplexComparisonPartII C0.5 (`HigherImageComparison`) is an isomorphism of `O_(S^an)`-modules for every `q≥0`. (ii) For a closed subscheme `X⊂P^r_ℂ`, coherent analytification `Coh(X)→Coh(X^an)` is an equivalence of categories, and `H^q(X,F)≅H^q(X^an,F^an)` for every coherent `F`. The base in (i) is arbitrary of finite type, not only a point, and nilpotents are allowed in `S`, `X` and `F`.
+Prove `projectiveComplexGaga`. (i) For a scheme `S` locally of finite type over `ℂ`, the projection `π:P^r_S→S` and a coherent `F` on `P^r_S`, the exchange map `θ^q_{π,F}:(R^qπ_*F)^an→R^qπ^an_*F^an` of ComplexComparisonPartII C0.5 (`HigherImageComparison`) is an isomorphism of `O_(S^an)`-modules for every `q≥0`. (ii) For a closed subscheme `X⊂P^r_ℂ`, coherent analytification `Coh(X)→Coh(X^an)` is an equivalence of categories, and `H^q(X,F)≅H^q(X^an,F^an)` for every coherent `F`. The base in (i) is any scheme locally of finite type, not only a point and not necessarily quasi-compact, and nilpotents are allowed in `S`, `X` and `F`.
 
 The comparison maps in (i) and (ii) are the canonical ones of Layer C0.
 
@@ -1839,13 +1841,14 @@ For the proof, in order: (1) twist cohomology over a parameter base: the questio
 - For `X=V(Z₀²)⊂P¹`, `Coh(X)` is the category of modules over `ℂ[ε]/(ε²)`, and analytification retains the nonzero nilpotent `ε`.
 - On `P¹_an` the skyscraper at a point has the twist presentation `0→O(−1)→O→O_p→0` and is the analytification of the algebraic `O_p`; the presentation map is the algebraic section of `O(1)` vanishing at `p`.
 
-Prove `properSchemeGagaPushforward` for a proper morphism f of finite-type complex schemes and a coherent `F`: the canonical map `(R^q f_*F)^an→R^q f^an_*F^an` is an isomorphism for all `q≥0`. The projective case is `projectiveComplexGaga`(i), applied to a closed subscheme of `P^r_S`. A projective Chow modification, Leray and coherent dévissage by smaller closed supports give the proper case. The comparison is the canonical map, so its compatibility with composition and the coherent exact sequences is retained. Properness is on f; the base need not be proper. Consequently coherent cohomology and local-to-global Ext comparison hold on a proper complex scheme. Local Ext comparison follows from finite coherent presentations and the flat analytic stalk map, and the local-to-global Ext spectral sequence plus coherent cohomology comparison gives every global Ext group. (SGA 1, Exposé XII, Theorem 4.2 and proof and Corollary 4.3, retyped pp. 247–250, original pp. 326–330.)
+Prove `properSchemeGagaPushforward` for a proper morphism `f : X → Y` of complex schemes locally of finite type and a coherent `F`: the canonical map `(R^q f_*F)^an→R^q f^an_*F^an` is an isomorphism for all `q≥0`. By C0.5's open-restriction law the assertion is local on `Y`, so `Y` may be taken affine of finite type, and then `X` is of finite type because `f` is. The projective case is `projectiveComplexGaga`(i), applied to a closed subscheme of `P^r_S`. A projective Chow modification, Leray and coherent dévissage by smaller closed supports give the proper case. The comparison is the canonical map, so its compatibility with composition and the coherent exact sequences is retained. Properness is on f; the base need not be proper. Consequently coherent cohomology and local-to-global Ext comparison hold on a proper complex scheme. Local Ext comparison follows from finite coherent presentations and the flat analytic stalk map, and the local-to-global Ext spectral sequence plus coherent cohomology comparison gives every global Ext group. (SGA 1, Exposé XII, Theorem 4.2 and proof and Corollary 4.3, retyped pp. 247–250, original pp. 326–330; Theorem 4.2 takes `f` proper between complex schemes locally of finite type.)
 *Needs:* `projectiveComplexGaga`, AlgebraicModuliForArithmeticGeometry §2.3 `devissageViaChow`, §C-1.2 `completedAnalyticStalkComparison`, ComplexComparisonPartII C0 (`HigherImageComparison`), SchemeAndStackFoundations §4.12, SchemeAndStackFoundations §2.2.
 
 **Checks for proper pushforward.**
 
 - For `f=id`, the degree-zero exchange is the identity and all positive higher images vanish.
 - For `P¹_(A¹_ℂ)→A¹_ℂ` and `O(−2)`, `R¹` is `O_(A¹_ℂ)`; its analytic comparison allows every holomorphic coefficient on the base.
+- For `Y = ⊔_{k∈ℕ} A¹_ℂ`, which is locally of finite type but not quasi-compact, `X = P¹_Y` and `F = O(−2)`, `R¹f_*F = O_Y` and `θ¹` is an isomorphism, restricting on the `k`-th component to the previous Check; this is also clause (i) of `projectiveComplexGaga` for `S = Y`. A finite-type hypothesis on the base would exclude this `Y`.
 - Pushing the structure sheaf of the proper dual-number point to `Spec ℂ` compares `ℂ[ε]/(ε²)` in degree zero and zero in positive degrees, retaining `ε`.
 
 Prove `properSchemeGagaEquivalence` and `properSpaceComplexGaga`: on a proper finite-type complex scheme or algebraic space, analytification is an equivalence of coherent categories and compares coherent cohomology and proper pushforward. The projective start is `projectiveComplexGaga`(ii); for a proper scheme or space, a projective Chow modification reduces to it. On each closed support, comparison of coherent Hom and cohomology proves full faithfulness. For essential surjectivity of an analytic coherent `F`, pull it to the projective modification, algebraize there, and push down, using the just-proved proper pushforward comparison. The canonical map from `F` to this pushforward has kernel `K` and cokernel `L` on smaller closed supports. Induction algebraizes `K` and `L`. Full faithfulness algebraizes the map from the pushforward to `L`, hence its kernel `I`. Finally the extension `0→K→F→I→0` algebraizes because **`Ext¹` comparison** identifies its class with an algebraic extension of I by `K`. This last step is required; comparison of `H⁰` and kernels alone would not recover `F`. Nilpotent thickenings are handled by finite coherent ideal filtrations. The same support induction proves the proper-space pushforward comparison, with space coherent direct images and étale local flatness from AlgebraicModuliForArithmeticGeometry §7.7. This complex result is distinct from the nonarchimedean proper-space comparison in AlgebraicModuliForArithmeticGeometry §7.4. (SGA 1, Exposé XII, Theorem 4.4 and proof, retyped pp. 249–250, original pp. 329–331; Stacks, More on Morphisms of Spaces, Theorem 76.42.11, tag 08BE, whose proof gives the algebraic-space Chow/dévissage pattern; the analytic extension is proved by the stated induction.)
@@ -3687,6 +3690,13 @@ DifferentialGeometry Layer 8 (`deRhamEquiv`); Tau Ceti `TauCeti.deRhamCohomology
   the connecting map, or the reversed transition direction, would exchange the two.
 - The dual of `L` has class `−integralLineBundleChernClass L`, and `L ⊗ L∨` has integral
   class zero: for `g_αβ = exp(2πiu_αβ)` the dual has cocycle `−u` and `δ(−u) = −δu`.
+- On an elliptic curve `E` with distinct points `p`, `q`, the line `O(p − q)` has no nonzero
+  global section (it would be a meromorphic function with at most a simple pole at `p` and no
+  other pole, vanishing at `q`; with a pole it would have degree one onto `P¹`, impossible in
+  genus one, and without one it is a constant vanishing at `q`, hence zero), so it is not
+  trivial and `[O(p − q)] ≠ 1` in `H¹(E, O_E^×)`,
+  while its degree, hence `δ[O(p − q)]`, is zero. The bijection `L ↦ [L]` therefore carries
+  information that `δ` loses; a description of `[L]` through `δ[L]` alone would fail here.
 - For a flat line bundle given by a character `χ : π₁(M) → μ_n`, with locally constant
   transition functions `exp(2πiu_αβ)` and `u_αβ ∈ (1/n)ℤ`, the class `δu` is the Bockstein
   of `χ` regarded in `H¹(M, ℤ/n)`, and its real image vanishes although the class need not:
@@ -4290,7 +4300,8 @@ derivations, monoids and group completions, `circleIntegral`.
 ## Layer C6: Stratified topology, Riemann existence and Artin comparison
 
 Use `complexSchemeAnalytification` from §C-1.1 on
-finite-type complex schemes (locally of finite type in §C6.2), and write `T_X` for its
+finite-type complex schemes (locally of finite type in §C6.2 and for the base of §C6.5's
+direct-image clauses), and write `T_X` for its
 underlying topological space. This layer
 owns the finite-stalk sheaf/native-local-system dictionary and constructible coefficients,
 finite-cover equivalence, comparison-site morphism
@@ -4664,14 +4675,19 @@ EtaleCohomologyFoundations §§0.7–0.8 / `ClassicalAlgebraic.supportLocalizati
 ### C6.5 Direct-image and lower-shriek relative Artin comparison
 
 **Direct-image and lower-shriek relative Artin comparison — `relativeArtinComparison`.**
-Let `f : X → Y` be a morphism between finite-type complex schemes and `Λ` finite
-commutative. (i) For every `K ∈ Dᵇ_c(X_ét,Λ)` the canonical exchange
+Let `f : X → Y` be a morphism of finite type between complex schemes locally of finite type
+and `Λ` finite commutative. (i) For every `K ∈ Dᵇ_c(X_ét,Λ)` the canonical exchange
 `ε_Y^* Rf_*K → R(f^an)_* ε_X^*K` is an equivalence; `f` need not be proper. (ii) If `f` is
 proper, the same exchange is an equivalence for every `K ∈ D⁺(X_ét,Λ)`, constructible or not.
-(iii) If `f` is separated, the lower-shriek exchange `ε_Y^* Rf_!K → R(f^an)_! ε_X^*K`, the
+(iii) If moreover `Y` is of finite type over `ℂ` and `f` is separated, the lower-shriek exchange `ε_Y^* Rf_!K → R(f^an)_! ε_X^*K`, the
 composite of the exchange for `j_!` with the exchange (ii) for `Rp_*` along a compactification
 `f = p∘j`, is an equivalence for every `K ∈ D⁺(X_ét,Λ)`. Every sheaf of `Λ`-modules is torsion
-because `Λ` is finite. Clause (i) is proved for a constructible sheaf and extended to `Dᵇ_c` by
+because `Λ` is finite. On a scheme locally of finite type, `ε` and `K ↦ ε^*K` are §C6.3's
+constructions, which only analytify étale maps and need no quasi-compactness; on a finite-type
+open they restrict to §C6.3's. Both direct-image exchanges commute with restriction to opens of `Y`,
+so clauses (i) and (ii) reduce to `Y` affine of finite type, where `X` is of finite type;
+clause (iii) keeps the finite-type base, which is qcqs, on which EtaleCohomologyFoundations
+§0.8 `ClassicalAlgebraic.properSupports` defines `Rf_!` by compactification. Clause (i) is proved for a constructible sheaf and extended to `Dᵇ_c` by
 truncation triangles; clauses (ii) and (iii) are proved for a sheaf and extended to `D⁺` by the
 way-out argument used in the proof of SGA 4 XVII 5.3.3. On `Dᵇ_ctf` these are the same maps, and
 that restriction supplies the Tor-sensitive interfaces. For nonseparated `Y`, construct
@@ -4685,8 +4701,9 @@ lisse higher-direct-image stratum, intertwine transport along a supplied topolog
 path under §C6.2. A path choice is retained; no canonical comparison of unrelated fibres
 is inferred. Proper agreement identifies the two exchanges when `f` is proper.
 
-*Source:* SGA 4 XVI Théorème 4.1, p. 638 (case (ii), a constructible sheaf and any `f` of finite
-type, for clause (i); case (i), `f` proper and any torsion sheaf, for clause (ii)); SGA 4 XVII
+*Source:* SGA 4 XVI Théorème 4.1, p. 638 (`f` of finite type between schemes locally of finite
+type over `ℂ`; case (ii), a constructible sheaf, for clause (i); case (i), `f` proper and any
+torsion sheaf, for clause (ii)); SGA 4 XVII
 Théorème 5.3.3 and Variante 5.3.4(i), pp. 704–705, for clause (iii); SGA 4 XII for the
 base-change arrows and XVII §§3–5 for the lower-shriek functor; the stalk proof uses
 §§C6.3–C6.4 and proper/lower-shriek base change.
@@ -4709,6 +4726,10 @@ base-change arrows and XVII §§3–5 for the lower-shriek functor; the stalk pr
   roots on a punctured disc analytically. The exchange sends the first generator to the second,
   whose transport along the positive loop is `exp(2πi/n)`, as in §C6.3; a statement for proper
   `f` only says nothing here.
+- For `j : ⊔_{k∈ℕ} G_m ↪ ⊔_{k∈ℕ} A¹` and `K = μ_n`, `j` is a quasi-compact open immersion, hence
+  of finite type, between schemes locally of finite type that are not quasi-compact. Clause (i)
+  applies, and on the `k`-th component both sides are those of the previous Check. A
+  finite-type hypothesis on `Y` would exclude this `j`.
 - Constructibility in (i) is needed. For `f : A¹ → Spec ℂ` and the non-constructible sheaf
   `K = ⊕_{x ∈ A¹(ℂ)} (i_x)_*Λ`, étale `H⁰` is the finitely supported functions `A¹(ℂ) → Λ`,
   since `A¹` is quasi-compact, while `H⁰(ℂ, ε^*K)` contains the indicator function of
@@ -4883,6 +4904,9 @@ an instance of the named targets, not a separate theorem.
   **ShimuraCompactifications**, **AutomorphicBundles** and **AlgebraicModularFormsAndSerreWeights** use
   coherent analytification, the GAGA dictionaries and the proper-source morphism comparison; Borel's
   algebraicity of nonproper maps is ShimuraVarieties' own V3.
+- **K3Surfaces §1.1** and **GeometricQuantization §3.3** use C5.4's holomorphic exponential
+  sequence on complex manifolds and the identification of its connecting map with
+  `integralLineBundleChernClass`, for the segment `H¹(M,O_M) → H¹(M,O_M^×) → H²(M,ℤ) → H²(M,O_M)`.
 - **MordellLawrenceVenkatesh**, **InverseGaloisAndArithmeticFundamentalGroups**,
   **Polylogarithms**, **PeriodsAndSpecialValues** and
   **LefschetzPencilsAndVanishingCycles** use the analytic image theorems, Chow's theorem, the affine
@@ -4955,7 +4979,7 @@ an instance of the named targets, not a separate theorem.
   (<https://www.numdam.org/article/PMIHES_1970__38__27_0.pdf>); Proposition 6.2.1 and
   Lemma 6.2.2, pp. 50–51.
 - S. L. Kleiman, *The Picard scheme*, arXiv:math/0504020v1 (2005); Propositions 5.10 and 5.20,
-  pp. 41–42 and 47–48.
+  pp. 41–42 and 47–48, and Theorem 6.16, pp. 58–59 (published numbering 9.6.16).
 - S. Schröer, *There is no Enriques surface over the integers*, Ann. of Math. 197 (2023), 1–63;
   arXiv:2004.07025v3, Lemma 1.1, p. 5, §4, p. 13, and §5, pp. 14–15.
 - J. Hall, *GAGA theorems*, author's version

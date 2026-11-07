@@ -59,6 +59,8 @@ open CategoryTheory
 
 universe u
 
+/-! ## Layer C1: Analytic coherent cohomology and GAGA -/
+
 /-- C1.6: locally bounded holomorphic sequences in several variables have holomorphic
 locally uniform subsequential limits. This is the compactness input to Cartan–Serre
 finiteness, on finite-dimensional complex domains. -/
@@ -84,6 +86,8 @@ theorem schwartzFiniteness {E F : Type*}
     IsClosed (LinearMap.range ((g + h : E →L[ℂ] F) : E →ₗ[ℂ] F) : Set F) ∧
       FiniteDimensional ℂ (F ⧸ LinearMap.range ((g + h : E →L[ℂ] F) : E →ₗ[ℂ] F)) := by
   sorry
+
+/-! ## Layer C5: de Rham–Betti comparison, Hodge theory and logarithmic comparison -/
 
 /-- C5.1: constant-sheaf and singular cohomology agree for arbitrary abelian coefficients
 on a semilocally contractible space. No Hausdorff or paracompactness assumption is imposed.
