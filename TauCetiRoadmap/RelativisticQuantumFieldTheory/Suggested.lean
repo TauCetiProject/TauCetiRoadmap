@@ -2,8 +2,10 @@
 Copyright (c) 2026.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import Mathlib
-import TauCeti.Analysis.PDE.HeatKernel.Basic
+module
+
+public import Mathlib
+public import TauCeti.Analysis.PDE.HeatKernel.Basic
 
 /-!
 # Relativistic quantum field theory: target signatures
@@ -45,6 +47,8 @@ Headline theorems that are not statable at the pins, with the carrier each lacks
   distributions on a torus;
 * graviton power counting (RQFT11): the formal Einstein–Hilbert jet algebra.
 -/
+
+@[expose] public section
 
 noncomputable section
 
