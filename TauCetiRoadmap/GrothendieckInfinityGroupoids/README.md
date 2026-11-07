@@ -357,6 +357,13 @@ set, the forgetful functor to globular sets and its left adjoint on globular sum
 - for `C = Θ₀` (not contractible), the presheaves sending globular sums to globular products are
   the globular sets, by restriction to `𝔾` (Examples 1.9.1).
 
+Not a target: strict ∞-groupoids are ∞-groupoids of type `C` for every coherator `C`. The
+globular extension `Θ̃` of free strict ∞-groupoids on globular sums is contractible (Ara,
+« Strict ∞-groupoids are Grothendieck ∞-groupoids », 2013, Theorem 6.4, from Theorem 6.1), so
+`C` has a globular functor to `Θ̃` (ibid., Proposition 2.12), and restriction along it is a
+canonical fully faithful functor from strict ∞-groupoids to `∞-Gpd_C` (ibid., Theorem 8.1).
+Strict ∞-groupoids do not realise every homotopy type (Simpson 1998).
+
 ### 3.2 Structural operations
 
 Structural operations from the coherator: identities `1_x` (`PseudoCoherator.identityMap`,
@@ -694,6 +701,8 @@ specification of this roadmap.
   (2014), no. 6, 3419–3491. doi:10.2140/agt.2014.14.3419; arXiv:1204.5101.
 - S. Henry, « Non-unital polygraphs form a presheaf category », *High. Struct.* 3 (2019), no. 1,
   248–291. Zbl 1427.18014; arXiv:1711.00744. Cited: Corollary 2.4.9.
+- D. Ara, « Strict ∞-groupoids are Grothendieck ∞-groupoids », *J. Pure Appl. Algebra* 217
+  (2013), no. 12, 2298–2312; arXiv:1212.3085: Proposition 2.12, Theorems 6.1, 6.4 and 8.1.
 - S. Henry, « Regular polygraphs and the Simpson conjecture », arXiv:1807.02627 (2018), preprint.
   Cited: Theorems 6.1.7, 6.2.5 and 6.3.8, Conjecture 6.4.1.
 - S. Henry and E. Lanari, « On the homotopy hypothesis for 3-groupoids », *Theory Appl. Categ.*
