@@ -18,9 +18,9 @@ The headline theorems are:
    splitting and genus reduction.
 2. **The genus-one degree-zero normalization** (§3.4): `I_(1,1,0)(1) = χ(X) · 1`.
 3. **The unital cohomological field theory and the quantum product** (§7.1–§7.2): the
-   Novikov-completed classes form a unital cohomological field theory over
-   `Nov(ℚ, H₂(X; ℤ), ω)`, and the quantum product `⋆` is associative, graded commutative
-   and unital with the cup product as its degree-zero term.
+   Novikov-completed classes form a unital cohomological field theory over the Novikov ring
+   `Λ_ω = TauCeti.NovikovSeries ℚ H₂(X; ℤ) ω`, and the quantum product `⋆` is associative,
+   graded commutative and unital with the cup product as its `A = 0` term.
 4. **Descendants** (§8.4–§8.6): the string, dilaton and divisor equations and the genus-zero
    topological recursion relation for ancestors.
 
@@ -28,24 +28,26 @@ None of these is statable at the pins:
 
 - Theorems 1–4 need the moduli space of stable pseudoholomorphic maps with its retained-arrow
   groupoid and its rational dual-Čech virtual functional. These are the targets of
-  AnalyticStableMaps (Layers 1–9) and ImplicitAtlases (Layer 4). The pinned Tau Ceti has no
-  compact nodal domain, no moduli space of stable maps and no implicit atlas; its
+  AnalyticStableMaps (Layers 1–9) and ImplicitAtlases (Layer 4). The pinned Tau Ceti has the
+  compact nodal domain as the gluing quotient `GluedCurve` of `FlagPairData`, and its
   `SmoothAlmostComplexStructure` accepts any smooth `J` with `J² = −1` on a native manifold,
-  so what is missing is the nodal-domain and stable-map moduli carrier, not a smooth domain.
+  but it has no moduli space of stable pseudoholomorphic maps and no implicit atlas; what is
+  missing is the stable-map moduli carrier, not the domain or the target.
 - Theorems 1–4 need the coarse moduli space of stable pointed curves `M̄_(g,n)` with the
   weighted rational pairing of its retained-arrow groupoid, the targets of ComplexCurveModuli
   D5–D8 and Orbifolds O5, which are not in the pinned Tau Ceti.
-- Theorem 3 needs the period-controlled Novikov ring `Nov(ℚ, H, N)` of MorseNovikov N1 for an
-  abelian group `H` with a homomorphism `N : H → ℝ`; the pinned Mathlib has `LaurentSeries`
-  and `HahnSeries` over ordered groups, not this completion of a group ring by a real-valued
-  period.
+- Theorem 3 also needs the Novikov ring, which the pinned Tau Ceti has as
+  `TauCeti.NovikovSeries ℚ H N` with its grading `TauCeti.NovikovSeries.gradeBy`; what it lacks
+  are the Gromov–Witten classes of the first item and the completed state module of §0.2.
 - Theorems 1, 2 and 4 need the rational Chern classes of a complex vector bundle and the
   first Chern class of a topological line bundle on a compact Hausdorff space, the targets of
   CharacteristicClasses C3, which are not in the pinned Tau Ceti.
 
-The Chern grading `deg q^A = 2c₁(A)` and the finite-support grading of the uncompleted group
-ring are README targets of Layer 0 with their Checks; they are not stated here as stand-ins
-for the headlines above.
+The Novikov grading `deg q^A = 2c₁(A)` is Tau Ceti's `TauCeti.NovikovSeries.gradeBy` for the
+degree map `2c₁`, whose first Chern class `c₁(TX, J)` is a CharacteristicClasses C3 carrier
+missing at the pin, as in the last item; the completed state module and its grading are README
+targets of Layer 0 with their Checks, and nothing is stated here as a stand-in for the headlines
+above.
 -/
 
 namespace TauCetiRoadmap.GromovWittenTheory
