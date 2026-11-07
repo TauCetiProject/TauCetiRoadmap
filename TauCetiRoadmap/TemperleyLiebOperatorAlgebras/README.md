@@ -79,9 +79,9 @@ The roadmap leaves the following to named roadmaps:
 
 - The ordinary complex diagram theory belongs to TemperleyLieb: planar matchings and the
   half-diagram counts (Layer 1), the diagram category (Layer 2), the linear pivotal category with
-  its reflection involutions (Layer 3), `TLAlg R δ n`, `presentedTLEquiv`, the closure trace, the
-  Markov-trace predicate and its uniqueness (Layer 4), cell modules, cell forms, the universal Gram
-  polynomial and the semisimplicity classification (Layer 5), Jones–Wenzl projections, the
+  its reflection involutions (Layer 3), `TLAlg R δ n`, `presentedTLEquiv`, the closure trace and
+  its comparison with Tau Ceti's `markovTrace` (Layer 4), cell modules, cell forms, the universal
+  Gram polynomial and the semisimplicity classification (Layer 5), Jones–Wenzl projections, the
   negligible ideal and the Goodman–Wenzl theorem (Layer 6), the Karoubi envelope, quotients by
   tensor ideals, the generic classification of simples and the root-of-unity fusion quotient
   (Layer 7).
@@ -159,10 +159,11 @@ consumers).
   `v` for it. Erdmann–Green use the positive-loop convention `δ = v + v⁻¹`, so their `v` is `q′`.
 - **The closure trace.** `T_n` is the unnormalised closure trace, `T_n(1) = δ^n`,
   `T_(n+1)(ι x) = δ T_n(x)`, `T_(n+1)(ι(x) e_n) = T_n(x)`. On `TL_n` it is `markovTrace q hq` for
-  any `q` with `δ = −(q + q⁻¹)`, independent of `q` by Subfactors 3.2 and TemperleyLieb Layer 4. For
-  real `δ ≠ 0` the normalised trace is `τ_n = δ⁻ⁿ T_n`; for `δ < 0` it differs in sign from `T_n`
-  at odd levels. At `δ = 0` the normalised trace and the normalised Jones projections are undefined;
-  the algebras and `T_n` remain defined.
+  any `q` with `δ = −(q + q⁻¹)`, independent of `q` by Tau Ceti's `IsMarkovTrace.unique` applied to
+  `isMarkovTrace_markovTrace` at both units. For real `δ ≠ 0` the normalised trace is
+  `τ_n = δ⁻ⁿ T_n`; for `δ < 0` it differs in sign from `T_n` at odd levels. At `δ = 0` the
+  normalised trace and the normalised Jones projections are undefined; the algebras and `T_n`
+  remain defined.
 - **Adjoints.** For real `δ`, `x†` is Subfactors 3.1's conjugate-linear adjoint on `TL_n`: it fixes
   every generator, reverses products and conjugates scalars, so `(i·1)† = −i·1`. TemperleyLieb
   Layer 4's `StarRing` on `TLAlg R δ n` is the `R`-linear vertical reflection; it is written `star`
