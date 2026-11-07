@@ -162,6 +162,22 @@ not cover B1.6's uses: `TauCeti.isNullSet_image_criticalPoints` and
 dimension, and `ContMDiff.isMeagre_image_criticalPoints` from
 `TauCeti/Geometry/Manifold/Sard/Meagre.lean` concludes meagreness, not
 nullity, for boundaryless manifolds.
+Use `TauCeti.Manifold.Orientation` from
+`TauCeti/Geometry/Manifold/Orientation/Basic.lean`, the quotient of
+`OrientationLift` by the simultaneous reversal of the model orientation
+and of all chart signs, as the manifold-orientation carrier that
+DifferentialGeometry 2.1 specifies; it is defined for every model with
+corners, boundary and corner points included. Use `TauCeti.Orientable`
+from the same file, the existence of such an orientation indexed by
+`Fin (finrank ℝ E)`, hence of a compatible orientation of every tangent
+space; its chart signs absorb the signs of the transition Jacobians, so
+it imposes no positivity condition on any atlas.
+Use `TauCeti.orientable_closedBall` from
+`TauCeti/Geometry/Manifold/Orientation/ClosedBall.lean`: the closed unit
+ball of a real inner-product space of dimension n, modelled on the
+half-space of dimension n, is orientable for every n with `NeZero n`,
+dimension one included, the orientation being the pullback of the ambient
+one along the inclusion.
 The orientation and closed-subgroup declarations in the contracts below
 retain their native hypotheses and chosen smooth structures.
 
@@ -170,7 +186,7 @@ retain their native hypotheses and chosen smooth structures.
 | Supplier | Consumed interface | Boundary |
 | --- | --- | --- |
 | [AlgebraicTopology](../AlgebraicTopology/README.md), Layers2–4,6,8 and 8.13 | arbitrary CW skeleta/cofibrations, ordinary chains/cochains/products, relative fundamental classes and duality, EM carriers and representability; 8.13's smoothing of continuous maps into a compact boundaryless manifold relative to a closed set, parametric transversality and relative transversality, for boundaryless sigma-compact Hausdorff second-countable sources | B4 owns the integral higher diagonals and generic ordinary mod2 cup-i/Sq/Adem/Wu package; ordinary cohomology carriers remain AT; B1.6 owns the Sard theorem in unequal dimensions and the extension of 8.13's three theorems to sources with corners, facewise |
-| [DifferentialGeometry](../DifferentialGeometry/README.md), 2.1, 2.2, 5.5b | 2.1's manifold orientation `Manifold.Orientation` (the quotient of `OrientationLift`, a model orientation with locally constant chart signs obeying the transition-Jacobian rule); 2.2's orientation-preserving maps, product orientations and the oriented-atlas criterion for boundaryless manifolds; 5.5b's smooth face structure and face-indexed abstract boundary of a manifold with corners | B1.1 owns the comparisons of this one orientation with cycle and witness records, frames, local homology, half-space and corner atlases in dimension at least2, and the point sign σ; B1.6 owns the Sard theorem in unequal dimensions and derives its transversality theorems from it |
+| [DifferentialGeometry](../DifferentialGeometry/README.md), 2.1, 2.2, 5.5b | 2.1's manifold orientation, the pinned `TauCeti.Manifold.Orientation` (the quotient of `OrientationLift`, a model orientation with locally constant chart signs obeying the transition-Jacobian rule); 2.2's orientation-preserving maps, product orientations and the oriented-atlas criterion for boundaryless manifolds; 5.5b's smooth face structure and face-indexed abstract boundary of a manifold with corners | B1.1 owns the comparisons of this one orientation with cycle and witness records, frames, local homology, half-space and corner atlases in dimension at least2, and the point sign σ; B1.6 owns the Sard theorem in unequal dimensions and derives its transversality theorems from it |
 | [GeometricTopology](../GeometricTopology/README.md), Layer1, Layer4.3.1, Layer11 and item1 of the smoothing-and-triangulation comparison | finite nonsingular-F₂ quadratic Arf algebra (Layer4.3.1, declared below as gap:finite-quadratic-arf); collar neighbourhoods, gluing along a codimension-zero piece of the boundary, handle attachment and tubular neighbourhoods with their normal bundles (Layer1); the CW structure on the realization `|K|` of a simplicial complex, one cell per simplex (Layer11); Whitehead's smooth triangulation of a smooth manifold (item1) | B1.6 owns neat embeddings, relative/parametric transversality with relative Whitney approximation, corner rounding, compact neighbourhoods, doubles; B1.5 owns the relative boundary triangulation |
 | [SmoothBundlesConnections](../SmoothBundlesConnections/README.md), B1.4 | free proper smooth quotients, their principal projections and submersion uniqueness, homogeneous spaces and native discrete quotient comparison | B1.5 only adapts their tangent and structure data to cycles |
 | StringOrientation S1.3, S1.5, S2.2, S2.3, S5.3 | S1.3's existence criterion and H³-torsor of String lifts; S1.5's Cayley plane OP² (trace-one idempotents of the exceptional Jordan algebra), F₄ with its transitive action and Spin(9) isotropy, the cells, H*(OP²;ℤ)=ℤ[u]/(u³), p₂=6u, p₄=39u², the Euler class 3u², signature 1, the unique Spin structure and String lift class, and p(HP²)=1+2u+7u²; S2.2's isomorphism Ω^θ_n≅π_nMθ for every G5 bundle diagram θ, natural and multiplicative; S2.3's Ω^fr_n≅π_nS and π₃S≅ℤ/24 with generator ν; S5.3's equivalence MSpin[1/2]≃MSO[1/2] | B5 owns the finite-rank bijections, the theories over spaces and pairs and the comparison of their point specializations with S2.2–S2.3; B4.8 owns the odd-primary Adams and comodule-algebra refinement; Layer 9 owns the carrier identification, charts, Clifford module, sign witness and the HP^k Pontryagin formula |
@@ -261,7 +277,8 @@ G4.3–G4.4 and G6 item 5 supply the Spin lifts for the geometric applications.
 Own the differential-topology inputs of the geometric theory that the
 suppliers do not state. Each is a smooth statement on finite-dimensional
 real, Hausdorff, second-countable manifolds with corners in Mathlib's
-sense. The orientation carrier and its chart signs, the oriented-atlas
+sense. The orientation carrier (pinned `TauCeti.Manifold.Orientation`)
+and its chart signs, the oriented-atlas
 criterion and face-indexed corners are DifferentialGeometry 2.1, 2.2 and
 5.5b; manifold Sard in equal dimensions is Tau Ceti's
 `TauCeti.dense_isRegularValue`, and its unequal-dimension form is a target
@@ -432,7 +449,8 @@ hypotheses. Give actual oriented frame reductions, Spin double-cover
 lifts and normal classifier maps with bundle isomorphisms. Compare
 finite representatives of stable structures, all higher stabilizations,
 pullbacks, diffeomorphisms and changes of classifier lift by homotopy.
-Use DifferentialGeometry 2.1's `Manifold.Orientation` as the single
+Use `TauCeti.Manifold.Orientation`, the carrier DifferentialGeometry 2.1
+specifies and the pin declares, as the single
 manifold-orientation carrier, read pointwise through native
 `Orientation ℝ (TangentSpace I x) (Fin n)` for the actual dimension-n
 model I of the cycle or witness. This is the positive-scalar ray of a
@@ -448,11 +466,16 @@ in every dimension n≥1, where DifferentialGeometry 2.2's oriented-atlas
 criterion is consumed, and for half-space and corner models of
 dimension at least2, where this roadmap proves it: composing a boundary chart with a reflection
 of a tangential coordinate (in a corner chart, a swap of two coordinates)
-makes it positive. In model dimension1 with boundary no such atlas
-exists: a half-line chart at 0 of [0,1] is increasing and one at 1 is
+makes it positive. In model dimension1 with boundary the comparison
+fails for the compact witnesses that occur: [0,1] has no such atlas,
+since a half-line chart at 0 is increasing and one at 1 is
 decreasing, so some transition has negative derivative, although [0,1]
-is oriented (native `TauCeti.orientable_closedBall` assumes 2≤n for
-this reason). There, and so for every bordism witness of a
+is oriented. The library agrees: `TauCeti.orientable_closedBall` orients
+the closed ball of every dimension n≥1 (`NeZero n`), dimension one
+included, in the sense of `TauCeti.Orientable`, whose chart signs absorb
+negative transition Jacobians; the
+restriction to dimension at least2 belongs to this roadmap's
+oriented-atlas comparison, not to the library. There, and so for every bordism witness of a
 zero-dimensional cycle and every one-dimensional relative source,
 compare only through DifferentialGeometry 2.1's chart signs and the
 frame and determinant descriptions. Construct reversal by the negative ray,
