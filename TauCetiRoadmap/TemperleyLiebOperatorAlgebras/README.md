@@ -4,10 +4,10 @@
 Temperley–Lieb algebras on top of two suppliers: the algebraic diagram theory of TemperleyLieb
 (diagram category, presentation isomorphism, closure trace, cell modules and Gram polynomials,
 Jones–Wenzl projections, negligible ideals and the fusion quotients) and the analytic
-Temperley–Lieb theory of Subfactors Layer 3 (the analytic adjoint, Markov uniqueness, Jones's
-positivity theorem, the positive path models, the positive Jones quotients `Q_n` and their
-C*-tower `B_δ`). Layer 1 compares the two: the analytic adjoint against the vertical reflection of
-diagrams, the Hermitian cell forms against the bilinear cell forms and their Gram determinants, the
+Temperley–Lieb theory of Subfactors Layer 3 (the analytic adjoint, Jones's positivity theorem,
+the positive path models, the positive Jones quotients `Q_n` and their C*-tower `B_δ`). Layer 1
+compares the two: the analytic adjoint against the vertical reflection of diagrams, the
+Hermitian cell forms against the bilinear cell forms and their Gram determinants, the
 trace radical against the negligible ideal, and the positive path model against the algebraic
 path and block idempotents; it then realises the tower concretely: on positive spin chains with the
 Powers product state (1.5), through the finite Potts, loop and ice partition functions (1.6), and
@@ -87,8 +87,8 @@ The roadmap leaves the following to named roadmaps:
   (Layer 7).
 - The analytic Temperley–Lieb theory over ℂ belongs to Subfactors Layer 3: the conjugate-linear
   adjoint on `TauCeti.TemperleyLieb ℂ δ n` for real `δ`, its uniqueness and its compatibility with
-  strand inclusions (3.1); the normal form, Markov uniqueness, quantum integers, Jones–Wenzl
-  projections `f_k` with `T_k(f_k) = [k+1]`, the Hermitian form `H_n`, the trace radical `R_n`,
+  strand inclusions (3.1); the normal form, `f_k† = f_k` for real `δ`, the Hermitian form `H_n`,
+  the trace radical `R_n`,
   Jones's positivity theorem `markovTrace_nonneg_iff`, the first-bad-level theorem
   `markovTrace_nonneg_iff_lt_floor`, Cauchy–Schwarz and the pullback criterion (3.2); the positive
   path models `π_n` on paths of the half-line and of `A_(m−1)`, the weighted trace on the path
@@ -97,7 +97,10 @@ The roadmap leaves the following to named roadmaps:
   the trace-preserving expectations `E_n` with the Markov formula, the finite-dimensional
   faithful-trace C*-lemma, the C*-inductive limit `B_δ` with its faithful trace, and its GNS
   representation and weak closure (3.3). None of it is restated here; Layers 1–2 consume it by
-  section.
+  section. Markov uniqueness, the quantum integers and the Jones–Wenzl projections `f_k` with
+  `T_k(f_k) = [k+1]`, which Subfactors 3.2 states over ℂ, are native at the pin
+  (`IsMarkovTrace.unique`, `qInt`, `jonesWenzl`, `markovTrace_jonesWenzl`) and are cited from Tau
+  Ceti.
 - General pivotal and spherical traces, finite semisimple categories and the fusion vocabulary
   belong to PivotalSpherical Layers 0–4.
 - C*-categories, dagger tensor categories and unitary duality belong to CategoricalOperatorAlgebras
@@ -146,7 +149,7 @@ consumers).
 - **Stacking.** Products stack the left factor on top of the right, matching Mathlib's `End`
   multiplication `x * y = y ≫ x`; the composite `f ≫ g` of the diagram category puts `g` on top of
   `f`.
-- **Quantum integers.** `[r]` is TemperleyLieb Layer 0's `qInt ℂ δ r`, the evaluation of
+- **Quantum integers.** `[r]` is Tau Ceti's `qInt ℂ δ r`, the evaluation of
   `Polynomial.Chebyshev.S ℂ (r − 1)` at `δ`: `[0] = 0`, `[1] = 1`, `[2] = δ`,
   `[r+2] = δ[r+1] − [r]`. For `δ = q + q⁻¹` it is the Laurent sum `(q^r − q^(−r))/(q − q⁻¹)`
   including `q = ±1` by evaluation. No quantum integer is defined by a singular rational expression.
@@ -199,7 +202,9 @@ consumers).
 None of these supplies a Temperley–Lieb algebra, a diagram category, a C*-category or an affine
 diagram.
 
-**From Tau Ceti** (`TauCeti/Algebra/TemperleyLieb/Basic.lean`, `.../MarkovTrace.lean`,
+**From Tau Ceti** (`TauCeti/Algebra/TemperleyLieb/Basic.lean`, `.../Trace.lean`,
+`.../MarkovTrace.lean`, `.../JonesWenzl.lean`, `.../QuantumDimension.lean`,
+`TauCeti/QuantumGroups/QuantumInteger/Chebyshev.lean`, `.../RootOfUnity.lean`,
 `TauCeti/CategoryTheory/GrothendieckGroup/Abelian.lean`).
 
 - `TauCeti.TemperleyLieb R δ n`, its generators `e δ i`, the relations `Rel`, the universal
@@ -210,6 +215,24 @@ diagram.
 - `markovTrace q hq` with `markovTrace_one` (value `δ^n` on `1`), `markovTrace_mul_comm`,
   `markovTrace_strandIncl` (factor `δ`) and `markovTrace_strandIncl_mul_e_last` (the Markov
   property). Its loop value is `−(q + q⁻¹)`.
+- `qInt R δ r` (`QuantumInteger/Chebyshev.lean`), the quantum integer `[r]` as the evaluation of
+  `Polynomial.Chebyshev.S R (r − 1)` at `δ`, with `qInt_zero`, `qInt_one`, `qInt_two` and the
+  recurrence `qInt_add_two`; `exists_qInt_eq_zero_iff` (`QuantumInteger/RootOfUnity.lean`: over an
+  algebraically closed field of characteristic zero, `[r] = 0` for some `r ≥ 1` exactly when
+  `δ = ζ + ζ⁻¹` for a root of unity `ζ ≠ ±1`).
+- The Markov-trace predicate `IsMarkovTrace R δ tr` (`Trace.lean`) on a family of linear forms
+  `tr n : TL_n → R`: value `δ^n` on `1`, traciality, the factor `δ` under `strandIncl`, and the
+  Markov property `tr (strandIncl x · e_last) = tr x`; its uniqueness `IsMarkovTrace.unique` (two
+  Markov families at the same `δ` coincide, over every commutative semiring);
+  `isMarkovTrace_markovTrace` (the spin-model trace is a Markov family) and
+  `IsMarkovTrace.eq_markovTrace` (every Markov family at `δ = −(q + q⁻¹)` is `markovTrace q hq`).
+- The Jones–Wenzl projections `jonesWenzl δ n` (`JonesWenzl.lean`), by Wenzl's recursion
+  `jonesWenzl_add_two` with `Ring.inverse` in place of division, `jonesWenzl_two`
+  (`f_2 = 1 − δ⁻¹ e_0`), and `existsUnique_jonesWenzl` (when `[1], …, [n]` are units, `f_n` is
+  the unique idempotent of augmentation `1` killed on both sides by every generator);
+  `IsMarkovTrace.apply_jonesWenzl` and `markovTrace_jonesWenzl` (`QuantumDimension.lean`: under
+  the same hypothesis every Markov trace takes the value `[n+1]` on `f_n`, and on any element of
+  augmentation `1` killed on the left by the generators).
 - `TauCeti.AbelianK0 C` with `AbelianK0.of`, `of_shortExact` and `of_biprod`, the Grothendieck group
   of an essentially small abelian category.
 - The spin model (`MarkovTrace.lean`): `spinCup`, `spinCap`, `markovWeight`, `spinGenerator`,
@@ -233,11 +256,10 @@ diagram.
   (`TauCeti/LinearAlgebra/BilinearForm/SymplecticBasis.lean`).
 - No star structure, positivity, quotient, diagram category or affine algebra is supplied.
 
-**From TauCetiRoadmap.TemperleyLieb.** Cited as TemperleyLieb Layer k. Assumed of each layer:
+**From TauCetiRoadmap.TemperleyLieb.** Cited as TemperleyLieb Layer k. Assumed of each layer
+(the quantum integers, the Markov-trace predicate with its uniqueness, and the Jones–Wenzl
+projections are Tau Ceti's, listed above, and are not assumed of the roadmap):
 
-- Layer 0: `qInt R δ r` as the evaluation of `Polynomial.Chebyshev.S`, the recurrence, and
-  `exists_qInt_eq_zero_iff` (over an algebraically closed field of characteristic zero, `[r] = 0`
-  for some `r ≥ 1` exactly when `δ = ζ + ζ⁻¹` for a root of unity `ζ ≠ ±1`).
 - Layer 1: `PlanarMatching k` with `card_planarMatching`, and `halfCount n k`, the number of
   half-diagrams on `n` points with `k` through strings, `halfCount n k = C(n,(n−k)/2) − C(n,(n−k)/2−1)`
   for `k < n`, `n − k` even, `halfCount n n = 1`, and `0` off that parity.
@@ -248,16 +270,17 @@ diagram.
 - Layer 4: `TLAlg R δ n := End (TLCat.of n)`, `presentedTLEquiv : TauCeti.TemperleyLieb R δ n ≃ₐ[R]
   TLAlg R δ n` with its generator and `strandIncl ↦ incl` compatibilities, the `StarRing` by vertical
   reflection with `star (r • x) = r • star x`, the closure trace `tr̂` with `tr̂(1) = δ^n`, the
-  pairing `tr̂(star x · y)`, the conditional expectation `condExp`, the predicate `IsMarkovTrace`,
-  `existsUnique_isMarkovTrace`, and the comparison `tr̂ ∘ presentedTLEquiv = markovTrace q hq`
-  whenever `δ = −(q + q⁻¹)`.
+  pairing `tr̂(star x · y)`, the conditional expectation `condExp`, the fact that
+  `tr̂ ∘ presentedTLEquiv` satisfies Tau Ceti's `IsMarkovTrace`, and hence (by
+  `IsMarkovTrace.unique` against `isMarkovTrace_markovTrace`) the comparison
+  `tr̂ ∘ presentedTLEquiv = markovTrace q hq` whenever `δ = −(q + q⁻¹)`.
 - Layer 5: `CellModule R δ n k` with the half-diagram basis, the bilinear `cellForm`, the scalar
   tower with the `TLAlg`-action, the universal Gram polynomial `gramPoly n k ∈ ℤ[X]` with its
   anchors `det G_{2,0} = [2]`, `det G_{3,1} = [3]`, `det G_{4,2} = [4]`, `det G_{4,0} = [2]²[3]`,
   `det G_{5,1} = [3]⁴(δ² − 2)`, and the semisimplicity classification
   `isSemisimpleRing_iff_of_charZero`.
-- Layer 6: `jonesWenzl n` (`existsUnique_jonesWenzl`), both recursions, `IsMarkovTrace.apply_jonesWenzl`
-  (`tr̂ f_n = [n+1]`), the partial-trace formula, tensor ideals, `negligibleIdeal` (the morphisms `f`
+- Layer 6: the Jones–Wenzl projections `f_n` carried into the diagram category through
+  `presentedTLEquiv`, the partial-trace formula, tensor ideals, `negligibleIdeal` (the morphisms `f`
   with `tr̂(f ≫ g) = 0` for all `g`), the Goodman–Wenzl theorem (in characteristic zero at quantum
   order `ℓ`, `f_(ℓ−1)` generates the negligible ideal, the unique proper nonzero tensor ideal), and
   the path and block idempotents of its proof.
@@ -271,10 +294,11 @@ diagram.
 - 3.1: for real `δ`, the conjugate-linear adjoint `†` on `TL_n`, involutive, additive, reversing
   products, fixing every generator, unique with these properties, commuting with `strandIncl`;
   non-existence for non-real `δ`.
-- 3.2: the normal form; Markov uniqueness; the quantum integers and their signs; `f_k` when
-  `[2], …, [k] ≠ 0`, idempotent, killed by every generator, `f_k† = f_k` for real `δ`,
-  `T_k(f_k) = [k+1]`; `T_n(x†) = conj T_n(x)`; `H_n` Hermitian and natural under inclusion with
-  factor `δ`; `R_n = {x : ∀ y, T_n(xy) = 0}` a `†`-stable two-sided ideal; `jonesLoopParameters`;
+- 3.2: the normal form; the signs of the quantum integers; `f_k† = f_k` for real `δ` (the
+  projections themselves, their uniqueness and `T_k(f_k) = [k+1]` are Tau Ceti's `jonesWenzl`,
+  `existsUnique_jonesWenzl` and `markovTrace_jonesWenzl`); `T_n(x†) = conj T_n(x)`; `H_n`
+  Hermitian and natural under inclusion with factor `δ`; `R_n = {x : ∀ y, T_n(xy) = 0}` a
+  `†`-stable two-sided ideal; `jonesLoopParameters`;
   `markovTrace_nonneg_iff` (for `δ > 0`, `T_n(x† x) ≥ 0` for all `n`, `x` iff `δ` admissible);
   `markovTrace_nonneg_iff_lt_floor`; Cauchy–Schwarz and `{x : H_n(x,x) = 0} = R_n`; the pullback
   criterion.
@@ -500,8 +524,8 @@ through strings (Penneys, Exercise 4.5.4, printed p. 158).
 - `δ = 1`, `n = 3`: the ideal generated by `f_2 ⊗ 1` has codimension one, since in the quotient
   `e_1 = 1` forces `e_2 = e_1 e_2 e_1 = 1`; so it is all of `R_3`, whose codimension is `dim Q_3 = 1`.
 
-*Needs:* Subfactors 3.2 (`R_n`, `f_k`), 3.3 (`Q_n`, `π_n`); TemperleyLieb Layer 4 (trace
-comparison, `condExp`), Layer 6 (`jonesWenzl`, `negligibleIdeal`, Goodman–Wenzl), Layer 7
+*Needs:* Subfactors 3.2 (`R_n`), 3.3 (`Q_n`, `π_n`); Tau Ceti `jonesWenzl`; TemperleyLieb Layer 4
+(trace comparison, `condExp`), Layer 6 (`negligibleIdeal`, Goodman–Wenzl), Layer 7
 (`MonoidalQuotient`); 1.1.
 
 ### 1.4 Path models and block idempotents
@@ -588,7 +612,7 @@ compared with Tau Ceti's `Matrix.extendLast` explicitly. Prove `φ_(m+1)(ι x) =
 T_m(x) = δ^m φ_m(spinRep (−r) hδ x)      for x ∈ TL_m,
 ```
 
-either from Markov uniqueness (Subfactors 3.2) or directly from Tau Ceti's `markovTrace_apply`.
+either from Tau Ceti's `IsMarkovTrace.unique` or directly from Tau Ceti's `markovTrace_apply`.
 For `δ ≥ 2` identify `ker spinRep` with `R_m` by faithfulness of `φ_m`; with Subfactors 3.2–3.3
 (`R_m = 0` for `δ ≥ 2`) the spin representation is faithful. This deduction uses the positivity
 theorem and is not an input to it.
@@ -641,9 +665,9 @@ already on two sites the cyclic subspace has dimension `2` inside a space of dim
 
 *Needs:*
 
-- Subfactors 3.1 (`†`), 3.2 (Markov uniqueness, `R_n`), 3.3 (`B_δ`, its trace-GNS representation
-  and weak closure).
+- Subfactors 3.1 (`†`), 3.2 (`R_n`), 3.3 (`B_δ`, its trace-GNS representation and weak closure).
 - Tau Ceti `spinRep`, `spinGenerator`, `spinWeight`, `markovWeight`, `markovTrace_apply`,
+  `IsMarkovTrace.unique`,
   `commute_diagonal_spinWeight_spinRep`, `Matrix.extendLast`, `spinRep_strandIncl`.
 - Mathlib `Matrix.kronecker`, `Matrix.trace`, `Matrix.PosDef`, `Fin.snoc`.
 - CStarAlgebras C1 (finite-dimensional C*-algebras) and C5 (inductive limits).
@@ -832,10 +856,11 @@ Subfactors 3.2–3.3's positive quotient and path theory are added on top of the
 this section is an input to the positivity proof of Subfactors 3.2.
 
 The model, its bilinear scalar pairing, its trace radical, its coordinate inclusions and its
-braid phases use only Mathlib's `CliffordAlgebra`, Tau Ceti's `TemperleyLieb` and Subfactors
-3.2's Markov uniqueness; the analytic adjoint and the comparisons with the positive quotient, the
-blocks, the C*-tower and the GNS representation come after them. The closure formula at the end
-of this section consumes GeometricTopology Layer 4's closure normalisation, and is an input to no
+braid phases use only Mathlib's `CliffordAlgebra` and Tau Ceti's `CliffordAlgebra.basis`,
+`TemperleyLieb` and `IsMarkovTrace.unique`; the analytic adjoint and the comparisons with the
+positive quotient, the blocks, the C*-tower and the GNS representation come after them. The
+closure formula at the end of this section consumes GeometricTopology Layer 4's closure
+normalisation, and is an input to no
 construction of this section or of 1.8.
 
 **Carriers.** Let `q_m = QuadraticMap.weightedSumSquares ℂ 1` on `Fin m → ℂ`, the complex
@@ -871,7 +896,7 @@ preserves `†` and `s`, maps `Cl_m⁰` into `Cl_(m+1)⁰`, satisfies `F_(m+1) �
 on Tau Ceti's `strandIncl`. For `x ∈ Cl_m` and `m ≥ 1`, prove
 `s_(m+1)(J_m(x) p_(m−1)) = s_m(x)/2`, where `p_(m−1) = (1 + i c_(m−1) c_m)/2` is the last
 projection of `Cl_(m+1)`: `J_m(x)` contains no `c_m`, so every monomial of `J_m(x) c_(m−1) c_m`
-contains `c_m` and has no scalar term. By Markov uniqueness (Subfactors 3.2)
+contains `c_m` and has no scalar term. By Tau Ceti's `IsMarkovTrace.unique`
 
 ```
 T_m(x) = (√2)^m s_m(F_m x)        for x ∈ TL_m(√2),
@@ -966,11 +991,11 @@ factor, the normalisation of the closure being GeometricTopology Layer 4's.
   `CliffordAlgebra.even`, `CliffordAlgebra.map`, `CliffordAlgebra.equivEven`,
   `CliffordAlgebra.ι_sq_scalar`, `CliffordAlgebra.ι_mul_ι_add_swap`, `Pi.basisFun`.
 - Tau Ceti `CliffordAlgebra.basis` (`TauCeti/LinearAlgebra/CliffordAlgebra/Dimension.lean`),
-  `TemperleyLieb.lift`, `TemperleyLieb.hom_ext`, `strandIncl`, `markovTrace`, `BraidGroup`,
-  `TemperleyLieb.jones`, `jonesUnit`, `jonesDelta`.
+  `TemperleyLieb.lift`, `TemperleyLieb.hom_ext`, `strandIncl`, `markovTrace`,
+  `IsMarkovTrace.unique`, `BraidGroup`, `TemperleyLieb.jones`, `jonesUnit`, `jonesDelta`.
 - SpinGeometry G1 items 1 and 3 (complexification, conjugation, analytic adjoint, scalar trace).
 - SpinRepresentations Layers 0–1 (gradings and the structure of complex Clifford algebras).
-- Subfactors 3.2 (Markov uniqueness, `R_m`), 3.3 (`Q_m`, `E_m`); 1.3 and 1.4.
+- Subfactors 3.2 (`R_m`), 3.3 (`Q_m`, `E_m`); 1.3 and 1.4.
 - GeometricTopology Layer 4, for the closure normalisation only.
 
 ### 1.8 The Jones quotient at `δ = √3` and the cubic Gaussian braid model
@@ -1004,10 +1029,11 @@ basis `1` and `W(a) + W(−a)` over the nonzero pairs `{a, −a}`, so `dim C_N =
 `p_j† = p_j = p_j²`, `θ_N(p_j) = p_j`, `p_j p_(j±1) p_j = p_j/3` and commutation at distance at
 least two, and obtain `F_m : TL_m(√3) →ₐ[ℂ] C_(m−1)` with `F_m(e δ j) = E_j` by
 `TemperleyLieb.lift`, compatible with `†`. The inclusion `I_N : W(a) ↦ W(a, 0)` of `G_N` in
-`G_(N+1)` preserves `†`, `θ` and `s`, and `s_(N+1)(I_N(x) p_N) = s_N(x)/3`. By Markov uniqueness
-`T_m(x) = (√3)^m s_(m−1)(F_m x)`, and faithfulness of `s` with `†`-compatibility gives
-`ker F_m = R_m` (for `x ∈ R_m`, `s(F_m(x) F_m(x)†) = 0`), without using surjectivity. Surjectivity
-follows by dimension: Subfactors 3.3's path model on `A_5` gives `dim Q_m = D_m` with `D_1 = 1`,
+`G_(N+1)` preserves `†`, `θ` and `s`, and `s_(N+1)(I_N(x) p_N) = s_N(x)/3`. By Tau Ceti's
+`IsMarkovTrace.unique`, `T_m(x) = (√3)^m s_(m−1)(F_m x)`, and faithfulness of `s` with
+`†`-compatibility gives `ker F_m = R_m` (for `x ∈ R_m`, `s(F_m(x) F_m(x)†) = 0`), without using
+surjectivity. Surjectivity follows by dimension: Subfactors 3.3's path model on `A_5` gives
+`dim Q_m = D_m` with `D_1 = 1`,
 `D_2 = 2`, `D_m = 4 D_(m−1) − 3 D_(m−2)`, so `D_m = (3^(m−1) + 1)/2 = dim C_(m−1)`, and the injective
 map `Q_m → C_(m−1)` is onto. So `Q_m(√3) ≅ C_(m−1)` as *-algebras with traces and inclusions, and
 by 1.3 `R_m` is generated by the embedded `f_5` for `m ≥ 5` and is zero below; at `m = 0` both sides
@@ -1094,11 +1120,11 @@ Layer 4's normalisation.
 - Tau Ceti `IsFactorSet`, `twistedMonoidAlgebra`, `TwistedMonoidAlgebra.of`,
   `TwistedMonoidAlgebra.basis`, `TwistedMonoidAlgebra.lift`
   (`TauCeti/Algebra/MonoidAlgebra/Twisted/Basic.lean`), `HeisenbergGroup`,
-  `LinearMap.BilinForm.IsAlt.exists_basis_toMatrix_eq_J`, `TemperleyLieb.lift`, `BraidGroup`,
-  `TemperleyLieb.jones`, `jonesUnit`, `jonesDelta`.
+  `LinearMap.BilinForm.IsAlt.exists_basis_toMatrix_eq_J`, `TemperleyLieb.lift`,
+  `IsMarkovTrace.unique`, `BraidGroup`, `TemperleyLieb.jones`, `jonesUnit`, `jonesDelta`.
 - Mathlib `AlgHom.equalizer`, `LinearMap.BilinForm`, `ZMod`, `Matrix.kronecker`.
 - CStarAlgebras C1–C4 (finite-dimensional C*-algebras, completely positive maps).
-- Subfactors 3.2 (Markov uniqueness, `R_m`), 3.3 (`Q_m`, the `A_5` path model, `E_m`); 1.3 and 1.4.
+- Subfactors 3.2 (`R_m`), 3.3 (`Q_m`, the `A_5` path model, `E_m`); 1.3 and 1.4.
 - GeometricTopology Layer 4, for the closure normalisation only.
 
 ### Examples
@@ -1138,11 +1164,13 @@ satisfies `−δ = −((−q) + (−q)⁻¹)`; prove the trace relation
 markovTrace (−q) (s x) = (−1)^n · markovTrace q x    on TL_n(R, δ)
 ```
 
-from TemperleyLieb Layer 4's `existsUnique_isMarkovTrace`: the family
+from Tau Ceti's `IsMarkovTrace.unique`: the family
 `x ↦ (−1)^n markovTrace (−q) (s x)` takes the value `(−1)^n(−δ)^n = δ^n` on `1`, is tracial, gains
 the factor `(−1)(−δ) = δ` under `strandIncl`, and satisfies the Markov property because
-`s(ι(x) e_n) = −ι(s x) e_n`. For real `δ` prove that `s` is a *-isomorphism for the generator-fixing
-conjugate-linear adjoints of Subfactors 3.1 on both fibers, by uniqueness. Deduce, for real
+`s(ι(x) e_n) = −ι(s x) e_n`; so it is a Markov family at `δ`, as is `markovTrace q`
+(`isMarkovTrace_markovTrace`), and the two coincide. For real `δ` prove that `s` is a
+*-isomorphism for the generator-fixing conjugate-linear adjoints of Subfactors 3.1 on both
+fibers, by uniqueness. Deduce, for real
 `δ ≠ 0`, that `τ_n^δ(x† x) = τ_n^(−δ)((s x)† (s x))` for the normalised traces, since
 `δ⁻ⁿ (−1)^n = (−δ)⁻ⁿ`.
 
@@ -1183,7 +1211,7 @@ closure trace of the identity of the one-strand object is `δ < 0`.
   `e_ne_zero_two`.
 
 *Needs:* Tau Ceti `lift`, `lift_e`, `hom_ext`, `strandIncl_e`, `e_ne_zero_two`, `markovTrace` and
-its trace lemmas; TemperleyLieb Layer 4 (`existsUnique_isMarkovTrace`); Subfactors 3.1, 3.2
+its trace lemmas, `IsMarkovTrace.unique`, `isMarkovTrace_markovTrace`; Subfactors 3.1, 3.2
 (`markovTrace_nonneg_iff`), 3.3 (`Q_n`, the C*-tower).
 
 ### 2.2 The Bratteli diagram of the Jones tower
@@ -1678,7 +1706,7 @@ is used, transport the bases, seam and character explicitly: a per-strand twist 
   the six-state matrix above is their `n = 2` pairing with `⟨b_1, b_1⟩ = δ²`, `⟨b_1, b_2⟩ = α`,
   `⟨b_1, b_3⟩ = αδ`.
 
-*Needs:* 4.3; TemperleyLieb Layer 0 (`qInt`), Layer 5 (`gramPoly`, `halfCount` multiplicities);
+*Needs:* 4.3; Tau Ceti `qInt`; TemperleyLieb Layer 5 (`gramPoly`, `halfCount` multiplicities);
 Mathlib `Polynomial.Chebyshev.T`, `Matrix.det`.
 
 ### 4.7 Specialisation, composition factors and Hom dimensions
@@ -1738,16 +1766,20 @@ inferred.
 
 ### Dependencies
 
-TemperleyLieb Layers 0–3, 5, 6; GrothendieckEulerForms Layer 2; Tau Ceti `AbelianK0`; Mathlib
+TemperleyLieb Layers 1–3, 5, 6; GrothendieckEulerForms Layer 2; Tau Ceti `qInt`, `AbelianK0`;
+Mathlib
 `Polynomial.Chebyshev.T`, `LaurentPolynomial`, `Matrix.det`, `IsDiscreteValuationRing`,
 `Module.Basis.SmithNormalForm`.
 
 ## Downstream consumers
 
 - QuantumGroups Q7 (free orthogonal fusion) compares the cup–cap projections `p_i` of `O_F^+` with
-  the positive Temperley–Lieb quotient at `d = d(u) ≥ 2`. It consumes 1.2–1.3 for the faithful
-  Hermitian trace form on `Q_n`; 2.1 when its signed loop parameter is `−d`, for the algebra
-  isomorphism carrying the generator `−d·p_i` to `d·p_i` with equal normalised traces and
+  the positive Temperley–Lieb quotient at `d = d(u) ≥ 2`. It consumes Subfactors 3.2–3.3 for the
+  faithful Hermitian trace form on `Q_n`, 1.3 for the identification of `Q_n` with the
+  endomorphism algebra of the negligible quotient of the diagram category, and 1.2 for the
+  comparison of the Hermitian and bilinear cell forms; 2.1 when its signed loop parameter is
+  `−d`, for the algebra isomorphism `s` carrying each projection `p_i` to `p_i`, hence the signed
+  generator `−d·p_i` to minus the positive generator `d·p_i`, with equal normalised traces and
   `Q_n^(−d) ≅ Q_n^d`; and Layer 3 for the Hom norms (3.2), the balanced cup–cap solution with
   `dim 1 = d` (3.3), and the simple objects `X_r` with the untruncated fusion rule (3.4). The
   signed cups and the sign of the self-duality stay QuantumGroups' own conjugate data: 2.1

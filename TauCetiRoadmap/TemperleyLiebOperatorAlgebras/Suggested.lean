@@ -2,10 +2,12 @@
 Copyright (c) 2026 Kim Morrison. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import Mathlib
-import TauCeti.Algebra.TemperleyLieb.MarkovTrace
-import TauCeti.Algebra.MonoidAlgebra.Twisted.Basic
-import TauCeti.LinearAlgebra.CliffordAlgebra.Dimension
+module
+
+public import Mathlib
+public import TauCeti.Algebra.TemperleyLieb.MarkovTrace
+public import TauCeti.Algebra.MonoidAlgebra.Twisted.Basic
+public import TauCeti.LinearAlgebra.CliffordAlgebra.Dimension
 
 /-!
 # Temperley–Lieb operator algebras: target signatures
@@ -51,8 +53,8 @@ Not statable at the pins:
 * Layer 1's comparisons 1.1–1.4 (the analytic adjoint against the vertical reflection of diagrams,
   the Hermitian cell forms against the bilinear cell forms, the trace radical against the
   negligible ideal, the path model against the block idempotents): they need the diagram category,
-  cell modules, Jones–Wenzl projections and negligible ideal of TemperleyLieb Layers 3–7, none of
-  which exist at the pins.
+  cell modules, negligible ideal and block idempotents of TemperleyLieb Layers 3–7, none of which
+  exist at the pins (the Jones–Wenzl projections do, as `TauCeti.TemperleyLieb.jonesWenzl`).
 * Layer 2's Bratteli-diagram presentation of the Jones tower: it needs Subfactors 3.3's
   C*-inductive limit `B_δ` and CStarClassification CL2's Bratteli diagrams, neither at the pins.
 * Layer 3's unitary Temperley–Lieb category and its C*-tensor and unitary-duality axioms: they
@@ -60,6 +62,8 @@ Not statable at the pins:
 * Layer 4's affine classification and affine Gram determinant: no affine diagram category or
   algebra exists at the pins.
 -/
+
+@[expose] public section
 
 noncomputable section
 
