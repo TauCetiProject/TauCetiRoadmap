@@ -1138,9 +1138,9 @@ Not targets. 8.5 does not extend to infinite products of locally compact spaces.
 family of compact Hausdorff spaces are spatial (Isbell 1972, Theorem 2.9, p. 22), and so are
 countable products of completely metrizable spaces (Theorem 3.12, p. 30); but the product locale
 of uncountably many separable completely metrizable spaces is the paracompact reflection of their
-product space (Theorem 3.13, p. 31). Since `ℕ^{ω₁}` is not normal (Stone 1948), the localic
-product of `ω₁` copies of the discrete, locally compact `ℕ` is not spatial (also Bannister 2024,
-Corollary 3.13). Regular epimorphisms of locales are not stable under pullback, so the category
+product space (Theorem 3.13, p. 31). Since `ℕ^{ω₁}` is not normal (Stone 1948, Theorem 3,
+p. 980), the localic product of `ω₁` copies of the discrete, locally compact `ℕ` is not spatial
+(also Bannister 2024, Corollary 3.13). Regular epimorphisms of locales are not stable under pullback, so the category
 of locales is not regular: every space is a quotient of a scattered space (8.4), which has no
 nonempty pointless sublocale, and pulling such a quotient back along a nonempty pointless
 sublocale gives the empty locale (Isbell 1972, p. 14, before Theorem 1.7).
@@ -1196,7 +1196,8 @@ that material: sites appear there only as bases of coefficient stacks.
   square of `ℚ`; p. 14, before Theorem 1.7, quotient maps of locales are not stable under
   pullback; Theorems 2.9 (p. 22), 3.12 (p. 30) and 3.13 (p. 31), infinite product locales.
 - [Stone 1948] A. H. Stone, « Paracompactness and product spaces », *Bulletin of the American
-  Mathematical Society* 54 (1948), 977–982: `ℕ^{ω₁}` is not normal.
+  Mathematical Society* 54 (1948), 977–982: Theorem 3 (p. 980), the product of uncountably many
+  copies of the discrete `ℕ` is not normal.
 - [Bannister 2024] N. Bannister, « Locales as spaces in outer models », arXiv:2411.05967 (2024):
   Corollary 3.13, the localic product of `ω₁` copies of `ℕ` is not spatial.
 - [Isbell 1981] J. R. Isbell, « Product spaces in locales », *Proceedings of the American
