@@ -15,9 +15,9 @@ order-unit quantum Gromov–Hausdorff distance with its triangle inequality
 (`quantumGHEDist_triangle`), zero-distance rigidity (`quantumGHEDist_eq_zero_iff`),
 completeness (`exists_limit_of_cauchySeq_quantumGHEDist`) and compactness
 (`totallyBounded_quantumGHEDist_iff`) theorems, stated for sequences of presentations. The end
-example is the continuity of the quantum tori
-`Θ ↦ (A_Θ, L_Θ)` in that distance, in every dimension and for every real skew-symmetric
-parameter, built on the twisted group C*-algebra `C*(ℤᵈ, σ_Θ)` of
+example is the uniform continuity of the quantum tori
+`Θ ↦ (A_Θ, L_Θ)` in that distance, in every dimension and over all real skew-symmetric
+parameters, built on the twisted group C*-algebra `C*(ℤᵈ, σ_Θ)` of
 [HeisenbergImprimitivity](../HilbertModules/HeisenbergImprimitivity/README.md) §3.1.
 
 ## Scope and ownership
@@ -33,9 +33,9 @@ closed Lip-norm theorem for ergodic actions, central finite-character approximat
 comparison with derivative seminorms; the order-unit quantum Gromov–Hausdorff distance, its
 admissible Lip-norms and bridges, metric laws, rigidity, completeness and compactness; for
 every `d`, the quantum-torus family `A_Θ = C*(ℤᵈ, σ_Θ)` on the common regular model `ℓ²(ℤᵈ)`
-with its identification theorem, the point-norm continuity of its gauge action and its
-gauge-finite Fourier polynomials, the continuous-field norm estimates and the metric
-continuity of quantum tori.
+with its identification theorem, its gauge coefficient maps and gauge-finite Fourier
+polynomials, the continuous-field norm estimates and the uniform metric continuity of quantum
+tori.
 
 It does not own, and does not restate:
 
@@ -89,7 +89,8 @@ It does not own, and does not restate:
 - The twisted group C*-algebra `C*(L, c)` of a discrete abelian group `L` with a normalized
   circle-valued `2`-cocycle `c`: its `ℓ¹` algebra, universal and twisted regular completions,
   universal property, faithful canonical trace with its Fourier coefficients, gauge action of
-  the compact dual with fixed algebra `ℂ·1`, and the theorem `C*(L, c) = C*_r(L, c)`, which
+  the compact dual with fixed algebra `ℂ·1` and gauge average `τ(·)·1`, and the theorem
+  `C*(L, c) = C*_r(L, c)`, which
   [HeisenbergImprimitivity](../HilbertModules/HeisenbergImprimitivity/README.md) owns (its
   §3.1), on Tau Ceti's finitely supported `TauCeti.twistedMonoidAlgebra`. Layer 6 consumes it
   at `L = ℤᵈ`, `c = σ_Θ`. The amenability inputs of its full = reduced theorem, the discrete
@@ -179,7 +180,7 @@ is *Metrics on states from actions of compact groups*, Rieffel 1999 is *Metrics 
 spaces*, Rieffel 2000 is *Gromov–Hausdorff distance for quantum metric spaces*.
 
 For a pair `(L_E, L_F)` an **admissible Lip-norm** is a Lip-norm `M` on `E × F` whose coordinate
-quotients are `L_E` and `L_F` (Rieffel 2000, Definition 4.1, the set `M(L_E, L_F)`), with the
+quotients are `L_E` and `L_F` (Rieffel 2000, Notation 4.1, the set `M(L_E, L_F)`), with the
 full product finite domain in Layer 5's main class; a **bridge** is the auxiliary seminorm `N`
 of Rieffel 2000, Definition 5.1, from which `max(L_E, L_F, N)` is an admissible Lip-norm
 (§5.2). The two words are never interchanged.
@@ -207,7 +208,7 @@ of Rieffel 2000, Definition 5.1, from which `max(L_E, L_F, N)` is an admissible 
   (`Mathlib/Topology/MetricSpace/GromovHausdorff.lean`).
 - `MeasureTheory.ProbabilityMeasure`, `MeasureTheory.Measure.IsProbabilityMeasure`, the
   Riesz measure `RealRMK.rieszMeasure` of a positive functional on `C(X, ℝ)`
-  (`Mathlib/MeasureTheory/Integral/RieszMarkovKakutani/Basic.lean`), `ContinuousMap.toLp`
+  (`Mathlib/MeasureTheory/Integral/RieszMarkovKakutani/Real.lean`), `ContinuousMap.toLp`
   (`Mathlib/MeasureTheory/Function/LpSpace/ContinuousFunctions.lean`) and
   `MeasureTheory.L1.integralCLM` (`Mathlib/MeasureTheory/Integral/Bochner/L1.lean`), whose
   composite is the integration functional of §3.3.
@@ -292,7 +293,8 @@ of Rieffel 2000, Definition 5.1, from which `max(L_E, L_F, N)` is an admissible 
   `c`-projective unitary representations `V_xV_y = c(x, y)V_(x+y)`; the theorem
   `C*(L, c) = C*_r(L, c)`; the faithful canonical trace `τ(f) = f(0)` on `C*_r(L, c)`, whose
   Fourier coefficients `x ↦ τ(aδ_x*)` determine `a`; and the gauge action `α_γ(δ_x) = γ(x)δ_x`
-  of the dual group with fixed-point algebra `ℂ·1`. Its star is
+  of the dual group with fixed-point algebra `ℂ·1`, whose Haar average of `a` is `τ(a)·1`. Its
+  star is
   `f*(x) = conj(c(−x, x)) conj(f(−x))`.
 
 ## How to read the build
@@ -324,7 +326,7 @@ Define the order-unit norm `‖a‖ = inf {r ≥ 0 : −r e ≤ a ≤ r e}` of a
 space and prove that it is a norm: finiteness from the order-unit condition, positivity,
 absolute homogeneity, the triangle inequality, definiteness from the Archimedean condition,
 the exact closed-interval formula `‖a‖ ≤ r ↔ −r e ≤ a ≤ r e` for `r ≥ 0`, and `‖e‖ = 1`
-(Rieffel 1999, §2; Rieffel 1998, §1). Define `IsOrderUnitNorm e` as the predicate on a space
+(Rieffel 1999, §1). Define `IsOrderUnitNorm e` as the predicate on a space
 already carrying a norm and a partial order that records `‖e‖ = 1` and this interval formula;
 it is the hypothesis under which every later theorem is stated, and the constructed norm
 satisfies it. *Needs:* Mathlib `IsOrderedAddMonoid`, `PosSMulMono`, `NormedSpace ℝ E`.
@@ -346,10 +348,13 @@ satisfies it. *Needs:* Mathlib `IsOrderedAddMonoid`, `PosSMulMono`, `NormedSpace
 - `E = ℝ²` with the coordinatewise order and `e = (1, 1)`: `‖(a₁, a₂)‖ = max(|a₁|, |a₂|)`; the
   Euclidean norm fails the interval formula at `(1, 1)`, whose Euclidean norm is `√2` while
   `−e ≤ (1, 1) ≤ e`.
-- `ℝ²` with the cone `{x > |y|} ∪ {(t, −t) : t ≥ 0}` and `e = (1, 0)`: `(0, 1) ≤ ε e` for every
-  `ε > 0` but `(0, 1) ≰ 0`, so the cone is not Archimedean; the formula
-  `inf {r : −r e ≤ a ≤ r e}` gives `‖(0, 1)‖ = 1`, and the interval formula fails at `r = 1`
-  because `(1, 1)` is not in the cone.
+- `ℝ²` with the cone `{x > |y|} ∪ {(t, −t) : t ≥ 0}` and `e = (1, 0)`: for `a = (−1, −1)` and
+  every `ε > 0`, `εe − a = (1 + ε, 1)` lies in `{x > |y|}`, so `a ≤ εe`, but `−a = (1, 1)` is
+  not in the cone, so `a ≰ 0` and the cone is not Archimedean; here `‖a‖ = 2`, attained through
+  the ray point `a + 2e = (1, −1)`, and the interval formula holds at `a`. It fails at
+  `(0, 1)`: the formula `inf {r : −r e ≤ a ≤ r e}` gives `‖(0, 1)‖ = 1`, and the interval
+  formula fails at `r = 1` because `(1, 1)` is not in the cone. The element `(0, 1)` is no
+  Archimedean witness: `εe − (0, 1) = (ε, −1)` is in the cone only for `ε ≥ 1`.
 - `selfAdjoint A` for a unital C*-algebra: `−r·1 ≤ a ≤ r·1` exactly when the spectrum of `a`
   lies in `[−r, r]`, which is `‖a‖ ≤ r`; a definition using the C*-norm of `a²` would give the
   same value, while one using `‖a⁺‖` alone would give `0` on `a = −1`.
@@ -364,7 +369,7 @@ that a unital positive map is contractive. For real functionals prove that posit
 normalization is equivalent to `φ(e) = 1 = ‖φ‖`. Define `stateSpace e` as the set of monotone
 functionals in `WeakDual ℝ E` with `φ(e) = 1`, and prove `stateSpace_nonempty`: extend the
 functional `r e ↦ r` from `ℝ e` with norm one by Hahn–Banach and prove positivity from the
-norm and the value at `e` (Rieffel 1999, §2; the argument is Kadison's). Prove restriction and
+norm and the value at `e` (Rieffel 1999, §1; the argument is Kadison's). Prove restriction and
 extension of states along unital subspaces (extension is a construction, not an assumed
 surjectivity), preservation under composition with unital positive maps, and unique extension
 to the completion. *Needs:* 0.1; Mathlib `exists_extension_norm_eq`,
@@ -392,19 +397,18 @@ to the completion. *Needs:* 0.1; Mathlib `exists_extension_norm_eq`,
 
 ### 0.3 The state space and Kadison duality
 
-Prove `isCompact_stateSpace`: the state space is weak-star closed in the closed unit ball of
-the dual, hence compact by Banach–Alaoglu; it is nonempty, convex and Hausdorff, and every
-evaluation `â(φ) = φ(a)` is continuous and affine. Prove that states separate points and
-order: `a ≥ 0 ↔ ∀ φ ∈ S(E), φ(a) ≥ 0`, by separating the closed cone from a point, and
-`norm_eq_iSup_states`: `‖a‖ = sup_φ |φ(a)|` (Rieffel 1999, §2; Rieffel 1998, §1). Construct the
-isometric unital order embedding `E → C(S(E), ℝ)`, prove that its image is dense in the
+Prove `isCompact_stateSpace`: the state space is weak-star closed in the closed unit ball of the
+dual, hence compact by Banach–Alaoglu; it is nonempty, convex and Hausdorff, and every evaluation
+`â(φ) = φ(a)` is continuous and affine. Prove that states separate points and order:
+`a ≥ 0 ↔ ∀ φ ∈ S(E), φ(a) ≥ 0`, by separating the closed cone from a point, and
+`norm_eq_iSup_states`: `‖a‖ = sup_φ |φ(a)|` (Rieffel 1999, §1, Kadison's representation). Construct
+the isometric unital order embedding `E → C(S(E), ℝ)`, prove that its image is dense in the
 continuous affine functions `Aff_c(S(E), ℝ)` and is onto for complete `E`, and prove the dual
-statement `K ≅ S(Aff_c(K, ℝ))` for a nonempty compact convex subset `K` of a Hausdorff
-locally convex real space, using continuous affine separation and barycentres. Build the
-barycentre of a regular Borel probability on `K` from compact regular probabilities and
-separation, not by assuming that every continuous affine function is a coordinate evaluation.
-*Needs:* 0.2; Mathlib `WeakDual.isCompact_closedBall`,
-`geometric_hahn_banach_closed_point`; BanachSpaceTheory B1.
+statement `K ≅ S(Aff_c(K, ℝ))` for a nonempty compact convex subset `K` of a Hausdorff locally
+convex real space, using continuous affine separation and barycentres. Build the barycentre of a
+regular Borel probability on `K` from compact regular probabilities and separation, not by assuming
+that every continuous affine function is a coordinate evaluation. *Needs:* 0.2; Mathlib
+`WeakDual.isCompact_closedBall`, `geometric_hahn_banach_closed_point`; BanachSpaceTheory B1.
 
 **Checks.**
 
@@ -452,15 +456,16 @@ these identifications. *Needs:* 0.3; BanachSpaceTheory B1 and B5; Mathlib
 
 ### 0.5 Functoriality of states and order quotients
 
-Prove that the pullback of states along a unital positive map is affine and weak-star
-continuous; that a unital order-isometric embedding induces a surjection on states, and that a
-surjective order quotient induces an affine embedding of state spaces onto a compact convex
-subset. Construct the order quotient of `E` by a compact convex subset `K ⊆ S(E)` explicitly
-as the restriction of the affine functions `â` to `K`. An arbitrary algebraic quotient cone is
-not automatically Archimedean: include its Archimedeanization and the norm comparison before
-calling it an order-unit quotient. Prove restrictions, compositions, inverse maps and
-completion comparisons, and that the C*-state dictionary of 0.2 commutes with these maps and
-preserves evaluations and the weak-star topology. *Needs:* 0.3, 0.4.
+Prove that the pullback of states along a unital positive map is affine and weak-star continuous
+(Rieffel 2000, §3, the paragraph on morphisms before Proposition 3.1); that a unital order-isometric
+embedding induces a surjection on states, and that a surjective order quotient induces an affine
+embedding of state spaces onto a compact convex subset. Construct the order quotient of `E` by a
+compact convex subset `K ⊆ S(E)` explicitly as the restriction of the affine functions `â` to `K`
+(Rieffel 2000, Proposition 3.5, for its state space `K`). An arbitrary algebraic quotient cone is
+not automatically Archimedean: include its Archimedeanization and the norm comparison before calling
+it an order-unit quotient. Prove restrictions, compositions, inverse maps and completion
+comparisons, and that the C*-state dictionary of 0.2 commutes with these maps and preserves
+evaluations and the weak-star topology. *Needs:* 0.3, 0.4.
 
 **Checks.**
 
@@ -489,15 +494,14 @@ BanachSpaceTheory B1 and B5. No earlier layer.
 ### 1.1 Extended seminorms and finite domains
 
 Define `ExtendedLipschitzSeminorm e` as an extended seminorm `L : E → ℝ≥0∞` with `L(0) = 0`,
-subadditivity, absolute homogeneity `L(r a) = |r| L(a)` (with `0 · ∞ = 0`), dense finite domain
-and scalar kernel `L(a) = 0 ↔ a ∈ ℝ e` (Rieffel 1998, Definition 2.1 for the finite case;
-Rieffel 2000, Definition 2.1). Prove the API: the finite domain is a real submodule containing
-`e`, on which `L` is a native `Seminorm`; scalar translation `L(a + r e) = L(a)`; invariance
-under negation; convexity and balance of sublevel sets; rescaling, maximum of two seminorms,
-pullback and transport along unital order isomorphisms. Prove the inverse dictionary between a
-finite seminorm on a specified dense submodule containing `e` and its extension by `∞` outside
-that domain, keeping domains in every equality of seminorms. *Needs:* 0.1; Mathlib `Seminorm`,
-`Dense`, `ENNReal`.
+subadditivity, absolute homogeneity `L(r a) = |r| L(a)` (with `0 · ∞ = 0`), dense finite domain and
+scalar kernel `L(a) = 0 ↔ a ∈ ℝ e` (Rieffel 1999, §2, the definition of a Lipschitz seminorm;
+Rieffel 2000, Definition 2.1). Prove the API: the finite domain is a real submodule containing `e`,
+on which `L` is a native `Seminorm`; scalar translation `L(a + r e) = L(a)`; invariance under
+negation; convexity and balance of sublevel sets; rescaling, maximum of two seminorms, pullback and
+transport along unital order isomorphisms. Prove the inverse dictionary between a finite seminorm on
+a specified dense submodule containing `e` and its extension by `∞` outside that domain, keeping
+domains in every equality of seminorms. *Needs:* 0.1; Mathlib `Seminorm`, `Dense`, `ENNReal`.
 
 - A restriction of `L` to a unital subspace `F` is an extended Lipschitz seminorm of `F` only
   when `F` is an order-unit subspace and `dom L ∩ F` is dense in `F`; this condition is a
@@ -518,8 +522,8 @@ that domain, keeping domains in every equality of seminorms. *Needs:* 0.1; Mathl
 ### 1.2 The state distance
 
 Define `stateEDist L φ ψ = sup {|φ(a) − ψ(a)| : L(a) ≤ 1}` in `ℝ≥0∞` for functionals
-`φ, ψ`, and prove on `stateSpace e` that it is an extended metric: `stateEDist_self`,
-`stateEDist_comm`, `stateEDist_triangle` and `stateEDist_eq_zero_iff` (zero separation, from
+`φ, ψ`, and prove on `stateSpace e` that it is an extended metric: zero self-distance,
+symmetry, `stateEDist_triangle` and `stateEDist_eq_zero_iff` (zero separation, from
 density of the finite domain and the common norm bound of states); package it as
 `stateEMetricSpace`, an `EMetricSpace` structure on `stateSpace e` which does not replace the
 inherited weak-star topology (Rieffel 1998, §1; Rieffel 1999, §2). Prove the evaluation
@@ -740,12 +744,14 @@ separation. *Needs:* 2.1, 2.2, 0.3.
 ### 2.4 Lipschitz maps
 
 Define a unital positive `C`-Lipschitz map `T : E → F` between spaces with extended Lipschitz
-seminorms by `L_F(Ta) ≤ C L_E(a)` for `C ≥ 0`, taking extended values and domains seriously.
-Prove that its state pullback satisfies `ρ_E(T*φ, T*ψ) ≤ C ρ_F(φ, ψ)`, checking the direction
-by scaling the test ball; for closed Lip-norms prove the converse using 2.2. Include
-composition, identity, positive real rescaling, inverse isometries, restriction and
-completion, and record separately when a unital star homomorphism of C*-algebras yields such a
-map on self-adjoint parts. *Needs:* 2.2, 0.5.
+seminorms by `L_F(Ta) ≤ C L_E(a)` for `C ≥ 0`, taking extended values and domains seriously. Unital
+positive maps are the morphisms of order-unit spaces, and their state pullback `S(T)` is affine and
+weak-star continuous (Rieffel 2000, §3, the paragraph on morphisms before Proposition 3.1); the
+`C`-Lipschitz estimates below are owned here. Prove that its state pullback satisfies
+`ρ_E(T*φ, T*ψ) ≤ C ρ_F(φ, ψ)`, checking the direction by scaling the test ball; for closed Lip-norms
+prove the converse using 2.2. Include composition, identity, positive real rescaling, inverse
+isometries, restriction and completion, and record separately when a unital star homomorphism of
+C*-algebras yields such a map on self-adjoint parts. *Needs:* 2.2, 0.5.
 
 **Checks.**
 
@@ -826,16 +832,15 @@ examples explicitly. *Needs:* Mathlib `LipschitzWith`, `edist`, `BoundedContinuo
 
 ### 3.2 Compact metric spaces
 
-For a nonempty compact metric space `X` prove `exists_closedLipNorm_classicalLip`: the
-extended seminorm `classicalLip` on `C(X, ℝ)` has dense finite domain (the real Lipschitz
-functions), kernel `ℝ·1`, lower semicontinuity for the uniform norm, and a totally bounded
-centered ball, by Arzelà–Ascoli; hence it is a closed Lip-norm with order unit `1`
-(Rieffel 1998, §1; Rieffel 1999, §2). Build the density by the infimal and supremal Lipschitz
-approximations `f_r(x) = inf_y (f(y) + r d(x, y))` of a uniformly continuous function, with
-their uniform error bounds, or by the lattice Stone–Weierstrass theorem. Extend to `C(X, ℂ)`
-and prove the complex Leibniz, star and strong-inverse laws
-`classicalLip (f⁻¹) ≤ ‖f⁻¹‖_∞² classicalLip f` on its Lipschitz subalgebra. *Needs:* 3.1,
-1.4, 2.1; Mathlib `BoundedContinuousFunction.arzela_ascoli`.
+For a nonempty compact metric space `X` prove `exists_closedLipNorm_classicalLip`: the extended
+seminorm `classicalLip` on `C(X, ℝ)` has dense finite domain (the real Lipschitz functions), kernel
+`ℝ·1`, lower semicontinuity for the uniform norm, and a totally bounded centered ball, by
+Arzelà–Ascoli; hence it is a closed Lip-norm with order unit `1` (Rieffel 1999, §8, the ordinary
+Lip-norm of a compact metric space). Build the density by the infimal and supremal Lipschitz
+approximations `f_r(x) = inf_y (f(y) + r d(x, y))` of a uniformly continuous function, with their
+uniform error bounds, or by the lattice Stone–Weierstrass theorem. Extend to `C(X, ℂ)` and prove the
+complex Leibniz, star and strong-inverse laws `classicalLip (f⁻¹) ≤ ‖f⁻¹‖_∞² classicalLip f` on its
+Lipschitz subalgebra. *Needs:* 3.1, 1.4, 2.1; Mathlib `BoundedContinuousFunction.arzela_ascoli`.
 
 **Checks.**
 
@@ -1024,16 +1029,16 @@ V8.CompactErgodicActions; CompactGroups Layers 0–5.
 
 ### 4.3 The closed Lip-norm theorem for ergodic actions
 
-For any `L¹(G)` kernel `f` prove that `α_f(a) = ∫ f(g) α_g(a) dg` is a compact operator on `A`
-when every isotypic space is finite dimensional: coefficient kernels give finite-rank maps,
-and `L¹` approximation gives operator-norm approximation. Prove
+For any `L¹(G)` kernel `f` prove that `α_f(a) = ∫ f(g) α_g(a) dg` is a compact operator on `A` when
+every isotypic space is finite dimensional: coefficient kernels give finite-rank maps, and `L¹`
+approximation gives operator-norm approximation (Rieffel 1998, Lemma 2.5). Prove
 `‖a − η(a)·1‖ ≤ L(a) ∫ ℓ dμ_G` and `diam(S(A), ρ_L) ≤ 2 ∫ ℓ dμ_G` (Rieffel 1998, Lemma 2.4).
-Positive unit-mass kernels with arbitrarily small `∫ f ℓ` uniformly approximate the Lip-unit
-ball by compact images. Conclude `exists_closedLipNorm_actionLip`: for a compact Hausdorff
-`G` with a continuous length `ℓ`, acting ergodically with norm-continuous orbits on a nonzero
-unital C*-algebra, the restriction of `actionLip ℓ α` to `selfAdjoint A` is a closed Lip-norm
-with order unit `1` (Rieffel 1998, Theorem 2.3; closedness is Rieffel 2000,
-Proposition 8.1). *Needs:* 4.2, 1.4, 2.1; Mathlib `IsCompactOperator`.
+Positive unit-mass kernels with arbitrarily small `∫ f ℓ` uniformly approximate the Lip-unit ball by
+compact images. Conclude `exists_closedLipNorm_actionLip`: for a compact Hausdorff `G` with a
+continuous length `ℓ`, acting ergodically with norm-continuous orbits on a nonzero unital
+C*-algebra, the restriction of `actionLip ℓ α` to `selfAdjoint A` is a closed Lip-norm with order
+unit `1` (Rieffel 1998, Theorem 2.3; closedness is Rieffel 2000, Proposition 8.1). *Needs:* 4.2,
+1.4, 2.1; Mathlib `IsCompactOperator`.
 
 **Checks.**
 
@@ -1052,26 +1057,25 @@ invariance of `ℓ`, prove that convolution with a central positive `L¹` kernel
 `α`-equivariant unital positive contraction `P` with `L(Pa) ≤ L(a)`: centrality of the kernel
 gives `α_g(Pa) − Pa = P(α_g(a) − a)` and `‖P‖ ≤ 1` (Rieffel 2000, Lemma 8.4).
 
-Let `K` be a compact Lie group and take a faithful finite-dimensional unitary representation
-of `K`, a continuous injective homomorphism into some `Matrix.unitaryGroup (Fin n) ℂ`, from
-CharacteristicClasses C1, item 3. Let `π₀` be a faithful representation containing the
-trivial representation (adjoin a trivial summand) and set `χ = |χ_π₀|²`, the character of
-`π₀ ⊗ π̄₀`, a nonnegative central continuous function with its unique maximum `dim(π₀)²` at
-`1`, by faithfulness (Rieffel 2000, §8, discussion before Proposition 8.1 and Theorem 8.2).
-Define `k_n = χⁿ / ∫ χⁿ` and prove that `k_n` concentrates at `1`: `∫_{ℓ > ε} k_n → 0` for
-every `ε > 0`. Its coefficient support is finite; let `B_n` be the self-adjoint part of the sum of
-the corresponding isotypic spaces, containing `1`, with the restriction of `L`. Prove that `L`
-is finite on `B_n`: on the compact Lie group the continuous `ℓ` locally dominates a fixed
-Lie-coordinate length, using powers which leave a fixed small neighbourhood and the positive
-minimum of `ℓ` away from `1`, so smooth coefficient functions have finite `L`; the
-coefficient functions are smooth because continuous homomorphisms of Lie groups are smooth
-(LieGroups Layer 2). Prove that
+Let `K` be a compact Lie group and take a faithful finite-dimensional unitary representation of `K`,
+a continuous injective homomorphism into some `Matrix.unitaryGroup (Fin n) ℂ`, from
+CharacteristicClasses C1, item 3. Let `π₀` be a faithful representation containing the trivial
+representation (adjoin a trivial summand) and set `χ = |χ_π₀|²`, the character of `π₀ ⊗ π̄₀`, a
+nonnegative central continuous function with its unique maximum `dim(π₀)²` at `1`, by faithfulness
+(Rieffel 2000, §8, between Proposition 8.1 and Theorem 8.2, and the proof of Theorem 8.2). Define
+`k_n = χⁿ / ∫ χⁿ` and prove that `k_n` concentrates at `1`: `∫_{ℓ > ε} k_n → 0` for every `ε > 0`.
+Its coefficient support is finite; let `B_n` be the self-adjoint part of the sum of the
+corresponding isotypic spaces, containing `1`, with the restriction of `L`. Prove that `L` is finite
+on `B_n`: on the compact Lie group the continuous `ℓ` locally dominates a fixed Lie-coordinate
+length, using powers which leave a fixed small neighbourhood and the positive minimum of `ℓ` away
+from `1`, so smooth coefficient functions have finite `L`; the coefficient functions are smooth
+because continuous homomorphisms of Lie groups are smooth (LieGroups Layer 2). Prove that
 `P_n = α_(k_n)` has range in `B_n`, `L(P_n a) ≤ L(a)` and `‖a − P_n a‖ ≤ δ_n L(a)` with
-`δ_n = ∫ k_n ℓ → 0` (Rieffel 2000, Lemma 8.3 and Lemma 8.4). `P_n` need not be idempotent; it
-is neither a conditional expectation nor an orthogonal projection. The trivial group gives
-`E = ℝ` with zero error and is handled directly. *Needs:* 4.3, 4.2; CharacteristicClasses
-C1, item 3 (faithful finite-dimensional unitary representation); LieGroups Layer 2 (automatic
-smoothness); Mathlib `LieGroup`, `Matrix.unitaryGroup`.
+`δ_n = ∫ k_n ℓ → 0` (Rieffel 2000, Lemma 8.3 and Lemma 8.4). `P_n` need not be idempotent; it is
+neither a conditional expectation nor an orthogonal projection. The trivial group gives `E = ℝ` with
+zero error and is handled directly. *Needs:* 4.3, 4.2; CharacteristicClasses C1, item 3 (faithful
+finite-dimensional unitary representation); LieGroups Layer 2 (automatic smoothness); Mathlib
+`LieGroup`, `Matrix.unitaryGroup`.
 
 - The construction covers every compact Lie group modelled on a finite-dimensional real
   normed space; disconnected and finite groups are included, and for a finite group the
@@ -1095,17 +1099,18 @@ smoothness); Mathlib `LieGroup`, `Matrix.unitaryGroup`.
 ### 4.5 Derivative seminorms on compact connected Lie groups
 
 For a compact connected Lie group `G` with a fixed norm on its real Lie algebra, use the
-differentiable vectors of SmoothBanachRepresentations §2.1 and define
-`L_der(a) = ‖X ↦ dα(X)a‖`, the operator norm of the differential on the unit ball of the Lie
-algebra. For the left-invariant length metric defined by that norm prove `actionLip = L_der`
-on differentiable vectors (Rieffel 1998, Theorem 3.1): integrate orbit derivatives along
-piecewise smooth paths for one inequality, and use small one-parameter subgroups for the
-other. Ad-invariance of the norm is needed only for conjugation invariance and equivariance,
-not for the Lip-norm theorem. Compare smooth vectors, the `C¹` domain and the maximal closed
-Lipschitz domain. For disconnected `G` the derivative seminorm alone has kernel `A^(G⁰)`, so
-the group-length construction of 4.1 is retained. *Needs:* 4.3; SmoothBanachRepresentations
-§2.1 (differentiable vectors and `dα(X)`), §3.1 (the Lie action on smooth vectors) and §8.1
-(the smooth Fréchet star algebra).
+differentiable vectors of SmoothBanachRepresentations §2.1 and define `L_der(a) = ‖X ↦ dα(X)a‖`, the
+operator norm of the differential on the unit ball of the Lie algebra. For the left-invariant length
+metric defined by that norm prove `actionLip = L_der` on differentiable vectors: integrate orbit
+derivatives along piecewise smooth paths for `actionLip ≤ L_der`, for any norm (Rieffel 1998, proof
+of Theorem 3.1), and use small one-parameter subgroups, whose length is at most `|t|‖X‖`, for the
+reverse inequality, which is owned here for an arbitrary norm (for an Ad-invariant norm the equality
+is Rieffel 2000, Proposition 8.6). Ad-invariance of the norm is needed only for conjugation
+invariance and equivariance, not for the Lip-norm theorem. Compare smooth vectors, the `C¹` domain
+and the maximal closed Lipschitz domain. For disconnected `G` the derivative seminorm alone has
+kernel `A^(G⁰)`, so the group-length construction of 4.1 is retained. *Needs:* 4.3;
+SmoothBanachRepresentations §2.1 (differentiable vectors and `dα(X)`), §3.1 (the Lie action on
+smooth vectors) and §8.1 (the smooth Fréchet star algebra).
 
 **Checks.**
 
@@ -1158,7 +1163,7 @@ VonNeumannAlgebras Layer 0 and V8.CompactErgodicActions; SmoothBanachRepresentat
 Work with complete closed presentations from Layer 2, or their identified dense finite
 domains. Define `QuotientAdmissibleLipNorm LE LF`: a Lip-norm `M` on `E × F` with order unit
 `(e, f)` whose coordinate quotient seminorms are exactly `L_E` and `L_F`,
-`inf_b M(a, b) = L_E(a)` and `inf_a M(a, b) = L_F(b)` (Rieffel 2000, Definition 4.1 for the
+`inf_b M(a, b) = L_E(a)` and `inf_a M(a, b) = L_F(b)` (Rieffel 2000, Notation 4.1 for the
 finite case). Define `AdmissibleLipNorm LE LF`, an admissible Lip-norm, as a quotient-admissible `M`
 with the full product finite domain `dom M = dom L_E × dom L_F`: a finite seminorm on that
 direct sum, extended by `∞` outside it. Quotient equality forces the reverse domain inclusion;
@@ -1233,7 +1238,21 @@ inequalities for the extended seminorms with their domains; `L_F` equal to the r
 `F`-coordinate quotient using `a = b`; the maximum has the full product finite domain. Prove
 `quantumGHEDist LE LF ≤ δ` by state restriction and positive extension. No linearity of `P` is
 needed; linear positivity is available in the convolution examples of 4.4. Handle Layer 4's
-zero-error scalar model directly rather than dividing by `δ = 0`. *Needs:* 5.1, 0.2, 2.5.
+zero-error scalar model directly rather than dividing by `δ = 0`.
+
+Prove the **quotient estimate** (Rieffel 2000, Proposition 5.7): for a Lip-norm `L_E` and
+nonempty compact convex `K₁, K₂ ⊆ S(E)` with quotients `(F₁, L₁)`, `(F₂, L₂)` of 2.5,
+`dist_q(F₁, F₂) ≤ dist_H(K₁, K₂)`, the Hausdorff distance for `ρ_(L_E)`; in particular
+`dist_q(E, F) ≤ dist_H(K, S(E))` for the quotient `F` by `K`, since the quotient by `S(E)` is
+`E` itself. Route: for `ε > 0` take on `E × E` the diagonal bridge `N(a, b) = ε⁻¹‖a − b‖`, whose
+admissible Lip-norm `M = max(L_E(a), L_E(b), N(a, b))` puts the two copies of `S(E)` within
+Hausdorff distance `ε`; quotient `E × E` by the convex hull of `K₁` in the first copy and `K₂`
+in the second; identify that quotient with `F₁ × F₂` with the coordinatewise order and unit, its
+kernel being the product of the two restriction kernels; and use 2.5's isometric identification
+of the quotient state space with that convex hull. The quotient of `M` has coordinate quotients
+`L₁`, `L₂` (a quotient of a quotient is the composite quotient) and the full product finite
+domain, so it is an admissible Lip-norm, with Hausdorff distance at most `dist_H(K₁, K₂) + ε`.
+*Needs:* 5.1, 0.2, 2.5.
 
 **Checks.**
 
@@ -1245,24 +1264,27 @@ zero-error scalar model directly rather than dividing by `δ = 0`. *Needs:* 5.1,
   `P = P_n` the Fejér-type kernel of 4.4: `quantumGHEDist ≤ δ_n → 0`.
 - `δ = 0` is the case `E = F = ℝ`, `P = id`, where the admissible Lip-norm is `|a − b|` and the
   distance is `0`, not `0⁻¹ · 0`.
+- Quotient estimate, strict case: on `C([0, 1], ℝ)` with the Lipschitz constant, `K₁ = {δ_0}`
+  and `K₂ = {δ_1}` have quotients `F₁ = F₂ = ℝ` with the zero seminorm, so
+  `dist_q(F₁, F₂) = 0 < 1 = W₁(δ_0, δ_1) = dist_H(K₁, K₂)`; the estimate is an inequality, and
+  a version claiming equality is false.
 
 ### 5.3 Metric laws and the classical comparison
 
-Prove symmetry, zero self-distance, the scaling law `dist_q(tE, tF) = t dist_q(E, F)` for
-`t > 0`, invariance under unital order isometries preserving `L`, and the triangle inequality
+Prove symmetry, zero self-distance, the scaling law `dist_q(tE, tF) = t dist_q(E, F)` for `t > 0`,
+invariance under unital order isometries preserving `L`, and the triangle inequality
 `quantumGHEDist_triangle` (Rieffel 2000, Theorem 4.3, Lemmas 4.4 and 4.6): take admissible Lip-norms
-`M_EF`, `M_FH` within `ε` of the infima, glue them by
-`G(a, b, c) = max(M_EF(a, b), M_FH(b, c))` and take the endpoint quotient
-`K(a, c) = inf_b G(a, b, c)`. Prove that `dom G` is the full triple product and `dom K` the
-full endpoint product (for the latter use a finite middle scalar element, and the original
-quotient lower bounds for the converse), the coordinate quotient equalities by successive
-`ε`-lifts, the Lip-norm criterion and the state-space estimates; an arbitrary Gromov–Hausdorff
-gluing of the underlying state sets need not respect the affine structure. Prove
-`|diam E − diam F| ≤ 2 dist_q(E, F)` and the classical comparison
-`dist_q(C(X, ℝ), C(Y, ℝ)) ≤ ghDist X Y` for nonempty compact metric spaces, by restricting
-Lipschitz functions on a metric gluing of `X` and `Y` and extending them with their exact
-Lipschitz constant (Rieffel 2000, §4). Equality with the classical Gromov–Hausdorff distance
-is not asserted. *Needs:* 5.1, 5.2, 3.2, 3.3; Mathlib `GromovHausdorff.ghDist`.
+`M_EF`, `M_FH` within `ε` of the infima, glue them by `G(a, b, c) = max(M_EF(a, b), M_FH(b, c))` and
+take the endpoint quotient `K(a, c) = inf_b G(a, b, c)`. Prove that `dom G` is the full triple
+product and `dom K` the full endpoint product (for the latter use a finite middle scalar element,
+and the original quotient lower bounds for the converse), the coordinate quotient equalities by
+successive `ε`-lifts, the Lip-norm criterion and the state-space estimates; an arbitrary
+Gromov–Hausdorff gluing of the underlying state sets need not respect the affine structure. Prove
+`|diam E − diam F| ≤ 2 dist_q(E, F)` (Rieffel 2000, Lemma 13.6) and the classical comparison
+`dist_q(C(X, ℝ), C(Y, ℝ)) ≤ ghDist X Y` for nonempty compact metric spaces, by restricting Lipschitz
+functions on a metric gluing of `X` and `Y` and extending them with their exact Lipschitz constant
+(Rieffel 2000, Proposition 4.7). Equality with the classical Gromov–Hausdorff distance is not
+asserted. *Needs:* 5.1, 5.2, 3.2, 3.3; Mathlib `GromovHausdorff.ghDist`.
 
 **Checks.**
 
@@ -1315,9 +1337,11 @@ subspace with the maximum norm and the supremum seminorm `sup_j M_j(a_j, a_(j+1)
 state space is the compact metric completion of the increasing union of the finite-coordinate convex
 state hulls; take the Hausdorff limit `K` of the coordinate state spaces inside it, restrict affine
 functions to `K`, and use 2.5 for the quotient Lip-norm. Prove that the quotient retains a nonzero
-order unit and finite radius, has dense finite domain, and that the coordinate spaces converge to
-it; pass to its complete closed presentation. Completeness of ordinary Gromov–Hausdorff space is not
-a substitute for these affine and quotient constructions. *Needs:* 5.1–5.4, 2.5, 1.5.
+order unit and finite radius, has dense finite domain, and that the coordinate spaces, which are the
+quotients of the subspace by their own state spaces, converge to it by the quotient estimate of 5.2
+(Rieffel 2000, Corollary 12.10); pass to its complete closed presentation. Completeness of ordinary
+Gromov–Hausdorff space is not a substitute for these affine and quotient constructions. *Needs:*
+5.1–5.4, 2.5, 1.5.
 
 **Checks.**
 
@@ -1331,8 +1355,9 @@ a substitute for these affine and quotient constructions. *Needs:* 5.1–5.4, 2.
 ### 5.6 Finite-dimensional approximation and compactness
 
 Prove finite-dimensional quotient approximation (Rieffel 2000, Theorem 13.1): take a finite
-`ε′`-net of `S(E)` with `ε′ < ε`, restrict affine functions to its convex hull, and use 2.5 to
-get a quotient `F` with `dim F ≤ card(net)` and `dist_q(E, F) < ε`. Such an `F` is an
+`ε′`-net of `S(E)` with `ε′ < ε`, restrict affine functions to its convex hull, use 2.5 to get
+a quotient `F` with `dim F ≤ card(net)`, and the quotient estimate of 5.2 for
+`dist_q(E, F) ≤ dist_H(co(net), S(E)) ≤ ε′ < ε`. Such an `F` is an
 order-unit function system, not in general a finite-dimensional C*-algebra. Define `Fin_E(ε)`
 as the minimum dimension of a finite-dimensional compact quantum metric space within `ε` of `E`
 and `Scv_E(ε)` as the minimum cardinality of an `ε`-net of `S(E)` (Rieffel 2000,
@@ -1350,12 +1375,15 @@ finite-dimensional comparison, bounded-dimension and bounded-radius precompactne
 covering-number inequalities needed in each implication. Deduce from 4.4's `δ_n` and the
 multiplicity bounds of 4.2 that all ergodic actions of a fixed compact Lie group `G` with one
 conjugation-invariant `ℓ` form a precompact family; this is a metric precompactness theorem,
-not an equivariant classification. *Needs:* 5.5, 5.3, 2.5, 4.4, 4.2.
+not an equivariant classification. *Needs:* 5.5, 5.3, 5.2, 2.5, 4.4, 4.2.
 
 **Checks.**
 
 - `E = C([0, 1])` with the Lipschitz constant and the net `{δ_(k/n)}`: the quotient is `ℝ^(n+1)`
-  with the quotient Lip-norm, at distance `≤ 1/(2n)`, so `Fin_E(ε) ≤ 1/ε + 2`.
+  with the quotient Lip-norm, at distance `≤ 1/(2n)` by the quotient estimate of 5.2: moving
+  mass to the nearest grid point costs at most `1/(2n)` in `W₁`, and `δ_(1/(2n))` is at
+  distance exactly `1/(2n)` from the hull, so `dist_H(co(net), S(E)) = 1/(2n)`; hence
+  `Fin_E(ε) ≤ 1/ε + 2`.
 - `Scv` for the two-point simplex `S(ℝ²) = [0, 1]` with `|s − t|`: `Scv(ε) = ⌈1/(2ε)⌉`.
 - A family with unbounded diameters, `(ℝ², t|a₁ − a₂|)` for `t → 0`, has diameters `1/t → ∞` and
   is not precompact; a family with bounded diameters but `Scv_E(ε) → ∞`, the simplices
@@ -1448,15 +1476,17 @@ faithful. Route: the range of `Φ` is closed and contains the generators, so `Φ
 
 ### 6.1 Gauge action, trace and the identification Φ_θ
 
-Prove that the gauge action of §6.0 is point-norm continuous: each `α_z` is isometric and
-`z ↦ α_z(W_p) = z^pW_p` is continuous, so continuity passes from the dense span. Construct the
-coefficient maps by gauge averaging, `E_p(a) = ∫_(Tᵈ) z^(−p) α_z(a) dz = τ_Θ(aW_p*)W_p`, and prove
-that the gauge-finite subalgebra is exactly the finite Fourier polynomials; for `d = 0` it is
-`ℂ`. That `τ_Θ` is a faithful trace, that the Fourier coefficients `τ_Θ(aW_p*)` determine `a`,
-and that the fixed algebra is `ℂ·1` for every `Θ`, including rational and degenerate `Θ` and
-`Θ = 0`, are HeisenbergImprimitivity §3.1's at `L = ℤᵈ`. This gauge analysis on `Tᵈ` is owned
-here for every `d`; NoncommutativeGeometry N6 owns the smooth two-torus theory on the rotation
-algebra `A_θ`, and Layer 6 does not rebuild it.
+The gauge action of §6.0 is a point-norm continuous action of `Tᵈ` with Haar average
+`∫_(Tᵈ) α_z(a) dz = τ_Θ(a)·1`. Both are HeisenbergImprimitivity §3.1's at `L = ℤᵈ` (its gauge
+action of `L̂` and its gauge average `τ(a)1`; continuity of `z ↦ α_z(a)` comes from the isometry
+of each `α_z` and the continuity of `z ↦ z^pW_p` on the dense span), as are the facts that `τ_Θ`
+is a faithful trace, that the Fourier coefficients `τ_Θ(aW_p*)` determine `a`, and that the fixed
+algebra is `ℂ·1` for every `Θ`, including rational and degenerate `Θ` and `Θ = 0`. Construct the
+coefficient maps `E_p(a) = ∫_(Tᵈ) z^(−p) α_z(a) dz` and prove `E_p(a) = τ_Θ(aW_p*)W_p`, from
+`z^(−p)α_z(a) = α_z(aW_p*)W_p` and the gauge average; prove that the gauge-finite subalgebra is
+exactly the finite Fourier polynomials; for `d = 0` it is `ℂ`. The coefficient maps and the
+gauge-finite subalgebra are owned here for every `d`; NoncommutativeGeometry N6 owns the smooth
+two-torus theory on the rotation algebra `A_θ`, and Layer 6 does not rebuild it.
 For `d = 2` construct the isometric star isomorphism `Φ_θ : A_Θ(θ) → A_θ`,
 `Φ_θ(W_(m,n)) = exp(πiθmn)U₁^mU₂^n`. Route: the trace-GNS representation `π_τ` of `A_θ` on
 `L²(A_θ, τ)`, identified with `ℓ²(ℤ²)` by N7's ordered basis `e_(m,n) = [U₁^mU₂^n]`, is
@@ -1471,8 +1501,9 @@ rapidly decreasing series of `A_Θ(θ)` onto `𝒜_θ`, the phases having modulu
 intertwines `λ_Θ(θ)` with `π_τ` and commutes with every operator diagonal in the two Fourier
 bases with the same eigenvalues, in particular with the derivations `δ_j` and with N7's
 Fourier–Dirac operator `D` on `ℓ²(ℤ²) ⊗ ℂ²`. No irrationality hypothesis enters any metric
-theorem. *Needs:* 6.0; HeisenbergImprimitivity §3.1 (trace, Fourier coefficients, fixed
-algebra); NoncommutativeGeometry N6 and N7; CompactGroups Layer 0 (Haar averaging on `Tᵈ`).
+theorem. *Needs:* 6.0; HeisenbergImprimitivity §3.1 (trace, Fourier coefficients, gauge action
+with its fixed algebra and gauge average); NoncommutativeGeometry N6 and N7; CompactGroups
+Layer 0 (Haar averaging on `Tᵈ`).
 
 **Checks.**
 
@@ -1488,6 +1519,9 @@ algebra); NoncommutativeGeometry N6 and N7; CompactGroups Layer 0 (Haar averagin
   `p = 0`.
 - Rational `θ = 1/2`: `A_Θ` is not simple, yet the gauge action is ergodic and `τ_Θ` faithful;
   no simplicity is used.
+- Coefficient maps on generators: `E_p(W_q) = (∫ z^(q−p) dz) W_q = δ_(p,q)W_q`, and
+  `τ_Θ(W_qW_p*)W_p = δ_(p,q)W_p` agrees; at `p = 0` this is the gauge average `δ_(q,0)·1`. The
+  sign variant `∫ z^p α_z(a) dz` would send `W_q` to `δ_(q,−p)W_q`, the coefficient of `W_(−p)`.
 
 ### 6.2 Lip-norms on quantum tori
 
@@ -1580,18 +1614,25 @@ with `Θ`. *Needs:* 6.3, 6.2, 5.2, 1.5.
 Use 4.4's central finite-character kernels on `Tᵈ` to obtain finite Fourier systems
 `B_(Θ,n) = (V_(S_n), ‖·‖_Θ, L_Θ)` with a **uniform-in-Θ** error `δ_n → 0`, and prove
 `dist_q(A_Θ, B_(Θ,n)) ≤ δ_n` by 5.2 (Rieffel 2000, Theorem 9.2 and §11). Use 6.4 to prove
-`dist_q(B_(Θ,n), B_(Ψ,n)) → 0` as `Ψ → Θ`. The triangle inequality then gives the theorem
-`Ψ → Θ ⇒ dist_q((A_Ψ, L_Ψ), (A_Θ, L_Θ)) → 0`, including rational-to-irrational and
-noncommutative-to-classical limits, in every dimension and for `d = 0`, with local uniformity
-on compact parameter sets. For an integer skew matrix `N` prove `σ_(Θ+N) = (δb_N)σ_Θ` with
+`dist_q(B_(Θ,n), B_(Ψ,n)) → 0` as `Ψ → Θ`, uniformly for `Θ, Ψ` in a compact parameter set. The
+triangle inequality then gives uniform continuity of `Θ ↦ (A_Θ, L_Θ)` for `dist_q` on every
+compact set of parameters. For an integer skew matrix `N` prove `σ_(Θ+N) = (δb_N)σ_Θ` with
 `b_N(p) = exp(πi Σ_(j<k) N_jk p_jp_k)` and `(δb)(p, q) = b(p)b(q)/b(p + q)`. On finite Fourier
 polynomials the transport `W_p^(Θ+N) ↦ b_N(p)W_p^Θ` is
 `TauCeti.TwistedMonoidAlgebra.equivOfCoboundary` with `c = b_N`, from the `σ_(Θ+N)`-algebra to
 the `σ_Θ`-algebra; it extends to a star isomorphism `A_(Θ+N) ≅ A_Θ` by the universal property of
 §6.0 in both directions. Prove gauge equivariance and preservation of `L`, and obtain the
-consistent periodic presentation. C*-algebra isomorphism classes, primitive ideal spaces and
-K-theory do not vary continuously in this topology, and no such claim is made. *Needs:* 6.4,
-6.3, 6.2, 6.0, 5.3, 5.2, 4.4; Tau Ceti `TauCeti.TwistedMonoidAlgebra.equivOfCoboundary`.
+consistent periodic presentation: `(A_(Θ+N), L_(Θ+N))` and `(A_Θ, L_Θ)` are isometric, so
+`dist_q` between them is `0` by 5.3. Conclude the theorem (Rieffel 2000, Theorem 9.2): for a
+fixed norm on the real skew-symmetric `d × d` matrices and every `ε > 0` there is `δ > 0` such
+that `dist_q((A_Θ, L_Θ), (A_Ψ, L_Ψ)) < ε` for all `Θ, Ψ` with `‖Θ − Ψ‖ < δ`, including
+rational-to-irrational and noncommutative-to-classical limits, in every dimension and for
+`d = 0`. Route: let `D` be a compact fundamental domain for the integer skew matrices and
+`K = {Θ : dist(Θ, D) ≤ 1}`; take `δ ≤ 1` from uniform continuity on `K`; for `‖Θ − Ψ‖ < δ`
+choose `N` with `Θ − N ∈ D`, so that `Θ − N, Ψ − N ∈ K`, and transport both terms along the
+periodicity isometries. C*-algebra isomorphism classes, primitive ideal spaces and K-theory do
+not vary continuously in this topology, and no such claim is made. *Needs:* 6.4, 6.3, 6.2,
+6.0, 5.3, 5.2, 4.4; Tau Ceti `TauCeti.TwistedMonoidAlgebra.equivOfCoboundary`.
 
 **Checks.**
 
@@ -1603,6 +1644,10 @@ K-theory do not vary continuously in this topology, and no such claim is made. *
 - Periodicity: `d = 2`, `N₁₂ = −N₂₁ = 1`: `σ_(Θ+N)(p, q)/σ_Θ(p, q) = exp(πi(p₁q₂ − p₂q₁))`, and
   `b_N(p) = exp(πi p₁p₂)` satisfies `b_N(p + q)/(b_N(p)b_N(q)) = exp(πi(p₁q₂ + p₂q₁))`, which
   agrees with the ratio since `exp(2πi p₂q₁) = 1`.
+- Global from compact uniformity: for `d = 2` the transport gives
+  `dist_q(A_θ, A_(θ+1)) = 0`, so a `δ < 1` that works on `[−1, 2]` works on all of `ℝ`: for
+  `|θ − ψ| < δ` take the integer `k` with `θ − k ∈ [0, 1)`, so `θ − k, ψ − k ∈ [−1, 2]`. Without
+  periodicity, continuity uniform on compact sets would not give one `δ` for all parameters.
 
 ### Examples
 
@@ -1633,23 +1678,28 @@ HeisenbergImprimitivity §3.1 and Tau Ceti `TauCeti.twistedMonoidAlgebra` (6.0�
 - M. A. Rieffel, *Metrics on states from actions of compact groups*, Doc. Math. 3 (1998),
   215–229; [arXiv math/9807084](https://arxiv.org/abs/math/9807084) (cited as Rieffel 1998;
   theorem numbers follow the arXiv version): §1 for the Lip-norm criterion (Theorems 1.8 and
-  1.9), §2 for ergodic actions (Proposition 2.2, Theorem 2.3, Lemma 2.4), §3 for derivative
-  seminorms (Theorem 3.1), §4 for the Lie-action Dirac construction of commutator seminorms.
+  1.9), §2 for ergodic actions (Proposition 2.2, Theorem 2.3, Lemmas 2.4 and 2.5), §3 for
+  derivative seminorms (Theorem 3.1 and its proof), §4 for the Lie-action Dirac construction of
+  commutator seminorms.
 - M. A. Rieffel, *Metrics on state spaces*, Doc. Math. 4 (1999), 559–600; [arXiv
-  math/9906151](https://arxiv.org/abs/math/9906151) (cited as Rieffel 1999): §2 for order-unit
-  spaces, the dual-ball identity (Lemma 2.1) and the radius (Proposition 2.2); §3 for lower
-  semicontinuity (Example 3.5, Proposition 3.7); §4 for closure and recovery (Theorems 4.1 and 4.2,
-  Proposition 4.4); §9 for metrics from norms (Definitions 9.1, 9.3, 9.5, Theorems 9.7 and 9.11).
+  math/9906151](https://arxiv.org/abs/math/9906151) (cited as Rieffel 1999): §1 for order-unit
+  spaces, their states and Kadison's representation; §2 for Lipschitz seminorms, the dual-ball
+  identity (Lemma 2.1) and the radius (Proposition 2.2); §3 for lower semicontinuity (Example 3.5,
+  Proposition 3.7); §4 for closure and recovery (Theorems 4.1 and 4.2, Proposition 4.4); §8 for the
+  ordinary Lip-norm of a compact metric space; §9 for metrics from norms (Definitions 9.1, 9.3,
+  9.5, Theorems 9.7 and 9.11).
 - M. A. Rieffel, *Gromov–Hausdorff distance for quantum metric spaces*, Mem. Amer. Math.
   Soc. 168 (2004), no. 796; [arXiv math/0011063](https://arxiv.org/abs/math/0011063) (cited as
-  Rieffel 2000; theorem numbers follow the arXiv version): §§2–3 for Lip-norms and quotients
-  (Definition 2.1, Propositions 3.1 and 3.5), §§4–5 for the distance, the triangle inequality
-  and bridges (Definitions 4.1 and 4.2, Theorem 4.3, Definition 5.1, Theorem 5.2), §§6–7 for
-  isometries and rigidity (Theorem 7.8), §8 for compact-action approximation
-  (Proposition 8.1, Theorem 8.2, Lemmas 8.3 and 8.4, Proposition 8.5), §§9–11 for quantum tori
-  and finite-dimensional continuity (Theorem 9.2, Lemma 9.3, Lemma 10.1, Theorem 11.2),
-  §§12–13 for completeness and compactness (Theorem 12.11, Theorem 13.1, Definition 13.4,
-  Theorem 13.5).
+  Rieffel 2000; theorem numbers follow the arXiv version): §§2–3 for Lip-norms, morphisms of
+  order-unit spaces and quotients (Definition 2.1, the paragraph before Proposition 3.1,
+  Propositions 3.1 and 3.5), §§4–5 for the distance, the triangle inequality, the classical
+  comparison, bridges and the quotient estimate (Notation 4.1, Definition 4.2, Theorem 4.3,
+  Proposition 4.7, Definition 5.1, Theorem 5.2, Proposition 5.7), §§6–7 for isometries and
+  rigidity (Theorem 7.8), §8 for compact-action approximation (Proposition 8.1, Theorem 8.2 and its
+  proof, Lemmas 8.3 and 8.4, Propositions 8.5 and 8.6), §§9–11 for quantum tori and
+  finite-dimensional continuity (Theorem 9.2, Lemma 9.3, Lemma 10.1, Theorem 11.2), §§12–13 for
+  completeness and compactness (Corollary 12.10, Theorem 12.11, Theorem 13.1, Definition 13.4,
+  Theorem 13.5, Lemma 13.6).
 - R. Høegh-Krohn, M. B. Landstad and E. Størmer, *Compact ergodic groups of automorphisms*,
   [Ann. of Math. 114 (1981), 75–86](https://doi.org/10.2307/1971377): the finite-multiplicity
   and invariant-trace theorem for ergodic actions of compact groups, consumed through

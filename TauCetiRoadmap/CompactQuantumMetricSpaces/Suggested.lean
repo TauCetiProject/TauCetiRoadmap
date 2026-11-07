@@ -25,8 +25,9 @@ theorem in sequential form, on sequences of presentations in one universe (Layer
 Not statable at the pins: the metric space of isometry classes of complete closed presentations
 (§5.5), a construction whose completeness is stated here on sequences instead; the
 identification `Φ_θ` (§6.1), which needs the rotation C*-algebra `A_θ`, provided by neither
-pinned library (Tau Ceti has only its smooth subalgebra `TauCeti.SmoothNoncommutativeTorus θ`);
-and the continuity of the quantum tori `Θ ↦ (A_Θ, L_Θ)` in quantum Gromov–Hausdorff distance
+pinned library (Tau Ceti has only its smooth subalgebra `TauCeti.SmoothNoncommutativeTorus θ`,
+a star algebra of rapidly decreasing coefficient functions with no norm or completion); and the
+uniform continuity of the quantum tori `Θ ↦ (A_Θ, L_Θ)` in quantum Gromov–Hausdorff distance
 (§6.5), which needs the twisted group C*-algebra `A_Θ = C*(ℤᵈ, σ_Θ)` (§6.0), of which the
 pinned Tau Ceti has only the finitely supported algebra `TauCeti.twistedMonoidAlgebra`, with no
 involution, norm or completion, and its Lip-norm `L_Θ` as an `ExtendedLipschitzSeminorm` on the
@@ -112,16 +113,6 @@ def IsLipNorm (L : ExtendedLipschitzSeminorm e) : Prop :=
 def IsClosedLipNorm (L : ExtendedLipschitzSeminorm e) : Prop :=
   IsLipNorm L ∧ ∀ t : ℝ≥0∞, IsClosed {a : E | L a ≤ t}
 
-omit [PartialOrder E] [IsOrderedAddMonoid E] [PosSMulMono ℝ E] in
-theorem stateEDist_self (L : ExtendedLipschitzSeminorm e) (φ : WeakDual ℝ E) :
-    stateEDist L φ φ = 0 := by
-  simp [stateEDist]
-
-omit [PartialOrder E] [IsOrderedAddMonoid E] [PosSMulMono ℝ E] in
-theorem stateEDist_comm (L : ExtendedLipschitzSeminorm e) (φ ψ : WeakDual ℝ E) :
-    stateEDist L φ ψ = stateEDist L ψ φ := by
-  simp only [stateEDist, abs_sub_comm]
-
 /-- The triangle inequality of the state distance (§1.2). -/
 theorem stateEDist_triangle (L : ExtendedLipschitzSeminorm e)
     (φ ψ χ : WeakDual ℝ E) :
@@ -174,8 +165,8 @@ theorem closedLipNorm_recovery (L : ExtendedLipschitzSeminorm e)
 @[instance_reducible]
 def stateEMetricSpace (L : ExtendedLipschitzSeminorm e) : EMetricSpace (stateSpace e) where
   edist φ ψ := stateEDist L φ.1 ψ.1
-  edist_self φ := stateEDist_self L φ.1
-  edist_comm φ ψ := stateEDist_comm L φ.1 ψ.1
+  edist_self φ := by simp [stateEDist]
+  edist_comm φ ψ := by simp only [stateEDist, abs_sub_comm]
   edist_triangle φ ψ χ := stateEDist_triangle L φ.1 ψ.1 χ.1
   eq_of_edist_eq_zero := fun h => (stateEDist_eq_zero_iff L _ _).mp h
 
