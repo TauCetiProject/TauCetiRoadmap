@@ -393,7 +393,7 @@ convergence half-plane.
 **Checks.**
 
 - Level `1`, `σ = 2`: `−ζ′/ζ(2) = Σ_n Λ(n)/n² ≈ 0.5700` and `Σ_p (log p)/p² ≈ 0.4931`; the difference `≈ 0.0769` is the prime-power tail `Σ_p (log p)/(p²(p²−1))`, which a definition identifying `−L′/L` with the prime sum alone would set to zero.
-- The regularized error `−ζ′/ζ(1+η) − η⁻¹` is `≈ −0.4300` at `η = 1` and tends to `−γ ≈ −0.5772` as `η → 0⁺`, by the Laurent expansion `ζ(s) = 1/(s−1) + γ + O(s−1)`; the opposite sign in the pole subtraction would give the unbounded `η⁻¹ + ζ′/ζ(1+η) ≈ 2η⁻¹`.
+- The regularized error `−ζ′/ζ(1+η) − η⁻¹` is `≈ −0.4300` at `η = 1` and tends to `−γ ≈ −0.5772` as `η → 0⁺`, by the Laurent expansion `ζ(s) = 1/(s−1) + γ + O(s−1)`, which gives `ζ′/ζ(1+η) = −η⁻¹ + γ + O(η)`; subtracting the pole with the wrong sign, `−ζ′/ζ(1+η) + η⁻¹ = 2η⁻¹ − γ + O(η)`, is unbounded as `η → 0⁺` and equals `≈ 1.5700` at `η = 1`.
 - The principal character modulo `q` is allowed: `L(s,χ₀) = ζ(s) ∏_{p∣q} (1−p^(−s))`, so `−L′/L(σ,χ₀) − Σ_{p∤q} (log p)/p^σ` differs from the level-`1` quantity by `−Σ_{p∣q} (log p)/(p^σ(p^σ−1))`, of absolute value at most `Σ_p (log p)/(p(p−1)) ≈ 0.7554`, independent of `q`.
 
 *Needs:* §0.11a for prime carriers; Mathlib Euler logarithmic derivatives and the
