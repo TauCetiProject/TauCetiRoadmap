@@ -162,7 +162,7 @@ No Belyi-local copy, alias or stand-in for the theorem is exported.
 
 **Conformal mapping.** The local theory of holomorphic maps — Rouché, Hurwitz, the local
 degree `TauCeti.exists_localDegree`, holomorphic branch roots — belongs to
-[ConformalMapping](../ConformalMapping/README.md) (its L0), and Layer 8 consumes it for the
+[ConformalMapping](../../Completed/ConformalMapping/README.md) (its L0), and Layer 8 consumes it for the
 local normal form. Nothing here uses the Riemann mapping theorem, Montel, or the boundary
 correspondence. The `ℍ/Γ(2) ≅ ℂ∖{0,1}` λ-uniformization is that roadmap family's material
 (recorded there as belonging to ModularForms); no layer here consumes or supplies it — the

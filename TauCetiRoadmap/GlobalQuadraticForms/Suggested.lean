@@ -1,5 +1,5 @@
 import Mathlib
-import TauCetiRoadmap.GlobalNumberFields.Suggested
+import Completed.GlobalNumberFields.Suggested
 import Completed.NumberFieldArithmetic.Suggested
 import TauCetiRoadmap.ClassFieldTheory.Suggested
 import TauCetiRoadmap.QuadraticFormInvariants.Suggested
@@ -485,7 +485,7 @@ theorem hilbertSymbol_one {F : Type u} [Field F] [Invertible (2 : F)] (b : Fˣ) 
     refine ⟨((b : F) + 1) / 2, ((b : F) - 1) / 2, ?_⟩
     field_simp
     ring
-  simp [TauCetiRoadmap.QuadraticFormInvariants.hilbertSymbol, hex]
+  simp [TauCetiRoadmap.QuadraticFormInvariants.hilbertSymbol]
 
 /-- `s_v(P') = (α, β)_v`: the Hasse sign of `⟨α, -αβ⟩` at a nonarchimedean place is the symbol
 `(α, β)`, by bimultiplicativity and `(α, -α) = 1`. This is the identity that makes the
