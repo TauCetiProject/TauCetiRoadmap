@@ -7,7 +7,40 @@ planar algebras, and fusion-category commutants. It also constructs the
 canonical C*-algebras of planar algebras, with their Morita, K-theory and
 finite-index tower comparisons.
 
-## Scope, conventions and dependencies
+## Scope and ownership
+
+This roadmap owns CA1–CA10: C*- and W*-categories and bicategories,
+unitary tensor duality and the shaded planar correspondence, Q-systems
+and their completion, internal C*/W* algebra objects and their discrete
+realizations, unitary anchored planar algebras, Pimsner and free-graph
+C*-algebras, the canonical planar C*-towers, complete W*-categories and
+fusion commutants, and the finite-depth anchored classification.
+No conjectural classifier for arbitrary bicommutant categories is a
+target. The finite-depth classifier in CA10 has a specified fusion
+subcategory and real generator. General fusion-category actions on
+continuous-trace spaces, cocycle-action classification outside the
+centrally free amenable separable-predual factor setting of CA9, and
+spectral triples of the planar C*-models
+are outside scope. Compact quantum groups and their Tannaka realization
+are in QuantumGroups. C*-categories, their finite additive and Karoubi
+completion and the finite-Hilbert and Hilbert-module examples (CA1a),
+and C*-tensor categories with solutions of the conjugate equations,
+standard solutions and intrinsic dimension, unitary dual functors and
+signed self-dualities (CA2a) have their single home here; QuantumGroups
+consumes CA1a and CA2a for these tensor-category inputs.
+The positive Temperley–Lieb quotients and their C*-inductive limit are
+Subfactors 3.3. The unitary Temperley–Lieb category is
+TemperleyLiebOperatorAlgebras Layer 3, which consumes CA1a (3.2–3.3) and
+CA2a (3.3); this roadmap builds the unshaded positive TL factor planar
+algebra it needs in CA8 directly from Subfactors 3.2 and 6.1.
+Hilbert C*-modules, their adjointable and module compact operators,
+interior tensor products, imprimitivity bimodules, linking algebras and
+the Rieffel correspondence are HilbertModules H1–H3; CA1a and CA1b
+assemble them into a C*-category and a correspondence bicategory. The
+Cuntz algebras `O_n` are OperatorAlgebraDynamics D6; CA7's general
+Pimsner construction does not rebuild them.
+
+## Conventions
 
 Use Mathlib `Category`, `Preadditive`, `Linear ℂ`, `MonoidalCategory`,
 `MonObj`, `Mon`, `MonoidalFunctor`, `HalfBraiding`, `Center`, rigid
@@ -43,31 +76,6 @@ also required isometric. For a simple-unit category, the unit-isometric
 convention in the compact-algebra-object correspondence is transported
 by explicit positive scalar rescaling in CA3. Left/right dimension and
 sphericality refer to the chosen dual functor, not just a dagger.
-
-No conjectural classifier for arbitrary bicommutant categories is a
-target. The finite-depth classifier in CA10 has a specified fusion
-subcategory and real generator. General fusion-category actions on
-continuous-trace spaces, cocycle-action classification outside the
-centrally free amenable separable-predual factor setting of CA9, and
-spectral triples of the planar C*-models
-are outside scope. Compact quantum groups and their Tannaka realization
-are in QuantumGroups. C*-categories, their finite additive and Karoubi
-completion and the finite-Hilbert and Hilbert-module examples (CA1a),
-and C*-tensor categories with solutions of the conjugate equations,
-standard solutions and intrinsic dimension, unitary dual functors and
-signed self-dualities (CA2a) have their single home here; QuantumGroups
-consumes CA1a and CA2a for these tensor-category inputs.
-The positive Temperley–Lieb quotients and their C*-inductive limit are
-Subfactors 3.3. The unitary Temperley–Lieb category is
-TemperleyLiebOperatorAlgebras Layer 3, which consumes CA1a (3.2–3.3) and
-CA2a (3.3); this roadmap builds the unshaded positive TL factor planar
-algebra it needs in CA8 directly from Subfactors 3.2 and 6.1.
-Hilbert C*-modules, their adjointable and module compact operators,
-interior tensor products, imprimitivity bimodules, linking algebras and
-the Rieffel correspondence are HilbertModules H1–H3; CA1a and CA1b
-assemble them into a C*-category and a correspondence bicategory. The
-Cuntz algebras `O_n` are OperatorAlgebraDynamics D6; CA7's general
-Pimsner construction does not rebuild them.
 
 ## Exact supplier contracts
 
@@ -303,6 +311,22 @@ reversed tensor coherence.
 *Needs:* CA1a; Mathlib `Bicategory`, `CStarModule`; HilbertModules H3;
 Subfactors Layer 1 (1.1–1.2).
 
+### Examples
+
+The Checks of CA1a and CA1b compute the C*-identity and its failure for the
+Hilbert–Schmidt norm, a non-self-adjoint idempotent against its range
+projection, the W* criterion on Hilbert `C([0,1])`-modules against Hilbert
+spaces, the two completions of the one-object W*-category, the `ℂⁿ`
+imprimitivity bimodule with its reversal, and the conjugate bimodule of
+`M₂(ℂ)`.
+
+### Dependencies
+
+Mathlib `Category`, `Preadditive`, `Linear`, biproducts, `Karoubi`,
+`Bicategory`, `CStarModule` and `MulOpposite`; CStarAlgebras C1–C5;
+HilbertModules H1–H3; VonNeumannAlgebras V4; Subfactors 1.1–1.2. No other
+layer of this roadmap.
+
 ## CA2. Unitary tensor duality and shaded planar algebras
 
 ### CA2a. Tensor and unitary-duality interfaces
@@ -400,6 +424,16 @@ distinct from a native spherical-category structure with simple unit.
   grading groupoid is the pair groupoid on two objects and its
   homomorphisms to ℝ>0 form a one-parameter family `t>0`; the balanced
   choice is `t=1`.
+- For that category with character `t`, one off-diagonal simple object X
+  has `dim_L(X)/dim_R(X)=t` and the other `t⁻¹`, with
+  `dim_L(X)·dim_R(X)=1` and `End(X)=ℂ`, so a faithful state ψ on
+  `End(1)=ℂ⊕ℂ` is spherical exactly when the weight of the unit summand
+  carrying `tr_R(id_X)` is `t` times the weight of the summand carrying
+  `tr_L(id_X)`: one spherical state for each `t`. For `t=4`, with
+  `dim_L(X)=2` and `dim_R(X)=1/2`, the equal-weight state gives
+  `ψ(tr_L(id_X))=1` and `ψ(tr_R(id_X))=1/4`, while the weights `1/5` and
+  `4/5` give `2/5` on both sides; the equal-weight state is spherical only
+  at `t=1`.
 
 *Needs:* CA1a; Mathlib `MonoidalCategory`, `ExactPairing`, `HasRightDual`,
 `MonoidalFunctor`; Tau Ceti `TauCeti.CategoryTheory.Monoidal.Rigid.Basic`,
@@ -479,6 +513,20 @@ equivalence.
   strand action is the principal graph.
 
 *Needs:* CA2a, CA1b; Subfactors 5.1, 6.1–6.4, 7.1–7.2.
+
+### Examples
+
+The Checks of CA2a and CA2b compute the signs of the antiunitary
+self-dualities on ℂ and ℂ², the grading characters of `Hilb(ℤ/2)` and of
+`End†(Hilb_fd⊕Hilb_fd)` with their spherical states, the bipartite-graph
+triple with nonsimple `1₊`, and the Temperley–Lieb Gram matrix.
+
+### Dependencies
+
+CA1a and CA1b; Mathlib `MonoidalCategory`, `ExactPairing`, `HasRightDual`
+and `MonoidalFunctor`; Tau Ceti `TauCeti.CategoryTheory.Monoidal.Rigid.Basic`
+and `TauCeti.CategoryTheory.Monoidal.Rigid.Functor`; PivotalSpherical
+Layers 0–4 and 9; Subfactors 5.1, 6.1–6.4 and 7.1–7.2.
 
 ## CA3. Q-systems and their bicategorical completion
 
@@ -588,6 +636,18 @@ supplies the dual pair; constructing its Q-system is owned here.
 *Needs:* CA1a, CA1b, CA2a; Mathlib `MonObj`, `Mon`, `EndMonoidal`;
 HilbertModules H2; Subfactors 2.4–2.5, 5.1.
 
+### Examples
+
+The Checks compute the unit-isometric and separable normalisations of
+`M_n(ℂ)` with its rescaled morphisms, the balanced projector for the trivial
+Q-system and for row and column vectors over `M_n(ℂ)`, and the splitting
+`M_n(ℂ)=ℂⁿ⊗(ℂⁿ)‾`.
+
+### Dependencies
+
+CA1a, CA1b and CA2a; Mathlib `MonObj`, `Mon` and `EndMonoidal`;
+HilbertModules H2; Subfactors 2.4–2.5 and 5.1.
+
 ## CA4. Internal C*/W* algebra objects
 
 For essentially small semisimple rigid C*-tensor C with simple unit and
@@ -667,9 +727,26 @@ of all Hilbert-space operators in an analytic representation.
   categorical CP condition tests every `End(c⊗A)` and excludes it.
 - For `Q=H=1` and `a=1` the GNS normalization `α(f)†α(g)=d_a(d_Q/d_H)f†g`
   reduces to `α(f)†α(g)=f†g`.
+- For `C=Hilb_fd`, `A=M₂(ℂ)` and θ the normalized trace into `B(ℂ)=ℂ`,
+  the minimal Stinespring space is `A⊗_θ ℂ` with `⟨a,b⟩=½Tr(a*b)`, which
+  is faithful, so `K=M₂(ℂ)` has dimension 4, π is left multiplication and
+  `v(1)=1`. A dilation with `K=ℂ²` would have π the defining
+  representation and make θ the vector state `a↦⟨ξ,aξ⟩` of `ξ=v(1)`; the
+  trace, with density matrix `½·1` of rank 2, is not a vector state.
 
 *Needs:* CA1a, CA2a, CA3; Mathlib Day convolution, `MonObj`;
 CStarAlgebras C4; VonNeumannAlgebras V4.
+
+### Examples
+
+The Checks compute the trivial algebra object, the transpose on `M₂(ℂ)` as
+a positive map that is not CP, the GNS normalization for the trivial data,
+and the minimal Stinespring dilation of the normalized trace of `M₂(ℂ)`.
+
+### Dependencies
+
+CA1a, CA2a and CA3; Mathlib Day convolution and `MonObj`; CStarAlgebras C4;
+VonNeumannAlgebras V4.
 
 ## CA5. Discrete inclusions and internal-algebra realization
 
@@ -721,6 +798,18 @@ finite-index, extremality and the fixed representation hypotheses.
 
 *Needs:* CA3, CA4; VonNeumannAlgebras V4, V6, V11; Subfactors 1.1–1.2,
 2.4–2.5, 5.1.
+
+### Examples
+
+The Checks compute the trivial inclusion, the crossed product by an outer
+`ℤ/2`-action as a compact internal object with `d_Q=2`, and the crossed
+product by an outer ℤ-action as a discrete internal object that is not
+compact.
+
+### Dependencies
+
+CA3 and CA4; VonNeumannAlgebras V4, V6 and V11; Subfactors 1.1–1.2,
+2.4–2.5 and 5.1.
 
 ## CA6. Unitary anchored planar algebras
 
@@ -821,6 +910,17 @@ category, and prove the tensor-power criterion for the real generator.
 
 *Needs:* CA1a, CA2a; Mathlib `HalfBraiding`, `Center`, `MonoidalFunctor`.
 
+### Examples
+
+The Checks compute the representability criterion for `Hilb(ℤ)` against
+`Hilb(ℤ/2)`, the absence of a real structure on the ε=−1 object, the box
+inner product forced by the pairing axiom, and the box dimensions `k^n` for
+the generator `ℂ^k`.
+
+### Dependencies
+
+CA1a and CA2a; Mathlib `HalfBraiding`, `Center` and `MonoidalFunctor`.
+
 ## CA7. Pimsner and free-graph C*-constructions
 
 For a C*-correspondence X over B construct the module Fock space
@@ -902,6 +1002,15 @@ so the planar quotient comparison in CA8 is faithful.
 
 **Checks.**
 
+- For `X=ℂⁿ` over `B=ℂ` with the unital left action, `φ⁻¹(K(X))=ℂ` and
+  `ker φ=0`, so `J_X=B` and the first map of the six-term sequence is
+  `1−[X]=1−n` on `K₀(ℂ)=ℤ`: for `n≥2`, `O_X` is the Cuntz algebra `O_n`
+  of OperatorAlgebraDynamics D6, with `K₀(O_n)=ℤ/(n−1)` and `K₁(O_n)=0`;
+  for `n=1`, `O_X=C(S¹)` with `K₀=K₁=ℤ`. For the zero left action
+  `ker φ=B` and `(ker φ)^⊥=0`, so `J_X=0`, the covariance condition is
+  empty and `O_X=T_X`; the ideal `φ⁻¹(K(X))=B` without the `(ker φ)^⊥`
+  factor would impose `π(a)=t^(1)(0)=0` for every a and collapse `O_X`
+  to 0.
 - One edge with `μ(v)=16`, `μ(w)=1`: `a=2` gives `a²μ(w)=4=a⁻²μ(v)`; the
   reciprocal `a=1/2` gives `1/4` and `64`.
 - For that weighting `a_μ(v)=μ(w)=1<16`, so `v∈A(Λ,μ)`, and
@@ -915,6 +1024,18 @@ so the planar quotient comparison in CA8 is faithful.
 
 *Needs:* CA1a, CA1b; HilbertModules H2–H3; FreeProbability F3–F4;
 CStarAlgebras C1; OperatorKTheory K1–K6.
+
+### Examples
+
+The Checks compute the covariance ideal and K-theory of the Cuntz algebras
+and of `C(S¹)` as Cuntz–Pimsner algebras over ℂ, the weighted one-edge
+moments, the set `A(Λ,μ)` for one edge and for one loop, and the rescaling
+of the trace.
+
+### Dependencies
+
+CA1a and CA1b; HilbertModules H2–H3; FreeProbability F3–F4; CStarAlgebras
+C1; OperatorKTheory K1–K6.
 
 ## CA8. Canonical planar C*-algebras and their towers
 
@@ -1066,6 +1187,17 @@ examples with their corner/K-theory data.
 *Needs:* CA1b, CA2a, CA2b, CA7; HilbertModules H3; Subfactors 2.1–2.5,
 3.2, 6.1–6.4, 7.1–7.2, 8.1–8.2;
 FreeProbability F2, F4; OperatorKTheory K1–K2.
+
+### Examples
+
+The Checks compute `N(δ²)` at integer and non-integer `δ²`, the small box
+spaces and Gram matrix of TL(δ), and the principal graph and `K₀` at δ=√2.
+
+### Dependencies
+
+CA1b, CA2a, CA2b and CA7; HilbertModules H3; Subfactors 2.1–2.5, 3.2,
+6.1–6.4, 7.1–7.2 and 8.1–8.2; FreeProbability F2 and F4; OperatorKTheory
+K1–K2.
 
 ## CA9. Complete W*-categories and fusion commutants
 
@@ -1470,15 +1602,38 @@ is asserted.
   `rk(p)·rk(q)`; for `I=pt`, `J={1,2}` and `p=q=1` it is the 2×1 block
   of `A_(I⊔J)=M₃(ℂ)`, of dimension 2, while each diagonal corner
   `End` has dimension 1 or 4.
-- For the W*-category Hilb and `F=−⊗ℂ^k`, the Hilb-valued transpose is
-  `F^t=−⊗(ℂ^k)‾`: for `c=ℂ^m`, `d=ℂ^n` both `⟨c,F^t(d)⟩` and
-  `⟨F(c),d⟩` are Hilbert–Schmidt spaces of dimension `mnk`.
+- For the W*-category Hilb, `⟨a,b⟩` is the Hilbert–Schmidt space
+  `HS(a,b)≅ā⊗b`, so for `F=−⊗ℂ^k` the identification
+  `HS(c⊗ℂ^k,d)≅c̄⊗(ℂ^k)‾⊗d≅HS(c,d⊗(ℂ^k)‾)` gives the Hilb-valued
+  transpose `F^t=−⊗(ℂ^k)‾`. Dimension counts do not test this: every
+  `ℂ^k` is unitarily its own conjugate, so for `c=ℂ^m`, `d=ℂ^n` both
+  `⟨c,F^t(d)⟩` and `⟨F(c),d⟩` have dimension `mnk` whether `F^t` is
+  `−⊗(ℂ^k)‾`, `−⊗ℂ^k` or F itself.
+- In the W*-category of pairs `(c₁,c₂)` of Hilbert spaces (normal
+  `ℂ²`-modules), where `⟨c,d⟩=HS(c₁,d₁)⊕HS(c₂,d₂)`, the normal dagger
+  functor `F(c₁,c₂)=(0,c₁)` has `⟨F(c),d⟩=HS(c₁,d₂)`, and its transpose is
+  `F^t(d₁,d₂)=(d₂,0)`, with `⟨c,F^t(d)⟩=HS(c₁,d₂)`. For `c=(ℂ²,ℂ)` and
+  `d=(ℂ,ℂ³)` this space has dimension 6, while `F^t=F` would give
+  `⟨c,F(d)⟩=HS(c₂,d₁)`, of dimension 1.
 - With `K=Irr(C)` every product `F·K` equals `Irr(C)`, so
   `|(F·K)△K|_σ=0`, which is the Følner condition for every unitary fusion
   category.
 
 *Needs:* CA1a, CA1b, CA2a, CA2b, CA6; VonNeumannAlgebras V4, V5, V11, V12, V13;
 Subfactors 1.1–1.2, 9.1–9.2.
+
+### Examples
+
+The Checks compute the II∞ amplification cocycle, the reversed composition
+on `M₂(ℂ)`, the ultrapower centralizers of `M_n(ℂ)`, `L(F₂)` and R, the Hom
+spaces and presentations of the corner model, the Hilb-valued transpose on
+Hilbert spaces and on pairs of Hilbert spaces, and the Følner condition for
+`K=Irr(C)`.
+
+### Dependencies
+
+CA1a, CA1b, CA2a, CA2b and CA6; VonNeumannAlgebras V4, V5, V11, V12 and
+V13; Subfactors 1.1–1.2 and 9.1–9.2.
 
 ## CA10. Finite-depth real objects and anchored classification
 
@@ -1626,6 +1781,16 @@ CA6 category equivalence supplying the required morphism comparisons.
 
 *Needs:* CA2a, CA6, CA9.
 
+### Examples
+
+The Checks compute the tube algebras and centres `Z(−)` of `Hilb_fd`,
+`Hilb(ℤ/2)`, `Hilb(ℤ/3)` and `Hilb(S₃)`, the two conjugate real structures
+on the unit object, and the centralizer equivalence for `C=Hilb_fd`.
+
+### Dependencies
+
+CA2a, CA6 and CA9.
+
 ## Downstream consumers
 
 - QuantumGroups consumes CA1a and CA2a: the finite-Hilbert dagger
@@ -1635,7 +1800,7 @@ CA6 category equivalence supplying the required morphism comparisons.
   interfaces (3.2–3.3) and CA2a's dagger tensor and unitary-duality
   interfaces (3.3) for the unitary Temperley–Lieb category.
 
-## Sources and API evidence
+## References
 
 - Jones–Penneys, [*Operator algebras in rigid C*-tensor categories*](https://arxiv.org/abs/1611.04620),
   §§2–4, Theorems 3.8,3.20 and 4.28, for internal algebra/module
