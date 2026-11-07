@@ -3017,7 +3017,8 @@ compact smooth recognition theorem of Layer 10.
   (integral metastable EHP), Corollary 4J.4, p.474 (the first sphere stem);
   Proposition 4.13 and its preceding uniqueness argument, pp.352–353, and Proposition
   A.19, pp.537–538 (CW approximation and simplicial realization); Examples 4.45–4.46,
-  pp.377–378 (complex and quaternionic Hopf bundles).
+  pp.377–378 (complex and quaternionic Hopf bundles); Propositions 4I.1–4I.2,
+  pp.467–468 (product and James splittings after one suspension).
 - Brayton Gray, [*Composition methods in the homotopy groups of ring spectra*](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/aguade%2B.pdf),
   in *Cohomological Methods in Homotopy Theory*, Progress in Mathematics 196 (2001),
   §2, pp.131–133, Propositions 2.1–2.4 and the fourth-stem calculation.
