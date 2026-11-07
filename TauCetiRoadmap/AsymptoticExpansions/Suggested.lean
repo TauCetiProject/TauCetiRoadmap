@@ -1,13 +1,16 @@
-import Mathlib
-import TauCeti.Analysis.Contour.Residue.Basic
+module
+
+public import Mathlib
+public import TauCeti.Analysis.Contour.Residue.Basic
 
 /-!
 # Asymptotic expansions: suggested target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is `README.md`.
-The statements here suggest Lean forms for particular milestones, so that contributors and
-reviewers converge on names and signatures; discharging all of them finishes neither a milestone
-nor the roadmap.
+The statements here suggest Lean forms for headline targets of the layers, so that contributors
+and reviewers converge on names and signatures; discharging all of them finishes neither a layer
+nor the roadmap. Stationary phase (6.2) is stated for a finite upper limit `b` with `p(b)`
+finite; the case `p(b) = ∞` of the README is not stated here.
 
 The definitions have real bodies. The scale functions are named `phi`, because `φ` is
 Mathlib's scoped notation for Euler's totient. Every theorem is stated with `sorry`.
@@ -16,6 +19,8 @@ namespaces where they extend Mathlib objects, such as `Complex`); here they are 
 `TauCetiRoadmap.AsymptoticExpansions`.
 -/
 
+@[expose] public section
+
 noncomputable section
 
 namespace TauCetiRoadmap.AsymptoticExpansions
@@ -23,47 +28,35 @@ namespace TauCetiRoadmap.AsymptoticExpansions
 open Complex Filter Topology Asymptotics Set MeasureTheory Finset PowerSeries
 open scoped Real Nat ContDiff
 
-/-! ## Milestone 1: scales and expansions -/
+/-! ## Layer 1: scales and expansions -/
 
 section Expansions
 
 variable {α 𝕜 E : Type*} [NormedField 𝕜] [NormedAddCommGroup E] [NormedSpace 𝕜 E]
 
-/-- **M1.1** An asymptotic scale (DLMF 2.1.19): each function is `o` of the previous one. -/
+/-- **1.1** An asymptotic scale (DLMF 2.1.19): each function is `o` of the previous one. -/
 def IsAsymptoticScale (l : Filter α) (phi : ℕ → α → 𝕜) : Prop :=
   ∀ n, phi (n + 1) =o[l] phi n
 
-/-- **M1.1** The asymptotic expansion `f ~ ∑ φₙ aₙ` along `l` (DLMF 2.1.13, 2.1.20): for every
+/-- **1.1** The asymptotic expansion `f ~ ∑ φₙ aₙ` along `l` (DLMF 2.1.13, 2.1.20): for every
 `N`, the remainder after `N` terms is `O(φ_N)`. -/
 def HasAsymptoticExpansion (l : Filter α) (phi : ℕ → α → 𝕜) (a : ℕ → E) (f : α → E) : Prop :=
   ∀ N, (fun x => f x - ∑ n ∈ range N, phi n x • a n) =O[l] phi N
 
-/-- **M1.1** Uniqueness of the coefficients. -/
+/-- **1.1** Uniqueness of the coefficients. -/
 theorem HasAsymptoticExpansion.unique {l : Filter α} {phi : ℕ → α → 𝕜} {a b : ℕ → E}
     {f : α → E} (hphi : IsAsymptoticScale l phi) (hne : ∀ n, ∃ᶠ x in l, phi n x ≠ 0)
     (ha : HasAsymptoticExpansion l phi a f) (hb : HasAsymptoticExpansion l phi b f) : a = b :=
   sorry
 
-/-- **M1.1** Sums of expansions. -/
-theorem HasAsymptoticExpansion.add {l : Filter α} {phi : ℕ → α → 𝕜} {a b : ℕ → E}
-    {f g : α → E} (hf : HasAsymptoticExpansion l phi a f) (hg : HasAsymptoticExpansion l phi b g) :
-    HasAsymptoticExpansion l phi (a + b) (f + g) :=
-  sorry
-
-/-- **M1.1** The remainder after `N + 1` terms is `o(φ N)`. -/
-theorem HasAsymptoticExpansion.isLittleO {l : Filter α} {phi : ℕ → α → 𝕜} {a : ℕ → E}
-    {f : α → E} (hphi : IsAsymptoticScale l phi) (hf : HasAsymptoticExpansion l phi a f) (N : ℕ) :
-    (fun x => f x - ∑ n ∈ range (N + 1), phi n x • a n) =o[l] phi N :=
-  sorry
-
 end Expansions
 
-/-- **M1.3** The Poincaré scale `z⁻ⁿ` at infinity in any set `X ⊆ ℂ`. -/
+/-- **1.3** The Poincaré scale `z⁻ⁿ` at infinity in any set `X ⊆ ℂ`. -/
 theorem isAsymptoticScale_inv_pow (X : Set ℂ) :
     IsAsymptoticScale (Bornology.cobounded ℂ ⊓ 𝓟 X) fun (n : ℕ) (z : ℂ) => (z ^ n)⁻¹ :=
   sorry
 
-/-- **M1.3** DLMF 2.1.15: the Poincaré expansion at infinity in `X` is equivalent to the limits
+/-- **1.3** DLMF 2.1.15: the Poincaré expansion at infinity in `X` is equivalent to the limits
 `zⁿ (f z − ∑_{s<n} a_s z⁻ˢ) → a_n`. -/
 theorem hasAsymptoticExpansion_inv_pow_iff (X : Set ℂ) (a : ℕ → ℂ) (f : ℂ → ℂ) :
     HasAsymptoticExpansion (Bornology.cobounded ℂ ⊓ 𝓟 X) (fun n z => (z ^ n)⁻¹) a f ↔
@@ -71,13 +64,13 @@ theorem hasAsymptoticExpansion_inv_pow_iff (X : Set ℂ) (a : ℕ → ℂ) (f : 
         (Bornology.cobounded ℂ ⊓ 𝓟 X) (𝓝 (a n)) :=
   sorry
 
-/-- **M1.3** A series in `z⁻¹` convergent for `‖z‖ > R` is the expansion of its sum. -/
+/-- **1.3** A series in `z⁻¹` convergent for `‖z‖ > R` is the expansion of its sum. -/
 theorem hasAsymptoticExpansion_of_hasSum {R : ℝ} {a : ℕ → ℂ} {f : ℂ → ℂ}
     (hf : ∀ z : ℂ, R < ‖z‖ → HasSum (fun s => (z ^ s)⁻¹ * a s) (f z)) :
     HasAsymptoticExpansion (Bornology.cobounded ℂ) (fun n z => (z ^ n)⁻¹) a f :=
   sorry
 
-/-- **M1.4** Products of asymptotic power series in a small variable `w` (DLMF §2.1(iii)). -/
+/-- **1.4** Products of asymptotic power series in a small variable `w` (DLMF §2.1(iii)). -/
 theorem hasAsymptoticExpansion_pow_mul {α : Type*} {l : Filter α} {w : α → ℂ}
     (hw : Tendsto w l (𝓝 0)) {P Q : ℂ⟦X⟧} {f g : α → ℂ}
     (hf : HasAsymptoticExpansion l (fun n x => w x ^ n) (fun n => coeff n P) f)
@@ -85,14 +78,14 @@ theorem hasAsymptoticExpansion_pow_mul {α : Type*} {l : Filter α} {w : α → 
     HasAsymptoticExpansion l (fun n x => w x ^ n) (fun n => coeff n (P * Q)) (f * g) :=
   sorry
 
-/-- **M1.4** Reciprocals of asymptotic power series with nonzero constant term. -/
+/-- **1.4** Reciprocals of asymptotic power series with nonzero constant term. -/
 theorem hasAsymptoticExpansion_pow_inv {α : Type*} {l : Filter α} {w : α → ℂ}
     (hw : Tendsto w l (𝓝 0)) {P : ℂ⟦X⟧} {f : α → ℂ} (hP : constantCoeff P ≠ 0)
     (hf : HasAsymptoticExpansion l (fun n x => w x ^ n) (fun n => coeff n P) f) :
     HasAsymptoticExpansion l (fun n x => w x ^ n) (fun n => coeff n P⁻¹) f⁻¹ :=
   sorry
 
-/-- **M1.4** Composition of asymptotic power series. The inner map `y` carries `l` to `m`;
+/-- **1.4** Composition of asymptotic power series. The inner map `y` carries `l` to `m`;
 `H ~ P` in the small variable `σ` along `m`, and `σ ∘ y ~ Q` in `w` along `l`. -/
 theorem hasAsymptoticExpansion_pow_subst {α β : Type*} {l : Filter α} {m : Filter β}
     {w : α → ℂ} {σ H : β → ℂ} {y : α → β} {P Q : ℂ⟦X⟧} (hw : Tendsto w l (𝓝 0))
@@ -103,7 +96,7 @@ theorem hasAsymptoticExpansion_pow_subst {α β : Type*} {l : Filter α} {m : Fi
       fun x => H (y x) :=
   sorry
 
-/-- **M1.4** Inversion of asymptotic power series. `Tendsto y l m` selects the branch of the
+/-- **1.4** Inversion of asymptotic power series. `Tendsto y l m` selects the branch of the
 inverse; the equation `H (y x) = w x` alone does not. -/
 theorem hasAsymptoticExpansion_pow_substInv {α β : Type*} {l : Filter α} {m : Filter β}
     {w : α → ℂ} {σ H : β → ℂ} {y : α → β} {P : ℂ⟦X⟧} (hσ : Tendsto σ m (𝓝 0))
@@ -114,14 +107,14 @@ theorem hasAsymptoticExpansion_pow_substInv {α β : Type*} {l : Filter α} {m :
       (fun n => coeff n (P.substInvOfIsUnit hP1.isUnit)) fun x => σ (y x) :=
   sorry
 
-/-- **M1.5** Ritt's theorem (DLMF §2.1(ii)): `O`-bounds differentiate into closed subsectors. -/
+/-- **1.5** Ritt's theorem (DLMF §2.1(ii)): `O`-bounds differentiate into closed subsectors. -/
 theorem isBigO_deriv_of_isBigO_sector {f : ℂ → ℂ} {R θ θ' ν : ℝ} (hθ : θ ≤ π)
     (hθ' : θ' < θ) (hf : DifferentiableOn ℂ f {z | R < ‖z‖ ∧ |arg z| < θ})
     (hO : f =O[Bornology.cobounded ℂ ⊓ 𝓟 {z | |arg z| < θ}] fun z => ‖z‖ ^ ν) :
     deriv f =O[Bornology.cobounded ℂ ⊓ 𝓟 {z | |arg z| ≤ θ'}] fun z => ‖z‖ ^ (ν - 1) :=
   sorry
 
-/-- **M1.6** Borel–Ritt (DLMF §2.1(iii)): every coefficient sequence is the Poincaré expansion
+/-- **1.6** Borel–Ritt (DLMF §2.1(iii)): every coefficient sequence is the Poincaré expansion
 of a function holomorphic in a sector of opening less than `2π`. -/
 theorem exists_hasAsymptoticExpansion_sector (a : ℕ → ℂ) {θ : ℝ} (hθ : 0 < θ) (hθπ : θ < π) :
     ∃ f : ℂ → ℂ, DifferentiableOn ℂ f {z | 1 < ‖z‖ ∧ |arg z| < θ} ∧
@@ -129,14 +122,14 @@ theorem exists_hasAsymptoticExpansion_sector (a : ℕ → ℂ) {θ : ℝ} (hθ :
         (fun n z => (z ^ n)⁻¹) a f :=
   sorry
 
-/-! ## Milestone 2: transcendental equations -/
+/-! ## Layer 2: transcendental equations -/
 
-/-- **M2.3** The reversion coefficients of DLMF 2.2.8: `F₀ = f₀` and, for `s ≥ 1`, `s F_s` is
+/-- **2.3** The reversion coefficients of DLMF 2.2.8: `F₀ = f₀` and, for `s ≥ 1`, `s F_s` is
 the coefficient of `X^{s+1}` in `(1 + f₀ X + f₁ X² + ⋯)^s`. -/
 def reversionCoeff (fc : ℕ → ℝ) (s : ℕ) : ℝ :=
   if s = 0 then fc 0 else (s : ℝ)⁻¹ * coeff (s + 1) ((1 + X * PowerSeries.mk fc) ^ s)
 
-/-- **M2.3** Lagrange's reversion (DLMF 2.2.7–2.2.8). -/
+/-- **2.3** Lagrange's reversion (DLMF 2.2.7–2.2.8). -/
 theorem hasAsymptoticExpansion_reversion {f : ℝ → ℝ} {a : ℝ} {fc : ℕ → ℝ}
     (hcont : ContinuousOn f (Ici a)) (hmono : StrictMonoOn f (Ici a))
     (hf : HasAsymptoticExpansion atTop (fun n x => (x ^ n)⁻¹) fc fun x => f x - x)
@@ -144,15 +137,15 @@ theorem hasAsymptoticExpansion_reversion {f : ℝ → ℝ} {a : ℝ} {fc : ℕ �
     HasAsymptoticExpansion atTop (fun n y => (y ^ n)⁻¹) (reversionCoeff fc) fun y => y - x y :=
   sorry
 
-/-! ## Milestones 3–4: Laplace transforms, Watson's lemma -/
+/-! ## Layers 3–4: Laplace transforms, Watson's lemma -/
 
-/-- **M4.1** The Gamma integral with complex exponential rate. Mathlib's
+/-- **4.1** The Gamma integral with complex exponential rate. Mathlib's
 `Complex.integral_cpow_mul_exp_neg_mul_Ioi` is the case of real rate. -/
 theorem integral_cpow_mul_exp_neg_mul_Ioi_of_re_pos {s z : ℂ} (hs : 0 < s.re) (hz : 0 < z.re) :
     ∫ t in Ioi (0 : ℝ), (t : ℂ) ^ (s - 1) * cexp (-(z * t)) = Gamma s * z ^ (-s) :=
   sorry
 
-/-- **M4.2** Watson's lemma in the sector `|ph z| ≤ π/2 − δ` (DLMF 2.4.1), for a general
+/-- **4.2** Watson's lemma in the sector `|ph z| ≤ π/2 − δ` (DLMF 2.4.1), for a general
 exponent sequence `α` with strictly increasing real parts; DLMF's case is `α s = (s + λ)/μ`. -/
 theorem hasAsymptoticExpansion_laplace_sector {q : ℝ → ℂ} {α c : ℕ → ℂ} {σ δ : ℝ}
     (hα0 : 0 < (α 0).re) (hα : StrictMono fun s => (α s).re) (hδ : 0 < δ)
@@ -164,16 +157,16 @@ theorem hasAsymptoticExpansion_laplace_sector {q : ℝ → ℂ} {α c : ℕ → 
       fun z => ∫ t in Ioi (0 : ℝ), cexp (-(z * t)) * q t :=
   sorry
 
-/-- **M4.3** The Laplace integral along the ray `ph t = θ`, as a function of the logarithmic
+/-- **4.3** The Laplace integral along the ray `ph t = θ`, as a function of the logarithmic
 coordinate `ζ` of `z = exp ζ`. For `θ = 0` it is the Laplace integral at `exp ζ`. -/
 def rayLaplace (q : ℂ → ℂ) (θ : ℝ) (ζ : ℂ) : ℂ :=
   cexp (θ * I) * ∫ r in Ioi (0 : ℝ), cexp (-(cexp (ζ + θ * I) * r)) * q (r * cexp (θ * I))
 
-/-- **M4.3** The strip `S_θ` of logarithmic coordinates on which `rayLaplace q θ` is used. -/
+/-- **4.3** The strip `S_θ` of logarithmic coordinates on which `rayLaplace q θ` is used. -/
 def rayLaplaceDomain (σ θ : ℝ) : Set ℂ :=
   {ζ | |ζ.im + θ| < π / 2 ∧ σ < (cexp (ζ + θ * I)).re}
 
-/-- **M4.3** Holomorphy and gluing of the rotated Laplace integrals (DLMF §2.4(i)). The
+/-- **4.3** Holomorphy and gluing of the rotated Laplace integrals (DLMF §2.4(i)). The
 agreement is on overlaps of strips in `ζ`; in `z` it fails for rays more than `π` apart. -/
 theorem rayLaplace_differentiableOn_and_eqOn {q : ℂ → ℂ} {α₁ α₂ σ θ θ' : ℝ} {α c : ℕ → ℂ}
     (hα₁ : -π < α₁) (hα₁0 : α₁ < 0) (hα₂0 : 0 < α₂) (hα₂ : α₂ < π) (hσ : 0 ≤ σ)
@@ -189,7 +182,7 @@ theorem rayLaplace_differentiableOn_and_eqOn {q : ℂ → ℂ} {α₁ α₂ σ �
       EqOn (rayLaplace q θ) (rayLaplace q θ') (rayLaplaceDomain σ θ ∩ rayLaplaceDomain σ θ') :=
   sorry
 
-/-- **M4.3** Watson's lemma along a rotated ray, in logarithmic coordinates. -/
+/-- **4.3** Watson's lemma along a rotated ray, in logarithmic coordinates. -/
 theorem hasAsymptoticExpansion_rayLaplace {q : ℂ → ℂ} {α₁ α₂ σ θ δ : ℝ} {α c : ℕ → ℂ}
     (hα₁ : -π < α₁) (hα₁0 : α₁ < 0) (hα₂0 : 0 < α₂) (hα₂ : α₂ < π)
     (hq : DifferentiableOn ℂ q {t | t ≠ 0 ∧ α₁ < arg t ∧ arg t < α₂})
@@ -204,7 +197,7 @@ theorem hasAsymptoticExpansion_rayLaplace {q : ℂ → ℂ} {α₁ α₂ σ θ �
       (fun s ζ => cexp (-(α s * ζ))) (fun s => Gamma (α s) * c s) (rayLaplace q θ) :=
   sorry
 
-/-- **M4.4** The inverse Laplace transform of a function with an expansion and differentiated
+/-- **4.4** The inverse Laplace transform of a function with an expansion and differentiated
 expansion on `Re z ≥ c` (DLMF 2.4.4–2.4.5): the improper Bromwich integral exists, does not
 depend on the line `Re z = σ ≥ c`, and has the expansion of Watson's lemma read backwards. -/
 theorem exists_inverseLaplace_hasExpansion {Q : ℂ → ℂ} {c : ℝ} {α a : ℕ → ℂ} (hc : 0 < c)
@@ -221,20 +214,20 @@ theorem exists_inverseLaplace_hasExpansion {Q : ℂ → ℂ} {c : ℝ} {α a : �
         =O[𝓝[>] 0] fun t => t ^ ((α N).re - 1) :=
   sorry
 
-/-! ## Milestone 5: Laplace's method -/
+/-! ## Layer 5: Laplace's method -/
 
-/-- **M5.1** The power `P^r` of a formal power series whose constant term is `exp ℓ`, with the
+/-- **5.1** The power `P^r` of a formal power series whose constant term is `exp ℓ`, with the
 constant term's power fixed as `exp (r ℓ)`. -/
 def formalCpow (ℓ r : ℂ) (P : ℂ⟦X⟧) : ℂ⟦X⟧ :=
   C (cexp (r * ℓ)) * (PowerSeries.binomialSeries ℂ r).subst (C (cexp (-ℓ)) * P - 1)
 
-/-- **M5.1** The coefficients `b_s` of Laplace's method (DLMF 2.3.15–2.3.18):
+/-- **5.1** The coefficients `b_s` of Laplace's method (DLMF 2.3.15–2.3.18):
 `b_s = μ⁻¹ [Xˢ] Q P^{−(λ+s)/μ}`, where `p(t) − p(a) = (t−a)^μ P(t−a)`, `q(t) = (t−a)^{λ−1} Q(t−a)`
 and `ℓ` is the chosen logarithm of `p₀`. -/
 def laplaceCoeff (μ : ℝ) (lam ℓ : ℂ) (P Q : ℂ⟦X⟧) (s : ℕ) : ℂ :=
   (μ : ℂ)⁻¹ * coeff s (Q * formalCpow ℓ (-(lam + s) / μ) P)
 
-/-- **M5.2** Laplace's method at a minimum at the left endpoint (DLMF 2.3.13–2.3.15). -/
+/-- **5.2** Laplace's method at a minimum at the left endpoint (DLMF 2.3.13–2.3.15). -/
 theorem hasAsymptoticExpansion_laplace_method {p : ℝ → ℝ} {q : ℝ → ℂ} {a μ : ℝ} {lam : ℂ}
     {ps : ℕ → ℝ} {qs : ℕ → ℂ} (hμ : 0 < μ) (hlam : 0 < lam.re) (hp0 : 0 < ps 0)
     (hp : ∀ N, (fun t => p t - p a - ∑ s ∈ range N, ps s * (t - a) ^ ((s : ℝ) + μ))
@@ -254,37 +247,65 @@ theorem hasAsymptoticExpansion_laplace_method {p : ℝ → ℝ} {q : ℝ → ℂ
       fun x : ℝ => cexp (x * p a) * ∫ t in Ioi a, cexp (-(x * p t)) * q t :=
   sorry
 
-/-! ## Milestone 7: coalescing critical points -/
+/-! ## Layer 6: stationary phase -/
 
-/-- **M7.2** The functions `F_s` of DLMF 2.3.33. -/
+/-- **6.1** The Fourier analogue of Watson's lemma (DLMF 2.3.20), for a general exponent
+sequence: `q` is smooth on `(0, ∞)`, its expansion at `0+` differentiates termwise to every
+order, and every derivative tends to `0` at `∞` with the next one integrable on `[1, ∞)`. -/
+theorem hasAsymptoticExpansion_fourier {q : ℝ → ℂ} {α c : ℕ → ℂ}
+    (hα0 : 0 < (α 0).re) (hα : StrictMono fun s => (α s).re)
+    (hq : ContDiffOn ℝ ∞ q (Ioi 0))
+    (hexp : ∀ k N : ℕ, (fun t : ℝ => iteratedDerivWithin k q (Ioi 0) t -
+        ∑ s ∈ range N, c s * (descPochhammer ℂ k).eval (α s - 1) * (t : ℂ) ^ (α s - 1 - k))
+      =O[𝓝[>] 0] fun t => t ^ ((α N).re - 1 - k))
+    (hint : ∀ k : ℕ, IntegrableOn (iteratedDerivWithin (k + 1) q (Ioi 0)) (Ici 1))
+    (hlim : ∀ k : ℕ, Tendsto (iteratedDerivWithin k q (Ioi 0)) atTop (𝓝 0)) :
+    ∃ F : ℝ → ℂ,
+      (∀ x : ℝ, 0 < x →
+        Tendsto (fun T : ℝ => ∫ t in (0 : ℝ)..T, cexp (((x * t : ℝ) : ℂ) * I) * q t) atTop
+          (𝓝 (F x))) ∧
+      HasAsymptoticExpansion atTop (fun s (x : ℝ) => (x : ℂ) ^ (-α s))
+        (fun s => cexp (π * I * α s / 2) * Gamma (α s) * c s) F :=
+  sorry
+
+/-- **6.2** Stationary phase at the left endpoint (DLMF 2.3.21–2.3.23), for a finite upper limit
+`b` at which `p` and every `P_s = (p′⁻¹ d/dt)^s (q/p′)` have finite limits. The expansion is the
+generalized one of DLMF 2.3.23: the stationary-endpoint series minus the series at `b`. -/
+theorem isBigO_stationaryPhase_remainder {p : ℝ → ℝ} {q : ℝ → ℂ} {a b μ lam pb : ℝ}
+    {ps : ℕ → ℝ} {qs : ℕ → ℂ} {P : ℕ → ℝ → ℂ} {Pb : ℕ → ℂ}
+    (hab : a < b) (hμ : 0 < μ) (hlam : 0 < lam) (hp0 : 0 < ps 0)
+    (hp : ContDiffOn ℝ ∞ p (Ioo a b)) (hq : ContDiffOn ℝ ∞ q (Ioo a b))
+    (hp' : ∀ t ∈ Ioo a b, 0 < deriv p t)
+    (hpexp : ∀ k N : ℕ, (fun t => iteratedDeriv k (fun t => p t - p a) t -
+        ∑ s ∈ range N, ps s * (descPochhammer ℝ k).eval ((s : ℝ) + μ) * (t - a) ^ ((s : ℝ) + μ - k))
+      =O[𝓝[>] a] fun t => (t - a) ^ ((N : ℝ) + μ - k))
+    (hqexp : ∀ k N : ℕ, (fun t => iteratedDeriv k q t -
+        ∑ s ∈ range N, qs s * (descPochhammer ℂ k).eval ((s : ℂ) + lam - 1) *
+          ((t - a : ℝ) : ℂ) ^ ((s : ℂ) + lam - 1 - k))
+      =O[𝓝[>] a] fun t => (t - a) ^ ((N : ℝ) + lam - 1 - k))
+    (hP0 : ∀ t ∈ Ioo a b, P 0 t = q t / deriv p t)
+    (hP : ∀ s : ℕ, ∀ t ∈ Ioo a b, P (s + 1) t = deriv (P s) t / deriv p t)
+    (hpb : Tendsto p (𝓝[<] b) (𝓝 pb)) (hPb : ∀ s : ℕ, Tendsto (P s) (𝓝[<] b) (𝓝 (Pb s))) :
+    ∀ N : ℕ, (fun x : ℝ => (∫ t in a..b, cexp (((x * p t : ℝ) : ℂ) * I) * q t) -
+        cexp (((x * p a : ℝ) : ℂ) * I) * ∑ s ∈ range N,
+          cexp (((s : ℂ) + lam) * π * I / (2 * μ)) * Gamma (((s : ℂ) + lam) / μ) *
+            laplaceCoeff μ lam (Real.log (ps 0)) (PowerSeries.mk fun s => (ps s : ℂ))
+              (PowerSeries.mk qs) s * (x : ℂ) ^ (-(((s : ℂ) + lam) / μ)) +
+        cexp (((x * pb : ℝ) : ℂ) * I) * ∑ s ∈ range N, Pb s * (I / x) ^ (s + 1))
+      =O[atTop] fun x : ℝ => x ^ (-((N : ℝ) + lam) / μ) + x ^ (-((N : ℝ) + 1)) :=
+  sorry
+
+/-! ## Layer 7: coalescing critical points -/
+
+/-- **7.2** The functions `F_s` of DLMF 2.3.33. -/
 def bleisteinF (lam : ℝ) (s : ℕ) (y : ℝ) : ℝ :=
   ∫ τ in Ioi (0 : ℝ), Real.exp (-τ ^ 2 / 2 + y * τ) * (τ - y) ^ s * τ ^ (lam - 1)
 
-/-- **M7.2** The comparison functions `G_N` of the Bleistein remainder bound. -/
+/-- **7.2** The comparison functions `G_N` of the Bleistein remainder bound. -/
 def bleisteinG (lam : ℝ) (N : ℕ) (y : ℝ) : ℝ :=
   ∫ τ in Ioi (0 : ℝ), Real.exp (-τ ^ 2 / 2 + y * τ) * |τ - y| ^ N * τ ^ (lam - 1)
 
-/-- **M7.2** The integrands of `bleisteinF` are integrable for `λ > 0`. -/
-theorem integrableOn_bleisteinF {lam : ℝ} (hlam : 0 < lam) (s : ℕ) (y : ℝ) :
-    IntegrableOn (fun τ => Real.exp (-τ ^ 2 / 2 + y * τ) * (τ - y) ^ s * τ ^ (lam - 1))
-      (Ioi 0) :=
-  sorry
-
-/-- **M7.2** `G_N ≥ 0`. -/
-theorem bleisteinG_nonneg (lam : ℝ) (N : ℕ) (y : ℝ) : 0 ≤ bleisteinG lam N y :=
-  sorry
-
-/-- **M7.2** `|F_s| ≤ G_s`. -/
-theorem abs_bleisteinF_le {lam : ℝ} (hlam : 0 < lam) (s : ℕ) (y : ℝ) :
-    |bleisteinF lam s y| ≤ bleisteinG lam s y :=
-  sorry
-
-/-- **M7.2** Continuity of `F_s` and `G_N` in `y`. -/
-theorem continuous_bleisteinF_bleisteinG {lam : ℝ} (hlam : 0 < lam) (s N : ℕ) :
-    Continuous (bleisteinF lam s) ∧ Continuous (bleisteinG lam N) :=
-  sorry
-
-/-- **M7.2** The uniform remainder bound behind DLMF 2.3.32 (`κ = ∞`). The constant `C` and
+/-- **7.2** The uniform remainder bound behind DLMF 2.3.32 (`κ = ∞`). The constant `C` and
 the data `a`, `φ` may depend on the parameter `α`; the bound is uniform in whatever `C` is. -/
 theorem norm_bleistein_remainder_le {lam a C x : ℝ} {N : ℕ} {f : ℝ → ℂ} {phi : ℕ → ℂ}
     (hlam : 0 < lam) (hx : 0 < x) (hfm : AEStronglyMeasurable f (volume.restrict (Ioi 0)))
@@ -295,7 +316,7 @@ theorem norm_bleistein_remainder_le {lam a C x : ℝ} {N : ℕ} {f : ℝ → ℂ
       C * x ^ (-((N : ℝ) + lam) / 2) * bleisteinG lam N (a * Real.sqrt x) :=
   sorry
 
-/-- **M7.3** The Chester–Friedman–Ursell cubic normal form (DLMF 2.4.18), in the normalization
+/-- **7.3** The Chester–Friedman–Ursell cubic normal form (DLMF 2.4.18), in the normalization
 `p = w³/3 − ζ(α) w + η(α)`. -/
 theorem exists_cubic_normal_form {p : ℂ × ℂ → ℂ} {U : Set (ℂ × ℂ)} {α₀ t₀ : ℂ}
     (hU : U ∈ 𝓝 (α₀, t₀)) (hp : DifferentiableOn ℂ p U)
@@ -309,9 +330,9 @@ theorem exists_cubic_normal_form {p : ℂ × ℂ → ℂ} {U : Set (ℂ × ℂ)}
       ∀ᶠ q in 𝓝 (α₀, t₀), DifferentiableAt ℂ w q ∧ p q = w q ^ 3 / 3 - ζ q.1 * w q + η q.1 :=
   sorry
 
-/-! ## Milestones 8–9: Mellin transforms and the distributional method -/
+/-! ## Layers 8–9: Mellin transforms and the distributional method -/
 
-/-- **M8.2** The line shift with simple poles: holomorphic on a neighbourhood `U` of the strip
+/-- **8.2** The line shift with simple poles: holomorphic on a neighbourhood `U` of the strip
 `d ≤ Re t ≤ c` off a finite set `P` of simple poles inside it, integrable on both lines, with
 vanishing horizontal connectors. -/
 theorem integral_vertical_sub_eq_two_pi_mul_sum_residue (F : ℂ → ℂ) {c d : ℝ} (hdc : d < c)
@@ -325,24 +346,24 @@ theorem integral_vertical_sub_eq_two_pi_mul_sum_residue (F : ℂ → ℂ) {c d :
     (∫ y : ℝ, F (c + y * I)) - ∫ y : ℝ, F (d + y * I) =
       2 * π * ∑ p ∈ P, TauCeti.Contour.residue F p := sorry
 
-/-- **M8.6** The pole-separated bound for `Γ` on a vertical strip. -/
+/-- **8.6** The pole-separated bound for `Γ` on a vertical strip. -/
 theorem exists_norm_Gamma_le {u v η : ℝ} (hη : 0 < η) :
     ∃ C > 0, ∃ K : ℕ, ∀ x y : ℝ, u ≤ x → x ≤ v → (∀ n : ℕ, η ≤ ‖(x : ℂ) + y * I + n‖) →
       ‖Complex.Gamma (x + y * I)‖ ≤ C * (1 + |y|) ^ K * Real.exp (-(π * |y|) / 2) := sorry
 
-/-- **M8.7** Exponential Mellin inversion (the Cahen–Mellin integral). -/
+/-- **8.7** Exponential Mellin inversion (the Cahen–Mellin integral). -/
 theorem integral_Gamma_mul_cpow_neg {c : ℝ} (hc : 0 < c) {w : ℂ} (hw : 0 < w.re) :
     Integrable (fun y : ℝ => Complex.Gamma (c + y * I) * w ^ (-((c : ℂ) + y * I))) ∧
       ∫ y : ℝ, Complex.Gamma (c + y * I) * w ^ (-((c : ℂ) + y * I)) = 2 * π * cexp (-w) := sorry
 
-/-- **M8.3** The Mellin transform continued to the left through an expansion
+/-- **8.3** The Mellin transform continued to the left through an expansion
 `f(t) ~ ∑ a_k t^{α_k}` at `0+` (DLMF 2.5.25–2.5.26), using `n` terms; valid for
 `−Re α_n < Re z` away from the points `−α_k`, and where the integral over `(1, ∞)` converges. -/
 def mellinContAtZero (f : ℝ → ℂ) (a α : ℕ → ℂ) (n : ℕ) (z : ℂ) : ℂ :=
   (∫ t in Ioc (0 : ℝ) 1, (t : ℂ) ^ (z - 1) * (f t - ∑ k ∈ range n, a k * (t : ℂ) ^ α k)) +
     ∑ k ∈ range n, a k / (z + α k) + ∫ t in Ioi (1 : ℝ), (t : ℂ) ^ (z - 1) * f t
 
-/-- **M8.3** The Mellin transform continued to the right through an expansion
+/-- **8.3** The Mellin transform continued to the right through an expansion
 `f(t) ~ ∑ b_k t^{−β_k}` at `+∞` (DLMF 2.5.27–2.5.28), using `n` terms; valid for
 `Re z < Re β_n` away from the points `β_k`, and where the integral over `(0, 1]` converges. -/
 def mellinContAtTop (f : ℝ → ℂ) (b β : ℕ → ℂ) (n : ℕ) (z : ℂ) : ℂ :=
@@ -350,7 +371,7 @@ def mellinContAtTop (f : ℝ → ℂ) (b β : ℕ → ℂ) (n : ℕ) (z : ℂ) :
     (∫ t in Ioi (1 : ℝ), (t : ℂ) ^ (z - 1) * (f t - ∑ k ∈ range n, b k * (t : ℂ) ^ (-β k))) -
     ∑ k ∈ range n, b k / (z - β k)
 
-/-- **M8.3** Properties of `mellinContAtZero`: holomorphy away from the poles, independence of
+/-- **8.3** Properties of `mellinContAtZero`: holomorphy away from the poles, independence of
 `n`, agreement with `mellin`, and principal parts `a k / (z + α k)`. -/
 theorem mellinContAtZero_spec {f : ℝ → ℂ} {a α : ℕ → ℂ} {b : ℝ} (n : ℕ)
     (hf : LocallyIntegrableOn f (Ioi 0)) (hα : StrictMono fun k => (α k).re)
@@ -366,20 +387,20 @@ theorem mellinContAtZero_spec {f : ℝ → ℂ} {a α : ℕ → ℂ} {b : ℝ} (
         {z | -(α n).re < z.re ∧ z.re < b} :=
   sorry
 
-/-- **M8.3** The model integral `∫₁^∞ u^{w−1} e^{iκu} du` for `κ ≠ 0`, with the ray rotated to
+/-- **8.3** The model integral `∫₁^∞ u^{w−1} e^{iκu} du` for `κ ≠ 0`, with the ray rotated to
 the vertical through `1`; it is entire in `w`. -/
 def oscTail (κ : ℝ) (w : ℂ) : ℂ :=
   I * Real.sign κ * cexp (κ * I) *
     ∫ y in Ioi (0 : ℝ), (1 + I * Real.sign κ * y) ^ (w - 1) * Real.exp (-|κ| * y)
 
-/-- **M8.3** `oscTail κ` is entire and is the improper integral for `Re w < 1`. -/
+/-- **8.3** `oscTail κ` is entire and is the improper integral for `Re w < 1`. -/
 theorem oscTail_spec {κ : ℝ} (hκ : κ ≠ 0) :
     Differentiable ℂ (oscTail κ) ∧ ∀ w : ℂ, w.re < 1 →
       Tendsto (fun T : ℝ => ∫ u in (1 : ℝ)..T, (u : ℂ) ^ (w - 1) * cexp (κ * u * I)) atTop
         (𝓝 (oscTail κ w)) :=
   sorry
 
-/-- **M8.3** The tail Mellin transform `∫₁^∞ t^{z−1} f(t) dt` for an oscillatory expansion
+/-- **8.3** The tail Mellin transform `∫₁^∞ t^{z−1} f(t) dt` for an oscillatory expansion
 `f(t) ~ e^{iκt^p} ∑ b_k t^{−β_k}` at `+∞` (DLMF 2.5.18, `κ ≠ 0`), using `n` terms; valid for
 `Re z < Re β_n`. -/
 def mellinContOscTop (f : ℝ → ℂ) (κ p : ℝ) (b β : ℕ → ℂ) (n : ℕ) (z : ℂ) : ℂ :=
@@ -387,7 +408,7 @@ def mellinContOscTop (f : ℝ → ℂ) (κ p : ℝ) (b β : ℕ → ℂ) (n : �
       (f t - cexp (((κ * t ^ p : ℝ) : ℂ) * I) * ∑ k ∈ range n, b k * (t : ℂ) ^ (-β k))) +
     (p : ℂ)⁻¹ * ∑ k ∈ range n, b k * oscTail κ ((z - β k) / p)
 
-/-- **M8.3** The oscillatory tail transform continues to an entire function. -/
+/-- **8.3** The oscillatory tail transform continues to an entire function. -/
 theorem exists_entire_mellinContOscTop {f : ℝ → ℂ} {κ p : ℝ} {b β : ℕ → ℂ} (hκ : κ ≠ 0)
     (hp : 0 < p) (hf : LocallyIntegrableOn f (Ici 1)) (hβ : StrictMono fun k => (β k).re)
     (hβtop : Tendsto (fun k => (β k).re) atTop atTop)
@@ -398,7 +419,7 @@ theorem exists_entire_mellinContOscTop {f : ℝ → ℂ} {κ p : ℝ} {b β : �
       ∀ z : ℂ, z.re < (β 0).re → F z = ∫ t in Ioi (1 : ℝ), (t : ℂ) ^ (z - 1) * f t :=
   sorry
 
-/-- **M9.2** The exact Stieltjes-transform identity (DLMF 2.6.27, 2.6.30) for `0 < α < 1`,
+/-- **9.2** The exact Stieltjes-transform identity (DLMF 2.6.27, 2.6.30) for `0 < α < 1`,
 with `(s − 1)! c_s = (−1)ˢ Mf(s)` (DLMF 2.6.18). -/
 theorem stieltjes_eq {f : ℝ → ℂ} {a : ℕ → ℂ} {α : ℝ} {n : ℕ} {z : ℂ} (hα : 0 < α)
     (hα1 : α < 1) (hz : z ∈ slitPlane)
@@ -413,9 +434,9 @@ theorem stieltjes_eq {f : ℝ → ℂ} {a : ℕ → ℂ} {α : ℝ} {n : ℕ} {z
           (f τ - ∑ s ∈ range n, a s * (τ : ℂ) ^ (-((s : ℂ) + α))) / (τ + z) :=
   sorry
 
-/-! ## Milestone 10: linear differential equations in the complex domain -/
+/-! ## Layer 10: linear differential equations in the complex domain -/
 
-/-- **M10.1** Volterra integral equations with a separable kernel bound (Olver 1997, Ch. 6,
+/-- **10.1** Volterra integral equations with a separable kernel bound (Olver 1997, Ch. 6,
 §10), on `(a, ∞)`: existence of a solution with `|h| ≤ P Φ e^Ψ`. -/
 theorem exists_volterra_solution {a : ℝ} {K : ℝ → ℝ → ℂ} {J ψ : ℝ → ℂ} {P Q : ℝ → ℝ}
     (hK : ContinuousOn (Function.uncurry K) {p | a < p.1 ∧ p.1 ≤ p.2})
@@ -431,9 +452,9 @@ theorem exists_volterra_solution {a : ℝ} {K : ℝ → ℝ → ℂ} {J ψ : ℝ
         Real.exp (∫ v in Ioi x, P v * Q v * ‖ψ v‖) :=
   sorry
 
-/-- **M10.3** The Frobenius solution at a regular singularity (DLMF 2.7.2–2.7.5), for an
+/-- **10.3** The series solution at a regular singularity (DLMF 2.7.2–2.7.5), for an
 exponent `ρ` such that no `ρ + s`, `s ≥ 1`, is a root of the indicial polynomial. -/
-theorem frobenius_solution {z₀ ρ : ℂ} {r : ℝ} {f g w : ℂ → ℂ} {fs gs a : ℕ → ℂ}
+theorem regularSingular_solution {z₀ ρ : ℂ} {r : ℝ} {f g w : ℂ → ℂ} {fs gs a : ℕ → ℂ}
     (hf : ∀ z, 0 < ‖z - z₀‖ → ‖z - z₀‖ < r →
       HasSum (fun s => fs s * (z - z₀) ^ s) ((z - z₀) * f z))
     (hg : ∀ z, 0 < ‖z - z₀‖ → ‖z - z₀‖ < r →
@@ -450,7 +471,7 @@ theorem frobenius_solution {z₀ ρ : ℂ} {r : ℝ} {f g w : ℂ → ℂ} {fs g
         deriv (deriv w) z + f z * deriv w z + g z * w z = 0 :=
   sorry
 
-/-- **M10.4** The normalized solution at an irregular singularity of rank one at infinity
+/-- **10.4** The normalized solution at an irregular singularity of rank one at infinity
 (DLMF 2.7.10–2.7.16), for the root `lam₁`, in logarithmic coordinates `z = exp ζ`. Here
 `ℓ = log (lam₂ − lam₁)` and `((lam₂ − lam₁) z) ^ μ = exp (μ (ζ + ℓ))`. -/
 theorem exists_rankOne_solution {fs gs a : ℕ → ℂ} {f g : ℂ → ℂ} {A : ℝ} {lam₁ lam₂ μ : ℂ}
@@ -474,9 +495,9 @@ theorem exists_rankOne_solution {fs gs a : ℕ → ℂ} {f g : ℂ → ℂ} {A :
             Real.exp (-(N * ζ.re)) :=
   sorry
 
-/-! ## Milestone 11: Liouville–Green approximation -/
+/-! ## Layer 11: Liouville–Green approximation -/
 
-/-- **M11.1** The Liouville–Green theorem (DLMF 2.7.20–2.7.25) for the solution recessive at
+/-- **11.1** The Liouville–Green theorem (DLMF 2.7.20–2.7.25) for the solution recessive at
 `a₂ = +∞`, with the error-control integral `V x = ∫ₓ^∞ |f^{−1/4} (f^{−1/4})″ − g f^{−1/2}|`. -/
 theorem liouvilleGreen_recessive {f g : ℝ → ℝ} {a c : ℝ} (hc : a < c)
     (hf : ContDiffOn ℝ 2 f (Ioi a)) (hfpos : ∀ x ∈ Ioi a, 0 < f x)
@@ -494,7 +515,7 @@ theorem liouvilleGreen_recessive {f g : ℝ → ℝ} {a c : ℝ} (hc : a < c)
             g t / Real.sqrt (f t)|) / 2) - 1 :=
   sorry
 
-/-- **M11.4** Case I without transition points (DLMF 2.8.10–2.8.13), for the solution growing
+/-- **11.4** Case I without transition points (DLMF 2.8.10–2.8.13), for the solution growing
 like `e^{uξ}` on `Δ₁ = [α₁, b₂)`. The solution depends on the order `n`; the expansions are
 uniform along `𝓟 Δ₁ ×ˢ atTop`, the parameter being `ξ` and `u → ∞`. -/
 theorem exists_caseI_solution {ψ : ℝ → ℝ} {b₁ b₂ α₁ : ℝ} {A : ℕ → ℝ → ℝ} (n : ℕ)
@@ -515,9 +536,9 @@ theorem exists_caseI_solution {ψ : ℝ → ℝ} {b₁ b₂ α₁ : ℝ} {A : �
         =O[𝓟 (Ico α₁ b₂) ×ˢ atTop] (fun p => p.2 ^ (1 - (n : ℤ))) :=
   sorry
 
-/-! ## Milestone 12: difference equations -/
+/-! ## Layer 12: difference equations -/
 
-/-- **M12.1** The solution of `w(n+2) + f(n) w(n+1) + g(n) w(n) = 0` attached to a simple
+/-- **12.1** The solution of `w(n+2) + f(n) w(n+1) + g(n) w(n) = 0` attached to a simple
 characteristic root `ρ` (DLMF 2.9.4–2.9.7), under `g n ≠ 0` for every `n`. -/
 theorem exists_difference_solution {f g fs gs a : ℕ → ℂ} {ρ α : ℂ}
     (hf : HasAsymptoticExpansion atTop (fun s (n : ℕ) => ((n : ℂ) ^ s)⁻¹) fs f)
@@ -534,9 +555,9 @@ theorem exists_difference_solution {f g fs gs a : ℕ → ℂ} {ρ α : ℂ}
         =O[atTop] fun n : ℕ => ‖ρ‖ ^ n * (n : ℝ) ^ (α.re - N) :=
   sorry
 
-/-! ## Milestone 13: sums and sequences -/
+/-! ## Layer 13: sums and sequences -/
 
-/-- **M13.1** The Euler–Maclaurin formula (DLMF 2.10.1), with the periodic Bernoulli function
+/-- **13.1** The Euler–Maclaurin formula (DLMF 2.10.1), with the periodic Bernoulli function
 `B̃ₖ(x) = Bₖ(x − ⌊x⌋)`. -/
 theorem sum_Icc_eq_eulerMaclaurin {f : ℝ → ℝ} {a n : ℤ} {m : ℕ} (hm : 0 < m) (han : a < n)
     (hf : ContDiffOn ℝ (2 * m) f (Icc (a : ℝ) n)) :
@@ -549,7 +570,24 @@ theorem sum_Icc_eq_eulerMaclaurin {f : ℝ → ℝ} {a n : ℤ} {m : ℕ} (hm : 
           (2 * m)! * iteratedDerivWithin (2 * m) f (Icc (a : ℝ) n) x :=
   sorry
 
-/-- **M13.3** DLMF 2.10.4–2.10.6: the constant in the expansion of `∑ j log j` is
+/-- **13.2** The Abel–Plana formula (DLMF 2.10.2, exact form): `f` holomorphic on the open
+strip `a < Re z < n`, continuous on its closure, `o(e^{2π|Im z|})` uniformly in the strip, and
+real on the real segment. -/
+theorem sum_Icc_eq_abelPlana {f : ℂ → ℂ} {a n : ℤ} (han : a < n)
+    (hf : DifferentiableOn ℂ f {z | (a : ℝ) < z.re ∧ z.re < n})
+    (hcont : ContinuousOn f {z | (a : ℝ) ≤ z.re ∧ z.re ≤ n})
+    (hgrowth : Tendsto (fun z => f z * Real.exp (-(2 * π * |z.im|)))
+      (comap (fun z : ℂ => |z.im|) atTop ⊓ 𝓟 {z | (a : ℝ) ≤ z.re ∧ z.re ≤ n}) (𝓝 0))
+    (hreal : ∀ x : ℝ, (a : ℝ) ≤ x → x ≤ n → (f x).im = 0)
+    (hinta : IntegrableOn (fun y : ℝ => (f (a + y * I)).im / (Real.exp (2 * π * y) - 1)) (Ioi 0))
+    (hintn : IntegrableOn (fun y : ℝ => (f (n + y * I)).im / (Real.exp (2 * π * y) - 1)) (Ioi 0)) :
+    ∑ j ∈ Finset.Icc a n, f j =
+      (∫ x in (a : ℝ)..n, f x) + f a / 2 + f n / 2 -
+        2 * ((∫ y in Ioi (0 : ℝ), (f (a + y * I)).im / (Real.exp (2 * π * y) - 1) : ℝ) : ℂ) +
+        2 * ((∫ y in Ioi (0 : ℝ), (f (n + y * I)).im / (Real.exp (2 * π * y) - 1) : ℝ) : ℂ) :=
+  sorry
+
+/-- **13.3** DLMF 2.10.4–2.10.6: the constant in the expansion of `∑ j log j` is
 `1/12 − ζ′(−1)`. -/
 theorem tendsto_sum_mul_log_sub :
     Tendsto (fun n : ℕ => ∑ j ∈ Finset.Icc 1 n, (j : ℝ) * Real.log j -
@@ -558,11 +596,11 @@ theorem tendsto_sum_mul_log_sub :
       atTop (𝓝 (1 / 12 - (deriv riemannZeta (-1)).re)) :=
   sorry
 
-/-- **M13.6** The Laurent coefficient `f_n = (2πi)⁻¹ ∮_{|z|=ρ} f(z) z^{−n−1} dz` (DLMF 2.10.26). -/
+/-- **13.6** The Laurent coefficient `f_n = (2πi)⁻¹ ∮_{|z|=ρ} f(z) z^{−n−1} dz` (DLMF 2.10.26). -/
 def laurentCoeff (f : ℂ → ℂ) (ρ : ℝ) (n : ℤ) : ℂ :=
   (2 * π * I)⁻¹ * ∮ z in C(0, ρ), z ^ (-(n + 1)) * f z
 
-/-- **M13.6** Darboux's method (DLMF 2.10.27–2.10.29): `f_n = g_n + o(r^{−n})` as `n → ±∞`. -/
+/-- **13.6** Darboux's method (DLMF 2.10.27–2.10.29): `f_n = g_n + o(r^{−n})` as `n → ±∞`. -/
 theorem tendsto_laurentCoeff_sub {f g h : ℂ → ℂ} {r ρ : ℝ} (hρ : 0 < ρ) (hρr : ρ < r)
     (hf : DifferentiableOn ℂ f {z | 0 < ‖z‖ ∧ ‖z‖ < r})
     (hg : DifferentiableOn ℂ g {z | 0 < ‖z‖ ∧ ‖z‖ < r})
