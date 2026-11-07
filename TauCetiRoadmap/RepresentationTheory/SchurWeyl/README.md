@@ -82,8 +82,8 @@ and is the form consumers use in `Λ_R`. Projection to `d < n` need not preserve
 - **Base field.** The Specht theory is over `ℚ`; `ℂ`-statements are obtained by the native scalar
   extension `TauCeti.spechtModuleℂ`. Absolute irreducibility is the native endomorphism statement
   `TauCeti.spechtModuleEndAlgEquiv`, not a consequence of rational character values.
-- **Vocabulary.** Partitions are `Nat.Partition n`; diagrams are `YoungDiagram`, with `TauCeti.diagramOf`
-  the diagram of a partition; the transpose partition is `TauCeti.conjugate`; semistandard fillings
+- **Vocabulary.** Partitions are `Nat.Partition n`; diagrams are `YoungDiagram`, with `YoungDiagram.ofPartition`
+  the diagram of a partition; the transpose partition is `Nat.Partition.conjugate`; semistandard fillings
   are Mathlib's `SemistandardYoungTableau`; a λ-tableau is `TauCeti.YoungTableau μ`, a bijection
   from the cells of `μ` onto `Fin μ.card`; a standard tableau is `TauCeti.StandardYoungTableau μ`;
   symmetric polynomials are `MvPolynomial.esymm`, `hsymm`, `psum`, `msymm` and their
@@ -145,9 +145,9 @@ and is the form consumers use in `Λ_R`. Projection to `d < n` need not preserve
 Layer 0, the dictionary and orders (`Combinatorics/Young/Partitions.lean`,
 `RepresentationTheory/Symmetric/Partitions.lean`, `Combinatorics/Enumerative/Partition/{Dominance,Conjugate}.lean`,
 `Combinatorics/Young/StandardTableau/Basic.lean`, `Combinatorics/Young/Tableau.lean`,
-`RepresentationTheory/Symmetric/RowColumnSubgroup.lean`): `TauCeti.diagramOf`,
+`RepresentationTheory/Symmetric/RowColumnSubgroup.lean`): `YoungDiagram.ofPartition`,
 `TauCeti.partitionEquivYoungDiagram`, `TauCeti.partitionEquivConjClasses`, `TauCeti.Dominates` with
-`TauCeti.lex_le_of_dominates`, `TauCeti.conjugate` with `TauCeti.conjugate_dominates_conjugate_iff`,
+`TauCeti.lex_le_of_dominates`, `Nat.Partition.conjugate` with `TauCeti.conjugate_dominates_conjugate_iff`,
 `TauCeti.StandardYoungTableau` with `TauCeti.standardCount`, `TauCeti.YoungTableau` with
 `TauCeti.YoungTableau.relabel`, `TauCeti.YoungTableau.rowSubgroup`, `TauCeti.YoungTableau.colSubgroup`,
 `TauCeti.YoungTableau.rowSubgroup_inf_colSubgroup_eq_bot` and `TauCeti.YoungTableau.rowSubgroupMulEquiv`.
@@ -428,7 +428,7 @@ of the identity of `S^λ`; compute that scalar, including for self-transpose sha
 asserting an involution. Transport `T_λ` by `Representation.baseChange` to every field of
 characteristic zero, in particular to `TauCeti.spechtModuleℂ`, and prove the scalar-extension and
 tensor-unit comparison squares (Fulton–Harris, Lecture 4, Exercise 4.4; James, Theorem 8.15).
-*Needs:* §4.1; Tau Ceti `TauCeti.spechtModule`, `TauCeti.conjugate`,
+*Needs:* §4.1; Tau Ceti `TauCeti.spechtModule`, `Nat.Partition.conjugate`,
 `TauCeti.YoungTableau.spechtIdealEquivSpechtSubrepresentation`, `TauCeti.YoungTableau.youngSymmetrizer_sq`,
 `TauCeti.signLinearCharacter`, `FDRep.ofLinearCharacter`, `TauCeti.spechtModuleℂ`; Mathlib `FDRep`
 monoidal structure, `Representation.baseChange`.
@@ -631,7 +631,7 @@ Define `skewReadingCells` (rows top to bottom, each right to left), `IsBallotWor
 has at least as many `k` as `k+1`, zero-indexed) and `LRTableau inner outer content`, the skew
 semistandard tableaux with `content.rowLen k` letters `k` and ballot reading word; set
 `lrCoefficient μ ν κ = Nat.card (LRTableau μ κ ν)` and give the `Finite` instance. Prove the
-Fin-alphabet comparison `TauCeti.schurPoly (Fin d) R μ = TauCeti.diagramSchurPoly d R (TauCeti.diagramOf μ)`
+Fin-alphabet comparison `TauCeti.schurPoly (Fin d) R μ = TauCeti.diagramSchurPoly d R (YoungDiagram.ofPartition μ)`
 from `TauCeti.schurPoly_eq_rename` and symmetry, which carries each statement between the two
 indexings. Prove the tableau-product bijection: pairs of straight bounded tableaux of shapes `μ` and `ν` correspond to
 pairs (straight bounded tableau of shape `κ`, Littlewood–Richardson tableau of shape `κ/μ` and
@@ -1328,7 +1328,7 @@ degree (Goodman–Wallach, §10.2.1; symplectic §10.2.3, p. 440; odd orthogonal
 §10.2.4, p. 442; even orthogonal §10.2.5, p. 446; the zero-dimensional boundary above is direct;
 Weyl, *The Classical Groups*, V.7). *Needs:*
 §§9.2–9.3; Tau Ceti `TauCeti.orthogonalCupCapAt`, `TauCeti.permTensorAction`,
-`TauCeti.YoungTableau.youngSymmetrizerOver`, `TauCeti.spechtModuleℂ`, `TauCeti.diagramOf`;
+`TauCeti.YoungTableau.youngSymmetrizerOver`, `TauCeti.spechtModuleℂ`, `YoungDiagram.ofPartition`;
 Mathlib `Submodule`, `LinearMap.restrict`, `DirectSum.lmap`; ReductiveGroups Layer 6 (complete
 reducibility behind the decomposition).
 

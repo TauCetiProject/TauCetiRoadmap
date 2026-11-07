@@ -61,12 +61,12 @@ variable (G X : Over (Spec (CommRingCat.of k))) [GrpObj G] [ModObj G X]
 noncomputable def pointLocation (x : Points X) : X.left :=
   x.left (IsLocalRing.closedPoint k)
 
-def geometricOrbit (x : Points X) : Set X.left :=
+noncomputable def geometricOrbit (x : Points X) : Set X.left :=
   Set.range fun z : G.left => (orbitMorphism G X x).left z
 
-def orbitClosure (x : Points X) : Set X.left := closure (geometricOrbit G X x)
+noncomputable def orbitClosure (x : Points X) : Set X.left := closure (geometricOrbit G X x)
 
-def orbitBoundary (x : Points X) : Set X.left :=
+noncomputable def orbitBoundary (x : Points X) : Set X.left :=
   orbitClosure G X x \ geometricOrbit G X x
 
 noncomputable def orbitDimension (x : Points X) : WithBot ℕ∞ :=

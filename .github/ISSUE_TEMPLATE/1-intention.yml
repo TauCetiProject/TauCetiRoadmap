@@ -118,6 +118,7 @@ body:
         - PrimitivePrimeDivisors
         - ProfiniteCohomology
         - PseudodifferentialOperators
+        - PseudoholomorphicCurveAnalysis
         - PurityOfBranchLocus
         - QuadraticFormInvariants
         - QuantumEnvelopingAlgebras
