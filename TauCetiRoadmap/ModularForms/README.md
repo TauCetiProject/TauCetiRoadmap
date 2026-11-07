@@ -29,8 +29,8 @@ the eta-quotient criterion with its cusp orders (§0.2). Mathlib supplies η, Δ
 and the inversion law in another root normalization. HalfIntegralWeightModularForms §3.3 (the
 Dedekind-sum value, the reciprocity law and the Kronecker form) and §3.4 (the cusp orders of
 eta quotients) plan the same objects under the same normalization: its ν_η is the ε of §0.2,
-as 2πi((a+d)/(24c) − s(d,c)/2 − 1/8) = πi((a+d)/(12c) − s(d,c) − 1/4). It consumes Layers 0,
-2–4, 7, 8 and 8G of this roadmap, so it takes these from §0.2 and keeps the packaging of ν_η
+as 2πi((a+d)/(24c) − s(d,c)/2 − 1/8) = πi((a+d)/(12c) − s(d,c) − 1/4). It consumes Layers
+0–10 of this roadmap, so it takes these from §0.2 and keeps the packaging of ν_η
 as a multiplier system of weight 1/2 and the half-integral-weight eta-quotient character,
 measured against the theta multiplier; nothing of it is cited here.
 
@@ -126,6 +126,8 @@ is (√N)^(2−k) times the native weight-k slash by the matrix (0,−1;N,0). Wi
 - `jacobiSym.quadratic_reciprocity`, `jacobiSym.at_neg_one` and `jacobiSym.at_two` in
   `Mathlib/NumberTheory/LegendreSymbol/JacobiSymbol.lean`: quadratic reciprocity and its two
   supplements for odd positive denominators, used by the Kronecker form of the eta multiplier.
+- `Complex.cot` in `Mathlib/Analysis/Complex/Trigonometric.lean`: the complex cotangent, for
+  the cotangent form of Dedekind sums and the residue route to their reciprocity in §0.2.
 - `ModularForm.dimension_level_one` and `ModularForm.sturm_bound_levelOne` in
   `Mathlib/NumberTheory/ModularForms/LevelOne/DimensionFormula.lean`.
 - `ModularForm.L` in `Mathlib/NumberTheory/ModularForms/LFunction.lean` is the continued
@@ -155,7 +157,7 @@ is (√N)^(2−k) times the native weight-k slash by the matrix (0,−1;N,0). Wi
 
 ### From Tau Ceti
 
-All paths in this list start at `TauCeti/NumberTheory/`.
+Paths in this list start at `TauCeti/NumberTheory/` unless written in full.
 
 - Character spaces and parity: `modFormCharSpace`, `cuspFormCharSpace`,
   `TauCeti.char_neg_one_of_modFormCharSpace_ne_bot` in `ModularForms/DiamondOperators.lean`
@@ -267,6 +269,13 @@ All paths in this list start at `TauCeti/NumberTheory/`.
   the root-free square η(−1/τ)²=−iτη(τ)² on ℍ. `TauCeti.kroneckerSym` in
   `LegendreSymbol/KroneckerSymbol.lean`: the Kronecker symbol (a/b) at every integer b,
   including b=2 and b=−1, with `TauCeti.kroneckerSym_mul_left` for products in a.
+- `TauCeti.Contour.classicalResidueTheorem_starConvex` in
+  `TauCeti/Analysis/Contour/StarConvex.lean`: for an open set Ω star-shaped about a point, a
+  finite set S, f holomorphic on Ω∖S and meromorphic at the points of S in Ω, and a closed
+  piecewise-C¹ curve in Ω avoiding S, the integral of f along the curve is 2πi times the sum
+  over S of the winding number times the residue `TauCeti.Contour.residue`. A convex open
+  neighbourhood of a rectangle is star-shaped; §0.2 uses this for the reciprocity law of
+  Dedekind sums.
 - `TauCeti.hurwitzClassNumber` in `HurwitzClassNumber.lean` has H(0)=−1/12,
   H(3)=1/3, H(4)=1/2. `ModularForms/LevelOne/PeriodPolynomial/` supplies period-polynomial
   spaces and their dimension count; `ModularForms/LevelOne/TraceFormula/` supplies the
@@ -332,6 +341,7 @@ earlier Layer 10, with the parts now supplied by Mathlib and Tau Ceti listed abo
 | Layer 6, Atkin–Lehner and Fricke operators | Tau Ceti Atkin–Lehner and Fricke operators, above; §6.1 |
 | Layer 7, L-functions, continuation, functional equation, analytic rank | Mathlib `ModularForm.L` with its continuation, Tau Ceti Euler product, Fricke functional equation, analytic rank and conductor, above; the sign in Conventions and the pseudo-eigenvalues of §6.1; §7.1 |
 | Layer 8, modular symbols, integral Hecke algebra and coefficient fields | Tau Ceti period map, `TauCeti.heckeTCuspAlgebra` with its finiteness, coefficient fields and integrality, all for k≥2, above; weight one in §8.1; §8.0 |
+| Layer 8W, the weight-one lattice by the Deligne–Serre route | §8.1 |
 | Layer 8G, Galois stability, character field, rationality | §8.2; the character field is Tau Ceti's |
 | Layer 9, LMFDB invariants | Tau Ceti Satake parameters, above; Hecke characteristic polynomials in §8.2; §§9.1–9.3 |
 | Layer 10, Sturm bound | `TauCeti.ModularForm.eq_of_sturm_bound`, above |
@@ -398,13 +408,24 @@ Here s(d,c) is the Dedekind sum and the −1/4 converts Apostol's root √(−i(
 τ-independence: the 24th power of the quotient η(γτ)/((cτ+d)^(1/2)η(τ)) is 1 by the
 level-one modularity of Δ; for c≠0 the quotient is continuous on the connected half-plane,
 since cτ+d avoids the negative real axis, so it is constant; for c=0 it is constant outright.
+For the value at c>0, a route inducts on c along the Euclidean algorithm, with
+S=(0 −1; 1 0) and T=(1 1; 0 1): the translation law gives ε(γT)=e^(πi/12)ε(γ), matched on
+the right by s(d+c,c)=s(d,c); for c,d>0 the inversion law gives ε(γS)=e^(−πi/4)ε(γ), where
+γS=(b −a; d −c), matched on the right by the reciprocity law below and ad−bc=1; at c=1,
+γ=TᵃSTᵈ and both sides are exp(πi((a+d)/12 − 1/4)).
 
 Prove the reciprocity law of Dedekind sums: for coprime integers h,c≥1,
 
     s(h,c) + s(c,h) = (h² + c² + 1)/(12hc) − 1/4
 
-(Apostol, Theorem 3.7). A route needs no η: write both sums as finite cotangent sums and apply
-the residue theorem to cot(πz)cot(πhz)cot(πcz) on a period strip.
+(Apostol, Theorem 3.7). A route needs no η. Write both sums as finite cotangent sums, with
+s(h,c) equal to 1/(4c) times the sum of cot(πj/c)·cot(πhj/c) over 1≤j≤c−1, and integrate
+cot(πz)cot(πhz)cot(πcz) around a rectangle one period wide whose vertical sides avoid the
+poles. By `TauCeti.Contour.classicalResidueTheorem_starConvex` the integral is 2πi times the
+sum of the residues: −(h²+c²+1)/(3πhc) at the integer pole, and 4s(c,h)/π and 4s(h,c)/π from
+the simple poles at the fractions j/h and j/c, which are distinct because gcd(h,c)=1. The
+vertical sides cancel by periodicity and the horizontal sides tend to −2i as the height grows,
+so the residues sum to −1/π.
 
 Then prove the Kronecker form of the multiplier: for γ=(a b; c d)∈SL₂(ℤ) with c>0 and
 e(x)=exp(2πix),
@@ -439,7 +460,13 @@ where γ=±Tᵇ, and c<0 follow from the translation law and f|_k(−I)=(−1)�
 γ_δ=(a bδ; c/δ d)∈SL₂(ℤ) sends δτ to δ·γτ with the same factor cτ+d, so
 f|_kγ=∏_δ ε(γ_δ)^(r_δ)·f. Evaluate each ε(γ_δ) by the Kronecker form: the two congruences,
 k∈ℤ, and quadratic reciprocity with its supplements where c/δ changes parity with δ reduce
-the product of the exponential factors and the symbols to χ(d).
+the product of the exponential factors and the symbols to χ(d). For the orders, take
+σ=(c x; d y)∈SL₂(ℤ), so that σ∞=c/d. The column (δc, d) has gcd A=gcd(d,δ), so
+(δc δx; d y)=σ′·(A B; 0 δ/A) with σ′∈SL₂(ℤ), and `etaTransformation` at σ′ gives
+η(δ·στ)=(constant)·(dτ+y)^(1/2)·η(A(Aτ+B)/δ). By the eta product formula the last factor
+starts with a nonzero multiple of e(gcd(d,δ)²τ/(24δ)). So f(στ) is ((dτ+y)^(1/2))^(2k) times
+a series whose leading exponent in e(τ) is Σ_δ gcd(d,δ)²·r_δ/(24δ); in q^(1/w)=e(τ/w) it is
+w times this, the displayed formula, since gcd(d²,N)=d·gcd(d,N/d).
 
 **Checks.**
 - At τ=i, √(−i·i)=1 and (√i)⁻¹√i=1, so the two root normalizations agree there. The 24th
@@ -457,6 +484,14 @@ the product of the exponential factors and the symbols to χ(d).
 - Reciprocity at (h,c)=(2,3): s(2,3)=1/18−1/9=−1/18 and s(3,2)=s(1,2)=0, while
   14/72−1/4=−1/18; without the −1/4 the right side would be 7/36. At h=1 it gives
   s(1,c)=(c²+2)/(12c)−1/4=(c−1)(c−2)/(12c), the value used for (1 0; n 1) above.
+- The cotangent form gives s(2,3)=(1/12)(cot(π/3)cot(2π/3)+cot(2π/3)cot(4π/3))
+  =(1/12)(−1/3−1/3)=−1/18, the value above; a normalization 1/(2c) in place of 1/(4c) would
+  give −1/9. At (h,c)=(1,1) the residue route has only the triple pole of cot³(πz), with
+  residue −1/π=−3/(3π), and s(1,1)=0=3/12−1/4.
+- The S-step at γ=(1 0; 2 1): γS=(0 −1; 1 −2) has ε(γS)=exp(πi(−2/12−1/4))=exp(−5πi/12) by
+  the c=1 case, and ε(γ)=exp(−πi/6), so ε(γS)/ε(γ)=e^(−πi/4). The step needs d>0: for
+  γ=(1 −1; 3 −2), ε(γ)=exp(−πi/3) and ε(γS)=i·ε((1 1; 2 3))=exp(5πi/12), a ratio of
+  e^(3πi/4)=−e^(−πi/4).
 - At γ=(14 3; 23 5), the Kronecker form gives (5/23)·e(1/3)=−e(1/3)=e(−1/6), and the
   Dedekind-sum value with s(5,23)=7/46 gives exp(πi(19/276−7/46−1/4))=exp(−πi/3)=e(−1/6).
   Dropping the symbol would give e(1/3): the sign sits in the Jacobi symbol.
@@ -467,13 +502,18 @@ the product of the exponential factors and the symbols to χ(d).
   ε(γ₁)ε(γ₂₃)=−e(1/3)·e(2/3)=−1=(−23/5), so f|₁γ=−f; at d=1 and d=2, where (−23/d)=1, the
   product is +1.
 
-*Needs:* for the two laws and `etaTransformation`, Mathlib η, its nonvanishing, Δ=η²⁴ with its
-level-one modularity and the inversion law, and the native eta product formula; for the
-reciprocity law, the Dedekind sum and the residue theorem; for the Kronecker form,
-`etaTransformation`, the reciprocity law, the native Kronecker symbol and Mathlib's quadratic
-reciprocity with its supplements for the Jacobi symbol; for the criterion, the Kronecker form,
-the native Kronecker symbol with its multiplicativity in the numerator, native character
-spaces, and Mathlib's cusp conditions for holomorphy and vanishing at every cusp.
+*Needs:* for the two laws and the existence of ε in `etaTransformation`, Mathlib η, its
+nonvanishing, Δ=η²⁴ with its level-one modularity and the inversion law, and the native eta
+product formula; for the value of ε at c>0, the translation and inversion laws, the Dedekind
+sum and the reciprocity law; for the reciprocity law, the Dedekind sum, Mathlib `Complex.cot`
+and Tau Ceti `TauCeti.Contour.classicalResidueTheorem_starConvex`; for the Kronecker form,
+`etaTransformation`, the translation and inversion laws, the reciprocity law, the native
+Kronecker symbol and Mathlib's quadratic reciprocity with its supplements for the Jacobi
+symbol; for the criterion, the translation law, the Kronecker form, the native Kronecker
+symbol with its multiplicativity in the numerator, Mathlib's quadratic reciprocity with its
+supplements, native character spaces, and Mathlib's cusp conditions for holomorphy and
+vanishing at every cusp; for the orders, `etaTransformation` and the native eta product
+formula.
 
 ### Examples
 
@@ -483,8 +523,8 @@ with odd character.
 
 ### Dependencies
 
-Only the analytic, character, Eisenstein, eta, Kronecker-symbol and Jacobi-reciprocity
-supplier contracts enter this layer.
+Only the analytic, character, Eisenstein, eta, Kronecker-symbol, Jacobi-reciprocity, cotangent
+and residue-theorem supplier contracts enter this layer.
 
 ## Layer 1: geometric orders and the projective valence formula
 
@@ -1487,19 +1527,22 @@ cohomology of Layer 10. General-level and weight-two trace formulas are outside 
 
 The classical forms, primitive conductors, twisting and orbit theory supply automorphic
 representations, modularity and arithmetic applications. NoncongruenceModularForms consumes
-the order dictionary and analytic Riemann–Roch; it extends the congruence dimension theory
-to finite-index groups. The rank-n local comparison supplies the spherical Hecke algebra
+Layers 0–4, 8, 10B and 10C, the order dictionary of §1.1 and analytic Riemann–Roch of §10B
+among them; it extends the congruence dimension theory to finite-index groups. The rank-n
+local comparison supplies the spherical Hecke algebra
 input for automorphic representations. ModularCurvesPartII §§1.1, 1.3, 1.4, 3.13–3.14, 4.8
 and 7.1 consume the lattice uniformisation, the homotheties, the differential dictionary, the
 moduli bijection for Γ₁(N), the complex Tate curve and the automorphy of ω of §10D, and
 EllipticPeriods §2.4 consumes its lattice–modular comparison g₂ = (4π⁴/3)E₄, g₃ = (8π⁶/27)E₆.
-AlgebraicModularFormsAndSerreWeights consumes the rational coefficient theory of Layer 8 and
-reaches §10D through ModularCurvesPartII §7.1 for its geometric forms. ModularCurves'
+AlgebraicModularFormsAndSerreWeights consumes Layers 0, 2, 4, 5, 8 and 10, the rational
+coefficient theory and weight-one lattice of Layer 8 among them, and reaches §10D through
+ModularCurvesPartII §7.1 for its geometric forms. ModularCurves'
 external uniformisation contract concerns its twisted curve and is not discharged by §10D.
 QSeriesPartitionsAndMockModularForms takes the eta transformation of §0.2, generator laws
-and multiplier, for its metaplectic eta cocycle. HalfIntegralWeightModularForms takes the
+and multiplier, for its metaplectic eta cocycle, and §§10A–10B for its analytic modular
+curves and their cohomology. HalfIntegralWeightModularForms takes the
 Dedekind-sum and Kronecker forms of the eta multiplier, the reciprocity law and the cusp orders
-of eta quotients from §0.2, besides Layers 0, 2–4, 7, 8 and 8G.
+of eta quotients from §0.2, besides the rest of Layers 0–10.
 LeanBridge consumes finite-coefficient uniqueness and
 newform invariants for its explicit examples; its computations are not library targets here.
 
