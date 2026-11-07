@@ -1,6 +1,16 @@
 module
 
 public import Mathlib
+public import TauCeti.AlgebraicTopology.EilenbergMacLane.Basic
+public import TauCeti.AlgebraicTopology.Singular.LocalHomology.FundamentalClass
+public import TauCeti.Geometry.Diffeomorphism.Topology
+public import TauCeti.Geometry.Manifold.Instances.ComplexProjectiveSpace
+public import TauCeti.Geometry.Manifold.Instances.QuaternionicProjectiveSpace
+public import TauCeti.Geometry.Manifold.IsManifold.RestrictScalars
+public import TauCeti.Geometry.Symplectic.Capacity.HoferZehnder
+public import TauCeti.Geometry.Symplectic.Cotangent.Bundle.Codisc
+public import TauCeti.Geometry.Symplectic.Cotangent.Bundle.Liouville
+public import TauCeti.Geometry.Symplectic.Hamiltonian.AlmostExistence
 
 /-!
 # DG Floer theory, Part II: target signatures
@@ -8,83 +18,176 @@ public import Mathlib
 The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's
 headline theorems against the pinned Mathlib and Tau Ceti, each with `sorry`.
 
-Statable at the pins: the compact-generation coreflection of 1.0 on Mathlib's
-`CompactlyGenerated` and `TopologicalSpace.compactlyGenerated`, with the product criterion; the
-stable homotopy groups of `SO` and real Bott periodicity of 4.2a, in the finite ranks where
-`π_i(SO(r))` is already stable; and the torsion group `π_(n−1)(SO(n))` of 4.3 (Lemma 6.35 of the
-source), on the carrier `SO n = Matrix.specialOrthogonalGroup (Fin n) ℝ` with the subtype topology
-of the matrix space and Mathlib's cubical homotopy groups `π_ n X x`: the seven low-rank values and
-the torsion statement for every odd `n ≥ 3`.
+Stated here:
 
-Not statable at the pins, and stated in the README only: Theorem B (3.3) and Theorems G and H
-(4.6, 4.1), which need the DG Morse and Floer carriers of the base roadmap; Theorem I and
-Propositions 6.29–6.39 (4.2–4.5), which need `Diff(M)` with its `C^∞` topology, the mapping
-spaces out of spheres and the fibered-family carriers; the degree `1 + (−1)^(n−1)` of the rotation
-family of 1.4, which needs a mapping degree, absent from Mathlib and Tau Ceti at the pins; the
-Euclidean framed collapse of 1.4a, which needs tubular neighbourhoods and Thom spaces; and the
-Clifford-chain statements of 2.7–2.8, which need the broken-geodesic path-space carriers.
+* Theorem B in its general form, Theorem 5.14 of the source (README 3.2), on the carriers of the
+  base roadmap's Theorem A: `TauCeti.CotangentBundle.symplecticForm`,
+  `TauCeti.SmoothTwoForm.HasContractibleAlmostExistence`, and Mathlib's singular homology for the
+  map `H_n(U; ℤ) → H_n(Q; ℤ)`;
+* the finiteness `c°_HZ(D*Q) < ∞` of Theorem I (README 4.5), for every smooth Riemannian metric,
+  on `TauCeti.SmoothTwoForm.contractibleHZCapacity` and `TauCeti.CotangentBundle.codiscBundle`:
+  for the spheres `Sⁿ`, `n ≥ 2`; for the closed connected oriented manifolds that are
+  `ℓ`-covered by diffeomorphisms, on Tau Ceti's `C^∞` topology
+  `Diffeomorph.weakWhitneyTopology`, under the homotopy hypothesis of Propositions 6.29 and 6.33;
+  for the compact connected Lie groups that are not aspherical; and for the complex and
+  quaternionic projective spaces `TauCeti.ComplexProjectiveSpace` and
+  `TauCeti.QuaternionicProjectiveSpace`, the quotients of unit spheres by the unit complex numbers
+  and the unit quaternions;
+* the torsion group `π_(n−1)(SO(n))` of Lemma 6.35 (README 4.3), on the carrier
+  `SO n = Matrix.specialOrthogonalGroup (Fin n) ℝ` with the subtype topology of the matrix space
+  and Mathlib's cubical homotopy groups `π_ n X x`: its seven low-rank values and the torsion
+  statement for every odd `n ≥ 3`.
+
+Not statable at the pins, and stated in the README only:
+
+* Theorem H and the abundance conclusions of Propositions 6.13, 6.15, 6.29, 6.31, 6.33, 6.34,
+  6.36, 6.38 and 6.39 (README 4.1–4.5): abundance with 2-spheres needs classes of
+  `H_*(Map(S², Q))` living over the fundamental class, that is the shriek map
+  `H_*(Map(S², Q)) → H_(*−n)(Ω²Q)` of the evaluation fibration, which neither library has.
+* Theorem I for fibered families of 2-spheres, for sphere bundles over highly connected bases and
+  for products with an abundant factor (README 4.2, 4.5): their hypotheses are a map of fibre
+  bundles into the evaluation fibration `Map(S², Q) → Q` with a nonzero fibre class, or abundance
+  itself, and neither library has that fibration. The homogeneous spaces of Proposition 6.36
+  (README 4.4) need the smooth structure of `G/H` for a closed subgroup `H`, absent at the pins.
+* Theorem G (README 4.6): its hypotheses need the transverse intersection of two embedded
+  submanifolds and the triviality of a normal bundle. Tau Ceti has smooth embeddings and their
+  intrinsic normal bundles (`TauCeti.SmoothEmbedding.NormalSpace`) but no transversality
+  predicate for a pair of embeddings and no triviality predicate for a vector bundle.
+* The stable-plus-Stiefel splitting `π_(n−1)(SO(n)) ≅ π_(n−1)(O) ⊕ π_n(V_(n+2,2)(ℝ))` behind
+  Lemma 6.35 for `n ≥ 17` (README 4.3): the stable orthogonal group `O`, a colimit of the `O(r)`,
+  has no carrier at the pins.
 -/
 
 @[expose] public section
 
 namespace TauCetiRoadmap.DGFloerPartII
 
-open CategoryTheory
-open scoped Topology
+open TauCeti AlgebraicTopology Bundle
+open scoped Manifold Topology ContDiff Quaternion
 
-universe u w
+/-! ## Layer 3: multiple realization and Theorem B -/
 
-/-! ## Layer 1: compactly generated spaces (1.0) -/
+/-- **Theorem B of the source, in its general form Theorem 5.14** (README 3.2). Let `Q` be a
+closed connected `n`-manifold such that either `π₂(Q) ≠ 0` or some `π_ℓ(Q)`, `ℓ ≥ 3`, is not a
+torsion group. Let `F : T*Q → ℝ` be smooth with compact sublevel sets and `c` a regular value of
+`F`, so that the hypersurface `F⁻¹(c)` bounds the relatively compact domain `U = {F < c}`, and
+assume that the projection `U → Q` induces a nonzero map `H_n(U; ℤ) → H_n(Q; ℤ)` on singular
+homology. Then `F⁻¹(c)` has the contractible almost existence property for the canonical
+symplectic form. The source's orientability of `Q` follows from the hypothesis on `U`, since
+`H_n(Q; ℤ) = 0` for a closed connected nonorientable `Q`. The proof realizes a multiple of a
+class of `H_n(U; ℤ)` by a closed oriented manifold (Thom) and applies the base roadmap's
+Theorem 5.10. -/
+theorem hasContractibleAlmostExistence_of_map_singularHomology_ne_zero {E Q : Type}
+    [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E] [TopologicalSpace Q]
+    [T2Space Q] [ChartedSpace E Q] [IsManifold 𝓘(ℝ, E) ∞ Q] [CompactSpace Q] [ConnectedSpace Q]
+    (q : Q) (hQ : Nontrivial (π_ 2 Q q) ∨ ∃ ℓ : ℕ, ¬ IsMulTorsion (π_ (ℓ + 3) Q q))
+    (F : CotangentBundle 𝓘(ℝ, E) Q → ℝ)
+    (hF : ContMDiff (𝓘(ℝ, E).prod 𝓘(ℝ, E →L[ℝ] ℝ)) 𝓘(ℝ) ∞ F)
+    (hFc : ∀ b : ℝ, IsCompact (F ⁻¹' Set.Iic b)) {c : ℝ}
+    (hc : IsRegularValue (𝓘(ℝ, E).prod 𝓘(ℝ, E →L[ℝ] ℝ)) 𝓘(ℝ) F c)
+    (hU : ((singularHomologyFunctor (ModuleCat.{0} ℤ) (Module.finrank ℝ E)).obj
+        (ModuleCat.of ℤ (ULift.{0} ℤ))).map (TopCat.ofHom
+          ((⟨Bundle.TotalSpace.proj, FiberBundle.continuous_proj _ _⟩ :
+            C(CotangentBundle 𝓘(ℝ, E) Q, Q)).restrict {z | F z < c})) ≠ 0) :
+    (CotangentBundle.symplecticForm 𝓘(ℝ, E) Q).HasContractibleAlmostExistence Set.univ F c :=
+  sorry
 
-/-- The compactly generated refinement `kY` of any topology is `u`-compactly generated
-(README 1.0). -/
-theorem uCompactlyGeneratedSpace_compactlyGenerated (Y : Type w) [TopologicalSpace Y] :
-    @UCompactlyGeneratedSpace.{u} Y (TopologicalSpace.compactlyGenerated.{u} Y) := sorry
+/-! ## Layer 4: manifolds abundant with 2-spheres -/
 
-/-- A map from a compactly generated space is continuous into `kY` exactly when it is continuous
-into `Y` (README 1.0). -/
-theorem continuous_compactlyGenerated_iff {X Y : Type u} [TopologicalSpace X] [TopologicalSpace Y]
-    [CompactlyGeneratedSpace X] (f : X → Y) :
-    Continuous[_, TopologicalSpace.compactlyGenerated.{u} Y] f ↔ Continuous f := sorry
+/-- **Theorem I for spheres** (README 4.5; Examples 6.16 and 6.20 and Proposition 6.34 with
+Theorem H). For every smooth Riemannian metric on the unit sphere `Sⁿ ⊂ ℝⁿ⁺¹`, `n ≥ 2`, the unit
+codisc bundle `D*Sⁿ` has finite `π₁`-sensitive Hofer–Zehnder capacity. The circle is excluded:
+`S¹` is a torus and `c°_HZ(D*S¹) = ∞`. -/
+theorem contractibleHZCapacity_codiscBundle_sphere_lt_top (n : ℕ) (hn : 2 ≤ n)
+    [RiemannianBundle (fun x : Metric.sphere (0 : EuclideanSpace ℝ (Fin (n + 1))) 1 ↦
+      TangentSpace (𝓡 n) x)]
+    [IsContMDiffRiemannianBundle (𝓡 n) ∞ (EuclideanSpace ℝ (Fin n))
+      (fun x : Metric.sphere (0 : EuclideanSpace ℝ (Fin (n + 1))) 1 ↦ TangentSpace (𝓡 n) x)] :
+    (CotangentBundle.symplecticForm (𝓡 n)
+        (Metric.sphere (0 : EuclideanSpace ℝ (Fin (n + 1))) 1)).contractibleHZCapacity
+      (CotangentBundle.codiscBundle (𝓡 n)
+        (Metric.sphere (0 : EuclideanSpace ℝ (Fin (n + 1))) 1)) < ⊤ :=
+  sorry
 
-/-- Compact generation is right adjoint to the inclusion of compactly generated spaces into
-topological spaces, for all universes (README 1.0). -/
-theorem compactlyGeneratedToTop_isLeftAdjoint :
-    (CompactlyGenerated.compactlyGeneratedToTop.{u, w}).IsLeftAdjoint := sorry
+/-- **Theorem I for compact Lie groups** (README 4.5; Proposition 6.31 with Theorem H). For a
+compact connected Lie group `G` that is not aspherical, equivalently not a torus (the base
+roadmap's torus criterion), and every smooth Riemannian metric on `G`, invariant or not, the unit
+codisc bundle `D*G` has finite `π₁`-sensitive Hofer–Zehnder capacity. -/
+theorem contractibleHZCapacity_codiscBundle_lieGroup_lt_top {E G : Type} [NormedAddCommGroup E]
+    [NormedSpace ℝ E] [FiniteDimensional ℝ E] [TopologicalSpace G] [ChartedSpace E G] [Group G]
+    [LieGroup 𝓘(ℝ, E) ∞ G] [CompactSpace G] [ConnectedSpace G]
+    [RiemannianBundle (fun x : G ↦ TangentSpace 𝓘(ℝ, E) x)]
+    [IsContMDiffRiemannianBundle 𝓘(ℝ, E) ∞ E (fun x : G ↦ TangentSpace 𝓘(ℝ, E) x)]
+    (hG : ¬ IsAspherical G 1) :
+    (CotangentBundle.symplecticForm 𝓘(ℝ, E) G).contractibleHZCapacity
+      (CotangentBundle.codiscBundle 𝓘(ℝ, E) G) < ⊤ :=
+  sorry
 
-/-- The product of a compactly generated space with a locally compact space is compactly
-generated, so it is the convenient product (README 1.0). -/
-theorem compactlyGeneratedSpace_prod {X Y : Type u} [TopologicalSpace X] [TopologicalSpace Y]
-    [CompactlyGeneratedSpace X] [LocallyCompactSpace Y] : CompactlyGeneratedSpace (X × Y) := sorry
+open scoped TauCeti.DiffeomorphWeakWhitney in
+/-- **Theorem I for manifolds covered by diffeomorphisms** (README 4.5; Propositions 6.29 and
+6.33 with Theorem H). Let `M` be a closed connected oriented `n`-manifold with base point `x₀`, and
+`ℓ > 0` such that `M` is `ℓ`-covered by diffeomorphisms: some class `A` of `H_n(Diff(M); ℤ)`, for
+the `C^∞` topology on `Diff(M)`, has `ev_* A = ℓ • [M]` under evaluation at `x₀`. Assume that
+`π₂(M) ≠ 0`, or that the first nontrivial `π_k(M)`, `k ≥ 2`, has an element not annihilated by
+`ℓ`; for `ℓ = 1` this says exactly that `M` is not aspherical. Then for every smooth Riemannian
+metric the unit codisc bundle `D*M` has finite `π₁`-sensitive Hofer–Zehnder capacity. -/
+theorem contractibleHZCapacity_codiscBundle_lt_top_of_covered {E M : Type}
+    [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E] [TopologicalSpace M]
+    [T2Space M] [ChartedSpace E M] [IsManifold 𝓘(ℝ, E) ∞ M] [CompactSpace M] [ConnectedSpace M]
+    [RiemannianBundle (fun x : M ↦ TangentSpace 𝓘(ℝ, E) x)]
+    [IsContMDiffRiemannianBundle 𝓘(ℝ, E) ∞ E (fun x : M ↦ TangentSpace 𝓘(ℝ, E) x)]
+    (o : HomologicalOrientation M E (Module.finrank ℝ E)) (x₀ : M) {ℓ : ℕ} (hℓ : 0 < ℓ)
+    (hcov : ∃ A, (((singularHomologyFunctor (ModuleCat.{0} ℤ) (Module.finrank ℝ E)).obj
+        (ModuleCat.of ℤ (ULift.{0} ℤ))).map (TopCat.ofHom
+          ⟨fun f : M ≃ₘ^∞⟮𝓘(ℝ, E), 𝓘(ℝ, E)⟯ M ↦ f x₀,
+            Diffeomorph.continuous_eval_const x₀⟩)).hom A =
+        (ℓ : ℤ) • o.mapFundamentalClass rfl (ContinuousMap.id M))
+    (hM : Nontrivial (π_ 2 M x₀) ∨ ∃ k : ℕ, (∀ j < k, Subsingleton (π_ (j + 2) M x₀)) ∧
+      ∃ x : π_ (k + 2) M x₀, x ^ ℓ ≠ 1) :
+    (CotangentBundle.symplecticForm 𝓘(ℝ, E) M).contractibleHZCapacity
+      (CotangentBundle.codiscBundle 𝓘(ℝ, E) M) < ⊤ :=
+  sorry
 
-/-! ## Layer 4: stable orthogonal groups and real Bott periodicity (4.2a) -/
+/-- Complex projective space `CPᵈ` as a real smooth manifold: Tau Ceti's complex manifold
+structure on `TauCeti.ComplexProjectiveSpace d`, the quotient of the unit sphere of `ℂᵈ⁺¹` by the
+unit complex numbers, modelled on `𝓘(ℂ, Fin d → ℂ)` by the homogeneous-coordinate charts, with its
+scalars restricted to `ℝ`. -/
+instance instIsManifoldRealComplexProjectiveSpace (d : ℕ) :
+    IsManifold 𝓘(ℝ, Fin d → ℂ) ∞ (ComplexProjectiveSpace d) :=
+  IsManifold.restrictScalars ℝ
+    (inferInstance : IsManifold 𝓘(ℂ, Fin d → ℂ) ∞ (ComplexProjectiveSpace d))
+
+/-- **Theorem I for complex projective spaces** (README 4.5; Proposition 6.38 with Theorem H).
+For every smooth Riemannian metric on `CPᵈ`, the unit codisc bundle `D*CPᵈ` has finite
+`π₁`-sensitive Hofer–Zehnder capacity. For `d = 0` the space is a point, whose codisc bundle has
+capacity `0`. -/
+theorem contractibleHZCapacity_codiscBundle_complexProjectiveSpace_lt_top (d : ℕ)
+    [RiemannianBundle (fun x : ComplexProjectiveSpace d ↦ TangentSpace 𝓘(ℝ, Fin d → ℂ) x)]
+    [IsContMDiffRiemannianBundle 𝓘(ℝ, Fin d → ℂ) ∞ (Fin d → ℂ)
+      (fun x : ComplexProjectiveSpace d ↦ TangentSpace 𝓘(ℝ, Fin d → ℂ) x)] :
+    (CotangentBundle.symplecticForm 𝓘(ℝ, Fin d → ℂ)
+        (ComplexProjectiveSpace d)).contractibleHZCapacity
+      (CotangentBundle.codiscBundle 𝓘(ℝ, Fin d → ℂ) (ComplexProjectiveSpace d)) < ⊤ :=
+  sorry
+
+/-- **Theorem I for quaternionic projective spaces** (README 4.5; the quaternionic half of
+Proposition 6.39 with Theorem H). For every smooth Riemannian metric on `HPᵈ`, the unit codisc
+bundle `D*HPᵈ` has finite `π₁`-sensitive Hofer–Zehnder capacity. For `d = 0` the space is a
+point, whose codisc bundle has capacity `0`. -/
+theorem contractibleHZCapacity_codiscBundle_quaternionicProjectiveSpace_lt_top (d : ℕ)
+    [RiemannianBundle (fun x : QuaternionicProjectiveSpace d ↦ TangentSpace 𝓘(ℝ, Fin d → ℍ) x)]
+    [IsContMDiffRiemannianBundle 𝓘(ℝ, Fin d → ℍ) ∞ (Fin d → ℍ)
+      (fun x : QuaternionicProjectiveSpace d ↦ TangentSpace 𝓘(ℝ, Fin d → ℍ) x)] :
+    (CotangentBundle.symplecticForm 𝓘(ℝ, Fin d → ℍ)
+        (QuaternionicProjectiveSpace d)).contractibleHZCapacity
+      (CotangentBundle.codiscBundle 𝓘(ℝ, Fin d → ℍ) (QuaternionicProjectiveSpace d)) < ⊤ :=
+  sorry
+
+/-! ## Layer 4: the torsion group `π_(n−1)(SO(n))` -/
 
 /-- `SO(n)`: the special orthogonal group of real `n × n` matrices, with the subspace topology of
 the matrix space. -/
 abbrev SO (n : ℕ) : Type := Matrix.specialOrthogonalGroup (Fin n) ℝ
-
-/-- Real Bott periodicity in the stable range: for `i = j + 1 ≥ 1` and `m ≥ i + 10`,
-`π_(i+8)(SO(m)) ≅ π_i(SO(m))` (README 4.2a). -/
-theorem nonempty_pi_add_eight_SO_mulEquiv (j m : ℕ) (hm : j + 11 ≤ m) :
-    Nonempty (π_ (j + 9) (SO m) 1 ≃* π_ (j + 1) (SO m) 1) := sorry
-
-/-- `π_i(SO(m)) = 0` for `i ≡ 2, 4, 5, 6 (mod 8)` in the stable range `m ≥ i + 2`, with
-`i = j + 1` (README 4.2a). -/
-theorem subsingleton_pi_SO_of_stable (j m : ℕ)
-    (hj : j % 8 = 1 ∨ j % 8 = 3 ∨ j % 8 = 4 ∨ j % 8 = 5) (hm : j + 3 ≤ m) :
-    Subsingleton (π_ (j + 1) (SO m) 1) := sorry
-
-/-- `π_i(SO(m)) ≅ ℤ/2` for `i ≡ 0, 1 (mod 8)`, `i ≥ 1`, in the stable range `m ≥ i + 2`, with
-`i = j + 1` (README 4.2a). -/
-theorem nonempty_pi_SO_mulEquiv_zmod_two (j m : ℕ) (hj : j % 8 = 0 ∨ j % 8 = 7)
-    (hm : j + 3 ≤ m) : Nonempty (π_ (j + 1) (SO m) 1 ≃* Multiplicative (ZMod 2)) := sorry
-
-/-- `π_i(SO(m)) ≅ ℤ` for `i ≡ 3, 7 (mod 8)` in the stable range `m ≥ i + 2`, with `i = j + 1`
-(README 4.2a). -/
-theorem nonempty_pi_SO_mulEquiv_int (j m : ℕ) (hj : j % 8 = 2 ∨ j % 8 = 6) (hm : j + 3 ≤ m) :
-    Nonempty (π_ (j + 1) (SO m) 1 ≃* Multiplicative ℤ) := sorry
-
-/-! ## Layer 4: the torsion group `π_(n−1)(SO(n))` -/
 
 /-- `π₂(SO(3)) = 0`, the first low-rank value of Lemma 6.35 (README 4.3), through the double
 cover `S³ → SO(3)`. -/
