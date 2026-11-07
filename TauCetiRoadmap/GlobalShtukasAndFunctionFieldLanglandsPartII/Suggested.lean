@@ -27,9 +27,9 @@ The headline theorems, each with the carriers it lacks:
 * Equal-characteristic Fargues–Scholze parameters, Li-Huerta uniformization and the agreement of
   the Genestier–Lafforgue and Fargues–Scholze parametrizations (§§3.0–3.3): the lisse category
   of Bun_G, local and global shtuka stacks and their cohomology.
-* The all-prime étale Kloosterman anchor and its Bessel companion (§4.0): Kloosterman automorphic
-  data, opers and critical-level localization, lisse sheaves and overconvergent F-isocrystals on
-  the multiplicative group with their local monodromy.
+* The all-prime étale Kloosterman anchor (§4.0): the Kloosterman automorphic representation,
+  lisse ℓ-adic sheaves on the multiplicative group with their local monodromy and Swan conductors,
+  and the overconvergent F-isocrystal companion whose adjoint rigidity is transferred.
 * Globalization of supercuspidal representations, Beuzart-Plessis pseudo-globalization,
   Gan–Harris–Sawin purity of discrete series and embedding independence of temperedness
   (§§4.2–4.8): automorphic representations, discrete series and pseudo-coefficients of reductive
