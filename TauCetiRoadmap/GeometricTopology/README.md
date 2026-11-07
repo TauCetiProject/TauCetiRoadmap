@@ -3113,6 +3113,12 @@ AlgebraicTopology's cellular chains.
 
 ## Layer 12: the smoothing-and-triangulation comparison
 
+This layer is the section earlier headed "The smoothing-and-triangulation comparison (far
+horizon)", renumbered: its item 1 (smooth implies PL) is 12.1, its item 2 (PL implies Top) is
+12.2, and its item 3 (Top to PL) is 12.3 in dimensions at most four, with the Kirby–Siebenmann
+obstruction in dimension at least five left to a GeometricTopology Part II as the scope statement
+records.
+
 ### 12.1 Smooth manifolds are PL manifolds
 
 Prove **Whitehead's theorem**: every smooth manifold admits a smooth triangulation, a combinatorial
