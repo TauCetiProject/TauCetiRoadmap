@@ -72,9 +72,11 @@ It leaves to named roadmaps:
   bundles, pullbacks, cocycles and free proper quotients (B1.1–B1.4), Ehresmann
   connections (B1.5), associated and adjoint bundles (B2.1, B2.5), principal
   connections and their affine space (B3.1), curvature and Bianchi (B4.1), the
-  gauge group (B4.2), smooth good covers (B6.0) and the binary transverse fibre
+  gauge group (B4.2), smooth good covers (B6.0), the Čech–de Rham and
+  Čech–singular comparisons on them (B6.1) and the binary transverse fibre
   product of smooth maps (B1.0). S3.0 builds on these the prism covers and the
-  iterated fibre products and does not redefine any of them.
+  iterated fibre products, S3.1 the Deligne-complex step over B6.1's
+  comparisons, and neither redefines any of them.
 - CharacteristicClasses owns characteristic classes and Chern–Weil (C4);
   DifferentialGeometry owns forms, smooth-chain integration and Stokes;
   GeometricTopology Layer 1 owns collars and tubular neighbourhoods.
@@ -215,7 +217,10 @@ comparisons.
   existence), B4.1 (curvature `dA+½[A∧A]`, its descent to `Ω²(M;ad P)`, Bianchi),
   B4.2 (gauge group and its action on connections and curvature), B6.0
   (`SmoothGoodCover`, `exists_smoothGoodCover_refining` and the chosen smooth
-  contractions of finite intersections).
+  contractions of finite intersections), B6.1 (the real Čech–de Rham
+  isomorphism and the Čech–singular comparison with ℤ, ℝ and ℝ/ℤ coefficients on
+  B6.0's good covers of boundaryless Hausdorff second-countable manifolds, with
+  refinement naturality and compatibility with connecting maps).
 - **TopologicalKTheory** stable BO/BSO comparison, T2.1 virtual bundles, exterior
   powers, and T2.3's λ-series `λ_t` on virtual classes with its product and
   inverse identities; it states no symmetric-power operation, and S4.1 defines
@@ -225,17 +230,21 @@ comparisons.
   suppliers” and “The formally real Albert supplier”: positive division-octonion
   norm and conjugation, the compact Albert carrier with its Jordan identities,
   positive trace form and 27-dimensional smooth coordinate structure.
-- **DGFloer** Layer 1 item 2 (normalized long exact sequence of a homotopy fibre);
-  Layer 11 item 3 (finite cover T×K→G for compact connected G, its isomorphisms
+- **DGFloer** Layer 1 item 2 (normalized long exact sequence of a homotopy fibre;
+  the homology and multiplicative cohomology Serre spectral sequences of a Serre
+  fibration over a CW base); Layer 1 item 4 (Hurewicz modulo a Serre class, used
+  with the class of groups annihilated by a power of 2); Layer 11 item 3 (finite cover T×K→G for compact connected G, its isomorphisms
   on πⱼ for j≥2, and nonzero π₃ of nontrivial simply connected semisimple K,
   giving the torus criterion).
 - **Orbifolds** O2 item 6 (manifold diffeology from chart plots on Mathlib's
   class, chart independence, equality of the D-topology with the manifold
   topology, open restrictions, common refinements and the finite-product
   comparison with its topology compatibility).
-- **DifferentialGeometry** §5.4 (homotopy operator with boundary), §5.5 (Stokes
-  with corners), §6.2 (Poincaré lemma on boundary charts), §§8.3–8.5 (smooth
-  singular chains, Stokes and de Rham); forms and exterior derivative.
+- **DifferentialGeometry** §5.4 (homotopy operator with boundary), §5.5, item
+  5.5b (Stokes with corners through the abstract boundary of a smooth face
+  structure), §6.2 (Poincaré lemma on boundary charts), §§8.3–8.5 (smooth
+  singular chains, Stokes for chains and the de Rham theorem); forms and
+  exterior derivative.
 - **ModularForms** level-one modular forms, dimension formula, q-expansions.
 - **BordismFormalGroups** F3–F5 (BP, BP⟨1⟩, cooperations, Hopf rings,
   Adams–Novikov tower).
@@ -557,8 +566,11 @@ and zero otherwise (Serre), so the rational Hurewicz map of a connective spectru
 of finite type is an isomorphism, and for an oriented diagram the composite with
 the Thom isomorphism sends a bordism class to its rational characteristic numbers
 (Milnor–Stasheff §18). Apply these to the BString(n)→BO(n) diagrams and construct
-the ring isomorphism between geometric String bordism and `π_*MString`. Compute `H*(BString;ℚ)=ℚ[p₂,p₃,…]` by the Serre spectral sequence
-with λ-normalized transgression, and derive that rational String bordism is
+the ring isomorphism between geometric String bordism and `π_*MString`. Compute
+`H*(BString;ℚ)=ℚ[p₂,p₃,…]` by DGFloer Layer 1 item 2's cohomological Serre
+spectral sequence of the fibration `K(ℤ,3)→BString→BSpin`, with GeneralizedCohomology
+G5.6's `H*(K(ℤ,3);ℚ)=Λ(ι₃)` and ι₃ transgressing to the λ-normalized class,
+and derive that rational String bordism is
 polynomial on one generator in each degree 4k, k≥2, with the characteristic-number
 pairing and the forgetful map to rational Spin bordism.
 
@@ -589,7 +601,8 @@ pairing and the forgetful map to rational Spin bordism.
   nonzero in `Ω₁^fr=ℤ/2` but has no rational characteristic numbers.
 
 *Needs:* S1.2, S2.1; GeneralizedCohomology G5 (bundle-diagram interface), G5.3,
-G5.6; GeometricTopology Layer 1; CharacteristicClasses C2 (Thom isomorphism).
+G5.6; DGFloer Layer 1 item 2 (cohomological Serre spectral sequence);
+GeometricTopology Layer 1; CharacteristicClasses C2 (Thom isomorphism).
 
 ### 2.3 Low stems and framings (S2.3)
 
@@ -625,7 +638,7 @@ and export the sign conversion.
 - `π_i MString≅π_i S` for i≤6, and `π₇S→π₇MString` is onto.
 - `π₃S≅ℤ/24` with generator ν, and `J:π₃SO≅ℤ→π₃S` is onto with kernel 24ℤ.
 - For every n≥5, `π_(n+3)(Sⁿ)≅ℤ/24` on Mathlib's `HomotopyGroup` of the unit
-  sphere in `ℝ^(n+1)` (`homotopyGroup_sphere_three_stem`).
+  sphere in `ℝ^(n+1)` (`nonempty_homotopyGroup_sphere_three_stem`).
 - For g with `Ωλ(g)=−1`, increasing the torsor coordinate on S³ by 1 changes the
   framed class by `−J(g)`.
 
@@ -656,8 +669,8 @@ generator of `Ω₃^String≅ℤ/24`, and K3 as a Spin manifold that is not Stri
 ### Dependencies
 
 S1; EllipticCohomology E4.S, E5; GeneralizedCohomology G2 item 5, G3.8, G5, G5.0, G5.3,
-G5.6; GeometricTopology Layer 1; CharacteristicClasses; IndexTheory I7;
-SpinGeometry G4.1.
+G5.6; DGFloer Layer 1 item 2; GeometricTopology Layer 1; CharacteristicClasses;
+IndexTheory I7; SpinGeometry G4.1.
 
 ## Layer 3: differential String structures (S3)
 
@@ -691,9 +704,10 @@ diffeomorphic to ℝⁿ⁺¹. Apply DifferentialGeometry §5.4's homotopy operat
 §6.2's boundary-chart Poincaré lemma to these contractions and to B6.0's
 contractions on M, obtaining `dK+Kd=id−ev_0*` on the models and on the
 simplex-product corner models of smooth singular prisms. This supplies the
-local exactness for S3.1's real Čech–Deligne comparison; its homotopy formula
-uses DifferentialGeometry §§5.5 and 8.3–8.5 for corner Stokes, locally
-extendable smooth chains and de Rham.
+local exactness for S3.1's real Čech–Deligne comparison on the prisms; its
+homotopy formula uses DifferentialGeometry §5.5, item 5.5b, for Stokes with
+corners through the abstract boundary, and §§8.3–8.5 for locally extendable
+smooth chains, Stokes for chains and the de Rham theorem.
 
 For a surjective `Manifold.IsSubmersion` `π:Y→M` between finite-dimensional
 boundaryless manifolds, without separation assumptions for the local assertions,
@@ -725,6 +739,23 @@ Theorem 6.30).
   constant at time 0 and the identity at time 1. For this homotopy `K(dx)=x` and
   `dK(dx)=dx`, while `K(dc)=0` for a constant c; the same calculation in each
   coordinate works at a quadrant corner.
+- M a point and [0,1] covered by `J₁=[0,⅔)` and `J₂=(⅓,1]`: the nonempty
+  intersections are `J₁`, `J₂` and `J₁∩J₂=(⅓,⅔)`, all intervals, each contracted
+  to its midpoint c by the affine homotopy `(t,x)↦c+t(x−c)`. The real Čech
+  complex of this cover is `ℝ²→ℝ`, `(a,b)↦b−a`, so `H⁰=ℝ` and `H¹=0`, the
+  cohomology of the point.
+- Negative control: `J₂′=(⅓,½)∪(½,1]` still covers [0,1] with `J₁`, but
+  `J₁∩J₂′=(⅓,½)∪(½,⅔)` is disconnected, so it admits no contraction and its
+  `H⁰` is ℝ², not ℝ; the requirement that the members of the interval cover be
+  intervals is what makes the product cover good.
+- `M=S¹` with the three-arc good cover (pairwise intersections nonempty, triple
+  intersection empty) and the two-interval cover above: the product cover has 6
+  members, 15 nonempty pairwise intersections, 12 nonempty triple intersections
+  (the 8 triples with three distinct arcs are empty) and 3 nonempty fourfold
+  intersections, none of order five. Its alternating Čech complex has Euler
+  characteristic `6−15+12−3=0=χ(S¹×[0,1])` and cohomology ℝ, ℝ, 0, that of
+  S¹, as `dK+Kd=id−ev_0*` requires; a cover with an empty pairwise intersection
+  of arcs would change the counts.
 - For the projection `ℝ²→ℝ`, the self fibre product is
   `{((x,u),(x,v)):x,u,v∈ℝ}`, a closed 3-manifold, with dimension `2·2−1=3`.
   For the chart cover `ℝ⊔ℝ→M` of the line with doubled origin, a cross-component
@@ -736,7 +767,8 @@ Theorem 6.30).
 
 *Needs:* SmoothBundlesConnections B1.0–B1.4, B2.1, B2.5, B3.1, B4.1, B4.2, B6.0;
 Mathlib `LieGroup`, `Manifold.IsSubmersion`; DifferentialGeometry (forms,
-exterior derivative; §§5.4–5.5, 6.2, 8.3–8.5 for the prism comparison);
+exterior derivative; §5.4, §5.5 item 5.5b, §6.2 and §§8.3–8.5 for the prism
+comparison);
 CharacteristicClasses C4 (Chern–Weil on B4.1's curvature).
 
 ### 3.1 Differential characters and the refinement of λ (S3.1)
@@ -765,11 +797,17 @@ for K fixes its sign even though the product is written with M first.
 
 For k≥1 construct the good-cover Čech–Deligne comparison using the real complex
 `ℤ→Ω⁰→…→Ω^(k−1)` in degrees 0 through k, evaluating its degree-k cocycles on
-smooth (k−1)-cycles. Derive the comparison and independence of good cover from
-the Poincaré lemma and the partition-of-unity contraction on
-SmoothBundlesConnections B6.0’s good covers and, for `M×[0,1]`, on S3.0’s
-smoothly contractible prism covers; the exact sequences above and the five
-lemma prove that evaluation is an isomorphism. This is the real-coefficient version of Bunke’s Lemma 3.5,
+smooth (k−1)-cycles. On M, the real Čech–de Rham isomorphism and the
+Čech–singular comparison with ℤ, ℝ and ℝ/ℤ coefficients on
+SmoothBundlesConnections B6.0’s good covers are B6.1’s, with its refinement
+naturality and its compatibility with the connecting maps of `0→ℤ→ℝ→ℝ/ℤ→0`;
+this section consumes them. On `M×[0,1]`, which B6.1 does not cover, the same
+double-complex argument is proved here from S3.0’s smoothly contractible prism
+covers: S3.0’s homotopy formula gives the vertical contraction and a partition
+of unity the horizontal one. What is owned here is the Deligne step: the
+truncated cone, the two exact sequences above and the five lemma, which prove
+that evaluation is an isomorphism, independent of the good cover by B6.1’s
+refinement naturality. This is the real-coefficient version of Bunke’s Lemma 3.5,
 pp. 33–34, equation (23), p. 38, and Corollary 3.131, p. 68
 (bunke-differential-cohomology lines 1264, 1442, 2619): the source uses complex
 forms and ℂ/ℤ, while the same contraction and de Rham argument here use real
@@ -802,8 +840,10 @@ connections; uniqueness is among natural assignments for this universal pair.
 - On S³, `Ĥ³(S³)` surjects onto the closed 3-forms with integral periods, with
   kernel `H²(S³;ℝ/ℤ)=0`.
 
-*Needs:* DifferentialGeometry (smooth chains, Stokes, de Rham); CharacteristicClasses
-C4, C4.3; S3.0; S1.1; AlgebraicTopology Stage 6 (cochains and cup products).
+*Needs:* DifferentialGeometry (smooth chains, Stokes, de Rham);
+SmoothBundlesConnections B6.0, B6.1 (Čech–de Rham and Čech–singular comparisons
+on good covers); CharacteristicClasses C4, C4.3; S3.0; S1.1; AlgebraicTopology
+Stage 6 (cochains and cup products).
 
 ### 3.2 Bundle gerbes and 2-gerbes (S3.2)
 
@@ -966,7 +1006,8 @@ holonomy, and the unique connection over a point.
 
 ### Dependencies
 
-S1; SmoothBundlesConnections B1–B4 and B6.0 (through S3.0); DifferentialGeometry;
+S1; SmoothBundlesConnections B1–B4, B6.0 (through S3.0) and B6.1 (through
+S3.1); DifferentialGeometry;
 CharacteristicClasses C4, C4.1;
 Orbifolds O2 item 6; Mathlib's submersion and diffeology files.
 
@@ -1007,8 +1048,18 @@ For a closed Spin manifold of dimension 4k, the coefficient of qⁿ of the Witte
 genus is the index of the Dirac operator twisted by the n-th coefficient of `Θ_q`,
 by IndexTheory I7. Construct the ring map from Spin bordism to `ℤ[[q]]` with
 constant term Â. For Spin manifolds with rational `p₁=0` (in particular String
-manifolds) prove modularity of weight 2k with integral q-expansion, using
-ModularForms' q-expansion comparison. Prove independence of connections and of
+manifolds) prove modularity of weight 2k with integral q-expansion (Zagier,
+*Note on the Landweber–Stong elliptic genus*, p. 221, equation (14) and the
+remark following it; zagier-landweber-stong lines 226–253). Route: by S4.1,
+`∏_i Q(x_i,q)=exp(Σ_(k≥1)(2G_(2k)/(2k)!)·s_k)` with `s_k=Σ_i x_i^(2k)` the power
+sums in the Pontryagin roots, so the genus of `M^(4k)` is a polynomial in
+`G₂,G₄,…` with rational coefficients in which `G₂` enters only through the
+factor `exp((2G₂/2!)·p₁)`, since `s₁=p₁`; when `p₁=0` rationally that factor is
+1, and every surviving monomial `G_(2k₁)⋯G_(2k_r)` paired with `[M]` has
+`k₁+⋯+k_r=k`, hence weight 2k. The `G_(2j)` for j≥2 are level-one modular forms
+(ModularForms' Eisenstein series and q-expansions), so the genus is a level-one
+modular form of weight 2k, and its q-expansion lies in `ℤ[[q]]` by the index
+interpretation of the first sentence. Prove independence of connections and of
 the String lift.
 
 - `φ_W(M)=Â(M)+q·Â(M;T_ℂ−dim M)+O(q²)`.
@@ -1120,10 +1171,17 @@ mctague-cayley-plane line 446). Prove the absence of p-torsion and the forgetful
 injection for p>3,
 and that Pontryagin numbers detect `π_*MString[1/6]` (mctague-cayley-plane
 line 370), using S2.2's rational detection and the odd-primary comparison of Spin
-and oriented bordism: the fibre of `BSpin→BSO` is `K(ℤ/2,1)`, whose reduced
-homology with `ℤ[1/2]` coefficients vanishes, so `BSpin→BSO` and, by the Thom
-isomorphism, `MSpin→MSO` are isomorphisms on homology with `ℤ[1/2]` coefficients
-and hence equivalences after inverting 2.
+and oriented bordism: the fibre of `BSpin→BSO` over the simply connected base
+BSO is `K(ℤ/2,1)`, whose reduced homology with `ℤ[1/2]` coefficients vanishes,
+so DGFloer Layer 1 item 2's homology Serre spectral sequence makes `BSpin→BSO`
+and, by the Thom isomorphism, `MSpin→MSO` isomorphisms on homology with
+`ℤ[1/2]` coefficients. They are then equivalences after inverting 2: the Thom
+spaces `MSpin(n)`, `MSO(n)` are of finite type and simply connected for n≥2, so
+the cofibre of `MSpin(n)→MSO(n)` has integral homology annihilated degreewise
+by a power of 2; DGFloer Layer 1 item 4's Hurewicz theorem modulo that Serre
+class gives the same for its homotopy in the stable range, so
+`π_*MSpin⊗ℤ[1/2]→π_*MSO⊗ℤ[1/2]` is an isomorphism, which is the equivalence
+after inverting 2.
 
 **Checks.**
 - At p=3,d=8 the splitting has the single factor `BP⟨1⟩₈`; the map from d=12
@@ -1139,7 +1197,8 @@ and hence equivalences after inverting 2.
   `MSpin→MSO` is not an equivalence before inverting 2.
 
 *Needs:* BordismFormalGroups F3–F5; S2.2; CharacteristicClasses C2 (Thom
-isomorphism); AlgebraicTopology Stage 8.5 (Whitehead).
+isomorphism); DGFloer Layer 1 item 2 (homology Serre spectral sequence) and
+item 4 (Hurewicz modulo a Serre class); AlgebraicTopology Stage 8.5 (Whitehead).
 
 ### 5.4 McTague's generator criterion and the geometric families (S5.4)
 
@@ -1261,7 +1320,7 @@ complete-intersection families in dimensions 4n for every n≥4.
 
 S1–S4; SmoothBundlesConnections B1–B3; BordismFormalGroups F3–F5;
 SchemeAndStackFoundations §4.13; AffineMorseLefschetz A0, A5–A6;
-AlgebraicTopology Stages 5–6; DGFloer Layer 1 item 2; EllipticCohomology E5.
+AlgebraicTopology Stages 5–6; DGFloer Layer 1 items 2 and 4; EllipticCohomology E5.
 
 ## Layer 6: curvature questions and refined classes (S6)
 
@@ -1348,7 +1407,12 @@ S2, S4; SpinGeometry G6; IndexTheory I7; ModularForms; EllipticCohomology E4–E
 
 FourManifolds consumes S1's BString lifts, the H³ torsor, the dimension-≤7
 classification of S1.3 and the adjoint formula of S1.1 (intended name
-spinLambda_adjoint_eq_neg_two_cTwo).
+spinLambda_adjoint_eq_neg_two_cTwo). TangentialBordism consumes S1.3 (the
+existence criterion and the H³ torsor of String lifts), S1.5 (the Cayley plane
+with its F₄ action, cells and characteristic classes), S2.2 (the
+Pontryagin–Thom isomorphism for bundle diagrams, natural and multiplicative),
+S2.3 (`Ω^fr_n≅π_nS` and `π₃S≅ℤ/24` with generator ν) and S5.3 (the equivalence
+`MSpin[1/2]≃MSO[1/2]`).
 
 ## References
 
@@ -1394,6 +1458,10 @@ spinLambda_adjoint_eq_neg_two_cTwo).
   (uncertified).
 - Stolz, *A conjecture concerning positive Ricci curvature and the Witten genus*,
   Math. Ann. 304 (1996), §1 (uncertified).
+- Zagier, [*Note on the Landweber–Stong elliptic genus*](https://people.mpim-bonn.mpg.de/zagier/files/doi/10.1007/BFb0078047/fulltext.pdf),
+  in *Elliptic Curves and Modular Forms in Algebraic Topology*, Lecture Notes in
+  Mathematics 1326, 1988, pp. 216–224 (zagier-landweber-stong), p. 221,
+  equation (14) and the remark on rational `p₁=0`.
 - Hopkins, [*Algebraic topology and modular forms*](https://arxiv.org/abs/math/0212397)
   (hopkins-icm2002), §4.3, Proposition 4.6.
 - Behrens–Mahowald–Quigley, [*The 2-primary Hurewicz image of tmf*](https://arxiv.org/abs/2011.08956)

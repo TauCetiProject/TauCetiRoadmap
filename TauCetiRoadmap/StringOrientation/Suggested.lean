@@ -1,4 +1,6 @@
-import Mathlib
+module
+
+public import Mathlib
 
 /-!
 # String structures, string connections and the Witten genus: target signatures
@@ -16,7 +18,7 @@ pins and is stated below with `sorry`; for the others, the missing carrier:
   statable: there are no Thom spectra and no bordism groups. Mathlib has the
   unstable homotopy groups `π_ n X x`, so the stem `π₃S ≅ ℤ/24` of S2.3 is stated
   in its stable-range form `π_(n+3)(Sⁿ) ≅ ℤ/24` for every n ≥ 5
-  (`homotopyGroup_sphere_three_stem`); the stable group itself needs a spectrum
+  (`nonempty_homotopyGroup_sphere_three_stem`); the stable group itself needs a spectrum
   or a sequential colimit carrier that the pins lack.
 * S3: string connections on a String structure form an affine space and their
   classes an `Ĥ³(M;ℤ)`-torsor. There is no differential cohomology and no bundle
@@ -33,6 +35,8 @@ pins and is stated below with `sorry`; for the others, the missing carrier:
   there is no Witten genus and there are no spectra `tmf` or `TMF`.
 -/
 
+@[expose] public section
+
 open scoped Topology
 
 namespace TauCetiRoadmap.StringOrientation
@@ -45,7 +49,7 @@ vector, is cyclic of order 24. By Freudenthal, these groups identify with
 EllipticCohomology E4.S’s supplied stable stem `π₃S ≅ ℤ/24{ν}` and E5’s
 `π₁₂(S⁹)` instance; the range `n ≥ 5` is exactly `n + 3 ≤ 2n − 2`, and
 `π₇(S⁴) ≅ ℤ ⊕ ℤ/12` shows that `n = 4` must be excluded. -/
-theorem homotopyGroup_sphere_three_stem (n : ℕ) (hn : 5 ≤ n) :
+theorem nonempty_homotopyGroup_sphere_three_stem (n : ℕ) (hn : 5 ≤ n) :
     Nonempty (π_ (n + 3) (Metric.sphere (0 : EuclideanSpace ℝ (Fin (n + 1))) 1)
       ⟨EuclideanSpace.single (0 : Fin (n + 1)) (1 : ℝ), by simp⟩ ≃*
         Multiplicative (ZMod 24)) := by
