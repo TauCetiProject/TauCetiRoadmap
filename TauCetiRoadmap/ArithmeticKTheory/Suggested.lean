@@ -24,16 +24,16 @@ the Vandiver K-group table and the Gaussian and golden tame-kernel equivalences 
 K-group/spectrum carriers and comparison maps are missing. Hermitian finiteness
 also lacks the required GW/L-spectrum carriers. The arithmetic finite CW
 model in README §3.2 lacks the arithmetic bordification and quotient carriers.
+The Solomon–Tits theorem solomonTits, the dualizing-module theorem
+projectiveArithmeticDuality and the Steinberg-homology finiteness theorems
+projectiveSteinbergHomology_fg and curveSteinbergHomology_fg of README §3.2
+lack the Tits building of a vector space and its Steinberg module: Mathlib
+has group homology but no building.
 Borel's finite-stage invariant-form comparison in README §3.4 lacks relative
 Lie algebra cohomology and invariant differential forms on symmetric spaces:
 Mathlib has only low-degree Lie algebra cochains.
 Numerical rank or degree-slot
-formulas do not state those theorems. The low Adams–Novikov E₂-term of the
-sphere in README §7.5 lacks the Brown–Peterson Hopf algebroid BP_*BP and
-the Ext of its comodules: Tau Ceti has the structure maps of the Lazard Hopf
-algebroid (L, LB) and comodules over a coalgebra over a commutative semiring,
-but no comodules over a Hopf algebroid, no cobar complex and no p-typical
-BP_*BP.
+formulas do not state those theorems.
 -/
 
 noncomputable section
