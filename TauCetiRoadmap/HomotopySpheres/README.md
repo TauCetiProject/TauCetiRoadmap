@@ -53,7 +53,7 @@ The roadmap is complete when Tau Ceti proves the following connected development
 9. A compact Hausdorff second-countable smooth six-manifold homotopy equivalent to the standard
    sphere has an orientation-preserving diffeomorphism to it after matching orientations, with
    the manifold orientations and derivative-preservation equation visible in the theorem.
-10. The standard positive-dimensional sphere S^n admits a smooth tangent framing exactly
+10. The standard positive-dimensional sphere Sⁿ admits a smooth tangent framing exactly
     when n∈{1,3,7}, with explicit frames and a complete Hopf-invariant exclusion; S⁰ has its
     trivial rank-zero tangent bundle.
 
@@ -91,17 +91,21 @@ The division of ownership is as follows.
   neighbourhoods, connected sum, general framed surgery and smooth triangulation.
   Tau Ceti already has the oriented connected sum of connected oriented boundaryless
   manifolds, `TauCeti.OrientedConnectedSum`, with its independence of the balls, commutativity,
-  reversal of both orientations and the sphere identity; Section 2.2 consumes it and
-  GeometricTopology Layer 1's remaining connected-sum laws.
+  reversal of both orientations and the sphere identity, and the orientation of the sum
+  `TauCeti.ConnectedSum.orientation`; Section 2.2 consumes these and the associativity of the
+  native sum proved in GeometricTopology §1.4.
   TangentialBordism B1.1–B1.2 owns the oriented collared cobordism witnesses in general
   dimension and their operations used here.  This roadmap uses those same objects.  It introduces no
   second boundary, collar, gluing, handle, surgery, connected-sum, cobordism, or triangulation
   type.
-- [DifferentialGeometry Layer 2](../DifferentialGeometry/README.md) owns chosen
-  manifold orientations. Consume its source-indexed chart-sign carrier, reversal,
-  orientation-at-point and derivative-preservation laws, extending these to the collar
-  comparisons below. Retain Tau Ceti's existing orientation-preserving groupoid and orientability
-  API from `TauCeti.Geometry.Manifold.Orientation`; do not duplicate it.
+- Chosen manifold orientations are Tau Ceti's: the source-indexed chart-sign carrier
+  `TauCeti.Manifold.Orientation`, its reversal, the orientation at a point and orientation
+  preservation at a point, `TauCeti.Manifold.Orientation.IsOrientationPreservingAt`, together with
+  the orientation-preserving groupoid and oriented atlases, all in the modules under
+  `TauCeti/Geometry/Manifold/Orientation/`. [DifferentialGeometry Layer 2](../DifferentialGeometry/README.md)
+  owns the rest of the orientation theory (top forms, the oriented-atlas criterion and the
+  orientation double cover). This roadmap extends these to the collar comparisons below and
+  duplicates none of them.
 - The [Heegaard Floer roadmap](../HeegaardFloer/README.md), Lanes M/F0, supplies the distinct
   trajectory and Morse–Smale inputs for handle decompositions, Whitney moves and cancellation.
 - Sard's theorem in equal dimensions is already in Tau Ceti (`TauCeti.dense_isRegularValue`), and
@@ -172,8 +176,8 @@ These conventions apply throughout the layers.
 
 - **Manifolds are types with Mathlib instances.**  Use `TopologicalSpace`, separation and
   countability classes, `ChartedSpace`, `IsManifold`, compactness, and connectedness.  Carry
-  orientation and framing data explicitly.  An orientation is the shared
-  `Manifold.Orientation I M ι`, including its local chart compatibility; an arbitrary function
+  orientation and framing data explicitly.  An orientation is Tau Ceti's
+  `TauCeti.Manifold.Orientation I M ι`, including its local chart compatibility; an arbitrary function
   from points to linear orientations is not an orientation.  Do not introduce a bundled manifold
   record whose fields assert these properties.  On a collared manifold, the boundary orientation
   is determined from the ambient orientation by the collar derivative and the outward-normal-first
@@ -304,7 +308,7 @@ These conventions apply throughout the layers.
   cone and mapping-cone comparisons are specified in Section 3A.2; reduced suspension and
   the smash product are AlgebraicTopology Stage 4 item 8's.
 - `TopCat.toSSet`, `SSet.toTop` and `sSetTopAdj` in
-  `Mathlib/AlgebraicTopology/SingularSet.lean`, lines 50, 65 and 73, supply singular
+  `Mathlib/AlgebraicTopology/SingularSet.lean`, lines 50, 66 and 74, supply singular
   simplicial sets, their realization and the adjunction defining the counit.
 - Singular homology, `TopPair`, Mathlib's CW-complex structures, metric spheres, and the
   algebraic-topology roadmap's relative Hurewicz, Whitehead, duality, and finite-CW-type results.
@@ -314,30 +318,49 @@ These conventions apply throughout the layers.
   vector bundles, pullbacks, direct sums, quotient spaces, `CompactlyGenerated.{u,w}`,
   categorical filtered colimits, and `AddCommGrpCat`.  Mathlib's compactly generated category
   supplies the carrier, its fully faithful inclusion and `TopologicalSpace.compactlyGenerated`
-  (`Mathlib/Topology/Compactness/CompactlyGeneratedSpace.lean`, line 67); the categorical coreflector (the
+  (`Mathlib/Topology/Compactness/CompactlyGeneratedSpace.lean`, line 68); the categorical coreflector (the
   right adjoint of that inclusion), its adjunction, and the Cartesian closed API are
   AlgebraicTopology Stage 4 item 8's, not inferred instances.
+- `Bernoulli.padicValRat_bernoulli` (`Mathlib/NumberTheory/Bernoulli.lean`, line 696): for a
+  prime p, 0 < k and p − 1 ∣ 2k, the p-adic valuation of the Bernoulli number B_(2k) is −1.
+  Section 9A.4 uses it at p = 2, where the divisibility hypothesis always holds.
 - Geometric topology's boundary, collar, gluing, tubular-neighbourhood, connected-sum, handle,
   surgery, cobordism, and triangulation outputs; DifferentialGeometry's orientations and
   flows; and Heegaard Floer's distinct trajectory and Morse–Smale inputs.
 
-**From Tau Ceti.** `TauCeti.IsOrientedAtlas` and
-`TauCeti.orientationPreservingGroupoid` in `TauCeti/Geometry/Manifold/Orientation.lean`
-provide the atlas orientation language. The instance `TauCeti.boundaryChartedSpace`,
+**From Tau Ceti.** `TauCeti.IsOrientedAtlas` and `TauCeti.orientationPreservingGroupoid` in
+`TauCeti/Geometry/Manifold/Orientation/OrientedAtlas.lean`, lines 283 and 129, provide the atlas
+orientation language. `TauCeti.Manifold.Orientation` in
+`TauCeti/Geometry/Manifold/Orientation/Basic.lean`, line 32, is the orientation carrier: model
+orientations with locally constant chart signs indexed by the points of each chart's source,
+compatible with the transition Jacobians, modulo the simultaneous flip; reversal is its negation.
+`TauCeti.Manifold.Orientation.IsOrientationPreservingAt` in
+`TauCeti/Geometry/Manifold/Orientation/Preserving.lean`, line 63, says that the manifold
+derivative at a point is an equivalence carrying the source orientation there to the target
+orientation. The instance `TauCeti.boundaryChartedSpace`,
 `TauCeti.isManifold_boundary` and `TauCeti.isSmoothEmbedding_subtypeVal_boundary` in
 `TauCeti/Geometry/Manifold/Boundary/Charts.lean`, lines 195, 321 and 374, give the boundary
-charts on `EuclideanSpace ℝ (Fin n)`, the boundary manifold and its smooth closed inclusion for
-the half-space model `𝓡∂ (n + 1)` and differentiability order k ≠ 0; the statement of 1.7 uses
-them. `TauCeti.OrientedConnectedSum` in
+charts on `EuclideanSpace ℝ (Fin n)`, the boundary manifold and the smooth embedding of the
+boundary for the half-space model `𝓡∂ (n + 1)` and differentiability order k ≠ 0; the statement
+of 1.7 uses them. `TauCeti.OrientedConnectedSum` in
 `TauCeti/Geometry/Manifold/ConnectedSum/Oriented.lean`, line 143, is the oriented connected sum
 of nonempty T1 oriented boundaryless C^∞ manifolds modelled on a nontrivial finite-dimensional
-inner product space E. For connected Hausdorff summands it does not depend on the balls, and
-`TauCeti.OrientedConnectedSum.nonempty_diffeomorph_comm`,
+inner product space E, formed as Tau Ceti's connected sum `TauCeti.ConnectedSum` along chosen
+balls, which glues the two punctured balls by the inversion in the unit sphere of E. For
+connected Hausdorff summands it does not depend on the balls:
+`TauCeti.OrientedConnectedSum.nonempty_diffeomorph_connectedSum` (line 208) identifies it with
+`TauCeti.ConnectedSum` along any two balls that, for one orientation of E, preserve and reverse
+the orientations at their centres. `TauCeti.OrientedConnectedSum.nonempty_diffeomorph_comm`,
 `TauCeti.OrientedConnectedSum.nonempty_diffeomorph_neg` and, for n ≥ 1,
 `TauCeti.OrientedConnectedSum.nonempty_diffeomorph_sphere` (lines 222, 238 and 295) give
 commutativity, invariance under reversing both orientations and X # Sⁿ ≅ X up to
-diffeomorphism. Its charts are a definition used through `letI`, not an instance, and it
-carries no orientation of the sum and no associativity. `TauCeti.isNullSet_image_criticalPoints`
+diffeomorphism. Its charts and its smooth manifold structure are instances (lines 155 and 160).
+`TauCeti.ConnectedSum.orientation` in `TauCeti/Geometry/Manifold/ConnectedSum/Orientation.lean`,
+line 250, orients `TauCeti.ConnectedSum` along balls that preserve and reverse the given
+orientations at every nonzero vector, agreeing with them on the two punctured summands; the
+chosen balls of the oriented sum have this property
+(`TauCeti.OrientedConnectedSum.exists_isOrientationPreservingAt_ballLeft`, Oriented.lean line
+128). Tau Ceti has no associativity of the connected sum. `TauCeti.isNullSet_image_criticalPoints`
 and `TauCeti.dense_isRegularValue` in `TauCeti/Geometry/Manifold/Sard/EqualDimension.lean`,
 lines 105 and 112, are Sard's theorem for a differentiable map from a Lindelöf manifold to a
 manifold of the same finite dimension. `TauCeti.degreeAtRegularValue` in
@@ -351,13 +374,24 @@ topological, and the smooth product of Milnor's Theorem 3.4 is part of 1.2.
 `TauCeti/AlgebraicTopology/Sphere/SimplyConnected.lean`, line 408, gives simple connectivity
 of Sⁿ for n ≥ 2. Full collared cobordism and product/gluing data are the geometric contracts below.
 `TauCeti.MappingCylinder` and `TauCeti.MappingCylinder.homotopyEquiv` in
-`TauCeti/Topology/Homotopy/MappingCylinder.lean`, lines 81 and 399, give the ordinary
+`TauCeti/Topology/Homotopy/MappingCylinder.lean`, lines 87 and 425, give the ordinary
 unreduced mapping cylinder and its equivalence with the target. Its defining quotient
 identifies (1,a) with f(a); it does not collapse the basepoint meridian or the free end.
 Section 3A.2 constructs the pointed quotient comparisons from these primitives.
+`TauCeti.e8Plumbing` in `TauCeti/LowDimTopology/Plumbing/E8.lean`, line 63, is the plumbing
+graph `TauCeti.PlumbingGraph (Fin 8)` on the E₈ tree, a chain of seven vertices with an eighth
+attached to the third, with weight −2 at every vertex. Its intersection matrix
+`TauCeti.PlumbingGraph.intersectionMatrix` (`TauCeti/LowDimTopology/Plumbing/IntersectionForm.lean`,
+line 108) has the weights on the diagonal and 1 at each edge, so it is the negative of the E₈
+Cartan matrix, and `TauCeti.e8Plumbing_isNegativeDefinite` (line 199) proves it negative
+definite. It is a lattice datum, not a manifold: Section 6B constructs the plumbed manifolds in
+every dimension 4k and identifies their middle intersection form with it.
 
 **From TauCetiRoadmap.GeometricTopology.** Layer 1 supplies collars, boundary gluing,
-normal tubes, connected sum and handle attachment; Layer 5 supplies surgery on a framed
+normal tubes, connected sum and handle attachment; §1.4 consumes Tau Ceti's
+`TauCeti.ConnectedSum` and `TauCeti.OrientedConnectedSum`, proves that the native sum of
+connected oriented summands is associative up to diffeomorphism, and compares the native sum
+with the gluing model along the boundary spheres; Layer 5 supplies surgery on a framed
 embedded sphere in general dimension; the smoothing-and-triangulation comparison, item 1,
 supplies smooth triangulation. Oriented cobordisms in general dimension are the
 TangentialBordism B1.1–B1.2 witnesses below.
@@ -383,9 +417,10 @@ as adapters over these witnesses and GeometricTopology Layer 1.
 - For connected nonempty M and N, the cylinder on M ⊔ N has two components at each end, with boundary signs −,−,+,+; neither connectedness nor a single boundary component is built into the witness.
 - Gluing two cylinders on M leaves one incoming −M and one outgoing M; the two identified middle copies are interior, not extra boundary components.
 
-**From TauCetiRoadmap.DifferentialGeometry.** Layers 2 and 5.1 supply orientations,
-pointwise comparison, reversal and outward-normal-first boundary orientation; Layer 3
-supplies flows. Sard's theorem and the signed count over a regular value are the Tau Ceti
+**From TauCetiRoadmap.DifferentialGeometry.** The orientation carrier, its reversal and the
+pointwise comparison are the Tau Ceti declarations above; Layer 2 supplies the rest of the
+orientation theory, including the oriented-atlas criterion that compares oriented atlases with
+orientations, Layer 5.1 the outward-normal-first boundary orientation, and Layer 3 flows. Sard's theorem and the signed count over a regular value are the Tau Ceti
 declarations above in equal dimensions and TangentialBordism B1.6 in unequal dimensions.
 Relative smooth approximation with protected faces uses TangentialBordism B1.
 **From TauCetiRoadmap.HeegaardFloer.** Lanes M and F0 supply Morse–Smale trajectory
@@ -676,8 +711,9 @@ connectivity for `n>=2`, integral homology, and finite CW type from the cited de
 
 ### 2.2 Connected sum
 
-*Needs:* Tau Ceti `TauCeti.OrientedConnectedSum`; GeometricTopology Layer 1; 2.1;
-AlgebraicTopology `homologicalWhitehead` and Mayer–Vietoris; Kervaire–Milnor Lemmas 2.1–2.2,
+*Needs:* Tau Ceti `TauCeti.OrientedConnectedSum`,
+`TauCeti.OrientedConnectedSum.nonempty_diffeomorph_connectedSum` and
+`TauCeti.ConnectedSum.orientation`; GeometricTopology Layer 1 and §1.4; 2.1; AlgebraicTopology `homologicalWhitehead` and Mayer–Vietoris; Kervaire–Milnor Lemmas 2.1–2.2,
 pp.505–506. In dimensions one and two: MorseTheory M3; 1.2's handle cancellation and its
 Morse-number-zero product case (Milnor, Theorem 3.4, p.21, whose topological form is Tau
 Ceti's `TauCeti.exists_bandHomeomorph`); AlgebraicTopology Stage 4 item 4's Euler–Poincaré
@@ -686,9 +722,18 @@ formula.
 Instantiate Tau Ceti's oriented connected sum `TauCeti.OrientedConnectedSum` on homotopy
 spheres, oriented so that the orientation of Σ₁ # Σ₂ restricts to the given ones on the two
 punctured summands, and prove closure: Σ₁ # Σ₂ is a homotopy n-sphere. Its independence of
-the balls, commutativity and sphere identity are the pinned Tau Ceti theorems; associativity
-and the orientation of the sum are GeometricTopology Layer 1's connected-sum laws. Together
-these are Kervaire–Milnor, Lemma 2.1, p.505, at the level of oriented diffeomorphism.
+the balls, commutativity and sphere identity are the pinned Tau Ceti theorems, and its
+orientation is `TauCeti.ConnectedSum.orientation` along the chosen balls, which restricts to the
+given orientations on the punctured summands. Associativity is GeometricTopology §1.4's, proved
+there for the native sum `TauCeti.ConnectedSum` of connected oriented summands; carry it to the
+instantiated carrier by `TauCeti.OrientedConnectedSum.nonempty_diffeomorph_connectedSum`, which
+identifies the oriented sum of connected Hausdorff summands with `TauCeti.ConnectedSum` along any
+two balls that, for one orientation of ℝⁿ, preserve and reverse the orientations at their
+centres. The pinned theorems and §1.4's associativity assert only that diffeomorphisms exist;
+prove that in each case one can be chosen to carry `TauCeti.ConnectedSum.orientation` of the
+first sum to that of the second, the identification of the balls preserving orientation at the
+centres. Together these are Kervaire–Milnor, Lemma 2.1, p.505, at the level of oriented
+diffeomorphism.
 
 Prove descent to h-cobordism classes for n ≥ 3. Let Σ₁, Σ₁′ and Σ₂ be oriented homotopy
 n-spheres, n ≥ 3, hence closed and simply connected, and let W₁ be an oriented h-cobordism
@@ -789,6 +834,8 @@ The oriented homotopy-sphere code and its quotient Θₙ, n≥1, have the follow
 - For n=2, a Morse function on the torus leaves c₁=2 index-one points after the two cancellations, since χ(T²)−2=−2; the Euler count in 2.2 is what excludes T², which is not a homotopy sphere. For n=1, a circle with minima m₁, m₂ and maxima M₁, M₂ in cyclic order m₁,M₁,m₂,M₂ leaves m₂ and M₂ in W once discs about m₁ and M₁ are removed; cancelling m₂ against M₂ gives Morse number zero, and W is two arcs.
 - Sⁿ has top reduced integral homology ℤ; a point has zero reduced homology and is not a positive-dimensional homotopy-sphere code.
 - Replacing a sphere homotopy equivalence by its composite with a reflection changes its degree from +1 to −1 but not the underlying oriented cycle. Retaining that marking as moduli would create a spurious distinction.
+- For Σ₁ = Σ₂ = Σ₃ = Sⁿ with n ≥ 1, both bracketings (Sⁿ # Sⁿ) # Sⁿ and Sⁿ # (Sⁿ # Sⁿ) are diffeomorphic to Sⁿ by two applications of the sphere identity, so associativity carried through 2.2 must give [Sⁿ] + ([Sⁿ] + [Sⁿ]) = ([Sⁿ] + [Sⁿ]) + [Sⁿ] = 0.
+- The orientation of the sum depends on the second ball reversing orientation: with both balls preserving it, the construction of `TauCeti.ConnectedSum.orientation` orients the sum compatibly with the first orientation and the negative of the second. On ℂP², outside the homotopy spheres, the two readings are ℂP² # ℂP² and ℂP² # (−ℂP²), of signatures 2 and 0; for homotopy spheres the second reading would add [−Σ₂] instead of [Σ₂].
 
 The native `Sphere` model has two points at n=0, the unit circle at n=1, and smooth tangent
 rank n at every point. Its API is the native sphere topology, manifold structure and tangent
@@ -796,7 +843,7 @@ bundle; the empty frame at n=0 does not satisfy the positive-dimensional framing
 
 ### Dependencies
 
-*Needs:* Tau Ceti `TauCeti.OrientedConnectedSum`; GeometricTopology Layer 1 connected sum and
+*Needs:* Tau Ceti `TauCeti.OrientedConnectedSum` and `TauCeti.ConnectedSum.orientation`; GeometricTopology Layer 1, §1.4 connected sum and
 The smoothing-and-triangulation comparison, item 1; AlgebraicTopology finite CW comparison,
 sphere homology, Euler–Poincaré formula, Stage 6 item 4 duality and `homologicalWhitehead`;
 MorseTheory M3; Layer 1 for the h-cobordism relation and 1.2's cancellation, and, only in n≥5,
@@ -825,7 +872,7 @@ suspension–loop adjunction, build the reduced cone, mapping cone, cofiber sequ
 sequences in the same pointed category as the algebraic-topology roadmap's relative
 homotopy groups.
 Own the earlier co-H law on reduced suspension with its explicit quotient
-collapsing both ends AND the marked meridian. Pinch at1/2, reflect the
+collapsing both ends and the marked meridian. Pinch at ½, reflect the
 interval for inverse, and prove unit/associativity/inverse homotopies by
 continuous variable-duration loop reparametrizations through the adjunction.
 Inverse cancellation runs an initial fraction of a loop and retraces it;
@@ -837,7 +884,7 @@ AlgebraicTopology Stage 4 item 8's actual k-products/exponentials and no EM-loop
 CW-type theorem, EHP or stable stem. Ordinary compact-open comparisons keep
 their real evaluation hypotheses; compactness of I alone does not make
 arbitrary ordinary mapping spaces Cartesian closed.
-Use cone coordinates (a,t) with base at1 and apex at0. Define the reduced
+Use cone coordinates (a,t) with base at t = 1 and apex at t = 0. Define the reduced
 cone by collapsing A×{0} and the entire basepoint meridian {a₀}×I,
 and the reduced mapping cone C_f by gluing its base through the actual
 based f:A→X. Supply its based universal property, homotopies and map
@@ -1104,7 +1151,7 @@ The James splitting has the following API.
 - Before suspension J₂(S²) is not a wedge: its 4-cell is attached by [ι₂,ι₂]=2η₂ of 3C.1, so the square of the degree-two generator of H*(J₂(S²);ℤ) is ±2 times the degree-four generator, whereas every cup product of positive-degree classes in S²∨S⁴ vanishes. After one suspension the attaching map is the suspension of a Whitehead product, hence null, and ΣJ₂(S²) ≃ S³∨S⁵.
 - For X=M(ℤ/2,2)=S²∪₂e³, H̃₅(ΩΣX;ℤ) ≅ H̃₅(X∧X;ℤ) ≅ Tor₁(ℤ/2,ℤ/2) ≅ ℤ/2, since H̃₅(X;ℤ)=0 and X^∧3 is 5-connected; the tensor algebra on H̃_*(X;ℤ), concentrated in even degrees, has no degree-five term.
 - For W=* every summand is a point and Σ∞ΩΣ* is zero; for W=S², Σ∞ΩS³ ≃ ⋁_(r≥1) Σ∞S^(2r), whose rational homology is ℚ in each positive even degree and zero in odd degrees.
-- For the based degree-two map f : S¹ → S¹, naturality gives Σ(f^∧k) of degree 2^k on the summand S^(k+1), matching x^k ↦ 2^k x^k on H_k(ΩS²;ℤ) ≅ ℤ·x^k; a splitting using degree 2 on every summand fails naturality from k=2 on.
+- For the based degree-two map f : S¹ → S¹, naturality gives Σ(f^∧k) of degree 2ᵏ on the summand S^(k+1), matching xᵏ ↦ 2ᵏ xᵏ on H_k(ΩS²;ℤ) ≅ ℤ·xᵏ; a splitting using degree 2 on every summand fails naturality from k=2 on.
 
 *Needs:* Section 3A; AlgebraicTopology Stages 4–6 cellular chains, Künneth including Tor,
 CW comparison and Whitehead, specifically Stage 4 item 7's realization CW structure and
@@ -1248,7 +1295,7 @@ its vanishing after one suspension by the interchange identity.
 *Needs:* 3A.2; AlgebraicTopology cup/cross products; TopologicalKTheory T2.5/T3–T4; CharacteristicClasses C6.2–3/C7.3; SpinRepresentations L7.
 
 **Hopf invariant one and parallelizable standard spheres.** For d≥2 and
-a based continuous f:S^(2d−1)→S^d define the integral Hopf invariant by
+a based continuous f:S^(2d−1)→Sᵈ define the integral Hopf invariant by
 `u cup u=H(f)v` in its actual two-cell mapping cone C_f, with integral
 cell generators u in degree d and v in degree 2d. Pin their signs to the
 sphere orientations. The EHP comparison follows item 2 and this definition;
@@ -1276,11 +1323,11 @@ These are identities in the integral K-group, using its freeness to
 descend the rational character calculation. The congruence
 `ψ²(x)≡x² mod2` makes b₂ odd when H(f) is odd. Commuting ψ² and ψ³ gives
 `3^r(3^r−1)b₂=2^r(2^r−1)b₃`, hence `2^r` divides `3^r−1`.
-Prove ν₂(3^r−1)=1 for odd r and =2+ν₂(r) for even r;
+Prove ν₂(3ʳ−1)=1 for odd r and =2+ν₂(r) for even r;
 the resulting inequality forces r∈{1,2,4}. This supplies the exclusion
 in every dimension, rather than extrapolating from a finite stem table.
 
-For each n≥1 prove the smooth tangent bundle of the standard S^n is
+For each n≥1 prove the smooth tangent bundle of the standard Sⁿ is
 trivial exactly when n∈{1,3,7} (`sphere_parallelizable_iff`, phrased as `n` smooth tangent
 vector fields linearly independent at every point; it is false at `n = 0`, where the empty
 frame trivializes the rank-zero bundle, so `n ≥ 1` is a hypothesis). Consume CharacteristicClasses C7.3's
@@ -1297,7 +1344,7 @@ chosen reduced suspension model. Descend μ to its Hopf map
 `S^n*S^n≅S^(2n+1)→ΣS^n≅S^(n+1)`. Using AlgebraicTopology's
 integral cup/cross/relative products on the oriented product of disks
 and 3A.2's cone comparison, prove H=±1 from the two unit restrictions.
-Apply the exclusion. Export n=2^j−1, j≥1, as a
+Apply the exclusion. Export n=2ʲ−1, j≥1, as a
 weaker necessary condition. Treat S⁰ separately: its rank-zero tangent
 bundle is trivial.
 
@@ -1470,7 +1517,7 @@ the circle fibre and its action by rotating the last two columns,
 including the chosen unit basepoint and fibre orientation.
 
 Compose with the preceding quaternion-conjugation quotient homeomorphism
-SO(3)≃S³/{±1} and Stage4.6 of AlgebraicTopology's native real-projective
+SO(3)≃S³/{±1} and Stage 4 item 6 of AlgebraicTopology's native real-projective
 quotient comparison to obtain UTS²≃RP³. Prove the antipodal/projective
 quotient map and basepoint equations on representatives. These are actual
 total-space homeomorphisms and bundle comparisons; equality of fundamental
@@ -1741,52 +1788,52 @@ spheres. No Bott or stable-stem calculation is used.
 
 ### 5.0b. Early framed curves, surfaces and the first two offsets
 
-Construct these earlier finite-rank computations independently of Stage9,
+Construct these earlier finite-rank computations independently of Stage 9,
 Bott periodicity, stable J, surgery classification or a table of stems.
 Use TopologicalKTheory T1.5a and the 4A matrix-model comparison for the
 finite SO sphere-bundle LES, π₁SO(c)=ℤ/2 for c≥3 and its low-degree
 connectivity, together with SpinGeometry G4 and its actual Spin covers.
 
 For c≥3 identify honest rank-c normally framed curves in S^(c+1)
-modulo collared framed bordism by Z/2. The bounding framed disc fixes
+modulo collared framed bordism by ℤ/2. The bounding framed disc fixes
 the zero reference. Relative general position in the ambient cylinder
 of dimension c+2≥5 supplies separated/unknotted curves and embedded
 oriented surface traces; the two-dimensional relative SO(c) obstruction
 extends their framing exactly when the total calibrated parity is zero.
 Construct the pair-of-pants parity law and both obstruction directions.
-Under5.0 this computes π_(c+1)(S^c). For c=2 construct the integral
+Under 5.0 this computes π_(c+1)(Sᶜ). For c=2 construct the integral
 linking/push-off invariant and compare it with the Hopf invariant under 5.0.
 RiemannianGeometry R3.3c's based complex Hopf fibration gives π₃(S³)≅π₃(S²) since π₃(S¹)=π₂(S¹)=0;
-degree on S³ then proves completeness of the integral invariant and π₃(S²)=ℤ. Identify the positively normalized Hopf regular fibre as1
+degree on S³ then proves completeness of the integral invariant and π₃(S²)=ℤ. Identify the positively normalized Hopf regular fibre as 1
 and its finite suspensions as the parity generator, using the actual
 normal derivative and suspension comparison, not a generator label.
 
 For c≥4 identify honest rank-c normally framed surfaces in S^(c+2)
-modulo collared framed bordism by Z/2. Extract the induced stable
-spin structure from the ambient trivialization and the GIVEN normal
+modulo collared framed bordism by ℤ/2. Extract the induced stable
+spin structure from the ambient trivialization and the given normal
 frame. Consume SpinGeometry G4 and TangentialBordism B3.2's actual
-curve-restriction quadratic refinement q on H1(S;F2); no existence
+curve-restriction quadratic refinement q on H₁(S;𝔽₂); no existence
 of a spin structure is inferred for an arbitrary bundle. Use B3.2(b)'s calibration q=0 on a bounding circle, polarization and
 nonsingularity, and B3.2(c)'s actual Spin filling iff Arf=0. In particular a
 Spin filling has a q-zero boundary-kernel Lagrangian. These are imported
 geometric theorems, not consequences of an algebraic Arf table alone.
 Relate spin bordism to stable framing bordism in dimensions≤2 by the
-relative obstruction construction: π1Spin(N)=π2Spin(N)=0 for N≥3
+relative obstruction construction: π₁Spin(N)=π₂Spin(N)=0 for N≥3
 makes the compatible stable frame extend over these three-dimensional
 fillings relative their prescribed boundary frame. This is a low-cell
 comparison, not the assertion that all spin manifolds are framed.
 Embed the trace relatively into the ambient cylinder, using the actual
 Whitney dimension bound c+3≥7, then cancel stabilizing normal
 vectors relatively using the finite Stiefel connectivity in dimensions
-2 and3. Prove both existence and compatibility with the given honest
+2 and 3. Prove both existence and compatibility with the given honest
 boundary framings; do not identify honest frames merely because their
 stable classes agree without this relative cancellation.
-The product Lie framing on the torus has q(a)=q(b)=1, hence Arf1;
+The product Lie framing on the torus has q(a)=q(b)=1, hence Arf invariant 1;
 the framing induced by a bounding solid torus is a different reference
-and need not have Arf1. Prove the finite PT external-product/smash and
+and need not have Arf invariant 1. Prove the finite PT external-product/smash and
 composition comparison that identifies this torus with η², including
 the Hopf-fibre calibration. This gives the actual group and its marked
-generator for π_(c+2)(S^c), c≥4, without using a later stable table.
+generator for π_(c+2)(Sᶜ), c≥4, without using a later stable table.
 
 Handle the two exceptional ranks on the supplied Hopf fibrations (Hatcher,
 Examples 4.45–4.46, pp.377–378). Use RiemannianGeometry R3.3c's based
@@ -1801,8 +1848,8 @@ supplied comparison. The based connecting map
 Construct the naturality diagrams from these supplied bundle maps to the based LES
 and the finite PT models of 5.0; compare their generators and signs using the
 complex north-pole convention and the quaternionic positive (1,i,j,k) four-cell.
-These diagrams retain the actual projections and fibre inclusions. Thus the second-offset Z/2 claim has c≥2; c=1 has
-π3S1=0. The zeroth-offset degree computation is Z for c≥1 by the
+These diagrams retain the actual projections and fibre inclusions. Thus the second-offset ℤ/2 claim has c≥2; c=1 has
+π₃(S¹)=0. The zeroth-offset degree computation is ℤ for c≥1 by the
 signed zero-dimensional framed fibre; c=0 retains its separate
 component/based-set convention. The full existing Freudenthal, EHP,
 Hopf, stable PT and later low-stem programmes remain required in their
@@ -2197,49 +2244,52 @@ Layer 1 handles/collars; TopologicalKTheory T1.5a finite connectivity and T1.6 s
 Kervaire–Milnor §§5–6. The proper-collar rotation and prescribed stable-class lift are
 separate comparison targets, not consequences of the statement that a stable bundle is trivial.
 
-#### 6B finite E8 plumbing family
+#### 6B finite E₈ plumbing family
 
-Construct for every k>=1 the signed E8 tree plumbing P^(4k) of eight disk
-bundles of TS^(2k), on explicit disjoint local disks with actual
-coordinate-switch derivatives, corner rounding and collars. Pin the core
-orientations and normal Euler numbers to obtain the negative E8 matrix,
-not merely an unspecified plumbing with that name. Identify its middle
-intersection form, determinant1 and signature-8 with the actual integral
-Cartan model. Construct its deformation retraction/CW comparison with the
-wedge of eight core S^(2k). On every core compare the restricted tangent
-bundle with TS^(2k) plus TS^(2k), use the radial sphere stable frame and
-prove these actual tangent restrictions stably trivial. The wedge comparison
-then gives a chosen stable frame on all of P. Use finite-rank Stiefel
-cancellation at rank4k over its2k-dimensional spine to construct an honest
-tangent frame. Supply collar-product comparison for that chosen frame;
-do not assert an arbitrary prescribed boundary stable frame destabilizes.
-For k>=2, dual handles give the actual boundary-to-filling pi1 isomorphism;
-P is simply connected. The unimodular pair sequence and duality make its
-boundary an integral homology sphere, hence a homotopy sphere by the actual
-simply connected Hurewicz/Whitehead comparison. For this boundary dimension4k-1>=7, remove two disjoint smooth balls.
-The resulting simply connected smooth cobordism between standard spheres
-has both boundary inclusions homotopy equivalences by the pair sequence
-and Hurewicz/Whitehead. Apply the actual smooth h-cobordism theorem
-(cobordism dimension>=6) to obtain a twisted-double-disc description.
-Extend its boundary diffeomorphism homeomorphically over the disc by the
-radial Alexander trick, proving continuity and the inverse at the center;
-this supplies an actual homeomorphism with the standard sphere. Keep k=1
-as a separate homology3-sphere branch. This geometric producer precedes
-7C's signature/8 realization and uses no Theta7 or analytic index theorem.
-Its all-k smooth nonstandardness and special seven-dimensional bundle model
-are separate later outputs of9A below.
+Construct for every k ≥ 1 the signed E₈ tree plumbing P⁴ᵏ of eight disc bundles of TS²ᵏ, on
+explicit disjoint local discs with actual coordinate-switch derivatives, corner rounding and
+collars. Pin the core orientations and the normal Euler numbers so that, in the basis of the
+eight oriented cores, the middle intersection form of P⁴ᵏ is the intersection form of Tau
+Ceti's `TauCeti.e8Plumbing`: self-intersection −2 on every core and +1 at each of the seven
+plumbing points, which is the negative of the E₈ Cartan matrix, not merely an unspecified
+plumbing with that name. Its determinant 1 is then a computation on that matrix, and its
+signature −8 is read from `TauCeti.e8Plumbing_isNegativeDefinite`. The pinned graph is only
+the lattice datum; the plumbed manifolds in every dimension 4k are constructed here.
+Construct the deformation retraction and CW comparison of P⁴ᵏ with the wedge of the eight
+core spheres S²ᵏ. On every core compare the restricted tangent bundle with TS²ᵏ ⊕ TS²ᵏ, use
+the radial stable frame of the sphere and prove these tangent restrictions stably trivial; the
+wedge comparison then gives a chosen stable frame on all of P⁴ᵏ. Use finite-rank Stiefel
+cancellation at rank 4k over its 2k-dimensional spine to construct an honest tangent frame.
+Supply the collar-product comparison for that chosen frame; do not assert that an arbitrary
+prescribed boundary stable frame destabilizes.
+
+For k ≥ 2, dual handles give the boundary-to-filling isomorphism on π₁, and P⁴ᵏ is simply
+connected. The unimodular pair sequence and duality make its boundary an integral homology
+sphere, hence a homotopy sphere by the simply connected Hurewicz and Whitehead comparison. For
+this boundary dimension 4k − 1 ≥ 7, remove two disjoint smooth balls. The resulting simply
+connected smooth cobordism between standard spheres has both boundary inclusions homotopy
+equivalences, by the pair sequence and Hurewicz–Whitehead. Apply the smooth h-cobordism
+theorem (cobordism dimension at least 6) to obtain a twisted-double-disc description. Extend
+its boundary diffeomorphism homeomorphically over the disc by the radial Alexander trick,
+proving continuity and the inverse at the centre; this supplies a homeomorphism with the
+standard sphere. Keep k = 1 as a separate branch whose boundary is a homology three-sphere.
+This geometric producer precedes 7C's signature/8 realization and uses neither Θ₇ nor an
+analytic index theorem. The smooth nonstandardness of these boundaries for every k ≥ 2 and the
+special seven-dimensional bundle model are later outputs of 9A.
 
 The E₈ plumbing family's API includes the oriented core embeddings and coordinate-switch
 maps, the intersection form, the spine comparison, an actual smooth frame and its collar
-normalization. Boundary homotopy-sphere recognition is stated only for k≥2.
+normalization. Boundary homotopy-sphere recognition is stated only for k ≥ 2.
 
 **Checks.**
 
-- The eight-core intersection matrix is −E₈, of determinant 1 and signature −8; its obstruction coordinate is −8/8=−1. The positive tree has signature +8 and gives the opposite orientation convention.
-- At k=2 the spine has dimension 4 and the tangent rank is 8; the stable-to-honest cancellation is within the finite connectivity range.
-- At k=1 the boundary is a homology three-sphere with nontrivial fundamental group; homology and determinant 1 alone cannot trigger the simply connected boundary conclusion.
+- The eight-core intersection matrix is −E₈, of determinant (−1)⁸·1 = 1 and signature −8; its obstruction coordinate is −8/8 = −1. The positive tree, with self-intersection +2, has signature +8 and gives the opposite orientation convention.
+- With the vertex labels of `TauCeti.e8Plumbing` (the chain 0–1–2–3–4–5–6 and the vertex 7 attached to 2), the core matrix has entry 1 at (2,7) and (6,5), entry 0 at (0,2) and (7,3), and −2 on the diagonal; a convention that recorded each plumbing point as −1 would give a matrix with the same determinant and signature but would not agree entry by entry with the pinned intersection matrix.
+- At k = 2 the spine has dimension 4 and the tangent rank is 8; the stable-to-honest cancellation is within the finite connectivity range.
+- At k = 1 the boundary is a homology three-sphere with nontrivial fundamental group; homology and determinant 1 alone cannot trigger the simply connected boundary conclusion.
 
-*Needs:* Section 6B framing normalization; GeometricTopology Layer 1 plumbing by handle
+*Needs:* Section 6B framing normalization; Tau Ceti `TauCeti.e8Plumbing` and
+`TauCeti.e8Plumbing_isNegativeDefinite`; GeometricTopology Layer 1 plumbing by handle
 gluing; AlgebraicTopology pair sequence, duality and Hurewicz/Whitehead; TopologicalKTheory
 T1.5a; Layer 1 only for the high-dimensional twisted-disc comparison. No index theorem is used here.
 
@@ -2820,52 +2870,54 @@ kernel of order 2 and would not prove recognition.
 Layers 6–8's exactness and normalized Arf map. The sixth-stem headline is the stable-range
 form of the calculation, with all basepoints related by the supplied transport.
 
-## Layer 9A: the seventh stem, seven-sphere models and the E8 cap obstruction
+## Layer 9A: the seventh stem, seven-sphere models and the E₈ cap obstruction
 
 This branch retains every earlier stage and the independent dimension-six
-recognition theorem. It is not a premise for the calculations through stem6.
+recognition theorem. It is not a premise for the calculations through stem 6.
 Each numerical output below is a theorem to construct from the specified
-models; none may be stored as an assumed field of a group/classification record.
+models; none may be stored as an assumed field of a group or classification record.
 
 ### 9A.1 Seventh stem and primitive real J
 
-*Needs:* TangentialBordism B4.1–2/B4.7; DGFloer 1.4; GeneralizedCohomology G5.6; 3A,4C; 9.2 finiteness; TopologicalKTheory T7; CharacteristicClasses C6.
+*Needs:* TangentialBordism B4.1–2/B4.7; DGFloer 1.4; GeneralizedCohomology G5.6; 3A, 4C; 9.2 finiteness; TopologicalKTheory T7; CharacteristicClasses C6.
 
 **Seventh-stem upper bound and stable J.** Extend the actual sphere-spectrum
-computation to stem7. Use the mod-p Adams towers on the shared HF_p
-objects, actual graded Steenrod bar/cobar resolution, native spectral
-sequence page/Ext carriers and the bounded-below finite-type completion
-comparison. TB B4.1–2/7 supply ordinary operations and those general tower
-interfaces; the sphere calculation itself belongs here and uses neither
-MO/MSO/MSpin coefficient rings nor Theta7. Construct the actual finite
-low-degree resolution matrices, cycle/boundary representatives, every
-incoming/outgoing differential and vanishing-line bounds needed around
-stems7 and8. Prove the resulting complete associated-graded stem7 has
-total order at most16 at2, at most3 at3 and at most5 at5; do not mistake
-uncomputed E2 towers for these abutment bounds. At primes p>=7 use the normalized dual-Steenrod cobar directly:
-words made only of tau0 have t-s=0, and a word containing any other
-positive generator has t-s>=2p-3>8. Thus the needed positive E2
+computation to stem 7. Use the mod-p Adams towers on the shared H𝔽ₚ
+objects, the actual graded Steenrod bar/cobar resolution, native spectral
+sequence page and Ext carriers and the bounded-below finite-type completion
+comparison. TangentialBordism B4.1–2 and B4.7 supply ordinary operations and those
+general tower interfaces; the sphere calculation itself belongs here and uses neither
+the MO, MSO or MSpin coefficient rings nor Θ₇. Construct the actual finite
+low-degree resolution matrices, cycle and boundary representatives, every
+incoming and outgoing differential and the vanishing-line bounds needed around
+stems 7 and 8. Prove that the resulting complete associated graded of stem 7 has
+total order at most 16 at the prime 2, at most 3 at 3 and at most 5 at 5; do not mistake
+uncomputed E₂ towers for these abutment bounds. At primes p ≥ 7 use the normalized
+dual-Steenrod cobar directly: words made only of τ₀ have t − s = 0, and a word containing
+any other positive generator has t − s ≥ 2p − 3 > 8. Thus the needed positive E₂
 groups vanish; actual convergence excludes the completed abutment.
-Use 9.2’s finite-generation and rational-vanishing argument to make positive stems finite. Prove the finite-primary completion/localization
-comparisons and absence of hidden infinite filtrations before assembling
-the integral bound240. These generic ordinary operations/Adams inputs
-precede the MSO/MSpin coefficient calculations and use no such tables. Retain the explicit matrices/differentials as reusable
-low-stem algebra APIs and compare to the existing Toda/EHP normalization.
+Use 9.2’s finite-generation and rational-vanishing argument to make positive stems
+finite. Prove the finite-primary completion and localization comparisons and the
+absence of hidden infinite filtrations before assembling the integral bound 240.
+These generic ordinary operations and Adams inputs precede the MSO and MSpin
+coefficient calculations and use no such tables. Retain the explicit matrices and
+differentials as reusable low-stem algebra APIs and compare them with the existing
+Toda/EHP normalization.
 
 Construct the complex e-invariant of a torsion stable odd-sphere class
 from its actual two-cell mapping cone, its reduced KU extension, the
 normalized rational Chern character and independence of an integral lift.
-Prove additivity, stable naturality and its target Q/Z; do not divide an
-e-invariant equation by2 in Q/Z. For the actual real Bott generator
-b in KO-degree8, compare4C's real J clutching map with the real/complex
-bundle clutching and mapping-cone character calculation to compute
-e_C(J_7(b))=+/-1/240, with its generator sign specified by that construction.
-The primitive real comparison uses TopK's c(b)=u^4; the formula for a
-complex J generator alone would concern its realification2b and cannot
-determine this value by halving. Thus J_7(b) has order divisible by240.
-Combine the upper bound with this actual class to prove
-pi_7^S=Z/240 generated by J_7(b), J_7 surjective and ker(J_7)=240Z on
-pi_7(SO)=Z with the corresponding Bott clutching generator.
+Prove additivity, stable naturality and its target ℚ/ℤ; do not divide an
+e-invariant equation by 2 in ℚ/ℤ. For the actual real Bott generator
+b in KO-degree 8, compare 4C's real J clutching map with the real/complex
+bundle clutching and the mapping-cone character calculation to compute
+e_ℂ(J₇(b)) = ±1/240, with its generator sign specified by that construction.
+The primitive real comparison uses TopologicalKTheory's c(b) = u⁴; the formula for a
+complex J generator alone would concern its realification 2b and cannot
+determine this value by halving. Thus J₇(b) has order divisible by 240.
+Combine the upper bound with this actual class to prove that
+π₇ˢ ≅ ℤ/240 is generated by J₇(b), that J₇ is surjective and that ker(J₇) = 240ℤ in
+π₇(SO) ≅ ℤ with the corresponding Bott clutching generator.
 Its finite-range headline `nonempty_sphere_homotopyGroup_seventhStem` asserts that some
 group isomorphism π_(n+7)(Sⁿ,x)≅ℤ/240 exists for every n≥9 and every basepoint x
 (Toda, Chapter XIV, stable-stem table); n+7≤2n−2 is the Freudenthal bound.
@@ -2874,94 +2926,94 @@ group isomorphism π_(n+7)(Sⁿ,x)≅ℤ/240 exists for every n≥9 and every ba
 
 *Needs:* 9A.1; 6A–6C, 7C and 8.2; TopologicalKTheory T7; CharacteristicClasses C6–C7; IndexTheory I7.2.
 
-**Exact kernel realization and Theta7.** Extend8.2's framing-obstruction
-sequence by its following actual J map and prove exactness at pi_7(SO):
-pi_8^S -> A_8 -> pi_7(SO) -> pi_7^S. A punctured stable frame has
+**Exact kernel realization and Θ₇.** Extend 8.2's framing-obstruction
+sequence by its following actual J map and prove exactness at π₇(SO):
+π₈ˢ → A₈ → π₇(SO) → π₇ˢ. A punctured stable frame has an
 obstruction whose J class is zero; conversely a stable-J nullbordism,
-through5's actual framed PT and6A/6B's defect/collar comparisons, constructs
-the closed almost-framed8 representative with that specified obstruction.
-This converse is the required realization of every240z, not only a
-divisibility implication. Construct the actual top-cell relative KO
-comparison for such a closed representative. Its lower Pontryagin
-classes vanish and p2 number is+/-6 times its Bott obstruction, by
-TopK complexification/CC Newton-character normalization. IndexTheory I7.2's
-L₂ signature theorem gives sigma=+/-224z for obstruction240z.
-Conversely exactness realizes obstruction240 and hence signature+/-224.
-Under7C's actual P8=Z map sigma/8, the image of A8 is therefore EXACTLY
-28Z. Use pi_6(SO)=0,8's A7=cokerJ7 and item1's surjectivity to get A7=0.
-Then6C's geometric exactness P8->Theta7->A7 gives the actual group
-isomorphism Theta7=Z/28, with the negative E8 boundary the class −1 under sigma/8 in
-signature/8 coordinates. Retain all map/orientation/comparison witnesses;
-this does not follow just from an order bound or a congruence.
+through Layer 5's actual framed Pontryagin–Thom construction and the defect and collar
+comparisons of 6A–6B, constructs the closed almost-framed 8-manifold representative
+with that specified obstruction. This converse is the required realization of every
+obstruction 240z, not only a divisibility implication. Construct the actual top-cell
+relative KO comparison for such a closed representative. Its lower Pontryagin
+classes vanish and its p₂ number is ±6 times its Bott obstruction, by
+TopologicalKTheory complexification and the CharacteristicClasses Newton-character
+normalization. IndexTheory I7.2's L₂ signature theorem gives σ = ±224z for the
+obstruction 240z. Conversely exactness realizes the obstruction 240 and hence the
+signature ±224. Under 7C's actual map σ/8 : P₈ → ℤ, an isomorphism, the image of A₈
+is therefore exactly 28ℤ. Use π₆(SO) = 0, Layer 8's A₇ ≅ coker J₇ and the
+surjectivity of J₇ from 9A.1 to get A₇ = 0. Then 6C's geometric exactness
+P₈ → Θ₇ → A₇ gives the actual group isomorphism Θ₇ ≅ ℤ/28, with the boundary of the
+negative E₈ plumbing the class −1 in σ/8 coordinates. Retain all map, orientation and
+comparison witnesses; this does not follow just from an order bound or a congruence.
 
 ### 9A.3 Eells–Kuiper and the quaternionic bundle
 
 *Needs:* 9A.2; IndexTheory I7.2/I7.5; SpinGeometry G4; CharacteristicClasses C6–C7; Layer 1 for smooth recognition.
 
-**Eells–Kuiper and an actual S3-bundle model.** For a smooth homotopy
-seven-sphere the Spin structure is unique. Item2 supplies a parallelizable
-filling, so a Spin filling exists. For any chosen Spin8 filling W define
-mu=(<p1(W)^2,[W,boundary]>-4sigma(W))/896 in Q/Z. Use the actual
-H4(W,boundary;Q)->H4(W;Q) isomorphism to define this rational relative
-pairing. Prove independence by gluing the Spin fillings with their
-unique boundary comparison. On a closed Spin8 manifold
-(p1^2-4sigma)/896=(7p1^2-4p2)/5760=Ahat_2 is an integer, using
+**Eells–Kuiper and an actual S³-bundle model.** For a smooth homotopy
+seven-sphere the Spin structure is unique. 9A.2 supplies a parallelizable
+filling, so a Spin filling exists. For any chosen Spin filling W of dimension 8 define
+μ = (⟨p₁(W)², [W, ∂W]⟩ − 4σ(W))/896 in ℚ/ℤ. Use the actual isomorphism
+H⁴(W, ∂W; ℚ) → H⁴(W; ℚ) to define this rational relative pairing. Prove independence
+by gluing the Spin fillings with their unique boundary comparison. On a closed Spin
+8-manifold (p₁² − 4σ)/896 = (7p₁² − 4p₂)/5760 = Â₂ is an integer, using
 IndexTheory I7.2 and I7.5 with trivial twist. This is not a Spin
-bordism coefficient calculation. For a parallelizable filling mu is
--sigma/224, so item2 identifies mu with the injective1/28-valued invariant
-of the actual Theta7 group, with its orientation sign.
+bordism coefficient calculation. For a parallelizable filling μ is
+−σ/224, so 9A.2 identifies μ with an injective invariant of the actual group Θ₇ with
+values in (1/28)ℤ/ℤ, with its orientation sign.
 
-On the native quaternionic S3 and ordered real H4 carrier construct the
-SO4 clutching map v->x^h v x^j, its actual sphere/disk bundles over S4,
-and the Spin4 left/right-factor comparison. For h+j=1 prove the sphere
-bundle is a simply connected integral homology7-sphere by the actual
-bundle LES and Euler/Gysin sequence. Derive e=h+j and p1=2(h-j) from
-the normalized two half-spin c2 classes, with the actual positive S4
-generator and fibre orientation, not an arbitrary signed matrix convention.
-Take h=2,j=-1. The disk bundle has intersection[1], sigma1 and relative
-p1-square36, so mu=(36-4)/896=1/28. The negative E8 filling has p1=0,
-sigma-8 and the same mu. Item2/this invariant's INJECTIVITY now gives
+On the native quaternionic S³ and the ordered real carrier ℍ ≅ ℝ⁴ construct the
+SO(4) clutching map v ↦ xʰ v xʲ, its actual sphere and disc bundles over S⁴,
+and the Spin(4) left/right-factor comparison. For h + j = 1 prove that the sphere
+bundle is a simply connected integral homology 7-sphere by the actual
+bundle long exact sequence and the Euler/Gysin sequence. Derive e = h + j and
+p₁ = 2(h − j) from the normalized two half-spin c₂ classes, with the actual positive
+S⁴ generator and fibre orientation, not an arbitrary signed matrix convention.
+Take h = 2, j = −1. The disc bundle has intersection form [1], σ = 1 and relative
+p₁² = 36, so μ = (36 − 4)/896 = 1/28. The negative E₈ filling has p₁ = 0,
+σ = −8 and the same μ. The injectivity of this invariant from 9A.2 now gives
 equality of the oriented homotopy-sphere classes. Construct the resulting
-h-cobordism witness and apply1's actual smooth high-dimensional theorem
+h-cobordism witness and apply Layer 1's actual smooth high-dimensional theorem
 to obtain an orientation-preserving diffeomorphism of the two native
-smooth boundaries. Numerical mu equality by itself is not that theorem.
+smooth boundaries. Numerical equality of μ by itself is not that theorem.
 
-Independently, remove two disjoint smooth7-disks from a homotopy7-sphere,
-prove the remaining simply connected cylinder-end cobordism is an
-h-cobordism and apply the dimension7 theorem to obtain the actual
-twisted-double-disk diffeomorphism D7 union_g D7. Retain its boundary
-parameterizations. If g extended over D7 the sphere would be standard,
+Independently, remove two disjoint smooth 7-discs from a homotopy 7-sphere,
+prove that the remaining simply connected cobordism between their boundary spheres is an
+h-cobordism and apply Layer 1's theorem in total dimension 7 to obtain the actual
+twisted-double-disc diffeomorphism D⁷ ∪_g D⁷. Retain its boundary
+parameterizations. If g extended over D⁷ the sphere would be standard,
 contrary to the nonzero class; prove this implication by the actual gluing
 map. The lower-dimensional or merely homology-sphere case is excluded.
 
 ### 9A.4 All-dimensional E₈ cap obstruction
 
-*Needs:* 6B E₈ family; TopologicalKTheory T7; CharacteristicClasses C6–C7; IndexTheory I7.2; native Bernoulli 2-adic valuation.
+*Needs:* 6B E₈ family; TopologicalKTheory T7; CharacteristicClasses C6–C7; IndexTheory I7.2; Mathlib `Bernoulli.padicValRat_bernoulli`.
 
-**Every k>1 E8 boundary is nonstandard, without a full bP-order premise.**
-Use6B's chosen actual plumbing frame. A hypothetical standard smooth
-boundary identification caps P^(4k) by an actual D^(4k). Prove the tangent
-restriction/collar and relative fundamental-class maps on the resulting
-closed M, with sigma(M)=-8. The frame makes its reduced stable tangent
-class relative to P. Identify KO(M,P) with KOtilde(S^(4k)) through the
-actual collared pair/cofiber M/P and its degree-one collapse. All lower
-p_i, i<k, vanish by the relative cohomology restriction isomorphisms.
-TopK's geometric real Bott ring and c(a)=2u^2,c(b)=u^4 show p_k number
-is an integer multiple of a_k(2k-1)!, with a_k=1 for even k and2 for odd k.
-Prove this through the actual sphere Chern character and Newton identity;
+**Every E₈ boundary with k > 1 is nonstandard, without a full bP-order premise.**
+Use 6B's chosen actual plumbing frame. A hypothetical standard smooth
+boundary identification caps P⁴ᵏ by an actual disc D⁴ᵏ. Prove the tangent
+restriction, collar and relative fundamental-class maps on the resulting
+closed M, with σ(M) = −8. The frame makes its reduced stable tangent
+class relative to P⁴ᵏ. Identify KO(M, P⁴ᵏ) with the reduced group K̃O(S⁴ᵏ) through the
+actual collared pair, the cofibre M/P⁴ᵏ and its degree-one collapse. All lower
+pᵢ, i < k, vanish by the relative cohomology restriction isomorphisms.
+TopologicalKTheory's geometric real Bott ring and c(a) = 2u², c(b) = u⁴ show that the
+pₖ number is an integer multiple of aₖ(2k − 1)!, with aₖ = 1 for even k and aₖ = 2 for odd k.
+Prove this through the actual sphere Chern character and the Newton identity;
 an unnamed additive periodicity table does not suffice.
 
 Using IndexTheory I7.2 to identify the geometric signature,
-derive from CharacteristicClasses C7's regular formal x/tanhx sequence the indecomposable
-L_k coefficient s_k=(-1)^(k-1)2^(2k)(2^(2k-1)-1)B_(2k)/(2k)! by formal
+derive from CharacteristicClasses C7's regular formal sequence x/tanh x the indecomposable
+Lₖ coefficient sₖ = (−1)^(k−1) 2^(2k) (2^(2k−1) − 1) B_(2k)/(2k)! by formal
 logarithmic differentiation, the Bernoulli generating identity and Newton
-descent. Therefore sigma is an INTEGER multiple of
-d_k=+/-a_k2^(2k-1)(2^(2k-1)-1)B_(2k)/k. For k=2 retain the direct
-integral7p2=-360 contradiction. For k>=3 the actual native
-Bernoulli.padicValRat_bernoulli at prime2 gives v2(B_(2k))=-1;
-hence v2(d_k)=2k-2-v2(k)+v2(a_k)>=4 (check k3,k4 explicitly and use
-v2(k)<=k-1 for k>=5). A nonzero integer multiple cannot equal-8, whose
-valuation is3. Supply every nonzero/prime/positive-k hypothesis and retain
+descent. Therefore σ is an integer multiple of
+dₖ = ±aₖ 2^(2k−1) (2^(2k−1) − 1) B_(2k)/k. For k = 2 retain the direct
+contradiction 7p₂ = −360 with an integral p₂. For k ≥ 3 Mathlib's
+`Bernoulli.padicValRat_bernoulli` (`Mathlib/NumberTheory/Bernoulli.lean`, line 696: for a
+prime p, 0 < k and p − 1 ∣ 2k, the p-adic valuation of B_(2k) is −1), at the prime 2, gives
+v₂(B_(2k)) = −1; hence v₂(dₖ) = 2k − 2 − v₂(k) + v₂(aₖ) ≥ 4 (check k = 3 and k = 4
+explicitly and use v₂(k) ≤ k − 1 for k ≥ 5). A nonzero integer multiple cannot equal −8,
+whose valuation is 3. Supply every nonzero, prime and positive-k hypothesis and retain
 the source-independent signature/Bott arithmetic maps. This all-k proof
 requires no unproved general order formula for bP_(4k); every original
 stable J, almost-framed, surgery and Kervaire–Milnor target remains required
@@ -3080,22 +3132,41 @@ second countability and smoothness explicitly.
 ## Downstream consumers
 
 TopologicalKTheory T7 uses Layer 4B's real loop periodicity for its KO applications. The
-internal classification applications use the following order, with the finite inputs of Layer 5
-separated from the stable Bott comparison.
+following roadmaps consume named sections here; each is later than this one in the merge order
+or, for PositiveScalarCurvature, already on main.
+
+- GeneralAlgebraicKTheoryPartII §4.32 consumes 3B.1–3B.2 and 3B.4: the word filtration, the
+  connectivity of its stages and the connected James equivalence J(S²) ≃ ΩS³. Its §4.33 and
+  §7.7 consume the reduced and unreduced stable James splittings of 3B.6 and the CW
+  approximation of Section 3B.
+- DGFloerPartII consumes 3A.2 and the convenient category it is built on, 3B.1 and 3B.3–3B.4
+  (the reduced product, the James map, the Bott–Samelson ring and the connected James
+  equivalence), and 4A.1 and 4B.1–4B.8 (stable O and SO and the stable homotopy groups of O).
+- GeometryOfNumbersAndQuadraticArithmetic consumes 3A.3 (the suspension homomorphisms and the
+  stable stems), 7B.2–7B.4 (Wall's forms and formations and L_n(ℤ)) and 7C.1–7C.3 (their
+  simply connected calculation).
+- FourManifolds consumes 3C, 4B, the E₈ plumbing of 6B in its dimension-four branch, 6C,
+  7A–7C and Layer 9.
+- PositiveScalarCurvature consumes 1.2–1.6 (ordered handle decompositions, cancellation and
+  the Whitney moves), Layer 2 (homotopy spheres and Θₙ), 3C, Layers 6–8 and, from 9A.1, the
+  complex e-invariant with the seventh-stem value.
+
+The internal classification applications use the following order, with the finite inputs of
+Layer 5 separated from the stable Bott comparison.
 
 | Track | Depends on | Feeds |
 | --- | --- | --- |
-| 1 h-cobordism | geometric topology, DifferentialGeometry orientations, Tau Ceti and TangentialBordism B1.6 Sard, HF Morse data, algebraic topology | 2, 10 |
-| 2 small skeleton and `Theta_n` | 1, triangulation, geometric connected sum | 6, 9--10 |
-| 3 James/EHP/stable stems | algebraic topology including its compactly generated substrate (Stage 4 item 8), GeneralizedCohomology G2 items 4–5 for the stable James splitting | 5, 8--9 |
+| 1 h-cobordism | geometric topology, DifferentialGeometry orientations, Tau Ceti and TangentialBordism B1.6 Sard, HF Morse data, algebraic topology | 2, 10; PositiveScalarCurvature |
+| 2 small skeleton and `Theta_n` | 1, triangulation, geometric connected sum | 6, 9--10; PositiveScalarCurvature |
+| 3 James/EHP/stable stems | algebraic topology including its compactly generated substrate (Stage 4 item 8), GeneralizedCohomology G2 items 4–5 for the stable James splitting | 5, 8--9; GeneralAlgebraicKTheoryPartII, DGFloerPartII, GeometryOfNumbersAndQuadraticArithmetic, FourManifolds, PositiveScalarCurvature |
 | 3C.5 Hopf exclusion and sphere frames | 3A.2, AlgebraicTopology cup/cross/relative products, TopologicalKTheory T2.5/T3–T4, CharacteristicClasses C6.2–3/C7.3, SpinRepresentations L7 | standard-sphere parallelizability |
-| 4 `SO`/`BSO`/Bott/`J` | AlgebraicTopology Stage 4 item 8 convenient substrate, TopologicalKTheory T1.5–T1.6 classifiers, bundles, Lie groups | 5--6, 8--9, TopologicalKTheory T7 |
+| 4 `SO`/`BSO`/Bott/`J` | AlgebraicTopology Stage 4 item 8 convenient substrate, TopologicalKTheory T1.5–T1.6 classifiers, bundles, Lie groups | 5--6, 8--9, TopologicalKTheory T7, DGFloerPartII, FourManifolds |
 | 5 smooth PT comparisons | TangentialBordism B1/B3.2/B5.2; StringOrientation S2.2–S2.3; 3A and 4A; 4C for the J action | 6, 8--9 |
-| 6 `A_n`, `P_n`, exactness | 1--2, 4--5 | 7--9 |
-| 7 Wall surgery | algebraic topology, geometric surgery, TangentialBordism B3.2 pure algebra, 4--6 | 8--9 |
-| 8 stable comparison | 3--7 | 9 |
-| 9 sixth-stem calculation | 3--8 | 10 |
-| 9A seventh stem, Θ₇ and E₈ | 3–8; TangentialBordism B4; DGFloer 1.4; GeneralizedCohomology G5.6; TopologicalKTheory T7; CharacteristicClasses C6–C7; IndexTheory I7.2/I7.5 | seven-sphere classification and exotic E₈ boundaries |
+| 6 `A_n`, `P_n`, exactness | 1--2, 4--5 | 7--9; FourManifolds, PositiveScalarCurvature |
+| 7 Wall surgery | algebraic topology, geometric surgery, TangentialBordism B3.2 pure algebra, 4--6 | 8--9; GeometryOfNumbersAndQuadraticArithmetic, FourManifolds, PositiveScalarCurvature |
+| 8 stable comparison | 3--7 | 9; PositiveScalarCurvature |
+| 9 sixth-stem calculation | 3--8 | 10; FourManifolds |
+| 9A seventh stem, Θ₇ and E₈ | 3–8; TangentialBordism B4; DGFloer 1.4; GeneralizedCohomology G5.6; TopologicalKTheory T7; CharacteristicClasses C6–C7; IndexTheory I7.2/I7.5 | seven-sphere classification and exotic E₈ boundaries; PositiveScalarCurvature |
 | 10 smooth recognition | 1--2, 9 | endpoint |
 
 Stages 1, 3, and 4 can begin independently against their cited foundations.  Stage 5 joins the
@@ -3120,7 +3191,8 @@ compact smooth recognition theorem of Layer 10.
 
 ## References
 
-- John Milnor, [*Topology from the Differentiable Viewpoint*](https://www.ux1.eiu.edu/~cidelman/Classes/4855%20and%205220/Supplementary%20Texts/MilnorTopDiffVpt.pdf),
+- John Milnor, *Topology from the Differentiable Viewpoint*, University Press of Virginia,
+  1965; reprinted in Princeton Landmarks in Mathematics, Princeton University Press, 1997,
   §7, Theorems A–C, pp.43–44: compact finite-ambient framed correspondence.
 - Michael Atiyah, [*Riemann surfaces and spin structures*](https://doi.org/10.24033/asens.1205),
   Annales scientifiques de l'École Normale Supérieure 4 (1971), §4, Proposition 4.1
@@ -3141,11 +3213,12 @@ compact smooth recognition theorem of Layer 10.
   A.19, pp.537–538 (CW approximation and simplicial realization); Examples 4.45–4.46,
   pp.377–378 (complex and quaternionic Hopf bundles); Propositions 4I.1–4I.2,
   pp.467–468 (product and James splittings after one suspension).
-- Brayton Gray, [*Composition methods in the homotopy groups of ring spectra*](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/aguade%2B.pdf),
-  in *Cohomological Methods in Homotopy Theory*, Progress in Mathematics 196 (2001),
+- Brayton Gray, [*Composition methods in the homotopy groups of ring spectra*](https://doi.org/10.1007/978-3-0348-8312-2_11),
+  in *Cohomological Methods in Homotopy Theory*, Progress in Mathematics 196, Birkhäuser (2001),
   §2, pp.131–133, Propositions 2.1–2.4 and the fourth-stem calculation.
-- Anatoly Fomenko and Dmitry Fuchs, [*Homotopical Topology*](https://www.cimat.mx/~gil/docencia/2020/topologia_diferencial/%5BFomenko%2CFuchs%5DHomotopical_Topology%282016%29.pdf),
-  2nd ed., 2016, §§27.3–27.4, pp.382–387, especially the Corollary on p.387.
+- Anatoly Fomenko and Dmitry Fuchs, [*Homotopical Topology*](https://doi.org/10.1007/978-3-319-23488-5),
+  2nd ed., Springer Graduate Texts in Mathematics 273, 2016, §§27.3–27.4, pp.382–387,
+  especially the Corollary on p.387.
 - I. M. James, *Reduced Product Spaces*, Annals of Mathematics 62 (1955), 170--197.
 - Norman Steenrod, [*A Convenient Category of Topological
   Spaces*](https://doi.org/10.1307/mmj/1028999711), Michigan Mathematical Journal 14 (1967),

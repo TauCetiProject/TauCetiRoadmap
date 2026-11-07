@@ -64,7 +64,7 @@ universe u
 
 /-- The standard sphere `S^n`, the unit sphere of `ℝ^{n+1}`, with Mathlib's smooth structure
 modelled on `ℝ^n`. -/
-abbrev Sphere (n : ℕ) := Metric.sphere (0 : EuclideanSpace ℝ (Fin (n + 1))) 1
+noncomputable abbrev Sphere (n : ℕ) := Metric.sphere (0 : EuclideanSpace ℝ (Fin (n + 1))) 1
 
 /-- The orthogonal group `O(n)`, as Mathlib's submonoid of real `n × n` matrices, with the subspace
 topology. -/
