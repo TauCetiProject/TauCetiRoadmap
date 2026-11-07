@@ -4,11 +4,10 @@ public import Mathlib
 public import TauCeti.AlgebraicTopology.Cohomology.Basic
 
 /-!
-# Complex comparison: target statements
+# Complex comparison, part II: target signatures
 
-**This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. These statements suggest Lean forms for particular milestones; discharging
-all of them finishes neither a layer nor the roadmap.
+The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
+theorems that are statable against the pinned Mathlib and Tau Ceti, each with `sorry`.
 
 The statements on the pinned carriers are the several-variable Montel theorem and
 Schwartz's compact-perturbation finiteness theorem for Fréchet spaces (C1.6), and the
