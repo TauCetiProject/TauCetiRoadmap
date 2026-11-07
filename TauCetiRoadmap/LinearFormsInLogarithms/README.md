@@ -1371,12 +1371,9 @@ below are interfaces: they change only together with the consumers.
   7.1 (`Baker.eq_zero_of_isAlgebraic_sum_mul`), 7.2 (`Baker.eq_zero_of_add_sum_mul_eq_zero`) and
   7.3 (`Baker.transcendental_sum_mul`); the worked examples `transcendental_e`, `transcendental_pi`
   and `transcendental_exp_pi`; and 8.1–8.5 and 8.10.
-- The GL₂ modularity lifting roadmap, for abelian Leopoldt: 8.10
-  (`PadicBaker.eq_zero_of_add_sum_mul_eq_zero`), with its disc and algebraicity hypotheses.
-- The integral Iwasawa theory roadmap, for the algebraic-number form of Baker–Brumer and abelian
-  Leopoldt: 8.10.
-- The Euler systems and the cyclotomic main conjecture roadmap, for the algebraic-number form of
-  Baker–Brumer: 8.10.
+- The integral Iwasawa theory roadmap, for the algebraic-number form of Baker–Brumer (its §4.2) and
+  abelian Leopoldt (its §4.4): 8.10. The GL₂ modularity lifting roadmap and the Euler systems and
+  cyclotomic main conjecture roadmap take those two forms from that roadmap, not from 8.10.
 
 ## References
 
