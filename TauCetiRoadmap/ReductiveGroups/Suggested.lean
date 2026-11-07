@@ -45,24 +45,30 @@ Not statable at the pins, hence not stated, with the missing carrier named:
   functors with comodules. The native Hopf/points dictionary, the embedding theorem
   (`TauCeti.AffineGroupSchemeCat.exists_isClosedImmersion_generalLinear`) and the Tannakian
   reconstruction of the points functor are supplied, so Layer 1 states no theorem here.
-* Layers 4, 7 and 9D: the nonsplit torus/Galois-lattice comparison, parabolic and Levi
-  subgroup functors, and the root datum extracted from a group lack the required comparison
-  carriers. Diagonalizable group schemes and their equivalence with finitely generated
+* Layers 4, 7 and 9D: the nonsplit torus/Galois-lattice comparison, the represented quotient
+  `G/P` by a parabolic subgroup and the Levi subgroup functors, and the root datum extracted
+  from a group lack the required comparison carriers. The parabolic predicate itself is pinned
+  (`TauCeti.HopfIdeal.IsParabolic`, `TauCeti.HopfIdeal.IsParabolicOverAlgClosed`), so Layer 7's
+  completeness characterization of parabolics lacks only the represented quotient.
+  Diagonalizable group schemes and their equivalence with finitely generated
   commutative groups exist in `TauCeti.DiagonalizableGroup.DiagonalizableGroupSchemeCat` and
   `TauCeti.DiagonalizableGroup.schemeEquivalence`; they are supplied, not targets here. The
   native k-unipotent radical, its scheme inclusion and the represented quotient of a
   geometrically reduced group by a normal subgroup (`TauCeti.CommHopfAlgCat.coinvariants`) are
   supplied as well.
 * Layers 7c–7f: the Harish–Chandra biadjunction, the permutation-bimodule Mackey
-  decomposition, common-Levi independence and the Gassmann application. Their missing carrier
-  is an `F`-stable parabolic subgroup of a finite-field form (a closed subgroup with complete
-  quotient, with an `F`-stable Levi complement); the pinned dynamic decomposition
-  `TauCeti.Cocharacter.leviDecompositionMulEquiv` is a statement about the point subgroups of
-  one cocharacter over one value algebra and carries no Frobenius-stability datum.
+  decomposition, common-Levi independence and the Gassmann application. The parabolic
+  predicate (`TauCeti.HopfIdeal.IsParabolic`) and the `q`-Frobenius on the points of a
+  finite-field form (`TauCeti.FiniteField.frobeniusPoints`) are pinned; the missing carrier is
+  an `F`-stable Levi complement of an `F`-stable parabolic subgroup, as a closed subgroup
+  scheme. The pinned dynamic decomposition `TauCeti.Cocharacter.leviDecompositionMulEquiv` is
+  a statement about the point subgroups of one cocharacter over one value algebra and carries
+  no Frobenius-stability datum.
 * Layer 9E: Lang–Steinberg surjectivity for a Steinberg endomorphism. The missing carrier is an
   `𝔽_q′`-structure on the group whose `q′`-Frobenius is a positive power of the endomorphism;
-  the pinned `TauCeti.Bialgebra.iterateFrobeniusPoints` gives only the `p^n`-power endomorphism
-  of the points of a fixed integral Hopf algebra, not an endomorphism with such a power.
+  the pinned `TauCeti.FiniteField.frobeniusPoints` is the `q^n`-Frobenius of a given
+  `𝔽_q`-form, and `TauCeti.Bialgebra.iterateFrobeniusPoints` the `p^n`-power endomorphism of
+  the points of a fixed integral Hopf algebra, not an endomorphism with such a power.
 * Layer 9: a pinned reductive group with its extracted root datum; the full-root-datum
   Chevalley realization and its ordered PBW family (the native Kostant subring alone does not
   specify these); signed ADE cover Lie algebras and their folded fixed algebras.
@@ -76,9 +82,10 @@ Not statable at the pins, hence not stated, with the missing carrier named:
   state these endpoints. Layer 11A's equivalence below is stated on the actual configuration
   quotient and characterized on the explicit half-twist loops; its covering-permutation
   refinement additionally needs the covering monodromy comparison.
-* Layer 3A.5: the complex orbit comparison `G(ℂ)/H(ℂ) ≃ O_x(ℂ)`. Its missing carrier is the
-  classical topology and the smooth charts on complex points, which Layer 3A.5 constructs;
-  they are not pinned declarations.
+* Layer 3A.5: the complex orbit comparison `G(ℂ)/H(ℂ) ≃ O_x(ℂ)`. The classical topology on
+  complex points is pinned (`TauCeti.SchemePointTopology.topology`,
+  `TauCeti.PointTopology.topology`); the missing carrier is the smooth charts on complex points
+  and the complex Lie-group structure on `G(ℂ)`, which Layer 3A.5 constructs.
 -/
 
 namespace TauCetiRoadmap.ReductiveGroups
@@ -146,8 +153,9 @@ theorem exists_levi_complement {k : Type v} [Field k] [CharZero k]
 the Lang map for q-power Frobenius is surjective on points over every algebraically closed
 extension (Milne, Algebraic Groups, Corollary 17.97, p. 383): every point `x` is `g⁻¹ F(g)`, where
 `F(g)` is `g` followed by the `q`-power Frobenius `F` of the coefficient field. The value equation
-specifies Frobenius on the coefficient field; no reductivity or split-form hypothesis is
-imposed. -/
+specifies Frobenius on the coefficient field, the map that the pinned
+`TauCeti.FiniteField.frobeniusPoints k 1` applies to points; no reductivity or split-form
+hypothesis is imposed. -/
 theorem lang_surjective {k : Type v} [Field k] [Finite k]
     (H : TauCeti.FiniteTypeCommHopfAlgCat.{v, v} k)
     (hsm : Algebra.Smooth k H)

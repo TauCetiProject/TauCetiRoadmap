@@ -16,13 +16,16 @@ Layer 7a owns Lang's theorem for the `q`-Frobenius of a smooth geometrically con
 group over a finite field and the abstract fixed-coset lifting lemma; Layer 9E owns their
 Steinberg-endomorphism extension. Layer 1.1 owns rational cohomology and cotensor
 induction over flat commutative Hopf algebras, together with their rational
-group-scheme adapters. Layer 3A.5 owns the classical complex-point topology,
-smooth charts and separated/proper comparisons, the complex Lie-group structure on `G(ℂ)` with
-its tangent dictionary, and the holomorphic orbit-map and stabilizer comparisons. Layer 11
-consumes these comparisons. ComplexComparisonPartII C-1.1, later in the merge order, constructs
-the same classical topology as the underlying space of its scheme analytification; the two agree
-by the identity on `X(ℂ)`, and ownership of the topology and charts rests with this earlier
-layer.
+group-scheme adapters. The classical topology on the complex points of a scheme is a pinned
+Tau Ceti carrier, the chart topology `TauCeti.SchemePointTopology.topology` built on the
+affine evaluation topology `TauCeti.PointTopology.topology`, with the topological group of
+points of an affine group; it is consumed in Layer 3A.5, and it is the underlying space of the
+scheme analytification of ComplexComparisonPartII C-1.1, the two agreeing by the identity on
+`X(ℂ)`. Layer 3A.5 owns what that library does not state: the scheme-level functoriality,
+open-cover gluing, immersion, fibre-product, reduction, separated and proper comparisons of
+that topology, the smooth charts, the complex Lie-group structure on `G(ℂ)` with its tangent
+dictionary, and the holomorphic orbit-map and stabilizer comparisons. Layer 11 consumes these
+comparisons.
 FormalConnectionsOpers §4.3 consumes the
 complex Lie-group dictionary on `G(ℂ)` and transports it to the Hopf-point carrier; no target
 of FormalConnectionsOpers is an input here. Layer 11A owns the based comparison between the fundamental
@@ -212,8 +215,24 @@ prove them equivalent** rather than committing.
   Levi, unipotent point subgroups and a pointwise Levi decomposition. Their documentation
   does not establish representability of arbitrary dynamic subfunctors or the algebraic
   intersection/transporter results below. `Frobenius.Points` and `Frobenius.FixedPoints`
-  provide pointwise Frobenius maps and fixed-point comparisons; they do not prove finiteness
-  for every endomorphism or Lang–Steinberg.
+  provide pointwise Frobenius maps and fixed-point comparisons for a `ℤ`-bialgebra carrier.
+  `Frobenius/FiniteField.lean` provides, for a Hopf algebra `H` over a finite field `K` with
+  `q` elements and a commutative `K`-algebra `A`, the `q^n`-Frobenius
+  `TauCeti.FiniteField.frobeniusPoints K n` on the convolution group `WithConv (H →ₐ[K] A)`,
+  post-composition with `a ↦ a^(q^n)` (`TauCeti.FiniteField.frobeniusPoints_apply_apply`), its
+  naturality in `H` (`TauCeti.FiniteField.mapDomain_comp_frobeniusPoints`), the identification
+  of the `q`-Frobenius-fixed points over a domain `A` with the `K`-rational points
+  `TauCeti.FiniteField.rationalPointsMulEquiv` and its naturality
+  (`TauCeti.FiniteField.coe_rationalPointsMulEquiv_mapDomain`), the finiteness
+  `TauCeti.FiniteField.finite_fixedSubgroup_frobeniusPoints` of the points fixed by a positive
+  iterate when `H` is of finite type and `A` a domain, the fixed points of a closed subgroup
+  scheme as its points fixed in the ambient group
+  (`BialgHom.map_fixedSubgroup_frobeniusPoints_of_surjective`), and the geometric Frobenius
+  `TauCeti.FiniteField.geometricFrobeniusBialgHom` of a base change `k ⊗[K] H`, identified with
+  the `q`-Frobenius on points by
+  `TauCeti.FiniteField.baseChangePointsMulEquiv_symm_comp_mapDomain_geometricFrobeniusBialgHom`.
+  No splitting, `ℤ`-model or reductivity is assumed of `H`. These are consumed by Layer 7a; an
+  endomorphism with a Frobenius power (Lang–Steinberg) is not among them.
 - Mathlib's root-system and Coxeter modules provide abstract combinatorial structures.
   Tau Ceti has concrete torus, GL, SL, and symplectic root-data carriers. These are
   reusable instances, not general root extraction or classification.
@@ -382,6 +401,46 @@ semisimple. `TauCeti.FiniteTypeCommHopfAlgCat.identityComponent`
 (`Connected/GroupScheme.lean`) is the identity component of a finite-type group over an
 algebraically closed field, and `TauCeti.FiniteTypeCommHopfAlgCat.baseChangeFunctor` is extension
 of scalars. These are consumed by Layer 6, not restated.
+
+### Native complex-point topology
+
+`TauCeti/Topology/Algebra/PointTopology/` puts a topology on the points of a scheme over `k`
+with values in a topological `k`-algebra `R`; Layer 3A.5 takes `k = R = ℂ` with its usual
+topology. For an affine scheme `Spec A`, `TauCeti.PointTopology.topology` (`Basic.lean`) is the
+coarsest topology on `A →ₐ[k] R` making every evaluation `x ↦ x a` continuous, with no finiteness
+or separation hypothesis; `TauCeti.PointTopology.isEmbedding_eval_generators` embeds the points
+in `ι → R` by any generating family `a : ι → A`, as a closed subspace when `R` is T1
+(`TauCeti.PointTopology.isClosedEmbedding_eval_generators`), so the topology is the zero-locus
+topology of every presentation and depends on none; `TauCeti.PointTopology.polynomialHomeomorph`
+and `TauCeti.PointTopology.mvPolynomialHomeomorph` identify the points of the affine line and of
+affine space with `R` and `σ → R`. `TauCeti.PointTopology.continuous_comap` and
+`TauCeti.PointTopology.isClosedEmbedding_comap_of_surjective` (`Functoriality.lean`) make a
+coordinate-algebra map continuous on points and a surjection a closed embedding over a T1 ring;
+`TauCeti.PointTopology.isEmbedding_localization` and
+`TauCeti.PointTopology.isOpenEmbedding_localization` (`Localization.lean`) make the points of a
+localization away from `f` an open subspace, the points at which `f` is a unit, when
+`Units.val : Rˣ → R` is an embedding and the units of `R` are open, as for `R = ℂ`;
+`TauCeti.PointTopology.relativeTensorProductHomeomorph` (`FiberProduct.lean`) identifies the
+points of `A ⊗[C] B` with the fibre product of point spaces; `TauCeti.PointTopology.instT2Space`,
+`TauCeti.PointTopology.instSecondCountableTopology` and
+`TauCeti.PointTopology.locallyCompactSpace_of_finiteType` (`Separation.lean`, `Basic.lean`)
+transport Hausdorffness, and for `A` of finite type second countability and local compactness,
+from `R`. For a Hopf algebra `H`, `TauCeti.PointTopology.isTopologicalGroup` (`Group.lean`) makes
+the convolution group `WithConv (H →ₐ[k] R)` a topological group, with
+`BialgHom.continuous_mapDomain` and `AlgHom.continuous_mapValue` the continuity of the maps
+induced by a bialgebra map and by a continuous change of coefficients. For a scheme `X` with
+structure morphism `f : X ⟶ Spec k`, `TauCeti.SchemePointTopology.Points f` (`Scheme.lean`) is the
+set of morphisms `Spec R → X` over `Spec k`, and `TauCeti.SchemePointTopology.topology` is the
+finest topology for which every affine open chart `Spec A → X` is continuous from the affine
+topology (`TauCeti.SchemePointTopology.continuous_chartPoint`,
+`TauCeti.SchemePointTopology.isOpen_iff`, `TauCeti.SchemePointTopology.continuous_iff`); over a
+local `R` every point lies in some affine open chart
+(`TauCeti.SchemePointTopology.exists_mem_range_chartPoint`), and on an affine scheme the two
+topologies agree (`TauCeti.SchemePointTopology.affineHomeomorph`). The library does not state
+that an affine open chart is an open embedding of point spaces, nor the continuity of a scheme
+morphism on points, nor a scheme-level fibre-product, immersion, reduction, separatedness or
+properness comparison; these are the targets of Layer 3A.5. The topology and the topological
+group are consumed, not restated.
 
 ### From TauCetiRoadmap.SchemeAndStackFoundations
 
@@ -877,22 +936,38 @@ and the projective-morphism properness theorem: consume native `IsProper (Proj.t
 its `Algebra.FiniteType (𝒜 0) A` hypothesis and transport through the actual
 projective-space/closed-immersion maps.
 
-**Classical complex points.** For every locally finite-type ℂ-scheme X, construct
-the classical topology on X(ℂ), the set of ℂ-morphisms Spec ℂ → X. On an affine
-presentation it is the zero-locus subspace topology in ℂⁿ. Prove independence of
-the presentation using polynomial coordinate maps, compatibility with principal
-opens, and gluing along any affine open cover, including infinite covers. Scheme
-morphisms act by composition on points and give a functor to topological spaces
-(SGA 1, Exposé XII, §§1.1–1.2, revised edition, pp. 239–241, on underlying spaces).
-The construction admits singular, nonreduced and nonseparated schemes; it does not
-assign a manifold structure to all of them.
+**Classical complex points.** For a locally finite-type ℂ-scheme `X`, the classical topology
+on `X(ℂ)`, the set of ℂ-morphisms `Spec ℂ → X` over ℂ, is the pinned chart topology
+`TauCeti.SchemePointTopology.topology` on `TauCeti.SchemePointTopology.Points` with `R = ℂ` in
+its usual topology (supplier contract *Native complex-point topology*): on an affine
+`X = Spec A` it is the evaluation topology on `A →ₐ[ℂ] ℂ`
+(`TauCeti.SchemePointTopology.affineHomeomorph`), which every finite presentation embeds as
+the closed zero locus in `ℂⁿ` (`TauCeti.PointTopology.isClosedEmbedding_eval_generators`), so
+it is independent of the presentation; the points of a principal open `D(f)` form the open
+subspace where `f` is a unit (`TauCeti.PointTopology.isOpenEmbedding_localization`, as the
+units of ℂ are open and inversion is continuous on them); and on a general `X` a set is open
+exactly when its preimage in every affine open chart is
+(`TauCeti.SchemePointTopology.isOpen_iff`), every complex point lying in some chart
+(`TauCeti.SchemePointTopology.exists_mem_range_chartPoint`). The carrier admits singular,
+nonreduced and nonseparated schemes and assigns a manifold structure to none of them. Prove
+what the library leaves open: each affine open chart `Spec A → X` is an open embedding of
+`A(ℂ)` into `X(ℂ)`, so the topology is glued from any affine open cover, including infinite
+covers; and a morphism of locally finite-type ℂ-schemes acts continuously on complex points by
+composition, giving a functor to topological spaces (SGA 1, Exposé XII, §§1.1–1.2, revised
+edition, pp. 239–241, on underlying spaces). The affine cases are the pinned
+`TauCeti.PointTopology.continuous_comap` and the chart continuity
+`TauCeti.SchemePointTopology.continuous_chartPoint`; the open-embedding step reduces to the
+principal opens of the chart.
 
 Its API includes:
 - Open and closed immersions induce the corresponding topological embeddings,
-  and the point functor preserves fibre products, via the actual projection maps.
+  and the point functor preserves fibre products, via the actual projection maps; the affine
+  cases are the pinned `TauCeti.PointTopology.isClosedEmbedding_comap_of_surjective` and
+  `TauCeti.PointTopology.relativeTensorProductHomeomorph`.
   Reduction induces a homeomorphism on complex points (SGA 1, XII.1.1–1.2 and
   Proposition 2.1, pp. 239–242).
-- Separated schemes have Hausdorff complex points. A proper morphism gives a
+- Separated schemes have Hausdorff complex points; the affine case is the pinned
+  `TauCeti.PointTopology.instT2Space`. A proper morphism gives a
   relatively separated topological map whose restriction over every Hausdorff
   open subset of the target has compact inverse images of compact subsets;
   in particular a proper ℂ-scheme has compact complex points
@@ -905,7 +980,8 @@ Its API includes:
   otherwise use the open-and-closed loci of each dimension
   (SGA 1, XII, Proposition 3.1(iii)–(iv), pp. 244–245).
 
-*Needs:* Mathlib's affine scheme charts, complex polynomial continuity, topological
+*Needs:* the pinned complex-point topology of the supplier contract; Mathlib's affine scheme
+charts, the open embedding `Units.isOpenEmbedding_val` of the units of ℂ, topological
 gluing and manifold charts; SchemeAndStackFoundations §0.8's étale coordinates;
 the native analytic inverse theorem in the supplier contract. A route for the
 proper comparison uses Chow's lemma and projective-space compactness; its algebraic
@@ -1489,11 +1565,19 @@ the supplier contracts.
   theorems and Borel conjugacy; Layer 3's quotients; Layer 4's tori; the native Borel predicate
   and conjugation of Hopf ideals.
 - **Parabolic subgroup schemes and Levi decompositions.** For a connected smooth
-  affine reductive group of finite type over a field `k`, define its parabolic
-  `k`-subgroups `P` as the smooth closed subgroups with `G/P` complete, and prove over `k̄`
-  that these are exactly the subgroups containing a Borel (Milne, Definition 17.15 and
-  Theorem 17.16, p. 356); define their Levi complements (Conrad–Feng, Definition H.1.1,
-  p. 238). Prove that the geometric unipotent
+  affine reductive group of finite type over a field `k`, its parabolic `k`-subgroups `P` are
+  the pinned `TauCeti.HopfIdeal.IsParabolic` (`Parabolic/Basic.lean`): the smooth closed
+  subgroups whose base change to `k̄` contains a Borel subgroup, with
+  `TauCeti.HopfIdeal.IsParabolicOverAlgClosed` the geometric form; the library supplies that
+  Borel subgroups are parabolic, that a smooth closed subgroup containing a parabolic is
+  parabolic, invariance under conjugation by rational points, and over `k̄` that every
+  parabolic has a conjugate containing a prescribed Borel
+  (`TauCeti.HopfIdeal.isParabolicOverAlgClosed_iff_exists_conjugate_le`). Prove the
+  completeness characterization: a smooth closed subgroup `P` is parabolic exactly when `G/P`
+  is complete (Milne, Definition 17.15 and Theorem 17.16, p. 356), with `G/P` the quotient
+  sheaf of Layer 3, represented by a separated scheme for every closed subgroup of the smooth
+  affine `G` (Milne, Theorem 7.18, p. 143), as for `G/B` above; define the Levi complements of
+  `P` (Conrad–Feng, Definition H.1.1, p. 238). Prove that the geometric unipotent
   radical of `P` descends to a smooth connected `k`-split normal subgroup `U`,
   and that a reductive `k`-subgroup `L` exists with `P=L⋉U`. Prove that conjugation
   by `U(k)` acts simply transitively on the Levi `k`-subgroups of this fixed `P`, and that
@@ -1508,8 +1592,8 @@ the supplier contracts.
   Proposition 12.3.1 and Appendix H).
   Layer 7b owns the additional finite-field intersection, transporter, and rational-point
   comparisons; its common-Levi statements take the specified `F`-stable complement as input.
-  *Needs:* the Borel theory above; Layer 5's unipotent radicals; Layer 4's cocharacters and
-  tori; Tau Ceti's dynamic point subgroups.
+  *Needs:* the Borel theory above; the pinned parabolic predicate; Layer 5's unipotent
+  radicals; Layer 4's cocharacters and tori; Tau Ceti's dynamic point subgroups.
 - **Root datum** `(X*(T), Φ, X_*(T), Φ^∨)` of `(G, T)` with its **Weyl group**: do the
   **split** case first (split maximal torus, or work over `k̄`), consuming
   `LinearAlgebra/RootSystem/*` and `GroupTheory/Coxeter/*`; construct the roots as the
@@ -1623,21 +1707,28 @@ endomorphisms. Nothing in this layer is imported from a roadmap that consumes th
 Let `q=p^f`, `k=F̄_q`, and let `G₀` be a connected reductive group scheme of finite type over
 `F_q`, with base change `G=G₀×_{F_q}k`. Define the q-power Frobenius `F` on `G` from the
 `F_q`-structure: on the coordinate algebra it is the scalar extension of the `q`-power map
-on functions of `G₀`. More generally, use this same definition for any `F_q`-form of the
-geometric group; do not restrict the carrier to the split form. Prove the canonical group
-equivalence `G^F ≃ G₀(F_q)` and its compatibility with morphisms and `F`-stable closed
-subgroup schemes. Reserve “split q-Frobenius” for the case that `G₀` is split. State
-separately the standard field-Frobenius and Steinberg hypotheses in every result.
+on functions of `G₀`, the pinned `TauCeti.FiniteField.geometricFrobeniusBialgHom`, and on
+points it is the pinned `TauCeti.FiniteField.frobeniusPoints F_q 1`, post-composition with
+`a ↦ a^q`, the two identified by
+`TauCeti.FiniteField.baseChangePointsMulEquiv_symm_comp_mapDomain_geometricFrobeniusBialgHom`.
+This definition applies to any `F_q`-form of the geometric group; the carrier is not
+restricted to the split form. The canonical group equivalence `G^F ≃ G₀(F_q)`, its
+compatibility with morphisms and the description of the fixed points of an `F`-stable closed
+subgroup scheme are the pinned `TauCeti.FiniteField.rationalPointsMulEquiv`,
+`TauCeti.FiniteField.coe_rationalPointsMulEquiv_mapDomain` and
+`BialgHom.map_fixedSubgroup_frobeniusPoints_of_surjective`, and finiteness of `G^F`, of the
+fixed points of every positive iterate `F^n`, and of the rational points of `F`-stable closed
+subgroup schemes is the pinned `TauCeti.FiniteField.finite_fixedSubgroup_frobeniusPoints`
+(`O(G₀)` of finite type, values in a domain). These are consumed, not restated. Reserve
+“split q-Frobenius” for the case that `G₀` is split. State separately the standard
+field-Frobenius and Steinberg hypotheses in every result.
 
 Tau Ceti's `TauCeti.Bialgebra.iterateFrobeniusPoints` supplies the iterated prime-power
-point map for its `ℤ`-bialgebra carrier. For a commutative `ℤ`-Hopf algebra, the fixed-point
-equivalence `TauCeti.Bialgebra.frobeniusFixedPointsMulEquiv` identifies points fixed by that
-map with points over the Frobenius-fixed coefficient ring; `Frobenius.FixedPoints` supplies
-the corresponding pointwise comparison. Extend the point-functor comparison to arbitrary
-`F_q`-forms, including nonsplit forms, at the hypotheses above.
-
-Prove finiteness of `G^F` and of the rational points of named `F`-stable closed subgroup
-schemes, and functoriality on these finite groups.
+point map for its `ℤ`-bialgebra carrier, and `TauCeti.Bialgebra.frobeniusFixedPointsMulEquiv`
+identifies points fixed by that map with points over the Frobenius-fixed coefficient ring;
+for a `ℤ`-model and `q = p^n` the pinned
+`TauCeti.FiniteField.baseChangePointsMulEquiv_symm_frobeniusPoints` identifies the
+`q^m`-Frobenius with the iterated prime-power map.
 
 **Lang's theorem.** For a smooth geometrically connected affine group scheme `G₀` of finite
 type over `F_q`, with `q`-Frobenius `F` on `G = G₀ ×_{F_q} k`, the Lang map `G(k) → G(k)`,
@@ -1659,12 +1750,15 @@ finite-order argument above is used only over F̄_q.
 finite-type coordinate Hopf algebra H, with smoothness and geometric
 connectedness explicit: the Frobenius of a point `g : O(G₀) → K` is the composite `F ∘ g`
 with F:K→K, F(a)=a^q and q=Nat.card F_q. This value equation fixes the
-Frobenius convention and imposes no reductivity hypothesis.
+Frobenius convention, it specifies the same map as the pinned
+`TauCeti.FiniteField.frobeniusPoints F_q 1` by
+`TauCeti.FiniteField.frobeniusPoints_apply_apply`, and it imposes no reductivity hypothesis.
 Derive the consequences: `H¹(F_q, G₀) = 1` for Galois cohomology
 with coefficients in `G₀(k)`; every `F`-stable `G(k)`-torsor has a fixed point; and for an
 exact sequence `1 → G' → G → G'' → 1` of smooth groups over `F_q` with `G'` geometrically
 connected, `G(F_q) → G''(F_q)` is surjective. *Needs:* the pinned closed orbits of 3A.4; SchemeAndStackFoundations §0.7's dimension-of-fibres
-theorem; finiteness of Frobenius fixed points above; Layer 0's points comparison.
+theorem; the pinned finiteness of Frobenius-fixed points
+`TauCeti.FiniteField.finite_fixedSubgroup_frobeniusPoints`; Layer 0's points comparison.
 
 **Fixed-coset lifting.** Let `H` be a group, `σ` an automorphism of `H` and `J ≤ H` a
 `σ`-stable subgroup, not necessarily normal, on which `x ↦ x⁻¹σ(x)` is surjective. Prove
@@ -3432,8 +3526,8 @@ only as a consumer.
 This lane constructs the Lie-algebra spectral quotient and its based topology for every
 connected reductive algebraic group over `ℂ`, with a specified maximal algebraic torus.
 Construct it after Layers 9 and 9D have supplied the group/root-datum and pinned root maps.
-Layer 3A.5 supplies the classical topology, complex-manifold charts and
-complex Lie-group structure on G(ℂ),
+Layer 3A.5 supplies the pinned classical topology on complex points, the complex-manifold
+charts and complex Lie-group structure on G(ℂ),
 holomorphic action maps and orbit comparisons on that carrier; the
 analytic inverse function theorem used below is Mathlib's `ContDiffAt.to_localInverse` at
 order `ω` on finite-dimensional complex charts. The algebraic classification and integral
