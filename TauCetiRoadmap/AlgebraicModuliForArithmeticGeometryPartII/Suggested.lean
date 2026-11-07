@@ -4,10 +4,7 @@ import Mathlib
 import TauCeti.AlgebraicGeometry.IntersectionNumber.Basic
 import TauCeti.AlgebraicGeometry.LineBundle.Ample
 import TauCeti.AlgebraicGeometry.LineBundle.Degree
-import TauCeti.AlgebraicGeometry.LineBundle.GlobalGeneration
 import TauCeti.AlgebraicGeometry.LineBundle.Pullback
-import TauCeti.AlgebraicGeometry.Scheme.Normal
-import TauCeti.AlgebraicGeometry.WeilDivisor.Scheme.Cartier.Inverse
 
 /-!
 # Algebraic moduli for arithmetic geometry, Part II: target signatures
@@ -15,23 +12,22 @@ import TauCeti.AlgebraicGeometry.WeilDivisor.Scheme.Cartier.Inverse
 The roadmap is README.md; this file is not the roadmap. It states the roadmap's
 headline theorems against the pinned APIs.
 
-Murre–Oort representability and finite type of the torsion component lack the fppf Picard sheaf and Picard group scheme.
-The affinization Brauer obstruction lacks the scheme units sheaf on the fppf site
-and its Leray comparison. The semiample contraction dictionary and numerical
-uniqueness lack relative global generation, the section algebra and relative Proj.
-Openness of ampleness lacks algebraic spaces and relative ampleness.
-The Nakai–Moishezon criterion and Kleiman's nonnegativity theorem lack iterated first-Chern
-intersection numbers on higher-dimensional subschemes; the relative ampleness criterion and the
-real ample cone lack relative ampleness and the real space of curve classes.
+Murre–Oort representability and finite type of the torsion component lack the fppf Picard
+sheaf and Picard group scheme. The affinization Brauer obstruction lacks the scheme units
+sheaf on the fppf site and its Leray comparison. The semiample contraction dictionary and
+numerical uniqueness lack the graded section algebra of an invertible sheaf on a scheme.
+Openness of ampleness for proper algebraic spaces lacks algebraic spaces. The
+Nakai–Moishezon criterion over an arbitrary field and Kleiman's nonnegativity theorem lack
+iterated first-Chern intersection numbers on higher-dimensional subschemes; the real ample
+and nef cones, absolute and relative, lack the real space of curve classes.
 Geometric exceptional negativity and Zariski's lemma lack the geometric intersection
 pairing, although their matrix inequalities are supplied by Tau Ceti.
 Negative-curve descent and intersection-label descent lack that pairing.
-The ampleness assertion for complete-DVR lifts lacks relative ampleness.
 Cone identification over a discrete valuation ring lacks the real space of curve
 classes, its closed cones and the restriction map of numerical groups. Nef-and-big
-specialization lacks the relative projective-morphism and positivity interfaces. Semiample numerical descent and
-Cascini–Tanaka vertical descent lack those predicates and the relative Cartier
-pullback theory. Independence and transformation of AHK rank lack exceptional
+specialization lacks the relative projective-morphism and bigness interfaces. Cascini–Tanaka
+vertical descent lacks ℚ-Cartier ℚ-divisor classes with their ℚ-linear equivalence and the
+relative Cartier pullback theory. Independence and transformation of AHK rank lack exceptional
 prime divisor data and resolution comparison.
 These headlines have no substitute declarations here.
 -/
@@ -66,32 +62,6 @@ def RelNumericallyTrivial {X S : Scheme.{u}} (f : X ⟶ S) [IsProper f]
     NumericallyTrivial (S.residueField s) (f.fiber s) (f.fiberToSpecResidueField s)
       ((TauCeti.AlgebraicGeometry.InvertibleSheaf.pullback (f.fiberι s)).obj L)
 
-/-- The degree of an invertible sheaf on an integral closed curve `C` of a proper `k`-scheme
-equals the degree of its pullback to the normalization of `C` in its function field, a finite
-birational morphism from a regular curve. Singular curves are included; no perfection of `k` is
-assumed. -/
-theorem eulerDegree_pullback_fromNormalization (k : Type u) [Field k] (X : Scheme.{u})
-    (x : X ⟶ Spec (CommRingCat.of k)) [IsProper x]
-    (C : Scheme.{u}) [IsIntegral C] (i : C ⟶ X) [IsClosedImmersion i]
-    (hC : topologicalKrullDim C = 1)
-    (L : TauCeti.AlgebraicGeometry.InvertibleSheaf X) :
-    letI : C.Over (Spec (CommRingCat.of k)) := ⟨i ≫ x⟩
-    letI : (C.fromSpecStalk (genericPoint C)).normalization.Over (Spec (CommRingCat.of k)) :=
-      ⟨(C.fromSpecStalk (genericPoint C)).fromNormalization ≫ i ≫ x⟩
-    ((TauCeti.AlgebraicGeometry.InvertibleSheaf.pullback
-        ((C.fromSpecStalk (genericPoint C)).fromNormalization ≫ i)).obj L).eulerDegree k =
-      ((TauCeti.AlgebraicGeometry.InvertibleSheaf.pullback i).obj L).eulerDegree k := by
-  sorry
-
-/-- On a normal Noetherian integral scheme a Cartier divisor is determined by its Weil divisor,
-the family of its orders at the codimension-one points. This makes the pairing of a ℚ-Cartier
-Weil divisor with curves independent of the chosen Cartier multiple. -/
-theorem cartierDivisor_toWeilDivisorHom_injective (X : Scheme.{u}) [IsIntegral X]
-    [IsNoetherian X] [TauCeti.AlgebraicGeometry.IsNormalScheme X] :
-    Function.Injective
-      (TauCeti.AlgebraicGeometry.Scheme.CartierDivisor.toWeilDivisorHom (X := X)) := by
-  sorry
-
 /-! ## Layer 1: numerical groups, cones, nefness and bigness -/
 
 /-- The subgroup of the Picard group of a proper `k`-scheme generated by the classes of
@@ -113,8 +83,10 @@ noncomputable def relNumericallyTrivialClasses {X S : Scheme.{u}} (f : X ⟶ S) 
 
 /-- Numerical Néron–Severi theorem: for a proper scheme over an arbitrary field, the
 numerical group `Num(X/k)` is a free abelian group of finite rank. No reducedness,
-connectedness, projectivity or perfection of `k` is assumed.
-Kleiman, Remark 6.19; Bhatt et al., Remark 2.22. -/
+connectedness, projectivity or perfection of `k` is assumed. Kleiman, Remark 6.19, and
+Bhatt et al., Remark 2.22, give only finite type of the torsion component and finite
+dimensionality of the real span; integral freeness of finite rank is the Kummer-bound route
+of README §1.2. -/
 theorem numericalClassGroup_free_finite (k : Type u) [Field k] (X : Scheme.{u})
     (x : X ⟶ Spec (CommRingCat.of k)) [IsProper x] :
     Module.Free ℤ (Additive (TauCeti.AlgebraicGeometry.LineBundleClass X ⧸
@@ -124,8 +96,10 @@ theorem numericalClassGroup_free_finite (k : Type u) [Field k] (X : Scheme.{u})
   sorry
 
 /-- Relative finiteness: for a proper morphism `f : X → S` to a Noetherian scheme, the
-relative numerical group `Num(X/S)` is a free abelian group of finite rank.
-Bhatt et al., Remark 2.22. -/
+relative numerical group `Num(X/S)` is a free abelian group of finite rank. Bhatt et al.,
+Remark 2.22, gives finite dimensionality of the real span `N¹(X/S)`; integral freeness of finite
+rank comes from the injection into finitely many absolute numerical groups of fibres, README
+§1.3. -/
 theorem relNumericalClassGroup_free_finite {X S : Scheme.{u}} (f : X ⟶ S) [IsProper f]
     [IsNoetherian S] :
     Module.Free ℤ (Additive (TauCeti.AlgebraicGeometry.LineBundleClass X ⧸
@@ -162,6 +136,36 @@ theorem isAmple_mul_of_mem_numericallyTrivialClasses (k : Type u) [Field k] (X :
     (a b : TauCeti.AlgebraicGeometry.LineBundleClass X) (ha : a.IsAmple)
     (hb : b ∈ numericallyTrivialClasses k X x) :
     (a * b).IsAmple := by
+  sorry
+
+/-- Relative ampleness for a morphism `f : X → S`: the restriction of the class to the preimage
+of every affine open of `S` is ample. Since ampleness includes quasi-compactness of each such
+preimage, `f` is quasi-compact whenever a relatively ample class exists. -/
+def IsRelAmple {X S : Scheme.{u}} (f : X ⟶ S) (a : TauCeti.AlgebraicGeometry.LineBundleClass X) :
+    Prop :=
+  ∀ V : S.Opens, IsAffineOpen V →
+    (TauCeti.AlgebraicGeometry.LineBundleClass.pullback (f ⁻¹ᵁ V).ι a).IsAmple
+
+/-- Relative nefness for a proper morphism `f : X → S`: for every point `s` of `S`, the pullback
+of the class to the scheme-theoretic fibre `X_s` is nef over the residue field `κ(s)`. For
+Noetherian `S` testing closed points suffices (README §1.5). -/
+def IsRelNef {X S : Scheme.{u}} (f : X ⟶ S) [IsProper f]
+    (a : TauCeti.AlgebraicGeometry.LineBundleClass X) : Prop :=
+  ∀ s : S,
+    haveI : IsProper (f.fiberToSpecResidueField s) :=
+      inferInstanceAs (IsProper (pullback.snd _ _))
+    IsNef (S.residueField s) (f.fiber s) (f.fiberToSpecResidueField s)
+      (TauCeti.AlgebraicGeometry.LineBundleClass.pullback (f.fiberι s) a)
+
+/-- Relative Kleiman criterion in integral form: for a proper morphism `f : X → S` to a
+Noetherian scheme and a relatively ample class `h`, a class `a` is relatively ample exactly when
+`a ^ m * h⁻ⁿ` is relatively nef for some positive `m` and `n`. No reducedness, flatness or
+characteristic hypothesis is imposed. The route is the absolute criterion on the fibres with
+openness of fibrewise ampleness (Stacks, Lemma 0D3A). -/
+theorem isRelAmple_iff_exists_isRelNef_pow_mul_inv_pow {X S : Scheme.{u}} (f : X ⟶ S)
+    [IsProper f] [IsNoetherian S] (h : TauCeti.AlgebraicGeometry.LineBundleClass X)
+    (hh : IsRelAmple f h) (a : TauCeti.AlgebraicGeometry.LineBundleClass X) :
+    IsRelAmple f a ↔ ∃ m n : ℕ, 0 < m ∧ 0 < n ∧ IsRelNef f (a ^ m * (h ^ n)⁻¹) := by
   sorry
 
 /-! ## Layer 2: proper Picard schemes and the numerical local system -/
@@ -233,19 +237,6 @@ isomorphism: on every open of the target the induced map on sections is an
 isomorphism. -/
 def IsContraction {X Y : Scheme.{u}} (f : X ⟶ Y) : Prop :=
   IsProper f ∧ ∀ U : Y.Opens, IsIso (f.app U)
-
-/-- A line-bundle class is semiample when some positive power has a globally generated
-representative. The exponent is positive: the trivial power is excluded. -/
-def IsSemiample {X : Scheme.{u}} (a : TauCeti.AlgebraicGeometry.LineBundleClass X) : Prop :=
-  ∃ m : ℕ, 0 < m ∧ ∃ L : TauCeti.AlgebraicGeometry.InvertibleSheaf X,
-    TauCeti.AlgebraicGeometry.LineBundleClass.mk L = a ^ m ∧ L.IsGloballyGenerated
-
-/-- On a proper scheme over an arbitrary field every semiample class is nef. -/
-theorem isNef_of_isSemiample (k : Type u) [Field k] (X : Scheme.{u})
-    (x : X ⟶ Spec (CommRingCat.of k)) [IsProper x]
-    (a : TauCeti.AlgebraicGeometry.LineBundleClass X) (ha : IsSemiample a) :
-    IsNef k X x a := by
-  sorry
 
 /-- Every proper contraction after a purely inseparable field extension descends
 to a proper contraction over the original field. The target square is cartesian
@@ -395,6 +386,19 @@ theorem lineBundle_lifts_completeDVR_of_h2_zero
       Nonempty (((TauCeti.AlgebraicGeometry.InvertibleSheaf.pullback
         (pullback.fst x (Spec.map (CommRingCat.ofHom (IsLocalRing.residue R))))).obj M).obj
         ≅ L.obj) := by
+  sorry
+
+/-- Over a discrete valuation ring `R`, a line-bundle class on a proper `R`-scheme `𝒳` is ample
+exactly when its restriction to the special fibre `𝒳 ×_R Spec k` is ample. Since `Spec R` is
+affine, ampleness on `𝒳` is ampleness over `R`. Neither flatness nor completeness is assumed.
+Openness of fibrewise ampleness (Stacks, Lemma 0D3A) at the closed point, whose only open
+neighbourhood is `Spec R`. -/
+theorem isAmple_iff_isAmple_specialFibre
+    (R : Type u) [CommRing R] [IsDomain R] [IsDiscreteValuationRing R]
+    (X : Scheme.{u}) (x : X ⟶ Spec (CommRingCat.of R)) [IsProper x]
+    (a : TauCeti.AlgebraicGeometry.LineBundleClass X) :
+    a.IsAmple ↔ (TauCeti.AlgebraicGeometry.LineBundleClass.pullback
+      (pullback.fst x (Spec.map (CommRingCat.ofHom (IsLocalRing.residue R)))) a).IsAmple := by
   sorry
 
 end TauCetiRoadmap.AlgebraicModuliForArithmeticGeometryPartII
