@@ -51,11 +51,17 @@ continuous-trace spaces, cocycle-action classification outside the
 centrally free amenable separable-predual factor setting of CA9, and
 spectral triples of the planar C*-models
 are outside scope. Compact quantum groups and their Tannaka realization
-are in QuantumGroups; CA1–CA6 supplies their tensor-category inputs.
-The positive Temperley–Lieb quotients, their C*-towers and the unitary
-TL category are owned by TemperleyLiebOperatorAlgebras, which consumes
-CA1a and CA2a; this roadmap builds the unshaded positive TL factor
-planar algebra it needs in CA8 directly from Subfactors Layer 6.
+are in QuantumGroups. C*-categories, their finite additive and Karoubi
+completion and the finite-Hilbert and Hilbert-module examples (CA1a),
+and C*-tensor categories with solutions of the conjugate equations,
+standard solutions and intrinsic dimension, unitary dual functors and
+signed self-dualities (CA2a) have their single home here; QuantumGroups
+consumes CA1a and CA2a for these tensor-category inputs.
+The positive Temperley–Lieb quotients and their C*-inductive limit are
+Subfactors 3.3. The unitary Temperley–Lieb category is
+TemperleyLiebOperatorAlgebras Layer 3, which consumes CA1a (3.2–3.3) and
+CA2a (3.3); this roadmap builds the unshaded positive TL factor planar
+algebra it needs in CA8 directly from Subfactors 3.2 and 6.1.
 Hilbert C*-modules, their adjointable and module compact operators,
 interior tensor products, imprimitivity bimodules, linking algebras and
 the Rieffel correspondence are HilbertModules H1–H3; CA1a and CA1b
@@ -155,8 +161,8 @@ The C*-category layer consumes CStarAlgebras and builds its Hilbert
 C*-module examples from HilbertModules H1–H2.
 The W*-category portion also consumes VonNeumannAlgebras V4 for preduals,
 normality and Sakai's theorem. These interfaces are independent of normal
-correspondences and subfactor theory; TemperleyLiebOperatorAlgebras A6
-consumes the C* portion.
+correspondences and subfactor theory; TemperleyLiebOperatorAlgebras
+3.2–3.3 consumes the C* portion for the unitary Temperley–Lieb category.
 
 Construct a dagger on a native complex linear category, with identity,
 composition, involution, additivity and conjugate-scalar laws. Define
@@ -304,7 +310,8 @@ Subfactors Layer 1 (1.1–1.2).
 This layer consumes CA1a's C*-category interfaces and native tensor/rigid
 categories only. Its definitions and duality theorems do not require
 subfactor correspondences, planar reconstruction or module correspondences.
-TemperleyLiebOperatorAlgebras A6 instantiates this layer directly.
+TemperleyLiebOperatorAlgebras 3.3 instantiates this layer directly on the
+unitary Temperley–Lieb category.
 
 Add dagger compatibility and unitary associators/unitors to the native
 tensor structure; prove tensor norm and dagger laws. Build tensor-functor
@@ -1621,7 +1628,12 @@ CA6 category equivalence supplying the required morphism comparisons.
 
 ## Downstream consumers
 
-QuantumGroups and TemperleyLiebOperatorAlgebras A6 consume CA1a and CA2a.
+- QuantumGroups consumes CA1a and CA2a: the finite-Hilbert dagger
+  category, unitary rigid tensor categories, chosen conjugates, signed
+  self-duality, standard solutions and intrinsic dimension.
+- TemperleyLiebOperatorAlgebras Layer 3 consumes CA1a's C*-category
+  interfaces (3.2–3.3) and CA2a's dagger tensor and unitary-duality
+  interfaces (3.3) for the unitary Temperley–Lieb category.
 
 ## Sources and API evidence
 
