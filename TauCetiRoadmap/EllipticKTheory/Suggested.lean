@@ -17,10 +17,19 @@ existence, terminality and marked uniqueness over S-integers, Weil reciprocity a
 place, and Bloch's correction. Layer 1 states no headline: ModularCurves Layer 2A supplies
 geometric integrality of the smooth projective Weierstrass cubic; README §1.2 extends it to
 arbitrary Weierstrass cubics using base change and Tau Ceti's `WeierstrassCurve.isIntegral_projModel`.
-The K₀ ring computation, localisation and coniveau sequences, the integral motivic tower of a regular
-curve with its Adams-weight comparison, Harder finiteness, positive K-theory descent and finite-field K-group classification, model-independent
-integral part and quotient Bloch-class descent cannot be stated: the pins have no higher K-groups
-of schemes or fields, motivic K-theory tower or étale-cohomology carriers. The marked-model
+The K₀ ring computation of an elliptic curve (README §2.7) cannot be stated. On the regular schemes
+`X` used here K₀ is the Grothendieck group of vector bundles (README, Conventions), which would be
+`TauCeti.ExactK0` of an exact structure on `TauCeti.AlgebraicGeometry.FiniteLocallyFreeSheaf X`,
+with the product `TauCeti.ExactK0.instCommRing` of a biexact tensor product, but at the pins finite
+locally free modules are not shown to be closed under extensions in `X.Modules` (the hypothesis
+`TauCeti.ExactStructure.IsExtensionClosed` of `TauCeti.ExactStructure.fullSubcategory`) and
+`FiniteLocallyFreeSheaf X` is not shown to be essentially small, so neither that exact structure
+nor its K₀ exists. A Grothendieck group with only direct-sum relations is a different group
+(README §2.7, Checks). The localisation and coniveau sequences, the integral motivic tower of a
+regular curve with its Adams-weight comparison, Harder finiteness, positive K-theory descent and
+finite-field K-group classification, the model-independent integral part and quotient Bloch-class
+descent cannot be stated: the pins have no higher K-groups of schemes or fields, motivic K-theory
+tower or étale-cohomology carriers. The marked-model
 headlines use native schemes and the S-integer subalgebra; the wider excellent-Dedekind statements
 require an excellence predicate, absent at the pins. The native marked-model bundles are acceptance
 adapters for the proper/regular full subcategory of RelativeJacobiansAndIntegralCurveModels §0.1;
@@ -68,7 +77,7 @@ end TwistedFrobenius
 `1 − a_q q^i + q^{2i+1}`** (README §5.11, `finiteFieldK_orders`; Weibel, *K-book*, Theorem VI.6.7).
 Here `K_{2i}(E) ≅ B_i(E, F̄_q)` and `a_q = q + 1 − #E(F_q)` is Tau Ceti's `frobeniusTrace`. The
 hypothesis `1 ≤ i` is needed: for `i = 0` the group is the prime-to-`p` part of `E(F_q)`. -/
-theorem card_twistedFrobeniusKernel {k : Type*} [Field k] [Finite k] [DecidableEq k]
+theorem card_twistedFrobeniusKernel {k : Type*} [Field k] [Finite k]
     (W : WeierstrassCurve k) [W.IsElliptic] [DecidableEq (AlgebraicClosure k)]
     {i : ℕ} (hi : 1 ≤ i) :
     (Nat.card (twistedFrobeniusKernel W (AlgebraicClosure k) i) : ℤ) =

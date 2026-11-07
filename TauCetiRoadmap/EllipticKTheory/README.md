@@ -271,7 +271,13 @@ domain (without ellipticity), `smoothOfRelativeDimension_one_projModelOver` for 
 the module TauCeti/AlgebraicGeometry/WeilDivisor/Scheme/GenusOne.lean: for a proper genus-one curve, a chosen
 degree-one point and the base field integrally closed in its function field, degree-one points
 are in bijection with `Pic⁰` by `x ↦ O(x − x₀)`, with the addition/linear-equivalence rule; `WeierstrassCurve.hasse_bound` and `frobeniusTrace_sq_le_four_mul_card`; and the Tate
-module `free_tateModule`, `finrank_tateModule`. Scheme K-groups have no carrier at the pins.
+module `free_tateModule`, `finrank_tateModule`. Scheme K-groups have no carrier at the pins. For
+`K_0`, `TauCeti.ExactK0` and its product `TauCeti.ExactK0.instCommRing` need an essentially small
+category with an exact structure, and the pins neither prove that finite locally free modules are
+closed under extensions in `X.Modules` (the hypothesis `TauCeti.ExactStructure.IsExtensionClosed` of
+`TauCeti.ExactStructure.fullSubcategory`) nor that `TauCeti.AlgebraicGeometry.FiniteLocallyFreeSheaf X`
+is essentially small. A Grothendieck group of vector bundles with only direct-sum relations is a
+different group (§2.7, Checks). There are no higher K-groups of schemes at the pins.
 
 **From ModularCurves.** Layer 1A: `projModel W`, `projModelOver W`, `projModelZero W`,
 `isProper_projModelOver`, `smoothOfRelativeDimension_one_projModelOver` (for `W.IsElliptic`),
@@ -489,7 +495,7 @@ number field, the arithmetic-integral symbol interface (§§6.8, 6.10, 7.3). No 
 finite generation of, or an explicit abstract-group classification of, any K-group of an elliptic
 curve over a number field; over a finite field the classification is complete (§5.11).
 
-The acceptance test in Suggested.lean states `card_twistedFrobeniusKernel`, `exists_minimalRegularProperModel`, `locallyMinimal_terminal`, `minimal_unique`, `tame_last_point` and `blochCorrection`. Its simple definitions are `twistedFrobeniusKernel`, `RegularProperModel`, `RegularProperModel.genericFibreInclusion`, `RegularProperModel.Hom`, `RegularProperModel.IsMinimal`, `tameValue`, `SymbolCandidate` and `SymbolCandidate.tame`. Scheme K-groups, the motivic tower and étale cohomology lack carriers for the other headlines. An excellence predicate is needed for the broader excellent-Dedekind model statements; the S-integer statements use the native `Set.integer` subalgebra and the projective Weierstrass scheme. Layer 1 states no headline: it combines the supplied geometric input with the elementary geometric-integrality extension of §1.2.
+The acceptance test in Suggested.lean states `card_twistedFrobeniusKernel`, `exists_minimalRegularProperModel`, `locallyMinimal_terminal`, `minimal_unique`, `tame_last_point` and `blochCorrection`. Its simple definitions are `twistedFrobeniusKernel`, `RegularProperModel`, `RegularProperModel.genericFibreInclusion`, `RegularProperModel.Hom`, `RegularProperModel.IsMinimal`, `tameValue`, `SymbolCandidate` and `SymbolCandidate.tame`. The other headlines lack carriers. `K_0` of a scheme has no exact structure on finite locally free sheaves at the pins (Exact supplier contracts, From Tau Ceti). Higher scheme K-groups, the motivic tower and étale cohomology are absent. An excellence predicate is needed for the broader excellent-Dedekind model statements; the S-integer statements use the native `Set.integer` subalgebra and the projective Weierstrass scheme. Layer 1 states no headline: it combines the supplied geometric input with the elementary geometric-integrality extension of §1.2.
 
 ## Layer 1: The Weierstrass curve as a scheme
 
@@ -879,6 +885,11 @@ this agrees with `ℤ ⊕ ℤ ⊕ J(X̄)` (Weibel, VI.6.4, p. 503, case `n=0`).
 - the skyscraper at a rational point `P` has coordinates `(0, 1, P)`, and at
   the origin `(0, 1, O)`. For `P=(2,1)` on `y²=x³−x` over `𝔽₅`, `2P=(0,0)` and
   `−P=(2,4)≠P`, so `[O_P]−[O_O]` has point coordinate P, not −P.
+- `H¹(E, O_E)` is one-dimensional, so there is a non-split extension `0 → O_E → F₂ → O_E → 0`. Its
+  class has coordinates `(2, 0, O)`, the same as `O_E ⊕ O_E`. The connecting map
+  `H⁰(O_E) → H¹(O_E)` sends `1` to the extension class, so `h⁰(F₂) = 1`, while
+  `h⁰(O_E ⊕ O_E) = 2`. Since `h⁰` is additive on direct sums, it separates the two classes in a
+  Grothendieck group with only direct-sum relations; that group is therefore not `K_0(E)`.
 
 ### Examples
 
@@ -1487,10 +1498,12 @@ closed points, since a proper curve is not affine. First suppose that it is a si
 `∞`, and apply ArithmeticKTheory §3.2's finiteness criterion, which holds for every Dedekind domain.
 Its first hypothesis holds: `Pic(R)` is the quotient of `Pic(X_R)` by the class of `O(∞)`, and
 `Pic(X_R)` is an extension of a subgroup of `ℤ` by the finite group `Pic⁰(X_R)` while `deg ∞ ≥ 1`,
-so `Pic(R)` is finite. (`Pic⁰(X_R)` is finite because, by Riemann–Roch over the exact constant
-field, every class of degree at least the genus contains an effective divisor, a finite field
-admits only finitely many effective divisors of each degree, and translation by a class of degree
-`d` identifies `Pic⁰` with the degree-`d` classes.) Its second hypothesis is curveSteinbergHomology_fg. In general write
+so `Pic(R)` is finite. (`Pic⁰(X_R)` is finite. Take degrees over the exact constant field `k′` of
+`X_R` and let `g` be its genus. By Riemann–Roch, every class of degree `d ≥ g` contains an effective
+divisor. Since `k′` is finite, `X_R` has only finitely many closed points of each degree, so it has
+finitely many effective divisors of degree `d` and hence finitely many classes of degree `d`. Choose
+`d = m · deg ∞` with `m ≥ 1` and `d ≥ g`; translation by `m[O(∞)]` is then a bijection from `Pic⁰(X_R)`
+onto the classes of degree `d`.) Its second hypothesis is curveSteinbergHomology_fg. In general write
 `X_R − Spec R = {∞, x₁, …, x_r}` and let `R₀` be the coordinate ring of the one-point complement
 `X_R − ∞`. Then `Spec R` is the open complement in `Spec R₀` of the closed points `x₁, …, x_r`, and
 coherent localisation with dévissage on the regular scheme `Spec R₀` (SchemeKTheoryOperations §3.5,
@@ -1545,6 +1558,9 @@ K2SymbolsBrauer §§7.2, 8.3, 10.32c; KTheoryFiniteLocalFields §3.4.
   provide.
 - For `X_R = ℙ¹_{𝔽₂}` with `∞` the degree-two point `V(t² + t + 1)`, `Pic(R) = ℤ/2ℤ`: finite but
   nonzero, so the criterion's hypothesis is finiteness, not triviality, of the Picard group.
+  In the `Pic⁰` argument (`g = 0`, `d = deg ∞ = 2`), the effective divisors of degree two are
+  counted on the curve. Its three rational points give 6 sums of two points, and the point `∞`
+  gives 1 more, for 7 = `#ℙ(H⁰(O(2)))` in all. All 7 lie in one class, so `Pic⁰ = 0`.
 - over `𝔽₂`, `⊕_x k(x)^× → 𝔽₂^× = 1` is the zero map onto the trivial group, and
   the image of `∂` is everything.
 - the vanishing of the normed composite alone does not give
