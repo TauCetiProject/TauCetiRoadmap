@@ -344,18 +344,18 @@ Form the right `K`-cosets, then the rational diagonal orbit quotient using the b
 
 Use the explicit component equivalence of Layer 0 to specify the quotient topology and map points.
 
-Expose the following named operations and laws.
+Expose the following operations and laws.
 
-- `TauCeti.Shimura.AnalyticPoints.mk`: Send `(x,a)` to `[x,a]_K`.
-- `TauCeti.Shimura.AnalyticPoints.mk_eq`: `[x,a]_K=[y,b]_K` iff `∃q∈G(ℚ), k∈K` with `y=qx` and `b=qak`.
-- `TauCeti.Shimura.AnalyticPoints.lift`: A function on `X×G(𝔸_f)` invariant under the rational diagonal and right `K` actions descends uniquely; evaluation at `[x,a]` recovers its value.
-- `TauCeti.Shimura.AnalyticPoints.level`: For `K′⊂K` send `[x,a]_{K′}` to `[x,a]_K`; identity and composition hold.
+- The quotient map sends `(x,a)` to `[x,a]_K`.
+- `[x,a]_K=[y,b]_K` iff `∃q∈G(ℚ), k∈K` with `y=qx` and `b=qak`.
+- A function on `X×G(𝔸_f)` invariant under the rational diagonal and right `K` actions descends uniquely; evaluation at `[x,a]` recovers its value.
+- For `K′⊂K` send `[x,a]_{K′}` to `[x,a]_K`; identity and composition hold.
 
 **Checks.**
 
-- `TauCeti.Shimura.AnalyticPoints.trivial`: The trivial datum has one point at its unique level.
-- `TauCeti.Shimura.AnalyticPoints.torus`: For singleton torus datum, `Sh_K^pts=T(ℚ)∖T(𝔸_f)/K`, including the rational quotient.
-- `TauCeti.Shimura.AnalyticPoints.keep_domain`: For `GL₂` the fibre of one finite component is `Γ_a∖ℍ`, an infinite set, not a singleton finite double coset.
+- The trivial datum has one point at its unique level.
+- For singleton torus datum, `Sh_K^pts=T(ℚ)∖T(𝔸_f)/K`, including the rational quotient.
+- For `GL₂` the fibre of one finite component is `Γ_a∖ℍ`, an infinite set, not a singleton finite double coset.
 
 ([J. S. Milne, Introduction to Shimura varieties](https://jmilne.org/math/xnotes/svi.pdf), §5, definition before Lemma 5.13, p.57; [Tau Ceti Project, Adelic algebraic groups roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AdelicAlgebraicGroups/README.md), layer-4-approximation-neat-levels-and-hecke-maps.)
 
@@ -474,21 +474,21 @@ The intersection of two compact open subgroups is compact and open. At least one
 
 Conjugation is a homeomorphism and an order isomorphism, so it preserves the subtype; multiplication computes the composition order.
 
-Expose the following named operations and laws.
+Expose the following operations and laws.
 
-- `TauCeti.Shimura.Level.hom_iff`: An arrow `K → L` exists exactly when `K` is contained in `L`, and then its hom set has one element.
-- `TauCeti.Shimura.Level.id_comp`: Identity is reflexive inclusion and composition is transitive inclusion.
-- `TauCeti.Shimura.Level.inf_refines`: `K` intersect `L` is a compact open level with arrows to `K` and `L`.
-- `TauCeti.Shimura.Level.cofiltered`: `Level(D)` is nonempty and cofiltered; parallel arrows already agree.
-- `TauCeti.Shimura.Level.conjugate`: `C_g` sends `K` to `g⁻¹Kg` and inclusion to conjugated inclusion; `C_{g⁻¹}` is its inverse.
-- `TauCeti.Shimura.Level.conjugate_comp`: `C_1=id` and `C_h` composed after `C_g=C_{gh}`, on objects and arrows.
+- An arrow `K → L` exists exactly when `K` is contained in `L`, and then its hom set has one element.
+- Identity is reflexive inclusion and composition is transitive inclusion.
+- `K` intersect `L` is a compact open level with arrows to `K` and `L`.
+- `Level(D)` is nonempty and cofiltered; parallel arrows already agree.
+- `C_g` sends `K` to `g⁻¹Kg` and inclusion to conjugated inclusion; `C_{g⁻¹}` is its inverse.
+- `C_1=id` and `C_h` composed after `C_g=C_{gh}`, on objects and arrows.
 
 **Checks.**
 
-- `TauCeti.Shimura.Level.trivial`: For the trivial group the compact-open level category has one object and its identity arrow.
-- `TauCeti.Shimura.Level.nested`: In the additive `p`-adic local model, `p² Z_p → p Z_p → Z_p` composes to `p² Z_p → Z_p`. Forgetting arrows in the opposite direction fails.
-- `TauCeti.Shimura.Level.intersection`: The common refinement of `p Z_p` and `p² Z_p` is `p² Z_p`; it maps to both.
-- `TauCeti.Shimura.Level.noncompact_top`: For the real additive local model the whole group `ℝ` is an open subgroup but is not compact and is excluded. The adelic analogue likewise excludes the full noncompact `G(𝔸_f)`.
+- For the trivial group the compact-open level category has one object and its identity arrow.
+- In the additive `p`-adic local model, `p² Z_p → p Z_p → Z_p` composes to `p² Z_p → Z_p`. Forgetting arrows in the opposite direction fails.
+- The common refinement of `p Z_p` and `p² Z_p` is `p² Z_p`; it maps to both.
+- For the real additive local model the whole group `ℝ` is an open subgroup but is not compact and is excluded. The adelic analogue likewise excludes the full noncompact `G(𝔸_f)`.
 - An arrow goes from the smaller subgroup to the larger one, matching the forgetful map.
 - Conjugation changes the index; a general `g` gives no automorphism at a fixed `K`.
 
@@ -550,26 +550,26 @@ Uniqueness on the dense interior gives compatible restriction `Φ_F`. Multiplyin
 
 Use BB §8.9 to pass from `ℚ`-simple factors to their products and finite-index arithmetic groups, with compact factors unchanged. Once §2.5 is proved, admissible degree-zero functions are holomorphic on a compact connected normal analytic space, hence constant.
 
-Expose the following named operations and laws.
+Expose the following operations and laws.
 
-- `TauCeti.Shimura.AutomorphicRing.degree`: The degree-`n` piece is exactly the admissible analytic section space `A_n(Γ)` defined by the boundary predicate. After §2.5, `A_0=C` on a connected quotient by compactness and the maximum principle.
-- `TauCeti.Shimura.AutomorphicRing.mul`: Multiplication `A_m×A_n→A_{m+n}` is pointwise tensor product; unit and associativity hold.
-- `TauCeti.Shimura.AutomorphicRing.siegel`: For a rational `F, Φ_F` sends `A_n(Γ)` to `(N(F)∩Γ)`-invariant holomorphic sections of `ℰ_F^⊗n`, the factor induced by the ambient determinant along `π_F`. Retain the normalizer action on the factor; use the `Γ(F)` action when it descends, after a common tensor power if necessary to kill finite characters. It is complex-linear and `Φ_F(ωη)=Φ_F(ω)Φ_F(η)` in the induced grading. Transport and nested restriction commute under the specified factor isomorphisms; no equality with `K_F^⊗n` is asserted.
-- `TauCeti.Shimura.AutomorphicRing.level`: For `Γ′⊂Γ`, pullback embeds `A_n(Γ)` into `A_n(Γ′)`; identity and composition hold.
-- `TauCeti.Shimura.AutomorphicRing.veronese`: Changing to a positive common tensor power gives the corresponding Veronese ring and the same projective spectrum after finite-generation is established.
-- `TauCeti.Shimura.AutomorphicRing.mk`: A holomorphic canonical `n`-section satisfying `Γ`-invariance and continuous, stratum-holomorphic extension in every rational adapted chart defines an element of `A_n`; evaluation returns the supplied section.
-- `TauCeti.Shimura.AutomorphicRing.ext`: Two elements of `A_n` are equal if their holomorphic section values agree at every point of `D`.
-- `TauCeti.Shimura.AutomorphicRing.eval`: Evaluation on `D` is complex-linear on each degree and carries the graded product to pointwise multiplication.
-- `TauCeti.Shimura.AutomorphicRing.integral_iff`: Global boundary admissibility is equivalent to integral local sections on every good neighborhood: one adapted coefficient extends continuously over the whole neighborhood and holomorphically on each incident rational stratum. The rational-chart condition and this local condition use only `D*` topology and the induced factors.
-- `TauCeti.Shimura.AutomorphicRing.change_chart`: Changing the rational transport or a compatible unbounded realization carries an admissible coefficient and its boundary limits to the new ones by the canonical Jacobian transition. Thus the extension predicate and induced boundary section are independent of those choices, via the `ℰ_F` factor isomorphism.
+- The degree-`n` piece is exactly the admissible analytic section space `A_n(Γ)` defined by the boundary predicate. After §2.5, `A_0=C` on a connected quotient by compactness and the maximum principle.
+- Multiplication `A_m×A_n→A_{m+n}` is pointwise tensor product; unit and associativity hold.
+- For a rational `F, Φ_F` sends `A_n(Γ)` to `(N(F)∩Γ)`-invariant holomorphic sections of `ℰ_F^⊗n`, the factor induced by the ambient determinant along `π_F`. Retain the normalizer action on the factor; use the `Γ(F)` action when it descends, after a common tensor power if necessary to kill finite characters. It is complex-linear and `Φ_F(ωη)=Φ_F(ω)Φ_F(η)` in the induced grading. Transport and nested restriction commute under the specified factor isomorphisms; no equality with `K_F^⊗n` is asserted.
+- For `Γ′⊂Γ`, pullback embeds `A_n(Γ)` into `A_n(Γ′)`; identity and composition hold.
+- Changing to a positive common tensor power gives the corresponding Veronese ring and the same projective spectrum after finite-generation is established.
+- A holomorphic canonical `n`-section satisfying `Γ`-invariance and continuous, stratum-holomorphic extension in every rational adapted chart defines an element of `A_n`; evaluation returns the supplied section.
+- Two elements of `A_n` are equal if their holomorphic section values agree at every point of `D`.
+- Evaluation on `D` is complex-linear on each degree and carries the graded product to pointwise multiplication.
+- Global boundary admissibility is equivalent to integral local sections on every good neighborhood: one adapted coefficient extends continuously over the whole neighborhood and holomorphically on each incident rational stratum. The rational-chart condition and this local condition use only `D*` topology and the induced factors.
+- Changing the rational transport or a compatible unbounded realization carries an admissible coefficient and its boundary limits to the new ones by the canonical Jacobian transition. Thus the extension predicate and induced boundary section are independent of those choices, via the `ℰ_F` factor isomorphism.
 
 **Checks.**
 
-- `TauCeti.Shimura.AutomorphicRing.degree_zero`: On a connected compactification the degree-zero piece consists of constants.
-- `TauCeti.Shimura.AutomorphicRing.elliptic_weight`: For `ℍ` the canonical `n`-th automorphy factor corresponds to scalar modular weight `2n`, with holomorphy at cusps.
-- `TauCeti.Shimura.AutomorphicRing.not_cusp`: For the torsion-free principal group `Γ(3)⊂SL₂(ℤ)`, the restriction of `E₄` is an allowed weight-4 (degree-two) form, with constant Fourier coefficient 1 at infinity. It is not a cusp form.
-- `TauCeti.Shimura.AutomorphicRing.pole_at_cusp`: The modular `j`-function is holomorphic on `ℍ` and `Γ(3)`-invariant in degree zero, but its `q⁻¹` pole at infinity has no continuous finite boundary limit. It is excluded from `A_0`. Holomorphy and the interior transformation law alone are insufficient.
-- `TauCeti.Shimura.AutomorphicRing.induced_weight`: For the genus-two Siegel domain, `det(Dγ_Z)=det(CZ+D)⁻³`, so canonical degree `n` has scalar weight `3n`. Restriction to a genus-one rational boundary retains scalar weight `3n`, whereas intrinsic boundary canonical degree `n` has weight `2n`. At `n=2` the induced weight is 6, corresponding to intrinsic boundary degree 3, not degree 2. A `Φ_F` API replacing `ℰ_F^⊗n` by `K_F^⊗n` fails this calculation.
+- On a connected compactification the degree-zero piece consists of constants.
+- For `ℍ` the canonical `n`-th automorphy factor corresponds to scalar modular weight `2n`, with holomorphy at cusps.
+- For the torsion-free principal group `Γ(3)⊂SL₂(ℤ)`, the restriction of `E₄` is an allowed weight-4 (degree-two) form, with constant Fourier coefficient 1 at infinity. It is not a cusp form.
+- The modular `j`-function is holomorphic on `ℍ` and `Γ(3)`-invariant in degree zero, but its `q⁻¹` pole at infinity has no continuous finite boundary limit. It is excluded from `A_0`. Holomorphy and the interior transformation law alone are insufficient.
+- For the genus-two Siegel domain, `det(Dγ_Z)=det(CZ+D)⁻³`, so canonical degree `n` has scalar weight `3n`. Restriction to a genus-one rational boundary retains scalar weight `3n`, whereas intrinsic boundary canonical degree `n` has weight `2n`. At `n=2` the induced weight is 6, corresponding to intrinsic boundary degree 3, not degree 2. A `Φ_F` API replacing `ℰ_F^⊗n` by `K_F^⊗n` fails this calculation.
 - The predicate quantifies over every rational boundary component and rational adapted chart, uses the previously constructed Satake topology, and is independent of the subsequent analytic/projective compactification.
 - Chart changes retain the canonical Jacobian factor; `Φ_F` has values in the ambient-induced boundary factor, with product compatibility. It need not preserve intrinsic boundary canonical weight.
 
@@ -675,16 +675,21 @@ Construct the boundary map and compatible graded-ring pullback.
 
 Use `Proj` and the finite/integral ring extension for finite-index arithmetic groups.
 
-Compare analytifications and use proper graph algebraicity; extension is uniquely determined by the dense open. The exact general finite-extension source remains a required proof input.
+Compare analytifications and use proper graph algebraicity; extension is uniquely determined by the dense open.
+
+The extended level map is finite because the section rings form an integral extension. Let `Γ′⊂Γ` be the arithmetic groups of corresponding components at levels `K′⊂K`. Choose a neat open `K″⊂K′` normal in `K`, the intersection of a neat normal open subgroup of `K` with the finitely many `K`-conjugates of `K′`; its component group `Γ″` is neat, normal and of finite index in `Γ`, and lies in `Γ′`. Pass to the common positive tensor power of §2.6, which changes no `Proj`. Then `A(Γ)=A(Γ″)^{Γ/Γ″}⊂A(Γ′)=A(Γ″)^{Γ′/Γ″}⊂A(Γ″)`. A homogeneous `f∈A(Γ″)` of positive degree is a root of the monic polynomial `∏_{γ∈Γ/Γ″}(T−γ·f)`, whose coefficients lie in `A(Γ)` and are homogeneous of positive degree. By §2.6, `A(Γ″)` is finitely generated and `A(Γ)` is noetherian, so `A(Γ″)` is a finite `A(Γ)`-module, and so is its submodule `A(Γ′)`. A homogeneous prime of `A(Γ′)` not containing `A(Γ′)₊` therefore contracts to one not containing `A(Γ)₊`, so `Proj A(Γ′)→Proj A(Γ)` is defined everywhere and is finite.
+
+For a right translation `R_g:Sh_K→Sh_{g⁻¹Kg}`, the component group `G(ℚ)₊∩aKa⁻¹` at `[x,a]` equals the component group `G(ℚ)₊∩(ag)(g⁻¹Kg)(ag)⁻¹` at `[x,ag]`. So `R_g` is the identity on section rings and extends to an isomorphism of minimal compactifications.
 
 **Checks.**
 
 - No claim of étaleness at the boundary.
+- For `Γ(3)⊂SL₂(ℤ)` the extended map `X(3)→X(1)` has degree `[PSL₂(ℤ):Γ̄(3)]=|PSL₂(𝔽₃)|=12`. It sends the four cusps of `X(3)`, each of width 3, to the single cusp of `X(1)` with ramification index 3 (`4·3=12`). So the extension is finite but not étale at the boundary, although `Y(3)→Y(1)` is étale away from the two elliptic points.
 - Reflex-field descent of these extensions belongs to [8.18 Reflex-field descent of the minimal compactification](#818-reflex-field-descent-of-the-minimal-compactification), not this complex construction.
 
-([J. S. Milne, Introduction to Shimura varieties](https://jmilne.org/math/xnotes/svi.pdf), 3.13(c), p.39 and Corollary 3.16 discussion, p.40; the general finite-extension proof is required separately.)
+([J. S. Milne, Introduction to Shimura varieties](https://jmilne.org/math/xnotes/svi.pdf), 3.13(c), p.39 and Corollary 3.16 discussion, p.40; [Richard Pink, Arithmetical Compactification of Mixed Shimura Varieties](https://people.math.ethz.ch/~pink/ftp/phd/PinkDissertation.pdf), 3.4(a), p.42 (the level and translation maps `[·p_f]`, finite and surjective on the open varieties) and 6.2, pp.94–95 (their holomorphic extension to the Baily–Borel compactifications of pure data).)
 
-This uses [2.7 Baily–Borel algebraization](#27-bailyborel-algebraization); [1.3 Holomorphic finite level maps](#13-holomorphic-finite-level-maps); [1.4 Holomorphic right translations](#14-holomorphic-right-translations); [2.3 Analytic automorphic graded ring](#23-analytic-automorphic-graded-ring); [ComplexComparisonPartII, Layer C4](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ComplexComparisonPartII/README.md#layer-c4-analytic-images-chow-algebraization-and-morphism-comparison), with the exact supplier contracts above.
+This uses [2.7 Baily–Borel algebraization](#27-bailyborel-algebraization); [2.6 Finite generation of automorphic forms](#26-finite-generation-of-automorphic-forms); [1.3 Holomorphic finite level maps](#13-holomorphic-finite-level-maps); [1.4 Holomorphic right translations](#14-holomorphic-right-translations); [2.3 Analytic automorphic graded ring](#23-analytic-automorphic-graded-ring); [AdelicAlgebraicGroups, §4.3, neat levels exist](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AdelicAlgebraicGroups/README.md#43-neat-elements-and-levels); [ComplexComparisonPartII, Layer C4](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ComplexComparisonPartII/README.md#layer-c4-analytic-images-chow-algebraization-and-morphism-comparison), with the exact supplier contracts above.
 
 ### Examples
 
@@ -991,18 +996,18 @@ Invert the arithmetic Artin homomorphism in its abelian target.
 
 Preserve continuity, surjectivity and kernel; compare a local uniformizer and the cyclotomic character before applying CM reciprocity.
 
-Expose the following named operations and laws.
+Expose the following operations and laws.
 
-- `TauCeti.Shimura.geometricArtin_apply`: `art_F(s)=rec_F(s)⁻¹`.
-- `TauCeti.Shimura.geometricArtin_mul`: `art_F(st)=art_F(s)art_F(t)`.
-- `TauCeti.Shimura.geometricArtin_kernel`: `ker art_F=ker rec_F` as closed subgroups.
-- `TauCeti.Shimura.geometricArtin_norm`: For `L/F` finite, `art_F(N_{L/F}s)=res(art_L(s))`.
+- `art_F(s)=rec_F(s)⁻¹`.
+- `art_F(st)=art_F(s)art_F(t)`.
+- `ker art_F=ker rec_F` as closed subgroups.
+- For `L/F` finite, `art_F(N_{L/F}s)=res(art_L(s))`.
 
 **Checks.**
 
-- `TauCeti.Shimura.geometricArtin_uniformizer`: At an unramified place, `art_F(π_v)` is inverse arithmetic Frobenius.
-- `TauCeti.Shimura.geometricArtin_one`: `art_F(1)=1`.
-- `TauCeti.Shimura.geometricArtin_cyclotomic`: For `u=χ_cyc(σ)∈ℤ̂×, art_Q(u)=σ` on `Q^ab`; changing to `rec` reverses the action.
+- At an unramified place, `art_F(π_v)` is inverse arithmetic Frobenius.
+- `art_F(1)=1`.
+- For `u=χ_cyc(σ)∈ℤ̂×, art_Q(u)=σ` on `Q^ab`; changing to `rec` reverses the action.
 
 ([J. S. Milne, The fundamental theorem of complex multiplication](https://jmilne.org/math/articles/2007c.pdf), §3, p.21, before Lemma 3.4.)
 
@@ -1018,20 +1023,20 @@ Check Galois invariance of the product formula and descend the morphism over `�
 
 Evaluate on restricted adelic points and prove rational-principal and level compatibility.
 
-Expose the following named operations and laws.
+Expose the following operations and laws.
 
-- `TauCeti.Shimura.ReflexNorm.apply_split`: In splitting coordinates `r_h(s)=∏ρ ρ(μ_h(s_ρ))`.
-- `TauCeti.Shimura.ReflexNorm.principal`: For `b∈E×, r_h(b)∈T(ℚ)`, hence its action on every torus double quotient is trivial.
-- `TauCeti.Shimura.ReflexNorm.map`: For `f:T0 → T, μ=f` composed with `mu0, E0=E(mu0)` and `E=E(μ)`, so `E` is contained in `E0, f` composed with `r(T0,mu0)=r(T,μ)` composed with `Nm_{E0/E}`; this holds on full ideles, and its full statement is [4.9 Reflex norm under a torus morphism](#49-reflex-norm-under-a-torus-morphism).
-- `TauCeti.Shimura.ReflexNorm.continuous`: The finite-idelic map is a continuous group homomorphism.
-- `TauCeti.Shimura.ReflexNorm.ext`: Two rational torus homomorphisms `Res_{E/ℚ}G_m→T` agreeing on the split cocharacter formula after a splitting-field base change are equal.
-- `TauCeti.Shimura.ReflexNorm.mul`: The reflex norm sends 1 to 1 and `r_h(st)=r_h(s)r_h(t)`, as an algebraic group morphism and on finite ideles.
+- In splitting coordinates `r_h(s)=∏ρ ρ(μ_h(s_ρ))`.
+- For `b∈E×, r_h(b)∈T(ℚ)`, hence its action on every torus double quotient is trivial.
+- For `f:T0 → T, μ=f` composed with `mu0, E0=E(mu0)` and `E=E(μ)`, so `E` is contained in `E0, f` composed with `r(T0,mu0)=r(T,μ)` composed with `Nm_{E0/E}`; this holds on full ideles, and its full statement is [4.9 Reflex norm under a torus morphism](#49-reflex-norm-under-a-torus-morphism).
+- The finite-idelic map is a continuous group homomorphism.
+- Two rational torus homomorphisms `Res_{E/ℚ}G_m→T` agreeing on the split cocharacter formula after a splitting-field base change are equal.
+- The reflex norm sends 1 to 1 and `r_h(st)=r_h(s)r_h(t)`, as an algebraic group morphism and on finite ideles.
 
 **Checks.**
 
-- `TauCeti.Shimura.ReflexNorm.trivial`: A trivial cocharacter gives the constant identity morphism.
-- `TauCeti.Shimura.ReflexNorm.split_power`: For `T=G_m, E=Q` and `μ(t)=t^n, r_h(s)=s^n`, including `n=0` and negative `n`.
-- `TauCeti.Shimura.ReflexNorm.aghmp`: For `T=Res_{E/ℚ}G_m/ker(N_{F/Q})` in AGHMP §3.1 and its distinguished cocharacter, `r_h` is the natural quotient map `Res_E G_m→T`.
+- A trivial cocharacter gives the constant identity morphism.
+- For `T=G_m, E=Q` and `μ(t)=t^n, r_h(s)=s^n`, including `n=0` and negative `n`.
+- For `T=Res_{E/ℚ}G_m/ker(N_{F/Q})` in AGHMP §3.1 and its distinguished cocharacter, `r_h` is the natural quotient map `Res_E G_m→T`.
 
 ([J. S. Milne, Introduction to Shimura varieties](https://jmilne.org/math/xnotes/svi.pdf), §12, formulas `(60)`–`(61)`, p.114 (read multiplicatively); [Tau Ceti Project, Adelic algebraic groups roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AdelicAlgebraicGroups/README.md), layer-1-adelic-points-of-algebraic-groups; [Tau Ceti Project, Reductive groups, Part II: local structure and integral Satake theory](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ReductiveGroupsPartII/README.md), layer-rg20a-weil-restriction-and-the-deligne-torus.)
 
@@ -1065,22 +1070,22 @@ Use §4.3 to make the formula independent of the lift.
 
 Record finite-level and compatible-tower variants and compare them via sufficiently small levels.
 
-Expose the following named operations and laws.
+Expose the following operations and laws.
 
-- `TauCeti.Shimura.CanonicalModel.scheme`: The underlying scheme is over `Spec E(G,X)`, with normal/quasi-projective structure.
-- `TauCeti.Shimura.CanonicalModel.comparison`: The chosen comparison is an isomorphism of complex analytic spaces after base change to `ℂ`.
-- `TauCeti.Shimura.CanonicalModel.special_rational`: For every actual special pair and a, the comparison point is `E(T,h)^ab`-rational.
-- `TauCeti.Shimura.CanonicalModel.special_action`: Its Galois action is the precise geometric-Artin reflex-norm formula, independent of an Artin lift.
-- `TauCeti.Shimura.CanonicalModel.level`: A tower supplies level maps over `E`, with identity/composition and analytic point formula.
-- `TauCeti.Shimura.CanonicalModel.baseChange`: For `E⊂L⊂C`, base change retains the same comparison and restricted special-point action; the defining minimal field remains `E`.
-- `TauCeti.Shimura.CanonicalModel.ofSpecialAction`: An `E`-scheme with the stated normal/quasi-projective structure, analytic comparison, special-point rationality and the full reciprocity formula defines a finite-level canonical model. Tower construction also requires compatible level maps and translations.
-- `TauCeti.Shimura.CanonicalModel.hom_ext`: Two `E`-morphisms between the underlying finite-level models whose complex analytic maps agree are equal, by faithful base change and analytification. This is morphism extensionality; model uniqueness is §4.12.
+- The underlying scheme is over `Spec E(G,X)`, with normal/quasi-projective structure.
+- The chosen comparison is an isomorphism of complex analytic spaces after base change to `ℂ`.
+- For every actual special pair and a, the comparison point is `E(T,h)^ab`-rational.
+- Its Galois action is the precise geometric-Artin reflex-norm formula, independent of an Artin lift.
+- A tower supplies level maps over `E`, with identity/composition and analytic point formula.
+- For `E⊂L⊂C`, base change retains the same comparison and restricted special-point action; the defining minimal field remains `E`.
+- An `E`-scheme with the stated normal/quasi-projective structure, analytic comparison, special-point rationality and the full reciprocity formula defines a finite-level canonical model. Tower construction also requires compatible level maps and translations.
+- Two `E`-morphisms between the underlying finite-level models whose complex analytic maps agree are equal, by faithful base change and analytification. This is morphism extensionality; model uniqueness is §4.12.
 
 **Checks.**
 
-- `TauCeti.Shimura.CanonicalModel.trivial`: The trivial datum has canonical model `Spec ℚ` with its one-point comparison.
-- `TauCeti.Shimura.CanonicalModel.torus_neat`: The finite étale torus model satisfies this condition using its constructed Galois action.
-- `TauCeti.Shimura.CanonicalModel.not_arbitrary_subset`: For `T=G_m, h(z)=z z̄` and principal `K(5)`, the analytic quotient has two points `(ℤ/5ℤ)×/{±1}`. The split model `Spec ℚ ⊔ Spec ℚ` with any two-point comparison satisfies a condition imposed only on an arbitrary (for instance empty) set of special points, but fails canonicity: an automorphism with cyclotomic character 2 modulo 5 must interchange the two classes by reciprocity, whereas the split model fixes both.
+- The trivial datum has canonical model `Spec ℚ` with its one-point comparison.
+- The finite étale torus model satisfies this condition using its constructed Galois action.
+- For `T=G_m, h(z)=z z̄` and principal `K(5)`, the analytic quotient has two points `(ℤ/5ℤ)×/{±1}`. The split model `Spec ℚ ⊔ Spec ℚ` with any two-point comparison satisfies a condition imposed only on an arbitrary (for instance empty) set of special points, but fails canonicity: an automorphism with cyclotomic character 2 modulo 5 must interchange the two classes by reciprocity, whereas the split model fixes both.
 
 ([J. S. Milne, Introduction to Shimura varieties](https://jmilne.org/math/xnotes/svi.pdf), Definition 12.8, p.114 and Definition 12.10, p.115.)
 
@@ -1096,20 +1101,20 @@ Use the actual finite torus double quotient as the Galois set, not just its card
 
 Transport its complex point equivalence and verify all torus special-pair reciprocity maps by norm functoriality.
 
-Expose the following named operations and laws.
+Expose the following operations and laws.
 
-- `TauCeti.Shimura.torusModel.points`: `S_K(ℚ̄)≃T(ℚ)∖T(𝔸_f)/K` as Galois sets, with the prescribed action.
-- `TauCeti.Shimura.torusModel.level`: For `K′⊂K` the double-quotient projection induces a finite étale morphism, compatible with identity/composition.
-- `TauCeti.Shimura.torusModel.translate`: Right translation by `a∈T(𝔸_f)` is defined over `E` and commutes with reciprocity.
-- `TauCeti.Shimura.torusModel.map`: A morphism of torus data gives a map over a common field containing both reflex fields, compatible with the norm on Artin lifts.
-- `TauCeti.Shimura.torusModel.finiteEtale`: The resulting scheme is finite étale over `E`, with degree equal to the Galois-set cardinality.
-- `TauCeti.Shimura.torusModel.hom_ext`: Two `E`-morphisms between finite étale torus models agreeing on all geometric points are equal under the finite-continuous-Galois-set equivalence.
+- `S_K(ℚ̄)≃T(ℚ)∖T(𝔸_f)/K` as Galois sets, with the prescribed action.
+- For `K′⊂K` the double-quotient projection induces a finite étale morphism, compatible with identity/composition.
+- Right translation by `a∈T(𝔸_f)` is defined over `E` and commutes with reciprocity.
+- A morphism of torus data gives a map over a common field containing both reflex fields, compatible with the norm on Artin lifts.
+- The resulting scheme is finite étale over `E`, with degree equal to the Galois-set cardinality.
+- Two `E`-morphisms between finite étale torus models agreeing on all geometric points are equal under the finite-continuous-Galois-set equivalence.
 
 **Checks.**
 
-- `TauCeti.Shimura.torusModel.maximal_split`: For `T=G_m, h(z)=z z̄, K=ℤ̂×, E=Q`, the coarse scheme is `Spec ℚ`.
-- `TauCeti.Shimura.torusModel.split_level_five`: For the same datum and principal `K(5)`, the Galois set is `(ℤ/5ℤ)×/{±1}`; the degree-two model is `ℚ(ζ₅+ζ₅⁻¹)`, not `ℚ(ζ₅)`.
-- `TauCeti.Shimura.torusModel.trivial`: For the trivial torus every level gives `Spec ℚ`.
+- For `T=G_m, h(z)=z z̄, K=ℤ̂×, E=Q`, the coarse scheme is `Spec ℚ`.
+- For the same datum and principal `K(5)`, the Galois set is `(ℤ/5ℤ)×/{±1}`; the degree-two model is `ℚ(ζ₅+ζ₅⁻¹)`, not `ℚ(ζ₅)`.
+- For the trivial torus every level gives `Spec ℚ`.
 
 ([F. Andreatta, E. Z. Goren, B. Howard, K. Madapusi Pera, Faltings heights of abelian varieties with complex multiplication](https://annals.math.princeton.edu/wp-content/uploads/annals-v187-n2-p03-p.pdf), §3.1, p.416.)
 
@@ -1357,7 +1362,7 @@ Prove `TauCeti.Shimura.ReflexNorm.cm_type` as follows. For the CM torus datum `(
 - For `k=ℚ(i,√2)⊃E*=ℚ(i), N_{k,Φ}(√2)=N_Φ(Nm_{k/E*}√2)=N_Φ(−2)=−2`. Omitting the norm from `k` to `E*` gives `√2`, which is not in `E`.
 - For `E=ℚ(i)×ℚ(i)`, embeddings factor through projections and have nonzero kernels. The norm formula gives a pair of Gaussian field norms; no inverse embedding into `E` is used.
 - For `E=ℚ(ζ₈)` with induced type `{1,3}` and `E*=ℚ(√−2), φ(E)` cannot lie in the degree-two image `ρ(E*)`. Extending `ρ` to `σ` makes the split-coordinate formula well-defined.
-- `TauCeti.Shimura.ReflexNorm.test_cm_gaussian`: For `E=ℚ(i)` and `Φ={φ}`, the special-torus reflex norm `r_{h_Φ}` sends `a∈(E*)^×` to `φ⁻¹(a)`, in agreement with `N_Φ` and not with its inverse or with `N_{ιΦ}`.
+- For `E=ℚ(i)` and `Φ={φ}`, the special-torus reflex norm `r_{h_Φ}` sends `a∈(E*)^×` to `φ⁻¹(a)`, in agreement with `N_Φ` and not with its inverse or with `N_{ιΦ}`.
 
 ([J. S. Milne, Complex Multiplication](https://www.jmilne.org/math/CourseNotes/CM.pdf), Definition 1.8, p.11; Proposition 1.9, p.12; Proposition 1.16 and Definition 1.17, p.13; Proposition 1.18, p.14; Proposition 1.21 and Corollary 1.22, pp.15–16; Proposition 1.23 and Remark 1.24, p.16; Remark 1.25 and Proposition 1.26, p.17; Example 1.28, p.18; [J. S. Milne, Introduction to Shimura varieties](https://jmilne.org/math/xnotes/svi.pdf), Example 12.4(b), p.112, and `(60)`, p.114.)
 
@@ -1392,21 +1397,21 @@ Identify the eigenspaces through `A5` and apply the CM types of [5.1 CM types, r
 
 Use Rosati positivity for the polarization compatibility; the CM type is the carrier of [5.1 CM types, reflex fields and reflex norms](#51-cm-types-reflex-fields-and-reflex-norms), not a second one.
 
-Expose the following named operations and laws.
+Expose the following operations and laws.
 
-- `TauCeti.Shimura.CMAbelianVariety.action`: The injective `E`-action on the actual abelian variety is part of the data.
-- `TauCeti.Shimura.CMAbelianVariety.type`: The type is the subset of embeddings appearing in `Lie(A)`, a CM type in the sense of [5.1 CM types, reflex fields and reflex norms](#51-cm-types-reflex-fields-and-reflex-norms).
-- `TauCeti.Shimura.CMAbelianVariety.homology`: `H₁(A,Q)` is free of rank one over `E`, with eigenspace decomposition `Φ` in `Lie(A)`.
-- `TauCeti.Shimura.CMAbelianVariety.transport`: An `E`-linear quasi-isogeny transports the full action and type; identity/composition hold.
-- `TauCeti.Shimura.CMAbelianVariety.rosati`: A retained compatible polarization has Rosati restriction equal to the CM conjugation, with positive Riemann form.
-- `TauCeti.Shimura.CMAbelianVariety.ofAction`: An actual abelian variety with an injective CM-algebra action of dimension `2 dim A` supplies the full CM object and its `Lie` type; a compatible polarization is included when Rosati data are required.
-- `TauCeti.Shimura.CMAbelianVariety.hom_ext`: Two `E`-linear quasi-homomorphisms between full CM objects agreeing on `H₁(-,Q)`, or on a rational Tate module after comparison, are equal.
+- The injective `E`-action on the actual abelian variety is part of the data.
+- The type is the subset of embeddings appearing in `Lie(A)`, a CM type in the sense of [5.1 CM types, reflex fields and reflex norms](#51-cm-types-reflex-fields-and-reflex-norms).
+- `H₁(A,Q)` is free of rank one over `E`, with eigenspace decomposition `Φ` in `Lie(A)`.
+- An `E`-linear quasi-isogeny transports the full action and type; identity/composition hold.
+- A retained compatible polarization has Rosati restriction equal to the CM conjugation, with positive Riemann form.
+- An actual abelian variety with an injective CM-algebra action of dimension `2 dim A` supplies the full CM object and its `Lie` type; a compatible polarization is included when Rosati data are required.
+- Two `E`-linear quasi-homomorphisms between full CM objects agreeing on `H₁(-,Q)`, or on a rational Tate module after comparison, are equal.
 
 **Checks.**
 
-- `TauCeti.Shimura.CMAbelianVariety.quadratic`: An elliptic curve with an imaginary quadratic embedding in `End⁰` has a full CM action of degree two.
-- `TauCeti.Shimura.CMAbelianVariety.product`: The product of two CM elliptic curves has full action by their product CM algebra; it need not be simple.
-- `TauCeti.Shimura.CMAbelianVariety.insufficient_degree`: A scalar `ℚ`-action on a positive-dimensional abelian variety is not full CM, and a degree-two action on dimension two alone is insufficient.
+- An elliptic curve with an imaginary quadratic embedding in `End⁰` has a full CM action of degree two.
+- The product of two CM elliptic curves has full action by their product CM algebra; it need not be simple.
+- A scalar `ℚ`-action on a positive-dimensional abelian variety is not full CM, and a degree-two action on dimension two alone is insufficient.
 
 ([J. S. Milne, Introduction to Shimura varieties](https://jmilne.org/math/xnotes/svi.pdf), Definition 14.9, p.123; field case §10.)
 
@@ -1673,20 +1678,20 @@ Use the Deligne completed-symmetry construction to define the connected canonica
 
 Construct the connected extension as Deligne's pullback of the adelic component extension along global reciprocity and the abelianization map of `Gal(ℚ̄/E)`. Its kernel is the completion of `Gᵃᵈ(ℚ)⁺` relative to the chosen derived cover. The extension acts continuously and semilinearly on the connected `ℚ̄` model: the kernel acts `ℚ̄`-linearly and the quotient acts on the base field. A special adjoint torus gives the extension map whose image fixes its marked point. A change of finite base field pulls back the extension; a central quotient changes the completion kernel. Prove these action and compatibility laws rather than choosing an unsupported splitting. ([Deligne, Variétés de Shimura](https://www.math.ias.edu/sites/default/files/34_VarietesdeShimura.pdf), 2.5.1–2.5.10, pp.280–283; 2.7.10, pp.286–287.)
 
-Expose the following named operations and laws.
+Expose the following operations and laws.
 
-- `TauCeti.Shimura.ConnectedTower.level`: The `Γ`-level is the actual algebraized quotient `Γ∖X⁺`.
-- `TauCeti.Shimura.ConnectedTower.transition`: Subgroup inclusion gives finite algebraic maps; identity and composition hold.
-- `TauCeti.Shimura.ConnectedTower.completedAction`: The completed adjoint rational symmetry acts compatibly on the pro-object; its topology is induced by derived-group congruence subgroups.
-- `TauCeti.Shimura.ConnectedTower.canonicalExtension`: The connected canonical version retains the adelic/Galois extension, with its multiplication/coherence and marked-special-torus reciprocity.
-- `TauCeti.Shimura.ConnectedTower.hom_ext`: Two morphisms of the congruence-indexed tower diagrams agreeing at each finite level are equal; canonical morphisms additionally commute with the specified completion/Galois extension.
-- `TauCeti.Shimura.ConnectedTower.lift`: Compatible holomorphic maps from a test complex analytic space `Y` to every finite `Γ∖X⁺` quotient give a unique morphism from the constant pro-object `Y` to the analytic tower; projections recover those maps. The algebraic tower has the analogous compatible-morphism universal property in its pro-category. No finite-dimensional analytic-space structure is asserted on the inverse-limit point set.
+- The `Γ`-level is the actual algebraized quotient `Γ∖X⁺`.
+- Subgroup inclusion gives finite algebraic maps; identity and composition hold.
+- The completed adjoint rational symmetry acts compatibly on the pro-object; its topology is induced by derived-group congruence subgroups.
+- The connected canonical version retains the adelic/Galois extension, with its multiplication/coherence and marked-special-torus reciprocity.
+- Two morphisms of the congruence-indexed tower diagrams agreeing at each finite level are equal; canonical morphisms additionally commute with the specified completion/Galois extension.
+- Compatible holomorphic maps from a test complex analytic space `Y` to every finite `Γ∖X⁺` quotient give a unique morphism from the constant pro-object `Y` to the analytic tower; projections recover those maps. The algebraic tower has the analogous compatible-morphism universal property in its pro-category. No finite-dimensional analytic-space structure is asserted on the inverse-limit point set.
 
 **Checks.**
 
-- `TauCeti.Shimura.ConnectedTower.trivial`: A trivial derived group gives the one-point connected tower.
-- `TauCeti.Shimura.ConnectedTower.sl2`: For the `GL₂` datum the connected tower is the congruence tower `Γ∖ℍ` induced by `SL₂`, with effective `±I` removed where present.
-- `TauCeti.Shimura.ConnectedTower.not_full`: A singleton connected derived torus tower does not recover the multiple full torus level components without the component/reciprocity extension.
+- A trivial derived group gives the one-point connected tower.
+- For the `GL₂` datum the connected tower is the congruence tower `Γ∖ℍ` induced by `SL₂`, with effective `±I` removed where present.
+- A singleton connected derived torus tower does not recover the multiple full torus level components without the component/reciprocity extension.
 
 ([Milne, The action of an automorphism of C on a Shimura variety and its special points](https://jmilne.org/math/articles/1983a.pdf), Appendix, pp.263–265; [J. S. Milne, Introduction to Shimura varieties](https://jmilne.org/math/xnotes/svi.pdf), Theorem 14.15, p.127; [Tau Ceti Project, Adelic algebraic groups roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AdelicAlgebraicGroups/README.md), layer-4-approximation-neat-levels-and-hecke-maps.)
 
@@ -2010,20 +2015,20 @@ Form the contracted product for `ρ_h:S→T^ad` acting by conjugation. The pulle
 
 Descend `τμ_h` in `T^ad` to `{}^τh:S→({}^{τ,h}G)^ad_R` and verify the connected Shimura conditions. Compute the finite-local trivializations and the real class `τμ_h(−1)/μ_h(−1)` in `H¹(R,T^ad)`; do not demand an `S`-map into the simply connected cover.
 
-Expose the following named operations and laws.
+Expose the following operations and laws.
 
-- `TauCeti.Shimura.conjugatedDatum.group`: The rational group is the contracted product inner form `S_τ×^S G`.
-- `TauCeti.Shimura.conjugatedDatum.specialTorus`: The unchanged `T` embeds into the twist; the marked `S`-map factors through `T^ad` in the adjoint group and has cocharacter `τμ_h`.
-- `TauCeti.Shimura.conjugatedDatum.adelic`: The finite-adelic section induces the specified topological group isomorphism, compatible with embeddings of marked tori.
-- `TauCeti.Shimura.conjugatedDatum.localClass`: The inner twist is finite-locally trivial and its real cohomology class is represented by `τμ_h(−1)/μ_h(−1)`.
-- `TauCeti.Shimura.conjugatedDatum.map`: An inclusion of connected data preserving the marked adjoint torus/cocharacter induces the compatible inclusion of twists and their adelic trivializations. Identity and composition hold.
-- `TauCeti.Shimura.conjugatedDatum.descent_ext`: Two morphisms of contracted-product twists agreeing after a common torsor-trivializing faithfully flat extension are equal; marked isomorphisms also retain the torus and distinguished adelic trivialization.
+- The rational group is the contracted product inner form `S_τ×^S G`.
+- The unchanged `T` embeds into the twist; the marked `S`-map factors through `T^ad` in the adjoint group and has cocharacter `τμ_h`.
+- The finite-adelic section induces the specified topological group isomorphism, compatible with embeddings of marked tori.
+- The inner twist is finite-locally trivial and its real cohomology class is represented by `τμ_h(−1)/μ_h(−1)`.
+- An inclusion of connected data preserving the marked adjoint torus/cocharacter induces the compatible inclusion of twists and their adelic trivializations. Identity and composition hold.
+- Two morphisms of contracted-product twists agreeing after a common torsor-trivializing faithfully flat extension are equal; marked isomorphisms also retain the torus and distinguished adelic trivialization.
 
 **Checks.**
 
-- `TauCeti.Shimura.conjugatedDatum.identity`: For `τ=id` the distinguished torsor section gives the original datum and identity adelic map.
-- `TauCeti.Shimura.conjugatedDatum.sl2_conjugation`: For `G=SL₂` with the norm-one `ℚ(i)` torus and the standard upper-half-plane adjoint `S`-map, `τ` equal to complex conjugation sends `μ_h` to its inverse and selects the lower-half-plane component. The group twist is split `SL₂`: the real obstruction `μ_h(−1)⁻²` is trivial and all finite local obstructions vanish. The marked adjoint homomorphism changes even though the group remains isomorphic.
-- `TauCeti.Shimura.conjugatedDatum.finiteLocal`: For each finite prime `p` and `t∈T(ℚ_p)`, the distinguished local isomorphism sends the embedded `t` to the same `t` in the untwisted marked torus of `{}^{τ,h}G`. An arbitrary unmarked local isomorphism need not have this property.
+- For `τ=id` the distinguished torsor section gives the original datum and identity adelic map.
+- For `G=SL₂` with the norm-one `ℚ(i)` torus and the standard upper-half-plane adjoint `S`-map, `τ` equal to complex conjugation sends `μ_h` to its inverse and selects the lower-half-plane component. The group twist is split `SL₂`: the real obstruction `μ_h(−1)⁻²` is trivial and all finite local obstructions vanish. The marked adjoint homomorphism changes even though the group remains isomorphic.
+- For each finite prime `p` and `t∈T(ℚ_p)`, the distinguished local isomorphism sends the embedded `t` to the same `t` in the untwisted marked torus of `{}^{τ,h}G`. An arbitrary unmarked local isomorphism need not have this property.
 - For the standard `SL₂` connected datum the Hodge cocharacter lives in `PGL₂`, and need not lift to an integral cocharacter of `SL₂`.
 
 ([J. S. Milne and K.-y. Shih, Conjugates of Shimura varieties](https://jmilne.org/math/articles/1982d.pdf), Introduction, p.281 (Taniyama torsor and contracted product); [J. S. Milne, The action of an automorphism of C on a Shimura variety and its special points](https://jmilne.org/math/articles/1983a.pdf), Remark 1.4, pp.241–242; Appendix `(C)`, pp.262–263.)
@@ -2231,22 +2236,22 @@ The identity and composition equations hold over `ℂ` by Layer 1 and descend by
 
 After any extension `E → F`, use `Over`.pullback to base change the entire functor; identity and successive base changes use the native natural isomorphisms.
 
-Expose the following named operations and laws.
+Expose the following operations and laws.
 
-- `CanonicalTower.ofLevelMaps_obj`: At level `K` the functor has value `M_K`, with its given map to the base.
-- `CanonicalTower.ofLevelMaps_map`: On an inclusion `K → L` the functor evaluates to the unique descended forgetful transition `π_{K,L}`.
-- `CanonicalTower.ofLevelMaps_id`: The map of the identity arrow at `i` is the identity of `M(i)`.
-- `CanonicalTower.ofLevelMaps_comp`: The map of `f` followed by `g` is `t(f)` followed by `t(g)`.
-- `CanonicalTower.ofLevelMaps_baseChange`: Postcomposing with `Over.pullback(b)` sends a transition `f` to the pullback of `t(f)`, on the pulled-back models. This uses native base change rather than a second scheme carrier.
+- At level `K` the functor has value `M_K`, with its given map to the base.
+- On an inclusion `K → L` the functor evaluates to the unique descended forgetful transition `π_{K,L}`.
+- The map of the identity arrow at `i` is the identity of `M(i)`.
+- The map of `f` followed by `g` is `t(f)` followed by `t(g)`.
+- Postcomposing with `Over.pullback(b)` sends a transition `f` to the pullback of `t(f)`, on the pulled-back models. This uses native base change rather than a second scheme carrier.
 
 **Checks.**
 
-- `CanonicalTower.test_identity_level`: At any level `K, t(id_K)` is the identity of `M_K`.
-- `CanonicalTower.test_nested_levels`: For `K₁` contained in `K2` contained in `K3`, the functor map of the composite inclusion equals `π_{K₁,K2}` followed by `π_{K2,K3}`.
-- `CanonicalTower.test_preserves_supplied_arrow`: For a level inclusion `K → L` and an `E`-morphism `u` distinct from the descended forgetful transition `π_{K,L}`, the functor map of the inclusion is not `u`.
-- `CanonicalTower.test_base_change`: The base-changed functor map on `f` is exactly `Over.pullback(b).map(t(f))`.
-- `CanonicalTower.test_gl2_jline_degree`: For `GL₂` and `N ≥ 3` the tower map from level `K(N)` to `GL₂(ℤ̂)` is identified with the `j`-map `Y_full(N)_Q → 𝔸¹_Q` (§8.10, ModularCurves `9E`); its degree is `|GL₂(ℤ/N)|/2` because -1 acts trivially, so 24 at `N = 3`, and `|GL₂(𝔽_3)| = 48`.
-- `CanonicalTower.test_not_constant`: The tower is not constant: for `GL₂, M_{K(N)}` has `φ(N)` geometric connected components (§8.7) while `M_{GL₂(ℤ̂)}` is geometrically connected, so for `N ≥ 3` the transition is not an isomorphism; `φ(3) = 2`.
+- At any level `K, t(id_K)` is the identity of `M_K`.
+- For `K₁` contained in `K2` contained in `K3`, the functor map of the composite inclusion equals `π_{K₁,K2}` followed by `π_{K2,K3}`.
+- For a level inclusion `K → L` and an `E`-morphism `u` distinct from the descended forgetful transition `π_{K,L}`, the functor map of the inclusion is not `u`.
+- The base-changed functor map on `f` is exactly `Over.pullback(b).map(t(f))`.
+- For `GL₂` and `N ≥ 3` the tower map from level `K(N)` to `GL₂(ℤ̂)` is identified with the `j`-map `Y_full(N)_Q → 𝔸¹_Q` (§8.10, ModularCurves `9E`); its degree is `|GL₂(ℤ/N)|/2` because -1 acts trivially, so 24 at `N = 3`, and `|GL₂(𝔽_3)| = 48`.
+- The tower is not constant: for `GL₂, M_{K(N)}` has `φ(N)` geometric connected components (§8.7) while `M_{GL₂(ℤ̂)}` is geometrically connected, so for `N ≥ 3` the transition is not an isomorphism; `φ(3) = 2`.
 - All levels retain their given structure morphisms to `Spec E`.
 - A composite of three inclusions gives the same map for either parenthesization.
 
@@ -2308,23 +2313,23 @@ Use CategoryTheory.Limits.span, preserving the order of the two legs. The comple
 
 For successive spans `L←A→M` and `M←A′→R`, construct `CanonicalHecke.compose` using the native pullback `P=A×_M A′` in `Over(Spec E)`, with ordered legs `P→A→L` and `P→A′→R`. Analytification after extension to `ℂ` identifies this actual scheme fibre product with the analytic composite of §1.5. If the common target's effective arithmetic groups act freely on their domains, in particular at neat common target level, §1.5 gives its literal geometric double-coset decomposition. At arbitrary coarse levels, instead normalize `P_red` in its component function fields using AlgebraicModuliForArithmeticGeometry §5.4; prove that this finite normal `E`-scheme has the geometric components and comparison maps of §1.5. Establish the comparison after extension to `ℂ` by finiteness, normality and generic isomorphism. Characteristic zero ensures that reduction and normalization commute with field extension here. Individual geometric summands may be permuted by Galois and need not descend separately to `E`. Neither this normalization nor its component list replaces `P` as the composite apex. Both constructions and their specified comparison maps commute with field extension.
 
-Expose the following named operations and laws.
+Expose the following operations and laws.
 
-- `CanonicalHecke.span_apex`: The value at WalkingSpan.zero is the supplied apex `M_J`.
-- `CanonicalHecke.span_first`: The image of WalkingSpan.`Hom`.fst is exactly `π_{J,K}`.
-- `CanonicalHecke.span_second`: The image of WalkingSpan.`Hom`.snd is exactly `T_g` followed by `π_{g⁻¹Jg,K}`.
-- `CanonicalHecke.span_baseChange`: Postcomposing the span with `Over.pullback(b)` is naturally isomorphic to native span on the two pulled-back legs, by `spanCompIso`.
-- `CanonicalHecke.compose_apex`: The value at WalkingSpan.zero is the actual native pullback of the first span's second leg and the second span's first leg.
-- `CanonicalHecke.compose_legs`: The two WalkingSpan arrows are respectively the first pullback projection followed by the first span's first leg, and the second projection followed by the second span's second leg.
+- The value at WalkingSpan.zero is the supplied apex `M_J`.
+- The image of WalkingSpan.`Hom`.fst is exactly `π_{J,K}`.
+- The image of WalkingSpan.`Hom`.snd is exactly `T_g` followed by `π_{g⁻¹Jg,K}`.
+- Postcomposing the span with `Over.pullback(b)` is naturally isomorphic to native span on the two pulled-back legs, by `spanCompIso`.
+- The value at WalkingSpan.zero is the actual native pullback of the first span's second leg and the second span's first leg.
+- The two WalkingSpan arrows are respectively the first pullback projection followed by the first span's first leg, and the second projection followed by the second span's second leg.
 
 **Checks.**
 
-- `CanonicalHecke.test_identity`: For equal apex and endpoints and both supplied legs the identity (the `g=1` case), both WalkingSpan arrows evaluate to the identity.
-- `CanonicalHecke.test_ordered_nat_legs`: In Type take apex and endpoints `ℕ`, first leg `n↦2n` and second leg `n↦n+1`. Using `TypeCat.ofHom` for the two functions, at `n=3` the native span evaluates the ordered legs to 6 and 4 respectively. These ordered evaluations distinguish the legs.
-- `CanonicalHecke.test_distinct_legs`: For two endomorphisms `p1,p2` of a supplied apex with `p1` distinct from `p2`, the first-leg evaluation is not `p2`. A construction that swaps the two legs fails this test.
-- `CanonicalHecke.test_base_change`: After `Over.pullback(b)`, evaluation at the first WalkingSpan arrow is `Over.pullback(b).map(p1)`.
-- `CanonicalHecke.test_gl2_Tp_index`: For `GL₂, K = GL₂(ℤ̂)` and `g` equal to `diag(p,1)` at a prime `p` and the identity elsewhere, `J = K ∩ gKg⁻¹` is the preimage of the lower-triangular subgroup `mod p`, which stabilizes the line spanned by `e₂`; its index in `K` is `p+1 = |P¹(𝔽_p)|`, and both legs of the Hecke span have degree `p+1` over the coarse `j`-line, the classical `T_p`.
-- `CanonicalHecke.test_gl2_T2_node`: The transpose-`T₂/T₂` composite over `ℂ` is the nodal fibre product of §1.5, whose off-diagonal component has two normalization points above `(0,0)`. Field extension of the actual canonical composite retains this node.
+- For equal apex and endpoints and both supplied legs the identity (the `g=1` case), both WalkingSpan arrows evaluate to the identity.
+- In Type take apex and endpoints `ℕ`, first leg `n↦2n` and second leg `n↦n+1`. Using `TypeCat.ofHom` for the two functions, at `n=3` the native span evaluates the ordered legs to 6 and 4 respectively. These ordered evaluations distinguish the legs.
+- For two endomorphisms `p1,p2` of a supplied apex with `p1` distinct from `p2`, the first-leg evaluation is not `p2`. A construction that swaps the two legs fails this test.
+- After `Over.pullback(b)`, evaluation at the first WalkingSpan arrow is `Over.pullback(b).map(p1)`.
+- For `GL₂, K = GL₂(ℤ̂)` and `g` equal to `diag(p,1)` at a prime `p` and the identity elsewhere, `J = K ∩ gKg⁻¹` is the preimage of the lower-triangular subgroup `mod p`, which stabilizes the line spanned by `e₂`; its index in `K` is `p+1 = |P¹(𝔽_p)|`, and both legs of the Hecke span have degree `p+1` over the coarse `j`-line, the classical `T_p`.
+- The transpose-`T₂/T₂` composite over `ℂ` is the nodal fibre product of §1.5, whose off-diagonal component has two normalization points above `(0,0)`. Field extension of the actual canonical composite retains this node.
 - Under an effective-free common target, `P` is normal and the normalization comparison is an isomorphism. At coarse level the same conclusion is excluded by the preceding `T₂` check.
 - `J` is `K` intersect `gKg⁻¹`, not `K` intersect `g⁻¹Kg`.
 - For `g=1, J=K` and both legs are the identity.
@@ -2368,22 +2373,22 @@ Transitions `[y,a]_K → [y,a]_K′` for `K ⊂ K′` and translations `[y,a] �
 
 For `Y` a point, `(64)` reduces to `(62)` for the special pair `(T,h)`, because `T(ℝ)` fixes `h`; this is the Layer 4 torus model.
 
-Expose the following named operations and laws.
+Expose the following operations and laws.
 
-- `ZeroDimShimura.shimuraSet`: `Sh_K(T,Y) = T(ℚ) ∖ (Y × T(𝔸_f))/K`, the quotient of `Y × T(𝔸_f)` by `(y,a)` ~ (`q·y, q` a `k`), `q` in `T(ℚ), k` in `K`.
-- `ZeroDimShimura.mk`: The class `[y,a]_K` of `y` in `Y` and a in `T(𝔸_f)`.
-- `ZeroDimShimura.mk_eq_mk`: `[y,a]_K = [y′,a′]_K` if and only if `y′ = q·y` and `a′ = q` a `k` for some `q` in `T(ℚ)` and `k` in `K`.
-- `ZeroDimShimura.map`: For `K ⊂ K′` the transition `[y,a]_K → [y,a]_K′`, with `map_id` and `map_comp`.
-- `ZeroDimShimura.singletonEquiv`: For `Y` a point, `Sh_K(T,Y)` is `T(𝔸_f)/(T(ℚ)K)`, the finite Shimura set of the Layer 4 torus datum.
-- `ZeroDimShimura.galoisAct`: Formula `(64): σ[y,a]_K = [r(s)_inf·y, r(s)_f·a]_K`; independent of `s`, continuous, compatible with map and translations.
-- `ZeroDimShimura.canonicalModel`: The finite étale `E`-scheme attached to the Galois set `(Sh_K(T,Y), galoisAct)` by ModularCurves `0D`; its `ℚ̄`-points are `Sh_K(T,Y)` with this action.
+- At level `K` the Shimura set is `Sh_K(T,Y) = T(ℚ) ∖ (Y × T(𝔸_f))/K`, the quotient of `Y × T(𝔸_f)` by `(y,a)` ~ (`q·y, q` a `k`), `q` in `T(ℚ), k` in `K`.
+- Each `y` in `Y` and `a` in `T(𝔸_f)` give a class `[y,a]_K`.
+- `[y,a]_K = [y′,a′]_K` if and only if `y′ = q·y` and `a′ = q` a `k` for some `q` in `T(ℚ)` and `k` in `K`.
+- For `K ⊂ K′` the transition `[y,a]_K → [y,a]_K′` is compatible with identity and composition.
+- For `Y` a point, `Sh_K(T,Y)` is `T(𝔸_f)/(T(ℚ)K)`, the finite Shimura set of the Layer 4 torus datum.
+- The Galois action is Milne's formula `(64)`, `σ[y,a]_K = [r(s)_inf·y, r(s)_f·a]_K`; it is independent of `s`, continuous, and compatible with the transitions and translations.
+- The canonical model is the finite étale `E`-scheme that ModularCurves `0D` attaches to the Galois set `Sh_K(T,Y)` with this action; its `ℚ̄`-points are `Sh_K(T,Y)` with this action.
 
 **Checks.**
 
-- `ZeroDimShimura.test_gl2_components`: For `T = G_m, Y = ℝˣ/ℝ_{>0} ≅ {±1}` and `K = ker(ℤ̂^× → (ℤ/N)^×), N > 0, Sh_K(T,Y) ≅ (ℤ/Nℤ)^×`, which has `φ(N)` elements (Milne p.63).
-- `ZeroDimShimura.test_strict_datum_halves`: With `Y` replaced by one point (the strict datum `(G_m,{det∘h})` of Section P.4) the same level gives `ℚˣ∖𝔸_f^×/K ≅ (ℤ/Nℤ)^×/{±1}`, with `φ(N)/2` elements for `N ≥ 3`; at `N = 3` it is a single point, whereas `μ_3^prim` has two geometric points.
-- `ZeroDimShimura.test_singleton`: For `Y` a point, `Sh_K(T,Y)` is `T(𝔸_f)/(T(ℚ)K)`, the set underlying the Layer 4 torus model.
-- `ZeroDimShimura.test_maximal_level`: For `T = G_m, Y = {±1}` and `K = ℤ̂^×, Sh_K(T,Y)` is one point `(ℚ_{>0}·ℤ̂^× = 𝔸_f^×)`, with model `Spec ℚ`.
+- For `T = G_m, Y = ℝˣ/ℝ_{>0} ≅ {±1}` and `K = ker(ℤ̂^× → (ℤ/N)^×), N > 0, Sh_K(T,Y) ≅ (ℤ/Nℤ)^×`, which has `φ(N)` elements (Milne p.63).
+- With `Y` replaced by one point (the strict datum `(G_m,{det∘h})` of Section P.4) the same level gives `ℚˣ∖𝔸_f^×/K ≅ (ℤ/Nℤ)^×/{±1}`, with `φ(N)/2` elements for `N ≥ 3`; at `N = 3` it is a single point, whereas `μ_3^prim` has two geometric points.
+- For `Y` a point, `Sh_K(T,Y)` is `T(𝔸_f)/(T(ℚ)K)`, the set underlying the Layer 4 torus model.
+- For `T = G_m, Y = {±1}` and `K = ℤ̂^×, Sh_K(T,Y)` is one point `(ℚ_{>0}·ℤ̂^× = 𝔸_f^×)`, with model `Spec ℚ`.
 - For `(G_m,{±1})` with `μ(z)=z` and `K = ker(ℤ̂^× → (ℤ/N)^×), N > 0`, the set has `φ(N)` points and Galois acts through the cyclotomic character (Milne p.125): the model is `Spec ℚ[z]/Φ_N(z)`.
 - For `μ(t)=t` and `N=3`, complex conjugation interchanges the two points. For `μ=0` at the same level, both points are rational: `Spec ℚ` disjoint union `Spec ℚ`, rather than `Spec ℚ(ζ_3)`. A one-point `Y` has one point in both cases.
 
@@ -2770,7 +2775,7 @@ This uses [7.14 Canonical models for every pure datum](#714-canonical-models-for
 
 ### Examples
 
-At full `N=3` the `j`-map has degree `|GL₂(ℱ₃)|/2=24` and two geometric pairing components; its maximal-level target is not neat and it ramifies at elliptic points. For maximal level and `g=diag(p,1)`, both `T_p` legs have degree `p+1`. Full `N=6` compactification uses generalized elliptic curves rather than prime-only diamond quotients. At the infinity cusp of full `N`-level, `q_c=exp(2πiz/N)` and `q=q_c^N`. Minimal extensions can ramify at cusps even when the open maps are étale.
+At full `N=3` the `j`-map has degree `|GL₂(𝔽₃)|/2=24` and two geometric pairing components; its maximal-level target is not neat and it ramifies at elliptic points. For maximal level and `g=diag(p,1)`, both `T_p` legs have degree `p+1`. Full `N=6` compactification uses generalized elliptic curves rather than prime-only diamond quotients. At the infinity cusp of full `N`-level, `q_c=exp(2πiz/N)` and `q=q_c^N`. Minimal extensions can ramify at cusps even when the open maps are étale.
 
 ### Dependencies
 

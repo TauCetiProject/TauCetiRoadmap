@@ -15,8 +15,8 @@ field, and it is the exact field of realization of the type-trace character,
 with uniqueness up to module isomorphism. The definitions use Mathlib's ring
 maps to `ℂ`, conjugate embeddings, intermediate fields and linear-map trace.
 
-The other headline signatures are deferred for lack of their mathematical
-objects at the pins:
+The other headline theorems are not statable at the pins, for lack of these
+carriers:
 
 * Layers 0–1's component decomposition, abelianized component formula and
   analytic tower require pure Shimura data, their Hermitian domains and the
