@@ -80,13 +80,12 @@ The roadmap owns:
   as `K(π, 1)` spaces, branch tuples, Nielsen classes, the Hurwitz braid action and the braid-orbit
   monoid, exterior epimorphisms and `T`-systems, realization of generating tuples, rational rigidity,
   the field-of-moduli obstruction, reduced Schur multipliers and covers, marked central extensions
-  and the universal marked extension `U(G, c)` with its kernel, Schur–Zassenhaus conjugacy of
-  coprime complements, the action of units and the cyclotomic twist, lifting invariants and the
-  stable classification of braid orbits (Layer IG.3);
+  and the universal marked extension `U(G, c)` with its kernel, the action of units and the
+  cyclotomic twist, lifting invariants and the stable classification of braid orbits (Layer IG.3);
 - proper embedding problems with local prescriptions over number fields, the abelian lifting
   obstruction, twisting of solutions, the restricted-ramification localization adapter
-  and auxiliary cokernel comparisons for Shafarevich shrinking, Shafarevich's theorem with the Fitting
-  subgroup and free operator groups, the Brauer–Manin set, Harpaz–Wittenberg density for
+  and auxiliary cokernel comparisons for Shafarevich shrinking, Shafarevich's theorem with Fitting
+  supplements and free operator groups, the Brauer–Manin set, Harpaz–Wittenberg density for
   supersolvable stabilisers and the unramified Brauer classes it needs, supersolvable and quaternion
   local prescriptions, unramified admissible `Γ`-groups, Property E, arithmetic lifting invariants
   and the marked extension count (Layer IG.4);
@@ -138,6 +137,10 @@ It does not own, and consumes by name:
   `TauCeti.FiniteEmbeddingProblem` and, for any abelian kernel,
   `TauCeti.FiniteEmbeddingProblem.exists_isSolution_iff_obstruction_eq_zero`), and continuous
   cohomology (**ProfiniteCohomology**, Layers 1, 5, 7 and 10);
+- conjugacy of coprime complements in finite groups when the normal Hall subgroup or the quotient is
+  solvable, and the Fitting subgroup with its nilpotence, characteristicity, maximality and the
+  inclusion `Φ(G) ≤ F(G)` (**LocalFiniteGroupTheory**, L1 and L2); what Layer IG.4 keeps is the
+  passage to profinite groups and the Fitting supplement theorem, both stated on these inputs;
 - general profinite full-image detection and openness of the Frattini subgroup for compact
   matrix groups (**ArithmeticGaloisRepresentations**, §6.4a). Detection requires a closed image;
   the finite-cover specialization application here assumes an open Frattini subgroup, and the
@@ -150,8 +153,9 @@ It does not own, and consumes by name:
   (**ClassFieldTheory**, Layers 5, 7 and 10–12); finite Galois localization, absolute finite
   Poitou–Tate and Grunwald–Wang
   (**ArithmeticGaloisDuality**, §§R02.3.0d–R02.3.1, R02.4.2–R02.4.3, R02.4.5a–R02.4.6); Chebotarev density (**Chebotarev**); unramified extensions, Frobenius,
-  ramification and the tame quotient of local Galois groups (**LocalFieldsRamification**, Layers
-  2–4); curves and their places (**AlgebraicCurves**, Layers 3–5, 7, 8 and 12); finite étale schemes
+  inertia, wild inertia and the tame quotient of the absolute Galois group of a nonarchimedean local
+  field, which are already in the pinned Tau Ceti (*Exact supplier contracts*, *From Tau Ceti*);
+  curves and their places (**AlgebraicCurves**, Layers 3–5, 7, 8 and 12); finite étale schemes
   over a field and finite torsors (**ModularCurves**, Layers 0c–0d); affine group schemes, their
   quotients and semisimple groups (**ReductiveGroups**, Layers 0, 3 and 6); representation groups of
   finite groups (**RepresentationTheory/InductionRestriction**, Layer 7); fibrations and homotopy
@@ -241,9 +245,10 @@ point estimate of Layer IG.5, where it is an explicit hypothesis of the statemen
 | Field Galois theory and splitting fields | `IntermediateField`, `IsGalois`, `IsGalois.card_aut_eq_finrank`, `IsGalois.normalAutEquivQuotient`, `IsGalois.of_separable_splitting_field`, `Polynomial.SplittingField`, `Polynomial.Gal`, `AlgEquiv.autCongr` | IG.0, IG.6 |
 | Finite étale algebras and Galois categories | `CommAlgCat.FiniteEtale`, `Algebra.Etale`, `CategoryTheory.GaloisCategory`, `CategoryTheory.PreGaloisCategory.FiberFunctor`, `CategoryTheory.PreGaloisCategory.functorToContAction` | IG.0 |
 | Scheme morphisms | `AlgebraicGeometry.Etale`, `AlgebraicGeometry.IsFinite`, `AlgebraicGeometry.Scheme.Etale` | IG.0–IG.1 |
-| Groups | `Subgroup`, `Subgroup.closure`, `Subgroup.Normal`, `Subgroup.Characteristic`, `FreeGroup`, `FreeGroup.lift`, `PresentedGroup`, `PresentedGroup.toGroup`, `MulAut.conj`, `frattini`, `frattini_nilpotent`, `Group.IsNilpotent`, `Group.IsSolvable`, `Subgroup.IsComplement'`, `Subgroup.exists_right_complement'_of_coprime` (existence of complements only), `Subgroup.QuotientDiff`, `Subgroup.exists_smul_eq`, `Sylow`, `Subgroup.lowerCentralSeries`, `SemidirectProduct`, `DihedralGroup`, `QuaternionGroup`, `QuaternionGroup.card` (`Mathlib/GroupTheory/SpecificGroups/Quaternion.lean`) | IG.3, IG.4 |
+| Groups | `Subgroup`, `Subgroup.closure`, `FreeGroup`, `FreeGroup.lift`, `PresentedGroup`, `PresentedGroup.toGroup`, `MulAut.conj`, `frattini`, `frattini_nilpotent`, `Group.IsNilpotent`, `Group.IsSolvable`, `Subgroup.exists_right_complement'_of_coprime` (existence of complements only), `SemidirectProduct`, `DihedralGroup`, `QuaternionGroup`, `QuaternionGroup.card` (`Mathlib/GroupTheory/SpecificGroups/Quaternion.lean`) | IG.3, IG.4 |
 | Group extensions and group homology | `GroupExtension`, `GroupExtension.Splitting`, `groupHomology.H2`, `groupHomology.H2π`, `groupHomology.cycles₂`, `groupHomology.map`, `Rep.trivial`, `Abelianization`, `Finsupp`, `Submodule.basisOfPid`, `AddCommGroup.equiv_directSum_zmod_of_finite` | IG.3 |
 | Number fields | `NumberField`, `NumberField.finrank_eq_one_of_unramified` | IG.2, IG.4 |
+| Frobenius of finite fields | `FiniteField.frobeniusAlgEquivOfAlgebraic` (the automorphism `a ↦ a^q` of an algebraic extension of `𝔽_q`), `FiniteField.bijective_frobeniusAlgEquivOfAlgebraic_pow` (every element of `Gal(𝔽_{q^n}/𝔽_q)` is one of its first `n` powers) | IG.1 |
 | Decomposition and inertia of primes in Galois extensions | `Ideal.inertia`, `Ideal.Quotient.stabilizerHom_surjective`, `Ideal.Quotient.stabilizerQuotientInertiaEquiv`, `Ideal.card_inertia_eq_ramificationIdxIn` | IG.1 |
 | Topological groups and local fields | `IsTopologicalGroup`, `OpenSubgroup`, `IsKrasner` | IG.0, IG.2 |
 | Galois groups of polynomials acting on roots | `Polynomial.Gal.galActionHom`, `Polynomial.Gal.galActionHom_injective` | IG.6 |
@@ -255,11 +260,10 @@ The Schur multiplier `M(G)` is Mathlib's `groupHomology.H2 (Rep.trivial ℤ G �
 its carrier and additive-group API are used directly. No second multiplier carrier is introduced.
 
 `Subgroup.exists_right_complement'_of_coprime` gives existence of a complement to a normal subgroup
-of coprime order and index. Conjugacy of such complements, under the solvability alternatives, is
-the Layer IG.3 target *Conjugacy of coprime complements*, and Layer IG.4 *Coprime profinite
-complements* extends existence and conjugacy to profinite groups. Mathlib has `frattini` but no
-Fitting subgroup; the Fitting subgroup and its basic theory are the Layer IG.4 target *The Fitting
-subgroup*. `RatFunc.eval` is total and returns `0` at a pole; its additive and multiplicative laws
+of coprime order and index; conjugacy of complements in finite groups, under the solvability
+alternatives, is LocalFiniteGroupTheory L1, and only the profinite statement is a target of Layer
+IG.4. Mathlib has `frattini` but no Fitting subgroup; the Fitting subgroup is that of
+LocalFiniteGroupTheory L2. `RatFunc.eval` is total and returns `0` at a pole; its additive and multiplicative laws
 carry nonvanishing-denominator hypotheses, which is why Layer IG.2 introduces the regular subring.
 
 ### From Tau Ceti
@@ -275,7 +279,9 @@ carry nonvanishing-denominator hypotheses, which is why Layer IG.2 introduces th
 | `Sₙ` as a Galois group over `ℚ` | `TauCeti.exists_monic_int_polynomial_hasFullSymmetricGaloisGroup`, `Polynomial.HasFullSymmetricGaloisGroup`, `Polynomial.HasFullSymmetricGaloisGroup.nonempty_mulEquiv` | IG.6 |
 | Galois groups of small cubics and quartics over `ℚ` by transitive-group label | `TauCeti.HasGaloisLabel`, `TauCeti.hasGaloisLabel_X_pow_three_sub_three_mul_X_sub_one`, `TauCeti.hasGaloisLabel_X_pow_four_sub_two`, `TauCeti.natCard_gal_X_pow_four_sub_two`, `TauCeti.hasGaloisLabel_X_pow_four_add_X_pow_three_add_X_sq_add_X_add_one` | IG.6 |
 | Aspherical spaces | `TauCeti.IsAspherical` | IG.3 |
+| Cohomology of an aspherical space of CW type with trivial coefficients | `TauCeti.IsAspherical.exists_homotopyEquiv_classifyingSpace` (an aspherical space of CW type with fundamental group identified with `G` is homotopy equivalent to `classifyingSpace G`, compatibly with `TauCeti.classifyingSpaceFundamentalGroupMulEquiv`; `TauCeti/AlgebraicTopology/ClassifyingSpace/Uniqueness.lean`), `TopCat.isIso_singularCohomologyMap` (homotopy invariance of singular cohomology; `TauCeti/AlgebraicTopology/Cohomology/HomotopyInvariance.lean`), `TauCeti.classifyingSpaceSingularCohomologyIsoGroupCohomology` (`Hⁿ(BG; M) ≅ Hⁿ(G, M)` for a trivial module `M`; `TauCeti/AlgebraicTopology/ClassifyingSpace/Cohomology.lean`) | IG.3 |
 | The local Artin map and inertia lifts of unit symbols | `TauCeti.ClassFieldTheory.artinMap` (`TauCeti/NumberTheory/ClassFieldTheory/Local/ArtinMap.lean`), `TauCeti.ClassFieldTheory.mem_inertiaSubgroup_of_mk_eq_artinMap` (`TauCeti/NumberTheory/ClassFieldTheory/Local/Unramified.lean`) | IG.4 |
+| Unramified extensions, Frobenius, inertia, wild inertia and the tame quotient of a nonarchimedean local field (finite residue field of order `q`), in `TauCeti/NumberTheory/LocalField/` | `TauCeti.IsUnramified` (`Unramified/Basic.lean`); `TauCeti.frobeniusAlgEquiv`, `TauCeti.orderOf_frobeniusAlgEquiv` (`ResidueCorrespondence.lean`); `TauCeti.maximalUnramifiedExtension`, `TauCeti.maximalUnramifiedFrobenius` (`Unramified/Maximal.lean`); `TauCeti.maximalUnramifiedGaloisGroupEquivZHat`, sending arithmetic Frobenius to `TauCeti.zHat.gen` (`Unramified/ZHat.lean`); `TauCeti.inertiaSubgroup`, `TauCeti.IsArithFrobeniusLift` (`Unramified/Inertia/Basic.lean`); `TauCeti.maximalTameExtension`, `TauCeti.wildInertiaSubgroup`, `TauCeti.isProPSylow_wildInertiaSubgroup` (`WildInertia.lean`); `TauCeti.tameQuotient`, `TauCeti.tameInertiaHom` and the relation `σ τ σ⁻¹ = τ^q` for an arithmetic Frobenius lift `σ`, `TauCeti.IsArithFrobeniusLift.toTameQuotient_mul_tameInertiaHom_mul_inv` (`Tame/Quotient.lean`); `TauCeti.inertiaTameCharacter` (`Tame/Character.lean`); `TauCeti.IwasawaGroup`, `TauCeti.tameQuotientEquiv` (`Tame/Presentation.lean`) | IG.1, IG.4 |
 
 ### From TauCetiRoadmap.BelyiMaps
 
@@ -366,12 +372,6 @@ descent are supplied by EtaleCohomologyFoundations §§F.10.3–F.10.5.
 | Absolute finite Poitou–Tate | ArithmeticGaloisDuality §R02.4.5a / *Finite-coefficient Poitou–Tate input* | IG.4 uses the all-place kernels and finite-set localization defects with the Cartier dual action. |
 | Grunwald–Wang | ArithmeticGaloisDuality §R02.4.5b / *Grunwald–Wang and its exceptional class* | Retain the order-two alternative and the dyadic exception in cyclic prescriptions. |
 
-### From topology roadmaps
-
-| Object | Exact supplier | Convention/consumer |
-| --- | --- | --- |
-| `K(π, 1)` group/topological cohomology | ClassifyingSpaces §Stage 4 / item 17, Homology (including cohomology with local coefficients) | §IG.3.1 applies the comparison to the constructed neighbourhood through a CW model and the deck-group/opposite-`π₁` convention, with finite trivial coefficients |
-
 ### From SchemeAndStackFoundations
 
 | Object | Exact supplier | Convention/consumer |
@@ -391,8 +391,8 @@ descent are supplied by EtaleCohomologyFoundations §§F.10.3–F.10.5.
 ProfiniteArithmetic Layer 0 (the ring `ẑ` and its units) and Layer 2 (continuous outer
 automorphisms); PeripheralActions (peripheral powers); ProfiniteProPGroups Layers 0, 3, 4 and 5;
 ProfiniteCohomology Layers 1, 5, 7 and 10 (corestriction); PolynomialGaloisGroups Layers 2, 3 and 9;
-GlobalNumberFields Layers 0 and 1; ClassFieldTheory Layers 5, 7 and 10–12; Chebotarev (Layer 10); LocalFieldsRamification
-Layers 2, 3 and 4; AlgebraicCurves Layers 3–5, 7, 8 and 12; ModularCurves Layers 0c and 0d;
+GlobalNumberFields Layers 0 and 1; ClassFieldTheory Layers 5, 7 and 10–12; Chebotarev (Layer 10);
+AlgebraicCurves Layers 3–5, 7, 8 and 12; ModularCurves Layers 0c and 0d;
 ReductiveGroups Layers 0, 3 and 6; RepresentationTheory/InductionRestriction Layer 7, whose Schur
 multiplier is `H²(G, k^×)` over an algebraically closed field, so the comparison with `H₂(G, ℤ)` used
 in Layer IG.3 is part of the target *Reduced Schur covers* there; DGFloer Layer 1 item 2
@@ -420,11 +420,17 @@ EtaleCohomologyFoundations §§F.5–F.6 /
 purity and Poincaré duality); ReductiveGroupsPartII Layer RG2.0a (Weil restriction and
 norm tori); AdelicAlgebraicGroups Layer 4, §4.1 (*Hasse kernel and injectivity* for semisimple simply
 connected groups, and *Weak approximation*, `Approximation.hasWeakApproximation_of_simplyConnected`);
+LocalFiniteGroupTheory L1 (Schur–Zassenhaus conjugacy for a finite group when the normal Hall
+subgroup or the quotient is solvable; it conjugates by an element of the whole group, which gives an
+element of the normal subgroup because the group is the product of that subgroup and either
+complement) and L2 (the relative Fitting subgroup, whose value at the top subgroup is the `F(G)` of
+IG.4.3, with nilpotence, characteristicity, maximality and `Φ(G) ≤ F(G)`);
 ArithmeticGaloisRepresentations §§3.1, 3.4 (Swan conductors with finite coefficients over a
 complete discretely valued field with perfect residue field, such as `k((z))` with `k`
 algebraically closed, and their tame-base-change scaling, with the ramification filtrations of its
-conductor setting); the finite-residue-field contract of LocalFieldsRamification Layers 3–4 is not
-used at the completions of curves over an algebraically closed field;
+conductor setting); the finite-residue-field local-field declarations of Tau Ceti
+(`TauCeti.inertiaSubgroup`, `TauCeti.tameQuotient`) are not used at the completions of curves over
+an algebraically closed field;
 ComplexComparisonPartII §C−1.1 (`ComplexAnalyticSpace` and
 `complexSchemeAnalytification`), §§C−1.2, C1.9 (`complexSpaceAnalytification`, proper coherent GAGA);
 ResolutionOfSingularitiesCharacteristicZero §5.5 / `localIsomorphismResolution` (resolution of
@@ -444,11 +450,12 @@ Layer IG.1 applies the supplied arithmetic sequence and inertia to tame quotient
 begins with elementary algebra over `K(T)` (the regular subring and polynomial specialization) and
 ends with Hilbert's irreducibility theorem and its refinements. Layer IG.3 is the geometry and combinatorics of branched covers of the line: Riemann
 existence, braid orbits, rigidity, descent, and the group theory of lifting invariants. Layer IG.4 is
-independent of IG.3 except for the reduced Schur covers it uses for central lifts and the
-conjugacy of coprime complements: it is the
+independent of IG.3 except for the reduced Schur covers it uses for central lifts: it is the
 arithmetic of embedding problems leading to Shafarevich's theorem and to the unramified groups of
-Liu–Wood–Zureick-Brown. Layer IG.5 needs IG.1 and IG.3 and builds Hurwitz spaces with their
-components and point counts. Layer IG.6 collects realizations. The layers are given in build order;
+Liu–Wood–Zureick-Brown. The finite group theory under IG.3 and IG.4 beyond Mathlib, conjugacy of
+coprime complements and the Fitting subgroup, is LocalFiniteGroupTheory L1 and L2. Layer IG.5 needs
+IG.1 and IG.3 and builds Hurwitz spaces with their components and point counts. Layer IG.6 collects
+realizations. The layers are given in build order;
 within a layer, definitions precede the theorems that use them. In IG.1 the order is tame quotients and tangential fibres, Frobenius, henselian proper
 covers, proper descent, proper smooth specialization, relative-boundary specialization,
 characteristic-zero base-extension invariance, then IG.1.4. In IG.2.4, finite-extension permanence
@@ -525,7 +532,7 @@ finite-field extensions. (Stacks §§64.16–64.17, with §64.14 for curves; SGA
 (finite-level frobeniusFixedPoints and frobeniusCohomology); EtaleCohomologyFoundations §F.10.3 PerfectComplex trace/additivity;
 §IG.0.T1 / curveEndomorphismTrace; EtaleCohomologyFoundations §§F.10.4–F.10.5 /
 freeTorsorEquivariantPerfectness and freeTorsorCoefficientDescent;
-Mathlib Noether normalization (`Algebra.exists_finite_inj_algHom_of_fg`) and the dimension
+Mathlib Noether normalization (`exists_finite_inj_algHom_of_fg`) and the dimension
 lemmas of SchemeAndStackFoundations §0.7, building any missing fibre-dimension steps here. The geometric proof uses finite coefficients.
 
 **Checks.**
@@ -1092,7 +1099,10 @@ locally Noetherian schemes or the componentwise groupoid.
 
 **Frobenius and cyclotomic normalisation.** Let `X` be a geometrically connected variety over `𝔽_q`.
 The arithmetic quotient of `π₁^ét(X)` is `Γ_{𝔽_q} ≅ ẑ`, topologically generated by arithmetic
-Frobenius `a ↦ a^q` (LocalFieldsRamification Layer 2). On the prime-to-`q` Tate module arithmetic
+Frobenius `a ↦ a^q`: each finite quotient `Gal(𝔽_{q^n}/𝔽_q)` consists of the first `n` powers of
+Mathlib's `FiniteField.frobeniusAlgEquivOfAlgebraic`
+(`FiniteField.bijective_frobeniusAlgEquivOfAlgebraic_pow`), and the local form is Tau Ceti's
+`TauCeti.maximalUnramifiedGaloisGroupEquivZHat` for a local field with residue field `𝔽_q`. On the prime-to-`q` Tate module arithmetic
 Frobenius acts by multiplication by `q` and geometric Frobenius by `q^{−1}`. For a curve, arithmetic
 Frobenius transports local inertia at `P` to that at `Frob_q(P)` with cyclotomic factor `q` after
 the chosen paths. For a rational boundary point this is the `q`-power action on its inertia
@@ -1106,7 +1116,10 @@ each `μ_n` with `n` prime to `q` and pass to the limit. Source: [Wood, *An alge
 invariant*](https://abel.math.harvard.edu/~mmwood/Publications/lifting.pdf), Theorem 5.2 and §6.1,
 pp. 10–12, where the inverse cyclotomic action enters the discrete action defining the invariant.
 *Needs:* EtaleCohomologyFoundations §F.0.A2 *The arithmetic fundamental-group sequence*, *Tame and prime-to-`p` fundamental quotients*;
-LocalFieldsRamification Layers 2 and 4; Supplied by EtaleCohomologyFoundations §F.10.1 /
+Mathlib `FiniteField.frobeniusAlgEquivOfAlgebraic`,
+`FiniteField.bijective_frobeniusAlgEquivOfAlgebraic_pow`; Tau Ceti
+`TauCeti.maximalUnramifiedGaloisGroupEquivZHat` and, for the factor `q` on local tame inertia,
+`TauCeti.IsArithFrobeniusLift.toTameQuotient_mul_tameInertiaHom_mul_inv`; Supplied by EtaleCohomologyFoundations §F.10.1 /
 `VanishingCycles.frobeniusFixedPoints`; BelyiMaps Layers 12 and 13.
 Over the chosen finite field and closure, arithmetic Frobenius is `x↦x^q` and geometric Frobenius its
 inverse; rational points are the fixed points of their matching powers.
@@ -1511,8 +1524,9 @@ EtaleCohomologyFoundations §F.0 / `VanishingCycles.finiteEtaleGaloisCategory` s
 étale fundamental group and paths; EtaleCohomologyFoundations §§F.0.A0–F.0.A2 supply field and
 `𝔾_m` identifications, the arithmetic sequence, decomposition and inertia. EtaleCohomologyFoundations §F.3a supplies the inertia and tame character of the
 general henselian traits at the boundary of a curve over an algebraically closed field, with
-infinite residue field; LocalFieldsRamification Layers 2–4 supply Frobenius, local ramification and
-the tame quotient for finite-residue local fields, and Mathlib the decomposition and inertia groups of primes; AlgebraicCurves Layers
+infinite residue field; Tau Ceti supplies Frobenius, inertia, wild inertia and the tame quotient
+for finite-residue local fields (`TauCeti.maximalUnramifiedGaloisGroupEquivZHat`,
+`TauCeti.inertiaSubgroup`, `TauCeti.wildInertiaSubgroup`, `TauCeti.tameQuotientEquiv`), and Mathlib the decomposition and inertia groups of primes; AlgebraicCurves Layers
 8 and 12 the decomposition of places and the curve-place dictionary; BelyiMaps Layers
 12–13, ProfiniteArithmetic and PeripheralActions the Tate-module and peripheral conventions.
 SchemeAndStackFoundations Layers 0, 1, 3 and 4 supply limits, henselization, Popescu
@@ -1590,7 +1604,7 @@ at `t`. For negation write `−f = (−num(f))/denom(f)` by `RatFunc.num_div_den
 divides `denom(f)` by `RatFunc.denom_dvd`. With the valuation-ring definition these closure facts
 come for free; they are what a direct construction with the `Subring` constructor would bundle, and
 they show that the two descriptions give the same subring.
-Source: [Mathlib `RatFunc` sources](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/FieldTheory/RatFunc/AsPolynomial.lean),
+Source: [Mathlib `RatFunc` sources](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/FieldTheory/RatFunc/AsPolynomial.lean),
 `RatFunc.eval`, `eval_add` and `eval_mul`, and the reduced-denominator API of `RatFunc/Basic`; the
 specialization map and its finite exceptional set are motivated by
 [Dèbes, *Arithmétique des revêtements de la droite*](https://pro.univ-lille.fr/fileadmin/user_upload/pages_pros/pierre_debes/V2-ArithRevDte-v2.pdf),
@@ -1615,7 +1629,7 @@ Hilbert irreducibility). *Needs:* Mathlib `Subring`, `Subring.subtype`, `RatFunc
 **Membership by reduced denominator.** For `t ∈ K` and `f ∈ K(T)`, `f ∈ Rₜ` if and only if
 `denom(f)(t) ≠ 0`. *Proof sketch.* With the definition through the Tau Ceti valuation ring,
 `TauCeti.Place.valuation_ofIrreducible_le_one_iff` for `q = T − t` says that `f ∈ Rₜ` exactly when
-`T − t ∤ denom(f)`, and `Polynomial.dvd_iff_isRoot` turns this into `denom(f)(t) ≠ 0`. Source: [Mathlib `RatFunc` sources](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/FieldTheory/RatFunc/AsPolynomial.lean),
+`T − t ∤ denom(f)`, and `Polynomial.dvd_iff_isRoot` turns this into `denom(f)(t) ≠ 0`. Source: [Mathlib `RatFunc` sources](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/FieldTheory/RatFunc/AsPolynomial.lean),
 `RatFunc.eval`, `eval_add` and `eval_mul`, and the reduced-denominator API;
 [Dèbes](https://pro.univ-lille.fr/fileadmin/user_upload/pages_pros/pierre_debes/V2-ArithRevDte-v2.pdf),
 §§5.2.1–5.2.2, printed pp. 135–137. *Needs:* *Rational functions regular at a point*; Tau Ceti
@@ -1637,7 +1651,7 @@ being attained by the constant polynomial `a`. The ring-map laws come with the b
 *Proof sketch.* `RatFunc.eval_add` and `RatFunc.eval_mul` each require nonvanishing of the two
 denominator values, which *Membership by reduced denominator* supplies; `RatFunc.eval_zero` and
 `RatFunc.eval_one` give the remaining fields, and `RatFunc.eval_algebraMap` the polynomial values.
-Source: [Mathlib `RatFunc` sources](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/FieldTheory/RatFunc/AsPolynomial.lean),
+Source: [Mathlib `RatFunc` sources](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/FieldTheory/RatFunc/AsPolynomial.lean),
 `RatFunc.eval`, `eval_add` and `eval_mul`, and the reduced-denominator API;
 [Dèbes](https://pro.univ-lille.fr/fileadmin/user_upload/pages_pros/pierre_debes/V2-ArithRevDte-v2.pdf),
 §§5.2.1–5.2.2, printed pp. 135–137. *Needs:* *Rational functions regular at a point*, *Membership by
@@ -1677,7 +1691,7 @@ that for `p ∈ K[T][Y]`, specializing the
 image of `p` in `K(T)[Y]` gives `Polynomial.map (Polynomial.evalRingHom t) p`. *Proof sketch.* Sum
 `monomial n (RatFunc.eval (RingHom.id K) t cₙ)` with `Polynomial.sum`, so no new polynomial type is
 introduced; `RatFunc.eval_zero` keeps coefficients outside the support zero. The total coefficient
-function stays distinct from the ring map `eₜ` on `Rₜ`. Source: [Mathlib `RatFunc` sources](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/FieldTheory/RatFunc/AsPolynomial.lean),
+function stays distinct from the ring map `eₜ` on `Rₜ`. Source: [Mathlib `RatFunc` sources](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/FieldTheory/RatFunc/AsPolynomial.lean),
 `RatFunc.eval`, `eval_add` and `eval_mul`, and the reduced-denominator API;
 [Dèbes](https://pro.univ-lille.fr/fileadmin/user_upload/pages_pros/pierre_debes/V2-ArithRevDte-v2.pdf),
 §§5.2.1–5.2.2, printed pp. 135–137. *Needs:* Mathlib `Polynomial.sum`, `RatFunc.eval`,
@@ -1779,7 +1793,7 @@ that `D(C f) = denom(f)` for every `f ∈ K(T)`, including
 `f = 0`; and that for `p ∈ K[T][Y]`,
 its image in `K(T)[Y]` has denominator product `1`. *Proof sketch.* Take the finite product over the
 coefficient support in `K[T]`; `RatFunc.denom_zero` and `RatFunc.denom_algebraMap` give the special
-values. Source: [Mathlib `RatFunc` sources](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/FieldTheory/RatFunc/AsPolynomial.lean),
+values. Source: [Mathlib `RatFunc` sources](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/FieldTheory/RatFunc/AsPolynomial.lean),
 `RatFunc.eval`, `eval_add` and `eval_mul`, and the reduced-denominator API;
 [Dèbes](https://pro.univ-lille.fr/fileadmin/user_upload/pages_pros/pierre_debes/V2-ArithRevDte-v2.pdf),
 §§5.2.1–5.2.2, printed pp. 135–137. *Needs:* Mathlib `RatFunc.denom`, `RatFunc.denom_zero`,
@@ -1796,7 +1810,7 @@ values. Source: [Mathlib `RatFunc` sources](https://github.com/leanprover-commun
 **Nonvanishing denominator product.** For every `p ∈ K(T)[Y]`, including `p = 0`, `D(p)` is a nonzero
 polynomial in `K[T]`. *Proof sketch.* Each factor is nonzero by `RatFunc.denom_ne_zero`, and a finite
 product of nonzero elements of the domain `K[T]` is nonzero, the empty product being `1`. Source:
-[Mathlib `RatFunc` sources](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/FieldTheory/RatFunc/AsPolynomial.lean),
+[Mathlib `RatFunc` sources](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/FieldTheory/RatFunc/AsPolynomial.lean),
 `RatFunc.eval`, `eval_add` and `eval_mul`, and the reduced-denominator API;
 [Dèbes](https://pro.univ-lille.fr/fileadmin/user_upload/pages_pros/pierre_debes/V2-ArithRevDte-v2.pdf),
 §§5.2.1–5.2.2, printed pp. 135–137. *Needs:* *Denominator product of a polynomial*; Mathlib
@@ -1853,7 +1867,7 @@ is the zero polynomial, since `num(0) = 0`, and the hypothesis never holds. *Pro
 product value gives `D(p)(t) ≠ 0` and `num(p.leadingCoeff)(t) ≠ 0`; *The exact
 coefficient-regularity locus* gives regularity of every coefficient, in particular of the leading
 one at `n = natDegree(p)`. The value `num(t)/denom(t)` of the leading coefficient is then nonzero,
-and *Degree preservation by the leading coefficient* applies. Source: [Mathlib `RatFunc` sources](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/FieldTheory/RatFunc/AsPolynomial.lean),
+and *Degree preservation by the leading coefficient* applies. Source: [Mathlib `RatFunc` sources](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/FieldTheory/RatFunc/AsPolynomial.lean),
 `RatFunc.eval`, `eval_add` and `eval_mul`, and the reduced-denominator API;
 [Dèbes](https://pro.univ-lille.fr/fileadmin/user_upload/pages_pros/pierre_debes/V2-ArithRevDte-v2.pdf),
 §§5.2.1–5.2.2, printed pp. 135–137. *Needs:* *The exact coefficient-regularity locus*, *Degree
@@ -2618,13 +2632,17 @@ tower of elementary fibrations with affine curve fibres and finite étale bounda
 the vanishing of higher homotopy groups, stated as Tau Ceti's
 `TauCeti.IsAspherical` for `U(ℂ)`.
 
-Provides the group-to-topological cohomology comparison for the constructed Artin neighbourhood.
-Supplied by ClassifyingSpaces §Stage 4 / item 17, Homology (including cohomology with local
-coefficients).
-Convention gap: this roadmap transports the chosen fundamental group through a CW model supplied
-by ComplexComparisonPartII §C6.0 / `complexAlgebraicTopology` and the supplier's
-deck-group/opposite-`π₁` convention, then specializes
-the module coefficients to finite abelian `A` with trivial action.
+Provides the group-to-topological cohomology comparison for the constructed Artin neighbourhood:
+`U(ℂ)` has CW type by ComplexComparisonPartII §C6.0 / `complexAlgebraicTopology`, so
+`TauCeti.IsAspherical.exists_homotopyEquiv_classifyingSpace` gives a homotopy equivalence with
+`classifyingSpace π` for `π = π₁(U(ℂ), x)`, and homotopy invariance
+(`TopCat.isIso_singularCohomologyMap`) composed with
+`TauCeti.classifyingSpaceSingularCohomologyIsoGroupCohomology` identifies `H^i(U(ℂ), A)` with
+`H^i(π, A)` for a finite abelian group `A` with trivial action.
+Convention: the identification of `π₁` of the classifying space with `π` is
+`TauCeti.classifyingSpaceFundamentalGroupMulEquiv`, under which a loop goes to `g` exactly when its
+lift from the base vertex of the universal cover ends at the vertex indexed by `g⁻¹`; the
+homotopy equivalence is chosen compatible with it.
 
 Provides the finite-coefficient topological-to-étale cohomology comparison used in the same
 neighbourhood. Supplied by ComplexComparisonPartII §C6.3 / `artinComparison`.
@@ -2641,8 +2659,9 @@ proof of Lemma 2.3.3, p. 16, which uses SGA 4, Exposé XI, §4.6 for the neighbo
 ComplexComparisonPartII §C−1.1;
 SchemeAndStackFoundations Layer 3; DGFloer Layer 1 item 2 (fibration homotopy long exact sequence)
 and AlgebraicTopology Stage 8 (homotopy groups);
-Tau Ceti `TauCeti.IsAspherical`; the group/topological comparison in
-*Exact supplier contracts / From topology roadmaps* and the finite-coefficient
+Tau Ceti `TauCeti.IsAspherical`, `TauCeti.IsAspherical.exists_homotopyEquiv_classifyingSpace`,
+`TopCat.isIso_singularCohomologyMap` and `TauCeti.classifyingSpaceSingularCohomologyIsoGroupCohomology`
+for the group/topological comparison, and the finite-coefficient
 Artin comparison in *Exact supplier contracts / From ComplexComparisonPartII*.
 Global finite CW type uses separated finite type; the finite-type complex Artin contract supplies elementary fibrations and the constant finite abelian comparison.
 
@@ -3270,39 +3289,6 @@ Mathlib `MonoidHom.ker`, `Submodule.basisOfPid`.
 - For `G = C₂²` and `c = ∅`, the presentation has trivial kernel while `M(G, ∅) = C₂`.
   The kernel remains defined without generation, but the multiplier and product formulas do not apply.
 
-**Conjugacy of coprime complements.** Let `N` be a normal subgroup of a group `G` whose order is
-coprime to its index, `Nat.Coprime (Nat.card N) N.index` as in Mathlib's
-`Subgroup.exists_right_complement'_of_coprime`. For infinite `G` this forces `N = 1` or `N = G`, so
-the content is the finite case, in which `N` is a normal Hall subgroup. A complement of `N` is a
-subgroup `H` with `Subgroup.IsComplement' N H`, that is, `N ∩ H = 1` and `NH = G`; Mathlib proves
-that one exists. Prove that if `N` or `G/N` is solvable, any two complements `H` and `K` of `N` are
-conjugate by an element of `N`: `K = nHn⁻¹` for some `n ∈ N`. Since `G = NH`, conjugacy by an
-element of `G` already gives conjugacy by an element of `N`.
-
-*Proof sketch.* Induct on `|G|`. For abelian `N`, a complement is the stabiliser of its class in
-Mathlib's `Subgroup.QuotientDiff`, on which `N` acts transitively (`Subgroup.exists_smul_eq`). For
-solvable `N`, let `A` be the last nontrivial term of the derived series of `N`, an abelian normal
-subgroup of `G`: by induction the images of `H` and `K` in `G/A` are conjugate, and the abelian
-case inside `KA` finishes. For solvable `G/N`, let `M/N` be a minimal normal subgroup of `G/N`, a
-`p`-group with `p ∤ |N|`. Then `H ∩ M` and `K ∩ M` are Sylow `p`-subgroups of `M = N(H ∩ M)`,
-conjugate by an element of `N`; after that conjugation both `H` and `K` normalise `P = H ∩ M`.
-Apply induction in `N_G(P)` when it is proper, and in `G/P` when `P` is normal.
-
-Sources: Ribes–Zalesskii, *Profinite Groups* (2010), Theorem 2.3.15, for a finite group with the
-discrete topology; Aschbacher, *Finite Group Theory*, Chapter 6 (extensions of groups and modules).
-*Needs:* Mathlib `Subgroup.IsComplement'`, `Subgroup.exists_right_complement'_of_coprime`,
-`Subgroup.QuotientDiff`, `Subgroup.exists_smul_eq`, `Group.IsSolvable`, `Sylow`, `MulAut.conj`.
-
-*Lean:* `exists_conj_eq_of_isComplement'_of_coprime`.
-
-**Checks.**
-
-- `N = 1` has the single complement `G`, and `N = G` has the single complement `1`.
-- In `A₄` with `N = V₄`, the four subgroups of order three are complements of `V₄`, and `V₄` permutes
-  them transitively by conjugation.
-- Coprimality cannot be dropped: in `C₂ × C₂` with `N = C₂ × 1`, the complements `1 × C₂` and the
-  diagonal are not conjugate, because the group is abelian.
-
 **Coprime semidirect products and admissible inertia.** Let `H` and `Γ` be finite groups of coprime
 orders, `Γ` acting on `H`, and `G = H ⋊ Γ`.
 
@@ -3328,16 +3314,18 @@ surjectivity, and transfer bounds the exponent. Schur–Zassenhaus gives a split
 differ by a homomorphism `H → M_Γ`, trivial by coprimality, and a subgroup of order `|D|` maps
 trivially to `S'/D`, hence equals `D`. For (3), each element of `c` is conjugate into `Γ` by the
 coprime splitting, uniquely up to `H`-conjugacy: for `x ∈ c` with image `γ`, the subgroups `⟨x⟩` and
-`⟨γ⟩` are complements of `H` in `H⟨x⟩`, conjugate by *Conjugacy of coprime complements* since the
-quotient is cyclic; each `h⁻¹γ(h)` is a commutator, so admissibility
+`⟨γ⟩` are complements of `H` in the finite group `H⟨x⟩` (since `x ∈ c`, `⟨x⟩ ∩ H = 1`), and they are
+conjugate by an element of `H` by LocalFiniteGroupTheory L1, the quotient `H⟨x⟩/H` being cyclic of
+order prime to `|H|`; each `h⁻¹γ(h)` is a commutator, so admissibility
 kills `H` in `G^{ab}`; generators of `Γ` lift through the embedded `Γ` to commuting pairs with first
 entry in `c`. Sources: [Liu–Wood–Zureick-Brown](https://arxiv.org/pdf/1907.05002v2), Lemma 12.10 and
 its proof and the proof of Theorem 10.4, arXiv v2 pp. 53–54 (published version pp. 62–64). The
 cover argument uses only finiteness and coprime orders; admissibility is used for the inertia classes
 and abelianisation. *Needs:* *Reduced Schur covers*, *The reduced Schur multiplier*, *The class degree
-map*, *Conjugacy of coprime complements*; Mathlib `Subgroup.exists_right_complement'_of_coprime`,
-`SemidirectProduct`, `groupHomology.map`, `AddCommGroup.equiv_directSum_zmod_of_finite`;
-RepresentationTheory/InductionRestriction Layer 7.
+map*; Mathlib `Subgroup.exists_right_complement'_of_coprime`, `SemidirectProduct`,
+`groupHomology.map`, `AddCommGroup.equiv_directSum_zmod_of_finite`;
+RepresentationTheory/InductionRestriction Layer 7; LocalFiniteGroupTheory L1 (conjugacy of coprime
+complements, for (3)).
 
 **Checks.**
 
@@ -3639,8 +3627,8 @@ homotopy long exact sequence and AlgebraicTopology Stage 8 the homotopy groups. 
 and inertia; Layer IG.1 supplies tangential base points and the Frobenius normalisation;
 Layer IG.0 Galois algebras. The braid group is Tau Ceti `TauCeti.BraidGroup`; free groups,
 presented groups, group extensions, group homology, existence of coprime complements and finitely
-supported functions are Mathlib's, and conjugacy of coprime complements is *Conjugacy of coprime
-complements* in IG.3.4; Schur covers are RepresentationTheory/InductionRestriction Layer 7; `ẑ` is
+supported functions are Mathlib's, and conjugacy of coprime complements is LocalFiniteGroupTheory
+L1; Schur covers are RepresentationTheory/InductionRestriction Layer 7; `ẑ` is
 ProfiniteArithmetic Layer 0; the Belyi dictionary for three points is BelyiMaps Layers 3, 5, 6 and 11.
 The complex topology contract uses separated finite type for global finite CW type, and Riemann existence and Artin comparison keep the shared fibre/deck convention.
 
@@ -3656,8 +3644,8 @@ alternative (the obstruction group has order one or two) and Wang's cyclic-eight
 ArithmeticGaloisDuality identifies the exceptional case exactly. The Schmidt–Wingberg proof of
 Shafarevich's theorem comes next:
 every finite solvable group is a Galois group over every number field. Its steps are free
-operator-group shrinking, induced and cyclic corrections, the split nilpotent embedding theorem, the
-Fitting subgroup and Fitting supplements.
+operator-group shrinking, induced and cyclic corrections, the split nilpotent embedding theorem and
+Fitting supplements.
 
 The second half covers four topics:
 
@@ -4000,7 +3988,8 @@ Milne, *Arithmetic Duality Theorems*, Chapter I,
 §4, Theorem 4.10 and its proof, pp. 56–62 (PDF pp. 64–70).
 *Needs:* ArithmeticGaloisDuality §§R02.3.1, R02.4.2–R02.4.3, with precisely the quotient/tower,
 unramified-annihilator, restricted-product and possibly infinite-`S` contracts above;
-ProfiniteCohomology Layers 1, 7 and 10; ClassFieldTheory Layer 5; LocalFieldsRamification Layers 2–4.
+ProfiniteCohomology Layers 1, 7 and 10; ClassFieldTheory Layer 5; Tau Ceti `TauCeti.inertiaSubgroup`
+and `TauCeti.maximalUnramifiedExtension` (inertia and unramified classes at the finite places).
 
 **Checks.**
 
@@ -4192,51 +4181,11 @@ splitting section, nilpotent kernel and a surjective solution.
   contains the required roots of unity. Descent from that field gives the same prescribed splitting
   above infinity and `2`; these conditions are part of (i), not discarded by shrinking.
 
-**The Fitting subgroup.** Mathlib has the Frattini subgroup `frattini G` but no Fitting subgroup.
-For a group `G`, define the Fitting subgroup `F(G)`, `fitting G`, as the supremum of the nilpotent
-normal subgroups of `G`, in the same shape as `frattini G`. The Fitting subgroup of a subgroup
-`H ≤ G` is `fitting H`, a subgroup of `H`; there is no second, relative Fitting carrier.
-
-The API:
-- Fitting's theorem: if `N` and `M` are nilpotent normal subgroups of a group `G`, then `N ⊔ M` is
-  nilpotent.
-- `F(G)` is characteristic, hence normal, in every group `G`.
-- Every nilpotent normal subgroup `N` of `G` satisfies `N ≤ F(G)`.
-- For finite `G`, `F(G)` is nilpotent, so it is the largest nilpotent normal subgroup of `G`.
-- For finite `G`, `Φ(G) ≤ F(G)`.
-
-*Proof sketch.* Write `γ_k(S)` for the `k`-th lower central term of a subgroup `S`, with
-`γ_1(S) = S`, computed in `G`; it is Mathlib's `S.lowerCentralSeries (k - 1)`. Let `N` and `M` have
-classes `c` and `d`. Since `N` and `M` are normal, `γ_k(NM)` is the product of the iterated
-commutator subgroups `[X_1, …, X_k]` with each `X_i ∈ {N, M}`. The lower central terms of `N` and
-`M` are normal in `G`, so such a subgroup with `i` entries `N` and `j` entries `M` lies in
-`γ_i(N) ∩ γ_j(M)` (with `γ_0 = G`). For `k = c + d + 1` either `i > c` or `j > d`, so
-`NM = N ⊔ M` is nilpotent of class at most `c + d`. An automorphism permutes the nilpotent normal
-subgroups, so `F(G)` is characteristic, and maximality is the defining property of the supremum. A
-finite group has finitely many subgroups, so `F(G)` is a finite join of nilpotent normal subgroups
-and Fitting's theorem applies. Finally `Φ(G)` is characteristic and nilpotent
-(`frattini_nilpotent`), so `Φ(G) ≤ F(G)`.
-
-Source: Huppert, *Endliche Gruppen I*, Kap. III, §4 (the Fitting subgroup).
-*Needs:* Mathlib `Subgroup.Normal`, `Subgroup.Characteristic`, `Group.IsNilpotent`,
-`Subgroup.lowerCentralSeries`, `Subgroup.isNilpotent_iff_lowerCentralSeries`, `frattini`,
-`frattini_nilpotent`.
-
-*Lean:* `fitting`, `isNilpotent_sup_of_normal`, `fitting_characteristic`, `le_fitting`,
-`fitting_nilpotent`, `frattini_le_fitting`.
-
-**Checks.**
-
-- For a finite `p`-group, `F(G) = G`; for `A₄`, `F(A₄) = V₄`.
-- Normality cannot be dropped from Fitting's theorem: two distinct subgroups of order two in `S₃` are
-  nilpotent, but they generate `S₃`, which is not nilpotent.
-- Finiteness cannot be dropped from nilpotence of `F(G)`: in the restricted direct product of the
-  dihedral groups of order `2^n`, `n ≥ 2`, each finite subproduct is a nilpotent normal subgroup, so
-  `F(G) = G`, but the classes are unbounded and `G` is not nilpotent.
-
-**Fitting supplements for solvable groups.** Let `F(G)` be the Fitting subgroup of a finite group `G`
-(*The Fitting subgroup*): characteristic, nilpotent, the largest nilpotent normal subgroup, and
-containing `Φ(G)`.
+**Fitting supplements for solvable groups.** Mathlib has the Frattini subgroup `frattini G` but no
+Fitting subgroup. For a finite group `G`, the Fitting subgroup `F(G)` is the subgroup generated by the
+nilpotent normal subgroups of `G`. It is the value at the top subgroup of the relative Fitting
+subgroup of LocalFiniteGroupTheory L2, which proves that it is characteristic and nilpotent, contains
+every nilpotent normal subgroup and contains `Φ(G)`; no second Fitting carrier is introduced here.
 
 Prove the following theorem of Huppert, as cited by Schmidt–Wingberg: for a nontrivial finite solvable
 group `G`, `Φ(G) < F(G)`. The inclusion `Φ(G) ≤ F(G)` holds for every finite `G`, because `Φ(G)` is a
@@ -4248,16 +4197,15 @@ is solvable. Let `U` act on `F(G)` by conjugation. Then the multiplication map `
 `(f, u) ↦ fu`, is a surjective homomorphism. In the induction of *Shafarevich solvable realization*,
 `F(G)` is the kernel of the embedding problem.
 
-The API (the first three items restate *The Fitting subgroup* for finite `G`; the last two are
-proved here):
-- `F(G)` is normal and characteristic.
-- For finite `G`, `F(G)` is nilpotent.
-- Every nilpotent normal subgroup `N` of a finite `G` satisfies `N ≤ F(G)`.
+The API (normality, nilpotence and maximality of `F(G)` are LocalFiniteGroupTheory L2's):
 - For a finite nontrivial solvable `G`, `Φ(G) < F(G)`.
+- A normal subgroup `N` of a finite group `G` with `N ⊄ Φ(G)` has a proper supplement `U < G`,
+  `N ⊔ U = G`.
 - For a finite nontrivial solvable `G` there is `U < G` with
   `F(G) ⊔ U = G`, and the semidirect multiplication homomorphism is surjective.
 
-*Proof sketch.* `Φ(G) ≤ F(G)` is part of *The Fitting subgroup*. For the strict inclusion,
+*Proof sketch.* `Φ(G) ≤ F(G)` is LocalFiniteGroupTheory L2; it also follows from Mathlib's
+`frattini_nilpotent` and the maximality of `F(G)`. For the strict inclusion,
 `G/Φ(G)` is nontrivial and solvable, so it has a nontrivial abelian normal subgroup. Its preimage
 contains `Φ(G)` and is nilpotent by Frattini's argument, so it lies in `F(G)` and properly contains
 `Φ(G)`. For the supplement, a maximal subgroup `U` not containing `N` exists because `N ⊄ Φ(G)`, and
@@ -4267,8 +4215,9 @@ product is a homomorphism.
 Source: [Schmidt–Wingberg](https://arxiv.org/pdf/math/9809211v1), Propositions 16–17, arXiv v1 p. 32,
 stated without proof and cited from Huppert, *Endliche Gruppen I*, Kap. III, Satz 3.2(b) and
 Satz 4.2(c); the proof sketch above gives the arguments used here.
-*Needs:* *The Fitting subgroup*; Mathlib `Subgroup`, `frattini`, `frattini_nilpotent`,
-`Group.IsNilpotent`, `Group.IsSolvable`, `SemidirectProduct`.
+*Needs:* Mathlib `Subgroup`, `frattini`, `frattini_nilpotent`, `Group.IsNilpotent`, `Group.IsSolvable`,
+`SemidirectProduct`; LocalFiniteGroupTheory L2 (the relative Fitting subgroup at the top subgroup,
+with its nilpotence, characteristicity, maximality and `Φ(G) ≤ F(G)`).
 
 **Checks.**
 
@@ -4281,6 +4230,8 @@ Satz 4.2(c); the proof sketch above gives the arguments used here.
 - For `S₅`, `F(S₅) = 1 = Φ(S₅)`. Without solvability the strict inclusion cannot be stated.
 - For a nontrivial `p`-group, `F(G) = G` and `Φ(G) < G`. The proper subgroup `U = 1` is already a
   supplement.
+- The hypothesis `N ⊄ Φ(G)` cannot be dropped from the supplement statement: in `C₄`, `N = C₂ = Φ(C₄)`
+  and the proper subgroups are `1` and `C₂`, so `N ⊔ U = C₂ ≠ C₄` for every `U < C₄`.
 
 **Shafarevich solvable realization.** Let `k` be a number field. Every finite solvable group `G` is
 isomorphic to `Gal(M/k)` for some finite Galois extension `M/k`. The theorem gives solvable
@@ -4374,7 +4325,10 @@ Introduction, Grunwald application, pp. 3–6, and Remark 7.11, pp. 28–29;
 and its proof, published p. 1018. The latter identifies weak approximation on the quotient with
 surjectivity of localization; the full-image step is the counting argument above, since Proposition 2.4
 alone does not give properness.
-*Needs:* *Proper solutions with local prescriptions*; LocalFieldsRamification Layer 2.
+*Needs:* *Proper solutions with local prescriptions*; Tau Ceti
+`TauCeti.maximalUnramifiedGaloisGroupEquivZHat`, `TauCeti.inertiaSubgroup` and
+`TauCeti.IsArithFrobeniusLift` (unramified local homomorphisms determined by the image of
+arithmetic Frobenius).
 
 **Checks.**
 
@@ -4686,7 +4640,8 @@ Theorems 6.1 and 6.2 with their proofs and Corollary 6.3, PDF pp. 14–16;
 and the tame approximation problem, published pp. 1017–1018; [Harpaz–Wittenberg, *Zéro-cycles sur les
 espaces homogènes*](https://arxiv.org/pdf/1802.09605v2), PDF p. 4, which takes (2) from Demarche (2010),
 Corollaire 3 and Remarque 7. *Needs:* *The Brauer–Manin set*, *Approximation and nonabelian
-localization*; LocalFieldsRamification Layers 2–4 (unramified and tame local Galois groups);
+localization*; Tau Ceti `TauCeti.IsArithFrobeniusLift`, `TauCeti.wildInertiaSubgroup`,
+`TauCeti.tameQuotient` and `TauCeti.tameQuotientEquiv` (unramified and tame local Galois groups);
 ProfiniteCohomology Layer 1; SchemeAndStackFoundations Layer 2.
 
 **Checks.**
@@ -4865,22 +4820,23 @@ sections give isomorphic `Γ`-groups, conjugation by that element being a `Γ`-e
 (Without the solvability hypothesis, conjugacy follows from the Feit–Thompson theorem, since one of two
 coprime orders is odd; that theorem is not part of this roadmap, and the conjugacy statement here
 carries the hypothesis.) For finite groups, Mathlib's
-`Subgroup.exists_right_complement'_of_coprime` gives existence and Layer IG.3 *Conjugacy of coprime
-complements* gives conjugacy. This target adds the profinite case.
+`Subgroup.exists_right_complement'_of_coprime` gives existence and LocalFiniteGroupTheory L1 gives
+conjugacy. This target adds the profinite case.
 
 *Proof sketch.* The open normal subgroups `U` of `E` contained in `N` are cofinal, and in each `E/U` the
 image `N/U` is a normal Hall subgroup, so Mathlib provides a complement. Conjugacy of complements in
-finite groups, when the normal Hall subgroup or the quotient is solvable, is Layer IG.3 *Conjugacy of
-coprime complements*, which conjugates by an element of `N/U`; the hypothesis here makes `N/U` or
-`Γ` solvable at every finite level. This target adds only the passage to profinite groups. At each
+finite groups, when the normal Hall subgroup or the quotient is solvable, is the Schur–Zassenhaus
+conjugacy theorem of LocalFiniteGroupTheory L1. It conjugates by an element of `E/U`, hence by an
+element of `N/U`, since `E/U` is the product of `N/U` and either complement; the hypothesis here makes
+`N/U` or `Γ` solvable at every finite level. This target adds only the passage to profinite groups. At each
 finite level, the sections and the conjugating elements form nonempty finite compatible sets, so
 compactness gives a continuous section of `E` and a conjugating element of `N`.
 
 Source: [Liu–Wood–Zureick-Brown](https://arxiv.org/pdf/1907.05002v2), paragraph before Definition 2.1,
 arXiv v2 p. 10, citing Ribes–Zalesskii (2010), Theorem 2.3.15. This is the section and conjugacy input
 that defines the arithmetic `Γ`-action.
-*Needs:* Layer IG.3 *Conjugacy of coprime complements*; Mathlib
-`Subgroup.exists_right_complement'_of_coprime`; ProfiniteProPGroups Layer 0.
+*Needs:* Mathlib `Subgroup.exists_right_complement'_of_coprime`; LocalFiniteGroupTheory L1
+(Schur–Zassenhaus conjugacy); ProfiniteProPGroups Layer 0.
 
 **Checks.**
 
@@ -5309,11 +5265,10 @@ This layer uses the following earlier layers of this roadmap:
 - Layer IG.2: *Hilbert subsets and Hilbertian fields*, *Hilbert irreducibility over number fields*
   for specialization and realization.
 - Layer IG.3: *Reduced Schur covers*, *Conjugacy classes lift bijectively*, *The kernel of the universal
-  marked extension*, *Conjugacy of coprime complements*.
+  marked extension*.
 
 From Mathlib it uses `frattini`, `frattini_nilpotent`, `Group.IsNilpotent`, `Group.IsSolvable`,
-`Subgroup.Characteristic`, `Subgroup.lowerCentralSeries`, `SemidirectProduct`,
-`Subgroup.exists_right_complement'_of_coprime`,
+`SemidirectProduct`, `Subgroup.exists_right_complement'_of_coprime`,
 `NumberField.finrank_eq_one_of_unramified`, `IsGalois.normalAutEquivQuotient` and, for local
 density of points on smooth varieties, `HasStrictFDerivAt.implicitFunctionOfProdDomain`.
 
@@ -5321,6 +5276,8 @@ From other roadmaps:
 
 - ProfiniteProPGroups Layers 0, 3, 4 and 5: profinite foundations, Frattini theory, free pro-`p`
   groups, finite embedding problems and the extension dictionary.
+- LocalFiniteGroupTheory L1 and L2: Schur–Zassenhaus conjugacy for *Coprime profinite complements*,
+  and the Fitting subgroup for *Fitting supplements for solvable groups*.
 - ArithmeticGaloisRepresentations §6.4a: closed-image detection by the Frattini quotient,
   used for the independence of the two `C₈`-lifts.
 - ProfiniteCohomology Layers 1, 5 and 7: continuous cohomology, inflation–restriction and Shapiro's
@@ -5333,7 +5290,7 @@ From other roadmaps:
   duality and Grunwald–Wang for twisting and the restricted-ramification applications.
 - EtaleCohomologyFoundations §§F.0.A1–F.0.A2: cover decomposition, inertia and the arithmetic
   fundamental-group sequence. *Auxiliary cokernel comparison* owns the application-specific comparison diagrams.
-- LocalFieldsRamification Layers 2–4, AlgebraicCurves Layers 7 and 8, Chebotarev Layer 10,
+- AlgebraicCurves Layers 7 and 8, Chebotarev Layer 10,
   ReductiveGroups Layers 0 and 3, SchemeAndStackFoundations Layers 1, 2 (Brauer groups of schemes) and
   4, ResolutionOfSingularitiesCharacteristicZero §6.2 / `sncCompactification` (smooth compactifications,
   through AlgebraicModuliForArithmeticGeometry §9.5), and ReductiveGroupsPartII
@@ -5341,7 +5298,8 @@ From other roadmaps:
 - AdelicAlgebraicGroups Layer 4, §4.1: the Hasse principle for torsors under semisimple simply
   connected groups and their weak approximation.
 - From Tau Ceti, the finite embedding problems and their
-  obstruction class `TauCeti.FiniteEmbeddingProblem.obstruction`.
+  obstruction class `TauCeti.FiniteEmbeddingProblem.obstruction`, and the unramified, inertia and
+  tame-quotient declarations of nonarchimedean local fields listed in *From Tau Ceti*.
 
 ClassFieldTheory covers number fields only, and so do the theorems of this layer that rest on it:
 ArithmeticGaloisDuality §R02.3.0d *Finite Galois localization and Sha kernels*, ArithmeticGaloisDuality §R02.4.5a *Finite-coefficient Poitou–Tate input*, ArithmeticGaloisDuality §R02.4.5b *Grunwald–Wang and its exceptional class*, *Induced abelian proper solutions*, *Restricted-ramification localization
@@ -7640,6 +7598,6 @@ D. Harbater, *Abhyankar's conjecture on Galois groups over curves*, Invent. Math
 (through Harbater–Obus–Pries–Stevenson); SGA 5, Exposé VI (through Kedlaya–Liu).
 
 The rational-function specialization of Layer IG.2 follows the pinned Mathlib `RatFunc` sources:
-<https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/FieldTheory/RatFunc/AsPolynomial.lean>
+<https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/FieldTheory/RatFunc/AsPolynomial.lean>
 (`RatFunc.eval` and its laws) and `Mathlib/FieldTheory/RatFunc/Basic.lean` (reduced numerators and
 denominators).
