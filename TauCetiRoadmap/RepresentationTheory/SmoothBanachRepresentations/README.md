@@ -170,7 +170,7 @@ The test-space and integrated-operator API includes:
 - For K=∅ or K={0} in ℝ, D_K={0}: a continuous function vanishing off a point also vanishes at that point. For K=[−1,1] a bump is nonzero, and changing its support to [2,4] excludes it from D_K.
 - In a fixed-support space on ℝ, the sequence sin(nx)/n times a bump equals O(1/n) in degree zero, while its first derivative at an interior point where the bump is 1 can equal 1. Uniform convergence alone is insufficient.
 - In the affine group (a,b)(a′,b′)=(aa′,b+ab′), left Haar is da db/a². Right translation by (a₀,0) multiplies the integral by a₀, so c(a₀,0)=a₀; the smooth chart density is a⁻²>0.
-- For counting measure on S₃, δ_s*δ_t=δ_(st); with s=(12),t=(23), st and ts are different three-cycles. This detects reversed convolution order.
+- For counting measure on S₃, `δ_s*δ_t=δ_(st)`; with s=(12),t=(23), st and ts are different three-cycles. This detects reversed convolution order.
 - In a trivial action on the scalar line, an integral-one kernel sends 1 to 1, an integral-zero kernel sends it to 0, and a kernel supported away from 1 cannot serve all shrinking identity neighborhoods. This tests mass and localization separately.
 - On a group with uncountably many discrete components, every compact subset meets finitely many cosets of the chosen open subgroup; finite support still gives a finite integral, without global σ-finiteness.
 
@@ -392,7 +392,7 @@ Deduce the two exact algebraic equalities, not merely closure equalities:
 
 These identify the Gårding domain with the smooth vectors and keep the witnesses of finite sums and prescribed supports.
 
-The headline `dixmierMalliavin_function` is the function version: every φ∈D(G) is a finite sum f_j*h_j, with tsupport(f_j)⊆U and tsupport(h_j)⊆tsupport(φ). In this proof the terminal factors are limits of series of derivatives of φ in a fixed-support smooth function space; derivatives and that topology retain tsupport(φ). Track these terminal factors through the basis iteration rather than appealing to an arbitrary orbit translate. Compare convolution densities with the vector statement. Prove continuity and intertwiner compatibility of each integrated factorization expression; no continuous global choice of factorizations is required.
+The headline `dixmierMalliavin_function` is the function version: every φ∈D(G) is a finite sum `Σ_j f_j*h_j`, with tsupport(f_j)⊆U and tsupport(h_j)⊆tsupport(φ). In this proof the terminal factors are limits of series of derivatives of φ in a fixed-support smooth function space; derivatives and that topology retain tsupport(φ). Track these terminal factors through the basis iteration rather than appealing to an arbitrary orbit translate. Compare convolution densities with the vector statement. Prove continuity and intertwiner compatibility of each integrated factorization expression; no continuous global choice of factorizations is required.
 
 *Needs:* Layers 1,2,3,5; LieGroups Layer 0 local product chart; Haar chart-density comparison of Layer 1.
 
@@ -487,11 +487,11 @@ The proofs apply BanachAlgebras A1–A2 inversion and resolvent calculus to the 
 
 Let A be a real or complex Banach algebra with a strongly continuous action by bounded linear algebra automorphisms. Apply the same E∞ carrier, not a second smooth-element definition. Prove it is a dense complete Fréchet subalgebra; prove continuity of multiplication by the full iterated Leibniz/shuffle estimates for the p_m. Each dα(X) is a continuous derivation on A∞ and X↦dα(X) is a real Lie homomorphism into native derivations. For complex A give the complexified Lie and enveloping actions and the coproduct product rule; enveloping operators of higher degree are not all derivations.
 
-For a Banach star-algebra with bounded star and a star-preserving action, prove closedness under star, continuity of star for every p_m and `dα(X)(a*)=(dα(X)a)*`. Include units, invariant elements, equivariant bounded algebra/star homomorphisms and unitization comparisons. Do not require automorphisms to be isometric except when that follows from the C*-algebra specialization.
+For a Banach star-algebra with bounded star and a star-preserving action, prove closedness under star, continuity of star for every p_m and `dα(X)(a*)=(dα(X)a)*`. Include units, invariant elements, equivariant bounded algebra/star homomorphisms and unitization comparisons. Do not require automorphisms to be isometric except when that follows from the C\*-algebra specialization.
 
 The headline `smooth_inverse` states inverse closure over either field and needs no orbit-continuity hypothesis: for unital A with any action by algebra automorphisms, if a∈A∞ is invertible in A, then its inverse lies in A∞, since `α(g)(a⁻¹)=α(g)(a)⁻¹` writes its orbit as the smooth orbit of a composed with inversion, which is smooth on the open set of units of a complete normed algebra (`contDiffAt_ringInverse`). Give the recursive derivative estimates and `dα(X)(a⁻¹)=−a⁻¹dα(X)(a)a⁻¹`. Prove the result at every matrix level; for nonunital A use the scalar unitization and identify its smooth elements with the unitization of A∞. For complex A prove holomorphic-functional-calculus closure using A2's resolvent contours and all derivative seminorm estimates: realize contour integration as an E-valued integral with all word coordinates integrable, then use closedness/completeness to place it in A∞. Do not invoke a Banach-valued Bochner theorem on an invented norm for the Fréchet space.
 
-For a strongly continuous action of G by *-automorphisms of a complex C*-algebra A, §2.1, §4.1 and the results above show that A∞ with its inclusion into A satisfies the hypotheses of OperatorKTheory K3 §3.5: a dense *-subalgebra carrying a metrizable complete Hausdorff locally convex topology with continuous multiplication and star, continuously and injectively included in A, and inverse-closed at every matrix level and, for nonunital A, after unitization. K3 §3.5 states the K₀/K₁ comparison for every such subalgebra and does not depend on this roadmap.
+For a strongly continuous action of G by \*-automorphisms of a complex C\*-algebra A, §2.1, §4.1 and the results above show that A∞ with its inclusion into A satisfies the hypotheses of OperatorKTheory K3 §3.5: a dense \*-subalgebra carrying a metrizable complete Hausdorff locally convex topology with continuous multiplication and star, continuously and injectively included in A, and inverse-closed at every matrix level and, for nonunital A, after unitization. K3 §3.5 states the K₀/K₁ comparison for every such subalgebra and does not depend on this roadmap.
 
 *Needs:* Layers 0–4; BanachAlgebras A1–A2; Layer 6 only for exact Gårding identification.
 
@@ -503,8 +503,8 @@ The smooth algebra API includes continuous multiplication and star, invariant un
 - For conjugation by diag(e^t,1) on M₂(ℝ), a=I+E₁₂ has derivative E₁₂ and inverse I−E₁₂ with derivative −E₁₂; −a⁻¹E₁₂a⁻¹=−E₁₂, fixing the inverse rule without commutativity.
 - A scalar action a↦e^t a is linear but not an algebra action: at a=b=1 the multiplicativity sides are e^t and e^(2t). The algebra-action hypotheses exclude it.
 - On the smooth circle, D²(fh)=D²f·h+2Df·Dh+f·D²h; at f=h=exp(ix) the value at 0 is −4, whereas a derivation rule would give −2.
-- On C(S¹) with the left rotations (α_t f)(x)=f(x−t) of §1.4 and pointwise conjugation as star, f=exp(ix) has Df=−i·exp(ix) and D(f*)=i·exp(−ix)=(Df)*, the star law. The Hilbert skew-adjoint sign −(Df)* would give −i·exp(−ix) instead. With the opposite rotation f(x+t) every displayed value changes sign and the star law still holds, so the rotation direction is part of the Check.
-- Conjugation by diag(e^t,1) on M₂(ℂ) acts by algebra automorphisms but does not preserve the star: dα(E₁₂)=E₁₂, so (dα(E₁₂))*=E₂₁, while dα(E₁₂*)=dα(E₂₁)=−E₂₁. Conjugation by the unitary diag(e^(it),1) gives dα(E₁₂)=iE₁₂ and dα(E₂₁)=−iE₂₁=(iE₁₂)*. The star statements of §8.1, and so the application to OperatorKTheory K3 §3.5, assume a star-preserving action.
+- On C(S¹) with the left rotations (α_t f)(x)=f(x−t) of §1.4 and pointwise conjugation as star, f=exp(ix) has `Df=−i·exp(ix)` and `D(f*)=i·exp(−ix)=(Df)*`, the star law. The Hilbert skew-adjoint sign `−(Df)*` would give `−i·exp(−ix)` instead. With the opposite rotation f(x+t) every displayed value changes sign and the star law still holds, so the rotation direction is part of the Check.
+- Conjugation by diag(e^t,1) on M₂(ℂ) acts by algebra automorphisms but does not preserve the star: `dα(E₁₂)=E₁₂`, so `(dα(E₁₂))*=E₂₁`, while `dα(E₁₂*)=dα(E₂₁)=−E₂₁`. Conjugation by the unitary diag(e^(it),1) gives `dα(E₁₂)=iE₁₂` and `dα(E₂₁)=−iE₂₁=(iE₁₂)*`. The star statements of §8.1, and so the application to OperatorKTheory K3 §3.5, assume a star-preserving action.
 
 ### Examples
 
@@ -520,7 +520,7 @@ Layers 0–4; BanachAlgebras A1–A2; Layer 6 only for exact Gårding identifica
 - [CompactQuantumMetricSpaces §4.5](../../CompactQuantumMetricSpaces/README.md) uses the differentiable vectors and orbit derivatives of §2.1, the Lie action of §3.1 and the smooth Fréchet star algebra of §8.1 for its derivative seminorms on compact connected Lie groups.
 - [QuantitativeOrbitMethodAndMicrolocalAnalysisOnLieGroups §§0.2, 0.6](../../QuantitativeOrbitMethodAndMicrolocalAnalysisOnLieGroups/README.md) uses the smooth-vector topology of §2.1, the derived action and integration by parts of §§3.1 and 3.4, and the Gårding identification of §6.1.
 
-These consumer applications are not prerequisites for the generic results. [OperatorKTheory K3 §3.5](../../OperatorKTheory/README.md) is not a consumer: it states the K₀/K₁ comparison for arbitrary dense inverse-closed Fréchet star subalgebras of C*-algebras, and §8.1 records that the smooth algebras of strongly continuous actions by *-automorphisms satisfy its hypotheses.
+These consumer applications are not prerequisites for the generic results. [OperatorKTheory K3 §3.5](../../OperatorKTheory/README.md) is not a consumer: it states the K₀/K₁ comparison for arbitrary dense inverse-closed Fréchet star subalgebras of C\*-algebras, and §8.1 records that the smooth algebras of strongly continuous actions by \*-automorphisms satisfy its hypotheses.
 
 ## References
 
