@@ -140,7 +140,7 @@ The analytic ownership and stage order are:
 | Interface | Owner and supplied stage | What this roadmap adds and what the supplier retains |
 | --- | --- | --- |
 | Parameter-dependent one-variable `∂̄` solver, local Dolbeault lemma and fine Dolbeault resolution | ComplexKahlerGeometry K2 | C1.1 compares K2's fine resolution with C0's sheaves. The scalar compact-support Cauchy–Green operator and the finite-rank Runge operator are scalar inputs K2 consumes; this roadmap does not consume them |
-| Proper-submersion trivialization (Ehresmann's theorem) on real manifolds | SmoothBundlesConnections B1.5; ComplexComparisonPartII C5.2 `ehresmannFibration` | The smooth form (a proper surjective submersion is, on each connected component of the base, a locally trivial smooth fibre bundle, with product charts, pullback and restriction) is SmoothBundlesConnections B1.5 and is not restated. C5.2 applies it to holomorphic submersions and to analytified proper smooth morphisms, with the base-change clause, and later roadmaps consume that holomorphic application from here |
+| Proper-submersion trivialization (Ehresmann's theorem) on real manifolds | SmoothBundlesConnections B1.5; ComplexComparisonPartII C5.2 `ehresmannFibration` | The smooth form (a proper surjective submersion is, on each connected component of the base, a locally trivial smooth fibre bundle with product charts; pullback and restriction of the Ehresmann connection) is SmoothBundlesConnections B1.5 and is not restated. C5.2 applies it to holomorphic submersions and to analytified proper smooth morphisms, with the base-change clause, and later roadmaps consume that holomorphic application from here |
 | Integral first Chern class of holomorphic line bundles, its exponential-sequence cocycle and its curvature comparison | CharacteristicClasses C1.5/C3 (the class of the underlying complex line) and C4.1–C4.2 (rank-one curvature comparison); ComplexComparisonPartII C5.4 | C5.4 constructs the holomorphic-to-smooth forgetful adapter, proves the exponential-sequence description `δu` and identifies the Chern-connection form `(i/2π)Θ` with the real image of the class |
 | Native holomorphic sheaf, convergent local algebra and primitive Oka relations | ComplexKahlerGeometry K2–K4 | C-1 adds analytic quotients, nilpotents and gluing; RealAnalyticGeometry R3.2 supplies native coherence; C0 descends it to analytic spaces |
 | Algebraic strict-SNC compactifications and labelled étale coordinates | ResolutionOfSingularitiesCharacteristicZero §1.3 (birth-ordered SNC boundary), §6.2 (SNC compactification), §6.4 (SNC coordinates) | The prescribed smooth quasi-projective open is unchanged in a smooth projective compactification with globally smooth labelled boundary components and local equation `t₁⋯t_b=0`; C-1.4 supplies `analyticPolydisc`, `sncPolydiscChart` and `snc_exists_polydiscChart` by analytification and the analytic inverse-function theorem |
@@ -705,10 +705,10 @@ as explained in C5.1); the two names denote the same target.
   with model fibre the fibre over one chosen point of that component, with smooth product
   charts `π⁻¹(U) ≃ U × π⁻¹(b)` whose first projection is the submersion, fibrewise
   diffeomorphisms between the fibres of a component, and pullback and restriction of the
-  charts; different components may have non-diffeomorphic fibres, and the regular fibres carry
-  B1.0's submanifold structure. C5.2's `ehresmannFibration` applies this to holomorphic
-  submersions and to analytified proper smooth morphisms and adds nothing to the smooth
-  statement.
+  Ehresmann connection and its horizontal–vertical splitting; different components may have
+  non-diffeomorphic fibres, and the regular fibres carry B1.0's submanifold structure. C5.2's
+  `ehresmannFibration` applies this to holomorphic submersions and to analytified proper smooth
+  morphisms and adds nothing to the smooth statement.
 - **AlgebraicTopology.** Stage 6: singular cochains with coefficients in an arbitrary module
   (abelian groups over `ℤ`), universal coefficients, cup and cap products, orientation and
   fundamental class, Poincaré duality; Stage 6.1: direct local-system cochains, relative
@@ -3004,9 +3004,10 @@ real smooth manifolds without boundary is, on each connected component of `S`, a
 trivial smooth fibre bundle with model fibre `f⁻¹(s)` for one chosen point `s` of that
 component, with product charts `f⁻¹(V) ≃ V × f⁻¹(s)` over coordinate balls `V` whose first
 projection is `f`, smooth in both directions, with fibrewise diffeomorphisms between the
-fibres of one component, with pullback and restriction of the charts, and with the regular
-fibres carrying B1.0's submanifold structure (tom Dieck, *Differential Manifolds*, January
-2009, Theorems 2.2.1 and 2.2.3 and Corollary 2.2.4, pp. 52–53, for the statement consumed).
+fibres of one component, with pullback and restriction of the Ehresmann connection and its
+horizontal–vertical splitting, and with the regular fibres carrying B1.0's submanifold
+structure (tom Dieck, *Differential Manifolds*, January 2009, Theorems 2.2.1 and 2.2.3 and
+Corollary 2.2.4, pp. 52–53, for the statement consumed).
 
 Holomorphic application: for a proper surjective holomorphic submersion `f : T → S` of
 finite-dimensional Hausdorff second-countable complex manifolds without boundary, use
@@ -3021,15 +3022,16 @@ for its analytification using §C-1.1's properness and local analytic submersion
 
 For a holomorphic base map `g : S′ → S` between these manifolds, identify the native
 pullback bundle with `T ×_S S′ → S′` on its submersion fibre-product manifold. Pull back
-each chart, retaining the projection square and fibre map; prove the identity and
-composition comparisons. The trivializations after base change are the pullbacks of the
-chosen ones, not chosen independently: the pulled-back charts are the pullbacks of B1.5's
-charts, with the identity and composition comparisons. This theorem supplies
-`relativeBettiLocalSystem` (Deligne 1970, I.2.24–2.25, p. 19).
+each chart along `g` with Mathlib's `Bundle.Trivialization.pullback`, retaining the projection
+square and fibre map; prove the identity and composition comparisons. The trivializations
+after base change are the pullbacks of the chosen ones, not chosen independently: the
+pulled-back charts are the pullbacks of B1.5's charts, with the identity and composition
+comparisons. This theorem supplies `relativeBettiLocalSystem` (Deligne 1970, I.2.24–2.25,
+p. 19).
 *Needs:* SmoothBundlesConnections B1.5 (the proper-submersion trivialization, its
-componentwise model fibre, product charts, pullback and restriction); ComplexManifolds
-Milestone 1's realification and atlas-transport maps; §C-1.1; Mathlib `Manifold.IsSubmersion`,
-`FiberBundle`, `Trivialization`.
+componentwise model fibre, product charts; pullback and restriction of the connection);
+ComplexManifolds Milestone 1's realification and atlas-transport maps; §C-1.1; Mathlib
+`Manifold.IsSubmersion`, `FiberBundle`, `Trivialization`, `Bundle.Trivialization.pullback`.
 
 **Checks.**
 
