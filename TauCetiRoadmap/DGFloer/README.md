@@ -1838,9 +1838,10 @@ source paper §1.2.
 This layer consumes PseudoholomorphicCurveAnalysis PH1–PH7 and Lanes F0–F2 of the Heegaard
 Floer roadmap. Floer cylinders have domain `ℝ × S¹` and no boundary. Half-cylinders with boundary
 on the zero section use the totally real boundary conditions of PH2.2 and PH3.4. Items 1–5 are
-the standing theory on symplectically aspherical and atoroidal targets and on Liouville domains, with the all-dimensional compactifications that
-Layer 8 twists; the three classical branches 7.C, 7.G and 7.T that follow have the count
-dimensions of their own identities and do not extend Layer 8.
+the standing theory on symplectically aspherical and atoroidal targets and on Liouville domains,
+with the all-dimensional compactifications that Layer 8 twists; the three classical branches
+7.C, 7.G and 7.T that follow have the count dimensions of their own identities and do not extend
+Layer 8.
 
 ### 7.1 Floer cylinders, energy and the Conley–Zehnder index
 
