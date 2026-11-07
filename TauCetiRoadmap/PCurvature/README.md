@@ -628,11 +628,18 @@ by 1.4.
   (Bostan–Caruso–Roques 2024, Example 3.4); the condition "at infinitely many primes" in place of
   "almost every" would accept it, since `ψ = 0` at `p ≡ 1 (mod 4)`.
 
-Not a target: over `ℚ`, an explicit finite set of primes suffices in 4.3. For `u = c·A/B`,
-`A, B ∈ ℤ[x]` primitive, `c ∈ ℚ`, the equation `y′ = u y` has a nonzero algebraic solution iff
-its `p`-curvature vanishes at every prime `p ∤ res(B, B′)` below a bound `σ` explicit in the
-degrees and heights of `A, B` (Fürnsinn–Pannier, Theorem 1.3, from their effective Kronecker
-theorem, Theorem 1.2); Katz 1982, §9, as they recall, gives a finite set non-constructively.
+Not a target: over `ℚ`, an explicit finite set of primes suffices in 4.3. For `u = c·A/B` with
+`A, B ∈ ℤ[x]` coprime and primitive, `deg A < deg B`, `B` squarefree (so `res(B, B′) ≠ 0`) and
+`c ∈ ℚ`, the equation `y′ = u y` has a nonzero algebraic solution iff its `p`-curvature vanishes
+at every prime `p ∤ res(B, B′)` below a bound `σ` explicit in the coefficients of
+`R(w) = res_x(B, A − wB′)` (Fürnsinn–Pannier, Theorem 1.3 under the hypotheses of their
+Proposition 2.2(3), with `σ` from their effective Kronecker theorem, Theorem 1.2); Katz 1982, §9,
+as they recall, gives a finite set non-constructively. Both added hypotheses are needed:
+`B = (x + 1)²`, `A = 1` has `res(B, B′) = 0`, so the condition is empty, while the solutions are
+the multiples of `exp(−1/(x + 1))`; and `A = Nx² + Nx + 1`, `B = −(x + 1)`, `N` the product of the
+primes `≤ 137`, gives `R(w) = w + 1` and `σ = 139`, and `ψ_p = 0` for every `p < 139`
+(`u ≡ −1/(x + 1)` there), while `u = −Nx − 1/(x + 1)` has no nonzero algebraic solution. The
+printed Theorem 1.3 omits these two hypotheses.
 
 ### 4.4 The Kummer trivialisation
 
@@ -746,6 +753,6 @@ DerivedDeRhamCohomology §3.6.1; algorithms deciding algebraicity by `p`-curvatu
   Propositions 1.8, 3.1, 3.3, Example 3.4, Theorems 3.5–3.7, Theorem 3.12, Remark 3.13,
   Theorem 3.16, Theorem 3.19 (Cartier's lemma), §3.3.2.
 - F. Fürnsinn, L. Pannier, « An effective version of the p-curvature conjecture for order one
-  differential equations », arXiv:2510.00892, Theorem 1.1, Propositions 2.2–2.4.
+  differential equations », arXiv:2510.00892, Theorems 1.1–1.3, Propositions 2.2–2.4.
 - L. Kronecker, « Über die Irreducibilität von Gleichungen », *Monatsber. Königl. Preuss. Akad.
   Wiss. Berlin* (1880), 155–163.
