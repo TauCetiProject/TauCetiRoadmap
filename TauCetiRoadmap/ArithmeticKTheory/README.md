@@ -526,16 +526,17 @@ this at the point at infinity of a curve over a finite field.
 
 ### From TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors
 
-The targets *curve-bundle-slopes* and *hn-bounded-truncations* supply, for a
-smooth projective geometrically connected curve over a finite field, slopes,
-existence and uniqueness of Harder–Narasimhan filtrations with their polygon,
-and boundedness of the bundles of fixed rank and degree under a fixed upper
-polygon. Section 3.2 uses them for curveSteinbergHomology_fg.
+AL.3.10.5 supplies, for a smooth projective geometrically connected curve
+over a finite field, slopes, semistability, and existence and uniqueness of
+Harder–Narasimhan filtrations with their polygons. AL.3.10.7 supplies the
+boundedness of the bundles of fixed rank and degree under a fixed upper
+polygon, as a finite-type family. Section 3.2 uses them for
+curveSteinbergHomology_fg.
 
 ### From TauCetiRoadmap.AlgebraicCurves
 
-Layers 8 and 12 supply the constant field of a function field and its regular
-projective model, used in §3.2 for curves over finite fields.
+Layer 0 supplies the constant field of a function field and Layer 12 its
+regular projective model, used in §3.2 for curves over finite fields.
 
 ### From TauCetiRoadmap.JacobianChallenge
 
@@ -1235,8 +1236,10 @@ Its terms are finitely generated, finite for q>0, and vanish outside
 finite generation for i=0. The route uses no finiteness theorem for the
 cohomology of S-arithmetic groups and no statement about K-groups, so
 applying the criterion above to R is not circular. (Quillen, Oberwolfach
-report 26/1974, p. 7; Grayson, pp. 69–90; K-book, IV.6.9 and the paragraph
-before it, p. 325.)
+report 26/1974, p. 7, for the statement and the reduction of finite
+generation to it; Grayson, pp. 69–90, for the semistable-bundle proof
+sketched here, in particular the comparison of the unstable subcomplex with
+the Tits building; K-book, IV.6.9 and the paragraph before it, p. 325.)
 
 **Checks.**
 
@@ -1256,10 +1259,10 @@ before it, p. 325.)
 *Needs:* solomonTits and its rank-one convention above; ReductiveGroupsPartII
 RG2.2.1–RG2.2.2 for the reduced building and its contractibility, and RG2.2.4
 *gl-building-lattice-chains* for its lattice description;
-AutomorphicLFunctionsAndLocalFactors *curve-bundle-slopes* and
-*hn-bounded-truncations* for Harder–Narasimhan polygons and bounded families
-of bundles; AlgebraicCurves Layers 8 and 12 for the constant field and the
-regular projective model; JacobianChallenge Layer B for finite-dimensional
+AutomorphicLFunctionsAndLocalFactors AL.3.10.5 for slopes, Harder–Narasimhan
+filtrations and polygons and AL.3.10.7 for bounded families of bundles;
+AlgebraicCurves Layer 0 for the constant field and Layer 12 for the regular
+projective model; JacobianChallenge Layer B for finite-dimensional
 coherent cohomology; SchemeAndStackFoundations §3.3 for bundle degrees and
 twists; Shapiro's lemma and the hyperhomology spectral sequence of a bounded
 complex of Γ-modules.
@@ -1605,8 +1608,8 @@ ALS.F.5, ALS.0.4–ALS.0.5, ALS.0.8, ALS.2.2–ALS.2.3, ALS.5a.1 and ALS.5b.1,
 AdelicAlgebraicGroups §3.6, MorseTheory M1–M3, GeometricTopology Layer 1 and ClassifyingSpaces
 Stages 3–4; for the function-field Steinberg finiteness of §3.2,
 ReductiveGroupsPartII RG2.2.1–RG2.2.2 and RG2.2.4,
-AutomorphicLFunctionsAndLocalFactors *curve-bundle-slopes* and
-*hn-bounded-truncations*, AlgebraicCurves Layers 8 and 12, JacobianChallenge
+AutomorphicLFunctionsAndLocalFactors AL.3.10.5 and AL.3.10.7, AlgebraicCurves
+Layers 0 and 12, JacobianChallenge
 Layer B and SchemeAndStackFoundations §3.3; finite-field K-theory; the arithmetic Witt and
 hermitian comparison/fibre-sequence contracts specified above. The hermitian
 results require those exact supplier theorems, including the low classical
@@ -5110,7 +5113,9 @@ All formulas and finite data use the conventions fixed here.
 - Daniel R. Grayson, *Finite generation of K-groups of a curve over a finite
   field (after Daniel Quillen)*, in *Algebraic K-theory, Part I*
   (Oberwolfach, 1980), Lecture Notes in Mathematics 966 (1982), pp. 69–90,
-  for the semistable-bundle proof of the preceding theorem.
+  for the semistable-bundle proof of the preceding theorem, in particular
+  the comparison of the unstable part of the building with the Tits
+  building; cited by its page range.
 - Armand Borel, [*Stable real cohomology of arithmetic
   groups*](https://www.numdam.org/item/ASENS_1974_4_7_2_235_0/),
   *Annales scientifiques de l'École Normale Supérieure* (4) 7 (1974),
