@@ -1104,11 +1104,11 @@ one** — this layer states them.
   finite-residue theorem outside its scope.
 - **Composita** (III.9): **Abhyankar's lemma** (Thm. 3.9.1: `F′ = F₁F₂` with one of
   `Pᵢ∣P` tame in the full sense (separable residue and prime-to-characteristic e)
-  ⟹ `e(P′∣P) = lcm(e₁, e₂)`; pinned as
+  ⟹ `e(P′∣P) = lcm(e₁, e₂)`; pinned, with the tameness hypothesis `e₁ ≠ 0` in `k`, as
   `TauCeti.Place.ramificationIdx_restrict_sup_of_isGalois` for intermediate fields of a
-  finite Galois extension and a place whose residue extension is separable, with
-  `e₁ ≠ 0` in `k`, and as `TauCeti.Place.ramificationIdx_restrict_sup` for intermediate
-  fields of a finite separable extension when the residue field of `P` is perfect);
+  finite Galois extension and a place whose residue extension is separable, and as
+  `TauCeti.Place.ramificationIdx_restrict_sup` for intermediate fields of a finite
+  separable extension when the residue field of `P` is perfect);
   unramified-in-both ⟹ unramified in the compositum and in the Galois closure
   (Cor. 3.9.3; `TauCeti.Place.isUnramified_sup_iff` for finite separable constituents and
   `TauCeti.Place.isUnramified_normalClosure_iff` inside a finite Galois extension, both
@@ -1503,7 +1503,8 @@ Hartshorne IV as the written sources of record.
   `k`, with `g ≥ 2` for the lower bounds:
   `TauCeti.ncard_setOf_weierstrassWeight_ne_zero_le_genus_pow_three_sub_genus`,
   `TauCeti.two_mul_genus_add_two_le_ncard_setOf_weierstrassWeight_ne_zero`, the equality case
-  `TauCeti.isHyperellipticFunctionField_iff_ncard_setOf_weierstrassWeight_ne_zero_eq` and
+  `TauCeti.isHyperellipticFunctionField_iff_ncard_setOf_weierstrassWeight_ne_zero_eq` and,
+  for non-hyperelliptic `F`,
   `TauCeti.two_mul_genus_add_three_le_ncard_setOf_weierstrassWeight_ne_zero`.)
 - **Finiteness for `g ≥ 2`, by the exact route** — the headline theorem over
   algebraically closed `k`, pinned as `TauCeti.finite_algEquiv_of_two_le_genus` under exact
@@ -1741,13 +1742,16 @@ definitions.
   onto it: (i) `H⁰(X, 𝒪_X(D)) ≅ L(D)` under 12D's identification (the pinned
   `TauCeti.AlgebraicGeometry.SchemeWeilDivisor.globalSectionsEquivRiemannRochSpace`); (ii) the
   cohomological genus `dim H¹(X, 𝒪_X)` equals this roadmap's `genus k F` (the pinned
-  `TauCeti.AlgebraicGeometry.SchemeWeilDivisor.genus_eq_genus_functionField`, for a curve with
-  DVR codimension-one local rings and `k` exact in `k(X)`, and on the model
+  `TauCeti.AlgebraicGeometry.SchemeWeilDivisor.genus_eq_genus_functionField`, for an integral
+  separated Noetherian scheme over `k` of coheight at most one satisfying the existence half of
+  the valuative criterion, with DVR codimension-one local rings, `k(X)` a function field and
+  `k` exact in `k(X)`, and on the model
   `TauCeti.AlgebraicGeometry.twoChartModel.genus_eq_genus`) —
   equivalently `h¹(𝒪(D)) = i(D) = ℓ(W − D)`, so **function-field RR + the dictionary ⟺
   the `χ`-form RR + Serre duality** (the pinned
   `TauCeti.AlgebraicGeometry.SchemeWeilDivisor.cohomologyOneDualEquivCohomologyZero`,
-  `H¹(X, 𝒪_X(D))^∨ ≃ H⁰(X, 𝒪_X(K − D))` for `K` a divisor in the canonical class);
+  `H¹(X, 𝒪_X(D))^∨ ≃ H⁰(X, 𝒪_X(K − D))` for `K` the divisor on `X` of a nonzero Weil
+  differential of `k(X)`, with `k` exact in `k(X)`);
   (iii) the dualizing sheaf `ω_{X/k}` corresponds to
   the canonical class `W` with `deg ω = 2g − 2` matching (the degree is the pinned
   `TauCeti.AlgebraicGeometry.SchemeWeilDivisor.relativeDegree_eq_two_mul_genus_sub_two`). The
