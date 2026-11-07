@@ -52,10 +52,11 @@ estimates. [PseudodifferentialOperators P1.0](../PseudodifferentialOperators/REA
 supplies differential-operator carriers, jets, symbols and formal density adjoints
 after K5a's initial density-line construction and before its analytic scale.
 K5 owns generic finite-rank real/complex bundle distributions,
-the all-real-order Hilbert scale, smooth Laplace-type regularity, pointwise real
-Hodge star and real/complex Hodge theory. The later pseudodifferential calculus
+the all-real-order Hilbert scale, smooth Laplace-type regularity and real/complex Hodge
+theory; the pointwise real and complex Hodge stars and the codifferential of real forms are
+Tau Ceti's, cited in K5a. The later pseudodifferential calculus
 and its Peetre theorem consume that analysis; K5a's analytic operator layer
-consumes only P1.0. The initial pointwise star and density layer consumes no PDO.
+consumes only P1.0. The initial orientation-line and density layer consumes no PDO.
 [AlgebraicTopology](../AlgebraicTopology/README.md) owns singular cohomology
 and products. The linear Hodge-structure objects in `Completed/HodgeStructures` are a
 target for K6's comparison, not a proof of analytic Hodge theory.
@@ -151,9 +152,10 @@ the complex type forms and cochain complexes below; do not construct a second fo
 For holomorphic `G(z,v)` with invertible v-derivative at `(z₀,v₀)`, construct
 the joint holomorphic implicit map `F(z,w)` near `(z₀,G(z₀,v₀))`, with
 `F(z₀,G(z₀,v₀))=v₀` and `G(z,F(z,w))=w`, and prove its local uniqueness.
-Consume `ImplicitFunctionData.contDiffAt_implicitFunction` and
-`ImplicitFunctionData.analyticAt_implicitFunction` from
-`TauCeti.Analysis.Analytic.Inverse`, which already give joint smooth and
+Consume Mathlib's `ImplicitFunctionData.contDiffAt_implicitFunction`
+(`Mathlib.Analysis.Calculus.ImplicitContDiff`) and Tau Ceti's
+`ImplicitFunctionData.analyticAt_implicitFunction` (`TauCeti.Analysis.Analytic.Inverse`),
+which already give joint smooth and
 analytic regularity of `implicitFunction.uncurry`, by applying their data to
 `(z,v)↦(z,G(z,v))`. Prove the holomorphic/chart and local-uniqueness adapters
 from those native joint theorems; the fixed-level `ContDiffAt.implicitFunction`
@@ -357,79 +359,116 @@ manifold of any nonzero order a real `C^n` manifold for every n, in particular r
 (`IsManifold 𝓘(ℝ,E) ω M`), with the same charts
 (`IsManifold.maximalAtlas_subset_restrictScalars_of_ne_zero`), and
 `TauCeti.contMDiff_iff_mdifferentiable` identifies holomorphic maps with complex `C^n` maps for
-every `n≠0`. Its underlying smooth structure agrees with ComplexManifolds Milestone 1 and with
+every `n≠0`. The holomorphic structure sheaf is Tau Ceti's `TauCeti.holomorphicStructureSheaf`
+(`TauCeti.Geometry.Manifold.Complex.StructureSheaf.Basic`), whose sections on `U` are the `C^ω`
+maps `U→ℂ`; on a finite-dimensional boundaryless complex manifold
+`holomorphicStructureSheaf.smoothSheafIso` identifies it with Mathlib's complex-smooth sheaf
+`smoothSheafCommRing I 𝓘(ℂ) X ℂ`, the sheaf of Mathlib's `ChartedSpace.locallyRingedSpace`, and
+`smoothStalkIso` identifies their stalks preserving evaluation
+(`…StructureSheaf.SmoothComparison`). K3 cites the two sheaves through this comparison and
+constructs no third. Its underlying smooth structure agrees with ComplexManifolds Milestone 1 and with
 Tau Ceti's `TauCeti.ComplexManifold.isManifold_real`. Export the real-analytic transition and
 local defining-equation comparisons required by K6's analytic-set triangulation, using the
 native `contDiffGroupoid` at order ω; no separate analytic groupoid carrier is needed.
 
 **K3.HolomorphicStalk — finite-dimensional complex local germs.**
-Define holomorphic germs on every finite-dimensional complex domain E using
-the analytic/smooth sheaf stalk carrier; retain its chosen point, local
-coordinates and convergent multivariable power-series comparison. Consume
-`smoothSheafCommRing`, its `IsLocalRing` stalk instance and `isUnit_stalk_iff` after K3.0
-identifies analytic and complex-smooth sections. Supply restriction/pullback and the
-maximal-ideal comparison. Consume `AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq` for
-the identity theorem. Develop several-variable convergent power-series comparisons. Prove
+The ring `O_x` of holomorphic germs at a point `x` of a complex manifold modelled on a
+finite-dimensional `E` is the stalk at `x` of `TauCeti.holomorphicStructureSheaf`, and its local
+algebra at the pins is consumed, not restated: the stalk is a local ring
+(`holomorphicStructureSheaf.instIsLocalRingStalk`) whose units are the germs with nonzero value
+(`isUnit_stalk_iff`, for any complex model), whose maximal ideal is the kernel of evaluation
+(`maximalIdeal_stalk`) with residue field ℂ (`residueFieldEquiv`); it is an integral domain by
+the identity theorem (`stalkIsDomain`, boundaryless finite-dimensional models, zero-dimensional
+ones included; `smoothStalkIsDomain` for Mathlib's complex-smooth stalk through
+`smoothStalkIso`); for a holomorphic chart `e` at `x` and a basis of `E` the `n=dim_ℂ E`
+centred coordinate germs generate the maximal ideal, by Hadamard's lemma
+(`OpenPartialHomeomorph.ker_eval_eq_span_holomorphicLinearCoordinateGerm`,
+`…StructureSheaf.MaximalIdeal`), and a germ lies in `𝔪²` exactly when its value and its
+derivative read in the chart vanish (`mem_ker_eval_sq_iff`); on a complex curve the stalk is a
+discrete valuation ring with any centred coordinate as uniformizer
+(`instIsDiscreteValuationRingStalk`). Germs are compared with Mathlib's function germs along
+`𝓝 x` or any finer filter by `holomorphicStructureSheaf.toFilterGerm` (`…StructureSheaf.Germ`),
+injective along `𝓝 x`, with image the germs of the functions analytic near `x`; holomorphic
+maps pull germs back by `stalkPrecomp`; and in a model space `TauCeti.analyticGerms` with
+`analyticGerms.pullback` and `equivOfInverse` (`TauCeti.Analysis.Analytic.Germ`) give the
+chart-free comparison. Mathlib's `AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq` is the
+identity theorem used again below for analytic closure and irreducibility. Retain the chosen
+point and its local coordinates, and own the convergent several-variable power-series
+comparison: identify `O_x` through a chart with the ring of convergent power series in `n`
+variables, compatibly with the coordinate germs. Prove
 Weierstrass preparation and division with their precise uniqueness: when `w ↦ f(0,w)` has
 order d, the germ is a unit times a monic degree-d polynomial with holomorphic coefficient
 germs vanishing at the origin (`weierstrass_preparation`, on `ℂⁿ×ℂ` with the order read off
 from the iterated derivatives of `w ↦ f(0,w)` at 0), and the unit and coefficient germs are
 unique (`weierstrass_preparation_unique`); for such a g every germ f holomorphic at 0 is
 `q·g+r` with q holomorphic and r a polynomial in w of degree less than d with holomorphic
-coefficients (`weierstrass_division`) (Demailly, Chapter II, (2.1) and (2.3)). Construct the contour/power-sum proof and Newton
+coefficients (`weierstrass_division`) (Demailly, Chapter II, (2.1) for preparation and
+(2.3)–(2.4) for division with its uniqueness, from which the uniqueness of the preparation
+follows by dividing one Weierstrass polynomial by the other). Construct the contour/power-sum proof and Newton
 identities, using ContourIntegration's residue/argument-principle inputs and K3.0
 parameter dependence. Consume `MvPolynomial.mul_esymm_eq_sum` for Newton identities and
 align the factorization API with `PowerSeries.IsWeierstrassFactorization`.
 
-**K3.MeromorphicGermField — one-variable finite-pole local field.** For
-`a∈ℂ`, use K3's holomorphic stalk O_a and its comparison with holomorphic
-neighborhood representatives in native `Filter.Germ (𝓝 a)`. Prove O_a is
-a domain by the identity/isolated-zero theorem and construct
-`K_a=FractionRing O_a`. Identify it with a field structure on the subring of punctured
-`Filter.Germ (𝓝[≠] a)` represented by native `MeromorphicAt f a`.
-Use `MeromorphicAt`'s finite-power analytic characterization and
-`meromorphicOrderAt_eq_int_iff`; the zero germ is treated separately.
-Prove the holomorphic-to-punctured map is injective, every fraction has a
-finite pole, every such punctured germ is a fraction, and all operations
-commute with these maps. For a specified local biholomorphism taking a to b,
-prove the pullback comparison with K_b and its local-inverse identities.
+**K3.MeromorphicGermField — one-variable finite-pole local field.** For `a∈ℂ` the
+local field `K_a` of meromorphic germs at `a` is Tau Ceti's `TauCeti.meromorphicGerms ℂ a`
+(`TauCeti.Analysis.Meromorphic.Germ`): the subring of the punctured germs
+`Filter.Germ (𝓝[≠] a) ℂ` represented by functions with native `MeromorphicAt f a`, a field
+(`meromorphicGerms.instField`) whose inverse is the pointwise inverse by the principle of
+isolated zeros, the zero germ included. Its comparison with the holomorphic stalk `O_a` of
+K3.HolomorphicStalk is pinned in `TauCeti.Geometry.Manifold.Complex.StructureSheaf.MeromorphicGerm`:
+restriction to punctured neighbourhoods is the injective ring homomorphism
+`holomorphicStructureSheaf.toMeromorphicGerms a` (`toMeromorphicGerms_injective`); every
+meromorphic germ is `h/(z−a)^n` with `h` holomorphic (`exists_eq_toMeromorphicGerms_div`), so
+`K_a` is a fraction field of `O_a` (`isFractionRing_meromorphicGerms`, identified with
+`FractionRing O_a` by `IsFractionRing.algEquiv`); and a germ is holomorphic exactly when its
+order is nonnegative (`exists_toMeromorphicGerms_eq_iff`, read through
+`meromorphicOrderAt_eq_int_iff`), equivalently exactly when its principal part vanishes
+(`mem_range_toMeromorphicGerms_iff_principalPart_eq_zero`). The finite principal part is
+`meromorphicGerms.principalPart` (`TauCeti.Analysis.Meromorphic.PrincipalPart`), the polynomial
+`P` without constant term with `φ−P((z−a)⁻¹)` analytic (`principalPart_eq_iff`), hence
+independent of the exponent `N`, of the representative and of the neighbourhood, and computed
+from the Taylor coefficients of `h` below `N` when `φ=(z−a)^(−N)h`
+(`principalPart_eq_sum_coeff`); `evalInvSub` is the injective evaluation `P↦P((z−a)⁻¹)` and
+`holomorphicStructureSheaf.regularPart` the holomorphic remainder, with `N=0` and the zero germ
+included. The coefficient of order `−(k+1)` is the circle integral
+`(2πi)⁻¹∮_(|z−a|=ρ)(z−a)^k f(z)dz` for every sufficiently small `ρ>0`
+(`coeff_principalPart_succ_eq_circleIntegral`, `TauCeti.Analysis.Contour.Residue.PrincipalPart`).
+The regular subring is identified with `O_a` (`rangeToMeromorphicGermsEquiv`) and its value at
+`a` is `regularEval` (`…StructureSheaf.RegularEval`), the limit along `𝓝[≠] a`, so the arbitrary
+value of a representative at its centre is never used. A local biholomorphism `e` with
+`a∈e.source` induces the contravariant field isomorphism `meromorphicGermsEquiv` from the germs
+at `e a` to those at `a` (`TauCeti.Analysis.Meromorphic.Pullback`), which respects regular germs
+(`meromorphicGermsEquiv_mem_range_iff`) and agrees with `stalkPrecomp` on holomorphic germs
+(`toMeromorphicGerms_stalkPrecomp`, `…StructureSheaf.Pullback`); differentiation is the
+derivation `meromorphicGerms.derivation` with the chain rule `derivation_pullback`
+(`TauCeti.Analysis.Meromorphic.Derivation`).
 
-Consume [GH2's local Laurent construction](../GlobalHolomorphicFunctions/README.md), specifically its
-finite-pole local phase before global Runge patching. The generic local
-Laurent decomposition and coefficient extraction remain owned by
-GlobalHolomorphicFunctions; this target owns their comparison with the
-stalk/fraction field and regular evaluation. Make this pole-only comparison
-explicit using the native finite-power characterization of `MeromorphicAt`:
-choose N≥0 and an analytic germ h with `f(z)=(z-a)^(-N)h(z)` on a
-punctured neighbourhood, split its convergent Taylor expansion as
-`h(z)=Σ_(j<N)c_j(z-a)^j+(z-a)^N q(z)`, and identify the resulting
-finite principal part and holomorphic germ q. Prove that changing N,
-shrinking the neighbourhood or changing a punctured representative gives
-the same principal coefficients and regular germ. Prove uniqueness by
-multiplying the difference by a sufficiently high power and comparing the
-Taylor coefficients below that power. Include N=0 and the zero germ.
-Identify the negative Laurent coefficient of order -k, k≥1, with
-`(2πi)^(-1) ∮_(|z-a|=ρ) f(z)(z-a)^(k-1) dz` for every
-sufficiently small positive ρ. Use native Cauchy coefficient formulas and
-annulus integral invariance to prove agreement with GH2's coefficients.
-Transport restriction, finite sums/products and differentiation to this
-field; in the product formula a fixed negative coefficient is a finite
-convolution because both input Laurent series are bounded below. Prove
-these comparisons with the native analytic factorization and all existing
-field maps, rather than selecting a second generic Laurent construction.
-Identify the regular subring with O_a and its value-at-a ring homomorphism
-to ℂ; the arbitrary value assigned to a meromorphic representative at its
-centre is never used. K3.MeromorphicGermField consumes the stalk/identity
-foundation, native analytic/meromorphic APIs and this local GH2 phase, and
-precedes applications needing scalar meromorphic coefficient germs. It
-has no QFT prerequisite. General isolated essential-singularity and global
-Mittag–Leffler constructions retain their GlobalHolomorphicFunctions owner.
+Own what the pins lack. Consume [GH2's local Laurent construction](../GlobalHolomorphicFunctions/README.md),
+specifically its finite-pole local phase before global Runge patching: the generic local
+Laurent decomposition and coefficient extraction remain owned by GlobalHolomorphicFunctions,
+and this target proves that GH2's negative Laurent coefficients of a finite-pole germ are the
+coefficients of its `principalPart`, by the circle-integral formula above and annulus integral
+invariance, and that GH2's finite-pole output is the germ with that principal part and that
+regular germ. Prove the product formula: a fixed negative coefficient of `φψ` is the finite
+convolution of the coefficients of `φ` and `ψ`, because both Laurent series are bounded below;
+transport the restriction, finite-sum and differentiation laws of GH2's coefficients through
+the pinned field operations rather than through a second Laurent construction. Prove the
+ℂ-specific facts the applications need beyond the pinned generality over a normed field: the
+local-inverse identities of `meromorphicGermsEquiv` for a biholomorphism given in a chart of
+K1, and the compatibility of `regularEval` with the evaluation of `O_a` under that chart.
+K3.MeromorphicGermField consumes the stalk/identity foundation, these native
+analytic/meromorphic APIs and this local GH2 phase, and precedes applications needing scalar
+meromorphic coefficient germs. It has no QFT prerequisite. General isolated
+essential-singularity and global Mittag–Leffler constructions retain their
+GlobalHolomorphicFunctions owner.
 
-Prove the analytic local rings are Noetherian and factorial of dimension n, with regular
-parameters: for the stalk at x of `smoothSheafCommRing 𝓘(ℂ,E) 𝓘(ℂ) M ℂ` on a complex manifold
-M modelled on E, `isRegularLocalRing_holomorphicStalk` states that it is a regular local ring
+Prove the analytic local rings are Noetherian and factorial of dimension n, with the pinned
+coordinate germs as regular parameters: for the stalk at x of `smoothSheafCommRing 𝓘(ℂ,E) 𝓘(ℂ) M ℂ`
+on a complex manifold M modelled on E, the holomorphic stalk through `smoothStalkIso`,
+`isRegularLocalRing_holomorphicStalk` states that it is a regular local ring
 of Krull dimension `finrank ℂ E`, and `uniqueFactorizationMonoid_holomorphicStalk` that it is
-a factorial domain (Demailly, Chapter II, (2.7) and (2.10)). Follow Griffiths–Harris, *Principles of Algebraic Geometry*, chapter 0 §§1–2, and Demailly, chapter II: prove local parametrization of
+a factorial domain (Demailly, Chapter II, (2.7) and (2.10)); Noetherianity, regularity, the
+Krull dimension and factoriality are at neither pin. Follow Griffiths–Harris, *Principles of Algebraic Geometry*, chapter 0 §§1–2, and Demailly, chapter II: prove local parametrization of
 a pure-dimensional analytic germ by a finite branched projection to a polydisc,
 elimination under finite projections, density of regular points and dimension/finite-fiber
 formulas. Prove the hypersurface weak Nullstellensatz: for irreducible f, a germ h
@@ -646,10 +685,10 @@ modules over a ring and does not identify line bundles on an arbitrary space.
 
 K4.P owns, on every complex manifold, the holomorphic exponential sequence, the
 isomorphism `Pic_hol(M)≃H¹(M,𝒪×)` and the identification of its connecting map
-with the integral first Chern class of the underlying smooth line. Its consumers are
-ComplexComparisonPartII C5.4 (for its analytic-space and cycle comparisons), K3Surfaces 1.1
-and GeometricQuantization §3.3: the exponential segment on a complex manifold and its `c₁`
-identification that they use are this construction. The normalization is one and the same
+with the integral first Chern class of the underlying smooth line. It supplies this
+segment and its `c₁` identification to ComplexComparisonPartII C5.4 (for its analytic-space
+and cycle comparisons), to K3Surfaces 1.1 and to GeometricQuantization §3.3, which are its
+consumers. The normalization is one and the same
 in the two conventions in use: `c₁(O(1))·[ℂP¹]=+1` for SmoothBundlesConnections
 B6.2's dual-character Hopf line, equivalently `c₁(O(−1))·[ℂP¹]=−1` as
 ComplexComparisonPartII writes it, both against K1's complex orientation.
@@ -759,8 +798,8 @@ layer uses DifferentialGeometry, SmoothBundlesConnections B2–B4, PDE Lane A.3,
 [VariationalMethods V2–V5.2](../VariationalMethods/README.md),
 [UnboundedOperators UO-D06](../OperatorTheory/UnboundedOperators/README.md),
 AlgebraicTopology and Mathlib, and HopfRinow Layer 1's Levi-Civita connection
-through PDO P1.0. Its pointwise real star, orientation line and
-density bundle precede PDO P1.0. Its distributional operator action and
+through PDO P1.0. Its orientation line and
+density bundle precede PDO P1.0; its pointwise star is Tau Ceti's. Its distributional operator action and
 Laplace analysis then consume P1.0's operator and symbol core. It precedes the complex-manifold
 and holomorphic-bundle applications in K5b.
 
@@ -780,30 +819,39 @@ supplies the Lindelöf condition here.
 Use B2's compactly supported smooth density and `MeasureTheory.Lp` comparison
 on these bundles.
 
-Pin the pointwise product on exterior forms by Gram determinants, making increasing wedges
-of an orthonormal real coframe orthonormal (not summing over all ordered tuples).
-On an oriented real inner-product space V of dimension m construct the
-pointwise Hodge star on all exterior degrees, with vol the native
-`Orientation.volumeForm` (including its signed degree-zero value), characterized by
-`α∧*β=⟨α,β⟩vol`, with `*²=(−1)^(k(m−k))` on degree k. Prove isometry,
-oriented-isometry naturality, orientation-reversal sign and wedge/contraction
-adjoint identities. Transport smoothly to real cotangent/exterior bundles.
+The pointwise Hodge algebra is Tau Ceti's and is consumed, not restated. On an oriented real
+inner-product space V of dimension m the exterior-power inner product is the Gram-determinant
+metric, which makes increasing wedges of an orthonormal real coframe orthonormal rather than
+summing over all ordered tuples (`TauCeti.exteriorPower_innerₗ`,
+`TauCeti.Analysis.InnerProductSpace.HodgeStar.Basic`); the pointwise star
+`Orientation.hodgeStar : ⋀^k V ≃ ⋀^l V` for `k+l=m` is characterized by `⟨*α,β⟩=vol(α∧β)`,
+equivalently `α∧*β=⟨α,β⟩vol`, with vol the trivialization `Orientation.volumeEquiv` induced by
+the native `Orientation.volumeForm` (its signed degree-zero value included), and
+`*²=(−1)^(k(m−k))` on degree k is `hodgeStar_hodgeStar`. Its isometry (`hodgeStarIsometry`),
+oriented-isometry naturality and orientation-reversal sign (`hodgeStar_neg_orientation`,
+`…HodgeStar.Isometry`), the wedge/contraction adjoint identities (`adjoint_wedgeLeft`,
+`koszulDifferential_hodgeStar`, `…HodgeStar.Contraction`) and the smooth transport to real
+forms on an oriented Riemannian manifold, `TauCeti.SmoothForm.hodgeStar` for DG 2.1's
+`Manifold.Orientation` and the Riemannian tangent bundle with `α∧*β=⟨α,β⟩vol` and
+`**=(−1)^(kl)` pointwise (`TauCeti.Geometry.Manifold.Riemannian.HodgeStar`), are pinned.
 Construct the orientation line from the sign-of-determinant tangent-frame
 transition cocycle, identifying its square with the trivial line and its
 oriented trivializations with DG's orientations. Without orientation the
-star codomain is twisted by this line and its local sign changes glue.
-This pointwise algebra precedes the elliptic scale
-and is the shared supplier for RiemannianGeometry and SpinGeometry's
-Clifford–star/chirality comparison.
-Complex-linearly extend this real star to the complexified exterior algebra.
-Pin `α∧*β=B_ℂ(α,β)vol=⟨bar α,β⟩_Gram vol`, where B_ℂ is the bilinear
-extension of the real Gram product and the Hermitian product is
-conjugate-linear in its first slot. Define `barStar β=*(bar β)` already
-on these complexified real forms and prove
-`α∧barStar β=⟨β,α⟩vol`. For a finite-dimensional orthogonal complex
-structure on the real fiber, prove the pointwise (p,q) type law for this
-star and barStar on its complexified exterior algebra. This algebra uses
-no integrability or holomorphic bundle. K5b transports that law to its type bundles.
+star codomain is twisted by this line and its local sign changes glue; this twisted star
+is the target here. The orientation line precedes the elliptic scale, and
+RiemannianGeometry and SpinGeometry's Clifford–star/chirality comparison consume the same
+pinned pointwise algebra. The complex-linear extension of the real star to the complexified
+exterior algebra is `Orientation.complexHodgeStar` (`…HodgeStar.Complex`), with
+`α∧*β=B_ℂ(α,β)vol=⟨bar α,β⟩_Gram vol`, where B_ℂ is the bilinear
+extension of the real Gram product and the Hermitian product is its sesquilinear
+complexification, conjugate-linear in its first slot; `barStar β=*(bar β)` is the
+conjugate-linear `Orientation.barHodgeStar`, with `α∧barStar β=⟨β,α⟩vol`
+(`complexWedgePairing_barHodgeStar`). For a skew-adjoint `J` on the real fiber, in particular
+a finite-dimensional orthogonal complex structure, the pointwise (p,q) type law on
+`exteriorPower.typeSubmodule` is `complexHodgeStar_mem_typeSubmodule_iff` and
+`barHodgeStar_mem_typeSubmodule_iff`: `*` carries type `(p,q)` to `(m/2−q,m/2−p)` and `barStar`
+to `(m/2−p,m/2−q)`. This algebra uses no integrability or holomorphic bundle. K5b transports
+that law to its type bundles, which is a target of K5b.0.
 
 First equip DG's actual `Density V (finrank ℝ V)` with pointwise
 `AddCommGroup` and `Module ℝ` extending DG's existing pointwise `SMul ℝ`,
@@ -1263,16 +1311,23 @@ consumed through those suppliers. Apply the same construction to Δ_d and Δ_A;
 PDO P7 and HamiltonianReduction R5 consume it for smooth reference operators
 before their additional estimates.
 
-Pin d* as the formal L² adjoint and the nonnegative Hodge Laplacian
-`Δ=d*d+dd*`, `σ_F(Δ_d)=|ξ|²_g Id`. Prove its self-adjoint realization with
+The codifferential on real forms is Tau Ceti's `TauCeti.SmoothForm.codifferential`
+(`TauCeti.Geometry.Manifold.Riemannian.Codifferential`), `d*=(−1)^(m(k+1)+1)*d*` on k-forms of
+an oriented Riemannian m-manifold, with `d*d*=0` (`codifferential_codifferential`),
+independence of the orientation (`codifferential_neg_orientation`), Green's formula
+`d(α∧*β)=⟨dα,β⟩vol−⟨α,d*β⟩vol` (`mextDeriv_wedge_hodgeStar`) and formal adjointness
+`∫⟨dα,β⟩vol=∫⟨α,d*β⟩vol` on a boundaryless Hausdorff σ-compact manifold when one of the two
+forms has compact support (`integralTopForm_inner_mextDeriv_eq_inner_codifferential`). Prove
+that this `d*` is the L² adjoint of `d` in B2's L² sections and define the nonnegative Hodge
+Laplacian `Δ=d*d+dd*`, `σ_F(Δ_d)=|ξ|²_g Id`. Prove its self-adjoint realization with
 domain H² and compact resolvent by the shared estimates/weak-domain
 identification, before constructing its eigensection decomposition. On
 functions it is the negative of DG's `laplaceBeltrami=div∘grad`. Construct
 harmonic projection and Green operator, the orthogonal harmonic/exact/coexact
 splitting, and the de Rham Hodge theorem on compact real Riemannian manifolds;
 identify its cohomology with DifferentialGeometry's de Rham object.
-Own `d*=(−1)^(m(k+1)+1)*d*` on real k-forms of an oriented m-manifold
-and `*Δ_d=Δ_d*`; PDO P1.1, Riem R7.4 and K5b consume these identities.
+Own `*Δ_d=Δ_d*` on real forms of an oriented m-manifold, from the pinned sign of `d*`; PDO
+P1.1, Riem R7.4 and K5b consume this identity and that sign.
 
 **K5a.ComponentwiseCompact — analytic transport for locally finite rank.**
 For a compact locally connected boundaryless manifold M and a smooth real or
@@ -1384,7 +1439,7 @@ A unitary `(1,0)` coframe φ for h_T* has Gram norm √2; prove the scaling
 ψ=φ/√2 and the resulting identity
 `e_(φ_j)i_(φ_k)+i_(φ_k)e_(φ_j)=2δ_jk`. Transport K5a's pointwise type law to the
 complex-linear Hodge star `*:Ω^(p,q)→Ω^(n−q,n−p)`, its degree
-square identities, and the `(n−p,n−q)` type of K5a's `barStar β=*(bar β)`. Pin
+square identities, and the `(n−p,n−q)` type of the pinned `barHodgeStar`, `barStar β=*(bar β)`. Pin
 `α∧barStar β=⟨β,α⟩dvol` and `∂̄*=−*∂*`. Consume K5a's
 `*Δ_d=Δ_d*` and prove `barStar Δ_∂̄=Δ_∂̄ barStar`.
 For a Hermitian holomorphic bundle E construct conjugate-linear
@@ -1659,8 +1714,9 @@ the image of `[V]` under the continuous map of pairs
 `(V,V∩U)→(M,U)`. Excise the closed singular locus, which is contained in
 the interior of V∩U, to obtain
 `H_(2k)(V_reg,V_reg∩U;ℤ)≃H_(2k)(V,V∩U;ℤ)`.
-The remaining inclusion `(V_reg,V_reg∩U)→(M,U)` is smooth, so DG8.4's
-relative `chainIntegral_map` compares evaluation with the pulled-back form.
+The remaining inclusion `(V_reg,V_reg∩U)→(M,U)` is smooth, so DG8.4's relative
+chain integration `chainIntegral`, whose value on the pulled-back form over a chain is its
+value on the form over the image chain, compares evaluation with the pulled-back form.
 Let C be the closed support of that top form on V_reg; prove C is compact,
 and `V_reg∩U⊆V_reg∖C`. Under enlargement of the relative subset to
 V_reg∖C, the class coming from `[V]` is AT6.3's compact-set orientation
@@ -1679,29 +1735,37 @@ multiplicities, and prove additivity of the integration comparison.
 ## K7. Projective, torus, and Hopf examples
 
 **K7.1. Projective charts and orientation.** Use the single carrier
-`Projectivization ℂ (Fin (n+1) → ℂ)` with AlgebraicTopology Stage 4.6's
-quotient topology from the nonzero vectors. Consume ComplexManifolds Milestones 1–3's
+`Projectivization ℂ (Fin (n+1) → ℂ)` with Tau Ceti's quotient topology from the nonzero
+vectors, `Projectivization.instTopologicalSpace` (`TauCeti.Topology.Algebra.Projectivization`;
+the generic quotient topology that AlgebraicTopology Stage 4.6 plans is this pinned
+declaration), its open quotient map `isOpenQuotientMap_mk'` and the pinned instances
+`instT2Space` (continuous linear forms separate the points of the vector space),
+`instCompactSpace` (finite-dimensional normed spaces over ℝ or ℂ, by the continuous surjection
+from the unit sphere), `instSecondCountableTopology` and `instPathConnectedSpace` (every nonzero
+normed space, so every n≥0, ℂP⁰ being a point). Consume ComplexManifolds Milestones 1–3's
 complex-manifold, real-restriction and atlas-transport interfaces,
 K3.0's finite-dimensional holomorphic calculus and
 K1's complex orientation. This construction precedes associated bundles
 and uses neither SmoothBundlesConnections B2 nor K5.
 
-Construct the affine chart on `U_i={ [v] : v_i≠0 }` by the ratios
-`(v_(i.succAbove j)/v_i)_(j : Fin n)`. Fix the coordinate enumeration
-`Fin.succAbove i`, its inverse insertion `Fin.insertNth i 1 z`, and
-the chart model `Fin n → ℂ` with
-`𝓘(ℂ, Fin n → ℂ)`. Prove openness, representative independence, the
-inverse `[1:z]` in those coordinate positions, chart homeomorphism and
-holomorphic transition maps. Give the complex-linear comparison to
-`EuclideanSpace ℂ (Fin n)` and its real scalar restriction. These affine
-charts construct the projective manifold directly; the discrete quotient
-theorem in ComplexManifolds is not used for the ℂ× action.
+The affine atlas is pinned as well (`TauCeti.Geometry.Manifold.Instances.Projectivization`):
+the chart on `U_i={ [v] : v_i≠0 }` is `Projectivization.affineChart i`, the ratios
+`(v_(i.succAbove j)/v_i)_(j : Fin n)` with inverse `z ↦ [Fin.insertNth i 1 z]`, packaged as the
+open partial homeomorphism `affineOpenPartialHomeomorph i` (`isOpen_affineOpen` for openness,
+`mk_eq_mk_iff` for representative independence); `instChartedSpace` is the atlas of these
+`n+1` charts with model `Fin n → ℂ` and `𝓘(ℂ, Fin n → ℂ)`, the transition maps are `C^r` for
+every `r` including ω (`contDiffOn_affineChart_symm_trans`), so `instIsManifold r` holds for
+every `r`, and the charts and their inverses are `C^r` (`contMDiffOn_affineChart`,
+`contMDiff_affineChart_symm`). K7.1 adopts these coordinate conventions, `Fin.succAbove i` for
+the enumeration and `Fin.insertNth i 1 z` for the inverse insertion, in every formula below.
+Mathlib and Tau Ceti each declare `Projectivization.instTopologicalSpace`, so a file importing
+all of Mathlib cannot import this Tau Ceti module until one copy is removed; the Lean
+acceptance tests of K7 therefore state nothing on this carrier. Give the complex-linear
+comparison to `EuclideanSpace ℂ (Fin n)` and its real scalar restriction. These affine charts
+construct the projective manifold directly; the discrete quotient theorem in ComplexManifolds
+is not used for the ℂ× action.
 
-Prove `T2Space`, `CompactSpace`, `SecondCountableTopology` and
-`ConnectedSpace` on this same carrier for every n≥0. Use chart ratios to
-separate distinct lines, the continuous surjection from the finite-dimensional
-unit sphere for compactness, and the finite atlas for second countability;
-include ℂP⁰ as a point. Prove the underlying real smooth atlas and its
+Prove the underlying real smooth atlas and its
 complex orientation agree with K1. Upgrade the existing equivalence
 `OnePoint.equivProjectivization ℂ` to a homeomorphism and a biholomorphism
 for ComplexManifolds' OnePoint atlas, using its formulas `t ↦ [t:1]`, `∞ ↦ [1:0]`
@@ -2184,9 +2248,8 @@ K1's eigenbundle calculus consumes SBC B2's complexification and precedes K2.
 K2's scalar calculus, whole-polydisc local lemma, parameter-dependent shell solver, and Ω^p sheaves
 consume GH0's fixed finite-rank operators and Cauchy–Green map under their stated interfaces and precede K4's holomorphic bundles and connections. K2's bundle-valued comparison follows
 K4's holomorphic-section sheaf and ∂̄_E. The rest of K3 uses that local analysis and feeds K4's
-analytic-sheaf examples. K5a's pointwise real
-star, orientation line and density bundle use DG and SBC B2 independently
-of PDO P1.0 and K1–K4. K5a's BundleTest, BundleDistribution and Fréchet
+analytic-sheaf examples. K5a's orientation line and density bundle use DG, SBC B2 and Tau Ceti's pointwise star
+independently of PDO P1.0 and K1–K4. K5a's BundleTest, BundleDistribution and Fréchet
 section carriers follow its density line and use chart/frame analysis
 and SBC B3–B4's connection comparisons,
 independently of P1.0. PDO P1.0 consumes that density bundle; K5a's
@@ -2207,7 +2270,7 @@ and K5a. K6.0 uses K1/K2/K4 and K5a local identities, and precedes
 RealAnalyticGeometry R3/R4/R5. K6.1 follows K5b, K6.0 and K3's analytic-set theory, K3.0's real-analytic
 atlas, RealAnalyticGeometry R1/R5, DG8.3–8.5/9.3/12.1, AT4.5/4.7/6.1/6.3
 and GT Layer11. K7.1 uses K3.0, K1's complex orientation and
-ComplexManifolds Milestones 1–3 and AT Stage4.6's projective quotient topology, and precedes K2's ℂP¹ acceptance. K7.2's CW
+ComplexManifolds Milestones 1–3 and Tau Ceti's `Projectivization.instTopologicalSpace` and affine atlas, and precedes K2's ℂP¹ acceptance. K7.2's CW
 construction uses K7.1 and AT Stage 4 before AT Stage 7, independently
 of K2–K6; its bundle/forms/Hodge applications use K4–K6. K8 uses K2/K5/K6
 and the generic spectral-sequence machinery. K4.P follows K2's Čech/derived comparison, K3's function sheaf, K4's line
