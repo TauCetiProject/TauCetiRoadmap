@@ -1280,8 +1280,10 @@ Supply annulus/restricted-polar versions, small-ball limit1, measure-zero cut lo
      is the image of the two segments x=½ and y=½: closed, of total length 2,
      so nonempty and not discrete, yet of Riemannian area zero; its image in
      the unit-square chart is two segments, Lebesgue null. On unit S² the
-     conjugate locus of p is the single antipode, so volume-nullity does not
-     record its multiplicity n−1=1.
+     critical values of `exp_p` are p and its antipode: `|v|=π` maps to the
+     antipode and `|v|=2π` back to p, each with singular differential, so the
+     set is two points, and volume-nullity records neither the antipode's
+     conjugate multiplicity n−1=1 nor the return to p.
 
    *Needs:* HopfRinow Layers 2–4; R2 (differential of exp); R3 (index);
    SmoothBundlesConnections B6.0; Tau Ceti `TauCeti.isNullSet_image_criticalPoints`
