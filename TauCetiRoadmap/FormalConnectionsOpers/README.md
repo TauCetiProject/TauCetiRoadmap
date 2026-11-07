@@ -75,10 +75,13 @@ intrinsic descriptions.
   Bruhat structure, the classification of split reductive groups by root data, pinned Chevalley
   groups over `ℤ`, and the complex reductive coset-affineness theorem. §4.3 owns the
   ordered-root-product, complex-point generation and analytic matrix applications; §3A.5 owns
-  the loop-Grassmannian reduction-locus application of 6B. §4.3 also owns the complex Lie group
-  `G(ℂ)` of every affine algebraic group `G` over `ℂ`, on the native Hopf-point carrier, with the
-  identification of its Lie algebra with the counit derivations and their convolution bracket;
-  ReductiveGroups Layer 11 consumes it.
+  the loop-Grassmannian reduction-locus application of 6B. ReductiveGroups Layer 3A.5 owns the
+  classical topology, the smooth charts and the complex Lie-group structure on `G(ℂ)` for every
+  affine algebraic group `G` over `ℂ`, with the chart-at-the-identity identification of its Lie
+  algebra with its Layer 2 tangent Lie algebra; §4.3 consumes these and owns only their transport
+  to the native Hopf-point carrier `WithConv (H →ₐ[ℂ] ℂ)`, the Maurer–Cartan trivialization and
+  rank, the comparison of §2.4's germ tangent map with the counit derivations and their
+  convolution bracket, the realification comparison and the holomorphic exponential chart.
 - **LieHighestWeight Layer 7** owns the Lie-algebra Chevalley restriction theorem over every
   algebraically closed characteristic-zero field, with the `Int(L)·H` density argument and the
   homogeneous-degree compatibility. §4.3 imports it and owns only the adapters: group invariants
@@ -174,9 +177,9 @@ Both signs are recomputed in §§7.2 and 8.2. `G(ℂ)` always means the native H
   `HahnSeries.ofPowerSeriesAlg` and `LaurentPolynomial.eval₂`: the coefficient rings of Layers 1
   and 3A. Under the pinned instances, `Algebra ℚ (LaurentSeries ℚ)` is found as
   `HahnSeries.powerSeriesAlgebra` (`Mathlib/RingTheory/HahnSeries/PowerSeries.lean`), which routes
-  through `R[[t]]`; `Suggested.lean` selects the coefficientwise `HahnSeries.instAlgebra` by a local
-  instance so that its coefficient maps are algebra maps for one fixed structure. The two are
-  propositionally, not definitionally, equal.
+  through `R[[t]]`; `Suggested.lean` selects the coefficientwise `HahnSeries.instAlgebra` by the
+  local instance `laurentSeriesCoefficientAlgebra` so that its coefficient maps are algebra maps
+  for one fixed structure. The two are propositionally, not definitionally, equal.
 - `ModuleCat`, `AlgebraicGeometry.Scheme.PresheafOfModules`, `CategoryTheory.Grpd`,
   `CategoryTheory.Pseudofunctor.IsPrestack`, native sites and descent: the categorical carriers
   of the sheaf and prestack constructions of Layers 2–3.
@@ -206,7 +209,7 @@ Both signs are recomputed in §§7.2 and 8.2. `G(ℂ)` always means the native H
 
 - `TauCeti.HopfAlgebra.pointsFunctor` and `TauCeti.HopfAlgebra.points` with the point carrier
   `WithConv (H →ₐ[k] R)` in `TauCeti/Algebra/AlgebraicGroup/PointsFunctor.lean`,
-  `TauCeti.AlgHom.mapValue` in `TauCeti/Algebra/AlgebraicGroup/FunctorOfPoints.lean`,
+  `AlgHom.mapValue` in `TauCeti/Algebra/AlgebraicGroup/FunctorOfPoints.lean`,
   `TauCeti.FiniteTypeCommHopfAlgCat` in `TauCeti/Algebra/AlgebraicGroup/FiniteType/CommHopfAlgCat.lean`
   and `TauCeti.reductiveCommHopfAlgProperty` in `TauCeti/Algebra/AlgebraicGroup/Reductive/Basic.lean`:
   Hopf points with their convolution group law and post-composition maps; reductivity means
@@ -223,9 +226,9 @@ Both signs are recomputed in §§7.2 and 8.2. `G(ℂ)` always means the native H
   commutative Hopf algebra over a field of characteristic zero is smooth, and the equality of the
   dimension of its counit derivations with its Krull dimension, for §4.3's lower dictionary.
 - `TauCeti.chartedSpaceOfIsOpenEmbedding` and `TauCeti.isManifold_chartedSpaceOfIsOpenEmbedding`
-  in `TauCeti/Geometry/Manifold/Gluing.lean`: the manifold structure glued from open embeddings,
-  after the topology, open embeddings, cover and holomorphic local deck maps are proved (§2.4 and
-  its §4.3 group application).
+  in `TauCeti/Geometry/Manifold/Gluing/Basic.lean`: the manifold structure glued from open
+  embeddings, after the topology, open embeddings, cover and holomorphic local deck maps are
+  proved (§2.4 and its §4.3 group application).
 - `ContinuousMonoidHom.exists_mem_nhds_one_forall_le_ker` in
   `TauCeti/Analysis/Normed/Algebra/NoSmallSubgroups.lean`: a neighbourhood of `1` in a normed
   algebra's unit group containing no nontrivial subgroup, for Layer 6.
@@ -647,8 +650,10 @@ targets here, not dependencies on an unnamed D-module roadmap.
 - Symbols on `k[x]`: the factorization of `D = d/dx` through `P¹(A)` sends `1 ⊗ 1 ↦ 0` and
   `ξ ↦ 1`, so the symbol (its restriction to `ker(P¹ → P⁰) = Aξ`) is nonzero and `D` is not of
   order zero. The factorization of `(d/dx)²` through `P²(A) = A[ξ]/(ξ³)`, where
-  `1 ⊗ f = f + f′ξ + (f″/2)ξ²`, sends `1 ↦ 0`, `ξ ↦ 0`, `ξ² ↦ 2`: its symbol is nonzero in
-  characteristic `≠ 2` and zero in characteristic `2`, where `(d/dx)²` is the zero operator.
+  `1 ⊗ f = f + f′ξ + f^[2] ξ²` with `f^[2]` the second Hasse derivative `x^n ↦ binom(n, 2) x^(n−2)`
+  (so `2 f^[2] = f″` in every characteristic), sends `1 ↦ 0`, `ξ ↦ 0`, `ξ² ↦ 2`: its symbol is
+  nonzero in characteristic `≠ 2` and zero in characteristic `2`, where `(d/dx)²` is the zero
+  operator although `f^[2]` is not: `x² ↦ 1`.
 - Characteristic `p`: the divided-power operator `x^n ↦ binom(n, p) x^(n−p)` on `k[x]` has order
   `p` (C5.1's Check), while the image of the Lie–Rinehart enveloping algebra of
   `Derivation k k[x] k[x] = k[x] d/dx` is spanned by `a (d/dx)^i` with `i < p`, since `(d/dx)^p = 0`
@@ -1151,8 +1156,7 @@ its extended quotient as `Y/Q^∨`. Construct the component map and its comparis
 Grassmannian's connected components. Central translations have length zero and the length-zero
 alcove stabilizer need not be finite. Define dominant `Y` by `α_i(λ) ≥ 0`, transport the finite
 dual-root chamber theorem of RootSystems to the actual integral lattice with central directions,
-and prove uniqueness of dominant orbit representatives. Compare `Y` with the compact exponential
-kernel of §4.3 by `λ ↦ dλ(2πi)`, not by equality of unrelated carriers.
+and prove uniqueness of dominant orbit representatives.
 
 - `Y ⋊ W` is a group with the displayed law, `Q^∨ ⋊ W` is its Coxeter subgroup, and
   `(Y ⋊ W)/(Q^∨ ⋊ W) ≃ Y/Q^∨` as sets with the component map.
@@ -1169,7 +1173,7 @@ kernel of §4.3 by `λ ↦ dλ(2πi)`, not by equality of unrelated carriers.
 - `n_w t^λ n_w⁻¹ = t^(wλ)`: for `SL₂`, `n = [[0, 1], [−1, 0]]` and `t^λ = diag(t, t⁻¹)` give
   `n t^λ n⁻¹ = diag(t⁻¹, t) = t^(−λ)`.
 
-*Needs:* §3A.1; ReductiveGroups Layers 4, 7, 9; RootSystems; §4.3 for the compact comparison.
+*Needs:* §3A.1; ReductiveGroups Layers 4, 7, 9; RootSystems.
 
 ### 3A.4 Iwahori, parabolic and real-root formulas (F3A.4)
 
@@ -1265,8 +1269,8 @@ each stratum is a finite-dimensional quasi-projective variety.
   minimal-parahoric fibration `Fℓ → Gr` has `ℙ¹` fibres parametrizing lines in `L/tL`.
 - `GL₂`: the lattice `L = ℂ[[t]] e₁ ⊕ t⁻¹ℂ[[t]] e₂` lies in the chart of pole order `1` and not in
   the chart of pole order `0`, which is the single point `L₀`; a chart without the lower bound
-  `t^N R[[t]]^n ⊂ L` would contain `t^(−k)ℂ[[t]] e₂ ⊕ ℂ[[t]] e₁` for every `k` and not be of
-  finite type.
+  `t^N R[[t]]^n ⊂ L` would contain the sublattices `t^k ℂ[[t]] e₂ ⊕ ℂ[[t]] e₁` of `ℂ[[t]]²`, of
+  colength `k`, for every `k`, and not be of finite type.
 
 *Needs:* §§3A.2–3A.4; §§3.1–3.2; ReductiveGroups Layers 1, 6, 6B, 7, 9; SchemeAndStackFoundations
 §§1.14–1.17; RootSystems.
@@ -1410,25 +1414,31 @@ Construct the algebraic left Maurer–Cartan trivialization `Ω¹_(H/ℂ) ≃ H 
 `Ω¹_(G/ℂ)` has constant rank `d = dim_ℂ 𝔤` before analytification, and
 `TauCeti.HopfAlgebra.finrank_lie_eq_ringKrullDim_of_charZero` identifies `d` with the Krull
 dimension of `H`. Take
-ReductiveGroups Layer 1's faithful closed representation, apply §2.4 with this rank, and identify
-its topology and atlas with the matrix-subspace realization including `det⁻¹` on `GL_N`. Use the
-Spec adjunction to identify its point carrier with native `TauCeti.HopfAlgebra.points`, namely
-`WithConv (H →ₐ[ℂ] ℂ)`. Transport the topology and atlas to this fixed native carrier; retain its
-existing group structure. Prove that regular multiplication, unit and inverse correspond exactly
-to convolution, counit and antipode. All subsequent `G(ℂ)` Lie-group and continuous-homomorphism
-statements use this carrier. Regular group operations give its complex Lie-group structure. Use
-the native complex Lie algebra `GroupLieAlgebra 𝓘(ℂ, Fin d → ℂ) G(ℂ)`, whose bracket is
+ReductiveGroups Layer 1's faithful closed representation, which exhibits `G` as a smooth closed
+subscheme of `GL_N`, and consume ReductiveGroups Layer 3A.5's complex comparison on `G(ℂ)`: the
+classical topology and the smooth charts from ComplexComparisonPartII C−1.1, the holomorphic
+multiplication, unit and inverse, hence the complex Lie-group structure, and the
+chart-at-the-identity identification of its Lie algebra with Layer 2's tangent Lie algebra. The
+complex Lie group `G(ℂ)` is constructed there and not again here. Apply §2.4 with the rank `d`
+and identify its fixed-model atlas with those charts and with the matrix-subspace realization
+including `det⁻¹` on `GL_N`. Use the Spec adjunction to identify its point carrier with native
+`TauCeti.HopfAlgebra.points`, namely `WithConv (H →ₐ[ℂ] ℂ)`. Transport the topology, atlas and
+Lie-group structure to this fixed native carrier; retain its existing group structure. Prove that
+regular multiplication, unit and inverse correspond exactly to convolution, counit and antipode.
+All subsequent `G(ℂ)` Lie-group and continuous-homomorphism statements use this carrier. Use the
+native complex Lie algebra `GroupLieAlgebra 𝓘(ℂ, Fin d → ℂ) G(ℂ)`, whose bracket is
 `mlieBracket` of the left-invariant tangent fields at `1`. §2.4's `τ_e` lands first in
 `Der_ℂ(O_(G,e), ℂ)`. Construct restriction along `H → O_(G,e)` as a complex-linear equivalence
 from germ derivations to the displayed global counit derivations. Its inverse localizes `D` by
 `D(a/s) = D(a)/ε(s) − ε(a)D(s)/ε(s)²` for `ε(s) ≠ 0`; prove representative independence, Leibniz
-and the two inverse laws. Compose this with `τ_e`. Prove bracket compatibility with no minus sign:
+and the two inverse laws. Compose this with `τ_e`, and prove that the composite is Layer 3A.5's
+chart-at-the-identity identification. Prove bracket compatibility with no minus sign:
 `D^L h = Σ h_(1) D(h_(2))`, with coproduct `Δ = μ*` and the left group factor first; thus the
 commutator at `1` evaluates to `D*E − E*D`, the native counit bracket. These steps use neither
-connectedness nor reductivity, only ReductiveGroups Layers 0–2 and §2.4, and are stated for every
-affine algebraic group over `ℂ`: this is the single construction of the complex Lie group `G(ℂ)`
-and of the identification of its Lie algebra with the counit derivations, and ReductiveGroups
-Layer 11 consumes it. From the realification comparison on, `G` is connected reductive.
+connectedness nor reductivity, only ReductiveGroups Layers 0–2 and 3A.5 and §2.4, and are stated
+for every affine algebraic group over `ℂ`; what is owned here is the native-carrier transport
+and the comparison of §2.4's tangent map with the counit derivations and their bracket, not a
+second complex Lie group. From the realification comparison on, `G` is connected reductive.
 
 Own the realification comparison: with ComplexManifolds Milestone 1's named realification `G(ℂ)_ℝ`
 of the same carrier, construct the real-linear tangent equivalence from the underlying real vector
@@ -1509,6 +1519,10 @@ and eigenvalues of modulus one; simultaneous diagonalization of the commuting fa
 many integral torus characters. Prove faithfulness makes these weights generate `X*(T_K)`. Their
 integral relation lattice defines an embedded algebraic torus `T ⊂ G`; prove it is the Zariski
 closure of `T_K`, `Lie(T) = Lie(T_K) ⊗_ℝ ℂ`, `K ∩ T = T_K`, and maximality by the Cartan comparison.
+Compare §3A.3's full translation lattice `Y = X_*(T)` with the kernel of `exp_G` restricted to
+`Lie(T_K)` by `λ ↦ dλ(2πi)`, not by equality of unrelated carriers: `exp_G ∘ dλ = λ ∘ exp` on `ℂ`
+gives `exp_G(dλ(2πi)) = λ(1) = 1`, and for `T = 𝔾_m`, `λ = id` the generator `1 ∈ Y` goes to
+`2πi ∈ iℝ = Lie(S¹)`.
 Consume ReductiveGroups Layer 7's conjugacy of algebraic maximal tori to choose `g` with
 `gT₀g⁻¹ = T`; conjugate `B₀` and every pinned root map by `g`. For this new pinning identify each
 algebraic root's restriction to `T_K` with LieGroups Layer 6's compact character, the pair
@@ -1591,7 +1605,8 @@ coefficientwise; prove existence, uniqueness, freeness and recovery of the gauge
 - Regular nilpotents in `𝔰𝔩₂` are the nonzero nilpotents, one orbit containing `f`; the zero
   matrix is nilpotent with centralizer of dimension `3`, not regular.
 
-*Needs:* §2.4; §4.2; ReductiveGroups Layers 0–4, 6–9; LieHighestWeight Layer 7; LieGroups
+*Needs:* §2.4; §3A.3; §4.2; ReductiveGroups Layers 0–4 (3A.5 included), 6–9; LieHighestWeight
+Layer 7; LieGroups
 Layers 0, 6, 7; ComplexManifolds Milestone 1; ComplexKahlerGeometry K1, K3.0; CharacteristicClasses
 C5.1 (comparison only); Mathlib `GroupLieAlgebra`, `LeftInvariantDerivation`, `Matrix.exp`;
 Tau Ceti counit derivations, characteristic-zero smoothness and gluing.
@@ -1643,7 +1658,8 @@ as above. `μ₂ ⊂ 𝔾_m` as the disconnected counterexample to `V^G = V^𝔤
 
 ### Dependencies
 
-Layers 2–3, ReductiveGroups Layers 1–9, LieHighestWeight Layer 7, LieGroups Layers 0, 6, 7,
+Layers 2–3, §3A.3 for the translation lattice compared with the compact exponential kernel,
+ReductiveGroups Layers 1–9, LieHighestWeight Layer 7, LieGroups Layers 0, 6, 7,
 ComplexManifolds Milestone 1, ComplexKahlerGeometry K1 and K3.0, CharacteristicClasses C5.1 for the
 comparison only. The order inside §4.3 is lower dictionary → Chevalley restriction (which uses only
 the lower dictionary and LieHighestWeight) → compact form and matching → principal `sl₂`, slice
@@ -2014,7 +2030,7 @@ assumed from the name of an existing roadmap.
   `A_(−3) = 0` is nilpotent (Frenkel–Zhu's choice of `r` below the pole order, at the start of
   their §2), at the price of a larger `X_A`. No formal normal form enters.
 - `A = 0` with `r = −2`: `X_0` contains every `t^λ I`, since `gauge(t^(−λ), 0) = λt⁻¹` has order
-  `−1 ≥ −2`, but not the flag of `exp(t⁻³x)` for `x ∈ 𝔫`, whose gauge `3t⁻⁴x` has order `−4`; a
+  `−1 ≥ −2`, but not the flag of `exp(t⁻³x)` for `x ∈ 𝔫`, whose gauge `−3t⁻⁴x` has order `−4`; a
   definition without the order bound would make `X_A` all of `Fℓ` and infinite-dimensional.
 
 *Needs:* §6.3; §4.3; §3.4.
@@ -2460,9 +2476,12 @@ GeometricRepresentationCategories.
   dictionary), then §4.3's compact-form matching, Zariski density and coaction comparison, the
   restriction isomorphism with its rational descent, and the finite principal triple, exponents,
   Kostant slice and regular-nilpotent/simple-component/unique-Borel theorems.
-- **ReductiveGroups Layer 11** consumes §4.3's lower smooth/holomorphic dictionary for its
-  analytic charts: the complex Lie group `G(ℂ)` with its Lie-algebra identification, and the
-  connectedness and central/derived comparisons for connected reductive `G`.
+- **ReductiveGroups Layer 11** consumes, for its analytic charts, what §4.3 adds on `G(ℂ)` to
+  its own Layer 3A.5 dictionary: the native-carrier transport with the counit-derivation bracket
+  comparison, and the connectedness and central/derived comparisons for connected reductive `G`.
+- **SchubertGeometry** consumes §2.4's fixed-model manifold on the complex points of a separated
+  smooth finite-type `ℂ`-scheme and its comparison with ComplexComparisonPartII C−1.1's smooth
+  carrier, specialized to its flag and word schemes.
 - **KacMoody KM8A** consumes Layer 3A's polynomial and formal loop functors, Iwahori and positive
   subgroups, full-cocharacter normalizer quotients, loop Cartan decomposition and positive-orbit
   comparison, and compares its

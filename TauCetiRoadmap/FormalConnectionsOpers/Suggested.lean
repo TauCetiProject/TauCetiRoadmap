@@ -109,13 +109,13 @@ variable (k : Type u) [CommRing k] (H : Type u) [CommRing H] [HopfAlgebra k H]
 def polynomialLoopToFormal :
     TauCeti.HopfAlgebra.points (H := H) (CommAlgCat.of k (LaurentPolynomial R)) →*
       TauCeti.HopfAlgebra.points (H := H) (CommAlgCat.of k (LaurentSeries R)) :=
-  TauCeti.AlgHom.mapValue (H := H) ((laurentPolynomialToLaurentSeries R).restrictScalars k)
+  AlgHom.mapValue (H := H) ((laurentPolynomialToLaurentSeries R).restrictScalars k)
 
 /-- Positive formal loops `G(R⟦t⟧) → G(R((t)))`, by post-composition on native Hopf points. -/
 def positiveLoopToFormal :
     TauCeti.HopfAlgebra.points (H := H) (CommAlgCat.of k (PowerSeries R)) →*
       TauCeti.HopfAlgebra.points (H := H) (CommAlgCat.of k (LaurentSeries R)) :=
-  TauCeti.AlgHom.mapValue (H := H) (HahnSeries.ofPowerSeriesAlg ℤ k)
+  AlgHom.mapValue (H := H) (HahnSeries.ofPowerSeriesAlg ℤ k)
 
 end CoefficientMaps
 
