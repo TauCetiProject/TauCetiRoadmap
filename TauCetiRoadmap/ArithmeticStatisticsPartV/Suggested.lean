@@ -35,6 +35,9 @@ binary summed-tail estimate in README.md.
 The finite nonabelian simple-group large-subgroup theorem is an owned headline.
 It supplies the group-theoretic input to the unconditional three-eighths bound;
 the separate conditional signature isolates the arithmetic implication.
+Where the README requires an effective constant, as for the four-rank moments and the
+torsion bounds in quadratic towers, effectivity is part of the specification and is not
+expressed by these signatures.
 -/
 
 noncomputable section
@@ -74,7 +77,10 @@ theorem davenportHeilbronn_threeTorsion :
 
 /-- All narrow four-rank moments satisfy the Fouvry–Klüners logarithmic error bound,
 both for each sign and within each fundamental-discriminant congruence family.
-The two-torsion in the square subgroup has cardinality two to the four-rank. -/
+The two-torsion in the square subgroup has cardinality two to the four-rank.
+The README requires the constant `C` to be effective: the small characters are treated by
+effective Siegel–Walfisz, which rests on the uniform exclusion of Landau–Siegel zeros.
+Effectivity is part of the specification and is not expressed by the signature. -/
 theorem fouvryKluners_fourRankMoments :
     let total := fun (k : ℕ) (ε : ℤ) (t : Option (Fin 3)) (X : ℝ) =>
       ∑ᶠ K : {L : IntermediateField ℚ (AlgebraicClosure ℚ) // FiniteDimensional ℚ L},
