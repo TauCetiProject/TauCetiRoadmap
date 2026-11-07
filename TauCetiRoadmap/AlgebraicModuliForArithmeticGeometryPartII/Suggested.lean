@@ -5,6 +5,7 @@ import TauCeti.AlgebraicGeometry.IntersectionNumber.Basic
 import TauCeti.AlgebraicGeometry.LineBundle.Ample
 import TauCeti.AlgebraicGeometry.LineBundle.Degree
 import TauCeti.AlgebraicGeometry.LineBundle.Pullback
+import TauCeti.AlgebraicGeometry.PicardFunctor.Fppf
 
 /-!
 # Algebraic moduli for arithmetic geometry, Part II: target signatures
@@ -12,8 +13,9 @@ import TauCeti.AlgebraicGeometry.LineBundle.Pullback
 The roadmap is README.md; this file is not the roadmap. It states the roadmap's
 headline theorems against the pinned APIs.
 
-Murre–Oort representability and finite type of the torsion component lack the fppf Picard
-sheaf and Picard group scheme. The affinization Brauer obstruction lacks the scheme units
+Murre–Oort representability is stated on the pinned relative Picard fppf sheaf. Finite type
+of the torsion component lacks the identity component of the representing group scheme and
+its multiplication-by-n maps. The affinization Brauer obstruction lacks the scheme units
 sheaf on the fppf site and its Leray comparison. The semiample contraction dictionary and
 numerical uniqueness lack the graded section algebra of an invertible sheaf on a scheme.
 Openness of ampleness for proper algebraic spaces lacks algebraic spaces. The
@@ -169,6 +171,20 @@ theorem isRelAmple_iff_exists_isRelNef_pow_mul_inv_pow {X S : Scheme.{u}} (f : X
   sorry
 
 /-! ## Layer 2: proper Picard schemes and the numerical local system -/
+
+/-- Murre–Oort (Kleiman, Corollary 4.18.3): for a proper scheme `X` over a field `k`, the
+fppf sheafification of `T ↦ Pic(X_T)/Pic(T)` on the fppf site over `Spec k` is represented
+by a separated `k`-scheme locally of finite type. The group law on the representing scheme
+is determined by the group-valued sheaf; quasi-projectivity of its components and
+compatibility with field extension are stated in the README. No reducedness, connectedness,
+equidimensionality or universal-functions hypothesis is imposed. -/
+theorem picardFppfSheaf_representable (k : Type u) [Field k] (X : Scheme.{u})
+    (x : X ⟶ Spec (CommRingCat.of k)) [IsProper x] :
+    ∃ P : Over (Spec (CommRingCat.of k)),
+      IsSeparated P.hom ∧ LocallyOfFiniteType P.hom ∧
+      Nonempty (((TauCeti.AlgebraicGeometry.relativePicardFppfSheaf x).obj ⋙
+        forget AddCommGrpCat).RepresentableBy P) := by
+  sorry
 
 /-- The actual base-field automorphisms fix every geometric numerical class.
 For each automorphism of the algebraic closure, the two equations specify its
