@@ -4,7 +4,7 @@
 
 ## Scope and ownership
 
-This is the integer-grading and commuting-operator continuation of [QuiverRepresentations](../RepresentationTheory/QuiverRepresentations/README.md). It owns occurrence-sensitive interval operations, the finite-window graded adapter, opposite-degree centralizers, generic duality, admissible images, the adjacent Knight–Zelevinsky formula, and the canonical ramified split. The parent owns path algebras and their representation equivalence (Layer 1), Krull–Schmidt (Layer 2), and finite type-A interval classification as part of Gabriel’s theorem (Layer 5). Those results are suppliers, with the exact uses specified below.
+This is the integer-grading and commuting-operator continuation of [QuiverRepresentations](../RepresentationTheory/QuiverRepresentations/README.md). It owns occurrence-sensitive interval operations, the finite-window graded adapter, opposite-degree centralizers, generic duality, admissible images, the adjacent Knight–Zelevinsky formula, and the canonical ramified split. The equivalence between quiver representations and path-algebra modules, the Krull–Schmidt theorem for finite-length modules and for pointwise finite-dimensional representations of finite quivers, and Gabriel’s dimension-vector correspondence for positive-definite quivers are already in Tau Ceti; the parent’s Layers 1, 2 and 5 consume them. The parent owns the specialization of that correspondence to finite type-A paths, whose indecomposables are the interval representations (Layer 5). Those results are suppliers, with the exact uses specified below.
 
 SmoothRepresentationsOfLocalGroups, SR.5.2–SR.5.3, owns smooth GLₙ representations, normalized induction, segment and multisegment representations, highest derivatives, and the general representation involution. The integral-segment adapter on any unitary supercuspidal line with a common real translation, its unramified-character application, and the identification of the representation labels with this geometric dual belong here. EndoscopicTransferAndUnitaryTraceComparison can consume that identification; it supplies no geometric input to this build.
 
@@ -66,17 +66,19 @@ At Tau Ceti `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`, `TauCeti.QuiverRep`, in 
 
 At the same pin, `TauCeti.LinearMap.IsHomogeneous` supplies the degree condition, and `isHomogeneous_def` identifies it with the explicit condition on all homogeneous vectors. Its zero, addition, scalar, and composition API supplies the corresponding closure facts. `homogeneousSubmodule` gives the fixed-degree submodule; the opposite centralizer additionally imposes commutation. This declaration is used directly in the acceptance signatures.
 
-Tau Ceti also supplies these interfaces directly. `TauCeti.quiverRepEquivalence`, in `TauCeti/RepresentationTheory/Quiver/Representation/AsModule`, applies to a finite vertex quiver over a field. In `TauCeti/RepresentationTheory/Quiver/Representation/KrullSchmidt`, `TauCeti.QuiverRep.exists_indecomposable_iso_biproduct` decomposes a pointwise finite-dimensional representation of a finite quiver into a finite family indexed by `Fin n`; `exists_equiv_iso_of_iso_biproduct` matches two such indecomposable families by an index equivalence; `card_iso_eq_card_iso_of_iso_biproduct` preserves each isomorphism-class multiplicity. A finite support window satisfies the finite-vertex and pointwise finite-dimensional hypotheses. Use these declarations when consuming the parent contracts.
+Tau Ceti also supplies these interfaces directly. `TauCeti.quiverRepEquivalence`, in `TauCeti/RepresentationTheory/Quiver/Representation/AsModule`, applies to a finite vertex quiver over a field and identifies `TauCeti.QuiverRep k Q` with `ModuleCat (TauCeti.pathAlgebra k Q)`, that is, with **left** path-algebra modules: a path p from a to b acts by `M.map p` from the a-component to the b-component, so a later arrow multiplies on the left.
+
+The Krull–Schmidt theorem is consumed from Tau Ceti in two forms. At the module level, `TauCeti.exists_indecomposable_decomposition`, in `TauCeti/RingTheory/KrullSchmidt/Existence`, writes a module M of finite length over a ring A (`IsFiniteLength A M`) as the internal direct sum (`DirectSum.IsInternal`) of a `Finset` of indecomposable submodules; `TauCeti.exists_equiv_linearEquiv_of_finset`, in `TauCeti/RingTheory/KrullSchmidt/Uniqueness`, matches two such finsets by a bijection under which corresponding summands are A-linearly isomorphic. Distinct isomorphic submodules may occur in one finset, so multiplicities survive the passage to the multiset of isomorphism classes. At the representation level, in `TauCeti/RepresentationTheory/Quiver/Representation/KrullSchmidt`, `TauCeti.QuiverRep.exists_indecomposable_iso_biproduct` decomposes a pointwise finite-dimensional representation of a finite quiver into a finite family indexed by `Fin n`; `exists_equiv_iso_of_iso_biproduct` matches two such indecomposable families by an index equivalence; `card_iso_eq_card_iso_of_iso_biproduct` preserves each isomorphism-class multiplicity. The representation-level forms are the module-level theorem read through `TauCeti.quiverRepEquivalence`. A finite support window satisfies the finite-vertex and pointwise finite-dimensional hypotheses, and the corresponding path-algebra module is finite dimensional over ℂ, hence of finite length.
+
+`TauCeti.gabrielIndecomposableEquivPositiveRoot`, in `TauCeti/RepresentationTheory/Quiver/FiniteRepType/Correspondence`, is Gabriel’s correspondence over an arbitrary field: for a quiver with finitely many vertices and arrows whose Tits form is positive definite, the dimension vector is a bijection from isomorphism classes of finite-dimensional indecomposable representations to nonnegative integral vectors of Tits value 1. The parent’s Layer 5 specializes it to type A (below).
 
 The Tau Ceti orbit declaration specified under Scope and ownership is a pinned implementation supplier. Apply it only after establishing its Noetherian-space, translation-continuity, and constructibility hypotheses; do not treat its presence as the dimension and projection theorem of §2.7.
 
 ### From TauCetiRoadmap.QuiverRepresentations
 
-The parent roadmap’s Layer 1, `quiverRepEquivalence`, identifies these representations with **left** path-algebra modules, with later arrows multiplying on the left. The adapter must extend by zero outside a finite window, compare different windows by restriction and extension, and preserve graded morphisms and their intertwining equations. No window choice may change an interval label.
+From Layer 1 consume the reading of representations as **left** path-algebra modules through the pinned `TauCeti.quiverRepEquivalence`, with later arrows multiplying on the left. The adapter built here must extend by zero outside a finite window, compare different windows by restriction and extension, and preserve graded morphisms and their intertwining equations. No window choice may change an interval label. The Krull–Schmidt theorem that the parent’s Layer 2 records is consumed directly from Tau Ceti, as stated above.
 
-From Layer 2 consume `exists_indecomposable_decomposition` and `krullSchmidt_unique`: finite-length modules split into finitely many indecomposable summands, and two such decompositions are matched by isomorphisms. Distinct isomorphic submodules may occur, so multiplicities survive the passage to the multiset of isomorphism classes.
-
-From Layer 5 consume the type-A specialization of the indecomposable/positive-root bijection: on an equioriented finite path, the indecomposables are exactly the one-dimensional interval blocks, with identity arrows inside their support. Reversing orientation gives the same interval supports. The graded adapter in Layer 1 below combines these supplier results; it does not prove a second Gabriel theorem.
+From Layer 5 consume the type-A specialization of the indecomposable/positive-root bijection: on an equioriented finite path, the indecomposables are exactly the interval representations, one-dimensional at each vertex of their support, with identity arrows inside it. Reversing orientation gives the same interval supports. The graded adapter in Layer 1 below combines these supplier results; it does not prove a second Gabriel theorem.
 
 ### From TauCetiRoadmap.AlgebraicVectorBundles
 
@@ -161,7 +163,7 @@ For `m=[0,0]+2[1,2]+[2,2]`, the maximal part is `[0,0]+[1,2]` and the remainder 
 
 ### Dependencies
 
-Finite multisets and integer arithmetic from Mathlib. The interpretation by finite type-A blocks uses the parent contracts under Exact supplier contracts.
+Finite multisets and integer arithmetic from Mathlib. The interpretation by finite type-A blocks uses the Tau Ceti and parent contracts under Exact supplier contracts.
 
 ## Layer 1: graded operators, shifts, and actual images
 
@@ -216,7 +218,7 @@ Construct the *finite-window equivalence*: for integers u≤v, the category of f
 - E₂₁ on grades 0 and 1 gives the increasing path arrow with value 1; the decreasing orientation instead uses E₁₂.
 - Enlarging [0,1] to [−1,2] and restricting back recovers both arrow and morphism, with zero boundary maps. A wraparound arrow fails.
 
-*Needs:* §1.2’s pair definition and QuiverRepresentations Layer 1; this equivalence precedes the interval type in §1.3.
+*Needs:* §1.2’s pair definition, Tau Ceti’s `TauCeti.QuiverRep` and QuiverRepresentations Layer 1; this equivalence precedes the interval type in §1.3.
 
 ### 1.3 Standard interval pairs
 
@@ -240,7 +242,7 @@ The standard-pair API fixes the basis for every centralizer block (AKY §3.1, p.
 - For two `[0,1]` occurrences, the degree-0 standard vectors are distinct and linearly independent. Identifying occurrence labels would make them equal.
 - The types of the zero pair on grade 2, the nonzero VN arrow on grades 0 and 1, and the zero arrow on those same two grades are respectively [2,2], [0,1], and [0,0]+[1,1]. Thus the arrow, as well as the dimension vector, determines the type.
 
-*Needs:* §§0.2, 1.2, including its finite-window equivalence, and the parent’s Krull–Schmidt and type-A interval contracts.
+*Needs:* §§0.2, 1.2, including its finite-window equivalence, Tau Ceti’s representation-level Krull–Schmidt theorem, and the parent’s type-A interval contract (Layer 5).
 
 ### 1.4 Finite-window interval comparison
 
@@ -254,7 +256,7 @@ R(i,j) - R(i-1,j) - R(i,j+1) + R(i-1,j+1).
 
 Use integer differences before identifying the nonnegative multiplicity. The analogous WL ranks run from `Vⱼ` to `Vᵢ`. This rank description also proves that a finite path-rank table determines the type (Z98 §3, formula (2), p.411; the interval-count interpretation applies to any pair type).
 
-*Needs:* §1.3 and the three parent supplier contracts. The rank table uses Mathlib `Matrix.rank` after homogeneous bases are chosen.
+*Needs:* §1.3, Tau Ceti’s `TauCeti.quiverRepEquivalence` and Krull–Schmidt theorem, and the parent’s type-A interval contract (Layer 5). The rank table uses Mathlib `Matrix.rank` after homogeneous bases are chosen.
 
 ### 1.5 Shifts and image pairs
 
@@ -297,7 +299,7 @@ The pair for `[0,2]+[1,1]` has dimensions `(1,2,1)` in degrees `(0,1,2)`. Its un
 
 ### Dependencies
 
-Layer 0, finite-dimensional linear algebra, actual ranges, and the parent representation, Krull–Schmidt, and type-A classification contracts.
+Layer 0, finite-dimensional linear algebra, actual ranges, Tau Ceti’s representation-module equivalence and Krull–Schmidt theorem, and the parent’s type-A classification contract.
 
 ## Layer 2: centralizers and generic multisegment duality
 
