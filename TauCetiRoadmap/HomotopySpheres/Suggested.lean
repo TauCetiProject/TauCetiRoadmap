@@ -1,4 +1,5 @@
 import Mathlib
+import TauCeti.Geometry.Manifold.Boundary.Charts
 import TauCeti.Geometry.Manifold.Orientation
 
 /-!
@@ -9,6 +10,8 @@ theorems against the pinned Mathlib and Tau Ceti, each with `sorry`.
 
 Stated here:
 
+* the simply connected smooth h-cobordism theorem in total dimension at least six (Stage 1),
+  on the native manifold with boundary and Tau Ceti's boundary manifold structure;
 * real Bott periodicity for the orthogonal groups in the stable range (Stage 4B);
 * the independently owned Bott base entries in degrees two through eight, in their stable
   ranges (Stage 4B); TopologicalKTheory T1.5a supplies components and degree one;
@@ -28,12 +31,12 @@ oriented one.
 
 Not statable at the pins:
 
-* the simply connected smooth h-cobordism theorem (Stage 1): the pins lack a full collared smooth
-  cobordism carrier with boundary identifications, product collars and gluing data. Tau Ceti
-  supplies the smooth boundary manifold and inclusion for finite-dimensional half-space models;
-* `Theta_n` as a group and `Theta_6 = 0` (Stages 2 and 9): there is no connected sum of smooth
-  manifolds and no h-cobordism relation at the pins (the h-cobordism class content of
-  `Theta_6 = 0` is implied by the six-dimensional recognition theorem below);
+* `Theta_n` as a group and `Theta_6 = 0` (Stages 2 and 9): `Theta_n` is the quotient of oriented
+  smooth homotopy `n`-spheres by oriented h-cobordism, with the addition induced by Tau Ceti's
+  `TauCeti.OrientedConnectedSum`. The pins have that connected sum but neither the oriented
+  h-cobordism relation nor the quotient, which is a construction of the roadmap (the
+  h-cobordism class content of `Theta_6 = 0` is implied by the six-dimensional recognition
+  theorem below);
 * the stable stems as colimits, stable `J` and the Pontryagin--Thom isomorphism (Stages 3, 4C
   and 5): there is no suspension homomorphism on `HomotopyGroup` and no framed bordism group;
 * the connected James equivalence, the James splitting after one suspension and the EHP exact
@@ -78,6 +81,29 @@ def PreservesOrientedAtlases {M : Type u} [TopologicalSpace M]
   ∀ e ∈ A, ∀ e' ∈ B,
     (f.toHomeomorph.symm.toOpenPartialHomeomorph ≫ₕ e).symm ≫ₕ e' ∈
       TauCeti.orientationPreservingGroupoid (𝓡 6)
+
+/-! ## Layer 1: h-cobordisms and the high-dimensional theorem -/
+
+/-- The simply connected smooth h-cobordism theorem (Milnor, *Lectures on the h-cobordism
+theorem*, Theorem 9.1 and the remark after Definition 9.2, pp.107–108; README Section 1.7). Let `W` be a compact Hausdorff
+simply connected smooth manifold with boundary of dimension `n + 1 ≥ 6`, and split its boundary,
+with Tau Ceti's boundary manifold structure, into a closed and open piece `M₀` and its complement.
+If both inclusions into `W` are homotopy equivalences, then `W` is diffeomorphic to
+`M₀ × [0, 1]` by a diffeomorphism that is the inclusion of `M₀` at time `0`. -/
+theorem exists_diffeomorph_prod_Icc_of_hCobordism (n : ℕ) (hn : 5 ≤ n)
+    (W : Type u) [TopologicalSpace W] [T2Space W] [CompactSpace W]
+    [ChartedSpace (EuclideanHalfSpace (n + 1)) W] [IsManifold (𝓡∂ (n + 1)) ∞ W]
+    [SimplyConnectedSpace W]
+    (M₀ : TopologicalSpace.Opens ((𝓡∂ (n + 1)).boundary W))
+    (hM₀ : IsClosed (M₀ : Set ((𝓡∂ (n + 1)).boundary W)))
+    (h₀ : ∃ e : ContinuousMap.HomotopyEquiv M₀ W,
+      ⇑e.toFun = fun x : M₀ => ((x : (𝓡∂ (n + 1)).boundary W) : W))
+    (h₁ : ∃ e : ContinuousMap.HomotopyEquiv ↥((M₀ : Set ((𝓡∂ (n + 1)).boundary W))ᶜ) W,
+      ⇑e.toFun = fun x : ↥((M₀ : Set ((𝓡∂ (n + 1)).boundary W))ᶜ) =>
+        ((x.1 : (𝓡∂ (n + 1)).boundary W) : W)) :
+    ∃ f : (M₀ × Set.Icc (0 : ℝ) 1) ≃ₘ⟮(𝓡 n).prod (𝓡∂ 1), 𝓡∂ (n + 1)⟯ W,
+      ∀ x : M₀, f (x, 0) = ((x : (𝓡∂ (n + 1)).boundary W) : W) := by
+  sorry
 
 /-! ## Layer 3: parallelizable spheres -/
 

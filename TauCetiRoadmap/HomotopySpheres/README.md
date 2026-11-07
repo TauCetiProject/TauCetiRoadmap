@@ -59,9 +59,10 @@ The roadmap is complete when Tau Ceti proves the following connected development
 
 The classification applications concern smooth manifolds of dimension at least five and the stable topology used
 to classify their homotopy spheres. Section 3C also determines which standard
-spheres admit a smooth tangent framing in every positive dimension.  Low-dimensional Poincare theorems, general non-simply-
-connected surgery, pseudo-isotopy, and a calculation of every `Theta_n` are outside its stated
-endpoint.
+spheres admit a smooth tangent framing in every positive dimension.  In dimensions one and two
+Section 2.2 proves that every smooth homotopy sphere is standard, by the Morse cancellation of
+Layer 1; the Poincaré theorems in dimensions three and four, general non-simply-connected
+surgery, pseudo-isotopy, and a calculation of every `Theta_n` are outside its stated endpoint.
 
 The division of ownership is as follows.
 
@@ -88,18 +89,27 @@ The division of ownership is as follows.
 - The [geometric-topology roadmap](../GeometricTopology/README.md) owns manifolds with
   boundary and corners, collars, boundary gluing, standard handles, handle attachment, tubular
   neighbourhoods, connected sum, general framed surgery and smooth triangulation.
+  Tau Ceti already has the oriented connected sum of connected oriented boundaryless
+  manifolds, `TauCeti.OrientedConnectedSum`, with its independence of the balls, commutativity,
+  reversal of both orientations and the sphere identity; Section 2.2 consumes it and
+  GeometricTopology Layer 1's remaining connected-sum laws.
   TangentialBordism B1.1–B1.2 owns the oriented collared cobordism witnesses in general
   dimension and their operations used here.  This roadmap uses those same objects.  It introduces no
   second boundary, collar, gluing, handle, surgery, connected-sum, cobordism, or triangulation
   type.
-- [DifferentialGeometry Layers 2 and 10](../DifferentialGeometry/README.md) own chosen
-  manifold orientations and degree. Consume its source-indexed chart-sign carrier, reversal,
+- [DifferentialGeometry Layer 2](../DifferentialGeometry/README.md) owns chosen
+  manifold orientations. Consume its source-indexed chart-sign carrier, reversal,
   orientation-at-point and derivative-preservation laws, extending these to the collar
   comparisons below. Retain Tau Ceti's existing orientation-preserving groupoid and orientability
   API from `TauCeti.Geometry.Manifold.Orientation`; do not duplicate it.
 - The [Heegaard Floer roadmap](../HeegaardFloer/README.md), Lanes M/F0, supplies the distinct
   trajectory and Morse–Smale inputs for handle decompositions, Whitney moves and cancellation.
-  The finite-dimensional Sard, smooth-map and degree inputs use DifferentialGeometry.
+- Sard's theorem in equal dimensions is already in Tau Ceti (`TauCeti.dense_isRegularValue`), and
+  so is the signed count of a fibre over a regular value (`TauCeti.degreeAtRegularValue`).
+  [TangentialBordism B1.6](../TangentialBordism/README.md) owns Sard's theorem in unequal
+  dimensions on manifolds with corners, and B1.1 owns the point sign σ of an oriented
+  zero-manifold. The homotopy-invariant degree of a map of n-spheres is its action on
+  `H_n(S^n;ℤ)` against AlgebraicTopology Stage 4 item 4's `basedSphereReferenceGenerator`.
 - The [completed universal-covers roadmap](../../Completed/UniversalCovers/README.md) owns basepoint change, covering
   maps, and induced maps on homotopy groups.  The simple-connectivity and homotopy-equivalence
   arguments here consume those interfaces.
@@ -201,8 +211,9 @@ These conventions apply throughout the layers.
 - **`Theta_n` is geometric.**  A cycle is an oriented closed smooth manifold equipped with a
   homotopy equivalence to the standard `S^n`; the marking is used to prove the sphere condition,
   not retained as extra moduli.  The relation is oriented h-cobordism on the shared cobordism
-  carrier. For n ≥ 1 the quotient group structure descends from geometric
-  connected sum (Kervaire–Milnor, Theorem 1.1, p.504, and §2, pp.505–507).
+  carrier. For n ≥ 3 the quotient group structure descends from geometric
+  connected sum (Kervaire–Milnor, Theorem 1.1, p.504, and Lemmas 2.1–2.4, pp.505–507); for
+  n = 1, 2 every class is that of the standard sphere (Section 2.2), so Θ₁ = Θ₂ = 0.
   Only the comparison with oriented diffeomorphism classes below assumes n ≥ 5.
   Dimension zero is excluded from this connected-sum group convention.
 - **Stable groups are colimits of standard groups.**  Sphere stabilization is induced by
@@ -307,16 +318,36 @@ These conventions apply throughout the layers.
   right adjoint of that inclusion), its adjunction, and the Cartesian closed API are
   AlgebraicTopology Stage 4 item 8's, not inferred instances.
 - Geometric topology's boundary, collar, gluing, tubular-neighbourhood, connected-sum, handle,
-  surgery, cobordism, and triangulation outputs; DifferentialGeometry's orientations, degree
-  and Sard theorem; and Heegaard Floer's distinct trajectory and Morse–Smale inputs.
+  surgery, cobordism, and triangulation outputs; DifferentialGeometry's orientations and
+  flows; and Heegaard Floer's distinct trajectory and Morse–Smale inputs.
 
 **From Tau Ceti.** `TauCeti.IsOrientedAtlas` and
 `TauCeti.orientationPreservingGroupoid` in `TauCeti/Geometry/Manifold/Orientation.lean`
-provide the atlas orientation language. `TauCeti.isManifold_boundary` and
-`TauCeti.isSmoothEmbedding_subtypeVal_boundary` in
-`TauCeti/Geometry/Manifold/Boundary/Charts.lean`, lines 321 and 374, give the boundary
-model and its smooth inclusion for a finite-dimensional half-space model and differentiability
-order k ≠ 0. `TauCeti.simplyConnectedSpace_sphere_euclideanSpace` in
+provide the atlas orientation language. The instance `TauCeti.boundaryChartedSpace`,
+`TauCeti.isManifold_boundary` and `TauCeti.isSmoothEmbedding_subtypeVal_boundary` in
+`TauCeti/Geometry/Manifold/Boundary/Charts.lean`, lines 195, 321 and 374, give the boundary
+charts on `EuclideanSpace ℝ (Fin n)`, the boundary manifold and its smooth closed inclusion for
+the half-space model `𝓡∂ (n + 1)` and differentiability order k ≠ 0; the statement of 1.7 uses
+them. `TauCeti.OrientedConnectedSum` in
+`TauCeti/Geometry/Manifold/ConnectedSum/Oriented.lean`, line 143, is the oriented connected sum
+of nonempty T1 oriented boundaryless C^∞ manifolds modelled on a nontrivial finite-dimensional
+inner product space E. For connected Hausdorff summands it does not depend on the balls, and
+`TauCeti.OrientedConnectedSum.nonempty_diffeomorph_comm`,
+`TauCeti.OrientedConnectedSum.nonempty_diffeomorph_neg` and, for n ≥ 1,
+`TauCeti.OrientedConnectedSum.nonempty_diffeomorph_sphere` (lines 222, 238 and 295) give
+commutativity, invariance under reversing both orientations and X # Sⁿ ≅ X up to
+diffeomorphism. Its charts are a definition used through `letI`, not an instance, and it
+carries no orientation of the sum and no associativity. `TauCeti.isNullSet_image_criticalPoints`
+and `TauCeti.dense_isRegularValue` in `TauCeti/Geometry/Manifold/Sard/EqualDimension.lean`,
+lines 105 and 112, are Sard's theorem for a differentiable map from a Lindelöf manifold to a
+manifold of the same finite dimension. `TauCeti.degreeAtRegularValue` in
+`TauCeti/Geometry/Manifold/Degree/Basic.lean`, line 76, is the sum of the orientation signs over
+a fibre; it is the signed count only at a regular value with finite fibre, and it carries no
+homotopy invariance. `TauCeti.exists_bandHomeomorph` in
+`TauCeti/Geometry/Manifold/Morse/Deformation.lean`, line 259, is a homeomorphism of a compact
+band f⁻¹[a,b] without critical points onto f⁻¹(a) × [a,b], the identity on f⁻¹(a); it is
+topological, and the smooth product of Milnor's Theorem 3.4 is part of 1.2.
+`TauCeti.simplyConnectedSpace_sphere_euclideanSpace` in
 `TauCeti/AlgebraicTopology/Sphere/SimplyConnected.lean`, line 408, gives simple connectivity
 of Sⁿ for n ≥ 2. Full collared cobordism and product/gluing data are the geometric contracts below.
 `TauCeti.MappingCylinder` and `TauCeti.MappingCylinder.homotopyEquiv` in
@@ -353,9 +384,10 @@ as adapters over these witnesses and GeometricTopology Layer 1.
 - Gluing two cylinders on M leaves one incoming −M and one outgoing M; the two identified middle copies are interior, not extra boundary components.
 
 **From TauCetiRoadmap.DifferentialGeometry.** Layers 2 and 5.1 supply orientations,
-pointwise comparison, reversal and outward-normal-first boundary orientation; Layers 3
-and 10 supply flows, finite-dimensional Sard and degree. Relative smooth approximation
-with protected faces uses TangentialBordism B1.
+pointwise comparison, reversal and outward-normal-first boundary orientation; Layer 3
+supplies flows. Sard's theorem and the signed count over a regular value are the Tau Ceti
+declarations above in equal dimensions and TangentialBordism B1.6 in unequal dimensions.
+Relative smooth approximation with protected faces uses TangentialBordism B1.
 **From TauCetiRoadmap.HeegaardFloer.** Lanes M and F0 supply Morse–Smale trajectory
 and transversality inputs for handle cancellation, in their relative compact setting.
 **From TauCetiRoadmap.AlgebraicTopology.** Stages 2–4, 6 and 8 supply relative chains,
@@ -373,7 +405,9 @@ reduced suspension ΣX = X∧S¹ with the interval coordinate last, based loop s
 the suspension–loop adjunction on based maps and on based homotopy classes, natural in
 both variables and carrying the pinch of ΣX to loop concatenation. Stage 4 item 4
 supplies the sphere smash homeomorphisms Sᵐ∧Sⁿ ≅ S^(m+n) with factor-interchange
-degree (−1)^(mn), and the reduced suspension homeomorphism ΣSⁿ ≅ S^(n+1).
+degree (−1)^(mn), the reduced suspension homeomorphism ΣSⁿ ≅ S^(n+1), and the
+reference class `basedSphereReferenceGenerator` of H_n(Sⁿ,{p};ℤ), against which the degree
+of a map of n-spheres is read on top integral homology.
 Stage 4 item 7 supplies the realization CW structure on `SSet.toTop.obj K`, with
 one cell for each nondegenerate simplex, and realizes sub-simplicial inclusions as CW
 subcomplexes. Apply it to the singular set and its basepoint vertex in Section 3B.
@@ -408,7 +442,10 @@ with its native signature convention. **From TauCetiRoadmap.SpinGeometry.** G4 g
 Spin lifts and G6 item 5 their circle and torus conventions.
 
 **From TauCetiRoadmap.TangentialBordism.** B1.1–B1.2 supplies the structured collared
-witnesses with the oriented specialization above. B1's relative approximation/transversality fixes
+witnesses with the oriented specialization above, and B1.1 the point sign σ(x)∈{+1,−1} of an
+oriented zero-manifold with the fundamental 0-class Σσ(x)[x]. B1.6 gives Sard's theorem in
+unequal dimensions for manifolds with corners and a Lindelöf source: the image of the critical
+set is null, so regular values are dense. B1's relative approximation/transversality fixes
 a closed subset only when every fixed face is already transverse there; it gives neat inverse
 images and product-collar comparisons. B5.2 gives the marked-sphere finite PT bijection for
 normal rank c≥1 and cycle dimension d≥0, both inverse bordisms, pinch addition,
@@ -460,7 +497,8 @@ filling groups, surgery and the exact comparisons. Layer 9 computes Θ₆ and La
 smooth recognition; the separate Layer 9A computes Θ₇ and the E₈ applications. Section
 identifiers 3A–3C, 4A–4C, 5.0, 5.0b, 6A–6C and 7A–7C name these same sublayers.
 
-`Suggested.lean` states `sphere_parallelizable_iff`, `nonempty_orthogonalGroup_bottPeriodicity`,
+`Suggested.lean` states `exists_diffeomorph_prod_Icc_of_hCobordism`,
+`sphere_parallelizable_iff`, `nonempty_orthogonalGroup_bottPeriodicity`,
 `orthogonalGroup_secondHomotopyGroup`, `nonempty_orthogonalGroup_thirdHomotopyGroup`,
 `orthogonalGroup_fourthHomotopyGroup`, `orthogonalGroup_fifthHomotopyGroup`,
 `orthogonalGroup_sixthHomotopyGroup`, `nonempty_orthogonalGroup_seventhHomotopyGroup`,
@@ -468,6 +506,9 @@ identifiers 3A–3C, 4A–4C, 5.0, 5.0b, 6A–6C and 7A–7C name these same sub
 `sphere_homotopyGroup_fourthStem`, `sphere_homotopyGroup_fifthStem`,
 `nonempty_sphere_homotopyGroup_sixthStem`, `nonempty_sphere_homotopyGroup_seventhStem`,
 `smoothPoincareSix_oriented` and `nonempty_diffeomorph_sphere_six`.
+The h-cobordism theorem is stated on the native compact manifold with boundary and the
+boundary manifold structure of `TauCeti.boundaryChartedSpace`, not on the collared carrier
+of Layer 1, which is a target.
 `Sphere n` is the native unit sphere in ℝⁿ⁺¹, and `OrthogonalGroup n` is
 `Matrix.orthogonalGroup (Fin n) ℝ`. `PreservesOrientedAtlases f A B` requires every transition
 from an A-chart transported along f to a B-chart to belong to
@@ -477,8 +518,8 @@ carriers for the other headlines; their full statements remain below.
 
 ## Layer 1: h-cobordisms and the high-dimensional theorem
 
-This stage consumes geometric topology, DifferentialGeometry orientations/Sard, and the
-Heegaard-Floer trajectory and Morse–Smale foundations.
+This stage consumes geometric topology, DifferentialGeometry orientations, the Sard theorems
+named in the supplier contracts, and the Heegaard-Floer trajectory and Morse–Smale foundations.
 
 ### 1.1 H-cobordism witnesses
 
@@ -567,6 +608,19 @@ Cancel adjacent handles and prove the simply connected smooth h-cobordism theore
 dimension at least six.  Produce a diffeomorphism rel the incoming boundary with a product
 cobordism, and deduce an orientation-preserving diffeomorphism between the two boundaries.
 
+On native carriers the theorem is `exists_diffeomorph_prod_Icc_of_hCobordism`. Let n ≥ 5 and
+let W be a compact Hausdorff simply connected C^∞ manifold modelled on the half-space
+`𝓡∂ (n + 1)`. Give its boundary the manifold structure of `TauCeti.boundaryChartedSpace`,
+and let M₀ be a subset of the boundary that is both open and closed, with complement M₁. If
+the inclusions of M₀ and of M₁ into W are homotopy equivalences, there is a diffeomorphism
+f : M₀ × [0,1] → W, for the product of M₀'s boundary charts with the interval's half-line
+charts, such that f(x,0) = x for every x ∈ M₀. Neither an orientation nor a collar is a
+hypothesis: the collars and the transport to the oriented TangentialBordism witnesses of 1.1
+are adapters of this section. Milnor's hypotheses are equivalent: his Theorem 9.1 assumes W,
+M₀ and M₁ simply connected and H_*(W,M₀;ℤ)=0, and the remark after Definition 9.2,
+pp.107–108, derives that both ends are deformation retracts. Conversely, when both inclusions
+are homotopy equivalences, H_*(W,M₀;ℤ)=0 and M₀, M₁ are simply connected because W is.
+
 Milnor, *Lectures on the h-Cobordism Theorem*, Theorem 9.1, p.107, is the product theorem;
 Sections 3–8 supply its proof inputs: Morse handles,
 algebraic simplification, Whitney discs, and cancellation occur in that order.  Smale,
@@ -586,6 +640,8 @@ The h-cobordism predicate has the following API on the shared oriented collared 
 - For M×I, each boundary retraction has composite id_M, so both inclusions are equivalences.
 - A disc viewed from the empty incoming boundary has π₀(∅)=∅ and π₀(Dⁿ)={*}; it is a bordism but not an h-cobordism.
 - The empty cylinder has zero boundary components; the cylinder on M⊔N has two incoming and two outgoing components. Requiring connected traces would reject the latter.
+- In the product theorem take W=Sⁿ×[0,1], n≥5, and M₀=Sⁿ×{0}: both inclusions induce the identity ℤ→ℤ on H_n, and f=id satisfies f(x,0)=x. Taking M₀ to be the whole boundary of W=D^(n+1) leaves M₁=∅, whose inclusion into W is not a homotopy equivalence; without that hypothesis the theorem would assert D^(n+1)≅Sⁿ×[0,1], whose boundaries have one and two components.
+- For W=(Sⁿ×[0,1]) minus an open interior ball, with M₀=Sⁿ×{0}, the inclusion of M₀ induces ℤ→ℤ² on H_n, since W≃Sⁿ∨Sⁿ; the hypothesis fails, as it must for a manifold with three boundary spheres.
 
 For the handle and Whitney constructions, a cancelling pair with intersection matrix [1]
 has zero relative homology. Two oppositely signed intersections contribute +1−1=0,
@@ -600,8 +656,9 @@ The level-dimension-five case has dimensions 2+3=5 and is not covered by p,q≥3
 
 ### Dependencies
 
-*Needs:* GeometricTopology Layer 1; TangentialBordism B1.1–B1.2 oriented witnesses;
-DifferentialGeometry Layers 2, 3 and 10; HeegaardFloer M/F0; AlgebraicTopology Stages 2–4, 6 and 8.
+*Needs:* GeometricTopology Layer 1; TangentialBordism B1.1–B1.2 oriented witnesses and B1.6;
+DifferentialGeometry Layers 2 and 3; Tau Ceti `TauCeti.dense_isRegularValue`; HeegaardFloer
+M/F0; AlgebraicTopology Stages 2–4, 6 and 8.
 The simply connected theorem assumes a compact smooth h-cobordism, simply connected
 boundary and total dimension n+1≥6; no such dimension bound is imposed on the predicate.
 
@@ -619,34 +676,90 @@ connectivity for `n>=2`, integral homology, and finite CW type from the cited de
 
 ### 2.2 Connected sum
 
-*Needs:* GeometricTopology Layer 1; 2.1; Kervaire–Milnor Lemma 2.1, p.505.
+*Needs:* Tau Ceti `TauCeti.OrientedConnectedSum`; GeometricTopology Layer 1; 2.1;
+AlgebraicTopology `homologicalWhitehead` and Mayer–Vietoris; Kervaire–Milnor Lemmas 2.1–2.2,
+pp.505–506. In dimensions one and two: MorseTheory M3; 1.2's handle cancellation and its
+Morse-number-zero product case (Milnor, Theorem 3.4, p.21, whose topological form is Tau
+Ceti's `TauCeti.exists_bandHomeomorph`); AlgebraicTopology Stage 4 item 4's Euler–Poincaré
+formula.
 
-Instantiate geometric topology's connected sum on homotopy spheres.  Prove closure and descend
-its existing choice-independence, associativity, commutativity, sphere identity, and
-orientation laws to h-cobordism classes.
+Instantiate Tau Ceti's oriented connected sum `TauCeti.OrientedConnectedSum` on homotopy
+spheres, oriented so that the orientation of Σ₁ # Σ₂ restricts to the given ones on the two
+punctured summands, and prove closure: Σ₁ # Σ₂ is a homotopy n-sphere. Its independence of
+the balls, commutativity and sphere identity are the pinned Tau Ceti theorems; associativity
+and the orientation of the sum are GeometricTopology Layer 1's connected-sum laws. Together
+these are Kervaire–Milnor, Lemma 2.1, p.505, at the level of oriented diffeomorphism.
+
+Prove descent to h-cobordism classes for n ≥ 3. Let Σ₁, Σ₁′ and Σ₂ be oriented homotopy
+n-spheres, n ≥ 3, hence closed and simply connected, and let W₁ be an oriented h-cobordism
+from Σ₁ to Σ₁′. Choose an embedded arc A in W₁ from p ∈ Σ₁ to p′ ∈ Σ₁′, meeting the boundary
+only at its ends, with a tubular neighbourhood ℝⁿ × [0,1] → W₁ sending ℝⁿ × {0} into Σ₁ and
+ℝⁿ × {1} into Σ₁′. Glue W₁ − A to (Σ₂ − q) × [0,1] by the connected-sum identification in each
+level. The result W is a compact oriented cobordism from Σ₁ # Σ₂ to Σ₁′ # Σ₂. Prove that both
+inclusions are homotopy equivalences: Σ₁ − p and W₁ − A are simply connected because n ≥ 3,
+the map of pair sequences from (Σ₁, Σ₁ − p) to (W₁, W₁ − A) with excision makes
+Σ₁ − p → W₁ − A an integral homology isomorphism, hence a homotopy equivalence by
+`homologicalWhitehead`, and a Mayer–Vietoris sequence carries this to Σ₁ # Σ₂ → W, and
+likewise at the other end (Kervaire–Milnor, Lemma 2.2 and its proof, pp.505–506). At n = 2 the
+arc has codimension two in W₁ and the argument gives no control of π₁(W₁ − A); at n = 1 the
+summands are not simply connected. Neither dimension uses this descent.
+
+In dimensions one and two prove that every oriented smooth homotopy n-sphere Σ admits an
+orientation-preserving diffeomorphism onto the standard Sⁿ, so that every class is [Sⁿ],
+descent is immediate and Θ₁ = Θ₂ = 0 (the values Kervaire–Milnor record on p.507 from the
+low-dimensional classifications). Route: take a Morse function f on Σ (MorseTheory M3) and
+remove small discs about one minimum and one maximum, leaving a triad (W; V, V′) with
+V ≅ V′ ≅ S^(n−1). Every component of W meets V, so H₀(W, V) = 0, and the other minima
+cancel against index-one critical points; applying the same to −f cancels the other maxima
+(Milnor, *Lectures on the h-cobordism theorem*, Theorem 8.1 for index 0, p.100, which has
+no dimension hypothesis, through the cancellation theorem of 1.2). For n = 1 no critical
+point remains. For n = 2 only index-one points remain, and the Euler–Poincaré count
+χ(W) − χ(V) = (χ(Σ) − 2) − 0 = −c₁, with χ(Σ) = 2, removes them. So W has Morse number zero
+and is a product (Milnor, Theorem 3.4, p.21), and Σ is a twisted sphere Dⁿ ∪_h Dⁿ (Milnor, the remark in the
+proof of Proposition B of §9, p.110). For n = 1, h is a bijection of S⁰. For n = 2, h is a
+diffeomorphism of S¹; its lift to ℝ is linearly isotopic, through diffeomorphisms, to a
+rotation or a reflection, so h extends over D² and Σ ≅ S². Composing with a reflection of Sⁿ
+makes the diffeomorphism orientation-preserving.
 
 ### 2.3 The inverse h-cobordism
 
-*Needs:* 2.1–2.2; GeometricTopology Layer 1 product and handle gluing; Kervaire–Milnor §2, pp.505–507.
+*Needs:* 2.1–2.2; GeometricTopology Layer 1 gluing and interior disc removal; AlgebraicTopology
+Stage 6 item 4 duality and `homologicalWhitehead`; Tau Ceti sphere simple connectivity;
+Kervaire–Milnor Lemmas 2.3–2.4, pp.506–507.
 
-Construct the inverse cobordism: start from the punctured cylinder on `Sigma`, attach the
-standard connecting handle, and prove its outgoing boundary is
-`Sigma # (-Sigma)` while the incoming boundary is the standard sphere.  Orientation reversal
-alone is not the inverse proof.
+Let Σ be an oriented homotopy n-sphere with n ≥ 2 and i : Dⁿ → Σ an orientation-preserving
+embedded disc. Construct the rotated punctured sphere V_Σ: glue (Σ − i(½Dⁿ)) × [0,π] to
+S^(n−1) × H², where H² is the closed half-disc of points (t sin θ, t cos θ) with 0 ≤ t ≤ 1 and
+0 ≤ θ ≤ π, by sending i(tu) × θ to u × ((2t−1) sin θ, (2t−1) cos θ) for ½ < t ≤ 1, u ∈ S^(n−1).
+Prove that V_Σ is a compact smooth oriented (n+1)-manifold whose boundary is Σ # (−Σ), the
+oriented connected sum along i and its reflection, and that V_Σ deformation retracts onto
+Σ − i(int Dⁿ), so it is contractible (Kervaire–Milnor, Lemma 2.4 and its proof, p.507).
+Remove the interior of an embedded (n+1)-disc in the interior of V_Σ to obtain a cobordism
+W_Σ from Sⁿ to Σ # (−Σ), and prove that it is an h-cobordism. The map of pair sequences from
+(D^(n+1), Sⁿ) to (V_Σ, W_Σ) with excision makes Sⁿ → W_Σ an integral homology isomorphism;
+Poincaré–Lefschetz duality gives H_q(W_Σ, Σ # (−Σ)) ≅ H^(n+1−q)(W_Σ, Sⁿ) = 0, so
+Σ # (−Σ) → W_Σ is one as well; W_Σ, Sⁿ and Σ # (−Σ) are simply connected for n ≥ 2, so
+`homologicalWhitehead` makes both inclusions homotopy equivalences (Kervaire–Milnor, Lemma 2.3
+and its proof, pp.506–507). Hence [Σ] + [−Σ] = 0 for n ≥ 2; for n = 1 the equation is
+0 + 0 = 0 by 2.2. Orientation reversal alone is not the inverse proof, and neither is the
+cylinder Σ × [0,1] with an interior ball removed and a one-handle joining its two ends: its
+outgoing boundary is Σ # (−Σ), but it is not an h-cobordism.
 
 ### 2.4 The quotient group
 
 *Needs:* 2.1–2.3; Kervaire–Milnor Theorem 1.1, p.504; Layer 1 only for the n≥5 diffeomorphism comparison.
 
 Define `Theta_n` as the Type-0 quotient of coded oriented homotopy spheres by the geometric
-h-cobordism relation and give it an `AddCommGroup` structure for n ≥ 1.  Supply the quotient
+h-cobordism relation and give it an `AddCommGroup` structure for n ≥ 1, with addition from
+2.2 and negation by orientation reversal through 2.3.  Supply the quotient
 constructor, induction principle, and lift theorem.  Prove that equality in `Theta_n` is
 equivalent to oriented diffeomorphism for n ≥ 5 by Layer 1 and that the class assigned to
 an arbitrary-universe manifold is independent of its small code.
 
-Kervaire–Milnor, *Groups of Homotopy Spheres I*, Theorem 1.1, p.504,
-Lemma 2.1 and the inverse construction in §2, pp.505–507, fix the definitions,
-orientation conventions, connected-sum operation, and inverse argument.
+Kervaire–Milnor, *Groups of Homotopy Spheres I*, Theorem 1.1, p.504, and Lemmas 2.1–2.4,
+pp.505–507, fix the definitions, orientation conventions, connected-sum operation, descent
+and inverse argument; Lemma 2.2 is proved for closed simply connected manifolds of dimension
+at least three.
 
 ### Examples
 
@@ -665,12 +778,15 @@ The finite atlas realization has its own API.
 The oriented homotopy-sphere code and its quotient Θₙ, n≥1, have the following API.
 
 - Forgetting the code returns a closed oriented smooth manifold with an actual homotopy equivalence to Sⁿ; the equivalence is not an extra marking in the quotient.
-- Connected sum descends to addition, the standard sphere is zero, and reversing orientation gives the inverse by the punctured-cylinder witness.
+- Connected sum descends to addition, the standard sphere is zero, and reversing orientation gives the inverse by the witness W_Σ of 2.3.
 - Quotient induction and descent use geometric h-cobordisms; for n≥5, equality is also equivalent to an oriented diffeomorphism.
 
 **Checks.**
 
-- For n=3 and n=4 the cylinder gives [Σ]+[Sⁿ]=[Σ], and the punctured-cylinder witness gives [Σ]+[−Σ]=0 without a smooth four-sphere classification.
+- For n=3 and n=4 the cylinder gives [Σ]+[Sⁿ]=[Σ], and the witness W_Σ of 2.3 gives [Σ]+[−Σ]=0 without a smooth four-sphere classification.
+- For Σ=Sⁿ, n≥2, V_Σ is a disc D^(n+1) and W_Σ is Sⁿ×[0,1]: both inclusions induce ℤ→ℤ on H_n and π₁=0 at both ends. The alternative reading, Sⁿ×[0,1] with an interior ball removed and a one-handle joining Sⁿ×{0} to Sⁿ×{1}, has the same two ends but the homotopy type of Sⁿ∨Sⁿ∨S¹, so π₁=ℤ and H_n=ℤ²; it is not an h-cobordism.
+- V_Σ itself, before the interior disc is removed, has the single boundary Σ#(−Σ) and an empty incoming end; π₀(∅)=∅ against π₀(V_Σ)={*}, so it is a null-bordism and not an h-cobordism.
+- For n=2, a Morse function on the torus leaves c₁=2 index-one points after the two cancellations, since χ(T²)−2=−2; the Euler count in 2.2 is what excludes T², which is not a homotopy sphere. For n=1, a circle with minima m₁, m₂ and maxima M₁, M₂ in cyclic order m₁,M₁,m₂,M₂ leaves m₂ and M₂ in W once discs about m₁ and M₁ are removed; cancelling m₂ against M₂ gives Morse number zero, and W is two arcs.
 - Sⁿ has top reduced integral homology ℤ; a point has zero reduced homology and is not a positive-dimensional homotopy-sphere code.
 - Replacing a sphere homotopy equivalence by its composite with a reflection changes its degree from +1 to −1 but not the underlying oriented cycle. Retaining that marking as moduli would create a spurious distinction.
 
@@ -680,10 +796,13 @@ bundle; the empty frame at n=0 does not satisfy the positive-dimensional framing
 
 ### Dependencies
 
-*Needs:* GeometricTopology Layer 1 connected sum and The smoothing-and-triangulation comparison, item 1;
-AlgebraicTopology finite CW comparison and sphere homology; Layer 1 for the h-cobordism
-relation and, only in n≥5, its product theorem; Tau Ceti sphere simple connectivity for n≥2.
-Kervaire–Milnor Theorem 1.1 and §2, pp.504–507, give the group law in its positive-dimensional range.
+*Needs:* Tau Ceti `TauCeti.OrientedConnectedSum`; GeometricTopology Layer 1 connected sum and
+The smoothing-and-triangulation comparison, item 1; AlgebraicTopology finite CW comparison,
+sphere homology, Euler–Poincaré formula, Stage 6 item 4 duality and `homologicalWhitehead`;
+MorseTheory M3; Layer 1 for the h-cobordism relation and 1.2's cancellation, and, only in n≥5,
+its product theorem; Tau Ceti sphere simple connectivity for n≥2. Kervaire–Milnor Theorem 1.1
+and Lemmas 2.1–2.4, pp.504–507, give the group law: descent for n≥3, inverse for n≥2, and
+Θ₁=Θ₂=0 from the low-dimensional recognition of 2.2.
 
 ## Layer 3: stable sphere homotopy, the James construction, and EHP
 
@@ -812,8 +931,9 @@ basepoint transport and the stable-range comparison.
 *Needs:* AlgebraicTopology Stage 4 item 8 (compact generation and the pointed adjunction),
 Stage 4 cofibrations, Stage 8 relative homotopy and ordinary sphere connectivity;
 Completed/UniversalCovers basepoint transport. Item 2 uses that item's actual products,
-mapping spaces, smash product and reduced suspension; item 3 uses item 2's suspension maps;
-item 4 is the Freudenthal comparison for those maps.
+mapping spaces, smash product and reduced suspension; item 3 uses that item's reduced
+suspension and Stage 4 item 4's sphere suspension homeomorphism; item 4 is the Freudenthal
+comparison for item 3's suspension homomorphisms.
 
 ### 3B. James construction proof spine
 
@@ -980,7 +1100,7 @@ The James splitting has the following API.
 
 **Checks for the James splitting.**
 
-- For X=S¹, ΣJ(S¹) ≃ S²∨S³∨S⁴∨…, so H̃_k(ΩS²;ℤ) ≅ ℤ for every k≥1. Cartesian powers in place of smash powers would add Σ(S¹×S¹) ≃ S²∨S²∨S³ at k=2 and give H₂(ΣJ(S¹);ℤ) of rank 3 instead of 1.
+- For X=S¹, ΣJ(S¹) ≃ S²∨S³∨S⁴∨…, so H̃_k(ΩS²;ℤ) ≅ ℤ for every k≥1. At n=2 the smash model gives ΣJ₂(S¹) ≃ S²∨S³, with H₂ of rank 1, while Cartesian powers in place of smash powers give ΣS¹∨Σ(S¹×S¹) ≃ S²∨S²∨S²∨S³, of rank 3. Since Σ((S¹)^×k) is the wedge of S^(|T|+1) over the nonempty subsets T of {1,…,k}, the full Cartesian wedge has H₂ of rank 1+2+3+⋯, infinite.
 - Before suspension J₂(S²) is not a wedge: its 4-cell is attached by [ι₂,ι₂]=2η₂ of 3C.1, so the square of the degree-two generator of H*(J₂(S²);ℤ) is ±2 times the degree-four generator, whereas every cup product of positive-degree classes in S²∨S⁴ vanishes. After one suspension the attaching map is the suspension of a Whitehead product, hence null, and ΣJ₂(S²) ≃ S³∨S⁵.
 - For X=M(ℤ/2,2)=S²∪₂e³, H̃₅(ΩΣX;ℤ) ≅ H̃₅(X∧X;ℤ) ≅ Tor₁(ℤ/2,ℤ/2) ≅ ℤ/2, since H̃₅(X;ℤ)=0 and X^∧3 is 5-connected; the tensor algebra on H̃_*(X;ℤ), concentrated in even degrees, has no degree-five term.
 - For W=* every summand is a point and Σ∞ΩΣ* is zero; for W=S², Σ∞ΩS³ ≃ ⋁_(r≥1) Σ∞S^(2r), whose rational homology is ℚ in each positive even degree and zero in odd degrees.
@@ -1615,7 +1735,9 @@ Its application API preserves:
 - For the Hopf map S³→S², domain reflection changes H from +1 to −1; target reflection gives (−1)²H=+1 and is not the unstable inverse.
 
 *Needs:* TangentialBordism B5.2 and B1 relative transversality; Layer 3A's pointed sphere models;
-DifferentialGeometry Layer 10 degree. No Bott or stable-stem calculation is used.
+TangentialBordism B1.1's point sign σ for the signed count of a framed zero-cycle, and
+AlgebraicTopology Stage 4 item 4's `basedSphereReferenceGenerator` for the degree of a map of
+spheres. No Bott or stable-stem calculation is used.
 
 ### 5.0b. Early framed curves, surfaces and the first two offsets
 
@@ -2957,17 +3079,15 @@ second countability and smoothness explicitly.
 
 ## Downstream consumers
 
-TopologicalKTheory T7 uses Layer 4B's real loop periodicity for its KO applications;
-GeneralAlgebraicKTheoryPartII §§4.33 and 7.7 use the reduced and unreduced stable James
-splittings of 3B.6, and ChromaticHomotopyTheory reaches them through that roadmap. The internal
-classification applications use the following order, with the finite inputs of Layer 5
+TopologicalKTheory T7 uses Layer 4B's real loop periodicity for its KO applications. The
+internal classification applications use the following order, with the finite inputs of Layer 5
 separated from the stable Bott comparison.
 
 | Track | Depends on | Feeds |
 | --- | --- | --- |
-| 1 h-cobordism | geometric topology, DifferentialGeometry orientations/Sard, HF Morse data, algebraic topology | 2, 10 |
+| 1 h-cobordism | geometric topology, DifferentialGeometry orientations, Tau Ceti and TangentialBordism B1.6 Sard, HF Morse data, algebraic topology | 2, 10 |
 | 2 small skeleton and `Theta_n` | 1, triangulation, geometric connected sum | 6, 9--10 |
-| 3 James/EHP/stable stems | algebraic topology including its compactly generated substrate (Stage 4 item 8), GeneralizedCohomology G2 items 4–5 for the stable James splitting | 5, 8--9, GeneralAlgebraicKTheoryPartII §4.33 |
+| 3 James/EHP/stable stems | algebraic topology including its compactly generated substrate (Stage 4 item 8), GeneralizedCohomology G2 items 4–5 for the stable James splitting | 5, 8--9 |
 | 3C.5 Hopf exclusion and sphere frames | 3A.2, AlgebraicTopology cup/cross/relative products, TopologicalKTheory T2.5/T3–T4, CharacteristicClasses C6.2–3/C7.3, SpinRepresentations L7 | standard-sphere parallelizability |
 | 4 `SO`/`BSO`/Bott/`J` | AlgebraicTopology Stage 4 item 8 convenient substrate, TopologicalKTheory T1.5–T1.6 classifiers, bundles, Lie groups | 5--6, 8--9, TopologicalKTheory T7 |
 | 5 smooth PT comparisons | TangentialBordism B1/B3.2/B5.2; StringOrientation S2.2–S2.3; 3A and 4A; 4C for the J action | 6, 8--9 |
@@ -3008,10 +3128,12 @@ compact smooth recognition theorem of Layer 10.
 
 - Stephen Smale, [*Generalized Poincare's Conjecture in Dimensions Greater Than
   Four*](https://doi.org/10.2307/1970239), Annals of Mathematics 74 (1961), 391--406.
-- John Milnor, *Lectures on the h-Cobordism Theorem*, Princeton University Press, 1965.
+- John Milnor, [*Lectures on the h-Cobordism Theorem*](https://webhomes.maths.ed.ac.uk/~v1ranick/surgery/hcobord.pdf),
+  Princeton University Press, 1965: Theorem 3.4, p.21; Theorem 8.1, p.100; Theorem 9.1,
+  Definition 9.2 and the remark after it, pp.107–108; the proof of Proposition B of §9, p.110.
 - Michel Kervaire and John Milnor,
   [*Groups of Homotopy Spheres: I*](https://doi.org/10.2307/1970128), Annals of Mathematics
-  77 (1963), 504--537.
+  77 (1963), 504--537: Theorem 1.1, p.504; Lemmas 2.1–2.4, pp.505–507.
 - Allen Hatcher, [*Algebraic Topology*](https://pi.math.cornell.edu/~hatcher/AT/AT.pdf),
   2002, §4.2, p.387 and Exercise 39, p.392 (Toda brackets); §4.J, pp.474–475
   (integral metastable EHP), Corollary 4J.4, p.474 (the first sphere stem);
