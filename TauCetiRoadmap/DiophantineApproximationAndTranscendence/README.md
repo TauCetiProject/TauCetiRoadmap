@@ -840,7 +840,8 @@ and numerical multiplicity consequences; the existing `𝔽₂` example still ap
 carrier, in its polynomial-space Wronskian section. Arithmetic interpolation consumes the bounds; it does not own another
 Wronskian or a new absolute value. A rank argument for a particular bivariate
 specialization is an application, rather than part of these general estimates.
-ArithmeticInterpolationDeterminants I0 owns the distinct characteristic-`p`
+[ArithmeticInterpolationDeterminants I0](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1905)
+owns the distinct characteristic-`p`
 ordinary/Hasse jet comparisons, including their order restrictions. These
 characteristic-zero polynomial-space bounds retain their own hypotheses.
 [Analytic Number Theory Part I §0.34c](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1126)
