@@ -25,7 +25,8 @@ isomorphism from the right coinvariants of the unipotent radical's defining idea
 Layer 7's conjugacy of Borel subgroups over an algebraically closed field; Layer 7a's
 Lang surjectivity for smooth geometrically connected groups over finite fields; and the SL
 coordinate presentation of the worked examples; Layer 11A's plane-configuration
-fundamental-group/braid-group equivalence and permutation-map nonsplitting.
+fundamental-group/braid-group equivalence, sending half-twist loops to the standard
+generators, and permutation-map nonsplitting.
 
 Not statable at the pins, hence not stated, with the missing carrier named:
 * Layers 0–1: the category of rational algebraic group representations and its comparison
@@ -69,9 +70,9 @@ Not statable at the pins, hence not stated, with the missing carrier named:
   For 11B the group side exists (`TauCeti.ArtinGroup`, `coxeterMatrixOfBase`,
   `rootPairingBaseChange`); the missing carrier is the `W`-action on the complexified
   root-hyperplane complement and its quotient. Bare scalar or abstract-cover surrogates do not
-  state these endpoints. Layer 11A's generator and covering-permutation refinements
-  additionally need the explicit half-twist paths and covering monodromy comparison;
-  the existence theorem below uses the actual configuration quotient. The complex orbit
+  state these endpoints. Layer 11A's equivalence below is stated on the actual configuration
+  quotient and characterized on the explicit half-twist loops; its covering-permutation
+  refinement additionally needs the covering monodromy comparison. The complex orbit
   comparison of 3A.5 needs the classical complex-point topology and smooth charts
   constructed in Layer 3A.5, and its orbit/Lie comparisons;
   these are not pinned declarations.
@@ -292,10 +293,129 @@ def planeBase (n : ℕ) : OrderedPlane n :=
 /-- The unordered basepoint is the orbit of the standard ordered basepoint. -/
 def unorderedBase (n : ℕ) : UnorderedPlane n := Quotient.mk _ (planeBase n)
 
-/-- The fundamental group of the actual unordered plane configuration space is the
-native Artin braid group (Fox–Neuwirth, §7, pp. 123–126). -/
+open Complex in
+/-- The counterclockwise half-twist at time `t`: the points `i` and `i + 1` of the standard
+configuration turn through the angle `π t` about their midpoint `i + 1/2`, the other points
+staying fixed. -/
+noncomputable def halfTwist (n : ℕ) (i : Fin (n - 1)) (t : ℝ) : Fin n → ℂ := fun k =>
+  if k = TauCeti.BraidGroup.strand (n := n) i then
+    ((i : ℕ) : ℂ) + 1 / 2 - exp ((Real.pi * t : ℝ) * I) / 2
+  else if k = TauCeti.BraidGroup.strandSucc (n := n) i then
+    ((i : ℕ) : ℂ) + 1 / 2 + exp ((Real.pi * t : ℝ) * I) / 2
+  else ((k : ℕ) : ℂ)
+
+open Complex in
+/-- The half-twist configurations are configurations of distinct points: the two moving points
+stay at distance `1/2` from `i + 1/2` on opposite sides, while every other point is an integer
+at distance at least `3/2` from it. -/
+theorem halfTwist_injective (n : ℕ) (i : Fin (n - 1)) (t : ℝ) :
+    Function.Injective (halfTwist n i t) := by
+  set s := TauCeti.BraidGroup.strand (n := n) i
+  set s' := TauCeti.BraidGroup.strandSucc (n := n) i
+  set m : ℂ := ((i : ℕ) : ℂ) + 1 / 2
+  set E : ℂ := exp ((Real.pi * t : ℝ) * I)
+  have hE : ‖E‖ = 1 := norm_exp_ofReal_mul_I _
+  have hss' : s ≠ s' := TauCeti.BraidGroup.strand_ne_strandSucc i
+  have hfar : ∀ k : Fin n, k ≠ s → k ≠ s' → (3 : ℝ) / 2 ≤ ‖((k : ℕ) : ℂ) - m‖ := by
+    intro k h1 h2
+    have h1' : (k : ℕ) ≠ i := fun h => h1 (Fin.ext (by simpa [s] using h))
+    have h2' : (k : ℕ) ≠ i + 1 := fun h => h2 (Fin.ext (by simpa [s'] using h))
+    have hc : ((k : ℕ) : ℂ) - m = (((k : ℝ) - i - 1 / 2 : ℝ) : ℂ) := by
+      simp only [m]; push_cast; ring
+    rw [hc, Complex.norm_real, Real.norm_eq_abs]
+    rcases Nat.lt_or_gt_of_ne h1' with h | h
+    · have hk : (k : ℝ) + 1 ≤ i := by exact_mod_cast h
+      rw [abs_of_neg (by linarith)]; linarith
+    · have hk : (i : ℝ) + 2 ≤ k := by exact_mod_cast (show (i : ℕ) + 2 ≤ k by omega)
+      rw [abs_of_pos (by linarith)]; linarith
+  have hval : ∀ k : Fin n, (k = s ∧ halfTwist n i t k = m - E / 2) ∨
+      (k = s' ∧ halfTwist n i t k = m + E / 2) ∨
+      (k ≠ s ∧ k ≠ s' ∧ halfTwist n i t k = ((k : ℕ) : ℂ)) := by
+    intro k
+    by_cases h1 : k = s
+    · exact Or.inl ⟨h1, by simp [halfTwist, h1, s, m, E]⟩
+    · by_cases h2 : k = s'
+      · exact Or.inr (Or.inl ⟨h2, by simp [halfTwist, h2, hss'.symm, s, s', m, E]⟩)
+      · exact Or.inr (Or.inr ⟨h1, h2, by simp [halfTwist, h1, h2, s, s']⟩)
+  have hhalf : ‖E / 2‖ = 1 / 2 := by rw [norm_div, hE]; norm_num
+  intro a b hab
+  rcases hval a with ⟨ha, hza⟩ | ⟨ha, hza⟩ | ⟨ha1, ha2, hza⟩ <;>
+    rcases hval b with ⟨hb, hzb⟩ | ⟨hb, hzb⟩ | ⟨hb1, hb2, hzb⟩ <;>
+    rw [hza, hzb] at hab
+  · exact ha.trans hb.symm
+  · have : E = 0 := by linear_combination -hab
+    simp [this] at hE
+  · have := hfar b hb1 hb2
+    rw [← hab, show m - E / 2 - m = -(E / 2) by ring, norm_neg, hhalf] at this
+    norm_num at this
+  · have : E = 0 := by linear_combination hab
+    simp [this] at hE
+  · exact ha.trans hb.symm
+  · have := hfar b hb1 hb2
+    rw [← hab, show m + E / 2 - m = E / 2 by ring, hhalf] at this
+    norm_num at this
+  · have := hfar a ha1 ha2
+    rw [hab, show m - E / 2 - m = -(E / 2) by ring, norm_neg, hhalf] at this
+    norm_num at this
+  · have := hfar a ha1 ha2
+    rw [hab, show m + E / 2 - m = E / 2 by ring, hhalf] at this
+    norm_num at this
+  · exact Fin.ext (by exact_mod_cast hab)
+
+open Complex in
+/-- The based loop of unordered configurations traced by the half-twist of the points `i` and
+`i + 1`: at time `1` the two points have exchanged places, so the loop closes up in the
+quotient by the permutation action. -/
+noncomputable def halfTwistLoop (n : ℕ) (i : Fin (n - 1)) :
+    Path (unorderedBase n) (unorderedBase n) where
+  toFun t := Quotient.mk _ ⟨halfTwist n i t, halfTwist_injective n i t⟩
+  continuous_toFun := by
+    refine continuous_quotient_mk'.comp (Continuous.subtype_mk (continuous_pi fun k => ?_) _)
+    by_cases h1 : k = TauCeti.BraidGroup.strand (n := n) i
+    · simp only [halfTwist, h1, ite_true]
+      fun_prop
+    · by_cases h2 : k = TauCeti.BraidGroup.strandSucc (n := n) i
+      · simp only [halfTwist, h2, (TauCeti.BraidGroup.strand_ne_strandSucc i).symm, ite_true,
+          ite_false]
+        fun_prop
+      · simp only [halfTwist, h1, h2, ite_false]
+        fun_prop
+  source' := by
+    show (Quotient.mk _ _ : UnorderedPlane n) = Quotient.mk _ (planeBase n)
+    congr 1
+    apply Subtype.ext
+    funext k
+    simp only [halfTwist, planeBase, Set.Icc.coe_zero, mul_zero, Complex.ofReal_zero,
+      zero_mul, Complex.exp_zero]
+    split_ifs with h1 h2
+    · subst h1; simp
+    · subst h2; push_cast [TauCeti.BraidGroup.val_strandSucc]; ring
+    · rfl
+  target' := by
+    show (Quotient.mk _ _ : UnorderedPlane n) = Quotient.mk _ (planeBase n)
+    apply Quotient.sound
+    show _ ∈ MulAction.orbit _ _
+    refine ⟨Equiv.swap (TauCeti.BraidGroup.strand (n := n) i)
+      (TauCeti.BraidGroup.strandSucc (n := n) i), ?_⟩
+    apply Subtype.ext
+    funext k
+    change (planeBase n).1 ((Equiv.swap _ _)⁻¹ k) = halfTwist n i (1 : unitInterval) k
+    simp only [halfTwist, planeBase, Equiv.swap_inv, Equiv.swap_apply_def, Set.Icc.coe_one,
+      mul_one, Complex.exp_pi_mul_I]
+    split_ifs with h1 h2
+    · push_cast [TauCeti.BraidGroup.val_strandSucc]; ring
+    · push_cast [TauCeti.BraidGroup.val_strand]; ring
+    · rfl
+
+/-- The fundamental group of the actual unordered plane configuration space is the native
+Artin braid group, by the isomorphism sending the class of the `i`-th counterclockwise
+half-twist loop to the generator `σᵢ` (Fox–Neuwirth, §7, pp. 123–126; Birman–Brendle, §1.2,
+pp. 4–5). -/
 theorem plane_braid (n : ℕ) :
-    Nonempty (FundamentalGroup (UnorderedPlane n) (unorderedBase n) ≃* TauCeti.BraidGroup n) := by
+    ∃ e : FundamentalGroup (UnorderedPlane n) (unorderedBase n) ≃* TauCeti.BraidGroup n,
+      ∀ i : Fin (n - 1),
+        e (FundamentalGroup.fromPath (Path.Homotopic.Quotient.mk (halfTwistLoop n i))) =
+          TauCeti.BraidGroup.sigma i := by
   sorry
 
 /-- For at least two strands, the braid permutation map has no homomorphic section:

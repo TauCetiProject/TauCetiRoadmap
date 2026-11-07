@@ -19,7 +19,9 @@ induction over flat commutative Hopf algebras, together with their rational
 group-scheme adapters. Layer 3A.5 owns the classical complex-point topology,
 smooth charts and separated/proper comparisons, the group/tangent dictionary,
 algebraic orbit smoothness, and the holomorphic orbit-map and stabilizer
-comparisons. Layer 11 consumes these comparisons. Layer 11A owns the based comparison between the fundamental
+comparisons. Layer 11 consumes these comparisons. FormalConnectionsOpers §4.3 consumes the
+complex Lie-group dictionary on `G(ℂ)` and transports it to the Hopf-point carrier; no target
+of FormalConnectionsOpers is an input here. Layer 11A owns the based comparison between the fundamental
 group of the plane configuration space and the native braid group. Layer 9B owns the
 special isogenies in characteristics two and three and the three explicit toral-closure
 carriers it specifies. ReductiveGroupsPartII extends this roadmap and consumes it;
@@ -28,6 +30,8 @@ again under its own name; it is a consumer of Layer 7a, not a second supplier of
 IntegralHeckeAndGaloisDeterminants §0.7 states the rational cohomology and induction of
 Layer 1.1, and ComplexComparisonPartII C-1.1 states the classical topology and smooth charts of
 Layer 3A.5; each is a consumer of the layer named, and neither is imported here.
+FormalConnectionsOpers §2.4 and SchubertGeometry S9 likewise take complex points, their
+classical topology and smooth charts from Layer 3A.5.
 AdelicAlgebraicGroups AA.3.1 states the characteristic-zero Levi decomposition of Layer 6A
 again, for closed subgroups, and is a consumer of Layer 6A.
 
@@ -51,9 +55,12 @@ and closed-subgroup stability of diagonalizability are also supplied by Tau Ceti
 Layers 4 and 9D retain their additional comparisons. The native k-unipotent
 radical, its maximality, uniqueness and isomorphism transport, and the
 counit-derivation kernel–differential comparison are also library inputs;
-Layers 3, 5 and 9D retain the scheme transports, radical descent and quotient comparisons. RootSystems Layer 4 supplies
-chamber simple transitivity; §9A.1a-L owns its Weyl/based factorization adapter
-for the ADE lift comparison, retaining the separate full-Y action.
+Layers 3, 5 and 9D retain the scheme transports, radical descent and quotient comparisons.
+The finite root combinatorics, chambers, the Weyl Coxeter presentation, simple transitivity
+of the Weyl group on bases and on open chambers, the Cartan–Killing classification and the
+numbered integral root data are pinned Tau Ceti declarations, listed in the supplier
+contracts; they are not RootSystems targets here. §9A.1a-L applies the simple transitivity on
+bases to the ADE root lattice for its lift comparison, retaining the separate full-Y action.
 
 Suggested.lean is the acceptance module: it states the headline theorems that are statable
 at the pins. The native affine Hopf dictionary, point functors and comodule reconstruction
@@ -193,6 +200,31 @@ prove them equivalent** rather than committing.
 - Mathlib's root-system and Coxeter modules provide abstract combinatorial structures.
   Tau Ceti has concrete torus, GL, SL, and symplectic root-data carriers. These are
   reusable instances, not general root extraction or classification.
+- **Finite root systems.** Under finite root indices, a characteristic-zero domain,
+  crystallographicity and reducedness, `TauCeti/LinearAlgebra/RootSystem/` supplies the
+  finite root/reflection API: `TauCeti.posRoots` (`Positive.lean`),
+  `TauCeti.exists_mem_support_height_reflectionPerm_lt` (`Lowering.lean`),
+  `TauCeti.weylGroup_eq_closure_simple` (`SimpleReflections.lean`), `TauCeti.inversions`
+  (`Inversions/Basic.lean`) and `TauCeti.longestElement` (`LongestElement.lean`, which also
+  needs spanning). `TauCeti.weylCoxeterSystem`, `TauCeti.weylCoxeterHom_injective` and
+  `TauCeti.length_weylCoxeterSystem_eq` (`Coxeter/Presentation.lean`) make the Weyl group a
+  Coxeter system on the simple reflections of a base, with Coxeter length the inversion count;
+  no spanning hypothesis is used. `RootPairing.Base.existsUnique_map_eq` (`Weyl/Bases.lean`)
+  gives exactly one Weyl element carrying any base to any other. Over a linearly ordered
+  strict ordered ring, `RootPairing.dominantChamber` (`Chamber.lean`), `TauCeti.openWeylChamber`
+  and `TauCeti.weylGroupEquivOpenWeylChambers` (`Weyl/Chamber.lean`) give the chambers and
+  the bijection from the Weyl group to the open chambers, the latter under the explicit
+  hypothesis that the open dominant chamber is nonempty. `TauCeti.existsUnique_dynkinType`
+  (`FiniteType/Classification.lean`) gives, with spanning and irreducibility over a nonempty
+  index set, the unique valid `TauCeti.DynkinType` of a base; `TauCeti.HasCartanType.of_base`
+  (`Weyl/CartanType.lean`) makes the Cartan type independent of the base, and
+  `TauCeti.nonempty_equiv_of_hasCartanType` (`Isomorphism.lean`) gives rigidity for two
+  bases of the same type. `TauCeti.DynkinType.Valid` restricts the ranks to A≥1, B≥2, C≥3, D≥4 and
+  the five exceptional types. `TauCeti.DynkinType.simplyConnectedRootDatum`
+  (`SimplyConnectedRootDatum/Assembly.lean`) and `TauCeti.DynkinType.rationalRootSystem`
+  (`SimplyConnectedRootDatum/Rational.lean`) are the numbered integral and rational
+  realizations of each valid type. These are consumed at the pin, not as RootSystems
+  targets.
 
 - **Relative reductivity.** `TauCeti/Algebra/AlgebraicGroup/Reductive/Over.lean`
   supplies `TauCeti.reductiveCommHopfAlgPropertyOver`, its
@@ -851,7 +883,8 @@ Apply these smooth charts, component by component when dimensions differ, to the
 complex manifold, and multiplication, unit and inverse are holomorphic because
 they are induced by scheme morphisms, so `G(ℂ)` is a complex Lie group whose Lie algebra is
 identified with Layer 2's tangent Lie algebra by the chart at the identity. This
-complex Lie-group dictionary is owned here and consumed by Layer 11. Compare it
+complex Lie-group dictionary is owned here and consumed by Layer 11 and by
+FormalConnectionsOpers §4.3. Compare it
 with LieGroups Layer 2's closed-subgroup theorem for the stabilizer `H(ℂ)`,
 which is closed in `G(ℂ)`. Pin H=Stab_G(x), the actual map G(ℂ)→O_x(ℂ) and its
 fibres. Consume SmoothBundlesConnections B1.0 for regular fibres and fibre
@@ -1328,7 +1361,7 @@ the native cofree and fixed-point comodule interfaces.
   torsor identification; expose the quotient map, universal property and base
   changes at the exact stated hypotheses. In particular apply this to GL_n/G
   for every faithful closed reductive G→GL_n. This is the Matsushima construction
-  owned here; FormalConnectionsOpers F6 consumes it and owns its loop-Grassmannian
+  owned here; FormalConnectionsOpers §3A.5 consumes it and owns its loop-Grassmannian
   reduction-locus/ind-stage application. Keep the general quotient discussion and
   its hypotheses, without asserting arbitrary closed-subgroup quotients affine. The quotient
   sheaf is the native `CommHopfAlgCat.fppfHomogeneousQuotient` and the invariant algebra is
@@ -1402,8 +1435,8 @@ Layers 1, 3, 3A, 6; the native homogeneous quotient sheaf and coinvariants.
   `s_α` and acts on `X*(T)` as the Weyl group of the root datum (Milne, Theorem 21.37,
   p. 435); then add the **absolute root
   datum with Galois action** and the **relative root system** for non-split groups.
-  *Needs:* Layer 2's adjoint representation and Layer 4's torus weights; RootSystems
-  Layers 1–4; Mathlib's `RootPairing`.
+  *Needs:* Layer 2's adjoint representation and Layer 4's torus weights;
+  Tau Ceti's finite root-system API and Weyl Coxeter presentation (supplier contracts); Mathlib's `RootPairing`.
 - **Bruhat decomposition** and **BN-pairs / Tits systems** (Milne, Theorem 21.45,
   p. 438). Keep the **dynamic** approach
   to parabolics/Levi/unipotent radical as a route that avoids full root data,
@@ -1433,13 +1466,13 @@ Layers 1, 3, 3A, 6; the native homogeneous quotient sheaf and coinvariants.
 
 ### Dependencies
 
-Layers 2–5 and 3A; Layer 7C for the ordered coordinates of the cells; RootSystems
-Layers 1–4; Tau Ceti's Borel, reductive and dynamic interfaces; Mathlib's root pairings
+Layers 2–5 and 3A; Layer 7C for the ordered coordinates of the cells;
+Tau Ceti's finite root-system API and Weyl Coxeter presentation (supplier contracts); Tau Ceti's Borel, reductive and dynamic interfaces; Mathlib's root pairings
 and Coxeter groups.
 
 ## Layer 7C: ordered unipotent factors and the contraction proof of Bruhat coordinates
 
-Build this phase inside Layer7, before consuming its final Bruhat decomposition. Keep the actual connected smooth affine reductive group G, maximal torus T, B+=T⋉U+, opposite B− and full character/cocharacter lattices. For split G over a field construct the root subgroups and their rank-one maps on this actual group, with their closed immersions, tangent root lines, torus-conjugation equations and positive-root generation of U+. These early root maps are a construction from the given group, not an application of the later classification of split groups or of9B's separately constructed Chevalley group. Use Layers2–5's tangent, solvable and unipotent theory and [RootSystems Layers1–4](../RepresentationTheory/RootSystems/README.md)'s finite root/reflection API. Prove the root-string commutator and positive-height filtration laws needed for ordered collection. Keep every root type, isogeny and central torus. For a nonsplit group use the geometric statement after the specified algebraic closure and retain its actual descent data; no unqualified assertion about k-rational orbits or lifts follows. The generic all-field Bruhat target retains its generality; the complex contraction/cover proof below is a separate characteristic-zero proof route and does not supply a positive-characteristic exponential argument.
+Build this phase inside Layer7, before consuming its final Bruhat decomposition. Keep the actual connected smooth affine reductive group G, maximal torus T, B+=T⋉U+, opposite B− and full character/cocharacter lattices. For split G over a field construct the root subgroups and their rank-one maps on this actual group, with their closed immersions, tangent root lines, torus-conjugation equations and positive-root generation of U+. These early root maps are a construction from the given group, not an application of the later classification of split groups or of9B's separately constructed Chevalley group. Use Layers2–5's tangent, solvable and unipotent theory and Tau Ceti's finite root/reflection API in the supplier contracts. Prove the root-string commutator and positive-height filtration laws needed for ordered collection. Keep every root type, isogeny and central torus. For a nonsplit group use the geometric statement after the specified algebraic closure and retain its actual descent data; no unqualified assertion about k-rational orbits or lifts follows. The generic all-field Bruhat target retains its generality; the complex contraction/cover proof below is a separate characteristic-zero proof route and does not supply a positive-characteristic exponential argument.
 
 For the all-field early root-map phase, construct the scheme-theoretic centralizer of ker(α) in the given split group and its connected rank-one derived subgroup. Retain its actual central-isogeny lattice: the simply connected SL₂ map may have a kernel and is not declared an embedding of SL₂ for every group form. Construct its two smooth additive root groups as T-contracted subgroups and prove their parameterizations by Ga, their torus weights and their tangent maps. Prove the rank-one open multiplication chart and central isogeny by the actual rank-one coordinate equations, including
 `x_α(a)x_−α(b)=x_−α(b/(1+ab)) α∨(1+ab) x_α(a/(1+ab))`
@@ -1475,7 +1508,7 @@ Derive existence from the early rank-one group maps and generation by B+ and the
 
 Export the parabolic projection to G/P+ with its actual minimal W/W_P representatives, stabilizer/root subsets, affine coordinates and fibre maps; compare P/Q orbits with W_P\W/W_Q without treating different coset conventions as equal labels. In typeA give the actual upper-unipotent/upper-triangular reduction, block-parabolic flag and Grassmannian maps with their universal subspaces. The GL2 big-cell map is a↦u(a)n_0B+, or equivalently u(a)B−; u(a)B+ is constant. On P1 with the line model B+ stabilizing[e1], the former chart is a↦[a:1], with inverse x/y on y≠0. Keep this explicit rank-one chart and the A2 factor-order and non-normal-stabilizer regressions as Checks below. The generic flag CW/cohomology and coherent-line comparisons stay at their existing LieGroups/Schubert owners.
 *Needs:* Layers 2–5 and 5P; Layer 3A's orbit theorems; Layer 7's root subgroups and
-Borel theory; RootSystems Layers 1–4; Mathlib's covering-map lifting lemmas.
+Borel theory; Tau Ceti's finite root-system API and Weyl Coxeter presentation (supplier contracts); Mathlib's covering-map lifting lemmas.
 
 ### Examples
 
@@ -1495,7 +1528,7 @@ Borel theory; RootSystems Layers 1–4; Mathlib's covering-map lifting lemmas.
 
 ### Dependencies
 
-Layers 2–5, 5P, 3A and 7; RootSystems Layers 1–4; Mathlib's covering-map lifting and
+Layers 2–5, 5P, 3A and 7; Tau Ceti's finite root-system API and Weyl Coxeter presentation (supplier contracts); Mathlib's covering-map lifting and
 uniqueness lemmas.
 
 ## Layer 7a: finite fields, Frobenius and rational points
@@ -2017,7 +2050,7 @@ to its construction.
 ### Dependencies
 
 Layers 0, 4, 6 and Layer 7's root datum and root subgroup constructions; the native
-relative reductivity predicate; RootSystems Layers 5–6.
+relative reductivity predicate; Tau Ceti's Cartan–Killing classification and numbered root data (supplier contracts).
 
 ## Layer 9: pinned Chevalley–Demazure group schemes over `ℤ`
 
@@ -2031,8 +2064,8 @@ Finite groups of Lie type are the fixed points of a Steinberg endomorphism on th
 `𝔽̄_p`-points of a pinned simply connected group, or on an explicit carrier identified with
 those points; Chevalley existence alone specifies no carrier, so this layer constructs the
 pinned group schemes and, in 9B, the explicit carriers and special isogenies.
-The root data start from `DynkinType.simplyConnectedRootDatum` in [the root-systems
-roadmap](../RepresentationTheory/RootSystems/README.md). Layer 9E supplies the Steinberg
+The root data start from the native `TauCeti.DynkinType.simplyConnectedRootDatum` of the
+supplier contracts. Layer 9E supplies the Steinberg
 fixed-point and representation-theory interfaces that consume them.
 
 #### 9A. The full reductive integral enveloping form
@@ -2058,8 +2091,8 @@ algebra by its Killing-semisimple part.
    pairing `B` with diagonal2 and off-diagonal minus the number of bonds. Specify
    the simply-laced isometry `Q→Q∨`, `α_i↦h_i`; this identifies the presentation's
    Cartan lattice with the coroot lattice, not with X or the full Y. Include the
-   empty diagram. Consume the actual finite realizations of
-   [RootSystems Layers5–6](../RepresentationTheory/RootSystems/README.md) and the
+   empty diagram. Consume the native finite realizations
+   `TauCeti.DynkinType.simplyConnectedRootDatum` and `TauCeti.DynkinType.rationalRootSystem` and the
    native `IntegralLattice.integralForm`, `ofIntegralForm`, `carrierIsometry` and
    `rationalizationIsometry` dictionary from
    [IntegralLattices](../IntegralLattices/README.md). Prove that the norm2 shell
@@ -2211,21 +2244,24 @@ algebra by its Killing-semisimple part.
    endomorphism `LieEquiv`s.
 
    After9A.1b, compare its pinned **based** diagram lift with this full lift group
-   and its simple-generator equations. Construct the factorization adapter on
-   the real root span of a finite reduced crystallographic root system with a
-   specified base Δ. For every root automorphism g there is a unique pair (w,d),
-   with w in the Weyl group and d preserving Δ, such that g=w∘d. Indeed,
-   [RootSystems Layer 4](../RepresentationTheory/RootSystems/README.md)'s simple
-   transitivity on chambers supplies the unique v carrying gΔ back to Δ;
-   put d=v∘g and w=v⁻¹. Restrict this factorization to the ADE root lattice
-   for the lift comparison, retaining the character ambiguity and any
-   multiplication defect of separately chosen lifts.
-   *Needs:* RootSystems Layer 4's chamber action and simple transitivity;
-   §9A.1a's root-shell/lattice identification, and §9A.1b only for the pinned
-   based lift comparison.
+   and its simple-generator equations. The comparison uses the Weyl/based
+   factorization of root automorphisms, which is a direct consequence of the pinned
+   `RootPairing.Base.existsUnique_map_eq`: for a finite reduced crystallographic root
+   pairing over a characteristic-zero domain (in particular the integral ADE
+   realization of §9A.1a over ℤ, and its real span) with a specified base Δ, and a root
+   automorphism g, the unique Weyl element v with v(gΔ)=Δ gives d=v∘g preserving Δ and
+   w=v⁻¹ with g=w∘d; the pair (w,d) is unique because dΔ=Δ forces wΔ=gΔ, which
+   determines w. Apply this factorization on the ADE root lattice for the lift
+   comparison, retaining the character ambiguity and any multiplication defect of
+   separately chosen lifts.
+   *Needs:* Tau Ceti `RootPairing.Base.existsUnique_map_eq`; §9A.1a's
+   root-shell/lattice identification, and §9A.1b only for the pinned based lift
+   comparison.
    **Checks.** In A₁, g=−1 gives (w,d)=(−1,1); g=1 gives (1,1).
    On the empty root span the only pair is (1,1). In A₁×A₁ the component
-   swap preserves Δ, so its pair is (1,swap), not (swap,1). Export transport
+   swap preserves Δ, so its pair is (1,swap), not (swap,1). In A₂, g=−1 sends Δ
+   to −Δ, and w₀ returns it because w₀α₁=−α₂ and w₀α₂=−α₁; so (w,d)=(w₀,flip),
+   where the diagram flip d is not in W, and −1 is not a Weyl element. Export transport
    under every specified order/section and full-Y comparison. Full-Y maps
    require the actual compatible Y action; no integral central splitting is
    inferred. Include empty/reducible ADE, rank1, A2's negative-section test,
@@ -2415,7 +2451,7 @@ algebra by its Killing-semisimple part.
    injectivity comparison to obtain Lie algebra isomorphisms over ℚ, and
    prove compatibility with changes of root indexing and pinning.
    *Needs:* 9A.1a's integral bracket and norm-shell theorem; 9A.1b's
-   signed invariant vectors and normalized folded generators; RootSystems'
+   signed invariant vectors and normalized folded generators; Tau Ceti's numbered
    finite root realizations; LieHighestWeight Layer 7's Serre comparison.
 
    **Checks.**
@@ -2429,7 +2465,7 @@ algebra by its Killing-semisimple part.
    Derive the connected type dictionary with its actual bounds:
    `A_(2r-1)→C_r` (r≥2), `A_(2r)→B_r` (r≥1,B1=A1),
    `D_(r+1)→B_r` (r≥3), D4 triality→G2 and E6 reversal→F4; identity actions
-   retain their ADE component. Use RootSystems' valid-type reindexing in low
+   retain their ADE component. Use the valid types of `TauCeti.DynkinType.Valid` in low
    rank, in particular C2=B2 and B1=A1, with actual oriented root/coroot maps
    rather than an invalid validity witness for `DynkinType.C 2` or `B 1`.
    Assemble these identifications using the earlier
@@ -2849,7 +2885,7 @@ The distribution algebra and Frobenius section precede rational integration.
 
 ### Dependencies
 
-Layers 0, 2, 3, 4 and Layer 7's field structure theory; §§8.1–8.2 only; RootSystems Layers 5–6; LieHighestWeight Layers 3–4 and 7;
+Layers 0, 2, 3, 4 and Layer 7's field structure theory; §§8.1–8.2 only; Tau Ceti's Cartan–Killing classification and numbered root data (supplier contracts); LieHighestWeight Layers 3–4 and 7;
 IntegralLattices; Tau Ceti's Kostant form, Serre presentation and Geck constructions.
 
 ## Layer 9D: classification, relative groups and forms
@@ -2861,7 +2897,9 @@ IntegralLattices; Tau Ceti's Kostant form, Serre presentation and Geck construct
   Theorem 23.58, p. 501); central isogenies and the isogeny theorem; Chevalley existence,
   realized by Layer 9's construction over `ℤ` (Milne, Theorem 23.74, p. 511). *Needs:*
   Layer 7's root data; §§8.1–8.2's split data and pinnings; Layer 4's diagonalizable groups for the central
-  kernels; Layer 9's split models; RootSystems Layers 5–6 for the Dynkin classification.
+  kernels; Layer 9's split models; Tau Ceti's `TauCeti.existsUnique_dynkinType`,
+  `TauCeti.HasCartanType.of_base` and `TauCeti.nonempty_equiv_of_hasCartanType` for the
+  Dynkin classification.
 - **Relative reductive groups over an arbitrary affine base.** For `S=Spec R`, `R`
   any commutative ring, a reductive S-group means a smooth affine group scheme
   of finite presentation with connected reductive geometric fibers; semisimple means all
@@ -2970,7 +3008,7 @@ IntegralLattices; Tau Ceti's Kostant form, Serre presentation and Geck construct
 
 ### Dependencies
 
-Layers 0, 3, 4, 5, 7, 8.1–8.2 and 9; RootSystems Layers 5–6; SchemeAndStackFoundations §1.1 and
+Layers 0, 3, 4, 5, 7, 8.1–8.2 and 9; Tau Ceti's Cartan–Killing classification and numbered root data (supplier contracts); SchemeAndStackFoundations §1.1 and
 §§1.13–1.15; ModularCurves §§0E–0F.
 
 ## Layer 9E: Steinberg endomorphisms and extension of Layers 7a–7f
@@ -3317,7 +3355,7 @@ analytic inverse function theorem used below is Mathlib's `ContDiffAt.to_localIn
 order `ω` on finite-dimensional complex charts. The algebraic classification and integral
 construction have no dependency on this lane, and no roadmap that consumes Layers 0–9 is a
 supplier of it. The finite-arrangement construction in 11B is independent of the group
-application and runs once RootSystems' finite Coxeter presentation is available. All of
+application and uses the pinned Weyl Coxeter presentation `TauCeti.weylCoxeterSystem`. All of
 11A–11G below is normative.
 
 **11A. Plane configurations, geometric braids and their basepoints.** This roadmap owns the
@@ -3328,13 +3366,25 @@ The elementary carriers are `PlaneBraidAcceptance.OrderedPlane` and
 `PlaneBraidAcceptance.UnorderedPlane`. Permutations act by `(σ·z)_i=z_(σ⁻¹ i)` via
 `PlaneBraidAcceptance.permute` and `PlaneBraidAcceptance.planePermutationAction`.
 The standard points are `PlaneBraidAcceptance.planeBase` and
-`PlaneBraidAcceptance.unorderedBase`; `PlaneBraidAcceptance.plane_braid` states
-existence of the based group equivalence on these carriers.
+`PlaneBraidAcceptance.unorderedBase`. For `i<n−1`, `PlaneBraidAcceptance.halfTwist n i t`
+is the configuration at time `t` in which the points `i` and `i+1` have turned through the
+angle `πt` counterclockwise about `i+1/2`, the others fixed:
+`z_i=i+1/2−exp(πtI)/2` and `z_(i+1)=i+1/2+exp(πtI)/2`, where `I=√−1`.
+`PlaneBraidAcceptance.halfTwist_injective` keeps its points distinct, and
+`PlaneBraidAcceptance.halfTwistLoop n i` is the resulting based loop of unordered
+configurations. `PlaneBraidAcceptance.plane_braid` states the based group equivalence
+`π₁(Conf_n(ℂ),[b]) ≃ TauCeti.BraidGroup n` sending the class of `halfTwistLoop n i` to the
+native generator `TauCeti.BraidGroup.sigma i`.
 
 **API.**
 - The action preserves distinctness, and the quotient identifies exactly permutation orbits.
 - The subtype and quotient topologies make the order-forgetting projection continuous.
 - The chosen ordered basepoint projects to the chosen unordered basepoint for every n.
+- The half-twist configuration is the base configuration at time 0 and the base
+  configuration with the points `i` and `i+1` exchanged at time 1; it is continuous in `t`.
+  The moving points stay at distance 1/2 from `i+1/2` on opposite sides, and every fixed
+  point is an integer at distance at least 3/2 from it, so the configuration is injective
+  and the loop closes in the quotient.
 
 **Checks.**
 - For n=0 the ordered and unordered configurations are points and the braid group is 1;
@@ -3343,6 +3393,12 @@ existence of the based group equivalence on these carriers.
   unordered image. The tuple (0,0) fails injectivity and is excluded.
 - For n=3, (012) sends (0,1,2) to (2,0,1); using the permutation rather than its inverse
   would give (1,2,0) and reverse the stipulated left action.
+- For n=2, i=0 and t=1/2 the half-twist is (1/2−I/2, 1/2+I/2): the point that started at 1
+  is in the upper half-plane, so the turn is counterclockwise; the clockwise convention
+  would put it at 1/2−I/2. At t=1 the configuration is (1,0), the transposition of (0,1).
+- For n=3 and i=0 the fixed point 2 is at distance 3/2 from the midpoint 1/2, three times
+  the radius 1/2 of the turning points, so no collision occurs; for i=1 the fixed point 0
+  is likewise at distance 3/2 from 3/2.
 
 Give evenly covered neighborhoods using
 pairwise disjoint coordinate discs and the free finite `S_n` action, so that
@@ -3426,10 +3482,10 @@ Salvetti, Part Two, pp. 611–616, for the two-skeleton presentation route).
 The source presentation is for finite real reflection groups; this layer uses
 its crystallographic subclass. A W-fixed central summand is a contractible factor.
 
-Consume [RootSystems Layer2](../RepresentationTheory/RootSystems/README.md)'s
-`weylCoxeterSystem`, with its exact spanning/reduced/characteristic-zero hypotheses and
-coordinate transports. Native `weylCoxeterHom` supplies the map and surjectivity, but its
-injectivity remains that lower written target. The Artin-to-W map is the native
+Consume the native `TauCeti.weylCoxeterSystem`, with its finite, reduced, crystallographic
+and characteristic-zero-domain hypotheses, and transport it along the chosen coordinates.
+Native `TauCeti.weylCoxeterHom` supplies the map and surjectivity, and
+`TauCeti.weylCoxeterHom_injective` its injectivity. The Artin-to-W map is the native
 `ArtinGroup.toCoxeterGroup` followed by the actual Weyl identification, not a private
 presentation of a new group. Prove the geometric covering square, reflection-generator
 normalization, and identify `π₁(V_reg,b)` with its kernel. Outside type A this is the pure
@@ -3542,7 +3598,7 @@ identify full character/cocharacter lattices. Central torus **Lie** summands are
 vector spaces, and contribute no extra π₁.
 
 **11G. Prerequisite and scope comparisons.** The order is 11A's configuration/native
-braid comparison and RootSystems' Coxeter/chamber theory → finite arrangement topology;
+braid comparison and Tau Ceti's Weyl Coxeter presentation and chambers → finite arrangement topology;
 independent RG8/9 and the 3A.5 complex Lie-group dictionary → 11C invariant/spectral
 maps; RG7+LG8 flag cells →
 homogeneous-fiber connectedness and simple connectedness; the based DGF LES → the
@@ -3580,7 +3636,8 @@ construction targets until proved; references are not replacements for those pro
 
 ### Dependencies
 
-Layers 2, 3A, 7, 8 and 9; RootSystems Layer 2; LieHighestWeight Layer 7;
+Layers 2, 3A, 7, 8 and 9; Tau Ceti's Weyl Coxeter presentation and chambers;
+LieHighestWeight Layer 7;
 ReflectionInvariantTheory; AlgebraicTopology; DGFloer Layer 1.2; LieGroups Layer 8;
 SmoothBundlesConnections B1.4; Mathlib's covering-map, fundamental-group and
 inverse-function theorems; Tau Ceti's braid and Artin groups.
@@ -3660,8 +3717,9 @@ those points: [CFSGStatement](../CFSGStatement/README.md) consumes Layer 9's pin
 the special isogenies and the three explicit carriers of 9B, which its carrier plan
 designates; its milestone L5 needs constructions rather than existence theorems.
 ReductiveGroupsPartII extends this roadmap and consumes Layers 0–9, in particular Layer 7a's
-Lang theorem and fixed-coset lifting. FormalConnectionsOpers consumes Layers 0–9 and 6B's
-coset affineness; InverseGaloisAndArithmeticFundamentalGroups consumes Layers 0, 3 and 6;
+Lang theorem and fixed-coset lifting. FormalConnectionsOpers consumes Layers 0–9, Layer
+3A.5's complex Lie-group dictionary on `G(ℂ)` (in its §4.3) and 6B's coset affineness
+(in its §3A.5); Layer 11 consumes no target of FormalConnectionsOpers; InverseGaloisAndArithmeticFundamentalGroups consumes Layers 0, 3 and 6;
 NilpotentOrbits and SchubertGeometry consume Layer 3A's orbit theorems and Layer 7's
 structure theory.
 
@@ -3669,7 +3727,8 @@ structure theory.
 The rational-cohomology and cotensor-induction interfaces of Layer 1.1 are outputs
 for IntegralHeckeAndGaloisDeterminants §0.7. The classical complex-point topology,
 smooth charts and separated/proper comparisons of Layer 3A.5 are outputs for
-ComplexComparisonPartII C-1.1. The latter's analytic ring sheaf and coherent
+ComplexComparisonPartII C-1.1, FormalConnectionsOpers §2.4 and SchubertGeometry S9.
+ComplexComparisonPartII's analytic ring sheaf and coherent
 comparisons extend this topological interface, retaining nilpotents; the carrier
 identification is the identity on X(ℂ), compatible with maps, restrictions and
 fibre products.
