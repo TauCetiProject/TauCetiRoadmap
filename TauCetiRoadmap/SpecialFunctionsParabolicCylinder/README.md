@@ -107,7 +107,8 @@ Tau Ceti nor a consumed roadmap provides:
 - Kummer's second function `U(a, b, z)` and the Whittaker functions, the confluent
   hypergeometric theory of DLMF Chapter 13, beyond Layer 1.
 - The complex functions `erf`, `erfc` and the Faddeeva function `w(z)` (DLMF 7.2.1–7.2.3),
-  and the rest of Chapter 7 beyond the `F` and `Hh_n` theory specified in Layer 5.
+  and the rest of Chapter 7 beyond the `F` and `Hh_n` theory specified in Layer 5. They belong
+  to the SpecialFunctionsEiLiErfIncompleteGamma roadmap.
 - DLMF 12.13.6, which uses complex `erfc`.
 - Modified Bessel functions (DLMF Chapter 10).
 - The uniform asymptotic expansions for large parameter and the zeros (DLMF §§12.10, 12.11,
@@ -1243,6 +1244,10 @@ continuous phase; 9.4 uses the ODE coefficient recurrence; 9.7 uses the rotated 
 ## Downstream consumers
 
 - **QuantumFoundations** consumes Kummer's equation for `𝐌` (1.3) and its polynomial cases (1.6).
+- **SpecialFunctionsEiLiErfIncompleteGamma** (DLMF Chapters 6–8) consumes Dawson's integral
+  `TauCeti.dawson` with its API from 5.1 and the repeated Gaussian integrals
+  `TauCeti.repeatedGaussianIntegral` with their API from 5.3. It proves the Chapter 7 formulas
+  that use them, among them 7.5.1 and 7.18.12.
 
 ## Beyond this roadmap (a roadmap for a roadmap; do not implement)
 
