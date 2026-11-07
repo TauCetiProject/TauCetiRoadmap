@@ -1110,11 +1110,13 @@ Theorem 4.10(a), p. 46 (for a monic integer polynomial of degree `n` whose roots
 integers of weight `1`, the coefficient `b_1` of `−T^{n−1}` satisfies `|b_1| ≤ n·m/2` with
 `m := ⌊2√q⌋`; here `n = 2g` and `b_1 = q + 1 − N_1(F)`) and §4.7.2.2, p. 48 (the bound
 `|N_X(q) − q − 1| ≤ g·m` for a smooth projective geometrically irreducible curve, with the
-equality `N_X(q) − q − 1 = g·m` only when every root `α` satisfies `α² + mα + q = 0`; the lower
-equality `N_X(q) − q − 1 = −g·m` then holds only when every root satisfies `α² − mα + q = 0`, by
-Theorem 4.10(b) applied to `P(−T)`: at `q = 2`, `m = 2`, the curve `1.2.c` of the worked examples
-attains the upper equality with roots `−1 ± i`, which satisfy `α² + 2α + 2 = 0`, and `1.2.ac`
-attains the lower one with roots `1 ± i`, which satisfy `α² − 2α + 2 = 0`); Serre 1983 and
+equality `N_X(q) − q − 1 = g·m` only when every root `α` satisfies `α² + mα + q = 0`: this is the
+case `b_1 = −n·m/2`, which is Theorem 4.10(b) applied to `(−1)^n P(−T)`, as Serre remarks after
+the theorem; the lower equality `N_X(q) − q − 1 = −g·m` holds only when every root satisfies
+`α² − mα + q = 0`, which is the case `b_1 = n·m/2` of Theorem 4.10(b) on `P` itself. At `q = 2`,
+`m = 2`, the curve `1.2.c` of the worked examples attains the upper equality with roots `−1 ± i`,
+which satisfy `α² + 2α + 2 = 0` (and `b_1 = 3 − 5 = −2`), and `1.2.ac` attains the lower one with
+roots `1 ± i`, which satisfy `α² − 2α + 2 = 0` (and `b_1 = 3 − 1 = 2`)); Serre 1983 and
 Stichtenoth Theorem 5.3.1 state the same bound (uncertified locators). A proof route is:
 with `x_1, …, x_g` the roots of the real Weil polynomial `h_{P_F}` (1.4; `x_i = α_i + ᾱ_i =
 2√q cos(π θ_i)`, one per `α ↦ q/α`-orbit, so a real root `±√q` of multiplicity `2` gives one
