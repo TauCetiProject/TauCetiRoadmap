@@ -38,21 +38,27 @@ C*-algebraic K-theory is not an input here. The K-groups K₀(A) and K₁(A)
 of a C*-algebra, Bott periodicity, the comparison of the K-theory of a
 dense inverse-closed Fréchet subalgebra with that of its completion, the
 replacement of idempotents by projections and of invertibles by
-unitaries, Kasparov cycles and products, and the Pimsner–Voiculescu
-computation of `K_*(A_θ)` with its trace range `ℤ+θℤ` belong to
-OperatorKTheory, whose comparison with the pairings of N2, the Fredholm
-modules and index pairing of N3 and the torus classes of N6–N7 is that
-roadmap's. N2 states its pairings on idempotents and invertibles of the
+unitaries in a C*-algebra, Kasparov cycles and products, and the
+Pimsner–Voiculescu computation of `K_*(A_θ)` with its trace range
+`ℤ+θℤ` belong to OperatorKTheory, whose comparison with the pairings of
+N2, the Fredholm modules and index pairing of N3 and the torus classes of
+N6–N7 is that roadmap's. N2 states its pairings on idempotents and invertibles of the
 smooth algebra and on the pinned algebraic K-groups; N3 defines its
 Hilbert-space Fredholm modules directly and takes the index of a
-compression from Mathlib's Fredholm theory; N6 builds the rotation
-C*-algebra `A_θ` as the crossed product of OperatorAlgebraDynamics; N7
-computes the trace and the Chern pairing of the two K₀ classes it
-constructs. Matrices over a C*-algebra, the continuous functional
-calculus and representations are Mathlib's `CStarMatrix`, `cfc` and
-star homomorphisms; the structure theory of C*-algebras (ideals,
-approximate units, the Calkin algebra, multipliers) belongs to
-CStarAlgebras and is not an input here.
+compression from Mathlib's Fredholm theory. N6 alone owns the rotation
+C*-algebra `A_θ=C(𝕋)⋊_αℤ` for every real θ, built on the crossed
+products of OperatorAlgebraDynamics D1–D2: its universal presentation by
+two unitaries with `uv=exp(2πiθ)vu`, the injectivity of its coordinate
+copy of C(𝕋) and its faithful tracial state `τ=∫_𝕋∘E`, which
+OperatorKTheory's Pimsner–Voiculescu computation consumes. N6 replaces
+each idempotent matrix over the smooth torus 𝒜_θ by a similar projection
+inside `M_n(𝒜_θ)` itself, by its spectral invariance, and N7 computes the
+trace and the Chern pairing of the two K₀ classes it constructs.
+Matrices over a C*-algebra, the continuous functional calculus and
+representations are Mathlib's `CStarMatrix`, `cfc` and star
+homomorphisms; the structure theory of C*-algebras (ideals, approximate
+units, the Calkin algebra, multipliers) belongs to CStarAlgebras and is
+not an input here.
 
 The general theory of adjointable and regular module
 operators, the bounded transform of a regular operator on a Hilbert
@@ -245,6 +251,20 @@ rebuild them.
   operators for dilation-invariant ω (`…/DixmierTrace`). The pin has no
   trace functional on trace-class operators, only `traceFreePart`; N3
   builds the trace, N4 the linear Dixmier trace on `L^(1,∞)`.
+- Fredholm perturbation (N3, N5, N7), for bounded operators between
+  Banach spaces over ℂ: Riesz–Schauder, `TauCeti.isFredholm_one_add`,
+  that 1+K is Fredholm for compact K; Atkinson's compact perturbation,
+  `ContinuousLinearMap.IsFredholm.add_of_isCompactOperator` and
+  `ContinuousLinearMap.index_add_of_isCompactOperator`, that T+C is
+  Fredholm with the index of T when T is Fredholm and C compact
+  (`Analysis/Fredholm/CompactPerturbation`); stability of Fredholmness and
+  the index near a Fredholm operator,
+  `ContinuousLinearMap.IsFredholm.eventually_isFredholm_and_index_eq`
+  (`…/SmallPerturbation`); and constancy of the index along a continuous
+  family of Fredholm operators over a preconnected parameter space,
+  `Continuous.index_eq_of_preconnectedSpace` and `Path.index_eq`
+  (`…/ContinuousFamily`). The index in these statements is Mathlib's
+  `LinearMap.index` of the underlying linear map.
 - Compact resolvent (N5): for a self-adjoint `LinearPMap`, compactness of
   the resolvent at one nonreal point and at every nonreal point are
   equivalent, `K=(1+D²)⁻¹=R(i)*R(i)` is positive and injective, its
@@ -798,14 +818,23 @@ power-series commutator bounds for the sine replacement, using
 p-subadditivity when p<1, before applying these square-root estimates.
 Use a sufficiently large same-parity degree n+1≥2p in that case.
 
-Prove the character index theorem: the even pairing with a projection e
-is the index of `π(e)F⁺π(e):π(e)H⁺→π(e)H⁻`; the odd pairing with
-an invertible u is `ind(Pπ̃(u)P)` on PH, with P=(1+F)/2 and forced
-unitization where needed. For a unital algebra acting nonunitally replace
-π(u) by `π(u)+I−π(1)`. Construct the trace index identity and its
-perturbation/finite-kernel argument before proving integrality; the
-index is Mathlib's `LinearMap.index` of the compression. Construct both
-ordered reductions of the external product of the two smooth circle
+Prove the character index theorem on idempotents, with no replacement
+of idempotents by projections: for an idempotent e of `M_q(Ã)`, with
+e²=e and possibly e≠e*, and the amplified module `(H⊗ℂ^q, F⊗1, π⊗id)`,
+the even pairing with e is the index of `π(e)F⁺π(e):π(e)H⁺→π(e)H⁻`, a
+map between the closed ranges of the bounded idempotent π(e) on the two
+gradings whose quasi-inverse is the compression of F from π(e)H⁻ back to
+π(e)H⁺ (Connes 1985, Part I, Appendix 2, Proposition 5, p. 91; Connes
+IV.1, Proposition 4, p. 303, whose proof represents the class by an
+idempotent, with the amplification of Proposition 2, p. 295); the odd
+pairing with an invertible u is `ind(Pπ̃(u)P)` on PH, with P=(1+F)/2
+and forced unitization where needed. For a unital algebra acting
+nonunitally replace π(u) by `π(u)+I−π(1)`. Construct the trace index
+identity and its perturbation/finite-kernel argument before proving
+integrality; the index is Mathlib's `LinearMap.index` of the
+compression, and its compact-perturbation and homotopy invariance are
+the pinned Fredholm perturbation theorems of the Tau Ceti contract.
+Construct both ordered reductions of the external product of the two smooth circle
 Fredholm modules in the Clifford model `e₁=σ₁`, `e₂=−σ₂` of Cl₂ on ℂ²
 with grading σ₃. Write x⊠_u y for the unswapped Clifford tensor/Morita
 reduction `e⊗1↦e₁`, `1⊗e↦e₂`, and x⊠_s y for the swapped period
@@ -838,8 +867,12 @@ orientation are the conventions used here. Point factors contribute no
 additional adapter sign. These
 computations concern the explicitly finitely summable point/circle
 products. A general KK product is not assumed to have a finitely
-summable representative on the given smooth algebra. Work out point cycles,
-the circle Hardy/shift compression with index −1 for the forward
+summable representative on the given smooth algebra. Work out point
+cycles, among them the even module ℂ²⊕ℂ² over M₂(ℂ) with π=id⊕0, γ=diag(1,−1) and F the
+swap of the two summands, on which the idempotent `e=[[1,a],[0,0]]`,
+a≠0, compresses from the line eℂ² to π(e)H⁻=0 with index 1, equal to
+`Tr′(γπ(e))=Tr e=1` and to the index of the projection diag(1,0); the
+circle Hardy/shift compression with index −1 for the forward
 shift and +1 for its adjoint, a finite matrix
 amplification and a nonsummable compact-commutator cycle. Summability
 is a condition on the specified smooth algebra, not automatically on
@@ -847,8 +880,9 @@ the whole C*-completion.
 
 ### Examples
 
-The point cycle; the circle Hardy compression with `ind(P_Hardy u P_Hardy)=−1`
-and `⟨[u],Ch₁⟩=−1`; the product of two Hardy classes, pairing +1 with q*β
+The point cycle, with the idempotent `[[1,a],[0,0]]` of M₂(ℂ) of
+compression index 1; the circle Hardy compression with
+`ind(P_Hardy u P_Hardy)=−1` and `⟨[u],Ch₁⟩=−1`; the product of two Hardy classes, pairing +1 with q*β
 under the unswapped reduction and −1 under the swapped one; a nonsummable
 compact-commutator cycle. On B(H): `diag((j+1)^(−3))` in S_p exactly for
 p>1/3, `diag(1/(j+1))²` in S_r exactly for r>1/2, `diag((j+1)^(−2))` in
@@ -857,7 +891,7 @@ S₁ but not in S_(1/2), Hölder attained on `I₂`, and the shift with
 
 ### Dependencies
 
-*Needs:* N1.Cyclic, N2; OperatorTheory/OperatorIdeals Parts A–B (OI-A17, OI-A20, OI-A22, OI-A30, OI-B29–B30); Tau Ceti `OperatorIdealFamily.schatten` and `OperatorIdealFamily.traceClass`; BanachSpaceTheory B4's Schmidt series; Mathlib `ContinuousLinearMap.IsFredholm`, `ContinuousLinearMap.FredholmPackage`, `IsFredholm.index_comp`, `LinearMap.index` and `cfc`; Fack–Kosaki, Theorems 4.2 and 4.9.
+*Needs:* N1.Cyclic, N2; OperatorTheory/OperatorIdeals Parts A–B (OI-A17, OI-A20, OI-A22, OI-A30, OI-B29–B30); Tau Ceti `OperatorIdealFamily.schatten` and `OperatorIdealFamily.traceClass`, `TauCeti.isFredholm_one_add`, `ContinuousLinearMap.IsFredholm.add_of_isCompactOperator`, `ContinuousLinearMap.index_add_of_isCompactOperator`, `ContinuousLinearMap.IsFredholm.eventually_isFredholm_and_index_eq`, `Continuous.index_eq_of_preconnectedSpace` and `Path.index_eq`; BanachSpaceTheory B4's Schmidt series; Mathlib `ContinuousLinearMap.IsFredholm`, `ContinuousLinearMap.FredholmPackage`, `IsFredholm.index_comp`, `LinearMap.index` and `cfc`; Fack–Kosaki, Theorems 4.2 and 4.9.
 
 ## N4. Weak ideals, generalized limits and Dixmier traces
 
@@ -1068,7 +1102,7 @@ bounded D=diag(1−1/(j+1)) without compact resolvent.
 
 ### Dependencies
 
-*Needs:* N3, N4; Tau Ceti `LinearPMap.HasCompactResolvent` and the compact-resolvent eigenbasis; OperatorTheory/SelfAdjointSpectralTheory SA-E and its `LinearPMap` closed operators; Mathlib's compact self-adjoint spectral theorem.
+*Needs:* N3, N4; Tau Ceti `LinearPMap.HasCompactResolvent`, the compact-resolvent eigenbasis and the Fredholm perturbation theorems of the Tau Ceti contract; OperatorTheory/SelfAdjointSpectralTheory SA-E and its `LinearPMap` closed operators; Mathlib's compact self-adjoint spectral theorem.
 
 ## N6. Smooth noncommutative two-tori and differential calculus
 
@@ -1108,6 +1142,15 @@ a=1+U₁ gives Q_0=1 and P_0=2. Prove spectral invariance in all matrix
 levels by differentiating inverses, `δ_j(a⁻¹)=−a⁻¹δ_j(a)a⁻¹` and its
 iterates, so that `M_n(𝒜_θ)` is closed under inversion and holomorphic
 functional calculus in `M_n(A_θ)` (Mathlib's `CStarMatrix`).
+Deduce the projection replacement inside `M_n(𝒜_θ)`. For an idempotent
+e there put `z=1+(e−e*)*(e−e*)`; since z≥1 it is invertible in
+`M_n(A_θ)`, hence in `M_n(𝒜_θ)`. Prove `ez=ze=ee*e`, so that z commutes
+with e and e*, and that `p=ee*z⁻¹` is a projection of `M_n(𝒜_θ)` with
+`ep=p` and `pe=e`; then `s=e+(1−p)(1−e)` is invertible there, with
+inverse `p+(1−e)(1−p)`, and `ses⁻¹=p`. Hence every class of the pinned
+K₀ of finitely generated projective 𝒜_θ-modules is represented by
+projections over 𝒜_θ, and `τ(Tr e)=τ(Tr(pe))=τ(Tr(ep))=τ(Tr p)≥0` is
+real for every idempotent e.
 
 On 𝒜_θ the trace restricts to the pinned `trace`, τ(a)=a_00, tracial
 and faithful; construct the derivations
@@ -1158,6 +1201,13 @@ identification with an integer Fredholm index; cyclicity alone does not.
 - The seminorm families: at θ=0 the element `a=1+U₁` has `Q_0=1` and
   `P_0=‖a‖=2`, so the two families define the same topology without
   being equal.
+- The projection replacement on the idempotent `e=[[1,a],[0,0]]` of
+  `M₂(𝒜_θ)`, a≠0: `(e−e*)*(e−e*)=diag(aa*,a*a)` and `ee*=diag(1+aa*,0)`,
+  so `z=diag(1+aa*,1+a*a)` and p=diag(1,0), with ep=p, pe=e and
+  `τ(Tr e)=τ(1)=1=τ(Tr p)`; for a=U₁, z=2. The self-adjoint part
+  `(e+e*)/2` is not idempotent (at a=1 its square is
+  `[[5/4,1/2],[1/2,1/4]]`), and at a=1 the element ee*=diag(2,0) is not
+  a projection, so neither replaces e.
 
 Compute continuous periodic cyclic cohomology for all θ:
 `HP^even(𝒜_θ)≃ℂ²` with classes Sτ,φ, and
@@ -1185,7 +1235,8 @@ The multiplier witness `U₂U₁=exp(2πiθ)U₁U₂` at `(m,n)=(0,1)`,
 `(m′,n′)=(1,0)`; the trace at θ=1/2 with both products equal to −1 on
 `U₁U₂·U₁⁻¹U₂⁻¹`; the seminorm witness `1+U₁` at θ=0 with `Q₀=1`, `P₀=2`;
 the torus character φ as `(2πi)⁻¹` times the pinned trace–derivation
-2-cocycle of τ, δ₁, δ₂.
+2-cocycle of τ, δ₁, δ₂; the idempotent `[[1,a],[0,0]]` replaced by the
+projection diag(1,0), both of trace 1.
 
 ### Dependencies
 
@@ -1241,13 +1292,17 @@ pairing and with the curvature trace, giving φ(generator)=1 and
 second Clifford generator reverses the orientation.
 
 Conclude that the joint trace/Chern map
-`[e]↦(τ(Tr e),⟨[e],[φ]⟩)` on the pinned K₀ of finitely generated
-projective 𝒜_θ-modules is a homomorphism to ℝ×ℤ, its second coordinate
-an integer on every class because the periodic character of the Fourier
-triple is the class of φ, by its values on [1] and on the Heisenberg
-module in N6's basis, and pairs by N3's index theorem; that it takes
-`[1]↦(1,0)` and the Heisenberg module to `(θ,1)`; and that its image
-contains the lattice `{(m+nθ,n):m,n∈ℤ}`. Compute the odd
+`[e]↦(τ(Tr e),⟨[e],[φ]⟩)`, given on idempotents e∈M_n(𝒜_θ) and
+descending through the pinned `evenPairingK0` to the pinned K₀ of
+finitely generated projective 𝒜_θ-modules, is a homomorphism to ℝ×ℤ.
+Its first coordinate is real on every idempotent by N6's projection
+replacement, `τ(Tr e)=τ(Tr p)`. Its second coordinate is an integer on
+every class, with no replacement of e by a projection: the periodic
+character of the Fourier triple is the class of φ, by its values on [1]
+and on the Heisenberg module in N6's basis, and N3's index theorem
+evaluates its pairing with every idempotent as a Fredholm index. Prove
+that the map takes `[1]↦(1,0)` and the Heisenberg module to `(θ,1)`, and
+that its image contains the lattice `{(m+nθ,n):m,n∈ℤ}`. Compute the odd
 cyclic pairings on U₁,U₂ with N2's constants: the rescaled classes
 `ν_j=((1+i)sqrt(π)/(2πi))φ_j` pair as `ν_j(U_k)=δ_jk`.
 Construct the two odd Fredholm modules on ℓ²(ℤ): write Se_k=e_(k+1),
@@ -1319,7 +1374,7 @@ module with curvature `2πi/θ` and chiral index +1; the two odd modules on
 
 ### Dependencies
 
-*Needs:* N3–N6; Mathlib `PositiveLinearMap.GNS`, `gnsStarAlgHom` and `CStarModule`.
+*Needs:* N2–N6; Tau Ceti `ExactK0`, `evenPairingK0`, `AlgebraicK1` and `AlgebraicK1.oddPairing`, and the Fredholm perturbation theorems of the Tau Ceti contract; Mathlib `PositiveLinearMap.GNS`, `gnsStarAlgHom`, `CStarModule` and `LinearMap.index`.
 
 ## Downstream consumers
 
@@ -1332,14 +1387,17 @@ module with curvature `2πi/θ` and chiral index +1; the two odd modules on
   RefinedTraceMethods consume N1's completed tensors and cyclic complexes.
 - SpectralManifolds consumes N1–N2 and N4–N5; CompactQuantumMetricSpaces
   consumes N6's smooth two-torus; HilbertModules/HeisenbergImprimitivity
-  consumes N6–N7's torus connections and Heisenberg modules.
-- OperatorKTheory compares its C*-K-groups, Bott generator, Kasparov
-  cycles, products and index pairings with N2's pairings and smooth Bott
-  class, with N3's Fredholm modules, index pairing and two product
-  reductions, and with N6–N7's rotation algebra, Heisenberg module and
-  K₀ classes; its Pimsner–Voiculescu computation of `K_*(A_θ)` and of
-  the trace range `ℤ+θℤ` is its own, with N7's Heisenberg module as the
-  second generator.
+  consumes N6's rotation algebra A_θ with its trace and N6–N7's torus
+  connections and Heisenberg modules.
+- OperatorKTheory consumes N6's rotation C*-algebra A_θ, its universal
+  presentation, the injectivity of its coordinate copy of C(𝕋) and its
+  faithful trace τ; its Pimsner–Voiculescu computation of `K_*(A_θ)`,
+  its Powers–Rieffel generator built from continuous circle functions
+  and the trace range `ℤ+θℤ` are its own.
+  It compares its C*-K-groups, Bott generator, Kasparov cycles, products
+  and index pairings with N2's pairings and smooth Bott class, with N3's
+  Fredholm modules, index pairing and two product reductions, and with
+  N7's Heisenberg module and K₀ classes.
 - NoncommutativeIntegration §1.5 identifies its tracial Lp(B(H),Tr) with
   OperatorIdeals' Schatten classes for 1≤p<∞ and with N3's quasi-ideals
   S_p for 0<p<1; that identification is its comparison with N3, and its
@@ -1366,7 +1424,10 @@ module with curvature `2πi/θ` and chiral index +1; the two odd modules on
   cited for comparison only. IV Appendix C: the partial-sum norms of
   `L^(p,∞)` and `L^(1,∞)`, p. 453.
 - Connes, [*Non-commutative differential geometry*](http://www.numdam.org/item/PMIHES_1985__62__41_0/),
-  Publ. Math. IHÉS 62 (1985), 41–144. Part II, Corollary 24, p. 113:
+  Publ. Math. IHÉS 62 (1985), 41–144. Part I, Appendix 2, Proposition 5,
+  p. 91: the index map of a Fredholm module on K₀, evaluated on every
+  idempotent matrix by the compression of F between the ranges of the
+  idempotent. Part II, Corollary 24, p. 113:
   cyclic cohomology is invariant under Morita equivalence of unital
   algebras through a bimodule finite projective on both sides; matrix
   Morita invariance is the case of `A^ι`.
@@ -1392,11 +1453,11 @@ module with curvature `2πi/θ` and chiral index +1; the two odd modules on
   `RingTheory/CyclicCohomology`, `NoncommutativeGeometry/UniversalDifferential`,
   `NoncommutativeGeometry/SmoothTorus`, `Analysis/OperatorIdeal/Family`,
   `Analysis/Normed/Order/GeneralizedLimit`,
-  `Analysis/InnerProductSpace/LinearPMap` and
-  `Analysis/Normed/Module/PiTensorProduct` modules are the suppliers
-  named in the Tau Ceti contract. Its
+  `Analysis/InnerProductSpace/LinearPMap`,
+  `Analysis/Normed/Module/PiTensorProduct` and
   `Analysis/Fredholm/{SmallPerturbation,CompactPerturbation,ContinuousFamily}`
-  modules are suppliers, not private substitutes. Mathlib's `ContinuousLinearMap.IsFredholm`,
+  modules are the suppliers named in the Tau Ceti contract. Mathlib's
+  `ContinuousLinearMap.IsFredholm`,
   `ContinuousLinearMap.FredholmPackage` and `IsFredholm.index_comp` in
   `Mathlib/Analysis/Normed/Operator/Fredholm/Basic.lean` fix the native
   operator/index interface.

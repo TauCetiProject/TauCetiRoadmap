@@ -27,16 +27,20 @@ Headline theorems of the README that are not statable at the pins:
   trace-free part of an operator), hence the conditional trace `Tr′` and the character; it also
   lacks the Schatten quasi-ideals for `0 < p < 1`;
 * the Hochschild-class theorem of N5 lacks the Borel functional calculus `|D|⁻ⁿ` of a
-  self-adjoint operator with compact resolvent, the spectral-triple carrier and N3's
-  character; the logarithmic ideal and the Dixmier traces are at the pin;
+  self-adjoint operator with compact resolvent, the spectral-triple carrier, N3's
+  character and the complex-linear Dixmier trace on `L^(1,∞)`, which the Hochschild cocycle
+  evaluates on non-positive operators; the pin has the logarithmic ideal and the real-valued
+  `dixmierTrace`, which is Dixmier's trace on positive operators and `Tr_ω(|T|)` on a general
+  operator `T`;
 * the periodic cyclic cohomology `HP^even(𝒜_θ) ≃ ℂ²` of N6 lacks the Fréchet topology and the
   derivations of the smooth torus `SmoothNoncommutativeTorus` and a continuous periodic cyclic
   cohomology; the pin has the algebraic periodic theory and continuous cyclic cohomology in
   each fixed degree;
 * the Hochschild computation for Diophantine θ in N6 lacks continuous Hochschild cohomology
   with coefficients in the continuous dual of the smooth torus;
-* the Heisenberg-module index and the K₀ range computation of N7 lack the Heisenberg module
-  and its Hilbert-module completions over the rotation algebra.
+* the Heisenberg-module index and the trace/Chern values `(θ, 1)` of N7 lack the Heisenberg
+  module with its Hilbert-module completions over the rotation algebra, and the derivations of
+  `SmoothNoncommutativeTorus` that define the torus cocycle φ.
 -/
 
 namespace TauCetiRoadmap.NoncommutativeGeometry
