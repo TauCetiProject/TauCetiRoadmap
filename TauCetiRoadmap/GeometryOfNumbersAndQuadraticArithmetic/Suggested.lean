@@ -1,8 +1,10 @@
 module
 
 public import Mathlib
+public import TauCeti.Algebra.Module.ZLattice.RealModel
 public import TauCeti.Algebra.Module.ZLattice.SuccessiveMinima
 public import TauCeti.Geometry.RealAlgebraic.Semialgebraic.Basic
+public import TauCeti.LinearAlgebra.IntegralLattice.PosDef.SuccessiveMinima
 public import TauCeti.NumberTheory.HurwitzClassNumber
 public import TauCeti.RepresentationTheory.Continuous.Unitary.Basic
 
@@ -13,23 +15,22 @@ public import TauCeti.RepresentationTheory.Continuous.Unitary.Basic
 states the roadmap's headline theorems against the pinned Mathlib and Tau Ceti; discharging them
 finishes neither a layer nor the roadmap. Each theorem is a proof target marked with `sorry`.
 
-The statements cover the intrinsic covolume identities (Layer 0), atomic normal forms over DVRs
-of any characteristic (Layer 2), finite hermitian embedding counts (Layer 3), Davenport's multiset
-estimate, Howe–Moore and Moore ergodicity, Ratner's three theorems, Oppenheim, Duke, Gauss's
-three-square formula, Siegel's three-square lower bound, Mahler compactness and critical-lattice
-existence, Dani–Margulis nondivergence, Siegel's mean value theorem, Henk's lattice-point bound,
-Banaszczyk's transference bound and the covering transference bound (Layer 4), and the LLL
-short-vector approximation factor (Layer 5). The definitions below specify only reducedness,
-finite counts, bounded-format multiplicities, shells, the Euclidean unit ball as a convex body,
-the covering radius, strong continuity, star bodies and lattice transforms used in these
-statements. All have real bodies on native carriers; the successive minima, semialgebraicity,
-unitarity and Hurwitz class numbers use Tau Ceti.
+The statements cover the intrinsic covolume identities (Layer 0), the comparison of the real
+successive minima of the real model with the squared-norm successive minima of a positive definite
+integral lattice (Layer 1), atomic normal forms over DVRs of any characteristic (Layer 2), finite
+hermitian embedding counts (Layer 3), Henk's lattice-point bound, Davenport's multiset estimate,
+Howe–Moore and Moore ergodicity, Ratner's three theorems, Oppenheim, Duke, Gauss's three-square
+formula, Siegel's three-square lower bound, Mahler compactness and critical-lattice existence,
+Dani–Margulis nondivergence, Siegel's mean value theorem, Banaszczyk's transference bound and the
+covering transference bound (Layer 4), and the LLL short-vector approximation factor (Layer 5).
+The definitions below specify only the Euclidean unit ball as a convex body, finite counts,
+bounded-format multiplicities, strong continuity, shells, the covering radius, star bodies,
+lattice transforms and reducedness used in these statements. All have real bodies on native
+carriers; the real model, both kinds of successive minima, semialgebraicity, unitarity and Hurwitz
+class numbers use Tau Ceti.
 
 The upper half of Minkowski's second theorem is Tau Ceti's
 `ZLattice.prod_successiveMin_mul_measure_le_two_pow_mul_covolume`, so it is not restated here.
-The comparison of the real successive minima with the squared-norm minima of IntegralLattices
-§2F (§1.2.14) is stated through the real model `realModel` of a positive definite integral
-lattice, which ThetaSeries 2D supplies and the pins do not; it is a README target.
 
 The Cho–Yamauchi formula and Siegel-polynomial functional equation (§3.2) are not statable at
 the pins, which do not provide the local hermitian density, normalized Siegel polynomial or
@@ -56,26 +57,7 @@ open MeasureTheory Module
 
 namespace TauCetiRoadmap.GeometryOfNumbersAndQuadraticArithmetic
 
-section ReductionConvention
-variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E] {n : ℕ}
-
-/-- The Gram–Schmidt coefficient `μ_{ij} = ⟨b_i, b*_j⟩/‖b*_j‖²` (5.1.1). -/
-def lllCoefficient (b : Fin n → E) (i j : Fin n) : ℝ :=
-  inner ℝ (b i) (InnerProductSpace.gramSchmidt ℝ b j) /
-    ‖InnerProductSpace.gramSchmidt ℝ b j‖ ^ 2
-
-/-- LLL-reduced at `δ = 3/4` (5.1.2): independent, size-reduced, and Lovász. -/
-def IsLLLReduced (b : Fin n → E) : Prop :=
-  LinearIndependent ℝ b ∧
-  (∀ i j, j < i → |lllCoefficient b i j| ≤ 1/2) ∧
-  (∀ i j, j.val + 1 = i.val →
-    (3/4 - (lllCoefficient b i j) ^ 2) * ‖InnerProductSpace.gramSchmidt ℝ b j‖ ^ 2 ≤
-      ‖InnerProductSpace.gramSchmidt ℝ b i‖ ^ 2)
-
-end ReductionConvention
-
-/-- The integer points of the sphere `x² + y² + z² = n`. -/
-def ternaryShell (n : ℕ) : Set (Fin 3 → ℤ) := {v | ∑ i, v i ^ 2 = (n : ℤ)}
+/-! ## Layer 0: Lattices, Gram determinants and covolumes -/
 
 section Covolumes
 variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E]
@@ -100,6 +82,30 @@ theorem primitive_orthogonal_covolume
       ZLattice.covolume (ZLattice.comap ℝ Δ W.subtype) := by sorry
 
 end Covolumes
+
+/-! ## Layer 1: Elementary volume bounds and squared-norm minima -/
+
+/-- The closed Euclidean unit ball, as a convex body (1.2.14, 4.4.13). -/
+def euclideanUnitBall {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E]
+    [FiniteDimensional ℝ E] : ConvexBody E where
+  carrier := Metric.closedBall 0 1
+  convex' := convex_closedBall 0 1
+  isCompact' := isCompact_closedBall 0 1
+  nonempty' := ⟨0, Metric.mem_closedBall_self zero_le_one⟩
+
+/-- **Squared-norm and real successive minima** (1.2.14): for a positive definite integral
+lattice `L` in a rational vector space, the `(i+1)`-st squared-norm successive minimum, a natural
+number, is the square of the `(i+1)`-st successive minimum of its real model for the closed unit
+ball. The index is transported along `rank L = dim_ℝ` of the real model space. -/
+theorem sqSuccessiveMin_eq_sq_successiveMin {V : Type*} [AddCommGroup V] [Module ℚ V]
+    (L : TauCeti.IntegralLattice V) (hL : L.IsPosDef) (i : Fin (finrank ℤ L)) :
+    ((L.successiveMinimum i : ℕ) : ℝ) =
+      ZLattice.successiveMin (L.realModel hL) euclideanUnitBall
+        (Fin.cast (TauCeti.IntegralLattice.RealModelSpace.finrank_eq (M := L) (hM := hL)).symm
+          i) ^ 2 := by
+  sorry
+
+/-! ## Layer 2: Integral quadratic and hermitian lattices -/
 
 section AtomicDVRForms
 variable {R : Type*} [CommRing R] [IsDomain R] [IsDiscreteValuationRing R] {n : ℕ}
@@ -129,6 +135,8 @@ theorem atomic_normal_form {M : Type*} [AddCommGroup M] [Module R M]
 
 end AtomicDVRForms
 
+/-! ## Layer 3: Representation densities, mass and theta coefficients -/
+
 section FiniteHermitianCounts
 variable {A : Type*} [CommRing A] [StarRing A] {m n : ℕ}
 
@@ -152,6 +160,8 @@ theorem finite_hermitian_isometry_formula {F : Type*} [Field F] [StarRing F]
         (1 - (-(q : ℚ)) ^ ((i : ℤ) - (m : ℤ))) := by sorry
 
 end FiniteHermitianCounts
+
+/-! ## Layer 4: Lattice points, star bodies and homogeneous dynamics -/
 
 /-- **Henk's lattice-point bound** (4.1.12): for a discrete full lattice `L` in a real normed space
 of dimension `d ≥ 2` and a centrally symmetric convex body `K` with `0` in its interior,
@@ -226,7 +236,6 @@ variable {E G H : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
 
 include hdim hmanifold hconn hcenter hsimple
 
-open TauCeti in
 /-- **Howe–Moore** (4.2.1): coefficients of a strongly continuous unitary representation of
 a connected noncompact simple real Lie group with finite centre vanish at infinity when
 there are no nonzero invariant vectors. No separability hypothesis on the Hilbert space is
@@ -322,6 +331,9 @@ theorem oppenheim_values {n : ℕ} (hn : 3 ≤ n) (q : QuadraticForm ℝ (Fin n 
 
 end Oppenheim
 
+/-- The integer points of the sphere `x² + y² + z² = n`. -/
+def ternaryShell (n : ℕ) : Set (Fin 3 → ℤ) := {v | ∑ i, v i ^ 2 = (n : ℤ)}
+
 /-- **Duke's equidistribution theorem** (4.3.2): normalized shell averages converge to the
 normalized rotation-invariant surface integral along admissible squarefree radii. -/
 theorem duke_sphere_equidistribution
@@ -349,13 +361,6 @@ theorem siegel_three_square_lower_bound (ε : ℝ) (hε : 0 < ε) :
 
 section Transference
 variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E] [FiniteDimensional ℝ E]
-
-/-- The closed Euclidean unit ball, as a convex body (4.4.13). -/
-def euclideanUnitBall : ConvexBody E where
-  carrier := Metric.closedBall 0 1
-  convex' := convex_closedBall 0 1
-  isCompact' := isCompact_closedBall 0 1
-  nonempty' := ⟨0, Metric.mem_closedBall_self zero_le_one⟩
 
 /-- The covering radius `μ(L) = sup_x inf_{v ∈ L} ‖x - v‖` (4.4.2), with values in `[0, ∞]`; for a
 discrete `L` it is finite exactly when `L` spans `E`. -/
@@ -500,8 +505,23 @@ theorem siegel_mean_value_nonneg (hn : 2 ≤ n)
 
 end UnimodularLattices
 
-section LLLApproximation
+/-! ## Layer 5: LLL-reduced bases -/
+
+section LLL
 variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E] {n : ℕ}
+
+/-- The Gram–Schmidt coefficient `μ_{ij} = ⟨b_i, b*_j⟩/‖b*_j‖²` (5.1.1). -/
+def lllCoefficient (b : Fin n → E) (i j : Fin n) : ℝ :=
+  inner ℝ (b i) (InnerProductSpace.gramSchmidt ℝ b j) /
+    ‖InnerProductSpace.gramSchmidt ℝ b j‖ ^ 2
+
+/-- LLL-reduced at `δ = 3/4` (5.1.2): independent, size-reduced, and Lovász. -/
+def IsLLLReduced (b : Fin n → E) : Prop :=
+  LinearIndependent ℝ b ∧
+  (∀ i j, j < i → |lllCoefficient b i j| ≤ 1/2) ∧
+  (∀ i j, j.val + 1 = i.val →
+    (3/4 - (lllCoefficient b i j) ^ 2) * ‖InnerProductSpace.gramSchmidt ℝ b j‖ ^ 2 ≤
+      ‖InnerProductSpace.gramSchmidt ℝ b i‖ ^ 2)
 
 /-- **The LLL approximation factor** (5.1.4): `‖b₀‖² ≤ 2^{n-1} ‖x‖²` for nonzero `x` in the
 integer span. -/
@@ -509,6 +529,6 @@ theorem lll_short_vector_factor (b : Fin n → E) (h : IsLLLReduced b) (hn : 0 <
     (x : E) (hx : x ∈ Submodule.span ℤ (Set.range b)) (h0 : x ≠ 0) :
     ‖b ⟨0, hn⟩‖ ^ 2 ≤ (2 : ℝ) ^ (n - 1) * ‖x‖ ^ 2 := by sorry
 
-end LLLApproximation
+end LLL
 
 end TauCetiRoadmap.GeometryOfNumbersAndQuadraticArithmetic
