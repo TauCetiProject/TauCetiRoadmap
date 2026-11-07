@@ -1,12 +1,13 @@
+module
+
 import Mathlib
 
 /-!
-# Arakelov geometry and heights of abelian varieties: headline targets
+# Arakelov geometry and heights of abelian varieties: target signatures
 
-**This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`; proving the statements in this file would finish neither a layer nor the roadmap.
-
-No headline theorem can be stated against the pinned Mathlib and Tau Ceti interfaces:
+The roadmap is `README.md`; this file is not the roadmap. It is meant to state the roadmap's
+headline theorems against the pinned Mathlib and Tau Ceti, each with `sorry`, but no headline
+theorem can be stated against the pinned interfaces:
 
 * Layer 1's arithmetic divisor–hermitian Picard comparison, arithmetic cycle pairing and ample
   Northcott theorem require arithmetic hermitian bundles, Green functions and metrized

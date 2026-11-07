@@ -8,7 +8,7 @@ This roadmap owns hermitian metrics on arithmetic bundles and their degree, the 
 
 Ordinary finite locally free bundles, symmetric and exterior powers and their determinant belong to **AlgebraicVectorBundles**, Layers L0B–L0C, including `FiniteLocallyFreeSheaf` and `determinantObj`; this roadmap equips these objects with hermitian metrics. Tau Ceti’s `ZLattice.covolume_sq_eq_det_gram` supplies the generic Gram-determinant calculation, while **DifferentialGeometry**, Layers 0–2 and §5.2, supplies differential forms, wedge products, orientation and integration. The complex period specialization and its arithmetic normalization are the work here.
 
-The unmetrized Hodge bundle `e^*Ω¹` and its determinant are the interface of **AbelianSchemesAndArithmeticModuli** §§A1.3 and A6.38, and **NeronModelsAndSemistableAbelianVarieties** §1.11. The exact supplier contracts below record the imported interface and its checks. Abelian varieties, duals, polarizations, theta groups and their algebraic section spaces belong to abelian schemes; Néron models, semistability and their lattice comparison belong to Néron models. **PELModuli** §§M3.9 and M6.3–M6.10 supplies the moduli spaces and their Hodge line. The principal Siegel compactifications over `Spec ℤ` and their descended ample powers are targets of §5.0; general PEL toroidal and minimal compactifications belong to **ShimuraCompactifications**, which consumes the level-one principal Siegel case stated in §5; nothing here depends on it.0. The metric and exact height identity are targets of §§5.3–5.5. Section 2.0 gives the semi-abelian family and extension interface used by these targets.
+The unmetrized Hodge bundle `e^*Ω¹` and its determinant are the interface of **AbelianSchemesAndArithmeticModuli** §§A1.3 and A6.38, and **NeronModelsAndSemistableAbelianVarieties** §1.11. The exact supplier contracts below record the imported interface and its checks. Abelian varieties, duals, polarizations, theta groups and their algebraic section spaces belong to abelian schemes; Néron models, semistability and their lattice comparison belong to Néron models. **PELModuli** §§M3.9 and M6.3–M6.10 supplies the moduli spaces and their Hodge line. The principal Siegel compactifications over `Spec ℤ` and their descended ample powers are targets of §§5.0a–5.0b. General PEL toroidal and minimal compactifications are outside this roadmap: ShimuraCompactifications, a consumer, owns them and imports the level-one principal Siegel case of §§5.0a–5.0b. The metric and exact height identity are targets of §§5.3–5.5. Section 2.0 gives the semi-abelian family and extension interface used by these targets.
 
 **ArithmeticGaloisDuality** §D7.6 supplies local Tate duality for abelian varieties and the duality of isogeny sequences. Section 4.3 uses that pairing for its Kummer corollary and proves the Néron `Lie`-filtration asymptotics and dual-different identity.
 
@@ -79,7 +79,7 @@ These contracts use relative-height scaling and absolute-height invariance as di
 
 - The tuple `(1,2)` has relative multiplicative height 2 over `ℚ` and 4 over `ℚ(i)`, while its absolute multiplicative height is 2 in both fields.
 - The tuple `(√2,1)` has relative multiplicative height 2 over `ℚ(√2)` and 4 over `ℚ(√2,i)`; both degree roots give absolute height `√2`.
-- The zero tuple has relative and absolute multiplicative height 1 over every number field; it does not define a projective point or an `ArakelovDivisor.ofTuple`.
+- The zero tuple has relative and absolute multiplicative height 1 over every number field; it does not define a projective point or the Arakelov divisor `D_x` of §1.14.
 
 ### From abelian schemes and Néron models
 
@@ -121,11 +121,11 @@ The source identifications are [Faltings, Endlichkeitssätze](https://gdz.sub.un
 
 **Checks.**
 
-- `GroupScheme.hodgeLine_Gm`: For `𝔾_m` over `ℤ, ω̄ = ℤ·dt/t`.
-- `GroupScheme.hodgeLine_pushforward_nonexample`: For `𝔾_m, p_*Ω¹` is free of infinite rank, so it is not the Hodge line: (d) needs properness.
-- `GroupScheme.hodgeLine_trivial_group`: For `g = 0 (G = S)` the Hodge line is `O_S`.
-- `GroupScheme.hodgeLine_multiplication`: For an abelian scheme of relative dimension `g` and `n ∈ ℤ, [n]^*` acts on `ω̄_G` by `n^g`.
-- `GroupScheme.hodgeLine_disconnected_proper_nonexample`: The constant group `ℤ/2` over `S` is proper and smooth of dimension zero, but `p_*Ω⁰=O_S⊕O_S` while the Hodge line at the unit is `O_S`. Properness without geometrically connected fibres does not imply the abelian-scheme pushforward identity.
+- For `𝔾_m` over `ℤ, ω̄ = ℤ·dt/t`.
+- For `𝔾_m, p_*Ω¹` is free of infinite rank, so it is not the Hodge line: (d) needs properness.
+- For `g = 0 (G = S)` the Hodge line is `O_S`.
+- For an abelian scheme of relative dimension `g` and `n ∈ ℤ, [n]^*` acts on `ω̄_G` by `n^g`.
+- The constant group `ℤ/2` over `S` is proper and smooth of dimension zero, but `p_*Ω⁰=O_S⊕O_S` while the Hodge line at the unit is `O_S`. Properness without geometrically connected fibres does not imply the abelian-scheme pushforward identity.
 - For `G = 𝔾_m` over `Spec ℤ, ω̄_G = ℤ·dt/t`; `p_*Ω¹ = ℤ[t, t^{-1}]·dt/t` is not of rank one, which is why (d) needs properness.
 
 ### From finite flat groups and local arithmetic duality
@@ -142,11 +142,11 @@ The source identifications are [Faltings, Endlichkeitssätze](https://gdz.sub.un
 
 **PELModuli** §§M3.9 and M5.2 supplies Siegel uniformization and fine level spaces. Sections M6.3, M6.5–M6.6 and M6.8–M6.10 supplies `siegelStack` over `ℤ`, `coarseModuli`, `fieldOfModuli`, `boundedFieldOfDefinition`, `PELModuli.hodgeLine` and `PELModuli.hodgeLine_classify`. In particular a polarized object of dimension `g` has a model over an extension of its field of moduli of degree at most `2·3^(4g²)`.
 
-The level-one principal Siegel compactifications are constructed in §5.0 over all of `Spec ℤ`: a toroidal stack with universal semi-abelian `G`, a normal projective coarse minimal scheme `A_g^*`, and `m ≥ 1` with an ample `L` on `A_g^*` and `π^*L ≅ ω_G^m`, compatible with cone refinements. The exponent kills stabilizers. The fine level-`n` minimal spaces over `ℤ[1/n]` map finitely to `A_g^*⊗ℤ[1/n]`. Valuative stack lifts allow finite extensions, which preserve normalized heights. Compactifications over `ℤ[1/n]` alone do not determine the omitted finite-place terms of the level-one height.
+The level-one principal Siegel compactifications are constructed in §§5.0a–5.0b over all of `Spec ℤ`: a toroidal stack with universal semi-abelian `G`, a normal projective coarse minimal scheme `A_g^*`, and `m ≥ 1` with an ample `L` on `A_g^*` and `π^*L ≅ ω_G^m`, compatible with cone refinements. The exponent kills stabilizers. The fine level-`n` minimal spaces over `ℤ[1/n]` map finitely to `A_g^*⊗ℤ[1/n]`. Valuative stack lifts allow finite extensions, which preserve normalized heights. Compactifications over `ℤ[1/n]` alone do not determine the omitted finite-place terms of the level-one height.
 
 ## How to read the build
 
-Layer 1 gives the arithmetic degree and point-height interface, with the projective calculation of §1.14 used in the height-class theorem of §1.13; Layer 2 supplies the semi-abelian family extension theorem and equips the supplied Hodge lines with metrics and proves semistable duality. Layer 3 defines relative and stable heights and their base-change correction. Layer 4 proves isogeny identities, including the squared dual-line comparison for arbitrary reduction, and then component heights. Layer 5 constructs the integral principal Siegel compactifications and compares stable height with an ample moduli height and with theta and `j`-heights. Layer 6 applies Zarhin’s trick and the field-degree bounds to finiteness and uniform lower bounds. Each numbered topic states its hypotheses, the required interface, proof route, sources and discriminating checks. This README is the full specification. Lean names in the numbered sections specify the intended library interface, and Checks specify mathematical tests. `Suggested.lean` records headline theorems expressible against the pinned Mathlib and Tau Ceti interfaces. It contains no theorem statements: arithmetic hermitian bundles, metrized Néron Hodge lines, Faltings heights, integral Siegel compactifications and theta-height constructions are needed to express the headline results.
+Layer 1 gives the arithmetic degree and point-height interface, with the projective calculation of §1.14 used in the height-class theorem of §1.13; Layer 2 supplies the semi-abelian family extension theorem and equips the supplied Hodge lines with metrics and proves semistable duality. Layer 3 defines relative and stable heights and their base-change correction. Layer 4 proves isogeny identities, including the squared dual-line comparison for arbitrary reduction, and then component heights. Layer 5 constructs the integral principal Siegel compactifications and compares stable height with an ample moduli height and with theta and `j`-heights. Layer 6 applies Zarhin’s trick and the field-degree bounds to finiteness and uniform lower bounds. Each numbered topic states its hypotheses, the required interface, proof route, sources and discriminating checks. This README is the full specification. `Suggested.lean` is meant to state the headline theorems against the pinned Mathlib and Tau Ceti interfaces; it states none, because arithmetic hermitian bundles, metrized Néron Hodge lines, Faltings heights, integral Siegel compactifications and theta-height constructions are needed to express them.
 
 ## Layer 1: Hermitian bundles, arithmetic divisors and heights
 
@@ -160,16 +160,16 @@ Let `K` be a number field with ring of integers `O_K` and let `Σ_K` be the set 
 
 Provide the following maps and identities.
 
-- `HermitianBundle.module`: The underlying finitely generated projective `O_K`-module `E`.
-- `HermitianBundle.inner`: For `σ ∈ Σ_K`, the positive definite hermitian form `h_σ` on `E ⊗_{O_K,σ} ℂ`.
-- `HermitianBundle.inner_conj`: `h_{σ̄}(x ⊗ 1, y ⊗ 1) = conj h_σ(x ⊗ 1, y ⊗ 1)` for `x, y ∈ E`.
-- `HermitianBundle.rank`: `rank Ē = finrank_K (E ⊗ K)`.
-- `HermitianBundle.trivial`: `Ō_K = (O_K, |·|)` with `h_σ(1, 1) = 1` for every `σ`.
-- `HermitianBundle.ofFractionalIdeal`: For a nonzero fractional ideal `𝔞 ⊂ K` and real numbers `(λ_v)` indexed by infinite places, the line bundle `𝔞` with `‖x‖_σ = e^{−λ_v}|σ(x)|` for `σ` inducing `v`.
-- `HermitianBundle.Isometry.ext`: Two isometries with equal underlying `O_K`-linear maps are equal.
-- `HermitianBundle.rescale`: For `c ∈ ℝ, Ē(c)` has the same module and metrics `e^{−c}‖·‖_σ` at every `σ`.
-- `HermitianBundle.normAt`: For a rank-one bundle and an infinite place `v` of `K` (Mathlib's InfinitePlace), the norm `‖·‖_v` on `E ⊗ K_v` induced by any `σ` inducing `v`; it is independent of `σ` by the conjugation condition.
-- `PicHat`: `Pic^(O_K)`: isometry classes of hermitian line bundles, an abelian group under `⊗` with inverse the dual and identity `Ō_K`.
+- The underlying finitely generated projective `O_K`-module `E`.
+- For `σ ∈ Σ_K`, the positive definite hermitian form `h_σ` on `E ⊗_{O_K,σ} ℂ`.
+- `h_{σ̄}(x ⊗ 1, y ⊗ 1) = conj h_σ(x ⊗ 1, y ⊗ 1)` for `x, y ∈ E`.
+- `rank Ē = finrank_K (E ⊗ K)`.
+- `Ō_K = (O_K, |·|)` with `h_σ(1, 1) = 1` for every `σ`.
+- For a nonzero fractional ideal `𝔞 ⊂ K` and real numbers `(λ_v)` indexed by infinite places, the line bundle `𝔞` with `‖x‖_σ = e^{−λ_v}|σ(x)|` for `σ` inducing `v`.
+- Two isometries with equal underlying `O_K`-linear maps are equal.
+- For `c ∈ ℝ, Ē(c)` has the same module and metrics `e^{−c}‖·‖_σ` at every `σ`.
+- For a rank-one bundle and an infinite place `v` of `K` (Mathlib's InfinitePlace), the norm `‖·‖_v` on `E ⊗ K_v` induced by any `σ` inducing `v`; it is independent of `σ` by the conjugation condition.
+- `Pic^(O_K)`: isometry classes of hermitian line bundles, an abelian group under `⊗` with inverse the dual and identity `Ō_K`.
 
 Define the structure from the module `E`, the family of inner products indexed by `Σ_K`, and the conjugation condition; for a rank-one bundle the data is equivalently one norm `‖·‖_v` on `E ⊗ K_v` for each infinite place `v` (Deligne §1.1, p. 26; Szpiro §1.2, p. 13), which is how Mathlib's InfinitePlace records places.
 
@@ -181,10 +181,10 @@ The source identifications are [Deligne](https://www.numdam.org/item/SB_1983-198
 
 **Checks.**
 
-- `HermitianBundle.trivial_rank`: `rank Ō_K = 1` and the rank of the zero module with the empty family of forms is 0.
-- `HermitianBundle.ofFractionalIdeal_one`: `ofFractionalIdeal (1)` with all `λ_v = 0` is isometric to `Ō_K`.
-- `HermitianBundle.conj_nonexample`: For `K = ℚ(i)` with embeddings `σ, σ̄`, the data `O_K` with `h_σ(1,1) = 1` and `h_{σ̄}(1,1) = 4` violates the conjugation condition, so it is not a hermitian line bundle, although each `h` is positive definite.
-- `HermitianBundle.rationals`: For `K = ℚ` every hermitian line bundle is isometric to `(ℤ, r·|·|)` for a unique real `r > 0`.
+- `rank Ō_K = 1` and the rank of the zero module with the empty family of forms is 0.
+- The line bundle of the unit ideal `(1)` with all `λ_v = 0` is isometric to `Ō_K`.
+- For `K = ℚ(i)` with embeddings `σ, σ̄`, the data `O_K` with `h_σ(1,1) = 1` and `h_{σ̄}(1,1) = 4` violates the conjugation condition, so it is not a hermitian line bundle, although each `h` is positive definite.
+- For `K = ℚ` every hermitian line bundle is isometric to `(ℤ, r·|·|)` for a unique real `r > 0`.
 - The trivial bundle `Ō_K = (O_K, |·|_σ)` is a hermitian line bundle; a fractional ideal `𝔞` with the restricted absolute values `|σ(x)|` is a hermitian line bundle; a hermitian line bundle whose metrics fail the conjugation condition is not an object of this definition.
 
 ### 1.2 Sums, tensor products, duals, determinants, sub-bundles and base change
@@ -195,16 +195,16 @@ For hermitian vector bundles `Ē, F̄` over `Spec O_K`: (i) `Ē ⊕ F̄` carries
 
 Provide the following maps and identities.
 
-- `HermitianBundle.sum`: `Ē ⊕ F̄` with the orthogonal sum metric.
-- `HermitianBundle.tensor`: `Ē ⊗ F̄` with the tensor product metric.
-- `HermitianBundle.dual`: `Ē^∨` with the dual metric.
-- `HermitianBundle.det`: `det Ē = Λ^{rank} Ē`, a hermitian line bundle.
-- `HermitianBundle.restrict`: For `F ⊂ E` saturated, `F̄` with the restricted metric.
-- `HermitianBundle.quotient`: For `F ⊂ E` saturated, `E/F` with the quotient metric.
-- `HermitianBundle.baseChange`: `Ē ↦ Ē_{O_L}` along `O_K → O_L`; `baseChange_id` and `baseChange_comp` hold up to canonical isometry.
-- `HermitianBundle.det_sum`: `det(Ē ⊕ F̄) ≅ det Ē ⊗ det F̄` isometrically.
-- `HermitianBundle.det_exact`: For `0 → F̄ → Ē → Q̄ → 0` with restricted and quotient metrics, `det Ē ≅ det F̄ ⊗ det Q̄` isometrically.
-- `HermitianBundle.dual_dual`: `Ē^∨∨ ≅ Ē` isometrically.
+- `Ē ⊕ F̄` with the orthogonal sum metric.
+- `Ē ⊗ F̄` with the tensor product metric.
+- `Ē^∨` with the dual metric.
+- `det Ē = Λ^{rank} Ē`, a hermitian line bundle.
+- For `F ⊂ E` saturated, `F̄` with the restricted metric.
+- For `F ⊂ E` saturated, `E/F` with the quotient metric.
+- `Ē ↦ Ē_{O_L}` along `O_K → O_L`; base change along the identity and along a composite `O_K → O_L → O_M` agree with the identity and with the iterated base change up to canonical isometry.
+- `det(Ē ⊕ F̄) ≅ det Ē ⊗ det F̄` isometrically.
+- For `0 → F̄ → Ē → Q̄ → 0` with restricted and quotient metrics, `det Ē ≅ det F̄ ⊗ det Q̄` isometrically.
+- `Ē^∨∨ ≅ Ē` isometrically.
 
 Form each module construction over `O_K` and the corresponding hermitian linear algebra fibrewise at each `σ`; the conjugation condition is preserved because every construction is natural.
 
@@ -218,10 +218,10 @@ The source identifications are [Deligne](https://www.numdam.org/item/SB_1983-198
 
 **Checks.**
 
-- `HermitianBundle.tensor_trivial`: `Ō_K ⊗ Ē ≅ Ē` isometrically.
-- `HermitianBundle.det_trivial_sum`: `det(Ō_K ⊕ Ō_K) ≅ Ō_K`, with `e₁ ∧ e₂` of norm one at every `σ`.
-- `HermitianBundle.quotient_metric_nonexample`: For `E = ℤ²` with the standard metric and `F = ℤ·(1,1)`, the quotient `E/F ≅ ℤ` with the quotient metric has `‖[e₁]‖ = 1/√2`, not 1: the quotient metric is not the metric of a chosen complement lattice.
-- `HermitianBundle.baseChange_rank`: `rank Ē_{O_L} = rank Ē` and `(det Ē)_{O_L} ≅ det(Ē_{O_L})`.
+- `Ō_K ⊗ Ē ≅ Ē` isometrically.
+- `det(Ō_K ⊕ Ō_K) ≅ Ō_K`, with `e₁ ∧ e₂` of norm one at every `σ`.
+- For `E = ℤ²` with the standard metric and `F = ℤ·(1,1)`, the quotient `E/F ≅ ℤ` with the quotient metric has `‖[e₁]‖ = 1/√2`, not 1: the quotient metric is not the metric of a chosen complement lattice.
+- `rank Ē_{O_L} = rank Ē` and `(det Ē)_{O_L} ≅ det(Ē_{O_L})`.
 - The identities are stated as isometries, not just module isomorphisms; `Ō_K ⊗ Ē ≅ Ē`; the dual of `Ō_K` is `Ō_K`.
 
 ### 1.3 The Arakelov degree of a hermitian bundle
@@ -232,15 +232,15 @@ For a hermitian line bundle `L̄` over `Spec O_K` and any nonzero `s ∈ L, deg^
 
 Provide the following maps and identities.
 
-- `HermitianBundle.arakelovDegree`: `deg^(L̄) = log #(L/O_K s) − Σ_σ log ‖s‖_σ` for any `s ≠ 0`; for higher rank through `det`.
-- `HermitianBundle.normalizedDegree`: `deg^_n(Ē) = deg^(Ē)/[K:ℚ]`.
-- `HermitianBundle.slope`: `μ^(Ē) = deg^(Ē)/rank Ē` for `Ē` of positive rank.
-- `HermitianBundle.arakelovDegree_eq_infinitePlace`: `deg^(L̄) = log #(L/O_K s) − Σ_v mult(v) log ‖s‖_v`, summing over InfinitePlace `K`.
-- `HermitianBundle.arakelovDegree_eq_fractionalIdeal`: For any nonzero `t ∈ L ⊗ K`, with `𝔟` the fractional ideal such that `L = 𝔟·t, deg^(L̄) = −log N(𝔟) − Σ_σ log ‖t‖_σ (N = FractionalIdeal.absNorm)`; for `t ∈ L` this is the defining formula, since then `N(𝔟)^{−1} = #(L/O_K t)`.
-- `HermitianBundle.arakelovDegree_trivial`: `deg^(Ō_K) = 0`.
-- `HermitianBundle.arakelovDegree_rescale`: `deg^(L̄(c)) = deg^(L̄) + [K:ℚ]·c` for the rescaling `‖·‖ ↦ e^{−c}‖·‖`. For a bundle of `rank r` the change is `r[K:ℚ]c`, because the determinant norm scales by `e^(−rc)`; for rank zero it is zero.
-- `HermitianBundle.arakelovDegree_ofFractionalIdeal`: `deg^(𝔞, e^{−λ_v}|·|_v) = −log N(𝔞) + Σ_v mult(v)·λ_v`.
-- `HermitianBundle.arakelovDegree_congr`: Isometric hermitian line bundles have equal degree.
+- `deg^(L̄) = log #(L/O_K s) − Σ_σ log ‖s‖_σ` for any `s ≠ 0`; for higher rank through `det`.
+- `deg^_n(Ē) = deg^(Ē)/[K:ℚ]`.
+- `μ^(Ē) = deg^(Ē)/rank Ē` for `Ē` of positive rank.
+- `deg^(L̄) = log #(L/O_K s) − Σ_v mult(v) log ‖s‖_v`, summing over InfinitePlace `K`.
+- For any nonzero `t ∈ L ⊗ K`, with `𝔟` the fractional ideal such that `L = 𝔟·t, deg^(L̄) = −log N(𝔟) − Σ_σ log ‖t‖_σ (N = FractionalIdeal.absNorm)`; for `t ∈ L` this is the defining formula, since then `N(𝔟)^{−1} = #(L/O_K t)`.
+- `deg^(Ō_K) = 0`.
+- `deg^(L̄(c)) = deg^(L̄) + [K:ℚ]·c` for the rescaling `‖·‖ ↦ e^{−c}‖·‖`. For a bundle of `rank r` the change is `r[K:ℚ]c`, because the determinant norm scales by `e^(−rc)`; for rank zero it is zero.
+- `deg^(𝔞, e^{−λ_v}|·|_v) = −log N(𝔞) + Σ_v mult(v)·λ_v`.
+- Isometric hermitian line bundles have equal degree.
 
 Define `deg^` with a chosen nonzero section; independence of the choice is §1.4, so `deg^` is a function on `Pic^(O_K)`.
 
@@ -252,14 +252,14 @@ The source identifications are [Deligne](https://www.numdam.org/item/SB_1983-198
 
 **Checks.**
 
-- `HermitianBundle.arakelovDegree_trivial`: `deg^(Ō_K) = 0`, using `s = 1`.
-- `HermitianBundle.arakelovDegree_ideal`: For `K = ℚ(i)` and `𝔞 = (1 + i)` with the standard metric, `deg^ = −log 2`.
-- `HermitianBundle.arakelovDegree_rat`: For `K = ℚ` and `(ℤ, r·|·|), deg^ = −log r`; Deligne's example `deg L = −½ log⟨e, e⟩`.
-- `HermitianBundle.arakelovDegree_weight_nonexample`: Summing `log ‖s‖` once per infinite place instead of once per embedding gives, for `K = ℚ(i), Ō_K` and `s = 2`, the value `log 4 − log 2 ≠ 0`, so the multiplicity `mult(v) = 2` at a complex place is forced.
-- `HermitianBundle.arakelovDegree_rescale_rank`: Rescaling the norm on `Ō_K⊕Ō_K` by `e^(−c)` adds `2[K:ℚ]c`, while the zero bundle stays of degree zero. This distinguishes bundle rescaling from line rescaling.
-- `HermitianBundle.normalizedDegree_gaussian`: For the Gaussian ideal `(1+i)` with its standard metric, the degree is `−log 2` and its normalized degree is `−½log 2`. Extending it to a quadratic extension doubles degree and leaves normalized degree unchanged.
-- `HermitianBundle.slope_sum`: For a rank-two orthogonal sum over `ℚ` with basis norms `e^(−a), e^(−b)`, degree is `a+b` and slope is `(a+b)/2`. Tensoring with a line of degree `c` changes slope by `c`, whereas duality changes its sign.
-- `HermitianBundle.slope_zero_nonexample`: The zero bundle has degree zero but no slope in the positive-rank interface. A total division in Lean must not erase this restriction.
+- `deg^(Ō_K) = 0`, using `s = 1`.
+- For `K = ℚ(i)` and `𝔞 = (1 + i)` with the standard metric, `deg^ = −log 2`.
+- For `K = ℚ` and `(ℤ, r·|·|), deg^ = −log r`; Deligne's example `deg L = −½ log⟨e, e⟩`.
+- Summing `log ‖s‖` once per infinite place instead of once per embedding gives, for `K = ℚ(i), Ō_K` and `s = 2`, the value `log 4 − log 2 ≠ 0`, so the multiplicity `mult(v) = 2` at a complex place is forced.
+- Rescaling the norm on `Ō_K⊕Ō_K` by `e^(−c)` adds `2[K:ℚ]c`, while the zero bundle stays of degree zero. This distinguishes bundle rescaling from line rescaling.
+- For the Gaussian ideal `(1+i)` with its standard metric, the degree is `−log 2` and its normalized degree is `−½log 2`. Extending it to a quadratic extension doubles degree and leaves normalized degree unchanged.
+- For a rank-two orthogonal sum over `ℚ` with basis norms `e^(−a), e^(−b)`, degree is `a+b` and slope is `(a+b)/2`. Tensoring with a line of degree `c` changes slope by `c`, whereas duality changes its sign.
+- The zero bundle has degree zero but no slope in the positive-rank interface. A total division in Lean must not erase this restriction.
 - `deg^(Ō_K) = 0`; `deg^` of a fractional ideal `𝔞` with the standard metric is `−log N(𝔞)`; multiplying every metric by `e^{−c}` adds `[K:ℚ]·c`.
 
 ### 1.4 Independence of the section: the product formula
@@ -292,9 +292,9 @@ The sub-bundle `F` is saturated in `E`. In the last statement `L` and `L′` are
 
 For tensor products use the section `s ⊗ s′`: the index is multiplicative, `#(L ⊗ M / O_K(s ⊗ s′)) = #(L/O_K s)·#(M/O_K s′)`, and norms multiply. Together with section independence from §1.4, this constructs the bundled homomorphism `deg^ : Pic^(O_K) →+ ℝ`.
 
-Dual: write `L = 𝔞·s` with `𝔞 ⊇ O_K` the fractional ideal determined by `s ∈ L`, so `log #(L/O_K s) = −log N(𝔞) (FractionalIdeal.absNorm)`. Then `L^∨ = 𝔞^{−1}·s^∨` with `s^∨(s) = 1` and `‖s^∨‖_σ = ‖s‖_σ^{−1}`; `s^∨` lies in `L^∨` only when `𝔞 = O_K`, so compute with the generic-section form of the degree (§1.3, `arakelovDegree_eq_fractionalIdeal`): `deg^(L̄^∨) = −log N(𝔞^{−1}) − Σ_σ log ‖s^∨‖_σ = log N(𝔞) + Σ_σ log ‖s‖_σ = −deg^(L̄)`.
+Dual: write `L = 𝔞·s` with `𝔞 ⊇ O_K` the fractional ideal determined by `s ∈ L`, so `log #(L/O_K s) = −log N(𝔞) (FractionalIdeal.absNorm)`. Then `L^∨ = 𝔞^{−1}·s^∨` with `s^∨(s) = 1` and `‖s^∨‖_σ = ‖s‖_σ^{−1}`; `s^∨` lies in `L^∨` only when `𝔞 = O_K`, so compute with the generic-section form of the degree (§1.3, the formula through a nonzero `t ∈ L ⊗ K`): `deg^(L̄^∨) = −log N(𝔞^{−1}) − Σ_σ log ‖s^∨‖_σ = log N(𝔞) + Σ_σ log ‖s‖_σ = −deg^(L̄)`.
 
-Exact sequences and sums reduce to rank one through `det_exact` and `det_sum` of §1.2.
+Exact sequences and sums reduce to rank one through the determinant isometries `det Ē ≅ det F̄ ⊗ det Q̄` and `det(Ē ⊕ F̄) ≅ det Ē ⊗ det F̄` of §1.2.
 
 For `L ⊂ L′` choose `s ∈ L`; `#(L′/O_K s) = #(L′/L)·#(L/O_K s)`.
 
@@ -338,20 +338,20 @@ The group `Div^(O_K)` of Arakelov divisors is the set of formal sums `D = Σ_�
 
 Provide the following maps and identities.
 
-- `ArakelovDivisor`: A pair `(𝔞, λ)` of a nonzero fractional ideal (the finite part `∏𝔭^{n_𝔭}`) and a real function `λ` on InfinitePlace `K`.
-- `ArakelovDivisor.degree`: `deg^(𝔞, λ) = log N(𝔞) + Σ_v λ_v`.
-- `ArakelovDivisor.principal`: `(f) = (f·O_K, v ↦ −mult(v) log |f|_v)` for `f ∈ K^×`.
-- `ArakelovDivisor.degree_principal`: `deg^((f)) = 0`.
-- `ArakelovDivisor.degree_add`: `deg^(D + D′) = deg^(D) + deg^(D′)` for the componentwise group law.
-- `ArakelovDivisor.toPicHat`: `Div^(O_K)/principal ≅ Pic^(O_K)`, compatible with degrees.
-- `ArakelovDivisor.picHat_exact`: `0 → ℝ^{r₁+r₂}/log|O_K^×| → Pic^(O_K) → Cl(K) → 0`.
-- `ArakelovDivisor.toChowHat`: Identification with `ĈH¹(Spec O_K): (𝔞, λ) ↦ (div 𝔞, g_v = 2λ_v/mult(v))`, with degree `log #(Z) + ½ Σ_σ g_σ`.
-- `ArakelovDivisor.finitePart`: The finite part `𝔞`, an invertible fractional ideal.
-- `ArakelovDivisor.infinitePart`: The archimedean coefficient `λ_v` at an infinite place `v`.
-- `ArakelovDivisor.principalSubgroup`: The subgroup generated by the principal divisors `(f), f ∈ K^×`.
-- `ArakelovDivisor.PicHat`: The quotient `Div^(O_K)/principal`, the compactified Picard group.
-- `ArakelovDivisor.degree_zero`: `deg^(0) = 0`.
-- `ArakelovDivisor.degree_eq_of_sub_mem`: `deg^` is constant on classes modulo principal divisors.
+- A pair `(𝔞, λ)` of a nonzero fractional ideal (the finite part `∏𝔭^{n_𝔭}`) and a real function `λ` on InfinitePlace `K`.
+- `deg^(𝔞, λ) = log N(𝔞) + Σ_v λ_v`.
+- `(f) = (f·O_K, v ↦ −mult(v) log |f|_v)` for `f ∈ K^×`.
+- `deg^((f)) = 0`.
+- `deg^(D + D′) = deg^(D) + deg^(D′)` for the componentwise group law.
+- `Div^(O_K)/principal ≅ Pic^(O_K)`, compatible with degrees.
+- `0 → ℝ^{r₁+r₂}/log|O_K^×| → Pic^(O_K) → Cl(K) → 0`.
+- Identification with `ĈH¹(Spec O_K): (𝔞, λ) ↦ (div 𝔞, g_v = 2λ_v/mult(v))`, with degree `log #(Z) + ½ Σ_σ g_σ`.
+- The finite part `𝔞`, an invertible fractional ideal.
+- The archimedean coefficient `λ_v` at an infinite place `v`.
+- The subgroup generated by the principal divisors `(f), f ∈ K^×`.
+- The quotient `Div^(O_K)/principal`, the compactified Picard group.
+- `deg^(0) = 0`.
+- `deg^` is constant on classes modulo principal divisors.
 
 Define `D ↦ O(D)`. For the principal divisor `(f)`, the module is `f^(−1)O_K` and its metric is `|f|_v|x|_v`. The section `f^(−1)`, not `f`, has norm one and trivializes it isometrically (Szpiro, Proposition 1.1).
 
@@ -367,11 +367,11 @@ The source identifications are [Szpiro](https://www.numdam.org/item/AST_1985__12
 
 **Checks.**
 
-- `ArakelovDivisor.degree_principal_two`: For `K = ℚ` and `f = 2: (2) = [2] − log 2·[∞]` has degree `log 2 − log 2 = 0`.
+- For `K = ℚ` and `f = 2: (2) = [2] − log 2·[∞]` has degree `log 2 − log 2 = 0`.
 - The zero divisor `(O_K, 0)` has degree 0.
 - For `K = ℚ(i)` and `f = 2`, the divisor with archimedean coefficient `−log|2|` (multiplicity forgotten) has degree `log 4 − log 2 ≠ 0`, so it is not principal-compatible.
-- `ArakelovDivisor.picHat_rat`: For `K = ℚ, deg^ : Div^(ℤ)/principal → ℝ` is a bijection, matching Gillet–Soulé's `deg : ĈH¹(Spec ℤ) ≅ ℝ`.
-- `ArakelovDivisor.principal_trivialization`: For `f=2` over `ℚ, O((2))` is `½ℤ` with norm `2|·|`. Its unit-norm generator is `½`; the section 2 has norm 4. This detects the sign of the trivializing section.
+- For `K = ℚ, deg^ : Div^(ℤ)/principal → ℝ` is a bijection, matching Gillet–Soulé's `deg : ĈH¹(Spec ℤ) ≅ ℝ`.
+- For `f=2` over `ℚ, O((2))` is `½ℤ` with norm `2|·|`. Its unit-norm generator is `½`; the section 2 has norm 4. This detects the sign of the trivializing section.
 - `deg^((f)) = 0` for every `f ∈ K^×`; for `K = ℚ, Pic^(ℤ) ≅ ℝ` through `deg^`.
 
 ### 1.8 Arithmetic divisors with Green functions and `ĈH¹`
@@ -382,14 +382,14 @@ Let `X` be a regular scheme, flat, separated and of finite type over `B = Spec O
 
 Provide the following maps and identities.
 
-- `ArithmeticDivisor`: Pairs `(D, g)` of a Cartier divisor and an `F_∞`-invariant Green function of logarithmic type.
-- `ArithmeticDivisor.principal`: `d̂iv(f) = (div f, −log|f|²)` for `f ∈ K(X)^×`, invertible on every irreducible component.
-- `ArithmeticChow1`: `ĈH¹(X) = Div^(X)/{d̂iv(f)}`, with `ℚ`-coefficient version.
-- `ArithmeticDivisor.ofGreen`: For a smooth `F_∞`-invariant function `φ` on `X(ℂ)`, the class `a(φ) = (0, φ)`.
-- `ArithmeticChow1.forget`: `ζ : ĈH¹(X) → CH¹(X), (D, g) ↦ D`, with kernel the image of `a`.
-- `ArithmeticChow1.restrict`: Restriction to an open `X_S = X ×_B B_S`; it vanishes on `ĈH¹_{|S|}(X)`.
-- `ArithmeticChow1.localization`: `ĈH¹(X)/ĈH¹_{|S|}(X) ≅ ĈH¹(X_S)`.
-- `ArithmeticChow1.vertical_fibre`: Over `ℤ: (V_p, 0) = a(2 log p)` in `ĈH¹(X)`.
+- Pairs `(D, g)` of a Cartier divisor and an `F_∞`-invariant Green function of logarithmic type.
+- `d̂iv(f) = (div f, −log|f|²)` for `f ∈ K(X)^×`, invertible on every irreducible component.
+- `ĈH¹(X) = Div^(X)/{d̂iv(f)}`, with `ℚ`-coefficient version.
+- For a smooth `F_∞`-invariant function `φ` on `X(ℂ)`, the class `a(φ) = (0, φ)`.
+- `ζ : ĈH¹(X) → CH¹(X), (D, g) ↦ D`, with kernel the image of `a`.
+- Restriction to an open `X_S = X ×_B B_S`; it vanishes on `ĈH¹_{|S|}(X)`.
+- `ĈH¹(X)/ĈH¹_{|S|}(X) ≅ ĈH¹(X_S)`.
+- Over `ℤ: (V_p, 0) = a(2 log p)` in `ĈH¹(X)`.
 
 Define `Div^(X)` as pairs; principal divisors are arithmetic divisors because `−log|f|² + log|f|² = 0` extends trivially. With `dd^c = (i/2π)∂∂̄`, Poincaré–Lelong gives `dd^c log|f|² = δ_{div f}`, hence `dd^c(−log|f|²) + δ_{div f} = 0`.
 
@@ -403,12 +403,12 @@ The source identifications are [Gillet–Soulé](https://www.numdam.org/item/PMI
 
 **Checks.**
 
-- `ArithmeticChow1.spec_ok`: For `X = Spec O_K, ĈH¹(X)` is `Div^(O_K)/principal` with `g_v = 2λ_v/mult(v)`.
-- `ArithmeticChow1.vertical_fibre_Z`: For `X = Spec ℤ` and `p` prime, `([p], 0)` and `(0, 2 log p)` define the same class, both of degree `log p`.
-- `ArithmeticDivisor.green_nonexample`: For `X = ℙ¹_ℤ` and `D = [0]`, the pair `(D, 0)` is not an arithmetic divisor: `0 + log|z|²` does not extend smoothly across `z = 0`.
-- `ArithmeticDivisor.principal_green_sign`: On `ℂ` with coordinate `z, dd^c(−log|z|²) = −δ₀`, so its sum with the divisor current is zero. The positive sign fails the Green-current identity.
-- `ArithmeticDivisor.rational_unit_nonexample`: On `Spec ℤ ⊔ Spec ℤ`, the rational function `(1,0)` is nonzero but not invertible in `ℚ × ℚ`; it has no principal Cartier divisor. The function `(2,1)` is invertible and defines one: its Cartier and Weil divisors both consist of the prime 2 on the first component and zero on the second, by the componentwise comparison.
-- `ArithmeticChow1.empty_divisor`: `a(0) = 0` and `a(φ)` for constant `φ = c` is the pullback of `(0, c)` from the base.
+- For `X = Spec O_K, ĈH¹(X)` is `Div^(O_K)/principal` with `g_v = 2λ_v/mult(v)`.
+- For `X = Spec ℤ` and `p` prime, `([p], 0)` and `(0, 2 log p)` define the same class, both of degree `log p`.
+- For `X = ℙ¹_ℤ` and `D = [0]`, the pair `(D, 0)` is not an arithmetic divisor: `0 + log|z|²` does not extend smoothly across `z = 0`.
+- On `ℂ` with coordinate `z, dd^c(−log|z|²) = −δ₀`, so its sum with the divisor current is zero. The positive sign fails the Green-current identity.
+- On `Spec ℤ ⊔ Spec ℤ`, the rational function `(1,0)` is nonzero but not invertible in `ℚ × ℚ`; it has no principal Cartier divisor. The function `(2,1)` is invertible and defines one: its Cartier and Weil divisors both consist of the prime 2 on the first component and zero on the second, by the componentwise comparison.
+- `a(0) = 0` and `a(φ)` for constant `φ = c` is the pullback of `(0, c)` from the base.
 - The relation `(V_p, 0) ≡ (0, 2 log p)` over `ℤ`; on `Spec O_K` the definition recovers Szpiro's compactified divisors.
 
 ### 1.9 Metrized line bundles and arithmetic divisors
@@ -442,20 +442,20 @@ The source identifications are [Gillet–Soulé](https://www.numdam.org/item/PMI
 
 Let `X` be regular and flat over `B = Spec O_K` (or `B_S`) with smooth generic fibre, and `Z₁^c(X)` the group of 1-cycles on `X` proper over the base. There is a bilinear pairing `(·,·) : ĈH¹(X)_ℚ × Z₁^c(X)_ℚ → ℝ` (respectively `ℝ_S = ℝ/span_ℚ{log p : some prime of S lies over p}` over `B_S`), defined on an irreducible `C` not contained in `|D|` as follows: if `C` is horizontal with normalization `ν : Spec O_{K(C)} → X` (or `Spec O_{K(C)}[1/S_C]` over `B_S`), `(D̂, C) = deg^(ν^*ĉ₁^{-1}(D̂))`, the Arakelov degree of the pulled-back hermitian line bundle over `O_{K(C)}`, equivalently `Σ_{x ∈ C ∩ |D|} i_x(C, D)·log #k(x) + ½ Σ_{y ∈ C(ℂ)} g(y)`, where `i_x(C, D)` is the signed intersection multiplicity on the normalization of `C` (the length for an effective `D`, extended by subtraction); if `C` is vertical, lying in the fibre over `𝔭, (D̂, C) = deg_{C}(O(D)|_C)·log N𝔭`. The value depends only on the class of `D̂`, is defined for every `C` by restricting its metrized line bundle, including when `C` lies in `|D|`, and on vertical cycles depends only on rational equivalence inside proper subschemes of special fibres; this defines the pairing on the quotient `Z₁(X)` of `Z₁^c(X)` by such cycles. The height of a point `x ∈ X(K′)` with closure `C_x` is `h_{D̂}(x) = (D̂, C_x)/[K(x):ℚ]` when `X` is proper, where `K(x)` is the residue field of the geometric point image. Equivalently, pushing forward the extension `Spec O_{K′} → X` gives the cycle `[K′:K(x)]·C_x`, and its pairing divided by `[K′:ℚ]` gives the same height.
 
-Construct `ArithmeticChow1.properOneCycles X` as the subgroup of Mathlib’s `AlgebraicGeometry.AlgebraicCycle X ℚ` generated by integral closed subschemes `C` of absolute Krull dimension one that are proper over `B` (respectively `B_S`). The dimension is that of `C` itself, not its codimension in `X`. Since `X` is of finite type over a Noetherian arithmetic base, its locally finite supports are finite. Define `ArithmeticChow1.verticalRatEquiv` as the subgroup generated by pushforwards of principal divisors of rational units on integral proper surfaces contained in a special fibre; its quotient is `ArithmeticChow1.oneCycleQuotient`. The special-fibre relations use **SchemeAndStackFoundations** §5.1 over the residue field. Supply `properOneCycles_horizontal`, `properOneCycles_vertical`, `properOneCycles_pushforward` for proper morphisms, `verticalRatEquiv_pushforward` and the quotient projection. This constructs precisely the cycle argument of the pairing, with no arithmetic intersection ring assumed. (Wei Zhang §9.1, (9.1)–(9.4), p. 43; Gillet–Soulé §3.3, pp. 126–129.)
+Construct the group `Z₁^c(X)_ℚ` of proper one-cycles as the subgroup of Mathlib’s `AlgebraicGeometry.AlgebraicCycle X ℚ` generated by integral closed subschemes `C` of absolute Krull dimension one that are proper over `B` (respectively `B_S`). The dimension is that of `C` itself, not its codimension in `X`. Since `X` is of finite type over a Noetherian arithmetic base, its locally finite supports are finite. Define the subgroup of vertical rational equivalences as the subgroup generated by pushforwards of principal divisors of rational units on integral proper surfaces contained in a special fibre; the quotient of `Z₁^c(X)_ℚ` by it is `Z₁(X)_ℚ`. The special-fibre relations use **SchemeAndStackFoundations** §5.1 over the residue field. Supply the decomposition of a proper one-cycle into horizontal and vertical parts, pushforward of proper one-cycles along proper morphisms, preservation of vertical rational equivalence under that pushforward, and the quotient projection. This constructs precisely the cycle argument of the pairing, with no arithmetic intersection ring assumed. (Wei Zhang §9.1, (9.1)–(9.4), p. 43; Gillet–Soulé §3.3, pp. 126–129.)
 
 Horizontal 1-cycles proper over the arithmetic base are finite over it. Their normalizations are `Spec O_F` over `B` and `Spec O_F[1/S_F]` over `B_S`. Over `B_S` the finite contributions at primes of `S` are not defined, so values are taken modulo `ℚ`-multiples of their logarithms.
 
 Provide the following maps and identities.
 
-- `ArithmeticChow1.pairing`: `(D̂, C) ∈ ℝ` (or `ℝ_S`) for `D̂ ∈ ĈH¹(X)_ℚ` and `C ∈ Z₁(X)_ℚ`.
-- `ArithmeticChow1.pairing_horizontal`: For `C` horizontal with normalization `ν, (D̂, C) = deg^(ν^*ĉ₁^{-1}D̂)`.
-- `ArithmeticChow1.pairing_vertical`: For `C` in the fibre over `𝔭, (D̂, C) = deg_C(O(D)|_C)·log N𝔭`.
-- `ArithmeticChow1.pairing_principal`: `(d̂iv f, C) = 0`.
-- `ArithmeticChow1.pairing_green`: `(a(φ), C) = ½ Σ_{y ∈ C(ℂ)} φ(y)` for `C` horizontal.
-- `ArithmeticChow1.pairing_projection`: Projection formula `(f^*D̂, C′) = (D̂, f_*C′)` for `f : X′ → X` proper.
-- `ArithmeticChow1.pairing_localize`: Over `B_S` the pairing is the image in `ℝ_S` of the pairing over `B` when `X` extends.
-- `ArithmeticChow1.pointHeight`: `h_{D̂}(x) = (D̂, C_x)/[K(x):ℚ]` for `X` proper over `B`.
+- `(D̂, C) ∈ ℝ` (or `ℝ_S`) for `D̂ ∈ ĈH¹(X)_ℚ` and `C ∈ Z₁(X)_ℚ`.
+- For `C` horizontal with normalization `ν, (D̂, C) = deg^(ν^*ĉ₁^{-1}D̂)`.
+- For `C` in the fibre over `𝔭, (D̂, C) = deg_C(O(D)|_C)·log N𝔭`.
+- `(d̂iv f, C) = 0`.
+- `(a(φ), C) = ½ Σ_{y ∈ C(ℂ)} φ(y)` for `C` horizontal.
+- Projection formula `(f^*D̂, C′) = (D̂, f_*C′)` for `f : X′ → X` proper.
+- Over `B_S` the pairing is the image in `ℝ_S` of the pairing over `B` when `X` extends.
+- `h_{D̂}(x) = (D̂, C_x)/[K(x):ℚ]` for `X` proper over `B`.
 
 Horizontal case: `ν^*O(D)` with the pulled-back metric is a hermitian line bundle over `O_{K(C)}`; its degree splits into the finite intersection multiplicities with `D` and the archimedean values of `g` at the points of `C(ℂ)`.
 
@@ -471,14 +471,14 @@ The source identifications are [Wei Zhang](https://arxiv.org/abs/1909.02697v3), 
 
 **Checks.**
 
-- For `X = Spec O_K`, the fundamental cycle has dimension one and generates the horizontal summand. It has codimension zero, which rules out a codimension-one definition of `properOneCycles`.
+- For `X = Spec O_K`, the fundamental cycle has dimension one and generates the horizontal summand. It has codimension zero, which rules out a codimension-one definition of the group of proper one-cycles.
 - For `X = ℙ¹` over `O_K`, a closed fibre is a vertical proper one-cycle. A closed point in that fibre has dimension zero and is excluded.
 - For `X = 𝔸¹` over `O_K`, a fibre `𝔸¹_𝔽p` has dimension one but is not proper over the base and is excluded; a section `Spec O_K` remains a proper horizontal one-cycle. Properness of its support is necessary even though `X` itself need not be proper.
-- `ArithmeticChow1.pairing_vertical_fibre`: Over `ℤ`, for `C` a horizontal section of `ℙ¹_ℤ, ((V_p, 0), C) = ((0, 2 log p), C) = log p`.
-- `ArithmeticChow1.pairing_spec`: For `X = Spec O_K` and `C = X`, the pairing is the Arakelov degree of §1.3.
-- `ArithmeticChow1.pairing_RS_nonexample`: Over `Spec ℤ[1/p]`, the value `log p` is 0 in `ℝ_S`; a real-valued pairing on `ĈH¹(X_S)` is not well defined.
-- `ArithmeticChow1.pairing_metric_shift`: Adding a constant `c` to the Green function at every `σ` changes `(D̂, C)` for a horizontal `C` of degree `d` over `K` by `½·c·d·[K:ℚ]`.
-- `ArithmeticChow1.pointHeight_field_extension`: For `[1:2]` with the smooth Fubini–Study metric over `ℚ`, the height is `½log 5`. Viewing it over `ℚ(i)` pushes `Spec ℤ[i]` forward to twice its original closure cycle, so the degree doubles and the normalized height stays `½log 5`. Dividing the unchanged closure pairing by 2 would give the wrong value.
+- Over `ℤ`, for `C` a horizontal section of `ℙ¹_ℤ, ((V_p, 0), C) = ((0, 2 log p), C) = log p`.
+- For `X = Spec O_K` and `C = X`, the pairing is the Arakelov degree of §1.3.
+- Over `Spec ℤ[1/p]`, the value `log p` is 0 in `ℝ_S`; a real-valued pairing on `ĈH¹(X_S)` is not well defined.
+- Adding a constant `c` to the Green function at every `σ` changes `(D̂, C)` for a horizontal `C` of degree `d` over `K` by `½·c·d·[K:ℚ]`.
+- For `[1:2]` with the smooth Fubini–Study metric over `ℚ`, the height is `½log 5`. Viewing it over `ℚ(i)` pushes `Spec ℤ[i]` forward to twice its original closure cycle, so the degree doubles and the normalized height stays `½log 5`. Dividing the unchanged closure pairing by 2 would give the wrong value.
 - Over `Spec ℤ, (0, 2 log p)` pairs with the horizontal section of `ℙ¹_ℤ` to `log p`, matching `([p], 0)`; inverting a new prime `p` enlarges the quotient `ℝ_S` by `ℚ log p`.
 
 ### 1.11 Arithmetic degree on relative dimension zero Deligne–Mumford stacks
@@ -489,13 +489,13 @@ Let `Y` be a regular Deligne–Mumford stack, flat and proper with finite geomet
 
 Provide the following maps and identities.
 
-- `StackDegree.arakelovDegree`: `deg^ : ĈH¹(Y) ⊗ ℚ → ℝ` by the weighted formulas.
-- `StackDegree.degree_effective`: `deg^(Z, 0) = Σ_𝔮 log N𝔮 Σ_z length(O^{et}_{Z,z})/#Aut z`.
-- `StackDegree.degree_green`: `deg^(0, Φ) = ½ Σ_y Φ(y)/#Aut y`.
-- `StackDegree.degree_principal`: `deg^(d̂iv Ψ) = 0`.
-- `StackDegree.degree_pullback_etale`: `deg^(π^*D̂) = deg(π)·deg^(D̂)` for `π` finite étale.
-- `StackDegree.degree_scheme`: For `Y = Spec O_L, deg^` is the Arakelov degree of hermitian line bundles over `O_L`.
-- `StackDegree.picHat_iso`: `Pic^(Y) ⊗ ℚ ≅ ĈH¹(Y) ⊗ ℚ`.
+- `deg^ : ĈH¹(Y) ⊗ ℚ → ℝ` by the weighted formulas.
+- `deg^(Z, 0) = Σ_𝔮 log N𝔮 Σ_z length(O^{et}_{Z,z})/#Aut z`.
+- `deg^(0, Φ) = ½ Σ_y Φ(y)/#Aut y`.
+- `deg^(d̂iv Ψ) = 0`.
+- `deg^(π^*D̂) = deg(π)·deg^(D̂)` for `π` finite étale.
+- For `Y = Spec O_L, deg^` is the Arakelov degree of hermitian line bundles over `O_L`.
+- `Pic^(Y) ⊗ ℚ ≅ ĈH¹(Y) ⊗ ℚ`.
 
 Define the degree on effective divisors and on Green functions by the displayed weighted sums; principal divisors have degree zero by the product formula applied on an étale atlas by schemes and division by automorphism orders.
 
@@ -511,11 +511,11 @@ The source identifications are [Andreatta–Goren–Howard–Madapusi Pera](http
 
 **Checks.**
 
-- `StackDegree.degree_point_aut`: For `Y = [Spec O_E / (ℤ/2)]` with trivial action and `Φ ≡ 2, deg^(0, Φ) = ½·[E:ℚ]·2/2 = [E:ℚ]/2`.
+- For `Y = [Spec O_E / (ℤ/2)]` with trivial action and `Φ ≡ 2, deg^(0, Φ) = ½·[E:ℚ]·2/2 = [E:ℚ]/2`.
 - On `B(ℤ/2)` over `ℤ`, the sign line with unit metric has nontrivial generic character and no rational trivialization. Every vertical divisor line has trivial generic character, so the integral comparison fails. The sign line's square is the unit metrized line, and its rationalized class and degree are zero.
-- `StackDegree.degree_scheme_case`: For `Y = Spec O_E` (trivial automorphisms) `deg^` agrees with §1.3.
-- `StackDegree.residue_norm_nonexample`: Weighting a closed point over `𝔮` with `log p` instead of `log N(𝔮)` gives the wrong degree for a divisor at an inert prime of residue degree 2.
-- `StackDegree.etale_cover_scaling`: A degree-`d` finite étale cover multiplies `deg^` of pulled-back classes by `d`.
+- For `Y = Spec O_E` (trivial automorphisms) `deg^` agrees with §1.3.
+- Weighting a closed point over `𝔮` with `log p` instead of `log N(𝔮)` gives the wrong degree for a divisor at an inert prime of residue degree 2.
+- A degree-`d` finite étale cover multiplies `deg^` of pulled-back classes by `d`.
 - AGHMP's `[·:Y]` is `deg^` composed with pullback along `Y → M`; for a level cover both numerator and denominator in Theorem 6.4.2 scale by the same `d`.
 
 ### 1.12 Heights of algebraic points for metrized line bundles
@@ -526,13 +526,13 @@ Let `𝒳` be a projective flat scheme over `Spec ℤ` (or over `Spec O_K`), `X 
 
 Provide the following maps and identities.
 
-- `Height.ofMetrized`: `h_{ℒ̄} : X(ℚ̄) → ℝ, x ↦ deg^(x̄^*ℒ̄)/[K(x):ℚ]`.
-- `Height.ofMetrized_galois`: For a model and metric over `O_K, h(x^γ) = h(x)` for `γ ∈ Gal(ℚ̄/K)`. For a model over `ℤ` this holds for `Gal(ℚ̄/ℚ)`.
-- `Height.ofMetrized_tensor`: `h_{ℒ̄ ⊗ ℳ̄} = h_{ℒ̄} + h_{ℳ̄}`.
-- `Height.ofMetrized_pullback`: For `f : 𝒳′ → 𝒳` over the base, `h_{f^*ℒ̄} = h_{ℒ̄} ∘ f`.
-- `Height.ofMetrized_metric_change`: `|h_{(ℒ, ‖·‖′)} − h_{(ℒ, ‖·‖)}| ≤ sup |log(‖·‖′/‖·‖)|`.
-- `Height.ofMetrized_model_change`: Two integral models of `(X, L)` give heights differing by a bounded function.
-- `Height.ofMetrized_field`: The value at `x ∈ X(K′)` does not depend on the field `K′` containing the field of definition.
+- `h_{ℒ̄} : X(ℚ̄) → ℝ, x ↦ deg^(x̄^*ℒ̄)/[K(x):ℚ]`.
+- For a model and metric over `O_K, h(x^γ) = h(x)` for `γ ∈ Gal(ℚ̄/K)`. For a model over `ℤ` this holds for `Gal(ℚ̄/ℚ)`.
+- `h_{ℒ̄ ⊗ ℳ̄} = h_{ℒ̄} + h_{ℳ̄}`.
+- For `f : 𝒳′ → 𝒳` over the base, `h_{f^*ℒ̄} = h_{ℒ̄} ∘ f`.
+- `|h_{(ℒ, ‖·‖′)} − h_{(ℒ, ‖·‖)}| ≤ sup |log(‖·‖′/‖·‖)|`.
+- Two integral models of `(X, L)` give heights differing by a bounded function.
+- The value at `x ∈ X(K′)` does not depend on the field `K′` containing the field of definition.
 
 Existence and uniqueness of `x̄` is the valuative criterion of properness; `x̄^*ℒ` with `x^*‖·‖` is a hermitian line bundle over `O_{K′}`.
 
@@ -548,15 +548,15 @@ The source identifications are [Deligne](https://www.numdam.org/item/SB_1983-198
 
 **Checks.**
 
-- `Height.ofMetrized_trivial`: For `ℒ̄ = O_𝒳` with the constant metric `1, h ≡ 0`.
-- `Height.ofMetrized_constant_metric`: Multiplying the metric by `e^{−c}` adds `c` to `h` at every point.
-- `Height.ofMetrized_projective_line`: For `𝒳 = ℙ¹_ℤ, ℒ = O(1)` with the sup metric and `x = [a : b]` with coprime integers, `h(x) = log max(|a|, |b|)`.
-- `Height.ofMetrized_unnormalised_nonexample`: Without the factor `1/[K′:ℚ]` the value at `x = [1 : 2]` would double on passing from `ℚ` to `ℚ(i)`, so the unnormalised degree is not a function on `X(ℚ̄)`.
+- For `ℒ̄ = O_𝒳` with the constant metric `1, h ≡ 0`.
+- Multiplying the metric by `e^{−c}` adds `c` to `h` at every point.
+- For `𝒳 = ℙ¹_ℤ, ℒ = O(1)` with the sup metric and `x = [a : b]` with coprime integers, `h(x) = log max(|a|, |b|)`.
+- Without the factor `1/[K′:ℚ]` the value at `x = [1 : 2]` would double on passing from `ℚ` to `ℚ(i)`, so the unnormalised degree is not a function on `X(ℚ̄)`.
 - For `ℙⁿ_ℤ` with `O(1)` and the sup metric, `h_{Ō(1)}` is the absolute logarithmic Weil height (§1.14).
 
 ### 1.13 Metrized heights represent Weil heights; Northcott for ample bundles
 
-For a projective variety `X` over a number field `K`, construct `Height.weilClass L`, the class modulo bounded real functions on `X(ℚ̄)` of the height attached to a line bundle `L`. Its intended signature is an additive map from the ordinary Picard group of `X` to the additive quotient of functions `X(ℚ̄) → ℝ` by the subgroup of bounded functions. Use the projective height `absoluteProjectiveTupleHeight` of **DiophantineApproximationAndTranscendence** §0.2 for `O(1)`, extend a line bundle to a projective arithmetic model after a proper modification, and use §1.12 for its degree representative. Independence of this extension is the model-change assertion of §1.12. The API is `Height.weilClass_tensor`, `Height.weilClass_dual`, `Height.weilClass_pullback` for morphisms of projective varieties, and `Height.weilClass_projective` for the absolute sup height of `O(1)`. Prove `Height.weilClass_ample_lowerBound`, `Height.weilClass_northcott` and `Height.northcott_boundedChange` for absolute heights with bounded degree: ample representatives are bounded below, have finite bounded-degree bounded-height sublevel sets, and retain these properties under bounded changes. The projective-space finiteness follows coordinatewise from **DiophantineApproximationAndTranscendence** §0.3 after normalizing a nonzero coordinate to 1; the ample case follows from a projective embedding by a positive tensor power. (Deligne §1.7–Rappel 1.8, pp. 29–30; Faltings–Chai V, Proposition 4.4, pp. 167–168.)
+For a projective variety `X` over a number field `K`, construct the Weil height class `h_L` of a line bundle `L`: the class modulo bounded real functions on `X(ℚ̄)` of the height attached to `L`. Its intended signature is an additive map from the ordinary Picard group of `X` to the additive quotient of functions `X(ℚ̄) → ℝ` by the subgroup of bounded functions. Use the projective height `absoluteProjectiveTupleHeight` of **DiophantineApproximationAndTranscendence** §0.2 for `O(1)`, extend a line bundle to a projective arithmetic model after a proper modification, and use §1.12 for its degree representative. Independence of this extension is the model-change assertion of §1.12. Its API is additivity under tensor product, the sign change under duality, compatibility with pullback along morphisms of projective varieties, and the identification of `h_{O(1)}` on projective space with the class of the absolute sup height. Prove, for absolute heights with bounded degree, that representatives of an ample class are bounded below, that they have finite bounded-degree bounded-height sublevel sets, and that both properties survive a bounded change of representative. The projective-space finiteness follows coordinatewise from **DiophantineApproximationAndTranscendence** §0.3 after normalizing a nonzero coordinate to 1; the ample case follows from a projective embedding by a positive tensor power. (Deligne §1.7–Rappel 1.8, pp. 29–30; Faltings–Chai V, Proposition 4.4, pp. 167–168.)
 
 In the situation of §1.12, `h_{ℒ̄}` represents this Weil height class `h_L` of the generic fibre `(X, L): h_{ℒ̄} − h_L` is bounded on `X(ℚ̄)`. Consequently, if `L` is ample, `h_{ℒ̄}` is bounded below on `X(ℚ̄)`, and for all `D ≥ 1` and `B ∈ ℝ` the set `{x ∈ X(ℚ̄) : [ℚ(x):ℚ] ≤ D, h_{ℒ̄}(x) ≤ B}` is finite.
 
@@ -589,9 +589,9 @@ Let `K` be a number field, `n ≥ 0` and `x = (x₀, …, x_n) ∈ K^{n+1} ∖ {
 
 Provide the following maps and identities.
 
-- `ArakelovDivisor.ofTuple`: For `x ≠ 0`, the Arakelov divisor `(𝔟^{-1}, v ↦ mult(v) log max_i |x_i|_v)` of `x^*Ō(1)` with the sup metric.
-- `ArakelovDivisor.degree_ofTuple`: `deg^(ofTuple x) = Height.logHeight x`.
-- `ArakelovDivisor.ofTuple_smul`: `ofTuple(c·x) = ofTuple x − (c)` for `c ∈ K^×`.
+- For `x ≠ 0`, the Arakelov divisor `D_x = (𝔟^{-1}, v ↦ mult(v) log max_i |x_i|_v)` of `x^*Ō(1)` with the sup metric.
+- `deg^(D_x) = Height.logHeight x`.
+- `D_{c·x} = D_x − (c)` for `c ∈ K^×`.
 
 The pullback of `O(−1)` is the saturated lattice `Kx ∩ O_K^{n+1} = 𝔟^{−1}x`. Its dual, the pullback of `O(1)`, is identified with `𝔟` by evaluation on `x`, and its degree has finite term `−log N(𝔟) = log N(𝔟^{−1})`.
 
@@ -607,10 +607,10 @@ The source identifications are [Faltings, Endlichkeitssätze](https://gdz.sub.un
 
 **Checks.**
 
-- `ArakelovDivisor.ofTuple_zero_nonexample`: The zero tuple does not define a projective point or an invertible coordinate ideal, even though Mathlib assigns its tuple height a junk value.
-- For nonzero coprime integers `a,b` over `ℚ`, the degree of `ofTuple(a,b)` is `log max(|a|,|b|)`, agreeing with `NumberField.mulHeight_eq_max_abs_of_gcd_eq_one`.
-- `ArakelovDivisor.ofTuple_FS`: At `[1:1]` over `ℚ`, the sup degree is 0 and the Fubini–Study degree is `½ log 2`; at `[1:0]` both are 0.
-- `ArakelovDivisor.ofTuple_scaling`: Scaling by `c ≠ 0` subtracts the principal divisor `(c)`; for `(2,2)` and `(1,1)` the degree stays 0.
+- The zero tuple does not define a projective point or an invertible coordinate ideal, even though Mathlib assigns its tuple height a junk value.
+- For nonzero coprime integers `a,b` over `ℚ`, the degree of `D_(a,b)` is `log max(|a|,|b|)`, agreeing with `NumberField.mulHeight_eq_max_abs_of_gcd_eq_one`.
+- At `[1:1]` over `ℚ`, the sup degree is 0 and the Fubini–Study degree is `½ log 2`; at `[1:0]` both are 0.
+- Scaling by `c ≠ 0` subtracts the principal divisor `(c)`; for `(2,2)` and `(1,1)` the degree stays 0.
 - For `K = ℚ` and `x = (a, b)` coprime, `deg^ = log max(|a|, |b|)`, Mathlib's `mulHeight_eq_max_abs_of_gcd_eq_one`; for `x = (1, 1)` the Fubini–Study degree is `½ log 2`.
 
 ### 1.15 Hermitian `ℚ`-lines and norms of hermitian line bundles
@@ -621,13 +621,13 @@ The source identifications are [Faltings, Endlichkeitssätze](https://gdz.sub.un
 
 Provide the following maps and identities.
 
-- `PicHat.rat`: `Pic^(O_K)_ℚ = Pic^(O_K) ⊗ ℚ` with the `ℚ`-linear degree.
-- `PicHat.norm`: `N_{L/K} : Pic^(O_L) → Pic^(O_K)`.
-- `PicHat.norm_mul`: `N_{L/K}(M̄ ⊗ M̄′) = N_{L/K}M̄ ⊗ N_{L/K}M̄′`.
-- `PicHat.degree_norm`: `deg^(N_{L/K}M̄) = deg^(M̄)`.
-- `PicHat.norm_baseChange`: `N_{L/K}(L̄_{O_L}) ≅ L̄^{⊗[L:K]}`.
-- `PicHat.norm_trans`: `N_{L/K} ∘ N_{M/L} = N_{M/K}` for towers `M/L/K`.
-- `PicHat.norm_pushforward`: `N_{L/K}` agrees with the push-forward `ĈH¹(Spec O_L) → ĈH¹(Spec O_K)`.
+- `Pic^(O_K)_ℚ = Pic^(O_K) ⊗ ℚ` with the `ℚ`-linear degree.
+- `N_{L/K} : Pic^(O_L) → Pic^(O_K)`.
+- `N_{L/K}(M̄ ⊗ M̄′) = N_{L/K}M̄ ⊗ N_{L/K}M̄′`.
+- `deg^(N_{L/K}M̄) = deg^(M̄)`.
+- `N_{L/K}(L̄_{O_L}) ≅ L̄^{⊗[L:K]}`.
+- `N_{L/K} ∘ N_{M/L} = N_{M/K}` for towers `M/L/K`.
+- `N_{L/K}` agrees with the push-forward `ĈH¹(Spec O_L) → ĈH¹(Spec O_K)`.
 
 (a) Tensor with `ℚ`; `deg^` is a homomorphism (§1.5).
 
@@ -645,12 +645,12 @@ The source identifications are [Gillet–Soulé](https://www.numdam.org/item/PMI
 
 **Checks.**
 
-- `PicHat.norm_self`: For `L = K, N_{K/K}` is the identity.
-- `PicHat.norm_gaussian_prime`: `N_{ℚ(i)/ℚ}` of the ideal `(1 + i)` with the standard metric is `(2ℤ, |·|)`, of degree `−log 2`.
-- `PicHat.norm_degree_nonexample`: Taking the metric `‖N(m)‖_σ = ‖m‖_τ` for a single `τ` above `σ` (instead of the product) breaks `deg^(N M̄) = deg^(M̄)` as soon as `[L:K] > 1`.
-- `PicHat.degree_rat`: `deg^` on `Pic^(O_K)_ℚ` restricts to `deg^` on `Pic^(O_K)`.
-- `PicHat.degree_half_line`: Over `ℚ`, half the class of `(ℤ, 2|·|)` has degree `−½ log 2`, and doubling it recovers degree `−log 2`. Integral tensor powers alone do not supply this division operation.
-- `PicHat.rat_torsion`: In the kernel `ℝ²/log|O_K^×|` for `K=ℚ(√2)`, take half the weighted logarithmic vector of the fundamental unit `1+√2`. It represents a nonzero class killed by 2, so its image in `Pic^(O_K)_ℚ` is zero. Rationalization is not an injective replacement for the original compactified Picard group.
+- For `L = K, N_{K/K}` is the identity.
+- `N_{ℚ(i)/ℚ}` of the ideal `(1 + i)` with the standard metric is `(2ℤ, |·|)`, of degree `−log 2`.
+- Taking the metric `‖N(m)‖_σ = ‖m‖_τ` for a single `τ` above `σ` (instead of the product) breaks `deg^(N M̄) = deg^(M̄)` as soon as `[L:K] > 1`.
+- `deg^` on `Pic^(O_K)_ℚ` restricts to `deg^` on `Pic^(O_K)`.
+- Over `ℚ`, half the class of `(ℤ, 2|·|)` has degree `−½ log 2`, and doubling it recovers degree `−log 2`. Integral tensor powers alone do not supply this division operation.
+- In the kernel `ℝ²/log|O_K^×|` for `K=ℚ(√2)`, take half the weighted logarithmic vector of the fundamental unit `1+√2`. It represents a nonzero class killed by 2, so its image in `Pic^(O_K)_ℚ` is zero. Rationalization is not an injective replacement for the original compactified Picard group.
 - For `K = ℚ, L = ℚ(i)` and `M̄ = (𝔭, standard metric)` with `𝔭 = (1 + i): N_{L/ℚ}M̄ = (2ℤ, |·|)` of degree `−log 2 = deg^(M̄)`.
 
 ### Examples
@@ -667,9 +667,9 @@ Use the invariant-differential Hodge line from the suppliers. The new content is
 
 ### 2.0 Semi-abelian families and extension of homomorphisms
 
-Use the semi-abelian geometric-fibre condition of **NeronModelsAndSemistableAbelianVarieties** §3.1: a connected smooth commutative group over a field is an extension of an abelian variety by a torus. For a smooth separated commutative group scheme `G → S` of finite presentation, define `GroupScheme.IsSemiAbelianFamily G` by requiring this condition on every geometric fibre. Its intended signature is a predicate on the existing group-scheme object over `S`. Toric rank may jump; this predicate does not require `G` globally to be an extension of an abelian scheme by a torus. Supply `GroupScheme.IsSemiAbelianFamily.baseChange`, `.of_isIso`, `.prod`, `.geometricFibre` and `.abelianLocus`, the last identifying the toric-rank-zero locus with the locus where `G` is an abelian scheme. On `Spec O_K`, an everywhere semistable abelian variety has such an identity model by the Néron supplier. (Faltings–Chai `I`, Definition 2.3 and Remark 2.4, p. 8; Remark 2.8, p. 11.)
+Use the semi-abelian geometric-fibre condition of **NeronModelsAndSemistableAbelianVarieties** §3.1: a connected smooth commutative group over a field is an extension of an abelian variety by a torus. For a smooth separated commutative group scheme `G → S` of finite presentation, define `G` to be a *semi-abelian family* when this condition holds on every geometric fibre. It is a predicate on the existing group-scheme object over `S`. Toric rank may jump; this predicate does not require `G` globally to be an extension of an abelian scheme by a torus. Prove that the predicate is stable under base change, transported along isomorphisms and closed under fibre products, that it holds on each geometric fibre of a semi-abelian family, and that the toric-rank-zero locus is the locus where `G` is an abelian scheme. On `Spec O_K`, an everywhere semistable abelian variety has such an identity model by the Néron supplier. (Faltings–Chai `I`, Definition 2.3 and Remark 2.4, p. 8; Remark 2.8, p. 11.)
 
-Prove `GroupScheme.semiAbelianHom_extend`: if `S` is Noetherian and normal, `U ⊂ S` is dense open, and `G` and `H` are semi-abelian families over `S`, restriction `Hom_S(G,H) → Hom_U(G_U,H_U)` is bijective. Supply compatibility with identities, composition and restriction to smaller dense opens. In particular, an isomorphism over `U` extends to an isomorphism over `S`. On a Dedekind arithmetic base, a semi-abelian model with abelian generic fibre is the Néron identity component, compatibly with the comparison of **NeronModelsAndSemistableAbelianVarieties** §3.3. The extension proof reduces to traits by closure of the graph and normality; in the abelian-generic-fibre case the Néron mapping property identifies the extension. (Faltings–Chai `I`, Proposition 2.7 and proof, pp. 9–11.)
+Prove the extension theorem for homomorphisms: if `S` is Noetherian and normal, `U ⊂ S` is dense open, and `G` and `H` are semi-abelian families over `S`, restriction `Hom_S(G,H) → Hom_U(G_U,H_U)` is bijective. Supply compatibility with identities, composition and restriction to smaller dense opens. In particular, an isomorphism over `U` extends to an isomorphism over `S`. On a Dedekind arithmetic base, a semi-abelian model with abelian generic fibre is the Néron identity component, compatibly with the comparison of **NeronModelsAndSemistableAbelianVarieties** §3.3. The extension proof reduces to traits by closure of the graph and normality; in the abelian-generic-fibre case the Néron mapping property identifies the extension. (Faltings–Chai `I`, Proposition 2.7 and proof, pp. 9–11.)
 
 **Checks.**
 
@@ -688,15 +688,15 @@ For a complex abelian variety `A` of dimension `g`, the one-dimensional space `H
 
 Provide the following maps and identities.
 
-- `AbelianVariety.faltingsInner`: `⟨α, β⟩_Fal = (i^{g²}/2^g)∫_{A(ℂ)} β ∧ ᾱ` on `H⁰(A, Ω^g)`.
-- `AbelianVariety.faltingsNormSq`: `‖α‖²_Fal = 2^{−g}|∫ α ∧ ᾱ|`.
-- `AbelianVariety.faltingsInner_pos`: `⟨α, α⟩_Fal > 0` for `α ≠ 0`.
-- `AbelianVariety.faltingsNormSq_smul`: `‖λα‖²_Fal = |λ|²‖α‖²_Fal`.
-- `AbelianVariety.faltingsNormSq_aut`: `‖f^*α‖_Fal = ‖α‖_Fal` for an automorphism `f` of `A`.
-- `AbelianVariety.faltingsNormSq_conj`: For `A` defined over `ℝ ⊂ ℂ` or for the conjugate variety `Ā, ‖ᾱ‖_Fal` on `Ā` equals `‖α‖_Fal` on `A`.
-- `AbelianVariety.faltingsNormSq_eq_volume`: `‖α‖²_Fal` is the volume of `A(ℂ)` for the Haar measure `|α ∧ ᾱ|/2^g`.
-- `ComplexTorus.faltingsNormSqDz`: For a lattice `Λ ⊂ ℂ, ‖dz‖²_Fal` on `ℂ/Λ`, equal to the covolume of `Λ`.
-- `ComplexTorus.faltingsNormSqDz_span`: `‖dz‖²_Fal` on `ℂ/(ℤ + τℤ)` is `Im τ`.
+- `⟨α, β⟩_Fal = (i^{g²}/2^g)∫_{A(ℂ)} β ∧ ᾱ` on `H⁰(A, Ω^g)`.
+- `‖α‖²_Fal = 2^{−g}|∫ α ∧ ᾱ|`.
+- `⟨α, α⟩_Fal > 0` for `α ≠ 0`.
+- `‖λα‖²_Fal = |λ|²‖α‖²_Fal`.
+- `‖f^*α‖_Fal = ‖α‖_Fal` for an automorphism `f` of `A`.
+- For `A` defined over `ℝ ⊂ ℂ` or for the conjugate variety `Ā, ‖ᾱ‖_Fal` on `Ā` equals `‖α‖_Fal` on `A`.
+- `‖α‖²_Fal` is the volume of `A(ℂ)` for the Haar measure `|α ∧ ᾱ|/2^g`.
+- For a lattice `Λ ⊂ ℂ, ‖dz‖²_Fal` on `ℂ/Λ`, equal to the covolume of `Λ`.
+- `‖dz‖²_Fal` on `ℂ/(ℤ + τℤ)` is `Im τ`.
 
 In linear coordinates `z₁`, …, `z_g` on `A(ℂ) = ℂ^g/Λ` write `α = c·dz₁ ∧ ⋯ ∧ dz_g`. Then `α ∧ ᾱ = |c|²(−1)^{g(g−1)/2}∏_j(dz_j ∧ dz̄_j)` and `dz_j ∧ dz̄_j = −2i dx_j ∧ dy_j`.
 
@@ -710,11 +710,11 @@ The source identifications are [Faltings, Endlichkeitssätze](https://gdz.sub.un
 
 **Checks.**
 
-- `AbelianVariety.faltingsInner_sesquilinear`: On `ℂ/(ℤ+iℤ), ⟨i dz,dz⟩_Fal = −i` and `⟨dz,i dz⟩_Fal = i`. Reversing the mixed integrand violates Mathlib's first-argument convention.
-- `AbelianVariety.faltingsNormSq_elliptic`: For `E = ℂ/(ℤ + τℤ)` and `α = dz, ‖dz‖²_Fal = Im τ`.
-- `AbelianVariety.faltingsInner_sign_nonexample`: For `g = 2` and `A = E × E` with `α = dz₁ ∧ dz₂, (i/2)²∫ α ∧ ᾱ = −(Im τ)² < 0`: the printed factor `(i/2)^g` is not positive definite.
-- `AbelianVariety.faltingsNormSq_dim_zero`: For `g = 0, ‖1‖_Fal = 1`.
-- `AbelianVariety.faltingsNormSq_product`: For `A × B` and `α ∧ β` (pulled back), `‖α ∧ β‖²_Fal = ‖α‖²_Fal·‖β‖²_Fal` (Fubini).
+- On `ℂ/(ℤ+iℤ), ⟨i dz,dz⟩_Fal = −i` and `⟨dz,i dz⟩_Fal = i`. Reversing the mixed integrand violates Mathlib's first-argument convention.
+- For `E = ℂ/(ℤ + τℤ)` and `α = dz, ‖dz‖²_Fal = Im τ`.
+- For `g = 2` and `A = E × E` with `α = dz₁ ∧ dz₂, (i/2)²∫ α ∧ ᾱ = −(Im τ)² < 0`: the printed factor `(i/2)^g` is not positive definite.
+- For `g = 0, ‖1‖_Fal = 1`.
+- For `A × B` and `α ∧ β` (pulled back), `‖α ∧ β‖²_Fal = ‖α‖²_Fal·‖β‖²_Fal` (Fubini).
 - `‖dz‖²_Fal = Im τ` for `ℂ/(ℤ + τℤ)`; scaling `α` by `λ` multiplies `‖α‖` by `|λ|`; for `g = 2` the printed `(i/2)²∫ α ∧ ᾱ` is `−‖α‖²_Fal`.
 
 ### 2.2 The Faltings norm is a covolume
@@ -729,7 +729,7 @@ For `Λ = ℤ^g + τℤ^g` the real `2g × 2g` matrix of the basis has determina
 
 Write `z = Ω_1w`. The lattice in the `w`-coordinates is `ℤ^g + τℤ^g`, and `dz₁ ∧ ⋯ ∧ dz_g = det(Ω₁) dw₁ ∧ ⋯ ∧ dw_g`. Thus the squared norm of the fixed `z`-form is `|det Ω₁|² det(Im τ)`; the normalized `w`-form has squared norm `det(Im τ)`.
 
-The source identifications are [Faltings–Chai](https://doi.org/10.1007/978-3-662-02632-8), Ch. V, proof of Proposition 4.5, p. 168; [Pazuki](https://arxiv.org/abs/0907.1458v2), proof of Lemma 5.4, p. 18 (arXiv v2); [Deligne](https://www.numdam.org/item/SB_1983-1984__26__25_0/), §1.10, p. 31.
+The source identifications are [Faltings–Chai](https://doi.org/10.1007/978-3-662-02632-8), Ch. V, proof of Proposition 4.5, p. 168; [Deligne](https://www.numdam.org/item/SB_1983-1984__26__25_0/), §1.10, p. 31.
 
 *Needs:* §2.1; **AbelianSchemesAndArithmeticModuli** §A5.1 (`AbelianLattice`); **AbelianSchemesAndArithmeticModuli** §A5.8 (`SiegelFamily`); Mathlib `ZLattice.covolume`; Mathlib `UpperHalfPlane`.
 
@@ -765,13 +765,13 @@ Let `K` be a number field and `G → Spec O_K` a smooth separated commutative gr
 
 Provide the following maps and identities.
 
-- `AbelianVariety.metrizedHodgeLine`: `ω̄̂(A/K)`: the Néron Hodge line with Faltings metrics, a hermitian line bundle over `O_K`.
-- `GroupScheme.metrizedHodgeLine`: `ω̄̂(G)` for a smooth model `G` with abelian generic fibre.
-- `AbelianVariety.metrizedHodgeLine_identityComponent`: `ω̄̂(𝒜⁰) = ω̄̂(𝒜)`.
-- `AbelianVariety.metrizedHodgeLine_baseChange_le`: `ω̄_{𝒜_L} ⊆ ω̄_𝒜 ⊗ O_L` inside `ω̄(A_L)`, with equal metrics.
-- `AbelianVariety.metrizedHodgeLine_iso`: A `K`-isomorphism `A ≅ B` induces an isometry `ω̄̂(A/K) ≅ ω̄̂(B/K)`.
-- `AbelianVariety.metrizedHodgeLine_pullback`: A `K`-isogeny `φ : A → B` induces `φ^* : ω̄_{𝒜_B} → ω̄_{𝒜_A}` scaling norms by `deg(φ)^{1/2}` at every `σ`.
-- `AbelianVariety.metrizedHodgeLine_norm_eq_volume`: `‖α‖²_σ` is the Faltings volume of `A_σ` for `α ∈ ω̄_{𝒜}`.
+- `ω̄̂(A/K)`: the Néron Hodge line with Faltings metrics, a hermitian line bundle over `O_K`.
+- `ω̄̂(G)` for a smooth model `G` with abelian generic fibre.
+- `ω̄̂(𝒜⁰) = ω̄̂(𝒜)`.
+- `ω̄_{𝒜_L} ⊆ ω̄_𝒜 ⊗ O_L` inside `ω̄(A_L)`, with equal metrics.
+- A `K`-isomorphism `A ≅ B` induces an isometry `ω̄̂(A/K) ≅ ω̄̂(B/K)`.
+- A `K`-isogeny `φ : A → B` induces `φ^* : ω̄_{𝒜_B} → ω̄_{𝒜_A}` scaling norms by `deg(φ)^{1/2}` at every `σ`.
+- `‖α‖²_σ` is the Faltings volume of `A_σ` for `α ∈ ω̄_{𝒜}`.
 
 Module: `ω̄_G` is a projective `O_K`-module of rank one (the imported Hodge-line interface, NeronModelsAndSemistableAbelianVarieties §1.11); its generic fibre is `H⁰(A, Ω^g)`.
 
@@ -785,10 +785,10 @@ The source identifications are [Deligne](https://www.numdam.org/item/SB_1983-198
 
 **Checks.**
 
-- `AbelianVariety.metrizedHodgeLine_elliptic_Q`: For `E/ℚ` with Néron differential `ω_N` and period lattice `Λ, ω̄̂(E/ℚ) ≅ (ℤ, ‖1‖² = covol(Λ))`, so its degree is `−½ log covol(Λ)`.
-- `AbelianVariety.metrizedHodgeLine_dim_zero`: For `g = 0, ω̄̂ = Ō_K`.
-- `AbelianVariety.metrizedHodgeLine_model_nonexample`: For `E : y² + y = x³ (27.a3)` with Néron differential `ω_N = dx/(2y + 1)`, the non-minimal model `W² = X³ + 16 (X = 4x, W = 8y + 4)` has invariant differential `dX/(2W) = ω_N/2`; its lattice `ℤ·ω_N/2` contains `ℤ·ω_N` with index 2 and would raise the degree by `log 2`: the finite part must be the Néron lattice. This is a test of a wrong differential lattice from a singular non-minimal Weierstrass equation, not a second smooth semi-abelian model.
-- `AbelianVariety.metrizedHodgeLine_product`: `ω̄̂(A × B) ≅ ω̄̂(A) ⊗ ω̄̂(B)` (§2.5).
+- For `E/ℚ` with Néron differential `ω_N` and period lattice `Λ, ω̄̂(E/ℚ) ≅ (ℤ, ‖1‖² = covol(Λ))`, so its degree is `−½ log covol(Λ)`.
+- For `g = 0, ω̄̂ = Ō_K`.
+- For `E : y² + y = x³ (27.a3)` with Néron differential `ω_N = dx/(2y + 1)`, the non-minimal model `W² = X³ + 16 (X = 4x, W = 8y + 4)` has invariant differential `dX/(2W) = ω_N/2`; its lattice `ℤ·ω_N/2` contains `ℤ·ω_N` with index 2 and would raise the degree by `log 2`: the finite part must be the Néron lattice. This is a test of a wrong differential lattice from a singular non-minimal Weierstrass equation, not a second smooth semi-abelian model.
+- `ω̄̂(A × B) ≅ ω̄̂(A) ⊗ ω̄̂(B)` (§2.5).
 - For `A = E` an elliptic curve over `ℚ` with Néron differential `ω_N, ω̄̂(E/ℚ) =` (`ℤ·ω_N, ‖ω_N‖² =` area of `ℂ/Λ_{ω_N}`); LMFDB's Faltings height of `11.a2` is `−½ log` of that area, `−0.30801`…
 
 ### 2.5 Products: the metrized Hodge line is multiplicative
@@ -862,11 +862,11 @@ Let `S` be a complex manifold and `A → S` a family of complex abelian varietie
 
 Provide the following maps and identities.
 
-- `AbelianFamily.faltingsMetric`: The smooth hermitian metric on `ω̄_{A/S}` given fibrewise by `faltingsNormSq`.
-- `AbelianFamily.faltingsMetric_baseChange`: For `f : S′ → S, f^*‖·‖_Fal` is the Faltings metric of `A ×_S S′`.
-- `SiegelFamily.faltingsMetric_frame`: `‖dz₁ ∧ ⋯ ∧ dz_g‖²(τ) = det Im τ`.
-- `SiegelFamily.faltingsMetric_invariant`: `‖·‖_Fal` is `Sp_{2g}(ℤ)`-invariant on the Hodge line of the Siegel family.
-- `AbelianFamily.faltingsMetric_conj`: Complex conjugation of the family is an isometry for `‖·‖_Fal`.
+- The smooth hermitian metric on `ω̄_{A/S}` given fibrewise by the Faltings squared norm of §2.1.
+- For `f : S′ → S, f^*‖·‖_Fal` is the Faltings metric of `A ×_S S′`.
+- `‖dz₁ ∧ ⋯ ∧ dz_g‖²(τ) = det Im τ`.
+- `‖·‖_Fal` is `Sp_{2g}(ℤ)`-invariant on the Hodge line of the Siegel family.
+- Complex conjugation of the family is an isometry for `‖·‖_Fal`.
 
 Smoothness: locally on `S` choose a holomorphic frame `α` of `ω̄`; `∫_{A_s} α ∧ ᾱ` is a fibre integral of a smooth form along a proper submersion, hence smooth in `s`.
 
@@ -880,24 +880,24 @@ The source identifications are [Deligne](https://www.numdam.org/item/SB_1983-198
 
 **Checks.**
 
-- `SiegelFamily.faltingsMetric_g1`: For `g = 1` and `τ = i, ‖dz‖² = 1`; for `τ = 2i, ‖dz‖² = 2`.
-- `SiegelFamily.faltingsMetric_modular_invariant`: For `f` of weight `12, |f(τ)|²(Im τ)^12` is `SL₂(ℤ)`-invariant. For `f = Δ` this is the square of the positive term `|Δ(τ)|(Im τ)^6` in §2.9, rather than that term itself.
-- `SiegelFamily.faltingsMetric_holomorphic_nonexample`: The function `τ ↦ det(τ)` is not the norm of the frame: the norm must be real, positive and `Sp`-equivariant with the factor `|det(Cτ+D)|^{−2}`.
-- `AbelianFamily.faltingsMetric_constant`: For a constant family `A × S → S` with a constant frame, the norm is constant.
+- For `g = 1` and `τ = i, ‖dz‖² = 1`; for `τ = 2i, ‖dz‖² = 2`.
+- For `f` of weight `12, |f(τ)|²(Im τ)^12` is `SL₂(ℤ)`-invariant. For `f = Δ` this is the square of the positive term `|Δ(τ)|(Im τ)^6` in §2.9, rather than that term itself.
+- The function `τ ↦ det(τ)` is not the norm of the frame: the norm must be real, positive and `Sp`-equivariant with the factor `|det(Cτ+D)|^{−2}`.
+- For a constant family `A × S → S` with a constant frame, the norm is constant.
 - For `g = 1`, the Petersson-type metric `‖e‖² = Im τ` on weight-one forms; for a modular form `f` of weight `k, ‖f·e^{⊗k}‖² = |f(τ)|²(Im τ)^k` is `Γ`-invariant.
 
 ### 2.9 Elliptic curves: the Faltings height from the discriminant and the periods
 
-Let `E` be an elliptic curve over a number field `K` with minimal discriminant ideal `Δ_{E/K}` (computed from the Néron model at every prime), and for `σ ∈ Σ_K` choose `τ_σ ∈ ℍ` with `E_σ(ℂ) ≅ ℂ/(ℤ + τ_σℤ)`. With Mathlib's modular discriminant `Δ(τ) = η(τ)^{24} = q∏_{n≥1}(1 − qⁿ)^{24}, q = e^{2πiτ}`, the Faltings-normalised degree of the metrized Hodge line satisfies `12·deg^ ω̄̂(E/K) = log N(Δ_{E/K}) − Σ_{σ∈Σ_K} log(|Δ(τ_σ)|·(Im τ_σ)^6) − 12[K:ℚ] log(2π)`. The archimedean term `|Δ(τ)|(Im τ)^6` is `SL₂(ℤ)`-invariant, so it does not depend on the choice of `τ_σ`.
+Let `E` be an elliptic curve over a number field `K` with minimal discriminant ideal `Δ_{E/K}` (computed from the Néron model at every prime), and for `σ ∈ Σ_K` choose `τ_σ ∈ ℍ` with `E_σ(ℂ) ≅ ℂ/(ℤ + τ_σℤ)`. With Mathlib's modular discriminant `Δ(τ) = η(τ)^{24} = q∏_{n≥1}(1 − qⁿ)^{24}, q = e^{2πiτ}`, the Faltings-normalised degree of the metrized Hodge line satisfies `12·deg^ ω̄̂(E/K) = log N(Δ_{E/K}) − Σ_{σ∈Σ_K} log(|Δ(τ_σ)|·(Im τ_σ)^6) − 12[K:ℚ] log(2π)`. The archimedean term `φ(τ) = |Δ(τ)|(Im τ)^6` is `SL₂(ℤ)`-invariant, so it does not depend on the choice of `τ_σ`.
 
 `E/K` any elliptic curve (semistability not needed for this formula, which computes the Néron-model degree). `Δ(τ)` here is the normalised `q`-product, without the factor `(2π)^{12}`; the lattice discriminant `g_2³ − 27g_3²` of `ℤ + τℤ` is `(2π)^{12}Δ(τ)`.
 
 Provide the following maps and identities.
 
-- `EllipticCurve.faltingsArchimedeanTerm`: `τ ↦ |Δ(τ)|·(Im τ)^6` on `ℍ, SL₂(ℤ)`-invariant.
-- `EllipticCurve.faltingsArchimedeanTerm_smul`: `faltingsArchimedeanTerm(γτ) = faltingsArchimedeanTerm(τ)` for `γ ∈ SL₂(ℤ)`.
-- `EllipticCurve.faltingsHeight_formula`: `12[K:ℚ]·h_Fal(E/K) = log N(Δ_{E/K}) − Σ_σ log faltingsArchimedeanTerm(τ_σ) − 12[K:ℚ] log 2π`.
-- `EllipticCurve.faltingsArchimedeanTerm_pos`: `faltingsArchimedeanTerm(τ) > 0` (`Δ` has no zeros on `ℍ`).
+- The archimedean term `φ(τ) = |Δ(τ)|·(Im τ)^6`, a function on `ℍ`.
+- `φ(γτ) = φ(τ)` for `γ ∈ SL₂(ℤ)`.
+- `12[K:ℚ]·h_Fal(E/K) = log N(Δ_{E/K}) − Σ_σ log φ(τ_σ) − 12[K:ℚ] log 2π`.
+- `φ(τ) > 0` (`Δ` has no zeros on `ℍ`).
 
 Choose a Weierstrass equation over `K` with invariant differential `ω` and discriminant `Δ_ω`, scaling `ω` by a nonzero element of `O_K` so that `ω` is a section of the Néron Hodge lattice. Such a scaling exists by clearing denominators; the corresponding equation remains defined over `K`. At each prime `𝔭, ω = u_𝔭 ω_min` with `Δ_ω = u_𝔭^{−12}Δ_min`, so `12·log #(ω̄_𝒜/O_K ω) = log N(Δ_{E/K}) − Σ_𝔭 v_𝔭(Δ_ω) log N𝔭 = log N(Δ_{E/K}) − log |N_{K/ℚ}(Δ_ω)|`.
 
@@ -913,10 +913,10 @@ The source identifications are [Gaudron–Rémond, Périodes](https://arxiv.org/
 
 **Checks.**
 
-- `EllipticCurve.faltingsHeight_11a2`: For `11.a2` over `ℚ` the formula evaluates to `−0.3080098`… (agreeing with LMFDB to 10 digits). The reference values `Δ_min=−11⁵, j=−122023936/161051` and `h_Fal=−0.308009841118403`… are recorded on [LMFDB 11.a2](https://www.lmfdb.org/EllipticCurve/Q/11/a/2). A period ratio `τ≈½+1.1493901061232523i` reproduces that height.
-- `faltingsArchimedeanTerm(−1/τ) = faltingsArchimedeanTerm(τ)`.
-- `EllipticCurve.faltingsHeight_lattice_disc_nonexample`: Using the lattice discriminant `(2π)^{12}Δ(τ)` together with the `−12 log 2π` term double-counts `2π`: the two normalisations differ by exactly `12 log 2π`.
-- `EllipticCurve.faltingsHeight_basechange`: For `E` with semistable reduction over `K` and `L/K` finite, both sides scale by `[L:K]`.
+- For `11.a2` over `ℚ` the formula evaluates to `−0.3080098`… (agreeing with LMFDB to 10 digits). The reference values `Δ_min=−11⁵, j=−122023936/161051` and `h_Fal=−0.308009841118403`… are recorded on [LMFDB 11.a2](https://www.lmfdb.org/EllipticCurve/Q/11/a/2). A period ratio `τ≈½+1.1493901061232523i` reproduces that height.
+- `φ(−1/τ) = φ(τ)`: at `τ = 2i` and `−1/τ = i/2` both sides equal `|Δ(2i)|·2^6 = |Δ(i/2)|·2^(−6)`, by `Δ(−1/τ) = τ^12 Δ(τ)`.
+- Using the lattice discriminant `(2π)^{12}Δ(τ)` together with the `−12 log 2π` term double-counts `2π`: the two normalisations differ by exactly `12 log 2π`.
+- For `E` with semistable reduction over `K` and `L/K` finite, both sides scale by `[L:K]`.
 - For `E = 11.a2` over `ℚ (Δ_min = −11⁵, τ ≈ ½ + 1.14939i)` the formula gives `h_Fal(E) = deg^/1 ≈ −0.3080098`, LMFDB's value of the Faltings height; in Deligne's normalisation add `½ log π`.
 
 ### 2.10 The hermitian pairing of `Ω(A)` with `Ω(A^t)`
@@ -962,12 +962,12 @@ For an abelian variety `A` of dimension `g` over a number field `K` with Néron 
 
 Provide the following maps and identities.
 
-- `AbelianVariety.faltingsHeight`: `h(A/K) = deg^ ω̄̂(A/K)/[K:ℚ]` in the Faltings normalisation.
-- `GroupScheme.faltingsHeight`: `h(G)` for a smooth model with abelian generic fibre.
-- `AbelianVariety.faltingsHeight_eq`: `h(A/K) = (log #(ω̄_𝒜/O_K α) − ½ Σ_σ log ‖α‖²_{σ,Fal})/[K:ℚ]` for any `α ≠ 0`.
-- `AbelianVariety.faltingsHeight_congr`: `A ≅ B` over `K` implies `h(A/K) = h(B/K)`.
-- `AbelianVariety.faltingsHeight_rescale`: Replacing the squared metric by `c·‖·‖²` changes `h` by `−½ log c` (Deligne: `+(g/2) log π`; unscaled: `−(g/2) log 2`).
-- `AbelianVariety.faltingsHeight_prod`: `h((A × B)/K) = h(A/K) + h(B/K)`.
+- `h(A/K) = deg^ ω̄̂(A/K)/[K:ℚ]` in the Faltings normalisation.
+- `h(G)` for a smooth model with abelian generic fibre.
+- `h(A/K) = (log #(ω̄_𝒜/O_K α) − ½ Σ_σ log ‖α‖²_{σ,Fal})/[K:ℚ]` for any `α ≠ 0`.
+- `A ≅ B` over `K` implies `h(A/K) = h(B/K)`.
+- Replacing the squared metric by `c·‖·‖²` changes `h` by `−½ log c` (Deligne: `+(g/2) log π`; unscaled: `−(g/2) log 2`).
+- `h((A × B)/K) = h(A/K) + h(B/K)`.
 
 Apply §1.3 to the hermitian line bundle of §2.4; the explicit formula is the definition with the Faltings norm of §2.1.
 
@@ -977,10 +977,10 @@ The source identifications are [Faltings, Endlichkeitssätze](https://gdz.sub.un
 
 **Checks.**
 
-- `AbelianVariety.faltingsHeight_11a2`: For `E = 11.a2` over `ℚ` (semistable), `h(E/ℚ) ≈ −0.3080098`.
-- `AbelianVariety.faltingsHeight_dim_zero`: For `g = 0, h = 0`.
-- `AbelianVariety.faltingsHeight_model_nonexample`: For `E : y² + y = x³ (27.a3)`, computing with the lattice `ℤ·dX/(2W)` of the non-minimal model `W² = X³ + 16` instead of the Néron lattice gives `h(E/ℚ) + log 2`: the Néron model is essential.
-- `AbelianVariety.faltingsHeight_normalization`: For `E/ℚ, h_Del(E) = h(E/ℚ) + ½ log π`.
+- For `E = 11.a2` over `ℚ` (semistable), `h(E/ℚ) ≈ −0.3080098`.
+- For `g = 0, h = 0`.
+- For `E : y² + y = x³ (27.a3)`, computing with the lattice `ℤ·dX/(2W)` of the non-minimal model `W² = X³ + 16` instead of the Néron lattice gives `h(E/ℚ) + log 2`: the Néron model is essential.
+- For `E/ℚ, h_Del(E) = h(E/ℚ) + ½ log π`.
 - `h(A/K)` does not depend on `α` (§1.4) and is unchanged under `K`-isomorphism of `A`.
 
 ### 3.2 The Faltings height is an invariant of the abelian variety
@@ -1031,12 +1031,12 @@ For an abelian variety `A` over a number field `K` choose a finite extension `L/
 
 Provide the following maps and identities.
 
-- `AbelianVariety.stableFaltingsHeight`: `h_st(A) = h(A_L/L)` for any `L` over which `A` is everywhere semistable.
-- `AbelianVariety.stableFaltingsHeight_eq_of_semistable`: `h_st(A) = h(A/K)` if `A` is semistable over `K`.
-- `AbelianVariety.stableFaltingsHeight_baseChange`: `h_st(A_L) = h_st(A)` for `L/K` finite.
-- `AbelianVariety.stableFaltingsHeight_le`: `h_st(A) ≤ h(A/K)`.
-- `AbelianVariety.stableFaltingsHeight_congr_geometric`: `A ⊗ ℚ̄ ≅ B ⊗ ℚ̄ ⇒ h_st(A) = h_st(B)`.
-- `AbelianVariety.stableFaltingsHeight_twelve`: `h_st(A) = h(A_{K(A[12])}/K(A[12]))`.
+- `h_st(A) = h(A_L/L)` for any `L` over which `A` is everywhere semistable.
+- `h_st(A) = h(A/K)` if `A` is semistable over `K`.
+- `h_st(A_L) = h_st(A)` for `L/K` finite.
+- `h_st(A) ≤ h(A/K)`.
+- `A ⊗ ℚ̄ ≅ B ⊗ ℚ̄ ⇒ h_st(A) = h_st(B)`.
+- `h_st(A) = h(A_{K(A[12])}/K(A[12]))`.
 
 Existence of `L`: NeronModelsAndSemistableAbelianVarieties §3.12 applied to `A[3]` (primes not above 3) and to `A[4]` (primes not above 2) shows `A_{K(A[12])}` is semistable everywhere.
 
@@ -1050,10 +1050,10 @@ The source identifications are [Deligne](https://www.numdam.org/item/SB_1983-198
 
 **Checks.**
 
-- `AbelianVariety.stableFaltingsHeight_11a2`: `h_st(11.a2) = h(11.a2/ℚ) ≈ −0.3080098` (semistable over `ℚ`).
-- `AbelianVariety.stableFaltingsHeight_twist`: A quadratic twist `E^d` of `E` over `K` has `h_st(E^d) = h_st(E)`, although `h(E^d/K)` and `h(E/K)` may differ.
-- `AbelianVariety.stableFaltingsHeight_relative_nonexample`: For `27.a3` over `ℚ, h(E/ℚ) > h_st(E)`: the relative height of a non-semistable curve is not the stable height.
-- `AbelianVariety.stableFaltingsHeight_dim_zero`: `h_st` of the zero abelian variety is 0.
+- `h_st(11.a2) = h(11.a2/ℚ) ≈ −0.3080098` (semistable over `ℚ`).
+- A quadratic twist `E^d` of `E` over `K` has `h_st(E^d) = h_st(E)`, although `h(E^d/K)` and `h(E/K)` may differ.
+- For `27.a3` over `ℚ, h(E/ℚ) > h_st(E)`: the relative height of a non-semistable curve is not the stable height.
+- `h_st` of the zero abelian variety is 0.
 - `h_st(A) = h(A/K)` when `A` is semistable over `K` (`e.g`. `11.a2`); `h_st` of a CM elliptic curve with `j = 0` is the minimum of `h_st` over elliptic curves (Deligne, Remarque 1.5).
 
 ### 3.5 Products, duals and powers for the stable height
@@ -1084,7 +1084,7 @@ Let `A` be an abelian variety of dimension `g` over a number field `K` and `K′
 
 Semistability over `K′`: NeronModelsAndSemistableAbelianVarieties §3.12 with `N = 3` and `N = 5`.
 
-Prove `NeronDifferentials.baseChange_determinant_nonunit`: for a finite extension `R → R′` of complete mixed-characteristic DVRs with finite residue fields, an abelian variety `A` over `Frac(R)` that is non-semistable over `R` and semistable over `R′` has a non-unit determinant for `Lie(𝒜)⊗R′ → Lie(𝒜′)`. Both `Lie` modules have rank `dim A` and the map is the generic identity. If its determinant were a unit, the smooth-group differential criterion would make the comparison étale near the unit. Translation and the separated birational étale comparison then identify the identity model with the semi-abelian identity model after extension, forcing the original identity fibre to be semi-abelian by descent. This contradicts non-semistability. The Néron existence, base-change map and identity-model comparison come from **NeronModelsAndSemistableAbelianVarieties** §§1.3, 1.11 and 3.3; this strictness implication is the extra local theorem required here (Deligne, proof of Lemme 1.23, p. 35). Thus the local differential-lattice quotient is nonzero, with cardinality at least `Nw ≥ p`. Non-isomorphism of the group schemes alone does not imply this `Lie` assertion.
+Prove the strict non-unit determinant theorem: for a finite extension `R → R′` of complete mixed-characteristic DVRs with finite residue fields, an abelian variety `A` over `Frac(R)` that is non-semistable over `R` and semistable over `R′` has a non-unit determinant for `Lie(𝒜)⊗R′ → Lie(𝒜′)`. Both `Lie` modules have rank `dim A` and the map is the generic identity. If its determinant were a unit, the smooth-group differential criterion would make the comparison étale near the unit. Translation and the separated birational étale comparison then identify the identity model with the semi-abelian identity model after extension, forcing the original identity fibre to be semi-abelian by descent. This contradicts non-semistability. The Néron existence, base-change map and identity-model comparison come from **NeronModelsAndSemistableAbelianVarieties** §§1.3, 1.11 and 3.3; this strictness implication is the extra local theorem required here (Deligne, proof of Lemme 1.23, p. 35). Thus the local differential-lattice quotient is nonzero, with cardinality at least `Nw ≥ p`. Non-isomorphism of the group schemes alone does not imply this `Lie` assertion.
 
 Hence `c(A, K′/K) ≥ (log p)/[K′:ℚ]` for each such `p`.
 
@@ -1118,12 +1118,12 @@ Let `u_K : A → B` be an isogeny of abelian varieties over a number field `K`, 
 
 Provide the following maps and identities.
 
-- `Isogeny.different`: `𝔡_u ⊆ O_K`, the Fitting ideal of `coker(u^* : ω̄_ℬ → ω̄_𝒜)`.
-- `Isogeny.different_ne_bot`: `𝔡_u ≠ 0`.
-- `Isogeny.different_eq_top_of_etale`: `𝔡_u = O_K` at primes where `u` is étale; in particular at primes not dividing `deg u`.
-- `Isogeny.different_comp`: `𝔡_{v∘u} = 𝔡_u·𝔡_v`.
-- `Isogeny.card_quotient_different`: `#(O_K/𝔡_u) = #(ω̄_𝒜/u^*ω̄_ℬ)`.
-- `Isogeny.different_eq_kernel_differentials`: If `u` is flat on identity components with finite flat kernel `𝒢, #(O_K/𝔡_u) = #e^*Ω¹_{𝒢/O_K}`.
+- `𝔡_u ⊆ O_K`, the Fitting ideal of `coker(u^* : ω̄_ℬ → ω̄_𝒜)`.
+- `𝔡_u ≠ 0`.
+- `𝔡_u = O_K` at primes where `u` is étale; in particular at primes not dividing `deg u`.
+- `𝔡_{v∘u} = 𝔡_u·𝔡_v`.
+- `#(O_K/𝔡_u) = #(ω̄_𝒜/u^*ω̄_ℬ)`.
+- If `u` is flat on identity components with finite flat kernel `𝒢, #(O_K/𝔡_u) = #e^*Ω¹_{𝒢/O_K}`.
 
 `u_K` étale on the generic fibre, so `Lie(u)` is injective and `ω̄_ℬ → ω̄_𝒜` is injective; define `𝔡_u` as the annihilator (equivalently Fitting ideal) of the cokernel; locally it is generated by `det Lie(u)`.
 
@@ -1139,10 +1139,10 @@ The source identifications are [Raynaud](https://www.numdam.org/item/AST_1985__1
 
 **Checks.**
 
-- `Isogeny.different_mul_n`: For `[n], n ∈ ℤ ∖ {0}`, on a `g`-dimensional abelian scheme, the different is `(n^g)`, and its norm is `|n|^{g[K:ℚ]}`. For `g > 1` the annihilator of the full `Lie` cokernel is `(n)`, which detects the need for its Fitting ideal.
-- `Isogeny.different_id`: `𝔡_{id} = O_K`.
-- `Isogeny.different_mu_p`: For `E` over `ℤ_p` with a subgroup scheme `μ_p` (ordinary, multiplicative kernel) the quotient isogeny has different `(p)` at `p`, while the étale-kernel quotient `(ℤ/p)` has different `(1)`.
-- `Isogeny.different_nonflat_nonexample`: For an elliptic curve whose identity special fibre at `p` is additive, `[p]` has a positive-dimensional kernel on that fibre and is not flat as an isogeny of models. The finite-flat-kernel comparison cannot replace the determinant of its `Lie` map.
+- For `[n], n ∈ ℤ ∖ {0}`, on a `g`-dimensional abelian scheme, the different is `(n^g)`, and its norm is `|n|^{g[K:ℚ]}`. For `g > 1` the annihilator of the full `Lie` cokernel is `(n)`, which detects the need for its Fitting ideal.
+- `𝔡_{id} = O_K`.
+- For `E` over `ℤ_p` with a subgroup scheme `μ_p` (ordinary, multiplicative kernel) the quotient isogeny has different `(p)` at `p`, while the étale-kernel quotient `(ℤ/p)` has different `(1)`.
+- For an elliptic curve whose identity special fibre at `p` is additive, `[p]` has a positive-dimensional kernel on that fibre and is not flat as an isogeny of models. The finite-flat-kernel comparison cannot replace the determinant of its `Lie` map.
 - For `[n]` with `n ≠ 0` on an abelian scheme of relative dimension `g` over `O_K, 𝔡_{[n]} = (n^g)` and `#(O_K/𝔡) = |n|^{g[K:ℚ]}`; for an étale isogeny `𝔡_u = O_K`.
 
 ### 4.2 Faltings' isogeny formula
@@ -1173,15 +1173,15 @@ For an isogeny `u_K : A → B` of degree `d` over a number field `K` with dual `
 
 Néron models over `O_K`; no semistability assumption.
 
-Prove the local milestone `Isogeny.cartierDual_length`: for a finite flat commutative group `𝒢` of `rank d` over a complete mixed-characteristic DVR `R` with finite residue field, `length_R ω_𝒢 + length_R ω_(𝒢^D) = v_R(d)`. There is no ramification bound and no restriction to groups killed by `p`. Use `invariantDifferentialsAndAbsoluteDifferent` from **FiniteFlatGroupsAndIntegralPadicHodgeTheory** §R07.1.17 to express the two lengths as valuations of absolute differents, then the duality of the Hopf algebras and their trace lattices to identify their product with (d) (Raynaud, Théorème 2.1.1 and Remarque 2.1.2, p. 207). At a good-reduction prime the kernels of `u` and `u^t` are these Cartier-dual finite flat groups, so this milestone gives `v(𝔡_u)+v(𝔡_{u^t})=v(d)`. The tame statement for `p`-torsion with `e ≤ p−1` alone does not cover this use.
+Prove the local Cartier-dual length milestone: for a finite flat commutative group `𝒢` of `rank d` over a complete mixed-characteristic DVR `R` with finite residue field, `length_R ω_𝒢 + length_R ω_(𝒢^D) = v_R(d)`. There is no ramification bound and no restriction to groups killed by `p`. Use `invariantDifferentialsAndAbsoluteDifferent` from **FiniteFlatGroupsAndIntegralPadicHodgeTheory** §R07.1.17 to express the two lengths as valuations of absolute differents, then the duality of the Hopf algebras and their trace lattices to identify their product with (d) (Raynaud, Théorème 2.1.1 and Remarque 2.1.2, p. 207). At a good-reduction prime the kernels of `u` and `u^t` are these Cartier-dual finite flat groups, so this milestone gives `v(𝔡_u)+v(𝔡_{u^t})=v(d)`. The tame statement for `p`-torsion with `e ≤ p−1` alone does not cover this use.
 
 For semistable models, apply §2.6 to `u`: the identity `deg(u) p_B = u^{t*}p_Au^*` gives the equality of determinant ideals directly, including toric reduction.
 
-For arbitrary reduction over number fields, take the local abelian-variety pairing and the mutually dual isogeny sequences from **ArithmeticGaloisDuality** §D7.6, with the topology and normalization in the supplier contract above. For `F` a finite extension of `ℚ_p, M = ker(u)` and every finite unramified extension `F_r/F`, specialize these supplied sequences to obtain `Isogeny.localKummer_exact`: `0 → coker(A(F_r) → B(F_r)) → H¹(F_r,M) → Hom(coker(B^t(F_r) → A^t(F_r)), ℚ/ℤ) → 0`. The right map is restriction under the supplied pairing; its exactness is the supplied adjunction of Kummer maps. Both cokernels are finite, so their continuous and abstract character groups coincide. This corollary applies to every isogeny over `F`, including degree divisible by `p` (Raynaud §2.3, pp. 209–210, and §2.4 with Remarque 2.4.1, pp. 210–212).
+For arbitrary reduction over number fields, take the local abelian-variety pairing and the mutually dual isogeny sequences from **ArithmeticGaloisDuality** §D7.6, with the topology and normalization in the supplier contract above. For `F` a finite extension of `ℚ_p, M = ker(u)` and every finite unramified extension `F_r/F`, specialize these supplied sequences to obtain the local Kummer sequence `0 → coker(A(F_r) → B(F_r)) → H¹(F_r,M) → Hom(coker(B^t(F_r) → A^t(F_r)), ℚ/ℤ) → 0`. The right map is restriction under the supplied pairing; its exactness is the supplied adjunction of Kummer maps. Both cokernels are finite, so their continuous and abstract character groups coincide. This corollary applies to every isogeny over `F`, including degree divisible by `p` (Raynaud §2.3, pp. 209–210, and §2.4 with Remarque 2.4.1, pp. 210–212).
 
 Let `q` be the residue cardinality of `F` and `v_F` its integral valuation. Prove `log_q #coker(u(F_r)) = r v_F(𝔡_u) + O(1)`, with the constant independent of `r`, by comparing the analytic `Lie` filtrations of Néron models and their finite component groups. Finite-module Tate duality and the local Euler characteristic give `log_q #H¹(F_r,M) = r v_F(d) + O(1): #H⁰` and `#H²` are bounded by `d` while `r` varies. The preceding exact sequence then identifies the linear coefficients and proves `v_F(𝔡_u)+v_F(𝔡_{u^t})=v_F(d)`. This finite-residue-field proof supplies exactly the local fields of number-field Néron models.
 
-The new local target is `Isogeny.localCokernel_asymptotic`, the displayed conormal-length asymptotic with one bound uniform in `r ≥ 1`. Together with the supplied duality and its `Isogeny.localKummer_exact` corollary, comparison of linear coefficients gives the dual-different and height identities here.
+The new local target is the displayed conormal-length asymptotic for `log_q #coker(u(F_r))`, with one bound uniform in `r ≥ 1`. Together with the supplied duality and its local Kummer sequence corollary, comparison of linear coefficients gives the dual-different and height identities here.
 
 Globalize the equality of local ideals. Add the two isogeny formulas: `½log d−log N𝔡_u/[K:ℚ]` and `½log d−log N𝔡_{u^t}/[K:ℚ]` sum to zero. Equivalently `h(B)−h(A)=h(B^t)−h(A^t)`.
 
@@ -1254,13 +1254,13 @@ Let `E` be a totally real or CM number field acting on an abelian variety `A` ov
 
 Provide the following maps and identities.
 
-- `AbelianVariety.componentQuotient`: `W(𝒜, τ) = Ω(𝒜) ⊗_{O_K ⊗ O_E, τ} O_K`.
-- `AbelianVariety.componentLine`: `N̄(𝒜, τ) = det(W(𝒜,τ)/torsion) ⊗ det(W(𝒜^t,τ^c)/torsion)`, with the pairing metric. Taking the torsion-free quotient precedes the determinant.
-- `AbelianVariety.componentHeight`: `h(A, τ) = deg^ N̄(𝒜, τ)/(2[K:ℚ])`.
-- `AbelianVariety.componentHeight_baseChange`: `h(A_L, τ) = h(A, τ)` for `L/K` finite (semistable `A`).
-- `AbelianVariety.componentPairing_orthogonal`: The pairing of §2.10 is the orthogonal sum over `τ` of pairings `W(A, τ) × W(A^t, τ^c) → ℂ`.
-- `AbelianVariety.componentLine_trivial_action`: For `E = ℚ, N̄(𝒜, id) = ω̄̂(A) ⊗ ω̄̂(A^t)` with the Yuan–Zhang `((2π)^{−g})` metrics, and `h(A, id) = (h_YZ(A) + h_YZ(A^t))/2 = h_YZ(A) = h_Del(A)`.
-- `AbelianVariety.componentHeight_sum`: If every `W` is locally free and `O_K ⊗ O_E → ∏_τ O_K` is an isomorphism at every prime, then `Σ_τ h(A, τ) = h_Del(A)`.
+- `W(𝒜, τ) = Ω(𝒜) ⊗_{O_K ⊗ O_E, τ} O_K`.
+- `N̄(𝒜, τ) = det(W(𝒜,τ)/torsion) ⊗ det(W(𝒜^t,τ^c)/torsion)`, with the pairing metric. Taking the torsion-free quotient precedes the determinant.
+- `h(A, τ) = deg^ N̄(𝒜, τ)/(2[K:ℚ])`.
+- `h(A_L, τ) = h(A, τ)` for `L/K` finite (semistable `A`).
+- The pairing of §2.10 is the orthogonal sum over `τ` of pairings `W(A, τ) × W(A^t, τ^c) → ℂ`.
+- For `E = ℚ, N̄(𝒜, id) = ω̄̂(A) ⊗ ω̄̂(A^t)` with the Yuan–Zhang `((2π)^{−g})` metrics, and `h(A, id) = (h_YZ(A) + h_YZ(A^t))/2 = h_YZ(A) = h_Del(A)`.
+- If every `W` is locally free and `O_K ⊗ O_E → ∏_τ O_K` is an isomorphism at every prime, then `Σ_τ h(A, τ) = h_Del(A)`.
 
 The `O_E`-action on `A` extends to the Néron model, hence to its identity component, by the Néron mapping property; the dual action on `A^t` is `γ ↦ γ^t`.
 
@@ -1276,9 +1276,9 @@ The source identifications are [Yuan–Zhang](https://arxiv.org/abs/1507.06903v3
 
 **Checks.**
 
-- `AbelianVariety.componentHeight_Q`: For `E = ℚ, h(A, id) = h_YZ(A)`.
-- `AbelianVariety.componentQuotient_rank`: For a CM elliptic curve of type `{τ}`, the generic ranks of `W(𝒜,τ)` and `W(𝒜,τ^c)` are 1 and 0. The torsion-free quotient of the latter is zero; the raw quotient at a ramified prime can have torsion.
-- `AbelianVariety.componentHeight_torsion_nonexample`: At a prime ramified in `E` the raw quotient `W(𝒜, τ)` can have torsion; taking `det` of the raw module without the torsion-free convention changes the degree.
+- For `E = ℚ, h(A, id) = h_YZ(A)`.
+- For a CM elliptic curve of type `{τ}`, the generic ranks of `W(𝒜,τ)` and `W(𝒜,τ^c)` are 1 and 0. The torsion-free quotient of the latter is zero; the raw quotient at a ramified prime can have torsion.
+- At a prime ramified in `E` the raw quotient `W(𝒜, τ)` can have torsion; taking `det` of the raw module without the torsion-free convention changes the degree.
 - For `E = ℚ(i)` and `K` containing `E`, at a place `v` above 5 the map `O_{K,v} ⊗ O_E → O_{K,v} × O_{K,v}` is an isomorphism: the roots `i` and `−i` differ by the unit `2i`. The `τ`- and `τ^c`-eigenlines give the determinant product with no local index.
 - At `v` above 2, on a free CM elliptic differential line where `i` acts by `τ(i)`, the raw `τ^c`-quotient is `O_{K,v}/(2i)`, whereas its torsion-free quotient is zero. The integral split formula does not apply at this prime.
 - `Σ_τ deg^ N̄(𝒜, τ)` differs from `deg^ ω̄̂(A) + deg^ ω̄̂(A^t)` by the discriminant-type correction of the `τ`-decomposition, which vanishes when all `W(𝒜, τ)` are locally free and `O_K ⊗ O_E → ∏ O_K` is an isomorphism at every prime.
@@ -1341,11 +1341,11 @@ A logarithmic metric is allowed to grow like powers of a logarithm relative to a
 
 ### 5.0a Principal Siegel toroidal compactifications and degeneration charts
 
-Fix `g ≥ 1` and the principal Siegel stack `𝔄_g` over `Spec ℤ` of **PELModuli** §M6.3. Let `Σ` be a smooth admissible rational polyhedral cone decomposition of the cone of positive semidefinite symmetric forms on a rank-`g` integral lattice with rational radical, invariant under its integral linear group and with finitely many orbits of cones. Admissibility includes coverage of that cone and compatibility on rational boundary components. Define `SiegelModuli.ToroidalCompactification g Σ`: a proper smooth Deligne–Mumford stack `Ā_{g,Σ}` over `ℤ` with dense open `𝔄_g`, a relative normal-crossings boundary, a stratification by the cone data, and a semi-abelian family `SiegelModuli.toroidalFamily` extending the universal abelian scheme. These properties and the formal chart comparison characterize the compactification up to its compatible isomorphism. The family is semi-abelian in §2.0’s fibrewise sense. (Faltings–Chai IV, Definition 5.6 and Theorem 5.7(1)–(4), pp. 116–117.)
+Fix `g ≥ 1` and the principal Siegel stack `𝔄_g` over `Spec ℤ` of **PELModuli** §M6.3. Let `Σ` be a smooth admissible rational polyhedral cone decomposition of the cone of positive semidefinite symmetric forms on a rank-`g` integral lattice with rational radical, invariant under its integral linear group and with finitely many orbits of cones. Admissibility includes coverage of that cone and compatibility on rational boundary components. Define the toroidal compactification `Ā_{g,Σ}`: a proper smooth Deligne–Mumford stack over `ℤ` with dense open `𝔄_g`, a relative normal-crossings boundary, a stratification by the cone data, and a semi-abelian family `G → Ā_{g,Σ}` extending the universal abelian scheme. These properties and the formal chart comparison characterize the compactification up to its compatible isomorphism. The family is semi-abelian in §2.0’s fibrewise sense. (Faltings–Chai IV, Definition 5.6 and Theorem 5.7(1)–(4), pp. 116–117.)
 
-Construct the formal chart comparison `SiegelModuli.toroidalDegenerationChart`: along a cone stratum, the completed stack and its family are the quotient of the Mumford degeneration chart by the finite cone stabilizer. The chart includes the character lattice `X`, period lattice `Y`, an abelian scheme `B`, its extension by the split torus with characters `X`, and the bilinear period pairing `b:Y×X →` units on the abelian locus. A principal polarization identifies the period and character lattices and makes the valuation forms positive semidefinite in the prescribed cone. Construct these data and their semi-abelian family using Mumford’s construction, retaining arbitrary abelian part and the polarization and descent comparisons; prove the chart is the completion of the algebraic family. On a complex polydisc with reduced boundary `x₁⋯x_a = 0`, the pairing has the form `b(y,x) = u(y,x)·∏_j x_j^(s_j(y,x))`, with `u` a unit and each `s_j` positive semidefinite. This is the degeneration interface consumed by §5.3. (Faltings–Chai II §§3–5; III §§2–7 and §10; IV §3 and Theorem 5.7(4); V, proof of Proposition 4.5, pp. 168–169.)
+Construct the formal degeneration chart comparison: along a cone stratum, the completed stack and its family are the quotient of the Mumford degeneration chart by the finite cone stabilizer. The chart includes the character lattice `X`, period lattice `Y`, an abelian scheme `B`, its extension by the split torus with characters `X`, and the bilinear period pairing `b:Y×X →` units on the abelian locus. A principal polarization identifies the period and character lattices and makes the valuation forms positive semidefinite in the prescribed cone. Construct these data and their semi-abelian family using Mumford’s construction, retaining arbitrary abelian part and the polarization and descent comparisons; prove the chart is the completion of the algebraic family. On a complex polydisc with reduced boundary `x₁⋯x_a = 0`, the pairing has the form `b(y,x) = u(y,x)·∏_j x_j^(s_j(y,x))`, with `u` a unit and each `s_j` positive semidefinite. This is the degeneration interface consumed by §5.3. (Faltings–Chai II §§3–5; III §§2–7 and §10; IV §3 and Theorem 5.7(4); V, proof of Proposition 4.5, pp. 168–169.)
 
-The API is `SiegelModuli.toroidalOpen`, `SiegelModuli.toroidalBoundary`, `SiegelModuli.toroidalFamily_restrict`, `SiegelModuli.toroidalRefinement`, `SiegelModuli.toroidalRefinement_family` and `SiegelModuli.toroidalValuativeLift`. A cone refinement induces a proper map equal to the identity on `𝔄_g` and identifies the pulled-back semi-abelian family with the refined family; common smooth refinements exist. A principally polarized abelian variety over the fraction field of a DVR has, after a finite extension, a lift to `Ā_{g,Σ}`; its pulled-back family is its semi-abelian identity model. This is the valuative property of the proper stack, and permits a finite extension even when the coarse point is rational. For full symplectic level `n ≥ 3`, construct the corresponding fine toroidal spaces over `ℤ[1/n,ζ_n]`, or the union of pairing components over `ℤ[1/n]`, with smooth relative boundary intersections after a smooth cone choice. Level pullback preserves the family and the formal charts. (Faltings–Chai IV, proof of properness before Theorem 5.7, p. 116; Theorem 5.7(5), p. 117; §6, pp. 120–131.)
+The API consists of the open immersion `𝔄_g → Ā_{g,Σ}`, the boundary divisor, the restriction of `G` to `𝔄_g` (the universal abelian scheme), the refinement maps with their family comparison, and the valuative lift. A cone refinement induces a proper map equal to the identity on `𝔄_g` and identifies the pulled-back semi-abelian family with the refined family; common smooth refinements exist. A principally polarized abelian variety over the fraction field of a DVR has, after a finite extension, a lift to `Ā_{g,Σ}`; its pulled-back family is its semi-abelian identity model. This is the valuative property of the proper stack, and permits a finite extension even when the coarse point is rational. For full symplectic level `n ≥ 3`, construct the corresponding fine toroidal spaces over `ℤ[1/n,ζ_n]`, or the union of pairing components over `ℤ[1/n]`, with smooth relative boundary intersections after a smooth cone choice. Level pullback preserves the family and the formal charts. (Faltings–Chai IV, proof of properness before Theorem 5.7, p. 116; Theorem 5.7(5), p. 117; §6, pp. 120–131.)
 
 **Checks.**
 
@@ -1358,9 +1358,9 @@ The API is `SiegelModuli.toroidalOpen`, `SiegelModuli.toroidalBoundary`, `Siegel
 
 ### 5.0b The integral minimal compactification and its ample Hodge power
 
-Construct `SiegelModuli.MinimalCompactification g`, a normal projective scheme `A_g^*` over all of `Spec ℤ` containing the coarse moduli `A_g` as a dense open. Its intended construction is `Proj` of the integral graded ring `⊕_{k≥0} H⁰(Ā_{g,Σ},ω_G^k)`; prove finite generation and independence of the smooth cone decomposition. Supply an integer `m ≥ 1` and an ample line `SiegelModuli.minimalHodgePower` `L` on `A_g^*`, with `SiegelModuli.toroidalToMinimal` `π_Σ:Ā_{g,Σ} → A_g^*` and `SiegelModuli.minimalHodgePower_pullback`: `π_Σ^*L ≅ ω_G^m`. On the open this is the descent of the universal Hodge power through the coarse map. The exponent annihilates the inertia action on Hodge fibres and can be enlarged to make `L` very ample. The construction retains the finite-place lattice at every prime of `ℤ`. (Faltings–Chai V, Proposition 2.1 and Theorem 2.3(1)–(3), pp. 149–150.)
+Construct the minimal compactification `A_g^*`, a normal projective scheme over all of `Spec ℤ` containing the coarse moduli `A_g` as a dense open. Its intended construction is `Proj` of the integral graded ring `⊕_{k≥0} H⁰(Ā_{g,Σ},ω_G^k)`; prove finite generation and independence of the smooth cone decomposition. Supply an integer `m ≥ 1` and an ample line bundle `L` on `A_g^*`, the contraction `π_Σ:Ā_{g,Σ} → A_g^*`, and the isomorphism `π_Σ^*L ≅ ω_G^m`. On the open this is the descent of the universal Hodge power through the coarse map. The exponent annihilates the inertia action on Hodge fibres and can be enlarged to make `L` very ample. The construction retains the finite-place lattice at every prime of `ℤ`. (Faltings–Chai V, Proposition 2.1 and Theorem 2.3(1)–(3), pp. 149–150.)
 
-Prove `SiegelModuli.hodgePower_generated`: a positive Hodge power is globally generated on the toroidal stack. Prove also `SiegelModuli.hodgeDegree_zero_criterion`: if `C` is a smooth proper geometrically connected curve over an algebraically closed field, `G → C` is a semi-abelian family with principally polarized abelian generic fibre, and `deg(det ω_G) ≤ 0`, then `det ω_G` is torsion, its degree is zero, and `G` is an isotrivial abelian scheme (constant after a finite étale cover). In this principally polarized case the algebraic theta sections show that a nonpositive Hodge degree forces all theta moduli to be constant; the generic abelian scheme then has good reduction everywhere. These results give the projective contraction and the ample descended line. (Faltings–Chai V, Propositions 2.1–2.2 and their proofs, pp. 149–150.) The API also includes `SiegelModuli.minimalHodgePower_refinement`, compatibility of `π_Σ` and its line comparison under common refinements; `SiegelModuli.minimalLevelMap`, the finite surjective map `q_n : A^*_{g,n} → A_g^*⊗ℤ[1/n]` for `n ≥ 3`, with the fixed-`ζ_n` version over `ℤ[1/n,ζ_n]`, satisfying `q_n⁻¹(A_g) = A_{g,n}`; and `SiegelModuli.minimalLevel_hodgePower`, identification of `q_n^*L` with the `m`-th power of the extended fine-level Hodge line on the whole minimal compactification, compatible with toroidal pullback. Surjectivity follows from properness and surjectivity on the dense moduli open; the boundary strata map to strata of the same abelian dimension (Faltings–Chai V, Theorem 2.5(3)–(6), pp. 152–153). The level-one integral model, rather than a model over `ℤ[1/n]` alone, fixes the height in §5.5. A coarse point extends to `A_g^*` by properness, and §5.0a supplies its toroidal stack lift after a finite extension when its generic point is in `A_g`. (Faltings–Chai V, Propositions 2.1–2.2 and Theorem 2.3, pp. 149–151; Theorem 2.5, pp. 152–153.)
+Prove that a positive Hodge power is globally generated on the toroidal stack. Prove also the Hodge-degree criterion: if `C` is a smooth proper geometrically connected curve over an algebraically closed field, `G → C` is a semi-abelian family with principally polarized abelian generic fibre, and `deg(det ω_G) ≤ 0`, then `det ω_G` is torsion, its degree is zero, and `G` is an isotrivial abelian scheme (constant after a finite étale cover). In this principally polarized case the algebraic theta sections show that a nonpositive Hodge degree forces all theta moduli to be constant; the generic abelian scheme then has good reduction everywhere. These results give the projective contraction and the ample descended line. (Faltings–Chai V, Propositions 2.1–2.2 and their proofs, pp. 149–150.) The API also includes compatibility of `π_Σ` and its line comparison under common refinements; the finite surjective level map `q_n : A^*_{g,n} → A_g^*⊗ℤ[1/n]` for `n ≥ 3`, with the fixed-`ζ_n` version over `ℤ[1/n,ζ_n]`, satisfying `q_n⁻¹(A_g) = A_{g,n}`; and the identification of `q_n^*L` with the `m`-th power of the extended fine-level Hodge line on the whole minimal compactification, compatible with toroidal pullback. Surjectivity follows from properness and surjectivity on the dense moduli open; the boundary strata map to strata of the same abelian dimension (Faltings–Chai V, Theorem 2.5(3)–(6), pp. 152–153). The level-one integral model, rather than a model over `ℤ[1/n]` alone, fixes the height in §5.5. A coarse point extends to `A_g^*` by properness, and §5.0a supplies its toroidal stack lift after a finite extension when its generic point is in `A_g`. (Faltings–Chai V, Propositions 2.1–2.2 and Theorem 2.3, pp. 149–151; Theorem 2.5, pp. 152–153.)
 
 **Checks.**
 
@@ -1379,17 +1379,17 @@ The predicate and its local functoriality require no compactness. Compactness is
 
 Provide the following maps and identities.
 
-- `HermitianMetric.HasLogSingularities`: The local predicate on a continuous metric on `L|_U` along `Z = X̄ ∖ U`, relative to the fixed extension `L` on an arbitrary complex analytic variety `X̄`.
-- `HermitianMetric.hasLogSingularities_iff_distance`: For compact `X̄`, equivalent to `C₀^{−1}‖·‖₀ρ^{−r} ≤ ‖·‖ ≤ C₀‖·‖₀ρ^r` near `Z` for a logarithmic distance `ρ ≥ 1` and uniform `C₀ ≥ 1, r ≥ 0`.
-- `HermitianMetric.hasLogSingularities_pullback`: Preserved under pullback along morphisms `g` with `g^{−1}(Z)` contained in the new boundary.
-- `HermitianMetric.hasLogSingularities_of_modification`: Can be checked after a proper modification isomorphic over `U`, using the extension `π^*L`.
-- `HermitianMetric.hasLogSingularities_iff_pullback_of_finite_surjective`: For a finite surjective morphism `q : Ȳ → X̄` of normal complex analytic varieties, with `U = X̄ ∖ Z` and `V = q⁻¹(U)` both dense, a continuous hermitian metric on `L|_U` has logarithmic singularities along `Z` relative to `L` if and only if its pullback on `(q^*L)|_V` has logarithmic singularities along the reduced inverse-image boundary `W = (q⁻¹Z)_red` relative to `q^*L`. Neither compactness nor absence of ramification is required; the extension upstairs is exactly `q^*L`.
-- `HermitianMetric.hasLogSingularities_tensor`: Closed under tensor products and duals.
-- `HermitianMetric.hasLogSingularities_of_continuous`: A continuous metric on `L` over all of `X̄` has logarithmic singularities along every `Z`.
-- `HermitianMetric.LogSingularAtZero`: One-variable local model: a positive frame norm `f` on a punctured disc has a logarithmic singularity at 0 iff `max(f, f^{−1}) ≤ C(1 + |log|q||)^n` near 0.
-- `HermitianMetric.LogSingularAtZero.inv`: The reciprocal frame norm has logarithmic growth on the fixed dual extension.
-- `HermitianMetric.LogSingularAtZero.pow`: The local model is stable under natural-number powers, including the unit power. Negative integral powers use the dual extension.
-- `HermitianMetric.LogSingularAtZero.comp_pow_iff`: For `f : ℂ → ℝ` and a natural number `e ≥ 1`, the local condition for `f` is equivalent to that for `u ↦ f(u^e)`, with the pulled-back frame of the fixed extension.
+- The local predicate on a continuous metric on `L|_U` along `Z = X̄ ∖ U`, relative to the fixed extension `L` on an arbitrary complex analytic variety `X̄`.
+- For compact `X̄`, the predicate is equivalent to `C₀^{−1}‖·‖₀ρ^{−r} ≤ ‖·‖ ≤ C₀‖·‖₀ρ^r` near `Z` for a logarithmic distance `ρ ≥ 1` and uniform `C₀ ≥ 1, r ≥ 0`.
+- The predicate is preserved under pullback along morphisms `g` with `g^{−1}(Z)` contained in the new boundary.
+- The predicate can be checked after a proper modification isomorphic over `U`, using the extension `π^*L`.
+- For a finite surjective morphism `q : Ȳ → X̄` of normal complex analytic varieties, with `U = X̄ ∖ Z` and `V = q⁻¹(U)` both dense, a continuous hermitian metric on `L|_U` has logarithmic singularities along `Z` relative to `L` if and only if its pullback on `(q^*L)|_V` has logarithmic singularities along the reduced inverse-image boundary `W = (q⁻¹Z)_red` relative to `q^*L`. Neither compactness nor absence of ramification is required; the extension upstairs is exactly `q^*L`.
+- The predicate is closed under tensor products and duals.
+- A continuous metric on `L` over all of `X̄` has logarithmic singularities along every `Z`.
+- One-variable local model: a positive frame norm `f` on a punctured disc has a logarithmic singularity at 0 iff `max(f, f^{−1}) ≤ C(1 + |log|q||)^n` near 0.
+- The reciprocal frame norm has logarithmic growth on the fixed dual extension.
+- The local model is stable under natural-number powers, including the unit power. Negative integral powers use the dual extension.
+- For `f : ℂ → ℝ` and a natural number `e ≥ 1`, the local condition for `f` is equivalent to that for `u ↦ f(u^e)`, with the pulled-back frame of the fixed extension.
 
 Locally, `log Σ|f_i|²` differs from `2 log max|f_i|` by a bounded amount. For compact `X̄` a finite cover makes the local constants uniform, and any two continuous metrics on `L` over `X̄` have bounded ratio. This gives the uniform distance formulation.
 
@@ -1409,12 +1409,12 @@ The source identifications are [Faltings–Chai](https://doi.org/10.1007/978-3-6
 
 - On the disc with coordinate `q` and the fixed trivial extension, the cusp Hodge squared norm `f(q) = −(1/(2π))log|q|` satisfies the local logarithmic condition. Multiplication by `2π` gives the frame norm `−log|q|` with the same property.
 - `‖1‖ = |q|^{−1/2}` does not have logarithmic singularities along `q = 0` (it grows faster than any power of `log`).
-- `HermitianMetric.logSing_empty_boundary`: With `Z = ∅` every continuous metric qualifies.
+- With `Z = ∅` every continuous metric qualifies.
 - On `X̄ = 𝔸¹_ℂ` with `Z = {0}`, the constant unit metric on `O` has logarithmic singularities. This noncompact example and the disc examples use the local predicate.
 - If `‖·‖` has logarithmic singularities so does `‖·‖^k` on `L^{⊗k}` for `k ∈ ℤ`. In particular, the reciprocal of `−(1/(2π))log|q|` has logarithmic growth on the fixed dual extension `(k = −1)`.
-- The zero function is not a frame norm. Eventual strict positivity is part of LogSingularAtZero; `max(0,0⁻¹)=0` in Lean must not let the zero function pass.
-- `HermitianMetric.logSing_negative_nonexample`: A negative constant is not a metric, even if its maximum with its reciprocal satisfies a formal upper bound. Require `C > 0` and a positive frame norm.
-- `HermitianMetric.logSing_extension_nonexample`: Replacing a boundary extension by `O(−[0])` multiplies its generator norm by `|q|`. Its inverse has polynomial growth, so logarithmic singularity is not invariant under arbitrary boundary twists.
+- The zero function is not a frame norm. Eventual strict positivity is part of the one-variable local model; with the junk value `0⁻¹ = 0` of a total inverse, `max(0,0⁻¹)=0` would otherwise satisfy the bound.
+- A negative constant is not a metric, even if its maximum with its reciprocal satisfies a formal upper bound. Require `C > 0` and a positive frame norm.
+- Replacing a boundary extension by `O(−[0])` multiplies its generator norm by `|q|`. Its inverse has polynomial growth, so logarithmic singularity is not invariant under arbitrary boundary twists.
 - For the finite ramified disc map `q = u^e, e ≥ 1`, and the trivial extension, a norm `−log|q|` pulls back to `−e log|u|` near zero. Both have logarithmic growth; the local equivalence includes `e = 2`, where the map has degree two and is not a modification.
 - Under the same map, `|q|^(−1/2)` pulls back to `|u|^(−e/2)`; neither norm has logarithmic growth. The constant map `e = 0` would instead give the unit norm upstairs, so the positive-exponent hypothesis is necessary.
 - For the unit norm on `O` over the punctured disc, changing the extension to `O(−[0])` gives frame norm `|q|`. Its pullback frame has norm `|u|^e` on `q^*O(−[0]) = O(−e[0])`, and both fail the logarithmic condition. Replacing this extension by `O` upstairs would change the answer and is excluded.
@@ -1470,22 +1470,22 @@ The source identifications are [Faltings–Chai](https://doi.org/10.1007/978-3-6
 
 Let `A_g` be the coarse moduli space of principally polarized abelian varieties of dimension `g` over `ℤ` (PELModuli §§M6.3–M6.10) and `A_g^*` its minimal compactification, a normal projective scheme over `ℤ` (§5.0b over all primes). There is `m ≥ 1` and an ample line bundle `L` on `A_g^*` such that, for every toroidal compactification `Ā_{g,Σ}` of the stack `𝔄_g` with universal semi-abelian scheme `G` and proper `π : Ā_{g,Σ} → A_g^*, π^*L ≅ ω̄_G^{⊗m}`; over the open part the pullback of `L` to the stack is `ω̄^{⊗m}` of the universal abelian scheme. The Faltings metric on `ω̄` (§2.8) induces an `F_∞`-invariant continuous metric on `L|_{A_g(ℂ)}`, which has logarithmic singularities along the boundary by fine-level growth (§5.3) and finite-surjective descent (§5.1). The pair `L̄ = (L, ‖·‖_Fal^{⊗m})` is the metrized modular line bundle. The same construction applies to the fine level-`n` spaces `A_{g,n}` over `ℤ[1/n] (n ≥ 3)`, whose minimal compactification maps finitely to `A_g^* ⊗ ℤ[1/n]`.
 
-Principal Siegel datum; the toroidal compactifications of the stack `𝔄_g` over `ℤ` and its minimal compactification are those of §5.0 (stack at non-neat level, coarse minimal scheme over all of `Spec ℤ`). `m` is chosen so that `ω̄^{⊗m}` descends (killing stabilizers) and is ample on `A_g^*`.
+Principal Siegel datum; the toroidal compactifications of the stack `𝔄_g` over `ℤ` and its minimal compactification are those of §§5.0a–5.0b (stack at non-neat level, coarse minimal scheme over all of `Spec ℤ`). `m` is chosen so that `ω̄^{⊗m}` descends (killing stabilizers) and is ample on `A_g^*`.
 
 Provide the following maps and identities.
 
-- `SiegelModuli.modularLineBundle`: The metrized `L̄`, whose underlying ample line `L` on `A_g^*` is constructed in §5.0b, equipped here with the Faltings metric on the open part.
-- `SiegelModuli.modularLineBundle_pullback`: The integral comparison of §5.0b `π^*L ≅ ω̄_G^{⊗m}` is an isometry on the abelian open part for the metric just defined, compatibly with refinements of `Σ`.
-- `SiegelModuli.modularMetric`: The metric `‖·‖_Fal^{⊗m}` on `L|_{A_g(ℂ)}`.
-- `SiegelModuli.modularMetric_logSing`: The metric on `L|_{A_g(ℂ)}` has logarithmic singularities along `A_g^*(ℂ) ∖ A_g(ℂ)`, relative to the fixed extension `L` on `A_g^*(ℂ)`.
-- `SiegelModuli.modularLineBundle_level`: Pullback along `A^*_{g,n} → A_g^* ⊗ ℤ[1/n]` gives the level-`n` metrized modular line bundle.
-- `SiegelModuli.modularLineBundle_g1`: For `g = 1, A₁^* = ℙ¹_ℤ, L = O(1), m = 12`.
+- The metrized `L̄`, whose underlying ample line `L` on `A_g^*` is constructed in §5.0b, equipped here with the Faltings metric on the open part.
+- The integral comparison of §5.0b `π^*L ≅ ω̄_G^{⊗m}` is an isometry on the abelian open part for the metric just defined, compatibly with refinements of `Σ`.
+- The metric `‖·‖_Fal^{⊗m}` on `L|_{A_g(ℂ)}`.
+- The metric on `L|_{A_g(ℂ)}` has logarithmic singularities along `A_g^*(ℂ) ∖ A_g(ℂ)`, relative to the fixed extension `L` on `A_g^*(ℂ)`.
+- Pullback along `A^*_{g,n} → A_g^* ⊗ ℤ[1/n]` gives the level-`n` metrized modular line bundle.
+- For `g = 1, A₁^* = ℙ¹_ℤ, L = O(1), m = 12`.
 
 `A_g^* = Proj` of the graded algebra of Hodge-line sections (§5.0b); some power of the Hodge line descends to an ample `L` with `π^*L = ω̄^{⊗m}` (§5.0b).
 
 Metric: §2.8 on the open stack descends to the coarse space because it is invariant under automorphisms (Faltings–Chai Definition 4.1).
 
-Logarithmic singularities: choose a full symplectic level `n ≥ 3` over `ℂ`. The fine-level toroidal and minimal compactifications are normal analytic varieties, and `π_n : Ā_{g,n} → A^*_{g,n}` is a proper modification isomorphic over `A_{g,n}`. Put `L_n = q_n^*L` for the finite surjective level-forgetting map `q_n : A^*_{g,n} → A_g^*` of §5.0b; its inverse-image boundary is `A^*_{g,n} ∖ A_{g,n}`. The identifications of §5.0b give `π_n^*L_n ≅ ω̄_G^{⊗m}` on the whole toroidal compactification, and the metric there on the abelian open is the `m`-th tensor power of §5.3's Faltings metric. Modification descent in §5.1 therefore gives logarithmic growth on the fixed extension `L_n`. The universal-family comparison is an isometry over `A_{g,n}`, identifying this metric with `q_n^*` of the coarse modular metric. Apply `HermitianMetric.hasLogSingularities_iff_pullback_of_finite_surjective` to descend the estimate to `L` on `A_g^*`.
+Logarithmic singularities: choose a full symplectic level `n ≥ 3` over `ℂ`. The fine-level toroidal and minimal compactifications are normal analytic varieties, and `π_n : Ā_{g,n} → A^*_{g,n}` is a proper modification isomorphic over `A_{g,n}`. Put `L_n = q_n^*L` for the finite surjective level-forgetting map `q_n : A^*_{g,n} → A_g^*` of §5.0b; its inverse-image boundary is `A^*_{g,n} ∖ A_{g,n}`. The identifications of §5.0b give `π_n^*L_n ≅ ω̄_G^{⊗m}` on the whole toroidal compactification, and the metric there on the abelian open is the `m`-th tensor power of §5.3's Faltings metric. Modification descent in §5.1 therefore gives logarithmic growth on the fixed extension `L_n`. The universal-family comparison is an isometry over `A_{g,n}`, identifying this metric with `q_n^*` of the coarse modular metric. Apply the finite surjective pullback criterion of §5.1 to `q_n` to descend the estimate to `L` on `A_g^*`.
 
 The source identifications are [Faltings–Chai](https://doi.org/10.1007/978-3-662-02632-8), Ch. V §4, p. 167; [Deligne](https://www.numdam.org/item/SB_1983-1984__26__25_0/), §1.10, p. 31.
 
@@ -1493,10 +1493,10 @@ The source identifications are [Faltings–Chai](https://doi.org/10.1007/978-3-6
 
 **Checks.**
 
-- `SiegelModuli.modularLineBundle_g1_norm`: For `g = 1`, the integral discriminant section `Δ` of `ω̄^{⊗12}` (`q`-expansion `q∏(1 − qⁿ)^{24}` for `2πi dz`) has `‖Δ‖_Fal^{⊗12}(τ) = (2π)^{12}|η(τ)^{24}|(Im τ)^6`, that is `|g₂³ − 27g₃²|(Im τ)^6` for the lattice `ℤ + τℤ`; the value `|η(τ)^{24}|(Im τ)^6` would shift the height of `j(E)` by `12 log 2π`.
-- `SiegelModuli.modularLineBundle_ample_nonexample`: For boundary contraction fibres of positive dimension, `ω̄` has degree zero, so it cannot be ample on a toroidal compactification. Ampleness is the property of the descended power on the minimal compactification; genus one has no such positive-dimensional contraction fibre.
-- `SiegelModuli.modularMetric_continuous_nonexample`: The metric does not extend continuously to the boundary: `‖dz‖² = Im τ → ∞` at the cusp.
-- `SiegelModuli.modularLineBundle_g0`: For `g = 0` the moduli space is `Spec ℤ` and `L̄` is trivial.
+- For `g = 1`, the integral discriminant section `Δ` of `ω̄^{⊗12}` (`q`-expansion `q∏(1 − qⁿ)^{24}` for `2πi dz`) has `‖Δ‖_Fal^{⊗12}(τ) = (2π)^{12}|η(τ)^{24}|(Im τ)^6`, that is `|g₂³ − 27g₃²|(Im τ)^6` for the lattice `ℤ + τℤ`; the value `|η(τ)^{24}|(Im τ)^6` would shift the height of `j(E)` by `12 log 2π`.
+- For boundary contraction fibres of positive dimension, `ω̄` has degree zero, so it cannot be ample on a toroidal compactification. Ampleness is the property of the descended power on the minimal compactification; genus one has no such positive-dimensional contraction fibre.
+- The metric does not extend continuously to the boundary: `‖dz‖² = Im τ → ∞` at the cusp.
+- For `g = 0` the moduli space is `Spec ℤ` and `L̄` is trivial.
 - For `g = 1` over `ℂ` and `j ≠ 0, 1728`, the principally polarized elliptic curve has the nonidentity automorphism `[−1]`, which maps to the identity on the coarse `j`-line. It acts by `−1` on the Hodge fibre and by 1 on its twelfth power. Thus the line with `m = 12` descends while the stack-to-coarse map still has inertia and is not an isomorphism over the open. The finite map from a fine level replaces this map in the growth argument.
 - For `g = 1: A₁^* = ℙ¹_ℤ` (the `j`-line) and `L = O(1)` with `m = 12`, the section of `O(1)` at `j = ∞` corresponding to the discriminant section `Δ` of `ω̄^{⊗12}` (`q`-expansion `q∏(1 − qⁿ)^{24}` for the canonical differential `2πi dz` of the Tate curve). Its Faltings norm at `τ` is `(2π)^{12}|Δ(τ)|(Im τ)^6` with Mathlib's `Δ = η^{24}`, which gives both the archimedean term and the `−12 log 2π` of §2.9.
 
@@ -1546,16 +1546,16 @@ The source identifications are [Faltings–Chai](https://doi.org/10.1007/978-3-6
 
 ### 5.7 The theta height of a principally polarized abelian variety
 
-Let `(A,L)` be principally polarized over `ℚ̄` with `L` symmetric and ample, and let `r ≥ 2` be even. Use Pazuki’s good translated basis of `H⁰(A,L^{⊗r²})`: choose a rigidification and `[r]^*L ≅ L^{⊗r²}`, a nonzero `s ∈ H⁰(A,L)`, good theta-group lifts `i_x` for `x ∈ A[r²]`, and representatives `Γ` of `A[r²]/A[r]`. Put `s_x = i_x ∘ t_x^* ∘ [r]^*s` for `x ∈ Γ`. There are `r^{2g}` sections and they form a basis; `r² ≥ 4` gives a projective embedding `Θ : A → ℙ^{r^{2g}−1}`. Define `thetaNullPoint = [s_x(0)]` and `thetaHeight = h_FS(thetaNullPoint)`, the absolute logarithmic height using the Fubini–Study metric at infinity and the sup metric at finite places. Changing the good lifts, representatives, rigidification or section changes this basis by a common scalar, a permutation and roots of unity (of order dividing `r⁴`). These preserve the projective height at every place, so `thetaHeight` depends only on the geometric isomorphism class of `(A,L)` and on `r`. The assertion applies to these good translated bases; it does not assert invariance under arbitrary Heisenberg theta structures or arbitrary archimedean unitary matrices.
+Let `(A,L)` be principally polarized over `ℚ̄` with `L` symmetric and ample, and let `r ≥ 2` be even. Use Pazuki’s good translated basis of `H⁰(A,L^{⊗r²})`: choose a rigidification and `[r]^*L ≅ L^{⊗r²}`, a nonzero `s ∈ H⁰(A,L)`, good theta-group lifts `i_x` for `x ∈ A[r²]`, and representatives `Γ` of `A[r²]/A[r]`. Put `s_x = i_x ∘ t_x^* ∘ [r]^*s` for `x ∈ Γ`. There are `r^{2g}` sections and they form a basis; `r² ≥ 4` gives a projective embedding `Θ : A → ℙ^{r^{2g}−1}`. Define the theta null point `Θ(0) = [s_x(0)]` and the theta height `h_Θ(A, L) = h_FS(Θ(0))`, the absolute logarithmic height using the Fubini–Study metric at infinity and the sup metric at finite places. Changing the good lifts, representatives, rigidification or section changes this basis by a common scalar, a permutation and roots of unity (of order dividing `r⁴`). These preserve the projective height at every place, so `h_Θ(A, L)` depends only on the geometric isomorphism class of `(A,L)` and on `r`. The assertion applies to these good translated bases; it does not assert invariance under arbitrary Heisenberg theta structures or arbitrary archimedean unitary matrices.
 
 `r ≥ 2` even, so `L^{⊗r²}` is very ample `(r² ≥ 4)`; `L` symmetric defining the principal polarization.
 
 Provide the following maps and identities.
 
-- `AbelianVariety.thetaNullPoint`: `Θ(0) = [s_x(0)]` for a Pazuki good translated basis at the fixed even level `r`. The representative point is defined modulo scalar, phase and permutation changes.
-- `AbelianVariety.thetaHeight`: `h_Θ(A, L) = h_FS(Θ(0))`.
-- `AbelianVariety.thetaHeight_nonneg`: `h_Θ(A, L) ≥ 0`.
-- `AbelianVariety.thetaHeight_congr`: `thetaHeight` is unchanged under geometric isomorphism of `(A,L)` and under the permitted good-basis choices, with `r` fixed.
+- `Θ(0) = [s_x(0)]` for a Pazuki good translated basis at the fixed even level `r`. The representative point is defined modulo scalar, phase and permutation changes.
+- `h_Θ(A, L) = h_FS(Θ(0))`.
+- `h_Θ(A, L) ≥ 0`.
+- `h_Θ(A, L)` is unchanged under geometric isomorphism of `(A,L)` and under the permitted good-basis choices, with `r` fixed.
 
 Use the theta group and the canonical isomorphism `[r]^*L ≅ L^{⊗r²}` from **AbelianSchemesAndArithmeticModuli** §§A3.6 and A1.5. Translation by `r²`-torsion produces the sections; the canonical `A[r]`-subgroup identifies representatives differing by `A[r]`. The good-lift relation is the rigidified translation compatibility of Pazuki §2.3, pp. 7–9.
 
@@ -1569,12 +1569,12 @@ The source identifications are [Pazuki](https://arxiv.org/abs/0907.1458v2), §2.
 
 **Checks.**
 
-- `AbelianVariety.thetaHeight_level_dependence`: `h_Θ` depends on `r`; the comparison constants of §5.8 depend on `(g, r)`.
-- `AbelianVariety.thetaHeight_elliptic`: For `g = 1, r = 2`, use the four half-characteristic constants `θ_(a,b)(τ,0), a,b ∈ {0,½}`, including `θ_(½,½)(τ,0)=0`. The raw Mumford coordinates `θ_(m,0)(4τ,0), m ∈ (¼)ℤ/ℤ`, use a different basis related by a Fourier transform. They cannot replace the good translated-basis coordinates in `thetaHeight` without computing the finite-place correction. Neither system consists of four second-order constants at `2τ`.
+- `h_Θ` depends on `r`; the comparison constants of §5.8 depend on `(g, r)`.
+- For `g = 1, r = 2`, use the four half-characteristic constants `θ_(a,b)(τ,0), a,b ∈ {0,½}`, including `θ_(½,½)(τ,0)=0`. The raw Mumford coordinates `θ_(m,0)(4τ,0), m ∈ (¼)ℤ/ℤ`, use a different basis related by a Fourier transform. They cannot replace the good translated-basis coordinates in `h_Θ` without computing the finite-place correction. Neither system consists of four second-order constants at `2τ`.
 - At `τ=i`, put `a=2^(−1/4)`. The half-characteristic point is `[1:a:a:0]`, while the raw Mumford point is `[1+a:a:1−a:a]`. At every embedding their squared `ℓ²` norms differ by factor 2; both have finite height contribution `¼ log 2`. The raw Mumford FS height is therefore larger by `½ log 2`.
-- `AbelianVariety.thetaHeight_sup_nonexample`: Using the sup-norm Weil height of `Θ(0)` instead of the `ℓ²` height changes `h_Θ` by up to `½ log(r^{2g})`.
-- `AbelianVariety.thetaHeight_product`: For a product of principally polarized varieties with product theta structures, `Θ(0)` is the Segre product and `h_Θ` is additive.
-- `AbelianVariety.thetaHeight_unitary_nonexample`: The real orthogonal matrix `(1/5)[[3,4],[−4,3]]` sends `[1:0]` to `[3:−4]`. Both vectors have the same archimedean `ℓ²` norm after scaling, but their absolute FS heights are 0 and `log 5`. An arbitrary unitary matrix need not preserve finite-place sup norms.
+- Using the sup-norm Weil height of `Θ(0)` instead of the `ℓ²` height changes `h_Θ` by up to `½ log(r^{2g})`.
+- For a product of principally polarized varieties with product theta structures, `Θ(0)` is the Segre product and `h_Θ` is additive.
+- The real orthogonal matrix `(1/5)[[3,4],[−4,3]]` sends `[1:0]` to `[3:−4]`. Both vectors have the same archimedean `ℓ²` norm after scaling, but their absolute FS heights are 0 and `log 5`. An arbitrary unitary matrix need not preserve finite-place sup norms.
 - Over `ℂ` with `A(ℂ) = ℂ^g/(ℤ^g + τℤ^g)`, the good translated-basis coordinates of `Θ(0)` are the theta constants `θ_(m₁,m₂)(τ,0)`, with `m₁,m₂ ∈ ((1/r)ℤ/ℤ)^g` (Pazuki, §2.3.4, p. 10, arXiv v2).
 
 ### 5.8 Comparison of theta height and stable Faltings height
@@ -1600,7 +1600,7 @@ Prove the explicit matrix lemma bound of Remark 1.2 with the displayed `C(g)`, t
 
 Translate normalisations with §2.7 (Pazuki uses `(2π)^{−g}i^{g²}`).
 
-Prove `AbelianVariety.thetaHeight_northcott` after these comparisons: for fixed `(g,r)`, bounded `h_Θ` and bounded degree of a field of definition give finitely many geometric classes of `(A,L)`. Corollary 1.3(1) bounds `h_st,Del` above, and §5.6 gives finitely many principally polarized geometric classes. For a fixed principal polarization, its symmetric representing lines form a finite `A[2]`-torsor over `ℚ̄`. This proof uses only the construction and choice-invariance from §5.7 as inputs to the comparison.
+Prove Northcott finiteness for the theta height after these comparisons: for fixed `(g,r)`, bounded `h_Θ` and bounded degree of a field of definition give finitely many geometric classes of `(A,L)`. Corollary 1.3(1) bounds `h_st,Del` above, and §5.6 gives finitely many principally polarized geometric classes. For a fixed principal polarization, its symmetric representing lines form a finite `A[2]`-torsor over `ℚ̄`. This proof uses only the construction and choice-invariance from §5.7 as inputs to the comparison.
 
 The source identifications are [Pazuki](https://arxiv.org/abs/0907.1458v2), Theorem 1.1, Remark 1.2, Corollary 1.3, pp. 2–3; Definition 3.1 and Theorem 3.4, §§3.1–3.2, pp. 10–13; Propositions 4.1–4.2, pp. 13–16; §5.1, Proposition 5.1 and Lemma 5.2, pp. 16–18; §5.2, Propositions 5.3 and 5.5, Lemma 5.4 and §5.2.1, pp. 17–19 (arXiv v2); §2.2, pp. 6–7.
 
@@ -1648,7 +1648,7 @@ At `q=0, −log|q|` and its square root satisfy logarithmic bounds, whereas `|q|
 
 ### Dependencies
 
-Layers 1–3; AbelianSchemesAndArithmeticModuli A3/A5; DiophantineApproximationAndTranscendence §§0.2–0.3; ComplexComparisonPartII §§C−1.1, C0.4 and C5.1; SchemeAndStackFoundations §4.17; PELModuli §§M3.9 and M6.3–M6.10; §5.0; Mathlib modular discriminant.
+Layers 1–3; AbelianSchemesAndArithmeticModuli A3/A5; DiophantineApproximationAndTranscendence §§0.2–0.3; ComplexComparisonPartII §§C−1.1, C0.4 and C5.1; SchemeAndStackFoundations §4.17; PELModuli §§M3.9 and M6.3–M6.10; §§5.0a–5.0b; Mathlib modular discriminant.
 
 ## Layer 6: Finiteness and uniform height bounds
 
@@ -1656,11 +1656,11 @@ Zarhin’s trick reduces an unpolarized abelian variety to a principally polariz
 
 ### 6.1 Zarhin's product
 
-For a polarized abelian scheme `(A, λ)` over `S`, define `AbelianVariety.zarhin` as `Z(A) := (A ×_S A^t)^4`. Use **PadicDifferentialEquationsAndRigidCohomology** §RD.5.116 for the existence of a principal polarization over `S` and for `AbelianVariety.zarhin_dim`, `dim Z(A) = 8 dim A`. Over a field every abelian variety admits a polarization, so this supplies a principally polarized variety over the original field. Section 6.2 proves the arithmetic height identity for this product.
+For a polarized abelian scheme `(A, λ)` over `S`, define Zarhin's product `Z(A) := (A ×_S A^t)^4`. Use **PadicDifferentialEquationsAndRigidCohomology** §RD.5.116 for the existence of a principal polarization over `S` and for the dimension formula `dim Z(A) = 8 dim A`. Over a field every abelian variety admits a polarization, so this supplies a principally polarized variety over the original field. Section 6.2 proves the arithmetic height identity for this product.
 
 The supplied principal-polarization theorem is used with a polarization `λ` defined over `S`. If `A` only admits a polarization étale locally, its supplied conclusion is correspondingly étale local. No selected principal polarization or its compatibility with base change is needed for the height identity.
 
-The product definition gives `AbelianVariety.zarhin_baseChange`, the natural isomorphism `Z(A)_{S′} ≅ Z(A_{S′})` of underlying abelian schemes, by base change of duals and products. The arithmetic height is independent of the principal polarization chosen on this product.
+The product definition gives the base-change comparison, the natural isomorphism `Z(A)_{S′} ≅ Z(A_{S′})` of underlying abelian schemes, by base change of duals and products. The arithmetic height is independent of the principal polarization chosen on this product.
 
 The source identifications are [Moret-Bailly](https://www.numdam.org/item/AST_1985__129__1_0/), Chapitre IX, §1, Lemme 1.1 and proof §§1.2–1.6, pp. 205–208; [Faltings–Chai](https://doi.org/10.1007/978-3-662-02632-8), Ch. I, Lemma 5.5, p. 29.
 
@@ -1668,9 +1668,9 @@ The source identifications are [Moret-Bailly](https://www.numdam.org/item/AST_19
 
 **Checks.**
 
-- `AbelianVariety.zarhin_zero`: For the zero-dimensional abelian scheme, `Z(A)` is the trivial group scheme with its unique unit principal polarization and dimension zero.
+- For the zero-dimensional abelian scheme, `Z(A)` is the trivial group scheme with its unique unit principal polarization and dimension zero.
 - For an elliptic scheme `E` with its principal polarization, `Z(E) ≅ E^8` has dimension eight and admits the product principal polarization. The height identity uses only the underlying product.
-- `AbelianVariety.zarhin_baseChange_check`: For an elliptic curve over a number field `K` and an extension `L/K, Z(E)_L ≅ (E_L)^8` as abelian varieties. This identifies the product after extension independently of any choice of principal polarization.
+- For an elliptic curve over a number field `K` and an extension `L/K, Z(E)_L ≅ (E_L)^8` as abelian varieties. This identifies the product after extension independently of any choice of principal polarization.
 
 ### 6.2 Heights through Zarhin's trick
 
@@ -1708,7 +1708,7 @@ The source identifications are [Deligne](https://www.numdam.org/item/SB_1983-198
 
 **Checks.**
 
-- `AbelianVariety.torsionField_dimZero_nonexample`: The zero abelian variety has trivial torsion and `K(A[n])=K`, so its empty Weil pairing does not force `μ_n` into that field. The cyclotomic-containment assertion is stated in positive dimension.
+- The zero abelian variety has trivial torsion and `K(A[n])=K`, so its empty Weil pairing does not force `μ_n` into that field. The cyclotomic-containment assertion is stated in positive dimension.
 - For `g = 1, [K(E[12]):K] ≤ #GL₂(ℤ/12) = 4608`.
 
 ### 6.4 Finiteness of principally polarized abelian varieties of bounded stable height
@@ -1805,6 +1805,8 @@ Layers 3–5; AbelianSchemesAndArithmeticModuli A2/A3/A6; NeronModelsAndSemistab
 
 FaltingsFinitenessAndIsogenyTheorems, Layers R28.1–R28.2, imports the metric, relative and stable heights, logarithmic Northcott comparison, modular-height identity, isogeny formula and denominator bounds. Its global determinant and descent arguments use these results through §6.6. The local terms along divisible towers are the height side of that argument, not a substitute for its Hodge–Tate input.
 
+ShimuraCompactifications imports the semi-abelian family predicate and the homomorphism extension theorem of §2.0 and the principal Siegel compactifications of §§5.0a–5.0b, extends them to general degeneration and PEL data, and proves agreement on the principal Siegel case.
+
 GrossZagierAndArithmeticHeights uses the hermitian degree and arithmetic-divisor pairing, including proper cycles inside a non-proper arithmetic scheme. HilbertModularVarietiesAndShimuraCurves uses the metrized arithmetic Hodge line. CM height developments use the Deligne normalization, the hermitian dual pairing and the integral component-line convention. Period and isogeny bounds use the metric dictionary and degree estimates; uniform Bogomolov applications use the stable height of a Jacobian, whose determinant metric is identified in Szpiro, Lemma 3.2.1, p. 26, and Yuan, Lemma 3.4, pp. 43–44.
 
 ## References
@@ -1822,6 +1824,7 @@ Page numbers below are printed page numbers for published scans and page numbers
 - Laurent Moret-Bailly. [Pinceaux de variétés abéliennes](https://www.numdam.org/item/AST_1985__129__1_0/). Astérisque 129 (1985).
 - Éric Gaudron and Gaël Rémond. [Théorème des périodes et degrés minimaux d'isogénies](https://arxiv.org/abs/1105.1230v1). Comment. Math. Helv. 89 (2014), 343–403; arXiv:1105.1230v1.
 - Éric Gaudron and Gaël Rémond. [Polarisations et isogénies](https://lmbp.uca.fr/~gaudron/art13.pdf). Duke Math. J. 163 (2014), 2057–2108 (author copy).
+- Enrico Bombieri and Walter Gubler. [Heights in Diophantine Geometry](https://doi.org/10.1017/CBO9780511542879). New Mathematical Monographs 4, Cambridge University Press 2006.
 - Fabien Pazuki. [Theta height and Faltings height](https://arxiv.org/abs/0907.1458v2). Bull. Soc. Math. France 140 (2012), 19–49; arXiv:0907.1458v2.
 - Yuri Bilu, Pierre Parent and Marusia Rebolledo. [Rational points on `X₀^+(p^r)`](https://aif.centre-mersenne.org/item/10.5802/aif.2781.pdf). Ann. Inst. Fourier 63 (2013), 957–984.
 - Xinyi Yuan and Shou-Wu Zhang. [On the averaged Colmez conjecture](https://arxiv.org/abs/1507.06903v3). Ann. of Math. 187 (2018), 533–638; arXiv:1507.06903v3 (with the November 2021 erratum appended).
