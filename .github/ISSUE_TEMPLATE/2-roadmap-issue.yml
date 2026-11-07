@@ -25,7 +25,6 @@ body:
         - AlgebraicTopology
         - AlgebraicVectorBundles
         - AmenableGroups
-        - AnalyticToricGeometry
         - BanachAlgebras
         - BanachSpaceTheory
         - BelyiMaps
@@ -38,6 +37,7 @@ body:
         - ClassFieldTheory
         - ClassicalArithmeticCompletion
         - ClassifyingSpaces
+        - CoboundaryExpansion
         - CombinatorialHeegaardFloer
         - CompactOperators
         - ComplexCurveModuli
@@ -45,19 +45,24 @@ body:
         - ComplexManifolds
         - ComplexTori
         - ComputabilityTheory
-        - ConformalMapping
         - CountableModelCounting
         - DGAInfinity
         - DGFloer
         - DerivedModuleAlgebra
+        - DiagrammaticCoherence
         - DifferentialGeometry
         - DiophantineApproximationAndTranscendence
-        - EffectiveBounds
+        - ECM
+        - EllipticCohomology
         - EllipticCurves
         - EllipticIntegrals
         - EnhancedDerivedSheaves
         - EtaleCohomologyFoundations
+        - EtaleMassFormula
+        - FactorRigidity
         - FinancialMathematics
+        - FiniteGroupExtensionSplitting
+        - FlagVarieties
         - FormalLaurentPuiseux
         - FreeGroupsAndLimitGroups
         - FreeProbability
@@ -67,24 +72,25 @@ body:
         - GeometricMeasureTheory
         - GeometricRepresentationCategories
         - GeometricTopology
-        - GlobalNumberFields
         - GlobalQuadraticForms
         - GraphConnectivityAndFlows
         - GroebnerGeometry
         - GrothendieckEulerForms
         - HamiltonianFloerOperations
         - HeegaardFloer
-        - HeightsAndUnits
-        - HopfRinow
+        - HopfologicalAlgebra
         - Hyperfunctions
         - ImaginaryQuadraticClassNumber
         - InfinitaryModelExistence
         - IntegralLattices
         - Isoperimetry
         - JacobianChallenge
+        - KacMoody
         - KhovanovHomology
-        - LocalFieldsRamification
+        - LFunctions
+        - LieGroupoidsPoisson
         - LocalPurity
+        - LocalVariationalFieldTheory
         - MarkovChainsAndRenewal
         - MassFormula
         - ModularCurves
@@ -99,18 +105,21 @@ body:
         - OperatorTheory
         - OptimalTransport
         - Orbifolds
-        - OrthogonalSpinGroups
         - PDE
         - PadicFunctionalAnalysis
         - PadicMeasuresIwasawaAlgebras
         - PerfectoidSpaces
-        - PeripheralActions
         - PivotalSpherical
         - PositiveScalarCurvature
+        - PrimitivePrimeDivisors
         - ProfiniteCohomology
+        - PseudodifferentialOperators
+        - PseudoholomorphicCurveAnalysis
         - PurityOfBranchLocus
         - QuadraticFormInvariants
+        - QuantumEnvelopingAlgebras
         - QuantumGroups
+        - QuaternionicAnalysis
         - RandomMatrices
         - Rank24LatticeConstructions
         - RealAnalyticGeometry
@@ -125,19 +134,27 @@ body:
         - SchemeAndStackFoundations
         - SchubertGeometry
         - SeibergWittenTheory
+        - SmoothBundlesConnections
         - SpinGeometry
+        - SporadicOrders
         - StablePeriodicCurved
         - StableReduction
         - StandardDistributions
+        - Subfactors
         - SubspaceTheorem
         - SuccessiveMinima
+        - SymplecticFieldTheory
         - SymplecticGeometry
         - TauberianBoundaryConvergence
         - TaubesGromov
+        - TemperleyLieb
         - ThetaSeries
         - TopologicalKTheory
+        - TopologicalSheafCohomology
         - TypeAHeckeAlgebras
+        - VonNeumannAlgebras
         - Yamabe
+        - ZerosOfLFunctions
         - ZigzagPreprojective
     validations:
       required: true
