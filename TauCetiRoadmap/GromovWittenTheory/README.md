@@ -23,8 +23,8 @@ This roadmap owns:
 What it builds on, and does not plan again:
 
 - **AnalyticStableMaps.** The stable-map carrier with its retained automorphism arrows and the stability theorem (Layer 1 there), all-genus compactness (§3.7), the nodal linearization and augmented index (§4.1), finite-dimensional equivariant obstruction data (§4.3), the uniform gluing estimates and the fixed-evaluation complements (§6.2–§6.3), the projection charts (§7.3), the rational dual-Čech functional (§9.2), relative families, the tame-path interpolation and choice comparisons (§10.1–§10.2), evaluation, forgetting and clutching maps with the marked universal family (§11.1–§11.2), the joint models and the forget-compatible ambient collection (§12.1–§12.2), the pushforward of the functional, the target `X^n`, the stabilization–evaluation map and the exports to Gromov–Witten theory (§13.1–§13.4). Its §13.4 assigns to this roadmap exactly the operations, axioms, descendants and the curve-class, Chern and area specialization owned here.
-- **ImplicitAtlases.** Implicit atlases (§1.1), the global relative trace and the rational virtual class with finite-subatlas independence (§4.2–§4.3), the boundary and cobordism law (§5.2), refinements (§5.3), pushforward (§5.4), the regular-manifold normalization and Euler comparison for the zero-set atlas of a smooth section (§5.6), product atlases and the Čech external product (§6.4–§6.5), transverse fiber products, the supported Gysin map and the application interface (§7.1–§7.4). Its §7.4 states that the splitting, divisor, unit and forgetful identities need application diagrams and orbifold weight normalizations beyond the engine: those diagrams are Layers 5–6 here.
-- **TopologicalSheafCohomology** Layers 0–1: constant-ring adapters, the cover-refinement Čech colimit and the compact Hausdorff Čech/derived comparison, consumed through ImplicitAtlases and in Layer 2's test-class carrier.
+- **ImplicitAtlases.** Čech cohomology on compact Hausdorff spaces with pullback along continuous maps (§0.7), implicit atlases (§1.1), the global relative trace and the rational virtual class with finite-subatlas independence (§4.2–§4.3), the boundary and cobordism law (§5.2), refinements (§5.3), pushforward (§5.4), the regular-manifold normalization and Euler comparison for the zero-set atlas of a smooth section (§5.6), product atlases and the Čech external product (§6.4–§6.5), transverse fiber products, the supported Gysin map and the application interface (§7.1–§7.4). Its §7.4 states that the splitting, divisor, unit and forgetful identities need application diagrams and orbifold weight normalizations beyond the engine: those diagrams are Layers 5–6 here.
+- **TopologicalSheafCohomology** TS1.1–TS1.2 (§1.1–§1.2): the fixed-cover complexes and the cover-refinement colimit by which ImplicitAtlases §0.7 computes Tau Ceti's `TauCeti.Topology.cechCohomology`, the carrier of every Čech group of ImplicitAtlases, the domain of the functional of AnalyticStableMaps §9.2 included. CharacteristicClasses C1.2b builds its Čech/singular comparison on the same colimit, so the test and insertion classes of §2.2 and the functional lie in one group and no comparison of two Čech theories enters.
 - **ComplexCurveModuli.** The countable stable pointed chart groupoid (D5), analytic properness and the finite-action universal charts (D6, in particular D6 item 4), the universal curve, one-mark contraction, `forgetAuxiliarySet`, collision charts and clutching with the smoothing line `T_* ⊗ T_**` (D7 items 1–3), and the late Orbifolds target adapter with the weighted pairing on `M̄_(g,n)` and its product comparison with `X^n` (D8). Its domain theorems concern pointed-stable domains; map-dependent stability and map compactness are AnalyticStableMaps'.
 - **Orbifolds** O1–O5: retained-arrow charts, the coarse triangulation and finite-CW witness, orbibundles and the weighted rational integration, Thom classes and Gysin maps (O5 items 1, 4 and 5), used only on the compact Deligne–Mumford targets after ComplexCurveModuli D8, never on the singular map zero locus.
 - **MorseNovikov** N1: the period-controlled completed group ring `Nov(R, H, N)` with its exact finite-below support condition, its `AddMonoidAlgebra` embedding, the nonnegative subring and strictly positive ideal, and the pushforward along period-compatible homomorphisms. It states no completed tensor-product identification; §0.2 proves the one it needs for finite-dimensional state spaces.
@@ -70,6 +70,8 @@ Outside this roadmap: the Chow-correspondence condition of Kontsevich–Manin 2.
 - `stdComplexLineEnergyDensity`, `stdComplexLineEnergy` and `Tames.stdComplexLineEnergyDensity_pos` (TauCeti/Geometry/Symplectic/Manifold/Energy.lean): the pointwise energy and its positivity under taming, the local input of §0.1's positivity of area.
 - `IsPseudoholomorphic` (TauCeti/Geometry/Symplectic/Manifold/JHolomorphic.lean): the derivative-level pseudoholomorphicity predicate on which AnalyticStableMaps' carrier is built.
 - `singularCohomologyFunctor` and the cup product (TauCeti/AlgebraicTopology/Cohomology/Basic.lean, Cup.lean): `H^*(X; ℚ)` with its ring structure, the state space of every operation.
+- `TauCeti.Topology.cechCohomology` (TauCeti/Topology/Sheaves/Cech/Colimit.lean): the Čech cohomology of a presheaf on an arbitrary topological space as the colimit over point-neighbourhood open covers. Every Čech group of this roadmap is this carrier, and ImplicitAtlases §0.7 places the domain of the virtual functional on it. The pin has pullback maps of fixed-family Čech complexes (`TopCat.Hom.cechComplexPullback`, TauCeti/Topology/Sheaves/Cech/Pullback.lean) but no pullback on the colimit and no cup product; these are ImplicitAtlases §0.7 and §6.5.
+- `TauCeti.SmoothSimplex`, `TauCeti.smoothSingularSubcomplex` (TauCeti/Geometry/Manifold/SmoothSingular/Basic.lean) and `TauCeti.SmoothSimplex.integral` (TauCeti/Geometry/Manifold/SmoothSingular/Integral.lean): smooth singular simplices of a manifold and the integral of a `p`-form over a smooth `p`-simplex, linear in the form and natural under smooth maps, the chain-level pairing of forms with smooth cycles used in §0.1 and §0.3. The smoothing theorem, Stokes for chains and the de Rham theorem are not at the pin; they are DifferentialGeometry 8.3–8.5.
 
 ### From TauCetiRoadmap.AnalyticStableMaps
 
@@ -89,11 +91,12 @@ Outside this roadmap: the Chow-correspondence condition of Kontsevich–Manin 2.
 - §4.2–§4.3: the global relative trace and the finite-subatlas independence of the rational virtual class.
 - §5.2: `δ^∨[X]^vir = [∂X]^vir` with outward-first orientation and the cobordism law for compatible boundary atlases; §5.3: refinements, shrinkings and disjoint unions; §5.4: pushforward along a continuous map.
 - §5.6: the zero-set atlas of a smooth section with compact zero set, the regular-manifold normalization and the agreement of its class with the compactly supported Euler pairing. Layer 3 uses it as the linear Euler atlas at the end of a constructed concordance, never as a theorem about the stable-map atlas itself.
-- §6.4–§6.5: product atlases and the Čech external product; §7.1–§7.3: fiber-product atlases, the supported Gysin map `i_!` and `Φ_Z(a) = Φ_P(i_!(a))`; §7.4: the application interface.
+- §0.7: Čech cohomology `Ȟ^•(Y; F)` of a sheaf on a compact Hausdorff space defined as Tau Ceti's `TauCeti.Topology.cechCohomology`, the carrier of the virtual class of §4.3, with pullback along a continuous map. Layer 2 pulls the test and insertion classes back along `st` and `ev_i` with it, and Layer 8 pulls back the universal first Chern class.
+- §6.4–§6.5: product atlases and the Čech external product `Ȟ^•(Y₁ × Y₂) ≅ Ȟ^•(Y₁) ⊗ Ȟ^•(Y₂)` over ℚ on compact Hausdorff spaces, with constant coefficients as the trivial orientation system; the Čech cup product on a compact Hausdorff space `Y` is the pullback along the diagonal `Y → Y × Y` (§0.7) of the external product. §7.1–§7.3: fiber-product atlases, the supported Gysin map `i_!` and `Φ_Z(a) = Φ_P(i_!(a))`; §7.4: the application interface.
 
 ### From TauCetiRoadmap.TopologicalSheafCohomology
 
-- §0.1 and §1.2–§1.3: the constant-coefficient Čech cohomology of a compact Hausdorff space as a cover colimit and its comparison with derived sections, consumed through ImplicitAtlases' use of them and in the test-class carrier of §2.1.
+- TS1.1–TS1.2 (§1.1–§1.2): the fixed-cover tuple, ordered and order-free complexes with their refinement maps and homotopies, and the colimit over small cofinal cover systems with its independence of the system and its restriction naturality. ImplicitAtlases §0.7 defines every Čech group of that roadmap, the domain of its virtual class and so of `Φ_(g,n,A)` included, as Tau Ceti's `TauCeti.Topology.cechCohomology` computed through TS1.1–TS1.2, and CharacteristicClasses C1.2b defines the Čech side of its Čech/singular comparison as the same point-neighbourhood colimit. The classes of §2.2 and §8.2 are therefore elements of the domain of the functional without a further comparison. The Čech/derived comparison of §1.3 is not used.
 
 ### From TauCetiRoadmap.ComplexCurveModuli
 
@@ -123,7 +126,7 @@ Outside this roadmap: the Chow-correspondence condition of Kontsevich–Manin 2.
 
 ### From TauCetiRoadmap.DifferentialGeometry
 
-- 8.3–8.5: smooth singular chains, integration of forms over chains, Stokes for chains and the de Rham comparison `deRhamEquiv` on a Hausdorff σ-compact finite-dimensional manifold.
+- 8.3–8.5: the smoothing theorem (singular chains on a Hausdorff σ-compact finite-dimensional manifold are chain homotopic to smooth ones), chain integration and Stokes for chains, the de Rham homomorphism `deRhamHom` and the de Rham comparison `deRhamEquiv` on such a manifold, built on the smooth simplices and simplex integral that Tau Ceti has at the pin.
 
 ### From TauCetiRoadmap.ComplexKahlerGeometry
 
@@ -157,7 +160,7 @@ Fix `(g, n, J)`. Define the effective set `Eff(g, n, J) ⊆ H₂(X; ℤ)` as the
 - The product `T² × T²` of two tori of areas `1` and `√2`: `H₂` has rank 6, the area image `ℤ + √2ℤ` is dense in ℝ, and for a product complex structure `E₁ × E₂` the degree-`a` covers of a fibre `E₁ × {y}` and the degree-`b` covers of a fibre `{x} × E₂` represent `aF₁` and `bF₂` in genus one, of areas `a` and `b√2`; no discreteness of the area image is available or used. Mixed classes occur: for `E₁ = E₂ = E` the diagonal of `E × E` is a genus-one holomorphic curve whose class has nonzero Künneth component in `H₁ ⊗ H₁`, so it pairs to `1` with a suitable `α₁ ⌣ β₂` while every `aF₁ + bF₂` pairs to `0`, and its area is `1 + √2`. No classification of genus-one effective classes is asserted.
 - An Enriques surface with a Kähler form: `H₂(X; ℤ) ≅ ℤ^10 ⊕ ℤ/2`, and the nonzero torsion class has area `0`, so it is represented by no nonconstant map and lies in no effective set although it lies in the kernel of the area homomorphism.
 
-*Needs:* Tau Ceti `SmoothTwoForm.Tames`, `Tames.stdComplexLineEnergyDensity_pos`; AnalyticStableMaps §0.1, §1.1; DifferentialGeometry 8.4–8.5.
+*Needs:* Tau Ceti `SmoothTwoForm.Tames`, `Tames.stdComplexLineEnergyDensity_pos`, `TauCeti.SmoothSimplex.integral`; AnalyticStableMaps §0.1, §1.1; DifferentialGeometry 8.4–8.5.
 
 ### 0.2 The Novikov coefficient ring and the completed state module
 
@@ -192,7 +195,7 @@ Prove that for a compact family of tame structures `J_p`, `p ∈ P`, and every b
 - An Enriques surface: the torsion subgroup `ℤ/2` of `H₂` is nonzero, so a bound on the ten free coordinates alone leaves two, not one, classes per lattice point; the torsion count is part of the finite total.
 - The decomposition count: on `ℂP²` with `A = 3ℓ`, the decompositions `A₁ + A₂ = A` into realized classes are `(0, 3ℓ), (ℓ, 2ℓ), (2ℓ, ℓ), (3ℓ, 0)`, four of them; with `A₁` allowed to range over all of `H₂` the pairs would be infinite.
 
-*Needs:* §0.1, §0.2; GeometricTopology smoothing-and-triangulation comparison item 1; AlgebraicTopology Stage 6 item 1, Stage 8 item 7; DifferentialGeometry 8.3–8.5; AnalyticStableMaps §0.1, §2.1; MorseNovikov N1.
+*Needs:* §0.1, §0.2; GeometricTopology smoothing-and-triangulation comparison item 1; AlgebraicTopology Stage 6 item 1, Stage 8 item 7; Tau Ceti `TauCeti.SmoothSimplex.integral`; DifferentialGeometry 8.3–8.5; AnalyticStableMaps §0.1, §2.1; MorseNovikov N1.
 
 ### Examples
 
@@ -201,7 +204,7 @@ Prove that for a compact family of tame structures `J_p`, `p ∈ P`, and every b
 
 ### Dependencies
 
-Mathlib `AddMonoidAlgebra`; Tau Ceti symplectic carriers; MorseNovikov N1; AnalyticStableMaps §0.1, §1.1, §2.1; DifferentialGeometry Layer 8; GeometricTopology; AlgebraicTopology Stages 6 and 8; CharacteristicClasses C3.
+Mathlib `AddMonoidAlgebra`; Tau Ceti symplectic carriers and smooth simplices; MorseNovikov N1; AnalyticStableMaps §0.1, §1.1, §2.1; DifferentialGeometry Layer 8; GeometricTopology; AlgebraicTopology Stages 6 and 8; CharacteristicClasses C3.
 
 ## Layer 1: Stable-map operations and domain/virtual interfaces (G1)
 
@@ -246,7 +249,7 @@ Layer 0; AnalyticStableMaps Layers 1, 3, 7, 9, 11–13; ComplexCurveModuli D5–
 
 ### 2.1 The weighted pairing and the weighted adjoint
 
-For a compact Deligne–Mumford target `M̄_(g,n)` with the adapter of ComplexCurveModuli D8, define `⟨α⟩ = ∫^wt α` for `α` of top degree as the weighted rational integral of Orbifolds O5 item 1, and prove that the pairing `(α, β) ↦ ∫^wt α ⌣ β` on `H^*(M̄_(g,n); ℚ)` is perfect (O5 item 4). For a proper forgetful or clutching map `π` between such targets define `π_*` as the adjoint of `π^*`: `∫^wt_target (π_* a) ⌣ b = ∫^wt_source a ⌣ π^* b` for all `b`. Prove that the right side is defined on the Čech/singular carrier of the target (TopologicalSheafCohomology §1.2–§1.3, CharacteristicClasses C1.2b on the finite-CW coarse space of D8) and that existence and uniqueness of `π_* a` follow from perfectness, not from Poincaré duality of the map moduli. The weighted adjoint is a definition of this roadmap on the supplier's weighted pairing and has no further source. Keep the coarse cohomology with its weighted pairing distinct from stack cohomology, from unweighted coarse integration and from an unqualified identification of homology with cohomology.
+For a compact Deligne–Mumford target `M̄_(g,n)` with the adapter of ComplexCurveModuli D8, define `⟨α⟩ = ∫^wt α` for `α` of top degree as the weighted rational integral of Orbifolds O5 item 1, and prove that the pairing `(α, β) ↦ ∫^wt α ⌣ β` on `H^*(M̄_(g,n); ℚ)` is perfect (O5 item 4). For a proper forgetful or clutching map `π` between such targets define `π_*` as the adjoint of `π^*`: `∫^wt_target (π_* a) ⌣ b = ∫^wt_source a ⌣ π^* b` for all `b`. The coarse space of D8 is of finite CW type, so the Čech/singular comparison of CharacteristicClasses C1.2b, natural in maps and compatible with cup products, identifies `H^*(M̄_(g,n); ℚ)`, `π^*` and the cup product with their counterparts on the Čech cohomology `TauCeti.Topology.cechCohomology` (TopologicalSheafCohomology §1.2), so that the weighted pairing and the right side above may be read in either carrier. Prove that existence and uniqueness of `π_* a` follow from perfectness, not from Poincaré duality of the map moduli. The weighted adjoint is a definition of this roadmap on the supplier's weighted pairing and has no further source. Keep the coarse cohomology with its weighted pairing distinct from stack cohomology, from unweighted coarse integration and from an unqualified identification of homology with cohomology.
 
 - `π_*` is `ℚ`-linear of degree `dim target − dim source` and satisfies the projection formula `π_*(a ⌣ π^* b) = (π_* a) ⌣ b`.
 - `(π ∘ π')_* = π_* ∘ π'_*`.
@@ -258,7 +261,7 @@ For a compact Deligne–Mumford target `M̄_(g,n)` with the adapter of ComplexCu
 - `M̄_(0,4) → M̄_(0,3)` forgetting the fourth mark: `π_* 1 = 0` since the degree of `π_* 1` is `−2`, and `π_* [pt] = 1` for a point class of the cross-ratio sphere; a definition of `π_*` by unweighted coarse integration gives the same values here because all isotropy is trivial.
 - The self-clutching `ξ : M̄_(0,3) → M̄_(1,1)` onto the boundary point: `ξ_* 1` is the class with `∫^wt_(M̄_(1,1)) (ξ_* 1) ⌣ 1 = ∫^wt_(M̄_(0,3)) 1 = 1`, so `ξ_* 1 = 2[pt]^∨` in terms of the coarse point class, twice the unweighted pushforward of the point.
 
-*Needs:* ComplexCurveModuli D8; Orbifolds O5 items 1 and 4; TopologicalSheafCohomology §1.2–§1.3; CharacteristicClasses C1.2b; AlgebraicTopology Stage 6 item 2.
+*Needs:* ComplexCurveModuli D8; Orbifolds O5 items 1 and 4; TopologicalSheafCohomology §1.2; CharacteristicClasses C1.2b; AlgebraicTopology Stage 6 item 2.
 
 ### 2.2 The operation `I_(g,n,A)`
 
@@ -266,7 +269,7 @@ For homogeneous insertions put `s = Σ_i deg γ_i`, `t = 6g − 6 + 2n`, `d = d_
 
     ∫^wt_(M̄_(g,n)) ψ ⌣ I_(g,n,A)(γ₁, …, γ_n) = Φ_(g,n,A)(st^* ψ ⌣ ev₁^* γ₁ ⌣ ⋯ ⌣ ev_n^* γ_n)
 
-for every test class `ψ` of degree `t − r`, where `Φ_(g,n,A)` is the rational dual-Čech functional of AnalyticStableMaps §9.2 applied to the pullback along the combined map of §1.2, with the Čech cup product on the coarse map space; uniqueness is by perfectness of §2.1. The displayed order of insertions is fixed and is changed only with its Koszul sign. For an unstable pointed signature define the numerical operation `⟨I_(g,n,A)(γ₁, …, γ_n)⟩ = Φ_(g,n,A)(ev₁^* γ₁ ⌣ ⋯ ⌣ ev_n^* γ_n)` when `s = d` and `0` otherwise. Prove that `r = Σ_i deg γ_i + 2(g − 1)m − 2c₁(A)`, the degree of the Conventions, and that the class-valued operation determines the numerical pairing `⟨I_(g,n,A)(γ)⟩ = ∫^wt I_(g,n,A)(γ)` when `r = t`.
+for every test class `ψ` of degree `t − r`; uniqueness is by perfectness of §2.1. The right side is read in one Čech group. The singular classes `ψ` on the finite-CW coarse space `|M̄_(g,n)|` (ComplexCurveModuli D8) and `γ_i` on `X` (AnalyticStableMaps §13.2) are carried into `TauCeti.Topology.cechCohomology` of the constant sheaf `ℚ` by the Čech/singular comparison of CharacteristicClasses C1.2b, pulled back along the maps `st` and `ev_i` of §1.2 by ImplicitAtlases §0.7, and multiplied on the compact coarse map space by the Čech cup product, the diagonal pullback of the external product of ImplicitAtlases §6.5. `Φ_(g,n,A)` is the rational dual-Čech functional of AnalyticStableMaps §9.2, whose domain is this Čech group with coefficients in the virtual orientation sheaf (ImplicitAtlases §0.7, §4.3), which the canonical virtual orientation of AnalyticStableMaps §8.1 identifies with the constant sheaf `ℚ`. No Čech/singular comparison is applied to the coarse map space, which need not be of CW type. The displayed order of insertions is fixed and is changed only with its Koszul sign. For an unstable pointed signature define the numerical operation `⟨I_(g,n,A)(γ₁, …, γ_n)⟩ = Φ_(g,n,A)(ev₁^* γ₁ ⌣ ⋯ ⌣ ev_n^* γ_n)` when `s = d` and `0` otherwise. Prove that `r = Σ_i deg γ_i + 2(g − 1)m − 2c₁(A)`, the degree of the Conventions, and that the class-valued operation determines the numerical pairing `⟨I_(g,n,A)(γ)⟩ = ∫^wt I_(g,n,A)(γ)` when `r = t`.
 
 - `I_(g,n,A)` is multilinear and vanishes when `r ∉ [0, t]`.
 - `⟨I_(g,n,A)(γ)⟩ = Φ_(g,n,A)(ev^* γ)` when `s = d`: the class-valued definition with `ψ = 1` recovers the numerical one.
@@ -278,8 +281,9 @@ for every test class `ψ` of degree `t − r`, where `Φ_(g,n,A)` is the rationa
 - Lines in `ℂP²`: `⟨I_(0,3,ℓ)(pt, pt, H)⟩` has `d = 2(−1 + 3 + 3) = 10`, `s = 4 + 4 + 2 = 10`, `r = 0`, value `1`; `⟨I_(0,3,ℓ)(pt, pt, pt)⟩` has `s = 12 ≠ 10` and vanishes by degree.
 - `(1, 1, 0)` on any `X`, insertion `1`: `r = 0 + 0 − 0 = 0`, so `I_(1,1,0)(1) ∈ H⁰(M̄_(1,1))` is a rational multiple of `1`, the multiple computed in §3.4; since `A = 0` this instance does not separate the sign of the Chern term, which the next Check pins.
 - Lines in `ℂP²` with `(g, n) = (0, 4)`: `r = s + 2(−1)(2) − 6 = s − 10`; for `I_(0,4,ℓ)(pt, pt, H, H)` with `s = 12` the class has `r = 2 = t`, a top class with `⟨I⟩ = 1`; with the shift `+2c₁(A)` instead of `−2c₁(A)` one would get `r = 14 > t` and a zero operation, so the sign of the Chern term is pinned by this value.
+- `X` a point, `(g, n, A) = (1, 1, 0)`, insertion `1`: `m = 0`, `d = 2 = t`, `r = 0`, and the test class is the coarse orientation class `[pt]^∨` of `|M̄_(1,1)|`. The coarse map space is `|M̄_(1,1)|` with `st` the identity, and `Φ` is one half of the Čech fundamental-class pairing (AnalyticStableMaps §9.2), so the right side is `Φ(st^* [pt]^∨) = 1/2`, the C1.2b image of `[pt]^∨` pairing to `1` with the fundamental class. The left side is `c · ∫^wt [pt]^∨ = c/2` for `I_(1,1,0)(1) = c · 1`, so `c = 1 = χ(pt)`, as in §3.4. Pairing an unweighted coarse integral on the left against this weighted functional would give `c = 1/2`.
 
-*Needs:* §1.2, §2.1; AnalyticStableMaps §9.2, §13.3; ImplicitAtlases §4.3; §0.1 for the class convention.
+*Needs:* §1.2, §2.1; AnalyticStableMaps §8.1, §9.2, §13.2–§13.3; ImplicitAtlases §0.7, §4.3, §6.5; CharacteristicClasses C1.2b; ComplexCurveModuli D8; §0.1 for the class convention.
 
 ### 2.3 Endpoint equality along tame paths and auxiliary reductions
 
@@ -303,7 +307,7 @@ For a compact collared path `J_t`, `t ∈ [0, 1]`, of tame structures, consume t
 
 ### Dependencies
 
-Layers 0–1; AnalyticStableMaps §9.2, §10, §13; ImplicitAtlases §4.3, §5.2–§5.4; ComplexCurveModuli D8; Orbifolds O5; TopologicalSheafCohomology Layer 1; CharacteristicClasses C1.2b.
+Layers 0–1; AnalyticStableMaps §8.1, §9.2, §10, §13; ImplicitAtlases §0.7, §4.3, §5.2–§5.4, §6.5; ComplexCurveModuli D8; Orbifolds O5; TopologicalSheafCohomology §1.2; CharacteristicClasses C1.2b.
 
 ## Layer 3: Orientation, isotropy and constant maps (G3)
 
@@ -657,11 +661,11 @@ Construct the domain cotangent line `L̄_i` on the stable pointed-curve groupoid
 
 ### 8.2 The cotangent line on the stable-map groupoid and the class `ψ_i`
 
-Construct the complex cotangent line `L_i` on the stable-map groupoid from the relative cotangent of the marked universal family of AnalyticStableMaps §11.2 at its i-th section; prove arrow equivariance, coordinate-change compatibility and compatibility with refinements. The zero locus may be singular: `L_i` is a finite-group-equivariant topological line bundle on the compact zero locus, not a smooth orbibundle of Orbifolds. Choose a common positive multiple `N` of the orders of the finitely many chart groups and prove that `L_i^(⊗N)` has trivial stabilizer action and descends to a topological line bundle on the coarse space: average a local nonzero frame over the stabilizer, shrink to keep it nonzero, transport over the finite orbit neighbourhood and check the transition functions on common refinements. The compact Hausdorff coarse base is paracompact; on a finite trivializing cover a partition of unity gives a classifying map to a finite `ℂP^K`, and pulling back its universal first Chern class in Čech cohomology (CharacteristicClasses C3 item 2, C1.2b) defines
+Construct the complex cotangent line `L_i` on the stable-map groupoid from the relative cotangent of the marked universal family of AnalyticStableMaps §11.2 at its i-th section; prove arrow equivariance, coordinate-change compatibility and compatibility with refinements. The zero locus may be singular: `L_i` is a finite-group-equivariant topological line bundle on the compact zero locus, not a smooth orbibundle of Orbifolds. Choose a common positive multiple `N` of the orders of the finitely many chart groups and prove that `L_i^(⊗N)` has trivial stabilizer action and descends to a topological line bundle on the coarse space: average a local nonzero frame over the stabilizer, shrink to keep it nonzero, transport over the finite orbit neighbourhood and check the transition functions on common refinements. The compact Hausdorff coarse base is paracompact; on a finite trivializing cover a partition of unity gives a classifying map to a finite `ℂP^K`, and the pullback along it (ImplicitAtlases §0.7) of the universal first Chern class of `ℂP^K` (CharacteristicClasses C3 item 2), read in Čech cohomology by C1.2b on the finite CW complex `ℂP^K`, defines
 
     ψ_i = (1/N) c₁(L_i^(⊗N)) ∈ Ȟ²(|M̄_(g,n)(X, A)|; ℚ).
 
-Prove independence of `N`, of the chart choices, of auxiliary marks and of refinements, and the pullback and boundary formulas under forgetting and clutching, each proved by the equivariant tensor-power isomorphism and the naturality of the finite-cover classifying construction, never by a smooth structure on the zero locus. Descendant insertions are Čech cup products with `ψ_i^k` paired against the dual-Čech functional; no Čech-to-singular comparison is used on the source. In the algebraic setting and in genus zero the restriction law and the forgetful comparison for stable maps are Kock, *Notes on psi classes*, (5.1.7.1) and (5.1.7.2), pp. 50–51, stated there on `M̄_(0,n)(X, β)` with the higher-genus statement left open; the all-genus comparison on the analytic carrier and the finite-isotropy descent on the compact zero locus are this roadmap's.
+Prove independence of `N`, of the chart choices, of auxiliary marks and of refinements, and the pullback and boundary formulas under forgetting and clutching, each proved by the equivariant tensor-power isomorphism and the naturality of the finite-cover classifying construction, never by a smooth structure on the zero locus. Descendant insertions are Čech cup products with `ψ_i^k` (§2.2) paired against the dual-Čech functional, all in the carrier `TauCeti.Topology.cechCohomology` of §2.2; no Čech-to-singular comparison is used on the source. In the algebraic setting and in genus zero the restriction law and the forgetful comparison for stable maps are Kock, *Notes on psi classes*, (5.1.7.1) and (5.1.7.2), pp. 50–51, stated there on `M̄_(0,n)(X, β)` with the higher-genus statement left open; the all-genus comparison on the analytic carrier and the finite-isotropy descent on the compact zero locus are this roadmap's.
 
 - `L_i` is a finite-group-equivariant topological complex line bundle on the compact zero locus, compatible with arrows, coordinate changes and refinements; `ψ_i ∈ Ȟ²(|M̄_(g,n)(X, A)|; ℚ)` is independent of `N`, of the chart choices, of auxiliary marks and of refinements, and relabelling by `σ ∈ S_n` carries `ψ_i` to `ψ_(σ(i))`.
 - For a map-stable forgetful map `π : M̄_(g,n+1)(X, A) → M̄_(g,n)(X, A)`, `ψ_i = π^* ψ_i + [D_(i,n+1)]`, where `D_(i,n+1)` is the supported class of the locus on which marks `i` and `n + 1` lie alone on a constant genus-zero component, and `ψ_i ⌣ [D_(i,n+1)] = 0`.
@@ -673,7 +677,7 @@ Prove independence of `N`, of the chart choices, of auxiliary marks and of refin
 - `X = pt`: the stable-map groupoid is the stable-domain groupoid, `L_i = L̄_i` and `ψ_i = ψ̄_i`, with `∫^wt ψ₁ = 1/24` on `M̄_(1,1)`.
 - `M̄_(0,2)(ℂP¹, ℓ) ≅ ℂP¹ × ℂP¹` by `(ev₁, ev₂)`: `ψ₁ = ev₁^* c₁(T^*ℂP¹) + [Δ] = −2[pt × ℂP¹] + [Δ]`, the diagonal being the locus where mark `1` sits on a contracted bubble; `∫ ψ₁ ⌣ ev₂^* pt = −2 + 1 = −1`.
 
-*Needs:* AnalyticStableMaps §11.2, §9.1; CharacteristicClasses C3 item 2, C1.2b; TopologicalSheafCohomology §1.2.
+*Needs:* AnalyticStableMaps §11.2, §9.1; CharacteristicClasses C3 item 2, C1.2b; ImplicitAtlases §0.7, §6.5; TopologicalSheafCohomology §1.2; §2.2.
 
 ### 8.3 Descendant and ancestor brackets
 
@@ -758,7 +762,7 @@ Both factors are stable after adding their node marks since `|T| ≥ 2`. For `n 
 
 ### Dependencies
 
-Layers 1–2, 5–6; ComplexCurveModuli D5, D7; AnalyticStableMaps §9.1–§9.2, §11, §12.2; CharacteristicClasses C1.2b, C3; Orbifolds O4; TopologicalSheafCohomology §1.2.
+Layers 1–2, 5–6; ComplexCurveModuli D5, D7; AnalyticStableMaps §9.1–§9.2, §11, §12.2; ImplicitAtlases §0.7, §6.5; CharacteristicClasses C1.2b, C3; Orbifolds O4; TopologicalSheafCohomology §1.2.
 
 ## Downstream consumers
 
