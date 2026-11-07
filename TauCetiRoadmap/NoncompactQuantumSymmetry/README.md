@@ -15,8 +15,8 @@ Consume, without duplicating their core constructions:
 - [VonNeumannAlgebras V4.Normality](../VonNeumannAlgebras/README.md#v4-preduals-normality-and-normal-representations) for normal representations; V4.0.Fields for measurable Hilbert fields, rectangular decomposable-map transport and change of measure consumed by M1/M2/M4/M5/M6; V4.0.Decomposition, via SelfAdjointSpectralTheory SA-B85, for the separable `C₀(X)` spectral representation and central decomposition consumed by M2.TypeIDisintegration, M2.ParameterizedRefinement and M3’s mass-sector decomposition; V11 for Pontryagin duality, Haar normalization and Plancherel.
 - [RepresentationTheory/CompactGroups](../RepresentationTheory/CompactGroups/README.md) for compact little groups and Peter–Weyl; LieGroups and [LieHighestWeight](../RepresentationTheory/LieHighestWeight/README.md) for Lie groups, Lie algebras, highest weights and compact-fiber data. These are not noncompact unitary-dual classifications.
 - Mathlib's `LieAlgebra.HasTrivialRadical.instIsKilling` (`Mathlib/Algebra/Lie/CartanCriterion.lean`, Cartan's criterion over a characteristic-zero domain) with `LieAlgebra.IsSemisimple.instHasTrivialRadical`, and Tau Ceti's `TauCeti.exists_isCompl_of_isKilling` (`TauCeti/Algebra/Lie/HighestWeight/CompleteReducibility.lean`, Weyl's complete reducibility over a field of characteristic zero for a finite-dimensional Lie algebra with nondegenerate Killing form and a finite-dimensional module), from which Layer P.4 proves the degree-one and degree-two Whitehead lemmas; Tau Ceti's `TauCeti.FactorSet` (`TauCeti/GroupTheory/GroupExtension/Of/FactorSet.lean`) and `TauCeti.isProjectiveRepEquivExtensionHom` (`TauCeti/RepresentationTheory/ProjectiveRepresentation/Extension.lean`) for the algebra of factor sets, their extensions, rescaling and projective linearization, consumed by Layer P.3.
-- Layer P below owns the projective-symmetry prerequisites: rays, the unitary–antiunitary group and Wigner's theorem (P.1); strong-operator Polish groups, coefficient and quotient Borel structures, the local section of `U(H)→PU(H)`, Pettis's theorem, the Polishness of second-countable locally compact spaces and the corollary that a connected group mapping continuously to `PUA(H)` lands in `PU(H)` (P.2); normalized locally continuous multipliers and their topological extensions (P.3); finite-dimensional Lie smoothing, differentiation, integration and the real Whitehead lemmas (P.4); free-particle position and momentum (P.5); and the permutation projectors of completed tensor powers (P.6). This roadmap proves these and the noncompact measurable and induced-representation results named here.
-- Scalar Borel circle extensions and the abelian Fourier isomorphism are owned here too. M1 owns the twisted left-regular family `λ^ω` with its strong-Borel measurability, the correspondence between strong-Borel ω-representations and representations of `E_ω` on which the central circle acts by scalars, and the Mackey–Weil locally compact topology on `E_ω`. M2 owns the decomposition `C*(E_ω)≅⊕_k J_k(E_ω)` with `J_k(E_ω)≅C*(G,ω^k)` for every integer k. Layer 0 owns `C*(N)≅C₀(N̂)` for every locally compact abelian N. OperatorAlgebraDynamics D1, D3 and D5 are consumed here as listed above; OperatorAlgebraDynamics consumes these Borel and Fourier statements from here rather than restating them.
+- Layer P below owns the projective-symmetry prerequisites: rays, the unitary–antiunitary group and Wigner's theorem (P.1); the graded and projective Polish groups `UA(H)`, `PU(H)` and `PUA(H)` with their coefficient and quotient Borel structures, the local section of `U(H)→PU(H)` and the corollary that a connected group mapping continuously to `PUA(H)` lands in `PU(H)` (P.2); normalized locally continuous multipliers and their topological extensions (P.3); finite-dimensional Lie smoothing, differentiation, integration and the real Whitehead lemmas (P.4); free-particle position and momentum (P.5); and the permutation projectors of completed tensor powers (P.6). This roadmap proves these and the noncompact measurable and induced-representation results named here.
+- OperatorAlgebraDynamics D1.BorelPrefix for the Polish strong-operator unitary group `U(H)_s` of a separable H with its coefficient Borel structure and criterion for Borel maps, Pettis's theorem (automatic continuity of Borel homomorphisms from a Polish group into a separable metrizable group), the Polishness of second-countable locally compact groups, the Mackey–Weil lcsc topology on the circle extension `E_ω` of a normalized Borel multiplier, the correspondence of strong-Borel ω-representations with representations of `E_ω` on which the central circle acts by scalars, and the strong-Borel twisted left-regular family `λ^ω`; D1.TwistedBorel for the single-weight fibres `J_k(E_ω)≅C*(G,ω^k)`; D4.Harmonic for the Fourier isomorphism `C*(N)≅C₀(N̂)` of the full group C*-algebra of a locally compact abelian N in the positive-character convention. These are consumed at P.2, M1, M2 and Layer 0 and are not restated. This roadmap keeps what OperatorAlgebraDynamics leaves to it: the graded and projective groups `UA(H)`, `PU(H)`, `PUA(H)` with their Borel structures and local sections (P.2), the comparison of Borel multipliers with locally continuous extension cocycles (M1), and the all-central-weights decomposition `C*(E_ω)≅⊕_k J_k(E_ω)` with its type-I consequences (M2).
 - [SmoothBanachRepresentations Layers 0–4](../RepresentationTheory/SmoothBanachRepresentations/README.md) for the Gårding space and smooth-vector calculus of strongly continuous Banach representations, which M0 specializes to unitary Hilbert representations. M0 owns the Hilbert-adjoint statements on that domain: skew-symmetry of real generators, Nelson's operator, analytic vectors, and the elliptic and central closures.
 - Tau Ceti's pinned Lorentzian Clifford/Spin equivalence in `TauCeti/LinearAlgebra/CliffordAlgebra/Spin/Real/ThreeOne.lean` and Hermitian-vector model in `TauCeti/LinearAlgebra/CliffordAlgebra/RealForm/ThreeOne.lean` for the `Spin(3,1)≃SL(2,ℂ)` / Lorentz cover interface. The group-action and orbit proofs remain targets here.
 
@@ -92,6 +92,7 @@ Their generic theories remain in the supplying roadmaps.
 | Supplier | Interface consumed here | First consumer |
 | --- | --- | --- |
 | [SmoothBanachRepresentations Layers 0–4](../RepresentationTheory/SmoothBanachRepresentations/README.md) | Integrated operators `π(f)` of compactly supported smooth tests and the Gårding space they span, smooth vectors with their Fréchet topology and density, mixed-word domains, the derived Lie and enveloping actions, and the convolution, transport, conjugation and integration-by-parts laws, for strongly continuous Banach representations and hence unitary ones | M0 item 1 |
+| OperatorAlgebraDynamics D1.BorelPrefix, D1.TwistedBorel, D4.Harmonic | The Polish group `U(H)_s` with its coefficient Borel structure, Pettis's theorem and the Polishness of lcsc groups; the Mackey–Weil topology on `E_ω`, the strong-Borel correspondence and `λ^ω`; the fibres `J_k(E_ω)≅C*(G,ω^k)`; the Fourier isomorphism `C*(N)≅C₀(N̂)` | Layer 0, P.2, M1, M2 |
 | PseudodifferentialOperators P5/P6 | Local interior distributional elliptic regularity and Sobolev estimates | M0’s smooth/elliptic-vector bridge |
 | RiemannianGeometry R1/R2/R4, [HopfRinow](../HopfRinow/README.md) | Symmetric-space curvature, Jacobi/Hessian comparison, Cartan–Hadamard and complete closed-ball compactness | M0’s Cartan/maximal-compact argument |
 | [SpinRepresentations Layer7](../RepresentationTheory/SpinRepresentations/README.md) | Compact spin/Clifford fibers and spin-weight data | M0’s compact-type comparison |
@@ -134,20 +135,15 @@ L¹ functions and their C*-norm density extends this to every algebra element.
 
 For a continuous action of H on locally compact abelian N construct
 `C*(N⋊H)≃C*(N)⋊H≃C₀(N̂)⋊H` from D1's universal covariant pairs,
-comparing both integrated forms. Own the abelian Fourier isomorphism for
-every locally compact abelian N: the transform `f̂(χ)=∫f(n)χ(n)dn`, in
-V11's positive-character convention, extends from L¹(N) to a
-*-isomorphism `C*(N)≅C₀(N̂)` of D1's full group C*-algebra, so the
-universal norm of f is `sup_χ|f̂(χ)|` and the regular quotient
-`C*(N)→C*_r(N)` is injective. Prove it as follows. C*(N) is commutative,
-so by CStarAlgebras' commutative Gelfand theorem its norm is the supremum
-over its characters; through D1's integrated-form correspondence each
-character is the integrated form of exactly one χ∈N̂ and sends f to
-f̂(χ). V11 gives `‖λ(f)‖=sup|f̂|` and identifies the character space of
-`C*_r(N)` with N̂, so the universal and reduced norms agree and V11's
-Gelfand identification of `C*_r(N)` transports to C*(N), with the
-weak-star topology of characters equal to the compact-open topology of
-N̂. Pin the action modulus by `μ_N(hA)=δ(h)μ_N(A)`;
+comparing both integrated forms. Consume OperatorAlgebraDynamics
+D4.Harmonic for the abelian Fourier isomorphism of every locally compact
+abelian N: the transform `f̂(χ)=∫f(n)χ(n)dn`, in V11's positive-character
+convention, extends from L¹(N) to a *-isomorphism `C*(N)≅C₀(N̂)` of D1's
+full group C*-algebra, so the universal norm of f is `sup_χ|f̂(χ)|`, and
+the regular quotient `C*(N)→C*_r(N)` is an isomorphism. Compare it here
+with V11: V11 gives `‖λ(f)‖=sup|f̂|` and identifies the character space of
+`C*_r(N)` with N̂, and the two identifications of `C*_r(N)` with `C₀(N̂)`
+agree because both send f∈L¹(N) to f̂. Pin the action modulus by `μ_N(hA)=δ(h)μ_N(A)`;
 the semidirect left Haar measure is `δ(h)⁻¹ dn dh`. The M4 Lorentz
 action has |det h|=1, hence δ=1. Prove the Fourier conjugation uses
 `h·χ(n)=χ(h⁻¹n)`. For each model orbit identify H/Hχ with that orbit
@@ -165,21 +161,21 @@ For the trivial group, C*(G)=ℂ and the nonzero trivial representation has supp
 
 ### Dependencies
 
-OperatorAlgebraDynamics D1/D3; CStarAlgebras C1/C2; VonNeumannAlgebras V11. The kernel-inclusion and Fourier comparisons of this layer are inputs to M1–M6.
+OperatorAlgebraDynamics D1/D3 and D4.Harmonic; CStarAlgebras C1/C2; VonNeumannAlgebras V11. The kernel-inclusion and Fourier comparisons of this layer are inputs to M1–M6.
 
 ## Layer 1: P — Rays, operator groups and locally continuous multipliers
 
 This layer owns the projective-symmetry prerequisites that M1–M6 consume:
-ray spaces and the unitary–antiunitary group (P.1), the strong-operator Polish
-groups, their Borel structures, local sections and Pettis's theorem (P.2),
+ray spaces and the unitary–antiunitary group (P.1), the graded and projective
+operator groups with their Borel structures and local sections (P.2),
 normalized locally continuous multipliers and the topological extensions they
 classify (P.3), the finite-dimensional Lie smoothing, differentiation,
 integration and Whitehead interfaces (P.4), the free-particle position and
 momentum operators (P.5), the permutation sectors of completed tensor powers
 (P.6). Its
 only inputs are Mathlib, Tau Ceti and the named sections of LieGroups,
-SelfAdjointSpectralTheory, VonNeumannAlgebras and CStarAlgebras; it consumes
-no M-layer.
+SelfAdjointSpectralTheory, VonNeumannAlgebras, CStarAlgebras and
+OperatorAlgebraDynamics D1.BorelPrefix; it consumes no M-layer.
 
 ### P.1 Rays and the unitary–antiunitary group
 
@@ -251,37 +247,41 @@ comparison carrier.
   Bloch sphere, so `J²` and `C²` are invisible on rays and recorded only by the
   multipliers of P.3.
 
-### P.2 Strong-operator Polish groups, Borel structures and Pettis's theorem
+### P.2 Graded and projective operator groups, Borel structures and local sections
 
-Let H be a nonzero separable complex Hilbert space. Give `U(H)` the strong
-operator topology, the subspace topology from native `PointwiseConvergenceCLM`
-(`H →Lₚₜ[ℂ] H`). Prove that on `U(H)` the strong and weak operator topologies
-agree and that `U(H)` is a Polish topological group (Kechris1995 §9.B). Fix a
-conjugation C (an antiunitary involution, coordinatewise conjugation in a
-Hilbert basis); then `UA(H)=U(H)⊔U(H)C`, and give it the topology of two copies
-of `U(H)`. Prove that `U↦CUC` is a continuous automorphism of `U(H)`, that this
-makes `UA(H)≅U(H)⋊C₂` a Polish group, that a second conjugation `C′=(C′C)C`
-gives the same topology, and that ε is continuous. Since 𝕋·Id is closed and
-normal, `PU(H)` and `PUA(H)` are Polish groups, and their quotient Borel
-structures are the Borel structures of the quotient topologies by native
-`QuotientGroup.borelSpace` (Mathlib `MeasureTheory/Constructions/Polish/Basic.lean`).
+Let H be a nonzero separable complex Hilbert space. Consume OperatorAlgebraDynamics
+D1.BorelPrefix for the strong-operator unitary group `U(H)_s`, the subspace of native
+`PointwiseConvergenceCLM` (`H →Lₚₜ[ℂ] H`): it is a Polish group on which the strong and
+weak operator topologies agree, its Borel structure is generated by the coefficients
+`U↦⟨e_i,Ue_j⟩` of an orthonormal basis, and a map `φ:X→U(H)_s` from a measurable space
+is Borel iff `x↦φ(x)h` is Borel into H for every h, iff every coefficient
+`x↦⟨e_i,φ(x)e_j⟩` is Borel (the criterion for maps). Consume from the same section
+Pettis's theorem, that every Borel homomorphism from a Polish group into a separable
+metrizable topological group is continuous (Kechris1995 Theorem 9.10 for Polish targets),
+and that a second-countable locally compact Hausdorff group is Polish, so that every such
+group is an admissible source and target. M1 and M2 cite the two together as the
+Banach–Pettis theorem. Mathlib's `AddMonoidHom.continuous_of_measurable`
+(`MeasureTheory/Measure/Haar/NormedSpace.lean`) covers only locally compact normed
+additive groups mapping to real normed spaces and does not apply to `PU(H)`.
 
-Prove the coefficient description of these Borel structures, which M1, M2 and
-M5.Coding use. Fix an orthonormal basis `(e_i)`. The coefficients
-`U↦⟨e_i,Ue_j⟩` are continuous and separate the points of `U(H)`, so the
-identity from the Polish space `U(H)` to `U(H)` with the coefficient σ-algebra
-is a measurable injection into a countably separated space, hence a measurable
-embedding by native `Measurable.measurableEmbedding` (Lusin–Souslin): the two
-σ-algebras coincide. On `UA(H)` use the grade together with the coefficients;
-on `PU(H)` and `PUA(H)` use the grade and the phase-invariant products
-`⟨e_i,Ue_j⟩·conj⟨e_k,Ue_l⟩`, which separate classes because a nonzero entry
-`⟨e_k,Ue_l⟩` recovers U from V up to the unimodular factor
-`conj⟨e_k,Ve_l⟩/conj⟨e_k,Ue_l⟩`. Deduce the criterion for maps: for a
-measurable space X and `φ:X→U(H)`, φ is Borel iff `x↦φ(x)h` is Borel into
-H for every h, iff `x↦⟨e_i,φ(x)e_j⟩` is Borel for all i,j (evaluation at h
-and the inner product with e_i are continuous, and the coefficients
-generate the Borel structure). M1's strong-Borel families are Borel maps
-into `U(H)` in this sense.
+Own the graded and projective groups. Fix a conjugation C (an antiunitary involution,
+coordinatewise conjugation in a Hilbert basis); then `UA(H)=U(H)⊔U(H)C`, and give it the
+topology of two copies of `U(H)_s`. Prove that `U↦CUC` is a continuous automorphism of
+`U(H)_s`, that this makes `UA(H)≅U(H)_s⋊C₂` a Polish group, that a second conjugation
+`C′=(C′C)C` gives the same topology, and that ε is continuous. Since 𝕋·Id is closed and
+normal, `PU(H)` and `PUA(H)` are Polish groups, and their quotient Borel structures are
+the Borel structures of the quotient topologies by native `QuotientGroup.borelSpace`
+(Mathlib `MeasureTheory/Constructions/Polish/Basic.lean`).
+
+Prove the coefficient description of these Borel structures, which M1, M2 and M5.Coding
+use. On `UA(H)` use the grade together with the coefficients; on `PU(H)` and `PUA(H)` use
+the grade and the phase-invariant products `⟨e_i,Ue_j⟩·conj⟨e_k,Ue_l⟩`, which separate
+classes because a nonzero entry `⟨e_k,Ue_l⟩` recovers U from V up to the unimodular
+factor `conj⟨e_k,Ve_l⟩/conj⟨e_k,Ue_l⟩`. These continuous functions separate points, so
+the identity from the Polish group to the same set with the coefficient σ-algebra is a
+measurable injection into a countably separated space, hence a measurable embedding by
+native `Measurable.measurableEmbedding` (Lusin–Souslin): the two σ-algebras coincide.
+M1's strong-Borel families are Borel maps into `U(H)_s` in D1.BorelPrefix's sense.
 
 Construct the explicit local section consumed by M1. For a unit vector ξ, the
 set `W_ξ={[U] : ⟨ξ,Uξ⟩≠0}` is an open identity neighbourhood in `PU(H)`, and in
@@ -294,40 +294,20 @@ s_ξ([U]) = (conj⟨ξ,Uξ⟩ / |⟨ξ,Uξ⟩|) · U
 is well defined (replacing U by zU multiplies the prefactor by z̄), continuous,
 satisfies `s_ξ(1)=Id`, and has `⟨ξ,s_ξ([U])ξ⟩>0`.
 
-Prove `continuous_of_measurable_hom`, Pettis's theorem: every Borel homomorphism between Polish groups is
-continuous (Kechris1995 Theorem 9.10), by the Pettis lemma that `AA⁻¹` is an
-identity neighbourhood for a non-meagre set A with the Baire property, applied
-to the preimages of a countable cover by translates of a small neighbourhood.
-M1 and M2 cite this as the Banach–Pettis theorem. Mathlib's
-`AddMonoidHom.continuous_of_measurable`
-(`MeasureTheory/Measure/Haar/NormedSpace.lean`) covers only locally compact
-normed additive groups mapping to real normed spaces and does not apply to
-`PU(H)`. Prove `polishSpace_of_locallyCompactSpace`: a second-countable
-locally compact Hausdorff space is Polish. Its one-point compactification is
-compact Hausdorff and second countable, because a countable exhaustion by
-compact sets gives a countable neighbourhood base at infinity, hence
-metrizable; the space is an open subset of it, and native
-`IsOpen.polishSpace` applies. Thus every second-countable locally compact
-group is an admissible source and target, which is how M1 and M2 apply the
-theorem. Deduce that a continuous homomorphism from a connected topological
-group to `PUA(H)` lands in `PU(H)`, because ε is continuous to the discrete
-group ℤ/2; M4 consumes this for the connected Lorentz and Poincaré components.
-P.2 owns this corollary; other theories of projective lifts cite it here.
+Deduce that a continuous homomorphism from a connected topological group to `PUA(H)`
+lands in `PU(H)`, because ε is continuous to the discrete group ℤ/2; M4 consumes this
+for the connected Lorentz and Poincaré components. P.2 owns this corollary; other
+theories of projective lifts cite it here.
 
-*Needs:* P.1; Mathlib `PointwiseConvergenceCLM`, `PolishSpace`,
-`QuotientGroup.borelSpace`, `Measurable.measurableEmbedding`,
-`IsOpen.polishSpace`, the one-point compactification and the Baire
-category theorem.
+*Needs:* P.1; OperatorAlgebraDynamics D1.BorelPrefix (the Polish group `U(H)_s`, its
+coefficient Borel structure and criterion for maps, Pettis's theorem and the Polishness
+of second-countable locally compact groups); Mathlib `PointwiseConvergenceCLM`,
+`QuotientGroup.borelSpace`, `Measurable.measurableEmbedding`.
 
-- `U(H)`, `UA(H)`, `PU(H)` and `PUA(H)` are Polish groups for separable H≠0,
-  their Borel structures are generated by the stated coefficient functions, and
-  the quotient Borel structures of `PU(H)` and `PUA(H)` are their Borel
-  structures.
-- A map from a measurable space to `U(H)` is Borel exactly when its vector
-  orbits, equivalently its basis coefficients, are Borel.
-- `s_ξ` is a continuous normalized section of `U(H)→PU(H)` over `W_ξ`.
-- A Borel homomorphism between Polish groups is continuous, and a
-  second-countable locally compact Hausdorff space is Polish.
+- `UA(H)`, `PU(H)` and `PUA(H)` are Polish groups for separable H≠0, their Borel
+  structures are generated by the grade and the stated coefficient functions, and the
+  quotient Borel structures of `PU(H)` and `PUA(H)` are their Borel structures.
+- `s_ξ` is a continuous normalized section of `U(H)_s→PU(H)` over `W_ξ`.
 - A continuous homomorphism from a connected topological group to `PUA(H)`
   lands in `PU(H)`.
 
@@ -340,13 +320,15 @@ category theorem.
 - The swap `[[0,1],[1,0]]` lies outside `W_{e₁}`, and no single continuous
   section covers `PU(2)≅SO(3)`: otherwise `U(2)` would be homeomorphic to
   `𝕋×SO(3)`, but `π₁(U(2))=ℤ` while `π₁(𝕋×SO(3))=ℤ×ℤ/2`.
-- Every Borel character of ℝ is `t↦exp(ict)`; a Hamel-basis additive map f
-  gives a discontinuous character `exp(if)`, which is not Borel, so the
-  measurability hypothesis cannot be dropped.
-- ℚ is second countable and Hausdorff but not locally compact, and it is not
-  Polish: it is a countable union of nowhere dense singletons, so it fails
-  the Baire property. Local compactness cannot be dropped from
-  `polishSpace_of_locallyCompactSpace`.
+- The group ℤ/2 acting on `ℂ²` through the class of the coordinatewise conjugation C is
+  a continuous homomorphism into `PUA(ℂ²)` whose nonidentity value has grade 1, so it
+  does not land in `PU(ℂ²)`: connectedness of the source cannot be dropped from the
+  corollary. For the connected group ℝ, ε composed with any continuous homomorphism to
+  `PUA(H)` is a continuous map to ℤ/2, hence constant 0.
+- The phase-invariant products separate classes but the bare coefficients do not:
+  `U=Id` and `V=−Id` have the same class in `PU(ℂ²)` and coefficients of opposite sign,
+  while every product `⟨e_i,Ue_j⟩·conj⟨e_k,Ue_l⟩=δ_ijδ_kl` agrees; a Borel structure on
+  `PU(H)` generated by the bare coefficients would not be defined on classes.
 
 ### P.3 Locally continuous multipliers and topological extensions
 
@@ -387,8 +369,8 @@ compare, through `Circle→ℂˣ`, with Tau Ceti's
 `isProjectiveRepEquivExtensionHom`
 (`TauCeti/RepresentationTheory/ProjectiveRepresentation/Extension.lean`).
 The adapters are algebraic; the topology of an extension built from a merely
-Borel multiplier is M1's Mackey–Weil reconstruction, never the product
-topology.
+Borel multiplier is the Mackey–Weil topology supplied by OperatorAlgebraDynamics
+D1.BorelPrefix, never the product topology.
 
 Prove the topological extension theorem for Hausdorff G. For a normalized
 locally continuous multiplier ω there is a unique group topology on `TauCeti.FactorSet.Extension`
@@ -703,6 +685,22 @@ assert that `g ↦ π g v` is continuous. In every use of a strongly continuous 
 representation, carry and prove this orbit-continuity property explicitly, including for
 restricted representations and compact-type comparisons.
 
+**Checks.**
+
+- For the trivial representation of K on ℂ every vector is K-finite with orbit span of
+  dimension one; `IsKFinite` agrees with the native finite-orbit-span predicate on the
+  restricted representation, and the trivial type has multiplicity one.
+- For the left-regular representation of K=SU(2) on L²(SU(2)) the K-finite vectors are the
+  matrix coefficients, so `H_τ` has dimension (dim τ)² and multiplicity dim τ; every
+  multiplicity is finite, so the representation is admissible although H is
+  infinite-dimensional.
+- For a countable direct sum of copies of the trivial representation of K every vector of
+  the algebraic sum is K-finite, but the trivial multiplicity space is
+  infinite-dimensional: compact-finiteness of vectors holds while admissibility fails.
+- For K={1} every vector is K-finite with the trivial type of multiplicity dim H, so
+  admissibility means that H is finite-dimensional; it fails for the regular
+  representation of ℝ on L²(ℝ).
+
 Define a `(𝔤_ℂ,K)`-module by a complex Lie-module action and a locally finite K
 representation whose action on each finite-dimensional K-stable subspace is continuous
 (hence smooth), their Ad(K)-compatibility and equality of that differentiated K-action
@@ -710,6 +708,18 @@ with the restricted 𝔨-action on those subspaces. Use native Lie/module/repres
 infinitesimal equivalence is an isomorphism of these K-finite modules. For connected
 K prove a U(𝔤_ℂ)-isomorphism is automatically K-equivariant by integration on finite
 K-orbit spaces; do not identify the full Gårding space with the K-finite space.
+
+**Checks.**
+
+- For G=K=SU(2) and the defining representation on ℂ², every vector is K-finite, the
+  `𝔤_ℂ=sl(2,ℂ)` action is matrix multiplication, and the differentiated K-action
+  `d/dt|₀ exp(tX)v=Xv` equals the restricted `𝔨=su(2)` action.
+- Replacing the `𝔤_ℂ` action of that module by its negative keeps the Ad(K)-compatibility
+  `π(k)Xπ(k)⁻¹=Ad(k)X` but breaks the equality of the differentiated K-action with the
+  𝔨-action (`Xv≠−Xv` for X≠0), so that equality is a genuine condition.
+- For the disconnected K=O(2) with 𝔤=𝔨=so(2) on ℂ², a rotation by θ∉πℤ commutes with
+  so(2) and is a U(𝔤_ℂ)-automorphism of the module, but it does not commute with a
+  reflection: connectedness of K cannot be dropped from automatic K-equivariance.
 
 1. For every strongly continuous unitary representation of a finite-dimensional
    Lie group, consume SmoothBanachRepresentations Layers 0–4, read on the
@@ -771,6 +781,15 @@ K-orbit spaces; do not identify the full Gårding space with the K-finite space.
    these Ad(G)-fixed central closures are scalars. Split an Ad(G)-fixed central element into
    its Hermitian real and imaginary parts and construct the resulting
    infinitesimal character.
+   *Needs:* SmoothBanachRepresentations Layers 0–4 (integrated operators, Gårding and
+   smooth-vector domains, derived actions and their convolution, transport, conjugation
+   and integration-by-parts laws); LieGroups Layer 2 (exponential and BCH analytic
+   charts); UnboundedOperators UO-E03 (analytic-vector criterion);
+   SelfAdjointSpectralTheory (spectral calculus of the closures of N and of central Z);
+   PseudodifferentialOperators P5/P6 (interior elliptic regularity and Sobolev
+   estimates); VonNeumannAlgebras (commutants, for the bounded Schur lemma); Nelson
+   1959 and Nelson–Stinespring 1959 as cited.
+
 2. For a connected semisimple G with finite center and maximal compact K,
    prove Harish-Chandra admissibility: every irreducible unitary π has finite
    K-multiplicities, with `dim H_τ ≤ C_π (dim τ)²`.
@@ -934,6 +953,15 @@ K-orbit spaces; do not identify the full Gårding space with the K-finite space.
 
    Construct the smooth congruence homomorphism from SL(2,ℂ) on the native real Hermitian-matrix submodule, using `H(x)=[[x⁰+x¹,x²−ix³],[x²+ix³,x⁰−x¹]]`, with `det H(x)=η(x,x)`. Own the single signed continuous linear equivalence `Q_N:(Fin 4→ℝ)≃L[ℝ]V_η`, whose time-first coordinates are `x=(p₃,p₂,−p₁,p₀)` and whose inverse is `(x³,−x²,x¹,x⁰)`. Prove form preservation and `H(Q_N p)=realCliffordThreeOneVectorEquivHermitian p`, whose off-diagonal is `−p₁−ip₀`. Thus the +--- ordinary-group coordinates agree with M4's native time-last `diag(−1,−1,−1,+1)` convention and its negative-realCliffordForm determinant law. Prove the congruence homomorphism's real derivative is `X:H↦XH+HX†`, that it induces the stated Lie-algebra equivalence, that its group kernel is `{±I}`, and that its image is the identity component: connectedness puts the image there, and its locally invertible derivative makes it an open subgroup, hence all of that component. Prove the local two-sheeted cover charts and the smooth Lie-group quotient comparison `SL(2,ℂ)/{±I}≃SO₀(3,1)`, compatible with the Killing and derivation identifications. Transporting this same action back by Q_N is exactly M4's native Hermitian action, also compared with `TauCeti.realSpinThreeOneEquivSpecialLinear_action`; no second Lorentz-action convention is introduced. These finite-dimensional exports use only the native algebra/matrix inputs and LieGroups0–3/local quotient charts, not Layer P.4, the Gårding/admissibility theorems or a representation classification. M4's multiplier computation and other finite-dimensional Lorentz consumers use the exported actual carriers/instances downstream. The arbitrary connected semisimple finite-center scope of item2 remains unchanged.
 
+   *Needs:* item 1 (smooth and analytic vectors, central closures); LieGroups Layers
+   2, 5, 7 and 9 (Lie-group structure, covers and lifts, automatic smoothness, the
+   semisimple Cartan specialization); LieHighestWeight (PBW); RiemannianGeometry
+   R1/R2/R4 and HopfRinow (symmetric-space curvature and complete closed-ball
+   compactness); SpinRepresentations Layer 7 (compact spin fibres); Tau Ceti
+   `TauCeti.QuadraticMap.specialOrthogonalGroup`, `TauCeti.realCliffordForm` and
+   `TauCeti.realSpinThreeOneEquivSpecialLinear` (the SO₀(3,1) and SL(2,ℂ) examples);
+   Mathlib `Matrix.Orthogonal`-style indefinite Gram matrices as named.
+
 3. Use the shared algebraic compact-finite predicate and submodule from
    AutomorphicFormsOnReductiveGroups §2.1 on the restricted representation.
    Consume its sum/scalar/equivariant-map API and compact Banach density
@@ -983,6 +1011,12 @@ K-orbit spaces; do not identify the full Gårding space with the K-finite space.
    every separately metrized induced subquotient before calling it a unitary
    representation, including boundary and discrete/limit constituents.
 
+   *Needs:* items 1 and 2 (Gårding and analytic vectors, Harish-Chandra admissibility);
+   AutomorphicFormsOnReductiveGroups §2.1 (the compact-finite predicate, submodule API
+   and compact Banach density theorem); P.4 (finite-dimensional Lie smoothing and
+   differentiation); UnboundedOperators UO-E03 and Nelson's analytic-vector theorem;
+   LieGroups Layers 0–3 (finite-dimensional integration of homomorphisms).
+
 4. Prove that these three groups are CCR. For f∈C_c∞(G), let P_R be the sum
    of compact K-types with nonnegative Δ_K-eigenvalue λ_τ≤R, **including λ_τ=0**.
    Prove there are finitely many such K-types by the compact highest-weight
@@ -1016,6 +1050,13 @@ supplies the symmetric-pair theorem. [Roe Goodman's *The Kostant–Rallis Theore
 its proof and the filtered/tensor estimates, not merely its invocation.
 For the preliminary quasi-simple and unitary-equivalence statements see
 [*Representations of a Semisimple Lie Group on a Banach Space*, PNAS37(3),170–173](https://doi.org/10.1073/pnas.37.3.170).
+   *Needs:* items 1–3 (admissibility, K-finite smooth vectors, the Casimir and the
+   derived-convolution law); CompactGroups and LieHighestWeight (the compact
+   highest-weight Casimir formula and the finiteness of K-types with bounded
+   eigenvalue); M0a.TypeIComparison (GCR-to-factor-type-I direction); CStarAlgebras C2
+   (an irreducible C*-algebra of compact operators is K(H)); OperatorAlgebraDynamics D1
+   (density of `C_c∞(G)` in the full group C*-algebra).
+
 Nelson's [*Analytic Vectors*](https://doi.org/10.2307/1970331), Theorem3,
 Corollary3.2, Lemma6.2 and Theorem5, supplies the one-way Laplacian and
 unbounded-operator integration route, with descent proved here.
@@ -1037,7 +1078,7 @@ P.1–P.4; RepresentationTheory/CompactGroups and LieGroups; AutomorphicFormsOnR
 
 **M1.Core — induction and measurable transport.** This layer extends from this heading through the finite-index graded Clifford theorem immediately before M2. It contains the quotient/induced-model constructions, M1.BorelRealization and the finite-index graded theorem, and consumes VNA V3’s minimal-projection, spatial type-I factor and commutant APIs. The induced decompositions themselves require no type-I hypothesis; the finite-index graded Clifford theorem separately assumes that its normal subgroup L is type I. This layer precedes M2.TypeIDisintegration. Irreducible refinement of induced decompositions is the separate M2.InducedRefinement clause.
 
-Consume Layer P.1 for projective Hilbert-space/ray carriers, Wigner's theorem and the unitary/antiunitary alternative, and Layer P.3 for the locally continuous lift/cocycle comparison. M1 owns the standard-Borel quotient selector and induced-model transport. Consume Layer P.2's Polish U/PU/UA/PUA groups, coefficient-generated unitary/graded Borel structures (including grade for UA), quotient Polish Borel structures for PU/PUA, and Pettis's theorem before any Borel-to-continuous bridge below.
+Consume Layer P.1 for projective Hilbert-space/ray carriers, Wigner's theorem and the unitary/antiunitary alternative, and Layer P.3 for the locally continuous lift/cocycle comparison. M1 owns the standard-Borel quotient selector and induced-model transport. Consume OperatorAlgebraDynamics D1.BorelPrefix's Polish `U(H)_s` with its coefficient Borel structure and Pettis's theorem, and Layer P.2's Polish UA/PU/PUA groups with their graded and quotient Borel structures, before any Borel-to-continuous bridge below.
 
 Here a type-I lcsc group means that every factor representation generates
 a spatial type-I von Neumann algebra, in VNA V3's factor carrier. Compare
@@ -1047,6 +1088,17 @@ the spatial `B(K)⊗1_M` model and its commutant. M2 and the finite-index
 theorem below use this same definition. The elementary Borel multiplier change-of-section identity follows from the defined cocycle and is not duplicated as a second Layer P theorem.
 
 For a second-countable locally compact group `G` acting continuously on a Polish space `X` with its Borel sigma algebra, define a system of imprimitivity `(U,E)` on a separable complex Hilbert space: `U` is strongly continuous and unitary, `E` is a normalized projection-valued measure, and `U_g E(B) U_g⁻¹ = E(gB)`. Prove direct sums, reducing subspaces, intertwiners, unitary equivalence, and covariance under Borel equivariant maps. State the exact topology/measurability assumptions for each construction.
+
+**Checks.**
+
+- For X a point, E is the trivial PVM `E(X)=Id` and a system of imprimitivity is a
+  strongly continuous unitary representation; for G={1} it is a normalized PVM alone.
+- For G=ℝ translating X=ℝ by `t·x=x+t` and `(U_tf)(x)=f(x−t)` on L²(ℝ), the
+  multiplication PVM `E(B)=1_B` satisfies `U_tE(B)U_t⁻¹=E(B+t)`; with U replaced by the
+  trivial representation the covariance law holds only for translation-invariant B, so
+  the condition is on the pair, not on the PVM.
+- The direction is fixed by the formula: for B=[0,1] and t=1, `U_1E(B)U_1⁻¹` is
+  multiplication by `1_[1,2]`, which is `E(1·B)`, not `E((−1)·B)=1_[−1,0]`.
 
 For a transitive space `X=G/H`, with H closed and a quasi-invariant measure class, prove Mackey's imprimitivity equivalence: every such system is unitarily equivalent to induction of a representation of H, and conversely. Construct the quotient bundle and measurable sections and prove independence from their choice. For a locally sectioned central extension consume Layer P.3’s countable local-section patching construction of a Borel section. Distinguish that local continuous section from the general Borel selector for a standard-Borel quotient; prove the selector by countable nested balls if the consumed API supplies only a universally measurable selection.
 
@@ -1143,7 +1195,7 @@ homeomorphism, nonzero sigma-finite quasi-invariant measure, measurable section
 and strongly continuous isometric fibre representation. Its
 `InducedModelData.isotropy` is k_s, `InducedModelData.rnDerivative` is the native
 RN derivative r, and `InducedModelData.sectionAction` is the displayed formula.
-The abbreviation `inducedHilbertSpace` is native `MeasureTheory.Lp K 2 μ`.
+The induced carrier is native `MeasureTheory.Lp K 2 μ`.
 The theorem `InducedModelData.exists_inducedRepresentation` constructs the isometric strongly
 continuous group action on this L² space with the displayed almost-everywhere
 formula. Group inverses make these isometries onto, hence unitary.
@@ -1311,13 +1363,13 @@ operator on `V` commuting with `Q`. In particular it sends each isotypic compone
 right-regular `G` representations. This is the generic finite-index lattice-quotient adapter consumed by
 FuchsianOrbifolds L9. It proves neither scalar Laplace isospectrality nor any spectral theorem.
 
-For projective data, define normalized Borel multipliers `ω:G×G→𝕋`, twisted unitary representations, central extensions, Borel sections and their cocycles. Verify the section-change formula by direct substitution in the cocycle definition, and prove its induced-model fiberwise intertwiner as above; consume Layer P.3's locally continuous extension comparison where that extra topology is present. Use the central extension `E_ω=𝕋×_ωG` with `(z,g)(w,h)=(zwω(g,h),gh)`, so its canonical lifts obey `U_gU_h=ω(g,h)U_{gh}`. Lift H to `E_ω`, induce the genuine representation with central character z ↦ z on the extension using the same single RN square root, then descend the selected Borel lifts; prove the resulting system is ω-projective in exactly that direction. Establish the twisted imprimitivity theorem with explicit multiplier restriction/transport on H; distinguish a genuine representation of the central extension from an `ω`-representation. Own the Mackey–Weil converse for a normalized Borel circle cocycle on a
-second-countable locally compact group: construct the central standard-Borel
-group, its invariant measure and the locally compact second-countable group
-topology with that Borel structure, and prove uniqueness and the continuous
-kernel/projection comparisons. Supply the measurable-group reconstruction
-lemma, rather than assert that the product topology makes a merely Borel
-cocycle continuous. Prove its comparison with the locally sectioned extension
+For projective data, define normalized Borel multipliers `ω:G×G→𝕋`, twisted unitary representations, central extensions, Borel sections and their cocycles. Verify the section-change formula by direct substitution in the cocycle definition, and prove its induced-model fiberwise intertwiner as above; consume Layer P.3's locally continuous extension comparison where that extra topology is present. Use the central extension `E_ω=𝕋×_ωG` with `(z,g)(w,h)=(zwω(g,h),gh)`, so its canonical lifts obey `U_gU_h=ω(g,h)U_{gh}`. Lift H to `E_ω`, induce the genuine representation with central character z ↦ z on the extension using the same single RN square root, then descend the selected Borel lifts; prove the resulting system is ω-projective in exactly that direction. Establish the twisted imprimitivity theorem with explicit multiplier restriction/transport on H; distinguish a genuine representation of the central extension from an `ω`-representation. Consume from OperatorAlgebraDynamics D1.BorelPrefix the Mackey–Weil topology
+of `E_ω` for a normalized Borel circle cocycle on a second-countable locally
+compact group: the central standard-Borel group with its invariant measure
+carries exactly one second-countable locally compact group topology with that
+Borel structure, its kernel inclusion and projection are continuous and the
+projection is open; the product topology is not asserted to make a merely
+Borel cocycle continuous. Prove its comparison with the locally sectioned extension
 construction whenever that additional hypothesis holds.
 
 For a continuous open surjective homomorphism q:E→G of Polish groups with
@@ -1338,20 +1390,19 @@ algebra cocycle.
 
 For every normalized Borel circle multiplier ω on a second-countable
 locally compact group L, own its comparison with Layer P.3's H²_lc convention.
-Fix a left Haar measure and construct the twisted regular representation
-on the separable Hilbert space H=L²(L):
+Fix a left Haar measure and consume from OperatorAlgebraDynamics
+D1.BorelPrefix the twisted regular family on the separable Hilbert space
+H=L²(L):
 
 ```
-(λ_g^ω f)(x)=ω(g,g⁻¹x)f(g⁻¹x).
+(λ_g^ω f)(x)=ω(g,g⁻¹x)f(g⁻¹x),
 ```
 
-Prove unitarity and `λ_g^ω λ_h^ω=ω(g,h)λ_(gh)^ω` from left invariance
-and the cocycle law. Prove that g↦λ_g^ω is strong-Borel: use countable
-dense vectors, Borel representatives, joint measurability of the displayed
-formula and measurability of its scalar matrix-coefficient integrals, so
-that g↦λ_g^ω is Borel into U(H) by P.2's criterion for maps.
-Consequently its projective map L→PU(H) is a Borel homomorphism and is
-continuous by Layer P.2's Pettis theorem. Consume Layer P.2's local
+unitary, with `λ_g^ω λ_h^ω=ω(g,h)λ_(gh)^ω`, and strong-Borel, that is,
+Borel into `U(H)_s` by that section's criterion for maps.
+Consequently its projective map L→PU(H) is a Borel homomorphism between
+Polish groups (L by D1.BorelPrefix, PU(H) by P.2) and is continuous by
+D1.BorelPrefix's Pettis theorem. Consume Layer P.2's local
 continuous section of U(H)_s→PU(H) to obtain a lift v_g continuous on
 an identity neighborhood and normalized by v_1=Id; outside that
 neighborhood use the Borel lift λ_g^ω. This gives a global Borel lift.
@@ -1374,19 +1425,18 @@ its conjugation-continuity condition. No continuity of the original
 Borel phase b is asserted. Apply Layer P.4's smoothing and locally smooth
 extension theory only after this comparison. Prove the corresponding
 Borel group isomorphism with the pullback extension of the continuous
-projective map is topological by Layer P.2's Pettis theorem.
+projective map is topological by D1.BorelPrefix's Pettis theorem.
 
-Prove the correspondence between strong-Borel ω-representations and
-representations of the extension, with `E_ω` carrying the Mackey–Weil
-topology owned above. A strong-Borel ω-representation on a separable Hilbert space H is
-a Borel map `V:L→U(H)` with `V_1=Id` and `V_gV_h=ω(g,h)V_(gh)`. Then
-`(z,g)↦zV_g` is a Borel homomorphism `E_ω→U(H)`, hence strongly continuous
-by Layer P.2's Pettis theorem, and `(z,1)` acts by z. Conversely, for a
-strongly continuous unitary representation W of `E_ω` on H with
-`W(z,1)=z·Id`, the map `g↦W(1,g)` is a strong-Borel ω-representation. Prove
-that the two assignments are mutually inverse and preserve intertwiners,
-direct sums and unitary equivalence. Applied to λ^ω this gives the
-weight-one left-regular representation of `E_ω` on L²(L).
+Consume from D1.BorelPrefix the correspondence between strong-Borel
+ω-representations and representations of the extension, with `E_ω`
+carrying its Mackey–Weil topology: a strong-Borel ω-representation on a
+separable Hilbert space H is a Borel map `V:L→U(H)_s` with `V_1=Id` and
+`V_gV_h=ω(g,h)V_(gh)`; `(z,g)↦zV_g` is a strongly continuous unitary
+representation of `E_ω` in which `(z,1)` acts by z, `g↦W(1,g)` is the
+inverse assignment, and both preserve intertwiners, direct sums and
+unitary equivalence. Applied to λ^ω this gives the weight-one left-regular
+representation of `E_ω` on L²(L); M2's fixed-weight criterion uses this
+correspondence on `M=p⁻¹(N)`.
 
 Prove the generic perfect-character lemma: if L is a connected
 finite-dimensional Lie group with perfect Lie algebra, every Borel
@@ -1595,19 +1645,35 @@ For H=G the quotient is a point, k_s(g,*)=g for s(*)=1 and r_g=1, so induction r
 
 ### Dependencies
 
-P.1–P.3; Layer 0; OperatorAlgebraDynamics D1/D3; HilbertModules H3; VonNeumannAlgebras V3 and V4.0.Fields. M1.MeasuredTensor precedes M2.InducedRefinement; no type-I hypothesis is added to the intermediate induced decomposition.
+P.1–P.3; Layer 0; OperatorAlgebraDynamics D1 (with D1.BorelPrefix) and D3; HilbertModules H3; VonNeumannAlgebras V3 and V4.0.Fields. M1.MeasuredTensor precedes M2.InducedRefinement; no type-I hypothesis is added to the intermediate induced decomposition.
 
 ## Layer 5: M2 — Regular Mackey machine
 
 Let `G=N⋊H` be second-countable locally compact with N locally compact abelian. Use native Mathlib `PontryaginDual N` with its compact-open topology and circle-valued character carrier. Pin the dual action `h·χ(n)=χ(h⁻¹·n)` and the V11 Fourier/Pontryagin conventions. For the regular-action theorem assume a standard Borel orbit space Q, a Borel quotient map `q:N̂→Q` whose fibers are precisely the H-orbits, and a Borel section `s:Q→N̂` with `q∘s=id`. These are explicit hypotheses; in every model application prove them from its orbit parameters and chosen representatives. Prove that this smooth quotient implies regular embedding in Mackey's measure-class sense and that every ergodic invariant measure class is concentrated on one orbit. For irreducible exhaustion require `G` and all stabilizers second-countable locally compact and `N̂` standard Borel; prove the normal subgroup's metric-smooth/type-I hypotheses using its abelian character dual. The split untwisted classification uses ordinary little-group representations. For a specified global twist, using this character dual requires an explicit coboundary trivialization of its restriction to N; give its extension and little-group obstruction data. If that restriction is nontrivial, instead construct the actual projective normal-subgroup dual and establish its metric-smooth/type-I and regular-embedding hypotheses before applying the twisted theorem; ordinary characters are not its representation labels. Prove exhaustion under these regularity hypotheses, without a type-I requirement on little groups. Separately prove Mackey's sufficient type-I criterion under the regular-action/smooth-quotient hypotheses stated above, including standard-Borel N̂ and the regular embedding. In the untwisted case, if each stabilizer algebra is type I then G is type I. For a specified `ω`, prove the mandatory fixed-central-weight criterion M2.FixedTwistTypeI below for `C*(G,ω)`; do not replace its hypotheses by type I of the whole extension `E_ω`. State any all-central-weights conclusion separately: type I of one fiber `C*(G,ω)` alone does not show the whole extension group is type I. Do not apply this implication outside those hypotheses. Use M1's factor-representation definition of type I and its comparison with VNA V3's spatial type-I carrier. Consume the GCR-to-factor-type-I direction of TypeIComparison for separable group C*-algebras; M0's CCR hypothesis implies GCR. This is the implication consumed from M0's CCR result; HilbertModules H3's irreducible-image convention and VNA's factor carrier are compared in this direction. A converse is not used to prove the little-group hypotheses. Use type I where required by direct-integral disintegration and uniqueness in M6 and by the product theorem below. Mackey1958 Theorems8.1,8.4,9.1 and9.3 supply the proof route with these distinct hypotheses. For each χ construct the closed stabilizer `Hχ`. In the ordinary split semidirect product, χ extends genuinely to `N⋊Hχ` by `χ̃(n,h)=χ(n)`, because every h in Hχ fixes χ; prove the extension law explicitly. Thus the little-group datum for genuine representations is an ordinary genuine unitary representation of Hχ and its multiplier is trivial (up to the chosen coboundary). Do not assign arbitrary projective data here. Reserve nontrivial multipliers for a separately specified global twist/central extension or genuinely nonsplit extension, and give its cocycle, section, and restriction/transport data.
 
-**M2.FixedTwistTypeI — the regular Mackey criterion at one central weight.** Fix a normalized Borel multiplier `ω` on the lcsc second-countable `G=N⋊H` above and construct its Mackey–Weil lcsc circle extension `p:E_ω→G` by M1. Use the convention `(z,g)(w,h)=(zwω(g,h),gh)` and the weight-one sector, in which the central `z` acts as `z·1`; its C*-algebra is `C*(G,ω)`. Put `M=p⁻¹(N)`, a closed normal subgroup. Construct the actual normal-subgroup projective dual `X=ĤM_1`: unitary-equivalence classes of irreducible strongly continuous representations `ρ` of M with `ρ(z)=z·1`, equivalently the irreducible `ω|_(N×N)`-projective representations of N via the Borel coordinate lift. Assume the weight-one ideal `J_1(M)` of `C*(M)` is type I, and supply its metric-smooth standard-Borel dual and a Borel field of concrete separable irreducible models with separating measurable matrix coefficients. These are explicit normal-subgroup hypotheses; do not infer them from commutativity of N when its restricted multiplier is nontrivial. No condition on the other central weights of M is imposed.
+**Checks.**
+
+- For the shear `t·(a,b)=(a+tb,b)` of H=ℝ on `N̂=ℝ²` (Examples below), the orbit space Q
+  is the disjoint union of the lines `ℝ×{b}`, b≠0, and the points `(a,0)`; the section
+  `b↦(0,b)` for b≠0 and `(a,0)↦(a,0)` is Borel, the stabilizers are {0} for b≠0 and ℝ
+  for b=0, so the little-group data are the trivial group's representations and the
+  characters of ℝ respectively.
+- For ℤ acting on `N̂=𝕋` by an irrational rotation the orbits are countable and dense,
+  Lebesgue measure is an ergodic invariant measure class not concentrated on one orbit,
+  and no Borel section onto a standard Borel quotient exists: the regular-embedding
+  hypothesis fails and the classification is not asserted.
+- The extension `χ̃(n,h)=χ(n)` is multiplicative on `N⋊Hχ` because `h∈Hχ` means
+  `χ(h·n′)=χ(n′)`, so `χ̃((n,h)(n′,h′))=χ(n)χ(h·n′)=χ(n)χ(n′)`; for H=ℤ/2 acting on
+  N=ℝ by negation and `χ(n)=exp(in)`, the stabilizer is trivial and the same formula on
+  all of `N⋊H` gives `χ̃((0,h)(n′,1))=exp(−in′)≠χ̃(0,h)χ̃(n′,1)`.
+
+**M2.FixedTwistTypeI — the regular Mackey criterion at one central weight.** Fix a normalized Borel multiplier `ω` on the lcsc second-countable `G=N⋊H` above and take its Mackey–Weil lcsc circle extension `p:E_ω→G` from OperatorAlgebraDynamics D1.BorelPrefix; M1 compares it with the locally sectioned convention. Use the convention `(z,g)(w,h)=(zwω(g,h),gh)` and the weight-one sector, in which the central `z` acts as `z·1`; its C*-algebra is `C*(G,ω)`. Put `M=p⁻¹(N)`, a closed normal subgroup. Construct the actual normal-subgroup projective dual `X=ĤM_1`: unitary-equivalence classes of irreducible strongly continuous representations `ρ` of M with `ρ(z)=z·1`, equivalently the irreducible `ω|_(N×N)`-projective representations of N via the Borel coordinate lift. Assume the weight-one ideal `J_1(M)` of `C*(M)` is type I, and supply its metric-smooth standard-Borel dual and a Borel field of concrete separable irreducible models with separating measurable matrix coefficients. These are explicit normal-subgroup hypotheses; do not infer them from commutativity of N when its restricted multiplier is nontrivial. No condition on the other central weights of M is imposed.
 
 Construct the jointly Borel conjugation action of `E_ω` on X, prove that it factors through H, and use this actual transported projective-dual action. Require a Borel quotient `q:X→Q` onto a standard-Borel Q, with precisely the H-orbits as fibers, and a Borel representative section. Prove the regular embedding in the measure-class form used by the factor-imprimitivity argument: every ergodic invariant measure class on X is concentrated on one orbit. Require each stabilizer `H_ρ≤H` to be closed (hence lcsc second-countable), the stabilizer subgroup/quotient data to be Borel, and Borel sections for `E_ρ→E_ρ/M≅H_ρ`, where `E_ρ` is the inverse image of `H_ρ` in E; write `p_ρ:E_ρ→H_ρ` for this quotient map. Construct the Borel stabilizer intertwiners on the concrete ρ-models rather than presupposing a genuine extension. Their projective extension `V_ρ` satisfies `V_ρ|_M=ρ` and `V_ρ(e)V_ρ(f)=α_ρ(ē,f̄)V_ρ(ef)`, with `α_ρ` a normalized Borel circle multiplier on `H_ρ`. Prove this descent and its independence, up to coboundary and unitary/orbit transport, from the section and intertwiner choices. The relevant little algebra is therefore `C*(H_ρ,α_ρ⁻¹)`: an `α_ρ⁻¹`-projective τ makes `V_ρ⊗(τ∘p_ρ)` genuine on `E_ρ`. Require that algebra to be type I for every orbit representative; equivalently for every ρ after proving the transport comparison. Use M1's topology on its cocycle extension, so Borel coordinate lifts are not asserted globally continuous.
 
 Under exactly these fixed-weight hypotheses, prove that `C*(G,ω)` is type I in M1/VNA's factor sense: every nondegenerate factor representation generates a spatial type-I von Neumann factor, including the arbitrary-H convention via the separable cyclic reduction and amplification comparison. Own the factor version of regular Mackey imprimitivity, not merely irreducible exhaustion: decompose restriction to `J_1(M)` into the concrete ρ-models; factor centrality makes the orbit-quotient spectral algebra scalar, so regularity concentrates the measure class on one orbit; identify its system of imprimitivity and multiplicity commutant with induction of `V_ρ⊗τ`. Prove the resulting factor/type comparison with the relevant twisted little algebra, including the induced multiplicity amplification. Its type-I hypothesis then forces the original factor type I. Prove quasi-invariant measures, RN unitaries, measurable fundamental sections and independence of those choices using M1's existing induction interfaces; do not infer this factor conclusion solely from a list of irreducibles. If `ω|_(N×N)=δb`, explicitly trivialize it, identify `ρ((z,n))=zb(n)χ(n)` with ordinary characters, and compute the transported H-action and stabilizer obstruction, including cross-cocycle terms. It agrees with the usual inverse-pullback character action only after proving that additional comparison; a trivial restriction alone does not remove a possible affine cross term. This recovers the untwisted split criterion with trivial obstruction, without imposing untwisted character labels in the general fixed-twist theorem.
 
-Separately, prove the all-central-weights criterion: if the analogous normal-projective regularity and twisted-little-algebra hypotheses hold at every integer weight k, then `E_ω` is type I. Prove `C*(E_ω)≅⊕_(k∈ℤ)^{c₀}J_k(E_ω)` using the compact central circle and its spectral projections, with `J_k(E_ω)≅C*(G,ω^k)` in the displayed multiplication convention; type I is equivalent to type I of every summand. No all-k assumption enters M2.FixedTwistTypeI. Prove its genuinely twisted fixed-central-character product analogue consumed by the product adapter below; that adapter's whole-extension sufficient branch remains available and is not a substitute for the fixed-twist Mackey criterion.
+Separately, prove the all-central-weights criterion: if the analogous normal-projective regularity and twisted-little-algebra hypotheses hold at every integer weight k, then `E_ω` is type I. Prove `C*(E_ω)≅⊕_(k∈ℤ)^{c₀}J_k(E_ω)` using the compact central circle and its spectral projections, and consume OperatorAlgebraDynamics D1.TwistedBorel for `J_k(E_ω)≅C*(G,ω^k)` in the displayed multiplication convention; type I is equivalent to type I of every summand. No all-k assumption enters M2.FixedTwistTypeI. Prove its genuinely twisted fixed-central-character product analogue consumed by the product adapter below; that adapter's whole-extension sufficient branch remains available and is not a substitute for the fixed-twist Mackey criterion.
 
 Under the stated regular-action hypotheses, prove that induction of `χ̃⊗τ` from `N⋊Hχ` to `N⋊H` is irreducible, that equivalence is exactly orbit transport plus equivalence of the transported genuine τ: for χ₂=h·χ₁, prove `Hχ₂=hHχ₁h⁻¹` and define `τ₁^h(k)=τ₁(h⁻¹kh)` on Hχ₂, then state the unitary intertwiner condition with τ₂, and that these exhaust irreducibles. Prove the exact regularity, separability and Borel-section hypotheses in each application; establish type I separately for the uses that require it. The irreducible regular Mackey classification above does not require G or
 its little groups to be type I. Product decomposition and unique direct-integral
@@ -1625,7 +1691,7 @@ the ambient crossed product. Export this criterion for recursive application
 to little groups as well as to M5's Poincaré fiber; no later-milestone
 construction is required to prove it.
 
-For product groups, extend the genuine tensor-product theorem to projective data only by an explicit cochain comparison. Define the cross-multiplier obstruction to be the class of `ω` in Moore’s normalized Borel cohomology `H²_Bor(G₁×G₂,𝕋)` modulo the image of the two factor-inflation maps; the adapter applies exactly when this class has a factorwise-product representative (equivalently, when the displayed cochain `b` exists). With `U_gU_h=ω(g,h)U_{gh}` and normalized factors `ω₁,ω₂`, assume a normalized Borel `b:G₁×G₂→𝕋` satisfies `ω(g,h)=δb(g,h)ω₁(g₁,h₁)ω₂(g₂,h₂)`, where `δb(g,h)=b(g)b(h)b(gh)⁻¹`. Rephase `U_g` to `b(g)⁻¹U_g`; its multiplier is then the factorwise product. Realize each twisted representation as a genuine representation of its central extension `E_{ωᵢ}`, and the product representation on `E_{ω₁}×E_{ω₂}` with central character `(z₁,z₂)↦z₁z₂`. Take each `ωᵢ` to be a normalized Borel multiplier and give `E_{ωᵢ}` the unique lcsc topology with its specified standard-Borel group structure supplied by M1's Mackey–Weil reconstruction. Require the genuine extension representations to be strongly continuous on separable Hilbert spaces. The set-theoretic coordinate lift `g↦(1,g)` and its operator-valued realization are only Borel in general; their global continuity is not a hypothesis. When local continuous sections exist, prove the comparison with Layer P.3's locally continuous convention. Identify `(E_(ω₁)×E_(ω₂))/{(z,z⁻¹):z∈𝕋}` with `E_(ω₁⊠ω₂)` as topological groups, using the explicit Borel group map, quotient Borel structure and uniqueness of the Mackey–Weil lcsc topology. The cochain `b` defines a Borel group isomorphism between the two cocycle extensions; prove it is a topological isomorphism by Layer P.2's Pettis theorem for Borel homomorphisms between lcsc groups, and transport continuity through that isomorphism. Do not require a Borel rephasing of coordinate lifts to become a globally strongly continuous unitary-valued map on the base group. The extension-product theorem applies when at least one genuine extension group C*-algebra `C*(E_{ωᵢ})` is type I. A type-I fixed-central-character twisted fiber `C*(Gᵢ,ωᵢ)` is an alternative only after proving the corresponding fixed-central-character product theorem directly; it does not by itself imply that `C*(E_{ωᵢ})` is type I. Type I of the untwisted `C*(Gᵢ)` is not sufficient. In Dooley pp.16–17, the group is `G₁×ℝ`; the ℝ factor supplies the trivial multiplier class `H²(ℝ,𝕋)=0`, and its circle central extension is abelian and type I. The separate p.28 `G×SU(3)` example uses compact `SU(3)`, whose compact central extension is type I; A nontrivial cross-multiplier class obstructs this reduction. This adapter is an M2 theorem consumed by those examples, not merely an application-side assumption.
+For product groups, extend the genuine tensor-product theorem to projective data only by an explicit cochain comparison. Define the cross-multiplier obstruction to be the class of `ω` in Moore’s normalized Borel cohomology `H²_Bor(G₁×G₂,𝕋)` modulo the image of the two factor-inflation maps; the adapter applies exactly when this class has a factorwise-product representative (equivalently, when the displayed cochain `b` exists). With `U_gU_h=ω(g,h)U_{gh}` and normalized factors `ω₁,ω₂`, assume a normalized Borel `b:G₁×G₂→𝕋` satisfies `ω(g,h)=δb(g,h)ω₁(g₁,h₁)ω₂(g₂,h₂)`, where `δb(g,h)=b(g)b(h)b(gh)⁻¹`. Rephase `U_g` to `b(g)⁻¹U_g`; its multiplier is then the factorwise product. Realize each twisted representation as a genuine representation of its central extension `E_{ωᵢ}`, and the product representation on `E_{ω₁}×E_{ω₂}` with central character `(z₁,z₂)↦z₁z₂`. Take each `ωᵢ` to be a normalized Borel multiplier and give `E_{ωᵢ}` the unique lcsc topology with its specified standard-Borel group structure supplied by OperatorAlgebraDynamics D1.BorelPrefix's Mackey–Weil topology. Require the genuine extension representations to be strongly continuous on separable Hilbert spaces. The set-theoretic coordinate lift `g↦(1,g)` and its operator-valued realization are only Borel in general; their global continuity is not a hypothesis. When local continuous sections exist, prove the comparison with Layer P.3's locally continuous convention. Identify `(E_(ω₁)×E_(ω₂))/{(z,z⁻¹):z∈𝕋}` with `E_(ω₁⊠ω₂)` as topological groups, using the explicit Borel group map, quotient Borel structure and uniqueness of the Mackey–Weil lcsc topology. The cochain `b` defines a Borel group isomorphism between the two cocycle extensions; prove it is a topological isomorphism by D1.BorelPrefix's Pettis theorem for Borel homomorphisms between lcsc groups, and transport continuity through that isomorphism. Do not require a Borel rephasing of coordinate lifts to become a globally strongly continuous unitary-valued map on the base group. The extension-product theorem applies when at least one genuine extension group C*-algebra `C*(E_{ωᵢ})` is type I. A type-I fixed-central-character twisted fiber `C*(Gᵢ,ωᵢ)` is an alternative only after proving the corresponding fixed-central-character product theorem directly; it does not by itself imply that `C*(E_{ωᵢ})` is type I. Type I of the untwisted `C*(Gᵢ)` is not sufficient. In Dooley pp.16–17, the group is `G₁×ℝ`; the ℝ factor supplies the trivial multiplier class `H²(ℝ,𝕋)=0`, and its circle central extension is abelian and type I. The separate p.28 `G×SU(3)` example uses compact `SU(3)`, whose compact central extension is type I; A nontrivial cross-multiplier class obstructs this reduction. This adapter is an M2 theorem consumed by those examples, not merely an application-side assumption.
 
 **TransformationTypes.HeisenbergShear.** Work out the action of additive
 ℝ on X=ℝ² given by t·(a,b)=(a+tb,b), with coefficient action by inverse
@@ -1912,7 +1978,7 @@ For the shear t·(a,b)=(a+tb,b), b=1 has orbit ℝ×{1} and trivial stabilizer; 
 
 ### Dependencies
 
-P.2; M0a.TypeIComparison; M0; M1; CStarAlgebras C1/C2/C5; HilbertModules H3; VonNeumannAlgebras V3 and V4.0.Fields/Decomposition; SelfAdjointSpectralTheory SA-B85. ParameterizedRefinement follows TypeIDisintegration and RectangularField.
+P.2; M0a.TypeIComparison; M0; M1; OperatorAlgebraDynamics D1.BorelPrefix and D1.TwistedBorel; CStarAlgebras C1/C2/C5; HilbertModules H3; VonNeumannAlgebras V3 and V4.0.Fields/Decomposition; SelfAdjointSpectralTheory SA-B85. ParameterizedRefinement follows TypeIDisintegration and RectangularField.
 
 ## Layer 6: M3 — Euclidean, Galilei and Bargmann models
 
@@ -2111,6 +2177,19 @@ Use the actual Lorentz generators `J_{μν}` from the Lie algebra action of `SL(
 The pinned Poincaré commutator gives
 `[P_ν,M_{ρσ}]=iℏ(η_{νρ}P_σ−η_{νσ}P_ρ)`; contracting with `ε^{μνρσ}` is zero (each metric contraction repeats an antisymmetric index), so reversing the product order gives the same operator on this core. Expanding the definition yields `W^3=Σ_{i<3}Ĵ_iP^i` and `W^i=HĴ_i−Σ_{j,k<3}ε_{ijk}P^jK_k` for i<3. For either null orbit put `P^μ=(0,0,ε_E r,ε_E r)`, r>0, ε_E∈{+1,−1}; the zero-translation-character little-group label is `ℓ∈ℤ` with character `exp(iℓθ/2)` on `r_θ=diag(exp(iθ/2),exp(−iθ/2))`. Prove directly in `SL(2,ℂ)` that `r_θ=exp(−θJ_{01})` by exponentiating `−θJ_{01}=iθσ_z/2`; do not infer the lift from its Lorentz image. Derive `L(r_θ)(x_0,x_1,x_2,x_3)=(x_0 cosθ+x_1 sinθ,−x_0 sinθ+x_1 cosθ,x_2,x_3)`. For the little-group character ζ_ℓ this gives the fiber infinitesimal operator `iℏ dζ_ℓ(J_{01})=(ℏℓ/2)Id`; the induced common-core operator identity below is a separate comparison, not point evaluation on an L² class. This pins the rotation direction used by the label. Prove `W^μ=κP^μ` with the invariant coefficient `κ=ℏℓ/2`. Thus the physical helicity, defined as `W^3/|P|=Ĵ·P/|P|`, is `λ_phys=ε_E κ=ε_E ℏℓ/2`; keep κ distinct from this branch-dependent helicity and retain both energy orientations. The identities hold on the stated core before proving the corresponding closure/domain statements. For the ordinary Poincaré group (the quotient by the covering center), a finite-helicity character descends exactly when ℓ is even. A nonzero-radius continuous-spin model descends exactly when the central stabilizer character is trivial, equivalently when the central element `−I` acts as `+1`; keep the other central-character sector for the covered group.
 
+**Checks.**
+
+- On the rest frame `P^μ=(0,0,0,m)` of a timelike orbit the formulas give `W^3=0` and
+  `W^i=mĴ_i`, so `W_μW^μ=−m²(Ĵ₀²+Ĵ₁²+Ĵ₂²)`, which on the spin-s isotypic subspace is
+  `−m²ℏ²s(s+1)`; an opposite sign in η or in `ε^{0123}` changes the sign of every `W^μ`.
+- On the null representative `P^μ=(0,0,ε_Er,ε_Er)` the formulas give `W^2=W^3=ε_ErĴ₂`,
+  so `W^3/P^3=Ĵ₂`; with `U(r_θ)=exp(iℓθ/2)` and `Ĵ₂=iℏdU(J₀₁)` this is `κ=ℏℓ/2`, and the
+  helicity `Ĵ·P/|P|=ε_Eκ`. The convention `ε^{0123}=−1` would reverse the helicity sign.
+- On the spacelike representative `P^μ=(0,0,r,0)` the formulas give
+  `W=(rK₁,−rK₀,0,rĴ₂)`, so `W_μW^μ=r²(Ĵ₂²−K₀²−K₁²)`, r² times the Casimir of the
+  noncompact stabilizer generated by `Ĵ₂,K₀,K₁`, whereas the timelike value is −m² times
+  the compact SU(2) Casimir; the zero orbit has every `W^μ=0`.
+
 Use the **native** `realCliffordThreeOneVectorEquivHermitian`, whose matrix is
 `[[p₃+p₂, −p₁−i p₀], [−p₁+i p₀,p₃−p₂]]`; its determinant is q(p), the negative
 of native `realCliffordForm 3 1`. Define L(A) by transporting `X↦AXA†` through this
@@ -2126,6 +2205,8 @@ native Hermitian model. For the spacelike stabilizer fix
 `C₀ SL(2,ℝ) C₀⁻¹=SU(1,1)` and
 `C₀ k_t C₀⁻¹=δ(0,2t)`. This conjugacy determines the signed compact weights
 and both discrete-series orientations; prove the orbit measures/Borel sections required by M2.
+
+*Needs:* M0 item 1 (common invariant smooth-vector core, derived action and the Stone self-adjoint closures); UnboundedOperators UO-B04/B05 (joint Stone generators and their PVM); Tau Ceti `realCliffordThreeOneVectorEquivHermitian` and the Lorentzian Clifford/Spin equivalence named in Scope and ownership; Mathlib `PontryaginDual` and `Circle`; VonNeumannAlgebras V11 (positive-character convention); P.2 (the connected-component corollary).
 
 **M4.SL2R — fixed weight generators and Casimir.**
 
@@ -2184,6 +2265,8 @@ its character parameter is separate from the spacetime χ_p normalization.
 
 For both rank-one groups, use the smooth normalized induced space of `F∈C∞(G)` satisfying the displayed right-covariance law, equivalently smooth sections of its associated complex line bundle over G/P. Its compact picture is `C∞(K/M)` with the prescribed M-character covariance. State the corresponding Fréchet topology; normalized intertwiners act on these spaces before Hilbert completion in the principal/complementary invariant forms. At a reducibility point distinguish the algebraic K-finite module, smooth Fréchet kernel/quotient and completed unitary constituent, and prove their comparison rather than assigning one Hilbert space to all three.
 
+*Needs:* M0 item 1 (derived enveloping action, unitary involution and the irreducible central-closure theorem); M1 (induction from the trivial subgroup, for the full-spacetime localization obstruction); M2 (orbit and stabilizer hypotheses for the six orbit types); UnboundedOperators UO-B04/B05 (joint translation PVM and the spectrum of H); the C₀/k_t convention fixed above.
+
 **M4.P — SL(2,ℝ) Plancherel and compact-line induction.**
 
 For G=SL(2,ℝ), K=SO(2) and the preceding fixed conjugacy, prove the full Plancherel theorem consuming M0's smooth/admissible-module comparisons and M1's Hilbert induction carriers. Fix the Haar measure and normalized model matrices, define the transform on compactly supported smooth left and right K-finite functions by the integrated operators π(f), and prove inversion, the Hilbert–Schmidt norm identity, its L² extension and surjectivity onto the stated measurable operator field. Prove the principal densities are positive and equivalent to dν for ν>0, and every discrete formal degree is positive; determine their scalar constants from that fixed Haar normalization. Establish the trace/character inversion and density estimates before using Parseval, then prove dense range by the corresponding test-operator fields. The measure is supported on principal and discrete families; complementary/trivial and ν=0 limit representations have no atoms. Compare [Lang, *SL₂(ℝ)*, Chapter VIII, pp.163–177](https://doi.org/10.1007/978-1-4612-5142-2_8), including its preceding trace calculations, by an explicit inducing-parameter, Haar and Casimir dictionary. Harish-Chandra's1952 note supplies historical context, not an assumed proof of the transform.
@@ -2194,6 +2277,8 @@ For Haar probability dk on K, define the right-character projection
 Prove compatibility of Plancherel with these projections and hence, for every n∈ℤ,
 `Ind_K^Gχ_n ≃ ∫_(ν>0)^⊕I_(n mod2,iν)dν ⊕ ⊕_(2≤l≤|n|,l≡n mod2)D_l^(sign n)`.
 The discrete sum is empty at n=0. This is the Hilbert space of sections with `f(gk)=χ_n(k)⁻¹f(g)`, not the opposite-covariance space. Principal/discrete compact weights occur once. Under M4's normalized induction, prove `q_B=(1+ν²)/4` for I_(e,iν) and `q_B=l(2−l)/4` for D_l^±. M6 consumes this named unitary/measure comparison, including its measurable fundamental sections; a dual list alone supplies no Plancherel theorem.
+
+*Needs:* M0 items 1 and 3 (smooth and admissible-module comparisons); M1 (Hilbert induction carriers and induction in stages); M4.SL2R (fixed generators and `q_B`); CompactGroups (characters of K=SO(2)); VonNeumannAlgebras V11 (Haar normalization).
 
 **M4.Lorentz — normalized Lorentz principal and complementary carriers.**
 
@@ -2209,6 +2294,8 @@ model independently of the literal diagonal-character identity above.
 Transport the source Eq.187 invariant form, with kernel
 `C|z−w|^(−2+2s)`, C>0, to this model, and prove positivity for 0<s<1.
 
+*Needs:* M1 (normalized induction with the right-covariant convention and the single RN square root); M4.SL2R's `δ_P` and Iwasawa data; LieGroups Layer 2 (SL(2,ℂ) as a Lie group); the fixed `J_alt`; Gel'fand–Naimark 1947 §8 as cited.
+
 **M4.Riesz — the complementary Lorentz Fourier carrier.**
 
 Consume VonNeumannAlgebras V11's shared Haar/Plancherel layer and native `FourierTransform.fourierCLE` on native Schwartz Fourier-pair instances, `SchwartzMap.integral_inner_fourier_fourier` and `TemperedDistribution` Fourier/derivative adapters. Prove the sign/dual-evaluation comparison with V11's positive-character convention. Use the fixed transform `f̂(ξ)=∫exp(−2πi Re(conj(ξ)z))f(z)d²z`.
@@ -2220,6 +2307,8 @@ For the preceding positive complementary invariant kernel
 and the Fourier transform of the Gaussian, first on `C_c∞(ℂ)` with the required Fubini bounds. Prove this test space is dense in M4’s positive complementary completion: cut off its smooth compact-picture vectors in the noncompact chart and use their `|z|^(−2−2s)` decay and the locally integrable Riesz kernel to justify convergence of the quadratic form. Prove the Fourier image is dense in `L²(ℂ,|ξ|^(−2s)d²ξ)` by smooth frequency cutoffs away from zero, inverse Schwartz transforms and position cutoffs. Thus both completions agree, rather than assuming compact tests already exhaust the original model.
 This is the shared model-specific Riesz/Fourier and completed-carrier
 adapter, owned here before full graded models and M6 restrictions.
+
+*Needs:* VonNeumannAlgebras V11 (Haar/Plancherel layer and positive-character convention); Mathlib `FourierTransform.fourierCLE`, `SchwartzMap.integral_inner_fourier_fourier` and `TemperedDistribution`; M4.Lorentz (the positive complementary kernel and its completion); M0 (smooth compact-picture vectors).
 
 **M4.Angular — angular homogeneous distributions and normalized Weyl kernels.**
 
@@ -2276,6 +2365,8 @@ unitary multiplier agree on their actual common domains. The angular
 continuation and these model comparisons are owned by M4; the shared
 Fourier/Plancherel carrier remains with its suppliers.
 
+*Needs:* M4.Riesz (carriers and the Gaussian/Mellin route); VonNeumannAlgebras V11; Mathlib `FourierTransform.fourierCLE`, `TemperedDistribution` and `Complex.Gamma` with its meromorphic continuation; M4.Lorentz (Möbius covariance of the principal and complementary models).
+
 **M4.Endpoints — Lorentz endpoint sequences and classification.**
 
 At s=1, Eq.194 is `C|∫φ(z)d²z|²`: prove that integration is invariant,
@@ -2290,9 +2381,13 @@ spaces, endpoint forms and their radicals, and both boundary intertwiner
 kernels/images. Prove the interior λ∼−λ equivalence and its degeneration
 at the boundary, and the full irreducible classification and exhaustion.
 
+*Needs:* M4.Lorentz and M4.Riesz (the induced-function spaces, the invariant forms and their Fourier multipliers); M4.Angular (the continued kernels at λ=±1); M0 item 3 (K-finite and admissible modules for the classification and exhaustion); Gel'fand–Naimark 1947 §8 as cited.
+
 **M4.ParticleLabels — little-group data and energy branches.**
 
 Derive which little-group data yield massive spin, helicity, and continuous-spin models. Separate the two null-orbit time orientations and impose positive energy as an additional spectral restriction.
+
+*Needs:* M2 (the regular Mackey classification of `ℝ⁴⋊SL(2,ℂ)` with the stabilizers of M4.SL2R); M4.SL2R (the six orbit types and the null stabilizer `δ(w,θ)`); UnboundedOperators UO-B04/B05 (the joint spectral condition defining positive energy).
 
 **M4.TypeI — null and Poincaré type-I/GCR comparisons.**
 
@@ -2404,6 +2499,8 @@ Prove that the represented translation quadratic polynomial on the Gårding doma
 
 Define parity and time reversal as automorphisms of the covered group and define their implementation on rays. Prove the unitary/antiunitary alternatives with the ray-space hypotheses; do not use the false inference that every group element has a square root. Give the explicit counterexample `−[[1,1],[0,1]]∈SL(2,ℂ)` and prove directly that it has no square root. Show a Euclidean spacetime group enlarged by time reversal can act antiunitarily. Consume M0's single Gårding/derived-action and central closure API. For each Hermitian Casimir polynomial C, pin its ordering, involution and scalar normalization, verify M0's elliptic-commutation hypothesis and transport its self-adjoint closure to the induced model. Give the actual orbit-coordinate differential formulas and domain comparisons. Construct C-analytic vectors with explicit bounds `‖Cⁿv‖ ≤ C_v R_vⁿ n!` using M0's post-closure spectral-cutoff/core estimates, and compute Casimir values on that common domain. The Lie-algebra matrix units are not an operator-domain argument.
 
+*Needs:* M2 (the regular Mackey criterion, the orbit-slice GCR criterion and the product theorem); M0 item 4 (CCR for SL(2,ℝ) and SL(2,ℂ)) and item 1 (essential self-adjointness and cores for `q(P)`); M1 and OperatorAlgebraDynamics D3 (induction in stages and Green imprimitivity); OperatorAlgebraDynamics D1 (full crossed-product exactness); HilbertModules H3 (Rieffel transport); P.4 (smoothing, integration and the Whitehead lemmas for `H²_lc(SO₀(3,1),𝕋)`); Fell 1961 §V Theorem 5.1 and Banerjee 2018 §4 as cited.
+
 **M4.SpatialLocalization — fixed-time covariant localization.** Use the connected covered Poincaré group `G_P=ℝ⁴⋊SL(2,ℂ)` and its fixed-time spatial subgroup `G_sp=ℝ³⋊SU(2)`, embedded with zero time translation. Let R(u) be the spatial restriction of M4's Hermitian Lorentz action, with its existing comparison to the M3 rotation carrier. Prove the continuous spatial subgroup embedding and write `(a,u)(b,v)=(a+R(u)b,uv)` and `(a,u)·x=a+R(u)x` on the standard Borel space `X=G_sp/SU(2)≃ℝ³`. For a strongly continuous unitary representation ρ on a complete complex Hilbert space H, define spatial sharp localizability by existence of a normalized SAST projection-valued measure P on X with `ρ(g)P(E)ρ(g)⁻¹=P(g·E)` for every g and Borel E. This definition requires neither boost covariance of one PVM on X nor a PVM on all of spacetime. It is the fixed-time spatial version used here of the one-particle Wightman localizability problem.
 
 Prove the exact criterion, with no Hilbert-cardinality restriction: such a pair (ρ,P) exists iff `ρ≃Ind_(SU(2))^(G_sp)σ` for a strongly continuous unitary SU(2)-representation σ. On `L²(ℝ³,dx;K_σ)` give its canonical pair explicitly by `T_σ(a,u)f(x)=σ(u)f(R(u)⁻¹(x−a))` and `P_σ(E)f=1_E f`. Prove unitarity, strong continuity, normalization, strong countable additivity and covariance, and construct the inducing unitary as a unitary of both group and PVM data. Lebesgue measure is invariant, so this formula has no additional RN/modular factor; changes to an equivalent quotient measure consume M1's single square-root density transport. The zero Hilbert space is the σ=0 case; nonzero selected particle models below have nonzero H.
@@ -2419,6 +2516,8 @@ Own the following spatial restriction adapter on M1's normalized induced carrier
 For every admitted selected particle model above, export a specified unitary `W:H_π≃L²(ℝ³;K_σ)` intertwining its spatial restriction with T_σ, and define its supplied localization by `P_π(E)=W⁻¹P_σ(E)W`. Construct W from the Mackey restriction/fiber equivalence, the actual positive square-root density change from the chosen momentum orbit measure to Lebesgue measure, and the scalar Plancherel unitary `ℱ_ℏ f(p)=(2πℏ)^(−3/2)∫exp(−ip·x/ℏ)f(x)dx`, initially on Schwartz vectors and extended by V11's Plancherel theorem, then componentwise to the finite spin fiber. Use its inverse to pass from momentum to the displayed position model. The null momentum origin is a null set in those models. Retain the physical translation character `exp(−ip·a/ℏ)` of M4; derive the Fourier sign and density normalization from it, rather than replacing the orbit measure by an unnormalized formula. The finite-helicity criterion is constructive: a matching SU(2) module and its Spin(2) fiber unitary give W and hence P_π. Zero-translation models on nonzero H are excluded: translation covariance would identify projections of disjoint translates of every bounded set, forcing those projections to vanish and then P(X)=0, contrary to normalization.
 
 Export unitary transport of the full covariant pair `(ρ,P)↦(VρV⁻¹,VPV⁻¹)`, and the induction section/measure-change and spin-fiber intertwiners as intertwiners of both data. Preserve the freedom in the supplied inducing unitary/localization choice: arbitrary intertwiners of the spatial group representation need not preserve an independently chosen position PVM. In particular the earlier translation-PVM uniqueness argument concerns momentum. The supplied pair transport is the exported interface; normal states on the generated abelian von Neumann algebra, their event laws, real-Borel marginal pushforwards and simultaneous state transport are not part of this roadmap and are not prerequisites for constructing this system. Keep M4's existing full-spacetime normalized sharp-PVM/positive-energy obstruction separate and unchanged; no field-locality or local-net theorem follows from spatial localization.
+
+*Needs:* M1 (the imprimitivity theorem on separable spaces, induced carriers and the Mackey restriction/fibre equivalence); M3 (the rotation-carrier comparison); OperatorAlgebraDynamics D1 (integrated covariant representations and full crossed products); SelfAdjointSpectralTheory (projection-valued measures); VonNeumannAlgebras V4.0.Fields (measurable fields); CStarAlgebras C2 (separability of `C₀(ℝ³)⋊G_sp`); native `ContRepresentation.restrict` and `IsUnitary.restrict`.
 
 ### Full four-component Poincaré multiplier representations
 
@@ -2525,6 +2624,8 @@ is stated in its application, not used to remove these cases.
 Give the ordinary-group descent and the projective spin-extension
 comparison separately; killing the covering center requires its
 actual character to be trivial.
+
+*Needs:* M1 (twisted imprimitivity with Borel multipliers); P.3 (normalized locally continuous multipliers and extensions by the finite component group); M4.SL2R (the Hermitian action and its orbit representatives); the Lorentzian Clifford/Spin equivalence named in Scope and ownership.
 
 ### Ordinary quotient and graded spin pushout
 
@@ -2761,6 +2862,8 @@ confirmed source discrepancy. The displayed c,β relations remain
 the definitions; a source label alone supplies neither a cocycle
 formula nor a spin/multiplicity constraint.
 
+*Needs:* P.1 (the unitary/antiunitary alternative), P.2 (the graded operator groups `UA(H)`, `PUA(H)` and their quotients), P.3 (graded extension cocycles); M1 (graded projective imprimitivity); M3 (the spin pushout compared with the Galilei case); the full four-component block above.
+
 ### Null models of the full graded extended Poincaré group
 
 Use the covered full group, grading ε, finite multiplier signs c,β and
@@ -2961,6 +3064,8 @@ e=0 in the continuous-spin rows; multiplicity2 does not change the
 covering-center value. The projective ordinary-group spin pushout,
 spacelike labels and zero-translation Lorentz labels retain their
 separate full contracts; these null tables do not discharge them.
+
+*Needs:* M1 (graded projective imprimitivity and induction from the null stabilizer); M0 item 1 (the common core for the Pauli–Lubanski identities); M4.SL2R (the null stabilizer `δ(w,θ)` and its lift); M4.TypeI (type I of Δ); the Lorentzian Clifford/Spin equivalence named in Scope and ownership.
 
 ### Spacelike models of the full graded extended Poincaré group
 
@@ -3201,6 +3306,8 @@ obligations. The spacelike tables do not remove complementary,
 endpoint, limit or trivial cases from M4 or its tensor/contraction
 targets, and make no positive real mass square root on q<0.
 
+*Needs:* M1 (induction from the spacelike stabilizer SU(1,1)); M0 item 1 (core and Casimir closures); M4.SL2R (the fixed `C₀`, `k_t` and the discrete, principal and complementary SU(1,1) values of `q_B`); Bargmann 1947 as cited; the Lorentzian Clifford/Spin equivalence named in Scope and ownership.
+
 ### Zero-translation Lorentz models of the full graded group
 
 Keep every zero-translation Lorentz input in M4. Translations act as1,
@@ -3435,6 +3542,8 @@ Keep all M5 contraction/dual-topology and M6 tensor families and
 all primary printed cocycle-label comparisons at their full scope;
 these zero-translation finite tables do not discharge them.
 
+*Needs:* M1 (graded imprimitivity with trivial translations); M4.Lorentz, M4.Riesz, M4.Angular and M4.Endpoints (the normalized SL(2,ℂ) carriers and their classification); the full four-component block above (the component action `σ^r_F` and the A,B,c,β convention).
+
 ### Examples
 
 For time-last signature (−,−,−,+), momenta (0,0,0,m), (0,0,r,r) and (0,0,r,0) have squares m², 0 and −r². At the null label h=1/2 the covering center is −1, whereas h=0 has center +1.
@@ -3447,7 +3556,7 @@ P.1–P.4; M0–M3; HilbertModules H3; VonNeumannAlgebras V4.0.Fields and V11; U
 
 Choose the connected group `G=SO₀(4,1)` with quadratic form `diag(−1,−1,−1,−1,+1)` on `ℝ⁵`, and its universal cover `G̃=Spin₀(4,1)→G` with kernel `{±1}`. Treat both central characters: univalent representations of `G` (the kernel acts trivially) and bivalent representations of `G̃` (the kernel acts by `−1`). Fix curvature radius `R>0`. The source uses the overall-opposite embedding signature `diag(+1,+1,+1,+1,−1)`; give the explicit sign conversion on vectors, Lie algebra generators, and quadratic generators. The source's `O(4,1)` denotes the disconnected full orthogonal group, whereas its `G` is the identity component and `G̃` its universal cover; keep these groups distinct.
 
-**Dooley p.29 metric, chart and ambient-sign comparison.** Fix `R>0` and source spacetime coordinates `x=(x₁,x₂,x₃,x₄)`. The source transcription of p.29 reads `|ds|²=φ_src²(dx₁²+dx₂²+dx₃²−dx₄²)`; thus its metric multiplier is the square of φ_src. Use that read signature `η_src=diag(+1,+1,+1,−1)`, `u=η_src(x,x)` and `z=u/(4R²)`. Preserve its provisional `φ_src=(1−z)⁻¹` and explicit faint-fraction uncertainty. The same page writes the ambient form `Q_+(y)=y₁²+y₂²+y₃²+y₄²−y₅²` and calls the radius locus a sphere. Neither that terminology nor the faint glyphs establish a global chart or the claimed pullback metric. Keep the provisional literal reading distinct from the geometric comparison below; the faint glyphs do not justify a more definite transcription.
+**Dooley p.29 metric, chart and ambient-sign comparison.** Fix `R>0` and source spacetime coordinates `x=(x₁,x₂,x₃,x₄)`. The source writes `|ds|²=φ_src²(dx₁²+dx₂²+dx₃²−dx₄²)` with `φ_src=(1−z)⁻¹`, so its metric multiplier is the square of φ_src. Use that signature `η_src=diag(+1,+1,+1,−1)`, `u=η_src(x,x)` and `z=u/(4R²)`. The same page writes the ambient form `Q_+(y)=y₁²+y₂²+y₃²+y₄²−y₅²` and calls the radius locus a sphere. Neither the terminology nor the displayed factor establishes a global chart or the claimed pullback metric; the geometric comparison below is the statement.
 
 Own the following fixed geometric comparison using the existing manifold/quadratic-form suppliers. Put `ι(x)=(x₁,x₂,x₃,0,x₄)` and `n=(0,0,0,1,0)`. On `U_+={x:1+z≠0}`, define
 `Ω_+(x)=(1+z)⁻¹` and
@@ -3458,11 +3567,11 @@ Prove that `F_+` is a smooth diffeomorphism onto
 `F_+^*(dy₁²+dy₂²+dy₃²+dy₄²−dy₅²)=Ω_+²η_src`.
 The excluded subset is the entire hyperplane section `y₄=−R`, not merely its pole point. Prove U_+ has exactly three connected components: `1+z>0`, and `1+z<0` with x₄ positive or negative. Their images are respectively `y₄>−R`, and `y₄<−R` with y₅ negative or positive; F_+ reverses the time sign on the latter two components. State the actual open domain rather than identifying this chart with all of `ℝ⁴`. Identify the full de Sitter quadric, its induced Lorentz signature, connectedness and topology `ℝ×S³`; the chart is an open part of that quadric. Translate its form to M5’s `diag(−1,−1,−1,−1,+1)` by the explicit coordinate dictionary `Y=(y₁,y₂,y₃,y₄,y₅)` with native indices0–4 and global negation `Q_M5=−Q_+`. Its basepoint is `R e₃`. The source spacetime components correspond to M4 indices0,1,2,3 through ambient indices0,1,2,4. At zero, `dF_+=ι`; M5’s coefficient translation a has tangent `−ι(a)`, so the geometric local coordinate is `x=−a` to first order. Carry this tangent dictionary into the differential-generator comparison; it does not assert a global group homomorphism or an exact finite-coordinate exponential identity.
 
-Also compute what the provisional minus-denominator factor actually supplies. With `Q_−(y)=y₁²+y₂²+y₃²−y₄²−y₅²`, on `U_−={x:1−z≠0}` put `Ω_−=(1−z)⁻¹` and
+Also compute what the source's minus-denominator factor `(1−z)⁻¹` actually supplies. With `Q_−(y)=y₁²+y₂²+y₃²−y₄²−y₅²`, on `U_−={x:1−z≠0}` put `Ω_−=(1−z)⁻¹` and
 `F_−(x)=Ω_−ι(x)+R(1+z)/(1−z)n`.
-Prove `Q_−(F_−(x))=−R²`, that this is a smooth diffeomorphism onto `{y:Q_−(y)=−R²,y₄≠−R}` with the same inverse formula, and that `F_−^*Q_−=Ω_−²η_src`. This is the other ambient signature `(3,2)`; it is not the `Q_+` de Sitter embedding. Thus, conditional on the read p.29 signature and provisional minus factor being literal together with the printed `(4,1)` embedding, record the explicit sign incompatibility under these fixed coordinates. Compare the separately recorded p.25 internal quadratic-sign discrepancy; neither a global convention change nor a corrected model silently changes the p.29 glyph. Keep it separate from uncertainty in the original handwriting and from the chosen corrected de Sitter model. In the native spacetime form `q_M4=−u`, the adopted de Sitter factor is equivalently `(1−q_M4/(4R²))⁻¹`, so a global form sign and coordinate convention must accompany every occurrence of the minus sign.
+Prove `Q_−(F_−(x))=−R²`, that this is a smooth diffeomorphism onto `{y:Q_−(y)=−R²,y₄≠−R}` with the same inverse formula, and that `F_−^*Q_−=Ω_−²η_src`. This is the other ambient signature `(3,2)`; it is not the `Q_+` de Sitter embedding. Thus the p.29 signature and minus factor are incompatible with the printed `(4,1)` embedding under these fixed coordinates: the factor `(1−z)⁻¹` parametrizes the `(3,2)` quadric and the factor `(1+z)⁻¹` the de Sitter quadric. Compare the p.25 internal quadratic-sign discrepancy; neither a global convention change nor the corrected model changes the printed p.29 factor, and the adopted de Sitter model is stated separately from it. In the native spacetime form `q_M4=−u`, the adopted de Sitter factor is equivalently `(1−q_M4/(4R²))⁻¹`, so a global form sign and coordinate convention must accompany every occurrence of the minus sign.
 
-Derive the chart identities, pullback metric, inverse-domain claims and local flat limit in M5: as `R→∞`, `Ω_+→1` and the rescaled generators recover the pinned M4 translation convention on their common core. Use the actual chart chain rule to compare the literal p30 differential expressions with M5’s signature-weighted matrix generators. Preserve the uncertain p30 `x²` term instead of inventing a corrected transcription. These geometry and source-normalization results precede the Casimir/contraction comparisons and remain mandatory alongside all M5 unitary families, full dual topologies and all-sequence limit tables. They introduce no separate generic pseudo-Riemannian or spectral supplier.
+Derive the chart identities, pullback metric, inverse-domain claims and local flat limit in M5: as `R→∞`, `Ω_+→1` and the rescaled generators recover the pinned M4 translation convention on their common core. Use the actual chart chain rule to compare the literal p30 differential expressions with M5’s signature-weighted matrix generators. Compare the p30 `x²` term as printed with the chart computation rather than replacing it. These geometry and source-normalization results precede the Casimir/contraction comparisons and remain mandatory alongside all M5 unitary families, full dual topologies and all-sequence limit tables. They introduce no separate generic pseudo-Riemannian or spectral supplier.
 
 Build the Lie algebra generators and commutators, the two algebraically independent central generators, and their closures on Gårding vectors. Use Dixmier's normalization: define `Ω` from Eq.(12), printed p.12, and `Ω′` from its enveloping-algebra formula on printed p.28; the scalar evaluation tables are on pp.27–28. Prove the exact conversion from the course's `I₁,I₂` (physical Dooley p.30) to these generators, including every factor of `R`, `i`, and the signature sign. Record the scalar values in Dixmier's convention as part of the classification data:
 
@@ -3537,6 +3646,21 @@ topology on the irreducible spectrum of this single A, identifying its r-fiber w
 and its equivalence with the C*-representation definition. Treat possible non-Hausdorff
 multiple limits explicitly. Radius-dependent arbitrary Hilbert isometries do not define
 this topology.
+
+**Checks.**
+
+- Zero-fibre law: `(a,h)⁻¹=(−h⁻¹·a,h⁻¹)`, and the chart product
+  `exp_G(rv)h·exp_G(rw)k=exp_G(rv)exp_G(rAd(h)w)hk` has r→0 limit `(v+Ad(h)w,hk)`, the
+  displayed law with `h·w=Ad(h)w` on 𝔤/𝔥; the law `(a+b,hk)` without the action is not
+  a limit of the group law unless H acts trivially on 𝔤/𝔥.
+- Haar system: the chart `(v,h,r)↦(exp_G(rv)h,r)` scales the four 𝔪-directions by r, so
+  Haar measure of G pulls back to `r⁴` times the product measure near the zero fibre;
+  the exponent is `dim 𝔤/𝔥=10−6=4`, not `dim G=10`, and the system `r^(−4)dg` at r>0
+  with Lebesgue⊗Haar on the zero fibre is continuous.
+- Normalizer transport: the elements A and B=−A of the Examples normalize H and act on
+  the normal bundle `𝔤/𝔥=span{J_(a,3):a≠3}` by −1, since each `J_(a,3)` has exactly one
+  reflected index; they send the null representative `(0,0,r,r)` to `(0,0,−r,−r)` and
+  exchange the labels `(ε_E,ℓ)` and `(−ε_E,−ℓ)`, which have the same physical helicity.
 
 **Specified model limits.** In addition, use the displayed normalized induced or K-type
 realizations to construct designated continuous Hilbert fields/common dense cores for
@@ -3944,7 +4068,7 @@ strongly continuous homomorphisms H→U(ℋ_d). Its Borel structure is
 generated by evaluation π↦π(g) at a fixed countable dense subgroup D≤H.
 Choose a compact exhaustion (K_j) of the lcsc H and D meeting every K_j
 densely (enlarge D by countable dense subsets of the K_j if needed).
-The compact-open topology for Layer P.2's strong unitary metric is Polish:
+The compact-open topology for the strong unitary metric of `U(ℋ_d)_s` (OperatorAlgebraDynamics D1.BorelPrefix) is Polish:
 continuous maps H→U(ℋ_d) form a Polish space under uniform convergence
 on the K_j, and the homomorphism/identity equations cut out a closed
 subspace. Evaluation is continuous, and every compact-open metric ball
@@ -5770,7 +5894,7 @@ It supplies the lower inclusion and the exact norm upper bound above; use
 the kernel argument to exclude every other irreducible cluster point.
 
 **M5.PrincipalTwoSheet.** As a concrete principal-series acceptance case, prove
-[Primet (1983), §2, printed pp.13,15–16](https://www.numdam.org/item/PDML_1983___6D_A1_0/)
+[Primet (1983), §2.7 (printed p.12), §4 (printed p.14) and the contraction theorem following §4 (printed pp.15–16)](https://www.numdam.org/item/PDML_1983___6D_A1_0/)
 for the ordinary SO₀(1,4) group with SO(3) inducing type u. In the source convention
 `χ_λ(a_t)=exp(iλt)`, fix source mass magnitude m>0 and `λ_r=−m/r`, r→0. In its fixed
 two-sheeted mass-hyperboloid L² realization, under the displayed rescaling, prove the
@@ -5999,6 +6123,20 @@ Use native real vector, dot/cross product and LieAlgebra carriers. On triples (j
 
 Prove bilinearity, alternation, Jacobi, exact basis brackets, independence of the ten coordinates and the universal transport from the preceding generator description. No guessed Prop-valued class replaces any bracket condition.
 
+**Checks.**
+
+- Jacobi on `(K₁,K₂,P₁)` reads `[[K₁,K₂],P₁]+[[K₂,P₁],K₁]+[[P₁,K₁],K₂]=AP₂+0+acP₂`,
+  so A=−ac; on `(P₁,P₂,K₁)` it reads `BK₂−bcK₂`, so B=bc. A table with A=+ac fails
+  Jacobi unless ac=0.
+- The rescaling `K′=kK`, `P′=pP`, `H′=hH` gives `[K′_i,H′]=(kha/p)P′_i`,
+  `[P′_i,H′]=(phb/k)K′_i`, `[K′_i,P′_j]=(kpc/h)δ_ijH′`; the products ac, bc and ab are
+  multiplied by k², p² and h², so their signs are invariants, while a alone can be
+  rescaled to any nonzero value.
+- The Poincaré row a=c=1, b=0 gives `[K_i,P_j]=δ_ijH`, `[K_i,H]=P_i`, `[P_i,H]=0`,
+  `[K_i,K_j]=−ε_ijkJ_k`, `[P_i,P_j]=0`; the Galilei row a=1, b=c=0 keeps `[K_i,H]=P_i`
+  with `[K_i,P_j]=[K_i,K_j]=0`; the Carroll row a=0, c=1, b=0 has `[K_i,P_j]=δ_ijH` as
+  its only nonzero bracket among the five; the static row has all five zero.
+
 The group-level noncompactness hypothesis means that, in a connected real Lie group integrating this algebra, every image `{exp(tK_i):t∈R}` is a noncompact one-parameter subgroup; rotation covariance then gives every nonzero boost direction. Consume LieGroups Layers4–5's actual Lie integration, simplyconnected covers and integration of homomorphisms. Prove this condition is equivalent to ac>=0: if ac<0, the rotation/boost algebra is compact so4, integrates through compact Spin4 and makes each boost periodic; if ac>0, its adjoint contains a hyperbolic block; if ac=0, it has a nonzero nilpotent block from rotations to boosts. In the latter two cases prove the adjoint one-parameter map proper/unbounded, giving a closed noncompact boost subgroup. Include the fact that this excludes compact boost images, not an unsupported claim about arbitrary Lie-algebra elements.
 
 Specify equivalence by SO3-equivariant isomorphisms preserving the rotation subalgebra and the named parity/time gradings and the ordered boost/translation roles. After a common spatial rotation, their form is `J'=J,K'=kK,P'=pP,H'=hH`, k,p,h nonzero real. Prove the transformed parameters are `a'=kh a/p`, `b'=ph b/k`, `c'=kp c/h`. Under ac>=0, classify uniquely into these eleven ordered cases:
@@ -6033,7 +6171,7 @@ For each model compute its actual centre, discrete central quotients, quotient p
 
 The finite algebraic reduction and normal forms are earlier than the unitary-family and Casimir comparisons elsewhere in M5. Use LieGroups Layer0–1 for the actual exponential/adjoint comparison, its early Layer2 SU(2) model for compact boosts, Layer5's topological cover construction before Layer4's finite-dimensional Lie III, and then Layer4 homomorphism integration/Layer5 connected-source descent. M0 is used only for the later skew/self-adjoint observable comparison. The classification uses these finite-dimensional prerequisites. Conversely the diagonal algebra contractions above do not supply the group/DNC/Fell convergence the other M5 targets separately construct.
 
-**Source comparison.** Bacry and Lévy-Leblond, [Possible Kinematics, J. Math. Phys. 9 (1968), 1605–1614](https://doi.org/10.1063/1.1664490), §II, impose isotropy, the stated parity/time automorphisms and noncompact one-parameter boost subgroups. Their eight named families comprise eleven kinematics; the ordered classification above retains the boost/translation distinction. Their discussion of temporal order also requires a chosen spacetime interpretation. Preserve the literal Dooley p.31 assertion and p.32 bibliography entry3 separately from this precise conditional theorem; the p.34 bibliography remains in its actual physical order with all surname/number/group uncertainties. Compare the historical Bacry–Lévy-Leblond hypotheses, family labels and physical cases only through their actual statement, distinguishing ordered structures, abstract Lie algebras, chosen global groups and effective spacetimes. No unspecified causality predicate or bibliographic label is a premise or a theorem proved by the normal-form table. Any causal-order comparison must give its actual event space, relation, invariance and interpretation before using it. Keep source physical interpretations and extra assigned content distinct from the mathematical classification.
+**Source comparison.** Bacry and Lévy-Leblond, [Possible Kinematics, J. Math. Phys. 9 (1968), 1605–1614](https://doi.org/10.1063/1.1664490), §II, impose isotropy, the stated parity/time automorphisms and noncompact one-parameter boost subgroups. Their eight named families comprise eleven kinematics; the ordered classification above retains the boost/translation distinction. Their discussion of temporal order also requires a chosen spacetime interpretation. Dooley p.31's assertion and p.32's bibliography entry 3 are source claims compared with, not premises of, this conditional theorem. Compare the historical Bacry–Lévy-Leblond hypotheses, family labels and physical cases only through their actual statement, distinguishing ordered structures, abstract Lie algebras, chosen global groups and effective spacetimes. No unspecified causality predicate or bibliographic label is a premise or a theorem proved by the normal-form table. Any causal-order comparison must give its actual event space, relation, invariance and interpretation before using it. Keep source physical interpretations and extra assigned content distinct from the mathematical classification.
 
 Apply M5’s fixed `I₁,I₂` to `Ω,Ω′` conversion to the classified de Sitter representations and their flat mass/spin limits, retaining the literal course formulas beside the corrected convention.
 
@@ -8973,17 +9111,17 @@ Record these additional Dooley acceptance cases with their exact owners:
 | 20 | (1/i)(y∂_x−x∂_y), and H multiplication by E. | M3's localized Euclidean model computes the positive Stone rotation generator as the negative of physical (Q×P)_z, with the spin term included for nonzero j; fixed time character gives H=E. |
 | 19 | Rotation labels include j=1/4,3/4,… and half-integer genuine SO(3) types. | Layer P.4's spin class and M3's compact stabilizers give integer genuine SO(3) types and half-integer SU(2) types; dimension2j+1 excludes quarter labels. |
 | 20 | All Euclidean irreducibles have labels (j,E), followed by an L²(ℝ³) localized model. | M3 retains both zero and nonzero momentum orbits and their distinct stabilizers, and decomposes the reducible underlying localized representation. |
-| 22 | Mass/spin particle labels, boost x↦x−v_D t, and the faint (1/m)T=X_iV_i−V_iX_i. | M3 uses v=−v_D, pins [X_i,V_j]=iℏδ_ij/m on its common core, and preserves the uncertain source T glyph rather than identifying it silently with iℏ. Genuine class labels include internal energy; the corresponding scalar time-character shift leaves a ray action unchanged. |
+| 22 | Mass/spin particle labels, boost x↦x−v_D t, and the relation (1/m)T=X_iV_i−V_iX_i with T unspecified. | M3 uses v=−v_D and pins [X_i,V_j]=iℏδ_ij/m on its common core; the source's T is not identified with iℏ. Genuine class labels include internal energy; the corresponding scalar time-character shift leaves a ray action unchanged. |
 | 23 | A* is “inverse transpose”; full E(3,1) has square roots. | M4's Hermitian action uses conjugate transpose A†. Its connected component uses Layer P.2's connected ray-component theorem; the disconnected full group has separate parity/time-reversal implementations. The displayed SL(2,ℂ) counterexample disproves the square-root premise even in the connected cover. |
 | 24 | The displayed union of representative branches contains zero in overlapping branches. | M4 gives positive timelike/spacelike parameters and a separate zero branch. Repetition within a set union is harmless; only treating the overlapping branches as disjoint labelled representatives would fail injectivity. |
 | 25 | P₁²+P₂²+P₃²−P₄² is said to equal the positive timelike c of p24. | M4 proves the left side is −q(P)=−c in the pinned convention. This is an internal sign error, not a change that can preserve both printed equations. |
 | 25,27 | Period2π diagonal coordinate is mixed with a period4π null-group action e^(iθ/2). | M4 proves the conversion θ=2φ, the action e^(iθ) and stabilizer {0,2π}; retain the literal parameter mismatch. |
 | 26 | Timelike/null energy spectra are open intervals; the SU(2) index starts at 1, followed by a spin-0 entry. | M4’s joint PVM gives closed spectra [m,∞), (−∞,−m], [0,∞), (−∞,0], and includes spin 0. Preserve the literal label relation `r=2s`, `d=r+1`, `m=s−k` for `0≤k≤r`, including `r=0`; the prose index starting at 1 conflicts with the later spin-0 case. The omitted endpoint can be a spectral value without an eigenvector. Spacelike mass squared is negative and has no real mass square root; calling the discarded spacelike cases “anti-particles” supplies no representation theorem. |
-| 29 | The pseudo-Euclidean radius-R locus is called a sphere; O(3,2) is called “inhomogeneous de Sitter”. | M5’s fixed metric/chart and ambient-sign comparison proves the explicit stereographic domain, inverse and pullback metric alongside the full de Sitter quadric and its induced signature/topology; preserve the faint source factor separately. Distinguish the anti-de Sitter orthogonal group O(3,2) from an affine semidirect extension; no group is identified by this literal name. |
+| 29 | The pseudo-Euclidean radius-R locus is called a sphere; O(3,2) is called “inhomogeneous de Sitter”. | M5’s fixed metric/chart and ambient-sign comparison proves the explicit stereographic domain, inverse and pullback metric alongside the full de Sitter quadric and its induced signature/topology; the source's metric factor is compared with, not replaced by, the proved chart. Distinguish the anti-de Sitter orthogonal group O(3,2) from an affine semidirect extension; no group is identified by this literal name. |
 | 30 | J_ab and contractions omit signature factors. | M5's pinned matrix units, signature and commutators supply the actual Lorentz/de Sitter generators and the ordered enveloping/Casimir comparison. |
 
-Preserve faint or overwritten glyphs as source uncertainties. None of these
-comparisons authorizes filling an indeterminate facing scan with invented content.
+Each row compares the source's printed statement with the theorem proved here;
+no row supplies a premise beyond what the source states.
 
 ### Examples
 
@@ -9007,14 +9145,6 @@ models and RQFT11 uses the named helicity models. Those field applications consu
 this roadmap's group representations and operator comparisons in the direction
 specified in Scope and ownership.
 
-OperatorAlgebraDynamics consumes, for scalar Borel twisted group algebras and
-the abelian Fourier transform, P.2's Polish unitary group, coefficient Borel
-structure and automatic continuity, M1's twisted regular family, strong-Borel
-correspondence and Mackey–Weil topology on `E_ω`, M2's fibres
-`J_k(E_ω)≅C*(G,ω^k)`, and Layer 0's isomorphism `C*(N)≅C₀(N̂)`. The
-OperatorAlgebraDynamics targets consumed here, D1, D3 and D5, do not rest on
-these statements, so no target depends on itself through the two roadmaps.
-
 QuantumFoundations consumes Layer P, including P.2's corollary that a connected
 group mapping continuously to `PUA(H)` lands in `PU(H)`, and the M-layer models.
 
@@ -9022,7 +9152,7 @@ group mapping continuously to `PUA(H)` lands in `PU(H)`, and the M-layer models.
 
 Dooley, *Mathematical Foundations of Quantum Mechanics*: all 34 physical pages are acceptance context. Its source-specific entries are: Mackey theorem and multiplier discussion (physical pp. 16–20), Euclidean and Galilei groups (pp. 20–23), Poincaré orbits and little groups (pp. 23–28), de Sitter and kinematical classification (pp. 29–31), and bibliographic claims (pp. 32–34). The source-specific comparisons above state the hypotheses and corrections required for these acceptance cases.
 
-Grundling, *Mathematics of Quantum Mechanics notes* (225 physical pages). Its operator, Stone, compact rotation and tensor examples support the operator/compact suppliers: physical pp.122–140 have basic operator theory, pp.170–182 have Stone and self-adjoint extensions, and pp.211–225 have angular momentum, hydrogen, tensors, Weyl relations and rotation generators. The readable material supplies no Galilei, Poincaré, Lorentz or Mackey classification premise here; those targets use the Dooley notes and the named primary representation-theory sources. The faint facing halves of physical pp.222–225 remain indeterminate and carry no invented assertion. The indeterminate passages supply no additional theorem premise.
+Grundling, *Mathematics of Quantum Mechanics notes* (225 physical pages). Its operator, Stone, compact rotation and tensor examples support the operator/compact suppliers: physical pp.122–140 have basic operator theory, pp.170–182 have Stone and self-adjoint extensions, and pp.211–225 have angular momentum, hydrogen, tensors, Weyl relations and rotation generators. The readable material supplies no Galilei, Poincaré, Lorentz or Mackey classification premise here; those targets use the Dooley notes and the named primary representation-theory sources.
 
 Primary representation-theory references for the noncompact assertions are G. W. Mackey, [“Imprimitivity for Representations of Locally Compact Groups I,” *PNAS* 35 (1949), 537–545](https://doi.org/10.1073/pnas.35.9.537) and [“Unitary Representations of Group Extensions I,” *Acta Mathematica* 99 (1958), 265–311](https://doi.org/10.1007/BF02392428); V. Bargmann, [“Irreducible Unitary Representations of the Lorentz Group,” *Annals of Mathematics* 48 (1947), 568–640](https://doi.org/10.2307/1969129), with its q/K-weight normalization translated in M4; I. M. Gel'fand–M. A. Naimark, [“Unitary representations of the Lorentz group,” *Izv. Akad. Nauk SSSR Ser. Mat.* 11 (1947), 411–504](https://www.mathnet.ru/eng/im3007), especially §8 and the p457 endpoint footnote; V. Bargmann, [“On Unitary Ray Representations of Continuous Groups,” *Annals of Mathematics* 59 (1954), 1–46](https://doi.org/10.2307/1969831); R. Takahashi, [“Sur les représentations unitaires des groupes de Lorentz généralisés,” *Bull. Soc. Math. France* 91 (1963), 289–433](https://doi.org/10.24033/bsmf.1598); J. Dixmier, [“Représentations intégrables du groupe de De Sitter,” *Bull. Soc. Math. France* 89 (1961), 9–41](https://doi.org/10.24033/bsmf.1558); and H. Bacry–J.-M. Lévy-Leblond, [“Possible Kinematics,” *J. Math. Phys.* 9 (1968), 1605–1614](https://doi.org/10.1063/1.1664490). Wightman's primary localization discussion is [“On the Localizability of Quantum Mechanical Systems,” *Rev. Mod. Phys.* 34 (1962), 845](https://doi.org/10.1103/RevModPhys.34.845). These sources identify the classification problems; the chosen topology, cover, signature and operator domains are fixed by this README.
 

@@ -1,18 +1,17 @@
-/-
-Copyright (c) 2026.
-Released under Apache 2.0 license as described in the file LICENSE.
--/
-import Mathlib
+module
+
+public import Mathlib
 
 /-!
 # Noncompact quantum symmetry: target signatures
 
 The roadmap is README.md; this file is not the roadmap. It states the roadmap's
 headline theorems against the pinned APIs, with simple definitions on native carriers.
-The stated headlines are Wigner reconstruction, automatic continuity of Polish-group
-homomorphisms, Polishness of second-countable locally compact spaces, both
-characteristic-zero Whitehead lemmas, equivariant Polish realization, and the strongly
-continuous unitary induced representation on the actual L² carrier.
+The stated headlines are Wigner reconstruction, both characteristic-zero Whitehead
+lemmas, equivariant Polish realization, and the strongly continuous unitary induced
+representation on the actual L² carrier. Automatic continuity of Borel homomorphisms
+of Polish groups and the Polishness of second-countable locally compact groups are
+supplied by OperatorAlgebraDynamics D1.BorelPrefix and are not stated here.
 
 The following further headlines are not statable on the pinned carriers:
 * P.2–P.4's unitary/antiunitary quotient-topology and locally continuous extension
@@ -43,11 +42,18 @@ The following further headlines are not statable on the pinned carriers:
   including massless dilation, need the deformation groupoid C*-algebra, continuous fields
   and identified contraction carriers. Its conformal/radial and affine-kinematic
   comparisons need the completed induced models and integrated group/cover realizations.
+  M5.KinematicClassification's eleven-case normal-form theorem is omitted: its statement
+  is an SO(3)-equivariant graded isomorphism classification of the ten-dimensional
+  bracket family, whose Lie-algebra structure (the Jacobi law of the displayed bracket)
+  is itself an M5 target, and the scalar rescaling of the parameters (a,b,c) alone is
+  algebra on bare real numbers, not a headline.
 * M6's irreducible pair tables, exchange, finite-tree recoupling/pentagon and Young-field
   decomposition need completed Hilbert tensors, joint irreducible kernels and measurable
   multiplicity fields. Scalar cocycle calculations, finite coefficient sums and
   algebraic pure-tensor formulas do not state these theorems.
 -/
+
+@[expose] public section
 
 noncomputable section
 
@@ -74,24 +80,6 @@ theorem wigner_reconstruction (H : Type*) [NormedAddCommGroup H]
       Φ p = Projectivization.map U.toLinearEquiv.toLinearMap U.injective p) ∨
     (∃ U : H ≃ₗᵢ⋆[ℂ] H, ∀ p,
       Φ p = Projectivization.map U.toLinearEquiv.toLinearMap U.injective p) := by
-  sorry
-
-/-- Every Borel homomorphism between Polish groups is continuous (Pettis,
-Kechris, Theorem 9.10, specialized to Polish groups). -/
-theorem continuous_of_measurable_hom
-    (G H : Type*) [Group G] [TopologicalSpace G] [IsTopologicalGroup G] [PolishSpace G]
-    [MeasurableSpace G] [BorelSpace G]
-    [Group H] [TopologicalSpace H] [IsTopologicalGroup H] [PolishSpace H]
-    [MeasurableSpace H] [BorelSpace H] (f : G →* H) (hf : Measurable f) :
-    Continuous f := by
-  sorry
-
-/-- A second-countable locally compact Hausdorff space is Polish (README P.2), so
-second-countable locally compact groups are admissible in
-`continuous_of_measurable_hom`. -/
-theorem polishSpace_of_locallyCompactSpace (X : Type*) [TopologicalSpace X] [T2Space X]
-    [LocallyCompactSpace X] [SecondCountableTopology X] :
-    PolishSpace X := by
   sorry
 
 /-- Every one-cocycle of a finite-dimensional semisimple Lie algebra over a
@@ -187,11 +175,6 @@ def InducedModelData.isotropy (d : InducedModelData G H X K) (g : G) (x : X) : H
 def InducedModelData.rnDerivative (d : InducedModelData G H X K) (g : G) (x : X) : ENNReal :=
   (d.measure.map (fun y => g • y)).rnDeriv d.measure x
 
-/-- The general L² carrier does not require an induction datum. -/
-abbrev inducedHilbertSpace (X K : Type*) [MeasurableSpace X]
-    [NormedAddCommGroup K] [InnerProductSpace ℂ K] [CompleteSpace K]
-    (μ : Measure X) := MeasureTheory.Lp K 2 μ
-
 /-- Section-model formula on functions; the one RN square root is the entire scalar factor.
 The action on L² classes, membership and strong continuity are the next construction target. -/
 def InducedModelData.sectionAction (d : InducedModelData G H X K) (g : G) (F : X → K)
@@ -204,10 +187,10 @@ The formula is asserted on actual L² representatives, almost everywhere, so thi
 includes well-definedness on classes, L² membership, bounded linearity and the group law.
 Input data above is kept distinct from the resulting induced representation. -/
 theorem InducedModelData.exists_inducedRepresentation (d : InducedModelData G H X K) :
-    ∃ U : ContRepresentation ℂ G (inducedHilbertSpace X K d.measure),
+    ∃ U : ContRepresentation ℂ G (MeasureTheory.Lp K 2 d.measure),
       (∀ g, Isometry (U g)) ∧
       (∀ v, Continuous fun g : G => U g v) ∧
-      ∀ g (F : inducedHilbertSpace X K d.measure),
+      ∀ g (F : MeasureTheory.Lp K 2 d.measure),
         ∀ᵐ x ∂d.measure, (U g F) x = d.sectionAction g F x := by
   sorry
 
