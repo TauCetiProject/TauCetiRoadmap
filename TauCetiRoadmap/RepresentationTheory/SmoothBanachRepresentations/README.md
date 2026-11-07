@@ -8,7 +8,7 @@
 
 [CompactGroups Layer 5](../CompactGroups/README.md) supplies representative-function density; its named gap for the topology-free finite-orbit-span API and generic complex Banach density is recorded below. AutomorphicFormsOnReductiveGroups §2.1 consumes that gap and owns the complete locally convex extension. There is no second compact-finiteness predicate here. [NoncommutativeGeometry N1](../../NoncommutativeGeometry/README.md) owns the completed locally convex projective tensor of complex Hausdorff locally convex spaces; §7.2a owns the same construction for real spaces and the two scalar-comparison maps between real and complex tensors, including their Banach cases, as targets of this roadmap, and assumes nothing of N1 beyond its complex construction. [BanachSpaceTheory B4](../../BanachSpaceTheory/README.md) owns Banach projective tensors over both fields and states no map between its real and complex tensors. LieGroups Layers 0–3 and OneParameterSemigroups Part A own the Lie and closed-generator foundations.
 
-[NoncompactQuantumSymmetry M0](../../NoncompactQuantumSymmetry/README.md#layer-3-m0--smooth-vectors-compact-types-and-semisimple-representation-bridges) builds the Gårding space, smooth vectors, mixed-word domains and enveloping action of a strongly continuous unitary Hilbert representation directly, and owns the Hilbert-adjoint statements on that domain: skew-symmetry of real generators, Nelson's operator, and the elliptic and central closures. The generic layers below cover unitary actions as a special case and do not state those adjoint results. [NoncommutativeGeometry N6](../../NoncommutativeGeometry/README.md#n6-smooth-noncommutative-two-tori-and-differential-calculus) owns the smooth noncommutative torus: its identification with the smooth vectors of the two-torus gauge action, the two-sided finite-order comparison of its rapid-decay and derivative seminorms, and its inverse closure at every matrix level. Layer 8 states the generic smooth-algebra theorems and no torus estimate.
+[NoncompactQuantumSymmetry M0](../../NoncompactQuantumSymmetry/README.md#layer-3-m0--smooth-vectors-compact-types-and-semisimple-representation-bridges) consumes Layers 0–4, read on a complex Hilbert space, for the integrated operators, Gårding space, smooth vectors, mixed-word domains and derived Lie and enveloping actions of strongly continuous unitary representations, and owns the Hilbert-adjoint statements on that domain: skew-symmetry of real generators, Nelson's operator, analytic vectors, and the elliptic and central closures. Layers 0–4 cover unitary actions as a special case and state none of those adjoint results. [NoncommutativeGeometry N6](../../NoncommutativeGeometry/README.md#n6-smooth-noncommutative-two-tori-and-differential-calculus) owns the smooth noncommutative torus: its identification with the smooth vectors of the two-torus gauge action, the two-sided finite-order comparison of its rapid-decay and derivative seminorms, and its inverse closure at every matrix level. Layer 8 states the generic smooth-algebra theorems and no torus estimate.
 
 Mathlib supplies the native representation, manifold, test-function, distribution and integral carriers. Differentiable orbit smoothness here differs from open-stabilizer smoothness for totally disconnected groups. Build needed adapters in Tau Ceti with native vocabulary and adopt Mathlib's designs when available. No implementation is held for an upstream addition.
 
@@ -503,7 +503,7 @@ The smooth algebra API includes continuous multiplication and star, invariant un
 - For conjugation by diag(e^t,1) on M₂(ℝ), a=I+E₁₂ has derivative E₁₂ and inverse I−E₁₂ with derivative −E₁₂; −a⁻¹E₁₂a⁻¹=−E₁₂, fixing the inverse rule without commutativity.
 - A scalar action a↦e^t a is linear but not an algebra action: at a=b=1 the multiplicativity sides are e^t and e^(2t). The algebra-action hypotheses exclude it.
 - On the smooth circle, D²(fh)=D²f·h+2Df·Dh+f·D²h; at f=h=exp(ix) the value at 0 is −4, whereas a derivation rule would give −2.
-- On C(S¹) with rotations and pointwise conjugation as star, f=exp(ix) has Df=i·exp(ix) and D(f*)=−i·exp(−ix)=(Df)*, the star law. The Hilbert skew-adjoint sign −(Df)* would give i·exp(−ix) instead.
+- On C(S¹) with the left rotations (α_t f)(x)=f(x−t) of §1.4 and pointwise conjugation as star, f=exp(ix) has Df=−i·exp(ix) and D(f*)=i·exp(−ix)=(Df)*, the star law. The Hilbert skew-adjoint sign −(Df)* would give −i·exp(−ix) instead. With the opposite rotation f(x+t) every displayed value changes sign and the star law still holds, so the rotation direction is part of the Check.
 
 ### Examples
 
@@ -515,7 +515,12 @@ Layers 0–4; BanachAlgebras A1–A2; Layer 6 only for exact Gårding identifica
 
 ## Downstream consumers
 
-[OperatorKTheory K3](../../OperatorKTheory/README.md) uses the inverse-closed Fréchet star-algebra input and owns the K₀/K₁ comparison. These consumer applications are not prerequisites for the generic results.
+- [NoncompactQuantumSymmetry M0](../../NoncompactQuantumSymmetry/README.md#layer-3-m0--smooth-vectors-compact-types-and-semisimple-representation-bridges), item 1, uses Layers 0–4 in the strongly continuous unitary Hilbert case and owns the adjoint statements listed under Scope and ownership.
+- [CompactQuantumMetricSpaces §4.5](../../CompactQuantumMetricSpaces/README.md) uses the differentiable vectors and orbit derivatives of §2.1, the Lie action of §3.1 and the smooth Fréchet star algebra of §8.1 for its derivative seminorms on compact connected Lie groups.
+- [QuantitativeOrbitMethodAndMicrolocalAnalysisOnLieGroups §§0.2, 0.6](../../QuantitativeOrbitMethodAndMicrolocalAnalysisOnLieGroups/README.md) uses the smooth-vector topology of §2.1, the derived action and integration by parts of §§3.1 and 3.4, and the Gårding identification of §6.1.
+- [OperatorKTheory K3](../../OperatorKTheory/README.md) uses the inverse-closed Fréchet star-algebra input of §8.1 and owns the K₀/K₁ comparison.
+
+These consumer applications are not prerequisites for the generic results.
 
 ## References
 
