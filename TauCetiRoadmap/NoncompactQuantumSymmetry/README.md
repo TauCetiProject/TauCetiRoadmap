@@ -688,9 +688,10 @@ restricted representations and compact-type comparisons.
 
 **Checks.**
 
-- For the trivial representation of K on ℂ every vector is K-finite with orbit span of
-  dimension one; `IsKFinite` agrees with the native finite-orbit-span predicate on the
-  restricted representation, and the trivial type has multiplicity one.
+- For the trivial representation of K on ℂ the orbit of v is {v}, so its span is 0 for
+  v=0 and ℂ for v≠0: every vector is K-finite, the K-finite vectors are all of ℂ, and the
+  trivial type has multiplicity one. The wrong model "the orbit span has dimension exactly
+  one" excludes 0 and is not closed under addition (1+(−1)=0), so it is not a submodule.
 - For the left-regular representation of K=SU(2) on L²(SU(2)) the K-finite vectors are the
   matrix coefficients, so `H_τ` has dimension (dim τ)² and multiplicity dim τ; every
   multiplicity is finite, so the representation is admissible although H is
