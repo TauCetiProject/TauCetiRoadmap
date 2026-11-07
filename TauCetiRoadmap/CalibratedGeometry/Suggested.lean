@@ -1,4 +1,6 @@
-import Mathlib
+module
+
+public import Mathlib
 
 /-!
 # Calibrated geometry: target signatures
@@ -26,6 +28,8 @@ Headline theorems of the roadmap that are not statable at the pins:
   have no normal bundle of a submanifold, no Hodge star or codifferential on a manifold and no
   integration of forms over a submanifold.
 -/
+
+@[expose] public section
 
 noncomputable section
 
