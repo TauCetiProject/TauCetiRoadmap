@@ -12,8 +12,9 @@ for Hamiltonian Floer theory and symplectic homology, and proved a Viterbo isomo
 coefficients for cotangent bundles. This roadmap builds that package, from cubical singular
 chains, a few general facts of algebraic topology that no other roadmap builds, path and mapping
 spaces, DG local systems and the algebra of twisting cocycles, through DG Morse homology,
-Hamiltonian Floer homology of periodic orbits on the analytic tower of the Heegaard Floer roadmap,
-and symplectic homology, to its end theorems: the fibration theorem for DG Morse homology, the
+Hamiltonian Floer homology of periodic orbits on the curve analysis of the Pseudoholomorphic
+curve analysis roadmap and the analytic tower of the Heegaard Floer roadmap, and symplectic
+homology, to its end theorems: the fibration theorem for DG Morse homology, the
 DG Floer comparison `FH_*(X; 𝓕) ≅ H_{*+n}(X; i_X^*𝓕)` and Theorem J, the DG Viterbo isomorphism
 (Theorem K), the capacity criteria (Theorems L and M), and the almost existence theorems for
 contractible closed characteristics on hypersurfaces of `T*Q` (Theorems A and C). It also settles,
@@ -104,7 +105,8 @@ them by name and section (see the supplier contracts) and does not restate them.
 | Object | Owner | Relation to this roadmap |
 | --- | --- | --- |
 | Morse–Smale pairs, compactified trajectory spaces with corners, the Morse complex over `𝔽₂` and `ℤ` | HeegaardFloer Lane M | consumed by Layer 5 |
-| Fredholm theory, the sharp Sard–Smale theorem with its Banach-manifold adapters, the Cauchy–Riemann package, the Robbin–Salamon and Conley–Zehnder indices, the clutching Chern number | HeegaardFloer Lanes F0–F1 | consumed by Layers 7–9 |
+| Local Sobolev maps on planar domains and half-discs, totally real boundary conditions, the Cauchy and Beurling operators, interior and boundary Cauchy–Riemann estimates, the similarity principle, the weak pseudoholomorphic equation with an inhomogeneous term (Floer's equation among its cases), elliptic bootstrapping and uniform estimates, real Cauchy–Riemann operators on compact bordered surfaces with their Fredholm theory, the Maslov index of a bundle pair and closed and bordered Riemann–Roch | PseudoholomorphicCurveAnalysis PH1–PH7 | consumed by Layer 7 |
+| Fredholm theory, the sharp Sard–Smale theorem with its Banach-manifold adapters, Sobolev norms on strips and cylindrical ends, spectral flow, the Robbin–Salamon and Conley–Zehnder indices, determinant lines, relative `c₁` and Riemann–Roch on punctured surfaces with weighted ends, the clutching Chern number | HeegaardFloer Lanes F0–F1 | consumed by Layers 7–9 |
 | Symplectic manifolds, almost complex structures, `J`-holomorphic curves, energy, local compactness, transversality and gluing | HeegaardFloer Lane F2 | consumed by Layers 6–9 |
 | Product curves with a general closed source `Σ`, the product `J` and the slice-image classification in `[Σ] × [z₀]` | HeegaardFloer F2.6c | not consumed here |
 | Marked, multiply covered, unforced genus-zero stable-map compactness over compact tame families | AnalyticStableMaps M3 | consumed by Layer 7.C.3 |
@@ -392,15 +394,26 @@ target of this roadmap or of the named supplier, never a "native" API.
   (`TauCeti/AlgebraicTopology/Singular/FilteredSpace.lean`). Decreasing complete filtrations and
   their convergence are not at the pin; they are Layer 1 item 3's.
 
+### From TauCetiRoadmap.PseudoholomorphicCurveAnalysis
+
+- PH1–PH7: local `W^{k,p}` maps on planar domains and half-discs, totally real boundary
+  conditions (PH2.2, PH3.4), the Cauchy and Beurling operators (PH3.1), interior and boundary
+  estimates and the similarity principle (PH3), the weak pseudoholomorphic equation with an
+  inhomogeneous term, of which Floer's equation is a case (PH4.2), elliptic bootstrapping and
+  uniform estimates (PH5.1–PH5.2), real Cauchy–Riemann operators on compact bordered surfaces
+  with their Fredholm theory and cokernel identification (PH6.3), the Maslov index of a bundle
+  pair and closed and bordered Riemann–Roch (PH7.2). Consumed by Layer 7.
+
 ### From TauCetiRoadmap.HeegaardFloer
 
 - Lane M: Morse–Smale pairs, compactified trajectory spaces with their corner structure and
   gluing, and the Morse complex over `𝔽₂` and `ℤ`, with its MorseTheory M1–M6 prerequisites
   (Layer 5, Layer 7.C.1a).
 - Lane F0: Fredholm theory and the sharp Sard–Smale theorem with its Banach-manifold and bundle
-  adapters, on Tau Ceti's Sard–Smale; Lane F1: the Cauchy–Riemann package, totally real
-  boundary conditions, Riemann–Roch, F1.3's spectral flow, F1.4's Robbin–Salamon and
-  Conley–Zehnder indices with `CZ = −μ_RS`, and F1.5's clutching Chern number and its equality
+  adapters, on Tau Ceti's Sard–Smale; Lane F1: Sobolev norms on strips and cylindrical ends,
+  determinant lines, relative `c₁` and Riemann–Roch on punctured surfaces with weighted ends,
+  F1.3's spectral flow, F1.4's Robbin–Salamon and Conley–Zehnder indices with `CZ = −μ_RS`,
+  and F1.5's clutching Chern number and its equality
   with CharacteristicClasses C3.2's `c₁`.
 - Lane F2: symplectic manifolds, almost complex structures (F2.1's compatible-structure family
   and tame-to-compatible contraction), `J`-holomorphic maps, energy, compactness (F2.2a and
@@ -1822,10 +1835,10 @@ Source: Hofer–Zehnder, *Symplectic Invariants and Hamiltonian Dynamics*, Chapt
 source paper §1.2.
 ## Layer 7: classical Hamiltonian Floer homology and symplectic homology
 
-This layer consumes Lanes F0–F2 of the Heegaard Floer roadmap. Floer cylinders have domain
-`ℝ × S¹` and no boundary. Half-cylinders with boundary on the zero section use Lane F1's totally
-real boundary conditions. Items 1–5 are the standing theory on symplectically aspherical and
-atoroidal targets and on Liouville domains, with the all-dimensional compactifications that
+This layer consumes PseudoholomorphicCurveAnalysis PH1–PH7 and Lanes F0–F2 of the Heegaard
+Floer roadmap. Floer cylinders have domain `ℝ × S¹` and no boundary. Half-cylinders with boundary
+on the zero section use the totally real boundary conditions of PH2.2 and PH3.4. Items 1–5 are
+the standing theory on symplectically aspherical and atoroidal targets and on Liouville domains, with the all-dimensional compactifications that
 Layer 8 twists; the three classical branches 7.C, 7.G and 7.T that follow have the count
 dimensions of their own identities and do not extend Layer 8.
 
@@ -1959,7 +1972,7 @@ This branch constructs classical Hamiltonian Floer complexes, continuation and P
 
 ### 7.C.0 Suppliers and literal convention transport
 
-Consume HeegaardFloer F0 and F1.1–F1.5 for Sobolev sections, finite-order Sard–Smale budgets, elliptic/adjoint regularity, spectral flow, the single Maslov/CZ index, relative c₁, determinant lines and signed puncture Riemann–Roch; F2.1–5 and F2.6a–d supply their stated local curve/sphere/factorization/simple marked-regularity floors. Consume AnalyticStableMaps M3 for full marked unforced genus-zero stable-map compactness over compact tame-J families. this roadmap constructs the rooted attachment/matching, varying frozen-structure and inhomogeneous fixed-asymptotic applications, every Morse-incidence application and the unstable two-marked constant raw-core normalization. HeegaardFloer's minimal-area zero/one-marked compactness keeps its extra area hypothesis. Consume MorseNovikov N1 as the generic support/completion owner; this roadmap proves its geometric finite-below and graded-chain adapters. Consume HamiltonianSystems Layers 1–2 and Layer 6 here for the actual Hamiltonian fields and time-dependent flows.
+Consume PseudoholomorphicCurveAnalysis PH3 for the planar interior and totally real boundary estimates, PH4.2 for the weak Floer equation as its inhomogeneous case, PH5.1–PH5.2 for elliptic bootstrapping and uniform estimates, PH6.3 for Fredholm theory and adjoint regularity with the cokernel identification, and PH7.2 for closed and bordered Riemann–Roch. Consume HeegaardFloer F0 and F1.1–F1.5 for Sobolev sections on strips and cylindrical ends, finite-order Sard–Smale budgets, spectral flow, the single Maslov/CZ index, relative c₁, determinant lines and signed puncture Riemann–Roch; F2.1–5 and F2.6a–d supply their stated local curve/sphere/factorization/simple marked-regularity floors. Consume AnalyticStableMaps M3 for full marked unforced genus-zero stable-map compactness over compact tame-J families. this roadmap constructs the rooted attachment/matching, varying frozen-structure and inhomogeneous fixed-asymptotic applications, every Morse-incidence application and the unstable two-marked constant raw-core normalization. HeegaardFloer's minimal-area zero/one-marked compactness keeps its extra area hypothesis. Consume MorseNovikov N1 as the generic support/completion owner; this roadmap proves its geometric finite-below and graded-chain adapters. Consume HamiltonianSystems Layers 1–2 and Layer 6 here for the actual Hamiltonian fields and time-dependent flows.
 
 Layer 7.C uses the following capped contractible convention. It is the contractible capped theory on the two hypotheses stated in its heading; it uses `μ=−CZ_HF` on the same path, spherical cap changes, and the action `A_H=∫Hdt+∫_Dω`. Its positive-end input and negative-end output satisfy `u_s+J_t(u_t−X_H)=0` and are upward for `A_H`. The standing convention uses `CZ`, a reference-loop cylinder oriented from the orbit to the reference, and `𝒜_H=∫γ̄^*ω−∫Hdt`. On the contractible aspherical overlap with constant reference and zero reference cap, the same-H actions satisfy `𝒜_H(γ̄)=−A_C(H,γ,D)` when `γ̄` is oriented from the orbit to the reference. A standing trajectory has negative-end input `x₋`, positive-end output `x₊`, and `E=𝒜_H(γ̄₋)−𝒜_H(γ̄₊)`; for the fixed PDE `u_s+J_t(u_t−X_H)=0`, `𝒜_H` decreases along s. The t-independent equation is the negative-gradient equation for `−H` and has the same Morse degree as the source branch after reflection. Under the reflected Hamiltonian and cap reflection, `A_C(H∨,reflected x)=−A_C(H,x)`, so the two energy conventions agree. These identities use the stated zero-reference normalization; other reference choices may add constants. The convention identification is only with the standing complex on 𝓛₀X under asphericity alone, on the `Γ=0` overlap and at the reflected Hamiltonian `H∨`. Its overlap comparison uses the reflected Hamiltonian and contractible aspherical sector specified here.
 
@@ -1984,7 +1997,7 @@ On the actual aspherical overlap, where Γ=0, retain the path-level dictionary g
   is `0` and the index is `1`, equal to the spectral flow `+1` of `B = tanh s` from `−1` to `1`;
   the sign convention `ind D = SF(B)` is fixed by this instance, and `−SF(B)` would give `−1`.
 
-*Needs:* HeegaardFloer F0, F1.1–F1.5, F2.1–F2.5 and F2.6a–d; AnalyticStableMaps M3; MorseNovikov N1; HamiltonianSystems Layers 1–2; Layer 6 items 1–2; conventions (sign dictionary); Salamon §§1.4 and 2.4.
+*Needs:* PseudoholomorphicCurveAnalysis PH3, PH4.2, PH5.1–PH5.2, PH6.3 and PH7.2; HeegaardFloer F0, F1.1–F1.5, F2.1–F2.5 and F2.6a–d; AnalyticStableMaps M3; MorseNovikov N1; HamiltonianSystems Layers 1–2; Layer 6 items 1–2; conventions (sign dictionary); Salamon §§1.4 and 2.4.
 
 ### 7.C.1 Capped loop cover, periods and the time-dependent variational equation
 
@@ -2050,7 +2063,7 @@ Fix an auxiliary Morse–Smale pair (f,g) independently of Hamiltonian H. Consum
 
 ### 7.C.2 Cylinder and seam analysis
 
-Construct the Banach configuration spaces with specified capped ends, exponential decay charts, regularity bootstrap and the Floer section. Its covariant derivative is
+Construct the Banach configuration spaces with specified capped ends, exponential decay charts, the regularity bootstrap of PH5.1 applied to Floer's equation as the inhomogeneous case of PH4.2, and the Floer section. Its covariant derivative is
 
 `∇sξ+J_t∇tξ−J_t∇ξX_H+(∇ξJ_t)(u_t−X_H)`.
 
@@ -2073,7 +2086,7 @@ For an arbitrary symplectomorphism ψ, construct the **linear seam application**
   `LJz = (−4, −4) = −2aJz`, as `LJz = 2bz − 2aJz` predicts, whereas a `C_J` commuting with `J`
   would give `LJz = 0`.
 
-*Needs:* 7.C.0–7.C.1; HeegaardFloer F0, F1.1–F1.4, F2.2a and F2.2c; Salamon §§2.1–2.7; Floer–Hofer–Salamon Lemma 6.5.
+*Needs:* 7.C.0–7.C.1; PseudoholomorphicCurveAnalysis PH4.2 and PH5.1; HeegaardFloer F0, F1.1–F1.4, F2.2a and F2.2c; Salamon §§2.1–2.7; Floer–Hofer–Salamon Lemma 6.5.
 
 ### 7.C.2a Ordered determinant kernels, count functionals and family conventions
 
@@ -2193,7 +2206,7 @@ Instantiate the testing-series/closed-kernel synthesis separately on the raw pla
 
 For a smooth periodic ω-tame J_t on closed X, construct the same capped raw equation and section with the same nondegenerate contractible Hamiltonian ends. Put g_J^sym(v,w)=(ω(v,Jw)+ω(w,Jv))/2 and prove it is a positive symmetric metric. On each specified compact tame-data parameter family prove uniform positive coercivity and coefficient bounds. The equation gives u_t−X_H=J_tu_s, hence E=∫ω(u_s,J_tu_s)=A_H(x̃₊)−A_H(x̃₋), with its continuation/K-curvature versions. The action variation is dA_H(ξ)=∫ω(ξ,γ̇−X_H); construct its actual weak-gradient expression using g_J^sym, distinguishing it from −J_t(γ̇−X_H) for merely tame J_t.
 
-Build the tame Sobolev section/evaluation charts, local/removal estimates and elliptic/end Fredholm theory from HeegaardFloer F0/F1/F2 on actual compact uniformly tame coefficient windows. In the asymptotic linear theory identify the action Hessian and the actual positive-symmetric-part mobility; prove the spectral-gap/exponential-end estimate and its uniform compact-family version from nondegenerate Hamiltonian ends. Do not assert self-adjointness for a nonsymmetric pairing. Transport the Fredholm index and determinant line by the fixed-end tame-to-compatible operator homotopy, and apply the supplied self-adjoint spectral-flow comparison only at the compatible realization. Prove cap, puncture-index and orientation transport on that actual homotopy.
+Build the tame Sobolev section/evaluation charts, local/removal estimates and elliptic/end Fredholm theory from PseudoholomorphicCurveAnalysis PH3–PH6 and HeegaardFloer F0/F1/F2 on actual compact uniformly tame coefficient windows. In the asymptotic linear theory identify the action Hessian and the actual positive-symmetric-part mobility; prove the spectral-gap/exponential-end estimate and its uniform compact-family version from nondegenerate Hamiltonian ends. Do not assert self-adjointness for a nonsymmetric pairing. Transport the Fredholm index and determinant line by the fixed-end tame-to-compatible operator homotopy, and apply the supplied self-adjoint spectral-flow comparison only at the compatible realization. Prove cap, puncture-index and orientation transport on that actual homotopy.
 
 **Tame synthesis and staged selection.** Use general anti-J directions A, AJ_base+J_baseA=0, and J(A)=exp(A)J_base exp(−A) on a quantified small C⁰ ball. Prove that these give local tame charts and uniform positive tameness bounds; A is not required to be symplectic. In the actual mixed coefficient/linear-operator norms of 7.C.2b(i), use D exp_A(B)=∫₀¹exp((1−t)A)B exp(tA)dt, its iterated derivatives and Sobolev multiplication/trace/composition to prove every finite mixed parameter/domain/target chain-rule and Moser bound. Record the actual lists, constants and section/evaluation/projection C^ℓ budget before applying F0. The testing-series and global curvature estimates are instantiated in these tame norms, independently of compatible selection/counts.
 
@@ -2216,7 +2229,7 @@ Consume HeegaardFloer F2.1’s tame/compatible contraction fixing a compatible s
   vanishes exactly on stationary cylinders, so with `u_t − X_H = J_t u_s` every solution has
   `A_H(x̃₊) ≥ A_H(x̃₋)`, with equality only when `x̃₊ = x̃₋`.
 
-*Needs:* 7.C.2 and 7.C.2b; HeegaardFloer F0–F2 (F1.3 spectral flow, F2.1 tame-to-compatible contraction, F2.6d).
+*Needs:* 7.C.2 and 7.C.2b; PseudoholomorphicCurveAnalysis PH3–PH6; HeegaardFloer F0–F2 (F1.3 spectral flow, F2.1 tame-to-compatible contraction, F2.6d).
 
 ### 7.C.3 Raw compactness, conditional gluing and analytic branch exclusion
 
@@ -2328,7 +2341,7 @@ Use the independent auxiliary pair `(f,g)` and comparison complex M of 7.C.1a. F
 
 ### 7.C.5a Autonomous translation and time-rotation dimensions
 
-On smooth finite-energy cylinders for these autonomous data with the fixed constant asymptotic ends and fixed capped relative class, define commuting actions `T_a u(s,t)=u(s+a,t)` for `a∈R` and `R_θu(s,t)=u(s,t+θ)` for `θ∈R/Z`. They preserve the equation; their isotopies preserve the capped class relative to the constant end caps. Prove smoothness on the actual finite-dimensional regular moduli spaces after elliptic bootstrapping. The fixed locus of the whole `S¹` time-rotation action is exactly `u_t=0`; its Floer equation is the specified positive-gradient Morse equation, so its elements are the upward Morse trajectories already treated above.
+On smooth finite-energy cylinders for these autonomous data with the fixed constant asymptotic ends and fixed capped relative class, define commuting actions `T_a u(s,t)=u(s+a,t)` for `a∈R` and `R_θu(s,t)=u(s,t+θ)` for `θ∈R/Z`. They preserve the equation; their isotopies preserve the capped class relative to the constant end caps. Prove smoothness on the actual finite-dimensional regular moduli spaces after PH5.1's elliptic bootstrapping. The fixed locus of the whole `S¹` time-rotation action is exactly `u_t=0`; its Floer equation is the specified positive-gradient Morse equation, so its elements are the upward Morse trajectories already treated above.
 
 For a non-time-invariant cylinder, `u_s` and `u_t` are linearly independent as global tangent vectors. If `a u_s+b u_t=0` with constants `(a,b)≠(0,0)`, `a=0` gives time invariance, while `b=0` makes the map independent of `s` and hence constant by its asymptotic ends. If both are nonzero, `u` is constant along the domain flow in direction `(a,b)`; iterating toward a constant asymptotic end and using uniform convergence in `t` forces the whole cylinder to be constant. If a stabilizer element has nonzero `s`-translation, iterate it in the direction of one constant asymptotic end. The end convergence is uniform in `t`, so the stabilizer equation forces the entire cylinder to equal that constant end; this excludes every such element without assuming an `s`-period. Thus on the non-time-invariant locus the `R×S¹` orbit has dimension two and its remaining time-rotation stabilizer is finite. Conditional on surjectivity of the actual autonomous linearization, a non-time-invariant cylinder has Fredholm index at least two; regular index-one cylinders are time-independent. The dimension conclusion is conditional on that actual regularity. The homology comparison is the separate PSS theorem.
 
@@ -2344,7 +2357,7 @@ For a non-time-invariant cylinder, `u_s` and `u_t` are linearly independent as g
   one-dimensional and the translation-quotient count `r − 1` applies, giving `0` at `r = 1`; the
   two-dimensional orbit, and the exclusion at `r = 1`, concern only the non-time-invariant locus.
 
-*Needs:* 7.C.5.
+*Needs:* 7.C.5; PseudoholomorphicCurveAnalysis PH5.1.
 
 ### 7.C.5b PSS maps and equivalence
 
@@ -2536,9 +2549,9 @@ This is a classical count-dimensional application, not an extension of Layer 8's
 
 ### 7.T.0 Exact suppliers and construction direction
 
-Consume MorseNovikov N1,N4 for period-controlled Novikov rings, finite convolution, completed finite-orbit modules, rational exp/log, total quotients and their field components, ordered determinant/torsion comparisons, finite-cyclic norms and cutoff topology. N6 owns the finite-dimensional closed-one-form bifurcation application. Reuse its algebraic identities where their hypotheses are established, not its finite-dimensional moduli argument as a Floer theorem. Construct the finite-parity application of the determinant comparisons in 7.T.4; do not call a two-periodic complex a bounded integer complex. Consume HeegaardFloer F0,F1,F2's actual Banach/Sobolev, unique-continuation, local CR, index and determinant interfaces. HeegaardFloer's invertible-end exponential theorem does not supply the degenerate polynomial-end theory constructed in 7.T.6. Use the existing DifferentialGeometry, SmoothBundlesConnections and AlgebraicTopology compact smooth-manifold and covering interfaces for mapping tori, section bundles, finite CW homology and characteristic classes. This application owns the seamed nonlinear, sphere-incidence, periodic-flow and bifurcation constructions at the range below. Construct them before invariance; an invariant value or later torsion computation is never a regularity, compactness or gluing premise.
+Consume MorseNovikov N1,N4 for period-controlled Novikov rings, finite convolution, completed finite-orbit modules, rational exp/log, total quotients and their field components, ordered determinant/torsion comparisons, finite-cyclic norms and cutoff topology. N6 owns the finite-dimensional closed-one-form bifurcation application. Reuse its algebraic identities where their hypotheses are established, not its finite-dimensional moduli argument as a Floer theorem. Construct the finite-parity application of the determinant comparisons in 7.T.4; do not call a two-periodic complex a bounded integer complex. Consume HeegaardFloer F0,F1,F2's actual Banach/Sobolev, unique-continuation, index and determinant interfaces, and PseudoholomorphicCurveAnalysis PH3–PH6's local Cauchy–Riemann estimates, similarity principle, linear unique continuation and compact Fredholm interfaces. HeegaardFloer's invertible-end exponential theorem does not supply the degenerate polynomial-end theory constructed in 7.T.6. Use the existing DifferentialGeometry, SmoothBundlesConnections and AlgebraicTopology compact smooth-manifold and covering interfaces for mapping tori, section bundles, finite CW homology and characteristic classes. This application owns the seamed nonlinear, sphere-incidence, periodic-flow and bifurcation constructions at the range below. Construct them before invariance; an invariant value or later torsion computation is never a regularity, compactness or gluing premise.
 
-*Needs:* MorseNovikov N1 and N4; HeegaardFloer F0–F2; AlgebraicTopology Stages 2–6; DifferentialGeometry Layers 0–3; SmoothBundlesConnections.
+*Needs:* MorseNovikov N1 and N4; HeegaardFloer F0–F2; PseudoholomorphicCurveAnalysis PH3–PH6; AlgebraicTopology Stages 2–6; DifferentialGeometry Layers 0–3; SmoothBundlesConnections.
 
 ### 7.T.1 Actual section cover, finitely generated deck group and index
 
@@ -2780,7 +2793,8 @@ nonabelian `s`-cobordism theorem or equality with a general genus-one curve coun
 
 ### Dependencies
 
-HeegaardFloer Lanes F0–F2 and Lane M; AnalyticStableMaps M3; MorseNovikov N1 and N4;
+PseudoholomorphicCurveAnalysis PH1–PH7; HeegaardFloer Lanes F0–F2 and Lane M; AnalyticStableMaps
+M3; MorseNovikov N1 and N4;
 HamiltonianSystems Layers 1–2; MorseTheory M4; SymplecticGeometry S0; CharacteristicClasses
 C3.2; Layer 6; Layer 2 item 1; Layer 0 item 4 (for the fundamental chains consumed by Layer 8).
 Source: Salamon, *Lectures on Floer homology*; Audin–Damian, Chapters 6–11; Seidel, *A biased
@@ -3368,7 +3382,7 @@ Material that is proved there and absent from Tau Ceti, and that this roadmap ca
 
 | There | Here |
 | --- | --- |
-| `Part2/CauchyPompeiu.lean`, `CauchyHolder.lean`, `FloerRegularity.lean`, `Ch6.lean`: Cauchy and Beurling transforms, Calderón–Zygmund and Schauder estimates on the Hölder scale, elliptic regularity of the Floer equation, energy and gradient bounds, convergence at the ends, compactness for bounded energy, on `ℝ²ⁿ` and the torus | Layer 7 items 1–2, flat case; a Hölder-scale alternative to the Sobolev route of Lanes F0–F1 |
+| `Part2/CauchyPompeiu.lean`, `CauchyHolder.lean`, `FloerRegularity.lean`, `Ch6.lean`: Cauchy and Beurling transforms, Calderón–Zygmund and Schauder estimates on the Hölder scale, elliptic regularity of the Floer equation, energy and gradient bounds, convergence at the ends, compactness for bounded energy, on `ℝ²ⁿ` and the torus | Layer 7 items 1–2, flat case; a Hölder-scale alternative to the Sobolev route of PH3–PH5 and Lanes F0–F1. The Cauchy and Beurling transforms with their Hölder estimates are a contribution to their owner, PseudoholomorphicCurveAnalysis PH3.1, which cites `CauchyPompeiu.lean` and `CauchyHolder.lean`; they are not a target here |
 | `Part2/Rho*.lean`, `Maslov*.lean`, `Ch7.lean`: `ρ : Sp(2n) → S¹` with all its properties, Maslov index of symplectic paths and loops | Layer 7 item 1, the Conley–Zehnder index and the loop Maslov index behind the Chern condition |
 | `Part2/Darboux.lean`, `Ch5.lean`: Darboux by Moser's method | a contribution to its owner, Heegaard Floer Lane F2.1; not a target here |
 | `Part1/Ch3.lean`, `Ch4.lean`: algebra of the Morse complex from abstract trajectory counts, Künneth, duality | Layer 5 items 1–3, algebraic part |
