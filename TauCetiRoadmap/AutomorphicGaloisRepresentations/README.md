@@ -171,6 +171,14 @@ replaced by the semisimple sum of its two characters. The cohomological local
 parameter is `Rec_v(π_v⊗|·|_v⁻¹/²)`; its `L`-factor is `L(s−1/2,π_v)` and its
 conductor is that of `π_v`. In Carayol's convention use `π_v^∨` in this `L`-factor.
 
+For a nonzero classical form `f` of level `N` that is an eigenvector of `T_p` for
+every prime `p∤N`, write `λ_p(f)` for its `T_p`-eigenvalue. Since
+`a₁(T_pf)=a_p(f)`, comparing first coefficients gives `a_p(f)=λ_p(f)a₁(f)`: the
+eigenvalue is the `q`-expansion coefficient when `a₁(f)=1`, as for a normalized
+newform, and not in general. A multiple `cf` has `a_p(cf)=ca_p(f)` and the same
+`λ_p`, and an oldform `f(dτ)` with `d>1` has `a₁=0` and `a_p=0` for every prime
+`p∤d`. Statements about eigenforms that need not be normalized are written with
+`λ_p`.
 For a classical normalized newform of weight `k`, level `N` and nebentypus `ψ`,
 `t_p=a_p` and `s_p=ψ(p)p^{k−2}`. The cohomological polynomial at geometric
 Frobenius, and the arithmetic-dual polynomial at arithmetic Frobenius, are both
@@ -367,7 +375,7 @@ its conductor bound, oddness consequences and weight-two torsion comparison.
 
 **R15.5A.1–R15.5A.2.** Primitive classical parabolic multiplicity, its pairing, coefficient descent and higher-weight attachment. Sections 1.1–1.5 compare these with DFG premotives and §3.11 with the Hilbert convention; they do not reconstruct the classical attachment.
 
-**R15.5A.2a–R15.5A.3 (§§6.3–6.4).** The classical weight-one theory, owned there: the conjugate prime-moment bound with coefficient one and the finite eigenvalue set off a prime set of small upper Dirichlet density (Deligne–Serre Proposition 5.1 and its proof 5.2, pp. 518–519; Proposition 5.5 and Remark 5.6, pp. 519–520); residual eigensystems by Eisenstein weight shifting and eigenvalue lifting (Theorem 6.7, §§6.9–6.11 and Lemma 6.13, pp. 521–523); the uniform image bound for semisimple subgroups of `GL₂(𝔽_ℓ)` under the polynomial-support condition `C(η,M)` (§7.1 and Proposition 7.2, pp. 523–524); and the uniform residual bound over split coefficient primes, prime-to-order lifting, the characteristic-zero lift, cuspidal irreducibility and the Artin attachment (§§8.2–8.7, pp. 525–527). Section 2.10 compares that attachment, whose arithmetic Frobenius polynomial is `X²−a_pX+ψ(p)` (Deligne–Serre Theorem 4.1, pp. 513–514), with §1.5.
+**R15.5A.2a–R15.5A.3 (§§6.3–6.4).** The classical weight-one theory, owned there: the conjugate prime-moment bound with coefficient one and the finite eigenvalue set off a prime set of small upper Dirichlet density (Deligne–Serre Proposition 5.1 and its proof 5.2, pp. 518–519; Proposition 5.5 and Remark 5.6, pp. 519–520); residual eigensystems by Eisenstein weight shifting and eigenvalue lifting (Theorem 6.7, §§6.9–6.11 and Lemma 6.13, pp. 521–523); the uniform image bound for semisimple subgroups of `GL₂(𝔽_ℓ)` under the polynomial-support condition `C(η,M)` (§7.1 and Proposition 7.2, pp. 523–524); and the uniform residual bound over split coefficient primes, prime-to-order lifting, the characteristic-zero lift, cuspidal irreducibility and the Artin attachment (§§8.2–8.7, pp. 525–527). Section 2.10 compares that attachment, whose arithmetic Frobenius polynomial is `X²−λ_pX+ψ(p)` with `λ_p` the `T_p`-eigenvalue (Deligne–Serre Theorem 4.1, pp. 513–514), with §1.5.
 
 **R15.2.** Generation of the weight-two Hecke algebra `𝕋_R` of `Γ_H(N)` (Darmon–Diamond–Taylor Lemma 4.1): by the `T_n`, or by the `T_p` and `⟨d⟩`; and, for `D` prime to `N` with `D` odd or 2 invertible in `R`, by the `T_n` with `(n, D) = 1` (Diamond–Im Proposition 3.5.1; Wiles 1995, p. 491).
 
@@ -411,7 +419,7 @@ coefficients are multiplicative, and at `p | N_f` satisfy
 - At `N=121`, `N_f=11`, `p=11`, `v=1`, the full-level zero extension gives
   `ψ_f(11)=0`, `a₁₁(f)=1` and oldchain polynomial `u(u−1)`.
 
-**layer 0 diamond operators and modular forms with character nebentypus.** Weight-one Eisenstein series with character and their Hecke eigenvalues: an Eisenstein eigenform of type `(1, ε)` on `Γ₀(N)` has `a_p = χ₁(p) + χ₂(p)` for `p ∤ N`, with Dirichlet characters satisfying `χ₁χ₂ = ε` (Hecke, Mathematische Werke p. 690, as cited in Deligne–Serre 8.1); and the Hecke-stable decomposition `M₁(N, ε) = S₁(N, ε) ⊕ E₁(N, ε)`. For weights `k≥2`, the Hecke-stable cusp/Eisenstein decomposition and Eisenstein good-prime eigenvalue `χ₁(q)+χ₂(q)q^{k−1}`, with `χ₁χ₂=ε`, conductor and parity hypotheses; these give the two arithmetic character summands in Deligne–Serre Theorem 6.1.
+**layer 0 diamond operators and modular forms with character nebentypus.** Weight-one Eisenstein series with character and their Hecke eigenvalues: an Eisenstein eigenform of type `(1, ε)` on `Γ₀(N)` has `T_p`-eigenvalue `λ_p = χ₁(p) + χ₂(p)` for `p ∤ N`, with Dirichlet characters satisfying `χ₁χ₂ = ε` (Hecke, Mathematische Werke p. 690, as cited in Deligne–Serre 8.1); and the Hecke-stable decomposition `M₁(N, ε) = S₁(N, ε) ⊕ E₁(N, ε)`. For weights `k≥2`, the Hecke-stable cusp/Eisenstein decomposition and Eisenstein good-prime eigenvalue `χ₁(q)+χ₂(q)q^{k−1}`, with `χ₁χ₂=ε`, conductor and parity hypotheses; these give the two arithmetic character summands in Deligne–Serre Theorem 6.1.
 
 **layer 8 modular symbols the integral hecke algebra and coefficient fields.** Use the existing modular-symbol rational structure, coefficient field, integral new Hecke algebra and `±` period lines. Do not reconstruct or renormalise these upstream objects.
 
@@ -1262,11 +1270,28 @@ See [F. Diamond, M. Flach and L. Guo](https://arxiv.org/pdf/2512.02348v2) — §
 
 ### 1.7 Higher-weight classical existence
 
-Let `f≠0` be an eigenform of weight `k≥2` and type `(k,ψ)`, not necessarily cuspidal, over a number field containing its good eigenvalues and character values. Use AlgebraicModularFormsAndSerreWeights R15.5A.2 for the continuous semisimple arithmetic representation of `G_ℚ` at every finite `λ`, unramified outside `Nℓ`, with good polynomial `X²−a_pX+ψ(p)p^{k−1}`. Full good polynomials characterize it up to isomorphism. For cusp forms prove that the supplied attachment agrees with the arithmetic dual of the DFG-corrected geometric factor; for Eisenstein forms use the two Galois characters supplied by the cusp/Eisenstein decomposition. If eigenforms `f,f′` of weights `k,k′≥2` and levels `N,N′` have `a_p=a′_p` on a density-one prime set, then `k=k′, ψ=ψ′` and all good coefficients agree for `p∤NN′`; neither eigenform need be cuspidal. The weight-two branch uses a modular abelian quotient; Scholl's higher-weight theorem excludes that branch.
+Let `f≠0` be a form of weight `k≥2`, level `N` and type `(k,ψ)`, not necessarily cuspidal, normalized or new, that is an eigenvector of `T_p` for every prime `p∤N`, with eigenvalues `λ_p(f)`, over a number field containing these eigenvalues and the character values. Use AlgebraicModularFormsAndSerreWeights R15.5A.2 for the continuous semisimple arithmetic representation of `G_ℚ` at every finite `λ`, unramified outside `Nℓ`, with good polynomial `X²−λ_p(f)X+ψ(p)p^{k−1}` at arithmetic Frobenius `p∤Nℓ`. Full good polynomials characterize it up to isomorphism. For cusp forms prove that the supplied attachment agrees with the arithmetic dual of the DFG-corrected geometric factor of the normalized newform with the same good eigenvalues; for Eisenstein forms use the two Galois characters supplied by the cusp/Eisenstein decomposition. If such eigenforms `f,f′` of weights `k,k′≥2`, levels `N,N′` and characters `ψ,ψ′` have `λ_p(f)=λ_p(f′)` on a prime set of Dirichlet density one (natural density one implies this), then `k=k′`, `ψ(p)=ψ′(p)` and `λ_p(f)=λ_p(f′)` for every prime `p∤NN′`; neither eigenform need be cuspidal. The weight-two branch uses a modular abelian quotient; Scholl's higher-weight theorem excludes that branch.
 
 *Needs:* AlgebraicModularFormsAndSerreWeights R15.5A.1–R15.5A.2; [1.1 Coefficient Eichler–Shimura](#11-coefficient-eichlershimura); [1.5 Rank-two newform realisation](#15-rank-two-newform-realisation); `ArithmeticGaloisRepresentations:§§1.1–1.10`; [1.4 Rational orbit projector and coefficient descent](#14-rational-orbit-projector-and-coefficient-descent); TauCetiRoadmap.ModularForms, layer 0 diamond operators and modular forms with character nebentypus; TauCetiRoadmap.ModularForms, layer 4 eigenforms newforms primitive forms the conductor.
 
-See [Pierre Deligne and Jean-Pierre Serre](https://www.numdam.org/article/ASENS_1974_4_7_4_507_0.pdf) — Theoreme 6.1, printed p. 520; [Pierre Deligne and Jean-Pierre Serre](https://www.numdam.org/article/ASENS_1974_4_7_4_507_0.pdf) — Remarque 6.2, printed p. 521; [Pierre Deligne and Jean-Pierre Serre](https://www.numdam.org/article/ASENS_1974_4_7_4_507_0.pdf) — footnote (1) to 3.1, printed p. 513; [Pierre Deligne and Jean-Pierre Serre](https://www.numdam.org/article/ASENS_1974_4_7_4_507_0.pdf) — Introduction, printed p. 507; [A. J. Scholl](https://www.dpmms.cam.ac.uk/~ajs1005/preprints/mf.pdf) — Theorem 1.2.4(i), p. 2, with 1.0.0, p. 1.
+See [Pierre Deligne and Jean-Pierre Serre](https://www.numdam.org/article/ASENS_1974_4_7_4_507_0.pdf) — Theoreme 6.1, printed p. 520; [Pierre Deligne and Jean-Pierre Serre](https://www.numdam.org/article/ASENS_1974_4_7_4_507_0.pdf) — Remarque 6.2, printed p. 521; [Pierre Deligne and Jean-Pierre Serre](https://www.numdam.org/article/ASENS_1974_4_7_4_507_0.pdf) — Corollaire 6.3, printed p. 521, for the density-one rigidity, with Lemme 3.2, printed p. 513; [Pierre Deligne and Jean-Pierre Serre](https://www.numdam.org/article/ASENS_1974_4_7_4_507_0.pdf) — footnote (1) to 3.1, printed p. 513; [Pierre Deligne and Jean-Pierre Serre](https://www.numdam.org/article/ASENS_1974_4_7_4_507_0.pdf) — Introduction, printed p. 507; [A. J. Scholl](https://www.dpmms.cam.ac.uk/~ajs1005/preprints/mf.pdf) — Theorem 1.2.4(i), p. 2, with 1.0.0, p. 1.
+
+**Checks.**
+
+- `E₄=1+240q+2160q²+⋯` has `λ₂(E₄)=1+2³=9` but `a₂(E₄)=2160`. Its attachment
+  `1⊕χ_ℓ³` has polynomial `(X−1)(X−8)=X²−9X+8` at arithmetic Frobenius 2 for
+  `ℓ≠2`, which is `X²−λ₂X+2³`; with the coefficient `a₂` in place of `λ₂` the
+  polynomial would have trace 2160.
+- `Δ(3τ)` (weight 12) and `E₄(3τ)` (weight 4), both of level 3, have `a_p=0` at
+  every prime `p≠3`, a set of density one, yet `12≠4`: rigidity stated with
+  `q`-coefficients is false. Their eigenvalues `λ₂=τ(2)=−24` and `λ₂=9` differ,
+  so the eigenvalue hypothesis fails and nothing is contradicted.
+- `Δ` (level 1) and `Δ(3τ)` (level 3) have `λ_p` equal at every `p≠3`. The
+  conclusion gives weight 12, trivial character and equal eigenvalues at every
+  `p∤3`, while `a₂(Δ)=−24≠0=a₂(Δ(3τ))`: equality of good `q`-coefficients is not
+  part of the conclusion.
+- `2Δ` has `a₂=−48` and `λ₂=−24`; its attachment is that of `Δ`, with polynomial
+  `X²+24X+2¹¹` at 2, so the attachment does not change under rescaling.
 
 ### Examples
 
@@ -1298,15 +1323,16 @@ that attachment in the normalization of §1.5.
 
 ### 2.10 The weight-one Artin representation
 
-For a nonzero weight-one eigensystem of level `N≥1` and odd nebentypus `ψ`,
+For a nonzero weight-one form `f` of level `N≥1` and odd nebentypus `ψ` that
+is an eigenvector of `T_p` with eigenvalue `λ_p=λ_p(f)` for every prime `p∤N`,
 AlgebraicModularFormsAndSerreWeights §6.4 supplies the unique continuous
 semisimple finite-image `ρ_f:G_ℚ→GL₂(ℂ)`, unramified outside `N`, with
-arithmetic good polynomial `X²−a_pX+ψ(p)` at `p∤N` and determinant `ψ`,
+arithmetic good polynomial `X²−λ_pX+ψ(p)` at `p∤N` and determinant `ψ`,
 irreducible exactly in the cuspidal case. Prove that its dual `ρ_f^∨` has, at
-geometric Frobenius `p∤N`, the same polynomial `X²−a_pX+ψ(p)`, which is the
+geometric Frobenius `p∤N`, the same polynomial `X²−λ_pX+ψ(p)`, which is the
 `k=1` specialization of §1.5's arithmetic good-prime polynomial
 `X²−aX+ψp^{k−1}`, and that at the same arithmetic Frobenius `ρ_f^∨` has
-polynomial `X²−(a_p/ψ(p))X+ψ(p)⁻¹`. Thus `ρ_f` is in the position of the
+polynomial `X²−(λ_p/ψ(p))X+ψ(p)⁻¹`. Thus `ρ_f` is in the position of the
 arithmetic dual of §1.5 and `ρ_f^∨` in that of the cohomological factor, and
 `det ρ_f=ψ` is the `k=1` case of `det ρ_{g,λ}=ψχ_ℓ^{k−1}`. Weight one does not
 define a `Sym^{k−2}` DFG premotive or a regular Hilbert infinity type: the
@@ -1321,17 +1347,18 @@ convention, pp. 513–514, and Remarques 4.3–4.5, p. 514.)
 
 **Checks.**
 
-- For the dihedral form `η(z)η(23z)` of character `χ_{−23}`, at `p=5` (inert in
-  `ℚ(√−23)`) `a₅=0` and `ψ(5)=−1`, and at `p=2` (split) `a₂=−1` and `ψ(2)=1`.
+- For the dihedral newform `η(z)η(23z)` of character `χ_{−23}`, at `p=5` (inert
+  in `ℚ(√−23)`) `λ₅=a₅=0` and `ψ(5)=−1`, and at `p=2` (split) `λ₂=a₂=−1` and
+  `ψ(2)=1`.
   The arithmetic polynomials are `X²−1` and `X²+X+1`, and the same-Frobenius
   dual formula returns the same two polynomials. This is a control: the image
   `S₃` has a self-dual two-dimensional representation, so a missing dual is
   invisible here.
 - For the weight-one Eisenstein eigensystem `1⊕χ`, with `χ` the odd character
-  modulo 5 and `χ(2)=i`, `a₂=1+i` and `ψ(2)=i`. Then `ρ_f^∨` at geometric
+  modulo 5 and `χ(2)=i`, `λ₂=1+i` and `ψ(2)=i`. Then `ρ_f^∨` at geometric
   Frobenius has `X²−(1+i)X+i=(X−1)(X−i)`, while at arithmetic Frobenius it has
   `X²−(1−i)X−i=(X−1)(X+i)`. A convention that evaluated the dual at the
-  arithmetic Frobenius would report trace `1−i≠a₂`.
+  arithmetic Frobenius would report trace `1−i≠λ₂`.
 - At `k=1` the constant `ψ(p)p^{k−1}` of §1.5 is `ψ(p)`, and the Hecke form
   `q_vs_v` with `s_p=ψ(p)p^{k−2}` also gives `ψ(p)`. Using `s_p` alone as the
   constant would give `ψ(p)/p`, which has absolute value `1/p` and cannot be a
@@ -1521,7 +1548,7 @@ See [Henri Carayol](https://www.numdam.org/article/ASENS_1986_4_19_3_409_0.pdf) 
 
 ### 3.8 Primitive two-dimensional restriction
 
-For the extraordinary dyadic local case, the finite projective image is `A₄` or `S₄`. A local Galois quotient is solvable, so `A₅` does not occur here. Restrict to the cubic extension fixed by a 2-Sylow subgroup: it is normal in the `A₄` case and can be nonnormal in the `S₄` case. The restricted representation is irreducible and monomial. Prove that matching restrictions together with matching determinants identify the original representations. The determinant condition is indispensable to this recognition.
+For the extraordinary dyadic local case, the finite projective image is `A₄` or `S₄`. A local Galois quotient is solvable, so `A₅` does not occur here. Restrict to the cubic extension fixed by a 2-Sylow subgroup: it is normal in the `A₄` case and nonnormal in the `S₄` case, where the 2-Sylow subgroup `D₄` has three conjugates. The restricted representation is irreducible and monomial. Prove that matching restrictions together with matching determinants identify the original representations. The determinant condition is indispensable to this recognition.
 
 *Needs:* `GL2AutomorphicRepresentationsAndTransfer:R16.3`.
 
@@ -2485,8 +2512,7 @@ weight-two optimization exponent used in §6.5.
 For the type-`Σ` specialization fix finite `K/ℚ_ℓ`, its integers `O` and residue
 field `κ`, and continuous irreducible modular `ρ̄:G_ℚ→GL₂(κ)` with
 `det ρ̄=χ̄_ℓ`, semistability at `ℓ` and `#ρ̄(I_p)` dividing `ℓ` for `p≠ℓ`.
-Choose finite `Σ` with `ℓ` allowed only when `ρ̄` is good and ordinary there,
-and `p≠ℓ` allowed only when `ρ̄` is unramified there. Put `δ_Σ=0` if `ρ̄` is good
+Let `Σ` be any finite set of primes. Put `δ_Σ=0` if `ρ̄` is good
 at `ℓ` and `ℓ∉Σ`, and `δ_Σ=1` otherwise. Define the finite index set `𝓝_Σ` of
 normalized weight-two newforms with trivial character, residual realization
 `ρ̄` after a specified coefficient extension and residue embedding, and level
@@ -2494,16 +2520,31 @@ dividing `ℓ^{δ_Σ} N(ρ̄)∏_{p∈Σ\{ℓ}}p^{dim ρ̄^{I_p}}`, with `ℓ²�
 Use the finite newform decomposition at this bounded level, retaining the
 chosen coefficient realizations over `O`. Section 6.5 proves nonemptiness; §6.6 constructs the product algebra and local problems.
 
+Define `Σ_ρ̄` as the set of primes `p` such that either `p=ℓ` and `ρ̄|G_ℓ` is
+good and ordinary, or `p≠ℓ` and `ρ̄` is unramified at `p` (DDT Definition 3.25).
+The hypothesis `Σ⊂Σ_ρ̄` is not part of §§6.4a–6.6; §6.7 assumes it. The
+inertia-order condition makes `N(ρ̄)` squarefree in any case, since a nontrivial
+`ρ̄(I_p)` of order `ℓ` is unipotent with a line of invariants. Under `Σ⊂Σ_ρ̄`
+every `p∈Σ\{ℓ}` also has `dim ρ̄^{I_p}=2` and `p∤N(ρ̄)`, so the level bound
+equals `ℓ^{δ_Σ}∏_{p|N(ρ̄)}p∏_{p∈Σ\{ℓ}}p²`.
+
 (Source: [Darmon–Diamond–Taylor](https://www.math.mcgill.ca/darmon/pub/Articles/Expository/05.DDT/paper.pdf),
-§3.2, pp.90–91, and §3.3, Definition 3.25 and Lemma 3.26, pp.93–94.)
+§3.2, pp.90–91; §2.7, p. 76, for liftings of type `Σ` with `Σ` any finite set;
+§3.3, Definition 3.25 and Lemma 3.26, pp.93–94, which hold for every finite
+`Σ`; and §4.2, formula (4.2.1), p. 112, where `Σ⊂Σ_ρ̄` is assumed.)
 
 **Checks.**
 
 - If `ρ̄` is good at `ℓ` and `Σ=∅, δ_Σ=0` and the bound is `N(ρ̄)`.
 - If `ρ̄` is good ordinary and `ℓ∈Σ, δ(ρ̄)=0` while `δ_Σ=1`. The two
   exponents serve different purposes and the index set allows an `ℓ`-factor.
-- A ramified `p≠ℓ` cannot be added to `Σ`. An unramified `p≠ℓ` contributes
-  `p²` to the level bound since `dim ρ̄^{I_p}=2`.
+- An unramified `p≠ℓ` in `Σ` contributes `p²` to the level bound since
+  `dim ρ̄^{I_p}=2`.
+- A ramified `p≠ℓ` in `Σ`, with `#ρ̄(I_p)=ℓ`, has `ρ̄|I_p` unipotent and
+  nontrivial, so `dim ρ̄^{I_p}=1` and `p∥N(ρ̄)`; the level bound acquires
+  `p·p=p²`. The product `∏_{p|N(ρ̄)}p∏_{p∈Σ\{ℓ}}p²` would give `p³` there: the
+  two expressions agree exactly when `ρ̄` is unramified at every `p∈Σ\{ℓ}`,
+  which `Σ⊂Σ_ρ̄` ensures.
 
 *Needs:* §6.2; TauCetiRoadmap.ModularForms Layer 4, finite newform
 decomposition and coefficient fields; FiniteFlatGroupsAndIntegralPadicHodgeTheory
@@ -2535,7 +2576,7 @@ at `ℓ=3` before applying the optimized weight-two theorem. Since
 `det ρ̄=χ̄_ℓ`, the prime-to-`ℓ`-order nebentypus reduces to 1. Injectivity of
 reduction on such roots of unity makes `ψ_f=1`. The semistable inertia cases
 give `δ(ρ̄)=0` in the good case and `δ(ρ̄)=1` otherwise. The already defined
-bound with `δ_Σ` then includes this `f` for every allowed `Σ`, so `𝓝_Σ` is nonempty.
+bound with `δ_Σ≥δ(ρ̄)` then includes this `f` for every finite `Σ`, so `𝓝_Σ` is nonempty (DDT p. 94 states this for all `Σ`).
 
 *Needs:* SerreWeightAndLevelOptimisation §§2.10, 2.13, 4.7–4.8;
 §6.4a; Layer 6's residual representation; AlgebraicModularFormsAndSerreWeights
@@ -2556,8 +2597,8 @@ ArithmeticGaloisRepresentations Layer 4, finite-image restriction and induction.
 
 ### 6.6 Classical type-`Σ` Hecke representation
 
-Use the semistable residual data, allowed `Σ, δ_Σ` and finite index set `𝓝_Σ`
-of §6.4a. Use §6.5's absolute irreducibility on `G_L` for
+Use the semistable residual data, an arbitrary finite `Σ`, `δ_Σ` and the finite
+index set `𝓝_Σ` of §6.4a. Use §6.5's absolute irreducibility on `G_L` for
 `L=ℚ(√((-1)^{(ℓ−1)/2}ℓ))`, including its `ℓ=3` argument, and nonemptiness
 of `𝓝_Σ`. Form the product of the
 chosen coefficient integer rings indexed by `𝓝_Σ` and its `O`-subalgebra `T_Σ`
@@ -2613,12 +2654,30 @@ See [H. Darmon, F. Diamond and R. Taylor](https://www.math.mcgill.ca/darmon/pub/
 
 ### 6.7 The specified reduced localization
 
-At `N_Σ=ℓ^{δ_Σ}∏_{p|N(ρ̄)}p∏_{p∈Σ\{ℓ}}p²`, modify each optimized newform's old coefficients by `a_p(g)=a_p(f)` if `p∤N_Σ/N_f`, by zero at `p≠ℓ` dividing `N_Σ/N_f`, and at `ℓ` by the unit root of `X²−a_ℓ(f)X+ℓ` when `ℓ|N_Σ/N_f`. The common residual eigenform has `a_p=tr(Frob_p on ρ̄'s I_p-coinvariants)` for `p=ℓ` or `p∉Σ` and `a_p=0` otherwise. It defines `m` in the full Hecke algebra, and the resulting localization is `T_Σ≅T_m`. This particular `T_m` is reduced: over a sufficiently large `K` it is the product of the optimized newform fields, with `T_p=0` at `p∈Σ\{ℓ}` and the unit-root choice at `ℓ∈Σ`. At `p|N(ρ̄)ℓ^{δ_Σ}` the arithmetic Frobenius on the representation's inertia coinvariants is `T_p`. This reduced statement depends on the prescribed `Σ` and residual localization; a full old Hecke algebra at an unrelated level may contain nilpotents.
+Assume, in addition to the data of §6.4a, that `Σ⊂Σ_ρ̄` (DDT Definition 3.25), as DDT §4.2 does. Put `N_Σ=ℓ^{δ_Σ}∏_{p|N(ρ̄)}p∏_{p∈Σ\{ℓ}}p²`, which under this hypothesis is the level bound of §6.4a. For each newform `f∈𝓝_Σ` take the normalized eigenform `g` of level `N_Σ` with `a_p(g)=a_p(f)` if `p∤N_Σ/N_f`, `a_p(g)=0` at `p≠ℓ` dividing `N_Σ/N_f`, and `a_ℓ(g)` the unit root of `X²−a_ℓ(f)X+ℓ` when `ℓ|N_Σ/N_f`. The common residual eigenform has `a_p=tr(Frob_p on ρ̄'s I_p-coinvariants)` for `p=ℓ` or `p∉Σ` and `a_p=0` otherwise. It defines `m` in the full Hecke algebra, and the resulting localization is `T_Σ≅T_m`. This particular `T_m` is reduced: over a sufficiently large `K`, `T_m⊗K≅∏_{f∈𝓝_Σ}K`, with `T_p=0` at `p∈Σ\{ℓ}` and the unit-root choice at `ℓ∈Σ`. At `p|N(ρ̄)ℓ^{δ_Σ}` the arithmetic Frobenius on the representation's inertia coinvariants is `T_p`. This reduced statement depends on the prescribed `Σ` and residual localization; a full old Hecke algebra at an unrelated level may contain nilpotents.
 
 Retain all hypotheses of the classical type-`Σ` Hecke-representation theorem
 of §6.6, including odd `ℓ`, modular irreducible `ρ̄` with cyclotomic determinant,
-semistability at `ℓ`, the inertia-order condition away from `ℓ` and the allowed
-set `Σ`. These hypotheses are part of the reduced-localization theorem.
+semistability at `ℓ` and the inertia-order condition away from `ℓ`, and add
+`Σ⊂Σ_ρ̄`, which §6.6 does not need. These hypotheses are part of the
+reduced-localization theorem. The construction of `g` needs the added hypothesis: if
+`ℓ|N_Σ/N_f` then `ℓ∈Σ`, so `ρ̄` is good and ordinary at `ℓ` and `a_ℓ(f)` is a
+unit, which makes the unit root exist; and at `p∈Σ\{ℓ}` it makes the exponent
+of `p` in `N_Σ` equal to that of the §6.4a bound.
+
+**Checks.**
+
+- For 11a1 at `ℓ=19` and `Σ={19}`: `a₁₉=0`, so `ρ̄` is good supersingular at
+  19 and `19∉Σ_ρ̄`. Here `δ_Σ=1` and 11a1 lies in `𝓝_Σ` with
+  `N_Σ/N_f=19`, but `X²−a₁₉X+19=X²+19` has both roots of valuation `1/2`, so
+  there is no unit root to choose.
+- For 11a1 at `ℓ=7` and `Σ={11}`: the minimal discriminant is `−11⁵` and 7 does
+  not divide 5, so `ρ̄` is ramified at 11 and `11∉Σ_ρ̄`. The §6.4a bound is
+  `11·11=121`, while the displayed `N_Σ` would be `11·11²=1331`.
+- For the same `ρ̄` with `Σ={7}`: `a₇=−2` is a 7-adic unit, so `ρ̄` is good
+  ordinary at 7, `7∈Σ_ρ̄`, `N_Σ=7·11=77` equals the §6.4a bound, and
+  `X²+2X+7` has discriminant `−24≡4` modulo 7, so its unit root lies in `ℤ₇`
+  and is `a₇(g)` for the level-77 form `g` attached to 11a1.
 
 *Needs:* [6.6 Classical type-`Σ` Hecke representation](#66-classical-type-σ-hecke-representation); [6.3 The full weight-two Hecke algebra](#63-the-full-weight-two-hecke-algebra); [6.4 Classical conductors and bad Euler factors](#64-classical-conductors-and-bad-euler-factors); [4.5 Geometric coefficient-prime comparison](#45-geometric-coefficient-prime-comparison); `AlgebraicModularFormsAndSerreWeights:R15.2`; TauCetiRoadmap.ModularForms, layer 4 eigenforms newforms primitive forms the conductor.
 
