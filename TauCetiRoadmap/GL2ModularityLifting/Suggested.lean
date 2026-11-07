@@ -1,20 +1,19 @@
-import Mathlib
-import TauCeti.NumberTheory.NumberField.Global.Places.Basic
+module
+
+public import Mathlib
+public import TauCeti.NumberTheory.NumberField.Global.Places.Basic
 
 /-!
-# GL₂ modularity lifting: headline target signatures
+# GL₂ modularity lifting: target signatures
 
-These statements are suggested forms, not an exhaustive checklist. `README.md` is the
-definitive specification.
+`README.md` is the roadmap; this file is not the roadmap. It states the roadmap's headline
+theorems that are statable against the pinned Mathlib and Tau Ceti.
 
-Three headline results are stated against the pinned libraries: odd-involution field
-descent (§0.1), the soluble prescribed-completion theorem (§1.7, CHT Lemma 4.1.2), and abelian
-Leopoldt (§10.7a). Field descent expands the rank-two trace identities directly on a continuous
-function and concludes existence and uniqueness up to isomorphism of a semisimple
-representation over the original field. The prescribed-completion theorem covers arbitrary
-number fields and all places. Abelian Leopoldt covers every prime; a common power of global
-units puts their images in Mathlib's logarithm convergence disc, and the conclusion is the
-full unit-logarithm rank after extension to a common finite p-adic coefficient field.
+Two headline results are stated: odd-involution field descent (§0.1) and the soluble
+prescribed-completion theorem (§1.7, CHT Lemma 4.1.2). Field descent expands the rank-two
+trace identities directly on a continuous function and concludes existence and uniqueness up
+to isomorphism of a semisimple representation over the original field. The
+prescribed-completion theorem covers arbitrary number fields and all places.
 
 The other headline results require arithmetic objects absent from the pins:
 * Layer 0's completion and trace/deformation comparisons use the supplied Cayley–Hamilton
@@ -31,14 +30,16 @@ The other headline results require arithmetic objects absent from the pins:
 * Layer 12's congruence and family transfer results need those lifting predicates, the
   automorphic Galois attachment and the shared `AutomorphicSystemData`/`RankTwoFamily`
   carriers with their good Frobenius polynomials.
-The Galois-rank and reducible-locus consequences of §10.7a likewise need the pro-p
-class-field and pseudodeformation objects. These results have no signatures here.
+* The Galois-rank and reducible-locus consequences of §10.7a need the pro-p
+  class-field and pseudodeformation objects.
+These results have no signatures here.
 -/
+
+@[expose] public section
 
 namespace TauCetiRoadmap.GL2ModularityLifting
 
-open NumberField
-open scoped NumberField TensorProduct
+open scoped TensorProduct
 
 /-- Odd-involution field descent (§0.1; Pan §§2.1.1–2.1.6): a continuous rank-two trace
 with an odd involution comes from a semisimple representation over the original field,
@@ -96,30 +97,6 @@ theorem cht_soluble_prescribed_completions
       E.LinearDisjoint D ∧
       ∀ v : S, ∃ n : ℕ, 0 < n ∧
         Nonempty ((completionAt F v.1 ⊗[F] E) ≃ₐ[completionAt F v.1] (Fin n → L v)) := by
-  sorry
-
-/-- The diagonal logarithm of a global unit after a common positive power `N` has put its
-images in the principal-unit discs (§10.7a). Division by `N` normalizes the logarithm;
-coordinates run over all embeddings into the common p-adic coefficient field. -/
-noncomputable def unitLogVector
-    (F : Type*) [Field F] [NumberField F] (K : Type*) [NormedField K] [CharZero K]
-    (N : ℕ) (u : (𝓞 F)ˣ) : (F →ₐ[ℚ] K) → K :=
-  fun σ => NormedSpace.log (σ (u : F) ^ N) / (N : K)
-
-/-- Abelian Leopoldt (§10.7a): the diagonal unit logarithms of a totally real abelian
-number field have rank `[F : ℚ] - 1` at every prime. The statement is made after scalar
-extension to any finite complete normed p-adic field admitting an embedding of `F`.
-The common power puts every unit coordinate inside the convergence disc of Mathlib's log. -/
-theorem abelian_leopoldt
-    (F : Type*) [Field F] [NumberField F] [IsTotallyReal F] [IsAbelianGalois ℚ F]
-    (p : ℕ) [Fact p.Prime]
-    (K : Type*) [NormedField K] [CharZero K] [NormedAlgebra ℚ_[p] K]
-    [CompleteSpace K] [FiniteDimensional ℚ_[p] K]
-    (ι : F →ₐ[ℚ] K) :
-    ∃ N : ℕ, 0 < N ∧
-      (∀ (u : (𝓞 F)ˣ) (σ : F →ₐ[ℚ] K), ‖σ (u : F) ^ N - 1‖ < 1) ∧
-      Module.finrank K (Submodule.span K (Set.range (unitLogVector F K N))) =
-        Module.finrank ℚ F - 1 := by
   sorry
 
 end TauCetiRoadmap.GL2ModularityLifting
