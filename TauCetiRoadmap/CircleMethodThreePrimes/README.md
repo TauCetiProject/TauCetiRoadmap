@@ -24,7 +24,8 @@ milestones against Mathlib; it is not the roadmap.
 
 - the additive character `e(α) = exp(2πiα)` on `ℝ`, the distance to the nearest integer, geometric
   sums and orthogonality on `[0, 1]`;
-- Ramanujan sums;
+- the Ramanujan sum on native carriers, with the properties §1.16 of `AutomorphicSpectralTheory`
+  does not state (see 0.2);
 - the type I and type II bilinear estimates for additive twists, for arbitrary coefficients;
 - Vinogradov's minor-arc bound for `∑ Λ(n) e(nα)`, and Parseval for this sum;
 - the major-arc approximation of `∑ Λ(n) e(nα)`;
@@ -43,6 +44,10 @@ From `SieveMethodsAndPrimePatterns`, Layer 2 §2.4: Vaughan's identity and its c
 
 From `AnalyticNumberTheoryPartI`, §0.32: the function `ψ(x; q, a)`, there named `psiAP`, and
 Siegel–Walfisz for it in reduced residue classes.
+
+From `AutomorphicSpectralTheory`, §1.16: the Ramanujan sum is the value `S(n, 0; q)` of its
+Kloosterman sum, with the divisor formula `S(n, 0; q) = ∑_{d ∣ (n, q)} μ(q/d) d` and the values
+`S(0, 0; q) = φ(q)` and `S(n, 0; p) = p − 1` or `−1`.
 
 ### Not owned here
 
@@ -96,6 +101,12 @@ form of the three-primes theorem (Helfgott's ternary Goldbach theorem and all nu
 | --- | --- |
 | `psiAP`, §0.32 | `ψ(x; q, a)`, `psiAP (q : ℕ) (a : ZMod q) (x : ℝ) = ∑ n ∈ (Finset.Ioc 0 ⌊x⌋₊).filter (fun n => (n : ZMod q) = a), vonMangoldt n`. This roadmap does not own it. `Suggested.lean` keeps a local copy with the same argument order and body only because the supplier is not importable at the pins |
 | `siegel_walfisz`, §0.32 | for each `A, B > 0` there is `C > 0` such that eventually in `x`, for every `q > 0` with `q ≤ (log x)^B` and `a` a unit modulo `q`, `|ψ(x; q, a) − x/φ(q)| ≤ C x (log x)^{−A}`. The constant and threshold may be ineffective. Layer 4.9 restates it as `SiegelWalfiszBound` |
+
+### `AutomorphicSpectralTheory`
+
+| Declaration | Use here |
+| --- | --- |
+| Kloosterman sum `S(m, n; c)`, §1.16 | `S(m, n; c) = ∑_{d ∈ (ℤ/cℤ)^×} e((md + n d̄)/c)` for `c ≥ 1`, with the Checks `S(0, 0; c) = φ(c)`, `S(m, 0; p) = p − 1` or `−1`, and `S(m, 0; c) = ∑_{d ∣ (m, c)} μ(c/d) d`. Its supplier `Suggested.lean` declares no Lean name for it; 0.2 identifies `ramanujanSum q n` with `S(n, 0; q)` |
 
 ### The proposition `SiegelWalfiszBound`
 
@@ -174,11 +185,18 @@ for `q ≥ 1` and `n : ℤ`. Prove `c_q(n) = ∑_{d ∣ q, d ∣ n} d μ(q/d)`, 
 multiplicativity in `q` for coprime moduli, `c_p(n) = p − 1` or `−1` according as `p ∣ n`, and
 `c_{p^k}(n) = 0` for `k ≥ 2` and `p ∤ n`. Source: Davenport, Chapter 26.
 
+`ramanujanSum` is the specialisation `S(n, 0; q)` of `AutomorphicSpectralTheory` §1.16 on native
+carriers, `q : ℕ`, `n : ℤ`, `ℂ`-valued. It is kept here because the circle method needs its
+multiplicativity in `q`, the bound `|c_q(n)| ≤ gcd(n, q)` and the vanishing `c_{p^k}(n) = 0`, none of
+which §1.16 states. API: `ramanujanSum q n = S(n, 0; q)` for `q ≥ 1`, the identification with the
+supplier's sum; with `q = 12` both sides give `0, 2, 0, −2, −4, 4` at `n = 1, 2, 3, 4, 6, 0`.
+
 **Checks.**
 
 - `ramanujanSum`: `c₁(n) = 1` (the only `b` is `0`); `c₂(1) = −1`; `c₆(0) = 2 = φ(6)`.
 
-*Needs:* 0.1; Mathlib `ArithmeticFunction.moebius`, `Nat.totient`.
+*Needs:* 0.1; Mathlib `ArithmeticFunction.moebius`, `Nat.totient`; `AutomorphicSpectralTheory`
+§1.16 for the identification with `S(n, 0; q)`.
 
 ### Examples
 
@@ -188,7 +206,7 @@ multiplicativity in `q` for coprime moduli, `c_p(n) = p − 1` or `−1` accordi
 
 ### Dependencies
 
-Mathlib only.
+Mathlib; `AutomorphicSpectralTheory` §1.16 for the identification in 0.2.
 
 ---
 
@@ -276,6 +294,9 @@ With `ψ(x; q, a)` the supplier's `psiAP`: for `gcd(a, q) = 1`,
 - `psiAP`: `ψ(x; 1, 0) = ψ(x)`; `ψ(10; 2, 0) = 3 log 2`, the terms `n = 2, 4, 8`; `ψ(x; q, a) ≤ ψ(x)`.
 - `SiegelWalfiszBound`: at `q = 1` it is the prime number theorem with a logarithmic saving. At
   `q = 2`, `a = 0` is not a unit and is excluded, rightly: `ψ(x; 2, 0)` is `O(log x)`, not `x`.
+  At `q = 2`, `a = 1`, `φ(2) = 1` and `ψ(x; 2, 1) = ψ(x) − log 2 · ⌊log₂ x⌋`, so the bound reads
+  `|ψ(x; 2, 1) − x| ≤ C x (log x)^{−A}`; a definition with `x/q` in place of `x/φ(q)` would assert
+  `|ψ(x; 2, 1) − x/2| ≤ C x (log x)^{−A}`, false since `ψ(x; 2, 1) ∼ x`.
 
 *Needs:* 0.1; `AnalyticNumberTheoryPartI` §0.32 for the definition.
 
@@ -300,7 +321,7 @@ Then apply Abel summation in `β`. Source: Davenport, Chapter 26; Iwaniec–Kowa
 
 ### Dependencies
 
-`SiegelWalfiszBound`, Layers 0.2 and 2.1.
+`SiegelWalfiszBound`, Layers 0.1, 0.2 and 2.1; `AnalyticNumberTheoryPartI` §0.32 for `ψ(x; q, a)`.
 
 ---
 
