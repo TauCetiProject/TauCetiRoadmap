@@ -674,6 +674,18 @@ part), which is why 3.2 asks for bijectivity and 3.3 takes `GT̂` to be the grou
 `GT̂^{mon}`; so is the question of which non-abelian finite groups are quotients of `GT̂` (ibid.,
 Questions 1.6 and 1.7).
 
+Every profinite group `G` is a quotient `F/N` of a free profinite group by a closed normal
+subgroup `N` that is itself free profinite, but `N` must be chosen. For `G` finite, the kernel of
+any surjection `F̂(X) → G` with `X` finite and nonempty is open, hence free of rank
+`1 + |G|(|X| − 1)` (Mel'nikov 1978, Proposition 2.1(a), as stated in Jarden–Lubotzky 1992,
+Proposition 1.1(a)). For `G` infinite, take a generating set
+`X₀` of `G` converging to `1` and `X = X₀ ⊔ {y}` with `y ↦ 1`: the kernel has infinite index and
+contains the basis element `y`, so it is free of rank `max(ℵ₀, |X|)` by Mel'nikov's theorem
+(Mel'nikov 1978, Lemma 2.7 and Theorem 3.1, as stated in Jarden–Lubotzky 1992, Proposition 5.6).
+For `G = ℤ_p` this is `F̂₂ → ℤ_p`, `x ↦ 1`, `y ↦ 0`. The kernel of `ẑ → ℤ_p` is
+`∏_{ℓ ≠ p} ℤ_ℓ`, which is procyclic and not `ẑ`, hence not free: the redundant generator is
+needed. None of this is a target.
+
 ## References
 
 - V. G. Drinfel'd, « On quasitriangular quasi-Hopf algebras and on a group that is closely
@@ -713,3 +725,7 @@ Questions 1.6 and 1.7).
 - P. Lochak, L. Schneps, « Open problems in Grothendieck–Teichmüller theory », in B. Farb (ed.),
   *Problems on mapping class groups and related topics*, Proc. Sympos. Pure Math. 74, Amer. Math.
   Soc. (2006), 165–186. doi:10.1090/pspum/074/2264540.
+- O. V. Mel'nikov, « Normal subgroups of free profinite groups », *Math. USSR Izv.* 12 (1978),
+  1–20: Proposition 2.1, Lemma 2.7 and Theorem 3.1.
+- M. Jarden, A. Lubotzky, « Hilbertian fields and free profinite groups », *J. London Math. Soc.*
+  (2) 46 (1992), 205–227: Propositions 1.1 and 5.6, which state Mel'nikov's results.
