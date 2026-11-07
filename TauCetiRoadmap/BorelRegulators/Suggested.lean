@@ -80,9 +80,10 @@ theorem period_eq_index (F : Type u) [Field F] [NumberField F]
   sorry
 
 /-- Every positive degree occurs for a central division algebra over a number
-field that splits at every real embedding. Splitting means a full matrix
-algebra after the scalar extension determined by that embedding. Splitting at
-a complex embedding holds for every finite-dimensional central simple algebra
+field that splits at every real place. Splitting means a full matrix algebra
+after scalar extension to the completion at that place, which is isomorphic to
+`ℝ` through the place's real embedding. Splitting at a complex place holds for
+every finite-dimensional central simple algebra
 (`TauCeti.Algebra.isSplittingField_of_isSepClosed`), so it is not stated.
 See Borel 1977, Lemma 2.2. -/
 theorem exists_divisionAlgebra_split_at_infinity
@@ -90,8 +91,8 @@ theorem exists_divisionAlgebra_split_at_infinity
     ∃ (D : Type u) (_ : DivisionRing D) (_ : Algebra F D)
       (_ : Algebra.IsCentral F D) (_ : FiniteDimensional F D),
       Module.finrank F D = a ^ 2 ∧
-      (∀ σ : F →+* ℝ, letI : Algebra F ℝ := σ.toAlgebra
-        TauCeti.Algebra.IsSplittingField F D ℝ) := by
+      ∀ v : NumberField.InfinitePlace F, v.IsReal →
+        TauCeti.Algebra.IsSplittingField F D v.Completion := by
   sorry
 
 /-! ## Layer 5: Primitive determinant and the integral regulator lattice -/
