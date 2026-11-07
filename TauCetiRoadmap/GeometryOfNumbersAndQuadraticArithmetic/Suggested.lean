@@ -14,11 +14,13 @@ The statements cover the intrinsic covolume identities (Layer 0), atomic normal 
 of any characteristic (Layer 2), finite hermitian embedding counts (Layer 3), Davenport's multiset
 estimate, Howe–Moore and Moore ergodicity, Ratner's three theorems, Oppenheim, Duke, Gauss's
 three-square formula, Siegel's three-square lower bound, Mahler compactness and critical-lattice
-existence, Dani–Margulis nondivergence and Siegel's mean value theorem (Layer 4), and the LLL
-short-vector approximation factor (Layer 5). The definitions below specify only reducedness,
-finite counts, bounded-format multiplicities, shells, strong continuity, star bodies and lattice
-transforms used in these statements. All have real bodies on native carriers; semialgebraicity,
-unitarity and Hurwitz class numbers use Tau Ceti.
+existence, Dani–Margulis nondivergence, Siegel's mean value theorem, Campbell's formula and the
+existence and uniqueness of the Poisson law with σ-finite intensity (Layer 4), the LLL
+short-vector approximation factor (Layer 5), and Arf's theorems over `𝔽₂` (Layer 6). The
+definitions below specify only reducedness, finite counts, bounded-format multiplicities, shells,
+strong continuity, star bodies, lattice transforms, intensity and Campbell measures, the Poisson
+property and the majority value of a quadratic form over `𝔽₂` used in these statements. All have
+real bodies on native carriers; semialgebraicity, unitarity and Hurwitz class numbers use Tau Ceti.
 
 Four headline theorems are not statable at the pins because their statements use the real
 successive minima of a lattice with respect to a convex body, the carrier `successiveMin` of
@@ -41,9 +43,11 @@ quotients.
 Hermitian delooping (§6.7.19), derived localization (§6.9), periodicity, finite-field comparisons
 and integral L-theory (§§6.10–6.11) are deferred here because the pins have no hermitian
 Q/Grothendieck–Witt spaces, hermitian suspension, common spectrum category or Poincaré
-structures. Exact structures and DG categories alone do not supply those objects. The
-number-ring homotopy-limit comparison and the higher integer Grothendieck–Witt groups are
-outside this roadmap.
+structures. Exact structures and DG categories alone do not supply those objects. The stable
+stems of §6.1a need the reduced suspension of a pointed space, which is not at the pins; the
+integral Wall form and formation groups of §6.8 and their calculations feed only the integral
+L-theory above and are stated in the README with it. The number-ring homotopy-limit comparison
+and the higher integer Grothendieck–Witt groups are outside this roadmap.
 -/
 
 noncomputable section
@@ -293,6 +297,49 @@ theorem ratner_equidistribution (u : ℝ → G) (hu : Continuous u) (hu0 : u 0 =
 
 end Ratner
 
+section PoissonRandomMeasures
+open ProbabilityTheory
+variable {Ω X T : Type*} [MeasurableSpace Ω] [MeasurableSpace X] [MeasurableSpace T]
+
+/-- The intensity measure `A ↦ ∫ N ω A ∂P` of a random measure `N : Ω → Measure X` (4.2). -/
+def intensityMeasure (P : Measure Ω) (N : Ω → Measure X) : Measure X := P.bind N
+
+/-- The Campbell measure of a random measure `N` and a jointly observed `Y` (4.2): the mass of
+`A ×ˢ B` is the `P`-integral of `N ω A` over the event `Y ω ∈ B`. -/
+def campbellMeasure (P : Measure Ω) (N : Ω → Measure X) (Y : Ω → T) : Measure (X × T) :=
+  P.bind fun ω => (N ω).map fun x => (x, Y ω)
+
+/-- The first marginal of the Campbell measure is the intensity measure (4.2). -/
+theorem campbellMeasure_fst (P : Measure Ω) {N : Ω → Measure X} {Y : Ω → T}
+    (hN : Measurable N) (hY : Measurable Y) [SigmaFinite (intensityMeasure P N)] :
+    (campbellMeasure P N Y).fst = intensityMeasure P N := by sorry
+
+/-- **Campbell's formula** (4.2), for a random measure of σ-finite intensity and a jointly
+observed random element. -/
+theorem lintegral_campbellMeasure (P : Measure Ω) {N : Ω → Measure X} {Y : Ω → T}
+    (hN : Measurable N) (hY : Measurable Y) [SigmaFinite (intensityMeasure P N)]
+    {g : X × T → ℝ≥0∞} (hg : Measurable g) :
+    ∫⁻ p, g p ∂campbellMeasure P N Y = ∫⁻ ω, ∫⁻ x, g (x, Y ω) ∂N ω ∂P := by sorry
+
+/-- The Poisson property with intensity `Λ` (4.2): `N` is measurable, and on every finite family
+of pairwise disjoint measurable sets of finite `Λ`-measure its counts are independent with
+Poisson laws of parameters `Λ (A i)`. -/
+def IsPoissonRandomMeasure (P : Measure Ω) (N : Ω → Measure X) (Λ : Measure X) : Prop :=
+  Measurable N ∧
+    ∀ (n : ℕ) (A : Fin n → Set X), (∀ i, MeasurableSet (A i) ∧ Λ (A i) < ∞) →
+      Pairwise (Function.onFun Disjoint A) →
+        iIndepFun (fun i ω => N ω (A i)) P ∧
+          ∀ i, HasLaw (fun ω => N ω (A i))
+            ((poissonMeasure (Λ (A i)).toNNReal).map (Nat.cast : ℕ → ℝ≥0∞)) P
+
+/-- **The Poisson law** (4.2): for a σ-finite intensity on any measurable space there is exactly
+one probability measure on `Measure X` under which the identity is a Poisson random measure. -/
+theorem exists_unique_poissonLaw (Λ : Measure X) [SigmaFinite Λ] :
+    ∃! ν : Measure (Measure X), IsProbabilityMeasure ν ∧ IsPoissonRandomMeasure ν id Λ := by
+  sorry
+
+end PoissonRandomMeasures
+
 section Oppenheim
 
 /-- **Margulis's theorem** (Oppenheim conjecture, 4.3.1): a nondegenerate indefinite form in at
@@ -454,5 +501,33 @@ theorem lll_short_vector_factor (b : Fin n → E) (h : IsLLLReduced b) (hn : 0 <
     ‖b ⟨0, hn⟩‖ ^ 2 ≤ (2 : ℝ) ^ (n - 1) * ‖x‖ ^ 2 := by sorry
 
 end LLLApproximation
+
+section ArfInvariant
+variable {V W : Type*} [AddCommGroup V] [Module (ZMod 2) V] [Fintype V]
+  [AddCommGroup W] [Module (ZMod 2) W] [Fintype W]
+
+/-- Over `𝔽₂`, the value a quadratic form takes on more than half of the vectors (6.8); for a
+nonsingular form it is the Arf invariant. -/
+def arfMajority (q : QuadraticMap (ZMod 2) V (ZMod 2)) : ZMod 2 :=
+  if Fintype.card V < 2 * Fintype.card {x : V // q x = 1} then 1 else 0
+
+/-- (6.8) A nonsingular quadratic form over `𝔽₂` has a Lagrangian, a subspace of half the
+dimension on which it vanishes, exactly when its Arf invariant is zero. -/
+theorem arfMajority_eq_zero_iff_exists_lagrangian (q : QuadraticMap (ZMod 2) V (ZMod 2))
+    (hq : (QuadraticMap.polarBilin q).Nondegenerate) :
+    arfMajority q = 0 ↔ ∃ L : Submodule (ZMod 2) V,
+      2 * Module.finrank (ZMod 2) L = Module.finrank (ZMod 2) V ∧ ∀ x ∈ L, q x = 0 := by
+  sorry
+
+/-- **Arf's classification over `𝔽₂`** (6.8): nonsingular quadratic forms of equal dimension are
+isometric exactly when their Arf invariants agree. -/
+theorem quadraticMap_equivalent_iff_arfMajority (q : QuadraticMap (ZMod 2) V (ZMod 2))
+    (q' : QuadraticMap (ZMod 2) W (ZMod 2)) (hq : (QuadraticMap.polarBilin q).Nondegenerate)
+    (hq' : (QuadraticMap.polarBilin q').Nondegenerate)
+    (hdim : Module.finrank (ZMod 2) V = Module.finrank (ZMod 2) W) :
+    q.Equivalent q' ↔ arfMajority q = arfMajority q' := by
+  sorry
+
+end ArfInvariant
 
 end TauCetiRoadmap.GeometryOfNumbersAndQuadraticArithmetic
