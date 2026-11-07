@@ -76,6 +76,11 @@ elsewhere. In particular it owns:
   resolution (Layers 3–4);
 - the Barraud–Cornea construction, DG Morse homology, its fibration theorem and its free-loop
   extension through broken geodesics (Layer 5);
+- the Hamiltonian formalism beyond what the pinned Tau Ceti states: Hamiltonian vector fields
+  of weakly nondegenerate forms, the Poisson bracket and first integrals of strongly
+  nondegenerate forms on Banach manifolds, symplectic maps and symplectomorphisms between
+  manifolds, the variational equation of autonomous and time-dependent flows and the
+  symplecticity of maximal Hamiltonian flows (Layer 6 item 0);
 - time-dependent Hamiltonian flows and their 1-periodic orbits, Liouville domains, the
   cotangent bundle with its canonical Liouville form, the capacities and the almost existence
   property (Layer 6);
@@ -107,7 +112,7 @@ them by name and section (see the supplier contracts) and does not restate them.
 | Morse–Smale pairs, compactified trajectory spaces with corners, the Morse complex over `𝔽₂` and `ℤ` | HeegaardFloer Lane M | consumed by Layer 5 |
 | Local Sobolev maps on planar domains and half-discs, totally real boundary conditions, the Cauchy and Beurling operators, interior and boundary Cauchy–Riemann estimates, the similarity principle, the weak pseudoholomorphic equation with an inhomogeneous term (Floer's equation among its cases), elliptic bootstrapping and uniform estimates, real Cauchy–Riemann operators on compact bordered surfaces with their Fredholm theory, the Maslov index of a bundle pair and closed and bordered Riemann–Roch | PseudoholomorphicCurveAnalysis PH1–PH7 | consumed by Layer 7 |
 | Fredholm theory, the sharp Sard–Smale theorem with its Banach-manifold adapters, Sobolev norms on strips and cylindrical ends, spectral flow, the Robbin–Salamon and Conley–Zehnder indices, determinant lines, relative `c₁` and Riemann–Roch on punctured surfaces with weighted ends, the clutching Chern number | HeegaardFloer Lanes F0–F1 | consumed by Layers 7–9 |
-| Symplectic manifolds, almost complex structures, `J`-holomorphic curves, energy, local compactness, transversality and gluing | HeegaardFloer Lane F2 | consumed by Layers 6–9 |
+| Symplectic manifolds, the contraction inverse of a strongly nondegenerate two-form with its `df` specialization and the domain-local Moser lemma, almost complex structures, `J`-holomorphic curves, energy, local compactness, transversality and gluing | HeegaardFloer Lane F2 | consumed by Layers 6–9 |
 | Product curves with a general closed source `Σ`, the product `J` and the slice-image classification in `[Σ] × [z₀]` | HeegaardFloer F2.6c | not consumed here |
 | Marked, multiply covered, unforced genus-zero stable-map compactness over compact tame families | AnalyticStableMaps M3 | consumed by Layer 7.C.3 |
 | The general smooth symplectic suspension `Y_φ = (ℝ × M)/((t, x) ∼ (t + 1, φ⁻¹x))`, its seam-compatible block structure, periodic-orbit images and the compact horizontal-image theorem | SymplecticGeometry S0–S2 | S0's mapping torus is instantiated by Layer 7.T.1 at monodromy `f⁻¹`; S1–S2 are not consumed |
@@ -235,8 +240,9 @@ them by name and section (see the supplier contracts) and does not restate them.
     arbitrary domains.
 - **Sign dictionary.** Two conventions differ between the source and Tau Ceti, and they are
   fixed together here.
-  - *Hamiltonian vector fields* are those of the Hamiltonian systems roadmap, `ι_{X_H} ω = dH`.
-    The source's §3.2 uses `ω(X_H, ·) = −dH`. At a **fixed** form `ω`, the bridge is
+  - *Hamiltonian vector fields* are Tau Ceti's: `TauCeti.SmoothTwoForm.IsHamiltonianVectorField`
+    is the equation `ι_{X_H} ω = dH`, and `TauCeti.SmoothTwoForm.hamiltonianVectorField` is
+    `X_H = (ω♭)⁻¹ dH` (Layer 6 item 0). The source's §3.2 uses `ω(X_H, ·) = −dH`. At a **fixed** form `ω`, the bridge is
     `X^{source}_{ω,H} = X_{ω,−H}`, proved once.
   - *The symplectic form of a cotangent bundle* is Tau Ceti's: `cotangentSymplecticForm` gives
     `ω_can((v, α), (w, β)) = β(v) − α(w)`, so `ω_can = −dλ_can` for the tautological form
@@ -306,6 +312,12 @@ target of this roadmap or of the named supplier, never a "native" API.
   curves and flows of vector fields on manifolds (`Mathlib/Geometry/Manifold/IntegralCurve/`).
 - `Monotone.ae_differentiableAt` (`Mathlib/Analysis/Calculus/Monotone.lean`), for the
   Hofer–Zehnder–Struwe argument of Layer 6 item 5.
+- For Layer 6 item 0: `mvfderiv` (the differential of a real function on a manifold),
+  `extChartAt`, the pullback of vector fields `VectorField.mpullback` and its chart form
+  `VectorField.mpullbackWithin` (`Mathlib/Geometry/Manifold/VectorField/Pullback.lean`),
+  `VectorField.mlieBracket`, `IsMIntegralCurveOn`, `ContinuousLinearMap.IsInvertible`,
+  diffeomorphisms `M ≃ₘ^n⟮I, I'⟯ M'` with `ContinuousLinearEquiv.toDiffeomorph`, and
+  `LinearEquiv.toContinuousLinearEquiv` in finite dimension.
 
 ### From Tau Ceti
 
@@ -332,6 +344,52 @@ target of this roadmap or of the named supplier, never a "native" API.
   `SymplecticForm` structure (`TauCeti/Geometry/Symplectic/AlmostComplex.lean`);
   `SmoothAlmostComplexStructure` and `IsPseudoholomorphicAt`
   (`TauCeti/Geometry/Symplectic/Manifold/`).
+- The Hamiltonian formalism on manifolds (`TauCeti/Geometry/Symplectic/Manifold/`,
+  `TauCeti/Geometry/Symplectic/Hamiltonian/`), consumed by Layer 6 item 0. Two-forms are the
+  degree-two smooth forms `TauCeti.SmoothTwoForm`, with evaluation
+  `TauCeti.SmoothBundleForm.eval₂`, the pullback `TauCeti.SmoothForm.mpullback` and
+  `TauCeti.SmoothForm.eval₂_mpullback`, the flat maps `TauCeti.SmoothTwoForm.flat` and
+  `TauCeti.SmoothTwoForm.isNondegenerate_iff_isInvertible_flat`, the predicates
+  `TauCeti.SmoothTwoForm.IsNondegenerate` (injective flat maps) and
+  `TauCeti.SmoothTwoForm.IsSymplectic`, and the restriction to open subsets
+  `TauCeti.SmoothTwoForm.IsSymplectic.mpullback_subtype_val` with
+  `TauCeti.Manifold.tangentSpaceOpenEquiv`. Hamiltonian vector fields:
+  `TauCeti.SmoothTwoForm.IsHamiltonianVectorField` (`ι_X ω = df`, with
+  `TauCeti.SmoothTwoForm.isHamiltonianVectorField_iff_interior_eq`), the field
+  `TauCeti.SmoothTwoForm.hamiltonianVectorField` (`(ω♭)⁻¹ df`, junk `0` where `ω♭_x` is not
+  invertible) with `TauCeti.SmoothTwoForm.hamiltonianVectorField_add`,
+  `TauCeti.SmoothTwoForm.hamiltonianVectorField_const_smul` and
+  `TauCeti.SmoothTwoForm.hamiltonianVectorField_comp`, and in finite dimension
+  `TauCeti.SmoothTwoForm.IsNondegenerate.isHamiltonianVectorField_iff_eq` and
+  `TauCeti.SmoothTwoForm.IsNondegenerate.contMDiff_hamiltonianVectorField_uncurry`;
+  `TauCeti.SmoothTwoForm.IsHamiltonianVectorField.mvfderiv_apply_self` and conservation of
+  energy `TauCeti.SmoothTwoForm.IsHamiltonianVectorField.apply_eq_of_isMIntegralCurveOn`. The
+  Poisson bracket `TauCeti.SmoothTwoForm.poissonBracket` (`{f, g} = ω(X_f, X_g)`) with
+  `TauCeti.SmoothTwoForm.neg_poissonBracket`, `TauCeti.SmoothTwoForm.poissonBracket_add_left`,
+  and in finite dimension `TauCeti.SmoothTwoForm.IsNondegenerate.poissonBracket_eq_mvfderiv`,
+  `TauCeti.SmoothTwoForm.IsNondegenerate.hamiltonianVectorField_poissonBracket` and
+  `TauCeti.SmoothTwoForm.IsNondegenerate.poissonBracket_jacobi`; the bracket of Hamiltonian
+  vector fields of a closed form `TauCeti.SmoothTwoForm.IsHamiltonianVectorField.mlieBracket`;
+  first integrals `TauCeti.SmoothTwoForm.IsFirstIntegral` with
+  `TauCeti.SmoothTwoForm.IsFirstIntegral.apply_maximalIntegralCurve`. Naturality in finite
+  dimension: `TauCeti.SmoothTwoForm.IsNondegenerate.mfderiv_hamiltonianVectorField_comp`,
+  `TauCeti.SmoothTwoForm.IsNondegenerate.poissonBracket_comp` and
+  `TauCeti.SmoothTwoForm.IsNondegenerate.isMIntegralCurve_comp_hamiltonianVectorField`.
+  Complete Hamiltonian flows preserve a closed form,
+  `TauCeti.SmoothTwoForm.IsHamiltonianVectorField.mpullback_globalFlow`. The linear theory:
+  `TauCeti.SymplecticForm`, `TauCeti.SymplecticForm.IsSymplectomorphism`,
+  `TauCeti.SymplecticForm.constSmooth` and
+  `TauCeti.SymplecticForm.hamiltonianVectorField_constSmooth`. Flows: the maximal flow
+  `TauCeti.flowOf` on `TauCeti.flowDomain` with `TauCeti.contMDiffOn_flowOf`; the maximal
+  time-dependent flow `TauCeti.timeDependentFlowOf` of a time-dependent vector field, built from
+  its suspension `(t, x) ↦ (1, X_t x)` on `ℝ × M`, on `TauCeti.timeDependentFlowDomain`, with
+  `TauCeti.contMDiffOn_timeDependentFlowOf`, `TauCeti.hasMFDerivAt_timeDependentFlowOf` and
+  `TauCeti.timeDependentFlowOf_trans_of_mem`; on integral curves
+  `IsMIntegralCurveOn.apply_eq_of_mvfderiv_apply_eq_zero` and
+  `TauCeti.Manifold.hasDerivAt_comp_curve`; the vector-space variational equation
+  `TauCeti.hasDerivAt_fderiv_timeDependentFlow`. What the pins lack of this formalism, in
+  infinite dimension, for maps between manifolds and for incomplete or time-dependent flows, is
+  Layer 6 item 0's.
 - The Morse lemma `IsMorse.nonempty_morseChart` (`TauCeti/Geometry/Manifold/Morse/Lemma.lean`)
   and the Morse index (`TauCeti/Geometry/Manifold/Morse/Index.lean`); finite-dimensional Sard
   (`TauCeti/Analysis/Calculus/Sard/`). Sard–Smale for Fredholm maps on Banach spaces,
@@ -415,7 +473,10 @@ target of this roadmap or of the named supplier, never a "native" API.
   F1.3's spectral flow, F1.4's Robbin–Salamon and Conley–Zehnder indices with `CZ = −μ_RS`,
   and F1.5's clutching Chern number and its equality
   with CharacteristicClasses C3.2's `c₁`.
-- Lane F2: symplectic manifolds, almost complex structures (F2.1's compatible-structure family
+- Lane F2: symplectic manifolds, F2.1's contraction inverse of a strongly nondegenerate
+  two-form on arbitrary covectors with its smooth dependence on the base point, its `df`
+  specialization `ι_{X_f} ω = df` and its domain-local Moser lemma (Layer 6 item 0), almost
+  complex structures (F2.1's compatible-structure family
   and tame-to-compatible contraction), `J`-holomorphic maps, energy, compactness (F2.2a and
   F2.2c unique continuation and factorization), transversality and gluing; F2.6a–d sphere
   domains, factorization, marked quotient and evaluation carriers and the smooth-`J` selection
@@ -464,9 +525,6 @@ target of this roadmap or of the named supplier, never a "native" API.
   condition, finite-below convolution, geometric-series inverses. N4: based chain torsion,
   total quotient rings, determinant comparisons, finite-cyclic norms. N6's finite-dimensional
   bifurcation theorem is not consumed.
-- **HamiltonianSystems** Layers 1–2: Hamiltonian vector fields with `ι_{X_H} ω = dH`, the
-  Poisson bracket, conservation of energy, symplectomorphisms and their action on Hamiltonian
-  vector fields and integral curves; its variational equation (Layer 7.C.1).
 - **RiemannianGeometry.** R2: Jacobi fields and endpoint-exponential comparisons. R3: the
   index form, finite node-value reduction, complete-manifold finite broken-geodesic carriers and
   path-energy comparisons; its based-loop sphere calculation consumes Layer 1 item 2 only.
@@ -1714,18 +1772,234 @@ used by item 6). Source: BDHO Chapters 5–13; the source paper §§2.1–2.4 an
 ## Layer 6: Hamiltonian dynamics, Liouville domains, and capacities
 
 This layer consumes symplectic manifolds and almost complex structures from Lane F2.1 of the
-Heegaard Floer roadmap, and Hamiltonian vector fields, the Poisson bracket and symplectomorphisms
-from Layers 1–2 of the Hamiltonian systems roadmap. It adds the time-dependent and dynamical
-material that roadmap leaves out: periodic orbits, action functionals, Liouville domains,
-capacities, and almost existence.
+Heegaard Floer roadmap, together with F2.1's contraction inverse of a strongly nondegenerate
+form, and the Hamiltonian formalism and flows of the pinned Tau Ceti (From Tau Ceti). Item 0
+completes that formalism where the pins stop: Hamiltonian vector fields of weakly nondegenerate
+forms, the Poisson bracket and first integrals on Banach manifolds, symplectic maps between
+manifolds, and the linearized and incomplete Hamiltonian flows. Items 1–5 add the dynamical
+material: periodic orbits, action functionals, Liouville domains, capacities, and almost
+existence.
+
+### 6.0 Hamiltonian vector fields, symplectic maps and linearized flows
+
+Throughout, `M` is a manifold with `[IsManifold I ∞ M]` modelled on a real normed space `E`
+through `I : ModelWithCorners ℝ E H`, and `ω : TauCeti.SmoothTwoForm I M`. The pinned objects
+are the equation `ι_X ω = df` (`TauCeti.SmoothTwoForm.IsHamiltonianVectorField`), the field
+`X_f = (ω♭)⁻¹ df` (`TauCeti.SmoothTwoForm.hamiltonianVectorField`), the bracket
+`{f, g} = ω(X_f, X_g)` (`TauCeti.SmoothTwoForm.poissonBracket`), the predicate "`{g, f} = 0`
+everywhere" (`TauCeti.SmoothTwoForm.IsFirstIntegral f g`), and the maximal flows
+`TauCeti.flowOf` and `TauCeti.timeDependentFlowOf`; most pinned theorems about them assume a
+finite-dimensional model or a complete flow. This item states what the Floer layers use beyond
+that.
+
+Two strengths of nondegeneracy are used. *Weak* nondegeneracy is
+`TauCeti.SmoothTwoForm.IsNondegenerate`: every flat map `ω♭_x : T_x M → (T_x M →L[ℝ] ℝ)`,
+`v ↦ ω_x(v, ·)` (`TauCeti.SmoothTwoForm.flat`), is injective. *Strong* nondegeneracy is the
+unbundled hypothesis `∀ x, Function.Surjective (ω.flat x)`. On a Banach model (`[CompleteSpace E]`)
+it makes every `ω♭_x` an isomorphism of Banach spaces; its inverse on arbitrary covectors, the
+smooth dependence of that inverse on `x` and the specialization `ι_{X_f} ω = df` to differentials
+are HeegaardFloer F2.1's contraction inverse, which this item consumes and does not rebuild. In
+finite dimension the two strengths agree (`TauCeti.SmoothTwoForm.isNondegenerate_iff_isInvertible_flat`).
+For a weakly but not strongly nondegenerate form the pinned field `(ω♭)⁻¹ df` is the junk value
+`0` wherever `ω♭_x` is not invertible, even when `df_x` is of the form `ω_x(v, ·)`; every
+statement below that holds for weak forms is therefore stated for the predicate, and the
+statements about `X_f` and `{f, g}` carry strong nondegeneracy or no nondegeneracy at all.
+
+**Hamiltonian vector fields.** For weakly nondegenerate `ω` in any model:
+- uniqueness, `SmoothTwoForm.IsNondegenerate.eq_of_isHamiltonianVectorField`: two Hamiltonian
+  vector fields of the same function are equal;
+- zeros, `SmoothTwoForm.IsHamiltonianVectorField.apply_eq_zero_iff`: a Hamiltonian vector field
+  `X` of `f` vanishes at `x` exactly when `df_x = 0`, so its zeros are the critical points of
+  `f` (Layer 7.C.6h).
+
+With no nondegeneracy:
+- the predicate is linear and satisfies the Leibniz rule: for differentiable `f`, `g` with
+  Hamiltonian vector fields `X`, `Y`, the field `X + Y` belongs to `f + g`
+  (`SmoothTwoForm.IsHamiltonianVectorField.add`) and `f • Y + g • X` to `f * g`
+  (`SmoothTwoForm.IsHamiltonianVectorField.mul`), and `c • X` belongs to `c • f` for every
+  `f` (`SmoothTwoForm.IsHamiltonianVectorField.const_smul`);
+- the pinned field satisfies `X_{fg}(x) = f(x) X_g(x) + g(x) X_f(x)` at every point where `f`
+  and `g` are differentiable (`SmoothTwoForm.hamiltonianVectorField_mul`), and `X_f(x)` depends
+  only on the germ of `f` at `x` (`SmoothTwoForm.hamiltonianVectorField_congr_of_eventuallyEq`).
+
+A function is *Hamiltonian* (`SmoothTwoForm.IsHamiltonian`) when it is smooth and has a smooth
+Hamiltonian vector field. For a strongly nondegenerate form on a Banach model every smooth
+function is Hamiltonian (`SmoothTwoForm.isHamiltonian_iff_contMDiff`), by F2.1's `df`
+specialization and the smooth dependence of its inverse.
+
+**The Poisson bracket.** For the pinned `{f, g} = ω(X_f, X_g)`:
+- on a Banach model with strongly nondegenerate `ω`, `{f, g}(x) = df_x(X_g(x))`
+  (`SmoothTwoForm.poissonBracket_eq_mvfderiv_of_surjective_flat`), and the bracket of two
+  `C^{n+1}` functions is `C^n` for `n ≤ ∞`
+  (`SmoothTwoForm.contMDiff_poissonBracket_of_surjective_flat`);
+- in any model, the Leibniz rule in each argument at a point where the two factors are
+  differentiable: `{fg, k} = f{g, k} + g{f, k}` (`SmoothTwoForm.poissonBracket_mul_left`) and
+  `{k, fg} = f{k, g} + g{k, f}` (`SmoothTwoForm.poissonBracket_mul_right`).
+
+Antisymmetry and additivity are the pinned `TauCeti.SmoothTwoForm.neg_poissonBracket` and
+`TauCeti.SmoothTwoForm.poissonBracket_add_left`; in finite dimension the identities
+`{f, g} = df(X_g)`, `X_{{f, g}} = −[X_f, X_g]` and the Jacobi identity for a closed form are the
+pinned `TauCeti.SmoothTwoForm.IsNondegenerate.poissonBracket_eq_mvfderiv`,
+`TauCeti.SmoothTwoForm.IsNondegenerate.hamiltonianVectorField_poissonBracket` and
+`TauCeti.SmoothTwoForm.IsNondegenerate.poissonBracket_jacobi`.
+
+**Conservation along integral curves.**
+- *Constancy on an interval of times*, `IsMIntegralCurveOn.apply_eq_of_isPreconnected`: let `γ`
+  be an integral curve of a vector field `X` on an open set `s` of times and `T ⊆ s`
+  preconnected. If `f` is differentiable at `γ t` and `df(X) = 0` at `γ t` for every `t ∈ T`,
+  then `f ∘ γ` is constant on `T`. The pinned
+  `IsMIntegralCurveOn.apply_eq_of_mvfderiv_apply_eq_zero` is the case `T = s`, with `s` open
+  and preconnected. For `X` a Hamiltonian vector field of `f`,
+  `TauCeti.SmoothTwoForm.IsHamiltonianVectorField.mvfderiv_apply_self` (`df(X) = ω(X, X) = 0`)
+  turns this into conservation of energy on every interval of times; no nondegeneracy is used.
+- *Evolution of an observable*, `SmoothTwoForm.hasDerivAt_comp_of_isMIntegralCurveOn`: on a
+  Banach model with strongly nondegenerate `ω`, along an integral curve `γ` of `X_g` on an open
+  set of times, `f ∘ γ` has derivative `{f, g}(γ t)` at every time where `f` is differentiable
+  at `γ t`.
+- *First integrals*, `SmoothTwoForm.isFirstIntegral_iff_forall_isMIntegralCurveOn`: on a
+  boundaryless Banach manifold with strongly nondegenerate `ω`, for `g` of class `C²` (so that
+  `X_g` is `C¹` and has local integral curves through every point) and `f` differentiable,
+  `{f, g} = 0` everywhere exactly when `f` is constant along every integral curve of `X_g` on an
+  open interval.
+- *Poisson's theorem*, `SmoothTwoForm.IsHamiltonianVectorField.mvfderiv_eval₂_eq_zero`: for a
+  closed `ω` on a Banach model, with no nondegeneracy, let `X`, `Y`, `Z` be Hamiltonian vector
+  fields of `C²` functions `f`, `g`, `k`, with `X` and `Y` differentiable. If `df(Z) = 0` and
+  `dg(Z) = 0` everywhere, then `ω(X, Y)` is stationary along `Z`. The route is the pinned
+  `TauCeti.SmoothTwoForm.IsHamiltonianVectorField.mlieBracket` (`[X, Y]` is a Hamiltonian
+  vector field of `−ω(X, Y)`), which reduces the claim to `dk([X, Y]) = X(dk(Y)) − Y(dk(X))`,
+  where `dk(Y) = −dg(Z)` and `dk(X) = −df(Z)` vanish identically. With strong nondegeneracy and
+  the pinned bracket this says that the first integrals of `k` are closed under `{·, ·}`.
+
+**Symplectic maps and symplectomorphisms.** Let `ω'` be a smooth two-form on a second manifold
+`M'`, modelled on `E'` through `I'`; the models may differ.
+- `SmoothTwoForm.IsSymplecticMap ω ω' φ`: `ω'_{φ x}(dφ v, dφ w) = ω_x(v, w)` for all `x`, `v`,
+  `w`, with `dφ = mfderiv I I' φ x`. For smooth `φ` this is `φ^* ω' = ω` for the pinned pullback
+  `TauCeti.SmoothForm.mpullback` (`SmoothTwoForm.isSymplecticMap_iff_mpullback_eq`).
+- The identity is a symplectic map (`SmoothTwoForm.isSymplecticMap_id`); a composite of
+  differentiable symplectic maps is one (`SmoothTwoForm.IsSymplecticMap.comp`); out of a weakly
+  nondegenerate form the differential of a symplectic map is injective at every point
+  (`SmoothTwoForm.IsSymplecticMap.injective_mfderiv`).
+- `SmoothTwoForm.IsSymplectomorphism ω ω' φ`, a predicate on a Mathlib diffeomorphism
+  `φ : M ≃ₘ^n⟮I, I'⟯ M'`: `φ` is a symplectic map. For `n ≠ 0` its inverse is a
+  symplectomorphism from `ω'` to `ω` (`SmoothTwoForm.IsSymplectomorphism.symm`).
+- *Transport of Hamiltonian vector fields*, with no nondegeneracy: a differentiable symplectic
+  map whose differentials are all invertible (`ContinuousLinearMap.IsInvertible`), such as a
+  symplectomorphism or the inclusion of an open subset, pulls a Hamiltonian vector field `V` of
+  `h` back, through Mathlib's `VectorField.mpullback`, to a Hamiltonian vector field of `h ∘ φ`
+  (`SmoothTwoForm.IsSymplecticMap.isHamiltonianVectorField_mpullback`); for a symplectomorphism
+  of class `C¹` and differentiable `h` the converse holds as well
+  (`SmoothTwoForm.IsSymplectomorphism.isHamiltonianVectorField_mpullback_iff`).
+- For such a map into a strongly nondegenerate form on Banach models,
+  `dφ(X_{h ∘ φ}(x)) = X_h(φ x)` (`SmoothTwoForm.IsSymplecticMap.mfderiv_hamiltonianVectorField_comp`),
+  `{h ∘ φ, h' ∘ φ} = {h, h'} ∘ φ` (`SmoothTwoForm.IsSymplecticMap.poissonBracket_comp`), and `φ`
+  carries integral curves of `X_{h ∘ φ}` to integral curves of `X_h`
+  (`SmoothTwoForm.IsSymplecticMap.isMIntegralCurveOn_comp`), wherever `h` and `h'` are
+  differentiable. These extend the pinned finite-dimensional
+  `TauCeti.SmoothTwoForm.IsNondegenerate.mfderiv_hamiltonianVectorField_comp`,
+  `TauCeti.SmoothTwoForm.IsNondegenerate.poissonBracket_comp` and
+  `TauCeti.SmoothTwoForm.IsNondegenerate.isMIntegralCurve_comp_hamiltonianVectorField`.
+- *Open subsets.* The restriction of `ω` to `U : TopologicalSpace.Opens M` is its pullback along
+  `Subtype.val`, symplectic when `ω` is (pinned
+  `TauCeti.SmoothTwoForm.IsSymplectic.mpullback_subtype_val`). The inclusion is a symplectic map
+  from the restriction (`SmoothTwoForm.isSymplecticMap_subtype_val`) whose differentials are the
+  invertible `TauCeti.Manifold.tangentSpaceOpenEquiv`, so the transport statements apply to it.
+  A canonical transformation between open subsets `U ⊆ M` and `U' ⊆ M'` is a symplectomorphism
+  between the restricted forms.
+- *Linear symplectomorphisms*, `SymplecticForm.IsSymplectomorphism.isSymplectomorphism_constSmooth`:
+  for finite-dimensional normed spaces, a linear symplectomorphism `e` in the pinned sense
+  `TauCeti.SymplecticForm.IsSymplectomorphism` is a symplectomorphism of the constant forms
+  `TauCeti.SymplecticForm.constSmooth`, as the diffeomorphism
+  `e.toContinuousLinearEquiv.toDiffeomorph`.
+
+**Linearized flows.** Here the model is finite-dimensional, `I` is boundaryless and `M` is
+Hausdorff.
+- *The variational equation of a time-dependent flow*, `hasDerivAt_mfderiv_timeDependentFlowOf`:
+  let `X` be a time-dependent vector field, jointly `C¹` on `ℝ × M`, and `Φ_{s,t}` its maximal
+  flow `TauCeti.timeDependentFlowOf X s t`, with `((s, t₀), x)` in its domain
+  `TauCeti.timeDependentFlowDomain X`. Let `e = extChartAt I (Φ_{s,t₀} x)` and, for a tangent
+  vector `w` at `x`, `J(t) = de(dΦ_{s,t} w)`, the coordinate vector of `dΦ_{s,t} w` in `E`.
+  Then for `t` near `t₀`, `J'(t) = DX̃_t(e(Φ_{s,t} x)) J(t)`, where `X̃_t` is the chart
+  expression of `X t`, Mathlib's `VectorField.mpullbackWithin` along `e.symm` on the range of
+  `I`. Only the spatial derivative of `X t` enters. The proof writes the flow in the chart in
+  integral form and differentiates under the integral, as for the pinned vector-space statement
+  `TauCeti.hasDerivAt_fderiv_timeDependentFlow`, with the `C¹` regularity of `Φ` from
+  `TauCeti.contMDiffOn_timeDependentFlowOf`.
+- *The autonomous variational equation*, `hasDerivAt_mfderiv_flowOf`: the same statement for a
+  `C¹` vector field `v` and its maximal flow `TauCeti.flowOf v`, with `(t₀, x)` in
+  `TauCeti.flowDomain v` and the chart at `flowOf v t₀ x`.
+- *Time-dependent Hamiltonian flows are symplectic*,
+  `SmoothTwoForm.IsSymplectic.eval₂_mfderiv_timeDependentFlowOf`: for symplectic `ω` and a
+  time-dependent Hamiltonian `H : ℝ → M → ℝ`, jointly `C²` (so that `t ↦ X_{H_t}` is jointly
+  `C¹` by `TauCeti.SmoothTwoForm.IsNondegenerate.contMDiff_hamiltonianVectorField_uncurry`),
+  every map `Φ_{s,t}` of the flow of `X_{H_t}` satisfies
+  `ω_{Φ_{s,t} x}(dΦ_{s,t} v, dΦ_{s,t} w) = ω_x(v, w)` at every `x` with `((s, t), x)` in the
+  domain. In the chart of the variational equation, `d/dt ω(J, K)` is `(L_{X_t} ω)(J, K)`, and
+  `L_{X_t} ω = d(ι_{X_t} ω) + ι_{X_t} dω = d(dH_t) = 0`; alternatively it is HeegaardFloer
+  F2.1's domain-local Moser lemma for the constant family `ω` and `α_t = −dH_t`.
+- *Autonomous Hamiltonian flows are symplectic*, `SmoothTwoForm.IsSymplectic.eval₂_mfderiv_flowOf`:
+  for `f` of class `C²`, the maximal flow of `X_f` preserves `ω` at every point of its domain,
+  with no completeness hypothesis; the pinned
+  `TauCeti.SmoothTwoForm.IsHamiltonianVectorField.mpullback_globalFlow` is the complete case.
+  Conservation of first integrals along these flows is the pinned
+  `TauCeti.SmoothTwoForm.IsFirstIntegral.apply_maximalIntegralCurve`.
+
+So the linearized return map `dΦ_{0,1}` at a 1-periodic orbit of item 1 is a linear
+symplectomorphism of `(T_x M, ω_x)`, and along the orbit `t ↦ dΦ_{0,t}` solves the linear
+equation whose asymptotic operator Layer 7 compares with the linearized Floer operator.
+
+*Needs:* Tau Ceti's Hamiltonian formalism and flows (From Tau Ceti); HeegaardFloer F2.1 (the
+contraction inverse of a strongly nondegenerate form with its `df` specialization, and the
+domain-local Moser lemma); DifferentialGeometry Layers 0–1 (pullback, exterior derivative and
+Cartan's formula); Mathlib `mvfderiv`, `extChartAt`, `VectorField.mpullback`,
+`VectorField.mpullbackWithin`, `VectorField.mlieBracket`, `ContinuousLinearMap.IsInvertible`
+and diffeomorphisms. Sources: McDuff–Salamon, *Introduction to Symplectic Topology*, §3.1;
+Abraham–Marsden, *Foundations of Mechanics*, Chapter 3; Chernoff–Marsden, *Properties of
+Infinite Dimensional Hamiltonian Systems*, for weak and strong nondegeneracy on Banach spaces; Hartman, *Ordinary Differential Equations*,
+Chapter V, Theorem 3.1, for the variational equation.
+
+**Checks.**
+- Weak against strong. On a Banach space `V` with the canonical form
+  `ω((q, α), (q', β)) = β q − α q'` on `V × StrongDual ℝ V` (the pinned
+  `TauCeti.strongDualCotangentSymplecticForm`, made a constant two-form by
+  `TauCeti.SmoothTwoForm.const`), `ω♭` is injective, and its image
+  consists of the functionals `(q', β) ↦ a(q') + β(q)` with `a ∈ V*`, `q ∈ V`; a functional
+  `(q', β) ↦ Ψ(β)` with `Ψ` in the bidual but not in the image of `V` is not hit. So `ω` is
+  strongly nondegenerate exactly when `V` is reflexive. For `V = c₀` and the linear function
+  `f(q, α) = a(q)`, the field `(0, −a)` satisfies `ι_X ω = df`, while the pinned
+  `(ω♭)⁻¹ df` is `0`: a statement about `X_f` that ignored strong nondegeneracy would be false
+  there, which is why the weak statements above are stated for the predicate.
+- Nondegeneracy is needed for uniqueness and zeros: for `ω = 0` on `ℝ²` and `f` constant, every
+  vector field, `∂_q` among them, is a Hamiltonian vector field of `f`, and `∂_q` vanishes
+  nowhere although `df = 0`.
+- Leibniz on `(ℝ², dq ∧ dp)`: `X_q = −∂_p`, `X_p = ∂_q`, and `X_{qp} = q X_p + p X_q
+  = q ∂_q − p ∂_p`, which satisfies `ι_X(dq ∧ dp) = q dp + p dq = d(qp)`; the bracket
+  `{q, p} = ω(X_q, X_p) = 1 = dq(X_p)`.
+- Values on different components of `s` need not agree: for `H(q, p) = p` on `(ℝ², dq ∧ dp)`,
+  `X_H = ∂_q`, and the curve equal to `(t, 0)` for `t ∈ (0, 1)` and to `(t, 5)` for
+  `t ∈ (2, 3)` is an integral curve of `X_H` on `(0, 1) ∪ (2, 3)` along which `H` takes the
+  values `0` and `5`.
+- Invertible differentials are needed for transport: the inclusion
+  `(q₁, p₁) ↦ (q₁, p₁, 0, 0)` of `(ℝ², dq₁ ∧ dp₁)` into `(ℝ⁴, dq₁ ∧ dp₁ + dq₂ ∧ dp₂)` is a
+  symplectic map; for `h = q₂`, `h ∘ φ = 0` has Hamiltonian vector field `0`, while
+  `X_h = −∂_{p₂} ≠ 0`.
+- The variational equation on `(ℝ², dq ∧ dp)` with `H = (q² + p²)/2`: `X_H = p ∂_q − q ∂_p`,
+  `φ_t(q, p) = (q cos t + p sin t, −q sin t + p cos t)`, and `J(t) = R(t) w` for the matrix
+  `R(t)` of `φ_t`; `R'(t) = A R(t)` with `A = [[0, 1], [−1, 0]] = DX_H`. Reading the equation
+  with the transpose `Aᵀ` gives the opposite rotation.
+- A flow that is not Hamiltonian need not be symplectic: `X = q ∂_q` on `ℝ²` has flow
+  `(e^t q, p)`, which pulls `dq ∧ dp` back to `e^t dq ∧ dp`. The time-dependent
+  `H_t(q, p) = t q` has `X_{H_t} = −t ∂_p` and flow `Φ_{s,t}(q, p) = (q, p − (t² − s²)/2)`, a
+  translation, hence symplectic.
 
 ### 6.1 Time-dependent flows, periodic orbits and the action functional
 
-Define time-dependent Hamiltonian flows on the Hamiltonian vector fields of HamiltonianSystems,
-with `ι_{X_H} ω = dH`; 1-periodic orbits and their nondegeneracy (the linearized return map has
-no eigenvalue `1`); symplectically aspherical and atoroidal manifolds (conventions); the action
+Define time-dependent Hamiltonian flows as the maximal time-dependent flows
+`TauCeti.timeDependentFlowOf` of the fields `X_{H_t}` of item 0, with `ι_{X_H} ω = dH`;
+1-periodic orbits and their nondegeneracy (the linearized return map, a linear
+symplectomorphism by item 0, has no eigenvalue `1`); symplectically aspherical and atoroidal
+manifolds (conventions); the action
 functional `𝒜_H` on `𝓛₀X` (aspherical) and on `𝓛X` (atoroidal), with the reference loops and
-trivializations of the conventions. *Needs:* HamiltonianSystems Layers 1–2, HeegaardFloer F2.1,
+trivializations of the conventions. *Needs:* item 0, HeegaardFloer F2.1,
 Layer 2 item 1, DifferentialGeometry Layer 3 (flows).
 
 **Checks.**
@@ -1829,8 +2103,10 @@ implies contractible almost existence in `W`, by the monotonicity argument throu
 
 ### Dependencies
 
-HeegaardFloer F2.1; HamiltonianSystems Layers 1–2; DifferentialGeometry Layers 0–1 and 3; Tau
-Ceti `cotangentSymplecticForm`, `cotangentLiouvilleForm`; Mathlib `Monotone.ae_differentiableAt`.
+HeegaardFloer F2.1; DifferentialGeometry Layers 0–1 and 3; Tau Ceti's Hamiltonian formalism and
+flows (`TauCeti.SmoothTwoForm.hamiltonianVectorField`, `TauCeti.SmoothTwoForm.poissonBracket`,
+`TauCeti.flowOf`, `TauCeti.timeDependentFlowOf`), `cotangentSymplecticForm`,
+`cotangentLiouvilleForm`; Mathlib `Monotone.ae_differentiableAt`.
 Source: Hofer–Zehnder, *Symplectic Invariants and Hamiltonian Dynamics*, Chapters 1 and 4; the
 source paper §1.2.
 ## Layer 7: classical Hamiltonian Floer homology and symplectic homology
@@ -1973,7 +2249,7 @@ This branch constructs classical Hamiltonian Floer complexes, continuation and P
 
 ### 7.C.0 Suppliers and literal convention transport
 
-Consume PseudoholomorphicCurveAnalysis PH3 for the planar interior and totally real boundary estimates, PH4.2 for the weak Floer equation as its inhomogeneous case, PH5.1–PH5.2 for elliptic bootstrapping and uniform estimates, PH6.3 for Fredholm theory and adjoint regularity with the cokernel identification, and PH7.2 for closed and bordered Riemann–Roch. Consume HeegaardFloer F0 and F1.1–F1.5 for Sobolev sections on strips and cylindrical ends, finite-order Sard–Smale budgets, spectral flow, the single Maslov/CZ index, relative c₁, determinant lines and signed puncture Riemann–Roch; F2.1–5 and F2.6a–d supply their stated local curve/sphere/factorization/simple marked-regularity floors. Consume AnalyticStableMaps M3 for full marked unforced genus-zero stable-map compactness over compact tame-J families. this roadmap constructs the rooted attachment/matching, varying frozen-structure and inhomogeneous fixed-asymptotic applications, every Morse-incidence application and the unstable two-marked constant raw-core normalization. HeegaardFloer's minimal-area zero/one-marked compactness keeps its extra area hypothesis. Consume MorseNovikov N1 as the generic support/completion owner; this roadmap proves its geometric finite-below and graded-chain adapters. Consume HamiltonianSystems Layers 1–2 and Layer 6 here for the actual Hamiltonian fields and time-dependent flows.
+Consume PseudoholomorphicCurveAnalysis PH3 for the planar interior and totally real boundary estimates, PH4.2 for the weak Floer equation as its inhomogeneous case, PH5.1–PH5.2 for elliptic bootstrapping and uniform estimates, PH6.3 for Fredholm theory and adjoint regularity with the cokernel identification, and PH7.2 for closed and bordered Riemann–Roch. Consume HeegaardFloer F0 and F1.1–F1.5 for Sobolev sections on strips and cylindrical ends, finite-order Sard–Smale budgets, spectral flow, the single Maslov/CZ index, relative c₁, determinant lines and signed puncture Riemann–Roch; F2.1–5 and F2.6a–d supply their stated local curve/sphere/factorization/simple marked-regularity floors. Consume AnalyticStableMaps M3 for full marked unforced genus-zero stable-map compactness over compact tame-J families. this roadmap constructs the rooted attachment/matching, varying frozen-structure and inhomogeneous fixed-asymptotic applications, every Morse-incidence application and the unstable two-marked constant raw-core normalization. HeegaardFloer's minimal-area zero/one-marked compactness keeps its extra area hypothesis. Consume MorseNovikov N1 as the generic support/completion owner; this roadmap proves its geometric finite-below and graded-chain adapters. Consume Layer 6 items 0–1 here for the actual Hamiltonian fields, their linearized flows and the time-dependent flows.
 
 Layer 7.C uses the following capped contractible convention. It is the contractible capped theory on the two hypotheses stated in its heading; it uses `μ=−CZ_HF` on the same path, spherical cap changes, and the action `A_H=∫Hdt+∫_Dω`. Its positive-end input and negative-end output satisfy `u_s+J_t(u_t−X_H)=0` and are upward for `A_H`. The standing convention uses `CZ`, a reference-loop cylinder oriented from the orbit to the reference, and `𝒜_H=∫γ̄^*ω−∫Hdt`. On the contractible aspherical overlap with constant reference and zero reference cap, the same-H actions satisfy `𝒜_H(γ̄)=−A_C(H,γ,D)` when `γ̄` is oriented from the orbit to the reference. A standing trajectory has negative-end input `x₋`, positive-end output `x₊`, and `E=𝒜_H(γ̄₋)−𝒜_H(γ̄₊)`; for the fixed PDE `u_s+J_t(u_t−X_H)=0`, `𝒜_H` decreases along s. The t-independent equation is the negative-gradient equation for `−H` and has the same Morse degree as the source branch after reflection. Under the reflected Hamiltonian and cap reflection, `A_C(H∨,reflected x)=−A_C(H,x)`, so the two energy conventions agree. These identities use the stated zero-reference normalization; other reference choices may add constants. The convention identification is only with the standing complex on 𝓛₀X under asphericity alone, on the `Γ=0` overlap and at the reflected Hamiltonian `H∨`. Its overlap comparison uses the reflected Hamiltonian and contractible aspherical sector specified here.
 
@@ -1998,7 +2274,7 @@ On the actual aspherical overlap, where Γ=0, retain the path-level dictionary g
   is `0` and the index is `1`, equal to the spectral flow `+1` of `B = tanh s` from `−1` to `1`;
   the sign convention `ind D = SF(B)` is fixed by this instance, and `−SF(B)` would give `−1`.
 
-*Needs:* PseudoholomorphicCurveAnalysis PH3, PH4.2, PH5.1–PH5.2, PH6.3 and PH7.2; HeegaardFloer F0, F1.1–F1.5, F2.1–F2.5 and F2.6a–d; AnalyticStableMaps M3; MorseNovikov N1; HamiltonianSystems Layers 1–2; Layer 6 items 1–2; conventions (sign dictionary); Salamon §§1.4 and 2.4.
+*Needs:* PseudoholomorphicCurveAnalysis PH3, PH4.2, PH5.1–PH5.2, PH6.3 and PH7.2; HeegaardFloer F0, F1.1–F1.5, F2.1–F2.5 and F2.6a–d; AnalyticStableMaps M3; MorseNovikov N1; Layer 6 items 0–2; conventions (sign dictionary); Salamon §§1.4 and 2.4.
 
 ### 7.C.1 Capped loop cover, periods and the time-dependent variational equation
 
@@ -2021,14 +2297,14 @@ Assume every contractible one-periodic orbit of H is nondegenerate. Prove the co
   the same `c₁` but `ω = −1`, so they are not equivalent: a definition using `c₁` alone would
   identify them and lose the action shift.
 
-*Needs:* 7.C.0; Layer 6 item 1; Layer 2 item 1; HeegaardFloer F1.5 and HamiltonianSystems Layer 2 (the variational equation); AlgebraicTopology Stage 8.3 (the spherical Hurewicz image).
+*Needs:* 7.C.0; Layer 6 items 0–1 (item 0 for the variational equation); Layer 2 item 1; HeegaardFloer F1.5; AlgebraicTopology Stage 8.3 (the spherical Hurewicz image).
 
 ### 7.C.1(i) Coefficient-torsor datum
 
 From this cap cover construct the typed datum `(Γ,ω,c₁,ν=−ω)` and its Γ-torsor of caps over each orbit, with reference-cap coordinates and diagonal monomial changes over R[Γ]. This datum is available before either branch-specific coefficient classification. Its monotone injective-Chern and spherical-c₁-zero injective-period specializations are proved separately in 7.C.6a and 7.C.6e; each concrete matrix construction consumes its own specialization.
 
 For the actual time-dependent flow `φ_t` prove, with a torsion-free connection,
-`∇_t(dφ_t v)=∇_(dφ_t v)X_(H_t)` by differentiating a two-parameter variation. Compare the actual symplectic-frame ODE, including connection and frame derivatives, with the asymptotic operator of the cylinder linearization. This is the time-dependent connection/frame application of HamiltonianSystems' variational equation.
+`∇_t(dφ_t v)=∇_(dφ_t v)X_(H_t)` by differentiating a two-parameter variation. Compare the actual symplectic-frame ODE, including connection and frame derivatives, with the asymptotic operator of the cylinder linearization. This is the connection/frame form of the time-dependent variational equation `hasDerivAt_mfderiv_timeDependentFlowOf` of Layer 6 item 0: in a chart the Christoffel terms of `∇_t` and `∇_(dφ_t v)` cancel by torsion-freeness, and what remains is the chart equation `J'(t) = DX̃_t J(t)`.
 
 **Checks.**
 - `ℂPⁿ` normalized by `ω(L) = 1`: `κ = 1/(n + 1)`, the positive Chern generator `t = e^{L}` has
@@ -2043,7 +2319,7 @@ For the actual time-dependent flow `φ_t` prove, with a torsion-free connection,
   `−J R_{−t} v`, where `J ∂_q = ∂_p`; the plausible misreading `∇_t(dφ_t v) = ∇_{X_H}(dφ_t v)`
   has right-hand side `0` here, since `dφ_t v` is a constant vector field.
 
-*Needs:* 7.C.1; MorseNovikov N1.
+*Needs:* 7.C.1; MorseNovikov N1; Layer 6 item 0 (the variational equation).
 
 ### 7.C.1a Auxiliary Morse comparison complex
 
@@ -2493,7 +2769,7 @@ Consume MorseTheory M4's single `c(M)` construction: the attained minimum of the
 
 For any closed finite-dimensional symplectic M, state the degenerate critical-number comparison statement: every smooth Hamiltonian isotopy from the identity to φ satisfies `c(M) ≤ #Fix(φ)` in `ℕ∞`, where fixed points count once. Retain this as the precise source conjecture/comparison statement, separate from the nondegenerate theorem of 7.C.6g; no general theorem or present research-status conclusion is asserted here. Any theorem realization requires its actual additional scope and proof, not nondegenerate perturbation followed by a fixed-point count limit.
 
-Construct the autonomous case independently of Floer counts. For smooth time-independent H on closed M, `dH=ι_(X_H)ω` and nondegeneracy give `dH(p)=0 iff X_H(p)=0`. ODE uniqueness makes the orbit through such p constant, so `Crit(H)⊆Fix(φ_H^1)`. If Crit(H) is finite, M4's minimum gives `c(M)≤#Crit(H)≤#Fix(φ_H^1)`; if it is infinite, the inclusion makes the fixed-point count∞. This proves the stated autonomous lower bound, including empty, disconnected and zero-dimensional cases through M4's own conventions. Conversely, time-one fixed points need not be equilibrium points. The general time-dependent comparison retains all source scope but is not inferred from this autonomous argument, LS alone, or the earlier Betti-rank estimate.
+Construct the autonomous case independently of Floer counts. For smooth time-independent H on closed M, `dH=ι_(X_H)ω` and nondegeneracy give `dH(p)=0 iff X_H(p)=0` (`SmoothTwoForm.IsHamiltonianVectorField.apply_eq_zero_iff`, Layer 6 item 0). ODE uniqueness makes the orbit through such p constant, so `Crit(H)⊆Fix(φ_H^1)`. If Crit(H) is finite, M4's minimum gives `c(M)≤#Crit(H)≤#Fix(φ_H^1)`; if it is infinite, the inclusion makes the fixed-point count∞. This proves the stated autonomous lower bound, including empty, disconnected and zero-dimensional cases through M4's own conventions. Conversely, time-one fixed points need not be equilibrium points. The general time-dependent comparison retains all source scope but is not inferred from this autonomous argument, LS alone, or the earlier Betti-rank estimate.
 
 **Checks.**
 - `S²`: `c(S²) = 2` (every function has a maximum and a minimum, and the height function has
@@ -2507,7 +2783,7 @@ Construct the autonomous case independently of Floer counts. For smooth time-ind
   `S²` in time one has `Fix(φ_H^1) = S²` but only two equilibria, so time-one fixed points need
   not be critical points.
 
-*Needs:* MorseTheory M4; AlgebraicTopology (the categorical-cover and cup-length supplier of MorseTheory M4); HamiltonianSystems Layer 1; Layer 6 item 1.
+*Needs:* MorseTheory M4; AlgebraicTopology (the categorical-cover and cup-length supplier of MorseTheory M4); Layer 6 items 0–1.
 
 ### 7.C.7 Scope and application interfaces
 
@@ -2796,7 +3072,7 @@ nonabelian `s`-cobordism theorem or equality with a general genus-one curve coun
 
 PseudoholomorphicCurveAnalysis PH1–PH7; HeegaardFloer Lanes F0–F2 and Lane M; AnalyticStableMaps
 M3; MorseNovikov N1 and N4;
-HamiltonianSystems Layers 1–2; MorseTheory M4; SymplecticGeometry S0; CharacteristicClasses
+MorseTheory M4; SymplecticGeometry S0; CharacteristicClasses
 C3.2; Layer 6; Layer 2 item 1; Layer 0 item 4 (for the fundamental chains consumed by Layer 8).
 Source: Salamon, *Lectures on Floer homology*; Audin–Damian, Chapters 6–11; Seidel, *A biased
 view of symplectic cohomology*, §3; Abouzaid, Chapter 1; Hofer–Salamon; Piunikhin–Salamon–Schwarz;
@@ -3433,6 +3709,15 @@ Tau Ceti's Mathlib and conventions.
   item 6 and 9 item 3), Chapters 5–6 (Layer 9 items 2–3).
 - A. Abbondandolo, M. Schwarz, *On the Floer homology of cotangent bundles*, Comm. Pure Appl.
   Math. 59 (2006), arXiv:math/0408280, Theorem 3.1, and its corrigendum: Layer 9 item 2.
+- D. McDuff, D. Salamon, *Introduction to Symplectic Topology*, 3rd ed., Oxford Graduate Texts
+  in Mathematics 27, Oxford University Press, 2017, §3.1: Layer 6 item 0.
+- R. Abraham, J. E. Marsden, *Foundations of Mechanics*, 2nd ed., Benjamin/Cummings, 1978,
+  Chapter 3: Layer 6 item 0.
+- P. R. Chernoff, J. E. Marsden, *Properties of Infinite Dimensional Hamiltonian Systems*,
+  Lecture Notes in Mathematics 425, Springer, 1974: weak and strong nondegeneracy, Layer 6
+  item 0.
+- P. Hartman, *Ordinary Differential Equations*, 2nd ed., Classics in Applied Mathematics 38,
+  SIAM, 2002, Chapter V, Theorem 3.1: the variational equation, Layer 6 item 0.
 - H. Hofer, E. Zehnder, *Symplectic Invariants and Hamiltonian Dynamics*, Birkhäuser, 1994,
   Chapters 1, 3 and 4; M. Struwe, *Existence of periodic solutions of Hamiltonian systems on
   almost every energy surface*, Bol. Soc. Brasil. Mat. 20 (1990): Layer 6 item 5.
