@@ -27,7 +27,7 @@ integral schemes.
 | [4](#layer-4-purity-in-positive-characteristic) | Purity in positive characteristic | root extraction, finite flat covers, purity for complete intersections over `𝔽_p` |
 | [5](#layer-5-perfectoid-rings-dieudonné-modules-and-the-key-formula) | Perfectoid rings: Dieudonné modules and the key formula | arc descent of both sides, products of valuation rings, the key formula, perfectoid purity |
 | [6](#layer-6-purity-for-complete-intersections-and-regular-local-rings) | Purity for complete intersections and regular local rings | [CS24] Theorems 6.2.3, 6.2.4, 6.2.7 |
-| [7](#layer-7-global-purity-and-the-conjectures-of-gabber) | Global purity and the conjectures of Gabber | global purity, torsors, local Picard and Brauer conjectures, groups of multiplicative type over a base and purity for them |
+| [7](#layer-7-global-purity-and-the-conjectures-of-gabber) | Global purity and the conjectures of Gabber | global purity, torsors, local Picard and Brauer conjectures, multiplicative type |
 | [8](#layer-8-purity-for-the-brauer-group-and-for-tori-on-regular-schemes) | Purity for the Brauer group and for tori on regular schemes | [C19] Theorems 1.1–1.4, 6.1, 6.2, residue sequences |
 
 ```text
@@ -49,12 +49,7 @@ Picard group of a regular local ring (`localPicard_subsingleton`, §7.6), with
 three classical inputs proved here: Katz's theorem on Frobenius-fixed vectors
 (`frobeniusSemilinear_exists_fixed_basis`, §5.6), Auslander's freeness criterion
 (`free_of_endomorphisms_iso_pi`, §7.2) and factoriality of regular local rings
-(`isRegularLocalRing_uniqueFactorizationMonoid`, §7.4). It also states the theory of groups of
-multiplicative type over a base on which §§7.14–7.16 and Layer 8 rest (§§7.13a–7.13c): the
-diagonalizable group `diagonalizableGroup` with its homomorphisms and its smoothness, étaleness and
-flatness criteria, the predicates `IsMultiplicativeType` and `IsTorus` with their étale-local and
-fpqc-local characterisations, their agreement over a field with the Tau Ceti predicates, and the
-Cartier-dual criterion for finite groups.
+(`isRegularLocalRing_uniqueFactorizationMonoid`, §7.4).
 The flat-cohomological headline theorems are specified in this README; the module docstring of
 `Suggested.lean` names the carrier each of them lacks at the pinned libraries.
 
@@ -74,11 +69,10 @@ along finitely generated ideals and fpqc hyperdescent of fppf cohomology of anim
 §§5.2.4–5.2.10, 5.3.7–5.3.8, 5.4.3–5.4.5, 5.5); the positive-characteristic, perfectoid,
 complete-intersection and regular purity theorems ([CS24] §§4.1, 4.2, 6); global purity, purity for
 torsors and gerbes, factoriality of regular local rings, parafactorial local rings, Gabber's local
-Picard and Brauer conjectures, the Brauer comparison of Gabber and de Jong; diagonalizable groups,
-groups of multiplicative type and tori over an arbitrary base scheme, with their homomorphisms,
-smoothness and exactness, character sheaves, subgroups, quotients and largest subtori (SGA 3
-VIII–X), and purity for them ([CS24] §7); and purity for the Brauer group and for tori
-with the codimension-one and residue descriptions ([C19] §§2, 5, 6 and Appendix A).
+Picard and Brauer conjectures, the Brauer comparison of Gabber and de Jong, the kernel-of-tori
+presentation of a group of multiplicative type over a scheme and purity for such groups ([CS24] §7);
+and purity for the Brauer group and for tori with the codimension-one and residue descriptions ([C19]
+§§2, 5, 6 and Appendix A).
 
 **Owned elsewhere and consumed here.** Each object has one owner.
 
@@ -89,19 +83,15 @@ with the codimension-one and residue descriptions ([C19] §§2, 5, 6 and Appendi
   carrier, which agrees with the LocalPurity carrier for a local ring.
 - *Depth, Cohen–Macaulay rings, Zariski cohomology with supports and local cohomology, henselian
   pairs and henselization, coherent extension and Hartogs, limits of schemes and Noetherian
-  approximation, descent of sheaves along covers, torsors, stacks and gerbes, the big-site
-  sheaves `𝔾_a`, `𝔾_m`, `μ_n`, topology comparisons, Hilbert 90 and the Kummer and Artin–Schreier
-  sequences, Gabber's affine proper base change, Azumaya algebras and Brauer groups of schemes,
-  Picard groups*: SchemeAndStackFoundations §§0.4, 0.6, 0.9, 0.12–0.14, 0.17, 0.24, 1.1, 1.15, 1.18,
-  2.1–2.3, 2.7, 2.9–2.11, 2.15, 2.22, 3.4. The supported cohomology of §2.7 there is that of
-  abelian sheaves on a ringed space; §0.2 here is its big-fppf-site counterpart and agrees with it
+  approximation, torsors, stacks and gerbes, the big-site sheaves `𝔾_a`, `𝔾_m`, `μ_n`, topology
+  comparisons, Hilbert 90 and the Kummer and Artin–Schreier sequences, Gabber's affine proper base
+  change, Azumaya algebras and Brauer groups of schemes, Picard groups*: SchemeAndStackFoundations
+  §§0.4, 0.6, 0.9, 0.12–0.14, 0.17, 0.24, 1.15, 1.18, 2.1–2.3, 2.7, 2.9–2.11, 2.15, 2.22, 3.4.
+  The supported cohomology of §2.7 there is that of abelian sheaves on a ringed space; §0.2 here is its big-fppf-site counterpart and agrees with it
   for quasi-coherent coefficients. Its §2.22 `brauer_regular_injectivity` is the affine Azumaya case of §7.9
   here, which treats `H²(X, 𝔾_m)` of every Noetherian integral regular scheme and the torsion of all
   higher `H^i(X, 𝔾_m)`.
-- *Strict henselization and its completion*: ModularCurves Layer 4D. *The diagonalizable group
-  `Spec_S 𝒪_S[M]` of a finite group `M` and `μ_N` over a base, and effective faithfully flat descent of
-  affine schemes and of group objects*: ModularCurves 0B, 0E. §7.13a here constructs `D_S(M)` for every
-  finitely generated `M` and agrees with the 0B group for finite `M`.
+- *Strict henselization and its completion*: ModularCurves Layer 4D.
 - *The finite étale Galois category and étale fundamental group of a scheme, étale duality on
   schemes of finite type over a field and on traits*: EtaleCohomologyFoundations §§F.0.2, F.5.
 - *Absolute cohomological purity (Gabber)*: LefschetzPencilsAndVanishingCycles §0.10.
@@ -146,6 +136,14 @@ with the codimension-one and residue descriptions ([C19] §§2, 5, 6 and Appendi
   PrismaticCohomology §2.0.
 - *Prismatic Dieudonné modules of finite locally free groups over perfectoid rings*:
   PrismaticCohomologyPartII Layer 4 (the prismatic Dieudonné contract below).
+- *Diagonalizable groups, groups of multiplicative type and tori over a base scheme* (smoothness
+  and exactness of `D_S(M)`, the definition by fppf-local diagonalizability, étale-local
+  diagonalizability, the character sheaf and its anti-equivalence with locally constant sheaves,
+  stability under base change, subgroups, quotients and the largest subtorus):
+  GroupSchemesOverABase §§1.3, 1.4, 2.1–2.3, 2.7, whose notion reduces over a field to the Tau Ceti
+  carriers. §7.14 here keeps only the two consequences the purity proofs use: the Zariski-local
+  presentation of a group of multiplicative type as the kernel of a homomorphism of tori, and the
+  factorization of `[m]` through a torus with finite locally free kernel.
 - *Residue and Witt sequences of complete discretely valued fields with perfect residue field*:
   ArithmeticGaloisDuality §R02.2.4.
 - *Raynaud's embedding into abelian schemes, descent of finite locally free groups along
@@ -214,7 +212,7 @@ section named instead of planning it.
 
 ### From Mathlib
 
-Pinned at `f6090c7095e1e56b3464c1daba5f24631f1290d2`; each declaration was read at the pin.
+Pinned at `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`; each declaration was read at the pin.
 
 - `AlgebraicGeometry.Scheme`, `AlgebraicGeometry.Scheme.Opens` with its open immersion `ι`, `Spec`:
   the carriers of every scheme here.
@@ -245,17 +243,6 @@ Pinned at `f6090c7095e1e56b3464c1daba5f24631f1290d2`; each declaration was read 
   finite étale schemes over a base and pullback.
 - `CategoryTheory.PreGaloisCategory`, `CategoryTheory.PreGaloisCategory.functorToContAction`
   (`Mathlib/CategoryTheory/Galois/Equivalence.lean`): the fundamental theorem of Galois categories.
-- `CategoryTheory.Grp`, `Grp.forget`, `Functor.mapGrp`, `Functor.mapGrpIdIso`,
-  `Functor.mapGrpCompIso`, `IsCommMonObj` (`Mathlib/CategoryTheory/Monoidal/Grp.lean`, `Mon.lean`) and
-  `Over.pullback`, `Over.pullbackId`, `Over.pullbackComp`
-  (`Mathlib/CategoryTheory/Comma/Over/Pullback.lean`): groups over a base scheme `S` are objects of
-  `Grp (Over S)`, and base change along `f : S′ → S` is `(Over.pullback f).mapGrp`.
-  `specULiftZIsTerminal` (`Mathlib/AlgebraicGeometry/Limits.lean`): the morphism `S → Spec ℤ`.
-- `AlgebraicGeometry.Scheme.Cover` (`Mathlib/AlgebraicGeometry/Cover/MorphismProperty.lean`) for the
-  precoverages `Scheme.etalePrecoverage`, `Scheme.fppfPrecoverage` and `Scheme.fpqcPrecoverage`:
-  covers in the three topologies of §7.13c. `AlgebraicGeometry.Smooth`, `AlgebraicGeometry.Surjective`,
-  `AlgebraicGeometry.IsAffineHom`, `Scheme.Hom.fiber`; `Group.FG`, `CommGroup.torsion`,
-  `IsMulTorsionFree`.
 - `WittVector`, `WittVector.teichmuller`, `PreTilt`, `WittVector.fontaineTheta`, `frobenius`,
   `PerfectRing`, `IsAlgClosed`, `Module.FinitePresentation`, `Module.Free`, `Module.Basis`, `Module.IsReflexive`,
   `IsAzumaya`, `IsDiscreteValuationRing`, `UniqueFactorizationMonoid`, `ValuationRing`,
@@ -263,7 +250,7 @@ Pinned at `f6090c7095e1e56b3464c1daba5f24631f1290d2`; each declaration was read 
 
 ### From Tau Ceti
 
-Pinned at `358314d4ab97483df4fc4cb8adcc02e74a8d9f5a`.
+Pinned at `2fd255d997f47c0b5d834ee416c7015d55444ce5`.
 
 - `TauCeti.AlgebraicGeometry.LineBundleClass` (`TauCeti/AlgebraicGeometry/LineBundle/Class.lean`):
   isomorphism classes of invertible sheaves on a scheme with its `CommGroup` structure; `Pic(U_R)`.
@@ -274,24 +261,7 @@ Pinned at `358314d4ab97483df4fc4cb8adcc02e74a8d9f5a`.
   and Cartier duality over an affine base.
 - `TauCeti.MultiplicativeTypeAffineGroupSchemeCat`, `TauCeti.TorusAffineGroupSchemeCat`
   (`TauCeti/AlgebraicGeometry/AffineGroupScheme/MultiplicativeType.lean`, `Torus.lean`): groups of
-  multiplicative type and tori over a field, cut out of `TauCeti.FiniteTypeAffineGroupSchemeCat` by
-  `TauCeti.multiplicativeTypeAffineGroupSchemeProperty` and `TauCeti.torusAffineGroupSchemeProperty`;
-  §7.13c extends them to a base scheme.
-- `TauCeti.FGCommGrpCat` (`TauCeti/Algebra/Category/CommGrpCat/FiniteGeneration.lean`): finitely
-  generated commutative groups, written multiplicatively.
-- `TauCeti.DiagonalizableGroup.groupScheme`, `TauCeti.DiagonalizableGroup.groupSchemeMap` and
-  `TauCeti.DiagonalizableGroup.schemeFunctor`, full over a ring with connected spectrum
-  (`TauCeti.DiagonalizableGroup.schemeFunctor_full`) and faithful over a nonzero ring
-  (`TauCeti.DiagonalizableGroup.schemeFunctor_faithful`)
-  (`TauCeti/Algebra/AlgebraicGroup/DiagonalizableGroup/Scheme/Basic.lean`): the group `Spec R[M]` over
-  `Spec R` for finitely generated `M`;
-  `TauCeti.DiagonalizableGroup.isClosedImmersion_groupSchemeMap_of_surjective` (`…/Scheme/ClosedImmersion.lean`)
-  and `TauCeti.DiagonalizableGroup.multiplicativeTypeAffineGroupSchemeProperty_groupScheme`
-  (`…/Scheme/MultiplicativeType.lean`). These are the affine case of §7.13a.
-- `TauCeti.DiagonalizableGroup.finiteLocallyFreeGroupScheme` and
-  `TauCeti.DiagonalizableGroup.cartierDualIso`
-  (`TauCeti/AlgebraicGeometry/AffineGroupScheme/CartierDuality/Constant.lean`): for finite `M`,
-  `Spec R[M]` is finite locally free and Cartier dual to the constant group `M`.
+  multiplicative type and tori over a field; GroupSchemesOverABase §2.1 extends them to a base scheme.
 - `TauCeti.HopfAlgebra.pointsFppfSheaf` (`TauCeti/Algebra/AlgebraicGroup/Fppf/Basic.lean`): the
   points of an affine group as an fppf sheaf on affine schemes over `Spec R`.
 - `TauCeti.GradedAlgebra.gradedAlgebraQuotientPiece`
@@ -311,10 +281,8 @@ coherent reflexive modules on `X` and on `U`; in particular `j_*F` is coherent f
 §0.9 limits of schemes, Noetherian approximation and spreading out; §§0.12–0.13 the henselization of a
 pair, `henselization_flat`, `henselization_noetherian`; §0.14 `henselian_finiteEtale_equivalence`;
 §0.17 `Module.depth`, `IsLocalRing.depth`, `Ring.IsCohenMacaulay`; §0.24 perfect schemes and
-perfection; §1.1 `qcoh_fpqc_descent` and `sheaf_stack` (descent of quasi-coherent modules, and of
-sheaves and abelian sheaves, along covers); §1.15 torsors; §1.18 stacks in groupoids and gerbes;
-§§2.1–2.3 cohomology on sites, Leray and Čech spectral sequences, torsor classes; §2.7
-`cohomologyWithSupport`,
+perfection; §1.15 torsors; §1.18 stacks in groupoids and gerbes; §§2.1–2.3 cohomology on sites,
+Leray and Čech spectral sequences, torsor classes; §2.7 `cohomologyWithSupport`,
 `supports_localization_triangle`, `localCohomology_module_comparison`,
 `depth_localCohomology_vanishing`; §2.9 `Ga`, `Gm`, `mu`; §2.10 `quasiCoherent_topology_comparison`,
 `smoothGroup_fppf_etale_comparison`; §2.11 `hilbert90`, `fppf_kummer_sequence`,
@@ -334,12 +302,7 @@ groups. Assumed as stated there.
 
 Layer 4D: strict henselization of a local ring and of a local ring of a scheme at a geometric
 point, its completion, and preservation of regularity and dimension under completion
-(`ringKrullDim_adicCompletion`, `isRegularLocalRing_adicCompletion_iff`). 0B: finite locally free
-commutative group schemes over a base with Cartier duality, the diagonalizable group
-`D_S(M) = Spec_S 𝒪_S[M]` of a finite group `M` and `μ_N = D_S(ℤ/N)`, with `((ℤ/N)_S)^D ≅ μ_N`
-(compared with §7.13a). 0E: effective faithfully flat descent of affine schemes, of sections and
-morphisms, and of group objects and homomorphisms on an underlying scheme already descended (used in
-§§7.13c–7.13d).
+(`ringKrullDim_adicCompletion`, `isRegularLocalRing_adicCompletion_iff`).
 
 ### From TauCetiRoadmap.EtaleCohomologyFoundations
 
@@ -487,6 +450,19 @@ and `m` prime to `char k` the split exact sequences
 `0 → H^q(k, μ_m^{⊗r}) → H^q(K, μ_m^{⊗r}) → H^{q−1}(k, μ_m^{⊗(r−1)}) → 0`. Used in §8.15 for exactness
 only; the sign of the residue is fixed here by Convention 8.
 
+### From TauCetiRoadmap.GroupSchemesOverABase
+
+§2.1 `IsMultiplicativeType` and `IsTorus` (a finite type `S`-group that is fppf-locally on `S` the
+diagonalizable group of a finitely generated, resp. free, abelian group; over a field these are the
+Tau Ceti predicates); §2.2 étale-local diagonalizability of a group of multiplicative type of finite
+type; §2.3 the character sheaf `X^*(T)`, an étale-locally constant sheaf of finitely generated
+abelian groups, and the anti-equivalence `T ↦ X^*(T)` with inverse `F ↦ D_S(F)`, compatible with
+base change; §2.7 subgroups of multiplicative type and their quotients, corresponding to quotient
+and sub-sheaves of `X^*`, and the largest subtorus `D(X^*(T)/torsion)`; §1.3 smoothness of `D_S(M)`
+when the torsion of `M` has invertible order; §1.4 exactness of `D_S` on short exact sequences of
+finitely generated groups, with `D_S(M) → D_S(M′)` faithfully flat for `M′ ⊂ M`. §7.14 here deduces
+from these only the Zariski-local kernel-of-tori presentation and the factorization of `[m]`.
+
 ## How to read the build
 
 Layer 0 constructs fppf cohomology with supports and the two commutative-algebra lemmas on regular
@@ -500,9 +476,8 @@ enough to pass between a ring and its reductions modulo `p`, its completions and
 Layer 4 proves purity in
 characteristic `p`; Layer 5 proves the key formula and purity for perfectoid rings by `p`-complete arc
 descent from products of valuation rings. Layer 6 assembles the main local theorems, Layer 7 their
-global consequences and Gabber's conjectures, together with the theory of groups of multiplicative
-type over a base on which the purity statements for such groups rest, and Layer 8 Česnavičius's
-purity for the Brauer group and for tori. Within a layer each subsection names its target with its hypotheses and source,
+global consequences and Gabber's conjectures, and Layer 8 Česnavičius's purity for the Brauer
+group and for tori. Within a layer each subsection names its target with its hypotheses and source,
 lists its API in prose for definitions, and gives discriminating **Checks**; *Needs* lists exactly
 what the statement and its route use.
 
@@ -1760,10 +1735,7 @@ FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.1.40; LefschetzPencilsAndVanis
 
 This layer deduces from Layer 6 global purity for finite flat coefficients, Moret-Bailly's purity for
 torsors and gerbes, Gabber's conjectures on the local Picard and Brauer groups of complete
-intersections, and purity for groups of multiplicative type ([CS24] §7, pp. 86–93). For the last,
-§§7.13a–7.13e develop diagonalizable groups, groups of multiplicative type and tori over an arbitrary
-base scheme, with their character sheaves, subgroups and quotients (SGA 3 VIII–X); §§7.14–7.16 and
-Layer 8 use them.
+intersections, and purity for groups of multiplicative type ([CS24] §7, pp. 86–93).
 
 ### 7.1 Global purity for flat cohomology with finite flat coefficients
 
@@ -2017,8 +1989,9 @@ locally free `α`-twisted sheaf of positive rank, whose endomorphism algebra is 
   `(x_1, …, x_n)R` lies in `D(x_{n+1})` but in none of `D(x_1), …, D(x_n)`; so `puncturedSpectrum R` is
   not quasi-affine in Mathlib's sense and the theorem makes no assertion about it. For `R = k⟦x, y⟧`,
   `puncturedSpectrum R = D(x) ∪ D(y)` is quasi-compact and the theorem applies.
-- The comparison is only for torsion classes: on the punctured spectrum of the four-dimensional Segre
-  cone of §7.13, `H²(U_R, 𝔾_m)` has nontorsion classes that are not Azumaya.
+- The comparison is only for torsion classes: for the four-dimensional complete intersection
+  `R = S^{sh}⟦x, y⟧/(xy)` built from the Segre cone `S` (§7.12, Checks), `H²(U_R, 𝔾_m)` has nontorsion
+  classes, which are not Azumaya.
 
 ### 7.11 Vector bundles and Azumaya algebras on punctured regular surfaces
 
@@ -2056,281 +2029,24 @@ dimension `≥ 3`); the remaining case is §7.11.
 **Checks.**
 - For `R = W(k)⟦x, y, z⟧` (regular of dimension `4`), `Br(U_R) = Br(R) = Br(k)`.
 - For a hypersurface `R = k⟦x_1, …, x_5⟧/(f)` of dimension `4`, `Br(R) ≅ Br(U_R)`.
-- Dimension-three complete intersections are excluded: §7.13 gives one with `Br(R) = 0` and `Br(U_R)`
-  infinite.
-
-### 7.13 Sharpness of the dimension bound for Brauer purity
-
-Prove: for `S` the local ring at the vertex of the affine cone over a smooth plane cubic over `ℂ`, the
-three-dimensional strictly henselian complete intersection `R = S^{sh}⟦x, y⟧/(xy)` has `Br(R) = 0` and
-`Br(U_R)` infinite; with the Segre embedding of `ℙ¹_ℂ × ℙ¹_ℂ` instead of the cubic, `S` has dimension `3`,
-`R` dimension `4`, and `H²(U_R, 𝔾_m)` contains classes not coming from `H²(R, 𝔾_m)`, necessarily
-nontorsion by §7.12 ([CS24] Remark 7.2.6, p. 90). Route: `Pic(U_S) → Pic(U_{S^{sh}})` is injective, so
-`Pic(U_{S^{sh}})_tors` is infinite while `Pic(U_{S^{sh}⟦t⟧})` is finitely generated ([Bou78] V, Corollaire
-4.9); the sequence `0 → 𝔾_m → (i_{x=0})_*𝔾_m ⊕ (i_{y=0})_*𝔾_m → (i_{x=y=0})_*𝔾_m → 0` on `Spec(R)_ét`
-([Bou78] IV, Lemme 5.1) gives `#Br(U_R) = ∞`, while `Br(R) = 0` as `R` is strictly henselian.
-*Needs:* §§0.1, 7.6, 7.8, 7.12; SchemeAndStackFoundations §§2.11, 2.15, 2.22.
-
-**Checks.**
-- The elliptic example has dimension `3`, below the dimension-four threshold of §7.12; the Segre example
-  has dimension `4` but only nontorsion non-extendable classes, so neither contradicts §7.12.
-- `Pic(U_S)_tors` is infinite for the elliptic cone, matching §7.8's sharpness in dimension `1`.
-- `R` is a complete intersection: `S^{sh}⟦x, y⟧` is a complete intersection of dimension `4` and `xy` is a
-  nonzerodivisor on it.
-
-### 7.13a Diagonalizable groups over a base scheme
-
-For a scheme `S` and a finitely generated commutative group `M` (an object of `TauCeti.FGCommGrpCat`,
-written multiplicatively), define the **diagonalizable group** `diagonalizableGroup S M`, written
-`D_S(M)`, as the base change along the unique morphism `S → Spec ℤ` (Mathlib `specULiftZIsTerminal`)
-of `TauCeti.DiagonalizableGroup.groupScheme` over `ℤ`. Over an affine open `Spec A ⊂ S` it is
-`Spec A[M]`, every `m ∈ M` being group-like. For a homomorphism `φ : N → M` define
-`diagonalizableGroupMap S φ : D_S(M) → D_S(N)` as the base change of
-`TauCeti.DiagonalizableGroup.groupSchemeMap`; on coordinate rings it is the map `A[N] → A[M]` induced
-by `φ`, so `D_S` is contravariant. A group over `S` is an object of Mathlib's `Grp (Over S)`, and base
-change along `f : S′ → S` is `(Over.pullback f).mapGrp`, functorial up to the coherent isomorphisms
-`Over.pullbackId`, `Over.pullbackComp`, `Functor.mapGrpIdIso` and `Functor.mapGrpCompIso` (SGA 3
-VIII, 1.1 and 2.1; [C19] §2).
-*Needs:* Mathlib `Grp`, `Over.pullback`, `Functor.mapGrp`, `specULiftZIsTerminal`, `IsCommMonObj`,
-`Scheme.Hom.fiber`; Tau Ceti `TauCeti.FGCommGrpCat`, `TauCeti.DiagonalizableGroup.groupScheme`,
-`TauCeti.DiagonalizableGroup.groupSchemeMap`, `TauCeti.DiagonalizableGroup.schemeFunctor_full`,
-`TauCeti.DiagonalizableGroup.schemeFunctor_faithful`,
-`TauCeti.DiagonalizableGroup.multiplicativeTypeAffineGroupSchemeProperty_groupScheme`,
-`TauCeti.DiagonalizableGroup.finiteLocallyFreeGroupScheme`, `TauCeti.DiagonalizableGroup.cartierDualIso`;
-ModularCurves 0B; SchemeAndStackFoundations §§1.1, 2.9.
-
-API (each a target):
-- `D_S(M)` is a commutative group over `S` (`isCommMonObj_diagonalizableGroup`) whose structure
-  morphism is affine, flat, surjective and locally of finite presentation
-  (`diagonalizableGroup_affine_faithfullyFlat_finitePresentation`).
-- Over an affine base it is the Tau Ceti group: `D_{Spec R}(M) ≅ TauCeti.DiagonalizableGroup.groupScheme R M`
-  (`diagonalizableGroup_spec_iso`). Its formation commutes with base change: for `f : S′ → S`,
-  `(Over.pullback f).mapGrp` carries `D_S(M)` to `D_{S′}(M)` (`diagonalizableGroup_pullback_iso`), and
-  `D_S(φ)` to `D_{S′}(φ)`.
-- Points: for a scheme `T` over `S`, the `S`-morphisms `T → D_S(M)` are in natural bijection with the
-  group homomorphisms `M → Γ(T, 𝒪_T)^×`, compatibly with the group structures on both sides
-  (`diagonalizableGroup_points_equiv`).
-- `D_S` takes the trivial group to the trivial group `S` and products to fibre products over `S`. The
-  functors of points of `D_S(ℤ)` and of `D_S(ℤ/n)`, `n ≥ 1`, are SchemeAndStackFoundations §2.9's
-  `Gm S` and `mu S n`, and `D_S` of multiplication by `n` on `ℤ` is its `powHom S n`; so `D_S(ℤ)` is
-  `𝔾_m` and `D_S(ℤ/n)` is `μ_n`.
-- The fibre of `D_S(M)` at `s ∈ S` (Mathlib `Scheme.Hom.fiber`) is `D_{κ(s)}(M)`, of multiplicative type
-  over the field `κ(s)` (`TauCeti.DiagonalizableGroup.multiplicativeTypeAffineGroupSchemeProperty_groupScheme`).
-- For finite `M`, `D_S(M)` is finite locally free of rank `|M|` and isomorphic, as a group over `S`, to
-  the diagonalizable group `Spec_S 𝒪_S[M]` of ModularCurves 0B, through the identity of group algebras on
-  affine opens, so `D_S(ℤ/N)` is its `μ_N`; over `Spec R` it is
-  `TauCeti.DiagonalizableGroup.finiteLocallyFreeGroupScheme R M`, whose Cartier dual is the constant group
-  `M` (`TauCeti.DiagonalizableGroup.cartierDualIso`).
-- Homomorphisms: for `S` connected, `φ ↦ D_S(φ)` is a bijection from the homomorphisms `N → M` onto the
-  group homomorphisms `D_S(M) → D_S(N)` over `S` (`diagonalizableGroupMap_bijective`; SGA 3 VIII, 1.6; over
-  an affine base it is the fullness and faithfulness of `TauCeti.DiagonalizableGroup.schemeFunctor`). For
-  arbitrary `S`, the group homomorphisms `D_S(M) → D_S(N)` are the locally constant functions
-  `S → Hom(N, M)`, compatibly with restriction to opens: `U ↦ Hom_U(D_U(M), D_U(N))` is the constant
-  sheaf `Hom(N, M)` (SGA 3 VIII, 1.5).
-
-**Checks.**
-- `D_S(ℤ)` has coordinate ring `𝒪_S[t, t^{-1}]` with `t` group-like, and its points on `T` are
-  `Γ(T, 𝒪_T)^×`: it is `𝔾_m`, whose underlying scheme is `𝔸¹ ∖ 0`, not `𝔸¹`.
-- The fibres of `D_ℤ(ℤ/3)`: over `ℚ` it is `Spec(ℚ × ℚ(ζ_3))`; at `2` it is `Spec 𝔽_2[t]/(t³ − 1) ≅
-  Spec(𝔽_2 × 𝔽_4)`, reduced with two points; at `3` it is `Spec 𝔽_3[t]/(t − 1)³`, one non-reduced point.
-  The fibres are all finite of degree `3` while reducedness jumps at `3`.
-- Contravariance: the surjection `ℤ/4 → ℤ/2` induces the inclusion `μ_2 → μ_4`, not a map `μ_4 → μ_2`.
-- Connectedness is needed for the bijection on homomorphisms: over `S = Spec(k × k)` the endomorphism of
-  `𝔾_m` that is `t ↦ t` over one point and `t ↦ t^{-1}` over the other is the locally constant function
-  with values `1` and `−1`, and is not `D_S(φ)` for any `φ : ℤ → ℤ`.
-
-### 7.13b Smoothness and exactness of diagonalizable groups
-
-Prove `smooth_diagonalizableGroup_iff`: `D_S(M) → S` is smooth iff the order of the torsion subgroup of `M`
-(Mathlib `CommGroup.torsion`) is a unit of `Γ(S, 𝒪_S)`, that is, invertible on `S`. Prove
-`etale_diagonalizableGroup_iff`: for nonempty `S`, `D_S(M) → S` is étale iff `M` is finite and `|M|` is
-invertible on `S` (SGA 3 VIII, 2.1). Route: `D_S(M)` is flat and locally of finite presentation (§7.13a),
-so it is smooth iff its fibres are ([EGA44] 17.5.1); write `M ≅ ℤ^r × M_tors`, so that
-`D_κ(M) ≅ 𝔾_m^r × D_κ(M_tors)` over a field `κ`; `κ[M_tors]` is étale over `κ` iff `char κ ∤ |M_tors|`, since
-for `m ∈ M_tors` of order `p = char κ` the element `m − 1` is a nonzero nilpotent (`(m − 1)^p = m^p − 1 = 0`);
-étaleness adds that the relative dimension `r` vanishes.
-
-Prove, for an injective homomorphism `φ : N → M`, `flat_diagonalizableGroupMap_of_injective` and
-`surjective_diagonalizableGroupMap_of_injective`: `D_S(φ) : D_S(M) → D_S(N)` is flat and surjective; it is
-moreover affine and locally of finite presentation, hence an epimorphism of sheaves on the big fppf site.
-Its kernel, the fibre product with the unit section of `D_S(N)`, is `D_S(M/φ(N))`, embedded by the closed
-immersion `D_S(M → M/φ(N))` (`TauCeti.DiagonalizableGroup.isClosedImmersion_groupSchemeMap_of_surjective`).
-Hence a short exact sequence `1 → N → M → M″ → 1` of finitely generated commutative groups gives an exact
-sequence `1 → D_S(M″) → D_S(M) → D_S(N) → 1` of sheaves on the big fppf site of `S` (SGA 3 VIII, 3.1 and
-3.2). Route: over `Spec A`, `A[M]` is a free `A[N]`-module on any set of representatives of the cosets of
-`φ(N)`, so `A[N] → A[M]` is faithfully flat, and it is of finite presentation because `M` is finitely
-generated; the kernel has coordinate ring `A[M] ⊗_{A[N]} A = A[M/φ(N)]`.
-*Needs:* §7.13a; [EGA44] 17.5.1; Mathlib `AlgebraicGeometry.Smooth`, `Etale`, `Flat`,
-`AlgebraicGeometry.Surjective`, `CommGroup.torsion`; Tau Ceti
-`TauCeti.DiagonalizableGroup.isClosedImmersion_groupSchemeMap_of_surjective`; SchemeAndStackFoundations
-§§2.9, 2.11.
-
-API (each a target):
-- If moreover `M/φ(N)` is finite, `D_S(φ)` is finite locally free of degree `[M : φ(N)]`, and étale exactly
-  over the open subscheme where `[M : φ(N)]` is invertible.
-- For `n ≥ 1` and `φ` the `n`-th power map of `ℤ` (written multiplicatively), the exact sequence is the
-  Kummer sequence `1 → μ_n → 𝔾_m → 𝔾_m → 1` of SchemeAndStackFoundations §2.11 (`fppf_kummer_sequence`),
-  through the identifications of §7.13a.
-- `D_S` is exact: a sequence `M′ → M → M″` of finitely generated commutative groups exact at `M` gives a
-  sequence `D_S(M″) → D_S(M) → D_S(M′)` exact at `D_S(M)` on the big fppf site.
-
-**Checks.**
-- `M = ℤ × ℤ/4`: `D_S(M) = 𝔾_m × μ_4` is smooth over `ℤ[1/2]` and over `𝔽_3`, not over `ℤ` (at `2` the
-  factor `μ_4` is non-reduced), and étale over no nonempty base, its rank being `1`.
-- `μ_p` over `𝔽_p`: `𝔽_p[t]/(t^p − 1) = 𝔽_p[t]/(t − 1)^p` is not reduced, so not smooth, and the torsion
-  order `p` is `0` in `𝔽_p`.
-- Injectivity is needed for flatness: the surjection `ℤ → ℤ/2` induces the closed immersion `μ_2 → 𝔾_m`,
-  which over a nonempty base is not open, hence not flat.
-- The inclusion `2ℤ ⊂ ℤ` induces squaring on `𝔾_m`, finite locally free of degree `2` with kernel
-  `μ_2 = D_S(ℤ/2)`, étale exactly over `S[1/2]`.
-
-### 7.13c Groups of multiplicative type and tori over a base
-
-Define, for a group `G` over a scheme `S`:
-- `IsDiagonalizable G`: `G ≅ D_S(M)` for some finitely generated `M`;
-- `IsMultiplicativeType G`: there is an fppf cover `{S_i → S}` (Mathlib `Scheme.Cover` for
-  `Scheme.fppfPrecoverage`) over each member of which the base change `G_{S_i}` is diagonalizable,
-  `G_{S_i} ≅ D_{S_i}(M_i)`, the finitely generated group `M_i` being allowed to depend on `i`;
-- `IsTorus G`: the same with every `M_i` torsion free (Mathlib `IsMulTorsionFree`), hence free of finite
-  rank.
-These are the groups of multiplicative type of finite type over `S` and the tori of SGA 3 IX, 1.1, where
-fpqc covers are used; for finitely generated `M_i` the étale, fppf and fpqc notions agree by the theorem
-below ([CS24] §7.2, p. 91; [C19] §2).
-
-Prove `isMultiplicativeType_iff_exists_etaleCover` and `isMultiplicativeType_iff_exists_fpqcCover`: `G` is
-of multiplicative type iff some étale cover (Mathlib `Scheme.etalePrecoverage`) makes every `G_{S_i}`
-diagonalizable, iff some fpqc cover (Mathlib `Scheme.fpqcPrecoverage`) does (SGA 3 X, 4.5). Route: étale
-covers are fppf covers and fppf covers are fpqc covers. Conversely, limit arguments
-(SchemeAndStackFoundations §0.9) reduce to the spectrum of a henselian Noetherian local ring; a group of
-multiplicative type over a field is split by a finite separable extension, which lifts to a finite étale
-local extension of the henselian ring, and over a henselian local ring a group of multiplicative type
-with diagonalizable closed fibre is diagonalizable (SGA 3 X, 4.3–4.4); spreading out gives an étale
-neighbourhood of each point.
-*Needs:* §§7.13a, 7.13b; SchemeAndStackFoundations §0.9; ModularCurves 0E; Mathlib `Scheme.Cover`,
-`Scheme.etalePrecoverage`, `Scheme.fppfPrecoverage`, `Scheme.fpqcPrecoverage`, `IsMulTorsionFree`; Tau Ceti
-`TauCeti.multiplicativeTypeAffineGroupSchemeProperty`, `TauCeti.torusAffineGroupSchemeProperty`,
-`TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat.cartierDual`, `TauCeti.DiagonalizableGroup.cartierDualIso`.
-
-API (each a target):
-- Diagonalizable groups are of multiplicative type (by the identity cover), `D_S(ℤ^r)` is a torus, and
-  tori are of multiplicative type. The three predicates are invariant under isomorphism and stable under
-  base change along every `S′ → S` and under fibre products over `S`; being of multiplicative type, or a
-  torus, may be checked after base change to the members of any fppf cover of `S`.
-- A group of multiplicative type is commutative, and its structure morphism is affine, flat, surjective
-  and locally of finite presentation, by fpqc descent of these properties from §7.13a (of affineness
-  through ModularCurves 0E). It is smooth iff, for every member of a cover splitting it, the torsion order
-  of `M_i` is invertible on `S_i`; in particular a torus is smooth over `S`, étale-locally `𝔾_m^r`
-  (§7.13b).
-- Over a field `k`, for an affine group of finite type over `k` (an object of
-  `TauCeti.FiniteTypeAffineGroupSchemeCat`), the predicates here agree with Tau Ceti's:
-  `isMultiplicativeType_iff_multiplicativeTypeAffineGroupSchemeProperty` and
-  `isTorus_iff_torusAffineGroupSchemeProperty` (both sides amount to diagonalizability after extension to
-  an algebraic closure of `k`, equivalently to some finite extension).
-- Finite groups: over `Spec R`, a commutative finite locally free group `G` (an object of
-  `TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat`) is of multiplicative type iff its Cartier dual
-  `TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat.cartierDual R G` is étale over `Spec R`
-  (`isMultiplicativeType_iff_etale_cartierDual`): the dual of `D(M)` for finite `M` is the constant group
-  `M` (`TauCeti.DiagonalizableGroup.cartierDualIso`), and a commutative finite étale group is étale-locally
-  constant. A group of multiplicative type that is finite over `S` is finite locally free.
-
-**Checks.**
-- `μ_n` over `ℤ` is diagonalizable, hence of multiplicative type, and for `n ≥ 2` it is not a torus: its
-  character group `ℤ/n` has torsion.
-- `α_p` over `𝔽_p` is finite locally free with Cartier dual `α_p`, which is not étale, so `α_p` is not of
-  multiplicative type; `𝔾_a` over a field is not of multiplicative type either, having no nontrivial
-  character over an algebraic closure, while every nontrivial group of multiplicative type has one.
-- The circle `x² + y² = 1` over `ℝ`, with the group law of `(x + iy)(x′ + iy′)`, is a torus that is not
-  diagonalizable: `(x, y) ↦ x + iy` identifies it with `𝔾_m` over the étale cover `Spec ℂ → Spec ℝ`, but
-  its only character over `ℝ` is trivial.
-- Over `S = Spec(k × k)` the group that is `𝔾_m` over one point and `μ_2` over the other is of
-  multiplicative type (cover `S` by its two points) but not diagonalizable, since `D_S(M)` has the same
-  fibre `D(M)` over both points: the definition must let `M_i` depend on `i`.
-
-### 7.13d The character sheaf and the anti-equivalence
-
-Define, for a group `G` over `S`, its **character sheaf** `X^*(G) = ℋom(G, 𝔾_m)`: the abelian presheaf
-`T ↦ Hom_T(G_T, 𝔾_{m,T})` of group homomorphisms into `𝔾_{m,T} = D_T(ℤ)` on schemes over `S`, a sheaf for
-the big étale topology (Mathlib `Scheme.etaleTopology` restricted to schemes over `S` by
-`GrothendieckTopology.over`) by descent of morphisms (SchemeAndStackFoundations §1.1). An abelian sheaf `F`
-on the big étale site of `S` is **twisted constant of finite type** if some étale cover `{S_i → S}` has
-every restriction `F|_{S_i}` isomorphic to the constant sheaf of a finitely generated group `M_i`, which
-may depend on `i` (SGA 3 X, 5.1). Prove (SGA 3 X, 5.3 and 5.7; [C19] §2):
-(a) `X^*(D_S(M))` is the constant sheaf `M`, and for `G` of multiplicative type `X^*(G)` is twisted
-constant of finite type, with the `M_i` of an étale cover splitting `G` (§7.13c).
-(b) `G ↦ X^*(G)` is an anti-equivalence from groups of multiplicative type over `S` onto twisted constant
-sheaves of finite type on the big étale site of `S`, compatible with base change along every `S′ → S`.
-Its quasi-inverse sends `F` to the sheaf `D_S(F) = ℋom(F, 𝔾_m)`, which is representable: étale-locally
-it is `D_{S_i}(M_i)`, and affine group schemes with descent data along an étale cover descend
-(ModularCurves 0E).
-(c) `G` is diagonalizable iff `X^*(G)` is isomorphic to a constant sheaf, and diagonalizable over each
-member of a Zariski cover iff `X^*(G)` is Zariski-locally constant.
-Route: by §7.13a, `ℋom(D_S(M), D_S(N))` is the constant sheaf `Hom(N, M)`, so `X^*` is fully faithful
-étale-locally, hence globally by descent of morphisms (SchemeAndStackFoundations §1.1); essential
-surjectivity is the effectivity in (b).
-*Needs:* §§7.13a–7.13c; SchemeAndStackFoundations §§1.1, 2.9; ModularCurves 0E; Mathlib
-`Scheme.etaleTopology`, `GrothendieckTopology.over`.
-
-API (each a target):
-- `X^*(G ×_S G′) ≅ X^*(G) ⊕ X^*(G′)`, `X^*(μ_n) = ℤ/n` and `X^*(𝔾_m^r) = ℤ^r`; a homomorphism of groups
-  of multiplicative type acts on character sheaves by composition, and `Hom_S(G, G′) ≅
-  Hom(X^*(G′), X^*(G))`.
-- A sequence `1 → G′ → G → G″ → 1` of groups of multiplicative type is exact on the big fppf site iff
-  `0 → X^*(G″) → X^*(G) → X^*(G′) → 0` is exact on the big étale site (étale-locally this is §7.13b).
-- `G` is a torus iff the stalks of `X^*(G)` at geometric points are torsion free, and finite over `S` iff
-  they are finite; for finite `G`, the finite étale group representing `X^*(G)` is the Cartier dual of
-  `G` (§7.13c).
-- The type of `G`, the isomorphism class of the stalk of `X^*(G)` at a geometric point over `s ∈ S`, is a
-  locally constant function of `s`; for a torus its rank is the relative dimension of `G` over `S`.
-
-**Checks.**
-- `X^*(μ_p)` over `𝔽_p` is the constant sheaf `ℤ/p`, although `μ_p` has only the trivial point on every
-  reduced `𝔽_p`-scheme: characters detect the non-reduced structure that reduced points miss.
-- For the circle torus of §7.13c over `ℝ`, `X^*` is `ℤ` with complex conjugation acting by `−1`, which
-  is not constant, matching the failure of diagonalizability.
-- Over `Spec(k × k)` the group of §7.13c, Checks, has character sheaf `ℤ` over one point and `ℤ/2` over
-  the other: twisted constant of finite type but not of constant type, which the definition admits.
-
-### 7.13e Subgroups of multiplicative type, quotients and the largest subtorus
-
-Prove, for groups of multiplicative type over `S` (SGA 3 VIII, 3.1 and 3.4; IX, 2.7):
-(a) For a homomorphism `u : G → G′` of groups of multiplicative type, `ker u` is of multiplicative type
-and closed in `G`, the fppf quotient `G/ker u` is representable and of multiplicative type,
-`G → G/ker u` is affine, faithfully flat and of finite presentation, and `G/ker u → G′` is a closed
-immersion. So groups of multiplicative type over `S` form an abelian category, on which `X^*` is exact.
-(b) The closed subgroups `H ⊂ G` of multiplicative type correspond bijectively to the twisted constant
-quotient sheaves of finite type `X^*(G) ↠ Q`, through restriction of characters `H ↦ (X^*(G) ↠ X^*(H))`;
-the quotient `G/H` has character sheaf `ker(X^*(G) → X^*(H))`.
-(c) For a torus `T`, the **cocharacter sheaf** `X_*(T) = ℋom(X^*(T), ℤ)` is twisted constant with free
-stalks of finite rank, `X^*(T) = ℋom(X_*(T), ℤ)`, and its sections over `S′` are the homomorphisms
-`𝔾_{m,S′} → T_{S′}`; `T ↦ X_*(T)` is an equivalence from tori over `S` onto twisted constant sheaves with
-free stalks of finite rank.
-(d) The torsion subsheaf `X^*(G)_tors` is twisted constant of finite type; `G^tor = D_S(X^*(G)/X^*(G)_tors)`
-is a torus, closed in `G` by (b), and contains every subtorus of `G`, since the character sheaf of a torus
-is torsion free: it is the **largest subtorus**. The quotient `G/G^tor = D_S(X^*(G)_tors)` is finite
-locally free and of multiplicative type.
-Route: étale-locally on `S` everything is §7.13b for diagonalizable groups; the anti-equivalence of
-§7.13d descends it.
-*Needs:* §§7.13a–7.13d.
-
-API (each a target):
-- For `m ≥ 1`, `[m] : G → G` corresponds to multiplication by `m` on `X^*(G)`, and the `m`-torsion
-  `G[m] = ker [m]` is `D_S(X^*(G)/m)`, finite locally free over `S` and étale if `m` is invertible on `S`.
-
-**Checks.**
-- `G = D_ℤ(ℤ × ℤ/3) = 𝔾_m × μ_3`: `G^tor = 𝔾_m × 1`, `G/G^tor = μ_3`, and `G[3] = μ_3 × μ_3`, étale over
-  `ℤ[1/3]` and not over `ℤ`.
-- Over a connected base the subgroups of `𝔾_m` of multiplicative type are `𝔾_m` and the `μ_n`, `n ≥ 1`,
-  matching the quotients `ℤ/n`, `n ≥ 0`, of `ℤ`; `𝔾_m/μ_n ≅ 𝔾_m` through `t ↦ t^n`, also when `n` is
-  divisible by a residue characteristic.
-- Multiplicative type is needed in (b): over `ℤ`, the closed subscheme `V(2(t − 1))` of
-  `μ_2 = Spec ℤ[t]/(t² − 1)` is a subgroup (the conditions `t² = 1` and `2(t − 1) = 0` are stable under
-  products and inverses) whose fibre over `ℚ` is trivial and over `𝔽_2` is all of `μ_2`; it is not flat
-  and corresponds to no quotient of `ℤ/2`.
+- The bound `4` for complete intersections cannot be lowered to `3`. Let `S` be the local ring at the
+  vertex of the affine cone over a smooth plane cubic over `ℂ`, a two-dimensional hypersurface; then
+  `S^{sh}⟦x, y⟧` is a complete intersection of dimension `4` on which `xy` is a nonzerodivisor, and
+  `R = S^{sh}⟦x, y⟧/(xy)` is a three-dimensional strictly henselian complete intersection with
+  `Br(R) = 0` and `Br(U_R)` infinite ([CS24] Remark 7.2.6, p. 90, whose argument uses the finite
+  generation of `Pic` of the punctured spectrum of `S^{sh}⟦t⟧`, [Bou78] V, Corollaire 4.9). A version of
+  the theorem for complete intersections of dimension `≥ 3` would give `Br(U_R) = 0` here.
+- The theorem is about torsion classes and does not extend to all of `H²(−, 𝔾_m)`. With the cone over
+  the Segre embedding of `ℙ¹_ℂ × ℙ¹_ℂ` in place of the cubic cone, `S` has dimension `3` and
+  `R = S^{sh}⟦x, y⟧/(xy)` is a four-dimensional strictly henselian complete intersection with
+  `H²(R, 𝔾_m) = 0` and `H²(U_R, 𝔾_m) ≠ 0` ([CS24] Remark 7.2.6, p. 90). Since `Br(U_R) = Br(R) = 0` by
+  the theorem and `Br(U_R) = H²(U_R, 𝔾_m)_tors` by §7.10, every nonzero class of `H²(U_R, 𝔾_m)` is
+  nontorsion: `H²(R, 𝔾_m) → H²(U_R, 𝔾_m)` is not surjective although `Br(R) → Br(U_R)` is.
 
 ### 7.14 Kernel-of-tori presentations of groups of multiplicative type
 
 For a scheme `X`, groups of multiplicative type, tori and the character sheaf `X^*(T) = ℋom(T, 𝔾_m)` are
-those of §§7.13c–7.13d (SGA 3 IX, 1.1 and X, 4.5; [CS24] §7.2, p. 91; [C19] §2);
+those of GroupSchemesOverABase §§2.1–2.3 (SGA 3 IX, 1.1 and X, 4.5; [CS24] §7.2, p. 91; [C19] §2);
 over a field they are Tau Ceti's `TauCeti.MultiplicativeTypeAffineGroupSchemeCat` and
 `TauCeti.TorusAffineGroupSchemeCat`. Prove, for a finite type `X`-group `T` of multiplicative type:
 (a) Zariski locally on `X`, `T` is the kernel of a homomorphism of tori `S_1 → S_2` (SGA 3 IX, 2.11; [CS24]
@@ -2338,15 +2054,16 @@ proof of Theorem 7.2.8, p. 92). Route: on an open where `X^*(T)` has constant ty
 exponent of the torsion of `M`; the sheaf `L = X^*(T) ×_{X^*(T)/n} ℤ[X^*(T)/n]`, with `ℤ[X^*(T)/n]` the
 free abelian sheaf on the finite locally constant sheaf `X^*(T)/n`, is an extension of `ℤ[X^*(T)/n]` by
 `n·X^*(T) ≅ X^*(T)/torsion`, hence locally constant with free stalks of finite rank, and `L → X^*(T)` is
-surjective with kernel `K ≅ ker(ℤ[X^*(T)/n] → X^*(T)/n)`, also locally free of finite rank; by §§7.13b
-and 7.13d, `T = D(X^*(T)) = ker(D(L) → D(K))` with `D(L)`, `D(K)` tori. (b) If `m > 0` kills the torsion
-of `X^*(T)` (after a clopen decomposition of `X`), then `[m] : T → T` factors as `T → S → T` with `S` the torus
-with character sheaf `m·X^*(T)`, `T → S` an fppf epimorphism with kernel `T[m] = D(X^*(T)/m)`, which is
-finite locally free, and `S → T` a closed immersion onto the largest subtorus `D(X^*(T)/torsion)` of
-§7.13e: the inclusion `m·X^*(T) ⊂ X^*(T)` and the surjection `X^*(T) → m·X^*(T)`, `x ↦ mx`, with
-kernel the torsion, compose to multiplication by `m`. (c) Tori are smooth over `X` (étale locally `D(ℤ^r)`,
-§§7.13b, 7.13c), so their fppf and étale cohomology agree (SchemeAndStackFoundations §2.10).
-*Needs:* §§7.13a–7.13e; SchemeAndStackFoundations
+surjective with kernel `K ≅ ker(ℤ[X^*(T)/n] → X^*(T)/n)`, also locally free of finite rank; by
+GroupSchemesOverABase §§1.4 and 2.3, `T = D(X^*(T)) = ker(D(L) → D(K))` with `D(L)`, `D(K)` tori.
+(b) If `m > 0` kills the torsion of `X^*(T)` (after a clopen decomposition of `X`), then `[m] : T → T`
+factors as `T → S → T` with `S` the torus with character sheaf `m·X^*(T)`, `T → S` an fppf epimorphism
+with kernel `T[m] = D(X^*(T)/m)`, which is finite locally free, and `S → T` a closed immersion onto the
+largest subtorus `D(X^*(T)/torsion)` of GroupSchemesOverABase §2.7: the inclusion `m·X^*(T) ⊂ X^*(T)`
+and the surjection `X^*(T) → m·X^*(T)`, `x ↦ mx`, with kernel the torsion, compose to multiplication by
+`m`. (c) Tori are smooth over `X` (étale locally `D(ℤ^r)`, GroupSchemesOverABase §§1.3, 2.2), so their
+fppf and étale cohomology agree (SchemeAndStackFoundations §2.10).
+*Needs:* GroupSchemesOverABase §§1.3, 1.4, 2.1–2.3, 2.7; SchemeAndStackFoundations
 §§1.18, 2.9, 2.10; Tau Ceti `TauCeti.MultiplicativeTypeAffineGroupSchemeCat`,
 `TauCeti.TorusAffineGroupSchemeCat`.
 
@@ -2362,8 +2079,8 @@ kernel the torsion, compose to multiplication by `m`. (c) Tori are smooth over `
   `S_1 = Res_{ℂ/ℝ} 𝔾_m`, `S_2 = 𝔾_m` and the norm map, and (b) with `m = 1` is the identity factorization.
 - `𝔾_a` over a field and `α_p` are not of multiplicative type (`𝔾_a` has no nontrivial characters, the
   Cartier dual of `α_p` is `α_p`, not étale), so neither admits a presentation (a): the kernel of a
-  homomorphism of tori `S_1 → S_2` is `D` of the cokernel of `X^*(S_2) → X^*(S_1)` (§7.13e), of
-  multiplicative type.
+  homomorphism of tori `S_1 → S_2` is `D` of the cokernel of `X^*(S_2) → X^*(S_1)`
+  (GroupSchemesOverABase §§1.4, 2.3, 2.7), of multiplicative type.
 
 ### 7.15 Purity for groups of multiplicative type in degrees ≤ 2
 
@@ -2387,7 +2104,7 @@ need not be parafactorial (the three-dimensional node has `Pic(U_R) ≅ ℤ`); f
 `m` as in §7.14, lift through `[n] ∘ q : T → S` with finite locally free kernel `T[mn]`, and extend by §§6.2,
 6.5 and Noetherian induction; in the regular dimension-two case use (a) in degree `1` and §7.12 with Kummer
 in degree `2`.
-*Needs:* §§0.2, 0.5, 6.2, 6.5, 7.4, 7.5, 7.12, 7.13c, 7.13d, 7.14;
+*Needs:* §§0.2, 0.5, 6.2, 6.5, 7.4, 7.5, 7.12, 7.14; GroupSchemesOverABase §§2.1, 2.3;
 DeformationAndDerivedPatchingAlgebra §§3.4, 6.9;
 ModularCurves Layer 4D.
 
@@ -2407,7 +2124,7 @@ dimension `≥ d` all of whose strict henselizations are factorial, or regular o
 pp. 92–93; footnote 28). Route: reduce to strictly local `X` and `T = 𝔾_m`; by §7.9(a) all
 `H^i_Z(X, 𝔾_m)` are torsion (using §7.15(a) in degrees `≤ 1`), and §7.1 for `μ_n` with the Kummer sequence
 kills their `n`-torsion for `i < d`.
-*Needs:* §§0.2, 7.1, 7.4, 7.9, 7.13c, 7.14, 7.15; SchemeAndStackFoundations §2.11.
+*Needs:* §§0.2, 7.1, 7.4, 7.9, 7.14, 7.15; GroupSchemesOverABase §2.1; SchemeAndStackFoundations §2.11.
 
 **Checks.**
 - For `X` regular and `Z` of codimension `≥ 2` (`d = 3`) it gives bijectivity for `i ≤ 1` and injectivity
@@ -2426,11 +2143,10 @@ For `R = k⟦x_1, …, x_5⟧/(x_1x_2 − x_3x_4 + x_5²)` (a four-dimensional h
 ### Dependencies
 
 §§0.1–0.5, 1.1, 6.2, 6.5; DeformationAndDerivedPatchingAlgebra §§3.4, 6.9; PurityOfBranchLocus §0.3;
-ModularCurves 0B, 0E, Layer 4D;
-SchemeAndStackFoundations §§0.3, 0.4, 0.6, 0.9, 0.17, 1.1, 1.15, 1.18, 2.7, 2.9–2.11, 2.15, 2.22, 3.4;
+GroupSchemesOverABase §§1.3, 1.4, 2.1–2.3, 2.7; ModularCurves Layer 4D;
+SchemeAndStackFoundations §§0.3, 0.4, 0.6, 0.17, 1.15, 1.18, 2.7, 2.9–2.11, 2.15, 2.22, 3.4;
 Tau Ceti `TauCeti.AlgebraicGeometry.LineBundleClass`, `TauCeti.MultiplicativeTypeAffineGroupSchemeCat`,
-`TauCeti.TorusAffineGroupSchemeCat`, `TauCeti.FGCommGrpCat`, `TauCeti.DiagonalizableGroup.groupScheme`,
-`TauCeti.DiagonalizableGroup.cartierDualIso`, `TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat.cartierDual`.
+`TauCeti.TorusAffineGroupSchemeCat`.
 
 ## Layer 8: Purity for the Brauer group and for tori on regular schemes
 
@@ -2454,8 +2170,8 @@ Theorem 5.3 (= Theorem 1.3), p. 12; [CS24] Theorem 1.1.3(b) and the paragraph af
 - For `R = k⟦x, y⟧` with `k` separably closed, `H²(U_R, 𝔾_m) = 0` although `U_R` is not affine.
 - For `R = W(k̄)⟦x, y, z⟧` (mixed characteristic, dimension `4`) the `p`-primary part of `H²(U_R, 𝔾_m)`
   vanishes, the case open before [C19].
-- Regularity is needed: for the three-dimensional strictly henselian complete intersection of §7.13,
-  `Br(U_R)` is infinite.
+- Regularity is needed: for the three-dimensional strictly henselian complete intersection
+  `R = S^{sh}⟦x, y⟧/(xy)` built from the cubic cone `S` (§7.12, Checks), `Br(U_R)` is infinite.
 
 ### 8.2 Finite étale descent for tori on punctured spectra
 
@@ -2473,7 +2189,7 @@ then `H^i(k, T) = 0` for `i ≥ 1` and every `k`-torus `T`; (e) for a henselian 
 dimension `≥ 2` with residue field of dimension `≤ 1`, a nonzero finite étale `R`-algebra `R′` and an
 `R`-torus `T`, `H^1(U_R, T) → H^1(U_{R′}, T)` and `H²(U_R, T) → H²(U_{R′}, T)` are injective. Part (b) is
 stated for commutative `G`; see the Notes on the sources under References.
-*Needs:* §§0.1, 0.5, 7.6, 7.13c, 7.14; SchemeAndStackFoundations §§1.15, 2.3, 2.11, 2.15; ModularCurves
+*Needs:* §§0.1, 0.5, 7.6, 7.14; GroupSchemesOverABase §2.1; SchemeAndStackFoundations §§1.15, 2.3, 2.11, 2.15; ModularCurves
 Layer 4D.
 
 **Checks.**
@@ -2525,7 +2241,7 @@ Prove: for a scheme `X`, a closed `Z ⊂ X` with `X ∖ Z → X` quasi-compact a
 splitting of tori reduce to `T = 𝔾_m` on a strictly henselian regular local `X`; §8.4 reduces to `Z` the
 closed point; then `H^0(R, 𝔾_m) ≅ H^0(U_R, 𝔾_m)` (§0.5), `H^{>0}(R, 𝔾_m) = 0`, `Pic(U_R) = 0` (§7.6) and
 §8.1 give `H^q_𝔪(R, 𝔾_m) = 0` for `q ≤ 3`.
-*Needs:* §§0.2, 0.3, 0.5, 7.6, 7.13c, 7.14, 8.1, 8.4; SchemeAndStackFoundations §2.15.
+*Needs:* §§0.2, 0.3, 0.5, 7.6, 7.14, 8.1, 8.4; GroupSchemesOverABase §2.1; SchemeAndStackFoundations §2.15.
 
 **Checks.**
 - For `X = Spec R`, `R` strictly henselian regular of dimension `2` and `Z` the closed point, it is
@@ -2557,15 +2273,16 @@ quasi-compact, and no regularity is assumed off `Z`. This is §8.6 for `T = 𝔾
 - For `X` regular and `Z` of codimension `≥ 2`, `Br′(X) ≅ Br′(X ∖ Z)`.
 - Codimension two is necessary: restriction from `𝔸²_ℂ` to the complement of the coordinate axes is
   not surjective on Brauer groups (§8.18).
-- Regularity along `Z` is necessary: for the three-dimensional complete intersection of §7.13, `Br(U_R)`
-  is infinite while `Br(R) = 0`.
+- Regularity along `Z` is necessary: for the three-dimensional complete intersection
+  `R = S^{sh}⟦x, y⟧/(xy)` built from the cubic cone `S` (§7.12, Checks), `Br(U_R)` is infinite while
+  `Br(R) = 0`.
 
 ### 8.8 Generic injectivity of H² for a torus
 
 Define, for a Noetherian integral regular scheme `X` with function field `K` and an `X`-torus `T`: `T` has
 generically injective `H²` on `X` if `H²_ét(V, T) → H²_ét(Spec K, T)` is injective for every nonempty open
 `V ⊂ X` ([C19] Theorem 6.2, condition (6.2.1), p. 13; Remark 6.3, p. 14).
-*Needs:* §§7.13c, 7.14; SchemeAndStackFoundations §2.15.
+*Needs:* §7.14; GroupSchemesOverABase §2.1; SchemeAndStackFoundations §2.15.
 
 API (each a target):
 - It passes to every nonempty open `V ⊂ X`.
@@ -2618,7 +2335,7 @@ nontrivial extension by any permutation module `ℤ[Gal(X′/X)/H]` ([CTS87] §0
 pp. 157–158; [C19] Remark 6.3, p. 14). Prove: flasque tori have generically injective `H²` ([CTS87] Theorem
 2.2(ii), pp. 161–163), and every torus direct factor of `Res_{X″/X}(𝔾_m)` for a finite étale `X″/X` is
 flasque (Shapiro's lemma and `H^1(H, ℤ) = 0`).
-*Needs:* §§7.13c, 7.13d, 7.14, 8.8; SchemeAndStackFoundations §§2.15, 2.22.
+*Needs:* §§7.14, 8.8; GroupSchemesOverABase §§2.1, 2.3; SchemeAndStackFoundations §§2.15, 2.22.
 
 API (each a target):
 - Quasi-trivial tori `Res_{X″/X}𝔾_m` and their direct factors are flasque.
@@ -2775,8 +2492,8 @@ punctured spectrum, §8.10 describes `Br(ℤ_p⟦x⟧)` inside `Br(Frac ℤ_p⟦
 
 ### Dependencies
 
-§§0.1–0.5, 3.5, 6.5, 7.6, 7.9–7.11, 7.13c, 7.13d, 7.14; SchemeAndStackFoundations §§1.15, 2.1–2.3, 2.11,
-2.15, 2.22; ModularCurves Layer 4D; ArithmeticGaloisDuality §R02.2.4.
+§§0.1–0.5, 3.5, 6.5, 7.6, 7.9–7.11, 7.14; SchemeAndStackFoundations §§1.15, 2.1–2.3, 2.11, 2.15, 2.22;
+GroupSchemesOverABase §§2.1, 2.3; ModularCurves Layer 4D; ArithmeticGaloisDuality §R02.2.4.
 
 ## Downstream consumers
 
@@ -2819,7 +2536,7 @@ them, instead of planning them (see Scope and ownership).
   globaux (SGA 2)*, augmented edition, Documents Mathématiques 4, SMF 2005; arXiv:math/0511279.
 - **[SGA1]** A. Grothendieck, *Revêtements étales et groupe fondamental (SGA 1)*, Exposé V; arXiv:math/0206203.
 - **[EGA44]** A. Grothendieck and J. Dieudonné, *Éléments de géométrie algébrique IV*, quatrième partie,
-  Publ. Math. IHÉS 32 (1967), 17.5.1 and §21.13.
+  Publ. Math. IHÉS 32 (1967), §21.13.
 - **[STACKS]** The Stacks project authors, *The Stacks project*, tags 07DV, 0913, 09Q1, 09Q7, 0DXR, 0DX9,
   0EHC, 0EJP, 023M.
 - **[Poo17]** Bjorn Poonen, *Rational points on varieties*, GSM 186, AMS 2017, §6.8.
@@ -2842,7 +2559,7 @@ them, instead of planning them (see Scope and ownership).
   Theorem A.
 - **[MB85]** Laurent Moret-Bailly, *Un théorème de pureté pour les familles de courbes lisses*, C. R. Acad.
   Sci. Paris Sér. I 300 (1985), 489–492, Lemme 2.
-- **[Bou78]** Jean-François Boutot, *Schéma de Picard local*, LNM 632 (1978), IV 5.1, V 4.9.
+- **[Bou78]** Jean-François Boutot, *Schéma de Picard local*, LNM 632 (1978), V 4.9.
 - **[CTS87]** J.-L. Colliot-Thélène and J.-J. Sansuc, *Principal homogeneous spaces under flasque tori:
   applications*, J. Algebra 106 (1987), 148–205.
 - **[DF84]** Frank R. DeMeyer and Timothy J. Ford, *On the Brauer group of surfaces*, J. Algebra 86 (1984),
@@ -2864,7 +2581,7 @@ them, instead of planning them (see Scope and ownership).
 - **[EGA42]** A. Grothendieck and J. Dieudonné, *Éléments de géométrie algébrique IV*, seconde partie,
   Publ. Math. IHÉS 24 (1965), 5.10.5 and 6.1.2.
 - **[BH]** W. Bruns and J. Herzog, *Cohen–Macaulay rings*, Cambridge 1993, Definition 2.3.1.
-- **[SGA3]** M. Demazure and A. Grothendieck (eds.), *Schémas en groupes (SGA 3)*, Exposés VIII–X.
+- **[SGA3]** M. Demazure and A. Grothendieck (eds.), *Schémas en groupes (SGA 3)*, Exposés IX–X.
 - **[SGA4]** M. Artin, A. Grothendieck and J.-L. Verdier, *Théorie des topos et cohomologie étale des schémas
   (SGA 4)*, Exposés V, VII, XVIII.
 - **[SGA5]** A. Grothendieck, *Cohomologie ℓ-adique et fonctions L (SGA 5)*, Exposé I.
