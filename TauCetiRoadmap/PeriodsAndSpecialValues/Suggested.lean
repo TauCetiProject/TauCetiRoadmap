@@ -1,4 +1,6 @@
-import Mathlib
+module
+
+public import Mathlib
 
 /-!
 # Periods and special values: target signatures
@@ -36,6 +38,8 @@ recursion presents ColemanIntegration L1.12's word product (PS.9.2). Those suppl
 functions and word-algebra carriers are not present at the pins, so their comparison
 maps are README targets; neither local presentation establishes a second generic API.
 -/
+
+@[expose] public section
 
 noncomputable section
 
@@ -235,3 +239,7 @@ theorem mzv_span_finrank_le (N : ℕ) :
   sorry
 
 end TauCetiRoadmap.PeriodsAndSpecialValues
+
+end
+
+end
