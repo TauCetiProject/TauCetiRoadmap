@@ -837,16 +837,15 @@ sharp. Keep the characteristic-zero hypothesis in the polynomial-space nonvanish
 and numerical multiplicity consequences; the existing `𝔽₂` example still applies.
 
 `Suggested.lean` prototypes these interfaces directly against the implemented
-carrier, in its polynomial-space Wronskian section. Arithmetic interpolation consumes the bounds; it does not own another
-Wronskian or a new absolute value. A rank argument for a particular bivariate
+carrier, in its polynomial-space Wronskian section. A rank argument for a particular bivariate
 specialization is an application, rather than part of these general estimates.
 [ArithmeticInterpolationDeterminants I0](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1905)
 owns the distinct characteristic-`p`
 ordinary/Hasse jet comparisons, including their order restrictions. These
-characteristic-zero polynomial-space bounds retain their own hypotheses.
-[Analytic Number Theory Part I §0.34c](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1126)
-owns its specialized resultant and auxiliary-matrix argument; that application
-supplies no prerequisites for the general Wronskian estimates here.
+characteristic-zero polynomial-space bounds retain their own hypotheses. The
+Wronskian estimates apply to univariate specializations of polynomial spaces;
+the choice of a bivariate specialization and the rank proof for an auxiliary
+matrix belong to the application.
 For related upstream work, [Mathlib PR #42046](https://github.com/leanprover-community/mathlib4/pull/42046)
 develops two-polynomial Wronskian dependence lemmas. Follow its API where it overlaps;
 the finite-family degree and polynomial-space multiplicity bounds here use the
