@@ -1,29 +1,29 @@
 # Roadmap: group schemes over a base
 
 **Summary.** Build the relative theory of group schemes of SGA 3 that lies under the reductive
-theory: diagonalizable groups, groups of multiplicative type and tori over an arbitrary base
-scheme, their rigidity and density of torsion, Hom schemes and centralizers; the structure of a
-group of finite type over a field and the ranks it defines along the fibres of a smooth group
-scheme; and, on the relative reductive groups of ReductiveGroups Layer 8, the line bundles of the
-flag scheme `G/B⁻` with its Picard group, the Steinberg map and the Grothendieck–Springer space.
-The carriers are Mathlib's group objects `Grp (Over S)` with base change
-`(Over.pullback f).mapGrp`, and Tau Ceti's `TauCeti.DiagonalizableGroup.groupScheme`. The end
-theorems are: for a smooth group scheme over any base, the identity component is an open
-subgroup scheme, smooth and quasi-compact with connected fibres; over a connected base,
-`Hom(D_S(M), D_S(N)) = Hom(N, M)`, and `D_S(M)` is smooth iff the order of the torsion of `M` is
-invertible on `S`; every group of multiplicative type of finite type is étale-locally
-diagonalizable, and isotrivial over a connected, locally noetherian, normal base, while a torus
-of rank two over the nodal curve is not; homomorphisms between groups of multiplicative type
-lift uniquely along thickenings and are determined by one fibre over a connected base and by
-their restrictions to torsion; Chevalley's theorem over a perfect field and the affinization over
-any field; for `G` smooth with connected fibres, the specialization inequalities of the abelian
-rank, the reductive rank plus the abelian rank, and the semisimple dimension (lower), and of the
-nilpotent and unipotent ranks (upper); for `G` split reductive over a locally noetherian, normal,
-connected base, `Pic(S) ⊕ ℤ^Δ ≅ Pic(G/B⁻)`; for `G` split reductive with simply connected
-derived group, the Steinberg map `G → T/W`, smooth exactly on the regular locus, with a section
-when `G` is moreover semisimple; and, over a regular noetherian connected base and for positive
-semisimple rank, the absence of a resolution of `G` that is an isomorphism over `G^reg`, with
-exceptional locus of codimension `≥ 2` in every fibre and smooth composite to `T/W`.
+theory: diagonalizable groups, groups of multiplicative type and tori over an arbitrary base scheme,
+their rigidity and density of torsion, Hom schemes and centralizers; the structure of a group of
+finite type over a field and the ranks it defines along the fibres of a smooth group scheme; and, on
+the relative reductive groups of ReductiveGroups Layer 8, the line bundles of the flag scheme `G/B⁻`
+with its Picard group, the Steinberg map and the Grothendieck–Springer space. The carriers are
+Mathlib's group objects `Grp (Over S)` with base change `(Over.pullback f).mapGrp`, and Tau Ceti's
+`TauCeti.DiagonalizableGroup.groupScheme`. The end theorems are: for a smooth group scheme over any
+base, the identity component is an open subgroup scheme, smooth and quasi-compact with connected
+fibres; over a connected base, `Hom(D_S(M), D_S(N)) = Hom(N, M)`, and `D_S(M)` is smooth iff the
+order of the torsion of `M` is invertible on `S`; every group of multiplicative type of finite type
+is étale-locally diagonalizable, and isotrivial over a connected, locally noetherian, normal base,
+while a torus of rank two over the nodal curve is not; homomorphisms between groups of
+multiplicative type lift uniquely along thickenings and are determined by one fibre over a connected
+base and by their restrictions to torsion; Chevalley's theorem over a perfect field and the
+affinization over any field; for `G` smooth with connected fibres, the specialization inequalities
+of the abelian rank and the reductive rank plus the abelian rank (lower), and of the nilpotent and
+unipotent ranks (upper), and, for `G` moreover affine, of the semisimple dimension (lower); for `G`
+split reductive over a locally noetherian, normal, connected base, `Pic(S) ⊕ ℤ^Δ ≅ Pic(G/B⁻)`; for
+`G` split reductive with simply connected derived group, the Steinberg map `G → T/W`, smooth exactly
+on the regular locus, with a section when `G` is moreover semisimple; and, over a regular noetherian
+connected base and for positive semisimple rank, the absence of a resolution of `G` that is an
+isomorphism over `G^reg`, with exceptional locus of codimension `≥ 2` in every fibre and smooth
+composite to `T/W`.
 
 ## Scope and ownership
 
@@ -58,18 +58,22 @@ and the Picard groups of `G̃`, `G` and `G^reg` (Layer 7).
   approximation (§0.9), quotient predicates (§1.17), the carrier `NonabelianH1` of torsor
   classes (§2.3), the big-site sheaves `𝔾_m` and `μ_n` (§2.9), Hilbert 90 (§2.11) and Picard
   groups of schemes (§3.4).
-- ModularCurves 0B owns finite locally free group schemes and their Cartier duality, 0C finite
-  quotients and torsors, 0E effective descent.
-- AlgebraicModuliForArithmeticGeometry §7.9 owns the identity-component subfunctor of a group
-  algebraic space over a locally Noetherian base; 0.2 compares with it.
+- ModularCurves 0B owns finite locally free group schemes and their Cartier duality, and
+  constructs the diagonalizable group `D_S(M) = Spec_S O_S[M]` and `μ_N` for finite `M`, which
+  1.1 compares with this roadmap's `D_S(M)`; 0C owns finite quotients and torsors, 0E effective
+  descent.
+- AlgebraicModuliForArithmeticGeometry §7.9 owns the identity-component subfunctor of a
+  quasi-separated group algebraic space over a locally Noetherian base; 0.2 compares with it.
 - FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.4 owns finite locally free groups of
   multiplicative type and their rigidity; 2.1 and 3.1 compare with it.
 - InverseGaloisAndArithmeticFundamentalGroups IG.0.3 owns the finite monodromy of locally constant
   sheaves of free `ℤ`-modules on a normal base, and IG.0.4 the Noohi groups and the pro-étale
   fundamental group; 2.5 and 2.6 use them.
-- AbelianSchemesAndArithmeticModuli owns abelian schemes and their Tate modules (5.3, 5.5).
-- SchubertGeometry S3 owns the associated lines `L(λ)` on `G/B⁻` over a field with their tensor,
-  dual, base-change and ampleness laws, and S7.1 the divisor of the normalized extremal section;
+- AbelianSchemesAndArithmeticModuli A0.1 owns abelian schemes (5.5), and A4.1 their integral
+  Tate modules for primes invertible on the base (5.3).
+- SchubertGeometry S3, first item, owns the associated lines `L(λ)` on `G/B⁻` over a field with
+  their tensor, dual, base-change and ampleness laws, and S7, first item, the divisor of the
+  normalized extremal section;
   EquivariantIntersectionTheory 1.1 owns `G`-linearised invertible sheaves and `Pic^G`, and 1.3
   the exact sequence `0 → X*(G) → Pic^G(X) → Pic(X)`. Layer 6 is the extension over a base.
 
@@ -153,7 +157,7 @@ their base change, pinnings and root subgroups `x_α` (Layers 6–7).
 **From SchemeAndStackFoundations.** §0.6 (7.7), §0.9 (5.3), §1.17 (4.1), §2.3 `NonabelianH1`
 (1.6), §2.9 (1.4, 2.3), §2.11 (1.6), §3.4 (6.3, 7.7).
 
-**From ModularCurves.** 0B (1.5), 0C (7.1), 0E (2.3, 6.1).
+**From ModularCurves.** 0B (1.1, 1.5), 0C (7.1), 0E (2.3, 6.1).
 
 **From AlgebraicModuliForArithmeticGeometry.** §7.9, the identity-component subfunctor (0.2).
 
@@ -164,11 +168,11 @@ their base change, pinnings and root subgroups `x_α` (Layers 6–7).
 **From NeronModelsAndSemistableAbelianVarieties.** 2.3, the Chevalley decomposition of a smooth
 connected commutative group over a perfect field (4.2).
 
-**From AbelianSchemesAndArithmeticModuli.** Abelian schemes and the prime-to-characteristic Tate
-module (5.3, 5.5).
+**From AbelianSchemesAndArithmeticModuli.** A0.1, abelian schemes (5.5); A4.1, the integral Tate
+module for primes invertible on the base (5.3).
 
-**From SchubertGeometry.** S3, the lines `L(λ)` over a field (6.1); S7.1, the divisor of the
-normalized extremal section (6.2).
+**From SchubertGeometry.** S3, first item, the lines `L(λ)` over a field (6.1); S7, first item,
+the divisor of the normalized extremal section (6.2).
 
 **From EquivariantIntersectionTheory.** 1.1, `G`-linearised invertible sheaves and `Pic^G`
 (6.1); 1.3, the sequence `0 → X*(G) → Pic^G(X) → Pic(X)` for `G` connected (6.2).
@@ -213,10 +217,10 @@ For `G` smooth over `S`, prove `exists_identityComponent`: there is an open subg
 `G⁰ ⊆ G`, smooth and quasi-compact over `S`, with connected fibres (SGA 3, Exp. VI_B, 3.9 and
 3.10, which need smoothness only along the unit section). It is unique, since its fibre at `s`
 is an open connected subgroup of the fibre of `G` at `s`, and its formation commutes with base
-change. Over a locally Noetherian base, `G⁰` represents the identity-component subfunctor of
-AlgebraicModuliForArithmeticGeometry §7.9 applied to `G` as a group algebraic space. *Needs:*
-0.1; AlgebraicModuliForArithmeticGeometry §7.9; Mathlib `Scheme.Hom.fiber`, `IsOpenImmersion`,
-`Smooth`.
+change. Over a locally Noetherian base and for `G` quasi-separated, `G⁰` represents the
+identity-component subfunctor of AlgebraicModuliForArithmeticGeometry §7.9 applied to `G` as a
+group algebraic space. *Needs:* 0.1; AlgebraicModuliForArithmeticGeometry §7.9; Mathlib
+`Scheme.Hom.fiber`, `IsOpenImmersion`, `Smooth`.
 
 **Checks.**
 
@@ -245,8 +249,10 @@ over `ULift ℤ` at `Multiplicative M`, and `diagonalizableMap S φ : D_S(M) ⟶
 `φ : N →+ M` as the base change of `TauCeti.DiagonalizableGroup.groupSchemeMap`. Prove that
 `D_S(M)` is commutative, affine and faithfully flat, of finite presentation, with fibre `D(M)`
 over every point, and that over `Spec R` it is isomorphic to Tau Ceti's group scheme over `R`
-(SGA 3, Exp. VIII, 2.1 a), b)). *Needs:* 0.1; Tau Ceti
-`TauCeti.DiagonalizableGroup.groupScheme`, `TauCeti.DiagonalizableGroup.groupSchemeMap`.
+(SGA 3, Exp. VIII, 2.1 a), b)). For `M` finite, `D_S(M)` is isomorphic, as a group over `S`, to
+the diagonalizable group `Spec_S O_S[M]` of ModularCurves 0B, by the identity of the group
+algebras over each affine open, and `D_S(ℤ/N)` to its `μ_N`. *Needs:* 0.1; ModularCurves 0B;
+Tau Ceti `TauCeti.DiagonalizableGroup.groupScheme`, `TauCeti.DiagonalizableGroup.groupSchemeMap`.
 
 **Checks.**
 
@@ -335,8 +341,8 @@ coefficients `D_S(M)` (SchemeAndStackFoundations §2.3) are `Pic(S)^r × ∏ᵢ 
 
 ### Dependencies
 
-Layer 0; Tau Ceti's diagonalizable group schemes and Cartier duality; ModularCurves 0B;
-SchemeAndStackFoundations §2.3, §2.9, §2.11.
+Layer 0; Tau Ceti's diagonalizable group schemes and Cartier duality; ModularCurves 0B (1.1,
+1.5); SchemeAndStackFoundations §2.3, §2.9, §2.11.
 
 ## Layer 2: groups of multiplicative type and tori
 
@@ -395,12 +401,14 @@ SchemeAndStackFoundations §2.9; ModularCurves 0E.
 Over a field `k`, `X*(H)` is the continuous `Gal(k^s/k)`-module of Tau Ceti's
 `MultiplicativeType/GaloisModule.lean`, and 2.3 restricts to the anti-equivalence between groups
 of multiplicative type over `k` and finitely generated discrete Galois modules (SGA 3, Exp. X,
-1.2). *Needs:* 2.3; Tau Ceti `TauCeti.multiplicativeTypeCommHopfAlgProperty`.
+1.2 and 1.4). *Needs:* 2.3; Tau Ceti `TauCeti.multiplicativeTypeCommHopfAlgProperty`.
 
 **Checks.**
 
 - `𝔾_m` corresponds to `ℤ` with trivial action.
-- `μ_n` over `ℚ` corresponds to `ℤ/n` with `Gal(ℚ̄/ℚ)` acting through the cyclotomic character.
+- `μ_n` over `ℚ` is diagonalizable and corresponds to `ℤ/n` with trivial action: its characters
+  `ζ ↦ ζ^a` are defined over `ℚ`. The cyclotomic action is on the points `μ_n(ℚ̄)`, not on
+  `X*(μ_n)`.
 - The norm-one torus over `ℝ` corresponds to `ℤ` with the generator of `Gal(ℂ/ℝ)` acting by `−1`.
 
 ### 2.5 Isotriviality
@@ -594,8 +602,10 @@ Tau Ceti `TauCeti.AlgebraicGeometry.AbelianVariety`; NeronModelsAndSemistableAbe
 
 - For an abelian variety `L = 1`; for `G` affine `L = G`.
 - For `G = A × 𝔾_m`, `L = 𝔾_m`.
-- For `G = A × 𝔾_m`, the subgroup `A[2] × 𝔾_m` is affine and normal with quotient the abelian
-  variety `A/A[2]`, but not connected: connectedness of `L` is what makes it unique.
+- In characteristic `≠ 2`, for `G = A × 𝔾_m`, the subgroup `A[2] × 𝔾_m` is smooth, affine and
+  normal with quotient the abelian variety `A/A[2]`, but not connected: connectedness of `L` is
+  what makes it unique. (In characteristic `2`, `A[2]` is not smooth, and connected when `A` is
+  supersingular.)
 
 ### 4.3 Affinization
 
@@ -671,15 +681,34 @@ and `T ↦ Z_G(T)` is a bijection onto the Cartan subgroups (SGA 3, Exp. XII, 7.
 ### 5.3 Specialization inequalities
 
 For `s` a specialization of `s′`: `ρ_ab(s) ≤ ρ_ab(s′)`, `ρ_r(s) + ρ_ab(s) ≤ ρ_r(s′) + ρ_ab(s′)`,
-`d_s(s) ≤ d_s(s′)`, `ρ_n(s) ≥ ρ_n(s′)` and `ρ_u(s) ≥ ρ_u(s′)` (SGA 3, Exp. X, Remarques 8.7,
-stated there without proof for a discrete valuation ring, and equivalently as semicontinuity);
-since the fibre dimension is locally constant, `dim L(s) ≥ dim L(s′)` follows. Route: reduce to
-`S` locally noetherian by Noetherian approximation (SchemeAndStackFoundations §0.9), then to
-the spectrum of a discrete valuation ring dominating the specialization (EGA II, 7.1.9); prolong
-the torsion of a split maximal torus of the special fibre to finite étale subgroups (3.3) and
-take their centralizers (3.5); the abelian rank uses the prime-to-characteristic Tate module of
-the abelian quotient (AbelianSchemesAndArithmeticModuli). *Needs:* 5.1, 5.2, 3.3, 3.5;
-SchemeAndStackFoundations §0.9; AbelianSchemesAndArithmeticModuli.
+`ρ_n(s) ≥ ρ_n(s′)` and `ρ_u(s) ≥ ρ_u(s′)` (SGA 3, Exp. X, Remarques 8.7, stated there without
+proof for a discrete valuation ring, and equivalently as semicontinuity); since the fibre
+dimension is locally constant, `dim L(s) ≥ dim L(s′)` follows. For `G` affine, moreover
+`d_s(s) ≤ d_s(s′)`. Route: reduce to `S` locally noetherian by Noetherian approximation
+(SchemeAndStackFoundations §0.9), then to the spectrum of a discrete valuation ring dominating
+the specialization (EGA II, 7.1.9), and then to a complete one with separably closed residue
+field; prolong the torsion of a split maximal torus of the special fibre to finite étale
+subgroups (3.3) and take their centralizers (3.5); the abelian rank uses the
+prime-to-characteristic Tate module of the abelian quotient (AbelianSchemesAndArithmeticModuli
+A4.1).
+
+The inequality for `d_s` is this roadmap's own statement, with the following route. The
+inclusion of a split maximal torus `T_s ≅ 𝔾_m^r` of `G_s` is a point of the smooth scheme
+`Hom(𝔾_m^r, G)` (3.4), which lifts over the henselian base to `u : 𝔾_m^r → G`; its kernel is of
+multiplicative type with trivial special fibre (SGA 3, Exp. IX, 6.8), hence trivial, so `u` is a
+closed subtorus `T`. The étale separated `W_G(T) = N_G(T)/Z_G(T) ⊆ Aut(T)` (3.5) has every point
+of its special fibre on a section. Hence the Weyl group `W_s` of `G_s` acts on `F = X_*(T)_ℚ` by
+restrictions of elements of `Stab_W(F)`, where `W` is the Weyl group of the geometric generic
+fibre relative to a maximal torus `T′` of `Z_{G_η̄}(T_η̄)`, and `F ⊆ F′ = X_*(T′)_ℚ`. Write
+`d_s = |Φ| + rank Φ` for the root system `Φ` of the reductive quotient, with Weyl group `W`, and
+`Φ_s` for that of `G_s`. The rank: `W_s` fixes `F ∩ F′^W`, so
+`rank Φ_s = dim F − dim F^{W_s} ≤ dim F′ − dim F′^W = rank Φ`. The roots: for a reflection
+`r ∈ W_s` with fixed hyperplane `H ⊂ F`, a lift of `r` fixes a general point of `H`, whose
+stabiliser in `W` is generated by the reflections `s_α` with `α|_H = 0` (Humphreys, Theorem
+1.12); not all of these vanish on `F`, so some `α_r ∈ Φ` restricts to a nonzero form on `F`
+with kernel `H`. Distinct reflections have distinct `H`, so `r ↦ ±α_r` is injective and
+`|Φ_s| ≤ |Φ|`. *Needs:* 5.1, 5.2, 3.3, 3.4, 3.5; SchemeAndStackFoundations §0.9;
+AbelianSchemesAndArithmeticModuli A4.1.
 
 **Checks.**
 
@@ -709,11 +738,16 @@ Let `A` be an abelian scheme over `ℤ_p`, `ω` a basis vector of the free modul
 `G` the extension of `A` by `𝔾_a` of class `p·ω`. Then `G` is smooth with connected fibres,
 `(G_η)_affq = 1` at the generic point and `(G_s)_affq ≅ 𝔾_a` at the closed point, while
 `dim L = 1` at both: the affinization is not constant along specialization. *Needs:* 4.3;
-AbelianSchemesAndArithmeticModuli.
+AbelianSchemesAndArithmeticModuli A0.1.
 
 **Checks.**
 
-- With class `ω` instead of `p·ω`, `(G_s)_affq = 1` as well.
+- With class `ω` instead of `p·ω`, `G_s` is a non-split extension and still `(G_s)_affq ≅ 𝔾_a`,
+  unlike characteristic `0` (4.3, Checks). Let `t_i = t_j + f_{ij}` glue the fibre coordinates,
+  with `(f_{ij})` representing `ω̄`. The classes `F^k(ω̄)`, `0 ≤ k ≤ dim A`, represented by
+  `(f_{ij}^{p^k})`, are dependent in `H¹(A_s, O)`. A relation `Σ a_k F^k(ω̄) = 0` with
+  `Σ a_k f_{ij}^{p^k} = g_i − g_j` makes `P(t_i) − g_i`, for the additive `P(x) = Σ a_k x^{p^k}`,
+  a nonconstant function on `G_s`. For `A_s` supersingular, `F(ω̄) = 0` and `P = x^p`.
 - With class `0`, `G = A × 𝔾_a` and `G_affq = 𝔾_a` on both fibres.
 - In both fibres `ρ_ab = dim A`, so the jump is invisible to the ranks of 4.4.
 
@@ -725,7 +759,7 @@ AbelianSchemesAndArithmeticModuli.
 
 ### Dependencies
 
-Layers 3–4; SchemeAndStackFoundations §0.9; AbelianSchemesAndArithmeticModuli.
+Layers 3–4; SchemeAndStackFoundations §0.9; AbelianSchemesAndArithmeticModuli A0.1 and A4.1.
 
 ## Layer 6: line bundles and Picard groups of the flag scheme
 
@@ -738,12 +772,12 @@ For `λ ∈ X*(T)`, construct `𝓛(λ)` on `G/B⁻ = Bor(G)` over `S` by descen
 (ModularCurves 0E), with its `G`-linearisation in the sense of EquivariantIntersectionTheory 1.1:
 `𝓛(λ + μ) ≅ 𝓛(λ) ⊗ 𝓛(μ)`, `𝓛(−λ) ≅ 𝓛(λ)^∨`, compatibility with base change on `S`, and, for
 `χ ∈ X*(G)`, `𝓛(χ|_T)` is trivial as a line bundle with linearisation twisted by `χ`. Over a field
-these are SchubertGeometry S3's lines `L(λ)` with their linearisation and fibre character, and
-their laws there are consumed, not reproved. Over `S`, `𝓛(λ)` is relatively ample iff it is ample
-on every fibre, that is iff `⟨λ, α^∨⟩ > 0` for every `α ∈ Δ` (SchubertGeometry S3.1; Jantzen,
-II.4.4). Translation by a representative `n₀` of `w₀` gives `G/B⁺ ≅ G/B⁻`, `gB⁺ ↦ g n₀⁻¹ B⁻`,
-which pulls `𝓛(μ)` back to the `B⁺`-line of character `w₀μ`: the comparison with sources whose
-flags are `G/B⁺`. *Needs:* ReductiveGroups Layer 8 (`Bor(G)`), 9B; ModularCurves 0E;
+these are SchubertGeometry S3's lines `L(λ)` with their linearisation and fibre character, and their
+laws there are consumed, not reproved. Over `S`, `𝓛(λ)` is relatively ample iff it is ample on every
+fibre, that is iff `⟨λ, α^∨⟩ > 0` for every `α ∈ Δ` (SchubertGeometry S3, first item; Jantzen,
+II.4.4). Translation by a representative `n₀` of `w₀` gives `G/B⁺ ≅ G/B⁻`, `gB⁺ ↦ g n₀⁻¹ B⁻`, which
+pulls `𝓛(μ)` back to the `B⁺`-line of character `w₀μ`: the comparison with sources whose flags are
+`G/B⁺`. *Needs:* ReductiveGroups Layer 8 (`Bor(G)`), 9B; ModularCurves 0E;
 EquivariantIntersectionTheory 1.1; SchubertGeometry S3.
 
 **Checks.**
@@ -755,18 +789,17 @@ EquivariantIntersectionTheory 1.1; SchubertGeometry S3.
 
 ### 6.2 Picard groups over a field
 
-For `G` connected split reductive over a field: `0 → X*(G) → X*(T) → Pic(G/B⁻) → Pic(G) → 0`
-is exact, with `X*(T) → Pic(G/B⁻)` the map `λ ↦ 𝓛(λ)` followed by forgetting the linearisation
-(Popov 1974, §4; Sansuc 1981, §6). The kernel `X*(G)` is EquivariantIntersectionTheory 1.3 for
-`X = G/B⁻`, which is normal with `k[X]^* = k^*`. Let `D_α` be the closure of `B⁺ s_α B⁻/B⁻`; the
-complement of the big cell `U⁺B⁻/B⁻` is `⋃_α D_α`. Translated by `n₀`, `D_α` is the Schubert
-divisor `X(w₀ s_α)`, and the divisor of the normalized extremal section of `L(λ)`, `λ` dominant,
-is `Σ_α ⟨λ, α^∨⟩ X(w₀ s_α)` (SchubertGeometry S7.1 at `w = w₀`), so `O(D_α)` is the line of the
-fundamental weight `ϖ_α`, read on the simply connected cover of the derived group, whose flag
-variety is `G/B⁻`. Hence `Pic(G/B⁻) ≅ ℤ^Δ ≅ P`, `𝓛(λ) ↦ (⟨λ, α^∨⟩)_α`, and
-`Pic(G) ≅ P/X*(T_der)` is finite, zero iff the derived group is simply connected. *Needs:* 6.1;
-EquivariantIntersectionTheory 1.3; SchubertGeometry S7.1; ReductiveGroups Layer 8 (simply
-connected cover).
+For `G` connected split reductive over a field: `0 → X*(G) → X*(T) → Pic(G/B⁻) → Pic(G) → 0` is
+exact, with `X*(T) → Pic(G/B⁻)` the map `λ ↦ 𝓛(λ)` followed by forgetting the linearisation (Popov
+1974, §4; Sansuc 1981, §6). The kernel `X*(G)` is EquivariantIntersectionTheory 1.3 for `X = G/B⁻`,
+which is normal with `k[X]^* = k^*`. Let `D_α` be the closure of `B⁺ s_α B⁻/B⁻`; the complement of
+the big cell `U⁺B⁻/B⁻` is `⋃_α D_α`. Translated by `n₀`, `D_α` is the Schubert divisor `X(w₀ s_α)`,
+and the divisor of the normalized extremal section of `L(λ)`, `λ` dominant, is
+`Σ_α ⟨λ, α^∨⟩ X(w₀ s_α)` (SchubertGeometry S7, first item, at `w = w₀`), so `O(D_α)` is the line of
+the fundamental weight `ϖ_α`, read on the simply connected cover of the derived group, whose flag
+variety is `G/B⁻`. Hence `Pic(G/B⁻) ≅ ℤ^Δ ≅ P`, `𝓛(λ) ↦ (⟨λ, α^∨⟩)_α`, and `Pic(G) ≅ P/X*(T_der)` is
+finite, zero iff the derived group is simply connected. *Needs:* 6.1; EquivariantIntersectionTheory
+1.3; SchubertGeometry S7; ReductiveGroups Layer 8 (simply connected cover).
 
 **Checks.**
 
@@ -797,7 +830,7 @@ SchemeAndStackFoundations §3.4.
 
 ### Dependencies
 
-ReductiveGroups Layer 8 and 9B; ModularCurves 0E; SchubertGeometry S3 and S7.1;
+ReductiveGroups Layer 8 and 9B; ModularCurves 0E; SchubertGeometry S3 and S7;
 EquivariantIntersectionTheory 1.1 and 1.3; SchemeAndStackFoundations §3.4.
 
 ## Layer 7: the Steinberg map and the Grothendieck–Springer space
@@ -898,8 +931,9 @@ type over a field of characteristic `0` being smooth (Cartier). *Needs:* 7.4.
   `𝔽₂`, and over `ℤ`, `a` and `J → T/W` are not smooth.
 - Over `ℚ`, the fibre of `J` at a rational `c ≠ ±2` is a maximal torus of `SL₂`, split iff
   `c² − 4` is a square.
-- At `c = 2` over `ℚ`, `σ(2)` is regular unipotent and the fibre of `J` is `μ₂ × 𝔾_a`, smooth of
-  dimension `1`.
+- At `c = 2` over `ℚ`, `σ(2) = κ(−2) = [[2, 1], [−1, 0]]` has characteristic polynomial
+  `(x − 1)²` and is regular unipotent. Its centralizer `{[[s − 2r, −r], [r, s]] : (s − r)² = 1}`,
+  the fibre of `J`, is `μ₂ × 𝔾_a`, smooth of dimension `1`.
 
 ### 7.6 The Grothendieck–Springer space
 
@@ -969,21 +1003,36 @@ Layer 6; ReductiveGroups Layer 8 and 9B; ModularCurves 0C; SchemeAndStackFoundat
 
 ## Downstream consumers
 
-- FlagVarieties (Scope) names this roadmap for the relative scheme `Bor(G)`; that scheme is
-  ReductiveGroups Layer 8's, and this roadmap's share is the line bundles on it and its Picard
+- FlagVarieties (Scope) names this roadmap, as GS7, for the relative scheme `Bor(G)`; that scheme
+  is ReductiveGroups Layer 8's, and this roadmap's share is the line bundles on it and its Picard
   group (Layer 6).
-- NeronModelsAndSemistableAbelianVarieties names 4.2 as the owner of Chevalley's theorem for
-  noncommutative groups and of its comparison with its own 2.3, and consumes nothing from it.
+- NeronModelsAndSemistableAbelianVarieties names 4.2, as GS4.2, as the owner of Chevalley's
+  theorem for noncommutative groups and of its comparison with its own 2.3, and consumes nothing
+  from it.
+- SpringerResolutionAndCharacteristicCycles (Scope) names 7.6, as GS8.5 or §7.6, for the
+  Grothendieck–Springer space `G̃ ⊆ G × Bor(G)`, distinct from its own additive `g̃`, and consumes
+  nothing from it.
 - EquivariantIntersectionTheory names this roadmap's line bundles `𝓛(λ)` on `G/B⁻` (6.1) as
   linearised invertible sheaves in the sense of its 1.1.
+
+The identifiers used in those roadmaps resolve here as follows: GS4.2 is 4.2; GS7 is, for
+`Bor(G)`, ReductiveGroups Layer 8 and, for the line bundles on it, Layer 6; GS8.5 is 7.6.
+
+## Research context
+
+SGA 3, Exp. X, Remarques 8.7, states `d_s(s) ≤ d_s(s′)` for every smooth group over a discrete
+valuation ring, without proof. The route of 5.3 needs `G` affine: a maximal torus of the special
+fibre need not lift when the generic fibre is not affine, as for a smooth group with generic fibre
+an elliptic curve and special fibre `𝔾_m` (SGA 3, Exp. X, 8.3), where the lifted torsion fills
+the elliptic curve.
 
 ## References
 
 - M. Demazure, A. Grothendieck et al., *Schémas en groupes* (SGA 3), LNM 151–153 (1970);
   re-edition by P. Gille and P. Polo, Documents Mathématiques 7 and 8, SMF (2011): Exp. VI_A 3.2;
   Exp. VI_B 3.9, 3.10; Exp. VIII 1.5, 1.6, 2.1, 3.1, 3.2; Exp. IX 1.1, 3.3, 3.6, 4.7, 4.8, 5.1,
-  5.3; Exp. X 1.2, 1.4, 1.6, 2.1, 4.5, 5.1, 5.6–5.9, 5.16, 8.7; Exp. XI 4.2, 5.3, 5.3 bis, 5.9;
-  Exp. XII 1.5, 1.7, 1.10, 7.1.
+  5.3, 6.8; Exp. X 1.2, 1.4, 1.6, 2.1, 4.5, 5.1, 5.6–5.9, 5.16, 8.3, 8.7; Exp. XI 4.2, 5.3,
+  5.3 bis, 5.9; Exp. XII 1.5, 1.7, 1.10, 7.1.
 - B. Conrad, « A modern proof of Chevalley's theorem on algebraic groups », *J. Ramanujan Math.
   Soc.* 17 (2002), 1–18, Thm. 1.1.
 - B. Conrad, « Reductive group schemes », in *Autour des schémas en groupes* I, Panoramas et
@@ -998,6 +1047,8 @@ Layer 6; ReductiveGroups Layer 8 and 9B; ModularCurves 0C; SchemeAndStackFoundat
   (1965), 49–80, Theorems 1.1, 1.3, 1.4, 6.1, 7.1, 7.9 and 8.1. Numdam PMIHES_1965__25__49_0.
 - P. Slodowy, *Simple singularities and simple algebraic groups*, LNM 815, Springer (1980),
   ch. 3–4.
+- J. E. Humphreys, *Reflection groups and Coxeter groups*, Cambridge Stud. Adv. Math. 29,
+  Cambridge University Press (1990), Theorem 1.12.
 - J. C. Jantzen, *Representations of algebraic groups*, 2nd ed., AMS (2003), II.1.8, II.4.4.
 - N. Bourbaki, *Groupes et algèbres de Lie*, ch. VI, §3, no. 4, Thm. 1.
 - V. L. Popov, « Picard groups of homogeneous spaces of linear algebraic groups and
