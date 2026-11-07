@@ -30,8 +30,10 @@ Not statable at the pins:
   `Theta_6 = 0` is implied by the six-dimensional recognition theorem below);
 * the stable stems as colimits, stable `J` and the Pontryagin--Thom isomorphism (Stages 3, 4C
   and 5): there is no suspension homomorphism on `HomotopyGroup` and no framed bordism group;
-* the connected James equivalence and the EHP exact sequence (Sections 3B–3C): the pins lack
-  the reduced word space, reduced pointed suspension and James–Hopf map;
+* the connected James equivalence, the James splitting after one suspension and the EHP exact
+  sequence (Sections 3B–3C): the pins lack the reduced word space, reduced pointed suspension
+  and James–Hopf map, and the stable form of the splitting also needs a stable category of
+  spectra with a suspension spectrum functor;
 * Hopf-invariant-one exclusion (Section 3C.5): the pins lack the pointed topological mapping
   cone and its integral cup-product Hopf invariant. The sphere-framing consequence is stated
   below on the native smooth tangent bundle;

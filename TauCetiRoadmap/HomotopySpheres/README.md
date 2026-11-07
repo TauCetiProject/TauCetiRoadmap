@@ -34,7 +34,7 @@ The roadmap is complete when Tau Ceti proves the following connected development
    connected sum, with inverse given by orientation reversal and an explicit inverse
    h-cobordism.
 4. Stable sphere homotopy groups are constructed from suspension in compactly generated spaces.
-   The James construction,
+   The James construction with its splitting after one suspension,
    Freudenthal theorem, EHP sequence, composition, and Toda brackets provide a reproducible
    calculation route rather than a table oracle.
 5. Stable `O`/`SO`, the loop comparison with the shared `BSO` classifier, real Bott periodicity,
@@ -68,9 +68,11 @@ The division of ownership is as follows.
 - The [algebraic-topology roadmap](../AlgebraicTopology/README.md) owns relative singular
   homology, excision, cellular comparison, Poincare duality, Hurewicz, Whitehead, and finite CW
   type.  This roadmap consumes those theorems in handle, surgery, framing-obstruction, and
-  recognition arguments.  Its exact supplier contract consists of the representative
-  `relativeHurewicz`, `homologicalWhitehead`, `poincareDualityMap_isIso`, and
-  `compactManifoldFiniteCWType` declarations.  This roadmap owns the sphere-specific stable comparisons and low stable-stem calculations.
+  recognition arguments.  Its exact supplier contract consists of relative Hurewicz for
+  based cofibration pairs (Stage 8 item 4), Poincaré–Lefschetz duality by cap product with
+  the fundamental class (Stage 6 item 4), the homological Whitehead theorem
+  `homologicalWhitehead` (Stage 8 item 5) and the finite CW type of compact smooth
+  manifolds `compactManifoldFiniteCWType` (Stage 8 item 7).  This roadmap owns the sphere-specific stable comparisons and low stable-stem calculations.
 - [CharacteristicClasses C1.2b](../CharacteristicClasses/README.md) owns the actual
   singular-realization counit and its weak-equivalence theorem; AlgebraicTopology Stage 4
   item 7 owns its realization CW structure. Section 3B adds the pointed compact-generation
@@ -85,9 +87,9 @@ The division of ownership is as follows.
   these maps.
 - The [geometric-topology roadmap](../GeometricTopology/README.md) owns manifolds with
   boundary and corners, collars, boundary gluing, standard handles, handle attachment, tubular
-  neighbourhoods, connected sum, general framed surgery, general oriented cobordisms,
-  and smooth triangulation. TangentialBordism B1.1–B1.2 packages the structured collared
-  witnesses and their operations used here.  This roadmap uses those same objects.  It introduces no
+  neighbourhoods, connected sum, general framed surgery and smooth triangulation.
+  TangentialBordism B1.1–B1.2 owns the oriented collared cobordism witnesses in general
+  dimension and their operations used here.  This roadmap uses those same objects.  It introduces no
   second boundary, collar, gluing, handle, surgery, connected-sum, cobordism, or triangulation
   type.
 - [DifferentialGeometry Layers 2 and 10](../DifferentialGeometry/README.md) own chosen
@@ -108,7 +110,7 @@ The division of ownership is as follows.
   `Omega BSO ~=_h SO`, smooth tangent/normal framing applications and the full real Bott loop
   chain. Distinct homogeneous-space models have named comparisons respecting universal
   bundles, basepoints, stabilization and clutching, rather than a second classifier.
-  The order is the early convenient-space substrate in 3A, T1.5–T1.6, then 4A–4B here,
+  The order is the convenient-space substrate of AlgebraicTopology Stage 4 item 8, T1.5–T1.6, then 4A–4B here,
   then TopologicalKTheory T7's real KO/ABS applications. The early classifier construction
   consumes neither this Bott theorem nor T7's later inverses/applications.
 - The spin-representation section of the
@@ -126,11 +128,18 @@ The division of ownership is as follows.
   owns finite-dimensional Morse–Bott normal-Hessian and negative-bundle attachment.
   Stage 4B verifies its hypotheses and computes the actual negative bundles in the Bott chain.
 - Mathlib supplies the carrier `CompactlyGenerated.{u,w}` and its fully faithful inclusion
-  `i : CompactlyGenerated ⥤ TopCat`.  This roadmap packages `TopologicalSpace.compactlyGenerated` as the right
-  adjoint `k` in the coreflection `i ⊣ k`, including the counit `i (k X) ⟶ X`, together with
-  compactly generated products and mapping spaces, pointed closed structure, and the
-  limit/colimit comparisons needed below.  It does not silently use ordinary `TopCat` products
-  or limits where compact generation is required for an exponential law.
+  `i : CompactlyGenerated ⥤ TopCat`.  AlgebraicTopology Stage 4 item 8, *Compact generation
+  and the pointed adjunction*, owns `TopologicalSpace.compactlyGenerated` packaged as the
+  right adjoint `k` in the coreflection `i ⊣ k` with its counit `i (k X) ⟶ X`, the
+  convenient products `k(X×Y)` and exponentials with the exponential law, their CW and
+  locally compact comparisons, sequential colimits along closed inclusions, and the pointed
+  convenient category with its smash product, reduced suspension (interval coordinate
+  last), based loop space and the suspension–loop adjunction on based maps and on based
+  homotopy classes. Section 3A consumes that item and owns the reduced cone, mapping cone,
+  cofiber and Puppe sequences, pointed mapping cylinders, the co-H structure on reduced
+  suspension, stabilization and the stable stems. No construction here silently uses
+  ordinary `TopCat` products or limits where compact generation is required for an
+  exponential law.
 
 - [TangentialBordism B1, B3.2(b–c), B5.2](../TangentialBordism/README.md) owns
   relative facewise transversality, the Spin-surface refinement and filling criterion, and
@@ -180,9 +189,11 @@ These conventions apply throughout the layers.
 - **Stable topology uses one convenient category.**  Based mapping objects are compact-open
   mapping spaces followed by compact generation in `CompactlyGenerated.{u,w}`.  Products,
   smash products, loop spaces, suspensions, James constructions, stable classical groups,
-  classifying spaces, and their filtered colimits are formed there.  Prove comparison
-  homeomorphisms with Mathlib's ordinary spaces for locally compact Hausdorff and CW inputs and
-  prove that the forgetful functor preserves every limit or colimit used below.
+  classifying spaces, and their filtered colimits are formed there.  The comparison
+  homeomorphisms with Mathlib's ordinary spaces for locally compact Hausdorff and CW inputs,
+  and the computation in `TopCat` of sequential colimits along closed inclusions, are
+  AlgebraicTopology Stage 4 item 8's; each sequential colimit formed below is along closed
+  inclusions, and that is proved where the colimit is formed.
 - **Dimensions are explicit.**  A smooth h-cobordism of boundary dimension `n` has total
   dimension `n+1`.  The simply connected theorem assumes total dimension at least six.  Every
   cancellation lemma states the handle indices, ambient level dimension, and codimension
@@ -279,7 +290,8 @@ These conventions apply throughout the layers.
 
 - `HomotopyGroup`, based cubes, `ContinuousMap.HomotopyEquiv`, `Quotient`,
   `TopologicalSpace.coinduced`, homotopy lifting, and fundamental groupoids. The pointed
-  cone, suspension and mapping-cone comparisons are specified in Section 3A.2.
+  cone and mapping-cone comparisons are specified in Section 3A.2; reduced suspension and
+  the smash product are AlgebraicTopology Stage 4 item 8's.
 - `TopCat.toSSet`, `SSet.toTop` and `sSetTopAdj` in
   `Mathlib/AlgebraicTopology/SingularSet.lean`, lines 50, 65 and 73, supply singular
   simplicial sets, their realization and the adjunction defining the counit.
@@ -292,8 +304,8 @@ These conventions apply throughout the layers.
   categorical filtered colimits, and `AddCommGrpCat`.  Mathlib's compactly generated category
   supplies the carrier, its fully faithful inclusion and `TopologicalSpace.compactlyGenerated`
   (`Mathlib/Topology/Compactness/CompactlyGeneratedSpace.lean`, line 67); the categorical coreflector (the
-  right adjoint of that inclusion), its adjunction, and the Cartesian closed API are targets here,
-  not inferred instances.
+  right adjoint of that inclusion), its adjunction, and the Cartesian closed API are
+  AlgebraicTopology Stage 4 item 8's, not inferred instances.
 - Geometric topology's boundary, collar, gluing, tubular-neighbourhood, connected-sum, handle,
   surgery, cobordism, and triangulation outputs; DifferentialGeometry's orientations, degree
   and Sard theorem; and Heegaard Floer's distinct trajectory and Morse–Smale inputs.
@@ -314,8 +326,10 @@ identifies (1,a) with f(a); it does not collapse the basepoint meridian or the f
 Section 3A.2 constructs the pointed quotient comparisons from these primitives.
 
 **From TauCetiRoadmap.GeometricTopology.** Layer 1 supplies collars, boundary gluing,
-normal tubes, connected sum and handles; Layer 6 supplies oriented cobordisms in general dimension;
-The smoothing-and-triangulation comparison, item 1, supplies smooth triangulation.
+normal tubes, connected sum and handle attachment; Layer 5 supplies surgery on a framed
+embedded sphere in general dimension; the smoothing-and-triangulation comparison, item 1,
+supplies smooth triangulation. Oriented cobordisms in general dimension are the
+TangentialBordism B1.1–B1.2 witnesses below.
 
 **Oriented specialization of TangentialBordism B1.1–B1.2.** Use its collared
 witnesses with tangential structure SO and parameter space a point, forgetting the
@@ -345,8 +359,21 @@ with protected faces uses TangentialBordism B1.
 **From TauCetiRoadmap.HeegaardFloer.** Lanes M and F0 supply Morse–Smale trajectory
 and transversality inputs for handle cancellation, in their relative compact setting.
 **From TauCetiRoadmap.AlgebraicTopology.** Stages 2–4, 6 and 8 supply relative chains,
-CW comparison, duality, Hurewicz and Whitehead; use `relativeHurewicz`,
-`homologicalWhitehead`, `poincareDualityMap_isIso` and `compactManifoldFiniteCWType`.
+CW comparison, duality, Hurewicz and Whitehead: relative Hurewicz for based
+cofibration pairs (Stage 8 item 4), Poincaré–Lefschetz duality by cap product with the
+fundamental class of a compact manifold with boundary, with coefficients twisted by the
+orientation system (Stage 6 item 4), `homologicalWhitehead`
+(Stage 8 item 5) and `compactManifoldFiniteCWType` (Stage 8 item 7).
+Stage 4 item 8, *Compact generation and the pointed adjunction*, supplies the coreflection
+`i ⊣ k` with its counit, the convenient products and exponentials with the exponential
+law for compactly generated weak Hausdorff exponents, their comparisons with ordinary
+products for CW and locally compact Hausdorff inputs, sequential colimits along closed
+inclusions computed in `TopCat`, and the pointed convenient category with smash product,
+reduced suspension ΣX = X∧S¹ with the interval coordinate last, based loop space and
+the suspension–loop adjunction on based maps and on based homotopy classes, natural in
+both variables and carrying the pinch of ΣX to loop concatenation. Stage 4 item 4
+supplies the sphere smash homeomorphisms Sᵐ∧Sⁿ ≅ S^(m+n) with factor-interchange
+degree (−1)^(mn), and the reduced suspension homeomorphism ΣSⁿ ≅ S^(n+1).
 Stage 4 item 7 supplies the realization CW structure on `SSet.toTop.obj K`, with
 one cell for each nondegenerate simplex, and realizes sub-simplicial inclusions as CW
 subcomplexes. Apply it to the singular set and its basepoint vertex in Section 3B.
@@ -411,7 +438,9 @@ and HP¹ ≃ S⁴ with positive reference class fixed by the (1,i,j,k) chart.
 Use its last-coordinate line basepoint and repeated (1,i,j,k) real-coordinate blocks;
 Section 5.0b compares the resulting based maps with its finite framed fibres.
 G5 item 6 supplies π⁽S⁾ᵢ⊗ℚ=0 for i>0
-and π⁽S⁾₀⊗ℚ=ℚ. **From TauCetiRoadmap.DGFloer.** Layer 1 item 2 supplies the
+and π⁽S⁾₀⊗ℚ=ℚ. G2 item 4 supplies the stable category with invertible suspension and
+coproducts, and G2 item 5 the derived suspension spectrum Σ∞, left adjoint to derived
+Ω∞; Section 3B.6 applies them to the James splitting. **From TauCetiRoadmap.DGFloer.** Layer 1 item 2 supplies the
 Serre spectral sequence and item 4 supplies the Serre-class
 Hurewicz theorem; apply the class of finitely generated abelian groups to finite simply
 connected spheres, then the finite-to-stable comparison of 3A.4, to get finitely generated stems.
@@ -660,28 +689,22 @@ Kervaire–Milnor Theorem 1.1 and §2, pp.504–507, give the group law in its p
 
 ### 3A. Pointed constructions and stabilization
 
-#### 3A.1 Compact-generation adjunction
-
-*Needs:* Native compactly generated topology and category; the displayed universe of compact Hausdorff test spaces.
-
-Complete Mathlib's `CompactlyGenerated.{u,w}` interface without replacing its existing
-fully faithful inclusion `i : CompactlyGenerated ⥤ TopCat`: package `TopologicalSpace.compactlyGenerated` as
-the right adjoint `k : TopCat ⥤ CompactlyGenerated`, prove `i ⊣ k`, and expose the counit
-`i (k X) ⟶ X`.  Prove that colimits used below are created and preserved by `i`, while limits
-are computed by applying `k` to the corresponding `TopCat` limit; in particular, define the
-convenient product as `k` of the ordinary product.  Define compact-open exponentials followed
-by `k`, prove the exponential law, and develop pointed objects, based internal homs, and the
-required sequential colimits.  Prove comparison theorems with ordinary `TopCat` for CW
-complexes and locally compact Hausdorff sources.  All subsequent loop spaces, James
-constructions, stable classical groups, and classifying spaces use this one carrier.
+The compact-generation coreflection, convenient products and exponentials, and the pointed
+convenient category with its smash product, reduced suspension, based loop space and
+suspension–loop adjunction are AlgebraicTopology Stage 4 item 8, *Compact generation and
+the pointed adjunction*. Every loop space, James construction, stable classical group and
+classifying space below is formed on that one carrier. Citations of 3A.1, and of 3A.2 for
+reduced suspension, based loops, the smash product or the suspension–loop adjunction, refer
+to that item; this section owns 3A.2–3A.4.
 
 #### 3A.2 Pointed cones and Puppe sequences
 
-*Needs:* 3A.1; AlgebraicTopology Stage 4.5 cofibrations and contractible collapse, and Stage 8 relative homotopy.
+*Needs:* AlgebraicTopology Stage 4 item 8 (compact generation and the pointed adjunction), Stage 4.5 cofibrations and contractible collapse, and Stage 8 relative homotopy.
 
-Build reduced suspension, based loop space, smash product, mapping cone, cofiber sequences,
-and Puppe sequences in the same pointed category as the algebraic-topology roadmap's relative
-homotopy groups.  Prove the suspension--loop adjunction on maps and on pointed homotopy classes.
+On AlgebraicTopology Stage 4 item 8's reduced suspension, based loop space, smash product and
+suspension–loop adjunction, build the reduced cone, mapping cone, cofiber sequences and Puppe
+sequences in the same pointed category as the algebraic-topology roadmap's relative
+homotopy groups.
 Own the earlier co-H law on reduced suspension with its explicit quotient
 collapsing both ends AND the marked meridian. Pinch at1/2, reflect the
 interval for inverse, and prove unit/associativity/inverse homotopies by
@@ -691,7 +714,7 @@ zero-duration endpoints use the compact-interval pasting proof. On double
 suspension prove the two coordinate pinches have one unit and satisfy
 interchange on the four rectangles, hence Eckmann–Hilton commutativity.
 Retain strict basepoint tracks and naturality. This early construction uses
-3A.1's actual k-products/exponentials and no EM-loop weak-equivalence upgrade,
+AlgebraicTopology Stage 4 item 8's actual k-products/exponentials and no EM-loop weak-equivalence upgrade,
 CW-type theorem, EHP or stable stem. Ordinary compact-open comparisons keep
 their real evaluation hypotheses; compactness of I alone does not make
 arbitrary ordinary mapping spaces Cartesian closed.
@@ -700,7 +723,7 @@ cone by collapsing A×{0} and the entire basepoint meridian {a₀}×I,
 and the reduced mapping cone C_f by gluing its base through the actual
 based f:A→X. Supply its based universal property, homotopies and map
 naturality. Compare these pointed quotients with ordinary quotient models
-through3A.1; no unreduced apex is silently identified with x₀.
+through the k-counit comparisons of AlgebraicTopology Stage 4 item 8; no unreduced apex is silently identified with x₀.
 Prove based nullhomotopies of g∘f are exactly extensions of g:X→Y
 across C_f, with F([a,t])=H(1−t,a), and deduce full kernel=image for
 [C_f,Y]_*→[X,Y]_*→[A,Y]_* as pointed sets. For closed cofibration
@@ -725,7 +748,7 @@ relative-subspace naturality, including the one-point and disconnected cases.
 
 #### 3A.3 Suspension and stable stems
 
-*Needs:* 3A.2; native HomotopyGroup and filtered colimits of abelian groups.
+*Needs:* AlgebraicTopology Stage 4 item 8 reduced suspension and Stage 4 item 4 sphere suspension homeomorphism; 3A.2; native HomotopyGroup and filtered colimits of abelian groups.
 
 Define suspension homomorphisms on sphere homotopy groups and the stable stem as their
 sequential colimit in `AddCommGrpCat`.  Export its structure maps and universal property.
@@ -737,28 +760,19 @@ independence of the starting representative.
 *Needs:* 3A.2–3; RiemannianGeometry R3 item 4; AlgebraicTopology Stage 4.4 raw sphere suspension.
 
 Transport RiemannianGeometry R3 item 4's normalized sphere suspension along the based
-ordinary-to-convenient comparisons of 3A.2. Prove that the square with this roadmap's
+ordinary-to-convenient comparisons of AlgebraicTopology Stage 4 item 8. Prove that the square with this roadmap's
 suspension homomorphism commutes, retaining the interval-last orientation and degree +1.
 Thus for n≥2 the same map π_q(Sⁿ)→π_(q+1)(S^(n+1)) is an isomorphism for
 q≤2n−2 and a surjection for q=2n−1; the k-th stem is represented by π_(n+k)(Sⁿ)
 for n≥k+2. The new target is the comparison with the chosen colimit maps.
 
-The compact-generation functor's API is categorical: identity and composition on maps,
-the counit to the original topology, the adjunction with inclusion and the stated limit/colimit
-comparisons. It is built on the native topology, not a second definition of compact generation.
+The pointed cone and cofiber API consists of quotient evaluation, based universal
+properties, induced maps and homotopies, the co-H structure on reduced suspension and the
+Puppe maps.
 
 **Checks.**
 
-- On a point, k(*)=* and the counit has one-point fibres; on ∅ it has zero-point domain.
-- On ℝ, the compactly generated and usual topologies agree, and the counit is the identity homeomorphism.
-- The convenient product of two compact intervals has the ordinary square topology; the two evaluation composites both send (f,x) to f(x). This checks the comparison maps, not an exponential law for arbitrary ordinary mapping spaces.
-
-The pointed cone, suspension and cofiber API consists of quotient evaluation, based universal
-properties, induced maps and homotopies, the suspension–loop adjunction and the Puppe maps.
-
-**Checks.**
-
-- The reduced cone and reduced suspension of the one-point based space are points, whereas leaving the marked meridian uncollapsed gives an interval in the cone.
+- For the one-point based space the reduced cone, the mapping cone of id_* and every later term of its Puppe sequence are points, so each term [−,Y]_* is the one-element pointed set; leaving the marked meridian uncollapsed would make the cone an interval.
 - For the null map S⁰→*, the reduced mapping cone is S¹, and the connecting quotient has degree +1 in the chosen cone orientation.
 - With F([a,t])=H(1−t,a), t=1 gives H(0,a)=g(f(a)) on the glued base and t=0 gives the constant value at the apex. Replacing 1−t by t interchanges these required values.
 
@@ -768,17 +782,11 @@ properties, induced maps and homotopies, the suspension–loop adjunction and th
 - In C(S⁰) the nonbasepoint meridian is an interval whose base endpoint survives, while its apex is the basepoint; collapsing both ends would instead make a circle.
 - For every based A, the cone contraction sends [a,t] at parameter u to [a,(1−u)t]; u=0 is the identity and u=1 is the apex, with the marked meridian fixed throughout.
 
-**Checks for reduced suspension and its pinch.**
+**Checks for the co-H structure on reduced suspension.**
 
-- Σ(*) is a point and Σ(S⁰)=S¹; identifying neither end would give an interval in the second example.
-- The suspension of a degree-two circle map has degree 2 on S²; a constant induced map would have degree 0.
-- On ΣS⁰, interval reflection has degree −1 and pinch followed by fold has degree 2; this distinguishes inverse from identity and addition from projection.
-
-**Checks for smash products.**
-
-- S⁰∧S⁰ has two points, with exactly the pair of nonbasepoints surviving away from the basepoint; the Cartesian product has four.
-- X∧* is a point, even for X=S¹; leaving one coordinate axis uncollapsed would retain a circle.
-- S¹∧S¹ is S², and interchanging its two coordinates has degree −1; an unsigned interchange fails the product orientation.
+- On ΣS⁰=S¹, pinch followed by the fold map has degree 2, whereas pinch followed by the projection to one summand has degree 1; this distinguishes addition from projection.
+- On ΣS⁰, interval reflection has degree −1, and pinching the identity against its reflection gives degree 1+(−1)=0; taking the identity as the inverse would give degree 2.
+- On ΣS⁰=S¹, pinch followed by the wedge interchange represents ba, not ab, in π₁(S¹∨S¹)=F(a,b), so a single suspension is not homotopy cocommutative; on Σ²S⁰=S² both coordinate pinches represent (1,1) in π₂(S²∨S²)=ℤ², as the Eckmann–Hilton interchange requires.
 
 **Checks for mapping cones and the connecting quotient.**
 
@@ -792,14 +800,6 @@ properties, induced maps and homotopies, the suspension–loop adjunction and th
 - For id_(S⁰) it is a point disjoint from an interval, so π₀ has two elements and the target retraction is bijective on π₀.
 - For S⁰→* it is an interval and contractible, while the corresponding mapping cone has H₁=ℤ; collapsing its free end as well would confuse these two constructions.
 
-The loop-space API retains constant loops, concatenation, reversal and the based adjunction.
-
-**Checks for loops.**
-
-- Ω(*) has one point; allowing nonconstant basepoint tracks would not be a based loop construction.
-- The winding-one and winding-two loops in S¹ represent 1 and 2 in π₀ΩS¹=ℤ, so concatenation adds rather than multiplies winding.
-- Reversing winding one gives −1, and concatenating the two gives 0; ignoring parameter reversal fails the inverse law.
-
 The stable-stem API includes suspension maps, colimit inclusions, composition products,
 basepoint transport and the stable-range comparison.
 
@@ -809,10 +809,11 @@ basepoint transport and the stable-range comparison.
 - At n=7, k=6 the inequality is 13≤12, false, so the stated stable-range comparison cannot be applied.
 - The unit has degree 1 in π⁽S⁾₀=ℤ, whereas the constant map has degree 0; a zero-map colimit comparison would conflate them.
 
-*Needs:* Native compactly generated topology/category; AlgebraicTopology Stage 4 cofibrations,
-Stage 8 relative homotopy and ordinary sphere connectivity; Completed/UniversalCovers
-basepoint transport. Item 2 uses item 1's actual products and mapping spaces; item 3 uses
-item 2's suspension maps; item 4 is the Freudenthal comparison for those maps.
+*Needs:* AlgebraicTopology Stage 4 item 8 (compact generation and the pointed adjunction),
+Stage 4 cofibrations, Stage 8 relative homotopy and ordinary sphere connectivity;
+Completed/UniversalCovers basepoint transport. Item 2 uses that item's actual products,
+mapping spaces, smash product and reduced suspension; item 3 uses item 2's suspension maps;
+item 4 is the Freudenthal comparison for those maps.
 
 ### 3B. James construction proof spine
 
@@ -821,7 +822,7 @@ well-pointed means that the basepoint inclusion is a closed cofibration. Do not 
 connectivity. For a general pointed compactly generated space X with basepoint x₀, use
 CharacteristicClasses C1.2b's counit ε_X : |Sing X| → X and AlgebraicTopology Stage 4
 item 7's CW structure. Point |Sing X| at the vertex representing x₀. Let QX be its
-compact-generation model from 3A.1, with the transported vertex, and let
+compact-generation model from AlgebraicTopology Stage 4 item 8, with the transported vertex, and let
 c_X : QX → |Sing X| be the comparison homeomorphism for this CW space. Define
 q_X : QX → X by q_X = ε_X ∘ c_X, so q_X sends the designated vertex to x₀.
 Transport the vertex subcomplex inclusion to prove that QX is well-pointed; this gives
@@ -843,11 +844,13 @@ CW-type comparison for the loop-suspension model before using Whitehead upstairs
 
 #### 3B.1 Reduced words
 
-*Needs:* 3A.1–2; the stated pointed CW or derived replacement model.
+*Needs:* AlgebraicTopology Stage 4 item 8; 3A.2; the stated pointed CW or derived replacement model.
 
 Define the reduced product `J X` as finite words in a pointed space modulo deletion of the
 basepoint.  Define its word-length filtration `J_0 X subset J_1 X subset ...`, multiplication,
-unit `X -> J X`, functoriality, and compatibility with CW structures.
+unit `X -> J X`, functoriality, and compatibility with CW structures; for X a CW complex
+pointed at a 0-cell each `J_r X` is a closed subcomplex of `J_(r+1) X`, so `J X` is the
+colimit along closed inclusions computed in `TopCat`.
 
 #### 3B.2 Word filtration
 
@@ -858,7 +861,7 @@ Prove the attaching and connectivity estimates needed for passage to the union.
 
 #### 3B.3 The James map
 
-*Needs:* 3A.2; 3B.1–2; AlgebraicTopology Künneth with Tor.
+*Needs:* AlgebraicTopology Stage 4 item 8 suspension–loop adjunction; 3B.1–2; AlgebraicTopology Künneth with Tor.
 
 Construct the James map `J X -> Omega Sigma X` by concatenating the adjoints of suspended
 letters and prove multiplicativity up to homotopy. State the Bott–Samelson tensor-algebra
@@ -879,9 +882,7 @@ descend the equivariant homotopy inverse to obtain `J X ~=_h Omega Sigma X`.  Eq
 one may prove the same argument through Whitehead with local coefficients, but ordinary
 homology alone is insufficient.  Include `X = S^1`, where both fundamental groups are
 `Z`, as a comparison theorem.  This connected theorem supplies the low-dimensional EHP
-sequence. Also check `X = M(ℤ/2,2)`: the smash square contributes
-`Ĥ₅(X ∧ X;ℤ) ≅ Tor₁(ℤ/2,ℤ/2) ≅ ℤ/2`; the James stable splitting retains that
-summand, whereas the unqualified tensor algebra on reduced integral homology misses it.
+sequence and the loop-space form of the splitting in 3B.6.
 
 #### 3B.5 James–Hopf comparison
 
@@ -890,6 +891,47 @@ summand, whereas the unqualified tensor algebra on reduced integral homology mis
 Construct the James--Hopf map by sending a word to the ordered products of its length-two
 subwords.  Identify its adjoint on spheres and prove the fibre/connectivity statement needed
 for the EHP range.
+
+#### 3B.6 James splitting after one suspension
+
+*Needs:* 3A.2 reduced cones; AlgebraicTopology Stage 4 item 8 convenient products, smash
+product and reduced suspension; 3B.1–3B.2 word filtration and its smash-power quotients;
+3B.4 for the loop-space form; AlgebraicTopology cellular homology and `homologicalWhitehead`;
+GeneralizedCohomology G2 items 4–5 for the stable form.
+
+Let X and Y be pointed CW complexes whose basepoints are 0-cells, with X×Y the convenient
+product. Prove the product splitting: a based homotopy equivalence
+`ΣX ∨ ΣY ∨ Σ(X∧Y) → Σ(X×Y)` whose composites with the suspended projections to ΣX and ΣY
+and with the suspended quotient to Σ(X∧Y) are based homotopic to the three wedge
+projections. The route attaches reduced cones to the two ends of the reduced join of X and
+Y and collapses cones in two ways (Hatcher, Proposition 4I.1 and its proof, p.467).
+Iterating it, for each k≥1 the suspended quotient `Σ(X^×k) → ΣX^∧k` has a based section up
+to homotopy; composing that section with the suspended word map `Σ(X^×k) → ΣJ_k X` gives
+`s_k : ΣX^∧k → ΣJ_k X`, whose composite with the suspended filtration quotient
+`ΣJ_k X → ΣX^∧k` of 3B.2 is based homotopic to the identity.
+
+Now let X be path-connected. Prove that for every n, finite or n=∞ with `J_∞ X = J X`, the
+wedge of s₁,…,sₙ is a based homotopy equivalence `⋁_(1≤k≤n) ΣX^∧k → ΣJ_n X`, compatible
+with the inclusions of `J_(n−1) X` in `J_n X` and of the shorter wedge in the longer one
+(Hatcher, Proposition 4I.2 and its proof, p.468). The route: s_k splits the integral
+homology sequence of the pair `(ΣJ_k X, ΣJ_(k−1) X)`, so induction gives a homology
+isomorphism for finite n; X^∧k is (k−1)-connected, which carries the isomorphism to n=∞;
+both sides are simply connected CW complexes, so homological Whitehead applies. With the
+based equivalence `J X ≃ ΩΣX` of 3B.4 this gives `ΣΩΣX ≃ ⋁_(k≥1) ΣX^∧k`. Prove
+naturality: for a based map f : X → Y of such complexes, the splittings intertwine Σ(J f)
+with the wedge of the Σ(f^∧k) up to based homotopy, because the cone collapses are strictly
+natural and their homotopy inverses therefore commute up to based homotopy. Another route
+projects through the higher James–Hopf maps `J X → J(X^∧k)`; either route yields the
+filtration compatibility above.
+
+For a path-connected pointed CW complex W whose basepoint is a 0-cell, apply the derived
+suspension spectrum Σ∞ of GeneralizedCohomology G2 item 5, which preserves coproducts as a
+left adjoint and satisfies `Σ∞(S¹∧Y) ≅ S¹∧Σ∞Y` levelwise, and desuspend in the stable
+category of G2 item 4. This gives the stable James splitting
+`Σ∞ΩΣW ≃ ⋁_(r≥1) Σ∞W^∧r`, natural in based maps of W; the inclusion of the summands with
+r≤n factors through `Σ∞J_n W` by an equivalence, and the top summand `Σ∞W^∧n` is a section
+of the suspension spectrum of the filtration quotient `J_n W → W^∧n`. Adding a
+disjoint basepoint gives `Σ∞(ΩΣW)₊ ≃ S ∨ ⋁_(r≥1) Σ∞W^∧r`, with S the sphere spectrum.
 
 The CW approximation and James word model have the following APIs.
 
@@ -930,10 +972,26 @@ the sphere fibre/connectivity comparison. On a one-letter word its output is emp
 (x,y) its output is the single pair (x,y), and on (x,y,z) its output has three ordered pairs;
 these distinguish it from concatenation and from an unordered symmetric-square map.
 
+The James splitting has the following API.
+
+- For CW complexes pointed at 0-cells, the product splitting retracts onto ΣX, ΣY and Σ(X∧Y) through the suspended projections and quotient, naturally in based maps up to based homotopy.
+- For path-connected X, each s_k is a section up to based homotopy of the suspended filtration quotient, the wedge of s₁,…,sₙ is a based homotopy equivalence onto ΣJ_n X compatibly with the inclusions, and with 3B.4 it gives ΣΩΣX ≃ ⋁_(k≥1) ΣX^∧k, naturally in X up to based homotopy.
+- The stable form identifies Σ∞ΩΣW with ⋁_(r≥1) Σ∞W^∧r and Σ∞(ΩΣW)₊ with S ∨ ⋁_(r≥1) Σ∞W^∧r, compatibly with the word filtration and its smash-power quotients.
+
+**Checks for the James splitting.**
+
+- For X=S¹, ΣJ(S¹) ≃ S²∨S³∨S⁴∨…, so H̃_k(ΩS²;ℤ) ≅ ℤ for every k≥1. Cartesian powers in place of smash powers would add Σ(S¹×S¹) ≃ S²∨S²∨S³ at k=2 and give H₂(ΣJ(S¹);ℤ) of rank 3 instead of 1.
+- Before suspension J₂(S²) is not a wedge: its 4-cell is attached by [ι₂,ι₂]=2η₂ of 3C.1, so the square of the degree-two generator of H*(J₂(S²);ℤ) is ±2 times the degree-four generator, whereas every cup product of positive-degree classes in S²∨S⁴ vanishes. After one suspension the attaching map is the suspension of a Whitehead product, hence null, and ΣJ₂(S²) ≃ S³∨S⁵.
+- For X=M(ℤ/2,2)=S²∪₂e³, H̃₅(ΩΣX;ℤ) ≅ H̃₅(X∧X;ℤ) ≅ Tor₁(ℤ/2,ℤ/2) ≅ ℤ/2, since H̃₅(X;ℤ)=0 and X^∧3 is 5-connected; the tensor algebra on H̃_*(X;ℤ), concentrated in even degrees, has no degree-five term.
+- For W=* every summand is a point and Σ∞ΩΣ* is zero; for W=S², Σ∞ΩS³ ≃ ⋁_(r≥1) Σ∞S^(2r), whose rational homology is ℚ in each positive even degree and zero in odd degrees.
+- For the based degree-two map f : S¹ → S¹, naturality gives Σ(f^∧k) of degree 2^k on the summand S^(k+1), matching x^k ↦ 2^k x^k on H_k(ΩS²;ℤ) ≅ ℤ·x^k; a splitting using degree 2 on every summand fails naturality from k=2 on.
+
 *Needs:* Section 3A; AlgebraicTopology Stages 4–6 cellular chains, Künneth including Tor,
-CW comparison and Whitehead, specifically Stage 4 item 7's realization CW structure;
+CW comparison and Whitehead, specifically Stage 4 item 7's realization CW structure and
+Stage 4 item 8's convenient products and pointed adjunction;
 CharacteristicClasses C1.2b's actual singular counit and weak equivalence;
-Completed/UniversalCovers; DGFloer Layer 1 item 2's abstract CW-approximation comparison.
+Completed/UniversalCovers; DGFloer Layer 1 item 2's abstract CW-approximation comparison;
+GeneralizedCohomology G2 items 4–5 for the stable form of 3B.6.
 The literal theorem uses path-connected well-pointed CW input, and the raw upgrade requires CW type.
 
 ### 3C. EHP, Hopf invariants and secondary composition
@@ -1013,15 +1071,15 @@ with the right-hand map applied first.
 - If α:Sᵃ→Sᵇ and β:S^(c−1)→S^(a−1), with a,b,c≥2, then
   H(α Eβ)=(Hα) Eβ in π_c(S^(2b−1))_(2).
 
-  *Needs:* 3A.2 suspension; 3B.5 James–Hopf naturality; the EHP H above.
+  *Needs:* AlgebraicTopology Stage 4 item 8 suspension; 3B.5 James–Hopf naturality; the EHP H above.
 - If α:S^(a−1)→S^(b−1) and β:Sᶜ→Sᵃ, with a,b,c≥2, then
   H((Eα)β)=E(α∧α) Hβ in π_c(S^(2b−1))_(2).
 
-  *Needs:* 3A.2 ordered sphere smash and suspension; 3B.5 James–Hopf naturality; the EHP H above.
+  *Needs:* AlgebraicTopology Stage 4 items 4 and 8 ordered sphere smash and suspension; 3B.5 James–Hopf naturality; the EHP H above.
 - If α:S^(a+2)→S^(2n+1) and β:Sᵇ→Sᵃ, with a,b,n≥2, then
   P(α E²β)=(Pα)β in π_b(Sⁿ)_(2).
 
-  *Needs:* 3A.2 suspension; the fibre connecting map and comparison defining P above.
+  *Needs:* AlgebraicTopology Stage 4 item 8 suspension; the fibre connecting map and comparison defining P above.
 
 Each law uses the indicated suspended map, rather than arbitrary precomposition
 (Gray, Proposition 2.1(a–c), p.132).
@@ -1034,7 +1092,7 @@ Barratt–Hilton interchange identity in π_(r+s)(S^(n+m))_(2),
 The exponent is an integer, including when an offset is negative; it is not
 truncated natural subtraction (Gray, Proposition 2.2, p.132).
 
-*Needs:* 3A.2 ordered smash, its swap degree, and suspension; 3A.3 product comparison.
+*Needs:* AlgebraicTopology Stage 4 item 4 ordered sphere smash with factor-interchange degree (−1)^(mn), and Stage 4 item 8 suspension; 3A.3 product comparison.
 
 One suspension lower, define the composition difference C(α,β) by
 
@@ -1052,7 +1110,7 @@ C is a difference of composites, not the Whitehead product of α and β.
 This is a primary equality: no adjacent nullhomotopies or Toda-bracket
 indeterminacy is involved (Gray, Proposition 2.4, p.133).
 
-*Needs:* the 2-local EHP maps above; 3A.2 smash/suspension and product-cell orientations;
+*Needs:* the 2-local EHP maps above; AlgebraicTopology Stage 4 items 4 and 8 smash/suspension and product-cell orientations;
 3B.5 Hopf comparison; 3C.2 Whitehead-square sign.
 
 The API for C consists of this equality, its typed composition expression and
@@ -1203,11 +1261,13 @@ L7 for actual smooth sphere frames. The cone route to Hopf exclusion uses no lat
 
 #### 4A.1 Stable matrix groups
 
-*Needs:* Native orthogonal matrix groups; 3A.1; TopologicalKTheory T1.5a sphere fibrations.
+*Needs:* Native orthogonal matrix groups; AlgebraicTopology Stage 4 item 8; TopologicalKTheory T1.5a sphere fibrations.
 
 Define `O(r)` and `SO(r)` from Mathlib's matrix groups, their block inclusions into rank
 `r+1`, and stable `O` and `SO` as filtered colimits of topological groups internal to the
-compactly generated category.  Export the inclusions and colimit universal properties and
+compactly generated category.  Each block inclusion is a continuous injection of a compact
+space into a Hausdorff one, hence a closed embedding, so AlgebraicTopology Stage 4 item 8
+computes the colimit in `TopCat`.  Export the inclusions and colimit universal properties and
 compare their underlying spaces with the corresponding compactly generated colimits.  Use the
 sphere fibration `SO(r) -> SO(r+1) -> S^r` to prove the finite-to-stable comparison range on
 homotopy groups.
@@ -1342,7 +1402,7 @@ The finite comparisons do not use Bott periodicity.
 
 #### 4B.1 Bott-chain models
 
-*Needs:* 4A; 3A.1; the actual stable homogeneous-space inclusions.
+*Needs:* 4A; AlgebraicTopology Stage 4 item 8; the actual stable homogeneous-space inclusions.
 
 Construct the stable homogeneous spaces and fibrations in the real Bott chain
 `BO x Z, O, O/U, U/Sp, BSp x Z, Sp, Sp/U, U/O`.  Identify base components and prove that the
@@ -1483,7 +1543,7 @@ MorseTheory M5; the algebraic Clifford comparison from SpinRepresentations L7.
 
 #### 4C.1 Unstable sphere action
 
-*Needs:* Native SO matrix action on spheres; 3A.2 suspension–loop adjunction.
+*Needs:* Native SO matrix action on spheres; AlgebraicTopology Stage 4 item 8 suspension–loop adjunction.
 
 From the action of `SO(r)` on `S^(r-1)`, construct the unstable clutching map into
 self-equivalences of the sphere and its adjoint homomorphism on homotopy groups.
@@ -2896,7 +2956,8 @@ second countability and smoothness explicitly.
 ## Downstream consumers
 
 TopologicalKTheory T7 uses Layer 4B's real loop periodicity for its KO applications;
-AlgebraicTopology Stage 4.5 uses the compact-generation comparison of 3A.1. The internal
+GeneralAlgebraicKTheoryPartII §§4.33 and 7.7 use the reduced and unreduced stable James
+splittings of 3B.6, and ChromaticHomotopyTheory reaches them through that roadmap. The internal
 classification applications use the following order, with the finite inputs of Layer 5
 separated from the stable Bott comparison.
 
@@ -2904,9 +2965,9 @@ separated from the stable Bott comparison.
 | --- | --- | --- |
 | 1 h-cobordism | geometric topology, DifferentialGeometry orientations/Sard, HF Morse data, algebraic topology | 2, 10 |
 | 2 small skeleton and `Theta_n` | 1, triangulation, geometric connected sum | 6, 9--10 |
-| 3 James/EHP/stable stems | algebraic topology, compactly generated substrate | 5, 8--9 |
+| 3 James/EHP/stable stems | algebraic topology including its compactly generated substrate (Stage 4 item 8), GeneralizedCohomology G2 items 4–5 for the stable James splitting | 5, 8--9, GeneralAlgebraicKTheoryPartII §4.33 |
 | 3C.5 Hopf exclusion and sphere frames | 3A.2, AlgebraicTopology cup/cross/relative products, TopologicalKTheory T2.5/T3–T4, CharacteristicClasses C6.2–3/C7.3, SpinRepresentations L7 | standard-sphere parallelizability |
-| 4 `SO`/`BSO`/Bott/`J` | 3A convenient substrate, TopologicalKTheory T1.5–T1.6 classifiers, bundles, Lie groups | 5--6, 8--9, TopologicalKTheory T7 |
+| 4 `SO`/`BSO`/Bott/`J` | AlgebraicTopology Stage 4 item 8 convenient substrate, TopologicalKTheory T1.5–T1.6 classifiers, bundles, Lie groups | 5--6, 8--9, TopologicalKTheory T7 |
 | 5 smooth PT comparisons | TangentialBordism B1/B3.2/B5.2; StringOrientation S2.2–S2.3; 3A and 4A; 4C for the J action | 6, 8--9 |
 | 6 `A_n`, `P_n`, exactness | 1--2, 4--5 | 7--9 |
 | 7 Wall surgery | algebraic topology, geometric surgery, TangentialBordism B3.2 pure algebra, 4--6 | 8--9 |
