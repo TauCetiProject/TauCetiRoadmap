@@ -1,4 +1,6 @@
-import Mathlib
+module
+
+public import Mathlib
 
 /-!
 # Connected symplectic gauge field theory and quilted sewing: target signatures
@@ -21,6 +23,8 @@ Not statable at the pins:
   `w₂(TL_g) = p*b_g + q*b_(g+1)` of GQ2b and the Cerf invariance of GQ3: the pins have no
   Lagrangian submanifolds, no Stiefel–Whitney classes and no Cerf theory.
 -/
+
+@[expose] public section
 
 namespace TauCetiRoadmap.GaugeQuiltFieldTheory
 
