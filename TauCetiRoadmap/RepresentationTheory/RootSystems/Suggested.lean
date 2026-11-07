@@ -1,11 +1,12 @@
-import Mathlib
-import TauCeti.GroupTheory.Coxeter.Geometric
-import TauCeti.LinearAlgebra.RootSystem.Coxeter.Presentation
-import TauCeti.LinearAlgebra.RootSystem.Inversions.Basic
-import TauCeti.LinearAlgebra.RootSystem.FiniteType.Classification
-import TauCeti.LinearAlgebra.RootSystem.HighestRoot
-import TauCeti.LinearAlgebra.RootSystem.SimplyConnectedRootDatum.Rational
-import TauCeti.LinearAlgebra.RootSystem.RootLength
+module
+
+public import Mathlib
+public import TauCeti.GroupTheory.Coxeter.Geometric
+public import TauCeti.LinearAlgebra.RootSystem.Coxeter.Presentation
+public import TauCeti.LinearAlgebra.RootSystem.Inversions.Basic
+public import TauCeti.LinearAlgebra.RootSystem.FiniteType.Classification
+public import TauCeti.LinearAlgebra.RootSystem.HighestRoot
+public import TauCeti.LinearAlgebra.RootSystem.RootLength
 
 /-!
 # Root systems and Coxeter representations: target signatures
@@ -13,13 +14,14 @@ import TauCeti.LinearAlgebra.RootSystem.RootLength
 The roadmap is README.md; this file is not the roadmap. It states the roadmap's
 headline theorems against the pinned Mathlib and Tau Ceti APIs: geometric root
 signs, faithfulness and the integral realization of the geometric action, the
-inversion length on the presented Weyl group, the rational classification, the
-type A Weyl group over characteristic-zero domains, the root-string
-characterization of the highest root, the Weyl/based complement with the based
-diagram identification, and the invariant metric scale.
+inversion length on the presented Weyl group, the type A Weyl group over
+characteristic-zero domains, the root-string characterization of the highest
+root, the Weyl/based complement with the based diagram identification, and the
+invariant metric scale.
 
 Tits' theorem, the marked Coxeter system on the Weyl group and its length formula,
-base independence of the Cartan type, the highest root, the G₂ Weyl group and the
+base independence of the Cartan type, the rational classification up to
+isomorphism, the highest root, the G₂ Weyl group and the
 two-length theorem are pinned Tau Ceti and Mathlib theorems, cited in the README's
 supplier contracts, so they are not stated here. The componentwise metric
 parameterization needs the constructed family of irreducible root subspaces and
@@ -29,6 +31,8 @@ carrier is asserted here.
 The native Dynkin declarations are also exported under the established namespace
 used by CFSGStatement. These are aliases of the supplier's declarations.
 -/
+
+@[expose] public section
 
 namespace TauCetiRoadmap.RepresentationTheory.RootSystems
 
@@ -98,19 +102,10 @@ theorem presentation_length_eq_inversions {ι R V U : Type*}
 
 /-! ## Layer 3: classification and concrete Weyl groups -/
 
-/-- Each nonempty irreducible finite reduced crystallographic rational root system
-is isomorphic to the native rational model of exactly one valid Dynkin type. -/
-theorem rational_classification {ι V U : Type*}
-    [AddCommGroup V] [Module ℚ V] [AddCommGroup U] [Module ℚ U]
-    (P : RootPairing ι ℚ V U) [Finite ι] [Nonempty ι]
-    [P.IsRootSystem] [P.IsCrystallographic] [P.IsReduced] [P.IsIrreducible] :
-    ∃! t : TauCeti.DynkinType,
-      ∃ ht : t.Valid, Nonempty (P.Equiv (t.rationalRootSystem ht)) := sorry
-
 /-- A finite reduced crystallographic root pairing over a characteristic-zero domain
 with a base of type Aₙ has Weyl group the symmetric group on n+1 letters, without a
 spanning hypothesis; for n = 0 both groups are trivial. -/
-theorem weylGroup_equiv_perm_of_typeA {ι R V U : Type*}
+theorem nonempty_weylGroup_mulEquiv_perm_of_typeA {ι R V U : Type*}
     [CommRing R] [CharZero R] [IsDomain R]
     [AddCommGroup V] [Module R V] [AddCommGroup U] [Module R U]
     (P : RootPairing ι R V U) [Finite ι]
@@ -165,7 +160,7 @@ theorem existsUnique_basedAut_of_cartanMatrix {ι R V U : Type*}
 
 /-- Two positive invariant forms on an irreducible spanning real root pairing differ by
 one unique positive scalar. -/
-theorem invariantMetric_unique_scale {ι V U : Type*} [Fintype ι]
+theorem invariantMetric_unique_scale {ι V U : Type*} [Finite ι]
     [AddCommGroup V] [Module ℝ V] [AddCommGroup U] [Module ℝ U]
     (P : RootPairing ι ℝ V U) [P.IsRootSystem] [P.IsIrreducible]
     (B C : P.InvariantForm)
@@ -173,3 +168,5 @@ theorem invariantMetric_unique_scale {ι V U : Type*} [Fintype ι]
     ∃! c : ℝ, 0 < c ∧ C.form = c • B.form := sorry
 
 end TauCetiRoadmap.RepresentationTheory.RootSystems
+
+end

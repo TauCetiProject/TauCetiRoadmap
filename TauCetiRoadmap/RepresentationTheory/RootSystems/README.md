@@ -6,17 +6,17 @@ classification and numbered integral models, and develop the sign theory and
 faithful geometric representation of arbitrary Coxeter systems, including
 infinite rank and infinite exponents. The end results are geometric faithfulness
 and its integral form, the length formula on the presented Weyl group, the
-rational classification up to isomorphism, the symmetric-group Weyl group of
-type A over every characteristic-zero domain, walks to the greatest root, the
-semidirect decomposition of root automorphisms with its oriented-diagram and
-integral-lattice forms, and componentwise invariant metrics.
+symmetric-group Weyl group of type A over every characteristic-zero domain,
+walks to the greatest root, the semidirect decomposition of root automorphisms
+with its oriented-diagram and integral-lattice forms, and componentwise
+invariant metrics.
 
 ## Scope and ownership
 
 This roadmap owns the general Coxeter geometric sign and faithfulness theorems
 (Layer 1), the consumer interface of the marked Weyl presentation (Layer 2), the
-rational classification and the type A Weyl group over characteristic-zero
-domains (Layer 3), coefficient reflections and greatest-root walks (Layer 4),
+type A Weyl group over characteristic-zero domains (Layer 3), coefficient
+reflections and greatest-root walks (Layer 4),
 root automorphisms and the based complement (Layer 5), and the irreducible
 components with their invariant metrics (Layer 6).
 
@@ -26,8 +26,9 @@ supplies positive roots, lowering, inversions, root and abstract exchange, Tits'
 theorem with the length–inversion formula, Matsumoto, Bruhat order, Poincaré
 polynomials, parabolic restriction, the geometric action of a Coxeter system,
 chambers, simple transitivity on bases, the longest element, the finite Cartan
-classification and its base independence, Cartan rigidity, the highest root, the
-rank-two dihedral and rational type A Weyl groups, and the numbered simply
+classification, its base independence and the rational classification up to
+isomorphism, Cartan rigidity, the highest root, the rank-two dihedral and
+rational type A Weyl groups, and the numbered simply
 connected and rational models. These are consumed through the contracts below
 and are not construction targets. There is one native `TauCeti.DynkinType`, one
 standard Cartan family and one integral datum per valid type. The exported
@@ -42,9 +43,10 @@ RootSystemsPartII §3.3, consume it. The Weyl/based factorization of root
 automorphisms (§5.1) is owned here; ReductiveGroups §9A.1a-L consumes it for its
 cover-lift comparison.
 
-[LieHighestWeight, Layers 1–2](../LieHighestWeight/README.md#layer-2-weights-of-a-module-and-their-integrality)
-owns the representation-theoretic weight lattices, fundamental and dominant
-weights; its Layer 6 owns the Weyl character and dimension formulas. The
+[LieHighestWeight](../LieHighestWeight/README.md), through its weight-lattice
+conventions and the native dominant-integral classification, owns the
+representation-theoretic weight lattices, fundamental and dominant weights; its
+Layer 6 owns the Weyl character and dimension formulas. The
 numbered simply connected models used here are the native models, not a second
 lattice theory.
 [ReflectionInvariantTheory, §4](../../ReflectionInvariantTheory/README.md#4-crystallographic-weylcoxeter-dictionary)
@@ -321,6 +323,14 @@ keep their native hypotheses.
   make the type independent of the base and the Weyl group an invariant of the
   type. `TauCeti.nonempty_equiv_of_hasCartanType` in `Isomorphism.lean` supplies
   rigidity for two bases of the same type, over the same ring.
+- `RootPairing.existsUnique_nonempty_equiv_rationalRootSystem` and
+  `RootPairing.Base.nonempty_equiv_rationalRootSystem_iff` in
+  `FiniteType/RationalClassification.lean` are the rational classification up
+  to isomorphism: for a finite nonempty reduced irreducible crystallographic
+  root system over ℚ, with spanning, exactly one valid type has its native
+  rational model equivalent to the system, and the model of a valid type is
+  equivalent to the system precisely when the type is
+  `TauCeti.classifiedDynkinType` of a given base.
 - `RootPairing.Base.highestRoot`, `RootPairing.Base.root_highestRoot_sub_mem_posRootCone`,
   `RootPairing.Base.forall_root_sub_mem_posRootCone_iff`,
   `RootPairing.Base.height_lt_height_highestRoot`,
@@ -405,8 +415,9 @@ keep their native hypotheses.
 Layer 1 develops geometric signs from the public rank-two reflection formulas and
 abstract parabolic theory, then proves faithfulness and integral comparison; it
 uses no finite root system. Layer 2 builds the consumer interface of the native
-marked presentation. Layer 3 completes the rational classification and the type A
-Weyl group over characteristic-zero domains. Layer 4 uses native integral
+marked presentation. Layer 3 consumes the native rational classification and
+extends the type A Weyl group to characteristic-zero domains. Layer 4 uses native
+integral
 coordinates, root strings and the highest root for greatest-root walks. Layer 5
 uses native simple transitivity on bases for automorphism complements and then
 retains the full integral lattices. Layer 6 develops components and metrics
@@ -684,16 +695,16 @@ every base. `TauCeti.HasCartanType.map` transports a type along an unbased
 equivalence, so the unique valid type is an isomorphism invariant (Humphreys,
 *Reflection Groups and Coxeter Groups*, §1.4, Theorem and proof, p.10).
 
-Prove `rational_classification`: a nonempty irreducible finite reduced
-crystallographic root system over ℚ is isomorphic to the native rational model
-of exactly one valid type. The existential validity proof selects a genuine
-native model; its root-index set has the number of roots, and both coordinate
-spaces have the rank. Existence uses native base existence over ℚ, the type of
-that base, `TauCeti.DynkinType.hasCartanType_rationalRootSystem` and
-`TauCeti.nonempty_equiv_of_hasCartanType`. Uniqueness transports the type of a
-model base along the composite equivalence and applies uniqueness of the valid
-type. The classical real classification is summarized in Humphreys,
-*Reflection Groups and Coxeter Groups*, §2.9, p.39.
+The classification up to isomorphism over ℚ is supplied as well:
+`RootPairing.existsUnique_nonempty_equiv_rationalRootSystem` makes a nonempty
+irreducible finite reduced crystallographic root system over ℚ equivalent to
+the native rational model of exactly one valid type, and
+`RootPairing.Base.nonempty_equiv_rationalRootSystem_iff` identifies that type
+with the type of any base. The native model has root-index set of size the
+number of roots and both coordinate spaces of dimension the rank. The
+classical real classification is summarized in Humphreys, *Reflection Groups
+and Coxeter Groups*, §2.9, p.39. This section states no target; its Checks are
+worked examples of the supplied classification.
 
 **Checks.**
 
@@ -713,17 +724,12 @@ type. The classical real classification is summarized in Humphreys,
   [[2,−2],[−2,2]], since the quadratic form has value 0 at (1,1) for every
   positive symmetrizer; semidefinite must not replace definite.
 
-*Needs:* native base existence over ℚ; `TauCeti.existsUnique_dynkinType`,
-`TauCeti.HasCartanType.of_base`, `TauCeti.HasCartanType.map`,
-`TauCeti.nonempty_equiv_of_hasCartanType`, and the native rational models and
-their Cartan types.
-
 ### 3.2 Type A as a permutation group
 
 For a finite reduced crystallographic root pairing P over a characteristic-zero
 domain and a base of Cartan type A n, for every n, prove
-`weylGroup_equiv_perm_of_typeA`: the Weyl group is multiplicatively equivalent
-to `Equiv.Perm (Fin (n + 1))`. This extends the native
+`nonempty_weylGroup_mulEquiv_perm_of_typeA`: the Weyl group is multiplicatively
+equivalent to `Equiv.Perm (Fin (n + 1))`. This extends the native
 `RootPairing.weylGroup_equiv_perm_of_typeA`, which assumes coefficients ℚ,
 spanning and n≥1; no spanning hypothesis is used here. Validity of Aₙ, meaning
 n≥1, is a convention of the native enumeration and not a hypothesis: for n=0
@@ -1128,11 +1134,12 @@ lives as follows.
 | Layer 2: the Weyl group as a Coxeter system | native `TauCeti.weylCoxeterSystem` and `TauCeti.length_weylCoxeterSystem_eq`; interface in §§2.1–2.2 |
 | Layer 3: abstract Coxeter combinatorics | native `CoxeterSystem.strongExchange`, `TauCeti.matsumoto`, `CoxeterSystem.BruhatLE`, `TauCeti.poincarePolynomial` |
 | Layer 4: chambers and the longest element | native `RootPairing.dominantChamber`, `TauCeti.existsUnique_mem_orbit_inter_dominantChamber`, `RootPairing.Base.existsUnique_map_eq`, `TauCeti.longestElement` |
-| Layer 5: Dynkin diagrams and classification | native `TauCeti.existsUnique_dynkinType` and `TauCeti.HasCartanType.of_base`; rational form in §3.1 |
+| Layer 5: Dynkin diagrams and classification | native `TauCeti.existsUnique_dynkinType` and `TauCeti.HasCartanType.of_base`; rational form `RootPairing.existsUnique_nonempty_equiv_rationalRootSystem` (§3.1) |
 | Layer 6: Bourbaki numbering and integral data | native `TauCeti.DynkinType.simplyConnectedRootDatum`, `TauCeti.DynkinType.simplyConnectedBase`, `TauCeti.DynkinType.simpleIndex`; coefficients in §4.3 |
 | 4A: Weyl/based factorization | §5.1, with §5.2 for diagrams |
 
-- LieHighestWeight Layers 2, 6 and 10 consume the root and chamber vocabulary,
+- LieHighestWeight (its weight conventions, Layer 6 and Layer 10) consumes the
+  root and chamber vocabulary,
   the based classification and the Weyl group: the native positive roots,
   chambers, classification and numbered data, with the marked presentation of §2.1.
 - ClassicalGroups Layer 3 consumes the classical Weyl groups: type A from §3.2,
@@ -1166,22 +1173,23 @@ These are consumers, not prerequisites for the root-system proofs.
 
 ## References
 
-- J. E. Humphreys, *Reflection Groups and Coxeter Groups*, Cambridge, first
-  published 1990; corrected paperback edition 1992, reprinted 1994.
+- J. E. Humphreys, *Reflection Groups and Coxeter Groups*, Cambridge Studies in
+  Advanced Mathematics 29, Cambridge University Press, first published 1990;
+  corrected paperback edition 1992, reprinted 1994; DOI 10.1017/CBO9780511623646;
+  source id humphreys90. Page numbers are those of the printed edition.
   §1.4 Theorem and proof p.10; §1.7 Corollary p.14; §1.9 Theorem pp.16–18;
   §2.9 p.39; §2.10, type A, p.41; §5.1 p.106; §5.3 pp.109–110;
-  §5.4 Theorem pp.111–113 and
-  Corollary p.113; §5.5. The institutional course copy has the printed numbering:
-  [University of Washington](https://sites.math.washington.edu/~billey/classes/reflection.groups/references/Humphreys.ReflectionGroupsAndCoxeterGroups.pdf).
+  §5.4 Theorem pp.111–113 and Corollary p.113; §5.5.
 - N. Bourbaki, *Lie Groups and Lie Algebras, Chapters 4–6*, Springer (2002),
   Ch. IV §1, Ch. VI §1, nos. 3, 5, 6, 8, and §4, Planches I–IX,
   DOI 10.1007/978-3-540-34491-9.
 - J. E. Humphreys, *Introduction to Lie Algebras and Representation Theory*,
-  Springer (1972), §§9–11, DOI 10.1007/978-1-4612-6398-2.
+  Springer (1972), §§9–11, DOI 10.1007/978-1-4612-6398-2; source id humphreys72.
 - A. Björner and F. Brenti, *Combinatorics of Coxeter Groups*, Springer GTM 231
   (2005), §2.2, §3.3 and Theorem 3.3.1, DOI 10.1007/3-540-27596-7.
 - V. G. Kac, *Infinite-Dimensional Lie Algebras*, 3rd edition, Cambridge (1990),
-  Ch. 4, DOI 10.1017/CBO9780511626234, for the finite/affine/indefinite terminology.
+  Ch. 4, DOI 10.1017/CBO9780511626234, for the finite/affine/indefinite
+  terminology; source id kac90.
 - J. S. Milne, *Algebraic Groups*, 2017, Appendix C, especially C.16–C.25,
   C.43, C.51, C.53, C.55 and C.56, pp. 611–626; source id milne17,
   [author's edition](https://www.jmilne.org/math/Books/iAG2017.pdf).
