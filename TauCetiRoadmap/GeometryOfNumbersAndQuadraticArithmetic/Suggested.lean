@@ -1,4 +1,5 @@
 import Mathlib
+import TauCeti.Algebra.Module.ZLattice.SuccessiveMinima
 import TauCeti.Geometry.RealAlgebraic.Semialgebraic.Basic
 import TauCeti.NumberTheory.HurwitzClassNumber
 import TauCeti.RepresentationTheory.Continuous.Unitary.Basic
@@ -14,22 +15,19 @@ The statements cover the intrinsic covolume identities (Layer 0), atomic normal 
 of any characteristic (Layer 2), finite hermitian embedding counts (Layer 3), Davenport's multiset
 estimate, Howe–Moore and Moore ergodicity, Ratner's three theorems, Oppenheim, Duke, Gauss's
 three-square formula, Siegel's three-square lower bound, Mahler compactness and critical-lattice
-existence, Dani–Margulis nondivergence, Siegel's mean value theorem, Campbell's formula and the
-existence and uniqueness of the Poisson law with σ-finite intensity (Layer 4), the LLL
-short-vector approximation factor (Layer 5), and Arf's theorems over `𝔽₂` (Layer 6). The
-definitions below specify only reducedness, finite counts, bounded-format multiplicities, shells,
-strong continuity, star bodies, lattice transforms, intensity and Campbell measures, the Poisson
-property and the majority value of a quadratic form over `𝔽₂` used in these statements. All have
-real bodies on native carriers; semialgebraicity, unitarity and Hurwitz class numbers use Tau Ceti.
+existence, Dani–Margulis nondivergence, Siegel's mean value theorem, Henk's lattice-point bound,
+Banaszczyk's transference bound and the covering transference bound (Layer 4), and the LLL
+short-vector approximation factor (Layer 5). The definitions below specify only reducedness,
+finite counts, bounded-format multiplicities, shells, the Euclidean unit ball as a convex body,
+the covering radius, strong continuity, star bodies and lattice transforms used in these
+statements. All have real bodies on native carriers; the successive minima, semialgebraicity,
+unitarity and Hurwitz class numbers use Tau Ceti.
 
-Four headline theorems are not statable at the pins because their statements use the real
-successive minima of a lattice with respect to a convex body, the carrier `successiveMin` of
-SuccessiveMinima, which is not among the pinned Mathlib and Tau Ceti declarations: the upper half
-of Minkowski's second theorem `(∏ λ_i) μ(K) ≤ 2^d covol_μ L` (§1.3.3), Henk's lattice-point bound
-`|L ∩ K| < 2^{d-1} ∏ (⌊2/λ_i⌋ + 1)` (§4.1.12), Banaszczyk's transference bound
-`λ_i(L) λ_{n+1-i}(L*) ≤ n` (§4.4.13) and the covering transference bound
-`1/2 ≤ μ(L) λ_1(L*) ≤ n` (§4.4.14). The comparison of those minima with the squared-norm minima
-of IntegralLattices §2F (§1.2.14) lacks the same carrier. They are README targets.
+The upper half of Minkowski's second theorem is Tau Ceti's
+`ZLattice.prod_successiveMin_mul_measure_le_two_pow_mul_covolume`, so it is not restated here.
+The comparison of the real successive minima with the squared-norm minima of IntegralLattices
+§2F (§1.2.14) is stated through the real model `realModel` of a positive definite integral
+lattice, which ThetaSeries 2D supplies and the pins do not; it is a README target.
 
 The Cho–Yamauchi formula and Siegel-polynomial functional equation (§3.2) are deferred here:
 the pins do not provide the local hermitian density, normalized Siegel polynomial or integral
@@ -43,11 +41,9 @@ quotients.
 Hermitian delooping (§6.7.19), derived localization (§6.9), periodicity, finite-field comparisons
 and integral L-theory (§§6.10–6.11) are deferred here because the pins have no hermitian
 Q/Grothendieck–Witt spaces, hermitian suspension, common spectrum category or Poincaré
-structures. Exact structures and DG categories alone do not supply those objects. The stable
-stems of §6.1a need the reduced suspension of a pointed space, which is not at the pins; the
-integral Wall form and formation groups of §6.8 and their calculations feed only the integral
-L-theory above and are stated in the README with it. The number-ring homotopy-limit comparison
-and the higher integer Grothendieck–Witt groups are outside this roadmap.
+structures. Exact structures and DG categories alone do not supply those objects. The
+number-ring homotopy-limit comparison and the higher integer Grothendieck–Witt groups are
+outside this roadmap.
 -/
 
 noncomputable section
@@ -130,21 +126,20 @@ theorem atomic_normal_form {M : Type*} [AddCommGroup M] [Module R M]
 end AtomicDVRForms
 
 section FiniteHermitianCounts
-variable {A : Type*} [CommRing A] [StarRing A] [Fintype A] [DecidableEq A]
-  {m n : ℕ}
+variable {A : Type*} [CommRing A] [StarRing A] {m n : ℕ}
 
-/-- The number of injective solutions of `Xᴴ G X = B` (3.1.2). -/
-def hermitianEmbeddingCount (G : Matrix (Fin m) (Fin m) A)
-    (B : Matrix (Fin n) (Fin n) A) : ℕ := by
-  classical
-  exact Fintype.card {X : Matrix (Fin m) (Fin n) A |
+/-- The number of injective solutions of `Xᴴ G X = B` over a finite ring with involution
+(3.1.2). -/
+def hermitianEmbeddingCount [Finite A] (G : Matrix (Fin m) (Fin m) A)
+    (B : Matrix (Fin n) (Fin n) A) : ℕ :=
+  Nat.card {X : Matrix (Fin m) (Fin n) A //
     X.conjTranspose * G * X = B ∧ Function.Injective X.mulVec}
 
 /-- **The finite hermitian embedding count** (3.1.3), with the radical dimension `a` of the source
 retained in the product. -/
 theorem finite_hermitian_isometry_formula {F : Type*} [Field F] [StarRing F]
-    [Fintype F] [DecidableEq F] (q : ℕ) (hq : 2 ≤ q)
-    (hcard : Fintype.card F = q ^ 2) (hstar : ∀ x : F, star x = x ^ q)
+    [Finite F] (q : ℕ) (hq : 2 ≤ q)
+    (hcard : Nat.card F = q ^ 2) (hstar : ∀ x : F, star x = x ^ q)
     (G : Matrix (Fin m) (Fin m) F) (B : Matrix (Fin n) (Fin n) F)
     (hG : G.conjTranspose = G) (hB : B.conjTranspose = B)
     (hGnd : G.det ≠ 0) (hmn : n ≤ m) :
@@ -153,6 +148,18 @@ theorem finite_hermitian_isometry_formula {F : Type*} [Field F] [StarRing F]
         (1 - (-(q : ℚ)) ^ ((i : ℤ) - (m : ℤ))) := by sorry
 
 end FiniteHermitianCounts
+
+/-- **Henk's lattice-point bound** (4.1.12): for a discrete full lattice `L` in a real normed space
+of dimension `d ≥ 2` and a centrally symmetric convex body `K` with `0` in its interior,
+`|L ∩ K| < 2^(d-1) ∏ (⌊2/λ_i⌋ + 1)`, with Tau Ceti's successive minima `λ_i`. The count includes
+the origin and the boundary points. -/
+theorem lattice_count_lt_successive_minima {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
+    [FiniteDimensional ℝ E] (L : Submodule ℤ E) [DiscreteTopology L] [IsZLattice ℝ L]
+    (K : ConvexBody E) (hKs : ∀ x ∈ K, -x ∈ K) (hK : (0 : E) ∈ interior (K : Set E))
+    (hd : 2 ≤ finrank ℝ E) :
+    (Nat.card ↥((L : Set E) ∩ (K : Set E)) : ℝ) <
+      2 ^ (finrank ℝ E - 1) * ∏ i, ((⌊2 / ZLattice.successiveMin L K i⌋₊ : ℝ) + 1) := by
+  sorry
 
 /-- A bounded multiplicity function whose positive superlevels have uniformly bounded
 polynomial sign descriptions (4.1.13). The field `semialgebraic` follows from `format`; it records
@@ -297,49 +304,6 @@ theorem ratner_equidistribution (u : ℝ → G) (hu : Continuous u) (hu0 : u 0 =
 
 end Ratner
 
-section PoissonRandomMeasures
-open ProbabilityTheory
-variable {Ω X T : Type*} [MeasurableSpace Ω] [MeasurableSpace X] [MeasurableSpace T]
-
-/-- The intensity measure `A ↦ ∫ N ω A ∂P` of a random measure `N : Ω → Measure X` (4.2). -/
-def intensityMeasure (P : Measure Ω) (N : Ω → Measure X) : Measure X := P.bind N
-
-/-- The Campbell measure of a random measure `N` and a jointly observed `Y` (4.2): the mass of
-`A ×ˢ B` is the `P`-integral of `N ω A` over the event `Y ω ∈ B`. -/
-def campbellMeasure (P : Measure Ω) (N : Ω → Measure X) (Y : Ω → T) : Measure (X × T) :=
-  P.bind fun ω => (N ω).map fun x => (x, Y ω)
-
-/-- The first marginal of the Campbell measure is the intensity measure (4.2). -/
-theorem campbellMeasure_fst (P : Measure Ω) {N : Ω → Measure X} {Y : Ω → T}
-    (hN : Measurable N) (hY : Measurable Y) [SigmaFinite (intensityMeasure P N)] :
-    (campbellMeasure P N Y).fst = intensityMeasure P N := by sorry
-
-/-- **Campbell's formula** (4.2), for a random measure of σ-finite intensity and a jointly
-observed random element. -/
-theorem lintegral_campbellMeasure (P : Measure Ω) {N : Ω → Measure X} {Y : Ω → T}
-    (hN : Measurable N) (hY : Measurable Y) [SigmaFinite (intensityMeasure P N)]
-    {g : X × T → ℝ≥0∞} (hg : Measurable g) :
-    ∫⁻ p, g p ∂campbellMeasure P N Y = ∫⁻ ω, ∫⁻ x, g (x, Y ω) ∂N ω ∂P := by sorry
-
-/-- The Poisson property with intensity `Λ` (4.2): `N` is measurable, and on every finite family
-of pairwise disjoint measurable sets of finite `Λ`-measure its counts are independent with
-Poisson laws of parameters `Λ (A i)`. -/
-def IsPoissonRandomMeasure (P : Measure Ω) (N : Ω → Measure X) (Λ : Measure X) : Prop :=
-  Measurable N ∧
-    ∀ (n : ℕ) (A : Fin n → Set X), (∀ i, MeasurableSet (A i) ∧ Λ (A i) < ∞) →
-      Pairwise (Function.onFun Disjoint A) →
-        iIndepFun (fun i ω => N ω (A i)) P ∧
-          ∀ i, HasLaw (fun ω => N ω (A i))
-            ((poissonMeasure (Λ (A i)).toNNReal).map (Nat.cast : ℕ → ℝ≥0∞)) P
-
-/-- **The Poisson law** (4.2): for a σ-finite intensity on any measurable space there is exactly
-one probability measure on `Measure X` under which the identity is a Poisson random measure. -/
-theorem exists_unique_poissonLaw (Λ : Measure X) [SigmaFinite Λ] :
-    ∃! ν : Measure (Measure X), IsProbabilityMeasure ν ∧ IsPoissonRandomMeasure ν id Λ := by
-  sorry
-
-end PoissonRandomMeasures
-
 section Oppenheim
 
 /-- **Margulis's theorem** (Oppenheim conjecture, 4.3.1): a nondegenerate indefinite form in at
@@ -377,6 +341,46 @@ sequence excluding `7 mod 8` (4.3), including the small discriminants with extra
 theorem siegel_three_square_lower_bound (ε : ℝ) (hε : 0 < ε) :
     ∃ c : ℝ, 0 < c ∧ ∀ n : ℕ, 0 < n → Squarefree n → n % 8 ≠ 7 →
       c * Real.rpow (n : ℝ) (1 / 2 - ε) ≤ (Nat.card (ternaryShell n) : ℝ) := by sorry
+
+section Transference
+variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E] [FiniteDimensional ℝ E]
+
+/-- The closed Euclidean unit ball, as a convex body (4.4.13). -/
+def euclideanUnitBall : ConvexBody E where
+  carrier := Metric.closedBall 0 1
+  convex' := convex_closedBall 0 1
+  isCompact' := isCompact_closedBall 0 1
+  nonempty' := ⟨0, Metric.mem_closedBall_self zero_le_one⟩
+
+/-- The covering radius `μ(L) = sup_x inf_{v ∈ L} ‖x - v‖` (4.4.2), with values in `[0, ∞]`; for a
+discrete `L` it is finite exactly when `L` spans `E`. -/
+def latticeCoveringRadius (L : Submodule ℤ E) : ℝ≥0∞ :=
+  ⨆ x : E, Metric.infEDist x (L : Set E)
+
+/-- **Banaszczyk's transference bound** (4.4.13): for a discrete full lattice `L` in a Euclidean
+space of dimension `n` and its dual `L*` under the inner product, `λ_i(L) λ_(n+1-i)(L*) ≤ n` for the
+Euclidean unit ball, indexing from zero. -/
+theorem euclidean_dual_transference_upper (L : Submodule ℤ E) [DiscreteTopology L]
+    [IsZLattice ℝ L] (i : Fin (finrank ℝ E)) :
+    ZLattice.successiveMin L euclideanUnitBall i *
+        ZLattice.successiveMin (LinearMap.BilinForm.dualSubmodule (innerₗ E) L)
+          euclideanUnitBall i.rev ≤ finrank ℝ E := by
+  sorry
+
+/-- **The covering transference bound** (4.4.14): for a discrete full lattice `L` in a Euclidean
+space of dimension `n ≥ 1`, `1/2 ≤ μ(L) λ_1(L*) ≤ n`, with `μ` the covering radius and `λ_1(L*)`
+the first minimum of the dual lattice for the Euclidean unit ball. -/
+theorem covering_dual_transference (L : Submodule ℤ E) [DiscreteTopology L] [IsZLattice ℝ L]
+    (hn : 0 < finrank ℝ E) :
+    1 / 2 ≤ (latticeCoveringRadius L).toReal *
+        ZLattice.successiveMin (LinearMap.BilinForm.dualSubmodule (innerₗ E) L)
+          euclideanUnitBall ⟨0, hn⟩ ∧
+      (latticeCoveringRadius L).toReal *
+        ZLattice.successiveMin (LinearMap.BilinForm.dualSubmodule (innerₗ E) L)
+          euclideanUnitBall ⟨0, hn⟩ ≤ finrank ℝ E := by
+  sorry
+
+end Transference
 
 section StarBodies
 variable (E : Type*) [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
@@ -501,33 +505,5 @@ theorem lll_short_vector_factor (b : Fin n → E) (h : IsLLLReduced b) (hn : 0 <
     ‖b ⟨0, hn⟩‖ ^ 2 ≤ (2 : ℝ) ^ (n - 1) * ‖x‖ ^ 2 := by sorry
 
 end LLLApproximation
-
-section ArfInvariant
-variable {V W : Type*} [AddCommGroup V] [Module (ZMod 2) V] [Fintype V]
-  [AddCommGroup W] [Module (ZMod 2) W] [Fintype W]
-
-/-- Over `𝔽₂`, the value a quadratic form takes on more than half of the vectors (6.8); for a
-nonsingular form it is the Arf invariant. -/
-def arfMajority (q : QuadraticMap (ZMod 2) V (ZMod 2)) : ZMod 2 :=
-  if Fintype.card V < 2 * Fintype.card {x : V // q x = 1} then 1 else 0
-
-/-- (6.8) A nonsingular quadratic form over `𝔽₂` has a Lagrangian, a subspace of half the
-dimension on which it vanishes, exactly when its Arf invariant is zero. -/
-theorem arfMajority_eq_zero_iff_exists_lagrangian (q : QuadraticMap (ZMod 2) V (ZMod 2))
-    (hq : (QuadraticMap.polarBilin q).Nondegenerate) :
-    arfMajority q = 0 ↔ ∃ L : Submodule (ZMod 2) V,
-      2 * Module.finrank (ZMod 2) L = Module.finrank (ZMod 2) V ∧ ∀ x ∈ L, q x = 0 := by
-  sorry
-
-/-- **Arf's classification over `𝔽₂`** (6.8): nonsingular quadratic forms of equal dimension are
-isometric exactly when their Arf invariants agree. -/
-theorem quadraticMap_equivalent_iff_arfMajority (q : QuadraticMap (ZMod 2) V (ZMod 2))
-    (q' : QuadraticMap (ZMod 2) W (ZMod 2)) (hq : (QuadraticMap.polarBilin q).Nondegenerate)
-    (hq' : (QuadraticMap.polarBilin q').Nondegenerate)
-    (hdim : Module.finrank (ZMod 2) V = Module.finrank (ZMod 2) W) :
-    q.Equivalent q' ↔ arfMajority q = arfMajority q' := by
-  sorry
-
-end ArfInvariant
 
 end TauCetiRoadmap.GeometryOfNumbersAndQuadraticArithmetic
