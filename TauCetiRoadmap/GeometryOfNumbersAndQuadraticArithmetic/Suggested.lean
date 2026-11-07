@@ -1,14 +1,16 @@
-import Mathlib
-import TauCeti.Algebra.Module.ZLattice.SuccessiveMinima
-import TauCeti.Geometry.RealAlgebraic.Semialgebraic.Basic
-import TauCeti.NumberTheory.HurwitzClassNumber
-import TauCeti.RepresentationTheory.Continuous.Unitary.Basic
+module
+
+public import Mathlib
+public import TauCeti.Algebra.Module.ZLattice.SuccessiveMinima
+public import TauCeti.Geometry.RealAlgebraic.Semialgebraic.Basic
+public import TauCeti.NumberTheory.HurwitzClassNumber
+public import TauCeti.RepresentationTheory.Continuous.Unitary.Basic
 
 /-!
-# Geometry of numbers and quadratic arithmetic: headline theorems
+# Geometry of numbers and quadratic arithmetic: target signatures
 
-**This file is not the roadmap and is not exhaustive.** The definitive specification is
-`README.md`. These statements give Lean forms for headline milestones; discharging them
+**This file is not the roadmap and is not exhaustive.** The roadmap is `README.md`. This file
+states the roadmap's headline theorems against the pinned Mathlib and Tau Ceti; discharging them
 finishes neither a layer nor the roadmap. Each theorem is a proof target marked with `sorry`.
 
 The statements cover the intrinsic covolume identities (Layer 0), atomic normal forms over DVRs
@@ -29,22 +31,24 @@ The comparison of the real successive minima with the squared-norm minima of Int
 §2F (§1.2.14) is stated through the real model `realModel` of a positive definite integral
 lattice, which ThetaSeries 2D supplies and the pins do not; it is a README target.
 
-The Cho–Yamauchi formula and Siegel-polynomial functional equation (§3.2) are deferred here:
-the pins do not provide the local hermitian density, normalized Siegel polynomial or integral
-overlattice construction with its dual quotient and elementary divisors. The adelic mass
+The Cho–Yamauchi formula and Siegel-polynomial functional equation (§3.2) are not statable at
+the pins, which do not provide the local hermitian density, normalized Siegel polynomial or
+integral overlattice construction with its dual quotient and elementary divisors. The adelic mass
 identity, orthogonal Tamagawa number and maximal-lattice mass formula (§3.3) need the
 number-ring genus class set, adelic orthogonal quotient measures and smooth maximal
-orthogonal stabilizer models. These are substantial constructions specified in Layers 2–3.
-The signed hermitian Witt classification and transfer theorems (§2.9) need their signed Witt
-quotients.
+orthogonal stabilizer models, which the pins lack; Layers 2–3 specify them. The signed
+hermitian Witt classification and transfer theorems (§2.9) need their signed Witt quotients,
+which the pins lack.
 
 Hermitian delooping (§6.7.19), derived localization (§6.9), periodicity, finite-field comparisons
-and integral L-theory (§§6.10–6.11) are deferred here because the pins have no hermitian
+and integral L-theory (§§6.10–6.11) are not statable at the pins, which have no hermitian
 Q/Grothendieck–Witt spaces, hermitian suspension, common spectrum category or Poincaré
 structures. Exact structures and DG categories alone do not supply those objects. The
 number-ring homotopy-limit comparison and the higher integer Grothendieck–Witt groups are
 outside this roadmap.
 -/
+
+@[expose] public section
 
 noncomputable section
 open scoped BigOperators Pointwise Topology NNReal ENNReal
@@ -225,7 +229,8 @@ include hdim hmanifold hconn hcenter hsimple
 open TauCeti in
 /-- **Howe–Moore** (4.2.1): coefficients of a strongly continuous unitary representation of
 a connected noncompact simple real Lie group with finite centre vanish at infinity when
-there are no nonzero invariant vectors. No separability hypothesis on the Hilbert space is needed. -/
+there are no nonzero invariant vectors. No separability hypothesis on the Hilbert space is
+needed. -/
 theorem howe_moore (hG : ¬ IsCompact (Set.univ : Set G))
     (π : ContRepresentation ℂ G H) (hs : StronglyContinuous π)
     (hu : ContRepresentation.IsUnitary π) (hi : π.invariants = ⊥) (v w : H) :
