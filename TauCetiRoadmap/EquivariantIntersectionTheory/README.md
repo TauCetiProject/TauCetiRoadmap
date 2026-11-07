@@ -38,7 +38,12 @@ Out of scope: equivariant cohomology of topological spaces, equivariant K-theory
 stacks that are not global quotients (Kresch), equivariant Chow groups of actions whose mixed
 spaces are only algebraic spaces, which would need Chow groups of algebraic spaces at
 SchemeAndStackFoundations, and the Chow ring of `[M_{0,2g+2}/𝔖_{2g+1}]` beyond degree one
-(Edidin–Hu, Theorem 1.3), which no layer computes.
+(Edidin–Hu, Theorem 1.3), which no layer computes. So is a Borel fixed-point theorem for proper
+Deligne–Mumford stacks with an action of a connected solvable group, which is not in print: with
+fixed points in the sense of Romagny (an object with a `G`-linearisation; Romagny 2005), `𝔾_m`
+acting on `Bμ_n ≅ [𝔾_m/𝔾_m]` (quotient by `t ↦ tⁿ`, `n ≥ 2` invertible) by translation has none,
+since a fixed point would be a homomorphism `s` with `s(t)ⁿ = t`, although its coarse space, a
+point, is fixed (own example).
 
 ## Conventions
 
@@ -220,7 +225,7 @@ geometric setting of 3.1 is that of positive weights on a finite `σ` with `e > 
 **Checks.**
 
 - `k[x]` with `x` of weight `1`: the group is `⊥`; with `x` of weight `0` it is still `⊥`, since
-  the units are the constants, so no positivity is needed for `homogeneousUnitDegrees_weighted`.
+  the units are the constants, so no positivity is needed for the statement.
 - `f = x` in `k[x]`: with `x` of weight `1`, `k[x]_x = k[x, x⁻¹]` and the group is `ℤ`; with `x`
   of weight `2`, it is `2ℤ` and `ShiftClassGroup = ℤ/2`.
 - Primality is needed: `f = x²` in `k[x]`, `x` of weight `1`, has `e = 2`, but `k[x]_{x²}` contains
@@ -399,7 +404,8 @@ Totaro 1999, Theorem 1.1 and Definition 1.2). Prove that such `(V, U)` exist for
 For `G`-schemes and `G`-morphisms satisfying Convention 5: proper pushforward, flat pullback, the
 localisation sequence `A^G_i(Z) → A^G_i(X) → A^G_i(X ∖ Z) → 0` for an invariant closed `Z`,
 equivariant Chern classes of equivariant vector bundles, intersection products for `X` smooth, and
-homotopy invariance for equivariant vector bundles and affine bundles, all deduced from
+homotopy invariance for equivariant vector bundles and affine bundles (Edidin–Graham 1998, §2.3,
+Propositions 1–3), all deduced from
 SchemeAndStackFoundations §§5.2–5.6 applied to the mixed spaces of 2.1, which inherit Convention 5
 (invariant closed and open subschemes, and equivariant vector bundles, of a quasi-projective `X`
 with a linearised ample sheaf are again of that kind). Prove invariance under change of
@@ -530,7 +536,10 @@ comparison, not a target. *Needs:* 2.2, 2.4; 1.4; 3.4; SchemeAndStackFoundations
 
 ### 3.4 `[M_{0,n}/𝔖ₙ₋₁]` for every `n ≥ 3`
 
-Over a field of characteristic `0`, for `n ≥ 3` and `m = n − 1`, prove the following.
+Over a field of characteristic `0`, for `n ≥ 3` and `m = n − 1`, prove the following. This is the
+roadmap's own computation, by the route of items 1–4; the literature covers the even cases only,
+and the result agrees with Edidin–Hu, Theorem 1.3, for `n = 2g + 2` (in degree one) and with 3.2
+for `n = 4`.
 
 1. `[M_{0,n}/𝔖ₙ₋₁] ≅ [U/Aff]`, with `U` the monic squarefree polynomials of degree `m` and
    `Aff = 𝔾_a ⋊ 𝔾_m` acting on `𝔸¹` by `x ↦ a x + b` and on `U` through the roots, by fixing the
@@ -585,6 +594,8 @@ on `G/B⁻`.
   Proc. Sympos. Pure Math. 67, AMS (1999), 249–281, Theorem 1.1 and Definition 1.2.
   Zbl 0967.14005; arXiv:math/9802097.
 - A. Vistoli, « The Chow ring of `M₂` », appendix to Edidin–Graham, *Invent. Math.* 131 (1998).
+- M. Romagny, « Group actions on stacks and applications », *Michigan Math. J.* 53 (2005),
+  209–236: fixed points of group actions on stacks.
 - F. Knop, H. Kraft, D. Luna, T. Vust, « Local properties of algebraic group actions », in
   *Algebraische Transformationsgruppen und Invariantentheorie*, DMV Sem. 13, Birkhäuser (1989),
   63–75, Lemma 2.2 and Proposition 2.3. Zbl 0722.14032.
