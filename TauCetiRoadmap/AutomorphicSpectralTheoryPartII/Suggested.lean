@@ -11,8 +11,9 @@ complexification of any finite-dimensional real vector space.
 
 Headlines not statable at the pins, with their missing carriers:
 * Sharp Weyl-invariant interpolation: root-datum real-form strips and symbol algebras.
-* Real reductive Schwartz multipliers, rapid estimates and finite K-type detection:
-  the reductive-group Schwartz algebra and Casselman–Wallach representations.
+* Delorme's rapid-symbol multipliers, real reductive Schwartz multipliers, rapid
+  estimates and finite K-type detection: the reductive-group Schwartz algebra and
+  Casselman–Wallach representations.
 * Weighted Sobolev evaluation and nuclear maps on seminorm completions: smooth
   weighted adelic quotient representations and their Banach seminorm completions.
 * Nuclear Schwartz tensors and weighted constant-term decomposition: quotient Schwartz
@@ -21,12 +22,13 @@ Headlines not statable at the pins, with their missing carriers:
   induced representations with their topological tensor products.
 * Support projections and summability: weighted cuspidal-support spaces.
 * Regular constant-term boundedness and holomorphy: regular cuspidal data and Levi spaces.
-* Lapid inversion under hereditary (HP), including the GL products: Schwartz-valued
-  Eisenstein wave packets and normalized intertwiners.
+* Lapid's hereditary property (HP) for products of general linear groups and Lapid
+  inversion under (HP): global normalizing factors, normalized intertwiners and
+  Schwartz-valued Eisenstein wave packets.
 * Schwartz kernels, uniform component bounds and grouped expansion: adelic quotient
   kernels and Eisenstein inducing spaces.
-* Polynomial cuspidal counting and finite typical data: cuspidal automorphic
-  representations, their levels and derived Casimir parameters.
+* Polynomial discrete-spectrum counting and finite typical data: the discrete
+  automorphic spectrum, its levels and derived Casimir parameters.
 * Archimedean annihilators and finite surviving components: induced spectral families
   and their Schwartz multiplier action.
 * Mixed separation and normalized global isolation: mixed Hecke/Schwartz multipliers
@@ -34,7 +36,7 @@ Headlines not statable at the pins, with their missing carriers:
 * Non-CAP isolation and admissible-representation preservation: CAP occurrence and
   central-character automorphic Hilbert representations.
 * One GL_n cuspidal-support component: normalized adelic induction and its support blocks.
-* Refined discrete-data isolation under polynomial counting: the Langlands discrete-data
+* Refined discrete-data decomposition and isolation: the Langlands discrete-data
   Hilbert decomposition and its character equations.
 -/
 

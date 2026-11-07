@@ -4,17 +4,17 @@
 
 ## Scope and ownership
 
-AutomorphicSpectralTheory §§0.11–0.15, 1.6–1.10, Layers 2–4 and §§6.1–6.4 supplies generic locally convex analysis, normalized cuspidal data, pseudo-Eisenstein series, intertwiners, spectral decomposition, compact Paley–Wiener multipliers and compact-test kernels. That roadmap stops before the moderate-symbol Schwartz multiplier theorem and the weighted quotient Schwartz spectral extensions built here. Its generic definitions and compact theorems are imported rather than restated as targets. The discrete-data variant in §5.7 retains its additional polynomial-counting hypothesis. AutomorphicSpectralTheory §§5.1–5.9 owns Franke’s admissible-weight spaces on [G]. Sections 2.6 and 2.14 here use BPCZ’s arbitrary comparable measurable weights on [G]_P: at P=G, after matching central quotient, measure and level, the individual smooth weighted-L² stages agree with Franke’s S_p when w=p², and §2.14 forms the specified intersections and unions of those stages.
+AutomorphicSpectralTheory supplies nuclear Fréchet and LF test spaces, vector integration, the function-space kernel theorem, vector-valued Schwartz spaces and meromorphic operator families (§§0.11–0.15), restricted tensor factorization (§0.50), the finite Weyl constant-term formula, Paley–Wiener pseudo-Eisenstein series, their inner products and the orthogonal cuspidal-data decomposition of L²([G]¹) (§§1.5–1.10), intertwining operators with the GLₙ normalized intertwining estimates and their local–global factorization (§§2.1–2.5), truncation (§§3.1–3.4), the spectral decomposition of L²([G]¹) by discrete data with its residual and finite-multiplicity statements (§§4.1–4.5), the finite-place Luo–Rudnick–Sarnak bound (§7.1a), and the real Paley–Wiener theorems, compact-support multipliers and compact-test kernels `K_f`, `K_{P,f}` (§§6.1–6.4). That roadmap works with compactly supported tests on G(𝔸)¹ and stops before the moderate-symbol Schwartz multiplier theorem and the weighted quotient Schwartz spectral extensions built here. Its generic definitions and compact theorems are imported rather than restated as targets. This Part II owns the further extensions of that theory which it uses: the Nash Schwartz product comparison (§1.1), Delorme's rapid-symbol multipliers with their split-torus and joint-continuity inputs (§1.2a), the K_f-isotypic description of SLF representations (§2.5), holomorphy of completed tensor families (§2.15), the transport of cuspidal data to [G] and to a fixed split central character (§2.15a), Arthur's finite differentiability factorization (§3.2), Lapid's hereditary property for products of general linear groups (§3.6a), the support components and spectral expansion of convolution kernels, starting from compactly supported tests (§§3.8 and 3.10), Müller's polynomial bound for the discrete spectrum (§4.5a) and the Langlands discrete-data refinement of the cuspidal-support decomposition (§5.7). AutomorphicSpectralTheory §§5.1–5.9 owns Franke’s admissible-weight spaces on [G]. Sections 2.6 and 2.14 here use BPCZ’s arbitrary comparable measurable weights on [G]_P: at P=G, after matching central quotient, measure and level, the individual smooth weighted-L² stages agree with Franke’s S_p when w=p², and §2.14 forms the specified intersections and unions of those stages.
 
 AutomorphicFormsOnReductiveGroups §§0.1–0.5 owns smooth adelic functions, the adelic test Schwartz algebra, uniform moderate growth and smoothing; §§2.1–2.4 and 2.7 owns real representations, induction, infinitesimal characters, globalizations and the continuous nondegenerate integrated Schwartz action; §§3.4–3.5 owns restricted tensor factorization; §§4.1–4.2 owns constant terms and cuspidal realizations. Here the real/adelic comparisons are topology and multiplier compatibility statements, and the growth spaces add specified quotient weights. The generic Kostant centralizer and principal-series inputs belong to its real representation layer; §1.4 retains only their rational-difference spectral comparison. Generic SF closed-subspace and globalization theory is not rebuilt here. SpectralManifolds SM3 owns the Fréchet open mapping theorem and closed-subspace quotient topology; §§2.5 and 2.18 apply them to the specified SLF stages.
 
 AdelicAlgebraicGroups §§2.1–2.3, 3.1 and 3.4–3.6 owns heights, quotient measures, split-centre conventions, Iwasawa and reduction theory; §§4.6–4.7 owns compact central quotients and character theory. SmoothRepresentationsOfLocalGroups SR.1–SR.4 owns finite-place Hecke algebras, normalized induction, Jacquet modules and Satake theory. AutomorphicLFunctionsAndLocalFactors AL.R.4, **GLₙ isobaric sums**, and AL.3.7.2, **Strong multiplicity one for isobaric sums**, owns the GLₙ construction and uniqueness inputs. The quotient-weight applications and spectral interpolation are owned here.
 
-ReductiveGroups Layer 7 and LieGroups Layer 7 own the group root datum and real descent. The finite involution coset and its shifted spectral lattices in §0.4 specialize those structures. NoncommutativeGeometry N1 owns completed projective tensor products. OperatorTheory/SelfAdjointSpectralTheory Parts A–E owns generic spectral calculus; OperatorTheory/OperatorIdeals OI-B32–OI-B41, OI-B84 and Part C owns Hilbert–Schmidt and trace-class tools. BanachSpaceTheory B4 owns the nuclear Banach-operator carrier and its isometric Hilbert trace-class comparison. PDE Lane A owns local Sobolev analysis. The quotient nuclear inclusions and spectral realizations here differ by their automorphic weight and support estimates.
+ReductiveGroups Layer 7 and LieGroups Layer 7 own the group root datum and real descent. The finite involution coset and its shifted spectral lattices in §0.4 specialize those structures. NoncommutativeGeometry N1 owns completed projective tensor products. OperatorTheory/SelfAdjointSpectralTheory Parts A–E owns generic spectral calculus; OperatorTheory/OperatorIdeals OI-B32–OI-B41, OI-B84 and Part C owns Hilbert–Schmidt and trace-class tools. BanachSpaceTheory B4 owns the nuclear Banach-operator carrier and its isometric Hilbert trace-class comparison. PDE Lane A owns local Sobolev analysis, and PseudodifferentialOperators Layer 6 owns elliptic parametrices. The quotient nuclear inclusions and spectral realizations here differ by their automorphic weight and support estimates.
 
 GlobalHolomorphicFunctions, **Preparatory primary factors and locally uniform products**, owns the elementary factors, locally uniform product construction and exact zero divisor. Here §0.2 adds the fixed-genus finite-rank global growth bound, including rank zero and an origin factor. The native formulas in Suggested.lean spell the supplied product for this acceptance test. ZerosOfLFunctions, standing **finite order** convention and Layer 5.1–5.6, owns order bounds and genus-one Hadamard theory; the predicate in §0.2 is only the existential integral global-bound specialization needed for interpolation. ModularCurvesPartII §1.4a, **Lattice sigma function**, owns the rank-two period-lattice sigma specialization. No Hadamard factorization or elliptic sigma theory is developed here.
 
-Mathlib supplies Euclidean Schwartz functions, entire holomorphy, exponential and polynomial evaluation, unordered sums/products, almost-everywhere Lp classes and algebraic centroids. Their generic definitions are not targets here. CongruenceSpectralGap Layers 0–5 (from the congruence quotient and positive spectrum to the parameter bound and congruence gap) owns the congruence Laplacian gap, including its continuous threshold and curvature normalization. GanGrossPrasadUnitaryGroups §§6.3–6.4 owns relative period applications and trace comparison. Its §6.4 application needs a separate theorem that base-change-compatible multipliers preserve smooth transfer (BPLZZ §4.2, Proposition 4.8, pp.34–35; bplzz line 1685). That theorem is outside this Part II’s scope and belongs with the relative comparison; §4.3 here supplies only the scalar multiplier action it needs.
+Mathlib supplies Euclidean Schwartz functions, entire holomorphy, exponential and polynomial evaluation, unordered sums/products, almost-everywhere Lp classes and algebraic centroids. Their generic definitions are not targets here. CongruenceSpectralGap Layers 0–5 (from the congruence quotient and positive spectrum to the parameter bound and congruence gap) owns the congruence Laplacian gap, including its continuous threshold and curvature normalization; no target here uses that gap. Its Luo–Rudnick–Sarnak bound (§5.1) is the O(m)-spherical case over ℚ of the archimedean parameter bound that §3.6a proves for every number field and archimedean type. GanGrossPrasadUnitaryGroups §§6.3–6.4 owns relative period applications and trace comparison, and its §6.3a owns the theorem that base-change-compatible multipliers preserve matching and smooth transfer (BPLZZ §4.2, Proposition 4.8, pp.34–35; bplzz line 1685); §4.3 here supplies the scalar multiplier action that theorem uses. Harmonic analysis on reductive groups over nonarchimedean local fields (Plancherel inversion, tempered matrix-coefficient bounds, smoothing traces, Harish-Chandra descent, Schwartz germs and Fourier-averaging extensions) is outside this roadmap. Harish-Chandra's real Plancherel decomposition, used in §§1.2 and 1.6, is the AutomorphicFormsOnReductiveGroups contract real-plancherel-decomposition below, the same request with the same owner as in GanGrossPrasadUnitaryGroups.
 
 ## Conventions
 
@@ -44,63 +44,9 @@ No Tau Ceti module is imported by Suggested.lean. The library pin is 358314d4ab9
 
 ### From TauCetiRoadmap.AutomorphicSpectralTheory
 
-Consume §§0.11–0.15 for nuclear Fréchet/LF adapters, integration, summation, kernel and vector-family analysis; §§1.5–1.10 and 3.1–3.4 for normalized cuspidal data and compact pseudo-Eisenstein inner products and constant terms; Layers 2–4 for intertwiners, the automorphic Hilbert decomposition and residual data; §§6.1–6.4 for compact Paley–Wiener multipliers and kernels. In particular §0.12 supplies quasi-complete-target integration, and §0.15 supplies weak-to-strong holomorphy for locally bounded families by taking scalar source ℂ and denominator 1. Their central quotient, dual measures and finite-type stages must be transported to the conventions above. Compact Paley–Wiener alone is not the rapid-symbol multiplier input.
+Consume §0.11 for nuclear Fréchet and strict LF test spaces and bounded sets in strict LF limits, §0.12 for quasi-complete vector integration and summation, §0.13 for the nuclear function-space kernel theorem, §0.14 for vector-valued Schwartz spaces, and §0.15 for meromorphic operator families, whose weak-to-strong criterion under one common denominator, barrelled source, quasi-complete target and locally bounded regularized maps is used here with denominator 1 for holomorphic families. Consume §0.50 for restricted tensor factorization. Consume §1.5 for the finite Weyl constant-term formula, §§1.6–1.8 for Paley–Wiener pseudo-Eisenstein series, their square-integrability and the Langlands inner-product formula, and §§1.9–1.10 for cuspidal data, the Weyl-associate classes χ of pairs (P,σ) with σ occurring in L²_cusp([M_P]¹), and the orthogonal decomposition L²([G]¹)=⊕̂_χL²_χ. Consume §§2.1–2.5 for local and global intertwining operators, the Harish-Chandra μ-function, the GLₙ normalized intertwining estimates of §2.3a, continuation and functional equations, and the local–global factorization with M(w,λ)*=M(w⁻¹,−conj(wλ)). Consume §§3.1–3.4 for Arthur truncation and §§3.5–3.6 for the Maass–Selberg relations. Consume §§4.1–4.5 for the symmetric associate parameter fields, the unitary Eisenstein spectral map onto L²([G]¹), the residual spectrum and finite multiplicity in the discrete spectrum, and §7.1a for the finite-place Luo–Rudnick–Sarnak bound for unitary cuspidal representations of GL_m. Consume §§6.1–6.3 for the real invariant and operator Paley–Wiener theorems and Arthur's multipliers of compactly supported W-invariant distributions, and §6.4 for the compact-test kernels with `K_f(x,y)=Σ_{γ∈G(F)}f(x⁻¹γy)` and the parabolic kernels `K_{P,f}`.
 
-What AutomorphicSpectralTheory must provide (gap:nash-schwartz-analysis): Supply the Nash Schwartz product and embedding comparison on real algebraic groups used in §§1.1 and 2.15.
-
-The section contract is §0.14.
-
-What AutomorphicSpectralTheory must provide (gap:tensor-holomorphy): Supply holomorphy of the completed projective tensor of two locally bounded holomorphic families in complete nuclear Fréchet spaces.
-
-The section contract is §0.15.
-
-What AutomorphicSpectralTheory must provide (gap:slf-isotypic-sums): Supply the countable K_f-isotypical direct-sum description of an SLF representation for a fixed compact open K_f in G(𝔸_f), with Fréchet summands and the induced direct-sum topology on closed invariant subspaces.
-
-The section contract is §0.11.
-
-What AutomorphicSpectralTheory must provide (gap:frechet-bilinear-continuity): Supply joint continuity of separately continuous bilinear maps from a product of two complex Fréchet spaces to a Hausdorff locally convex space.
-
-The section contract is §0.11.
-
-What AutomorphicSpectralTheory must provide (gap:rapid-semisimple-centre): Supply the semisimple rapid-symbol multiplier from compact smooth finite-K-type stages to Schwartz stages of a semisimple real reductive group, for W-invariant rapidly decreasing symbols.
-
-The section contract is §§6.1–6.3.
-
-What AutomorphicSpectralTheory must provide (gap:split-centre-fourier-laplace): Supply the Fourier–Laplace multiplier of a rapidly decreasing symbol on a split real torus, continuous on each fixed finite-type, fixed-support Schwartz stage.
-
-The section contract is §§6.1–6.3.
-
-What AutomorphicSpectralTheory must provide (gap:cuspidal-data-central-comparison): Compare Weyl-and-twist normalized cuspidal data, with twists and inducing parameters in the relative space (a_M^G)*, and pseudo-Eisenstein spans with the full split-central-character convention and intermediate compact smooth quotient data, preserving quotient measures.
-
-The section contract is §§1.6–1.10, 4.1–4.4.
-
-What AutomorphicSpectralTheory must provide (gap:hereditary-intertwining-bounds): Supply the normalized-intertwiner comparison and hereditary polynomial parameter and derivative estimates (HP), including (UT) and (WR) for every Levi, unconditionally for finite products of restrictions of scalars of GL_n.
-
-The section contract is §§2.3–2.5, 3.1–3.4.
-
-What AutomorphicSpectralTheory must provide (gap:refined-langlands-discrete-data): Supply the decomposition of the fixed-level central-character L² space by Langlands discrete data (M,σ) with σ discrete, with its normalized-twist and Weyl equivalence, central disintegration and residual summands explicit.
-
-The section contract is §§4.1–4.5.
-
-What AutomorphicSpectralTheory must provide (gap:discrete-spectrum-casimir-counting): Supply the fixed-level finite-K-type polynomial bound for the number, with multiplicity, of discrete-spectrum Casimir eigenvalues of absolute value at most R.
-
-The section contract is §§4.4–4.5.
-
-What AutomorphicSpectralTheory must provide (gap:compact-eisenstein-comparison): Identify the supplied compact cuspidal pseudo-Eisenstein inner-product and Weyl/intertwining constant-term formulas and their measures with the BPCZ and Lapid parameter conventions used in §3.6.
-
-The section contract is §§1.5–1.8, 3.1–3.4.
-
-What AutomorphicSpectralTheory must provide (gap:arthur-factorization-comparison): For each normal compact open K₀⊂K_f and each m≥1, supply Z∈U(g∞), a smooth compactly supported g₁ and a compactly supported g₂ of class C^m, both invariant under K∞-conjugation and bi-K₀-invariant, with f=f*g₁+(f*Z)*g₂ for every bi-K₀-invariant Schwartz function f, the choice depending only on K₀ and m.
-
-The section contract is §6.3.
-
-What AutomorphicSpectralTheory must provide (gap:compact-kernel-central-comparison): Identify the compact-test parabolic kernels `K_f,P` and their support components `K_f,P,χ` with the quotient measures and pairing convention of §3.8, and prove `K⁰_f,P,χ(x,y) = ∫ K_f,P,χ(x,ay) δ_P(a)^(−1/2) da`, the integral over `a ∈ A_P∞`, for compactly supported smooth f.
-
-The section contract is §6.4.
-
-What AutomorphicSpectralTheory must provide (gap:compact-kernel-spectral-comparison): Supply the compact-test spectral expansion of the support component `K⁰_f,χ` by discrete-inducing Eisenstein series used in §3.10, with its sum over χ, standard P and K-types, coefficient `|𝒫(M_P)|^(−1)`, conjugated second Eisenstein factor and dual Haar measure on the imaginary relative space `i(a_P^G)*`.
-
-The section contract is §6.4.
+These statements use G(𝔸)¹, equivalently the trivial A_G(ℝ)⁰-character, and compactly supported tests. Section 2.15a transports the cuspidal-data statements to [G] and to a fixed unitary character of the split centre, preserving quotient measures; §§3.8 and 3.10 extend the kernels to support components and to Schwartz tests. Compact Paley–Wiener multipliers alone are not the rapid-symbol multiplier input, which is §1.2a.
 
 ### From TauCetiRoadmap.AutomorphicFormsOnReductiveGroups
 
@@ -129,10 +75,6 @@ The section contract is §2.4.
 What AutomorphicFormsOnReductiveGroups must provide (gap:k-type-growth): Supply polynomial compact-Casimir bounds for K-type dimensions and smooth seminorms in finite-length admissible moderate-growth Fréchet representations at each fixed finite level.
 
 The section contract is §2.1.
-
-What AutomorphicFormsOnReductiveGroups must provide (gap:cuspidal-polynomial-counting): Supply the fixed-level finite-K-type polynomial cuspidal elliptic eigenvalue-count bound with multiplicity on derived semisimple quotients, including arbitrary-level reduction through finitely many conjugate levels and the Casimir-sign comparison.
-
-The section contract is §4.2.
 
 ### From TauCetiRoadmap.AdelicAlgebraicGroups
 
@@ -190,6 +132,10 @@ What PDE must provide (gap:local-sobolev-evaluation): Supply the compact-chart d
 
 The section contract is Lane A, Sobolev embedding and local regularity.
 
+### From TauCetiRoadmap.PseudodifferentialOperators
+
+Consume Layer 6, §6.1 (P6), for ellipticity of differential operators and their two-sided parametrices modulo smoothing operators, and Layer 5, §5.1 (P5), for Sobolev mapping orders. Section 3.2 applies them, on a compact neighbourhood of the identity, to a power of a left-invariant elliptic operator on G∞; a parametrix of order −N has a Schwartz kernel of class Cᵐ once N>m+dim G∞.
+
 ### From TauCetiRoadmap.OperatorTheory and NoncommutativeGeometry
 
 Consume OperatorTheory/SelfAdjointSpectralTheory Parts A–E for spectral measures and unbounded self-adjoint calculus, OperatorTheory/OperatorIdeals OI-B32–OI-B41 and OI-B84 for Hilbert–Schmidt ideals and Part C for their column realization, and the Hilbert–Schmidt composition supplement below. Consume NoncommutativeGeometry N1 for the completed projective tensor, its dense algebraic image, functoriality and complete-target universal property. These generic inputs are used by the automorphic nuclear inclusions and tensor comparisons.
@@ -220,7 +166,7 @@ Consume SM3, **Smooth projective modules, functions and spectral measure**, for 
 
 ## How to read the build
 
-Layer 0 constructs analytic zero sets and spectral symbol algebras independently of the automorphic quotient. Layer 1 realizes these symbols as real Schwartz multipliers and compares their adelic stages. Layer 2 develops weighted quotient analysis and the constant-term maps. Layer 3 extends support projections, regular wave packets and kernels to these spaces. Layer 4 combines polynomial counting with interpolation to leave finitely many cuspidal-support blocks. Layer 5 separates the remaining unwanted blocks using finitely supported spherical operators and normalizes at the target character. Every subsection lists the inputs to both its statement and the indicated proof route; alternative proofs can use fewer route inputs. Suggested.lean states the three analytic headlines on native carriers; its module docstring names the automorphic headlines and their missing carriers.
+Layer 0 constructs analytic zero sets and spectral symbol algebras independently of the automorphic quotient. Layer 1 realizes these symbols as real Schwartz multipliers and compares their adelic stages. Layer 2 develops weighted quotient analysis and the constant-term maps. Layer 3 extends support projections, regular wave packets and kernels to these spaces. Layer 4 combines polynomial counting with interpolation to leave finitely many cuspidal-support blocks. Layer 5 separates the remaining unwanted blocks using finitely supported spherical operators and normalizes at the target character. Sections 1.2a, 2.15a, 3.6a and 4.5a extend AutomorphicSpectralTheory beyond compactly supported tests on G(𝔸)¹ and precede the sections that use them. Every subsection lists the inputs to both its statement and the indicated proof route; alternative proofs can use fewer route inputs. Suggested.lean states the three analytic headlines on native carriers; its module docstring names the automorphic headlines and their missing carriers.
 
 ## Layer 0: Entire interpolation and real-form symbol algebras
 
@@ -370,6 +316,8 @@ The defining construction has the following API.
 
 - Every polynomial belongs to MΘ; its growth degree supplies one exponent uniformly in lattice translates.
 
+- Pullback along Cartan maps: let ι:h₁*→h₂* be a real-linear map with complexification ι_ℂ. For `μ∈M_{ {1} }(h₂*_ℂ)`, `μ∘ι_ℂ` lies in `M_{ {1} }(h₁*_ℂ)`, with the strip width multiplied by the operator norm of ι; if ι sends every W₁-orbit into a W₂-orbit, Weyl invariance is preserved. This covers restriction to a subspace and composition with a linear splitting of it (BPLZZ §4.3, proof of Lemma 4.12, p.37; bplzz line 1829).
+
 A proof route is as follows. Define the extended seminorm family before restricting to its finite domains. Use polynomial absorption to compare real and integral exponents and prove algebra closure.
 
 *Needs:* §0.4; Mathlib `Differentiable`.
@@ -381,6 +329,8 @@ A proof route is as follows. Define the extended seminorm family before restrict
 - On ℂ, exp(−z²) is not moderate on vertical strips.
 
 - For Θ={−1} with Y=ℤ and μ(z)=exp(z), the ratio eⁿ/(1+n)^d tends to ∞ as n→+∞ for every d, so μ is not in MΘ, although exp(z) is moderate for Θ={1} on a line; a separate bound at each integer, without a uniform exponent, would wrongly admit it.
+
+- Let W₂ be the coordinate swap on ℂ². Along the diagonal map ι(z)=(z,z) the swap-invariant symbol z₁z₂ pulls back to z², with value 4 at z=2, while the nonzero anti-invariant z₁−z₂ pulls back to 0, so pullback along an injective map does not detect every symbol. Along ι(z)=(z,0) with W₁={±1}, the orbit {z,−z} is not sent into one swap orbit, and the swap-invariant z₁+z₂ pulls back to z, whose values at 1 and −1 are 1 and −1: without the orbit condition Weyl invariance is lost.
 
 - For Θ={−1} with Y=ℤ and μ(z)=z², the exponent r=−2 gives `sup_n n²/(1+|n|)²=1`, finite, whereas r=−1 gives an infinite supremum; the definition asks for some exponent, not a prescribed one.
 
@@ -502,17 +452,21 @@ Mathlib holomorphy and unordered products; ReductiveGroups Layer 7; LieGroups La
 
 ### 1.1 Real Schwartz and Sobolev descriptions
 
-Take the real-group factor of AutomorphicFormsOnReductiveGroups §0.3. Its elements are smooth functions for which Df is bounded for every algebraic differential operator D on G(ℝ). The seminorm topology is nuclear Fréchet and equals the topology defined by ‖Df‖₂ for all algebraic D, using distributional derivatives for the converse. The comparison is with Nash Schwartz functions, not merely Harish-Chandra C²(G). There is a continuous inclusion `S(G)⊂⋂_{p>0}C^p(G)`, with equality precisely when the algebraic centre of G is compact at the real points. For an additive real vector group the resulting polynomial derivative conditions agree with Mathlib SchwartzMap. (BPLZZ §2.3, definition and Remarks 2.11–2.12, pp.11–12; bplzz line 522).
+Take the real-group factor of AutomorphicFormsOnReductiveGroups §0.3. Its elements are smooth functions for which Df is bounded for every algebraic differential operator D on G(ℝ). The seminorm topology is nuclear Fréchet and equals the topology defined by ‖Df‖₂ for all algebraic D, using distributional derivatives for the converse. The comparison is with Nash Schwartz functions, not merely Harish-Chandra C²(G). There is a continuous inclusion `S(G)⊂⋂_{p>0}C^p(G)`, with equality precisely when the algebraic centre of G is compact at the real points. For an additive real vector group the resulting polynomial derivative conditions agree with Mathlib SchwartzMap. (BPLZZ §2.3, definition and Remarks 2.11–2.12, pp.11–12; bplzz line 522). Prove the product comparison: for real algebraic groups G₁ and G₂, multiplication of pure tensors induces a topological isomorphism S(G₁)⊗̂πS(G₂)≅S(G₁×G₂). For a split real torus H⁰, the identity component of the real points of a split torus, with real Cartan dual h* and Haar measure dh transported from Lebesgue measure on h by log, prove that the Fourier–Laplace transform `f↦(λ↦∫_{H⁰}f(h)exp(−λ(log h))dh)` is a topological isomorphism from S(H⁰) onto N(h*_ℂ) of §0.6, with Θ={1}. (BPLZZ Appendix A, proof of Lemma A.2, p.44, citing [AG10, Corollary 2.6.3] for products and the classical Paley–Wiener theorem for Schwartz functions on split tori; bplzz line 2163 and line 2167.)
 
-A proof route is as follows. Compare algebraic differential operators to polynomially weighted invariant derivatives in finitely many algebraic charts. Use local Sobolev estimates and polynomial volume growth in algebraic height for the L²/bounded comparison; identify the required Nash chart and partition input in nash-schwartz-analysis. Use the standard comparison with Harish-Chandra seminorms, keeping the noncompact central directions.
+A proof route is as follows. Compare algebraic differential operators to polynomially weighted invariant derivatives in finitely many algebraic charts. Use local Sobolev estimates and polynomial volume growth in algebraic height for the L²/bounded comparison. Use the standard comparison with Harish-Chandra seminorms, keeping the noncompact central directions. For products, compare the product seminorms on finitely many algebraic product charts and use density of pure tensors with nuclearity of the stages. For the torus, integrate by parts in log coordinates for the forward estimate and shift contours in the inverse transform for the reverse one.
 
-*Needs:* AutomorphicFormsOnReductiveGroups §§0.1–0.5; Mathlib `SchwartzMap`; AutomorphicSpectralTheory §§0.11–0.15; nash-schwartz-analysis; PDE Lane A.
+*Needs:* §0.6; AutomorphicFormsOnReductiveGroups §§0.1–0.5; Mathlib `SchwartzMap`; AutomorphicSpectralTheory §§0.11–0.15; PDE Lane A; NoncommutativeGeometry N1.
 
 **Checks.**
 
 - On a split real torus, decay in the logarithm of the torus coordinate alone does not give Nash Schwartz decay.
 
 - For a compact real reductive group this space is C∞ with its usual topology.
+
+- On `H⁰=ℝ_{>0}`, in the coordinate x=log t with dx, f(t)=exp(−(log t)²) is Schwartz and its transform is √π·exp(λ²/4), entire and rapidly decreasing on vertical strips. By contrast f(t)=2t/(1+t²)=1/cosh(log t) decays only like t⁻¹ and t, and its transform π/cos(πλ/2) has poles at λ=±1, so it is not in N.
+
+- For G₁=G₂=ℝ the product comparison is S(ℝ)⊗̂πS(ℝ)=S(ℝ²); exp(−π(x²+xy+y²)) lies in the completion but, having a kernel of infinite rank, is not a finite sum of pure tensors.
 
 ### 1.2 Schwartz integration on moderate representations
 
@@ -528,13 +482,29 @@ A proof route is as follows. Compare the supplied Schwartz algebra with §1.1, i
 
 - For π_t(x)=exp(itx), the imported action and the compared action both have scalar ∫f(x)exp(itx)dx. With Lebesgue measure, at t=0 and f(x)=exp(−πx²), both scalars are 1; on the group with one element and mass-one measure, both actions send (f,v) to f(1)v.
 
+### 1.2a Rapid-symbol multipliers on semisimple groups and split tori
+
+Let G_s be a connected linear semisimple real Lie group with maximal compact subgroup K_s, abstract Cartan dual h*_s and Weyl group W_s. For a compact bi-K_s-invariant Ω⊂G_s and a finite set T of K_s-types, write C_Ω^∞(G_s)_T for the Fréchet space of smooth functions supported in Ω whose left and right K_s-types lie in T, and S(G_s)_T for the corresponding closed subspace of S(G_s). For `μ∈N(h*_{s,ℂ})^{W_s}`, prove that there is a unique linear map μ⋆:C_Ω^∞(G_s)_T→S(G_s)_T with π(μ⋆f)=μ(χ_π)π(f) for every irreducible admissible π (Delorme's theorem, [Del86, Théorème 1.7], as used in BPLZZ Appendix A, pp.43–44; bplzz line 2099 and line 2169). For a connected abelian real reductive group Z⁰, with z* the real span of the weight lattice of its complexification, and μ∈N(z*_ℂ), prove the analogous statement with smooth characters ξ in place of irreducible admissible representations: ξ(μ⋆f)=μ(χ_ξ)ξ(f) ([Sak, Theorem 2.1.2], as used in BPLZZ Appendix A, pp.44–45; bplzz line 2173). Both maps are continuous, by injectivity of the operator-valued Fourier transform and the closed graph theorem (bplzz line 2179). Prove also that a separately continuous bilinear map from the product of two complex Fréchet spaces to a Hausdorff locally convex space is jointly continuous, and therefore extends uniquely to the completed projective tensor product when the target is complete ([Trè67, Theorem 34.1], as used in BPLZZ Appendix A, p.45; bplzz line 2198). The output need not be compactly supported, and W_s-invariance of μ is required for μ(χ_π) to be defined.
+
+A proof route is as follows. In the semisimple case, describe the operator-valued transform of f at fixed support and K-types by Arthur's operator Paley–Wiener theorem; multiplication by μ preserves its differential matrix-coefficient relations and turns exponential type into rapid decay on every vertical strip, and Fourier inversion on the tempered dual with contour shifts in the induced parameters bounds every Schwartz seminorm of the inverse transform. For Z⁰ use Fourier series in the compact directions and the Paley–Wiener isomorphism of §1.1 in the split directions. For joint continuity, apply Banach–Steinhaus to the maps in one variable indexed by a null sequence in the other, then use metrizability. Uniqueness uses detection of Schwartz functions by their transforms (§1.2).
+
+*Needs:* §0.6; §1.1; §1.2; AutomorphicSpectralTheory §6.2 (operator Paley–Wiener theorem); AutomorphicFormsOnReductiveGroups §§2.1–2.4, 2.7; real-plancherel-decomposition; Mathlib `WithSeminorms.banach_steinhaus`.
+
+**Checks.**
+
+- On `Z⁰=ℝ_{>0}`, in the coordinate x=log t, μ(λ)=exp(λ²) is rapidly decreasing on vertical strips, since |exp((σ+iτ)²)|=exp(σ²−τ²). Its multiplier is convolution in x by `k(x)=(4π)^{−1/2}exp(−x²/4)`, whose transform ∫k(x)exp(−λx)dx equals exp(λ²) for either sign convention because μ is even; `k(0)=(4π)^{−1/2}`. For nonzero compactly supported f the output is not compactly supported: otherwise its transform exp(λ²)f̂(λ) would be of exponential type, forcing |f̂(σ)|≤C·exp(R|σ|−σ²) for real σ, and a nonzero entire function of exponential type cannot decay that fast along a line.
+
+- For SL₂(ℝ), W={±1} acts on h*_ℂ=ℂ by λ↦−λ, and the principal series at λ and −λ share their infinitesimal character. The rapidly decreasing μ(λ)=λexp(λ²) takes the values e and −e at λ=1 and λ=−1, so μ(χ_π) is undefined; this is why the symbol must be Weyl invariant.
+
+- On ℓ² with the weak topology in both variables the inner product is separately continuous, yet the unit vectors e_n tend weakly to 0 while ⟨e_n,e_n⟩=1. Joint continuity fails, so the Fréchet hypothesis cannot be dropped.
+
 ### 1.3 Delorme multipliers for reductive real groups
 
 For μ∈N(h*ℂ)^W and compactly supported smooth bi-K-finite f on a real reductive algebraic group, there is a unique bi-K-finite Schwartz function μ⋆f with π(μ⋆f)=μ(χπ)π(f) for every irreducible admissible π. For every fixed finite left/right K-type set and compact-support stage, the map is continuous to the corresponding finite-K-type Schwartz space. The output need not be compactly supported. The W-invariance hypothesis is mandatory. (BPLZZ Appendix A, Proposition A.1 and Lemma A.2, pp.43–45; §2.4, p.17; bplzz line 2099).
 
-A proof route is as follows. Use Delorme’s semisimple rapid-symbol theorem as the exact requested AutomorphicSpectralTheory §§6.1–6.3 strengthening rapid-semisimple-centre, and the split-torus multiplier split-centre-fourier-laplace; compact Paley–Wiener alone is not declared to supply it. Write the identity component as (Z⁰×G_der⁰)/(Z⁰∩G_der⁰), use fixed K-type/support completed tensor products, and descend finite-kernel invariants. Split-centre Fourier–Laplace theory and the Nash Schwartz product comparison nash-schwartz-analysis identify the rapid-symbol tensor factors (Lemma A.2); extend separately continuous bilinear maps between the fixed Fréchet stages jointly, then use AutomorphicSpectralTheory §§0.11–0.15 tensor universality. Extend to finitely many components by K/K⁰.
+A proof route is as follows. Use the semisimple and split-torus multipliers of §1.2a; compact Paley–Wiener multipliers alone do not supply them. Write the identity component as (Z⁰×G_der⁰)/(Z⁰∩G_der⁰), use fixed K-type/support completed tensor products, and descend finite-kernel invariants. The split-torus Paley–Wiener isomorphism and the Nash Schwartz product comparison of §1.1 identify N(h*_ℂ)^W with the completed tensor product N(z*_ℂ)⊗̂πN(h*_der,ℂ)^W (Lemma A.2). Extend the separately continuous bilinear symbol action jointly by §1.2a, then use the completed tensor universal property. Extend to finitely many components by K/K⁰.
 
-*Needs:* §0.6; §1.2; AutomorphicSpectralTheory §§6.1–6.4; AutomorphicSpectralTheory §§0.11–0.15; rapid-semisimple-centre; split-centre-fourier-laplace; nash-schwartz-analysis; NoncommutativeGeometry N1.
+*Needs:* §0.6; §1.1; §1.2; §1.2a; AutomorphicSpectralTheory §§0.11–0.15; NoncommutativeGeometry N1.
 
 **Checks.**
 
@@ -636,7 +606,7 @@ For a split one-dimensional torus the transform is Fourier–Laplace and exp(z) 
 
 ### Dependencies
 
-Layer 0; AutomorphicFormsOnReductiveGroups §§0.3, 2.1–2.4, 2.7; AutomorphicSpectralTheory §§0.11–0.15 and 6.1–6.3; NoncommutativeGeometry N1; the Plancherel, tempered-strip, tensor-character, rapid-centre, split-centre and Nash product contracts.
+Layer 0; AutomorphicFormsOnReductiveGroups §§0.3, 2.1–2.4, 2.7; AutomorphicSpectralTheory §§0.11–0.15 and 6.2; NoncommutativeGeometry N1; Mathlib `WithSeminorms.banach_steinhaus`; the Plancherel, tempered-strip, Kostant, tensor-semisimplicity and minimal-type contracts.
 
 ## Layer 2: Weighted spaces on automorphic quotients
 
@@ -750,7 +720,7 @@ A proof route is as follows. Compare orbit-neighborhood volumes on Siegel charts
 
 ### 2.5 Smooth LF representations
 
-Define an adelic SLF representation to be a smooth finite-adelic representation V=⋃_J Vᴶ whose fixed-level spaces are SF Fréchet representations of G∞, with compatible actions, closed level inclusions and the indicated locally convex inductive-limit topology. Compare this with the K_f-isotypical direct-sum model for a fixed compact open K_f⊂G(𝔸_f) supplied by AutomorphicSpectralTheory §0.11 and the SF smooth topology of AutomorphicFormsOnReductiveGroups §2.7. Apply the closed-subspace and open mapping results of SpectralManifolds SM3 at the Fréchet stages to obtain the SLF closed invariant subspace and quotient-to-closed-image results. The imported integrated Schwartz action agrees with compact integration; for a continuous moderate-growth Fréchet representation before taking smooth vectors, its smooth vectors equal S(G(𝔸))·V. Closed image alone does not imply injectivity. (BPCZ §§2.5.3–2.5.4, (2.5.3.2), Lemma 2.5.4.1, pp.209–211; bpcz line 1170).
+Define an adelic SLF representation to be a smooth finite-adelic representation V=⋃_J Vᴶ whose fixed-level spaces are SF Fréchet representations of G∞, with compatible actions, closed level inclusions and the indicated locally convex inductive-limit topology. Prove that for a fixed compact open K_f⊂G(𝔸_f), V is the locally convex direct sum of its K_f-isotypic subspaces V_ρ, each a closed Fréchet subspace of some V^J, and that a closed invariant subspace W carries the induced decomposition, so that its own LF topology is the one induced from V (BPCZ Lemma 2.5.4.1 and its proof, with (2.5.4.3), pp.210–211; bpcz line 1222 and line 1229). Compare the fixed-level stages with the SF smooth topology of AutomorphicFormsOnReductiveGroups §2.7. Apply the closed-subspace and open mapping results of SpectralManifolds SM3 at the Fréchet stages to obtain the SLF closed invariant subspace and quotient-to-closed-image results. The imported integrated Schwartz action agrees with compact integration; for a continuous moderate-growth Fréchet representation before taking smooth vectors, its smooth vectors equal S(G(𝔸))·V. Closed image alone does not imply injectivity. (BPCZ §§2.5.3–2.5.4, (2.5.3.2), Lemma 2.5.4.1, pp.209–211; bpcz line 1170).
 
 The defining construction has the following API.
 
@@ -760,7 +730,9 @@ The defining construction has the following API.
 
 - Schwartz integration agrees with the compact action and respects all level transitions.
 
-*Needs:* §1.9; AutomorphicFormsOnReductiveGroups §§2.1–2.4, 2.7; AutomorphicSpectralTheory §§0.11–0.15; SpectralManifolds SM3; slf-isotypic-sums; frechet-bilinear-continuity.
+- For fixed K_f, V is the topological direct sum of its K_f-isotypic Fréchet subspaces, and a closed invariant subspace inherits that decomposition.
+
+*Needs:* §1.2a (joint continuity); §1.9; AutomorphicFormsOnReductiveGroups §§2.1–2.4, 2.7; AutomorphicSpectralTheory §0.11; SpectralManifolds SM3.
 
 **Checks.**
 
@@ -773,6 +745,8 @@ The defining construction has the following API.
 - For z↦2z on ℂ, the open unit disc maps onto the disc of radius 2 and the kernel is zero. For the zero map ℂ→ℂ, the kernel is ℂ and ℂ/ℂ and its image are both the zero space; identifying the original domain with that image would be false.
 
 - Closed image implies an embedding only after adding injectivity, or after quotienting the kernel.
+
+- For G=GL₁, a finite-order character ε of 𝔸_f^× and V=ℂ⊕ℂ_ε with trivial archimedean action, if ε is nontrivial on K_f the isotypic summands are the two lines, of types 1 and ε|K_f; if ε is trivial on K_f, both lines lie in the single trivial-type summand of dimension two. The decomposition is by K_f-types, not into irreducible G(𝔸)-summands.
 
 ### 2.6 Smooth vectors in weighted L²
 
@@ -808,7 +782,7 @@ At each finite level J and for every weight w there is a continuous seminorm q o
 
 A proof route is as follows. Apply the local Sobolev inequality to xU and use compact-translate comparability of w; the inverse square-root volume is exactly Ξ_P. Bound T by finitely many weighted derivative norms, move derivatives onto f and use Riesz duality and Schwartz decay.
 
-*Needs:* §2.6; §2.4; §1.9; AdelicAlgebraicGroups §§3.1, 3.4–3.6; local-sobolev-evaluation; nash-schwartz-analysis.
+*Needs:* §1.1; §2.6; §2.4; §1.9; AdelicAlgebraicGroups §§3.1, 3.4–3.6; local-sobolev-evaluation.
 
 **Checks.**
 
@@ -992,15 +966,45 @@ A proof route is as follows. Compare suprema and L² norms using Ξ and its poly
 
 ### 2.15 Nuclearity and product decompositions
 
-For each finite level J the spaces S([G]_P)^J and C([G]_P)^J are nuclear Fréchet. For two quotient data and product finite level J₁×J₂, multiplication of pure tensors induces topological isomorphisms `S(X₁)^J₁⊗̂πS(X₂)^J₂≅S(X₁×X₂)^{J₁×J₂}`, and the analogous C isomorphism. Use compatible product heights and product quotient-volume functions. Continuous sesquilinear or bilinear forms extend by the corresponding completed projective universal property. Passing to all levels must be checked through the strict stage system. (BPCZ §2.5.12, (2.5.12.10)–(2.5.12.11), p.215; bpcz line 1402).
+For each finite level J the spaces S([G]_P)^J and C([G]_P)^J are nuclear Fréchet. For two quotient data and product finite level J₁×J₂, multiplication of pure tensors induces topological isomorphisms `S(X₁)^J₁⊗̂πS(X₂)^J₂≅S(X₁×X₂)^{J₁×J₂}`, and the analogous C isomorphism. Use compatible product heights and product quotient-volume functions. Continuous sesquilinear or bilinear forms extend by the corresponding completed projective universal property. Passing to all levels must be checked through the strict stage system. (BPCZ §2.5.12, (2.5.12.10)–(2.5.12.11), p.215; bpcz line 1402). Prove also that for complete nuclear Fréchet spaces E and F, an open subset U of a finite-dimensional complex vector space and holomorphic maps e:U→E and f:U→F, the map λ↦e(λ)⊗f(λ) is holomorphic from U to E⊗̂πF (BPCZ Appendix A.0.3, criterion (A.0.3.1), and A.0.7, pp.328 and 330; bpcz line 6514 and line 6617).
 
-A proof route is as follows. Apply the nuclear smooth inclusions to the projective-limit seminorm systems. Prove density of product smooth functions and identify all product derivative seminorms; use the existing AutomorphicSpectralTheory §§0.11–0.15 completed tensor theory.
+A proof route is as follows. Apply the nuclear smooth inclusions to the projective-limit seminorm systems. Prove density of product smooth functions and identify all product derivative seminorms; use the existing AutomorphicSpectralTheory §§0.11–0.15 completed tensor theory. For tensor holomorphy, the canonical bilinear map is continuous, so the family is continuous; its pairings with the elementary functionals ℓ⊗m are the holomorphic products ℓ(e(λ))m(f(λ)), and these functionals form a total set because nuclearity identifies the projective and injective completions; then apply (A.0.3.1).
 
-*Needs:* §2.10; §2.11; §2.8; AutomorphicSpectralTheory §§0.11–0.15; nash-schwartz-analysis; NoncommutativeGeometry N1.
+*Needs:* §1.1 (Nash Schwartz products); §2.10; §2.11; §2.8; AutomorphicSpectralTheory §§0.11–0.15; NoncommutativeGeometry N1.
 
 **Checks.**
 
 - The result is a completed topological tensor product, including for more than one real place.
+
+- For E=F=ℂ, e(λ)=λ and f(λ)=λ², the tensor family is λ³. Replacing f by λ↦conj(λ) gives |λ|², which is continuous but not holomorphic, so holomorphy of both factors is required.
+
+- In S(ℝ)⊗̂πS(ℝ)=S(ℝ²), e(λ)=f(λ)=exp(−πx²+λx) give the family exp(−π(x²+y²)+λ(x+y)), holomorphic in λ with values in S(ℝ²); at λ=0 its value at the origin is 1.
+
+### 2.15a Cuspidal data on the full quotient and at a fixed central character
+
+Transport AutomorphicSpectralTheory §§1.6–1.10 from G(𝔸)¹ to the two quotients used here, with the quotient measures of AdelicAlgebraicGroups §§2.1–2.3. Write G(𝔸)=A_G∞×G(𝔸)¹, so that [G]=A_G∞×[G]¹ as measure spaces. For the full quotient, the cuspidal data X(G), Weyl classes of pairs (M_P,π) with π a cuspidal automorphic representation of M_P(𝔸) whose central character is trivial on A_P∞, are exactly the data χ of AutomorphicSpectralTheory §1.9. Prove that L²_χ([G]):=L²(A_G∞)⊗̂L²_χ([G]¹) is the closed G(𝔸)-invariant span of the pseudo-Eisenstein series with Paley–Wiener sections on all of (a_P)_ℂ*, and that L²([G]) is the orthogonal Hilbert sum of these blocks (BPCZ §§2.9.1–2.9.2, (2.9.2.1), pp.229–230; bpcz line 2063).
+
+For the maximal F-split central torus Z and a unitary automorphic character ω of Z(𝔸), let C(M,ω) be the set of cuspidal automorphic representations of M(𝔸) whose central character restricts to ω on Z(𝔸), with σ∼σ′ when σ′≅σ⊗ξ_s for some s∈i(a_M^G)*. Let D(G,ω) be the set of pairs (M,σ) with M a standard Levi and σ∈C(M,ω), with (M,σ)≈(M′,σ′) when a Weyl element carries M to M′ and σ to a representation ∼σ′. Define L²_(M,σ)([G],ω) as the closed span of the pseudo-Eisenstein series of Paley–Wiener sections on (a_M^G)_ℂ* valued in the σ-isotypic induced space. Prove that restriction to G(𝔸)¹ identifies L²([G],ω) unitarily with the subspace of L²([G]¹) on which Z(𝔸)∩G(𝔸)¹ acts by ω, and carries L²_(M,σ)([G],ω) onto the AutomorphicSpectralTheory §1.9 block of the datum represented by `(P_M,σ|_{M(𝔸)¹})`. Hence L²([G],ω) is the orthogonal Hilbert sum of the L²_(M,σ)([G],ω) over D(G,ω)/≈, and L²_(M,σ)=L²_(M′,σ′) exactly when (M,σ)≈(M′,σ′) (BPLZZ §3.2, Definition 3.9 and (3.1), pp.23–24; bplzz line 1158 and line 1170).
+
+The defining construction has the following API.
+
+- On [G] each block is L²(A_G∞) completed-tensor the corresponding block of L²([G]¹), and the blocks are orthogonal with dense sum.
+
+- Restriction to G(𝔸)¹ is unitary from L²([G],ω) onto the ω-isotypic part of L²([G]¹) for the compatible quotient measures, and it commutes with right translation by G(𝔸)¹.
+
+- The classes in D(G,ω)/≈ correspond bijectively to the AutomorphicSpectralTheory §1.9 data whose central character on Z(𝔸)∩G(𝔸)¹ is the restriction of ω, and the blocks correspond under restriction.
+
+A proof route is as follows. Use the product decomposition of Haar measure and Fubini on [G]=A_G∞×[G]¹. For ω, decompose L²([G]¹) under the compact abelian group Z(F)∖(Z(𝔸)∩G(𝔸)¹) by its characters; each AutomorphicSpectralTheory block is stable under this central action and isotypic for it, since the central character of an irreducible cuspidal σ is a single character. Restrict the BPLZZ pseudo-Eisenstein series to G(𝔸)¹ and compare them with those of AutomorphicSpectralTheory §1.6. A twist by s∈i(a_M^G)* is trivial on M(𝔸)¹, and the fixed ω excludes the remaining twists in i(a_G)*.
+
+*Needs:* AutomorphicSpectralTheory §§1.6–1.10; AdelicAlgebraicGroups §§2.1–2.3 (split centre and quotient measures); AdelicAlgebraicGroups §§4.6–4.7 (compact abelian quotients and their characters).
+
+**Checks.**
+
+- For G=G_m over ℚ, `A_G∞=ℝ_{>0}` and [G]¹=ℚ^×∖𝔸¹ is compact, so L²([G]) is `L²(ℝ_{>0})` completed-tensor the Hilbert sum of the lines spanned by the characters of ℚ^×∖𝔸¹, one block for each character. With Z=G and a fixed ω, L²([G],ω) is the single line of ω, and (a_G^G)*=0 leaves no twist.
+
+- For G=GL₂ over ℚ and M=G, the representations σ and `σ⊗|det|^{it}`, t real and nonzero, restrict to the same representation of GL₂(𝔸)¹ and give one AutomorphicSpectralTheory datum. With Z the scalars their central characters differ by `|z|^{2it}`, which at the archimedean scalar z=e equals exp(2it), so −1 at t=π/2; at most one of them lies in C(G,ω). The fixed-ω classes retain the A_G∞-character that the G(𝔸)¹ data forget.
+
+- For the GL₂ Borel and unitary Hecke characters χ₁≠χ₂, the pairs χ₁⊠χ₂ and χ₂⊠χ₁ are Weyl conjugate and give one block in both conventions; distinct non-conjugate pairs give orthogonal blocks.
 
 ### 2.16 Constant terms and pseudo-Eisenstein extensions
 
@@ -1008,7 +1012,7 @@ For P⊂Q extend the AutomorphicFormsOnReductiveGroups §§4.1–4.2 constant te
 
 A proof route is as follows. Use compactness of the adelic unipotent quotient for CT and finite-overlap estimates for EP; derive the weighted estimate on Siegel domains. Extend by the measure pairing and integrate by parts for derivatives, agreeing with the supplied operators on compact vectors.
 
-*Needs:* §2.10; §2.12; §2.13; AutomorphicFormsOnReductiveGroups §§4.1–4.2; AutomorphicSpectralTheory §§1.5–1.10; cuspidal-data-central-comparison.
+*Needs:* §2.10; §2.12; §2.13; AutomorphicFormsOnReductiveGroups §§4.1–4.2; AutomorphicSpectralTheory §§1.5–1.10; §2.15a (cuspidal data on [G] and at fixed ω).
 
 **Checks.**
 
@@ -1048,7 +1052,7 @@ On the GL₂ modular cusp let n_G≍y and Ξ_G≍y¹ᐟ². A tail y⁻ᵃ fails 
 
 ### Dependencies
 
-Layer 1’s Schwartz-action comparison; AdelicAlgebraicGroups §§2.1–2.3, 3.1, 3.4–3.6; PDE Lane A; OperatorTheory/OperatorIdeals; BanachSpaceTheory B4; AutomorphicSpectralTheory §§0.11–0.15, 1.6–1.10; SpectralManifolds SM3; NoncommutativeGeometry N1.
+Layer 1’s Schwartz-action comparison; AdelicAlgebraicGroups §§2.1–2.3, 3.1, 3.4–3.6, 4.6–4.7; PDE Lane A; OperatorTheory/OperatorIdeals; BanachSpaceTheory B4; AutomorphicSpectralTheory §§0.11–0.15, 1.6–1.10; SpectralManifolds SM3; NoncommutativeGeometry N1.
 
 ## Layer 3: Cuspidal support, wave packets and Schwartz kernels
 
@@ -1058,7 +1062,7 @@ Let π be a discrete automorphic representation of a Levi, `A_{P,π}(G)` its smo
 
 A proof route is as follows. Use compact-picture induction and polynomial bounds for K-type dimensions and seminorms in terms of the compact Casimir, as requested in k-type-growth; use AutomorphicSpectralTheory Layer 4 for the discrete inducing representation. Move arbitrarily high powers of the compact Casimir to f and sum their inverse powers over K-types; all seminorm estimates are uniform in the imaginary parameter on the indicated real strip. Apply the completed tensor universal property to B; finite-dimensional invariance on each type proves basis independence.
 
-*Needs:* §1.9; AutomorphicSpectralTheory §§0.11–0.15; AutomorphicFormsOnReductiveGroups §§2.1–2.4, 2.7; AutomorphicSpectralTheory Layer 4; k-type-growth; tensor-holomorphy; NoncommutativeGeometry N1.
+*Needs:* §1.9; AutomorphicSpectralTheory §§0.11–0.15; AutomorphicFormsOnReductiveGroups §§2.1–2.4, 2.7; AutomorphicSpectralTheory Layer 4; k-type-growth; §2.15 (tensor holomorphy); NoncommutativeGeometry N1.
 
 **Checks.**
 
@@ -1070,19 +1074,23 @@ A proof route is as follows. Use compact-picture induction and polynomial bounds
 
 ### 3.2 Arthur’s finite differentiability factorization
 
-Use the supplied Arthur factorization at fixed normal compact open K₀⊂K_f: for each m≥1 take Z∈U(𝔤∞), g₁∈C_c∞ and g₂∈C_cᵐ, invariant under K∞ conjugation with g_i bi-K₀-invariant, and f=f*g₁+(f*Z)*g₂ for every bi-K₀ Schwartz f. The choice depends on K₀,m, not f; Z is not assumed central. For m sufficiently large prove the factorized relative-character identity J_B(λ,f)=Σ_v B(I_P(λ,f)v,I_P(−conj λ,g₁*)v)+Σ_v B(I_P(λ,f*Z)v,I_P(−conj λ,g₂*)v), with absolutely convergent sums. Both sums use the same orthonormal K-basis as §3.1. The general factorization belongs to AutomorphicSpectralTheory §6.3; its extension to this relative-character formula is the target here. (BPCZ §2.8.4, Proposition 2.8.4.3, p.229; bpcz line 2043).
+Prove Arthur's finite differentiability factorization at a fixed normal compact open K₀⊂K_f: for each m≥1 there are Z∈U(𝔤∞), g₁∈C_c∞(G(𝔸)) and g₂∈C_cᵐ(G(𝔸)), invariant under K∞-conjugation, with g₁ and g₂ bi-K₀-invariant, such that f=f*g₁+(f*Z)*g₂ for every bi-K₀-invariant f∈S(G(𝔸)) ([Art78] Lemma 4.1 and Corollary 4.2, as cited in BPCZ Proposition 2.8.4.3, p.229; bpcz line 2043 and line 2059). The choice depends on K₀,m, not f; Z is not assumed central. For m sufficiently large prove the factorized relative-character identity J_B(λ,f)=Σ_v B(I_P(λ,f)v,I_P(−conj λ,g₁*)v)+Σ_v B(I_P(λ,f*Z)v,I_P(−conj λ,g₂*)v), with absolutely convergent sums. Both sums use the same orthonormal K-basis as §3.1. (BPCZ §2.8.4, Proposition 2.8.4.3, p.229; bpcz line 2043).
 
-*Needs:* §3.1; AutomorphicFormsOnReductiveGroups §§2.1–2.4, 2.7; AutomorphicSpectralTheory §§6.1–6.4; arthur-factorization-comparison.
+A proof route is as follows. Take a K∞-conjugation-invariant left-invariant elliptic operator Δ on G∞, such as 1 minus the sum of squares of an orthonormal basis of 𝔤∞ for a K∞-invariant inner product, and k with 2k>m+dim G∞. A parametrix of Δ^k near the identity, multiplied by a K∞-conjugation-invariant bump equal to 1 near the identity, gives δ=Δ^k g₂′+g₁′ as distributions, with g₂′ compactly supported of class Cᵐ and g₁′ smooth and compactly supported. Average over K∞-conjugation, tensor with the normalized idempotent of K₀ at the finite places, and convolve f on the right; then Z=Δ^k. The relative-character identity follows from a finite-dimensional computation on each K∞-type, since the operators I_P(λ,g_i) preserve the K∞-type subspaces.
+
+*Needs:* §3.1; AutomorphicFormsOnReductiveGroups §§0.1–0.5 (test functions and convolution), §§2.1–2.4, 2.7; PseudodifferentialOperators Layer 6, §6.1 (elliptic parametrices), and Layer 5, §5.1.
 
 **Checks.**
 
 - The second slot uses −λ̄ and conjugate inversion: `I_P(λ,g)*=I_P(−conj λ,g*)`. At λ=it this parameter is again it; at λ=1 it is −1. In the additive model I(λ,x)=exp(λx), for g=1_[0,1] one obtains I(1,g)*=e−1 and I(−1,g*)=e−1, whereas I(1,g*)=1−e⁻¹. Smooth compact approximations give the same separating test.
 
+- On the additive group ℝ with Δ=1−d²/dx², k=1 and m=0, the fundamental solution E(x)=exp(−|x|)/2 satisfies ΔE=δ and is continuous but not C¹; for a bump φ equal to 1 near 0, Δ(φE)=δ−h with h smooth and compactly supported, so δ=Δ(φE)+h and f=f*h+(f*Δ)*(φE). A smooth g₂ is impossible here: Δg₂+g₁ would then be smooth and could not equal δ.
+
 - On a one-dimensional K-type let B(u,v)=u·conj(v), A=2 and T=i. Then B(AT·1,1)=2i=B(A·1,T*·1), with T*=−i; using T instead in the second slot gives −2i.
 
 ### 3.3 Cuspidal support in weighted function spaces
 
-Import X(G), the Weyl-associate normalized cuspidal data, from AutomorphicSpectralTheory §1.9, and its orthogonal decomposition from AutomorphicSpectralTheory §1.10. If a weight factors through A_P∞, define `L²_{w,X}` as the orthogonal sum of the blocks indexed by X⊂X(G); these projections agree for different such weights on intersections. Define S_X=S∩L²_X. For an arbitrary quotient weight and `F∈{L²_w,C,T_N,T,S_{w,N},S_w}`, define F_X as the annihilator of `S_{Xᶜ}` under the integral pairing. The notation therefore records cuspidal support, not necessarily Hilbert orthogonality for that weight. CT and EP preserve this support with the finite-to-one map X(M_P)→X(G). (BPCZ §§2.9.1–2.9.3, (2.9.2.1)–(2.9.2.2), Lemma 2.9.3.1, pp.229–232; bpcz line 2063).
+Import X(G), the Weyl-associate normalized cuspidal data, from AutomorphicSpectralTheory §1.9, and its orthogonal decomposition from AutomorphicSpectralTheory §1.10, both transported to [G] by §2.15a. If a weight factors through A_P∞, define `L²_{w,X}` as the orthogonal sum of the blocks indexed by X⊂X(G); these projections agree for different such weights on intersections. Define S_X=S∩L²_X. For an arbitrary quotient weight and `F∈{L²_w,C,T_N,T,S_{w,N},S_w}`, define F_X as the annihilator of `S_{Xᶜ}` under the integral pairing. The notation therefore records cuspidal support, not necessarily Hilbert orthogonality for that weight. CT and EP preserve this support with the finite-to-one map X(M_P)→X(G). (BPCZ §§2.9.1–2.9.3, (2.9.2.1)–(2.9.2.2), Lemma 2.9.3.1, pp.229–232; bpcz line 2063).
 
 The defining construction has the following API.
 
@@ -1094,7 +1102,7 @@ The defining construction has the following API.
 
 A proof route is as follows. Compare the normalized cuspidal-datum convention to AutomorphicSpectralTheory §1.9 rather than introducing another quotient of pairs. Use the dense pseudo-Eisenstein span to compare A_P-weight projections; define arbitrary-weight support by annihilation. Use CT/EP adjunction and compact A_P cutoffs to prove support compatibility.
 
-*Needs:* AutomorphicSpectralTheory §§1.5–1.10, in particular §1.10 (orthogonal cuspidal-data decomposition); §2.16; §2.14; §2.11; cuspidal-data-central-comparison.
+*Needs:* AutomorphicSpectralTheory §§1.5–1.10, in particular §1.10 (orthogonal cuspidal-data decomposition); §2.16; §2.14; §2.11; §2.15a (cuspidal data on [G] and at fixed ω).
 
 **Checks.**
 
@@ -1150,9 +1158,9 @@ A proof route is as follows. Transport the stabilizer by Weyl conjugation. For G
 
 If χ is regular, the constant term extends boundedly from L²_χ([G]) to L²_χ([G]_P), and the adjoint pseudo-Eisenstein map is bounded in the reverse direction. For φ∈S_χ([G]) and Re s>0, the Levi function `m↦δ_P(m)^{s−1/2}φ_P(m)` belongs to `C_{χ_M}([M_P])`, where χ_M is the finite inverse image support in X(M_P). The family `S_χ→C_{χ_M}` is holomorphic in s on Re s>0 in the locally convex sense. At the boundary Re s=0 no such C-valued assertion is made. (BPCZ §2.9.7, Proposition 2.9.7.1 and Corollary 2.9.7.2, pp.235–238; bpcz line 2296).
 
-A proof route is as follows. Use the compact-data pseudo-Eisenstein inner-product formula, with the normalization comparison requested in compact-eisenstein-comparison, and regularity to cancel all nonidentity stabilizer terms. Compare the two Hilbert norms, extend by density, and take adjoints to obtain the L² constant-term bound within this node. Combine the large-positive-s constant-term estimate with weighted Hölder interpolation to reach Re s>0; derivatives and weak holomorphy plus local boundedness give locally convex holomorphy by AutomorphicSpectralTheory §0.15, specialized to scalar source ℂ.
+A proof route is as follows. Use the pseudo-Eisenstein inner-product formula of AutomorphicSpectralTheory §1.8 and the constant-term formula of its §1.5, transported to [G] by §2.15a; identifying their parameters and quotient measures with those of BPCZ §2.9.7 and Lapid §2 is part of this target. Use regularity to cancel all nonidentity stabilizer terms. Compare the two Hilbert norms, extend by density, and take adjoints to obtain the L² constant-term bound within this node. Combine the large-positive-s constant-term estimate with weighted Hölder interpolation to reach Re s>0; derivatives and weak holomorphy plus local boundedness give locally convex holomorphy by AutomorphicSpectralTheory §0.15, specialized to scalar source ℂ.
 
-*Needs:* §3.5; §3.4; §2.16; AutomorphicSpectralTheory §§0.11–0.15; AutomorphicSpectralTheory §§3.1–3.4; compact-eisenstein-comparison.
+*Needs:* §3.5; §3.4; §2.16; §2.15a; AutomorphicSpectralTheory §§0.11–0.15; AutomorphicSpectralTheory §§1.5–1.8; AutomorphicSpectralTheory §§3.1–3.4.
 
 **Checks.**
 
@@ -1160,23 +1168,41 @@ A proof route is as follows. Use the compact-data pseudo-Eisenstein inner-produc
 
 - For the GL₂ Borel and δ_P=4, the multiplier at s=1 is 2, while the normalization at s=0 is 1/2; the latter boundary value is not a claim of Harish-Chandra decay.
 
-### 3.7 Lapid expansion of Harish-Chandra Schwartz functions
+### 3.6a Lapid's hereditary property for products of general linear groups
 
-Let G be a connected reductive group over F satisfying Lapid’s hereditary property (HP): G and every Levi satisfy (UT) and (WR), as in Lapid §3.6, lapid line 801. Let χ be a regular datum represented by (M_P,π). Write Π=I_P^Gπ. There is N>0 such that for every φ∈C([G]) and λ∈ia_P*, the series `φ_{Πλ}=Σ_{v∈𝔅}⟨φ,E(v,λ)⟩ E(v,λ)` is defined, basis independent, and converges absolutely in T_N([G]). The map `λ↦φ_{Πλ}` is Schwartz with values in T_N, using all parameter derivatives, and if φ∈C_χ then `φ=∫_{ia_P*}φ_{Πλ}dλ`. The exponent N is uniform in λ and φ. The hereditary-intertwining-bounds contract supplies (HP) unconditionally for finite products of `Res_{K_i/F}GL_{n_i}`. (BPCZ §2.9.8, Theorem 2.9.8.1, pp.238–239; Lapid Theorem 4.5, p.22, Proposition 5.1, pp.22–24, Corollary 5.7, pp.25–26; lapid line 924, line 933 and line 1069; bpcz line 2394).
+Use Lapid's analytic conditions. A connected reductive group G satisfies uniform temperedness (UT) if there are k,l>0 such that for every maximal parabolic P=MU of G with Σ_P={α} and every level K_M of M there is c>0 with `n_α(π,z)≪(1+Λ_{π∞}+|z|)^k` for all π∈Π_disc(M(𝔸)) with K_M-fixed vectors, in the region `|Re z|<c(1+Λ_{π∞}+|Im z|)^{−l}`. Here n_α is the global normalizing factor of the intertwining operator and `Λ_{π∞}` the size of the Casimir eigenvalue of π∞ (Lapid Definition 3.2, p.14; lapid line 558). It satisfies the weak Ramanujan property (WR) with constant c>0 if, for every maximal parabolic P=MU with fundamental weight ϖ, every π∈Π_disc(M(𝔸)), place v, level K and K∞-type τ, the normalized local intertwining operator `N_{P̄|P}(π_v,sϖ)` on the (τ,K)-part is holomorphic in |Re s|<c (Lapid Definition 3.7, p.17; lapid line 709). It satisfies (HP) if G and all its Levi subgroups satisfy (UT) and (WR) (Lapid §3.6, p.19; lapid line 801).
 
-A proof route is as follows. Import the exact polynomial derivative bounds for normalized intertwiners and Eisenstein series under (HP) in hereditary-intertwining-bounds; finite products and restriction of scalars preserve the needed GL_n contracts. Factor φ by a compact smooth convolution and use the relative-character basis estimates with Lapid’s Eisenstein majorization for uniform convergence and parameter derivatives. Apply Lapid Theorem 4.5 on inversion of cuspidal wave packets; regularity places the whole χ-block in its induced-from-cuspidal image.
+Let `G=∏_i Res_{K_i/F}GL_{n_i}` for finitely many finite extensions K_i/F. Prove that G satisfies (UT), and (WR) with constant min_i 2/(n_i²+1), hence (HP) (Lapid Proposition 3.4, pp.15–17, and Theorem 3.8, p.17, which cites [MS04, Proposition 4.2]; lapid line 599 and line 724). For every G satisfying (HP), prove Lapid's polynomial bounds, uniform in π∈Π_disc(M(𝔸)): for each Levi M there is l>0, for each invariant differential operator D on a_M* there is k>0 and for each level K there is c>0, such that the D-derivatives in λ of the normalizing factors `n_{P′|P}(π,λ)` and of the intertwining operators `M_{P′|P}(w,λ)` on (τ,K)-parts are `≪(1+‖λ‖+Λ_{π∞}+‖τ‖)^k` on `R_{π,c,l}={λ:‖Re λ‖<c(1+Λ_{π∞}+‖Im λ‖)^{−l}}`. In a fixed strip, the derivatives of the local normalized operators are `≪(1+‖τ‖)^k` at infinite places and bounded in terms of K at finite places (Lapid Lemma 3.3, Lemma 3.11 and Corollary 3.13, pp.14–19; lapid line 571, line 771 and line 804).
 
-*Needs:* §3.1; §3.5; §3.4; §2.11; AutomorphicSpectralTheory §§2.1–2.5; AutomorphicSpectralTheory §§3.1–3.4; AutomorphicSpectralTheory §§0.11–0.15; hereditary-intertwining-bounds.
+A proof route is as follows. For (UT), write n_β(π,−s) for cuspidal π=π₁⊗π₂ on `GL_{n₁}×GL_{n₂}` as the ratio L(1−s,π̃₁×π₂)/L(1+s,π₁×π̃₂) of completed Rankin–Selberg L-functions (lapid line 673). Bound the numerator by the polynomial growth of completed Rankin–Selberg L-functions near Re s=1, uniformly in the analytic conductor (lapid line 628). Bound the archimedean gamma ratio by Stirling's formula and the archimedean Luo–Rudnick–Sarnak bound 1−Re α_j>1/(n₁²+1)+1/(n₂²+1) ([MS04, Proposition 3.3]; lapid line 619). Bound the reciprocal of the denominator by Brumley's lower bound at the edge of the critical strip (Lapid Proposition 3.5 and Appendix A; lapid line 647 and line 1178). For residual π use the Mœglin–Waldspurger description by Speh residues and multiply the resulting factors (lapid line 694). For (WR), the Luo–Rudnick–Sarnak bounds at every place confine the exponents of the local components, and normalized local intertwining operators of representations induced with exponents in that range are holomorphic in the strip ([MS04, Proposition 4.2]; lapid line 724). Restriction of scalars from K_i to F and finite products preserve both conditions, with the minimum of the constants. The conductor-uniform growth bound, the archimedean parameter bound and Brumley's lower bound are proved as part of this target.
+
+*Needs:* AutomorphicSpectralTheory §§2.1–2.3a (local intertwining operators and the GLₙ normalized intertwining estimates); AutomorphicSpectralTheory §2.5; AutomorphicSpectralTheory §3.6a (Rankin–Selberg strip estimates); AutomorphicSpectralTheory §4.14a (number-field GLₙ residual blocks); AutomorphicSpectralTheory §7.1a (finite-place Luo–Rudnick–Sarnak bound); AutomorphicLFunctionsAndLocalFactors AL.3.6.1–AL.3.6.2 (continuation, pole criterion and global functional equation of Rankin–Selberg L-functions); AutomorphicLFunctionsAndLocalFactors AL.R.2 (archimedean GLₙ parameters).
 
 **Checks.**
 
-- The theorem applies to every (HP) group and regular χ. For a compact torus quotient with mass-one Haar measure the Weyl stabilizer is {1} and the constant-term operator is the identity; Fourier orthogonality gives a single mode coefficient 1 and every distinct mode coefficient 0. For GL_n products (HP) is supplied without an added conjecture.
+- For G=GL₁ every proper Levi condition is vacuous: there is no maximal parabolic, so (UT) and (WR) hold trivially and the WR constant 2/(1²+1)=1 is not used.
+
+- For G=GL₂, its Borel and π=χ⊗χ with χ a unitary Hecke character, write L_F for the completed Dedekind zeta function; then n_β(π,−s)=L_F(1−s)/L_F(1+s). The poles at s=0 cancel and the value at s=0 is −1, while on Re s=0 the absolute value is 1. Near Re s=0 the reciprocal 1/L_F(1+s) is controlled only through a zero-free region of ζ_F near Re s=1, the GL₁ case of Brumley's lower bound; upper bounds for L-functions alone give no bound for n_β.
+
+- The WR constant for GL₃ is 2/(3²+1)=1/5 and for GL₂ it is 2/5; a product `GL₂×Res_{K/F}GL₃` has constant min(2/5,1/5)=1/5, not the larger value.
+
+### 3.7 Lapid expansion of Harish-Chandra Schwartz functions
+
+Let G be a connected reductive group over F satisfying Lapid’s hereditary property (HP): G and every Levi satisfy (UT) and (WR), as in Lapid §3.6, lapid line 801. Let χ be a regular datum represented by (M_P,π). Write Π=I_P^Gπ. There is N>0 such that for every φ∈C([G]) and λ∈ia_P*, the series `φ_{Πλ}=Σ_{v∈𝔅}⟨φ,E(v,λ)⟩ E(v,λ)` is defined, basis independent, and converges absolutely in T_N([G]). The map `λ↦φ_{Πλ}` is Schwartz with values in T_N, using all parameter derivatives, and if φ∈C_χ then `φ=∫_{ia_P*}φ_{Πλ}dλ`. The exponent N is uniform in λ and φ. Section 3.6a proves (HP) for every finite product of `Res_{K_i/F}GL_{n_i}`, so for these groups the theorem is unconditional. (BPCZ §2.9.8, Theorem 2.9.8.1, pp.238–239; Lapid Theorem 4.5, p.22, Proposition 5.1, pp.22–24, Corollary 5.7, pp.25–26; lapid line 924, line 933 and line 1069; bpcz line 2394).
+
+A proof route is as follows. Use the polynomial derivative bounds for normalizing factors and intertwining operators under (HP) of §3.6a. Factor φ by a compact smooth convolution and use the relative-character basis estimates with Lapid’s Eisenstein majorization for uniform convergence and parameter derivatives. Apply Lapid Theorem 4.5 on inversion of cuspidal wave packets; regularity places the whole χ-block in its induced-from-cuspidal image.
+
+*Needs:* §3.1; §3.5; §3.4; §3.6a; §2.11; AutomorphicSpectralTheory §§2.1–2.5; AutomorphicSpectralTheory §§3.1–3.4; AutomorphicSpectralTheory §§0.11–0.15.
+
+**Checks.**
+
+- The theorem applies to every (HP) group and regular χ. For a compact torus quotient with mass-one Haar measure the Weyl stabilizer is {1} and the constant-term operator is the identity; Fourier orthogonality gives a single mode coefficient 1 and every distinct mode coefficient 0. For GL_n products (HP) is §3.6a, with no added conjecture.
 
 - The zero Schwartz vector gives every coefficient 0 and integral 0. For φ outside the χ-block the integral reconstructs its χ-component, so the equality with φ requires φ∈C_χ. The full noncuspidal Schwartz Paley–Wiener statement is not used.
 
 ### 3.8 Schwartz convolution kernels and cuspidal parts
 
-For f∈S(G(𝔸)) define `K_{f,P}`, `K_{f,P,χ}` as the smooth integral kernels of R_P(f) and its χ support component on the AdelicAlgebraicGroups quotient L² spaces. Define K⁰ on the A_P∞-quotient using its `δ_P^{1/2}` normalization. They satisfy `K⁰_{f,P,χ}(x,y)=∫_{A_P∞}K_{f,P,χ}(x,ay)δ_P(a)^{−1/2}da`. This construction extends the compactly supported kernels of AutomorphicSpectralTheory §§6.3–6.4 and fixes its pairing convention by `(R_P(f)φ)(x)=∫K_{f,P}(x,y)φ(y)dy`. Smooth representatives are used; kernel columns come from regularizing δ_y with the appropriate adjoint. Derivatives in either variable agree with the corresponding left/right derivatives of f. (BPCZ §2.10.1, pp.239–240; bpcz line 2420).
+For f∈S(G(𝔸)) define `K_{f,P}`, `K_{f,P,χ}` as the smooth integral kernels of R_P(f) and its χ support component on the AdelicAlgebraicGroups quotient L² spaces. Define K⁰ on the A_P∞-quotient using its `δ_P^{1/2}` normalization. They satisfy `K⁰_{f,P,χ}(x,y)=∫_{A_P∞}K_{f,P,χ}(x,ay)δ_P(a)^{−1/2}da`. For compactly supported smooth f first prove these statements directly: the kernel of R_P(f) on L²([G]_P) is `K_{f,P}(x,y)=Σ_{γ∈M_P(F)}∫_{N_P(𝔸)}f(x⁻¹γny)dn`, the parabolic kernel of AutomorphicSpectralTheory §6.4 extended from G(𝔸)¹ to G(𝔸); its χ support component is obtained by applying the projection of §3.4 in the first variable; and the K⁰ identity follows by disintegrating the quotient measure along A_P∞. This fixes the pairing convention `(R_P(f)φ)(x)=∫K_{f,P}(x,y)φ(y)dy`. Smooth representatives are used; kernel columns come from regularizing δ_y with the appropriate adjoint. Derivatives in either variable agree with the corresponding left/right derivatives of f. (BPCZ §2.10.1, pp.239–240; bpcz line 2420).
 
 The defining construction has the following API.
 
@@ -1186,9 +1212,9 @@ The defining construction has the following API.
 
 - The normalized A_P∞ integral gives K⁰ with factor `δ_P^{−1/2}`.
 
-A proof route is as follows. Use smooth regularization of point distributions, then apply the continuous support projection. Apply the quotient disintegration measure to descend along A_P∞, starting from the compact-test identity requested in compact-kernel-central-comparison; use the weighted estimates for absolute convergence.
+A proof route is as follows. Use smooth regularization of point distributions, then apply the continuous support projection. Apply the quotient disintegration measure to descend along A_P∞, starting from the compact-test identity; use the weighted estimates for absolute convergence and density of compactly supported tests to pass to Schwartz f.
 
-*Needs:* §3.4; §2.12; §2.7; AutomorphicSpectralTheory §§6.1–6.4; compact-kernel-central-comparison.
+*Needs:* §3.4; §2.12; §2.7; §2.15a; AutomorphicSpectralTheory §6.4 (compact-test kernels); AdelicAlgebraicGroups §§2.1–2.3 (quotient measures and integration in stages).
 
 **Checks.**
 
@@ -1216,9 +1242,9 @@ A proof route is as follows. First bound `R(f):T₀,w→T_{w n^{N′₀}}` unifo
 
 There exist a continuous seminorm p on S(G(𝔸)) and N≥0 such that for every X,Y∈U(g∞), f∈S and x,y∈G(𝔸)¹, the sum over χ and standard P, with coefficient `|𝒫(M_P)|^{−1}`, of `∫_{ia_P^{G,*}}Σ_τ |Σ_{v∈𝔅_{P,χ,τ}} R_x(X)E(x,I_P(λ,f)v,λ) R_y(Y)(overline(E(y,v,λ)))|dλ` is at most p(L(X)R(Y)f)n_G(x)^Nn_G(y)^N. Here 𝒫(M_P) is the finite set of parabolics with Levi M_P and 𝔅 is a K-basis in the discrete inducing space with support χ. The derivative acts on the conjugate Eisenstein function, with Y extended complex-linearly; it is not the conjugate of the Y-derivative. For arbitrary x,y∈G(𝔸), `K⁰_{f,χ}(x,y)` is the sum of the same undifferentiated Eisenstein terms with those coefficients and spectral measures. The absolute value is outside the finite sum within each K-type, before summing types and integrating. (BPCZ §2.10.2, Lemma 2.10.2.1, pp.240–243; bpcz line 2481 and line 2496).
 
-A proof route is as follows. Start with the parent compact-kernel spectral identity requested in compact-kernel-spectral-comparison, retaining its discrete inducing representation space and parabolic multiplicity factors. Use Arthur factorization at fixed normal finite level, then positivity on the diagonal and Cauchy–Schwarz to bound the grouped K-type terms by the kernel majorant. Use the uniform boundedness principle and density to pass to Schwartz f and commute group derivatives with the uniformly controlled expansion.
+A proof route is as follows. First prove the identity for compactly supported smooth f: apply the unitary Eisenstein spectral map and its completeness (AutomorphicSpectralTheory §§4.2–4.3), transported to [G] by §2.15a, to the kernels of §3.8, retaining the discrete inducing representation spaces and the parabolic multiplicity factors (Arthur's kernel expansion, [Art78] §4, as cited before BPCZ Lemma 2.10.2.1, p.240; bpcz line 2480). Use Arthur factorization at fixed normal finite level, then positivity on the diagonal and Cauchy–Schwarz to bound the grouped K-type terms by the kernel majorant. Use the uniform boundedness principle and density to pass to Schwartz f and commute group derivatives with the uniformly controlled expansion.
 
-*Needs:* §3.9; §3.2; AutomorphicSpectralTheory Layer 4; AutomorphicSpectralTheory §§6.1–6.4; arthur-factorization-comparison; compact-kernel-spectral-comparison.
+*Needs:* §3.9; §3.8; §3.2; §2.15a; AutomorphicSpectralTheory §§4.1–4.3; AutomorphicSpectralTheory §6.4.
 
 **Checks.**
 
@@ -1236,13 +1262,13 @@ On the compact circle the kernel of right convolution by e₋ₙ is eₙ(x)conj(
 
 ### Dependencies
 
-Layer 2; AutomorphicSpectralTheory Layers 1–4 and §§6.3–6.4; AutomorphicFormsOnReductiveGroups §§2.1–2.4, 2.7, 3.4–3.5; hereditary-intertwining-bounds for §3.7; NoncommutativeGeometry N1.
+Layer 2; AutomorphicSpectralTheory Layers 1–4, §§4.14a, 6.4 and 7.1a; AutomorphicFormsOnReductiveGroups §§0.1–0.5, 2.1–2.4, 2.7, 3.4–3.5; AutomorphicLFunctionsAndLocalFactors AL.R.2 and AL.3.6.1–AL.3.6.2 for §3.6a; PseudodifferentialOperators Layers 5–6 for §3.2; AdelicAlgebraicGroups §§2.1–2.3; NoncommutativeGeometry N1.
 
 ## Layer 4: Counting and archimedean annihilation
 
 ### 4.1 Level and T-characters
 
-Fix a number field F, connected reductive G/F, its maximal F-split central torus Z and unitary automorphic central character ω. Fix a finite set S of finite primes containing all ramified group and level places, `K=K_S×∏_{v∉S}K_v`, and a set T⊃S that may be infinite. H_G^T is the restricted tensor product of the spherical algebras at v∉T, with unit `1_{K_v}` and vol(K_v)=1. A T-character χ is a character of Z(g∞)⊗H_G^T, equivalently an infinitesimal-character W-orbit χ∞ and a family of unramified characters away from T. L²_ω[χ] denotes the closed χ-eigenpart in the fixed-level Hilbert space; its cuspidal subspace is intersected with L²_cusp. Twists and inducing parameters lie in the relative spaces (a_M^G)* of the Conventions. The normalizations of Z, A_M∞ and unitary unramified twists are compared with AutomorphicSpectralTheory §1.9–AutomorphicSpectralTheory Layer 4. (BPLZZ §3.1, Definitions 3.1–3.3, pp.21–22; §3.2, pp.23–24; bplzz line 1080).
+Fix a number field F, connected reductive G/F, its maximal F-split central torus Z and unitary automorphic central character ω. Fix a finite set S of finite primes containing all ramified group and level places, `K=K_S×∏_{v∉S}K_v`, and a set T⊃S that may be infinite. H_G^T is the restricted tensor product of the spherical algebras at v∉T, with unit `1_{K_v}` and vol(K_v)=1. A T-character χ is a character of Z(g∞)⊗H_G^T, equivalently an infinitesimal-character W-orbit χ∞ and a family of unramified characters away from T. L²_ω[χ] denotes the closed χ-eigenpart in the fixed-level Hilbert space; its cuspidal subspace is intersected with L²_cusp. Twists and inducing parameters lie in the relative spaces (a_M^G)* of the Conventions. The normalizations of Z, A_M∞ and unitary unramified twists are those of §2.15a, which compares them with AutomorphicSpectralTheory §§1.9–1.10. (BPLZZ §3.1, Definitions 3.1–3.3, pp.21–22; §3.2, pp.23–24; bplzz line 1080).
 
 The defining construction has the following API.
 
@@ -1254,7 +1280,7 @@ The defining construction has the following API.
 
 A proof route is as follows. Use the existing central-character quotient and spherical Hecke algebras; form the algebraic restricted tensor with finite-support Hecke operators. Use the simultaneous central/Hecke eigencondition and compare the normalized cuspidal-datum quotient through central-character-affine-lattice.
 
-*Needs:* AdelicAlgebraicGroups §§2.1–2.3; AutomorphicSpectralTheory Layer 4; AutomorphicFormsOnReductiveGroups §§2.1–2.4, 2.7; SmoothRepresentationsOfLocalGroups SR.4.1–SR.4.2; satake-exponential-family; cuspidal-data-central-comparison.
+*Needs:* AdelicAlgebraicGroups §§2.1–2.3; AutomorphicSpectralTheory Layer 4; AutomorphicFormsOnReductiveGroups §§2.1–2.4, 2.7; SmoothRepresentationsOfLocalGroups SR.4.1–SR.4.2; satake-exponential-family; §2.15a (cuspidal data on [G] and at fixed ω).
 
 **Checks.**
 
@@ -1304,13 +1330,13 @@ The defining construction has the following API.
 
 - Spherical criterion: π̃ is nearly equivalent to π iff for some finite S′⊇S both π̃_v and π_v are K_v-spherical for all v∉S′ with the same character of the spherical Hecke algebra, by the spherical classification. Hence, for a finite T⊇S containing the places where π is ramified, the T-character χ_π^T of §4.1 attached to π determines the near-equivalence class of π through its away-from-T part, and the (G′,T)-CAP property of §4.2 depends only on that class.
 
-- L²_cusp([G],ω)_π is closed and G(𝔸)-invariant; its level-K part is closed and stable under `S(G(𝔸))_K`; both depend only on the near-equivalence class of π. The subspace is the orthogonal Hilbert sum of the isotypic cuspidal components L²_χ, χ=(G,σ), of AutomorphicSpectralTheory §1.9 over the isomorphism classes σ nearly equivalent to π; distinct near-equivalence classes give orthogonal subspaces, and their Hilbert sum is L²_cusp.
+- L²_cusp([G],ω)_π is closed and G(𝔸)-invariant; its level-K part is closed and stable under `S(G(𝔸))_K`; both depend only on the near-equivalence class of π. The subspace is the orthogonal Hilbert sum of the isotypic cuspidal components L²_(G,σ)([G],ω) of §2.15a over the isomorphism classes σ nearly equivalent to π; distinct near-equivalence classes give orthogonal subspaces, and their Hilbert sum is L²_cusp.
 
 - For T as above, the cuspidal χ_π^T-eigenpart L²_ω[χ_π^T]∩L²_cusp of §4.1 at level K is contained in L²_cusp([G]/K,ω)_π. The containment is proper in general, since the eigenpart also fixes the infinitesimal character.
 
 A proof route is as follows. Take local components from the restricted tensor factorization and define near equivalence on isomorphism classes; transitivity uses the union of two finite sets. For the spherical criterion use the Satake classification: an irreducible unramified representation is determined by its spherical Hecke character. Form the closed span of the chosen summands and use the Hilbert-sum decomposition with finite multiplicities to identify its R(K)-fixed vectors with the Hilbert sum of the π̃^K; orthogonality of the isotypic components of distinct isomorphism classes gives the orthogonal decomposition of L²_cusp by near-equivalence classes. For the inclusion of the eigenpart apply the spherical criterion to each summand meeting it.
 
-*Needs:* §4.1; §4.2; AutomorphicSpectralTheory §§0.50, 1.9, 4.5; AutomorphicFormsOnReductiveGroups §§3.4–3.5, 4.1–4.2; SmoothRepresentationsOfLocalGroups SR.4.1–SR.4.2.
+*Needs:* §4.1; §4.2; §2.15a; AutomorphicSpectralTheory §§0.50, 1.9, 4.5; AutomorphicFormsOnReductiveGroups §§3.4–3.5, 4.1–4.2; SmoothRepresentationsOfLocalGroups SR.4.1–SR.4.2.
 
 **Checks.**
 
@@ -1402,13 +1428,29 @@ A proof route is as follows. Compare the central cotangent quotient to AA norm-o
 
 - For G=M=G_m over ℚ and ω=1, (a_G^G)* is zero while c_G* is one-dimensional, so the central quotient is all of c_G*; the fixed ω pins the differential at 0, and the differential 1 is not typical at χ∞=0. Quotienting by the absolute a_G* instead would make the central quotient zero and accept 1.
 
+### 4.5a Polynomial counting of discrete-spectrum Casimir eigenvalues
+
+Let H be a connected reductive group over a number field E, Z_H its maximal E-split central torus, ω_H a unitary automorphic character of Z_H(𝔸_E), K_f a compact open subgroup of `H(𝔸_{E,f})` and 𝔗 a finite set of `K_{H,∞}`-types. Let Ω be the Casimir operator of a fixed nondegenerate invariant form on the Lie algebra of H∞, acting on the R(K_f)-fixed, 𝔗-isotypic part of the discrete spectrum L²_disc([H],ω_H). Prove that there are C,d>0 such that, for every R≥0, the number of eigenvalues of Ω on this space of absolute value at most R, counted with multiplicity, is at most C(1+R)^d. In particular the same bound holds for the cuspidal spectrum. The level, types and central character are fixed, and C and d may depend on them. (Müller's theorem, [Mül89, Theorem 0.1], which BPLZZ Remark 3.20, p.30, uses in place of Donnelly's cuspidal bound [Don82, Theorem 9.1] of Lemma 3.12; bplzz line 1460 and line 1267.) This is a counting theorem: finite multiplicity of each eigenvalue (AutomorphicSpectralTheory §4.5) does not imply it.
+
+A proof route is as follows. Choose test functions at the fixed level and types whose operators are nonnegative on the discrete spectrum and dominate the spectral indicator of |Ω|≤R, built from Arthur's multipliers. Bound the trace of their discrete part by the integral of the kernel diagonal against Arthur truncation, using positivity and self-adjointness of truncation, rapid decay of truncated forms and the Maass–Selberg relations for the Eisenstein contributions, on the spectral decomposition transported to the fixed central character; then choose the truncation parameter as a power of 1+R.
+
+*Needs:* §2.15a; AutomorphicSpectralTheory §§3.1–3.6 (truncation and Maass–Selberg relations); AutomorphicSpectralTheory §§4.1–4.5 (spectral decomposition and discrete spectrum); AutomorphicSpectralTheory §§6.3–6.4 (Arthur multipliers and compact-test kernels); AutomorphicFormsOnReductiveGroups §§2.1–2.4, 2.7 (compact types and infinitesimal characters).
+
+**Checks.**
+
+- For PGL₂ over ℚ at level PGL₂(Ẑ) and the trivial K∞-type, the discrete spectrum consists of the constant function and the Maass cusp forms for SL₂(ℤ). Weyl's law for SL₂(ℤ)∖ℍ, of volume π/3, gives about R/12 Laplace eigenvalues up to R, so the exponent d=1 is attainable while d=0 fails.
+
+- If H is anisotropic modulo its centre and H∞ is compact modulo its centre, as for the units of a definite quaternion algebra over ℚ modulo the centre, a fixed level and finite type set leave a finite-dimensional space, and the count is bounded for all R, so d=0 works. The exponent depends on the group.
+
+- The continuous spectrum is excluded: for PGL₂ over ℚ the Eisenstein series fill the Laplace spectrum [1/4,∞), so a count over all of L² would be infinite for every R>1/4.
+
 ### 4.6 Finite-rank cuspidal Casimir values
 
 At fixed finite level and a finite set of archimedean K_M-types, the set Λ_M of derived Casimir values of cuspidal representations of M modulo i(a_M^G)* twists is countable and has finite rank as a subset of ℂ. More precisely the needed derived semisimple cuspidal counting function, counted with multiplicity below positive elliptic spectral parameter R, is bounded by C(1+R)^d. To pass from M to M_der, one must use a finite union of conjugate finite levels; the original level intersection alone is not sufficient. Normalize the Casimir sign so that its K-type-adjusted elliptic eigenvalue is nonnegative. (BPLZZ §3.3, Lemma 3.12 and proof, p.26; bplzz line 1263).
 
-A proof route is as follows. Use the exact Donnelly polynomial upper bound cuspidal-polynomial-counting from AutomorphicFormsOnReductiveGroups §§4.1–4.2; finite multiplicity alone is not a counting theorem. Choose finite representatives of M(𝔸)/(M(F)Z_M(𝔸)M_der(𝔸)K_MM∞). Translate a nonzero fixed-level cusp vector by a suitable representative before restricting to M_der. Intersect the finitely many conjugate derived levels, apply the counting theorem at that common smaller level, and deduce convergence of a sufficiently high reciprocal power sum.
+A proof route is as follows. Apply the counting bound of §4.5a to the cuspidal spectrum of M_der with trivial central character at the common conjugate level; Donnelly's cuspidal bound used in BPLZZ Lemma 3.12 (p.26; bplzz line 1267) is that case, and finite multiplicity alone is not a counting theorem. Choose finite representatives of M(𝔸)/(M(F)Z_M(𝔸)M_der(𝔸)K_MM∞). Translate a nonzero fixed-level cusp vector by a suitable representative before restricting to M_der. Intersect the finitely many conjugate derived levels, apply the counting theorem at that common smaller level, and deduce convergence of a sufficiently high reciprocal power sum.
 
-*Needs:* §0.1; §4.5; AutomorphicFormsOnReductiveGroups §§4.1–4.2; AdelicAlgebraicGroups §§3.1, 3.4–3.6; cuspidal-polynomial-counting.
+*Needs:* §0.1; §4.5; §4.5a; AutomorphicFormsOnReductiveGroups §§4.1–4.2; AdelicAlgebraicGroups §§3.1, 3.4–3.6.
 
 **Checks.**
 
@@ -1416,11 +1458,11 @@ A proof route is as follows. Use the exact Donnelly polynomial upper bound cuspi
 
 ### 4.7 Finiteness of typical cuspidal data
 
-For each Levi M, fixed ω, fixed finite level and finite K_M-type set, only finitely many χ∞-typical cuspidal representations occur modulo the normalized i(a_M^G)* twists. After fixing ω and normalizing the i(a_M^G)* twists, the allowed central differentials lie in a discrete affine lattice coset in the remaining central directions of c_M,ℂ*/(a_M^G)ℂ*, possibly of rank zero; the first typicality condition restricts them to finitely many values; the remaining finite-component central characters are finite at the fixed level. Donnelly’s bound restricts derived parameters, and fixed infinitesimal/central-character admissibility gives the final finite representation set. (BPLZZ §3.3, Lemma 3.13, p.26, with the central-character step in the proof of Lemma 3.14, pp.26–27; bplzz line 1270).
+For each Levi M, fixed ω, fixed finite level and finite K_M-type set, only finitely many χ∞-typical cuspidal representations occur modulo the normalized i(a_M^G)* twists. After fixing ω and normalizing the i(a_M^G)* twists, the allowed central differentials lie in a discrete affine lattice coset in the remaining central directions of c_M,ℂ*/(a_M^G)ℂ*, possibly of rank zero; the first typicality condition restricts them to finitely many values; the remaining finite-component central characters are finite at the fixed level. The counting bound of §4.5a restricts derived parameters, and fixed infinitesimal/central-character admissibility gives the final finite representation set. (BPLZZ §3.3, Lemma 3.13, p.26, with the central-character step in the proof of Lemma 3.14, pp.26–27; bplzz line 1270).
 
 A proof route is as follows. Use the character lattice of the fixed-level compact norm-one central quotient. Compare extension of the fixed ω and normalization of twists as requested in central-character-affine-lattice: the resulting allowed differentials form an affine coset with complex-linearly independent lattice generators, rather than a full-rank lattice in all of c_M*/(a_M^G)*. Apply both typicality conditions, then derived counting at the conjugate levels and Harish-Chandra fixed-character finiteness.
 
-*Needs:* §4.6; §4.5; AdelicAlgebraicGroups §§2.1–2.3; AutomorphicFormsOnReductiveGroups §§4.1–4.2; central-character-affine-lattice.
+*Needs:* §4.6; §4.5; §4.5a; AdelicAlgebraicGroups §§2.1–2.3; AutomorphicFormsOnReductiveGroups §§4.1–4.2; central-character-affine-lattice.
 
 **Checks.**
 
@@ -1454,11 +1496,11 @@ A proof route is as follows. Remove from Λ_M the finite target Casimir set, int
 
 ### 4.9 Finite surviving cuspidal components
 
-For the fixed (G,Z,ω,K,χ∞) there exists μ∞∈(M♯θ)^W with μ∞(χ∞)≠0 such that, for every fixed-K Schwartz f, R(μ∞⋆f) has image in a finite orthogonal sum of AutomorphicSpectralTheory §1.9 cuspidal-data components. The list is independent of f. Choose the finite detecting K∞-types supplied by μ∞⁰, propagate them to the finitely many Levi K_M-types and finite levels, retain only typical data, and annihilate all remaining data by the product of μ∞^M. (BPLZZ §3.3, (3.3) and Proposition 3.15, p.27; bplzz line 1325).
+For the fixed (G,Z,ω,K,χ∞) there exists μ∞∈(M♯θ)^W with μ∞(χ∞)≠0 such that, for every fixed-K Schwartz f, R(μ∞⋆f) has image in a finite orthogonal sum of the cuspidal-data components of §2.15a. The list is independent of f. Choose the finite detecting K∞-types supplied by μ∞⁰, propagate them to the finitely many Levi K_M-types and finite levels, retain only typical data, and annihilate all remaining data by the product of μ∞^M. (BPLZZ §3.3, (3.3) and Proposition 3.15, p.27; bplzz line 1325).
 
 A proof route is as follows. Use compact-picture Frobenius reciprocity to get finite Levi type sets from the detecting G-types, and choose compatible finite levels including the unramified factors. Apply the annihilator to every complex induced family and use density of pseudo-Eisenstein series in its cuspidal block. Finite typicality leaves a finite block list after multiplying the finitely many standard-Levi factors.
 
-*Needs:* §4.8; §4.7; §1.8; AutomorphicSpectralTheory §§1.5–1.10; AutomorphicSpectralTheory Layer 4.
+*Needs:* §4.8; §4.7; §1.8; §2.15a; AutomorphicSpectralTheory §§1.5–1.10; AutomorphicSpectralTheory Layer 4.
 
 **Checks.**
 
@@ -1470,25 +1512,25 @@ For a compact central torus the derived Casimir is always zero. Typicality at th
 
 ### Dependencies
 
-Layers 0–3; AdelicAlgebraicGroups §§2.1–2.3, 4.6–4.7; AutomorphicSpectralTheory §§0.50, 1.9, 4.5; AutomorphicFormsOnReductiveGroups §§3.4–3.5, 4.1–4.2; SmoothRepresentationsOfLocalGroups SR.4.1–SR.4.2; the polynomial-counting and central-lattice contracts.
+Layers 0–3; AdelicAlgebraicGroups §§2.1–2.3, 4.6–4.7; AutomorphicSpectralTheory §§0.50, 1.9, 3.1–3.6, 4.1–4.5 and 6.3–6.4; AutomorphicFormsOnReductiveGroups §§2.1–2.4, 2.7, 3.4–3.5, 4.1–4.2; SmoothRepresentationsOfLocalGroups SR.4.1–SR.4.2; the central-lattice contract.
 
 ## Layer 5: Mixed separation and global isolation
 
 ### 5.1 Occurrence in a cuspidal datum
 
-A T-character χ occurs in a normalized cuspidal datum (M,σ) if there is one complex parameter s∈(a_M^G)ℂ* for which the induced infinitesimal character equals χ∞ and, for every finite v outside T, the spherical constituent of the normalized induction I_P^G(σ_s,v) has character χ_v. The same parameter must work at all these places. This property descends to the AutomorphicSpectralTheory §1.9 Weyl-and-twist equivalence class. Denote the resulting set by D(G,ω)_χ. Occurrence is stronger than the almost-everywhere finite-place condition in CAP. (BPLZZ §3.4, Definition 3.16, p.28; bplzz line 1352).
+A T-character χ occurs in a normalized cuspidal datum (M,σ) if there is one complex parameter s∈(a_M^G)ℂ* for which the induced infinitesimal character equals χ∞ and, for every finite v outside T, the spherical constituent of the normalized induction I_P^G(σ_s,v) has character χ_v. The same parameter must work at all these places. This property descends to the Weyl-and-twist equivalence classes of §2.15a. Denote the resulting set by D(G,ω)_χ. Occurrence is stronger than the almost-everywhere finite-place condition in CAP. (BPLZZ §3.4, Definition 3.16, p.28; bplzz line 1352).
 
 The defining construction has the following API.
 
 - Replacing σ by a normalized unramified twist translates the existential parameter and preserves occurrence.
 
-- Associate parabolic induction transports occurrence across the AutomorphicSpectralTheory §1.9 equivalence relation.
+- Associate parabolic induction transports occurrence across the equivalence relation of §2.15a.
 
 - Occurrence in a proper Levi datum implies that χ is (G,T)-CAP; the converse is not asserted.
 
 A proof route is as follows. Use normalized induction, its infinitesimal character and the Satake character at each unramified place. A Weyl conjugacy or normalized unramified twist changes s and the representative without changing existence.
 
-*Needs:* §4.1; AutomorphicSpectralTheory §§1.5–1.10; AutomorphicFormsOnReductiveGroups §§2.1–2.4, 2.7; SmoothRepresentationsOfLocalGroups SR.4.1–SR.4.2; cuspidal-data-central-comparison.
+*Needs:* §4.1; AutomorphicSpectralTheory §§1.5–1.10; AutomorphicFormsOnReductiveGroups §§2.1–2.4, 2.7; SmoothRepresentationsOfLocalGroups SR.4.1–SR.4.2; §2.15a (cuspidal data on [G] and at fixed ω).
 
 **Checks.**
 
@@ -1504,7 +1546,7 @@ A proof route is as follows. Use normalized induction, its infinitesimal charact
 
 ### 5.2 Mixed archimedean and Hecke annihilators
 
-If χ does not occur in (M,σ), construct a T-multiplier `μ_{M,σ}` nonzero at χ whose operator annihilates the whole AutomorphicSpectralTheory §1.9 cuspidal component L²_(M,σ). Only finitely many places outside T are used, even if T is infinite. For proper M choose representatives α_σ,α_χ and a splitting ℓ:h*→(a_M^G)*. For each w∈W the only candidate parameter compatible with α_σ+s=wα_χ is s_w=ℓ(wα_χ)−ℓ(α_σ). Nonoccurrence supplies an invariant archimedean polynomial or a spherical Hecke element at a retained finite place distinguishing the target from that candidate. Its values along the induced family are exponential polynomials in s. A finite linear combination avoiding the finitely many target-zero hyperplanes, followed by a Weyl product, vanishes on the entire family and is nonzero at χ. Multiply by a moderate damping and a sharp seed to obtain an element of (M♯θ)^W⊗H_G^T. (BPLZZ §3.4, Proposition 3.17 and (3.4), pp.28–29; Remark 2.9(3), p.11; bplzz line 1361).
+If χ does not occur in (M,σ), construct a T-multiplier `μ_{M,σ}` nonzero at χ whose operator annihilates the whole cuspidal component L²_(M,σ)([G],ω) of §2.15a. Only finitely many places outside T are used, even if T is infinite. For proper M choose representatives α_σ,α_χ and a splitting ℓ:h*→(a_M^G)*. For each w∈W the only candidate parameter compatible with α_σ+s=wα_χ is s_w=ℓ(wα_χ)−ℓ(α_σ). Nonoccurrence supplies an invariant archimedean polynomial or a spherical Hecke element at a retained finite place distinguishing the target from that candidate. Its values along the induced family are exponential polynomials in s. A finite linear combination avoiding the finitely many target-zero hyperplanes, followed by a Weyl product, vanishes on the entire family and is nonzero at χ. Multiply by a moderate damping and a sharp seed to obtain an element of (M♯θ)^W⊗H_G^T. (BPLZZ §3.4, Proposition 3.17 and (3.4), pp.28–29; Remark 2.9(3), p.11; bplzz line 1361).
 
 The defining construction has the following API.
 
@@ -1516,7 +1558,7 @@ The defining construction has the following API.
 
 A proof route is as follows. If the fixed-level component is zero there is nothing to annihilate; use a sharp seed nonzero at χ. For M=G an archimedean invariant polynomial separates unequal infinitesimal characters; otherwise choose a Hecke element separating the finite-place characters and multiply it by a sharp seed. A bare Hecke element need not lie in the sharp tensor algebra. For proper M form the finite exponential-polynomial differences by subtracting their evaluations at s=ℓ(w′α)−ℓ(α_σ). Choose one linear combination nonzero at every target Weyl translate, then multiply over w′. Along α=α_σ+s its identity factor vanishes. Choose a W-invariant entire damping nonzero at χ∞ that changes the exponential coefficients to moderate strip growth, and multiply by the sharp seed. Use the scalar action on induced representations and density of pseudo-Eisenstein series to annihilate the closed component.
 
-*Needs:* §5.1; §4.3; §0.8; §0.5; §1.7; SmoothRepresentationsOfLocalGroups SR.4.1–SR.4.2; AutomorphicSpectralTheory §§1.5–1.10; satake-exponential-family.
+*Needs:* §5.1; §4.3; §0.8; §0.5; §1.7; §2.15a; SmoothRepresentationsOfLocalGroups SR.4.1–SR.4.2; AutomorphicSpectralTheory §§1.5–1.10; satake-exponential-family.
 
 **Checks.**
 
@@ -1532,11 +1574,11 @@ A proof route is as follows. If the fixed-level component is zero there is nothi
 
 ### 5.3 Isolation of occurring cuspidal components
 
-For every T-character χ and the fixed (G,Z,ω,S,K), there is a T-multiplier μ with μ(χ)=1 such that for every f∈S(G(𝔸))^K the image of R(μ⋆f) on L²(G(F)\G(𝔸)/K,ω) lies in the Hilbert orthogonal sum of the AutomorphicSpectralTheory §1.9 cuspidal components indexed by D(G,ω)_χ. The constructed range is contained in a finite sum of these components. The identity μ(χ)=1 preserves the action of f on any admissible representation with this T-character, including one absent from the automorphic spectrum. This theorem asserts a range constraint and scalar normalization; it does not assert that μ acts as the identity on each entire surviving component. (BPLZZ §3.4, Theorem 3.19, pp.29–30; bplzz line 1428).
+For every T-character χ and the fixed (G,Z,ω,S,K), there is a T-multiplier μ with μ(χ)=1 such that for every f∈S(G(𝔸))^K the image of R(μ⋆f) on L²(G(F)\G(𝔸)/K,ω) lies in the Hilbert orthogonal sum of the cuspidal components of §2.15a indexed by D(G,ω)_χ. The constructed range is contained in a finite sum of these components. The identity μ(χ)=1 preserves the action of f on any admissible representation with this T-character, including one absent from the automorphic spectrum. This theorem asserts a range constraint and scalar normalization; it does not assert that μ acts as the identity on each entire surviving component. (BPLZZ §3.4, Theorem 3.19, pp.29–30; bplzz line 1428).
 
 A proof route is as follows. Start with μ∞ from Layer 4 and its finite list of surviving equivalence classes. Multiply by the mixed annihilator for each class where χ does not occur. All factors are nonzero at χ. Divide by the resulting scalar at χ; use the AutomorphicSpectralTheory Layer 4 orthogonal decomposition and commuting scalar actions to prove the range inclusion.
 
-*Needs:* §4.9; §5.2; §5.1; §4.3; AutomorphicSpectralTheory Layer 4.
+*Needs:* §4.9; §5.2; §5.1; §4.3; §2.15a; AutomorphicSpectralTheory Layer 4.
 
 **Checks.**
 
@@ -1550,9 +1592,9 @@ A proof route is as follows. Start with μ∞ from Layer 4 and its finite list o
 
 If χ is not (G,T)-CAP, choose the normalized multiplier of global isolation so that for every fixed-K Schwartz f its operator on the entire central-character L² space has image in L²_cusp[χ]. In particular μ⋆f is ω-quasi-cuspidal and μ(χ)=1. Without the non-CAP hypothesis the same normalized multiplier has this range property after restricting its domain to L²_cusp. Here L²_cusp[χ] is the maximal closed cuspidal subspace on whose smooth vectors Z(g)⊗H_G^T acts by χ; neither assertion requires χ to be automorphic. (BPLZZ §3.1, Theorems 3.6–3.7, p.23; their proofs in §3.4, p.30; bplzz line 1120).
 
-A proof route is as follows. A proper cuspidal datum with occurrence would imply CAP, so only M=G can survive in the non-CAP case. Intersect the occurring component sum with L²_cusp. Orthogonality of the AutomorphicSpectralTheory §1.9 decomposition identifies that intersection with L²_cusp[χ]. For arbitrary χ restrict the operator to the invariant cuspidal subspace before taking the intersection.
+A proof route is as follows. A proper cuspidal datum with occurrence would imply CAP, so only M=G can survive in the non-CAP case. Intersect the occurring component sum with L²_cusp. Orthogonality of the decomposition of §2.15a identifies that intersection with L²_cusp[χ]. For arbitrary χ restrict the operator to the invariant cuspidal subspace before taking the intersection.
 
-*Needs:* §5.3; §4.2; §4.4; AutomorphicFormsOnReductiveGroups §§4.1–4.2; AutomorphicSpectralTheory Layer 4.
+*Needs:* §5.3; §4.2; §4.4; §2.15a; AutomorphicFormsOnReductiveGroups §§4.1–4.2; AutomorphicSpectralTheory Layer 4.
 
 **Checks.**
 
@@ -1576,11 +1618,11 @@ A proof route is as follows. Associate the unramified Hecke and infinitesimal T-
 
 ### 5.6 Isolation of one GLₙ cuspidal-support component
 
-For `G=Res_{F′/F}GL_n` and an irreducible admissible π occurring as a constituent of normalized induction of a cuspidal representation σ of a Levi M, with unitary automorphic central character, there is a normalized multiplier preserving π(f) and mapping the entire central-character L² space into the single AutomorphicSpectralTheory §1.9 cuspidal-support component attached to (M,σ), for every fixed-K Schwartz f. The correct uniqueness input is the isobaric strong multiplicity-one theorem: the almost-everywhere unramified characters determine the multiset of cuspidal constituents, with their unramified norm twists. It identifies the cuspidal datum, not every irreducible constituent of its induced representation. (BPLZZ §1.1, Theorem 1.3, pp.2–3; §3.4, Theorem 3.19, pp.29–30; bplzz line 88).
+For `G=Res_{F′/F}GL_n` and an irreducible admissible π occurring as a constituent of normalized induction of a cuspidal representation σ of a Levi M, with unitary automorphic central character, there is a normalized multiplier preserving π(f) and mapping the entire central-character L² space into the single cuspidal-support component of §2.15a attached to (M,σ), for every fixed-K Schwartz f. The correct uniqueness input is the isobaric strong multiplicity-one theorem: the almost-everywhere unramified characters determine the multiset of cuspidal constituents, with their unramified norm twists. It identifies the cuspidal datum, not every irreducible constituent of its induced representation. (BPLZZ §1.1, Theorem 1.3, pp.2–3; §3.4, Theorem 3.19, pp.29–30; bplzz line 88).
 
 A proof route is as follows. Use isobaric strong multiplicity one from AutomorphicLFunctionsAndLocalFactors AL.3.7.2, including normalization and twists, to show that the occurrence set contains only the inducing cuspidal-support equivalence class. Apply global isolation with χ=χπ^S and normalize at π.
 
-*Needs:* §5.3; AutomorphicSpectralTheory §§1.5–1.10; AutomorphicLFunctionsAndLocalFactors AL.R.4, GLₙ isobaric sums, and AL.3.7.2, Strong multiplicity one for isobaric sums; AutomorphicFormsOnReductiveGroups §§2.1–2.4, 2.7.
+*Needs:* §5.3; §2.15a; AutomorphicSpectralTheory §§1.5–1.10; AutomorphicLFunctionsAndLocalFactors AL.R.4, GLₙ isobaric sums, and AL.3.7.2, Strong multiplicity one for isobaric sums; AutomorphicFormsOnReductiveGroups §§2.1–2.4, 2.7.
 
 **Checks.**
 
@@ -1592,11 +1634,11 @@ A proof route is as follows. Use isobaric strong multiplicity one from Automorph
 
 ### 5.7 Isolation of refined discrete-data components
 
-Replace AutomorphicSpectralTheory §1.9 cuspidal data by AutomorphicSpectralTheory Layer 4 Langlands data (M,σ) with σ in the discrete automorphic spectrum of M, using its normalized unramified-twist and Weyl equivalence. Assuming the polynomial fixed-level, fixed-K-type discrete-spectrum Casimir counting input discrete-spectrum-casimir-counting, there is a T-multiplier with value 1 at χ whose L² range lies in the sum of the refined Langlands components where χ occurs, defined by the same simultaneous character equations. This can be strictly smaller than the coarse cuspidal-support range. The extra polynomial counting theorem is a required input, not a consequence of mere discreteness or of a general trace-class ideal theorem. (BPLZZ §3.4, Remark 3.20, pp.30–31; bplzz line 1459).
+Replace the cuspidal data of §2.15a by Langlands discrete data: let D′(G,ω) be the set of pairs (M,σ) with M a standard Levi and σ a discrete automorphic representation of M(𝔸) whose central character restricts to ω on Z(𝔸), with the same Weyl and i(a_M^G)*-twist equivalence ≈. Define the Langlands component L²_(M,σ)([G],ω)′ as the image, under the unitary Eisenstein spectral map of AutomorphicSpectralTheory §4.2 transported to the fixed central character as in §2.15a, of the symmetric families valued in the σ-isotypic parts of the discrete inducing spaces. Prove that L²([G],ω) is the orthogonal Hilbert sum of these components over D′(G,ω)/≈, refining the cuspidal-support decomposition of §2.15a, with residual summands included (BPLZZ Remark 3.20, pp.30–31, citing [Lan76] and Arthur's Theorem 7.2; bplzz line 1464). Then there is a T-multiplier with value 1 at χ whose L² range lies in the sum of the refined components where χ occurs, defined by the same simultaneous character equations as §5.1. This can be strictly smaller than the coarse cuspidal-support range. The proof uses the discrete-spectrum counting bound of §4.5a in place of the cuspidal one; mere discreteness, finite multiplicity or a general trace-class ideal theorem does not supply it. (BPLZZ §3.4, Remark 3.20, pp.30–31; bplzz line 1459.)
 
-A proof route is as follows. Use the AutomorphicSpectralTheory Layer 4 discrete-data Langlands decomposition requested in refined-langlands-discrete-data. Repeat the Casimir interpolation and typical-data finiteness using the discrete-spectrum polynomial bound rather than the cuspidal bound. Repeat mixed separation and scalar normalization with these refined components.
+A proof route is as follows. Obtain the refined decomposition by splitting the discrete inducing spaces of AutomorphicSpectralTheory §§4.1–4.2 into σ-isotypic parts, using AutomorphicSpectralTheory §4.3 (completeness) and AutomorphicSpectralTheory §4.4 (residual spectrum). Repeat the Casimir interpolation and typical-data finiteness of Layer 4 with the discrete-spectrum polynomial bound of §4.5a in place of the cuspidal bound. Repeat mixed separation and scalar normalization with these refined components.
 
-*Needs:* §5.3; §5.1; AutomorphicSpectralTheory Layer 4; refined-langlands-discrete-data; discrete-spectrum-casimir-counting.
+*Needs:* §5.3; §5.1; §4.5a; §2.15a; AutomorphicSpectralTheory §§4.1–4.4.
 
 **Checks.**
 
@@ -1610,10 +1652,11 @@ For a full-group unwanted datum with the same infinitesimal character, choose a 
 
 ### Dependencies
 
-Layer 4 and the earlier symbol and Schwartz-action layers; AutomorphicSpectralTheory §§1.6–1.10 and Layer 4; SmoothRepresentationsOfLocalGroups SR.4; AutomorphicLFunctionsAndLocalFactors AL.R.4 and AL.3.7.2 only for §5.6; refined-langlands-discrete-data and discrete-spectrum-casimir-counting only for §5.7.
+Layer 4 and the earlier symbol and Schwartz-action layers; AutomorphicSpectralTheory §§1.6–1.10 and Layer 4; SmoothRepresentationsOfLocalGroups SR.4; AutomorphicLFunctionsAndLocalFactors AL.R.4 and AL.3.7.2 only for §5.6.
+
 ## Downstream consumers
 
-Relative period comparisons use the general spectral isolation and relative-character convergence together with an independently supplied transfer-preservation theorem. Automorphic applications can use the non-CAP endpoint without an auxiliary supercuspidal local factor; a prescribed representation need not already occur in the automorphic spectrum.
+Relative period comparisons, such as GanGrossPrasadUnitaryGroups §§6.2a–6.4, use the T-multipliers of §4.3, the isolation theorems of §§5.3 and 5.6, relative-character convergence (§3.1), cuspidal-support projections (§§3.3–3.4) and the Schwartz kernels with their spectral expansion (§§3.8–3.10). The theorem that base-change-compatible multipliers preserve matching and smooth transfer (BPLZZ §4.2, Proposition 4.8) is GanGrossPrasadUnitaryGroups §6.3a, which uses the scalar multiplier action of §4.3 and the symbol pullback of §0.5. Automorphic applications can use the non-CAP endpoint without an auxiliary supercuspidal local factor; a prescribed representation need not already occur in the automorphic spectrum.
 
 ## Worked examples
 
@@ -1630,4 +1673,4 @@ All statements are in the author's own words. Page numbers for BPLZZ and Lapid r
 - **Lapid** (`lapid`): Erez M. Lapid, [On the Harish-Chandra Schwartz space of G(F)∖G(𝔸)](https://www.esi.ac.at/preprints/esi2403.pdf), ESI preprint 2403 (2013). §2; §3.6, pp.19–20; Theorem 4.5, p.22; Proposition 5.1, pp.22–24; Corollaries 5.7–5.8, pp.25–26; §6, pp.26–28.
 - **Bernstein** (`bernstein`): Joseph N. Bernstein, [On the support of Plancherel measure](https://doi.org/10.1016/0393-0440(88)90024-1), Journal of Geometry and Physics 5(4) (1988), 663–710. §§3.4–3.5, pp.685–689; the specific quotient uses are also located at BPCZ §2.5.5 and §2.5.12, bpcz line 1270 and line 1402.
 
-The semisimple multiplier, split-centre Fourier–Laplace, Kostant, minimal-type, Donnelly and Müller inputs are consumed through the exact supplier contracts and their inspected uses in BPLZZ §§2.4, 3.3–3.4 and Appendix A, and BPCZ §§2.8.4 and 2.10.2. These uses do not supply a more general theorem than those contracts state.
+The theorems of Delorme [Del86, Théorème 1.7], Sakellaridis [Sak, Theorem 2.1.2], Aizenbud–Gourevitch [AG10, Corollary 2.6.3], Trèves [Trè67, Theorem 34.1], Donnelly [Don82, Theorem 9.1] and Müller [Mül89, Theorem 0.1] are located at their uses in BPLZZ Appendix A and §§3.3–3.4 (bplzz line 2099 to line 2198, line 1267 and line 1460), with bibliographic entries at bplzz line 2204, line 2235, line 2237, line 2294, line 2305 and line 2307. Arthur's [Art78] Lemma 4.1, Corollary 4.2 and §4 are located at their uses in BPCZ §§2.8.4 and 2.10.2 (bpcz line 2059 and line 2480), and the Müller–Speh bounds [MS04, Propositions 3.3 and 4.2] and Brumley's lower bound at their uses in Lapid §§3.4–3.5 and Appendix A (lapid line 619, line 647, line 724 and line 1178). They are targets here (§§1.1, 1.2a, 3.2, 3.6a and 4.5a) at the generality of those uses. The Kostant and minimal-type inputs are consumed through the supplier contracts and their uses in BPLZZ §2.4; these uses do not supply a more general theorem than those contracts state.
