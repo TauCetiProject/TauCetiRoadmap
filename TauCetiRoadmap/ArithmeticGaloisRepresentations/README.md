@@ -349,7 +349,17 @@ fields: `inertiaSubgroup`, `wildInertiaSubgroup`, `IsArithFrobeniusLift`,
 `inertiaPadicTameCharacter_surjective`, `inertiaPadicTameCharacter_conj` and
 `IsArithFrobeniusLift.inertiaPadicTameCharacter_conj`, `teichmullerLift` with
 `residue_teichmullerLift`, `teichmuller`, `residue_teichmuller`, `rootsOfUnityEquivResidueField`,
-`complexConjugationAt` (finite extensions only). Number fields:
+`complexConjugationAt` (finite extensions only). Ramification groups:
+`TauCeti.IsLocalRing.ramificationGroup` (the lower filtration of any group acting by ring
+automorphisms on a local ring, `G_i` the elements acting trivially on `S/𝔪^{i+1}`, total and `⊤`
+for `i ≤ −1`) with `TauCeti.IsLocalRing.exists_forall_ramificationGroup_eq_bot` (for a faithful
+action on a noetherian local ring with finite `G_0`, `G_i = 1` for large `i`); for finite Galois
+extensions of nonarchimedean local fields, `TauCeti.LocalFieldsRamification.lowerRamificationGroup`
+(by definition that filtration on `𝒪[L]`), Hasse–Arf for abelian extensions
+`TauCeti.LocalFieldsRamification.hasseArf`, and the conductor exponent of a character
+`TauCeti.LocalFieldsRamification.artinConductorExponent` with Serre's lower-sum formula
+`TauCeti.LocalFieldsRamification.artinConductorExponent_mul_card_lowerRamificationGroup_zero`;
+§3.2's finite-level conductors are stated on the first. Number fields:
 `Ideal.isUnramifiedAt_iff_inertia_eq_bot`, `NumberField.Chebotarev.frobeniusPrimeSet`,
 `NumberField.isArithFrobAt_eq_of_isUnramifiedAt`, `Multiquadratic.galoisGroupEquiv`,
 `NumberField.exists_isArithFrobAt_multiquadratic`, `NumberField.isArithFrobAt_apply_sqrt`.
@@ -634,7 +644,7 @@ is computed directly. The automorphism-group input to the verification lemmas re
 | Henselian-trait/local-field tame-character comparison | EtaleCohomologyFoundations §F.3a | Supplied comparison and transport laws; §2.1a transports them along global decomposition-group embeddings |
 | Weil group and degree | ClassFieldTheory Layer 9 | Supplier targets |
 | Frobenius-semisimplified Weil–Deligne parameter and functor | SmoothRepresentationsOfLocalGroups SR.5.2, `classical-llc-normalization` | Supplier target; §2.4 adapter and §2.5 agreement |
-| Linear Weil–Deligne substrate on parameter fields | SmoothRepresentationsOfLocalGroups SR.5.2, `wd-linear-substrate`, `nilpotent-exp-log`, `grothendieck-monodromy`, `wd-parameter-operations`, `full-wd-construction`, `wd-frobenius-semisimplification` | Supplier targets; §2.4 `ContinuousRep` specialization and adapter, §2.5 agreement and local factors |
+| Linear Weil–Deligne substrate on parameter fields | SmoothRepresentationsOfLocalGroups SR.5.2, `wd-linear-substrate`, `nilpotent-exp-log`, `wd-complete-coefficients` (Grothendieck monodromy, `grothendieck_quasiUnipotent_complete`), `wd-parameter-operations`, `full-wd-construction`, `wd-frobenius-semisimplification` | Supplier targets; §2.4 `ContinuousRep` specialization and adapter, §2.5 agreement and local factors |
 | Geometric abelian Tate module | `AbelianTate`, A4.1 | Supplier targets |
 | Numerical curve Weil bound | SchemeAndStackFoundations §5.11, *The Weil bound via surfaces* | Supplied surface-intersection theorem; §5.13 owns finite-cover counts, constant-field degree congruences, closed-point and profinite density, and recognition |
 | Connected-reductive complete reducibility and closed-orbit quotients | §1.11 here, **Complete reducibility and closed tuples** and **Reductive quotients over fields and DVRs** | Owned generic interfaces; the **`Ĝ`-valued representations** target compares integral models using the DVR quotient on a common finite residual quotient |
@@ -670,7 +680,7 @@ SmoothRepresentationsOfLocalGroups SR.5.2 `classical-llc-normalization` → the 
 adapter and §2.5 agreement theorem, alongside
 SmoothRepresentationsOfLocalGroups SR.4/SR.6 → IntegralHeckeAndGaloisDeterminants → Layer 1/Layer 5.
 SmoothRepresentationsOfLocalGroups SR.5.2 `wd-linear-substrate`, `nilpotent-exp-log`,
-`grothendieck-monodromy`, `wd-parameter-operations`, `full-wd-construction` and
+`wd-complete-coefficients`, `wd-parameter-operations`, `full-wd-construction` and
 `wd-frobenius-semisimplification` supply the linear theory on the canonical parameter fields.
 They use Mathlib linear representations, ClassFieldTheory Layer 9 and Tau Ceti's local
 characters. Section 2.4 specializes monodromy to `ContinuousRep` and packages its underlying
@@ -1449,8 +1459,11 @@ core `N`, all representations finite-dimensional continuous representations over
 constituent, with equal multiplicities and `t` the index of the open class stabiliser (Clifford);
 `[Γ : H]` invertible and `Res_H V` semisimple give `V` semisimple; `[H : N]` invertible and `V`
 semisimple give `Res_H V` semisimple; `[Γ : N]` invertible and `U` semisimple over `H` give
-`Ind_H^Γ U` semisimple. All five reduce to the finite quotient `Γ/N` because the representations
-are continuous with open kernels on finite-dimensional spaces, after shrinking `N`. The first two
+`Ind_H^Γ U` semisimple. None of the five passes through a finite quotient of `Γ`, which an
+`ℓ`-adic representation need not factor through: Clifford's theorem uses only that `V` is
+finite-dimensional and the subgroup normal, and the averaging below runs over the finitely many
+cosets of `H` or `N`, so all five hold for an arbitrary group whenever the indices that occur are
+finite; continuity enters only through the openness of `H` and `N`. The first two
 are normal-subgroup Clifford theory: the translates of a simple `N`-submodule are simple and span
 (Tau Ceti's `Representation.isSemisimpleRepresentation_comp_subtype` for irreducible `V`, any
 characteristic), and the isotypic statement is Clifford's theorem over an arbitrary field
@@ -1471,6 +1484,9 @@ InductionRestriction Layer 5.
   but is not semisimple over `C_p`; ascent needs the invertible-index hypothesis.
 - The simple natural representation of `S₃ = GL₂(F₂)` restricts to a transposition subgroup
   as a nontrivial unipotent extension; restriction to a nonnormal subgroup need not be semisimple.
+- For `ℓ ≠ p`, `χ_ℓ ⊕ 1` on `G_{ℚ_p}` has infinite image and non-open kernel, so it factors
+  through no finite quotient; its restriction to the index-two normal subgroup `G_{ℚ_p(√p)}` is
+  again the sum of two characters, semisimple as the first statement predicts.
 
 ### Examples
 
@@ -1874,7 +1890,8 @@ FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.27–R07.1.32.
 SmoothRepresentationsOfLocalGroups SR.5.2 supplies the
 [linear substrate](../SmoothRepresentationsOfLocalGroups/README.md#wd-linear-substrate),
 [nilpotent exp/log calculus](../SmoothRepresentationsOfLocalGroups/README.md#nilpotent-exp-log),
-[Grothendieck monodromy](../SmoothRepresentationsOfLocalGroups/README.md#grothendieck-monodromy),
+[Grothendieck monodromy](../SmoothRepresentationsOfLocalGroups/README.md#grothendieck-monodromy)
+(`wd-complete-coefficients`),
 [parameter operations](../SmoothRepresentationsOfLocalGroups/README.md#wd-parameter-operations),
 [full construction and inverse](../SmoothRepresentationsOfLocalGroups/README.md#full-wd-construction),
 and [Frobenius semisimplification](../SmoothRepresentationsOfLocalGroups/README.md#wd-frobenius-semisimplification).
@@ -1892,7 +1909,10 @@ SmoothRepresentationsOfLocalGroups SR.5.2 `nilpotent-exp-log`.
 **ContinuousRep monodromy specialization.** For a nonarchimedean local field `K` of residue
 characteristic `p`, finite `E/ℚ_ℓ`, `ℓ ≠ p` and
 `ρ : ContinuousRep G_K E V` on finite-dimensional `V` with its module topology, specialize
-SmoothRepresentationsOfLocalGroups SR.5.2 `grothendieck-monodromy` to obtain a unique nilpotent
+SmoothRepresentationsOfLocalGroups SR.5.2 `wd-complete-coefficients` (its
+`grothendieck_quasiUnipotent_complete`, stated on Mathlib's `Representation` with joint
+continuity for complete normed extensions of `ℚ_ℓ`, which include every finite `E/ℚ_ℓ`) to the
+underlying jointly continuous action of `ρ`, to obtain a unique nilpotent
 `N ∈ Hom(ℤ_ℓ(1), End V)` with
 `ρ(σ) = exp(N(t_ℓ σ))` on an open subgroup of inertia and
 `ρ(w) N(x) ρ(w)⁻¹ = N(χ_ℓ(w) x)`. With a trivialisation `T`, the scalar operator
@@ -1900,9 +1920,10 @@ SmoothRepresentationsOfLocalGroups SR.5.2 `grothendieck-monodromy` to obtain a u
 Transport the supplied equivalence between finite inertia image and `N = 0` and the
 ramification-index scaling under compatible tame identifications
 (Deligne 1973, 8.1 and Thm 8.2, p. 566; FSY, §5.3.1, p. 54).
-*Needs:* Layer 1; SmoothRepresentationsOfLocalGroups SR.5.2 `grothendieck-monodromy` and
+*Needs:* Layer 1; SmoothRepresentationsOfLocalGroups SR.5.2 `wd-complete-coefficients` and
 `nilpotent-exp-log`; Tau Ceti's inertia, tame and cyclotomic characters.
-*Lean:* `GaloisRep.grothendieck_quasiUnipotent`.
+The monodromy theorem itself is the supplier's headline; this specialization is an adapter and
+has no statement of its own in `Suggested.lean`.
 
 **Checks.**
 - A finite-image representation has `N = 0`.
@@ -2432,7 +2453,7 @@ absolute Galois group); `TauCetiRoadmap.ClassFieldTheory` layers 7,
 For §2.1a: EtaleCohomologyFoundations §F.3a.
 For §2.3: PadicLocalLanglandsForGL2Qp §0.3's fundamental characters.
 For §§2.4–2.5: SmoothRepresentationsOfLocalGroups SR.5.2 `wd-linear-substrate`,
-`nilpotent-exp-log`, `grothendieck-monodromy`, `wd-parameter-operations`,
+`nilpotent-exp-log`, `wd-complete-coefficients`, `wd-parameter-operations`,
 `full-wd-construction`, `wd-frobenius-semisimplification` and `classical-llc-normalization`.
 For §2.5a: AdelicAlgebraicGroups AA.2.4's finite-image factors, induction and assembly.
 For §2.7: GlobalNumberFields Layers 4–6 and 9–10; ClassFieldTheory Layers 11–12 for
@@ -2675,6 +2696,50 @@ below; `TauCetiRoadmap.ClassFieldTheory` Layer 7 (`characterConductorExp`); Math
   (`N e₂ = e₁`) reduces to an unramified `ρ̄` with `a = 0`: the conductor of a reduction is computed from
   the reduction.
 
+**Finite-level conductors.** For a group `G` acting by ring automorphisms on a local ring `B`,
+with lower ramification groups `G_i = TauCeti.IsLocalRing.ramificationGroup G B i` (the elements
+acting trivially on `B/𝔪_B^{i+1}`), and a representation `ρ` of `G` on a vector space `W` over a
+field `C`, define the rational numbers
+
+```text
+Conductor.lowerArtinConductor G B ρ = Σ_{i ≥ 0} (|G_i|/|G_0|) · codim_W W^{G_i}
+Conductor.lowerSwanConductor  G B ρ = Σ_{i ≥ 1} (|G_i|/|G_0|) · codim_W W^{G_i}
+```
+
+For `L/K` finite Galois in the conductor setting, `G = Gal(L/K)` and `B = O_L`, they are the lower
+sums of §3.1 and of the API above, so for `V` of the setting on which `G_K` acts through
+`Gal(L/K)` they are `a(V)` and `Sw(V)` (Serre 1961, n° 3.7, (28)–(29), p. 137; Serre 1987,
+(4.9.1)–(4.9.2), p. 215). Their API:
+- for finite `G` acting faithfully on a discrete valuation ring the sums are finite, since
+  `G_i = 1` for large `i` (Tau Ceti `TauCeti.IsLocalRing.exists_forall_ramificationGroup_eq_bot`),
+  and the Artin sum is the Swan sum plus the tame part `codim W^{G_0}`;
+- both sums vanish for `W = 0` and whenever `G_0` acts trivially, and the Swan sum vanishes
+  whenever `G_1` acts trivially;
+- both depend only on the isomorphism class of `ρ` and are additive on direct sums, because the
+  invariant dimensions are;
+- for the regular representation of `G = Gal(L/K)` the Artin sum is `f · d(L/K) = v_K(𝔡_{L/K})`,
+  by Hilbert's formula `d(L/K) = Σ_{i ≥ 0} (|G_i| − 1)` of §3.0 and `|G| = f |G_0|`;
+- for `L/K` a finite abelian extension of nonarchimedean local fields and a character `χ` of
+  `Gal(L/K)`, the Artin sum of `χ` is Tau Ceti's
+  `TauCeti.LocalFieldsRamification.artinConductorExponent K L χ`, whose lower ramification
+  groups are `TauCeti.IsLocalRing.ramificationGroup (L ≃ₐ[K] L) 𝒪[L]` by definition, by
+  `TauCeti.LocalFieldsRamification.artinConductorExponent_mul_card_lowerRamificationGroup_zero`
+  (`codim W^{G_i}` is `1` exactly when `χ` is nontrivial on `G_i`).
+
+**Checks.**
+- `χ_8` on `Gal(ℚ_2(ζ_8)/ℚ_2)`, lower orders `4, 4, 2, 2, 1`: the Artin sum is
+  `1 + 1 + 1/2 + 1/2 = 3` and the Swan sum `2`; without the weights `|G_i|/|G_0|` the sums would
+  be `4` and `3`, and omitting the term `i = 0` from the Artin sum would give `2`.
+- The regular representation of `Gal(ℚ_2(i)/ℚ_2)`, with `G_0 = G_1` of order `2` and `G_2 = 1`,
+  has `codim W^{G_i} = 1` for `i = 0, 1`: Artin sum `2 = v_2(−4)`, the discriminant exponent, and
+  Swan sum `1`.
+- A nontrivial tame quadratic character over `ℚ_p`, `p` odd (`G = G_0` of order `2`, `G_1 = 1`),
+  has Artin sum `1` and Swan sum `0`; an unramified character (`G_0 = 1`) has both sums `0`.
+- If `G_0` is infinite, the normalisation `Nat.card G_0` is `0` and every weight is `0`: the
+  sums are conductors only for finite `G`, which every statement about them assumes.
+
+*Lean:* `Conductor.lowerArtinConductor`, `Conductor.lowerSwanConductor`.
+
 **Characters.** Prove that a ramified character `χ` with finite wild image has an integer upper break
 `u(χ)` with `Sw(χ) = u(χ)` and `a(χ) = 1 + u(χ)`, and a tamely ramified `χ` has break `0`: the
 restriction of `χ` to `I_K ≅ G_{K̂^ur}` (§3.0) has finite abelian image, so its
@@ -2834,15 +2899,26 @@ layer 5 (§5.9, the different localizes; §5.10, the relative discriminant valua
 - For `L/K` unramified, `δ = 0` and `a_K(Ind V) = f a_L(V)`.
 - For `L/K` tame of index `e`, `Sw_K(Ind 1) = f(d − e + 1) = 0` since `d = e − 1`.
 
-**Hasse–Arf integrality.** Prove that for finite Galois `L/K` and a representation `W` of `Gal(L/K)`
-in characteristic zero, `a(W), Sw(W) ∈ ℕ`, by Brauer induction from the case of characters and the
-local induction formula above (Serre 1961, n° 3.7, Thm 2, p. 138). Prove that for `V` of the setting,
+**Hasse–Arf integrality.** Prove that for a finite group `G` acting faithfully by ring
+automorphisms on a complete discrete valuation ring `B` with perfect residue field, and a
+finite-dimensional representation `W` of `G` over a field of characteristic zero,
+`Conductor.lowerArtinConductor G B W` and `Conductor.lowerSwanConductor G B W` are natural
+numbers. These data are exactly a finite Galois `L/K` with `K` complete for a discrete valuation
+with perfect residue field, `G = Gal(L/K)` and `B = O_L` (`L = Frac B`, `K = L^G`, and `O_K = B^G`
+is again a complete discrete valuation ring with perfect residue field), so this is
+`a(W), Sw(W) ∈ ℕ` for every representation `W` of `Gal(L/K)` in characteristic zero; in residue
+characteristic `0`, `G_1 = 1` and both statements are immediate. Route: Brauer induction from the
+case of characters and the finite-image case of the local induction formula above, with Hasse–Arf
+for the characters (Serre 1961, n° 3.7, Thm 2, p. 138, and Remarque 2°, p. 139, reducing an
+arbitrary residue field to an algebraically closed one). Prove that for `V` of the setting,
 `Sw(V), a(V) ∈ ℕ`; that both are independent of the auxiliary `L`, of the algebraic closure, of the
 extension of the valuation and of the isomorphism class; that `a(V) = 0` iff `I_K` acts trivially,
 `Sw(V) = 0` iff `P_K` acts trivially, and `a(V) = codim V^{I_K}` iff `V` is tame (Serre 1987, §1.2
-(a), p. 181). *Needs:* the targets on characters and wild characters of §3.2; the local induction
-formula above; `TauCetiRoadmap.RepresentationTheory/InductionRestriction` layer 6 (Brauer's induction
+(a), p. 181). *Needs:* the targets on characters and wild characters of §3.2; the finite-level
+conductors of §3.2; the local induction formula above; `TauCetiRoadmap.RepresentationTheory/InductionRestriction` layer 6 (Brauer's induction
 theorem).
+*Lean:* `Conductor.lowerConductors_integral` (the finite-level statement; the statement for `V` of
+the setting, whose inertia image may be infinite, uses the absolute filtration of §3.0).
 
 ### 3.6 Reduction modulo `ℓ`
 
@@ -2904,7 +2980,9 @@ filtration, the absolute Galois group);
 `TauCetiRoadmap.ClassFieldTheory` layers 7 (with gap:unit-filtration-reciprocity) and 9;
 `TauCetiRoadmap.NumberFieldArithmetic` layer 5;
 `TauCetiRoadmap.RepresentationTheory/InductionRestriction` layers 5–7;
-`TauCetiRoadmap.AlgebraicCurves` layer 8 (function-field ramification groups, for comparison).
+`TauCetiRoadmap.AlgebraicCurves` layer 8 (function-field ramification groups, for comparison);
+Tau Ceti's `TauCeti.IsLocalRing.ramificationGroup` and the local-field ramification, Hasse–Arf and
+character-conductor declarations listed in the supplier contracts.
 
 ## Layer 4: residual images and oddness
 
@@ -3059,13 +3137,17 @@ conjugate to `PSL₂(F_q)` or `PGL₂(F_q)`, or is dihedral of order `2n` with `
 `PSL₂(F_q)` and `PGL₂(F_q)` are unique up to conjugacy, and `A_5` is conjugate to `PSL₂(F_4)` or
 `PSL₂(F_5)` in characteristic `2` or `5` (Dickson 1901, §260, p. 286); that an absolutely irreducible
 `G ⊂ GL₂(k)`, `k` finite, has noncyclic projective image fixing no point, which is dihedral,
-exceptional, or conjugate to `PSL₂(F_0)` or `PGL₂(F_0)` with `F_0 = F_p(tr(g)²/det g : g ∈ G)` (KW
-(I), §6, p. 10); that a finite `G ⊂ GL₂(k̄)` with `π(G)` conjugate to `PSL₂(F_0)` or `PGL₂(F_0)`,
+exceptional, or conjugate to `PSL₂(F_0)` or `PGL₂(F_0)` with `F_0 = F_p(tr(g)²/det g : g ∈ G)`
+(the list of images: Darmon–Diamond–Taylor 2007, Thm 2.47(b), p. 81, and KW (I), §6, p. 9; the
+field is proved here: `tr(g)²/det g` is unchanged by scalars and conjugation, so `F_0` lies in the
+field `F′` of a standard image `PSL₂(F′)` or `PGL₂(F′)`, while the traces of `SL₂(F′)` run through
+all of `F′` and their squares generate `F′`, since squaring is onto in characteristic `2` and for
+odd `q = #F′` the `(q + 1)/2` squares outnumber every proper subfield); that a finite `G ⊂ GL₂(k̄)` with `π(G)` conjugate to `PSL₂(F_0)` or `PGL₂(F_0)`,
 `#F_0 ≥ 4`, has up to conjugation `[G, G] = SL₂(F_0)` and `G ⊂ k̄^× · GL₂(F_0)`, and conversely
 `SL₂(F_1) ⊂ G` with `#F_1 ≥ 4` makes `π(G)` standard over some `F_0 ⊇ F_1` (ACC+, Lemma 7.1.6, p.
 1090); that for `p = 2` and `G` finite irreducible in `GL₂(k̄)`, `π(G)` is dihedral of order `2n`, `n`
 odd `≥ 3`, if `G` is solvable, and conjugate to `PSL₂(F_{2^r})`, `r ≥ 2`, otherwise (KW (I), Lemma
-6.1, p. 10); that an absolutely irreducible `G ⊂ GL₂(k̄)` with an element of projective order `> 5` is
+6.1, pp. 9–10); that an absolutely irreducible `G ⊂ GL₂(k̄)` with an element of projective order `> 5` is
 not exceptional, hence projectively dihedral if solvable and containing a conjugate of `SL₂(F_p)` if
 contained in no torus normaliser (Clozel–Thorne 2017, Lemma 7.5, p. 48); and that proper subgroups of
 `PSL₂(F_q)` have index `≥ q + 1` unless `q ∈ {2, 3, 5, 7, 9, 11}`, with least indices
@@ -3172,7 +3254,7 @@ endomorphisms; (f) if `ζ_5 ∉ F`, `G ⊂ GL₂(F_5)`, `det ρ̄ = χ̄_5` and 
 `Δ ⊴ GL₂(F_l)` with `det Δ = F_l^×` is `GL₂(F_l)`; (h) for `p > 2` and `ρ̄|_{G_{F(ζ_p)}}` absolutely
 irreducible, the `G_F`-invariants of the trace-zero endomorphisms of `V`, and of their twist by
 `χ̄_p`, vanish (CN, Lemmas 6.1.4 and 7.1.1, pp. 88–92; ACC+, Lemmas 7.1.6 and 7.1.8, p. 1090; KW (II),
-Lemma 4.3, p. 40). *Needs:* §§4.2–4.6.
+Lemma 4.3). *Needs:* §§4.2–4.6.
 
 **Persistence of large image.** Prove that for `p ≥ 5` and a finite `G ⊂ GL₂(k̄)` containing a
 conjugate of `SL₂(F_{p^a})` with `p^a ≥ 5`, every subgroup of index `< 2p` contains that conjugate
@@ -3198,7 +3280,7 @@ matrices. Prove that a continuous absolutely irreducible `ρ̄ : G_K → GL₂(F
 `K` a number field, has `π(ρ̄(G_K))` conjugate to `PGL₂(F_0) = PSL₂(F_0) ≅ SL₂(F_0)` for such an
 `F_0`; that `H⁰(G_0, Ad) = H⁰(G_0, Ad⁰) = Z`, `H⁰(G_0, Ad/Z) = H⁰(G_0, (Ad⁰)^*) = 0 = H¹(G_0, Ad)`;
 that the `G_0`-submodules of `Ad` are `0, Z, Ad⁰, Ad`; that one-dimensional `F[G_0]`-modules are
-trivial; and that `Ad⁰/Z` is the Frobenius twist of the natural module (KW (II), Lemma 4.3, p. 40).
+trivial; and that `Ad⁰/Z` is the Frobenius twist of the natural module (KW (II), Lemma 4.3).
 *Needs:* Mathlib `groupCohomology`.
 
 ### Examples
@@ -3605,7 +3687,9 @@ with the Galois group of the maximal extension unramified on `U`, and with the �
 group of `U` by normalization of finite unramified extensions. Construct the arithmetic Frobenius
 conjugacy class at `x` by lifting `a ↦ a^{q^{deg x}}` in its residue Galois group. Prove independence
 modulo inertia, conjugacy independence, compatibility in finite quotients and the surjection
-`G_{K_C,U} → G_{K_C,C}` (SGA 1, Exposé XIII, §2; Stacks, tags 03QR and 0BQM).
+`G_{K_C,U} → G_{K_C,C}` (SGA 1, Exposé V, Prop. 8.2, for a connected normal locally noetherian
+scheme: its fundamental group is the Galois group of the compositum of the finite extensions of
+the function field unramified over it; Stacks, tags 03QR and 0BQM).
 *Needs:* AlgebraicCurves Layers 0, 2 and 6 (function fields, valuations and normalization);
 EtaleCohomologyFoundations §F.0.2 `finiteEtaleGaloisCategory` (finite étale covers and
 fundamental groupoids), §F.0.A1 (decomposition and inertia groups of a cover); Mathlib infinite Galois correspondence.
@@ -4149,7 +4233,25 @@ Combine this with §6.4a's full-image detection in `P/Φ(P)`
 finite image `G = Gal(L/K)`, lower groups of orders `g_i` and `g_1 = p^c`,
 `Sw(V) ≤ N e_K (c + 1/(p − 1))` and hence `a(V) ≤ N(1 + e_K c + e_K/(p − 1))`, by Hilbert's formula
 and Hensel's bound for the different; the strict form for non-cyclic `G_1` is not asserted (Serre
-1987, §4.9, Prop. 9 and (4.9.4), pp. 215–216). *Needs:* §§3.1, 3.2.
+1987, §4.9, Prop. 9 and (4.9.4), pp. 215–216). The bound holds for every representation `W` of a
+finite Galois group `G = Gal(L/K)`, faithful or not: inflation from a quotient `G/H` leaves the
+lower Swan sum unchanged (Herbrand's theorem, §3.0, as the Checks of §3.1 recompute), and `G_1`
+maps onto the `G_1` of `G/H`, since inertia maps onto inertia and `G_1` is its `p`-Sylow subgroup,
+so `c` can only grow. The finite-level statement takes `G` finite acting faithfully on the
+complete discrete valuation ring `B = O_L` of characteristic zero with perfect residue field of
+characteristic `p`, and writes `e_K = v_L(p)/|G_0|`, which is `v_K(p)` by `v_L|_K = e v_K` and
+`|G_0| = e` (§3.0). *Needs:* §§3.1, 3.2 (the finite-level conductors); §3.0 (`|G_0| = e`).
+*Lean:* `Conductor.lowerSwanConductor_le`.
+
+**Checks.**
+- For the character of `ℚ_2(√2)/ℚ_2` (`G_0 = G_1 = G_2` of order `2`, `G_3 = 1`), `Sw = 2`,
+  `e_K = 1`, `c = 1`: the bound `1 · 1 · (1 + 1) = 2` is attained, `G_1` being cyclic.
+- For `χ_8` on `Gal(ℚ_2(ζ_8)/ℚ_2)`, `Sw = 2`, `|G_1| = 4` so `c = 2`, and `v_L(2) = 4 = |G_0|`
+  gives `e_K = 1`: the bound is `3`, strict since `G_1 ≅ C_2 × C_2` is not cyclic.
+- In equal characteristic `p` there is no bound in terms of `c`: `y^p − y = t^{−m}` over
+  `F̄_p((t))`, `p ∤ m`, has `c = 1` and `Sw = m` for every such `m`. There `e_K = v_K(p) = ∞`;
+  in `Suggested.lean` the natural-number truncation of `v_L(p) = ∞` is `0`, so the bound would read
+  `m ≤ 0`, and the characteristic-zero hypothesis on `O_L` is what excludes this case.
 
 ### Examples
 
@@ -5389,12 +5491,19 @@ Layers 0, 5–6 or AutomorphicLFunctionsAndLocalFactors AL.1.
 - P. Deligne, J.-P. Serre, *Formes modulaires de poids 1*, Ann. Sci. ENS (4) 7 (1974), 507–530.
 - L. E. Dickson, *Linear Groups with an Exposition of the Galois Field Theory*, Teubner, Leipzig, 1901.
 - L. V. Dieulefait, A. Pacetti, *A simplified proof of Serre's conjecture*, arXiv:2108.07577v2.
+- J. D. Dixon, M. P. F. du Sautoy, A. Mann, D. Segal, *Analytic Pro-p Groups*, 2nd ed., Cambridge
+  Studies in Advanced Mathematics 61, Cambridge University Press, 1999.
 - J. Fresán, C. Sabbah, J.-D. Yu, *Hodge theory of Kloosterman connections*, Duke Math. J. 171 (2022),
   1649–1747; arXiv:1810.06454v5.
+- W. Fulton, J. Harris, *Representation Theory: A First Course*, Graduate Texts in Math. 129,
+  Springer, 1991.
 - W. T. Gan, S. Takeda, *The local Langlands conjecture for `GSp(4)`*, Ann. of Math. 173 (2011),
   1841–1882.
 - T. Gee, J. Newton, *Patching and the completed homology of locally symmetric spaces*, J. Inst. Math.
   Jussieu 21 (2022), 395–458; arXiv:1609.06965v5.
+- A. Grothendieck, M. Raynaud, *Revêtements étales et groupe fondamental (SGA 1)*, Lecture Notes in
+  Math. 224, Springer, 1971; updated edition, Documents Mathématiques 3, Soc. Math. France, 2003;
+  arXiv:math/0206203v2.
 - R. Guralnick, F. Herzig, P. H. Tiep, *Adequate subgroups and indecomposable modules*, J. Eur. Math.
   Soc. 19 (2017); arXiv:1405.0043v3.
 - R. Guralnick, F. Herzig, R. Taylor, J. Thorne, *Adequate subgroups*, appendix to J. Thorne, *On the
@@ -5408,10 +5517,15 @@ Layers 0, 5–6 or AutomorphicLFunctionsAndLocalFactors AL.1.
   Monographs 107, Amer. Math. Soc., 2003, II.2.16, pp. 185–186.
 - C. Khare, J. A. Thorne, *Potential automorphy and the Leopoldt conjecture*, Amer. J. Math. 139 (2017);
   arXiv:1409.7007v2.
-- C. Khare, J.-P. Wintenberger, *Serre's modularity conjecture (I)*, Invent. Math. 178 (2009), 485–504.
-- C. Khare, J.-P. Wintenberger, *Serre's modularity conjecture (II)*, Invent. Math. 178 (2009), 505–586.
+- C. Khare, J.-P. Wintenberger, *Serre's modularity conjecture (I)*, Invent. Math. 178 (2009), 485–504;
+  HAL preprint hal-00138160 (KW (I); locators use the preprint pagination).
+- C. Khare, J.-P. Wintenberger, *Serre's modularity conjecture (II)*, Invent. Math. 178 (2009), 505–586
+  (KW (II); cited by lemma number).
 - M. Kisin, R. Zhou, *Independence of ℓ for Frobenius conjugacy classes attached to abelian varieties*,
   arXiv:2103.09945v2.
+- S. S. Kudla, *Tate's thesis*, in J. Bernstein, S. Gelbart (eds.), An Introduction to the Langlands
+  Program, Birkhäuser, 2003, 109–131.
+- M. Larsen, *Maximality of Galois actions for compatible systems*, Duke Math. J. 80 (1995), 601–630.
 - Q. Liu, *Conducteur et discriminant minimal de courbes de genre 2*, Compositio Math. 94 (1994), 51–79.
 - J. Marzec, M. Neururer, *L-functions and their applications*, 25 February 2020, Chapter 5,
   pp. 55–67, especially Definition 5.11, p. 62.
@@ -5441,9 +5555,13 @@ Layers 0, 5–6 or AutomorphicLFunctionsAndLocalFactors AL.1.
 - K. A. Ribet, *Abelian varieties over `ℚ` and modular forms*, in Algebra and Topology 1992 (KAIST).
 - R. Richard, A. Yafaev, *Generalised André–Pink–Zannier conjecture for Shimura varieties of abelian
   type*, arXiv:2111.11216v4.
+- Z. Rosengarten, *Constructible sheaves, stalks, and cohomology*, notes for the Stanford Weil II
+  seminar. <https://virtualmath1.stanford.edu/~conrad/Weil2seminar/Notes/L3.pdf>
 - J. P. Saha, *Conductors in p-adic families*, arXiv:1512.03004, Definition 2.1 and Lemma 2.3.
 - T. Saito, *Conductor, discriminant, and the Noether formula of arithmetic surfaces*, Duke Math. J. 57
   (1988), 151–173.
+- P. Schneider, *p-adic Lie Groups*, Grundlehren der mathematischen Wissenschaften 344, Springer,
+  2011.
 - J.-P. Serre, *Sur les corps locaux à corps résiduel algébriquement clos*, Bull. Soc. Math. France 89
   (1961), 105–154.
 - J.-P. Serre, *Zeta and L functions*, in Arithmetical Algebraic Geometry (Purdue, 1963), Harper & Row,
@@ -5475,6 +5593,8 @@ Layers 0, 5–6 or AutomorphicLFunctionsAndLocalFactors AL.1.
   (Corvallis), Proc. Sympos. Pure Math. 33, part 2, Amer. Math. Soc., 1979, 3–26.
 - J. Tate, *Local constants*, in A. Fröhlich (ed.), Algebraic Number Fields: L-functions and Galois
   Properties (Durham 1975), Academic Press, 1977, 89–131, prepared with C. J. Bushnell and M. J. Taylor.
+- D. E. Taylor, *The Geometry of the Classical Groups*, Sigma Series in Pure Mathematics 9,
+  Heldermann, Berlin, 1992.
 - J. Thorne, *On the automorphy of ℓ-adic Galois representations with small residual image*, J. Inst.
   Math. Jussieu 11 (2012), 855–920; arXiv:1107.5989v1.
 - J. A. Thorne, *A 2-adic automorphy lifting theorem for unitary groups over CM fields*, Math. Z. 285

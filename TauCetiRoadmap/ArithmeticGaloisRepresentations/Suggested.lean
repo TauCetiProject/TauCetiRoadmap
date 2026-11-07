@@ -1,8 +1,8 @@
 import Mathlib
 import TauCeti.RepresentationTheory.BaseChange
 import TauCeti.RepresentationTheory.SymmetricPower
-import TauCeti.FieldTheory.Galois.AbsoluteGaloisGroup.Cyclotomic.Character
-import TauCeti.NumberTheory.LocalField.Tame.PadicCharacter
+import TauCeti.RingTheory.LocalRing.RamificationGroup
+import TauCeti.NumberTheory.LocalField.Unramified.Inertia.Basic
 import TauCeti.AlgebraicGeometry.EllipticCurve.Affine.Point.Galois
 
 /-!
@@ -13,25 +13,36 @@ These statements suggest Lean forms for headline theorems; discharging them fini
 all the targets of a layer nor the roadmap. Section references are to `README.md`.
 
 The statements cover coefficient-field and integral descent and Brauer–Nesbitt (Layer 1),
-Grothendieck monodromy (Layer 2), odd absolute irreducibility and Dickson's classification
-(Layer 4), Frobenius recognition, the image-algebra descent obstruction and Carayol's lemma (Layer 5), the
-multiplicative residual unramified criterion and finite Frattini detection (Layer 6), and
-projective lifting, the constituent-dimension adequacy bound, tensor adequacy, and enormous
-symmetric-power and general-rank images (Layer 7). Representations use Mathlib's
-`Representation`, with joint continuity imposed explicitly, or continuous matrix homomorphisms.
-The small definitions below use native integral closures, subrepresentations and cohomology.
+Artin–Arf integrality of the Artin and Swan conductors and Serre's wild bound for a
+representation of a finite Galois group (Layers 3 and 6), odd absolute irreducibility and
+Dickson's classification (Layer 4), Frobenius recognition, the image-algebra descent obstruction
+and Carayol's lemma (Layer 5), the multiplicative residual unramified criterion and finite
+Frattini detection (Layer 6), and projective lifting, the constituent-dimension adequacy bound,
+tensor adequacy, and enormous symmetric-power and general-rank images (Layer 7).
+Representations use Mathlib's `Representation`, with joint continuity imposed explicitly, or
+continuous matrix homomorphisms. The small definitions below use native integral closures,
+subrepresentations, cohomology and Tau Ceti's ramification groups of a group acting on a local
+ring.
 
-The full Weil–Deligne adapter and purity require the local Weil group and the normalized
+Grothendieck's monodromy theorem is stated by its owner, SmoothRepresentationsOfLocalGroups SR.5.2
+*wd-complete-coefficients* (`grothendieck_quasiUnipotent_complete`, on Mathlib's
+`Representation` with joint continuity and complete normed coefficients); its specialization in
+§2.4 to Tau Ceti's `TauCeti.ContinuousRep` over a finite extension of `ℚ_ℓ` adds no headline
+here. The full Weil–Deligne adapter and purity require the local Weil group and the normalized
 Weil–Deligne parameter of the named suppliers, which have no Mathlib or Tau Ceti carrier; the
 Gauss-sum character constants and their root-number product formula are definitions and
-finite-sum identities, not headline theorems, and stay in the README. The all-perfect-residue
-conductor, integrality, induction, reduction and wild-bound statements use the absolute upper
-filtration of RamificationOfCompleteDiscretelyValuedFields §4a.1 over complete discretely valued
-fields with perfect residue field, as recorded in §3.0, and the break decomposition of §3.1, and
-the unit-filtration reciprocity declared on ClassFieldTheory as gap:unit-filtration-reciprocity
-gives the character-conductor comparison of §3.2; the absolute upper filtration over a general
-perfect residue field, and hence the Artin
-conductor of a representation, has no Mathlib or Tau Ceti carrier.
+finite-sum identities, not headline theorems, and stay in the README. The conductors of a
+continuous representation of the absolute Galois group whose inertia image may be infinite (an
+`ℓ`-adic representation with nonzero monodromy), with their breaks, the integrality of §3.5 for
+such representations, the induction formula of §3.5 for representations of `G_L` and the
+reduction formulas of §3.6, use the absolute upper filtration of
+RamificationOfCompleteDiscretelyValuedFields §4a.1 over complete discretely valued fields with
+perfect residue field, as recorded in §3.0, and the break decomposition of §3.1; that absolute
+filtration over a general perfect residue field has no Mathlib or Tau Ceti carrier. The
+character-conductor comparison of §3.2 uses the unit-filtration reciprocity declared on
+ClassFieldTheory as gap:unit-filtration-reciprocity, which has no carrier either. A
+representation of a finite Galois group needs only the lower ramification groups, which Tau Ceti
+has for any group acting on a local ring, and its conductors are stated here.
 The general Tate-module, pairing, determinant and coefficient adapters require the geometric
 abelian-scheme torsion and `AbelianTate` fibre; the elliptic Tate module alone does not supply them.
 Function-field recognition requires closed-point Frobenius on the restricted-ramification
@@ -105,27 +116,49 @@ def frobeniusSet {F : Type*} [Field F] [NumberField F]
   {σ | ∃ Q : Ideal (integralClosure (𝓞 F) (AlgebraicClosure F)), Q.IsMaximal ∧
     (∃ v ∈ Pl, Q.under (𝓞 F) = v.asIdeal) ∧ IsArithFrobAtIntegralPrime σ Q}
 
-/-- Grothendieck monodromy (§2.4), expressed on the native tame character without a
-Weil–Deligne stand-in (Deligne 1973, Theorem 8.2). -/
-theorem grothendieck_quasiUnipotent (K : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K]
-    [IsNonarchimedeanLocalField K] (ℓ : ℕ) [Fact ℓ.Prime] (hℓ : ℓ.Coprime (ringChar 𝓀[K]))
-    (T : TauCeti.PadicTateTwist ℓ (AlgebraicClosure K) ≃ₗ[ℤ_[ℓ]] ℤ_[ℓ])
-    {E : Type*} [Field E] [TopologicalSpace E] [Algebra ℚ_[ℓ] E] [FiniteDimensional ℚ_[ℓ] E]
-    [IsModuleTopology ℚ_[ℓ] E]
-    {V : Type*} [AddCommGroup V] [Module E V] [FiniteDimensional E V] [TopologicalSpace V]
-    [IsModuleTopology E V] (ρ : Representation E (Field.absoluteGaloisGroup K) V)
-    (hρ : Continuous fun p : Field.absoluteGaloisGroup K × V => ρ p.1 p.2) :
-    ∃! N : Module.End E V, IsNilpotent N ∧
-      (∀ w, ρ w ∘ₗ N = algebraMap ℚ_[ℓ] E
-        ((TauCeti.localCyclotomicCharacter ℓ K w : ℤ_[ℓ]) : ℚ_[ℓ]) • (N ∘ₗ ρ w)) ∧
-      ∃ J : Subgroup (TauCeti.inertiaSubgroup K), IsOpen (J : Set (TauCeti.inertiaSubgroup K)) ∧
-        ∀ σ ∈ J, ρ (σ : Field.absoluteGaloisGroup K) =
-          ∑ i ∈ Finset.range (Module.finrank E V),
-            ((i.factorial : E)⁻¹ * (algebraMap ℚ_[ℓ] E
-              (T (TauCeti.inertiaPadicTameCharacter K hℓ σ).toAdd : ℚ_[ℓ])) ^ i) • N ^ i := by
+end GaloisRep
+
+/-! ## Layer 3: Artin and Swan conductors -/
+
+namespace Conductor
+
+open TauCeti.IsLocalRing
+
+/-- The Artin conductor of a representation `ρ` of a group `G` acting on a local ring `B`, as the
+lower sum `Σ_{i ≥ 0} (|G_i| / |G_0|) · codim W^{G_i}` over the ramification groups
+`G_i = TauCeti.IsLocalRing.ramificationGroup G B i` (§3.2; Serre 1961, n° 3.7, (28)–(29)).
+For `G = Gal(L/K)` acting on `B = O_L` it is the Artin conductor of a representation of the
+finite Galois group. -/
+def lowerArtinConductor (G B : Type*) [Group G] [CommRing B] [IsLocalRing B]
+    [MulSemiringAction G B] {C W : Type*} [Field C] [AddCommGroup W] [Module C W]
+    (ρ : Representation C G W) : ℚ :=
+  ∑ᶠ i : ℕ, ((Nat.card (ramificationGroup G B i) : ℚ) / Nat.card (ramificationGroup G B 0)) *
+    Module.finrank C (W ⧸ Representation.invariants (ρ.comp (ramificationGroup G B i).subtype))
+
+/-- The Swan conductor of `ρ`, the lower sum `Σ_{i ≥ 1} (|G_i| / |G_0|) · codim W^{G_i}` over the
+wild ramification groups (§3.1; Serre 1987, (4.9.2)). -/
+def lowerSwanConductor (G B : Type*) [Group G] [CommRing B] [IsLocalRing B]
+    [MulSemiringAction G B] {C W : Type*} [Field C] [AddCommGroup W] [Module C W]
+    (ρ : Representation C G W) : ℚ :=
+  ∑ᶠ i : ℕ, ((Nat.card (ramificationGroup G B (i + 1 : ℕ)) : ℚ) /
+      Nat.card (ramificationGroup G B 0)) *
+    Module.finrank C
+      (W ⧸ Representation.invariants (ρ.comp (ramificationGroup G B (i + 1 : ℕ)).subtype))
+
+/-- Artin–Arf integrality (§3.5): for a finite group acting faithfully on a complete discrete
+valuation ring with perfect residue field, that is for `G = Gal(L/K)` acting on `O_L` with `L/K`
+finite Galois in the conductor setting, the Artin and Swan conductors of every
+finite-dimensional representation in characteristic zero are natural numbers (Serre 1961,
+n° 3.7, Thm 2 and Remarque 2°). -/
+theorem lowerConductors_integral {G B : Type*} [Group G] [Finite G] [CommRing B] [IsDomain B]
+    [IsDiscreteValuationRing B] [IsAdicComplete (IsLocalRing.maximalIdeal B) B]
+    [PerfectField (IsLocalRing.ResidueField B)] [MulSemiringAction G B] [FaithfulSMul G B]
+    {C W : Type*} [Field C] [CharZero C] [AddCommGroup W] [Module C W] [FiniteDimensional C W]
+    (ρ : Representation C G W) :
+    (∃ n : ℕ, lowerArtinConductor G B ρ = n) ∧ ∃ n : ℕ, lowerSwanConductor G B ρ = n := by
   sorry
 
-end GaloisRep
+end Conductor
 
 /-! ## Layer 4: residual images and oddness -/
 
@@ -155,8 +188,10 @@ end GaloisRep
 
 namespace GL2Subgroup
 
-/-- Dickson's classification (§4.4), including the trace-ratio field of the standard projective
-image (DDT, Theorem 2.47; KW I, §6). -/
+/-- Dickson's classification (§4.4): the list of projective images is DDT, Theorem 2.47(b) and
+KW (I), §6, p. 9. The field of a standard image is the trace-ratio field: `tr(g)² / det g` is
+unchanged by scalars and conjugation, so it lies in the field of the image, and the squares of
+the traces of `SL₂(F′)` generate `F′`. -/
 theorem dickson_projectiveImage {p : ℕ} [Fact p.Prime] {k : Type*} [Field k] [Finite k]
     [CharP k p] (G : Subgroup (GL (Fin 2) k))
     (hG : Submodule.span (AlgebraicClosure k)
@@ -343,6 +378,27 @@ theorem multiplicative_residual_unramified_iff (K : Type*) [Field K] [ValuativeR
   sorry
 
 end TateModule
+
+namespace Conductor
+
+/-- Serre's wild bound (§6.6): for `G` finite acting faithfully on a complete discrete valuation
+ring `B` of characteristic zero with perfect residue field of characteristic `p`, a
+representation of dimension `N` over a field of characteristic `≠ p` and `|G_1| = p^c`, the
+Swan conductor is at most `N e_K (c + 1/(p − 1))`, where `e_K = v_L(p) / |G_0|` is the absolute
+ramification index of the fixed field (Serre 1987, §4.9, Prop. 9, p. 215). -/
+theorem lowerSwanConductor_le {G B : Type*} [Group G] [Finite G] [CommRing B] [IsDomain B]
+    [IsDiscreteValuationRing B] [IsAdicComplete (IsLocalRing.maximalIdeal B) B] [CharZero B]
+    [PerfectField (IsLocalRing.ResidueField B)] [MulSemiringAction G B] [FaithfulSMul G B]
+    (p : ℕ) [Fact p.Prime] [CharP (IsLocalRing.ResidueField B) p]
+    {C W : Type*} [Field C] [AddCommGroup W] [Module C W] [FiniteDimensional C W]
+    (hC : ringChar C ≠ p) (ρ : Representation C G W) (c : ℕ)
+    (hc : Nat.card (TauCeti.IsLocalRing.ramificationGroup G B 1) = p ^ c) :
+    lowerSwanConductor G B ρ ≤ Module.finrank C W *
+      (((IsDiscreteValuationRing.addVal B (p : B)).toNat : ℚ) /
+        Nat.card (TauCeti.IsLocalRing.ramificationGroup G B 0)) * (c + 1 / ((p : ℚ) - 1)) := by
+  sorry
+
+end Conductor
 
 /-! ## Layer 7: dimension-general arithmetic API -/
 
