@@ -1355,7 +1355,7 @@ The cobar calculation for the first statement runs as follows. Each entry of a n
 
 For the second statement, 2η=0 because π₁S=ℤ/2, so 2η³=(2η)η²=0. At p=2 the stem-one E₂-term is ℤ/2·α₁ in filtration one: (0,1) vanishes by sparseness, (1,2) is ArithmeticKTheory §7.5's ℤ/2·α₁, and s≥2 is excluded by t≥2s. Since η is nonzero in π₁(S_(2))=ℤ/2, strong convergence gives η filtration one, detected by α₁. By the multiplicative law η³ has filtration at least three and its class in E_∞^(3,6) is α₁³≠0. So the image of η³ in π₃(S_(2)) is nonzero, and η³≠0. In ℤ/24 the only element of order two is 12, and 12k≡12 modulo 24 for every unit k of ℤ/24, because k is odd. Hence η³=12ν for every generator ν, and the quotient of ℤ/24 by {0,12} is ℤ/12.
 
-Since 12ν=2·(6ν), the relation also places η³ in 2π₃S. This agrees with the Moore-spectrum divisibility that ArithmeticKTheory §7.5 proves on its way to η⁴=0; that divisibility is not used here.
+Since 12ν=2·(6ν), the relation also places η³ in 2π₃S.
 
 The source locator for the relation is Hatcher, Algebraic Topology, §4.2, pp.384–385, where the 2-primary relation η³=4ν and 2η=0 give η³=12ν in ℤ/24.
 
