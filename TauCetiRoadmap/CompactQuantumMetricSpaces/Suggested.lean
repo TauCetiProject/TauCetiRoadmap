@@ -25,8 +25,9 @@ theorem in sequential form, on sequences of presentations in one universe (Layer
 Not statable at the pins: the metric space of isometry classes of complete closed presentations
 (§5.5), a construction whose completeness is stated here on sequences instead; the
 identification `Φ_θ` (§6.1), which needs the rotation C*-algebra `A_θ`, provided by neither
-pinned library (Tau Ceti has only its smooth subalgebra `TauCeti.SmoothNoncommutativeTorus θ`,
-a star algebra of rapidly decreasing coefficient functions with no norm or completion); and the
+pinned library (the smooth noncommutative torus `TauCeti.SmoothNoncommutativeTorus θ` of
+`TauCeti/NoncommutativeGeometry/SmoothTorus/Basic.lean`, a star algebra of rapidly decreasing
+coefficient functions, carries no norm and no completion); and the
 uniform continuity of the quantum tori `Θ ↦ (A_Θ, L_Θ)` in quantum Gromov–Hausdorff distance
 (§6.5), which needs the twisted group C*-algebra `A_Θ = C*(ℤᵈ, σ_Θ)` (§6.0), of which the
 pinned Tau Ceti has only the finitely supported algebra `TauCeti.twistedMonoidAlgebra`, with no

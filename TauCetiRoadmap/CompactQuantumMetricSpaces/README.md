@@ -33,9 +33,9 @@ closed Lip-norm theorem for ergodic actions, central finite-character approximat
 comparison with derivative seminorms; the order-unit quantum Gromov–Hausdorff distance, its
 admissible Lip-norms and bridges, metric laws, rigidity, completeness and compactness; for
 every `d`, the quantum-torus family `A_Θ = C*(ℤᵈ, σ_Θ)` on the common regular model `ℓ²(ℤᵈ)`
-with its identification theorem, its gauge coefficient maps and gauge-finite Fourier
-polynomials, the continuous-field norm estimates and the uniform metric continuity of quantum
-tori.
+with its identification theorem, the point-norm continuity of its gauge action, its gauge
+coefficient maps and gauge-finite Fourier polynomials, the continuous-field norm estimates and
+the uniform metric continuity of quantum tori.
 
 It does not own, and does not restate:
 
@@ -226,7 +226,9 @@ of Rieffel 2000, Definition 5.1, from which `max(L_E, L_F, N)` is an admissible 
   `TauCeti.wassersteinEDist_one_eq_iSup_of_compactSpace`, with its basepoint-normalized form
   `TauCeti.wassersteinEDist_one_eq_iSup_apply_eq_zero`
   (`TauCeti/MeasureTheory/OptimalTransport/Wasserstein/KantorovichRubinstein.lean`). The compact
-  form assumes probability measures and `OpensMeasurableSpace`; no moment hypothesis.
+  form assumes probability measures and `OpensMeasurableSpace` and no moment hypothesis; the
+  basepoint-normalized form assumes `HasFiniteMoment 1 μ` and `HasFiniteMoment 1 ν` and no
+  compactness, which §3.3's adapter proves on a compact metric space.
 - `TauCeti.IsFactorSet` (a normalized multiplicative `2`-cocycle `α : G → G → kˣ`) and the
   twisted monoid algebra `TauCeti.twistedMonoidAlgebra k G α` with its basis elements
   `TauCeti.TwistedMonoidAlgebra.of`, the multiplication table
@@ -1126,7 +1128,11 @@ smooth vectors) and §8.1 (the smooth Fréchet star algebra).
 
 Give complete examples and their morphisms: translation on `C(G/H)` for a closed subgroup `H`,
 with the quotient metric `d(gH, kH) = inf_{h ∈ H} ℓ(g⁻¹kh)` for conjugation-invariant `ℓ`, and
-the equality of the action seminorm with `classicalLip` for this metric; conjugation on
+the equality of the action seminorm with `classicalLip` for this metric (owned here: conjugation
+invariance of `ℓ` makes `d` well defined and symmetric on cosets and makes every `α_x` an
+isometry of `L`, the latter Rieffel 2000, Example 6.5; the equality is the two inequalities
+`‖α_x f − f‖ ≤ C ℓ(x)` for `C`-Lipschitz `f`, and `|f(kH) − f(gH)| ≤ C ℓ(g⁻¹kh)` from
+`x = gh⁻¹k⁻¹`, which has `x⁻¹gH = kH` and `ℓ(x) = ℓ(g⁻¹kh)`); conjugation on
 `End(V_π)` for an irreducible finite-dimensional unitary `π`, with scalar fixed algebra by
 Schur and hence a noncommutative matrix Lip-norm; and the failure of the scalar kernel for
 reducible `π` and for the trivial action on a non-scalar algebra. Layer 6 supplies the
@@ -1208,7 +1214,9 @@ closed-completion comparison with incomplete finite-domain presentations.
   `ℝ² × ℝ` one has `M(a, 0) = max(|a₁ − a₂|, |a₁|) ≠ L_E(a)` in general, while
   `inf_b M(a, b) = L_E(a)` at `b = a₁`.
 - `N_ε` for `M` an admissible Lip-norm above and `ε → 0` recovers `M` on `dom M`, and `N_ε(v) ≤
-  ε⁻¹‖v‖` shows `M_ε` is finite everywhere on the product.
+  ε⁻¹‖v‖` shows that `N_ε` is finite everywhere, so `M_ε` has exactly the product domain
+  `dom L_E × dom L_F`: for `E = C([0, 1], ℝ)` with the Lipschitz seminorm and `a(t) = √t`,
+  `M_ε(a, b) = ∞` for every `b` and every `ε`.
 
 The coupled-domain example shows why quotient equalities alone do not permit maximum gluing. On the
 real `L²` space of the circle let `T` be the compact injective Fourier multiplier with multipliers
@@ -1476,10 +1484,11 @@ faithful. Route: the range of `Φ` is closed and contains the generators, so `Φ
 
 ### 6.1 Gauge action, trace and the identification Φ_θ
 
-The gauge action of §6.0 is a point-norm continuous action of `Tᵈ` with Haar average
-`∫_(Tᵈ) α_z(a) dz = τ_Θ(a)·1`. Both are HeisenbergImprimitivity §3.1's at `L = ℤᵈ` (its gauge
-action of `L̂` and its gauge average `τ(a)1`; continuity of `z ↦ α_z(a)` comes from the isometry
-of each `α_z` and the continuity of `z ↦ z^pW_p` on the dense span), as are the facts that `τ_Θ`
+Prove, owned here, that the gauge action of §6.0 is point-norm continuous: each `α_z` is
+isometric and `z ↦ z^pW_p` is continuous, so continuity of `z ↦ α_z(a)` passes from the dense
+span of the `W_p` to every `a`. Its Haar average `∫_(Tᵈ) α_z(a) dz = τ_Θ(a)·1` is
+HeisenbergImprimitivity §3.1's gauge average at `L = ℤᵈ` (stated there for positive `a` and
+extended to all `a` by linearity), as are the gauge action of `L̂` itself and the facts that `τ_Θ`
 is a faithful trace, that the Fourier coefficients `τ_Θ(aW_p*)` determine `a`, and that the fixed
 algebra is `ℂ·1` for every `Θ`, including rational and degenerate `Θ` and `Θ = 0`. Construct the
 coefficient maps `E_p(a) = ∫_(Tᵈ) z^(−p) α_z(a) dz` and prove `E_p(a) = τ_Θ(aW_p*)W_p`, from
