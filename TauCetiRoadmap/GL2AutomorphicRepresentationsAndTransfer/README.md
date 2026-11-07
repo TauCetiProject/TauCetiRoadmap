@@ -149,6 +149,17 @@ quotient map provide the spectral periodization and the additive Q/Z carrier.
 `Field.absoluteGaloisGroup` supply the algebraic and arithmetic carriers of the lifting
 milestones; Brauer-character construction and arithmetic lifting are targets here.
 
+`IsArithFrobAt` (`Mathlib.RingTheory.Frobenius`), `Algebra.IsUnramifiedAt`
+(`Mathlib.RingTheory.Unramified.Locus`), `Ideal.LiesOver` (`Mathlib.RingTheory.Ideal.Over`) and
+`UpperHalfPlane.qExpansion` (`Mathlib.NumberTheory.ModularForms.QExpansion`) express the
+arithmetic-Frobenius traces and q-coefficients in `odd_solvable_artin_weight_one` and
+`characteristicTwo_solvable_weight_one`. There `σ : E ≃ₐ[ℚ] E` acts on `𝓞 E` through the
+`MulSemiringAction` instance of `Mathlib.NumberTheory.NumberField.Basic`, and `IsArithFrobAt ℤ σ Q`
+says `σ x ≡ x^p` modulo Q for every x in `𝓞 E`, p being the residue characteristic of Q. At a prime
+Q unramified over ℤ, `AlgHom.IsArithFrobAt.eq_of_isUnramifiedAt` determines the action of such σ
+on `𝓞 E`, hence σ itself, since E is the fraction field of `𝓞 E`; so the traces and determinants
+in those statements do not depend on a choice.
+
 ### From Tau Ceti
 
 At Tau Ceti `2fd255d9`, import the following APIs rather than reproducing them.
@@ -192,6 +203,12 @@ At Tau Ceti `2fd255d9`, import the following APIs rather than reproducing them.
   Mathlib's S-unit group `Set.unit S K` for finite S over a Dedekind domain whose ∅-units are
   finitely generated, and the instance `Set.unit_fg_of_units` gives it from `Monoid.FG Rˣ`, which
   Mathlib registers for `(𝓞 K)ˣ`. Neither computes a rank.
+- `TauCeti.NumberTheory.NumberField.Frobenius`: `NumberField.exists_isArithFrobAt_int_of_liesOver`
+  gives, for a Galois number field E/ℚ and a prime Q of `𝓞 E` lying over a rational prime p, some
+  `σ : E ≃ₐ[ℚ] E` with `IsArithFrobAt ℤ σ Q`. Hence the Frobenius hypotheses of
+  `odd_solvable_artin_weight_one` and `characteristicTwo_solvable_weight_one` can be met at every
+  nonzero prime Q of `𝓞 E`, so their coefficient conditions are not vacuous. The statements
+  themselves use only Mathlib's predicate.
 
 ### From roadmaps
 
@@ -310,9 +327,9 @@ and Euler–Poincaré functions. The finite-place correspondence is
 SmoothRepresentationsOfLocalGroups SR.5.2's rec, transported to the geometric-Frobenius
 convention in R16.0/local-langlands, which owns its conductor and factor comparisons.
 
-From TauCetiRoadmap.PadicLocalLanglandsForGL2Qp: §6.9 supplies
-`DivisionAlgebraTypes.jacquetLanglands`, the `m=1` restriction of
-`DrinfeldComparison.localJacquetLanglands`, for central division algebras of degree d over
+From TauCetiRoadmap.PadicLocalLanglandsForGL2Qp: §6.9 supplies the division-algebra
+Jacquet–Langlands transfer from D× to GL_d(F), defined there as the inverse of its general local
+correspondence restricted to m=1, for central division algebras of degree d over
 nonarchimedean local fields, with characteristic-zero coefficient descent and extension. At d=2,
 consume its bijection between irreducible smooth D× classes and essentially square-integrable
 GL₂(F) classes, directed from D× to GL₂(F), with matching elliptic character sign
@@ -1388,7 +1405,7 @@ R16.2–R16.5; AutomorphicFormsOnReductiveGroups §§7.2–7.3; ModularForms Lay
 
 For a finite extension `F/ℚ_p` and quaternion division algebra D/F on the
 QuadraticFormInvariants Layer 2 carrier `QuaternionAlgebra F a 0 b`, consume
-PadicLocalLanglandsForGL2Qp §6.9's `DivisionAlgebraTypes.jacquetLanglands` at d=2
+PadicLocalLanglandsForGL2Qp §6.9's division-algebra transfer from D× to GL_d(F) at d=2
 with complex coefficients, the `m=1`, `n=2` case of its general local correspondence. Its source and target are the set of isomorphism classes of
 irreducible admissible smooth complex representations of D× and the set of essentially
 square-integrable irreducible admissible smooth complex GL₂(F) classes. Use the supplied

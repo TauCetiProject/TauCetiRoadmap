@@ -2,7 +2,6 @@ module
 
 public import Mathlib
 public import TauCeti.NumberTheory.ModularForms.Newforms.Newform
-public import TauCeti.NumberTheory.NumberField.Frobenius
 public import TauCeti.NumberTheory.NumberField.Global.RayClass.Modulus
 
 /-!
