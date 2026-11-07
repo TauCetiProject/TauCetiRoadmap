@@ -73,16 +73,18 @@ It consumes the following mathematics by its existing ownership:
   of quadratic twists for Weierstrass equations with `a₁ = a₃ = 0` over every finite field of odd
   characteristic, singular equations included. Section 3.17 keeps the finite-enumeration form of
   the count and its comparison with these identities.
-- **TauCetiRoadmap LocalFieldsRamification** (Layers 0–1): complete discretely valued fields,
-  uniformizers, residue fields, ramification indices and residue degrees, Teichmüller
-  representatives. Its Layer 2 supplies surjectivity of the norm on units in unramified
-  extensions, provided by `TauCeti.map_normUnits_unitFiltration` at depth zero in
-  `NumberTheory/LocalField/Norm/Unramified/Basic`; this is an input to the unramified norm comparisons.
-- **TauCetiRoadmap RealAlgebraicGeometry** (Layers 1–4): Sturm–Tarski, signed remainder sequences,
+- **[LocalFieldsRamification](../../Completed/LocalFieldsRamification/README.md)**: the
+  arithmetic of finite extensions of nonarchimedean local fields. The parts used here are
+  already in the pinned Tau Ceti and are consumed by their declaration names (listed under
+  *Exact supplier contracts*, From Tau Ceti): the local-field structure on a finite extension,
+  the ramification index and residue degree with `e·f = [L : K]`, and the zero-preserving
+  Teichmüller lift. Sections 2.20–2.23 apply them over `ℚ_p` and its finite extensions.
+- **[RealAlgebraicGeometry](../../Completed/RealAlgebraicGeometry/README.md)** (Layers 1–4): Sturm–Tarski, signed remainder sequences,
   subresultants, distinct-root counts, root separation and multiplicity-sensitive root matching.
   Layers 0 and 4 add finite rational presentations and rational-box comparison on top of that theory.
-- **TauCetiRoadmap PolynomialGaloisGroups** (Layer 5): degrees of irreducible factors over a finite
-  field are Frobenius orbit sizes. Layer 0 turns this into a checked irreducibility presentation.
+- **[PolynomialGaloisGroups](../../Completed/PolynomialGaloisGroups/README.md)** (Layer 5, “Frobenius
+  specialization”): degrees of irreducible factors over a finite field are Frobenius orbit sizes.
+  Layer 0 turns this into a checked irreducibility presentation.
 - **[NumberFieldArithmetic](../../Completed/NumberFieldArithmetic/README.md)** (Layers 3, 5 and 7): the index–discriminant identity,
   Kummer–Dedekind under its index hypothesis, explicit integral bases, rank-one unit presentations,
   and the global completion decomposition with its local/global invariant comparisons (§§5.3, 5.5).
@@ -263,6 +265,23 @@ carries its own primality, finite-generation, completeness and scalar-tower hypo
 - `TauCeti.unitFiltration_le_range_powMonoidHom_two`
   (`TauCeti.NumberTheory.LocalField.Squares`), with explicit local-field and characteristic
   assumptions: units of depth `2*v_L(2)+1` are squares.
+- Finite extensions of a nonarchimedean local field `K` (Mathlib `IsNonarchimedeanLocalField`,
+  with the instance for `ℚ_[p]` in `Mathlib.NumberTheory.Padics.LocalField`), as implemented
+  for LocalFieldsRamification: `TauCeti.algebraicExtensionValuativeRel` and
+  `TauCeti.algebraicExtension_valuativeExtension`
+  (`TauCeti.NumberTheory.LocalField.AlgebraicExtension.Basic`) put on a finite extension `M`
+  the valuative relation of the spectral norm, extending that of `K`, and
+  `TauCeti.finiteExtension_isNonarchimedeanLocalField`
+  (`TauCeti.NumberTheory.LocalField.FiniteExtension.Basic`) makes `M` a nonarchimedean local
+  field. For local fields `L/K` with `ValuativeExtension K L`, `TauCeti.ramificationIndex`
+  (`TauCeti.NumberTheory.LocalField.RamificationIndex`), `TauCeti.inertiaDegree` and
+  `TauCeti.ramificationIndex_mul_inertiaDegree`
+  (`TauCeti.NumberTheory.LocalField.InertiaDegree`) give `e`, `f` and `e·f = [L : K]`.
+  `TauCeti.normalizedNormedField` (`TauCeti.NumberTheory.LocalField.NormedField`) norms `K` by
+  `‖x‖ = q^(−v_K(x))`, with `q` the order of the residue field.
+  `TauCeti.teichmullerLift` (`TauCeti.NumberTheory.LocalField.Teichmuller`) is the
+  zero-preserving multiplicative section `𝓀[K] →*₀ 𝒪[K]` of reduction, unique by
+  `TauCeti.teichmullerLift_unique`.
 
 - `TauCeti.ModularForm.eq_of_sturm_bound` (equality of two forms on a finite-index subgroup from
   agreement of their coefficients up to the Sturm bound at the actual strict width;
@@ -299,17 +318,9 @@ carries its own primality, finite-generation, completeness and scalar-tower hypo
   `x(P′)·ΨSq_n(x(P)) = Φ_n(x(P))`;
   `TauCeti.AlgebraicGeometry.EllipticCurve.DivisionPolynomial.Descent`).
 
-- `TauCeti.map_normUnits_unitFiltration`
-  (`TauCeti.NumberTheory.LocalField.Norm.Unramified.Basic`), at depth zero for finite
-  unramified extensions, supplies surjectivity of the unit norm.
 - `TauCeti.isOpen_range_powMonoidHom`
   (`TauCeti.NumberTheory.LocalField.PowerSubgroup.Open`) gives openness of nonzero square
   classes in characteristic different from two.
-- `WeierstrassCurve.Affine.range_μ_le_selmerGroupA` and
-  `WeierstrassCurve.Affine.range_μ_le_ker_normM`
-  in `TauCeti.AlgebraicGeometry.EllipticCurve.MordellWeil.SelmerGroupA` and
-  `TauCeti.AlgebraicGeometry.EllipticCurve.MordellWeil.XSubT`, respectively, supply the two
-  inclusions at integral good models with 2 invertible.
 
 ### From TauCetiRoadmap.ModularForms
 
@@ -334,12 +345,6 @@ f(x) = x³ + a₂x² + a₄x + a₆, and W.frobeniusTrace = −Σ_x quadraticCha
 every d ∈ F, the trace of W.quadraticTwistOf 0 (−d/4) as quadraticChar F (d) times
 W.frobeniusTrace, with no ellipticity or d ≠ 0 hypothesis. Section 3.17 applies both to Tau Ceti's
 projective count through its enumeration; the square-root count is not reproved here.
-
-### From TauCetiRoadmap.LocalFieldsRamification
-
-Layer 0 supplies local fields, finite extensions, normalized uniformizers, residue maps and
-ramification/residue degrees; Layer 1 supplies Teichmüller sections. Layer 2 supplies surjectivity
-of the norm on units for finite unramified extensions, with compatible base-field embeddings.
 
 ### From Completed.NumberFieldArithmetic
 
@@ -373,16 +378,16 @@ zero count only after accounting for all poles. Layer 9 supplies abstract locali
 semantics; §4.21a adds arithmetic inequalities that establish equality with a sign-change
 lower count, rather than another abstract localization relation.
 
-### From TauCetiRoadmap.RealAlgebraicGeometry
+### From Completed.RealAlgebraicGeometry
 
 Layers 1–3 supply real closed-field root and sign counts, signed remainder/subresultant
 comparisons and root separation. Layer 4 supplies multiplicity-sensitive matching of complex
 roots in fixed-degree coefficient families. These statements distinguish distinct values from
 roots with multiplicity and require nonzero polynomials where finiteness is used.
 
-### From TauCetiRoadmap.PolynomialGaloisGroups
+### From Completed.PolynomialGaloisGroups
 
-Layer 5, “Factor degrees are Frobenius orbit sizes”, identifies monic irreducible-factor degrees
+Layer 5, “Frobenius specialization”, milestone “Factor degrees are Frobenius orbit sizes”, identifies monic irreducible-factor degrees
 of a squarefree finite-field polynomial with the orbit sizes of x ↦ x^q on its roots.
 
 ### From TauCetiRoadmap.NewtonPolygons
@@ -599,7 +604,7 @@ of a Bézout identity, expressed intrinsically in F[X].
 
 The acceptance theorem `rabin_iff_irreducible` states both directions.
 
-Rabin's criterion: a monic f of degree n ≥ 1 is irreducible exactly when f divides X^(q^n) − X and gcd(X^(q^(n/s)) − X, f) = 1 for every prime s dividing n. For soundness, X^(q^n) − X is the product of the monic irreducibles whose degree divides n, each once; so f is squarefree and each irreducible factor has degree d dividing n. The Bézout identities show that no factor divides X^(q^(n/s)) − X, so d does not divide n/s for any prime s dividing n, which forces d = n and a single factor. For completeness, an irreducible f of degree n divides X^(q^n) − X and is coprime to X^(q^(n/s)) − X, and Bézout identities exist in the Euclidean domain F[X]. ([Shoup](#source-shoup), Exercise 20.2(a), printed p.524; Theorem 19.10, p.513; Algorithm IPT and Theorem 20.1, §20.1, p.523.) *Needs:* Mathlib `Irreducible.natDegree_dvd_iff_dvd_X_pow_card_pow_sub_X`; Mathlib `Polynomial.Monic.irreducible_iff_natDegree`; TauCetiRoadmap PolynomialGaloisGroups Layer 5.
+Rabin's criterion: a monic f of degree n ≥ 1 is irreducible exactly when f divides X^(q^n) − X and gcd(X^(q^(n/s)) − X, f) = 1 for every prime s dividing n. For soundness, X^(q^n) − X is the product of the monic irreducibles whose degree divides n, each once; so f is squarefree and each irreducible factor has degree d dividing n. The Bézout identities show that no factor divides X^(q^(n/s)) − X, so d does not divide n/s for any prime s dividing n, which forces d = n and a single factor. For completeness, an irreducible f of degree n divides X^(q^n) − X and is coprime to X^(q^(n/s)) − X, and Bézout identities exist in the Euclidean domain F[X]. ([Shoup](#source-shoup), Exercise 20.2(a), printed p.524; Theorem 19.10, p.513; Algorithm IPT and Theorem 20.1, §20.1, p.523.) *Needs:* Mathlib `Irreducible.natDegree_dvd_iff_dvd_X_pow_card_pow_sub_X`; Mathlib `Polynomial.Monic.irreducible_iff_natDegree`; Completed PolynomialGaloisGroups Layer 5.
 
 **Checks.**
 
@@ -657,7 +662,7 @@ The divisibilities say that b is a root of f modulo g and c a root of g modulo f
 
 ### Dependencies
 
-EffectiveDiophantineMethods §§0.1–0.3; Mathlib (integers, rationals, lists, `NonemptyInterval`, `algebraicClosure`, `Polynomial`, `AdjoinRoot`, finite fields, `padicValRat`, `PadicInt.toZModPow`); TauCetiRoadmap RealAlgebraicGeometry Layers 1–4; TauCetiRoadmap PolynomialGaloisGroups Layer 5.
+EffectiveDiophantineMethods §§0.1–0.3; Mathlib (integers, rationals, lists, `NonemptyInterval`, `algebraicClosure`, `Polynomial`, `AdjoinRoot`, finite fields, `padicValRat`, `PadicInt.toZModPow`); Completed RealAlgebraicGeometry Layers 1–4; Completed PolynomialGaloisGroups Layer 5.
 
 ## Layer 1: primality and factorization presentations
 
@@ -1346,31 +1351,32 @@ pp.14–15; GMN line 684). *Needs:* factorization by φ-Newton sides and the res
 
 ### 2.20 Ore residual irreducibility criterion (`ore_residual_irreducible`)
 
-Let p be prime, φ and f monic in ℤ[X], deg φ>0, and φ mod p irreducible. Suppose f mod p=(φ mod p)^n, n>0, and the whole φ-polygon is the finite side from (0,hd) to (ed,0), with n=ed and coprime positive h,e. If its residual polynomial is irreducible over F_φ, then f is irreducible over ℚ_p. For a root θ the resulting local extension has ramification index e and residue degree deg(φ)·deg(R); these intrinsic invariants and their normalization are supplied by LocalFieldsRamification.
+Let p be prime, φ and f monic in ℤ[X], deg φ>0, and φ mod p irreducible. Suppose f mod p=(φ mod p)^n, n>0, and the whole φ-polygon is the finite side from (0,hd) to (ed,0), with n=ed and coprime positive h,e. If its residual polynomial is irreducible over F_φ, then f is irreducible over ℚ_p. For a root θ the resulting local extension ℚ_p(θ)/ℚ_p has ramification index e and residue degree deg(φ)·deg(R); these are Tau Ceti's `TauCeti.ramificationIndex` and `TauCeti.inertiaDegree` for the local-field structure that `TauCeti.finiteExtension_isNonarchimedeanLocalField` puts on ℚ_p(θ).
 
-Use the product theorem for φ-polygons and residual polynomials, the polygon factorization theorem and residual factorization theorem. An irreducible residual factor of exponent one admits only one irreducible local factor. The native local degree formula then gives the ramification and residue degrees. ([GMN](#source-gmn), Theorem 1.19 and Corollary 1.20, pp.14–15.) *Needs:* `phiResidualPolynomial` (2.19); the φ-polygon product identity, the residual product identity, factorization by φ-Newton sides, factorization by residual factors (2.19a); TauCetiRoadmap LocalFieldsRamification Layer 0; `henselLift` (1.26).
+Use the product theorem for φ-polygons and residual polynomials, the polygon factorization theorem and residual factorization theorem. An irreducible residual factor of exponent one admits only one irreducible local factor. The native local degree formula then gives the ramification and residue degrees. ([GMN](#source-gmn), Theorem 1.19 and Corollary 1.20, pp.14–15.) *Needs:* `phiResidualPolynomial` (2.19); the φ-polygon product identity, the residual product identity, factorization by φ-Newton sides, factorization by residual factors (2.19a); Tau Ceti `TauCeti.finiteExtension_isNonarchimedeanLocalField`, `TauCeti.algebraicExtension_valuativeExtension`, `TauCeti.ramificationIndex`, `TauCeti.inertiaDegree` and `TauCeti.ramificationIndex_mul_inertiaDegree`; `henselLift` (1.26).
 
 ### 2.21 Finite local expansion presentation
 
-For a normed field L, chosen nonzero element π with ‖π‖<1, element x and digit count N, a finite local expansion stores an integer initial exponent v, digits d₀,…,dₙ₋₁ of norm at most one, and a proved remainder bound ‖x−π^vΣd_iπ^i‖≤‖π‖^(v+N). For local digit extraction, π is a uniformizer and the local field and reduction map are those of TauCetiRoadmap LocalFieldsRamification Layer 0; the presentation itself records only the norm conditions. A chosen residue section is a separate input; canonical Teichmüller representatives belong to TauCetiRoadmap LocalFieldsRamification Layer 1. Without a fixed residue section these finite digits are not canonical; equality of decoded approximations is not asserted to imply equality of digits.
+For a normed field L, chosen nonzero element π with ‖π‖<1, element x and digit count N, a finite local expansion stores an integer initial exponent v, digits d₀,…,dₙ₋₁ of norm at most one, and a proved remainder bound ‖x−π^vΣd_iπ^i‖≤‖π‖^(v+N). For local digit extraction, L is a nonarchimedean local field (Mathlib `IsNonarchimedeanLocalField`) normed by Tau Ceti's `TauCeti.normalizedNormedField`, π is a uniformizer and reduction is the residue map 𝒪[L] → 𝓀[L]; replacing the norm by a positive power changes neither the digit bounds nor the remainder inequality; the presentation itself records only the norm conditions. A chosen residue section is a separate input; the canonical one is Tau Ceti's zero-preserving Teichmüller lift `TauCeti.teichmullerLift`. Without a fixed residue section these finite digits are not canonical; equality of decoded approximations is not asserted to imply equality of digits.
 
 - The exact finite centre is π^v times the digit polynomial.
 - The supplied exact x lies in the exact local ball.
 - Every exact digit has norm at most one.
 
-Store exact native field elements and the norm inequality. A choice of residue section is additional data for any digit normalization; the record itself asserts precisely the displayed finite error inequality. Layer 0 supplies field and valuation structure, not an expansion theorem. Preserve the chosen prime, embedding and uniformizer normalization in comparisons. ([CarusoPublished](#source-carusopublished), §2.1.1, pp.17–19.) *Needs:* TauCetiRoadmap LocalFieldsRamification Layer 0; EffectiveDiophantineMethods §0.1; prime-ideal decomposition (2.9).
+Store exact native field elements and the norm inequality. A choice of residue section is additional data for any digit normalization; the record itself asserts precisely the displayed finite error inequality. The local-field carriers supply field and valuation structure, not an expansion theorem. Preserve the chosen prime, embedding and uniformizer normalization in comparisons. ([CarusoPublished](#source-carusopublished), §2.1.1, pp.17–19.) *Needs:* Mathlib `IsNonarchimedeanLocalField` and its residue map, and Tau Ceti `TauCeti.normalizedNormedField`, for local digit extraction; EffectiveDiophantineMethods §0.1; prime-ideal decomposition (2.9).
 
 **Checks.**
 
 - *Degenerate case.* Zero has a presentation with zero digits at every finite length.
 - *Computed value.* π⁻¹ has a length-one exact expansion with initial exponent −1 and digit 1.
 - *Non-example.* A precision-one zero centre at v=0 cannot represent 1 when ‖π‖<1.
+- *Norm normalization.* In ℚ_2(√2) with π=√2, ‖π‖ is 1/2 for `TauCeti.normalizedNormedField` and 2^(−1/2) for the spectral norm extending |·|_2. For x=1+π with v=0 and N=2, the digits (1,1) leave remainder 0, while the digits (1,0) leave remainder ‖π‖, which exceeds ‖π‖² in both norms; validity of a presentation does not depend on the choice.
 
 ### 2.22 Squares of units in a finite extension of ℚ_p (`isSquare_iff_isSquare_mod`)
 
 Let L be a characteristic-zero nonarchimedean local field, O_L its native valuation ring and π an irreducible element of O_L (a uniformizer). In particular this includes every finite extension of ℚ_p. A unit u ∈ O_L^× is a square in L exactly when u ≡ w² (mod 4π O_L) for some w ∈ O_L. Consequently the square class of a nonzero element of L is decided by the parity of its valuation and a finite computation in O_L/4πO_L. For odd p the condition says that the residue of u is a square in the residue field; for L = ℚ_2 it says u ≡ 1 (mod 8).
 
-If u ≡ w² modulo 4π then w is a unit, and the polynomial X² − u satisfies |w² − u| ≤ |4π| < |2w|², so Newton's lemma gives a root of X² − u near w. The converse is immediate. For odd p, 4π generates the maximal ideal; for L = ℚ_2, 4π = 8 and the unit squares modulo 8 are 1. ([MilneANT](#source-milneant), Theorem 7.32 (Newton's lemma), printed p.120.) *Needs:* TauCetiRoadmap LocalFieldsRamification Layer 0; Tau Ceti `TauCeti.unitFiltration_le_range_powMonoidHom_two` in `TauCeti.NumberTheory.LocalField.Squares`.
+If u ≡ w² modulo 4π then w is a unit, and the polynomial X² − u satisfies |w² − u| ≤ |4π| < |2w|², so Newton's lemma gives a root of X² − u near w. The converse is immediate. For odd p, 4π generates the maximal ideal; for L = ℚ_2, 4π = 8 and the unit squares modulo 8 are 1. ([MilneANT](#source-milneant), Theorem 7.32 (Newton's lemma), printed p.120.) *Needs:* Mathlib `IsNonarchimedeanLocalField` and its instance for `ℚ_[p]`; Tau Ceti `TauCeti.finiteExtension_isNonarchimedeanLocalField`, for the finite extensions of ℚ_p; Tau Ceti `TauCeti.unitFiltration_le_range_powMonoidHom_two` in `TauCeti.NumberTheory.LocalField.Squares`.
 
 For a characteristic-zero nonarchimedean local field L, irreducible π∈O_L with π²=2,
 and u∈O_Lˣ with u=3+2π in L, prove that u is a square
@@ -1392,7 +1398,7 @@ Let f ∈ ℚ[X] be monic irreducible, K = ℚ[X]/(f) and p a prime. The number 
 K ⊗_ℚ ℚ_p is the product of the completions K_P over the primes P above p, and [K_P : ℚ_p] = e(P|p)·f(P|p). A root of f in ℚ_p is a ℚ-algebra map K → ℚ_p, equivalently a factor K_P of degree one. Distinct roots give distinct factors because f is separable. ([MilneANT](#source-milneant), Proposition 8.2 and its proof, printed p.136.) *Needs:* prime-ideal decomposition (2.9); existence of rational factor presentations (1.28);
 NumberFieldArithmetic §§5.3, 5.5 (`semilocalEquiv`, `completionFactorsEquivPlaces`,
 `factorFieldEquivCompletion`, and both local/global invariant comparisons);
-TauCetiRoadmap LocalFieldsRamification Layer 0.
+Tau Ceti `TauCeti.ramificationIndex_mul_inertiaDegree`, for `[K_P : ℚ_p] = e(P|p)·f(P|p)`.
 
 ### Examples
 
@@ -1404,7 +1410,7 @@ TauCetiRoadmap LocalFieldsRamification Layer 0.
 
 ### Dependencies
 
-Layers 0–1; EffectiveDiophantineMethods §0.1; NewtonPolygons §§0.1, 0.3, 3.2; ClassicalArithmeticCompletion §§3.25, 3.27 and 3.48; Completed NumberFieldArithmetic Layers 3, 5 and 7; TauCetiRoadmap LocalFieldsRamification Layers 0–1; Mathlib (number fields, `Ideal.radical`, Frobenius); Tau Ceti `TauCeti.kernelBasis`.
+Layers 0–1; EffectiveDiophantineMethods §0.1; NewtonPolygons §§0.1, 0.3, 3.2; ClassicalArithmeticCompletion §§3.25, 3.27 and 3.48; Completed NumberFieldArithmetic Layers 3, 5 and 7; Mathlib (number fields, `Ideal.radical`, Frobenius, `IsNonarchimedeanLocalField`); Tau Ceti `TauCeti.kernelBasis` and the local-field declarations of *From Tau Ceti* (finite extensions, `e` and `f`, the Teichmüller lift, unit squares).
 
 ## Layer 3: exact modular and elliptic arithmetic data
 
@@ -1899,7 +1905,7 @@ the division-polynomial comparison of §3.24 identifies the exact divisibility c
 
 ### Dependencies
 
-Layers 0–2; EffectiveDiophantineMethods §§3.2–3.4, 3.17–3.18; TauCetiRoadmap LocalFieldsRamification Layer 2; TauCetiRoadmap ModularForms Layers 7–11; AlgebraicModularFormsAndSerreWeights R15.1–R15.3, R15.5; TauCetiRoadmap EllipticCurves Layers 4 and 6; EllipticLegendreCharacterInterfaces §§5.1–5.2; HeightsRationalPointsAndObstructions §1.17; Mathlib (level-one modular forms, `quadraticChar`, division polynomials); Tau Ceti (Sturm bound, Hecke recurrence, point count, `x − T` descent, division-polynomial identity).
+Layers 0–2; EffectiveDiophantineMethods §§3.2–3.4, 3.17–3.18; TauCetiRoadmap ModularForms Layers 7–11; AlgebraicModularFormsAndSerreWeights R15.1–R15.3, R15.5; TauCetiRoadmap EllipticCurves Layers 4 and 6; EllipticLegendreCharacterInterfaces §§5.1–5.2; HeightsRationalPointsAndObstructions §1.17; Mathlib (level-one modular forms, `quadraticChar`, division polynomials); Tau Ceti (Sturm bound, Hecke recurrence, point count, `x − T` descent, division-polynomial identity).
 
 ## Layer 4: quantitative analytic bounds and finite Gram data
 
@@ -2660,7 +2666,7 @@ Sum each constant block contribution and the diagonal terms separately. Each dia
 
 ### Dependencies
 
-Layers 0–3; EffectiveDiophantineMethods §§0.1, 0.9, 1.7–1.8; IntegralLattices Layer 2, milestone 2A; Mathlib (`NonemptyInterval`, digamma, `DirichletCharacter.LFunction`, `ModularForm.L`, `WeakFEPair`, `Matrix.PosDef`); TauCetiRoadmap RealAlgebraicGeometry Layers 1–4; ContourIntegration Layer 3; ZerosOfLFunctions §§4.1, 4.3–4.4, 4.9, 7.1–7.2a and Layer 9.
+Layers 0–3; EffectiveDiophantineMethods §§0.1, 0.9, 1.7–1.8; IntegralLattices Layer 2, milestone 2A; Mathlib (`NonemptyInterval`, digamma, `DirichletCharacter.LFunction`, `ModularForm.L`, `WeakFEPair`, `Matrix.PosDef`); Completed RealAlgebraicGeometry Layers 1–4; ContourIntegration Layer 3; ZerosOfLFunctions §§4.1, 4.3–4.4, 4.9, 7.1–7.2a and Layer 9.
 
 ## Layer 5: interpretation of finite arithmetic families
 
