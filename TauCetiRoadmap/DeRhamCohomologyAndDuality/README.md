@@ -65,8 +65,15 @@ Adjacent roadmaps with a different object: TangentialBordism §2.1 proves parame
 to a closed embedded submanifold with a dense set of good parameters, and relative Whitney
 approximation into a manifold; Layer 5 here is transversality of a family to an arbitrary smooth
 map `j : N → V` into a vector space, with a Haar-null exceptional set, and §2.5 here prescribes
-boundary collar data for fillings into a vector space. ComplexKahlerGeometry K6.1 consumes §2.4,
-Layer 3 and §4.1.
+boundary collar data for fillings into a vector space.
+
+The relative smooth chain comparison (§2.4), the relative form complex of an open pair, relative
+integration and the relative de Rham isomorphism (§§3.1–3.3), and the compact-support integration
+formula (§4.1) have a single owner, this roadmap. §§2.4 and 3.1–3.3 hold over every real model
+with corners, which §4.2 needs for compact manifolds with boundary, and §4.1 carries the
+interior-embedding formula that §4.2 uses. The open-pair comparison and compact-support formula
+that ComplexKahlerGeometry K6.1 uses for analytic cycles are their boundaryless instances,
+consumed from §§2.4, 3.1–3.3 and 4.1 (*Downstream consumers*).
 
 DifferentialGeometry 8.3 states, and owns, the absolute smoothing equivalence for every Hausdorff
 σ-compact finite-dimensional manifold over any real model with corners; §§2.4 and 3.3 import it as
@@ -173,7 +180,8 @@ addition:
 - Stages 2–3: relative singular chains, excision, the five-lemma comparisons.
 - Stage 6.1: the evaluation pairing and relative cochains.
 - Stage 6.3: the homological orientation system, chart-normalized point generators, the chosen
-  local section, `RelativeTwistedClassDatum`, the compact-support class factory, the integral
+  local section, `RelativeTwistedClassDatum`, the compact-support class factory with its
+  support-enlargement law along `(N, N ∖ K′) → (N, N ∖ K)` for compact `K ⊆ K′`, the integral
   fundamental class of a compact oriented manifold and the oriented relative class of a compact
   manifold with boundary.
 
@@ -481,7 +489,7 @@ Prove that relative integration induces an isomorphism `H^q(X, W) ≅ H^q(X, W; 
 Tau Ceti's relative singular cohomology, from DifferentialGeometry 8.5 on `X` and on `W`, §2.4's
 relative comparison and the five lemma, compatible with both long exact sequences including the
 sign of `δ`; compatible with enlargement of `W` and with compactly supported relative classes.
-*Needs:* §§3.1–3.2; DifferentialGeometry 8.5; Tau Ceti's long exact sequence of a pair.
+*Needs:* §§3.1–3.2, §2.4; DifferentialGeometry 8.5; Tau Ceti's long exact sequence of a pair.
 
 **Checks.**
 
@@ -508,9 +516,18 @@ On Hausdorff σ-compact finite-dimensional boundaryless manifolds `N` over any r
 - for compact oriented `N` and every smooth top form `η`, `∫_N η = ⟨deRhamHom [η], [N]_ℝ⟩`, where
   `[N]_ℝ` is the real image of AlgebraicTopology 6.3's integral fundamental class built from its
   local tangent-orientation generators;
-- for noncompact `N`, compactly supported top forms evaluated on AlgebraicTopology 6.3's
-  compact-support classes in `H_n(N, N ∖ K; ℤ)`, with its `RelativeTwistedClassDatum` and
-  compact-support class factory, fed by the tangent-orientation local section.
+- for oriented `N`, compact or not, every compact `K ⊆ N` and every smooth top form `η` vanishing
+  outside `K`, `∫_N η = ⟨ℐ_K[η], [N]_K⟩`, where `ℐ_K[η] ∈ H^n(N, N ∖ K; ℝ)` is §3.2's relative
+  integration class of the relative cocycle `(η, 0)` of the open pair `(N, N ∖ K)` and `[N]_K` is
+  the real image of AlgebraicTopology 6.3's compact-support class in `H_n(N, N ∖ K; ℤ)`, with its
+  `RelativeTwistedClassDatum` and compact-support class factory, fed by the tangent-orientation
+  local section; for compact `N` and `K = N` this is the first bullet, since `ℐ_N[η]` is
+  `deRhamHom [η]` at `W = ∅` (§3.3) and AlgebraicTopology 6.3 characterizes both classes by the
+  same local images;
+- the value does not depend on `K`: for compact `K ⊆ K′`, the map of pairs
+  `(N, N ∖ K′) → (N, N ∖ K)` carries `[N]_K′` to `[N]_K` (AlgebraicTopology 6.3's
+  support-enlargement law) and pulls `ℐ_K[η]` back to `ℐ_K′[η]` (§3.2's naturality for smooth maps
+  of open pairs).
 
 No second class carrier, orientation local system or class factory is built; this roadmap owns the
 conversions between existing carriers: the constant-system and real-coefficient comparison maps,
@@ -534,8 +551,12 @@ AlgebraicTopology's classes is this roadmap's. *Needs:* Layer 3; DifferentialGeo
   orientation negates both sides.
 - Two points with orientations `+` and `−`: `∫ f = f(a) − f(b)`; a convention ignoring point
   orientations gives `f(a) + f(b)`.
-- `ℝ` with `ψ dx`, `ψ` supported in `K = [−1, 1]`, `∫ψ = 1`: the pairing with the compact-support
-  class of `K` is `1`, and enlarging `K` does not change it.
+- `ℝ` with `ψ dx`, `ψ` supported in `K = [−1, 1]`, `∫ψ = 1`: `[ℝ]_K` is represented by the smooth
+  simplex `t ↦ 4t − 2`, whose boundary `[2] − [−2]` lies in `ℝ ∖ K`, and the pairing is
+  `∫_{−2}^{2} ψ dx − 0 = 1`; for `K′ = [−3, 3]` the simplex `t ↦ 8t − 4` gives `1` again. The
+  simplex `t ↦ 2t − 1` is no relative cycle (its endpoints `±1` lie in `K`). `ℐ_K[η]` is nonzero
+  although its absolute image `deRhamHom [η]` is `0` (as `H¹(ℝ; ℝ) = 0`), so a formula read on
+  absolute classes would give `0`.
 
 ### 4.2 Smooth-boundary compatibility
 
@@ -671,11 +692,15 @@ parabola family `x² + p` has the single bad parameter `0`.
 
 ## Downstream consumers
 
-- ComplexKahlerGeometry K6.1 (analytic cycles) consumes the open-pair cone and relative class of
-  §§3.1–3.2, the relative chain comparison of §2.4 and the compactly supported relative integration
-  formula of §4.1, which it names as DifferentialGeometry 8.4's, 8.3's and 9.3's;
-  DifferentialGeometry 8.3, 8.4 and 9.3 plan the absolute theory only, and these targets are
-  §§2.4, 3.1–3.2 and 4.1 here. Its K5a owns the complex-coefficient de Rham comparison and the
+- ComplexKahlerGeometry K6.1 (analytic cycles) consumes the boundaryless instances of §§2.4,
+  3.1–3.3 and 4.1: the relative form complex of an open pair, its integration map to relative
+  singular cohomology and the relative de Rham isomorphism, with naturality for smooth maps of open
+  pairs, enlargement of `W` and the absolute image of `(α, 0)` (§§3.1–3.3); the relative
+  smooth/continuous chain comparison (§2.4); and the compact-support integration formula with its
+  compact absolute case, dimension-zero sign, independence of `K` and open embeddings (§4.1). K6.1
+  names these as DifferentialGeometry 8.4's, 8.3's and 9.3's; DifferentialGeometry 8.3, 8.4 and 9.3
+  plan the absolute theory only. Citations of these targets as DR.3.8 and DR.4.4 refer to
+  §§3.1–3.3 and §4.1 here. Its K5a owns the complex-coefficient de Rham comparison and the
   punctured-plane computation `H¹_dR(ℂ ∖ {0}; ℂ) ≅ ℂ` for smooth forms.
 
 ## Prior work
