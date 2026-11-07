@@ -32,8 +32,12 @@ Headline theorems of the README that are not statable at the pins, and the carri
   ℤ/2-graded Hilbert modules, no interior tensor product of Hilbert modules and no Kasparov cycles.
 * K7: the Green–Julg and Connes–Thom theorems, the Pimsner–Voiculescu sequences, the K-groups of
   free-group, rotation and Cuntz algebras, and the simplicity criterion for twisted group
-  algebras. Mathlib has no crossed product of a C*-algebra by a group, no group C*-algebra, twisted
-  or not, and no universal C*-algebra on generators and relations.
+  algebras. Tau Ceti has the full crossed product `TauCeti.CStarAction.FullCrossedProduct` and the
+  algebraic twisted group algebra `TauCeti.twistedMonoidAlgebra`. The K-theoretic statements need
+  K₀, K₁ and KK of crossed products, missing as recorded under K1–K2 and K5–K6. Neither library
+  has the reduced crossed product, the C*-completion of a twisted group algebra in its regular
+  representation on `ℓ²`, which the simplicity criterion is about, or universal C*-algebras on
+  generators and relations such as the Cuntz algebras.
 * K8: the UCT and Künneth sequences and the bootstrap class, which need KK-groups and
   KK-equivalence.
 * K9: the asymptotic homotopy category, E-theory and its universal property, and the comparison

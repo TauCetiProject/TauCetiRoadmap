@@ -154,10 +154,27 @@ their chosen orientation; no unnamed isomorphism with ℤ determines a generator
   quasi-inverses give left and right quasi-inverses of T, and these agree modulo finite rank.
 - `Continuous.isLocallyConstant_index` and `Path.index_eq`
   (`TauCeti/Analysis/Fredholm/ContinuousFamily.lean`): homotopy invariance of the index.
+- `Matrix.fromBlocks_one_sub_mul_self_of_mul_eq` and
+  `Matrix.fromBlocks_one_sub_mul_fromBlocks_mul_fromBlocks_one_sub_of_mul_eq`
+  (`TauCeti/Data/Matrix/Block.lean`): for rectangular matrices a, b over a ring with `ab=e`,
+  `ba=f` and `be=b`, the block matrix `[[1−e, a], [b, 1−f]]` conjugates `e⊕0` to `0⊕f`, and it
+  is an involution when also `ea=a`. K1.1 applies them with a=v*, b=v.
+- `TauCeti.IsFactorSet`, `TauCeti.twistedTranslation`, `TauCeti.twistedMonoidAlgebra`,
+  `TauCeti.TwistedMonoidAlgebra.lift` and `TauCeti.TwistedMonoidAlgebra.algHom_ext`
+  (`TauCeti/Algebra/MonoidAlgebra/Twisted/Basic.lean`): a normalized factor set `α : G → G → kˣ`
+  on a monoid, with `α(gh,j)α(g,h)=α(h,j)α(g,hj)` and `α(1,g)=α(g,1)=1`; the twisted translation
+  on `G →₀ k` sending the basis vector at h to `α(g,h)` times the basis vector at gh; the
+  algebraic twisted monoid algebra, the span of these translations; and its universal property
+  for families u with `u(1)=1` and `u(g)u(h)=α(g,h)u(gh)`, with uniqueness. K7.5 uses them over
+  ℂ on `Multiplicative L` for L=ℤ^d; the C*-completion is constructed there.
+- `TauCeti.SmoothNoncommutativeTorus.twist`
+  (`TauCeti/NoncommutativeGeometry/SmoothTorus/Basic.lean`): the phase `(y,z)↦exp(2πiθ y₂z₁)` of
+  the smooth noncommutative torus. K7.5's rotation cocycle is this phase; the smooth algebra itself
+  stays with NoncommutativeGeometry.
 
 ### From TauCetiRoadmap.CStarAlgebras
 
-- *CStarAlgebras C1–C2.* Ideals, quotients and functional calculus; in particular C1.4's
+- *CStarAlgebras C1.* Ideals, quotients and functional calculus in ideals; in particular C1.4's
   quasicentral approximate units, C1.6's Calkin algebra `B(H)/K(H)`, simple for separable
   infinite-dimensional H and zero for finite-dimensional H, and C1.7's multiplier algebras with
   their strict topology.
@@ -259,8 +276,10 @@ lacks.
 ### 1.1 Matrix calculus and projection equivalence
 
 *Needs:* Mathlib `CStarMatrix`, `IsStarProjection`, `unitary`, `Unitization` and
-`Unitary.joined`; Tau Ceti `TauCeti.IsPartialIsometry`; CStarAlgebras C1–C2 functional calculus
-and C9.2 conjugacy of nearby projections.
+`Unitary.joined`; Tau Ceti `TauCeti.IsPartialIsometry`,
+`Matrix.fromBlocks_one_sub_mul_self_of_mul_eq` and
+`Matrix.fromBlocks_one_sub_mul_fromBlocks_mul_fromBlocks_one_sub_of_mul_eq`; CStarAlgebras C1
+functional calculus and C9.2 conjugacy of nearby projections.
 
 Develop finite matrix amplification, corner inclusions and block sums with their norm and star
 identities, arbitrary finite reindexing, associativity and permutation conjugacies. Define
@@ -279,7 +298,12 @@ Definition 4.6.1 and Propositions 4.6.2–4.6.6).
   `‖u−1‖<2`, so Mathlib `Unitary.joined` gives a path from 1 to u.
 - A norm-continuous path of projections gives equivalence of its endpoints; after matrix
   stabilization, equivalent projections are joined by a path of projections. Supply the actual
-  rotation paths and perturbation formulae used in these implications.
+  rotation paths and perturbation formulae used in these implications. For the stabilized
+  conjugacy, if `v*v=p` and `vv*=q` then `vv*v=v`, and Tau Ceti's
+  `Matrix.fromBlocks_one_sub_mul_fromBlocks_mul_fromBlocks_one_sub_of_mul_eq` and
+  `Matrix.fromBlocks_one_sub_mul_self_of_mul_eq`, with a=v* and b=v, show that the self-adjoint
+  unitary `w=[[1−p, v*], [v, 1−q]]` conjugates `p⊕0` to `0⊕q`; since `w=1−2r=exp(iπr)` for the
+  projection `r=(1−w)/2`, the path `t↦exp(iπtr)` joins 1 to w.
 
 **Checks.**
 - For `p=diag(1,0)` and q the projection onto the line at angle φ, 0<φ<π/2, in M₂(ℂ):
@@ -289,6 +313,9 @@ Definition 4.6.1 and Propositions 4.6.2–4.6.6).
   Murray–von Neumann equivalent, yet no unitary conjugates them (`u1u*=1`), and `‖1−(1−e₀₀)‖=1`
   lies outside the nearby-projection estimate. A definition of equivalence as unitary conjugacy
   separates these two projections.
+- Stabilized conjugacy for p=q=1 in M₁(ℂ) and v=1: `w=[[0,1],[1,0]]` conjugates `diag(1,0)` to
+  `diag(0,1)`, `r=(1−w)/2=[[1/2,−1/2],[−1/2,1/2]]` is a projection, and at t=1/2 the path
+  `exp(iπtr)diag(1,0)exp(−iπtr)` passes through the rank-one projection `[[1/2,i/2],[−i/2,1/2]]`.
 - In the nonunital algebra K the rank-one projections e₀₀ and e₁₁ are conjugate by
   `u=1−e₀₀−e₁₁+e₁₀−e₀₁`, which lies in the unitization K⁺ and not in K; it acts as rotation
   through π/2 on the span of δ₀,δ₁, so `‖u−1‖=√2<2`.
@@ -413,9 +440,9 @@ algebras uses.
   statements are made only under that hypothesis.
 - For unital A, `[1_A]` is an order unit, and unital *-homomorphisms preserve the cone, the scale
   and the order unit.
-- The trace pairing is independent of representatives, additive and positive on the cone,
-  compatible with *-homomorphisms along which the tracial states pull back, and continuous under
-  C*-inductive limits with compatible tracial states.
+- The trace pairing is independent of representatives, additive and positive on the cone, and
+  compatible with *-homomorphisms along which the tracial states pull back. Its behaviour under
+  C*-inductive limits is stated in 2.3, after continuity of K₀.
 - For a finite-dimensional direct sum the pairing is computed summand by summand.
 - The compact-operator example uses its K₀ rank-one generator and the ordinary densely defined
   trace on finite-rank and Pedersen-ideal elements; it does not assume a tracial state on K.
@@ -451,7 +478,8 @@ compactly supported K-theory with unrestricted bundle theory on a noncompact spa
 ### Dependencies
 
 Mathlib C*-algebra, matrix, unitization and Grothendieck-group APIs; Tau Ceti `TauCeti.SplitK0`,
-`TauCeti.finiteProjectiveModules` and `TauCeti.IsPartialIsometry`; CStarAlgebras C1–C2 and C9.2;
+`TauCeti.finiteProjectiveModules`, `TauCeti.IsPartialIsometry` and the block-matrix conjugacy of
+`TauCeti/Data/Matrix/Block.lean`; CStarAlgebras C1 and C9.2;
 AlgebraicKTheory A0; HilbertModules H5; GrothendieckEulerForms Layers 1–2; TopologicalKTheory
 T1–T3.
 
@@ -515,15 +543,25 @@ part is the identity (Blackadar, 8.1.5 and Corollary 8.3.7).
 
 ### 2.3 Continuity, Morita invariance and cone sequences
 
-*Needs:* 2.2; CStarAlgebras C5 inductive limits and path, cone, suspension and mapping-cone
-algebras; HilbertModules H3–H4.
+*Needs:* 2.2; 1.5 for the trace pairing under limits; CStarAlgebras C5 inductive limits and path,
+cone, suspension and mapping-cone algebras; HilbertModules H3–H4.
 
 Prove continuity of K₀ and K₁ for C*-inductive systems, including noninjective connecting maps
 (Blackadar, 5.2.4 and 8.1.5; Roe, Proposition 7.11 for injective ones): projections and unitaries
 lift approximately to a finite stage and are corrected by functional calculus, and stabilized
 equivalences and homotopies descend after increasing the stage. Supply the uniform estimates for
 compact homotopy parameters. Deduce countable direct-sum additivity and countability of K-groups for
-separable A. Use H3–H4 to prove Morita invariance for σ-unital algebras (Roe, Proposition 12.17),
+separable A.
+
+- Trace pairing under limits: for a C*-inductive system with limit A, maps `φ_(i,∞):Aᵢ→A` and a
+  tracial state τ of A, put `τᵢ=τ∘φ_(i,∞)`, a positive tracial functional of norm at most 1 on
+  Aᵢ, paired with K₀(Aᵢ) by the matrix-trace formula of 1.5. Then `τ_*∘(φ_(i,∞))_*=(τᵢ)_*` on
+  K₀(Aᵢ), and since every class of K₀(A) comes from a finite stage, the pairing of τ on K₀(A) is
+  the map induced on `lim K₀(Aᵢ)≅K₀(A)` by the `(τᵢ)_*`. The first identity is
+  `τ_n(φ(p))=Σ_jτ(φ(p_jj))=(τ∘φ)_n(p)`, the computation behind 1.5's naturality, which needs no
+  normalization of τ∘φ; the second is the continuity above.
+
+Use H3–H4 to prove Morita invariance for σ-unital algebras (Roe, Proposition 12.17),
 identify the map induced by an imprimitivity module, and prove identity, composition and agreement
 with full-corner maps; distinguish the chosen natural map from an abstract existence of a stable
 isomorphism.
@@ -589,6 +627,11 @@ directed colimit of the component groups `GL_n(B)/GL_n(B)_0` under g↦diag(g,1)
 
 - K₁(ℂ)=K₁(Mₙ(ℂ))=K₁(K)=0; K₁(C(𝕋))≅ℤ generated by `[z]`; K₁(C₀(ℝ))≅ℤ generated by the positive
   loop `exp(2πit)` in the unitization.
+- For the CAR algebra `M_(2^∞)`, the limit of the `M_(2^k)(ℂ)` under `a↦diag(a,a)`, with its
+  tracial state τ: here `τ_k` is the normalized trace of `M_(2^k)`, a rank-one projection e of
+  `M_(2^k)` pairs to `2^(−k)`, and its image `diag(e,e)` in `M_(2^(k+1))` pairs to
+  `2/2^(k+1)=2^(−k)` again. Continuity identifies K₀(M_(2^∞)) with `lim(ℤ→ℤ→…)` under
+  multiplication by 2, that is with ℤ[1/2], and the τ-pairing is the inclusion `ℤ[1/2]⊂ℝ`.
 - The polynomial algebra ℂ[z] with the supremum norm on the closed unit disc fails the
   hypothesis of K2.LocalNormed: `z−2` is invertible in its completion, the disc algebra, but its
   inverse is not a polynomial. The algebra of functions holomorphic on a neighbourhood of the
@@ -797,9 +840,14 @@ smooth-algebra differential calculus and its cyclic cohomology are outside this 
 - The inclusion `𝒜→A` induces isomorphisms on K₀ and K₁.
 - AlgebraicKTheory 0.3's projective-module K₀ agrees with this topological K₀, through 0.4's
   idempotent description, for 𝒜 when it is unital and for its unitization otherwise.
-- Sufficient condition: a dense *-subalgebra complete for a stronger Banach *-algebra norm
-  satisfying `|||xy|||≤C(|||x|||‖y‖+‖x‖|||y|||)` for a fixed C is inverse-closed, by
-  spectral-radius comparison.
+- Sufficient condition: a dense *-subalgebra 𝒜 that is a Banach algebra for a norm `|||·|||≥‖·‖`
+  satisfying `|||xy|||≤C(‖x‖|||y|||+|||x|||‖y‖)` for a fixed C and all x, y is inverse-closed,
+  with the unitization normed by `|||a+λ1|||=|||a|||+|λ|` in the nonunital case, so the inclusion
+  induces isomorphisms on K₀ and K₁ (Roe, Corollary 14.7, p. 66, and its proof, p. 67). Route:
+  the inequality at `x=y=aⁿ` gives `|||a^(2n)|||≤2C|||aⁿ|||‖aⁿ‖`, so by the spectral radius formula
+  the spectral radii of a in 𝒜 and in A agree; if b∈𝒜 is invertible in A, then for large real λ
+  the element `λ1−b*b` has spectral radius less than λ in A, hence in 𝒜, so b*b, and likewise
+  bb*, is invertible in 𝒜, and b is invertible in 𝒜.
 
 **Checks.**
 - `C^∞(𝕋)⊆C(𝕋)` is dense and inverse-closed, since `1/f` is smooth for smooth nonvanishing f; its
@@ -1298,8 +1346,10 @@ arbitrary extensions does not remove it from the bivariant statement.
 *Needs:* 6.4; K4.5 unital strong Ext.
 
 For separable unital A and separable stable J, prove the natural six-term comparison of
-Manuilov–Thomsen Theorem 3. Write U(A,J) for invertible strong unital stable extension classes and
-E(A,J) for ordinary invertible classes. The exact cycle is
+Manuilov–Thomsen (Theorem 3, p. 5). Write U(A,J) for the group of invertible strong unital stable
+extension classes of K4.5, Manuilov–Thomsen's unital Ext⁻¹. The invertible ordinary classes form
+their Ext⁻¹(A,J), which they identify with `KK(A,SJ)=KK₁(A,J)` (p. 1); in the cycle it appears
+only as KK₁(A,J). The exact cycle is
 
 ```
 KK₀(A,J) → K₀(J) → U(A,J) → KK₁(A,J)
@@ -1309,12 +1359,16 @@ KK₀(A,J) → K₀(J) → U(A,J) → KK₁(A,J)
 The KK-to-K maps are restriction along ℂ→A, equivalently unit evaluation. The K-to-U maps use
 corona-unitary index classes and conjugation of an absorbing unital split Busby map. Build the
 relative commutant corona K₁/KK comparison and the absorbing representation constructions needed
-to prove exactness. Prove the kernel of U(A,J)→KK₁(A,J) is K₀(J)/im(unit evaluation); its image is
-the kernel of KK₁(A,J)→K₁(J). No nuclearity is needed for this invertible-class comparison.
-Include A=M_n, J=K: ordinary Ext vanishes but U(M_n,K)=ℤ/n. For nonempty compact metrizable X,
-evaluation at a point makes unit evaluation onto, and K₁(K)=0; deduce U(C(X),K)≃KK₁(C(X),K). This
-compares stable classes. Essential Busby maps require the separate unital absorption theorem in
-K8.
+to prove exactness (Manuilov–Thomsen, Lemma 2, p. 4).
+
+- The cycle is exact at each of its six terms.
+- The kernel of `U(A,J)→KK₁(A,J)` is K₀(J) modulo the image of unit evaluation
+  `KK₀(A,J)→K₀(J)`.
+- The image of `U(A,J)→KK₁(A,J)` is the kernel of unit evaluation `KK₁(A,J)→K₁(J)`.
+- No nuclearity hypothesis on A is needed: the comparison concerns invertible classes only.
+- For nonempty compact metrizable X, evaluation at a point makes unit evaluation
+  `KK₀(C(X),K)→K₀(K)` onto, and K₁(K)=0, so `U(C(X),K)≅KK₁(C(X),K)`. This compares stable
+  classes; essential Busby maps require the separate unital absorption theorem of K8.
 
 **Checks.**
 - For A=M_n and J=K the unit evaluation `KK₀(M_n,K)≅ℤ→K₀(K)≅ℤ` is multiplication by n, because
@@ -1703,14 +1757,24 @@ canonical trace `τ=HaarIntegral∘E` using D2's expectation.
 ### 7.5 Twisted abelian centers and simplicity
 
 *Needs:* 7.4 for the rotation algebra; OperatorAlgebraDynamics D2 Fell absorption and weak
-containment for amenable groups; VonNeumannAlgebras V0 and V11; Mathlib `lp`, `PontryaginDual`
-and `MeasureTheory.Measure.haar`.
+containment for amenable groups; VonNeumannAlgebras V0 and V11; Tau Ceti `TauCeti.IsFactorSet`,
+`TauCeti.twistedTranslation`, `TauCeti.twistedMonoidAlgebra`,
+`TauCeti.TwistedMonoidAlgebra.lift` and `TauCeti.TwistedMonoidAlgebra.algHom_ext`; Mathlib `lp`,
+`lp.single`, `lp.hasSum_single`, `PontryaginDual` and `MeasureTheory.Measure.haar`.
 
-For a finite rank d≥0 put L=ℤ^d, and let c be a normalized circle-valued 2-cocycle on L:
-`c(x,y)c(x+y,z)=c(x,y+z)c(y,z)` and `c(0,x)=c(x,0)=1`. On `lp (fun _ : L => ℂ) 2` define the
-twisted shifts `W_xδ_z=c(x,z)δ_(x+z)`, and define C*(L,c) as the norm closure of their span.
-Define the trace `τ(a)=⟨δ_0,aδ_0⟩`. For χ in the Pontryagin dual L̂ let M_χ be multiplication by χ
-on ℓ²(L) and define the gauge action `α_χ=Ad(M_χ)`. Define the continuous alternating commutator
+For a finite rank d≥0 put L=ℤ^d, and let c be a circle-valued factor set on L: a function
+`c : Multiplicative L → Multiplicative L → ℂˣ` with Tau Ceti's `TauCeti.IsFactorSet c`, which in
+additive notation says `c(x,y)c(x+y,z)=c(x,y+z)c(y,z)` and `c(0,x)=c(x,0)=1`, and with `|c(x,y)|=1`
+for all x, y. Tau Ceti's `TauCeti.twistedTranslation ℂ c x` sends `δ_z` to `c(x,z)δ_(x+z)` on
+finitely supported vectors; since `|c|=1` it preserves the ℓ²-norm and maps the finitely supported
+vectors onto themselves, so it extends uniquely, along this dense subspace (Mathlib `lp.single`
+and `lp.hasSum_single`), to a unitary W_x of `lp (fun _ : L => ℂ) 2`. These are the twisted shifts
+`W_xδ_z=c(x,z)δ_(x+z)`. By the first bullet below, `TauCeti.TwistedMonoidAlgebra.lift` turns
+x↦W_x into an algebra map λ_c from the algebraic twisted group algebra
+`TauCeti.twistedMonoidAlgebra ℂ (Multiplicative L) c` to the bounded operators on ℓ²(L); define
+C*(L,c) as the norm closure of its range, the span of the W_x. Define the trace
+`τ(a)=⟨δ_0,aδ_0⟩`. For χ in the Pontryagin dual L̂ let M_χ be multiplication by χ on ℓ²(L) and
+define the gauge action `α_χ=Ad(M_χ)`. Define the continuous alternating commutator
 bicharacter `ρ(x,y)=c(x,y)conjugate(c(y,x))`, its radical `C_ρ={x:∀y,ρ(x,y)=1}`, the characters
 κ_x(y)=ρ(x,y), `H_ρ=closure{κ_x:x∈L}⊆L̂`, and the conditional expectation
 `Q(a)=∫_(H_ρ) α_s(a) ds`, with probability Haar. Phillips (2006), Theorem 1.9, states the
@@ -1722,11 +1786,14 @@ simplicity criterion for noncommutative tori and attributes the simplicity direc
 - `τ(W_x)` is 1 at x=0 and 0 otherwise; τ is tracial and faithful, using the commuting right
   twisted shifts for which δ_0 is cyclic, and the Fourier coefficients `a↦τ(W_y*a)` determine a.
 - `α_χ(W_y)=χ(y)W_y`, and the gauge action is norm continuous in χ at each element.
-- Universal property: unitaries U_x in a unital C*-algebra with `U_xU_y=c(x,y)U_(x+y)` determine a
-  unique *-homomorphism sending W_x to U_x, by representing the target faithfully (V0), tensoring
-  with the untwisted regular representation, and using D2's Fell absorption and the weak
-  containment of the trivial representation in the regular representation of the amenable group
-  L.
+- λ_c is injective: by the first two bullets, `τ(W_y*λ_c(a))` is the coefficient of a at y.
+- Universal property: unitaries U_x in a unital C*-algebra B with `U_xU_y=c(x,y)U_(x+y)`, so that
+  U_0=1, give by `TauCeti.TwistedMonoidAlgebra.lift` an algebra map from the algebraic twisted
+  group algebra to B, unique by `TauCeti.TwistedMonoidAlgebra.algHom_ext`. Prove that it is
+  bounded for the norm transported along λ_c, so that it extends uniquely to a *-homomorphism
+  C*(L,c)→B sending W_x to U_x: represent B faithfully (V0), tensor with the untwisted regular
+  representation, and use D2's Fell absorption and the weak containment of the trivial
+  representation in the regular representation of the amenable group L.
 - `Ad(W_x)=α_(κ_x)`, and H_ρ is the annihilator of C_ρ: consume VonNeumannAlgebras V11's Pontryagin
   duality and prove this discrete-abelian annihilator comparison here by character separation and
   Fourier coefficient uniqueness.
@@ -1738,8 +1805,10 @@ simplicity criterion for noncommutative tori and attributes the simplicity direc
   meets the center, and C*(L,c) is simple iff its center is ℂ1 iff C_ρ={0} iff H_ρ=L̂. Include d=0
   and the trivial cocycle.
 - For the rotation algebra use W_(m,n)=v^m u^n and `c((m,n),(m′,n′))=exp(2πiθ n m′)`; A_θ is
-  identified with C*(ℤ²,c) through the universal properties of both. This roadmap exports this
-  cocycle and the gauge action `α_χ(W_y)=χ(y)W_y` in these coordinates for every real θ.
+  identified with C*(ℤ²,c) through the universal properties of both. This is the phase of Tau
+  Ceti's `TauCeti.SmoothNoncommutativeTorus.twist θ`, with its generators U₁, U₂ in the roles of
+  v, u. This roadmap exports this cocycle and the gauge action `α_χ(W_y)=χ(y)W_y` in these
+  coordinates for every real θ.
 - If θ is irrational, C_ρ=0 and A_θ is simple. If θ=p/q in lowest terms, q≥1, then C_ρ=qℤ² and
   the center is C(𝕋²), with its coordinate unitaries sent to v^q,u^q, injectively by the gauge
   action and Fourier coefficient uniqueness. Thus every rational rotation algebra is nonsimple,
@@ -1752,6 +1821,9 @@ simplicity criterion for noncommutative tori and attributes the simplicity direc
   `C_ρ=qℤ²` for θ=p/q in lowest terms, and `C_ρ=ℤ²` for θ=0.
 - For d=0 the algebra is ℂ, `C_ρ=0` and `H_ρ=L̂` is trivial, so it is simple; for the trivial
   cocycle and d≥1, `C_ρ=L` and C*(L,1)≅C(𝕋^d) is not simple.
+- Convention witness for the rotation cocycle: at x=(0,1), y=(1,0) it gives `c(x,y)=exp(2πiθ)`
+  and `c(y,x)=1`, so `W_xW_y=exp(2πiθ)W_(1,1)` and `W_yW_x=W_(1,1)`, that is `uv=exp(2πiθ)vu` as
+  in 7.4. The transposed cocycle `exp(2πiθ m n′)` would give `vu=exp(2πiθ)uv` instead.
 
 ### 7.6 Toeplitz–Cuntz and Cuntz algebras
 
@@ -1838,8 +1910,9 @@ at −∞ and +1 at +∞.
 ### Dependencies
 
 K1–K6; OperatorAlgebraDynamics D1–D4 and D6; HilbertModules H1–H3; CStarAlgebras C5;
-TopologicalKTheory T6; VonNeumannAlgebras V0 and V11; Mathlib free-group, Cayley-graph, `lp`,
-Pontryagin-dual and Haar-measure APIs.
+TopologicalKTheory T6; VonNeumannAlgebras V0 and V11; Tau Ceti's factor sets and twisted monoid
+algebra (`TauCeti/Algebra/MonoidAlgebra/Twisted/Basic.lean`); Mathlib free-group, Cayley-graph,
+`lp`, Pontryagin-dual and Haar-measure APIs.
 
 ## K8. Bootstrap UCT and Künneth
 
