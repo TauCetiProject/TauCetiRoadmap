@@ -126,7 +126,7 @@ comparisons here consume them in that direction.
 | --- | --- |
 | Canonical rational-centred p-adic records and normalization, §§0.1, 0.9 | Exact set images of independent balls under addition, multiplication and inversion (§§4.11–4.13), strengthening pointwise error containment |
 | Squarefree selected-root data, arithmetic, equality and finite simultaneous isolation, §§0.2–0.3 | Rectangles for a prescribed nonzero polynomial, including repeated roots, and value-preserving conversion (§§0.8–0.13, 4.19) |
-| Coordinate local-image data, cardinality completeness and good-odd-prime equality, §§3.2–3.4 | Forgetting square-class coordinates (§3.18), cardinality comparison for arbitrary local models (§3.19), and rational-abscissa existence without integral-model assumptions (§3.20) |
+| Local quotient sizes, coordinate local-image data and cardinality completeness, §§3.1–3.3 | Forgetting square-class coordinates (§3.18), cardinality comparison for arbitrary local models (§3.19), and rational-abscissa existence without integral-model assumptions (§3.20) |
 | Generic p-saturation, finite-index and joint-reduction criteria, §§3.17–3.18 | Quotient-generating finite divisibility tests and division-polynomial comparisons for elliptic points (§§3.23–3.26) |
 | Rational affine ellipsoid membership, finiteness and distance comparisons, §§1.7–1.8 | Clearing denominators into an integral lattice with its congruence condition (§4.26), and nonnegative Gram covers (§4.31) |
 
@@ -267,13 +267,17 @@ carries its own primality, finite-generation, completeness and scalar-tower hypo
   assumptions: units of depth `2*v_L(2)+1` are squares.
 - Finite extensions of a nonarchimedean local field `K` (Mathlib `IsNonarchimedeanLocalField`,
   with the instance for `ℚ_[p]` in `Mathlib.NumberTheory.Padics.LocalField`), as implemented
-  for LocalFieldsRamification: `TauCeti.algebraicExtensionValuativeRel` and
-  `TauCeti.algebraicExtension_valuativeExtension`
-  (`TauCeti.NumberTheory.LocalField.AlgebraicExtension.Basic`) put on a finite extension `M`
+  for LocalFieldsRamification: `TauCeti.finiteExtensionValuativeRel` and
+  `TauCeti.finiteExtension_valuativeExtension`
+  (`TauCeti.NumberTheory.LocalField.FiniteExtension.Basic`) put on a finite extension `M`
   the valuative relation of the spectral norm, extending that of `K`, and
-  `TauCeti.finiteExtension_isNonarchimedeanLocalField`
-  (`TauCeti.NumberTheory.LocalField.FiniteExtension.Basic`) makes `M` a nonarchimedean local
-  field. For local fields `L/K` with `ValuativeExtension K L`, `TauCeti.ramificationIndex`
+  `TauCeti.finiteExtension_isNonarchimedeanLocalField` (same module) makes `M` a
+  nonarchimedean local field. Tau Ceti revisions from
+  `2fd255d997f47c0b5d834ee416c7015d55444ce5` on state the first two for an algebraic
+  extension, as `TauCeti.algebraicExtensionValuativeRel` and
+  `TauCeti.algebraicExtension_valuativeExtension` in
+  `TauCeti.NumberTheory.LocalField.AlgebraicExtension.Basic`, and keep the third under its
+  name. For local fields `L/K` with `ValuativeExtension K L`, `TauCeti.ramificationIndex`
   (`TauCeti.NumberTheory.LocalField.RamificationIndex`), `TauCeti.inertiaDegree` and
   `TauCeti.ramificationIndex_mul_inertiaDegree`
   (`TauCeti.NumberTheory.LocalField.InertiaDegree`) give `e`, `f` and `e·f = [L : K]`.
@@ -306,15 +310,13 @@ carries its own primality, finite-generation, completeness and scalar-tower hypo
 - The `x − T` descent: `WeierstrassCurve.Affine.A`, `WeierstrassCurve.Affine.M`,
   `WeierstrassCurve.Affine.μ`, `WeierstrassCurve.Affine.ker_μ_eq`,
   `WeierstrassCurve.Affine.μX_of_eval_f_ne_zero`, `WeierstrassCurve.Affine.localRes`,
-  `WeierstrassCurve.Affine.localCondition`, `WeierstrassCurve.Affine.mem_localCondition_iff`,
-  `WeierstrassCurve.Affine.selmerGroupA`, `WeierstrassCurve.Affine.normM`,
-  `WeierstrassCurve.Affine.card_ker_nsmul_two`, all for `W : WeierstrassCurve.Affine K` with
+  `WeierstrassCurve.Affine.localCondition`, `WeierstrassCurve.Affine.mem_localCondition_iff`
+  and `WeierstrassCurve.Affine.card_ker_nsmul_two`, all for `W : WeierstrassCurve.Affine K` with
   `[W.IsElliptic] [W.IsCharNeTwoNF]`. Their modules are
-  `TauCeti.AlgebraicGeometry.EllipticCurve.MordellWeil.XSubT` (A, M, μ, its kernel,
-  `μX_of_eval_f_ne_zero`, `normM`),
+  `TauCeti.AlgebraicGeometry.EllipticCurve.MordellWeil.XSubT` (A, M, μ, its kernel and
+  `μX_of_eval_f_ne_zero`),
   `TauCeti.AlgebraicGeometry.EllipticCurve.MordellWeil.LocalCondition` (local restriction
-  and condition), `TauCeti.AlgebraicGeometry.EllipticCurve.MordellWeil.SelmerGroupA`
-  (`selmerGroupA`), and `TauCeti.AlgebraicGeometry.EllipticCurve.MordellWeil.TwoTorsion`
+  and condition) and `TauCeti.AlgebraicGeometry.EllipticCurve.MordellWeil.TwoTorsion`
   (`card_ker_nsmul_two`).
 - `WeierstrassCurve.mul_eval_ΨSq_eq_eval_Φ_of_zsmul` (if `n • P = P′` then
   `x(P′)·ΨSq_n(x(P)) = Φ_n(x(P))`;
@@ -441,13 +443,14 @@ lattice, bounded-norm theorem, reduction theory or successive-minimum interface.
   rational isolating boxes or discs, arbitrarily fine isolation and compatible
   field operations; a finite set of distinct values admits disjoint isolations.
   Our conversion uses the fixed complex embedding and rational rectangles.
-- §§3.2–3.3: for a rational integral normal-form elliptic model and its base change
-  at a place, the coordinate subgroup is the inverse image of the span of the
-  displayed x−T classes under the specified square-class isomorphism; its target
-  cardinality is (1+r_v)·|2|_v^(−1), or (1+r_v)/2 over ℝ. Equality of cardinalities
-  characterizes completeness. Section 3.4 supplies the unramified norm-kernel
-  equality for an elliptic normal-form model over ℚ_p with p odd and
-  `W.badPrimes ℤ_[p] = ∅`; coefficient integrality is part of that hypothesis.
+- §§3.1–3.3: for an elliptic normal-form model over ℚ_p or over ℝ, the image of the
+  pinned `W.μ` has order #W(ℚ_p)[2]·|2|_p^(−1), respectively #W(ℝ)[2]/2, where
+  #W(K_v)[2] = 1+r_v and r_v counts the roots of the cubic in K_v (§3.1). For a rational
+  integral normal-form elliptic model and its base change at a place, the coordinate
+  subgroup is the inverse image of the span of the displayed x−T classes under the
+  specified square-class isomorphism; it lies in the image of `W.μ` and has order 2 to
+  the 𝔽₂-rank of the coordinate vectors (§3.2). Equality of its cardinality with the
+  §3.1 order characterizes completeness (§3.3).
 - §§3.17–3.18: for an additive commutative group A, subgroup G and prime p,
   p-saturation means ∀a, pa∈G → a∈G. It is equivalent to A[p]≤G and G∩pA=pG;
   for finite index it is equivalent to p not dividing the index. For finite G/pG,
@@ -458,8 +461,8 @@ lattice, bounded-norm theorem, reduction theory or successive-minimum interface.
 - §§1.7–1.8: for n≥1, symmetric positive-definite G∈ℚⁿˣⁿ, t∈ℚⁿ and R∈ℚ,
   the integer vectors satisfying (x−t)ᵀG(x−t)≤R form a finite set, with the
   closed boundary included, and identify with the corresponding lattice-distance
-  set. In dimension zero the same set is the singleton empty vector when R≥0
-  and empty when R<0. Section 4.26 uses these native sets, with no new carrier.
+  set. Sections 4.26 and 4.31 use these native sets, with no new carrier, and
+  settle dimension zero themselves.
 
 ### From TauCetiRoadmap.HeightsRationalPointsAndObstructions
 
@@ -1355,7 +1358,7 @@ pp.14–15; GMN line 684). *Needs:* factorization by φ-Newton sides and the res
 
 Let p be prime, φ and f monic in ℤ[X], deg φ>0, and φ mod p irreducible. Suppose f mod p=(φ mod p)^n, n>0, and the whole φ-polygon is the finite side from (0,hd) to (ed,0), with n=ed and coprime positive h,e. If its residual polynomial is irreducible over F_φ, then f is irreducible over ℚ_p. For a root θ the resulting local extension ℚ_p(θ)/ℚ_p has ramification index e and residue degree deg(φ)·deg(R); these are Tau Ceti's `TauCeti.ramificationIndex` and `TauCeti.inertiaDegree` for the local-field structure that `TauCeti.finiteExtension_isNonarchimedeanLocalField` puts on ℚ_p(θ).
 
-Use the product theorem for φ-polygons and residual polynomials, the polygon factorization theorem and residual factorization theorem. An irreducible residual factor of exponent one admits only one irreducible local factor. The native local degree formula then gives the ramification and residue degrees. ([GMN](#source-gmn), Theorem 1.19 and Corollary 1.20, pp.14–15.) *Needs:* `phiResidualPolynomial` (2.19); the φ-polygon product identity, the residual product identity, factorization by φ-Newton sides, factorization by residual factors (2.19a); Tau Ceti `TauCeti.finiteExtension_isNonarchimedeanLocalField`, `TauCeti.algebraicExtension_valuativeExtension`, `TauCeti.ramificationIndex`, `TauCeti.inertiaDegree` and `TauCeti.ramificationIndex_mul_inertiaDegree`; `henselLift` (1.26).
+Use the product theorem for φ-polygons and residual polynomials, the polygon factorization theorem and residual factorization theorem. An irreducible residual factor of exponent one admits only one irreducible local factor. The native local degree formula then gives the ramification and residue degrees. ([GMN](#source-gmn), Theorem 1.19 and Corollary 1.20, pp.14–15.) *Needs:* `phiResidualPolynomial` (2.19); the φ-polygon product identity, the residual product identity, factorization by φ-Newton sides, factorization by residual factors (2.19a); Tau Ceti `TauCeti.finiteExtension_isNonarchimedeanLocalField`, `TauCeti.finiteExtension_valuativeExtension`, `TauCeti.ramificationIndex`, `TauCeti.inertiaDegree` and `TauCeti.ramificationIndex_mul_inertiaDegree`; `henselLift` (1.26).
 
 ### 2.21 Finite local expansion presentation
 
@@ -1755,15 +1758,14 @@ the inverse image of the span of its coordinate vectors is `localImageSpan` of
 its abscissae. The map from coordinate data to this presentation forgets κ_v and
 the factorwise witnesses while preserving the subgroup and its cardinality.
 
-Let W be an elliptic Weierstrass curve over ℚ with a₁ = a₃ = 0 and integral a₂, a₄, a₆, with cubic f, and let v be a prime p or the real place, K_v = ℚ_p or ℝ. Write W_v for its base change, A_v = K_v[X]/(f), M_v = A_v^×/A_v^(×2) (Tau Ceti `W_v.M`) and μ_v : W_v(K_v) → M_v the x − T map (Tau Ceti `μ`). A local image presentation W v consists of: (i) finitely many rationals x₁, …, x_k with f(x_i) a nonzero square in K_v, checked exactly (at ℝ: f(x_i) > 0; at p: the p-adic valuation of f(x_i) is even and its unit part passes the square test of `isSquare_iff_isSquare_mod` (2.22)); (ii) the number r_v of roots of f in K_v, exact at ℝ by the sign of the discriminant (three real roots when it is positive, one when it is negative) and at p by `card_padicRoots_eq` (2.23); (iii) the subgroup H_v of M_v generated by the classes of x_i − T. Its target size is N_v = (1 + r_v)·|2|_v^(−1) at a prime and N_v = (1 + r_v)/2 at ℝ, and the presentation is complete when #H_v = N_v. The order of H_v is computed by deciding which products of the generators are squares in each field factor of A_v.
+Let W be an elliptic Weierstrass curve over ℚ with a₁ = a₃ = 0 and integral a₂, a₄, a₆, with cubic f, and let v be a prime p or the real place, K_v = ℚ_p or ℝ. Write W_v for its base change, A_v = K_v[X]/(f), M_v = A_v^×/A_v^(×2) (Tau Ceti `W_v.M`) and μ_v : W_v(K_v) → M_v the x − T map (Tau Ceti `μ`). A local image presentation W v consists of: (i) finitely many rationals x₁, …, x_k with f(x_i) a nonzero square in K_v, checked exactly (at ℝ: f(x_i) > 0; at p: the p-adic valuation of f(x_i) is even and its unit part passes the square test of `isSquare_iff_isSquare_mod` (2.22)); (ii) the number r_v of roots of f in K_v, exact at ℝ by the sign of the discriminant (three real roots when it is positive, one when it is negative) and at p by `card_padicRoots_eq` (2.23); (iii) the subgroup H_v of M_v generated by the classes of x_i − T. Its target size is N_v = (1 + r_v)·|2|_v^(−1) at a prime and N_v = (1 + r_v)/2 at ℝ, the order of range μ_v (EffectiveDiophantineMethods §3.1), and the presentation is complete when #H_v = N_v. The order of H_v is computed by deciding which products of the generators are squares in each field factor of A_v.
 
 - `localImageSpan`: The subgroup H_v ≤ W_v.M generated by the classes `W_v.μX x_i` of the x_i − T.
-- H_v ≤ range μ_v whenever every f(x_i) is a nonzero square in K_v.
-- N_v = (1 + r_v)·|2|_v^(−1), or (1 + r_v)/2 at ℝ.
-- The predicate #H_v = N_v.
-- #H_v = 2^(rank over 𝔽₂ of the classes of the x_i − T).
+- The comparison from a coordinate datum of EffectiveDiophantineMethods §3.2 to the presentation with the same abscissae: it forgets κ_v and the factorwise witnesses, and the inverse image under κ_v of the span of the coordinate vectors equals `localImageSpan` of the abscissae, so the two subgroups and their orders agree.
 
-Each x_i is the abscissa of a point P_i ∈ W_v(K_v), and μ_v(P_i) is the class of x_i − T because f(x_i) ≠ 0 (Tau Ceti μX_of_eval_f_ne_zero), so the y-coordinate is never needed. A_v is the product of the fields K_v[X]/(f_j) for the irreducible factors f_j of f over K_v, and a class is trivial exactly when each component is a square, which the square test decides. The discriminant criterion over ℝ is the statement that E(ℝ) has one or two components according to its sign. ([FPS](#source-fps), §7, Lemma 4 and its proof, p.17; [Cremona](#source-cremona), §3.6, printed p.93, the two discriminant signs.) *Needs:* EffectiveDiophantineMethods §3.2; `isSquare_iff_isSquare_mod` (2.22); `card_padicRoots_eq` (2.23); Tau Ceti `WeierstrassCurve.Affine.μ`; Tau Ceti `WeierstrassCurve.Affine.M`; Tau Ceti `WeierstrassCurve.Affine.μX_of_eval_f_ne_zero`.
+The target size N_v, the containment H_v ≤ range μ_v whenever every f(x_i) is a nonzero square in K_v, and #H_v = 2^(rank over 𝔽₂ of the coordinate vectors) are imported from EffectiveDiophantineMethods §§3.1–3.2 and not restated here.
+
+Each x_i is the abscissa of a point P_i ∈ W_v(K_v), and μ_v(P_i) is the class of x_i − T because f(x_i) ≠ 0 (Tau Ceti μX_of_eval_f_ne_zero), so the y-coordinate is never needed. A_v is the product of the fields K_v[X]/(f_j) for the irreducible factors f_j of f over K_v, and a class is trivial exactly when each component is a square, which the square test decides. The discriminant criterion over ℝ is the statement that E(ℝ) has one or two components according to its sign. ([FPS](#source-fps), §7, Lemma 4 and its proof, p.17; [Cremona](#source-cremona), §3.6, printed p.93, the two discriminant signs.) *Needs:* EffectiveDiophantineMethods §3.1 (the target size N_v); EffectiveDiophantineMethods §3.2; `isSquare_iff_isSquare_mod` (2.22); `card_padicRoots_eq` (2.23); Tau Ceti `WeierstrassCurve.Affine.μ`; Tau Ceti `WeierstrassCurve.Affine.M`; Tau Ceti `WeierstrassCurve.Affine.μX_of_eval_f_ne_zero`.
 
 **Checks.**
 
@@ -1785,7 +1787,7 @@ nonzero square. In these general forms, `localImageSpan_eq_range_of_card_padic` 
 
 For every local image presentation C of W at v, H_v ≤ range μ_v. If C is complete then H_v = range μ_v, and Tau Ceti's local condition W.localCondition K_v is the preimage of H_v under W.localRes K_v. If #H_v < N_v then H_v ≠ range μ_v, so the size check is both sufficient and necessary.
 
-Every generator is μ_v of an actual point. The kernel of μ_v is 2W_v(K_v) (Tau Ceti ker_μ_eq), so #range μ_v = [W_v(K_v) : 2W_v(K_v)]. This index is #W_v(K_v)[2]·|2|_v^(−1) at a prime and #W_v(ℝ)[2]/2 at ℝ, and #W_v(K_v)[2] = 1 + r_v (Tau Ceti card_ker_nsmul_two); so #range μ_v = N_v. A subgroup of a finite group with the same order is the whole group, and mem_localCondition_iff identifies the local condition. ([Mattuck](#source-mattuck), Theorem 7, p.114, for the local subgroup used in the index calculation; [FPS](#source-fps), §7, proofs of Lemmas 3 and 4, pp.16–17, for the dimension-two application of that calculation.) *Needs:* EffectiveDiophantineMethods §3.3; local image presentation (3.18); HeightsRationalPointsAndObstructions §1.17 (local indices of multiplication by two); Tau Ceti `WeierstrassCurve.Affine.ker_μ_eq`; Tau Ceti `WeierstrassCurve.Affine.card_ker_nsmul_two`; Tau Ceti `WeierstrassCurve.Affine.mem_localCondition_iff`.
+Every generator is μ_v of an actual point. The kernel of μ_v is 2W_v(K_v) (Tau Ceti ker_μ_eq), so #range μ_v = [W_v(K_v) : 2W_v(K_v)]. This index is #W_v(K_v)[2]·|2|_v^(−1) at a prime and #W_v(ℝ)[2]/2 at ℝ (EffectiveDiophantineMethods §3.1, which states these two quotient sizes for the pinned μ_v), and #W_v(K_v)[2] = 1 + r_v (Tau Ceti card_ker_nsmul_two); so #range μ_v = N_v. A subgroup of a finite group with the same order is the whole group, and mem_localCondition_iff identifies the local condition. ([Mattuck](#source-mattuck), Theorem 7, p.114, for the local subgroup used in the index calculation; [FPS](#source-fps), §7, proofs of Lemmas 3 and 4, pp.16–17, for the dimension-two application of that calculation.) *Needs:* EffectiveDiophantineMethods §3.1 (the two quotient sizes for the pinned `W.μ`); EffectiveDiophantineMethods §3.3; local image presentation (3.18); HeightsRationalPointsAndObstructions §1.17 (local indices of multiplication by two, the owner contract behind §3.1); Tau Ceti `WeierstrassCurve.Affine.ker_μ_eq`; Tau Ceti `WeierstrassCurve.Affine.card_ker_nsmul_two`; Tau Ceti `WeierstrassCurve.Affine.mem_localCondition_iff`.
 
 **Checks.**
 
@@ -1907,7 +1909,7 @@ the division-polynomial comparison of §3.24 identifies the exact divisibility c
 
 ### Dependencies
 
-Layers 0–2; EffectiveDiophantineMethods §§3.2–3.4, 3.17–3.18; TauCetiRoadmap ModularForms Layers 7–11; AlgebraicModularFormsAndSerreWeights R15.1–R15.3, R15.5; TauCetiRoadmap EllipticCurves Layers 4 and 6; EllipticLegendreCharacterInterfaces §§5.1–5.2; HeightsRationalPointsAndObstructions §1.17; Mathlib (level-one modular forms, `quadraticChar`, division polynomials); Tau Ceti (Sturm bound, Hecke recurrence, point count, `x − T` descent, division-polynomial identity).
+Layers 0–2; EffectiveDiophantineMethods §§3.1–3.3, 3.17–3.18; TauCetiRoadmap ModularForms Layers 7–11; AlgebraicModularFormsAndSerreWeights R15.1–R15.3, R15.5; TauCetiRoadmap EllipticCurves Layers 4 and 6; EllipticLegendreCharacterInterfaces §§5.1–5.2; HeightsRationalPointsAndObstructions §1.17; Mathlib (level-one modular forms, `quadraticChar`, division polynomials); Tau Ceti (Sturm bound, Hecke recurrence, point count, `x − T` descent, division-polynomial identity).
 
 ## Layer 4: quantitative analytic bounds and finite Gram data
 
@@ -2522,7 +2524,9 @@ sublevel set E={x∈ℤⁿ | (x−t)ᵀG(x−t)≤R}. Choose positive integers a
 aG integral and Dt∈ℤⁿ. Prove that x↦D(x−t) is a bijection from E to
 {y∈ℤⁿ | y+Dt∈Dℤⁿ and yᵀ(aG)y≤aD²R}; its inverse is y↦(y+Dt)/D.
 The congruence condition is coordinatewise and ensures the inverse is integral.
-This comparison retains the boundary and permits dimension zero.
+This comparison retains the boundary and permits dimension zero: there E is the
+singleton empty vector when R≥0 and empty when R<0, a statement proved here, since
+EffectiveDiophantineMethods §1.7 is stated for n≥1.
 
 - The map has integral coordinates and satisfies y+Dt∈Dℤⁿ.
 - Its quadratic value is exactly aD² times the original quadratic value.
