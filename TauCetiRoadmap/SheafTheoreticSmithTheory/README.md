@@ -1,17 +1,17 @@
 # Roadmap: sheaf-theoretic Smith theory, parity sheaves and Satake base change
 
-**Summary.** Build Smith restriction for admissible prime-order actions on étale sheaves, its sheaf Tate quotient, relative localization and bounded six-operation comparisons, and its integral parity lifting. For H connected reductive, G=Hᵖ with cyclic rotation, and odd p good for the dual root system, construct a k-linear base change functor BC on normalized parity sheaves and prove the natural comparison Sat_H ∘ BC ≅ Res_Δ ∘ Sat_G, where Δ:Ĥ→Ĥᵖ. The construction passes through the convolution norm, integral Smith restriction and normalized lifting, then cancels coefficient Frobenius on the source. A parallel algebraic output is the Tate diagonal and unique extension of transfer-annihilating characters. The sheaf theory, modular Satake extension and representation interfaces form general libraries; goodness enters the parity-perversity theorem, rather than the underlying Smith or algebra theories.
+**Summary.** Build Smith restriction for admissible prime-order actions on étale sheaves, its sheaf Tate quotient, relative localization and bounded six-operation comparisons, and its integral parity lifting. For H connected reductive, G=Hᵖ with cyclic rotation, and odd p good for the dual root system, construct a k-linear base change functor BC on normalized parity sheaves and prove the natural comparison Sat_H ∘ BC ≅ Res_Δ ∘ Sat_G, where Δ:Ĥ→Ĥᵖ. The construction passes through the convolution norm, integral Smith restriction and normalized lifting, then cancels coefficient Frobenius on the source. A parallel algebraic output is the Tate diagonal and unique extension of transfer-annihilating characters. The sheaf theory, the loop-Grassmannian geometry over an arbitrary field, the modular Satake extension and the representation interfaces form general libraries; goodness enters the parity-perversity theorem, rather than the underlying Smith or algebra theories.
 
 ## Scope and ownership
 
-This roadmap owns the sheaf Tate quotient and its Smith comparisons (Layers 0–2), the k and W(k) extension of equal-characteristic Satake over arbitrary separably closed geometric fields (Layer 3), the étale parity and integral Tate lifting theory (Layer 4), and the cyclic norm, natural Satake comparison, arithmetic descent and algebra diagonal (Layers 5–8). The natural integral comparison on the norm image is a separate theorem from the objectwise integral comparison. Each is proved on its stated morphism domain.
+This roadmap owns the sheaf Tate quotient and its Smith comparisons (Layers 0–2), the loop Grassmannian, affine flag, convolution, Beilinson–Drinfeld and semi-infinite geometry of a split connected reductive group over an arbitrary field together with the k and W(k) extension of equal-characteristic Satake over arbitrary separably closed geometric fields (Layer 3), the étale parity and integral Tate lifting theory (Layer 4), and the cyclic norm, natural Satake comparison, arithmetic descent and algebra diagonal (Layers 5–8). The natural integral comparison on the norm image is a separate theorem from the objectwise integral comparison. Each is proved on its stated morphism domain.
 
 The following objects are supplied elsewhere and are not constructed again here.
 
 - Mathlib's `DerivedCategory`, `MonoidAlgebra`, `WittVector`, `frobeniusEquiv`, finite local flat-module freeness and character independence are already in the library. Mathlib's `tateCohomology` and Tau Ceti's degree-zero norm quotient and cyclic periodicity supply the module theory; the variants here are sheaf localizations and their functor comparisons.
 - SchemeAndStackFoundations §§1.17, 1.21 and 1.23 owns quotient predicates, projective finite-group quotients and quotient stacks; its admissible-action gluing extension is an exact supplier contract below. ModularCurves Layer 0C owns free finite constant-group actions with an invariant affine cover and their torsor quotients. Layer 0 uses these for cyclic geometric actions. EnhancedDerivedSheaves §§0.1–0.4, E1.3–E1.4, E3.4 and E5:abstract owns the enhancement, replacements, tensor–Hom, coherent mates and stable quotient infrastructure. EtaleCohomologyFoundations F.1 owns constructible coefficient categories and the common-interval geometric-stalk Tor criterion. Layer 0 specializes them to cyclic group-ring coefficients.
 - DeformationAndDerivedPatchingAlgebra §7.5 states arbitrary-rank freeness for flat modules over a local ring with nilpotent maximal ideal. Layer 0 retains its application to cyclic group rings and its distinction from cohomology-wise flatness.
-- GlobalShtukasAndFunctionFieldLanglands §§1.1–1.3 owns equal-characteristic modification/fusion geometry; §§1.8–1.9 and 1.14 states the finite-extension integral and torsion Satake equivalence. GeometricSatakeAndFusion §0.29, *Equal-characteristic Schubert models and coefficient comparison*, owns the ordinary local reduced Schubert models before perfection. Layer 3 extends the coefficient and geometric-field range of these results and proves the additional compatibility with parity, Smith and normalized constant terms; it does not repeat the finite-extension theorem.
+- GlobalShtukasAndFunctionFieldLanglands §§1.1–1.3 owns the Beilinson–Drinfeld Grassmannian and Hecke chains over powers of a curve over a finite field; §§1.8–1.9 and 1.14 states the finite-extension integral and torsion Satake equivalence. GeometricSatakeAndFusion §0.29, *Equal-characteristic Schubert models and coefficient comparison*, owns the ordinary local reduced Schubert models over finite fields before perfection, EndoscopicTransferAndUnitaryTraceComparison §3.2 the local loop quotient over a finite field, and FormalConnectionsOpers §3A.5 the loop Grassmannian and affine flags over ℂ. §3.0 constructs the local, convolution and Beilinson–Drinfeld geometry over an arbitrary field, which none of these covers, and identifies it with theirs on their fields. Layer 3 extends the coefficient and geometric-field range of the Satake results and proves the additional compatibility with parity, Smith and normalized constant terms; it does not repeat the finite-extension theorem.
 - ReductiveGroups Layers 1, 4, 9 and 10A–10B and ReductiveGroupsPartII §§RG2.0a, RG2.5.1–RG2.5.2 owns rational algebraic representations, torus weights, pinned integral dual groups, products and Galois actions. ReductiveGroups §10B owns the Weyl/induced modules and their base change; LanglandsParameterStacks §4.1 supplies the good-filtration theory and tensor theorem. Layer 3 owns the finite-dimensional tilting subcategory, tilting character determination and bounded derived generation, using those inputs.
 - Spectral Tate diagonals in AInfCohomology §AI.7.2 concern spectra and their coherent multiplicative structure. Layer 8 concerns the ordinary invariant ring modulo the additive transfer for a specified algebra automorphism. The categorical diagonal of Layer 5 concerns maps in the concrete parity category. Neither variant constructs the spectral theory.
 
@@ -42,6 +42,7 @@ Use Mathlib revision f6090c7095e1e56b3464c1daba5f24631f1290d2 and Tau Ceti revis
 - `Module.free_of_flat_of_isLocalRing` in `Mathlib/RingTheory/LocalRing/Module.lean`, line 299, requires a commutative local ring, a module, finite generation and flatness. Its arbitrary-rank extension is the contract with DeformationAndDerivedPatchingAlgebra.
 - `tateCohomology` and `tateCohomologyFunctor` in `Mathlib/RepresentationTheory/Homological/TateCohomology/Basic.lean`, lines 140–145, take a representation of a finite group over a commutative ring to a module in every integer degree, with the norm splice and long exact sequence. They supply the point comparison.
 - `frobeniusEquiv` in `Mathlib/FieldTheory/Perfect.lean`, line 121, uses characteristic p and `PerfectRing` and sends a to aᵖ. `linearIndependent_monoidHom` in `Mathlib/LinearAlgebra/LinearIndependent/Basic.lean`, line 502, assumes a multiplicative source and a commutative domain as target, with no algebraic-closedness assumption. It supplies character independence.
+- `Module.Grassmannian` in `Mathlib/RingTheory/Grassmannian.lean`, line 66, is the set of submodules of a module whose quotient is finite projective of a fixed rank at every prime. It is a functor of points only; the representing scheme is the ModularCurves Layer 0G contract below, and the lattice charts of §3.0 are its t-stable points. The pinned libraries have no loop group or loop Grassmannian.
 - `RingHom.eqLocus` in `Mathlib/Algebra/Ring/Subring/Basic.lean`, line 867, is the fixed-subring carrier used by `fixedSubring`. `Ideal.span` in `Mathlib/RingTheory/Ideal/Span.lean`, line 45, and `Ideal.Quotient.mk` in `Mathlib/RingTheory/Ideal/Quotient/Defs.lean`, line 83, supply the actual transfer-generated ideal and quotient ring, including a quotient whose unit is zero.
 
 ### From Tau Ceti
@@ -68,7 +69,7 @@ This is the coefficient extension beyond the finite-DVR theory; its Smith-specif
 
 ### From TauCetiRoadmap.SchemeAndStackFoundations
 
-Sections 1.17, 1.21 and 1.23 supply categorical/geometric quotient predicates, projective finite-group quotient gluing and the quotient-stack groupoid. Section 0.23a supplies étale invariance under nilpotent thickenings and universal homeomorphisms; the schemes themselves retain their scheme structures.
+Sections 1.17, 1.21 and 1.23 supply categorical/geometric quotient predicates, projective finite-group quotient gluing and the quotient-stack groupoid. Sections 1.1 and 1.15–1.16 supply fpqc descent, torsors and contracted products, and §4.14 Quot schemes, for the loop-group quotients, twisted products and Beilinson–Drinfeld bounds of §3.0. Section 0.23a supplies étale invariance under nilpotent thickenings and universal homeomorphisms; the schemes themselves retain their scheme structures.
 
 What SchemeAndStackFoundations must provide (gap:admissible-invariant-quotient-gluing): For a finite constant group Γ acting by F-automorphisms on a separated locally finite type F-scheme Y whose orbits have invariant affine neighbourhoods, glue the affine invariant quotients into a separated locally finite type scheme Q with finite categorical/geometric quotient q:Y→Q, and identify its restriction over every invariant open, in particular the free locus, with that open's quotient.
 
@@ -78,23 +79,35 @@ The free-locus identification uses the following existing torsor contract, so it
 
 Layer 0C, *Finite quotients and torsors*, supplies the scheme fppf quotient of a free finite constant-group action on a scheme with an invariant affine open cover, with the torsor identity Γ×U≅U×_(U/Γ)U. Since Γ is constant finite étale, the quotient projection is finite étale, locally free of rank |Γ|. Apply this to U=Y∖Y^σ for Γ=C_p using the invariant affine cover established in §0.2; the admissible gluing contract identifies this quotient with the corresponding open of Y/C_p.
 
+Layer 0G supplies the represented relative Grassmannian of locally free quotients of a finite locally free module, with its universal quotient and base change; §3.0 cuts the lattice charts of Gr_GL_n out of it as closed loci of t-stable submodules.
+
 ### From TauCetiRoadmap.DeformationAndDerivedPatchingAlgebra
 
 Section 7.5, *Infinite rank local freeness and complete flat models*, supplies arbitrary flat-module freeness over a commutative local ring with nilpotent maximal ideal, including arbitrary lifted residue bases. No finite-rank hypothesis is inferred for stalks. Section 7.5's completion results are not needed to replace this purely algebraic statement.
 
 ### From TauCetiRoadmap.GlobalShtukasAndFunctionFieldLanglands
 
-Sections 1.1–1.3 supply the equal-characteristic BD/loop Grassmannian, finite Schubert supports, positive-loop and finite-jet actions, Beauville–Laszlo modification description and Hecke/fusion correspondences. Sections 1.5 and 1.8–1.9 supply convolution and the fusion sign convention; §1.14 supplies finite-extension integral/torsion Satake, its flat/free restriction and coefficient comparisons. Layer 3 extends their range to arbitrary separably closed F and k/W(k), using the same geometry and root datum.
-
-What GlobalShtukasAndFunctionFieldLanglands must provide (gap:grassmannian-arbitrary-geometric-field): Extend the geometric constructions and finite-jet/factorization comparisons of §§1.1–1.3 from the curve setting to split connected reductive H over every separably closed field F, retaining the ordinary scheme-theoretic test-ring functor and its finite Schubert models.
+Sections 1.1–1.3 supply the Beilinson–Drinfeld Grassmannian over powers of a curve over a finite field, its Schubert supports, positive-loop and finite-jet actions, Beauville–Laszlo modification description and Hecke chains; §3.0 identifies the one-leg fibre at a rational point, after base change to an extension F of F_q, with its loop Grassmannian. Sections 1.5 and 1.8–1.9 supply convolution and the fusion sign convention; §1.14 supplies finite-extension integral/torsion Satake, its flat/free restriction and coefficient comparisons. Layer 3 extends the Satake range to arbitrary separably closed F and k/W(k), using the geometry of §3.0 and the same root datum.
 
 ### From TauCetiRoadmap.GeometricSatakeAndFusion
 
-§0.29, *Equal-characteristic Schubert models and coefficient comparison*, supplies ordinary reduced local Schubert models, positive-loop strata, closure order, Demazure resolutions and finite-jet actions before perfection. Consume them through the field/curve comparisons of the preceding contract. The perfection comparison does not replace ordinary test rings in the diagonal fixed-Grassmannian theorem.
+§0.29, *Equal-characteristic Schubert models and coefficient comparison*, supplies ordinary reduced local Schubert models over finite fields, positive-loop strata, closure order, Demazure resolutions and finite-jet actions before perfection; §3.0 identifies their base change to an extension F of F_q with its Schubert varieties. The perfection comparison does not replace ordinary test rings in the diagonal fixed-Grassmannian theorem.
+
+### From TauCetiRoadmap.FormalConnectionsOpers
+
+§3A.5, *Loop Grassmannian, affine flags and the Cartan decomposition*, constructs Gr_G and Fl_G over ℂ for a connected reductive complex group. It is consumed only for the comparison of §3.0 at F=ℂ; no characteristic-zero input is used elsewhere.
+
+### From TauCetiRoadmap.ArithmeticGaloisRepresentations
+
+§1.11, *Reductive quotients over fields and DVRs*, supplies for a connected reductive group acting on an integral affine variety over a field the invariant quotient Spec of the coaction invariants, with finite generation, normality for normal sources, the invariant-morphism universal property and flat base change. §3.0 applies it to the right action of H on GL(V).
+
+### From TauCetiRoadmap.RelativeFarguesFontaine
+
+§6.5, *The Beauville–Laszlo theorem for non-noetherian rings*, supplies the Beauville–Laszlo gluing equivalence for modules over an arbitrary ring and a non-zero-divisor. §3.0 uses it with R[t]→R[[t]] and t, through a faithful representation, for the affine-line and multi-leg descriptions of the loop Grassmannian.
 
 ### From TauCetiRoadmap.ReductiveGroups and TauCetiRoadmap.ReductiveGroupsPartII
 
-ReductiveGroups Layers 1, 4 and 9 and §§10A–10B supply rational representations as algebraic comodules, tensor/dual, torus character decomposition, pinned split integral group schemes, induced/Weyl modules and their canonical map, and the ordinary-dual versus contravariant-dual conventions. ReductiveGroupsPartII §RG2.0a, *weil-restriction-separable-splitting*, supplies separable product splitting with its Galois permutation. The same section's *Edixhoven's tame fixed-point theorem* (*tame-fixed-points-of-weil-restriction*) states that, for a discrete valuation ring R, an R-algebra R′ finite free over R with an action of a finite group Γ of order invertible in R by R-algebra automorphisms, and X smooth affine over R′ with a semilinear Γ-action, the fixed scheme of the Weil restriction of X along R→R′ is smooth over R. Apply it with R′=R=F[[t]], Γ=C_p acting trivially on F[[t]], and X the base change of a C_p-invariant affine open of a smooth F-scheme; fixed subschemes commute with base change, so the closed fibre gives smoothness over F of the fixed subscheme of a tame C_p-action on a smooth F-scheme. Sections RG2.5.1–RG2.5.2, *langlands-dual-group*, *galois-action-on-dual-group* and *dual-isogenies-and-products*, supply integral dual root data, product duality and the pinned Galois action with the common cyclotomic normalization. Rational representations in the statements below are not arbitrary representations of the discrete group of geometric points.
+ReductiveGroups Layers 1, 4, 7 and 9 and §§10A–10B supply rational representations as algebraic comodules, Borel subgroups, maximal tori and root subgroups, tensor/dual, torus character decomposition, pinned split integral group schemes, induced/Weyl modules and their canonical map, and the ordinary-dual versus contravariant-dual conventions. ReductiveGroupsPartII §RG2.0a, *weil-restriction-separable-splitting*, supplies separable product splitting with its Galois permutation, and *weil-restriction-group-scheme* with *weil-restriction-smoothness-and-immersions* supply the jet groups of §3.0 as smooth affine Weil restrictions along F→F[t]/tⁿ. Section RG2.4, *cartan-decomposition*, *iwasawa-decomposition* and *iwahori-bruhat-decomposition*, applied over the complete field F̄((t)) with perfect residue field, supplies the double-coset decompositions behind the orbit statements of §3.0. Section RG2.0a's *Edixhoven's tame fixed-point theorem* (*tame-fixed-points-of-weil-restriction*) states that, for a discrete valuation ring R, an R-algebra R′ finite free over R with an action of a finite group Γ of order invertible in R by R-algebra automorphisms, and X smooth affine over R′ with a semilinear Γ-action, the fixed scheme of the Weil restriction of X along R→R′ is smooth over R. Apply it with R′=R=F[[t]], Γ=C_p acting trivially on F[[t]], and X the base change of a C_p-invariant affine open of a smooth F-scheme; fixed subschemes commute with base change, so the closed fibre gives smoothness over F of the fixed subscheme of a tame C_p-action on a smooth F-scheme. Sections RG2.5.1–RG2.5.2, *langlands-dual-group*, *galois-action-on-dual-group* and *dual-isogenies-and-products*, supply integral dual root data, product duality and the pinned Galois action with the common cyclotomic normalization. Rational representations in the statements below are not arbitrary representations of the discrete group of geometric points.
 
 ### From TauCetiRoadmap.LanglandsParameterStacks
 
@@ -110,7 +123,7 @@ The generic highest-weight inputs precede their parameter-stack applications; no
 
 ## How to read the build
 
-Layers 0–1 apply the supplied geometry and enhanced coefficients to cyclic flat kernels, sheaf Tate quotients and periodic cohomology. Layer 2 proves relative Smith localization. Layer 3 extends modular Satake and supplies tilting representation theory independently of cyclic base change. Layer 4 builds parity, the good-prime perversity engine and normalized lifting, including its grading on maps. Layer 5 constructs the cyclic norm and proves additivity on morphisms before descending through ordinary reduction and inverse source Frobenius. Layer 6 compares normalized constant terms, first for tori, then for the full dual group using actual root-subgroup-equivariant comparison components. Layer 7 gives exactness, continuous arithmetic descent and the separate integral norm-image comparison. Layer 8 is an algebraic endpoint using cyclic coefficients and coefficient Frobenius. The weight functors used to prove Layer 3's Satake theorem are constructed there; Layer 6 adds their Smith/base-change comparisons, so the two layers have no circular dependence. `Suggested.lean` states `algebra_tate_diagonal` and `tate_character_extension`; its docstring lists the sheaf headlines whose carriers must first be built.
+Layers 0–1 apply the supplied geometry and enhanced coefficients to cyclic flat kernels, sheaf Tate quotients and periodic cohomology. Layer 2 proves relative Smith localization. Layer 3 constructs the loop Grassmannian and its affine flag, convolution, Beilinson–Drinfeld and semi-infinite geometry over an arbitrary field, extends modular Satake and supplies tilting representation theory independently of cyclic base change. Layer 4 builds parity, the good-prime perversity engine and normalized lifting, including its grading on maps. Layer 5 constructs the cyclic norm and proves additivity on morphisms before descending through ordinary reduction and inverse source Frobenius. Layer 6 compares normalized constant terms, first for tori, then for the full dual group using actual root-subgroup-equivariant comparison components. Layer 7 gives exactness, continuous arithmetic descent and the separate integral norm-image comparison. Layer 8 is an algebraic endpoint using cyclic coefficients and coefficient Frobenius. The weight functors used to prove Layer 3's Satake theorem are constructed there; Layer 6 adds their Smith/base-change comparisons, so the two layers have no circular dependence. `Suggested.lean` states `algebra_tate_diagonal` and `tate_character_extension`; its docstring lists the sheaf headlines whose carriers must first be built.
 
 
 ## Layer 0: Actions, coefficients and finite Tor dimension
@@ -624,13 +637,72 @@ Layers 0–1; EnhancedDerivedSheaves E3.4; EtaleCohomologyFoundations §§F.2–
 ## Layer 3: Modular Satake and rational tilting representations
 
 
+### 3.0 The loop Grassmannian over an arbitrary field
+
+In this section F is any field, and H a split connected reductive group over F, with the pinned maximal torus T, Borel B⊃T, unipotent radical U of B and opposite unipotent radical U⁻ of ReductiveGroups Layer 9; over the separably closed fields of the Conventions every connected reductive group is split. An ind-scheme over F is an fpqc sheaf on commutative F-algebras that is a filtered colimit of quasi-compact F-schemes along closed immersions; it is ind-projective when the terms can be taken projective over F. On commutative F-algebras R define the loop group LH(R)=H(R((t))), the positive loop group L⁺H(R)=H(R[[t]]) and, for n≥1, the jet group LⁿH(R)=H(R[t]/tⁿ), the Weil restriction of H along F→F[t]/tⁿ and hence a smooth connected affine group of finite type. Define the loop Grassmannian Gr_H as the fpqc sheafification of R↦LH(R)/L⁺H(R). Prove that Gr_H represents the functor of pairs (E,β) of an H-torsor E on Spec R[[t]] and a trivialization β of E over Spec R((t)), on all F-algebras including nonreduced ones, that Beauville–Laszlo gluing identifies it with the functor of H-torsors on the affine line over R trivialized off the zero section, and that Gr_H is an ind-projective ind-scheme over F. For GL_n an R-point is a finite projective R[[t]]-submodule L⊂R((t))ⁿ with R((t))L=R((t))ⁿ; the chart of pole order N, where tᴺR[[t]]ⁿ⊂L⊂t⁻ᴺR[[t]]ⁿ, is the closed subscheme of t-stable submodules in the Grassmannian of locally free quotients of the free R-module t⁻ᴺR[[t]]ⁿ/tᴺR[[t]]ⁿ of rank 2nN. For general H choose a faithful representation H→GL(V); prove that GL(V)/H is affine, so that Gr_H→Gr_GL(V) is a closed immersion. (Zhu17, Theorem 1.1.3, p.8, Zhu17 line 320; Theorem 1.2.2, p.10, Zhu17 line 411; Propositions 1.2.5–1.2.6, p.11, Zhu17 line 423; Proposition 1.3.6, p.14, Zhu17 line 556; Theorem 1.4.2, p.16, Zhu17 line 655; Alper14, Corollary 9.7.7, p.51, Alper14 line 2044.)
+
+For a dominant coweight λ put t^λ=λ(t)∈LH(F), let Gr^λ be the L⁺H-orbit of its image and Gr^≤λ the reduced closure of Gr^λ. Prove that the L⁺H-orbits on Gr_H(F̄) are exactly the Gr^λ(F̄), bijectively indexed by the dominant coweights; that Gr^λ is smooth, quasi-projective and geometrically connected of dimension ⟨2ρ,λ⟩, with connected stabilizer L⁺H∩t^λL⁺Ht^(−λ) at t^λ, and contains the T-fixed point t^ν exactly when ν∈Wλ; that Gr^≤λ is projective with underlying set the union of the Gr^μ over dominant μ≤λ in the dominance order; that for each λ there is n with the action of L⁺H on Gr^≤λ factoring through LⁿH; and that the connected components of Gr_H are geometrically connected and indexed by π₁(H)=X_*(T)/ℤΦ∨, with Gr^λ in the component of the class of λ and the dimensions ⟨2ρ,λ⟩ of constant parity on each component. (Zhu17, display (2.1.2), p.23, Zhu17 line 925; Propositions 2.1.4–2.1.5, pp.24–25, Zhu17 line 953; Corollary 2.1.11, p.26, Zhu17 line 1087; Theorem 1.3.11, p.15, Zhu17 line 593; §5.1, p.58, Zhu17 line 2388.)
+
+Let I⊂L⁺H be the Iwahori subgroup, the preimage of B under reduction modulo t, and Fl_H=LH/I the affine flag variety. Prove that Fl_H is ind-projective and that Fl_H→Gr_H is Zariski-locally trivial with fibre H/B; that the I-orbits on Fl_H(F̄) are indexed by the Iwahori–Weyl group W̃=X_*(T)⋊W, the orbit of w being an affine space of dimension ℓ(w); that for a simple affine reflection s with minimal parahoric P_s the quotient L⁺P_s/I is a projective line; and that for a reduced word w̃=s₁⋯s_r of w the Demazure variety D(w̃)=L⁺P_s₁×^I⋯×^I L⁺P_(s_r)/I is a smooth projective iterated P¹-bundle of dimension r whose product map to Fl_H is proper and birational onto the closure of the I-orbit of w, and an isomorphism over that orbit. PappasRapoport08 proves the Demazure statements over an algebraically closed field; for split H the contracted products and their P¹-fibrations are defined over F, and smoothness, properness, dimension and birationality descend from F̄. (PappasRapoport08, Theorem 1.4, p.9, PappasRapoport08 line 324; Propositions 8.7–8.8, pp.38–39, PappasRapoport08 line 1443; Proposition 9.6(b) and its proof, pp.48–49, PappasRapoport08 line 1928; Zhu17, Remark 1.3.8, p.14, Zhu17 line 573.)
+
+Define the convolution Grassmannian Gr_H×̃Gr_H=LH×^(L⁺H)Gr_H with its first projection pr₁ and convolution map m, and the r-fold convolution Grassmannian with its successive projections and r-fold convolution map. Prove that (pr₁,m) is an isomorphism onto Gr_H×Gr_H, that the twisted product Gr^≤λ×̃Gr^≤μ is a projective scheme, Zariski-locally a product over Gr^≤λ with fibre Gr^≤μ, and that m maps it onto Gr^≤(λ+μ). (Zhu17, displays (1.2.12)–(1.2.15), pp.12–13, Zhu17 line 497.)
+
+For a nonempty finite set J let Gr_(A^J) over A^J_F classify triples (x,E,β) of x∈A^J(R), an H-torsor E on the affine line over R and a trivialization β of E off the union of the graphs of the coordinates of x. Prove that Gr_(A^J) is ind-projective over A^J; that the global coordinate identifies Gr_A¹ with A¹×Gr_H; that for every surjection J→J′ restriction to the corresponding partial diagonal gives Gr_(A^J′), and restriction to the open set where coordinates in different blocks are disjoint gives the product of the Beilinson–Drinfeld Grassmannians of the blocks, compatibly with composition of surjections and equivariantly for permutations of J; and that over A² the closure of (Gr^≤λ×Gr^≤μ) on the complement of the diagonal has diagonal fibre contained in Gr^≤(λ+μ). Define the convolution forms over A^J, mapping to Gr_(A^J) by an isomorphism over the locus of pairwise distinct coordinates and by the convolution map over the full diagonal, and the action of the cyclic permutation of the p coordinates on Gr_(A^p). (Zhu17, Definition 3.1.1 and Theorem 3.1.3, p.38, Zhu17 line 1570; display (3.1.10), p.39, Zhu17 line 1627; Proposition 3.1.13, p.40, Zhu17 line 1648; display (3.1.21) and Lemma 3.1.23, pp.42–43, Zhu17 line 1749; Theorem 3.2.1, p.44, Zhu17 line 1810.)
+
+For a coweight ν let S_ν and T_ν be the LU-orbit and the LU⁻-orbit of t^ν in the reduced ind-scheme underlying Gr_H. Prove that Gr_H(F̄) is the disjoint union of the S_ν(F̄), and also of the T_ν(F̄); that S_ν is locally closed with closure the union of the S_ν′ for ν′≤ν, and T_ν locally closed with closure the union of the T_ν′ for ν′≥ν; that for the G_m-action through a regular dominant cocharacter κ of T the fixed points of the reduced ind-scheme are the t^ν, S_ν is the set of points x with κ(s)x→t^ν as s→0 and T_ν the set with κ(s)x→t^ν as s→∞; and that S_ν meets Gr^≤μ only if t^ν∈Gr^≤μ. The dimension estimates for these intersections are §6.2. (Zhu17, display (5.3.5) and Proposition 5.3.6, p.64, Zhu17 line 2645; Lemma 5.3.7, p.65, Zhu17 line 2679.)
+
+When F contains a finite field F_q, identify Gr_H, its strata, Schubert varieties, finite-jet actions and convolution with the base change to F of the one-leg fibre at an F_q-rational point of GlobalShtukasAndFunctionFieldLanglands §1.1 and of the ordinary Schubert models of GeometricSatakeAndFusion §0.29; these reduced schemes stay reduced after base change because F_q is perfect. When F=ℂ identify them with the loop Grassmannian and affine flag variety of FormalConnectionsOpers §3A.5. The finite-field Satake input of §3.1 is transported along the first identification.
+
+The API:
+
+- Gr_H represents the torsor-and-trivialization functor and is the fpqc quotient of LH by L⁺H on every F-algebra, compatibly with extension of the base field and with Beauville–Laszlo gluing to the affine line.
+
+- Gr_H is ind-projective; for every closed embedding of H into GL(V) the quotient GL(V)/H is affine and Gr_H→Gr_GL(V) is a closed immersion.
+
+- For a product H₁×H₂ the loop Grassmannian is Gr_H₁×Gr_H₂, compatibly with positive loops, with the strata (the stratum of (λ₁,λ₂) is Gr^λ₁×Gr^λ₂), with convolution and with the Beilinson–Drinfeld forms; an automorphism of H, in particular a permutation of the factors of Hᵖ, acts compatibly on all of these.
+
+- The L⁺H-orbits are the Gr^λ, of dimension ⟨2ρ,λ⟩ with connected stabilizers; Gr^≤λ is the union of the Gr^μ for μ≤λ, the positive loops act on it through a jet group, and dimensions have constant parity on each connected component.
+
+- Iwahori orbits on Fl_H are affine spaces indexed by W̃, Demazure varieties resolve their closures, and Fl_H→Gr_H is a locally trivial H/B-fibration.
+
+- Convolution Grassmannians carry the projections and convolution maps above, and the convolution of Gr^≤λ and Gr^≤μ is a projective scheme mapping onto Gr^≤(λ+μ).
+
+- Beilinson–Drinfeld Grassmannians over A^J have the diagonal and factorization isomorphisms, permutation equivariance and convolution forms above.
+
+- The semi-infinite orbits S_ν and T_ν are the attracting and repelling loci of t^ν for a regular dominant cocharacter, with the stated closure relations.
+
+- Over extensions of F_q and over ℂ these constructions agree with GlobalShtukasAndFunctionFieldLanglands §1.1, GeometricSatakeAndFusion §0.29 and FormalConnectionsOpers §3A.5.
+
+*Proof route.* Construct the GL_n case by the lattice charts in the Grassmannian of ModularCurves Layer 0G. For general H, the fppf quotient GL(V)/H is an algebraic space over which GL(V) is an H-torsor. Since H is geometrically reductive, GL(V)/H maps to the invariant quotient GL(V)//H=Spec O(GL(V))^H of ArithmeticGaloisRepresentations §1.11, *Reductive quotients over fields and DVRs*, by an adequately affine morphism, which is affine by the adequate form of Serre's criterion; so GL(V)/H is affine (Alper14, Theorem 9.7.5, p.49; Proposition 9.7.8 and Corollary 9.7.7, p.51, Alper14 line 2044). Use Beauville–Laszlo gluing for the affine-line and multi-leg descriptions and Quot schemes for the Beilinson–Drinfeld bounds. Prove the orbit statements on F̄-points from the Cartan, Iwasawa and Iwahori–Bruhat decompositions over F̄((t)), and descend to F, using that every orbit representative t^ν is F-rational. Prove the attractor descriptions from the T-weights on the root subgroups of LU and LU⁻.
+
+*Needs:* ReductiveGroups Layers 1, 7 and 9; ReductiveGroupsPartII §RG2.0a (*weil-restriction-group-scheme*, *weil-restriction-smoothness-and-immersions*) and §RG2.4 (*cartan-decomposition*, *iwasawa-decomposition*, *iwahori-bruhat-decomposition*); ArithmeticGaloisRepresentations §1.11, *Reductive quotients over fields and DVRs*; SchemeAndStackFoundations §§1.1, 1.15–1.17, 4.14; ModularCurves Layer 0G; RelativeFarguesFontaine §6.5; for the comparisons only, GlobalShtukasAndFunctionFieldLanglands §1.1, GeometricSatakeAndFusion §0.29 and FormalConnectionsOpers §3A.5.
+
+**Checks.**
+
+- For H=G_m, Gr_H(F)=ℤ through the lattices tⁿF[[t]]. Over R=F[ε]/ε² the unit 1+εt⁻¹, with inverse 1−εt⁻¹, gives an R-point reducing to the base point but different from it, since 1+εt⁻¹∉R[[t]]. So Gr_(G_m) is not the constant scheme ℤ, although its reduced ind-scheme is.
+
+- For H=GL₂ and λ=(1,0), Gr^≤λ=Gr^λ is the projective line of lines in L₀/tL₀, L₀=F[[t]]², of dimension ⟨2ρ,λ⟩=1. For λ=(1,−1), Gr^≤λ is Gr^λ together with the point L₀: a two-dimensional quadric cone, singular at L₀. The strata (0,0) and (1,−1) have dimensions 0 and 2 on the determinant-degree-zero component, and (1,0) and (2,−1) have dimensions 1 and 3 on the degree-one component. A rule that Schubert varieties are smooth, or equal to their open orbits, is refuted.
+
+- For GL₂, L⁺GL₂ acts on Gr^≤(1,0) through GL₂=L¹GL₂, but not on Gr^≤(1,−1): the element 1+tE₁₂ sends t⁻¹e₂ to t⁻¹e₂+e₁, which is not in tF[[t]]e₁⊕t⁻¹F[[t]]e₂. Every element 1+t²X fixes each lattice between tL₀ and t⁻¹L₀, so L²GL₂ suffices there. The jet level depends on λ.
+
+- The fibre of Fl_GL₂→Gr_GL₂ over L₀ is the projective line GL₂/B, the union of two Iwahori orbits, a point and an affine line, indexed by 1 and the finite simple reflection. For a simple reflection the Demazure variety is that projective line, mapping isomorphically onto the closure of its orbit.
+
+- For B⊂GL₂, Gr_B→Gr_GL₂ is bijective on F̄-points by the Iwasawa decomposition but is not a closed immersion: its pieces S_ν are open and closed in its reduced ind-scheme, whereas S_ν is not closed in Gr_GL₂. Here GL₂/B is the projective line, which is not affine; GL₂/T is affine. Reductivity is needed for the closed immersion.
+
+- For GL₂ the convolution Gr^(1,0)×̃Gr^(1,0)→Gr^≤(2,0) is a map between surfaces whose fibre over the point tL₀ of Gr^(1,1) is a projective line, namely all L₁ with tL₀⊂L₁⊂L₀ of colength one, and whose fibre over a point of Gr^(2,0) is one point. The convolution map is surjective but not finite.
+
+- For G_m with two legs, the coweights (1,1) on the complement of the diagonal specialize to 2 on the diagonal and (1,−1) specialize to 0. The disjoint-product description is therefore not asserted on the diagonal.
+
+- For GL₂ with B upper triangular and λ=(1,0), S_(1,0)∩Gr^λ is the affine line of lines F(e₂+ae₁) and S_(0,1)∩Gr^λ is the point Fe₁, of dimensions 1 and 0. For κ=2ρ∨, diag(s,s⁻¹) sends the line [a:b] to [s²a:b], which tends to [0:1]=t^(1,0) when b≠0. With the opposite Borel the two roles are exchanged, so the attracting direction is pinned by the choice of B.
+
+
 ### 3.1 Modular equal-characteristic geometric Satake
 
-Extend the supplied finite-extension equal-characteristic Satake equivalence to connected reductive H over every separably closed F of characteristic different from p and to coefficients k=F̄_p and O=W(k). The spherical perverse category with k coefficients and fusion symmetry is tensor-equivalent to finite-dimensional rational Rep_k(Ĥ). The O-flat perverse subcategory is tensor-equivalent to finite free rational representations of Ĥ_O. Identify total cohomology, corrected for the parity sign in fusion symmetry, with the fibre functor. Prove the compatible coefficient, weight-functor, finite-support and field-extension comparisons; the equal-characteristic scheme Grassmannian and its ordinary Schubert models remain the supplied ones. (MV07, Proposition 11.1, p.31; Theorem 12.1, p.33; Theorem 14.1, p.40, MV07 line 1647; Feng24, opening of §4, p.19; §4.5, p.23; Remark A.1, p.58, Feng24 line 824.)
+Extend the supplied finite-extension equal-characteristic Satake equivalence to connected reductive H over every separably closed F of characteristic different from p and to coefficients k=F̄_p and O=W(k). The spherical perverse category with k coefficients and fusion symmetry is tensor-equivalent to finite-dimensional rational Rep_k(Ĥ). The O-flat perverse subcategory is tensor-equivalent to finite free rational representations of Ĥ_O. Identify total cohomology, corrected for the parity sign in fusion symmetry, with the fibre functor. Prove the compatible coefficient, weight-functor, finite-support and field-extension comparisons; the Grassmannian, its ordinary Schubert models and the fusion geometry are those of §3.0. (MV07, Proposition 11.1, p.31; Theorem 12.1, p.33; Theorem 14.1, p.40, MV07 line 1647; Feng24, opening of §4, p.19; §4.5, p.23; Remark A.1, p.58, Feng24 line 824.)
 
 *Proof route.* Extend the supplied weight-functor and projective-generator reconstruction through the permitted finite coefficient levels and their enhanced limits, and through arbitrary separably closed base change. Verify the dual root datum, fusion signs, perverse-flat/free restriction, field extension and coefficients. Construct the semi-infinite estimates needed by this proof independently of cyclic Smith compatibility in Layer 6.
 
-*Needs:* GlobalShtukasAndFunctionFieldLanglands §§1.1–1.3, 1.5, 1.14 and the arbitrary-geometric-field contract; EtaleDualityAndPerverseSheaves §§2.4–2.5; ReductiveGroupsPartII §§RG2.5.1–RG2.5.2; ReductiveGroups Layer 1; EtaleCohomologyFoundations §§F.1–F.3, F.5–F.6; EtaleDualityAndPerverseSheaves §§0.1–0.2, 2.2; EnhancedDerivedSheaves §§0.1–0.4, E1.3–E1.4; GlobalShtukasAndFunctionFieldLanglands §§1.8–1.9, 1.14; GeometricSatakeAndFusion §0.29, Equal-characteristic Schubert models and coefficient comparison.
+*Needs:* §3.0; GlobalShtukasAndFunctionFieldLanglands §§1.5, 1.8–1.9, 1.14; EtaleDualityAndPerverseSheaves §§2.4–2.5; ReductiveGroupsPartII §§RG2.5.1–RG2.5.2; ReductiveGroups Layer 1; EtaleCohomologyFoundations §§F.1–F.3, F.5–F.6; EtaleDualityAndPerverseSheaves §§0.1–0.2, 2.2; EnhancedDerivedSheaves §§0.1–0.4, E1.3–E1.4.
 
 **Checks.**
 
@@ -723,7 +795,7 @@ For dual SL₂ in characteristic 3, Δ(3) has dimension 4 and is not tilting. Th
 
 ### Dependencies
 
-Layer 0; GlobalShtukasAndFunctionFieldLanglands §§1.1–1.5, 1.8–1.9, 1.14 and its field-extension contract; GeometricSatakeAndFusion §0.29; ReductiveGroups Layers 1, 4, 9; ReductiveGroupsPartII §§RG2.5.1–RG2.5.2; LanglandsParameterStacks §4.1 and the finite-highest-weight-ideals, integral-highest-weight-orders and integral-tilting-lifts contracts; EnhancedDerivedSheaves E1.4; EtaleDualityAndPerverseSheaves §§2.4–2.5 and the adic contract.
+Layer 0; GlobalShtukasAndFunctionFieldLanglands §§1.1–1.5, 1.8–1.9, 1.14; GeometricSatakeAndFusion §0.29 and FormalConnectionsOpers §3A.5 for the comparisons of §3.0; ReductiveGroups Layers 1, 4, 7, 9; ReductiveGroupsPartII §§RG2.0a, RG2.4, RG2.5.1–RG2.5.2; ArithmeticGaloisRepresentations §1.11; SchemeAndStackFoundations §§1.1, 1.15–1.17, 4.14; ModularCurves Layer 0G; RelativeFarguesFontaine §6.5; LanglandsParameterStacks §4.1 and the finite-highest-weight-ideals, integral-highest-weight-orders and integral-tilting-lifts contracts; EnhancedDerivedSheaves E1.4; EtaleDualityAndPerverseSheaves §§2.4–2.5 and the adic contract.
 
 
 ## Layer 4: Parity, integral Tate Hom and normalized lifting
@@ -804,7 +876,7 @@ The L^+H-orbit stratification of every finite Schubert union in Gr_H satisfies t
 
 *Proof route.* Build Bott–Samelson parity pushforwards on affine flag varieties, then take the appropriate summands on the partial flag/Grassmannian. Check evenness, the local-system condition and integral lifting on each bounded piece. Carry out these arguments directly for étale sheaves on the scheme-theoretic Grassmannian over F, in place of the complex topology: Iwahori orbits on the affine flag variety are affine spaces, the projection to the Grassmannian restricts on strata to projections between affine spaces and is therefore even, and proper even pushforward preserves parity (JMW14, Proposition 2.34, p.15, JMW14 line 668; §4.1, p.29, JMW14 line 1340; Proposition 4.10, p.33, JMW14 line 1505), using proper base change, Künneth and purity for the étale cohomology of fibres. Every target of Layers 4–6 is stated for étale sheaves over F and proved here; none imports a complex-topological statement as a theorem.
 
-*Needs:* §4.3; GlobalShtukasAndFunctionFieldLanglands §§1.1–1.3, 1.5, 1.14 and the arbitrary-geometric-field contract; GeometricSatakeAndFusion §0.29, *Equal-characteristic Schubert models and coefficient comparison*; EtaleCohomologyFoundations §§F.2–F.3, F.5–F.6; EnhancedDerivedSheaves §§0.1–0.4, E1.3–E1.4.
+*Needs:* §4.3; §3.0; EtaleCohomologyFoundations §§F.2–F.3, F.5–F.6; EnhancedDerivedSheaves §§0.1–0.4, E1.3–E1.4.
 
 **Checks.**
 
@@ -983,7 +1055,7 @@ On the GL₂ minuscule Schubert P¹, E=O[1] is normalized and perverse. Its inte
 
 ### Dependencies
 
-Layers 0–3; the equal-characteristic Schubert/Demazure geometry; EnhancedDerivedSheaves E1.4; EtaleCohomologyFoundations recollement and smooth-pair purity. The modular exotic/Soergel comparison and its étale constructible side are §4.5 targets here.
+Layers 0–3, including the loop-Grassmannian, affine-flag and Demazure geometry of §3.0; EnhancedDerivedSheaves E1.4; EtaleCohomologyFoundations recollement and smooth-pair purity. The modular exotic/Soergel comparison and its étale constructible side are §4.5 targets here.
 
 
 ## Layer 5: Cyclic norm and linear base change
@@ -995,7 +1067,7 @@ For G=H^p with σ rotating factors, Gr_G≅(Gr_H)^p and Gr_G^σ≅Gr_H by the di
 
 *Proof route.* Apply the product description of loop groups and positive loops to the fppf quotient; test-ring fixed points force all components equal. Use the imported dimension formula d_λ=⟨2ρ,λ⟩. Equality mod two is not equality of the integer shifts.
 
-*Needs:* §0.2; GlobalShtukasAndFunctionFieldLanglands §§1.1–1.3, 1.5, 1.14 and the arbitrary-geometric-field contract; §0.1.
+*Needs:* §0.2; §3.0; §0.1.
 
 **Checks.**
 
@@ -1022,7 +1094,7 @@ The API:
 
 *Proof route.* Use fusion associativity and the sign-corrected symmetry to construct the cyclic linearization and prove its p-th power is the identity. For odd p good for Ĥ, the parity–tilting comparison and tensor closure under Satake give closure on normalized parity objects; the all-k-Satake norm itself uses no goodness restriction.
 
-*Needs:* §3.1; §5.1; §4.5 only for the normalized parity domain; GlobalShtukasAndFunctionFieldLanglands §§1.1–1.3, 1.5, 1.14 and the arbitrary-geometric-field contract.
+*Needs:* §3.1; §5.1; §4.5 only for the normalized parity domain; §3.0 for the p-fold convolution and Beilinson–Drinfeld Grassmannians and their cyclic permutation.
 
 **Checks.**
 
@@ -1165,7 +1237,7 @@ A rank-two free stalk with basis e₀,e₁ has eight tensor words for p=3: two c
 
 ### Dependencies
 
-Layers 2–4; GlobalShtukasAndFunctionFieldLanglands §1.5 convolution/fusion; the pinned Frobenius automorphism; ReductiveGroupsPartII §RG2.0a (tame fixed-point smoothness) and §RG2.5.1. The construction uses ordinary parity Hom base change, graded integral Tate Hom and cyclic transfer factorization.
+Layers 2–4, including the convolution and Beilinson–Drinfeld Grassmannians of §3.0; the pinned Frobenius automorphism; ReductiveGroupsPartII §RG2.0a (tame fixed-point smoothness) and §RG2.5.1. The construction uses ordinary parity Hom base change, graded integral Tate Hom and cyclic transfer factorization.
 
 
 ## Layer 6: Constant terms and natural diagonal restriction
@@ -1187,7 +1259,7 @@ The API:
 
 *Proof route.* Use the imported loop/Schubert geometry but construct these equal-characteristic modular functors here. Apply Braden’s natural transformation on equivariant linear/projective ambient models containing each bounded piece; the contraction lemma and open–closed localization prove it invertible on weakly equivariant generators, then on their triangulated closure. Patch bounded supports and finite coefficient levels, using the uniform adic contract gap:witt-adic-uniform-operations for O; the contraction and localization arguments are run directly for étale sheaves on the bounded pieces. The normalized shift convention is positive [⟨2ρ,ν⟩], so weight cohomology is in degree zero.
 
-*Needs:* GlobalShtukasAndFunctionFieldLanglands §§1.1–1.3, 1.5, 1.14 and the arbitrary-geometric-field contract; EtaleCohomologyFoundations §§F.1–F.3, F.5–F.6; EtaleDualityAndPerverseSheaves §§0.1–0.2, 2.2 and its contract gap:witt-adic-uniform-operations; §2.2; §2.8.
+*Needs:* §3.0; EtaleCohomologyFoundations §§F.1–F.3, F.5–F.6; EtaleDualityAndPerverseSheaves §§0.1–0.2, 2.2 and its contract gap:witt-adic-uniform-operations; §2.2; §2.8.
 
 **Checks.**
 
@@ -1206,9 +1278,9 @@ For dominant λ and the chosen positive Borel, the semi-infinite orbit indexed b
 
 The dimension formula is asserted only for a nonempty intersection S_ν∩Gr_H^μ, with μ dominant and ν a coweight in its Weyl polytope and component. Empty intersections have no dimension prescribed by that expression.
 
-*Proof route.* Compute the antidominant intersection using loop-unipotent factorization; the opposite positive loops fix its coweight point. Use the Schubert order and torus weight polytope for the support exclusion. These are statements about the scheme-theoretic Grassmannian over F, proved with the supplied equal-characteristic geometry and its arbitrary-geometric-field contract, not transported from the complex Grassmannian.
+*Proof route.* Compute the antidominant intersection using loop-unipotent factorization; the opposite positive loops fix its coweight point. Use the Schubert order and torus weight polytope for the support exclusion. These are statements about the scheme-theoretic Grassmannian over F, proved with the geometry of §3.0, not transported from the complex Grassmannian.
 
-*Needs:* §6.1; GlobalShtukasAndFunctionFieldLanglands §§1.1–1.3, 1.5, 1.14 and the arbitrary-geometric-field contract.
+*Needs:* §6.1; §3.0.
 
 **Checks.**
 
@@ -1332,7 +1404,7 @@ For the minuscule GL₂ P¹, the two weights are ν₊=(1,0) and ν₋=(0,1). Th
 
 ### Dependencies
 
-Layers 1–5; equal-characteristic bounded Schubert geometry; EtaleCohomologyFoundations compact supports; the explicit adic contract and the étale forms of §§4.4–4.7. The natural reductive endpoint additionally needs §6.8 root-subgroup equivariance.
+Layers 1–5, including the Schubert and semi-infinite geometry of §3.0; EtaleCohomologyFoundations compact supports; the explicit adic contract and the étale forms of §§4.4–4.7. The natural reductive endpoint additionally needs §6.8 root-subgroup equivariance.
 
 
 ## Layer 7: Exactness, descent and the integral norm image
@@ -1604,4 +1676,7 @@ Every statement is expressed in the roadmap's words. Printed page numbers and th
 - **Stacks.** The Stacks Project Authors, [*The Stacks Project*](https://stacks.math.columbia.edu/): Algebra §10.101, Tag 051E, especially Lemmas 10.101.1–10.101.3, Stacks line 11331, with Lemma 10.101.3 (Tag 051H) at Stacks line 11356; Cohomology on Sites Lemmas 21.46.3 and 21.46.10, Tags 08G1 and 0DJJ, Stacks lines 5207 and 5300; More on Algebra Definition 15.70.1, Tag 0A5N, Stacks line 8130; Fields Lemma 9.13.1, Tag 0CKL in §0CKK, Stacks line 728.
 - **Don93.** Stephen Donkin, [*On tilting modules for algebraic groups*](https://doi.org/10.1007/bf02571640), Math. Z. 212 (1993). Cited by its locator, Theorem 1.1, for existence and classification of indecomposable tilting modules, as recalled in JMW16 Theorem 1.1.
 - **Braden03.** Tom Braden, [*Hyperbolic localization of intersection cohomology*](https://arxiv.org/abs/math/0202251v5), Transformation Groups 8 (2003), pp.209–216. Locators use arXiv v5: Theorem 1, p.2, and Lemma 6, p.5; weak equivariance and normality are retained.
+- **Zhu17.** Xinwen Zhu, [*An introduction to affine Grassmannians and the geometric Satake equivalence*](https://arxiv.org/abs/1603.05593v2), in Geometry of moduli spaces and representation theory, IAS/Park City Math. Ser. 24, AMS (2017), pp.59–154. Locators use arXiv v2: Theorem 1.1.3, p.8; Theorem 1.2.2, p.10; Propositions 1.2.5–1.2.6, p.11; (1.2.12)–(1.2.15), pp.12–13; Proposition 1.3.6 and Remark 1.3.8, p.14; Theorem 1.3.11, p.15; Theorem 1.4.2, p.16; (2.1.2), p.23; Propositions 2.1.4–2.1.5, pp.24–25; Corollary 2.1.11, p.26; Definition 3.1.1 and Theorem 3.1.3, p.38; (3.1.10), p.39; Proposition 3.1.13, p.40; (3.1.21) and Lemma 3.1.23, pp.42–43; Theorem 3.2.1, p.44; §5.1, p.58; (5.3.5) and Proposition 5.3.6, p.64; Lemma 5.3.7, p.65. The notes work over an arbitrary base field, with §5 over an algebraically closed one.
+- **PappasRapoport08.** Georgios Pappas and Michael Rapoport, [*Twisted loop groups and their affine flag varieties*](https://arxiv.org/abs/math/0607130v2), Adv. Math. 219 (2008), pp.118–198. Locators use arXiv v2: Theorem 1.4, p.9; Propositions 8.7–8.8, pp.38–39; Proposition 9.6 and its proof, pp.48–49. Section 8 works over an algebraically closed field.
+- **Alper14.** Jarod Alper, [*Adequate moduli spaces and geometrically reductive group schemes*](https://arxiv.org/abs/1005.2398v3), Algebraic Geometry 1 (2014), pp.489–531. Locators use arXiv v3: Theorem 9.7.5, p.49; Corollary 9.7.7 and Proposition 9.7.8, p.51.
 - **TV16.** David Treumann and Akshay Venkatesh, [*Functoriality, Smith theory, and the Brauer homomorphism*](https://arxiv.org/abs/1407.2346v1), Ann. of Math. 183 (2016), pp.177–228. Locators use arXiv v1: §2.1, p.5, and §3.4, (3.4.1), pp.11–12.
