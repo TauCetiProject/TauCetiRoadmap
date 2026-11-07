@@ -266,15 +266,20 @@ the *-algebra operations; the Fatou bounds for μ_t and τ.
 **Checks.**
 - For M=M_d(ℂ) with the unnormalized trace and δ<1, `τ(1−e)≤δ` forces e=1, so `V(ε,δ)` is the
   norm ball of radius ε: the measure topology is the norm topology, and M̃=M. The same holds for
-  B(H) with the usual trace (Hiai, Example 4.13(1)); a definition allowing `τ(1−e)<δ` with
-  δ=1 would admit rank-one cuts and give a strictly coarser topology on M₂(ℂ).
+  B(H) with the usual trace (Hiai, Example 4.13(1)). The neighbourhoods with δ≥1 do not
+  separate on their own: `e₁₁∈V(ε,1)` for every ε>0 (cut by e=e₂₂, for which e₁₁e=0), so a
+  definition that fixed the cut size at δ=1 instead of letting δ→0 would give a strictly
+  coarser, non-Hausdorff topology on M₂(ℂ).
 - For M=L∞(ℝ) with Lebesgue measure, `x_n=n 1_(0,1/n)` lies in `V(ε,1/n)` for every ε>0
   (cut by e=1−1_(0,1/n), for which x_n e=0), so x_n→0 in measure while `‖x_n‖_∞=n`: the
   measure topology is strictly coarser than the norm topology on an infinite diffuse algebra.
 - Products: with x_n as above and y_n=1_(0,1/n), `x_n y_n=x_n→0` in measure, and the product
-  law `V(ε₁,δ₁)V(ε₂,δ₂)⊆V(ε₁ε₂,δ₁+δ₂)` gives this from x_n∈V(ε,1/n), y_n∈V(ε,1/n); a law
-  with `max(δ₁,δ₂)` in place of the sum is false for cuts supported on disjoint sets, for
-  instance x=1_(0,1)·n and y=1_(1,2)·n, each in V(ε,1) but with x+y∉V(ε,1) when n>ε.
+  law `V(ε₁,δ₁)V(ε₂,δ₂)⊆V(ε₁ε₂,δ₁+δ₂)` gives this from x_n∈V(ε,1/n), y_n∈V(ε,1/n).
+- The sums of the cut sizes are not decorative. Sum law: x=n1_(0,1) and y=n1_(1,2) lie in
+  V(ε,1), and x+y=n1_(0,2) lies in V(2ε,2) but not in V(2ε,1) when n>2ε, so `max(δ₁,δ₂)` in
+  place of δ₁+δ₂ is false; for the product law these x,y give no counterexample, since xy=0.
+  Product law: x′=n1_(0,1)+1_(1,2) and y′=1_(0,1)+n1_(1,2) lie in V(1,1) (cut by 1−1_(0,1) and
+  1−1_(1,2)), and x′y′=n1_(0,2) lies in V(1,2) but not in V(1,1) when n>1.
 - Fatou: `x_n=1_(n,n+1)` on L∞(ℝ) converges to 0 in measure with τ(x_n)=1, so
   `τ(0)=0≤liminf τ(x_n)=1` is strict; an equality in place of the inequality is false.
 
@@ -282,8 +287,12 @@ the *-algebra operations; the Fatou bounds for μ_t and τ.
 
 For 0<p<∞ define `Lp(M,τ)={x∈M̃ : τ(|x|^p)<∞}` with `‖x‖_p=τ(|x|^p)^(1/p)`, which for 1≤p<∞ is
 V10.TracialLp's space. For 0<p<1 prove the p-triangle inequality `‖x+y‖_p^p≤‖x‖_p^p+‖y‖_p^p`
-by the route of §1.4, and prove that `d(x,y)=‖x−y‖_p^p` is a complete translation-invariant
-metric (Fack–Kosaki, Theorem 4.9(iii); Hiai, Lemma 5.3 and Theorem 5.10). Prove that convergence
+by the route of §1.4 (Fack–Kosaki, Theorem 4.7(i) with `g(s)=s^p` and t→∞), and prove that
+`d(x,y)=‖x−y‖_p^p` is a complete translation-invariant metric: a metric by the p-triangle
+inequality and the linear structure of Lp(M,τ) (Hiai, Lemma 5.3(1)), and complete by the
+argument of Hiai's proof of Theorem 5.10, which uses only the comparison with the measure
+topology below, the completeness of M̃ (§1.2) and Fatou for μ_t (Fack–Kosaki, Lemma 3.4(i)),
+none of which needs p≥1. Prove that convergence
 in the p-gauge implies convergence in measure, by `V(ε,δ)∩Lp(M,τ)⊇{‖x‖_p≤εδ^(1/p)}`. Prove
 dominated convergence: if x_n→x in measure and `|x_n|≤y` for one positive y∈Lp(M,τ), then
 x∈Lp(M,τ) and `‖x_n−x‖_p→0` (Fack–Kosaki, Theorem 3.6, with S_n=S=y; Hiai,
@@ -325,9 +334,11 @@ function and μ_t. For continuous increasing concave g with g(0)=0 prove
 `∫₀ᵗ g(μ_s(x+y))ds≤∫₀ᵗ g(μ_s(x))ds+∫₀ᵗ g(μ_s(y))ds` (Fack–Kosaki, Theorem 4.7(i)) through the
 positive-sum reduction by polar decomposition and compression. Supply the concave trace
 inequality `τ((a+b)^r)≤τ(a^r)+τ(b^r)` for a,b≥0 and 0<r≤1 and deduce the p-triangle inequality
-of §1.3 for arbitrary x,y by Fack–Kosaki's route: set `g(s)=s^r` with 0<r<p, insert the
-rearrangement formula, and let r↑p (Fack–Kosaki, proof of Theorem 4.9(iii)). Pointwise
-`μ_(s+t)` bounds alone do not give these constants.
+of §1.3 for arbitrary x,y: set `g(s)=s^p`, which is concave for p≤1, let t→∞ and insert the
+rearrangement formula `τ(|x|^p)=∫₀^∞ μ_s(x)^p ds`. The variant with `g(s)=s^r`, 0<r<p, at t=1
+followed by the limit r↑p (Fack–Kosaki, proof of Theorem 4.9(iii)) is the Haagerup-space
+argument of §3.3, where `∫₀^∞ μ_s(x)^p ds` diverges. Pointwise `μ_(s+t)` bounds alone do not
+give these constants.
 *Needs:* §1.1; VonNeumannAlgebras V2 (the amplification tensor product); OperatorTheory/Majorization
 MAJ-A28 and MAJ-A31 for the matrix Check; Fack–Kosaki, §4.
 
@@ -423,8 +434,10 @@ rearrangement gauge from the equivalent Banach norms of Lp,q for p>1 (Bergh–L�
 
 - M_d(ℂ) with the unnormalized trace: M̃=M, μ_t=s_⌊t⌋, every Lp is M_d(ℂ) with the Schatten
   norm, and the measure topology is the norm topology.
-- L∞(Ω,μ) for a σ-finite measure: M̃ is the algebra of measurable functions finite outside
-  sets of finite measure, μ_t is the decreasing rearrangement, and Lp(M,τ) is Mathlib's Lp.
+- L∞(Ω,μ) for a σ-finite measure: M̃ is the algebra of measurable functions bounded outside a
+  set of finite measure (Hiai, Example 4.13(3); `f=n` on (n,n+1) is finite everywhere but has
+  `μ(|f|>λ)=∞` for every λ, so it is not τ-measurable), μ_t is the decreasing rearrangement, and
+  Lp(M,τ) is Mathlib's Lp.
 - B(H) with the usual trace: M̃=B(H), μ_t=a_⌊t⌋, Lp is the Schatten class S_p for every
   0<p<∞ (a quasi-ideal for p<1), weak Lp is the weak Schatten class, and the finite-trace
   inclusions fail (the identity has infinite trace).
@@ -488,7 +501,8 @@ Construct `[E₀,E₁]_θ` for 0<θ<1 from the space F of bounded continuous fun
 strip `{0≤Re z≤1}` to E₀+E₁, holomorphic inside, whose boundary values on `Re z=j` lie in E_j,
 are continuous there and tend to 0 at vertical infinity, with norm `max_j sup_t ‖f(j+it)‖_j`; the
 interpolation space is the image of evaluation at θ with the quotient norm (Bergh–Löfström,
-§4.1; Cwikel, §2.1). Prove boundedness of evaluation by Mathlib's three-lines theorem
+§4.1, after Calderón; Cwikel, §2.1 for the references into Calderón and Definition 2.14 for
+the equivalent disc form). Prove boundedness of evaluation by Mathlib's three-lines theorem
 `Complex.HadamardThreeLines.norm_le_interpStrip_of_mem_verticalClosedStrip` applied to
 `z↦⟨f(z),φ⟩` for φ in the dual of E₀+E₁, completeness, density of E₀∩E₁ for regular couples,
 functoriality, and the operator estimate `‖T‖_θ≤‖T‖₀^(1−θ)‖T‖₁^θ` (Bergh–Löfström,
@@ -497,11 +511,13 @@ multipliers `exp(δz²)`, the symmetry `[E₀,E₁]_θ=[E₁,E₀]_(1−θ)`, an
 each endpoint by the closure of E₀∩E₁ in it. Construct Calderón's upper method `[E₀,E₁]^θ` from
 continuous sum-valued strip functions of at most linear growth, holomorphic inside, whose
 boundary differences `g(j+it)−g(j+is)` lie in E_j with uniformly bounded Lipschitz quotients,
-with norm the infimum of those Lipschitz bounds over g with g′(θ) the given element (Cwikel,
-§2.2; Bergh–Löfström, §4.1). For a regular couple embed the endpoint duals into (E₀∩E₁)* and
-prove Calderón's duality `([E₀,E₁]_θ)*=[E₀*,E₁*]^θ` isometrically (Cwikel, §2, Calderón's
-theorem; Bergh–Löfström, Theorem 4.5.1). Prove that the lower and upper methods coincide with
-equal norms when one endpoint is reflexive, and keep them distinct without that hypothesis.
+with norm the infimum of those Lipschitz bounds over g with g′(θ) the given element
+(Bergh–Löfström, §4.1; Cwikel, §2.4, Definition 2.21 and Corollary 2.27, for the equivalent
+description of the upper space of a dual couple). For a regular couple embed the endpoint duals
+into (E₀∩E₁)* and prove Calderón's duality `([E₀,E₁]_θ)*=[E₀*,E₁*]^θ` isometrically (Cwikel,
+Theorem 2.2; Bergh–Löfström, Theorem 4.5.1). Prove that the lower and upper methods coincide
+with equal norms when one endpoint is reflexive (Bergh–Löfström, Theorem 4.3.1), and keep them
+distinct without that hypothesis.
 Prove reiteration: for a regular couple and `X_j=[E₀,E₁]_(θ_j)` with 0≤θ₀<θ₁≤1 (the original
 endpoint at θ_j∈{0,1}) and E₀∩E₁ dense in X₀∩X₁, `[X₀,X₁]_η=[E₀,E₁]_((1−η)θ₀+ηθ₁)` with equal
 norms for 0<η<1 (Bergh–Löfström, Theorem 4.6.1), by the affine strip composition for one
@@ -542,8 +558,8 @@ than reproving distribution-function inequalities.
   `‖t^(−θ)min(1,t)‖_(L^q(dt/t))` is finite exactly because 0<θ<1; at θ=0 or 1 the integral
   diverges, which is why the endpoints are excluded.
 - `(L¹,L∞)_(1/2,2)=L²` with equivalent norms on (0,∞): for f=1_(0,1), `K(t,f)=min(t,1)` and
-  `∫ t^(−1)min(t,1)² dt/t=∫₀¹ t dt+∫₁^∞ t^(−2) dt=1/2+1=3/2`, finite, matching `‖f‖₂=1` up to
-  the equivalence constant.
+  `∫ t^(−1)min(t,1)² dt/t=∫₀¹ 1 dt+∫₁^∞ t^(−2) dt=1+1=2`, finite, matching `‖f‖₂=1` up to
+  the equivalence constant; the integrand is `t^(−2)min(t,1)²`, which is 1 on (0,1).
 - `(L¹,L∞)_(θ,∞)` is weak L^p: for `f=t^(−1/p)` the gauge `sup t^(−θ)K(t,f)` with
   `K(t,f)=∫₀ᵗ s^(−1/p)ds=t^(1−1/p)/(1−1/p)` is finite exactly when θ=1−1/p.
 
@@ -854,8 +870,10 @@ conditional-expectation theorem); Hiai, §6.1; Haagerup–Junge–Xu, §2.
   symmetric matrix e₁₂+e₂₁: `σ^φ_t(e₁₂+e₂₁)=2^(−it)e₁₂+2^(it)e₂₁∉N` for t≠0, so no φ-preserving
   expectation onto N exists, and no E_p is constructed.
 - p=1 preadjoint: for ω∈N_* the inclusion of preduals is `ω∘E∈M_*`, while E₁ sends ω∈M_* to its
-  restriction `ω|N`; on M=ℂ², N=ℂ these are `c↦(c/2,c/2)` and `(a,b)↦a+b`, adjoint to each
-  other but not inverse.
+  restriction `ω|N`; on M=ℂ², N=ℂ with the pairing `⟨(a,b),(x,y)⟩=ax+by` these are
+  `c↦(c/2,c/2)`, the preadjoint of E, and `(a,b)↦a+b`, the preadjoint of the inclusion N→M.
+  The restriction composed after the inclusion of preduals is the identity of N_*; the other
+  composite is `(a,b)↦((a+b)/2,(a+b)/2)`, the preadjoint of ι∘E, not the identity of M_*.
 
 ### 4.4 Bochner spaces
 
@@ -1131,8 +1149,10 @@ approximation of M. Its steps:
   `‖E(S⁴)‖≤3‖∑x_k²‖²` (Pisier, GT, Lemma 9.2, due to Pisier 1978 and Haagerup 1985). Expanding
   over pairings gives `E(S⁴)=A+B+C−2D` with `A=(∑x_i²)²`, `B=∑_i x_i(∑_j x_j²)x_i`,
   `C=∑_(i,j) x_ix_jx_ix_j` and `D=∑x_i⁴≥0`; bound A and B by `‖∑x_k²‖²` in the operator order
-  and ‖C‖ by the same quantity through the operator Cauchy–Schwarz inequality
-  `‖∑u_αv_α‖≤‖∑u_αu_α*‖^(1/2)‖∑v_α*v_α‖^(1/2)` with `u_(ij)=v_(ij)=x_ix_j` (CStarAlgebras C3).
+  and ‖C‖ by the same quantity through the row–column estimate
+  `‖∑u_αv_α‖≤‖∑u_αu_α*‖^(1/2)‖∑v_α*v_α‖^(1/2)` with `u_(ij)=v_(ij)=x_ix_j`, which is the
+  factorization of `∑u_αv_α` as the row `[u_α]` times the column `[v_α]` with the finite row
+  and column norm formulas of CStarAlgebras C3.3; here `∑u_αu_α*=∑v_α*v_α=B`.
 - Truncation and iteration. Reduce to self-adjoint families by `z_k=[[0,x_k],[x_k*,0]]` in
   `M₂(M)`, for which `∑z_k²=diag(∑x_kx_k*,∑x_k*x_k)`, and compress a solution for z to its
   off-diagonal corner. For self-adjoint x with `‖∑x_k²‖<1` put `c₀=√3/2` and `Φ=h(S)` with
@@ -1212,8 +1232,9 @@ coordinate projections.
 *Needs:* §6.1, §7.1; Pisier–Xu 1997, §1.
 
 **Checks.**
-- For the martingale of x=e₁₂ in §7.1, `dx₂*dx₂=e₂₂` and `dx₂dx₂*=e₁₁`, so
-  `‖x‖_(H_C^p)=‖x‖_(H_R^p)=1=sup_n‖x_n‖_p`.
+- For the martingale of x=e₁₂ in §7.1, with the trace tr/2 of that filtration, `dx₂*dx₂=e₂₂`
+  and `dx₂dx₂*=e₁₁`, so `‖x‖_(H_C^p)=‖e₂₂‖_p=(1/2)^(1/p)=‖e₁₁‖_p=‖x‖_(H_R^p)`, which is
+  `sup_n‖x_n‖_p=‖e₁₂‖_p=τ(e₂₂)^(1/p)`; with the unnormalized trace all three values are 1.
 - The adapted sum norm at p=1 is at least the sequence sum norm of §6.1 on dx, and can be
   strictly larger: a sequence decomposition `dx=b+c` with b not a martingale difference
   sequence is not admissible.
@@ -1424,7 +1445,10 @@ Appendix.
 - a=e₁₂ for the filtration of §7.1: `E₀(|a|²)=E₀(e₂₂)=1/2`, `E₁(|a−E₀a|²)=e₂₂` of norm 1,
   `E₂(|a−E₁a|²)=e₂₂`, so `‖a‖_(BMO_C)=1`; and `|a*|²=e₁₁` gives `‖a‖_(BMO_R)=1`, so
   `‖a‖_BMO=1=‖a‖_∞`, the equality case of (A1).
-- The endpoint bound on the same a: `‖a‖₁=1≤√2·‖a‖_(H¹)=√2·1`.
+- The endpoint bound on the same a, with tr/2: `‖a‖₁=τ(e₂₂)=1/2≤√2·‖a‖_(H¹)=√2·(1/2)`. Here
+  `‖a‖_(H¹)=1/2`: the decomposition a=a+0 gives `‖a‖_(H_C^1)=‖e₂₂‖₁=1/2`, and in any
+  decomposition a=y+z into two martingales the differences at n=2 add up to e₁₂, so their L¹
+  norms, each bounded by the column or row norm of its martingale, add up to at least 1/2.
 - Reverse estimate fails: the dyadic martingale `x_n=2^n1_(0,2^(−n))` on [0,1] has
   `sup‖x_n‖₁=1` while its square function `S=(∑|dx_k|²)^(1/2)` is about `2^k/√3` on
   `(2^(−k),2^(−k+1))`, so `‖S‖₁=∑_k 2^(−k)·2^k/√3=∞`: an L¹-bounded martingale need not lie
@@ -1459,8 +1483,9 @@ Layer 8 needs Layers 5–7, VonNeumannAlgebras V8, BanachSpaceTheory B1, and Mat
 
 - Bergh–Löfström, *Interpolation Spaces: An Introduction*, Springer 1976 (cited by locator):
   §1.3 for Lorentz spaces; §§2.3 and 3.1 for couples and the K-functional; Theorems 3.1.2 and
-  3.4.1 for the real method; §4.1, Theorem 4.1.2, Theorem 4.5.1 and Theorem 4.6.1 for the complex
-  methods, duality and reiteration; Theorems 5.1.1, 5.1.2 and 5.2.1 and §5.3 for the scalar Lp,
+  3.4.1 for the real method; §4.1 and Theorems 4.1.2, 4.3.1, 4.5.1 and 4.6.1 for the complex
+  methods, the reflexive-endpoint coincidence, duality and reiteration; Theorems 5.1.1, 5.1.2
+  and 5.2.1 and §5.3 for the scalar Lp,
   sequence and Lorentz identifications.
 - Fack–Kosaki, [*Generalized s-numbers of τ-measurable operators*](https://msp.org/pjm/1986/123-2/pjm-v123-n2-p03-s.pdf),
   Pacific J. Math. 123 (1986), 269–300: Definition 2.1, Proposition 2.2, Lemma 2.5 and
@@ -1479,8 +1504,9 @@ Layer 8 needs Layers 5–7, VonNeumannAlgebras V8, BanachSpaceTheory B1, and Mat
   11.14 and 11.16, Theorems 11.22, 11.25, 11.28 and 11.30, Propositions 11.20, 11.24, 11.26 and
   11.29, Remark 11.31), §12 (Lemma 12.5).
 - Cwikel, [*Lecture notes on duality and interpolation spaces*](https://arxiv.org/abs/0803.3558):
-  §1 (Definitions 1.1 and 1.3, sum and intersection norms) and §2 (Calderón's strip model, the
-  upper method, regularization and Calderón's duality theorem).
+  §1 (Definitions 1.1 and 1.3, sum and intersection norms) and §2 (§2.1 for the references into
+  Calderón, Theorem 2.2 for Calderón's duality theorem, Definition 2.14 for the disc form of the
+  lower method, §2.4 for the upper space of a dual couple).
 - Pisier–Xu, *Non-Commutative Lp-Spaces*, Handbook of the Geometry of Banach Spaces 2 (2003),
   1459–1517 (cited by locator): §§1–3 for singular numbers, interpolation, Haagerup spaces and
   Kosaki's theorem, §5 for Clarkson and geometry, §§6–7 for Khintchine and martingales.

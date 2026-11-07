@@ -2,7 +2,9 @@
 Copyright (c) 2026 Kim Morrison. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import Mathlib
+module
+
+public import Mathlib
 
 /-!
 # Noncommutative integration and martingale inequalities: target signatures
@@ -24,6 +26,8 @@ Lp–Lq duality and interpolation isomorphisms (§§2.1, 2.5), the Haagerup Lp c
 weight independence (§§3.1–3.5), Kosaki's interpolation theorem (§4.1), Burkholder–Gundy and
 Stein's inequality (§7.3), the UMD property of `Lp(M)` (§8.3), and the H¹–BMO duality (§8.4).
 -/
+
+@[expose] public section
 
 noncomputable section
 open scoped BigOperators ComplexOrder NNReal CStarAlgebra
