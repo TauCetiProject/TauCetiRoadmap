@@ -23,12 +23,12 @@ The following headlines are not statable at the pins:
   Their supplied local self-pair positivity and epsilon-transport inputs likewise
   lack the native local representation and canonical analytic-factor carriers.
 
-The Kloosterman sheaf realization and its purity, the rational-adic curve
-Euler–Poincaré formula and the Swan-constancy criterion for families are also
+The Kloosterman sheaf realization and its purity, the perfect-base descent of the
+curve Euler–Poincaré formula and the Swan-constancy criterion for families are also
 not statable: the native rational-adic direct-image, lisse-sheaf and local
 conductor carriers are absent.
-The principal-level measure/Casimir comparison and cusp compactness lack the
-adelic quotient and quotient-energy carriers; the supplied additive-character
+The principal-level measure/Casimir comparison, the principal-level adelic spectral
+decomposition and cusp compactness lack the adelic quotient and quotient-energy carriers; the supplied additive-character
 sheaf lacks the native rational-adic local-system carrier.
 The general numerical Deligne bound and Gauss-power average bound are statable on the native finite-character carriers.
 -/
@@ -39,19 +39,20 @@ namespace TauCetiRoadmap.CongruenceSpectralGap
 
 /-- The unnormalized hyper-Kloosterman sum over unit tuples of product r.
 It is defined at every natural rank, including the empty-product rank zero. -/
-noncomputable def hyperKloosterman (F : Type*) [Field F] [Fintype F]
+noncomputable def hyperKloosterman (F : Type*) [Field F] [Finite F]
     {K : Type*} [CommRing K] (k : ℕ) (ψ : AddChar F K) (r : Fˣ) : K := by
   classical
+  letI := Fintype.ofFinite F
   exact ∑ x : Fin k → Fˣ with ∏ i, x i = r, ψ (∑ i, (x i : F))
 
 /-- Deligne's bound for the raw hyper-Kloosterman sum, over every finite field
 and every positive rank, for a nontrivial additive character and unit argument.
 There is no restriction on the characteristic or its divisibility into the rank.
 See Katz, Theorem 4.1.1, specialized to trivial multiplicative characters. -/
-theorem hyperKloosterman_bound (F : Type*) [Field F] [Fintype F]
+theorem hyperKloosterman_bound (F : Type*) [Field F] [Finite F]
     (k : ℕ) (hk : 1 ≤ k) (ψ : AddChar F ℂ) (hψ : ψ ≠ 1) (r : Fˣ) :
     ‖hyperKloosterman F k ψ r‖ ≤
-      (k : ℝ) * (Fintype.card F : ℝ) ^ (((k : ℝ) - 1) / 2) := by
+      (k : ℝ) * (Nat.card F : ℝ) ^ (((k : ℝ) - 1) / 2) := by
   sorry
 
 /-- For an odd prime q, every positive power k and every nonzero residue r,
