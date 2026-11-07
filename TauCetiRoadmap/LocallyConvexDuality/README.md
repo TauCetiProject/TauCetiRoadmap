@@ -52,7 +52,9 @@ defines no second notion of nuclear space.
 Kernel theorems for particular function spaces (Schwartz's kernel theorem and its LF variants) stay
 with the roadmaps of those function spaces. Non-archimedean locally convex spaces are
 PadicFunctionalAnalysis's (the theory of Perez-Garcia–Schikhof 2010). The open mapping and closed
-graph theorems beyond Mathlib's Banach and Fréchet cases (Ptak, De Wilde) and Eberlein–Šmulian are
+graph theorems beyond Mathlib's Banach and Fréchet cases (Ptak, De Wilde), Eberlein–Šmulian, and
+the three-space property of nuclearity (an extension of nuclear spaces is nuclear, Dierolf–Roelcke
+1981, Proposition 3.8, with the splitting theory of Fréchet spaces behind it, Wengenroth 2003) are
 not in this roadmap.
 
 The boundary in one sentence: if a statement is about an arbitrary locally convex space over `ℝ`
@@ -184,12 +186,6 @@ iff it lies in the polar of a barrel. *Needs:* 0.1, Mathlib `WithSeminorms.banac
   filter of all `n` has no pointwise limit, and the sequence `fₙ(x) = x/n` converges to `0`
   uniformly on bounded sets, as Corollaire 2 predicts.
 
-Not a target: in a barrelled space with a Schauder basis, the partial-sum projections are
-continuous, of finite rank and converge pointwise to the identity, so by Corollaire 2 they converge
-uniformly on precompact sets, which is Grothendieck's approximation property; they are also
-equicontinuous (Kalton 1970, p. 388: in a barrelled space every Schauder decomposition is
-equi-Schauder).
-
 ### 0.3 Permanence
 
 Prove that separated quotients, arbitrary products, separated locally convex inductive limits and
@@ -208,6 +204,13 @@ space embeds in a product of Banach spaces). *Needs:* 0.1.
 
 - Every Banach space and every Fréchet space is barrelled (Mathlib `BaireSpace.instBarrelledSpace`).
 - `c₀₀` with the sup norm is a normed space that is not barrelled.
+- In a barrelled locally convex space with a Schauder basis, the partial-sum projections are
+  equicontinuous (0.2) and converge to the identity uniformly on precompact sets (Corollaire 2):
+  Grothendieck's approximation property (Kalton 1970, p. 388). The Banach case is Mathlib's
+  `SchauderBasis.exists_norm_proj_le` with Tau Ceti's
+  `SchauderBasis.hasBoundedApproximationProperty`.
+  Precompact, not bounded, sets: on `ℓ²` with its unit vectors, `‖P_N‖ = 1` and
+  `sup_K ‖x − P_N x‖ = 1/(N + 1)` on `K = {eₙ/n} ∪ {0}`, while `‖e_{N+1} − P_N e_{N+1}‖ = 1`.
 
 ### Dependencies
 
@@ -372,10 +375,6 @@ continuous. *Needs:* 0.1, 0.2, 1.1, 2.2, 1.4 (Théorème 2).
 - A barrelled space with a weakly bounded subset of `E′` that is not equicontinuous would
   contradict 0.2; in `ℓ¹`, the ball of `ℓ^∞` is weakly compact, consistently.
 
-Not a target: the test-function space `𝒟(Ω)` is an (LF) space, hence barrelled (Bourbaki 1950,
-§2, p. 6), so its topology is its Mackey topology by 2.3; Dieudonné–Schwartz 1949, n° 7,
-Théorème 3 and its Corollaire, p. 76, state this for every (F) and (LF) space.
-
 ### 2.4 Weak continuity on Mackey spaces
 
 Prove: if the topology of `E` is `τ(E, E′)`, every weakly continuous linear map from `E` to a
@@ -395,6 +394,9 @@ separated locally convex space `F` is continuous, and every weak homomorphism in
 
 - On a normed space, the norm topology is `τ(E, E′)`.
 - On `ℓ²`, `σ(ℓ², ℓ²) ≠ τ(ℓ², ℓ²)`.
+- On `𝒟(Ω, F)` (Mathlib's `TestFunction.topologicalSpace`), an (LF) space, barrelled and
+  bornological by 1.5, the topology is `τ(𝒟, 𝒟′)` by 2.3 (Dieudonné–Schwartz 1949, n° 7,
+  Théorème 3 and its Corollaire, p. 76).
 
 ### Dependencies
 
@@ -625,16 +627,14 @@ p. 101). *Needs:* 5.2, 3.4, Mathlib `MontelSpace`.
 Closed subspaces and finite sums of nuclear spaces are nuclear by SpectralManifolds SM3. Prove:
 arbitrary subspaces, separated quotients, arbitrary products and countable direct sums of nuclear
 spaces are nuclear; `E ⊗̂π F` is nuclear for nuclear `E`, `F`; and a Fréchet or (DF)-space is
-nuclear iff its strong dual is (Grothendieck 1952, Ch. II, Théorème 3, p. 102). Route: the
-subspace clause from criterion (c) of 5.2 through Hilbert seminorms, a nuclear space having a
-basis of seminorms coming from inner products whose restrictions to a subspace keep the nuclear
-factorisations (Grothendieck 1955, Ch. II, §2, no. 2; Pietsch 1972, Chapter 5); the product
-clause from the definition of 5.2, a continuous seminorm on a product factoring through a finite
-subproduct, and SpectralManifolds SM3 for finite sums. Not a target:
-nuclearity is a three-space property, an extension of nuclear spaces being nuclear (Dierolf–Roelcke
-1981, Proposition 3.8); the splitting theory of Fréchet spaces behind such extensions is
-Wengenroth 2003. A monograph treatment of 5.2–5.4 is Pietsch 1972, Chapters 5 (nuclear locally
-convex spaces) and 6 (permanence properties of nuclearity). *Needs:* 5.2, Layer 4,
+nuclear iff its strong dual is (Grothendieck 1952, Ch. II, Théorème 3, p. 102). Route: the subspace
+clause from criterion (c) of 5.2 through Hilbert seminorms, a nuclear space having a basis of
+seminorms coming from inner products whose restrictions to a subspace keep the nuclear
+factorisations (Grothendieck 1952, Ch. II, no. 3, the remark after Théorème 3, p. 102, with the
+remark closing Ch. I, no. 7, p. 87; Pietsch 1972, Chapter 5); the product clause from the definition
+of 5.2, a continuous seminorm on a product factoring through a finite subproduct, and
+SpectralManifolds SM3 for finite sums. A monograph treatment of 5.2–5.4 is Pietsch 1972, Chapters 5
+(nuclear locally convex spaces) and 6 (permanence properties of nuclearity). *Needs:* 5.2, Layer 4,
 SpectralManifolds SM3 (closed subspaces, finite sums).
 
 **Checks.**
