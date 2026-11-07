@@ -1134,6 +1134,17 @@ p. 18; Isbell 1981, Theorem 2, applied to the dense copies `ℚ` and `ℚ + √2
   rectangles); the failure is of injectivity, and `T = ∅` gives the one-element frame on both
   sides (8.2).
 
+Not targets. 8.5 does not extend to infinite products of locally compact spaces. Products of any
+family of compact Hausdorff spaces are spatial (Isbell 1972, Theorem 2.9, p. 22), and so are
+countable products of completely metrizable spaces (Theorem 3.12, p. 30); but the product locale
+of uncountably many separable completely metrizable spaces is the paracompact reflection of their
+product space (Theorem 3.13, p. 31). Since `ℕ^{ω₁}` is not normal (Stone 1948), the localic
+product of `ω₁` copies of the discrete, locally compact `ℕ` is not spatial (also Bannister 2024,
+Corollary 3.13). Regular epimorphisms of locales are not stable under pullback, so the category
+of locales is not regular: every space is a quotient of a scattered space (8.4), which has no
+nonempty pointless sublocale, and pulling such a quotient back along a nonempty pointless
+sublocale gives the empty locale (Isbell 1972, p. 14, before Theorem 1.7).
+
 ### Examples
 
 - `Sh(ℝ × ℝ) ≃ Sh(ℝ) × Sh(ℝ)`; `Sh(ℚ × ℚ)` and `Sh(ℚ) × Sh(ℚ)` differ, although they have the same
@@ -1182,7 +1193,12 @@ that material: sites appear there only as bases of coefficient stacks.
   of sets on a topological space).
 - [Isbell 1972] J. R. Isbell, « Atomless parts of spaces », *Mathematica Scandinavica* 31 (1972),
   5–32: locales, localic products, and the remark before 2.4 and the proof of 2.4, p. 18, the
-  square of `ℚ`.
+  square of `ℚ`; p. 14, before Theorem 1.7, quotient maps of locales are not stable under
+  pullback; Theorems 2.9 (p. 22), 3.12 (p. 30) and 3.13 (p. 31), infinite product locales.
+- [Stone 1948] A. H. Stone, « Paracompactness and product spaces », *Bulletin of the American
+  Mathematical Society* 54 (1948), 977–982: `ℕ^{ω₁}` is not normal.
+- [Bannister 2024] N. Bannister, « Locales as spaces in outer models », arXiv:2411.05967 (2024):
+  Corollary 3.13, the localic product of `ω₁` copies of `ℕ` is not spatial.
 - [Isbell 1981] J. R. Isbell, « Product spaces in locales », *Proceedings of the American
   Mathematical Society* 81 (1981), 116–118: Theorem 1 (the localic product `X × Y` is a space when
   `X` is quasi-locally compact and `Y` is a space) and Theorem 2 (two subspaces of a Hausdorff
