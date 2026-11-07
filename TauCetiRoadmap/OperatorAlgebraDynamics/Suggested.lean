@@ -30,8 +30,9 @@ separable Hilbert space (D6); invariance of KMS states and the analytic KMS iden
 Not statable at the pins, with the carrier each lacks:
 - the universal property of `A ⋊_α G`, the full and reduced comparison, the ideal exact sequence,
   Takai duality and the twisted products `A ⋊_(α,ω) G`: no crossed-product C*-algebra;
-- the Fourier isomorphism `C*(G) ≅ C₀(Ĝ)` of the full group C*-algebra and the identification
-  `C*(Ĝ) ≅ C₀(G)` (D4.Harmonic): no group C*-algebra `ℂ ⋊ G`;
+- the full-algebra form `C*(G) ≅ C₀(Ĝ)` of the Fourier isomorphism (the full/reduced agreement
+  for abelian `G`) and the identification `C*(Ĝ) ≅ C₀(G)` (D4.Harmonic): no group C*-algebra
+  `ℂ ⋊ G`;
 - Green and symmetric imprimitivity (D3): no crossed-product C*-algebra to serve as the
   coefficient algebras of the imprimitivity bimodule (`CStarModule` is the module carrier, but
   `A ⋊_α G` and `D ⋊_β H` are not available);

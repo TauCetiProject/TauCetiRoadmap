@@ -5,13 +5,15 @@ products, induction and imprimitivity, Takai duality, Hausdorff groupoid
 C*-algebras, and equilibrium states of quantum systems. Build the analytic
 constructions and representation theory that connect these subjects: integrated
 forms, the explicit imprimitivity bimodules of induction and equivalence,
-the Fourier isomorphism of the full group C*-algebra of a locally compact
-abelian group, disintegration over the standard-fibre direct integrals of
-the spectral theorem, KMS states with their simplex, and the thermodynamic
-limit of quantum spin systems. The generic Hilbert-module induction, the
-Plancherel and Pontryagin duality theorems and the measurable-field
-machinery are consumed from HilbertModules and VonNeumannAlgebras as
-declared gaps.
+the full-algebra form of the Fourier isomorphism of a locally compact
+abelian group with the identification `C*(Ĝ)≅C₀(G)`, disintegration over
+the standard-fibre direct integrals of the spectral theorem, KMS states
+with their simplex, and the thermodynamic limit of quantum spin systems.
+The generic Hilbert-module induction, the Plancherel and Pontryagin duality
+theorems and the measurable-field machinery are consumed from
+HilbertModules and VonNeumannAlgebras as declared gaps, and the Fourier
+isomorphism `C*_r(G)≅C₀(Ĝ)` of the reduced group C*-algebra from
+VonNeumannAlgebras V11.
 
 ## Scope and ownership
 
@@ -20,8 +22,10 @@ C*-algebras and their full and reduced crossed products, including the
 central twisted products of D1.CentralTwists and D2.CentralTwists and the
 scalar Borel fibers of D1.BorelPrefix and D1.TwistedBorel; the module
 conventions and the stage lemma for explicit pairings of D1.Modules;
-induction and imprimitivity (D3); the Fourier isomorphism of the full group
-C*-algebra of a locally compact abelian group with the identification
+induction and imprimitivity (D3); the agreement of the full and reduced
+group C*-algebras of a locally compact abelian group, which carries
+VonNeumannAlgebras V11's Fourier isomorphism `C*_r(G)≅C₀(Ĝ)` to the full
+algebra, with the identification
 `C*(Ĝ)≅C₀(G)` in D4.Harmonic, the locally compact abelian Weyl dictionary
 of D4.LCAWeyl and Takai duality (D4); Haar groupoids, their convolution
 algebras, the standard-fibre model of D5.Fields, disintegration and
@@ -43,8 +47,9 @@ coefficient Borel structure, automatic continuity of Borel homomorphisms
 from Polish groups into separable metrizable groups, the circle extension `E_ω` of a Borel multiplier with
 its Mackey topology, the strong-Borel ω-representations and the twisted
 left-regular family `λ^ω` (D1.BorelPrefix), and the single-weight fibres
-`J_k(E_ω)≅C*(G,ω^k)` (D1.TwistedBorel); and the Fourier isomorphism
-`C*(G)≅C₀(Ĝ)` of a locally compact abelian group (D4.Harmonic).
+`J_k(E_ω)≅C*(G,ω^k)` (D1.TwistedBorel); and the identification
+`C*(Ĝ)≅C₀(G)` of a locally compact abelian group through the Pontryagin
+duality theorem (D4.Harmonic).
 
 It leaves to named roadmaps:
 
@@ -101,34 +106,45 @@ It leaves to named roadmaps:
   representation. D5.Fields keeps only the identification of SA-B85's
   standard-fibre model, in which every fibre is a subspace of one `ℓ²(ℕ)`,
   with a measurable field in that sense.
-- Second quantization on the Fock carriers: QuantumFoundations §6.3 owns
-  `Γ(U)` and `dΓ(A)` with their domains and the number operator N with
-  `D(N)` and `D(N^(1/2))`; QuantumFoundations §6.4 owns the CCR on `D(N)`,
-  the closures of the creation and annihilation operators, the essential
-  self-adjointness of the Segal field `(a(f)+a†(f))/√2` on the
-  finite-particle domain with the identification of its closure as D8's
-  Stone generator `Φ(f)` of `t↦π_F(W(tf))`, and the vacuum cyclicity and
-  irreducibility of `π_F`. D8 is the single owner of the CCR/CAR and Weyl
-  algebraic relations, their regular representations and Stone field
-  operators, and of the antisymmetric and symmetric Fock carriers with
-  their vacuum, the sector formulas for the creation and annihilation
-  operators, the bosonic finite-particle domain with the CCR and the
-  Segal-field identities on it, the exponential vectors and the Fock Weyl
-  representation `π_F` with its strong continuity in f and its vacuum
-  characteristic function; both QuantumFoundations sections consume these.
-  RelativisticQuantumFieldTheory consumes D8's Weyl representation and the
-  second-quantization interface of QuantumFoundations §§6.3–6.4.
+- Second quantization and the bosonic finite-particle operators on the
+  Fock carriers: QuantumFoundations §6.3 owns `Γ(U)` and `dΓ(A)` with their
+  domains and the number operator N with `D(N)` and `D(N^(1/2))`;
+  QuantumFoundations §6.4 owns the bosonic creation and annihilation
+  operators `a(f)`, `a†(f)` on the finite-particle domain of D8's symmetric
+  Fock space with their sector formulas, the CCR on that domain and on
+  `D(N)`, the closures of both kinds of operators with their domains, the
+  Segal field `(a(f)+a†(f))/√2` with its essential self-adjointness on the
+  finite-particle domain and the identification of its closure as D8's
+  Stone generator `Φ(f)` of `t↦π_F(W(tf))`, the strong continuity of
+  `f↦π_F(W(f))` for the norm topology of h, and the vacuum cyclicity and
+  irreducibility of `π_F`. D8 is the single owner of the CAR and Weyl
+  algebraic relations with their universal algebras, the regular
+  representations with their Stone field operators on the invariant cores
+  `D_F`, the antisymmetric Fock space with its bounded creation and
+  annihilation operators, vacuum and faithful CAR representation, and the
+  symmetric Fock representation `π_F` of the Weyl algebra of
+  `(h_ℝ,Im⟨·,·⟩)` with its field operators, its regularity along each line
+  `t↦π_F(W(tf))` and its vacuum characteristic function `exp(−‖f‖²/4)`;
+  both QuantumFoundations sections consume these and D8 uses none of their
+  results. RelativisticQuantumFieldTheory consumes D8's Weyl representation
+  and the second-quantization interface of QuantumFoundations §§6.3–6.4.
 
 General non-Hausdorff groupoids, groupoid primitive-ideal classification and
 interacting continuum gases are outside this roadmap. So are the dual Haar
 measure, the Plancherel unitary, Fourier inversion and the Pontryagin
-duality theorem of a locally compact abelian group, and Bochner's theorem
-for positive-definite functions: VonNeumannAlgebras V11 owns the first four,
-consumed as the declared gap `gap:lca-fourier-plancherel` below, and
-D4.Harmonic builds on them only the Fourier isomorphism of the group
-C*-algebra and the identification `C*(Ĝ)≅C₀(G)`, starting from the
-character correspondence that BanachAlgebras A7 supplies. Neither K-theory
-nor C*-classification is a prerequisite here.
+duality theorem of a locally compact abelian group, the Fourier
+isomorphism `C*_r(G)≅C₀(Ĝ)` of its reduced group C*-algebra, and Bochner's
+theorem for positive-definite functions: VonNeumannAlgebras V11 owns the
+first four, consumed as the declared gap `gap:lca-fourier-plancherel`
+below, and the Fourier isomorphism, cited by section as a roadmap on main
+(V11.UnitizationCharacters identifies the nonzero characters of `C*_r(G)`
+with Ĝ and the Gelfand transform of `λ(f)` with f̂, and the Plancherel
+paragraph that follows V11.FourierUniqueness proves `‖λ(f)‖=sup|f̂|`);
+D4.Harmonic builds on them only the agreement of the full and reduced
+group C*-algebras for abelian G, which carries that isomorphism to D1's
+full algebra `C*(G)=ℂ⋊G`, and the identification `C*(Ĝ)≅C₀(G)`, starting
+from the character correspondence that BanachAlgebras A7 supplies. Neither
+K-theory nor C*-classification is a prerequisite here.
 
 ## Conventions
 
@@ -167,9 +183,8 @@ positive characters: `f̂(χ)=∫ f(g)χ(g) dμ(g)` and
   arguments needed without global σ-finiteness. Its amenability dependency
   is the AmenableGroups roadmap.
 - CStarAlgebras C1–C2 supplies representations,
-  approximate units, multipliers, ideals and quotients, and C1 the nonunital
-  commutative Gelfand isomorphism `A≅C₀(X)` onto the nonzero character space,
-  used by D4.Harmonic; C5 supplies tensor products and analytic inductive
+  approximate units, multipliers, ideals and quotients; C5 supplies tensor
+  products and analytic inductive
   limits; C6 supplies nuclearity and CP approximation, and C7 supplies
   exactness.
 - From Mathlib: `CStarModule` (Hilbert C*-modules, the norm `‖x‖=√‖⟨x,x⟩‖`,
@@ -193,8 +208,8 @@ positive characters: `f̂(χ)=∫ f(g)χ(g) dμ(g)` and
 - BanachAlgebras A7 supplies, for locally compact abelian G, the character
   correspondence between the Gelfand spectrum of `L¹(G)` and the Pontryagin
   dual with its compact-open topology, and its Fourier uniqueness theorem on
-  `L¹(G)`; D4.Harmonic builds the Fourier isomorphism of the full group
-  C*-algebra on it.
+  `L¹(G)`; D4.Harmonic reads the Fourier transform on `L¹(G)` as the
+  Gelfand transform under it.
 - OperatorTheory/SelfAdjointSpectralTheory
   and [OneParameterSemigroups](../../Completed/OneParameterSemigroups/README.md) supply
   self-adjoint generators, their spectral calculus, Part B's PVM carrier,
@@ -246,6 +261,16 @@ dual `c⁻¹μ̂`, and the Pontryagin duality theorem that evaluation
 (VonNeumannAlgebras V11; Rudin, Theorems 1.5.1, 1.6.1 and 1.7.2; Williams,
 p. 27 and Example 7.11, p. 198).
 
+VonNeumannAlgebras V11 also supplies, as a roadmap on main cited by
+section, the Fourier isomorphism of the reduced group C*-algebra:
+V11.UnitizationCharacters identifies the nonzero characters of `C*_r(G)`
+with Ĝ, the Gelfand transform of `λ(f)` with f̂ and `‖a‖` with `sup|â|`,
+and the Plancherel paragraph that follows V11.FourierUniqueness proves
+`‖λ(f)‖=sup|f̂|` and the surjectivity of the character map, so that
+`λ(f)↦f̂` extends to a *-isomorphism `C*_r(G)≅C₀(Ĝ)` in the
+positive-character convention above; D4.Harmonic consumes this isomorphism
+and does not repeat its argument.
+
 What VonNeumannAlgebras must provide (gap:measurable-hilbert-fields): over a
 standard σ-finite measure space `(X,μ)`, measurable fields of separable
 Hilbert spaces `x↦H_x` given by a fundamental sequence of sections, their
@@ -279,10 +304,11 @@ and Proposition F.33, p. 423).
 D1–D4 form the group-action development: D1 builds integrated forms and full
 crossed products and, in D1.Modules, the module conventions and the stage
 lemma that D2, D3 and D6 use together with the induced Hilbert spaces of
-`gap:hilbert-module-induction`; D4.Harmonic builds the Fourier isomorphism
-of the full group C*-algebra and, with the Plancherel and Pontryagin duality
-theorems of `gap:lca-fourier-plancherel`, the identification `C*(Ĝ)≅C₀(G)`
-that D4.LCAWeyl and D4.Takai use. D5–D6 use D1's integration tools,
+`gap:hilbert-module-induction`; D4.Harmonic carries VonNeumannAlgebras
+V11's Fourier isomorphism `C*_r(G)≅C₀(Ĝ)` to the full group C*-algebra by
+the full/reduced agreement and, with the Plancherel and Pontryagin duality
+theorems of `gap:lca-fourier-plancherel`, builds the identification
+`C*(Ĝ)≅C₀(G)` that D4.LCAWeyl and D4.Takai use. D5–D6 use D1's integration tools,
 D1.Modules and the standard-fibre model of D5.Fields over the measurable
 fields of `gap:measurable-hilbert-fields`, and compare transformation
 groupoids with D1–D2. D7–D9 form the equilibrium development. Operator K-theory consumes
@@ -661,9 +687,10 @@ convention, and prove its projective relation and vector-integral
 comparison. In this bicharacter case prove
 `ω(−x,x)=ω(x,−x)=ω(x,x)⁻¹`, so the scalar star can also be written
 `f*(x)=overline(f(−x))ω(x,x)`; the adjoint of Π_x instead has the factor
-`overline(ω(x,−x))`. These identities fix the phase conventions consumed
-by the Heisenberg modules of HeisenbergImprimitivity (Layer 1), which
-builds the commutator character and the lattice theory on this family.
+`overline(ω(x,−x))`. These identities fix the phase conventions of the
+family; the Heisenberg cocycle with its commutator character, the
+symplectic annihilators and the lattice theory of phase space are
+HeisenbergImprimitivity's (Layer 1) and are not built here.
 
 **Checks.**
 
@@ -1614,9 +1641,11 @@ formula on `G/H` where it applies.
 
 ## D4. Dual actions and Takai duality
 
-D4.Harmonic builds the Fourier isomorphism of the full group C*-algebra of
-a locally compact abelian group and, with the Plancherel and Pontryagin
-duality theorems of `gap:lca-fourier-plancherel`, the identification
+D4.Harmonic carries VonNeumannAlgebras V11's Fourier isomorphism
+`C*_r(G)≅C₀(Ĝ)` of a locally compact abelian group to the full group
+C*-algebra by the full/reduced agreement and, with the Plancherel and
+Pontryagin duality theorems of `gap:lca-fourier-plancherel`, builds the
+identification
 `C*(Ĝ)≅C₀(G)`; D4.LCAWeyl is the Weyl dictionary between nondegenerate covariant pairs of
 `(C₀(G),G)` and Heisenberg pairs of G and Ĝ, with its uniqueness theorem;
 D4.Takai is the duality theorem.
@@ -1633,30 +1662,25 @@ topology, a locally compact abelian group by Mathlib's instance.
 BanachAlgebras A7 supplies the bijection of Ĝ with the Gelfand spectrum of
 `L¹(G)`, `χ↦(f↦∫f(g)χ(g)dμ(g))`, and the agreement of the compact-open
 topology with the Gelfand topology (Williams, Proposition 1.76 and Lemma
-1.78, pp. 24–25). Define the Fourier transform `f̂(χ)=∫f(g)χ(g)dμ(g)` on
-`L¹(G)` in the positive-character convention of this roadmap (Williams,
-(1.20), p. 26, in the same convention) and prove `f̂∈C₀(Ĝ)`,
-`‖f̂‖_∞≤‖f‖₁`, `(f*g)^=f̂ĝ`, `(f*)^=conj(f̂)`, and that `f↦f̂` is the
-Gelfand transform of `L¹(G)` under A7's correspondence.
+1.78, pp. 24–25). The Fourier transform `f̂(χ)=∫f(g)χ(g)dμ(g)` on
+`L¹(G)` is VonNeumannAlgebras V11's, in the positive-character convention
+of this roadmap (Williams, (1.20), p. 26, in the same convention); prove
+`f̂∈C₀(Ĝ)`, `‖f̂‖_∞≤‖f‖₁`, `(f*g)^=f̂ĝ`, `(f*)^=conj(f̂)`, and that
+`f↦f̂` is the Gelfand transform of `L¹(G)` under A7's correspondence.
 
-Prove the Fourier isomorphism: `f↦f̂` extends to a *-isomorphism
-`C*(G)≅C₀(Ĝ)` of D1's full group C*-algebra `ℂ⋊G`, so that the universal
-norm of `f∈L¹(G)` is `sup_χ|f̂(χ)|` (Williams, Proposition 3.1, p. 82, whose
-proof runs through one-dimensional irreducible representations). Route:
-`C*(G)` is a commutative C*-algebra, because `L¹(G)` is commutative and
-dense; CStarAlgebras C1's nonunital Gelfand isomorphism gives
-`C*(G)≅C₀(Ω)` for its nonzero character space Ω; every character of
-`C*(G)` restricts to a character of `L¹(G)`, and every character of
-`L¹(G)` is a one-dimensional representation, hence bounded by the universal
-norm, so restriction is a bijection `Ω→Ĝ`; it is a homeomorphism because
-the characters are uniformly bounded and `L¹(G)` is dense, so weak-*
-convergence on `L¹(G)` and on `C*(G)` agree, and A7 identifies the
-resulting topology with the compact-open one. The composite
-`C*(G)≅C₀(Ω)≅C₀(Ĝ)` sends f to f̂. Prove that the regular quotient
-`C*(G)→C*_r(G)` is an isomorphism for abelian G, by D2's amenable
-comparison and the amenability of abelian groups, so the same transform
-identifies the reduced algebra on `L²(G)` with `C₀(Ĝ)`; no Plancherel
-theorem enters this identification.
+VonNeumannAlgebras V11 (V11.UnitizationCharacters and the Plancherel
+paragraph that follows V11.FourierUniqueness) identifies the reduced group
+C*-algebra `C*_r(G)`, the norm closure of `λ(L¹(G))` on `L²(G)`, with
+`C₀(Ĝ)` by the Fourier transform: the nonzero characters of `C*_r(G)` are
+the evaluations at the points of Ĝ, the Gelfand transform of `λ(f)` is f̂,
+and `‖λ(f)‖=sup_χ|f̂(χ)|`. That isomorphism is consumed, not rebuilt.
+Prove that the regular quotient `C*(G)→C*_r(G)` from D1's full group
+C*-algebra `ℂ⋊G` is an isomorphism for abelian G, by D2's amenable
+comparison and the amenability of abelian groups; composing it with V11's
+isomorphism gives the full-algebra form `C*(G)≅C₀(Ĝ)`, `f↦f̂`, so that
+the universal norm of `f∈L¹(G)` is `sup_χ|f̂(χ)|` (Williams, Proposition
+3.1, p. 82, states this form, through the one-dimensional irreducible
+representations).
 
 The dual Haar measure μ̂ of μ, the Plancherel unitary `F:L²(G,μ)≅L²(Ĝ,μ̂)`
 extending `f↦f̂` from `L¹∩L²` and carrying `λ(f)` to multiplication by f̂,
@@ -1680,9 +1704,9 @@ measure.
 
 - The Fourier transform on `L¹(G)` with its algebraic laws, as the Gelfand
   transform under A7's correspondence.
-- The Fourier isomorphism `C*(G)≅C₀(Ĝ)` of the full group C*-algebra, with
-  the universal norm `sup|f̂|`, and the agreement of full and reduced group
-  C*-algebras for abelian G.
+- The agreement of the full and reduced group C*-algebras for abelian G,
+  and with it the full-algebra form `C*(G)≅C₀(Ĝ)` of V11's Fourier
+  isomorphism, with the universal norm `sup|f̂|`.
 - The identification `C*(Ĝ)≅C₀(G)` with its action on canonical unitaries
   and on `L¹(Ĝ)`, independent of the scaling of μ̂.
 
@@ -1704,9 +1728,10 @@ measure.
 - G trivial: `Ĝ` is trivial, `C*(G)=ℂ=C₀(point)`, and ev is the identity.
 - For noncompact G neither `C*(G)` nor `C₀(Ĝ)` has a unit, since Ĝ is
   compact exactly when G is discrete: for G=ℝ the right side is `C₀(ℝ)`, and
-  the unital Gelfand transform does not apply, which is why C1's nonunital
-  isomorphism is the input; for G=ℤ the right side is the unital `C(𝕋)`
-  with `δ_0↦1`.
+  the unital Gelfand transform does not apply, which is why V11's
+  identification passes through the character space of the unitization of
+  `C*_r(G)` with its augmentation character removed; for G=ℤ the right side
+  is the unital `C(𝕋)` with `δ_0↦1`.
 - The conjugate-character transform `∫f(g)conj(χ(g))dμ(g)` is the transform
   at `χ⁻¹`; under it the canonical unitary at χ of `C*(Ĝ)` would go to
   `t↦conj(χ(t))`, which changes the covariance phase of D4.LCAWeyl to
@@ -1736,8 +1761,9 @@ measure.
 
 *Needs:* BanachAlgebras A7 (`L¹(G)` and the character correspondence with
 its topology); D1 (`C*(G)=ℂ⋊G`, its universal norm and canonical unitaries,
-the integrated form of λ); CStarAlgebras C1 (the nonunital commutative
-Gelfand isomorphism); D2 and AmenableGroups (the amenable comparison for
+the integrated form of λ); VonNeumannAlgebras V11 (the Fourier transform
+on `L¹(G)` and the Fourier isomorphism `C*_r(G)≅C₀(Ĝ)` with
+`‖λ(f)‖=sup|f̂|`); D2 and AmenableGroups (the amenable comparison for
 abelian G); the dual Haar measure, Plancherel unitary, Fourier inversion
 and Pontryagin duality theorem of `gap:lca-fourier-plancherel`; Mathlib
 `PontryaginDual`, `Circle`, Haar measure with `Measure.IsHaarMeasure` and
@@ -1756,8 +1782,9 @@ satisfying `U_s V_χ U_s*=conjugate(χ(s)) V_χ`. Extend π to multipliers and
 set `V_χ=π̃(t↦χ(t))`. Conversely integrate V to C*(Ĝ), use its Fourier
 isomorphism with C₀(G) sending the canonical multiplier at χ to
 `t↦χ(t)`, and prove nondegeneracy, covariance and both inverse laws.
-The integrated Fourier formula is D4.Harmonic's positive-character
-transform on Ĝ, with the dual Haar measure of `gap:lca-fourier-plancherel`.
+The integrated Fourier formula is V11's positive-character transform on
+Ĝ as D4.Harmonic uses it, with the dual Haar measure of
+`gap:lca-fourier-plancherel`.
 Prove compatibility
 with bounded intertwiners, unitary equivalence and Hilbert direct sums.
 Replacing V_χ by V_(χ⁻¹) gives the alternative commutator χ(s); the
@@ -1884,7 +1911,8 @@ groups, for ℤ, and the `ℤ/3` sign witness of the double-dual action.
 ### Dependencies
 
 D1–D2 and D3 (`C₀(G)⋊G≅K(L²G)` for D4.LCAWeyl and D4.Takai); BanachAlgebras
-A7; AmenableGroups; CStarAlgebras C1–C2; the dual Haar measure, Plancherel
+A7; AmenableGroups; CStarAlgebras C1–C2; VonNeumannAlgebras V11 (the
+Fourier isomorphism `C*_r(G)≅C₀(Ĝ)`); the dual Haar measure, Plancherel
 unitary, Fourier inversion and Pontryagin duality theorem of
 `gap:lca-fourier-plancherel`; Mathlib `PontryaginDual`, `Circle`, Haar
 measure, `Lp` and `lp`; Tau Ceti `ContRepresentation.IsUnitary` and
@@ -2885,25 +2913,36 @@ of a positive-definite matrix through the Hermitian functional calculus).
   consumes D1.BorelPrefix's `E_ω` with its Mackey topology, the strong-Borel
   ω-representations and the twisted left-regular family `λ^ω`; its M2
   consumes D1.TwistedBorel's fibres `J_k(E_ω)≅C*(G,ω^k)`; its Layer 0
-  consumes D4.Harmonic's Fourier isomorphism `C*(N)≅C₀(N̂)`, in the
-  positive-character convention that VonNeumannAlgebras V11 shares.
+  consumes D4.Harmonic's full-algebra form `C*(N)≅C₀(N̂)` of
+  VonNeumannAlgebras V11's Fourier isomorphism, in V11's positive-character
+  convention.
 - CStarClassification consumes D2's full and reduced products by ℤ with
   their generator formulas, coefficient-tensor identification and
   exactness, and D3's imprimitivity, in CL5 (§§5.7–5.8); D6's universal
   `O_n` in CL4–CL5; and D8's CAR algebra as the limit of the `M_(2ⁿ)` in
   CL3.
 - HeisenbergImprimitivity, the HilbertModules child roadmap on phase-space
-  lattices, consumes D1.CentralTwists' Schrödinger family on `L²(M)` with
-  its projective relation, adjoint phase and strong continuity (its
-  Layer 1, §1.1), and the scalar twisted group C*-algebras `C*(L,c)` of a
-  discrete abelian L with their ℓ¹ algebra and `twistedMonoidAlgebra`
-  comparison, universal property, twisted regular representation, canonical
-  trace, gauge action and full=reduced theorem from D1.CentralTwists and
-  D2.CentralTwists (its Layer 3, §3.1).
-- CompactQuantumMetricSpaces specializes the same twisted group
-  C*-algebras to its quantum tori `C*(ℤᵈ,σ_Θ)` (§6.0), with the twisted
-  regular model `λ_Θ(p)δ_q=σ_Θ(p,q)δ_(p+q)`, the trace and the gauge
-  action of `𝕋ᵈ`, and consumes D2's amenable norm comparison.
+  lattices, keeps the Heisenberg cocycle with its commutator character, the
+  symplectic annihilators, lattices and covolumes, the Schwartz–Bruhat
+  space with its Poisson summation, the Heisenberg modules with their two
+  pairings, the coboundary isomorphisms of `C*(L,c)` and the rapid-decay
+  subalgebra `S(L,c)` of a finitely generated L. The objects it builds on
+  are owned here: the Schrödinger family on `L²(M)` with its projective
+  relation, adjoint phase and strong continuity is D1.CentralTwists' (its
+  §1.1 states the same family, `π_xπ_y=β(x,y)π_(x+y)` with
+  `β((m,χ),(n,ψ))=ψ(m)`), and the scalar twisted group C*-algebras
+  `C*(L,c)` of a discrete abelian L with their ℓ¹ algebra and
+  `twistedMonoidAlgebra` comparison, universal property, twisted regular
+  representation `(λ_c(x)h)(y)=c(x,y−x)h(y−x)`, canonical trace, gauge
+  action and full=reduced theorem are D1.CentralTwists' and
+  D2.CentralTwists' (its §3.1 states the same algebra in the same
+  conventions).
+- CompactQuantumMetricSpaces keeps its quantum tori `A_Θ=C*_r(ℤᵈ,σ_Θ)`
+  with their Lip-norms and metric continuity (§6.0 and Layer 6); the
+  twisted group C*-algebra it specializes, with the twisted regular model
+  `λ_Θ(p)δ_q=σ_Θ(p,q)δ_(p+q)`, the trace, the gauge action of `𝕋ᵈ` and the
+  full=reduced theorem, is D1.CentralTwists' and D2.CentralTwists' at
+  `L=ℤᵈ`, `c=σ_Θ`, with D2's amenable norm comparison.
 - OperatorKTheory K7 consumes the crossed products of D1–D2 and the duality
   of D4.
 - LieGroupoidsPoisson names D5 as the consumer of its topological groupoid
@@ -2912,11 +2951,15 @@ of a positive-definite matrix through the Hermitian functional calculus).
   `C₀(X)` representation.
 - FreeProbability F3 compares its F₂ norm obstruction with D2.FreeGroups and
   records D6 as the owner of the finite universal `O_n`.
-- QuantumFoundations Layer 6 (§§6.3–6.4) consumes D8's Fock carriers, the
-  sector formulas for the creation and annihilation operators, the
-  finite-particle domain with its CCR and Segal-field identities, the Fock
-  Weyl representation with its strong continuity and the Stone field
-  operators; the Fock
+- QuantumFoundations Layer 6 (§§6.3–6.4) consumes D8's Fock carriers with
+  their vacuum, the antisymmetric Fock creation and annihilation operators
+  with the faithful CAR representation, the regular symmetric Fock
+  representation `π_F` with its Stone field operators, its regularity along
+  each line `t↦π_F(W(tf))` and its vacuum characteristic function, and the
+  universal Weyl convention; it builds there the bosonic creation and
+  annihilation operators on the finite-particle domain with their sector
+  formulas, the CCR on that domain and on `D(N)`, the Segal field and the
+  strong continuity of `f↦π_F(W(f))` for the norm topology of h. The Fock
   implementation `Γ(U)b̄(f)Γ(U)*=b̄(Uf)` of a one-particle unitary U built
   there is the case `V=0` of D8's universal CAR automorphism.
   RelativisticQuantumFieldTheory consumes D8's Weyl representation.
