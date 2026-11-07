@@ -1,12 +1,11 @@
+module
+
 import Mathlib
 import TauCeti.RepresentationTheory.Quiver.AdmissibleIdeal.Basic
 import TauCeti.RepresentationTheory.Quiver.Representation.HomDifferential
 import TauCeti.RepresentationTheory.Quiver.Representation.VertexSimpleModule
 import TauCeti.RepresentationTheory.Quiver.Representation.AsModule
 import TauCeti.RingTheory.Semisimple.BasicAlgebra
-import TauCeti.Algebra.Module.AuslanderReiten.Translate
-import TauCeti.CategoryTheory.Preadditive.MorphismIdeal.FactorThrough
-import TauCeti.CategoryTheory.Preadditive.MorphismIdeal.Additive
 
 /-!
 # Quiver representations: target signatures
@@ -14,21 +13,23 @@ import TauCeti.CategoryTheory.Preadditive.MorphismIdeal.Additive
 The roadmap is README.md; this file is not the roadmap. It states the remaining headline
 theorems against the pinned APIs: the Ext-quiver identification in admissible presentations,
 heredity of every finite path algebra and the comparison of the Hom differential with native Ext,
-the rational root-system bridge, and the stable translate equivalence.
+and the rational root-system bridge.
 
 Path algebras and their module equivalence, Krull–Schmidt, projective covers, injective envelopes
 and minimal injective copresentations, Morita reduction to a basic corner, the bound-quiver
 surjection with admissible kernel, the Ext-Euler characteristic as the Euler form of dimension
-vectors with its inverse-Cartan form, BGP reflection and Coxeter survival, the
-finite-dimensional Gabriel correspondence, the module-level Auslander–Reiten translate,
-Auslander–Reiten duality, almost-split existence with the translate as left end, and the quiver
-of irreducible morphisms with its k-dimensional mesh relation are supplied by Tau Ceti; the README
-specifies the exact declarations. The Euler–Hom–Ext identity is a corollary of the pinned
-Hom-minus-cokernel identity and the Ext comparison stated here, so it is not stated separately.
-None is restated as an admitted theorem.
+vectors with its inverse-Cartan form, the standard bimodule resolution of a path algebra, the
+Hom-cocycle computation of Ext¹, BGP reflection and Coxeter survival, the finite-dimensional
+Gabriel correspondence, the module-level Auslander–Reiten translate, Auslander–Reiten duality,
+almost-split existence with the translate as left end, and the quiver of irreducible morphisms
+with its k-dimensional mesh relation are supplied by Tau Ceti; the README specifies the exact
+declarations. The Euler–Hom–Ext identity is a corollary of the pinned Hom-minus-cokernel identity
+and the Ext comparison stated here, so it is not stated separately. None is restated as an
+admitted theorem.
 
-The translate used here is the native dual transpose of an explicit minimal presentation. The
-companion duality formula and the valued mesh of README Layer 6 are specified there in prose.
+The stable translate equivalence between the projective and injective stable categories, the
+companion Auslander–Reiten formula and the valued mesh are owned by the ArtinAlgebras roadmap
+for Artin algebras, of which the field case is the case `R = k`; they are not stated here.
 -/
 
 namespace TauCetiRoadmap.QuiverRepresentations
@@ -63,7 +64,7 @@ theorem exists_admissible_presentation (k A : Type u) [Field k] [IsAlgClosed k] 
 
 /-- The path algebra of a finite quiver is hereditary: all module Ext groups in degrees at least
 two vanish, including for modules that are not finite-dimensional and for quivers with oriented
-cycles. -/
+cycles. The route is the pinned standard bimodule resolution tensored with the module. -/
 theorem pathAlgebra_higher_ext_vanish (k Q : Type u) [Field k] [Quiver Q] [Fintype Q]
     [∀ i j : Q, Fintype (i ⟶ j)]
     (M N : ModuleCat.{u} (TauCeti.pathAlgebra k Q)) (n : ℕ) (hn : 2 ≤ n) :
@@ -71,9 +72,10 @@ theorem pathAlgebra_higher_ext_vanish (k Q : Type u) [Field k] [Quiver Q] [Finty
 
 /-- The cokernel of the vertex-to-arrow Hom differential computes native module-category Ext¹,
 for every finite quiver. This is an equivalence of vector spaces, not just an equality of
-dimensions. -/
-theorem homDifferential_coker_equiv_ext (k Q : Type u) [Field k] [Quiver Q] [Fintype Q]
-    [∀ i j : Q, Fintype (i ⟶ j)]
+dimensions; the README names the canonical map, the pinned Hom-cocycle equivalence composed with
+the identification of the tensored bimodule resolution. -/
+theorem nonempty_homDifferential_coker_linearEquiv_ext (k Q : Type u) [Field k] [Quiver Q]
+    [Fintype Q] [∀ i j : Q, Fintype (i ⟶ j)]
     (M N : TauCeti.QuiverRep.{u, u, u, u} k Q) :
     Nonempty ((TauCeti.QuiverRep.HomArrow M N ⧸
       LinearMap.range (TauCeti.QuiverRep.homDifferential M N)) ≃ₗ[k]
@@ -98,32 +100,5 @@ theorem exists_rootPairing_titsForm {Q : Type} [Quiver Q] [Fintype Q] [Nonempty 
             - (Fintype.card (i ⟶ j) + Fintype.card (j ⟶ i))) ∧
       ∀ d : Q → ℤ, (∃ r : ι, P.root r = fun v => (d v : ℚ)) ↔
         (d ≠ 0 ∧ TauCeti.titsForm Q d = 1) := sorry
-
-/-! ## Layer 6: stable categories and the translate equivalence -/
-
-/-- The ideal generated by morphisms factoring through projective finitely generated modules. -/
-def projectiveFactorIdeal (A : Type u) [Ring A] : TauCeti.MorphismIdeal (FGModuleCat.{u} A) :=
-  CategoryTheory.ObjectProperty.factorIdeal
-    (fun M => Projective M : ObjectProperty (FGModuleCat.{u} A))
-
-/-- The ideal generated by morphisms factoring through injective finitely generated modules. -/
-def injectiveFactorIdeal (A : Type u) [Ring A] : TauCeti.MorphismIdeal (FGModuleCat.{u} A) :=
-  CategoryTheory.ObjectProperty.factorIdeal
-    (fun M => Injective M : ObjectProperty (FGModuleCat.{u} A))
-
-/-- The dual transpose induces an equivalence from the projective stable category to the
-injective stable category. Its value on every module is represented by the dual transpose of
-each finite minimal projective presentation of that module. -/
-theorem exists_stable_translate_equivalence (k A : Type u) [Field k] [Ring A] [Algebra k A]
-    [FiniteDimensional k A] :
-    ∃ E : (projectiveFactorIdeal A).Quotient ≌ (injectiveFactorIdeal A).Quotient,
-      ∀ (M : FGModuleCat.{u} A) (P₀ P₁ : ModuleCat.{u} A)
-        [Module.Finite A P₀] [Module.Finite A P₁]
-        (p : P₁ ⟶ P₀) (π : P₀ ⟶ M.obj),
-        TauCeti.IsMinimalProjectivePresentation p.hom π.hom →
-        ∃ T : FGModuleCat.{u} A,
-          Nonempty (T.obj ≅ ModuleCat.of A (TauCeti.AuslanderReitenTranslate k p.hom)) ∧
-          Nonempty (E.functor.obj ((projectiveFactorIdeal A).quotientFunctor.obj M) ≅
-            (injectiveFactorIdeal A).quotientFunctor.obj T) := sorry
 
 end TauCetiRoadmap.QuiverRepresentations

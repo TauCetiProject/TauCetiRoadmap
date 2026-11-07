@@ -4,17 +4,18 @@
 path algebras, their finite-dimensional algebra structure, and their homological and root-theoretic
 invariants. Its end theorems are the Ext-quiver form of Gabriel's admissible presentation,
 heredity of path algebras with the comparison of the Hom differential to native Ext (from which
-the Euler–Hom–Ext identity follows with the pinned Hom-minus-cokernel identity), the marked
-root-system form of Gabriel's ADE correspondence, and, on top of the pinned Auslander–Reiten
-duality, almost-split sequences and Auslander–Reiten quiver, the stable translate equivalence and
-the valued mesh relation. It builds on the path, representation, decomposition, reflection and
-Auslander–Reiten theory in Tau Ceti, with semisimple algebra and root-system inputs specified below.
+the Euler–Hom–Ext identity follows with the pinned Hom-minus-cokernel identity), and the marked
+root-system form of Gabriel's ADE correspondence; on top of these it reads the pinned
+Auslander–Reiten duality, almost-split sequences and Auslander–Reiten quiver on quiver examples
+and compares the pinned injective stable Hom with its finite-dimensional form. It builds on the
+path, representation, decomposition, reflection and Auslander–Reiten theory in Tau Ceti, with
+semisimple algebra and root-system inputs specified below.
 
 ## Scope and ownership
 
 This is the base quiver-representation roadmap. It owns the finite-dimensional-algebra frame,
 the quiver-specific homological comparisons, the bridge from dimension vectors to root systems,
-and Auslander–Reiten theory for finite-dimensional algebras. Its layers retain their roles:
+and the quiver-level reading of the pinned Auslander–Reiten theory. Its layers retain their roles:
 0 path algebras, 1 representations, 2 decomposition, 3 finite-dimensional algebras, 4 homological
 forms and reflections, 5 Gabriel, and 6 Auslander–Reiten theory.
 
@@ -33,15 +34,16 @@ The following mathematics is already in the pinned libraries and is consumed, no
   with admissible kernel onto a basic algebra over an algebraically closed field, and the generic
   composition-multiplicity Cartan matrix.
 - Tau Ceti supplies dimension vectors, Euler/Tits forms, Hom differentials with the
-  Hom-minus-cokernel dimension identity, projective dimension at most one for finite-length
-  modules over a finite acyclic path algebra, the Ext-Euler characteristic of finitely generated
+  Hom-minus-cokernel dimension identity, the standard bimodule resolution of a path algebra and
+  the Hom-cocycle computation of Ext¹ of a cokernel, projective dimension at most one for
+  finite-length modules over a finite acyclic path algebra, the Ext-Euler characteristic of finitely generated
   modules over a finite-dimensional path algebra as the Euler form of dimension vectors, the
   inverse-Cartan form of the Ext-Euler matrix, kernel/cokernel reflections, admissible composites
   and their survival theorem, and finite-dimensional Gabriel classification over arbitrary
   fields. The remaining Layer 5 bridge marks a rational root pairing by the actual vertex
   vectors; it does not reprove that classification.
 - Tau Ceti supplies minimal projective presentations, presentation-level transpose and dual
-  transpose, the Auslander–Bridger stable transpose equivalence, the module-level translate
+  transpose, the module-level translate
   `ModuleCat.arTranslate` and the representation-level translate `TauCeti.arTranslate`,
   categorical radicals and irreducible spaces, almost-split predicates, uniqueness extending any
   specified isomorphism of the right endpoints under local-endomorphism hypotheses, and, over a
@@ -59,6 +61,14 @@ and Layers 2–4, extends the type-A theory to graded operators and multisegment
 extensions are outside this base roadmap. Generic exact-category and Grothendieck-group
 constructions belong to [GrothendieckEulerForms](../../GrothendieckEulerForms/README.md),
 Layers 1–5; its Cartan comparison consumes this roadmap, so it is not a supplier here.
+[ArtinAlgebras](../ArtinAlgebras/README.md), §4.2 and §§5.1–5.3, owns the stable equivalence
+τ : E/[P] ≌ E/[I] between the projective and injective stable categories, both Auslander–Reiten
+formulas and the valued Auslander–Reiten quiver with its mesh, for Artin algebras; the field case
+is its case R = k and is not planned here. It composes the pinned Auslander–Bridger transpose
+equivalence with duality, so Layer 6 here consumes the pinned translate, duality, almost-split
+sequences and quiver of irreducible morphisms and adds only the quiver examples and the
+comparison of §6.1. ArtinAlgebras lists this roadmap among its own suppliers, so it is not a
+supplier here.
 
 ## Conventions
 
@@ -94,13 +104,12 @@ arrows q(1,1) = −1, and the zero vector, although isotropic, is never a root.
 Gabriel's ADE statements and the general module-theoretic AR duality, existence and
 k-dimensional mesh statements are over arbitrary fields. Algebraic closedness is required for the
 ordinary bound-quiver presentation of every basic algebra. Over a general field the arrow counts
-of the AR quiver are k-dimensions of irreducible spaces; the valued mesh of §6.4 counts dimensions
-over the residue division rings instead, and over an algebraically closed field the two agree.
+of the AR quiver are k-dimensions of irreducible spaces.
 ASS assumes an algebraically closed field throughout (ASS pp.1–2) and is cited for the statements
 and for the algebraically closed case. The arbitrary-field forms are theorems about Artin
 algebras; ARS is cited for them by locator: the reduced form (ARS II.2.6), duality and injective
-envelopes (ARS II.3.3, II.4.1 and II.4.6), the Auslander–Reiten formulas (ARS IV.4.1 and IV.4.6),
-almost-split existence with its D Tr endpoint (ARS V.1.14–1.15) and the valued mesh (ARS VII.1).
+envelopes (ARS II.3.3, II.4.1 and II.4.6), the Auslander–Reiten formula (ARS IV.4.1 and IV.4.6)
+and almost-split existence with its D Tr endpoint (ARS V.1.14–1.15).
 Where Tau Ceti already proves an arbitrary-field statement, the pinned declaration is the
 authority.
 All module universes can be chosen together with k and A; the acceptance signatures use
@@ -236,6 +245,23 @@ Paths below are relative to `TauCeti/`.
   `RepresentationTheory/Quiver/Representation/Projective/Dimension.lean`, gives every finite-length
   module over the path algebra of a finite acyclic quiver projective dimension at most one. It is
   the finite-length acyclic case of the heredity proved in §4.1.
+- `TauCeti.PathAlgebra.vertexTensorBimodule`, `TauCeti.PathAlgebra.arrowTensorBimodule`,
+  `TauCeti.PathAlgebra.vertexTensorMul` and `TauCeti.PathAlgebra.arrowTensorDifferential`, in
+  `RepresentationTheory/Quiver/PathAlgebra/BimoduleResolution.lean`, form the standard bimodule
+  resolution 0 → ⊕ₐ:ᵢ→ⱼ Aeⱼ ⊗ₖ eᵢA → ⊕ᵥ Aeᵥ ⊗ₖ eᵥA → A → 0 of a path algebra A = kQ over any
+  commutative ring k and finite vertex set; `TauCeti.PathAlgebra.arrowTensorDifferential_injective`,
+  `TauCeti.PathAlgebra.exact_arrowTensorDifferential_vertexTensorMul` and
+  `TauCeti.PathAlgebra.vertexTensorMul_surjective` make it short exact, and both left terms carry
+  `Module.Projective` instances over the enveloping algebra. Neither acyclicity nor a field is
+  assumed. `LinearMap.HomCocycleQuotient` and `LinearMap.homCocycleQuotientEquivExt`, in
+  `Algebra/Module/HomCocycle/Basic.lean` and `Algebra/Category/ModuleCat/HomCocycle.lean`, give for
+  a linear map f : P₁ → P₀ with P₀ projective and any module N the maps P₁ → N vanishing on ker f,
+  modulo maps extending across f, and their k-linear identification with Ext¹(P₀/im f, N);
+  `LinearMap.homCocycleQuotientEquivExt_mk` reads a class as the extension class of
+  0 → im f → P₀ → P₀/im f → 0 composed with the map on im f, and
+  `LinearMap.homCocycleQuotientEquivExt_naturality` and
+  `LinearMap.homCocycleQuotientEquivExt_precomp` give naturality in N and in the presentation.
+  Neither injectivity of f nor projectivity of P₁ is assumed. These are the inputs to §4.1.
 - `TauCeti.vertexPreReflection` and its loopless automorphism `TauCeti.vertexReflection`
   are in `RepresentationTheory/Quiver/Reflection/DimensionVector.lean`.
   `TauCeti.reflectionFunctor` and `TauCeti.dimVector_reflectRep`, in `Reflection/Representation.lean`,
@@ -262,19 +288,13 @@ Paths below are relative to `TauCeti/`.
   `TauCeti.IsMinimalProjectivePresentation.nonempty_linearEquiv_auslanderReitenTranslate`
   come from `Algebra/Module/MinimalProjectivePresentation/` and `Algebra/Module/AuslanderReiten/`.
   The translate is attached to a presenting map; its identification with τM uses the
-  minimal-presentation hypothesis. `TauCeti.AuslanderReitenTranspose.stableMap`, in
-  `Algebra/Module/AuslanderReiten/StableMorphism.lean`, supplies transposition on stable maps.
-  `TauCeti.stableTranspose`, in `Algebra/Module/AuslanderReiten/Functor.lean`, with its
-  `IsEquivalence` instance in `Equivalence.lean`, is the Auslander–Bridger equivalence from
-  finitely presented projectively stable left modules to the opposite of the finitely presented
-  projectively stable right modules, over any ring; §6.1 composes it with k-duality.
+  minimal-presentation hypothesis.
   `TauCeti.arTranslate`, `TauCeti.nonempty_iso_arTranslate` and `TauCeti.isZero_arTranslate_iff`,
   in `RepresentationTheory/Quiver/Representation/Translate.lean`, give the object-level translate
   D Tr of a pointwise finite-dimensional representation of a quiver with finitely many paths, its
   independence of the chosen minimal presentation, and its vanishing exactly on projectives.
 - `TauCeti.irreducibleMorphismSpace` in `CategoryTheory/Preadditive/Radical/Quotient.lean`
-  is the k-vector space rad/rad². `CategoryTheory.ObjectProperty.factorIdeal` and
-  `TauCeti.MorphismIdeal.Quotient` provide quotient categories by factoring ideals.
+  is the k-vector space rad/rad².
   `CategoryTheory.ShortComplex.IsAlmostSplit`, in `CategoryTheory/AlmostSplit/Sequence.lean`,
   combines short exactness with left and right almost-split conditions in the chosen category.
   `CategoryTheory.ShortComplex.IsAlmostSplit.exists_iso_τ₃_eq`, in `Uniqueness.lean`, extends
@@ -336,9 +356,9 @@ Layers 0–2 fix the reusable algebra, representation and decomposition interfac
 examples. Layer 3 supplies the finite-dimensional algebra frame and presentations; Layer 4
 compares homological invariants with the combinatorial forms. Layer 5 connects the dimension-root
 classification with marked rational root systems. Layer 6 consumes the pinned translate,
-Auslander–Reiten duality, almost-split existence and quiver of irreducible morphisms, and proves
-the stable translate equivalence, the companion duality formula and the valued mesh. It does not
-require ADE: the dual numbers are an essential bound-quiver example.
+Auslander–Reiten duality, almost-split existence and quiver of irreducible morphisms, compares
+the pinned injective stable Hom with its finite-dimensional form, and fixes the quiver examples
+of all of them. It does not require ADE: the dual numbers are an essential bound-quiver example.
 
 ## Layer 0: quivers and path algebras
 
@@ -586,12 +606,17 @@ Layer 3 does not use Layer 4, and Layer 4 does not use the matrix identity of §
 
 ### 4.1 Projective resolutions and native Ext
 
-For finite Q over any field, with or without oriented cycles, construct the natural two-term
-projective resolution of an arbitrary representation M, with degree-zero term ⊕ᵢ Pᵢ⊗ₖMᵢ and
-degree-one term ⊕ₐ:ᵢ→ⱼ Pⱼ⊗ₖMᵢ. Its differential on the arrow summand is the difference between path
-concatenation and the action of the arrow on M. Prove exactness, projectivity and naturality;
-`pathAlgebra_higher_ext_vanish` states Extⁿ(M,N)=0 for n≥2 on the native module category of
-every finite quiver (ASS VII.1.4 and VII.1.7(a), pp.245–248, state heredity for finite acyclic Q;
+For finite Q over any field, with or without oriented cycles, the two-term projective resolution
+of an arbitrary representation M, with degree-zero term ⊕ᵢ Pᵢ⊗ₖMᵢ and degree-one term
+⊕ₐ:ᵢ→ⱼ Pⱼ⊗ₖMᵢ, is the pinned standard bimodule resolution of kQ
+(`TauCeti.PathAlgebra.exact_arrowTensorDifferential_vertexTensorMul`, with the injectivity,
+surjectivity and projectivity statements beside it) tensored over kQ with M. Prove that
+identification: the bimodule sequence is split exact as a sequence of right kQ-modules, since its
+three terms are projective right modules, so tensoring with M keeps it exact; its terms are
+projective left modules; the construction is natural in maps of representations; and its
+differential on the arrow summand is the difference between path concatenation and the action of
+the arrow on M. `pathAlgebra_higher_ext_vanish` states Extⁿ(M,N)=0 for n≥2 on the native module
+category of every finite quiver (ASS VII.1.4 and VII.1.7(a), pp.245–248, state heredity for finite acyclic Q;
 the path-space resolution needs neither acyclicity nor a particular field, and the one-loop Check
 below shows that acyclicity is not a hypothesis). The pinned
 `TauCeti.hasProjectiveDimensionLT_two_pathAlgebra` is the case of finite-length modules over a
@@ -599,25 +624,33 @@ finite acyclic quiver; the target removes both restrictions. Acyclicity, equival
 of kQ (`TauCeti.finiteDimensional_pathAlgebra_of_isAcyclic`), is used in this layer only to
 compare with the pinned Ext-Euler characteristic.
 
-Applying Hom gives the vertex-to-arrow differential with component N(a)fᵢ−fⱼM(a).
-Prove `homDifferential_coker_equiv_ext`, identifying its cokernel k-linearly with native Ext¹,
-and compatibility with the class of a short exact extension. The target permits arbitrary
-vertex spaces; finite-dimensionality is needed for the numerical identity, not this comparison.
+Applying Hom gives the vertex-to-arrow differential with component N(a)fᵢ−fⱼM(a). Prove that
+the Hom cocycle quotient `LinearMap.HomCocycleQuotient` of the resolution's differential is the
+cokernel of the Hom differential: the differential is injective, so every map out of the arrow
+term is a cocycle, and the coboundaries are exactly its image. Then
+`nonempty_homDifferential_coker_linearEquiv_ext` identifies that cokernel k-linearly with native
+Ext¹: the map is the pinned `LinearMap.homCocycleQuotientEquivExt`, transported along the
+isomorphism from the cokernel of the resolution's differential to M, and compatibility with the
+class of a short exact extension is `LinearMap.homCocycleQuotientEquivExt_mk`. The target
+permits arbitrary vertex spaces; finite-dimensionality is needed for the numerical identity, not
+this comparison.
 For pointwise finite-dimensional M, N the identity E(dM,dN) = dim Hom(M,N) − dim Ext¹(M,N), both
 dimensions cast to ℤ before subtraction, is a corollary and not a separate target: the pinned
 `TauCeti.QuiverRep.eulerForm_eq_finrank_hom_sub_finrank_coker` gives E(dM,dN) as dim Hom minus
 the dimension of the cokernel of the Hom differential, for every finite quiver, and
-`homDifferential_coker_equiv_ext` identifies that cokernel with Ext¹. For finite acyclic Q it
-agrees with the pinned `TauCeti.extEuler_eq_eulerForm_dimVector` (the modules are finitely
+`nonempty_homDifferential_coker_linearEquiv_ext` identifies that cokernel with Ext¹. For finite
+acyclic Q it agrees with the pinned `TauCeti.extEuler_eq_eulerForm_dimVector` (the modules are finitely
 generated by `TauCeti.module_finite_quiverRepEquivalenceFunctorObj_of_isFinDim`) once
 `pathAlgebra_higher_ext_vanish` removes every term of degree at least two (ASS III.3.13, p.91).
 
 API for the resolution and comparison:
 
-- Augmentation evaluates paths on M; the two consecutive maps compose to zero.
+- Augmentation evaluates paths on M; the two consecutive maps compose to zero, and the sequence
+  is the pinned bimodule resolution tensored with M.
 - The resolution is exact at every vertex and natural in maps of representations.
 - Cokernel classes classify extensions with fixed endpoints, and addition agrees with Baer sum.
-- The comparison is natural contravariantly in M and covariantly in N; all higher Ext vanish.
+- The comparison is natural contravariantly in M and covariantly in N, from the pinned naturality
+  of the Hom-cocycle equivalence; all higher Ext vanish.
 
 **Checks.**
 
@@ -635,9 +668,10 @@ API for the resolution and comparison:
   and 0 otherwise (the cokernel of x ↦ μx−xλ), and E(1,1)=1−1=0; the pinned Ext-Euler
   characteristic is unavailable since k[X] is infinite-dimensional.
 
-*Needs:* Layer 1, native vertex projectives, Hom differential and its Hom-minus-cokernel
-identity, Mathlib projective resolutions, native Ext and short exact sequences. Exactness and
-comparison, not the Euler matrix inverse, are the proof inputs.
+*Needs:* Layer 1, native vertex projectives, the pinned standard bimodule resolution of the path
+algebra, the Hom differential and its Hom-minus-cokernel identity, the pinned Hom-cocycle
+equivalence with Ext¹ and its naturality, Mathlib projective resolutions, native Ext and short
+exact sequences. Exactness and comparison, not the Euler matrix inverse, are the proof inputs.
 
 ### 4.2 Reflection and Coxeter interfaces
 
@@ -745,79 +779,64 @@ Layer 4 and native Gabriel; RootSystems Layers 1, 2 and 5 for the marked bridge.
 
 ## Layer 6: Auslander–Reiten theory
 
-### 6.1 Stable morphisms and the translate
+Other roadmaps cite this layer by sublayer labels; each maps to a section as follows.
 
-Work in finite-dimensional left A-modules for a finite-dimensional algebra A over k.
-The category is `FGModuleCat A`; its factoring quantifiers range over finite-dimensional
-objects. Let the projective and injective factoring ideals be `projectiveFactorIdeal` and
-`injectiveFactorIdeal`, using the native categorical ideal generated by such factorizations.
-Their quotient categories are the projective stable and injective stable categories.
+- 6A, the radical and irreducible morphisms → §6.4; the irreducible space is the pinned
+  `TauCeti.irreducibleMorphismSpace`.
+- 6B, minimal projective and injective presentations → §3.1 and the pinned
+  `TauCeti.IsMinimalProjectivePresentation`.
+- 6C, the transpose and the stable equivalence → §6.1 for the transpose, which is the pinned
+  `TauCeti.AuslanderReitenTranspose`; the stable equivalence has the owner named under Scope and
+  ownership.
+- 6D, the translate D Tr and Auslander–Reiten duality → §§6.1–6.2.
+- 6E, existence and uniqueness of almost-split sequences → §6.3.
+- 6F, the Auslander–Reiten quiver → §6.4.
+- `arQuiver k A` → the pinned `TauCeti.IrreducibleMorphismQuiver` with `ModuleCat.arTranslation`.
+
+### 6.1 The translate and the injective stable category
+
+Work in finite-dimensional left A-modules for a finite-dimensional algebra A over k; the category
+is `FGModuleCat A`. For a finite minimal projective presentation P₁→P₀→M, the native transpose
+`TauCeti.AuslanderReitenTranspose` and its k-dual D Tr M give the pinned translate
+`ModuleCat.arTranslate`: independent of the presentation up to isomorphism, zero and injective
+exactly on projectives, and a bijection from nonprojective onto noninjective indecomposable
+classes (ASS IV.2.10–2.11, p.116); on representations this object is `TauCeti.arTranslate`.
+
 The pinned duality of §6.2 is stated in the injective stable category of all A-modules,
-`TauCeti.ExactStructure.InjectiveStableCategory`. Between finite-dimensional modules the two
-agree: a map factoring through an arbitrary injective factors through an injective envelope of
-its source, which is finite-dimensional by §3.1 (ASS IV.2, construction preceding
-Proposition 2.2, pp.109–110).
+`TauCeti.ExactStructure.InjectiveStableCategory`, whose Hom is the quotient by maps factoring
+through an arbitrary injective A-module. Prove that between finite-dimensional modules it agrees
+with the quotient by maps through finite-dimensional injectives: a map factoring through an
+arbitrary injective factors through an injective envelope of its source, which is
+finite-dimensional by §3.1 (ASS IV.2, construction preceding Proposition 2.2, pp.109–110).
 
-API for these factoring ideals and quotients:
+API for the comparison:
 
-- Membership is a single factorization through a projective or injective, respectively;
-  finite direct sums absorb sums of factorizations, and scalar multiplication stays inside.
-- Composition on either side preserves membership; quotient maps are additive and k-linear.
-- An object becomes zero in the projective quotient exactly when it is projective, and
-  in the injective quotient exactly when it is injective.
-- Between finite-dimensional modules, Hom in the injective stable quotient of `FGModuleCat A`
-  agrees k-linearly with Hom in the pinned injective stable category of all A-modules.
-
-**Checks for the projective ideal.**
-
-- For A=k all morphisms factor through projectives, so stable Hom is zero.
-- For the dual numbers, the simple is not projective and its identity survives; maps k→A→k
-  compose to zero because the first image is kε and the second kills ε.
-- For A₂, id(P₁) becomes zero but id(S₁) survives. Killing all nonzero objects would fail this test.
-
-**Checks for the injective ideal.**
-
-- For A=k both the factoring subspace and Hom(k,k) have dimension 1; the quotient has dimension 0.
-- For the dual-number simple the factoring subspace has dimension 0, Hom has dimension 1,
-  and its identity survives in the one-dimensional quotient.
-- For A₂, S₁ is injective and its identity dies, while S₂ is not injective and its identity survives.
-  Using the projective ideal instead reverses these two tests.
-
-For a finite minimal projective presentation P₁→P₀→M, the native transpose and its k-dual
-D Tr M give the pinned translate `ModuleCat.arTranslate`: independent of the presentation up to
-isomorphism, zero and injective exactly on projectives, and a bijection from nonprojective onto
-noninjective indecomposable classes. Prove `exists_stable_translate_equivalence`: these objects,
-together with transposed lifts, give an equivalence from the projective stable category to the
-injective stable category. Its object comparison is to the dual transpose of **each** finite
-minimal presentation of M; its inverse is Tr D (ASS IV.2.10–2.11, p.116). The transpose itself
-is the pinned `TauCeti.stableTranspose`, an equivalence from finitely presented projectively
-stable left modules to the opposite of the finitely presented projectively stable right modules.
-The new content is the duality D on finite-dimensional modules, which carries that opposite
-category to the injective stable category, and the identification of the composite on objects
-with D Tr of each finite minimal presentation; on representations this object is
-`TauCeti.arTranslate`.
-
-API for the translate:
-
-- Maps are independent of the lift after taking the relevant quotient; identities and
-  compositions are preserved by D Tr.
-- On objects the equivalence agrees with `ModuleCat.arTranslate`; its inverse kills injectives.
-- It respects finite sums, and on indecomposable classes it induces the pinned bijection, with
-  inverse Tr D.
+- A map between finite-dimensional modules factoring through an injective factors through the
+  injective envelope of its source, and the factoring subspace of Homₐ(M,N) is k-linear.
+- Hom in the pinned injective stable category between finite-dimensional modules is k-linearly
+  the quotient of Homₐ(M,N) by that subspace; composition on either side descends.
+- A finite-dimensional module becomes zero in the pinned injective stable category exactly when it
+  is injective.
 
 **Checks.**
 
-- For A₂, τS₁=S₂, while τP₁=τS₂=0. Source and target stable categories each have one
-  nonzero indecomposable class, represented by S₁ and S₂ respectively.
+- For A=k both the factoring subspace and Hom(k,k) have dimension 1; the stable Hom has
+  dimension 0.
+- For the dual-number simple the factoring subspace has dimension 0, Hom has dimension 1,
+  and its identity survives in the one-dimensional stable Hom: the envelope is A, and every map
+  k→A→k is zero because the first image is kε and the second kills ε.
+- For A₂, S₁ is injective and its identity dies, while S₂ is not injective and its identity
+  survives, since Hom(P₁,S₂)=0 for its envelope P₁≅I₂. Quotienting by maps through projectives
+  instead reverses these two tests.
+- For A₂, τS₁=S₂, while τP₁=τS₂=0: the translate kills exactly the projectives P₁ and P₂=S₂.
 - For the dual numbers, the presentation A→A→k uses multiplication by ε, and its transpose
   cokernel and dual both have dimension 1: τk≅k.
-- For A=k every module is projective and injective, so both stable categories are zero;
-  the presentation 0→M→M gives transpose zero and dual transpose zero.
+- For A=k every module is projective and injective; the presentation 0→M→M gives transpose
+  zero and dual transpose zero.
 
 *Needs:* Layer 2; the pinned injective envelopes (§3.1); native minimal presentations, transpose,
-dual transpose, the module-level translate, the stable transpose equivalence, stable transpose on
-maps, categorical factoring ideals and quotient categories. No acyclicity or algebraic closedness
-is used.
+dual transpose, the module-level translate and the pinned injective stable category. No
+acyclicity or algebraic closedness is used.
 
 ### 6.2 AR duality
 
@@ -829,21 +848,14 @@ It is natural in N (`LinearMap.auslanderReitenExtEquiv_naturality`) and in the p
 minimality (ASS Theorem IV.2.13, pp.117–119; ARS IV.4.1 and IV.4.6). By §6.1 its stable Hom is
 the quotient of Homₐ(N, D Tr M) by maps through finite-dimensional injectives.
 
-Prove the companion formula: D Ext¹ₐ(M,N) is k-linearly isomorphic to Homₐ(Tr D N, M) modulo
-maps through projectives, naturally in both variables. Transport the pinned duality along the
-equivalence of §6.1, which identifies costable Hom(N, D Tr M) with stable Hom(Tr D N, Tr D D Tr M)
-and Tr D D Tr M with M in the projective stable category.
-
 **Checks.**
 
 - For A₂, M=S₁,N=S₂ gives Ext¹ dimension 1 and costable Hom(S₂,τS₁) dimension 1.
 - For the same M and N=S₁, Ext¹ is zero and Hom(S₁,S₂) is zero. For projective M both sides vanish.
 - For dual numbers with M=N=k, both sides have dimension 1; no map k→A→k represents the
   surviving identity, since each such composite is zero. The zero module gives dimension 0 on both sides.
-- On the companion side for A₂, M=S₁ and N=S₂, Tr D S₂ = S₁ and S₁ maps to no projective, so
-  stable End(S₁) has dimension 1, matching Ext¹(S₁,S₂).
 
-*Needs:* §6.1's equivalence for the companion formula; the pinned duality and its naturality;
+*Needs:* §6.1's comparison of stable Hom; the pinned duality and its naturality;
 finite-dimensional k-duality. These are independent of almost-split existence.
 
 ### 6.3 Almost-split existence and endpoint uniqueness
@@ -890,22 +902,6 @@ noninjective ones; for a representation-finite algebra its total arrow set is fi
 mesh relation `ModuleCat.card_arrows_eq_card_arrows_of_translate_eq_some` equates the numbers of
 arrows X → M and τM → X over any field (ASS IV.4.1–4.4, pp.125–128).
 
-Prove the valued mesh. Let 0 → τM → E → M → 0 be almost split and X an indecomposable occurring
-μ times as a summand of E, and let D_X be the residue division ring of End(X). Then Irr(X,M),
-with D_X acting by precomposition, and Irr(τM,X), with D_X acting by postcomposition, both have
-dimension μ over D_X (ARS VII.1; ASS IV.4.2–4.4 for the algebraically closed case). The pinned
-k-dimensional mesh is this relation multiplied by dimₖ D_X.
-
-API for the valued mesh:
-
-- The components X → M of E → M at the μ summands isomorphic to X form a D_X-basis of Irr(X,M),
-  and the components τM → X of τM → E form a D_X-basis of Irr(τM,X).
-- The valuations of the arrows X → M are the dimensions of Irr(X,M) over D_M by postcomposition
-  and over D_X by precomposition; each times the k-dimension of its division ring is dimₖ Irr(X,M),
-  the pinned arrow count.
-- Over an algebraically closed field D_X = k, so μ is the number of arrows X → M and of arrows
-  τM → X.
-
 **Checks.**
 
 - A₁ has one vertex and no arrows: its endomorphism radical is zero.
@@ -913,9 +909,6 @@ API for the valued mesh:
   Irr(S₂,S₁)=0. An empty-arrow quiver cannot meet the specification.
 - The dual numbers have vertices k,A and arrows k→A→k. Multiplication by ε on A factors
   through k and is in rad², so it does not create an extra irreducible loop at A.
-- Over ℝ, the complex dual numbers A=ℂ[ε]/(ε²) have the sequence 0→ℂ→A→ℂ→0 with X=A, μ=1 and
-  D_X=ℂ. Irr(A,ℂ) and Irr(ℂ,A) have dimension 1 over ℂ and 2 over ℝ, so the pinned quiver has
-  two arrows each way where the valued mesh counts one.
 
 *Needs:* §6.3, Layer 2, the pinned quiver of irreducible morphisms with its translation and mesh
 relation, the native radical-square quotient and finite-dimensional Hom spaces.
@@ -927,9 +920,9 @@ nonhereditary one. Both belong to the same finite-dimensional-algebra AR theorem
 
 ### Dependencies
 
-Layer 3 and finite-length decomposition; the companion formula of §6.2 uses §6.1, and the valued
-mesh of §6.4 uses the sequences of §6.3. Layer 5 is needed only when ADE classification is used
-to enumerate a particular AR quiver.
+Layer 3 and finite-length decomposition; §6.1's comparison uses the envelopes of §3.1 and is
+used by §6.2; §6.4 reads its arrows from the sequences of §6.3. Layer 5 is needed only when ADE
+classification is used to enumerate a particular AR quiver.
 
 ## Downstream consumers
 
@@ -939,6 +932,9 @@ uses the projective/simple and Euler comparisons: its columns index projectives,
 Cartan matrix is Cᵀ in our notation, and its corresponding Euler matrix is the inverse transpose.
 This is a consumer comparison, not a dependency in the reverse direction. McKaySkewGroup,
 “Exact supplier contracts”, uses primitive idempotents and Morita equivalence from Layer 3.
+ArtinAlgebras, Scope and ownership, reads Layer 6 as the field case R = k of its Auslander–Reiten
+theory for Artin algebras, whose general constructions replace the field ones; it is a consumer
+and not a supplier here.
 
 ## References
 
@@ -948,8 +944,7 @@ This is a consumer comparison, not a dependency in the reverse direction. McKayS
   [Institutional teaching copy](https://homepage.mi-ras.ru/~avfonarev/2023/fda/Assem%2C%20Simson%2C%20Skowronski%20-%20Elements%20of%20the%20representation%20theory%20of%20associative%20algebras.pdf).
 - **ARS:** M. Auslander, I. Reiten, S. O. Smalø, *Representation Theory of Artin Algebras*,
   Cambridge Studies in Advanced Mathematics 36, Cambridge, 1995. Cited for the arbitrary-field
-  (Artin algebra) forms: II.2.6, II.3.3, II.4.1, II.4.6, IV.4.1, IV.4.6, V.1.14–1.15 and VII.1.
-  ARS is cited by locator only (uncertified).
+  (Artin algebra) forms: II.2.6, II.3.3, II.4.1, II.4.6, IV.4.1, IV.4.6 and V.1.14–1.15.
   [Institutional teaching copy](https://homepage.mi-ras.ru/~avfonarev/2023/fda/Auslander,%20Reiten,%20Smalo%20-%20Representation%20Theory%20of%20Artin%20Algebras.pdf).
 - **BGP:** I. N. Bernstein, I. M. Gelfand, V. A. Ponomarev, *Coxeter functors and Gabriel's
   theorem*, Russian Mathematical Surveys 28:2 (1973), 17–32. Theorem 1.1, Lemma 2.3 and
