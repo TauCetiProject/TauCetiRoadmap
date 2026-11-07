@@ -191,7 +191,10 @@ convolution: the ring structure on `𝕋 Δ H R` with `HeckeCosetModule.single_m
 `DoubleCoset.multiplicity` (`TauCeti/NumberTheory/HeckeRing/Multiplicity/Basic.lean`), and
 `HeckeAntiInvolution`, `HeckeAntiInvolution.ofAmbient` and
 `HeckeCosetModule.mul_comm_of_antiInvolution` (`TauCeti/NumberTheory/HeckeRing/Commutativity.lean`).
-The canonical GNS cyclic vector of a positive functional on a unital C*-algebra,
+The GNS class map of a positive functional on a possibly nonunital C*-algebra,
+`PositiveLinearMap.toGNS`, the continuous linear map `a ↦ [a]` into the GNS Hilbert space, with
+dense range `PositiveLinearMap.denseRange_toGNS`; the canonical GNS cyclic vector of a positive
+functional on a unital C*-algebra,
 `PositiveLinearMap.gnsVector`, with `PositiveLinearMap.inner_gnsVector_coe`,
 `PositiveLinearMap.inner_gnsStarAlgHom_gnsVector`,
 `PositiveLinearMap.denseRange_gnsStarAlgHom_gnsVector` and `PositiveLinearMap.norm_gnsVector`
@@ -315,15 +318,21 @@ representation (Gelfand–Naimark) from these representations (Peterson, Proposi
 p. 56, Theorem 4.1.6, p. 57, and Corollary 4.1.7, p. 58; the GNS theorem 4.1.6 is stated for
 unital algebras and the corollary for every C*-algebra; restrict a unitization representation to
 the closed span of A acting on its Hilbert space and use the approximate unit to obtain the
-nondegenerate nonunital construction). The headline is stated for every C*-algebra A, possibly
-nonunital and nonseparable: a faithful nondegenerate representation on a complete complex Hilbert
-space in the universe of A, the zero space when A=0 (the zero representation of the zero algebra
-is nondegenerate, the span of its range being 0, dense in 0), is
+nondegenerate nonunital construction; equivalently, the GNS summand π_ψ of each positive
+functional ψ is nondegenerate because the classes [b] are dense
+(`PositiveLinearMap.denseRange_toGNS`) and, for an approximate unit e_λ,
+`‖π_ψ(e_λ)[b]−[b]‖²=ψ((e_λb−b)*(e_λb−b))≤‖ψ‖‖e_λb−b‖²→0`). The headline is stated for every
+C*-algebra A, possibly nonunital and nonseparable: a faithful nondegenerate representation on a
+complete complex Hilbert space in the universe of A, the zero space when A=0 (the zero
+representation of the zero algebra is nondegenerate, the span of its range being 0, dense in 0), is
 `exists_faithful_nondegenerate_representation`; for unital A nondegeneracy forces the unit to act
 as the identity, so the unital theorem is its special case.
 *Needs:* Mathlib `PositiveLinearMap`, `PositiveLinearMap.exists_norm_apply_le`, Banach–Alaoglu,
-`Analysis/Convex/KreinMilman` and `PositiveLinearMap.GNS`; Tau Ceti `PositiveLinearMap.gnsVector`
-and its lemmas; BanachSpaceTheory B1's weak-dual comparison.
+`Analysis/Convex/KreinMilman` and `PositiveLinearMap.GNS`; Tau Ceti `PositiveLinearMap.toGNS`,
+`PositiveLinearMap.denseRange_toGNS`, `PositiveLinearMap.gnsVector`,
+`PositiveLinearMap.inner_gnsVector_coe`, `PositiveLinearMap.inner_gnsStarAlgHom_gnsVector` and
+`PositiveLinearMap.denseRange_gnsStarAlgHom_gnsVector`; BanachSpaceTheory B1's weak-dual
+comparison.
 
 **Checks.**
 
@@ -353,9 +362,9 @@ native `PositiveLinearMap.GNS` and `gnsNonUnitalStarAlgHom` on this faithful
 state. Prove separability from the dense image of A and the bound
 ‖[a]‖≤‖a‖. For nonunital A there is no class of the unit; prove faithfulness
 and nondegeneracy from the native positive contractive approximate unit and the
-dense classes [a]. When A is unital, use `gnsStarAlgHom`, retain unit
-preservation, and take the cyclic vector and the density of its orbit from
-`PositiveLinearMap.gnsVector` and `PositiveLinearMap.denseRange_gnsStarAlgHom_gnsVector`.
+dense classes [a] (`PositiveLinearMap.denseRange_toGNS`). When A is unital, use
+`gnsStarAlgHom`, retain unit preservation, and take the cyclic vector and the density of its
+orbit from `PositiveLinearMap.gnsVector` and `PositiveLinearMap.denseRange_gnsStarAlgHom_gnsVector`.
 
 For A≠0, amplify this nonzero separable GNS carrier by the countable
 Hilbert sum `lp (fun _ : ℕ => ψ.GNS) 2`, with diagonal action. Prove the
@@ -376,7 +385,9 @@ V12.J prerequisite. The separable faithful representation is Peterson, Corollary
 its proof, p. 58; state separation is Propositions 4.1.4–4.1.5, p. 56. The countable
 amplification and Hilbert-basis transport above give the ℓ² refinement, retaining A≠0.
 *Needs:* Mathlib `PositiveLinearMap.GNS`, `gnsStarAlgHom`, `gnsNonUnitalStarAlgHom`, the C*-algebra
-approximate unit and `lp`; the state separation and Gelfand–Naimark representation above.
+approximate unit and `lp`; Tau Ceti `PositiveLinearMap.toGNS`, `PositiveLinearMap.denseRange_toGNS`,
+`PositiveLinearMap.gnsVector` and `PositiveLinearMap.denseRange_gnsStarAlgHom_gnsVector`; the
+state separation and Gelfand–Naimark representation above.
 
 
 Prove every nonzero C*-representation has operator norm one, also for
@@ -410,7 +421,10 @@ state, with n=1 and the zero algebra handled separately.
 - Mathlib `CStarAlgebra`, continuous functional calculus, `PositiveLinearMap`,
   `PositiveLinearMap.GNS`, `gnsStarAlgHom`, `gnsNonUnitalStarAlgHom`, `lp`, Banach–Alaoglu and
   `Analysis/Convex/KreinMilman`.
-- Tau Ceti `PositiveLinearMap.gnsVector` and its lemmas (the canonical GNS cyclic vector of a
+- Tau Ceti `PositiveLinearMap.toGNS` and `PositiveLinearMap.denseRange_toGNS` (the dense GNS
+  class map of a possibly nonunital algebra); `PositiveLinearMap.gnsVector` and its lemmas
+  `PositiveLinearMap.inner_gnsVector_coe`, `PositiveLinearMap.inner_gnsStarAlgHom_gnsVector` and
+  `PositiveLinearMap.denseRange_gnsStarAlgHom_gnsVector` (the canonical GNS cyclic vector of a
   unital algebra).
 - BanachSpaceTheory B1 (weak-dual comparison).
 
@@ -3946,15 +3960,23 @@ from injectivity to the min-norm inequality and semidiscreteness uses
 the finite/semifinite/type-III reductions below.
 In V11's standard form identify M′ with
 Mᵒᵖ by `yᵒᵖ↦Jy*J`, and transport the criterion to M⊙Mᵒᵖ; this is the
-form used by the crossed-product restriction argument below. First, for finite algebras construct hypertraces on B(L²M)
-extending τ and central under M, prove the Powers–Størmer inequality
-`‖a^(1/2)-b^(1/2)‖₂²≤‖a-b‖₁` for positive L¹ elements, and prove Connes's finite-rank
-Følner criterion: finite subsets of the left action admit nonzero finite-rank projections
-whose Hilbert–Schmidt commutators divided by their Hilbert–Schmidt norms are arbitrarily
-small, with normalized compressed traces approximating τ (Anantharaman–Popa, Definition 10.2.1
-and Proposition 10.2.2, p. 161, Proposition 10.2.5, p. 163, Theorems 10.2.8 and 10.2.9,
-pp. 164–165, and Theorem 10.3.1, p. 166; Peterson, Theorem 6.3.8, p. 103, for hypertraces versus
-conditional expectations). Derive finite-dimensional
+form used by the crossed-product restriction argument below. First, for an injective finite
+von Neumann algebra M with a faithful normal tracial state τ, construct hypertraces on B(L²M)
+extending τ and central under M (states ψ with ψ(xT)=ψ(Tx) for x∈M and T∈B(L²M), and ψ|M=τ),
+prove the Powers–Størmer inequality `‖a^(1/2)-b^(1/2)‖₂²≤‖a-b‖₁` for positive L¹ elements, and
+prove Connes's Følner criterion in operator form: for every ε>0 and every finite set F of
+unitaries of M there is a positive finite-rank operator T on L²M with `‖T‖_(2,Tr)=1`,
+`‖uT−Tu‖_(2,Tr)≤ε` for u∈F and `|Tr(xT²)−τ(x)|≤ε‖x‖` for every x∈M, where Tr is the canonical
+trace of B(L²M) and `‖T‖_(2,Tr)=Tr(T*T)^(1/2)` (Anantharaman–Popa, Definition 10.2.1 and
+Proposition 10.2.2, p. 161, Proposition 10.2.5, p. 163, Theorems 10.2.8 and 10.2.9, pp. 164–165;
+Peterson, Theorem 6.3.8, p. 103, for hypertraces versus conditional expectations). The operator T
+is not in general a normalized projection. For an injective II₁ factor prove the finite-rank
+projection form: for every ε>0 and finite set F of unitaries there is a nonzero finite-rank
+projection P on L²M with `‖uPu*−P‖_(2,Tr)<ε‖P‖_(2,Tr)` for u∈F, a condition with no trace
+clause, obtained from the operator form by Connes's spectral-projection trick
+(Anantharaman–Popa, Theorem 10.3.1, p. 166, and Theorem 10.3.4, p. 168). Outside II₁ factors
+the projection form with a trace clause can fail: on ℂ² with a non-uniform trace no normalized
+finite-rank projection meets both conditions (Checks below). Derive finite-dimensional
 CP approximations through normal finite-matrix maps: prove the
 spatial-norm continuity of the commuting left/right multiplication
 representation on M⊙Mᵒᵖ, and use CP separation/extension to obtain
@@ -3970,6 +3992,29 @@ Include polynomial-growth groups as amenable examples.
 *Needs:* V13a, V13b.SpatialNorm, V11's standard form (`M′≃Mᵒᵖ`), V4's predual and the weak
 topology `σ(M_*,M)`, V6's L² (Powers–Størmer), AmenableGroups Layers 5–7, V8's crossed products,
 Mathlib's trace norm on `M_n(ℂ)_*`; the sources named at the criterion.
+
+**Checks.**
+
+- The projection form with a trace clause does not extend beyond II₁ factors. On `M=ℂ²` with
+  `τ(a,b)=(a+2b)/3`, L²M is ℂ² with orthonormal basis `√3δ₁, √(3/2)δ₂`, on which M acts
+  diagonally; take `u=(1,−1)`, `x=(1,0)` and ε=1/10. A rank-one projection P onto `(α,β)`,
+  `|α|²+|β|²=1`, has `‖uP−Pu‖²_(2,Tr)=8|α|²|β|²` and `Tr(xP)/Tr(P)=|α|²`, so the commutator
+  bound `8|α|²(1−|α|²)≤1/100` forces `|α|²<0.0013` or `|α|²>0.9987`; P=1 gives
+  `Tr(xP)/Tr(P)=1/2`. None of these is within 1/10 of `τ(x)=1/3`, although ℂ² is injective.
+- On the same instance the operator form holds exactly: `T=diag(3^(−1/2),(2/3)^(1/2))` in that
+  basis has `‖T‖²_(2,Tr)=1/3+2/3=1`, commutes with u, and gives `Tr(xT²)=a/3+2b/3=τ(x)` for every
+  `x=(a,b)`. Theorem 10.2.9 supplies such a positive finite-rank T, not a projection.
+- The trace clause cannot be dropped outside factors: on the same ℂ² the rank-one projection
+  `T=e₁₁` onto the first basis vector has `‖T‖_(2,Tr)=1` and commutes with every unitary of M, so
+  the commutator condition holds with ε=0, but `Tr(xT²)=1≠1/3=τ(x)` for `x=(1,0)`. In a II₁
+  factor the restriction of a hypertrace to M is the unique tracial state, which is why the
+  projection form there asks for the commutator condition alone.
+- Injectivity cannot be dropped: `L(F₂)`, with its canonical trace and `L²M=ℓ²(F₂)`, has no
+  hypertrace. A hypertrace ψ restricted to the multiplication operators `ℓ∞(F₂)⊆B(ℓ²(F₂))` is a
+  left-invariant mean m, since `ψ(λ_g f λ_g*)=ψ(f λ_g* λ_g)=ψ(f)` and `λ_g f λ_g*` is
+  multiplication by `f(g⁻¹·)`. For the free generators a, b and W(s) the reduced words beginning
+  with s, `F₂=W(a)⊔aW(a⁻¹)=W(b)⊔bW(b⁻¹)` gives `m(W(a))+m(W(a⁻¹))=1=m(W(b))+m(W(b⁻¹))`, while
+  the four disjoint sets have total mass at most 1.
 
 Before using the finite theorem in the general reduction, prove
 semidiscrete II₁ factors with separable predual hyperfinite by
