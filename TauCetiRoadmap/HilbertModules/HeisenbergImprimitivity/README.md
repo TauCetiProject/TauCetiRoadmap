@@ -32,11 +32,11 @@ This roadmap is a child of HilbertModules and owns, for finite-type M:
   gauge action, full = reduced theorem, and, for finitely generated L, its rapid-decay subalgebra
   S(L,c) as the smooth vectors of the gauge action (Layer 3, Layer 5). The inverse-closedness of
   S(L,c) is Mathlib's smoothness of inversion at units, `contDiffAt_ringInverse`, along the gauge
-  orbit; no general theory of smooth elements of Banach-algebra actions is built here. The quantum
-  tori `C*(ℤ^d,σ_Θ)` are the case L=ℤ^d (Downstream consumers). No roadmap on main owns the
-  twisted group C*-algebra of a general 2-cocycle: OperatorAlgebraDynamics D1–D2 construct
-  crossed products for an action, with no 2-cocycle twist, and regular representations, and are
-  consumed only for those. OperatorAlgebraDynamics D8's universal Weyl algebra of a real
+  orbit; no general theory of smooth elements of Banach-algebra actions is built here. The
+  algebras `C*(ℤ^d,c)`, the quantum tori `C*(ℤ^d,σ_Θ)` among them, are the case L=ℤ^d
+  (Downstream consumers). No roadmap on main owns the twisted group C*-algebra of a general
+  2-cocycle: OperatorAlgebraDynamics D1–D2 construct crossed products for an action, with no
+  2-cocycle twist, and regular representations, and are consumed only for those. OperatorAlgebraDynamics D8's universal Weyl algebra of a real
   symplectic space (V,σ), with `W(f)W(g)=exp(−iσ(f,g)/2)W(f+g)`, is the instance L=V with the
   discrete topology and `c=exp(−iσ/2)`; its symplectic functoriality, simplicity and regular
   representations stay there and are not used here;
@@ -817,7 +817,14 @@ of §6.3 and §5.2. The quantum tori `C*(ℤ^d,σ_Θ)` of CompactQuantumMetricSp
 `σ_Θ(p,q)=exp(πi pᵀΘq)` for a real skew-symmetric d×d matrix Θ, are §3.1 at L=ℤ^d and c=σ_Θ (a
 normalised bicharacter with `σ_Θ(p,−p)=1`): their twisted regular representation
 `λ_Θ(p)δ_q=σ_Θ(p,q)δ_(p+q)`, gauge action `α_z(W_p)=z^pW_p` of `𝕋^d` and coefficient trace are
-§3.1's `λ_c`, gauge action and τ, and their universal property is §3.1's.
+§3.1's `λ_c`, gauge action and τ, and their universal property is §3.1's. The twisted algebras
+`C*(ℤ^d,c)` of OperatorKTheory §7.5, for d≥0 and a normalised circle-valued 2-cocycle c on ℤ^d,
+are §3.1 at L=ℤ^d: their twisted shifts `W_xδ_z=c(x,z)δ_(x+z)` on ℓ²(ℤ^d) are `λ_c(x)`, their
+trace `⟨δ_0,aδ_0⟩` with uniqueness of Fourier coefficients is τ, their gauge action
+`α_χ(W_y)=χ(y)W_y` is §3.1's, and their universal property for unitaries with
+`U_xU_y=c(x,y)U_(x+y)` is §3.1's universal property together with `C*(L,c)=C*_r(L,c)`. The
+commutator bicharacter of c, the centre, the simplicity criterion and the identification of the
+rotation algebra `C(𝕋)⋊ℤ` with `C*(ℤ²,c)` for `c((m,n),(m',n'))=e(θnm')` are OperatorKTheory's.
 
 ## References
 
