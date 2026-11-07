@@ -678,10 +678,11 @@ Every profinite group `G` is a quotient `F/N` of a free profinite group by a clo
 subgroup `N` that is itself free profinite, but `N` must be chosen. For `G` finite, the kernel of
 any surjection `F̂(X) → G` with `X` finite and nonempty is open, hence free of rank
 `1 + |G|(|X| − 1)` (Mel'nikov 1978, Proposition 2.1(a), as stated in Jarden–Lubotzky 1992,
-Proposition 1.1(a)). For `G` infinite, take a generating set
-`X₀` of `G` converging to `1` and `X = X₀ ⊔ {y}` with `y ↦ 1`: the kernel has infinite index and
-contains the basis element `y`, so it is free of rank `max(ℵ₀, |X|)` by Mel'nikov's theorem
-(Mel'nikov 1978, Lemma 2.7 and Theorem 3.1, as stated in Jarden–Lubotzky 1992, Proposition 5.6).
+Proposition 1.1(a)). For `G` infinite and topologically finitely generated, take a finite
+generating set `X₀` of `G` and `X = X₀ ⊔ {y}` with `y ↦ 1`: the kernel has infinite index and
+contains the basis element `y`, so it is free of rank `ℵ₀` by Mel'nikov's theorem (Mel'nikov
+1978, Lemma 2.7 and Theorem 3.1, as stated in Jarden–Lubotzky 1992, Proposition 5.6, with
+`m = |X|` finite and `≥ 2`).
 For `G = ℤ_p` this is `F̂₂ → ℤ_p`, `x ↦ 1`, `y ↦ 0`. The kernel of `ẑ → ℤ_p` is
 `∏_{ℓ ≠ p} ℤ_ℓ`, which is procyclic and not `ẑ`, hence not free: the redundant generator is
 needed. None of this is a target.
