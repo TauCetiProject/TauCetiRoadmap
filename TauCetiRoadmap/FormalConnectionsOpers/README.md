@@ -53,7 +53,9 @@ intrinsic descriptions.
   differential-operator and connection dictionaries. §2.2 consumes C5.1's algebraic operator
   interface and builds symbols, the Atiyah sequence and the Lie–Rinehart enveloping algebra on
   top of it. This roadmap takes complex points, their classical topology and all these
-  comparisons from C−1.1 alone and builds on no second analytification. §2.4 owns the
+  comparisons from C−1.1 and builds on no second analytification; the one other classical
+  topology it uses, ReductiveGroups Layer 3A.5's on `G(ℂ)` for an affine algebraic group `G`
+  over `ℂ`, is identified with C−1.1's by the identity of `G(ℂ)` in §4.3. §2.4 owns the
   complex-manifold structure on the complex points of a separated smooth finite-type complex
   scheme of constant differential dimension `d`: the atlas modelled on `Fin d → ℂ`, its maximal
   atlas and holomorphic morphisms, the tangent isomorphism and the toric, group and gauge
@@ -76,13 +78,15 @@ intrinsic descriptions.
   groups over `ℤ`, and the complex reductive coset-affineness theorem. §4.3 owns the
   ordered-root-product, complex-point generation and analytic matrix applications; §3A.5 owns
   the loop-Grassmannian reduction-locus application of 6B. ReductiveGroups Layer 3A.5 owns the
-  complex Lie-group structure on `G(ℂ)` for every affine algebraic group `G` over `ℂ`, on the
-  classical topology and smooth charts of ComplexComparisonPartII C−1.1, with the
-  chart-at-the-identity identification of its Lie algebra with its Layer 2 tangent Lie algebra;
-  §4.3 consumes these and owns only their transport to the native Hopf-point carrier
-  `WithConv (H →ₐ[ℂ] ℂ)`, the Maurer–Cartan trivialization and rank, the comparison of §2.4's
-  germ tangent map with the counit derivations and their convolution bracket, the realification
-  comparison and the holomorphic exponential chart.
+  classical topology on the complex points of every locally finite-type `ℂ`-scheme, the complex
+  charts of every smooth one and the complex Lie-group structure on `G(ℂ)` for every affine
+  algebraic group `G` over `ℂ`, with the chart-at-the-identity identification of its Lie algebra
+  with its Layer 2 tangent Lie algebra; §4.3 consumes these and owns only the comparison of that
+  topology and those charts on `G(ℂ)` with ComplexComparisonPartII C−1.1's `G^an` and §2.4's
+  fixed-model atlas, their transport to the native Hopf-point carrier `WithConv (H →ₐ[ℂ] ℂ)`, the
+  Maurer–Cartan trivialization and rank, the comparison of §2.4's germ tangent map with the
+  counit derivations and their convolution bracket, the realification comparison and the
+  holomorphic exponential chart.
 - **LieHighestWeight Layer 7** owns the Lie-algebra Chevalley restriction theorem over every
   algebraically closed characteristic-zero field, with the `Int(L)·H` density argument and the
   homogeneous-degree compatibility. §4.3 imports it and owns only the adapters: group invariants
@@ -265,6 +269,15 @@ reductive ⇔ linearly reductive theorem; Layer 7's maximal-torus/Borel conjugac
 structure; Layer 8's classification of split reductive groups by root data; Layer 9's pinned
 Chevalley groups and root maps over `ℤ`; Layer 6B's complex reductive coset affineness, with its
 fpqc quotient and invariant-ring identification, applied to `GL_n/G`.
+
+Layer 3A.5: the classical topology on the complex points of a locally finite-type `ℂ`-scheme,
+which on an affine presentation is the zero-locus subspace topology in `ℂ^n`; the complex charts
+of a smooth `ℂ`-scheme, each the restriction of an étale coordinate map `U → 𝔸^d`, on a Zariski
+open `U`, to an open set of `U(ℂ)` on which it is injective; and the complex Lie-group structure
+on `G(ℂ)` for an affine algebraic group `G` over `ℂ`, with multiplication, unit and inverse
+holomorphic because they are induced by scheme maps, and the chart-at-the-identity
+identification of its Lie algebra with Layer 2's tangent Lie algebra. §4.3 uses of the topology
+and the charts only these two descriptions.
 
 ### From TauCetiRoadmap.ReductiveGroupsPartII
 
@@ -1416,30 +1429,41 @@ Construct the algebraic left Maurer–Cartan trivialization `Ω¹_(H/ℂ) ≃ H 
 `TauCeti.HopfAlgebra.finrank_lie_eq_ringKrullDim_of_charZero` identifies `d` with the Krull
 dimension of `H`. Take
 ReductiveGroups Layer 1's faithful closed representation, which exhibits `G` as a smooth closed
-subscheme of `GL_N`, and consume ReductiveGroups Layer 3A.5's complex comparison on `G(ℂ)`: the
-classical topology and the smooth charts from ComplexComparisonPartII C−1.1, the holomorphic
-multiplication, unit and inverse, hence the complex Lie-group structure, and the
-chart-at-the-identity identification of its Lie algebra with Layer 2's tangent Lie algebra. The
-complex Lie group `G(ℂ)` is constructed there and not again here. Apply §2.4 with the rank `d`
-and identify its fixed-model atlas with those charts and with the matrix-subspace realization
-including `det⁻¹` on `GL_N`. Use the Spec adjunction to identify its point carrier with native
-`TauCeti.HopfAlgebra.points`, namely `WithConv (H →ₐ[ℂ] ℂ)`. Transport the topology, atlas and
-Lie-group structure to this fixed native carrier; retain its existing group structure. Prove that
-regular multiplication, unit and inverse correspond exactly to convolution, counit and antipode.
-All subsequent `G(ℂ)` Lie-group and continuous-homomorphism statements use this carrier. Use the
-native complex Lie algebra `GroupLieAlgebra 𝓘(ℂ, Fin d → ℂ) G(ℂ)`, whose bracket is
-`mlieBracket` of the left-invariant tangent fields at `1`. §2.4's `τ_e` lands first in
-`Der_ℂ(O_(G,e), ℂ)`. Construct restriction along `H → O_(G,e)` as a complex-linear equivalence
-from germ derivations to the displayed global counit derivations. Its inverse localizes `D` by
-`D(a/s) = D(a)/ε(s) − ε(a)D(s)/ε(s)²` for `ε(s) ≠ 0`; prove representative independence, Leibniz
-and the two inverse laws. Compose this with `τ_e`, and prove that the composite is Layer 3A.5's
-chart-at-the-identity identification. Prove bracket compatibility with no minus sign:
+subscheme of `GL_N`, and consume ReductiveGroups Layer 3A.5's complex comparison on `G(ℂ)`: its
+classical topology and smooth charts, the holomorphic multiplication, unit and inverse, hence the
+complex Lie-group structure, and the chart-at-the-identity identification of its Lie algebra with
+Layer 2's tangent Lie algebra. The complex Lie group `G(ℂ)` is constructed there and not again
+here. Apply §2.4 with the rank `d`. Prove that the identity of `G(ℂ)`, through C−1.1's
+complex-point comparison, is a homeomorphism from Layer 3A.5's classical topology onto the
+underlying space of C−1.1's `G^an`: present `G` as a closed subscheme of `𝔸^(N²+1)` through
+`G ⊂ GL_N` with the matrix entries and `det⁻¹` as coordinates; Layer 3A.5's affine description
+and §2.4's affine identification both give the zero-locus subspace topology of this presentation.
+Prove that every chart of Layer 3A.5 on `G(ℂ)` belongs to §2.4's maximal atlas, after the
+coordinate identification of the two model spaces: such a chart restricts an étale coordinate
+map `U → 𝔸^d` on a Zariski open `U ⊂ G`, §2.4 makes `U^an → ℂ^d` a local biholomorphism, and an
+injective local biholomorphism on an open set is a biholomorphism onto its open image. Hence the
+two maximal atlases coincide and the identity of `G(ℂ)` is biholomorphic; identify both with the
+matrix-subspace realization including `det⁻¹` on `GL_N`. Use the Spec adjunction to identify the
+point carrier `G(ℂ)` with native `TauCeti.HopfAlgebra.points`, namely `WithConv (H →ₐ[ℂ] ℂ)`.
+Transport the topology, atlas and Lie-group structure to this fixed native carrier; retain its
+existing group structure. Prove that regular multiplication, unit and inverse correspond exactly
+to convolution, counit and antipode. All subsequent `G(ℂ)` Lie-group and continuous-homomorphism
+statements use this carrier. Use the native complex Lie algebra
+`GroupLieAlgebra 𝓘(ℂ, Fin d → ℂ) G(ℂ)`, whose bracket is `mlieBracket` of the left-invariant
+tangent fields at `1`. §2.4's `τ_e` lands first in `Der_ℂ(O_(G,e), ℂ)`. Construct restriction
+along `H → O_(G,e)` as a complex-linear equivalence from germ derivations to the displayed global
+counit derivations. Its inverse localizes `D` by `D(a/s) = D(a)/ε(s) − ε(a)D(s)/ε(s)²` for
+`ε(s) ≠ 0`; prove representative independence, Leibniz and the two inverse laws. Compose this
+with `τ_e`, and prove that the composite is Layer 3A.5's chart-at-the-identity identification.
+Prove bracket compatibility with no minus sign:
 `D^L h = Σ h_(1) D(h_(2))`, with coproduct `Δ = μ*` and the left group factor first; thus the
 commutator at `1` evaluates to `D*E − E*D`, the native counit bracket. These steps use neither
-connectedness nor reductivity, only ReductiveGroups Layers 0–2 and 3A.5 and §2.4, and are stated
-for every affine algebraic group over `ℂ`; what is owned here is the native-carrier transport
-and the comparison of §2.4's tangent map with the counit derivations and their bracket, not a
-second complex Lie group. From the realification comparison on, `G` is connected reductive.
+connectedness nor reductivity, only ReductiveGroups Layers 0–2 and 3A.5, ComplexComparisonPartII
+C−1.1 and §2.4, and are stated for every affine algebraic group over `ℂ`; what is owned here is
+the comparison of Layer 3A.5's topology and charts on `G(ℂ)` with C−1.1's `G^an` and §2.4's
+atlas, the native-carrier transport and the comparison of §2.4's tangent map with the counit
+derivations and their bracket, not a second complex Lie group. From the realification comparison
+on, `G` is connected reductive.
 
 Own the realification comparison: with ComplexManifolds Milestone 1's named realification `G(ℂ)_ℝ`
 of the same carrier, construct the real-linear tangent equivalence from the underlying real vector
@@ -1596,6 +1620,13 @@ coefficientwise; prove existence, uniqueness, freeness and recovery of the gauge
   Zariski closure of `S¹` is `𝔾_m`, and its characters restrict to `z ↦ z^n`. A finite subgroup
   `μ_n` also has bounded powers but Zariski closure `μ_n`: the maximal-torus hypothesis, not
   boundedness alone, produces the algebraic torus.
+- Two classical topologies on `G(ℂ)`: for `G = 𝔾_m ⊂ GL₁`, presented as
+  `{(x, y) ∈ ℂ² : xy = 1}`, Layer 3A.5's topology and C−1.1's are both the subspace topology of
+  this hyperbola, so the identity is a homeomorphism, and the étale coordinate `x` is a chart of
+  both atlases, onto `ℂˣ ⊂ ℂ`, with identity transition. Complex conjugation is a homeomorphism of
+  `ℂˣ` whose transition with `x` is not holomorphic, so the topological comparison alone does not
+  identify the two atlases; the étale-coordinate argument does. For `G = μ_n` both sides are `n`
+  discrete points with charts to `Fin 0 → ℂ`; for the trivial group both are one point.
 - Realification: for `G = 𝔾_m`, the realified Lie algebra is `ℝ²`, while `Lie(S¹) = iℝ`
   complexifies to `ℂ`; `exp_G = exp : ℂ → ℂˣ` has derivative `1` at `0` and sends the real box
   `i(−a, a)` into `S¹`.
@@ -1606,8 +1637,8 @@ coefficientwise; prove existence, uniqueness, freeness and recovery of the gauge
 - Regular nilpotents in `𝔰𝔩₂` are the nonzero nilpotents, one orbit containing `f`; the zero
   matrix is nilpotent with centralizer of dimension `3`, not regular.
 
-*Needs:* §2.4; §3A.3; §4.2; ReductiveGroups Layers 0–4 (3A.5 included), 6–9; LieHighestWeight
-Layer 7; LieGroups
+*Needs:* §2.4; §3A.3; §4.2; ReductiveGroups Layers 0–4 (3A.5 included), 6–9;
+ComplexComparisonPartII C−1.1; LieHighestWeight Layer 7; LieGroups
 Layers 0, 6, 7; ComplexManifolds Milestone 1; ComplexKahlerGeometry K1, K3.0; CharacteristicClasses
 C5.1 (comparison only); Mathlib `GroupLieAlgebra`, `LeftInvariantDerivation`, `Matrix.exp`;
 Tau Ceti counit derivations, characteristic-zero smoothness and gluing.
@@ -1655,12 +1686,16 @@ gerbe and Picard groupoid.
 
 `PGL₂`: opers are `d + [[0, q], [1, 0]] dt`, their normalization, their `SL₂`-lifts and the
 projective-connection model of Layer 5. `𝔰𝔩₂`, `𝔤𝔩₂` and `𝔰𝔩₃` invariants, exponents and slices
-as above. `μ₂ ⊂ 𝔾_m` as the disconnected counterexample to `V^G = V^𝔤`.
+as above. `μ₂ ⊂ 𝔾_m` as the disconnected counterexample to `V^G = V^𝔤`. `𝔾_m`, `μ_n` and the
+trivial group for the identification of Layer 3A.5's classical topology and charts on `G(ℂ)` with
+C−1.1's and §2.4's.
 
 ### Dependencies
 
 Layers 2–3, §3A.3 for the translation lattice compared with the compact exponential kernel,
-ReductiveGroups Layers 1–9, LieHighestWeight Layer 7, LieGroups Layers 0, 6, 7,
+ReductiveGroups Layers 1–9 (with Layer 3A.5's complex Lie group `G(ℂ)`), ComplexComparisonPartII
+C−1.1 for the comparison of the two classical topologies on `G(ℂ)`, LieHighestWeight Layer 7,
+LieGroups Layers 0, 6, 7,
 ComplexManifolds Milestone 1, ComplexKahlerGeometry K1 and K3.0, CharacteristicClasses C5.1 for the
 comparison only. The order inside §4.3 is lower dictionary → Chevalley restriction (which uses only
 the lower dictionary and LieHighestWeight) → compact form and matching → principal `sl₂`, slice
