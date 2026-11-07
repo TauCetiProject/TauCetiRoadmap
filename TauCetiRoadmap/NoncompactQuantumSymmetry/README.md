@@ -6,7 +6,7 @@
 
 Consume, without duplicating their core constructions:
 
-- AutomorphicFormsOnReductiveGroups §2.1 for the topology-free finite-orbit-span predicate, submodule and elementary equivariant-map API, and its strongly continuous compact-group Banach density theorem. These two early interfaces have no automorphic, globalization or NQS analytic prerequisite; M0 owns the further Hilbert multiplicity, completed-tensor and smooth/analytic comparisons.
+- CompactGroups Layer 5 (`gap:banach-gfinite-density`, the gap AutomorphicFormsOnReductiveGroups §2.1 declares there) for the topology-free finite-orbit-span predicate `IsGFinite`, the submodule `gFiniteSubmodule` with its addition, scalar, invariance and equivariant-map API, and the Banach density theorem `gFiniteSubmodule_dense` for strongly continuous complex Banach representations of compact Hausdorff groups; AutomorphicFormsOnReductiveGroups §2.1 for its abbreviation `IsKFinite` of that predicate on the restriction to K and its identification of the orbit span of the restricted native representation with the span of the actual orbit `π(k)v`. These two early interfaces have no automorphic, globalization or NQS analytic prerequisite; M0 owns the further Hilbert multiplicity, completed-tensor and smooth/analytic comparisons.
 
 - [OperatorAlgebraDynamics D1](../OperatorAlgebraDynamics/README.md#d1-covariant-representations-and-full-crossed-products) for covariant pairs, integrated forms, group C*-algebras and continuous actions; [D3](../OperatorAlgebraDynamics/README.md#d3-induction-and-imprimitivity) for Green imprimitivity, modular normalization, induction in stages and interior tensor induction.
 - OperatorAlgebraDynamics D3 supplies the equivalence between module and Hilbert-space induction for closed subgroups. HilbertModules H3 supplies interior tensor products, correspondence induction and the Rieffel correspondence; H5 supplies C₀(X)-algebras, their fibres and continuous Hilbert fields. H5 also supplies the small unitary dual as pure states modulo equivalence of their cyclic GNS representations; M0a retains the separable GCR/factor-type-I comparison.
@@ -92,6 +92,7 @@ Their generic theories remain in the supplying roadmaps.
 | Supplier | Interface consumed here | First consumer |
 | --- | --- | --- |
 | [SmoothBanachRepresentations Layers 0–4](../RepresentationTheory/SmoothBanachRepresentations/README.md) | Integrated operators `π(f)` of compactly supported smooth tests and the Gårding space they span, smooth vectors with their Fréchet topology and density, mixed-word domains, the derived Lie and enveloping actions, and the convolution, transport, conjugation and integration-by-parts laws, for strongly continuous Banach representations and hence unitary ones | M0 item 1 |
+| CompactGroups Layer 5 (`gap:banach-gfinite-density`); AutomorphicFormsOnReductiveGroups §2.1 | The field-general finite-orbit-span predicate `IsGFinite`, the submodule `gFiniteSubmodule` with its addition, scalar, invariance and equivariant-map API, and the Banach density theorem `gFiniteSubmodule_dense` for strongly continuous complex Banach representations of compact Hausdorff groups; from §2.1, the abbreviation `IsKFinite` on the restriction to K and its orbit-span identification for restricted native continuous representations | M0 item 3 |
 | OperatorAlgebraDynamics D1.BorelPrefix, D1.TwistedBorel, D4.Harmonic | The Polish group `U(H)_s` with its coefficient Borel structure, Pettis's theorem and the Polishness of lcsc groups; the Mackey–Weil topology on `E_ω`, the strong-Borel correspondence and `λ^ω`; the fibres `J_k(E_ω)≅C*(G,ω^k)`; the Fourier isomorphism `C*(N)≅C₀(N̂)` | Layer 0, P.2, M1, M2 |
 | PseudodifferentialOperators P5/P6 | Local interior distributional elliptic regularity and Sobolev estimates | M0’s smooth/elliptic-vector bridge |
 | RiemannianGeometry R1/R2/R4, [HopfRinow](../HopfRinow/README.md) | Symmetric-space curvature, Jacobi/Hessian comparison, Cartan–Hadamard and complete closed-ball compactness | M0’s Cartan/maximal-compact argument |
@@ -671,7 +672,7 @@ sums to1, and `H_τ≅τ⊗Hom_K(τ,H)`. Normalize the multiplicity Hilbert prod
 `⟨A,B⟩=tr(A*B)/d_τ`, so the evaluation `v⊗A↦Av` is isometric; prove
 basis independence, positivity, completeness and the completed-tensor comparison
 using VNA V2. Prove compact-type projections preserve the
-Gårding space by compact-measure convolution of its test functions. Consume the topology-free algebraic prefix of AutomorphicFormsOnReductiveGroups §2.1: its `IsGFinite`, `gFiniteSubmodule`, addition, scalar, invariance and equivariant-map APIs are the common owner. Here `IsKFinite π K v` abbreviates that predicate on `(π.restrict K.subtype).toRepresentation`; prove the orbit-span identification by the native restriction formula and use the shared addition theorem. NQS owns the Hilbert isotypic-projector, multiplicity, completed-tensor and smooth/analytic-vector comparisons above and below, rather than a second primitive compact-finiteness definition. The compact-finite density input is the compact Banach theorem of the same section; these two early interfaces introduce no automorphic/globalization prerequisites. K-finite vectors
+Gårding space by compact-measure convolution of its test functions. Consume the topology-free algebraic prefix of CompactGroups Layer 5 (`gap:banach-gfinite-density`): its `IsGFinite`, `gFiniteSubmodule`, addition, scalar, invariance and equivariant-map APIs are the common owner. Consume from AutomorphicFormsOnReductiveGroups §2.1 its abbreviation `IsKFinite π K v` of that predicate on `(π.restrict K.subtype).toRepresentation`, together with its identification of the orbit span of that restricted representation with the span of the actual orbit `π(k)v`, and use the shared addition theorem. NQS owns the Hilbert isotypic-projector, multiplicity, completed-tensor and smooth/analytic-vector comparisons above and below, rather than a second primitive compact-finiteness definition. The compact-finite density input is the compact Banach theorem `gFiniteSubmodule_dense` of the same CompactGroups gap; these two early interfaces introduce no automorphic/globalization prerequisites. K-finite vectors
 are exactly the algebraic sum of the H_τ, including infinite multiplicity before
 admissibility is proved. For strongly continuous π and a compact subgroup K
 as in M0, admissible means every H_τ, equivalently every multiplicity
@@ -714,9 +715,13 @@ K-orbit spaces; do not identify the full Gårding space with the K-finite space.
 - For G=K=SU(2) and the defining representation on ℂ², every vector is K-finite, the
   `𝔤_ℂ=sl(2,ℂ)` action is matrix multiplication, and the differentiated K-action
   `d/dt|₀ exp(tX)v=Xv` equals the restricted `𝔨=su(2)` action.
-- Replacing the `𝔤_ℂ` action of that module by its negative keeps the Ad(K)-compatibility
-  `π(k)Xπ(k)⁻¹=Ad(k)X` but breaks the equality of the differentiated K-action with the
-  𝔨-action (`Xv≠−Xv` for X≠0), so that equality is a genuine condition.
+- On `V=ℂ²⊗ℂ²` let `𝔤_ℂ=sl(2,ℂ)` act by `ρ⊗1` and K=SU(2) by `π(k)=ρ(k)⊗ρ(k)`, with ρ
+  the defining representation: V is a Lie module, K acts continuously on the
+  finite-dimensional V, and `π(k)(X⊗1)π(k)⁻¹=Ad(k)X⊗1` is the Ad(K)-compatibility, but the
+  differentiated K-action `ρ(Y)⊗1+1⊗ρ(Y)` differs from the 𝔨-action `ρ(Y)⊗1` for every
+  Y≠0 in su(2), so that equality is a genuine condition. Negating the `𝔤_ℂ` action is not
+  a wrong model of it: `[−ρ(e),−ρ(f)]=ρ(h)≠−ρ(h)`, so the negated action is not a Lie
+  module and is excluded by the Lie-module axiom before the K-conditions are tested.
 - For the disconnected K=O(2) with 𝔤=𝔨=so(2) on ℂ², a rotation by θ∉πℤ commutes with
   so(2) and is a U(𝔤_ℂ)-automorphism of the module, but it does not commute with a
   reflection: connectedness of K cannot be dropped from automatic K-equivariance.
@@ -962,12 +967,14 @@ K-orbit spaces; do not identify the full Gårding space with the K-finite space.
    `TauCeti.realSpinThreeOneEquivSpecialLinear` (the SO₀(3,1) and SL(2,ℂ) examples);
    Mathlib `Matrix.Orthogonal`-style indefinite Gram matrices as named.
 
-3. Use the shared algebraic compact-finite predicate and submodule from
-   AutomorphicFormsOnReductiveGroups §2.1 on the restricted representation.
-   Consume its sum/scalar/equivariant-map API and compact Banach density
-   theorem; prove their native continuous-restriction and Hilbert-intertwiner
-   comparisons and identify the submodule with the algebraic sum of compact
-   isotypic spaces. For the
+3. Use the shared algebraic compact-finite predicate and submodule of
+   CompactGroups Layer 5 (`gap:banach-gfinite-density`) on the restricted
+   representation, through the abbreviation `IsKFinite` of
+   AutomorphicFormsOnReductiveGroups §2.1. Consume the sum/scalar/equivariant-map
+   API and compact Banach density theorem of that gap and §2.1's identification
+   of the orbit span of the restricted native continuous representation; prove
+   the Hilbert-intertwiner comparison and identify the submodule with the
+   algebraic sum of compact isotypic spaces. For the
    connected semisimple finite-center G and maximal compact K of item2,
    prove for every admissible unitary π that these vectors are smooth, analytic in the
    Hilbert norm and stable under the derived complexified Lie algebra and K.
@@ -1012,8 +1019,10 @@ K-orbit spaces; do not identify the full Gårding space with the K-finite space.
    representation, including boundary and discrete/limit constituents.
 
    *Needs:* items 1 and 2 (Gårding and analytic vectors, Harish-Chandra admissibility);
-   AutomorphicFormsOnReductiveGroups §2.1 (the compact-finite predicate, submodule API
-   and compact Banach density theorem); P.4 (finite-dimensional Lie smoothing and
+   CompactGroups Layer 5 (`gap:banach-gfinite-density`: the compact-finite predicate,
+   submodule API and compact Banach density theorem) and
+   AutomorphicFormsOnReductiveGroups §2.1 (the abbreviation `IsKFinite` and the
+   orbit-span identification for restricted representations); P.4 (finite-dimensional Lie smoothing and
    differentiation); UnboundedOperators UO-E03 and Nelson's analytic-vector theorem;
    LieGroups Layers 0–3 (finite-dimensional integration of homomorphisms).
 
@@ -1072,7 +1081,7 @@ The trivial representation has one trivial compact type with multiplicity one. A
 
 ### Dependencies
 
-P.1–P.4; RepresentationTheory/CompactGroups and LieGroups; AutomorphicFormsOnReductiveGroups §2.1; SmoothBanachRepresentations Layers 0–4; PseudodifferentialOperators P5/P6; RiemannianGeometry R1/R2/R4; HopfRinow. Each numbered bridge states the additional analytic inputs its route uses.
+P.1–P.4; RepresentationTheory/CompactGroups (Layer 5 with its gap `banach-gfinite-density`) and LieGroups; AutomorphicFormsOnReductiveGroups §2.1 (`IsKFinite` and the orbit-span identification); SmoothBanachRepresentations Layers 0–4; PseudodifferentialOperators P5/P6; RiemannianGeometry R1/R2/R4; HopfRinow. Each numbered bridge states the additional analytic inputs its route uses.
 
 ## Layer 4: M1 — Systems of imprimitivity and induction
 
@@ -3657,10 +3666,16 @@ this topology.
   Haar measure of G pulls back to `r⁴` times the product measure near the zero fibre;
   the exponent is `dim 𝔤/𝔥=10−6=4`, not `dim G=10`, and the system `r^(−4)dg` at r>0
   with Lebesgue⊗Haar on the zero fibre is continuous.
-- Normalizer transport: the elements A and B=−A of the Examples normalize H and act on
-  the normal bundle `𝔤/𝔥=span{J_(a,3):a≠3}` by −1, since each `J_(a,3)` has exactly one
-  reflected index; they send the null representative `(0,0,r,r)` to `(0,0,−r,−r)` and
-  exchange the labels `(ε_E,ℓ)` and `(−ε_E,−ℓ)`, which have the same physical helicity.
+- Normalizer transport: the lift w of the rotation by π in `span(e₀,e₃)` is
+  `diag(−1,1,1,−1,1)` on `ℝ⁵`; it normalizes H, acts on the retained Lorentz coordinates
+  (ambient indices 0,1,2,4) by `A=diag(−1,1,1,1)` and, since `Ad(w)J_(a,3)=−w_aJ_(a,3)`,
+  on the normal bundle `𝔤/𝔥=span{J_(a,3):a≠3}` by `B=−A=diag(1,−1,−1,−1)`, fixing
+  `J_(0,3)` and negating the other three. B sends the null representative `(0,0,r,r)` to
+  `(0,0,−r,−r)` while A fixes it, and `Ad(A)` negates `J₀₁`, so the labels `(ε_E,ℓ)` and
+  `(−ε_E,−ℓ)` are exchanged and the physical helicity `ε_Eℏℓ/2` is preserved. A scalar
+  action −1 on all of `𝔤/𝔥` is realized by no element of `SO₀(4,1)` normalizing H: such
+  an element is `h⊕(±1)` on `e₃^⊥⊕ℝe₃` and acts on `𝔤/𝔥` by `±h`, so −1 forces
+  `diag(1,1,1,−1,1)` (determinant −1) or `diag(−1,−1,−1,1,−1)` (time reversal).
 
 **Specified model limits.** In addition, use the displayed normalized induced or K-type
 realizations to construct designated continuous Hilbert fields/common dense cores for
@@ -6177,7 +6192,7 @@ Apply M5’s fixed `I₁,I₂` to `Ω,Ω′` conversion to the classified de Sit
 
 ### Examples
 
-For the DNC normalizer, A=diag(−1,1,1,1) and B=−A send (0,0,r,r) to (0,0,−r,−r). The labels (ε_E,ℓ) and (−ε_E,−ℓ) therefore have the same physical helicity ε_Eℏℓ/2.
+For the DNC normalizer, B=−A=diag(1,−1,−1,−1) sends (0,0,r,r) to (0,0,−r,−r), while A=diag(−1,1,1,1) fixes it and Ad(A) negates J₀₁. The labels (ε_E,ℓ) and (−ε_E,−ℓ) therefore have the same physical helicity ε_Eℏℓ/2.
 
 ### Dependencies
 
