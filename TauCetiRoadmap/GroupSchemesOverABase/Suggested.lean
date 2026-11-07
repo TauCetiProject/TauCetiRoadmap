@@ -20,9 +20,8 @@ Headline theorems stated here (README target, Lean name):
 * 1.2, `bijective_diagonalizableMap`; 1.3, `smooth_diagonalizable_iff` and
   `etale_diagonalizable_iff`; 1.4, `flat_surjective_diagonalizableMap` and
   `isKernel_diagonalizableMap`; on `diagonalizable` and `diagonalizableMap` (1.1).
-* 2.2, `IsMultiplicativeType.exists_etale_cover`; 2.5, `IsMultiplicativeType.isotrivial` and
-  `IsMultiplicativeType.isotrivial_component`; 2.6, `exists_torus_not_isotrivial`; on
-  `IsDiagonalizable`, `IsMultiplicativeType`, `IsTorus` (2.1), `IsIsotrivial` (2.5) and
+* 2.2, `IsMultiplicativeType.exists_etale_cover`; 2.5, `IsMultiplicativeType.isotrivial`; 2.6,
+  `exists_torus_not_isotrivial`; on `IsDiagonalizable`, `IsMultiplicativeType`, `IsTorus` (2.1), `IsIsotrivial` (2.5) and
   `nodalCurve` (2.6).
 * 3.1, `bijective_baseChange_map_of_thickening`; 3.2, `hom_eq_of_eq_fibre`; 3.3,
   `eq_of_eq_on_torsion`.
@@ -137,9 +136,9 @@ theorem flat_surjective_diagonalizableMap {φ : N →+ M} (hφ : Function.Inject
       Surjective ((Grp.forget (Over S)).map (diagonalizableMap S φ)).left := by
   sorry
 
-/-- **1.4.** For an injective `φ : N →+ M`, the kernel of `D(φ)` is `D_S(M ⧸ φ.range)`, embedded
-by the quotient map `M → M ⧸ φ.range` (SGA 3, Exp. VIII, 3.1). -/
-theorem isKernel_diagonalizableMap {φ : N →+ M} (hφ : Function.Injective φ) :
+/-- **1.4.** For every `φ : N →+ M`, the kernel of `D(φ)` is `D_S(M ⧸ φ.range)`, embedded by the
+quotient map `M → M ⧸ φ.range` (SGA 3, Exp. VIII, 3.1 and its proof). -/
+theorem isKernel_diagonalizableMap (φ : N →+ M) :
     ∃ h : diagonalizableMap S (QuotientAddGroup.mk' φ.range) ≫ diagonalizableMap S φ = 0,
       Nonempty (IsLimit (KernelFork.ofι _ h)) := by
   sorry
@@ -196,15 +195,6 @@ theorem IsMultiplicativeType.isotrivial [ConnectedSpace S] [IsLocallyNoetherian 
     (hS : ∀ s : S, IsDomain (S.presheaf.stalk s) ∧ IsIntegrallyClosed (S.presheaf.stalk s))
     {G : Grp (Over S)} (hG : IsMultiplicativeType G) :
     IsIsotrivial G := by
-  sorry
-
-/-- **2.5.** Componentwise form, without connectedness: over a locally noetherian normal base,
-the restriction to every connected open and closed subscheme is isotrivial. -/
-theorem IsMultiplicativeType.isotrivial_component [IsLocallyNoetherian S]
-    (hS : ∀ s : S, IsDomain (S.presheaf.stalk s) ∧ IsIntegrallyClosed (S.presheaf.stalk s))
-    {G : Grp (Over S)} (hG : IsMultiplicativeType G) (U : S.Opens)
-    (hU : IsClopen (U : Set S)) [ConnectedSpace U] :
-    IsIsotrivial ((baseChange U.ι).obj G) := by
   sorry
 
 /-- **2.6.** The nodal curve over a field `k`: `𝔸¹_k` with the points `0` and `1` identified,

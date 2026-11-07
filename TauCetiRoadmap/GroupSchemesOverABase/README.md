@@ -36,18 +36,18 @@ codimension `≥ 2` in every fibre and smooth composite to `T/W`.
 of a smooth group scheme (Layer 0); diagonalizable groups `D_S(M)` for finitely generated `M` (Layer
 1); groups of multiplicative type of finite type, tori, character and cocharacter sheaves and
 isotriviality (Layer 2); rigidity, density of torsion, Hom schemes out of groups of multiplicative
-type and centralizers and normalizers of such subgroups in smooth affine groups (Layer 3); over a
-field, quotients by closed subgroups, Chevalley's theorem for every smooth connected group over a
-perfect field together with its comparison with the commutative case of
-NeronModelsAndSemistableAbelianVarieties 2.3, the affinization, the rank invariants, and, for groups
-locally of finite type and not necessarily affine, separatedness, the reduced subgroup over a
-perfect field, the identity component and the étale group of connected components `π₀(G/k)`, with
-the scheme `π₀(X/k)` of a scheme of finite type (Layer 4); the rank functions of a smooth group
-scheme over a base, maximal tori of smooth affine group schemes and the specialization inequalities
-(Layer 5); the line bundles `𝓛(λ)` on `G/B⁻` over a base and the Picard groups of `G/B⁻` and `G`
-(Layer 6); the Steinberg map, the regular locus, the Steinberg cross-section, the universal
-centralizer, the Grothendieck–Springer space and the Picard groups of `G̃`, `G` and `G^reg` (Layer
-7).
+type, centralizers and normalizers of such subgroups in smooth affine groups, and centralizers of
+finite such subgroups in smooth separated groups (Layer 3); over a field, quotients by closed
+subgroups, Chevalley's theorem for every smooth connected group over a perfect field together with
+its comparison with the commutative case of NeronModelsAndSemistableAbelianVarieties 2.3, the
+affinization, the rank invariants, and, for groups locally of finite type and not necessarily
+affine, separatedness, the reduced subgroup over a perfect field, the identity component and the
+étale group of connected components `π₀(G/k)`, with the scheme `π₀(X/k)` of a scheme of finite type
+(Layer 4); the rank functions of a smooth group scheme over a base, maximal tori of smooth affine
+group schemes and the specialization inequalities (Layer 5); the line bundles `𝓛(λ)` on `G/B⁻` over
+a base and the Picard groups of `G/B⁻` and `G` (Layer 6); the Steinberg map, the regular locus, the
+Steinberg cross-section, the universal centralizer, the Grothendieck–Springer space and the Picard
+groups of `G̃`, `G` and `G^reg` (Layer 7).
 
 **Left to other roadmaps.**
 
@@ -59,11 +59,18 @@ centralizer, the Grothendieck–Springer space and the Picard groups of `G̃`, `
   as étale locally constant sheaves, étale-local splitting, the classification of pinned split
   models over connected bases, the automorphism sheaf, the `Isom(G₀, G)` torsor and the
   classification of étale forms in nonabelian `H¹`. Its first bullet owns the field
-  classification. This roadmap states none of these and builds Layers 6–7 on them.
-- ReductiveGroups Layer 3, bullet *Identity component `G°` and component group `π₀(G)`*, owns
-  both for affine group schemes of finite type over a field, and Layer 2 owns `Lie(G)` with the
-  adjoint representation; 4.6 and 4.8 extend the former to groups locally of finite type and agree
-  with it on affine groups. Restricted Lie algebras are PCurvature Layer 0's.
+  classification. This roadmap states none of these and builds Layers 6–7 on them. Layer 8
+  extends the multiplicative-type comparisons of its Layers 3–4 to affine Noetherian bases as far
+  as its constructions need; Layers 1–3 here state that theory over an arbitrary base and agree
+  with it there.
+- ReductiveGroups Layer 3 owns, for affine group schemes of finite type over a field, the fppf
+  quotient `G/H` and its representability (bullet *Normality and quotients*), which 4.1 extends to
+  groups of finite type, and the identity component `G°` and component group `π₀(G)` (bullet
+  *Identity component `G°` and component group `π₀(G)`*), which 4.6 and 4.8 extend to groups
+  locally of finite type, agreeing with it on affine groups. Its Layer 2 owns `Lie(G)` with the
+  adjoint representation, Layer 6 the radical, and Layer 7 the conjugacy of maximal tori and the
+  root datum with its Weyl group, which 4.4 and 5.3 use. Restricted Lie algebras are PCurvature
+  Layer 0's.
 - ReductiveGroups 9B owns the pinned split reductive groups `𝒢_R` over `ℤ` for every reduced root
   datum, their base change, the root subgroup maps `x_α` and the pinned isomorphism theorem.
 - SchemeAndStackFoundations owns reflexive sheaves and Hartogs extension (§0.6), Noetherian
@@ -151,6 +158,8 @@ height one and restricted Lie algebras that are locally free of finite rank (SGA
   `GeometricallyIrreducible`, `GeometricallyReduced`, `IsReduced`, and, over a field,
   `AlgebraicGeometry.smooth_of_grpObj` (a geometrically reduced group locally of finite type is
   smooth).
+- Over a field: the instance `IsClosedImmersion η[G].left` for a group object `G` over
+  `Spec K` (`Mathlib/AlgebraicGeometry/Group/Abelian.lean`), the closed unit section (4.5).
 - Topology: `connectedComponent`, `IsIrreducible`, `ConnectedSpace`.
 - Algebra: `AddGroup.FG`, `AddCommGroup.torsion`, `Module.Free`, `QuotientAddGroup.mk'`,
   `AddMonoidHom.toMultiplicative`, `AlgHom.equalizer`, `Polynomial.aeval`, `RingHom.FiniteType`,
@@ -161,8 +170,20 @@ height one and restricted Lie algebras that are locally free of finite rank (SGA
 - `TauCeti/Algebra/AlgebraicGroup/DiagonalizableGroup/Scheme/Basic.lean`:
   `TauCeti.DiagonalizableGroup.groupScheme` and `TauCeti.DiagonalizableGroup.groupSchemeMap`, over
   `Spec R`, for `TauCeti.FGCommGrpCat` (1.1).
+- `TauCeti/Algebra/MonoidAlgebra/Etale.lean`: `TauCeti.MonoidAlgebra.etale_of_isUnit_card`, over any
+  ring; `TauCeti/Algebra/MonoidAlgebra/Smooth.lean`: `TauCeti.MonoidAlgebra.smooth_iff_isUnit_card`,
+  over a field (1.3).
+- `TauCeti/Algebra/AlgebraicGroup/DiagonalizableGroup/Exact.lean`:
+  `TauCeti.DiagonalizableGroup.isShortExact_mapDomainBialgHom`;
+  `TauCeti/Algebra/MonoidAlgebra/FaithfullyFlat.lean`:
+  `TauCeti.MonoidAlgebra.faithfullyFlat_mapDomainRingHom_of_injective` (1.4, over `Spec R`).
 - `TauCeti/AlgebraicGeometry/AffineGroupScheme/CartierDuality/Constant.lean`:
   `TauCeti.DiagonalizableGroup.cartierDualIso` (1.5).
+- `TauCeti/Algebra/AlgebraicGroup/DiagonalizableGroup/Centralizer/Basic.lean` and
+  `Centralizer/Smooth.lean`: `BialgHom.centralizerHopfIdeal` and
+  `BialgHom.smoothCommHopfAlgProperty_quotient_centralizerHopfIdeal`;
+  `TauCeti/Algebra/AlgebraicGroup/DiagonalizableGroup/Normalizer/WeylGroup.lean`:
+  `BialgHom.weylGroup` (3.5, for a diagonalizable subgroup of an affine group over `Spec R`).
 - `TauCeti/AlgebraicGeometry/AbelianVariety/Basic.lean`:
   `TauCeti.AlgebraicGeometry.AbelianVariety` (4.2).
 - Over a field: `TauCeti.multiplicativeTypeCommHopfAlgProperty` and
@@ -171,6 +192,18 @@ height one and restricted Lie algebras that are locally free of finite rank (SGA
   `TauCeti.smoothCommHopfAlgProperty_of_geometricallyReduced` (4.5, affine case).
 - `TauCeti/Algebra/AlgebraicGroup/Connected/Irreducible.lean`:
   `TauCeti.geometricallyConnectedCommHopfAlgProperty.irreducibleSpace` (4.6, affine case).
+- `TauCeti/Algebra/AlgebraicGroup/Connected/GroupScheme.lean`:
+  `TauCeti.FiniteTypeCommHopfAlgCat.identityComponentSpec`, its closed immersion
+  `TauCeti.FiniteTypeCommHopfAlgCat.identityComponentSpecι` and
+  `TauCeti.FiniteTypeCommHopfAlgCat.geometricallyConnected_identityComponentSpec` (4.6, affine
+  case over an algebraically closed field).
+- `TauCeti/Algebra/AlgebraicGroup/Connected/ComponentGroup/FiniteEtale.lean`:
+  `TauCeti.FiniteTypeCommHopfAlgCat.componentGroupScheme`,
+  `TauCeti.FiniteTypeCommHopfAlgCat.isFinite_componentGroupScheme` and
+  `TauCeti.FiniteTypeCommHopfAlgCat.etale_componentGroupScheme`; `Representable.lean` there:
+  `TauCeti.FiniteTypeCommHopfAlgCat.componentGroupFppfGroupObjectIso`; `UniversalProperty.lean`
+  there: `TauCeti.FiniteTypeCommHopfAlgCat.componentEtaleHomEquiv` (4.8, affine case over an
+  algebraically closed field).
 - `TauCeti/RingTheory/Etale/Galois.lean`: `TauCeti.galoisFiber` and
   `TauCeti.isEquivalence_galoisFiber`, Grothendieck's Galois theory for a field `K` with
   separable closure `Ω`, `(FiniteEtale K)ᵒᵖ ≌ ContAction FintypeCat Gal(Ω/K)` (4.7).
@@ -178,9 +211,14 @@ height one and restricted Lie algebras that are locally free of finite rank (SGA
   `TauCeti.FiniteEtaleScheme.galoisEquivalence` and
   `TauCeti.FiniteEtaleScheme.galoisEquivalenceGrp`, its scheme form and its restriction to group
   objects (4.7, 4.8).
+- `TauCeti/LinearAlgebra/RootSystem/FundamentalDomain.lean`:
+  `TauCeti.stabilizer_eq_closure_wallReflections`; `TauCeti/LinearAlgebra/RootSystem/Chamber.lean`:
+  `RootPairing.exists_mem_dominantChamber` (5.3).
 
-**From ReductiveGroups.** Layer 3, bullet *Identity component `G°` and component group `π₀(G)`*, for
-the comparison of 4.6 and 4.8 on affine groups. Layer 8, bullet *Relative reductive groups over an
+**From ReductiveGroups.** Layer 3, bullets *Normality and quotients* (4.1) and *Identity component
+`G°` and component group `π₀(G)`* (4.6, 4.8), for the comparisons on affine groups. Layer 6, the
+radical (4.4). Layer 7, the conjugacy of maximal tori and the root datum with its Weyl group (4.4,
+5.3). Layer 8, bullet *Relative reductive groups over an
 affine Noetherian base*: the reductive predicate, the scheme of Borel subgroups `Bor(G)` with its
 functor of points, central isogenies and the simply connected cover (Layers 6–7). 9B: the models
 `𝒢_R`, their base change, pinnings and root subgroups `x_α` (Layers 6–7).
@@ -314,7 +352,10 @@ Exp. VIII, 1.5). *Needs:* 1.1.
 Prove `smooth_diagonalizable_iff`: `D_S(M)` is smooth over `S` iff the order of the torsion
 subgroup of `M` is invertible on `S`; and `etale_diagonalizable_iff`: for `S` nonempty, it is
 étale iff moreover `M` is finite (SGA 3, Exp. VIII, 2.1 c), e)). Route: `M ≅ ℤ^r ⊕ M_tor`, so
-`D(M) = 𝔾_m^r × D(M_tor)`, and `O[M_tor]` is étale iff `|M_tor|` is invertible. *Needs:* 1.1.
+`D(M) = 𝔾_m^r × D(M_tor)`, and `O[M_tor]` is étale iff `|M_tor|` is invertible: "if" over every
+affine open is Tau Ceti's `TauCeti.MonoidAlgebra.etale_of_isUnit_card`, and "only if" holds on each
+residue field by `TauCeti.MonoidAlgebra.smooth_iff_isUnit_card`. *Needs:* 1.1; Tau Ceti
+`TauCeti.MonoidAlgebra.etale_of_isUnit_card`, `TauCeti.MonoidAlgebra.smooth_iff_isUnit_card`.
 
 **Checks.**
 
@@ -324,19 +365,27 @@ subgroup of `M` is invertible on `S`; and `etale_diagonalizable_iff`: for `S` no
 
 ### 1.4 Exactness
 
-For an injective `φ : N →+ M`, prove `flat_surjective_diagonalizableMap` (`D(φ)` is faithfully
-flat) and `isKernel_diagonalizableMap` (its kernel is `D_S(M ⧸ φ.range)`, embedded by the
-quotient map), so that a short exact sequence `0 → M′ → M → M″ → 0` gives
-`1 → D(M″) → D(M) → D(M′) → 1`, exact as fppf sheaves (SGA 3, Exp. VIII, 3.1 and 3.2 a)).
-Identify `D_S(ℤ)` and `D_S(ℤ/n)` with the big-site sheaves `𝔾_m` and `μ_n` of
-SchemeAndStackFoundations §2.9. *Needs:* 1.1; SchemeAndStackFoundations §2.9.
+For every `φ : N →+ M`, prove `isKernel_diagonalizableMap`: the kernel of `D(φ)` is
+`D_S(M ⧸ φ.range)`, embedded by the quotient map (SGA 3, Exp. VIII, 3.1 and its proof, which needs
+only the exactness of `N → M → M ⧸ φ.range → 0`). For `φ` injective, prove
+`flat_surjective_diagonalizableMap`: `D(φ)` is faithfully flat (SGA 3, Exp. VIII, 3.2 a)). So a
+short exact sequence `0 → M′ → M → M″ → 0` gives `1 → D(M″) → D(M) → D(M′) → 1`, exact as fppf
+sheaves. Over `Spec R` these are Tau Ceti's
+`TauCeti.DiagonalizableGroup.isShortExact_mapDomainBialgHom` and
+`TauCeti.MonoidAlgebra.faithfullyFlat_mapDomainRingHom_of_injective`, which base change along
+`S ⟶ Spec ℤ` globalises. Identify `D_S(ℤ)` and `D_S(ℤ/n)` with the big-site sheaves `𝔾_m` and `μ_n`
+of SchemeAndStackFoundations §2.9. *Needs:* 1.1; SchemeAndStackFoundations §2.9; Tau Ceti
+`TauCeti.DiagonalizableGroup.isShortExact_mapDomainBialgHom`,
+`TauCeti.MonoidAlgebra.faithfullyFlat_mapDomainRingHom_of_injective`.
 
 **Checks.**
 
 - `φ = n · id` on `ℤ`: `D(φ)` is `t ↦ tⁿ`, faithfully flat, with kernel `μ_n`, and it is not
   étale over a base where `n` is not invertible.
 - `φ : 0 → ℤ`: `D(φ)` is `𝔾_m → S`, faithfully flat with kernel `𝔾_m`.
-- Injectivity is needed: for `φ : ℤ → 0`, `D(φ)` is the unit section `S → 𝔾_m`, not flat.
+- Injectivity is needed for flatness and not for the kernel: for `φ : ℤ → 0`, `D(φ)` is the unit
+  section `S → 𝔾_m`, not flat, with kernel `S = D_S(0)`; for `φ = 0 : ℤ → ℤ`, `D(φ)` is
+  `t ↦ 1` on `𝔾_m`, with kernel `𝔾_m = D_S(ℤ ⧸ 0)`.
 
 ### 1.5 Cartier duality
 
@@ -456,8 +505,8 @@ allows geometrically unibranch bases). Route: the free quotient of `X*(H)` has f
 and is trivialised by a connected finite étale cover (InverseGaloisAndArithmeticFundamentalGroups
 IG.0.3), and the torsion of `X*(H)` is finite étale. Connectedness cannot be dropped from the
 global statement, since `M` is a single group (2.3, Checks); the componentwise form holds without
-it: for `S` locally noetherian and normal, the restriction of `H` to every connected open and
-closed subscheme is isotrivial (`IsMultiplicativeType.isotrivial_component`). *Needs:* 2.3;
+it: for `S` locally noetherian and normal, the restriction of `H` to every connected open
+subscheme is isotrivial (2.5 applied to it). *Needs:* 2.3;
 InverseGaloisAndArithmeticFundamentalGroups IG.0.3.
 
 **Checks.**
@@ -584,13 +633,38 @@ twisted constant group of type `Hom(X*(G), X*(H))`, étale and separated (SGA 3,
 
 For `H ⊆ G` of multiplicative type in `G` smooth affine, `Z_G(H)` and `N_G(H)` are represented by
 closed smooth subgroup schemes, `Z_G(H)` is open and closed in `N_G(H)`, and `N_G(H)/Z_G(H)` is
-represented by an étale separated `S`-group (SGA 3, Exp. XI, 5.3, 5.3 bis and 5.9). *Needs:* 3.4.
+represented by an étale separated `S`-group (SGA 3, Exp. XI, 5.3, 5.3 bis and 5.9). For `H`
+diagonalizable and `S` affine, the centralizer is Tau Ceti's `BialgHom.centralizerHopfIdeal`, smooth
+by `BialgHom.smoothCommHopfAlgProperty_quotient_centralizerHopfIdeal`, and the Weyl group on
+points is `BialgHom.weylGroup`. *Needs:* 3.4; Tau Ceti `BialgHom.centralizerHopfIdeal`,
+`BialgHom.smoothCommHopfAlgProperty_quotient_centralizerHopfIdeal`, `BialgHom.weylGroup`.
 
 **Checks.**
 
 - `Z_{GL₂}(diagonal torus)` is the diagonal torus, with `N/Z = ℤ/2`.
 - `Z_{GL₂}(μ₂ embedded as ±1)` is `GL₂`: a central subgroup.
 - For `μ_p` inside `SL_p` as the centre over `𝔽_p`, `Z = SL_p` is smooth although `μ_p` is not.
+
+### 3.6 Centralizers of finite subgroups in smooth separated groups
+
+For `G` smooth, separated and of finite presentation over `S`, not necessarily affine, and `H ⊆ G`
+a subgroup of multiplicative type finite over `S`, `Z_G(H)` is represented by a closed subgroup
+scheme of `G`, smooth over `S`. Route: `H` is finite locally free over `S` (SGA 3, Exp. VIII, 6.3),
+so the fixed points of its conjugation action on the separated `G` form a closed subscheme of
+finite presentation (SGA 3, Exp. VIII, 6.4 and 6.5 d)); this functor is formally smooth, since
+`G` is smooth and `H` of multiplicative type (SGA 3, Exp. XI, 2.4, from Exp. IX, 3.6). For `G`
+affine this is 3.5 for finite `H`. *Needs:* 2.1, 3.1.
+
+**Checks.**
+
+- For `G` an elliptic curve over an algebraically closed field of characteristic prime to `n` and
+  `H ⊂ G[n]` cyclic of order `n`, hence `≅ μ_n`, `G` is commutative: `Z_G(H) = G`, smooth and not
+  affine, outside 3.5.
+- For `G = 𝔾_m ⋊ ℤ/2` over `ℤ[1/6]`, with `ℤ/2` acting by inversion, `Z_G(μ₂) = G`, since
+  inversion fixes `μ₂`, and `Z_G(μ₃) = 𝔾_m`.
+- The hypothesis of multiplicative type is needed: over `𝔽₂`, the constant group `ℤ/2` generated by
+  `u = [[1, 1], [0, 1]]` in `SL₂` is finite étale and not of multiplicative type, and its
+  centralizer `{[[a, b], [0, a]] : a² = 1}` is not reduced (7.5, Checks).
 
 ### Examples
 
@@ -614,7 +688,9 @@ For a closed subgroup scheme `H ⊆ G`, the fppf quotient sheaf `G/H` is represe
 finite type over `k`, `G → G/H` is faithfully flat, and `G/H` is quasi-projective; for `H` normal
 it is a group scheme (SGA 3, Exp. VI_A, 3.2; Demazure–Gabriel, III, §3, 5.4; over an Artin base,
 Grothendieck, FGA III, Théorème 7.2). It satisfies the quotient predicates of
-SchemeAndStackFoundations §1.17. *Needs:* SchemeAndStackFoundations §1.17.
+SchemeAndStackFoundations §1.17. For `G` affine this is ReductiveGroups Layer 3's quotient; 4.1
+extends it to `G` of finite type. *Needs:* SchemeAndStackFoundations §1.17; ReductiveGroups
+Layer 3.
 
 **Checks.**
 
@@ -660,9 +736,10 @@ For `G` smooth connected over an algebraically closed `Ω`, with Chevalley subgr
 torus `T ⊆ L` and the radical `R(L)`, define the abelian rank `ρ_ab = dim G − dim L`, the
 reductive rank `ρ_r = dim T`, the nilpotent rank `ρ_n = dim Z_G(T)` (the Cartan subgroups), the
 unipotent rank `ρ_u = ρ_n − ρ_r − ρ_ab` and the semisimple dimension `d_s = dim L/R(L)`, as in
-SGA 3, Exp. X, 8.7. Prove that they do not depend on `T` (conjugacy of maximal tori in `L`) and
-are unchanged under extension of `Ω`, so that they are functions of a point. For `G` affine,
-`ρ_ab = 0` and these are the invariants of SGA 3, Exp. XII, 1.5. *Needs:* 4.2; Tau Ceti
+SGA 3, Exp. X, 8.7, with the radical of ReductiveGroups Layer 6. Prove that they do not depend on
+`T` (conjugacy of maximal tori in `L`, ReductiveGroups Layer 7) and are unchanged under extension
+of `Ω`, so that they are functions of a point. For `G` affine, `ρ_ab = 0` and these are the
+invariants of SGA 3, Exp. XII, 1.5. *Needs:* 4.2; ReductiveGroups Layers 6 and 7; Tau Ceti
 `TauCeti.HopfIdeal.IsMaximalTorus`.
 
 **Checks.**
@@ -673,19 +750,21 @@ are unchanged under extension of `Ω`, so that they are functions of a point. Fo
 
 ### 4.5 Separatedness, the reduced subgroup and smoothness
 
-Prove `isSeparated_of_field`: every group scheme `G` over `k` is separated, since its unit section
-is a closed immersion and the diagonal is the pullback of the unit section along `(g, h) ↦ gh⁻¹`
-(SGA 3, Exp. VI_A, 0.3; Milne, Proposition 1.22). For `G` locally of finite type and `k` perfect,
-prove `smooth_of_isReduced`: if `G` is reduced, it is smooth (SGA 3, Exp. VI_A, 1.3.1; Milne,
-Proposition 1.26); and `exists_reduced_subgroup`: `G_red` is a closed subgroup scheme of `G`,
-smooth, with the same underlying space (SGA 3, Exp. VI_A, 0.2; Milne, Corollary 1.39). Route: over
-a perfect field a reduced scheme locally of finite type is geometrically reduced (Milne,
+Prove `isSeparated_of_field`: every group scheme `G` over `k` is separated, since the diagonal is
+the pullback of the unit section along `(g, h) ↦ gh⁻¹` (SGA 3, Exp. VI_A, 0.3; Milne, Proposition
+1.22), and the unit section is a closed immersion by Mathlib's instance
+`IsClosedImmersion η[G].left`; the target is this diagonal argument. For `G` locally of finite type
+and `k` perfect, prove `smooth_of_isReduced`: if `G` is reduced, it is smooth (SGA 3, Exp. VI_A,
+1.3.1; Milne, Proposition 1.26); and `exists_reduced_subgroup`: `G_red` is a closed subgroup scheme
+of `G`, smooth, with the same underlying space (SGA 3, Exp. VI_A, 0.2; Milne, Corollary 1.39).
+Route: over a perfect field a reduced scheme locally of finite type is geometrically reduced (Milne,
 Proposition 1.26 (a), whose proof is local on `G`), so Mathlib's
 `AlgebraicGeometry.smooth_of_grpObj` applies; and `G_red ×_k G_red` is then reduced, so the group
 law of `G` restricts to `G_red`. For `G` affine of finite type, the smoothness is Tau Ceti's
 `TauCeti.smoothCommHopfAlgProperty_of_geometricallyReduced`. *Needs:* Mathlib `IsSeparated`,
-`IsClosedImmersion`, `IsReduced`, `GeometricallyReduced`, `AlgebraicGeometry.smooth_of_grpObj`,
-`PerfectField`; Tau Ceti `TauCeti.smoothCommHopfAlgProperty_of_geometricallyReduced`.
+`IsClosedImmersion` and its instance for `η[G].left`, `IsReduced`, `GeometricallyReduced`,
+`AlgebraicGeometry.smooth_of_grpObj`, `PerfectField`; Tau Ceti
+`TauCeti.smoothCommHopfAlgProperty_of_geometricallyReduced`.
 
 **Checks.**
 
@@ -717,9 +796,17 @@ its local rings are domains and the connected components of the locally noetheri
 irreducible; an irreducible group is quasi-compact (SGA 3, Exp. VI_A, 0.5.1). For `G` smooth, `G⁰`
 is the identity component of 0.2 over `Spec k`; for `G` affine of finite type, it is the identity
 component of ReductiveGroups Layer 3, and its geometric irreducibility is Tau Ceti's
-`TauCeti.geometricallyConnectedCommHopfAlgProperty.irreducibleSpace`. *Needs:* 4.5, 0.2;
-ReductiveGroups Layer 3; Tau Ceti
-`TauCeti.geometricallyConnectedCommHopfAlgProperty.irreducibleSpace`; Mathlib `IsOpenImmersion`,
+`TauCeti.geometricallyConnectedCommHopfAlgProperty.irreducibleSpace`. For `G` affine of finite type
+over an algebraically closed field, `G⁰` is Tau Ceti's
+`TauCeti.FiniteTypeCommHopfAlgCat.identityComponentSpec`, with its closed immersion
+`TauCeti.FiniteTypeCommHopfAlgCat.identityComponentSpecι` and its geometric connectedness
+`TauCeti.FiniteTypeCommHopfAlgCat.geometricallyConnected_identityComponentSpec`; the target is the
+extension to every field and to groups locally of finite type. *Needs:* 4.5, 0.2; ReductiveGroups
+Layer 3; Tau Ceti `TauCeti.geometricallyConnectedCommHopfAlgProperty.irreducibleSpace`,
+`TauCeti.FiniteTypeCommHopfAlgCat.identityComponentSpec`,
+`TauCeti.FiniteTypeCommHopfAlgCat.identityComponentSpecι`,
+`TauCeti.FiniteTypeCommHopfAlgCat.geometricallyConnected_identityComponentSpec`; Mathlib
+`IsOpenImmersion`,
 `QuasiCompact`, `GeometricallyIrreducible`, `connectedComponent`, `IsIrreducible`.
 
 **Checks.**
@@ -772,16 +859,24 @@ For `G` locally of finite type over `k`, prove `exists_componentGroup`: there ar
 connected components of `G_{k_s}`, with the group structure for which `G(k_s) → π₀(G_{k_s})` is a
 homomorphism; for `k` algebraically closed, `π₀(G/k)` is the constant group on the connected
 components of `G` (SGA 3, Exp. VI_A, 5.5.1 (ii)). For `G` of finite type, the scheme `π₀(G/k)` is
-the `π₀` of 4.7 of the scheme `G`, finite of order the number of connected components of
-`G_{k_s}`, its formation commutes with extension of the base field and with products (Milne,
-Proposition 2.37 (c)–(e)), and under Tau Ceti's `TauCeti.FiniteEtaleScheme.galoisEquivalenceGrp`
-it corresponds to the finite group of connected components of `G_{k_s}` with its action of
-`Gal(k_s/k)`. For `G` affine of finite type, `π₀(G/k)` is the component group `π₀(G)` of
-ReductiveGroups Layer 3. Route: every connected component `C` of `G` is open and of finite type
-(4.6), so `π₀(G/k)` is the disjoint union of the `π₀(C/k)` of 4.7, each the spectrum of a finite
-separable extension of `k`, and the group law comes from the compatibility of 4.7 with products of
-components. *Needs:* 4.6, 4.7; ReductiveGroups Layer 3; Tau Ceti
-`TauCeti.FiniteEtaleScheme.galoisEquivalenceGrp`; Mathlib `Etale`, `Flat`, `Surjective`,
+the `π₀` of 4.7 of the scheme `G`, finite of order the number of connected components of `G_{k_s}`,
+its formation commutes with extension of the base field and with products (Milne, Proposition 2.37
+(c)–(e)), and under Tau Ceti's `TauCeti.FiniteEtaleScheme.galoisEquivalenceGrp` it corresponds to
+the finite group of connected components of `G_{k_s}` with its action of `Gal(k_s/k)`. For `G`
+affine of finite type, `π₀(G/k)` is the component group `π₀(G)` of ReductiveGroups Layer 3; over an
+algebraically closed field it is Tau Ceti's `TauCeti.FiniteTypeCommHopfAlgCat.componentGroupScheme`,
+finite and étale (`TauCeti.FiniteTypeCommHopfAlgCat.isFinite_componentGroupScheme`,
+`TauCeti.FiniteTypeCommHopfAlgCat.etale_componentGroupScheme`), representing the fppf quotient by
+`G⁰` (`TauCeti.FiniteTypeCommHopfAlgCat.componentGroupFppfGroupObjectIso`), with the universal
+property `TauCeti.FiniteTypeCommHopfAlgCat.componentEtaleHomEquiv`. The target is the extension to
+every field and to groups locally of finite type. Route: every connected component `C` of `G` is
+open and of finite type (4.6), so `π₀(G/k)` is the disjoint union of the `π₀(C/k)` of 4.7, each the
+spectrum of a finite separable extension of `k`, and the group law comes from the compatibility of
+4.7 with products of components. *Needs:* 4.6, 4.7; ReductiveGroups Layer 3; Tau Ceti
+`TauCeti.FiniteEtaleScheme.galoisEquivalenceGrp`,
+`TauCeti.FiniteTypeCommHopfAlgCat.componentGroupScheme`,
+`TauCeti.FiniteTypeCommHopfAlgCat.componentGroupFppfGroupObjectIso`,
+`TauCeti.FiniteTypeCommHopfAlgCat.componentEtaleHomEquiv`; Mathlib `Etale`, `Flat`, `Surjective`,
 `KernelFork`, `IsLimit`.
 
 **Checks.**
@@ -848,28 +943,32 @@ dimension is locally constant, `dim L(s) ≥ dim L(s′)` follows. For `G` affin
 `d_s(s) ≤ d_s(s′)`. Route: reduce to `S` locally noetherian by Noetherian approximation
 (SchemeAndStackFoundations §0.9), then to the spectrum of a discrete valuation ring dominating
 the specialization (EGA II, 7.1.9), and then to a complete one with separably closed residue
-field; prolong the torsion of a split maximal torus of the special fibre to finite étale
-subgroups (3.3) and take their centralizers (3.5); the abelian rank uses the
-prime-to-characteristic Tate module of the abelian quotient (AbelianSchemesAndArithmeticModuli
-A4.1).
+field; prolong the prime-to-`p` torsion subgroups of a split maximal torus of the special fibre
+to finite étale subgroups of multiplicative type over the complete base (3.1, with SGA 3, Exp. IX,
+3.6, which needs `G` smooth only), take their centralizers (3.6, which needs `G` separated and not
+affine), and compare them with the centralizer of the torus by the density of torsion (3.3); the
+abelian rank uses the prime-to-characteristic Tate module of the abelian quotient
+(AbelianSchemesAndArithmeticModuli A4.1).
 
-The inequality for `d_s` is this roadmap's own statement, with the following route. The
-inclusion of a split maximal torus `T_s ≅ 𝔾_m^r` of `G_s` is a point of the smooth scheme
-`Hom(𝔾_m^r, G)` (3.4), which lifts over the henselian base to `u : 𝔾_m^r → G`; its kernel is of
-multiplicative type with trivial special fibre (SGA 3, Exp. IX, 6.8), hence trivial, so `u` is a
-closed subtorus `T`. The étale separated `W_G(T) = N_G(T)/Z_G(T) ⊆ Aut(T)` (3.5) has every point
-of its special fibre on a section. Hence the Weyl group `W_s` of `G_s` acts on `F = X_*(T)_ℚ` by
-restrictions of elements of `Stab_W(F)`, where `W` is the Weyl group of the geometric generic
-fibre relative to a maximal torus `T′` of `Z_{G_η̄}(T_η̄)`, and `F ⊆ F′ = X_*(T′)_ℚ`. Write
-`d_s = |Φ| + rank Φ` for the root system `Φ` of the reductive quotient, with Weyl group `W`, and
-`Φ_s` for that of `G_s`. The rank: `W_s` fixes `F ∩ F′^W`, so
-`rank Φ_s = dim F − dim F^{W_s} ≤ dim F′ − dim F′^W = rank Φ`. The roots: for a reflection
-`r ∈ W_s` with fixed hyperplane `H ⊂ F`, a lift of `r` fixes a general point of `H`, whose
-stabiliser in `W` is generated by the reflections `s_α` with `α|_H = 0` (Humphreys, Theorem
-1.12); not all of these vanish on `F`, so some `α_r ∈ Φ` restricts to a nonzero form on `F`
-with kernel `H`. Distinct reflections have distinct `H`, so `r ↦ ±α_r` is injective and
-`|Φ_s| ≤ |Φ|`. *Needs:* 5.1, 5.2, 3.3, 3.4, 3.5; SchemeAndStackFoundations §0.9;
-AbelianSchemesAndArithmeticModuli A4.1.
+The inequality for `d_s` is this roadmap's own statement, with the following route. The inclusion of
+a split maximal torus `T_s ≅ 𝔾_m^r` of `G_s` is a point of the smooth scheme `Hom(𝔾_m^r, G)` (3.4),
+which lifts over the henselian base to `u : 𝔾_m^r → G`; its kernel is of multiplicative type with
+trivial special fibre (SGA 3, Exp. IX, 6.8), hence trivial, so `u` is a closed subtorus `T`. The
+étale separated `W_G(T) = N_G(T)/Z_G(T) ⊆ Aut(T)` (3.5) has every point of its special fibre on a
+section. Hence the Weyl group `W_s` of `G_s` acts on `F = X_*(T)_ℚ` by restrictions of elements of
+`Stab_W(F)`, where `W` is the Weyl group of the geometric generic fibre relative to a maximal torus
+`T′` of `Z_{G_η̄}(T_η̄)`, and `F ⊆ F′ = X_*(T′)_ℚ`. Write `d_s = |Φ| + rank Φ` for the root system
+`Φ` of the reductive quotient, with Weyl group `W`, and `Φ_s` for that of `G_s`. The rank: `W_s`
+fixes `F ∩ F′^W`, so `rank Φ_s = dim F − dim F^{W_s} ≤ dim F′ − dim F′^W = rank Φ`. The roots: for a
+reflection `r ∈ W_s` with fixed hyperplane `H ⊂ F`, a lift of `r` fixes a general point of `H`,
+whose stabiliser in `W` is generated by the reflections `s_α` with `α|_H = 0` (Humphreys, Theorem
+1.12; Tau Ceti's `TauCeti.stabilizer_eq_closure_wallReflections`, for the flipped root pairing on
+`X_*(T′)` after moving the point into the dominant chamber by
+`RootPairing.exists_mem_dominantChamber`); not all of these vanish on `F`, so some `α_r ∈ Φ`
+restricts to a nonzero form on `F` with kernel `H`. Distinct reflections have distinct `H`, so
+`r ↦ ±α_r` is injective and `|Φ_s| ≤ |Φ|`. *Needs:* 5.1, 5.2, 3.1, 3.3, 3.4, 3.5, 3.6;
+ReductiveGroups Layer 7; SchemeAndStackFoundations §0.9; AbelianSchemesAndArithmeticModuli A4.1; Tau
+Ceti `TauCeti.stabilizer_eq_closure_wallReflections`, `RootPairing.exists_mem_dominantChamber`.
 
 **Checks.**
 
@@ -908,7 +1007,9 @@ AbelianSchemesAndArithmeticModuli A0.1.
   with `(f_{ij})` representing `ω̄`. The classes `F^k(ω̄)`, `0 ≤ k ≤ dim A`, represented by
   `(f_{ij}^{p^k})`, are dependent in `H¹(A_s, O)`. A relation `Σ a_k F^k(ω̄) = 0` with
   `Σ a_k f_{ij}^{p^k} = g_i − g_j` makes `P(t_i) − g_i`, for the additive `P(x) = Σ a_k x^{p^k}`,
-  a nonconstant function on `G_s`. For `A_s` supersingular, `F(ω̄) = 0` and `P = x^p`.
+  a nonconstant function on `G_s`. For `A_s` a supersingular elliptic curve, or more generally
+  superspecial (`F = 0` on `H¹(A_s, O)`), `F(ω̄) = 0` and `P = x^p`; when `A_s` has `p`-rank `0`,
+  `F` is nilpotent and `P = x^{p^m}` with `F^m(ω̄) = 0`, `m ≤ dim A`.
 - With class `0`, `G = A × 𝔾_a` and `G_affq = 𝔾_a` on both fibres.
 - In both fibres `ρ_ab = dim A`, so the jump is invisible to the ranks of 4.4.
 
@@ -1175,6 +1276,9 @@ Layer 6; ReductiveGroups Layer 8 and 9B; ModularCurves 0C; SchemeAndStackFoundat
   nothing from it.
 - EquivariantIntersectionTheory names this roadmap's line bundles `𝓛(λ)` on `G/B⁻` (6.1) as
   linearised invertible sheaves in the sense of its 1.1.
+- PurityForFlatCohomology consumes 1.3, 1.4, 2.1–2.3 and 2.7 (diagonalizable groups, groups of
+  multiplicative type and tori over a base, their character sheaf and the largest subtorus) for
+  its kernel-of-tori presentations and its flat cohomology of tori.
 
 The identifiers used in those roadmaps resolve here as follows: GS4.2 is 4.2; GS7 is, for
 `Bor(G)`, ReductiveGroups Layer 8 and, for the line bundles on it, Layer 6; GS8.5 is 7.6.
@@ -1198,11 +1302,11 @@ A.1.3). Over a strictly henselian local base all maximal tori of a reductive gro
 
 ## References
 
-- M. Demazure, A. Grothendieck et al., *Schémas en groupes* (SGA 3), LNM 151–153 (1970);
-  re-edition by P. Gille and P. Polo, Documents Mathématiques 7 and 8, SMF (2011): Exp. VI_A 0.2,
-  0.3, 0.5.1, 1.3.1, 1.3.2, 2.1.1, 2.3.1, 2.4, 2.4.1, 3.2, 5.5.1; Exp. VI_B 3.9, 3.10, 5.2, 5.6.4;
-  Exp. VII_A 6.1, 7.2, 7.4, 8.1.2; Exp. VIII 1.5, 1.6, 2.1, 3.1, 3.2; Exp. IX 1.1, 3.3, 3.6, 4.7,
-  4.8, 5.1, 5.3, 6.8; Exp. X 1.2, 1.4, 1.6, 2.1, 4.5, 5.1, 5.6–5.9, 5.16, 8.3, 8.7; Exp. XI 4.2,
+- M. Demazure, A. Grothendieck et al., *Schémas en groupes* (SGA 3), LNM 151–153 (1970); re-edition
+  by P. Gille and P. Polo, Documents Mathématiques 7 and 8, SMF (2011): Exp. VI_A 0.2, 0.3, 0.5.1,
+  1.3.1, 1.3.2, 2.1.1, 2.3.1, 2.4, 2.4.1, 3.2, 5.5.1; Exp. VI_B 3.9, 3.10, 5.2, 5.6.4; Exp. VII_A
+  6.1, 7.2, 7.4, 8.1.2; Exp. VIII 1.5, 1.6, 2.1, 3.1, 3.2, 6.3–6.5; Exp. IX 1.1, 3.3, 3.6, 4.7, 4.8,
+  5.1, 5.3, 6.8; Exp. X 1.2, 1.4, 1.6, 2.1, 4.5, 5.1, 5.6–5.9, 5.16, 8.3, 8.7; Exp. XI 2.4, 4.2,
   5.3, 5.3 bis, 5.9; Exp. XII 1.5, 1.7, 1.10, 7.1.
 - B. Conrad, « A modern proof of Chevalley's theorem on algebraic groups », *J. Ramanujan Math.
   Soc.* 17 (2002), 1–18, Thm. 1.1.
