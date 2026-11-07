@@ -230,7 +230,8 @@ valuation maps are reused; their K-theoretic interpretation is what Layer 2
 adds. `Set.unitValuation` takes values in the product of `Multiplicative ℤ`,
 with uniformizer exponent −1; §2.2 negates these exponents and proves finite
 support before comparing them with the positive-order localization boundary.
-The pinned Tau Ceti library also provides `CategoryTheory.ExactStructure`,
+The pinned Tau Ceti library also provides `TauCeti.ExactStructure` (in
+`TauCeti.CategoryTheory.Exact.ExactStructure`),
 `TauCeti.ExactK0` and `TauCeti.ExactK0.liftEquiv` (the latter two in
 `TauCeti.CategoryTheory.GrothendieckGroup.Exact`), together with exact-functor
 maps and the finite-projective-module K₀ carrier. These supply exact-category and
@@ -4022,7 +4023,9 @@ d₃:E₃^(1,6)→E₃^(4,8) is onto.
   (2,7) and a d₄ in (0,5), both of odd t, a d₂ out of it lands in (6,9),
   again of odd t, and a d_r with r≥5 would start in negative filtration.
 - The surjective d₃ onto E₃^(4,8) is the first 2-primary Adams–Novikov
-  differential, d₃(ᾱ₃)=ᾱ₁⁴ in Ravenel's notation (Theorem 4.4.47, p. 145),
+  differential, d₃(ᾱ₃)=ᾱ₁⁴ in Ravenel's notation (the paragraph before
+  Theorem 4.4.47, p. 145, which gives d₃(ᾱ_(4i+3))=ᾱ₁³ᾱ_(4i+1); the
+  theorem's printed target index 4i+3 has the wrong internal degree),
   where it is read off from the classical Adams spectral sequence. The
   argument above obtains it from π₄S=0 instead.
 - With Araki's generators η_R(v₁)=v₁+(p−p^p)t₁, which at p=2 is

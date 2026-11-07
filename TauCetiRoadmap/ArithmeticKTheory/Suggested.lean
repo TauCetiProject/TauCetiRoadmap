@@ -30,7 +30,10 @@ Mathlib has only low-degree Lie algebra cochains.
 Numerical rank or degree-slot
 formulas do not state those theorems. The low Adams–Novikov E₂-term of the
 sphere in README §7.5 lacks the Brown–Peterson Hopf algebroid BP_*BP and
-the Ext of its comodules; the pins have comodules over bialgebras only.
+the Ext of its comodules: Tau Ceti has the structure maps of the Lazard Hopf
+algebroid (L, LB) and comodules over a coalgebra over a commutative semiring,
+but no comodules over a Hopf algebroid, no cobar complex and no p-typical
+BP_*BP.
 -/
 
 noncomputable section
