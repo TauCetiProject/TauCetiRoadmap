@@ -90,6 +90,9 @@ elsewhere. In particular it owns:
   (Layer 6);
 - Hamiltonian Floer homology of periodic orbits, symplectic homology, the capped classical
   branch, the global-seam branch and the Floer–Novikov torsion (Layer 7);
+- unforced genus-zero stable maps with marked points over a compact family of tame almost
+  complex structures, their Gromov topology, Gromov compactness with uniqueness of limits, and
+  conservation of the integral class and the energy (Layer 7.C.2d);
 - the DG Floer toolset and the DG Viterbo isomorphism (Layers 8–9);
 - the criteria for almost existence and finiteness of `c°_HZ` and their cotangent applications
   (Layer 10);
@@ -142,7 +145,10 @@ file (supplier contracts, From Tau Ceti) without restating it:
   from the defining function; the contractible almost existence property, the relative and the
   `π₁`-sensitive Hofer–Zehnder capacities, and closed characteristics on a dense set of levels
   below a finite capacity;
-- the algebraic period group, cap classes and Novikov ring of a capped Floer theory.
+- the algebraic period group, cap classes and Novikov ring of a capped Floer theory;
+- the local steps of Gromov compactness for pseudoholomorphic curves in a chart: energy
+  quantization, finitely many bubbling points under an energy bound, locally uniform convergence
+  away from them, and continuous removal of a finite-energy puncture.
 
 AlgebraicTopology Stage 5.5 consumes the same Serre-fibration predicate.
 
@@ -167,7 +173,7 @@ them by name and section (see the supplier contracts) and does not restate them.
 | Fredholm theory, the sharp Sard–Smale theorem with its Banach-manifold adapters, Sobolev norms on strips and cylindrical ends, spectral flow, the Robbin–Salamon and Conley–Zehnder indices, determinant lines, relative `c₁` and Riemann–Roch on punctured surfaces with weighted ends, the clutching Chern number | HeegaardFloer Lanes F0–F1 | consumed by Layers 7–9 |
 | Symplectic manifolds, the contraction inverse of a strongly nondegenerate two-form with its `df` specialization and the domain-local Moser lemma, almost complex structures, `J`-holomorphic curves, energy, local compactness, transversality and gluing | HeegaardFloer Lane F2 | consumed by Layers 6–9 |
 | Product curves with a general closed source `Σ`, the product `J` and the slice-image classification in `[Σ] × [z₀]` | HeegaardFloer F2.6c | not consumed here |
-| Marked, multiply covered, unforced genus-zero stable-map compactness over compact tame families | AnalyticStableMaps M3 | consumed by Layer 7.C.3 |
+| Stable maps of every genus with varying domain structure, their Hausdorff-graph topology, all-genus Gromov compactness, thickenings and implicit atlases | AnalyticStableMaps | not consumed here; the marked, multiply covered, unforced genus-zero compactness over compact tame families that Layer 7.C uses is 7.C.2d of this roadmap, and AnalyticStableMaps Layer 3's all-genus compactness theorem contains its compactness statement at genus zero |
 | The general smooth symplectic suspension `Y_φ = (ℝ × M)/((t, x) ∼ (t + 1, φ⁻¹x))`, its seam-compatible block structure, periodic-orbit images and the compact horizontal-image theorem | SymplecticGeometry S0–S2 | S0's mapping torus is instantiated by Layer 7.T.1 at monodromy `f⁻¹`; S1–S2 are not consumed |
 | The surface suspension, its vertical form, primitive orbit images and the point-count, product and zeta applications | TaubesGromov | not consumed here; TaubesGromov consumes SymplecticGeometry S0–S2, not this roadmap |
 | Global flux of symplectic paths, the Hamiltonian kernel, the endpoint quotient `Ham → Symp₀ → H¹_dR/Γ_ω`, the area-normalized torus lattice and compact-support flux | HamiltonianReduction R1a.0–R1a.4 | R1a.0–R1a.1 and R1a.3–R1a.4 are not consumed; R1a.2's identity component `Symp₀(M, ω)` with its `C^∞` topology is consumed by Layer 7.T item 9 |
@@ -586,6 +592,24 @@ of this roadmap or of the named supplier; nothing listed here is restated as a t
   `TauCeti.Floer.CapClass` of an `S`-torsor with their recapping laws, and the Novikov ring
   `TauCeti.Floer.NovikovRing` with valuation `−ω`. These are algebraic: `S`, the torsor and the
   homomorphisms are supplied by the caller.
+- Local compactness of pseudoholomorphic curves in a chart
+  (`TauCeti/Geometry/Symplectic/JHolomorphic/Energy/` and
+  `TauCeti/Geometry/Symplectic/JHolomorphic/RemovableSingularity.lean`), consumed by Layer
+  7.C.2d. The structure is one `C²` matrix-valued `J : V → (V →L[ℝ] V)` on an open set `W` of a
+  real inner product space with `J(x)² = −1` on a compact `K ⊆ W`; curves are `C³` solutions of
+  `∂ₜu = J(u) ∂ₛu` on an open `Ω ⊆ ℂ` with image in `K`, and energy is `∫ ‖∂ₛu‖²`. Energy
+  quantization `TauCeti.exists_pos_forall_le_integral_norm_fderiv_one_sq_of_ne` (a nonconstant
+  plane has energy at least a threshold `δ > 0` depending on `J` and `K`); finitely many
+  bubbling points `TauCeti.exists_pos_forall_exists_strictMono_finset_norm_fderiv_le` (for a
+  sequence with energy at most `E`, a subsequence and a finite `Z ⊆ Ω` with `#Z · δ ≤ E`, energy
+  at least `δ` concentrating at each point of `Z`, and derivatives bounded on compact subsets of
+  `Ω ∖ Z`); locally uniform convergence off `Z` to a continuous limit with image in `K`,
+  `TauCeti.exists_pos_forall_tendstoLocallyUniformlyOn_subseq_off_finset`; and continuous removal
+  of a finite-energy puncture for a uniformly tamed structure,
+  `TauCeti.SymplecticForm.exists_continuousOn_update_of_finite_energy`. None of them lets `J`
+  vary along the sequence, constructs the rescaled bubbles, or gives smoothness of the limit or at
+  the puncture; those are 7.C.2d's, with PseudoholomorphicCurveAnalysis PH5 and HeegaardFloer
+  F2.3.
 - The Hamiltonian formalism on manifolds (`TauCeti/Geometry/Symplectic/Manifold/`,
   `TauCeti/Geometry/Symplectic/Hamiltonian/`), consumed by Layer 6 item 0. Two-forms are the
   degree-two smooth forms `TauCeti.SmoothTwoForm`, with evaluation
@@ -718,7 +742,9 @@ of this roadmap or of the named supplier; nothing listed here is restated as a t
   specialization `ι_{X_f} ω = df` and its domain-local Moser lemma (Layer 6 item 0), almost
   complex structures (F2.1's compatible-structure family
   and tame-to-compatible contraction), `J`-holomorphic maps, energy, compactness (F2.2a and
-  F2.2c unique continuation and factorization), transversality and gluing; F2.6a–d sphere
+  F2.2c unique continuation and factorization; F2.3's interior mean-value and ε-regularity
+  estimates, monotonicity and smooth removal of finite-energy punctures under compact-image
+  hypotheses, for Layer 7.C.2d), transversality and gluing; F2.6a–d sphere
   domains, factorization, marked quotient and evaluation carriers and the smooth-`J` selection
   route; F2.6c's minimal-area compactness retains its area hypothesis.
 
@@ -769,9 +795,6 @@ of this roadmap or of the named supplier; nothing listed here is restated as a t
   path-energy comparisons; its based-loop sphere calculation consumes Layer 1 item 2 only.
 - **SmoothBundlesConnections** B6.0: uniform normal-radius and strong-convexity bounds on a
   compact Riemannian manifold (Layer 5 item 6).
-- **AnalyticStableMaps** M3: full marked, multiply covered, unforced genus-zero stable-map
-  compactness, integral splitting and topology over compact smooth tame-`J` families
-  (Layer 7.C.3).
 - **MorseTheory** M4: the critical number `c(M)` (Layer 7.C.6h); M1–M6 through HeegaardFloer
   Lane M.
 - **SymplecticGeometry** S0: the smooth mapping torus `Y_φ`, its quotient charts, descended
@@ -2320,7 +2343,7 @@ This branch constructs classical Hamiltonian Floer complexes, continuation and P
 
 ### 7.C.0 Suppliers and literal convention transport
 
-Consume PseudoholomorphicCurveAnalysis PH3 for the planar interior and totally real boundary estimates, PH4.2 for the weak Floer equation as its inhomogeneous case, PH5.1–PH5.2 for elliptic bootstrapping and uniform estimates, PH6.3 for Fredholm theory and adjoint regularity with the cokernel identification, and PH7.2 for closed and bordered Riemann–Roch. Consume HeegaardFloer F0 and F1.1–F1.5 for Sobolev sections on strips and cylindrical ends, finite-order Sard–Smale budgets, spectral flow, the single Maslov/CZ index, relative c₁, determinant lines and signed puncture Riemann–Roch; F2.1–5 and F2.6a–d supply their stated local curve/sphere/factorization/simple marked-regularity floors. Consume AnalyticStableMaps M3 for full marked unforced genus-zero stable-map compactness over compact tame-J families. this roadmap constructs the rooted attachment/matching, varying frozen-structure and inhomogeneous fixed-asymptotic applications, every Morse-incidence application and the unstable two-marked constant raw-core normalization. HeegaardFloer's minimal-area zero/one-marked compactness keeps its extra area hypothesis. Consume MorseNovikov N1 as the generic support/completion owner; this roadmap proves its geometric finite-below and graded-chain adapters. Consume Layer 6 items 0–1 here for the actual Hamiltonian fields, their linearized flows and the time-dependent flows.
+Consume PseudoholomorphicCurveAnalysis PH3 for the planar interior and totally real boundary estimates, PH4.2 for the weak Floer equation as its inhomogeneous case, PH5.1–PH5.2 for elliptic bootstrapping and uniform estimates, PH6.3 for Fredholm theory and adjoint regularity with the cokernel identification, and PH7.2 for closed and bordered Riemann–Roch. Consume HeegaardFloer F0 and F1.1–F1.5 for Sobolev sections on strips and cylindrical ends, finite-order Sard–Smale budgets, spectral flow, the single Maslov/CZ index, relative c₁, determinant lines and signed puncture Riemann–Roch; F2.1–5 and F2.6a–d supply their stated local curve/sphere/factorization/simple marked-regularity floors. Full marked unforced genus-zero stable-map compactness over compact tame-J families is 7.C.2d. This roadmap constructs the rooted attachment/matching, varying frozen-structure and inhomogeneous fixed-asymptotic applications, every Morse-incidence application and the unstable two-marked constant raw-core normalization. HeegaardFloer's minimal-area zero/one-marked compactness keeps its extra area hypothesis. Consume MorseNovikov N1 as the generic support/completion owner; this roadmap proves its geometric finite-below and graded-chain adapters. Consume Layer 6 items 0–1 here for the actual Hamiltonian fields, their linearized flows and the time-dependent flows.
 
 Layer 7.C uses the following capped contractible convention. It is the contractible capped theory on the two hypotheses stated in its heading; it uses `μ=−CZ_HF` on the same path, spherical cap changes, and the action `A_H=∫Hdt+∫_Dω`. Its positive-end input and negative-end output satisfy `u_s+J_t(u_t−X_H)=0` and are upward for `A_H`. The standing convention uses `CZ`, a reference-loop cylinder oriented from the orbit to the reference, and `𝒜_H=∫γ̄^*ω−∫Hdt`. On the contractible aspherical overlap with constant reference and zero reference cap, the same-H actions satisfy `𝒜_H(γ̄)=−A_C(H,γ,D)` when `γ̄` is oriented from the orbit to the reference. A standing trajectory has negative-end input `x₋`, positive-end output `x₊`, and `E=𝒜_H(γ̄₋)−𝒜_H(γ̄₊)`; for the fixed PDE `u_s+J_t(u_t−X_H)=0`, `𝒜_H` decreases along s. The t-independent equation is the negative-gradient equation for `−H` and has the same Morse degree as the source branch after reflection. Under the reflected Hamiltonian and cap reflection, `A_C(H∨,reflected x)=−A_C(H,x)`, so the two energy conventions agree. These identities use the stated zero-reference normalization; other reference choices may add constants. The convention identification is only with the standing complex on 𝓛₀X under asphericity alone, on the `Γ=0` overlap and at the reflected Hamiltonian `H∨`. Its overlap comparison uses the reflected Hamiltonian and contractible aspherical sector specified here.
 
@@ -2345,7 +2368,7 @@ On the actual aspherical overlap, where Γ=0, retain the path-level dictionary g
   is `0` and the index is `1`, equal to the spectral flow `+1` of `B = tanh s` from `−1` to `1`;
   the sign convention `ind D = SF(B)` is fixed by this instance, and `−SF(B)` would give `−1`.
 
-*Needs:* PseudoholomorphicCurveAnalysis PH3, PH4.2, PH5.1–PH5.2, PH6.3 and PH7.2; HeegaardFloer F0, F1.1–F1.5, F2.1–F2.5 and F2.6a–d; AnalyticStableMaps M3; MorseNovikov N1; Layer 6 items 0–2; conventions (sign dictionary); Salamon §§1.4 and 2.4.
+*Needs:* PseudoholomorphicCurveAnalysis PH3, PH4.2, PH5.1–PH5.2, PH6.3 and PH7.2; HeegaardFloer F0, F1.1–F1.5, F2.1–F2.5 and F2.6a–d; MorseNovikov N1; Layer 6 items 0–2; conventions (sign dictionary); Salamon §§1.4 and 2.4.
 
 ### 7.C.1 Capped loop cover, periods and the time-dependent variational equation
 
@@ -2558,7 +2581,7 @@ Build the tame Sobolev section/evaluation charts, local/removal estimates and el
 
 **Tame synthesis and staged selection.** Use general anti-J directions A, AJ_base+J_baseA=0, and J(A)=exp(A)J_base exp(−A) on a quantified small C⁰ ball. Prove that these give local tame charts and uniform positive tameness bounds; A is not required to be symplectic. In the actual mixed coefficient/linear-operator norms of 7.C.2b(i), use D exp_A(B)=∫₀¹exp((1−t)A)B exp(tA)dt, its iterated derivatives and Sobolev multiplication/trace/composition to prove every finite mixed parameter/domain/target chain-rule and Moser bound. Record the actual lists, constants and section/evaluation/projection C^ℓ budget before applying F0. The testing-series and global curvature estimates are instantiated in these tame norms, independently of compatible selection/counts.
 
-Construct tame raw cylinder/continuation/plane/comparison sections, AnalyticStableMaps-based unforced tree convergence and the attached inhomogeneous compactifications and conditional gluing with uniform tame coefficients. Prove grouped conditional evaluation in the actual tame tangent space and actual-stratum proper-window openness/density/smoothing before each selection. First select regular ends with all shared t-parametrized sphere/evaluation data, including equal-t groups and stationary incidences. Independently select J₀ with its actual Morse/critical-point sphere incidences. With selected ends fixed select individual continuations; with ends and J₀ fixed select basic planes and node/sphere incidences. For homotopies and inverse/composition families insert the previously selected geometric pieces as actual regular true faces, construct their corner restrictions and select relative interiors with all parameter dimensions included. The independent pole choice is not a premise of pure cylinders or individual continuation. Conditional gluing supplies face-flat weights and per-energy collars before branch exclusion and fixed-class boundaries. Geometric support precedes each matrix and its equations. Full tame-to-compatible module comparison occurs only after both lanes' supported complexes exist.
+Construct tame raw cylinder/continuation/plane/comparison sections, unforced tree convergence by 7.C.2d and the attached inhomogeneous compactifications and conditional gluing with uniform tame coefficients. Prove grouped conditional evaluation in the actual tame tangent space and actual-stratum proper-window openness/density/smoothing before each selection. First select regular ends with all shared t-parametrized sphere/evaluation data, including equal-t groups and stationary incidences. Independently select J₀ with its actual Morse/critical-point sphere incidences. With selected ends fixed select individual continuations; with ends and J₀ fixed select basic planes and node/sphere incidences. For homotopies and inverse/composition families insert the previously selected geometric pieces as actual regular true faces, construct their corner restrictions and select relative interiors with all parameter dimensions included. The independent pole choice is not a premise of pure cylinders or individual continuation. Conditional gluing supplies face-flat weights and per-energy collars before branch exclusion and fixed-class boundaries. Geometric support precedes each matrix and its equations. Full tame-to-compatible module comparison occurs only after both lanes' supported complexes exist.
 
 **Tame raw sign realization.** Before tame counts, instantiate the complete formal system of 7.C.2a on the actual tame operators, with the same ordered input kernels, both pole targets, stable Morse complex, γ_min and q_min, matching exact sequences, cap/frame/recapping and parameter/flow order. Transport the complex-minimum and each finite-index reference by the fixed-end tame-to-compatible Fredholm OPERATOR homotopy of 7.C.2c; this construction has no chain-comparison or compatible-count premise. Prove its determinant homotopy, stabilization and gluing-reference diagrams. Pure tame cylinder parameter boundaries consume the universal readout (−1)^(i+j+ij) and quotient/negative-flow order without Morse/PSS data. Tame PSS parameter and endpoint boundaries additionally consume the actual raw cap/Morse calibration: j=1 gives −1, the inverse-family readout is (−1)^(n+1), the stationary cap and functional readout give (−1)^n before the fixed family factor, and the Morse zero-face exponent k+(k−n)+n is even. Prove agreement of these raw references with the actual tame regular-gluing boundaries before support/matrix equations.
 
@@ -2577,11 +2600,123 @@ Consume HeegaardFloer F2.1’s tame/compatible contraction fixing a compatible s
   vanishes exactly on stationary cylinders, so with `u_t − X_H = J_t u_s` every solution has
   `A_H(x̃₊) ≥ A_H(x̃₋)`, with equality only when `x̃₊ = x̃₋`.
 
-*Needs:* 7.C.2 and 7.C.2b; PseudoholomorphicCurveAnalysis PH3–PH6; HeegaardFloer F0–F2 (F1.3 spectral flow, F2.1 tame-to-compatible contraction, F2.6d).
+*Needs:* 7.C.2, 7.C.2b and 7.C.2d; PseudoholomorphicCurveAnalysis PH3–PH6; HeegaardFloer F0–F2 (F1.3 spectral flow, F2.1 tame-to-compatible contraction, F2.6d).
+
+### 7.C.2d Unforced genus-zero stable maps over compact tame families
+
+Let `(X, ω)` be a closed symplectic manifold of dimension `2n`, let `P` be a compact metrizable
+space, and let `p ↦ J_p` be a continuous map from `P` to the smooth `ω`-tame almost complex
+structures on `X` with the `C^∞` topology. In 7.C.3, `P` parametrizes the frozen structures
+`J_t`, `J_(s,t)` or `J_(p,s,t)` at which spheres attach. Continuation structures equal the end
+structures `J_t` outside a compact `s`-interval (7.C.2b(i)), so a compact `P` covers them. Fix
+`k ≥ 0`.
+
+Define a **`k`-marked genus-zero stable `J`-holomorphic map** `(u, z)` modelled on a finite tree
+`T`. It consists of a smooth sphere `u_α : S² → X` for each vertex `α`, solving `du_α ∘ j = J ∘ du_α`
+with no Hamiltonian term; a nodal point `z_(αβ) ∈ S²` for each edge `αEβ`, with
+`u_α(z_(αβ)) = u_β(z_(βα))`; and `k` marked points `(α_i, z_i)`. The nodal and marked points on each
+sphere are pairwise distinct, and every constant sphere carries at least three of them
+(Salamon, *Lectures on Floer homology*, Definition 4.3, `salamon-lectures` line 1780, for one
+compatible `J`). Components may be multiply covered. The class of `(u, z)` is
+`[u] = Σ_α (u_α)_*[S²] ∈ H₂(X; ℤ)` and its energy is `E(u) = Σ_α ∫ u_α^*ω`. For tame `J` and
+`∂ₜu_α = J ∂ₛu_α`, the integrand is `ω(∂ₛu_α, J ∂ₛu_α) = g_J^sym(∂ₛu_α, ∂ₛu_α) ≥ 0`, where
+`g_J^sym(v, w) = (ω(v, Jw) + ω(w, Jv))/2` is the positive symmetric metric of the tame structure,
+so `E(u) = ω([u])`. Two stable maps are equivalent when a tree
+isomorphism and Möbius transformations of the components carry one onto the other (Definition
+4.4, line 1822).
+
+A sequence `(p_ν, u^ν, z^ν)`, with `(u^ν, z^ν)` stable for `J_(p_ν)`, **Gromov converges** to
+`(p, u, z)` when `p_ν → p` in `P` and the conditions of Definition 4.5 (line 1831) hold with
+`J_(p_ν)` in place of the fixed structure, namely:
+- the reparametrized components converge in `C^∞` on compact sets away from the special points;
+- the energy of each branch at a node is the limit of the energy concentrating at that node;
+- the nodal points and the marked points converge.
+
+Write `M̄_(0,k)(A; P)` for the set of pairs `(p, [u, z])` with `[u, z]` an equivalence class of
+`k`-marked genus-zero stable `J_p`-maps of class `A`. Its topology is the one whose closed sets are
+the sets that contain the Gromov limits of their sequences (lines 1878–1882).
+
+Prove the following.
+- **Energy threshold.** There is `ħ > 0` such that `E(v) ≥ ħ` for every nonconstant
+  `J_p`-holomorphic sphere `v` and every `p ∈ P` (Remark 4.1(ii), line 1606, for one compatible `J`). The
+  family form uses the mean-value inequality with constants uniform over the compact family.
+- **Graph bound.** A stable map of class `A` has `a ≤ ω(A)/ħ` nonconstant components, at most
+  `k − 2 + 2a` constant components and at most `k − 3 + 3a` edges. To see this, sum
+  `(number of special points − 2)` over the vertices to get `k − 2`; a constant vertex
+  contributes at least `1` and a nonconstant one at least `−2`.
+- **Gromov compactness.** Every sequence `(p_ν, u^ν, z^ν)` with `sup_ν E(u^ν) < ∞` has a Gromov
+  convergent subsequence. This is Theorem 4.9 (line 1946) for one compatible `J`, and
+  Ivashkovich–Shevchishin, *Gromov compactness theorem for stable curves*, Theorem 1.1
+  (`ivashkovich-shevchishin` line 299) for continuous structures converging uniformly, with its
+  Remark 2 (line 314) for marked points. Their hypothesis is an area bound for a fixed metric; the
+  energy bound gives it, because the metrics `g_(J_p)^sym` are uniformly equivalent to a fixed
+  metric over the compact `P`.
+- **Uniqueness of limits.** Two Gromov limits of one sequence lie over the same `p` and are
+  equivalent (Theorem 4.8, line 1943, for one `J`).
+- **Conservation.** Gromov convergence preserves the integral class, `[u^ν] = [u]` in `H₂(X; ℤ)`
+  for all large `ν`, and therefore the energy, `E(u^ν) = ω([u]) = E(u)`.
+- **The moduli space.** For each `A`, `M̄_(0,k)(A; P)` is compact and metrizable. The projection
+  to `P` is continuous and proper, and so is each evaluation map `ev_i(p, [u, z]) = u_(α_i)(z_i)`
+  into `X` (Theorem 4.10 and Corollary 4.11, lines 1949–1951, for one compatible `J`). For every
+  `c`, only finitely many classes `A` with `ω(A) ≤ c` carry a stable `J_p`-map with `p ∈ P`: an
+  infinite sequence of distinct classes would have a Gromov convergent subsequence, whose classes
+  are eventually constant by conservation.
+
+The proof route runs the bubbling and soft-rescaling analysis of Salamon §4.1 (lines 1589–1747) in
+charts, with structures `J_(p_ν) → J_p`. Its local steps are the pinned energy quantization, the
+finitely many bubbling points, convergence away from them and continuous removal at a puncture
+(supplier contracts, From Tau Ceti), together with HeegaardFloer F2.3's mean-value and
+ε-regularity estimates, monotonicity and smooth removal. PseudoholomorphicCurveAnalysis PH5.1–PH5.2
+upgrades locally uniform convergence to `C^∞` convergence, and HeegaardFloer F2.6a supplies the
+sphere domains with their Möbius reparametrizations. The no-neck estimate gives the
+branch-energy condition of the convergence. Class conservation comes from Ivashkovich–Shevchishin's
+form of the convergence (Definition 1.6, line 257): after passing to a subsequence of one tree
+type, it is `C⁰` convergence of `u^ν ∘ σ_ν` to `u ∘ σ` on a fixed parametrizing sphere `Σ`. Here
+each `σ_ν` and `σ` collapses a fixed family of circles onto the nodes and pushes `[Σ]` to the sum
+of the fundamental classes of the components, so `C⁰`-close maps from `Σ` are homotopic and
+represent the same class. HeegaardFloer F2.6c's compactness of the zero- and one-marked quotient
+under a minimal-area hypothesis is the case of a single nonconstant component. It does not cover
+multiple covers, several nonconstant components or arbitrary `k`.
+
+**Checks.**
+- On `S² = ℂ ∪ {∞}` with `J = i` and `ω([S²]) = L`, the degree-two maps
+  `u_ε(z) = z + ε/z = (z² + ε)/z` (class `2[S²]`, energy `2L`) Gromov converge as `ε → 0`. The
+  limit is the two-vertex tree of `u₀(z) = z`, with node `z = 0`, and the bubble `v(w) = 1/w`,
+  the limit of `u_ε(εw) = εw + 1/w`, with node `w = ∞`; the matching is `u₀(0) = 0 = v(∞)`. Class
+  `[S²] + [S²] = 2[S²]` and energy `L + L = 2L` are conserved. The pointwise limit `z` alone has
+  class `[S²]` and energy `L`, so a convergence without the bubble and the branch-energy condition
+  loses half of both.
+- Constant class: `M̄_(0,k)(0; P)` is empty for `k ≤ 2`, since the graph bound allows at most
+  `k − 2 < 1` constant components when `a = 0`. It is `P × X` for `k = 3`, and
+  `P × X × M̄_(0,4)` with `M̄_(0,4) ≅ ℂP¹` for `k = 4`. The three boundary points of
+  `M̄_(0,4)` are the trees of two constant spheres with two marks each, which meet the bounds
+  `k − 2 + 2a = 2` and `k − 3 + 3a = 1` exactly. A definition that admitted a constant sphere with
+  two special points would make `M̄_(0,2)(0; P) = P × X` nonempty.
+- Stability is what makes limits unique. Suppose constant spheres with two special points were
+  admitted, dropping condition (iii) of Definition 4.3. Insert a constant sphere with nodes `0`
+  and `∞` into the edge of the limit in the first Check, reparametrized by `w ↦ √ε w`. Since
+  `u_ε(√ε w) = √ε (w + 1/w) → 0` on compact subsets of `ℂ ∖ {0}`, the sequence of that Check
+  would also converge, in the sense of Definition 4.5, to this three-vertex configuration, which
+  is not equivalent to the two-vertex limit.
+- Energy threshold on `ℂPⁿ`, with the Fubini–Study form normalized by `ω(L) = π` for the line
+  class `L` and its integrable `J`. Every nonconstant sphere has class `dL` with `d ≥ 1` and
+  energy at least `π`. So `M̄_(0,0)(L; {J})` has no configuration with two nonconstant components,
+  since that would need `π ≥ 2π`; it is the compact space of lines. For class `2L` and `n ≥ 2`,
+  the limits of smooth conics include line pairs, with `a = 2 ≤ 2π/π`.
+- For a constant family `J_p = J`, `M̄_(0,k)(A; P) = P × M̄_(0,k)(A; {J})` with the product
+  topology, and for `P` a point it is Salamon's `M̄_(0,k,A)(X, J)`. A family theorem stated only
+  pointwise in `p` would not give properness of the projection, which 7.C.3's parameter families
+  use.
+
+*Needs:* Tau Ceti's local compactness of
+pseudoholomorphic curves (From Tau Ceti); HeegaardFloer F2.1, F2.3 and F2.6a;
+PseudoholomorphicCurveAnalysis PH5.1–PH5.2; AlgebraicTopology Stage 2 (singular homology
+`H₂(X; ℤ)` and its homotopy invariance); Salamon §§4.1–4.2; Ivashkovich–Shevchishin Theorem 1.1
+and Remark 2.
 
 ### 7.C.3 Raw compactness, conditional gluing and analytic branch exclusion
 
-Consume AnalyticStableMaps M3's full marked unforced stable-map compactness at genus 0, with its compact smooth tame-J family and integral splitting hypotheses. Construct the rooted attachment/equal-parameter matching application for the declared raw inhomogeneous cylinder, continuation and PSS sections with uniform K-curvature/end bounds: finite-cutoff convergence to broken cores and sphere trees, removal, no-neck/end convergence, integral class splitting, topology and Hausdorffness. Each bubble subtree has its attachment's frozen J; separate roots retain their actual shared-structure partition and matching evaluations. Normalize/contract unstable constant raw components, in particular the two-marked zero-cutoff core, rather than identify them with a stable two-marked moduli space. At supplied regular broken configurations construct the actual conditional gluing, surjective matching, determinant and onto-neighborhood theorem, with inverse/derivative/cutoff/error bounds on each finite-energy window. These estimates supply weights/collars before relative-family selection. Contractible-sector persistence and the finite nondegenerate end theorem of 7.C.1 are explicit inputs in both coefficient lanes. HeegaardFloer local removal/factorization/index estimates are consumed with their actual scope; its minimal-area single-component compactness is not a replacement for AnalyticStableMaps' full marked supplier.
+Apply 7.C.2d's full marked unforced stable-map compactness at genus 0, with its uniqueness of limits and integral class conservation, to the compact families of frozen attachment structures. Construct the rooted attachment/equal-parameter matching application for the declared raw inhomogeneous cylinder, continuation and PSS sections with uniform K-curvature/end bounds: finite-cutoff convergence to broken cores and sphere trees, removal, no-neck/end convergence, integral class splitting, topology and Hausdorffness. Each bubble subtree has its attachment's frozen J; separate roots retain their actual shared-structure partition and matching evaluations. Normalize/contract unstable constant raw components, in particular the two-marked zero-cutoff core, rather than identify them with a stable two-marked moduli space. At supplied regular broken configurations construct the actual conditional gluing, surjective matching, determinant and onto-neighborhood theorem, with inverse/derivative/cutoff/error bounds on each finite-energy window. These estimates supply weights/collars before relative-family selection. Contractible-sector persistence and the finite nondegenerate end theorem of 7.C.1 are explicit inputs in both coefficient lanes. HeegaardFloer local removal/factorization/index estimates are consumed with their actual scope; its minimal-area single-component compactness is not a replacement for the full marked compactness of 7.C.2d.
 
 Keep the branch hypothesis records separate from their analytic consequences: positive spherical monotonicity is the equality ω=κc₁ with κ>0 on S_sph; spherical-c₁-zero is c₁|S_sph=0 with no sphere-area vanishing. Actual bubble exclusion additionally consumes the raw sections/compactness, common universal parameter spaces, compatible-J curve floors and marked/core incidence, as well as the cap quotient.
 
@@ -2595,7 +2730,7 @@ In the c₁-zero branch the simple-sphere evaluation with its mark/time has codi
 
 For individual continuation and relative parameter families construct their own simple-sphere and marked-incidence section problems frozen at the actual attachment structures J_(s,t) and J_(p,s,t). Include core, marked sphere and matching equations with shared variations, class tuples with repetition and pairwise-distinct simple-image chains, constant-core cases, simple-image/cover reductions and the actual total parameter dimensions. The selected individual continuation problem supplies its J_(s,t) output; relative families supply their J_(p,s,t) theorem through their own face-flat carrier and already-selected true-face incidence data. Joint selection and those face compatibility laws precede the corresponding branch exclusions and signed boundaries. PSS uses its already-constructed J₀ pole strata and actual frozen J_z problems. These are the distinct parameter/PSS incidence and exclusion constructions. On every fixed end/tail restriction the earlier selected J_t sphere/evaluation families supply regularity, with equal-t attachments grouped regardless of s. Only free core structures vary in these later problems. Actual relative selection uses this fixed end output and previously regular true-face incidence data before proving its branch exclusion.
 
-*Needs:* AnalyticStableMaps M3; 7.C.1; 7.C.2; 7.C.2b; Salamon §3.1.
+*Needs:* 7.C.1; 7.C.2; 7.C.2b; 7.C.2d; Salamon §3.1.
 
 ### 7.C.3a Zero-cutoff fibre and all-tree exclusion
 
@@ -3136,13 +3271,15 @@ nonabelian `s`-cobordism theorem or equality with a general genus-one curve coun
   `d_C = 4`, the capped branch's cyclic formula places the two constant orbits of indices `−1`
   and `1` in the residues `±1` modulo `4`.
 - `ℂPⁿ` with the standard positive monotone form: the cyclic module formula of 7.C.5b.
+- The degree-two maps `z + ε/z` on `S²`, which Gromov converge to a pair of degree-one spheres
+  with conserved class and energy (7.C.2d).
 - `SH_*(D²ⁿ) = 0` and `SH_*(T*S¹) ≅ H_*(𝓛S¹)`.
 - The zero-dimensional torsion model `M = pt`, `I_F = 0`.
 
 ### Dependencies
 
-PseudoholomorphicCurveAnalysis PH1–PH7; HeegaardFloer Lanes F0–F2 and Lane M; AnalyticStableMaps
-M3; MorseNovikov N1 and N4;
+PseudoholomorphicCurveAnalysis PH1–PH7; HeegaardFloer Lanes F0–F2 and Lane M; Tau Ceti's local
+compactness of pseudoholomorphic curves; MorseNovikov N1 and N4;
 MorseTheory M4; SymplecticGeometry S0; CharacteristicClasses
 C3.2; Layer 6; Tau Ceti's Moore loops; Layer 0 item 1 (for the fundamental chains consumed by Layer 8).
 Source: Salamon, *Lectures on Floer homology*; Audin–Damian, Chapters 6–11; Seidel, *A biased
@@ -3742,6 +3879,7 @@ Numbers follow arXiv version 3 of the source paper.
 | --- | --- |
 | Salamon, *Lectures on Floer homology*, §1.4 (symplectic action), §2.4 (Conley–Zehnder index), §2.5 (spectral flow) | 7.C.0–7.C.2 |
 | Salamon §2.6 (transversality), §2.7 (exponential convergence); Floer–Hofer–Salamon, *Transversality in elliptic Morse theory*, Lemma 6.5 (the symmetric-matrix lemma) | 7.C.2 |
+| Salamon §4.1 (bubbling), §4.2 (Definitions 4.3–4.5, Theorems 4.8–4.10, Corollary 4.11: genus-zero stable maps, Gromov convergence and compactness); Ivashkovich–Shevchishin, *Gromov compactness theorem for stable curves*, Theorem 1.1 and Remark 2 | 7.C.2d |
 | Salamon §3.1 (compactness), §3.3 (gluing), §3.4 (invariance and continuation) | 7.C.3–7.C.4 |
 | Salamon §3.5 (the isomorphism with Morse homology), §3.7 (Novikov rings); Hofer–Salamon, *Floer homology and Novikov rings*, §4 | 7.C.5–7.C.6 |
 | Piunikhin–Salamon–Schwarz, §4 (the PSS maps) | 7.C.3b, 7.C.5b |
@@ -3795,7 +3933,10 @@ Tau Ceti's Mathlib and conventions.
 - M. Audin, M. Damian, *Morse Theory and Floer Homology*, Universitext, Springer, 2014 (the
   authors' online edition), Chapters 6–11: Layer 7 items 1–4.
 - D. Salamon, *Lectures on Floer homology*, IAS/Park City Math. Ser. 7 (1999), §§1.4, 2.4–2.7,
-  3.1–3.7: Layer 7.C.
+  3.1–3.7 and 4.1–4.2: Layer 7.C.
+- S. Ivashkovich, V. Shevchishin, *Gromov compactness theorem for stable curves*,
+  arXiv:math/9903047 (version 1), Theorem 1.1, Remark 2 and Definition 1.6: the compactness of
+  genus-zero stable maps over a family of structures, Layer 7.C.2d.
 - H. Hofer, D. Salamon, *Floer homology and Novikov rings*, in *The Floer Memorial Volume*,
   Birkhäuser, 1995, §4: Layer 7.C.6.
 - A. Floer, H. Hofer, D. Salamon, *Transversality in elliptic Morse theory for the symplectic
