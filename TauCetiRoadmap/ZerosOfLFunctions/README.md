@@ -481,7 +481,8 @@ This additive form composes over products.
 `logDeriv Gammaℝ s = digamma (s/2)/2 − (log π)/2` and `logDeriv Gammaℂ s = digamma s − log (2π)`
 at every `s` off the poles (DLMF 5.11.2 and differentiation of the defining gamma factors).
 
-For real `x > 0`, give reality and monotonicity of `digamma x`, and the explicit
+For real `x > 0`, give `(Complex.digamma x).im = 0` and monotonicity of
+`x ↦ (Complex.digamma (x : ℂ)).re` on `Ioi 0`, and the explicit
 values `digamma(1/2) = −γ_E − 2 log 2` and
 `digamma(3/2) = 2 − γ_E − 2 log 2`. Consume the existing digamma recurrence,
 duplication, and special-value API. Prove any missing monotonicity comparison from
