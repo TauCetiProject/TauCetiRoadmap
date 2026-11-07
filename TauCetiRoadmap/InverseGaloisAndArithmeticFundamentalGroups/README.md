@@ -3114,7 +3114,7 @@ invariant*](https://abel.math.harvard.edu/~mmwood/Publications/lifting.pdf), def
 Lemmas 2.2 and 2.3, p. 3. *Needs:* *The reduced Schur multiplier*, *Commutators of lifts and the
 class map of a central extension*; RepresentationTheory/InductionRestriction Layer 7; Tau Ceti
 `TauCeti.FactorSet.characterTransgression_injective_of_range_inl_le_commutator`
-(`TauCeti/GroupTheory/GroupExtension/Character.lean`); Mathlib
+(`TauCeti/GroupTheory/GroupExtension/Character/Basic.lean`); Mathlib
 `CommGroup.exists_apply_ne_one_of_hasEnoughRootsOfUnity`, `AddCommGrpCat.injective_of_divisible`.
 
 **Checks.**
