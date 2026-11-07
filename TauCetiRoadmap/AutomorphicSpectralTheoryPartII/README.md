@@ -1438,9 +1438,9 @@ A proof route is as follows. Choose test functions at the fixed level and types 
 
 **Checks.**
 
-- For PGL₂ over ℚ at level PGL₂(Ẑ) and the trivial K∞-type, the discrete spectrum consists of the constant function and the Maass cusp forms for SL₂(ℤ). Weyl's law for SL₂(ℤ)∖ℍ, of volume π/3, gives about R/12 Laplace eigenvalues up to R, so the exponent d=1 is attainable while d=0 fails.
+- For PGL₂ over ℚ at level PGL₂(Ẑ) and the trivial K∞-type, where K∞=PO(2) is the image of O(2), the double coset space PGL₂(ℚ)∖PGL₂(𝔸)/PGL₂(Ẑ)K∞ is PGL₂(ℤ)∖ℍ with the determinant −1 coset acting by z↦−z̄, so the K∞-invariant discrete spectrum consists of the constant function and the even Maass cusp forms for SL₂(ℤ); the odd ones carry the sign character of K∞. Weyl's law for the reflection quotient PGL₂(ℤ)∖ℍ, of area π/6, gives about R/24 even Laplace eigenvalues up to R (about R/12 for both parities, which is the count at the type set {trivial, sign}); the Casimir is a nonzero multiple of the Laplacian on these functions, so the exponent d=1 is attainable while no C with d=0 works. A reading that takes all Maass forms as K∞-invariant miscounts by a factor 2.
 
-- If H is anisotropic modulo its centre and H∞ is compact modulo its centre, as for the units of a definite quaternion algebra over ℚ modulo the centre, a fixed level and finite type set leave a finite-dimensional space, and the count is bounded for all R, so d=0 works. The exponent depends on the group.
+- If H is anisotropic modulo its centre and H∞ is compact modulo its centre, as for the units of a definite quaternion algebra over ℚ modulo the centre, a fixed level and finite type set leave a finite-dimensional space, and the count is bounded independently of R, so every d>0 works with any C>0 at least the dimension. The exponent needed depends on the group.
 
 - The continuous spectrum is excluded: for PGL₂ over ℚ the Eisenstein series fill the Laplace spectrum [1/4,∞), so a count over all of L² would be infinite for every R>1/4.
 
