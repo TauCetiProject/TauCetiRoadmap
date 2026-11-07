@@ -1180,10 +1180,13 @@ Layer 7 asserts regularity *of dimension two*, so it depends on the corrected re
 
 This layer owns the required general scheme-level API:
 
-- strict henselisation and completion of strict henselisations;
+- strict henselisation and completion of strict henselisations (the paragraph *Strict henselisation*
+  below);
 - comparison of a finite moduli scheme after strict henselisation and completion;
 - regular schemes in terms of regular local rings and Krull dimension at a point;
-- preservation and reflection of regularity and dimension under completion of noetherian local rings;
+- preservation and reflection of regularity and dimension under completion of noetherian local rings
+  (`ringKrullDim_adicCompletion`, Stacks, Tag 07NV; `isRegularLocalRing_adicCompletion_iff`,
+  Stacks, Tag 07NY);
 - locality and invariance under isomorphism and étale morphisms;
 - openness of the regular locus for schemes locally of finite type over an excellent base,
   as in the finite-type integral rigidifiers used here; openness of the flat locus for the
@@ -1197,7 +1200,81 @@ This layer owns the required general scheme-level API:
   target is connected. Over arbitrary bases, keep the local finite-presentation hypothesis
   from Layer 0B; finite and flat alone does not supply it.
 
-**Dependencies.** Layers 4A and 4C, and Mathlib's regular-local-ring theory.
+**Strict henselisation.** The namespace `StrictHenselization` of `Suggested.lean` carries the
+construction and the targets below; the remaining clauses are specified here only. Let
+`(R, 𝔪, κ)` be a local ring and `Ω` a separable closure of `κ` (Mathlib `IsSepClosure κ Ω`, an
+`R`-algebra through `R → κ`). The construction follows Tau Ceti's henselisation of a pair
+(`TauCeti.Henselization.IsNeighbourhood`, `Neighbourhood`, `diagram`, `algebra`, `stage`, `desc`,
+`exists_stage_eq`, `hom_ext`; SchemeAndStackFoundations §0.12), with an `R`-algebra map to `Ω` in
+place of the condition on `R/I`:
+
+- `IsPointedNeighbourhood R Ω : ObjectProperty (Over (CommAlgCat.of R Ω))`: the algebra is étale
+  over `R`. Its full subcategory `Neighbourhood R Ω` is equivalent to the category of triples
+  `(S, 𝔮, φ)` of Stacks, Tag 04GW, at `𝔭 = 𝔪`: `𝔮` is the kernel of `S → Ω` and `φ : κ(𝔮) → Ω`
+  the induced embedding. Prove `neighbourhood_isFiltered` (Tag 04GW; tensor products give common
+  targets, and parallel maps `f, g : B → C` are equalised by inverting `1 − d(e)` in `C`, where
+  `e` is the idempotent generating the kernel of multiplication `B ⊗_R B → B` (so `1 − e` is the
+  diagonal idempotent) and `d = Algebra.TensorProduct.productMap f g`, as in Tau Ceti's
+  `Henselization.parallel_equalization`; the pointing of `C` sends `d(e)` to `0`, so `1 − d(e)`
+  maps to `1` in `Ω` and the localization is again pointed) and
+  `neighbourhood_essentiallySmall` (étale algebras are of finite type).
+- The **strict henselisation** `algebra R Ω := colimit (diagram R Ω)` over the small model, with
+  `stage`, `stage_naturality`, `desc`, `exists_stage_eq`, `hom_ext`, and the map
+  `toSepClosure : algebra R Ω →ₐ[R] Ω` induced by the pointings, with `toSepClosure_comp_stage`.
+  This is Stacks' strict henselisation of `R` with respect to `κ ⊆ Ω` (Tag 04GQ, constructed in
+  Tag 04GP; Tag 04GW identifies it with this colimit). Every statement here is about this colimit.
+- A local ring `S` is *strictly henselian* when `HenselianLocalRing S ∧ IsSepClosed (ResidueField S)`
+  (Stacks, Tag 04GF); no separate predicate is introduced.
+- The properties of Stacks, Tag 04GP: `henselianLocalRing`, `isSepClosed_residueField`,
+  `isLocalHom_algebraMap`, the filtered-colimit description (`neighbourhood_isFiltered`,
+  `algebra`, and its consequence `exists_stage_eq`), `maximalIdeal_eq_map` (`𝔪 R^{sh}` is the maximal ideal), and
+  `ker_toSepClosure` with `toSepClosure_surjective` (`R^{sh}/𝔪 R^{sh} = Ω` over `R`). Clause (1)
+  of Tag 04GP: the map `R^h → R^{sh}` from the henselisation `Henselization.algebra 𝔪`
+  (SchemeAndStackFoundations §0.12, `local_henselization`) given by its `existsUnique_lift` is
+  local.
+- The **universal property** `existsUnique_lift` (Stacks, Tag 08HQ applied to each stage): for a
+  ring map `R → S` with `S` henselian local and a field map `φ : Ω → κ_S` compatible with `R`,
+  there is a unique `R`-algebra map `f : R^{sh} → S` with `f mod 𝔪_S = φ ∘ toSepClosure`; such an
+  `f` is local. Its consequence `exists_isLocalHom_lift`: a local homomorphism `R → S` into a
+  strictly henselian local ring extends to a local homomorphism `R^{sh} → S` (a `κ`-embedding
+  `Ω → κ_S` exists because `κ_S` is separably closed). The Stacks-form companion
+  `existsUnique_algHom_of_etale` (Stacks, Tag 04GT with `S = R`): for `A` étale over `R`, a prime
+  `𝔮` of `A` over `𝔪` and an `R`-embedding `φ : κ(𝔮) → Ω`, there is a unique `R`-algebra map
+  `f : A → R^{sh}` with `f⁻¹(𝔪_{R^{sh}}) = 𝔮` inducing `φ` on residue fields.
+- **Functoriality** `map` (Stacks, Tag 04GU): a local homomorphism `R → S` of local rings with
+  separable closures `Ω_R`, `Ω_S` of the residue fields and a field map `Ω_R → Ω_S` compatible
+  with `κ_R → κ_S` induces a unique local `R^{sh} → S^{sh}` over `R → S` inducing the given map on
+  residue fields; `map_id` and `map_comp`.
+- **The colimit at a prime** `localization_equiv` (Stacks, Tag 04GW): for any ring `R`, prime `𝔭`
+  and separable closure `Ω` of `κ(𝔭)`, the strict henselisation of `R_𝔭` with respect to `Ω` is
+  the colimit over the triples `(S, 𝔮, φ)` with `R → S` étale, `𝔮` over `𝔭` and `φ : κ(𝔮) → Ω` a
+  `κ(𝔭)`-embedding, of `S` and also of `S_𝔮`.
+- **Noetherianity and completion** (More on Algebra, Stacks, Tag 06LJ): `isNoetherianRing_algebra_iff`
+  (`R` is Noetherian iff `R^{sh}` is), and `R` is Noetherian iff `R^h` is. In that case
+  `(R^h)^∧` and `(R^{sh})^∧` are Noetherian complete local rings, `R^∧ → (R^h)^∧` is an
+  isomorphism, `R^h → (R^h)^∧` and `R^{sh} → (R^{sh})^∧` are flat, `R^∧ → (R^{sh})^∧` is formally
+  smooth in the `𝔪_{(R^{sh})^∧}`-adic topology, `(R^∧)^{sh} = R^∧ ⊗_{R^h} R^{sh}`, and
+  `((R^∧)^{sh})^∧ = (R^{sh})^∧`. Completions are Mathlib's `AdicCompletion` at the maximal ideal.
+
+Checks for the strict henselisation:
+
+- `strictHenselization_sepClosed_field`: for a separably closed field `k` and `Ω = k`,
+  `R^{sh} ≅ k`.
+- `strictHenselization_finite_field`: for `R = 𝔽_p` and `Ω` an algebraic closure, `R^{sh} ≅ Ω`, so
+  `R → R^{sh}` is not an isomorphism.
+- `strictHenselization_of_strictlyHenselian`: for `R` strictly henselian and `Ω = κ`,
+  `R → R^{sh}` is an isomorphism.
+- `strictHenselization_not_complete`: for `R = ℤ_(p)`, `R^{sh}` is a discrete valuation ring with
+  residue field `Ω` and is not complete (it is countable); its completion is `W(Ω)`.
+
+*Needs:* SchemeAndStackFoundations §0.12 (`Henselization.algebra`, `local_henselization`,
+`existsUnique_lift`) for clause (1) of Tag 04GP and for Tag 06LJ; Mathlib `CommAlgCat`, `Over`,
+`ObjectProperty.FullSubcategory`, `IsFiltered`, `SmallModel`, `Limits.colimit`, `Algebra.Etale`,
+`HenselianLocalRing`, `IsSepClosure`, `IsSepClosed`, `Ideal.ResidueField`, `IsRegularLocalRing`,
+`AdicCompletion`, `Algebra.FormallySmooth`.
+
+**Dependencies.** Layers 4A and 4C, SchemeAndStackFoundations §0.12, and Mathlib's
+regular-local-ring theory.
 
 ## Layer 5: affine fine modular curves after inverting `N`
 
