@@ -14,7 +14,7 @@ abstract Morse–Bott extension. RiemannianGeometry R3 owns the broken-geodesic
 vertex carrier, Jacobi/index comparison and path-space limit, consuming this
 core. The symmetric-space and Bott applications use the same broken-path
 carrier and the attachments here, following
-[HomotopySpheres §4B](../HomotopySpheres/README.md).
+HomotopySpheres §4B.
 [HeegaardFloer Lane M](../HeegaardFloer/README.md) owns stable/unstable
 manifolds, Morse–Smale trajectory spaces, compactification/gluing, Morse
 homology and its singular comparison. It consumes the finite Morse core here;
@@ -150,9 +150,18 @@ DGFloer Layer 1 item 3 supplies
 
 ## How to read the build
 
-Layers 1–6 retain the labels M1–M6 used by consumers. Layer 1 constructs
-normal forms and their comparisons; Layer 2 turns compact bands into attachments
-and CW models. Layer 3 gives approximation and exhaustions. Layer 4 extracts
+Layers 1–6 carry the labels M1–M6 by which consumers cite them. The section
+ids of the labels Mk map to the layer headings as follows:
+
+- `#m1-critical-hessians-indices-and-usable-normal-forms` → `#layer-1-critical-hessians-indices-and-usable-normal-forms-m1`;
+- `#m2-compact-band-deformation-handles-and-cells` → `#layer-2-compact-band-deformation-handles-and-cells-m2`;
+- `#m3-approximation-and-proper-morse-exhaustions` → `#layer-3-approximation-and-proper-morse-exhaustions-m3`;
+- `#m4-strong-inequalities-and-topology-tests` → `#layer-4-strong-inequalities-and-topology-tests-m4`;
+- `#m5-morsebott-normal-bundles-and-attachments` → `#layer-5-morsebott-normal-bundles-and-attachments-m5`;
+- `#m6-gradient-convergence-and-exponential-decay` → `#layer-6-gradient-convergence-and-exponential-decay-m6`.
+
+Layer 1 constructs normal forms and their comparisons; Layer 2 turns compact
+bands into attachments and CW models. Layer 3 gives approximation and exhaustions. Layer 4 extracts
 homology and category bounds, Layer 5 treats critical submanifolds, and Layer 6
 proves convergence. Each *Needs:* line separates statement carriers from a
 possible proof route. [Suggested.lean](Suggested.lean) states the headline
@@ -931,7 +940,7 @@ not a separate hypothesis: every component of a closed positive-dimensional
 manifold carries a minimum and a maximum of f, which are distinct critical
 points because a Morse function is not constant on an open set of positive
 dimension, so the two-point count forces a single component. Complex projective
-moment functions use [ComplexKahlerGeometry K7.1 and K7.2](../ComplexKahlerGeometry/README.md#k7-projective-torus-and-hopf-examples):
+moment functions use [ComplexKahlerGeometry K7.1 and K7.2](../ComplexKahlerGeometry/README.md):
 K7.1 supplies the actual `Projectivization ℂ (Fin (n+1)→ℂ)` carrier and,
 through K1 and [ComplexManifolds Milestone 1](../ComplexManifolds/README.md#milestone-1-restriction-of-scalars-and-atlas-transport)'s real restriction of the complex affine charts, the concrete
 real self-model `Ireal_n:=𝓘(ℝ,Fin n→ℂ)`, its `Ireal_n.Boundaryless` and

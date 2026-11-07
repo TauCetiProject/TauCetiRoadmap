@@ -75,7 +75,6 @@ theorem exists_scalarRegularLevelData (f : M → ℝ) (c : ℝ)
     (hf : ContMDiff I 𝓘(ℝ) ∞ f)
     (hregular : ∀ x, f x = c → Function.Surjective (mfderiv I 𝓘(ℝ) f x)) :
     ∃ cs : ChartedSpace (Fin (Module.finrank ℝ E - 1) → ℝ) {x : M // f x = c},
-      letI := cs
       IsManifold 𝓘(ℝ, Fin (Module.finrank ℝ E - 1) → ℝ) ∞ {x : M // f x = c} ∧
         Manifold.IsSmoothEmbedding
           𝓘(ℝ, Fin (Module.finrank ℝ E - 1) → ℝ) I ∞
@@ -108,9 +107,7 @@ critical point, in its Morse-index dimension (Milnor, Theorem 3.5, p. 20). -/
 theorem exists_morseCWModel (f : M → ℝ) (hf : TauCeti.IsMorse I f)
     (hp : IsProperMap f) (hb : BddBelow (Set.range f)) :
     ∃ (X : Type _) (t : TopologicalSpace X),
-      letI := t
       ∃ (_ : T2Space X) (cw : Topology.CWComplex (Set.univ : Set X)),
-        letI := cw
         Nonempty (ContinuousMap.HomotopyEquiv M X) ∧
         ∀ j : ℕ, Nonempty
           (Topology.RelCWComplex.cell (Set.univ : Set X) j ≃
