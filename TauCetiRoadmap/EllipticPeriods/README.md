@@ -28,8 +28,9 @@ them. This roadmap owns:
 - the Weierstrass `ζ` function as a series, the quasi-period map `quasiPeriod` read off from it,
   their identification with `σ′/σ` and `latticeQuasiPeriod`, and the homogeneity of `G_k` for all
   `k` under `Λ ↦ cΛ` (Layers 0 and 2);
-- the dictionary between the lattice invariants `g₂, g₃, η(1)` of `ℤ + ℤτ` and Mathlib's
-  `ModularForm.E₄`, `ModularForm.E₆`, `EisensteinSeries.E2` (Layer 2);
+- the dictionary between the quasi-period `η(1)` of `ℤ + ℤτ` and Mathlib's
+  `EisensteinSeries.E2` (Layer 2); the comparison `g₂ = (4π⁴/3)E₄`, `g₃ = (8π⁶/27)E₆` for
+  `ℤ + ℤτ` is ModularForms §10D's (`G_{2m}(ℤ + ℤτ) = 2ζ(2m)E_{2m}(τ)`) and is consumed;
 - the period matrix, the period field and its transcendence degree (Layers 3, 5);
 - complex multiplication of a lattice, as an analytic property `HasCM`, and the CM relation
   between quasi-periods (Layer 4).
@@ -153,6 +154,13 @@ The dependence is one-way: ModularCurvesPartII's lattice analysis first, this ro
 its uniformisation, Weierstrass coordinates and level structures consume nothing from here. Here
 `quasiPeriod L` (2.2) is defined from `ζ` and proved equal to `latticeQuasiPeriod` on `Λ` (2.3),
 so the two names denote one map, written `η`.
+
+### From ModularForms
+
+- §10D, the lattice–modular comparison: for `m ≥ 2` and `τ` in the upper half-plane,
+  `G_{2m}(ℤ + ℤτ) = 2ζ(2m)E_{2m}(τ)`, with `E_{2m}` normalised to constant term `1`; hence
+  `g₂(ℤ + ℤτ) = (4π⁴/3)E₄(τ)` and `g₃(ℤ + ℤτ) = (8π⁶/27)E₆(τ)`. Consumed by 2.4 (the scaled
+  dictionary) and through it by 5.1.
 
 ### From DiophantineApproximationAndTranscendence
 
@@ -441,10 +449,10 @@ ModularCurvesPartII's `latticeQuasiPeriod_legendre`, not reproved; its corollari
 
 ### 2.4 The Eisenstein dictionary
 
-For `τ` in the upper half-plane and `L = ofUpperHalfPlane τ`: `g₂ = (4π⁴/3) E₄(τ)`
-(`g₂_ofUpperHalfPlane`), `g₃ = (8π⁶/27) E₆(τ)` (`g₃_ofUpperHalfPlane`), from `G_k = 2ζ(k)E_k` and
-`ζ(4) = π⁴/90`, `ζ(6) = π⁶/945`; and `η(1) = G₂(τ) = (π²/3) E₂(τ)` with Mathlib's `G2`
-(`quasiPeriod_ofUpperHalfPlane_one`). Prove the last one row by row: the series for
+For `τ` in the upper half-plane and `L = ofUpperHalfPlane τ`: `η(1) = G₂(τ) = (π²/3) E₂(τ)` with
+Mathlib's `G2` (`quasiPeriod_ofUpperHalfPlane_one`). `E₂` is only quasi-modular and ModularForms
+§10D does not cover it; the companions `g₂ = (4π⁴/3) E₄(τ)` and `g₃ = (8π⁶/27) E₆(τ)` are §10D's
+(Exact supplier contracts). Prove the last one row by row: the series for
 `ζ(z+1) − ζ(z)` has summands `O(|l|⁻³)`, so it may be grouped by rows `l = mτ + n`; in each row
 the terms `1/(z+1−l) − 1/(z−l)` telescope to `0` over symmetric partial sums, leaving
 `∑'_n (mτ+n)⁻²`, which is Mathlib's `e2Summand m τ` (with `e2Summand 0 τ = 2ζ(2)`); the outer sum
@@ -453,7 +461,8 @@ is absolutely convergent, hence equal to the symmetric sum defining `G2`. Then
 `g₂ = ω₁⁻⁴(4π⁴/3)E₄(τ)`, `g₃ = ω₁⁻⁶(8π⁶/27)E₆(τ)`, `η(ω₁) = ω₁⁻¹(π²/3)E₂(τ)` (the scaled
 dictionary).
 
-*Needs:* 0.1, 0.3, 2.2, 2.3; Mathlib `EisensteinSeries.G2`, `E2`, `ModularForm.E₄`, `E₆`,
+*Needs:* 0.1, 0.3, 2.2, 2.3; ModularForms §10D; Mathlib `EisensteinSeries.G2`, `E2`,
+`ModularForm.E₄`, `E₆`,
 `riemannZeta_two`, `riemannZeta_four`, `riemannZeta_two_mul_nat` (for `ζ(6)`). (DLMF 23.8.5;
 Silverman, ATAEC, ch. I.)
 
@@ -476,7 +485,7 @@ Silverman, ATAEC, ch. I.)
 
 ### Dependencies
 
-Layers 0–1; ModularCurvesPartII §1.4a; Tau Ceti
+Layers 0–1; ModularCurvesPartII §1.4a; ModularForms §10D; Tau Ceti
 `TauCeti.Contour.classicalResidueTheorem_nullHomologous`; Mathlib `EisensteinSeries.G2`, `E2`,
 `ModularForm.E₄`, `E₆`, `riemannZeta_two`, `riemannZeta_four`, `riemannZeta_two_mul_nat` (for
 `ζ(6)`). (DLMF 23.2.5–23.2.14, 23.8.5; Silverman, ATAEC, ch. I.) Within the layer, 2.3 precedes
@@ -786,9 +795,9 @@ statements only. Within the layer, 5.2 repeats the proof of 5.1, and 5.3–5.5 f
 - EllipticIntegrals defers the lattice functions, the quasi-periods and the lattice form of
   Legendre's relation to the lattice roadmaps, this one among them (its Ownership and
   dependencies section, under the old name GrothendieckPeriodConjecture).
-- EllipticCurvePeriodsAndModularParametrizations expects the Eisenstein dictionary (2.4)
-  and lattice invariance (0.2) from here; the `g₂, g₃` scaling and `Δ ≠ 0` it also asks for are
-  ModularCurvesPartII §§1.3 and 1.1.
+- EllipticCurvePeriodsAndModularParametrizations states, in its §1.1, the lattice invariance
+  of `G_k` and the scaled dictionary, which are 0.2 and 2.4 here (and ModularForms §10D for
+  `ℤ + ℤτ`), to be cited from there rather than restated.
 
 ModularCurvesPartII's lattice analysis consumes nothing from here (Exact supplier contracts).
 
@@ -855,6 +864,7 @@ other two, and the pair `ω₁, π` is 5.5.
   independent), deduced from the statement following it (two of `g₂, g₃, ω/π, η/π`
   algebraically independent, for any invariants), and Theorem 3.4 (Nesterenko).
 - J. H. Silverman, *The Arithmetic of Elliptic Curves*, GTM 106, ch. VI; *Advanced Topics in the
-  Arithmetic of Elliptic Curves*, GTM 151, 1994, ch. I. (zbMATH 0911.14015 for GTM 151.)
+  Arithmetic of Elliptic Curves*, GTM 151, 1994, ch. I–II (ch. II for Layer 4). (zbMATH
+  0911.14015 for GTM 151.)
 - NIST DLMF, §§23.2, 23.3, 23.8, 23.9 (Weierstrass `ζ`, quasi-periods, Legendre's relation, the
   discriminant 23.3.4, series for `η`, the Laurent recursion 23.9.5).

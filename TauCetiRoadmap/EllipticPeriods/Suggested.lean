@@ -31,7 +31,7 @@ Headline theorems stated here:
 Every headline of the Summary is statable and stated. The way there is stated too: Liouville,
 the zero–pole balance and the structure theorem for elliptic functions (README 1.2–1.4), the
 Laurent expansion of `℘` and `G_mem_adjoin` (1.6), the Weierstrass `ζ` and its quasi-periods
-(2.1, 2.2), the Eisenstein dictionary (2.4), Legendre's relation as `det_periodMatrix` (3.1),
+(2.1, 2.2), the `E₂` dictionary (2.4), Legendre's relation as `det_periodMatrix` (3.1),
 the period field and its Zariski closure (3.2, 3.4), the homotheties (3.5), the CM lattice
 statements `hasCM_iff`, `exists_weierstrassP_mul_eq`, `exists_quasiPeriod_mul` (4.1–4.3), and
 Chudnovsky's theorem without algebraic invariants, `two_le_trdeg_adjoin_invariants` (5.2).
@@ -156,14 +156,6 @@ theorem quasiPeriod_smul (c : ℂˣ) (L : PeriodPair) {l : ℂ} :
 /-- `ζ` and `η` depend only on the lattice. -/
 theorem quasiPeriod_congr {L L' : PeriodPair} (h : L.lattice = L'.lattice) {l : ℂ}
     (hl : l ∈ L.lattice) : quasiPeriod L l = quasiPeriod L' l := sorry
-
-/-- The Eisenstein dictionary at `(1, τ)`: `g₂ = (4π⁴/3) E₄(τ)`. -/
-theorem g₂_ofUpperHalfPlane (τ : UpperHalfPlane) :
-    (ofUpperHalfPlane τ).g₂ = 4 * (π : ℂ) ^ 4 / 3 * ModularForm.E₄ τ := sorry
-
-/-- The Eisenstein dictionary at `(1, τ)`: `g₃ = (8π⁶/27) E₆(τ)`. -/
-theorem g₃_ofUpperHalfPlane (τ : UpperHalfPlane) :
-    (ofUpperHalfPlane τ).g₃ = 8 * (π : ℂ) ^ 6 / 27 * ModularForm.E₆ τ := sorry
 
 /-- The Eisenstein dictionary at `(1, τ)`: `η(1) = G₂(τ) = (π²/3) E₂(τ)`, with Mathlib's
 `EisensteinSeries.G2` (rows `m` summed symmetrically). -/
