@@ -14,7 +14,7 @@ ClassFieldTheory owns cohomological local symbols, local and global Artin maps, 
 
 Tau Ceti owns the division-polynomial annihilation criterion ψₙ(P)=0 if and only if n·P=O for every integer n and nonsingular affine point P of a Weierstrass curve over a field, including singular curves. Section 2.22 adds coprimality of the evaluated coordinates and the explicit affine-coordinate formula.
 
-The Tau Ceti library supplies `Matrix.exists_smith_normal_form_of_det_ne_zero` and `Matrix.smith_normal_form_unique` in `TauCeti.LinearAlgebra.Matrix.SmithNormalForm`; their square-matrix statements are inputs. It also supplies the primitive-generator discriminant/index identity, local reciprocity and Kummer cup-product machinery, integral semilocal comparisons, and both the split and exact Grothendieck groups of finite projectives. Their exact restrictions matter: ordinary character induction does not supply field-of-definition induction, and a cohomological symbol needs an invariant-normalised coordinate before its sign can be compared with an Artin definition. The library also has the primitive character of a fundamental discriminant (TauCeti.Multiquadratic.fundamentalDiscriminantChar, with its quadraticity, its value at −1, its values at odd primes and `isPrimitive_fundamentalDiscriminantChar`), so these are not targets here; Layer 1 adds the rest of its value table. For a quadratic presentation θ² = d it has the direction from a solution of the negative Pell equation to a unit of norm `−1 (NumberField.exists_norm_eq_neg_one_of_sq_sub_mul_sq_eq_neg_one)`, the narrow class of an element of negative norm `(NumberField.mkPrincipal_eq_mkPrincipal_gen_of_norm_neg)` and the injectivity criterion `NarrowClassGroup.toClassGroup_injective_iff_exists_norm_eq_neg_one`; Layer 5 adds the converse direction through cubing, the triviality criterion for the narrow class of θ and the two-primary form of the comparison. Its tameness predicate TauCeti.IsTamelyRamified is for extensions of nonarchimedean local fields; Layer 7 uses the predicate for extensions of Dedekind domains at every prime, which includes residue separability.
+The Tau Ceti library supplies `Matrix.exists_smith_normal_form_of_det_ne_zero` and `Matrix.smith_normal_form_unique` in `TauCeti.LinearAlgebra.Matrix.SmithNormalForm.Int`; their square-matrix statements are inputs. It also supplies the primitive-generator discriminant/index identity, local reciprocity and Kummer cup-product machinery, integral semilocal comparisons, and both the split and exact Grothendieck groups of finite projectives. Their exact restrictions matter: ordinary character induction does not supply field-of-definition induction, and a cohomological symbol needs an invariant-normalised coordinate before its sign can be compared with an Artin definition. The library also has the primitive character of a fundamental discriminant (TauCeti.Multiquadratic.fundamentalDiscriminantChar, with its quadraticity, its value at −1, its values at odd primes and `isPrimitive_fundamentalDiscriminantChar`), so these are not targets here; Layer 1 adds the rest of its value table. For a quadratic presentation θ² = d it has the direction from a solution of the negative Pell equation to a unit of norm `−1 (NumberField.exists_norm_eq_neg_one_of_sq_sub_mul_sq_eq_neg_one)`, the narrow class of an element of negative norm `(NumberField.mkPrincipal_eq_mkPrincipal_gen_of_norm_neg)` and the injectivity criterion `NumberField.NarrowClassGroup.toClassGroup_injective_iff_exists_norm_eq_neg_one`; Layer 5 adds the converse direction through cubing, the triviality criterion for the narrow class of θ and the two-primary form of the comparison. Its tameness predicate TauCeti.IsTamelyRamified is for extensions of nonarchimedean local fields; Layer 7 uses the predicate for extensions of Dedekind domains at every prime, which includes residue separability.
 
 NewtonPolygons owns the general supporting-value, contact, width, slope-multiset, product, root and Eisenstein–Dumas theory (§§0.3, 2.2–2.3, 3.1–3.3 and 6.1). §§3.11, 3.18, 3.32–3.33, 3.46 and 3.52–3.53 here consume those interfaces in reflected coefficient coordinates and supply their arithmetic applications. FormalLaurentPuiseux L5 supplies the Laurent-field specialization through NewtonPolygons §§1.2 and 2.1; §3.18 fixes the sign comparison.
 
@@ -88,15 +88,15 @@ For §2.22, `WeierstrassCurve.zsmul_eq_zero_of_evalEval_ψ_eq_zero` and `Weierst
 
 The signatures use the pinned Mathlib and Tau Ceti APIs. Each mathematical subsection names the exact declarations it needs. Use the genuine library carriers, including `Polynomial`, `PowerSeries`, `LaurentSeries`, `LinearRecurrence`, `Matrix`, `Module`, `Ideal`, `FractionalIdeal`, `ClassGroup`, `MonoidAlgebra`, `WeierstrassCurve`, `IsNonarchimedeanLocalField` and roots of unity. In particular, symmetric Rouché compares analytic-order sums under strict symmetric boundary domination; it is not an equality-case extension of ordinary strict domination. `SplitK0` is the split group completion of finite projectives. The same library supplies `ExactK0`, `ExactK0.fromSplitEquiv` for the split exact structure, and `finiteProjectiveModulesExactStructure_eq_split`; use these to identify the two groups. Layer 7 adds the stable-free equality criterion and balanced scalar-change comparison, rather than a second construction of either group.
 
-For §7.10 use Mathlib `PolynomialLaw` in `Mathlib/RingTheory/PolynomialLaw/Basic.lean`, `IsAzumaya` in `Mathlib/Algebra/Azumaya/Defs.lean`, `Module.rankAtStalk` and `Module.FaithfullyFlat`. A polynomial law is natural on commutative scalar algebras in the base universe; `IsAzumaya` includes finite projectivity and a faithful scalar action. For §7.44 use `TauCeti.SemisimpleCommHopfAlgCat` in `TauCeti/Algebra/AlgebraicGroup/Semisimple/Basic.lean`, `TauCeti.simplyConnectedSemisimpleCommHopfAlgProperty` in `TauCeti/Algebra/AlgebraicGroup/SimplyConnected/Basic.lean`, and `TauCeti.AlgHom.mapValue` in `TauCeti/Algebra/AlgebraicGroup/Hopf/Map.lean`. The semisimple carrier includes smoothness and geometric connectedness; simple connectedness is a separate hypothesis. The scalar adelic topology is in `TauCeti/NumberTheory/NumberField/Global/Adeles/LocallyCompact.lean`.
+For §7.10 use Mathlib `PolynomialLaw` in `Mathlib/RingTheory/PolynomialLaw/Basic.lean`, `IsAzumaya` in `Mathlib/Algebra/Azumaya/Defs.lean`, `Module.rankAtStalk` and `Module.FaithfullyFlat`. A polynomial law is natural on commutative scalar algebras in the base universe; `IsAzumaya` includes finite projectivity and a faithful scalar action. For §7.44 use `TauCeti.SemisimpleCommHopfAlgCat` in `TauCeti/Algebra/AlgebraicGroup/Semisimple/Basic.lean`, `TauCeti.simplyConnectedSemisimpleCommHopfAlgProperty` in `TauCeti/Algebra/AlgebraicGroup/SimplyConnected/Basic.lean`, and `AlgHom.mapValue` in `TauCeti/Algebra/AlgebraicGroup/FunctorOfPoints.lean`. The semisimple carrier includes smoothness and geometric connectedness; simple connectedness is a separate hypothesis. The scalar adelic topology is in `TauCeti/NumberTheory/NumberField/Global/Adeles/LocallyCompact.lean`.
 
-The character carrier is supplied by `TauCeti.Multiquadratic.fundamentalDiscriminantChar` in `TauCeti.NumberTheory.Multiquadratic.FundamentalDiscriminant.Character`: for D : ℤ and hD : IsFundamentalDiscriminant D, it is a DirichletCharacter ℤ D.natAbs. Use `fundamentalDiscriminantChar_apply_int` for any prime-discriminant factorization, `fundamentalDiscriminantChar_neg_one` for D.sign, `fundamentalDiscriminantChar_isQuadratic`, `isPrimitive_fundamentalDiscriminantChar`, and `fundamentalDiscriminantChar_natCast_eq_legendreSym` at an odd prime q. The extra value laws of §1.7 refer directly to this character, with hD understood in formulas.
+The character carrier is supplied by `TauCeti.Multiquadratic.fundamentalDiscriminantChar` in `TauCeti.NumberTheory.Multiquadratic.FundamentalDiscriminant.Character`: for D : ℤ and hD : Int.IsFundamentalDiscr D, it is a DirichletCharacter ℤ D.natAbs. Use `fundamentalDiscriminantChar_apply_int` for any prime-discriminant factorization, `fundamentalDiscriminantChar_neg_one` for D.sign, `fundamentalDiscriminantChar_isQuadratic`, `isPrimitive_fundamentalDiscriminantChar`, and `fundamentalDiscriminantChar_natCast_eq_legendreSym` at an odd prime q. The extra value laws of §1.7 refer directly to this character, with hD understood in formulas.
 
 The invariant coordinate is `TauCeti.ClassFieldTheory.h2MuEquivZMod F hn` in `TauCeti.NumberTheory.ClassFieldTheory.Brauer.RootsOfUnity`, where F is a nonarchimedean local field and hn : IsUnit (n : F). Its domain is continuousCohomology 2 (muNRep n F). `toRatAddCircle_h2MuEquivZMod` identifies its value k with the Brauer invariant k/n. Use that normalized coordinate in §1.44, including its invertibility hypothesis.
 
 For the quadratic presentation minpoly ℤ θ = X²−d and ℚ[θ]=K, `NumberField.exists_norm_eq_neg_one_of_sq_sub_mul_sq_eq_neg_one` in `TauCeti.NumberTheory.NumberField.Quadratic.Norm` gives the negative-Pell-to-unit implication. `NumberField.mkPrincipal_eq_mkPrincipal_gen_of_norm_neg` and `NumberField.NarrowClassGroup.toClassGroup_injective_iff_exists_norm_eq_neg_one` are in `TauCeti.NumberTheory.NumberField.Quadratic.Conjugation.NarrowClassGroup`. The first identifies the narrow class of a nonzero element of negative norm with the square-root class; the second characterizes injectivity by a norm-minus-one integer-ring unit for positive d. §§5.21, 5.23 and 5.24 add, respectively, the converse for all squarefree d>1, the triviality criterion and the restriction to two-primary classes.
 
-The matrix suppliers are `Matrix.exists_smith_normal_form_of_det_ne_zero`, `Matrix.smith_normal_form_unique` and `Matrix.invariant_factor_zero_eq_gcd` in `TauCeti.LinearAlgebra.Matrix.SmithNormalForm`. Existence there is square and nonsingular; uniqueness compares square nonnegative chained diagonals, including zeros. `TauCeti.freeColumnBasis` and its coordinate formula `coe_freeColumnBasis_apply` in `TauCeti.LinearAlgebra.Matrix.Echelon.KernelBasis` supply the matrix kernel basis. §3.20 transports that basis to a linear map in chosen bases. `Submodule.smithNormalForm` and `Submodule.exists_smith_normal_form_of_le` in `Mathlib.LinearAlgebra.FreeModule.PID` supply aligned bases over a PID without a divisibility-chain conclusion; §3.23 adds that chain in the rectangular matrix statement.
+The matrix suppliers are `Matrix.exists_smith_normal_form_of_det_ne_zero`, `Matrix.smith_normal_form_unique` and `Matrix.invariant_factor_zero_eq_gcd` in `TauCeti.LinearAlgebra.Matrix.SmithNormalForm.Int`. Existence there is square and nonsingular; uniqueness compares square nonnegative chained diagonals, including zeros. `TauCeti.freeColumnBasis` and its coordinate formula `coe_freeColumnBasis_apply` in `TauCeti.LinearAlgebra.Matrix.Echelon.KernelBasis` supply the matrix kernel basis. §3.20 transports that basis to a linear map in chosen bases. `Submodule.smithNormalForm` and `Submodule.exists_smith_normal_form_of_le` in `Mathlib.LinearAlgebra.FreeModule.PID` supply aligned bases over a PID without a divisibility-chain conclusion; §3.23 adds that chain in the rectangular matrix statement.
 
 ### From [TauCetiRoadmap.DiophantineApproximationAndTranscendence, §2.4 `closedFormRecurrence`](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/DiophantineApproximationAndTranscendence/README.md#24-finite-rank-multiplicative-groups-and-recurrences)
 
@@ -466,7 +466,7 @@ Given a unit y modulo m with y ≡ 1 (mod d₁), choose by the Chinese remainder
 
 For a fundamental discriminant D, extend the value-table API of TauCeti.Multiquadratic.fundamentalDiscriminantChar D hD, where hD is the supplied fundamental-discriminant hypothesis. The target here is the rest of its value table: it vanishes exactly at the integers not coprime to D, (D / 2) is 0 if D is even, 1 if D ≡ 1 (mod 8) and −1 if D ≡ 5 (mod 8), it is jacobiSym D n at odd n, it is multiplicative in coprime discriminants, and it is ZMod.χ₄, ZMod.χ₈ and ZMod.χ₈' at D = −4, 8, −8. Its value at an integer that is not a fundamental discriminant is not specified.
 
-D is a fundamental discriminant: D ≡ 1 (mod 4) squarefree, or D = 4m with m squarefree and m ≡ 2, 3 (mod 4). The Mathlib predicate Int.IsFundamentalDiscr and Tau Ceti's TauCeti.Multiquadratic.IsFundamentalDiscriminant have the same content (compare `Int.isFundamentalDiscr_iff_squarefree` with the Tau Ceti definition), which the construction records. Values are in ℤ, like ZMod.χ₄ and quadraticChar; complex values are obtained by MulChar.ringHomComp.
+D is a fundamental discriminant: D ≡ 1 (mod 4) squarefree, or D = 4m with m squarefree and m ≡ 2, 3 (mod 4). Tau Ceti's character takes Mathlib's predicate Int.IsFundamentalDiscr as its hypothesis, and `Int.isFundamentalDiscr_iff_squarefree` gives the description above. Values are in ℤ, like ZMod.χ₄ and quadraticChar; complex values are obtained by MulChar.ringHomComp.
 
 The supporting API comprises:
 
@@ -484,7 +484,7 @@ The supporting API comprises:
 
 (John Voight, [Quaternion Algebras](#john-voight--quaternion-algebras), §24.3.3 (p. 388 of the author's edition).) At `R = ℤ_p` this is the Kronecker symbol (D / p) as the splitting type of p in the quadratic order of discriminant D, including p = 2: the value of the result at 2 (1 for D ≡ 1 mod 8, -1 for D ≡ 5 mod 8, 0 for D even) is this description, and at odd p it is legendreSym p D. At a ramified prime the special fibre has rank two and is nonreduced (for example F₂[X]/X² for D=8), not k itself; the Kronecker value0 is unaffected.
 
-To prove the additional value laws, use `fundamentalDiscriminantChar_apply_int` and the prime-discriminant factorisation D = ∏ P ∈ s, P given by `TauCeti.Multiquadratic.IsFundamentalDiscriminant.existsUnique_finset_primeDiscriminant`.
+To prove the additional value laws, use `fundamentalDiscriminantChar_apply_int` and the prime-discriminant factorisation D = ∏ P ∈ s, P given by `Int.IsFundamentalDiscr.existsUnique_finset_primeDiscriminant`.
 
 The supplied equality `fundamentalDiscriminantChar_apply_int` identifies the character with genusCharFun s; `genusCharFun_eq_zero_iff` gives the vanishing criterion without defining another character.
 
@@ -502,7 +502,7 @@ For coprime fundamental discriminants the factorisation of the product is the un
 - fundamentalDiscriminantChar 12 takes the values -1, -1, 1 at 5, 7, 11, the values of legendreSym at 12.
 - At odd n it is the Jacobi symbol jacobiSym D n; at n = 2 it is not: (-3 / 2) = -1 while jacobiSym (-3) 2 = 1.
 
-*Needs:* Tau Ceti `TauCeti.Multiquadratic.genusCharFun`; Tau Ceti `TauCeti.Multiquadratic.genusCharFun_mul_right`; Tau Ceti `TauCeti.Multiquadratic.genusCharFun_one`; Tau Ceti `TauCeti.Multiquadratic.genusCharFun_mod_right'`; Tau Ceti `TauCeti.Multiquadratic.genusCharFun_eq_zero_iff`; Tau Ceti `TauCeti.Multiquadratic.genusCharFun_natCast_eq_legendreSym`; Tau Ceti `TauCeti.Multiquadratic.IsFundamentalDiscriminant`; Tau Ceti `TauCeti.Multiquadratic.IsFundamentalDiscriminant.existsUnique_finset_primeDiscriminant`; Tau Ceti `TauCeti.Multiquadratic.primeDiscriminantCharFun`; Tau Ceti `TauCeti.Multiquadratic.primeDiscriminantCharFun_neg_four`; Tau Ceti `TauCeti.Multiquadratic.primeDiscriminantCharFun_eight`; Tau Ceti `TauCeti.Multiquadratic.primeDiscriminantCharFun_neg_eight`; Tau Ceti `TauCeti.Multiquadratic.primeDiscriminantCharFun_oddPrimeDiscriminant`; Tau Ceti `TauCeti.Multiquadratic.primeDiscriminantCharFun_neg_one`; Mathlib `Int.IsFundamentalDiscr`; Mathlib `Int.isFundamentalDiscr_iff_squarefree`; Mathlib `DirichletCharacter`; Mathlib `MulChar`; Mathlib `legendreSym`; Mathlib `jacobiSym`; Mathlib `ZMod.χ₄`; Mathlib `ZMod.χ₈`; Mathlib `ZMod.χ₈'`.
+*Needs:* Tau Ceti `TauCeti.Multiquadratic.genusCharFun`; Tau Ceti `TauCeti.Multiquadratic.genusCharFun_mul_right`; Tau Ceti `TauCeti.Multiquadratic.genusCharFun_one`; Tau Ceti `TauCeti.Multiquadratic.genusCharFun_mod_right'`; Tau Ceti `TauCeti.Multiquadratic.genusCharFun_eq_zero_iff`; Tau Ceti `TauCeti.Multiquadratic.genusCharFun_natCast_eq_legendreSym`; Tau Ceti `Int.IsFundamentalDiscr.existsUnique_finset_primeDiscriminant`; Tau Ceti `TauCeti.Multiquadratic.primeDiscriminantCharFun`; Tau Ceti `TauCeti.Multiquadratic.primeDiscriminantCharFun_neg_four`; Tau Ceti `TauCeti.Multiquadratic.primeDiscriminantCharFun_eight`; Tau Ceti `TauCeti.Multiquadratic.primeDiscriminantCharFun_neg_eight`; Tau Ceti `TauCeti.Multiquadratic.primeDiscriminantCharFun_oddPrimeDiscriminant`; Tau Ceti `TauCeti.Multiquadratic.primeDiscriminantCharFun_neg_one`; Mathlib `Int.IsFundamentalDiscr`; Mathlib `Int.isFundamentalDiscr_iff_squarefree`; Mathlib `DirichletCharacter`; Mathlib `MulChar`; Mathlib `legendreSym`; Mathlib `jacobiSym`; Mathlib `ZMod.χ₄`; Mathlib `ZMod.χ₈`; Mathlib `ZMod.χ₈'`.
 
 ### 1.8 Primitive characters agreeing at almost all primes are equal
 
@@ -2411,10 +2411,9 @@ The declarations and supplier layers used by this layer are:
 - Mathlib `quadratic_eq_zero_iff_discrim_eq_sq`.
 - Mathlib `rootsOfUnity`.
 - Mathlib `star_gaussSum_eq`.
+- Tau Ceti `Int.IsFundamentalDiscr.existsUnique_finset_primeDiscriminant`.
 - Tau Ceti `IsArithFrobAt.smul_sqrt`.
 - Tau Ceti `Rat.exists_squarefree_int_mul_sq`.
-- Tau Ceti `TauCeti.Multiquadratic.IsFundamentalDiscriminant`.
-- Tau Ceti `TauCeti.Multiquadratic.IsFundamentalDiscriminant.existsUnique_finset_primeDiscriminant`.
 - Tau Ceti `TauCeti.Multiquadratic.fundamentalDiscriminant`.
 - Tau Ceti `TauCeti.Multiquadratic.genusCharFun`.
 - Tau Ceti `TauCeti.Multiquadratic.genusCharFun_eq_zero_iff`.
@@ -3136,13 +3135,13 @@ Base change: the coefficients are rational functions of b, c, d, so `(E_{b,c,d})
 - `Δ(E_{2,3,2}) = 0`: the identity sequence comes from a cuspidal cubic, so no ellipticity hypothesis may be built into the construction.
 - `Δ(E_{1,−1,1}) = 37`.
 - `E_{1,−1,1}` has a₁ = −2 and a₂ = −1 (so y ↦ y + x gives y² + y = x³ − x).
-- ψₙ(0, 0) = n on `E_{2,3,2}`, matching Tau Ceti's `normEDS_two_three_two_eq_id`.
+- ψₙ(0, 0) = n on `E_{2,3,2}`, matching Mathlib's `normEDS_two_three_two`.
 - normEDS 1 (−1) 1 at 0, …, 10 is 0, 1, 1, −1, 1, 2, −1, −3, −5, 7, −4.
 - b = 1, c = −1, d = 1: a₁ = −2, a₂ = −1, a₃ = 1; the substitution y ↦ y + x turns it into y² + y = x³ − x (conductor 37), with Δ = 37, and the sequence is 0, 1, 1, −1, 1, 2, −1, −3, −5, 7, −4, … (Silverman, Example 1).
-- b = 2, c = 3, d = 2: Δ = 0 (a cusp: c₄ = 0 as well) and normEDS 2 3 2 = id (Tau Ceti `normEDS_two_three_two_eq_id`).
+- b = 2, c = 3, d = 2: Δ = 0 (a cusp: c₄ = 0 as well) and normEDS 2 3 2 = id (Mathlib `normEDS_two_three_two`).
 - `Δ(E_{1,3,1}) = −11321/27` and `Δ(E_{3,1,1}) = −543211/81`, matching −D/(b⁴c³).
 
-*Needs:* Mathlib `WeierstrassCurve.ψ`; Mathlib `WeierstrassCurve.ψ₂`; Mathlib `WeierstrassCurve.Ψ₃`; Mathlib `WeierstrassCurve.preΨ₄`; Mathlib `WeierstrassCurve.b₈`; Mathlib `WeierstrassCurve.Δ`; Mathlib `normEDS`; Mathlib `map_normEDS`; Mathlib `Polynomial.evalEvalRingHom`; Mathlib `WeierstrassCurve.Affine.nonsingular_zero`; Mathlib `WeierstrassCurve.map`; Tau Ceti `normEDS_two_three_two_eq_id`.
+*Needs:* Mathlib `WeierstrassCurve.ψ`; Mathlib `WeierstrassCurve.ψ₂`; Mathlib `WeierstrassCurve.Ψ₃`; Mathlib `WeierstrassCurve.preΨ₄`; Mathlib `WeierstrassCurve.b₈`; Mathlib `WeierstrassCurve.Δ`; Mathlib `normEDS`; Mathlib `map_normEDS`; Mathlib `Polynomial.evalEvalRingHom`; Mathlib `WeierstrassCurve.Affine.nonsingular_zero`; Mathlib `WeierstrassCurve.map`; Mathlib `normEDS_two_three_two`.
 
 ### 2.22 Division polynomials at a nonsingular point
 
@@ -3716,14 +3715,14 @@ By the affine-coordinate formula of [Division polynomials at a nonsingular point
 
 By [The filtration `E_k(ℚ_p)` for an arbitrary integral Weierstrass equation](#223-the-filtration-e_kℚ_p-for-an-arbitrary-integral-weierstrass-equation) (applied to the `ℤ_p`-model E), `{n : nP ∈ E_V}` is a subgroup of ℤ; for V = 0 the set is ℤ.
 
-Bezout and the subgroup property give `min(v_p W_m, v_p W_n) ≤ v_p W_{gcd(m,n)}`; the reverse inequality is divisibility `W_{gcd} | W_m`, `W_n` (Tau Ceti `isDvdSequence_normEDS`).
+Bezout and the subgroup property give `min(v_p W_m, v_p W_n) ≤ v_p W_{gcd(m,n)}`; the reverse inequality is divisibility `W_{gcd} | W_m`, `W_n` (Mathlib `IsDvdSequence.normEDS`).
 
 **Checks.**
 
 - W = normEDS 1 (−1) 1 (curve 37a1), p = 2: v₂(Wₙ) is 0 unless 5 | n, and the multiples of 5 carry the valuations of `5P ∈ E_1(ℚ₂)`.
 - W = normEDS 3 2 5, p = 5 (p ∤ bc, 5 | d, Δ ≠ 0): {n : 5 | Wₙ} = 4ℤ and {n : 25 | Wₙ} = 20ℤ within n ≤ 40.
 
-*Needs:* [The Weierstrass curve of a normalised elliptic divisibility sequence](#221-the-weierstrass-curve-of-a-normalised-elliptic-divisibility-sequence); [Division polynomials at a nonsingular point](#222-division-polynomials-at-a-nonsingular-point); [The filtration `E_k(ℚ_p)` for an arbitrary integral Weierstrass equation](#223-the-filtration-e_kℚ_p-for-an-arbitrary-integral-weierstrass-equation); Mathlib `WeierstrassCurve.map_ψ`; Mathlib `WeierstrassCurve.map_φ`; Tau Ceti `isDvdSequence_normEDS`; Mathlib `emultiplicity`; Mathlib `Int.gcd_eq_gcd_ab`.
+*Needs:* [The Weierstrass curve of a normalised elliptic divisibility sequence](#221-the-weierstrass-curve-of-a-normalised-elliptic-divisibility-sequence); [Division polynomials at a nonsingular point](#222-division-polynomials-at-a-nonsingular-point); [The filtration `E_k(ℚ_p)` for an arbitrary integral Weierstrass equation](#223-the-filtration-e_kℚ_p-for-an-arbitrary-integral-weierstrass-equation); Mathlib `WeierstrassCurve.map_ψ`; Mathlib `WeierstrassCurve.map_φ`; Mathlib `IsDvdSequence.normEDS`; Mathlib `emultiplicity`; Mathlib `Int.gcd_eq_gcd_ab`.
 
 ### 2.44 The secant-plus-tangent series diverges on and beyond |z| = π/2
 
@@ -4129,11 +4128,11 @@ b, c, d ∈ ℤ with bc ≠ 0 (nondegenerate: W₂W₃ ≠ 0). The coprimality g
 
 (Joseph H. Silverman and Nelson Stephens, [The sign of an elliptic divisibility sequence](#joseph-h-silverman-and-nelson-stephens--the-sign-of-an-elliptic-divisibility-sequence), §1, p. 3 (arXiv:math/0402415v1).) An EDS is determined by W₂, W₃, W₄ through its two duplication recursions, and a triple with W₂W₃ ≠ 0 gives an EDS exactly when W₂ | W₄ (attributed to Ward).
 
-To prove this, ward's sequences are the normEDS: normEDS b c d satisfies the elliptic net relations (Tau Ceti `isEllipticNet_normEDS`), hence the EDS recursion, with W₀, …, W₄ = 0, 1, b, c, db; an EDS with W₁ = 1 and W₂W₃ ≠ 0 is determined by W₂, W₃, W₄, and such a triple gives an integral EDS exactly when W₂ | W₄ (Silverman–Stephens, §1, p. 3), so every normalised nondegenerate integral EDS is normEDS b c d for some b, c, d ∈ ℤ with bc ≠ 0.
+To prove this, ward's sequences are the normEDS: normEDS b c d satisfies the elliptic net relations (Mathlib `IsEllipticNet.normEDS`), hence the EDS recursion, with W₀, …, W₄ = 0, 1, b, c, db; an EDS with W₁ = 1 and W₂W₃ ≠ 0 is determined by W₂, W₃, W₄, and such a triple gives an integral EDS exactly when W₂ | W₄ (Silverman–Stephens, §1, p. 3), so every normalised nondegenerate integral EDS is normEDS b c d for some b, c, d ∈ ℤ with bc ≠ 0.
 
 Necessity: put m = 3, n = 4.
 
-Sufficiency, prime by prime: it suffices that for every prime p, `min(v_p W_m, v_p Wₙ) = v_p W_{gcd(m,n)}`. The inequality ≥ in the other direction is divisibility (Tau Ceti `isDvdSequence_normEDS`).
+Sufficiency, prime by prime: it suffices that for every prime p, `min(v_p W_m, v_p Wₙ) = v_p W_{gcd(m,n)}`. The inequality ≥ in the other direction is divisibility (Mathlib `IsDvdSequence.normEDS`).
 
 Primes p ∤ bc with `Δ(E_{b,c,d}) ≠ 0`: [Strong divisibility of an integral EDS at primes not dividing W₂W₃](#243-strong-divisibility-of-an-integral-eds-at-primes-not-dividing-w₂w₃).
 
@@ -4150,7 +4149,7 @@ Assemble over all primes: `|W_{gcd(m,n)}|` and `gcd(W_m, Wₙ)` have the same p-
 
 **Auxiliary proof target.** The good-prime filtration proves the subgroup property of `{n:p^V∣W_n}` only when p∤bc and the attached curve is nonsingular. The endpoint must also prove it for primes dividing b or c, and for singular attached curves. For b=1,c=3,d=1 at p=3, the required valuations are 1 at n≡3 modulo 6 and 4+v₃(n/6) at multiples of 6; an integral nonsingular-point argument cannot be assumed there. The singular example normEDS 2 3 2 n=n must remain included. A recursion proof or a complete singular-reduction valuation argument is needed before invoking the full Ward theorem.
 
-*Needs:* [Strong divisibility of an integral EDS at primes not dividing W₂W₃](#243-strong-divisibility-of-an-integral-eds-at-primes-not-dividing-w₂w₃); [The Weierstrass curve of a normalised elliptic divisibility sequence](#221-the-weierstrass-curve-of-a-normalised-elliptic-divisibility-sequence); Tau Ceti `isDvdSequence_normEDS`; Tau Ceti `isEllipticNet_normEDS`; Mathlib `Nat.IsStrongDvdSequence`; Mathlib `IsCoprime`; Mathlib `Int.isCoprime_iff_gcd_eq_one`.
+*Needs:* [Strong divisibility of an integral EDS at primes not dividing W₂W₃](#243-strong-divisibility-of-an-integral-eds-at-primes-not-dividing-w₂w₃); [The Weierstrass curve of a normalised elliptic divisibility sequence](#221-the-weierstrass-curve-of-a-normalised-elliptic-divisibility-sequence); Mathlib `IsDvdSequence.normEDS`; Mathlib `IsEllipticNet.normEDS`; Mathlib `Nat.IsStrongDvdSequence`; Mathlib `IsCoprime`; Mathlib `Int.isCoprime_iff_gcd_eq_one`.
 
 ### 2.59 Rational generating functions, linear recurrences and closed forms (Stanley, Theorem 4.1.1)
 
@@ -4759,6 +4758,8 @@ The declarations and supplier layers used by this layer are:
 - Mathlib `IsCoprime.mul_right`.
 - Mathlib `IsCoprime.of_mul_right_left`.
 - Mathlib `IsDvdSequence`.
+- Mathlib `IsDvdSequence.normEDS`.
+- Mathlib `IsEllipticNet.normEDS`.
 - Mathlib `IsFractionRing.isAlgebraic_iff`.
 - Mathlib `IsPrincipalIdealRing`.
 - Mathlib `IsUltrametricDist.nonarchimedeanGroup`.
@@ -4924,6 +4925,7 @@ The declarations and supplier layers used by this layer are:
 - Mathlib `minpoly`.
 - Mathlib `minpoly.algHom_eq`.
 - Mathlib `normEDS`.
+- Mathlib `normEDS_two_three_two`.
 - Mathlib `orderOf_dvd_iff_zpow_eq_one`.
 - Tau Ceti `TauCeti.companionFinTwo`.
 - Tau Ceti `TauCeti.companionFinTwo_def`.
@@ -4933,9 +4935,6 @@ The declarations and supplier layers used by this layer are:
 - Tau Ceti `WeierstrassCurve.smulEval`.
 - Tau Ceti `WeierstrassCurve.zsmul_point_eq_smulEval`.
 - Tau Ceti `WeierstrassCurve.ω`.
-- Tau Ceti `isDvdSequence_normEDS`.
-- Tau Ceti `isEllipticNet_normEDS`.
-- Tau Ceti `normEDS_two_three_two_eq_id`.
 
 ## Layer 3: polynomial and matrix arithmetic
 
@@ -6641,7 +6640,7 @@ The supporting API comprises:
 - `n!_D` as an Ideal D: the finite product of `(𝔪.asIdeal)^{w_{N(𝔪)}(n)}` for 𝔪 in HeightOneSpectrum D.
 - For 𝔪 in HeightOneSpectrum D, its exponent in `n!_D` is `w_{N(𝔪)}(n)`.
 - `n!_D · I_n(D) = D` as submodules of K, i.e. `n!_D = I_n(D)⁻¹`.
-- `0!_D = ⊤` (and `FactorialIdeal.one_eq_top`: `1!_D = ⊤`).
+- `0!_D = ⊤` and `1!_D = ⊤`.
 - `n!_ℤ = Ideal.span {(n! : ℤ)}`.
 - `m!_D · n!_D ∣ (m + n)!_D`.
 - `n!_D ∣ (n + 1)!_D`.
@@ -12386,7 +12385,7 @@ N/d ≥ 13 (the source's justification 'y ≥ 10' is insufficient). α ≠ 0, wh
 
 (O. B. Berrevoets, [On Lehmer's problem (bachelor thesis, supervisor J.-H. Evertse)](#o-b-berrevoets--on-lehmers-problem-bachelor-thesis-supervisor-j-h-evertse), Lemma 4.6, printed p. 16.) Lemma 4.6 is stated for algebraic numbers and omits α ≠ 0; the result adds α ≠ 0 and states the algebraic-integer case that Theorem 4.1 uses (the argument does not need integrality). Same conclusion: a prime p ∈ (x, 2x] with `F(α^p) ≠ 0`.
 
-(O. B. Berrevoets, [On Lehmer's problem (bachelor thesis, supervisor J.-H. Evertse)](#o-b-berrevoets--on-lehmers-problem-bachelor-thesis-supervisor-j-h-evertse), Lemma 4.5, printed p. 16.) The explicit prime-count input, stated in this layer as `dyadicPrimeCount`. Berrevoets attributes it to Rosser–Schoenfeld (1962), Corollary 3, which is the marked input below.
+(O. B. Berrevoets, [On Lehmer's problem (bachelor thesis, supervisor J.-H. Evertse)](#o-b-berrevoets--on-lehmers-problem-bachelor-thesis-supervisor-j-h-evertse), Lemma 4.5, printed p. 16.) The explicit prime-count input, stated as the auxiliary proof target of this section. Berrevoets attributes it to Rosser–Schoenfeld (1962), Corollary 3, which is the marked input below.
 
 To prove this, for distinct primes p, q the numbers `α^p`, `α^q` are not conjugate ([If `α^k` and `α^l` are conjugate (k ≠ l) then α is 0 or a root of unity](#610-if-αk-and-αl-are-conjugate-k--l-then-α-is-0-or-a-root-of-unity)), so their minimal polynomials, of degree d each, are distinct and coprime.
 
@@ -16160,7 +16159,7 @@ Let `Hom_Ω⁺(R_G,U(Q̄))` mean the homomorphisms whose value on every virtual 
 The supporting API comprises:
 
 - Positivity is required on all virtual symplectic characters; inversion preserves it.
-- `PositiveUnitKernel.kernel`: `D_H` identifies with the kernel of extension to any compatible maximal overorder of ℤ[G].
+- `D_H` identifies with the kernel of extension to any compatible maximal overorder of ℤ[G].
 - The all-place and S-place presentations give the same class, with the positive algebraic-unit subgroup retained.
 - This group is independent of the chosen maximal overorder containing ℤ[G].
 

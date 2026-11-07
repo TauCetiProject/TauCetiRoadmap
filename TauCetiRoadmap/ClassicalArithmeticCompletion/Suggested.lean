@@ -1,5 +1,5 @@
 import Mathlib
-import TauCeti.Algebra.AlgebraicGroup.Hopf.Map
+import TauCeti.Algebra.AlgebraicGroup.FunctorOfPoints
 import TauCeti.Algebra.AlgebraicGroup.SimplyConnected.Basic
 import TauCeti.NumberTheory.NumberField.Global.Adeles.LocallyCompact
 
@@ -672,9 +672,9 @@ def HasStrongApproximation (F : Type) [Field F] [NumberField F]
   Dense {x : Points F H (NumberField.AdeleRing (𝓞 F) F) |
     ∃ g : Points F H F, ∃ y : Points F H (NumberField.AdeleRing (𝓞 F) F),
       (∀ v ∉ Sf, ∀ h : H,
-        (TauCeti.AlgHom.mapValue (AlgHom.snd F _ _) y).ofConv h v =
+        (AlgHom.mapValue (AlgHom.snd F _ _) y).ofConv h v =
           (1 : Points F H (IsDedekindDomain.FiniteAdeleRing (𝓞 F) F)).ofConv h v) ∧
-      x = TauCeti.AlgHom.mapValue (Algebra.ofId F _) g * y}
+      x = AlgHom.mapValue (Algebra.ofId F _) g * y}
 
 /-- Strong approximation for simply connected semisimple groups, with noncompact
 S-points in every nontrivial semisimple quotient (README §7.44; Rapinchuk,
