@@ -330,7 +330,7 @@ The construction has the following API.
 - For GL₂ with slope-1/2 basic b, def=1. At w=s t^(1,0), lengths 2 and 1 give d=1.
 - For type A₂ with σ swapping s₁,s₂ and x=s₁,y=s₂, η=σ⁻¹(s₂)s₁=1; replacing σ⁻¹(y) by y gives length 2 and changes d by 1.
 
-*Needs:* ReductiveGroupsPartII RG2.4, dominant-normal-form; BunGAndNewtonStrata §1.15, defect of a σ-class of a σ-class;
+*Needs:* ReductiveGroupsPartII RG2.4, dominant-normal-form; BunGAndNewtonStrata §1.15, defect of a σ-class;
 BunGAndNewtonStrata §1.8, Newton and Kottwitz invariants.
 
 ### 0.3 Shrunken Weyl chambers
@@ -482,6 +482,7 @@ two permutations of diag(ϖ,1) illustrate why a G-class can meet several Levi cl
 
 - For σ = id and b′ = hbh⁻¹, the identity (hg)⁻¹b′(hg) = g⁻¹bg fixes the direction of transport. In S₃, b=(12), h=(123) gives b′=(23); using h⁻¹ as the transport map fails.
 - For the diagonal torus of GL₂, diag(ϖ,1) and diag(1,ϖ) have torus invariants (1,0) and (0,1), but the same group κ=1. Rationalizing κ cannot detect its torsion components in other groups.
+- For the superbasic slope-1/2 class of GL₂, with b the shift e_i ↦ e_(i+1) of §2.3 (m = 1, h = 2) and μ = (1,0), J_b(F) is the unit group of the quaternion division algebra over F, and b itself lies in J_b(F) because σ(b) = b. Its determinant has valuation 1, so it carries the determinant-zero component of X_μ(b) onto the determinant-one component, while the elements of J_b(F) of determinant valuation 0 preserve each component (vie06, §2, PDF pp. 2–3). The obstruction κ_G(b) = 1 = μ^natural is untouched by this transport, since it depends on b alone; an obstruction computed from the determinant component of the point g would change under b and is wrong.
 
 *Needs:* §0.5; BunGAndNewtonStrata §1.13, algebraic σ-centralizer; BunGAndNewtonStrata §1.8, Newton and Kottwitz invariants; ReductiveGroupsPartII RG2.4, kottwitz-quotient.
 
@@ -494,7 +495,7 @@ union through the exact zero stratum, but not to the exact μ-stratum.
 ### Dependencies
 
 BunGAndNewtonStrata §1.8, Newton and Kottwitz invariants; BunGAndNewtonStrata §1.13, algebraic σ-centralizer;
-BunGAndNewtonStrata §1.15, defect of a σ-class of a σ-class; GeometricSatakeAndFusion GS0, Witt bounds and projective models;
+BunGAndNewtonStrata §1.15, defect of a σ-class; GeometricSatakeAndFusion GS0, Witt bounds and projective models;
 ReductiveGroupsPartII RG2.1, apartment; ReductiveGroupsPartII RG2.4, affine-tits-system; ReductiveGroupsPartII
 RG2.4, dominant-coinvariant-cocharacters; ReductiveGroupsPartII RG2.4, dominant-normal-form;
 ReductiveGroupsPartII RG2.4, kottwitz-quotient; ReductiveGroupsPartII RG2.4, length-and-bruhat-order;
@@ -783,7 +784,7 @@ gives dimension 3. Central shift (m,μ)↦(m+h,μ+(1,…,1)) preserves the resul
 - For (h,m)=(4,5), the normalized semi-module of type (0,2,0,3) has residue basis {−2,0,3,5}; its cyclic extended semi-module is one for μ=(0,0,2,3), with V={(3,4),(5,6),(5,8)}. Thus 2|V|=6<8, while the cyclic module of type (0,0,2,3), with basis {−4,1,3,6}, has V={(3,4),(3,5),(3,6),(3,9)} and attains 8. Equality for every cyclic extended semi-module would be false.
 - For (h,m)=(2,2) coprimality fails and the bound is not asserted; for Σμ_i≠m the component X_μ(b)_0 is empty and no dimension value is assigned.
 
-*Needs:* §2.4; BunGAndNewtonStrata §1.15, defect of a σ-class of a σ-class.
+*Needs:* §2.4; BunGAndNewtonStrata §1.15, defect of a σ-class.
 
 ### Examples
 
@@ -793,7 +794,7 @@ contribution 1, hence dimension 3.
 
 ### Dependencies
 
-Layers 0; BunGAndNewtonStrata §1.13, algebraic σ-centralizer; BunGAndNewtonStrata §1.15, defect of a σ-class of a σ-class; `Finset`;
+Layers 0; BunGAndNewtonStrata §1.13, algebraic σ-centralizer; BunGAndNewtonStrata §1.15, defect of a σ-class; `Finset`;
 Mathlib `Set.ncard`, `finsum` and `WithBot` for the combinatorial statements of §§2.1–2.5. The
 individual Needs paragraphs specify the additional comparison constructions used by each route.
 
@@ -1770,6 +1771,7 @@ The comparison has the following API.
 
 - For J=S the single matching class is [b] itself and the cover is the identity of X_w(b). For a proper torus Levi in GL₂ the two classes above remain distinct in the B(M)→B(G) fibre before imposing the required Levi κ.
 - In the GL₂ torus example, the B(M)→B(G) fibre has the two classes (1,0) and (0,1); the additional requirement κ_M=(1,0) selects the first and excludes the second. Counting a second matching class here would be a wrong application of the all-classes condition.
+- For GL₂ with J = ∅ (so M_J is the diagonal torus T), x = 1 with the upper-triangular Borel, w = t^(1,0) and b = diag(ϖ,1): conjugation by diag(ϖ,1) multiplies the root subgroup of e₁−e₂ by ϖ and that of e₂−e₁ by ϖ⁻¹, so w is a (∅,1,σ)-alcove element and not a (∅,s,σ)-alcove element. The matching class (1,0) has Levi locus T(L)/T(O_L) ≅ ℤ², discrete, since t⁻¹bσ(t) lies in b·T(O_L) for every t ∈ T(L); the comparison sends tT(O_L) to tI, so its image is the ℤ² of points t^νI. This is all of X_w(b): J_b(F) = T(F), and X_w(b) is a single J_b(F)-orbit of dimension 0 because t^(1,0) is straight (he14, Theorem 4.8, pp. 382–383), in agreement with §1.1. The non-matching class (0,1) has empty Levi locus, since t⁻¹diag(1,ϖ)σ(t) lies in diag(1,ϖ)T(O_L) and never in t^(1,0)T(O_L). A cover indexed by the whole B(T)-fibre without the Levi κ condition, or one asserting a positive-dimensional fibre over a point, fails here.
 
 *Needs:* §7.1, the twisted-product comparison; §7.2; §1.2; BunGAndNewtonStrata §1.45, Newton comparison for a Levi representative.
 
