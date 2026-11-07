@@ -2,7 +2,7 @@
 
 **Summary.** Quantitative primes, the uniform exclusion of Landau–Siegel zeros with its effective consequences, explicit formulas, Hecke and Artin comparisons, multiplicative means, smooth numbers and proved zeta moments.
 
-`Suggested.lean` states the headline theorems on native library carriers: the uniform prime-series and Mellin-smoothing interfaces of §§0.11a–0.11c, the uniform exclusion of Landau–Siegel zeros with its classification, Landau-deduction and inert-prime targets (§0.34), the effective lower bound for `L(1,χ)` (§0.9), finite-order Hadamard factorization and effective Siegel–Walfisz (Layer 0); Davenport cancellation, half-interval and Weil explicit formulas, Dirichlet-polynomial means, Selberg density and conditional prime errors (Layer 1); Louboutin and bounded-degree Brauer–Siegel (Layer 2); and Shiu, Halász, Dickman, Landau–Ramanujan, restricted Sathe–Selberg, Atkinson, zeta moments and the Beurling remainder equivalence (Layer 3). Its definitions serve those statements. Other API names below specify library targets.
+`Suggested.lean` states the headline theorems on native library carriers: the uniform exclusion of Landau–Siegel zeros with its classification, Landau-deduction and inert-prime targets (§0.34), the effective lower bound for `L(1,χ)` (§0.9), finite-order Hadamard factorization and effective Siegel–Walfisz (Layer 0); Davenport cancellation, half-interval and Weil explicit formulas, Dirichlet-polynomial means, Selberg density and conditional prime errors (Layer 1); Louboutin and bounded-degree Brauer–Siegel (Layer 2); and Shiu, Halász, Dickman, Landau–Ramanujan, restricted Sathe–Selberg, Atkinson, zeta moments and the Beurling remainder equivalence (Layer 3). Its definitions serve those statements. Other API names below specify library targets.
 
 ## Scope and ownership
 
@@ -10,9 +10,9 @@ This part owns Layers 0–3: quantitative refinement and arithmetic comparison. 
 
 GlobalHolomorphicFunctions supplies the primary factors, generic entire products and entire logarithms; AutomorphicLFunctionsAndLocalFactors supplies the paired Hadamard theorem. The finite-order summability, good-circle estimate and polynomial-degree bound in §0.23 are enhancements here. Both suppliers precede these enhancements in the dependency order.
 
-This part owns the uniform exclusion of Landau–Siegel zeros (§0.34): an effective absolute `c_LS>0` with `(1−β)log q≥c_LS` for every real zero `β∈(0,1)` of every primitive nonprincipal real Dirichlet `L`-function of conductor `q≥3`. It also owns the effective consequences drawn here: the lower bound `L(1,χ)≥c/log q` and Siegel's bound `L(1,χ)≥c_ε q^(−ε)` with effective constants (§0.9), the emptiness of the exceptional-zero predicate at width `c_LS` (§0.1), the exception-free bounded-height Landau–Page theorem (§0.6), the character prime-number estimate without an exceptional term (§§0.18, 0.28), the effective zero gap (§0.31b) and effective Siegel–Walfisz (§0.32). ImaginaryQuadraticClassNumber H2.3–H2.4 keeps its own ineffective two-character proof of Siegel's theorem and of `h(D)≥c_ε|D|^(1/2−ε)`; this part plans no step of that proof and takes nothing from H2.3–H2.4. The real quadratic bound `h⁺(D)log ε_D≥c_ε D^(1/2−ε)` of §2.13, effective here, is kept in this part because H2.4 states only the imaginary case.
+This part owns the uniform exclusion of Landau–Siegel zeros (§0.34): an effective absolute `c_LS>0` with `(1−β)log q≥c_LS` for every real zero `β∈(0,1)` of every primitive nonprincipal real Dirichlet `L`-function of conductor `q≥3`. It also owns the effective consequences drawn here: the lower bound `L(1,χ)≥c/log q` and Siegel's bound `L(1,χ)≥c_ε q^(−ε)` with effective constants (§0.9), the emptiness of the exceptional-zero predicate at width `c_LS` (§0.1), the exception-free bounded-height Landau–Page theorem (§0.6), the character prime-number estimate without an exceptional term (§§0.18, 0.28), the effective zero gap (§0.31b) and effective Siegel–Walfisz (§0.32). ImaginaryQuadraticClassNumber H2.3–H2.4 keeps its own ineffective two-character proof of Siegel's theorem and of `h(D)≥c_ε|D|^(1/2−ε)`; this part plans no step of that proof and takes nothing from H2.3–H2.4. The real quadratic bound `h⁺(D)log ε_D≥c_ε D^(1/2−ε)` of §2.13, effective here, is kept in this part because H2.4 states only the imaginary case. This part also owns the classification of primitive nonprincipal real Dirichlet characters as the Kronecker characters of fundamental discriminants (§0.34a); QuadraticCharactersAndReduction §Q2 consumes it. ZerosOfLFunctions and ImaginaryQuadraticClassNumber stand before this part and keep their statements: the exception-free forms over `ℚ` of ZerosOfLFunctions 6.3–6.4 and 8.6–8.8 and the effective forms of ImaginaryQuadraticClassNumber H2.3–H2.4 are stated in this part (§§0.1, 0.6, 0.9, 0.18, 0.32), where later roadmaps consume them.
 
-Downstream consumers of §0.34 and its corollaries are ZerosOfLFunctions, ImaginaryQuadraticClassNumber, EffectiveClassNumbers, SieveMethodsAndPrimePatterns, ErdosProgressionPowers and the explicit prime-counting roadmaps; the section Downstream consumers lists the statements concerned.
+Downstream consumers of §0.34 and its corollaries are EffectiveClassNumbers, SieveMethodsAndPrimePatterns, ErdosProgressionPowers, QuadraticCharactersAndReduction and the explicit prime-counting roadmaps; the section Downstream consumers lists the statements concerned.
 
 ### Prerequisites and boundaries
 
@@ -121,7 +121,7 @@ AdelicAlgebraicGroups AA.0 supplies the normalized additive Haar measure. AA.2.4
 
 ### From ArithmeticGaloisRepresentations
 
-[Layer 3, §§3.2–3.5][R94] supplies §3.2’s “The Artin conductor” and “Unit filtration and upper numbering”, §3.3’s “Global conductors”, §3.4’s “Exact sequences, duals, twists, base change”, and §3.5’s “The global induction formula” and “Hasse–Arf integrality”. Specialize to complex finite-image representations inflated from `Gal(L/F)` and excluded set `Σ=∅`. Use `Conductor.artinConductor` and `Conductor.globalConductor`: `a_v=Σ_(i≥0)(|G_i|/|G_0|)codim V^(G_i)` is a nonnegative integer independent of the chosen prime, and `N(ρ)=∏v^a_v`. Direct-sum multiplicativity and induction on the trivial representation give `Disc(L/F)=∏_ρN(ρ)^dimρ`; the unit-filtration comparison identifies linear conductors with `characterConductorExp`. The lower filtration/different are LocalFieldsRamification Layers 3–4’s, retaining wild terms. Zero, trivial, tame and dyadic Checks test this interface.
+[Layer 3, §§3.2–3.5][R94] supplies §3.2’s “The Artin conductor” and “Unit filtration and upper numbering”, §3.3’s “Global conductors”, §3.4’s “Exact sequences, duals, twists, base change”, and §3.5’s “The global induction formula” and “Hasse–Arf integrality”. Specialize to complex finite-image representations inflated from `Gal(L/F)` and excluded set `Σ=∅`. Use `Conductor.artinConductor` and `Conductor.globalConductor`: `a_v=Σ_(i≥0)(|G_i|/|G_0|)codim V^(G_i)` is a nonnegative integer independent of the chosen prime, and `N(ρ)=∏v^a_v`. Direct-sum multiplicativity and induction on the trivial representation give `Disc(L/F)=∏_ρN(ρ)^dimρ`; the unit-filtration comparison identifies linear conductors with `characterConductorExp`. The lower numbering filtration and the local different are Tau Ceti's `TauCeti.LocalFieldsRamification.lowerRamificationGroup` (`TauCeti.NumberTheory.LocalField.RamificationGroup`) and `TauCeti.differentExponent` with `TauCeti.differentExponent_eq_zero_iff` (`TauCeti.NumberTheory.LocalField.Different.Basic`), retaining wild terms. Zero, trivial, tame and dyadic Checks test this interface.
 
 §2.7 supplies the standard additive characters and self-dual measures, local and adelic Fourier transforms, and local zeta-integral constants. The finite-order Hecke functional equation itself, with its deleted-factor correction `eulerCorrection`, is LFunctions Layer 5's and is not restated by §2.7; §2.7's **Standard-test-function evaluations** compares its prescribed standard functions on algebraic norm twists, and **Root-number product formula** and **Arithmetic character constants** identify the finite Gauss sums and local constants. Boundary nonvanishing comes separately from LFunctions Layer 7. Tate's thesis is used only for the additive-character/measure, Fourier-transform and local-zeta-integral definitions and conventions.
 
@@ -335,34 +335,34 @@ See Koukoulopoulos, *The Distribution of Prime Numbers*, Theorem3.4(a) and proof
 #### 0.11a Prime-cutoff and tail exports
 
 State the rational Mertens estimates on Mathlib's finite set of primes `Nat.primesLE n`
-(the primes `p ≤ n`), and name and shape them as Mathlib's Mertens-weight interface
-develops: the interface itself, its prime and von Mangoldt weights, and the Mertens
-theorems it exports for those weights. Whatever of this Mathlib does not provide is
-built here in that shape. Arbitrary bounded weights
-in §0.11c are coefficients on this native prime sum, not another Mertens-weight structure.
+(the primes `p ≤ n`), with the prime weight `(log p)/p` and the von Mangoldt weight
+`Λ(n)/n` as coefficients on that finite sum. Arbitrary bounded weights in §0.11c are
+coefficients on this native prime sum, not another prime carrier.
 
 Export §0.11's Mertens estimate on the native finite prime sum with inclusive real
 cutoff `p ≤ x`, `x ≥ 2`, retaining its strict/inclusive comparison. Consume Mathlib's
-`Chebyshev.theta_le_log4_mul_x` for `Σ_{p≤x} log p ≤ Cx`, and derive by partial summation
-one absolute `C ≥ 0` such that
-
-\[
-\sum_{p\ge y}\frac{\log p}{p^2}\le C/y\qquad(y\ge2).
-\]
+`Chebyshev.theta_le_log4_mul_x` for `θ(x) = Σ_{p≤x} log p ≤ (log 4) x`, and derive by
+partial summation one absolute `C ≥ 0` such that `Σ_{p≥y} (log p)/p² ≤ C/y` for every
+real `y ≥ 2`.
 
 State summability of the tail and give strict/inclusive, finite/infinite, and interval
 adapters. Retain the endpoint prime in exactly one interval and include prime `2`.
-The boundary term at infinity vanishes by Chebyshev. The distinct-prime-divisor bound
-`Σ_{p|q} log p/p ≤ log log q+C`, including `q≥3`, is consumed from §3.17 with its existing
-constant and native prime-factor carrier, rather than proved a second time here.
+The boundary term at infinity vanishes by Chebyshev.
 
 Use rational prime carriers and absolute constants. Specialization of the existing
 Tau Ceti number-field Mertens theorem to the fixed field `ℚ`, together with its
 prime-ideal/rational-prime transport, also supplies the rational estimate. A constant
 for a varying quadratic field is not an absolute constant over its characters.
 
-*Needs:* §0.11, §3.17; the completed ArithmeticDirichletSeries summation and prime-power
-APIs; native Chebyshev and Abel summation. The tail derivation is the Stieltjes
+**Checks.**
+
+- `y = 2`: the tail is the whole series `Σ_p (log p)/p² ≈ 0.4931`, which includes the prime `2` with its term `(log 2)/4 ≈ 0.1733`; a strict cutoff `p > y` would omit it.
+- The constant: Stieltjes integration by parts gives `Σ_{p≥y} (log p)/p² = −θ(y⁻)/y² + 2∫_y^∞ θ(t) t⁻³ dt ≤ 2 log 4 ∫_y^∞ t⁻² dt`, so `C = 2 log 4 ≈ 2.773` serves; at `y = 2` the bound `C/2 ≈ 1.386` exceeds `0.4931`.
+- The exponent: with the weight `(log p)/p` in place of `(log p)/p²` the tail diverges by Mertens, so no `C` exists; the bound separates the two weights.
+
+*Needs:* §0.11; the completed ArithmeticDirichletSeries summation and prime-power
+APIs; native Chebyshev (`Chebyshev.theta_le_log4_mul_x`) and Abel summation
+(`sum_mul_eq_sub_sub_integral_mul`). The tail derivation is the Stieltjes
 integration-by-parts identity for `dθ(t)` against `t^(-2)`, with `θ(t)=O(t)`.
 
 #### 0.11b Uniform Euler logarithmic derivatives
@@ -372,11 +372,7 @@ character-independent bound for the prime-power contribution with exponents at l
 two. The geometric sum is bounded by `Σ_{n≥2} log n/(n(n−1))`, which is summable and
 contains no character or conductor. Consume Mathlib's `DirichletCharacter.LSeries_twist_vonMangoldt_eq`
 and the continued-function comparison on `Re s>1` to export
-
-\[
-\left|\frac{L'}L(\sigma,\chi)+
-\sum_p\frac{\chi(p)\log p}{p^\sigma}\right|\le C.
-\]
+`|L′/L(σ,χ) + Σ_p χ(p) (log p)/p^σ| ≤ C`.
 
 The constant is chosen before the modulus, character, and evaluation point. State
 summability of the displayed prime series. Include the real-valued form for real
@@ -384,11 +380,7 @@ characters, retaining the scalar-cast comparisons and the zero values at primes
 dividing the modulus. Primitivity and nonprincipality are not needed for this
 half-plane formula.
 
-Export also one absolute bounded error in
-
-\[
--\frac{\zeta'}\zeta(1+\eta)=\eta^{-1}+O(1),\qquad0<\eta\le1.
-\]
+Export also one absolute bounded error in `−ζ′/ζ(1+η) = η⁻¹ + O(1)` for `0 < η ≤ 1`.
 
 Use `ArithmeticFunction.vonMangoldt.continuousOn_LFunctionResidueClassAux` at level
 one and `DirichletCharacter.continuousOn_neg_logDeriv_LFunctionTrivChar₁` to identify
@@ -398,6 +390,12 @@ existing regularized function, not a new Laurent-series construction. All functi
 here are canonical continued L-functions, with series comparisons used only in their
 convergence half-plane.
 
+**Checks.**
+
+- Level `1`, `σ = 2`: `−ζ′/ζ(2) = Σ_n Λ(n)/n² ≈ 0.5700` and `Σ_p (log p)/p² ≈ 0.4931`; the difference `≈ 0.0769` is the prime-power tail `Σ_p (log p)/(p²(p²−1))`, which a definition identifying `−L′/L` with the prime sum alone would set to zero.
+- The regularized error `−ζ′/ζ(1+η) − η⁻¹` is `≈ −0.4300` at `η = 1` and tends to `−γ ≈ −0.5772` as `η → 0⁺`, by the Laurent expansion `ζ(s) = 1/(s−1) + γ + O(s−1)`; the opposite sign in the pole subtraction would give the unbounded `η⁻¹ + ζ′/ζ(1+η) ≈ 2η⁻¹`.
+- The principal character modulo `q` is allowed: `L(s,χ₀) = ζ(s) ∏_{p∣q} (1−p^(−s))`, so `−L′/L(σ,χ₀) − Σ_{p∤q} (log p)/p^σ` differs from the level-`1` quantity by `−Σ_{p∣q} (log p)/(p^σ(p^σ−1))`, of absolute value at most `Σ_p (log p)/(p(p−1)) ≈ 0.7554`, independent of `q`.
+
 *Needs:* §0.11a for prime carriers; Mathlib Euler logarithmic derivatives and the
 regularized zeta function; ArithmeticDirichletSeries prime-power regrouping. The
 geometric-majorant argument above supplies the uniformity without any zero-free
@@ -405,50 +403,45 @@ region to the left of one.
 
 #### 0.11c Weighted-prime Mellin smoothing
 
-For bounded weights on primes, use the inclusive finite sum
-`A(x)=Σ_{p≤x} a_p log p/p`. Define it by native finite primes `p≤⌊x⌋₊`; do not introduce
-another prime type. Develop the real, signed, and complex versions on the same finite
-sum and scalar maps. For `|a_p|≤1` and `η>0`, prove summability, Bochner integrability,
-and the identity
+For bounded weights on primes, define the weighted prime sum `A(x) = Σ_{p≤x} a_p (log p)/p`
+as the finite sum over Mathlib's `Nat.primesLE ⌊x⌋₊` with the scalar `(log p)/p` acting on
+the weight `a_p`; do not introduce another prime type. The weights take values in a real
+Banach space, so the real, signed and complex versions are one definition on the same
+finite sum and scalar maps. Its API:
 
-\[
-\sum_p a_p\frac{\log p}{p^{1+\eta}}
-=\eta\int_1^\infty A(t)t^{-1-\eta}\,dt.
-\]
+- `A(x) = 0` for `x < 2`, and `A(x)` depends on `a` only through its values at primes.
+- `A` is linear in `a`, and for `|a_p| ≤ 1` Mertens (§0.11a) gives `|A(t)| ≤ C + log t` for `t ≥ 1`.
+- For `|a_p| ≤ 1` and `η > 0`: the series `Σ_p a_p (log p)/p^(1+η)` is summable, `t ↦ t^(−1−η) A(t)` is Bochner integrable on `(1,∞)`, and `Σ_p a_p (log p)/p^(1+η) = η ∫₁^∞ A(t) t^(−1−η) dt`.
 
 Give the finite-cutoff integration-by-parts formula first, then prove the boundary
-term tends to zero and the truncated integrals and series converge. Mertens gives
-`|A(t)|≤C+log t`, which justifies the limit for every `η>0`. The initial interval
-`1≤t<2` contributes zero to `A`. A Banach-space formulation using scalar multiplication
-may supply both real and complex versions.
+term tends to zero and the truncated integrals and series converge. The bound
+`|A(t)|≤C+log t` justifies the limit for every `η>0`. The initial interval
+`1≤t<2` contributes zero to `A`.
 
-Export linearity and monotonicity of the weighted integral under explicit integrable
-domination, and the scalar identities
+Export linearity and monotonicity of the weighted integral `η ∫₁^∞ f(t) t^(−1−η) dt`
+under explicit integrable domination, and the scalar identities
+`η ∫₁^∞ t^(−1−η) dt = 1` and `η ∫₁^∞ (log t) t^(−1−η) dt = η⁻¹`.
 
-\[
-\eta\int_1^\infty t^{-1-\eta}\,dt=1,\qquad
-\eta\int_1^\infty(\log t)t^{-1-\eta}\,dt=\eta^{-1}.
-\]
-
-Prove integrability and Jensen's bound
-
-\[
-\eta\int_1^\infty\log\log(3t)t^{-1-\eta}\,dt
-\le\log(\log3+\eta^{-1}),
-\]
-
+Prove integrability and Jensen's bound `η ∫₁^∞ log log(3t) t^(−1−η) dt ≤ log(log 3 + η⁻¹)`,
 then a single absolute bound `log(log3+η⁻¹)≤C log(2/η)` for `0<η≤1`.
 After `u=log t` the measure is the probability density `η exp(−ηu)du` on `u≥0`;
-its mean is `η⁻¹`, and concavity of `log` gives the displayed inequality.
+its mean is `η⁻¹`, and concavity of `log` gives the inequality.
 A linear majorant in `u` gives the required integrability before applying Jensen.
+
+**Checks.**
+
+- `A(1) = 0`, since `Nat.primesLE 1` is empty, and `A(2) = (log 2)/2` for `a ≡ 1`; `A(2.9) = A(2)`, the cutoff being `⌊x⌋₊ = 2`. A sum over all `n ≤ x` without the primality filter would give `A(4) = (log 2)/2 + (log 3)/3 + (log 4)/4` in place of `(log 2)/2 + (log 3)/3`.
+- Altering `a` at the non-primes `1`, `4`, `6` leaves `A` unchanged; replacing `a_p` by `−a_p` negates `A` and both sides of the Mellin identity, so the identity's sign follows the coefficients.
+- The Mellin identity at `a ≡ 1`: each prime contributes `(log p)/p · η ∫_p^∞ t^(−1−η) dt = (log p)/p^(1+η)`, so at `η = 1` both sides equal `Σ_p (log p)/p² ≈ 0.4931`; without the factor `η` the right side at `η = 2` would be `Σ_p (log p)/(2p³)`, half the left side.
+- The scalar identities at `η = 2`: `2 ∫₁^∞ t⁻³ dt = 1` and `2 ∫₁^∞ (log t) t⁻³ dt = 1/2`, so the log moment is `η⁻¹` and not `η⁻²`.
+- Jensen at `η = 1`: `∫₁^∞ log log(3t) t⁻² dt = ∫₀^∞ log(log 3 + u) e^(−u) du ≈ 0.653`, below the bound `log(log 3 + 1) ≈ 0.741`; the absolute bound then needs `C ≥ 0.741/log 2 ≈ 1.07` at `η = 1`.
 
 *Needs:* §0.11a, existing Abel summation, improper-integral convergence and Bochner
 integral calculus, exponential moments, and Jensen for the logarithm. These are
-classical partial summation and scalar-integral consequences; the displayed
-derivations specify their complete prerequisite chain.
+classical partial summation and scalar-integral consequences; the derivations above
+specify their complete prerequisite chain.
 
-`Suggested.lean` gives suggested forms for these interfaces, with two endpoint checks
-on the weighted prime sum. This section owns neither a new prime-sum improvement, the choice of smoothing parameter
+This section owns neither a new prime-sum improvement, the choice of smoothing parameter
 in a particular proof, nor its combination with a selected-zero inequality. The
 latter analytic interface is supplied directly by ZerosOfLFunctions §6.4 on the
 primitive Dirichlet record; §0.30's ray-class dictionary remains a downstream consumer.
@@ -770,7 +763,7 @@ Use the reciprocal Mertens product asymptotic and positivity. Extend the two-sid
 
 For `y=2` the product is 1/2; extend the eventual comparison to `y≥2` using its finitely many values below any fixed threshold. Removing a fixed finite set of primes multiplies the product by finitely many positive inverse factors; the resulting constants may depend on that set.
 
-See Koukoulopoulos, *The Distribution of Prime Numbers*, Theorem3.4(c), pp.40–41; [58][R58], Lemma4.9 and proof pp.713–714; Lemma4.11 and proof pp.715–716.
+See Koukoulopoulos, *The Distribution of Prime Numbers*, Theorem3.4(c), pp.40–41; [58][R58], Lemma4.9, pp.712–714; Lemma4.11 and proof pp.715–716.
 
 *Needs:* §0.26.
 
@@ -826,7 +819,7 @@ The proof is a determinant method. Let `d` be as in §0.34a, `K=ℚ(√d)`, `R=X
 2. An archimedean upper bound. Both conjugates satisfy `|x±y√d|≤N(1+√|d|)≤2N√q`, every entry of `v_(r,s)` is at most `R^N(2N√q)^(r+s)` in absolute value, and Hadamard's inequality `det G≤∏G_ii` gives `log det G≤RS(R+S)log(2N√q)+O(X³)`.
 3. A `p`-adic lower bound at each odd prime `p≤X` with `χ(p)=−1`. Then `(d/p)=−1`, so `(x+y√d)^p≡x−y√d mod pℤ[√d]` and `z^p−z′` vanishes modulo `p` at every point. Replacing `z^r z′^s` by `z^(r−ph)(z^p−z′)^h z′^s` with `h=min(⌊r/p⌋,S−1−s)` changes the row by earlier rows only, which preserves `det G`, and makes every entry of the new row divisible by `p^h`; hence `v_p(det G)≥2Σ_(r,s)min(⌊r/p⌋,S−1−s)`.
 
-Comparing `Σ_p v_p(det G)log p≤log det G` with facts 2 and 3, and using `Σ_(s<S)min(k,S−1−s)≥Sk−k²` and `⌊r/p⌋≥r/p−1`, gives `Σ_(p≤X,χ(p)=−1)(log p)/p≤(1+1/C)(2/3+1/(2C))log X+O_C(1)`, which is at most `(3/4)log X+O_C(1)` for large `C`; the prime 2 contributes `O(1)`. Hadamard's inequality for positive semidefinite real matrices, the resultant multiplicity bound and the multiplicity estimate are targets here: Mathlib has no Hadamard inequality at the pin, and `Matrix.det_le` alone loses a factor 2 in the exponent, which destroys the saving. Source: [110], Theorem 1.1, §§2–6 and Appendix A. *Needs:* §0.34a; `Matrix.gram`; `Matrix.posSemidef_gram`; `Matrix.det_gram_ne_zero_iff_linearIndependent`; `Polynomial.resultant_eq_zero_iff`; `MvPolynomial.schwartz_zippel_totalDegree`.
+Comparing `Σ_p v_p(det G)log p≤log det G` with facts 2 and 3, and using `Σ_(s<S)min(k,S−1−s)≥Sk−k²` and `⌊r/p⌋≥r/p−1`, gives `Σ_(p≤X,χ(p)=−1)(log p)/p≤(1+1/C)(2/3+1/(2C))log X+O_C(1)`, which is at most `(3/4)log X+O_C(1)` for large `C`; the prime 2 contributes `O(1)`. Hadamard's inequality for positive semidefinite real matrices, the resultant multiplicity bound and the multiplicity estimate are targets here: Mathlib has no Hadamard inequality at the pin, and `Matrix.det_le` alone loses a factor 2 in the exponent, which destroys the saving. Source: [110], Theorem 1.1, §§2–6 and Appendix A; the source takes `R=X`, `S=J=⌊X/C⌋`, `N=2X^(1/2)` and `C` even and obtains the constant `1/2+O(1/C)`, while the parameters `N=X^(2/3)`, `J=N` and `3∣C` above are this roadmap's own choice and `3/4` is the weakened constant they give, not a constant of the source. *Needs:* §0.34a; `Matrix.gram`; `Matrix.posSemidef_gram`; `Matrix.det_gram_ne_zero_iff_linearIndependent`; `Polynomial.resultant_eq_zero_iff`; `MvPolynomial.schwartz_zippel_totalDegree`.
 
 **Checks.**
 
@@ -1939,7 +1932,7 @@ For `ℚ(i)`, the Dedekind residue is `π/4`, the quadratic character has conduc
 
 ### Dependencies
 
-AutomorphicLFunctionsAndLocalFactors AL.0–AL.1; GlobalNumberFields Layers 2, 9 and 10; ClassFieldTheory Layers 7, 11 and 13; NumberFieldArithmetic Layers 1, 2 and 7; InductionRestriction Layers 3 and 6; ArithmeticGaloisRepresentations Layer3 (finite conductors), using LocalFieldsRamification Layers3–4; DifferentialGeometry Layers 5 and 12; IntegralLattices Layer B, B2/B4/B5; AutomorphicSpectralTheory §§1.14–1.15, 2.17–2.18, 4.17a,4.18,4.20. Analytic inputs are the Gamma and explicit-formula targets of Layer 1 and the zero-free estimates of Layer 0.
+AutomorphicLFunctionsAndLocalFactors AL.0–AL.1; GlobalNumberFields Layers 2, 9 and 10; ClassFieldTheory Layers 7, 11 and 13; NumberFieldArithmetic Layers 1, 2 and 7; InductionRestriction Layers 3 and 6; ArithmeticGaloisRepresentations Layer3 (finite conductors), using Tau Ceti's lower ramification groups and different exponent; DifferentialGeometry Layers 5 and 12; IntegralLattices Layer B, B2/B4/B5; AutomorphicSpectralTheory §§1.14–1.15, 2.17–2.18, 4.17a,4.18,4.20. Analytic inputs are the Gamma and explicit-formula targets of Layer 1 and the zero-free estimates of Layer 0.
 
 ## Layer 3: Multiplicative means, smooth numbers and moments
 
@@ -3185,14 +3178,13 @@ Downstream consumers AnalyticNumberTheoryPartII, the ArithmeticStatistics parts 
 
 The uniform exclusion of Landau–Siegel zeros (§0.34) and its effective corollaries (§§0.1, 0.6, 0.9, 0.18, 0.28, 0.31b, 0.32, 1.2, 2.13) have these downstream consumers:
 
-- ZerosOfLFunctions: at `K=ℚ`, the exceptional zero of §§6.3–6.4 and the exceptional terms of §§8.6–8.8.
-- ImaginaryQuadraticClassNumber: H2.3–H2.4, including `quadratic_LFunction_siegel` and `imaginary_classNumber_lower_bound`, which §0.9 and H2.2 give with effective constants.
+- QuadraticCharactersAndReduction: its §Q2 classification of primitive real characters by fundamental discriminants, through §0.34a.
 - EffectiveClassNumbers: its comparison of effective and ineffective class-number bounds, through §0.9.
 - SieveMethodsAndPrimePatterns: its small-conductor and Bombieri–Vinogradov estimates, through §§0.18 and 0.32.
 - ErdosProgressionPowers: its exceptional-zero branches, through §§0.1, 0.6, 0.18 and 0.24.
 - The explicit prime-counting roadmaps: ArithmeticStatisticsPartV and ArithmeticStatisticsPartVII, through Siegel–Walfisz (§0.32) and the real-character estimates (§§0.18, 0.31b), and AnalyticNumberTheoryPartII, through §2.31e, whose quadratic step uses the effective gap of §0.31b.
 
-ZerosOfLFunctions and ImaginaryQuadraticClassNumber also stand before this part; what it takes from them (ZerosOfLFunctions Layers 0–8, ImaginaryQuadraticClassNumber H2.2) precedes §0.34, so their exception-free forms are corollaries of §0.34 and form no cycle.
+ZerosOfLFunctions and ImaginaryQuadraticClassNumber stand before this part and keep their statements; what this part takes from them (ZerosOfLFunctions Layers 0–8, ImaginaryQuadraticClassNumber H2.2) precedes §0.34. The exception-free forms over `ℚ` of ZerosOfLFunctions 6.3–6.4 and 8.6–8.8 and the effective forms of ImaginaryQuadraticClassNumber H2.3–H2.4 (`quadratic_LFunction_siegel`, `imaginary_classNumber_lower_bound`) are stated here (§§0.1, 0.6, 0.9, 0.18, 0.32) and consumed from here by the roadmaps above.
 
 ## References
 
@@ -3249,7 +3241,7 @@ ZerosOfLFunctions and ImaginaryQuadraticClassNumber also stand before this part;
 - [106][R75] Peter J. Cho, Robert J. Lemke Oliver and Asif Zaman, *Effective Brauer–Siegel theorems for Artin `L`-functions*, arXiv:2510.02309v2.
 - [107][R81] Andrew Granville and Dimitris Koukoulopoulos, *Beyond the LSD method for the partial sums of multiplicative functions*, Ramanujan J. 49 (2019), 287–319; arXiv:1710.01389v2.
 - [108] Hugh L. Montgomery, *Zeros of L-functions*, Invent. Math. 8 (1969), 334–345.
-- [109] OpenAI, *Uniform exclusion of Landau–Siegel zeros*, preprint, 2026, open repository; Theorem 1 (statement), §2 Lemma 2 (prime bias forced by a real zero), §6 (completion of the proof).
+- [109] OpenAI, *Uniform exclusion of Landau–Siegel zeros*, OpenAI mathematics release of 1 October 2026, repository `openai/math`, file `preprints/Uniform-exclusion-of-Landau-Siegel-zeros-October-1-2026/paper.pdf`, 9 pages; the numbering is that of the 1 October 2026 version, not of the community revision of 26 October 2026; Theorem 1 (statement), §2 Lemma 2 (prime bias forced by a real zero), §6 (completion of the proof).
 - [110] Ben Green, *On Landau–Siegel zeros*, Hexagon 2610.00311, 2026; Theorem 1.1, §§2–6 (the Gram determinant and its three bounds) and Appendix A (resultants).
 - [111] Terence Tao, *A sketch of the proof of non-existence of Siegel zeroes*, blog post, 2026; an exposition of the argument.
 - [112] Harold Davenport, *Multiplicative Number Theory*, 2nd ed., revised by Hugh L. Montgomery, Graduate Texts in Mathematics 74, Springer, 1980; Chapter 5 (real primitive characters).
