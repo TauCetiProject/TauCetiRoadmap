@@ -39,28 +39,28 @@ open TauCeti
 
 section TwistedFrobenius
 
-variable {k : Type*} [Field k] [Fintype k] (W : WeierstrassCurve k)
-variable (L : Type*) [Field L] [DecidableEq L] [Algebra k L]
-
 /-- The twisted Frobenius kernel `B_i(W, L)` (README §5.10): the points of `W` over `L` that are
 killed by a positive integer prime to the characteristic and satisfy `q^i • π(P) = P`, where `π` is
 the `q`-power map on points. For `L` an algebraic closure it is the group of invariants of the
 prime-to-`p` torsion with the extra `i`-th Tate twist, which is `K_{2i}` of the elliptic curve for
 `i ≥ 1` (README §5.11). It is a subgroup of Mathlib's point group, with no second group law. -/
-noncomputable def twistedFrobeniusKernel (i : ℕ) :
-    AddSubgroup (WeierstrassCurve.Affine.Point (W.baseChange L)) where
-  carrier := {P | (∃ m : ℕ, 0 < m ∧ Nat.Coprime m (ringChar k) ∧ m • P = 0) ∧
-    (Fintype.card k ^ i) • WeierstrassCurve.Affine.Point.map (W' := W.toAffine)
-      (FiniteField.frobeniusAlgHom k L) P = P}
-  zero_mem' := ⟨⟨1, one_pos, Nat.coprime_one_left _, by simp⟩, by simp⟩
-  add_mem' := by
-    rintro P Q ⟨⟨m, hm, hmc, hmP⟩, hP⟩ ⟨⟨n, hn, hnc, hnQ⟩, hQ⟩
-    refine ⟨⟨m * n, Nat.mul_pos hm hn, Nat.Coprime.mul_left hmc hnc, ?_⟩, ?_⟩
-    · rw [smul_add, mul_smul, smul_comm m n P, hmP, mul_smul, hnQ, smul_zero, smul_zero, add_zero]
-    · rw [map_add, smul_add, hP, hQ]
-  neg_mem' := by
-    rintro P ⟨⟨m, hm, hmc, hmP⟩, hP⟩
-    exact ⟨⟨m, hm, hmc, by rw [smul_neg, hmP, neg_zero]⟩, by rw [map_neg, smul_neg, hP]⟩
+noncomputable def twistedFrobeniusKernel {k : Type*} [Field k] [Finite k] (W : WeierstrassCurve k)
+    (L : Type*) [Field L] [DecidableEq L] [Algebra k L] (i : ℕ) :
+    AddSubgroup (WeierstrassCurve.Affine.Point (W.baseChange L)) :=
+  letI : Fintype k := Fintype.ofFinite k
+  { carrier := {P | (∃ m : ℕ, 0 < m ∧ Nat.Coprime m (ringChar k) ∧ m • P = 0) ∧
+      (Nat.card k ^ i) • WeierstrassCurve.Affine.Point.map (W' := W.toAffine)
+        (FiniteField.frobeniusAlgHom k L) P = P}
+    zero_mem' := ⟨⟨1, one_pos, Nat.coprime_one_left _, by simp⟩, by simp⟩
+    add_mem' := by
+      rintro P Q ⟨⟨m, hm, hmc, hmP⟩, hP⟩ ⟨⟨n, hn, hnc, hnQ⟩, hQ⟩
+      refine ⟨⟨m * n, Nat.mul_pos hm hn, Nat.Coprime.mul_left hmc hnc, ?_⟩, ?_⟩
+      · rw [smul_add, mul_smul, smul_comm m n P, hmP, mul_smul, hnQ, smul_zero, smul_zero,
+          add_zero]
+      · rw [map_add, smul_add, hP, hQ]
+    neg_mem' := by
+      rintro P ⟨⟨m, hm, hmc, hmP⟩, hP⟩
+      exact ⟨⟨m, hm, hmc, by rw [smul_neg, hmP, neg_zero]⟩, by rw [map_neg, smul_neg, hP]⟩ }
 
 end TwistedFrobenius
 
@@ -68,11 +68,11 @@ end TwistedFrobenius
 `1 − a_q q^i + q^{2i+1}`** (README §5.11, `finiteFieldK_orders`; Weibel, *K-book*, Theorem VI.6.7).
 Here `K_{2i}(E) ≅ B_i(E, F̄_q)` and `a_q = q + 1 − #E(F_q)` is Tau Ceti's `frobeniusTrace`. The
 hypothesis `1 ≤ i` is needed: for `i = 0` the group is the prime-to-`p` part of `E(F_q)`. -/
-theorem card_twistedFrobeniusKernel {k : Type*} [Field k] [Fintype k] [DecidableEq k]
+theorem card_twistedFrobeniusKernel {k : Type*} [Field k] [Finite k] [DecidableEq k]
     (W : WeierstrassCurve k) [W.IsElliptic] [DecidableEq (AlgebraicClosure k)]
     {i : ℕ} (hi : 1 ≤ i) :
     (Nat.card (twistedFrobeniusKernel W (AlgebraicClosure k) i) : ℤ) =
-      1 - W.frobeniusTrace * (Fintype.card k : ℤ) ^ i + (Fintype.card k : ℤ) ^ (2 * i + 1) := by
+      1 - W.frobeniusTrace * (Nat.card k : ℤ) ^ i + (Nat.card k : ℤ) ^ (2 * i + 1) := by
   sorry
 
 /-! ## Layer 6: Regular models over S-integers and the integral part -/

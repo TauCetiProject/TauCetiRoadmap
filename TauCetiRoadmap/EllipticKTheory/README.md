@@ -133,12 +133,15 @@ The libraries and other roadmaps supply the following foundations.
   of finite fields, which **KTheoryFiniteLocalFields** consumes in its Layer 1; the latter owns
   restriction and transfer for finite fields (§1.5), the K-groups of their algebraic closure
   (§1.6) and the absence of `p`-torsion in `K_2` of a field of characteristic `p` (§3.4).
-  **ArithmeticKTheory** owns rings of `S`-integers as localisations (§1.1), localisation for
-  Dedekind domains and injectivity of `K_2(O_{F,S}) → K_2(F)` (§§2.1, 2.4), Quillen's
-  finite-generation criterion for a Dedekind domain with finite Picard group (§3.2), and finite
-  generation of the K-groups of rings of `S`-integers of number fields with finiteness of their
-  positive even groups (§§3.2–3.4). It does not treat curves over finite fields; their finite
-  generation is §5.5 here.
+  **ArithmeticKTheory** owns rings of `S`-integers as localisations (§1.1), the localisation
+  sequence of `O_{F,S}` indexed by the finite places outside `S` and injectivity of
+  `K_2(O_{F,S}) → K_2(F)` (§§2.1, 2.4), Quillen's finite-generation criterion for a Dedekind
+  domain with finite Picard group (§3.2), its Steinberg-homology hypothesis for the coordinate
+  ring of a smooth affine curve over a finite field with exactly one closed point at infinity
+  (§3.2, curveSteinbergHomology_fg), and finite generation of the K-groups of rings of
+  `S`-integers of number fields with finiteness of their positive even groups (§§3.2–3.4). The
+  K-groups of curves over finite fields, including the reduction from several points at infinity
+  to one, are §5.5 here.
 - **KTheoryFiniteLocalFields** §§3.0, 3.0a and 5.17 owns the shared Bloch complexes, field diagonal, norm-residue comparison, integral and coefficient motivic-to-K towers, Bloch–Gabber–Kato and Geisser–Levine. **MotivesAndAlgebraicCycles** §§4.7–4.8 consumes the same complexes and maps; §4.4 owns the Suslin–Tate weight-one complex, and its identification with the Bloch weight-one model together with the field-limit compatibilities are required of it (gap:field-motivic-comparisons). MotivesAndAlgebraicCycles §4.17 owns its perfect-field higher-Chow comparison. **SchemeKTheoryOperations** owns the operations; the extension of pullback-compatible Adams operations to every noetherian scheme is required of its §6.8 (gap:general-scheme-adams-pullback), and the Adams action, rational weight comparison and finite-coefficient étale comparison on the supplied motivic tower are required of its §§4.5, 6.9 (gap:motivic-k-comparisons). **MotivicEtaleKTheory** §2.3 owns the supported rational cycle-to-K comparison for every regular quasi-projective scheme over any field, including the full-support curve specialisation. Its §2.2 identifies the smooth comparison with the universal character. The rational regular-curve comparison, supported cycle construction and weight decomposition belong to those suppliers. Section 4.5 retains the integral motivic-tower extension to regular curves over arbitrary fields and its comparison with the supplied rational map.
 - **StableHomotopyKTheory** Layer 7 owns Moore-spectrum coefficients, the universal coefficient
   sequences and exact couples. **EtaleDualityAndPerverseSheaves** Layer 0 owns the trace and
@@ -156,9 +159,11 @@ K3BlochGroups §2.2; §4.6 retains its contribution to the curve coniveau filtra
 KTheoryLowDegrees §§12.2, 12.4 own the square-zero rank–Picard product and the pointed elliptic ring product; §2.6 reads their product in the concrete Weierstrass coordinates.
 SchemeKTheoryOperations §6.9 owns the rational projectors and finite-coefficient generalized
 weight decomposition, including every endpoint hypothesis. They are inputs to §4.5.
-The function-field Steinberg homology input to Quillen's criterion is required of ArithmeticKTheory
-§3.2 (gap:function-field-steinberg-homology), which owns the general Dedekind criterion and its
-number-field homology proof; §5.5 applies the criterion to curves over finite fields.
+ArithmeticKTheory §3.2 owns the general Dedekind finiteness criterion and both of its
+Steinberg-homology inputs: the number-field case and curveSteinbergHomology_fg for a smooth affine
+curve over a finite field with exactly one closed point at infinity. Section 5.5 here applies the
+criterion in that one-point case and reaches every smooth affine curve over a finite field by
+localisation at finitely many further closed points.
 
 The regulators of the classes constructed here, and every statement about `L`-values, belong to
 EllipticRegulators and SpecialValuesBirchTate; the p-adic regulators belong to
@@ -407,17 +412,22 @@ with field-map, norm and coefficient naturality (Weibel, VI.4.7, p. 485).
 
 **From ArithmeticKTheory.** §1.1: `O_{F,S}` as a localisation of `O_F`, and the principal-open
 description after inverting finitely many primes using the torsion class group. §§2.1, 2.4: the
-localisation sequence of a Dedekind domain and injectivity of `K_2(O_{F,S}) → K_2(F)`. §3.2:
-Quillen's criterion, for every Dedekind domain `R` with fraction field `K`: if `Pic(R)` is finite
-and every `H_q(Aut_R(P); St(P ⊗ K))` is finitely generated, then every `K_n(R)` is finitely
-generated. §§3.2–3.4: finite generation of `K_n(O_{F,S})` and finiteness of its positive even
-groups for a number field `F`. ArithmeticKTheory does not treat curves over finite fields.
-
-What ArithmeticKTheory must provide (gap:function-field-steinberg-homology): §3.2 must supply, for the
-coordinate ring `R` of a smooth affine curve over a finite field with fraction field `F`, every finite
-projective `R`-module `P` of positive rank and every `q ≥ 0`, finite generation of
-`H_q(Aut_R(P); St(P ⊗_R F))`, proved independently of Harder's finiteness theorem and of positive
-K-group finiteness; in rank one `St(F) = ℤ` in degree `−1`.
+localisation sequence of `O_{F,S}`, indexed by the finite places outside `S`, and injectivity of
+`K_2(O_{F,S}) → K_2(F)`. §3.2: Quillen's criterion, for every Dedekind domain `R` with fraction
+field `K`: if `Pic(R)` is finite and `H_q(Aut_R(P); St(P ⊗ K))` is finitely generated for every
+finitely generated projective `R`-module `P` of positive rank and every `q ≥ 0`, then every
+`K_n(R)` is finitely generated. §3.2 curveSteinbergHomology_fg: let `R` be the coordinate ring of
+a smooth affine integral curve over a finite field whose regular projective model has exactly one
+closed point outside `Spec R`, with fraction field `F`; then for every finitely generated
+projective `R`-module `P` of rank `n ≥ 1` the integral group `H_i(Aut_R(P); St(P ⊗_R F))` is
+finite for `i > 0` and finitely generated for `i = 0`, where `St` is the Steinberg module of its
+Solomon–Tits target, with `St = ℤ` in reduced degree `−1` in rank one. Its proof acts on the
+Bruhat–Tits building at the point at infinity and bounds Harder–Narasimhan polygons; it uses no
+finiteness theorem for the cohomology of `S`-arithmetic groups and no statement about K-groups, so
+neither Harder's theorem nor curveFiniteGeneration of §5.5 is an input to it. The one-point
+hypothesis is part of the contract: for `𝔽₂[t, t⁻¹]` in rank one the automorphism group is
+`{t^k} ≅ ℤ`, with `H₁ = ℤ` infinite. §§3.2–3.4: finite generation of `K_n(O_{F,S})` and finiteness
+of its positive even groups for a number field `F`.
 
 **From MotivesAndAlgebraicCycles.** §4.4: the Suslin–Tate complex and its weight-one identification with `𝔾_m[−1]` over every field. §§4.7–4.8 consume KTheoryFiniteLocalFields §3.0a’s same Bloch complexes, localisation, flat homotopy invariance and cycle descent. Section 4.17 supplies the perfect-field comparison; the arbitrary-field weight-one identification and field-limit compatibility are required below (gap:field-motivic-comparisons).
 
@@ -1455,29 +1465,50 @@ for Dedekind rings of arithmetic type, which covers rings of `S`-integers of glo
 with `S` non-empty; KTheoryLowDegrees §11.2 proves the number-field case, and this target is the
 function-field case of the same argument. *Needs:* KTheoryLowDegrees §§10.1–10.3 and 11.2 for the Mennicke-symbol relations and arithmetic comparison; the function-field arithmetic-ring argument of Weibel III.2.5.1 is the target here.
 
-The Steinberg-homology input to Quillen's criterion is required of ArithmeticKTheory §3.2
-(gap:function-field-steinberg-homology): for the coordinate ring `R` of a smooth affine integral curve
-over a finite field, fraction field `F`, every finite projective `R`-module `P` of positive rank and
-every `h ≥ 0`, the integral group `H_h(Aut_R(P); St(P ⊗_R F))` is finitely generated. Here `St` is the
-top reduced integral homology of the building of proper nonzero `F`-subspaces, with `St(F) = ℤ` in
-degree `−1` in rank one; the contract is proved independently of positive K-group finiteness
-(Quillen, Oberwolfach report 26/1974, p. 7, second theorem; Grayson, pp. 69–90; Weibel IV.6.9,
-preceding paragraph, p. 325). For `R = 𝔽₂[t, t⁻¹]` in rank one, `Aut(R) = ℤ` has `H₁ = ℤ`: finite
-generation, not finiteness, is what the contract supplies.
+The Steinberg-homology input to Quillen's criterion is ArithmeticKTheory §3.2's
+curveSteinbergHomology_fg. It concerns the coordinate ring `R` of a smooth affine integral curve over
+a finite field whose regular projective model has exactly one closed point `∞` outside `Spec R`,
+with fraction field `F`: for every finitely generated projective `R`-module `P` of positive rank, the
+integral group `H_h(Aut_R(P); St(P ⊗_R F))` is finite for `h > 0` and finitely generated for
+`h = 0`. Here `St` is the top reduced integral homology of the building of proper nonzero
+`F`-subspaces, with `St(F) = ℤ` in degree `−1` in rank one; the supplier proves it without positive
+K-group finiteness and without Harder's theorem (Quillen, Oberwolfach report 26/1974, p. 7, second
+theorem; Grayson, pp. 69–90; Weibel IV.6.9, preceding paragraph, p. 325). The one-point hypothesis
+cannot be dropped: for `R = 𝔽₂[t, t⁻¹]` in rank one, `Aut(R) = R^× = {t^k} ≅ ℤ` has `H₁ = ℤ`, which
+is not finite. Rings with several points at infinity are reached below by localisation, not by the
+criterion.
 
 curveFiniteGeneration: if `R` is the coordinate ring of a smooth affine curve over a finite field,
 then `K_n(R)` is finitely generated for every `n ≥ 0`; consequently `K_n(X)` is finitely generated
 for every smooth projective curve `X` over `F_q` (Quillen; Weibel, *K-book*, Theorem IV.6.9 and the
-paragraph before it, p. 325, used in the proof of Theorem VI.6.1, p. 502). The proof applies
-ArithmeticKTheory §3.2's finiteness criterion, which holds for every Dedekind domain. Its first
-hypothesis holds: `Pic(R)` is the quotient of `Pic(X)` by the classes of the finitely many deleted
-closed points, and `Pic(X)` is an extension of a subgroup of `ℤ` by the finite group `Pic⁰(X)`,
-while the deleted points have positive degree, so `Pic(R)` is finite. Its second hypothesis is the Steinberg-homology contract of ArithmeticKTheory §3.2 (gap:function-field-steinberg-homology): for every finite projective `R`-module `P` of positive rank and `q≥0`, `H_q(Aut_R(P);St(P⊗F))` is finitely generated. That contract is proved independently of Harder’s finiteness corollary. Quillen’s finite-generation conclusion is stated in Weibel IV.6.9, p. 325; Grayson’s exposition, pp. 69–90, is cited for its proof. Harder, Korollar (3.2.3), p. 175, assumes Quillen finite generation and cannot supply that step without a cycle. For
-`X`, choose a closed point `x₀`: in the localisation sequence
-`K_n(k(x₀)) → K_n(X) → K_n(X − x₀)` the left group is finitely generated (finite for `n ≥ 1` by
-GeneralAlgebraicKTheory §13.8c, and `ℤ` for `n = 0`) and the right one finitely generated, so
-`K_n(X)` is finitely generated. Finite generation is not
-finiteness: `K_1(F_q[t, t⁻¹]) ≅ F_q^× × ℤ`. *Needs:* ArithmeticKTheory §3.2 (gap:function-field-steinberg-homology); §3.1; GeneralAlgebraicKTheory §13.8c; JacobianChallenge Layers A–B for the Picard group.
+paragraph before it, p. 325, used in the proof of Theorem VI.6.1, p. 502). Let `X_R` be the regular
+projective model of `R` (AlgebraicCurves Layer 12); `X_R − Spec R` is a finite nonempty set of
+closed points, since a proper curve is not affine. First suppose that it is a single closed point
+`∞`, and apply ArithmeticKTheory §3.2's finiteness criterion, which holds for every Dedekind domain.
+Its first hypothesis holds: `Pic(R)` is the quotient of `Pic(X_R)` by the class of `O(∞)`, and
+`Pic(X_R)` is an extension of a subgroup of `ℤ` by the finite group `Pic⁰(X_R)` while `deg ∞ ≥ 1`,
+so `Pic(R)` is finite. (`Pic⁰(X_R)` is finite because, by Riemann–Roch over the exact constant
+field, every class of degree at least the genus contains an effective divisor, a finite field
+admits only finitely many effective divisors of each degree, and translation by a class of degree
+`d` identifies `Pic⁰` with the degree-`d` classes.) Its second hypothesis is curveSteinbergHomology_fg. In general write
+`X_R − Spec R = {∞, x₁, …, x_r}` and let `R₀` be the coordinate ring of the one-point complement
+`X_R − ∞`. Then `Spec R` is the open complement in `Spec R₀` of the closed points `x₁, …, x_r`, and
+coherent localisation with dévissage on the regular scheme `Spec R₀` (SchemeKTheoryOperations §3.5,
+read through the Cartan equivalence of §2.6) gives the exact segment
+`⊕_j K_n(k(x_j)) → K_n(R₀) → K_n(R) → ⊕_j K_{n−1}(k(x_j))`, with `K_{−1} = 0` at `n = 0`. Each
+`k(x_j)` is a finite field, so the right-hand sum is finitely generated (`ℤ` in degree zero, finite
+in positive degrees by GeneralAlgebraicKTheory §13.8c), and `K_n(R₀)` is finitely generated by the
+one-point case; hence `K_n(R)` is finitely generated. The localisation step uses no Steinberg
+homology of `R`. Quillen's finite-generation conclusion is stated in Weibel IV.6.9, p. 325;
+Grayson's exposition, pp. 69–90, is cited for its proof. Harder, Korollar (3.2.3), p. 175, assumes
+Quillen finite generation and cannot supply this step without a cycle. For `X`, choose a closed
+point `x₀`: in the localisation sequence `K_n(k(x₀)) → K_n(X) → K_n(X − x₀)` the left group is
+finitely generated (finite for `n ≥ 1` by GeneralAlgebraicKTheory §13.8c, and `ℤ` for `n = 0`) and
+the right one is the one-point case, so `K_n(X)` is finitely generated. Finite generation is not
+finiteness: `K_1(F_q[t, t⁻¹]) ≅ F_q^× × ℤ`. *Needs:* ArithmeticKTheory §3.2 (the finiteness
+criterion and curveSteinbergHomology_fg); SchemeKTheoryOperations §§2.6, 3.5; GeneralAlgebraicKTheory
+§13.8c; AlgebraicCurves Layer 12 for the regular projective model; JacobianChallenge Layers A–B for
+the Picard group.
 
 reciprocitySequence_exact: the sequence
 `K_2(F) → ⊕_x k(x)^× → F_q^× → 0`, whose second map is `⊕_x N_{k(x)/F_q}`, is exact. Weil reciprocity
@@ -1506,6 +1537,14 @@ K2SymbolsBrauer §§7.2, 8.3, 10.32c; KTheoryFiniteLocalFields §3.4.
 **Checks.**
 
 - `SK_1(F_q[t]) = 0`, and for `R = F_q[t, t⁻¹]`, `K_1(R) = R^× ≅ F_q^× × ℤ`.
+- `R = 𝔽₂[t, t⁻¹]` has two points at infinity, so curveSteinbergHomology_fg does not apply to it
+  (its rank-one `H₁` is `ℤ`). The localisation step with `R₀ = 𝔽₂[t]` and `x₁ = (t = 0)` gives
+  `K_1(𝔽₂[t]) = 1 → K_1(R) → K_0(𝔽₂) = ℤ → K_0(𝔽₂[t]) = ℤ`, whose last map is zero because
+  `[𝔽₂[t]/(t)] = [𝔽₂[t]] − [t𝔽₂[t]] = 0`; so `K_1(R) ≅ ℤ`, generated by `t`, finitely generated as
+  claimed. Applying the criterion directly to `R` would need a Steinberg input the supplier does not
+  provide.
+- For `X_R = ℙ¹_{𝔽₂}` with `∞` the degree-two point `V(t² + t + 1)`, `Pic(R) = ℤ/2ℤ`: finite but
+  nonzero, so the criterion's hypothesis is finiteness, not triviality, of the Picard group.
 - over `𝔽₂`, `⊕_x k(x)^× → 𝔽₂^× = 1` is the zero map onto the trivial group, and
   the image of `∂` is everything.
 - the vanishing of the normed composite alone does not give
@@ -1748,10 +1787,10 @@ Over `𝔽₂` the curve `37a1`, `y² + y = x³ − x`, has `E(𝔽₂) ≅ ℤ/
 
 ### Dependencies
 
-Layers 1–4; MotivicEtaleKTheory §§2.2–2.3; SchemeKTheoryOperations §§2.2–2.4, 2.7, 5.5; GeneralAlgebraicKTheory §§3.2, 4.14;
-SchemeAndStackFoundations §5.11;
+Layers 1–4; MotivicEtaleKTheory §§2.2–2.3; SchemeKTheoryOperations §§2.2–2.4, 2.6–2.7, 3.5, 5.5; GeneralAlgebraicKTheory §§3.2, 4.14;
+SchemeAndStackFoundations §5.11; AlgebraicCurves Layer 12; JacobianChallenge Layers A–B;
 KTheoryLowDegrees §§11.2, 12.3; K2SymbolsBrauer §§10.30, 10.32c, 10.33; GeneralAlgebraicKTheory §13.8c;
-KTheoryFiniteLocalFields §§1.6, 3.0, 3.4, 5.17; ArithmeticKTheory §3.2; KTheoryFiniteLocalFields §3.0a; SchemeKTheoryOperations §§4.5, 6.9 (gap:motivic-k-comparisons); MotivesAndAlgebraicCycles §§4.4, 4.7–4.8 (gap:field-motivic-comparisons); StableHomotopyKTheory §§7.4, 7.8; SelmerIwasawaCohomology §2.7;
+KTheoryFiniteLocalFields §§1.6, 3.0, 3.4, 5.17; ArithmeticKTheory §3.2 (the finiteness criterion and curveSteinbergHomology_fg); KTheoryFiniteLocalFields §3.0a; SchemeKTheoryOperations §§4.5, 6.9 (gap:motivic-k-comparisons); MotivesAndAlgebraicCycles §§4.4, 4.7–4.8 (gap:field-motivic-comparisons); StableHomotopyKTheory §§7.4, 7.8; SelmerIwasawaCohomology §2.7;
 EtaleDualityAndPerverseSheaves §§0.3, 0.5; WeightsInEtaleCohomology R34.2; ArithmeticGaloisDuality
 R02.2 and Layer D7; DeligneWeightsAndPurity DWP.0 §0.2 and DWP.1 §§1.4, 1.6–1.7; ProfiniteCohomology
 Layers 10–11; ModularCurves Layer 2D; EllipticCurves Layers 1–3.
