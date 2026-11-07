@@ -34,7 +34,8 @@ Not statable at the pins:
 * The ramified double-cover triangle, corrected trace-quotient lift, circle obstruction and
   common-lift chase lack the equivariant sheaf cokernel, trace and derived comparison maps.
 * Equivariant Ehresmann lacks the suppliers' regular-level smooth-fibre carrier and its smooth
-  local trivialization data; stratified pair transport lacks invariant control-data interfaces; the finite-index image lacks the
+  local trivialization data; stratified pair transport lacks Whitney stratifications,
+  Thom–Mather control data and controlled vector fields; the finite-index image lacks the
   equivariant topological cohomology comparison map.
 
 Finite coefficient products in the diagonal and Betti theorems are the exact coefficients of
@@ -66,7 +67,7 @@ def configurationPermutation (m : ℕ) (σ : Equiv.Perm (Fin m)) :
 full cycle type, including fixed points. The cohomology is ordinary singular cohomology;
 pullback by the inverse permutation gives its left action (CEF Theorem 3.7).
 Every cohomology group is finite dimensional, and the polynomial sum has finite support. -/
-theorem configurationTraceFormula (F : Type) [Field F] [Fintype F]
+theorem configurationTraceFormula (F : Type) [Field F] [Finite F]
     (m : ℕ) (χ : Multiset ℕ → ℚ) :
     (∀ a : ℕ, FiniteDimensional ℚ
       ((TopCat.of (orderedConfiguration m)).singularCohomology
@@ -75,7 +76,7 @@ theorem configurationTraceFormula (F : Type) [Field F] [Fintype F]
       if f.Monic ∧ Squarefree f ∧ f.natDegree = m then
         χ ((UniqueFactorizationMonoid.normalizedFactors f).map Polynomial.natDegree) else 0) =
       ∑ a ∈ Finset.range (m + 1),
-        (-1 : ℚ) ^ a * (Fintype.card F : ℚ) ^ (m - a) *
+        (-1 : ℚ) ^ a * (Nat.card F : ℚ) ^ (m - a) *
           ((m.factorial : ℚ)⁻¹ * ∑ σ : Equiv.Perm (Fin m),
             χ σ.fullCycleType * LinearMap.trace ℚ _
               (TopCat.singularCohomologyMap

@@ -8,7 +8,8 @@ This roadmap owns arrangement purity, signed integer Euler exponents, Hilton cal
 
 The following objects have one owner and are consumed here.
 
-- TauCetiRoadmap.AlgebraicTopology Stages 2–8 own ordinary relative chains, CW pairs, cofibrations, covering transfer, local systems, products, the ordinary Serre spectral-sequence interface of Stage 5 item 5, cohomology and manifold duality, Euler characteristic, Hurewicz and Whitehead. The new results concern configuration cohomology, rational homotopy and formulas on the supplied semialgebraic site.
+- TauCetiRoadmap.AlgebraicTopology Stages 2–8 own ordinary relative chains, CW pairs, cofibrations, covering transfer, local systems, products, the bundle and monodromy applications of the Serre spectral sequence in Stage 5, cohomology and manifold duality, Euler characteristic, Hurewicz and Whitehead. The new results concern configuration cohomology, rational homotopy and formulas on the supplied semialgebraic site.
+- TauCetiRoadmap.DGFloer Layer 1 item 2 owns CW approximation, the fibration homotopy exact sequence and the ordinary homological and cohomological Serre spectral sequences over the native Serre-fibration predicate; AlgebraicTopology Stage 5 consumes them from there, and so does this roadmap. TauCetiRoadmap.GeneralizedCohomology G2.10 owns the based path-loop Hurewicz fibration and its comparison with the native Serre predicate.
 - TauCetiRoadmap.StableHomotopyKTheory §§3.36–3.37 owns Hurewicz modulo Serre classes and rational H-space theory; §4.6 supplies the homotopy-associative and homotopy-commutative H-space predicates, whose double-loop instance is proved in §4.6 here. TauCetiRoadmap.MorseNovikov N6 owns the smooth closed-manifold Lefschetz formula; the arbitrary-real-closed trace specialization is a MotivesAndAlgebraicCycles §7.6b supplier contract.
 - TauCetiRoadmap.SchemeAndStackFoundations §2.23 owns generic equivariant sheaves, derived invariants, supports and Ext. Its §§2.7 and 2.19 own the generic support and derived right-adjoint operations; §2.23 supplies the forgetful/coinduction injectivity facts used with regular coefficients in §16.4. MotivesAndAlgebraicCycles §§7.6a–7.6b owns their semialgebraic cohomology, orientation and purity specialization; this roadmap proves the additional fixed-locus and cover formulas; it does not introduce a second generic derived category.
 - TauCetiRoadmap.ComplexComparisonPartII §C−1.1 owns scheme analytification, TauCetiRoadmap.EtaleDualityAndPerverseSheaves §§3.5–3.7 owns coefficient/trace comparison, and TauCetiRoadmap.InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T2–IG.0.T4 owns the descended finite/rational compact-support Frobenius trace formula. Only Layers 1–3 use those comparisons. EtaleDualityAndPerverseSheaves §4.7 owns complete-intersection Betti numbers, including the ordinary quartic number used in §13.3.
@@ -17,6 +18,7 @@ The following objects have one owner and are consumed here.
 - Native `GenLoop`, `TauCeti.WedgeSum`, singular cohomology, ordinary pair sequences, and the cyclic projective resolution are used directly. The acceptance abbreviations for spheres and bouquets are specializations of those carriers.
 - TauCetiRoadmap.RealAlgebraicGeometry Layers 3 and 6 own polynomial semialgebraic sets, projection and definability. TauCetiRoadmap.AffineMorseLefschetz A4.1 owns finite compatible triangulation and dimension over ℝ, and TauCetiRoadmap.RealAnalyticGeometry §R2.1 owns the bounded affine theorem with analytic simplex maps. The arbitrary-real-closed triangulation and dimension extension is assigned to AffineMorseLefschetz A4.1 by its supplier contract. The native `TauCeti.IsSemialgebraic` requires a commutative ring and a linear order with no compatibility axiom between them; locus gluing, free-quotient geometry, sites and cohomology are assigned to MotivesAndAlgebraicCycles §7.6a.
 - TauCetiRoadmap.DifferentialGeometry Layers 2, 3 and 10 own orientation covers, finite-dimensional flows and their stated Sard theorem; TauCetiRoadmap.GeometricTopology Layer 1 owns the manifold bridge. TauCetiRoadmap.SmoothBundlesConnections §B1 item 5 owns ordinary Ehresmann transport. Section 16.1 adds finite-involution equivariance, and §12.2 owns the relative surface-curve perturbation needed here.
+- TauCetiRoadmap.StratifiedSpacesAndTameTopology §§5.1, 5.4 and 5.5 own Thom–Mather control data, controlled vector fields with their lifts and local flows, and Thom's first isotopy lemma with its embedded form (Mather, Proposition 11.1). Section 16.2 is the equivariant form for an involution: it adds only the averaging of controlled lifts and the equivariance of the resulting trivialization.
 - TauCetiRoadmap.QWittVectors §1.4a owns the big Witt coordinate/power-series comparison. The exponents in §3.1 are signed integer powers of the factors 1−Tʳ; they are a different transform from the Witt coordinates in factors 1−a_rTʳ.
 
 - TauCetiRoadmap.InverseGaloisAndArithmeticFundamentalGroups §IG.5.1 owns ordered/unordered configurations, their discriminant-open schemes, permutation torsors and complex comparison; TauCetiRoadmap.MotivesAndAlgebraicCycles §§7.6a–7.6b owns the semialgebraic cohomology, duality, purity and Steenrod foundations. Their consumed interfaces and convention checks are described in the supplier contracts; the all-degree Steenrod-conjugated real pushforward is included in the explicit supplier gap below. TauCetiRoadmap.CharacteristicClasses §§C2.3 and C3.2 own Euler evaluation and the orientation-cover/Stiefel–Whitney comparisons, and TauCetiRoadmap.TangentialBordism §B4 item 3 owns Wu classes and w(TM)=Sq(v); §12.1 owns the equality γ_X=w(TX(ℝ)) and applies those results to surfaces.
@@ -71,7 +73,17 @@ Use `TauCeti.IsSemialgebraic` in `TauCeti/Geometry/RealAlgebraic/Semialgebraic/B
 
 ### From TauCetiRoadmap.AlgebraicTopology
 
-Consume Stage 2 ordinary pair/triple chains and their maps, Stage 4 Hausdorff CW models, cellular comparison, cofibration quotients, wedges and suspensions, Stage 5 covering transfer, local systems and product/fibration spectral sequences, Stage 6 ordinary products, local coefficients, orientation and duality, Stage 7 finite-CW Euler characteristic, and Stage 8 relative homotopy, Hurewicz, Whitehead and homotopy-equivalence transport. The ordinary spectral sequence is Stage 5 item 5's explicit Serre-fibration, monodromy and filtration interface, with its cohomological pairing form. The homological construction and the foundational cochain/cup inputs have the ordering stated there.
+Consume Stage 2 ordinary pair/triple chains and their maps, Stage 4 Hausdorff CW models, cellular comparison, cofibration quotients, wedges and suspensions, Stage 5 covering transfer, local systems, the Künneth spectral sequence and the identification of the Serre E² page under trivial monodromy, Stage 6 ordinary products, local coefficients, orientation and duality, Stage 7 finite-CW Euler characteristic, and Stage 8 relative homotopy, Hurewicz, Whitehead and homotopy-equivalence transport. The Serre spectral sequences themselves are not Stage 5 constructions: Stage 5 consumes them from DGFloer Layer 1 item 2, whose contract follows.
+
+### From TauCetiRoadmap.DGFloer and TauCetiRoadmap.GeneralizedCohomology
+
+Consume DGFloer Layer 1 item 2: CW approximation, the fibration homotopy exact sequence with its component terms, `arbitraryCWSerreSpectralSequence` and `arbitraryBaseSerreSpectralSequence` with `E²_(p,q)=H_p(B;H_q(F;R))` for the path-transport monodromy local system, strong convergence to `H_(p+q)(E;R)` and the abutment filtration, and their cohomological counterparts `arbitraryCWSerreCohomologySpectralSequence` and `arbitraryBaseSerreCohomologySpectralSequence` with `E₂^(p,q)=H^p(B;H^q(F;M))`. Their domain is the native `TauCeti.TopCat.serreFibrations` in `TauCeti/Topology/Homotopy/SerreFibration/Basic.lean`, the right lifting property against the disc inclusions into their cylinders; no finite-type or dimension bound is imposed on base or fibre. A locally trivial bundle projection lies in it by `TauCeti.TopCat.mem_serreFibrations_proj` in `TauCeti/Topology/Homotopy/SerreFibration/FiberBundle.lean`, with no paracompactness hypothesis; §4.4 applies this to the unit-tangent sphere bundle. Consume GeneralizedCohomology G2.10 for the based path-loop fibration ΩX→PX→X: endpoint evaluation on the based path space is a Hurewicz fibration, hence a Serre fibration, and the based path space is contractible. Sections 4.3, 4.4 and 4.6 apply the spectral sequences to these fibrations.
+
+**Checks.**
+
+- The connected double cover S¹→S¹, z↦z², has fibre two points and swapping monodromy on `H_0(F;ℤ)=ℤ²`. The coinvariants give `E²_(0,0)=ℤ` and the invariants `E²_(1,0)=ℤ`, matching H₀ and H₁ of the circle; ignoring the monodromy would give `E²_(0,0)=ℤ²`, a disconnected total space.
+- For the path-loop fibration over S², contractibility of PS² forces `d²:E²_(2,q)→E²_(0,q+1)` to be an isomorphism for every q≥0, so `H_q(ΩS²;ℤ)=ℤ` in every degree q≥0.
+- For the Hopf fibration S¹→S³→S², `d²:E²_(2,0)=ℤ→E²_(0,1)=ℤ` is an isomorphism, since H₁(S³)=H₂(S³)=0; the trivial product S²×S¹ instead has zero differential and H₂=ℤ.
 
 ### From TauCetiRoadmap.SchemeAndStackFoundations
 
@@ -120,6 +132,18 @@ Consume DifferentialGeometry Layer 2's orientation cover, Layer 3's finite-dimen
 ### From TauCetiRoadmap.SmoothBundlesConnections
 
 Consume §B1 item 5, the complementary horizontal distribution, local horizontal lifts, and the ordinary theorem that a proper surjective smooth submersion is locally a smooth fibre bundle, for finite-dimensional Hausdorff second-countable boundaryless manifolds. A connected base gives a fixed model fibre; local statements apply componentwise. Properness gives complete lifts on a sufficiently small coordinate ball. Section 16.1 supplies the involution-compatible metric and base linearization, and §16.2 requires invariant control data for the stronger pair statement.
+
+### From TauCetiRoadmap.StratifiedSpacesAndTameTopology
+
+Consume §5.1's tubes (T_p,π_p,ρ_p) and control data: for p<q, π_p∘π_q=π_p and ρ_p∘π_q=ρ_p where both sides are defined, and (π_p,ρ_p) restricts to a smooth submersion T_p∩X_q→X_p×(0,∞); control data restrict to open subsets. Consume §5.4's controlled vector fields, stratumwise smooth fields ξ with dπ_p(ξ_q)=ξ_p∘π_p and dρ_p(ξ_q)=0 on T_p∩X_q near X_p, the assembly of their stratumwise integral curves into a continuous local flow, and the lifting of every smooth vector field on ℝ^m to a controlled field along a controlled submersion to ℝ^m. Consume §5.5's flow-composition trivialization of a proper controlled submersion to ℝ^m (Mather Corollary 10.2) and the embedded first isotopy lemma (Mather Proposition 11.1).
+
+The supplier's Thom–Mather spaces are Hausdorff, locally compact and second countable, with finitely many strata satisfying the frontier condition. Section 16.2 applies them to A∩f⁻¹(U) for a relatively compact chart ball U about the fixed base point: f is proper on A, so A∩f⁻¹(closure U) is compact and local finiteness leaves finitely many strata. The f-compatibility f∘π_p=f near X_p makes f|A a controlled submersion in the chart. Mather's Whitney prestratifications are locally finite and satisfy both the frontier condition and condition (b) (MATHER §5, MATHER lines 206–215), so they meet the supplier's hypotheses after this restriction. Condition (b) is used only to construct control data; §16.2 takes invariant control data as a hypothesis.
+
+**Checks.**
+
+- On ℝ² with strata the origin and its complement, T₀=ℝ², π₀=0 and ρ₀=x²+y², the rotation field −y∂_x+x∂_y is controlled (dρ₀ of it is −2xy+2xy=0, and dπ₀=0 matches the zero field on the point), whereas the radial field is not (dρ₀(x∂_x+y∂_y)=2(x²+y²)≠0).
+- Conjugation σ(x,y)=(x,−y) preserves π₀ and ρ₀, so these control data are invariant, and σ_* sends the rotation field to its negative, again controlled. Averaging it with sign +1 gives the zero field, with sign −1 the rotation field itself.
+- The zero field is controlled and its flow is the identity; over a zero-dimensional base, where m=0, the flow-composition trivialization is the identity of the fibre.
 
 ### From TauCetiRoadmap.InverseGaloisAndArithmeticFundamentalGroups
 
@@ -648,7 +672,7 @@ Use `sphereBouquet` for the specialization of native `TauCeti.WedgeSum` to N cop
 - A family of pointed continuous maps induces a pointed map of bouquets and respects composition.
 - For N=1 the inclusion is a pointed homeomorphism; for N=0 the carrier is a singleton.
 
-A proof can proceed as follows. Construct the basic Whitehead products and their characteristic sphere maps, and compare the resulting weak product of looped spheres with the looped wedge. Connectivity makes the comparison finite in each homotopy degree. Count the basic words by the Möbius identity. The ordinary loop-fibration spectral sequence is the AlgebraicTopology Stage 5 item 5 supplier.
+A proof can proceed as follows. Construct the basic Whitehead products and their characteristic sphere maps, and compare the resulting weak product of looped spheres with the looped wedge. Connectivity makes the comparison finite in each homotopy degree. Count the basic words by the Möbius identity. The homology spectral sequence of the path-loop fibration is DGFloer Layer 1 item 2's `arbitraryBaseSerreSpectralSequence`, applied to the path-loop fibration of GeneralizedCohomology G2.10.
 
 **Checks.**
 
@@ -657,7 +681,7 @@ A proof can proceed as follows. Construct the basic Whitehead products and their
 - Two S² summands give two degree-two homology generators; their smash S⁴ has no degree-two homology.
 - For N=2 the basic-word counts in weights 1,2,3 are 2,1,2. With n=3 the weight-two bracket has sphere dimension 3; a smash of two S² would have dimension 4 and the wrong π₃ rank.
 
-*Needs:* TauCetiRoadmap.AlgebraicTopology Stage 8; §3.2; TauCetiRoadmap.AlgebraicTopology Stage 5 item 5.
+*Needs:* TauCetiRoadmap.AlgebraicTopology Stage 8; §3.2; TauCetiRoadmap.DGFloer Layer 1 item 2; TauCetiRoadmap.GeneralizedCohomology G2.10.
 
 ### 4.4 Rational homotopy of spheres
 
@@ -677,14 +701,14 @@ The acceptance abbreviation `unitSphere` is the subspace sphere of radius 1 cent
 
 The sphere rank statement includes finite dimensionality and the complete formula in every homotopy degree i≥2.
 
-A proof can proceed as follows. Apply the ordinary loop-fibration spectral sequence and rational Hurewicz to the odd-sphere calculation. For even sphere dimension use the unit-tangent sphere fibration to identify the additional degree 2s−1. Prove finite generation, so the rational groups have the stated finite dimensions.
+A proof can proceed as follows. Apply the Serre spectral sequence of the path-loop fibration and rational Hurewicz to the odd-sphere calculation. For even sphere dimension use the unit-tangent sphere fibration to identify the additional degree 2s−1. Prove finite generation, so the rational groups have the stated finite dimensions.
 
 **Checks.**
 
 - S² has ranks one in degrees 2 and 3; S³ has rank one only in degree 3.
 - For the native `unitSphere`, S⁰ has two points and S¹ is a circle, fixing the dimension convention. S² has rational ranks 1 in degrees 2,3; S³ has rank 1 only in degree 3; in both cases all larger degrees outside the stated list have rank 0.
 
-*Needs:* TauCetiRoadmap.AlgebraicTopology Stage 8; TauCetiRoadmap.AlgebraicTopology Stage 5 item 5; TauCetiRoadmap.StableHomotopyKTheory §3.36.
+*Needs:* TauCetiRoadmap.AlgebraicTopology Stage 8; TauCetiRoadmap.AlgebraicTopology Stage 5 for the E² page under trivial monodromy; TauCetiRoadmap.DGFloer Layer 1 item 2; TauCetiRoadmap.GeneralizedCohomology G2.10; Tau Ceti `TauCeti.TopCat.mem_serreFibrations_proj`; TauCetiRoadmap.StableHomotopyKTheory §3.36.
 
 ### 4.5 Rational wedge ranks in Euler notation
 
@@ -705,7 +729,7 @@ A proof can proceed as follows. Sum the Hilton sphere contributions. If k is odd
 
 Let X be a simply connected based CW space of finite rational type, with Ω²X connected and both loop spaces admitting nilpotent CW models of finite rational type. Apply StableHomotopyKTheory §3.37 to the connected, homotopy-associative, homotopy-commutative H-space Ω²X. Its Hopf algebra form identifies rational cohomology with the free graded-commutative algebra on `directSum_(i>=1) (pi_(i+2)(X) tensor QQ)^dual`, placed in degree i. This is the double-loop specialization of the supplier's rational H-space theorem. (BS Lemma 7.6 proof, p.945, BS lines 2393–2401; StableHomotopyKTheory §3.37 and its rational commutative H-space Hopf contract.)
 
-For a finite bouquet X=∨_N Sⁿ⁻¹ with n≥4, also prove that ΩX and Ω²X have nilpotent CW models of finite rational type. CW approximation of the loop spaces and the two path-loop Serre spectral sequences give finite type; loop multiplication makes the fundamental group abelian with trivial action on higher homotopy. The vanishing π₂X=0 gives connectedness of Ω²X. This verifies the hypotheses of the general specialization on every bouquet used in §5.1, including N=0. (BS Lemma 7.6 proof, p.945, BS lines 2393–2401; the CW and Serre comparison inputs are AlgebraicTopology Stages 4–5.)
+For a finite bouquet X=∨_N Sⁿ⁻¹ with n≥4, also prove that ΩX and Ω²X have nilpotent CW models of finite rational type. CW approximation of the loop spaces and the two path-loop Serre spectral sequences give finite type; loop multiplication makes the fundamental group abelian with trivial action on higher homotopy. The vanishing π₂X=0 gives connectedness of Ω²X. This verifies the hypotheses of the general specialization on every bouquet used in §5.1, including N=0. (BS Lemma 7.6 proof, p.945, BS lines 2393–2401; the CW inputs are AlgebraicTopology Stage 4 and DGFloer Layer 1 item 2, the path-loop fibration is GeneralizedCohomology G2.10, and the Serre spectral sequences are DGFloer Layer 1 item 2.)
 
 A proof can proceed as follows. Double-loop concatenation and interchange give the homotopy-associative, homotopy-commutative multiplication. Apply the supplied rational Hurewicz/Hopf isomorphism; the native loop shift identifies π_i(Ω²X) with π_(i+2)(X). Finite dimensionality in each degree permits degreewise duality to the cohomology algebra.
 
@@ -715,7 +739,7 @@ A proof can proceed as follows. Double-loop concatenation and interchange give t
 - For X=S³ the answer is exterior on a degree-one generator, with series 1+t. For X=S⁴ it is ℚ[y₂]⊗Λ(z₅), with series (1+t⁵)/(1−t²), matching §5.1.
 - X=S² has π₀Ω²X=ℤ and fails connectedness. Applying the connected H-space statement to its entire double loop would miss its components.
 
-*Needs:* TauCetiRoadmap.StableHomotopyKTheory §4.6 for the H-space predicates; TauCetiRoadmap.StableHomotopyKTheory §3.37 and its rational commutative H-space Hopf contract; Tau Ceti `HomotopyGroup.zerothHomotopyEquiv`; Tau Ceti `HomotopyGroup.piLoopSpaceMulEquiv`; TauCetiRoadmap.AlgebraicTopology Stage 4 and Stage 5.
+*Needs:* TauCetiRoadmap.StableHomotopyKTheory §4.6 for the H-space predicates; TauCetiRoadmap.StableHomotopyKTheory §3.37 and its rational commutative H-space Hopf contract; Tau Ceti `HomotopyGroup.zerothHomotopyEquiv`; Tau Ceti `HomotopyGroup.piLoopSpaceMulEquiv`; TauCetiRoadmap.AlgebraicTopology Stage 4; TauCetiRoadmap.DGFloer Layer 1 item 2; TauCetiRoadmap.GeneralizedCohomology G2.10.
 
 ### Examples
 
@@ -723,7 +747,7 @@ The polynomial x²y−x has gradient (2xy−1,x²). On x=t,y=1/(2t), for nonzero
 
 ### Dependencies
 
-TauCetiRoadmap.GeometricTopology Layer 1; TauCetiRoadmap.DifferentialGeometry Layers 2–3; §4.1; TauCetiRoadmap.AlgebraicTopology Stage 4; TauCetiRoadmap.AlgebraicTopology Stage 8; TauCetiRoadmap.RealAlgebraicGeometry Layers 3 and 6; TauCetiRoadmap.AffineMorseLefschetz A4.1 (the real-closed triangulation and dimension contract); TauCetiRoadmap.DifferentialGeometry Layer 3; Mathlib `IsArtinianRing.quotNilradicalPowEquivPi` and `IsArtinianRing.isNilpotent_nilradical`; the local-factor identification for the Jacobian algebra, local Milnor fibres, thimbles and controlled attachment in §4.2; §3.2; TauCetiRoadmap.AlgebraicTopology Stage 5 item 5; §4.3; §4.4; TauCetiRoadmap.StableHomotopyKTheory §§3.36–3.37 and §4.6; Tau Ceti `HomotopyGroup.zerothHomotopyEquiv`; Tau Ceti `HomotopyGroup.piLoopSpaceMulEquiv`.
+TauCetiRoadmap.GeometricTopology Layer 1; TauCetiRoadmap.DifferentialGeometry Layers 2–3; §4.1; TauCetiRoadmap.AlgebraicTopology Stage 4; TauCetiRoadmap.AlgebraicTopology Stage 8; TauCetiRoadmap.RealAlgebraicGeometry Layers 3 and 6; TauCetiRoadmap.AffineMorseLefschetz A4.1 (the real-closed triangulation and dimension contract); TauCetiRoadmap.DifferentialGeometry Layer 3; Mathlib `IsArtinianRing.quotNilradicalPowEquivPi` and `IsArtinianRing.isNilpotent_nilradical`; the local-factor identification for the Jacobian algebra, local Milnor fibres, thimbles and controlled attachment in §4.2; §3.2; TauCetiRoadmap.AlgebraicTopology Stage 5; TauCetiRoadmap.DGFloer Layer 1 item 2; TauCetiRoadmap.GeneralizedCohomology G2.10; Tau Ceti `TauCeti.TopCat.mem_serreFibrations_proj`; §4.3; §4.4; TauCetiRoadmap.StableHomotopyKTheory §§3.36–3.37 and §4.6; Tau Ceti `HomotopyGroup.zerothHomotopyEquiv`; Tau Ceti `HomotopyGroup.piLoopSpaceMulEquiv`.
 
 ## Layer 5: double loops and Fermat comparisons
 
@@ -1484,16 +1508,18 @@ A proof can proceed as follows. Use the ordinary proper-submersion and horizonta
 
 ### 16.2 Equivariant stratified pair transport
 
-Let M and B be finite-dimensional Hausdorff second-countable smooth manifolds without boundary, and f:M→B smooth. Suppose f is proper on a closed, locally finite Whitney-stratified subset A⊂M, with every stratum mapping submersively to B, an involution preserving all strata and commuting with f, and chosen invariant f-compatible control data. Locally at a fixed b, controlled horizontal lifts give an equivariant homeomorphic trivialization of A preserving every distinguished union of strata. Apply this to a divisor pair only after verifying these hypotheses for that family. M and B are finite-dimensional smooth manifolds without boundary, the stratification of the closed subset A is locally finite and Whitney, and the involutions on M and B are smooth with f equivariant; each stratum restriction of f is smooth. The Whitney strata and distinguished unions are invariant. The stratified map is proper and stratumwise submersive. Invariant f-compatible control data are given, not assumed automatically. (MATHER, §11 Proposition 11.1, original notes p.62 (PDF p.34, left page), MATHER line 969, for the nonequivariant isotopy lemma; the invariant-control-data refinement and its proof are targets here.)
+Let M and B be finite-dimensional Hausdorff second-countable smooth manifolds without boundary with smooth involutions σ_M and σ_B, and f:M→B a smooth map with f∘σ_M=σ_B∘f. Let A⊂M be a closed subset with a locally finite Whitney stratification in Mather's sense (condition (b) and the frontier condition) whose strata are σ_M-invariant. Suppose f is proper on A and its restriction to each stratum is a submersion. Suppose given control data (T_p,π_p,ρ_p) for A that are f-compatible, f∘π_p=f near X_p, and invariant: σ_M preserves each T_p, π_p∘σ_M=σ_M∘π_p and ρ_p∘σ_M=ρ_p. Then every b∈B fixed by σ_B has a σ_B-invariant open neighbourhood U and a stratum-preserving homeomorphism h:A∩f⁻¹(U)→U×A_b over U, where A_b=A∩f⁻¹(b), with h∘σ_M=(σ_B×σ_M|A_b)∘h. In particular h preserves every union of strata, so it transports a pair (A,D) whenever D is such a union. For trivial involutions this is the embedded first isotopy lemma of StratifiedSpacesAndTameTopology §5.5 (MATHER, §11 Proposition 11.1, original notes p.62 (PDF p.34, left page), MATHER line 969); the equivariance under invariant control data is the target here. Invariant control data are a hypothesis of this statement: an application to a particular divisor family supplies them and verifies the Whitney, properness and stratumwise-submersion hypotheses for that family.
 
-A proof can proceed as follows. Use the given invariant compatible control data and construct controlled horizontal lifts of radial base fields. Their compatibility equations are linear, so averaging preserves them. Integrate with the properness bounds; the resulting homeomorphisms preserve each stratum and hence every distinguished union. Verification of these hypotheses for a particular divisor family is part of any such application.
+A proof can proceed as follows. Average a Riemannian metric on B over σ_B. Its exponential chart at b linearizes σ_B, as in §16.1, and an equivariant radial diffeomorphism identifies an invariant ball U with ℝ^m, on which σ_B is orthogonal with eigenvalues ε_i=±1 on an orthonormal eigenbasis. Restricted to A∩f⁻¹(U), f is then a proper controlled submersion of a Thom–Mather space, as in the supplier contract. Lift each coordinate field ∂_i to a controlled vector field ξ_i by StratifiedSpacesAndTameTopology §5.4 and replace ξ_i by ½(ξ_i+ε_i(σ_M)_*ξ_i). Invariance of the control data makes (σ_M)_*ξ_i controlled, and it lifts (σ_B)_*∂_i=ε_i∂_i; the control equations are linear, so the average is a controlled lift of ∂_i with (σ_M)_*ξ_i=ε_iξ_i. Its local flow φ^i, from §5.4, therefore satisfies σ_M∘φ^i_t=φ^i_(ε_i t)∘σ_M. Build the trivialization of §5.5 from these flows, h⁻¹(t,v)=φ^1_(t_1)∘⋯∘φ^m_(t_m)(v) for v∈A_b; properness on A makes the flows complete over U, the homeomorphism preserves strata (MATHER Corollaries 10.2–10.3, MATHER lines 887–916), and the flow relation gives σ_M(h⁻¹(t,v))=h⁻¹(σ_B t,σ_M v).
 
 **Checks.**
 
-- A family with a changing divisor crossing fails stratified submersivity and is not covered. This does not silently upgrade ordinary Ehresmann.
-- The divisor family xy=t changes its node at t=0: the singular-point stratum exists only over 0, and its map to the parameter line has derivative 0 rather than rank 1. It fails the stratumwise submersion hypothesis. A constant divisor pair has product transport preserving both strata.
+- With trivial involutions every controlled lift is already invariant, the averaging step is the identity, and the statement is the embedded isotopy lemma of StratifiedSpacesAndTameTopology §5.5 with no further content.
+- Averaging is needed. Take M=A=ℝ×S¹ with one stratum, B=ℝ, f the projection, σ_M(x,z)=(x,z̄) and σ_B the identity. The lift ∂_x+∂_θ of ∂_x is controlled but not invariant, since (σ_M)_*∂_θ=−∂_θ; its trivialization is h(x,z)=(x,e^(−ix)z). The point (π/2,1) is fixed by σ_M, so h(σ_M(π/2,1))=h(π/2,1)=(π/2,−i), whereas (σ_B×σ_M)(h(π/2,1))=(π/2,i); this h is not equivariant. The average ½((∂_x+∂_θ)+(σ_M)_*(∂_x+∂_θ)) is ∂_x, whose trivialization h(x,z)=(x,z) is equivariant.
+- For M=A=ℝ×F with F a compact manifold, one stratum, σ_M(b,z)=(−b,τz) and σ_B(b)=−b, ε_1=−1 and (σ_M)_*∂_b=−∂_b, so the averaged lift of ∂_b is ∂_b itself and h is the identity of ℝ×F, equivariant for the product involution. Restricted to the fixed base point b=0, every fibre map commutes with τ.
+- The divisor family xy=t over ℝ changes its node at t=0: the singular-point stratum lies only over 0, and its map to the parameter line has derivative 0 rather than rank 1. It fails the stratumwise submersion hypothesis, and no trivialization can exist near 0: the zero fibre, two lines crossing at the node, is not homeomorphic to a nonzero fibre, which is a smooth curve. A constant divisor pair has product transport preserving both strata.
 
-*Needs:* §16.1.
+*Needs:* §16.1 for the invariant metric and base linearization; TauCetiRoadmap.StratifiedSpacesAndTameTopology §5.1 (control data and their restriction to open subsets), §5.4 (controlled lifts and their local flows) and §5.5 (the flow-composition trivialization and the embedded isotopy lemma).
 
 ### 16.3 Finite-index equivariant lattice image
 
@@ -1528,7 +1554,7 @@ A product family with involution (b,z)↦(−b,τz) has the equivariant product 
 
 ### Dependencies
 
-TauCetiRoadmap.GeometricTopology Layer 1; TauCetiRoadmap.AlgebraicTopology Stage 5; TauCetiRoadmap.SmoothBundlesConnections §B1 item 5; TauCetiRoadmap.DifferentialGeometry Layer 3; §16.1; TauCetiRoadmap.MotivesAndAlgebraicCycles §7.6a; §7.2; TauCetiRoadmap.AlgebraicTopology Stage 4; §14.3; §7.1; TauCetiRoadmap.SchemeAndStackFoundations §2.23.
+TauCetiRoadmap.GeometricTopology Layer 1; TauCetiRoadmap.AlgebraicTopology Stage 5; TauCetiRoadmap.SmoothBundlesConnections §B1 item 5; TauCetiRoadmap.DifferentialGeometry Layer 3; §16.1; TauCetiRoadmap.StratifiedSpacesAndTameTopology §§5.1, 5.4 and 5.5; TauCetiRoadmap.MotivesAndAlgebraicCycles §7.6a; §7.2; TauCetiRoadmap.AlgebraicTopology Stage 4; §14.3; §7.1; TauCetiRoadmap.SchemeAndStackFoundations §2.23.
 
 ## Downstream consumers
 
