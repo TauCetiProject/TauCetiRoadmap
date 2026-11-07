@@ -1,6 +1,9 @@
-import Mathlib
-import TauCeti.AlgebraicGeometry.EllipticCurve.MordellWeil.SelmerGroup
-import TauCeti.AlgebraicGeometry.EllipticCurve.QuadraticTwist.Basic
+module
+
+public import Mathlib
+public import TauCeti.AlgebraicGeometry.EllipticCurve.MordellWeil.SelmerGroup
+public import TauCeti.AlgebraicGeometry.EllipticCurve.QuadraticTwist.Basic
+public import TauCeti.LinearAlgebra.QuadraticForm.TotallyIsotropic
 
 /-!
 # Arithmetic statistics, Part VII: target signatures
@@ -37,6 +40,8 @@ supplied CM ideal action. These results are specified in
 the README; no substitute structures or hypotheses represent their missing objects here.
 -/
 
+@[expose] public section
+
 noncomputable section
 open scoped BigOperators Topology Classical DirectSum
 open Polynomial Filter
@@ -49,10 +54,11 @@ universe u
 
 namespace Distributions
 
-/-- The quadratic-isotropic, polar-self-orthogonal subspaces of §5.4. -/
+/-- The maximal isotropic subspaces of §5.4: totally isotropic for the quadratic form itself
+(`QuadraticMap.IsTotallyIsotropic`, not only for its polar form) and polar-self-orthogonal. -/
 def IsMaxIsotropic {K V : Type*} [Field K] [AddCommGroup V] [Module K V]
     (Q : QuadraticForm K V) (W : Submodule K V) : Prop :=
-  (∀ v ∈ W, Q v = 0) ∧ LinearMap.BilinForm.orthogonal Q.polarBilin W = W
+  Q.IsTotallyIsotropic W ∧ LinearMap.BilinForm.orthogonal Q.polarBilin W = W
 
 /-- The parameter set of maximal quadratic-isotropic subspaces in §5.4. -/
 def maxIsotropicSubspaces {K V : Type*} [Field K] [AddCommGroup V] [Module K V]
@@ -66,13 +72,13 @@ def IsWeaklyMetabolic {K V : Type*} [Field K] [AddCommGroup V] [Module K V]
 
 /-- The intersection dimension generating function of §5.4 counts actual isotropic subspaces. -/
 theorem maxIsotropic_intersection_generating_function {K V : Type*}
-    [Field K] [Fintype K] [AddCommGroup V] [Module K V] [FiniteDimensional K V]
+    [Field K] [Finite K] [AddCommGroup V] [Module K V] [FiniteDimensional K V]
     (Q : QuadraticForm K V) (hQ : IsWeaklyMetabolic Q) (n : ℕ)
     (hdim : Module.finrank K V = 2 * n) (W : Submodule K V)
     (hW : IsMaxIsotropic Q W) (z : ℝ) :
     (∑' Z : {Z : Submodule K V // Z ∈ maxIsotropicSubspaces Q},
       z ^ Module.finrank K ↥(Z.val ⊓ W)) =
-      ∏ i ∈ Finset.range n, (z + (Fintype.card K : ℝ) ^ i) := by sorry
+      ∏ i ∈ Finset.range n, (z + (Nat.card K : ℝ) ^ i) := by sorry
 
 /-- The normalizing infinite product in the Poonen–Rains distribution (§5.5). -/
 def poonenRainsConstant (p : ℕ) : ℝ :=
@@ -175,7 +181,7 @@ def twistTwoSelmerCard (W : WeierstrassCurve ℚ) [W.IsElliptic] [W.IsCharNeTwoN
   haveI : E.IsElliptic := W.isElliptic_quadraticTwistOf 0 (-(b.val : ℚ)) (by
     simpa using (mul_ne_zero (by norm_num : (4 : ℚ) ≠ 0) (Int.cast_ne_zero.mpr b.property)))
   haveI : E.IsCharNeTwoNF := by
-    constructor <;> simp_all [E, WeierstrassCurve.quadraticTwistOf]
+    constructor <;> simp_all [E]
   exact Nat.card (E.toAffine.selmerGroup₂ ℤ (fun _ : Unit => ℝ))
 
 /-- Kane's full rational two-torsion twist distribution, with signed and positive orderings (§5.9).
