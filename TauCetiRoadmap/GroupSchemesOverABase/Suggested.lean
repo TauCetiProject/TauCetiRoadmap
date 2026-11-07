@@ -26,7 +26,10 @@ Headline theorems stated here (README target, Lean name):
   `nodalCurve` (2.6).
 * 3.1, `bijective_baseChange_map_of_thickening`; 3.2, `hom_eq_of_eq_fibre`; 3.3,
   `eq_of_eq_on_torsion`.
-* 4.2, `chevalley`; 4.3, `affinization`.
+* 4.2, `chevalley`; 4.3, `affinization`; 4.5, `isSeparated_of_field`, `smooth_of_isReduced` and
+  `exists_reduced_subgroup`; 4.6, `exists_identityComponent_of_field` and
+  `isIrreducible_connectedComponent`; 4.7, `exists_connectedComponentScheme`; 4.8,
+  `exists_componentGroup`.
 
 Not statable at the pins, with the carrier each lacks:
 
@@ -255,7 +258,7 @@ theorem eq_of_eq_on_torsion {H : Grp (Over S)} (hH : IsMultiplicativeType H) {Y 
 
 end Layer3
 
-/-! ## Layer 4: smooth groups over a field -/
+/-! ## Layer 4: groups over a field -/
 
 section Layer4
 
@@ -279,6 +282,70 @@ generated `k`-algebra and `G ⟶ Spec O(G)` is faithfully flat (Demazure–Gabri
 theorem affinization (G : Grp (Over (Spec (CommRingCat.of k))))
     [LocallyOfFiniteType G.X.hom] [QuasiCompact G.X.hom] :
     G.X.hom.appTop.hom.FiniteType ∧ Flat G.X.left.toSpecΓ ∧ Surjective G.X.left.toSpecΓ := by
+  sorry
+
+/-- **4.5.** A group scheme over a field is separated: its unit section is a closed immersion, and
+the diagonal is the pullback of the unit section along `(g, h) ↦ g h⁻¹` (SGA 3, Exp. VI_A, 0.3). -/
+theorem isSeparated_of_field (G : Grp (Over (Spec (CommRingCat.of k)))) : IsSeparated G.X.hom := by
+  sorry
+
+/-- **4.5.** Over a perfect field, a reduced group scheme locally of finite type is smooth
+(SGA 3, Exp. VI_A, 1.3.1). -/
+theorem smooth_of_isReduced [PerfectField k] (G : Grp (Over (Spec (CommRingCat.of k))))
+    [LocallyOfFiniteType G.X.hom] [IsReduced G.X.left] : Smooth G.X.hom := by
+  sorry
+
+/-- **4.5.** Over a perfect field, the reduced subscheme `G_red` of a group scheme locally of finite
+type is a closed subgroup scheme with the same underlying space, and it is smooth
+(SGA 3, Exp. VI_A, 0.2 and 1.3.1). -/
+theorem exists_reduced_subgroup [PerfectField k] (G : Grp (Over (Spec (CommRingCat.of k))))
+    [LocallyOfFiniteType G.X.hom] :
+    ∃ (H : Grp (Over (Spec (CommRingCat.of k)))) (ι : H ⟶ G),
+      IsClosedImmersion ((Grp.forget _).map ι).left ∧ Surjective ((Grp.forget _).map ι).left ∧
+        IsReduced H.X.left ∧ Smooth H.X.hom := by
+  sorry
+
+/-- **4.6.** The identity component over a field: a group scheme locally of finite type has an
+open connected subgroup scheme, necessarily the connected component `G⁰` of the unit, and it is
+quasi-compact and geometrically irreducible (SGA 3, Exp. VI_A, 2.3.1 and 2.4). -/
+theorem exists_identityComponent_of_field (G : Grp (Over (Spec (CommRingCat.of k))))
+    [LocallyOfFiniteType G.X.hom] :
+    ∃ (H : Grp (Over (Spec (CommRingCat.of k)))) (ι : H ⟶ G),
+      IsOpenImmersion ((Grp.forget _).map ι).left ∧ ConnectedSpace H.X.left ∧
+        QuasiCompact H.X.hom ∧ GeometricallyIrreducible H.X.hom := by
+  sorry
+
+/-- **4.6.** Every connected component of a group scheme locally of finite type over a field is
+irreducible (SGA 3, Exp. VI_A, 2.4.1). -/
+theorem isIrreducible_connectedComponent (G : Grp (Over (Spec (CommRingCat.of k))))
+    [LocallyOfFiniteType G.X.hom] (x : G.X.left) : IsIrreducible (connectedComponent x) := by
+  sorry
+
+/-- **4.7.** The scheme of connected components `π₀(X/k)` of a scheme of finite type over a field:
+a finite étale `k`-scheme with a morphism from `X` that has geometrically connected fibres and is
+universal among morphisms from `X` to finite étale `k`-schemes (Milne, *Algebraic groups*,
+Propositions 1.29–1.31). -/
+theorem exists_connectedComponentScheme (X : Over (Spec (CommRingCat.of k)))
+    [LocallyOfFiniteType X.hom] [QuasiCompact X.hom] :
+    ∃ (P : Over (Spec (CommRingCat.of k))) (q : X ⟶ P), IsFinite P.hom ∧ Etale P.hom ∧
+      GeometricallyConnected q.left ∧
+        ∀ E : Over (Spec (CommRingCat.of k)), IsFinite E.hom → Etale E.hom →
+          Function.Bijective (fun f : P ⟶ E ↦ q ≫ f) := by
+  sorry
+
+/-- **4.8.** The group of connected components `π₀(G/k)` of a group scheme locally of finite type
+over a field: an étale `k`-group with a faithfully flat homomorphism from `G`, universal among
+homomorphisms to étale `k`-groups, whose kernel is an open connected subgroup, the identity
+component `G⁰` (SGA 3, Exp. VI_A, 5.5.1; Milne, *Algebraic groups*, Proposition 2.37). -/
+theorem exists_componentGroup (G : Grp (Over (Spec (CommRingCat.of k))))
+    [LocallyOfFiniteType G.X.hom] :
+    ∃ (E : Grp (Over (Spec (CommRingCat.of k)))) (q : G ⟶ E), Etale E.X.hom ∧
+      Flat ((Grp.forget _).map q).left ∧ Surjective ((Grp.forget _).map q).left ∧
+        (∀ E' : Grp (Over (Spec (CommRingCat.of k))), Etale E'.X.hom →
+          Function.Bijective (fun f : E ⟶ E' ↦ q ≫ f)) ∧
+        ∃ (H : Grp (Over (Spec (CommRingCat.of k)))) (ι : H ⟶ G) (h : ι ≫ q = 0),
+          Nonempty (IsLimit (KernelFork.ofι ι h)) ∧
+            IsOpenImmersion ((Grp.forget _).map ι).left ∧ ConnectedSpace H.X.left := by
   sorry
 
 end Layer4
