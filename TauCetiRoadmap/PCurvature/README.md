@@ -628,6 +628,12 @@ by 1.4.
   (Bostan–Caruso–Roques 2024, Example 3.4); the condition "at infinitely many primes" in place of
   "almost every" would accept it, since `ψ = 0` at `p ≡ 1 (mod 4)`.
 
+Not a target: over `ℚ`, an explicit finite set of primes suffices in 4.3. For `u = c·A/B`,
+`A, B ∈ ℤ[x]` primitive, `c ∈ ℚ`, the equation `y′ = u y` has a nonzero algebraic solution iff
+its `p`-curvature vanishes at every prime `p ∤ res(B, B′)` below a bound `σ` explicit in the
+degrees and heights of `A, B` (Fürnsinn–Pannier, Theorem 1.3, from their effective Kronecker
+theorem, Theorem 1.2); Katz 1982, §9, as they recall, gives a finite set non-constructively.
+
 ### 4.4 The Kummer trivialisation
 
 For `a` as in 4.3 with `n·a = f′/f`, let `U = Spec K[x]_{Qfg}` (`f = F/G`) and
