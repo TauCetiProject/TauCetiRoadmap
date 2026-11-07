@@ -60,6 +60,16 @@ theorem exists_squarefree_radicand_for_character {q : ℕ} [NeZero q]
       ∀ p : ℕ, p.Prime → p ≠ 2 → χ (p : ZMod q) = (jacobiSym d p : ℂ) := by
   sorry
 
+/-- The general Kronecker character and the fundamental-discriminant realization
+already use the same level; the comparison is only a coefficient cast. -/
+example {D : ℤ} (hD : Int.IsFundamentalDiscr D) :
+    TauCeti.kroneckerChar ℂ D (hD.emod_four_eq_zero_or_one.imp id id) hD.ne_zero =
+      TauCeti.Multiquadratic.fundamentalDiscriminantCharCast ℂ D hD := by
+  ext a
+  simp [TauCeti.kroneckerChar_apply,
+    TauCeti.Multiquadratic.fundamentalDiscriminantCharCast,
+    TauCeti.Multiquadratic.fundamentalDiscriminantChar]
+
 /-! ## Q3: native coefficient reduction -/
 
 theorem reduction_kernel (a b : ℤ) (m : ℕ) :

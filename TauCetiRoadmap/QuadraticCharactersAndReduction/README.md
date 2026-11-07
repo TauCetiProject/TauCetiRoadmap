@@ -35,6 +35,7 @@ conjugation is native `star`, sending `ω` to `-ω` in this presentation. For po
 | Supplier | Input to consume | Boundary |
 | --- | --- | --- |
 | Mathlib `Algebra/QuadraticAlgebra/{Defs,Basic,BaseChange,Integral,Int,Rat}.lean` | Coordinates, `basis`, `lift`, `mapRingHom`, trace, norm, conjugation, and field criteria | Supply only missing quotient and explicit reduction comparisons here |
+| Tau Ceti `NumberTheory/LegendreSymbol/KroneckerSymbol.lean` | `kroneckerSym`, `kroneckerChar R D hD hD₀`, evaluation and conductor comparisons | General Kronecker characters already have a native carrier |
 | Tau Ceti `NumberTheory/Multiquadratic/FundamentalDiscriminant/{Character,Realization}.lean` | `fundamentalDiscriminantChar`, `fundamentalDiscriminantCharCast`, primitivity, conductor, scalar compatibility, prime values | Construction of canonical characters remains with this supplier; Q2 owns the converse |
 | Tau Ceti `NumberTheory/DirichletCharacter/Conductor.lean` | Conductor and primitive-reduction comparisons | Q1 supplies the local classification adapters |
 | Tau Ceti `NumberTheory/QuadraticOrder/PrimeIdeal.lean` | `isMaximal_span_natCast_iff`, explicit root ideals, residue cardinalities | Inertness in the presented order is already available without maximal-order identification |
@@ -131,11 +132,14 @@ Retain `d ≠ 1` for the genuine quadratic-field case, both signs, and `|d| ≤ 
 For an imprimitive real character, export its unique primitive discriminant and Q1's
 deleted-factor formula; prove naturality under further changes of level.
 
-This layer also owns the comparison with ThetaSeries §2H: for fundamental `D`, its
-`kroneckerChar D` equals the canonical complex realization
-`fundamentalDiscriminantCharCast ℂ D hD`, after identifying their moduli. ThetaSeries
-supplies the general Kronecker construction independently of this comparison. Its
-specialization to fundamental discriminants consumes the comparison here.
+ThetaSeries §2H consumes the implemented `TauCeti.kroneckerChar`, rather than
+constructing a second character. For fundamental `D`,
+`fundamentalDiscriminantChar D hD` is that native character with values in `ℤ`,
+and its complex realization composes it with `Int.castRingHom ℂ`. Both characters
+already have modulus `D.natAbs`; their comparison is a coefficient-cast identity,
+with no transport of levels. Consume the existing evaluation and scalar-map lemmas
+and supply only missing forms of this identity in Q2. `Suggested.lean` checks the
+identity on the implemented carriers.
 
 Export the odd-prime dictionary for both square-root parameters `r = d` and `r = D`:
 `χ(p) = (r/p)` for every odd prime, including the zero value at a ramified prime.
