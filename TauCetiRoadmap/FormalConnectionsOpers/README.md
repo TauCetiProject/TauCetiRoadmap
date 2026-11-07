@@ -76,12 +76,13 @@ intrinsic descriptions.
   groups over `ℤ`, and the complex reductive coset-affineness theorem. §4.3 owns the
   ordered-root-product, complex-point generation and analytic matrix applications; §3A.5 owns
   the loop-Grassmannian reduction-locus application of 6B. ReductiveGroups Layer 3A.5 owns the
-  classical topology, the smooth charts and the complex Lie-group structure on `G(ℂ)` for every
-  affine algebraic group `G` over `ℂ`, with the chart-at-the-identity identification of its Lie
-  algebra with its Layer 2 tangent Lie algebra; §4.3 consumes these and owns only their transport
-  to the native Hopf-point carrier `WithConv (H →ₐ[ℂ] ℂ)`, the Maurer–Cartan trivialization and
-  rank, the comparison of §2.4's germ tangent map with the counit derivations and their
-  convolution bracket, the realification comparison and the holomorphic exponential chart.
+  complex Lie-group structure on `G(ℂ)` for every affine algebraic group `G` over `ℂ`, on the
+  classical topology and smooth charts of ComplexComparisonPartII C−1.1, with the
+  chart-at-the-identity identification of its Lie algebra with its Layer 2 tangent Lie algebra;
+  §4.3 consumes these and owns only their transport to the native Hopf-point carrier
+  `WithConv (H →ₐ[ℂ] ℂ)`, the Maurer–Cartan trivialization and rank, the comparison of §2.4's
+  germ tangent map with the counit derivations and their convolution bracket, the realification
+  comparison and the holomorphic exponential chart.
 - **LieHighestWeight Layer 7** owns the Lie-algebra Chevalley restriction theorem over every
   algebraically closed characteristic-zero field, with the `Int(L)·H` density argument and the
   homogeneous-degree compatibility. §4.3 imports it and owns only the adapters: group invariants
@@ -2476,9 +2477,6 @@ GeometricRepresentationCategories.
   dictionary), then §4.3's compact-form matching, Zariski density and coaction comparison, the
   restriction isomorphism with its rational descent, and the finite principal triple, exponents,
   Kostant slice and regular-nilpotent/simple-component/unique-Borel theorems.
-- **ReductiveGroups Layer 11** consumes, for its analytic charts, what §4.3 adds on `G(ℂ)` to
-  its own Layer 3A.5 dictionary: the native-carrier transport with the counit-derivation bracket
-  comparison, and the connectedness and central/derived comparisons for connected reductive `G`.
 - **SchubertGeometry** consumes §2.4's fixed-model manifold on the complex points of a separated
   smooth finite-type `ℂ`-scheme and its comparison with ComplexComparisonPartII C−1.1's smooth
   carrier, specialized to its flag and word schemes.
