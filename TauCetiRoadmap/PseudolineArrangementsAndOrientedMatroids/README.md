@@ -56,8 +56,8 @@ other owner; the flag carrier and the cartographic group are discussed below.
 - GraphConnectivityAndFlows Target 1.1 owns connectivity, components and isomorphisms of
   Mathlib's `Graph α β` and its bridges to `SimpleGraph`; skeletons (8.3) are such graphs.
 - RootSystems (Layers 2 and 4) owns Weyl groups as Coxeter systems and the longest element of a
-  Weyl group. The faithfulness of the geometric representation of an arbitrary Coxeter system is
-  owned by no roadmap on main; it is the supplier gap gap:coxeter-geometric-faithfulness below.
+  Weyl group, and its §1.3 owns the faithfulness of the geometric representation of every Coxeter
+  system (`geometric_faithfulness`) and its transport to `I → ℝ`, which 10.1 consumes.
 - Tau Ceti owns the geometric representation of a Coxeter system (supplier contracts).
 - ConformalMapping owns the Jordan-curve material of Tau Ceti (`TauCeti.IsJordanCurve`), which is
   not used here: pseudolines are graphs of continuous functions.
@@ -194,11 +194,11 @@ for subgroups of infinite index, and regular flag systems on arbitrary groups.
 (equivalences of vertex and edge sets preserving `IsLink`, with identity, inverse and composition)
 and the bridge `toSimpleGraph (Graph.ofSimpleGraph H) ≃ H`, for 8.3 and 8.4.
 
-**From RootSystems.** What RootSystems must provide (gap:coxeter-geometric-faithfulness):
-injectivity of `CoxeterSystem.geometricRepresentation` for every Coxeter system
-`cs : CoxeterSystem M W` on an arbitrary index type (Humphreys, §5.4, Corollary to Theorem 5.4),
-for 10.1 and 10.2. RootSystems is the owner of Coxeter combinatorics on main (Layer 3 there); its
-Layers 2 and 4 are named in Scope and not used.
+**From RootSystems.** §1.3, `geometric_faithfulness`: `CoxeterSystem.geometricRepresentation` is
+injective for every Coxeter system `cs : CoxeterSystem M W` on an arbitrary index type (Humphreys,
+§5.4, Corollary), and its transport to `I → ℝ` for finite `I` through
+`Finsupp.linearEquivFunOnFinite`, for 10.1 and 10.2. Its Layers 2 and 4 are named in Scope and not
+used.
 
 Neither pin has orientations of matroids, chirotopes, sign vectors, arrangements of curves,
 wiring diagrams, signotopes or abstract polytopes.
@@ -1359,6 +1359,13 @@ reversing the generators gives the hexagonal map of type `{6,3}` (Coxeter–Mose
 - Vertices are flags over `⟨ρ 1, ρ 2⟩` of order 12, so `12 n² / 12 = n²`; then `3 n²` edges and
   `2 n²` faces, and `n² - 3 n² + 2 n² = 0`.
 
+Not a target: which graphs are 1-skeletons of abstract polytopes is not settled in general. Every
+finite connected simple `r`-regular graph with a proper edge colouring in `r` colours is the
+1-skeleton of a simple abstract `r`-polytope (Araujo-Pardo–Hubard–Oliveros–Schulte 2013,
+Theorem 3.1; `K₄` gives the hemicube `{4,3}/2`). By the diamond condition every edge has exactly
+two vertices, so such skeletons have no loops, unlike the skeletons of maps in 8.3, but may have
+multiple edges (the hosohedron `{2, n}`).
+
 ### Examples
 
 - The five Platonic maps, the hemi-icosahedron and the toroidal maps `{3,6}` on `(ZMod n)²`.
@@ -1374,16 +1381,17 @@ The geometric representation is consumed: Tau Ceti's `TauCeti/GroupTheory/Coxete
 builds, for every `cs : CoxeterSystem M W`, `CoxeterMatrix.geometricForm` (Gram entries
 `-cos (π / M i j)`, so `-1` at an entry `0`), `CoxeterMatrix.geometricReflection` on `B →₀ ℝ`,
 `CoxeterSystem.geometricRepresentation`, the lift, and the exact orders
-`CoxeterSystem.orderOf_simple_mul_simple`. Its faithfulness is gap:coxeter-geometric-faithfulness.
+`CoxeterSystem.orderOf_simple_mul_simple`. Its faithfulness is RootSystems §1.3.
 
 ### 10.1 Function coordinates
 
 For a finite `B`, define `geometricRepresentationFun cs`, the representation on `B → ℝ` obtained by
 conjugating with `Finsupp.linearEquivFunOnFinite` (`LinearEquiv.conjAlgEquiv`). Prove that on
 `cs.simple i` it is the conjugate of `M.geometricReflection i`, and that it is injective, from
-gap:coxeter-geometric-faithfulness.
+RootSystems §1.3 (`geometric_faithfulness` and its transport). The function
+`geometricRepresentationFun` is the carrier of 10.2 here.
 *Needs:* Tau Ceti `CoxeterSystem.geometricRepresentation`,
-`CoxeterSystem.geometricRepresentation_simple`; RootSystems (gap:coxeter-geometric-faithfulness).
+`CoxeterSystem.geometricRepresentation_simple`; RootSystems §1.3 (`geometric_faithfulness`).
 
 **Checks.**
 
@@ -1414,7 +1422,7 @@ representation of `H₃` is the reflection representation of the icosahedral map
 
 ### Dependencies
 
-Layer 7, Tau Ceti and RootSystems (gap:coxeter-geometric-faithfulness). 10.2 uses 10.1.
+Layer 7, Tau Ceti and RootSystems §1.3. 10.2 uses 10.1.
 
 ## Downstream consumers
 
@@ -1501,3 +1509,5 @@ https://grothendieck.umontpellier.fr/80.pdf).
 - J. E. Humphreys, *Reflection Groups and Coxeter Groups*, Cambridge University Press, 1990,
   §5.4, Corollary to Theorem 5.4 (faithfulness of the geometric representation, consumed in
   Layer 10).
+- G. Araujo-Pardo, I. Hubard, D. Oliveros, E. Schulte, « Colorful polytopes and graphs », *Israel
+  J. Math.* (2013), arXiv:1203.5175: Theorem 3.1.

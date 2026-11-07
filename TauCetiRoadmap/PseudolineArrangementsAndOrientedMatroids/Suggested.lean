@@ -76,8 +76,8 @@ Not stated here, with the carrier each lacks:
   (gap:gmap-arbitrary-darts in the README's supplier contracts).
 * 9.3, string C-groups and abstract polytopes: there is no abstract polytope at the pins.
 
-The proof of 10.1–10.2 needs the faithfulness of `CoxeterSystem.geometricRepresentation` for every
-Coxeter system, which is not at the pins (gap:coxeter-geometric-faithfulness in the README).
+The proof of 10.1–10.2 consumes the faithfulness of `CoxeterSystem.geometricRepresentation` for
+every Coxeter system, RootSystems §1.3 (`geometric_faithfulness`), which is not at the pins.
 -/
 
 @[expose] public section
@@ -612,7 +612,7 @@ def geometricRepresentationFun {B W : Type*} [Finite B] [Group W]
     ((Finsupp.linearEquivFunOnFinite ℝ ℝ B).conjAlgEquiv ℝ)).comp cs.geometricRepresentation
 
 /-- The cartographic group acts faithfully on `ℝ ^ (n + 1)` by reflections (Layer 10.2), from the
-faithfulness of the geometric representation (gap:coxeter-geometric-faithfulness). -/
+faithfulness of the geometric representation (RootSystems §1.3, `geometric_faithfulness`). -/
 theorem geometricRepresentationFun_cartographic_injective (n : ℕ) :
     Function.Injective
       (geometricRepresentationFun (stringCoxeterMatrix n 0 (fun _ => by simp)).toCoxeterSystem) :=
