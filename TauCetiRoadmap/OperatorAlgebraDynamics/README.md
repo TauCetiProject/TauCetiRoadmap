@@ -61,6 +61,7 @@ algebras, the standard-fibre model of D5.Fields, disintegration and
 equivalence (D5–D6), with the concrete orbit, sequence, saddle-flow and residue-class
 models of D2 and D6; tensor products of KMS states, the extension of the
 dynamics to the GNS von Neumann algebra with its invariant vector state,
+Araki's bounded perturbations of faithful normal states and of KMS states,
 the zero-temperature limit of Gibbs states and the KMS simplex (D7); CAR
 and Weyl algebras with their free equilibrium states (D8); and the
 quasi-local algebra of quantum spin systems with its infinite-volume
@@ -112,11 +113,16 @@ It leaves to named roadmaps:
 - The von Neumann crossed products `M⋊̄G` themselves, with the regular–normal
   bridge: VonNeumannAlgebras V8 (discrete G, and the regular construction on
   `L²(G,H)` for a normal action) and V11 (second-countable G).
-  Tomita–Takesaki modular theory with the natural cone, and the modular
-  characterization `σ^ω_t=τ̄_(−βt)` of a KMS state on its GNS von Neumann
-  algebra with its converse and support qualification: VonNeumannAlgebras
-  V10. D7 consumes them only to build Araki's bounded perturbations `Ω^Q`
-  of faithful normal states, which are owned here (D7) and applied by D9.
+  Tomita–Takesaki modular theory with the natural cone
+  (V10.ModularTheory), and the KMS characterization of the modular group of
+  a faithful normal state, that a strongly continuous group of normal
+  automorphisms preserving the state satisfies the modular strip condition
+  on M exactly when it is the modular group (V10.KMS): VonNeumannAlgebras
+  V10. D7 proves that a β-KMS state of a unital C*-dynamical system
+  satisfies the strip condition on its GNS von Neumann algebra, so that
+  V10.KMS gives `σ^ω_t=τ̄_(−βt)`, and consumes V10 to build Araki's bounded
+  perturbations `Ω^Q` of faithful normal states, which are owned here (D7)
+  and applied by D9.
 - Hilbert C*-modules beyond Mathlib's `CStarModule`: the C*-algebra `L_A(E)`
   of adjointable maps and the compact module operators `K_A(E)`, the
   interior tensor product `E⊗_φF` of two modules with its induced operators
@@ -259,9 +265,13 @@ positive characters: `f̂(χ)=∫ f(g)χ(g) dμ(g)` and
     (`NonUnitalStarAlgHom.multiplierExtension_coe`) and characterized by
     `π̃(m)π(a)=π(ma)` and `π(a)π̃(m)=π(am)`; its uniqueness among
     multiplicative maps extending π
-    (`NonUnitalStarAlgHom.eq_multiplierExtension_of_apply_coe`); and the
+    (`NonUnitalStarAlgHom.eq_multiplierExtension_of_apply_coe`); the
     strong limit `π(m e)ξ→π̃(m)ξ` along an increasing approximate unit e
-    of A (`NonUnitalStarAlgHom.tendsto_multiplierExtension_apply`).
+    of A (`NonUnitalStarAlgHom.tendsto_multiplierExtension_apply`); and
+    strong continuity of `x↦π̃(u_x)ξ` for a norm-bounded family of
+    multipliers `u_x` on a topological space whose left actions
+    `x↦u_x a` are norm continuous for every a∈A
+    (`NonUnitalStarAlgHom.continuous_multiplierExtension_apply`).
   - Actions (`Action/Basic.lean`, `Action/Equivariant.lean`,
     `Action/Hom.lean`, `Action/Quotient.lean`, `Action/Multiplier.lean`):
     `TauCeti.CStarAction`, an action with norm-continuous orbits on a
@@ -486,6 +496,22 @@ composed with the change-of-measure unitary and a measurable field of
 unitaries `H_x→K_(τ(x))` intertwining `π_x` with `ρ_(τ(x))`
 (Williams, Proposition F.26, p. 419, and Proposition F.33, p. 423).
 
+VonNeumannAlgebras V1 and V10 supply, as a roadmap on main cited by
+section, for D7: Kaplansky's density theorem in its strong-star form, that
+every element of the bicommutant `A''` of a unital star subalgebra A of
+B(H) is a strong-star limit of a net in A, bounded by its norm (V1); for a
+von Neumann algebra M with a cyclic separating vector Ω, the closures
+`S=JΔ^(1/2)` with the modular conjugation J and modular operator Δ,
+`ΔΩ=Ω`, Tomita's theorem `JMJ=M'` and `Δ^(it)MΔ^(−it)=M`, and the natural
+cone `P=closure{Δ^(1/4)xΩ : x∈M, x≥0}` with its self-duality and the
+unique representing vector in P of each normal positive functional
+(V10.ModularTheory); and, for a faithful normal state φ with modular
+group `σ_t(x)=Δ^(it)xΔ^(−it)`, the KMS characterization that a strongly
+continuous φ-preserving group α of normal automorphisms equals σ exactly
+when for all x, y in M there is a bounded continuous function on
+`0≤Im z≤1`, holomorphic inside, with `F(t)=φ(α_t(x)y)` and
+`F(t+i)=φ(yα_t(x))` (V10.KMS).
+
 Declared gaps: each object below is consumed from the named section of
 another roadmap by its slug, which every consuming target cites.
 
@@ -621,10 +647,12 @@ extension of a nondegenerate representation π of A on a Hilbert space to
 *-homomorphism `π̃:M(A)→B(H)` restricting to π and the only multiplicative
 map that does (`NonUnitalStarAlgHom.eq_multiplierExtension_of_apply_coe`),
 with `π(m e_λ)ξ→π̃(m)ξ` along an increasing approximate unit `(e_λ)` of A
-(`NonUnitalStarAlgHom.tendsto_multiplierExtension_apply`). Prove that π̃
-sends a strictly continuous unitary multiplier map `s↦u_s` into `M(A)` to
-a strongly continuous unitary representation of G, from `π̃(u_s)π(a)=π(u_sa)`
-and the density of `π(A)H`. The extension of a nondegenerate *-homomorphism
+(`NonUnitalStarAlgHom.tendsto_multiplierExtension_apply`). For a
+homomorphism `s↦u_s` of G into the unitary group of `M(A)` with
+`s↦u_sa` norm continuous for every a∈A, `s↦π̃(u_s)` is therefore a
+unitary representation of G, strongly continuous by
+`NonUnitalStarAlgHom.continuous_multiplierExtension_apply` (unitary
+multipliers have norm at most 1). The extension of a nondegenerate *-homomorphism
 into `M(B)` for a C*-algebra B, with the strict topology, is
 `gap:cstar-ideals-multipliers`. Recover the pair: every
 nondegenerate representation L of `A⋊_αG` on a Hilbert space is the
@@ -898,7 +926,8 @@ pair. Extend the correspondence to nondegenerate covariant maps into
 multiplier algebras, with strict continuity on the unitary family.
 
 For a nondegenerate representation ρ, let ρ̃ denote its multiplier
-extension. On `L²(G,Hρ)` construct
+extension, Tau Ceti's `NonUnitalStarAlgHom.multiplierExtension`. On
+`L²(G,Hρ)` construct
 
 ```
 Π_ρ(a)ξ(r) = ρ(α_(r⁻¹)(a))ξ(r),
@@ -1014,7 +1043,8 @@ HeisenbergImprimitivity's (Layer 1) and are not built here.
 *Needs:* Tau Ceti's covariant pairs and full crossed product (integrated
 forms, regular representation, universal norm);
 `gap:cstar-ideals-multipliers` (the strict topology, multiplier
-extensions); Tau Ceti `TauCeti.CStarAction.multiplier`; Mathlib
+extensions into `M(B)`); Tau Ceti `TauCeti.CStarAction.multiplier` and
+`NonUnitalStarAlgHom.multiplierExtension` (π̃ and ρ̃); Mathlib
 `CStarAlgebra.approximateUnit`;
 BanachAlgebras A7 (Haar integration, modular character, localized Fubini);
 D1.Modules with the induced Hilbert spaces of `gap:hilbert-module-induction`;
@@ -1809,8 +1839,10 @@ representation, on which S is unitary. They need not converge to I.
 *Needs:* D1 (full exactness); D2 (amenable comparison, gauge
 expectation); D2.BoundedSequenceTranslation (matrix units, the inclusion
 `C₊⋊ℤ→R`); `gap:cstar-representations` (irreducible representations,
-primitive ideals) and `gap:toeplitz-extension` (the concrete Toeplitz
-algebra); Mathlib `lp`.
+primitive ideals), `gap:cstar-ideals-multipliers` (the embedding
+`R→M(K(H))`) and `gap:toeplitz-extension` (the concrete Toeplitz
+algebra); Tau Ceti `NonUnitalStarAlgHom.multiplierExtension` (the
+extension from the compact ideal); Mathlib `lp`.
 
 ### Examples
 
@@ -2843,12 +2875,22 @@ For β≠0 and a β-KMS state ω, Tau Ceti's invariance
 operator topology (`ContinuousLinearMapWOT`), as a consequence of the
 strong continuity Tau Ceti proves, that the vector state
 `ω̄=⟨Ω_ω,·Ω_ω⟩` on M is τ̄-invariant, and that it satisfies the strip
-condition of this section for τ̄ on the *-algebra `π_ω(A)`. The
-identification of τ̄ with the modular group of ω̄ on M,
-`σ^ω̄_t=τ̄_(−βt)`, its converse for a faithful normal state and the support
-qualification for a normal state on a given von Neumann algebra are
-VonNeumannAlgebras V10's; the separating property of `Ω_ω` for unital A is
-Tau Ceti's `TauCeti.CStarAction.IsKMSState.eq_zero_of_apply_toPreGNS_one_eq_zero`.
+condition of this section for τ̄ on the *-algebra `π_ω(A)`. For unital
+A prove that the strip condition holds for all x, y in M: by Kaplansky's
+density theorem in its strong-star form (VonNeumannAlgebras V1) x and y
+are strong-star limits of nets in the unital *-algebra `π_ω(A)`; since
+`U_t*Ω_ω=Ω_ω`, the boundary values of the strip function are
+`⟨x*Ω_ω,U_tyΩ_ω⟩` and `⟨y*Ω_ω,U_t*xΩ_ω⟩`, which converge uniformly in t,
+and by the Phragmén–Lindelöf bound for bounded holomorphic functions on a
+strip the strip functions then converge uniformly on the closed strip. The
+GNS vector is separating
+(`TauCeti.CStarAction.IsKMSState.eq_zero_of_apply_toPreGNS_one_eq_zero`),
+so ω̄ is a faithful normal state of M, and `t↦τ̄_(−βt)` is a strongly
+continuous ω̄-preserving group of normal automorphisms whose strip
+function, composed with `z↦−βz+iβ`, satisfies the modular strip condition
+of VonNeumannAlgebras V10.KMS on `0≤Im z≤1`. The characterization of
+V10.KMS identifies τ̄ with the modular group of ω̄ on M:
+`σ^ω̄_t=τ̄_(−βt)`.
 
 For unital A, `K_β` is convex and weak-* compact by
 `TauCeti.CStarAction.convex_kmsStates` and
@@ -2912,9 +2954,10 @@ define the perturbed vector `Ω^Q=exp((log Δ_Ω+Q)/2)Ω` as its value at
 iterated integral of `Δ_Ω^(s_n)QΔ_Ω^(s_(n−1))Q⋯Δ_Ω^(s_1)QΩ` over the
 simplex `s_i≥0`, `s_1+⋯+s_n≤1/2` (Araki, Relative Hamiltonian,
 Propositions 4.1 and 4.12). Prove that `Ω^Q` lies in `P_Ω`, that
-`‖Ω^Q‖≤exp(‖Q‖/2)‖Ω‖`, and that `Ω^Q` depends strongly continuously on
-Q (Araki, Proposition 4.1); that `Ω^Q` is cyclic and separating
-(Bratteli–Robinson 2, Theorem 5.4.4, cited by locator); the inverse law
+`‖Ω^Q‖≤exp(‖Q‖/2)‖Ω‖`, and that `Ω^(Q_n)→Ω^Q` in norm whenever
+`Q_n→Q` in the strong operator topology (Araki, Proposition 4.1 and its
+proof); that `Ω^Q` is cyclic and separating (Araki, Corollary 4.4); the
+inverse law
 `(Ω^Q)^(−Q)=Ω` and the chain rule `(Ω^Q)^(Q')=Ω^(Q+Q')` (Araki,
 Proposition 4.5); and that Q is determined by the vector `Ω^Q` (Araki,
 Proposition 4.6). Prove the modular characterization
@@ -2924,16 +2967,26 @@ state of `Ω^Q` is `Ad(u_t)∘σ^Ω_t` for the norm-convergent Dyson cocycle
 4.8). Write `ω^Q` for the normalized vector state of `Ω^Q`, a faithful
 normal state of M.
 
-Apply this to KMS states: for a β-KMS state ω of a unital (A,τ) with
-β≠0, whose GNS vector `Ω_ω` is separating for `M=π_ω(A)''` by Tau Ceti,
-and for `P=P*∈A`, put `Q=−βπ_ω(P)` and prove that `ω^Q` restricted to A
-is a β-KMS state of the perturbed dynamics `τ^P`: by the modular
-characterization of VonNeumannAlgebras V10.KMS the modular group of ω̄ is
-`τ̄_(−βt)`, so the modular group of `ω^Q` is `Ad(u_t)∘τ̄_(−βt)=τ̄^P_(−βt)`,
-`u_t` being the cocycle of Tau Ceti's `TauCeti.CStarAction.perturbed` for
-P at time −βt; the converse of V10.KMS then gives the strip condition for
-`τ̄^P` on M, and `TauCeti.CStarAction.IsKMSState.restrict` restricts it to
-A (Bratteli–Robinson 2, Theorem 5.4.4, cited by locator). This is the
+Apply this to KMS states: let ω be a β-KMS state of a unital (A,τ) with
+β≠0, so that `Ω_ω` is cyclic and separating for `M=π_ω(A)''` and
+`σ^ω̄_t=τ̄_(−βt)` as proved above, and let `P=P*∈A`. Write Γ for Tau
+Ceti's perturbation cocycle `TauCeti.CStarAction.perturbationCocycle` of
+P, with values in the unitaries of `M(A)`, π̃_ω for the multiplier
+extension `NonUnitalStarAlgHom.multiplierExtension` of the GNS
+representation (nondegenerate because A is unital), and
+`τ̄^P_t=Ad(π̃_ω(Γ_t))∘τ̄_t` for the perturbed dynamics on M; it is a group
+by the cocycle identity `TauCeti.CStarAction.perturbationCocycle_add` and
+agrees with `π_ω∘τ^P_t` on `π_ω(A)`. Put `Q=−βπ_ω(P)` and prove that
+`ω^Q∘π_ω` is a β-KMS state of `τ^P` (`TauCeti.CStarAction.IsKMSState`;
+Bratteli–Robinson 2, Theorem 5.4.4, cited by locator). Route: the Dyson
+cocycle of Q is `u_t=π̃_ω(Γ_(−βt))`, since both start at 1 and solve
+`u_t'=u_t·iσ^ω̄_t(Q)` with the norm-continuous coefficient
+`σ^ω̄_t(Q)=−βπ_ω(τ_(−βt)(P))`; so the modular group of `ω^Q` is
+`Ad(u_t)∘τ̄_(−βt)=τ̄^P_(−βt)`. The modular strip function of `ω^Q` that
+V10.KMS provides for this group, composed with `w↦i−w/β`, is a strip
+function between `Im w=0` and `Im w=β` with boundary values
+`ω^Q(yτ̄^P_s(x))` and `ω^Q(τ̄^P_s(x)y)`; at `y=π_ω(a)`, `x=π_ω(b)` it is a
+KMS strip function of `ω^Q∘π_ω` for `τ^P` and the pair (a,b). This is the
 perturbation that D9 applies with `Q=βπ_ω(W_Φ(Λ))`, that is `P=−W_Φ(Λ)`.
 
 **Checks.**
@@ -2969,8 +3022,13 @@ perturbation that D9 applies with `Q=βπ_ω(W_Φ(Λ))`, that is `P=−W_Φ(Λ)`
   `log Δ_Ω=L(−βK)−R(−βK)` for the left and right multiplications L and R, so
   for `Q=−βP` the perturbed vector is `Ω^Q=exp(−β(K+P)/2)/√Z_K` and `ω^Q`
   is the Gibbs state of `K+P`, the β-KMS state of `τ^P`; its norm satisfies
-  `‖Ω^Q‖²=Z_(K+P)/Z_K≤exp(β‖P‖)=exp(‖Q‖)`, and
+  `‖Ω^Q‖²=Z_(K+P)/Z_K≤exp(|β|‖P‖)=exp(‖Q‖)`, and
   `log Δ_(Ω^Q)=L(−β(K+P))−R(−β(K+P))=log Δ_Ω+Q−JQJ` because `JQJ=R(Q)`.
+  The Dyson cocycle is `u_t=L(exp(−iβt(K+P))exp(iβtK))`, the right
+  multiplications cancelling, which is `Γ_(−βt)` for Tau Ceti's cocycle
+  `Γ_s=exp(is(K+P))exp(−isK)` of the inner dynamics; for `K=diag(0,1)`,
+  `P=−diag(0,1)` it is `u_t=diag(1,exp(iβt))`, and
+  `Ad(u_t)∘τ_(−βt)=Ad(diag(1,exp(iβt))diag(1,exp(−iβt)))=id=τ^P_(−βt)`.
   The opposite sign `Q=βP` gives the Gibbs state of `K−P`: for
   `K=diag(0,1)` and `P=−diag(0,1)` that is the Gibbs state of `diag(0,2)`,
   not the trace that `τ^P=id` requires.
@@ -2996,6 +3054,11 @@ and SA-B79 (the PVM carrier, integration, null sets, commutative
 representations); D5.Fields with VonNeumannAlgebras V4.0.Fields
 (measurable fields and direct integrals for separable A);
 `gap:cstar-representations` (states and their GNS representations);
+VonNeumannAlgebras V1 (Kaplansky density in its strong-star form, for the
+strip condition on M), V10.ModularTheory (the standard form and natural
+cone of a cyclic separating vector) and V10.KMS (the KMS characterization
+of the modular group), for `σ^ω̄_t=τ̄_(−βt)` and the bounded perturbations
+`Ω^Q`; Tau Ceti `NonUnitalStarAlgHom.multiplierExtension` (π̃_ω);
 Mathlib `PositiveLinearMap.GNS`, `VonNeumannAlgebra`,
 `VonNeumannAlgebra.commutant`, `ContinuousLinearMapWOT`, `DifferentiableOn`
 and `Bornology.IsBounded`.
@@ -3014,10 +3077,10 @@ SelfAdjointSpectralTheory Part B as listed; D5.Fields;
 `gap:cstar-representations` and `gap:cstar-tensor-limits`; Mathlib
 `DifferentiableOn`, `Bornology.IsBounded`, `PositiveLinearMap`,
 `PositiveLinearMap.GNS`, `VonNeumannAlgebra` and `ContinuousLinearMapWOT`.
-VonNeumannAlgebras V10.ModularTheory (the standard form
-`(M,Ω,Δ_Ω,J,P_Ω)` of a cyclic separating vector) and V10.KMS (the modular
-characterization on M with its converse) are consumed by the bounded
-perturbations `Ω^Q` only.
+VonNeumannAlgebras V1 (Kaplansky density), V10.ModularTheory (the
+standard form `(M,Ω,Δ_Ω,J,P_Ω)` of a cyclic separating vector) and V10.KMS
+(the KMS characterization of the modular group) are consumed by the
+identification `σ^ω̄_t=τ̄_(−βt)` and the bounded perturbations `Ω^Q`.
 
 ## D8. CAR, Weyl algebras, and free equilibrium states
 
@@ -3487,9 +3550,8 @@ of a positive-definite matrix through the Hermitian functional calculus).
   second edition: §§5.2–5.3 for CAR/CCR, analytic elements, KMS and ground
   states; Theorem 5.3.30 for the simplex; Volume 1, Lemma 4.1.19, Definition 4.1.20, Proposition 4.1.22 and
   Theorem 4.1.25 for orthogonal measures and their commutant correspondence;
-  Theorem 5.4.4 for the perturbed vectors `Ω^Q`, their cyclic separating
-  property and the perturbation of KMS states, whose sign is checked in
-  finite dimensions; Theorem 6.2.4,
+  Theorem 5.4.4 for the perturbation of KMS states by `Ω^Q`, whose sign
+  is checked in finite dimensions; Theorem 6.2.4,
   Definition 6.2.16 and Theorem 6.2.18 for spin dynamics and Gibbs/KMS;
   Theorems 6.2.40 and 6.2.42 for pressure and the variational principle;
   Proposition 6.2.45 for high-temperature uniqueness.
@@ -3498,9 +3560,10 @@ of a positive-definite matrix through the Hermitian functional calculus).
   [doi:10.2977/prims/1195192744](https://doi.org/10.2977/prims/1195192744):
   Propositions 4.1 and 4.12 (the perturbed vector and its expansion, cone
   membership, norm bound and continuity), 4.3 (the Dyson cocycle and the
-  modular group), 4.5 (inverse and chain laws), 4.6 (uniqueness of the
-  relative Hamiltonian) and 4.8 (the modular operator of the perturbed
-  vector); Araki's `Ψ(h)` is `Ω^h`.
+  modular group), Corollary 4.4 (the perturbed vector is cyclic and
+  separating), Propositions 4.5 (inverse and chain laws), 4.6 (uniqueness
+  of the relative Hamiltonian) and 4.8 (the modular operator of the
+  perturbed vector); Araki's `Ψ(h)` is `Ω^h`, and his `H_Ψ` is `−log Δ_Ψ`.
 - Pierre de la Harpe, *On simplicity of reduced C*-algebras of groups*,
   arXiv:math/0509450: Definition 9 (p. 7), Corollary 12 (p. 8), Theorem 14
   with its proof (pp. 10–11) and the Dixmier-property remark (p. 19), for

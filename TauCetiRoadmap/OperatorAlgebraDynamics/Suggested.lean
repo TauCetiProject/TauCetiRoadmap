@@ -61,6 +61,9 @@ Not statable at the pins, with the carrier each lacks:
 - the Choquet simplex of KMS states and the factor characterisation of its extreme points (D7):
   no Choquet simplex carrier (the invariance, analytic identity, convexity and compactness of
   KMS states are already Tau Ceti's);
+- Araki's perturbed vectors `Ω^Q = exp((log Δ_Ω + Q)/2) Ω` and the perturbation of KMS states by
+  them (D7): no modular operator of a cyclic separating vector (Mathlib's `StandardSubspace` has
+  no Tomita conjugation);
 - the quasi-free KMS states (D8) and the thermodynamic limit, variational principle and
   high-temperature uniqueness theorem (D9): no CAR C*-algebra of a Hilbert space (Tau Ceti's CAR
   files concern the algebraic Clifford algebra of a trace form), no Weyl C*-algebra and no
@@ -159,9 +162,9 @@ structure CentralCocycle {G A : Type*} [Group G] [TopologicalSpace G] [NonUnital
 
 /-- A twisted covariant pair for a central cocycle: a nondegenerate representation `π` of `A` and
 a strongly continuous family of unitaries `U` with `U_e = 1`, the covariance identity, and the
-projective law `U_s U_t = π̃(ω(s,t)) U_(st)` stated after left multiplication by `π(a)`, where
-`π(a) π̃(ω(s,t)) = π(a ω(s,t))`; nondegeneracy makes the two forms equivalent. `U` is not a
-representation unless the represented cocycle is trivial. -/
+projective law `U_s U_t = π̃(ω(s,t)) U_(st)`, where `π̃` is the extension of `π` to the multiplier
+algebra (Tau Ceti's `NonUnitalStarAlgHom.multiplierExtension`). `U` is not a representation
+unless the represented cocycle is trivial. -/
 structure CentralCovariantPair {G A : Type*} (H : Type*) [Group G] [TopologicalSpace G]
     [NonUnitalCStarAlgebra A] [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]
     (α : CStarAction G A) (ω : CentralCocycle α) where
@@ -179,10 +182,11 @@ structure CentralCovariantPair {G A : Type*} (H : Type*) [Group G] [TopologicalS
   covariance : ∀ s a,
     (unitaryMap s : H →L[ℂ] H) * pi a * star (unitaryMap s : H →L[ℂ] H) =
       pi (α s a)
-  /-- The projective law after left multiplication by `π(a)`. -/
-  projective : ∀ s t (a : A),
-    pi a * (unitaryMap s : H →L[ℂ] H) * (unitaryMap t : H →L[ℂ] H) =
-      pi ((ω.value s t : 𝓜(ℂ, A)).snd a) * (unitaryMap (s * t) : H →L[ℂ] H)
+  /-- The projective law `U_s U_t = π̃(ω(s,t)) U_(st)`. -/
+  projective : ∀ s t,
+    (unitaryMap s : H →L[ℂ] H) * (unitaryMap t : H →L[ℂ] H) =
+      pi.multiplierExtension nondegenerate (ω.value s t : 𝓜(ℂ, A)) *
+        (unitaryMap (s * t) : H →L[ℂ] H)
 
 /-- The integrated form of a twisted covariant pair: the vector integrals
 `ξ ↦ ∫ π(f(s)) U_s ξ dμ(s)` of an integrable `f` assemble to a bounded operator of norm at most
