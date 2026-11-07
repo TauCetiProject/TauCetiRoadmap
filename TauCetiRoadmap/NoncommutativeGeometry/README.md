@@ -180,8 +180,10 @@ rebuild them.
   map `S` of the bicomplex as the column shift and the SBI sequence exact
   at every term (`…/Periodicity`, `…/ExactSequence`);
   `periodicCyclicCohomology`, the same-parity direct limit under `S`, with
-  its 2-periodicity (`…/PeriodicCohomology`); `HC^(2k)(R;M)≅M` and
-  `HC^(2k+1)(R;M)=0` for the ground ring (`…/GroundRing`); reduced and
+  its 2-periodicity (`…/PeriodicCohomology`); for the ground ring,
+  `HC^(2k+1)(R;M)=0`, `HC^0(R;M)≅M`, and `HC^(2k)(R;M)≅M` for `k≥1` when
+  multiplication by 2 is injective on `M` (in general `HC^(2k)(R;M)≅M⧸M[2]`
+  for `k≥1`, with `M[2]` the 2-torsion) (`…/GroundRing`); reduced and
   relative cyclic cohomology (`…/Reduced`, `…/Relative`); normalized
   cochains and chains with `b`, `B` and the even Chern chains with
   `(b+B)ch=0` (`…/Normalized/Basic`, `…/Normalized/Chains`,
