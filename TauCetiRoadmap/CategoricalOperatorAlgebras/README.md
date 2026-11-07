@@ -97,8 +97,12 @@ sphericality refer to the chosen dual functor, not just a dagger.
   unbraided multitensor categories is a CA2a target.
 - [PivotalSpherical](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/PivotalSpherical/README.md)
   Layers 0–4 and 9 supply general pivotal/spherical, rigidity, finite
-  semisimple and grading theory. CA2a adds analytic unitary choices and
-  their classification and does not duplicate that categorical API.
+  semisimple and grading theory, and Layer 11 supplies finite
+  semisimplicity, finitely many simple classes and simple unit of the
+  centre `Center C` of a fusion category in characteristic 0, with
+  `dim Z(C)=(dim C)²`. CA2a adds analytic unitary choices and their
+  classification, and CA10 adds unitary half-braidings and the tube
+  algebra; neither duplicates that categorical API.
 - [CStarAlgebras C1–C5](../CStarAlgebras/README.md) supplies C* order,
   representations and CP/CB maps.
 - [HilbertModules H1–H3](../HilbertModules/README.md) supplies right
@@ -485,7 +489,8 @@ and generation by a chosen object. For the generated 2-by-2 category of a subfac
 prove the correspondence between connected right planar modules of
 Subfactors 7.2 and indecomposable pivotal right module C*-categories with a
 simple basepoint m=m⊗1₊ with Tr_m(id_m)=1, generating under the
-alternating strand action.
+alternating strand action (Coles–Huston–Penneys–Srinivas, Theorem A,
+p. 3, with the body statement in §2.3, p. 10).
 Use the prescribed positive Markov tower dimensions: rectangular module
 boxes give the Hom spaces, concatenation gives the action, closure gives
 the module trace, and range projections give the C* completion. Recover
@@ -929,21 +934,44 @@ norm and inner-product identities, and the Toeplitz algebra.
 Define Toeplitz representations (π,t) by the bimodule and inner-product
 relations, construct the universal algebra and prove its faithful
 Fock representation, gauge action and fixed-point filtration.
-Define `J_X=φ⁻¹(K(X))∩(kerφ)^⊥` and Cuntz–Pimsner covariance
-`π(a)=t^(1)(φ(a))` for a∈J_X. Construct O_X, its universal and
-gauge-invariant uniqueness theorems, and the Fock compact-ideal model
-with the correct J_X-corner ideal. Compare the faithful compact-left-
+Define `J_X=φ⁻¹(K(X))∩(kerφ)^⊥`, the largest ideal of B on which φ is
+injective with values in K(X) (Katsura, Definition 3.2, p. 5), and
+Cuntz–Pimsner covariance `π(a)=t^(1)(φ(a))` for a∈J_X (Katsura,
+Definition 3.4, p. 6). Construct O_X with its universal property and
+its gauge-invariant uniqueness theorem: the map from O_X induced by a
+covariant representation is an isomorphism exactly when the
+representation is injective and admits a gauge action (Katsura,
+Theorem 6.4, p. 14). Construct the Fock compact-ideal model with the
+correct J_X-corner ideal and the extension
+`0→K(F(X)J_X)→T_X→O_X→0`. Compare the faithful compact-left-
 action case with quotient by K(F(X)). Prove functoriality under
 correspondence maps with the covariance-ideal hypotheses, and Morita
-transport. For separable B and countably generated X build the Toeplitz
-KK-equivalence with B and the cyclic six-term K sequence using K4–K6:
-`K_i(J_X)→K_i(B)→K_i(O_X)→K_(i−1)(J_X)`. Its first map is
-the action of `[ι:J_X→B]−[X|_(J_X)]` in KK(J_X,B), where the
-restricted left action is compact. Prove the Fock ideal is Morita
-equivalent to J_X and compute that inclusion class. If J_X=B,
-identify the first map as `1−[X]`; no general compact-left-action
-class for X over all of B is assumed. General Cuntz generators retain
-Dynamics D6/OperatorKTheory K7 ownership.
+transport.
+
+For every C*-correspondence X over every C*-algebra B, with no
+separability or countable-generation hypothesis, prove the cyclic
+six-term sequence `K_i(J_X)→K_i(B)→K_i(O_X)→K_(i−1)(J_X)`, whose first
+map is `ι_*−[X]`: here ι:J_X→B is the inclusion and `[X]` is
+`(φ|_(J_X))_*:K_*(J_X)→K_*(K(X))` followed by the map `K_*(K(X))→K_*(B)`
+through the linking algebra `K_B(X⊕B)` (Katsura, Definition 8.3, p. 17,
+and Theorem 8.6, p. 18). Route: the inclusion of B as a full corner of
+`K_B(X⊕B)` induces a K-isomorphism, for separable B and X by
+OperatorKTheory K2.3's Morita invariance and full-corner comparison, and
+in general by exhausting (B,X) by separable sub-pairs with K2.3's
+continuity (Katsura, Lemma B.2 and Proposition B.3, p. 23); hence every
+injective map onto a full hereditary subalgebra is a K-isomorphism
+(Proposition B.5, p. 24). So `φ₀:J_X→K(F(X)J_X)` is a K-isomorphism and
+the Fock ideal is Morita equivalent to J_X (Proposition 8.1, p. 17);
+B→T_X is a K-isomorphism by the suspension and mapping-cone argument of
+Katsura's Appendix C (Proposition 8.2, p. 17); apply OperatorKTheory
+K3's six-term sequence to the Fock extension. For separable B and
+countably generated X, upgrade these two K-isomorphisms to the Toeplitz
+KK-equivalence of T_X with B and the KK-equivalence of the Fock ideal
+with J_X using K4–K6, and identify the first map with the action of
+`[ι:J_X→B]−[X|_(J_X)]` in KK(J_X,B), where the restricted left action
+is compact. If J_X=B, identify the first map as `1−[X]`; no general
+compact-left-action class for X over all of B is assumed. General
+Cuntz generators retain Dynamics D6/OperatorKTheory K7 ownership.
 
 For a countable undirected graph Λ with positive finite real vertex
 weights μ, construct the oriented-edge correspondence over B=C₀(V),
@@ -1011,6 +1039,12 @@ so the planar quotient comparison in CA8 is faithful.
   empty and `O_X=T_X`; the ideal `φ⁻¹(K(X))=B` without the `(ker φ)^⊥`
   factor would impose `π(a)=t^(1)(0)=0` for every a and collapse `O_X`
   to 0.
+- For `X=ℓ²(I)` over `B=ℂ` with I uncountable and scalar left action, X
+  is not countably generated and `φ(1)=1` is not compact, so
+  `φ⁻¹(K(X))=0`, `J_X=0` and `O_X=T_X`; the six-term sequence gives
+  `K₀(O_X)=ℤ`, generated by `[1]`, and `K₁(O_X)=0`. For countably
+  infinite I the same algebra is `O_∞`, with the same groups. A sequence
+  stated only for countably generated X has no instance here.
 - One edge with `μ(v)=16`, `μ(w)=1`: `a=2` gives `a²μ(w)=4=a⁻²μ(v)`; the
   reciprocal `a=1/2` gives `1/4` and `64`.
 - For that weighting `a_μ(v)=μ(w)=1<16`, so `v∈A(Λ,μ)`, and
@@ -1027,8 +1061,9 @@ CStarAlgebras C1; OperatorKTheory K1–K6.
 
 ### Examples
 
-The Checks compute the covariance ideal and K-theory of the Cuntz algebras
-and of `C(S¹)` as Cuntz–Pimsner algebras over ℂ, the weighted one-edge
+The Checks compute the covariance ideal and K-theory of the Cuntz algebras,
+of `C(S¹)` and of the Toeplitz algebra of a nonseparable Hilbert space as
+Cuntz–Pimsner algebras over ℂ, the weighted one-edge
 moments, the set `A(Λ,μ)` for one edge and for one loop, and the rescaling
 of the trace.
 
@@ -1249,11 +1284,25 @@ category, choose the sum of simple generators in the off-diagonal sector,
 and use CA2 to form its finite-depth spherical planar algebra. Apply
 Subfactors 9.1–9.2's hyperfinite standard-model realization, then recover the
 fully faithful multifusion representation in Bim(A⊕B) and its C corner.
-This constructs the fully faithful realization in Bim(R), R hyperfinite
-II₁. Tensor the realized bimodules with the identity bimodule of B(ℓ²)
-or the hyperfinite III₁ factor and identify the resulting factors with
-R_II∞ and R_III₁. Prove full faithfulness by the factor relative-commutant
-calculation, fusion compatibility and the V13 absorption identifications.
+This constructs the fully faithful realization in Bim(R_II₁), R_II₁ the
+hyperfinite II₁ factor. For every hyperfinite factor R with separable
+predual that is not of type I prove `R⊗̄R_II₁≅R` (Henriques–Penneys 2015,
+Lemma 3.4, p. 16): `R⊗̄R_II₁` is an injective factor with separable
+predual by V13b's tensor permanence of semidiscreteness and V11's tensor
+commutation; for R of type II apply V13b's uniqueness of the injective
+II₁ and II∞ factors; for R of type III take the weight `φ⊗τ`, whose
+modular flow is `σ^φ⊗id`, identify the continuous core of `R⊗̄R_II₁`
+with `core(R)⊗̄R_II₁` and its dual flow with `θ⊗id`, so that its flow
+of weights is that of R, and apply V13b's classification of injective
+type III factors (III_λ and III₁ uniqueness, III₀ by the flow of
+weights). Then compose with `Bim(R_II₁)→Bim(R⊗̄R_II₁)≅Bim(R)`,
+`H↦L²(R)⊗H`, to obtain a fully faithful representation of every unitary
+fusion category in Bim(R) for every such R (Henriques–Penneys 2015,
+Theorem 3.5, p. 17; Henriques–Penneys 2020, Theorem 3.15 and
+Corollary 3.16, p. 16). Prove full faithfulness by the factor
+relative-commutant calculation `Hom(L²(R)⊗H,L²(R)⊗K)=ℂ⊗Hom(H,K)` and
+fusion compatibility `(L²(R)⊗H)⊠(L²(R)⊗K)≅L²(R)⊗(H⊠K)`. The instances
+used below are R_II₁, R_II∞ and R_III₁.
 For unitary fusion C and fully faithful representations
 `α:C→Bim(R)`, `β:C→Bim(S)`, with R,S hyperfinite of separable
 predual and either both type II (II₁ or II∞) or both III₁, prove
@@ -1415,7 +1464,8 @@ expectation, standard/minimal index d_ρ² and the tensor/composition
 and corner laws; retain the factor hypothesis in the scalar-index claim.
 
 For separable-predual M and a free ultrafilter ω, build the general
-Ocneanu ultrapower. Let T^ω be the bounded sequences tending strongly-*
+Ocneanu ultrapower (Tomatsu, §2.2, p. 5; Masuda–Tomatsu 2009, §2.4,
+p. 5). Let T^ω be the bounded sequences tending strongly-*
 to zero along ω; let N^ω be their two-sided multiplier algebra inside
 ℓ∞(M), and let C^ω be the bounded sequences with
 `lim_ω‖x_nψ−ψx_n‖_(M_*)=0` for every ψ∈M_*.
@@ -1441,8 +1491,11 @@ simple X, no nonzero a∈M satisfies `ax=α_X^ω(x)a` for every
 x∈M_ω, with a viewed in M^ω by the constant embedding. Strong
 freeness instead quantifies a∈M^ω and tests x∈Q′∩M_ω for every
 countably generated Q⊆M^ω. Prove the required implication from
-central to strong freeness (Masuda–Tomatsu, Lemma 8.2, as cited by
-Tomatsu Remark 2.17(1)) and the relative commutant/corner forms
+central to strong freeness (Masuda–Tomatsu 2007, Lemma 8.2, p. 64, for a
+unital faithful normal homomorphism M→M⊗B(K) of a separable-predual M,
+K finite-dimensional, with a faithful normal ucp left inverse, applied
+with K=ℂ to each α_X with its standard left inverse; Tomatsu,
+Remark 2.17(1)) and the relative commutant/corner forms
 used by the Rohlin construction; keep their different ambient
 intertwiner spaces. Define `ρ(ψ)=ψ∘φ_ρ∈M_*` and
 `(uρ(ψ)u*)(x)=ρ(ψ)(u*xu)`. Approximate unitary equivalence of
@@ -1472,7 +1525,8 @@ and descend its unitary to the preceding predual criterion.
 For hyperfinite II∞ prove the Masuda–Tomatsu characterization
 `ρ approximately inner of rank r ↔ τ∘φ_ρ=r⁻¹τ` for finite-index
 endomorphisms. For hyperfinite III₁ prove every finite-index
-endomorphism approximately inner of each rank r>0. These are targets
+endomorphism approximately inner of each rank r>0 (Masuda–Tomatsu
+2009, Corollary 3.16(3)–(4), p. 29). These are targets
 here, not consequences of V13's automorphism-only theorem. Construct
 Izumi's canonical extension on V11's core, with the positive dual
 action fixed by `θ_s(x)=x` for x∈M, `θ_s(u_t)=exp(i s t)u_t`
@@ -1503,8 +1557,8 @@ give n^(-2it)u_t and does not satisfy this regression.
 For II∞ build trace-scaled partial-isometry approximants. For III₁
 construct the locally trivial inclusion `diag(x,ρ(x))⊂M₂(M)`,
 its weighted conditional expectations and modular/finite-index API;
-prove the weighted approximation theorem used by Masuda–Tomatsu's
-III₁ argument with expectation-weight ratio μ₁/μ₀=r, and extract
+prove the weighted approximation theorem used by the III₁ argument of
+Masuda–Tomatsu 2009 with expectation-weight ratio μ₁/μ₀=r, and extract
 the displayed rank families. The normalizations and estimates needed
 for this application are part of this target.
 
@@ -1618,6 +1672,14 @@ is asserted.
 - With `K=Irr(C)` every product `F·K` equals `Irr(C)`, so
   `|(F·K)△K|_σ=0`, which is the Følner condition for every unitary fusion
   category.
+- For the Powers factor `R_λ`, 0<λ<1, and `C=Hilb(ℤ/2)`: the product action
+  α of ℤ/2 on `R_II₁=⊗̄(M₂(ℂ),tr)` by `Ad(diag(1,−1))` in each factor is
+  outer, and under `R_λ⊗̄R_II₁≅R_λ` the image of the generator is
+  `_ρL²` with `ρ=id⊗α`, again outer. Then `Hom(_ρL²,L²)={t:tρ(a)=at}=0`
+  and `End(_ρL²)=ℂ`, so `g↦_(ρ^g)L²` is a fully faithful representation in
+  a III_λ factor; a statement restricted to the types II₁, II∞ and III₁
+  has no instance here, while for type I the absorption fails
+  (`M_n(ℂ)⊗̄R_II₁≅R_II₁`, not `M_n(ℂ)`).
 
 *Needs:* CA1a, CA1b, CA2a, CA2b, CA6; VonNeumannAlgebras V4, V5, V11, V12, V13;
 Subfactors 1.1–1.2, 9.1–9.2.
@@ -1627,8 +1689,9 @@ Subfactors 1.1–1.2, 9.1–9.2.
 The Checks compute the II∞ amplification cocycle, the reversed composition
 on `M₂(ℂ)`, the ultrapower centralizers of `M_n(ℂ)`, `L(F₂)` and R, the Hom
 spaces and presentations of the corner model, the Hilb-valued transpose on
-Hilbert spaces and on pairs of Hilbert spaces, and the Følner condition for
-`K=Irr(C)`.
+Hilbert spaces and on pairs of Hilbert spaces, the Følner condition for
+`K=Irr(C)`, and a fully faithful representation of `Hilb(ℤ/2)` in the
+III_λ Powers factor.
 
 ### Dependencies
 
@@ -1673,8 +1736,14 @@ half-braiding, apply `1_k̄⊗h⊗1_k` then `1_k̄⊗t`, and close
 Prove this respects the displayed tube multiplication and *. This
 action is contravariant in z, so its module category is identified
 with Z(C)^op; right/dual module conventions are compared explicitly.
-Recover the unitary half-braiding from these simple modules and prove
-Z(C) is unitary fusion, with its canonical spherical dual functor.
+Finite semisimplicity, Hom-finiteness, finitely many simple classes and
+simple unit of the native `Center C` are PivotalSpherical Layer 11, with
+`dim Z(C)=(dim C)²`, and are consumed here. Recover the unitary
+half-braiding from these simple modules, prove every object of
+`Center C` isomorphic to one with unitary half-braiding, so that the
+unitary centre Z†(C) is equivalent to `Center C`, and construct its
+dagger, unitary associators and canonical spherical unitary dual
+functor, making Z(C) unitary fusion.
 Develop the relative tube version for a fully faithful fusion inclusion
 C⊆E, proving Z_C(E) finite semisimple. The reversed braiding retains
 these dagger/duality structures.
@@ -1767,8 +1836,8 @@ CA6 category equivalence supplying the required morphism comparisons.
   modules are labelled by a conjugacy class and an irreducible
   representation of a centralizer, of dimensions 1,1,2 (identity class),
   3,3 (transpositions) and 2,2,2 (three-cycles): eight simple objects of
-  `Z(Hilb(S₃))`, with `1+1+4+9+9+4+4+4=36`. The algebra is not
-  commutative, unlike the abelian cases.
+  `Z(Hilb(S₃))`, with `1+1+4+9+9+4+4+4=36`, equal to `(dim C)²=6²`. The
+  algebra is not commutative, unlike the abelian cases.
 - On the unit object both `r=id` and `r=−id` satisfy `r̄r=φ`. The unitary
   `u=i·id` has `ū=−i·id` and transports r to `ū r u⁻¹=(−i)r(−i)=−r`, so
   the two real structures are conjugate and give the same anchored planar
@@ -1779,7 +1848,7 @@ CA6 category equivalence supplying the required morphism comparisons.
   half-braids uniquely with `Hilb_fd`, so `Z_C(E)=E` and the centralizing
   functor `M→Z_C(E)` is an equivalence, not only fully faithful.
 
-*Needs:* CA2a, CA6, CA9.
+*Needs:* CA2a, CA6, CA9; PivotalSpherical Layer 11.
 
 ### Examples
 
@@ -1789,7 +1858,7 @@ on the unit object, and the centralizer equivalence for `C=Hilb_fd`.
 
 ### Dependencies
 
-CA2a, CA6 and CA9.
+CA2a, CA6 and CA9; PivotalSpherical Layer 11.
 
 ## Downstream consumers
 
@@ -1818,9 +1887,19 @@ CA2a, CA6 and CA9.
 - Penneys, [*Unitary dual functors for unitary multitensor categories*](https://arxiv.org/abs/1808.00323),
   Theorems A,C and §§2–4, for positive grading characters and the
   shaded planar correspondence.
+- Coles–Huston–Penneys–Srinivas, [*The module embedding theorem via towers
+  of algebras*](https://arxiv.org/abs/1810.07049) (2018), Theorem A (p. 3;
+  §2.3, p. 10), for the equivalence between connected right planar modules
+  and indecomposable pivotal right module C*-categories with simple
+  basepoint in CA2b.
 - Henriques–Penneys–Tener, [*Unitary anchored planar algebras*](https://arxiv.org/abs/2301.11114),
   Definitions 3.1–3.6,4.3–4.5 and Theorem A, for states,
   pointings, reflected pairings and category equivalence.
+- Katsura, [*On C*-algebras associated with C*-correspondences*](https://arxiv.org/abs/math/0309088),
+  J. Funct. Anal. 217 (2004), Definitions 3.2 and 3.4, Theorem 6.4,
+  Propositions 8.1–8.2, Definition 8.3, Theorem 8.6 and Appendices B–C,
+  for the ideal `J_X`, covariance, gauge-invariant uniqueness and the
+  six-term sequence for every C*-correspondence in CA7.
 - Hartglass–Penneys, *C*-algebras from planar algebras*,
   [Part I](https://arxiv.org/abs/1401.2485), §§2–5,
   [Part II](https://arxiv.org/abs/1401.2486), §§3–6, for
@@ -1828,19 +1907,29 @@ CA2a, CA6 and CA9.
 - Henriques–Nivedita–Penneys, [*Complete W*-categories*](https://arxiv.org/abs/2411.01678),
   §§2–7, Theorem 7.4, for generator sets, Hilb-valued transpose
   and the bi-involutive biequivalence.
-- Henriques–Penneys, [*Bicommutant categories from fusion categories*](https://arxiv.org/abs/1511.05226),
-  and [*Representations of fusion categories and their commutants*](https://arxiv.org/abs/2004.08271),
+- Henriques–Penneys 2015, [*Bicommutant categories from fusion categories*](https://arxiv.org/abs/1511.05226),
+  Lemma 3.4 (p. 16) and Theorem 3.5 (p. 17), for `R⊗̄R_II₁≅R` and
+  representation existence in every hyperfinite factor not of type I;
+  and Henriques–Penneys 2020, [*Representations of fusion categories and their commutants*](https://arxiv.org/abs/2004.08271),
   §§3.1–3.3, Theorems 3.10,3.15 and Corollary 3.16, for
   representation existence/uniqueness, absorbing objects, positive
   representations and Morita transport.
-- Masuda–Tomatsu, [*Approximate innerness and central triviality of
-  endomorphisms*](https://arxiv.org/abs/0802.0344), Definitions2.1,2.4,3.1,
-  Theorem3.15 and Corollary3.16(3)–(4), for real-rank partial-isometry
-  approximation and its II∞/III₁ characterizations.
+- Masuda–Tomatsu 2007, [*Classification of minimal actions of a compact
+  Kac algebra with amenable dual*](https://arxiv.org/abs/math/0604348),
+  Comm. Math. Phys. 274 (2007), Lemma 8.2 (Appendix, p. 64), for the
+  equivalence of proper central nontriviality and strong outerness.
+- Masuda–Tomatsu 2009, [*Approximate innerness and central triviality of
+  endomorphisms*](https://arxiv.org/abs/0802.0344), Adv. Math. 220 (2009),
+  §2.4 (p. 5), Definitions 2.1, 2.4, 3.1, Theorem 3.15 and
+  Corollary 3.16(3)–(4) (p. 29), for the ultraproduct and central
+  sequence algebras, real-rank partial-isometry approximation and its
+  II∞/III₁ characterizations.
 - Tomatsu, [*Centrally free actions of amenable C*-tensor categories on
   von Neumann algebras*](https://arxiv.org/abs/1812.04222),
-  Theorem D and its Rohlin/approximate-intertwining constructions,
-  for the properly infinite uniqueness theorem in CA9.
+  §2.2 (p. 5), Remark 2.17(1) (p. 16), Theorem D and its
+  Rohlin/approximate-intertwining constructions, for the Ocneanu
+  ultrapower, central and strong freeness and the properly infinite
+  uniqueness theorem in CA9.
 - Henriques–Penneys–Tener, [*Classification of finite-depth objects in
   bicommutant categories via anchored planar algebras*](https://arxiv.org/abs/2307.13822),
   §§3–4, especially the main-body factor setup on p.16, for CA10.

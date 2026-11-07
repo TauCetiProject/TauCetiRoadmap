@@ -31,15 +31,16 @@ theorems are statements about those. Each headline and the carrier it lacks:
   bimodule category.
 * CA6, unitary anchored planar algebras equivalent to pointed unitary pivotal `V`-module
   multitensor categories: no anchored planar operad and no unitary braided pivotal category.
-* CA7, the Pimsner six-term sequence and `K₀(S(Λ,μ)) ≅ ℤ^(V)`, `K₁(S(Λ,μ)) = 0`: no operator
-  K-theory and no Cuntz–Pimsner algebra.
+* CA7, the six-term sequence of `O_X` for every C*-correspondence X (Katsura, Theorem 8.6) and
+  `K₀(S(Λ,μ)) ≅ ℤ^(V)`, `K₁(S(Λ,μ)) = 0`: no operator K-theory and no Cuntz–Pimsner algebra.
 * CA8, the canonical planar C*-towers: weak closures II₁ factors of Jones index `δ²`,
   `K₀(A_k) ≅ ⊕_(v ∈ VΓ) ℤ`, Watatani index `δ²` and Pimsner–Popa bases of `N(δ²)` elements:
   no planar algebra, Jones or Watatani index, or operator K-theory.
 * CA9, the biequivalence between von Neumann algebras with normal correspondences and complete
-  W*-categories, existence and uniqueness of fully faithful representations of a unitary fusion
-  category in hyperfinite factors, and the factor case of Tomatsu's Theorem D: no W*-category,
-  no normal correspondence or Connes fusion, and no hyperfinite factor.
+  W*-categories, existence of fully faithful representations of a unitary fusion category in
+  every hyperfinite factor not of type I and their uniqueness in types II and III₁, and the
+  factor case of Tomatsu's Theorem D: no W*-category, no normal correspondence or Connes fusion,
+  and no hyperfinite factor.
 * CA10, the bijection between conjugacy classes of finite-depth real objects in a fusion
   commutant and connected finite-depth unitary anchored planar algebras in `Z(C)^rev`: no
   bicommutant category and no anchored planar algebra.
