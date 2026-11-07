@@ -54,7 +54,8 @@ contract, and DeRhamCohomologyAndDuality is downstream of this roadmap.
 
 The acceptance statements are `finite_rank_runge_approximation` and
 `mixed_parameter_solver` in Layer 2 and
-`realified_isManifold_analytic`, `holomorphicStalk_noetherian` and
+`realified_isManifold_analytic`, `weierstrass_preparation`,
+`weierstrass_preparation_unique`, `weierstrass_division`, `holomorphicStalk_noetherian` and
 `holomorphicStalk_factorial` in Layer 3. The other headline theorems and their
 missing geometric carriers are listed in the module docstring of Suggested.lean.
 
@@ -627,7 +628,15 @@ maximal-ideal comparison. Consume `AnalyticOnNhd.eqOn_of_preconnected_of_eventua
 the identity theorem. Develop several-variable convergent power-series comparisons. Prove
 Weierstrass preparation and division with their precise uniqueness: when `w ↦ f(0,w)` has
 finite order d, the germ is a unit times a monic degree-d polynomial with holomorphic coefficient
-germs vanishing at the origin (Demailly II §2, Theorems 2.1 and 2.3, pp. 79–81). Construct the contour/power-sum proof and Newton
+germs vanishing at the origin (Demailly II §2, Theorems 2.1 and 2.3, pp. 79–81). In
+coordinates `(z,w)` on `ℂⁿ × ℂ`, for f holomorphic at the origin with `w ↦ f(0,w)` of order
+exactly d (its first d derivatives at 0 vanish and the d-th does not), `weierstrass_preparation`
+gives `f = u·(w^d + Σ_(i<d) a_i(z) w^i)` near the origin with u a holomorphic unit and every
+`a_i` holomorphic with `a_i(0)=0`, and `weierstrass_preparation_unique` says that two such
+factorizations have the same unit germ and the same coefficient germs. For such a g of order
+exactly d, `weierstrass_division` writes every germ f holomorphic at the origin as
+`f = g q + Σ_(i<d) r_i(z) w^i` near the origin with q and every `r_i` holomorphic, and the germs
+of q and of the `r_i` are unique. Construct the contour/power-sum proof and Newton
 identities, using ContourIntegration's residue/argument-principle inputs and K3.0
 parameter dependence. Consume `MvPolynomial.mul_esymm_eq_sum` for Newton identities and
 align the factorization API with `PowerSeries.IsWeierstrassFactorization`.
@@ -641,6 +650,8 @@ The holomorphic stalk API includes:
 
 - At the point of ℂ⁰ the stalk is ℂ, its maximal ideal is zero and every nonzero constant is a unit.
 - At 0∈ℂ the coordinate germ z has value 0 and is a nonunit; its order is 1.
+- For n=0 and f(w)=w²+w³=w²(1+w), preparation gives d=2, u=1+w and zero coefficient germs. Dividing 1+w+w² by g=w² gives q=1 and remainder 1+w; a remainder allowed degree up to d would also admit q=0 with remainder 1+w+w², so the degree bound below d is what makes division unique.
+- For n=1 and f(z,w)=w²−z, preparation gives d=2, u=1, a₁=0, a₀(z)=−z with a₀(0)=0; for f(z,w)=1+z+w, d=0 and u=f; the hypothesis that the d-th derivative is nonzero fails for f(z,w)=z, whose restriction w↦f(0,w) is identically 0.
 - The germ 1+z at 0 has value 1 and inverse germ 1/(1+z); treating every nonconstant germ as a nonunit would fail.
 - In the one-variable stalk, (z²,z³)=(z²) and z²(1+z) has two factors z up to the unit 1+z; in two variables zw has the two nonassociate prime factors z and w.
 - The analogous real smooth stalk is not a domain: the smooth germs exp(−1/x) on x>0, extended by zero, and its reflection are both nonzero but their product is zero. The complex smooth sheaf in the theorem is essential.
