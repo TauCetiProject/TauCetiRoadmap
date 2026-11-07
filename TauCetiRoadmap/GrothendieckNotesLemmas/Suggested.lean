@@ -15,17 +15,15 @@ Headline theorems stated here (README target, Lean name):
 * 1.1, `Nat.pow_dvd_iff_forall_dvd_choose`; 1.2, `Nat.choose_pow_sub_one_modEq_neg_one_pow`;
   1.3, `Polynomial.forall_hasseDeriv_eq_zero_iff_exists_expand`; 1.4,
   `Polynomial.hasseDeriv_expand_mul`; 1.5, `Polynomial.isCoprime_X_sub_C_iff`; 1.6,
-  `Matrix.det_pascal`; 1.7, `mul_pow_of_commute_commutatorElement` and
-  `mul_pow_prime_of_commute_commutatorElement`; 1.8, `Subgroup.isPerfect_normalClosure`.
-* 2.1, `Module.Flat.pi_iff` and `Module.Flat.prod_iff`; 2.2,
-  `Module.FinitePresentation.piRightHom_bijective`; 2.3,
+  `Matrix.det_pascal`; 1.7, `mul_pow_prime_of_commute_commutatorElement`; 1.8,
+  `Subgroup.isPerfect_normalClosure`.
+* 2.1, `Module.Flat.prod_iff`; 2.2, `Module.FinitePresentation.piRightHom_bijective`; 2.3,
   `isNoetherianRing_iff_forall_finitePresentation`; 2.4,
-  `TensorProduct.mem_range_rTensor_iff_equivFinsuppOfBasisRight`; 2.5,
-  `Ideal.injective_primaryComponent`; 2.6, `IsAdicComplete.of_isNilpotent`; 2.7,
-  `KaehlerDifferential.exists_retraction_mapBaseChange`; 2.8, `AddSubgroup.rat_smul_mem_iff`; 2.9,
-  `Module.injective_iff_forall_smul_surjective` and `Module.Injective.quotient`; 2.10,
+  `TensorProduct.mem_range_rTensor_iff_equivFinsuppOfBasisRight`; 2.6,
+  `KaehlerDifferential.exists_retraction_mapBaseChange`; 2.7, `AddSubgroup.rat_smul_mem_iff`; 2.8,
+  `Module.injective_iff_forall_smul_surjective` and `Module.Injective.quotient`; 2.9,
   `Module.Flat.isSMulRegular_quotient_smul_top` and `Submodule.IsAssociatedPrime.comap_eq_of_flat`;
-  2.11, `IsFractionRing.nonempty_torsionBy_linearEquiv`; 2.12, `Module.IsTorsion.isFiniteLength`.
+  2.10, `IsFractionRing.nonempty_torsionBy_linearEquiv`.
 * 3.1, `Derivation.leibniz_zpow_units`; 3.2, `Derivation.lie_mulLeft` and
   `Derivation.mulLeft_mul_mul_mulLeft_inv`.
 * 4.1, `ContinuousMap.continuous_curry_of_locallyCompactSpace`,
@@ -37,12 +35,22 @@ Headline theorems stated here (README target, Lean name):
   `GrothendieckGroup.exists_eq_div_of_and_eq_div_of`; 5.5,
   `IsSimpleModule.nonempty_linearEquiv_of_trace_eq`.
 
-Every headline of the README is statable at the pins and stated. The homeomorphism of README 4.1
-is the bundling of its two continuity theorems and is not restated.
+Every headline of the README is statable at the pins. The homeomorphism of README 4.1 is the
+bundling of its two continuity theorems and is not restated. Three README statements follow from
+the pins in two lines and are not restated: the finite-product form of 2.1 (Mathlib's
+`Module.Flat.directSum_iff`, transported by `Module.Flat.of_linearEquiv` along
+`DirectSum.linearEquivFunOnFintype`), 2.5 (Tau Ceti's `TauCeti.isAdicComplete_of_pow_smul_eq_bot`)
+and 2.11 (Mathlib's `Submodule.annihilator_top_inter_nonZeroDivisors` and
+`Submodule.annihilator_top`, then Tau Ceti's
+`TauCeti.isFiniteLength_of_nonZeroDivisor_mem_annihilator`).
 
 Not stated here, because the pins already prove them or another roadmap owns them (README, Scope):
-resultants against products of linear factors (Mathlib's `Polynomial.resultant_prod_left`,
-`Polynomial.resultant_X_sub_C_left` and `Polynomial.resultant_comm`); Baer's criterion for scalar
+the binomial formula of nilpotency class two (Tau Ceti's
+`Commute.mul_pow_eq_pow_mul_pow_mul_commutatorElement_pow_choose_two`); the injectivity of the
+primary components of an injective module over a Noetherian ring (Tau Ceti's instance
+`Ideal.injective_primaryComponent`); resultants against products of linear factors (Mathlib's
+`Polynomial.resultant_prod_left`, `Polynomial.resultant_X_sub_C_left` and
+`Polynomial.resultant_comm`); Baer's criterion for scalar
 divisibility and the injectivity of `K ⧸ S` (Tau Ceti's `Module.Baer.of_surjective_smul` and
 `Submodule.injective_quotient_of_divisionRing`); the Leibniz rule for finite products (Tau Ceti's
 `Derivation.leibniz_prod`); the Cauchy–Binet formula (PadicMeasuresIwasawaAlgebras §6.4,
@@ -97,16 +105,9 @@ theorem Matrix.det_pascal (R : Type*) [CommRing R] (n : ℕ) :
   sorry
 
 open scoped commutatorElement in
-/-- If the commutator `⁅v, u⁆ = v * u * v⁻¹ * u⁻¹` commutes with `u` and with `v`, then
-`(u * v) ^ n = u ^ n * v ^ n * ⁅v, u⁆ ^ n.choose 2` for every `n : ℕ`. -/
-theorem mul_pow_of_commute_commutatorElement {G : Type*} [Group G] {u v : G}
-    (hu : Commute u ⁅v, u⁆) (hv : Commute v ⁅v, u⁆) (n : ℕ) :
-    (u * v) ^ n = u ^ n * v ^ n * ⁅v, u⁆ ^ n.choose 2 := by
-  sorry
-
-open scoped commutatorElement in
 /-- For an odd prime `p`, if `⁅v, u⁆` commutes with `u` and `v` and `⁅v, u⁆ ^ p = 1`, then
-`(u * v) ^ p = u ^ p * v ^ p`. -/
+`(u * v) ^ p = u ^ p * v ^ p` (from Tau Ceti's
+`Commute.mul_pow_eq_pow_mul_pow_mul_commutatorElement_pow_choose_two` at `n = p`). -/
 theorem mul_pow_prime_of_commute_commutatorElement {G : Type*} [Group G] {p : ℕ}
     (hp : p.Prime) (hp2 : p ≠ 2) {u v : G} (hu : Commute u ⁅v, u⁆) (hv : Commute v ⁅v, u⁆)
     (hd : ⁅v, u⁆ ^ p = 1) : (u * v) ^ p = u ^ p * v ^ p := by
@@ -120,16 +121,9 @@ theorem Subgroup.isPerfect_normalClosure {G : Type*} [Group G] (H : Subgroup G)
 
 /-! ## Layer 2: modules, flatness, finite presentation, injective modules -/
 
-/-- A finite product of modules is flat if and only if every factor is (Tau Ceti's instance
-`Module.Flat.pi` for one direction; `Module.Flat.of_linearEquiv` and
-`Module.Flat.directSum_iff` for the other). -/
-theorem Module.Flat.pi_iff {R ι : Type*} {M : ι → Type*} [CommSemiring R]
-    [∀ i, AddCommMonoid (M i)] [∀ i, Module R (M i)] [Finite ι] :
-    Module.Flat R (∀ i, M i) ↔ ∀ i, Module.Flat R (M i) := by
-  sorry
-
 /-- A product of two modules is flat if and only if both factors are (over a commutative ring,
-the direction from the factors is Tau Ceti's instance `Module.Flat.prod`). -/
+the direction from the factors is Tau Ceti's instance `Module.Flat.prod`; the converse is
+`Module.Flat.of_retract`). -/
 theorem Module.Flat.prod_iff {R M N : Type*} [CommSemiring R] [AddCommMonoid M] [Module R M]
     [AddCommMonoid N] [Module R N] :
     Module.Flat R (M × N) ↔ Module.Flat R M ∧ Module.Flat R N := by
@@ -161,27 +155,13 @@ theorem TensorProduct.mem_range_rTensor_iff_equivFinsuppOfBasisRight {R M N P κ
       ∀ i, TensorProduct.equivFinsuppOfBasisRight 𝒞 x i ∈ LinearMap.range f := by
   sorry
 
-universe v in
-/-- Over a Noetherian ring, the `I`-primary component (the `I`-power torsion) of an injective
-module is injective (Stacks, Tag 08XW, (2)). The universe hypothesis is that of
-`Module.Baer.of_injective`. -/
-theorem Ideal.injective_primaryComponent {A : Type*} [CommRing A] [IsNoetherianRing A]
-    [Small.{v} A] (I : Ideal A) {Q : Type v} [AddCommGroup Q] [Module A Q]
-    [Module.Injective A Q] : Module.Injective A (I.primaryComponent Q) := by
-  sorry
-
-/-- A module is `I`-adically complete when the ideal `I` is nilpotent. -/
-theorem IsAdicComplete.of_isNilpotent {R : Type*} [CommRing R] {I : Ideal R} (M : Type*)
-    [AddCommGroup M] [Module R M] (hI : IsNilpotent I) : IsAdicComplete I M := by
-  sorry
-
-/-- For `R → S → T`, if `H¹` of the cotangent complex of `T` over `S` vanishes and `Ω[T⁄S]` is
-projective (for instance if `T` is formally smooth over `S`), the first fundamental sequence map
+/-- For `R → S → T` with `T` formally smooth over `S` (`Ω[T⁄S]` projective and `H¹` of the
+cotangent complex of `T` over `S` zero), the first fundamental sequence map
 `T ⊗[S] Ω[S⁄R] → Ω[T⁄R]` has a `T`-linear retraction (Stacks, Tag 031K). Its cokernel is
 `Ω[T⁄S]` by `KaehlerDifferential.exact_mapBaseChange_map`. -/
 theorem KaehlerDifferential.exists_retraction_mapBaseChange (R S T : Type*) [CommRing R]
     [CommRing S] [CommRing T] [Algebra R S] [Algebra R T] [Algebra S T] [IsScalarTower R S T]
-    [Subsingleton (Algebra.H1Cotangent S T)] [Module.Projective T Ω[T⁄S]] :
+    [Algebra.FormallySmooth S T] :
     ∃ l : Ω[T⁄R] →ₗ[T] T ⊗[S] Ω[S⁄R],
       l ∘ₗ KaehlerDifferential.mapBaseChange R S T = LinearMap.id := by
   sorry
@@ -230,14 +210,6 @@ theorem IsFractionRing.nonempty_torsionBy_linearEquiv {A K : Type*} [CommRing A]
     [Algebra A K] [IsFractionRing A K] {t : A} (ht : t ≠ 0) :
     Nonempty (Submodule.torsionBy A (K ⧸ LinearMap.range (Algebra.linearMap A K)) t ≃ₗ[A]
       A ⧸ Ideal.span {t}) := by
-  sorry
-
-/-- Over a Noetherian ring of Krull dimension at most one, a finitely generated torsion module has
-finite length (Mathlib's `isFiniteLength_quotient_span_singleton` is the cyclic case; over a
-principal ideal domain, `isFiniteLength_iff_isNoetherian_isArtinian` makes it Artinian). -/
-theorem Module.IsTorsion.isFiniteLength {R M : Type*} [CommRing R] [IsNoetherianRing R]
-    [Ring.KrullDimLE 1 R] [AddCommGroup M] [Module R M] [Module.Finite R M]
-    (hM : Module.IsTorsion R M) : IsFiniteLength R M := by
   sorry
 
 /-! ## Layer 3: derivations -/
