@@ -11,29 +11,40 @@ nullhomotopy application in F6.6–F6.7.
 
 ## Carriers, conventions and owners
 
-HomotopySpheres section references use the [§3C/§9 specification at
-34167306e5a1726e2574b039dc1a27f913985f0f](https://github.com/TauCetiProject/TauCetiRoadmap/blob/34167306e5a1726e2574b039dc1a27f913985f0f/TauCetiRoadmap/HomotopySpheres/README.md)
-in PR284.
-
-Use Mathlib's `FormalGroup R`, `FormalGroup.IsComm` and
-`MvPowerSeries (Fin 2) R`, with the existing substitution and coefficient APIs.
-Follow the proposed `FormalGroupHom`, `FormalGroupIso` and `addInvX` designs in
-Mathlib [#38213](https://github.com/leanprover-community/mathlib4/pull/38213)
-and [#36167](https://github.com/leanprover-community/mathlib4/pull/36167),
-including [#41710](https://github.com/leanprover-community/mathlib4/pull/41710)'s
-topologically nilpotent point carrier. Construct the missing APIs in Tau Ceti
-with these shapes; adopt Mathlib's resulting APIs when they arrive.
+Use Mathlib's `FormalGroup R`, `FormalGroup.IsComm`, `FormalGroup.Point`,
+`FormalGroup.map`, `FormalGroup.𝔾ₐ`, `FormalGroup.𝔾ₘ` and
+`MvPowerSeries (Fin 2) R`, with the existing substitution and coefficient
+APIs, and Tau Ceti's formal-group tree `TauCeti.RingTheory.FormalGroup`:
+the bundled homomorphisms `TauCeti.FormalGroupHom` and isomorphisms
+`TauCeti.FormalGroupIso` (strict ones through
+`TauCeti.FormalGroupIso.IsStrict`), the inverse series
+`FormalGroup.addInvX`, the n-series `FormalGroup.nsmulSeries`, the
+topologically nilpotent point carrier `FormalGroup.TopNilpotentPoint`,
+coordinate changes `TauCeti.FormalCoordinate` and the Lazard ring
+`TauCeti.LazardRing`. F1 names the declarations consumed from this tree;
+nothing it provides is planned again.
 
 GeneralizedCohomology G2–G5 supplies spectral models, derived smash/function
 objects, represented theories, projective/Thom orientations, MU and its
 multiplicative model, connective K spectra and generic spectral Postnikov
-covers. TangentialBordism supplies geometric cycles and the Pontryagin–Thom
-comparison, and owns the integral unoriented/oriented/Spin coefficient
-calculations. This roadmap owns MU's coefficient universality and generic
-MU/BP operations and Adams–Novikov machinery. StringOrientation owns the
-Hovey specialization to MString and its geometric Cayley-plane kernel.
-EllipticCohomology owns elliptic realization, descent and tmf; it consumes
-formal-group exactness and deformation theory here.
+covers, and G2.11's enriched, quasicategorical, straightening,
+monoidal-localization and operadic foundations. AlgebraicTopology supplies
+ordinary (co)homology with cup products, Stage 5.5's Serre spectral
+sequences and Stage 8.8–8.10's Eilenberg–MacLane models and
+representability; CharacteristicClasses C3 supplies the Stiefel–Whitney
+classes and the mod-2 cohomology of BO(n) and BO. This roadmap owns the
+mod-p Steenrod algebras and HF_p-based Adams towers, the unoriented
+coefficient ring MO_*, MU's coefficient universality, generic MU/BP
+operations and Adams–Novikov machinery, the three-fold Toda brackets of
+pointed spaces and the James construction. TangentialBordism consumes
+F1–F2's formal laws, Steenrod and Adams carriers and coefficient rings; it
+owns geometric cycles, the Pontryagin–Thom comparison and the integral
+oriented/Spin coefficient calculations, none of which is an input here.
+StringOrientation consumes F3–F5 and owns the Hovey specialization to
+MString and its geometric Cayley-plane kernel. HomotopySpheres consumes
+F4's Toda brackets and F6.2's James construction. EllipticCohomology owns
+elliptic realization, descent and tmf; it consumes formal-group exactness
+and deformation theory here.
 
 Use homological grading: |v_i|=2(p^i−1), |b_i|=2i and a complex
 orientation in cohomological degree 2. A formal-group coefficient a_ij has
@@ -45,102 +56,264 @@ choices, with explicit comparison maps between choices.
 
 ## F1. Formal-group algebra and universality
 
-Use the native multiplication series `FormalGroup.nsmulSeries` from
-[`TauCeti.RingTheory.FormalGroup.NSMul`](https://github.com/TauCetiProject/TauCeti/blob/1844920e9c82791e848e12fd5313fa212e542731/TauCeti/RingTheory/FormalGroup/NSMul.lean),
-including `nsmulSeries_add`, `nsmulSeries_mul`,
-`constantCoeff_nsmulSeries` and `coeff_one_nsmulSeries`; these give
-[n]_F, its addition/composition equations and linear coefficient n on the
-native `PowerSeries R` carrier. Consume its invariant-differential,
-derivative/divisibility and prime-series decomposition results, including
-`natCast_dvd_coeff_nsmulSeries` only in degrees k with `k.Coprime n`,
-under their stated commutativity and prime hypotheses. Build the inverse series,
-base change, morphisms, isomorphisms and strict isomorphisms on the native
-carriers, extending the same n-series with its base-change,
-coordinate-change and integer-indexed inverse comparisons. Prove substitution
-exists under its actual zero/nilpotent-constant hypotheses, coefficient
-recurrences, uniqueness, composition, identities and inverse laws. Extend
-the same native `FormalGroup.Point F Unit` carrier
-`{f : MvPowerSeries Unit R // PowerSeries.HasSubst f}` to complete
-Hausdorff linearly topologized algebras with topologically nilpotent
-elements;
-prove convergence and continuous functoriality rather than assuming every
-power series can be evaluated everywhere.
+Everything in this layer except the height classification at its end is a
+theorem of the pinned Tau Ceti, in the modules of
+`TauCeti.RingTheory.FormalGroup` named below; consume it by name. The
+remaining target, Lazard's classification over separably closed fields, is
+the layer's only headline.
 
-Construct the Lazard ring L as the quotient of the polynomial ring over ℤ
-on a_ij, i,j≥1, by all coefficient relations for commutativity and
-associativity of X+Y+Σa_ij X^iY^j. Construct its universal native commutative
-formal group and prove the natural bijection
-Hom_ring(L,R) ≃ {F : FormalGroup R // F.IsComm}. Prove the graded version
-and Lazard's polynomial theorem L≅ℤ[x₁,x₂,…], |x_n|=2n, with an explicit
-generator construction and integral independence argument. Build the
-homogeneous symmetric additive 2-cocycle comparison first: for n≥2 let
-C_n(X,Y)=((X+Y)^n−X^n−Y^n)/d_n, an integral polynomial,
-where d_n=p if n is a power of a prime p and d_n=1 otherwise.
-For every commutative ring R prove that the normalized degree-n symmetric
-cocycles are uniquely R-multiples of C_n, with coefficient/base-change
-comparison. Prove the integral coefficient and gcd equations, including
-torsion coefficient rings; a characteristic-zero logarithm does not prove
-this assertion. Use this single cocycle lemma in Lazard's polynomial
-construction and in the exponent-two specialization below. Build strict
-coordinate-change representability by L[b₁,b₂,…], including source, target,
-counit, composition and inverse maps and all Hopf-algebroid equations.
+**n-series, inverses, homomorphisms and points.** The n-series [n]_F is
+`FormalGroup.nsmulSeries` (module `NSMul.Basic`), the value of n times the
+coordinate point `FormalGroup.tautologicalPoint` of `FormalGroup.Point F Unit`
+(module `AddInv`); `nsmulSeries_zero` and `nsmulSeries_succ` are the
+recursion [0]_F=0, [n+1]_F=F([n]_F,X), `constantCoeff_nsmulSeries` and
+`coeff_one_nsmulSeries` give zero constant coefficient and linear
+coefficient n, `nsmulSeries_add` and `nsmulSeries_mul` are the addition law
+[m+n]_F=F([m]_F,[n]_F) and the composition law [mn]_F=[m]_F∘[n]_F for every
+formal group, `map_nsmulSeries` (module `NSMul.BaseChange`) is base change,
+and for a commutative F `FormalGroup.nsmulHom` is [n]_F as an endomorphism
+of F. For a commutative F and a prime p, `natCast_dvd_coeff_nsmulSeries`
+says p divides the coefficient of X^k in [p]_F whenever p∤k,
+`exists_nsmulSeries_eq_of_prime` writes [p]_F=p·X·u+X^p·h with u(0)=1 over
+every ring, and `exists_order_nsmulSeries_eq_pow` (module `Height.Basic`)
+says that when p=0 in R and [p]_F≠0 its order is a power of p; the general
+form of Ravenel's Lemma A2.2.7 for a nonzero homomorphism f:F→G over a
+field of characteristic p is
+`TauCeti.FormalGroupHom.exists_iso_comp_iterateFrobeniusHom` (module
+`Frobenius.Factorization`): f=g∘Frob^h for some h with ord f=p^h and an
+isomorphism g from the h-fold Frobenius twist of F to G, and g is unique
+once h is fixed by the order
+(`existsUnique_iso_comp_iterateFrobeniusHom_of_order`, same module). The
+inverse series is
+`FormalGroup.addInvX`, with `subst_addInvX_X_eq_zero`, linear coefficient
+−1 (`coeff_one_addInvX`), base change `map_addInvX` and the group structure
+on `FormalGroup.Point F σ`; the integer-indexed series are
+`FormalGroup.zsmulSeries` (module `ZSMul`) with `zsmulSeries_neg_one`,
+`zsmulSeries_add` and `zsmulSeries_mul`. A homomorphism is
+`TauCeti.FormalGroupHom F G` (module `Hom`): a series with zero constant
+term intertwining the two laws, with identity, composition, the induced
+map `applyPoint` on points, base change `FormalGroupHom.map` and
+`coeff_one_comp`; an isomorphism is `TauCeti.FormalGroupIso F G`, a
+forward and an inverse homomorphism whose substitutions are mutually
+inverse, with `symm`, `trans`, `isUnit_coeff_one`, `FormalGroupHom.toIso`
+(a homomorphism with unit linear coefficient is an isomorphism), the class
+`IsStrict` (linear coefficient one) and base change `FormalGroupIso.map`.
+A coordinate change is `TauCeti.FormalCoordinate R` (a series with zero
+constant term and unit linear coefficient) acting on `FormalGroup R` by
+φ•F=φ(F(φ⁻¹X,φ⁻¹Y)) (module `CoordinateChange.Basic`), with
+`FormalGroup.smulIso : FormalGroupIso F (φ • F)` and
+`isStrict_smulIso_iff`; `exists_iso_lifting_coordinate` (module
+`CoordinateChange.Lifting`) lifts a coordinate change of the reduction
+along a surjection with surjective unit map. Points in a complete
+Hausdorff linearly topologized R-algebra A are
+`FormalGroup.TopNilpotentPoint F A` (module `TopNilpotentPoint.Basic`): the
+topologically nilpotent elements of A under x+_Fy=F(x,y), with the group
+laws proved by evaluating the power-series identities, the convergent-sum
+characterisations `hasSum_val_add` and `hasSum_val_neg`, functoriality
+`TopNilpotentPoint.map` along continuous algebra maps, the comparison
+`pointEquivTopNilpotentPoint` with `FormalGroup.Point F σ`, the induced
+continuous homomorphisms `toTopNilpotentPointHom` and equivalences
+`toTopNilpotentPointContinuousAddEquiv` (modules `TopNilpotentPoint.Hom`
+and `TopNilpotentPoint.Topology`).
 
-Use `FormalGroup.invariantDifferential` and, over a ℚ-algebra,
-`FormalGroup.log` and `FormalGroup.exp` from native
-[`TauCeti.RingTheory.FormalGroup.Logarithm`](https://github.com/TauCetiProject/TauCeti/blob/1844920e9c82791e848e12fd5313fa212e542731/TauCeti/RingTheory/FormalGroup/Logarithm.lean).
-Consume `constantCoeff_log`, `coeff_one_log`, `derivative_log`,
-`subst_toPowerSeries_log`, `subst_toPowerSeries_eq_add_iff`,
-`subst_exp_log` and `subst_log_exp`:
-the logarithm has constant coefficient zero and linear coefficient one,
-and every additive series along F is a scalar multiple of it. Extend these
-APIs with base-change and coordinate-change comparisons and the bundled
-strict isomorphism to the additive formal group. Prove the additive and
-multiplicative examples and their logarithms. The exponent-two
-characteristic-two construction below is a separate integral argument;
-the ℚ-algebra logarithm does not apply there.
+**Lazard ring, cocycle lemma and Hopf algebroid.** `TauCeti.LazardRing`
+(module `LazardRing.Basic`) is the quotient of ℤ[a_ij : i,j≥1] by the
+commutativity and associativity relations `LazardRing.relations` of
+X+Y+Σa_ij X^iY^j; `LazardRing.formalGroup` is the universal commutative
+law and `TauCeti.LazardRing.lift` is the natural bijection
+Hom_ring(L,R) ≃ {F : FormalGroup R // F.IsComm}, with `map_lift`,
+`coe_lift_symm` and the naturality `lift_map`. The grading
+`LazardRing.grading` puts a_ij in degree 2(i+j−1), is a `GradedAlgebra`,
+and `gradedLift` is the graded universal property for graded coefficient
+rings. Lazard's polynomial theorem is `TauCeti.LazardRing.mvPolynomialEquiv`,
+an isomorphism of ℤ-algebras from the polynomial ring on ℕ+ sending the n-th
+variable to `LazardRing.generator n` of degree 2n (module `Indecomposable`,
+with `generator_mem_grading` and the cotangent basis `cotangentBasis` of
+the augmentation ideal modulo its square), with the integral independence
+`algebraicIndependent_generator` (module `Independence`). The homogeneous
+symmetric additive 2-cocycle lemma is `TauCeti.existsUnique_eq_smul_lazardCocycle`
+(module `SymmetricCocycle.Classification`): over every commutative ring R a
+homogeneous symmetric additive 2-cocycle of degree n≥2 is uniquely r·C_n
+for `TauCeti.lazardCocycle n R`, C_n=((X+Y)^n−X^n−Y^n)/d_n with
+d_n=`TauCeti.lazardGcd n` (p when n is a power of the prime p,
+`lazardGcd_prime_pow`, and 1 otherwise,
+`lazardGcd_eq_one_of_not_isPrimePow`), including torsion coefficient
+rings; `map_lazardCocycle` is its base change and `aeval_diag_lazardCocycle`
+its diagonal value. Strict coordinate changes are represented by
+L[b₁,b₂,…]=`MvPolynomial ℕ+ LazardRing` with the universal strict
+coordinate `TauCeti.FormalCoordinate.universalStrictCoordinate` (module
+`TauCeti.RingTheory.PowerSeries.Coordinate.Universal`) and the bijection
+`TauCeti.LazardRing.coordinateChangeLift` (module `CoordinateChange.Lazard`);
+the Hopf-algebroid structure maps are `LazardRing.rightUnit`, `counit`,
+`coproduct` and `conjugation` (modules `CoordinateChange.Lazard` and
+`CoordinateChange.HopfAlgebroid`), with `coproduct_coassoc`, the counit
+laws `tensorLift_counit_id_comp_coproduct` and
+`tensorLift_id_counit_comp_coproduct`, the antipode laws
+`tensorLift_conjugation_id_comp_coproduct` and
+`tensorLift_id_conjugation_comp_coproduct`, `conjugation_conjugation`,
+`counit_conjugation` and `conjugation_comp_rightUnit`; the gradings
+`coordinateGrading` and `coordinateTensorGrading` (module
+`CoordinateChange.Grading`) put b_i in degree 2i, and the structure maps
+are graded (modules `CoordinateChange.Homogeneous` and
+`CoordinateChange.Coproduct`). F2 identifies this Hopf algebroid with
+(MU_*, MU_*MU).
 
-For every commutative coefficient ring R with 2=0 and commutative native
-formal group F with [2]_F=0, construct its normalized strict logarithm
-g_F(X)=X+Σ_(i≥1) a_i X^(i+1), with
-g_F(F(X,Y))=g_F(X)+g_F(Y) and a_(2^k−1)=0 for every k≥1.
-Prove existence, uniqueness, base-change naturality and the inverse strict
-exponential. Pin the direction: g_F maps F to the additive group; its
-inverse f_F satisfies F(f_F(X),f_F(Y))=f_F(X+Y).
-Bundle g_F and f_F as the forward/inverse `FormalGroupHom` maps in
-the cited `FormalGroupIso` shape, prove both substitution inverses and
-`FormalGroupIso.IsStrict`, and compare the normalized coefficient
-existence/uniqueness prototype with that bundled isomorphism. The raw
-power series and the formal-group isomorphism are linked by this target.
-Prove the polynomial obstruction lemma used in the degree-by-degree
-construction. A normalized homogeneous symmetric additive 2-cocycle of
-degree n≥2 with zero diagonal is an R-multiple of
-(X+Y)^n−X^n−Y^n for n not a power of two, and is zero when n is a
-power of two. In the latter degree include the divided-binomial integral
-cocycle reduced mod 2 and prove its nonzero diagonal excludes it here.
-Derive this from the preceding any-ring cocycle lemma and binary binomial
-identities: d_n is odd except at powers of two, and C_(2^k)(X,X)
-has odd integral coefficient. Thus it applies to every R with 2=0; no coefficient field or
-division by two is assumed. Apply the lemma to the first nonvanishing
-homogeneous error g(F)−g(X)−g(Y), prove all compatible truncations and
-pass to actual formal power series by coefficient completeness.
-For arbitrary h∈R[[X]] prove h(X+Y)=h(X)+h(Y) precisely when
-h=Σ_(j≥0) b_j X^(2^j), including zero constant term; strict additive
-automorphisms have b₀=1. Use this to prove the logarithm normalization
-and its uniqueness, and describe all other strict coordinates by composing
-with those additive automorphisms. For the degree-one real-orientation
-coordinate give the graded version with a_i in homological degree i,
-and its coefficient-wise base-change laws. This algebraic lane
-precedes F2's universal characteristic-two ring comparison.
+**Invariant differential, logarithm and exponential.**
+`FormalGroup.invariantDifferential` (module `Logarithm.Basic`) is
+P(T)=F_X(0,T)⁻¹ for every formal group over every ring, with P(0)=1
+(`constantCoeff_invariantDifferential`), the invariance
+P(F(X,Y))·F_X(X,Y)=P(X) for every F (`subst_invariantDifferential_mul_pderiv`)
+and, for commutative F, P(F(X,Y))·F_Y(X,Y)=P(Y)
+(`subst_invariantDifferential_mul_pderiv_one`), base change
+`map_invariantDifferential`, and the values P=1 and P=(1+T)⁻¹ for the
+additive and multiplicative groups (`invariantDifferential_𝔾ₐ`,
+`invariantDifferential_𝔾ₘ`). Over a ℚ-algebra R, `FormalGroup.log` has
+coefficient p_(n−1)/n in degree n≥1 where P=Σp_nT^n (`coeff_log`), zero
+constant coefficient, linear coefficient one (`coeff_one_log`), derivative
+P (`derivative_log`) and is additive along F (`subst_toPowerSeries_log`);
+`subst_toPowerSeries_eq_add_iff` says a series g is additive along F
+precisely when g=c·log_F for some c∈R (Ravenel, Theorem A2.1.6 for the
+existence; the uniqueness of the strict logarithm is the one asserted in
+the proof of Lemma A2.1.9); `FormalGroup.exp` is the substitution inverse
+(`subst_exp_log`, `subst_log_exp`), `toPowerSeries_eq_subst_exp` is
+F(X,Y)=exp_F(log_F(X)+log_F(Y)), `FormalGroup.logIso` is the bundled
+strict isomorphism from F to the additive group (instance `IsStrict`) and
+`eq_logIso` its uniqueness among strict isomorphisms to the additive
+group; `map_log` and `map_exp` are base change. Naturality under
+homomorphisms (`TauCeti.FormalGroupHom.subst_log`, and
+`coeffOneEquiv`: over a ℚ-algebra the homomorphisms F→G between
+commutative laws are classified by their linear coefficient) and under
+coordinate change (`log_smul`: the logarithm of φ•F is φ'(0)·log_F(φ⁻¹X),
+and `exp_smul`) are in module `Logarithm.Naturality`; the logarithm of a
+rescaled law over rings without ℚ is module `Logarithm.Rescale`; the
+examples `log_𝔾ₐ`, `exp_𝔾ₐ`, `log_𝔾ₘ`, `exp_𝔾ₘ` give T, T, log(1+T)
+and e^T−1. Checks, as values that must agree with these declarations: for
+the additive group P=1, log=T and exp=T; for the multiplicative group
+X+Y+XY, P=(1+T)⁻¹, log_F=Σ_(n≥1)(−1)^(n+1)T^n/n and exp_F=e^T−1, and
+P(F(X,Y))·F_X(X,Y)=(1+Y)/((1+X)(1+Y))=P(X), whereas the un-inverted
+series 1+T fails invariance since (1+F(X,Y))(1+Y)≠1+X; over a ℚ-algebra
+the additive series along the additive group are exactly the multiples
+c·T, so T² is not additive, whereas X² is additive along X+Y precisely
+over rings with 2=0, since (X+Y)²−X²−Y²=2XY, the setting of the
+exponent-two paragraph below. The exponent-two construction below is a
+separate integral argument; the ℚ-algebra logarithm does not apply there.
 
-Use `nsmulSeries p` as the p-series and define height over
-characteristic-p fields, including height
-∞ for the additive group. Prove base extension invariance, the p-power form
-of its first nonzero term and coordinate independence of height. Prove the
-classification over separably closed characteristic-p fields: two
-one-dimensional commutative formal groups are isomorphic precisely when
-heights agree, including the infinite-height additive class. This supplies
-ModularCurves' height-classification application. EllipticCurves Layer1 owns
-the elliptic logarithm/exponential instances; it consumes this generic API.
+**Exponent two.** For a commutative F over any ring R with [2]_F=0 (which
+forces 2=0 in R, `natCast_eq_zero_of_nsmulSeries_eq_zero`), the normalized
+strict logarithm g_F(X)=X+Σ_(i≥1)a_iX^(i+1) with a_(2^k−1)=0 for every
+k≥1 and g_F(F(X,Y))=g_F(X)+g_F(Y) is `FormalGroup.exponentTwoLog` (module
+`ExponentTwo.Basic`), with `constantCoeff_exponentTwoLog`,
+`coeff_one_exponentTwoLog`, `coeff_two_pow_exponentTwoLog` and
+`subst_toPowerSeries_exponentTwoLog`; its existence and uniqueness is
+`FormalGroup.existsUnique_logarithm_of_nsmulSeries_eq_zero` (module
+`Logarithm.InfiniteHeight`), stated for every prime p with [p]_F=0: there
+is exactly one g with g(0)=0, g'(0)=1, vanishing coefficients in the
+degrees p^k for k≥1, and g(F(X,Y))=g(X)+g(Y); `eq_exponentTwoLog`
+identifies every such g with g_F, and `map_exponentTwoLog` is base-change
+naturality. The inverse strict exponential f_F is
+`FormalGroup.exponentTwoExp` (module `ExponentTwo.Iso`), with the direction
+pinned by `subst_exponentTwoExp_toPowerSeries`: F(f_F(X),f_F(Y))=f_F(X+Y),
+so g_F maps F to the additive group and f_F maps the additive group to F;
+the bundled strict isomorphism is `FormalGroup.exponentTwoLogIso` (instance
+`IsStrict`, forward series g_F, inverse series f_F), and
+`eq_exponentTwoLogIso_iff` says an isomorphism from F to the additive
+group is this one precisely when it is strict with no term of degree 2^k,
+k≥1. The characteristic-two forms of the cocycle lemma are
+`TauCeti.existsUnique_eq_smul_add_pow_sub_pow_sub_pow_of_two_eq_zero`
+(module `SymmetricCocycle.CharTwo`): when 2=0 in R and n is not a power of
+two, a homogeneous symmetric additive 2-cocycle of degree n is uniquely
+r·((X+Y)^n−X^n−Y^n), and `eq_zero_of_two_eq_zero_of_aeval_X_X_eq_zero`:
+in degree 2^k such a cocycle with zero diagonal is zero, because the
+reduction mod 2 of C_(2^k) has diagonal value a^(2^k) at a
+(`aeval_diag_lazardCocycle_two_pow`); both derive from the any-ring lemma
+through `lazardCocycle_eq_add_pow_sub_pow_sub_pow_of_two_eq_zero`, with
+no coefficient field and no division by two. The additive series along
+the additive group when a prime p vanishes in R are
+`PowerSeries.subst_X_add_X_eq_add_iff_of_natCast_eq_zero` (module
+`AdditiveSeries`): h(X+Y)=h(X)+h(Y) precisely when h is supported in the
+degrees p^j, j≥0; the strict additive series along an exponent-two F are
+exactly the composites of g_F with a strict such automorphism
+(`subst_toPowerSeries_eq_add_iff_existsUnique_subst_exponentTwoLog`, module
+`ExponentTwo.Coordinates`). The universal graded ring is
+`TauCeti.ExponentTwoLazardRing` (module `ExponentTwo.Universal`), the
+polynomial ring over 𝔽₂ on generators a_i for i≥1 with i+1 not a power
+of two, with `ExponentTwoLazardRing.lift`, the bijection from commutative
+laws with [2]_F=0 over R to ring homomorphisms out of it, the grading
+`ExponentTwoLazardRing.grading` with a_i in degree i and the graded lift
+`gradedLift`; `ExponentTwoLazardRing.ofLazardRing` (module
+`ExponentTwo.Lazard`) is the surjection from the Lazard ring with its
+kernel `ker_ofLazardRing`, and the exponent-two coordinate-change Hopf
+algebroid with `rightUnit`, `counit` and `coordinateChangeLift` is module
+`ExponentTwo.CoordinateChange`. F2 identifies this ring with MO_* for the
+degree-one real orientation.
+
+**Height and Lazard's classification.** Over a field K,
+`FormalGroup.height F p` (module `Height.Basic`) is ⊤ when [p]_F=0 and
+otherwise log_p of the order of [p]_F (`height_eq_top_iff`); for a
+commutative F over a field of characteristic p, `height_eq_natCast_iff`
+says the height is h precisely when the first nonzero term of [p]_F has
+degree p^h, `one_le_height`, `height_eq_one_iff`, base extension
+invariance `height_map`, coordinate independence `height_smul`,
+isomorphism invariance `TauCeti.FormalGroupIso.height_eq`, and
+`height_𝔾ₐ`=⊤, `height_𝔾ₘ`=1; `height_eq_top_iff_nonempty_formalGroupIso_𝔾ₐ`
+(module `Logarithm.InfiniteHeight`) is the infinite-height case of the
+classification over every field of characteristic p: F has height ∞
+precisely when it is isomorphic to the additive group; for finite height
+h, `existsUnique_iso_comp_iterateFrobeniusHom_eq_nsmulHom_of_height_eq`
+(module `Frobenius.Factorization`) factors [p]_F uniquely as the h-fold
+Frobenius followed by an isomorphism from the Frobenius twist. Over any
+ring the height ideals I_(p,n) are `FormalGroup.heightIdeal` (module
+`Height.Ideal`), with `heightIdeal_eq_bot_iff_le_height` comparing them
+with the height over fields; F5 consumes them.
+
+Prove Lazard's classification over separably closed fields: for a
+separably closed field k of characteristic p and commutative
+one-dimensional formal groups F and G over k, `TauCeti.FormalGroupIso F G`
+is nonempty precisely when `FormalGroup.height F p` equals
+`FormalGroup.height G p`, the infinite-height class included
+(`nonempty_formalGroupIso_iff_height_eq`; Ravenel, Theorem A2.2.12, which
+says that every law of height n over k is isomorphic to the p-typical
+Honda law of height n, the additive law for n=∞). The forward direction
+is `TauCeti.FormalGroupIso.height_eq` and the infinite-height case is
+`height_eq_top_iff_nonempty_formalGroupIso_𝔾ₐ`. Ravenel's route for finite
+height: by Cartier's theorem (A2.1.18) replace F and G by isomorphic
+p-typical laws, parametrized by the images of the generators v_i of the
+p-typical Lazard ring V (A2.1.24, A2.1.25), and seek the isomorphism in
+the form of a formal sum Σ^F t_i x^(p^i); the coefficient equations
+(A2.2.13), from the right-unit formula of Theorem A2.2.6, begin with
+t₀·θ(v_h)=t₀^(p^h) and continue degree by degree with equations whose
+derivative in the new unknown is a unit, so each is separable and has a
+root in k. The degree-by-degree obstruction theory for this induction is
+at the pin: when an approximate homomorphism f from F to G has
+homomorphism defect vanishing below degree n, the degree-n part of the
+defect is c·C_n (`exists_homogeneousComponent_homDefect_eq_smul_lazardCocycle`,
+module `Obstruction`), removable by a strict correction in degree n when
+d_n is a unit, and read off the p-series in degree p^k, k≥1
+(`homogeneousComponent_homDefect_eq_smul_lazardCocycle`): the degree-p^k
+part is the coefficient of X^(p^k) in [p]_G(f(X))−f([p]_F(X)) times
+C_(p^k), which is where the separable equations above arise; it vanishes
+automatically when k is below both heights, since each composite then has
+order at least p^h>p^k (`PowerSeries.order_subst`, module
+`TauCeti.RingTheory.PowerSeries.Substitution`, with `height_eq_natCast_iff`),
+and for f the identity series, whose defect is F−G, this is
+`succ_le_order_sub_of_lt_height` (module `LeadingDifference`). *Needs:*
+`FormalGroup.height`, `TauCeti.FormalGroupIso` and the pinned p-series,
+Frobenius, obstruction and leading-difference APIs named above; for
+Ravenel's route also F3's p-typical coordinates and Hazewinkel
+generators, which are a route input, not an input of the statement.
+Checks: the additive and multiplicative groups over an algebraic closure
+of 𝔽_p have heights ∞ and 1 (`height_𝔾ₐ`, `height_𝔾ₘ`) and are not
+isomorphic, which the statement forbids and a definition of height that
+returned 0 for the additive group would not; for F=G the identity series
+X is the isomorphism and the heights agree trivially; over 𝔽_p itself the
+forward direction holds but the converse fails: the multiplicative group
+and its nontrivial Galois twists have height one and are not isomorphic
+over 𝔽_p, since an 𝔽_p-isomorphism commutes with the Frobenius
+endomorphism X^p, which these twists send to different elements of the
+common endomorphism ring ℤ_p, so separable closure is needed. This
+supplies ModularCurves' height-classification application. EllipticCurves
+Layer1 owns the elliptic logarithm/exponential instances; it consumes the
+pinned generic API.
 
 ## F2. Complex orientations and Quillen's theorem
 
@@ -168,28 +341,129 @@ higher-rank splitting, Whitney and naturality laws separately for these
 orientations and use the standard normalization for e_Sp.
 Do not impose this normalization on an arbitrary independent E orientation.
 
+**Steenrod algebras and mod-p Adams towers.** For every prime p construct
+the stable mod-p Steenrod operations on AlgebraicTopology's ordinary
+cohomology, Sq^i at p=2 and P^i with the Bockstein β at odd p, by the
+extended-power construction over the cyclic group of order p and the mod-p
+cohomology of its classifying space (Hatcher, Section 4.L, Theorems 4L.12,
+4L.13 and 4L.16). Prove naturality, additivity, Sq⁰=id and P⁰=id,
+instability (Sq^i x=0 for i>|x| and Sq^(|x|)x=x²; P^i x=0 for 2i>|x| and
+P^(|x|/2)x=x^p for even |x|), the Cartan formula, suspension stability,
+Sq¹=β at p=2 and the Adem relations. Define the Steenrod algebra A_p as the
+algebra of stable operations, identified with H^*(HF_p) for G2.7's mod-p
+Eilenberg–MacLane spectrum through AlgebraicTopology Stage 8.10's universal
+classes and G3.8's Milnor sequence, and prove that the admissible monomials
+form a basis: spanning by the Adem relations, independence by the
+Serre–Cartan computation. Own that computation: H^*(K(ℤ/p,n);𝔽_p) is the
+free graded-commutative algebra on the admissible monomials of excess
+below n applied to the fundamental class (Hatcher, Section 4.L, the
+unnumbered theorem on page 500, which defers its proof), by induction on n
+along the path–loop fibration K(ℤ/p,n−1)→P→K(ℤ/p,n) in AlgebraicTopology
+Stage 5.5's cohomological Serre spectral sequence. For that induction
+construct the transgression as the additive relation
+H^(q−1)(F)⊃dom→H^q(B)/ind given by H^(q−1)(F)→H^q(E,F)←H^q(B,*), identify
+it with d_q from E_q^(0,q−1) to E_q^(q,0), and prove Kudo's theorem
+(Steenrod operations of a transgressive class are transgressive and
+commute with transgression, with τβ=−βτ, and at odd p the class
+y^(p−1)⊗τy of an even transgressive y of degree 2k survives to E_r,
+r=2k(p−1)+1, with d_r(y^(p−1)⊗τy)=−βP^k τy) and Borel's theorem (if
+H^*(F) has a p-simple system of transgressive generators, its ordered
+monomials with exponents below p on even and below 2 on odd elements
+forming a basis, and E is acyclic, then H^*(B) is free graded-commutative
+on the transgressions and, at odd p, on the classes βP^k τy of the even
+generators), as the topological cochain instances of the algebraic
+statements in Guillou–Weibel, Definition 6.1, Theorem 6.2 and Theorem 6.5
+at H^*=𝔽_p. Theorem 6.2 applies to any first-quadrant spectral sequence
+of graded-commutative 𝔽_p-algebras; Theorem 6.5 is stated for the Leray
+spectral sequence of the universal bundle E•G→B•G of a connected
+simplicial sheaf of groups under the Künneth hypothesis of its
+Proposition 6.4, so take it over the point site with G a connected
+simplicial group whose mod-p cohomology has finite type, for which the
+Künneth hypothesis holds over the field 𝔽_p: the path–loop fibration of
+K(ℤ/p,n), n≥2, is this instance with G a simplicial-group model of
+K(ℤ/p,n−1) (the case n=1 is the direct computation for Bℤ/p),
+and the laws that a transgressive class and its Steenrod operations obey
+in an arbitrary fibration (operations commute with transgression, with
+τβ=−βτ) follow from the naturality of the operations for the coboundary
+of the pair (E,F) and the projection, the sign being the anticommutation
+of the Bockstein with that coboundary. Prove Milnor's theorem on the dual:
+A_*=H_*(HF_p) is the
+commutative Hopf algebra `𝔽₂[ξ₁,ξ₂,…]`, |ξ_i|=2^i−1, at p=2 and
+`𝔽_p[ξ₁,ξ₂,…]⊗E(τ₀,τ₁,…)`, |ξ_i|=2(p^i−1), |τ_i|=2p^i−1, at odd p, with
+coproduct Δξ_n=Σ_(i+j=n) ξ_j^(p^i)⊗ξ_i, Δτ_n=τ_n⊗1+Σ_(i+j=n) ξ_j^(p^i)⊗τ_i
+and conjugation (Miller, Chapter 1, Theorem 11.2; Ravenel, Theorem 3.1.1),
+through the action of A on the product of the degree-one (p=2) or
+degree-two (odd p) classes of (Bℤ/p)^n, which is free through degree n.
+Construct the Milnor primitives Q₀=β (Sq¹ at p=2) and
+Q_(i+1)=[P^(p^i),Q_i] (at p=2, [Sq^(2^(i+1)),Q_i]), of degree 2p^i−1
+(2^(i+1)−1 at p=2), dual to τ_i at odd p and to ξ_(i+1) in the Milnor
+basis at p=2; prove Q_i²=0 and Q_iQ_j=Q_jQ_i, that E=E(Q₀,Q₁,…) is an
+exterior sub-Hopf algebra, that A_p is free as a left and as a right
+E-module by the Milnor basis, and that the quotient A//E is dual to
+`P_*=𝔽_p[ξ₁,ξ₂,…]` at odd p and to `𝔽₂[ξ₁²,ξ₂²,…]` at p=2 (Ravenel,
+Theorem 3.1.1 and Lemma 3.1.4). Prove the change-of-rings isomorphism
+Ext_(A_*)(𝔽_p,P_*⊗C)≅Ext_(E_*)(𝔽_p,C) for an E_*-comodule C (Ravenel,
+Corollaries A1.1.18 and A1.3.13) at every prime; the mod-2 statement uses
+the squares ξ_i² and is constructed here, not transported from the
+odd-prime one. Construct the HF_p-based Adams tower of a spectrum X from
+G2's cofiber sequences of the unit S→HF_p smashed with X, an E-Adams
+resolution (Ravenel, Definition 2.2.1), its exact couple and spectral
+sequence with E₂^(s,t)=Ext_(A_*)^(s,t)(𝔽_p,H_*(X;𝔽_p)) and d_r of bidegree
+(r,r−1) (Ravenel, Theorems 2.1.1 and 2.2.3); prove the pairing for ring
+spectra (Ravenel, Theorem 2.3.3) and, for bounded-below X, strong
+convergence to the homotopy of the HF_p-nilpotent completion, identified
+for bounded-below X with G3.9's derived p-completion (Bousfield, §6,
+Theorem 6.6), which is π_*(X)⊗ℤ_p when the homotopy groups of X are
+finitely generated (Ravenel, Theorem 2.1.1(ii)); control
+lim¹ and keep this completion distinct from p-localization. Checks: on the
+degree-one class a of RP^∞, Sq¹a=a² and Sq²a=0, so an instability bound
+with strict inequality would lose the top square; at p=2, |ξ₂|=3 and
+|Q₁|=3, and at p=3, |ξ₁|=4, |τ₀|=1, |τ₁|=5 and |Q₁|=5; d₂ sends
+(s,t)=(1,2) to (3,3), lowering t−s from 1 to 0, not raising it; the Moore
+spectrum of ℤ/2^∞ has classical 2-completion zero but derived
+2-completion with π₁=ℤ₂, so the tensor form needs finite generation.
+TangentialBordism and HomotopySpheres consume these operations, algebras
+and towers.
+
 Construct the map L→MU_* from MU's orientation and prove it is an
-isomorphism. Supply the complete coefficient proof. Consume TB B4.2's
-mod-2 Adams tower and, only at odd primes, B4.8's tower and exterior
-change-of-rings machinery. Own their MU instances at every prime:
-construct H_*(MU;F_p) with its Thom product and Steenrod-dual coaction,
-prove the Milnor-primitive annihilation and freeness/change-of-rings
-decomposition, including E(Q₀,Q₁,…) at2 with |Q_i|=2^(i+1)−1.
-At2 construct the Milnor primitives Q₀=Sq¹ and
-Q_(i+1)=[Sq^(2^(i+1)),Q_i], identify their pairing with ξ_(i+1),
-prove their exterior sub-Hopf algebra and A's freeness over it, and
-construct the mod-2 exterior change-of-rings comparison here. TB's
-odd-prime exterior comparison is not a supplier for this mod-2 construction.
-At odd p use |Q_i|=2p^i−1 and prove the corresponding MU decomposition,
-rather than substituting TB's MSO computation. Prove the MU Adams
-spectral-sequence differentials/extensions and integral arithmetic reconstruction to
-prove evenness and torsion-freeness, characteristic-number detection, integral
-generators with Newton-number divisibility, and the comparison between their
-formal-group coefficients and Lazard's generators. Use TangentialBordism's
-geometric MU comparison; no abstract claim that an arbitrary formal group
-is MU's coefficient ring substitutes for this proof. Prove MU_* is polynomial
+isomorphism. Supply the complete coefficient proof from the Adams towers
+above, owning their MU instances at every prime. Construct
+H_*(MU;ℤ)=ℤ[b₁,b₂,…], |b_i|=2i, from G4's projective-bundle comparison
+and G5.3–G5.4's Thom model with its Thom product, and H_*(MU;𝔽_p) with its
+A_*-coaction; prove that the Thom class MU→HF_p induces a map of comodule
+algebras H_*(MU;𝔽_p)→A_* with image P_* (Ravenel, Lemma 3.1.4), so that
+H_*(MU;𝔽_p)≅P_*⊗C as comodule algebras with C polynomial on the b_i with
+i+1 not a power of p, by the splitting of a comodule algebra that maps
+onto the Hopf algebra (Ravenel, Corollary A1.1.18); equivalently the
+Milnor primitives annihilate the Thom class. Prove the change-of-rings
+decomposition E₂=Ext_(E_*)(𝔽_p,C)=𝔽_p[a₀,a₁,…]⊗C with a_i of bidegree
+(1,2p^i−1) (Ravenel, Corollary 3.1.10), at p=2 with E(Q₀,Q₁,…) and
+|Q_i|=2^(i+1)−1, and at odd p with |Q_i|=2p^i−1; the mod-2 case is
+constructed here and is not a specialization of the odd-prime one. Prove
+the collapse (E₂ is concentrated in even t−s), the extension a₀=p
+(Ravenel, Lemma 3.1.3), the p-local polynomial ring, and the integral
+reconstruction: π_i(MU) is finitely generated and torsion-free, the
+indecomposable quotient Q_(2i)π_*(MU) is ℤ for i>0, hence
+π_*(MU)=ℤ[x₁,x₂,…] with |x_i|=2i (Ravenel, Theorem 3.1.5(i)). Construct the
+generators x_i homotopically and prove characteristic-number detection:
+the Hurewicz map h:π_*(MU)→H_*(MU;ℤ) is injective and, modulo
+decomposables, h(x_i) is a unit multiple of p·b_i when i+1 is a power of
+the prime p and of b_i otherwise (Ravenel, Theorem 3.1.5(ii)). This
+Newton-number divisibility is the criterion by which a class of π_(2i)MU
+is a polynomial generator; TangentialBordism's geometric representatives
+are matched against it on its side. No geometric cycle, no Pontryagin–Thom
+comparison and no abstract claim that an arbitrary formal group is MU's
+coefficient ring enters this proof. Compare the formal-group coefficients
+of the orientation with Lazard's generators and prove that L→MU_* is an
+isomorphism (Ravenel, Theorem 4.1.6; Miller, Chapter 2, Theorem 3.5 and
+Proposition 8.3; Quillen 1969, Theorem 2). Prove MU_* is polynomial
 in degrees 2n and identify the coproduct/strict-coordinate interpretation of
-MU_*MU≅MU_*[b₁,b₂,…], including grading and left/right units.
+MU_*MU≅MU_*[b₁,b₂,…], including grading and left/right units. Checks:
+modulo decomposables h(x₁), h(x₂), h(x₃), h(x₄), h(x₅), h(x₆) are unit
+multiples of 2b₁, 3b₂, 2b₃, 5b₄, b₅, 7b₆, since 2, 3, 4, 5, 7 are prime
+powers and 6 is not; π₂MU=ℤ on x₁ and π₄MU=ℤ² on x₁², x₂, while a
+wrong collapse argument allowing odd t−s would have to account for
+π₁MU=π₃MU=0.
 
 For a chosen real orientation use G4's RP∞ projective comparisons to
 construct the real-line tensor Euler law F(x,y) in degree1. Own the
@@ -199,14 +473,52 @@ and both Euler classes. Pass to RP∞×RP∞ through the two finite-stage
 towers, proving surjective transition maps, the required lim¹ vanishing
 and the completed graded E^*[[x,y]] comparison before defining F. Prove 2·1=0
 and F(x,x)=0 from the square-triviality of the universal real line.
-Use F1's normalized exponent-two logarithm to construct the universal
-graded characteristic2 formal-group ring with
-[2]_F=0 and identify it with MO_*, using the geometric/Thom/Adams
-coefficient theory owned by TB and Quillen's unoriented operation proof.
-Prove the polynomial generators in degrees other than 2^k−1 and the
-orientation/change-of-coordinate universal property. This owns the real
-formal laws assigned here by TangentialBordism, without duplicating its
-geometric coefficient-ring construction.
+Identify the universal graded characteristic-2 formal-group ring with
+[2]_F=0, which is F1's pinned `TauCeti.ExponentTwoLazardRing` (the
+polynomial ring over 𝔽₂ on generators in the degrees other than 2^k−1,
+with its graded lift), with MO_*, using the unoriented coefficient ring
+computed below and Quillen's unoriented operation proof
+(Quillen 1969, Theorem 3), and prove the orientation/change-of-coordinate
+universal property of MO.
+TangentialBordism consumes these real formal laws; its geometric cycles
+and manifold representatives are not inputs here.
+
+**Unoriented coefficients.** Own Thom's computation of π_*MO
+homotopically. From G5.3–G5.4's Thom model of MO, G4.3's Thom isomorphism
+and CharacteristicClasses C3's `H^*(BO(n);𝔽₂)=𝔽₂[w₁,…,w_n]` with the
+Whitney formula, identify H^*(MO;𝔽₂) with the free H^*(BO;𝔽₂)-module on
+the Thom class U, and H_*(MO;𝔽₂)=𝔽₂[a₁,a₂,…], |a_i|=i, as an algebra
+under the Thom product. Prove that the Steenrod algebra A acts freely on U
+through degree n on MO(n): restriction along the zero section sends U to
+w_n, and restriction along (RP^∞)^n→BO(n) sends w_n to x₁⋯x_n, on which A
+acts freely through degree n (Miller, Chapter 1, Theorem 12.1 and
+Corollary 12.2). Hence
+the Thom class MO→HF₂ induces a surjective map of A_*-comodule algebras
+H_*(MO;𝔽₂)→A_*. Prove that H^*(MO;𝔽₂) is a free A-module and that
+H_*(MO;𝔽₂)≅A_*⊗P as comodule algebras, P the subalgebra of primitives, by
+the splitting of a comodule algebra that maps onto the Hopf algebra
+(Miller, Chapter 1, Proposition 10.4 and Theorem 12.3; Ravenel, Corollary
+A1.1.18). From an A-basis construct the additive comparison
+MO→⋁_α Σ^(|α|)HF₂, an isomorphism in mod-2 cohomology; prove 2·id_MO
+null through the ring unit since π₀MO=𝔽₂, so that the cofiber of the
+comparison has bounded-exponent homotopy, and conclude by the stable
+Hurewicz theorem on a lowest nonzero homotopy group that the comparison
+is a stable weak equivalence (Miller, Chapter 1, Theorem 12.4). Prove that
+the Hurewicz map π_*MO→H_*(MO;𝔽₂) is an injective ring map with image P.
+Since H_*(MO;𝔽₂) is polynomial on one generator in each positive degree
+and A_* is polynomial on generators in the degrees 2^k−1, choose
+polynomial generators of H_*(MO;𝔽₂) consisting of the images of the ξ_k
+and of lifts of a basis of the indecomposables of P, and conclude
+`π_*MO=𝔽₂[x_d : d≥1, d≠2^k−1]` as a graded ring (Thom 1954, Chapitre IV;
+Miller, Chapter 1, Section 13). This ring is the MO_* of the Conner–Floyd
+comparison below. TangentialBordism's geometric multiplication and its
+manifold generators are matched against these x_d on its side and are
+not inputs. Checks: π₁MO=π₃MO=0 and π₂MO=𝔽₂ on x₂, since 1 and 3 are of
+the form 2^k−1; π₄MO has basis x₄, x₂², rank 2, where counting only
+indecomposables gives 1; in degree 5 the ranks of H_*(MO;𝔽₂), A_* and P
+are 7, 2 and 1, and the Künneth count
+1·1+1·2+1·0+2·1+2·0+2·1=7 of A_*⊗P agrees, whereas replacing A_* by the
+polynomial algebra on all ξ_k and ξ_k² would overcount.
 
 Specify the category of real-oriented multiplicative cohomology theories:
 an object includes its unital homotopy-commutative ring-spectrum model and
@@ -238,8 +550,8 @@ this graded EM model are detected by mod-2 homology, and μ and μ∘τ
 agree there by commutativity of R and the dual Steenrod algebra.
 Construct the ring comparison `H_*(HR;𝔽₂)≃A_*⊗_(𝔽₂)R`
 and the Künneth comparison for HR∧HR, identifying H_*(μ) with
-multiplication on both factors. Consume TB B4.2's commutative dual
-Steenrod algebra `A_*=𝔽₂[ξ₁,ξ₂,…]`; the sphere-twist signs
+multiplication on both factors. Use the commutative dual Steenrod algebra
+`A_*=𝔽₂[ξ₁,ξ₂,…]` constructed above; the sphere-twist signs
 (−1)^(ab) are trivial mod2.
 No strict commutative DGA or E∞ structure is inferred. Prove the chosen
 HR model semistable and compare its model homotopy groups with G2.6's
@@ -247,8 +559,8 @@ true π_* before applying the stable weak-equivalence criterion.
 Identify its underlying module with the wedge, and the weakly equivalent
 product, of Σ^dH(R_d), for d∈ℤ, and prove its represented homology is
 H_*(−;𝔽₂)⊗_(𝔽₂)R. Construct the ordinary real Thom orientation and
-its coordinate x_H; for the prescribed law use F1's normalized
-exponential to define x_F=f_F(x_H). Build its multiplicative Thom
+its coordinate x_H; for the prescribed law use the pinned exponent-two
+exponential `FormalGroup.exponentTwoExp` (F1) to define x_F=f_F(x_H). Build its multiplicative Thom
 classes and MO→HR map, identify the coefficient map and law through
 HR^*(RP∞)=R[[x_H]]. Construct the natural map h_*(X,A)→HR_*(X,A)
 induced by MO→HR; prove it an isomorphism after the Conner–Floyd
@@ -269,7 +581,7 @@ Using the preceding graded EM ring/orientation, for R=MO_* and
 its own real law, its Thom map MO→H(MO_*) induces the identity on
 coefficients by the algebraic classification. Prove it an isomorphism on G2.6 true π_* and hence a stable weak
 equivalence and derive the stated natural module/product/boundary
-comparison, using TB B4's computed MO coefficients. An additive
+comparison, using the coefficient ring MO_* computed above. An additive
 splitting alone is not this multiplicative comparison.
 Deduce freeness and identify h_* naturally with
 `H_*(X,A;𝔽₂)⊗_(𝔽₂)R`. Exactness follows by tensoring over the field,
@@ -328,11 +640,29 @@ F3 space-homology sublane before the F4 Adams–Novikov application.
 
 ## F4. Comodules and Adams–Novikov comparisons
 
-Consume HomotopySpheres Stage3C's three-fold Toda brackets on pointed
-spaces, with chosen adjacent-composite nullhomotopies and their two
-composition-subgroup indeterminacy. Construct their passage through
-suspension and G's sphere-spectrum comparison to stable spectral Toda
-brackets, preserving composition, signs and indeterminacy. Construct
+Own the three-fold Toda brackets of pointed spaces. For pointed CW
+complexes and composable pointed maps h:W→X, g:X→Y, f:Y→Z with chosen
+nullhomotopies A of g∘h and B of f∘g, the extensions f∘A:CW→Z and
+B∘Ch:CW→Z agree on W and glue to a map ΣW=CW∪_W CW→Z, the cone
+coordinate placed last; define ⟨f,g,h⟩⊂[ΣW,Z] as the set of classes of
+these maps over all choices of A and B (Toda, Chapter I). Prove that it
+is nonempty precisely when both adjacent composites are null; that
+changing A by a class a∈[ΣW,Y] changes the value by f∘a and changing B
+by b∈[ΣX,Z] changes it by b∘Σh, so that for W a suspension the bracket
+is one coset of the subgroup f∘[ΣW,Y]+[ΣX,Z]∘Σh of the abelian group
+[ΣW,Z], and for general W the same two subsets act on the left and on
+the right; and naturality in each of the four spaces. Prove the
+suspension comparison Σ⟨f,g,h⟩⊂−⟨Σf,Σg,Σh⟩: suspending a value puts the
+suspension coordinate after the cone coordinate, the bracket of the
+suspended maps puts it before, and the two differ by the swap of the two
+circle coordinates of S¹∧S¹, of degree −1. Checks: the swap of the two
+circle factors of S² has degree (−1)^(1·1)=−1, so reading the two
+constructions as the same map is wrong; stably ⟨2,η,2⟩=η² in π₂^s=ℤ/2
+with indeterminacy 2π₂^s+π₂^s·2=0, so a bracket convention that makes
+every bracket with a repeated entry vanish is wrong. Construct the passage
+of these brackets through suspension and G's sphere-spectrum comparison
+to stable spectral Toda brackets, preserving composition, signs and
+indeterminacy. Construct
 three-fold Toda brackets for composable maps of spectra and of right
 modules over a supplied G2.4 strict associative ring spectrum R,
 including its chosen strict commutative models. Consume G2.4's transferred
@@ -460,8 +790,9 @@ its conditional-convergence statement. Ordinary p-localization and
 p-completion are distinct. Build the AHSS for
 BP-homology from G's cellular filtration and prove its corresponding
 convergence and extension criteria. Supply the free/even/comodule comparisons
-used in the String Hovey calculation. TangentialBordism's mod-p Adams tower
-remains its own construction and is not duplicated here.
+used in the String Hovey calculation. F2's HF_p-based Adams tower is a
+different tower from this BP-based one; neither is substituted for the
+other.
 
 ## F5. Exact functors, deformations and elliptic inputs
 
@@ -509,8 +840,9 @@ Transport the exactness theorem to MU through the actual p-typical
 Hopf-algebroid comparison. Construct the weak equivalence between the
 MU_(p) cooperation groupoid and (A,Γ) using F3's strict p-typicalization,
 its extension/descent comodule functors, unit/counit and finite-presentation
-comparisons. Define the height ideals I_(p,n) in MU_(p)* from the
-[p]-series of its chosen formal group and compare them with the
+comparisons. Take the height ideals I_(p,n) in MU_(p)* as the pinned
+`FormalGroup.heightIdeal` (F1) of its chosen formal group, invariant under
+coordinate change by `heightIdeal_smul`, and compare them with the
 p-typical ideals. Prove independence of lifts of v_i modulo preceding
 height ideals and of the specified coordinate changes. This identifies
 the criterion on an MU_*-module without pretending the quotient
@@ -649,10 +981,11 @@ to construct the actual additive Bott map ΩSU→BU. Own this
 SU-loop/clutching adapter, its rank inclusions and multiplicative
 coherence; the bundle Bott theorem alone is not this map. Construct the native SU(r) stabilization and the sphere fibration
 SU(r)→SU(r+1)→S^(2r+1), including local trivializations and the
-loop homotopy-fibre comparison. Consume the native
-`TauCeti.TopCat.serreFibrations` and locally trivial bundle instances;
-DGFloer1.2 owns their homotopy LES and all-CW ordinary Serre spectral
-sequences, not a second Serre predicate.
+loop homotopy-fibre comparison. Consume AlgebraicTopology Stage 5.5's
+Serre-fibration predicate (the homotopy lifting property for all cubes)
+and the locally trivial bundle instances of it; that stage owns their
+homotopy long exact sequence and the ordinary Serre spectral sequences
+over CW and arbitrary bases, so no second Serre predicate is built here.
 Apply G5.3's numerable bundle/Thom diagrams to the finite-rank pullbacks
 along ΩSU(r)→ΩSU→BU. Own their stabilized Thom-spectrum
 comparison and the E₁/E₂ multiplicative refinement for these loop
@@ -662,10 +995,31 @@ loop-map refinement. Construct X(r), its units, products and rank maps,
 H_*X(r)=ℤ[b₁,…,b_(r−1)] with |b_i|=2i and the flat graded
 cooperation Hopf algebroids used by the relative Adams comparison. Prove X(1)≃S, the (2r−1)-connectivity of
 X(r)→MU and hocolim_r X(r)≃MU, with the Thom homology/product
-comparisons. The proof has the following constructions and estimates.
+comparisons. Own the James construction. For a pointed CW complex Y whose
+basepoint is a 0-cell, construct J(Y) as the free topological monoid on Y
+with the basepoint as unit, with the word-length filtration J_j(Y), the
+image of Y^j, J₀=*, J₁=Y and J_j/J_(j−1)≅Y^(∧j), each J_j a subcomplex of a
+CW structure on J(Y); construct the James map J(Y)→ΩΣY by concatenating
+the adjoints of the suspended letters, and prove it is a weak homotopy
+equivalence for path-connected Y (Hatcher, Theorem 4J.1; James 1955,
+Sections 1–6). Prove that for a field 𝔽 with H_*(Y;𝔽) of finite type,
+H_*(J(Y);𝔽) is the tensor algebra on the reduced homology of Y, with
+H_*(J_j(Y);𝔽) its part of tensor length at most j (Hatcher, Proposition
+3C.8). For Y=S^(2r), r≥1, deduce ΩS^(2r+1)≃J(S^(2r)),
+H_*(ΩS^(2r+1);ℤ)=ℤ[b] with |b|=2r, the James stages J_jS^(2r) with
+homology spanned by 1,b,…,b^j, and the quotients J_j/J_(j−1)=S^(2rj).
+Prove functoriality in Y and compatibility of the filtration with the
+monoid product. These are the stages of item 1 and the sources and
+targets of the James–Hopf maps of item 3; HomotopySpheres consumes them.
+Checks: J₁(S²)=S², J₂(S²)/J₁(S²)=S⁴ and H₂(J₂(S²);ℤ)=ℤ on b, whereas a
+construction with J₂/J₁=S²×S² would add two classes in degree 2; for
+Y=S⁰ the James map is not an equivalence: J(S⁰) is the discrete monoid
+ℕ while ΩS¹ has components ℤ, so the map misses the negative components
+and the path-connectedness hypothesis is not removable. The proof has the
+following constructions and estimates.
 
 1. Pull the fibration ΩSU(r)→ΩSU(r+1)→ΩS^(2r+1) back over
-   HomotopySpheres 3B's actual James stages J_jS^(2r). Construct their
+   the James stages J_jS^(2r) constructed above. Construct their
    Thom spectra F_j, the X(r)-module filtration of X(r+1), F₀=X(r),
    quotients Σ^(2rj)X(r), and the homology/comodule basis
    1,b_r,…,b_r^j over X(r+1)_*X(r). Build its relative Thom
@@ -704,7 +1058,7 @@ comparisons. The proof has the following constructions and estimates.
 3. Construct the combinatorial James–Hopf maps
    H_j:J(Y)→J(Y^(∧j)) for every j≥1, using the ordered j-element
    subwords, their basepoint identifications and filtration/naturality
-   homotopies. HomotopySpheres3B's length-two map is only a special case.
+   homotopies; the length-two map H₂ is the special case j=2.
    For Y=S^(2r), define h₀=id and h_(k+1)=H_p∘h_k, with H_p
    taken on ΩS^(2r p^k+1), and prove p-local mod-p homology
    surjectivity of every h_k:ΩS^(2r+1)→ΩS^(2r p^k+1).
@@ -744,7 +1098,7 @@ comparisons. The proof has the following constructions and estimates.
    odd-prime and prime-2 homology/operation proofs. The source's
    odd-prime calculation leaves prime-2 modifications to the reader;
    those modifications are targets here, not an assumed consequence
-   of TB's cohomological Steenrod operations or G's E∞ transfer.
+   of F2's cohomological Steenrod operations or G's E∞ transfer.
 4. Combine the stage-dependent vanishing and the Bousfield comparisons
    to descend nilpotence from X(r+1)_*R to X(r)_*R. The G_k are
    p-local: prove the descent for every prime and the rational branch,
@@ -1003,8 +1357,8 @@ Construct nonzero finite type-n spectra for every n≥1 by the following
 Smith/Margolis construction, separate from the torsion-free type0 CP
 summands used above. Own the finite Steenrod sub-Hopf algebras,
 Margolis homology, free-module criteria and associated Adams estimates;
-consume TB's mod-p Steenrod/Adams carriers and construct these spectral
-instances. Construct E(Q_i) and, for t>0, the Hopf algebra T_t generated
+consume F2's mod-p Steenrod algebras and Adams towers and construct these
+spectral instances. Construct E(Q_i) and, for t>0, the Hopf algebra T_t generated
 by P_t^s, 0≤s<t, dual to 𝔽_p[ξ_t]/(ξ_t^(p^t)), with
 their dual Hopf-ideal comparisons, including the prime-2 proof. For a p-nilpotent operator P use the
 Margolis
@@ -1530,7 +1884,7 @@ model category of BG-diagrams and its derived/coherent action comparison,
 homotopy orbits, homotopy fixed points, transfer/norm and Tate cofiber, with
 restriction, induction and lax monoidal/module naturality. Prove the
 Greenlees–Sadofsky/Kuhn theorem: for n≥1, finite G and an object
-of Fun(BG,L_(K(n))Sp), its underlying ordinary Tate spectrum E^{tG}
+of Fun(BG,L_(K(n))Sp), its underlying ordinary Tate spectrum E^(tG)
 is K(n)-acyclic. The localized norm is an equivalence; ordinary
 integral Tate vanishing is not asserted.
 Construct the proof in this ordinary Borel norm-cofiber model, using
@@ -1538,786 +1892,26 @@ the following prerequisites and finite-height descent.
 
 1. Construct the coherent Borel Tate product by the induced-object
    tensor-ideal construction. Use G2's simplicial model of spectra and
-   projective BG-diagrams. The following simplicial-set and operadic
-   foundations are construction targets of this item, before their
-   spectral applications. Work in explicit nested universes and prove
-   change-of-universe comparisons for the small and accessible models.
+   projective BG-diagrams.
+   Consume GeneralizedCohomology G2.11's enriched, quasicategorical and
+   monoidal foundations in their stated shapes and universes: its Bergner
+   model with the rigidification/coherent-nerve Quillen equivalence and
+   coherent mapping-space theorem, enriched projective/injective diagram
+   models with their localization, Grothendieck and homotopy-limit
+   theorems, unmarked and marked straightening with the coCartesian
+   instance and enriched Quillen-equivalence criterion, the Joyal model,
+   Cat∞ colimits, descent and Kan extensions, the coherent model-diagram
+   theorem with its stable enhancements Sp∞ and Fun(BG,Sp∞) and their
+   monoidal enhancements, stable quotients, space-valued Ind, coCartesian
+   Day convolution, relative adjunctions and the universal exact
+   lax-monoidal approximation, the parameterized lax-refinement categories
+   A and B with their contractible section spaces, the two-colored
+   associative algebra/module operad and its rectification against G2's
+   strict rings and modules. The following bordism-specific applications
+   are owned here.
 
-   **Categorical model and functor spaces.** Reuse native
-   `EnrichedCat SSet`, `EnrichedFunctor`, `ForgetEnrichment`,
-   `CategoryTheory.SimplicialCategory`, `SimplicialThickening`,
-   `SimplicialNerve`, `SSet.Quasicategory`, inner fibrations,
-   inner-anodyne maps and internal hom. Extend native horn-filling
-   and nerve/quasicategory APIs to the required universes, preserving
-   their predicates and constructors. Construct the ordinary category
-   of the native enriched bundles with strict enriched functors;
-   native `ForgetEnrichment.enrichedOrdinaryCategory` supplies their
-   compatible ordinary enrichment for the nerve. Prove its comparison
-   with that ordinary-enriched presentation; the native bicategory
-   alone is not the category carrying the model structure. Construct
-   the rigidification/coherent-nerve adjunction and prove the locally-Kan
-   coherent nerve is a quasicategory.
-
-   Construct the Bergner model on this category: weak equivalences
-   are weak equivalences on mapping simplicial sets and essentially
-   surjective on π₀-categories. Use free composition on enriched graphs
-   to prove local presentability. Generate cofibrations by adjoining
-   objects and free mapping-simplex boundary cells; define fibrations
-   by lifting against generated trivial cofibrations and construct
-   functorial factorizations by model recognition. Prove left properness
-   by the enriched word filtration of pushouts of free cells and
-   filtered unions. Establish the following invertibility property
-   before characterizing these fibrations locally.
-   For the fixed Cartesian Kan–Quillen base prove the properties
-   of HTTA.3.2's excellent-base criterion: combinatoriality, product
-   stability of monomorphism cofibrations, filtered-colimit stability
-   of weak equivalences and the monoidal model axiom. Prove also
-   the Dwyer–Kan invertibility property: if i:[1]→C is a
-   free-enriched-cell cofibration classifying an edge invertible in
-   Ho(C), then C→C∐_[1]J is a Dwyer–Kan equivalence, with
-   J the walking isomorphism. Also construct the homotopy-invariant
-   version using a cofibrant interval replacement for [1]→J.
-   Construct the cofibrant interval/homotopy-inverse resolution and
-   its mapping-space comparison by the enriched word/bar filtration.
-   These fixed-base proofs precede their use in enriched model
-   recognition and internal-hom theorems; no arbitrary excellent
-   enrichment base is assumed. Now prove the local-fibration
-   characterization: mapping-space Kan fibrations with lifting of
-   homotopy equivalences of objects, and locally Kan fibrant objects.
-   Include Bergner's characterization for the fixed Kan base without
-   assuming the target is fibrant, by the enriched interval lifting
-   argument and free-cell tests.
-
-   **Enriched diagram foundations before straightening.** For every
-   combinatorial simplicial model category M and small simplicial
-   category C, construct its enriched projective and injective diagram
-   models, with free/evaluation and enriched Kan-extension adjunctions,
-   generating factorizations, simplicial mapping ends and replacements.
-   For ordinary indices reuse native
-   `Enriched.FunctorCategory.enrichedHom`, `enrichedHomπ` and
-   `homEquiv`, with their native end construction. Extend it to
-   simplicial enriched indices and prove agreement on the ordinary
-   specialization. Use the preceding fixed Kan-base properties in HTTA.3.3. Construct
-   projective generators by free/evaluation adjunctions. For injective
-   structures prove the objectwise cofibrations have a small weakly
-   saturated generating set by the accessible enriched-functor-category
-   argument, then apply model recognition to objectwise weak equivalences.
-   Prove the pointwise tensor/cotensor mapping axiom for both models.
-   Construct simplicially enriched functorial factorizations for M
-   and these diagram models by the enriched small-object argument.
-   At a generating cofibration i, parameterize all lifting squares
-   by their simplicial mapping pullback and attach i tensored with
-   that square complex. The simplicial model axiom makes these
-   attachments cofibrations, and trivial cofibrations for a trivial
-   generator. Choose a regular cardinal for all generator sources
-   and targets tensored with Δ[n]; transfinite composition then has the required
-   vertex lifting property. Prove that both factorizations and their
-   natural maps are enriched functors, including the induced enriched
-   cofibrant/fibrant replacements. This supplies the enriched diagonal
-   factorizations for path objects, not only ordinary functorial choices.
-   The projective structure supplies the internal-hom and rectification
-   comparisons; injective existence is asserted here only for this
-   Kan enrichment and these verified hypotheses. Prove invariance
-   under a Dwyer–Kan equivalence of indexing categories
-   by the free-cell filtration and enriched bar resolution, using
-   cofibrant replacements of the indices where required. Construct
-   small full model chunks closed under these enriched replacements
-   and finite product/coproduct-map factorization operations for the
-   relevant small diagram categories;
-   prove existence by accessible closure and prove independence and
-   filtered enlargement comparisons. This controls the size of the
-   simplicial categories of fibrant-cofibrant objects. Construct
-   the enriched Yoneda embedding into the projective Kan-presheaf
-   model on C^op, with its enriched evaluation identity. After locally
-   Kan replacement, representables are fibrant-cofibrant by the
-   free/evaluation adjunction. Enlarge their image to a small chunk
-   with the same essential image in the model homotopy category.
-   This embeds any small enriched category, up to Dwyer–Kan
-   equivalence, in such a bifibrant chunk, as required by the
-   internal-hom and localization tests. This is enriched Yoneda;
-   the later space-valued infinity-categorical Yoneda comparison
-   is derived from it after coherent rectification.
-
-   Prove the Joyal-free internal-hom comparison of HTTA.3.4 in
-   the Bergner homotopy category. Construct the actual enriched
-   evaluation map from (U^C)^cf×C to U^cf and prove the natural
-   bijections
-   `Hom_Ho(sCat)(D,(U^C)^cf)≃Hom_Ho(sCat)(D×C,U^cf)`
-   on every small compatible chunk. Projective replacement and
-   path objects built from the enriched diagonal factorizations
-   identify both sides with weak-equivalence classes
-   of (D×C)-diagrams; enriched Yoneda and chunk enlargement give
-   the full-faithful essential-image comparison for arbitrary targets.
-   This stage is a Hom_Ho-set/weak-exponential theorem. Its mapping-
-   Kan-space upgrade is constructed after the product/homotopy-colimit
-   theorem and frames below; it is not used to prove that earlier theorem.
-
-   Construct the enriched localization C[W⁻¹] by pushing out a
-   coproduct of [1]→E, with [1]→E→J the preceding cofibrant
-   interval factorization. Prove replacement invariance by left
-   properness and the Hom_Ho universal property: the map
-   `Hom_Ho(sCat)(C[W⁻¹],D)→Hom_Ho(sCat)(C,D)` is injective,
-   with image exactly the classes sending W to equivalences.
-   Prove injectivity using the doubled-interval localization cylinder.
-   The derived mapping-space version is proved after the frames below.
-   Construct ordinary projective/injective diagram models on the
-   combinatorial Bergner category by accessible model recognition,
-   with functorial replacements and their model homotopy limits and
-   colimits, before the following Grothendieck and product comparisons.
-   For a small poset A and diagram a↦C_a, construct its enriched
-   Grothendieck category: objects (a,x) and mapping simplicial set
-   C_b(p_ab x,y) when a≤b, empty otherwise, with composition induced
-   by p. Compare its forgotten ordinary category, functorially in
-   the diagram, with native `CategoryTheory.Grothendieck` on the
-   underlying Cat-valued diagram, including object/base/fiber,
-   transport and restriction maps. Invert the arrows
-   (a,x)→(b,p_ab x). Prove this localized
-   total category models hocolim_A C_a (HTTA.3.5): build an A-filtered
-   free-cell cofibrant replacement, and compare each initial-segment
-   localization with its terminal C_a by the categorical mapping
-   cylinder. Prove that localization commutes with product by a fixed
-   enriched D when W is extended as (w,id_d), using the internal-hom
-   comparison and the Hom_Ho localization property: test maps
-   into arbitrary targets using enriched Yoneda/chunk embedding and
-   the full-faithful essential-image criterion. All tests here are
-   Hom_Ho sets. Deduce product by D
-   preserves these poset-indexed homotopy colimits. This is a derived
-   comparison, not a monoidal model assertion about the Bergner product.
-
-   Use native `HomotopicalAlgebra.ReedyStructure` and its
-   `HomotopicalAlgebra.ReedyStructure.op` construction for opposite structures.
-   Construct the simplex Reedy structure from native simplex epi/mono
-   factorization, following the design of
-   [`SimplexCategory.reedyStructure`](https://github.com/leanprover-community/mathlib4/blob/1e75e9dd53d483fa01eff9ac7d4ea0472ce9d1fa/Mathlib/AlgebraicTopology/Reedy/SimplexCategory.lean).
-   Construct their Reedy model structures, latching/matching objects
-   and functorial frames on the Bergner model and its ordinary
-   projective diagram models, with objectwise latching/matching
-   comparisons. The resulting derived
-   mapping Kan spaces take model homotopy colimits in the source
-   to homotopy limits, and model homotopy limits in the target to
-   homotopy limits. Prove this by Reedy
-   replacement and the end/bar mapping formula, including the action
-   of Kan spaces through frames. No simplicial enrichment of the
-   Bergner model is presumed. The Reedy lifting property makes
-   a cofibrant cosimplicial frame's tensor and mapping functor a
-   Quillen adjunction from Kan–Quillen simplicial sets to this model.
-   Use the prior product/homotopy-colimit theorem to prove
-   `(W⊗^L K)×^L Y≃(W×^L Y)⊗^L K` by skeletal induction
-   on K: coproducts, boundary-cell homotopy pushouts and sequential
-   skeletal unions are poset-indexed. This needs no arbitrary-index
-   reduction and does not use the homotopy-limit theorem being proved.
-   Now upgrade the weak-exponential Hom_Ho bijection to derived
-   mapping Kan spaces. For a cosimplicial frame D^• define the raw
-   mapping simplicial set H(D^•,V)_n=Hom(D^n,V). It is Kan for
-   fibrant V and sends trivial fibrations in V to trivial Kan
-   fibrations without a fibrancy assumption on their targets.
-   For X,Z fibrant and an evaluation span Z×Y←P→X with
-   P→Z×Y a trivial fibration, impose no fibrancy assumption on Y.
-   Choose a frame C^• and a compatible Reedy-cofibrant frame
-   W^•→C^•×Y for C×^L Y. Form the actual pullback
-   `H(C^•,Z)×_(H(W^•,Z×Y))H(W^•,P)`.
-   Its projection to H(C^•,Z) is a trivial Kan fibration; evaluation
-   gives its map to H(W^•,X). Thus both ends and the pullback are
-   Kan, even though the two raw complexes involving Z×Y and P
-   need not be. This represents the actual natural derived evaluation
-   map from Map(C,Z) to Map(C×^L Y,X). Test it against every
-   Kan K, using the preceding tensor/product comparison and the
-   Hom_Ho exponential bijection, to prove it is an equivalence.
-   Use functorial compatible frame replacements on parameter diagrams
-   for these actual mapping transformations. Prove likewise the
-   derived mapping-space localization property: the map from
-   Map(C[W⁻¹],D) identifies it with the components of Map(C,D)
-   carrying W to equivalences, by the Hom_Ho property tested on
-   Kan parameters and the prior product/localization comparison.
-   Thus the space-level versions are retained after their prerequisites.
-
-   Prove M^cf→M_f[W⁻¹] is a Dwyer–Kan equivalence using
-   the earlier enriched cofibrant replacement on fibrant objects,
-   its enriched natural comparison to the identity and the interval
-   product/localization homotopies. The same proof applies on the
-   compatible chunks and their projective diagram models, before
-   using these comparisons in the following evaluation spans.
-
-   Prove the enriched diagram homotopy-limit theorem of HTTA.3.6.
-   Let A=A₀∪{∞} be a small poset with largest element ∞ and
-   let a↦C_a be a cofibrantly replaced diagram whose value C_∞
-   presents hocolim_(A₀)C_a. Choose a common small chunk U of M
-   such that U^(C_a) is a chunk of the projective model M^(C_a)
-   for every a∈A, using the earlier simultaneous enriched closure.
-   Set F_a=(U^(C_a))_f, with objectwise
-   weak equivalences W_a, and Z_a=F_a[W_a⁻¹]. Restriction makes
-   Z a strict A^op-diagram. Set X=U_f[W⁻¹] and Y_a=C_a.
-   Construct the strict two-variable evaluation spans before deriving
-   any mapping comparison: for b≤a define
-   `P(a,b)=(F_a×C_b)[{(w,id_c):w∈W_a}⁻¹]`.
-   Their maps into Z_a×Y_b come from product/localization, and
-   their maps into X evaluate after C_b→C_a; evaluation inverts
-   the indicated arrows. These maps are functorial on
-   B={(a,b):b≤a}⊂A^op×A. The product comparison makes the
-   left map a weak equivalence. On the diagonal the actual evaluation
-   identifies Z_a as a weak exponential of X by Y_a, using the
-   earlier chunk/internal-hom and replacement/localization comparisons.
-
-   Replace X and the A^op-diagram Z objectwise fibrantly, retaining
-   their evaluation spans. Simultaneously factor the strict B-map
-   P→(Z×Y)×X as a trivial cofibration followed by a projective
-   fibration in the ordinary B-diagram model. Write its middle
-   diagram again as P. Then P(a,b)→Z_a×Y_b is a pointwise
-   trivial fibration: it is a fibration by fibrancy of X and a weak
-   equivalence by two-out-of-three. Its map to X is still an actual
-   natural evaluation. No Y_a fibrancy is required.
-
-   For each cofibrant test object D choose a frame D^• and a
-   projective-Reedy cofibrant replacement, natural in c,
-   `W_c^•→D^•×Y_c`. These are frames for D×^L Y_c.
-   Use three independent indices
-   `T={(a,b,c):c≤b≤a}⊂A^op×A×A^op`.
-   Its arrows to (a₁,b₁,c₁) satisfy a₁≤a, b≤b₁ and c₁≤c.
-   Construct the actual T-diagram
-   `E(a,b,c)=H(D^•,Z_a)×_(H(W_c^•,Z_a×Y_b))H(W_c^•,P(a,b))`.
-   The map into the base uses W_c^•→D^•×Y_c→D^•×Y_b.
-   Its projection α to G(a)=H(D^•,Z_a) is pointwise a trivial
-   Kan fibration, so E is Kan. Evaluation gives a natural map β
-   to G′(c)=H(W_c^•,X). Raw H complexes in the pullback need
-   not be Kan; G, G′ and E are. All variances are now covariant
-   on T; no diagonal of the two-variable P is called a diagram.
-
-   Prove both comparisons by derived right Kan extension in the
-   ordinary Kan-space diagram models, using injective replacements,
-   along π_a:T→A^op. At a₀ its comma index is T_(a≤a₀).
-   The inclusion of Q={a=a₀} has right adjoint
-   r(a,b,c)=(a₀,b,c), hence is homotopy initial for these limits.
-   Q is contractible by (b,c)→(a₀,c)←(a₀,a₀).
-   The projection q:Q→(A_(≤a₀))^op, q(b,c)=c, has right
-   adjoint c↦(a₀,c), hence is homotopy initial; its target has
-   initial object a₀. Prove these homotopy-initiality statements by
-   the adjunction comma contractions and the model right-Kan formula.
-   The unit G→Ran_(π_a)π_a^*G and α give
-   Ran_(π_a)E≃G. The cone G′(a)→G′(c) for c≤a gives
-   the natural comparison G′→Ran_(π_a)π_c^*G′, also an equivalence.
-   Evaluation of the first limit at (a₀,a₀,a₀) is an equivalence
-   by α and contractibility of Q; evaluation of the second is an
-   equivalence by q and its initial object. At that diagonal β
-   is the framed weak-exponential equivalence already proved. The
-   evaluation square therefore makes Ran_(π_a)β an equivalence.
-   The adjunction units, that cone and the restriction maps give
-   naturality in a₀, yielding a natural zigzag of objectwise weak
-   equivalences between G and G′ in the ordinary diagram model,
-   rather than just separately equivalent values. Now apply the model
-   mapping-space/hocolimit formula to D×^L hocolim Y_a and the
-   prior product/hocolimit comparison. Mapping out of every D proves
-   that Z_∞ presents the homotopy limit of Z|_(A₀)^op.
-   Then pass through sufficiently filtered enlargements of chunks,
-   proving closure of model homotopy-limit diagrams at the chosen
-   cardinal by accessibility. Prove the enriched mapping-space
-   recognition criterion
-   for a model homotopy limit when an essentially-surjective comparison
-   from a known homotopy-limit model is supplied. These are the
-   localization, homotopy-limit and index-invariance inputs to the
-   straightening proofs; none uses Joyal, marked models, Cat∞ colimits
-   or the later coherent-diagram rectification.
-
-   Define a simplicial-set map to be a categorical equivalence
-   exactly when its rigidification is a Dwyer–Kan equivalence.
-
-   **Unmarked straightening and the categorical model.** Build
-   unmarked left/right fibration models over a simplicial set.
-   Use monomorphism cofibrations and weak equivalences defined by
-   Dwyer–Kan equivalences of the rigidified left-cone pushouts over
-   the base in the covariant case, and right-cone pushouts dually.
-   Prove these models left proper and combinatorial by Bergner model
-   recognition. Prove SM7 with tensor X×K: monomorphisms give the
-   cofibration pushout-product axiom, and the appropriate endpoint
-   section X→X×Δ[n] is left/right anodyne, so X×Δ[n]→X
-   is a weak equivalence. Use left properness and the simplicial
-   cell filtration for the trivial pushout-product cases (HTT2.1.4).
-   With Kan-valued projective diagrams construct St⊣Un and prove
-   it a Quillen adjunction before testing Quillen equivalence:
-   the free cone-cell construction sends monomorphisms to projective
-   cofibrations, and its mapping-hom description sends rigidified-cone
-   equivalences to projective weak equivalences (HTT2.2.1.2, first clause).
-   Construct unmarked unstraightening's actual simplicial enrichment.
-   Set J^n=(Δ[n]⋆{y})∐_(Δ[n]){x} and
-   Q^n=C[J^n](x,y). Construct Q^•→Δ^• using the largest-element
-   map on the nerve of nonempty subsets, with its quotient comparison.
-   Its precomposition K→Sing_Q K preserves products and units.
-   Prove the external-product formula
-   `Un(F⊠K)≅Un(F)×Sing_Q K` from the simplex definition.
-   Thus K×Un(F)→Un(F⊠K) is an actual tensor strength.
-   A K-parametrized F⊠K→G induces Un(F)×K→Un(G);
-   prove these maps preserve identities and composition by the
-   product/unit laws, giving actual maps of enriched hom objects.
-   This is the construction of HTT2.2's simfun, not a claim that
-   straightening is strictly simplicial. The source slice model has
-   every object cofibrant; no such condition is imposed on the
-   projective diagram target.
-   Prove the enriched Quillen-equivalence criterion for Kan–Quillen
-   simplicial model categories C,D and a Quillen adjunction F⊣G,
-   with an explicitly enriched right functor G and every object of
-   C cofibrant. Construct the mate
-   `β_(K,V):F(K⊗V)→K⊗F(V)` of
-   `K⊗V→K⊗GF(V)→G(K⊗F(V))`, using the unit and
-   G's enriched tensor strength. On cofibrant V both K-functors
-   are left Quillen; β is the identity at Δ[0], so coproduct,
-   homotopy-pushout and skeletal induction prove it is a weak
-   equivalence for every Kan–Quillen-cofibrant K. Construct
-   `Hom_D(F(V),Y)→Hom_C(V,G(Y))` by applying enriched G and
-   precomposing with η_V. For cofibrant V and fibrant Y, testing
-   on K identifies this map with precomposition by β under the
-   ordinary adjunction, giving the derived mapping equivalence.
-   Prove that F⊣G is then a Quillen equivalence exactly when G on bifibrant enriched
-   categories is a Dwyer–Kan equivalence, by the actual derived
-   mapping comparison, unit/counit and essential image. Verify this
-   enriched right-functor/strength structure on unstraightening and
-   use the criterion (HTT's weakcompatequiv), with this typed mate.
-   Prove it is a Quillen equivalence (HTT2.2.1.2), first over simplices
-   by the explicit rigidification contraction and index invariance,
-   then over all bases by pushout and filtered-union induction using
-   the preceding enriched Grothendieck/localization and homotopy-limit
-   theorems. Prove the right-fibration model's equivalences are detected
-   fiberwise by the mapping Kan-space and horn-lifting tests. Prove
-   the adjunction's derived unit/counit and base-change comparisons.
-   Prove its mapping-space comparison by straightening the right
-   fibration X_/y→X: its simplicial presheaf is weakly equivalent
-   both to C[X](−,y) and, objectwise, to the right mapping Kan
-   spaces Hom^R_X(−,y). These constructions use the existing
-   Kan–Quillen model, horn filtrations and the preceding enriched
-   diagram/localization theory, not the Joyal or marked models being
-   constructed. This is the route of HTT2.2.1–2.2.4.
-   Right mapping spaces of products are products; use this comparison
-   and inner-anodyne replacement to prove
-   `C[S×T]→C[S]×C[T]` is a Dwyer–Kan equivalence for all S,T.
-   The extension to arbitrary S,T uses the native inner-anodyne
-   pushout-product/horn filtration, not diagram rectification.
-
-   From the preceding mapping-space comparison prove that a map
-   between quasicategories is a categorical equivalence exactly
-   when it is fully faithful and essentially surjective. Prove
-   fully faithful functors reflect equivalence edges. Use these
-   criteria before the following slice-invariance and fibrancy proofs.
-
-   Construct joins and slice quasicategories by their simplicial
-   universal property. Prove the relative slice projection for an inner
-   fibration is a left/right fibration by the join horn filtration
-   (HTT2.1.2), and prove the equivalence-edge outer-horn theorem
-   HTT1.2.4.3: an edge is an equivalence exactly when every Λ^n_0
-   horn whose first edge is that edge fills, with the dual criterion.
-   Define Cartesian/coCartesian edges by the slice trivial-fibration
-   test over an inner fibration, before any marked model is used.
-   Define a Cartesian fibration as an inner fibration admitting
-   Cartesian lifts of every base edge with specified target endpoint;
-   define coCartesian fibrations dually with specified source endpoint.
-   For quasicategories prove the mapping-space homotopy-pullback
-   criterion by the slice Kan fibers. In particular Cartesian edges
-   over Δ[0] are exactly equivalences. Prove mapping-space fiber
-   comparisons for Cartesian lifts and their fiberwise equivalence
-   criterion. Prove equivalences of quasicategories induce equivalences
-   on slices under any fixed diagram (HTT1.2.9.3/2.4.5): attach the
-   diagram's simplices, identify the fibers over each object with
-   mapping Kan spaces, and pass through towers of Kan fibrations.
-   Use these horn/slice results before applying HTT2.4.6 to Joyal
-   fibrancy. These results concern native quasicategories directly;
-   they do not presuppose the Joyal or marked model structures.
-
-   For these categorical equivalences apply model
-   recognition (HTTA.2.6.13) with monomorphism cofibrations: prove
-   accessibility of this class through the accessible rigidification
-   and Bergner weak-equivalence tests; prove the lifting/factorization
-   hypotheses using boundary/horn cell filtrations and the preceding
-   mapping-space comparison. This constructs the Joyal model and
-   the rigidification/nerve Quillen equivalence. Prove its fibrant
-   objects are exactly the quasicategories by the preceding special
-   outer-horn and slice-invariance theorems, applied as in HTT2.4.6:
-   adjoin an inverse edge, use inner-horn filtrations and the
-   mapping-space equivalence
-   test to prove lifting against categorical trivial cofibrations.
-   Prove the Cartesian Joyal pushout-product property by the
-   boundary/horn filtration and the product comparison above.
-   Prove categorical fibrations between quasicategories are inner
-   fibrations lifting equivalence edges, with functorial replacements.
-   Construct the maximal Kan core and core functor spaces.
-   Define Cat∞ as the native coherent nerve of
-   the simplicial category of small quasicategories with these core
-   functor spaces. Its colimits are constructed below through the
-   marked categorical simplicial model and general diagram comparison.
-
-   **Marked fibrations and Kan extensions.** Construct marked
-   simplicial sets on native SSet as a simplicial set with a set of
-   marked 1-simplices containing the degenerate ones, with mark-preserving
-   maps, limits, colimits, products and simplicial mapping objects.
-   Use the preceding slice-category Cartesian-edge definition and
-   mapping-space characterization, with coCartesian edges dually.
-   Use the preceding Cartesian/coCartesian fibration predicates.
-   Prove composition, base change, contractibility of lift
-   choices and the fiberwise equivalence criterion. For each simplicial
-   set S construct the Cartesian and coCartesian marked models over S.
-   Specify weak equivalences by marked mapping Kan-space tests into
-   all such Cartesian/coCartesian fibrations over S and cofibrations
-   by underlying monomorphisms. Construct the marked anodyne generators,
-   weakly saturated closure and functorial lifting/factorization APIs,
-   proving these descriptions agree. Fibrant objects mark exactly
-   the corresponding Cartesian or coCartesian edges.
-
-   Specialize the Cartesian model to S=Δ[0] and identify marked
-   objects over Δ[0] with marked simplicial sets. The preceding
-   Cartesian-edge/equivalence theorem constructs the marked
-   categorical model,
-   with fibrant objects C marked precisely at their equivalences,
-   monomorphism cofibrations and the indicated marked mapping-space
-   weak-equivalence test. Construct its marking/forgetting Quillen
-   comparison with the Joyal model. Equip the marked categorical
-   and marked fibration models with Kan–Quillen simplicial tensors
-   K^♯×(−), the adjoint cotensors and marked mapping Kan complexes;
-   prove the simplicial model pushout-product axiom by marked-anodyne
-   product closure. Prove local presentability and accessible model
-   recognition in each case, then instantiate the earlier enriched
-   projective-diagram construction for these marked models. Construct
-   the straightening/unstraightening adjunction, using rigidification and
-   the relative coherent nerve, between the coCartesian model over S
-   and projective simplicial diagrams C[S]→marked simplicial sets;
-   use C[S]^op in the Cartesian case. Define straightening on each
-   simplex by its cone/relative mapping simplicial sets, then glue by
-   the simplex category. Construct its tensor comparison
-   `St⁺(X×K^♯)→St⁺(X)⊠K^♯` by the cone's two product
-   projections followed by the point comparison T_Q(K^♯)→K^♯.
-   Verify markings and the unit/associativity laws on the actual
-   mapping simplices, and prove the comparison is a weak equivalence
-   by the marked product-cell filtration and the images of basic
-   marked anodyne cells (HTT spek3–spek5). Adjunction gives the
-   strength K^♯×Un⁺(F)→Un⁺(F⊠K^♯): explicitly use the
-   tensor comparison, the counit St⁺Un⁺F→F and a K-parametrized
-   map F⊠K^♯→G to obtain Un⁺F×K^♯→Un⁺G. Verify the
-   unit/composition laws, producing an actual Kan-enriched Un⁺
-   for the stated sharp tensors, as in HTT's marked straightening
-   proof; St⁺ need not be simplicial. Prove the adjunction Quillen
-   using the cofibration/anodyne images and this tensor comparison,
-   then prove it a Quillen equivalence:
-   check unit/counit on simplices by the mapping-simplex filtration,
-   extend across marked anodyne cells and homotopy colimits using
-   the earlier enriched localization/homotopy-limit theorem, and prove
-   derived unit/counit equivalences on all fibrant diagrams. Verify
-   the marked straightening tensor comparison and use the preceding
-   enriched Quillen-equivalence criterion. This
-   identifies the fibration model with the strict enriched diagram
-   model, naturally under base change. Construct the remaining model
-   diagram comparison before identifying its coherent functor category.
-
-   **Coherent model diagrams and stable enhancements.** Prove
-   `C[S×Δ[n]]→C[S]×C[Δ[n]]` is a Dwyer–Kan equivalence,
-   using the already constructed mapping-space/Joyal product comparison.
-   Together with the Bergner/Joyal Quillen equivalence this gives,
-   for every Dwyer–Kan equivalence C[S]→C, the actual categorical
-   equivalence
-   `N((M^C)^cf)≃Fun(S,N(M^cf))` of HTT4.2.4.4.
-   Construct its evaluation map, derived unit/counit and all
-   higher-simplex comparisons. Prove naturality in commuting squares
-   of base and enriched index maps, including diagrams of groups,
-   and compatibility with derived restriction and left/right
-   Kan-extension adjunctions, using the respective projective/injective
-   replacements and units/counits; compare with their coherent
-   universal properties after constructing coherent Kan extensions below.
-   State base-change equivalences
-   only under their required cofinality or exact-square conditions;
-   use the product comparison for S×Δ[n] to identify transformations
-   and mapping spaces. This is a general model-diagram theorem,
-   instantiated for Kan complexes, marked categorical and fibration
-   models, G2 spectra and the transferred algebra/module models below.
-   Verify the hypotheses in each instance. For G2 spectra prove local
-   presentability from the sphere-module/presheaf presentation and
-   accessibility of the stable equivalence localization; combine its
-   generating cofibrations with the simplicial tensor/cotensor
-   adjunction to prove the model mapping axiom: first check the level
-   structure, then use closure of Ω-spectrum local objects under
-   Kan cotensors to pass through stable localization. This gives
-   the required combinatorial simplicial model. For the marked models
-   use their preceding anodyne recognition and simplicial axiom; for
-   algebra/module models use the word-cell transfer below.
-
-   Define a cone on p:K→C using Δ[0]⋆K and a cocone
-   using K⋆Δ[0], with categories C_/p and C_p/ respectively.
-   Define infinity categorical limits as terminal cone objects and
-   colimits as initial cocone objects
-   and prove the mapping-space criterion (HTT4.2.4.3), including
-   naturality in the cone diagram. Define a pointed infinity category
-   by a zero object, both initial and terminal. Define it to be stable
-   when it has finite limits and colimits and a square is a pushout
-   exactly when it is a pullback.
-
-   Prove the homotopy (co)limit comparison of HTT4.2.4.1: use the
-   enriched derived mapping-end/bar formula to identify maps from a
-   homotopy colimit with maps of its coherent diagram into a constant
-   diagram; dually treat homotopy limits. The preceding rectification
-   theorem identifies these with the infinity categorical cone universal
-   properties, including diagrams on arbitrary small simplicial sets.
-   Apply it to the marked categorical model, with its Kan simplicial
-   enrichment, to construct Cat∞ colimits. Prove its comparison with
-   the quasicategory/core-functor presentation and with the derived
-   Joyal model through the marking/forgetting Quillen equivalence;
-   do not assume the Joyal internal hom is a Kan simplicial enrichment.
-   Construct relative localization (C,W) by the categorical homotopy
-   pushout replacing the marked edges by walking equivalences. Prove
-   its functor-space universal property and preservation of colimits
-   of relative diagrams. Prove Δ[0]/Δ[1] generate Cat∞ under small
-   colimits by spines, finite cell attachment and filtered unions;
-   construct the slice colimits and their model comparisons.
-
-   Construct the enriched Dwyer–Kan localization by hammock mapping
-   spaces and composition, with simplicial-category fibrant replacement.
-   Prove its coherent nerve has the localization universal property
-   and compare cofibrant-object localization with N(M^cf). For G2's
-   model define Sp∞=N(Sp_model^cf). The general diagram theorem
-   and derived (co)limit comparison identify its zero and finite
-   limits/colimits with G2/G3's model homotopy (co)limits, naturally
-   in coherent diagrams. Identify its suspension/loop adjunction with
-   G2's stable-model Quillen equivalence; prove the derived unit/counit
-   equivalences and the pushout/pullback-square comparison. Thus Sp∞
-   is stable. Prove Fun(BG,Sp∞) is stable with pointwise finite
-   limits/colimits and compare it exactly with G2's projective
-   BG-diagrams by this same general rectification theorem. The monoidal
-   part of this comparison is constructed below after the monoidal
-   enhancement. Derived smash is exact separately by the stable model
-   comparison.
-   These are the stable enhancements used below, not consequences
-   inferred solely from the triangulated homotopy category.
-
-   Apply general model-diagram rectification to the earlier marked
-   straightening Quillen equivalence, obtaining its identification
-   with Fun(S,Cat∞), natural under pullback and on every higher
-   base simplex. Apply it also to unmarked Kan-valued straightening,
-   identifying right fibrations with Fun(S^op,Spaces); prove a right
-   fibration with contractible fibers is an equivalence. These supply
-   the mapping-simplex and Grothendieck comparisons of HTT §§2.1,
-   2.4,3.2–3.3 before the descent and Kan-extension constructions.
-
-   Prove strict pullback along a coCartesian fibration preserves
-   categorical equivalences, by the marked straightening comparison
-   and the simplex-wise mapping-space test. It already preserves
-   monomorphisms and colimits, hence is left Quillen on Joyal slices.
-   Deduce its derived pullback preserves Cat∞ colimits. Prove descent
-   of coCartesian fibrations across a colimit of bases by gluing their
-   straightened functors; identify the total-space colimit and every
-   pullback. Together with Δ[0]/Δ[1] generation and localization's
-   colimit property this supplies the actual base-descent theorem
-   used in the monoidal localization below.
-
-   Using the preceding slice/join cone and (co)limit definitions,
-   define left/right Kan extensions by their functor-space universal
-   properties. Prove the pointwise comma-category
-   formulas, the existence theorem when those pointwise (co)limits
-   exist, composition, base change under the stated cofinality conditions,
-   and the criterion for an extension to be absolute. Define adjunctions
-   by the corresponding representable mapping-space pairing and build
-   their unit/counit, triangle comparisons and contractible space of
-   choices. Prove a fully faithful right adjoint exhibits localization:
-   precomposition identifies functors out of the target with functors
-   inverting the unit maps, including higher natural transformations
-   (the localization criterion of HTT5.2.7.4). Construct accessible
-   presheaf localizations by cell inversion of a small set of maps,
-   with the objectwise local mapping-space criterion; establish the
-   cardinal bounds and accessible adjoints needed below.
-
-   Construct the following monoidal/fibration sub-lane before using
-   the quotient product. Work on native simplicial sets and nerves;
-   Fin_* is the finite-object full subcategory of native `Pointed`,
-   with its small skeleton (Fin(n+1),0). Define active/inert maps and
-   construct their factorization and the inert projections. Use the
-   Cartesian/coCartesian edge, lift and fiberwise-equivalence APIs
-   constructed above.
-   Use the preceding marked straightening equivalence and its
-   naturality in the base for these relative coherent nerves and
-   simplicial Grothendieck constructions. Include mapping simplices
-   over all Δ[n] and their descent, not just chosen edge lifts.
-   Define monoidal enhancements as coCartesian fibrations over
-   N(Fin_*) with Segal fibers C^n; define monoidal functors by
-   preserving all coCartesian edges and lax functors by preserving
-   inert ones. Construct their functor/natural-transformation spaces
-   over this base, and prove equivalences are detected on underlying
-   objects. Define an infinity operad by the inner-fibration,
-   inert-lift and Segal conditions, including the product decomposition
-   of mapping spaces over a specified Fin_* map. Construct its
-   colors, multi-operation spaces, units and substitution. Construct
-   the operadic nerve of a locally Kan colored simplicial operad and
-   prove these axioms by the colored mapping-space/horn comparison.
-   Define operadic functors by inert preservation. This gives the
-   general definitions needed for LM below without requiring every
-   infinity operad to be a coCartesian monoidal category.
-
-   For G2's monoidal model, use the full subcategory of cofibrant
-   objects together with the tensor unit and its isomorphic copies.
-   Prove tensor closure and preservation of weak equivalences in
-   each variable, including maps to/from the possibly noncofibrant
-   unit: compare with Q1→1 and use the model's unit axiom.
-   Construct the ordinary operator category with objects tuples
-   (X₁,…,X_n) and arrows over f in Fin_* given by maps from the
-   ordered tensor over f⁻¹(j) into the j-th target. Extend native
-   monoidal coherence to symmetric coherence: normalize tensor words
-   by a bracketing and a permutation, prove independence using the
-   hexagon, symmetry and braid/Coxeter relations, and prove that two
-   structural maps agree when their permutations agree; prove the
-   converse in the free symmetric monoidal category on labeled words.
-   Use this theorem to define composition and reordering in the operator
-   category and prove all category laws. Take its ordinary
-   nerve over N(Fin_*) and localize at the fiberwise weak-equivalence
-   tuples.
-   Prove the resulting map to N(Fin_*) is coCartesian with fibers
-   the corresponding products of DK localizations. For comparison
-   with the full model, use absolute right Kan extensions presenting
-   the left-derived multi-Quillen tensor functors; construct them by
-   functorial cofibrant replacement and verify the unit comparison.
-   Check composition of these extensions on Δ[2], then use mapping-
-   simplex gluing/descent for general bases. Prove the unit-adjoined
-   cofibrant and full-model localizations agree over N(Fin_*), with
-   the full-model functor lax and the unit-adjoined restriction
-   monoidal. This constructs
-   the monoidal enhancement of G2's derived smash without requiring
-   a strictly monoidal fibrant replacement.
-
-   Apply the same unit-adjoined localization to G2's projective
-   BG-diagram model with diagonal smash. Prove its pushout-product
-   axiom on free G-cell generators: the diagonal G-action on G×G
-   is free, so the pushout product is a coproduct of free cells with
-   the underlying spectral pushout product. The trivial-action unit
-   need not be projectively cofibrant. Construct its projectively
-   cofibrant replacement EG₊∧S→S from G2.9's free contractible
-   bar carrier and its free G-CW realization;
-   prove the unit axiom on cofibrant diagrams by its underlying weak
-   equivalence and the spectral unit axiom. Use this replacement in
-   the unit-adjoined/full-model comparison, not an assumed cofibrant
-   trivial-action unit. Prove the induced monoidal enhancement agrees
-   with pointwise smash on Fun(BG,Sp∞), through the general diagram
-   comparison on all tensor tuples, units and higher operator simplices.
-   Thus the earlier exact projective/coherent comparison is monoidal,
-   naturally in group restriction, before it is used by the Tate lane.
-
-   For a small stable enhancement C and full stable D, construct the
-   quotient C/D at maps whose cofibers belong to D. Prove exactness,
-   replacement invariance, the exact-functor universal property, and
-   the filtered mapping-space formula
-   `Map_(C/D)(X,Y)≃colim_(Z∈D_/Y) Map_C(X,cofib(Z→Y))`.
-   Construct the infinity category of presheaves Fun(C^op,Spaces)
-   with values in Kan spaces, using the general model-diagram
-   theorem for the Kan–Quillen projective diagram model. Prove the space-valued Yoneda theorem,
-   mapping-space formulas and objectwise limits/colimits. Define
-   Ind_κ(C) as its full subcategory of κ-filtered colimits of
-   representables; construct its universal property for κ-filtered
-   colimit-preserving functors, the compact-representable comparison,
-   and the case κ=ω. Prove Ind_κ(C) is stable for small stable C:
-   use the lim-colim mapping formula and exactness of filtered
-   colimits of spaces. Compute finite limits objectwise and construct
-   finite colimits by common filtered presentations of finite coherent
-   diagrams in C. Verify their universal properties by that formula.
-   The represented zero is initial and terminal within Ind_κ(C);
-   it is not the empty initial presheaf. Identify fibers, cofibers and
-   suspension by these constructions, rather than asserting closure
-   under objectwise presheaf colimits.
-   This uses space-valued presheaves, rather than set-valued ordinary
-   Ind or a purported strict spectral composition on arbitrary
-   mapping Kan complexes. Compare with G2's concrete mapping spectra
-   on fibrant-cofibrant diagrams through their derived mapping spaces.
-   For a tensor ideal D, construct the monoidal DK quotient by
-   localizing the total monoidal nerve at tuples of cofiber-in-D maps.
-   Tensor stability of that class, the family localization just proved
-   and Segal fibers identify its underlying quotient with C/D.
-   The functor-category universal property over N(Fin_*), restricted
-   to functors preserving inert edges, proves the lax monoidal
-   universal property, including natural transformations.
-
-   Construct the coCartesian symmetric monoidal enhancement
-   Ind(C)^⊗→N(Fin_*) by operadic left Kan extension of the
-   Yoneda embedding, first for ordinary filtered Ind(C). Construct Day
-   convolution on
-   space-valued presheaves: its n-input value is the left Kan extension
-   of the external product along the n-fold tensor C^n→C.
-   Construct the relative operadic left Kan extension by the active
-   overcategories and their colimit cones, prove compatibility with
-   composition of active maps, and use the marked straightening
-   theorem to assemble its coCartesian fibration over N(Fin_*).
-   Prove its inert fibers are products, the Segal equivalences, unit
-   and symmetry, and the universal property for functors preserving
-   the indicated colimits separately. Restrict to Ind using the
-   tensor closure of representables and the formula
-   `(colim_i yX_i)⊗(colim_j yY_j)=colim_(i,j)y(X_i⊗Y_j)`.
-   Prove Yoneda is monoidal and exact into Ind(C); construct the
-   finite colimit comparisons through common filtered presentations.
-   Deduce tensor preserves finite colimits and, by filtered unions
-   of finite sums, all small colimits separately. Prove this enhancement
-   is characterized by that universal property (HA4.8.1.10/13).
-   This proves all higher
-   coherence as a coCartesian construction, not an objectwise formula.
-
-   Construct relative adjunctions over a simplicial base from the
-   marked comma fibrations representing the fiberwise mapping-space
-   pairings. If the left functor preserves coCartesian transport and
-   has fiberwise right adjoints, construct its relative right adjoint
-   by representing these pairings over every base simplex. Define its
-   transport maps as adjoint mates; these maps need not be invertible
-   for active arrows. Use the straightening equivalence to assemble
-   the functor and its unit/counit over the whole base.
-   Apply this to a monoidal L^⊗ whose underlying L has a right
-   adjoint R. Its multi-fiber adjoints are products of R. Prove the
-   relative right adjoint R^⊗ over N(Fin_*) preserves inert edges,
-   by the product/projection comparison and the relative unit/counit
-   (HA7.3.2.6/7). Its active maps recover the mates of tensors of
-   counits. Construct the naturality of this relative adjunction in
-   functor spaces, so these mates include all higher simplices.
-   Apply it to fixed points and to the fully faithful right adjoint
-   `Ind(C/D)→Ind(C)` of monoidal localization. Construct the
-   latter adjoint using the local presheaf model and the filtered
-   cofiber mapping formula, and prove its unit/counit/full faithfulness.
-   Prove Ind extends lax functors by its operadic left Kan
-   extension, and that colim:Ind(E)→E is monoidal whenever E
-   has the indicated filtered colimits and tensor preserves them
-   separately. Deduce the universal exact lax-monoidal approximation
-   killing D as `C/D→Ind(C)→Ind(E)→E`. Prove its universal
-   property in the actual exact/lax functor spaces and that the space
-   of compatible lax structures is contractible. These are the
-   infinity categorical adjoint and monoidal Ind constructions;
-   ordinary monoidal localization does not supply them.
-
-   Construct the simplicial category whose objects are these small
-   coCartesian Segal fibrations over N(Fin_*) and whose mapping
-   Kan complexes are the cores of their inert-preserving relative
-   functor quasicategories. Prove Kan-ness, composition and units;
-   take its native coherent nerve to obtain the infinity category
-   of symmetric monoidal infinity categories and lax functors. This
-   is not the category with all maps over N(Fin_*) or the functor
-   category whose natural transformations encode only strong monoidal
-   maps. Construct A with
-   objects (C,D,F₁,F₂,α), where C,D are symmetric monoidal,
-   F₁:C→D is lax monoidal, F₂:C→D is an underlying functor,
-   and α:F₁→F₂ is an underlying natural transformation. Construct B
-   with the same objects carrying also a lax structure on F₂ and a
-   lax monoidal α. Define their morphisms and all higher simplices
-   by the universal evaluation/relative-functor fibrations and their
-   arrow categories. In both A and B a morphism has strong symmetric
-   monoidal ambient maps u:C→C′, v:D→D′, equivalences of squares
-   vF_i≃F_i′u, and the compatibility with α. In A the F₁
-   square is lax monoidal and the F₂ square is underlying; in B
-   both square equivalences and compatibility are lax monoidal. Use their relative
-   functor-space pullbacks and the Cartesian/coCartesian Grothendieck
-   construction to assemble varying source/target categories. Prove
-   this definition's functor-space universal property, including every
-   higher compatibility, and construct B→A forgetting the refinements.
-   Prove small limits in this B are computed objectwise: strong ambient
-   transport preserves every operadic coCartesian edge, so the limit
-   fibration has coCartesian lifts computed componentwise, with product
-   Segal fibers. The square equivalences induce the limiting functors
-   and α; prove B→A preserves these limits. In particular apply
-   this theorem to Kan-indexed diagrams
-   of equivalences. No such limit-creation assertion is made for
-   arbitrary lax ambient maps. Replace B→A by a
-   categorical fibration, naturally in base change. For a Kan
-   parameter space S→A whose objects satisfy the preceding universal
-   approximation, its pullback has the contractible fibers proved by
-   that universal property. Prove a categorical fibration over a Kan
-   complex is Cartesian, using equivalence-edge lifting; with these
-   groupoidal fibers it is a right fibration, and with contractible
-   fibers it is a trivial Kan fibration. Its space of sections is
-   therefore contractible (HTT3.3.1.8,2.4.2.4,2.1.3.4). This
-   constructs the actual parameterized refinement and its total space,
-   including higher transformations and base change.
-
-   Apply this to C=Sp^(BG) and the stable tensor ideal D generated
+   Apply G2.11's stable quotient, Ind and universal-approximation
+   constructions to C=Sp^(BG) and the stable tensor ideal D generated
    by all induced objects Ind_1^G X, using finite cones and shifts.
    Prove the projection formula identifies the tensor of an induced
    object with any action as induced, and that the norm on induced
@@ -2327,8 +1921,8 @@ the following prerequisites and finite-height descent.
    kernel-killing cofibers. The resulting formula
    `colim_(Y∈D_/X) cofib(Y→X)^(hG)≃X^(tG)`
    follows from the norm cofiber triangles and the vanishing of the
-   colimit of the orbit terms. Apply the preceding universal
-   approximation to homotopy fixed points, which are lax symmetric
+   colimit of the orbit terms. Apply G2.11's universal exact
+   lax-monoidal approximation to homotopy fixed points, which are lax symmetric
    monoidal as a right adjoint. This constructs the lax symmetric
    monoidal Tate functor and the compatible `can:hG→tG`.
    D is not closed under arbitrary filtered colimits.
@@ -2337,61 +1931,12 @@ the following prerequisites and finite-height descent.
    are tensor-closed, and BG-diagrams agree with coherent actions on
    those objects. Prove these bounds and pass from that small model
    by Ind_κ; prove independence of κ and the chosen small model.
-   These coherent quotient/Ind constructions precede their use here.
+   G2.11's coherent quotient/Ind constructions precede their use here.
 
    Construct the unital Tate action for every coherent equivariant
    left module over a coherent equivariant associative ring by applying
-   the lax functor to the two-colored associative algebra/module
-   operad. Construct its ordered input profiles explicitly: an A-output
-   has an ordered word of A-inputs; an M-output has an ordered
-   word of A-inputs followed by its sole M-input. Permutations
-   relabel the input slots. Construct slot substitution, permutations,
-   units and the colored operator nerve LM^⊗. Prove its infinity
-   operad axioms; it is not required to be a coCartesian monoidal
-   category. Define its algebras as inert-preserving functors
-   LM^⊗→C^⊗ over N(Fin_*). Construct restriction along
-   Assoc^⊗→LM^⊗, recording the associative algebra A, and
-   evaluation at the module color, recording its underlying M.
-   Construct the fiber over A and compare it with the derived strict
-   left-module category through the rectification below; compare the
-   total category with strict algebra/module pairs. These are the
-   specified comparison targets, including maps and higher
-   transformations. Prove unit, composition, base-change
-   and group-restriction comparisons in these operadic functor spaces.
-
-   Construct the separate operadic rectification comparison with
-   G2's strict associative rings and left modules. Use its simplicial
-   stable-projective spectral model and its pushout-product and monoid
-   axioms. Prove its sphere is cofibrant: identify it with the free
-   spectrum F₀(S⁰), use the level-projective free/evaluation Quillen
-   adjunction and cofibrancy of S⁰, then note stable left Bousfield
-   localization keeps these cofibrations. This precedes rectification;
-   no cofibrant unit is asserted for the positive-flat model. For the
-   two-colored associative/module operad, prove its operation sets
-   are Σ-free by their ordered-word permutation torsors. Use this
-   Σ-cofibrant operad directly. Construct its free algebra/module
-   word filtrations, including nullary unit cells, and its transferred
-   combinatorial simplicial model of strict pairs. Prove the model
-   hypotheses by the pushout-product/free-cell filtration. Construct
-   cofibrant algebra/module bar resolutions and the coherent operadic
-   nerve comparison; their word-cell and mapping-end computations
-   prove the derived unit/counit and identify the localization of
-   strict pairs with Alg_LM(Sp∞), as in HA4.1.8/4.3.3. For a
-   supplied algebra A use a cofibrant strict representative and prove
-   the module-fiber comparison is independent of that choice. Compare
-   G2's positive-flat and this cofibrant-unit model through the same derived
-   ring/module comparisons, with their actual Quillen hypotheses.
-   For BG, apply the general model-diagram theorem to these
-   transferred algebra/module simplicial models, verifying its
-   combinatorial hypotheses by the preceding free-cell construction,
-   and compare with
-   Fun(BG,Alg_LM(Sp∞))≃Alg_LM(Fun(BG,Sp∞)); prove this
-   equivalence from the operadic functor definition and pointwise
-   operations. The earlier bar comparison of spectra alone is not
-   used to rectify rings/modules. This theorem applies to supplied
-   strict/coherent associative data, not to an arbitrary homotopy ring.
-   This is the reusable coherent-module API consumed by
-   Elliptic E2's finite-action towers. Also construct its homotopy-ring/
+   the lax functor to G2.11's two-colored associative algebra/module
+   operad and its algebras. Also construct its homotopy-ring/
    homotopy-action version: multiplication and module identities are
    transported through the natural lax product without asserting an
    associative strictification of K(n). Prove exactness and
@@ -2410,12 +1955,12 @@ the following prerequisites and finite-height descent.
    the Kan groupoid/core and prove all higher inverse/composition
    comparisons. Compose that covariant functor with the parameterized
    fiber functor. Fixed points and the induced-ideal quotient define a
-   diagram in A over B(G/H). Apply the preceding right-fibration
-   refinement theorem, using objectwise limits in B, to lift it
+   diagram in G2.11's category A over B(G/H). Apply its right-fibration
+   refinement theorem, using objectwise limits in its category B, to lift it
    coherently to the lax fixed-to-Tate transformation. Prove the
    forgetful map is an equivalence and respects multiplication and
    the normal-extension norm. Take the limit of the lifted diagram
-   in B. Prove BG≃colim_(s∈B(G/H))F_s for its Kan fiber family,
+   in G2.11's B. Prove BG≃colim_(s∈B(G/H))F_s for its Kan fiber family,
    by the groupoid straightening/Grothendieck comparison. Then
    `lim_s Sp^(F_s)≃Sp^(BG)` because Fun(−,Sp∞) sends this
    colimit to a limit, and the constant target has limit
@@ -2556,7 +2101,7 @@ and Milnor/lim¹-vanishing hypotheses; retain the derived limit otherwise.
 For a fixed prime p and a Landweber-exact
 p-local coefficient module M with M/I_(n+1)=0 prove the represented theory is E(n)-local,
 and construct its p-completion Hasse square under the stated finiteness
-and completion hypotheses. EllipticCohomology E2 supplies the height≤2
+and completion hypotheses. EllipticCohomology E2 consumes it for the height≤2
 elliptic instance. Include the K(1)/K(2) comparisons and the arithmetic square for
 all spectra using derived p-completion, with vertices X, ∏_p X_p^∧,
 X_ℚ and (∏_p X_p^∧)_ℚ, proving its homotopy-cartesian comparison
@@ -2584,14 +2129,14 @@ Euler and duality diagrams along the actual comparison homotopy equivalences.
 Write
 P_C=MU∧Σ∞C₊ and P_D=MU∧Σ∞D₊, as constant objects of
 A_MU(BT)=Fun(Sing BT,Mod_MU). Treat specified finite-free presentations
-P_C≃⊕_jΣ^{d_j}MU and P_D≃⊕_kΣ^{e_k}MU, as well as the general
+P_C≃⊕_jΣ^(d_j)MU and P_D≃⊕_kΣ^(e_k)MU, as well as the general
 finite-cell P_C,P_D without such presentations. Compactness supplies neither
 a chosen finite CW model nor a finite-free MU basis; construct the former
 through the cited manifold/CW comparison and carry the latter as actual data
 when using the finite-free interface.
 
 For a T-equivariant complex rank-r bundle ν→C with no zero character weights,
-consume G5.7's actual Thom-cocone Euler map eν:P_C→Σ^{2r}P_C. Construct
+consume G5.7's actual Thom-cocone Euler map eν:P_C→Σ^(2r)P_C. Construct
 `torusFiniteCellMappingEulerComparison`: compact MU-oriented duality on D
 and the constant-family mapping comparison identify
 
@@ -2617,10 +2162,10 @@ postcomposition interface identify its entries by the same oriented-duality
 calculation and prove injectivity. Include the empty sums and r=0 unit branch.
 
 For any finite CW X, build the actual finite projective-bundle comparisons
-MU^k(X×(CP^n)^ℓ)=⊕_{0≤α_i≤n}MU^{k−2|α|}(X)x^α, their multiplicative
+MU^k(X×(CP^n)^ℓ)=⊕_(0≤α_i≤n)MU^(k−2|α|)(X)x^α, their multiplicative
 restriction maps and their surjectivity in every degree. Use G3's Milnor
 sequence to obtain zero lim¹ and the completed graded ring
-MU^k(X×BT)=∏_{α∈N^ℓ}MU^{k−2|α|}(X)x^α. Construct the same comparisons
+MU^k(X×BT)=∏_(α∈ℕ^ℓ)MU^(k−2|α|)(X)x^α. Construct the same comparisons
 for BP and MU_(p). Use x_i=e(λ_i) for CC/G5.7's standard character line
 λ_i=O(−1); its ordinary coefficient image is −h_i. Relate this coordinate
 to G4's dual-line projective-bundle coordinate by the actual formal inverse.
@@ -2657,7 +2202,7 @@ degrees: the scalars shift degrees, rather than acting within one degree.
 This reduces cancellation to scalar Π regularity while retaining all
 nilpotent constant terms of eν. The skeletal ideal need not be a subcomodule.
 
-For finite X=C×D identify BP^k(X) with BP_{−k}(DΣ∞X₊), including the actual
+For finite X=C×D identify BP^k(X) with BP_(−k)(DΣ∞X₊), including the actual
 coaction. Apply F5's finite filtration by shifts of BP_*/I_h, h finite and
 including h=0. Prove scalar-character regularity on every completed factor:
 write χ=dχ₀ with primitive χ₀, implement a GL_ℓ(Z) torus-coordinate change,
@@ -2713,10 +2258,10 @@ coefficient maps on Euler and extension classes.
 ### F6.7. Euler cancellation and module-extension nullhomotopies
 
 In G5.7's module-family category take an actual cofiber triangle
-A→B→Q→δΣA, a specified finite sum A≃⊕_DΣ^{b_D}P_D, a finite family of
+A→B→Q→δΣA, a specified finite sum A≃⊕_DΣ^(b_D)P_D, a finite family of
 fixed components C and nonzero-weight complex bundles ν_C of ranks r_C,
 and specified data
-Q≃⊕_CΣ^{2r_C}P_C, j:⊕_C P_C→B, qj~⊕_C eν_C.
+Q≃⊕_CΣ^(2r_C)P_C, j:⊕_C P_C→B, qj~⊕_C eν_C.
 The ranks may vary. Construct `momentStratumExtension_nullhomotopy`: compose
 the given diagonal homotopy with the actual cofiber nullhomotopy δq~0,
 apply F6.6 to each finite mapping entry to prove [δ]=0 in the global
@@ -2747,8 +2292,9 @@ F6.6 consumes the earlier F1–F3/F5 coefficient/comodule constructions,
 F6.3's generic p-typical ring map/action and F6.4's generic coefficient
 polynomial/monomial foundation, together with G's finite-duality and G5.7
 module-family/Thom adapters. Its coefficient proof does not consume the
-chromatic localization, strong-smashing or Tate applications. The generic
-F6.5 enhancement precedes G5.7 and has no F6.6 or geometric input.
+chromatic localization, strong-smashing or Tate applications. F6.5's
+Tate lane consumes G2.11's generic enhancement and has no F6.6 or
+geometric input.
 F6.7 consumes F6.6 plus G5.7's extension classification.
 The separate stable-stratum/diagonal construction in
 SymplecticGeometry/ConvexityToric T2, **Morse–Bott and moment-map topology**,
@@ -2756,8 +2302,10 @@ supplies the geometric cofiber/diagonal data and instantiates F6.7 for the
 full integral MU-module finite moment filtration. The Euler proof uses the
 generic coefficient constructions and the stated module-family/duality inputs.
 
-F1 precedes F2. F2 consumes TB B4's mod-p Adams/coefficient tools plus
-G's MU model and supplies F3's spectra/cooperations. F4's initial AHSS
+F1 precedes F2. F2 constructs the mod-p Steenrod algebras, the HF_p-based
+Adams towers and the unoriented coefficient ring from AlgebraicTopology's
+ordinary cohomology and G's HF_p, MO and MU models, and supplies F3's
+spectra/cooperations. F4's initial AHSS
 uses these construction targets; the F3 space-homology presentation then
 precedes F4's Adams–Novikov/comodule applications. G3 owns integer
 spectral localization, derived p-completion and π-holim/Milnor, with its
@@ -2765,12 +2313,12 @@ actual ring/module and convergence comparisons; consume it before MU_(p)
 and keep F4's BP-nilpotent completion and its identification as new targets.
 F6.1 builds homological localization from G2's model and its own
 cardinality inputs. F6.2's nilpotence proof consumes G5's Thom and
-complex Bott models and HomotopySpheres3B's James construction;
+complex Bott models and its own James construction;
 its X(r)-based towers and E₂ Thom refinements are new constructions.
 F6.3 first constructs the quotient-operation stable homology
 comparison and the P(n)/B(n)/E(n) class comparisons from F3/F5,
 before height forms, finite support or Moore
-systems. Its Smith toolkit and TB's Steenrod/Adams carriers supply
+systems. Its Smith toolkit and F2's Steenrod/Adams carriers supply
 the separate linear-connectivity theorem, type examples and initial
 periodic maps; then thick classification, periodicity transport and
 Moore systems and their system-level MU/BP map comparisons follow.
@@ -2782,18 +2330,15 @@ finite type examples and F5 exactness, then builds
 algebraic stabilizer/change-of-rings/prenilpotence before smashing
 and fracture. Its continuous cohomology consumes ProfiniteCohomology,
 and its idempotent adapters consume SchurWeyl's earlier native
-Young-diagram/symmetrizer/hook APIs. F6.5 first builds its native
-simplicial Bergner, Kan-enriched diagram/internal-hom and enriched
-Grothendieck/localization homotopy (co)limit foundations before unmarked
-straightening and the Joyal model. Slice/equivalence-edge horn comparisons
-precede its Joyal fibrancy proof. It then builds marked models and their
-straightening, followed by coherent model-diagram rectification and
-(co)limit comparison, Cat∞ colimits/descent/Kan extensions,
-space-valued Ind and coCartesian monoidal/relative-adjoint constructors.
-Its colored-operad rectification compares supplied strict associative
-rings/modules independently of the BG-diagram rectification, after
-the model (co)limit comparison; it does not rectify arbitrary homotopy
-rings. It then constructs the
+Young-diagram/symmetrizer/hook APIs. F6.5 consumes GeneralizedCohomology
+G2.11's simplicial Bergner, Kan-enriched diagram/internal-hom and enriched
+Grothendieck/localization homotopy (co)limit foundations, its unmarked and
+marked straightening and Joyal model, coherent model-diagram rectification
+and (co)limit comparison, Cat∞ colimits/descent/Kan extensions,
+space-valued Ind, coCartesian monoidal/relative-adjoint constructors and
+colored-operad rectification of supplied strict associative rings/modules;
+it does not rectify arbitrary homotopy rings. It first constructs the
+induced-object tensor ideal and lax Tate functor, then the
 countable-cell/Milnor realization of the earlier homology comparison and ordinary Borel norm/Euler model before applying
 F6.4's prenilpotent seed and finite height tower. The Morava E∞ realization lane
 of EllipticCohomology remains downstream. F5 exactness uses F1–F4, while its algebraic
@@ -2803,10 +2348,18 @@ these layers; neither is an input to Lazard, Quillen or BP construction.
 
 - Quillen, [*Elementary proofs of some results of cobordism theory using Steenrod operations*](https://people.math.rochester.edu/faculty/doug/otherpapers/QuillenElem.pdf).
 - Adams, *Stable Homotopy and Generalised Homology*, for orientations and cooperations.
-- Ravenel, [*Complex Cobordism and Stable Homotopy Groups of Spheres*](https://www.sas.rochester.edu/mth/sites/doug-ravenel/mybooks/ravenel3rd.pdf), for p-typical cooperations and Adams–Novikov constructions.
+- Ravenel, [*Complex Cobordism and Stable Homotopy Groups of Spheres*](https://www.sas.rochester.edu/mth/sites/doug-ravenel/mybooks/ravenel3rd.pdf), for p-typical cooperations and Adams–Novikov constructions, and Appendix 2 (Theorems A2.1.6, A2.1.18, A2.2.6 and A2.2.12, Lemmas A2.1.9 and A2.2.7, Definitions A2.1.24–A2.1.25 and equation (A2.2.13)) for the formal-group logarithm, p-series, height and the height classification over separably closed fields.
+- Bousfield, [*The localization of spectra with respect to homology*](https://doi.org/10.1016/0040-9383(79)90018-1), Topology 18 (1979), §6, Theorem 6.6, for the identification of the HF_p-nilpotent completion of a bounded-below spectrum with its derived p-completion.
 - Landweber–Ravenel–Stong, [*Periodic cohomology theories defined by elliptic curves*](https://people.math.rochester.edu/faculty/doug/mypapers/lrs.pdf), for exactness and elliptic examples.
 - Wilson, *The Ω-spectrum for Brown–Peterson cohomology II*, and Hovey, [*The homotopy of MString and MU⟨6⟩ at large primes*](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/Hovey-bpbp1.pdf), for the Hopf-ring interfaces.
 - Lubin–Tate, *Formal moduli for one-parameter formal Lie groups*, for the algebraic deformation theorem.
+- Hatcher, [*Algebraic Topology*](https://pi.math.cornell.edu/~hatcher/AT/AT.pdf), Section 4.J for the James construction and Section 4.L for the Steenrod operations, Adem relations and the admissible basis.
+- Miller, [*Notes on Cobordism*](https://math.mit.edu/~hrm/papers/cobordism.pdf), Chapter 1, Sections 9–13, for the Steenrod algebra, Milnor's theorem on its dual and Thom's computation of MO_*; Chapter 2, Theorem 3.5 and Proposition 8.3, for Quillen's theorem and the Hurewicz embedding.
+- Guillou–Weibel, [*Unstable operations in étale and motivic cohomology*](https://arxiv.org/abs/1301.0872), Definition 6.1, Theorem 6.2 and Theorem 6.5, for the algebraic forms of Borel's and Kudo's transgression theorems.
+- Thom, *Quelques propriétés globales des variétés différentiables*, Comment. Math. Helv. 28 (1954), Chapitre IV, for the unoriented coefficient ring.
+- Quillen, [*On the formal group laws of unoriented and complex cobordism theory*](https://www.ams.org/journals/bull/1969-75-06/S0002-9904-1969-12401-8/S0002-9904-1969-12401-8.pdf), Theorems 2 and 3, for the universality of the complex and unoriented laws.
+- James, *Reduced product spaces*, Annals of Mathematics 62 (1955), Sections 1–6, for the James construction and its filtration.
+- Toda, *Composition Methods in Homotopy Groups of Spheres*, Annals of Mathematics Studies 49 (1962), Chapter I, for the three-fold Toda brackets and their suspension.
 
 - Devinatz–Hopkins–Smith, [*Nilpotence and stable homotopy theory I*](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/dhs-ocr.pdf), for the three nilpotence scopes and the Thom/James/vanishing-line proof.
 - Hopkins–Smith, [*Nilpotence and stable homotopy theory II*](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/HS.pdf), for finite support, thick classification and periodicity.
@@ -2821,4 +2374,4 @@ these layers; neither is an input to Lazard, Quillen or BP construction.
 - Symonds, [*Permutation complexes for profinite groups*](https://ems.press/content/serial-article-files/43113), §5 Theorem5.2, Proposition5.4, Corollary5.5 and §7, for finite signed weak permutation resolutions and complete cohomology; the uniform-vcd comparison is constructed in F6.4.
 - Nikolaus–Scholze, [*On topological cyclic homology*](https://arxiv.org/abs/1707.01799), §I.3 and AppendixA, for the induced-object ideal, coherent stable quotient/Ind construction and lax symmetric monoidal Tate functor.
 
-- Lurie, [*Higher Topos Theory*](https://www.math.ias.edu/~lurie/papers/HTT.pdf), §§1.2.4,1.2.9,2.1.2,2.2.1–2.2.5,2.4.5–2.4.6,3.1–3.3,4.2.4,4.3,5.2.7,5.3.5,A.2.6,A.3.2–A.3.6, and [*Higher Algebra*](https://www.math.ias.edu/~lurie/papers/HA.pdf), §§4.1.8,4.3.3,4.8.1,7.3.2, for the categorical models, natural marked straightening, model-diagram rectification and (co)limit comparison, Kan extensions, Ind, operadic rectification, monoidal Ind and relative adjoints constructed in F6.5.
+- Lurie, [*Higher Topos Theory*](https://www.math.ias.edu/~lurie/papers/HTT.pdf), §§1.2.4,1.2.9,2.1.2,2.2.1–2.2.5,2.4.5–2.4.6,3.1–3.3,4.2.4,4.3,5.2.7,5.3.5,A.2.6,A.3.2–A.3.6, and [*Higher Algebra*](https://www.math.ias.edu/~lurie/papers/HA.pdf), §§4.1.8,4.3.3,4.8.1,7.3.2, for the categorical models, natural marked straightening, model-diagram rectification and (co)limit comparison, Kan extensions, Ind, operadic rectification, monoidal Ind and relative adjoints that F6.5 consumes from GeneralizedCohomology G2.11 and applies to Borel actions.

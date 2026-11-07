@@ -975,9 +975,9 @@ automorphism twists and special isogenies only when this power condition is prov
 and algebraic compatibility needed to construct the finite group `G^σ`. For each stable closed
 subgroup `H`, specify the restricted endomorphism `σ|_H` and verify that its positive power is
 the restricted geometric Frobenius from the induced `F_{q′}`-structure. The ordinary q-Frobenius
-Lang statement in ReductiveGroupsPartII RG2.3.7 is a supplier only for its stated
-standard-Frobenius case; the Steinberg Lang–Steinberg theorem and its restricted-subgroup
-applications are new targets here.
+Lang statement consumed in Layer 7a covers only its stated standard-Frobenius case; the
+Steinberg Lang–Steinberg theorem and its restricted-subgroup applications are new targets
+here.
 
 Extend each finite-field interface from Layers 7a–7f to this exact regime: finiteness and
 functoriality of `G^σ` and `H^σ`; Lang–Steinberg surjectivity for every connected smooth affine
