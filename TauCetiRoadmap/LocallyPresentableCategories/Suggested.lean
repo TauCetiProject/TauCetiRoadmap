@@ -84,8 +84,8 @@ def HasCardinalSmallLimits (X : Type u) [Category.{v} X] (κ : Cardinal.{w}) : P
 
 /-! ## Layer 1: locally presentable and accessible categories -/
 
-/-- README 1.1. A locally `κ`-presentable category has all `w`-small limits (Adámek–Rosický,
-Corollary 1.28). -/
+/-- README 1.1. A locally `κ`-presentable category has all `w`-small limits (a consequence of
+Adámek–Rosický, Theorem 1.46). -/
 theorem hasLimitsOfSize_of_isCardinalLocallyPresentable (C : Type u) [Category.{v} C]
     (κ : Cardinal.{w}) [Fact κ.IsRegular] [IsCardinalLocallyPresentable C κ] :
     HasLimitsOfSize.{w, w} C := sorry
@@ -112,7 +112,7 @@ theorem isRightAdjoint_iff {C : Type u} [Category.{v} C] {D : Type u'} [Category
     G.IsRightAdjoint ↔ PreservesLimitsOfSize.{w, w} G ∧ G.IsAccessible.{w} := sorry
 
 /-- README 1.4. Between locally presentable categories, a functor is a left adjoint iff it
-preserves small colimits (Adámek–Rosický, Theorem 1.66). -/
+preserves small colimits (the special adjoint functor theorem). -/
 theorem isLeftAdjoint_iff {C : Type u} [Category.{v} C] {D : Type u'} [Category.{v'} D]
     [IsLocallyPresentable.{w} C] [IsLocallyPresentable.{w} D] (F : C ⥤ D) :
     F.IsLeftAdjoint ↔ PreservesColimitsOfSize.{w, w} F := sorry

@@ -216,7 +216,8 @@ Mathlib: `HasCardinalLT`, `CategoryTheory.Limits`.
 ### 1.1 Completeness
 
 Prove that a locally `κ`-presentable `C` has all `w`-small limits
-(`hasLimitsOfSize_of_isCardinalLocallyPresentable`; Adámek–Rosický, Corollary 1.28). Route: the
+(`hasLimitsOfSize_of_isCardinalLocallyPresentable`; a consequence of Adámek–Rosický, Theorem 1.46,
+as `C` is reflective in a presheaf category). Route: the
 forward half of 1.2 makes `C` a reflective subcategory of a presheaf category, and a reflective
 subcategory of a complete category is complete (Mathlib `hasLimits_of_reflective`). *Needs:* 1.2
 (forward half); Mathlib `hasLimits_of_reflective`,
@@ -281,8 +282,9 @@ locally `κ`-presentable by definition. *Needs:* 1.1; Mathlib `IsAccessibleCateg
 ### 1.4 The adjoint functor theorem
 
 For `C` and `D` locally presentable, prove `isRightAdjoint_iff`: `G : C ⥤ D` is a right adjoint
-iff it preserves `w`-small limits and is accessible; and `isLeftAdjoint_iff`: `F : C ⥤ D` is a
-left adjoint iff it preserves `w`-small colimits (Adámek–Rosický, Theorem 1.66). Route for
+iff it preserves `w`-small limits and is accessible (Adámek–Rosický, Theorem 1.66); and
+`isLeftAdjoint_iff`: `F : C ⥤ D` is a left adjoint iff it preserves `w`-small colimits (the special
+adjoint functor theorem, `C` being co-wellpowered). Route for
 `isRightAdjoint_iff`: a limit-preserving accessible functor between accessible categories
 satisfies the solution-set condition (Mathlib `SolutionSetCondition.of_isCardinalAccessible`), so
 the general adjoint functor theorem applies (Mathlib
@@ -290,13 +292,13 @@ the general adjoint functor theorem applies (Mathlib
 limits, and preserves `κ`-filtered colimits for `κ` large enough that its left adjoint preserves
 `κ`-presentable objects (Mathlib `IsCardinalAccessibleCategory.uniformization`). Route for
 `isLeftAdjoint_iff`: Mathlib `isLeftAdjoint_of_preservesColimits_of_isSeparating`, `C` having a
-small separating family of presentable objects and `D` having small hom-sets, after the
-solution-set reduction of the dual statement. *Needs:* 1.1, 1.3; Mathlib
+small separating family of presentable objects, `C` and `D` having small hom-sets, and `C` being
+co-wellpowered (`WellPowered Cᵒᵖ`, proved in this target). *Needs:* 1.1, 1.3; Mathlib
 `SolutionSetCondition.of_isCardinalAccessible`,
 `isRightAdjoint_of_preservesLimits_of_solutionSetCondition`,
 `isLeftAdjoint_of_preservesColimits_of_isSeparating`,
 `IsCardinalAccessibleCategory.uniformization`, `Functor.IsAccessible`, `PreservesLimitsOfSize`,
-`PreservesColimitsOfSize`.
+`PreservesColimitsOfSize`, `WellPowered`.
 
 **Checks.**
 
