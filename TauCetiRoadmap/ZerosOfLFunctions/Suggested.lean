@@ -1,10 +1,11 @@
 import Mathlib
+import TauCeti.NumberTheory.LFunctions.Dirichlet.Basic
 
 /-!
 # Zeros of L-functions: target signatures
 
 The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
-theorems against the pinned Mathlib, each with `sorry`, together with the three
+theorems against the pinned Mathlib, each with `sorry`, together with the core
 definitions they need: the order predicate `OrderLE` of Layer 0, the zero count `zeroCount` of
 Layer 4, and the entire completion `zetaEntireCompletion` of the Riemann zeta function (the `ζ`
 instance of the entire completion of Layer 0).
@@ -37,9 +38,11 @@ Not statable at the pins:
   ray class group, no Artin symbol and no Frobenius-class prime count, and the Tau Ceti revision
   this file is built against supplies none of them.
 
-The growth, gamma-factor, conductor, counting, rectangle-contour and certificate statements of
-Layers 0–2, 4, 7.1–7.3 and 9 are README targets: they are about the L-functions roadmap's
-analytic records, which are not at the pins, or are lemmas on the way to the headlines.
+The direct primitive Dirichlet subsection imports the native `dirichletData` record and
+continued L-function. It adds the completion comparisons, a fixed gamma bound, the
+retained-zero inequalities, and the finite-family radius. General record growth,
+gamma-factor, conductor, counting, rectangle-contour and certificate statements not
+prototyped here remain definitive README targets.
 -/
 
 namespace TauCetiRoadmap.ZerosOfLFunctions
@@ -220,3 +223,83 @@ theorem primeCounting_progression_effective :
         =O[atTop] fun x ↦ x * Real.exp (-c * Real.sqrt (Real.log x)) := sorry
 
 end TauCetiRoadmap.ZerosOfLFunctions
+
+/-! ## Direct primitive Dirichlet interfaces, README §6.4d–e
+
+These signatures use the native pole-free completed record. The README also requires
+its identification with the canonical entire completion and continued function.
+-/
+
+noncomputable section
+
+namespace TauCetiRoadmap.ZerosOfLFunctions.DirichletRealZeros
+
+open TauCeti.LFunctions
+open scoped BigOperators
+
+variable {q : ℕ} [NeZero q]
+
+theorem completed_entire (χ : DirichletCharacter ℂ q) (hprim : χ.IsPrimitive)
+    (hne : χ ≠ 1) : Differentiable ℂ (dirichletData χ hprim).completed := by
+  sorry
+
+theorem completed_orderLE_one (χ : DirichletCharacter ℂ q) (hprim : χ.IsPrimitive)
+    (hne : χ ≠ 1) : OrderLE (dirichletData χ hprim).completed 1 := by
+  sorry
+
+theorem analyticOrderAt_completed_eq (χ : DirichletCharacter ℂ q)
+    (hprim : χ.IsPrimitive) (hne : χ ≠ 1) (s : ℂ) (hs0 : 0 < s.re) :
+    analyticOrderAt (dirichletData χ hprim).completed s = analyticOrderAt χ.LFunction s := by
+  sorry
+
+/-- The conductor normalization contributes `log q / 2` to the logarithmic derivative. -/
+theorem logDeriv_completed (χ : DirichletCharacter ℂ q) (hprim : χ.IsPrimitive)
+    (s : ℂ) (hs : 1 < s.re) :
+    logDeriv (dirichletData χ hprim).completed s =
+      (Real.log q : ℂ) / 2 + logDeriv χ.gammaFactor s + logDeriv χ.LFunction s := by
+  sorry
+
+theorem LFunction_real (χ : DirichletCharacter ℂ q) (hreal : χ.IsQuadratic)
+    (hne : χ ≠ 1) (σ : ℝ) : (χ.LFunction σ).im = 0 := by
+  sorry
+
+/-- A fixed computable majorant for both real Dirichlet parity shifts. -/
+def gammaLogDerivBound : ℝ :=
+  (|-Real.eulerMascheroniConstant - 2 * Real.log 2| +
+    |2 - Real.eulerMascheroniConstant - 2 * Real.log 2| + |Real.log Real.pi|) / 2
+
+theorem gammaLogDerivBound_nonneg : 0 ≤ gammaLogDerivBound := by
+  sorry
+
+theorem norm_logDeriv_GammaR_le (s : ℝ) (hs : s ∈ Set.Icc (1 : ℝ) 3) :
+    ‖logDeriv Complex.Gammaℝ (s : ℂ)‖ ≤ gammaLogDerivBound := by
+  sorry
+
+/-- The constant is fixed explicitly before every member of the family. -/
+theorem one_zero_le_logDeriv (χ : DirichletCharacter ℂ q) (hq : 3 ≤ q)
+    (hprim : χ.IsPrimitive) (hne : χ ≠ 1) (hreal : χ.IsQuadratic)
+    (β σ : ℝ) (hβ0 : 0 < β) (hβ1 : β < 1) (hzero : χ.LFunction β = 0)
+    (hσ : 1 < σ) (hσ2 : σ ≤ 2) :
+    1 / (σ - β) ≤ (logDeriv χ.LFunction (σ : ℂ)).re +
+      Real.log q / 2 + gammaLogDerivBound := by
+  sorry
+
+theorem finite_zero_sum_le_logDeriv (χ : DirichletCharacter ℂ q) (hq : 3 ≤ q)
+    (hprim : χ.IsPrimitive) (hne : χ ≠ 1) (hreal : χ.IsQuadratic)
+    (S : Finset ℂ) (hS : ∀ ρ ∈ S, 0 < ρ.re ∧ ρ.re < 1 ∧ χ.LFunction ρ = 0)
+    (σ : ℝ) (hσ : 1 < σ) (hσ2 : σ ≤ 2) :
+    (∑ ρ ∈ S, (analyticOrderNatAt χ.LFunction ρ : ℝ) *
+      (1 / ((σ : ℂ) - ρ)).re) ≤
+      (logDeriv χ.LFunction (σ : ℂ)).re + Real.log q / 2 + gammaLogDerivBound := by
+  sorry
+
+/-- A finite-family disk, with no unbounded-conductor or effective claim. -/
+theorem bounded_level_zero_free (Q : ℕ) :
+    ∃ δ : ℝ, 0 < δ ∧ ∀ (q : ℕ) [NeZero q], q ≤ Q →
+      ∀ (χ : DirichletCharacter ℂ q), χ ≠ 1 →
+        ∀ s : ℂ, ‖s - 1‖ < δ → χ.LFunction s ≠ 0 := by
+  sorry
+
+end TauCetiRoadmap.ZerosOfLFunctions.DirichletRealZeros
+
+end
