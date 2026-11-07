@@ -1,3 +1,4 @@
+module
 import Mathlib
 import TauCeti.Algebra.AlgebraicGroup.PointsFunctor
 import TauCeti.Algebra.AlgebraicGroup.Reductive.Basic
