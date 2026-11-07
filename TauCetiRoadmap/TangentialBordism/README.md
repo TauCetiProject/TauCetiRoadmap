@@ -219,8 +219,20 @@ a real inner-product space of dimension n+1,
 sends an orientation and a point x to a generator of
 H_(n+1)(M, M∖{x}; ℤ) (`TauCeti.LocalOrientation`), the one selected by the
 oriented preferred chart, and reversal to its negative
-(`TauCeti.localOrientationOfManifoldOrientation_neg`); the pin does not
-prove that these generators form a homological orientation.
+(`TauCeti.localOrientationOfManifoldOrientation_neg`). That generator is
+normalised, through the chart, the reduced connecting map and radial
+projection, by the sphere generator `TauCeti.reducedSingularHomologySphereIso`
+of an oriented orthonormal basis b from
+`TauCeti/AlgebraicTopology/Singular/Sphere.lean`, which in degree zero is
+[−b₀]−[b₀]; so on ℝ with its increasing orientation the generator at 0 has
+connecting-map image [−1]−[1] and is minus the class of the increasing
+segment from −1 to 1. The pin declares transport-invariant families of
+local orientations, `TauCeti.HomologicalOrientation` from
+`TauCeti/AlgebraicTopology/Singular/LocalHomology/Orientation/Homological.lean`,
+but no declaration relating them to `TauCeti.Manifold.Orientation`: it does
+not prove that the generators of
+`TauCeti.localOrientationOfManifoldOrientation` form a
+`TauCeti.HomologicalOrientation`.
 The orientation and closed-subgroup declarations in the contracts below
 retain their native hypotheses and chosen smooth structures.
 
@@ -499,11 +511,25 @@ manifold-orientation carrier, read pointwise through native
 model I of the cycle or witness. This is the positive-scalar ray of a
 nonzero alternating top form, used as the pointwise datum. Reuse
 its locally compatible tangent-chart sections and AlgebraicTopology 6.3's
-comparison with the integral homological orientation system, whose
-pointwise generator on a boundaryless manifold modelled on a real
-inner-product space of positive dimension is the pinned
-`TauCeti.localOrientationOfManifoldOrientation`; construct the adapters
-to these cycle and witness records. For n>0 prove equivalence with the chosen
+comparison with the integral homological orientation system, whose point
+generator is the signed image of the ordered-simplex class in a chart and
+from which the fundamental classes used in B2.4 are built; construct the
+adapters to these cycle and witness records. Compare that point generator
+with the pinned `TauCeti.localOrientationOfManifoldOrientation` on
+boundaryless manifolds modelled on a real inner-product space of dimension
+m≥1: prove that the two differ by a sign u_m∈{±1} depending only on m (both
+are carried along translations and orientation-preserving linear isometries
+of the model, and both change sign under reversal), and compute u_m in every
+dimension m≥1. Through the reduced connecting map and radial projection to
+S^(m−1) the computation compares the boundary of AlgebraicTopology 6.3's
+ordered simplex, its outward-first sphere class, with the pinned
+`TauCeti.reducedSingularHomologySphereIso` of the standard basis, using
+AlgebraicTopology 6.3's comparison units between its outward-first sphere
+classes and the pin's native sphere generators. In dimension one u₁=−1:
+on ℝ at 0 the pinned generator has connecting-map image [−1]−[1], while
+AlgebraicTopology 6.3's segment [−1,1] has [1]−[−1]. So u_m times the pinned
+generators is AlgebraicTopology 6.3's point generator, and cycles and
+witnesses are oriented by the latter. For n>0 prove equivalence with the chosen
 oriented orthonormal frame/SO reductions; the comparisons retain the
 actual orientation, rather than only existence of a reduction.
 Compare with refinements of native
@@ -538,11 +564,12 @@ the sheets of its abstract boundary, the opposite orientations of the two
 lifts at a codimension-two corner and the product boundary sign are
 DifferentialGeometry 5.5b's; identify the free and end faces of the
 witness records with unions of those sheets, and their orientations with
-those of M, −N and the free face. Prove that the frame, local-homology and determinant
-descriptions agree in every dimension, and that every orientation of a
-manifold with a half-space or corner model of dimension at least2 comes
-from an oriented atlas (for boundaryless models of dimension n≥1 this is
-DifferentialGeometry 2.2's criterion).
+those of M, −N and the free face. Prove that the frame, local-homology
+(AlgebraicTopology 6.3's point generator) and determinant descriptions
+agree in every dimension, and that every orientation of a manifold with a
+half-space or corner model of dimension at least2 comes from an oriented
+atlas (for boundaryless models of dimension n≥1 this is DifferentialGeometry
+2.2's criterion).
 In dimension0 explicitly retain a sign σ(x)∈{+1,−1} at each point:
 it selects the positive or negative ray of the scalar-valued empty
 alternating form. Reuse native `Orientation.eq_or_eq_neg_of_isEmpty`;
@@ -581,8 +608,9 @@ Its API includes:
 - The positive interval has endpoint signs (−1,+1), with total 0; two positive signs would violate the boundary rule.
 - Swapping two oriented one-dimensional factors has determinant −1; swapping a zero-dimensional factor has determinant +1.
 - On the interval-first cylinder I×[0,1] with orientation (e_t,e_s), the outward-first faces are [0,1] with direction +e_s at t=1 (det(e_t,e_s)=+1) and −e_s at t=0 (det(−e_t,−e_s)=+1), and on the free face +e_t at s=0 (det(−e_s,e_t)=+1) and −e_t at s=1, which is minus the product orientation of I×∂[0,1]=I×([1]−[0]), the sign (−1)^(dim I) of DifferentialGeometry 5.5b's product rule. Reversing the cylinder puts +[0,1] at t=0 and −[0,1] at t=1, the M⊔(−N) convention with M=N=[0,1]; inward-first faces would give the opposite end signs.
+- On ℝ with its increasing orientation, the pin's oriented-chart generator at 0 has reduced connecting-map image [−1]−[1] (the zero-sphere generator [−b₀]−[b₀] with b₀=1), while AlgebraicTopology 6.3's segment [−1,1] has [1]−[−1], so u₁=−1; identifying the two generators without u₁ would reverse the fundamental class of every oriented 1-manifold and give the positive interval the boundary [0]−[1], against the outward-first rule.
 
-*Needs:* Tau Ceti `TauCeti.Manifold.Orientation`, `TauCeti.Manifold.Orientation.neg`, `TauCeti.Manifold.Orientation.pullback`, `TauCeti.Manifold.Orientation.prod`, `TauCeti.boundaryOrientation`, `TauCeti.Manifold.Orientation.interval`, `TauCeti.IsOrientedAtlas.orientation`, `TauCeti.orientable_closedBall` and `TauCeti.localOrientationOfManifoldOrientation`; B1.6 corner models; DifferentialGeometry §§2.1–2.2 and 5.5b; AlgebraicTopology 6.3; SpinGeometry G4–G5.0; GeneralizedCohomology G5 bundle diagrams.
+*Needs:* Tau Ceti `TauCeti.Manifold.Orientation`, `TauCeti.Manifold.Orientation.neg`, `TauCeti.Manifold.Orientation.pullback`, `TauCeti.Manifold.Orientation.prod`, `TauCeti.boundaryOrientation`, `TauCeti.Manifold.Orientation.interval`, `TauCeti.IsOrientedAtlas.orientation`, `TauCeti.orientable_closedBall`, `TauCeti.localOrientationOfManifoldOrientation` and `TauCeti.reducedSingularHomologySphereIso`; B1.6 corner models; DifferentialGeometry §§2.1–2.2 and 5.5b; AlgebraicTopology 6.3; SpinGeometry G4–G5.0; GeneralizedCohomology G5 bundle diagrams.
 
 ### 2.3 Quotient and bundle adapters (B1.5)
 
