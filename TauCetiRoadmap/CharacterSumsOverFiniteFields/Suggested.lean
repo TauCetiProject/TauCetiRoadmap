@@ -1,6 +1,7 @@
 module
 
 public import Mathlib
+public import TauCeti.NumberTheory.NumberField.PowerResidueSymbol.Basic
 
 /-!
 # Character sums over finite fields: target signatures
@@ -14,7 +15,8 @@ character). Every definition has a real body on Mathlib's carriers; nothing in t
 lists or Checks is restated here. The headline results are the cyclotomic field of definition,
 multiple Jacobi and diagonal-solution formulas, Jacobsthal evaluations, the root-power and lifting
 identities, uniform Stepanov bounds, character-sum L-polynomials and Weil bounds, Salié and
-Kloosterman evaluations and bounds, and the global valuation and p-adic comparisons of Layer 6.
+Kloosterman evaluations and bounds, and the Stickelberger valuations of the Gauss sums of the
+Teichmüller character with the Jacobi digit-sum formula of Layer 6.
 
 The carrier is a finite field `F` (`[Field F] [Finite F]`, `q = Nat.card F`) with Mathlib's
 multiplicative characters `MulChar F ℂ` and additive characters `AddChar F ℂ`; the Gauss and
@@ -29,15 +31,16 @@ and `jacobiSum 1 1 = q - 2` (Mathlib's convention and the LMFDB's). The Klooster
 the finite-field sums of Layer 5 and the integer-modulus sums `S_χ(m, n; c)` of Layer 7 are one
 definition, the latter read on `ZMod c` with `ZMod.stdAddChar` and
 `DirichletCharacter.changeLevel`. The Hasse–Davenport relation and the root-power identity carry
-their minus signs: `-g' = (-g)^n` and `S_n = -∑ ω_i^n`.
+their minus signs: `-g' = (-g)^n` and `S_n = -∑ ω_i^n`. In Layer 6 the Teichmüller character
+`ω_𝔓` of a prime `𝔓` of `K = ℚ(ζ_{q−1})` of norm `q` is Tau Ceti's power residue symbol
+`Ideal.powerResidueSymbol 𝔓 (q - 1) : MulChar (𝓞 K ⧸ 𝔓) (𝓞 K)` (README 6.1), the Gauss sums
+`g_a = gaussSum (ω_𝔓⁻¹ ^ a) ψ` take their values in the integers of `L = K(ζ_p)`, and
+`v_𝔔(x) = multiplicity 𝔔 (Ideal.span {x})` is the valuation at a maximal ideal `𝔔`.
 
-Not statable at the pins, and therefore stated in `README.md` only: the Teichmüller character
-`ω_𝔓` of 6.1 (its carrier is a multiplicative character of the residue field of a prime of
-`ℚ(ζ_{q−1})` with values in the ring of integers, whose construction is itself the bijection
-between roots of unity and the residue field supplied by ClassicalArithmeticCompletion §1.23;
-6.1 specializes its power residue symbol at order q − 1), and with it the Stickelberger
-corollaries 6.2, the Jacobi digit-sum formula 6.3 and the Gross–Koblitz evaluation 6.4–6.5 (whose
-Gamma function and formula are `DirichletPadicLFunctions`' carriers, not at the pins); the sign of
+Not statable at the pins, and therefore stated in `README.md` only: the Gross–Koblitz evaluation
+6.4–6.5, whose Gamma function `Γ_p` and formula are `DirichletPadicLFunctions`' carriers, not at the
+pins (the identification of `ω_𝔓` with the local Teichmüller lift in 6.4 is a step of that
+transport, not a headline); the sign of
 the quadratic Gauss sum over the prime field (1.4), which is proved in `AnalyticNumberTheoryPartI`
 §2.30; the identification of `kloostermanSum 1 ψ a b` with the rank-two hyper-Kloosterman sum
 of `CongruenceSpectralGap` §4.2a and of `S(m, n; c)` with `AutomorphicSpectralTheory` §1.16's sum
@@ -378,6 +381,56 @@ theorem norm_kloostermanSum_le (χ : MulChar F ℂ) (a b : Fˣ) :
     ‖kloostermanSum χ (stdAddChar F) a b‖ ≤ 2 * Real.sqrt (Nat.card F) := sorry
 
 end Layer5
+
+/-! ## Layer 6: the Teichmüller character and Stickelberger's theorem -/
+
+section Layer6
+
+open NumberField Ideal
+
+variable {K : Type*} [Field K] [NumberField K] (p : ℕ) [Fact p.Prime] {q : ℕ}
+
+/-- **6.2.** Stickelberger's theorem at every prime above `p`, for every exponent. Let
+`q = p ^ f`, `K = ℚ(ζ_{q−1})`, `𝔓` a prime of `𝓞 K` of norm `q`, `ω_𝔓` its Teichmüller character
+(Tau Ceti's `Ideal.powerResidueSymbol 𝔓 (q - 1)`), `L = K(ζ_p)`, `𝔓̃` a maximal ideal of `𝓞 L`
+above `𝔓`, and `ψ` a primitive additive character of `𝓞 K ⧸ 𝔓` with values in `𝓞 L`. For a ring
+automorphism `τ` of `𝓞 L` fixing the values of `ψ` and raising the `(q − 1)`-th roots of unity of
+`𝓞 K` to the power `t`, the Gauss sum `g_a = g(ω_𝔓⁻ᵃ, ψ)`, `0 ≤ a < q − 1`, has valuation
+`s(t a mod (q − 1))` at `τ⁻¹(𝔓̃)`, `s` the base-`p` digit sum: `τ(g_a) = g_{ta}` and the valuation
+at `𝔓̃` itself is Tau Ceti's `intValuation_gaussSum_inv_pow` (Ireland–Rosen, Ch. 14, §§3–4;
+README 6.2). -/
+theorem multiplicity_map_gaussSum_powerResidueSymbol_inv_pow {L : Type*} [Field L]
+    [NumberField L] [Algebra K L] (hq : ∃ f, 0 < f ∧ q = p ^ f) [NeZero (q - 1)]
+    [IsCyclotomicExtension {q - 1} ℚ K] [HasEnoughRootsOfUnity (𝓞 K) (q - 1)]
+    [IsCyclotomicExtension {p} K L]
+    (P : Ideal (𝓞 K)) [P.IsMaximal] [Fintype (𝓞 K ⧸ P)] (hP : absNorm P = q)
+    (Q : Ideal (𝓞 L)) [Q.IsMaximal] [Q.LiesOver P]
+    {ψ : AddChar (𝓞 K ⧸ P) (𝓞 L)} (hψ : ψ.IsPrimitive)
+    (τ : 𝓞 L ≃+* 𝓞 L) (hτψ : ∀ x, τ (ψ x) = ψ x) {t : ℕ}
+    (hτ : ∀ μ : 𝓞 K, μ ^ (q - 1) = 1 →
+      τ (algebraMap (𝓞 K) (𝓞 L) μ) = algebraMap (𝓞 K) (𝓞 L) μ ^ t)
+    {a : ℕ} (ha : a < q - 1) :
+    multiplicity (Q.map τ.symm)
+      (Ideal.span {gaussSum (((powerResidueSymbol P (q - 1))⁻¹ ^ a).ringHomComp (algebraMap (𝓞 K) (𝓞 L))) ψ}) =
+      (Nat.digits p ((t * a) % (q - 1))).sum := sorry
+
+/-- **6.3.** The Jacobi digit-sum formula. Let `q = p ^ f`, `K = ℚ(ζ_{q−1})`, `𝔓` a prime of
+`𝓞 K` of norm `q` and `ω_𝔓` its Teichmüller character. For `0 < a, b < q − 1` with
+`a + b ≢ 0 (mod q − 1)`, the Jacobi sum `J(ω_𝔓⁻ᵃ, ω_𝔓⁻ᵇ) ∈ 𝓞 K` has
+`(p − 1) v_𝔓(J) = s(a) + s(b) − s(a + b mod (q − 1))`, the number of carries of the base-`p`
+addition times `p − 1`, written without the subtraction (Ireland–Rosen, Ch. 14, §3; README 6.3).
+The hypothesis `K = ℚ(ζ_{q−1})` makes `v_𝔓(p) = 1`; over a larger field containing `μ_{q−1}` the
+right side is multiplied by `v_𝔓(p)`. -/
+theorem jacobiSum_powerResidueSymbol_multiplicity (hq : ∃ f, 0 < f ∧ q = p ^ f) [NeZero (q - 1)]
+    [IsCyclotomicExtension {q - 1} ℚ K] [HasEnoughRootsOfUnity (𝓞 K) (q - 1)]
+    (P : Ideal (𝓞 K)) [P.IsMaximal] [Fintype (𝓞 K ⧸ P)] (hP : absNorm P = q)
+    {a b : ℕ} (ha : a < q - 1) (hb : b < q - 1) (ha0 : a ≠ 0) (hb0 : b ≠ 0)
+    (hab : (a + b) % (q - 1) ≠ 0) :
+    (p - 1) * multiplicity P (Ideal.span {jacobiSum ((powerResidueSymbol P (q - 1))⁻¹ ^ a) ((powerResidueSymbol P (q - 1))⁻¹ ^ b)}) +
+        (Nat.digits p ((a + b) % (q - 1))).sum =
+      (Nat.digits p a).sum + (Nat.digits p b).sum := sorry
+
+end Layer6
 
 /-! ## Layer 7: sums modulo an integer -/
 

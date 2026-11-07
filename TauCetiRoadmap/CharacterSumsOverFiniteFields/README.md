@@ -59,8 +59,8 @@ for every prime, its §4.4 the reflection formula and the digit identities, and 
 Gross–Koblitz formula `g_q(a) = π^{S_p(a)} ∏_{j<f} Γ_p(a_j/(q − 1))` for the negative Gauss sum
 `g_q(a) = −∑_x ω(x)^{−a} ζ_p^{Tr x}` of the Teichmüller lift of a local field's residue field.
 Nothing about `Γ_p` is defined or proved here. Layer 6 owns what that roadmap leaves to its
-consumers: the residue-cardinality argument and specialization of the supplied power residue
-character at `n = q − 1` (6.1), the Stickelberger corollaries stated against it
+consumers: the reading of Tau Ceti's `Ideal.powerResidueSymbol` at `n = q − 1` as the Teichmüller
+character, with the residue cardinality (6.1), the Stickelberger corollaries stated against it
 (6.2–6.3), the identification of `ω_𝔓` with the local Teichmüller lift under completion and the
 transport of the Gauss sums of Layer 1 into the completed field (6.4), and the resulting evaluation
 of `g(ω_𝔓^{−a})` and of the Jacobi sums `J(ω_𝔓^{−a}, ω_𝔓^{−b})` in this roadmap's normalization
@@ -118,10 +118,10 @@ smooth conic has zeta numerator `1` and two rational points at infinity.
 - **Kloosterman sums** `K(χ; a, b)` on a finite commutative ring, their expansion in Gauss sums,
   **Salié's evaluation** for the quadratic character, the degree-two `L`-polynomial and the lifting
   relation, **Weil's bound** `|K(χ; a, b)| ≤ 2√q`, and the Kloosterman angle (Layer 5).
-- The residue-cardinality argument for the **Teichmüller character** supplied by
-  `ClassicalArithmeticCompletion` §1.23 at `n = q − 1`, the prime
-  factorization of `g(ω^{−a})` in `ℚ(ζ_{q−1}, ζ_p)` for every `a` as a corollary of the consumed
-  Stickelberger congruence, the **digit-sum formula for Jacobi sums**, the identification of the
+- The **Teichmüller character** `ω_𝔓` as Tau Ceti's `Ideal.powerResidueSymbol` at `n = q − 1`
+  (the residue character of `ClassicalArithmeticCompletion` §1.23), with the residue cardinality,
+  the prime factorization of `g(ω^{−a})` in `ℚ(ζ_{q−1}, ζ_p)` for every `a` as a corollary of the
+  consumed Stickelberger congruence, the **digit-sum formula for Jacobi sums**, the identification of the
   Teichmüller character with the local Teichmüller lift of `DirichletPadicLFunctions` §4.5, and
   the **Gross–Koblitz evaluation** `g(ω^{−a}) = −π^{s(a)} ∏_i Γ_p(⟨p^i a/(q−1)⟩)` of this roadmap's
   Gauss sums with its Jacobi-sum corollary (Layer 6).
@@ -151,8 +151,14 @@ smooth conic has zeta numerator `1` and two rational points at infinity.
   `intValuation_gaussSum_inv_pow`, which 6.2 cites), and 4.19 (the quadratic exponential sum `S_p(a)` and `S_p(1) = gaussSum χ ψ`). Layer 6
   states 1.55 and 7.12 against the Teichmüller character 6.1 and derives from them the
   factorization of `(g(ω^{−a}))` for every `a` and the Jacobi digit-sum formula; it re-derives
-  neither. Its §1.23 supplies `powerResidueSymbol`, its unique-root congruence and exact-order
-  API, specialized at `n = q − 1` in 6.1. Its §7.29 supplies the full Hasse–Davenport product
+  neither. Of these milestones, 1.19, 1.36, 1.46, 1.47, 1.53 and 1.60, and the residue
+  character of its §1.23, are compiled at the pinned Tau Ceti and are cited by their Lean names
+  where used (*From Tau Ceti*: `Ideal.powerResidueSymbol`, `Ideal.stickelbergerPhi` with
+  `stickelbergerPhi_prime`, and the cubic and quartic Gauss- and Jacobi-sum identities); 1.55, the
+  relation `(Φ(P)) = P^γ`, has no carrier at the pin and is consumed as that roadmap's statement.
+  Its §1.23 is the roadmap statement of the residue character, its unique-root congruence and its
+  exact order, which Tau Ceti's `Ideal.powerResidueSymbol` with `powerResidueSymbol_eq_iff` and
+  `orderOf_powerResidueSymbol` instantiates; 6.1 reads that carrier at `n = q − 1`. Its §7.29 supplies the full Hasse–Davenport product
   formula for every multiplicative character and every nontrivial additive character; 3.4
   records its duplication consequence and normalization Checks.
 - From `AnalyticNumberTheoryPartI` §2.30 (ii): the Gauss sum of the primitive quadratic character
@@ -191,9 +197,10 @@ smooth conic has zeta numerator `1` and two rational points at infinity.
 
 ### Not owned here
 
-- **Reciprocity laws, power residue symbols and primary elements**: the classical arithmetic
-  roadmap, Layer 1. The Gauss and Jacobi sums here are indexed by abstract characters; which
-  character is "the" cubic residue character of a primary prime is that roadmap's business.
+- **Reciprocity laws and primary elements**: the classical arithmetic roadmap, Layer 1; the
+  power residue symbol itself is Tau Ceti's `Ideal.powerResidueSymbol` (*From Tau Ceti*), which
+  6.1 reads at `n = q − 1`. The Gauss and Jacobi sums here are indexed by abstract characters;
+  which character is "the" cubic residue character of a primary prime is that roadmap's business.
 - **The Kronecker symbol `(D/·)`** and the identification of real Dirichlet characters with it:
   the multiquadratic roadmap and the theta-series roadmap (2H there).
 - **Gauss sums of a lattice** `G_L(a, c)`, their reciprocity and Milgram's formula: the
@@ -397,6 +404,42 @@ a Dedekind domain with `v(ζ − 1) = 1` at the height-one prime `v`, `intValuat
 gives `v(g(ω⁻ᵃ, ψ)) = s(a)` and `intValuation_gaussSum_inv_pow_pow_sub_one` gives
 `(p − 1) v(g(ω⁻ᵃ, ψ)) = s(a) v(p)`; consumed in 6.2.
 
+Power residue symbols (`TauCeti.NumberTheory.NumberField.PowerResidueSymbol.Basic`): for a number
+field `K` with `[HasEnoughRootsOfUnity (𝓞 K) n]` and a maximal ideal `P` of `𝓞 K`,
+`Ideal.powerResidueSymbol P n : MulChar (𝓞 K ⧸ P) (𝓞 K)` is the `n`-th power residue symbol
+`(·/P)_n`, with `mk_powerResidueSymbol` (`(x/P)_n ≡ x^{(N P − 1)/n} (mod P)` for `x ≠ 0` and `N P`
+prime to `n`), `powerResidueSymbol_eq_iff` (it is the only `n`-th root of unity of `𝓞 K` with that
+congruence), `powerResidueSymbol_pow_div` (`((x/P)_n)^{n/d} = (x/P)_d` for `d ∣ n`),
+`orderOf_powerResidueSymbol` (order exactly `n`) and `map_powerResidueSymbol` (`σ((α/P)_n) =
+(σα/σP)_n` for a ring isomorphism `σ`); at a prime whose norm is not prime to `n` the symbol is
+the trivial character by convention. Jacobi sums of its powers
+(`TauCeti.NumberTheory.NumberField.PowerResidueSymbol.JacobiSum`):
+`jacobiSum_powerResidueSymbol_pow_mem` (`J((·/P)_n^a, (·/P)_n^b) ∈ P` for `a, b ≠ 0`, `a + b < n`)
+and `jacobiSum_powerResidueSymbol_mul_jacobiSum_inv` (`J(χ, χ) J(χ⁻¹, χ⁻¹) = N P` for `n ≥ 3`).
+The Gauss-sum power `Ideal.stickelbergerPhi A m ∈ 𝓞 K` of an ideal `A` with `stickelbergerPhi_prime`
+(`f(Φ(P)) = g((·/P)_m⁻¹ ∘ f, ψ)^m` for `m ≥ 2`, `N P` prime to `m`, every injective ring map `f`
+from `𝓞 K` to a domain and every primitive `ψ`;
+`TauCeti.NumberTheory.NumberField.PowerResidueSymbol.StickelbergerPhi`). The cubic identities for
+`K = ℚ(ζ_3)`, `P = (π)` with `π` a primary Eisenstein prime (`TauCeti.IsPrimaryEisenstein`) and
+`χ = (·/P)_3`: `span_singleton_jacobiSum_powerResidueSymbol_three` (`(J(χ, χ)) = P` for `N P`
+prime to `3`) and `jacobiSum_powerResidueSymbol_three_eq` (`J(χ, χ) = π`)
+(`TauCeti.NumberTheory.NumberField.Cyclotomic.Three.JacobiSum`), and
+`gaussSum_powerResidueSymbol_three_pow_three_eq` (`g(χ ∘ f, ψ)³ = N P · f(π)` for injective `f`
+into a domain and primitive `ψ`, `TauCeti.NumberTheory.NumberField.Cyclotomic.Three.CubicReciprocity`);
+the quartic identities for `K = ℚ(i)`, `P = (π)` with `π` a primary Gaussian prime
+(`TauCeti.IsPrimaryGaussian`) and `χ = (·/P)_4`: `jacobiSum_powerResidueSymbol_four_eq`
+(`J(χ, χ) = −χ(−1) π`, `TauCeti.NumberTheory.NumberField.Cyclotomic.Four.JacobiSum`) and
+`gaussSum_powerResidueSymbol_four_pow_four_eq` (`g(χ ∘ f, ψ)⁴ = N P · f(π)²`,
+`TauCeti.NumberTheory.NumberField.Cyclotomic.Four.GaussSum`). The cyclotomic splitting law
+`IsPrimitiveRoot.inertiaDeg_eq_orderOf_of_val_eq_absNorm`
+(`TauCeti.NumberTheory.NumberField.Cyclotomic.ResidueDegree`): for a cyclotomic extension `F/K` of
+order `m`, a prime `𝔭` of `K` not containing `m`, a nonzero prime `Q` of `F` above it at which
+`𝓞 F` is unramified, and an arithmetic Frobenius `σ` at `Q` (one exists, Mathlib's
+`IsArithFrobAt.exists_of_isInvariant`), the residue degree of `Q` is the order in `(ZMod m)ˣ` of a
+unit reducing to `N 𝔭`. Consumed in 1.3, 1.5, 2.3, 6.1–6.3 and the worked examples; the milestone
+numbers of `ClassicalArithmeticCompletion` cited beside them are the statements these declarations
+instantiate.
+
 Diagonal quadrics: `TauCeti.card_sum_mul_sq_eq_of_card_eq_two_mul_add_one` and
 `card_sum_mul_sq_eq_of_card_eq_two_mul_add_two` (the number of solutions of `∑ w_i x_i² = c` with
 all `w_i ≠ 0` over `F` with `ringChar F ≠ 2`, in rank `2m + 1` and `2m + 2`,
@@ -418,7 +461,13 @@ Tau Ceti has no evaluation of Gauss's quadratic exponential sum at the pin: 1.4 
 under *Consumed, not redefined*. 1.47's `χ_P = (·/P)_m⁻¹` is `ω_𝔓^{−(q−1)/m}` (6.1); 7.12's
 congruence is stated with the uniformizer `ζ_p − 1` and the sign `−g(ω^{−a})`, and is Tau Ceti's
 `stickelberger_congruence`, which 6.2 cites for the congruence and the valuation.
-Section 1.23 supplies the residue character, its uniqueness and order at `n = q − 1`;
+Section 1.23 is the statement of the residue character, its uniqueness and its order, whose
+compiled carrier is Tau Ceti's `Ideal.powerResidueSymbol` with `powerResidueSymbol_eq_iff` and
+`orderOf_powerResidueSymbol`; 6.1 reads it at `n = q − 1`. Likewise 1.47 is `Ideal.stickelbergerPhi`
+with `stickelbergerPhi_prime`, 1.19 and 1.60 are `gaussSum_powerResidueSymbol_three_pow_three_eq`,
+1.53 is `jacobiSum_powerResidueSymbol_three_eq`, 1.36 is `jacobiSum_powerResidueSymbol_four_eq` and
+1.46 is `gaussSum_powerResidueSymbol_four_pow_four_eq` (*From Tau Ceti*); 1.55 has no carrier at
+the pin and is consumed as that roadmap's statement.
 §7.29 supplies `g(χ^m) ∏_{1≤j<m} g(λ^j) = χ(m)^m ∏_{0≤j<m} g(χλ^j)`
 for exact-order `λ`, `m ∣ q − 1`, and nontrivial additive character, including `χ = 1`.
 
@@ -465,7 +514,7 @@ Jacobsthal sums. Layer 3 builds the `L`-series of a monic multiplicative functio
 for the Hasse–Davenport lifting relation, with the supplied product formula giving duplication; Layer 4 proves Stepanov's uniform
 point-count bounds and converts them through the `L`-series and the power-sum lemma into Weil's
 bounds for polynomial sums; Layer 5 defines Kloosterman sums on a finite ring and proves Salié's
-evaluation, the degree-two `L`-polynomial and Weil's bound by the same route. Layer 6 constructs the
+evaluation, the degree-two `L`-polynomial and Weil's bound by the same route. Layer 6 reads Tau Ceti's power residue symbol at `n = q − 1` as the
 Teichmüller character of a prime of `ℚ(ζ_{q−1})`, states the consumed Stickelberger congruence and
 relation against it, and transports the consumed Gross–Koblitz formula to this roadmap's Gauss and
 Jacobi sums. Layer 7 reads the Kloosterman sum of Layer 5 on `ZMod c` and proves the
@@ -735,14 +784,16 @@ products of roots of unity), and the Galois group acts by: `σ_c : ζ_p ↦ ζ_p
 `g(χ)` to `g_c(χ) = χ(c)⁻¹ g(χ)` for `c ∈ (ℤ/p)^×` read in `𝔽_p ⊆ F` (the identity of sums
 `∑_x χ(x) ψ_F(x)^c = ∑_x χ(x) ψ_F(c x)`, which is `g_c(χ)`); `τ_t : ζ_m ↦ ζ_m^t, ζ_p ↦ ζ_p` sends
 `g(χ)` to `g(χ^t)` for `t ∈ (ℤ/m)^×` (0.5). Hence `g(χ)^m ∈ ℤ[ζ_m]` (`gauss_pow_orderOf_mem`:
-fixed by all `σ_c`), `g(χ)^m` is the classical arithmetic roadmap's `Φ(P)` when `χ` is the inverse
-power residue character of 1.47 there, and `τ_t(g(χ)^m) = g(χ^t)^m`: conjugate algebraic integers
+fixed by all `σ_c`), `g(χ)^m` is the classical arithmetic roadmap's `Φ(P)`, Tau Ceti's
+`Ideal.stickelbergerPhi P m` by `stickelbergerPhi_prime` (for `m ≥ 2`, `N P` prime to `m` and any
+primitive `ψ`), when `χ` is the inverse power residue character `(·/P)_m⁻¹` of 1.47 there, read in
+`ℂ` through an embedding of `𝓞_K`, and `τ_t(g(χ)^m) = g(χ^t)^m`: conjugate algebraic integers
 of the same absolute value `q^{m/2}` when `χ ≠ 1` (for `χ = 1`, `m = 1` and the value is `−1`,
 of absolute value `1`) whose quotient is not a unit in general (for `q = 7`, `m = 3`,
 `g(χ)³/g(χ²)³ = π/π̄` for the prime `π` of norm `7`). The **Frobenius invariance**
 `g(χ^p) = g(χ)` is Tau Ceti's `MulChar.gaussSum_pow_char_left` with `apply_pow_char_of_trace`
 (`x ↦ x^p` permutes `F` and `Tr(x^p) = Tr(x)`), cited and not reproved. *Needs:* 1.1, 0.5,
-Mathlib's cyclotomic fields, Tau Ceti's `GaussSum.Basic`. (The `p`-adic refinement of this factorization, the Gross–Koblitz evaluation,
+Mathlib's cyclotomic fields, Tau Ceti's `GaussSum.Basic` and `PowerResidueSymbol.StickelbergerPhi`. (The `p`-adic refinement of this factorization, the Gross–Koblitz evaluation,
 is 6.5.)
 
 ### 1.4 Quadratic Gauss sums over the prime field
@@ -767,10 +818,15 @@ classical arithmetic 1.19); for `orderOf χ = 4`, `g(χ)⁴ = q J(χ, χ)²` (Ta
 `gaussSum_pow_four_eq_card_mul_jacobiSum_sq`) and `g(χ)² = J(χ, χ) g(η)` (`jacobiSum_mul_nontrivial`); for `orderOf χ = 6`,
 `g(χ)⁶ = χ(−1) q ∏_{i=1}^{4} J(χ, χ^i)` with `χ(−1) = (−1)^{(q−1)/6}` by 0.4: `−1` for `q = 7`,
 `+1` for `q = 13`. The identification of `J(χ, χ)` with a primary prime for the residue characters
-of `ℤ[ω]` and `ℤ[i]` (exactly `π` in the cubic case, `−χ(−1) π` in the quartic case) is classical
-arithmetic 1.53 and 1.36, consumed in the worked examples and not reproved. *Needs:* 1.1,
-Mathlib's `gaussSum_pow_eq_prod_jacobiSum` and Tau Ceti's `JacobiSum.Cubic` and `JacobiSum.Quartic`;
-nothing from Layer 2 is needed.
+of `ℤ[ω]` and `ℤ[i]` (exactly `π` in the cubic case, `−χ(−1) π` in the quartic case) is Tau Ceti's
+`jacobiSum_powerResidueSymbol_three_eq` and `jacobiSum_powerResidueSymbol_four_eq` (classical
+arithmetic 1.53 and 1.36), and the cube and the fourth power of those Gauss sums, `g(χ)³ = N P · π`
+and `g(χ)⁴ = N P · π²`, are `gaussSum_powerResidueSymbol_three_pow_three_eq` and
+`gaussSum_powerResidueSymbol_four_pow_four_eq` (1.19, 1.60 and 1.46); all are consumed in the
+worked examples and not reproved. *Needs:* 1.1,
+Mathlib's `gaussSum_pow_eq_prod_jacobiSum` and Tau Ceti's `JacobiSum.Cubic`, `JacobiSum.Quartic`,
+`Cyclotomic.Three.JacobiSum`, `Cyclotomic.Three.CubicReciprocity`, `Cyclotomic.Four.JacobiSum` and
+`Cyclotomic.Four.GaussSum`; nothing from Layer 2 is needed.
 
 ### Examples
 
@@ -782,7 +838,9 @@ invariance at `p = 7`, trivially), and `g(ω)⁶ = −7 ∏_{i=1}^{4} J(ω, ω^i
 ### Dependencies
 
 Layer 0 (0.1, 0.2, 0.5); Mathlib's `GaussSum.lean` and cyclotomic fields; Tau Ceti's
-`GaussSum.Basic` (1.2, 1.3), `JacobiSum.Cubic` and `JacobiSum.Quartic` (1.5); the classical
+`GaussSum.Basic` (1.2, 1.3), `PowerResidueSymbol.StickelbergerPhi` (1.3), `JacobiSum.Cubic`,
+`JacobiSum.Quartic` and the `Cyclotomic.Three` and `Cyclotomic.Four` Gauss- and Jacobi-sum files
+(1.5); the classical
 arithmetic roadmap's 4.19 and `AnalyticNumberTheoryPartI` §2.30 for 1.4.
 
 ## Layer 2: Jacobi and Jacobsthal sums
@@ -809,8 +867,11 @@ of order `4`, `J(χ, χ) = a + b i ∈ ℤ[i]` with `a² + b² = p` (2.2), and `
 (`J(χ, χ) ≡ χ(4)⁻¹ = χ(−1) (mod 2)`: the terms `x` and `1 − x` of `∑_x χ(x(1 − x))` agree and pair
 off, leaving the fixed point `x = 1/2`); for `q = p ≡ 1 (mod 3)` and `χ` of order `3`,
 `J(χ, χ) = a + b ω ∈ ℤ[ω]` with `a² − ab + b² = p`. The normalizations
-`J(χ, χ) = −(−1)^{(p−1)/4} π` and `J(χ, χ) = π` for the residue characters of a primary `π` are the
-classical arithmetic roadmap's 1.36 and 1.53. *Needs:* 2.2, 1.5.
+`J(χ, χ) = −(−1)^{(p−1)/4} π` and `J(χ, χ) = π` for the residue characters of a primary `π` are
+Tau Ceti's `jacobiSum_powerResidueSymbol_four_eq` and `jacobiSum_powerResidueSymbol_three_eq` (the
+classical arithmetic roadmap's 1.36 and 1.53); the weaker `J(χ^a, χ^b) ∈ P` for `a, b ≠ 0` with
+`a + b < n`, for the `n`-th power residue character `χ` of any prime `P` of norm prime to `n`, is
+`jacobiSum_powerResidueSymbol_pow_mem`. *Needs:* 2.2, 1.5.
 
 ### 2.4 Multiple Jacobi sums and diagonal equations
 
@@ -912,14 +973,15 @@ The supporting API comprises:
 ### Examples
 
 Over `𝔽_7` with `ω(3) = e(1/6)`: `J(ω, 1) = −1`, `J(ω, ω) = 2.5 − 0.8660 i`,
-`J(ω², ω²) = −1 − 3 e(1/3) = 0.5 − 2.5981 i` (the primary prime of norm `7` of classical arithmetic
-1.53), `J(η, η) = 1`, `J(ω, ω⁵) = −ω(−1) = 1`. Over `𝔽_5` with `χ(2) = i`: `J(χ, χ) = −1 − 2i`,
+`J(ω², ω²) = −1 − 3 e(1/3) = 0.5 − 2.5981 i` (the primary prime of norm `7` of Tau Ceti's
+`jacobiSum_powerResidueSymbol_three_eq`, classical arithmetic 1.53), `J(η, η) = 1`, `J(ω, ω⁵) = −ω(−1) = 1`. Over `𝔽_5` with `χ(2) = i`: `J(χ, χ) = −1 − 2i`,
 `5 = 1 + 4`. Jacobsthal: `φ_2(1) = −2, 0, 6` over `𝔽_5, 𝔽_7, 𝔽_13`.
 
 ### Dependencies
 
 Layer 1 (1.2, 1.5) and Layer 0 (0.3, 0.4); Mathlib's `JacobiSum/Basic.lean`; Tau Ceti's
-`LegendreSymbol.QuadraticChar.Quadric` for the quadric case of 2.4;
+`PowerResidueSymbol.JacobiSum`, `Cyclotomic.Three.JacobiSum` and `Cyclotomic.Four.JacobiSum` for the
+normalizations of 2.3, and `LegendreSymbol.QuadraticChar.Quadric` for the quadric case of 2.4;
 `EllipticLegendreCharacterInterfaces` 5.1 for the elliptic reading of 2.5 only.
 
 ## Layer 3: the polynomial `L`-series and the Hasse–Davenport relations
@@ -1555,38 +1617,47 @@ uniformizer at `𝔓̃` in which the Stickelberger congruence is written; the Gr
 of 6.4 is a different element of the completion, congruent to `λ` modulo `𝔓̃²`. The Stickelberger
 congruence and the digit-sum valuation of `g(ω^{−a})` are the classical arithmetic roadmap's 7.12
 and 1.55; Morita's `Γ_p` and the Gross–Koblitz formula are `DirichletPadicLFunctions` §§4.1, 4.4
-and 4.5. This layer specializes the residue character of `ClassicalArithmeticCompletion` §1.23, proves
-the residue cardinality, and supplies the corollaries the two roadmaps
+and 4.5. This layer reads Tau Ceti's `Ideal.powerResidueSymbol` at `n = q − 1` (the residue character of
+`ClassicalArithmeticCompletion` §1.23) as the Teichmüller character, records the residue
+cardinality, and supplies the corollaries the two roadmaps
 leave open, the identification of the two Teichmüller lifts, and the transport of the
 Gross–Koblitz formula to the Gauss and Jacobi sums of this roadmap.
 
 ### 6.1 The residue field and the Teichmüller character
 
-Prove `𝓞_K ⧸ 𝔓` is a finite field with `q` elements: for `q > 2` its residue degree is
-the order of `p` modulo `q − 1`, namely `f`; for `q = 2`, `K = ℚ` and the residue field is
-`𝔽_2`. Write `ω_𝔓` for the specialization of the supplied power residue symbol to `n = q − 1`.
-Its source is `𝓞_K ⧸ 𝔓` and its target is `𝓞_K`; the exponent `(q − 1)/n` in the defining
-congruence is one. The specialization has the following API:
+Record that `𝓞_K ⧸ 𝔓` is a finite field with `q` elements: `𝔓` is unramified over `p` since
+`p ∤ q − 1`, and for `q > 2` its residue degree is the order of `p` in `(ℤ/(q − 1))^×`, namely `f`,
+by Tau Ceti's cyclotomic splitting law `IsPrimitiveRoot.inertiaDeg_eq_orderOf_of_val_eq_absNorm` at
+the base `ℚ`, `m = q − 1`, `𝔭 = (p)` and an arithmetic Frobenius at `𝔓`; for `q = 2`, `K = ℚ` and
+the residue field is `𝔽_2`. Write `ω_𝔓 := Ideal.powerResidueSymbol 𝔓 (q − 1)`, Tau Ceti's power
+residue symbol at `n = q − 1` (the residue character of `ClassicalArithmeticCompletion` §1.23). Its
+source is `𝓞_K ⧸ 𝔓` and its target is `𝓞_K`; `N 𝔓 = q` is prime to `q − 1`, so the symbol is not
+the conventional trivial character of a prime of bad norm, and the exponent `(N 𝔓 − 1)/n` in the
+defining congruence is one. The specialization has the following API, each item an instance of the
+supplied declaration named:
 
-- It sends zero to zero and sends each nonzero `x` to the unique `(q − 1)`-th root of unity
-  reducing to `x`; multiplication and exact order `q − 1` follow from the supplied API.
-- For `m ∣ q − 1`, its power `ω_𝔓^{(q−1)/m}` is the `m`-th power residue character, so
-  the inverse character used in §1.47 of the supplier is `ω_𝔓^{−(q−1)/m}`.
+- It sends zero to zero and sends each nonzero `x` to the unique `(q − 1)`-th root of unity of
+  `𝓞_K` reducing to `x` (`mk_powerResidueSymbol`, `powerResidueSymbol_eq_iff`); it is multiplicative
+  and its order is exactly `q − 1` (`orderOf_powerResidueSymbol`).
+- For `m ∣ q − 1`, its power `ω_𝔓^{(q−1)/m}` is the `m`-th power residue character
+  (`powerResidueSymbol_pow_div`), so the inverse character used in §1.47 of the supplier is
+  `ω_𝔓^{−(q−1)/m}`.
+- Galois equivariance (`map_powerResidueSymbol`): a ring automorphism `σ` of `𝓞_K` carries
+  `ω_𝔓` to the character of `σ𝔓`, `σ(ω_𝔓(x mod 𝔓)) = ω_{σ𝔓}(σx mod σ𝔓)`.
 - Under the ring map `𝓞_K → 𝓞_{K,𝔓}` to the completed valuation ring, it agrees on units
   with `TauCeti.teichmuller`; 6.4 proves this comparison by the unique-root congruence.
 
 The character depends on the prime: Galois conjugation moves both `𝔓` and its character.
-The supplied global residue-character carrier is not compiled at the pins, so the global-to-local
-comparison and the ensuing global evaluations are specified in prose.
-*Needs:* `ClassicalArithmeticCompletion` §1.23, Mathlib's cyclotomic residue-degree theory,
-`Ideal.Quotient.field`.
+*Needs:* Tau Ceti's `PowerResidueSymbol.Basic` and `Cyclotomic.ResidueDegree`, Mathlib's
+`Ideal.Quotient.field` and `IsArithFrobAt.exists_of_isInvariant`.
 
 **Checks.**
 
 - (computation) `q = 7`, `K = ℚ(ζ_3)`, `𝔓 = (ζ_3 − 2)`, a prime of norm `7`: `ω_𝔓(2) = ζ_3`,
   `ω_𝔓(3) = −ζ_3²`, `ω_𝔓(5) = −ζ_3` and `ω_𝔓(−1) = −1`, so `ω_𝔓` has order `6`.
-- (power residue) for `q = 7`, `m = 3`: `ω_𝔓²` is the cubic residue character `x ↦ x² mod 𝔓` of
-  the classical arithmetic roadmap's 1.23: `ω_𝔓²(2) = ζ_3² ≡ 4 = 2² (mod 𝔓)`.
+- (power residue) for `q = 7`, `m = 3`: `ω_𝔓²` is the cubic residue character `x ↦ x² mod 𝔓`
+  (`powerResidueSymbol_pow_div` at `d = 3`, the classical arithmetic roadmap's 1.23):
+  `ω_𝔓²(2) = ζ_3² ≡ 4 = 2² (mod 𝔓)`.
 - (rejection) `ω_𝔓⁻¹ = ω_𝔓⁵` also has order `6`, but `ω_𝔓⁻¹(2) = ζ_3² ≡ 4 ≢ 2 (mod 𝔓)`; it is the
   Teichmüller character of the conjugate prime `(ζ_3² − 2)`, not of `𝔓`.
 - (degenerate) for `q = p = 3`, `K = ℚ` and `𝔓 = (3)`: `ω_𝔓` is the Legendre symbol `(·/3)` with
@@ -1625,7 +1696,14 @@ with `τ_t : ζ_{q−1} ↦ ζ_{q−1}^t` fixing `ζ_p`, `v_{τ_t^{−1}(𝔓̃)
 `(g_a) = ∏_{t ∈ (ℤ/(q−1))^× / ⟨p⟩} τ_t^{−1}(𝔓̃)^{s(ta)}`,
 the product over the primes of `L` above `p` (indexed by `(ℤ/(q−1))^×/⟨p⟩` because `s(pa) = s(a)`
 and the decomposition group of `𝔓` is `⟨p⟩`); 1.55 is its case `a = (q − 1)/m` raised to the
-`m`-th power. *Needs:* 6.1, 1.2, 1.3, Tau Ceti's `GaussSum.Stickelberger`, the classical arithmetic
+`m`-th power. The per-prime form is the headline
+`multiplicity_map_gaussSum_powerResidueSymbol_inv_pow`: for `𝔓̃` a maximal ideal of `𝓞_L` lying
+over `𝔓`, any primitive additive character `ψ` of `𝓞_K ⧸ 𝔓` with values in `𝓞_L` (every one is a
+shift `x ↦ ψ(cx)` of the trace character, and `g(χ, ψ(c·)) = χ(c)⁻¹ g(χ, ψ)` is a unit multiple,
+so no valuation depends on the choice), a ring automorphism `τ` of `𝓞_L` fixing every value of `ψ`
+and acting on the `(q − 1)`-th roots of unity of `𝓞_K` by `μ ↦ μ^t`, and `0 ≤ a < q − 1`,
+`v_{τ^{−1}(𝔓̃)}(g_a) = s(t a mod (q − 1))`, with `v_𝔔(x) = multiplicity 𝔔 (Ideal.span {x})`; at
+`τ = 1` it is the consumed valuation, and the automorphisms `τ_t` above run through the `t`. *Needs:* 6.1, 1.2, 1.3, Tau Ceti's `GaussSum.Stickelberger`, the classical arithmetic
 roadmap's 7.12 and 1.55.
 
 **Checks.**
@@ -1641,6 +1719,11 @@ roadmap's 7.12 and 1.55.
   with the Gross–Koblitz element `π` of 6.4 in place of `λ` the valuation is at least `a + 6`
   instead, because `Γ_7(a/6) ≡ 1/a! (mod 7)`: the congruence is a statement about `λ`.
 - (`q = 9`, `a = 5 = 2 + 1·3`) `s(a) = 3` and `v_𝔓̃(g_5 + λ³/2) ≥ 4`.
+- (`q = 9`, `L = ℚ(ζ_24)`, the two primes above `3`) they have `(e, f) = (2, 2)` and correspond to
+  the cosets `{1, 3}` and `{5, 7}` of `⟨3⟩` in `(ℤ/8)^×`; `v_𝔓̃(g_a) = s(a) = 1, 2, 1, 2, 3, 2, 3` and
+  `v_{τ_5^{−1}(𝔓̃)}(g_a) = s(5a mod 8) = 3, 2, 3, 2, 1, 2, 1` for `a = 1, …, 7`, each pair summing to
+  `4` as `N_{L/ℚ}(g_a) = 3^8 = 9^4` requires; `s(3a mod 8) = s(a)` for every `a`, so `τ_3` returns
+  the same prime.
 - (direction of the exponent) `v_𝔓̃(g(ω^{+a}))` at the same prime is `6 − a` for `q = 7` and `1 ≤ a ≤ 5`, not `a`:
   the theorem is about `ω^{−a}`.
 
@@ -1652,14 +1735,33 @@ For `0 ≤ a, b < q − 1` with `a + b ≢ 0 (mod q − 1)` and `a, b ≠ 0`:
 (the carries of the base-`p` addition). Here `ω = ω_𝔓` is the Teichmüller character of 6.1,
 `v_𝔓(J)` is `multiplicity 𝔓 (Ideal.span {J})` (the pinned convention), `s(n)` is the base-`p`
 digit sum `(Nat.digits p n).sum`, and `a + b > q − 1` is allowed: the digit sum on the right is
-taken of the remainder of `a + b` modulo `q − 1`. The statement needs `ω_𝔓`, so it is specified
-here only. *Needs:* 6.2, 2.2.
+taken of the remainder of `a + b` modulo `q − 1`. The headline
+`jacobiSum_powerResidueSymbol_multiplicity` states it without the division, as
+`(p − 1) v_𝔓(J) + s(a + b mod (q − 1)) = s(a) + s(b)`, for `K` with
+`IsCyclotomicExtension {q − 1} ℚ K` and `𝔓` of norm `q`. The hypothesis `K = ℚ(ζ_{q−1})` enters
+through `v_𝔓(p) = 1`: for a number field `K` whose integers merely contain `μ_{q−1}`, `ω_𝔓` and `J`
+are the same elements of `ℚ(ζ_{q−1})` and the identity reads
+`(p − 1) v_𝔓(J) = (s(a) + s(b) − s(a + b mod (q − 1))) v_𝔓(p)`, both valuations being those of
+`ℚ(ζ_{q−1})` multiplied by the ramification index of `𝔓`. The weaker `J(ω^a, ω^b) ∈ 𝔓` for
+`a, b ≠ 0`, `a + b < q − 1` (`jacobiSum_powerResidueSymbol_pow_mem`) is the case where the base-`p`
+addition of `q − 1 − a` and `q − 1 − b` carries. *Needs:* 6.2, 2.2, Tau Ceti's
+`PowerResidueSymbol.Basic`.
 
 **Checks.**
 
 - (`q = 7`) `J(ω^{−1}, ω^{−1}) = g_1²/g_2` has `v_𝔓 = (1 + 1 − 2)/6 = 0`.
 - (`q = 7`) `J(ω^{−4}, ω^{−4}) = g_4²/g_2` has `v_𝔓 = (4 + 4 − 2)/6 = 1`; indeed `J(χ, χ)` for the
-  cubic character `χ = ω^{−4} = ω^2` is the primary prime of norm `7`, classical arithmetic 1.53.
+  cubic character `χ = ω^{−4} = ω^2` is the primary prime of norm `7` by Tau Ceti's
+  `jacobiSum_powerResidueSymbol_three_eq` (classical arithmetic 1.53).
+- (`q = 5`, `K = ℚ(i)`, `𝔓 = (2 − i)`, `ω(2) = i`) the pairs `(a, b) = (1, 1), (1, 2), (2, 3), (3, 3)`
+  give `J(ω^{−a}, ω^{−b}) = −1 + 2i, 1 − 2i, 1 + 2i, −1 − 2i` with `v_𝔓 = 0, 0, 1, 1`, and
+  `4 v_𝔓 + s(a + b mod 4) = 2, 3, 5, 6 = s(a) + s(b)`; the excluded pairs `(2, 2)` and `(1, 3)` have
+  `J = −1` and `1`, of valuation `0`, where the right side would be `4`.
+- (ramified base, excluded) over `K = ℚ(ζ_3, √7)` the prime `𝔓` above `(ζ_3 − 2)` has norm `7` and
+  ramification index `2`; `ω_𝔓` is the character of `𝔽_7` of the `q = 7` Checks and
+  `J(ω^{−4}, ω^{−4})` is the same primary prime `π = −1 − 3ζ_3` of norm `7`, but `(π) = 𝔓²` in
+  `𝓞_K`, so `v_𝔓(J) = 2`, not `1`: the identity with `v_𝔓(7) = 2` reads `6 · 2 = (4 + 4 − 2) · 2`,
+  and the stated form needs `K = ℚ(ζ_{q−1})`.
 - (`q = 7`, with `a + b > q − 1`) `J(ω^{−5}, ω^{−5})` has `v_𝔓 = (5 + 5 − 4)/6 = 1`.
 - (excluded boundary) for `a + b = q − 1` the Jacobi sum is `J(ω^{−a}, ω^{a}) = −ω^{−a}(−1) = ±1`
   (2.1), of valuation `0`, while the right side would read `(s(a) + s(q − 1 − a))/(p − 1) = f`:
@@ -1742,7 +1844,8 @@ sums; the statement here is about 6.3's global Jacobi sum and carries 6.3's digi
   agreeing with `ω^{−1}(−1) · 4 = 4`; the odd-prime parity formula would give the wrong sign.
 - (`q = 7`, the cubic Jacobi sum) `J(ω^{−4}, ω^{−4}) = −π^{6} Γ_7(2/3)²/Γ_7(1/3) = 7 Γ_7(2/3)²/Γ_7(1/3)`,
   of valuation `1` at `𝔓`, the image in `ℤ_7` of the primary prime `−1 − 3 e(1/3)` of norm `7`
-  (classical arithmetic 1.53, with `e(1/3) = ω_𝔓(2)` sent to the Teichmüller representative of
+  (Tau Ceti's `jacobiSum_powerResidueSymbol_three_eq`, classical arithmetic 1.53, with
+  `e(1/3) = ω_𝔓(2)` sent to the Teichmüller representative of
   `2`).
 - (`q = 7`, valuation zero) `J(ω^{−1}, ω^{−1}) = −π⁰ Γ_7(1/6)²/Γ_7(1/3)`, a unit, in agreement with
   `v_𝔓 = 0` in 6.3.
@@ -1759,8 +1862,8 @@ the worked example `7.2` is `ω_𝔓^{±2}` according to the choice of `𝔓`; `
 ### Dependencies
 
 0.3, 1.2, 1.3, 2.2; Mathlib's cyclotomic fields, `Ideal.Quotient.field` and `adicCompletion`;
-Tau Ceti's `teichmuller`, `teichmullerLift` and `GaussSum.Stickelberger`; the classical arithmetic
-roadmap's 7.12 and 1.55;
+Tau Ceti's `PowerResidueSymbol.Basic`, `Cyclotomic.ResidueDegree`, `teichmuller`, `teichmullerLift`
+and `GaussSum.Stickelberger`; the classical arithmetic roadmap's 7.12 and 1.55;
 `DirichletPadicLFunctions` §§4.1, 4.4 and 4.5. Independent of Layers 3–5.
 
 ## Layer 7: sums modulo an integer
@@ -2005,11 +2108,14 @@ with Conrey index `n` (Tau Ceti's `conreyCharacter q n`); for prime `q` this is 
 
 `χ = χ_7(2, ·)`, order `3`, `χ(3) = e(1/3)` hence `χ(2) = e(2/3)`, `χ(−1) = 1`.
 - 1.5, 2.3: `g(χ)³ = 7 J(χ, χ)` with `J(χ, χ) = 0.5 − 2.5981 i = −1 − 3ω` (`ω = e(1/3)`), the
-  primary prime of norm `7` of classical arithmetic 1.53; `g(χ) = 2.3705 − 1.1751 i`,
+  primary prime of norm `7` of Tau Ceti's `jacobiSum_powerResidueSymbol_three_eq` (classical
+  arithmetic 1.53), with `g(χ)³ = 7π` its `gaussSum_powerResidueSymbol_three_pow_three_eq`;
+  `g(χ) = 2.3705 − 1.1751 i`,
   `g(χ)³ = 3.5 − 18.1865 i = 7(−1 − 3ω)`.
 - 6.1–6.3: with `𝔓` a prime of `ℚ(ζ_6) = ℚ(ζ_3)` above `7` and `ω_𝔓` its Teichmüller character,
   `χ = ω_𝔓^{±2}` according to the choice of `𝔓`; in `L = ℚ(ζ_42)` the two primes above `7` have
-  `(e, f) = (6, 1)`, `v_𝔓̃(g(ω^{−a})) = a` for `a = 1, …, 5`, the other prime has valuation `6 − a`;
+  `(e, f) = (6, 1)`, `v_𝔓̃(g(ω^{−a})) = a` for `a = 1, …, 5`, the other prime has valuation `6 − a`
+  (`multiplicity_map_gaussSum_powerResidueSymbol_inv_pow` at `t = 1` and `t = 5`);
   at `a = 0` both valuations are `0` and `g_0 = −1`;
   `N_{L/ℚ}(g(ω^{−a})) = 7^6` for `a ≠ 0`, and `v_𝔓̃(g(ω^{−a}) + λ^a/a!) = a + 1` with `λ = ζ_7 − 1`.
 - 6.4–6.5: in `ℚ_7(ζ_7)`, `g(ω^{−a}) = −π^a Γ_7(a/6)` for `a = 1, …, 5` with `π^6 = −7`,
@@ -2021,8 +2127,9 @@ with Conrey index `n` (Tau Ceti's `conreyCharacter q n`); for prime `q` this is 
 ### `5.2`: the quartic character modulo `5`, and two-squares
 
 `χ = χ_5(2, ·)`, order `4`, `χ(2) = e(1/4) = i`, `χ(−1) = −1`.
-- 2.3: `J(χ, χ) = −1 − 2i`, `(−1)² + 2² = 5`; `a = −1` odd, `b = −2` even. Classical arithmetic
-  1.36 reads `−χ(−1) J(χ, χ) = J(χ, χ) = −1 − 2i = π̄`, the primary Gaussian prime with
+- 2.3: `J(χ, χ) = −1 − 2i`, `(−1)² + 2² = 5`; `a = −1` odd, `b = −2` even. Tau Ceti's
+  `jacobiSum_powerResidueSymbol_four_eq` (classical arithmetic 1.36) reads
+  `−χ(−1) J(χ, χ) = J(χ, χ) = −1 − 2i = π̄`, the primary Gaussian prime with
   `2 ≡ i (mod π̄)`, so `χ = (·/π̄)_4` (`−(−1)^{(5−1)/4} = +1`); the conjugate character `χ_5(3, ·)` has
   `J = −1 + 2i = π`, the prime of 1.36's own check.
 - 1.1: `τ(χ) = −1.1756 + 1.9021 i`, `τ_2(χ) = χ(2)⁻¹ τ(χ) = 1.9021 + 1.1756 i`.
