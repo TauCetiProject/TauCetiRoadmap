@@ -4,15 +4,15 @@
 
 ## Scope and ownership
 
-This roadmap owns the additive and stable-envelope comparisons, acyclic-domain truncation and excision, continuous Witt operations on all NK degrees, the K-theoretic compact-kernel argument, telescopic purity and its consequences. Its chromatic groundwork extends the supplied p-local theory to the global convention T(0)=S[1/p], and supplies periodic-space detection, telescopic Tate vanishing, Hahn acyclicity and the Tate-height converse. It does not identify telescopic and Morava localizations on arbitrary spectra. Layer 4 §§4.1–4.34 and Layer 6’s Lubin–Tate covers (§6.1a) and chromatic field maps (§6.2) are owned here; ChromaticHomotopyTheory is a downstream consumer of these extensions, retaining its other chromatic developments. StableHomotopyKTheoryPartII §§4.4–4.5 own the general degree-zero power operation and transfer ideal used here.
+This roadmap owns the additive and stable-envelope comparisons, acyclic-domain truncation and excision, continuous Witt operations on all NK degrees, the K-theoretic compact-kernel argument, telescopic purity and its consequences. Its chromatic groundwork extends the supplied p-local theory to the global convention T(0)=S[1/p], and supplies periodic-space detection, telescopic Tate vanishing, Hahn acyclicity and the Tate-height converse. It does not identify telescopic and Morava localizations on arbitrary spectra. Layer 4 §§4.1–4.34 and Layer 6’s Lubin–Tate covers (§6.1a) and chromatic field maps (§6.2) are owned here; ChromaticHomotopyTheory consumes the Layer 4 sections listed in Downstream consumers and retains its other chromatic developments. Sections 4.15–4.16 give an existential connectivity bound m. Its sharp value m=n+1 follows from them together with the consequence of ∞-semiadditivity of T(n)-local spectra that maps with π-finite n-connected fibers become T(n)-equivalences after Σ∞_+; that consequence is ChromaticHomotopyTheory §4.2, so the sharp value belongs to that roadmap and is not a target here (lmmt line 437, Remark 2.12, p.1020; csy line 3930, Theorem 5.3.5, pp.80–81). The positive-height real Bott comparison ko→KO and its base change to ko-algebras (§4.30a) are owned here. StableHomotopyKTheoryPartII §§4.4–4.5 own the general degree-zero power operation and transfer ideal used here.
 
-GeneralAlgebraicKTheory §§3.12–3.14, Layers 5–7, §§9.8–9.17, Layers 10–12 and §13.6 own classical plus/Q/S comparisons, products, transfers, Nil categories, Bass contraction, negative K-theory and enhanced-model invariance. RefinedTraceMethods §4.9 already states exact sequences in Cat∞perf, connective stable S-theory, the nonconnective suspension construction, K(Perf(A)) and global truncating invariants; §4.18 states the correction algebra and global truncating excision, while §4.10 supplies coherent multiplicative K. Their constructions, APIs and boundary tests are supplier obligations. AInfCohomology §AI.7.2 owns the circle Tate construction, Tate-orbit lemma and bounded-below residual comparison; RefinedTraceMethods §2.3 owns the bounded-above Tate fixpoint lemma. The restricted acyclic-domain predicates and consequences here add a condition on every auxiliary ring, rather than another global definition. The compact-kernel target adds its K-theory fiber sequence to EnhancedDerivedSheaves E5:presentability.3's categorical quotient. EnhancedDerivedSheaves E5:descent owns commutative finite-index Amitsur module descent; §8.2 allows associative algebras and proves the rational-unit criterion for ε-nilpotent towers.
+GeneralAlgebraicKTheory §§3.12–3.14, Layers 5–7, §§9.8–9.17, Layers 10–12 and §13.6 own classical plus/Q/S comparisons, products, transfers, Nil categories, Bass contraction, negative K-theory and enhanced-model invariance. RefinedTraceMethods §4.9 already states exact sequences in Cat∞perf, connective stable S-theory, the nonconnective suspension construction, K(Perf(A)) and global truncating invariants; §4.18 states the correction algebra and global truncating excision, while §4.10 supplies coherent multiplicative K. Their constructions, APIs and boundary tests are supplier obligations. RefinedTraceMethods §4.6 states relative localizing motives over a rigid monoidal base and §4.10 the tensor units of absolute finitary invariants; the A-linear weakly additive motives over an E∞-ring A, their tensor unit and the K₀ comparison (§8.1a) are different objects and are owned here, as is the all-cyclic THH assembly equivalence used in §10.4. AInfCohomology §AI.7.2 owns the circle Tate construction, Tate-orbit lemma and bounded-below residual comparison; RefinedTraceMethods §2.3 owns the bounded-above Tate fixpoint lemma. The restricted acyclic-domain predicates and consequences here add a condition on every auxiliary ring, rather than another global definition. The compact-kernel target adds its K-theory fiber sequence to EnhancedDerivedSheaves E5:presentability.3's categorical quotient. EnhancedDerivedSheaves E5:descent owns commutative finite-index Amitsur module descent; §8.2 allows associative algebras and proves the rational-unit criterion for ε-nilpotent towers.
 
 BordismFormalGroups F1–F3 and F6.1–F6.4 already state formal-group algebra, complex orientations, MU/BP/Morava coefficients, homological localization, nilpotence, type, periodicity, p-local finite localization and Hopkins–Ravenel smashing. GeneralizedCohomology G2, G4.5 and G5.1–5.4 supply spectra, orientations, finite duality, Thom diagrams and KU/KO models. TopologicalKTheory T4 and T7 own their geometric Bott and coefficient comparisons, using HomotopySpheres §4B's real Bott theorem. The new variants here are the all-spectra finite-localization extension, the truncated-theory Bousfield classes, and their chromatic comparison consequences.
 
 EllipticCohomology E1–E4 and E6 state the generalized elliptic moduli, the height-one and height-two Morava realizations and automorphism actions, the sheaf Otop, tmf/Tmf/TMF, discriminant inversion and level sheaves. Their all-height realization and spectral affineness extensions are exact supplier contracts below. The modular chromatic input comparison and its K-theory applications here use those same spectra. HomotopySpheres §3B owns the James word filtration, connected James equivalence and James–Hopf map; the reduced stable splitting is stated as a supplier contract below. EllipticCohomology E5 owns units and coherent Thom orientation data; the relative module-colimit interface is stated as a supplier contract below. The characteristic-p Thom theorem and its filtered families here are specializations of that shared construction.
 
-QWittVectors §§1.1–1.6 owns big Witt vectors, including arbitrary truncation sets, their topology and operations; HabiroRings consumes that theory and is not its owner. KTheoryLowDegrees §§1.1–1.3 owns projective K₀, and GeneralAlgebraicKTheory §§13.8a–13.8c owns the ordinary finite-field Brauer–Quillen theorem. KTheoryFiniteLocalFields §§1.1–1.6 supplies its normalized coefficient and completion refinements, and its §0.4 owns the odd-primary height-one functor `heightOneFromZeroSpace` on the pointed homotopy category; §4.11 here is the coherent Bousfield–Kuhn functor for every prime and every height n≥1, which agrees with that functor at n=1 and p odd. SchemeKTheoryOperations Layers 1–5 owns enhanced scheme K-theory, descent geometry and Bass comparisons; its KH and Karoubi–Villamayor extension is stated as a supplier contract below. MotivicEtaleKTheory §7.2 concerns a Deligne regulator comparison, not finite-coefficient étale K-descent, so the latter interface is assigned to KTheoryFiniteLocalFields §6.5a.
+QWittVectors §§1.1–1.6 owns big Witt vectors, including arbitrary truncation sets, their topology and operations; HabiroRings consumes that theory and is not its owner. HabiroCohomologyFoundationsPartII §0.1 owns the spherical lifts of perfect p-complete δ-rings, built by spherical Witt vectors; §6.1a here forms the Lubin–Tate ring of a perfect algebra from them by base change, and StableHomotopyKTheoryPartII §4.8 is their finite-field case. KTheoryLowDegrees §§1.1–1.3 owns projective K₀, and GeneralAlgebraicKTheory §§13.8a–13.8c owns the ordinary finite-field Brauer–Quillen theorem. KTheoryFiniteLocalFields §§1.1–1.6 supplies its normalized coefficient and completion refinements, and its §0.4 owns the odd-primary height-one functor `heightOneFromZeroSpace` on the pointed homotopy category; §4.11 here is the coherent Bousfield–Kuhn functor for every prime and every height n≥1, which agrees with that functor at n=1 and p odd. SchemeKTheoryOperations Layers 1–5 owns enhanced scheme K-theory, descent geometry and Bass comparisons; its KH and Karoubi–Villamayor extension is stated as a supplier contract below. MotivicEtaleKTheory §7.2 concerns a Deligne regulator comparison, not finite-coefficient étale K-descent, so the latter interface is assigned to KTheoryFiniteLocalFields §6.5a.
 
 ## Conventions
 
@@ -56,27 +56,11 @@ Consume E0.4's stable enhancement, E5:abstract.1–4's algebra/module objects, m
 
 ### From TauCetiRoadmap.RefinedTraceMethods
 
-What RefinedTraceMethods must provide (gap:linear-weak-additive-motives): §4.6: For each E∞ ring A and sufficiently large regular κ, supply the stable category Mot_κ(A) and universal functor U_A for weakly additive invariants on κ-compact A-linear perfect categories.
+What RefinedTraceMethods must provide (gap:tc-mod-p-cyclotomic-colimits): §4.17: Prove that X↦TC(X)/p preserves all small colimits of cyclotomic spectra whose underlying spectra are connective. The proof route of §4.17's henselian rigidity of the trace with finite coefficients already uses this statement as an input.
 
-What RefinedTraceMethods must provide (gap:linear-motive-tensor-unit): §4.10: Supply the symmetric monoidal structure on Mot_κ(A) whose unit is the motive of Perf(A), for commutative A and an accessibility cardinal κ as above.
+What RefinedTraceMethods must provide (gap:tc-mod-p-ring-sifted-colimits): §4.17: Prove that A↦TC(A)/p preserves sifted colimits of connective E₁-rings. The same proof route of §4.17 uses this statement as an input.
 
-What RefinedTraceMethods must provide (gap:linear-motive-kzero-unit): §4.10: Supply the natural map K₀(C)→π₀Map(U_A(Perf(A)),U_A(C)) for κ-compact A-linear C, sending [A] to the monoidal unit when C=Perf(A).
-
-What RefinedTraceMethods must provide (gap:linear-motive-projection-formula): §4.10: For a map A→B of E∞ rings with B perfect over A, prove that restriction and extension of A-linear perfect-category motives satisfy the tensor projection formula.
-
-What RefinedTraceMethods must provide (gap:tc-z-k1-nonzero): §4.17: Prove L_K(1)TC(ℤ)≠0 for every prime p, including p=2.
-
-What RefinedTraceMethods must provide (gap:tc-z-inverse-p-vanishing): §2.10: Prove TC(ℤ[1/p])^∧p=0 for every prime p.
-
-What RefinedTraceMethods must provide (gap:k1-tc-filtered-colimits): §2.10: Prove that A↦L_K(1)TC(A) preserves filtered colimits of discrete unital rings into K(1)-local spectra.
-
-What RefinedTraceMethods must provide (gap:tc-mod-p-cyclotomic-colimits): §2.10: Prove that TC/p preserves all small colimits of cyclotomic spectra whose underlying spectra are connective.
-
-What RefinedTraceMethods must provide (gap:tc-mod-p-ring-sifted-colimits): §2.10: Prove that A↦TC(A)/p preserves sifted colimits of connective E₁-rings.
-
-What RefinedTraceMethods must provide (gap:thh-all-cyclic-assembly): §2.10: Prove that for every discrete group G and connective E₁-ring R, colim_(G/H∈Or_Cyc(G))THH(R[H])→THH(R[G]) is an equivalence of cyclotomic spectra, with all cyclic subgroups including infinite cyclic ones.
-
-Consume §4.9's concrete connective and nonconnective K, exact sequences and weakly localizing invariants; §4.18's Land–Tamme correction algebra with underlying spectrum A′⊗_A B and its localizing pullback formula; §4.10's coherent multiplicative K; §§2.1–2.5's norms, Tate products and finite-action quotient, including §2.3's bounded-above Tate fixpoint lemma; §§2.7–2.17's THH, cyclotomic TC and genuine/Borel comparison; §§4.11–4.17's trace, stable-K linearization and integral DGM; §4.19's The TC assembly map for C_p, with connective E₁ input, p-completed coefficients and cofiber ΣTHH(R;ℤ_p)_hT_p⊗(C_p,1); and §§4.6 and 4.10's accessible motives and their units. Integral DGM applies to connective rings and a surjective nilpotent-kernel π₀ map; its relative fiber includes rational information. For a correction square with one identity side the correction map is an equivalence. For a zero stable category, both K theories vanish; on bounded free (k×k)-complexes K₀=ℤ maps diagonally into K₀ of its completion, ℤ², so the connective completion comparison requires idempotent completeness. For the §4.19 cofiber, (C_p,1) contributes p−1 summands: one at p=2 and two at p=3. These are the supplied foundational Checks consumed here.
+Consume §4.9's concrete connective and nonconnective K, exact sequences and weakly localizing invariants; §4.18's Land–Tamme correction algebra with underlying spectrum A′⊗_A B and its localizing pullback formula; §4.10's coherent multiplicative K; §§2.1–2.5's norms, Tate products and finite-action quotient, including §2.3's bounded-above Tate fixpoint lemma; §2.6's THH of E₁-rings and §§2.7–2.17's relative and categorical THH, its symmetric monoidal structure (§2.8), THH of spherical group rings (§2.10), cyclotomic TC and genuine/Borel comparison; §§4.11–4.17's trace, stable-K linearization, integral DGM and henselian rigidity of the trace with finite coefficients; §4.19's The TC assembly map for C_p, with connective E₁ input, p-completed coefficients and cofiber ΣTHH(R;ℤ_p)_hT_p⊗(C_p,1). Integral DGM applies to connective rings and a surjective nilpotent-kernel π₀ map; its relative fiber includes rational information. For a correction square with one identity side the correction map is an equivalence. For a zero stable category, both K theories vanish; on bounded free (k×k)-complexes K₀=ℤ maps diagonally into K₀ of its completion, ℤ², so the connective completion comparison requires idempotent completeness. For the §4.19 cofiber, (C_p,1) contributes p−1 summands: one at p=2 and two at p=3. These are the supplied foundational Checks consumed here.
 
 The supplied perfect stable categories and localizing invariants interface guarantees the following (bgt line 1559, §5.1–5.2, Definitions 5.8 and 5.12, pp.775–779; §9.1, pp.806–808; lt line 193, Notation 1.1 and Definition 1.2, manuscript p.5).
 
@@ -234,6 +218,14 @@ Consume E1's generalized elliptic compactification and formal neighborhoods, E2 
 Consume §1.4a's big Witt power-series comparison γ_∞:(W_(ℕ>0)(R),+)≅U_∞(R), γ_∞((a_d))=∏_(d≥1)(1−a_dt^d)⁻¹, with its coefficient-naturality, restriction (ρ_(N,M)∘γ_N=γ_M∘res), Verschiebung-substitution and Teichmüller (γ_∞(τ(a))=(1−at)⁻¹) laws, together with §1.3's ring structure and inverse-limit topology and §1.4's multiplicative τ. The characteristic series of this roadmap is χ(a)=γ_∞(a)⁻¹, the inverse in R[[t]]; since inversion is an automorphism of the abelian group U_∞(R) commuting with every reduction modulo t^(N+1), χ is again a natural additive isomorphism compatible with the finite restrictions. Transporting §1.3's multiplication along χ gives (1−at)*(1−bt)=1−abt from τ(a)τ(b)=τ(ab), χ(0)=1 and χ(1)=χ(τ(1))=1−t. The ghost identity −tχ′/χ=∑_(n≥1)w_n(a)t^n is proved in §4.36.
 
 Consume §§1.1–1.6's big Witt ring W_S(R) for every divisor-closed positive truncation set S, its ghosts, restrictions, Frobenius, Verschiebung and restriction-limit topology. NK uses S=ℕ>0, with the kernels of initial-segment restriction giving its continuity ideals. The characteristic series χ=γ_∞⁻¹ has χ(0)=1 and χ(1)=1−t; it is the non-inverted series convention of Weibel §1 (weibel line 38, pp.467–468). For a nilpotent ν with ν²=0, the characteristic-series action gives a(νx)=1−a₁νx; its evaluation at x=0 is 1. The empty truncation set gives the zero ring, while W_({1})(R)=R. No p-typical substitution for the big ring is made.
+
+### From TauCetiRoadmap.PrismaticCohomology
+
+Consume §0.65's equivalence between perfect p-complete δ-rings and perfect 𝔽_p-algebras, B↦B/p with inverse A↦W(A), under which every ring map between perfect p-complete δ-rings is a δ-map. For A=𝔽_p it gives W(𝔽_p)=ℤ_p with identity Frobenius; for A=𝔽_p[t^(1/p^∞)] the Witt Frobenius of W(A) is bijective with reduction A. It is used only to view W(A) as a perfect δ-ring in §6.1a.
+
+### From TauCetiRoadmap.HabiroCohomologyFoundationsPartII
+
+Consume §0.1's spherical lift S_B of a perfect p-complete δ-ring B: a p-complete connective E∞-ring with a marked reduction S_B⊗_(S_p^∧)ℤ_p≃B, constructed by spherical Witt vectors, functorial in δ-maps and unique up to contractible choice. For a perfect 𝔽_p-algebra A write 𝕎(A)=S_(W(A)), using PrismaticCohomology §0.65. For A=𝔽_p this is S_p^∧, whose π₁ is ℤ/2 at p=2 and zero at odd p; for A=0 it is zero. Only the construction, its functoriality and its uniqueness are consumed; the Witt–tilt adjunction and the E(k)-linear base change are proved in §6.1a.
 
 ### From TauCetiRoadmap.KTheoryLowDegrees
 
@@ -924,25 +916,25 @@ A proof route is as follows. Use BordismFormalGroups F6.5 and EnhancedDerivedShe
 
 ### 4.15 Connective periodic vanishing
 
-For every n≥1 there is an integer m≥2 such that an m-connective pointed space whose v_i-periodic homotopy groups vanish for 0≤i≤n is L_n^(p,f)-acyclic after reduced suspension spectrum. Consequently an m-connective map of spaces which is a v_i-periodic equivalence for all 0≤i≤n induces an L_n^(p,f)-equivalence on suspension spectra. One can take m=n+1 using the Carmeli–Schlank–Yanovski height bound; keep this sharpened bound separate from Bousfield’s original dimension-dependent bound.
+For every n≥1 there is an integer m≥2 such that an m-connective pointed space whose v_i-periodic homotopy groups vanish for 0≤i≤n is L_n^(p,f)-acyclic after reduced suspension spectrum. Consequently an m-connective map of spaces which is a v_i-periodic equivalence for all 0≤i≤n, at every choice of basepoints, induces an L_n^(p,f)-equivalence on suspension spectra. The bound is existential and depends on n; every admissible m satisfies m≥n+1 (Checks).
 
-(lmmt line 409, Proposition 2.11 and Remark 2.12, pp.1019–1020; bhm line 225, §3, Theorem 3.1, p.5; Lemmas 3.2–3.3, p.6; csy line 4036, Theorem 5.4.4 and Remark 5.4.5, pp.83–84.)
+(lmmt line 409, Proposition 2.11(i)–(ii) and proof, p.1019; bhm line 225, §3, Theorem 3.1, p.5; Lemmas 3.2–3.3, p.6.)
 
-A proof route is as follows. First construct the finite-nullification comparison for sufficiently connected periodic equivalences, as stated in Barthel–Heuts–Meier Theorem 3.1. Map into the infinite loop spaces of the supplied finite-local spectra to identify the resulting stable localization (their Lemma 3.3). For the sharp bound, kill the finite Postnikov fibers above degree n using CSY Theorem 5.4.4 and Remark 5.4.5, and use the fiberwise homology comparison. Apply the p-local argument together with the vanishing of the p-inverted homotopy groups to obtain the global p-finite convention. The nullification and Postnikov reductions are parts of this target.
+A proof route is as follows. First construct the finite-nullification comparison for sufficiently connected periodic equivalences, as stated in Barthel–Heuts–Meier Theorem 3.1. Map into the infinite loop spaces of the supplied finite-local spectra to identify the resulting stable localization (their Lemma 3.3), giving an m for which the stated spaces are T(i)-acyclic for 1≤i≤n. Apply the p-local argument together with the vanishing of the p-inverted homotopy groups to obtain the global p-finite convention at i=0. For the map statement, every homotopy fiber satisfies the space statement, so the fiberwise homology comparison gives the L_n^(p,f)-equivalence on Σ∞_+ and then on Σ∞ at every basepoint. The nullification reduction is part of this target.
 
 **Checks.**
 
-- n=1 permits m=2 under the sharpened bound.
+- No admissible m is at most n. The Eilenberg–Mac Lane space K(ℤ/p,n) is n-connective; its p-inverted homotopy is zero and its positive-height periodic groups vanish because it has one nonzero homotopy group. The 2-periodic Morava K-theory of height n, which has the Bousfield class of K(n), has rank p^(binom(n,n))=p on K(ℤ/p,n) in degree zero and rank zero in degree one (csy line 3655, Corollary 5.1.9, p.74, quoting Ravenel–Wilson). So the reduced K(n)-homology of K(ℤ/p,n) has rank p−1≥1, and BordismFormalGroups F6.3's ⟨K(n)⟩≤⟨T(n)⟩ makes Σ∞K(ℤ/p,n) T(n)-nonacyclic. At n=1 this is BC_p, so m≥2.
 - No claim is made for arbitrary disconnected fibers.
-- n=1,2; contractible X: sharp m=n+1 is 2,3; reduced spectrum of *=0; all periodic groups 0.
+- For contractible X the reduced suspension spectrum is 0 and all periodic groups vanish, so the statement holds for every m.
 
 *Needs:* §4.13 (Postnikov and connected-cover conventions); §4.2 (Periodic homotopy groups); §4.5 (Finite chromatic localizations); §4.14 (Fiberwise homology comparison); §4.12 (Detection by suspension and loops); §4.4 (Ring-spectrum acyclicity comparison).
 
 ### 4.16 Connective preservation by suspension and loops
 
-For n≥1, Σ∞Ω∞ preserves m-connective L_n^(p,f)-equivalences of spectra, where m is the bound of connective periodic vanishing, and in particular m=n+1 using the sharp bound. This does not assert preservation of arbitrary T(n)-equivalences.
+For n≥1, Σ∞Ω∞ preserves m-connective L_n^(p,f)-equivalences of spectra, where m is the bound of connective periodic vanishing for the same n. This does not assert preservation of arbitrary T(n)-equivalences.
 
-(lmmt line 409, Proposition 2.11(iii) and Remark 2.12, pp.1019–1020.)
+(lmmt line 409, Proposition 2.11(iii) and proof, p.1019.)
 
 A proof route is as follows. Apply Ω∞ to the connective map; the periodic groups agree with the stable periodic groups. Use the space comparison at every basepoint and then apply Σ∞.
 
@@ -950,7 +942,7 @@ A proof route is as follows. Apply Ω∞ to the connective map; the periodic gro
 
 - The Hℤ counterexample in the suspension-loop detection section has insufficiently connective fiber and does not contradict this result.
 - The conclusion uses the full finite wedge through height n.
-- f=id; n=1,m=2; Hℤ→0 negative control: identity fiber 0; sharp bound 2; Hℤ→0 fiber has π₀=ℤ and fails bound.
+- For f=id the fiber is 0, which is m-connective for every m. The map Σ^nHℤ/p→0 is an n-connective L_n^(p,f)-equivalence (Hℤ/p is killed by S[1/p] and by every T(i), i≥1), but Σ∞Ω∞ sends it to Σ∞K(ℤ/p,n)→0, which is not a T(n)-equivalence by the K(n)-homology rank p−1 of connective periodic vanishing; so no m≤n works here either.
 
 *Needs:* §4.15 (Connective periodic vanishing); §4.2 (Periodic homotopy groups); §4.3 (Telescope acyclicity criteria); StableHomotopyKTheory Layers 3–7.
 
@@ -1198,6 +1190,24 @@ A proof route is as follows. Apply the uniform height-two locality theorem to ea
 - p=2,3; tmf,Tmf,TMF; n=2,3: T(2) comparison goes through compactified and smooth models; T(3) coefficient values=0; Δ²⁴ degree=24·24=576.
 
 *Needs:* EllipticCohomology E1–E4 and E6, with the spectral comparisons in the supplier contract; §4.18 (Finite-height locality); §4.19 (Telescopes on chromatically local spectra); §4.3 (Telescope acyclicity criteria); ModularCurves §7E (p-divisible groups and formal heights).
+
+### 4.30a Real Bott localization at positive height
+
+For every prime p and every n≥1, the connective-cover map ko→KO of GeneralizedCohomology G5.4, which inverts the degree-eight real Bott class b, is a T(n)-equivalence. For every E₁ ko-algebra A, the map A→A[b⁻¹]=A⊗_ko KO is a T(n)-equivalence for every n≥1, hence an L_(T(n−1)∨T(n))-equivalence for every n≥2. Neither assertion holds at n=0. These statements concern the coefficient spectra; their K-theory consequence is §8.6.
+
+Throughout this target, n≥1; A is an E₁-algebra in ko-modules and b-inversion is derived base change along ko→KO.
+
+(lmmt line 978, Corollary 4.19 and proof, p.1031.)
+
+A proof route is as follows. Since ko=τ≥0KO, the cofiber of ko→KO is τ≤−1KO, which is bounded above; its positive-height periodic groups vanish, so it is T(n)-acyclic by the telescope acyclicity criteria. For a ko-algebra A the cofiber of A→A⊗_ko KO is A⊗_ko τ≤−1KO, and T(n)⊗(A⊗_ko C)≃A⊗_ko(T(n)⊗C)=0 for C=τ≤−1KO. The identification A[b⁻¹]≃A⊗_ko KO uses that ko→KO is b-inversion and that inverting a class of the E∞ base ko is base change along that localization.
+
+**Checks.**
+
+- At n=0 the map ko→KO is not an S[1/p]-equivalence: π₋₈(KO)[1/p]=ℤ[1/p] while π₋₈ko=0. Likewise A=H𝔽_q with q≠p, a ko-algebra through ko→Hℤ→H𝔽_q, has A[b⁻¹]=0 because b maps to π₈H𝔽_q=0, while S[1/p]⊗H𝔽_q=H𝔽_q≠0.
+- For A=KO the map A→A[b⁻¹] is an equivalence, b being invertible already; for A=0 both sides are zero; for A=ko it is the first assertion.
+- The inverted class must be b of degree eight, not the degree-four class a. Since a²=4b and ηa=0, inverting a inverts 2 and kills η, so ko[a⁻¹]=KO[1/2] with π_*=ℤ[1/2][a^(±1)]. At p=2 the 2-power-torsion T(1) kills it, whereas T(1)⊗ko≠0 because KU is a ko-module detected by T(1) (§4.20). So ko→ko[a⁻¹] is not a T(1)-equivalence at p=2.
+
+*Needs:* GeneralizedCohomology G5.4 and TopologicalKTheory T7.1 (ko, KO, the classes a and b and the relation a²=4b); §4.2 (Periodic homotopy groups); §4.3 (Telescope acyclicity criteria); EnhancedDerivedSheaves E5:abstract.1–4 (modules over E∞-rings and their relative tensor product).
 
 ### 4.31 Hopkins–Mahowald Thom theorem
 
@@ -1512,7 +1522,7 @@ At p=2, H𝔽₃ distinguishes global p-inversion from rationalization: the two 
 
 ### Dependencies
 
-AlgebraicTopology Stages 4 and 8; BordismFormalGroups F1–F3; BordismFormalGroups F6.1; BordismFormalGroups F6.2; BordismFormalGroups F6.2–F6.3; BordismFormalGroups F6.4; EllipticCohomology E1–E4 and E6, with the spectral comparisons in the supplier contract; EllipticCohomology E2, with the all-height extension in the supplier contract; EllipticCohomology E5, with the module-colimit extension in the supplier contract; EnhancedDerivedSheaves E0.4, E5:abstract.1–4 and E5:presentability.1–3; GeneralAlgebraicKTheory §§3.12–3.14, 6.9, 6.19, 7.1–7.7, 9.8–9.17, 10.1–10.13 and 11.15–11.16; GeneralizedCohomology G2 and G5.1; HomotopySpheres §3B, with the stable splitting contract; HomotopySpheres §4C; KTheoryFiniteLocalFields §0.4 (Height-one localization and realization); KTheoryFiniteLocalFields §§1.1–1.6 and 6.5a; KTheoryLowDegrees §§1.1–1.3 and 13.1; Layer 0; Layer 1; Layer 2; ModularCurves §7E (p-divisible groups and formal heights); QWittVectors §§1.1–1.6; RefinedTraceMethods §4.10 and GeneralAlgebraicKTheory §§7.1–7.7; RefinedTraceMethods §4.18, Truncating invariants: nil-invariance and excision; RefinedTraceMethods §4.9 and EnhancedDerivedSheaves E5:abstract.2 and E5:presentability.1–2; RefinedTraceMethods §4.9, Connective K-theory of small stable ∞-categories; RefinedTraceMethods §4.9, Nonconnective K-theory by the suspension construction; RefinedTraceMethods §§2.1–2.5; SchemeKTheoryOperations §§1.1–2.7, 3.1–3.5, 4.1–4.3, 4.12 and 5.2–5.9; StableHomotopyKTheory Layers 3–7.
+AlgebraicTopology Stages 4 and 8; BordismFormalGroups F1–F3; BordismFormalGroups F6.1; BordismFormalGroups F6.2; BordismFormalGroups F6.2–F6.3; BordismFormalGroups F6.4; EllipticCohomology E1–E4 and E6, with the spectral comparisons in the supplier contract; EllipticCohomology E2, with the all-height extension in the supplier contract; EllipticCohomology E5, with the module-colimit extension in the supplier contract; EnhancedDerivedSheaves E0.4, E5:abstract.1–4 and E5:presentability.1–3; GeneralAlgebraicKTheory §§3.12–3.14, 6.9, 6.19, 7.1–7.7, 9.8–9.17, 10.1–10.13 and 11.15–11.16; GeneralizedCohomology G2 and G5.1; GeneralizedCohomology G5.4 and TopologicalKTheory T7.1; HomotopySpheres §3B, with the stable splitting contract; HomotopySpheres §4C; KTheoryFiniteLocalFields §0.4 (Height-one localization and realization); KTheoryFiniteLocalFields §§1.1–1.6 and 6.5a; KTheoryLowDegrees §§1.1–1.3 and 13.1; Layer 0; Layer 1; Layer 2; ModularCurves §7E (p-divisible groups and formal heights); QWittVectors §§1.1–1.6; RefinedTraceMethods §4.10 and GeneralAlgebraicKTheory §§7.1–7.7; RefinedTraceMethods §4.18, Truncating invariants: nil-invariance and excision; RefinedTraceMethods §4.9 and EnhancedDerivedSheaves E5:abstract.2 and E5:presentability.1–2; RefinedTraceMethods §4.9, Connective K-theory of small stable ∞-categories; RefinedTraceMethods §4.9, Nonconnective K-theory by the suspension construction; RefinedTraceMethods §§2.1–2.5; SchemeKTheoryOperations §§1.1–2.7, 3.1–3.5, 4.1–4.3, 4.12 and 5.2–5.9; StableHomotopyKTheory Layers 3–7.
 
 ## Layer 5: Trace comparison, CMNN vanishing and purity
 
@@ -1662,9 +1672,9 @@ Fix n≥1, a perfect field k of characteristic p and a height-n formal group ove
 
 Then prove the Lubin–Tate cover theorem. Say that a map R→S of E∞ rings in a localized category (T(n)-local spectra, or rational spectra at height zero) detects nilpotence when, for every map f:M→N of compact R-modules in that localized category, f is nilpotent as soon as S⊗_R f is; here a map g is nilpotent when some tensor power g^(⊗k), formed over the base ring in the localized module category, is null. The unit R need not be compact there: in K(1)-local modules over KU_p^∧ the local colimit of multiplication by p on R is zero while the colimit of π₀Map_R(R,R) along it is ℚ_p. For every T(n)-local E∞ ring R there is a perfect algebra A of Krull dimension at most zero over some perfect field of characteristic p and a nilpotence-detecting E∞ map R→E(A). For every rational E∞ ring R there is a reduced ℚ-algebra A of Krull dimension at most zero and a nilpotence-detecting E∞ map R→HA[u^(±1)].
 
-(bsy line 809, Theorem 2.38, p.20; line 2026, Definition 4.29 with Definition 4.11, pp.42 and 46; line 2141, Corollary 4.37, p.49; line 2177, Theorem 4.40, pp.49–50; line 2246, Corollary 4.44, p.51; line 2416, Theorem 5.1, p.55; line 2443, Theorem 5.3, p.55; line 2511, Proposition 5.9, p.57; line 2593, Proposition 5.15, p.59; line 2633, Proposition 5.17, p.60.)
+(bsy line 389, Proposition 2.2, p.10; line 753, Construction 2.34, pp.18–19; line 800, Lemma 2.37, pp.19–20; line 809, Theorem 2.38, p.20; line 2026, Definition 4.29 with Definition 4.11, pp.42 and 46; line 2141, Corollary 4.37, p.49; line 2177, Theorem 4.40, pp.49–50; line 2246, Corollary 4.44, p.51; line 2416, Theorem 5.1, p.55; line 2443, Theorem 5.3, p.55; line 2511, Proposition 5.9, p.57; line 2593, Proposition 5.15, p.59; line 2633, Proposition 5.17, p.60.)
 
-A proof route is as follows. Construct E(A) as the E(k)-linear spherical Witt vectors of A and read its homotopy from the formal-group deformation theory of the perfect base; the colocalization and the tilt identities follow from square-zero invariance of the tilt. For the cover theorem first reduce to an 𝔪-complete E(k)-algebra, using that the unit map of T(n)-local spectra to E(k) detects nilpotence by the nilpotence theorem. Prove the small-object statement: for any set of nilpotence-detecting maps of commutative algebras, every R maps by a nilpotence-detecting map to an R′ having the right lifting property against each of them. Apply it to three nilpotence-detecting maps whose lifting properties say, respectively, that R♭ has Krull dimension zero, that E(R♭)→R is surjective on π₀, and that π₁R=0; then prove that these three conditions characterize the rings E(A) with A perfect of Krull dimension zero. At height zero use the polynomial and degree-one test maps and map the resulting ring to the product of the E-theories of its residue fields, which detects nilpotence because it is surjective on Spec π₀.
+A proof route is as follows. Let 𝕎(A)=S_(W(A)) be the spherical Witt vectors of A, the spherical lift of the perfect p-complete δ-ring W(A) supplied by HabiroCohomologyFoundationsPartII §0.1. Prove the Witt–tilt adjunction Map(𝕎(A),R)≃Map(A,(π₀R/p)♭) for p-complete E∞-rings R from the uniqueness of these lifts and the vanishing of their p-completed cotangent complexes over S_p^∧. Its counit at R=E(k) is an E∞ map 𝕎(k)→E(k) corresponding to the identification E(k)♭=k. Define E(A) as the base change E(k)⊗_(𝕎(k))𝕎(A), completed at 𝔪; it is the left adjoint of the tilt on 𝔪-complete E(k)-algebras. Read its homotopy from 𝕎(A)⊗_(𝕎(k))E(k) modulo 𝔪, which is A[u^(±1)], and the formal-group deformation theory of the perfect base; the colocalization and the tilt identities follow from square-zero invariance of the tilt. For the cover theorem first reduce to an 𝔪-complete E(k)-algebra, using that the unit map of T(n)-local spectra to E(k) detects nilpotence by the nilpotence theorem. Prove the small-object statement: for any set of nilpotence-detecting maps of commutative algebras, every R maps by a nilpotence-detecting map to an R′ having the right lifting property against each of them. Apply it to three nilpotence-detecting maps whose lifting properties say, respectively, that R♭ has Krull dimension zero, that E(R♭)→R is surjective on π₀, and that π₁R=0; then prove that these three conditions characterize the rings E(A) with A perfect of Krull dimension zero. At height zero use the polynomial and degree-one test maps and map the resulting ring to the product of the E-theories of its residue fields, which detects nilpotence because it is surjective on Spec π₀.
 
 The perfect-algebra realization and cover interface includes:
 
@@ -1679,7 +1689,7 @@ The perfect-algebra realization and cover interface includes:
 - For R=E(L), L algebraically closed of characteristic p, the identity is a cover with A=L, perfect of Krull dimension zero, and π₀E(L)/𝔪=L recovers L as the tilt. A ring with π₁≠0, such as the free E(k)-algebra on a degree-one class, is not of the form E(A), since π_*E(A) is even.
 - For the discrete rational ring R=Hℚ[x], the single map to Hℚ(x)[u^(±1)] does not detect nilpotence: the identity of the compact module R/x becomes zero after tensoring with ℚ(x) but is not nilpotent. The product of HF[u^(±1)] over the residue fields F of all primes of ℚ[x] does detect nilpotence, and a product of fields is reduced of Krull dimension zero, while ℚ[x] itself has Krull dimension one.
 
-*Needs:* EllipticCohomology E2, with gap:all-height-morava-realization; BordismFormalGroups F1–F3 (Morava E-theory coefficients) and F6.2 (nilpotence); EnhancedDerivedSheaves E5:abstract.1–4 and E5:presentability.1–3 (commutative algebra and module objects, compact objects, presentability); Mathlib `WittVector` for the p-typical Witt ring.
+*Needs:* EllipticCohomology E2, with gap:all-height-morava-realization; HabiroCohomologyFoundationsPartII §0.1 (spherical lifts of perfect p-complete δ-rings by spherical Witt vectors); PrismaticCohomology §0.65 (perfect δ-rings and Witt vectors of perfect rings); BordismFormalGroups F1–F3 (Morava E-theory coefficients) and F6.2 (nilpotence); EnhancedDerivedSheaves E5:abstract.1–4 and E5:presentability.1–3 (commutative algebra and module objects, compact objects, presentability); Mathlib `WittVector` for the p-typical Witt ring.
 
 ### 6.2 Chromatic field maps
 
@@ -1788,7 +1798,7 @@ For a characteristic-zero algebraically closed field L, E₀(L)=HL[u±1] has hei
 
 ### Dependencies
 
-AInfCohomology §AI.7.2; EllipticCohomology E2, with the all-height extension in the supplier contract; KTheoryFiniteLocalFields §§1.6 and 6.5a, with the spectral comparison contract; Layer 2; Layer 3; Layer 4; §§4.27–4.28 and §6.2 (Hahn, height and chromatic field maps); EllipticCohomology E2 items 2–3 (gap:all-height-morava-realization); Layer 5; RefinedTraceMethods §4.10 and GeneralAlgebraicKTheory §§7.1–7.7; RefinedTraceMethods §§2.3, 2.9 and 4.14–4.15.
+AInfCohomology §AI.7.2; EllipticCohomology E2, with the all-height extension in the supplier contract; HabiroCohomologyFoundationsPartII §0.1; PrismaticCohomology §0.65; KTheoryFiniteLocalFields §§1.6 and 6.5a, with the spectral comparison contract; Layer 2; Layer 3; Layer 4; §§4.27–4.28 and §6.2 (Hahn, height and chromatic field maps); EllipticCohomology E2 items 2–3 (gap:all-height-morava-realization); Layer 5; RefinedTraceMethods §4.10 and GeneralAlgebraicKTheory §§7.1–7.7; RefinedTraceMethods §§2.3, 2.9 and 4.14–4.15.
 
 ## Layer 7: Coefficient examples and iterated K-theory
 
@@ -1976,6 +1986,33 @@ The interface includes:
 
 *Needs:* RefinedTraceMethods §4.9, Localizing and truncating small-category invariants; EnhancedDerivedSheaves E0.4, E5:abstract.1–4 and E5:presentability.1–3; GeneralizedCohomology G2 and G5.1.
 
+### 8.1a Linear weakly additive motives
+
+Let A be an E∞-ring and κ a regular cardinal. An A-linear category is a Perf(A)-module in Cat∞perf, and Mod^κ_A denotes the κ-compact ones; they are closed under pushouts, retracts and the relative tensor product ⊗_A. A sequence M→N→P of A-linear exact functors with null composite is split exact when both functors have A-linear right adjoints, the first functor and the right adjoint of the second are fully faithful, and the unit and counit give a cofiber sequence i∘i^r→id→p^r∘p of endofunctors of N. A weakly additive invariant is a functor from Mod^κ_A to a presentable stable ∞-category that sends the zero category to zero and split exact sequences to cofiber sequences; no commutation with filtered colimits is required. Construct Mot_κ(A) as the localization of spectrum-valued presheaves on Mod^κ_A at the localizing tensor ideal generated by the representable of the zero category and, for each split exact M→N→P, the cofiber of h_N⊔_(h_M)h_0→h_P; let U:Mod^κ_A→Mot_κ(A) be the composite of the Yoneda functor and the localization. Put K′₀(M)=π₀Hom(U(Perf(A)),U(M)).
+
+Throughout this target, A is E∞ and κ is regular; the weakly additive invariants are those of κ-compact A-linear categories.
+
+(cmnn20 line 622, Construction 3.2 and Proposition 3.3, p.15; line 669, Definition 3.5, p.16; line 695, Definition 3.9 and Lemma 3.10, pp.16–17; line 740, Definition 3.11, pp.17–18; line 758, Constructions 3.12 and 3.14 and Remark 3.13, p.18; line 826, Theorem 4.4 and proof, p.19.)
+
+A proof route is as follows. Equip spectral presheaves with Day convolution from ⊗_A. Check that the generating set is closed under tensoring with representables, using that ⊗_A preserves split exact sequences because it is a 2-functor and preserves adjunctions and cofiber sequences of functors. Then the localizing subcategory is a compactly generated tensor ideal, and the localization is presentably symmetric monoidal with the universal property of a localization. For K′₀, send an object X of M to the class of the A-linear functor Perf(A)→M carrying A to X. The split exact sequence M→Ex(M)→M, with Ex(M) the cofiber sequences in M, gives U(Ex(M))≃U(M)×U(M) and hence additivity on cofiber sequences.
+
+The construction has the following API.
+
+- Colimit-preserving functors from Mot_κ(A) to a presentable stable D correspond, by precomposition with U, to weakly additive invariants with values in D; when D is presentably symmetric monoidal, symmetric monoidal functors correspond to symmetric monoidal invariants.
+- Mot_κ(A) is presentable, stable and symmetric monoidal with a tensor product preserving colimits in each variable; U is symmetric monoidal with compact values, and its unit U(Perf(A)) is compact.
+- The relative tensor product ⊗_A carries split exact sequences to split exact sequences.
+- There is a homomorphism K₀(M)→K′₀(M), natural in A-linear exact functors, sending [X] to the class of the functor Perf(A)→M with A↦X; for M=Perf(A) it sends [A] to the identity, the unit of the E∞-ring End(U(Perf(A))).
+- For an E∞ A-algebra B with Perf(B) κ-compact, U(Perf(B)) is a commutative algebra in Mot_κ(A), and U carries Perf(B^(⊗_A(r+1))) to its r-th Amitsur term, because B↦Perf(B) is symmetric monoidal from E∞ A-algebras to A-linear categories.
+
+**Checks.**
+
+- For A=0, Perf(0) is the zero category, every A-linear category is zero and Mot_κ(0)=0; K₀ and K′₀ vanish.
+- For the cofiber sequence X→Y→Z in M, the split exact sequence M→Ex(M)→M forces [Y]=[X]+[Z] in K′₀(M). For A=Hk, k a field, K₀(Perf(k))=ℤ, [k]↦1, and the cofiber sequence k→0→Σk gives [Σk]=−1 in K′₀, matching the sign convention of this roadmap.
+- Split exactness cannot be replaced by Verdier exactness: connective K is weakly additive, but for the triangle ring R=k[x,y]/(xy(1−x−y)) the exact sequence Perf(R)→F_κPerf(R)→Σ_κPerf(R) has π₀Kconn(F_κPerf(R))=0 and π₀Kconn(Σ_κPerf(R))=ℤ (RefinedTraceMethods §4.9). A cofiber sequence would embed the last group into π₋₁Kconn(Perf(R))=0, so this exact sequence is not split exact and connective K does not factor through motives that impose all exact sequences.
+- Before localization the representable h_0 of the zero category is the constant presheaf with value S, because every mapping space into the zero category is contractible; so π₀Hom(h_(Perf(A)),h_0)=π₀S=ℤ. The split exact sequence 0→0→0 imposes nothing, so only the zero-category generator makes U(0)=0 and K′₀(0)=0.
+
+*Needs:* EnhancedDerivedSheaves E5:abstract.1–4 (algebra and module objects, monoidal localization) and E5:presentability.1–3 (compact objects, presentable localizations of presheaf categories); BordismFormalGroups F6.5 (Day convolution and monoidal Ind); RefinedTraceMethods §4.9 (small stable categories, Cat∞perf and its tensor product, connective K).
+
 ### 8.2 Rational transfer forces periodic descent
 
 In a symmetric monoidal stable idempotent-complete ∞-category C, let R be commutative, A associative, and M an A-module with a map M→R for which π₀ Map_C(1,M)⊗Q→π₀ Map_C(1,R)⊗Q has the unit of R in its image. Then R lies in the ε-enlargement of the thick tensor ideal generated by A, and CB•aug(A)⊗R is an ε-nilpotent limit. In a presentable stable target, any such diagram satisfies L_n^fX_(−1)≃L_n^fTot(X•)≃Tot(L_n^fX•), and its localized totalization tower is rapidly convergent. The tower conclusion also holds with L_T(i), i≥1, by the same ε argument.
@@ -2000,7 +2037,7 @@ A proof route is as follows. Clear finitely many rational denominators and fix t
 
 - For A=ℚ×ℚ and e₁=(1,0), the degree-zero cofaces give 1⊗e₁ and e₁⊗1 in A⊗A. In the basis e_i⊗e_j these are e₁⊗e₁+e₂⊗e₁ and e₁⊗e₁+e₁⊗e₂, respectively, so they differ. The multiplication codegeneracy sends both to e₁, giving the two unit identities and distinguishing cofaces from multiplication.
 
-*Needs:* §8.1 (ε-enlargement and descent towers); RefinedTraceMethods §4.10 and GeneralAlgebraicKTheory §§7.1–7.7; §§4.27–4.28 and §6.2 (Hahn, height and chromatic field maps); §4.5 (Finite chromatic localizations); §4.34 (Ordinary-homology detection of the H∞ unit); gap:linear-weak-additive-motives; gap:linear-motive-tensor-unit; gap:linear-motive-kzero-unit.
+*Needs:* §8.1 (ε-enlargement and descent towers); RefinedTraceMethods §4.10 and GeneralAlgebraicKTheory §§7.1–7.7; §§4.27–4.28 and §6.2 (Hahn, height and chromatic field maps); §4.5 (Finite chromatic localizations); §4.34 (Ordinary-homology detection of the H∞ unit).
 
 ### 8.3 Telescopic K-theory Galois descent
 
@@ -2010,14 +2047,14 @@ Throughout this target, A→B is finite G-Galois E∞, B is perfect over A, and 
 
 (cmnn20 line 975, Theorem 5.6 and proof, manuscript p.22; Theorem 5.1 pp.20–21; Proposition 2.19 pp.12–13; Remark 2.9, p.9.)
 
-A proof route is as follows. Use the transfer projection formula to obtain the rational unit-generation condition in the additive motive category of A-linear perfect categories. Apply CMNN’s ε-nilpotent descent argument to the Amitsur augmented cosimplicial object, using the motive interface of the RefinedTraceMethods contracts gap:linear-weak-additive-motives and gap:linear-motive-tensor-unit. Its totalization tower becomes rapidly convergent after finite periodic localization, so localization can be moved through this particular totalization. Identify the Galois Amitsur diagram with the G-cobar diagram. Apply the same ε-nilpotent tower argument directly for each T(i), using CMNN Remark 2.9 and Proposition 2.19, to justify both T(i)-localized comparison maps; this is not inferred by commuting a further localization with arbitrary homotopy fixed points.
+A proof route is as follows. Choose κ with Perf(B) κ-compact and work in Mot_κ(A) of §8.1a. Restriction Perf(B)→Perf(A) is A-linear because B is perfect over A; by naturality of K₀→K′₀ the rational K₀ transfer hitting 1 makes K′₀(Perf(B))⊗ℚ→K′₀(Perf(A))⊗ℚ hit the unit. Apply §8.2 in Mot_κ(A) with R the unit and the commutative algebra U(Perf(B)) as both the algebra and the module, so the Amitsur diagram of U(Perf(B)) is an ε-nilpotent limit; nonconnective K is weakly additive and so factors through an exact functor out of Mot_κ(A). Its totalization tower becomes rapidly convergent after finite periodic localization, so localization can be moved through this particular totalization. Identify the Galois Amitsur diagram with the G-cobar diagram. Apply the same ε-nilpotent tower argument directly for each T(i), using CMNN Remark 2.9 and Proposition 2.19, to justify both T(i)-localized comparison maps; this is not inferred by commuting a further localization with arbitrary homotopy fixed points.
 
 **Checks.**
 
 - For G=1 all maps are identities. For nontrivial G, a Galois label alone does not discharge the rational-transfer hypothesis.
 - G=1; trivial torsor A→A×A: all comparison maps=id for 1; K₀ transfer (a,b)↦a+b sends (1,0) to 1.
 
-*Needs:* RefinedTraceMethods §4.10 and GeneralAlgebraicKTheory §§7.1–7.7; §0.1 (Thomason–Neeman localization); §4.7 (Comparison on p-local spectra); §4.24 (Kuhn’s telescopic Tate vanishing); RefinedTraceMethods §§2.1–2.2 (coherent actions and the finite-action Verdier quotient); RefinedTraceMethods §4.6 (Relative localizing motives); §8.2 (Rational transfer forces periodic descent); gap:linear-weak-additive-motives; gap:linear-motive-tensor-unit; gap:linear-motive-kzero-unit; gap:linear-motive-projection-formula.
+*Needs:* RefinedTraceMethods §4.10 and GeneralAlgebraicKTheory §§7.1–7.7; §0.1 (Thomason–Neeman localization); §4.7 (Comparison on p-local spectra); §4.24 (Kuhn’s telescopic Tate vanishing); RefinedTraceMethods §§2.1–2.2 (coherent actions and the finite-action Verdier quotient); §8.1a (Linear weakly additive motives); §8.2 (Rational transfer forces periodic descent).
 
 ### 8.4 Even finite complexes for semilinear Morava modules
 
@@ -2059,14 +2096,14 @@ Throughout this target, A is an E1 ko-algebra; the class b∈π₈ko is the cent
 
 (lmmt line 978, Corollary 4.19 and Remark 4.20, pp.1031–1032.)
 
-A proof route is as follows. The ko→KO Bott localization is an equivalence on the adjacent heights relevant for i≥2. Base change to A preserves this equivalence; apply purity. Use the commutative ko coefficient ring’s height-one bound and the algebra-valued vanishing theorem.
+A proof route is as follows. By §4.30a the map A→A[b⁻¹] is a T(i−1)∨T(i)-equivalence for every i≥2, so the two rings have the same L_(T(i−1)∨T(i))-localization; apply purity. For i≥3 use the commutative ko coefficient ring’s height-one bound and the algebra-valued vanishing theorem.
 
 **Checks.**
 
 - For A = ko this compares K(ko) with K(KO) at every T(i), i≥2.
 - A = ko; A = 0; i=2,3: A[b⁻¹]=KO; localized K comparison at i=2; L_T(3)K(A)=0; zero algebra gives 0→0.
 
-*Needs:* §5.5 (The chromatic purity theorem); §6.1 (Theorem B and vanishing for algebras); GeneralizedCohomology G5.4 and TopologicalKTheory T7.1.
+*Needs:* §4.30a (Real Bott localization at positive height); §5.5 (The chromatic purity theorem); §6.1 (Theorem B and vanishing for algebras); GeneralizedCohomology G5.4 and TopologicalKTheory T7.1.
 
 ### 8.7 Purity for tmf-algebras
 
@@ -2126,7 +2163,7 @@ For the degree-two trivial torsor A→A×A, the transfer on K₀ is (a,b)↦a+b 
 
 ### Dependencies
 
-EllipticCohomology E1–E4 and E6, with the spectral comparisons in the supplier contract; EllipticCohomology E2, with the all-height extension in the supplier contract; EnhancedDerivedSheaves E0.4, E5:abstract.1–4 and E5:presentability.1–3; GeneralizedCohomology G2 and G5.1; GeneralizedCohomology G5.4 and TopologicalKTheory T7.1; Layer 0; Layer 3; Layer 4; §§4.27–4.28 and §6.2 (Hahn, height and chromatic field maps); EllipticCohomology E2 items 2–3 (gap:all-height-morava-realization); §4.30; EllipticCohomology E1–E4 and E6; Layer 5; Layer 6; RefinedTraceMethods §4.10 and GeneralAlgebraicKTheory §§7.1–7.7; RefinedTraceMethods §4.9, Localizing and truncating small-category invariants; RefinedTraceMethods §§2.1–2.2 and 4.6.
+EllipticCohomology E1–E4 and E6, with the spectral comparisons in the supplier contract; EllipticCohomology E2, with the all-height extension in the supplier contract; EnhancedDerivedSheaves E0.4, E5:abstract.1–4 and E5:presentability.1–3; GeneralizedCohomology G2 and G5.1; GeneralizedCohomology G5.4 and TopologicalKTheory T7.1; Layer 0; Layer 3; Layer 4; §§4.27–4.28 and §6.2 (Hahn, height and chromatic field maps); EllipticCohomology E2 items 2–3 (gap:all-height-morava-realization); §4.30; EllipticCohomology E1–E4 and E6; Layer 5; Layer 6; RefinedTraceMethods §4.10 and GeneralAlgebraicKTheory §§7.1–7.7; RefinedTraceMethods §4.9, Localizing and truncating small-category invariants; RefinedTraceMethods §§2.1–2.2; BordismFormalGroups F6.5.
 
 ## Layer 9: Height-one structure and its limits
 
@@ -2229,37 +2266,38 @@ A proof route is as follows. Each simplex algebra is a polynomial algebra in r v
 
 ### 9.6 The height-one TC obstruction
 
-The p-completion of TC(Z[1/p]) is zero, whereas L_K(1)TC(Z) is nonzero. Thus the map TC(Z)→TC(Z[1/p]) is not a K(1)-equivalence, and the arbitrary-ring high-height comparison K(A)←K(τ≥0A)→TC(τ≥0A) cannot be extended to height one. The nonzero height-one TC(Z) calculation, including p=2, is requested from RefinedTraceMethods §4.17 (gap:tc-z-k1-nonzero) and the p-inverted vanishing from §2.10 (gap:tc-z-inverse-p-vanishing).
+For every prime p, the p-completion of TC(Z[1/p]) is zero, whereas L_K(1)TC(Z) is nonzero. Thus the map TC(Z)→TC(Z[1/p]) is not a K(1)-equivalence, and the arbitrary-ring high-height comparison K(A)←K(τ≥0A)→TC(τ≥0A) cannot be extended to height one.
 
-Throughout this target, p is fixed; the odd-prime decomposition and the prime-two calculation are separate supplier inputs.
+Throughout this target, p is any fixed prime, including p=2.
 
 (lmmt line 1097, Remark 4.28, p.1034.)
 
-A proof route is as follows. Use the p-inverted discrete input to compute TC(Z[1/p])^∧p=0. At odd p the known K(1)-local TC(Z) decomposition includes L_K(1)S and a suspended p-complete KU summand; at p=2 use its separately computed filtered analogue. Compare with height-one p-inversion invariance for K and deduce failure of a height-one version of the high trace comparison.
+A proof route is as follows. THH(ℤ[1/p]) is a module over Hℤ[1/p] through the unit, so p acts invertibly and THH(ℤ[1/p])/p=0; since TC is exact, TC(ℤ[1/p])/p=TC(THH(ℤ[1/p])/p)=0. For the nonvanishing, ℤ→ℤ_p is an equivalence modulo p of connective rings, so the cyclic bar construction gives THH(ℤ)/p≃THH(ℤ_p)/p and hence TC(ℤ)/p≃TC(ℤ_p)/p. The pair (ℤ_p,p) is henselian and ℤ_p/p=𝔽_p is perfect, so henselian rigidity of the trace makes K(ℤ_p)/p→TC(ℤ_p)/p an equivalence in degrees ≥0; the fiber is bounded, hence T(1)-acyclic, and L_T(1)TC(ℤ)≃L_T(1)K(ℤ_p). Redshift at height zero applies to the p-local E∞-ring Hℤ_p, of height 0, and gives ht(K(ℤ_p))=1, so L_T(1)K(ℤ_p)≠0. Height-one Bousfield equality converts T(1) to K(1). Compare with height-one p-inversion invariance for K and deduce failure of a height-one version of the high trace comparison.
 
 **Checks.**
 
-- A nonzero direct summand at odd p, and the separately proved nonzero prime-two calculation, detect the obstruction.
-- p=2,3; ℤ→ℤ[1/p]: L_K(1)TC(ℤ)≠0; TC(ℤ[1/p])^∧p=0; source and target differ.
+- At p=2 and p=3, multiplication by p on THH(ℤ[1/p]) is invertible, so TC(ℤ[1/p])/p=0, while ht(Hℤ_p)=0 gives L_T(1)K(ℤ_p)≠0 and hence L_K(1)TC(ℤ)≠0; source and target of TC(ℤ)→TC(ℤ[1/p]) differ K(1)-locally.
+- The rigidity comparison holds only in degrees ≥0: π₋₁TC(𝔽_p)=ℤ_p while K₋₁(𝔽_p)=0. The discrepancy is bounded and so invisible to T(1), which is why the argument passes through L_T(1) rather than an integral identification of K(ℤ_p) with TC(ℤ_p).
+- The vanishing is of the p-completion only: rationally THH(ℤ[1/p])⊗ℚ=HH(ℚ/ℚ)=Hℚ is nonzero.
 
-*Needs:* §9.1 (Height-one truncation and p-inversion); RefinedTraceMethods §2.9 (TC, its fiber formula and arithmetic completion); gap:tc-z-k1-nonzero; gap:tc-z-inverse-p-vanishing.
+*Needs:* §9.1 (Height-one truncation and p-inversion); §6.5 (Redshift at nonnegative height); §4.20 (Separation above height one); §4.3 (Telescope acyclicity criteria); RefinedTraceMethods §2.6 (THH of E₁-rings); RefinedTraceMethods §2.9 (TC, its fiber formula and arithmetic completion); RefinedTraceMethods §4.17 (henselian rigidity of the trace with finite coefficients).
 
 ### 9.7 TC does not preserve filtered category colimits
 
-Although L_K(1)TC commutes with filtered colimits of discrete rings, it does not commute with filtered colimits of small stable categories. The filtered colimit of Mod_(Z/p^r)(Perf(Z)) identifies with the p-power-torsion perfect Z-modules and sits in an exact sequence with Perf(Z) and Perf(Z[1/p]). Each stage has zero L_K(1)TC, while the colimit has nonzero L_K(1)TC.
+L_K(1)TC does not commute with filtered colimits of small stable categories. The filtered colimit of Mod_(Z/p^r)(Perf(Z)) identifies with the p-power-torsion perfect Z-modules and sits in an exact sequence with Perf(Z) and Perf(Z[1/p]). Each stage has zero L_K(1)TC, while the colimit has nonzero L_K(1)TC.
 
 Throughout this target, the diagram is a filtered system of enhanced perfect categories, not a filtered system of rings.
 
 (lmmt line 1110, Remark 4.29, pp.1034–1035.)
 
-A proof route is as follows. Construct the filtered system of module categories with their compatible forgetful functors; every compact p-power-torsion perfect Z-complex belongs to a stage. Each stage’s TC is a module over TC(Z/p^r). The multiplicative unital cyclotomic trace K(Z/p^r)→TC(Z/p^r) makes this a module over K(Z/p^r), whose K(1)-localization vanishes by §4.42 and §4.20. Acyclicity passes from that ring spectrum to its modules, so the stage has zero K(1)-local TC. Use localizing TC on the p-inversion exact sequence: its fiber identifies with TC(Z) at K1 because TC(Z[1/p]) vanishes. This gives nonzero TC of the colimit and contradicts preservation of this category colimit, without contradicting the separate ring-colimit theorem.
+A proof route is as follows. Construct the filtered system of module categories with their compatible forgetful functors; every compact p-power-torsion perfect Z-complex belongs to a stage. Each stage’s TC is a module over TC(Z/p^r). The multiplicative unital cyclotomic trace K(Z/p^r)→TC(Z/p^r) makes this a module over K(Z/p^r), whose K(1)-localization vanishes by §4.42 and §4.20. Acyclicity passes from that ring spectrum to its modules, so the stage has zero K(1)-local TC. Use localizing TC on the p-inversion exact sequence: its fiber identifies with TC(Z) at K1 because TC(Z[1/p]) vanishes. This gives nonzero TC of the colimit and contradicts preservation of this category colimit.
 
 **Checks.**
 
 - The counterexample’s objects are enhanced perfect categories; replacing its colimit by a colimit of the coefficient rings changes the assertion.
 - r=1,2 in p-power-torsion categories; union: each stage localized TC=0; union localized TC≠0 from the ℤ localization fiber.
 
-*Needs:* §9.6 (The height-one TC obstruction); §4.42 (Finite p-power coefficient vanishing); RefinedTraceMethods §4.9, Localizing and truncating small-category invariants; RefinedTraceMethods §2.10 (Spherical group rings and categorical THH); RefinedTraceMethods §2.9 (TC, its fiber formula and arithmetic completion); gap:k1-tc-filtered-colimits; RefinedTraceMethods §4.11 (multiplicative unital cyclotomic trace); §4.20 (height-one comparison).
+*Needs:* §9.6 (The height-one TC obstruction); §4.42 (Finite p-power coefficient vanishing); RefinedTraceMethods §4.9, Localizing and truncating small-category invariants; RefinedTraceMethods §2.10 (Spherical group rings and categorical THH); RefinedTraceMethods §2.9 (TC, its fiber formula and arithmetic completion); RefinedTraceMethods §4.11 (multiplicative unital cyclotomic trace); §4.20 (height-one comparison).
 
 ### Examples
 
@@ -2267,7 +2305,7 @@ The singular ring 𝔽_p[ε]/ε² has the nonconstant polynomial unit 1+εx in N
 
 ### Dependencies
 
-EnhancedDerivedSheaves E0.4, E5:abstract.1–4 and E5:presentability.1–3; Layer 2; Layer 4; Layer 5; RefinedTraceMethods §4.9 and EnhancedDerivedSheaves E5:abstract.2 and E5:presentability.1–2; RefinedTraceMethods §4.9, Localizing and truncating small-category invariants; RefinedTraceMethods §§2.9–2.10; SchemeKTheoryOperations §§1.1–2.7, 3.1–3.5, 4.1–4.3, 4.12 and 5.2–5.9.
+EnhancedDerivedSheaves E0.4, E5:abstract.1–4 and E5:presentability.1–3; Layer 2; Layer 4; Layer 5; Layer 6; RefinedTraceMethods §4.9 and EnhancedDerivedSheaves E5:abstract.2 and E5:presentability.1–2; RefinedTraceMethods §4.9, Localizing and truncating small-category invariants; RefinedTraceMethods §§2.6, 2.9–2.10, 4.11 and 4.17; SchemeKTheoryOperations §§1.1–2.7, 3.1–3.5, 4.1–4.3, 4.12 and 5.2–5.9.
 
 ## Layer 10: Additive comparison, colimits and cyclic assembly
 
@@ -2334,20 +2372,21 @@ The interface includes:
 
 ### 10.4 p-adic TC assembly for cyclic subgroups
 
-For a connective E₁-ring R and any discrete group G, colim_(G/H∈Or_Cyc(G))TC(R[H])→TC(R[G]) is a p-adic equivalence. The colimit is formed before p-completion. This does not assert that uncompleted p-typical TC assembly is always an equivalence.
+For every E₁-ring R and every discrete group G, the assembly map colim_(G/H∈Or_Cyc(G))THH(R[H])→THH(R[G]) is an equivalence of cyclotomic spectra. For a connective E₁-ring R and any discrete group G, colim_(G/H∈Or_Cyc(G))TC(R[H])→TC(R[G]) is a p-adic equivalence. The colimit is formed before p-completion. This does not assert that uncompleted p-typical TC assembly is always an equivalence.
 
-Throughout this target, R is connective E1; G is any discrete group; completion is after the orbit colimit.
+Throughout this target, R is E₁, and connective in the TC assertion; G is any discrete group; completion is after the orbit colimit.
 
 (lmmt line 1197, Proposition 4.33 and proof, p.1036.)
 
-A proof route is as follows. Import the all-cyclic THH assembly equivalence for arbitrary G, with its compatible cyclotomic structure. Import TC/p preservation of all small colimits of connective cyclotomic spectra; all group-ring THH inputs satisfy connectivity. Apply TC/p to the THH assembly equivalence and use mod-p detection of p-complete equivalences.
+A proof route is as follows. For the THH assembly, THH is symmetric monoidal, so THH(R[𝒢])≃THH(R)⊗Σ∞_+B^cyc(𝒢) naturally in the transport groupoid 𝒢 of an orbit, extending the spherical group-ring formula from groups to groupoids by the same cyclic-nerve argument. The cyclic nerve of the transport groupoid of a G-set X realizes to EG×_G P(X), where P(X)={(x,g):gx=x} with G acting by conjugation on g; for X=G/H this is the free loop space of BH. As a functor of X, P(X) is the disjoint union over g∈G of the fixed sets X^g, so the homotopy colimit over Or_Cyc(G) has g-summand (E_Cyc G)^(⟨g⟩), the fixed points of the classifying space of the family of cyclic subgroups. This is contractible because ⟨g⟩ is cyclic, so the colimit maps by an equivalence to P(G/G), the conjugation G-set G. Applying EG×_G(−) and Σ∞_+ gives the underlying equivalence; it is a map of cyclotomic spectra by naturality, and colimits of cyclotomic spectra are formed on underlying circle spectra. For TC, import TC/p preservation of all small colimits of connective cyclotomic spectra; all group-ring THH inputs of a connective R are connective. Apply TC/p to the THH assembly equivalence and use mod-p detection of p-complete equivalences.
 
 **Checks.**
 
 - If G is cyclic the assertion is the terminal-orbit identity; arbitrary noncyclic and infinite groups are allowed.
 - G=1,ℤ,S₃; R=0: assembly=id for 1 and ℤ; p-completed fiber=0 for S₃; TC(0)=0.
+- For G=C₂×C₂ and R=S, THH(S[G])=Σ∞_+LBG has four summands Σ∞_+BG, one for each g∈G, since G is abelian. The summand of g≠1 comes from the single cyclic subgroup ⟨g⟩≅C₂, while the summand of g=1 is the colimit of Σ∞_+BH over all cyclic H, namely Σ∞_+(EG×_G E_Cyc G)≃Σ∞_+BG because E_Cyc G is contractible. If one of the three C₂ is omitted, nothing in the diagram maps to the summand of its generator, and the assembly misses that copy of Σ∞_+BG.
 
-*Needs:* §10.3 (Cyclic orbit diagrams and assembly); RefinedTraceMethods §2.10 (Spherical group rings and categorical THH); RefinedTraceMethods §2.9 (TC, its fiber formula and arithmetic completion); gap:tc-mod-p-cyclotomic-colimits; gap:thh-all-cyclic-assembly.
+*Needs:* §10.3 (Cyclic orbit diagrams and assembly); RefinedTraceMethods §2.8 (THH is symmetric monoidal); RefinedTraceMethods §2.10 (Spherical group rings and categorical THH); RefinedTraceMethods §2.9 (TC, its fiber formula and arithmetic completion); StableHomotopyKTheory Layers 3–7 (homotopy colimits and fixed points of spaces); gap:tc-mod-p-cyclotomic-colimits.
 
 ### 10.5 Telescopic Farrell–Jones assembly
 
@@ -2372,11 +2411,11 @@ For G=1, C₂ or ℤ the cyclic orbit family contains G/G as a terminal object a
 
 ### Dependencies
 
-Layer 1; Layer 3; Layer 4; Layer 5; RefinedTraceMethods §4.9 and EnhancedDerivedSheaves E5:abstract.2 and E5:presentability.1–2; RefinedTraceMethods §§2.9–2.10, 4.11 and 4.17.
+Layer 1; Layer 3; Layer 4; Layer 5; RefinedTraceMethods §4.9 and EnhancedDerivedSheaves E5:abstract.2 and E5:presentability.1–2; RefinedTraceMethods §§2.8–2.10, 4.11 and 4.17.
 
 ## Downstream consumers
 
-ChromaticHomotopyTheory Layers 3–6 and 8–10 must import §§4.1–4.29 for global finite localization, periodic detection, Hahn acyclicity and telescopic Tate theory; its Layers 12–13 must import §§4.30–4.34 for modular and Thom comparisons and ordinary-homology unit detection. Its chromatic field-map applications must import §6.2. The generic Morava realization, units/Thom colimit and James splitting retain the named supplier owners in Exact supplier contracts. Arithmetic K-theory and regulator developments consume purity and the height-one KH/cdh comparison through the named suppliers. Galois descent for Lubin–Tate and modular coefficients consumes Layer 8, with all equivariant structure retained. Iterated and assembled K-theory use Layers 7 and 10. These consumers do not enter the proof of Theorem A or the CMNN induction.
+ChromaticHomotopyTheory Layers 0–6 import §§4.2–4.16 and 4.18–4.33, including §4.30a (its Layers 4–5 name §§4.3–4.4, 4.14 and 4.20–4.24); its Part II imports §§5.2, 5.5 and 6.5. §4.30a supplies the real Bott comparison of its Layer 5, and §§4.15–4.16 supply the existential connectivity bound; the sharp value m=n+1 is that roadmap's, as recorded in Scope and ownership. The generic Morava realization, units/Thom colimit and James splitting retain the named supplier owners in Exact supplier contracts. Arithmetic K-theory and regulator developments consume purity and the height-one KH/cdh comparison through the named suppliers. Galois descent for Lubin–Tate and modular coefficients consumes Layer 8, with all equivariant structure retained. Iterated and assembled K-theory use Layers 7 and 10. These consumers do not enter the proof of Theorem A or the CMNN induction.
 
 ## Worked examples
 
