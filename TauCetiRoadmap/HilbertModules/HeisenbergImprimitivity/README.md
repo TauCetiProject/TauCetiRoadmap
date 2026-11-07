@@ -29,10 +29,17 @@ This roadmap is a child of HilbertModules and owns, for finite-type M:
   fundamental identity (Layer 2);
 - the twisted group C*-algebra `C*(L,c)` of a discrete abelian group L with a normalised
   circle-valued 2-cocycle c: its ℓ¹ algebra, universal and regular completions, canonical trace,
-  gauge action, full = reduced theorem, and the inverse-closedness of its rapid-decay subalgebra
-  when L is finitely generated (Layer 3, Layer 5). No roadmap on main owns twisted group
-  C*-algebras of a 2-cocycle: OperatorAlgebraDynamics D1–D2 construct crossed products for an
-  action and regular representations, and are consumed only for those;
+  gauge action, full = reduced theorem, and, for finitely generated L, its rapid-decay subalgebra
+  S(L,c) as the smooth vectors of the gauge action (Layer 3, Layer 5). The inverse-closedness of
+  S(L,c) is Mathlib's smoothness of inversion at units, `contDiffAt_ringInverse`, along the gauge
+  orbit; no general theory of smooth elements of Banach-algebra actions is built here. The quantum
+  tori `C*(ℤ^d,σ_Θ)` are the case L=ℤ^d (Downstream consumers). No roadmap on main owns the
+  twisted group C*-algebra of a general 2-cocycle: OperatorAlgebraDynamics D1–D2 construct
+  crossed products for an action, with no 2-cocycle twist, and regular representations, and are
+  consumed only for those. OperatorAlgebraDynamics D8's universal Weyl algebra of a real
+  symplectic space (V,σ), with `W(f)W(g)=exp(−iσ(f,g)/2)W(f+g)`, is the instance L=V with the
+  discrete topology and `c=exp(−iσ/2)`; its symplectic functoriality, simplicity and regular
+  representations stay there and are not used here;
 - the pairings, positivity, completion, fullness and imprimitivity theorem (Layers 3–4), smooth
   frames, the trace formula and transport (Layer 5), and the worked families (Layer 6).
 
@@ -118,6 +125,10 @@ belongs to a Part II of it, which starts from the Schwartz–Bruhat analysis of 
 - `IsZLattice`, `ZLattice.covolume` (the volume of a fundamental domain),
   `ZLattice.covolume_eq_det`, `ZSpan.fundamentalDomain` and `ZSpan.isAddFundamentalDomain`.
 - `CStarModule` and `WithCStarModule` (`Mathlib/Analysis/CStarAlgebra/Module/`).
+- `contDiffAt_ringInverse` (`Mathlib/Analysis/Calculus/ContDiff/Operations.lean`): `Ring.inverse`
+  is `C^n` for every n at each unit of a normed algebra with `HasSummableGeomSeries`, which every
+  complete normed ring has (`Mathlib/Analysis/SpecificLimits/Normed.lean`); in §5.1 it is applied
+  to C*(L,c) and to `M_n(C*(L,c))`.
 
 **From Tau Ceti.**
 
@@ -481,6 +492,13 @@ for amenable groups); AmenableGroups Layer 6.
 - L=ℤ², `c((m,n),(m',n'))=e(θnm')`: `C*(L,c)` is the rotation algebra A_θ of NoncommutativeGeometry
   N6 with `U₁=δ_(1,0)`, `U₂=δ_(0,1)`, and `U₂U₁=e(θ)U₁U₂`; the reversed cocycle `e(θmn')` would
   give `U₁U₂=e(θ)U₂U₁`, the parameter −θ.
+- The symmetric form of the same twist: on L=ℤ², `σ_Θ(p,q)=exp(πi pᵀΘq)` with `Θ₁₂=−θ`, `Θ₂₁=θ`
+  is `exp(πiθ(p₂q₁−p₁q₂))=c(p,q)·δu(p,q)` for the cocycle c of the previous Check and
+  `u(m,n)=exp(πiθmn)`, since `δu(p,q)=exp(−πiθ(p₁q₂+q₁p₂))`. So `δ_x↦u(x)δ_x` is the coboundary
+  isomorphism of the last API bullet from the σ_Θ-algebra to the c-algebra: `δ_(1,0)δ_(0,1)` is
+  `exp(−πiθ)δ_(1,1)` for σ_Θ and maps to `exp(−πiθ)u(1,1)δ_(1,1)=δ_(1,1)`, the c-product of the
+  images, and `δ_(0,1)δ_(1,0)=exp(πiθ)δ_(1,1)` maps to `e(θ)δ_(1,1)`. Both cocycles have
+  commutator `e(θ)`; the map with `u≡1` would leave the phase `exp(−πiθ)` unmatched.
 
 ### 3.2 The two actions and pairings
 
@@ -604,12 +622,22 @@ Layer 3; HilbertModules H1–H3.
 ### 5.1 Spectral invariance and smooth frames
 
 For a finitely generated abelian group L with normalised 2-cocycle c, let S(L,c) be the rapidly
-decreasing functions on L with twisted convolution. Prove that S(L,c) is a Fréchet *-algebra, equal
-to the smooth vectors of the gauge action of the compact Lie group L̂ on C*(L,c), and that it is
-inverse-closed in C*(L,c) in every matrix size, so closed under holomorphic functional calculus
-(rieffel88 lines 919–930, p. 280), by differentiating `a⁻¹` along the generators of the gauge
-action. Prove that S(M) is a finitely generated projective right S(E,conj β)-module and
-`𝓔≅S(M)⊗_(S(E))A` (rieffel88 lines 937–950, Proposition 3.7, p. 281). Prove the smooth-frame
+decreasing functions on L with twisted convolution. For t in the real vector space `Hom(L,ℝ)` let
+`γ_t∈L̂` be the character `x↦e(t(x))`; these characters form the identity component of L̂, and
+a∈C*(L,c) is a smooth vector of the gauge action when `t↦α_(γ_t)(a)` is C^∞ from `Hom(L,ℝ)` to
+C*(L,c). Prove that S(L,c) is a Fréchet *-algebra equal to the set of smooth vectors (rieffel88
+lines 921–931, p. 280): the j-th derivative along t multiplies the Fourier coefficient
+`a(x)=τ(aδ_x^*)` by `(2πi t(x))^j`, Fourier coefficients are bounded by the C*-norm, the torsion
+subgroup of L is finite, and rapidly decreasing coefficients are summable against every polynomial
+weight. Inverse-closedness of S(L,c) in C*(L,c) in every matrix size is then not a separate
+estimate: the gauge automorphisms commute with inversion, so for a smooth a invertible in C*(L,c)
+the orbit of a⁻¹ is the orbit of a followed by `Ring.inverse`, which is C^∞ at every unit of a
+complete normed algebra (Mathlib `contDiffAt_ringInverse`); at matrix size n the same argument
+applies to the entrywise gauge action on `M_n(C*(L,c))`, whose smooth vectors are `M_n(S(L,c))`.
+Closure under the holomorphic functional calculus follows, the Cauchy integral of the resolvent
+converging in every seminorm of S(L,c) by `∂(a⁻¹)=−a⁻¹(∂a)a⁻¹`. Prove that S(M) is a finitely
+generated projective right S(E,conj β)-module and `𝓔≅S(M)⊗_(S(E))A` (rieffel88 lines 937–950,
+Proposition 3.7, p. 281). Prove the smooth-frame
 theorem: there are ξ_1,…,ξ_n∈S(M) with `Σ_jθ_(ξ_j,ξ_j)=1`, i.e. `ξ=Σ_jξ_j⟨ξ_j,ξ⟩_A` for every ξ∈𝓔,
 obtained from the HilbertModules H2 frame by approximation in S(M) and normalisation by the inverse
 square root of the frame operator in S(D,β). A single window is not asserted. On `ℝ^k` this is
@@ -617,7 +645,7 @@ square root of the frame operator in S(D,β). A single window is not asserted. O
 forming a Parseval frame over L in the sense of `IsParsevalFrame` (`Σ_jΣ_(x∈L)|⟨π_xg_j,f⟩|²=‖f‖₂²`
 for every Schwartz f); the right A-frame condition over E and the Parseval condition over E are the
 same, because `π_e^*` is a unimodular multiple of `π_(−e)` and `E=−E`.
-*Needs:* 3.1, 4.2; HilbertModules H2; Mathlib `SchwartzMap`, `IsZLattice`.
+*Needs:* 3.1, 4.2; HilbertModules H2; Mathlib `SchwartzMap`, `IsZLattice`, `contDiffAt_ringInverse`.
 
 **Checks.**
 
@@ -629,6 +657,18 @@ same, because `π_e^*` is a unimodular multiple of `π_(−e)` and `E=−E`.
   window at covolume 1 would be an orthonormal basis of unit vectors, which is why
   `exists_parsevalFrame` asserts only some finite n.
 - k=0: `L={0}`, n=1, g=1 is a Parseval frame of ℂ.
+- L=ℤ, c≡1, `a=2δ_0+δ_1`, the function `2+z` on 𝕋 under `C*(ℤ)≅C(𝕋)`: `|2+z|≥1`, so a is
+  invertible, with `a⁻¹=Σ_(n≥0)(−1)^n 2^(−n−1)δ_n` (multiplying out, the coefficient of `δ_n` for
+  n≥1 is `2·(−1)^n2^(−n−1)+(−1)^(n−1)2^(−n)=0`). Its coefficients decay geometrically, so
+  `a⁻¹∈S(ℤ,1)`, but its support is infinite: the finitely supported algebra is not inverse-closed,
+  and the completion to S(L,c) is needed.
+- Negative control: the elements of S(ℤ,1) supported in n≥0 form a closed subalgebra of rapidly
+  decreasing functions containing δ_1, which is unitary in C*(ℤ) with inverse `δ_(−1)` outside it.
+  Rapid decay alone does not give inverse-closedness; being the full set of smooth vectors does.
+- L finite: `Hom(L,ℝ)=0`, every element is a smooth vector and `S(L,c)=C*(L,c)`; for `L=(ℤ/2)²`
+  with the restriction of β of the 3.1 Check this is `M₂(ℂ)`, where inverse-closedness is
+  automatic. Asking for smoothness on all of L̂ instead of its identity component gives the same
+  set, since the other components act by bounded automorphisms.
 
 ### 5.2 The trace formula
 
@@ -691,7 +731,7 @@ families have the same lattices, annihilators and covolumes, and isomorphic alge
 
 ### Dependencies
 
-Layers 3–4; HilbertModules H2.
+Layers 3–4; HilbertModules H2; Mathlib `contDiffAt_ringInverse`.
 
 ## Layer 6: Worked families and the two-torus dictionary
 
@@ -773,7 +813,11 @@ Layers 1–5; NoncommutativeGeometry N6–N7.
 
 HilbertModules H5 compares its commutative torus section modules with the θ≠0 model of §6.3.
 NoncommutativeGeometry N7's Heisenberg module and Powers–Rieffel projection are the 0<θ<1 case
-of §6.3 and §5.2.
+of §6.3 and §5.2. The quantum tori `C*(ℤ^d,σ_Θ)` of CompactQuantumMetricSpaces §6.0, with
+`σ_Θ(p,q)=exp(πi pᵀΘq)` for a real skew-symmetric d×d matrix Θ, are §3.1 at L=ℤ^d and c=σ_Θ (a
+normalised bicharacter with `σ_Θ(p,−p)=1`): their twisted regular representation
+`λ_Θ(p)δ_q=σ_Θ(p,q)δ_(p+q)`, gauge action `α_z(W_p)=z^pW_p` of `𝕋^d` and coefficient trace are
+§3.1's `λ_c`, gauge action and τ, and their universal property is §3.1's.
 
 ## References
 
