@@ -184,6 +184,12 @@ iff it lies in the polar of a barrel. *Needs:* 0.1, Mathlib `WithSeminorms.banac
   filter of all `n` has no pointwise limit, and the sequence `fₙ(x) = x/n` converges to `0`
   uniformly on bounded sets, as Corollaire 2 predicts.
 
+Not a target: in a barrelled space with a Schauder basis, the partial-sum projections are
+continuous, of finite rank and converge pointwise to the identity, so by Corollaire 2 they converge
+uniformly on precompact sets, which is Grothendieck's approximation property; they are also
+equicontinuous (Kalton 1970, p. 388: in a barrelled space every Schauder decomposition is
+equi-Schauder).
+
 ### 0.3 Permanence
 
 Prove that separated quotients, arbitrary products, separated locally convex inductive limits and
@@ -365,6 +371,10 @@ continuous. *Needs:* 0.1, 0.2, 1.1, 2.2, 1.4 (Théorème 2).
 - `ℓ²` with `σ(ℓ², ℓ²)` is neither barrelled nor bornological: its topology is not `τ`.
 - A barrelled space with a weakly bounded subset of `E′` that is not equicontinuous would
   contradict 0.2; in `ℓ¹`, the ball of `ℓ^∞` is weakly compact, consistently.
+
+Not a target: the test-function space `𝒟(Ω)` is an (LF) space, hence barrelled (Bourbaki 1950,
+§2, p. 6), so its topology is its Mackey topology by 2.3; Dieudonné–Schwartz 1949, n° 7,
+Théorème 3 and its Corollaire, p. 76, state this for every (F) and (LF) space.
 
 ### 2.4 Weak continuity on Mackey spaces
 
@@ -732,3 +742,5 @@ spaces, where bornologification replaces the topology, is Frölicher–Kriegl 19
   Math.* 5 (1934), 29–33. Zbl 0010.18202.
 - C. Perez-Garcia, W. H. Schikhof, *Locally Convex Spaces over Non-Archimedean Valued Fields*,
   Cambridge Univ. Press, 2010. doi:10.1017/CBO9780511729959.
+- N. J. Kalton, « Schauder decompositions in locally convex spaces », *Proc. Cambridge Philos.
+  Soc.* 68 (1970), 377–392: Definition 2.2, Theorem 2.7, p. 388.
