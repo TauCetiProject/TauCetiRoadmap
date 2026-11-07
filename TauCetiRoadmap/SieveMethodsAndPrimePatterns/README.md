@@ -10,7 +10,7 @@ The native `BoundingSieve` and `SelbergSieve` carriers, weighted sums, signed re
 
 IntegralLattices Layers 0 and 3 own even-bilinear half-norms and integral local quadratic classification. Only the count-preserving rank-two conic comparison belongs here. GlobalNumberFields Layers 3/3C and 11 own generators, units, class representatives, orders and invertible ideals. ArithmeticDirichletSeries owns ideal norm fibres and ideal arithmetic functions; ClassFieldTheory Layer 14 owns Hilbert reciprocity; Chebotarev Layer 13 owns the principal-class natural prime count. None of these arithmetic theories is reconstructed as sieve data. Tau Ceti at the pins has `TauCeti.Multiquadratic.fundamentalDiscriminantChar`, the quadratic Dirichlet character of a fundamental discriminant; ThetaSeries §2H owns the Kronecker symbol and the character for every nonzero discriminant D≡0,1 mod 4. Layer 0 owns only its numerical natural-argument, real-valued sieve adapter, with zero value at zero and comparison for |D|>1. ErdosProgressionPowers §3.1 owns the uniform Gram-row, maximum-row and diagonal/off-diagonal inequalities; the weighted denominator inequality here is stronger and remains a target.
 
-AnalyticNumberTheoryPartI §§0.10–0.11, 0.18, 0.21, 0.26, 0.32, 0.34, 1.2a, 3.22, 3.24, 3.26, 3.34–3.35 supplies the quantitative prime, small-conductor, divisor-moment, divisor-subpower and smooth-number inputs at their stated strengths. Its uniform exclusion of Landau–Siegel zeros (§0.34) leaves no exceptional zero or exceptional conductor to treat here, and every small-conductor constant in this roadmap is effective. AnalyticNumberTheoryPartI §1.5a owns the weighted finite Hilbert inequality, with constant 3π/2 and local spacings; the uniform-spacing constant π/δ of §2.9 is owned here, because the sharp additive large-sieve constant N−1+δ⁻¹ needs exactly π. InverseGaloisAndArithmeticFundamentalGroups §IG.2.5 owns fixed-model Lang–Weil. GeometryOfNumbersAndQuadraticArithmetic §4.1 owns general lattice counting, and AdelicAlgebraicGroups §4.2 owns algebraic-group strong approximation. The additional subgroup, analytic and curvature estimates are owned in §§0.11, 1.1, 2.7, 3.0 and 5.4.
+AnalyticNumberTheoryPartI §§0.10–0.11, 0.18, 0.21, 0.26, 0.32, 0.34, 3.22, 3.24, 3.26, 3.34–3.35 supplies the quantitative prime, small-conductor, divisor-moment, divisor-subpower and smooth-number inputs at their stated strengths. Its uniform exclusion of Landau–Siegel zeros (§0.34) leaves no exceptional zero or exceptional conductor to treat here, and every small-conductor constant in this roadmap is effective. AnalyticNumberTheoryPartI §1.5a owns the weighted finite Hilbert inequality, with constant 3π/2 and local spacings; the uniform-spacing constant π/δ of §2.9 is owned here, because the sharp additive large-sieve constant N−1+δ⁻¹ needs exactly π. InverseGaloisAndArithmeticFundamentalGroups §IG.2.5 owns fixed-model Lang–Weil. GeometryOfNumbersAndQuadraticArithmetic §4.1 owns general lattice counting, and AdelicAlgebraicGroups §4.2 owns algebraic-group strong approximation. The additional subgroup, analytic and curvature estimates are owned in §§0.11, 1.1, 2.7, 3.0 and 5.4.
 
 AnalyticNumberTheoryPartII §5.29 owns the odd-squarefree quadratic large sieve, its primitive-real form and square-pair correction, uniformly in both cutoffs and arbitrary complex coefficients. Layer 2 retains the unrestricted bilinear consequence and prime-denominator applications. ArithmeticStatisticsPartV §3.30, “Conditional joint-spin prime bound”, owns the arithmetic setup, unit-averaged sequence, generator independence, Type I and Type II estimates and prime-ideal cancellation. Layer 5 retains the general short-character progression/subset transfer, the ideal-symbol comparison, the generic coefficient and prime-extraction interfaces, and the spin-sign equidistribution consequence. The generic prime-extraction theorem allows any bounded ideal sequence satisfying its two estimates; it does not reconstruct the supplied joint-spin chain.
 
@@ -1052,6 +1052,26 @@ Maynard applies it with γ from (6.7), (6.11) and (6.19), obtaining (6.9), (6.13
 
 *Needs:* Layer 1 §1.1 selberg's diagonal sum in dimension one (ggpy lemma 3, κ=1); Mathlib `sum_mul_eq_sub_sub_integral_mul`.
 
+**Ordered-divisor harmonic majorant.** Let τ_k(n) be the number of ordered factorizations n = c₁⋯c_k into positive integers, the k-fold Dirichlet convolution power of the constant function 1, so that τ₁ = 1 and τ₂ = τ. Prove that for every integer k≥1 and every real Z≥1
+
+`Σ_(1≤n≤Z) τ_k(n)/n ≤ (1+log Z)^k` and `Σ_(1≤n≤Z) τ_k(n) ≤ Z (1+log Z)^(k−1)`,
+
+with the constant 1 and no restriction on Z beyond Z≥1. Consequently `Σ_(1≤n≤Z) 3^ω(n) ≤ Z(1+log Z)²`, because 3^ω(n) ≤ τ₃(n) for every n≥1 (equality on squarefree n), and `Σ_(1≤n≤Z) τ(n)² ≤ Z(1+log Z)³`, because τ(n)² ≤ τ₄(n). The exponent k−1 of the summatory form is the true order, since `Σ_(n≤Z) τ_k(n) ∼ Z(log Z)^(k−1)/(k−1)!`; the asymptotic is not needed and is not claimed here.
+
+k≥1; Z≥1 real; τ_k on positive integers only.
+
+*Proof sketch.* Induction on k. For k=1 the harmonic sum is at most 1+log Z and the count is ⌊Z⌋≤Z. For the harmonic form, write τ_(k+1) = τ_k ∗ 1 and sum over the divisor d first: `Σ_(n≤Z) τ_(k+1)(n)/n = Σ_(d≤Z) (τ_k(d)/d) Σ_(m≤Z/d) 1/m ≤ (1+log Z) Σ_(d≤Z) τ_k(d)/d`, since 1+log(Z/d) ≤ 1+log Z. For the summatory form with k≥2, `Σ_(n≤Z) τ_k(n) = Σ_(d≤Z) τ_(k−1)(d)⌊Z/d⌋ ≤ Z Σ_(d≤Z) τ_(k−1)(d)/d`, and the harmonic form at k−1 finishes. The inequality 3^ω(n) ≤ τ₃(n) is multiplicative and holds at prime powers because τ₃(p^a) = (a+1)(a+2)/2 ≥ 3 for a≥1; τ(n)² ≤ τ₄(n) likewise, since (a+1)² ≤ (a+1)(a+2)(a+3)/6 for a≥1. The general mean-value bound `Σ_(n≤x) f(n) ≪_k x exp(Σ_(p≤x)(f(p)−1)/p)` for multiplicative 0≤f≤τ_k is a different statement, with an unspecified constant, and is not a target here; the sieve remainders of §1.6 and Layer 4 need only the explicit bound above.
+
+**Checks.**
+
+- At k=1 and Z=2 the harmonic sum is 1+1/2=3/2 ≤ 1+log 2 ≈ 1.693, and the count is 2 ≤ 2.
+- At k=2 the summatory sum at Z=2 is τ(1)+τ(2)=3 ≤ 2(1+log 2) ≈ 3.386, at Z=3 it is 5 ≤ 3(1+log 3) ≈ 6.296, and at Z=4 it is 8 ≤ 4(1+log 4) ≈ 9.545; the bound Z(log Z)^(k−1) without the 1 fails already at Z=2, where it reads 3 ≤ 2 log 2 ≈ 1.386.
+- At k=3 and Z=2 the sum is τ₃(1)+τ₃(2)=1+3=4 ≤ 2(1+log 2)² ≈ 5.733; the harmonic form gives 1+3/2=5/2 ≤ (1+log 2)³ ≈ 4.853.
+- 3^ω(4)=3 ≤ τ₃(4)=6 and 3^ω(6)=9=τ₃(6); an unordered-factorization count would give 2 at n=4 and 2 at n=6, and would not majorize 3^ω.
+- At Z=1 both sums equal 1 and both bounds equal 1; for Z<1 the sums are empty and the statement is not made.
+
+*Needs:* Mathlib `harmonic_le_one_add_log`; Mathlib `ArithmeticFunction.zeta` and the Dirichlet-convolution `Mul` instance on `ArithmeticFunction`, whose k-th power of `zeta` is τ_k; Mathlib `ArithmeticFunction.sigma` at exponent 0 for τ and `ArithmeticFunction.cardDistinctFactors` for ω; Mathlib `ArithmeticFunction.IsMultiplicative` for the prime-power comparisons.
+
 ### 1.2 Brun coefficients and the fundamental estimate
 
 **Brun combinatorial coefficients.** For squarefree P, y>1, β>1 and parity ε∈{0,1}, put λ_ε(d)=μ(d) if d|P and the decreasing prime factors p₁>⋯>p_r of d satisfy p_m<(y/(p₁⋯p_m))^(1/β) for every 1≤m≤r with m≡ε mod 2; otherwise put λ_ε(d)=0. Put λ⁺=λ₁ and λ⁻=λ₀. The empty prime list makes λ⁺(1)=λ⁻(1)=1.
@@ -1447,7 +1467,7 @@ x,y≥2; constants independent of x.
 
 *Proof sketch.* Use density 1/p and interval remainder≤1. Choose z=sqrt(y)/(log y)³, so that the remainder z²(1+log z)³ is O(y/(log y)³); the native Selberg quadratic main term is optimized before estimating its denominator. Account for primes below z and the 3^ω remainder separately.
 
-*Needs:* Layer 1 `SieveSelberg.selberg_upper_bound`; Layer 1 §1.1 selberg’s diagonal sum in dimension one; AnalyticNumberTheoryPartI §1.2a for the τ₄ harmonic-sum majorant.
+*Needs:* Layer 1 `SieveSelberg.selberg_upper_bound`; Layer 1 §1.1 selberg’s diagonal sum in dimension one; Layer 1 §1.1 ordered-divisor harmonic majorant at k=4.
 
 **Prime upper bound in progressions.** Prove `SieveApplications.progression_upper`. There is an absolute C such that for k≥1, gcd(a,k)=1 and x≥4k, π(x;k,a)≤C x/[φ(k)log(x/k)]. Retaining C=4 requires the precise denominator estimate in the source; this target uses an unspecified absolute constant.
 
@@ -1477,7 +1497,7 @@ Mertens gives the uniform reciprocal-denominator bound with the displayed Goldba
 - At p=5 the collision correction is (1−1/5)/(1−2/5)=4/3; both identities give 3/5=(4/5)²·15/16 when there is no collision. Omitting the varying collision factors loses the uniform N-dependence.
 - With odd-prime support {3,5} and strict z=5, the diagonal is 1+2=3 for two forbidden residues at 3. The inclusive comparison at z/2=5/2 has only d=1, hence value 1≤3; an inclusive diagonal at z=5 would additionally count the excluded d=5 with weight 2/3.
 
-*Needs:* Layer 1 `SieveSelberg.selberg_upper_bound`; Layer 1 §1.4 binary sieve Euler denominator with degree bound 2; AnalyticNumberTheoryPartI §0.26 for Mertens and §1.2a for divisor sums.
+*Needs:* Layer 1 `SieveSelberg.selberg_upper_bound`; Layer 1 §1.4 binary sieve Euler denominator with degree bound 2; AnalyticNumberTheoryPartI §0.26 for Mertens; Layer 1 §1.1 ordered-divisor harmonic majorant for the divisor-sum remainder.
 
 **Brun reciprocal convergence.** Prove `SieveApplications.brun_reciprocals`. The sum of 1/p over primes p for which p+2 is prime converges, as does the sum including 1/(p+2).
 
@@ -1537,7 +1557,7 @@ Parity counts multiplicity: 1 and 4 have even weight one, 12 has odd weight one 
 
 ### Dependencies
 
-Layer 0. External inputs: AnalyticNumberTheoryPartI §§0.11, 0.21, 0.26 and 1.2a; Layer 1 §1.1 uniform multiplicative mean values; AnalyticNumberTheoryPartI §0.11; AnalyticNumberTheoryPartI §§3.34–3.35; Layer 1 §1.4 extremely smooth-factor saving; Mathlib `Polynomial.monicEquivDegreeLT` and `Polynomial.degreeLTEquiv`; Layer 0 §0.10 finite-field irreducible counts; GeometryOfNumbersAndQuadraticArithmetic §4.1; Layer 0 §0.11 translated lattice discrepancies.
+Layer 0. External inputs: AnalyticNumberTheoryPartI §§0.11, 0.21 and 0.26; Layer 1 §1.1 uniform multiplicative mean values; Layer 1 §1.1 ordered-divisor harmonic majorant; AnalyticNumberTheoryPartI §0.11; AnalyticNumberTheoryPartI §§3.34–3.35; Layer 1 §1.4 extremely smooth-factor saving; Mathlib `Polynomial.monicEquivDegreeLT` and `Polynomial.degreeLTEquiv`; Layer 0 §0.10 finite-field irreducible counts; GeometryOfNumbersAndQuadraticArithmetic §4.1; Layer 0 §0.11 translated lattice discrepancies.
 
 ## Layer 2: large sieves and Vaughan decomposition
 
@@ -2939,7 +2959,7 @@ The O_k((log R)^k) bound is what turns the error O(λ_max²R²(log `R)^{2k})` of
 
 The main term is diagonal in y: the change of variables diagonalizes the quadratic form S₁, as in the main term of Selberg's one-dimensional sieve (compare Mathlib's lambdaSquared).
 
-*Needs:* Layer 4 §4.2 maynard's multidimensional sieve weights; Layer 4 §4.4 size of λ in terms of y (maynard (5.9)); Layer 4 §4.2 the w-trick residue v₀ (maynard (4.1)); AnalyticNumberTheoryPartI §1.2a for the ordered-divisor harmonic-sum majorant; Layer 1 §1.1 selberg's diagonal sum in dimension one (ggpy lemma 3, κ=1).
+*Needs:* Layer 4 §4.2 maynard's multidimensional sieve weights; Layer 4 §4.4 size of λ in terms of y (maynard (5.9)); Layer 4 §4.2 the w-trick residue v₀ (maynard (4.1)); Layer 1 §1.1 ordered-divisor harmonic majorant for `Σ_(d<R) τ_k(d)`; Layer 1 §1.1 selberg's diagonal sum in dimension one (ggpy lemma 3, κ=1).
 
 **Diagonal form of `S₂^{(m)}` (Maynard Lemma 5.2).** Assume in addition that the primes have level of distribution θ, that k ≥ 2, and fix A>0. Then `S₂^{(m)}` = N/(φ(W) log N) Σ_r `(y⁽ᵐ⁾_r)²/∏g(rᵢ)` + `O((y⁽ᵐ⁾_max)²` `φ(W)^{k−2}N(log` `N)^{k−2}/(W^{k−1}D₀))` + O(y_max² N/(log N)^A).
 
@@ -2949,7 +2969,7 @@ The main term is diagonal in y: the change of variables diagonalizes the quadrat
 
 *Proof sketch.* Expand as for S₁ (5.15). The inner sum runs over one class mod q = W∏[dᵢ,eᵢ] and is coprime to q exactly when d_m = e_m = 1. It equals X_N/φ(q) + O(E(N,q)), where X_N = #{N≤n<2N : n prime} and E is windowError (5.16)–(5.18). Error: q is squarefree and less than R²W, and each q arises from at most `τ_{3k}(q)` tuples. With λ_max ≪ y_max(log R)^k the error is ≪ y_max²(log `R)^{2k}` `Σ_{q<R²W}` `μ²(q)τ_{3k}(q)E(N,q).` Cauchy–Schwarz with E(N,q) ≪ N/φ(q) and PrimesHaveLevel.sum_windowError (R²W < `N^{θ−δ}` for large N) give ≪ y_max²N/(log N)^A (5.19)–(5.20). Main term: write 1/φ([dᵢ,eᵢ]) = `(φ(dᵢ)φ(eᵢ))^{−1}` `Σ_{uᵢ|dᵢ,eᵢ}` g(uᵢ) (5.21), remove the cross coprimality with Möbius sums, and substitute `y⁽ᵐ⁾` (5.23) to get (5.24). Terms with `s_{i,j}` ≠ 1 contribute the D₀ error (5.25). Replace X_N by N/log N + O(N/(log N)²), by the prime number theorem (AnalyticNumberTheoryPartI §0.32 at q=1); the error is absorbed (5.26)–(5.27).
 
-This is the only use of the arithmetic hypothesis. Unconditional results come from Layer 3 `SieveDistribution.primesHaveLevel_of_lt_half`, at every θ<1/2. With that input the implied constants and the threshold in N are effective, because the level estimate is (Layer 3 §3.3, through AnalyticNumberTheoryPartI §0.34). Maynard's remark after Lemma 5.2 notes the ineffectivity of the classical Bombieri–Vinogradov input, which the exclusion of Landau–Siegel zeros removes.
+This is the only use of the arithmetic hypothesis. Unconditional results come from Layer 3 `SieveDistribution.primesHaveLevel_of_lt_half`, at every θ<1/2. With that input the implied constants and the threshold in N are effective, because the level estimate of Layer 3 §3.3 is effective, through AnalyticNumberTheoryPartI §0.34. Maynard's remark after Lemma 5.2 notes the ineffectivity of the classical Bombieri–Vinogradov input, which the exclusion of Landau–Siegel zeros removes.
 
 *Needs:* Layer 4 §4.2 maynard's multidimensional sieve weights; Layer 4 §4.4 size of λ in terms of y (maynard (5.9)); Layer 4 §4.2 the w-trick residue v₀ (maynard (4.1)); Layer 3 `SieveDistribution.PrimesHaveLevel`; Layer 3 §3.0 divisor moments over reciprocal totients; AnalyticNumberTheoryPartI §0.32 at q=1; Layer 1 §1.1 selberg’s diagonal sum in dimension one.
 
@@ -3261,7 +3281,7 @@ The definition exposes the following operations and laws:
 
 ### Analytic requirements
 
-Prove L²-to-smooth simplex approximation with the same supremum, diagonal estimates and uniform errors using the stated Layer 1 diagonal estimates, AnalyticNumberTheoryPartI §§0.11, 0.21, 0.32 and 1.2a, and Layer 3 §3.0 divisor moments over reciprocal totients. The six growing cutoffs require 0<δ<θ/2. Separate k=1 direct counting from k≥2 diagonalization; the empty tuple gives trivial counting only. Rational M₅/M₁₀₅ and finite admissibility certificates do not establish the analytic distribution input.
+Prove L²-to-smooth simplex approximation with the same supremum, diagonal estimates and uniform errors using the stated Layer 1 diagonal estimates, AnalyticNumberTheoryPartI §§0.11, 0.21 and 0.32, Layer 1 §1.1 ordered-divisor harmonic majorant, and Layer 3 §3.0 divisor moments over reciprocal totients. The six growing cutoffs require 0<δ<θ/2. Separate k=1 direct counting from k≥2 diagonalization; the empty tuple gives trivial counting only. Rational M₅/M₁₀₅ and finite admissibility certificates do not establish the analytic distribution input.
 
 ### Examples
 
@@ -3288,7 +3308,7 @@ The nonadmissible tuples {0,1} and {0,2,4} have prime translates {2} and {3}; th
 
 ### Dependencies
 
-Layers 1 and 3. External inputs: AnalyticNumberTheoryPartI §§0.11, 0.21, 0.32 and 1.2a; Layer 3 §3.0 divisor moments over reciprocal totients; AnalyticNumberTheoryPartI §0.21.
+Layers 1 and 3. External inputs: AnalyticNumberTheoryPartI §§0.11, 0.21 and 0.32; Layer 1 §1.1 ordered-divisor harmonic majorant; Layer 3 §3.0 divisor moments over reciprocal totients; AnalyticNumberTheoryPartI §0.21.
 
 ## Layer 5: weighted almost primes, joint spins and affine saturation
 
@@ -4141,9 +4161,9 @@ The following conventions fix the mathematical statements at the cited versions.
 
 - **BENNETT-SIKSEK-2020.** Michael A. Bennett and Samir Siksek. [A conjecture of Erdős, supersingular primes and short character sums](https://annals.math.princeton.edu/wp-content/uploads/annals-v191-n2-p02-s.pdf). Annals of Mathematics 191 (2020), 355–392, DOI 10.4007/annals.2020.191.2.2.
 
-- **LS-EXCLUSION.** OpenAI. *Uniform exclusion of Landau–Siegel zeros*. Preprint, 2026, open repository; Theorem 1 is the uniform exclusion consumed through AnalyticNumberTheoryPartI §0.34.
+- **LS-EXCLUSION.** OpenAI. [Uniform exclusion of Landau–Siegel zeros](https://raw.githubusercontent.com/openai/math/main/preprints/Uniform-exclusion-of-Landau-Siegel-zeros-October-1-2026/paper.pdf). OpenAI mathematics release of 1 October 2026, repository `openai/math`, file `preprints/Uniform-exclusion-of-Landau-Siegel-zeros-October-1-2026/paper.pdf`, 9 pages; the numbering is that of the 1 October 2026 version, not of the community revision of 26 October 2026. Theorem 1, the absolute effective zero gap `(1−β)log q≥c` for every primitive nonprincipal real character of conductor q≥3, is the uniform exclusion consumed through AnalyticNumberTheoryPartI §0.34.
 
-- **GREEN-LS.** Ben Green. *On Landau–Siegel zeros*. Hexagon 2610.00311, 2026; Theorem 1.1, the inert-prime estimate of AnalyticNumberTheoryPartI §0.34c.
+- **GREEN-LS.** Ben Green. [On Landau–Siegel zeros](https://hexagonmath.org/pdf/2610.00311v2). Hexagon 2610.00311v2, 2026, 5 pages; Theorem 1.1, the inert-prime estimate `Σ_(p≤X, χ(p)=−1)(log p)/p≤(1/2+O(1/C))log X+O_C(1)` at X=q^C for a primitive nonprincipal real character of sufficiently large conductor q and a large even integer C, consumed through AnalyticNumberTheoryPartI §0.34c; the bounded conductors are AnalyticNumberTheoryPartI §0.34's own step.
 
 - **MAYNARD-2015.** James Maynard. [Small gaps between primes](https://annals.math.princeton.edu/wp-content/uploads/annals-v181-n1-p07-p.pdf). Annals of Mathematics 181 (2015), no. 1, 383–413, DOI 10.4007/annals.2015.181.1.7 (printed page = PDF page + 382). The published edition is cited; the preprint editions are arXiv:1311.4600 v1, v2 and v3.
 
