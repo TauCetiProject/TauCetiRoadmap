@@ -10,16 +10,16 @@ holds the applications of that package to the remaining headline results of the 
 rational multiple of a homology class by a closed oriented manifold; **Theorem H**, almost
 existence and finite capacity for manifolds *abundant with 2-spheres*, with **Theorem I**, the
 list of such manifolds (spheres, sphere bundles over highly connected bases, compact Lie groups
-other than tori, manifolds covered by diffeomorphisms, homogeneous spaces, and the complex and
-quaternionic projective spaces); and **Theorem G**, on knotted hypersurfaces in cotangent
-bundles. These applications rest on the structured Pontryagin–Thom and rational bordism theory
-of TangentialBordism, on the convenient spaces, James construction and stable real Bott
-periodicity of HomotopySpheres, and on the complex projective carrier and Fubini–Study form of
-ComplexKahlerGeometry; both TangentialBordism and HomotopySpheres consume the base roadmap, so
-the applications live here and the base need not consume them back. The homogeneous carriers,
-explicit degree computations and projective loop-space calculations that only these
-applications use are built here, in Layers 1 and 2. Nothing here is consumed by the base
-roadmap.
+other than tori, manifolds that are not aspherical and are covered by diffeomorphisms,
+homogeneous spaces, and the complex and quaternionic projective spaces); and **Theorem G**, on
+knotted hypersurfaces in cotangent bundles. These applications rest on the structured
+Pontryagin–Thom and rational bordism theory of TangentialBordism, on the convenient spaces,
+James construction and stable real Bott periodicity of HomotopySpheres, and on the complex
+projective carrier and Fubini–Study form of ComplexKahlerGeometry; both TangentialBordism and
+HomotopySpheres consume the base roadmap, so the applications live here and the base need not
+consume them back. The homogeneous carriers, explicit degree computations and projective
+loop-space calculations that only these applications use are built here, in Layers 1 and 2.
+Nothing here is consumed by the base roadmap.
 
 Suggested homes:
 
@@ -81,9 +81,8 @@ them by name and section (see the supplier contracts) and does not restate them.
 | The round Hopf metrics, Jacobi fields, the index form and the based-loop sphere calculation | RiemannianGeometry R1–R3 | consumed by Layer 2 |
 | Morse–Bott normal bundles, compact-band attachments and the orientation-system Thom comparison | MorseTheory M5 | consumed by Layer 2 |
 | Tubular neighbourhoods, collars, `Diff(M)` with the `C^∞` topology, the inclusion `O(n+1) → Diff(Sⁿ)` | GeometricTopology Layers 1 and 3 | consumed by Layers 3–4 |
-| Local coefficient systems, fundamental classes, the orientation local system, the reduced-suspension sphere models, the Hurewicz map | AlgebraicTopology Stages 2, 4, 6, 8 | consumed by Layers 1 and 4 |
-| Smooth partitions of unity and smooth approximation on `[T2Space M] [SigmaCompactSpace M]` | Mathlib `SmoothPartitionOfUnity`, as DifferentialGeometry consumes them | consumed by 3.2 |
-| The Brouwer degree | DifferentialGeometry Layer 10 | consumed by 1.4 through DGFloer's homological degree interface |
+| Local coefficient systems, fundamental classes, the orientation local system, the reduced-suspension sphere models, the Hurewicz map, the homological characterization of the mapping degree | AlgebraicTopology Stages 2, 4, 6, 8 | consumed by Layers 1 and 4 |
+| Smooth partitions of unity and smooth approximation on `[T2Space M] [SigmaCompactSpace M]` | Mathlib `SmoothPartitionOfUnity` and `exists_contMDiffMap_zero_one_of_isClosed` | consumed by 3.2 |
 | The octonionic projective plane as a Riemannian manifold | none | the Cayley plane half of Proposition 6.39 is out of scope |
 
 **Out of scope.**
@@ -110,7 +109,9 @@ the sign dictionary, unbundled hypotheses and specified maps. In addition:
   oriented through its quotient comparison of 1.3 from left-invariant orientations of the
   groups; a homogeneous quotient `G/H` from a left-invariant orientation of `G` and the chosen
   orientation of `H`; and the evaluation-pullback orientation system `ev*or_M` is used wherever
-  `M` is not assumed orientable (4.4).
+  `M` is not assumed orientable (4.4). The projective quotients `U(d+1)/(U(d) × U(1))` and
+  `Sp(d+1)/(Sp(d) × Sp(1))` of 1.3 use the suppliers' convention: base point the last
+  coordinate line `[e_d]`, stabilizer the ordered blocks with the rank-one block last.
 - **Spheres and their unit tangent spheres.** `Sⁿ` is the unit sphere of `ℝⁿ⁺¹`, oriented as the
   boundary of the unit ball; for `p ∈ Sⁿ` the unit tangent sphere `T¹_pSⁿ` is the unit sphere of
   the hyperplane `p^⊥`, with the same boundary orientation. For `n = 1` this makes `T¹_pS¹ = S⁰`
@@ -218,7 +219,7 @@ G5; DGFloer's Layer 1 inputs precede their construction. No whole-roadmap depend
   ordinary and spectral Thom carriers and the collapse and finite-duality comparisons (consumed
   by 3.1, together with TangentialBordism B5 and B6.3, which consume the same G2.10 and Thom
   inputs).
-- **ComplexKahlerGeometry** [K7.1–K7.2](../ComplexKahlerGeometry/README.md#k7-projective-torus-and-hopf-examples).
+- **ComplexKahlerGeometry** [K7.1–K7.2](../ComplexKahlerGeometry/README.md).
   K7.1: the single complex projective carrier, its complex and real atlases and orientation.
   K7.2: the normalized Fubini–Study form, used only in the form comparison of 1.3.
 - **LieGroups** [Layer 2](../RepresentationTheory/LieGroups/README.md): the closed-subgroup
@@ -242,11 +243,11 @@ G5; DGFloer's Layer 1 inputs precede their construction. No whole-roadmap depend
 - **AlgebraicTopology** [Stages 2, 4, 6 and 8](../AlgebraicTopology/README.md): Stage 4.4 the
   based circle and sphere models, `reducedSuspensionSphereHomeomorph` and the compact
   reduced-suspension carrier comparison (1.2); Stages 2 and 6 local coefficient systems,
-  fundamental classes, the orientation local system and its transport (4.2–4.4); Stage 8.1–8.7
-  the Hurewicz map (4.3).
-- **DifferentialGeometry** [Layer 10](../DifferentialGeometry/README.md): the Brouwer degree,
-  only through DGFloer's homological degree interface (1.4). Its partitions of unity and smooth
-  approximation are Mathlib's, consumed directly by 3.2.
+  fundamental classes, the orientation local system and its transport (4.2–4.4); Stage 6 item 5
+  the homological characterization `f_*[S] = deg(f)·[Q]` of the shared manifold degree for maps
+  between closed connected oriented manifolds, with its comparison to the degree counted on
+  regular values: the base roadmap's supplier contract names this as its degree interface, and
+  1.4 consumes the degree only through it; Stage 8.1–8.7 the Hurewicz map (4.3).
 
 ## How to read the build
 
@@ -348,12 +349,15 @@ quotient comparisons; what is built here is the identification between them.
   complex analogue on its own carrier, not an identification with the real `SO` quotient; the
   quaternionic frame comparisons live on GeneralizedCohomology's designated carriers.
 - **Projective quotients.** On the designated `CPᵈ` carrier pin the supplied quotient comparison
-  `U(d+1)/(U(1) × U(d)) → CPᵈ` to `[g] ↦ [g e₀]`, including subgroup blocks, basepoint,
+  `U(d+1)/(U(d) × U(1)) → CPᵈ` to `[g] ↦ [g e_d]`, in the suppliers' convention
+  (RiemannianGeometry R1, GeneralizedCohomology G4.0b): base point the last coordinate line
+  `[e_d]`, stabilizer the ordered blocks `diag(U(d), U(1))`; include subgroup blocks, basepoint,
   principal local sections and agreement with K7.1's complex orientation. On
-  GeneralizedCohomology's designated `HPᵈ` carrier pin its `Sp(d+1)/(Sp(1) × Sp(d))` comparison
-  to `[g] ↦ [g e₀]_ℍ`. Its native projectivization uses right lines through `ℍᵐᵒᵖ`, with
-  `v ∼ vλ`; compare the supplied charts on `v_i ≠ 0` with the right ratios `v_j v_i⁻¹` and the
-  representative with `i`-coordinate `1`, and verify right-scaling invariance.
+  GeneralizedCohomology's designated `HPᵈ` carrier pin its `Sp(d+1)/(Sp(d) × Sp(1))` comparison,
+  with the same last-coordinate-line convention, to `[g] ↦ [g e_d]_ℍ`. Its native
+  projectivization uses right lines through `ℍᵐᵒᵖ`, with `v ∼ vλ`; compare the supplied charts
+  on `v_i ≠ 0` with the right ratios `v_j v_i⁻¹` and the representative with `i`-coordinate `1`,
+  and verify right-scaling invariance.
 - **Hopf metrics.** Transport the supplied unit-round Hopf metrics. Prove Hermitian
   compatibility of the `CP` metric with its designated complex structure, and the orientation,
   metric and quotient-chart comparisons. For `d ≥ 1` the primitive closed geodesics are the
@@ -385,6 +389,13 @@ K7.1–K7.2, GeneralizedCohomology G4.0b, RiemannianGeometry R1, Mathlib `Matrix
 - `n = 3`: `V_(3,2)(ℝ) ≅ SO(3)`, the unit tangent bundle of `S²`, connected; `n = 2`:
   `V_(2,2)(ℝ) = O(2)` has two components, so the connected quotient `SO(2)/SO(0) = SO(2)`
   describes only one of them, which is why the `n ≥ 3` identification is not extended to `n = 2`.
+- Projective base point and blocks: for `d ≥ 1` the stabilizer in `U(d+1)` of the line `[e_d]`
+  is `diag(U(d), U(1))` and that of `[e₀]` is `diag(U(1), U(d))`; conjugation by the coordinate
+  permutation `P` exchanging `e₀` and `e_d` carries one to the other, and `[g] ↦ [g e₀]` on
+  `U(d+1)/(U(1) × U(d))` corresponds to `[gP] ↦ [gP e_d]` on `U(d+1)/(U(d) × U(1))`. For `d = 1`
+  the two block groups coincide (the diagonal torus of `U(2)`) and only the base point differs;
+  for `d ≥ 2` the map `[g] ↦ [g e₀]` is not well defined on `U(d+1)/(U(d) × U(1))`, because
+  `diag(A, 1)` with `A ∈ U(d)`, `A e₀ = e₁`, moves the line `[e₀]`.
 - Curvature and periods: on `CP¹` of radius `1/2` the great circles have length `π`, the
   sectional curvature is `4`, and the area is `π`, so `ω_g = π·ω_FS` with `∫ ω_FS = 1`; the
   radius-`1` normalization, in which `CP¹` is the unit sphere and the sectional curvature lies
@@ -412,8 +423,9 @@ the matrix); the lift into `SO(n+1)` is the object, because its homology class
 degree is `1 + (−1)^(n−1)`, which is `2` for odd `n` and `0` for even `n` (bdho-floer, second
 proof of Proposition 6.34). The degree is a mapping degree in the sense of DGFloer's
 homological degree interface. The `Diff`-family and covered-by-diffeomorphisms comparisons are
-made in 4.3. *Needs:* 1.3, DGFloer Layer 1 item 1 and Layer 0 (the homological degree),
-DifferentialGeometry Layer 10 through that interface, Mathlib `Matrix.specialOrthogonalGroup`.
+made in 4.3. *Needs:* 1.3, DGFloer Layer 1 item 1 and Layer 0, with the homological degree
+interface the base roadmap takes from AlgebraicTopology Stage 6 item 5, Mathlib
+`Matrix.specialOrthogonalGroup`.
 
 **Checks.**
 - `n = 1`, `p = e₀`: `T¹_pS¹ = {±e₁}`, and `f(±e₁, θ)` is the rotation of `ℝ²` by `±θ`, so the
@@ -459,10 +471,10 @@ GeometricTopology Layer 1.
 
 ### Dependencies
 
-DGFloer Layers 0–2; HomotopySpheres 3A.1–3A.2, 3B.3, 5.0, 5.1.3; AlgebraicTopology Stage 4.4;
-GeneralizedCohomology G2.10 and G4.0b; ComplexKahlerGeometry K7.1–K7.2; LieGroups Layer 2;
-SmoothBundlesConnections B1.4, B6.2–B6.3; RiemannianGeometry R1; GeometricTopology Layer 1;
-DifferentialGeometry Layer 10. Sources: the source paper §§6.3–6.4; Milnor–Stasheff,
+DGFloer Layers 0–2; HomotopySpheres 3A.1–3A.2, 3B.3, 5.0, 5.1.3; AlgebraicTopology Stage 4.4
+and Stage 6 item 5; GeneralizedCohomology G2.10 and G4.0b; ComplexKahlerGeometry K7.1–K7.2;
+LieGroups Layer 2; SmoothBundlesConnections B1.4, B6.2–B6.3; RiemannianGeometry R1;
+GeometricTopology Layer 1. Sources: the source paper §§6.3–6.4; Milnor–Stasheff,
 *Characteristic Classes*, Chapter 5; Steenrod, *The Topology of Fibre Bundles*, Part I, §7;
 Hatcher, *Algebraic Topology*, §4.J.
 
@@ -915,7 +927,8 @@ Tau Ceti `IsAspherical`, Mathlib `HomotopyGroup.Pi`, `IsOfFinOrder`, `Matrix.spe
   `n = 17, 25, …` and `ℤ/2` for the other odd `n ≥ 19`; `n = 9` fits the same pattern.
 - Tori: `T^r` is covered by diffeomorphisms through left translation but is aspherical, so
   Proposition 6.29 does not apply, consistent with 4.1's first Check; `SU(2)`, `SO(3)` and `U(n)`
-  are not tori and are abundant.
+  for `n ≥ 2` (`π₃(U(n)) = ℤ`) are not tori and are abundant, while `U(1) = S¹ = T¹` is the torus
+  case and is not.
 - `n = 3` in the second proof: `A ∈ H₃(SO(4)) ≅ ℤ²` with `(ev_p)_*A = 2[S³]`, while the first
   proof's class from the section `S³ → SO(4)` has `ℓ = 1`; both proofs conclude.
 
@@ -981,14 +994,21 @@ classes), Tau Ceti `LocalCoefficientSystem`, LieGroups Layer 2.
 Prove Proposition 6.38 (`CPᵈ`, `d ≥ 1`) and the quaternionic half of Proposition 6.39 (`HPᵈ`,
 `d ≥ 1`) from Layer 2: the sphere families of 2.6 are fibered families of 2-spheres, because
 `β_*(σ_p)_*[Σ_p] = ±2g ≠ 0` in the torsion-free group `H_(2d)(ΩCPᵈ)`, respectively
-`H_(4d+2)(ΩHPᵈ)`, so `(σ_p)_*[Σ_p] ≠ 0` and Proposition 6.15 applies. Together with 4.2–4.4 this
+`H_(4d+2)(ΩHPᵈ)`, so `(σ_p)_*[Σ_p] ≠ 0` and Proposition 6.15 applies. Together with 4.1–4.4 this
 is **Theorem I** within the scope boundary: spheres, sphere bundles over highly connected bases,
-compact connected Lie groups other than tori, manifolds covered by diffeomorphisms, homogeneous
-spaces satisfying Proposition 6.36, and `CPᵈ`, `HPᵈ`. *Needs:* 2.6, 4.2, 4.3, 4.4, 1.3.
+compact connected Lie groups other than tori, manifolds that are not aspherical and are covered
+by diffeomorphisms (Proposition 6.29) or are `ℓ`-covered with `π₂ ≠ 0` or with a first nonzero
+`π_k`, `k ≥ 3`, that is not `ℓ`-torsion (Proposition 6.33), homogeneous spaces satisfying
+Proposition 6.36, `CPᵈ`, `HPᵈ`, and products of any of these with a closed oriented manifold
+(Proposition 6.13, 4.1). *Needs:* 2.6, 4.1, 4.2, 4.3, 4.4, 1.3.
 
 **Checks.**
 - `CP¹ = S²` and `HP¹ = S⁴`: the projective families are the even-sphere families of 4.2 for
   `n = 2` and `n = 4`, and the classes agree up to the factor `2` of 2.6's second Check.
+- The asphericity clause is not redundant: `T^r` is covered by diffeomorphisms through left
+  translation (4.3) but is aspherical and not abundant (4.1), so a list that admitted every
+  manifold covered by diffeomorphisms would contain a manifold with `c°_HZ(D*T^r) = ∞`;
+  `S³ = SU(2)` is covered the same way, has `π₃ = ℤ`, and is in the list.
 - `d = 0`: `CP⁰` and `HP⁰` are points, excluded by the hypothesis `d ≥ 1`; a point is a closed
   oriented `0`-manifold with `Map(S², pt) = pt`, and it is not abundant (no class of degree above
   `0` exists and the degree-`0` class has zero reduced shriek).
@@ -1025,8 +1045,8 @@ collars), AlgebraicTopology Stage 6.
 
 ### Examples
 
-- `S²`, `S³ = SU(2)`, `S^(4k−1)`, `SO(3)`, `U(n)`, `CPᵈ`, `HPᵈ`, and `T^r` as the
-  non-example, as in the Checks above.
+- `S²`, `S³ = SU(2)`, `S^(4k−1)`, `SO(3)`, `U(n)` for `n ≥ 2`, `CPᵈ`, `HPᵈ`, and `T^r`
+  (including `U(1)`) as the non-example, as in the Checks above.
 - `Q = Tⁿ # (S^k × Y)` for Theorem G.
 
 ### Dependencies
@@ -1071,7 +1091,7 @@ Numbers follow arXiv:2404.07953v3.
 | Cor D, E, Theorem B forms | 3.4, through DGFloer Layer 6 items 3–4 |
 | Thm G | 4.6 (Thm 7.1) |
 | Def 1.7, Thm H | 4.1 (Def 6.11, Thm 6.12) |
-| Thm I | 4.2–4.5, without `CaP²` |
+| Thm I | 4.1–4.5, without `CaP²` |
 | Thm 5.14 | 3.3 |
 | Def 6.11, Thm 6.12, Prop 6.13 | 4.1 |
 | Def 6.14, Props 6.15, 6.17, 6.18, 6.21, 6.23 | 4.2 (degree computation 1.4; the James ring 1.2) |
