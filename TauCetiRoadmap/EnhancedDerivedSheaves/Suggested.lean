@@ -14,11 +14,9 @@ abelian category, which makes `HasDerivedCategory` a global instance in the univ
 Grothendieck abelian structure; the stability under tensor products of the presheaf maps
 inverted by étale sheafification, which makes Mathlib's sheaf tensor product and its symmetry
 global instances on étale module sheaves; invertible objects of a monoidal category as the
-units of Mathlib's skeleton monoid; the global projective-dimension bound for regular rings, both
-implications of Kunz's theorem, radical/flat/idempotent Frobenius-root ideals, Tor independence
-and homological bounds for perfect algebras (including the intrinsic Tor bound twice the
-Krull dimension), finite freeness of bounded saturated valuation
-lattices, cofinal invariance of pro-zero towers and composition of pro-isomorphisms, and the
+units of Mathlib's skeleton monoid; the converse of Kunz's theorem; the homological bounds for
+perfect algebras (the projective-dimension bound after perfection and the intrinsic Tor bound
+twice the Krull dimension); finite freeness of bounded saturated valuation lattices; and the
 telescope, classical-completeness and weak-Serre comparisons for derived-complete modules.
 
 Design choice made explicit: Mathlib's `DerivedCategory` of a Grothendieck abelian category, in
@@ -27,23 +25,36 @@ instance `IsGrothendieckAbelian.hasDerivedCategory`, whose morphisms lie in the 
 Grothendieck abelian structure; no statement assumes `HasDerivedCategory.standard` or a separately
 chosen instance.
 
+Results the roadmap consumes from the pinned Tau Ceti are not restated here: the dg nerve with
+its quasicategory instance, homotopy category, right mapping spaces and derived-category
+comparison for K-injective complexes (`TauCeti.dgNerve`,
+`TauCeti.KInjectiveDGCategory.dgNerveHomotopyCategoryEquiv`), the global-dimension bound for
+regular rings, Kunz's theorem, Frobenius-root ideals, Tor independence and the Tor bound of
+perfect presentations, pro-zero towers and pro-isomorphisms, replete categories, K-flat
+complexes and their resolutions, the Koszul braiding on complexes of modules and K-injective
+replacements of module complexes. The README cites each by name.
+
 The following headline families are not statable at the pins:
-* Layers E0, 0 and E1: dg-nerve stability, presentability and the enhanced sheaf comparisons
-  lack the dg nerve, coherent mapping-space framework and enhanced ringed-site category D∞(O).
-  The functorial K-flat replacement of étale module sheaves and the derived tensor product on
-  their derived category lack K-flat complexes, a braiding on `HomologicalComplex` and a
-  monoidal structure on Mathlib's `DerivedCategory`; the internal Hom of étale module sheaves
-  and the Koszul braiding on their complexes are data, so they are not stated with `sorry`.
+* Layers E0, 0 and E1: the simplicial enrichment and homotopy-coherent comparison of the dg
+  nerve, its stable sign comparison, presentability and the enhanced sheaf comparisons lack the
+  supplied coherent mapping-space framework (right mapping spaces, categorical equivalences, the
+  stability predicate) and the enhanced ringed-site category D∞(O); K-injective resolutions of
+  sheaves of modules on a ringed site (the instance `TauCeti.HasKInjectiveResolutions` for
+  `SheafOfModules O`, Section 0.2) are a target whose statement mentions no object of this
+  roadmap. The functorial K-flat replacement of étale module sheaves and the derived tensor
+  product on their derived category lack `MonoidalPreadditive` and the Koszul braiding for the
+  étale tensor product on complexes of `ModuleCat`-valued étale sheaves and a monoidal structure
+  on Mathlib's `DerivedCategory`; the internal Hom of étale module sheaves and the Koszul
+  braiding on their complexes are data, so they are not stated with `sorry`.
   Tensor–Hom, Koszul realization, perfect-scheme base change and
   algebraic-space perfect pushforward additionally need enhanced functors and
   quasicoherent/perfect subcategories.
 * Layer E3: relative Kan-extension lifting, representability, adjoints and accessible
   localization lack the supplied coherent functor categories and presentability carriers.
 * Layer E2:towers: multiplicative limit filtrations lack coherent stable towers and mapping
-  spectra. Layer E2: slice and cover invariance, relative-tower epimorphisms and countable-product
-  exactness lack the supplied repleteness predicate of SchemeAndStackFoundations §2.17 in the
-  pinned libraries. Enhanced Postnikov convergence and hypercover/h-descent additionally lack
-  D∞(O), sheaves of spaces and coherent hypercovers.
+  spectra. Layer E2: the slice and cover permanence of `TauCeti.IsReplete` (E2.1) are lemmas
+  kept in the README, not headlines; enhanced Postnikov convergence, the Milnor sequence and
+  hypercover/h-descent lack D∞(O), sheaves of spaces and coherent hypercovers.
 * Layer E4: sheaf completion and coefficient-system reconstruction lack local enhanced
   completion, completed tensor and coherent coefficient-system categories.
 * Layers E5:abstract, E5:presentability and E5:descent: Barr–Beck–Lurie, Ind comparisons,
@@ -148,21 +159,6 @@ end InvertibleObjects
 
 section RegularRings
 
-open IsLocalRing
-
-/-- **Global dimension of regular rings** (`isRegularRing_projectiveDimension_le`, Section E1.6;
-Stacks 00OE): over a regular ring of Krull dimension at most `d`, every module, finitely
-generated or not, has projective dimension at most `d`. -/
-theorem isRegularRing_projectiveDimension_le (R : Type u) [CommRing R] [IsRegularRing R] (d : ℕ)
-    (hd : ringKrullDim R ≤ d) (M : ModuleCat.{u} R) : HasProjectiveDimensionLE M d := by
-  sorry
-
-/-- **Kunz's theorem, forward direction** (`frobenius_flat_of_isRegular`, Section E1.6; Stacks
-0EC0): the absolute Frobenius of a regular ring of characteristic `p` is flat. -/
-theorem frobenius_flat_of_isRegular (R : Type u) [CommRing R] (p : ℕ) [Fact p.Prime]
-    [CharP R p] [IsRegularRing R] : (frobenius R p).Flat := by
-  sorry
-
 /-- **Kunz's theorem, converse** (`isRegular_of_frobenius_flat`, Section E1.6; BS17 Corollary
 11.35): a Noetherian ring of characteristic `p` with flat Frobenius is regular. -/
 theorem isRegular_of_frobenius_flat (R : Type u) [CommRing R] (p : ℕ) [Fact p.Prime]
@@ -172,58 +168,6 @@ theorem isRegular_of_frobenius_flat (R : Type u) [CommRing R] (p : ℕ) [Fact p.
 end RegularRings
 
 section PerfectRings
-
-/-- **Frobenius-root ideals** (`frobeniusRootIdeal`, Section E1.6): the increasing union of the
-ideals generated by the `p^n`-th roots of `f` in a perfect `𝔽_p`-algebra
-(BS17, proof of Lemma 3.16). -/
-noncomputable def frobeniusRootIdeal (R : Type u) [CommRing R] (p : ℕ) [Fact p.Prime] [CharP R p]
-    [PerfectRing R p] (f : R) : Ideal R :=
-  ⨆ n : ℕ, Ideal.span {(iterateFrobeniusEquiv R p n).symm f}
-
-/-- The Frobenius-root ideal equals `√(f)` (`frobeniusRootIdeal_radical`, Section E1.6). -/
-theorem frobeniusRootIdeal_radical (R : Type u) [CommRing R] (p : ℕ) [Fact p.Prime]
-    [CharP R p] [PerfectRing R p] (f : R) :
-    frobeniusRootIdeal R p f = (Ideal.span {f}).radical := by
-  sorry
-
-/-- **Flatness and idempotence of Frobenius-root ideals** (`frobeniusRootIdeal_flat`,
-BS17 proof of Lemma 3.16). -/
-theorem frobeniusRootIdeal_flat (R : Type u) [CommRing R] (p : ℕ) [Fact p.Prime] [CharP R p]
-    [PerfectRing R p] (f : R) :
-    Module.Flat R (frobeniusRootIdeal R p f) ∧
-      frobeniusRootIdeal R p f * frobeniusRootIdeal R p f = frobeniusRootIdeal R p f := by
-  sorry
-
-/-- **Tor independence of perfect algebras** (`perfectRing_tor_eq_zero`, BS17 Lemma 3.16).
-All three rings are perfect; the statement is false for arbitrary modules over a perfect ring
-(the non-perfect quotient-module counterexample in README E1.6). -/
-theorem perfectRing_tor_eq_zero (A B C : Type u) [CommRing A] [CommRing B] [CommRing C]
-    [Algebra A B] [Algebra A C] (p : ℕ) [Fact p.Prime]
-    [CharP A p] [CharP B p] [CharP C p]
-    [PerfectRing A p] [PerfectRing B p] [PerfectRing C p] (i : ℕ) :
-    IsZero (((CategoryTheory.Tor (ModuleCat.{u} A) (i + 1)).obj (ModuleCat.of A B)).obj
-      (ModuleCat.of A C)) := by
-  sorry
-
-/-- **The perfect polynomial algebra over `R`** (`perfectPolynomialAlgebra`, README E1.6): the
-perfection `PerfectClosure (MvPolynomial (Fin n) R) p` of `R[X₁, …, Xₙ]` is an `R`-algebra
-through the constants `MvPolynomial.C` followed by the map to the perfection. -/
-noncomputable instance perfectPolynomialAlgebra (R : Type u) [CommRing R] (p : ℕ) [Fact p.Prime]
-    [CharP R p] (n : ℕ) : Algebra R (PerfectClosure (MvPolynomial (Fin n) R) p) :=
-  ((PerfectClosure.of (MvPolynomial (Fin n) R) p).comp MvPolynomial.C).toAlgebra
-
-/-- The quotient of a perfect polynomial algebra by the radical of `m` equations has
-Tor dimension at most `m` over the base (`perfectPresentation_torDimension_le`, README E1.6;
-BS17 Proposition 11.29). The `R`-module structure of the quotient comes from
-`perfectPolynomialAlgebra`. -/
-theorem perfectPresentation_torDimension_le (R : Type u) [CommRing R]
-    (p : ℕ) [Fact p.Prime] [CharP R p] [PerfectRing R p]
-    (n m : ℕ) (f : Fin m → MvPolynomial (Fin n) R) (M : ModuleCat.{u} R) (i : ℕ) :
-    let S := PerfectClosure (MvPolynomial (Fin n) R) p ⧸ (Ideal.span (Set.range
-      (fun j => PerfectClosure.of (MvPolynomial (Fin n) R) p (f j)))).radical
-    IsZero (((CategoryTheory.Tor (ModuleCat.{u} R) (m + i + 1)).obj
-      (ModuleCat.of R S)).obj M) := by
-  sorry
 
 /-- Every module over a perfect quotient of the perfection of a regular ring of
 dimension at most `d` has projective dimension at most `d + 1`
@@ -292,37 +236,6 @@ theorem valuationSaturated_finite_free
   sorry
 
 end ValuationModules
-
-/-! ## Layer E2:towers: Coherent towers and pro-towers -/
-
-section ProTowers
-
-/-- **Pro-zero towers** (`IsProZero`, Section E2:towers.2): every stage is killed by a later
-transition map. This is a condition on transitions, not on the limit. -/
-def IsProZero {A : Type u} [Category.{v} A] [HasZeroMorphisms A] (F : ℕᵒᵖ ⥤ A) : Prop :=
-  ∀ n : ℕ, ∃ m : ℕ, ∃ h : n ≤ m, F.map (homOfLE h).op = 0
-
-/-- Ordinary abelian pro-isomorphisms have pro-zero kernel and cokernel towers. This
-predicate is distinct from the stable null-transition condition used for descendability. -/
-def IsProIsomorphism {A : Type u} [Category.{v} A] [Abelian A]
-    {F G : ℕᵒᵖ ⥤ A} (f : F ⟶ G) : Prop :=
-  IsProZero (kernel f) ∧ IsProZero (cokernel f)
-
-/-- Cofinal monotone reindexing preserves and reflects pro-zero towers
-(`proZero_cofinal`, README E2:towers.2). -/
-theorem proZero_cofinal {A : Type u} [Category.{v} A] [HasZeroMorphisms A]
-    (F : ℕᵒᵖ ⥤ A) (φ : ℕ → ℕ) (hφ : Monotone φ)
-    (hcofinal : ∀ n, ∃ m, n ≤ φ m) :
-    IsProZero (hφ.functor.op ⋙ F) ↔ IsProZero F := by
-  sorry
-
-/-- Pro-isomorphisms compose (`proIso_comp`). -/
-theorem proIso_comp {A : Type u} [Category.{v} A] [Abelian A]
-    {F G H : ℕᵒᵖ ⥤ A} {f : F ⟶ G} {g : G ⟶ H}
-    (hf : IsProIsomorphism f) (hg : IsProIsomorphism g) : IsProIsomorphism (f ≫ g) := by
-  sorry
-
-end ProTowers
 
 /-! ## Layer E4: Derived completion of sheaves and coefficient reconstruction -/
 
