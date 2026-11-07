@@ -27,8 +27,10 @@ models and the source-normalized lowering construction. The SO/Sp classification
 character and branching statements lack their rational highest-weight models and
 the comparison from group differentiation to the abstract Lie modules; the
 symplectic multiplicity basis additionally lacks the Mickelsson operators on those
-models. The generic rational group/Lie bridge lacks the compatible bundled
-rational-action/differentiation interface. These constructions remain README
+models. The group/Lie bridge of README §3A.2 on the matrix-group representations
+lacks a differentiation of a rational `Representation`; its comodule-level form is
+the native `Submodule.exists_subcomodule_iff_forall_differential_mem`, consumed and
+not restated. These constructions remain README
 targets; no unspecified representation, vector or endomorphism replaces them.
 The tensor-multiplicity theorem of Layer 4 is stated on the native Schur images
 and Schur polynomials: the multiplicity of a Schur module in a tensor product of
@@ -60,7 +62,8 @@ theorem rational_irreducible_classification (n : ℕ) (W : FDRep ℂ (GL (Fin n)
     ∃! l : TauCeti.DominantWeight n, Nonempty (W ≅ TauCeti.rationalWeylFDRep ℂ n l) := sorry
 
 /-- A Schur module of admissible height is the rational Weyl module of its row weight. -/
-theorem schurFunctor_iso_irreducible (n : ℕ) (μ : YoungDiagram) (hμ : μ.colLen 0 ≤ n) :
+theorem nonempty_schurFunctor_iso_rationalWeylFDRep (n : ℕ) (μ : YoungDiagram)
+    (hμ : μ.colLen 0 ≤ n) :
     Nonempty (TauCeti.schurFunctor n μ ≅
       TauCeti.rationalWeylFDRep ℂ n (TauCeti.weightOfShape n μ)) := sorry
 
