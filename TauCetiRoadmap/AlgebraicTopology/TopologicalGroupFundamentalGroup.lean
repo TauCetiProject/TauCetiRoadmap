@@ -1,11 +1,12 @@
-import Mathlib.AlgebraicTopology.FundamentalGroupoid.FundamentalGroup
-import Mathlib.Topology.Homotopy.Product
-import Mathlib.Topology.Algebra.Group.Basic
-import Mathlib.GroupTheory.EckmannHilton
+module
 
-/-! Suggested forms accompany the definitive roadmap prose; they are not an
-exhaustive checklist. The constructions below use the native path quotient and
-its existing group multiplication, whose order is reversed path composition. -/
+public import Mathlib
+
+/-! Suggested forms for Stage 1.6, the fundamental group of a space with a continuous unital
+multiplication. The constructions below use the native path quotient and its existing group
+multiplication, whose order is reversed path composition. -/
+
+@[expose] public section
 
 namespace TauCetiRoadmap.AlgebraicTopology.TopologicalGroupFundamentalGroup
 

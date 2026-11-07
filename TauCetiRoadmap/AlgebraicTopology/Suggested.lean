@@ -1,35 +1,72 @@
-import Mathlib
-import TauCeti.AlgebraicTopology.Singular.Twisted.Relative
-import TauCeti.AlgebraicTopology.Cohomology.Kronecker
-import TauCeti.AlgebraicTopology.Cohomology.HomotopyInvariance
-import TauCeti.AlgebraicTopology.EilenbergMacLane.Basic
-import TauCeti.AlgebraicTopology.Cohomology.Basic
-import TauCeti.AlgebraicTopology.Cohomology.Twisted.Relative
-import TauCeti.AlgebraicTopology.Cohomology.Cap.Basic
-import TauCeti.AlgebraicTopology.Cohomology.Cup
-import TauCeti.AlgebraicTopology.Cellular.Comparison
-import TauCeti.AlgebraicTopology.Cellular.Coproduct
-import TauCeti.AlgebraicTopology.FundamentalGroupoid.Cech.Colimit
-import TauCeti.AlgebraicTopology.Singular.Excision
-import TauCeti.AlgebraicTopology.Singular.MayerVietoris.Basic
-import TauCeti.AlgebraicTopology.Singular.Twisted.Functoriality
-import TauCeti.AlgebraicTopology.Singular.Sphere
-import TauCeti.AlgebraicTopology.Singular.DiskSphere
-import TauCeti.AlgebraicTopology.Singular.EilenbergZilber
-import TauCeti.AlgebraicTopology.Cellular.EulerCharacteristic.Singular
-import TauCeti.Topology.Homotopy.HomotopyGroup.Map
-import TauCeti.Topology.Homotopy.HomotopyGroup.Product
-import TauCeti.Topology.Homotopy.Extension.CWComplex
-import TauCeti.Topology.Homotopy.Extension.DeformationRetract
-import TauCeti.Topology.Homotopy.Extension.MappingCylinder
+module
+
+public import Mathlib
+public import TauCeti.AlgebraicTopology.Singular.Twisted.Relative
+public import TauCeti.AlgebraicTopology.Cohomology.Kronecker
+public import TauCeti.AlgebraicTopology.Cohomology.HomotopyInvariance
+public import TauCeti.AlgebraicTopology.EilenbergMacLane.Basic
+public import TauCeti.AlgebraicTopology.Cohomology.Basic
+public import TauCeti.AlgebraicTopology.Cohomology.Twisted.Relative
+public import TauCeti.AlgebraicTopology.Cohomology.Cap.Basic
+public import TauCeti.AlgebraicTopology.Cohomology.Cup
+public import TauCeti.AlgebraicTopology.Cellular.Comparison
+public import TauCeti.AlgebraicTopology.Cellular.Coproduct
+public import TauCeti.AlgebraicTopology.FundamentalGroupoid.Cech.Colimit
+public import TauCeti.AlgebraicTopology.Singular.Excision
+public import TauCeti.AlgebraicTopology.Singular.MayerVietoris.Basic
+public import TauCeti.AlgebraicTopology.Singular.Twisted.Functoriality
+public import TauCeti.AlgebraicTopology.Singular.Sphere
+public import TauCeti.AlgebraicTopology.Singular.DiskSphere
+public import TauCeti.AlgebraicTopology.Singular.EilenbergZilber
+public import TauCeti.AlgebraicTopology.Cellular.EulerCharacteristic.Singular
+public import TauCeti.Topology.Homotopy.HomotopyGroup.Map
+public import TauCeti.Topology.Homotopy.HomotopyGroup.Product
+public import TauCeti.Topology.Homotopy.Extension.CWComplex
+public import TauCeti.Topology.Homotopy.Extension.DeformationRetract
+public import TauCeti.Topology.Homotopy.Extension.MappingCylinder
 
 /-!
 # Algebraic topology of spaces and manifolds: target signatures
 
-**This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. The declarations below suggest Lean forms for load-bearing interfaces in Mathlib's
-vocabulary; proving them does not by itself finish a stage or the roadmap.
+The roadmap is `README.md`; this file is not the roadmap. It states, against the pinned Mathlib
+and Tau Ceti, the roadmap's headline theorems that are statable on native carriers, each with
+`sorry`, together with the simple definitions they need: the compact-support theorem for
+locally represented top sections (Stage 6.3) and Poincaré duality with `ℤ/2` coefficients
+(Stage 6.4), the cellular connectivity range (Stage 8.1), finite CW type of compact manifolds and
+homotopy invariance of the cellular Euler characteristic (Stages 7 and 8.7), Hurewicz in degree
+one and in higher degrees (Stage 8.3), Whitehead and homological Whitehead (Stage 8.5), the
+`lim¹` vanishing of surjective towers (Stage 6.0), the `K(π, 1)` property of the bar model
+(Stage 8.8a), representability of `H^n(-; A)` by every `K(A, n)` model (Stage 8.10), the pair
+quotient comparisons, relative CW pushouts and cofibration extensions (Stage 4.5), Brouwer
+(Stage 2.7), proper homotopy rectification (Stage 8.5) and Lusternik–Schnirelmann category and
+cup length (the categorical supplement after Stage 6.2).
+
+Headline theorems not statable at the pins, and what each lacks:
+
+* the Serre spectral sequence with its monodromy local system (Stage 5.5): the spectral sequence
+  of a Serre fibration and its fibre-transport system are constructions of the roadmap;
+* the transfer of a finite cover with `p_* ∘ transfer = d` and the deck-sum formula, and the
+  Cartan–Leray spectral sequence of a regular cover (Stage 5.3): transfer is a chain map the
+  roadmap builds, and the deck chain complex in `Rep R G` is its construction;
+* the cellular–singular chain comparison in arbitrary dimension (Stage 4.2): the chain map is
+  data built on the roadmap's cellular representatives;
+* integral and twisted Poincaré–Lefschetz duality and the twisted relative fundamental class
+  (Stages 6.3–6.4): the homological orientation local system is a construction of the roadmap;
+* relative homotopy groups, their exact sequence and relative Hurewicz (Stages 8.1 and 8.4): the
+  pinned libraries have no relative homotopy groups;
+* the Hurewicz map itself and Hurewicz modulo a Serre class (Stages 8.3 and 8.8d): the map is
+  built from the cube-to-sphere quotient and the sphere's reference class, and a
+  `C`-isomorphism statement is a statement about that map;
+* the relative obstruction class with local coefficients (Stage 8.9): the pinned libraries have
+  no action of `π₁` on `π_n`, so the coefficient system of the obstruction cochain cannot be
+  written;
+* the functorial abelian family `K(A, n)` with its normalized identifications (Stage 8.8c) and
+  the ordinary EM loop comparison and cohomology suspension (Stage 8.11): they are data.
+
+The `#check` lines record native declarations that the stages consume.
 -/
+
+@[expose] public section
 
 namespace TauCetiRoadmap.AlgebraicTopology
 
@@ -47,11 +84,11 @@ noncomputable section
 
 universe u v
 
-private abbrev SingularChains (R : Type u) [CommRing R] (M : ModuleCat.{u} R)
+abbrev SingularChains (R : Type u) [CommRing R] (M : ModuleCat.{u} R)
     (X : TopCat.{u}) : ChainComplex (ModuleCat.{u} R) ℕ :=
   ((AlgebraicTopology.singularChainComplexFunctor (ModuleCat.{u} R)).obj M).obj X
 
-private abbrev SingularHomology (R : Type u) [CommRing R] (M : ModuleCat.{u} R)
+abbrev SingularHomology (R : Type u) [CommRing R] (M : ModuleCat.{u} R)
     (X : TopCat.{u}) (n : ℕ) : ModuleCat.{u} R :=
   ((AlgebraicTopology.singularHomologyFunctor (ModuleCat.{u} R) n).obj M).obj X
 
@@ -83,18 +120,6 @@ noncomputable def relativeSingularHomology (R : Type*) [CommRing R] (n : ℕ) :
   relativeSingularChainComplex R ⋙
     (Functor.whiskeringRight _ _ _).obj
       (HomologicalComplex.homologyFunctor (ModuleCat.{u} R) (ComplexShape.down ℕ) n)
-
-/-- The quotient of absolute chains on `X` by absolute chains on `A`. -/
-noncomputable def relativeChainQuotient (R : Type u) [CommRing R]
-    (M : ModuleCat.{u} R) (X : TopPair.{u}) : ChainComplex (ModuleCat.{u} R) ℕ :=
-  cokernel (((AlgebraicTopology.singularChainComplexFunctor (ModuleCat.{u} R)).obj M).map X.map)
-
-/-- The `SSetPair` construction is naturally the quotient `C_*(X) / C_*(A)`. -/
-noncomputable def relativeSingularChainComplexIsoQuotient (R : Type u) [CommRing R]
-    (M : ModuleCat.{u} R) (X : TopPair.{u}) :
-    (((relativeSingularChainComplex R).obj M).obj X) ≅ relativeChainQuotient R M X :=
-  (X.isColimitCokernelCoforkSingularChainComplex M).coconePointUniqueUpToIso
-    (colimit.isColimit _)
 
 /-- The native chain-level sequence retains the actual relative-chain quotient map. -/
 noncomputable abbrev relativeChainShortComplex (R : Type u) [CommRing R]
@@ -156,18 +181,7 @@ noncomputable example (R : Type u) [CommRing R] (X : Type u)
       (TauCeti.complexBasePair (Set.univ : Set X)).singularHomology (ModuleCat.of R R) n :=
   TauCeti.cellularSingularHomologyIso (Set.univ : Set X) (ModuleCat.of R R) n
 
-/-- A chosen representative on the native complex; naturality is only up to chain homotopy. -/
-noncomputable def cellularToSingular (R : Type u) [CommRing R]
-    (X : Type u) [TopologicalSpace X] [T2Space X] [CWComplex (Set.univ : Set X)] :
-    cellularChainComplex R X ⟶ SingularChains R (ModuleCat.of R R) (TopCat.of X) := by
-  sorry
-
-theorem cellularToSingular_quasiIso (R : Type u) [CommRing R]
-    (X : Type u) [TopologicalSpace X] [T2Space X] [CWComplex (Set.univ : Set X)] :
-    QuasiIso (cellularToSingular R X) := by
-  sorry
-
-/-! ## Finite covers, transfer, and Cartan--Leray -/
+/-! ## Finite covers and deck actions -/
 
 /-- A finite cover of constant degree. General finite covers are handled componentwise. -/
 structure FiniteCover (E B : TopCat.{u}) where
@@ -176,18 +190,6 @@ structure FiniteCover (E B : TopCat.{u}) where
   degree : ℕ
   finite_fiber : ∀ b : B, Finite {e : E // p e = b}
   fiber_card : ∀ b : B, Nat.card {e : E // p e = b} = degree
-
-noncomputable def finiteCoverTransfer (R : Type u) [CommRing R] :
-    ∀ (M : ModuleCat.{u} R) {E B : TopCat.{u}} (D : FiniteCover E B),
-      SingularChains R M B ⟶ SingularChains R M E := by
-  sorry
-
-theorem finiteCover_transfer_push (R : Type u) [CommRing R]
-    (M : ModuleCat.{u} R) {E B : TopCat.{u}} (D : FiniteCover E B) :
-    finiteCoverTransfer R M D ≫
-      ((AlgebraicTopology.singularChainComplexFunctor (ModuleCat.{u} R)).obj M).map D.p =
-        D.degree • 𝟙 _ := by
-  sorry
 
 /-- A surjective regular cover datum. Simple transitivity alone does not imply surjectivity. -/
 structure RegularDeckAction {E B : TopCat.{u}} (P : FiniteCover E B)
@@ -202,21 +204,12 @@ abbrev RegularDeckAction.mulAction {E B : TopCat.{u}} {P : FiniteCover E B}
     {G : Type u} [Group G] (D : RegularDeckAction P G) : MulAction G E :=
   MulAction.compHom E D.deck
 
-/-- The native quotient-cover vocabulary includes the actual surjectivity proof. -/
+/-- The native quotient-cover vocabulary includes the actual surjectivity proof. The action
+on `E` is any action agreeing with the deck homomorphism, for example `D.mulAction`. -/
 theorem RegularDeckAction.isQuotientCoveringMap {E B : TopCat.{u}}
-    {P : FiniteCover E B} {G : Type u} [Group G] (D : RegularDeckAction P G) :
-    letI := D.mulAction
+    {P : FiniteCover E B} {G : Type u} [Group G] [MulAction G E] (D : RegularDeckAction P G)
+    (hD : ∀ (g : G) (x : E), g • x = D.deck g x) :
     IsQuotientCoveringMap P.p G := by
-  sorry
-
-theorem finiteCover_push_transfer_regular (R : Type u) [CommRing R]
-    (M : ModuleCat.{u} R) {E B : TopCat.{u}} (P : FiniteCover E B)
-    (G : Type u) [Group G] [Fintype G] (D : RegularDeckAction P G) :
-    ((AlgebraicTopology.singularChainComplexFunctor (ModuleCat.{u} R)).obj M).map P.p ≫
-      finiteCoverTransfer R M P =
-        ∑ g : G,
-            ((AlgebraicTopology.singularChainComplexFunctor (ModuleCat.{u} R)).obj M).map
-            (TopCat.ofHom ⟨D.deck g, (D.deck g).continuous_toFun⟩) := by
   sorry
 
 /-- The left deck action on the actual constant-coefficient singular complex. -/
@@ -225,39 +218,6 @@ noncomputable abbrev regularDeckChainMap (R : Type u) [CommRing R]
     (G : Type u) [Group G] (D : RegularDeckAction P G) (g : G) :=
   ((AlgebraicTopology.singularChainComplexFunctor (ModuleCat.{u} R)).obj M).map
     (TopCat.ofHom ⟨D.deck g, (D.deck g).continuous_toFun⟩)
-
-/-- Bundle that deck action in the native representation category degree by degree. -/
-noncomputable def regularDeckSingularComplex (R : Type u) [CommRing R] :
-    ∀ (M : ModuleCat.{u} R) {E B : TopCat.{u}} (P : FiniteCover E B)
-      (G : Type u) [Group G] (D : RegularDeckAction P G),
-      ChainComplex (Rep.{u} R G) ℕ := by
-  sorry
-
-noncomputable def regularDeckSingularComplexForgetIso (R : Type u) [CommRing R]
-    (M : ModuleCat.{u} R) {E B : TopCat.{u}} (P : FiniteCover E B)
-    (G : Type u) [Group G] (D : RegularDeckAction P G) :
-    ((forget₂ (Rep.{u} R G) (ModuleCat.{u} R)).mapHomologicalComplex
-      (ComplexShape.down ℕ)).obj (regularDeckSingularComplex R M P G D) ≅
-      SingularChains R M E := by
-  sorry
-
-/-- The forgetful comparison identifies the coefficient action with deck pushforward. -/
-theorem regularDeckSingularComplex_action (R : Type u) [CommRing R]
-    (M : ModuleCat.{u} R) {E B : TopCat.{u}} (P : FiniteCover E B)
-    (G : Type u) [Group G] (D : RegularDeckAction P G) (q : ℕ) (g : G) :
-    ModuleCat.ofHom (((regularDeckSingularComplex R M P G D).X q).ρ g) ≫
-      (regularDeckSingularComplexForgetIso R M P G D).hom.f q =
-        (regularDeckSingularComplexForgetIso R M P G D).hom.f q ≫
-          (regularDeckChainMap R M P G D g).f q := by
-  sorry
-
-/-- Quotient chains compute B because D.pSurjective is part of the input. -/
-noncomputable def regularCoverCoinvariantsChainsIso (R : Type u) [CommRing R]
-    (M : ModuleCat.{u} R) {E B : TopCat.{u}} (P : FiniteCover E B)
-    (G : Type u) [Group G] (D : RegularDeckAction P G) :
-    ((Rep.coinvariantsFunctor R G).mapHomologicalComplex (ComplexShape.down ℕ)).obj
-      (regularDeckSingularComplex R M P G D) ≅ SingularChains R M B := by
-  sorry
 
 /-- The coefficient action is g ↦ (D.deck g)_*, with no extra inversion. -/
 noncomputable def coverHomologyAction (R : Type u) [CommRing R]
@@ -289,20 +249,6 @@ noncomputable abbrev coverHomologyRep (R : Type u) [CommRing R]
     (M : ModuleCat.{u} R) {E B : TopCat.{u}} (P : FiniteCover E B)
     (G : Type u) [Group G] (D : RegularDeckAction P G) (q : ℕ) : Rep.{u} R G :=
   Rep.of (coverHomologyAction R M P G D q)
-
-noncomputable def cartanLeraySpectralSequence (R : Type u) [CommRing R] :
-    ∀ (M : ModuleCat.{u} R) {E B : TopCat.{u}} (P : FiniteCover E B)
-      (G : Type u) [Group G] [Fintype G] (D : RegularDeckAction P G),
-      SpectralSequence (ModuleCat.{u} R)
-        (fun r ↦ ComplexShape.spectralSequenceNat ⟨-r, r - 1⟩) 2 := by
-  sorry
-
-noncomputable def cartanLerayE2Iso (R : Type u) [CommRing R]
-    (M : ModuleCat.{u} R) {E B : TopCat.{u}} (P : FiniteCover E B)
-    (G : Type u) [Group G] [Fintype G] (D : RegularDeckAction P G) (p q : ℕ) :
-    ((cartanLeraySpectralSequence R M P G D).page 2).X ⟨p, q⟩ ≅
-      _root_.groupHomology (coverHomologyRep R M P G D q) p := by
-  sorry
 
 /-- The native Alexander–Whitney/shuffle equivalence supplies the constant-coefficient
 product maps; local coefficients and Kunneth are extensions of this interface. -/
@@ -367,37 +313,6 @@ noncomputable abbrev restrictCoefficientSystem (R : Type) [CommRing R] (X : TopC
     (L : LocalCoefficientSystem R X) : LocalCoefficientSystem ℤ X :=
   L ⋙ ModuleCat.restrictScalars (Int.castRingHom R)
 
-/-- Scalar restriction commutes with relative twisted chains, sending every relative
-simplex with coefficient ℓ to that same simplex with coefficient ℓ. -/
-noncomputable def twistedRestrictScalarsChainIso (R : Type) [CommRing R]
-    (P : TopPair) (L : LocalCoefficientSystem R P.fst) :
-    P.twistedChainComplex (restrictCoefficientSystem R P.fst L) ≅
-      ((ModuleCat.restrictScalars (Int.castRingHom R)).mapHomologicalComplex
-        (ComplexShape.down ℕ)).obj (P.twistedChainComplex L) := by
-  sorry
-
-/-- This generator identity fixes the scalar-comparison map, including its sign. -/
-theorem twistedRestrictScalarsChainIso_simplex (R : Type) [CommRing R]
-    (P : TopPair) (L : LocalCoefficientSystem R P.fst) (k : ℕ)
-    (σ : (TopCat.toSSet.obj P.fst).obj (Opposite.op (SimplexCategory.mk k)))
-    (ℓ : L.obj (TauCeti.LocalCoefficientSystem.initialVertex σ)) :
-    (twistedRestrictScalarsChainIso R P L).hom.f k
-      ((P.twistedChainComplexπ (restrictCoefficientSystem R P.fst L)).f k
-        ((restrictCoefficientSystem R P.fst L).ιTwistedChainComplex k σ ℓ)) =
-      (P.twistedChainComplexπ L).f k (L.ιTwistedChainComplex k σ ℓ) := by
-  sorry
-
-/-- Homology comparison is induced by the normalized chain isomorphism and the native
-exact-functor homology comparison, rather than a separately chosen fibre isomorphism. -/
-noncomputable def twistedRestrictScalarsHomologyIso (R : Type) [CommRing R]
-    (P : TopPair) (L : LocalCoefficientSystem R P.fst) (n : ℕ) :
-    twistedRelativeHomology ℤ P (restrictCoefficientSystem R P.fst L) n ≅
-      (ModuleCat.restrictScalars (Int.castRingHom R)).obj
-        (twistedRelativeHomology R P L n) :=
-  HomologicalComplex.homologyMapIso (twistedRestrictScalarsChainIso R P L) n ≪≫
-    ((P.twistedChainComplex L).sc n).mapHomologyIso
-      (ModuleCat.restrictScalars (Int.castRingHom R))
-
 /-- Actual inclusion from a pair to the pair punctured at a point outside its subspace. -/
 noncomputable def relativeLocalPairMap (P : TopPair.{u}) (x : P.fst)
     (hx : x ∉ Set.range (P.map : P.snd → P.fst)) : P ⟶ puncturedPair P.fst x :=
@@ -434,196 +349,12 @@ example (m : ℕ) {H M : Type} [TopologicalSpace H] [TopologicalSpace M]
     [ChartedSpace H M] [IsManifold I ∞ M] : IsOpen (I.interior M) :=
   I.isOpen_interior (M := M) (n := ∞) (by simp)
 
-/-! ### Fresh-copy Euclidean rechart of an arbitrary model interior
-
-The interior is carried by a fresh type indexed by the linear reparameterization `e`.
-Its preferred charts are `e ∘ I ∘ chartAt`; the original manifold retains its charted-space
-instance.
--/
-
-namespace FreshInteriorRechart
-
-abbrev EuclideanModel (m : ℕ) := modelWithCornersSelf ℝ (EuclideanSpace ℝ (Fin m))
-
-structure Carrier {E H M : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
-    [TopologicalSpace H] [TopologicalSpace M]
-    (I : ModelWithCorners ℝ E H) [ChartedSpace H M] (m : ℕ)
-    (e : E ≃L[ℝ] EuclideanSpace ℝ (Fin m)) where
-  point : I.interior M
-
-variable {E H M : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
-variable [FiniteDimensional ℝ E] [TopologicalSpace H] [TopologicalSpace M]
-variable (I : ModelWithCorners ℝ E H) [ChartedSpace H M] [IsManifold I ∞ M]
-variable (m : ℕ) (e : E ≃L[ℝ] EuclideanSpace ℝ (Fin m))
-
-local notation "C" => Carrier (E := E) (H := H) (M := M) I m e
-
-instance carrierTopologicalSpace : TopologicalSpace C :=
-  TopologicalSpace.induced (fun x => x.point) inferInstance
-
-noncomputable def carrierEquivInterior : C ≃ I.interior M :=
-  Equiv.mk (fun x => x.point) (fun x => ⟨x⟩)
-    (by intro x; cases x; rfl) (by intro x; rfl)
-
-/-- The carrier is homeomorphic to the actual interior subtype, without a boundaryless
-hypothesis. -/
-noncomputable def carrierHomeomorphInterior : C ≃ₜ I.interior M where
-  toEquiv := carrierEquivInterior I m e
-  continuous_toFun := continuous_induced_dom
-  continuous_invFun := continuous_induced_rng.mpr continuous_id
-
-instance carrierT2Space [T2Space M] : T2Space C := by
-  let : T2Space (I.interior M) := inferInstance
-  exact (carrierHomeomorphInterior I m e).symm.t2Space
-
-instance carrierSecondCountable [SecondCountableTopology M] : SecondCountableTopology C := by
-  let : SecondCountableTopology (I.interior M) := inferInstance
-  exact (carrierHomeomorphInterior I m e).secondCountableTopology
-
-/-- Preferred charts on the fresh carrier. The exact coordinate formula is recorded in
-`chartAt_apply`; the geometric construction is the restriction of the original extended chart to
-the open interior, followed by the linear homeomorphism `e`. -/
-noncomputable def chartAt [IsManifold I ∞ M] :
-    (x : C) → OpenPartialHomeomorph C (EuclideanSpace ℝ (Fin m)) := by
-  sorry
-
-theorem chartAt_mem_source (x : C) :
-    x ∈ (chartAt I m e x).source := by
-  sorry
-
-/-- Exact arbitrary-point chart formula, including the chosen reparameterization `e`. -/
-theorem chartAt_apply (x y : C)
-    (hy : y ∈ (chartAt I m e x).source) :
-    chartAt I m e x y = e (I ((_root_.chartAt H (x.point : M)) (y.point : M))) := by
-  sorry
-
-@[instance_reducible]
-noncomputable def chartedSpace :
-    ChartedSpace (EuclideanSpace ℝ (Fin m)) C where
-  atlas := Set.range (chartAt I m e)
-  chartAt := chartAt I m e
-  mem_chart_source := chartAt_mem_source I m e
-  chart_mem_atlas := fun _ => Set.mem_range_self _
-
-theorem isManifold :
-    letI : ChartedSpace (EuclideanSpace ℝ (Fin m)) C :=
-      chartedSpace I m e
-    IsManifold (EuclideanModel m) ∞ C := by
-  sorry
-
-/-- The inclusion of the recharted interior carrier into the original manifold is smooth for
-every model with corners, including manifolds with boundary. -/
-theorem valContMDiff :
-    letI : ChartedSpace (EuclideanSpace ℝ (Fin m)) C := chartedSpace I m e
-    letI : IsManifold (EuclideanModel m) ∞ C := isManifold I m e
-    ContMDiff (EuclideanModel m) I ∞ (fun x : C => (x.point : M)) := by
-  sorry
-
-/-- At each point of the interior carrier, inclusion into the original manifold is a local
-diffeomorphism. The source is boundaryless Euclidean space; the target point is interior even
-when the ambient manifold itself has boundary. The coordinate derivative is `e.symm`, since the
-carrier chart is `e ∘ I ∘ chartAt`. -/
-theorem isLocalDiffeomorph_val (x : C) :
-    letI : ChartedSpace (EuclideanSpace ℝ (Fin m)) C := chartedSpace I m e
-    letI : IsManifold (EuclideanModel m) ∞ C := isManifold I m e
-    IsLocalDiffeomorphAt (EuclideanModel m) I ∞ (fun y : C => (y.point : M)) x := by
-  sorry
-
-/-- The derivative of the carrier inclusion, expressed in the tangent models, is the inverse
-linear reparameterization. This is the precise chart formula used by the inverse-function
-theorem above. -/
-theorem mfderiv_val (x : C) :
-    letI : ChartedSpace (EuclideanSpace ℝ (Fin m)) C := chartedSpace I m e
-    letI : IsManifold (EuclideanModel m) ∞ C := isManifold I m e
-    mfderiv (EuclideanModel m) I (fun y : C => (y.point : M)) x =
-      (e.symm : EuclideanSpace ℝ (Fin m) →L[ℝ] E) := by
-  sorry
-
-/-- Since the target Euclidean model is `modelWithCornersSelf`, boundarylessness follows from
-Mathlib's native `ModelWithCorners.Boundaryless` instance, independently of whether `M` has
-boundary. -/
-theorem boundaryless :
-    letI : ChartedSpace (EuclideanSpace ℝ (Fin m)) C :=
-      chartedSpace I m e
-    BoundarylessManifold (EuclideanModel m) C := by
-  dsimp [EuclideanModel]
-  infer_instance
-
-noncomputable def carrierHomeomorphOriginal [BoundarylessManifold I M] :
-    C ≃ₜ M := by
-  sorry
-
-theorem carrierHomeomorphOriginal_apply [BoundarylessManifold I M] (x : C) :
-    carrierHomeomorphOriginal I m e x = (x.point : M) := by
-  sorry
-
-noncomputable instance carrierSigmaCompact [SigmaCompactSpace M] : SigmaCompactSpace C := by
-  have : SecondCountableTopology H := I.secondCountableTopology
-  have : SecondCountableTopology M := ChartedSpace.secondCountable_of_sigmaCompact H M
-  have : LocallyCompactSpace E := inferInstance
-  have : LocallyCompactSpace H := I.locallyCompactSpace
-  have : LocallyCompactSpace M := ChartedSpace.locallyCompactSpace H M
-  have : LocallyCompactSpace (I.interior M) :=
-    (I.isOpen_interior (M := M) (n := ∞) (by simp)).locallyCompactSpace
-  have : LocallyCompactSpace C :=
-    (carrierHomeomorphInterior I m e).locallyCompactSpace_iff.mpr inferInstance
-  infer_instance
-
-end FreshInteriorRechart
-
-/-- Boundaryless orientation system; the README additionally specifies the collar extension
-for half-space models and comparison with the smooth tangent orientation. -/
-noncomputable def orientationLocalSystem (m : ℕ) (M : Type)
-    [TopologicalSpace M] [T2Space M] [SecondCountableTopology M]
-    [ChartedSpace (EuclideanSpace ℝ (Fin m)) M]
-    [IsManifold (modelWithCornersSelf ℝ (EuclideanSpace ℝ (Fin m))) ∞ M] :
-    LocalCoefficientSystem ℤ (TopCat.of M) where
-  obj := fun x => twistedRelativeHomology ℤ (puncturedPair (TopCat.of M) x.as)
-    ((TauCeti.LocalCoefficientSystem.constantFunctor (TopCat.of M)).obj
-      (ModuleCat.of ℤ ℤ)) m
-  map := by sorry
-  map_id := by sorry
-  map_comp := by sorry
-
-/-- The orientation fibre is integral local top homology, not a separately chosen sign module. -/
-noncomputable def orientationLocalSystemFiberIso (m : ℕ) (M : Type)
-    [TopologicalSpace M] [T2Space M] [SecondCountableTopology M]
-    [ChartedSpace (EuclideanSpace ℝ (Fin m)) M]
-    [IsManifold (modelWithCornersSelf ℝ (EuclideanSpace ℝ (Fin m))) ∞ M] (x : M) :
-    (orientationLocalSystem m M).obj ⟨x⟩ ≅
-      twistedRelativeHomology ℤ (puncturedPair (TopCat.of M) x)
-        ((TauCeti.LocalCoefficientSystem.constantFunctor (TopCat.of M)).obj
-          (ModuleCat.of ℤ ℤ)) m := Iso.refl _
-
-/-- The square orientation pairing is natural in paths, not merely a fibrewise choice.
-`orientationFiberSquareIso_self` pins its o⊗o normalization. Since each fibre
-is free of rank one over ℤ, this normalization makes the pairing unique and
-compatible with orientation transport. -/
-noncomputable def orientationFiberSquareIso (m : ℕ) (M : Type)
-    [TopologicalSpace M] [T2Space M] [SecondCountableTopology M]
-    [ChartedSpace (EuclideanSpace ℝ (Fin m)) M]
-    [IsManifold (modelWithCornersSelf ℝ (EuclideanSpace ℝ (Fin m))) ∞ M] (x : M) :
-    ((orientationLocalSystem m M).obj ⟨x⟩) ⊗[ℤ]
-      ((orientationLocalSystem m M).obj ⟨x⟩) ≃ₗ[ℤ] ℤ := by
-  sorry
-
-/-- Canonical normalization: any integral orientation generator paired with itself is 1. -/
-theorem orientationFiberSquareIso_self (m : ℕ) (M : Type)
-    [TopologicalSpace M] [T2Space M] [SecondCountableTopology M]
-    [ChartedSpace (EuclideanSpace ℝ (Fin m)) M]
-    [IsManifold (modelWithCornersSelf ℝ (EuclideanSpace ℝ (Fin m))) ∞ M]
-    (x : M) (o : (orientationLocalSystem m M).obj ⟨x⟩)
-    (_ho : Submodule.span ℤ {o} = ⊤) :
-    orientationFiberSquareIso m M x (o ⊗ₜ[ℤ] o) = 1 := by
-  sorry
-
 /-- Actual pair inclusion from support on B to support at x∈B. -/
 noncomputable def supportLocalPairMap (X : TopCat.{u}) (B : Set X) (x : X) (hx : x ∈ B) :
     TopPair.ofSubset Bᶜ ⟶ puncturedPair X x :=
-  TopPair.ofSubsetMap (𝟙 X) (fun y hy => by
-    change y ≠ x
-    intro h
-    exact hy (h.symm ▸ hx))
+  TopPair.ofHom (𝟙 X)
+    (TopCat.ofHom ⟨fun y => ⟨y.val, fun h => y.prop (h.symm ▸ hx)⟩,
+      continuous_subtype_val.subtype_mk _⟩)
 
 /-- The supported class maps locally by native pair functoriality. -/
 noncomputable def twistedSupportLocalMap (R : Type u) [CommRing R]
@@ -648,90 +379,6 @@ structure LocallyRepresentedTopSection (R : Type u) [CommRing R]
         ∀ y : X, ∀ hy : y ∈ B,
           twistedSupportLocalMap R X L n B y hy c = localValue y (hBV hy)
 
-/-- Top local homology is a path-transport functor on a boundaryless manifold.
-The construction uses excision on coordinate balls, not arbitrary spaces. -/
-noncomputable def localTopHomologySystem (R : Type) [CommRing R] (m : ℕ) (M : Type)
-    [TopologicalSpace M] [T2Space M] [SecondCountableTopology M]
-    [ChartedSpace (EuclideanSpace ℝ (Fin m)) M]
-    [IsManifold (modelWithCornersSelf ℝ (EuclideanSpace ℝ (Fin m))) ∞ M]
-    (L : LocalCoefficientSystem R (TopCat.of M)) :
-    LocalCoefficientSystem R (TopCat.of M) where
-  obj := fun x => twistedRelativeHomology R (puncturedPair (TopCat.of M) x.as) L m
-  map := by sorry
-  map_id := by sorry
-  map_comp := by sorry
-
-/-- The transport functor's fibre is actual twisted local homology. -/
-noncomputable def localTopHomologyFiberIso (R : Type) [CommRing R] (m : ℕ) (M : Type)
-    [TopologicalSpace M] [T2Space M] [SecondCountableTopology M]
-    [ChartedSpace (EuclideanSpace ℝ (Fin m)) M]
-    [IsManifold (modelWithCornersSelf ℝ (EuclideanSpace ℝ (Fin m))) ∞ M]
-    (L : LocalCoefficientSystem R (TopCat.of M)) (x : M) :
-    (localTopHomologySystem R m M L).obj ⟨x⟩ ≅
-      twistedRelativeHomology R (puncturedPair (TopCat.of M) x) L m := Iso.refl _
-
-/-- The orientation twist puts the coefficient factor first, so R acts on it.
-Its path maps are tensor products of coefficient and orientation transport. -/
-noncomputable def orientationTensorLocalSystem (R : Type) [CommRing R] (m : ℕ) (M : Type)
-    [TopologicalSpace M] [T2Space M] [SecondCountableTopology M]
-    [ChartedSpace (EuclideanSpace ℝ (Fin m)) M]
-    [IsManifold (modelWithCornersSelf ℝ (EuclideanSpace ℝ (Fin m))) ∞ M]
-    (L : LocalCoefficientSystem R (TopCat.of M)) :
-    LocalCoefficientSystem R (TopCat.of M) where
-  obj := fun x => ModuleCat.of R ((L.obj x) ⊗[ℤ] ((orientationLocalSystem m M).obj x))
-  map := fun p => ModuleCat.ofHom
-    (TensorProduct.AlgebraTensorModule.map (L.map p).hom
-      ((orientationLocalSystem m M).map p).hom)
-  map_id := by sorry
-  map_comp := by sorry
-
-noncomputable def orientationTensorFiberIso (R : Type) [CommRing R] (m : ℕ) (M : Type)
-    [TopologicalSpace M] [T2Space M] [SecondCountableTopology M]
-    [ChartedSpace (EuclideanSpace ℝ (Fin m)) M]
-    [IsManifold (modelWithCornersSelf ℝ (EuclideanSpace ℝ (Fin m))) ∞ M]
-    (L : LocalCoefficientSystem R (TopCat.of M)) (x : M) :
-    (orientationTensorLocalSystem R m M L).obj ⟨x⟩ ≅
-      ModuleCat.of R ((L.obj ⟨x⟩) ⊗[ℤ] ((orientationLocalSystem m M).obj ⟨x⟩)) := Iso.refl _
-
-/-- Natural comparison of functors, with the normalization theorem below fixing its sign. -/
-noncomputable def localTopOrientationTensorNatIso (R : Type) [CommRing R] (m : ℕ) (M : Type)
-    [TopologicalSpace M] [T2Space M] [SecondCountableTopology M]
-    [ChartedSpace (EuclideanSpace ℝ (Fin m)) M]
-    [IsManifold (modelWithCornersSelf ℝ (EuclideanSpace ℝ (Fin m))) ∞ M]
-    (L : LocalCoefficientSystem R (TopCat.of M)) :
-    localTopHomologySystem R m M L ≅ orientationTensorLocalSystem R m M L := by
-  sorry
-
-/-- Excision transport inside an open B preserves the local images of one class supported
-on B. This ties path transport directly to the actual supported-relative homology maps. -/
-theorem localTopHomologySystem_transport_supported (R : Type) [CommRing R]
-    (m : ℕ) (M : Type)
-    [TopologicalSpace M] [T2Space M] [SecondCountableTopology M]
-    [ChartedSpace (EuclideanSpace ℝ (Fin m)) M]
-    [IsManifold (modelWithCornersSelf ℝ (EuclideanSpace ℝ (Fin m))) ∞ M]
-    (L : LocalCoefficientSystem R (TopCat.of M)) (B : TopologicalSpace.Opens (TopCat.of M)) (x y : B)
-    (p : (⟨x⟩ : FundamentalGroupoid B) ⟶ ⟨y⟩)
-    (c : twistedRelativeHomology R (TopPair.ofSubset ((B : Set (TopCat.of M))ᶜ)) L m) :
-    (localTopHomologySystem R m M L).map
-      ((FundamentalGroupoid.map
-        (⟨Subtype.val, continuous_subtype_val⟩ : C(B, TopCat.of M))).map p)
-      (twistedSupportLocalMap R (TopCat.of M) L m (B : Set (TopCat.of M)) x.val x.property c) =
-      twistedSupportLocalMap R (TopCat.of M) L m (B : Set (TopCat.of M)) y.val y.property c := by
-  sorry
-
-/-- Multiply an integral relative cycle by a fibre coefficient, using transport from x
-on a coordinate ball and excision. This is the coefficient-extension construction [c·ℓ]. -/
-noncomputable def localCoefficientExtensionClass (R : Type) [CommRing R] (m : ℕ) (M : Type)
-    [TopologicalSpace M] [T2Space M] [SecondCountableTopology M]
-    [ChartedSpace (EuclideanSpace ℝ (Fin m)) M]
-    [IsManifold (modelWithCornersSelf ℝ (EuclideanSpace ℝ (Fin m))) ∞ M]
-    (L : LocalCoefficientSystem R (TopCat.of M)) (x : M) :
-    (c : twistedRelativeHomology ℤ (puncturedPair (TopCat.of M) x)
-      ((TauCeti.LocalCoefficientSystem.constantFunctor (TopCat.of M)).obj
-        (ModuleCat.of ℤ ℤ)) m) → (ℓ : L.obj ⟨x⟩) →
-    twistedRelativeHomology R (puncturedPair (TopCat.of M) x) L m := by
-  sorry
-
 /-- Actual pair inclusion induced by an embedding at a puncture. -/
 noncomputable def embeddingLocalPairMap {U M : TopCat} (f : U ⟶ M)
     (hf : Function.Injective f) (x : U) : puncturedPair U x ⟶ puncturedPair M (f x) :=
@@ -750,197 +397,39 @@ noncomputable def embeddingIntegralLocalMap {U M : TopCat} (f : U ⟶ M)
     TopPair.twistedHomologyMap (embeddingLocalPairMap f hf x)
       ((TauCeti.LocalCoefficientSystem.constantFunctor M).obj (ModuleCat.of ℤ ℤ)) n
 
-/-- The open-excision restriction pin applies to every coordinate ball with its boundaryless
-atlas, viewed as an open embedding U→M; both carriers use explicit manifold instances. -/
-theorem localCoefficientExtensionClass_open (R : Type) [CommRing R] (m : ℕ) (U M : Type)
-    [TopologicalSpace U] [T2Space U] [SecondCountableTopology U]
-    [ChartedSpace (EuclideanSpace ℝ (Fin m)) U]
-    [IsManifold (modelWithCornersSelf ℝ (EuclideanSpace ℝ (Fin m))) ∞ U]
-    [TopologicalSpace M] [T2Space M] [SecondCountableTopology M]
-    [ChartedSpace (EuclideanSpace ℝ (Fin m)) M]
-    [IsManifold (modelWithCornersSelf ℝ (EuclideanSpace ℝ (Fin m))) ∞ M]
-    (f : TopCat.of U ⟶ TopCat.of M) (hf : Function.Injective f) (_ho : IsOpenMap f)
-    (L : LocalCoefficientSystem R (TopCat.of M)) (x : U)
-    (c : twistedRelativeHomology ℤ (puncturedPair (TopCat.of U) x)
-      ((TauCeti.LocalCoefficientSystem.constantFunctor (TopCat.of U)).obj
-        (ModuleCat.of ℤ ℤ)) m) (ℓ : L.obj ⟨f x⟩) :
-    localCoefficientExtensionClass R m M L (f x)
-      (embeddingIntegralLocalMap f hf x m c) ℓ =
-      TopPair.twistedHomologyMap (embeddingLocalPairMap f hf x) L m
-        (localCoefficientExtensionClass R m U
-          ((TauCeti.LocalCoefficientSystem.pullback f.hom).obj L) x c ℓ) := by
-  sorry
+/-- Twisted homology supported in `K`: the relative group of the pair `(X, X \ K)`. -/
+noncomputable abbrev supportedTwistedHomology (R : Type u) [CommRing R] (X : TopCat.{u})
+    (L : LocalCoefficientSystem R X) (n : ℕ) (K : Set X) : ModuleCat.{u} R :=
+  twistedRelativeHomology R (TopPair.ofSubset Kᶜ) L n
 
-/-- For every R, a trivialization after scalar restriction pins extension by the actual
-integral coefficient homology map. The scalar comparison is fixed on chain generators. -/
-theorem localCoefficientExtensionClass_trivialized_R (R : Type) [CommRing R]
-    (m : ℕ) (M : Type)
-    [TopologicalSpace M] [T2Space M] [SecondCountableTopology M]
-    [ChartedSpace (EuclideanSpace ℝ (Fin m)) M]
-    [IsManifold (modelWithCornersSelf ℝ (EuclideanSpace ℝ (Fin m))) ∞ M]
-    (L : LocalCoefficientSystem R (TopCat.of M)) (N : ModuleCat ℤ)
-    (τ : ((TauCeti.LocalCoefficientSystem.constantFunctor (TopCat.of M)).obj N) ≅
-      restrictCoefficientSystem R (TopCat.of M) L)
-    (x : M) (ℓ : N)
-    (c : twistedRelativeHomology ℤ (puncturedPair (TopCat.of M) x)
-      ((TauCeti.LocalCoefficientSystem.constantFunctor (TopCat.of M)).obj
-        (ModuleCat.of ℤ ℤ)) m) :
-    (twistedRestrictScalarsHomologyIso R (puncturedPair (TopCat.of M) x) L m).inv
-      (localCoefficientExtensionClass R m M L x c (τ.hom.app ⟨x⟩ ℓ)) =
-      (puncturedPair (TopCat.of M) x).twistedHomologyCoefficientMap
-        (((TauCeti.LocalCoefficientSystem.constantFunctor (TopCat.of M)).map
-          (ModuleCat.ofHom (LinearMap.toSpanSingleton ℤ N ℓ))) ≫ τ.hom) m c := by
-  sorry
-
-/-- Coefficient multiplication is R-linear in the fibre coefficient. -/
-theorem localCoefficientExtensionClass_smul (R : Type) [CommRing R] (m : ℕ) (M : Type)
-    [TopologicalSpace M] [T2Space M] [SecondCountableTopology M]
-    [ChartedSpace (EuclideanSpace ℝ (Fin m)) M]
-    [IsManifold (modelWithCornersSelf ℝ (EuclideanSpace ℝ (Fin m))) ∞ M]
-    (L : LocalCoefficientSystem R (TopCat.of M)) (x : M)
-    (c : twistedRelativeHomology ℤ (puncturedPair (TopCat.of M) x)
-      ((TauCeti.LocalCoefficientSystem.constantFunctor (TopCat.of M)).obj
-        (ModuleCat.of ℤ ℤ)) m) (r : R) (ℓ : L.obj ⟨x⟩) :
-    localCoefficientExtensionClass R m M L x c (r • ℓ) =
-      r • localCoefficientExtensionClass R m M L x c ℓ := by
-  sorry
-
-/-- Orientation and coefficient transport determine the transport of extension classes. -/
-theorem localCoefficientExtensionClass_transport (R : Type) [CommRing R] (m : ℕ) (M : Type)
-    [TopologicalSpace M] [T2Space M] [SecondCountableTopology M]
-    [ChartedSpace (EuclideanSpace ℝ (Fin m)) M]
-    [IsManifold (modelWithCornersSelf ℝ (EuclideanSpace ℝ (Fin m))) ∞ M]
-    (L : LocalCoefficientSystem R (TopCat.of M)) (x y : M)
-    (p : (⟨x⟩ : FundamentalGroupoid M) ⟶ ⟨y⟩)
-    (o : (orientationLocalSystem m M).obj ⟨x⟩) (ℓ : L.obj ⟨x⟩) :
-    (localTopHomologySystem R m M L).map p
-      (localCoefficientExtensionClass R m M L x o ℓ) =
-      localCoefficientExtensionClass R m M L y
-        ((orientationLocalSystem m M).map p o) (L.map p ℓ) := by
-  sorry
-
-/-- On a trivialized ball, extension is the native coefficient homology map for
-z ↦ z·ℓ. Taking M to be that ball expresses the transport-trivialization pin. -/
-theorem localCoefficientExtensionClass_trivialized (m : ℕ) (M : Type)
-    [TopologicalSpace M] [T2Space M] [SecondCountableTopology M]
-    [ChartedSpace (EuclideanSpace ℝ (Fin m)) M]
-    [IsManifold (modelWithCornersSelf ℝ (EuclideanSpace ℝ (Fin m))) ∞ M]
-    (L : LocalCoefficientSystem ℤ (TopCat.of M)) (N : ModuleCat ℤ)
-    (τ : ((TauCeti.LocalCoefficientSystem.constantFunctor (TopCat.of M)).obj N) ≅ L)
-    (x : M) (ℓ : N)
-    (c : twistedRelativeHomology ℤ (puncturedPair (TopCat.of M) x)
-      ((TauCeti.LocalCoefficientSystem.constantFunctor (TopCat.of M)).obj
-        (ModuleCat.of ℤ ℤ)) m) :
-    localCoefficientExtensionClass ℤ m M L x c (τ.hom.app ⟨x⟩ ℓ) =
-      (puncturedPair (TopCat.of M) x).twistedHomologyCoefficientMap
-        (((TauCeti.LocalCoefficientSystem.constantFunctor (TopCat.of M)).map
-          (ModuleCat.ofHom (LinearMap.toSpanSingleton ℤ N ℓ))) ≫ τ.hom) m c := by
-  sorry
-
-/-- The unit pin excludes a sign change in the integral coefficient-extension map. -/
-theorem localCoefficientExtensionClass_constant_one (m : ℕ) (M : Type)
-    [TopologicalSpace M] [T2Space M] [SecondCountableTopology M]
-    [ChartedSpace (EuclideanSpace ℝ (Fin m)) M]
-    [IsManifold (modelWithCornersSelf ℝ (EuclideanSpace ℝ (Fin m))) ∞ M]
-    (x : M)
-    (c : twistedRelativeHomology ℤ (puncturedPair (TopCat.of M) x)
-      ((TauCeti.LocalCoefficientSystem.constantFunctor (TopCat.of M)).obj
-        (ModuleCat.of ℤ ℤ)) m) :
-    localCoefficientExtensionClass ℤ m M
-      ((TauCeti.LocalCoefficientSystem.constantFunctor (TopCat.of M)).obj
-        (ModuleCat.of ℤ ℤ)) x c (1 : ℤ) = c := by
-  sorry
-
-/-- Extension is bilinear over ℤ in the integral class and the coefficient. -/
-theorem localCoefficientExtensionClass_add (R : Type) [CommRing R] (m : ℕ) (M : Type)
-    [TopologicalSpace M] [T2Space M] [SecondCountableTopology M]
-    [ChartedSpace (EuclideanSpace ℝ (Fin m)) M]
-    [IsManifold (modelWithCornersSelf ℝ (EuclideanSpace ℝ (Fin m))) ∞ M]
-    (L : LocalCoefficientSystem R (TopCat.of M)) (x : M)
-    (c c' : twistedRelativeHomology ℤ (puncturedPair (TopCat.of M) x)
-      ((TauCeti.LocalCoefficientSystem.constantFunctor (TopCat.of M)).obj
-        (ModuleCat.of ℤ ℤ)) m) (ℓ ℓ' : L.obj ⟨x⟩) :
-    (localCoefficientExtensionClass R m M L x (c + c') ℓ =
-      localCoefficientExtensionClass R m M L x c ℓ +
-        localCoefficientExtensionClass R m M L x c' ℓ) ∧
-    (localCoefficientExtensionClass R m M L x c (ℓ + ℓ') =
-      localCoefficientExtensionClass R m M L x c ℓ +
-        localCoefficientExtensionClass R m M L x c ℓ') := by
-  sorry
-
-/-- The comparison sends the actual coefficient-extension class to its elementary tensor.
-Negating the natural comparison violates this normalization. -/
-theorem localTopOrientationTensorNatIso_coefficientExtension (R : Type) [CommRing R]
-    (m : ℕ) (M : Type)
-    [TopologicalSpace M] [T2Space M] [SecondCountableTopology M]
-    [ChartedSpace (EuclideanSpace ℝ (Fin m)) M]
-    [IsManifold (modelWithCornersSelf ℝ (EuclideanSpace ℝ (Fin m))) ∞ M]
-    (L : LocalCoefficientSystem R (TopCat.of M)) (x : M)
-    (o : (orientationLocalSystem m M).obj ⟨x⟩) (ℓ : L.obj ⟨x⟩) :
-    (orientationTensorFiberIso R m M L x).hom
-      ((localTopOrientationTensorNatIso R m M L).hom.app ⟨x⟩
-        ((localTopHomologyFiberIso R m M L x).inv
-          (localCoefficientExtensionClass R m M L x
-            ((orientationLocalSystemFiberIso m M x).hom o) ℓ))) = ℓ ⊗ₜ[ℤ] o := by
-  sorry
-
-/-- Integral fibre form of the same normalized comparison, with coefficients first. -/
-noncomputable def localTopOrientationTensorIso (m : ℕ) (M : Type)
-    [TopologicalSpace M] [T2Space M] [SecondCountableTopology M]
-    [ChartedSpace (EuclideanSpace ℝ (Fin m)) M]
-    [IsManifold (modelWithCornersSelf ℝ (EuclideanSpace ℝ (Fin m))) ∞ M]
-    (L : LocalCoefficientSystem ℤ (TopCat.of M)) (x : M) :
-    twistedRelativeHomology ℤ (puncturedPair (TopCat.of M) x) L m ≃ₗ[ℤ]
-      (L.obj ⟨x⟩) ⊗[ℤ] ((orientationLocalSystem m M).obj ⟨x⟩) :=
-  by sorry
-
-/-- The integral fibre equivalence has the same coefficient-extension normalization as
-its natural functor form, with the coefficient factor first. -/
-theorem localTopOrientationTensorIso_coefficientExtension (m : ℕ) (M : Type)
-    [TopologicalSpace M] [T2Space M] [SecondCountableTopology M]
-    [ChartedSpace (EuclideanSpace ℝ (Fin m)) M]
-    [IsManifold (modelWithCornersSelf ℝ (EuclideanSpace ℝ (Fin m))) ∞ M]
-    (L : LocalCoefficientSystem ℤ (TopCat.of M)) (x : M)
-    (o : (orientationLocalSystem m M).obj ⟨x⟩) (ℓ : L.obj ⟨x⟩) :
-    localTopOrientationTensorIso m M L x
-      (localCoefficientExtensionClass ℤ m M L x
-        ((orientationLocalSystemFiberIso m M x).hom o) ℓ) = ℓ ⊗ₜ[ℤ] o := by
-  sorry
-
-set_option maxHeartbeats 800000 in
-/-- The compact-support existence and uniqueness theorem consumes the actual local section. -/
-theorem compactSupportTopClass_existsUnique (R : Type) [CommRing R] (m : ℕ) (M : Type)
+/-- Existence half of the compact-support theorem of Stage 6.3: a locally represented top
+section on an open `V` is the family of local images of one class supported in a compact
+`K ⊆ V`. -/
+theorem compactSupportTopClass_exists (R : Type) [CommRing R] (m : ℕ) (M : Type)
     [TopologicalSpace M] [T2Space M] [SecondCountableTopology M]
     [ChartedSpace (EuclideanSpace ℝ (Fin m)) M]
     [IsManifold (modelWithCornersSelf ℝ (EuclideanSpace ℝ (Fin m))) ∞ M]
     (L : LocalCoefficientSystem R (TopCat.of M)) (K V : Set (TopCat.of M))
-    (_hK : IsCompact K) (_hV : IsOpen V) (hKV : K ⊆ V)
+    (hK : IsCompact K) (hV : IsOpen V) (hKV : K ⊆ V)
     (s : LocallyRepresentedTopSection R (TopCat.of M) L m V) :
-    ∃! c : twistedRelativeHomology R (TopPair.ofSubset Kᶜ) L m,
+    ∃ c : supportedTwistedHomology R (TopCat.of M) L m K,
       ∀ x : TopCat.of M, ∀ hx : x ∈ K,
-        twistedSupportLocalMap R (TopCat.of M) L m K x hx c =
-          s.localValue x (hKV hx) := by
+        twistedSupportLocalMap R (TopCat.of M) L m K x hx c = s.localValue x (hKV hx) := by
   sorry
 
-/-- Canonical square-normalized local image, defined as the preimage of 1.
-No orientation generator is selected. -/
-noncomputable def canonicalTwistedLocalGenerator (m : ℕ) (M : Type)
+/-- Uniqueness half: in the top degree a class supported in a compact `K` is determined by its
+local images at the points of `K`. -/
+theorem compactSupportTopClass_unique (R : Type) [CommRing R] (m : ℕ) (M : Type)
     [TopologicalSpace M] [T2Space M] [SecondCountableTopology M]
     [ChartedSpace (EuclideanSpace ℝ (Fin m)) M]
-    [IsManifold (modelWithCornersSelf ℝ (EuclideanSpace ℝ (Fin m))) ∞ M] (x : M) :
-    twistedRelativeHomology ℤ (puncturedPair (TopCat.of M) x)
-      (orientationLocalSystem m M) m :=
-  (localTopOrientationTensorIso m M (orientationLocalSystem m M) x).symm
-    ((orientationFiberSquareIso m M x).symm 1)
-
-/-- The canonical local images satisfy the actual neighborhood-section condition. -/
-noncomputable def canonicalTwistedTopSection (m : ℕ) (M : Type)
-    [TopologicalSpace M] [T2Space M] [SecondCountableTopology M]
-    [ChartedSpace (EuclideanSpace ℝ (Fin m)) M]
-    [IsManifold (modelWithCornersSelf ℝ (EuclideanSpace ℝ (Fin m))) ∞ M] :
-    LocallyRepresentedTopSection ℤ (TopCat.of M) (orientationLocalSystem m M) m Set.univ where
-  localValue := fun x _ => canonicalTwistedLocalGenerator m M x
-  locally_represented := by sorry
+    [IsManifold (modelWithCornersSelf ℝ (EuclideanSpace ℝ (Fin m))) ∞ M]
+    (L : LocalCoefficientSystem R (TopCat.of M)) (K : Set (TopCat.of M)) (hK : IsCompact K)
+    (c c' : supportedTwistedHomology R (TopCat.of M) L m K)
+    (h : ∀ x : TopCat.of M, ∀ hx : x ∈ K,
+      twistedSupportLocalMap R (TopCat.of M) L m K x hx c =
+        twistedSupportLocalMap R (TopCat.of M) L m K x hx c') :
+    c = c' := by
+  sorry
 
 /-- Local orientation data: a global class whose image generates every local top homology
 module. The maps are induced by `(X, ∅) ⟶ (X, X \ {x})`. -/
@@ -952,21 +441,17 @@ structure FundamentalClassDatum (R : Type u) [CommRing R] (X : TopCat.{u}) (n : 
       {((relativeSingularHomology R n).obj (ModuleCat.of R R)).map
         (TopPair.j (puncturedPair X x)) fundamentalClass} = ⊤
 
-noncomputable def poincareDualityMap (R : Type u) [CommRing R]
-    (X : TopCat.{u}) (n p : ℕ) (_hp : p ≤ n) :
-    (c : FundamentalClassDatum R X n) →
-      singularCohomology R X p ⟶ SingularHomology R (ModuleCat.of R R) X (n - p) := by
-  sorry
-
-/-- Compact Hausdorff second-countable manifolds with a fundamental class satisfy duality. The
-orientation-local-system version precedes this constant-coefficient corollary in the roadmap. -/
-theorem poincareDualityMap_isIso (R : Type u) [CommRing R] (n : ℕ)
-    (M : Type u) [TopologicalSpace M] [T2Space M] [SecondCountableTopology M]
-    [CompactSpace M]
-    [ChartedSpace (EuclideanSpace ℝ (Fin n)) M]
-    [IsManifold (modelWithCornersSelf ℝ (EuclideanSpace ℝ (Fin n))) ∞ M]
-    (p : ℕ) (hp : p ≤ n) (c : FundamentalClassDatum R (TopCat.of M) n) :
-    IsIso (poincareDualityMap R (TopCat.of M) n p hp c) := by
+/-- Stage 6.4 with `ℤ/2` coefficients, where every manifold is orientable: a closed
+topological `n`-manifold has a class `c ∈ H_n(M; ℤ/2)` such that capping with `c` is an
+isomorphism `H^p(M; ℤ/2) ≅ H_(n-p)(M; ℤ/2)` for every `p ≤ n`. The class is the fundamental
+class of Stage 6.3; the integral and twisted forms need the orientation local system, which is
+data and is not stated here. -/
+theorem poincareDuality_zmodTwo (n : ℕ) (M : Type) [TopologicalSpace M] [T2Space M]
+    [CompactSpace M] [ChartedSpace (EuclideanSpace ℝ (Fin n)) M] :
+    ∃ c : SingularHomology (ZMod 2) (ModuleCat.of (ZMod 2) (ZMod 2)) (TopCat.of M) n,
+      ∀ (p : ℕ) (hp : p ≤ n),
+        Function.Bijective (fun a : singularCohomology (ZMod 2) (TopCat.of M) p =>
+          (capProduct (ZMod 2) (TopCat.of M) p n hp).hom a c) := by
   sorry
 
 /-! ## Relative CW connectivity -/
@@ -1022,7 +507,7 @@ theorem relativeCWConnectivityOfCellDimension_transport
           HomotopyGroup (Fin (cellLowerBound - 1)) Y (f a).val) := by
   sorry
 
-/-! ## Relative Hurewicz -/
+/-! ## Based pairs for relative homotopy -/
 
 /-- A topological pair with the point in the subspace required by relative homotopy. Relative
 homology continues to use the unbased `TopPair` above. -/
@@ -1049,95 +534,6 @@ structure NDRPairData (X : TopPair.{u}) where
   fixed : ∀ (t : unitInterval) (a : X.snd), H (t, X.map a) = X.map a
   at_one : ∀ x, u x < 1 → H (1, x) ∈ Set.range X.map
 
-/-- Relative homotopy in degrees at least two is group-valued. In particular, the degree-two
-group is not assumed commutative. The implementation uses the same based-cube model as Mathlib's
-`HomotopyGroup`. -/
-noncomputable def relativeHomotopyGroup :
-    (n : ℕ) → (hn : 2 ≤ n) → (X : BasedTopPair.{u}) → GrpCat.{u} := by
-  sorry
-
-/-- A basepoint-preserving map of pairs induces the relative homotopy homomorphism. -/
-noncomputable def BasedTopPair.Hom.relativeHomotopyMap {X Y : BasedTopPair.{u}} :
-    (f : X.Hom Y) → (n : ℕ) → (hn : 2 ≤ n) →
-      relativeHomotopyGroup n hn X ⟶ relativeHomotopyGroup n hn Y := by
-  sorry
-
-/-- The based homotopy group of the subspace, used as the target of the relative boundary map. -/
-noncomputable def basedSubspaceHomotopyGroup :
-    (n : ℕ) → (hn : 1 ≤ n) → (X : BasedTopPair.{u}) → GrpCat.{u} := by
-  sorry
-
-/-- The boundary of a relative cube lands in the subspace at its stored basepoint. -/
-noncomputable def relativeHomotopyBoundary (n : ℕ) (hn : 2 ≤ n)
-    (X : BasedTopPair.{u}) :
-    relativeHomotopyGroup n hn X ⟶ basedSubspaceHomotopyGroup (n - 1) (by omega) X := by
-  sorry
-
-/-- Changing the chosen subspace point along a path gives the standard relative-homotopy
-basepoint-change isomorphism. -/
-noncomputable def relativeHomotopyChangeBasepoint :
-    (n : ℕ) → (hn : 2 ≤ n) → (X : BasedTopPair.{u}) →
-      (a : X.pair.snd) → (path : Path X.basepoint a) →
-      relativeHomotopyGroup n hn X ≅
-        relativeHomotopyGroup n hn { pair := X.pair, basepoint := a } := by
-  sorry
-
-/-- The integral module attached to the abelianization of the relative homotopy group. This is
-the natural source of Hurewicz before any commutativity theorem. -/
-noncomputable def relativeHomotopyAbelianization :
-    (n : ℕ) → (hn : 2 ≤ n) → (X : BasedTopPair.{u}) → ModuleCat.{u} ℤ := by
-  sorry
-
-/-- The quotient map from relative homotopy to its abelianization, displayed on underlying
-carriers so that the general group-valued source is not silently strengthened. -/
-noncomputable def relativeHomotopyToAbelianization (n : ℕ) (hn : 2 ≤ n)
-    (X : BasedTopPair.{u}) :
-    relativeHomotopyGroup n hn X → relativeHomotopyAbelianization n hn X := by
-  sorry
-
-/-- From degree three onward, relative homotopy itself has its canonical integral-module
-structure. -/
-noncomputable def relativeHomotopyModule :
-    (n : ℕ) → (hn : 3 ≤ n) → (X : BasedTopPair.{u}) → ModuleCat.{u} ℤ := by
-  sorry
-
-/-- In the stable relative range, the module carrier agrees with the abelianization carrier. -/
-noncomputable def relativeHomotopyModuleIsoAbelianization (n : ℕ) (hn : 3 ≤ n)
-    (X : BasedTopPair.{u}) :
-    relativeHomotopyModule n hn X ≅ relativeHomotopyAbelianization n (by omega) X := by
-  sorry
-
-/-- Relative Hurewicz is defined on the abelianization of a based pair in every degree at least
-two. Its homology target forgets only the basepoint, not the underlying pair. -/
-noncomputable def relativeHurewicz (n : ℕ) (hn : 2 ≤ n) (X : BasedTopPair.{u}) :
-    relativeHomotopyAbelianization n hn X ⟶
-      (relativeSingularHomology ℤ n).obj (ModuleCat.of ℤ (ULift.{u} ℤ)) |>.obj X.pair := by
-  sorry
-
-/-- At degree two, simple connectivity and relative one-connectivity force the generally
-nonabelian relative group to be abelian. -/
-theorem relativeHomotopyGroup_two_commutative (X : BasedTopPair.{u})
-    (_hNDR : NDRPairData X.pair)
-    [SimplyConnectedSpace X.pair.fst] [SimplyConnectedSpace X.pair.snd] :
-    ∀ a b : relativeHomotopyGroup 2 (Nat.le_refl 2) X, a * b = b * a := by
-  sorry
-
-/-- Consequently the quotient to the degree-two abelianization is bijective; commutativity is a
-theorem under the Hurewicz hypotheses, not part of the general carrier. -/
-theorem relativeHomotopyToAbelianization_two_bijective (X : BasedTopPair.{u})
-    (_hNDR : NDRPairData X.pair)
-    [SimplyConnectedSpace X.pair.fst] [SimplyConnectedSpace X.pair.snd] :
-    Function.Bijective (relativeHomotopyToAbelianization 2 (by omega) X) := by
-  sorry
-
-theorem relativeHurewicz_isIso (n : ℕ) (hn : 2 ≤ n) (X : BasedTopPair.{u})
-    (_hNDR : NDRPairData X.pair)
-    [SimplyConnectedSpace X.pair.fst] [SimplyConnectedSpace X.pair.snd]
-    (_hvanish : ∀ i (hi : 2 ≤ i), i < n →
-      Subsingleton (relativeHomotopyGroup i hi X)) :
-    IsIso (relativeHurewicz n hn X) := by
-  sorry
-
 /-! ## Finite CW Euler characteristic -/
 
 /-- A concrete finite CW model for a space. Its topology, Hausdorff and CW witnesses belong
@@ -1151,12 +547,14 @@ structure FiniteCWTypeModel (M : Type u) [TopologicalSpace M] where
   finite : letI := topology; letI := cw; CWComplex.Finite (Set.univ : Set X)
   homotopyEquiv : letI := topology; M ≃ₕ X
 
-/-- A compact Hausdorff second-countable smooth manifold has a concrete finite CW model. -/
-noncomputable def compactManifoldFiniteCWType (n : ℕ)
+/-- A compact Hausdorff second-countable smooth manifold has a concrete finite CW model
+(Stage 8.7, through GeometricTopology's smooth triangulation). Consumers take a model from this
+existence statement and evaluate `FiniteCWTypeModel.eulerCharacteristic` on it. -/
+theorem compactManifoldFiniteCWType (n : ℕ)
     (M : Type u) [TopologicalSpace M] [T2Space M] [SecondCountableTopology M]
     [CompactSpace M] [ChartedSpace (EuclideanSpace ℝ (Fin n)) M]
     [IsManifold (modelWithCornersSelf ℝ (EuclideanSpace ℝ (Fin n))) ∞ M] :
-    FiniteCWTypeModel M := by
+    Nonempty (FiniteCWTypeModel M) := by
   sorry
 
 /-- Euler characteristic of a chosen finite CW structure. The roadmap proves that this agrees
@@ -1207,6 +605,47 @@ theorem finiteCWEulerCharacteristic_eq_of_homotopyEquiv
     finiteCWEulerCharacteristic X = finiteCWEulerCharacteristic Y := by
   sorry
 
+/-- Integral singular homology in the universe of the model's carrier. -/
+abbrev ordinaryIntegralHomology (X : TopCat.{u}) (n : ℕ) :=
+  ((AlgebraicTopology.singularHomologyFunctor (ModuleCat.{u} ℤ) n).obj
+    (ModuleCat.of ℤ (ULift.{u} ℤ))).obj X
+
+/-! ## Absolute Hurewicz and Whitehead
+
+The Hurewicz map of Stage 8.3 is built from the cube-to-sphere quotient and the sphere's
+reference class, which are data; the two Hurewicz statements below therefore assert the
+existence of the isomorphism on native homotopy groups and native singular homology, and the
+README pins it to the Hurewicz map.
+-/
+
+/-- Stage 8.3 in degree one: for a path-connected space the abelianized fundamental group is
+isomorphic to integral `H₁`. -/
+theorem hurewicz_degreeOne {X : Type u} [TopologicalSpace X] [PathConnectedSpace X] (x : X) :
+    Nonempty (Additive (Abelianization (FundamentalGroup X x)) ≃+
+      ordinaryIntegralHomology (TopCat.of X) 1) := by
+  sorry
+
+/-- Stage 8.3 in higher degrees: if `π_k(X) = 0` for `0 < k < n + 2` on a path-connected `X`,
+then reduced integral homology vanishes below `n + 2` and `π_(n+2)(X) ≅ H_(n+2)(X; ℤ)`. -/
+theorem hurewicz_connected {X : Type u} [TopologicalSpace X] [PathConnectedSpace X] (x : X)
+    (n : ℕ) (hX : ∀ k : ℕ, 0 < k → k < n + 2 → Subsingleton (HomotopyGroup (Fin k) X x)) :
+    (∀ k : ℕ, 0 < k → k < n + 2 →
+      Subsingleton (ordinaryIntegralHomology (TopCat.of X) k)) ∧
+    Nonempty (Additive (HomotopyGroup (Fin (n + 2)) X x) ≃+
+      ordinaryIntegralHomology (TopCat.of X) (n + 2)) := by
+  sorry
+
+/-- Stage 8.5: Whitehead's theorem for Hausdorff CW complexes. A map that hits every path
+component and induces bijections on every homotopy group at every basepoint, including `π₀`
+as `HomotopyGroup (Fin 0)`, is a homotopy equivalence. -/
+theorem whitehead {X Y : Type u} [TopologicalSpace X] [TopologicalSpace Y]
+    [T2Space X] [T2Space Y] [CWComplex (Set.univ : Set X)] [CWComplex (Set.univ : Set Y)]
+    (f : C(X, Y)) (hf₀ : ∀ y : Y, ∃ x : X, Joined (f x) y)
+    (hf : ∀ (n : ℕ) (x : X), Function.Bijective
+      (HomotopyGroup.map f rfl : HomotopyGroup (Fin n) X x → HomotopyGroup (Fin n) Y (f x))) :
+    ∃ e : X ≃ₕ Y, e.toFun = f := by
+  sorry
+
 /-! ## Homological Whitehead -/
 
 /-- A map between simply connected CW complexes which induces isomorphisms on integral singular
@@ -1254,26 +693,15 @@ theorem towerDifference_surjective (T : ℕᵒᵖ ⥤ ModuleCat.{u} R)
 
 end CountableTowers
 
-/-! ## Selected Stage 8: ordinary classifying spaces and obstruction maps
+/-! ## Selected Stage 8: classifying spaces, Eilenberg–MacLane models and representability
 
-The abelian model is supplied by DGFloer; `OrdinaryEMModel` records the input to the
-comparison theorems, and is not another constructor. The simply connected obstruction
-signatures below are an advisory specialization of the definitive local-system scope.
+The functorial abelian family `K(A, n)` is this roadmap's Stage 8.8c target: the bar model of
+8.8a in degree one and the Dold–Kan realizations `|Γ(A[n])|` above. `OrdinaryEMModel` records
+the normalized data any model carries, and `NormalizedAbelianEMFamily` the coefficient-natural
+family; the constructor itself is data and is not stated here.
 -/
 
-/-- Stage 4.7 supplies the single CW structure for geometric realizations. -/
-@[instance_reducible] noncomputable def simplicialRealizationCW (K : SSet.{u}) :
-    CWComplex (Set.univ : Set (SSet.toTop.obj K)) := by
-  sorry
-
 theorem simplicialRealizationT2 (K : SSet.{u}) : T2Space (SSet.toTop.obj K) := by
-  sorry
-
-/-- The cell indices are the actual nondegenerate simplices. -/
-noncomputable def simplicialRealizationCellEquiv (K : SSet.{u}) (n : ℕ) :
-    letI := simplicialRealizationCW K
-    Topology.RelCWComplex.cell (Set.univ : Set (SSet.toTop.obj K)) n ≃
-      {x : K _⦋n⦌ // x ∈ K.nonDegenerate n} := by
   sorry
 
 /-- The single generic bar/nerve realization for discrete groups. -/
@@ -1293,30 +721,9 @@ theorem groupClassifyingSpace_isEMOne (G : Type u) [Group G] :
       (groupClassifyingSpaceBasepoint G) := by
   sorry
 
-/-- The realized nerve edge has a concrete underlying map, using the native
-Δ[1]≅I with weights (1-t,t); only its endpoint proofs are proposed targets. -/
-noncomputable def groupClassifyingSpaceEdge (G : Type u) [Group G] (g : G) :
-    Path (groupClassifyingSpaceBasepoint G) (groupClassifyingSpaceBasepoint G) where
-  toFun t :=
-    SSet.toTop.map (SSet.yonedaEquiv.symm
-      (CategoryTheory.ComposableArrows.mk₁
-        (show SingleObj.star G ⟶ SingleObj.star G from g)))
-      (SSet.stdSimplex.toTopObjIsoI.inv (ULift.up t))
-  continuous_toFun := by fun_prop
-  source' := by sorry
-  target' := by sorry
-
-noncomputable def groupClassifyingSpaceFundamentalGroup (G : Type u) [Group G] :
-    FundamentalGroup (groupClassifyingSpace G) (groupClassifyingSpaceBasepoint G) ≃* G := by
-  sorry
-
-theorem groupClassifyingSpaceFundamentalGroup_edge (G : Type u) [Group G] (g : G) :
-    groupClassifyingSpaceFundamentalGroup G
-      (FundamentalGroup.fromPath ⟦groupClassifyingSpaceEdge G g⟧) = g := by
-  sorry
-
-/-- Input supplied by the shared abelian constructors, with a chosen normalized identification.
-Vanishing is for every other positive degree, with no finite-dimension condition. -/
+/-- The data of a `K(A, n)` model: a path-connected Hausdorff CW space with a normalized
+identification of `π_n` with `A`. Vanishing is for every other positive degree, with no
+finite-dimension condition. -/
 structure OrdinaryEMModel (A : Type u) [AddCommGroup A] (n : ℕ) [NeZero n] where
   space : TopCat.{u}
   point : space
@@ -1327,9 +734,9 @@ structure OrdinaryEMModel (A : Type u) [AddCommGroup A] (n : ℕ) [NeZero n] whe
   vanishing : ∀ j : ℕ, 0 < j → j ≠ n →
     Subsingleton (HomotopyGroup (Fin j) space point)
 
-/-- Coefficient-functorial supplier input. The definitive DGFloer constructor pins its
-spaces to bar in degree one and Dold–Kan in higher degree; this interface records its
-normalized maps without adding a constructor in AT. -/
+/-- The coefficient-natural shape of Stage 8.8c's family: its spaces are the bar model in
+degree one and the Dold–Kan realizations in higher degree, and this structure records the
+normalized maps induced by homomorphisms `A ⟶ A'`. -/
 structure NormalizedAbelianEMFamily where
   model : ∀ (A : AddCommGrpCat.{u}) (n : ℕ) [NeZero n], OrdinaryEMModel A n
   map : ∀ {A A' : AddCommGrpCat.{u}} (_f : A ⟶ A') (n : ℕ) [NeZero n],
@@ -1348,10 +755,6 @@ structure NormalizedAbelianEMFamily where
 /-- Consume the model and normalized maps from the shared family. -/
 abbrev ordinaryEMModelFromFamily (F : NormalizedAbelianEMFamily.{u})
     (A : AddCommGrpCat.{u}) (n : ℕ) [NeZero n] : OrdinaryEMModel A n := F.model A n
-
-/-- The single family supplied by the degree-one bar and higher Dold–Kan constructors. -/
-noncomputable def ordinaryEilenbergMacLaneFamily : NormalizedAbelianEMFamily.{u} := by
-  sorry
 
 /-- The actual higher simplicial model, using the native single-degree complex and Γ. -/
 abbrev ordinaryDoldKanSimplicialModel (A : AddCommGrpCat.{u}) (n : ℕ) : SSet.{u} :=
@@ -1377,45 +780,7 @@ noncomputable def ordinaryDoldKanBasepoint (A : AddCommGrpCat.{u}) (n : ℕ) :
       ((SSet.toTopSimplex.app ⦋0⦌).inv
         (default : SimplexCategory.toTop.obj ⦋0⦌))
 
-theorem ordinaryEilenbergMacLaneFamily_one_space (A : AddCommGrpCat.{u}) :
-    (ordinaryEilenbergMacLaneFamily.model A 1).space =
-      groupClassifyingSpace (Multiplicative A) := by
-  sorry
-
-theorem ordinaryEilenbergMacLaneFamily_one_point (A : AddCommGrpCat.{u}) :
-    eqToHom (ordinaryEilenbergMacLaneFamily_one_space A)
-      (ordinaryEilenbergMacLaneFamily.model A 1).point =
-        groupClassifyingSpaceBasepoint (Multiplicative A) := by
-  sorry
-
-theorem ordinaryEilenbergMacLaneFamily_one_identification (A : AddCommGrpCat.{u})
-    (p : HomotopyGroup (Fin 1) (ordinaryEilenbergMacLaneFamily.model A 1).space
-      (ordinaryEilenbergMacLaneFamily.model A 1).point) :
-    groupClassifyingSpaceFundamentalGroup (Multiplicative A)
-      (HomotopyGroup.pi1MulEquivFundamentalGroup
-        (HomotopyGroup.map (eqToHom (ordinaryEilenbergMacLaneFamily_one_space A)).hom
-          (ordinaryEilenbergMacLaneFamily_one_point A) p)) =
-      (ordinaryEilenbergMacLaneFamily.model A 1).homotopyIdentification p := by
-  sorry
-
-theorem ordinaryEilenbergMacLaneFamily_higher_space (A : AddCommGrpCat.{u})
-    (n : ℕ) [NeZero n] (hn : 2 ≤ n) :
-    (ordinaryEilenbergMacLaneFamily.model A n).space =
-      SSet.toTop.obj (ordinaryDoldKanSimplicialModel A n) := by
-  sorry
-
-theorem ordinaryEilenbergMacLaneFamily_higher_point (A : AddCommGrpCat.{u})
-    (n : ℕ) [NeZero n] (hn : 2 ≤ n) :
-    eqToHom (ordinaryEilenbergMacLaneFamily_higher_space A n hn).symm
-      (ordinaryDoldKanBasepoint A n) = (ordinaryEilenbergMacLaneFamily.model A n).point := by
-  sorry
-
-/-- Integral singular homology in the universe of the model's carrier. -/
-abbrev ordinaryIntegralHomology (X : TopCat.{u}) (n : ℕ) :=
-  ((AlgebraicTopology.singularHomologyFunctor (ModuleCat.{u} ℤ) n).obj
-    (ModuleCat.of ℤ (ULift.{u} ℤ))).obj X
-
-/-- The sphere carrier used by the normalized cubical representative comparison. -/
+/-- The lifted unit sphere, the sphere carrier of Stage 4.4. -/
 abbrev homotopySphere (n : ℕ) : TopCat.{u} :=
   TopCat.of (ULift.{u} (Metric.sphere (0 : EuclideanSpace ℝ (Fin (n + 1))) 1))
 
@@ -1424,69 +789,10 @@ noncomputable def homotopySpherePole (n : ℕ) :
     Metric.sphere (0 : EuclideanSpace ℝ (Fin (n + 1))) 1 :=
   ⟨PiLp.single 2 0 (1 : ℝ), by simp⟩
 
-/-- Stage 4.4's positive-dimensional quotient map, consumed by Stage 8.6. -/
-noncomputable def cubicalSphereQuotient (n : ℕ) [NeZero n] :
-    C((Fin n → unitInterval), Metric.sphere (0 : EuclideanSpace ℝ (Fin (n + 1))) 1) := by
-  sorry
-
-theorem cubicalSphereQuotient_boundary (n : ℕ) [NeZero n]
-    (t : Fin n → unitInterval) (ht : t ∈ Cube.boundary (Fin n)) :
-    cubicalSphereQuotient n t = homotopySpherePole n := by
-  sorry
-
-theorem cubicalSphereQuotient_isQuotientMap (n : ℕ) [NeZero n] :
-    Topology.IsQuotientMap (cubicalSphereQuotient n) := by
-  sorry
-
-theorem cubicalSphereQuotient_eq_iff (n : ℕ) [NeZero n]
-    (t s : Fin n → unitInterval) :
-    cubicalSphereQuotient n t = cubicalSphereQuotient n s ↔
-      t = s ∨ (t ∈ Cube.boundary (Fin n) ∧ s ∈ Cube.boundary (Fin n)) := by
-  sorry
-
 /-- The actual cube/boundary pair, lifted to the coefficient universe. -/
 abbrev coordinateCubePair (n : ℕ) : TopPair.{u} :=
   TopPair.ofSubset (X := TopCat.of (ULift.{u} (Fin n → unitInterval)))
     {t | t.down ∈ Cube.boundary (Fin n)}
-
-/-- The monotone simplex with vertices 0, e_(p0), e_(p0)+e_(p1), …, 1. -/
-noncomputable def coordinateCubeSimplex (n : ℕ) :
-    (p : Equiv.Perm (Fin n)) →
-      C(Convexity.StdSimplex ℝ (Fin (n + 1)), (coordinateCubePair.{u} n).fst) := by
-  sorry
-
-/-- Barycentric coordinates determine the simplex, so its orientation cannot be reversed. -/
-theorem coordinateCubeSimplex_coordinate (n : ℕ) (p : Equiv.Perm (Fin n))
-    (t : Convexity.StdSimplex ℝ (Fin (n + 1))) (j : Fin n) :
-    (((coordinateCubeSimplex.{u} n p t).down j) : ℝ) =
-      ∑ k : Fin (n + 1), if (p⁻¹ j).val < k.val then t.weights k else 0 := by
-  sorry
-
-/-- The signed canonical triangulation, equivalently the ordered shuffle of n interval chains.
-For n=1 this is t↦t with coefficient +1, whose boundary is [1]-[0]. -/
-noncomputable def coordinateCubeReferenceChain (n : ℕ) :
-    ((coordinateCubePair.{u} n).singularChainComplex
-      (ModuleCat.of ℤ (ULift.{u} ℤ))).X n :=
-  ((coordinateCubePair n).singularChainComplexπ (ModuleCat.of ℤ (ULift.{u} ℤ))).f n
-    (∑ p : Equiv.Perm (Fin n),
-      ((TopCat.toSSet.obj (coordinateCubePair n).fst).ιChainComplex
-        (R := ModuleCat.of ℤ (ULift.{u} ℤ))
-        (((coordinateCubePair n).fst.toSSetObjEquiv (Opposite.op ⦋n⦌)).symm
-          (coordinateCubeSimplex n p))).hom (ULift.up (Equiv.Perm.sign p : ℤ)))
-
-theorem coordinateCubeReferenceChain_cycle (n : ℕ) :
-    (((coordinateCubePair.{u} n).singularChainComplex
-      (ModuleCat.of ℤ (ULift.{u} ℤ))).d n ((ComplexShape.down ℕ).next n)).hom
-      (coordinateCubeReferenceChain n) = 0 := by
-  sorry
-
-/-- The reference class is the homology class of the actual signed chain above. -/
-noncomputable def coordinateCubeReferenceClass (n : ℕ) :
-    (coordinateCubePair.{u} n).singularHomology (C := ModuleCat.{u} ℤ) (ModuleCat.of ℤ (ULift.{u} ℤ)) n :=
-  let K := (coordinateCubePair.{u} n).singularChainComplex
-    (ModuleCat.of ℤ (ULift.{u} ℤ))
-  K.homologyπ n (K.cyclesMk (coordinateCubeReferenceChain n) ((ComplexShape.down ℕ).next n)
-    (by rfl) (coordinateCubeReferenceChain_cycle n))
 
 /-- The ordered standard simplex relative to its actual boundary faces. -/
 abbrev coordinateSimplexPair (n : ℕ) : TopPair.{u} :=
@@ -1514,176 +820,8 @@ noncomputable def coordinateSimplexIdentityClass (n : ℕ) :
   K.homologyπ n (K.cyclesMk (coordinateSimplexIdentityChain n) ((ComplexShape.down ℕ).next n)
     (by rfl) (coordinateSimplexIdentityChain_cycle n))
 
-/-- Honest orientation-preserving pair comparison; its homology value below fixes +1. -/
-noncomputable def coordinateCubeSimplexOrientationComparison (n : ℕ) :
-    coordinateCubePair.{u} n ⟶ coordinateSimplexPair.{u} n := by sorry
-
-theorem coordinateCubeSimplexOrientationComparison_reference (n : ℕ) :
-    (TopPair.singularHomologyMap (C := ModuleCat.{u} ℤ)
-      (coordinateCubeSimplexOrientationComparison n)
-      (ModuleCat.of ℤ (ULift.{u} ℤ)) n).hom (coordinateCubeReferenceClass n) =
-      coordinateSimplexIdentityClass n := by sorry
-
-/-- Actual realization of the counit-labelled simplex, precomposed with the
-+1 cube-to-ordered-simplex comparison; only the boundary proof is a target. -/
-noncomputable def ordinaryDoldKanLabeledCubicalLoop (A : AddCommGrpCat.{u})
-    (n : ℕ) [NeZero n] (a : A) :
-    GenLoop (Fin n) (SSet.toTop.obj (ordinaryDoldKanSimplicialModel A n))
-      (ordinaryDoldKanBasepoint A n) :=
-  ⟨⟨fun t =>
-      SSet.toTop.map (SSet.yonedaEquiv.symm (ordinaryDoldKanLabeledSimplex A n a))
-        ((SSet.toTopSimplex.app ⦋n⦌).inv
-          (TopPair.Hom.fst (coordinateCubeSimplexOrientationComparison.{u} n) (ULift.up t))),
-      by
-        exact (SSet.toTop.map (SSet.yonedaEquiv.symm
-          (ordinaryDoldKanLabeledSimplex A n a))).hom.continuous.comp
-          ((SSet.toTopSimplex.app ⦋n⦌).inv.hom.continuous.comp
-            ((TopPair.Hom.fst (coordinateCubeSimplexOrientationComparison.{u} n)).hom.continuous.comp
-              continuous_uliftUp))⟩, by sorry⟩
-
-/-- The family identification is fixed on actual generators, not merely on its space. -/
-theorem ordinaryEilenbergMacLaneFamily_higher_identification (A : AddCommGrpCat.{u})
-    (n : ℕ) [NeZero n] (hn : 2 ≤ n) (a : A) :
-    (ordinaryEilenbergMacLaneFamily.model A n).homotopyIdentification
-      (HomotopyGroup.map (eqToHom (ordinaryEilenbergMacLaneFamily_higher_space A n hn).symm).hom
-        (ordinaryEilenbergMacLaneFamily_higher_point A n hn)
-        ⟦ordinaryDoldKanLabeledCubicalLoop A n a⟧) = Multiplicative.ofAdd a := by sorry
-
 abbrev homotopySpherePolePair (n : ℕ) : TopPair.{u} :=
   TopPair.ofSubset (X := homotopySphere.{u} n) {ULift.up (homotopySpherePole n)}
-
-/-- Actual pair collapse map to the sphere relative to the collapsed pole. -/
-noncomputable def cubicalSpherePairMap (n : ℕ) [NeZero n] :
-    coordinateCubePair.{u} n ⟶ homotopySpherePolePair.{u} n :=
-  TopPair.ofSubsetMap
-    (TopCat.ofHom ⟨fun t => ULift.up (cubicalSphereQuotient n t.down), by fun_prop⟩)
-    (by
-      intro t ht
-      change ULift.up (cubicalSphereQuotient n t.down) = ULift.up (homotopySpherePole n)
-      exact congrArg ULift.up (cubicalSphereQuotient_boundary n t.down ht))
-
-/-- Native absolute-to-relative map for the standard sphere and its pole. -/
-noncomputable def homotopySphereAbsoluteToRelative (n : ℕ) :
-    ordinaryIntegralHomology (homotopySphere.{u} n) n ⟶
-      (homotopySpherePolePair.{u} n).singularHomology (C := ModuleCat.{u} ℤ) (ModuleCat.of ℤ (ULift.{u} ℤ)) n :=
-  (TopPair.singularHomologyInclIso (ModuleCat.{u} ℤ)
-    (ModuleCat.of ℤ (ULift.{u} ℤ)) n).hom.app (homotopySphere n) ≫
-      TopPair.singularHomologyMap
-        (TopPair.j (homotopySpherePolePair n)) (ModuleCat.of ℤ (ULift.{u} ℤ)) n
-
-/-- Descend the actual native generalized loop through the pinned cube quotient. -/
-noncomputable def cubicalSphereRepresentative (n : ℕ) [NeZero n]
-    (X : Type u) [TopologicalSpace X] (x : X) :
-    (g : GenLoop (Fin n) X x) → homotopySphere n ⟶ TopCat.of X := by
-  sorry
-
-theorem cubicalSphereRepresentative_quotient (n : ℕ) [NeZero n]
-    (X : Type u) [TopologicalSpace X] (x : X) (g : GenLoop (Fin n) X x)
-    (t : Fin n → unitInterval) :
-    cubicalSphereRepresentative n X x g (ULift.up (cubicalSphereQuotient n t)) = g.1 t := by
-  sorry
-
-/-- The outward-first sphere class fixed by the actual positive local chart below.
-Stage 6 compares its canonical fundamental class with this earlier reference. -/
-noncomputable def sphereFundamentalGenerator (n : ℕ) [NeZero n] :
-    ordinaryIntegralHomology (homotopySphere n) n := by
-  sorry
-
-/-- A fixed positively oriented chart cube in the positive hemisphere. Its coordinates
-are pinned below, so it independently fixes the outward-first local orientation. -/
-noncomputable def spherePositiveCubeMap (n : ℕ) :
-    (coordinateCubePair.{u} n).fst ⟶ homotopySphere.{u} n := by
-  sorry
-
-theorem spherePositiveCubeMap_tail (n : ℕ) (t : (coordinateCubePair.{u} n).fst)
-    (j : Fin n) :
-    (spherePositiveCubeMap n t).down.1 j.succ =
-      ((t.down j : ℝ) - 1 / 2) / (n + 1) := by
-  sorry
-
-theorem spherePositiveCubeMap_head (n : ℕ) (t : (coordinateCubePair.{u} n).fst) :
-    (spherePositiveCubeMap n t).down.1 0 =
-      Real.sqrt (1 - ∑ j : Fin n, (((t.down j : ℝ) - 1 / 2) / (n + 1)) ^ 2) := by
-  sorry
-
-theorem spherePositiveCubeMap_boundary (n : ℕ) (t : (coordinateCubePair.{u} n).fst)
-    (ht : t.down ∈ Cube.boundary (Fin n)) :
-    spherePositiveCubeMap n t ≠ ULift.up (homotopySpherePole n) := by
-  sorry
-
-/-- The actual map of pairs induced by that positive chart cube. -/
-noncomputable def spherePositiveCubePairMap (n : ℕ) :
-    coordinateCubePair.{u} n ⟶
-      puncturedPair (homotopySphere.{u} n) (ULift.up (homotopySpherePole n)) :=
-  TopPair.ofSubsetMap (spherePositiveCubeMap n) (by
-    intro t ht
-    exact spherePositiveCubeMap_boundary n t ht)
-
-noncomputable def homotopySphereAbsoluteToLocal (n : ℕ) :
-    ordinaryIntegralHomology (homotopySphere.{u} n) n ⟶
-      (puncturedPair (homotopySphere.{u} n) (ULift.up (homotopySpherePole n))).singularHomology
-        (C := ModuleCat.{u} ℤ) (ModuleCat.of ℤ (ULift.{u} ℤ)) n :=
-  (TopPair.singularHomologyInclIso (ModuleCat.{u} ℤ)
-    (ModuleCat.of ℤ (ULift.{u} ℤ)) n).hom.app (homotopySphere n) ≫
-      TopPair.singularHomologyMap
-        (TopPair.j (puncturedPair (homotopySphere n) (ULift.up (homotopySpherePole n))))
-        (ModuleCat.of ℤ (ULift.{u} ℤ)) n
-
-/-- Local value +1 in the fixed positive chart independently pins the sphere class. -/
-theorem sphereFundamentalGenerator_positiveLocal (n : ℕ) [NeZero n] :
-    homotopySphereAbsoluteToLocal n (sphereFundamentalGenerator n) =
-      ((coordinateCubePair.{u} n).singularHomologyMap (spherePositiveCubePairMap n)
-        (ModuleCat.of ℤ (ULift.{u} ℤ)) n) (coordinateCubeReferenceClass n) := by
-  sorry
-
-/-- The general Stage 8.3 Hurewicz map, including the abelianization map in degree one. -/
-noncomputable def absoluteHurewicz (n : ℕ) [NeZero n]
-    (X : Type u) [TopologicalSpace X] (x : X) :
-    HomotopyGroup (Fin n) X x →* Multiplicative (ordinaryIntegralHomology (TopCat.of X) n) := by
-  sorry
-
-/-- The defining formula uses the actual sphere map induced by a native cubical representative. -/
-theorem absoluteHurewicz_genLoop (n : ℕ) [NeZero n]
-    (X : Type u) [TopologicalSpace X] (x : X) (g : GenLoop (Fin n) X x) :
-    Multiplicative.toAdd (absoluteHurewicz n X x ⟦g⟧) =
-      (((AlgebraicTopology.singularHomologyFunctor (ModuleCat.{u} ℤ) n).obj
-        (ModuleCat.of ℤ (ULift.{u} ℤ))).map (cubicalSphereRepresentative n X x g))
-          (sphereFundamentalGenerator n) := by
-  sorry
-
-/-- Specialization of the general normalized Hurewicz map; no second EM-specific map. -/
-abbrev ordinaryEMHurewiczMap (A : Type u) [AddCommGroup A]
-    (n : ℕ) [NeZero n] (K : OrdinaryEMModel A n) :=
-  absoluteHurewicz n K.space K.point
-
-/-- Hurewicz identification, normalized by the model's distinguished homotopy group. -/
-noncomputable def ordinaryEMHurewiczIdentification (A : Type u) [AddCommGroup A]
-    (n : ℕ) [NeZero n] :
-    (K : OrdinaryEMModel A n) →
-      ordinaryIntegralHomology K.space n ≅ ModuleCat.of ℤ A := by
-  sorry
-
-theorem ordinaryEMHurewiczIdentification_onHomotopy (A : Type u) [AddCommGroup A]
-    (n : ℕ) [NeZero n] (K : OrdinaryEMModel A n)
-    (p : HomotopyGroup (Fin n) K.space K.point) :
-    (ordinaryEMHurewiczIdentification A n K).hom
-      (Multiplicative.toAdd (ordinaryEMHurewiczMap A n K p)) =
-        Multiplicative.toAdd (K.homotopyIdentification p) := by
-  sorry
-
-/-- The identity universal class, with normalization fixed by the actual Hurewicz map. -/
-noncomputable def ordinaryEMUniversalClass (A : Type u) [AddCommGroup A]
-    (n : ℕ) [NeZero n] :
-    (K : OrdinaryEMModel A n) →
-      K.space.singularCohomology (ModuleCat.of ℤ (ULift.{u} ℤ)) ℤ
-        (ModuleCat.of ℤ A) n := by
-  sorry
-
-theorem ordinaryEMUniversalClass_kronecker (A : Type u) [AddCommGroup A]
-    (n : ℕ) [NeZero n] (K : OrdinaryEMModel A n) :
-    K.space.singularKronecker ℤ n (ordinaryEMUniversalClass A n K) =
-      (ordinaryEMHurewiczIdentification A n K).hom := by
-  sorry
 
 /-- Homotopy classes use the native continuous-map homotopy equivalence relation. -/
 def continuousHomotopySetoid (X Y : TopCat.{u}) : Setoid C(X, Y) where
@@ -1693,33 +831,30 @@ def continuousHomotopySetoid (X Y : TopCat.{u}) : Setoid C(X, Y) where
 abbrev continuousHomotopyClasses (X Y : TopCat.{u}) :=
   Quotient (continuousHomotopySetoid X Y)
 
-/-- The representing map is actual native cohomological pullback, descended along homotopy. -/
-noncomputable def ordinaryEMPullback (A : Type u) [AddCommGroup A]
-    (n : ℕ) [NeZero n] (K : OrdinaryEMModel A n) (X : TopCat.{u}) :
-    continuousHomotopyClasses X K.space →
+/-- Pullback of a fixed class `ι` along homotopy classes of maps into `K`, descended by the
+native homotopy invariance of singular cohomology. -/
+noncomputable def ordinaryEMPullback (A : Type u) [AddCommGroup A] (n : ℕ) (K : TopCat.{u})
+    (ι : K.singularCohomology (ModuleCat.of ℤ (ULift.{u} ℤ)) ℤ (ModuleCat.of ℤ A) n)
+    (X : TopCat.{u}) :
+    continuousHomotopyClasses X K →
       X.singularCohomology (ModuleCat.of ℤ (ULift.{u} ℤ)) ℤ (ModuleCat.of ℤ A) n :=
-  Quotient.lift (fun f => TopCat.singularCohomologyMap (TopCat.ofHom f) n
-    (ordinaryEMUniversalClass A n K)) (by
+  Quotient.lift (fun f => TopCat.singularCohomologyMap (TopCat.ofHom f) n ι) (by
       intro f g h
       obtain ⟨H⟩ := h
       have heq := TopCat.Homotopy.congr_singularCohomologyMap
         (f := TopCat.ofHom f) (g := TopCat.ofHom g) H
         (ModuleCat.of ℤ (ULift.{u} ℤ)) ℤ (ModuleCat.of ℤ A) n
-      exact congrArg (fun q => q.hom (ordinaryEMUniversalClass A n K)) heq)
+      exact congrArg (fun q => q.hom ι) heq)
 
-/-- Arbitrary CW complexes, with arbitrary components and dimensions. This theorem is
-proved by cellular cocycle realization and the relative-cylinder weak topology. -/
-theorem ordinaryEMRepresentability (A : Type u) [AddCommGroup A]
-    (n : ℕ) [NeZero n] (K : OrdinaryEMModel A n)
-    (X : TopCat.{u}) [T2Space X] [CWComplex (Set.univ : Set X)] :
-    Function.Bijective (ordinaryEMPullback A n K X) := by
-  sorry
-
-/-- Relative cylinder with the actual product topology; interval coordinate is last. -/
-@[instance_reducible] noncomputable def relativeCylinderCW (X : Type u) [TopologicalSpace X] [T2Space X]
-    (B : Set X) [RelCWComplex (Set.univ : Set X) B] :
-    RelCWComplex (Set.univ : Set (X × unitInterval))
-      {p | p.1 ∈ B ∨ p.2 = 0 ∨ p.2 = 1} := by
+/-- Stage 8.10: every `K(A, n)` model represents `H^n(-; A)` on arbitrary Hausdorff CW
+complexes, of any dimension and with any number of components. The README's universal class
+`ordinaryEMUniversalClass` is normalized through the Hurewicz map, which is not native at the
+pins; the existence of a representing class is the statable content. -/
+theorem ordinaryEMRepresentability (A : Type u) [AddCommGroup A] (n : ℕ) [NeZero n]
+    (K : OrdinaryEMModel A n) :
+    ∃ ι : K.space.singularCohomology (ModuleCat.of ℤ (ULift.{u} ℤ)) ℤ (ModuleCat.of ℤ A) n,
+      ∀ (X : TopCat.{u}) [T2Space X] [CWComplex (Set.univ : Set X)],
+        Function.Bijective (ordinaryEMPullback A n K.space ι X) := by
   sorry
 
 /-! ### Stage 4.4 carrier and Stage 4.5 ordinary pair comparisons -/
@@ -1784,107 +919,11 @@ theorem ordinaryPairQuotientCohomologyComparison (R : Type u) [CommRing R]
       (ordinaryPairQuotientPairMap X B) n) := by
   sorry
 
-section SimplyConnectedObstructions
-
-variable (X : Type u) [TopologicalSpace X] [T2Space X] (B : Set X)
-  [RelCWComplex (Set.univ : Set X) B]
-  (Y : Type u) [TopologicalSpace Y] [SimplyConnectedSpace Y] (y : Y)
-  (n : ℕ) [Nontrivial (Fin n)]
-
-/-- Constant-coefficient specialization: cochains are Hom of integral cellular chains into
-πₙ(Y), not the dual of πₙ(Y)-valued cellular chains. -/
-abbrev relativeObstructionCochainComplex :=
-  (TauCeti.cellularChainComplex (D := B) (Set.univ : Set X)
-    (ModuleCat.of ℤ (ULift.{u} ℤ))).linearYonedaObj ℤ
-      (ModuleCat.of ℤ (Additive (HomotopyGroup (Fin n) Y y)))
-
-/-- The cochain evaluates a characteristic-map boundary after its basepoint transport. -/
-noncomputable def relativeObstructionCochain :
-    (f : (TauCeti.skeletonBasePair (D := B) (Set.univ : Set X) n).fst ⟶ TopCat.of Y) →
-    (relativeObstructionCochainComplex X B Y y n).X (n + 1) := by
-  sorry
-
-theorem relativeObstructionCochain_isCocycle
-    (f : (TauCeti.skeletonBasePair (D := B) (Set.univ : Set X) n).fst ⟶ TopCat.of Y) :
-    (relativeObstructionCochainComplex X B Y y n).d (n + 1) (n + 2)
-      (relativeObstructionCochain X B Y y n f) = 0 := by
-  sorry
-
-/-- Extension of the fixed map is controlled by the zero cochain, rather than zero class. -/
-theorem relativeObstructionCochain_zero_iff_extension
-    (f : (TauCeti.skeletonBasePair (D := B) (Set.univ : Set X) n).fst ⟶ TopCat.of Y) :
-    relativeObstructionCochain X B Y y n f = 0 ↔
-      ∃ g : (TauCeti.skeletonBasePair (D := B) (Set.univ : Set X) (n + 1)).fst ⟶
-        TopCat.of Y,
-        TopPair.Hom.fst (TauCeti.skeletonBasePairToSucc (D := B) (Set.univ : Set X) n) ≫
-          g = f := by
-  sorry
-
-/-- The actual disk-gluing difference cochain of two maps agreeing on the preceding
-skeleton, with the orientation used by the subsequent coboundary theorem. -/
-noncomputable def relativeDifferenceCochain :
-    (f₀ f₁ : (TauCeti.skeletonBasePair (D := B) (Set.univ : Set X) n).fst ⟶ TopCat.of Y) →
-    (agree :
-      TopPair.Hom.fst (TauCeti.skeletonBasePairInclusion (D := B) (Set.univ : Set X)
-        (Nat.sub_le n 1)) ≫ f₁ =
-      TopPair.Hom.fst (TauCeti.skeletonBasePairInclusion (D := B) (Set.univ : Set X)
-        (Nat.sub_le n 1)) ≫ f₀) →
-    (relativeObstructionCochainComplex X B Y y n).X n := by
-  sorry
-
-/-- The difference sign is pinned at the cochain level. -/
-theorem relativeDifferenceCochain_coboundary
-    (f₀ f₁ : (TauCeti.skeletonBasePair (D := B) (Set.univ : Set X) n).fst ⟶ TopCat.of Y)
-    (agree :
-      TopPair.Hom.fst (TauCeti.skeletonBasePairInclusion (D := B) (Set.univ : Set X)
-        (Nat.sub_le n 1)) ≫ f₁ =
-      TopPair.Hom.fst (TauCeti.skeletonBasePairInclusion (D := B) (Set.univ : Set X)
-        (Nat.sub_le n 1)) ≫ f₀) :
-    (relativeObstructionCochainComplex X B Y y n).d n (n + 1)
-      (relativeDifferenceCochain X B Y y n f₀ f₁ agree) =
-        relativeObstructionCochain X B Y y n f₁ -
-          relativeObstructionCochain X B Y y n f₀ := by
-  sorry
-
-/-- Realize the prescribed cochain itself, including cocycles with zero coboundary,
-while fixing the preceding skeleton and base. -/
-theorem relativeDifferenceCochain_realize
-    (f₀ : (TauCeti.skeletonBasePair (D := B) (Set.univ : Set X) n).fst ⟶ TopCat.of Y)
-    (d : (relativeObstructionCochainComplex X B Y y n).X n) :
-    ∃ f₁ : (TauCeti.skeletonBasePair (D := B) (Set.univ : Set X) n).fst ⟶ TopCat.of Y,
-      ∃ agree :
-        TopPair.Hom.fst (TauCeti.skeletonBasePairInclusion (D := B) (Set.univ : Set X)
-          (Nat.sub_le n 1)) ≫ f₁ =
-        TopPair.Hom.fst (TauCeti.skeletonBasePairInclusion (D := B) (Set.univ : Set X)
-          (Nat.sub_le n 1)) ≫ f₀,
-        relativeDifferenceCochain X B Y y n f₀ f₁ agree = d := by
-  sorry
-
-/-- A cocycle represents zero exactly when it is a coboundary. This criterion permits
-changing the n-skeleton, and the agreement retains the base and preceding skeleton. -/
-theorem relativeObstructionClass_zero_iff_adjusted_extension
-    (f₀ : (TauCeti.skeletonBasePair (D := B) (Set.univ : Set X) n).fst ⟶ TopCat.of Y) :
-    (∃ d : (relativeObstructionCochainComplex X B Y y n).X n,
-      (relativeObstructionCochainComplex X B Y y n).d n (n + 1) d =
-        relativeObstructionCochain X B Y y n f₀) ↔
-    ∃ f₁ : (TauCeti.skeletonBasePair (D := B) (Set.univ : Set X) n).fst ⟶ TopCat.of Y,
-      TopPair.Hom.fst (TauCeti.skeletonBasePairInclusion (D := B) (Set.univ : Set X)
-        (Nat.sub_le n 1)) ≫ f₁ =
-      TopPair.Hom.fst (TauCeti.skeletonBasePairInclusion (D := B) (Set.univ : Set X)
-        (Nat.sub_le n 1)) ≫ f₀ ∧
-      ∃ g : (TauCeti.skeletonBasePair (D := B) (Set.univ : Set X) (n + 1)).fst ⟶
-        TopCat.of Y,
-        TopPair.Hom.fst (TauCeti.skeletonBasePairToSucc (D := B) (Set.univ : Set X) n) ≫
-          g = f₁ := by
-  sorry
-
-end SimplyConnectedObstructions
-
 end
 
 universe u
 
-/-! ### Stage 2.5: the single coordinate cube, sup-ball and round-disk maps -/
+/-! ### Stage 2.5: the coordinate sup-ball and its boundary pair -/
 
 abbrev coordinateSupBall (n : ℕ) : TopCat.{u} :=
   TopCat.of (ULift.{u} (Metric.closedBall (0 : Fin n → ℝ) 1))
@@ -1892,86 +931,7 @@ abbrev coordinateSupBall (n : ℕ) : TopCat.{u} :=
 abbrev coordinateSupBallPair (n : ℕ) : TopPair.{u} :=
   TopPair.ofSubset (X := coordinateSupBall.{u} n) {x | ‖(x.down : Fin n → ℝ)‖ = 1}
 
-noncomputable def coordinateCubeSupBallHomeomorph (n : ℕ) :
-    (coordinateCubePair.{u} n).fst ≃ₜ coordinateSupBall.{u} n := by
-  sorry
-
-theorem coordinateCubeSupBallHomeomorph_apply (n : ℕ)
-    (t : (coordinateCubePair.{u} n).fst) (j : Fin n) :
-    ((coordinateCubeSupBallHomeomorph n t).down : Fin n → ℝ) j =
-      2 * (t.down j : ℝ) - 1 := by
-  sorry
-
-noncomputable def supBallEuclideanDiskHomeomorph (n : ℕ) :
-    coordinateSupBall.{u} n ≃ₜ TopCat.disk.{u} n := by
-  sorry
-
-theorem supBallEuclideanDiskHomeomorph_apply (n : ℕ) (x : coordinateSupBall.{u} n) :
-    ((supBallEuclideanDiskHomeomorph n x).down : EuclideanSpace ℝ (Fin n)) =
-      if (x.down : Fin n → ℝ) = 0 then 0
-      else (‖(x.down : Fin n → ℝ)‖ / ‖WithLp.toLp 2 (x.down : Fin n → ℝ)‖) •
-        WithLp.toLp 2 (x.down : Fin n → ℝ) := by
-  sorry
-
-theorem coordinateCubeSupBallHomeomorph_boundary (n : ℕ)
-    (t : (coordinateCubePair.{u} n).fst) :
-    ‖((coordinateCubeSupBallHomeomorph n t).down : Fin n → ℝ)‖ = 1 ↔
-      t.down ∈ Cube.boundary (Fin n) := by
-  sorry
-
-theorem supBallEuclideanDiskHomeomorph_boundary (n : ℕ) (x : coordinateSupBall.{u} n) :
-    supBallEuclideanDiskHomeomorph n x ∈ Set.range (TopCat.diskBoundaryInclusion n) ↔
-      ‖(x.down : Fin n → ℝ)‖ = 1 := by
-  sorry
-
-noncomputable def coordinateCubeSupBallPairMap (n : ℕ) :
-    coordinateCubePair.{u} n ⟶ coordinateSupBallPair.{u} n :=
-  TopPair.ofSubsetMap
-    (TopCat.ofHom ⟨coordinateCubeSupBallHomeomorph n, (coordinateCubeSupBallHomeomorph n).continuous⟩)
-    (by
-      intro t ht
-      exact (coordinateCubeSupBallHomeomorph_boundary n t).2 ht)
-
-theorem coordinateCubeSupBallPairMap_apply (n : ℕ) (t : (coordinateCubePair.{u} n).fst) :
-    TopPair.Hom.fst (coordinateCubeSupBallPairMap n) t =
-      coordinateCubeSupBallHomeomorph n t := rfl
-
-noncomputable def supBallEuclideanDiskPairMap (n : ℕ) :
-    coordinateSupBallPair.{u} n ⟶ TauCeti.diskBoundaryPair.{u} n := by
-  sorry
-
-theorem supBallEuclideanDiskPairMap_apply (n : ℕ) (x : coordinateSupBall.{u} n) :
-    TopPair.Hom.fst (supBallEuclideanDiskPairMap n) x =
-      supBallEuclideanDiskHomeomorph n x := by
-  sorry
-
-noncomputable def coordinateSupBallReferenceClass (n : ℕ) :
-    (coordinateSupBallPair.{u} n).singularHomology (C := ModuleCat.{u} ℤ)
-      (ModuleCat.of ℤ (ULift.{u} ℤ)) n :=
-  (TopPair.singularHomologyMap (coordinateCubeSupBallPairMap n)
-    (ModuleCat.of ℤ (ULift.{u} ℤ)) n) (coordinateCubeReferenceClass n)
-
-noncomputable def coordinateEuclideanDiskReferenceClass (n : ℕ) :
-    (TauCeti.diskBoundaryPair.{u} n).singularHomology (C := ModuleCat.{u} ℤ)
-      (ModuleCat.of ℤ (ULift.{u} ℤ)) n :=
-  (TopPair.singularHomologyMap (supBallEuclideanDiskPairMap n)
-    (ModuleCat.of ℤ (ULift.{u} ℤ)) n) (coordinateSupBallReferenceClass n)
-
-
-/-- Defined directly from the existing native disk isomorphism, before any sphere quotient. -/
-noncomputable def coordinateDiskNativeComparisonCoefficient (n : ℕ) : ℤ :=
-  ((TauCeti.singularHomologyDiskBoundaryPairIso
-    (ModuleCat.of ℤ (ULift.{u} ℤ)) n).hom (coordinateEuclideanDiskReferenceClass n)).down
-
-theorem coordinateDiskNativeComparisonCoefficient_isUnit (n : ℕ) :
-    IsUnit (coordinateDiskNativeComparisonCoefficient n) := by
-  sorry
-
-theorem coordinateDiskNativeComparisonCoefficient_zero :
-    coordinateDiskNativeComparisonCoefficient.{u} 0 = 1 := by
-  sorry
-
-/-! ### Stage 4.4: chosen based disk, smash and suspension sphere homeomorphisms -/
+/-! ### Stage 4.4: based disk, cube, smash and suspension quotients -/
 
 /-- The actual image of Mathlib's disk-boundary inclusion; empty for n=0. -/
 noncomputable def diskBoundarySubset (n : ℕ) : Set (TopCat.disk.{u} n) :=
@@ -1983,63 +943,6 @@ noncomputable abbrev basedDiskQuotient (n : ℕ) : TopCat.{u} :=
 abbrev basedCubeQuotient (n : ℕ) : TopCat.{u} :=
   ordinaryPairQuotient (coordinateCubePair.{u} n).fst
     {t | t.down ∈ Cube.boundary (Fin n)}
-
-/-- Coordinate order, followed by the orientation-preserving sup-ball/Euclidean radial map. -/
-noncomputable def coordinateCubeDiskHomeomorph (n : ℕ) :
-    (coordinateCubePair.{u} n).fst ≃ₜ TopCat.disk.{u} n :=
-  (coordinateCubeSupBallHomeomorph n).trans (supBallEuclideanDiskHomeomorph n)
-
-theorem coordinateCubeDiskHomeomorph_boundary (n : ℕ)
-    (t : (coordinateCubePair.{u} n).fst) :
-    coordinateCubeDiskHomeomorph n t ∈ diskBoundarySubset n ↔
-      t.down ∈ Cube.boundary (Fin n) := by
-  sorry
-
-noncomputable def diskQuotientSphereHomeomorph (n : ℕ) :
-    basedDiskQuotient.{u} n ≃ₜ homotopySphere.{u} n := by
-  sorry
-
-noncomputable def coordinateCubeQuotientSphereHomeomorph (n : ℕ) :
-    basedCubeQuotient.{u} n ≃ₜ homotopySphere.{u} n := by
-  sorry
-
-theorem diskQuotientSphereHomeomorph_point (n : ℕ) :
-    diskQuotientSphereHomeomorph n
-      (ordinaryPairQuotientPoint (TopCat.disk.{u} n) (diskBoundarySubset n)) =
-      ULift.up (homotopySpherePole n) := by
-  sorry
-
-theorem coordinateCubeQuotientSphereHomeomorph_point (n : ℕ) :
-    coordinateCubeQuotientSphereHomeomorph n
-      (ordinaryPairQuotientPoint (coordinateCubePair.{u} n).fst
-        {t | t.down ∈ Cube.boundary (Fin n)}) = ULift.up (homotopySpherePole n) := by
-  sorry
-
-/-- The disk point is the nonbasepoint of S⁰; the added point is the positive pole. -/
-theorem diskQuotientSphereHomeomorph_zero (x : TopCat.disk.{u} 0) :
-    diskQuotientSphereHomeomorph 0
-      ((ordinaryPairQuotientMap (TopCat.disk.{u} 0) (diskBoundarySubset 0)) x) =
-        ULift.up (-homotopySpherePole 0) := by
-  sorry
-
-/-- The new all-degree homeomorphism agrees with the existing positive-degree quotient. -/
-theorem coordinateCubeQuotientSphereHomeomorph_positive (n : ℕ) [NeZero n]
-    (t : (coordinateCubePair.{u} n).fst) :
-    coordinateCubeQuotientSphereHomeomorph n
-      ((ordinaryPairQuotientMap (coordinateCubePair.{u} n).fst
-        {t | t.down ∈ Cube.boundary (Fin n)}) t) =
-      ULift.up (cubicalSphereQuotient n t.down) := by
-  sorry
-
-theorem coordinateCubeDiskQuotient_commutes (n : ℕ)
-    (t : (coordinateCubePair.{u} n).fst) :
-    diskQuotientSphereHomeomorph n
-      ((ordinaryPairQuotientMap (TopCat.disk.{u} n) (diskBoundarySubset n))
-        (coordinateCubeDiskHomeomorph n t)) =
-      coordinateCubeQuotientSphereHomeomorph n
-        ((ordinaryPairQuotientMap (coordinateCubePair.{u} n).fst
-          {t | t.down ∈ Cube.boundary (Fin n)}) t) := by
-  sorry
 
 /-- Bare pointed smash quotient. Categorical and homology adapters consume this carrier. -/
 def basedSmashCarrier (X Y : TopCat.{u}) (x : X) (y : Y) : TopCat.{u} :=
@@ -2053,320 +956,13 @@ def basedSmashQuotientMap (X Y : TopCat.{u}) (x : X) (y : Y) :
 def reducedSuspensionCarrier (X : TopCat.{u}) (x : X) : TopCat.{u} :=
   ordinaryPairQuotient (X × unitInterval) {p | p.1 = x ∨ p.2 = 0 ∨ p.2 = 1}
 
-noncomputable def sphereSmashHomeomorph (m n : ℕ) :
-    basedSmashCarrier (homotopySphere.{u} m) (homotopySphere.{u} n)
-      (ULift.up (homotopySpherePole m)) (ULift.up (homotopySpherePole n)) ≃ₜ
-      homotopySphere.{u} (m + n) := by
-  sorry
-
-noncomputable def reducedSuspensionSphereHomeomorph (n : ℕ) :
-    reducedSuspensionCarrier (homotopySphere.{u} n)
-      (ULift.up (homotopySpherePole n)) ≃ₜ homotopySphere.{u} (n + 1) := by
-  sorry
-
-theorem sphereSmashHomeomorph_point (m n : ℕ) :
-    sphereSmashHomeomorph m n
-      (ordinaryPairQuotientPoint (homotopySphere.{u} m × homotopySphere.{u} n)
-        {p | p.1 = ULift.up (homotopySpherePole m) ∨
-          p.2 = ULift.up (homotopySpherePole n)}) =
-      ULift.up (homotopySpherePole (m + n)) := by
-  sorry
-
-theorem reducedSuspensionSphereHomeomorph_point (n : ℕ) :
-    reducedSuspensionSphereHomeomorph n
-      (ordinaryPairQuotientPoint (homotopySphere.{u} n × unitInterval)
-        {p | p.1 = ULift.up (homotopySpherePole n) ∨ p.2 = 0 ∨ p.2 = 1}) =
-      ULift.up (homotopySpherePole (n + 1)) := by
-  sorry
-
-/-- All-degree cube pair map through the same quotient and chosen homeomorphism. -/
-noncomputable def basedCubeSpherePairMap (n : ℕ) :
-    coordinateCubePair.{u} n ⟶ homotopySpherePolePair.{u} n :=
-  TopPair.ofSubsetMap
-    (ordinaryPairQuotientMap (coordinateCubePair.{u} n).fst
-      {t | t.down ∈ Cube.boundary (Fin n)} ≫
-        (TopCat.isoOfHomeo (coordinateCubeQuotientSphereHomeomorph n)).hom) (by
-    sorry)
-
-/-- Normalized independently: positive local chart for n>0; [-p]-[p] for n=0. -/
-noncomputable def basedSphereReferenceGenerator (n : ℕ) :
-    (homotopySpherePolePair.{u} n).singularHomology
-      (C := ModuleCat.{u} ℤ) (ModuleCat.of ℤ (ULift.{u} ℤ)) n := by
-  sorry
-
-theorem basedSphereReferenceGenerator_positive (n : ℕ) [NeZero n] :
-    basedSphereReferenceGenerator n =
-      homotopySphereAbsoluteToRelative n (sphereFundamentalGenerator n) := by
-  sorry
-
-theorem basedSphereReferenceGenerator_zero :
-    basedSphereReferenceGenerator.{u} 0 =
-      homotopySphereAbsoluteToRelative 0
-        ((TauCeti.singularHomology₀Section (ModuleCat.of ℤ (ULift.{u} ℤ))
-          (X := homotopySphere.{u} 0) (ULift.up (-homotopySpherePole 0))) (ULift.up (1 : ℤ)) -
-        (TauCeti.singularHomology₀Section (ModuleCat.of ℤ (ULift.{u} ℤ))
-          (X := homotopySphere.{u} 0) (ULift.up (homotopySpherePole 0))) (ULift.up (1 : ℤ))) := by
-  sorry
-
-theorem basedCubeSpherePairMap_referenceClass (n : ℕ) :
-    ((coordinateCubePair.{u} n).singularHomologyMap (basedCubeSpherePairMap n)
-      (ModuleCat.of ℤ (ULift.{u} ℤ)) n) (coordinateCubeReferenceClass n) =
-      basedSphereReferenceGenerator n := by
-  sorry
-
-/-- Concatenate cube coordinates, map each block to its sphere, and collapse their wedge. -/
-noncomputable def sphereSmashCubePairMap (m n : ℕ) :
-    coordinateCubePair.{u} (m + n) ⟶ homotopySpherePolePair.{u} (m + n) := by
-  sorry
-
-/-- The formula is pinned, not an unspecified map with a generator equation. -/
-theorem sphereSmashCubePairMap_apply (m n : ℕ)
-    (t : (coordinateCubePair.{u} (m + n)).fst) :
-    TopPair.Hom.fst (sphereSmashCubePairMap m n) t =
-      sphereSmashHomeomorph m n
-        (basedSmashQuotientMap (homotopySphere.{u} m) (homotopySphere.{u} n)
-          (ULift.up (homotopySpherePole m)) (ULift.up (homotopySpherePole n))
-          (TopPair.Hom.fst (basedCubeSpherePairMap m) (ULift.up (fun j => t.down (Fin.castAdd n j))),
-           TopPair.Hom.fst (basedCubeSpherePairMap n) (ULift.up (fun j => t.down (Fin.natAdd m j))))) := by
-  sorry
-
-
-
-noncomputable def reducedSuspensionSphereCubePairMap (n : ℕ) :
-    coordinateCubePair.{u} (n + 1) ⟶ homotopySpherePolePair.{u} (n + 1) := by
-  sorry
-
-theorem reducedSuspensionSphereCubePairMap_apply (n : ℕ)
-    (t : (coordinateCubePair.{u} (n + 1)).fst) :
-    TopPair.Hom.fst (reducedSuspensionSphereCubePairMap n) t =
-      reducedSuspensionSphereHomeomorph n
-        ((ordinaryPairQuotientMap (homotopySphere.{u} n × unitInterval)
-          {p | p.1 = ULift.up (homotopySpherePole n) ∨ p.2 = 0 ∨ p.2 = 1})
-          (TopPair.Hom.fst (basedCubeSpherePairMap n)
-            (ULift.up (fun j => t.down (Fin.castSucc j))), t.down (Fin.last n))) := by
-  sorry
-
-
-
-/-- Surjectivity of the cube representatives makes the smash homeomorphism unique. -/
-theorem sphereSmashCubePairMap_eq (m n : ℕ) :
-    sphereSmashCubePairMap.{u} m n = basedCubeSpherePairMap.{u} (m + n) := by
-  sorry
-
-theorem sphereSmashHomeomorph_referenceClass (m n : ℕ) :
-    ((coordinateCubePair.{u} (m + n)).singularHomologyMap (sphereSmashCubePairMap m n)
-      (ModuleCat.of ℤ (ULift.{u} ℤ)) (m + n)) (coordinateCubeReferenceClass (m + n)) =
-      basedSphereReferenceGenerator (m + n) := by
-  rw [sphereSmashCubePairMap_eq]
-  exact basedCubeSpherePairMap_referenceClass _
-
-/-- The right suspension is the same chosen next-dimensional cube quotient. -/
-theorem reducedSuspensionSphereCubePairMap_eq (n : ℕ) :
-    reducedSuspensionSphereCubePairMap.{u} n = basedCubeSpherePairMap.{u} (n + 1) := by
-  sorry
-
-theorem reducedSuspensionSphereHomeomorph_referenceClass (n : ℕ) :
-    ((coordinateCubePair.{u} (n + 1)).singularHomologyMap
-      (reducedSuspensionSphereCubePairMap n) (ModuleCat.of ℤ (ULift.{u} ℤ)) (n + 1))
-      (coordinateCubeReferenceClass (n + 1)) = basedSphereReferenceGenerator (n + 1) := by
-  rw [reducedSuspensionSphereCubePairMap_eq]
-  exact basedCubeSpherePairMap_referenceClass _
-
 noncomputable abbrev sphereSmashQuotientMap (m n : ℕ) :=
   basedSmashQuotientMap (homotopySphere.{u} m) (homotopySphere.{u} n)
     (ULift.up (homotopySpherePole m)) (ULift.up (homotopySpherePole n))
 
-theorem sphereSmashHomeomorph_assoc (ℓ m n : ℕ)
-    (x : homotopySphere.{u} ℓ) (y : homotopySphere.{u} m) (z : homotopySphere.{u} n) :
-    (eqToHom (congrArg homotopySphere (Nat.add_assoc ℓ m n)))
-      (sphereSmashHomeomorph (ℓ + m) n
-        (sphereSmashQuotientMap (ℓ + m) n
-          (sphereSmashHomeomorph ℓ m (sphereSmashQuotientMap ℓ m (x, y)), z))) =
-      sphereSmashHomeomorph ℓ (m + n)
-        (sphereSmashQuotientMap ℓ (m + n)
-          (x, sphereSmashHomeomorph m n (sphereSmashQuotientMap m n (y, z)))) := by
-  sorry
-
-theorem sphereSmashHomeomorph_unit_left (n : ℕ) (x : homotopySphere.{u} n) :
-    (eqToHom (congrArg homotopySphere (Nat.zero_add n)))
-      (sphereSmashHomeomorph 0 n
-        (sphereSmashQuotientMap 0 n (ULift.up (-homotopySpherePole 0), x))) = x := by
-  sorry
-
-theorem sphereSmashHomeomorph_unit_right (n : ℕ) (x : homotopySphere.{u} n) :
-    (eqToHom (congrArg homotopySphere (Nat.add_zero n)))
-      (sphereSmashHomeomorph n 0
-        (sphereSmashQuotientMap n 0 (x, ULift.up (-homotopySpherePole 0)))) = x := by
-  sorry
-
-theorem reducedSuspensionSphereHomeomorph_smash (n : ℕ)
-    (x : homotopySphere.{u} n) (t : unitInterval) :
-    reducedSuspensionSphereHomeomorph n
-      ((ordinaryPairQuotientMap (homotopySphere.{u} n × unitInterval)
-        {p | p.1 = ULift.up (homotopySpherePole n) ∨ p.2 = 0 ∨ p.2 = 1}) (x, t)) =
-      sphereSmashHomeomorph n 1
-        (sphereSmashQuotientMap n 1
-          (x, TopPair.Hom.fst (basedCubeSpherePairMap 1) (ULift.up (fun _ => t)))) := by
-  sorry
-
-noncomputable def sphereFactorInterchangePairMap (m n : ℕ) :
-    homotopySpherePolePair.{u} (m + n) ⟶ homotopySpherePolePair.{u} (n + m) := by
-  sorry
-
-theorem sphereFactorInterchangePairMap_apply (m n : ℕ)
-    (x : homotopySphere.{u} m) (y : homotopySphere.{u} n) :
-    TopPair.Hom.fst (sphereFactorInterchangePairMap m n)
-      (sphereSmashHomeomorph m n (sphereSmashQuotientMap m n (x, y))) =
-      sphereSmashHomeomorph n m (sphereSmashQuotientMap n m (y, x)) := by
-  sorry
-
-theorem sphereFactorInterchangePairMap_referenceClass (m n : ℕ) :
-    (TopPair.singularHomologyMap (sphereFactorInterchangePairMap m n)
-      (ModuleCat.of ℤ (ULift.{u} ℤ)) (m + n)) (basedSphereReferenceGenerator (m + n)) =
-      (eqToHom (congrArg (fun d => (homotopySpherePolePair.{u} (n + m)).singularHomology
-        (C := ModuleCat.{u} ℤ) (ModuleCat.of ℤ (ULift.{u} ℤ)) d) (Nat.add_comm n m)))
-        (((-1 : ℤ) ^ (m * n)) • basedSphereReferenceGenerator (n + m)) := by
-  sorry
-
-/-- The quotient disk map has a separately stated reference-class comparison. -/
-noncomputable def basedDiskSpherePairMap (n : ℕ) :
-    TauCeti.diskBoundaryPair.{u} n ⟶ homotopySpherePolePair.{u} n := by
-  sorry
-
-theorem basedDiskSpherePairMap_apply (n : ℕ) (x : TopCat.disk.{u} n) :
-    TopPair.Hom.fst (basedDiskSpherePairMap n) x =
-      diskQuotientSphereHomeomorph n
-        ((ordinaryPairQuotientMap (TopCat.disk.{u} n) (diskBoundarySubset n)) x) := by
-  sorry
-
-theorem diskQuotientSphereHomeomorph_referenceClass (n : ℕ) :
-    (TopPair.singularHomologyMap (basedDiskSpherePairMap n)
-      (ModuleCat.of ℤ (ULift.{u} ℤ)) n) (coordinateEuclideanDiskReferenceClass n) =
-      basedSphereReferenceGenerator n := by
-  sorry
-
 /-- The boundary carrier is definitionally Mathlib's lifted metric sphere. -/
 noncomputable def diskBoundarySphereHomeomorph (n : ℕ) :
     TopCat.diskBoundary.{u} (n + 1) ≃ₜ homotopySphere.{u} n := Homeomorph.refl _
-
-/-- Native singular-homology/pole-pair comparison for the same sphere carrier. -/
-noncomputable def diskBoundaryHomologyToRelative (n : ℕ) :
-    (TopCat.toSSet.obj (TopCat.diskBoundary.{u} (n + 1))).homology
-      (ModuleCat.of ℤ (ULift.{u} ℤ)) n ⟶
-    (homotopySpherePolePair.{u} n).singularHomology
-      (C := ModuleCat.{u} ℤ) (ModuleCat.of ℤ (ULift.{u} ℤ)) n :=
-  (((AlgebraicTopology.singularHomologyFunctor (ModuleCat.{u} ℤ) n).obj
-      (ModuleCat.of ℤ (ULift.{u} ℤ))).map
-        (TopCat.ofHom ⟨diskBoundarySphereHomeomorph n,
-          (diskBoundarySphereHomeomorph n).continuous⟩)) ≫
-    homotopySphereAbsoluteToRelative n
-
-/-- Take the actual native pair boundary of the coordinate-oriented round-disk class. -/
-noncomputable def diskBoundaryReferenceRadial (n : ℕ) :
-    (homotopySpherePolePair.{u} n).singularHomology
-      (C := ModuleCat.{u} ℤ) (ModuleCat.of ℤ (ULift.{u} ℤ)) n :=
-  diskBoundaryHomologyToRelative n
-    (((TauCeti.diskBoundaryPair.{u} (n + 1)).singularHomologyδ
-      (ModuleCat.of ℤ (ULift.{u} ℤ)) (n + 1) n) (coordinateEuclideanDiskReferenceClass (n + 1)))
-
-theorem diskBoundaryReference_radial_pos (n : ℕ) [NeZero n] :
-    diskBoundaryReferenceRadial.{u} n = basedSphereReferenceGenerator n := by
-  sorry
-
-theorem diskBoundaryReference_radial_zero :
-    diskBoundaryReferenceRadial.{u} 0 = -basedSphereReferenceGenerator.{u} 0 := by
-  sorry
-
-/-- Actual native generator, included into absolute homology and then into the pole pair. -/
-noncomputable def nativeSphereGeneratorToPolePair (n : ℕ) :
-    (homotopySpherePolePair.{u} n).singularHomology
-      (C := ModuleCat.{u} ℤ) (ModuleCat.of ℤ (ULift.{u} ℤ)) n :=
-  homotopySphereAbsoluteToRelative n
-    (((TauCeti.reducedSingularHomologyι (ModuleCat.of ℤ (ULift.{u} ℤ)) n).app
-      (homotopySphere.{u} n))
-        ((TauCeti.reducedSingularHomologyTopCatSphereIso
-          (ModuleCat.of ℤ (ULift.{u} ℤ)) n).inv (ULift.up 1)))
-
-theorem nativeSphereReferenceComparison_existsUnit (n : ℕ) :
-    ∃ ε : ℤˣ, basedSphereReferenceGenerator.{u} n =
-      (ε : ℤ) • nativeSphereGeneratorToPolePair n := by
-  sorry
-
-noncomputable def nativeSphereReferenceComparisonUnit (n : ℕ) : ℤˣ :=
-  Classical.choose (nativeSphereReferenceComparison_existsUnit.{u} n)
-
-theorem nativeSphereReferenceComparisonUnit_referenceClass (n : ℕ) :
-    basedSphereReferenceGenerator.{u} n =
-      (nativeSphereReferenceComparisonUnit.{u} n : ℤ) • nativeSphereGeneratorToPolePair n :=
-  Classical.choose_spec (nativeSphereReferenceComparison_existsUnit n)
-
-/-- The actual native zero-sphere pole, transported back through the native coordinate isometry. -/
-noncomputable def nativeSphereZeroPole : homotopySphere.{u} 0 := by
-  let e := TauCeti.diskBoundaryHomeomorph.{u} 1
-  haveI : Nonempty _ := ⟨e (ULift.up (homotopySpherePole 0))⟩
-  exact e.symm (Classical.arbitrary _)
-
-theorem nativeSphereReferenceComparisonUnit_zero_eq_one_iff :
-    nativeSphereReferenceComparisonUnit.{u} 0 = 1 ↔
-      nativeSphereZeroPole.{u} = ULift.up (homotopySpherePole 0) := by
-  sorry
-
-theorem coordinateDiskNativeComparisonCoefficient_succ (n : ℕ) :
-    coordinateDiskNativeComparisonCoefficient.{u} (n + 1) =
-      (if n = 0 then -1 else 1) * (nativeSphereReferenceComparisonUnit.{u} n : ℤ) := by
-  sorry
-
-/-! Raw quotient-to-kification comparisons use only §3A.1; §3A.2 later supplies convenient adapters. -/
-
-noncomputable def compactBasedSmashCarrierComparison
-    (k : TopCat.{u} ⥤ CompactlyGenerated.{u,u})
-    (hk : CompactlyGenerated.compactlyGeneratedToTop.{u,u} ⊣ k)
-    (X Y : TopCat.{u}) [CompactSpace X] [CompactSpace Y] [T2Space X] [T2Space Y]
-    (x : X) (y : Y) :
-    basedSmashCarrier X Y x y ≃ₜ k.obj (basedSmashCarrier X Y x y) := by
-  sorry
-
-theorem compactBasedSmashCarrierComparison_counit
-    (k : TopCat.{u} ⥤ CompactlyGenerated.{u,u})
-    (hk : CompactlyGenerated.compactlyGeneratedToTop.{u,u} ⊣ k)
-    (X Y : TopCat.{u}) [CompactSpace X] [CompactSpace Y] [T2Space X] [T2Space Y]
-    (x : X) (y : Y) (z : basedSmashCarrier X Y x y) :
-    (hk.counit.app (basedSmashCarrier X Y x y))
-      (compactBasedSmashCarrierComparison k hk X Y x y z) = z := by
-  sorry
-
-noncomputable def compactReducedSuspensionCarrierComparison
-    (k : TopCat.{u} ⥤ CompactlyGenerated.{u,u})
-    (hk : CompactlyGenerated.compactlyGeneratedToTop.{u,u} ⊣ k)
-    (X : TopCat.{u}) [CompactSpace X] [T2Space X] (x : X) :
-    reducedSuspensionCarrier X x ≃ₜ k.obj (reducedSuspensionCarrier X x) := by
-  sorry
-
-theorem compactReducedSuspensionCarrierComparison_counit
-    (k : TopCat.{u} ⥤ CompactlyGenerated.{u,u})
-    (hk : CompactlyGenerated.compactlyGeneratedToTop.{u,u} ⊣ k)
-    (X : TopCat.{u}) [CompactSpace X] [T2Space X] (x : X)
-    (z : reducedSuspensionCarrier X x) :
-    (hk.counit.app (reducedSuspensionCarrier X x))
-      (compactReducedSuspensionCarrierComparison k hk X x z) = z := by
-  sorry
-
-/-- The CW quotient is compactly generated even when X is not compact. -/
-noncomputable def cwReducedSuspensionKelleyComparison
-    (k : TopCat.{u} ⥤ CompactlyGenerated.{u,u})
-    (hk : CompactlyGenerated.compactlyGeneratedToTop.{u,u} ⊣ k)
-    (X : TopCat.{u}) [T2Space X] [CWComplex (Set.univ : Set X)] (x : X) :
-    reducedSuspensionCarrier X x ≃ₜ k.obj (reducedSuspensionCarrier X x) := by
-  sorry
-
-theorem cwReducedSuspensionKelleyComparison_counit
-    (k : TopCat.{u} ⥤ CompactlyGenerated.{u,u})
-    (hk : CompactlyGenerated.compactlyGeneratedToTop.{u,u} ⊣ k)
-    (X : TopCat.{u}) [T2Space X] [CWComplex (Set.univ : Set X)] (x : X)
-    (z : reducedSuspensionCarrier X x) :
-    (hk.counit.app (reducedSuspensionCarrier X x))
-      (cwReducedSuspensionKelleyComparison k hk X x z) = z := by
-  sorry
 
 /-! ### Stage 8.11b: the two-step cone quotient uses the same interval-last suspension carrier -/
 
@@ -2401,38 +997,6 @@ def ordinaryTwoStepSuspensionQuotientMap (X : TopCat.{u}) (x : X) :
     ordinaryPairQuotientMap (ordinaryUnreducedSuspensionCarrier X)
       (Set.range (ordinaryBasepointMeridian X x))
 
-noncomputable def reducedSuspensionTwoStepHomeomorph (X : TopCat.{u}) (x : X) :
-    ordinaryTwoStepReducedSuspensionCarrier X x ≃ₜ reducedSuspensionCarrier X x := by
-  sorry
-
-theorem reducedSuspensionTwoStepHomeomorph_apply (X : TopCat.{u}) (x z : X)
-    (t : unitInterval) :
-    reducedSuspensionTwoStepHomeomorph X x (ordinaryTwoStepSuspensionQuotientMap X x (z, t)) =
-      (ordinaryPairQuotientMap (X × unitInterval)
-        {p | p.1 = x ∨ p.2 = 0 ∨ p.2 = 1}) (z, t) := by
-  sorry
-
-theorem reducedSuspensionTwoStepHomeomorph_point (X : TopCat.{u}) (x : X) :
-    reducedSuspensionTwoStepHomeomorph X x
-      (ordinaryPairQuotientPoint (ordinaryUnreducedSuspensionCarrier X)
-        (Set.range (ordinaryBasepointMeridian X x))) =
-      ordinaryPairQuotientPoint (X × unitInterval) {p | p.1 = x ∨ p.2 = 0 ∨ p.2 = 1} := by
-  sorry
-
-/-- The all-degree quotient map specializes to the existing positive-degree map. -/
-theorem basedCubeSpherePairMap_positive (n : ℕ) [NeZero n] :
-    basedCubeSpherePairMap.{u} n = cubicalSpherePairMap.{u} n := by
-  sorry
-
-/-- Compatibility alias derived from Stage4.4's single all-degree reference comparison. -/
-theorem cubicalSphereQuotient_referenceClass (n : ℕ) [NeZero n] :
-    ((coordinateCubePair.{u} n).singularHomologyMap (cubicalSpherePairMap n)
-      (ModuleCat.of ℤ (ULift.{u} ℤ)) n) (coordinateCubeReferenceClass n) =
-        homotopySphereAbsoluteToRelative n (sphereFundamentalGenerator n) := by
-  have h := basedCubeSpherePairMap_referenceClass.{u} n
-  rw [basedCubeSpherePairMap_positive, basedSphereReferenceGenerator_positive] at h
-  exact h
-
 /-! ### Stage 2.7: finite-dimensional Brouwer fixed point -/
 
 /-- Native disk inclusion cannot have a continuous retraction, including n=0. -/
@@ -2449,38 +1013,6 @@ theorem brouwerFixedPoint_topCatDisk (n : ℕ)
 section BrouwerFixedPoint
 variable {E : Type u} [NormedAddCommGroup E] [NormedSpace ℝ E]
   [FiniteDimensional ℝ E]
-
-/-- Explicit coordinate choice pins the radial map to the actual lifted native disk. -/
-noncomputable def normedUnitBallTopCatDiskHomeomorph {k : ℕ} :
-    (e : E ≃L[ℝ] EuclideanSpace ℝ (Fin k)) →
-      Metric.closedBall (0 : E) 1 ≃ₜ TopCat.disk.{u} k := by
-  sorry
-
-theorem normedUnitBallTopCatDiskHomeomorph_apply {k : ℕ}
-    (e : E ≃L[ℝ] EuclideanSpace ℝ (Fin k))
-    (x : Metric.closedBall (0 : E) 1) :
-    ((normedUnitBallTopCatDiskHomeomorph e x).down : EuclideanSpace ℝ (Fin k)) =
-      (‖(x : E)‖ / ‖e x‖) • e x := by
-  sorry
-
-theorem normedUnitBallTopCatDiskHomeomorph_symm_apply {k : ℕ}
-    (e : E ≃L[ℝ] EuclideanSpace ℝ (Fin k)) (y : TopCat.disk.{u} k) :
-    ((normedUnitBallTopCatDiskHomeomorph e).symm y : E) =
-      (‖(y.down : EuclideanSpace ℝ (Fin k))‖ / ‖e.symm y.down‖) • e.symm y.down := by
-  sorry
-
-theorem normedUnitBallTopCatDiskHomeomorph_zero {k : ℕ}
-    (e : E ≃L[ℝ] EuclideanSpace ℝ (Fin k)) :
-    normedUnitBallTopCatDiskHomeomorph e (⟨0, by simp⟩ : Metric.closedBall (0 : E) 1) =
-      ULift.up ⟨0, by simp⟩ := by
-  sorry
-
-theorem normedUnitBallTopCatDiskHomeomorph_norm {k : ℕ}
-    (e : E ≃L[ℝ] EuclideanSpace ℝ (Fin k))
-    (x : Metric.closedBall (0 : E) 1) :
-    ‖((normedUnitBallTopCatDiskHomeomorph e x).down : EuclideanSpace ℝ (Fin k))‖ =
-      ‖(x : E)‖ := by
-  sorry
 
 /-- Finite-dimensional Brouwer on the actual compact convex subtype. -/
 theorem brouwerFixedPoint_compactConvex (C : Set E) (hne : C.Nonempty)
@@ -2533,39 +1065,6 @@ theorem continuousOn_compactConvexRadialReach (C : Set E)
       (Metric.sphere (0 : (affineSpan ℝ C).direction) 1) := by
   sorry
 
-noncomputable def compactConvexClosedBallHomeomorph (C : Set E)
-    (hcompact : IsCompact C) (hconvex : Convex ℝ C) :
-    (c : E) → (hc : c ∈ intrinsicInterior ℝ C) →
-      Metric.closedBall (0 : (affineSpan ℝ C).direction) 1 ≃ₜ C := by
-  sorry
-
-/-- Unit direction and radial parameter fix the homeomorphism, rather than a choice. -/
-theorem compactConvexClosedBallHomeomorph_ray (C : Set E)
-    (hcompact : IsCompact C) (hconvex : Convex ℝ C)
-    (c : E) (hc : c ∈ intrinsicInterior ℝ C)
-    (u : (affineSpan ℝ C).direction) (hu : ‖u‖ = 1)
-    (t : ℝ) (ht : t ∈ Set.Icc (0 : ℝ) 1)
-    (htu : t • u ∈ Metric.closedBall (0 : (affineSpan ℝ C).direction) 1) :
-    (compactConvexClosedBallHomeomorph C hcompact hconvex c hc ⟨t • u, htu⟩ : E) =
-      c + (t * compactConvexRadialReach C c u) • (u : E) := by
-  sorry
-
-/-- The chosen radial map preserves the center. -/
-theorem compactConvexClosedBallHomeomorph_zero (C : Set E)
-    (hcompact : IsCompact C) (hconvex : Convex ℝ C)
-    (c : E) (hc : c ∈ intrinsicInterior ℝ C) :
-    (compactConvexClosedBallHomeomorph C hcompact hconvex c hc
-      (⟨0, by simp⟩ : Metric.closedBall (0 : (affineSpan ℝ C).direction) 1) : E) = c := by
-  sorry
-
-theorem compactConvexClosedBallHomeomorph_boundary (C : Set E)
-    (hcompact : IsCompact C) (hconvex : Convex ℝ C)
-    (c : E) (hc : c ∈ intrinsicInterior ℝ C)
-    (v : Metric.closedBall (0 : (affineSpan ℝ C).direction) 1) :
-    (compactConvexClosedBallHomeomorph C hcompact hconvex c hc v : E) ∈
-      intrinsicFrontier ℝ C ↔ ‖(v : (affineSpan ℝ C).direction)‖ = 1 := by
-  sorry
-
 end BrouwerFixedPoint
 
 section FiniteSpanBrouwer
@@ -2594,16 +1093,6 @@ abbrev relativeCWPushoutInclusion : TopCat.of B ⟶ TopCat.of Y :=
 noncomputable abbrev relativeCWPushoutCarrier (a : C(B, Z)) : TopCat.{u} :=
   pushout (relativeCWPushoutInclusion B) (TopCat.ofHom a)
 
-/-- Relative cells are retained after changing the base by the attachment. -/
-@[instance_reducible]
-noncomputable def relativeCWPushout [RelCWComplex (Set.univ : Set Y) B]
-    (a : C(B, Z)) :
-    RelCWComplex
-      (Set.univ : Set (relativeCWPushoutCarrier B a))
-      (Set.range (fun z : Z =>
-        (pushout.inr (relativeCWPushoutInclusion B) (TopCat.ofHom a)) z)) := by
-  sorry
-
 /-- Disk-by-disk separation retains Hausdorffness of the actual quotient pushout. -/
 theorem relativeCWPushout_t2Space [RelCWComplex (Set.univ : Set Y) B]
     (a : C(B, Z)) :
@@ -2615,29 +1104,6 @@ theorem relativeCWPushout_base_isClosedEmbedding
     [RelCWComplex (Set.univ : Set Y) B] (a : C(B, Z)) :
     IsClosedEmbedding
       (pushout.inr (relativeCWPushoutInclusion B) (TopCat.ofHom a)) := by
-  sorry
-
-/-- Exact relative-cell indexing, using the constructed pushout CW data. -/
-noncomputable def relativeCWPushout_cell [h : RelCWComplex (Set.univ : Set Y) B]
-    (a : C(B, Z)) (n : ℕ) :
-    letI := relativeCWPushout B a
-    Topology.RelCWComplex.cell
-      (D := Set.range (fun z : Z =>
-        (pushout.inr (relativeCWPushoutInclusion B) (TopCat.ofHom a)) z))
-      (Set.univ : Set (relativeCWPushoutCarrier B a)) n ≃ h.cell n := by
-  sorry
-
-/-- The pushout characteristic map is the original map followed by the actual quotient map. -/
-theorem relativeCWPushout_characteristicMap [h : RelCWComplex (Set.univ : Set Y) B]
-    (a : C(B, Z)) (n : ℕ) (i : h.cell n) (v : Fin n → ℝ)
-    (hv : v ∈ Metric.closedBall (0 : Fin n → ℝ) 1) :
-    letI := relativeCWPushout B a
-    Topology.RelCWComplex.map
-      (C := (Set.univ : Set (relativeCWPushoutCarrier B a)))
-      (D := Set.range (fun z : Z =>
-        (pushout.inr (relativeCWPushoutInclusion B) (TopCat.ofHom a)) z))
-      n ((relativeCWPushout_cell B a n).symm i) v =
-      (pushout.inl (relativeCWPushoutInclusion B) (TopCat.ofHom a)) (h.map n i v) := by
   sorry
 
 /-- Closed-cofibration HEP retains prescribed data on both endpoints and on A.
@@ -2669,6 +1135,23 @@ theorem homotopyInversePairExtension_left
       (∀ a' : A', g (a' : X') = (g₀ a' : X)) ∧
       (∀ (t : unitInterval) (a : A), H (t, (a : X)) = (H₀ (t, a) : X)) ∧
       (e.toFun.comp g).Homotopic (ContinuousMap.id X') := by
+  sorry
+
+/-- Stage 4.5: a homotopy equivalence of Hausdorff CW complexes that sends a chosen 0-cell
+basepoint to a chosen 0-cell basepoint has a based homotopy inverse, with unit and counit
+homotopies relative to the basepoints. -/
+theorem basedHomotopyInverseOfEquivalence {X Y : Type u}
+    [TopologicalSpace X] [TopologicalSpace Y] [T2Space X] [T2Space Y]
+    [CWComplex (Set.univ : Set X)] [CWComplex (Set.univ : Set Y)]
+    (e : ContinuousMap.HomotopyEquiv X Y) (x₀ : X) (y₀ : Y)
+    (hx₀ : ∃ i : Topology.RelCWComplex.cell (Set.univ : Set X) 0,
+      x₀ ∈ Topology.RelCWComplex.openCell (C := (Set.univ : Set X)) 0 i)
+    (hy₀ : ∃ i : Topology.RelCWComplex.cell (Set.univ : Set Y) 0,
+      y₀ ∈ Topology.RelCWComplex.openCell (C := (Set.univ : Set Y)) 0 i)
+    (he : e.toFun x₀ = y₀) :
+    ∃ g : C(Y, X), g y₀ = x₀ ∧
+      (g.comp e.toFun).HomotopicRel (ContinuousMap.id X) {x₀} ∧
+      (e.toFun.comp g).HomotopicRel (ContinuousMap.id Y) {y₀} := by
   sorry
 
 end RelativeCWPushouts
