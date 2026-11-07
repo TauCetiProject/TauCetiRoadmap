@@ -1,4 +1,6 @@
-import Mathlib
+module
+
+public import Mathlib
 
 /-!
 # Ordinary projectors and perfect ordinary factors: target signatures
@@ -32,6 +34,8 @@ provide these family carriers.
 The coefficient-tower gluing theorem (§0a.18) requires the coherent derived reduction diagrams
 and compatible minimal-model comparisons of §0a.0.3; those interfaces are absent at the pins.
 -/
+
+@[expose] public section
 
 namespace TauCetiRoadmap.PadicFamilies
 
@@ -137,3 +141,5 @@ theorem locally_finite_derived_ordinary_independence
   sorry
 
 end TauCetiRoadmap.PadicFamilies
+
+end
