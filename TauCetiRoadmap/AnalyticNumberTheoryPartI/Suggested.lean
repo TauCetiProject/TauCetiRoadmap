@@ -132,7 +132,7 @@ A real character is a Mathlib Dirichlet character with `MulChar.IsQuadratic`; pr
 constant below to be effective; effectivity is part of the specification and is not expressed by
 these signatures. -/
 
-/-- A primitive nonprincipal real character is a Kronecker character at odd primes (§0.34a). -/
+/-- The §0.34a consumer interface, specializing QuadraticCharactersAndReduction Q0–Q2. -/
 theorem quadratic_character_kronecker :
     ∀ (q : ℕ) [NeZero q] (χ : DirichletCharacter ℂ q),
       χ.IsPrimitive → χ.IsQuadratic → χ ≠ 1 →
@@ -140,7 +140,8 @@ theorem quadratic_character_kronecker :
           ∀ p : ℕ, p.Prime → p ≠ 2 → ¬ p ∣ q → χ (p : ZMod q) = (jacobiSym d p : ℂ) := by
   sorry
 
-/-- The Landau deduction (§0.34b): a real zero leaves few primes with `χ p = 1`. -/
+/-- The Landau deduction (§0.34b), consuming the direct Dirichlet retained-zero bound
+from ZerosOfLFunctions and the Euler interfaces of §0.11b. -/
 theorem split_prime_sum_le_of_real_zero :
     ∃ A : ℝ, 0 < A ∧ ∀ (q : ℕ) [NeZero q] (χ : DirichletCharacter ℂ q),
       3 ≤ q → χ.IsPrimitive → χ.IsQuadratic → χ ≠ 1 →
