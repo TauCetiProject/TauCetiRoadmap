@@ -2,22 +2,22 @@
 
 **Summary.** Starting from Mathlib's `CStarMatrix`, `IsStarProjection`, `unitary` and
 `ContinuousLinearMap.IsFredholm`, build K-theory of complex C*-algebras from projections and
-unitaries, with stability, homotopy, Bott periodicity and exact sequences (K1–K3). Develop
-Fredholm indices and extensions with their Busby invariants and Ext semigroups (K4), graded
-Kasparov theory (K5) and its product (K6), equivariance, descent and the crossed-product calculations (K7), the universal
-coefficient and Künneth theorems on the bootstrap class (K8), and asymptotic morphisms with
-E-theory (K9). The end theorems are Bott periodicity for arbitrary coefficient algebras, the
-six-term exact sequence of every extension, Atkinson's theorem with the K₀-valued module index,
-the group Ext(A,B) for separable nuclear A, associativity of the Kasparov product, the
-Green–Julg, Pimsner–Voiculescu and Connes–Thom theorems, the K-groups of free-group, rotation
-and Cuntz algebras, the UCT and Künneth sequences, the Brown–Douglas–Fillmore classification of
-essentially normal operators, and the universal property of E-theory. The output is a reusable
-functorial library whose geometric comparison, grading and boundary signs are explicit.
+unitaries, with stability, homotopy, Bott periodicity and exact sequences (K1–K3). Develop Fredholm
+indices and extensions with their Busby invariants and Ext semigroups (K4), graded Kasparov theory
+(K5) and its product (K6), equivariance, descent and the crossed-product calculations (K7), the
+universal coefficient and Künneth theorems on the bootstrap class (K8), and asymptotic morphisms
+with E-theory (K9). The end theorems are Bott periodicity for arbitrary coefficient algebras, the
+six-term exact sequence of every extension, Atkinson's theorem with the K₀-valued module index, the
+group Ext(A,B) for separable nuclear A, associativity of the Kasparov product, the Green–Julg,
+Pimsner–Voiculescu and Connes–Thom theorems, the K-groups of free-group, rotation and Cuntz
+algebras, the UCT and Künneth sequences, the Brown–Douglas–Fillmore classification of essentially
+normal operators, and the universal property of E-theory. The output is a reusable functorial
+library whose geometric comparison, grading and boundary signs are explicit.
 
 ## Scope and ownership
 
-This roadmap owns operator K-theory of complex C*-algebras, unital or not, separable or not; the
-Calkin algebra and the Hilbert-module index; extension semigroups; graded KK-theory and the
+This roadmap owns operator K-theory of complex C*-algebras, unital or not, separable or not;
+Atkinson's theorem and the Hilbert-module index; extension semigroups; graded KK-theory and the
 Kasparov product; equivariant KK and descent; the crossed-product, free-group, rotation-algebra,
 twisted-group-algebra and Cuntz-algebra calculations of K7; the bootstrap class with the UCT and
 Künneth theorems; the Brown–Douglas–Fillmore theorem; and asymptotic morphisms and E-theory. The
@@ -29,8 +29,10 @@ The following stay with their owners and are not targets here.
 - TopologicalKTheory owns geometric vector-bundle K-theory, geometric complex Bott periodicity,
   geometric Thom classes (T5), equivariant bundles (T6) and real KO-theory (T7); this roadmap
   proves the comparison with `K_i(C₀(X))` and Bott periodicity for C*-coefficients.
+- CStarAlgebras owns the Calkin algebra `B(H)/K(H)` and its ideal structure (C1.6), and the
+  unitary conjugacy of nearby projections and matrix units (C9.2); K4 and K1 consume them.
 - PseudodifferentialOperators owns elliptic symbols, parametrices and Fredholm operators on
-  manifolds; this roadmap owns the general Calkin, module-index and K-pairing bridges.
+  manifolds; this roadmap owns the general Atkinson, module-index and K-pairing bridges.
 - OperatorAlgebraDynamics owns the crossed-product constructions themselves and the finite
   universal Cuntz algebras O_n; their K-theory and KK consequences belong here.
 - NoncommutativeGeometry owns smooth algebras' cyclic cohomology, spectral triples and their
@@ -88,7 +90,8 @@ their chosen orientation; no unnamed isomorphism with ℤ determines a generator
   `Unitization` with its C*-norm, the continuous functional calculus `cfc`, and
   `Unitary.mem_pathComponentOne_iff` (`Mathlib/Analysis/CStarAlgebra/Unitary/Connected.lean`):
   the identity path component of the unitary group is the set of finite products of
-  exponential unitaries, with logarithm charts near 1.
+  exponential unitaries, with logarithm charts near 1; `Unitary.joined` (same file): two
+  unitaries at distance less than 2 are joined by a path of unitaries.
 - Group completion: `Algebra.GrothendieckAddGroup`
   (`Mathlib/GroupTheory/MonoidLocalization/GrothendieckGroup.lean`), whose class map is injective
   only for cancellative monoids.
@@ -106,7 +109,12 @@ their chosen orientation; no unnamed isomorphism with ℤ determines a generator
   compact.
 - Hilbert modules and selections: `CStarModule` (`Mathlib/Analysis/CStarAlgebra/Module/Defs.lean`);
   `ContinuousLinearMap.NonlinearRightInverse` (`Mathlib/Analysis/Normed/Operator/Banach.lean`),
-  a norm-controlled right inverse with no continuity field.
+  a norm-controlled right inverse with no continuity field, and
+  `ContinuousLinearMap.exists_nonlinearRightInverse_of_surjective` (same file), the open mapping
+  theorem in that form; `LowerHemicontinuous.exists_continuous_selection`
+  (`Mathlib/Topology/Semicontinuity/Michael.lean`), Michael's selection theorem: a lower
+  hemicontinuous map from a paracompact normal space to a real Fréchet space with nonempty closed
+  convex values has a continuous selection.
 - Topology and harmonic analysis: `TopologicalSpace.MetrizableSpace`, `CompleteSpace`,
   `IsTopologicalAddGroup`, `LocallyConvexSpace`, `ContinuousStar`,
   `TopologicalSpace.SeparableSpace`, `ConnectedComponents`, `LocallyConstant.freeOfProfinite`
@@ -121,6 +129,11 @@ their chosen orientation; no unnamed isomorphism with ℤ determines a generator
 
 - `TauCeti.SplitK0` (`TauCeti/CategoryTheory/GrothendieckGroup/Split.lean`), the split
   Grothendieck group of an essentially small additive category.
+- `TauCeti.IsPartialIsometry` with `TauCeti.IsPartialIsometry.isStarProjection_star_mul_self` and
+  `TauCeti.IsPartialIsometry.isStarProjection_mul_star_self`
+  (`TauCeti/Algebra/Star/PartialIsometry.lean`): an element v with `vv*v=v`, whose initial and
+  final elements `v*v` and `vv*` are projections. These are the square Murray–von Neumann
+  partial isometries of K1.
 - `TauCeti.isFredholm_one_sub`, `ContinuousLinearMap.IsFredholm.add_of_isCompactOperator` and
   `ContinuousLinearMap.index_add_of_isCompactOperator`
   (`TauCeti/Analysis/Fredholm/CompactPerturbation.lean`): compact perturbations of Fredholm
@@ -132,13 +145,19 @@ their chosen orientation; no unnamed isomorphism with ℤ determines a generator
 
 ### From TauCetiRoadmap.CStarAlgebras
 
-- *CStarAlgebras C1–C2.* Ideals, quotients, multiplier algebras and functional calculus.
+- *CStarAlgebras C1–C2.* Ideals, quotients and functional calculus; in particular C1.4's
+  quasicentral approximate units, C1.6's Calkin algebra `B(H)/K(H)`, simple for separable
+  infinite-dimensional H and zero for finite-dimensional H, and C1.7's multiplier algebras with
+  their strict topology.
 - *CStarAlgebras C5.* Spatial tensor products, C*-inductive limits, the universal algebra on
   countably many unitaries, and the path, cone, suspension and mapping-cone algebras with their
   pullback and extension API.
 - *CStarAlgebras C6–C8.* Nuclearity, exactness and completely positive liftings under their
   respective hypotheses; the Toeplitz extension `0→K→T→C(𝕋)→0` of the unilateral shift; and
   the Weyl–von Neumann–Voiculescu theorem.
+- *CStarAlgebras C9.2.* Norm stability and unitary conjugacy of nearby systems of matrix units;
+  in the one-block case, projections p and q with `‖p−q‖<1` are conjugate by a unitary u of the
+  unitization with `‖u−1‖≤√2‖p−q‖`.
 
 ### From TauCetiRoadmap.HilbertModules
 
@@ -199,7 +218,7 @@ Build the layers in the order K1–K9. Within K1, the projection calculus (1.1) 
 K₀ (1.2–1.3), and the module and bundle comparisons (1.4, 1.6) follow them. K2's unitary model
 (2.1–2.3) precedes K2.LocalNormed (2.4), which K3's Fréchet comparison (3.5) consumes. In K3 the
 Bott map and periodicity (3.1) come before the six-term sequence (3.2), which the pullback
-sequence (3.3) and products (3.4) use. K4's Calkin algebra (4.1) precedes the module index
+sequence (3.3) and products (3.4) use. K4's Atkinson theorem (4.1) precedes the module index
 (4.2); the dilation theorem (4.3) precedes the extension semigroups (4.4–4.5). K5 builds the
 graded cycles that K6 multiplies; the Manuilov–Thomsen comparison (6.5) uses K4's unital Ext.
 In K7, equivariant KK and descent (7.1–7.2) precede K7.FreeGroups (7.3), whose tree interface
@@ -208,37 +227,61 @@ precedes the twisted-centre and rotation calculations (7.5), and the Toeplitz–
 (7.6) precede K8's bootstrap examples. K8 uses K6's semisplit exact sequences and K7's crossed
 products. K9 uses K3's suspension conventions and compares with KK through K6.
 
-`Suggested.lean` states, with `sorry`, the milestones that are statable at the pins: the
-close-projection theorem of 1.1, the Brown–Douglas–Fillmore theorems of 8.4 and the
-Bartle–Graves theorem of 9.2. Its module docstring lists the headline theorems that are not
-statable there and the carrier each lacks.
+`Suggested.lean` states, with `sorry`, the headline theorems that are statable at the pins: the
+two Brown–Douglas–Fillmore theorems of 8.4, with the two operator predicates they need. Its
+module docstring lists the headline theorems that are not statable there and the carrier each
+lacks.
 
 ## K1. Projections, projective modules, and K₀
 
 ### 1.1 Matrix calculus and projection equivalence
 
-*Needs:* Mathlib `CStarMatrix`, `IsStarProjection`, `unitary` and `Unitization`; CStarAlgebras
-C1–C2 functional calculus.
+*Needs:* Mathlib `CStarMatrix`, `IsStarProjection`, `unitary`, `Unitization` and
+`Unitary.joined`; Tau Ceti `TauCeti.IsPartialIsometry`; CStarAlgebras C1–C2 functional calculus
+and C9.2 conjugacy of nearby projections.
 
 Develop finite matrix amplification, corner inclusions and block sums with their norm and star
-identities, arbitrary finite reindexing, associativity and permutation conjugacies. For
-projections develop rectangular Murray–von Neumann equivalence, reflexivity, symmetry,
-transitivity, orthogonal sums, unitary conjugacy and functoriality under *-homomorphisms. Prove
-that projections at distance less than one are conjugate by a unitary in the identity path
-component of the unitization. A norm-continuous projection path gives equivalence of its
-endpoints; after matrix stabilization equivalence gives a projection homotopy. Supply the actual
-rotation paths and perturbation formulae used in these implications.
+identities, arbitrary finite reindexing, associativity and permutation conjugacies. Define
+rectangular Murray–von Neumann equivalence of matrix projections as in Conventions (Blackadar,
+Definition 4.6.1 and Propositions 4.6.2–4.6.6).
+
+- Murray–von Neumann equivalence is reflexive, symmetric and transitive, compatible with
+  orthogonal sums, implied by unitary conjugacy, and preserved by *-homomorphisms.
+- For square matrices the implementing elements are Tau Ceti's partial isometries
+  `TauCeti.IsPartialIsometry`; their initial and final projections are given by
+  `TauCeti.IsPartialIsometry.isStarProjection_star_mul_self` and
+  `TauCeti.IsPartialIsometry.isStarProjection_mul_star_self`.
+- Nearby projections: by CStarAlgebras C9.2 in its one-block case, projections p and q of the
+  unitization with `‖p−q‖<1` are conjugate by a unitary u with `‖u−1‖≤√2‖p−q‖`. Prove the
+  corollary that u lies in the identity path component of the unitary group of the unitization:
+  `‖u−1‖<2`, so Mathlib `Unitary.joined` gives a path from 1 to u.
+- A norm-continuous path of projections gives equivalence of its endpoints; after matrix
+  stabilization, equivalent projections are joined by a path of projections. Supply the actual
+  rotation paths and perturbation formulae used in these implications.
+
+**Checks.**
+- For `p=diag(1,0)` and q the projection onto the line at angle φ, 0<φ<π/2, in M₂(ℂ):
+  `‖p−q‖=sin φ<1`, the rotation u through φ has `upu*=q`, and `‖u−1‖=2sin(φ/2)≤√2 sin φ`
+  because `cos(φ/2)≥1/√2`; so `‖u−1‖<2` and u is joined to 1.
+- In `B(ℓ²(ℕ))` the unilateral shift S has `S*S=1` and `SS*=1−e₀₀`, so 1 and `1−e₀₀` are
+  Murray–von Neumann equivalent, yet no unitary conjugates them (`u1u*=1`), and `‖1−(1−e₀₀)‖=1`
+  lies outside the nearby-projection estimate. A definition of equivalence as unitary conjugacy
+  separates these two projections.
+- In the nonunital algebra K the rank-one projections e₀₀ and e₁₁ are conjugate by
+  `u=1−e₀₀−e₁₁+e₁₀−e₀₁`, which lies in the unitization K⁺ and not in K; it acts as rotation
+  through π/2 on the span of δ₀,δ₁, so `‖u−1‖=√2<2`.
 
 ### 1.2 The projection monoid V(A) and K₀ of a unital algebra
 
 *Needs:* 1.1; Mathlib `Algebra.GrothendieckAddGroup`.
 
 Form V(A), the additive commutative monoid of matrix projections modulo rectangular equivalence,
-with addition induced by block sum and zero from the zero projection. Prove independence of
-matrix sizes and reindexing, the equality criterion, and functoriality. For unital A, define
-K₀(A) by `Algebra.GrothendieckAddGroup (V A)`. Prove its universal property, generation by
-differences, and the equality criterion `[p]−[q]=[p']−[q']` iff some matrix projection r makes
-`p⊕q'⊕r ∼ p'⊕q⊕r`. Do not assume cancellation in V(A).
+with addition induced by block sum and zero from the zero projection (Blackadar, Definitions 5.1.1
+and 5.1.2). Prove independence of matrix sizes and reindexing, the equality criterion, and
+functoriality. For unital A, define K₀(A) by `Algebra.GrothendieckAddGroup (V A)` (Blackadar,
+Definition 5.3.1). Prove its universal property, generation by differences, and the equality
+criterion `[p]−[q]=[p']−[q']` iff some matrix projection r makes `p⊕q'⊕r ∼ p'⊕q⊕r`. Do not assume
+cancellation in V(A).
 
 **Checks.**
 - For A=ℂ the 1×2 matrix `v=(1 0)` has `v*v=diag(1,0)` in M₂(ℂ) and `vv*=1` in M₁(ℂ), so
@@ -255,12 +298,12 @@ differences, and the equality criterion `[p]−[q]=[p']−[q']` iff some matrix 
 *Needs:* 1.2; Mathlib `Unitization` with its C*-norm.
 
 For arbitrary A use the forced C*-unitization `A⁺` and its augmentation `ε:A⁺→ℂ`; define
-`K₀(A)=ker K₀(ε)`. Prove the split decomposition `K₀(A⁺)≃K₀(A)⊕ℤ`, the comparison with the
-preceding unital construction, and functoriality for nonunital *-homomorphisms. Give
-representatives as differences of unitization projections with equal scalar rank; after
-stabilization and scalar unitary conjugation arrange equal scalar projections. Explain and prove
-why projections in matrices over A alone need not generate K₀(A); K3 supplies the Bott-class
-example after periodicity establishes its nonvanishing.
+`K₀(A)=ker K₀(ε)` (Blackadar, Definition 5.5.1 and Proposition 5.4.1). Prove the split decomposition
+`K₀(A⁺)≃K₀(A)⊕ℤ`, the comparison with the preceding unital construction, and functoriality for
+nonunital *-homomorphisms. Give representatives as differences of unitization projections with equal
+scalar rank; after stabilization and scalar unitary conjugation arrange equal scalar projections.
+Explain and prove why projections in matrices over A alone need not generate K₀(A) (Blackadar,
+Example 5.5.3); K3 supplies the Bott-class example after periodicity establishes its nonvanishing.
 
 **Checks.**
 - For unital A the forced unitization is `A⁺≅A×ℂ` by `a+λ↦(a+λ1,λ)`; for A=ℂ this gives
@@ -275,29 +318,46 @@ example after periodicity establishes its nonvanishing.
 *Needs:* 1.2; HilbertModules H2 algebraic-module and polar comparison; Tau Ceti `TauCeti.SplitK0`;
 GrothendieckEulerForms Layers 1–2.
 
-Construct the essentially small additive category of finitely generated projective right modules
-over unital A, with right-linear morphisms and finite biproducts. Identify its objects with
-ranges `p Aⁿ`, consuming HilbertModules H2's algebraic-module/polar-unitary comparison. Prove
-essential smallness using finite matrix presentations and obtain a natural isomorphism between
-K₀(A) and `TauCeti.SplitK0` of this category. For idempotent matrix representatives prove
-conversion to self-adjoint projections and agreement of the resulting K-classes. The category and
-projection monoid live in the algebra's universe up to the existing small-model equivalences.
+Define the category of finitely generated projective right modules over unital A, with
+right-linear morphisms and finite biproducts; it is an essentially small additive category (Roe,
+Lemma 2.13 and Proposition 10.2; Blackadar, 1.7.2).
+
+- Every object is isomorphic to a range `p Aⁿ` of a matrix projection, and `p Aⁿ≅q Aᵐ` exactly
+  when p and q are Murray–von Neumann equivalent; prove this by consuming HilbertModules H2's
+  algebraic-module/polar-unitary comparison.
+- The category is essentially small, by finite matrix presentations; it and the projection
+  monoid live in the algebra's universe up to the existing small-model equivalences.
+- Sending `[p]` to `[p Aⁿ]` gives a natural isomorphism between K₀(A) and `TauCeti.SplitK0` of
+  this category, natural for unital *-homomorphisms by base change.
+- An idempotent matrix e is similar to a projection with the same range module (Blackadar,
+  Proposition 4.6.2), and the resulting K-classes agree.
+
+**Checks.**
+- For A=ℂ the category is that of finite-dimensional vector spaces, `[ℂⁿ]↦n` identifies
+  `TauCeti.SplitK0` with ℤ, and the comparison sends `[1_(M_n)]` to `[ℂⁿ]`, matching K₀(ℂ)≅ℤ.
+- The idempotent `e=[[1,1],[0,0]]` in M₂(ℂ) satisfies `e²=e` but is not self-adjoint; its range
+  is `ℂ×0`, whose orthogonal projection is diag(1,0), so `eℂ²≅ℂ` and the class is 1. A comparison
+  defined only on self-adjoint representatives must convert e first.
+- For A=B(H), H infinite-dimensional separable, `A²≅A` as right A-modules because H⊕H≅H, so
+  `[A]+[A]=[A]` and `[A]=0` in `TauCeti.SplitK0`, matching `K₀(B(H))=0` of 1.2; a comparison that
+  counted free ranks would give `[A]=1`.
 
 ### 1.5 Order, scale and tracial pairings
 
 *Needs:* 1.2–1.3; Mathlib `Matrix.trace`.
 
-Develop the canonical positive cone from actual projections over A and the scale from projections
-in A itself. Define the resulting preorder; prove partial-order statements only when the cone is
+Develop the canonical positive cone from actual projections over A and the scale from projections in
+A itself. Define the resulting preorder; prove partial-order statements only when the cone is
 proper. For unital A record the distinguished order unit `[1_A]` and naturality under unital maps.
 For tracial states τ construct the additive pairing using the unnormalized matrix trace
-`τ_n(p)=∑ᵢτ(p_ii)`. Prove independence of representatives, positivity, continuity under the
-appropriate inductive limits and compatibility with *-homomorphisms. For a nonunital tracial state
-use `τ⁺(a+λ)=τ(a)+λ` on forced unitization, and pair the representative `[e]−[p_n]` as
-`τ⁺_n(e)−n`. Include finite-dimensional direct sums. The compact-operator example uses its K₀
-rank-one generator and the ordinary densely defined trace on finite-rank/Pedersen-ideal elements;
-it does not assume a tracial state on K. These are the projection and trace invariants that
-CStarClassification's dimension-group classification of AF algebras uses.
+`τ_n(p)=∑ᵢτ(p_ii)` (Blackadar, §6.3 for the order and §6.9 for the states induced by traces). Prove
+independence of representatives, positivity, continuity under the appropriate inductive limits and
+compatibility with *-homomorphisms. For a nonunital tracial state use `τ⁺(a+λ)=τ(a)+λ` on forced
+unitization, and pair the representative `[e]−[p_n]` as `τ⁺_n(e)−n`. Include finite-dimensional
+direct sums. The compact-operator example uses its K₀ rank-one generator and the ordinary densely
+defined trace on finite-rank/Pedersen-ideal elements; it does not assume a tracial state on K. These
+are the projection and trace invariants that CStarClassification's dimension-group classification of
+AF algebras uses.
 
 **Checks.**
 - For A=Mₙ(ℂ) with the normalized trace `tr/n`, a rank-one projection pairs to `1/n` and
@@ -311,11 +371,11 @@ CStarClassification's dimension-group classification of AF algebras uses.
 
 *Needs:* 1.2–1.3; HilbertModules H5 Serre–Swan equivalence; TopologicalKTheory T1–T3.
 
-For compact Hausdorff X use H5's Serre–Swan equivalence to identify `K₀(C(X))` with geometric
-K⁰(X), naturally for continuous maps and compatibly with products and rank functions on
-disconnected spaces. Extend to locally compact Hausdorff X using unitization/compactification,
-with proper pullback and open-extension compatibility. Do not identify compactly supported
-K-theory with unrestricted bundle theory on a noncompact space.
+For compact Hausdorff X use H5's Serre–Swan equivalence to identify `K₀(C(X))` with geometric K⁰(X)
+(Blackadar, 1.7.1; Roe, Proposition 1.12), naturally for continuous maps and compatibly with
+products and rank functions on disconnected spaces. Extend to locally compact Hausdorff X using
+unitization/compactification, with proper pullback and open-extension compatibility. Do not identify
+compactly supported K-theory with unrestricted bundle theory on a noncompact space.
 
 ### Examples
 
@@ -329,9 +389,9 @@ K-theory with unrestricted bundle theory on a noncompact space.
 
 ### Dependencies
 
-Mathlib C*-algebra, matrix, unitization and Grothendieck-group APIs; Tau Ceti `TauCeti.SplitK0`;
-CStarAlgebras C1–C2; HilbertModules H2 and H5; GrothendieckEulerForms Layers 1–2;
-TopologicalKTheory T1–T3.
+Mathlib C*-algebra, matrix, unitization and Grothendieck-group APIs; Tau Ceti `TauCeti.SplitK0` and
+`TauCeti.IsPartialIsometry`; CStarAlgebras C1–C2 and C9.2; HilbertModules H2 and H5;
+GrothendieckEulerForms Layers 1–2; TopologicalKTheory T1–T3.
 
 ## K2. Unitaries, K₁, and functorial properties
 
@@ -340,7 +400,8 @@ TopologicalKTheory T1–T3.
 *Needs:* K1; Mathlib `unitary`, `Unitary.mem_pathComponentOne_iff` and its logarithm charts.
 
 For unital A form the stable unitary group by the inclusions `u↦diag(u,1)` and define K₁(A) by
-stable norm-homotopy classes. Develop representatives, class equality after one common finite
+stable norm-homotopy classes (Blackadar, Definition 8.1.1 and Proposition 8.1.3; Roe,
+Proposition 6.2(b)). Develop representatives, class equality after one common finite
 stabilization, block-sum addition, the identity class, inverse by adjoint, and the rotation
 homotopies proving commutativity and agreement with multiplication of equal-sized unitaries.
 Compare with invertible matrices by the polar deformation `x↦x(x*x)^(-t/2)` and prove naturality
@@ -362,32 +423,49 @@ finite-exponential-product description of the identity component.
 
 *Needs:* 2.1; K1.3.
 
-For nonunital A use unitization unitaries whose scalar part is the identity. Prove every K₁ class
-admits such a representative, that homotopies can be chosen with that scalar condition, and
-agreement with `ker(K₁(A⁺)→K₁(ℂ))`. Develop maps for arbitrary *-homomorphisms, identity,
-composition, homotopy invariance, direct sums and zero maps for both K-groups. Prove
-finite-matrix stability and `K_i(A)≃K_i(A⊗K)` with the rank-one corner, comparing all matrix
-sizes and all rank-one choices.
+For nonunital A define K₁(A) by stable homotopy classes of unitization unitaries whose scalar
+part is the identity (Blackadar, 8.1.5 and Corollary 8.3.7).
+
+- Every class of `K₁(A⁺)` restricting to 0 in `K₁(ℂ)` has such a representative, homotopies can
+  be chosen with the same scalar condition, and the construction agrees with
+  `ker(K₁(A⁺)→K₁(ℂ))`; for unital A it agrees with 2.1.
+- Both K-groups are functorial for arbitrary *-homomorphisms, with identity, composition,
+  homotopy invariance, finite direct sums and zero maps.
+- Stability: finite-matrix corners induce isomorphisms, and the rank-one corner `a↦a⊗p` induces
+  `K_i(A)≃K_i(A⊗K)` for every rank-one projection p (Roe, Example 7.14), with all matrix sizes
+  and all rank-one choices compared.
+
+**Checks.**
+- Since `K₁(ℂ)=0`, the kernel condition is vacuous on K₁ and `K₁(A)≅K₁(A⁺)`; for A=K every
+  unitary `1+k` with k compact has spectrum accumulating only at 1, so it has a logarithm in K⁺
+  and `K₁(K)=0`.
+- For A=ℂ the corner `λ↦λe₀₀` sends `[1]` to the generator `[e₀₀]` of K₀(K), while the corner
+  `λ↦λ(e₀₀+e₁₁)` of a rank-two projection sends `[1]` to `2[e₀₀]` and is not an isomorphism; the
+  stability isomorphism needs a rank-one corner.
+- For A=C₀(ℝ) the unitization loop `exp(2πit)`, written in the coordinate of Conventions, has
+  scalar part 1 and winding number 1, and generates K₁(C₀(ℝ))≅ℤ; the constant unitary −1 of
+  C₀(ℝ)⁺ has scalar part −1 and is not an admissible representative.
 
 ### 2.3 Continuity, Morita invariance and cone sequences
 
 *Needs:* 2.2; CStarAlgebras C5 inductive limits and path, cone, suspension and mapping-cone
 algebras; HilbertModules H3–H4.
 
-Prove continuity of K₀ and K₁ for C*-inductive systems, including noninjective connecting maps:
-projections and unitaries lift approximately to a finite stage and are corrected by functional
-calculus, and stabilized equivalences and homotopies descend after increasing the stage. Supply
-the uniform estimates for compact homotopy parameters. Deduce countable direct-sum additivity and
-countability of K-groups for separable A. Use H3–H4 to prove Morita invariance for σ-unital
-algebras, identify the map induced by an imprimitivity module, and prove identity, composition
-and agreement with full-corner maps; distinguish the chosen natural map from an abstract
-existence of a stable isomorphism.
+Prove continuity of K₀ and K₁ for C*-inductive systems, including noninjective connecting maps
+(Blackadar, 5.2.4 and 8.1.5; Roe, Proposition 7.11 for injective ones): projections and unitaries
+lift approximately to a finite stage and are corrected by functional calculus, and stabilized
+equivalences and homotopies descend after increasing the stage. Supply the uniform estimates for
+compact homotopy parameters. Deduce countable direct-sum additivity and countability of K-groups for
+separable A. Use H3–H4 to prove Morita invariance for σ-unital algebras (Roe, Proposition 12.17),
+identify the map induced by an imprimitivity module, and prove identity, composition and agreement
+with full-corner maps; distinguish the chosen natural map from an abstract existence of a stable
+isomorphism.
 
 Consume CStarAlgebras C5's path, cone, suspension and mapping-cone algebras and their
 pullback/extension API, with the cone/evaluation convention fixed in Conventions. Establish their
-K-theory sequences and homotopies, cone contractibility, and the action of orientation reversal
-on suspension classes. Develop the elementary exactness and lifting lemmas before using Bott to
-close a six-term sequence.
+K-theory sequences and homotopies (Blackadar, Theorem 8.2.2 and Corollary 8.2.3), cone
+contractibility, and the action of orientation reversal on suspension classes. Develop the
+elementary exactness and lifting lemmas before using Bott to close a six-term sequence.
 
 ### 2.4 K2.LocalNormed: component groups of normed local algebras
 
@@ -395,7 +473,8 @@ close a six-term sequence.
 AlgebraicKTheory A1–A2 and A8.
 
 Extend the component-group construction to a unital normed complex algebra B with Banach
-completion B̄, using the inherited norm topology on B. Require that B embeds unitally into B̄ and
+completion B̄, using the inherited norm topology on B (Blackadar, Definition 3.1.1 and
+Proposition 3.4.3, for local Banach algebras). Require that B embeds unitally into B̄ and
 that, at every finite matrix size, B is closed under the holomorphic functional calculus computed
 in M_n(B̄). This is an explicit all-matrix hypothesis. It does not assert completeness of B or the
 existence of contour integrals in an unspecified stronger topology. Consume BanachAlgebras'
@@ -466,15 +545,16 @@ b_A([e]−[p_n]) = [f_e f_(p_n)⁻¹].
 ```
 
 Both endpoints and the scalar part of the resulting loop are the identity. Prove independence of
-representatives and naturality. Prove this map is an isomorphism for arbitrary A. A direct proof
-must supply uniform approximation of invertible loops, correction of approximate homotopies,
-stabilized polynomial-loop reduction, the companion-matrix reduction to degree one, and spectral
-separation followed by holomorphic functional calculus to obtain an idempotent loop. Prove
-uniqueness of the resulting stable idempotent class as well as existence. This makes the
-coefficient Bott theorem independent of KK-theory and of geometric index theory. The exponential
-boundary of `0→SA→CA→A→0` is b_A. For a unitization projection e with scalar projection p, use the
-self-adjoint lift `x(s)=p+s(e−p)` in the unitization of the cone, whose scalar part is the fixed
-p. Prove that its exponential loop is homotopic to `f_e f_p⁻¹` by the explicit homotopy
+representatives and naturality. Prove this map is an isomorphism for arbitrary A (Blackadar,
+Definition 9.1.1 and Theorem 9.2.1). A direct proof must supply uniform approximation of invertible
+loops, correction of approximate homotopies, stabilized polynomial-loop reduction, the
+companion-matrix reduction to degree one, and spectral separation followed by holomorphic functional
+calculus to obtain an idempotent loop. Prove uniqueness of the resulting stable idempotent class as
+well as existence. This makes the coefficient Bott theorem independent of KK-theory and of geometric
+index theory. The exponential boundary of `0→SA→CA→A→0` is b_A (Blackadar, 9.3.2). For a unitization
+projection e with scalar projection p, use the self-adjoint lift `x(s)=p+s(e−p)` in the unitization
+of the cone, whose scalar part is the fixed p. Prove that its exponential loop is homotopic to
+`f_e f_p⁻¹` by the explicit homotopy
 
 ```
 H(r,s) = exp(2πi[s e+(1−r)(1−s)p]) exp(2πi r(1−s)p),
@@ -508,23 +588,24 @@ periodicity through the bundle/projection maps.
 
 *Needs:* 3.1; K2.3 cone and mapping-cone sequences; CStarAlgebras C8 Toeplitz extension.
 
-For every short exact sequence `0→J→A→Q→0`, construct the natural cyclic six-term sequence, with
-no separability or completely positive splitting assumption. Its boundary maps are
-`δ₁:K₁(Q)→K₀(J)` and `δ₀:K₀(Q)→K₁(J)`. Construct the index boundary by lifting `diag(u,u⁻¹)` to an
-invertible matrix w over the unitization and taking `[w p_n w⁻¹]−[p_n]`, with idempotents
-converted to projections by K1. Prove lift independence and agreement with the partial-isometry
-formula whenever such a lift v exists:
+For every short exact sequence `0→J→A→Q→0`, construct the natural cyclic six-term sequence, with no
+separability or completely positive splitting assumption (Blackadar, Theorem 9.3.1). Its boundary
+maps are `δ₁:K₁(Q)→K₀(J)` and `δ₀:K₀(Q)→K₁(J)`. Construct the index boundary by lifting
+`diag(u,u⁻¹)` to an invertible matrix w over the unitization and taking `[w p_n w⁻¹]−[p_n]`
+(Blackadar, Definition 8.3.1), with idempotents converted to projections by K1. Prove lift
+independence and agreement with the partial-isometry formula whenever such a lift v exists
+(Blackadar, 8.3.2):
 
 ```
 δ₁[u] = [1−v*v] − [1−vv*].
 ```
 
 For a projection e over Q⁺, with scalar part p_n, choose a self-adjoint lift x over A⁺ and prove
-`δ₀([e]−[p_n])=[exp(2πi x)]`. The exponential is a unitary equal to the identity modulo J. Prove
-additivity, naturality for morphisms of extensions, exactness at all six positions, and the
-compatibility of the two boundaries with suspension and Bott, recording signs explicitly. Develop
-mapping-cone and relative K-groups, the long exact sequence of a *-homomorphism, excision for
-ideals, and the identifications relating these presentations to the six-term sequence. Include
+`δ₀([e]−[p_n])=[exp(2πi x)]` (Blackadar, 9.3.2). The exponential is a unitary equal to the identity
+modulo J. Prove additivity, naturality for morphisms of extensions, exactness at all six positions,
+and the compatibility of the two boundaries with suspension and Bott, recording signs explicitly.
+Develop mapping-cone and relative K-groups, the long exact sequence of a *-homomorphism, excision
+for ideals, and the identifications relating these presentations to the six-term sequence. Include
 the Toeplitz extension constructed in CStarAlgebras C8: its symbol z has boundary −1 because its
 lift is the unilateral shift. Compute the K-groups of the Toeplitz algebra and the maps of that
 extension.
@@ -540,7 +621,8 @@ extension.
 
 ### 3.3 Pullback Mayer–Vietoris
 
-*Needs:* 3.2; CStarAlgebras C1 pullbacks; AlgebraicKTheory A6 and A8 for the unital comparison.
+*Needs:* 3.2; AlgebraicKTheory A6 and A8 for the unital comparison. The closed pullback is
+constructed here, on the model of CStarAlgebras C5.5's mapping cone.
 
 Let π_j:A_j→Q be arbitrary *-homomorphisms of complex C*-algebras, with at least one π_j
 surjective. Construct the closed pullback D=A₁×_Q A₂, its projections p_j and its C*-universal
@@ -555,18 +637,18 @@ K₀(D) → K₀(A₁)⊕K₀(A₂) → K₀(Q) →∂₀ K₁(D)
       → K₁(A₁)⊕K₁(A₂) → K₁(Q) →∂₁ K₀(D)
 ```
 
-is exact at every term, by the diagram chase between the six-term sequences of these two
-extensions. Blackadar, Theorem 21.2.2, proves the sequence for any homology theory when both legs
-are surjective, and the remark after it cites Schochet, *Topological methods for C*-algebras III*,
-4.5, for removing that hypothesis; the one-surjective-leg case here is the comparison of the two
-extensions above. The first maps are `(p₁*,p₂*)` and the second maps are `π₁*−π₂*`. Prove naturality for maps
-of pullback squares and compatibility with suspension and the fixed Bott maps. Swapping the two
-legs and identifying the pullbacks negates the boundary. For unital squares compare ∂₁ with
+is exact at every term, by the diagram chase between the six-term sequences of these two extensions.
+Blackadar, Theorem 21.2.2, proves the sequence for any homology theory when both legs are
+surjective, and the remark after it cites Schochet, *Topological methods for C*-algebras III*, 4.5,
+for removing that hypothesis; the one-surjective-leg case here is the comparison of the two
+extensions above. The first maps are `(p₁*,p₂*)` and the second maps are `π₁*−π₂*`. Prove naturality
+for maps of pullback squares and compatibility with suspension and the fixed Bott maps. Swapping the
+two legs and identifying the pullbacks negates the boundary. For unital squares compare ∂₁ with
 AlgebraicKTheory A6/A8: if X lifts diag(u,u⁻¹) through π₁ and e=diag(I,0), its class is
 `[(XeX⁻¹,e)]−[(e,e)]`, converting the resulting idempotent to a projection by K1. Prove agreement
 after the algebraic-to-topological K₁ quotient, including the normalization `[M(u)]−[Dⁿ]`. No
-separability or completely positive splitting is assumed. A square with neither leg surjective
-is outside this exactness assertion.
+separability or completely positive splitting is assumed. A square with neither leg surjective is
+outside this exactness assertion.
 
 **Checks.**
 - If A₂=0 then D=J and the sequence is the six-term sequence of `0→J→A₁→Q→0`, with ∂ equal to
@@ -581,19 +663,35 @@ is outside this exactness assertion.
 *Needs:* 3.1–3.2; CStarAlgebras C5 spatial tensor products; TopologicalKTheory T2 external
 products.
 
-Construct external products `K_i(A)⊗ℤK_j(B)→K_(i+j)(A⊗B)`, initially on projection and unitary
-representatives and then with suspension for the odd cases. Prove well-definedness, bilinearity,
-naturality, associativity, the scalar unit, and graded commutativity under the tensor flip.
-Establish compatibility with stability, Bott and boundary maps whenever tensoring the extension in
-question preserves its exactness. State that exactness hypothesis explicitly, and include the
-sufficient condition that the other tensor factor is exact. Compare products for commutative
-algebras with tensor products of bundles and geometric external products. Compute the sphere and
-torus examples with their generators and grading. Pin the odd-by-odd torus product to `q*β`: q
-collapses the two coordinate circles in 𝕋² and has degree +1 from the ordered (s,t) two-cell to
-the complex-oriented sphere. Thus the positive winding classes satisfy `[z_s]×[z_t]=q*β` for the
-tautological β fixed in Conventions. Construct the representative and prove this pinning using
-the ordered suspension and clutching maps. K5–K6 owns the subsequent explicit Clifford/KK product
-comparison; K3's product construction does not use KK-theory.
+Define external products `K_i(A)⊗ℤK_j(B)→K_(i+j)(A⊗B)`, with spatial tensor products, first on
+projection and unitary representatives, with `[p]×[q]=[p⊗q]` for projections over unital
+algebras, and then through suspension for the odd cases; this is the map α of the Künneth theorem
+(Blackadar, Theorem 23.1.3). K3's construction does not use KK-theory; K5–K6 own the subsequent
+explicit Clifford/KK product comparison.
+
+- The product is well defined, bilinear, natural in both variables and associative, with unit
+  `[1_ℂ]` under `ℂ⊗B=B`, and graded commutative: the tensor flip carries `x×y` to
+  `(−1)^(ij)y×x` for x of degree i and y of degree j.
+- It is compatible with stability and Bott maps, and with the boundary maps of an extension
+  whenever tensoring that extension preserves exactness; that hypothesis is stated at each use,
+  and holds when the other tensor factor is exact.
+- For commutative algebras it agrees with tensor products of bundles and with
+  TopologicalKTheory T2's geometric external product.
+- Torus pinning: q collapses the two coordinate circles in 𝕋² and has degree +1 from the ordered
+  (s,t) two-cell to the complex-oriented sphere, and the positive winding classes satisfy
+  `[z_s]×[z_t]=q*β` for the tautological β of Conventions. Construct the representative and prove
+  this pinning using the ordered suspension and clutching maps; compute the sphere and torus
+  examples with their generators and grading.
+
+**Checks.**
+- The unit: `[1_ℂ]×x=x` for every x in `K_i(B)`; for B=ℂ, `[1]×[1]=[1]` in K₀(ℂ)≅ℤ, so the
+  product on K₀(ℂ)⊗K₀(ℂ) is multiplication of integers.
+- `[z_s]×[z_t]=q*β` has rank 0: evaluation at a point of 𝕋² kills β, so the product of the two
+  degree-one classes lies in reduced K₀(C(𝕋²)), and with `[1]` it forms a basis of
+  K₀(C(𝕋²))≅ℤ², as the Künneth count `K₀⊗K₀⊕K₁⊗K₁=ℤ⊕ℤ` predicts.
+- Graded commutativity on the torus: the coordinate flip τ of 𝕋² makes `qτ` of degree −1, so the
+  flip carries `[z_s]×[z_t]` to `−q*β=−([z]×[z])`, the sign `(−1)^(1·1)`; a product commutative
+  without sign would force `2q*β=0`, false in the torsion-free group ℤ².
 
 ### 3.5 Dense inverse-closed Fréchet subalgebras
 
@@ -602,7 +700,8 @@ comparison; K3's product construction does not use KK-theory.
 
 Develop topological K-theory of dense inverse-closed Fréchet subalgebras `𝒜⊆A`, where the Fréchet
 topology is stronger than the ambient C*-norm topology, and require inverse closure of
-unitizations in the nonunital case. Use a metrizable complete Hausdorff locally convex complex
+unitizations in the nonunital case (Roe, Theorem 14.5 and Lemma 16.3; Blackadar, Definition 3.1.1
+for the holomorphic-calculus closure). Use a metrizable complete Hausdorff locally convex complex
 topological vector space with continuous multiplication and star, and an injective continuous
 dense *-algebra map to A. In Lean use `MetrizableSpace`, `CompleteSpace`, `IsTopologicalAddGroup`,
 `LocallyConvexSpace`, continuous scalar action and `ContinuousStar`; the topology need not come
@@ -613,6 +712,16 @@ projective-module K₀ with this topological K₀. Establish the useful sufficie
 complete stronger Banach *-algebra norm satisfying `|||xy|||≤C(|||x|||‖y‖+‖x‖|||y|||)` for a
 fixed C, by spectral-radius comparison. The smooth-algebra differential calculus and its cyclic
 cohomology are outside this roadmap.
+
+**Checks.**
+- `C^∞(𝕋)⊆C(𝕋)` is dense and inverse-closed, since `1/f` is smooth for smooth nonvanishing f; its
+  Fréchet topology does not come from one norm, and its K₁ is generated by the class of z.
+- The trigonometric polynomials are dense in C(𝕋) but not inverse-closed: `2+z` is invertible in
+  C(𝕋), and `1/(2+z)=Σ_(n≥0)(−1)^n z^n/2^(n+1)` has infinitely many nonzero Fourier
+  coefficients.
+- Matrix inverse closure: for 𝒜=C¹(𝕋), a matrix over 𝒜 invertible over C(𝕋) has inverse
+  `adj(x)/det(x)` with `det(x)` a nonvanishing C¹ function, so the inverse is again over 𝒜; this
+  is the matrix-size hypothesis the K-theory comparison uses.
 
 ### Examples
 
@@ -625,23 +734,25 @@ cohomology are outside this roadmap.
 
 ### Dependencies
 
-K1–K2; BanachAlgebras Layer 2; CStarAlgebras C1, C5 and C8; AlgebraicKTheory A6 and A8;
+K1–K2; BanachAlgebras Layer 2; CStarAlgebras C5 and C8; AlgebraicKTheory A6 and A8;
 TopologicalKTheory T2 and T4; Mathlib locally convex and metrizable-space APIs.
 
 ## K4. Fredholm indices and extensions
 
-### 4.1 The Calkin algebra and Atkinson's theorem
+### 4.1 Atkinson's theorem in the Calkin algebra
 
 *Needs:* K3.2; Mathlib `ContinuousLinearMap.IsFredholm`, `isFredholm_iff_exists_isQuasiInverse`,
 `IsCompactOperator` and `LinearMap.index`; Tau Ceti `TauCeti.isFredholm_one_sub`,
-`ContinuousLinearMap.index_add_of_isCompactOperator`, `Path.index_eq`; CStarAlgebras C1 quotients.
+`ContinuousLinearMap.index_add_of_isCompactOperator`, `Path.index_eq`; CStarAlgebras C1.6 Calkin
+algebra.
 
-Construct the Calkin algebra `Q(H)=B(H)/K(H)` and prove Atkinson's theorem: a bounded operator on
-a Hilbert space is Fredholm exactly when its Calkin class is invertible, equivalently when it has
-a bounded two-sided parametrix modulo compact operators. Compare this predicate and index with
-`ContinuousLinearMap.IsFredholm` and its existing index, using the two library routes recorded in
-the supplier contracts. Under `K₀(K(H))≃ℤ` for infinite-dimensional separable H, prove that the
-index boundary is `dim ker T−dim coker T`. Derive the index's homotopy, compact-perturbation and
+Consume CStarAlgebras C1.6's Calkin algebra `Q(H)=B(H)/K(H)` and prove Atkinson's theorem: a bounded
+operator on a Hilbert space is Fredholm exactly when its Calkin class is invertible, equivalently
+when it has a bounded two-sided parametrix modulo compact operators (Zois, Analytic K-theory Lecture
+1, Theorem 1). Compare this predicate and index with `ContinuousLinearMap.IsFredholm` and its
+existing index, using the two library routes recorded in the supplier contracts. Under `K₀(K(H))≃ℤ`
+for infinite-dimensional separable H, prove that the index boundary is `dim ker T−dim coker T`
+(Blackadar, 8.3.2; Roe, Exercise 7.13). Derive the index's homotopy, compact-perturbation and
 composition laws through this comparison, using the existing Fredholm theorems where they already
 supply the result.
 
@@ -658,18 +769,19 @@ supply the result.
 
 *Needs:* 4.1; HilbertModules H1–H2; K2.2 stability.
 
-For σ-unital A consume HilbertModules H1–H2's standard module `H_A=ℓ²(ℕ,A)` and its
-identifications `K(H_A)≃A⊗K` and `L(H_A)≃M(A⊗K)`. Construct its multiplier and corona extension.
-Prove the vanishing of the multiplier algebra's K-groups by the countable-shift swindle and develop
-the resulting K₀(A)-valued index. At this stage A has the trivial grading; a grading on E is an
-A-linear selfadjoint unitary γ, with its orthogonal even/odd summands. Build graded direct sums,
-parity reversal and homogeneous operator blocks from HilbertModules H2. Define graded Fredholm
-pairs using countably generated Hilbert A-modules and odd adjointable F with `F−F*` and `F²−1`
-compact. Develop direct sums, unitary equivalence, homotopy, stabilization and degenerate pairs,
-and prove their homotopy group is naturally K₀(A). Supply the stabilization and perturbation
-steps relating this model to the corona boundary. Do not require a Fredholm module operator to
-have finitely generated projective kernel and cokernel: construct the index without that
-assumption and prove the difference-of-kernels formula when those hypotheses hold.
+For σ-unital A consume HilbertModules H1–H2's standard module `H_A=ℓ²(ℕ,A)` and its identifications
+`K(H_A)≃A⊗K` and `L(H_A)≃M(A⊗K)`. Construct its multiplier and corona extension. Prove the vanishing
+of the multiplier algebra's K-groups by the countable-shift swindle (Blackadar, Proposition 12.2.1
+and Corollary 12.2.3; Roe, Proposition 12.15) and develop the resulting K₀(A)-valued index. At this
+stage A has the trivial grading; a grading on E is an A-linear selfadjoint unitary γ, with its
+orthogonal even/odd summands. Build graded direct sums, parity reversal and homogeneous operator
+blocks from HilbertModules H2. Define graded Fredholm pairs using countably generated Hilbert
+A-modules and odd adjointable F with `F−F*` and `F²−1` compact. Develop direct sums, unitary
+equivalence, homotopy, stabilization and degenerate pairs, and prove their homotopy group is
+naturally K₀(A) (Roe, Lemmas 12.6–12.8 and Theorem 12.16). Supply the stabilization and perturbation
+steps relating this model to the corona boundary. Do not require a Fredholm module operator to have
+finitely generated projective kernel and cokernel: construct the index without that assumption and
+prove the difference-of-kernels formula when those hypotheses hold.
 
 **Checks.**
 - For A=ℂ and the unilateral shift S on ℓ²(ℕ), the odd operator with off-diagonal blocks S and
@@ -686,22 +798,44 @@ assumption and prove the difference-of-kernels formula when those hypotheses hol
 *Needs:* 4.2; HilbertModules H1–H4.
 
 Build Hilbert-module Kasparov–Stinespring dilation before extension invertibility. For a strict
-CP map `φ:A→L_B(E)` construct E_φ from A⊙E with inner product `⟨a⊗ξ,b⊗η⟩=⟨ξ,φ(a*b)η⟩`, its null
-quotient/completion, nondegenerate representation π and adjointable V with φ(a)=V*π(a)V.
-Strictness means φ(h_λ) converges strictly for an approximate unit of A. Prove minimality, unitary
-uniqueness, countable generation for separable A and countably generated E, and the
-complemented-submodule compression when φ is nondegenerate. Also prove the standard-module
-dilation for every CP contraction `A→L_B(H_B)` when A is separable and B σ-unital: a
-representation on H_B⊕H_B whose 11-corner is φ, using stabilization and the non-strict-map
-enlargement when strictness is unavailable. This last corollary supplies arbitrary CP lifts in
-the extension argument; the strict theorem is not silently applied to all maps.
+completely positive map `φ:A→L_B(E)` define E_φ as the separated completion of A⊙E for the
+B-valued inner product `⟨a⊗ξ,b⊗η⟩=⟨ξ,φ(a*b)η⟩`, with the representation `π(c)(a⊗ξ)=ca⊗ξ` and
+the adjointable V determined on the dense span by the strict extension of φ (Blackadar, 13.7.2,
+which states Kasparov's generalized Stinespring theorem). Strictness means φ(h_λ) converges
+strictly for an approximate unit of A.
+
+- `φ(a)=V*π(a)V` for every a, π is a nondegenerate representation by adjointable operators, and
+  the dilation is minimal: π(A)VE spans a dense submodule. Two minimal dilations are unitarily
+  equivalent by a unitary intertwining the representations and the maps V.
+- E_φ is countably generated when A is separable and E is countably generated.
+- When φ is unital, `V*V=φ(1)=1`, so V is an isometry, VE is the complemented submodule cut out
+  by the projection VV*, and φ is the compression of π to it; prove the complemented-submodule
+  compression for nondegenerate φ alongside.
+- Standard-module dilation: for every completely positive contraction `A→L_B(H_B)` with A
+  separable and B σ-unital, there is a representation on `H_B⊕H_B` whose 11-corner is φ (Blackadar,
+  13.7.2), proved by stabilization and the non-strict-map enlargement when strictness is
+  unavailable. This corollary supplies arbitrary completely positive lifts in the extension
+  argument; the strict theorem is not silently applied to all maps.
+
+**Checks.**
+- For `A=M₂(ℂ)`, `B=E=ℂ` and the state `φ(a)=a₁₁`, the null space consists of the a with
+  `φ(a*a)=‖aδ₁‖²=0`, that is, the matrices with zero first column; so E_φ≅ℂ², of dimension 2 and
+  not 4, π is the identity representation, `V(1)=δ₁`, and `V*π(a)V=a₁₁`.
+- For `A=B=E=ℂ` and `φ(λ)=λ/2`, E_φ≅ℂ with inner product `x̄y/2`, `V*(y)=y/2` and
+  `V*V=φ(1)=1/2`, while `V*π(a)V=a/2=φ(a)`; V is not an isometry, so the isometric statement needs
+  `φ(1)=1`.
+- The order in `φ(a*b)` is forced: with `φ(ab*)` instead, π(c*) would be the adjoint of π(c)
+  only if `φ(cab*)=φ(ab*c)`, and for `A=M₂(ℂ)`, `φ(x)=x₁₁`, `c=e₁₂`, `a=e₂₂`, `b=e₁₂` the two
+  sides are `φ(e₁₁)=1` and `φ(e₂₂)=0`. With `φ(a*b)` both sides of the adjoint identity equal
+  `φ(a*c*b)`.
 
 ### 4.4 Busby invariants and complete pairs of isometries
 
-*Needs:* 4.2–4.3; CStarAlgebras C1 multipliers and pullbacks.
+*Needs:* 4.2–4.3; CStarAlgebras C1.7 multipliers; 3.3 closed pullback.
 
 For separable A and σ-unital B develop extensions by `B⊗K` and their Busby invariants
-`τ:A→Q(B⊗K)`. Prove reconstruction by the multiplier pullback, characterize essential extensions
+`τ:A→Q(B⊗K)` (Blackadar, Definition 15.2.1). Prove reconstruction by the multiplier pullback
+(Blackadar, Examples 15.3.2(a)), characterize essential extensions
 by injectivity of τ, and identify split extensions with Busby maps admitting *-homomorphic lifts.
 Distinguish equality of Busby maps, conjugacy by a multiplier unitary, and conjugacy by a corona
 unitary. Construct a complete pair of multiplier isometries `s₀,s₁∈M(B⊗K)` satisfying
@@ -715,15 +849,15 @@ B=0 using the zero algebra's unit 0 and the zero-module unitary, without imposin
 hypothesis.
 
 Writing q for the multiplier quotient map, define the actual sum by
-`(τ₀⊞ₛτ₁)(a)=Σ_(i=0,1) q(sᵢ)τᵢ(a)q(sᵢ)*`. Prove linearity, star and multiplication from the pair
-relations. No unitality of A or τᵢ is needed; when A is unital and both τᵢ are unital, the
-range-sum identity proves the sum is unital. For any other complete pair t construct
-`U=t₀s₀*+t₁s₁*` with inverse `s₀t₀*+s₁t₁*`. Prove `U*U=UU*=1`, `Usᵢ=tᵢ`, and
+`(τ₀⊞ₛτ₁)(a)=Σ_(i=0,1) q(sᵢ)τᵢ(a)q(sᵢ)*` (Blackadar, Definition 15.6.1). Prove linearity, star and
+multiplication from the pair relations. No unitality of A or τᵢ is needed; when A is unital and both
+τᵢ are unital, the range-sum identity proves the sum is unital. For any other complete pair t
+construct `U=t₀s₀*+t₁s₁*` with inverse `s₀t₀*+s₁t₁*`. Prove `U*U=UU*=1`, `Usᵢ=tᵢ`, and
 `q(U)(τ₀⊞ₛτ₁)(a)q(U)*=(τ₀⊞ₜτ₁)(a)` for every a. Orthogonal ranges alone do not suffice: on ℓ²(ℕ),
-the even/odd pair has range sum 1, whereas the pair sending e_n to e_(3n) and e_(3n+1) has range
-sum 1−R with R the infinite-rank projection onto e_(3n+2). For two unital scalar split Busby maps
-their sums send 1 respectively to 1 and 1−q(R) in the Calkin algebra, which are not unitarily
-conjugate. Prove R is noncompact and retain this example as a boundary test.
+the even/odd pair has range sum 1, whereas the pair sending e_n to e_(3n) and e_(3n+1) has range sum
+1−R with R the infinite-rank projection onto e_(3n+2). For two unital scalar split Busby maps their
+sums send 1 respectively to 1 and 1−q(R) in the Calkin algebra, which are not unitarily conjugate.
+Prove R is noncompact and retain this example as a boundary test.
 
 **Checks.**
 - The even/odd pair on ℓ²(ℕ) satisfies `S₀S₀*+S₁S₁*=1`; the pair `e_n↦e_(3n)`, `e_n↦e_(3n+1)` has
@@ -742,20 +876,20 @@ same formula on their multiplier *-homomorphic lifts is a lift of the sum. Prove
 with multiplier-unitary equivalence, commutativity and associativity using the block permutations
 and regrouping unitaries of H_B finite sums. Define stable equivalence by allowing addition of
 split extensions on both sides. The resulting Ext monoid has the split class as zero; it is not a
-group by definition.
+group by definition (Blackadar, Definition 15.6.3).
 
 Prove that a stable extension class is invertible precisely when its Busby invariant admits a
-completely positive contractive multiplier lift. Use the standard-module dilation and its
-complementary diagonal corner to construct the inverse Busby map. Develop the equivalence of this
-lift condition with a completely positive contractive section of the associated extension.
-Consequently Ext(A,B) is a group when A is separable nuclear. Include the natural pullback and
-ideal-variable constructions needed for the comparison with KK₁ in K6. Keep unital extensions and
-unital equivalences as explicitly distinguished constructions rather than silently imposing
-unitality on the stable Ext theory. Define unital strong Ext separately using all unital Busby
-maps, multiplier-unitary equivalence and addition of unital split extensions. Prove its
-invertibility criterion: a CP contractive multiplier lift exists, and that lift need not be
-unital. The KK/unit-evaluation comparison is constructed in K6 after KK and its extension
-correspondence; no bivariant group is needed to construct these extension semigroups.
+completely positive contractive multiplier lift (Blackadar, Theorem 15.7.1). Use the standard-module
+dilation and its complementary diagonal corner to construct the inverse Busby map. Develop the
+equivalence of this lift condition with a completely positive contractive section of the associated
+extension. Consequently Ext(A,B) is a group when A is separable nuclear (Blackadar, Corollary
+15.8.4). Include the natural pullback and ideal-variable constructions needed for the comparison
+with KK₁ in K6. Keep unital extensions and unital equivalences as explicitly distinguished
+constructions rather than silently imposing unitality on the stable Ext theory. Define unital strong
+Ext separately using all unital Busby maps, multiplier-unitary equivalence and addition of unital
+split extensions. Prove its invertibility criterion: a CP contractive multiplier lift exists, and
+that lift need not be unital. The KK/unit-evaluation comparison is constructed in K6 after KK and
+its extension correspondence; no bivariant group is needed to construct these extension semigroups.
 
 **Checks.**
 - The Toeplitz extension has Busby map `C(𝕋)→Q(ℓ²)` sending z to the class of S; it is essential
@@ -779,7 +913,7 @@ correspondence; no bivariant group is needed to construct these extension semigr
 ### Dependencies
 
 K1–K3; Mathlib Fredholm and compact-operator APIs; Tau Ceti compact-perturbation and
-continuous-family index theorems; CStarAlgebras C1 and C6–C7; HilbertModules H1–H4.
+continuous-family index theorems; CStarAlgebras C1.6, C1.7 and C6–C7; HilbertModules H1–H4.
 
 ## K5. Graded cycles and KK-groups
 
@@ -789,18 +923,18 @@ continuous-family index theorems; CStarAlgebras C1 and C6–C7; HilbertModules H
 
 Develop ℤ/2-graded C*-algebras, graded Hilbert modules, graded tensor products and adjointable
 operators, using the ungraded constructions of HilbertModules H1–H4. Prove the graded Kasparov
-stabilization theorem: for countably generated graded E over σ-unital graded B, E is a graded
-orthogonally complemented summand of `H_B⊕H_B` with the two opposite standard gradings, and
-`E⊕(H_B⊕H_B)≅H_B⊕H_B` by a degree-zero unitary. Supply even/odd generating sequences and the
-homogeneous block formulas for compact and adjointable operators. A grading on an algebra is an
-involutive *-automorphism, equivalently its even/odd decomposition; it need not be implemented by
-an inner multiplier. Fix complex Clifford algebras with odd self-adjoint generators `e_i²=1` and
+stabilization theorem (Blackadar, Theorem 13.6.2 in the ungraded case): for countably generated
+graded E over σ-unital graded B, E is a graded orthogonally complemented summand of `H_B⊕H_B` with
+the two opposite standard gradings, and `E⊕(H_B⊕H_B)≅H_B⊕H_B` by a degree-zero unitary. Supply
+even/odd generating sequences and the homogeneous block formulas for compact and adjointable
+operators. A grading on an algebra is an involutive *-automorphism, equivalently its even/odd
+decomposition; it need not be implemented by an inner multiplier (Blackadar, Definition 14.1.1 and
+Examples 14.1.2). Fix complex Clifford algebras with odd self-adjoint generators `e_i²=1` and
 `e_i e_j=−e_j e_i` for distinct i,j. Prove their graded tensor identifications, matrix models and
 graded Morita periodicity. Pin Cl₂→M₂(ℂ) by `e₁↦[[0,1],[1,0]]`, `e₂↦[[0,i],[−i,0]]`, with grading
-conjugation by diag(1,−1). The graded Morita module is ℂ^(1|1); these generator orders are part
-of the Clifford/suspension comparison, not adjustable matrix labels. These are the analytic
-complex Clifford conventions; geometric real KO and its signature conventions remain in
-TopologicalKTheory.
+conjugation by diag(1,−1). The graded Morita module is ℂ^(1|1); these generator orders are part of
+the Clifford/suspension comparison, not adjustable matrix labels. These are the analytic complex
+Clifford conventions; geometric real KO and its signature conventions remain in TopologicalKTheory.
 
 Pin the two-odd-factor period reduction `Cl₁⊗̂Cl₁→Cl₂` by `e⊗1↦e₂`, `1⊗e↦e₁`. The individual
 generators and the displayed Cl₂ matrix model stay fixed. The two-suspension comparison cycle is
@@ -824,9 +958,9 @@ records a choice of period reduction, not a change to the underlying Kasparov pr
 
 *Needs:* 5.1; K4.2 graded Fredholm pairs.
 
-For separable graded A and σ-unital graded B, define a Kasparov cycle `(E,φ,F)` with E a
-countably generated graded right Hilbert B-module, φ a graded *-homomorphism into L(E), and F odd
-and adjointable. For every homogeneous a require compactness of
+For separable graded A and σ-unital graded B, define a Kasparov cycle `(E,φ,F)` (Blackadar,
+Definition 17.1.1) with E a countably generated graded right Hilbert B-module, φ a graded
+*-homomorphism into L(E), and F odd and adjointable. For every homogeneous a require compactness of
 
 ```
 Fφ(a) − (−1)^degree(a) φ(a)F,
@@ -834,20 +968,20 @@ Fφ(a) − (−1)^degree(a) φ(a)F,
 (F−F*)φ(a).
 ```
 
-Define degenerate cycles by vanishing of these expressions. Develop unitary equivalence, direct
-sum, change of coefficients by interior tensor product, and homotopy via cycles over `C([0,1],B)`.
-Prove homotopy is an equivalence relation and obtain the abelian group KK(A,B). Fix its universe
-by the standard-module picture: stabilize cycles onto complemented graded submodules of the fixed
-H_B⊕H_B, then take the homotopy quotient of that set of operators/representations. Prove
-equivalence with arbitrary-module cycles. KK(A,B) lives in max(u_A,u_B), independent of a chosen
-larger module universe; compare this construction under universe lifts. Ext uses the fixed corona
-of B⊗K, and K9's asymptotic maps use fixed source/target carriers. Its inverse cycle is
-`(Eᵒᵖ,φ∘γ_A,−F)`, where Eᵒᵖ has reversed grading and γ_A is A's grading automorphism. Supply the
-rotation homotopy to a degenerate cycle for their direct sum. Prove compact-perturbation and
-operator-homotopy invariance with their actual defect estimates. Develop normalized self-adjoint
-contractive representatives and the standard-module picture by stabilization, retaining the
-representation on any degenerate summand. Construct contravariance in A and covariance in B, their
-commuting actions, homotopy invariance and stability.
+Define degenerate cycles by vanishing of these expressions. Develop unitary equivalence, direct sum,
+change of coefficients by interior tensor product, and homotopy via cycles over `C([0,1],B)`. Prove
+homotopy is an equivalence relation and obtain the abelian group KK(A,B) (Blackadar, Definition
+17.3.1). Fix its universe by the standard-module picture: stabilize cycles onto complemented graded
+submodules of the fixed H_B⊕H_B, then take the homotopy quotient of that set of
+operators/representations. Prove equivalence with arbitrary-module cycles. KK(A,B) lives in
+max(u_A,u_B), independent of a chosen larger module universe; compare this construction under
+universe lifts. Ext uses the fixed corona of B⊗K, and K9's asymptotic maps use fixed source/target
+carriers. Its inverse cycle is `(Eᵒᵖ,φ∘γ_A,−F)`, where Eᵒᵖ has reversed grading and γ_A is A's
+grading automorphism. Supply the rotation homotopy to a degenerate cycle for their direct sum. Prove
+compact-perturbation and operator-homotopy invariance with their actual defect estimates. Develop
+normalized self-adjoint contractive representatives and the standard-module picture by
+stabilization, retaining the representation on any degenerate summand. Construct contravariance in A
+and covariance in B, their commuting actions, homotopy invariance and stability.
 
 **Checks.**
 - For nonzero trivially graded A the identity cycle `(A,id,0)`, with A a trivially graded module
@@ -866,7 +1000,8 @@ commuting actions, homotopy invariance and stability.
 *Needs:* 5.2.
 
 Prove countable additivity in the first variable: for separable graded A_n and σ-unital graded B,
-restriction to the summands induces `KK_i(⨁⁽c₀⁾_n A_n,B) ≃ ∏_n KK_i(A_n,B)` in both degrees.
+restriction to the summands induces `KK_i(⨁⁽c₀⁾_n A_n,B) ≃ ∏_n KK_i(A_n,B)` in both degrees
+(Blackadar, Theorem 19.7.1).
 Construct the inverse from countable sums of normalized cycles; use the c₀ condition to control
 the compact defects. Prove independence of representatives, injectivity by compatible homotopies,
 and naturality. This supplies the product groups in the contravariant mapping-telescope sequence
@@ -876,31 +1011,60 @@ that CStarClassification CL8 uses.
 
 *Needs:* 5.2; K3.1 Bott conventions; K4.1–4.2.
 
-Put `KK_i(A,B)=KK(A,B⊗̂Cl_i)` for all graded A,B and i modulo 2; ordinary K-group identifications
-use trivially graded B. Prove the equivalent suspension and Clifford pictures, including the
-graded Morita maps establishing two-periodicity. Normalize the one-suspension comparison with the
-positive winding class `u(t)=exp(2πit)` (the Cayley form `(x−i)/(x+i)` in the increasing real
-coordinate), and the two-suspension comparison with the displayed `s e₂+t e₁` cycle, β in the
-ordered plane and the fixed Cl₂ matrices. Construct these comparison cycles and prove their scalar
-evaluation, rather than selecting their sign from an abstract ℤ-isomorphism. Identify
-`KK_i(ℂ,B)≃K_i(B)` and `KK_i(A,ℂ)` with analytic K-homology via even and odd Fredholm modules.
-Prove these identifications are natural and agree with K4's index. Give classes of
-*-homomorphisms and imprimitivity modules, including the identity class represented by
-`(A,id,0)`. Specify the compact left-action condition that makes this a cycle and show how
-nonunitality is handled.
+Define `KK_i(A,B)=KK(A,B⊗̂Cl_i)` for all graded A,B and i modulo 2 (Blackadar, Definition
+17.3.1); ordinary K-group identifications use trivially graded B.
+
+- The suspension and Clifford pictures agree, and the graded Morita maps through `ℂ^(1|1)` give
+  two-periodicity `KK_(i+2)(A,B)≅KK_i(A,B)`.
+- The one-suspension comparison is normalized by the positive winding class `u(t)=exp(2πit)`,
+  which is the Cayley form `(x−i)/(x+i)` in the increasing real coordinate of Conventions, and the
+  two-suspension comparison by the displayed `s e₂+t e₁` cycle, β in the ordered plane and the
+  fixed Cl₂ matrices. Construct these comparison cycles and prove their scalar evaluation, rather
+  than selecting their sign from an abstract ℤ-isomorphism.
+- `KK_i(ℂ,B)≃K_i(B)` for trivially graded σ-unital B (Blackadar, Propositions 17.5.5 and
+  17.5.6), and `KK_i(A,ℂ)` is analytic K-homology through even and odd Fredholm modules; both
+  identifications are natural and agree with K4's index.
+- *-homomorphisms and imprimitivity modules have classes; the identity class of A is represented
+  by `(A,id,0)`, a cycle because A acts on itself by compact module operators, which handles
+  nonunital A.
+
+**Checks.**
+- For t∈(0,1) the coordinate `x=tan(π(t−1/2))=−cot(πt)` gives
+  `(x−i)/(x+i)=(−cos πt−i sin πt)/(−cos πt+i sin πt)=exp(2πit)` exactly, so the Cayley form is the
+  positive loop of winding +1 and not its inverse.
+- `KK₁(ℂ,ℂ)=K₁(ℂ)=0` while `KK₀(ℂ,ℂ)=ℤ`, and two-periodicity gives `KK₂(ℂ,ℂ)=KK(ℂ,Cl₂)≅ℤ`
+  through the Morita module `ℂ^(1|1)`; an unreduced degree would make `KK₂` a new group.
+- `(L²(𝕋),f↦f,0)` is not a cycle for C(𝕋): `(0²−1)φ(1)=−1` is not compact on the
+  infinite-dimensional space, whereas `(C(𝕋),id,0)`, with C(𝕋) a module over itself, is the
+  identity class.
 
 ### 5.5 Unbounded cycles
 
 *Needs:* 5.2; HilbertModules H6–H7.
 
-Build the unbounded-cycle interface on HilbertModules H6–H7. Require an odd regular self-adjoint
-D, a dense graded *-subalgebra of A whose represented elements preserve Dom(D) and have bounded
-adjointable graded commutators with D, and compactness of `φ(a)(1+D²)⁻¹` for all a∈A. Prove that
-`F=D(1+D²)^(-1/2)` is a bounded Kasparov cycle, including the functional-calculus commutator
-estimates. Prove every KK-class in this scope has an unbounded representative, constructing the
-strictly positive compact regularizer and its domain rather than postulating it. No
-unbounded-product formula follows merely from bounded-transform surjectivity; the product is
-constructed in K6. Spectral triples and their geometric index theorems are outside this roadmap.
+Define unbounded cycles on HilbertModules H6–H7 (Blackadar, Definition 17.11.1): an odd regular
+self-adjoint D on a countably generated graded Hilbert B-module, a graded representation φ of A,
+a dense graded *-subalgebra of A whose represented elements preserve Dom(D) and have bounded
+adjointable graded commutators with D, and compactness of `φ(a)(1+D²)⁻¹` for all a∈A.
+
+- The bounded transform `F=D(1+D²)^(-1/2)` is a bounded Kasparov cycle, with the
+  functional-calculus commutator estimates (Blackadar, Proposition 17.11.3).
+- For separable A every KK-class in this scope has an unbounded representative (Blackadar,
+  Theorem 17.11.4); construct the strictly positive compact regularizer and its domain rather than
+  postulating it.
+- No unbounded-product formula follows merely from bounded-transform surjectivity; the product is
+  constructed in K6. Spectral triples and their geometric index theorems are outside this roadmap.
+
+**Checks.**
+- `D=−i d/dx` on L²(ℝ) with C₀(ℝ) acting by multiplication and dense subalgebra `C_c^∞(ℝ)`:
+  `[D,f]=−if′` is bounded, and `f(1+D²)⁻¹` is the product of multiplication by `f∈C₀(ℝ)` and the
+  Fourier multiplier `(1+ξ²)⁻¹∈C₀(ℝ)`, hence compact; the bounded transform is the Fourier
+  multiplier `ξ/√(1+ξ²)`.
+- On an eigenvector of D with eigenvalue λ, F has eigenvalue `λ/√(1+λ²)` and
+  `F²−1=−(1+λ²)⁻¹`, so `F²−1=−(1+D²)⁻¹` and the compact-resolvent condition is exactly the
+  condition `(F²−1)φ(a)` compact.
+- `D=0` on `ℂ^(1|0)` with A=ℂ is an unbounded cycle with `F=0`, the class 1 of `(ℂ^(1|0),id,0)`,
+  while `D=0` on an infinite-dimensional H with A=ℂ fails, since `(1+D²)⁻¹=1` is not compact.
 
 ### Examples
 
@@ -918,7 +1082,7 @@ K1–K4; HilbertModules H1–H4 and H6–H7.
 
 ### 6.1 Quasicentral approximate units and the technical theorem
 
-*Needs:* K5.1–5.2; CStarAlgebras C1 approximate units.
+*Needs:* K5.1–5.2; CStarAlgebras C1.4 quasicentral approximate units.
 
 Develop quasicentral approximate units with simultaneous estimates on countable sets and
 Kasparov's technical theorem. In its ungraded form, for a σ-unital J, σ-unital subalgebras A₁,A₂
@@ -940,17 +1104,18 @@ are those of Blackadar, Theorem 12.4.2.
 
 For separable graded A,D and σ-unital graded B, construct `KK(A,D)×KK(D,B)→KK(A,B)`. On cycles its
 module is `E=E₁⊗_D E₂`. For homogeneous ξ∈E₁ let `T_ξ(η)=ξ⊗η`. The product operator F must be an
-F₂-connection: both `T_ξ F₂−(−1)^degree(ξ) F T_ξ` and `F₂ T_ξ*−(−1)^degree(ξ) T_ξ* F` are compact
-between the appropriate modules. For normalized self-adjoint representatives also require
-positivity modulo K(E) of `φ(a)[F₁⊗1,F]φ(a*)` for all a, where the bracket is the graded
-commutator, hence an anticommutator for the two odd operators. Construct connections, use the
-technical theorem to construct product operators, and prove uniqueness up to operator homotopy.
-Establish independence of all cycle and connection choices, bilinearity, associativity, identity
-classes, and compatibility with homomorphisms, Morita equivalences, suspension and the K3 external
-product, using K5's explicit parity-reduction adapter. Record its minus sign for two odd factors
-when comparing with the unswapped Clifford convention; include the resulting signs in the
-K-theory/K-homology index interchange and the ordered two-circle/Dirac example. Develop the
-external KK product and its graded interchange law.
+F₂-connection (Blackadar, Definition 18.3.1): both `T_ξ F₂−(−1)^degree(ξ) F T_ξ` and
+`F₂ T_ξ*−(−1)^degree(ξ) T_ξ* F` are compact between the appropriate modules. For normalized
+self-adjoint representatives also require positivity modulo K(E) of `φ(a)[F₁⊗1,F]φ(a*)` for all a,
+where the bracket is the graded commutator, hence an anticommutator for the two odd operators.
+Construct connections, use the technical theorem to construct product operators, and prove
+uniqueness up to operator homotopy (Blackadar, Theorem 18.4.3). Establish independence of all cycle
+and connection choices, bilinearity, associativity (Blackadar, Theorem 18.6.1), identity classes,
+and compatibility with homomorphisms, Morita equivalences, suspension and the K3 external product,
+using K5's explicit parity-reduction adapter. Record its minus sign for two odd factors when
+comparing with the unswapped Clifford convention; include the resulting signs in the
+K-theory/K-homology index interchange and the ordered two-circle/Dirac example. Develop the external
+KK product and its graded interchange law.
 
 **Checks.**
 - The identity classes act trivially: with `1_D=[(D,id,0)]`, `x⊗_D 1_D=x` and `1_A⊗_A x=x`.
@@ -962,17 +1127,33 @@ external KK product and its graded interchange law.
 
 *Needs:* 6.2; HilbertModules H2 multiplier comparison.
 
-Form the additive KK-category of separable graded C*-algebras with Kasparov product as
-composition. A KK-equivalence is an invertible morphism; prove the induced isomorphisms in both
-variables and the Morita, homotopy and Bott examples. Prove split exactness and the universal
-property: a stable, homotopy-invariant, split-exact functor from separable C*-algebras to an
-additive category factors through the KK-category, uniquely with the specified action on
-homomorphisms; this universal property concerns trivially graded coefficient algebras. Build the
-quasihomomorphism picture: pairs of *-homomorphisms `φ₀,φ₁:A→M(B⊗K)` whose differences lie in
-`B⊗K`, with common unitary conjugacy, stabilization, degenerates and homotopy. Compare this
-picture with cycles. Construct the associated split extension `D={(a,φ₀(a)+b) | a∈A, b∈B⊗K}`, with
-its two sections `a↦(a,φ₀(a))` and `a↦(a,φ₁(a))`; prove that their difference under a split-exact
-functor gives the required action of a KK-class.
+Define the additive KK-category of separable graded C*-algebras, with morphisms `KK(A,B)` and
+Kasparov product as composition, and a KK-equivalence as an invertible morphism (Blackadar,
+Definition 19.1.1). Define a quasihomomorphism from A to B as a pair of *-homomorphisms
+`φ₀,φ₁:A→M(B⊗K)` whose differences lie in `B⊗K`, with common unitary conjugacy, stabilization,
+degenerates and homotopy (Blackadar, 17.6).
+
+- A KK-equivalence induces isomorphisms in both variables; Morita equivalences, homotopy
+  equivalences and the Bott element give KK-equivalences (Blackadar, Examples 19.1.2).
+- KK is split exact, and has the universal property: a stable, homotopy-invariant, split-exact
+  functor from trivially graded separable C*-algebras to an additive category factors through
+  the KK-category, uniquely with the specified action on homomorphisms (Blackadar, Theorem 22.2.1
+  and Corollary 22.3.1).
+- The quasihomomorphism picture agrees with the cycle picture.
+- A quasihomomorphism determines the split extension `D={(a,φ₀(a)+b) | a∈A, b∈B⊗K}` with ideal
+  `j(b)=(0,b)` and the two sections `s₀(a)=(a,φ₀(a))` and `s₁(a)=(a,φ₁(a))`; under a split-exact
+  functor the difference of the two sections, which lands in the image of the ideal, gives the
+  action of the KK-class.
+
+**Checks.**
+- For A=B=ℂ the pair `φ₀(λ)=λ1`, `φ₁(λ)=λ(1−e₀₀)` into `B(ℓ²)=M(K)` has difference `λe₀₀∈K`. In D
+  the projections `s₀(1)=(1,1)` and `s₁(1)=(1,1−e₀₀)` differ by the orthogonal projection
+  `(0,e₀₀)=j(e₀₀)`, so under K₀ the difference of the sections sends `[1]` to `[e₀₀]=1` in
+  K₀(K)≅ℤ; swapping φ₀ and φ₁ gives −1.
+- A degenerate pair `φ₀=φ₁` has `s₀=s₁`, so every split-exact functor assigns it 0.
+- ℂ and K are KK-equivalent through the rank-one corner `[e₀₀]∈KK(ℂ,K)` and the class of
+  `(ℓ²(ℕ),id,0)` in KK(K,ℂ), whose product in KK(ℂ,ℂ)≅ℤ is the rank 1 of e₀₀; the corner of a
+  rank-two projection gives 2 and is not invertible.
 
 ### 6.4 Semisplit extensions and KK₁
 
@@ -980,14 +1161,15 @@ functor gives the required action of a KK-class.
 
 For a semisplit extension of separable graded C*-algebras `0→J→A→Q→0`, with a grading-preserving
 completely positive contractive section, construct the extension element in `KK₁(Q,J)`. Prove the
-six-term exact sequences in both variables for separable coefficient algebras; identify their
-boundaries with product by this class and compare them with K3's index and positive-exponential
-maps. Develop naturality for morphisms of extensions, suspension, mapping cones and the product
-boundary identities with their graded signs. For trivially graded A,B identify `KK₁(A,B)` with the
-invertible stable extension classes of K4, proving the comparison between the
-compact-perturbation, operator-homotopy and Hilbert-module-homotopy pictures used in that
-identification. State the semisplit hypothesis at every application of KK excision; K-theory's
-exactness for arbitrary extensions does not remove it from the bivariant statement.
+six-term exact sequences in both variables for separable coefficient algebras (Blackadar, Theorem
+19.5.7); identify their boundaries with product by this class and compare them with K3's index and
+positive-exponential maps. Develop naturality for morphisms of extensions, suspension, mapping cones
+and the product boundary identities with their graded signs. For trivially graded A,B identify
+`KK₁(A,B)` with the invertible stable extension classes of K4 (Blackadar, Proposition 17.6.5),
+proving the comparison between the compact-perturbation, operator-homotopy and
+Hilbert-module-homotopy pictures used in that identification. State the semisplit hypothesis at
+every application of KK excision; K-theory's exactness for arbitrary extensions does not remove it
+from the bivariant statement.
 
 **Checks.**
 - The Toeplitz extension is semisplit (C(𝕋) is nuclear); the product of `[z]∈K₁(C(𝕋))` with its
@@ -1019,14 +1201,24 @@ evaluation at a point makes unit evaluation onto, and K₁(K)=0; deduce U(C(X),K
 compares stable classes. Essential Busby maps require the separate unital absorption theorem in
 K8.
 
+**Checks.**
+- For A=M_n and J=K the unit evaluation `KK₀(M_n,K)≅ℤ→K₀(K)≅ℤ` is multiplication by n, because
+  the unit of M_n is a sum of n rank-one projections, and `KK₁(M_n,K)=0`; so `U(M_n,K)≅ℤ/n` while
+  ordinary Ext vanishes.
+- For A=ℂ the unit evaluation `KK₀(ℂ,J)→K₀(J)` is the identity and `KK₁(ℂ,J)→K₁(J)` is the
+  identity, so `U(ℂ,J)=0`: the only unital Busby map `ℂ→Q(J)` is `λ↦λ1`, which splits.
+- For X=𝕋 the evaluation at a point makes unit evaluation onto and `K₁(K)=0`, so
+  `U(C(𝕋),K)≅KK₁(C(𝕋),K)≅ℤ`, detected by the index of a lift of z.
+
 ### 6.6 Index pairings
 
 *Needs:* 6.2; K5.4; K4.1; CStarAlgebras C8 unilateral shift; Mathlib `lp` and `cfc`.
 
 Construct the index pairing `K_i(A)×KK_i(A,ℂ)→ℤ` as Kasparov product and prove its representative
-formulae. For an even Fredholm module and a projection p, it is the Fredholm index of the
-compressed operator from the even to the odd summand. For an odd self-adjoint involutive
-representative F and a unitary u, put `P=(1+F)/2`; the odd pairing is the index of `PuP` on PH.
+formulae (Blackadar, 16.3.2 for the odd pairing with Ext, and 17.5 for the Fredholm picture). For an
+even Fredholm module and a projection p, it is the Fredholm index of the compressed operator from
+the even to the odd summand. For an odd self-adjoint involutive representative F and a unitary u,
+put `P=(1+F)/2`; the odd pairing is the index of `PuP` on PH.
 
 With the Clifford/suspension maps fixed in K5, prove as a Kasparov-product identity
 `⟨[z],[2P−1]⟩=−1` for the following odd Fredholm module over C(𝕋). On
@@ -1069,8 +1261,9 @@ calculus.
 
 *Needs:* K6.1–6.2; OperatorAlgebraDynamics D1 actions.
 
-For a second-countable locally compact G and separable graded G-algebras A,B, develop equivariant
-Hilbert modules with norm-continuous orbit maps, grading-preserving actions, and
+For a second-countable locally compact G and separable graded G-algebras A,B, define equivariant
+Hilbert modules (Blackadar, Definition 20.1.1) with norm-continuous orbit maps, grading-preserving
+actions, and
 
 ```
 g(ξb) = (gξ)β_g(b),       ⟨gξ,gη⟩ = β_g(⟨ξ,η⟩).
@@ -1078,51 +1271,61 @@ g(ξb) = (gξ)β_g(b),       ⟨gξ,gη⟩ = β_g(⟨ξ,η⟩).
 
 The individual transformations are complex-linear isometries and need not be B-linear. Define
 equivariant Kasparov cycles by an equivariant representation φ and an odd F satisfying K5's
-conditions, norm continuity of `g↦gFg⁻¹`, and compactness of `(gFg⁻¹−F)φ(a)` for every g,a.
-Construct homotopies, groups, functoriality, restriction along continuous group homomorphisms
-where the specified actions pull back, and the equivariant Kasparov product. Prove the equivariant
-connection and technical-theorem estimates needed for existence and associativity. In the
-equivariant technical theorem require σ-compact G and prove `g↦g(M)` norm continuous and
-`g(M)−M∈J`, alongside the ordinary ideal/commutator estimates. For compact G prove averaging gives
-invariant representatives and develop exact sequences for equivariant semisplit extensions, with
-equivariant completely positive contractive sections.
+conditions, norm continuity of `g↦gFg⁻¹`, and compactness of `(gFg⁻¹−F)φ(a)` for every g,a, and
+`KK_G(A,B)` as their homotopy classes (Blackadar, Definitions 20.2.1 and 20.2.2).
+
+- `KK_G(A,B)` is an abelian group, functorial in both variables, with restriction along
+  continuous group homomorphisms where the specified actions pull back.
+- The equivariant Kasparov product exists and is associative (Blackadar, Theorem 20.3.1), with
+  the equivariant connection estimates.
+- Equivariant technical theorem: for σ-compact G, the elements M and N of 6.1 can be chosen with
+  `g↦g(M)` norm continuous and `g(M)−M∈J` for every g (Blackadar, Theorem 20.1.5).
+- For compact G averaging gives invariant representatives, and equivariant semisplit extensions,
+  with equivariant completely positive contractive sections, have six-term exact sequences.
+
+**Checks.**
+- For the trivial group the continuity and invariance conditions are vacuous, so `KK_G=KK`.
+- For compact G acting trivially on ℂ, a finite-dimensional representation V gives the cycle
+  `(V^(1|0),id,0)`, of class `[V]` in `KK_G(ℂ,ℂ)≅R(G)`; for infinite compact G the regular
+  representation on L²(G) gives no cycle with F=0, since `(0²−1)φ(1)=−1` is not compact.
+- For `E=B=C(𝕋)` with the rotation action, `gξ=β_g(ξ)` satisfies both displayed identities but is
+  not B-linear: `g(ξb)=β_g(ξ)β_g(b)≠β_g(ξ)b` for nonconstant b and a nontrivial rotation g.
 
 ### 7.2 Descent and the Green–Julg theorem
 
 *Needs:* 7.1; OperatorAlgebraDynamics D1–D2; HilbertModules H1–H3; TopologicalKTheory T6.
 
-Construct the full crossed-product Hilbert module from `C_c(G,E)`, proving positivity and
-completion of its convolution-valued inner product and compatibility with Dynamics D1's Haar and
-involution conventions. Build the left action and descended cycle and prove functoriality and
-compatibility of `j_G:KK_G(A,B)→KK(A⋊G,B⋊G)` with identities and Kasparov products. For compact G,
-still second countable as above, and separable graded G-algebra B with a grading-preserving
-action, put `K_i^gr(D)=KK_i(ℂ,D)` for a graded C*-algebra D, using K5's fixed Clifford degree and
-period comparisons and trivially graded ℂ. Equip B⋊G with the grading induced by B and trivial
-grading on the group unitaries; prove compatibility with the full crossed-product construction.
-Prove the graded Green–Julg isomorphism `KK_G^i(ℂ,B)≃K_i^gr(B⋊G)` in both degrees, natural in
-equivariant graded coefficient maps. Construct the forward map from descent and the trivial
-representation projection `p_G=∫_G u_g dg∈C*(G)` for normalized Haar measure, meaning the
-integrated constant function 1 in `C_c(G)`, not an assumed operator-norm Bochner integral of the
-multiplier unitaries: `x↦[p_G]⊗_(C*(G))j_G(x)`, with the Clifford factor carrying the trivial
-G-action. For the inverse construct the regular B⋊G–B correspondence `L²(G,B)` from D1–D2 and
-H1–H3: use the Hilbert-module completion of `C_c(G,B)` for `⟨ξ,η⟩=∫ ξ(r)*η(r)dr`, not the
-Banach-space Bochner L² norm of B-valued functions, with `ρ(b)ξ(r)=β_(r⁻¹)(b)ξ(r)`,
+Construct the full crossed-product Hilbert module from `C_c(G,E)`, proving positivity and completion
+of its convolution-valued inner product and compatibility with Dynamics D1's Haar and involution
+conventions. Build the left action and descended cycle and prove functoriality and compatibility of
+`j_G:KK_G(A,B)→KK(A⋊G,B⋊G)` with identities and Kasparov products (Blackadar, Theorem 20.6.2). For
+compact G, still second countable as above, and separable graded G-algebra B with a
+grading-preserving action, put `K_i^gr(D)=KK_i(ℂ,D)` for a graded C*-algebra D, using K5's fixed
+Clifford degree and period comparisons and trivially graded ℂ. Equip B⋊G with the grading induced by
+B and trivial grading on the group unitaries; prove compatibility with the full crossed-product
+construction. Prove the graded Green–Julg isomorphism `KK_G^i(ℂ,B)≃K_i^gr(B⋊G)` in both degrees,
+natural in equivariant graded coefficient maps (Blackadar, Theorem 20.2.7(a)). Construct the forward
+map from descent and the trivial representation projection `p_G=∫_G u_g dg∈C*(G)` for normalized
+Haar measure, meaning the integrated constant function 1 in `C_c(G)`, not an assumed operator-norm
+Bochner integral of the multiplier unitaries: `x↦[p_G]⊗_(C*(G))j_G(x)`, with the Clifford factor
+carrying the trivial G-action. For the inverse construct the regular B⋊G–B correspondence `L²(G,B)`
+from D1–D2 and H1–H3: use the Hilbert-module completion of `C_c(G,B)` for `⟨ξ,η⟩=∫ ξ(r)*η(r)dr`, not
+the Banach-space Bochner L² norm of B-valued functions, with `ρ(b)ξ(r)=β_(r⁻¹)(b)ξ(r)`,
 `λ_sξ(r)=ξ(s⁻¹r)` and the commuting semilinear G-action `V_gξ(r)=β_g(ξ(rg))`. For compact G prove
-the integrated left action has image in `K_B(L²(G,B))`, by continuous B-valued kernel
-approximation on G×G and finite-rank module operators. Tensor a degree-zero graded cycle over B⋊G
-with this correspondence, with F⊗1, the induced grading and this G-action. For degree i externally
-tensor the correspondence with Cl_i carrying the trivial G-action and construct the
-grading-preserving generator comparison `(B⋊G)⊗̂Cl_i≃(B⊗̂Cl_i)⋊G`. Apply the same cycle
-construction over B⊗̂Cl_i, retaining its Clifford grading. Prove the compactness and continuity
-requirements in both degrees, and that this is inverse to the forward map by the normalized-Haar
-projection and the corresponding module unitaries/homotopies. Prove both composites are
-identities. For trivially graded B, use K5's ordinary K comparison to obtain
-`KK_G^i(ℂ,B)≃K_i(B⋊G)` with K1–K3's ordinary K-groups and their fixed signs. Do not forget a
-nontrivial grading when applying this ordinary comparison. Include nonunital and zero B under the
-same definitions. For B=ℂ identify degree zero with the complex representation ring and prove
-degree one vanishes. For compact Lie G compare the commutative case with TopologicalKTheory T6's
-equivariant bundles. Construct the comparison maps; do not identify an equivariant bundle group
-with a crossed-product K-group merely by matching their names.
+the integrated left action has image in `K_B(L²(G,B))`, by continuous B-valued kernel approximation
+on G×G and finite-rank module operators. Tensor a degree-zero graded cycle over B⋊G with this
+correspondence, with F⊗1, the induced grading and this G-action. For degree i externally tensor the
+correspondence with Cl_i carrying the trivial G-action and construct the grading-preserving
+generator comparison `(B⋊G)⊗̂Cl_i≃(B⊗̂Cl_i)⋊G`. Apply the same cycle construction over B⊗̂Cl_i,
+retaining its Clifford grading. Prove the compactness and continuity requirements in both degrees,
+and that this is inverse to the forward map by the normalized-Haar projection and the corresponding
+module unitaries/homotopies. Prove both composites are identities. For trivially graded B, use K5's
+ordinary K comparison to obtain `KK_G^i(ℂ,B)≃K_i(B⋊G)` with K1–K3's ordinary K-groups and their
+fixed signs. Do not forget a nontrivial grading when applying this ordinary comparison. Include
+nonunital and zero B under the same definitions. For B=ℂ identify degree zero with the complex
+representation ring and prove degree one vanishes. For compact Lie G compare the commutative case
+with TopologicalKTheory T6's equivariant bundles. Construct the comparison maps; do not identify an
+equivariant bundle group with a crossed-product K-group merely by matching their names.
 
 **Checks.**
 - `p_G` is a projection: `p_G*=p_G` because Haar measure on a compact group is inversion
@@ -1305,19 +1508,20 @@ Neumann weak closures.
 *Needs:* 7.2 descent; K6.3–6.4; OperatorAlgebraDynamics D1–D2; K3.4 for the commutative case.
 
 For any C*-algebra A and automorphism α prove the Pimsner–Voiculescu six-term exact sequence with
-horizontal maps `1−α_*` and the canonical inclusion into `A⋊_αℤ`. Fix U by `UaU*=α(a)`, and take
-T_α inside `(A⋊_αℤ)⊗T`. First make the KK construction for separable A; then obtain the
-arbitrary-A sequence by the invariant-subalgebra limits described below. T_α is the closure of
-the span `(aU^(i−j))⊗S^i(S*)^j`, a∈A, i,j≥0. This definition covers nonunital A. Its symbol map
-sends that expression to aU^(i−j). Identify its ideal with A⊗K by `a⊗e_ij↦U^i a U^(−j)⊗e_ij`; the
-distinguished corner is e_00, not an unspecified translated rank-one projection. Put j(a)=a⊗1,
-construct its inverse class x∈KK(T_α,A) by the Toeplitz quasihomomorphism/shift homotopy, and
-prove both inverse products. Compute the ideal-inclusion map followed by x as `1−[α⁻¹]` in
-KK(A,A), and hence `1−(α⁻¹)_*` on K-groups. To display `1−α_*`, precompose that map with `−α_*` on
-the ideal's K-group and transport the adjacent boundary by the inverse `−(α⁻¹)_*`. Prove
-naturality and comparison of these normalized boundaries with the extension index maps. Extend
-the theorem to arbitrary A using directed unions of separable α-invariant subalgebras and K2
-continuity. Include the identity automorphism and rotations of the circle as computations.
+horizontal maps `1−α_*` and the canonical inclusion into `A⋊_αℤ` (Blackadar, Theorem 10.2.1). Fix U
+by `UaU*=α(a)`, and take T_α inside `(A⋊_αℤ)⊗T`. First make the KK construction for separable A;
+then obtain the arbitrary-A sequence by the invariant-subalgebra limits described below. T_α is the
+closure of the span `(aU^(i−j))⊗S^i(S*)^j`, a∈A, i,j≥0. This definition covers nonunital A. Its
+symbol map sends that expression to aU^(i−j). Identify its ideal with A⊗K by
+`a⊗e_ij↦U^i a U^(−j)⊗e_ij`; the distinguished corner is e_00, not an unspecified translated rank-one
+projection. Put j(a)=a⊗1, construct its inverse class x∈KK(T_α,A) by the Toeplitz
+quasihomomorphism/shift homotopy, and prove both inverse products. Compute the ideal-inclusion map
+followed by x as `1−[α⁻¹]` in KK(A,A), and hence `1−(α⁻¹)_*` on K-groups. To display `1−α_*`,
+precompose that map with `−α_*` on the ideal's K-group and transport the adjacent boundary by the
+inverse `−(α⁻¹)_*`. Prove naturality and comparison of these normalized boundaries with the
+extension index maps. Extend the theorem to arbitrary A using directed unions of separable
+α-invariant subalgebras and K2 continuity. Include the identity automorphism and rotations of the
+circle as computations.
 
 For every real θ define `α(f)(z)=f(exp(2πiθ)z)` and `A_θ=C(𝕋)⋊_αℤ`; v(z)=z is the coordinate
 unitary and u is U, so `uv=exp(2πiθ)vu`. Prove its universal unitary presentation with these
@@ -1435,26 +1639,27 @@ CStarClassification. Follow Cuntz (1981), Theorem 1.5 and §2.4.
 
 *Needs:* 7.1–7.2; 7.4; K3.1–3.2; OperatorAlgebraDynamics D4 Takai duality.
 
-Develop the mapping torus `M_α={f∈C([0,1],A) | f(1)=α(f(0))}` and its extension with quotient
-evaluation at 0 and ideal SA. With K3's positive Bott and exponential conventions its K₀-to-K₁
-boundary is `b_A∘(α_*−1)`: use the lift `x(t)=(1−t)p+tα(p)` to prove the sign. Identify the other
-boundary through suspension and prove the resulting mapping-torus sequence. Relate it to crossed
-products via induction and the Thom isomorphism, with the suspension reversal or ideal
-identification needed to match the Pimsner–Voiculescu `1−α_*` convention stated explicitly.
+Develop the mapping torus `M_α={f∈C([0,1],A) | f(1)=α(f(0))}` (Blackadar, Definition 10.3.1) and its
+extension with quotient evaluation at 0 and ideal SA. With K3's positive Bott and exponential
+conventions its K₀-to-K₁ boundary is `b_A∘(α_*−1)`: use the lift `x(t)=(1−t)p+tα(p)` to prove the
+sign. Identify the other boundary through suspension and prove the resulting mapping-torus sequence.
+Relate it to crossed products via induction and the Thom isomorphism, with the suspension reversal
+or ideal identification needed to match the Pimsner–Voiculescu `1−α_*` convention stated explicitly.
 
-For a strongly continuous action α of ℝ on any A prove Connes–Thom, `t_α:K_i(A)≃K_(i+1)(A⋊_αℝ)`.
-Fix the Fourier identification for the trivial scalar action using characters `s↦exp(isx)`, with
-x increasing from −∞ to +∞. Normalize `t_0(1)` as the class of `u(x)=(x+i)/(x−i)`, of winding
-number −1. This is the negative of K3's positive suspension generator. Develop naturality for
-equivariant *-homomorphisms, exterior equivalence of actions, suspension compatibility, and the
-translation-action calculation. For separable trivially graded A construct Blackadar's Thom cycle
-from a real multiplier function tending to −1 at −∞ and +1 at +∞, prove its compact commutators
-and the normalization above, and construct the inverse using the dual action. Use Dynamics D4's
-Takai identification to prove both Kasparov products are identity; this is the primary KK proof.
-Pass to arbitrary A through directed separable α-invariant subalgebras, proving continuity and
-compatibility of the Thom maps. Build the Wiener–Hopf extension and its boundary identification as
-a consequence: deduce vanishing of the middle K-groups from that exact sequence and the proven
-Thom isomorphism. Compare with Takai duality using Dynamics D4's character conventions.
+For a strongly continuous action α of ℝ on any A prove Connes–Thom, `t_α:K_i(A)≃K_(i+1)(A⋊_αℝ)`
+(Blackadar, Theorem 19.3.6, for separable A). Fix the Fourier identification for the trivial scalar
+action using characters `s↦exp(isx)`, with x increasing from −∞ to +∞. Normalize `t_0(1)` as the
+class of `u(x)=(x+i)/(x−i)`, of winding number −1, the normalization of Roe, Lemma 19.1. This is the
+negative of K3's positive suspension generator. Develop naturality for equivariant *-homomorphisms,
+exterior equivalence of actions, suspension compatibility, and the translation-action calculation.
+For separable trivially graded A construct Blackadar's Thom cycle from a real multiplier function
+tending to −1 at −∞ and +1 at +∞, prove its compact commutators and the normalization above, and
+construct the inverse using the dual action. Use Dynamics D4's Takai identification to prove both
+Kasparov products are identity; this is the primary KK proof. Pass to arbitrary A through directed
+separable α-invariant subalgebras, proving continuity and compatibility of the Thom maps. Build the
+Wiener–Hopf extension and its boundary identification as a consequence: deduce vanishing of the
+middle K-groups from that exact sequence and the proven Thom isomorphism. Compare with Takai duality
+using Dynamics D4's character conventions.
 
 **Checks.**
 - `x(1)=α(p)=α(x(0))`, so the lift lies in the mapping torus, and the boundary of `[p]` is
@@ -1485,17 +1690,17 @@ Pontryagin-dual and Haar-measure APIs.
 Fix one universe u for the C*-algebra category and define the bootstrap class N as an inductively
 generated predicate on its separable nuclear algebras, with universe-lift comparisons. Define it as
 the smallest class containing ℂ, closed under countable inductive limits, two-out-of-three for
-extensions, and KK-equivalence among separable nuclear algebras. Develop its closure and example
-API, including separable commutative and AF algebras, suspensions, stabilization, and crossed
-products by ℤ and ℝ using K7. Put the finite Cuntz algebras in N using the semisplit extension with
-E_n: first put E_n in N by its scalar KK-equivalence, then use two-out-of-three for O_n. Put O_∞ in
-N using its inductive limit. For commutative examples prove compact metrizable spaces are inverse
-limits of finite polyhedra using refining finite-cover nerves and comparison maps. Put finite CW
-function algebras in N by cell-attachment extensions and induction, then use the function-algebra
-direct limits. Handle noncompact second-countable locally compact spaces through one-point
-compactification and its evaluation ideal. These topological bridges are targets here. Membership
-in N is an explicit hypothesis in the theorems below; no claim that nuclearity alone implies
-membership is a target.
+extensions, and KK-equivalence among separable nuclear algebras (Blackadar, Definition 22.3.4).
+Develop its closure and example API, including separable commutative and AF algebras, suspensions,
+stabilization, and crossed products by ℤ and ℝ using K7. Put the finite Cuntz algebras in N using
+the semisplit extension with E_n: first put E_n in N by its scalar KK-equivalence, then use
+two-out-of-three for O_n. Put O_∞ in N using its inductive limit. For commutative examples prove
+compact metrizable spaces are inverse limits of finite polyhedra using refining finite-cover nerves
+and comparison maps. Put finite CW function algebras in N by cell-attachment extensions and
+induction, then use the function-algebra direct limits. Handle noncompact second-countable locally
+compact spaces through one-point compactification and its evaluation ideal. These topological
+bridges are targets here. Membership in N is an explicit hypothesis in the theorems below; no claim
+that nuclearity alone implies membership is a target.
 
 **Checks.**
 - The zero algebra is in N by two-out-of-three for `0→ℂ→ℂ→0→0`, and Sℂ is in N by the extension
@@ -1512,11 +1717,13 @@ membership is a target.
 Use Mathlib's `CategoryTheory.Abelian.Ext` on `ModuleCat ℤ` and `CategoryTheory.Tor` for the
 homological algebra. Build the bridges from countable free abelian presentations to these
 derived-functor objects: length-one projective resolutions over ℤ, computation of Ext¹ and Tor₁,
-naturality, balanced tensor symmetry, and the required vanishing criteria. Prove that Ext¹ takes
-direct sums in its first variable to products and that Tor₁ commutes with direct sums in either
-variable; include the cyclic-group computations. Prove freeness of subgroups of countable free
-abelian groups and identify the concrete resolution kernels and cokernels with the native Ext/Tor
-groups.
+naturality, balanced tensor symmetry, and the required vanishing criteria (Stacks Project, Section
+10.71, Tag 00LO, with Lemma 10.71.5, Tag 00LT, for Ext from free resolutions; Section 10.75, Tag
+00LY, with Lemmas 10.75.1 and 10.75.5, Tags 00LZ and 00M3, for Tor and its symmetry). Prove that
+Ext¹ takes direct sums in its first variable to products and that Tor₁ commutes with direct sums in
+either variable; include the cyclic-group computations. Prove freeness of subgroups of countable
+free abelian groups and identify the concrete resolution kernels and cokernels with the native
+Ext/Tor groups.
 
 ### 8.3 Geometric resolutions and the universal coefficient theorem
 
@@ -1582,20 +1789,27 @@ KK₀(C(X),ℂ) pairs to 1 with the unit. Use K6's comparison exact sequence to 
 Ext→ordinary Ext is an isomorphism in this case. Then apply the separate unital absorption theorem
 to essential Busby maps; a general unital comparison isomorphism is not used.
 
-An operator T on a Hilbert space is essentially normal when `T*T−TT*` is compact, and its essential
-spectrum σ_e(T) is the set of λ for which `T−λ` is not Fredholm, equivalently, by Atkinson's
-theorem in 4.1, for which the Calkin class of `T−λ` is not invertible. For an essentially normal
-operator T on an infinite-dimensional separable Hilbert space, construct its extension of `C(X)` by
-compact operators, where `X=σ_e(T)`. Prove the Brown–Douglas–Fillmore classification for compact
-subsets X of ℂ: its Ext group is the product of one copy of ℤ for each bounded connected component
-of `ℂ∖X`, represented by `λ↦index(T−λ)`. Prove local constancy and vanishing on the unbounded
-component, realize every such collection of integers, and prove completeness of the invariant. In
-particular, two essentially normal operators with the same essential spectrum are unitarily
-equivalent modulo compact perturbation exactly when their index functions agree; T is a compact
-perturbation of a normal operator exactly when its index function vanishes (Blackadar, Theorem
-16.2.1 and Corollary 16.2.2). Establish the passage from stable extension equivalence to these
-operator statements, using absorption and the Weyl–von Neumann–Voiculescu theorem of CStarAlgebras
-C8. Include the unilateral shift as the basic obstruction to a normal compact perturbation.
+Define `IsEssentiallyNormal`: an operator T on a Hilbert space is essentially normal when
+`T*T−TT*` is compact. Define `essentialSpectrum`: the essential spectrum σ_e(T) is the set of λ
+for which `T−λ` is not Fredholm, equivalently, by Atkinson's theorem in 4.1, for which the Calkin
+class of `T−λ` is not invertible. On a finite-dimensional space every operator is essentially
+normal and σ_e(T) is empty. For an essentially normal operator T on an infinite-dimensional
+separable Hilbert space, construct its extension of `C(X)` by compact operators, where `X=σ_e(T)`.
+Prove the Brown–Douglas–Fillmore classification for compact subsets X of ℂ: its Ext group is the
+product of one copy of ℤ for each bounded connected component of `ℂ∖X`, represented by
+`λ↦index(T−λ)` (Blackadar, Theorem 16.2.1). Prove local constancy and vanishing on the unbounded
+component, realize every such collection of integers, and prove completeness of the invariant.
+Establish the passage from stable extension equivalence to the following operator statements,
+using absorption and the Weyl–von Neumann–Voiculescu theorem of CStarAlgebras C8 (Blackadar,
+Corollary 16.2.2). Both hold on every separable Hilbert space; in finite dimension both sides are
+true, since every operator is compact, σ_e is empty and every index is 0.
+
+- `exists_unitary_isCompactOperator_conj_sub_iff_index_eq`: two essentially normal operators T₁,
+  T₂ with the same essential spectrum satisfy `UT₁U*−T₂` compact for some unitary U exactly when
+  `index(T₁−λ)=index(T₂−λ)` for every λ outside the essential spectrum.
+- `exists_isStarNormal_isCompactOperator_sub_iff_index_eq_zero`: an essentially normal operator T
+  is a compact perturbation of a normal operator exactly when `index(T−λ)=0` for every λ outside
+  its essential spectrum. The unilateral shift is the basic obstruction.
 
 **Checks.**
 - The unilateral shift S has `S*S−SS*=e₀₀`, so it is essentially normal, with `σ_e(S)` the unit
@@ -1611,7 +1825,7 @@ C8. Include the unilateral shift as the basic obstruction to a normal compact pe
 
 *Needs:* 8.2–8.3; K3.4 external products; K2.3 continuity.
 
-For A∈N and any C*-algebra B prove the spatial Künneth sequence
+For A∈N and any C*-algebra B prove the spatial Künneth sequence (Blackadar, Theorem 23.1.3)
 
 ```
 0 → ⊕_(j+k=i) K_j(A)⊗ℤK_k(B)
@@ -1652,14 +1866,14 @@ K3–K7; CStarAlgebras C5 and C8; Mathlib homological-algebra, Nöbeling and Fre
 
 *Needs:* K2.3; CStarAlgebras C5 path algebras.
 
-For separable C*-algebras A,B define an asymptotic morphism as maps `φ_t:A→B`, t≥1, continuous in
-t at each a, with addition, complex scalar multiplication, multiplication and star defects tending
-to zero in norm. No exact linearity or multiplicativity at finite t is required. Prove asymptotic
-contractivity at each a, so the induced map into `B_∞=C_b([1,∞),B)/C₀([1,∞),B)` is a
-*-homomorphism. Develop equivalence by pointwise norm difference tending to zero and homotopy by
-asymptotic morphisms into `C([0,1],B)`, with the defects uniform in the homotopy parameter. Prove
-the equivalence and homotopy laws, functoriality for genuine *-homomorphisms, and
-reparameterization invariance.
+For separable C*-algebras A,B define an asymptotic morphism (Blackadar, Definition 25.1.1) as maps
+`φ_t:A→B`, t≥1, continuous in t at each a, with addition, complex scalar multiplication,
+multiplication and star defects tending to zero in norm. No exact linearity or multiplicativity at
+finite t is required. Prove asymptotic contractivity at each a, so the induced map into
+`B_∞=C_b([1,∞),B)/C₀([1,∞),B)` is a *-homomorphism. Develop equivalence by pointwise norm difference
+tending to zero and homotopy by asymptotic morphisms into `C([0,1],B)`, with the defects uniform in
+the homotopy parameter. Prove the equivalence and homotopy laws, functoriality for genuine
+*-homomorphisms, and reparameterization invariance.
 
 **Checks.**
 - A *-homomorphism φ gives the constant asymptotic morphism, and `φ_t=(1+1/t)φ` is equivalent to
@@ -1671,26 +1885,36 @@ reparameterization invariance.
 
 ### 9.2 Continuous selections: the Bartle–Graves theorem
 
-*Needs:* Mathlib `ContinuousLinearMap.NonlinearRightInverse`, the open mapping theorem and
-partitions of unity.
+*Needs:* Mathlib `ContinuousLinearMap.NonlinearRightInverse`,
+`ContinuousLinearMap.exists_nonlinearRightInverse_of_surjective` and
+`LowerHemicontinuous.exists_continuous_selection`.
 
 Supply the continuous-selection bridge needed for uniformization: prove the Bartle–Graves theorem
-that a surjective continuous linear map between real Banach spaces has a continuous, positively
-homogeneous nonlinear right inverse with a uniform linear norm bound. Derive it from the open
-mapping theorem, locally finite partitions of unity and successive approximate sections. Derive
-the global norm bound from continuity at zero and positive homogeneity. Mathlib's
-`NonlinearRightInverse` supplies a norm-controlled right inverse but has no continuity field; the
-continuous selection is an additional theorem, not an instance inferred from that structure. Apply
-it to `C_b→B_∞` on underlying real spaces to replace any asymptotic morphism by an equivalent
-continuous map `A→C_b([1,∞),B)`. Prove its asymptotic defects and contractivity estimates are
-uniform on compact input sets.
+that a surjective continuous linear map `q:E→F` between real Banach spaces has a continuous,
+positively homogeneous nonlinear right inverse (Messerschmidt, Theorem 5.1), with a uniform linear
+norm bound. Derive it from Michael's selection theorem,
+`LowerHemicontinuous.exists_continuous_selection`. The open mapping theorem, in the form
+`ContinuousLinearMap.exists_nonlinearRightInverse_of_surjective`, gives C such that every y has a
+preimage of norm at most `C‖y‖`; fix R>C. On the unit sphere of F, a metric space and hence
+paracompact and normal, the map `y↦q⁻¹{y}∩closedBall 0 R` has nonempty closed convex values. It is
+lower hemicontinuous: a point x₀ of the fibre over y₀ is first moved along the segment towards a
+fibre point of norm at most C to a fibre point of norm less than R, and the open mapping theorem
+then corrects it to a point of the fibre over any nearby y. The selection theorem gives a continuous
+σ on the sphere with `qσ(y)=y` and `‖σ(y)‖≤R`. Put `s(0)=0` and `s(y)=‖y‖σ(y/‖y‖)` for y≠0; then
+`qs=id`, s is positively homogeneous, `‖s(y)‖≤R‖y‖`, and s is continuous at 0 by this bound and
+elsewhere by construction. For F=0 take s=0. Mathlib's `NonlinearRightInverse` supplies a
+norm-controlled right inverse but has no continuity field; the continuous selection is an additional
+theorem, not an instance inferred from that structure. Apply it to `C_b→B_∞` on underlying real
+spaces to replace any asymptotic morphism by an equivalent continuous map `A→C_b([1,∞),B)`. Prove
+its asymptotic defects and contractivity estimates are uniform on compact input sets.
 
 **Checks.**
 - The quotient map `ℓ^∞→ℓ^∞/c₀` has no bounded linear right inverse, since c₀ is not complemented
   in ℓ^∞, yet the theorem gives a continuous positively homogeneous one; the result does not
   follow from linear sections.
 - Positive homogeneity at r=0 forces `s(0)=0`, and continuity at 0 with homogeneity gives
-  `‖s(y)‖≤C‖y‖` for a single constant C.
+  `‖s(y)‖≤C‖y‖` for a single constant C; in the construction above the constant is the radius R,
+  which works for `ℓ^∞→ℓ^∞/c₀` although that map has no linear section.
 - For a split surjection, such as a coordinate projection `ℝ²→ℝ`, the linear section is already
   such a right inverse.
 
@@ -1698,23 +1922,37 @@ uniform on compact input sets.
 
 *Needs:* 9.1–9.2.
 
-For uniform representatives φ:A→B and ψ:B→C construct a sufficiently fast continuous increasing
-`r(t)→∞` so that `ψ_(r(t))∘φ_t` is an asymptotic morphism. Use countable dense sets and
-compact-uniform estimates to prove existence, independence of reparameterization and
-representatives, and associativity on homotopy classes. Develop the asymptotic homotopy category
-with genuine homomorphisms as its specified comparison functor.
+For uniform representatives φ:A→B and ψ:B→C of 9.2 define their composite as `ψ_(r(t))∘φ_t` for
+a sufficiently fast continuous increasing `r(t)→∞` (Blackadar, Theorem 25.3.1).
+
+- Such r exist, constructed from countable dense sets and compact-uniform estimates, and every
+  faster reparameterization gives an equivalent composite.
+- The homotopy class of the composite does not depend on the representatives or on r, and
+  composition is associative on homotopy classes. This gives the asymptotic homotopy category
+  (Blackadar, 25.3.2), with genuine homomorphisms as its specified comparison functor.
+
+**Checks.**
+- For *-homomorphisms φ, ψ the composite of `(1+1/t)φ` and `(1+1/t)ψ` is
+  `(1+1/r(t))(1+1/t)ψφ`, equivalent to the constant asymptotic morphism ψφ for every `r(t)→∞`.
+- If φ is a genuine *-homomorphism, `ψ_(r(t))∘φ` is an asymptotic morphism for every increasing
+  `r(t)→∞`, and these composites are homotopic by reparameterization invariance of 9.1.
+- For A=B=ℂ, `x_t=φ_t(1)` satisfies `x_t²−x_t→0` and `x_t−conjugate(x_t)→0` with t↦x_t
+  continuous, so for large t it stays within 1/4 of 0 or within 1/4 of 1; hence φ is equivalent to
+  0 or to the identity, the asymptotic homotopy classes from ℂ to ℂ are {0, id}, and composition
+  is multiplication in {0,1}.
 
 ### 9.4 E-theory
 
 *Needs:* 9.3; K3.1 suspension conventions; K6.1 quasicentral approximate units.
 
-Define `E(A,B)=[[SA,SB⊗K]]`. Construct addition by stabilized block sum, the inverse by reversal
-of the domain suspension SA, identity classes, the reparameterized product and the resulting
-additive category. Prove stability and Bott periodicity in both variables, with the explicit
-comparison to K3's suspension conventions; put `E₁(A,B)=E(A,SB)≃E(SA,B)`. Construct boundary
-classes using quasicentral approximate units and prove the six-term exact sequences in each
-variable for every extension of separable C*-algebras, without a semisplitting hypothesis. Prove
-naturality, mapping-cone compatibility and the boundary-product description.
+Define `E(A,B)=[[SA,SB⊗K]]` (Blackadar, Definition 25.4.4). Construct addition by stabilized block
+sum, the inverse by reversal of the domain suspension SA, identity classes, the reparameterized
+product and the resulting additive category. Prove stability and Bott periodicity in both variables,
+with the explicit comparison to K3's suspension conventions; put `E₁(A,B)=E(A,SB)≃E(SA,B)`.
+Construct boundary classes using quasicentral approximate units (Blackadar, Proposition 25.5.1) and
+prove the six-term exact sequences in each variable for every extension of separable C*-algebras,
+without a semisplitting hypothesis. Prove naturality, mapping-cone compatibility and the
+boundary-product description.
 
 **Checks.**
 - `E(ℂ,B)≅K₀(B)` and `E₁(ℂ,B)≅K₁(B)`; in particular E(ℂ,ℂ)≅ℤ with the identity class equal to 1.
@@ -1726,16 +1964,17 @@ naturality, mapping-cone compatibility and the boundary-product description.
 
 *Needs:* 9.4; K6.3 universal property of KK; CStarAlgebras C6–C7 completely positive liftings.
 
-Prove E-theory's universal property for stable, homotopy-invariant, half-exact functors on
-separable C*-algebras to abelian categories: half-exact means that an extension is sent to a
-sequence whose image at the middle object equals the kernel of the following map. Construct the
-factorization and prove its uniqueness and compatibility with composition, including the
-contravariant version. Construct the canonical natural transformation `KK_i(A,B)→E_i(A,B)`,
-preserving addition, products, homomorphism classes and suspension, and identify `E_i(ℂ,B)` with
-K_i(B). If `KK(A,−)` is half-exact, prove this comparison is an isomorphism for every separable B;
-in particular prove it for separable nuclear A using completely positive lifting. This
-distinguishes KK's semisplit excision from E-theory's excision for all separable extensions while
-retaining the concrete comparison between their cycles and boundary classes.
+Prove E-theory's universal property for stable, homotopy-invariant, half-exact functors on separable
+C*-algebras to abelian categories (Blackadar, Theorem 25.6.1, which allows additive targets):
+half-exact means that an extension is sent to a sequence whose image at the middle object equals the
+kernel of the following map. Construct the factorization and prove its uniqueness and compatibility
+with composition, including the contravariant version. Construct the canonical natural
+transformation `KK_i(A,B)→E_i(A,B)`, preserving addition, products, homomorphism classes and
+suspension, and identify `E_i(ℂ,B)` with K_i(B). If `KK(A,−)` is half-exact, prove this comparison
+is an isomorphism for every separable B; in particular prove it for separable nuclear A using
+completely positive lifting. This distinguishes KK's semisplit excision from E-theory's excision for
+all separable extensions while retaining the concrete comparison between their cycles and boundary
+classes.
 
 ### Examples
 
@@ -1745,7 +1984,9 @@ retaining the concrete comparison between their cycles and boundary classes.
 
 ### Dependencies
 
-K2–K6; CStarAlgebras C5–C7; Mathlib `ContinuousLinearMap.NonlinearRightInverse`.
+K2–K6; CStarAlgebras C5–C7; Mathlib `ContinuousLinearMap.NonlinearRightInverse`,
+`ContinuousLinearMap.exists_nonlinearRightInverse_of_surjective` and
+`LowerHemicontinuous.exists_continuous_selection`.
 
 ## Downstream consumers
 
@@ -1754,8 +1995,8 @@ K2–K6; CStarAlgebras C5–C7; Mathlib `ContinuousLinearMap.NonlinearRightInver
   cycles and index products, and K7's rotation algebras with their K-groups.
 - [FreeProbability](../FreeProbability/README.md) consumes the reduced-word interface of
   K7.FreeGroups, the dilation theorem of K4 and the algebras E_n and O_∞ of K7.
-- [OperatorTheory](../OperatorTheory/README.md)'s ToeplitzOperators consumes K4's Calkin and
-  compact-perturbation index foundation.
+- [OperatorTheory](../OperatorTheory/README.md)'s ToeplitzOperators consumes K4's Atkinson theorem
+  and compact-perturbation index foundation.
 - [SeibergWittenTheory](../SeibergWittenTheory/README.md) consumes K4's module-index comparison.
 - [GeneralizedCohomology](../GeneralizedCohomology/README.md) consumes K5's graded Clifford
   conventions and its swapped parity reduction.
@@ -1764,45 +2005,57 @@ K2–K6; CStarAlgebras C5–C7; Mathlib `ContinuousLinearMap.NonlinearRightInver
 
 ## References
 
-- Bruce Blackadar, [*K-Theory for Operator Algebras*, second edition](https://www.bruceblackadar.com/Mathematics/book6.pdf):
-  Definitions 5.1.1, 5.5.1 and 8.1.1 for the projection and unitary models (K1–K2);
-  Definition 9.1.1 and Theorems 9.2.1 and 9.3.1 for the Bott map, periodicity and the exact
-  sequence (K3); Theorem 21.2.2 and the remark after it for the pullback sequence (3.3);
-  Theorem 10.2.1 for the Pimsner–Voiculescu sequence (7.4); Theorem 12.4.2 for the technical
-  theorem (6.1); Theorem 13.6.2 for Kasparov stabilization (5.1); Theorem 15.7.1 for
-  invertibility of extensions (4.5); Theorem 16.2.1 and Corollary 16.2.2 for the
-  Brown–Douglas–Fillmore theorem (8.4); Definitions 17.1.1 and 17.3.1 for Kasparov cycles and
-  KK (5.2); Theorems 18.4.3 and 18.6.1 for the product (6.2); Theorems 19.5.7 and 19.7.1 for
-  the six-term sequence and countable additivity (5.3, 6.4); Theorem 20.2.7 for Green–Julg
-  (7.2); Definition 22.3.4 for the bootstrap class (8.1); Theorems 23.1.1 and 23.1.3 and
-  Proposition 23.5.1 for the UCT, Künneth and geometric resolutions (8.3, 8.5); Definition
-  25.1.1 and Theorem 25.6.1 for asymptotic morphisms and the universal property of E-theory
-  (K9). The pullback remark cites C. Schochet, *Topological methods for C*-algebras III:
-  axiomatic homology*, Pacific J. Math. 114 (1984), 399–445, 4.5.
-- John Roe, [*Lectures on K-Theory and Operator Algebras*](https://bpb-us-e1.wpmucdn.com/sites.psu.edu/dist/1/4020/files/2017/12/KTheoryNotes-1uvuwyz.pdf):
-  Lectures 7–8 for continuity, exactness and the Toeplitz proof of coefficient Bott
-  periodicity (K2–K3); Lectures 10–12 for projective modules and Fredholm pairs (K1, K4);
-  Lectures 14–16 for inverse-closed dense subalgebras (3.5); Lectures 19–21, with Lemma 19.1,
-  for the Connes–Thom construction and its winding −1 normalization (7.7).
+- Bruce Blackadar, [*K-Theory for Operator Algebras*, second
+  edition](https://www.bruceblackadar.com/Mathematics/book6.pdf): Definitions 5.1.1, 5.5.1 and 8.1.1
+  for the projection and unitary models (K1–K2); Definition 9.1.1 and Theorems 9.2.1 and 9.3.1 for
+  the Bott map, periodicity and the exact sequence (K3); Theorem 21.2.2 and the remark after it for
+  the pullback sequence (3.3); Theorem 10.2.1 for the Pimsner–Voiculescu sequence (7.4); Theorem
+  12.4.2 for the technical theorem (6.1); Theorem 13.6.2 for Kasparov stabilization (5.1); Theorem
+  15.7.1 for invertibility of extensions (4.5); Theorem 16.2.1 and Corollary 16.2.2 for the
+  Brown–Douglas–Fillmore theorem (8.4); Definitions 17.1.1 and 17.3.1 for Kasparov cycles and KK
+  (5.2); Theorems 18.4.3 and 18.6.1 for the product (6.2); Theorems 19.5.7 and 19.7.1 for the
+  six-term sequence and countable additivity (5.3, 6.4); Theorem 20.2.7 for Green–Julg (7.2);
+  Definition 22.3.4 for the bootstrap class (8.1); Theorems 23.1.1 and 23.1.3 and Proposition 23.5.1
+  for the UCT, Künneth and geometric resolutions (8.3, 8.5); Definition 25.1.1 and Theorem 25.6.1
+  for asymptotic morphisms and the universal property of E-theory (K9); the remaining locators are
+  given at the claims they support. The pullback remark cites C. Schochet, *Topological methods for
+  C*-algebras III: axiomatic homology*, Pacific J. Math. 114 (1984), 399–445, 4.5.
+- John Roe, [*Lectures on K-Theory and Operator
+  Algebras*](https://bpb-us-e1.wpmucdn.com/sites.psu.edu/dist/1/4020/files/2017/12/KTheoryNotes-1uvuwyz.pdf):
+  Lectures 7–8 for continuity, exactness and the Toeplitz proof of coefficient Bott periodicity
+  (K2–K3); Lectures 10–12 for projective modules and Fredholm pairs (K1, K4); Lectures 14–16 for
+  inverse-closed dense subalgebras (3.5); Lectures 19–21, with Lemma 19.1, for the Connes–Thom
+  construction and its winding −1 normalization (7.7).
+- Ioannis P. Zois, [*18 Lectures on K-Theory*](https://arxiv.org/abs/1008.1346), Analytic K-theory,
+  Lecture 1, Theorem 1, p. 59: Atkinson's theorem (4.1).
+- The Stacks Project, [Section 10.71, Ext groups](https://stacks.math.columbia.edu/tag/00LO), Lemma
+  10.71.5, and [Section 10.75, Tor groups](https://stacks.math.columbia.edu/tag/00LY), Lemmas
+  10.75.1 and 10.75.5: Ext and Tor from free resolutions and the symmetry of Tor (8.2).
 - Miek Messerschmidt, [*A pointwise Lipschitz selection theorem*](https://arxiv.org/abs/1611.08435),
-  Theorem 5.1: the classical Bartle–Graves continuous positively homogeneous selection theorem
-  (9.2). Its stronger pointwise Lipschitz conclusion, Theorem 5.2, is outside this roadmap.
-- Joachim Cuntz, [*K-theory for certain C*-algebras. II*](https://www.theta.ro/jot/archive/1981-005-001/1981-005-001-009.pdf),
-  J. Operator Theory 5 (1981), Theorem 1.5 and §2.4, pp. 105–107: Toeplitz exact sequences and
-  the unital finite-stage and O_∞ K-theory computations (7.6).
-- Mihai Pimsner and Dan Voiculescu, [*K-groups of reduced crossed products by free groups*](https://jot.theta.ro/jot/archive/1982-008-001/1982-008-001-006.html),
-  J. Operator Theory 8 (1982), Lemmas 1.1–1.3, §2, Theorem 3.1 and Corollary 3.2 (7.3).
-- Pierre Julg, [*A new look at the Julg–Valette homotopy for groups acting on trees*](https://arxiv.org/abs/1310.6941),
-  §§1–5: the tree cycle, the operators T_t and the unit class (7.3).
-- Vladimir Manuilov and Klaus Thomsen, [*The group of unital C*-extensions*](https://arxiv.org/abs/math/0501472),
-  Lemmas 1–2 and Theorem 3, pp. 2–5, for the strong unital invertible-class comparison, with
-  separable source and stable separable ideal (6.5).
+  Theorem 5.1: the classical Bartle–Graves continuous positively homogeneous selection theorem,
+  whose standard proof the paper describes as an application of Michael's selection theorem (9.2).
+  Its stronger pointwise Lipschitz conclusion, Theorem 5.2, is outside this roadmap.
+- Joachim Cuntz, [*K-theory for certain C*-algebras.
+  II*](https://www.theta.ro/jot/archive/1981-005-001/1981-005-001-009.pdf), J. Operator Theory 5
+  (1981), Theorem 1.5 and §2.4, pp. 105–107: Toeplitz exact sequences and the unital finite-stage
+  and O_∞ K-theory computations (7.6).
+- Mihai Pimsner and Dan Voiculescu, [*K-groups of reduced crossed products by free
+  groups*](https://jot.theta.ro/jot/archive/1982-008-001/1982-008-001-006.html), J. Operator Theory
+  8 (1982), Lemmas 1.1–1.3, §2, Theorem 3.1 and Corollary 3.2 (7.3).
+- Pierre Julg, [*A new look at the Julg–Valette homotopy for groups acting on
+  trees*](https://arxiv.org/abs/1310.6941), §§1–5: the tree cycle, the operators T_t and the unit
+  class (7.3).
+- Vladimir Manuilov and Klaus Thomsen, [*The group of unital
+  C*-extensions*](https://arxiv.org/abs/math/0501472), Lemmas 1–2 and Theorem 3, pp. 2–5, for the
+  strong unital invertible-class comparison, with separable source and stable separable ideal (6.5).
 - N. Christopher Phillips, [*Every simple higher dimensional noncommutative torus is an AT
   algebra*](https://arxiv.org/abs/math/0609783), Remark 1.2, Lemma 1.5, Definition 1.6 and
   Theorem 1.9: the universal presentation, the iterated crossed-product description and the
   simplicity criterion for noncommutative tori (7.5). Theorem 1.9 attributes the simplicity
   direction to J. Slawny, *On factor representations and the C*-algebra of canonical commutation
   relations*, Comm. Math. Phys. 24 (1972), Theorem 3.7.
-- The Zulip discussions of [heterogeneous matrix operations and K₀ block sums](https://leanprover.zulipchat.com/#narrow/channel/287929-mathlib4/topic/to_additive.20issues/near/311901875)
-  and [general linear groups for stable K-theory](https://leanprover.zulipchat.com/#narrow/channel/287929-mathlib4/topic/General.20linear.20group.20.28and.20special.20linear.20group.29/near/564149967)
+- The Zulip discussions of [heterogeneous matrix operations and K₀ block
+  sums](https://leanprover.zulipchat.com/#narrow/channel/287929-mathlib4/topic/to_additive.20issues/near/311901875)
+  and [general linear groups for stable
+  K-theory](https://leanprover.zulipchat.com/#narrow/channel/287929-mathlib4/topic/General.20linear.20group.20.28and.20special.20linear.20group.29/near/564149967)
   motivate the rectangular matrix operations and matrix units of K1–K2.

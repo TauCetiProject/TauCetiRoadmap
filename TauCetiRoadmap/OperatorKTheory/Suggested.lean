@@ -5,24 +5,22 @@ Released under Apache 2.0 license as described in the file LICENSE.
 module
 
 import Mathlib
-import TauCeti.CategoryTheory.GrothendieckGroup.Split
 
 /-!
 # Operator K-theory, extensions, and KK-theory: target signatures
 
 The roadmap is `README.md`; this file is not the roadmap. It states, each with `sorry`, the
-milestones of the README that are statable against the pinned Mathlib and Tau Ceti: the unitary
-conjugacy of close projections (K1), the two Brown–Douglas–Fillmore classification statements
-(K8) together with the two operator predicates they need, and the Bartle–Graves selection theorem
-(K9). Operators are Mathlib's `H →L[ℂ] H` with `ContinuousLinearMap.IsFredholm`, the index
-`LinearMap.index` and `IsCompactOperator`.
+headline theorems of the README that are statable against the pinned Mathlib and Tau Ceti: the
+two Brown–Douglas–Fillmore classification statements of K8, together with the two operator
+predicates they need. Operators are Mathlib's `H →L[ℂ] H` with `ContinuousLinearMap.IsFredholm`,
+the index `LinearMap.index` and `IsCompactOperator`.
 
 Headline theorems of the README that are not statable at the pins, and the carrier each lacks:
 
 * K1–K2: K₀ and K₁ of a C*-algebra, the order and trace pairing, and the comparison of K₀ with
-  `TauCeti.SplitK0` of the projective modules. Mathlib has `Algebra.GrothendieckAddGroup`, but no
-  monoid of matrix projections up to rectangular equivalence with block-sum addition, and no
-  stable unitary group or its homotopy classes.
+  the split Grothendieck group of the projective modules. Mathlib has
+  `Algebra.GrothendieckAddGroup`, but no monoid of matrix projections up to rectangular
+  equivalence with block-sum addition, and no stable unitary group or its homotopy classes.
 * K3: Bott periodicity `K_i(S²A) ≃ K_i(A)`, the six-term exact sequence of an extension, the
   pullback Mayer–Vietoris sequence and the external product. Besides K₀ and K₁ these need the
   spatial tensor product of C*-algebras, which Mathlib does not have.
@@ -46,43 +44,29 @@ noncomputable section
 
 namespace TauCetiRoadmap.OperatorKTheory
 
-/-! ## K1: projections and unitaries -/
-
-section Unital
-variable {B : Type*} [CStarAlgebra B]
-
-/-- **Close projections are unitarily conjugate.** Two projections at distance less than one are
-conjugate by a unitary in the identity path component (README, 1.1). For a nonunital algebra
-apply this to its unitization. -/
-theorem close_projections_unitarily_conjugate {p q : B}
-    (hp : IsStarProjection p) (hq : IsStarProjection q) (h : ‖p - q‖ < 1) :
-    ∃ u : unitary B, Joined (1 : unitary B) u ∧ q = (u : B) * p * star (u : B) := by
-  sorry
-
-end Unital
-
 /-! ## K8: the Brown–Douglas–Fillmore theorem -/
 
 section BrownDouglasFillmore
 variable {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]
 
-/-- An operator is **essentially normal** when its self-commutator is compact, that is, when its
-class in the Calkin algebra is normal (README, 8.4). -/
+/-- An operator is **essentially normal** when its self-commutator `T*T − TT*` is compact, that
+is, when its image in the Calkin algebra is normal (README, 8.4). -/
 def IsEssentiallyNormal (T : H →L[ℂ] H) : Prop :=
   IsCompactOperator (ContinuousLinearMap.adjoint T * T - T * ContinuousLinearMap.adjoint T)
 
 /-- The **essential spectrum**: the scalars `μ` for which `T - μ` is not Fredholm, equivalently,
-by Atkinson's theorem, for which the Calkin class of `T - μ` is not invertible (README, 4.1
-and 8.4). -/
+by Atkinson's theorem, for which the image of `T - μ` in the Calkin algebra is not invertible
+(README, 4.1 and 8.4). On a finite-dimensional space it is empty. -/
 def essentialSpectrum (T : H →L[ℂ] H) : Set ℂ :=
   {μ | ¬ (T - algebraMap ℂ (H →L[ℂ] H) μ).IsFredholm}
 
-/-- **Brown–Douglas–Fillmore.** On an infinite-dimensional separable Hilbert space, two
-essentially normal operators with the same essential spectrum are unitarily equivalent modulo
-compact operators exactly when their index functions agree off the essential spectrum
-(Blackadar, *K-Theory for Operator Algebras*, Corollary 16.2.2; README, 8.4). -/
+/-- **Brown–Douglas–Fillmore.** On a separable Hilbert space, two essentially normal operators
+with the same essential spectrum are unitarily equivalent modulo compact operators exactly when
+their index functions agree off the essential spectrum (Blackadar, *K-Theory for Operator
+Algebras*, Corollary 16.2.2; README, 8.4). For finite-dimensional `H` both sides hold: every
+operator is compact, the essential spectrum is empty and every index is `0`. -/
 theorem exists_unitary_isCompactOperator_conj_sub_iff_index_eq
-    [TopologicalSpace.SeparableSpace H] (hH : ¬ FiniteDimensional ℂ H)
+    [TopologicalSpace.SeparableSpace H]
     {T₁ T₂ : H →L[ℂ] H} (h₁ : IsEssentiallyNormal T₁) (h₂ : IsEssentiallyNormal T₂)
     (hσ : essentialSpectrum T₁ = essentialSpectrum T₂) :
     (∃ U ∈ unitary (H →L[ℂ] H), IsCompactOperator (U * T₁ * star U - T₂)) ↔
@@ -90,35 +74,18 @@ theorem exists_unitary_isCompactOperator_conj_sub_iff_index_eq
         (T₁ - algebraMap ℂ (H →L[ℂ] H) μ).index = (T₂ - algebraMap ℂ (H →L[ℂ] H) μ).index := by
   sorry
 
-/-- **Brown–Douglas–Fillmore.** On an infinite-dimensional separable Hilbert space, an
-essentially normal operator is a compact perturbation of a normal operator exactly when its index
-function vanishes off the essential spectrum (Blackadar, *K-Theory for Operator Algebras*,
-Corollary 16.2.2; README, 8.4). -/
+/-- **Brown–Douglas–Fillmore.** On a separable Hilbert space, an essentially normal operator is a
+compact perturbation of a normal operator exactly when its index function vanishes off the
+essential spectrum (Blackadar, *K-Theory for Operator Algebras*, Corollary 16.2.2; README, 8.4).
+For finite-dimensional `H` both sides hold: `N = 0` is normal and `T - N = T` is compact, and
+every index is `0`. -/
 theorem exists_isStarNormal_isCompactOperator_sub_iff_index_eq_zero
-    [TopologicalSpace.SeparableSpace H] (hH : ¬ FiniteDimensional ℂ H)
+    [TopologicalSpace.SeparableSpace H]
     {T : H →L[ℂ] H} (hT : IsEssentiallyNormal T) :
     (∃ N : H →L[ℂ] H, IsStarNormal N ∧ IsCompactOperator (T - N)) ↔
       ∀ μ ∉ essentialSpectrum T, (T - algebraMap ℂ (H →L[ℂ] H) μ).index = 0 := by
   sorry
 
 end BrownDouglasFillmore
-
-/-! ## K9: continuous selections -/
-
-section ContinuousSelection
-variable {E F : Type*}
-    [NormedAddCommGroup E] [NormedSpace ℝ E] [CompleteSpace E]
-    [NormedAddCommGroup F] [NormedSpace ℝ F] [CompleteSpace F]
-
-/-- **Bartle–Graves.** A surjective continuous linear map between real Banach spaces has a
-continuous, positively homogeneous right inverse; Mathlib's norm-controlled
-`NonlinearRightInverse` carries no continuity (README, 9.2; Messerschmidt, Theorem 5.1). -/
-theorem exists_continuous_nonlinearRightInverse
-    (q : E →L[ℝ] F) (hq : Function.Surjective q) :
-    ∃ s : q.NonlinearRightInverse, Continuous s ∧
-      ∀ (r : ℝ), 0 ≤ r → ∀ y : F, s (r • y) = r • s y := by
-  sorry
-
-end ContinuousSelection
 
 end TauCetiRoadmap.OperatorKTheory
