@@ -1,4 +1,6 @@
-import Mathlib
+module
+
+public import Mathlib
 
 /-!
 # K3BlochGroups: target signatures
@@ -20,6 +22,8 @@ the supplier’s interval Rogers function and its descent map. These headline re
 the README with their full hypotheses. Finite-support certificates and generic kernel-fibre
 identities are elementary interfaces, not substitute headlines.
 -/
+
+@[expose] public section
 
 namespace TauCetiRoadmap.K3BlochGroups
 
