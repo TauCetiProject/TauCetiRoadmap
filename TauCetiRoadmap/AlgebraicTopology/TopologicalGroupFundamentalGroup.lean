@@ -17,26 +17,40 @@ variable {G : Type*} [TopologicalSpace G] [MulOneClass G] [ContinuousMul G]
 def multiplicationMap : FundamentalGroup (G × G) (1, 1) →* FundamentalGroup G 1 :=
   FundamentalGroup.mapOfEq ⟨fun x => x.1 * x.2, continuous_mul⟩ (one_mul 1)
 
-/-- Pointwise multiplication on actual homotopy classes of based loops. -/
+/-- Pointwise multiplication on actual homotopy classes of based loops. At this pin Mathlib's
+`FundamentalGroup` is the vertex group of the fundamental groupoid, so the loop classes are
+accessed through `FundamentalGroup.toPath` and `FundamentalGroup.fromPath`. -/
 def pointwise (p q : FundamentalGroup G 1) : FundamentalGroup G 1 :=
-  multiplicationMap (Path.Homotopic.prod p q)
+  multiplicationMap (FundamentalGroup.fromPath (Path.Homotopic.prod p.toPath q.toPath))
 
 theorem pointwise_one_left (p : FundamentalGroup G 1) : pointwise 1 p = p := by
+  obtain ⟨p⟩ := p
   induction p using Path.Homotopic.Quotient.ind with
   | mk p =>
     unfold pointwise multiplicationMap
     rw [FundamentalGroup.mapOfEq_apply]
-    change Path.Homotopic.Quotient.mk _ = Path.Homotopic.Quotient.mk p
+    congr 1
+    change (Path.Homotopic.Quotient.map (Path.Homotopic.prod
+      (Path.Homotopic.Quotient.mk (Path.refl (1 : G))) (Path.Homotopic.Quotient.mk p)) _).cast _ _ =
+      Path.Homotopic.Quotient.mk p
+    rw [Path.Homotopic.prod_lift, ← Path.Homotopic.Quotient.mk_map,
+      ← Path.Homotopic.Quotient.mk_cast]
     apply congrArg Path.Homotopic.Quotient.mk
     ext t
     exact one_mul (p t)
 
 theorem pointwise_one_right (p : FundamentalGroup G 1) : pointwise p 1 = p := by
+  obtain ⟨p⟩ := p
   induction p using Path.Homotopic.Quotient.ind with
   | mk p =>
     unfold pointwise multiplicationMap
     rw [FundamentalGroup.mapOfEq_apply]
-    change Path.Homotopic.Quotient.mk _ = Path.Homotopic.Quotient.mk p
+    congr 1
+    change (Path.Homotopic.Quotient.map (Path.Homotopic.prod
+      (Path.Homotopic.Quotient.mk p) (Path.Homotopic.Quotient.mk (Path.refl (1 : G)))) _).cast _ _ =
+      Path.Homotopic.Quotient.mk p
+    rw [Path.Homotopic.prod_lift, ← Path.Homotopic.Quotient.mk_map,
+      ← Path.Homotopic.Quotient.mk_cast]
     apply congrArg Path.Homotopic.Quotient.mk
     ext t
     exact mul_one (p t)
@@ -47,9 +61,12 @@ theorem pointwise_interchange (a b c d : FundamentalGroup G 1) :
   unfold pointwise
   rw [← map_mul]
   apply congrArg multiplicationMap
-  change Path.Homotopic.prod (b.trans a) (d.trans c) =
-    (Path.Homotopic.prod b d).trans (Path.Homotopic.prod a c)
-  exact (Path.Homotopic.comp_prod_eq_prod_comp b d a c).symm
+  change FundamentalGroup.fromPath (Path.Homotopic.prod (b.toPath.trans a.toPath)
+      (d.toPath.trans c.toPath)) =
+    FundamentalGroup.fromPath ((Path.Homotopic.prod b.toPath d.toPath).trans
+      (Path.Homotopic.prod a.toPath c.toPath))
+  exact congrArg FundamentalGroup.fromPath
+    (Path.Homotopic.comp_prod_eq_prod_comp b.toPath d.toPath a.toPath c.toPath).symm
 
 /-- The group already carried by the native fundamental group is commutative.
 No connectedness, manifold, local-contractibility or covering hypothesis is used. -/
