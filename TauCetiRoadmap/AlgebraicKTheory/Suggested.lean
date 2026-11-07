@@ -15,26 +15,25 @@ stable group `GL(R)` and `K₁(R)` are README targets.
 
 Headline theorems of the roadmap that are not statable at the pins:
 
-* The Milnor patching theorem and the Milnor exact sequence of A6, the gluing calculations of
-  A7, and every statement about the `K₀` map of a ring homomorphism: these need extension of
-  scalars along an arbitrary ring homomorphism on finitely generated projective right modules
-  over noncommutative rings. Mathlib's `ModuleCat.extendScalars` requires commutative rings,
-  and neither pinned library supplies the ordinary balanced tensor product over an arbitrary
-  associative ring with its outer target-ring action.
-
+* The Milnor patching theorem and the Milnor exact sequence of A6, the identification of the
+  patched modules of 7.1 with glued bundles, the torsion class `[M(2)] − [D]` and the form
+  `ker f₀ ≅ ℤ/5` of 7.2, and every statement about the `K₀` map of a ring homomorphism: these
+  need extension of scalars along an arbitrary ring homomorphism on finitely generated projective
+  right modules over noncommutative rings. Mathlib's `ModuleCat.extendScalars` requires
+  commutative rings, and neither pinned library supplies the ordinary balanced tensor product
+  over an arbitrary associative ring with its outer target-ring action. The gluing of 7.1
+  additionally needs the section modules of continuous bundles. The two values of `K₀` computed
+  in 7.2 mention no ring map and are stated below.
 * The real tangent-section module's nonfreeness, stable splitting and K₀ class (0.5)
   require the continuous section submodule cut out by the sphere projection, with its
   finite-projective object in `FiniteProjectiveRight`.
 * The free rank-two complexified sphere module and its scalar-extension comparison (0.6)
   require that section module over `C(S², ℂ)` and the extension functor of 0.2; the Chern
   number comparison additionally requires the oriented tangent complex line and its first
-  Chern class. The pointwise unitary-frame identity alone (stated in the
-  `SphereComplexification` section below) is not the module conclusion.
+  Chern class.
 * The real Möbius module's nonfreeness and order-two reduced K₀ class, and its free complex
   scalar extension (0.7), require the antiperiodic section module over `C(AddCircle 1, 𝕜)`,
   its descended scalar action and finite-projective object, and the same extension functor.
-  The intermediate-value and phase-factorization identities alone (stated in the `Mobius`
-  section below) do not state these results.
 * The relative exact sequences of A3 and the boundary map of A6: these need A3's relative
   triple group and A2's automorphism presentation of `K₁`, which neither library has, and for
   rings that same base change.
@@ -79,90 +78,6 @@ theorem kZero_int :
         (⟨ModuleCat.of ℤᵐᵒᵖ ℤᵐᵒᵖ, ⟨inferInstance, inferInstance⟩⟩ : FiniteProjectiveRight ℤ)) =
         1 := by
   sorry
-
-/-! ## Layer A0, steps 0.6 and 0.7: explicit frames and antiperiodic sections
-
-Suggested forms are aids, not the specification; the README is definitive. The two sections
-below state the pointwise identities of 0.6 (the explicit unitary frame of the complexified
-tangent plane) and 0.7 (the projection, real nontriviality and complex trivialization steps of
-the Möbius module). The section-module, finite-projective, scalar-extension and Chern-class
-targets remain specified in the README; these helper statements are not an exhaustive
-checklist. -/
-
-noncomputable section SphereComplexification
-
-/-! These statements pin A0.SphereComplexification's explicit frame. The section module,
-scalar-extension and Chern-class comparisons remain README targets. -/
-
-namespace SphereComplexification
-
-def complexPoint (x : Fin 3 → ℝ) : Fin 3 → ℂ := fun j => x j
-
-def rawSection (x : Fin 3 → ℝ) : Fin 3 → ℂ :=
-  ![1, Complex.I, 0] - ((x 0 : ℂ) + Complex.I * x 1) • complexPoint x
-
-def firstSection (x : Fin 3 → ℝ) : Fin 3 → ℂ :=
-  ((Real.sqrt (1 + (x 2) ^ 2) : ℂ)⁻¹) • rawSection x
-
-def secondSection (x : Fin 3 → ℝ) : Fin 3 → ℂ :=
-  crossProduct (complexPoint x) (star (firstSection x))
-
-def frame (x : Fin 3 → ℝ) : Matrix (Fin 3) (Fin 3) ℂ :=
-  fun i j => ![firstSection x i, secondSection x i, complexPoint x i] j
-
-/-- The denominator never vanishes on the sphere, and the raw section is tangent. -/
-theorem rawSection_laws (x : Fin 3 → ℝ) (hx : dotProduct x x = 1) :
-    dotProduct (complexPoint x) (rawSection x) = 0 ∧
-    dotProduct (star (rawSection x)) (rawSection x) = (1 + (x 2) ^ 2 : ℝ) ∧
-    0 < Real.sqrt (1 + (x 2) ^ 2) := by
-  sorry
-
-/-- The first two columns trivialize the complexified tangent plane. -/
-theorem frame_unitary (x : Fin 3 → ℝ) (hx : dotProduct x x = 1) :
-    (frame x).conjTranspose * frame x = 1 ∧
-    frame x * (frame x).conjTranspose = 1 := by
-  sorry
-
-end SphereComplexification
-
-end SphereComplexification
-
-noncomputable section Mobius
-
-/-! These are the projection, real nontriviality and complex trivialization steps of
-A0.Mobius. Section-module, finite-projective and scalar-extension targets remain specified in
-the README; the helper statements are not an exhaustive checklist. -/
-
-namespace Mobius
-
-def projection (t : ℝ) : Matrix (Fin 2) (Fin 2) ℝ :=
-  let c := Real.cos (Real.pi * t)
-  let s := Real.sin (Real.pi * t)
-  !![c*c, c*s; c*s, s*s]
-
-def phase (t : ℝ) : ℂ := Complex.exp ((Real.pi * t : ℝ) * Complex.I)
-
-/-- The antiperiodic unit vector yields a periodic symmetric idempotent. -/
-theorem projection_periodic_idempotent (t : ℝ) :
-    projection (t + 1) = projection t ∧
-      (projection t).IsHermitian ∧ projection t * projection t = projection t := by
-  sorry
-
-/-- Real antiperiodic functions cannot be nowhere-zero sections. -/
-theorem real_antiperiodic_has_zero (v : C(ℝ, ℝ))
-    (hv : Function.Antiperiodic v 1) :
-    ∃ t ∈ Set.Icc (0 : ℝ) 1, v t = 0 := by
-  sorry
-
-/-- A fixed nonzero complex phase generates every antiperiodic section uniquely. -/
-theorem complex_antiperiodic_factor (v : C(ℝ, ℂ))
-    (hv : Function.Antiperiodic v 1) :
-    ∃! f : C(ℝ, ℂ), Function.Periodic f 1 ∧ ∀ t, v t = phase t * f t := by
-  sorry
-
-end Mobius
-
-end Mobius
 
 /-! ## Layer A1: Stable matrices, elementary operations and Whitehead's lemma -/
 
@@ -210,11 +125,13 @@ theorem dieudonne_determinant (D : Type u) [DivisionRing D]
 
 /-! ## Layer A4: Stable range and finite matrix sizes -/
 
-/-- Bass stable range at most `s`: every right-unimodular row `(a₀, …, aₛ)`, meaning
-`∑ aᵢ bᵢ = 1` for some `bᵢ`, can be shortened to a right-unimodular row `(aᵢ + aₛ cᵢ)ᵢ<ₛ`. -/
+/-- Bass stable range at most `s`: every unimodular row `(a₀, …, aₛ)` of `Rˢ⁺¹` can be shortened
+to a unimodular row `(aᵢ + aₛ cᵢ)ᵢ<ₛ`. Unimodular is Mathlib's `Module.IsUnimodular` for the left
+module `Fin n → R`: some linear functional takes the value `1`, that is `∑ aᵢ bᵢ = 1` for some
+`bᵢ`. -/
 def HasStableRangeLE (R : Type u) [Ring R] (s : ℕ) : Prop :=
-  ∀ a : Fin (s + 1) → R, (∃ b : Fin (s + 1) → R, ∑ i, a i * b i = 1) →
-    ∃ c b : Fin s → R, ∑ i, (a (Fin.castSucc i) + a (Fin.last s) * c i) * b i = 1
+  ∀ a : Fin (s + 1) → R, Module.IsUnimodular R a →
+    ∃ c : Fin s → R, Module.IsUnimodular R (fun i => a (Fin.castSucc i) + a (Fin.last s) * c i)
 
 /-- Surjective stability (Bass): if `R` has stable range at most `s` and `n` has at least `s`
 indices, every invertible matrix of size `n ⊕ k` is the block sum of an invertible matrix of
@@ -242,11 +159,12 @@ theorem injective_stability {R : Type u} [Ring R] (s : ℕ) (hR : HasStableRange
     g ∈ elementary (R := R) n := by
   sorry
 
-/-- A commutative ring with finitely many maximal ideals has stable range one: its quotient by
-the Jacobson radical is Artinian and the stable range does not change modulo a radical ideal
-(Weibel, *The K-book*, Chapter I, Exercises 1.5(c) and 1.12(v)). -/
-theorem hasStableRangeLE_one_of_finite_maximalSpectrum (A : Type u) [CommRing A]
-    [Finite (MaximalSpectrum A)] : HasStableRangeLE A 1 := by
+/-- Bass: a semilocal ring, one whose quotient by the Jacobson radical is semisimple, has stable
+range one. The quotient is Artinian, hence of stable range one, and the stable range does not
+change modulo a radical ideal (Weibel, *The K-book*, Chapter I, Exercises 1.5(c) and 1.12(v);
+semilocal as in Chapter II, Exercise 2.6). -/
+theorem hasStableRangeLE_one_of_isSemisimpleRing (R : Type u) [Ring R]
+    [IsSemisimpleRing (R ⧸ Ring.jacobson R)] : HasStableRangeLE R 1 := by
   sorry
 
 /-- Bass's bound: a commutative Noetherian ring of Krull dimension at most `d` has stable range
@@ -267,7 +185,8 @@ def HasCoveringDimensionLE (X : Type u) [TopologicalSpace X] (d : ℕ) : Prop :=
 /-- Vaserstein: for a compact Hausdorff space `X`, `C(X, ℂ)` has stable range at most `s ≥ 1`
 exactly when `dim X ≤ 2s − 1`; equivalently its stable rank is `⌊dim X / 2⌋ + 1`, infinite when
 `X` has no finite covering dimension (Vaserstein 1971, Theorem 7, with the identification of
-Vaserstein's stable-value dimension with covering dimension for compact Hausdorff spaces). -/
+Vaserstein's stable-value dimension with covering dimension for nonempty compact Hausdorff spaces;
+for empty `X` both sides hold, `C(∅, ℂ)` being the zero ring). -/
 theorem hasStableRangeLE_continuousMap_complex_iff (X : Type u) [TopologicalSpace X]
     [CompactSpace X] [T2Space X] (s : ℕ) (hs : 1 ≤ s) :
     HasStableRangeLE C(X, ℂ) s ↔ HasCoveringDimensionLE X (2 * s - 1) := by
@@ -275,10 +194,46 @@ theorem hasStableRangeLE_continuousMap_complex_iff (X : Type u) [TopologicalSpac
 
 /-- Vaserstein: for a compact Hausdorff space `X`, `C(X, ℝ)` has stable range at most `s ≥ 1`
 exactly when `dim X ≤ s − 1`; equivalently its stable rank is `dim X + 1`, infinite when `X` has
-no finite covering dimension (Vaserstein 1971, Theorem 5). -/
+no finite covering dimension (Vaserstein 1971, Theorem 5, read for nonempty `X`; for empty `X`
+both sides hold). -/
 theorem hasStableRangeLE_continuousMap_real_iff (X : Type u) [TopologicalSpace X]
     [CompactSpace X] [T2Space X] (s : ℕ) (hs : 1 ≤ s) :
     HasStableRangeLE C(X, ℝ) s ↔ HasCoveringDimensionLE X (s - 1) := by
+  sorry
+
+/-! ## Layer A7: Gluing examples and calculations -/
+
+/-- The ring `ℤ ×_{𝔽₅} ℤ = {(a, b) | a ≡ b mod 5}` of the arithmetic Milnor square, Mathlib's
+pullback of two copies of the reduction `ℤ → 𝔽₅`. -/
+abbrev arithmeticSquare := (Int.castRingHom (ZMod 5)).pullback (Int.castRingHom (ZMod 5))
+
+/-- `K₀(ℤ ×_{𝔽₅} ℤ) ≅ ℤ ⊕ ℤ/2`, with the class of the free module of rank one going to `(1, 0)`:
+in the Mayer–Vietoris sequence of the arithmetic square the image in `K₀(ℤ) ⊕ K₀(ℤ)` is the
+diagonal and the kernel is `𝔽₅ˣ/{±1}` (Weibel, *The K-book*, Chapter III, Theorem 2.6, chapter
+p. 15). -/
+theorem kZero_arithmeticSquare :
+    ∃ e : KZero arithmeticSquare ≃+ ℤ × ZMod 2,
+      e (TauCeti.SplitK0.of
+        (⟨ModuleCat.of arithmeticSquareᵐᵒᵖ arithmeticSquareᵐᵒᵖ, ⟨inferInstance, inferInstance⟩⟩ :
+          FiniteProjectiveRight arithmeticSquare)) = (1, 0) := by
+  sorry
+
+/-- The cusp `𝔽₅[t², t³]`, Mathlib's pullback of the reduction `𝔽₅[t] → 𝔽₅[t]/(t²)` and the
+constants `𝔽₅ → 𝔽₅[t]/(t²)`; only the first leg is surjective. -/
+noncomputable abbrev cuspSquare :=
+  (Ideal.Quotient.mk (Ideal.span {(Polynomial.X : Polynomial (ZMod 5)) ^ 2})).pullback
+    ((Ideal.Quotient.mk (Ideal.span {(Polynomial.X : Polynomial (ZMod 5)) ^ 2})).comp
+      (algebraMap (ZMod 5) (Polynomial (ZMod 5))))
+
+/-- `K₀(𝔽₅[t², t³]) ≅ ℤ ⊕ 𝔽₅`, with the class of the free module of rank one going to `(1, 0)`
+(Weibel, *The K-book*, Chapter II, Example 2.9.1, chapter p. 13, for the cusp over a field `k`,
+where `K₀ ≅ ℤ ⊕ k`). -/
+theorem kZero_cuspSquare :
+    ∃ e : KZero cuspSquare ≃+ ℤ × ZMod 5,
+      e (TauCeti.SplitK0.of
+        (⟨ModuleCat.of cuspSquareᵐᵒᵖ cuspSquareᵐᵒᵖ,
+          ⟨Module.Finite.self _, @Module.Projective.of_free _ _ _ _ _ (Module.Free.self _)⟩⟩ :
+          FiniteProjectiveRight cuspSquare)) = (1, 0) := by
   sorry
 
 end TauCetiRoadmap.AlgebraicKTheory
