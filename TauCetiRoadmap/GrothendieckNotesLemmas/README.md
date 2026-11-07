@@ -67,6 +67,11 @@ already prove at the pins are listed below under "Supplied at the pins" and are 
   (ClassicalArithmeticCompletion, §3.6), Pólya's theorem that the binomial polynomials
   `Ring.choose X n` form a `ℤ`-basis of `Int(ℤ)` (§3.43), and the detection of `Int(ℤ)` on
   `n + 1` consecutive integers (§3.57), whose case `a = 0` gives integer values on `ℕ`.
+  Not a target, and open as far as we know: whether four integer-valued polynomials `αᵢ` with
+  `Σ αᵢ³ = P x + Q` force `3 ∣ P`. Differentiating gives `P = 3 Σ αᵢ² αᵢ′`, so `3 ∣ P` when every
+  `αᵢ` has degree at most `2`, whose binomial coefficients have no `3` in the denominator; the
+  literature on sums of four cubes of polynomials concerns `ℤ[x]` and the constant term (Mordell
+  1970, after Schinzel 1968).
 
 **Supplied at the pins and not restated.**
 
@@ -659,6 +664,13 @@ Mathlib `ContinuousMap.curry`, `ContinuousMap.uncurry`, `R1Space`, `LocallyCompa
 - The convention `curry f x y = f (x, y)`: for `f (x, y) = x − y` on `ℝ × ℝ`, `curry f 1 0 = 1`,
   where the swapped convention would give `−1`; and `uncurry (curry f) = f`.
 
+Not a target: compatibility with suspension and loops. For compactly generated spaces the based
+exponential law `F(X ∧ Y, Z) ≅ F(X, F(Y, Z))` is a natural homeomorphism, and with `ΣX = X ∧ S¹`,
+`ΩY = F(S¹, Y)` it gives `F(ΣX, Y) ≅ F(X, ΩY)` (May, *A Concise Course in Algebraic Topology*,
+Ch. 8, §§1–2, pp. 57–58). In the compact-open setting of 4.1, `S¹` being locally compact, the
+homeomorphism restricts to the maps killing `X ∨ S¹`; identifying these with `C(ΣX, Y)` needs the
+quotient `X × S¹ → ΣX` to induce an embedding, clear for `X` compact Hausdorff.
+
 ### 4.2 An openness criterion
 
 Prove `NoetherianSpace.isOpen_of_stableUnderGeneralization`: in a Noetherian quasi-sober space, a
@@ -833,3 +845,7 @@ PCurvature (Layers 1.1 and 1.4) consumes 3.2: `Derivation.lie_mulLeft` and
   products), Tag 08XW (Dualizing complexes, the lemma on torsion submodules of injective modules
   over a Noetherian ring), Tag 031K (Algebra, the split first fundamental sequence for a formally
   smooth map).
+- L. J. Mordell, « On sums of four cubes of polynomials », *Acta Arith.* 16 (1970), 365–370.
+- A. Schinzel, *J. London Math. Soc.* 43 (1968), 143–145 (as cited by Mordell 1970).
+- J. P. May, *A Concise Course in Algebraic Topology*, Chicago Lectures in Mathematics, University
+  of Chicago Press (1999): Ch. 5, §2 and Ch. 8, §§1–2.
