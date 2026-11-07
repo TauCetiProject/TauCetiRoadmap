@@ -1,6 +1,7 @@
 import Mathlib
 import TauCeti.NumberTheory.NumberField.Global.Places.Extension
 import TauCeti.RingTheory.KrullDimension.FiniteType
+import TauCeti.RingTheory.Polynomial.HasseWronskian
 
 /-!
 # DiophantineApproximationAndTranscendence: representative target signatures
@@ -631,16 +632,7 @@ example : l1Norm ((_root_.Polynomial.X - 1) ^ 2 : ℤ[X]) = 4 := sorry
 /-- Unit test `Polynomial.l1Norm.test_one`: ‖1‖ = 1 in ℤ[X]. -/
 example : l1Norm (1 : ℤ[X]) = 1 := sorry
 
-section hasseWronskian
-
-variable {R : Type*} [CommRing R]
-
-/-- The Wronskian of a family of one-variable polynomials, built from divided derivatives:
-`det (hasseDeriv k (g l))`. -/
-noncomputable def hasseWronskian {m : ℕ} (g : Fin m → R[X]) : R[X] :=
-  Matrix.det (Matrix.of fun (k l : Fin m) => _root_.Polynomial.hasseDeriv (k : ℕ) (g l))
-
-end hasseWronskian
+open _root_.Polynomial (hasseWronskian)
 
 /-- Dependence over an integral domain forces the divided-derivative Wronskian to vanish. -/
 theorem hasseWronskian_eq_zero_of_not_linearIndependent {R : Type*} [CommRing R]
@@ -3888,3 +3880,71 @@ primitiveMinpoly_eq_of_minpoly_eq, primitiveMinpoly_map, primitiveMinpoly_of_not
 end
 
 end TauCetiRoadmap.DiophantineApproximationAndTranscendence
+
+/-! ## Polynomial-space Wronskian bounds, README §1.4 -/
+
+noncomputable section
+
+open Polynomial Module
+open scoped BigOperators
+
+namespace TauCetiRoadmap.DiophantineApproximationAndTranscendence.WronskianBounds
+
+theorem natDegree_add_derivative_orders_le {K : Type*} [Field K] {ℓ : ℕ}
+    (g : Fin ℓ → K[X]) (hg : Polynomial.hasseWronskian g ≠ 0) :
+    (Polynomial.hasseWronskian g).natDegree + ∑ k : Fin ℓ, (k : ℕ) ≤
+      ∑ j, (g j).natDegree := by
+  sorry
+
+theorem natDegree_le_common_cap {K : Type*} [Field K] {ℓ d : ℕ}
+    (g : Fin ℓ → K[X]) (hd : ∀ j, (g j).natDegree ≤ d) :
+    (Polynomial.hasseWronskian g).natDegree ≤ ℓ * d := by
+  sorry
+
+/-- Retain the derivative-order deduction under a common degree cap. -/
+theorem natDegree_add_derivative_orders_le_common_cap {K : Type*} [Field K] {ℓ d : ℕ}
+    (g : Fin ℓ → K[X]) (hg : Polynomial.hasseWronskian g ≠ 0)
+    (hd : ∀ j, (g j).natDegree ≤ d) :
+    (Polynomial.hasseWronskian g).natDegree + ∑ k : Fin ℓ, (k : ℕ) ≤ ℓ * d := by
+  sorry
+
+theorem root_pow_dvd_of_mem_space {K : Type*} [Field K] [CharZero K]
+    {ℓ : ℕ} (V : Submodule K K[X]) (b : Basis (Fin ℓ) K V)
+    (f : V) (hf : f ≠ 0) (a : K) :
+    (X - C a) ^ (((f : K[X]).rootMultiplicity a + 1) - ℓ) ∣
+      Polynomial.hasseWronskian (fun j => (b j : K[X])) := by
+  sorry
+
+theorem rootMultiplicity_lower_bound {K : Type*} [Field K] [CharZero K]
+    {ℓ : ℕ} (V : Submodule K K[X]) (b : Basis (Fin ℓ) K V)
+    (f : V) (hf : f ≠ 0) (a : K) :
+    ((f : K[X]).rootMultiplicity a + 1) - ℓ ≤
+      (Polynomial.hasseWronskian (fun j => (b j : K[X]))).rootMultiplicity a := by
+  sorry
+
+theorem rootMultiplicity_eq_of_basis_change {K : Type*} [Field K] [CharZero K]
+    {ℓ : ℕ} (V : Submodule K K[X]) (b c : Basis (Fin ℓ) K V) (a : K) :
+    (Polynomial.hasseWronskian (fun j => (b j : K[X]))).rootMultiplicity a =
+      (Polynomial.hasseWronskian (fun j => (c j : K[X]))).rootMultiplicity a := by
+  sorry
+
+theorem rootMultiplicity_map {K L : Type*} [Field K] [Field L] [CharZero K]
+    {ℓ : ℕ} (σ : K →+* L) (g : Fin ℓ → K[X]) (a : K) :
+    (Polynomial.hasseWronskian (fun j => (g j).map σ)).rootMultiplicity (σ a) =
+      (Polynomial.hasseWronskian g).rootMultiplicity a := by
+  sorry
+
+theorem sum_multiplicity_lower_bounds_le_natDegree {K : Type*} [Field K] [CharZero K]
+    {ℓ : ℕ} (V : Submodule K K[X]) (b : Basis (Fin ℓ) K V)
+    (S : Finset K) (f : K → V) (hf : ∀ a ∈ S, f a ≠ 0) :
+    ∑ a ∈ S, (((f a : K[X]).rootMultiplicity a + 1) - ℓ) ≤
+      (Polynomial.hasseWronskian (fun j => (b j : K[X]))).natDegree := by
+  sorry
+
+example (m : ℕ) (hm : 1 ≤ m) :
+    (Polynomial.hasseWronskian ![(1 : ℚ[X]), X ^ m]).rootMultiplicity 0 = m - 1 := by
+  sorry
+
+end TauCetiRoadmap.DiophantineApproximationAndTranscendence.WronskianBounds
+
+end
