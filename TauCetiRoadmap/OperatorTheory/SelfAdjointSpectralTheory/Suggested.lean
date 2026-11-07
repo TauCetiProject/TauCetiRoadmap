@@ -228,19 +228,6 @@ theorem BoundedBorelFunction.pullbackHom_apply {X Y : Type*}
     pullbackHom κ hκ f = pullback κ hκ f := by
   sorry
 
-/-- Scalar density pairing uses measurable functions independently of PVM symbols.
-
-
-Roadmap: `SA-B82`. -/
-theorem integral_withDensityᵥ {𝕜 X : Type*} [RCLike 𝕜] [MeasurableSpace X]
-    (ν : MeasureTheory.Measure X) [MeasureTheory.IsFiniteMeasure ν]
-    (g : X → 𝕜) (hg : MeasureTheory.Integrable g ν)
-    (f : X → 𝕜) (hf : Measurable f) (M : ℝ) (hM : 0 ≤ M)
-    (hbound : ∀ x, ‖f x‖ ≤ M) :
-    (∫ᵛ x, f x ∂[ContinuousLinearMap.mul ℝ 𝕜; ν.withDensityᵥ g]) =
-      ∫ x, f x * g x ∂ν := by
-  sorry
-
 /-- Native weighted complex measures satisfy change of density.
 
 

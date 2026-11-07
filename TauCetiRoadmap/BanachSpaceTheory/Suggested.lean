@@ -194,6 +194,18 @@ theorem exists_lpDualEquiv (μ : Measure X) (p q : ℝ≥0∞) [Fact (1 ≤ p)] 
       ∀ (g : Lp 𝕜 q μ) (f : Lp 𝕜 p μ), e g f = ∫ x, f x * g x ∂μ := by
   sorry
 
+/-- Scalar density pairing (B5.ScalarDensity): the `mul ℝ 𝕜` vector integral against
+`ν.withDensityᵥ g` of a bounded measurable function is the scalar integral of `f * g`,
+stated on measurable functions independently of any Borel symbol algebra. -/
+theorem integral_withDensityᵥ {𝕜 X : Type*} [RCLike 𝕜] [MeasurableSpace X]
+    (ν : MeasureTheory.Measure X) [MeasureTheory.IsFiniteMeasure ν]
+    (g : X → 𝕜) (hg : MeasureTheory.Integrable g ν)
+    (f : X → 𝕜) (hf : Measurable f) (M : ℝ) (hM : 0 ≤ M)
+    (hbound : ∀ x, ‖f x‖ ≤ M) :
+    (∫ᵛ x, f x ∂[ContinuousLinearMap.mul ℝ 𝕜; ν.withDensityᵥ g]) =
+      ∫ x, f x * g x ∂ν := by
+  sorry
+
 /-- Banach–Stone (B5): a surjective linear isometry between spaces of continuous functions on
 compact Hausdorff spaces is a weighted composition with a homeomorphism and a unimodular weight. -/
 theorem banach_stone {K L : Type*} [TopologicalSpace K] [CompactSpace K] [T2Space K]

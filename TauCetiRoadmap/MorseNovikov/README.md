@@ -152,14 +152,15 @@ de Rham cohomology and the period comparison; Layer 10 for degree and relative
 homotopies; Layer 12 for metrics and musical maps. Normalize `circleAngularForm`
 by dividing by 2π under the map ℝ/ℤ→Circle, t↦exp(2πit).
 
-### From TauCetiRoadmap.AlgebraicTopology, DGFloer and UniversalCovers
+### From TauCetiRoadmap.AlgebraicTopology and UniversalCovers
 
 Consume AlgebraicTopology Stages 1–3 for fundamental groups, relative singular
 chains, subdivision and excision; Stage 4 items 2–3 (AT4.2–AT4.3) for cellular
 chains and the cellular/singular comparison, natural on homology; Stages 5–7
 for covers, local systems, products, orientation coefficients and Euler
-characteristic. Consume DGFloer Layer 1 item 1 for natural H₁=π₁ᵃᵇ, and
-UniversalCovers Stage 2 item 8 for normal-subgroup/deck-quotient classification.
+characteristic; Stage 8 item 3 (AT8.3) for the natural degree-one Hurewicz
+isomorphism H₁=π₁ᵃᵇ. Consume UniversalCovers Stage 2 item 8 for
+normal-subgroup/deck-quotient classification.
 No strict cellular-to-singular chain map is assumed.
 
 ### From TauCetiRoadmap.GeometricTopology
@@ -402,7 +403,7 @@ The API includes:
 - For an exact form P=0, the pulled-back potential is invariant under every deck transformation.
 - For the universal cyclic cover of S¹, H₁(upstairs)=0 and H₁(base)→ℤ is the identity; its kernel is 0.
 
-*Needs:* DifferentialGeometry Layers 5–6 and 8; AlgebraicTopology Stages 1 and 5; DGFloer Layer 1 item 1; UniversalCovers Stage 2 item 8.
+*Needs:* DifferentialGeometry Layers 5–6 and 8; AlgebraicTopology Stages 1 and 5 and Stage 8 item 3 (AT8.3); UniversalCovers Stage 2 item 8.
 
 ### 2.3 The Klein-bottle cover and period kernel
 
