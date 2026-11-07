@@ -491,7 +491,7 @@ For a Banach star-algebra with bounded star and a star-preserving action, prove 
 
 The headline `smooth_inverse` states inverse closure over either field and needs no orbit-continuity hypothesis: for unital A with any action by algebra automorphisms, if a∈A∞ is invertible in A, then its inverse lies in A∞, since `α(g)(a⁻¹)=α(g)(a)⁻¹` writes its orbit as the smooth orbit of a composed with inversion, which is smooth on the open set of units of a complete normed algebra (`contDiffAt_ringInverse`). Give the recursive derivative estimates and `dα(X)(a⁻¹)=−a⁻¹dα(X)(a)a⁻¹`. Prove the result at every matrix level; for nonunital A use the scalar unitization and identify its smooth elements with the unitization of A∞. For complex A prove holomorphic-functional-calculus closure using A2's resolvent contours and all derivative seminorm estimates: realize contour integration as an E-valued integral with all word coordinates integrable, then use closedness/completeness to place it in A∞. Do not invoke a Banach-valued Bochner theorem on an invented norm for the Fréchet space.
 
-In the C*-algebra case these give exactly the dense inverse-closed Fréchet star-algebra input of OperatorKTheory K3, which owns the K₀/K₁ comparison.
+For a strongly continuous action of G by *-automorphisms of a complex C*-algebra A, §2.1, §4.1 and the results above show that A∞ with its inclusion into A satisfies the hypotheses of OperatorKTheory K3 §3.5: a dense *-subalgebra carrying a metrizable complete Hausdorff locally convex topology with continuous multiplication and star, continuously and injectively included in A, and inverse-closed at every matrix level and, for nonunital A, after unitization. K3 §3.5 states the K₀/K₁ comparison for every such subalgebra and does not depend on this roadmap.
 
 *Needs:* Layers 0–4; BanachAlgebras A1–A2; Layer 6 only for exact Gårding identification.
 
@@ -504,10 +504,11 @@ The smooth algebra API includes continuous multiplication and star, invariant un
 - A scalar action a↦e^t a is linear but not an algebra action: at a=b=1 the multiplicativity sides are e^t and e^(2t). The algebra-action hypotheses exclude it.
 - On the smooth circle, D²(fh)=D²f·h+2Df·Dh+f·D²h; at f=h=exp(ix) the value at 0 is −4, whereas a derivation rule would give −2.
 - On C(S¹) with the left rotations (α_t f)(x)=f(x−t) of §1.4 and pointwise conjugation as star, f=exp(ix) has Df=−i·exp(ix) and D(f*)=i·exp(−ix)=(Df)*, the star law. The Hilbert skew-adjoint sign −(Df)* would give −i·exp(−ix) instead. With the opposite rotation f(x+t) every displayed value changes sign and the star law still holds, so the rotation direction is part of the Check.
+- Conjugation by diag(e^t,1) on M₂(ℂ) acts by algebra automorphisms but does not preserve the star: dα(E₁₂)=E₁₂, so (dα(E₁₂))*=E₂₁, while dα(E₁₂*)=dα(E₂₁)=−E₂₁. Conjugation by the unitary diag(e^(it),1) gives dα(E₁₂)=iE₁₂ and dα(E₂₁)=−iE₂₁=(iE₁₂)*. The star statements of §8.1, and so the application to OperatorKTheory K3 §3.5, assume a star-preserving action.
 
 ### Examples
 
-Unipotent 2×2 matrices and circle modes test noncommutative inversion, the higher Leibniz rule and the star law.
+Unipotent 2×2 matrices and circle modes test noncommutative inversion, the higher Leibniz rule and the star law; diagonal conjugations on M₂(ℂ) separate star-preserving actions from other algebra actions.
 
 ### Dependencies
 
@@ -518,9 +519,8 @@ Layers 0–4; BanachAlgebras A1–A2; Layer 6 only for exact Gårding identifica
 - [NoncompactQuantumSymmetry M0](../../NoncompactQuantumSymmetry/README.md#layer-3-m0--smooth-vectors-compact-types-and-semisimple-representation-bridges), item 1, uses Layers 0–4 in the strongly continuous unitary Hilbert case and owns the adjoint statements listed under Scope and ownership.
 - [CompactQuantumMetricSpaces §4.5](../../CompactQuantumMetricSpaces/README.md) uses the differentiable vectors and orbit derivatives of §2.1, the Lie action of §3.1 and the smooth Fréchet star algebra of §8.1 for its derivative seminorms on compact connected Lie groups.
 - [QuantitativeOrbitMethodAndMicrolocalAnalysisOnLieGroups §§0.2, 0.6](../../QuantitativeOrbitMethodAndMicrolocalAnalysisOnLieGroups/README.md) uses the smooth-vector topology of §2.1, the derived action and integration by parts of §§3.1 and 3.4, and the Gårding identification of §6.1.
-- [OperatorKTheory K3](../../OperatorKTheory/README.md) uses the inverse-closed Fréchet star-algebra input of §8.1 and owns the K₀/K₁ comparison.
 
-These consumer applications are not prerequisites for the generic results.
+These consumer applications are not prerequisites for the generic results. [OperatorKTheory K3 §3.5](../../OperatorKTheory/README.md) is not a consumer: it states the K₀/K₁ comparison for arbitrary dense inverse-closed Fréchet star subalgebras of C*-algebras, and §8.1 records that the smooth algebras of strongly continuous actions by *-automorphisms satisfy its hypotheses.
 
 ## References
 
