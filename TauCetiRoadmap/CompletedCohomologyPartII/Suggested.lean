@@ -1,4 +1,6 @@
-import Mathlib
+module
+
+public import Mathlib
 
 /-!
 # Completed cohomology, homology and arithmetic towers: headline targets
@@ -24,6 +26,8 @@ do not supply these arithmetic objects. In particular, §8.15 also needs the com
 finite equivariant derived Hecke-image diagram and its action on all homology groups;
 no abstract nilpotent quotient is substituted for that diagram.
 -/
+
+@[expose] public section
 
 open CategoryTheory CategoryTheory.Limits
 
