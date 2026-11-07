@@ -386,12 +386,15 @@ algebraic inverse of `L^i` is Beilinson 2012, §2.3, proof of (b).)
   multiplication by `2`, with characteristic polynomial `T − 2`; Cayley–Hamilton inverts it as
   `½`, and `w = ½ u = Λ²` on `H⁴`. `Λ` itself maps `H⁴` to `H²`.
 
-Not a target: for `X` over a finite field, with `ℓ`-adic cohomology and `F = ℚ`, `𝒜(X)` meets the
-hypotheses of `lambdaAlgebraic_of_charpoly`. An element of `𝒜(X)` preserving `H^i(X)` acts there
-as its degree-`0` part, a cycle on `X × X` whose characteristic polynomial on `H^i(X)` has
-rational coefficients (Katz–Messing 1974, Theorem 2, 2)), and the grade projectors are algebraic
-(ibid., Theorem 2, 1)). So there `B_H(X)` holds iff for each `i ≤ d` some correspondence maps
-`H^{2d−i}(X)` bijectively onto `H^i(X)`.
+Not a target: for `X` smooth projective and geometrically irreducible over a finite field, with
+`ℓ`-adic cohomology and `F = ℚ`, `𝒜(X)` meets the projector and characteristic-polynomial
+hypotheses of `lambdaAlgebraic_of_charpoly`; the bijections `u_i` remain. The grade projectors are
+algebraic (Katz–Messing 1974, Theorem 2, 1)). An element of `𝒜(X)` preserving `H^i(X)` acts there
+as its degree-`0` part, a cycle `Z = Z′/m` with `Z′` integral and `m ≥ 1`; the characteristic
+polynomial of `Z′` on `H^i(X)` has integer coefficients (ibid., Theorem 2, 2)), so that of `Z`,
+`m^{−b} det(mT − Z′)` with `b = dim H^i(X)`, lies in `ℚ[T]`. So for such `X`, `B_H(X)` holds iff
+for each `i ≤ d` some element of `𝒜(X)` maps `H^{2d−i}(X)` bijectively onto `H^i(X)` (for the
+converse, `Λ^{d−i}` is one).
 
 ### 1.4 Algebraic `Λ` and positivity give nondegeneracy
 
@@ -480,10 +483,11 @@ a Lefschetz structure of weight `2d` by the hard Lefschetz datum of 2.1, the cup
 sense of 1.1 (`A_stable` because correspondences act on cycle classes). *Needs:* 0.5, 1.1, 2.1,
 2.2; MotivesAndAlgebraicCycles §2.2. Nothing here depends on `e`: under `e ↦ λe`,
 MotivesAndAlgebraicCycles §2.3 gives `cl^r ↦ λ^{−r} cl^r` and `Tr_X ↦ λ^d Tr_X`, so `L ↦ λ⁻¹L`,
-`Λ ↦ λΛ`, and the degree-`r` parts of `𝒜(X)` and `A(X)` are multiplied by `λ^{−r}` (for `λ ∉ ℚ`
-they change as sets). The automorphism of `H(X)` acting by `λ^{−⌊i/2⌋}` on `H^i(X)` carries the
-structures for `e` to those for `λe`; it preserves the pairing on algebraic classes and each of the
-four properties of 1.1, since the positivity form `(−1)^i Tr(η^{d−2i} ∪ x ∪ x)` on `x = cl^i(z)` is
+`Λ ↦ λΛ`, and the degree-`r` parts of `𝒜(X)` and `A(X)` are multiplied by `λ^{−r}` (for `λ^r ∉ ℚ`
+they can change as sets: for `X = ℙ¹` and `r = 1`, `A¹` goes from `ℚ·cl(pt)` to `ℚλ⁻¹·cl(pt)`).
+The automorphism of `H(X)` acting by `λ^{−⌊i/2⌋}` on `H^i(X)` carries the structures for `e` to
+those for `λe`; it preserves the pairing on algebraic classes and each of the four properties of
+1.1, since the positivity form `(−1)^i Tr(η^{d−2i} ∪ x ∪ x)` on `x = cl^i(z)` is
 multiplied by `λ^{d − (d−2i) − 2i} = 1`.
 
 **Checks.**
@@ -562,7 +566,7 @@ None known.
 All checked on zbMATH.
 
 - N. M. Katz, W. Messing, « Some consequences of the Riemann hypothesis for varieties over finite
-  fields », *Invent. Math.* 23 (1974), 73–77: Theorem 2, pp. 76–77.
+  fields », *Invent. Math.* 23 (1974), 73–77: Theorem 2, pp. 76–77. Zbl 0275.14011.
 - A. Grothendieck, « Standard conjectures on algebraic cycles », in *Algebraic Geometry
   (Internat. Colloq., Tata Inst. Fund. Res., Bombay, 1968)*, Oxford Univ. Press, 1969, 193–199.
   Zbl 0201.23301.
