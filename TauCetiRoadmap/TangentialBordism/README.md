@@ -242,7 +242,7 @@ retain their native hypotheses and chosen smooth structures.
 | --- | --- | --- |
 | [AlgebraicTopology](../AlgebraicTopology/README.md), Layers2–4,6,8 and 8.13 | arbitrary CW skeleta/cofibrations, ordinary chains/cochains/products, relative fundamental classes and duality, 6.3's homological orientation system and its comparison with smooth orientations, EM carriers and representability; 8.13's smoothing of continuous maps into a compact boundaryless manifold relative to a closed set, parametric transversality and relative transversality, for boundaryless sigma-compact Hausdorff second-countable sources | B4 owns the integral higher diagonals and generic ordinary mod2 cup-i/Sq/Adem/Wu package; ordinary cohomology carriers remain AT; B1.6 owns the Sard theorem in unequal dimensions and the extension of 8.13's three theorems to sources with corners, facewise |
 | [DifferentialGeometry](../DifferentialGeometry/README.md), 2.1, 2.2, 5.5b | 2.1's manifold orientation, the pinned `TauCeti.Manifold.Orientation` (the quotient of `OrientationLift`, a model orientation with locally constant chart signs obeying the transition-Jacobian rule); 2.2's oriented-atlas criterion for boundaryless manifolds, in the direction from an orientation to an oriented atlas (2.2's orientation-preserving maps, pullback and product orientations and the direction from an oriented atlas to an orientation are realised at the pin and consumed from it, as in From Tau Ceti); 5.5b's smooth face structure and face-indexed abstract boundary of a manifold with corners, with the outward-first orientation of its sheets and the product boundary sign | B1.1 owns the comparisons of this one orientation with cycle and witness records (the faces of a witness among 5.5b's boundary sheets included), frames, local homology, half-space and corner atlases in dimension at least2, and the point sign σ; B1.6 owns the Sard theorem in unequal dimensions and derives its transversality theorems from it |
-| [GeometricTopology](../GeometricTopology/README.md), Layer1, Layer4.3.1, Layer11.1 and Layer11.3 | finite nonsingular-F₂ quadratic Arf algebra (Layer4.3.1, declared below as gap:finite-quadratic-arf); collar neighbourhoods, gluing along a codimension-zero piece of the boundary, handle attachment and tubular neighbourhoods with their normal bundles (Layer1); the CW structure on the realization `|K|` of a simplicial complex, one cell per simplex (Layer11.1); Whitehead's smooth triangulation of a smooth manifold (Layer11.3) | B1.6 owns neat embeddings, relative/parametric transversality with relative Whitney approximation, corner rounding, compact neighbourhoods, doubles; B1.5 owns the relative boundary triangulation |
+| [GeometricTopology](../GeometricTopology/README.md), Layer1, Layer4.3.1, Layer11.1 and Layer11.3 | finite nonsingular-F₂ quadratic Arf algebra (Layer4.3.1, declared below as gap:finite-quadratic-arf); collar neighbourhoods, gluing along a codimension-zero piece of the boundary, handle attachment and tubular neighbourhoods with their normal bundles (Layer1), and the interior of a second-countable manifold with boundary as a boundaryless manifold whose inclusion is a homotopy equivalence (Layer1.1); the CW structure on the realization `|K|` of a simplicial complex, one cell per simplex (Layer11.1); Whitehead's smooth triangulation of a smooth manifold (Layer11.3) | B1.6 owns neat embeddings, relative/parametric transversality with relative Whitney approximation, corner rounding, compact neighbourhoods, doubles; B1.5 owns the relative boundary triangulation |
 | [SmoothBundlesConnections](../SmoothBundlesConnections/README.md), B1.4 | free proper smooth quotients, their principal projections and submersion uniqueness, homogeneous spaces and native discrete quotient comparison | B1.5 only adapts their tangent and structure data to cycles |
 | StringOrientation S1.3, S1.5, S2.2, S2.3, S5.3 | S1.3's existence criterion and H³-torsor of String lifts; S1.5's Cayley plane OP² (trace-one idempotents of the exceptional Jordan algebra), F₄ with its transitive action and Spin(9) isotropy, the cells, H*(OP²;ℤ)=ℤ[u]/(u³), p₂=6u, p₄=39u², the Euler class 3u², signature 1, the unique Spin structure and String lift class, and p(HP²)=1+2u+7u²; S2.2's isomorphism Ω^θ_n≅π_nMθ for every G5 bundle diagram θ, natural and multiplicative; S2.3's Ω^fr_n≅π_nS and π₃S≅ℤ/24 with generator ν; S5.3's equivalence MSpin[1/2]≃MSO[1/2] | B5 owns the finite-rank bijections, the theories over spaces and pairs and the comparison of their point specializations with S2.2–S2.3; B4.8 owns the odd-primary Adams and comodule-algebra refinement; Layer 9 owns the carrier identification, charts, Clifford module, sign witness and the HP^k Pontryagin formula |
 | [DGFloer](../DGFloer/README.md), Layer1 items2–3 | the ordinary homology and multiplicative cohomology Serre spectral sequence of a Serre fibration over a CW base, with local coefficients | B4.2 owns transgression, Kudo's theorem and Borel's transgression theorem, and B4.7 their odd-prime forms |
@@ -2196,14 +2196,19 @@ closed-manifold Wu duality only on the compact doubles.
 Choose the actual Spin lift through SpinGeometry G4. Consume
 SpinRepresentations L7's native Hamilton-quaternion comparison and its
 topological refinement `Spin(3)≃S³`; derive π₀,π₁,π₂=0 using the sphere
-homotopy/Hurewicz interfaces. On the at-most-three-dimensional CW model
-of a smooth triangulation of M (GeometricTopology Layer11.3's Whitehead triangulation
-and its Layer11.1 simplicial CW structure; for boundary, B1.5's relative
-refinement),
+homotopy/Hurewicz interfaces. Let M°=M∖∂M be the interior of M, which is
+M itself when ∂M is empty: a boundaryless Hausdorff second-countable
+smooth three-manifold whose inclusion into M is a homotopy equivalence
+(GeometricTopology Layer1.1). On the at-most-three-dimensional CW model
+of a smooth triangulation h:|K|→M° (GeometricTopology Layer11.3's Whitehead
+triangulation, infinite when M° is not compact, and its Layer11.1 simplicial
+CW structure, which covers every simplicial complex; K is countable and
+locally finite because M° is second countable and locally compact),
 use CC's numerable-principal-bundle classification and AT8's relative
-obstruction construction to build a section of this Spin principal bundle
-over successive cells. Transport the trivialization back along the actual
-CW homotopy equivalence, using bundle homotopy invariance. Its associated
+obstruction construction to build a section of the pullback of this Spin
+principal bundle over successive cells. Transport the trivialization back
+along the homotopy equivalence |K|→M°→M, using bundle homotopy invariance
+over the paracompact M. Its associated
 SO(3) frame trivializes TM continuously. Smooth its three sections by
 locally finite bundle-chart approximation, with a pointwise error bound
 keeping the determinant positive; prove the resulting frame and inverse
@@ -2218,8 +2223,9 @@ early lift criterion does not depend on this bordism application.
 - CP² has signature 1 and SW-number vector (1,1), matching RP²×RP² after forgetting orientation; complex K3 has signature/16=−1 in Spin degree four.
 - The coordinate frame on ℝ³ and on the closed half-space has determinant 1, with coordinate maps inverse to each other; negating its first vector gives determinant −1 and fails positivity for the same orientation.
 - A countable disjoint union of oriented half-spaces admits the componentwise coordinate frames, each of determinant 1; compactness and connectedness are unnecessary. On the empty manifold the frame and both total-space maps are empty functions.
+- The closed half-space ℍ³ has boundary and is not compact, so it has neither a finite triangulation nor B1.5's compact relative one; the obstruction route runs on its interior ℝ²×(0,∞)≅ℝ³, whose smooth triangulation is infinite and locally finite, and the inclusion of the interior is a homotopy equivalence of contractible spaces. For the solid torus S¹×D², and for S¹×[0,1)×ℝ, the interior and the manifold are both homotopy equivalent to S¹; the closed unit ball D³ is compact, yet its interior's triangulation is infinite.
 
-*Needs:* B2.4; B3.2(c), B3.3–B3.4; B4.3–B4.6; B6.1–B6.2; B1.5–B1.6; GeometricTopology Layers 11.1 and 11.3; SpinGeometry G4; SpinRepresentations Layer 7; AlgebraicTopology Layer 8; CharacteristicClasses C1.
+*Needs:* B2.4; B3.2(c), B3.3–B3.4; B4.3–B4.6; B6.1–B6.2; B1.5–B1.6; GeometricTopology Layers 1.1, 11.1 and 11.3; SpinGeometry G4; SpinRepresentations Layer 7; AlgebraicTopology Layer 8; CharacteristicClasses C1.
 
 ### 8.5 Projective boundary constructions (B3.5)
 
