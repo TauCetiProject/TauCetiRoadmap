@@ -58,8 +58,10 @@ other owner; the flag carrier and the cartographic group are discussed below.
 - RootSystems owns the general Coxeter geometric sign and faithfulness theorems (its Layer 1) and
   the marked Weyl presentation (its Layer 2); its §1.3 owns the faithfulness of the geometric
   representation of every Coxeter system (`geometric_faithfulness`) and its transport to `I → ℝ`,
-  which 10.1 consumes. Longest elements and chambers belong to Mathlib and Tau Ceti, through
-  RootSystems' supplier contracts, and are not used here.
+  which 10.1 consumes. Tau Ceti's longest element and dominant chambers, which are defined for
+  crystallographic root pairings and which RootSystems consumes, are not used here: the longest
+  permutation enters 4.1–4.2 as Mathlib's `Fin.revPerm`, and the longest element of the
+  non-crystallographic group H₃ enters 9.5 as the explicit word `hemiW₀`.
 - Tau Ceti owns the geometric representation of a Coxeter system (supplier contracts).
 - ConformalMapping owns the Jordan-curve material of Tau Ceti (`TauCeti.IsJordanCurve`), which is
   not used here: pseudolines are graphs of continuous functions.
