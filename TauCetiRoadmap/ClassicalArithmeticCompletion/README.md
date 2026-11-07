@@ -6,11 +6,16 @@
 
 This roadmap owns the arithmetic connections between those subjects, including the definitions, normal-form comparisons and exact auxiliary estimates stated in its layers. The bounded representative sets, invariant-factor decompositions and index inequalities are mathematical targets.
 
+Two ids of this roadmap that other roadmaps cite under an earlier numbering:
+
+- layer-7-topic-4 → §7.4 (`#74-orders-in-finite-dimensional-algebras`).
+- layer-7-topic-72 → §7.72 (`#772-ideles-and-lattice-gluing-for-an-arithmetic-order`).
+
 ### Prerequisites and boundaries
 
 Use Mathlib's integer gcd, Bézout identities, arithmetic functions, valuations, coprime CRT, Legendre and Jacobi symbols, quadratic reciprocity, Dirichlet characters, Gauss and Jacobi sums, `LinearRecurrence`, `bernoulli`, `normEDS`, division polynomials, PID module decomposition, submodule Smith forms, polynomial resultants and Mahler measure, normal bases, Pell solutions, and the existing sum-of-two/four-squares theorems. These library objects are inputs. For arbitrary integer moduli, `Int.modEq_and_modEq_iff_modEq_lcm` already identifies the intersection of the zero congruence classes with the class modulo their lcm; translated to any chosen solution, it gives uniqueness for the compatible CRT below. The matrix work here adds rectangular integer normal forms and their invariant-factor comparisons to the supplied square existence and uniqueness statements; the generating-function work adds rationality and closed-form comparisons to the existing recurrence solution space; the representation-count work adds exact counts to existence of square representations.
 
-ClassFieldTheory owns cohomological local symbols, local and global Artin maps, archimedean reciprocity, Kronecker–Weber and Hilbert reciprocity (Layers 5–7, 10–11, 13–14). QuadraticFormInvariants 6C owns the quadratic norm-equation Hilbert symbol and its closed local formulas; GlobalQuadraticForms 4 owns its global comparison. NumberFieldArithmetic Layers 1, 3–5 and 7 own field splitting, primitive integral generators and their indices, discriminants, the global–local dictionary and Dirichlet units. LocalFieldsRamification Layers 1–3 own principal units, ramification groups, unramified and tame local extensions. CharacterTheory Layers 3, 4 and 7, InductionRestriction 6, and SemisimpleAlgebras 1–2, 5–6 own virtual characters, character fields, indicators, ordinary Brauer induction and central-simple-algebra structure. ReductiveGroups 6 owns semisimple algebraic groups; ReductiveGroupsPartII RG2.0.1 and RG2.0a own affine point topology and Weil restriction. EllipticCurves 1 owns the formal group of a Weierstrass equation. IntegralLattices owns integral quadratic lattices, discriminant forms and their binary-form/order dictionary; the lattice comparisons here concern integer matrices and number-field ideals rather than a second integral quadratic-lattice carrier.
+ClassFieldTheory owns cohomological local symbols, local and global Artin maps, archimedean reciprocity, Kronecker–Weber and Hilbert reciprocity (Layers 5–7, 10–11, 13–14). QuadraticFormInvariants 6C owns the quadratic norm-equation Hilbert symbol and its closed local formulas; GlobalQuadraticForms 4 owns its global comparison. NumberFieldArithmetic Layers 1, 3–5 and 7 own field splitting, primitive integral generators and their indices, discriminants, the global–local dictionary and Dirichlet units. Principal units, ramification groups and unramified and tame local extensions are the pinned Tau Ceti library's, cited declaration by declaration in the local-field contract below (the subject of the completed roadmap LocalFieldsRamification). CharacterTheory Layers 3, 4 and 7, InductionRestriction 6, and SemisimpleAlgebras 1–2, 5–6 own virtual characters, character fields, indicators, ordinary Brauer induction and central-simple-algebra structure. ReductiveGroups 6 owns semisimple algebraic groups; ReductiveGroupsPartII RG2.0.1 and RG2.0a own affine point topology and Weil restriction. EllipticCurves 1 owns the formal group of a Weierstrass equation. IntegralLattices owns integral quadratic lattices, discriminant forms and their binary-form/order dictionary; the lattice comparisons here concern integer matrices and number-field ideals rather than a second integral quadratic-lattice carrier.
 
 Tau Ceti owns the division-polynomial annihilation criterion ψₙ(P)=0 if and only if n·P=O for every integer n and nonsingular affine point P of a Weierstrass curve over a field, including singular curves. Section 2.22 adds coprimality of the evaluated coordinates and the explicit affine-coordinate formula.
 
@@ -22,7 +27,7 @@ HeightsAndUnits §1.3 owns scalar Kronecker and the absolute scalar power laws o
 
 Layer 7 owns reduced norms and reduced characteristic polynomials for constant-rank Azumaya algebras (§7.10), their norm-one groups (§7.26), and the strong-approximation theorem used in §7.44. It also owns the local Tate functional equation, Deligne–Langlands constants and finite-image Artin functional equation (§§7.12a–7.12c), on the Weil groups and reciprocity maps of ClassFieldTheory Layers 7 and 9; §§7.13 and 7.30 give their Fröhlich–Taylor normalization comparisons. These foundational targets supply the arithmetic-order and Galois-module theorems in this roadmap.
 
-DiophantineApproximationAndTranscendence supplies primitive minimal polynomials, heights, the house and Mahler measure of an algebraic number and bounded-house finiteness (§§0.1–0.3), the existence of recurrence closed forms (§2.4) and the relative Siegel lemma (§2.8). Minkowski's convex body theorem is Mathlib's. The recurrence target here adds uniqueness to the closed-form existence statement. Pseudobases and Steinitz classes of lattices over a Dedekind domain are targets in §7.0. IntegralLattices B4 supplies the proper-automorphism/norm-one-unit equivalence; §4.0 supplies its Pell-coordinate comparison.
+DiophantineApproximationAndTranscendence supplies primitive minimal polynomials, heights, the house and Mahler measure of an algebraic number and bounded-house finiteness (§§0.1–0.3), the existence of recurrence closed forms (§2.4) and the relative Siegel lemma (§2.8). Minkowski's convex body theorem is Mathlib's. The recurrence target here adds uniqueness to the closed-form existence statement. Pseudobases and Steinitz classes of lattices over a Dedekind domain are targets in §7.0. The pinned Tau Ceti library supplies the proper-automorphism/norm-one-unit equivalence of a binary lattice and of a primitive binary form (`TauCeti.IntegralLattice.specialOrthogonalGroupEquivNormOneUnits`, `TauCeti.BinaryQuadraticForm.stabilizerEquivNormOneUnits`); §4.0 supplies its Pell-coordinate comparison.
 
 General Catalan–Mihăilescu is outside the elementary exponential-equation scope: the cyclotomic-unit, Stickelberger-ideal and Thaine arguments need a cyclotomic arithmetic development. The powers-of-two/three result here is an elementary special case. Markoff orbit growth and strong-approximation theorems belong to ArithmeticDynamics; this roadmap supplies their carriers, moves, reductions and the surjectivity predicate. ArithmeticStatistics consumes the negative-Pell families; ComputationalNumberTheory consumes the intrinsic arithmetic comparisons; K2SymbolsBrauer and HigherLocalFields consume the degree-n norm-residue symbol; QSeriesPartitionsAndMockModularForms consumes the formal triple product; KTheoryLowDegrees consumes stable equality and scalar-change comparisons; LogarithmicPotentialTheoryAndAlgebraicIntegers consumes the capacity and rationality interfaces. None of these consumers supplies a prerequisite back to this roadmap.
 
@@ -164,19 +169,15 @@ The real value of the norm-equation symbol, (a, b) = −1 at a real place exactl
 
 The archimedean value of the norm-equation symbol ((a, b) = -1 at a real place exactly when a < 0 and b < 0; 1 at a complex place) and the localized product formula `∏_v (a_v, b_v)_v = 1` over all places of a number field, here at K = ℚ.
 
-### From [TauCetiRoadmap.LocalFieldsRamification, layer 2 unramified extensions and frobenius](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/LocalFieldsRamification/README.md#layer-2-unramified-extensions-and-frobenius)
+### From Tau Ceti: nonarchimedean local fields (the subject of TauCetiRoadmap.LocalFieldsRamification)
 
-Finite unramified extensions, their composita and base change, and surjectivity of the norm on integer units `(map_norm_unitFiltration_zero)`; Teichmüller lifts are Layer1 and the unramified and totally ramified integral bases Layer0. Residue normal bases and the Nakayama step belong to [Unramified local extensions have a normal integral basis](#751-unramified-local-extensions-have-a-normal-integral-basis).
+The unramified and tamely ramified theory of a finite extension L/K of nonarchimedean local fields is the pinned library's, under `TauCeti/NumberTheory/LocalField/`; the completed roadmap TauCetiRoadmap.LocalFieldsRamification records it as proved there, and this roadmap cites the declarations, never a layer of that roadmap. The conventions are Tau Ceti's: K and L carry `IsNonarchimedeanLocalField` with `ValuativeExtension K L`; `𝒪[K]`, `𝓂[K]` and `𝓀[K]` are the integer ring, its maximal ideal and the residue field; `TauCeti.ramificationIndex K L` and `TauCeti.inertiaDegree K L` are e and f.
 
-For a nonarchimedean local field K containing `μ_n` with residue characteristic prime to n, and a unit u of K, the extension K(ⁿ√u)/K is unramified (`X^n - u` is separable modulo the maximal ideal). Layer 2 supplies the unramified extensions `K(μ_{q^f−1})`; the reduction to them uses Layer 1 (principal units are n-th powers when n is a unit, so `u = ω·v^n` with ω a root of unity of order prime to the residue characteristic).
+Unramified extensions (`Unramified/Basic.lean`, `ResidueCorrespondence.lean`, `Unramified/Existence.lean`, `Unramified/Rigidity.lean`, `Unramified/Factorization.lean`, `Unramified/Maximal.lean`, `Norm/Unramified/Basic.lean`): the class `TauCeti.IsUnramified K L`, equivalent to e = 1 (`TauCeti.isUnramified_iff_ramificationIndex_eq_one`); for L/K unramified the residue correspondence `TauCeti.residueFieldAutEquiv : (L ≃ₐ[K] L) ≃* (𝓀[L] ≃ₐ[𝓀[K]] 𝓀[L])`; inside an extension Ω of K, the unramified extension `TauCeti.unramifiedExtension K Ω f` generated by the roots of `X^(q^f) − X`, Galois over K (`TauCeti.isGalois_unramifiedExtension`) and, for Ω separably closed and f ≥ 1, the unique unramified intermediate field of degree f (`TauCeti.existsUnique_isUnramified_finrank_eq`); rigidity, every residue isomorphism lifting to a unique K-isomorphism (`TauCeti.IsUnramified.existsUnique_algEquiv_residueFieldHom_eq`); the maximal unramified subextension `TauCeti.unramifiedExtension K L (TauCeti.inertiaDegree K L)` of L/K, over which L is totally ramified (`TauCeti.isTotallyRamified_unramifiedExtension_inertiaDegree`), and the maximal unramified extension `TauCeti.maximalUnramifiedExtension K Ω`; the integral basis of an unramified extension lifted from any residue basis (`TauCeti.IsUnramified.basisOfResidueBasis`); and, for L/K unramified, surjectivity of the norm on every step of the unit filtration, `N_{L/K}(U(L, i)) = U(K, i)` (`TauCeti.map_normUnits_unitFiltration`), whose case i = 0 is the surjectivity of the norm on integer units used in §7.60. Residue normal bases and the Nakayama step belong to [Unramified local extensions have a normal integral basis](#751-unramified-local-extensions-have-a-normal-integral-basis).
 
-For a finite extension L/K of nonarchimedean local fields: the unramified predicate and the residue correspondence `Gal(L/K) ≃ Gal(𝓀_L/𝓀_K)` for unramified Galois L/K (with `p𝒪_L` the maximal ideal); existence of the unramified extension of degree f as `K(μ_{q^f−1})`; composita of unramified extensions are unramified; the maximal unramified subextension `L_0` with `[L_0 : K] = f`.
+Units and the filtration (`UnitFiltration/Basic.lean`, `UnitFiltration/Pow/Basic.lean`, `TauCeti/RingTheory/Henselian/Teichmuller.lean`): the unit filtration `TauCeti.unitFiltration K i` (U(K, 0) the integer units, U(K, 1) the principal units); the Teichmüller section `TauCeti.teichmuller : (ResidueField R)ˣ →* Rˣ` of a Henselian local ring with its residue identity `TauCeti.residue_teichmuller`; and `TauCeti.unitFiltration_le_range_powMonoidHom`, which for `(n : K) ≠ 0` puts `U(K, i + v_K(n))` inside the n-th powers of Kˣ once every prime p ∣ n with `(p : K) ≠ 0` satisfies `v_K(p) < (p − 1)·i`; for n a unit of `𝒪[K]` and i = 1 this is `U(K, 1) ⊆ (Kˣ)^n`, the form used in §1.43. Hence, for a nonarchimedean local field K containing `μ_n` with residue characteristic prime to n and a unit u of K, the extension K(ⁿ√u)/K is unramified: `u = ω·v^n` with ω a root of unity of order prime to the residue characteristic, so `K(ⁿ√u) = K(ⁿ√ω)` lies in the unramified extension `K(μ_{q^f−1})`.
 
-### From [TauCetiRoadmap.LocalFieldsRamification, layer 3 ramification the tame and wild cases and the filtration](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/LocalFieldsRamification/README.md#layer-3-ramification-the-tame-and-wild-cases-and-the-filtration)
-
-`v_K(N x)=f·v_L(x)`, norms of uniformizers in totally ramified extensions, the tame Kummer description `α^e=π` with Galois exactly when `μ_e⊆K`, ramification towers and the tame character of `G_0/G_1`. The Hensel step of the uniformizer adjustment uses Layer1, and splitting a tame extension after an unramified base change is proved in [The split tame extension above a tame local extension](#738-the-split-tame-extension-above-a-tame-local-extension).
-
-For nonarchimedean local fields: the predicate IsTamelyRamified; a finite totally and tamely ramified L/K of degree e is K(α) with `α^e` a uniformiser of K; such L/K is Galois exactly when `μ_e ⊆ K`, and then `Gal(L/K) ↪ μ_e` by σ ↦ σ(α)/α; an Eisenstein polynomial `X^e − π_K` defines a totally ramified extension in which its root is a uniformiser; in a totally ramified extension `𝒪_L = 𝒪_K[π_L]`; stability of tameness in towers.
+Tame and totally ramified extensions (`RamificationIndex.lean`, `TamelyRamified/Basic.lean`, `TamelyRamified/Galois.lean`, `Eisenstein/TotallyRamified.lean`, `Eisenstein/PowerBasis.lean`, `Monogenic.lean`, `Norm/Basic.lean`, `UnitFiltration/RamificationGroup.lean`, `TauCeti/RingTheory/LocalRing/RamificationGroup.lean`): the predicates `TauCeti.IsTamelyRamified K L` (the residue characteristic does not divide e; separability of the residue extension is automatic, the residue fields being finite) and `TauCeti.IsTotallyRamified K L` (e = [L : K]); stability of tameness in towers (`TauCeti.IsTamelyRamified.tower_bot`); for L/K Galois and tame, `e ∣ #𝓀[L] − 1` (`TauCeti.IsTamelyRamified.ramificationIndex_dvd_card_residueField_sub_one`); a totally and tamely ramified L/K of degree e is K(α) with `α^e = π` for uniformisers α of L and π of K (`TauCeti.IsTotallyRamified.exists_pow_eq_uniformizer_of_isTamelyRamified`), it is Galois exactly when K contains a primitive e-th root of unity (`TauCeti.IsTotallyRamified.isGalois_iff_exists_isPrimitiveRoot`), and then `Gal(L/K) ≃* μ_e(K)` by `σ ↦ σ(α)/α` (`TauCeti.IsTotallyRamified.exists_pow_eq_uniformizer_and_autEquivRootsOfUnity`); L/K is totally ramified exactly when L = K(π) for a root π of an Eisenstein polynomial over `𝒪[K]` (`TauCeti.isTotallyRamified_iff_exists_eisenstein_generator`), the degree of that polynomial is e (`TauCeti.ramificationIndex_eq_natDegree_of_eisenstein_adjoin_eq_top`), its root generates `𝒪[L]` over `𝒪[K]` (`TauCeti.algebra_adjoin_eq_top_of_eisenstein_adjoin_eq_top`), and a linear combination of `1, π, …, π^{e−1}` with coefficients in `𝒪[K]` has valuation the least of its term valuations (`TauCeti.addVal_sum_eisenstein_powerBasis`); the integer ring of every finite extension is generated by one element (`TauCeti.exists_integerRing_adjoin_eq_top`); the norm valuation formula `v_K(N_{L/K} x) = f·v_L(x)` on Lˣ (`TauCeti.normalizedValuation_norm`); and the lower ramification groups `TauCeti.IsLocalRing.ramificationGroup G 𝒪[L] i` with the tame character `TauCeti.tameCharacter : G_0 →* 𝓀[L]ˣ`, carrying σ to the residue of `σ(ϖ)/ϖ` and killing `G_1`. The Hensel step of the uniformiser adjustment in §7.19 uses the Teichmüller section, and splitting a tame extension after an unramified base change is proved in [The split tame extension above a tame local extension](#738-the-split-tame-extension-above-a-tame-local-extension).
 
 ### From [TauCetiRoadmap.NumberFieldArithmetic, layer 1 the splitting dictionary](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/NumberFieldArithmetic/README.md#layer-1-the-splitting-dictionary)
 
@@ -224,9 +225,9 @@ The virtual character ring, restriction and induction with the projection formul
 
 Simple modules and Artin–Wedderburn with its dimension formula (Layers1–2), Skolem–Noether (Layer5), and Layer6: base change of central simple algebras, finite separable splitting fields, splitting by maximal subfields, and the Brauer groups of finite fields and of ℝ. The étale embedding criterion is proved inside [Local–global realization of separable reduced characteristic polynomials](#745-localglobal-realization-of-separable-reduced-characteristic-polynomials); reduced norms are constructed in §7.10.
 
-### From [TauCetiRoadmap.IntegralLattices, B4 automorphisms](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/IntegralLattices/README.md#layer-b-binary-lattices-and-quadratic-orders)
+### From Tau Ceti: binary lattices, binary forms and quadratic orders
 
-For a nondegenerate binary lattice of nonsquare discriminant, B4 supplies SO(L) ≅ {u ∈ 𝒪(L)ˣ : N(u)=1}, including positive discriminant. §4.0 consumes this equivalence for a primitive indefinite binary form and computes its matrix in Pell coordinates.
+`TauCeti.IntegralLattice.specialOrthogonalGroupEquivNormOneUnits` in `TauCeti/NumberTheory/IntegralLattice/Binary/NormOne.lean`: for an integral lattice L of rank two with nonzero form and a carrier basis, `SO(L) ≃* {u ∈ 𝒪(L)ˣ : N(u) = 1}`, the norm-one units `TauCeti.QuadraticOrder.normOneUnits Δ _` (the kernel of the norm on the units of `TauCeti.QuadraticOrder.toSubalgebra Δ _`, the order `ℤ[(Δ + √Δ)/2]`) for the primitive discriminant Δ of L, positive discriminants included; `TauCeti.IntegralLattice.map_toMatrix_specialOrthogonalGroupEquivNormOneUnits_symm_apply` gives the matrix in that basis of the isometry attached to the unit `x + y√Δ`, read over ℚ, as `!![x − b y, −2 c y; 2 a y, x + b y]` with (a, b, c) the primitive part of the norm form. The form-side statement is `TauCeti.BinaryQuadraticForm.stabilizerEquivNormOneUnits` in `TauCeti/NumberTheory/BinaryQuadraticForm/Stabilizer.lean`: for a primitive integral binary form f of discriminant D, the stabiliser of f in `SL(2, ℤ)` is `≃*` the norm-one units of the order of discriminant D, with the same matrix formula `TauCeti.BinaryQuadraticForm.map_stabilizerEquivNormOneUnits_symm_apply`. In `TauCeti/NumberTheory/QuadraticOrder/NormOne.lean`, `TauCeti.QuadraticOrder.pellToNormOneUnits : Pell.Solution₁ D →* normOneUnits D _` is injective and `TauCeti.QuadraticOrder.infinite_normOneUnits_of_pos_of_not_isSquare` gives infinitely many norm-one units for positive nonsquare D. §4.0 consumes the form-side equivalence for a primitive indefinite binary form and reads its matrix in Pell coordinates (x = t/2, y = u/2); the structure of the norm-one group as {±1} × ℤ and the action on the solutions of X² − DY² = 4N are its own targets.
 
 ### From TauCetiRoadmap.ReductiveGroupsPartII, RG2.0.1 and RG2.0a
 
@@ -1451,7 +1452,7 @@ v is a finite place with `𝔭_v ∤ n`; the formula is never applied at places 
 
 (J. S. Milne, [Class Field Theory](#j-s-milne--class-field-theory), Chapter III, Theorem 4.4 and Remark 4.5 (pp. 113–114).) Skew-symmetry is used in step 3. Milne's orientation is the opposite of Shastri's: Milne's (a, b) is Shastri's ⟨b, a⟩; the result pins Shastri's orientation, and the symbol of this layer is defined in that orientation.
 
-To prove this, for a unit w, `K_v(ⁿ√w)/K_v` is unramified because 𝔭 ∤ n: write w = ω u₁ with ω a root of unity of order prime to p (Teichmüller) and u₁ a principal unit; u₁ is an n-th power since n is a unit (LocalFieldsRamification, Layer 1, `U(K,1) ⊆ (Kˣ)^n`), so `K_v(ⁿ√w) = K_v(ⁿ√ω) ⊆ K_v(μ_m)` with m coprime to p, which lies in the unramified extension `K_v(μ_{q^f−1})` (Layer 2, existence statement 1). Units are norms from an unramified extension (Class Field Theory, Layer 6), so `(u, w)_v = 1` for units u.
+To prove this, for a unit w, `K_v(ⁿ√w)/K_v` is unramified because 𝔭 ∤ n: write w = ω u₁ with ω a root of unity of order prime to p (Teichmüller) and u₁ a principal unit; u₁ is an n-th power since n is a unit (Tau Ceti `TauCeti.unitFiltration_le_range_powMonoidHom` at depth 1: `U(K,1) ⊆ (Kˣ)^n`), so `K_v(ⁿ√w) = K_v(ⁿ√ω) ⊆ K_v(μ_m)` with m coprime to p, which lies in the unramified extension `K_v(μ_{q^f−1})` (Tau Ceti `TauCeti.unramifiedExtension`). Units are norms from an unramified extension (Class Field Theory, Layer 6), so `(u, w)_v = 1` for units u.
 
 For a uniformiser π, `Art_v(π)` is the arithmetic Frobenius of the unramified extension (Class Field Theory, Layer 6), so `Art_v(π)(ⁿ√w) ≡ ⁿ√w^(N𝔭) = w^((N𝔭 - 1)/n) ⁿ√w`, and `(π, w)_v = (w / 𝔭)_n` by the defining congruence of the symbol.
 
@@ -1464,7 +1465,7 @@ Expand `(π^α u, π^β w)_v` bimultiplicatively and collect: `(-1 / 𝔭)^(αβ
 - For K = ℚ and n = 2 at an odd prime p it is the odd-prime formula of [The Hilbert symbol of ℚ at every place, read in Mathlib's residue symbols](#110-the-hilbert-symbol-of-ℚ-at-every-place-read-in-mathlibs-residue-symbols) (Voight (12.4.10)).
 - The formula fails at 2 for n = 2: `(-1, -1)_2 = -1` although -1 is a unit at 2.
 
-*Needs:* [The n-th power residue symbol at a prime not dividing n](#123-the-n-th-power-residue-symbol-at-a-prime-not-dividing-n); [The Frobenius acts on n-th roots by the power residue symbol](#134-the-frobenius-acts-on-n-th-roots-by-the-power-residue-symbol); [The degree-n norm-residue symbol at a place of a number field](#124-the-degree-n-norm-residue-symbol-at-a-place-of-a-number-field).
+*Needs:* [The n-th power residue symbol at a prime not dividing n](#123-the-n-th-power-residue-symbol-at-a-prime-not-dividing-n); [The Frobenius acts on n-th roots by the power residue symbol](#134-the-frobenius-acts-on-n-th-roots-by-the-power-residue-symbol); [The degree-n norm-residue symbol at a place of a number field](#124-the-degree-n-norm-residue-symbol-at-a-place-of-a-number-field); Tau Ceti `TauCeti.unitFiltration_le_range_powMonoidHom`; Tau Ceti `TauCeti.unramifiedExtension`.
 
 ### 1.44 The norm-residue symbol and Class Field Theory's cohomological local symbol
 
@@ -2415,20 +2416,22 @@ The declarations and supplier layers used by this layer are:
 - Tau Ceti `IsArithFrobAt.smul_sqrt`.
 - Tau Ceti `Rat.exists_squarefree_int_mul_sq`.
 - Tau Ceti `TauCeti.Multiquadratic.fundamentalDiscriminant`.
-- Tau Ceti `TauCeti.Multiquadratic.genusCharFun`.
 - Tau Ceti `TauCeti.Multiquadratic.genusCharFun_eq_zero_iff`.
 - Tau Ceti `TauCeti.Multiquadratic.genusCharFun_mod_right'`.
 - Tau Ceti `TauCeti.Multiquadratic.genusCharFun_mul_right`.
 - Tau Ceti `TauCeti.Multiquadratic.genusCharFun_natCast_eq_legendreSym`.
 - Tau Ceti `TauCeti.Multiquadratic.genusCharFun_one`.
+- Tau Ceti `TauCeti.Multiquadratic.genusCharFun`.
 - Tau Ceti `TauCeti.Multiquadratic.isFundamentalDiscr_fundamentalDiscriminant`.
-- Tau Ceti `TauCeti.Multiquadratic.primeDiscriminantCharFun`.
 - Tau Ceti `TauCeti.Multiquadratic.primeDiscriminantCharFun_eight`.
 - Tau Ceti `TauCeti.Multiquadratic.primeDiscriminantCharFun_neg_eight`.
 - Tau Ceti `TauCeti.Multiquadratic.primeDiscriminantCharFun_neg_four`.
 - Tau Ceti `TauCeti.Multiquadratic.primeDiscriminantCharFun_neg_one`.
 - Tau Ceti `TauCeti.Multiquadratic.primeDiscriminantCharFun_oddPrimeDiscriminant`.
+- Tau Ceti `TauCeti.Multiquadratic.primeDiscriminantCharFun`.
 - Tau Ceti `TauCeti.legendreSym_mul_sq`.
+- Tau Ceti `TauCeti.unitFiltration_le_range_powMonoidHom`.
+- Tau Ceti `TauCeti.unramifiedExtension`.
 - [TauCetiRoadmap.ClassFieldTheory, layer 10 global carriers the brauer sequence and the sum of local invariants](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ClassFieldTheory/README.md#layer-10-global-carriers-the-brauer-sequence-and-the-sum-of-local-invariants).
 - [TauCetiRoadmap.ClassFieldTheory, layer 14 hilbert reciprocity and quadratic reciprocity](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ClassFieldTheory/README.md#layer-14-hilbert-reciprocity-and-quadratic-reciprocity).
 - [TauCetiRoadmap.ClassFieldTheory, layer 5 local coefficients the brauer group the local invariant and duality](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ClassFieldTheory/README.md#layer-5-local-coefficients-the-brauer-group-the-local-invariant-and-duality).
@@ -7071,7 +7074,7 @@ The supporting API comprises:
 - pellFourUnits D ≃* ℤˣ × Multiplicative ℤ, sending −1 to (−1, 0) and `ε_D` to (1, 1).
 - For D = 4m, (x, y) ↦ (2x, y) is an isomorphism from Pell.Solution₁ m, with inverse (t, u) ↦ (t/2, u).
 - For (t, u) ∈ pellFourUnits D and X² − DY² = 4N, the product ((tX + DuY)/2, (uX + tY)/2) is again an integer solution of X² − DY² = 4N.
-- For Q = [a, b, c] primitive of positive nonsquare discriminant D, express IntegralLattices B4's proper-automorphism/norm-one-unit equivalence in Pell coordinates: the unit (t + u√D)/2 acts by [[(t − bu)/2, −cu], [au, (t + bu)/2]].
+- For Q = [a, b, c] primitive of positive nonsquare discriminant D, read the library's proper-automorph/norm-one-unit equivalence `TauCeti.BinaryQuadraticForm.stabilizerEquivNormOneUnits` in Pell coordinates: the unit (t + u√D)/2 acts by [[(t − bu)/2, −cu], [au, (t + bu)/2]], the matrix `!![x − b y, −2 c y; 2 a y, x + b y]` of `TauCeti.BinaryQuadraticForm.map_stabilizerEquivNormOneUnits_symm_apply` at x = t/2, y = u/2.
 
 (Keith Conrad, [Pell's equation, I](#keith-conrad--pells-equation-i), Theorem 5.3, p. 6, and §7, Theorem 7.1, p. 10.) The generation of the solutions of a Pell equation by a least positive solution, and the multiplicativity of the norm form, which is the case D = 4m of (a) and the source of the product in (b).
 
@@ -7079,7 +7082,7 @@ The supporting API comprises:
 
 (Amit Ghosh and Peter Sarnak, [Integral points on Markoff type cubic surfaces](#amit-ghosh-and-peter-sarnak--integral-points-on-markoff-type-cubic-surfaces), §1, consequence (c) of Theorem 1.1, p. 4.) The use: the unit (a + √(a² − 4))/2 acts on the solutions of X² − (a² − 4)Y² = 4N.
 
-To prove this, for D = 4m, t² − Du² = 4 forces t even and reduces to Pell.Solution₁ m, and Mathlib's `Pell.IsFundamental.eq_zpow_or_neg_zpow` gives (a). For D ≡ 1 (mod 4), `(t + u√D)/2 ∈ O_D` has norm one; its cube is (t(t² − 3) + u(t² − 1)√D)/2, whose coordinates are even, so the group contains the Pell group of D with index dividing 3 and is again {±1} × ℤ; the least positive solution generates modulo ±1 because the coordinates of the positive powers increase. For (b), the norm is multiplicative and the displayed coordinates are integers because X ≡ DY and t ≡ Du (mod 2). For (c), consume IntegralLattices B4's equivalence and compute multiplication by (t + u√D)/2 in the binary-form basis. The resulting matrix is the displayed one; determinant one, preservation of Q and compatibility with multiplication are coordinate consequences of the supplier equivalence.
+To prove this, for D = 4m, t² − Du² = 4 forces t even and reduces to Pell.Solution₁ m, and Mathlib's `Pell.IsFundamental.eq_zpow_or_neg_zpow` gives (a). For D ≡ 1 (mod 4), `(t + u√D)/2 ∈ O_D` has norm one; its cube is (t(t² − 3) + u(t² − 1)√D)/2, whose coordinates are even, so the group contains the Pell group of D with index dividing 3 and is again {±1} × ℤ; the least positive solution generates modulo ±1 because the coordinates of the positive powers increase. For (b), the norm is multiplicative and the displayed coordinates are integers because X ≡ DY and t ≡ Du (mod 2). For (c), consume the library's `TauCeti.BinaryQuadraticForm.stabilizerEquivNormOneUnits` with its matrix formula `TauCeti.BinaryQuadraticForm.map_stabilizerEquivNormOneUnits_symm_apply` at x = t/2, y = u/2. The resulting matrix is the displayed one; determinant one, preservation of Q and compatibility with multiplication are coordinate consequences of the supplier equivalence.
 
 **Checks.**
 
@@ -7087,8 +7090,9 @@ To prove this, for D = 4m, t² − Du² = 4 forces t even and reduces to Pell.So
 - D = 12 (a = 4): (x, y) = (2, 1) maps to the least solution (t, u) = (4, 1), with `ε_12 = 2 + √3`; (4, 2) instead gives t² − 12u² = −32.
 - (−2, 0) ↦ −1 is a nontrivial element of finite order: the group in SL₂(ℤ) is not infinite cyclic, so cyclicity holds only in PSL₂(ℤ).
 - D = 5, N = 1: `ε_5` sends (3, 1) to (7, 3), and 7² − 5·3² = 4.
+- D = 5, Q = [1, 1, −1] and the unit `ε_5` (t = 3, u = 1): the matrix is [[1, 1], [1, 2]], of determinant 2 − 1 = 1, and it carries (x, y) to (x + y, x + 2y), on which x² + xy − y² takes the value (x + y)² + (x + y)(x + 2y) − (x + 2y)² = x² + xy − y²; the library's formula at x = 3/2, y = 1/2 gives the same entries 3/2 − 1/2, −2·(−1)·(1/2), 2·1·(1/2), 3/2 + 1/2. This matrix is symmetric, so the side of the action is pinned instead by `ε_12 = 2 + √3` on Q = [1, 0, −3] (t = 4, u = 1; the library's x = 2, y = 1/2): the matrix [[2, 3], [1, 2]] carries (1, 0) to (2, 1), of form value 4 − 3 = 1, while its transpose [[2, 1], [3, 2]] carries (1, 0) to (2, 3), of value 4 − 27 ≠ 1.
 
-*Needs:* Mathlib `Pell.Solution₁`; Mathlib `Pell.IsFundamental.eq_zpow_or_neg_zpow`; Mathlib `Zsqrtd.norm_mul`; Mathlib `Matrix.SpecialLinearGroup`; [TauCetiRoadmap.IntegralLattices, B4 proper automorphisms](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/IntegralLattices/README.md#layer-b-binary-lattices-and-quadratic-orders).
+*Needs:* Mathlib `Pell.Solution₁`; Mathlib `Pell.IsFundamental.eq_zpow_or_neg_zpow`; Mathlib `Zsqrtd.norm_mul`; Mathlib `Matrix.SpecialLinearGroup`; Tau Ceti `TauCeti.BinaryQuadraticForm.stabilizerEquivNormOneUnits`; Tau Ceti `TauCeti.BinaryQuadraticForm.map_stabilizerEquivNormOneUnits_symm_apply`; Tau Ceti `TauCeti.QuadraticOrder.normOneUnits`.
 
 ### 4.1 Integer linear systems and the parametrisation of their solutions
 
@@ -10397,6 +10401,9 @@ Earlier internal inputs are Layer 3. The declarations and supplier layers used b
 - Mathlib `quadraticChar`.
 - Mathlib `quadraticChar_card_sqrts`.
 - Mathlib `quadraticChar_sum_zero`.
+- Tau Ceti `TauCeti.BinaryQuadraticForm.map_stabilizerEquivNormOneUnits_symm_apply`.
+- Tau Ceti `TauCeti.BinaryQuadraticForm.stabilizerEquivNormOneUnits`.
+- Tau Ceti `TauCeti.QuadraticOrder.normOneUnits`.
 
 ## Layer 5: number-field presentations and comparisons
 
@@ -13781,7 +13788,7 @@ Towers: for A ⊆ B ⊆ C Dedekind with B/A and C/B finite and torsion free (hen
 - If every nonzero prime has index one and separable residue extension, the extension is tame. In characteristic p, `F_p(s)[[t]] ⊂ F_p(s^(1/p))[[t]]` has index one but inseparable residue extension of degree p, so is not tame.
 - Z ⊂ Z[i] ⊂ Q(i) has a wild lower step above 2, while both extensions with top ring Q(i) satisfy the predicate vacuously; the tower equivalence requires the finite integral steps.
 
-*Needs:* Mathlib `Ideal.ramificationIdx`; Mathlib `Algebra.IsSeparable`; Mathlib `Ideal.LiesOver`; Mathlib `Ideal.ramificationIdxIn_mul_ramificationIdxIn`; Mathlib `IsDedekindDomain`; Mathlib `Ideal.ramificationIdx_tower`; Mathlib `Algebra.IsSeparable.trans`; Mathlib `Ideal.Quotient.algebraOfLiesOver`; [TauCetiRoadmap.LocalFieldsRamification, layer 3 ramification the tame and wild cases and the filtration](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/LocalFieldsRamification/README.md#layer-3-ramification-the-tame-and-wild-cases-and-the-filtration).
+*Needs:* Mathlib `Ideal.ramificationIdx`; Mathlib `Algebra.IsSeparable`; Mathlib `Ideal.LiesOver`; Mathlib `Ideal.ramificationIdxIn_mul_ramificationIdxIn`; Mathlib `IsDedekindDomain`; Mathlib `Ideal.ramificationIdx_tower`; Mathlib `Algebra.IsSeparable.trans`; Mathlib `Ideal.Quotient.algebraOfLiesOver`; Tau Ceti `TauCeti.IsTamelyRamified`; Tau Ceti `TauCeti.IsTamelyRamified.tower_bot`.
 
 ### 7.3 Rim's criterion for projectivity over a group ring
 
@@ -14093,7 +14100,7 @@ The supporting API comprises:
 - Replacing dx by 2dx doubles ε. For the odd quadratic character at 3, replacing ψ by ψ(−x) changes −i to i; their product is 1 under the dual-character formula.
 - The real sign character has constant i and its square is −1=sgn(−1); the complex angular characters k=1 and k=−1 both have constant i, whereas k=0 gives 1.
 
-*Needs:* TauCetiRoadmap.GlobalNumberFields Layers 4–9; TauCetiRoadmap.ClassFieldTheory Layer 7; TauCetiRoadmap.LocalFieldsRamification Layers 1–3; Mathlib Haar measures, Fourier transforms, Schwartz functions and finite Gauss sums.
+*Needs:* TauCetiRoadmap.GlobalNumberFields Layers 4–9; TauCetiRoadmap.ClassFieldTheory Layer 7; Tau Ceti `TauCeti.unitFiltration`; Tau Ceti `TauCeti.IsUnramified`; Tau Ceti `TauCeti.IsTamelyRamified`; Tau Ceti `TauCeti.IsLocalRing.ramificationGroup`; Mathlib Haar measures, Fourier transforms, Schwartz functions and finite Gauss sums.
 
 ### 7.12b Weil local constants
 
@@ -14121,7 +14128,7 @@ These laws are Deligne §5.3–§5.7, pp.548–550, with the geometric reciproci
 - For unramified E/F of degree 2 and conductor-zero ψ, Ind 1=1⊕η with η unramified, all three constants are 1 and λ=1. The identity extension gives λ=1 in every dimension.
 - In an S₃ extension, the regular character is the sum of 1, sign and twice the standard character; its local constant is the corresponding product. Its conductor has the same weighted additive decomposition, even at wild primes 2 and 3.
 
-*Needs:* §7.12a; TauCetiRoadmap.ClassFieldTheory Layers 7 and 9; TauCetiRoadmap.LocalFieldsRamification Layers 2–3; TauCetiRoadmap.RepresentationTheory/InductionRestriction Layer 6; TauCetiRoadmap.RepresentationTheory/CharacterTheory Layers 3–4.
+*Needs:* §7.12a; TauCetiRoadmap.ClassFieldTheory Layers 7 and 9; Tau Ceti `TauCeti.IsUnramified`; Tau Ceti `TauCeti.IsTamelyRamified`; Tau Ceti `TauCeti.IsLocalRing.ramificationGroup`; TauCetiRoadmap.RepresentationTheory/InductionRestriction Layer 6; TauCetiRoadmap.RepresentationTheory/CharacterTheory Layers 3–4.
 
 ### 7.12c Finite-image Artin functions
 
@@ -14243,7 +14250,7 @@ To prove this, use the CRT factorization of cyclotomic Galois groups and local c
 - L = ℚ(√−3) ⊆ ℚ(ζ₉): the cut at 3² gives L ⊆ ℚ(ζ₃).
 - ℚ(i) ⊆ ℚ(ζ₄) is wild at 2, and the 2-cut would put it inside ℚ, so the tameness hypothesis cannot be dropped.
 
-*Needs:* [TauCetiRoadmap.NumberFieldArithmetic, layer 5 the global local dictionary at finite places](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/NumberFieldArithmetic/README.md#layer-5-the-global-local-dictionary-at-finite-places); [TauCetiRoadmap.LocalFieldsRamification, layer 3 ramification the tame and wild cases and the filtration](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/LocalFieldsRamification/README.md#layer-3-ramification-the-tame-and-wild-cases-and-the-filtration).
+*Needs:* [TauCetiRoadmap.NumberFieldArithmetic, layer 5 the global local dictionary at finite places](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/NumberFieldArithmetic/README.md#layer-5-the-global-local-dictionary-at-finite-places); Tau Ceti `TauCeti.IsTamelyRamified`; Tau Ceti `TauCeti.IsLocalRing.ramificationGroup`.
 
 ### 7.17 The rational normal basis map K[G] ≅ L
 
@@ -14320,9 +14327,9 @@ A is a complete discrete valuation ring with finite residue field k of cardinali
 
 (Henri Johnston, [Notes on Galois Modules](#henri-johnston--notes-on-galois-modules), Proof of Theorem 9.5 (printed p. 17).) The divisibility half.
 
-To prove this, let `L_0` be the maximal unramified subextension; `L/L_0` is totally and tamely ramified Galois of degree e with group the inertia group I (LocalFieldsRamification Layers 2 and 3).
+To prove this, let `L_0` be the maximal unramified subextension; `L/L_0` is totally and tamely ramified Galois of degree e with group the inertia group I (Tau Ceti: `L_0 = TauCeti.unramifiedExtension K L (TauCeti.inertiaDegree K L)` and `TauCeti.isTotallyRamified_unramifiedExtension_inertiaDegree`; tameness passes to `L/L_0` since `e(L/L_0) = e`).
 
-By the tame Galois criterion (LocalFieldsRamification Layer 3), I embeds in `μ_e(L_0)`, and `μ_e(L_0)` injects into the residue field of `L_0`, which has `q^f` elements; so `e | q^f − 1`.
+By the tame Galois criterion (Tau Ceti `TauCeti.IsTotallyRamified.exists_pow_eq_uniformizer_and_autEquivRootsOfUnity`), I embeds in `μ_e(L_0)`, and `μ_e(L_0)` injects into the residue field of `L_0`, which has `q^f` elements; so `e | q^f − 1`. The divisibility is also the library's `TauCeti.IsTamelyRamified.ramificationIndex_dvd_card_residueField_sub_one` applied to L/K itself, `𝓀[L]` having `q^f` elements.
 
 Write `π_L^e = u·π_K` with `u ∈ 𝒪_L^×`; let v be the Teichmüller lift of the residue of u (a `(q^f − 1)`-st root of unity, TauCeti.teichmuller).
 
@@ -14335,7 +14342,7 @@ Replace `π_L` by `βπ_L`.
 - For `K = ℚ_7` and `L = ℚ_7(7^{1/3})`: e = 3, f = 1, q = 7, and 3 | 6.
 - In the wild case p | e the divisibility `e | q^f − 1` fails, since `q^f − 1` is prime to p.
 
-*Needs:* Tau Ceti `TauCeti.teichmuller`; Tau Ceti `TauCeti.residue_teichmuller`; Mathlib `HenselianLocalRing`; [Tamely ramified extensions of Dedekind domains](#72-tamely-ramified-extensions-of-dedekind-domains); [TauCetiRoadmap.LocalFieldsRamification, layer 2 unramified extensions and frobenius](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/LocalFieldsRamification/README.md#layer-2-unramified-extensions-and-frobenius); [TauCetiRoadmap.LocalFieldsRamification, layer 3 ramification the tame and wild cases and the filtration](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/LocalFieldsRamification/README.md#layer-3-ramification-the-tame-and-wild-cases-and-the-filtration).
+*Needs:* Tau Ceti `TauCeti.teichmuller`; Tau Ceti `TauCeti.residue_teichmuller`; Mathlib `HenselianLocalRing`; [Tamely ramified extensions of Dedekind domains](#72-tamely-ramified-extensions-of-dedekind-domains); Tau Ceti `TauCeti.unramifiedExtension`; Tau Ceti `TauCeti.isTotallyRamified_unramifiedExtension_inertiaDegree`; Tau Ceti `TauCeti.IsTotallyRamified.exists_pow_eq_uniformizer_and_autEquivRootsOfUnity`; Tau Ceti `TauCeti.IsTamelyRamified.ramificationIndex_dvd_card_residueField_sub_one`.
 
 ### 7.20 The left order of a lattice
 
@@ -14774,13 +14781,13 @@ A is a complete discrete valuation ring with finite residue field k of cardinali
 
 (Henri Johnston, [Notes on Galois Modules](#henri-johnston--notes-on-galois-modules), Remark 9.6 (printed p. 17).) The group-theoretic splitting I ∩ Γ = 1, IΓ = G′.
 
-To prove this, l′/K is Galois as the compositum of L with the unramified (hence Galois) extension `L′_0` of K of degree ef (LocalFieldsRamification Layer 2).
+To prove this, l′/K is Galois as the compositum of L with the unramified (hence Galois) extension `L′_0` of K of degree ef (Tau Ceti `TauCeti.unramifiedExtension`, `TauCeti.isGalois_unramifiedExtension` and `TauCeti.existsUnique_isUnramified_finrank_eq`).
 
 e(L′/K) = e and f(L′/K) = ef by multiplicativity in towers; so L′/K is tame ([Tamely ramified extensions of Dedekind domains](#72-tamely-ramified-extensions-of-dedekind-domains), tower stability).
 
 With `π_L`, v from [Normalising a uniformiser of a tame local extension](#719-normalising-a-uniformiser-of-a-tame-local-extension): `(q^{ef} − 1) = (q^f − 1)(q^{f(e−1)} + … + 1)` and the second factor is ≡ e ≡ 0 mod e, so `e(q^f − 1) | q^{ef} − 1` and `v = u^e` for a `(q^{ef} − 1)`-st root of unity `u ∈ L′_0`.
 
-`π′ = u⁻¹π_L` satisfies `π′^e = π_K`; `X^e − π_K` is Eisenstein, so K′ = K(π′) is totally ramified of degree e (LocalFieldsRamification Layer 3).
+`π′ = u⁻¹π_L` satisfies `π′^e = π_K`; `X^e − π_K` is Eisenstein, so K′ = K(π′) is totally ramified of degree e (Tau Ceti `TauCeti.isTotallyRamified_iff_exists_eisenstein_generator` and `TauCeti.ramificationIndex_eq_natDegree_of_eisenstein_adjoin_eq_top`).
 
 An unramified and a totally ramified extension meet in K, and degrees give `L′ = L′_0 K′`; Galois theory gives the group-theoretic splitting.
 
@@ -14789,7 +14796,7 @@ An unramified and a totally ramified extension meet in K, and degrees give `L′
 - For `K = ℚ_7`, `L = ℚ_7(7^{1/3}) (e = 3, f = 1)`: `L′ = L·ℚ_{7^3}`, `L′_0 = ℚ_{7^3}`, K′ = L.
 - If L/K is already totally ramified with `π_L^e = π_K` one may take L′ = L·(unramified of degree e) and K′ = L.
 
-*Needs:* [Normalising a uniformiser of a tame local extension](#719-normalising-a-uniformiser-of-a-tame-local-extension); [Tamely ramified extensions of Dedekind domains](#72-tamely-ramified-extensions-of-dedekind-domains); [TauCetiRoadmap.LocalFieldsRamification, layer 2 unramified extensions and frobenius](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/LocalFieldsRamification/README.md#layer-2-unramified-extensions-and-frobenius); [TauCetiRoadmap.LocalFieldsRamification, layer 3 ramification the tame and wild cases and the filtration](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/LocalFieldsRamification/README.md#layer-3-ramification-the-tame-and-wild-cases-and-the-filtration).
+*Needs:* [Normalising a uniformiser of a tame local extension](#719-normalising-a-uniformiser-of-a-tame-local-extension); [Tamely ramified extensions of Dedekind domains](#72-tamely-ramified-extensions-of-dedekind-domains); Tau Ceti `TauCeti.unramifiedExtension`; Tau Ceti `TauCeti.isGalois_unramifiedExtension`; Tau Ceti `TauCeti.existsUnique_isUnramified_finrank_eq`; Tau Ceti `TauCeti.isTotallyRamified_iff_exists_eisenstein_generator`; Tau Ceti `TauCeti.ramificationIndex_eq_natDegree_of_eisenstein_adjoin_eq_top`.
 
 ### 7.39 The completed ring of integers is induced from a decomposition group
 
@@ -15097,20 +15104,20 @@ A is a complete discrete valuation ring with finite residue field k of cardinali
 
 (Henri Johnston, [Notes on Galois Modules](#henri-johnston--notes-on-galois-modules), Proposition 9.1 with its proof (printed p. 15).) The mathematical contract; the proof is by Nakayama from a residue normal basis, as in the steps. Johnston states this for p-adic fields; the result's hypotheses (complete discrete valuation ring with finite residue field) also cover local fields of equal characteristic, where every step of the proof applies unchanged.
 
-To prove this, unramified Galois: reduction identifies G with Gal(l/k) (LocalFieldsRamification Layer 2, residue correspondence), and `p𝒪_L = 𝔓` is the maximal ideal of `𝒪_L`.
+To prove this, unramified Galois: reduction identifies G with Gal(l/k) (Tau Ceti `TauCeti.residueFieldAutEquiv`), and `p𝒪_L = 𝔓` is the maximal ideal of `𝒪_L`.
 
 l/k is a finite Galois extension of finite fields, so it has a normal basis generator ᾱ (Mathlib's public `exists_linearIndependent_algEquiv_apply`, or IsGalois.normalBasis).
 
 Let α lift ᾱ and `M = 𝒪_K[G]·α ⊆ 𝒪_L`. Then `M/pM → 𝒪_L/p𝒪_L = l` is onto, since its image is k[G]·ᾱ = l.
 
-Hence `𝒪_L = M + p𝒪_L` and Nakayama's lemma gives `𝒪_L = M`; comparing ranks ([L : K] = |G|), `(gα)_g` is an `𝒪_K`-basis.
+Hence `𝒪_L = M + p𝒪_L` and Nakayama's lemma gives `𝒪_L = M`; comparing ranks ([L : K] = |G|), `(gα)_g` is an `𝒪_K`-basis. Equivalently, Tau Ceti `TauCeti.IsUnramified.basisOfResidueBasis` applied to the residue normal basis `(ḡᾱ)_g` and the lifts `(gα)_g`, whose residues are `ḡᾱ` by the residue correspondence, returns that basis directly.
 
 **Checks.**
 
 - For `K = ℚ_p` and L the unramified extension of degree f, a lift of a normal basis generator of `𝔽_{p^f}/𝔽_p` generates.
 - The trivial extension: α = 1.
 
-*Needs:* Mathlib `Submodule.le_of_le_smul_of_le_jacobson_bot`; [Normal integral bases](#736-normal-integral-bases); Mathlib `exists_linearIndependent_algEquiv_apply`; [TauCetiRoadmap.LocalFieldsRamification, layer 2 unramified extensions and frobenius](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/LocalFieldsRamification/README.md#layer-2-unramified-extensions-and-frobenius).
+*Needs:* Mathlib `Submodule.le_of_le_smul_of_le_jacobson_bot`; [Normal integral bases](#736-normal-integral-bases); Mathlib `exists_linearIndependent_algEquiv_apply`; Tau Ceti `TauCeti.residueFieldAutEquiv`; Tau Ceti `TauCeti.IsUnramified.basisOfResidueBasis`.
 
 ### 7.52 Totally and tamely ramified local extensions have a normal integral basis
 
@@ -15120,11 +15127,11 @@ A is a complete discrete valuation ring with finite residue field k of cardinali
 
 (Henri Johnston, [Notes on Galois Modules](#henri-johnston--notes-on-galois-modules), Proposition 9.4 with its proof (printed p. 16).) The mathematical contract. Johnston states this for p-adic fields; the result's hypotheses (complete discrete valuation ring with finite residue field) also cover local fields of equal characteristic, where every step of the proof applies unchanged.
 
-(Henri Johnston, [Notes on Galois Modules](#henri-johnston--notes-on-galois-modules), Proposition 9.2 (printed p. 15).) The Kummer structure used in the first step; it is the tame theorem of LocalFieldsRamification Layer 3 and is imported, not re-specified.
+(Henri Johnston, [Notes on Galois Modules](#henri-johnston--notes-on-galois-modules), Proposition 9.2 (printed p. 15).) The Kummer structure used in the first step; it is the library's `TauCeti.IsTotallyRamified.exists_pow_eq_uniformizer_and_autEquivRootsOfUnity` and is imported, not re-specified.
 
-To prove this, l/K is a cyclic Kummer extension: K contains a primitive e-th root of unity ζ and a generator σ of G acts by `σ(π_L) = ζπ_L` (LocalFieldsRamification Layer 3, tame totally ramified extensions and their Galois criterion).
+To prove this, l/K is a cyclic Kummer extension: K contains a primitive e-th root of unity ζ and a generator σ of G acts by `σ(π_L) = ζπ_L` (Tau Ceti `TauCeti.IsTotallyRamified.isGalois_iff_exists_isPrimitiveRoot` and `TauCeti.IsTotallyRamified.exists_pow_eq_uniformizer_and_autEquivRootsOfUnity`).
 
-`𝒪_L = 𝒪_K[π_L]` with basis 1, `π_L`, …, `π_L^{e−1}` (totally ramified: Eisenstein power basis, LocalFieldsRamification Layer 3).
+`𝒪_L = 𝒪_K[π_L]` with basis 1, `π_L`, …, `π_L^{e−1}` (totally ramified: `X^e − π_K` is Eisenstein, so Tau Ceti `TauCeti.algebra_adjoin_eq_top_of_eisenstein_adjoin_eq_top` applies).
 
 `σ^i(α) = Σ_j u_j ζ^{ij} π_L^j`, so the change-of-basis matrix is `(u_j ζ^{ij})` with determinant `(Π u_k)·det(ζ^{ij})`.
 
@@ -15137,7 +15144,7 @@ Each `1 − ζ^k (0 < k < e)` divides `Π_{k=1}^{e−1}(1 − ζ^k) = e (IsPrimi
 - `K = ℚ_p`, `L = ℚ_p(ζ_p) = ℚ_p((−p)^{1/(p−1)})`, e = p − 1.
 - The hypothesis p ∤ e enters through the imported Kummer structure `(μ_e ⊆ K, σ(π_L) = ζπ_L)` and to make e, hence `det(ζ^{ij})`, a unit; the statement is false in the wild case, e.g. `ℚ_2(√2)/ℚ_2` with `π_L = √2`, where the matrix has determinant `−2u_0u_1` (Speiser).
 
-*Needs:* Mathlib `Matrix.det_vandermonde`; Mathlib `IsPrimitiveRoot.prod_one_sub_pow_eq_order`; [Normal integral bases](#736-normal-integral-bases); [TauCetiRoadmap.LocalFieldsRamification, layer 3 ramification the tame and wild cases and the filtration](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/LocalFieldsRamification/README.md#layer-3-ramification-the-tame-and-wild-cases-and-the-filtration).
+*Needs:* Mathlib `Matrix.det_vandermonde`; Mathlib `IsPrimitiveRoot.prod_one_sub_pow_eq_order`; [Normal integral bases](#736-normal-integral-bases); Tau Ceti `TauCeti.IsTotallyRamified.isGalois_iff_exists_isPrimitiveRoot`; Tau Ceti `TauCeti.IsTotallyRamified.exists_pow_eq_uniformizer_and_autEquivRootsOfUnity`; Tau Ceti `TauCeti.algebra_adjoin_eq_top_of_eisenstein_adjoin_eq_top`.
 
 ### 7.53 Normal integral bases multiply across a split extension
 
@@ -15158,7 +15165,7 @@ So the products h(α)γ(β) are exactly the conjugates g(αβ), and they form an
 - With I = 1: the statement is that β generates.
 - In the proof of the local Noether theorem it is applied to L′/K with I the inertia group and Γ = Gal(L′/K′).
 
-*Needs:* Mathlib `Module.Basis.smulTower`; Mathlib `Module.Basis.smulTower_apply`; [Normal integral bases](#736-normal-integral-bases); [TauCetiRoadmap.LocalFieldsRamification, layer 2 unramified extensions and frobenius](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/LocalFieldsRamification/README.md#layer-2-unramified-extensions-and-frobenius); [TauCetiRoadmap.LocalFieldsRamification, layer 3 ramification the tame and wild cases and the filtration](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/LocalFieldsRamification/README.md#layer-3-ramification-the-tame-and-wild-cases-and-the-filtration).
+*Needs:* Mathlib `Module.Basis.smulTower`; Mathlib `Module.Basis.smulTower_apply`; [Normal integral bases](#736-normal-integral-bases); Mathlib `IsNonarchimedeanLocalField`.
 
 ### 7.54 Locally free lattices over an order
 
@@ -15328,7 +15335,7 @@ For each central simple number-field component C/F, Nrd(C×) consists exactly of
 
 (Martin Kneser; notes by P. Jothilingam, [Lectures on Galois Cohomology of Classical Groups](#martin-kneser-notes-by-p-jothilingam--lectures-on-galois-cohomology-of-classical-groups), §5.4, retypeset pp.66–69, original pp.87–91.) The local norm image and its global positive norm realization are proved using separable polynomial realization.
 
-To prove this, reduce each local simple component to `M_r(D)`. Import the local Brauer invariant and its restriction formula: a degree-d extension kills the invariant of a division algebra D of degree d. The splitting/embedding criterion then embeds both the unramified degree-d extension and a degree-d totally ramified Eisenstein extension as maximal subfields. Their integral rings lie in the unique maximal order of D. Import unramified unit-norm surjectivity from LocalFieldsRamification Layer2 and the norm valuation formula from Layer3: the first supplies every unit and a uniformizer of the second supplies valuation one. Morita invariance and conjugacy of maximal orders give the asserted matrix-order unit image. At infinity compute split-real, complex and quaternionic determinants. For the global step, choose local regular elements with prescribed norm, approximate their separable reduced characteristic polynomials while fixing the constant term, and use [Local–global realization of separable reduced characteristic polynomials](#745-localglobal-realization-of-separable-reduced-characteristic-polynomials) to realize that polynomial globally. Split places supply companion matrices. This is Kneser’s §5.4 proof using the global Brauer splitting criterion. Openness follows from the reduced trace on sufficiently deep principal units.
+To prove this, reduce each local simple component to `M_r(D)`. Import the local Brauer invariant and its restriction formula: a degree-d extension kills the invariant of a division algebra D of degree d. The splitting/embedding criterion then embeds both the unramified degree-d extension and a degree-d totally ramified Eisenstein extension as maximal subfields. Their integral rings lie in the unique maximal order of D. Import unramified unit-norm surjectivity (Tau Ceti `TauCeti.map_normUnits_unitFiltration` at depth 0) and the norm valuation formula (Tau Ceti `TauCeti.normalizedValuation_norm`): the first supplies every unit and a uniformizer of the second supplies valuation one. Morita invariance and conjugacy of maximal orders give the asserted matrix-order unit image. At infinity compute split-real, complex and quaternionic determinants. For the global step, choose local regular elements with prescribed norm, approximate their separable reduced characteristic polynomials while fixing the constant term, and use [Local–global realization of separable reduced characteristic polynomials](#745-localglobal-realization-of-separable-reduced-characteristic-polynomials) to realize that polynomial globally. Split places supply companion matrices. This is Kneser’s §5.4 proof using the global Brauer splitting criterion. Openness follows from the reduced trace on sufficiently deep principal units.
 
 **Checks.**
 
@@ -15336,7 +15343,7 @@ To prove this, reduce each local simple component to `M_r(D)`. Import the local 
 - C = M₂(ℚ): Nrd = det is onto `ℚ^×`.
 - At v = 2 for the Hamilton quaternions, the units 1, 1 + i + j, 1 + 2i and 1 + i + j + 2k of the maximal order have reduced norms 1, 3, 5 and 7, one in each square class of `ℤ₂^×`; squares are reduced norms of scalars, so the unit image is `ℤ₂^×`.
 
-*Needs:* [Reduced norm of a semisimple number-field algebra](#710-reduced-norm-of-a-semisimple-number-field-algebra); [Local–global realization of separable reduced characteristic polynomials](#745-localglobal-realization-of-separable-reduced-characteristic-polynomials); [TauCetiRoadmap.RepresentationTheory/SemisimpleAlgebras, layer 6 the brauer group and splitting fields](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/SemisimpleAlgebras/README.md#layer-6-the-brauer-group-and-splitting-fields); [TauCetiRoadmap.ClassFieldTheory, layer 5 local coefficients the brauer group the local invariant and duality](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ClassFieldTheory/README.md#layer-5-local-coefficients-the-brauer-group-the-local-invariant-and-duality); [TauCetiRoadmap.LocalFieldsRamification, layer 2 unramified extensions and frobenius](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/LocalFieldsRamification/README.md#layer-2-unramified-extensions-and-frobenius); [TauCetiRoadmap.LocalFieldsRamification, layer 3 ramification the tame and wild cases and the filtration](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/LocalFieldsRamification/README.md#layer-3-ramification-the-tame-and-wild-cases-and-the-filtration).
+*Needs:* [Reduced norm of a semisimple number-field algebra](#710-reduced-norm-of-a-semisimple-number-field-algebra); [Local–global realization of separable reduced characteristic polynomials](#745-localglobal-realization-of-separable-reduced-characteristic-polynomials); [TauCetiRoadmap.RepresentationTheory/SemisimpleAlgebras, layer 6 the brauer group and splitting fields](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/SemisimpleAlgebras/README.md#layer-6-the-brauer-group-and-splitting-fields); [TauCetiRoadmap.ClassFieldTheory, layer 5 local coefficients the brauer group the local invariant and duality](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ClassFieldTheory/README.md#layer-5-local-coefficients-the-brauer-group-the-local-invariant-and-duality); Tau Ceti `TauCeti.unramifiedExtension`; Tau Ceti `TauCeti.isTotallyRamified_iff_exists_eisenstein_generator`; Tau Ceti `TauCeti.map_normUnits_unitFiltration`; Tau Ceti `TauCeti.normalizedValuation_norm`.
 
 ### 7.61 Normal bases and invertible resolvents
 
@@ -15968,7 +15975,7 @@ Only if: Speiser ([Speiser: a normal integral basis forces tame ramification](#7
 - `ℚ_2(i)/ℚ_2` has no normal integral basis; `ℚ_p(ζ_p)/ℚ_p` (p odd) has one.
 - The global analogue fails: tameness does not give a normal integral basis of a number field in general (Noether's theorem gives only local freeness).
 
-*Needs:* [The split tame extension above a tame local extension](#738-the-split-tame-extension-above-a-tame-local-extension); [Unramified local extensions have a normal integral basis](#751-unramified-local-extensions-have-a-normal-integral-basis); [Totally and tamely ramified local extensions have a normal integral basis](#752-totally-and-tamely-ramified-local-extensions-have-a-normal-integral-basis); [Normal integral bases multiply across a split extension](#753-normal-integral-bases-multiply-across-a-split-extension); [The trace of a normal integral basis generator generates for a Galois subextension](#765-the-trace-of-a-normal-integral-basis-generator-generates-for-a-galois-subextension); [Speiser: a normal integral basis forces tame ramification](#781-speiser-a-normal-integral-basis-forces-tame-ramification); [Normal integral bases descend by trace to fixed fields](#764-normal-integral-bases-descend-by-trace-to-fixed-fields); [TauCetiRoadmap.LocalFieldsRamification, layer 2 unramified extensions and frobenius](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/LocalFieldsRamification/README.md#layer-2-unramified-extensions-and-frobenius); [TauCetiRoadmap.LocalFieldsRamification, layer 3 ramification the tame and wild cases and the filtration](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/LocalFieldsRamification/README.md#layer-3-ramification-the-tame-and-wild-cases-and-the-filtration).
+*Needs:* [The split tame extension above a tame local extension](#738-the-split-tame-extension-above-a-tame-local-extension); [Unramified local extensions have a normal integral basis](#751-unramified-local-extensions-have-a-normal-integral-basis); [Totally and tamely ramified local extensions have a normal integral basis](#752-totally-and-tamely-ramified-local-extensions-have-a-normal-integral-basis); [Normal integral bases multiply across a split extension](#753-normal-integral-bases-multiply-across-a-split-extension); [The trace of a normal integral basis generator generates for a Galois subextension](#765-the-trace-of-a-normal-integral-basis-generator-generates-for-a-galois-subextension); [Speiser: a normal integral basis forces tame ramification](#781-speiser-a-normal-integral-basis-forces-tame-ramification); [Normal integral bases descend by trace to fixed fields](#764-normal-integral-bases-descend-by-trace-to-fixed-fields); Tau Ceti `TauCeti.IsTamelyRamified`; Tau Ceti `TauCeti.unramifiedExtension`.
 
 ### 7.89 The Hilbert–Speiser theorem
 
@@ -16650,7 +16657,7 @@ To prove this, the isomorphism of residue fields lifts each residue group-ring u
 - I={1}: U=T, R=S, e=1 and the norm and power maps are identities.
 - The prime-to-ℓ condition is used in the power assertion. Already on 1+3ℤ₃ the cube map misses 4, since every cube is 1 modulo 9; the argument cannot be applied to a wild degree-three inertia step.
 
-*Needs:* [Determinants indexed by virtual characters](#728-determinants-indexed-by-virtual-characters); [Semilocal elimination preserves the determinant image](#727-semilocal-elimination-preserves-the-determinant-image); [TauCetiRoadmap.LocalFieldsRamification, layer 2 unramified extensions and frobenius](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/LocalFieldsRamification/README.md#layer-2-unramified-extensions-and-frobenius); [TauCetiRoadmap.LocalFieldsRamification, layer 3 ramification the tame and wild cases and the filtration](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/LocalFieldsRamification/README.md#layer-3-ramification-the-tame-and-wild-cases-and-the-filtration).
+*Needs:* [Determinants indexed by virtual characters](#728-determinants-indexed-by-virtual-characters); [Semilocal elimination preserves the determinant image](#727-semilocal-elimination-preserves-the-determinant-image); Tau Ceti `TauCeti.IsTamelyRamified`; Tau Ceti `TauCeti.IsTotallyRamified`; Tau Ceti `TauCeti.unitFiltration`.
 
 ### 7.120 The Fröhlich–Taylor obstruction equality
 
@@ -16833,6 +16840,15 @@ The declarations and supplier layers used by this layer are:
 - Mathlib `gaussSum_one_left`.
 - Mathlib `linearIndependent_monoidHom`.
 - Mathlib `trace_eq_sum_automorphisms`.
+- Tau Ceti `TauCeti.IsLocalRing.ramificationGroup`.
+- Tau Ceti `TauCeti.IsTamelyRamified`.
+- Tau Ceti `TauCeti.IsTamelyRamified.ramificationIndex_dvd_card_residueField_sub_one`.
+- Tau Ceti `TauCeti.IsTamelyRamified.tower_bot`.
+- Tau Ceti `TauCeti.IsTotallyRamified`.
+- Tau Ceti `TauCeti.IsTotallyRamified.exists_pow_eq_uniformizer_and_autEquivRootsOfUnity`.
+- Tau Ceti `TauCeti.IsTotallyRamified.isGalois_iff_exists_isPrimitiveRoot`.
+- Tau Ceti `TauCeti.IsUnramified`.
+- Tau Ceti `TauCeti.IsUnramified.basisOfResidueBasis`.
 - Tau Ceti `TauCeti.SplitK0`.
 - Tau Ceti `TauCeti.SplitK0.grothendieckAddGroupEquiv`.
 - Tau Ceti `TauCeti.SplitK0.map`.
@@ -16841,15 +16857,24 @@ The declarations and supplier layers used by this layer are:
 - Tau Ceti `TauCeti.SplitK0.map_of`.
 - Tau Ceti `TauCeti.SplitK0.of`.
 - Tau Ceti `TauCeti.SplitK0.of_biprod`.
+- Tau Ceti `TauCeti.algebra_adjoin_eq_top_of_eisenstein_adjoin_eq_top`.
+- Tau Ceti `TauCeti.existsUnique_isUnramified_finrank_eq`.
 - Tau Ceti `TauCeti.finiteProjectiveModules`.
+- Tau Ceti `TauCeti.isGalois_unramifiedExtension`.
+- Tau Ceti `TauCeti.isTotallyRamified_iff_exists_eisenstein_generator`.
+- Tau Ceti `TauCeti.isTotallyRamified_unramifiedExtension_inertiaDegree`.
+- Tau Ceti `TauCeti.map_normUnits_unitFiltration`.
+- Tau Ceti `TauCeti.normalizedValuation_norm`.
+- Tau Ceti `TauCeti.ramificationIndex_eq_natDegree_of_eisenstein_adjoin_eq_top`.
+- Tau Ceti `TauCeti.residueFieldAutEquiv`.
 - Tau Ceti `TauCeti.residue_teichmuller`.
 - Tau Ceti `TauCeti.teichmuller`.
+- Tau Ceti `TauCeti.unitFiltration`.
+- Tau Ceti `TauCeti.unramifiedExtension`.
 - [TauCetiRoadmap.ClassFieldTheory, layer 10 global carriers the brauer sequence and the sum of local invariants](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ClassFieldTheory/README.md#layer-10-global-carriers-the-brauer-sequence-and-the-sum-of-local-invariants).
 - [TauCetiRoadmap.ClassFieldTheory, layer 13 norm theorems and class fields](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ClassFieldTheory/README.md#layer-13-norm-theorems-and-class-fields).
 - [TauCetiRoadmap.ClassFieldTheory, layer 5 local coefficients the brauer group the local invariant and duality](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ClassFieldTheory/README.md#layer-5-local-coefficients-the-brauer-group-the-local-invariant-and-duality).
 - [TauCetiRoadmap.ClassFieldTheory, layer 7 the absolute local artin map its normalizations and conductors](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ClassFieldTheory/README.md#layer-7-the-absolute-local-artin-map-its-normalizations-and-conductors).
-- [TauCetiRoadmap.LocalFieldsRamification, layer 2 unramified extensions and frobenius](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/LocalFieldsRamification/README.md#layer-2-unramified-extensions-and-frobenius).
-- [TauCetiRoadmap.LocalFieldsRamification, layer 3 ramification the tame and wild cases and the filtration](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/LocalFieldsRamification/README.md#layer-3-ramification-the-tame-and-wild-cases-and-the-filtration).
 - [TauCetiRoadmap.NumberFieldArithmetic, layer 1 the splitting dictionary](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/NumberFieldArithmetic/README.md#layer-1-the-splitting-dictionary).
 - [TauCetiRoadmap.NumberFieldArithmetic, layer 4 the relative discriminant](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/NumberFieldArithmetic/README.md#layer-4-the-relative-discriminant).
 - [TauCetiRoadmap.NumberFieldArithmetic, layer 5 the global local dictionary at finite places](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/NumberFieldArithmetic/README.md#layer-5-the-global-local-dictionary-at-finite-places).

@@ -1,7 +1,9 @@
-import Mathlib
-import TauCeti.Algebra.AlgebraicGroup.FunctorOfPoints
-import TauCeti.Algebra.AlgebraicGroup.SimplyConnected.Basic
-import TauCeti.NumberTheory.NumberField.Global.Adeles.LocallyCompact
+module
+
+public import Mathlib
+public import TauCeti.Algebra.AlgebraicGroup.FunctorOfPoints
+public import TauCeti.Algebra.AlgebraicGroup.SimplyConnected.Basic
+public import TauCeti.NumberTheory.NumberField.Global.Adeles.LocallyCompact
 
 /-!
 # ClassicalArithmeticCompletion: target signatures
@@ -39,6 +41,8 @@ The remaining headline theorems are not statable at the pins on their intended c
 No free predicates or substitute theorems stand for these missing constructions.
 -/
 
+@[expose] public section
+
 namespace TauCetiRoadmap.ClassicalArithmeticCompletion
 
 open scoped BigOperators Polynomial
@@ -67,16 +71,16 @@ theorem range_powMonoidHom_eq_ker (G : Type*) [CommGroup G] [IsCyclic G] [Finite
   sorry
 
 /-- Finite-field Euler criterion for any exponent; the target element is nonzero. -/
-theorem exists_pow_eq_iff_pow_eq_one {F : Type*} [Field F] [Fintype F] (n : ℕ)
+theorem exists_pow_eq_iff_pow_eq_one {F : Type*} [Field F] [Finite F] (n : ℕ)
     {a : F} (ha : a ≠ 0) :
     (∃ b : F, b ^ n = a) ↔
-      a ^ ((Fintype.card F - 1) / (Fintype.card F - 1).gcd n) = 1 := by
+      a ^ ((Nat.card F - 1) / (Nat.card F - 1).gcd n) = 1 := by
   sorry
 
 /-- Count nonzero roots, including exponent zero. -/
-theorem card_nonzero_pow_roots {F : Type*} [Field F] [Fintype F] (n : ℕ)
+theorem card_nonzero_pow_roots {F : Type*} [Field F] [Finite F] (n : ℕ)
     {a : F} (ha : a ≠ 0) (hex : ∃ b : F, b ^ n = a) :
-    Nat.card {b : F // b ≠ 0 ∧ b ^ n = a} = (Fintype.card F - 1).gcd n := by
+    Nat.card {b : F // b ≠ 0 ∧ b ^ n = a} = (Nat.card F - 1).gcd n := by
   sorry
 
 end Residues
@@ -133,7 +137,7 @@ theorem isAutomatic_iff_finite_kernel {k : ℕ} [NeZero k] (hk : 2 ≤ k)
   sorry
 
 /-- Christol's theorem over a finite field, in its prime-characteristic form. -/
-theorem christol {K : Type*} [Field K] [Fintype K] {p : ℕ}
+theorem christol {K : Type*} [Field K] [Finite K] {p : ℕ}
     [Fact p.Prime] [CharP K p] (a : ℕ → K) :
     IsAlgebraic K[X] (PowerSeries.mk a) ↔ IsAutomatic p a := by
   sorry
@@ -563,7 +567,10 @@ def IsTamelyRamifiedAt (A B : Type*) [CommRing A] [CommRing B] [Algebra A B]
   Algebra.IsSeparable (A ⧸ P.under A) (B ⧸ P) ∧
     ¬ ringChar (A ⧸ P.under A) ∣ P.ramificationIdx A
 
-/-- Tameness is tested at every nonzero prime. -/
+/-- Tameness is tested at every nonzero prime. For the integer rings of a finite extension of
+nonarchimedean local fields this is Tau Ceti's `TauCeti.IsTamelyRamified`, whose tower and
+divisibility theorems `TauCeti.IsTamelyRamified.tower_bot` and
+`TauCeti.IsTamelyRamified.ramificationIndex_dvd_card_residueField_sub_one` the README consumes. -/
 def IsTamelyRamified (A B : Type*) [CommRing A] [CommRing B] [Algebra A B] : Prop :=
   ∀ (P : Ideal B) [P.IsPrime], P ≠ ⊥ → IsTamelyRamifiedAt A B P
 
