@@ -2,6 +2,7 @@ import Mathlib
 import TauCeti.RingTheory.MvPolynomial.Kronecker
 import TauCeti.RingTheory.MvPolynomial.HasseDeriv.Taylor
 import TauCeti.LinearAlgebra.Matrix.AbsoluteValue
+import TauCeti.Analysis.InnerProductSpace.Gram.Hadamard
 
 /-!
 # Polynomial interpolation and arithmetic determinants: representative interfaces
@@ -47,6 +48,33 @@ theorem hasseDeriv_powerSubstitution {p : ℕ} [Fact p.Prime] [CharP R p]
 
 end Substitution
 
+section OrdinaryJets
+
+variable {K : Type*} [Field K] {p : ℕ} [Fact p.Prime] [CharP K p]
+
+/-- Factorials can be cancelled for these jet orders in the residue field. -/
+theorem ordinary_jet_zero_iff_hasse_jet_zero (k : ℕ) (hk : k < p)
+    (f : K[X]) (a : K) :
+    ((Polynomial.derivative^[k]) f).eval a = 0 ↔
+      (Polynomial.hasseDeriv k f).eval a = 0 := by
+  sorry
+
+/-- All hypotheses of the ordinary-derivative Frobenius nonvanishing test are explicit. -/
+theorem exists_nonzero_ordinary_jet_on_frobenius_graph
+    (F : MvPolynomial (Fin 2) K) (hF : F ≠ 0) (hZ : F.degreeOf 0 < p)
+    (S : Finset K) (m : ℕ) (hm : m < p)
+    (hdeg : (powerSubstitution p F).natDegree < S.card * (m + 1)) :
+    ∃ a ∈ S, ∃ k ≤ m,
+      MvPolynomial.eval ![a, a ^ p] ((MvPolynomial.pderiv (0 : Fin 2))^[k] F) ≠ 0 := by
+  sorry
+
+end OrdinaryJets
+
+/-- The sharp Gram bound is already implemented; interpolation consumes it directly. -/
+example {m n : ℕ} (v : Fin n → EuclideanSpace ℝ (Fin m)) :
+    (Matrix.gram ℝ v).det ≤ ∏ i, ‖v i‖ ^ 2 := by
+  simpa using Matrix.re_det_gram_le_prod_norm_sq (𝕜 := ℝ) v
+
 section Hermite
 
 variable {K : Type*} [Field K] {r : ℕ}
@@ -72,6 +100,14 @@ theorem all_jets_vanish_iff_dvd (a : Fin r → K) (ha : Function.Injective a)
 end Hermite
 
 section Minors
+
+/-- Changing a real vector family scales its Gram determinant by the square determinant. -/
+theorem det_gram_matrix_smul {ι E : Type*} [Fintype ι] [DecidableEq ι]
+    [NormedAddCommGroup E] [InnerProductSpace ℝ E]
+    (U : Matrix ι ι ℝ) (v : ι → E) :
+    (Matrix.gram ℝ (fun i => ∑ j, U i j • v j)).det =
+      U.det ^ 2 * (Matrix.gram ℝ v).det := by
+  sorry
 
 theorem exists_full_row_minor {K : Type*} [Field K] {m n : ℕ}
     (A : Matrix (Fin m) (Fin n) K) (hA : LinearIndependent K A) :

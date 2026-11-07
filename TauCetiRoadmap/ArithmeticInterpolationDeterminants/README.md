@@ -32,7 +32,7 @@ in a ring of positive characteristic or in an integral divisibility argument.
 | Tau Ceti `RingTheory/MvPolynomial/HasseDeriv/Taylor.lean` and `RingTheory/MvPolynomial/Kronecker.lean` | Multivariate Hasse calculus, `injOn_aeval_X_pow`, `linearIndependent_aeval_X_pow` | Two-variable degree-strip and Frobenius specializations |
 | [DiophantineApproximationAndTranscendence §§0.1–0.3, 1.4](../DiophantineApproximationAndTranscendence/README.md) | Polynomial lengths/heights, evaluation bounds, native Wronskians, coefficient-map comparisons | Jet matrices and determinant applications, without another height or Wronskian |
 | Mathlib matrix rank, determinant, and basis APIs | Rank, determinant functoriality, basis matrices, finite-dimensional linear algebra | Missing full-row minors and reduction/coordinate adapters |
-| Tau Ceti `LinearAlgebra/Matrix/AbsoluteValue.lean` and Mathlib Hadamard bounds | `Matrix.abv_det_le_prod_sum_abv`, `Matrix.det_le`, existing expansion bounds | Row-dependent, embedding, and logarithmic interfaces |
+| Tau Ceti `LinearAlgebra/Matrix/AbsoluteValue.lean`, `Analysis/InnerProductSpace/Gram/Hadamard.lean`, and Mathlib determinant bounds | `Matrix.abv_det_le_prod_sum_abv`, `Matrix.det_le`, `OrthonormalBasis.norm_det_le_prod_norm`, `Matrix.det_gram_le_prod_norm_sq` | Row-dependent, embedding, and logarithmic interfaces |
 | [GlobalNumberFields](../../Completed/GlobalNumberFields/README.md) / [NumberFieldArithmetic](../../Completed/NumberFieldArithmetic/README.md); Mathlib number-field norms and rings of integers | Integral norms, norm multiplicativity, product over embeddings, integral bases | Scalar divisibility and determinant-size packages |
 | [GrothendieckNotesLemmas](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1431) and [CharacterSumsOverFiniteFields §4.1](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1712) | General Hasse, multiplicity, rank, and determinant results in their stated generality | Use one supplier for each general theorem; this roadmap owns the interpolation assembly |
 
@@ -84,6 +84,25 @@ coefficient field, even when that field has more than `p` elements. The ordinary
 identity follows from the chain rule and `D(X^p) = 0`. Give scalar-extension and
 evaluation versions. Combined with injectivity and the univariate multiplicity bound,
 these are the elementary nonvanishing interfaces for Frobenius substitution.
+
+For ordinary jets through order `K` over a field of characteristic `p`, require
+`K < p` when using them to detect multiplicity. Consume the native identity
+`D^k f = k! D^[k] f`, prove that `k!` is a unit for `k ≤ K < p`, and give equality
+of the corresponding jet-map kernels and ranks. The ordinary substitution identity
+in item 2 still holds for all `k`; it does not supply a multiplicity criterion for
+unrestricted orders, since `D^p` vanishes identically in characteristic `p`.
+
+Give the resulting nonvanishing test explicitly: for a nonzero bivariate `F` with
+`Z`-degree less than `p`, a finite set `S` of distinct field elements, `K < p`, and
+`natDegree (φ_p F) < #S * (K+1)`, some ordinary derivative in `Z` of order at most
+`K` is nonzero at `(a,a^p)` for some `a ∈ S`. The polynomial-space and matrix
+applications must prove all these hypotheses, including `K < p` for their chosen
+reduction prime. Full Hermite surjectivity is not an input to this test.
+
+I0 owns these bivariate substitution and finite-space comparisons.
+CharacterSumsOverFiniteFields §4.1 retains the univariate Hasse multiplicity and
+power identities, consuming existing Mathlib and Tau Ceti results. Use those inputs
+here; the general Hasse-kernel targets of GrothendieckNotesLemmas retain their owner.
 
 **Sources:** [IK], §11.6, Lemmas 11.16–11.17, and the displayed elementary extension
 of the monomial proof to larger coefficient fields. For injective weights use the
@@ -171,6 +190,15 @@ coefficient conditions, determinant one, composition/inverse comparisons, and th
 corresponding column results. The implementation uses native triangular matrix and
 determinant APIs, not a structure that assumes determinant preservation.
 
+Give the real Gram-matrix version on the native `Matrix.gram` carrier. For any
+finite real matrix `U` and finite family `v` in a real inner product space, put
+`w_i = Σ_j U_ij v_j` and prove `Gram(w) = U Gram(v) Uᵀ`, hence
+`det Gram(w) = (det U)² det Gram(v)`. No independence or ambient dimension
+hypothesis is needed. In particular, a unitriangular change preserves the Gram
+determinant, while scalar row factors contribute their squares. Give the complex
+counterpart with conjugation and factor `‖det U‖²`, respecting the native inner
+product convention.
+
 For a family of `h` univariate factors and a point `a`, suppose every ordinary
 derivative of each factor through order `K` evaluates into an ideal `J`. Prove that
 every derivative through order `K` of the product, multiplied by any polynomial
@@ -183,6 +211,10 @@ It follows from the Hasse Leibniz rule, but ordinary-derivative hypotheses do no
 those hypotheses. For `X^p` over the integers, the `p`-th ordinary derivative is
 `p!` while its `p`-th Hasse derivative is `1`. Do not divide out factorials when
 counting prime divisibility.
+
+The order restriction `K < p` in I0 concerns detecting multiplicity by ordinary
+jets over a residue field. It is not a hypothesis of these integral ideal-power
+divisibility statements, which hold for every `K`.
 
 **Derivation:** determinant expansion supplies one ideal factor per row; triangular
 matrix multiplication gives determinant preservation. Iterated Leibniz expresses each
@@ -202,6 +234,21 @@ Give versions for native absolute values and for complex matrices after an embed
 as well as the sharper existing Hadamard estimates in the norms they use. State the
 logarithmic consequence when the determinant is nonzero and all `B_i > 0`; the bound
 includes `log(n!)`. The empty matrix has determinant one and logarithm zero.
+
+In particular, consume `Matrix.det_gram_le_prod_norm_sq` and
+`Matrix.re_det_gram_le_prod_norm_sq` from Tau Ceti's
+`Analysis/InnerProductSpace/Gram/Hadamard.lean`. They apply to finite families in
+arbitrary real or complex inner product spaces, including rectangular coordinate
+matrices. Together with Gram nonnegativity they give the logarithmic bound from
+the product of squared row norms. Preserve this sharper estimate in adapters:
+the factorial/entry bound alone does not replace it.
+
+[Analytic Number Theory Part I §0.34c](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1126)
+consumes these general estimates and I3's divisibility and unitriangular-change
+interfaces. That section owns its chosen Gram matrix, the trace-pairing comparison,
+the support and parameter choices, and its resultant-based rank argument. Those
+applications do not add a second general Hadamard inequality or belong to I0's
+ordinary-jet nonvanishing test.
 
 For polynomial derivative-evaluation entries, bound ordinary and Hasse derivatives
 using coefficient bounds, degrees, derivative orders, and bounds on the point
