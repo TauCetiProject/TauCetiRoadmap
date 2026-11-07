@@ -3,7 +3,7 @@ import TauCeti.Analysis.SpecialFunctions.LogIntegral
 import TauCeti.NumberTheory.ArithmeticDirichletSeries.AbelSummation
 import TauCeti.NumberTheory.ArithmeticDirichletSeries.Basic
 import TauCeti.NumberTheory.ArithmeticDirichletSeries.Cancellation
-import TauCeti.NumberTheory.ArithmeticDirichletSeries.Convolution
+import TauCeti.NumberTheory.ArithmeticDirichletSeries.Convolution.Basic
 import TauCeti.NumberTheory.ArithmeticDirichletSeries.Counting
 import TauCeti.NumberTheory.ArithmeticDirichletSeries.DirichletDensity.Basic
 import TauCeti.NumberTheory.ArithmeticDirichletSeries.DirichletDensity.Negligible
@@ -63,8 +63,8 @@ a fully proved file of suggested forms cannot replace.
 The earlier version of this file proposed local stand-ins for the carriers, the counting functions
 and the transfer theorems, and left them unproved. They now live in Tau Ceti, so the statements
 below are made about the Tau Ceti objects. Four names stay in this namespace, at the end of the
-file, as abbreviations of the Tau Ceti objects, because `Chebotarev/Suggested.lean` imports them:
-`MultiplicativeIdealWeight`, `primeTheta`, `primePsi` and `HasNaturalDensity`.
+file, as abbreviations of the Tau Ceti objects, because the Chebotarev roadmap imported them until
+it was archived: `MultiplicativeIdealWeight`, `primeTheta`, `primePsi` and `HasNaturalDensity`.
 
 Deliberate differences from the README and from the earlier proposals:
 
@@ -208,8 +208,8 @@ open scoped Classical in
 /-- Restriction away from a finite set of primes kills the ideals not prime to it. -/
 theorem multiplicativeIdealWeight_restrict_apply (χ : TauCeti.MultiplicativeIdealWeight K)
     {S : Set (HeightOneSpectrum (𝓞 K))} (hS : S.Finite) (I : Ideal (𝓞 K)) :
-    χ.restrict S hS I = if Ideal.IsPrimeTo I S then χ I else 0 :=
-  MultiplicativeIdealWeight.restrict_apply χ hS I
+    χ.restrictAway S hS I = if Ideal.IsPrimeTo I S then χ I else 0 :=
+  MultiplicativeIdealWeight.restrictAway_apply χ hS I
 
 /-- An arbitrary complex norm twist `I ↦ χ(I) N(I)^{-z}` lands in the general carrier. -/
 theorem multiplicativeIdealWeight_normTwist_apply (z : ℂ)
@@ -259,7 +259,7 @@ example (χ ψ : UnitaryIdealWeight K) : (χ * ψ).1 = χ.1 * ψ.1 := rfl
 example (χ : UnitaryIdealWeight K) : (UnitaryIdealWeight.conj χ).1 = χ.1.conj := rfl
 
 example (χ : UnitaryIdealWeight K) (S : Set (HeightOneSpectrum (𝓞 K))) (hS : S.Finite) :
-    (UnitaryIdealWeight.restrict χ S hS).1 = χ.1.restrict S hS :=
+    (UnitaryIdealWeight.restrictAway χ S hS).1 = χ.1.restrictAway S hS :=
   rfl
 
 /-- Both carriers map to `IdealArithmeticFunction` by restriction to the nonzero ideals. -/
@@ -343,9 +343,9 @@ theorem norm_normTwist (χ : UnitaryIdealWeight K) (z : ℂ) {I : Ideal (𝓞 K)
 /-- **Rejection test.** If `Re z ≠ 0`, the twist fails the unitary modulus condition at every good
 ideal of norm greater than one. -/
 theorem norm_normTwist_apply_ne_one (χ : UnitaryIdealWeight K) {z : ℂ} (hz : z.re ≠ 0)
-    {I : Ideal (𝓞 K)} (hI : χ.1.IsGood I) (hN : 1 < Ideal.absNorm I) :
+    {I : Ideal (𝓞 K)} (_hI : χ.1.IsGood I) (hN : 1 < Ideal.absNorm I) :
     ‖MultiplicativeIdealWeight.normTwist z χ.1 I‖ ≠ 1 :=
-  UnitaryIdealWeight.norm_normTwist_apply_ne_one χ hz hI hN
+  UnitaryIdealWeight.norm_normTwist_apply_ne_one χ hz hN
 
 end Layer0
 
@@ -1185,10 +1185,10 @@ theorem continuedLFunctionOfWeight_conj (χ : UnitaryIdealWeight K) (s : ℂ) :
       starRingEnd ℂ (continuedLFunctionOfWeight χ s) :=
   TauCeti.continuedLFunctionOfWeight_conj χ s
 
-theorem HasCancellation.restrict {χ : UnitaryIdealWeight K} (hχ : HasCancellation χ)
+theorem HasCancellation.restrictAway {χ : UnitaryIdealWeight K} (hχ : HasCancellation χ)
     (S : Set (HeightOneSpectrum (𝓞 K))) (hS : S.Finite) :
-    HasCancellation (UnitaryIdealWeight.restrict χ S hS) :=
-  TauCeti.HasCancellation.restrict hχ S hS
+    HasCancellation (UnitaryIdealWeight.restrictAway χ S hS) :=
+  TauCeti.HasCancellation.restrictAway hχ S hS
 
 theorem unitaryIdealWeight_val_pow (χ : UnitaryIdealWeight K) (n : ℕ) : (χ ^ n).1 = χ.1 ^ n :=
   UnitaryIdealWeight.val_pow χ n
@@ -1398,8 +1398,10 @@ with no analytic input; `3-4-1` is one such combination. -/
 theorem sum_re_neg_log_one_sub_nonneg {ι : Type*} {s : Finset ι} {c : ι → ℝ} {m : ι → ℕ}
     (h : ∀ z : ℂ, ‖z‖ = 1 → 0 ≤ ∑ i ∈ s, c i * (z ^ m i).re) {a : ℝ} (ha₀ : 0 ≤ a)
     (ha₁ : a < 1) {z : ℂ} (hz : ‖z‖ ≤ 1) :
-    0 ≤ ∑ i ∈ s, c i * (-log (1 - a * z ^ m i)).re :=
-  TauCeti.sum_re_neg_log_one_sub_nonneg h ha₀ ha₁ hz
+    0 ≤ ∑ i ∈ s, c i * (-log (1 - a * z ^ m i)).re := by
+  have h' : TauCeti.IsNonnegativeTrigonometricCombination s (fun i ↦ (c i : ℂ)) m :=
+    fun z hz ↦ by simpa [TauCeti.trigonometricCombination_def, Complex.re_ofReal_mul] using h z hz
+  simpa [Complex.re_ofReal_mul] using TauCeti.sum_re_neg_log_one_sub_nonneg h' ha₀ ha₁ hz
 
 theorem threeFourOne_nonneg {z : ℂ} (hz : ‖z‖ = 1) : 0 ≤ 3 + 4 * z.re + (z ^ 2).re := by
   have h := TauCeti.LSeries.isNonnegativeTrigonometricCombination_threeFourOne z hz
@@ -1419,7 +1421,7 @@ theorem ne_zero_of_threeFourOne {f₀ f₁ f₂ : ℂ → ℂ} {t : ℝ}
     (h₀ : (fun σ : ℝ ↦ f₀ σ) =O[𝓝[>] 1] fun σ : ℝ ↦ (σ - 1)⁻¹)
     (h₁ : DifferentiableAt ℂ f₁ (1 + I * t)) (h₂ : ContinuousAt f₂ (1 + 2 * I * t)) :
     f₁ (1 + I * t) ≠ 0 :=
-  TauCeti.LSeries.ne_zero_of_threeFourOne hbound h₀ h₁ h₂
+  TauCeti.LSeries.ne_zero_of_threeFourOne hbound h₀ (h₁.restrictScalars ℝ) h₂
 
 /-- **Rejection test.** The trivial weight and its imaginary norm twists have no cancellation. -/
 theorem not_hasCancellation_one : ¬ HasCancellation (1 : UnitaryIdealWeight K) :=
@@ -1576,10 +1578,10 @@ theorem primeTheta_asymptotic_of_primePsi {S : Set (HeightOneSpectrum (𝓞 K))}
 
 /-- A general prime-power weight must state its own bound by the standard one. -/
 theorem primePowerSummatory_isLittleO_of_le_higherPrimePowerWeight {E : Type*}
-    [NormedAddCommGroup E] {w : IdealPrimePower K → E} {C : ℝ} (hC : 0 ≤ C)
+    [NormedAddCommGroup E] {w : IdealPrimePower K → E} {C : ℝ} (_hC : 0 ≤ C)
     (hw : ∀ A, ‖w A‖ ≤ C * higherPrimePowerWeight A) :
     (fun x ↦ primePowerSummatory K w x) =o[atTop] fun x : ℝ ↦ x :=
-  TauCeti.primePowerSummatory_isLittleO_of_le_higherPrimePowerWeight K hC hw
+  TauCeti.primePowerSummatory_isLittleO_of_le_higherPrimePowerWeight K hw
 
 /-- **10.3 The summit.** Boundary data returns all three conclusions, for `ψ`, `ϑ` and `π`;
 `primeCount_asymptotic_of_primeTheta` (Layer 6.2) is the last step. -/
@@ -1682,10 +1684,10 @@ theorem exists_normCoeff_eq_zero_not_forall_nonneg_of_gaussian {θ : 𝓞 K}
 
 end Examples
 
-/-! ## Names kept for `Chebotarev/Suggested.lean`
+/-! ## Names kept from the Chebotarev roadmap
 
 These four declarations are abbreviations of the Tau Ceti objects, under the names the
-`Chebotarev` roadmap imports from this namespace. -/
+`Chebotarev` roadmap imported from this namespace until it was archived. -/
 
 /-- The completely multiplicative ideal-weight carrier. -/
 abbrev MultiplicativeIdealWeight (K : Type*) [Field K] [NumberField K] : Type _ :=
