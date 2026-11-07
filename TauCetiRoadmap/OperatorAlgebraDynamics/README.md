@@ -9,7 +9,7 @@ KMS states, and the thermodynamic limit of quantum spin systems.
 
 ## Scope, conventions, and dependencies
 
-D8 is the single owner of the CCR/CAR and Weyl algebraic relations, their regular representations and field operators, and of the antisymmetric and symmetric Hilbert Fock carriers with their vacuum, creation and annihilation operators, the bosonic finite-particle domain `D_fin` with the CCR on it, the Segal field `Φ₀(f)=(a(f)+a†(f))/√2` on `D_fin` with its commutator and vacuum-variance identities, the exponential vectors, and the Fock Weyl representation `π_F`, defined on exponential vectors, with its strong continuity in `f` and its vacuum characteristic function. QuantumFoundations §6.3 owns second quantization `Γ(U)` and `dΓ(A)` with their domains and the number operator `N` with `D(N)` and `D(N^(1/2))`. QuantumFoundations §6.4 owns the CCR on `D(N)`, the closures of `a(f)` and `a†(f)`, the essential self-adjointness of `Φ₀(f)` on `D_fin`, the identification of its closure with the Stone generator `Φ(f)` of `t↦π_F(W(tf))`, and the vacuum cyclicity and irreducibility of `π_F`. Both consume the D8 carriers and identities; D8 uses none of their results. Quantum-statistical and quantum-field-theoretic developments consume these D8 results; unitary implementability of Bogoliubov automorphisms in Fock representations is not a target of this roadmap.
+D8 is the single owner of the CCR/CAR and Weyl algebraic relations, their regular representations and field operators, of the antisymmetric Hilbert Fock carrier with its vacuum, creation and annihilation operators and faithful CAR representation, and of the symmetric Hilbert Fock carrier `F_s(h)` with its vacuum, its exponential vectors, and the Fock Weyl representation `π_F`, defined on exponential vectors, with its regularity, its field operators `Φ(f)` as Stone generators and its vacuum characteristic function. QuantumFoundations §6.3 owns second quantization `Γ(U)` and `dΓ(A)` with their domains and the number operator `N` with `D(N)` and `D(N^(1/2))`. QuantumFoundations §6.4 owns the bosonic finite-particle domain `D_fin` of `F_s(h)` with the creation and annihilation operators `a(f)` and `a†(f)` on it, the CCR on `D_fin` and on `D(N)`, the closures of `a(f)` and `a†(f)`, the Segal field `(a(f)+a†(f))/√2` on `D_fin` with its essential self-adjointness and the identification of its closure with `Φ(f)`, the strong continuity of `f↦π_F(W(f))` in the norm of `h`, and the vacuum cyclicity and irreducibility of `π_F`. Both consume the D8 carriers and identities; D8 uses none of their results. Quantum-statistical and quantum-field-theoretic developments consume these D8 results; unitary implementability of Bogoliubov automorphisms in Fock representations is not a target of this roadmap.
 
 C*-algebras are complex and may be nonunital. Groups in D1–D4 are arbitrary
 locally compact Hausdorff groups; separability and second countability are not
@@ -764,10 +764,16 @@ derive the KMS identity on analytic vectors and extend by continuity.
 For a real vector space V with an alternating real bilinear form σ,
 degenerate forms included, construct the universal unital Weyl
 C*-algebra with `W(0)=1`,
-`W(f)W(g)=exp(−iσ(f,g)/2)W(f+g)` and `W(f)*=W(−f)`.
+`W(f)W(g)=exp(−iσ(f,g)/2)W(f+g)` and `W(f)*=W(−f)`
+(Bratteli–Robinson 2, Theorem 5.2.8, which for nondegenerate σ gives the
+existence and uniqueness up to *-isomorphism of this algebra, its
+simplicity and `‖W(f)−1‖=2` for `f≠0`; its nondegeneracy hypothesis enters
+only through simplicity, and the spectral statements below are proved here
+for every alternating σ through the `ℓ²(V)` representation).
 Prove `W(f)*W(f)=W(f)W(f)*=1`, so each generator is unitary.
 Develop symplectic functoriality, linear independence of the Weyl
-generators, the canonical trace, and simplicity when σ is nondegenerate.
+generators, the canonical trace, and simplicity when σ is nondegenerate
+(Bratteli–Robinson 2, Theorem 5.2.8).
 Distinguish the algebraic symplectic data from continuity: a representation
 is regular if `t↦π(W(tf))` is strongly continuous for each f. Fix the generator sign by `π(W(tf))=exp(itΦ(f))`. Construct field operators by Stone's theorem in regular representations, their invariant domains and the Weyl-to-commutator relation on those domains.
 The spectral statements below hold for every alternating σ, with no
@@ -803,17 +809,7 @@ For `V=h_ℝ`, `σ(f,g)=Im⟨f,g⟩`, construct the symmetric Hilbert Fock
 space `F_s(h)`, the Hilbert direct sum over n≥0 of the closed symmetric
 subspaces `Symⁿ(h)` of the completed n-th Hilbert tensor powers of
 FreeProbability F3, with vacuum
-Ω=1∈Sym⁰(h)=ℂ, and its finite-particle subspace `D_fin`, the algebraic direct
-sum of the `Symⁿ(h)`. On D_fin define `a†(f)ψ=√(n+1)·P_s(f⊗ψ)` for
-ψ∈Symⁿ(h), linear in f, where P_s is the symmetrizing projection, and a(f),
-antilinear in f, by `a(f)Ω=0` and `a(f)(g⊗ⁿ)=√n·⟨f,g⟩·g⊗⁽ⁿ⁻¹⁾` extended
-linearly and continuously on each Symⁿ(h). Prove that a(f) and a†(f) map
-D_fin into itself, that `⟨a†(f)φ,ψ⟩=⟨φ,a(f)ψ⟩` for φ,ψ∈D_fin, that
-`[a(f),a†(g)]=⟨f,g⟩` and `[a(f),a(g)]=0` on D_fin, and that
-`‖a(f)ψ‖≤√n‖f‖‖ψ‖` and `‖a†(f)ψ‖≤√(n+1)‖f‖‖ψ‖` for ψ∈Symⁿ(h). Define the
-Segal field `Φ₀(f)=(a(f)+a†(f))/√2` on D_fin and prove
-`‖Φ₀(f)ᵏψ‖≤(√2‖f‖)ᵏ√((n+k)!/n!)‖ψ‖` for ψ∈Symⁿ(h), together with
-`[Φ₀(f),Φ₀(g)]=i·Im⟨f,g⟩` and `⟨Ω,Φ₀(f)²Ω⟩=‖f‖²/2` on D_fin. For g∈h define
+Ω=1∈Sym⁰(h)=ℂ. For g∈h define
 the exponential vector `e(g)=Σ_(n≥0) g^(⊗n)/√(n!)∈F_s(h)`; prove
 `⟨e(u),e(v)⟩=exp⟨u,v⟩`, that finite families of exponential vectors are
 linearly independent, that `u↦e(u)` is norm continuous, and that the span
@@ -827,44 +823,51 @@ Attal's Weyl operator `W_u` with `u=if/√2`. Prove that W_F(f) preserves the
 inner products of exponential vectors, hence extends to an isometry of
 `F_s(h)`, that `W_F(0)=1`, `W_F(f)W_F(g)=exp(−i·Im⟨f,g⟩/2)W_F(f+g)` and
 `W_F(−f)=W_F(f)*`, so each W_F(f) is unitary (Attal, Def. 8.20 and
-Prop. 8.21, p. 18, and (8.18), p. 19), and that `f↦W_F(f)` is strongly
-continuous on h, in particular `t↦W_F(tf)`: on each exponential vector
-`f↦W_F(f)e(g)` is continuous by the displayed formula and the continuity of
-`u↦e(u)`, and the exponential vectors are total while `‖W_F(f)‖=1`. Hence W_F
-is a regular representation π_F of the Weyl algebra of `(h_ℝ,σ)`, with
+Prop. 8.21, p. 18, and (8.18), p. 19), and that `t↦W_F(tf)` is strongly
+continuous for each f: on each exponential vector `t↦W_F(tf)e(g)` is
+continuous by the displayed formula and the continuity of `u↦e(u)`, and the
+exponential vectors are total while `‖W_F(tf)‖=1`. Hence W_F is a regular
+representation π_F of the Weyl algebra of `(h_ℝ,σ)`, with field operators
+`Φ(f)`, the Stone generators of `t↦W_F(tf)` constructed above, and with
 vacuum characteristic function
 `ω₀(W(f))=⟨Ω,π_F(W(f))Ω⟩=exp(−‖f‖²/4)`, since `W_F(f)Ω=exp(−‖f‖²/4)e(if/√2)`
 and `⟨e(0),e(v)⟩=1` (Bratteli–Robinson 2, §5.2.1). The translation by
-`if/√2`, equivalently the factor 1/√2 in Φ₀, is fixed by three
-computations: `[Φ₀(f),Φ₀(g)]=i·Im⟨f,g⟩` on D_fin is the commutator that the
-Weyl relation `W(f)W(g)=exp(−iσ(f,g)/2)W(f+g)` forces on generators;
-`⟨Ω,Φ₀(f)²Ω⟩=‖f‖²/2` equals minus the second derivative at t=0 of
-`exp(−t²‖f‖²/4)=⟨Ω,W_F(tf)Ω⟩`; and on an exponential vector,
-`(1/i)·d/dt W_F(tf)e(g)` at t=0 equals
-`(⟨f,g⟩e(g)+d/ds e(g+sf)|_(s=0))/√2`, whose n-th sector component is the
-D_fin formula for `(a(f)+a†(f))/√2` applied to the sector components of
-e(g) (Attal, Prop. 8.23, p. 19). The translation by `if`, that is the
-unnormalized field `a(f)+a†(f)`, would give the relation
-`W(f)W(g)=exp(−i·Im⟨f,g⟩)W(f+g)`, commutator `2i·Im⟨f,g⟩` and
+`if/√2` is fixed by three computations: the product law computed from the
+displayed formula is `W_F(f)W_F(g)=exp(−i·Im⟨f,g⟩/2)W_F(f+g)`, the Weyl
+relation of `(h_ℝ,Im⟨·,·⟩)` rather than of `(h_ℝ,2·Im⟨·,·⟩)`; minus the
+second derivative at t=0 of `exp(−t²‖f‖²/4)=⟨Ω,W_F(tf)Ω⟩` is `‖f‖²/2`, the
+vacuum variance `⟨Ω,Φ(f)²Ω⟩` of the Stone generator, Ω lying in `D(Φ(f)²)`
+because `t↦⟨Ω,exp(itΦ(f))Ω⟩` is twice differentiable at t=0; and on an
+exponential vector, `(1/i)·d/dt W_F(tf)e(g)` at
+t=0 equals `(⟨f,g⟩e(g)+d/ds e(g+sf)|_(s=0))/√2` (Attal, Prop. 8.23, p. 19),
+the formula that the Segal-field adapter of QuantumFoundations §6.4
+matches sector by sector against its creation and annihilation operators.
+The translation by `if` would give the relation
+`W(f)W(g)=exp(−i·Im⟨f,g⟩)W(f+g)`, vacuum variance `‖f‖²` and
 characteristic function `exp(−‖f‖²/2)`, and is excluded by all three. The
-essential self-adjointness of Φ₀(f) on D_fin, the identification of its
-closure with the Stone generator `Φ(f)` of `t↦π_F(W(tf))`, and the vacuum
-cyclicity and irreducibility of π_F are not targets here: QuantumFoundations
-§6.4 proves them on these carriers, over the number-operator domains of its
-§6.3, and nothing in D8 uses them.
+bosonic creation and annihilation operators on the finite-particle domain
+`D_fin` of `F_s(h)`, the CCR there, the Segal field with its essential
+self-adjointness and the identification of its closure with `Φ(f)`, the
+strong continuity of `f↦W_F(f)` in the norm of h, and the vacuum cyclicity
+and irreducibility of π_F are not targets here: QuantumFoundations §6.4
+constructs and proves them on this carrier, over the number-operator domains
+of its §6.3, and nothing in D8 uses them.
 
 **Checks.**
-- For h=0, `F_s(0)=D_fin=ℂ`, Φ₀=0, the only exponential vector is e(0)=Ω,
-  `W_F(0)=1` and the Weyl algebra is ℂ.
+- For h=0, `F_s(0)=ℂ`, the only exponential vector is e(0)=Ω, `W_F(0)=1`,
+  every `Φ(f)=Φ(0)` is zero and the Weyl algebra is ℂ.
 - For h=ℂ and f=1, `⟨Ω,W_F(1)Ω⟩=exp(−1/4)` and `W_F(1)Ω=exp(−1/4)e(i/√2)`;
   the translation by `if` would give `exp(−1/2)`.
 - For h=ℂ, f=1 and g=i, `Im⟨1,i⟩=1`, so `W_F(1)W_F(i)=exp(−i/2)W_F(1+i)` and
   `W_F(i)W_F(1)=exp(i/2)W_F(1+i)`: the two products differ by the phase
-  `exp(−i)`, as the commutator `[Φ₀(1),Φ₀(i)]=i` requires; a representation
-  with the opposite sign convention would give `exp(i)`.
-- On D_fin, `⟨Ω,Φ₀(f)²Ω⟩=⟨Ω,a(f)a†(f)Ω⟩/2=‖f‖²/2`, while
-  `⟨Ω,(a(f)+a†(f))²Ω⟩=‖f‖²`; only the former matches the second derivative
-  of `exp(−t²‖f‖²/4)`.
+  `exp(−i)`, as the Weyl relation of `(ℂ_ℝ,Im⟨·,·⟩)` with `σ(1,i)=1`
+  requires; a representation with the opposite sign convention would give
+  `exp(i)`.
+- For h=ℂ and f=1, `⟨Ω,W_F(t)Ω⟩=exp(−t²/4)` has second derivative `−1/2`
+  at t=0, so the vacuum variance of `Φ(1)` is `1/2`; the translation by `if`
+  gives `exp(−t²/2)` and variance `1`, the vacuum variance of the Fock
+  representation of the Weyl algebra at `2·Im⟨·,·⟩`, not of the one at
+  `Im⟨·,·⟩`.
 - The inner-product identity `⟨e(u),e(v)⟩=Σ_n ⟨u,v⟩ⁿ/n!=exp⟨u,v⟩` uses
   `‖u^(⊗n)‖=‖u‖ⁿ` in the tensor norm; with Attal's n!-weighted sector norm
   the same identity holds for `Σ u^(⊗n)/n!`, so the two normalizations give
@@ -1037,7 +1040,9 @@ the on-site model.
   abelianness. Keep the hypotheses of these modern formulations.
 - Bratteli–Robinson, *Operator Algebras and Quantum Statistical Mechanics 2*,
   second edition: §§5.2–5.3 for CAR/CCR, analytic elements, KMS and ground
-  states; Theorems 5.3.10 and 5.3.30 for modular characterization and the
+  states; Theorem 5.2.8 for the universal Weyl algebra of a nondegenerate
+  symplectic space, its uniqueness, simplicity and `‖W(f)−1‖=2`;
+  Theorems 5.3.10 and 5.3.30 for modular characterization and the
   simplex; Volume 1 Lemma 4.1.19, Definition 4.1.20, Proposition 4.1.22 and
   Theorem 4.1.25 for orthogonal measures and their commutant correspondence;
   Theorem 5.4.4 for bounded perturbations; Theorem 6.2.4,
