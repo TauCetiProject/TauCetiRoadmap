@@ -1282,12 +1282,12 @@ Prove Rademacher's bound for `ζ_K`: for `0 < η ≤ 1/2`, `s = σ + it` with `�
 `s ≠ 1`,
 `|ζ_K(s)| ≤ 3 |(1+s)/(1−s)| (d_K (|1+s|/(2π))ⁿ)^{(1+η−σ)/2} ζ(1+η)ⁿ`
 (`rademacher1959`, Theorem 4; restated at `lee2023ideals` lines 173–179 as Theorem 2.2, and at
-`sunley1973` line 105). It is the instance of ExplicitZetaBounds §3.2 at `dedekindZetaData K`,
-which has degree `n`, conductor `d_K`, root number `1`, gamma shifts `0` (with multiplicity
-`r₁ + r₂`) and `1` (with multiplicity `r₂`), a simple pole at `1`, finite order
-(ZerosOfLFunctions 3.1), and coefficients `0 ≤ a_K(k) ≤ τ_n(k)` (AnalyticNumberTheoryPartI §2.15a,
-recalled in 0.3), so that `Σ_k a_K(k) k^{−σ} = ζ_K(σ) ≤ ζ(σ)ⁿ` for real `σ > 1`, the majorant of
-that section; nothing of Phragmén–Lindelöf is redone here.
+`sunley1973` lines 148–158 as Lemma 2.2, on the open strip `−η < σ < 1 + η`). It is the instance
+of ExplicitZetaBounds §3.2 at `dedekindZetaData K`, which has degree `n`, conductor `d_K`, root
+number `1`, gamma shifts `0` (with multiplicity `r₁ + r₂`) and `1` (with multiplicity `r₂`), a
+simple pole at `1`, finite order (ZerosOfLFunctions 3.1), and coefficients `0 ≤ a_K(k) ≤ τ_n(k)`
+(AnalyticNumberTheoryPartI §2.15a, recalled in 0.3), so that `Σ_k a_K(k) k^{−σ} = ζ_K(σ) ≤ ζ(σ)ⁿ`
+for real `σ > 1`, the majorant of that section; nothing of Phragmén–Lindelöf is redone here.
 
 **Checks.**
 
@@ -1295,6 +1295,10 @@ that section; nothing of Phragmén–Lindelöf is redone here.
   `|ζ(1/2)| ≈ 1.460`.
 - `K = ℚ`, `s = 1 + η` real: the right side is `3(2+η)/η · ζ(1+η) ≥ ζ(1+η) = |ζ(1+η)|`, with the
   pole factor accounting for the blow-up as `η → 0`.
+- `K = ℚ`, `η = 1/2`, at the corner `s = −1/2` of the strip: the functional equation gives
+  `|ζ(−1/2)| = ζ(3/2)/(4π) ≈ 0.20789`, and the right side is `3 · (1/3) · (1/(4π)) · ζ(3/2)`, the
+  same number. The bound is attained, so `≤` on the closed strip cannot be replaced by `<`;
+  Sunley's strict form holds on the open strip only.
 - `K = ℚ(i)`, `s = 1/2 + 10i`, `η = 1/2`: `(4 (|1.5 + 10i|/(2π))²)^{1/2} ≈ 2 · 1.609 = 3.22`, so
   the bound is `3 · (|1.5+10i|/|0.5−10i|) · 3.22 · ζ(3/2)² ≈ 3 · 1.010 · 3.22 · 6.82 ≈ 66.5`;
   a statement with `d_K |1+s|/(2π)` without the `n`-th power on the height would give
@@ -2630,9 +2634,10 @@ the first, second and fifth forms only; Mathlib `abs_discr_ge'`.
 
 ### 5.4 Cubic and quartic fields
 
-Prove the quartic bound (`cullyhugilltrudgian2021`, Theorem 2 and its corollary, consumed as the
-quartic divisor-sum bound of ExplicitMultiplicativeFunctions §7.5): for `n = 4` and every real
-`b ≥ 193` admissible for `K` (0.3), under ExplicitMultiplicativeFunctions'
+Prove the quartic bound (`cullyhugilltrudgian2021` Corollary 1, from display (8) of its
+Theorem 1, in the numbering of arXiv:1911.07369 v1, where the corollary's display writes `x` for
+`b`; consumed as the quartic divisor-sum bound of ExplicitMultiplicativeFunctions §7.5): for
+`n = 4` and every real `b ≥ 193` admissible for `K` (0.3), under ExplicitMultiplicativeFunctions'
 *DivisorPowerRangeVerified* `7560² (6·10⁵)`, `h_K ≤ (1/3) b (log b)³`; at `b = b_K` this needs
 `b_K ≥ 193`. Route: the class-number lemma at `b` and the quartic divisor-sum bound at `x = b`.
 
@@ -3480,8 +3485,8 @@ through Tau Ceti; AnalyticNumberTheoryPartI §§2.39, 2.42; ExplicitPrimeCountin
   L-functions, arXiv:2510.02309, preprint (`cholemkeoliverzaman2025`, context for 5.7).
 - S. D. Cohen, T. Oliveira e Silva, T. Trudgian, On Grosswald's conjecture on primitive roots, Acta
   Arith. 172 (2016) (`cohenoliveirasilvatrudgian2016`).
-- M. Cully-Hugill, T. Trudgian, Two explicit divisor sums, Ramanujan J. 56 (2021)
-  (`cullyhugilltrudgian2021`, cited by locator).
+- M. Cully-Hugill, T. Trudgian, Two explicit divisor sums, Ramanujan J. 56 (2021),
+  arXiv:1911.07369 (`cullyhugilltrudgian2021`, cited by locator).
 - S. Das, S. Gaba, E. S. Lee, A. Savalia, P.-J. Wong, New zero-free regions for Dedekind
   zeta-functions at small and large ordinates, arXiv:2506.19319 (`dglsw2025`).
 - S. Das, H. Kadiri, N. Ng, An effective version of Chebotarev's density theorem,
