@@ -847,8 +847,8 @@ hypothesis is the one §3.5 consumes. Proof route:
   evaluate the main part with §3.1's parity forms and bound it by Lemma 3, bound the tail by
   Lemma 4, and double by §0.5 (`M_χ = 2 max_N |Σ_{a ≤ N} χ(a)|` for even `χ`).
 - *Odd `χ`, `q ≥ 45`* (lines 362–438): treat a general interval `[M, N]` directly, not through
-  initial sums. The main part is `(iτ(χ)/π) Σ_{m ≤ n} χ(m)(cos mα − cos mβ)/m` with
-  `α = 2πN/q`, `β = 2πM/q`; write `cos mα − cos mβ` as `−2 sin(m(α + β)/2) sin(m(α − β)/2)`, apply
+  initial sums. The main part is `(iτ(χ)/π) Σ_{m ≤ n} χ⁻¹(m)(cos mα − cos mβ)/m` with
+  `α = 2πN/q`, `β = 2πM/q` (by §3.1 applied to `χ⁻¹`, `Σ_a χ(a) e(am/q) = χ⁻¹(m) τ(χ)`); write `cos mα − cos mβ` as `−2 sin(m(α + β)/2) sin(m(α − β)/2)`, apply
   Cauchy–Schwarz, and bound each factor `Σ_{m ≤ n} (1 − cos mθ)/(2m)` by Lemma 2 and
   `H_n < log n + γ + 1/n`; the two tails are bounded by Lemma 4, and `n = ⌊(4/π)√q log q⌋`.
   Doubling an initial-sum bound instead would double the leading constant (Checks).
@@ -872,6 +872,12 @@ hypothesis is the one §3.5 consumes. Proof route:
   `(√q/π)(log n + γ + log 2 + 3/n) = 3515.9` for the main part of an initial sum, doubled, is
   `7031.9`, above the whole odd bound `4034.6`; the leading term of the doubled bound is
   `(1/π)√q log q`, twice Pomerance's `1/(2π)`.
+- The odd main part carries `χ⁻¹(m)`: for the quartic character `χ` modulo `5` with `χ(2) = i`
+  (`τ(χ) = −1.1756 + 1.9021i`, §3.1), `[M, N] = [1, 3]` and `n = 2`, the main part computed
+  directly as `Σ_{m ≤ n} Σ_a χ(a)(a_m cos(2πam/q) + b_m sin(2πam/q))`, with
+  `a_m = (sin mα − sin mβ)/(πm)` and `b_m = −(cos mα − cos mβ)/(πm)` the Fourier coefficients of
+  the indicator of `[β, α]`, is `0.4677 + 0.7568i`, the value of the formula above; with `χ(m)` in
+  place of `χ⁻¹(m)` the formula gives `0.8861 + 0.0799i`.
 
 *Needs:* §§0.4, 0.5, 3.1, 3.2, 3.3, 3.5; Layer 6 `LapkovaSmallModuliVerified`; Mathlib
 `DirichletCharacter.Even`, `DirichletCharacter.Odd`.
@@ -1289,8 +1295,11 @@ sum `S(u)` of ExplicitPrimeCounting §0.1, from which the sieves below take `S(z
   here replaces by elementary bounds. Proof (Büthe's convolution, lines 368–447): with
   `h(s) = Σ_d c_d d^{−s} = ∏_p (1 + 2/((1 + p^s)(p − 1)))`, one has
   `(ζ(s)/ζ(2s)) h(s) = Σ_n μ²(n)σ(n)φ(n)⁻¹ n^{−s}`, so `H₁(z) = Σ_{d ≤ z} c_d Q(z/d)` (display
-  (4.5)). From `Q(y) = Σ_{e ≤ √y} μ(e)⌊y/e²⌋`, `Σ_e μ(e)/e² = 1/ζ(2) = 6/π²` and
-  `Σ_{e > T} e^{−2} ≤ 1/(T + 1/2)`, `|Q(y) − 6y/π²| ≤ 2√y + 5/3 ≤ (11/3)√y` for `y ≥ 1`. Hence
+  (4.5)). Let `y ≥ 1` and `T = ⌊√y⌋ ≥ 1`. From `Q(y) = Σ_{e ≤ T} μ(e)⌊y/e²⌋`,
+  `Σ_e μ(e)/e² = 1/ζ(2) = 6/π²` and `Σ_{e > T} e^{−2} ≤ 1/(T + 1/2)` for integers `T ≥ 0`
+  (compare `e^{−2}` with `(e − 1/2)^{−1} − (e + 1/2)^{−1}`), the fractional parts contribute less
+  than `T` and the tail at most `y/(T + 1/2) < (T + 1)²/(T + 1/2) ≤ T + 5/3`, so
+  `|Q(y) − 6y/π²| ≤ 2√y + 5/3 ≤ (11/3)√y`. Hence
   `|H₁(z) − (6/π²) h(1) z| ≤ (11/3 + 6/π²) h̃(1/2) √z` with
   `h̃(s) = Σ_d |c_d| d^{−s} = ∏_p (1 + 2/((p^s − 1)(p − 1)))`, as in display (4.7), and
   `h(1) = ∏_p (p² + 1)/(p² − 1) = ζ(2)²/ζ(4) = 5/2`. For `p ≥ 17` the factor of `h̃(1/2)` is at
@@ -1322,6 +1331,10 @@ sum `S(u)` of ExplicitPrimeCounting §0.1, from which the sieves below take `S(z
 - `z = 42`: `H₁(42) = 76.479` against `(15/π²) · 42 = 63.832`, a difference `12.65 = 1.95√42`,
   within both `47√42` and `200√42`. With the constant `200`,
   `15/π² + 200/√(10⁹) = 1.5261 ≤ 1.53`, the bound §5.4 uses.
+- The tail bound in the squarefree count needs an integer cut: at `T = 1` it reads
+  `π²/6 − 1 = 0.6449 ≤ 2/3`, while at the real cut `T = √3` (the split at `y = 3`) the same tail
+  `0.6449` exceeds `1/(√3 + 1/2) = 0.4480`. At `y = 7`, `Q(7) = 6` and
+  `|6 − 42/π²| = 1.745 ≤ 2√7 + 5/3 = 6.958`.
 
 *Needs:* ExplicitPrimeCounting §0.1 (the diagonal bound under `MVDiagonalFiniteRange`); Mathlib
 `ArithmeticFunction.moebius`, `Nat.totient`, `ArithmeticFunction.sigma`, `hasSum_zeta_two` and
