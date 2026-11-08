@@ -33,20 +33,31 @@ Suggested homes: `TauCeti/Order/CompletelyDistributive/` for Layer 1 and
 (`ProductsPreserveEpis`, `ProductsDistribOverCoproducts`), total distributivity
 (`IsTotallyDistributive`), the predicate `IsPresheafTopos`, and every theorem relating them on
 sites, on spaces and on frames: completely distributive, locally connected and Alexandrov frames
-(Layer 1), the site-level characterizations (Layer 2), the spatial and localic forms with the
-counterexample and the independence of (A) and (B) (Layer 3), and projectives (Layer 4). A search
-of the roadmaps on main and in the open pull requests for completely distributive lattices,
-totally distributive categories, essential subtopoi, and products of epimorphisms or
-distributivity of products over coproducts in a topos finds one neighbour, GrothendieckTopoi, and
-no other owner.
+(Layer 1), connected sheaves and the decomposition of a sheaf into connected components when the
+constant sheaf functor has a left adjoint, with the site-level characterizations (Layer 2), the
+spatial and localic forms with the counterexample and the independence of (A) and (B) (Layer 3),
+and projectives (Layer 4). GrothendieckTopoi is the neighbouring owner; no other roadmap owns
+these objects.
+
+**Already in Mathlib.** A `CompletelyDistribLattice` satisfies the minimal axioms
+(`CompletelyDistribLattice.MinimalAxioms.of`), and a complete lattice satisfying them carries a
+`CompletelyDistribLattice` structure with the same order
+(`CompletelyDistribLattice.ofMinimalAxioms`); 1.1 names these axioms and proves nothing about
+them.
 
 **Left to GrothendieckTopoi.** The predicate of a Grothendieck topos, geometric morphisms and
-subtopoi (GrothendieckTopoi Layers 1–4); locally connected morphisms (GrothendieckTopoi 5.2) and
+subtopoi (GrothendieckTopoi Layers 1–4), in particular the structure of `Sheaf J (Type u)`
+(balanced, with a strict initial object, GrothendieckTopoi 1.2; disjoint and universal `u`-small
+coproducts and a small separating family, the forward direction of
+`isGrothendieckTopos_iff_giraudAxioms`, and every topos as sheaves on a small subcanonical site,
+GrothendieckTopoi 1.4) and its global sections morphism (GrothendieckTopoi 2.3); locally
+connected morphisms (GrothendieckTopoi 5.2) and
 essential morphisms, with `GeometricMorphism.isEssential_iff_preservesProducts`
 (GrothendieckTopoi 5.6); essential points and Roos's characterization of presheaf topoi,
 `exists_equiv_presheaf_iff_essential_points`, with the presheaf instances of (A) and (B),
 `epi_piMap_presheaf` and `isIso_sigma_pi_presheaf` (GrothendieckTopoi 6.5); and the canonical
-site of a frame, `Frame.grothendieckTopology` (GrothendieckTopoi 7.1). The canonical map of (B)
+site of a frame, `Frame.grothendieckTopology`, subcanonical and equal to
+`Opens.grothendieckTopology X` on `Opens X` (GrothendieckTopoi 7.1). The canonical map of (B)
 here is the map of `isIso_sigma_pi_presheaf`, written with `Limits.Pi.map`; this roadmap names
 the two conditions as predicates and characterizes the topoi satisfying them, and states nothing
 about presheaf topoi that GrothendieckTopoi 6.5 states.
@@ -90,7 +101,8 @@ idempotent ideals of arrows (Kelly–Lawvere, as recalled in Lucyshyn-Wright 201
 
 **From Mathlib** (at the pins).
 
-- Order: `CompleteLattice`, `Order.Frame`, `CompletelyDistribLattice`, `iInf_iSup_eq`,
+- Order: `CompleteLattice`, `Order.Frame`, `CompletelyDistribLattice`,
+  `CompletelyDistribLattice.MinimalAxioms`, `CompletelyDistribLattice.MinimalAxioms.of`,
   `CompletelyDistribLattice.ofMinimalAxioms`, `CompleteLinearOrder.toCompletelyDistribLattice`,
   `LowerSet`, `LowerSet.completelyDistribLattice`, `IsLowerSet`, `Set.Iic`, `Set.Iio`,
   `OrderIso`, `DenselyOrdered`, `Disjoint`, `Pairwise`.
@@ -98,21 +110,29 @@ idempotent ideals of arrows (Kelly–Lawvere, as recalled in Lucyshyn-Wright 201
   `unitInterval`.
 - Sites: `GrothendieckTopology`, `Sieve` with its complete lattice, `Sheaf`, `presheafToSheaf`,
   `constantSheaf`, `GrothendieckTopology.Subcanonical`, `Opens.grothendieckTopology`,
-  `Functor.IsDenseSubsite.sheafEquiv` (`Sites/DenseSubsite`).
+  `Functor.IsDenseSubsite.sheafEquiv` (`Sites/DenseSubsite`), `Sheaf.instHasColimitsOfShape`
+  (`Sites/Limits`, the `u`-small coproducts of sheaves).
 - Categories: `HasProducts`, `HasCoproducts`, `Limits.Pi.map`, `Sigma.desc`, `Sigma.ι`, `Epi`,
-  `IsIso`, `IsInitial`, `yoneda`, `Adjunction`, `Functor.IsRightAdjoint`, `Functor.Full`,
-  `Functor.Faithful`, `PreservesFiniteLimits`, `PreservesLimitsOfShape`, `Equivalence`,
-  `Projective`, `EnoughProjectives`, `isRightAdjoint_of_preservesLimits_of_isCoseparating`
-  (`Adjunction/AdjointFunctorTheorems`), `SingleObj`.
+  `IsIso`, `IsInitial`, `BinaryCofan`, `pullback`, `yoneda`, `Adjunction`, `Functor.IsRightAdjoint`,
+  `Functor.Full`, `Functor.Faithful`, `PreservesFiniteLimits`, `PreservesLimitsOfShape`,
+  `Equivalence`, `Projective`, `EnoughProjectives`,
+  `isRightAdjoint_of_preservesLimits_of_isCoseparating` (`Adjunction/AdjointFunctorTheorems`),
+  `SingleObj`.
 
 **From Tau Ceti.** Nothing is consumed.
 
-**From GrothendieckTopoi.** 5.2 (for `F = Type u`, a geometric morphism to `Type u` is locally
-connected exactly when the constant functor has a left adjoint; `Sh(X)` is locally connected
-exactly when `X` is), 5.6 (`GeometricMorphism.IsEssential`,
-`GeometricMorphism.isEssential_iff_preservesProducts`), 6.5
-(`exists_equiv_presheaf_iff_essential_points`, `epi_piMap_presheaf`, `isIso_sigma_pi_presheaf`),
-7.1 (`Frame.grothendieckTopology`, for target 3.4).
+**From GrothendieckTopoi.** 1.1 (`IsGrothendieckTopos`, satisfied by `Sheaf J (Type u)` for every
+small site and by `Type u`), 1.2 (`Sheaf J (Type u)` is balanced and every morphism into an initial
+object is an isomorphism), 1.4 (`isGrothendieckTopos_iff_giraudAxioms`: `u`-small coproducts in
+`Sheaf J (Type u)` are disjoint and universal and it has a small separating family; every
+Grothendieck topos is equivalent to `Sheaf J (Type u)` for a small subcanonical site), 2.3 (the
+global sections morphism of `Sheaf J (Type u)`, with inverse image `constantSheaf`), 5.2 (for
+`F = Type u`, a geometric morphism to `Type u` is locally connected exactly when the constant
+functor has a left adjoint; `Sh(X)` is locally connected exactly when `X` is), 5.6
+(`GeometricMorphism.IsEssential`, `GeometricMorphism.isEssential_iff_preservesProducts`), 6.5
+(`exists_equiv_presheaf_iff_essential_points`, `epi_piMap_presheaf`, `isIso_sigma_pi_presheaf`), 7.1
+(`Frame.grothendieckTopology`: subcanonical, and equal to `Opens.grothendieckTopology X` for
+`L = Opens X`; for targets 3.1 and 3.3–3.5).
 
 ## How to read the build
 
@@ -120,29 +140,27 @@ Layer 1 is order theory on Mathlib alone: complete distributivity as stability o
 intersections, connected elements and locally connected frames, completely join-prime elements and
 the frames of lower sets. Layer 2 names (A), (B), total distributivity and presheaf topoi, and
 proves the site-level characterizations: (B) is local connectedness, closure of covers under
-intersections is the existence of a left adjoint of sheafification, and (A) with (B) is
-essentiality in a presheaf topos and total distributivity; it consumes GrothendieckTopoi 5.2, 5.6
-and 6.5. Layer 3 specializes Layer 2 to spaces through Layer 1, states the localic forms that
-need GrothendieckTopoi 7.1, and ends with the counterexample on `[0, 1)` and the independence of
-(A) and (B). Layer 4 characterizes presheaf topoi among sheaf topoi by (B) and projectives, through
-Roos's theorem.
+intersections is the existence of a left adjoint of sheafification, and (A) with (B) is essentiality
+in a presheaf topos and total distributivity; it first decomposes sheaves into connected components,
+and consumes GrothendieckTopoi 1.1, 1.2, 1.4, 2.3, 5.2, 5.6 and 6.5. Layer 3 specializes Layer 2 to
+spaces through Layer 1, states the localic forms that need GrothendieckTopoi 7.1, and ends with the
+counterexample on `[0, 1)` and the independence of (A) and (B). Layer 4 characterizes presheaf topoi
+among sheaf topoi by (B) and projectives, through Roos's theorem.
 
 ## Layer 1: completely distributive and locally connected frames
 
 ### 1.1 Complete distributivity
 
-Define `IsCompletelyDistributive L` for a complete lattice `L : Type u`: for all `ι : Type u`,
-`κ : ι → Type u` and `f : ∀ i, κ i → L`, `⨅ i, ⨆ j, f i j = ⨆ g : (∀ i, κ i), ⨅ i, f i (g i)`.
-Prove that a `CompletelyDistribLattice` satisfies it (`iInf_iSup_eq`), and that a complete
-lattice satisfying it carries a `CompletelyDistribLattice` structure with the same order
-(`CompletelyDistribLattice.ofMinimalAxioms`; index types in `Type u` suffice, since any family
-of elements of `L` can be reindexed by a subset of `L`). Complete chains and the lattices
-`LowerSet P` are completely distributive (Mathlib's instances; Raney 1952, Theorem 1, p. 678, for
-the equivalence of the two forms of complete distributivity, meets over joins and joins over
-meets).
-*Needs:* Mathlib `CompletelyDistribLattice`, `iInf_iSup_eq`,
-`CompletelyDistribLattice.ofMinimalAxioms`, `CompleteLinearOrder.toCompletelyDistribLattice`,
-`LowerSet.completelyDistribLattice`.
+Define `IsCompletelyDistributive L` for a complete lattice `L : Type u` as Mathlib's
+`CompletelyDistribLattice.MinimalAxioms L`: for all `ι : Type u`, `κ : ι → Type u` and
+`f : ∀ i, κ i → L`, `⨅ i, ⨆ j, f i j = ⨆ g : (∀ i, κ i), ⨅ i, f i (g i)`. The passage to and
+from the class `CompletelyDistribLattice` is Mathlib's (Scope); index types in `Type u` suffice,
+since any family of elements of `L` can be reindexed by a subset of `L`. Complete chains and the
+lattices `LowerSet P` are completely distributive (Mathlib's instances; Raney 1952, Theorem 1,
+p. 678, for the equivalence of the two forms of complete distributivity, meets over joins and
+joins over meets).
+*Needs:* Mathlib `CompletelyDistribLattice.MinimalAxioms`, `CompletelyDistribLattice`,
+`CompleteLinearOrder.toCompletelyDistribLattice`, `LowerSet.completelyDistribLattice`.
 
 **Checks.**
 
@@ -197,9 +215,10 @@ locally connected (the case of disjoint families of 1.1).
   `{b}`; `⊤ = {a} ⊔ {b}` is not connected, and the frame is locally connected.
 - `Opens ℝ` is locally connected (open intervals are connected) and not completely distributive
   (1.1, Checks): the disjointness hypothesis cannot be dropped from `isLocallyConnected_iff`.
-- `Opens (ℕ → Bool)` (the Cantor space) has no connected element, as every nonempty open set is
-  the disjoint union of two nonempty clopen sets; the `sSup` of the connected elements below
-  `⊤` is `⊥ ≠ ⊤`, so it is not locally connected.
+- `Opens (ℕ → Bool)` (the Cantor space) has no connected element: a nonempty open `U` contains a
+  cylinder `C = C₀ ⊔ C₁` (two nonempty clopen halves), and `U = C₀ ⊔ (U \ C₀)` with
+  `U \ C₀ ⊇ C₁` open and nonempty. The `sSup` of the connected elements below `⊤` is `⊥ ≠ ⊤`, so
+  it is not locally connected.
 
 ### 1.4 Completely join-prime elements and frames of lower sets
 
@@ -209,8 +228,9 @@ Define `IsCompletelySupPrime a`: `a ≤ sSup s` implies `a ≤ b` for some `b �
 completely join-prime elements below it. Route: in `LowerSet P` the completely join-prime
 elements are the `Set.Iic p`, and every lower set is the union of those it contains; conversely
 `P` is the subtype of completely join-prime elements and `a ↦ {p | p ≤ a}` is the isomorphism.
-In the completely distributive case, with completely join-irreducible elements, this is Raney's
-theorem (Raney 1952, Theorem 2, p. 678, proof in §4, pp. 679–680). Prove
+This is Raney's theorem (Raney 1952, Theorem 2, p. 678, stated for complete rings of sets; his
+"completely join-irreducible", Definition 5, p. 678, is the completely join-prime condition
+here; proof in §4, pp. 679–680). Prove
 `not_isCompletelySupPrime`: a densely ordered complete linear order has no completely join-prime
 element, since `a = sSup (Set.Iio a)` for `a ≠ ⊥` and `⊥ ≤ sSup ∅`.
 *Needs:* 1.1; Mathlib `LowerSet`, `OrderIso`, `DenselyOrdered`.
@@ -266,23 +286,47 @@ and (B) for every presheaf topos.
   sets, since its initial and terminal objects coincide while in `Dᵒᵖ ⥤ Type u` the terminal
   presheaf is initial only for `D` empty.
 
-### 2.2 (B) is local connectedness
+### 2.2 Connected sheaves; (B) is local connectedness
+
+Define a connected sheaf, for a small site: a sheaf `Q` that is not initial and such that, for
+every binary coproduct `A ⟶ Q ⟵ B` (a colimiting `BinaryCofan`), `A` or `B` is initial. Prove:
+
+- *decomposition*: when `constantSheaf J (Type u)` has a left adjoint `π₀`, with unit
+  `η : F ⟶ Δ(π₀ F)`, every sheaf `F` is the coproduct over `x : π₀ F` of the connected sheaves
+  `F_x`, the pullbacks of `η` along the coprojections `⊤ ⟶ Δ(π₀ F) ≅ ∐_{π₀ F} ⊤`;
+- *maps out of a connected sheaf*: for a connected `Q`, `Hom(Q, −)` preserves
+  `u`-small coproducts.
+
+Route: universality of coproducts gives `F ≅ ∐ₓ F_x`; `π₀` preserves coproducts and `π₀ η` is
+the identity, so each `π₀ F_x` is a point; a decomposition `F_x ≅ A ⨿ B` gives
+`π₀ A ⨿ π₀ B = 1`, and `π₀ A = ∅` makes `A ⟶ Δ ∅`, a map into an initial object, an
+isomorphism. A map `Q ⟶ ∐ⱼ Xⱼ` pulls the coproduct back to `Q ≅ ∐ⱼ Qⱼ`, disjoint; connectedness
+leaves one `Qⱼ` not initial, through which the map factors, uniquely by disjointness.
 
 Prove `productsDistribOverCoproducts_sheaf_iff`: for a small site, `Sheaf J (Type u)` satisfies
 (B) exactly when `constantSheaf J (Type u)` has a left adjoint. Route: for `⇒`, (B) with all
 `X i j` terminal says that the constant sheaf functor preserves `u`-small products; it preserves
 finite limits, hence all `u`-small limits, and GrothendieckTopoi 5.6
-(`GeometricMorphism.isEssential_iff_preservesProducts`, for the global sections morphism) gives
-the left adjoint; for `⇐`, a topos whose constant sheaf functor has a left adjoint is locally
-connected (GrothendieckTopoi 5.2, the case `F = Type u`) and so has a separating family of
-connected objects `Q`, and `Hom(Q, −)` preserves products and, `Q` being connected, coproducts,
-so it carries the map of (B) to the bijection of `Type u`; a map inverted by every `Hom(Q, −)`
-is an isomorphism.
-*Needs:* 2.1, GrothendieckTopoi 5.2, 5.6; Mathlib `constantSheaf`, `Functor.IsRightAdjoint`.
+(`GeometricMorphism.isEssential_iff_preservesProducts`, for the global sections morphism of
+GrothendieckTopoi 2.3) gives the left adjoint; for `⇐`, the connected components of the members of
+a small separating family form a small separating family of connected sheaves `Q`, and `Hom(Q, −)`
+preserves products and coproducts, so it carries the map of (B) to the bijection of `Type u`; a
+map inverted by every `Hom(Q, −)` is a monomorphism and an epimorphism, hence an isomorphism. By
+GrothendieckTopoi 5.2 (the case `F = Type u`) these topoi are the locally connected ones.
+*Needs:* 2.1, GrothendieckTopoi 1.1, 1.2, 1.4, 2.3, 5.2, 5.6; Mathlib `constantSheaf`,
+`Functor.IsRightAdjoint`, `BinaryCofan`, `pullback`, `IsInitial`.
 
 **Checks.**
 
-- For the trivial topology on `PUnit`, the topos is `Type u` and the left adjoint is the identity.
+- For the trivial topology on `PUnit`, the topos is `Type u`, the left adjoint is the identity,
+  the connected sheaves are the one-point types and `S ≅ ∐_{s : S} {s}`. For the empty site the
+  topos has one object, which is initial: there is no connected sheaf, `π₀` sends it to `∅`, and
+  the decomposition is the empty coproduct. Without "not initial" the initial object would be
+  connected, and `Hom(0, −)` would not preserve the empty coproduct (`Hom(0, 0)` is a point).
+- In `Sh ℝ`, `Δ Bool = ⊤ ⨿ ⊤` with both summands connected (`ℝ` is connected). In
+  `Sh (ℕ → Bool)` the constant sheaf functor has no left adjoint (below), and `⊤` is not a
+  coproduct of connected sheaves: its summands would be open sets, and no open set of the Cantor
+  space is connected (1.3, Checks). The hypothesis that `π₀` exists is needed.
 - For a space `X`, (B) for `Sh X` is local connectedness of `X` (3.2): it holds for `ℝ` and fails
   for the Cantor space, where `∏ₙ` of the constant sheaf `Bool` has the identity of `ℕ → Bool` as
   a global section, which is not locally constant, while the coproduct over `ℕ → Bool` of copies
@@ -333,10 +377,10 @@ into sheaves is fully faithful and `J`-covering means jointly epimorphic in the 
 `productsPreserveEpis_and_distrib_iff_exists_essential`: for every small site, (A) and (B) hold
 exactly when there are a small category `D`, a fully faithful `i` from the topos to
 `Dᵒᵖ ⥤ Type u` and a left adjoint `r ⊣ i` preserving finite limits and having a left adjoint.
-Route: `⇐` as above; for `⇒`, the topos is sheaves on a small full separating subcategory with
-the induced topology, which is subcanonical (comparison lemma, Mathlib's
-`Functor.IsDenseSubsite.sheafEquiv`), and the first statement with 2.3 applies.
-*Needs:* 2.1, 2.3, GrothendieckTopoi 6.5; Mathlib `GrothendieckTopology.Subcanonical`,
+Route: `⇐` as above; for `⇒`, the topos is sheaves on a small subcanonical site
+(GrothendieckTopoi 1.4, through a small full separating subcategory with the induced topology and
+Mathlib's `Functor.IsDenseSubsite.sheafEquiv`), and the first statement with 2.3 applies there.
+*Needs:* 2.1, 2.3, GrothendieckTopoi 1.4, 6.5; Mathlib `GrothendieckTopology.Subcanonical`,
 `Functor.IsDenseSubsite.sheafEquiv`, `Functor.Full`, `Functor.Faithful`, `PreservesFiniteLimits`.
 
 **Checks.**
@@ -383,8 +427,8 @@ being, by choice, the sieve generated by `∏ f i`.
 
 ### Dependencies
 
-Layer 1 is not used; GrothendieckTopoi 5.2, 5.6 and 6.5, and Mathlib. Within the layer, 2.2–2.5
-use 2.1, 2.4 uses 2.3, and 2.5 uses 2.4.
+Layer 1 is not used; GrothendieckTopoi 1.1, 1.2, 1.4, 2.3, 5.2, 5.6 and 6.5, and Mathlib. Within
+the layer, 2.2–2.5 use 2.1, 2.4 uses 2.3, and 2.5 uses 2.4.
 
 ## Layer 3: spaces, frames, the counterexample and independence
 
@@ -392,9 +436,10 @@ use 2.1, 2.4 uses 2.3, and 2.5 uses 2.4.
 
 Define `Sh X` (Convention 3). Prove `productsPreserveEpis_and_distrib_sh_iff`: `Sh X` satisfies
 (A) and (B) exactly when `Opens X` is completely distributive. Route: the site of open sets is
-subcanonical; a sieve on `U` covers exactly when the lower set of its members has supremum `U`,
-so 2.4 and 1.2 give the equivalence.
-*Needs:* 1.2, 2.4; Mathlib `Opens.grothendieckTopology`.
+subcanonical (GrothendieckTopoi 7.1, `Opens.grothendieckTopology X` being
+`Frame.grothendieckTopology (Opens X)`); a sieve on `U` covers exactly when the lower set of its
+members has supremum `U`, so 2.4 and 1.2 give the equivalence.
+*Needs:* 1.2, 2.4, GrothendieckTopoi 7.1; Mathlib `Opens.grothendieckTopology`.
 
 **Checks.**
 
@@ -422,12 +467,13 @@ applies. Hence `Sh ℝ` satisfies (B), by Mathlib's `LocallyConnectedSpace ℝ`.
 
 Prove `isPresheafTopos_sh_iff`: `Sh X` is a presheaf topos exactly when every open set is the
 union of the completely join-prime open sets it contains. Route: for `⇒`, the representables
-are connected projective objects that separate; each is covered by open sets, the cover splits
+are connected (2.2) projective objects that separate; each is covered by open sets, the cover splits
 and, being connected, factors through one of them, so it is an open set, and connected and
 projective it is completely join-prime; for `⇐`, 1.4 gives `Opens X ≃o LowerSet P` and the
 dense subsite of principal lower sets carries the topology with only maximal covering sieves
 (Mathlib's `Functor.IsDenseSubsite.sheafEquiv`), so `Sh X` is presheaves on `P`.
-*Needs:* 1.4, 2.1; Mathlib `Functor.IsDenseSubsite.sheafEquiv`, `Projective`.
+*Needs:* 1.4, 2.1, 2.2, GrothendieckTopoi 7.1 (open sets are sheaves); Mathlib
+`Functor.IsDenseSubsite.sheafEquiv`, `Projective`.
 
 **Checks.**
 
@@ -447,7 +493,8 @@ distributive, exactly when the inclusion of `Sh(L)` into presheaves on `L` is es
 satisfies (B) exactly when `L` is locally connected; and `Sh(L)` is a presheaf topos exactly
 when every element of `L` is the join of the completely join-prime elements below it, that is,
 when `L` is isomorphic to some `LowerSet P` (1.4). Route: the proofs of 3.1–3.3 with
-`Frame.grothendieckTopology` in place of `Opens.grothendieckTopology`, using 1.3 for (B).
+`Frame.grothendieckTopology` in place of `Opens.grothendieckTopology`; for (B), the subterminal
+connected sheaves (2.2) are the connected elements of `L`, so 1.3 applies.
 *Needs:* 1.2, 1.3, 1.4, 2.2–2.4, GrothendieckTopoi 7.1.
 
 **Checks.**
@@ -469,7 +516,8 @@ last: the epimorphism onto `P` from the coproduct of the `[0, c′)` over the se
 on `[0, c)` and the `c′ < c` splits; a section of `P` over a nonempty `[0, v)`, connected, goes
 into one summand `(c, z, c′)` with `v ≤ c′ < c`, and so does `z` itself by naturality, which
 forces `c ≤ c′`.
-*Needs:* 1.4, 3.1, 3.3; Mathlib `Topology.WithLower`, `Projective`, `IsInitial`.
+*Needs:* 1.4, 3.1, 3.3, GrothendieckTopoi 7.1 (open sets are sheaves); Mathlib
+`Topology.WithLower`, `Projective`, `IsInitial`.
 
 **Checks.**
 
@@ -492,12 +540,8 @@ surjective on sections over clopen sets, which form a basis; (B) fails by 3.2. P
 Route: with `U n k = (k/(2n + 2), k/(2n + 2) + 1/(n + 1))`, each `∐ₖ U n k ⟶ ⊤` is an
 epimorphism, and a section of `∏ₙ ∐ₖ U n k` over a nonempty connected open set `W` puts `W`
 inside an interval of length `1/(n + 1)` for every `n`, so the product has no section over any
-nonempty open set and is not an epimorphism onto `⊤`. The topos of continuous `ℤ_p`-sets (`ℤ_p`
-acting on discrete sets with open stabilizers) satisfies (B), its objects being coproducts of
-orbits, which are connected, and not (A): the product of the `ℤ_p/p^n ℤ_p ⟶ PUnit` is computed
-as the continuous part of the product of sets, which is empty, a point of it having stabilizer
-`⋂ₙ p^n ℤ_p = 0`, not open.
-*Needs:* 2.1, 3.2; Mathlib `LocallyConnectedSpace`, `DiscreteContAction`.
+nonempty open set and is not an epimorphism onto `⊤`.
+*Needs:* 2.1, 3.2; Mathlib `LocallyConnectedSpace`.
 
 **Checks.**
 
@@ -506,14 +550,14 @@ as the continuous part of the product of sets, which is empty, a point of it hav
 - Finite products of epimorphisms are epimorphisms in every topos (`f × g` is
   `(f × 𝟙) ≫ (𝟙 × g)`, and epimorphisms are stable under pullback), so the failure on `ℝ` needs
   infinitely many factors.
-- `ℤ_p`-sets: for `n = 0` the factor `ℤ_p/ℤ_p = PUnit` is terminal, and every finite product of
-  the `ℤ_p/p^n ℤ_p` is a nonempty finite `ℤ_p`-set; only the infinite product is empty.
+- A discrete space `X`: `Sh X ≌ (X → Type u)` and a product of epimorphisms is computed pointwise,
+  so (A) holds; the family of `ℝ` fails because its intervals shrink around non-isolated points.
 
 ### Examples
 
 - Discrete spaces and finite `T0` spaces give presheaf topoi; `LowerIco` gives a totally
   distributive topos that is not one.
-- (A) without (B): the Cantor space; (B) without (A): `ℝ` and continuous `ℤ_p`-sets.
+- (A) without (B): the Cantor space; (B) without (A): `ℝ`.
 
 ### Dependencies
 
@@ -524,16 +568,16 @@ Layers 1 and 2, GrothendieckTopoi 5.2 and 7.1, and Mathlib. Within the layer, 3.
 
 ### 4.1 Presheaf topoi by projectives
 
-Prove `isPresheafTopos_sheaf_iff`: for a small site, `Sheaf J (Type u)` is a presheaf topos
-exactly when it satisfies (B) and has enough projectives. Route: for `⇒`, GrothendieckTopoi 6.5
-and the representables, which are projective; for `⇐`, by 2.2 the topos is locally connected, so
-every object is the coproduct of its connected components, a coproduct summand of a projective
-object is projective (coproducts are disjoint), and the connected projective objects cover every
-object; each is a retract of a member of a small separating family, so a small family of them
-separates, and Roos's theorem (GrothendieckTopoi 6.5,
+Prove `isPresheafTopos_sheaf_iff`: for a small site, `Sheaf J (Type u)` is a presheaf topos exactly
+when it satisfies (B) and has enough projectives. Route: for `⇒`, GrothendieckTopoi 6.5 and the
+representables, which are projective; for `⇐`, by 2.2 the constant sheaf functor has a left adjoint,
+so every object is the coproduct of its connected components (2.2, decomposition), a coproduct
+summand of a projective object is projective (coproducts are disjoint), and the connected projective
+objects cover every object; each is a retract of a member of a small separating family, so a small
+family of them separates, and Roos's theorem (GrothendieckTopoi 6.5,
 `exists_equiv_presheaf_iff_essential_points`, through the essential points they represent)
 concludes.
-*Needs:* 2.1, 2.2, GrothendieckTopoi 6.5; Mathlib `EnoughProjectives`, `Projective`.
+*Needs:* 2.1, 2.2, GrothendieckTopoi 1.1, 6.5; Mathlib `EnoughProjectives`, `Projective`.
 
 **Checks.**
 
@@ -567,11 +611,12 @@ clopen sets. With 3.5, neither hypothesis of 4.1 can be dropped.
 
 ### Dependencies
 
-Layers 2 and 3, GrothendieckTopoi 6.5, and Mathlib. Within the layer, 4.2 uses 3.6.
+Layers 2 and 3, GrothendieckTopoi 1.1 and 6.5, and Mathlib. Within the layer, 4.2 uses 3.6.
 
 ## Downstream consumers
 
-No roadmap on main or in the open pull requests cites this one.
+None. GrothendieckTopoi, the supplier, names this roadmap in its Scope as the owner of the
+characterization of the topoi satisfying (A) and (B), and consumes nothing from it.
 
 ## Research context
 
@@ -597,17 +642,19 @@ are not addressed here.
 ## References
 
 - [Lucyshyn-Wright 2012] R. B. B. Lucyshyn-Wright, « Totally distributive toposes », *Journal of
-  Pure and Applied Algebra* 216 (2012), 2425–2431. doi:10.1016/j.jpaa.2012.03.018;
-  arXiv:1108.4032. §1.1 (total and totally distributive categories after Rosebrugh–Wood; the
-  Grothendieck topoi as lex total categories with a small set of generators), §1.5 (every
-  Grothendieck topos has a small dense generator), Proposition 2.2 (presheaf topoi), Theorem
-  1.5.3, Theorem 1.5.5 (proved by Propositions 5.1 and 5.3), Remark 1.5.6.
+  Pure and Applied Algebra* 216 (2012), 2425–2431. doi:10.1016/j.jpaa.2012.03.018; arXiv:1108.4032.
+  The locators follow the numbering of arXiv:1108.4032v3: §1.1 (total and totally distributive
+  categories after Rosebrugh–Wood; the Grothendieck topoi as lex total categories with a small set
+  of generators), §1.5 (every Grothendieck topos has a small dense generator), Proposition 2.2
+  (presheaf topoi), Theorem 1.5.3, Theorem 1.5.5 (proved by Propositions 5.1 and 5.3), Remark 1.5.6.
 - [Raney 1952] G. N. Raney, « Completely distributive complete lattices », *Proceedings of the
   American Mathematical Society* 3 (1952), 677–680. doi:10.2307/2032165; Zbl 0049.30304.
-  Theorem 1 (p. 678, equivalent forms of complete distributivity), Theorem 2 (p. 678, proof in §4,
-  pp. 679–680, complete rings of sets), §5 (p. 680, the unit interval).
-- [GrothendieckTopoi] The Tau Ceti roadmap GrothendieckTopoi, §§5.2, 5.6, 6.5, 7.1, and its
-  references for SGA 4, Exposé IV, Exercice 7.6 (essential morphisms and Roos's theorem).
+  Theorem 1 (p. 678, equivalent forms of complete distributivity), Definition 5 (p. 678,
+  completely join-irreducible elements), Theorem 2 (p. 678, complete rings of sets, with no
+  distributivity hypothesis; proof in §4, pp. 679–680), §5 (p. 680, the unit interval).
+- [GrothendieckTopoi] The Tau Ceti roadmap GrothendieckTopoi, §§1.1, 1.2, 1.4, 2.3, 5.2, 5.6, 6.5,
+  7.1, and its references for SGA 4, Exposé IV, Exercice 7.6 (essential morphisms and Roos's
+  theorem).
 - [Buffalo 1973] A. Grothendieck, lectures on topoi, State University of New York at Buffalo,
   1973, video 2 of the topos course, https://www.youtube.com/watch?v=PqCQM3Pcl6Q, at 1:26:22 and
   7:31:23.
