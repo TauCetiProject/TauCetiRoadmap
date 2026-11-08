@@ -13,13 +13,20 @@ The roadmap continues LocalFieldsRamification past nonarchimedean local fields. 
 are stated on the carriers the pinned libraries already have and that assume no finite residue
 field: Mathlib's discrete valuation rings with a finite group acting with invariants
 (`Algebra.IsInvariant`), Mathlib's action of a quotient group on a fixed subring
-(`FixedPoints.subalgebra`), and Tau Ceti's lower filtration of a group acting on a local ring
+(`FixedPoints.subalgebra`), Mathlib's valuation subrings with their decomposition and inertia
+subgroups (`ValuationSubring.decompositionSubgroup`, `ValuationSubring.inertiaSubgroup`), and Tau
+Ceti's lower filtration of a group acting on a local ring
 (`TauCeti.IsLocalRing.ramificationGroup`). Stated here: Hilbert's different formula over a
 separable residue extension (§3a.1); the Herbrand function, its inverse and the upper numbering
 on the local-ring filtration, with Herbrand's quotient theorem and tower transitivity for
 separable residue extension (§3a.2); Hasse–Arf without residue finiteness in Serre's
-lower-numbering form (§3a.3); and the finite-level subgroup identity of §4a.2, which needs neither
-a discrete valuation nor a normal subgroup. The finite-local-field Hasse–Arf is Tau Ceti's
+lower-numbering form (§3a.3); the absolute upper filtration of `Field.absoluteGaloisGroup K`
+relative to a valuation subring `O` of `AlgebraicClosure K`, computed at every finite Galois level
+`M` on the valuation subring `O ∩ M` of `M` with its decomposition group, with its term at `0` as
+Mathlib's inertia for every valuation subring, and, when `O ∩ K` is a complete discrete valuation
+ring with perfect residue field, its finite projections and its term at `0+` as the inverse limit
+of the finite groups `G_1` (§4a.1); and the finite-level subgroup identity of §4a.2, which needs
+neither a discrete valuation nor a normal subgroup. The finite-local-field Hasse–Arf is Tau Ceti's
 `TauCeti.LocalFieldsRamification.hasseArf`, owned by the completed roadmap LocalFieldsRamification
 and consumed, not restated; §3a.3 owns its generalization.
 
@@ -27,25 +34,18 @@ The residue-enlargement, proalgebraic-unit and graded-norm targets of §3a.3 are
 Hasse–Arf, not headlines; the quasialgebraic and proalgebraic statements among them lack perfect
 quasialgebraic groups and their pro-category at the pins.
 
-Not statable at the pins, and therefore README targets only: over a perfect residue field, the
-absolute upper filtration of `Field.absoluteGaloisGroup K` with inertia and wild inertia as its
-terms at `0` and `0+` (§4a.1), the transition function `ψ_(L/K)` of a finite separable extension
-as a function of `L` alone, with the open-subgroup identity (§4a.2), and the completed maximal
-unramified base change (§4a.3).
-The absolute filtration is defined through the upper numbering at every finite level `M` of
-`AlgebraicClosure K`, on the integer ring `integralClosure A M`, and neither pinned library makes
-that ring a local ring for a complete discrete valuation ring `A` (Mathlib supplies its Galois
-action, not its local-ring structure). Its term at `0+` is wild inertia, which exists at the pins
-only as `TauCeti.wildInertiaSubgroup`, for nonarchimedean local fields; inertia, its term at `0`,
-is Mathlib's `ValuationSubring.inertiaSubgroup` over any field, the zeroth lower group of the
-decomposition group by `TauCeti.IsLocalRing.ramificationGroup_zero_eq_inertiaSubgroup`.
-The transition function `ψ_(L/K)` of a non-Galois `L` is defined through a Galois closure, on the
-same integer rings, and the open-subgroup identity is stated on the absolute filtration; at a
-single finite level `M` it is `φ_(M/L) ∘ ψ_(M/K)`, and its subgroup identity is stated below.
-The base change of §4a.3 is to the completion `K′` of the maximal unramified extension: that
-extension exists at the pins only for nonarchimedean local fields
-(`TauCeti.maximalUnramifiedExtension`), and its completion for the extended valuation is a
-construction of §4a.3.
+Not statable at the pins, and therefore README targets only:
+- the open-subgroup identity `G_K^u ∩ G_L = G_L^(ψ_(L/K)(u))` of §4a.2, with `ψ_(L/K)` a function
+  of `L` alone: `G_L` is the open subgroup `AlgebraicClosure K ≃ₐ[L] AlgebraicClosure K` of `G_K`
+  fixing `L`, whereas the absolute filtration over `L` is built on Mathlib's
+  `Field.absoluteGaloisGroup L`, which acts on `AlgebraicClosure L` and is related to that
+  subgroup only through a noncanonical isomorphism of algebraic closures; and `ψ_(L/K)` of a
+  non-Galois `L` is defined through a Galois closure, its independence of that choice being a
+  theorem of §4a.2. At a single finite level `M` it is `φ_(M/L) ∘ ψ_(M/K)`, and its subgroup
+  identity is stated below;
+- the completed maximal unramified base change (§4a.3): the maximal unramified extension exists at
+  the pins only for nonarchimedean local fields (`TauCeti.maximalUnramifiedExtension`), and its
+  completion for the extended valuation is a construction of §4a.3.
 -/
 
 public section
@@ -81,7 +81,7 @@ function, equal to `1` on `(-1, 0]` and at least `1 / #G_0` everywhere, so `φ` 
 strictly increasing bijection of `ℝ`, the identity on `[-1, 0]`, with
 `φ(m) = (#G_1 + ⋯ + #G_m) / #G_0` at every natural number `m`; only its values on `[-1, ∞)` carry
 meaning (Serre, *Sur les corps locaux à corps résiduel algébriquement clos*, n° 3.1, formula (5),
-printed p. 127). -/
+printed p. 127, for totally ramified extensions). -/
 noncomputable def herbrandFun (G : Type*) [Group G] (S : Type*) [CommRing S] [IsLocalRing S]
     [MulSemiringAction G S] (u : ℝ) : ℝ :=
   ∫ t in (0 : ℝ)..u,
@@ -97,7 +97,7 @@ noncomputable def inverseHerbrandFun (G : Type*) [Group G] (S : Type*) [CommRing
 
 /-- **§3a.2, the upper numbering** `G^v = G_(ψ(v))` of a group `G` acting on a local ring `S`,
 the numbering under which `G^(φ(u)) = G_u` (Serre, *Sur les corps locaux à corps résiduel
-algébriquement clos*, n° 3.1, formula (8), printed p. 128). -/
+algébriquement clos*, n° 3.1, formula (8), printed p. 128, for totally ramified extensions). -/
 noncomputable def upperRamificationGroup (G : Type*) [Group G] (S : Type*) [CommRing S]
     [IsLocalRing S] [MulSemiringAction G S] (v : ℝ) : Subgroup G :=
   TauCeti.IsLocalRing.ramificationGroupReal G S (inverseHerbrandFun G S v)
@@ -165,7 +165,96 @@ theorem hasseArf_dvd_sum_card_ramificationGroup
       ∑ i ∈ Finset.Icc 1 j, Nat.card (TauCeti.IsLocalRing.ramificationGroup G B (i : ℤ)) :=
   sorry
 
-/-! ## Layer 4a: the finite-level subgroup identity -/
+/-! ## Layer 4a: the absolute upper filtration over a perfect residue field -/
+
+/-- **§4a.1, the absolute upper filtration** `G_K^u` of `G_K = Field.absoluteGaloisGroup K`
+relative to a valuation subring `O` of `AlgebraicClosure K`: the elements `σ` whose restriction to
+every finite Galois `M/K` inside `AlgebraicClosure K` lies in the image in `Gal(M/K)` of the
+`u`-th upper group of the decomposition group of the valuation subring `O ∩ M` of `M`, acting on
+`O ∩ M`. When `A = O ∩ K` is a complete discrete valuation ring, `O` is the integral closure of
+`A` in `AlgebraicClosure K` and the only valuation subring over `A`, each decomposition group of
+`O ∩ M` is all of `Gal(M/K)`, and `O ∩ M` is the integral closure of `A` in `M`; so `G_K^u` is
+the set of `σ` whose restriction to every `M` lies in `Gal(M/K)^u` (Serre, *Sur les corps locaux
+à corps résiduel algébriquement clos*, n° 3.1, the paragraph after Proposition 3, printed
+p. 128, for totally ramified extensions). -/
+noncomputable def absoluteUpperRamificationGroup (K : Type*) [Field K]
+    (O : ValuationSubring (AlgebraicClosure K)) (u : ℝ) :
+    Subgroup (Field.absoluteGaloisGroup K) :=
+  ⨅ M : FiniteGaloisIntermediateField K (AlgebraicClosure K),
+    ((upperRamificationGroup
+          ((O.comap (algebraMap M (AlgebraicClosure K))).decompositionSubgroup K)
+          (O.comap (algebraMap M (AlgebraicClosure K))) u).map
+        ((O.comap (algebraMap M (AlgebraicClosure K))).decompositionSubgroup K).subtype).comap
+      (AlgEquiv.restrictNormalHom (F := K) (K₁ := AlgebraicClosure K) M.toIntermediateField)
+
+/-- **§4a.1, inertia as the term at `0`.** For every field `K` and every valuation subring `O` of
+`AlgebraicClosure K`, `G_K^0` is the image in `G_K` of Mathlib's inertia subgroup of `O`, the
+elements of the decomposition group of `O` that act trivially on the residue field of `O`. At each
+finite level the upper group at `0` is the lower group `G_0`, because `ψ(0) = 0`, and Tau Ceti's
+`TauCeti.IsLocalRing.ramificationGroup_zero_eq_inertiaSubgroup` identifies `G_0` with the inertia
+of `O ∩ M`; every element of `O` has a power `x^q`, with `q` a power of the characteristic
+exponent of `K`, that is separable over `K` and so lies in a finite Galois level, and a valuation
+subring and its maximal ideal contain an element of `AlgebraicClosure K` once they contain its
+`q`-th power, which carries the comparison to all of `O`. Neither completeness, nor
+discreteness, nor a perfect residue field is needed; when `O ∩ K` is complete, the decomposition
+group of `O` is all of `G_K`. -/
+theorem absoluteUpperRamificationGroup_zero (K : Type*) [Field K]
+    (O : ValuationSubring (AlgebraicClosure K)) :
+    absoluteUpperRamificationGroup K O 0 =
+      (ValuationSubring.inertiaSubgroup K O).map (O.decompositionSubgroup K).subtype :=
+  sorry
+
+/-- **§4a.1, the finite projections.** Let `O` be a valuation subring of `AlgebraicClosure K`
+whose trace `A = O ∩ K` is a complete discrete valuation ring with perfect residue field. Then for
+every finite Galois `M/K` inside `AlgebraicClosure K` and every `u ≥ -1`, restriction maps
+`G_K^u` onto `Gal(M/K)^u`, the upper group of the decomposition group of `O ∩ M`, which here is all
+of `Gal(M/K)`, acting on the integer ring `O ∩ M` of `M`. The route is Herbrand's theorem (§3a.2;
+Serre, *Local Fields*, IV §3, Proposition 14) between finite levels, which needs the separable
+residue extensions that a perfect residue field provides, and compactness of `G_K`, which Tau
+Ceti's restriction isomorphism `TauCeti.absoluteGaloisGroupRestrictEquiv` identifies with the
+Galois group of the separable closure, the inverse limit of the `Gal(M/K)`. Over an imperfect
+residue field the image can be a proper subgroup: for `K = F_2(s)((t))` and `M = K(y, w)` with
+`y² − y = s·t^(−2)` and `w² − w = t^(−1)`, the image of `G_K^(1/2)` has order at most `2` while
+`Gal(M/K)^(1/2)` has order `4`. -/
+theorem map_restrictNormalHom_absoluteUpperRamificationGroup (K : Type*) [Field K]
+    (O : ValuationSubring (AlgebraicClosure K))
+    [IsDiscreteValuationRing (O.comap (algebraMap K (AlgebraicClosure K)))]
+    [IsAdicComplete (IsLocalRing.maximalIdeal (O.comap (algebraMap K (AlgebraicClosure K))))
+      (O.comap (algebraMap K (AlgebraicClosure K)))]
+    [PerfectField (IsLocalRing.ResidueField (O.comap (algebraMap K (AlgebraicClosure K))))]
+    (M : FiniteGaloisIntermediateField K (AlgebraicClosure K)) (u : ℝ) (hu : -1 ≤ u) :
+    (absoluteUpperRamificationGroup K O u).map
+        (AlgEquiv.restrictNormalHom (F := K) (K₁ := AlgebraicClosure K) M.toIntermediateField) =
+      (upperRamificationGroup
+          ((O.comap (algebraMap M (AlgebraicClosure K))).decompositionSubgroup K)
+          (O.comap (algebraMap M (AlgebraicClosure K))) u).map
+        ((O.comap (algebraMap M (AlgebraicClosure K))).decompositionSubgroup K).subtype :=
+  sorry
+
+/-- **§4a.1, wild inertia as the term at `0+`.** Let `O` be a valuation subring of
+`AlgebraicClosure K` whose trace `A = O ∩ K` is a complete discrete valuation ring with perfect
+residue field. Then `G_K^(0+)`, the closure in the Krull topology of the union of the `G_K^w` for
+`w > 0`, is wild inertia `P_K`, the inverse limit of the finite groups `G_1`: the set of `σ` whose
+restriction to every finite Galois `M/K` lies in the first lower ramification group of the
+decomposition group of `O ∩ M`, here all of `Gal(M/K)`, acting on the integer ring `O ∩ M`. At
+each finite level `Gal(M/K)^w = G_(ψ(w)) ⊆ G_1` for `w > 0`, with equality for small `w`, and the
+right side is closed, so the inclusion `⊆` holds for every valuation subring; the reverse
+inclusion lifts an element of `G_1 = Gal(M/K)^w` through the finite projections. -/
+theorem topologicalClosure_iSup_absoluteUpperRamificationGroup (K : Type*) [Field K]
+    (O : ValuationSubring (AlgebraicClosure K))
+    [IsDiscreteValuationRing (O.comap (algebraMap K (AlgebraicClosure K)))]
+    [IsAdicComplete (IsLocalRing.maximalIdeal (O.comap (algebraMap K (AlgebraicClosure K))))
+      (O.comap (algebraMap K (AlgebraicClosure K)))]
+    [PerfectField (IsLocalRing.ResidueField (O.comap (algebraMap K (AlgebraicClosure K))))] :
+    (⨆ w : Set.Ioi (0 : ℝ), absoluteUpperRamificationGroup K O (w : ℝ)).topologicalClosure =
+      ⨅ M : FiniteGaloisIntermediateField K (AlgebraicClosure K),
+        ((TauCeti.IsLocalRing.ramificationGroup
+              ((O.comap (algebraMap M (AlgebraicClosure K))).decompositionSubgroup K)
+              (O.comap (algebraMap M (AlgebraicClosure K))) 1).map
+            ((O.comap (algebraMap M (AlgebraicClosure K))).decompositionSubgroup K).subtype).comap
+          (AlgEquiv.restrictNormalHom (F := K) (K₁ := AlgebraicClosure K) M.toIntermediateField) :=
+  sorry
+
 
 /-- **§4a.2, the finite-level subgroup identity.** Let a finite group `G` act on a local ring `S`
 and let `H` be any subgroup, acting by restriction. With the finite-level transition function
