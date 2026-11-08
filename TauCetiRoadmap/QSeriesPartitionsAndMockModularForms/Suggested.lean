@@ -30,7 +30,7 @@ The following full headlines are not statable at the pins:
   Layer 8.
 The fifth- and seventh-order T and S laws of §§10.6 and 10.8 use the same
 vector-completion mechanism as the third-order laws stated here, with the thirteen
-unilateral series of §10.3 and the thirty unary corrections of §§10.5 and 10.7 in
+unilateral series of §10.3 and the twenty-six unary corrections of §§10.5 and 10.7 in
 place of f, ω and the three third-order theta series; the third-order vector is the
 acceptance test of that mechanism, and those larger vectors remain README targets.
 These constructions remain README targets; no substitute statements are made for them.
