@@ -53,8 +53,9 @@ not the roadmap.
   from a Möbius table, Ramaré's transfer from explicit Chebyshev estimates to explicit Möbius
   estimates as a parametric theorem with every finite computation named, with its 2013 instance and
   Ramaré–Zuniga Alterman's instance, the coprime variants, the linear bounds from finitely many zeros
-  of `ζ` under a named residue-sum hypothesis, Daval's linear-to-linear conversion, and the de la
-  Vallée Poussin shape with the three bounds for `1/ζ` it rests on (Layer 1);
+  of `ζ` under a named residue-sum hypothesis, Daval's linear-to-linear conversion, and Lee–Leong's
+  bound of de la Vallée Poussin shape given the Riemann hypothesis verified to the height
+  `3 000 175 332 800` (Layer 1);
 - Gram's and Tao's bound `|m_S(x)| ≤ 1`, Ramaré's mollified bound, Balazard's conversion theorem and
   Daval's weighted form of it, the thresholded and decaying bounds for `m(x)`, the coprime variants,
   the explicit tails of `Σ μ(d)/d²`, and the `m`-bound of Ramaré–Zuniga Alterman (Layer 2);
@@ -129,9 +130,10 @@ not the roadmap.
 - zero-free regions, the explicit formula for `ψ`, zero counting, decimal zero-free constants and
   explicit bounds for `1/ζ` and for the moments of `ζ` (ZerosOfLFunctions, ExplicitPrimeCounting,
   ExplicitZetaBounds); the explicit formula for `M` with a smoothed kernel (1.7) is proved here from
-  the zero data named in *ZetaResidueSumVerified*, and the three bounds for `1/ζ` on which
-  Lee–Leong's bound of 1.9 rests are stated in 1.9 with that bound (ExplicitZetaBounds leaves them to
-  this roadmap; its §7.10 states the bound for `1/ζ` on the line one);
+  the zero data named in *ZetaResidueSumVerified*; the bounds for `1/ζ` that the route of
+  Lee–Leong's bound of 1.9 uses are ExplicitZetaBounds §7.10's, each given
+  `RH(3 000 175 332 800)`, and the three further bounds near that height which the supplier
+  contract of ExplicitZetaBounds (below) lists as a supplier gap of that roadmap;
 - the explicit Pólya–Vinogradov and Burgess inequalities and the explicit sieve bounds
   (ExplicitCharacterSumsAndSieves): Layer 4 takes a Pólya–Vinogradov bound as a parameter, and what
   this roadmap consumes from that roadmap is its §5.1 (above);
@@ -161,9 +163,10 @@ not the roadmap.
   odd model, with `a_2` of Layer 5.6 and the Euler product `∏_{p > 2}(1 + 1/((p − 1)(√p − 1)))`);
   Palojärvi–Tudzi's Piltz remainders (`palojarviTudzi2026`
   Theorem 1.1, which use explicit bounds for the second and fourth moments of `ζ` on the critical
-  line); and Lee–Leong's bounds for `M(x)` of Littlewood and Korobov–Vinogradov shape (the two
-  members of `leeLeong2022` (9)–(11) other than the de la Vallée Poussin one of 1.9; they use explicit
-  bounds for `1/ζ` in the Littlewood and Korobov–Vinogradov zero-free regions). They belong
+  line); and Lee–Leong's bounds for `M(x)` of Littlewood and Korobov–Vinogradov shape
+  (`leeLeong2022` (10) and (11), beside the de la Vallée Poussin member (9) of 1.9; they use their
+  bounds (7) and (8) for `1/ζ` in the Littlewood and Korobov–Vinogradov zero-free regions, which no
+  supplier states). They belong
   to ExplicitMultiplicativeFunctions, Part II, which starts where Layers 1, 2, 3, 5 and 7 stop;
 - Nicolas' Théorème 3 (the constant `2.597` for every `n ≥ 3` outside a table of twelve exceptional
   integers): it belongs to ExplicitMultiplicativeFunctions, Part II, and Layer 9.3 states Théorème 2,
@@ -387,7 +390,11 @@ it (under that roadmap's own hypotheses), and the theorems here do not depend on
   explicit asymptotic `S(u) = log u + γ + Σ_p log p/(p(p − 1)) + O*(58/√u)` for every real
   `u ≥ 10^9`, against which the forms of Layer 7.2 are compared; no proof here uses it.
 - §1.1: the proposition `RH(H)` (every zero of `riemannZeta` with `0 < Re s < 1` and `|Im s| ≤ H` has
-  `Re s = 1/2`), the first clause of *ZetaResidueSumVerified* (Layer 0.7).
+  `Re s = 1/2`), the first clause of *ZetaResidueSumVerified* (Layer 0.7), and, at the height
+  `3 000 175 332 800` of Platt and Trudgian's verification recorded in ExplicitZetaBounds §0.4, the
+  hypothesis of Layer 1.9. The proposition is ExplicitZetaBounds §0.2's, which §1.1 cites; by its
+  antitonicity `RH(3 000 175 332 800)` gives `RH(3·10¹²)`, the hypothesis of the supplier statements
+  that 1.9 uses.
 - §1.3, the proposition *ButheVerified*: `|ψ(x) − x| ≤ 0.94 √x` for every real `11 < x ≤ 10^{19}`.
   Used in Layers 1.8 and 1.10; it also gives the first clause of `gap:psi-initial-range` on
   `(11, 10^{10}]`.
@@ -468,22 +475,46 @@ of the contract: they are fields of `RamareTransferComputations` (Layer 0.7).
 
 ### From TauCetiRoadmap.ExplicitZetaBounds
 
+Below, `H₀ = 3 000 175 332 800`.
+
+- §0.4: Platt and Trudgian's verification `RH(H₀)`, recorded there as a hypothesis; it is the
+  hypothesis of Layer 1.9, taken as the proposition `RH(H)` of ExplicitPrimeCounting §1.1 (above).
 - §6.1: the smoothed truncated Perron formula, whose error term stays finite when `x` is an integer;
   an alternative to Tau Ceti's `TauCeti.norm_truncatedPerron_LSeries_sub_sum_le` in the route of
   Layer 1.9.
 - §7.3, the classical zero-free region in its `5.558691` instance: given `RH(3·10¹²)`, `ζ(σ + it) ≠ 0`
   for every real `t` with `|t| ≥ 2` and every real `σ ≥ 1 − 1/(5.558691 log|t|)`, hence for every
-  `R₀ ≥ 5.558691` in place of `5.558691`; used at `R₀ = 5.56` in the route of the three bounds for
-  `1/ζ` of Layer 1.9.
-- §§3.3, 3.4 and 4.8: Backlund's bounds for `|ζ(σ + it)|` in the strip for `t ≥ 50`, the bounds
-  `|ζ(σ + it)| ≤ ζ(σ) ≤ e^{γ(σ−1)}/(σ − 1)` and `−Re (ζ'/ζ)(σ + it) ≤ 1/(σ − 1) − 1/(2σ²)` for `σ > 1`,
-  and the bounds for `|ζ(1 + it)|` for `t ≥ 3`; inputs of the same route.
+  `R₀ ≥ 5.558691` in place of `5.558691`; at `R₀ = 5.56` it keeps the zeros out of the region that
+  the contour of Layer 1.9 encloses above the height `H₀`.
+- §7.10: the bounds for `1/ζ` that the route of Layer 1.9 uses, each given `RH(H₀)`: Lee and
+  Leong's `1/|ζ(σ + it)| ≤ 1237 (log t)^{11/12}` for every real `t ≥ H₀` and every real
+  `σ ≥ 1 − 1/(5.56 log t)`; their `1/|ζ(σ + it)| ≤ e^{146} log t` for every real `σ ≥ 3/4` and every
+  real `t` with `14 ≤ t ≤ H₀ − 1/2`; and Leong's `1/|ζ(1 + it)| ≤ 29.388 log t` for every real
+  `t ≥ 2`. The other items of §7.10 do not serve the route: none bounds `1/ζ` to the left of
+  `σ = 1` between the heights `H₀ − 1/2` and `H₀` at a size the contour absorbs (1.9, Checks).
 - §4.1: the Kusmin–Landau inequality (`|Σ_{X<n≤X+Y} e(f(n))| ≤ cot(πθ/2)` for monotone `f'` with
   `θ ≤ f' − k ≤ 1 − θ`), used in the route of Bordellès–Daval's smoothed divisor remainder (Layer 7.4).
 
-The bounds for `1/ζ(σ + it)` inside the classical region and on `σ ≥ 3/4` below the height
-`3 000 175 332 800` that Layer 1.9 uses are not taken from ExplicitZetaBounds, which leaves them to
-this roadmap: they are stated in 1.9 with the bound that uses them.
+Supplier gap of this contract (`gap:zeta-reciprocal-bounds`): three further bounds for `1/ζ` and
+`ζ'/ζ`, each given `RH(H₀)`, that the route of Layer 1.9 needs where it joins the contour below `H₀`
+to the contour above it and near the real axis, and that §7.10 does not state ((a) is an input of
+the route of its bound on `σ ≥ 3/4`, (b) a row of the corollary whose classical-region row it
+states, (c) an input of Lee and Leong's contour).
+
+- (a) `|ζ'/ζ(σ + it)| ≤ 10.175 log t` for every real `σ ≥ 0.95` and every real `t` with
+  `13 ≤ t ≤ H₀ − 1/2` (Leong, Corollary 3 in the row `σ₀ = 0.95` of his Table 2, `leong2026`
+  lines 121–136 and 1031–1044; his height `H` is `H₀ − 1/2`, line 78; it is the last of the five rows
+  from which Lee and Leong's Lemma 4.3 is built). With the line bound of §7.10 and the identity
+  `1/|ζ(σ + it)| = exp(−Re log ζ(1 + it) + ∫_σ^1 Re (ζ'/ζ)(y + it) dy)` it gives
+  `1/|ζ(σ + it)| ≤ 29.388 t^{10.175(1 − σ)} log t` for `0.95 ≤ σ ≤ 1` at those heights.
+- (b) `1/|ζ(σ + it)| ≤ 1719 log t` for every real `t ≥ 13` and every real `σ ≥ 1 − 1/(13 log t)`
+  (Leong, Corollary 4 in its row `(W, Y) = (13, 1719)`, `leong2026` lines 140–154 and 1546–1557).
+  Every row of his Table 4 with `W ≥ 6` serves the route as well; the row `W = 5.56`, which §7.10
+  states, does not.
+- (c) a bound for `1/|ζ(3/4 + it)|` for real `|t| ≤ 14`. Lee and Leong use
+  `1/|ζ(σ + it)| ≤ 4/(σ − 1/2)` for `1/2 < σ ≤ 3/2` and `|t| ≤ 2 exp(e²)`, which they quote from
+  Simonič (`leeLeong2022` (43)); since this part of the contour carries the factor `x^{3/4}`, any
+  explicit bound below `e^{1000}` serves for `x ≥ e^{4589.20}`.
 
 ### Zero-free inputs: exceptional zeros and half-planes
 
@@ -1699,51 +1730,61 @@ ExplicitPrimeCounting §4.2.
 
 ### 1.9 The de la Vallée Poussin shape
 
-State Lee–Leong's bound of de la Vallée Poussin shape (the de la Vallée Poussin member of
-`leeLeong2022` (9)–(11), a preprint, by its locator; the Littlewood and Korobov–Vinogradov members
-belong to Part II, Scope): `|M(x)| < 33.56 x (log x) exp(−√(log x/5.56))` for every real
-`x ≥ e^{4589.20}`. State with it, by the same locator, the three bounds for `1/ζ` that its proof
-uses, with `H = 3 000 175 332 800`:
+State Lee–Leong's bound of de la Vallée Poussin shape (`leeLeong2022` (9), the row `W = 5.56` of
+their Theorem 2.2 (17) and Table 1, a preprint, by its locator; the Littlewood and
+Korobov–Vinogradov members (10) and (11) belong to Part II, Scope): with `H₀ = 3 000 175 332 800`,
+given `RH(H₀)`, `|M(x)| < 33.56 x (log x) exp(−√(log x/5.56))` for every real `x ≥ e^{4589.20}`. The
+source states it without a hypothesis, reading Platt and Trudgian's verification as a theorem; here
+the verification is the hypothesis (Conventions), the proposition `RH(H)` of ExplicitPrimeCounting
+§1.1 at the height recorded in ExplicitZetaBounds §0.4. The threshold is `exp(5.56 log² H₀)`, where
+the truncation height `T = exp(√(log x/5.56))` of the route reaches `H₀`.
 
-- `|1/ζ(σ + it)| ≤ 1237 (log t)^{11/12}` for every real `t ≥ H` and every real `σ ≥ 1 − 1/(5.56 log t)`;
-- `|1/ζ(σ + it)| ≤ 30.812 log t` for every real `t ≥ 13` and every real `σ ≥ 1`;
-- `|1/ζ(σ + it)| ≤ e^{146} log t` for every real `t` with `14 ≤ t ≤ H` and every real `σ ≥ 3/4`.
+Route (a route; the constants are the source's): a truncated Perron formula for `M`, that is Tau
+Ceti's `TauCeti.norm_truncatedPerron_LSeries_sub_sum_le` at `f = μ`, whose `L`-series is `1/ζ` on
+`Re s > 1` (Mathlib `ArithmeticFunction.LSeriesSummable_moebius_iff`,
+`LSeries_one_mul_Lseries_moebius`, `LSeries_one_eq_riemannZeta`), at non-integral `x` (which
+suffices, `M` being constant on each `[N, N + 1)`), or the smoothed form of ExplicitZetaBounds §6.1,
+with `c = 1 + 1/log x` and `T` as above; then the line of integration is moved to the left of
+`σ = 1` (`leeLeong2022` Lemma 5.1 and Proposition 5.2). Above the verified height the contour runs
+along `σ = 1 − 1/(5.56 log|t|)` for `H₀ ≤ |t| ≤ T`, where ExplicitZetaBounds §7.10 bounds `1/ζ` by
+`1237 (log|t|)^{11/12}` and §7.3 keeps the zeros out. Below it the contour runs along `σ = 3/4`, where
+`RH(H₀)` keeps the zeros out and §7.10 bounds `1/ζ` by `e^{146} log|t|` for `14 ≤ |t| ≤ H₀ − 1/2`,
+and item (c) of the supplier gap of the ExplicitZetaBounds contract bounds it for `|t| ≤ 14`. The two
+parts are joined, symmetrically about the real axis, by crossing from `σ = 3/4` to
+`σ = 1 − 1/(13 log t)` at the height `H₀ − 1/2`, with `e^{146} log t` on `σ ≤ 0.95` and
+`29.388 t^{10.175(1 − σ)} log t` beyond it (item (a)); rising along `σ = 1 − 1/(13 log t)` to the
+height `H₀`, with `1719 log t` (item (b)); and crossing at `H₀` to `σ = 1 − 1/(5.56 log H₀)`, with
+`1237 (log H₀)^{11/12}`. The source joins the two parts at the height `H₀` itself and bounds the
+segment `3/4 ≤ σ ≤ 1 − 1/(5.56 log H₀)` there by the constant `1237` of its (6) (proof of Lemma 5.1,
+p. 19), which holds only to the right of that segment. The bound available on that segment is
+`e^{146} log t`, which §7.10 proves only up to the height `H₀ − 1/2`, and even at that size the
+segment would cost about `6·10³⁵ x` at the threshold (Checks). The join above adds less than `2.7·10^{−7}` of the bound for
+every `x ≥ e^{4589.20}`, inside the margin of the source's constant: its `c₁` (Theorem 2.2) is
+`33.5516` at the threshold and decreases in `x`. It is the only explicit bound of this shape, and it
+improves on the power-of-log rows of 1.4 once `log x` exceeds about `5200`.
 
-This roadmap owns them: ExplicitZetaBounds leaves them to it and states, among bounds for `1/ζ`, the
-bound `1/|ζ(1 + it)| ≤ 431.7 log t/log log t` on the line one (its §7.10), which does not give the
-second bound at these heights (Checks). Route for
-the three bounds (a route; the constants are the source's): the Borel–Carathéodory method for
-`log ζ` and `ζ'/ζ` near the line one, from the upper bounds for `ζ` in the strip and on and to the
-right of the line one and for `−ζ'/ζ` to its right (ExplicitZetaBounds §§3.3, 3.4 and 4.8), in the
-region of ExplicitZetaBounds §7.3, which contains that of the first bound since
-`1/(5.56 log t) < 1/(5.558691 log t)`; and, for the third bound, `RH(H)` (ExplicitPrimeCounting §1.1),
-under which the zeros with `0 < Im ρ ≤ H` lie on `σ = 1/2`, at distance `1/4` from the half-plane
-`σ ≥ 3/4`. Route for
-the bound on `M`: a truncated Perron formula for `M`, that is Tau Ceti's
-`TauCeti.norm_truncatedPerron_LSeries_sub_sum_le` at `f = μ`, whose `L`-series is `1/ζ` on `Re s > 1`
-(Mathlib `ArithmeticFunction.LSeriesSummable_moebius_iff`, `LSeries_one_mul_Lseries_moebius`,
-`LSeries_one_eq_riemannZeta`), at non-integral `x` (which suffices, `M` being constant on each
-`[N, N + 1)`), or the smoothed form of ExplicitZetaBounds §6.1; and the three bounds above (in the
-classical zero-free region beyond the height `H`, on and to the right of the line `σ = 1`, and in
-`σ ≥ 3/4` below `H`). It is the only explicit bound of this shape, and it improves on the
-power-of-log rows of 1.4 once `log x` exceeds about `5200`.
-
-*Needs:* Tau Ceti `TauCeti.norm_truncatedPerron_LSeries_sub_sum_le`, or ExplicitZetaBounds §6.1
-(the truncated Perron formula); Mathlib `ArithmeticFunction.LSeriesSummable_moebius_iff`,
-`LSeries_one_mul_Lseries_moebius`, `LSeries_one_eq_riemannZeta`, `riemannZeta`; for the three bounds
-for `1/ζ`, ExplicitZetaBounds §§3.3, 3.4, 4.8 and 7.3 and ExplicitPrimeCounting §1.1 (`RH(H)`).
+*Needs:* `RH(H₀)` (ExplicitPrimeCounting §1.1, at the height recorded in ExplicitZetaBounds §0.4);
+Tau Ceti `TauCeti.norm_truncatedPerron_LSeries_sub_sum_le`, or ExplicitZetaBounds §6.1 (the
+truncated Perron formula); Mathlib `ArithmeticFunction.LSeriesSummable_moebius_iff`,
+`LSeries_one_mul_Lseries_moebius`, `LSeries_one_eq_riemannZeta`, `riemannZeta`; ExplicitZetaBounds
+§7.10 (the bounds for `1/ζ`) and §7.3 (no zero inside the contour above `H₀`); items (a)–(c) of the
+supplier gap of the ExplicitZetaBounds contract.
 
 **Checks.**
 
-- The second bound at `t = 13`, `σ = 1`: `1/|ζ(1 + 13i)| = 1.3787 ≤ 30.812 log 13 = 79.03`; on
-  `13 ≤ t ≤ 113` the ratio of `1/|ζ(1 + it)|` to `log t` peaks at `1.158`, near `t = 14.1`, the height of
-  the first zero. The third bound: `1/|ζ(3/4 + 14.1i)| = 2.09 log 14.1`, the largest ratio to `log t`
-  over `σ ∈ {3/4, 0.8, 0.9, 1}` and `14 ≤ t ≤ 114`, far inside `e^{146} log t`; at `σ = 1/2` it would fail, since `ζ(1/2 + 14.1347…i) = 0`, which is why the strip
-  stops at `3/4` and the hypothesis `RH(H)` is needed to keep the zeros off it.
-- At `t = H`, `log H = 28.7297`: the first bound is `1237·28.7297^{11/12} = 26 864`, the second
-  `30.812·28.7297 = 885.2`, and ExplicitZetaBounds §7.10 gives `431.7 log H/log log H = 3693.5` on the
-  line one: the second bound is not a consequence of §7.10 here, which is smaller only once
-  `log log t > 431.7/30.812 = 14.01`.
+- The threshold and the constant: `log H₀ = 28.729692` and `5.56 log² H₀ = 4589.197`, so at
+  `log x = 4589.20` the truncation height `T = exp(√(log x/5.56))` is `H₀`, and the route needs
+  `T ≥ H₀`. The source's `c₁ = 2e + (12·1237/(23π·5.56))(log x/5.56)^{−1/24} + 4e^{2 + 1/log x}/√(5.56 log x)`
+  is `5.43656 + 27.92999 + 0.18507 = 33.55163` there, rounded up to `33.56`.
+- The join at the verified height, at `log x = 4589.2`, where the bound is `5.13·10^{−8} x`: the
+  source's segment at `H₀` with `e^{146} log H₀` costs `e^{146} log H₀ x^{1 − 1/(5.56 log H₀)}/(π H₀ log x) = 5.7·10³⁵ x`.
+  Rising through the heights `[H₀ − 1/2, H₀]` with §7.10's other items fails: along
+  `σ = 1 − 1/(5.56 log t)` with `7.59·10³¹ log t` it costs `1.16·10²⁰ x^{1 − 1/(5.56 log H₀)} = 3.9·10⁷ x`,
+  below the bound only once `log x > 13 041`; along `σ = 1` with `30.812 log t` it costs
+  `4.70·10^{−11} x`, `0.09 %` of the bound at the threshold but more than the bound once
+  `log x > 7281`. With items (a) and (b) the whole join costs at most `2.61·10^{−7}` of the bound,
+  largest near `log x = 5490`; with the row `W = 6` of Leong's Table 4 (`2.46·10⁹ log t`) in place of
+  item (b) it costs `2.0·10^{−7}` of the bound at the threshold.
 - At `log x = 4589.2`: `33.56·4589.2·exp(−28.73) = 5.1·10^{−8}`, against
   `4.88346/4589.2^{2.35} = 1.2·10^{−8}` from 1.4: the power-of-log row is still smaller at the threshold.
   The two bounds meet where `33.56 L e^{−√(L/5.56)} = 4.88346 L^{−2.35}`, at `L = log x = 5204.2`;
@@ -1819,10 +1860,11 @@ squarefree remainder and the elementary bounds for `Σ μ²(d)/d`, which depend 
 Layers 1.5, 2.3 and 3.2 but on none of 1.7–1.10); Layer 2.3 for 1.8 (Daval's `m₁`-bounds, which do
 not use 1.8); ExplicitPrimeCounting §§1.1, 1.3, 3.2, 3.3, 4.2 and 6.1; the supplier gaps
 `gap:psi-initial-range`, `gap:psi-log-power`, `gap:psi-relative-bklnw` and `gap:psi-tilde-difference`
-of ExplicitPrimeCounting; for 1.9 the truncated Perron formula (Tau Ceti
-`TauCeti.norm_truncatedPerron_LSeries_sub_sum_le`, or ExplicitZetaBounds §6.1) and, for its three
-bounds for `1/ζ`, ExplicitZetaBounds §§3.3, 3.4, 4.8 and 7.3; and the zero data
-*ZetaResidueSumVerified* of Layer 0.7.
+of ExplicitPrimeCounting; for 1.9 the hypothesis `RH(3 000 175 332 800)` (ExplicitPrimeCounting
+§1.1 at the height recorded in ExplicitZetaBounds §0.4), the truncated Perron formula (Tau Ceti
+`TauCeti.norm_truncatedPerron_LSeries_sub_sum_le`, or ExplicitZetaBounds §6.1), the bounds for `1/ζ`
+of ExplicitZetaBounds §7.10 with the zero-free region of its §7.3, and the supplier gap of the
+ExplicitZetaBounds contract; and the zero data *ZetaResidueSumVerified* of Layer 0.7.
 
 ## Layer 2: the logarithmic sum `m(x)`
 
@@ -3958,7 +4000,11 @@ Tau Ceti `TauCeti.sigma_le_rpow_mul_tsum`; AnalyticNumberTheoryPartI §§3.1, 3.
   arithmetic progressions. II. Numerical values, Math. Comp. 78 (2009), 315–326. (1)–(2), (7),
   Tables 1–3.
 - `leeLeong2022`: E. S. Lee, N. Leong, New explicit bounds for Mertens function and the reciprocal
-  of the Riemann zeta-function, arXiv:2208.06141 v5 (preprint). (9)–(11).
+  of the Riemann zeta-function, arXiv:2208.06141 v5 (preprint). (6)–(11), (17), (43), Table 1,
+  Lemmas 4.3 and 5.1 with the proof of 5.1, Proposition 5.2.
+- `leong2026`: N. Leong, Explicit estimates for the logarithmic derivative and the reciprocal of the
+  Riemann zeta function, arXiv:2405.04869 v5, the text read, whose numbering is cited. Corollaries 3
+  and 4, Tables 2 and 4.
 - `luZamanZhao2026`: R. F. Lu, A. Zaman, H. Zhao, Numerical computations concerning Landau–Siegel
   zeros, Math. Comp. (to appear); arXiv:2602.03626 v2. Theorem 1.1.
 - `macleod1967`, `macleod1969errata`: R. A. MacLeod, A new estimate for the sum `M(x)`, Acta

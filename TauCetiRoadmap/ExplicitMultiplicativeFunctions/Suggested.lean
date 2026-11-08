@@ -37,9 +37,9 @@ suffice. Robin's unconditional bound `σ(n)/n < e^γ log log n + 0.6483/log log 
 abundant numbers below the source's analytic range, in forms the README does not fix, so no
 hypothesis list can be written that is known to suffice.
 The statements that rest on unrefereed preprints (the linear bounds for `M` from the zeros of `ζ`,
-the iterated power-of-logarithm bounds, Lee–Leong's bound of de la Vallée Poussin shape with the
-three bounds for `1/ζ` it rests on, Daval's conversions, the smoothed divisor problem and Tudzi's
-Piltz remainders): they are README targets, not acceptance tests.
+the iterated power-of-logarithm bounds, Lee–Leong's bound of de la Vallée Poussin shape given the
+Riemann hypothesis verified to the height `3 000 175 332 800`, Daval's conversions, the smoothed
+divisor problem and Tudzi's Piltz remainders): they are README targets, not acceptance tests.
 -/
 
 noncomputable section
