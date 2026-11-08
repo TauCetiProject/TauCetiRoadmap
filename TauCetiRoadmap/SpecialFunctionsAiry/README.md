@@ -32,7 +32,9 @@ the inversion and reversion of transcendental equations, Watson's lemma in secto
 rotated rays, integration of expansions, the line shift with simple poles, the Gamma function on
 vertical strips and the theory of ordinary points. The complex incomplete Gamma functions on the
 logarithmic plane are consumed from
-[SpecialFunctionsEiLiErfIncompleteGamma](../SpecialFunctionsEiLiErfIncompleteGamma/README.md).
+[SpecialFunctionsEiLiErfIncompleteGamma](../SpecialFunctionsEiLiErfIncompleteGamma/README.md),
+and Kummer's differential equation for `𝐌` from
+[SpecialFunctionsParabolicCylinder](../SpecialFunctionsParabolicCylinder/README.md).
 This roadmap builds the Gauss triplication formula for `Γ`, the binomial remainder bounds behind
 the error bounds of DLMF §§9.7(iii)–(iv), Kummer's second transformation, the Bessel integral for
 `J₀`, a half-line Sokhotski–Plemelj formula, and the Airy-kernel identities used in random matrix
@@ -93,7 +95,7 @@ Tau Ceti nor a consumed roadmap provides:
 | The continuous phases `θ`, `φ` defined by integrals, with their limits at `±∞` | 4.1 |
 | Kummer's second transformation `e^{−x} 𝐌(a, 2a, 2x) = Γ(a + ½) Γ(2a)⁻¹ 𝐅(a + ½, x²/4)` | 1.7 |
 | The energy `Gi′² − x Gi² + 2 Gi/π` of the Scorer function, with derivative `−Gi²` | 6.7 |
-| Gauss's triplication formula `Γ(z) Γ(z + ⅓) Γ(z + ⅔) = 2π 3^{½ − 3z} Γ(3z)` (DLMF 5.5.6 for `m = 3`) | 7.1 |
+| Gauss's triplication formula `Γ(z) Γ(z + ⅓) Γ(z + ⅔) = 2π 3^{½ − 3z} Γ(3z)` (DLMF 5.5.6 for `n = 3`) | 7.1 |
 | The Sokhotski–Plemelj formula for Cauchy integrals over `(0, ∞)` with densities `C¹` near the point | 7.6 |
 | The incomplete Airy function `Ai(a, z)` | 7.8 |
 | Uniqueness for the product equation `w‴ − 4z w′ − 2w = 0` given `w(0)`, `w′(0)`, `w″(0)` | 8.1 |
@@ -103,6 +105,12 @@ Tau Ceti nor a consumed roadmap provides:
 | The rotation connection formulas of `A_n` | 9.2 |
 | The integral representation `A_n(z) = (2p/π) sin(pπ) z^{1/2} ∫₀^∞ e^{−ζ cosh u} cosh(pu) du` | 9.3 |
 
+**Taken over from RandomMatrices.** RandomMatrices §8.4 on main plans to build the Airy
+function, Airy's equation, the decay of `Ai`, its integral representations, its asymptotic
+estimates on the real line and the Airy kernel `K_Ai`. This roadmap is their single owner: 1.1–1.2,
+Layer 2, 3.2, 3.4–3.6 and 8.5 take these objects over. A companion revision of RandomMatrices
+replaces the plan in §8.4 by citations of these subsections, and the two merge together.
+
 **What it does not own:**
 - The general asymptotic and contour tools: asymptotic expansions, inversion and reversion of
   transcendental equations, Watson's lemma, the rotation of Laplace integrals, the line shift
@@ -111,6 +119,7 @@ Tau Ceti nor a consumed roadmap provides:
   [Exact supplier contracts](#exact-supplier-contracts).
 - The complex incomplete Gamma functions, consumed from SpecialFunctionsEiLiErfIncompleteGamma for
   9.10.15–9.10.16.
+- Kummer's differential equation for `𝐌`, consumed from SpecialFunctionsParabolicCylinder for 1.7.
 - The formulas through functions that neither Mathlib nor Tau Ceti defines: `K_ν`, `Y_ν`, the
   Hankel functions, the Whittaker functions, Kummer's `U` and the modified Bessel function `I_ν`
   off the positive real axis. These are the `K`, `H` and complex `I` forms of 9.6.2–9.6.9, the
@@ -177,9 +186,9 @@ Gi(z) = Bi(z) − Hi(z)
   filter for `|ph(−z)| ≤ θ` is the same with `Complex.arg (−z)`.
 - **Bessel functions.** `J_ν` is Mathlib's
   [`Complex.besselJ`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Analysis/SpecialFunctions/Bessel.html)
-  `ν x = (x/2)^ν 𝐅(ν + 1, −(x/2)²)`, with the principal power, holomorphic in `x` on the slit
-  plane. `I_ν` is Tau Ceti's `Real.besselI ν x`, the real part of `(x/2)^ν 𝐅(ν + 1, (x/2)²)`, used
-  for `x > 0`. `₁F₁(a; b; x)` means `Γ(b) 𝐌(a, b, x)`.
+  `ν x = (x/2)^ν 𝐅(ν + 1, −(x/2)²)`, with the principal power, holomorphic in `x` on the slit plane.
+  `I_ν` is Tau Ceti's `Real.besselI ν x`, the real part of `(x/2)^ν 𝐅(ν + 1, (x/2)²)`, used for
+  `x > 0`. `₁F₁(a; b; x)` means `Γ(b) 𝐌(a, b, x)`.
 - **Asymptotic expansions** are AsymptoticExpansions' `Asymptotics.HasAsymptoticExpansion`,
   which unfolds to "for every `N`, the remainder after `N` terms is `O(φ N)`". The oscillatory
   expansions 9.7.9–9.7.14, with two sums and an envelope `e^{|Im ζ|}`, are generalized
@@ -212,10 +221,12 @@ TauCeti.Real.negativeZero f k
 
   `a_k`, `a′_k`, `b_k`, `b′_k` are `TauCeti.Real.airyAiZero`, `airyAiDerivZero`, `airyBiZero`
   and `airyBiDerivZero`, the instances for `Ai`, `Ai′`, `Bi`, `Bi′`. The complex zeros `β_k`,
-  `β′_k` of `Bi`, `Bi′` with `π/3 < ph z < π/2` (`TauCeti.airyBiComplexZero`,
-  `airyBiDerivComplexZero`) are ordered by modulus in the same way, with `‖w‖ < ‖z‖` in place of
-  `x < y`. The value at `k = 0` is not used. 5.2 and 5.3 prove that each epsilon is attained and
-  unique.
+  `β′_k` of `Bi`, `Bi′` with `π/3 < ph z < π/2` are `TauCeti.airySectorZero Bi k` and
+  `airySectorZero (deriv Bi) k`, defined in the same way with the order by modulus and, among
+  zeros of equal modulus, by phase: `w` precedes `z` if `‖w‖ < ‖z‖`, or `‖w‖ = ‖z‖` and
+  `arg w < arg z`. The tie-break makes the epsilon well defined without knowing that the moduli
+  are distinct. The value at `k = 0` is not used. 5.2 and 5.3 prove that each epsilon is attained
+  and unique.
 - **Asymptotic coefficients** (DLMF 9.7.2). `u_k = ∏_{j<2k} (2k + 1 + 2j) / (216^k k!)` and
   `v_k = −(6k + 1)/(6k − 1) · u_k`, so `u₀ = v₀ = 1`, `u₁ = 5/72`, `v₁ = −7/72`. These are
   `TauCeti.airyU`, `TauCeti.airyV : ℕ → ℝ`. The multiplier of DLMF 9.7.3 is
@@ -263,6 +274,13 @@ The following are consumed with the hypotheses and conventions stated there.
   ([its Conventions](../SpecialFunctionsEiLiErfIncompleteGamma/README.md#conventions) and
   [§1.5](../SpecialFunctionsEiLiErfIncompleteGamma/README.md#15-continuation)). 7.5 uses it for
   9.10.15–9.10.16 with complex `p`.
+
+### From [SpecialFunctionsParabolicCylinder](../SpecialFunctionsParabolicCylinder/README.md)
+
+- Kummer's equation `z 𝐌″ + (b − z) 𝐌′ − a 𝐌 = 0` for `𝐌(a, b, z)`, for all `a, b, z`, as
+  `TauCeti.regularizedHGFun_kummer_equation`
+  ([§1.3](../SpecialFunctionsParabolicCylinder/README.md#13-kummers-equation)). 1.7 uses it for
+  Kummer's second transformation.
 
 ### From Tau Ceti
 
@@ -327,7 +345,7 @@ statements to prove, and they test the conventions on explicit values.
 
 ### 1.1 Definitions and Maclaurin series
 
-`Ai` and `Bi` as pinned. They are entire (`differentiable_airyAi`, `differentiable_airyBi`), and
+`Ai` and `Bi` as pinned. They are entire (`differentiable_airyAi` for `Ai`), and
 the Maclaurin series DLMF 9.4.1–9.4.4 hold as `HasSum` statements for every `z`
 (`hasSum_airyAi`):
 - `Ai(z) = Ai(0) ∑ₖ 3^k (⅓)_k z^{3k}/(3k)! + Ai′(0) ∑ₖ 3^k (⅔)_k z^{3k+1}/(3k + 1)!` (9.4.1);
@@ -338,18 +356,20 @@ Here `(c)_k` is `ascPochhammer ℂ k` evaluated at `c`. The derivative is
 `deriv airyAi z = −3^{−1/3} 𝐅(⅓, z³/9) + 3^{−2/3} (z²/3) 𝐅(5/3, z³/9)`, and similarly for `Bi`.
 
 **Checks.**
-- `airyAi 0 = 3^{−2/3}/Γ(⅔)`, `deriv airyAi 0 = −3^{−1/3}/Γ(⅓)`, `airyBi 0 = 3^{−1/6}/Γ(⅔)`
-  and `deriv airyBi 0 = 3^{1/6}/Γ(⅓)` (DLMF 9.2.3–9.2.6; `airyAi_zero`, `deriv_airyAi_zero`,
-  `airyBi_zero`, `deriv_airyBi_zero`). They fix the four powers of `3` in the pinned forms.
+- `Ai(0) = 3^{−2/3}/Γ(⅔)`, `Ai′(0) = −3^{−1/3}/Γ(⅓)`, `Bi(0) = 3^{−1/6}/Γ(⅔)` and
+  `Bi′(0) = 3^{1/6}/Γ(⅓)` (DLMF 9.2.3–9.2.6). They fix the four powers of `3` in the pinned forms.
 - `Bi(0) = √3 Ai(0)` and `Bi′(0) = −√3 Ai′(0)`.
+- `Ai(1) = 0.13529 24163…` and `Bi(1) = 1.20742 35950…`, from the Maclaurin series. Reversing the
+  sign of the second term of the pinned `Ai` gives `Bi/√3`, which is unbounded on `[0, ∞)` (1.6);
+  the decay of `Ai` (2.3) excludes it.
 
 *Needs:* Tau Ceti `Complex.hasSum_regularizedHGFun`; Mathlib `Complex.Gamma_add_one`,
 `ascPochhammer` and the triplication of factorials `(3k)! = 3^{3k} k! (⅓)_k (⅔)_k`.
 
 ### 1.2 Airy's equation and uniqueness
 
-DLMF 9.2.1: `deriv^[2] airyAi z = z * airyAi z` and the same for `Bi` (`airyAi_ode`,
-`airyBi_ode`), from the coefficient recurrence of the series. Every entire `w` with
+DLMF 9.2.1: `deriv^[2] airyAi z = z * airyAi z` and the same for `Bi` (`airyAi_ode`
+for `Ai`), from the coefficient recurrence of the series. Every entire `w` with
 `deriv^[2] w = z w` is `w = c₁ Ai + c₂ Bi`, with
 `c₁ = π (w(0) Bi′(0) − w′(0) Bi(0))` and `c₂ = π (w′(0) Ai(0) − w(0) Ai′(0))`
 (`eq_airy_combination`); two entire solutions with the same value and derivative at one point are
@@ -435,12 +455,13 @@ same computation with `Real.besselI_eq_rpow_mul`, and 9.6.11–9.6.14 follow by 
 `2 × 2` systems with the Wronskian 9.2.7. For 9.6.25–9.6.26, Kummer's second transformation
 `e^{−x} 𝐌(a, 2a, 2x) = Γ(a + ½) Γ(2a)⁻¹ 𝐅(a + ½, x²/4)`, for complex `a` with
 `2a ∉ {0, −1, −2, …}`, is an owned auxiliary result (`exp_neg_mul_kummer_two_mul`): both sides
-are entire in `x` and solve `x f″ + 2a f′ − x f = 0`, the left side by Kummer's equation for `𝐌`,
-which follows from `Complex.regularizedHGFunCoeff_add_one`, and that equation determines the
-Taylor coefficients of an entire solution from `f(0)`. It is applied at `x = ζ`, with
+are entire in `x` and solve `x f″ + 2a f′ − x f = 0`, the left side by Kummer's equation for `𝐌`
+(SpecialFunctionsParabolicCylinder §1.3), and that equation determines the Taylor coefficients of
+an entire solution from `f(0)`. It is applied at `x = ζ`, with
 `a = 1/6, 5/6, −1/6, 7/6`, where `ζ²/4 = z³/9`.
 
-*Needs:* 1.1, 1.3; Mathlib `Complex.besselJ_def`; Tau Ceti `Real.besselI_eq_rpow_mul`.
+*Needs:* 1.1, 1.3; Mathlib `Complex.besselJ_def`; Tau Ceti `Real.besselI_eq_rpow_mul`;
+SpecialFunctionsParabolicCylinder §1.3 (`TauCeti.regularizedHGFun_kummer_equation`).
 
 ### Examples
 
@@ -453,7 +474,8 @@ Taylor coefficients of an entire solution from `f(0)`. It is applied at `x = ζ`
 ### Dependencies
 
 Mathlib's regularized hypergeometric series, Gamma and Bessel API; Tau Ceti's
-`Complex.hasSum_regularizedHGFun` and `Real.besselI`; AsymptoticExpansions §10.2.
+`Complex.hasSum_regularizedHGFun` and `Real.besselI`; AsymptoticExpansions §10.2;
+SpecialFunctionsParabolicCylinder §1.3.
 
 ## Layer 2: integral representations
 
@@ -468,7 +490,7 @@ Bi(z) = (2π)⁻¹ ( 2 ∫_{−∞}^0 f_z(r) dr + ∫₀^∞ e^{πi/3} f_z(r e^{
                  + ∫₀^∞ e^{−πi/3} f_z(r e^{−πi/3}) dr )
 ```
 
-(`airyAi_eq_ray_integral`, `airyBi_eq_ray_integral`). All integrals converge absolutely, since
+(`airyAi_eq_ray_integral` for `Ai`). All integrals converge absolutely, since
 `(r e^{±πi/3})³ = −r³`; each side is entire in `z` and solves Airy's equation by differentiation
 under the integral and integration by parts, and the values at `0` are Gamma integrals. The
 contours may be rotated within `|ph t ∓ π/3| < π/6` by Cauchy's theorem.
@@ -519,7 +541,7 @@ Ai(z) = e^{−ζ} ζ^{−1/6} / (√π 48^{1/6} Γ(5/6)) · ∫₀^∞ e^{−t} 
 Ai′(z) = −z (2ζ)^{−2/3} e^{−ζ} / (√(3π) Γ(7/6)) · ∫₀^∞ e^{−t} t^{1/6} (2ζ + t)^{1/6} dt
 ```
 
-(`deriv_airyAi_laplace_integral`). The integrals converge absolutely, and the powers are
+The integrals converge absolutely, and the powers are
 principal: `2 + t/ζ` and `2ζ + t` lie in the slit plane, since `|ph ζ| < π`. The proof route is
 the substitution of DLMF §9.5(ii) in 2.1 for `z > 0`, followed by the identity theorem; the
 second formula is proved in the same way from the ray integral of `−t f_z(t)`, which is `Ai′`.
@@ -545,9 +567,16 @@ Conventions.
 ### 3.1 Coefficients
 
 DLMF 9.7.1–9.7.4. `u_k` and `v_k` as pinned, with the recurrence
-`u_{k+1} = (6k + 1)(6k + 3)(6k + 5) / ((2k + 1) · 216 · (k + 1)) · u_k`
-(`airyU_succ`). `χ` as pinned, with `χ(1) = π/2`, `χ(2) = 2`, `χ` increasing on `(0, ∞)`, and
+`u_{k+1} = (6k + 1)(6k + 3)(6k + 5) / ((2k + 1) · 216 · (k + 1)) · u_k`.
+`χ` as pinned, with `χ(1) = π/2`, `χ(2) = 2`, `χ` increasing on `(0, ∞)`, and
 `χ(x) ∼ (πx/2)^{1/2}` as `x → ∞` (9.7.4).
+
+**Checks.**
+- `u₁ = 5/72` and `u₂ = 385/10368`, from the product and from the recurrence.
+- `v₀ = u₀ = 1`, since `−(6k + 1)/(6k − 1) = 1` at `k = 0`, while `v₁ = −7/72`: for `k ≥ 1`
+  the sign of `v_k` is opposite to that of `u_k`.
+- `χ(0) = 1`, `χ(1) = π/2` and `χ(2) = 2`; the asymptotic form `(πx/2)^{1/2}` gives
+  `√π = 1.77245…` at `x = 2`, so 9.7.4 is not an identity.
 
 *Needs:* Mathlib `Real.Gamma`, `Real.Gamma_add_one`, and the log-convexity
 `Real.convexOn_log_Gamma`, which gives Gautschi's bounds for `Γ(x + 1)/Γ(x + ½)` and so 9.7.4.
@@ -555,7 +584,7 @@ DLMF 9.7.1–9.7.4. `u_k` and `v_k` as pinned, with the recurrence
 ### 3.2 The principal sector
 
 DLMF 9.7.5–9.7.6. For `δ ∈ (0, π)` and every `N`, as `z → ∞` in `|ph z| ≤ π − δ`
-(`isBigO_airyAi_sub_sum`, `isBigO_deriv_airyAi_sub_sum`):
+(`isBigO_airyAi_sub_sum` for `Ai`):
 
 ```text
 Ai(z) − e^{−ζ}/(2√π z^{1/4}) ∑_{k<N} (−1)^k u_k ζ^{−k}   = O(|e^{−ζ} z^{−1/4}| |ζ|^{−N})
@@ -619,10 +648,11 @@ Ai(z)  =  e^{−ζ}/(2√π z^{1/4}) (∑_{k<n} (−1)^k u_k ζ^{−k} + R_n(z))
 Ai′(z) = −z^{1/4} e^{−ζ}/(2√π) (∑_{k<n} (−1)^k v_k ζ^{−k} + S_n(z))
 ```
 
-Let `m_n(σ, z)` be `1` for `|ph z| ≤ π/3`; `min(|csc(ph ζ)|, χ(n + σ) + 1)` for
-`π/3 < |ph z| < 2π/3`; `χ(n + σ) + 1` for `|ph z| = 2π/3`; and
+Let `m_n(σ, z)` (`TauCeti.airyRemainderBound σ n z`) be `1` for `|ph z| ≤ π/3`;
+`min(|csc(ph ζ)|, χ(n + σ) + 1)` for `π/3 < |ph z| < 2π/3`; `χ(n + σ) + 1` for `|ph z| = 2π/3`; and
 `(2π(n + σ))^{1/2} / |cos(ph ζ)|^{n+σ} + χ(n + σ) + 1` for `2π/3 < |ph z| < π`, where
-`ph ζ = (3/2) ph z` is the lifted phase. Then (9.7.17; `norm_airyRemainderAi_le`):
+`ph ζ = (3/2) ph z` is the lifted phase. Then, for `z ≠ 0` with `|ph z| < π` (9.7.17;
+`norm_airyRemainderAi_le`, `norm_airyRemainderAiDeriv_le`):
 - `|R_n(z)| ≤ m_n(1/6, z) u_n |ζ|^{−n}` for every `n`;
 - `|S_n(z)| ≤ m_n(0, z) |v_n| |ζ|^{−n}` for `n ≥ 1`.
 
@@ -630,9 +660,13 @@ On the positive real axis, for `x > 0` with `ζ = (2/3) x^{3/2}` (DLMF §9.7(iii
 - for `n ≥ 0`, `R_n(x) = ϑ (−1)^n u_n ζ^{−n}`, and for `n ≥ 1`, `S_n(x) = ϑ′ (−1)^n v_n ζ^{−n}`,
   with `ϑ, ϑ′ ∈ [0, 1]`: the error is bounded by the first neglected term and has its sign
   (`airyRemainderAi_real_eq`);
-- for `n ≥ 0`, `|Bi(x) − e^{ζ}/(√π x^{1/4}) ∑_{k<n} u_k ζ^{−k}|
-  ≤ e^{ζ}/(√π x^{1/4}) (χ(n + 1/6) + 1) u_n ζ^{−n}`, and for `n ≥ 1` the same for `Bi′` with
-  `x^{1/4}` in place of `x^{−1/4}`, `v_k` in place of `u_k`, `|v_n|` and `χ(n)`;
+- for `n ≥ 0`, the bound displayed below, and for `n ≥ 1` the same for `Bi′` with `x^{1/4}` in
+  place of `x^{−1/4}`, `v_k` in place of `u_k`, `|v_n|` and `χ(n)`:
+
+```text
+|Bi(x) − e^{ζ}/(√π x^{1/4}) ∑_{k<n} u_k ζ^{−k}|  ≤  e^{ζ}/(√π x^{1/4}) (χ(n + 1/6) + 1) u_n ζ^{−n}
+```
+
 - `Ai(x) ≤ e^{−ζ}/(2√π x^{1/4})` and `|Ai′(x)| ≤ x^{1/4} e^{−ζ}/(2√π) (1 + 7/(72ζ))` (9.7.15);
 - `Bi(x) ≤ e^{ζ}/(√π x^{1/4}) (1 + (χ(7/6) + 1) · 5/(72ζ))` and
   `Bi′(x) ≤ x^{1/4} e^{ζ}/√π (1 + (π/2 + 1) · 7/(72ζ))` (9.7.16).
@@ -651,14 +685,22 @@ the orders at which the following term has the opposite sign; for `p̃` at `N = 
 terms are both positive. DLMF's remark that bounds for 9.7.7–9.7.14 at complex `z` follow from
 9.7.17 and §9.2(v) states no further inequality; the inequalities above are the targets.
 
-The proof route is the Laplace forms of 2.4. On `ph z = 0` the remainder of the binomial
-expansion of `(1 + w)^{∓1/6}` for `w > 0` has the sign of its first neglected term and is bounded
-by it, which gives the `R_n`, `S_n` cases on the positive axis. The complex bounds and the
-oscillatory cases follow Nemes (2017b, (26) and Propositions B.1, B.3, B.4), who proves them for
-the Hankel expansions of orders `⅓` and `⅔`; those Hankel integrals are the Laplace forms of 2.4
-after rotation of the path, so no Bessel function enters. The bounds for the binomial remainder on
-rays `w = t/(2ζ)`, `t > 0`, are an owned auxiliary result. The `Bi` cases and `p`, `q`, `p̃`, `q̃`
-follow through 9.2.10–9.2.11, as 9.7.16 follows from 9.2.10 and 9.7.17 on `|ph z| = 2π/3`.
+The proof route is the Laplace forms of 2.4. On `ph z = 0` the remainder of the binomial expansion
+of `(1 + w)^{∓1/6}` for `w > 0` has the sign of its first neglected term and is bounded by it, which
+gives the `R_n`, `S_n` cases on the positive axis. The complex bounds and the oscillatory cases
+follow Nemes (2017), Propositions B.1, B.3 and B.4 (arXiv:1606.07961), who proves them for the
+Hankel expansions of orders `⅓` and `⅔`; those Hankel integrals are the Laplace forms of 2.4 after
+rotation of the path, so no Bessel function enters. The bounds for the binomial remainder on rays
+`w = t/(2ζ)`, `t > 0`, are an owned auxiliary result. The `Bi` cases and `p`, `q`, `p̃`, `q̃` follow
+through 9.2.10–9.2.11, as 9.7.16 follows from 9.2.10 and 9.7.17 on `|ph z| = 2π/3`.
+
+**Checks.**
+- For `x > 0`, `R₁(x) ∈ [−5/(72ζ), 0]`: the first neglected term `−u₁ ζ^{−1}` is negative.
+- `S₀(x) = 1 + 7/(72ζ) + O(ζ^{−2}) > 1 = m₀(0, x) |v₀|` for large `x > 0`, so the bound for
+  `S_n` fails at `n = 0`, which is why it is stated for `n ≥ 1`.
+- `m_n(σ, z) = χ(n + σ) + 1` on `|ph z| = 2π/3`, not the minimum of the neighbouring case: there
+  `ph ζ = ±π` and `csc(ph ζ)` is undefined, so the definition treats these rays separately.
+- `p(x) → 1` and `ζ q(x) → u₁ = 5/72` as `x → ∞`, and `p² + q² = π x^{1/2} M(−x)²`.
 
 *Needs:* 2.4, 3.1–3.4.
 
@@ -703,6 +745,13 @@ M² θ′ = −1/π            N² φ′ = x/π            N N′ = x M M′
 
 so `θ` is strictly decreasing on `ℝ`, and `φ` is decreasing on `(−∞, 0]` and increasing on
 `[0, ∞)`.
+
+**Checks.**
+- `M(0) = 2 Ai(0) = 0.71005 61077…` and `N(0) = −2 Ai′(0) = 0.51763 88075…`.
+- `φ(0) = −π/6`, with `sin φ(0) = Ai′(0)/N(0) = −½`; the value `5π/6`, which has the same tangent
+  `Ai′(0)/Bi′(0) = −1/√3`, gives `+½` and is excluded.
+- `θ` is continuous and strictly decreasing, whereas `arctan(Ai/Bi)` jumps by `π` at each zero of
+  `Bi`; so `θ` is not that arctangent, which is why 9.8.4 holds only modulo `π`.
 
 *Needs:* 1.3, 1.6; Mathlib fundamental theorem of calculus.
 
@@ -756,7 +805,7 @@ plane, real on `(0, ∞)`.
 DLMF 9.8.20–9.8.23. Let `a_k = 1·3·5···(6k − 1) / (k! 96^k)` (`a₀ = 1`) and
 `b_k = (1 + 6k)/(1 − 6k) · a_k`. Let `r_k`, `s_k` be the coefficients of the formal reciprocals
 `(∑ a_k u^k)^{−1}` and `(∑ b_k u^k)^{−1}`, and `c_k = r_k/(1 − 2k)`, `d_k = s_k/(1 − 2k)`. As
-`x → −∞`, for every `N ≥ 1` (`airyModulus_sq_expansion`, `airyPhase_expansion`):
+`x → −∞`, for every `N ≥ 1` (`airyModulus_sq_expansion` for `M²`):
 
 ```text
 M²(x) − (π(−x)^{1/2})⁻¹ ∑_{k<N} a_k x^{−3k}          = O((−x)^{−1/2} |x|^{−3N})
@@ -806,7 +855,7 @@ DLMF §9.9(i), first part:
 
 DLMF 9.9.1–9.9.5. For `k ≥ 1`: the epsilons defining `a_k`, `a′_k`, `b_k`, `b′_k` are attained
 and unique, the sequences are strictly decreasing, and they enumerate all negative zeros
-(`airyAiZero_spec`, `airyAiZero_strictAnti`); in particular each of the four functions has
+(`airyAiZero_spec` for `a_k`); in particular each of the four functions has
 infinitely many negative zeros. Moreover:
 - `θ(a_k) = kπ`, `φ(a′_k) = (k − 1)π` (9.9.1); `θ(b_k) = (k − ½)π`, `φ(b′_k) = (k − ½)π`
   (9.9.2) (`airyPhase_airyAiZero`);
@@ -821,20 +870,43 @@ The zeros of `Ai` are the points where `θ ∈ πℤ`, by 4.2, and `θ` is a dec
 onto `(0, ∞)` by 4.1 and 4.4; the zeros of `Ai′` are where `φ ∈ πℤ` on `x < 0`, and `φ` is a
 decreasing bijection of `(−∞, 0]` onto `[−π/6, ∞)`.
 
+**Checks.**
+- `a₁ = −2.33810 74104…`, `a′₁ = −1.01879 29716…`, `b₁ = −1.17371 32227…` and
+  `b′₁ = −2.29443 96826…` (DLMF Table 9.9.1).
+- At `k = 1` no zero lies in `(a₁, 0)`: `θ` increases from `π/6` at `0` as `x` decreases, and
+  `θ = π` is the first multiple of `π` it reaches. Indexing from `0` instead would assign `a₁` to
+  `k = 0`.
+- `a_k < b_k < a_{k−1}` for `k ≥ 2`, since `θ(b_k) = (k − ½)π` lies strictly between
+  `θ(a_{k−1})` and `θ(a_k)`; the zeros of `Ai` and `Bi` interlace.
+
 *Needs:* 4.1–4.4.
 
 ### 5.3 Complex zeros of `Bi` and `Bi′`
 
 DLMF §9.9(i), second part. The nonreal zeros of `Bi` and `Bi′` lie in `π/3 < |ph z| < π/2`
 (`airyBi_eq_zero_mem_sector`), and there are infinitely many in `π/3 < ph z < π/2`. For `k ≥ 1`,
-the epsilons defining `β_k` and `β′_k` are attained and unique, `‖β_k‖` and `‖β′_k‖` are
-strictly increasing, and they enumerate the zeros of `Bi`, `Bi′` in `π/3 < ph z < π/2`
-(`airyBiComplexZero_spec`).
+the epsilons defining `β_k` and `β′_k` are attained and unique, and they enumerate the zeros of
+`Bi`, `Bi′` in `π/3 < ph z < π/2`; the moduli `‖β_k‖` and `‖β′_k‖` are nondecreasing in `k`, and
+strictly increasing from some index on (`airyBiComplexZero_spec`, for `f = Bi` and
+`f = deriv Bi`). Distinct moduli are not claimed for the first zeros: the `O`-bounds of 3.3–3.4
+have unspecified constants, so they separate zeros only beyond an unspecified radius, and the
+tie-break of the Conventions makes the enumeration well defined without that.
 
 The proof route is the argument principle on truncated sectors, with 3.3–3.4 on the arcs and
 rays and 5.2 on the negative axis, to locate and count the zeros, and Rouché's theorem on discs
 around the zeros of the leading terms of 9.7.13–9.7.14 at `ε = 1`, where `cos ϑ` and `sin ϑ`
-vanish, to place one zero in each disc.
+vanish, to place one zero in each disc. Attainment and uniqueness need only that the zeros in
+each disc `|z| ≤ R` are finitely many, since `Bi` is entire and not zero, and that the order of
+the Conventions is a strict total order on them (equal modulus and equal phase give the same
+point). Beyond the radius where Rouché applies, the discs lie in disjoint annuli, which gives the
+strict increase of the moduli from some index on.
+
+**Checks.**
+- `β₁ = 0.97754 48867… + 2.14129 07060… i` and `β′₁ = 0.21494 70745… + 1.10060 01433… i`, with
+  phases `1.142…` and `1.378…`, both in `(π/3, π/2)`.
+- The conjugates `β̄_k` are zeros of `Bi` in `−π/2 < ph z < −π/3` and are not counted.
+- By 5.4, `ph β_k − π/3 ∼ (2/3) arg τ_k > 0`: the zeros approach the ray `ph z = π/3` from
+  inside the sector, so the open sector of the definition loses none of them.
 
 *Needs:* 3.3–3.4, 5.1–5.2; Tau Ceti `TauCeti.rouche` and
 `TauCeti.Contour.argumentPrinciple_divisor`.
@@ -908,6 +980,13 @@ Layers 1, 3 and 4; AsymptoticExpansions Layer 2; Tau Ceti `TauCeti.rouche`.
   `w″ = z w + 1/π` (9.12.3);
 - every entire solution of `w″ = z w + 1/π` is `Hi + c₁ Ai + c₂ Bi` (9.12.2).
 
+**Checks.**
+- `Hi(0) = 3^{−2/3} Γ(⅓)/π = 0.40995 10849…`, which is `2 Gi(0)` (6.2); a normalization of the
+  integral without the factor `π⁻¹` fails both.
+- `Gi′(0.60907 54170…) = 0`, the zero of `Gi′` on `[0, ∞)` of 6.7.
+- `Gi(x) ∼ 1/(πx)` as `x → +∞` (9.12.25), while `Hi(x)` grows like `Bi(x)`; this excludes the
+  convention `Gi = Hi − Bi`. And `Hi(−x) ∼ 1/(πx)` (9.12.27).
+
 *Needs:* 1.2; AsymptoticExpansions §10.2; Mathlib parametric differentiation.
 
 ### 6.2 Values at the origin and variation of parameters
@@ -915,7 +994,7 @@ Layers 1, 3 and 4; AsymptoticExpansions Layer 2; Tau Ceti `TauCeti.rouche`.
 DLMF 9.12.4–9.12.7. With `∫₀^z f` the segment integral `∫ s in 0..1, z * f (s * z)`:
 - `Gi(z) = Bi(z) (⅓ − ∫₀^z Ai) + Ai(z) ∫₀^z Bi` (9.12.4);
 - `Hi(z) = Bi(z) (⅔ + ∫₀^z Ai) − Ai(z) ∫₀^z Bi` (9.12.5);
-- `Gi(0) = Hi(0)/2 = Bi(0)/3 = 1/(3^{7/6} Γ(⅔))` (9.12.6; `scorerGi_zero`);
+- `Gi(0) = Hi(0)/2 = Bi(0)/3 = 1/(3^{7/6} Γ(⅔))` (9.12.6);
 - `Gi′(0) = Hi′(0)/2 = Bi′(0)/3 = 1/(3^{5/6} Γ(⅓))` (9.12.7).
 
 The values of `Hi` at `0` are `π⁻¹ ∫₀^∞ e^{−t³/3} t^j dt` for `j = 0, 1`; the variation formulas
@@ -972,19 +1051,22 @@ of the contour of 9.12.20 as in 2.2.
 
 DLMF 9.12.25–9.12.31. Let `G_N(z) = ∑_{k<N} (3k)!/(k! (3z³)^k)` and
 `G′_N(z) = ∑_{k<N} (3k + 1)!/(k! (3z³)^k)`. For `δ > 0` and every `N`:
-- as `z → ∞` in `|ph z| ≤ π/3 − δ`: `Gi(z) − (πz)⁻¹ G_N(z) = O(|z|^{−3N−1})` (9.12.25) and
-  `Gi′(z) + (πz²)⁻¹ G′_N(z) = O(|z|^{−3N−2})` (9.12.26);
-- as `z → ∞` in `|ph(−z)| ≤ 2π/3 − δ`: `Hi(z) + (πz)⁻¹ G_N(z) = O(|z|^{−3N−1})` (9.12.27) and
+- as `z → ∞` in `|ph z| ≤ π/3 − δ`: `Gi(z) − (πz)⁻¹ G_N(z) = O(|z|^{−3N−1})` (9.12.25;
+  `isBigO_scorerGi_sub_sum`) and `Gi′(z) + (πz²)⁻¹ G′_N(z) = O(|z|^{−3N−2})` (9.12.26);
+- as `z → ∞` in `|ph(−z)| ≤ 2π/3 − δ`: `Hi(z) + (πz)⁻¹ G_N(z) = O(|z|^{−3N−1})` (9.12.27;
+  `isBigO_scorerHi_neg_sub_sum`, stated at `−z`) and
   `Hi′(z) − (πz²)⁻¹ G′_N(z) = O(|z|^{−3N−2})` (9.12.28);
-- as `z → ∞` in `|ph z| ≤ π − δ`, for every `M` (9.12.29):
-  `Hi(z) + (πz)⁻¹ G_N(z) − e^{ζ}/(√π z^{1/4}) ∑_{k<M} u_k ζ^{−k}
-   = O(|z|^{−3N−1} + |e^{ζ} z^{−1/4}| |ζ|^{−M})`;
-- as `z → ∞` in `|ph z| ≤ π/3 − δ` (9.12.30), with `γ` Euler's constant:
-  `∫₀^z Gi − π⁻¹ ln z − (2γ + ln 3)/(3π) + π⁻¹ ∑_{1≤k<N} (3k − 1)!/(k! (3z³)^k)
-   = O(|z|^{−3N})`;
-- as `z → ∞` in `|ph z| ≤ 2π/3 − δ` (9.12.31):
-  `∫₀^z Hi(−t) dt − π⁻¹ ln z − (2γ + ln 3)/(3π) − π⁻¹ ∑_{1≤k<N} (−1)^{k−1} (3k − 1)!/(k! (3z³)^k)
-   = O(|z|^{−3N})`.
+- as `z → ∞` in `|ph z| ≤ π − δ`, for every `M`, the difference
+  `Hi(z) + (πz)⁻¹ G_N(z) − e^{ζ}/(√π z^{1/4}) ∑_{k<M} u_k ζ^{−k}` is
+  `O(|z|^{−3N−1} + |e^{ζ} z^{−1/4}| |ζ|^{−M})` (9.12.29);
+- as `z → ∞` in `|ph z| ≤ π/3 − δ`, with `γ` Euler's constant (9.12.30), and as `z → ∞` in
+  `|ph z| ≤ 2π/3 − δ` (9.12.31):
+
+```text
+∫₀^z Gi − π⁻¹ ln z − (2γ + ln 3)/(3π) + π⁻¹ ∑_{1≤k<N} (3k − 1)!/(k! (3z³)^k)  =  O(|z|^{−3N})
+∫₀^z Hi(−t) dt − π⁻¹ ln z − (2γ + ln 3)/(3π)
+    − π⁻¹ ∑_{1≤k<N} (−1)^{k−1} (3k − 1)!/(k! (3z³)^k)                       =  O(|z|^{−3N})
+```
 
 The proof route for 9.12.27–9.12.28 is Watson's lemma for 9.12.20 written as
 `π⁻¹ ∫₀^∞ e^{zt} e^{−t³/3} dt` (AsymptoticExpansions §§4.2–4.3), expanding `e^{−t³/3}`; 9.12.25,
@@ -1000,14 +1082,15 @@ constant term included, follows from Watson's lemma after one integration by par
 
 DLMF §9.12(ix), the real zeros:
 - `Hi` and `Hi′` have no real zeros; `Hi > 0` and `Hi′ > 0` on `ℝ`;
-- `Gi` has no zeros in `[0, ∞)` and infinitely many negative zeros; `Gi′` has exactly one zero in
-  `[0, ∞)` and infinitely many negative zeros;
+- `Gi > 0` on `[0, ∞)`, and `Gi` has infinitely many negative zeros; `Gi′` has exactly one zero
+  in `[0, ∞)`, at `0.60907 54170…`, and infinitely many negative zeros;
 - the negative zeros of `Gi` and `Gi′` interlace: between two consecutive negative zeros of
   either function there is exactly one zero of the other;
 - every real zero of `Gi` is simple.
 
-The positivity of `Hi`, `Hi′` is immediate from 9.12.20, and that of `Gi` on `[0, ∞)` from
-9.12.4 with 1.6 and 2.3, since `∫₀^x Ai < ∫₀^∞ Ai = ⅓`. The negative zeros of `Gi` are located by
+`scorerGi_real_zeros` states the claims for `Gi` and `Gi′` and the positivity of `Hi`. The
+positivity of `Hi`, `Hi′` is immediate from 9.12.20, and that of `Gi` on `[0, ∞)` from 9.12.4 with
+1.6 and 2.3, since `∫₀^x Ai < ∫₀^∞ Ai = ⅓`. The negative zeros of `Gi` are located by
 `Gi(−x) = Bi(−x) − Hi(−x)`, in which `Bi(−x)` oscillates with amplitude of order `x^{−1/4}` by 3.4
 while `Hi(−x) = O(x^{−1})` by 9.12.27. The rest uses the energy `E = Gi′² − x Gi² + 2 Gi/π`, an
 owned auxiliary result (`hasDerivAt_scorerGi_energy`): `E′ = −Gi²` by `Gi″ = x Gi − 1/π`, and
@@ -1039,7 +1122,7 @@ integrals.
 
 ### 7.1 Gauss's triplication formula
 
-DLMF 5.5.6 with `m = 3`: for every `z : ℂ` (`Complex.Gamma_mul_Gamma_add_third`),
+DLMF 5.5.6 with `n = 3`: for every `z : ℂ` (`Complex.Gamma_mul_Gamma_add_third`),
 
 ```text
 Γ(z) Γ(z + ⅓) Γ(z + ⅔) = 2π 3^{½ − 3z} Γ(3z)
@@ -1058,7 +1141,7 @@ DLMF 9.10.1–9.10.3 and 9.10.11–9.10.12. With the segment integral of 6.2, fo
 - `⅔ + ∫₀^z Ai = π (Ai(z) Hi′(z) − Ai′(z) Hi(z))` (9.10.2);
 - `∫₀^z Bi = π (Bi′(z) Gi(z) − Bi(z) Gi′(z)) = π (Bi(z) Hi′(z) − Bi′(z) Hi(z))` (9.10.3).
 
-As improper integrals on the real line (`integral_airyAi_Ioi`):
+As improper integrals on the real line:
 - `∫₀^∞ Ai = ⅓` (from 2.3) and `∫_{−∞}^0 Ai = ⅔` (9.10.11), the first absolutely convergent;
 - `∫_{−∞}^0 Bi = 0` (9.10.12);
 - hence `∫_{−∞}^x Ai = ⅔ + ∫₀^x Ai` and `∫_{−∞}^x Bi = ∫₀^x Bi` for every real `x`.
@@ -1107,7 +1190,8 @@ DLMF 9.10.13–9.10.16:
   `e^{−p³/3} (⅓ − 3^{−4/3} p 𝐌(⅓, 4/3, p³/3) + 3^{−5/3} p² 𝐌(⅔, 5/3, p³/3))` (9.10.14);
 - for `Re p > 0`, with `w = 3 log p − log 3`, so that `e^w = p³/3` and `|Im w| < 3π/2`, and
   `Γ_L(a, w)` = `TauCeti.Complex.upperIncompleteGammaLog a w`, the integrals converge absolutely
-  and (9.10.15–9.10.16; `airyAi_neg_laplace_complex`)
+  and (9.10.15–9.10.16; not stated in `Suggested.lean`, since the pinned Tau Ceti has no
+  `upperIncompleteGammaLog`)
 
 ```text
 ∫₀^∞ e^{−pt} Ai(−t) dt = (e^{p³/3}/3)  (Γ_L(⅓, w)/Γ(⅓) + Γ_L(⅔, w)/Γ(⅔))
@@ -1118,13 +1202,13 @@ DLMF 9.10.13–9.10.16:
   `∫₀^∞ e^{−pt} Ai(−t) dt = (e^{p³/3}/3) (Q(⅓, p³/3) + Q(⅔, p³/3))` (`airyAi_neg_laplace`) and
   `∫₀^∞ e^{−pt} Bi(−t) dt = (e^{p³/3}/√3) (Q(⅔, p³/3) − Q(⅓, p³/3))`.
 
-For `|ph p| > π/3` the principal `Γ(a, p³/3)` is not the right value: `p³/3` has left the
-principal sheet, and the logarithmic coordinate `w` is needed. The proof route: `L(p) =
-∫₀^∞ e^{−pt} Ai(t) dt` satisfies `L′ = −p² L + Ai′(0) + p Ai(0)` by Airy's equation and two
-integrations by parts, with `L(0) = ⅓`; solving this linear equation gives 9.10.14, and the same
-method with `Ai(−t)` gives 9.10.15–9.10.16 for real `p > 0`. Both sides are holomorphic on
-`Re p > 0`, the right sides by SpecialFunctionsEiLiErfIncompleteGamma §1.5, so the identity
-theorem gives complex `p`. For 9.10.13, the contour integral 2.1 and Fubini.
+For `|ph p| > π/3` the principal `Γ(a, p³/3)` is not the right value: `p³/3` has left the principal
+sheet, and the logarithmic coordinate `w` is needed. The proof route: `L(p) = ∫₀^∞ e^{−pt} Ai(t) dt`
+satisfies `L′ = −p² L + Ai′(0) + p Ai(0)` by Airy's equation and two integrations by parts, with
+`L(0) = ⅓`; solving this linear equation gives 9.10.14, and the same method with `Ai(−t)` gives
+9.10.15–9.10.16 for real `p > 0`. Both sides are holomorphic on `Re p > 0`, the right sides by
+SpecialFunctionsEiLiErfIncompleteGamma §1.5, so the identity theorem gives complex `p`. For 9.10.13,
+the contour integral 2.1 and Fubini.
 
 *Needs:* 2.1, 3.2–3.4, 7.2; Tau Ceti `TauCeti.regularizedGamma`; Mathlib `Complex.regularizedHGFun`;
 SpecialFunctionsEiLiErfIncompleteGamma §1.5.
@@ -1148,28 +1232,27 @@ Bi(x) = (3 x^{5/4} e^{ζ}/(2π)) ⨍₀^∞ t^{−3/4} e^{−(2/3)t^{3/2}} Ai(t)
 
   stated as the limit as `ε → 0+` of the integrals over `(0, x − ε) ∪ (x + ε, ∞)`.
 
-The proof route for 9.10.17 is Fubini in 9.5.6 at real `z > 0`, two Gamma integrals, and 7.1.
-For 9.10.18, Cauchy's integral formula in the variable `s = z^{3/2}` for
-`G(s) = z^{−5/4} e^{ζ} Ai(z)`: `G` tends to `0` at infinity by 3.2, has an integrable
-singularity at `s = 0`, and by 9.2.11 its boundary values at `z = t e^{±2πi/3}` differ by
-`−i t^{−5/4} e^{−(2/3)t^{3/2}} Ai(t)`. 9.10.19 is the boundary value of 9.10.18 as
-`z → x e^{±2πi/3}` from inside `|ph z| < 2π/3`, combined through 9.2.11. In the variable
-`s = t^{3/2}` the integral of 9.10.18 is the Cauchy integral `∫₀^∞ φ(s)/(s − w) ds` with
-`w = −z^{3/2}` and `φ(s) = (2/3) s^{−5/6} e^{−2s/3} Ai(s^{2/3})`, and `w → x^{3/2}` from one side
-of the real axis. The boundary value is given by the Sokhotski–Plemelj formula on the half-line,
-an owned auxiliary result (`tendsto_cauchyIntegral_Ioi`): if `s₀ > 0`,
+The proof route for 9.10.17 is Fubini in 9.5.6 at real `z > 0`, two Gamma integrals, and 7.1. For
+9.10.18, Cauchy's integral formula in the variable `s = z^{3/2}` for `G(s) = z^{−5/4} e^{ζ} Ai(z)`:
+`G` tends to `0` at infinity by 3.2, has an integrable singularity at `s = 0`, and by 9.2.11 its
+boundary values at `z = t e^{±2πi/3}` differ by `−i t^{−5/4} e^{−(2/3)t^{3/2}} Ai(t)`. 9.10.19 is
+the boundary value of 9.10.18 as `z → x e^{±2πi/3}` from inside `|ph z| < 2π/3`, combined through
+9.2.11. In the variable `s = t^{3/2}` the integral of 9.10.18 is the Cauchy integral
+`∫₀^∞ φ(s)/(s − w) ds` with `w = −z^{3/2}` and `φ(s) = (2/3) s^{−5/6} e^{−2s/3} Ai(s^{2/3})`, and
+`w → x^{3/2}` from one side of the real axis. The boundary value is given by the Sokhotski–Plemelj
+formula on the half-line, an owned auxiliary result (`tendsto_cauchyIntegral_Ioi`): if `s₀ > 0`,
 `∫₀^∞ |φ(s)|/(1 + s) ds < ∞` and `φ` is `C¹` on a neighbourhood of `s₀`, then as `w → s₀` with
-`±Im w > 0`,
-`∫₀^∞ φ(s)/(s − w) ds → ⨍₀^∞ φ(s)/(s − s₀) ds ± iπ φ(s₀)`, the principal value being the limit
-of the integrals over `(0, s₀ − ε) ∪ (s₀ + ε, ∞)`. The excisions in `s` and in `t` give the same
-limit, since `t ↦ t^{3/2}` is `C¹` with positive derivative at `x`.
+`±Im w > 0`, `∫₀^∞ φ(s)/(s − w) ds → ⨍₀^∞ φ(s)/(s − s₀) ds ± iπ φ(s₀)`, the principal value being
+the limit of the integrals over `(0, s₀ − ε) ∪ (s₀ + ε, ∞)`. `tendsto_cauchyIntegral_Ioi` states the
+upper side; the lower side follows by applying it to `conj ∘ φ` and conjugating. The excisions in
+`s` and in `t` give the same limit, since `t ↦ t^{3/2}` is `C¹` with positive derivative at `x`.
 
 *Needs:* 1.4, 2.3, 3.2, 7.1; Mathlib Cauchy integral formula and Fubini.
 
 ### 7.7 Repeated integrals
 
 DLMF 9.10.22. Let `I₀(t) = Ai(−t)` and `I_{n+1}(t) = ∫_t^∞ I_n` as an improper integral. For
-`n ≥ 1` every `I_n` is defined, and (9.10.22; `airyAi_repeated_integral`)
+`n ≥ 1` every `I_n` is defined, and (9.10.22)
 
 ```text
 I_n(0) = 2 cos((n − 1)π/3) / (3^{(n+2)/3} Γ((n + 2)/3))
@@ -1194,8 +1277,16 @@ f_z(t) = exp(t³/3 − z t)
 that is, along the ray from `∞ e^{−πi/3}` to `0` and the segment from `0` to `a`. Then:
 - `Ai(a, z)` is entire in `a` and in `z`, with `∂_a Ai(a, z) = (2πi)⁻¹ f_z(a)`;
 - `∂_z² Ai(a, z) − z Ai(a, z) = (2πi)⁻¹ f_z(a)`;
-- `Ai(r e^{πi/3}, z) → Ai(z)` as `r → ∞`, and `Ai(z) = Ai(a, z) + (2πi)⁻¹ ∫_a^{∞e^{πi/3}} f_z`,
-  the last integral along the segment from `a` to `0` followed by the ray to `∞ e^{πi/3}`.
+- `Ai(r e^{πi/3}, z) → Ai(z)` as `r → ∞` (`tendsto_incompleteAiryAi`), and
+  `Ai(z) = Ai(a, z) + (2πi)⁻¹ ∫_a^{∞e^{πi/3}} f_z`, the last integral along the segment from `a` to
+  `0` followed by the ray to `∞ e^{πi/3}`.
+
+**Checks.**
+- `Ai(0, 0) = e^{πi/6} Ai(0)/√3`: the segment vanishes, and the ray gives
+  `i e^{−πi/3} 3^{−2/3} Γ(⅓)/(2π)`, whose real part is `Ai(0)/2` by 9.5.6 at `z = 0`.
+- `Ai(r e^{−πi/3}, z) → 0` as `r → ∞`: the segment cancels the ray.
+- `∂_a Ai(a, z) = (2πi)⁻¹ f_z(a) ≠ 0`, so `a ↦ Ai(a, z)` is not constant: the incomplete function
+  is not `Ai(z)` with a relabelled endpoint.
 
 *Needs:* 2.1; Mathlib parametric differentiation.
 
@@ -1217,7 +1308,7 @@ Cauchy integral formula; AsymptoticExpansions §1.5.
 DLMF 9.11.1–9.11.2. If `f`, `g` are entire solutions of Airy's equation, then `w = f g` solves
 `w‴ − 4z w′ − 2w = 0` (9.11.1). The Wronskian determinant of `Ai²`, `Ai Bi`, `Bi²`, written out
 as the `3 × 3` determinant of the functions and their first two derivatives, is `2/π³`
-(9.11.2; `airy_product_wronskian`). An entire solution of 9.11.1 is determined by `w(0)`,
+(9.11.2). An entire solution of 9.11.1 is determined by `w(0)`,
 `w′(0)` and `w″(0)`, since its Taylor coefficients satisfy
 `(k + 1)(k + 2)(k + 3) a_{k+3} = (4k + 2) a_k`; this uniqueness is an owned auxiliary result
 (`eq_of_productEquation`). With the nonzero Wronskian, `Ai²`, `Ai Bi`, `Bi²` match every triple
@@ -1254,16 +1345,15 @@ DLMF 9.11.3–9.11.4 and an auxiliary representation:
   convergent (9.11.4);
 - for real `x`, `Ai(x)² = 2^{2/3} π⁻¹ ∫₀^∞ Ai(2^{2/3}(x + t²)) dt` (`airyAi_sq_eq_integral`).
 
-The proof route for 9.11.3: by 9.5.1, `Ai(x)² = (2π)^{−2} ∫∫ exp(i((u³ + v³)/3 + x(u + v)))
-du dv`; with `u + v = a`, `u − v = b/√3`, the exponent is `i a ((a² + b²)/12 + x)`, and polar
-coordinates in `(a, b)` with the Bessel integral `J₀(r) = (2π)⁻¹ ∫₀^{2π} e^{ir cos φ} dφ` give
-the right side. The Bessel integral is an owned auxiliary result, by termwise integration of the
-series of `Complex.besselJ 0`. The interchanges are justified with the factor `e^{−ε(a² + b²)}`
-and `ε → 0+`, using the locally uniform convergence of 2.2. The proof route for the other two is
-8.1: each right side solves 9.11.1, by differentiation under the
-integral and integration by parts; for 9.11.4 the initial values at `0` are Gamma integrals, and
-for the second the right side decays like `e^{−(4/3)x^{3/2}}` times a power by 3.6, so it is a
-multiple of `Ai²`, fixed by the value at `0`.
+The proof route for 9.11.3: by 9.5.1, `Ai(x)² = (2π)^{−2} ∫∫ exp(i((u³ + v³)/3 + x(u + v))) du dv`;
+with `u + v = a`, `u − v = b/√3`, the exponent is `i a ((a² + b²)/12 + x)`, and polar coordinates in
+`(a, b)` with the Bessel integral `J₀(r) = (2π)⁻¹ ∫₀^{2π} e^{ir cos φ} dφ` give the right side. The
+Bessel integral is an owned auxiliary result, by termwise integration of the series of
+`Complex.besselJ 0`. The interchanges are justified with the factor `e^{−ε(a² + b²)}` and `ε → 0+`,
+using the locally uniform convergence of 2.2. The proof route for the other two is 8.1: each right
+side solves 9.11.1, by differentiation under the integral and integration by parts; for 9.11.4 the
+initial values at `0` are Gamma integrals, and for the second the right side decays like
+`e^{−(4/3)x^{3/2}}` times a power by 3.6, so it is a multiple of `Ai²`, fixed by the value at `0`.
 
 *Needs:* 2.2, 3.6, 8.1; Mathlib parametric differentiation, `integral_rpow_mul_exp_neg_rpow`
 and `Complex.besselJ_def`.
@@ -1295,9 +1385,16 @@ For real `x`, `y`, the kernel `K_Ai(x, y) = ∫₀^∞ Ai(x + t) Ai(y + t) dt` c
 - for every `s` there is `C` with `|Ai(x)| ≤ C e^{−x}` and `|Ai′(x)| ≤ C e^{−x}` for `x ≥ s`, and
   hence `|K_Ai(x, y)| ≤ C² e^{−x−y}` for `x, y ≥ s`.
 
-The closed forms follow from `∂_t (Ai(x + t) Ai′(y + t) − Ai′(x + t) Ai(y + t))
-= (y − x) Ai(x + t) Ai(y + t)` and from 9.11.5; the bounds from 3.5–3.6 on `[1, ∞)` and continuity
-on `[s, 1]`.
+The closed forms follow from
+`∂_t (Ai(x + t) Ai′(y + t) − Ai′(x + t) Ai(y + t)) = (y − x) Ai(x + t) Ai(y + t)` and from 9.11.5;
+the bounds from 3.5–3.6 on `[1, ∞)` and continuity on `[s, 1]`.
+
+**Checks.**
+- `K_Ai(0, 0) = Ai′(0)² = 0.06698 74837…`, which is `∫₀^∞ Ai(t)² dt` (9.11.15 at `α = 1`).
+- `K_Ai(x, x) = ∫₀^∞ Ai(x + t)² dt > 0`, which fixes the sign of the closed form: the limit of
+  `(Ai(x) Ai′(y) − Ai′(x) Ai(y))/(x − y)` as `y → x` is `Ai′(x)² − x Ai(x)²`, and the same quotient
+  with denominator `y − x` has the opposite sign.
+- `K_Ai(x, y) = K_Ai(y, x)`, and `K_Ai(x, y) → 0` as `x → ∞` for fixed `y`, by the bound.
 
 *Needs:* 1.2, 3.5–3.6, 8.2.
 
@@ -1339,6 +1436,13 @@ The powers of `p` are positive real powers. Then:
 The proof route is that of Layer 1: the coefficient recurrence of the series, the values at `0`,
 the reflection formula for the Wronskian, and AsymptoticExpansions §10.2 at a point of the open
 set with the identity theorem.
+
+**Checks.**
+- `A₁ = Ai` and `B₁ = Bi`: at `n = 1`, `p = ⅓` and the series of 9.1 are those of 1.1.
+- At `n = 2`, `p = ¼` and `A₂(−z) = ½ B₂(z)` (9.2), since `z⁴` is even.
+- At `n = 0`, excluded here, the series give `A₀ = e^{−z}/√(2π)` and `B₀ = e^z/√π`, the solutions of
+  `w″ = w`, with Wronskian `√2/π = (2/π) 2^{−1/2} sin(π/2)`. The normalization of 9.13.8 thus holds
+  at `n = 0` too; the targets of this layer take `n ≥ 1`.
 
 *Needs:* 1.1–1.3; AsymptoticExpansions §10.2.
 
@@ -1388,8 +1492,9 @@ Then, for `δ > 0`, as `z → ∞` (`isBigO_generalizedAiryA_sub`):
   `A_n(−z) − 2 √(p/π) cos(pπ/2) z^{−n/4} cos(ζ − π/4)` and
   `B_n(−z) + (2/√π) sin(pπ/2) z^{−n/4} sin(ζ − π/4)` (9.13.10, 9.13.12);
 - for `n` even: `A_n(−z) − √(p/π) z^{−n/4} e^{ζ} = O(|z^{−n/4} e^{ζ}| |ζ|^{−1})` in
-  `|ph z| ≤ pπ − δ`, and `B_n(−z) − π^{−1/2} sin(pπ) z^{−n/4} e^{−ζ}
-  = O(|z^{−n/4} e^{−ζ}| |ζ|^{−1})` in `|ph z| ≤ 3pπ − δ` (9.13.10, 9.13.12).
+  `|ph z| ≤ pπ − δ`, and
+  `B_n(−z) − π^{−1/2} sin(pπ) z^{−n/4} e^{−ζ} = O(|z^{−n/4} e^{−ζ}| |ζ|^{−1})` in `|ph z| ≤ 3pπ − δ`
+  (9.13.10, 9.13.12).
 
 The proof route for the representation: for `z = x > 0`, the substitution `s = (ζ/2) e^u` turns
 the integral into `½ (ζ/2)^{−p} ∫₀^∞ s^{p−1} e^{−s − c/s} ds` with `c = ζ²/4 = p² x^{n+2}`. Its
@@ -1412,7 +1517,7 @@ for even `n` follow from the reflections of 9.2; and for odd `n` the general rot
 ### 9.4 Olver's and Smirnov's normalizations
 
 DLMF 9.13.13–9.13.24. Let `m = n + 2 = 1/p ≥ 3` and `t = (m/2)^{−2/m} z` (9.13.14).
-- **Definitions** (9.13.15–9.13.16; `TauCeti.olverAiryU`, `olverAiryVBar`, `olverAiryW`):
+- **Definitions** (9.13.15–9.13.16):
   `U_m(t) = √(2π) (m/2)^{(m−1)/m} csc(π/m) A_n((m/2)^{2/m} t)` for every `m`, which is DLMF's
   `V_m` for odd `m`; `V̄_m(t) = √π (m/2)^{(m−2)/(2m)} csc(π/m) B_n((m/2)^{2/m} t)` for odd `m`;
   and for even `m`, with `s = (m/2)^{2/m} t`,
@@ -1433,8 +1538,8 @@ W_m(t) = 2^{(m+2)/(2m)} (2√π)⁻¹ ( Γ(1/m) Γ(1 − 1/m) 𝐅(1 − 1/m, �
   one centred on the ray where `t e^{−2jπi/m}` is positive, which at `j = 0` is `|ph t| < π/m`.
 - Smirnov's functions (9.13.19–9.13.21): for real `α > −2` and `x > 0`,
   `U₁(x, α) = (α + 2)^{−1/(α+2)} Γ((α + 1)/(α + 2)) x^{1/2} J_{−1/(α+2)}((2/(α + 2)) x^{(α+2)/2})`
-  and `U₂(x, α) = (α + 2)^{1/(α+2)} Γ((α + 3)/(α + 2)) x^{1/2} J_{1/(α+2)}((2/(α + 2))
-  x^{(α+2)/2})` solve `w″ + x^α w = 0`.
+  and `U₂(x, α) = (α + 2)^{1/(α+2)} Γ((α + 3)/(α + 2)) x^{1/2} J_{1/(α+2)}((2/(α + 2)) x^{(α+2)/2})`
+  solve `w″ + x^α w = 0`.
 - For even `m ≥ 4`, `α = m − 2` and `x = (m/2)^{2/m} t` with `t > 0` (9.13.22–9.13.24):
   `U₁(x, α) = π^{1/2} (W_m(t) + W_m(−t)) / (2^{(m+2)/(2m)} Γ(1/m))` and
   `U₂(x, α) = π^{1/2} m^{2/m} (W_m(t) − W_m(−t)) / (2^{(m+2)/(2m)} Γ(−1/m))`. DLMF states these
@@ -1442,6 +1547,14 @@ W_m(t) = 2^{(m+2)/(2m)} (2√π)⁻¹ ( Γ(1/m) Γ(1 − 1/m) 𝐅(1 − 1/m, �
 
 The proof route: the equations by the chain rule from 9.13.1 and from the series; 9.13.18 from
 9.13.9 and 9.13.11; 9.13.23–9.13.24 by comparing the series through `Complex.besselJ_def`.
+
+**Checks.**
+- At `m = 3`, `w(t) = Ai((3/2)^{2/3} t)` has `w″ = (3/2)^{4/3} · (3/2)^{2/3} t w = (9/4) t w`, which
+  is 9.13.13 with `¼ m² t^{m−2} = (9/4) t`; this fixes the scale `(m/2)^{2/m}` of 9.13.14.
+- At `α = 0`, `U₁(x, 0) = cos x` and `U₂(x, 0) = sin x`, from `J_{∓1/2}(x) = (2/(πx))^{1/2}`
+  times `cos x`, `sin x`.
+- At `j = 0` the recessive sector of 9.13.18 is `|ph t| < π/m`; the sector printed in DLMF,
+  `−(2j − 1)π/m ≤ ph t ≤ (2j + 1)π/m`, is the single ray `ph t = π/m` there.
 
 *Needs:* 9.1–9.3; Mathlib `Complex.besselJ_def`.
 
@@ -1452,7 +1565,7 @@ DLMF 9.13.25–9.13.37. The integrand is `t^{−p} exp(z t − t³/3)` in the lo
 `Im w = 2π` being the upper edge). For angles `α`, `β` let `C(α, β)` be the path that comes in
 along the ray `Im w = α` from `Re w = +∞` to `w = iα`, follows `w = iθ` from `θ = α` to `θ = β`,
 and goes out along `Im w = β`. On the rays `t³` is real and positive, so all integrals below
-converge absolutely. Then (`TauCeti.reidAiryA`, `reidAiryB0`, `reidAiryB`, through the integrand
+converge absolutely. Then (`TauCeti.reidAiryA`, `reidAiryB0`, through the integrand
 `reidKernel` and the path integral `reidPath`):
 - `A_k(z, p) = (2πi)⁻¹ ∫_{C(α_k, β_k)}` for every `p ∈ ℂ`, with `(α₁, β₁) = (4π/3, 2π/3)`,
   `(α₂, β₂) = (2π, 4π/3)` and `(α₃, β₃) = (2π/3, 0)`, the paths `ℒ₁`–`ℒ₃` of DLMF Figure 9.13.1
@@ -1474,15 +1587,24 @@ For these functions:
 - `B₂ − B₃ = 2πi A₁`, `B₃ − B₁ = 2πi A₂` and `B₁ − B₂ = 2πi A₃` for integers `p ≤ 0`
   (9.13.35–9.13.37).
 
-For integers `p ≥ 1` the ray integrals of 9.13.27 diverge at `t = 0`. With a Hadamard finite part
-at `0` they define functions for which 9.13.36 holds only in the form
-`B₃ − B₁ = 2πi (A₂ + B₀)`; this correction is recorded in the errata report of `lean-DLMF`. The
-proof route: differentiation under the integral, and `d/dt (t^{1−p} exp(z t − t³/3))
-= ((1 − p) t^{−p} + z t^{1−p} − t^{3−p}) exp(z t − t³/3)`, whose integral over each path is `0`,
-for 9.13.31–9.13.32 (for `B_k` the term at `t = 0` vanishes because `p ≤ 0`); the substitution
-`w ↦ w ± 2πi/3` for 9.13.33; and the additivity of paths with Cauchy's theorem for 9.13.34–9.13.37,
-`t^{−p}` being single valued for `p ∈ ℤ` and entire for `p ≤ 0`; for 9.13.28–9.13.30, 2.1 and
-9.12.20.
+For integers `p ≥ 1` the ray integrals of 9.13.27 diverge at `t = 0`, and a finite part at `0`
+depends on how the term `B₀(z, p)/t` of the integrand is treated. If the logarithm on the ray
+`ph t = θ` is taken on DLMF's branch, `ln(ε e^{iθ}) = ln ε + iθ` with `0 ≤ θ < 2π`, then 9.13.35 and
+9.13.37 hold and 9.13.36 holds only in the form `B₃ − B₁ = 2πi (A₂ + B₀)`; this correction is
+recorded in the errata report of `lean-DLMF`. With the real logarithm `ln ε` on every ray, the
+standard Hadamard finite part, all three change instead, for example
+`B₂ − B₃ = 2πi A₁ + (2πi/3) B₀`. The proof route: differentiation under the integral, and
+`d/dt (t^{1−p} exp(z t − t³/3)) = ((1 − p) t^{−p} + z t^{1−p} − t^{3−p}) exp(z t − t³/3)`, whose
+integral over each path is `0`, for 9.13.31–9.13.32 (for `B_k` the term at `t = 0` vanishes because
+`p ≤ 0`); the substitution `w ↦ w ± 2πi/3` for 9.13.33; and the additivity of paths with Cauchy's
+theorem for 9.13.34–9.13.37, `t^{−p}` being single valued for `p ∈ ℤ` and entire for `p ≤ 0`; for
+9.13.28–9.13.30, 2.1 and 9.12.20.
+
+**Checks.**
+- `B₀(z, p) = 0` for integers `p ≤ 0`, `B₀(z, 1) = 1`, `B₀(z, 2) = z` and `B₀(z, 3) = z²/2`: `B₀` is
+  the coefficient of `t^{p−1}` in `exp(z t − t³/3)`.
+- 9.13.32 for `B₀` at `p = 3` reads `B₀(z, 0) − z B₀(z, 2) + 2 B₀(z, 3) = 0 − z² + z² = 0`.
+- At `p = 1`, 9.13.34 gives `A₁ + A₂ + A₃ = −1`, whereas at `p = 0` the sum is `0` (9.2.12).
 
 *Needs:* 2.1, 6.1; Mathlib parametric differentiation and contour deformation.
 
@@ -1500,10 +1622,10 @@ inversion and contour deformation; Tau Ceti `Real.besselI`.
 
 ## Downstream consumers
 
-- **RandomMatrices** §8.4 consumes the Airy function `TauCeti.airyAi` with Airy's equation (1.2),
-  the value `Ai(0)` (1.1), the recessive characterization and tail bounds (3.5–3.6), the integral
-  representations (Layer 2), the uniform expansions on the real line (3.2, 3.4) and the Airy
-  kernel (8.5).
+- **RandomMatrices** §8.4, in the companion revision named under Scope and ownership, consumes the
+  Airy function `TauCeti.airyAi` with Airy's equation (1.2), the value `Ai(0)` (1.1), the
+  recessive characterization and tail bounds (3.5–3.6), the integral representations (Layer 2),
+  the uniform expansions on the real line (3.2, 3.4) and the Airy kernel (8.5).
 - A Bessel-function roadmap (DLMF Chapter 10) consumes `Ai`, `Bi` with their connection formulas
   and expansions for the `K`, `Y` and Hankel relations of DLMF §9.6 and the uniform expansions of
   DLMF §10.20.
@@ -1578,7 +1700,7 @@ counterparts; the mathematical targets and dependencies are specified by the lay
 - O. Vallée and M. Soares, *Airy Functions and Applications to Physics*, Imperial College Press,
   2004.
 - G. Nemes, Error bounds for the large-argument asymptotic expansions of the Hankel and Bessel
-  functions, *Acta Appl. Math.* 150 (2017), 141–177.
+  functions, *Acta Appl. Math.* 150 (2017), 141–177; arXiv:1606.07961.
 - B. J. Laurenzi, Moment integrals of powers of Airy functions, *Z. Angew. Math. Phys.* 44
   (1993), 891–908.
 - W. H. Reid, Integral representations for products of Airy functions, *Z. Angew. Math. Phys.*

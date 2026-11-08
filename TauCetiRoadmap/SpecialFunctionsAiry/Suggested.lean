@@ -1,15 +1,21 @@
 module
 
 public import Mathlib
+public import TauCeti.Analysis.SpecialFunctions.BesselI
 public import TauCeti.Analysis.SpecialFunctions.IncompleteGamma
+public import TauCeti.Analysis.SpecialFunctions.RegularizedHypergeometric
 
 /-!
-# Airy and Scorer functions: suggested target signatures
+# Airy and Scorer functions: target signatures
 
-**This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. The statements here suggest Lean forms for particular subsections, so that
-contributors and reviewers converge on names and signatures; discharging all of them
-finishes neither a layer nor the roadmap.
+This file states the headline theorems of the roadmap against the pinned Mathlib and Tau Ceti,
+one or more per layer. The definitive document is `README.md`, which states every target; this
+file states a selection of them, and discharging it finishes neither a layer nor the roadmap.
+
+One headline cannot be stated at the pins: DLMF 9.10.15–9.10.16 for complex `p` (README 7.5)
+needs the incomplete Gamma function on the logarithmic plane, `upperIncompleteGammaLog` of
+SpecialFunctionsEiLiErfIncompleteGamma §1.5, which the pinned Tau Ceti does not have. The real
+form `airyAi_neg_laplace` is stated instead.
 
 The definitions below are roadmap-local copies of the definitions `README.md` pins. The complex
 functions `airyAi`, `airyBi`, `scorerGi`, `scorerHi` live in `TauCeti`, and their real
@@ -134,17 +140,13 @@ def airyChi (x : ℝ) : ℝ := √π * Real.Gamma (x / 2 + 1) / Real.Gamma (x / 
 
 end Real
 
-/-- The zeros `β_k` of `Bi` in `π/3 < ph z < π/2`, ordered by modulus. -/
-def airyBiComplexZero (k : ℕ) : ℂ :=
+/-- The `k`th zero of `f` in `π/3 < ph z < π/2`, ordered by modulus and, among zeros of equal
+modulus, by phase: exactly `k − 1` zeros precede it in that order. -/
+def airySectorZero (f : ℂ → ℂ) (k : ℕ) : ℂ :=
   Classical.epsilon fun z : ℂ =>
-    (π / 3 < arg z ∧ arg z < π / 2 ∧ Bi z = 0) ∧
-      {w : ℂ | (π / 3 < arg w ∧ arg w < π / 2 ∧ Bi w = 0) ∧ ‖w‖ < ‖z‖}.ncard = k - 1
-
-/-- The zeros `β′_k` of `Bi′` in `π/3 < ph z < π/2`, ordered by modulus. -/
-def airyBiDerivComplexZero (k : ℕ) : ℂ :=
-  Classical.epsilon fun z : ℂ =>
-    (π / 3 < arg z ∧ arg z < π / 2 ∧ deriv Bi z = 0) ∧
-      {w : ℂ | (π / 3 < arg w ∧ arg w < π / 2 ∧ deriv Bi w = 0) ∧ ‖w‖ < ‖z‖}.ncard = k - 1
+    (π / 3 < arg z ∧ arg z < π / 2 ∧ f z = 0) ∧
+      {w : ℂ | (π / 3 < arg w ∧ arg w < π / 2 ∧ f w = 0) ∧
+        (‖w‖ < ‖z‖ ∨ (‖w‖ = ‖z‖ ∧ arg w < arg z))}.ncard = k - 1
 
 /-- The remainder `R_n(z)` of the expansion of `Ai` (DLMF 9.7.18). -/
 def airyRemainderAi (n : ℕ) (z : ℂ) : ℂ :=
@@ -155,6 +157,15 @@ def airyRemainderAi (n : ℕ) (z : ℂ) : ℂ :=
 def airyRemainderAiDeriv (n : ℕ) (z : ℂ) : ℂ :=
   deriv Ai z / (-(z ^ (1 / 4 : ℂ)) * cexp (-ζ[z]) / (2 * (√π : ℝ))) -
     ∑ k ∈ Finset.range n, (-1 : ℂ) ^ k * airyV k / ζ[z] ^ k
+
+/-- The multiplier `m_n(σ, z)` of the error bounds DLMF 9.7.17, through the lifted phase
+`ph ζ = (3/2) ph z`. -/
+def airyRemainderBound (σ : ℝ) (n : ℕ) (z : ℂ) : ℝ :=
+  let ph := 3 / 2 * arg z
+  if |arg z| ≤ π / 3 then 1
+  else if |arg z| < 2 * π / 3 then min |(Real.sin ph)⁻¹| (Real.airyChi (n + σ) + 1)
+  else if |arg z| = 2 * π / 3 then Real.airyChi (n + σ) + 1
+  else √(2 * π * (n + σ)) / |Real.cos ph| ^ ((n : ℝ) + σ) + Real.airyChi (n + σ) + 1
 
 /-- The incomplete Airy function: the integral of DLMF 9.5.4 from `∞ e^{−πi/3}` to `a`
 (DLMF §9.14), along the ray to `0` and the segment from `0` to `a`. -/
@@ -215,19 +226,6 @@ theorem hasSum_airyAi (z : ℂ) :
         deriv airyAi 0 *
           (3 ^ k * (ascPochhammer ℂ k).eval (2 / 3) * z ^ (3 * k + 1) / (3 * k + 1)!))
       (airyAi z) := sorry
-
-/-- **1.1** `Ai(0) = 3^{−2/3}/Γ(⅔)` (DLMF 9.2.3). -/
-theorem airyAi_zero : airyAi 0 = (3 : ℂ) ^ (-(2 / 3 : ℂ)) / Gamma (2 / 3) := sorry
-
-/-- **1.1** `Ai′(0) = −3^{−1/3}/Γ(⅓)` (DLMF 9.2.4). -/
-theorem deriv_airyAi_zero : deriv airyAi 0 = -((3 : ℂ) ^ (-(1 / 3 : ℂ)) / Gamma (1 / 3)) :=
-  sorry
-
-/-- **1.1** `Bi(0) = 3^{−1/6}/Γ(⅔)` (DLMF 9.2.5). -/
-theorem airyBi_zero : airyBi 0 = (3 : ℂ) ^ (-(1 / 6 : ℂ)) / Gamma (2 / 3) := sorry
-
-/-- **1.1** `Bi′(0) = 3^{1/6}/Γ(⅓)` (DLMF 9.2.6). -/
-theorem deriv_airyBi_zero : deriv airyBi 0 = (3 : ℂ) ^ (1 / 6 : ℂ) / Gamma (1 / 3) := sorry
 
 /-- **1.2** Airy's equation for `Ai` (DLMF 9.2.1). -/
 theorem airyAi_ode (z : ℂ) : deriv^[2] airyAi z = z * airyAi z := sorry
@@ -295,11 +293,6 @@ theorem airyAi_laplace_integral {z : ℂ} (hz0 : z ≠ 0) (hz : |arg z| < 2 * π
 
 /-! ### Layer 3: asymptotic expansions -/
 
-/-- **3.1** The recurrence for `u_k` (DLMF 9.7.2). -/
-theorem airyU_succ (k : ℕ) :
-    airyU (k + 1) = (6 * k + 1) * (6 * k + 3) * (6 * k + 5) /
-      ((2 * k + 1) * 216 * (k + 1)) * airyU k := sorry
-
 /-- **3.2** The expansion of `Ai` in `|ph z| ≤ π − δ` (DLMF 9.7.5). -/
 theorem isBigO_airyAi_sub_sum {δ : ℝ} (hδ : 0 < δ) (hδπ : δ < π) (N : ℕ) :
     (fun z => airyAi z - cexp (-ζ[z]) / (2 * (√π : ℝ) * z ^ (1 / 4 : ℂ)) *
@@ -326,9 +319,16 @@ theorem isBigO_airyAi_neg_sub_osc {δ : ℝ} (hδ : 0 < δ) (hδπ : δ < 2 * π
         fun z => ‖z ^ (-(1 / 4 : ℂ))‖ * Real.exp |(ζ[z]).im| *
           (‖ζ[z]‖ ^ (-(2 * N : ℤ)) + ‖ζ[z]‖ ^ (-(2 * M + 1 : ℤ))) := sorry
 
-/-- **3.5** The error bound of DLMF 9.7.17 in the sector `|ph z| ≤ π/3`. -/
-theorem norm_airyRemainderAi_le {z : ℂ} (hz : z ≠ 0) (harg : |arg z| ≤ π / 3) (n : ℕ) :
-    ‖airyRemainderAi n z‖ ≤ airyU n * ‖ζ[z]‖ ^ (-(n : ℤ)) := sorry
+/-- **3.5** The error bound of DLMF 9.7.17 for `R_n`, in the slit plane, with `σ = 1/6`. -/
+theorem norm_airyRemainderAi_le {z : ℂ} (hz : z ≠ 0) (harg : |arg z| < π) (n : ℕ) :
+    ‖airyRemainderAi n z‖ ≤ airyRemainderBound (1 / 6) n z * airyU n * ‖ζ[z]‖ ^ (-(n : ℤ)) :=
+  sorry
+
+/-- **3.5** The error bound of DLMF 9.7.17 for `S_n`, in the slit plane, with `σ = 0`. -/
+theorem norm_airyRemainderAiDeriv_le {z : ℂ} (hz : z ≠ 0) (harg : |arg z| < π) {n : ℕ}
+    (hn : 1 ≤ n) :
+    ‖airyRemainderAiDeriv n z‖ ≤ airyRemainderBound 0 n z * |airyV n| * ‖ζ[z]‖ ^ (-(n : ℤ)) :=
+  sorry
 
 /-- **3.5** On the positive axis the error of DLMF 9.7.5 is bounded by the first neglected term
 and has its sign. -/
@@ -368,13 +368,30 @@ theorem airyAiZero_spec {k : ℕ} (hk : 1 ≤ k) :
     Real.airyAiZero k < 0 ∧ Real.airyAi (Real.airyAiZero k) = 0 ∧
       {y : ℝ | Real.airyAiZero k < y ∧ y < 0 ∧ Real.airyAi y = 0}.ncard = k - 1 := sorry
 
-/-- **5.2** `θ(a_k) = kπ` (DLMF 9.9.1). -/
+/-- **5.2** The phases at the real zeros: `θ(a_k) = kπ`, `φ(a′_k) = (k − 1)π` (DLMF 9.9.1) and
+`θ(b_k) = φ(b′_k) = (k − ½)π` (DLMF 9.9.2). -/
 theorem airyPhase_airyAiZero {k : ℕ} (hk : 1 ≤ k) :
-    Real.airyPhase (Real.airyAiZero k) = k * π := sorry
+    Real.airyPhase (Real.airyAiZero k) = k * π ∧
+      Real.airyDerivPhase (Real.airyAiDerivZero k) = (k - 1) * π ∧
+      Real.airyPhase (Real.airyBiZero k) = (k - 1 / 2) * π ∧
+      Real.airyDerivPhase (Real.airyBiDerivZero k) = (k - 1 / 2) * π := sorry
 
 /-- **5.3** The nonreal zeros of `Bi` lie in `π/3 < |ph z| < π/2`. -/
 theorem airyBi_eq_zero_mem_sector {z : ℂ} (hz : airyBi z = 0) (him : z.im ≠ 0) :
     π / 3 < |arg z| ∧ |arg z| < π / 2 := sorry
+
+/-- **5.3** For `f = Bi` and `f = Bi′`, the epsilons `airySectorZero f k`, `k ≥ 1`, are attained,
+enumerate the zeros of `f` in `π/3 < ph z < π/2`, have nondecreasing moduli, and have strictly
+increasing moduli from some index on. -/
+theorem airyBiComplexZero_spec {f : ℂ → ℂ} (hf : f = airyBi ∨ f = deriv airyBi) :
+    (∀ k, 1 ≤ k → (π / 3 < arg (airySectorZero f k) ∧ arg (airySectorZero f k) < π / 2 ∧
+        f (airySectorZero f k) = 0) ∧
+      {w : ℂ | (π / 3 < arg w ∧ arg w < π / 2 ∧ f w = 0) ∧
+        (‖w‖ < ‖airySectorZero f k‖ ∨
+          (‖w‖ = ‖airySectorZero f k‖ ∧ arg w < arg (airySectorZero f k)))}.ncard = k - 1) ∧
+    (∀ z, π / 3 < arg z → arg z < π / 2 → f z = 0 → ∃ k, 1 ≤ k ∧ airySectorZero f k = z) ∧
+    (∀ k, 1 ≤ k → ‖airySectorZero f k‖ ≤ ‖airySectorZero f (k + 1)‖) ∧
+    ∃ k₀, ∀ k, k₀ ≤ k → ‖airySectorZero f k‖ < ‖airySectorZero f (k + 1)‖ := sorry
 
 /-- **5.4** The expansion of `a_k` (DLMF 9.9.6, 9.9.18), with the first printed coefficients;
 `README.md` pins the whole coefficient sequence by reversion of the phase expansion. -/
@@ -393,9 +410,6 @@ theorem differentiable_scorerHi : Differentiable ℂ scorerHi := sorry
 /-- **6.1** `Hi″ = z Hi + 1/π` (DLMF 9.12.1). -/
 theorem scorerHi_ode (z : ℂ) : deriv^[2] scorerHi z = z * scorerHi z + (π : ℂ)⁻¹ := sorry
 
-/-- **6.2** `Gi(0) = 1/(3^{7/6} Γ(⅔))` (DLMF 9.12.6). -/
-theorem scorerGi_zero : scorerGi 0 = 1 / ((3 : ℂ) ^ (7 / 6 : ℂ) * Gamma (2 / 3)) := sorry
-
 /-- **6.4** The Maclaurin series of `Hi` (DLMF 9.12.17). -/
 theorem hasSum_scorerHi (z : ℂ) :
     HasSum (fun k : ℕ => (3 : ℂ) ^ (-(2 / 3 : ℂ)) / π * Gamma ((k + 1) / 3) *
@@ -410,20 +424,47 @@ theorem scorerHi_mellin_barnes {z : ℂ} (hz0 : z ≠ 0) (hz : |arg (-z)| < 2 * 
           cexp ((σ + y * I) * (Complex.log 3 / 3 + Complex.log (-z))) =
         2 * π ^ 2 * (3 : ℂ) ^ (2 / 3 : ℂ) * scorerHi z := sorry
 
+/-- **6.6** The expansion of `Gi` in `|ph z| ≤ π/3 − δ` (DLMF 9.12.25). -/
+theorem isBigO_scorerGi_sub_sum {δ : ℝ} (hδ : 0 < δ) (hδπ : δ < π / 3) (N : ℕ) :
+    (fun z => scorerGi z - (π * z)⁻¹ *
+        ∑ k ∈ Finset.range N, ((3 * k)! : ℂ) / ((k ! : ℂ) * (3 * z ^ 3) ^ k))
+      =O[sectorAtTop (π / 3 - δ)] fun z => ‖z‖ ^ (-(3 * N + 1 : ℤ)) := sorry
+
+/-- **6.6** The expansion of `Hi` in `|ph(−z)| ≤ 2π/3 − δ` (DLMF 9.12.27), written at `−z`. -/
+theorem isBigO_scorerHi_neg_sub_sum {δ : ℝ} (hδ : 0 < δ) (hδπ : δ < 2 * π / 3) (N : ℕ) :
+    (fun z => scorerHi (-z) - (π * z)⁻¹ *
+        ∑ k ∈ Finset.range N, ((3 * k)! : ℂ) / ((k ! : ℂ) * (-(3 * z ^ 3)) ^ k))
+      =O[sectorAtTop (2 * π / 3 - δ)] fun z => ‖z‖ ^ (-(3 * N + 1 : ℤ)) := sorry
+
 /-- **6.7** The energy `E = Gi′² − x Gi² + 2 Gi/π` has derivative `−Gi²`. -/
 theorem hasDerivAt_scorerGi_energy (x : ℝ) :
     HasDerivAt (fun t => deriv Real.scorerGi t ^ 2 - t * Real.scorerGi t ^ 2 +
       2 * Real.scorerGi t / π) (-(Real.scorerGi x ^ 2)) x := sorry
 
+/-- **6.7** The real zeros of the Scorer functions (DLMF §9.12(ix)): `Hi > 0` on `ℝ`; `Gi > 0` on
+`[0, ∞)`; `Gi′` has exactly one zero in `[0, ∞)`; `Gi` and `Gi′` have infinitely many negative
+zeros; every real zero of `Gi` is simple; and between consecutive negative zeros of either function
+lies exactly one zero of the other. -/
+theorem scorerGi_real_zeros :
+    (∀ x, 0 < Real.scorerHi x) ∧
+    (∀ x, 0 ≤ x → 0 < Real.scorerGi x) ∧
+    (∃! x, 0 ≤ x ∧ deriv Real.scorerGi x = 0) ∧
+    {x : ℝ | x < 0 ∧ Real.scorerGi x = 0}.Infinite ∧
+    {x : ℝ | x < 0 ∧ deriv Real.scorerGi x = 0}.Infinite ∧
+    (∀ x, Real.scorerGi x = 0 → deriv Real.scorerGi x ≠ 0) ∧
+    (∀ x y, x < y → y < 0 → Real.scorerGi x = 0 → Real.scorerGi y = 0 →
+      (∀ t ∈ Ioo x y, Real.scorerGi t ≠ 0) →
+        {t ∈ Ioo x y | deriv Real.scorerGi t = 0}.ncard = 1) ∧
+    (∀ x y, x < y → y < 0 → deriv Real.scorerGi x = 0 → deriv Real.scorerGi y = 0 →
+      (∀ t ∈ Ioo x y, deriv Real.scorerGi t ≠ 0) →
+        {t ∈ Ioo x y | Real.scorerGi t = 0}.ncard = 1) := sorry
+
 /-! ### Layer 7: integrals -/
 
-/-- **7.1** Gauss's triplication formula (DLMF 5.5.6 with `m = 3`). -/
+/-- **7.1** Gauss's triplication formula (DLMF 5.5.6 with `n = 3`). -/
 theorem Complex.Gamma_mul_Gamma_add_third (z : ℂ) :
     Gamma z * Gamma (z + 1 / 3) * Gamma (z + 2 / 3) =
       2 * π * (3 : ℂ) ^ (1 / 2 - 3 * z) * Gamma (3 * z) := sorry
-
-/-- **7.2** `∫₀^∞ Ai = ⅓` (DLMF 9.10.11). -/
-theorem integral_airyAi_Ioi : ∫ x in Ioi (0 : ℝ), Real.airyAi x = 1 / 3 := sorry
 
 /-- **7.5** The Laplace transform of `Ai(−t)` for real `p > 0` (DLMF 9.10.15), through Tau
 Ceti's regularized lower incomplete Gamma function `P = TauCeti.regularizedGamma`. -/
@@ -438,7 +479,8 @@ theorem airyAi_mellin {α : ℂ} (hα : 0 < α.re) :
     ∫ t in Ioi (0 : ℝ), (t : ℂ) ^ (α - 1) * airyAi t =
       Gamma α / ((3 : ℂ) ^ ((α + 2) / 3) * Gamma (α / 3 + 2 / 3)) := sorry
 
-/-- **7.6** The Sokhotski–Plemelj formula on `(0, ∞)`, from the upper half-plane. -/
+/-- **7.6** The Sokhotski–Plemelj formula on `(0, ∞)`, from the upper half-plane; the lower side
+follows by applying it to `conj ∘ f`. -/
 theorem tendsto_cauchyIntegral_Ioi {f : ℝ → ℂ} {s₀ : ℝ} (hs₀ : 0 < s₀)
     (hf : IntegrableOn (fun s => f s / (1 + s)) (Ioi 0))
     (hC1 : ∃ ε > 0, ContDiffOn ℝ 1 f (Ioo (s₀ - ε) (s₀ + ε))) :
@@ -447,6 +489,11 @@ theorem tendsto_cauchyIntegral_Ioi {f : ℝ → ℂ} {s₀ : ℝ} (hs₀ : 0 < s
         (𝓝[>] 0) (𝓝 L) ∧
       Tendsto (fun w : ℂ => ∫ s in Ioi (0 : ℝ), f s / (s - w))
         (𝓝[{w : ℂ | 0 < w.im}] (s₀ : ℂ)) (𝓝 (L + π * I * f s₀)) := sorry
+
+/-- **7.8** The incomplete Airy function tends to `Ai(z)` as `a → ∞ e^{πi/3}`. -/
+theorem tendsto_incompleteAiryAi (z : ℂ) :
+    Tendsto (fun r : ℝ => incompleteAiryAi (r * cexp (π * I / 3)) z) atTop (𝓝 (airyAi z)) :=
+  sorry
 
 /-! ### Layer 8: products -/
 
@@ -477,11 +524,11 @@ theorem airyKernel_eq_of_ne {x y : ℝ} (hxy : x ≠ y) :
 /-! ### Layer 9: generalized Airy functions -/
 
 /-- **9.1** `A_n″ = zⁿ A_n` (DLMF 9.13.1). -/
-theorem generalizedAiryA_ode (n : ℕ) (z : ℂ) :
+theorem generalizedAiryA_ode {n : ℕ} (hn : 1 ≤ n) (z : ℂ) :
     deriv^[2] (generalizedAiryA n) z = z ^ n * generalizedAiryA n z := sorry
 
 /-- **9.1** `𝒲{A_n, B_n} = (2/π) p^{1/2} sin(pπ)` (DLMF 9.13.8). -/
-theorem generalizedAiry_wronskian (n : ℕ) (z : ℂ) :
+theorem generalizedAiry_wronskian {n : ℕ} (hn : 1 ≤ n) (z : ℂ) :
     generalizedAiryA n z * deriv (generalizedAiryB n) z -
         deriv (generalizedAiryA n) z * generalizedAiryB n z =
       ((2 / π * √(generalizedAiryOrder n) * Real.sin (generalizedAiryOrder n * π) : ℝ) : ℂ) :=
@@ -489,7 +536,7 @@ theorem generalizedAiry_wronskian (n : ℕ) (z : ℂ) :
 
 /-- **9.3** The integral representation of `A_n` for `|ph z| < pπ`, with
 `ζ = 2p z^{(n+2)/2}`. -/
-theorem generalizedAiryA_eq_integral (n : ℕ) {z : ℂ} (hz0 : z ≠ 0)
+theorem generalizedAiryA_eq_integral {n : ℕ} (hn : 1 ≤ n) {z : ℂ} (hz0 : z ≠ 0)
     (hz : |arg z| < generalizedAiryOrder n * π) :
     generalizedAiryA n z =
       2 * generalizedAiryOrder n / π * Real.sin (generalizedAiryOrder n * π) * z ^ (1 / 2 : ℂ) *
@@ -497,7 +544,7 @@ theorem generalizedAiryA_eq_integral (n : ℕ) {z : ℂ} (hz0 : z ≠ 0)
           Real.cosh u) * Real.cosh (generalizedAiryOrder n * u) := sorry
 
 /-- **9.3** The leading behaviour of `A_n` in `|ph z| ≤ 3pπ − δ` (DLMF 9.13.9). -/
-theorem isBigO_generalizedAiryA_sub (n : ℕ) {δ : ℝ} (hδ : 0 < δ)
+theorem isBigO_generalizedAiryA_sub {n : ℕ} (hn : 1 ≤ n) {δ : ℝ} (hδ : 0 < δ)
     (hδp : δ < 3 * generalizedAiryOrder n * π) :
     (fun z => generalizedAiryA n z -
         √(generalizedAiryOrder n / π) * Real.sin (generalizedAiryOrder n * π) *
@@ -512,3 +559,38 @@ theorem reidAiry_connection_sum (z : ℂ) (p : ℤ) :
     reidAiryA 0 z p + reidAiryA 1 z p + reidAiryA 2 z p + reidAiryB0 z p = 0 := sorry
 
 end TauCetiRoadmap.SpecialFunctionsAiry
+
+/-! ## Library declarations cited in `README.md`
+
+The README cites these Mathlib and Tau Ceti declarations under the names `Complex.*` and
+`Real.*`, which coincide with the roadmap-local namespaces above; they are pinned here. -/
+
+#check @_root_.Complex.Gamma
+#check @_root_.Complex.Gamma_add_one
+#check @_root_.Complex.Gamma_eq_integral
+#check @_root_.Complex.Gamma_mul_Gamma_add_half
+#check @_root_.Complex.Gamma_mul_Gamma_eq_betaIntegral
+#check @_root_.Complex.Gamma_mul_Gamma_one_sub
+#check @_root_.Complex.Gamma_ofReal
+#check @_root_.Complex.analyticOnNhd_besselJ
+#check @_root_.Complex.analyticOnNhd_regularizedHGFun_of_card_le
+#check @_root_.Complex.arg
+#check @_root_.Complex.besselJ
+#check @_root_.Complex.besselJ_def
+#check @_root_.Complex.betaIntegral
+#check @_root_.Complex.cpow
+#check @_root_.Complex.digamma
+#check @_root_.Complex.hasSum_regularizedHGFun
+#check @_root_.Complex.integral_boundary_rect_eq_zero_of_differentiableOn
+#check @_root_.Complex.regularizedHGFun
+#check @_root_.Complex.regularizedHGFunCoeff
+#check @_root_.Complex.regularizedHGFunCoeff_add_one
+#check @_root_.Complex.regularizedHGFun_zero
+#check @_root_.Real.Gamma
+#check @_root_.Real.Gamma_add_one
+#check @_root_.Real.besselI
+#check @_root_.Real.besselI_eq_rpow_mul
+#check @_root_.Real.convexOn_log_Gamma
+#check @_root_.Real.eq_Gamma_of_log_convex
+#check @_root_.Real.eulerMascheroniConstant
+#check @_root_.Real.hasSum_besselI
