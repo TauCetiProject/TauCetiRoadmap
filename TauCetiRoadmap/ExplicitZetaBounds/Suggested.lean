@@ -6,11 +6,13 @@ import Mathlib
 # Explicit bounds for the zeta function and Dirichlet L-functions: target signatures
 
 The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
-theorems against the pinned Mathlib, each with `sorry`, together with the five definitions they
-need: the bounded-height Riemann hypothesis `RiemannHypothesisUpTo` of Layer 0.2, the zero counts
-`zetaZeroCount` and `dirichletZeroCount` of Layer 5 and `zetaZeroDensityCount` of Layer 8 (each
-written with the meromorphic order, in the rectangle of the source it serves), and Vinogradov's
-count `vinogradovCount` of Layer 4.9a. Every constant below is a literal decimal of its source.
+theorems against the pinned Mathlib, each with `sorry`, together with the definitions they need:
+the bounded-height Riemann hypothesis `RiemannHypothesisUpTo` of Layer 0.2, Vinogradov's count
+`vinogradovCount` of Layer 4.9a, the zero counts `zetaZeroCount` and `dirichletZeroCount` of
+Layer 5, the density counts `zetaZeroCountRight` and `zetaZeroDensityCount` of Layer 8 (each
+written with the meromorphic order, in the rectangle of the source it serves), and the count
+`primitiveLZeroCount` with the largest real zero `largestRealZero` of the family of primitive
+L-functions of Layer 8.4. Every constant below is a literal decimal of its source.
 
 Stated here:
 
@@ -19,8 +21,9 @@ Stated here:
 * Layer 4.7, `‖ζ(1/2 + it)‖ ≤ 0.618 t^{1/6} log t` (Hiary–Patel–Yang); Layer 4.8, Patel's and
   Hiary–Leong–Yang's bounds for `‖ζ(1 + it)‖`; Layer 4.9a, Ford's explicit Vinogradov mean value
   theorem; Layer 4.10, Ford's Richert-type bound for `ζ` and the Hurwitz zeta function;
-* Layer 5.2, the Bellotti–Wong form of the Riemann–von Mangoldt formula for `T ≥ e`; Layer 5.3, the
-  explicit zero count for primitive Dirichlet L-functions (Bennett–Martin–O'Bryant–Rechnitzer);
+* Layer 5.2, the Bellotti–Wong form of the Riemann–von Mangoldt formula for
+  `T ≥ 30 610 046 000`; Layer 5.3, the explicit zero count for primitive Dirichlet L-functions
+  (Bennett–Martin–O'Bryant–Rechnitzer);
 * Layer 7.3, the classical region with `R₀ = 5.558691` (Mossinghoff–Trudgian–Yang); Layer 7.4,
   Yang's Littlewood-type region; Layer 7.5, McCurley's region for the product of the L-functions
   modulo `q` in Thorner–Zaman's form, and Kadiri's region for `3 ≤ q ≤ 400 000`; Layer 7.6, the
@@ -28,34 +31,44 @@ Stated here:
   quadratic L-functions of conductor above `400 000`; Layer 7.8, the absence of real zeros of
   quadratic L-functions near `1` for moduli up to `10¹⁰` (Lu–Zaman–Zhao); Layer 7.10, the
   Hiary–Leong–Yang bound for `1/‖ζ(1 + it)‖`;
-* Layer 8.3, the Kadiri–Lumley–Ng density bound at `σ = 9/10`; Layer 8.5, Bellotti's log-free
+* Layer 8.1, Kadiri's density bounds at `σ = 17/20` and `σ = 9/10`; Layer 8.3, the
+  Kadiri–Lumley–Ng density bound at `σ = 9/10`; Layer 8.4, Thorner and Zaman's explicit log-free
+  densities for the primitive L-functions of conductor at most `Q`; Layer 8.5, Bellotti's log-free
   density bound near `σ = 1`;
 * Layer 9.1, Ramaré's upper bounds for `‖L(1, χ)‖`; Layer 9.3, the
-  Mossinghoff–Starichkova–Trudgian lower bound for non-quadratic characters.
+  Mossinghoff–Starichkova–Trudgian lower bound for non-quadratic characters and Lu–Zaman–Zhao's
+  lower bound for quadratic characters of conductor up to `10¹⁰`.
 
 The recorded verifications of the Riemann hypothesis up to a height (README 0.4) are the only
 computational inputs taken as hypotheses, as in the README: `RiemannHypothesisUpTo 545439823`
-(van de Lune, te Riele and Winter) in 7.4 and 7.10, `RiemannHypothesisUpTo 30610046000` (Platt) in
-8.3, and `RiemannHypothesisUpTo (3 * 10 ^ 12)` (Platt and Trudgian) in 7.3, McCurley's region of
-7.5 (for the zeros of `ζ` that its principal characters carry), 7.6 and 8.5. The
+(van de Lune, te Riele and Winter) in 7.4, 7.10 and in the two regions of 7.5 (for the zeros of
+`ζ` that the principal characters carry), `RiemannHypothesisUpTo 30610046000` (Platt) in 8.1 and
+8.3, and `RiemannHypothesisUpTo (3 * 10 ^ 12)` (Platt and Trudgian) in 7.3, 7.6, 8.4 and 8.5. The
 polynomial and numerical certificates that the README names in the routes are closed
-propositions about literal numbers (or about finitely many values of `ζ`, `L(s, χ)` and `S(T)`):
-the theorems are stated as their sources state them, and their proofs establish those
-certificates.
+propositions about literal numbers (or about finitely many values of `ζ` and `L(s, χ)`): the
+theorems are stated as their sources state them, and their proofs establish those certificates.
 
-Not statable at the pins: Rademacher's bound (3.2) at the generality of an analytic record of
-finite-order type, which needs the record `AnalyticLFunctionData` of the L-functions roadmap and
-its continued L-function, absent from Mathlib and Tau Ceti; its Dirichlet instance is stated.
+Not statable at the pins:
+
+* Rademacher's bound (3.2) at the generality of an analytic record of finite-order type, which
+  needs the record `AnalyticLFunctionData` of the L-functions roadmap and its continued
+  L-function, absent from Mathlib and Tau Ceti; its Dirichlet instance is stated.
+* The Bellotti–Wong bounds of 5.2 for `e ≤ T < 30 610 046 000`, which rest on the recorded bound
+  `|S(T)| ≤ 2.5167` for `0 ≤ T ≤ 30 610 046 000` (README 0.4). Stating that hypothesis needs `S(T)`,
+  that is the Riemann–Siegel theta function `ϑ(T)` (a continuous branch of `arg Γ(1/4 + iT/2)`)
+  or a continuous argument of `ζ` along a path; neither a complex logarithm of `Γ` nor such an
+  argument exists in Mathlib or Tau Ceti at the pins, so 5.2 is stated on its analytic range.
 
 Not stated: the README instances that rest on unrefereed preprints (the region of 7.3 with
-`R₀ = 4.896` and the real-zero gap of 7.9 without a conductor cap). The Stirling, polygamma,
-convexity, exponential-sum, Perron, mean-value, large-sieve and weighted-zero-sum statements of
-Layers 1–6 and the general criteria of Layer 7 are README targets: they are the lemmas on the way
-to the theorems below. So are the remaining instances of Layers 3–9: inputs to the theorems below
-(3.3, 3.4, 4.9, the further critical-line bounds of 4.7, 5.4, 7.2, Kadiri's density 8.1), other
-constants and ranges for the quantities bounded below (the further regions of 7.5–7.7, 9.2), and
-the zero densities of 8.2 and 8.4 for the family of all primitive characters of bounded
-conductor, which serve the prime-counting consumers.
+`R₀ = 4.896` and the real-zero gap of 7.9 without a conductor cap), and Ramaré's averaged density
+for Dirichlet L-functions (8.2), whose paper `kadirilumleyng2018` (lines 93–95) records to contain
+a mistake (in its bound for `ζ` alone) without saying which of its statements the mistake reaches.
+The Stirling, polygamma, convexity, exponential-sum, Perron, mean-value, large-sieve and
+weighted-zero-sum statements of Layers 1–6 and the general criteria of Layer 7 are README targets:
+they are the lemmas on the way to the theorems below. So are the remaining instances of Layers 3–9:
+inputs to the theorems below (3.3, 3.4, 4.9, the further critical-line bounds of 4.7, 5.4, 7.2),
+and other constants and ranges for the quantities bounded below (the further regions of 7.5–7.7,
+9.2).
 -/
 
 namespace TauCetiRoadmap.ExplicitZetaBounds
@@ -167,10 +180,13 @@ noncomputable def dirichletZeroCount {q : ℕ} [NeZero q] (χ : DirichletCharact
   ∑ᶠ ρ ∈ {ρ : ℂ | 0 < ρ.re ∧ ρ.re < 1 ∧ |ρ.im| ≤ T},
     ((meromorphicOrderAt (DirichletCharacter.LFunction χ) ρ).untop₀).toNat
 
-/-- **Layer 5.2, the explicit Riemann–von Mangoldt formula.** For `T ≥ e`,
-`|N(T) − (T/2π) log(T/(2πe))| ≤ 0.10076 log T + 0.24460 log log T + 8.08344` and
-`≤ 0.11200 log T + 0.12567 log log T + 3.77417` (Bellotti and Wong, Theorem 1.1). -/
-theorem abs_zetaZeroCount_sub_le (T : ℝ) (hT : Real.exp 1 ≤ T) :
+/-- **Layer 5.2, the explicit Riemann–von Mangoldt formula on its analytic range.** For
+`T ≥ 30 610 046 000`, `|N(T) − (T/2π) log(T/(2πe))| ≤ 0.10076 log T + 0.24460 log log T + 8.08344`
+and `≤ 0.11200 log T + 0.12567 log log T + 3.77417` (Bellotti and Wong, Theorem 1.1, proved there
+on this range by their Theorem 1.2 with the first and third rows of Table 2). Their range `T ≥ e`
+also needs the recorded bound `|S(T)| ≤ 2.5167` below `30 610 046 000` (README 0.4), which is not
+statable at the pins (see the module docstring). -/
+theorem abs_zetaZeroCount_sub_le (T : ℝ) (hT : 30610046000 ≤ T) :
     |(zetaZeroCount T : ℝ) - T / (2 * π) * Real.log (T / (2 * π * Real.exp 1))| ≤
         0.10076 * Real.log T + 0.24460 * Real.log (Real.log T) + 8.08344 ∧
       |(zetaZeroCount T : ℝ) - T / (2 * π) * Real.log (T / (2 * π * Real.exp 1))| ≤
@@ -214,9 +230,10 @@ characters `χ` modulo `q` has at most one zero in `R_q`, counted with multiplic
 two such zeros, of the same or of different characters, coincide (Thorner and Zaman, Lemma 2.3,
 sharpening McCurley, Theorem 1). Zeros are read through the meromorphic order, so the pole of the
 principal character at `1` is never one. The principal characters carry the zeros of `ζ`, which
-Platt's finite-conductor computation does not cover: the Riemann hypothesis up to `3·10¹²` with the
-classical region of 7.3 keeps them out of `R_q`. -/
-theorem LFunction_zeroFree_mcCurley (hRH : RiemannHypothesisUpTo (3 * 10 ^ 12)) (q : ℕ) [NeZero q]
+Platt's finite-conductor computation does not cover: the Riemann hypothesis up to `545 439 823`
+with Ford's region `σ ≥ 1 − 1/(8.464 log |t|)` for `|t| ≥ 3` (README 7.2) keeps them out of
+`R_q`, since `log max(q, q |t|) ≥ log |t|` and `8.464 < 9.645908801`. -/
+theorem LFunction_zeroFree_mcCurley (hRH : RiemannHypothesisUpTo 545439823) (q : ℕ) [NeZero q]
     (hq : 3 ≤ q) :
     (∀ (χ : DirichletCharacter ℂ q) (ρ : ℂ),
         1 - 1 / (9.645908801 * Real.log (max (q : ℝ) (q * |ρ.im|))) ≤ ρ.re →
@@ -230,10 +247,13 @@ theorem LFunction_zeroFree_mcCurley (hRH : RiemannHypothesisUpTo (3 * 10 ^ 12)) 
         0 < meromorphicOrderAt (DirichletCharacter.LFunction χ₂) ρ₂ → χ₁ = χ₂ ∧ ρ₁ = ρ₂ :=
   sorry
 
-/-- **Layer 7.5, Kadiri's region for conductors up to `400 000`.** For `3 ≤ q ≤ 400 000` and `χ`
-primitive modulo `q` (hence non-principal), `L(s, χ) ≠ 0` for
-`Re s ≥ 1 − 1/(5.60 log(q max(1, |Im s|)))` (Kadiri, Theorem 1.1). -/
-theorem LFunction_ne_zero_kadiri {q : ℕ} [NeZero q] (hq₀ : 3 ≤ q) (hq₁ : q ≤ 400000)
+/-- **Layer 7.5, Kadiri's region for conductors up to `400 000`.** Given the Riemann hypothesis up
+to height `545 439 823`, for `3 ≤ q ≤ 400 000` and `χ` primitive modulo `q` (hence non-principal),
+`L(s, χ) ≠ 0` for `Re s ≥ 1 − 1/(5.60 log(q max(1, |Im s|)))` (Kadiri, Theorem 1.1). The proof
+sums over the powers `χᵏ`, the principal one included, and places their zeros with McCurley's
+region, whose principal part concerns the zeros of `ζ`. -/
+theorem LFunction_ne_zero_kadiri (hRH : RiemannHypothesisUpTo 545439823) {q : ℕ} [NeZero q]
+    (hq₀ : 3 ≤ q) (hq₁ : q ≤ 400000)
     (χ : DirichletCharacter ℂ q) (hχ : χ.IsPrimitive) (s : ℂ)
     (hσ : 1 - 1 / (5.60 * Real.log (q * max 1 |s.im|)) ≤ s.re) :
     DirichletCharacter.LFunction χ s ≠ 0 := sorry
@@ -278,6 +298,26 @@ theorem inv_norm_riemannZeta_one_add_le (hRH : RiemannHypothesisUpTo 545439823) 
 
 /-! ## Layer 8: zero-density estimates -/
 
+/-- **Layer 8.1, Kadiri's count `N(σ, T)`.** The number of zeros `ρ` of `ζ` with `σ ≤ Re ρ < 1`
+and `0 < Im ρ ≤ T`, counted with multiplicity: the closed condition `σ ≤ Re ρ` of
+`kadiri2013density` (lines 42–43), whose `0 ≤ Im ρ` adds nothing since `ζ` has no zero in
+`(0, 1)`. -/
+noncomputable def zetaZeroCountRight (σ T : ℝ) : ℕ :=
+  ∑ᶠ ρ ∈ {ρ : ℂ | σ ≤ ρ.re ∧ ρ.re < 1 ∧ 0 < ρ.im ∧ ρ.im ≤ T},
+    ((meromorphicOrderAt riemannZeta ρ).untop₀).toNat
+
+/-- **Layer 8.1, Kadiri's density bounds.** Given the Riemann hypothesis up to height
+`30 610 046 000`, which contains Kadiri's `H₀ = 3.061·10¹⁰`, for every `T ≥ 3.061·10¹⁰`:
+`N(σ, T) ≤ 0.5561 T + 0.7586 log T − 268 658` for `σ ≥ 17/20`, and
+`N(σ, T) ≤ 0.4421 T + 0.6443 log T − 363 301` for `σ ≥ 9/10` (Kadiri, Theorem 1.1 with the rows
+`σ = 0.85` and `σ = 0.90` of its Table 1). -/
+theorem zetaZeroCountRight_le_kadiri (hRH : RiemannHypothesisUpTo 30610046000) (σ T : ℝ)
+    (hT : 30610000000 ≤ T) :
+    (17 / 20 ≤ σ →
+        (zetaZeroCountRight σ T : ℝ) ≤ 0.5561 * T + 0.7586 * Real.log T - 268658) ∧
+      (9 / 10 ≤ σ →
+        (zetaZeroCountRight σ T : ℝ) ≤ 0.4421 * T + 0.6443 * Real.log T - 363301) := sorry
+
 /-- **Layer 8.3, the density count `N°(σ, T)` of Kadiri–Lumley–Ng.** The number of zeros `ρ` of
 `ζ` with `σ < Re ρ < 1` and `0 < Im ρ < T`, counted with multiplicity: both inequalities strict,
 as in `kadirilumleyng2018` (1.1). -/
@@ -294,6 +334,39 @@ theorem zetaZeroDensityCount_nine_tenths_lt (hRH : RiemannHypothesisUpTo 3061004
     (zetaZeroDensityCount (9 / 10) T : ℝ) <
       11.499 * Real.log T ^ ((16 : ℝ) / 5) * T ^ ((4 : ℝ) / 15) + 3.186 * Real.log T ^ 2 :=
   sorry
+
+/-- **Layer 8.4, zeros of the primitive L-functions of conductor at most `Q`.** For real `Q` and
+`S ⊆ ℂ`, the number of zeros in `S` of the product `𝓛(s, Q)` of the `L(s, χ)` over the primitive
+characters `χ` of conductor at most `Q`, counted with multiplicity: the sum, over the moduli
+`q + 1 ≤ Q` and the primitive `χ` modulo `q + 1`, of the orders of `L(s, χ)` at the points of `S`
+(Thorner and Zaman (1.1)–(1.2)). The trivial character modulo `1` contributes the zeros of `ζ`,
+and its pole at `1` has order `−1` and counts `0`. A factor with infinitely many zeros in `S`
+contributes `0`; the sets used below contain finitely many zeros of each factor. -/
+noncomputable def primitiveLZeroCount (Q : ℝ) (S : Set ℂ) : ℕ :=
+  ∑ q ∈ Finset.range ⌊Q⌋₊, ∑ᶠ (χ : DirichletCharacter ℂ (q + 1)) (_ : χ.IsPrimitive),
+    ∑ᶠ ρ ∈ S, ((meromorphicOrderAt (DirichletCharacter.LFunction χ) ρ).untop₀).toNat
+
+/-- **Layer 8.4, the largest real zero `β₁(Q)`.** The supremum of the real zeros of the
+`L(s, χ)`, `χ` primitive of conductor at most `Q` (Thorner and Zaman (1.1)). For `Q ≥ 3` the set
+contains the trivial zero `−2` of `ζ` and is bounded above by `1`, so the supremum is the largest
+real zero of `𝓛(s, Q)`; for `Q ≥ 5` it lies in `[0, 1)`. -/
+noncomputable def largestRealZero (Q : ℝ) : ℝ :=
+  sSup {β : ℝ | ∃ q < ⌊Q⌋₊, ∃ χ : DirichletCharacter ℂ (q + 1), χ.IsPrimitive ∧
+    0 < meromorphicOrderAt (DirichletCharacter.LFunction χ) β}
+
+/-- **Layer 8.4, Thorner and Zaman's explicit log-free densities.** Given the Riemann hypothesis
+up to height `3·10¹²`, for real `Q ≥ 3` and `σ ≥ 39/40`, with `N(σ, Q)` the number of zeros of
+`𝓛(s, Q)` with `Re ρ > σ` and `|Im ρ| ≤ Q` and `N*(σ, Q)` the same count without `β₁(Q)`:
+`N(σ, Q) ≤ 10⁸⁸ (10⁴²¹ Q⁹⁹)^{1−σ}` and
+`N*(σ, Q) ≤ 10⁹³ min(1, (1 − β₁(Q)) log Q) (10⁴⁶⁶ Q¹⁷⁰)^{1−σ}` (Thorner and Zaman, Theorem 1.2,
+whose proof uses the verification up to `3·10¹²` through their Lemma 2.1). -/
+theorem primitiveLZeroCount_le_thornerZaman (hRH : RiemannHypothesisUpTo (3 * 10 ^ 12)) (Q : ℝ)
+    (hQ : 3 ≤ Q) (σ : ℝ) (hσ : 39 / 40 ≤ σ) :
+    (primitiveLZeroCount Q {ρ | σ < ρ.re ∧ |ρ.im| ≤ Q} : ℝ) ≤
+        10 ^ 88 * (10 ^ 421 * Q ^ 99) ^ (1 - σ) ∧
+      (primitiveLZeroCount Q {ρ | σ < ρ.re ∧ |ρ.im| ≤ Q ∧ ρ ≠ (largestRealZero Q : ℂ)} : ℝ) ≤
+        10 ^ 93 * min 1 ((1 - largestRealZero Q) * Real.log Q) *
+          (10 ^ 466 * Q ^ 170) ^ (1 - σ) := sorry
 
 /-- **Layer 8.5, a log-free density near `σ = 1`.** Given the Riemann hypothesis up to height
 `3·10¹²`, for `3·10¹² < T ≤ exp(6.7·10¹²)` and `0.9927 ≤ σ ≤ 1`,
@@ -324,5 +397,13 @@ Theorem 1.1). Primitive non-quadratic characters exist only for `q ≥ 5`, where
 theorem norm_LFunction_one_ge {q : ℕ} [NeZero q] (hq : 2 ≤ q) (χ : DirichletCharacter ℂ q)
     (hχ : χ.IsPrimitive) (hχq : ¬ MulChar.IsQuadratic χ) :
     1 / (9.690292 * Real.log (q / π)) ≤ ‖DirichletCharacter.LFunction χ 1‖ := sorry
+
+/-- **Layer 9.3, the lower bound for quadratic characters up to `10¹⁰`.** For `q ≤ 10¹⁰` and `χ`
+primitive, quadratic and non-trivial modulo `q`, `L(1, χ) ≥ 1/(8 log q)`, the value `L(1, χ)` being
+real (Lu, Zaman and Zhao, Corollary 1.3). Such `χ` exist only for `q ≥ 3`, where `log q > 0`. -/
+theorem LFunction_one_ge_luZamanZhao {q : ℕ} [NeZero q] (hq : q ≤ 10 ^ 10)
+    (χ : DirichletCharacter ℂ q) (hχ : χ.IsPrimitive) (hχq : MulChar.IsQuadratic χ)
+    (hχ₁ : χ ≠ 1) :
+    1 / (8 * Real.log q) ≤ (DirichletCharacter.LFunction χ 1).re := sorry
 
 end TauCetiRoadmap.ExplicitZetaBounds
