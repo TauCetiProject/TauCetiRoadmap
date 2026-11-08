@@ -56,10 +56,9 @@ Boundaries with the parent and with other roadmaps:
   statement for an arbitrary simply connected ball reduces to this one through the theorem
   that a simply connected open surface is diffeomorphic to the plane, equivalently through
   disk filling on arbitrary surfaces (Epstein, *Curves on 2-manifolds and isotopies*, Acta
-  Math. 115 (1966), 83–107, Theorem 1.7, whose proof passes through the universal cover
-  being a sphere or a plane). That classification is surface topology outside this
-  sub-roadmap and is owned by no roadmap cited here, so it is not an input, and the chart
-  hypothesis is Layer 4's stated generality rather than a step of its proof.
+  Math. 115 (1966), 83–107, Theorem 1.7). That classification is surface topology outside
+  this sub-roadmap and is owned by no roadmap cited here, so it is not an input, and the
+  chart hypothesis is Layer 4's stated generality rather than a step of its proof.
 
 ## Conventions
 
@@ -547,7 +546,7 @@ outside Ω. By ConformalMapping L5, ĉ has exactly two complementary components,
 `±1` on the bounded one, so the bounded component lies in Ω and `filledHull ĉ ⊆ Ω`; L5's
 closed-disc correspondence identifies the filled hull with a closed disk whose frontier is
 ĉ. Pulling back by the chart gives D (L5 for the planar statements; Lee, 2nd ed., "Some
-Plane Geometry", pp. 263–270, for the Jordan curve theorem in the piecewise smooth case).
+Plane Geometry", pp. 263–270, states the Jordan curve theorem for curved polygons).
 
 **Checks.**
 
