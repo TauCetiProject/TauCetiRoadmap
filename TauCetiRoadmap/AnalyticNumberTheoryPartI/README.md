@@ -1742,7 +1742,7 @@ Use §2.22a's CM completion and gamma correction. After endpoint nonvanishing di
 
 For `E=ℚ(i), F=ℚ, Q=4: L_f(0,η)=1/2` and `L_f(1,η)=π/4`; the claimed sum becomes `γ+log(π/2)`. Exclude `E=ℚ(√2), F=ℚ`: its even primitive character `χ_8` has `L_f(0,χ_8)=0`, so the displayed logarithmic quotient at 0 is undefined.
 
-See [64][R64], proof of Corollary 3.3, p.384, where differentiating the logarithm of the Artin functional equation bounds `L′/L(1,ρ)+L′/L(0,ρ)` by `O_g(log f_ρ)`; this section makes that step exact for `η`. The odd gamma factors are from [73][R73], (2-3)–(2-7), pp.1140–1141, specialized to the CM sign characters.
+See [64][R64], proof of Corollary 3.3, p.384, where differentiating the logarithm of the Artin functional equation `Λ_ρ(s)=w_ρΛ_(ρ̄)(1−s)` of §2.44 bounds `L′/L(0,ρ)+L′/L(1,ρ̄)` by `O_g(log f_ρ)` (the source prints `ρ` at both points; the two sums differ by `2i·Im L′/L(1,ρ)` and agree for self-dual `ρ`, such as `η`); this section makes that step exact for `η`. The odd gamma factors are from [73][R73], (2-3)–(2-7), pp.1140–1141, specialized to the CM sign characters.
 
 *Needs:* `B4`; §2.11; §2.22a; [ClassFieldTheory 13][R28]; [GlobalNumberFields 10][R20].
 
@@ -2107,6 +2107,8 @@ Use the same CM family and canonical full Euler-series continuation; endpoint ge
 
 Integral Brauer and finite-order Hecke equations give the completed Artin identity with its arithmetic conductor and odd infinity type. Verify nonzero analytic endpoints, then differentiate. Keep the arithmetic conductor identification separate from the differentiation.
 
+For `E=ℚ(ζ₅)`, `g=2`, take `ρ=χ`, the odd quartic character of `Gal(E/ℚ)≅(ℤ/5ℤ)^×` with `χ(2)=i`, so `d=1` and `f_χ=5`. Then `L(0,χ)=(3+i)/5≠0`, `L′/L(0,χ)=0.647790−0.088336i` and `L′/L(1,χ̄)=0.157864+0.088336i`, whose sum is the real number `−log 5+γ+log(2π)=0.805655` on both sides. Pairing `χ` with itself at 1 instead gives `0.805655−0.176672i`, off by `2i·Im L′/L(1,χ)`, so the conjugate representation at 1 is forced.
+
 See [64][R64], Theorem 3.2 and proof of Corollary 3.3, pp.383–384.
 
 *Needs:* `B3`; §2.6; §2.31; §2.18; §2.3; §2.18a; [ArithmeticDirichletSeries 1][R4]; [ArithmeticDirichletSeries 3][R2]; [ClassFieldTheory 7][R29]; `Complex.Gammaℝ`; §2.28; §2.28a; §2.31d; §2.31f.
@@ -2259,7 +2261,7 @@ See [47][R47], Lemma 7.3, p. 375.
 
 For a degree-`n` number field `K, n≥1`, let `a_K(m)` count nonzero integral ideals of `norm m`. For each `m≥1, a_K(m)≤d_n(m)`, where `d_n` counts ordered `n`-tuples of positive integers with product `m`. At each rational prime the Euler factor product over `p`-adic prime ideals `(1−T^(f_i))^(−1)` is coefficientwise bounded by `(1−T)^(−n)`, since `f_i≥1` and the number of factors is `≤n`; multiply over primes.
 
-See [64][R64], §2.2, p.382, where the count `n^(o_g(1))` of ideals of norm `n` in a CM field of degree `2g` is used just before Proposition 2.2; this section is the elementary Euler-factor bound behind that count. Count split prime-power exponents and compare with `d_n`.
+See [64][R64], §2.2, p.382, where the count `m^(o_g(1))` of ideals of norm `m` in a CM field of degree `2g` is used just before Proposition 2.2; this section is the elementary Euler-factor bound behind that count. Count split prime-power exponents and compare with `d_n`.
 
 *Needs:* `Ideal.absNorm`; `Nat.factorization`.
 
