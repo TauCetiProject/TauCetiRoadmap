@@ -51,7 +51,7 @@ It leaves to other roadmaps, by section:
   The KK product, the universal coefficient theorem and general variable-fibre families index
   theory are OperatorKTheory's in its own scope; the symbol-index API here uses none of them.
 - The compact ideal and the Calkin algebra of a Hilbert space, closed star ideals, C*-quotients
-  and spectral permanence: **CStarAlgebras** C1.1 and C1.6. The ℂ specialization of module
+  and spectral permanence: **CStarAlgebras** C1.3 and C1.6. The ℂ specialization of module
   compact operators and the continuous-section C*-algebra of a Hermitian endomorphism bundle:
   **HilbertModules** H2 and H5.
 - Hilbert dimension, its basis independence and the unitary classification of Hilbert spaces by
@@ -60,9 +60,9 @@ It leaves to other roadmaps, by section:
   for continuous Toeplitz symbols: **OperatorTheory/ToeplitzOperators** T3.
 - The identity `⟨e(TM),[M]⟩ = χ(M)` on closed oriented manifolds: **CharacteristicClasses** C2
   item 3. Layer 7.1 proves only the index statements and the symbol evaluation.
-- The smooth classification of compact surfaces: **GeometricTopology** Layer 1.7. Layer 7.4
-  consumes it for the diffeomorphism between a model surface and a Riemann surface of the same
-  genus.
+- The smooth classification of compact surfaces: **GeometricTopology**, under the contract
+  `gap:smooth-surface-classification` of the supplier contracts. Layer 7.4 consumes it for the
+  diffeomorphism between a model surface and a Riemann surface of the same genus.
 - Equivariant Thom isomorphisms in K-theory, proved by projective-family stabilization
   independently of index theory, and the sphere Koszul reflection homotopy: **TopologicalKTheory**
   T6 and T7.5.
@@ -136,6 +136,15 @@ use CharacteristicClasses C6's periodic-degree fold.
   (`Algebra/Module/LinearMap/Index.lean`).
 - `Ring.inverse`, `NormedRing.inverse_continuousAt`; `CStarRing.norm_one`
   (`Analysis/CStarAlgebra/Basic.lean`): the unit of a nontrivial C*-ring has norm one.
+- `selfAdjoint.expUnitary` (`Analysis/CStarAlgebra/Exponential.lean`): `exp(iA)` as a unitary of
+  a unital C*-algebra for self-adjoint A, through `NormedSpace.exp_mem_unitary_of_mem_skewAdjoint`
+  (`Analysis/Normed/Algebra/Exponential.lean`). `Unitary.argSelfAdjoint`,
+  `selfAdjoint.expUnitaryPathToOne`, `selfAdjoint.joined_one_expUnitary`, `Unitary.joined` and
+  `Unitary.mem_pathComponentOne_iff` (`Analysis/CStarAlgebra/Unitary/Connected.lean`): the
+  principal argument of a unitary through the continuous functional calculus (it is `0` on a
+  unitary whose spectrum meets the negative real axis), the path `t ↦ expUnitary (t • A)` from `1`
+  to `expUnitary A`, a path between unitaries at distance less than 2, and the path component of
+  `1` as the finite products of exponentials of self-adjoint elements.
 - `CategoryTheory.ShortComplex.SnakeInput` and `SnakeInput.snake_lemma`, on `ModuleCat ℂ`.
 - `HilbertBasis`, `Path`, `IsCompactOperator`, `FiberBundle`, `VectorBundle`,
   `ContMDiffVectorBundle`, `TangentSpace`.
@@ -173,7 +182,7 @@ continuous nonvanishing symbols, so the forward Hardy shift has index −1; its 
 
 ### From TauCetiRoadmap.CStarAlgebras, HilbertModules and OperatorKTheory
 
-CStarAlgebras C1.1 (closed star ideals, C*-quotients and spectral permanence for C*-subalgebras)
+CStarAlgebras C1.3 (closed star ideals, C*-quotients and spectral permanence for C*-subalgebras)
 and C1.6 (the compact ideal and the Calkin algebra `B(H)/K(H)`). HilbertModules H2 (the ℂ
 specialization and the rank-one/compact comparison) and H5 (the continuous-section C*-algebra of
 a finite-rank Hermitian endomorphism bundle). OperatorKTheory K4.1: a bounded map `T : H₀ → H₁`
@@ -204,7 +213,7 @@ theorem.
 ### From TauCetiRoadmap.PseudodifferentialOperators
 
 [P1–P7](../PseudodifferentialOperators/README.md): differential and jet symbols, the classical
-calculus and continuous quantization (P1–P4, including P4's square partition), all-order and
+calculus and continuous quantization (P1–P4, including P4.2's square partition), all-order and
 Fourier–Schur estimates and the seminorm/Bochner topology comparison (P5), parametrices and
 Fredholmness (P6), and P7's elliptic powers and change of order, graded external products with
 their Hilbert-tensor and kernel comparison, the equivariant virtual kernel class with its local
@@ -216,9 +225,11 @@ constancy and homotopy theorem, and common-order elliptic-complex Hodge theory.
 homotopy classification (T1), relative triples retaining σ, compact supports, exact and
 Mayer–Vietoris sequences (T3), smoothing, complex Bott periodicity and Thom classes (T4–T5, with
 T5.4–T5.5's complex-normal pushforward), the compact-Lie representation ring and its
-continuous-representation SplitK0 ring, equivariant descent, Banach-representation density,
-associated products and associated Koszul/folding naturality (T6, including T6.1, T6.2, T6.8 and
-T6.9), and the sphere Koszul reflection homotopy (T7.5).
+continuous-representation SplitK0 ring, equivariant descent, the strongly continuous
+continuous-section and L²-section actions and the finite equivariant embedding of a G-bundle
+over a compact base, associated products and associated Koszul/folding naturality (T6, including
+T6.1, T6.2, T6.8 and T6.9), and the sphere Koszul reflection homotopy (T7.5). The G-finite density
+theorem that T6.1 applies is CompactGroups Layer 5's, consumed here under the same contract.
 
 ### From TauCetiRoadmap.CharacteristicClasses, AlgebraicTopology and DifferentialGeometry
 
@@ -234,9 +245,12 @@ cohomology, cup products and excision come from [AlgebraicTopology Stages 6 and
 ### From TauCetiRoadmap.GeometricTopology and HopfRinow
 
 [GeometricTopology](../GeometricTopology/README.md) Layer 1 (smooth collars, gluing along the
-boundary, tubular neighbourhoods and the normal bundle), Layer 3 (diffeomorphism groups and
-isotopy extension) and Layer 1.7 (every compact connected smooth surface is diffeomorphic to
-exactly one standard model; a closed orientable one of genus g has `rank H₁(F; ℚ) = 2g`).
+boundary, tubular neighbourhoods and the normal bundle) and Layer 3 (diffeomorphism groups and
+isotopy extension). What GeometricTopology must provide (gap:smooth-surface-classification): the
+smooth classification of compact surfaces, that every compact connected smooth surface is
+diffeomorphic to exactly one standard model (the orientable surface of genus g with b boundary
+components, or the non-orientable one with k ≥ 1 crosscaps and b boundary components), with
+`rank H₁(F; ℚ) = 2g` for a closed orientable surface F of genus g.
 [HopfRinow Layer 1](../../Completed/HopfRinow/README.md): the Levi-Civita connection.
 
 ### From TauCetiRoadmap.RepresentationTheory
@@ -245,7 +259,10 @@ exactly one standard model; a closed orientable one of genus g has `rank H₁(F;
 Layer 6](../RepresentationTheory/LieGroups/README.md) and
 [ClassicalGroups](../RepresentationTheory/ClassicalGroups/README.md): Haar averaging, continuous
 finite-dimensional representations, Peter–Weyl and character detection, and connected compact
-torus theory.
+torus theory. What CompactGroups must provide (gap:banach-gfinite-density): for a compact
+Hausdorff group acting on a complex Banach space by a representation whose orbit maps are
+continuous, the G-finite vectors (those with finite-dimensional orbit span) are dense; this is
+the Layer 5 contract that TopologicalKTheory T6.1 consumes for its section actions.
 
 ### From TauCetiRoadmap.SpinGeometry
 
@@ -435,9 +452,14 @@ comparison. Layer 2.6 normalizes its essential-norm identity by these facts.
 
 For a complex Hilbert space H construct, for every unitary U, a bounded self-adjoint A with
 `U = exp(iA)` by applying the bounded Borel argument function, with values in `(−π, π]`, to the
-spectrum of U. Prove the exponential identity by uniform polynomial and series approximation and
-Borel-calculus multiplicativity and norm control; a continuous principal logarithm need not exist
-on the spectrum. The path `t ↦ exp(itA)` is norm-continuous. Combine it with the positive
+spectrum of U (SelfAdjointSpectralTheory Part B); a continuous principal logarithm need not exist
+on the spectrum, and Mathlib's `Unitary.argSelfAdjoint` is `0` there. Prove the identity
+`selfAdjoint.expUnitary A = U` by Borel-calculus multiplicativity against Mathlib's
+`NormedSpace.exp` (uniform polynomial and series approximation and norm control). The path from
+`1` to U is Mathlib's `selfAdjoint.expUnitaryPathToOne A`, so every unitary of H lies in the path
+component of `1` and `Unitary.mem_pathComponentOne_iff` holds with a single factor; the local
+path-connectedness of the unitary group and the path between unitaries at distance less than 2
+(`Unitary.joined`) are Mathlib's and are not restated. Combine the path with the positive
 invertible factor of the polar decomposition and the linear path from Id to that factor to prove
 that `GL(H)` is norm-path-connected.
 
@@ -447,9 +469,12 @@ that `GL(H)` is norm-path-connected.
 
 **Checks.**
 
-- `U = −1` on ℂ: the Borel argument gives `A = π` and `exp(iπ) = −1`.
+- `U = −1` on ℂ: the Borel argument gives `A = π` and `exp(iπ) = −1`; Mathlib's
+  `Unitary.argSelfAdjoint` agrees here, since the principal argument is continuous on the singleton
+  spectrum `{−1}`.
 - The bilateral shift on ℓ²(ℤ) has spectrum the whole circle, so no continuous logarithm exists
-  on its spectrum; the Borel argument still gives A with spectrum `[−π, π]`.
+  on its spectrum and `Unitary.argSelfAdjoint` returns `0`; the Borel argument still gives A with
+  spectrum `[−π, π]`, so the Borel step is not a restatement of the Mathlib argument.
 - Over ℝ the statement is false: `Id` and `−Id` on ℝ lie in different components of `GL(ℝ)`
   (determinant sign), so the complex scalars are used.
 
@@ -556,7 +581,7 @@ two bundles back to the base by TopologicalKTheory T1's homotopy classification,
 transport the boundary isomorphism, smooth the bundles and the isomorphism on the compact
 cosphere and extend by degree-zero homogeneity with a frequency cutoff. In dimension 0 the
 cosphere is empty and arbitrary point triples of unequal ranks are allowed. Quantize by
-PseudodifferentialOperators P4's square partition and continuous symbol lift. Prove that the
+PseudodifferentialOperators P4.2's square partition and continuous symbol lift. Prove that the
 cosphere and relative-triple constructions agree in K-theory and in the operator topology; an
 ordinary partition of unity used symmetrically is not a square partition.
 
@@ -708,7 +733,7 @@ cosphere is empty and L² finite, so both the quotient and the symbol algebra ar
 
 For continuous off-zero homogeneous symbols define realizations through this completion and prove
 Fredholmness if and only if the quotient symbol is invertible, with independence modulo compact
-maps. For the reverse implication consume CStarAlgebras C1.1's spectral permanence for the unital
+maps. For the reverse implication consume CStarAlgebras C1.3's spectral permanence for the unital
 closed quotient-symbol subalgebra of the Calkin algebra: a Calkin-invertible image is invertible
 in that subalgebra. Smooth invariant approximants preserve invertibility uniformly and give the
 same index. This connector supplements PseudodifferentialOperators' classical calculus.
@@ -722,7 +747,7 @@ same index. This connector supplements PseudodifferentialOperators' classical ca
 - A compact operator has symbol 0 and essential norm 0; in dimension 0 every operator is compact
   and the sequence is `0 → B(L²) → B(L²) → 0 → 0`.
 
-*Needs:* Layer 1.4; PseudodifferentialOperators P3–P6; HilbertModules H5; CStarAlgebras C1.1 and
+*Needs:* Layer 1.4; PseudodifferentialOperators P3–P6; HilbertModules H5; CStarAlgebras C1.3 and
 C1.6; OperatorIdeals OI-A25–A30.
 
 ### Examples
@@ -733,7 +758,7 @@ projection and the trivial-line Dolbeault operators on glued surfaces.
 ### Dependencies
 
 Layer 1; TopologicalKTheory T1, T3 and T4; PseudodifferentialOperators P3–P7; ComplexKahlerGeometry
-K5 and K5a; GeometricTopology Layer 1; HilbertModules H5; CStarAlgebras C1.1 and C1.6.
+K5 and K5a; GeometricTopology Layer 1; HilbertModules H5; CStarAlgebras C1.3 and C1.6.
 
 ## Layer 3: Cotangent pushforwards and the topological index (I3)
 
@@ -813,9 +838,10 @@ on compact M, and prove derivative convergence by differentiation under Haar int
 smooth coefficient estimates. Assemble the finite matrix coefficients into an equivariant
 vector-valued map and preserve injectivity and immersion by compact `C¹` stability: extract the
 immersion and separation estimates from CharacteristicClasses C2.5's compact-stage general
-position, then prove stability for the finite Peter–Weyl approximants. Apply TopologicalKTheory
-T6.1's compact-group Banach-representation density to the `C¹`-section norm after building the
-strongly continuous action and the differentiation bounds. Average the representation metric.
+position, then prove stability for the finite Peter–Weyl approximants. Apply CompactGroups
+Layer 5's G-finite density theorem for Banach representations of compact groups (the contract
+`gap:banach-gfinite-density`) to the `C¹`-section norm after building the strongly continuous
+action and the differentiation bounds, as TopologicalKTheory T6.1 does for the sup and L² norms. Average the representation metric.
 Prove equivariant tubular and normal comparisons by averaging connections and invariant metrics,
 then define `ind_t^G : K_(G,c)(T*M) → R(G)` through equivariant wedge Thom and Bott classes on
 `V ⊗ ℂ`. Prove choice independence by the same direct-sum embedding homotopy, restriction to
@@ -829,8 +855,8 @@ disconnected G.
 - O(1) acting on `S¹ ⊂ ℝ²` by `(x, y) ↦ (x, −y)` embeds equivariantly in `ℝ ⊕ ℝ_sgn`.
 - Restricting `ind_t^G` along `{1} → G` gives the dimension of `ind_t^G(a)`.
 
-*Needs:* Layer 3.3; RepresentationTheory CompactGroups and LieGroups Layer 6; TopologicalKTheory
-T6 and T6.1; CharacteristicClasses C2.5.
+*Needs:* Layer 3.3; RepresentationTheory CompactGroups Layer 5 (`gap:banach-gfinite-density`) and
+LieGroups Layer 6; TopologicalKTheory T6 and T6.1; CharacteristicClasses C2.5.
 
 ### 3.5 Uniqueness of index assignments (I3.5)
 
@@ -1446,9 +1472,9 @@ reciprocal charts. Apply 2.5's cut-and-paste theorem to the two surfaces, their 
 connected sum and the sphere. Prove additivity of `b₁` by Mayer–Vietoris, so that the glued
 connected sum X of g tori (`ℂP¹` when `g = 0`) has `b₁ = 2g`. X is compact, connected and oriented
 by its holomorphic atlas, and a compact connected Riemann surface Σ of genus g has `b₁ = 2g` by
-K7's dictionary; GeometricTopology Layer 1.7's smooth classification, with
-`rank H₁(F; ℚ) = 2g` for closed orientable surfaces, places both on the orientable genus-g
-standard model, so there is a diffeomorphism `f : X → Σ`. If f reverses orientation, replace its
+K7's dictionary; GeometricTopology's smooth classification of compact surfaces (the contract
+`gap:smooth-surface-classification`), with `rank H₁(F; ℚ) = 2g` for closed orientable surfaces,
+places both on the orientable genus-g standard model, so there is a diffeomorphism `f : X → Σ`. If f reverses orientation, replace its
 transported complex structure `J′` by `−J′`; for the trivial line, complex conjugation on functions
 and forms intertwines `∂̄_(−J′)` with `∂̄_(J′)` by antilinear Sobolev isomorphisms, so their complex
 kernel and cokernel dimensions and indices agree. Join the resulting orientation-compatible
@@ -1475,7 +1501,8 @@ Hirzebruch–Riemann–Roch and the genus dictionary.
   = −*dy = dx`.
 
 *Needs:* Layers 2.5, 6.1 and 7.3; ComplexKahlerGeometry K5 and K7; CharacteristicClasses C1.4–C1.6
-and C4; SmoothBundlesConnections B6; GeometricTopology Layers 1 and 1.7.
+and C4; SmoothBundlesConnections B6; GeometricTopology Layer 1 and its contract
+`gap:smooth-surface-classification`.
 
 ### 7.5 Twisted spin Dirac operators and Rokhlin's theorem (I7.5)
 
@@ -1535,7 +1562,8 @@ pseudodifferential symbols: 5.2's circle operator has index −1.
 ### Dependencies
 
 Layers 2, 5 and 6; ComplexKahlerGeometry K2, K5 and K7; CharacteristicClasses C1, C2, C4 and C5;
-SpinGeometry G2, G5, G6 and G6.7; SmoothBundlesConnections B6; GeometricTopology Layers 1 and 1.7.
+SpinGeometry G2, G5, G6 and G6.7; SmoothBundlesConnections B6; GeometricTopology Layer 1 and its
+contract `gap:smooth-surface-classification`.
 
 ## Layer 8: Holomorphic fixed-map Lefschetz traces (I8)
 
