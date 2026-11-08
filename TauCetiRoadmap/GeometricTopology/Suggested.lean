@@ -28,10 +28,10 @@ theorems against the pinned Mathlib and Tau Ceti, each with `sorry`: the resolve
 Kirby's list and the classical theorems of surface and three-manifold topology that the
 roadmap's layers make statable. Every carrier used here exists at the pins; no definition is made.
 
-Of these, the proofs of Alexander's theorem, the sphere theorem and the knot-group theorem
-(Layer 8.1), the Kneser–Milnor theorem (Layer 8.2), Waldhausen's theorem (Layer 8.3), Radó's
-triangulation theorem (Layer 11.2.1) and Moise's triangulation theorem (Layer 11.2) are targets
-of this roadmap. The proofs of the Smale conjecture (Layer 3), Mostow rigidity (Layer 7), the
+Of these, the proofs of Mostow rigidity (Layer 7.2), Alexander's theorem, the sphere theorem and
+the knot-group theorem (Layer 8.1), the Kneser–Milnor theorem (Layer 8.2), Waldhausen's theorem
+(Layer 8.3), Radó's triangulation theorem (Layer 11.2.1) and Moise's triangulation theorem
+(Layer 11.2) are targets of this roadmap. The proofs of the Smale conjecture (Layer 3), the
 cyclic surgery theorem (Layer 5.4), the Gordon–Luecke theorem and the JSJ theorem (Layer 8) are
 GeometricTopology, Part II's, which starts from these statements. The annulus theorem is proved here in dimension at most three;
 its higher-dimensional proof is GeometricTopology, Part II's, and its four-dimensional proof
@@ -146,7 +146,7 @@ theorem cyclic_surgery_theorem
     (h : TauCeti.IsSolidTorusNeighborhood (⇑K) Φ)
     (hΦ : TauCeti.IsLocallyFlat (EuclideanSpace ℝ (Fin 2)) ℝ
       (Φ ∘ TauCeti.SolidTorus.boundaryInclusion))
-    (hΦ : ¬ TauCeti.IsSeifertFibered (TauCeti.knotExterior (Φ := Φ)))
+    (hSF : ¬ TauCeti.IsSeifertFibered (TauCeti.knotExterior (Φ := Φ)))
     (s : TauCeti.Slope h.framedBoundaryTorus.H)
     (Y : Type u) [TopologicalSpace Y] (F : TauCeti.DehnFilling h s Y) (y : Y)
     (hY : IsCyclic (FundamentalGroup Y y)) :

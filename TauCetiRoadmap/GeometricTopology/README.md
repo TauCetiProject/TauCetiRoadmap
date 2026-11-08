@@ -54,11 +54,12 @@ This roadmap owns the following, by layer.
   nonsingular `F₂` quadratic Arf algebra and its Seifert-form dictionary (Layer 4.3.1; consumed
   by TangentialBordism and FourManifolds); the even-Clifford model of the Temperley–Lieb algebra
   at `δ = √2` with its scalar trace, radical quotient, braid phases and the Jones–Arf comparison
-  (Layer 4.5.3; TemperleyLiebOperatorAlgebras consumes it and owns the analytic-adjoint,
-  positive-quotient and tower theory); positive-trace kernel and braid-index certificates
-  (Layer 4.5.6, which takes the positivity of the Markov trace at roots of unity as stated, its
-  proof being TemperleyLiebOperatorAlgebras' and Subfactors'), and the nonexchange families with
-  the five-strand cubic/Burau comparison (Layer 4.5.7); the genus, crossing, unknotting, bridge
+  (Layer 4.5.3, which TemperleyLiebOperatorAlgebras consumes); positive-trace kernel and
+  braid-index certificates (Layer 4.5.6, which consumes Jones's positivity theorem, the trace
+  radical and the positive Jones quotients from Subfactors §§3.1–3.3 and adds only the
+  faithfulness of the trace on all of `TL_n` at `δ = 2cos(π/k)` for `k ≥ n + 2`), and the
+  nonexchange families with the five-strand cubic/Burau comparison (Layer 4.5.7); the genus,
+  crossing, unknotting, bridge
   and braid-index minima, prime decomposition of knots and of non-split links, rational tangles
   and two-bridge knots, torus knots and satellites, the Garside structure of braid groups, the
   Morton–Franks–Williams bound, Kondo's realization theorem and exponential bounds on the
@@ -73,8 +74,9 @@ This roadmap owns the following, by layer.
 - **Layer 6.** Smooth and topological concordance of knots, the concordance group, the
   Levine–Tristram signatures and their concordance invariance, torus-knot signatures and
   chirality, the signature bound on the unknotting number, Conway mutation and the statement
-  that it does not preserve smooth concordance, Levine's theorem on knots in homology
-  spheres, and the statement of Freedman's theorem.
+  that it does not preserve smooth concordance, the statement of Levine's theorem on
+  winding-number-one satellite operators with the proof of its reduction to knots in homology
+  spheres bounding no PL disc (Layer 6.4), and the statement of Freedman's theorem.
 - **Layer 7.** Hyperbolic manifolds, Mostow rigidity and the finite-volume Mostow–Prasad
   theorem in dimension three with their volume and isometry-group consequences, the
   Margulis and cusp theory, the hyperbolicity of the pinned Weeks manifold and the statement of
@@ -93,14 +95,16 @@ This roadmap owns the following, by layer.
 - **Layer 10.** Codimension-one transversely oriented foliations of 3-manifolds, Reeb
   components, Reeb stability, the Novikov–Rosenberg theorem and the existence of foliations
   on closed orientable 3-manifolds.
-- **Layer 11.** Geometric realization of simplicial complexes beyond the pinned API (stars,
-  links, subdivision, the CW structure), the triangulation theorem and Hauptvermutung in
-  dimension three; in dimension two, the existence and uniqueness up to isotopy of smooth
+- **Layer 11.** Geometric realization of simplicial complexes beyond the pinned API (stellar
+  subdivision of infinite complexes and the geometric join laws of faces), the triangulation
+  theorem and Hauptvermutung in dimension three; in dimension two, the existence and uniqueness up
+  to isotopy of smooth
   structures on topological surfaces, Radó's theorem, the two-dimensional Hauptvermutung
   and the comparison of smooth and topological isotopy of surface diffeomorphisms
-  (Layer 11.2.1); the equivalence of combinatorial manifolds and PL manifolds, smooth
-  triangulations in every dimension and uniqueness of smoothings in dimension at most
-  three, the statement of Manolescu's theorem and the statement of Zeeman's conjecture.
+  (Layer 11.2.1); the converse of the pinned theorem that combinatorial manifolds are PL
+  manifolds, hence their equivalence, the existence of smooth triangulations in every
+  dimension and uniqueness of smoothings in dimension at most three, the statement of Manolescu's
+  theorem and the statement of Zeeman's conjecture.
 
 This roadmap leaves the following to other roadmaps.
 
@@ -114,7 +118,10 @@ This roadmap leaves the following to other roadmaps.
   predicates, the Weeks manifold, handlebodies, Heegaard splittings and the Heegaard genus with
   the rank bound, the topological slice genus, the Euler class of a foliation, Sard's theorem in its flat and its
   boundaryless-manifold forms, the Jordan curve theorem and the Schoenflies theorem in the
-  plane and on the `2`-sphere, slopes and framed boundary tori,
+  plane and on the `2`-sphere, slopes and framed boundary tori, the CW structure of a
+  simplicial realization and its transport along homeomorphisms, the PL structure of a
+  combinatorial manifold, the smooth-triangulation predicate, products of PL manifolds and the
+  compact PL comparison on coordinate spaces,
   Seifert fibrations, the sphere-bounds-a-ball condition, JSJ and geometric torus
   decompositions, Haken and virtually Haken manifolds, mapping tori, the PL groupoid,
   simplicial realization, combinatorial manifolds, collapse, triangulability, and the
@@ -143,7 +150,11 @@ This roadmap leaves the following to other roadmaps.
   its own) and **TeichmullerGeometry** (Layer 3.1) take them from Layer 1.7.2 and compare
   homeomorphism with diffeomorphism classes through Layer 11.2.1. MordellLawrenceVenkatesh's
   positive twist turns left, which is `T_c⁻¹` in Layer 1.7.2's convention (a Check there).
-  **TypeAHeckeAlgebras** owns the Hecke algebras and the Ocneanu trace. **SuccessiveMinima** owns
+  **TypeAHeckeAlgebras** owns the Hecke algebras and the Ocneanu trace. **TemperleyLieb** owns the
+  Temperley–Lieb algebras over a commutative ring, their diagram basis, the uniqueness of the
+  Markov trace and the cellular semisimplicity theory; **Subfactors** owns the analytic adjoint
+  of `TL_n(ℂ, δ)`, Jones's positivity theorem, the trace radical and the positive Jones quotients
+  with their C*-tower (§§3.1–3.3). **SuccessiveMinima** owns
   the successive minima of a discrete full lattice for a convex body and their attainment by a
   real basis of lattice vectors; Layer 7.3.1 uses the first two minima of a cusp lattice for the
   closed unit disc of `ℂ` and adds only the two-dimensional facts that the two witnesses form a
@@ -170,6 +181,9 @@ This roadmap leaves the following to other roadmaps.
   comparison and the smoothing theory beyond dimension three; the Lee deformation of Khovanov
   homology and Rasmussen's invariant with the Conway-knot and zero-shake-genus applications;
   the connected-sum and descent adapter for the grid invariant of CombinatorialHeegaardFloer;
+  the proof of Levine's theorem on satellite operators stated in Layer 6.4, through Hom's `ε`
+  and the `τ` and `ε` formulas for Mazur satellites on the knot Floer complexes of
+  HeegaardFloer and CombinatorialHeegaardFloer;
   the Thurston seminorm beyond the integral surface minimum of Layer 5.4.1, and the proofs of
   Thurston's Euler class inequality and of Yazdi's Euler-class-one counterexamples, whose
   statements and the Euler class of a foliation are Tau Ceti's;
@@ -177,8 +191,8 @@ This roadmap leaves the following to other roadmaps.
   intersection forms; and sphere-target transversality with the Pontryagin–Thom
   construction. Those developments need AlgebraicTopology, CharacteristicClasses,
   GeneralizedCohomology, TopologicalKTheory, MorseTheory, RiemannianGeometry,
-  KhovanovHomology, CombinatorialHeegaardFloer, TeichmullerGeometry, TangentialBordism or
-  FourManifolds, every one of which consumes this roadmap.
+  KhovanovHomology, CombinatorialHeegaardFloer, HeegaardFloer, TeichmullerGeometry,
+  TangentialBordism or FourManifolds, every one of which consumes this roadmap.
 - **Knot tables and computation.** Tabulated volumes, knot tables and finite enumerations are
   not targets. Small computed values appear only as Checks on the definitions they test.
 
@@ -287,7 +301,8 @@ This roadmap leaves the following to other roadmaps.
 ### From Tau Ceti (commit 2fd255d9)
 
 The following pinned declarations supply the carriers and results used below. Layer 1.6
-proves the compact PL comparison, Layer 4.6 constructs the HOMFLY coefficient substitution, and
+transfers the pinned compact PL comparison from coordinate spaces to finite-dimensional normed
+spaces, Layer 4.6 constructs the HOMFLY coefficient substitution, and
 Layer 5.1 adds the smooth structure of the pinned link exterior.
 
 - **Boundaries and collars** (`Geometry/Manifold/Boundary/`): `TauCeti.isManifold_boundary`
@@ -376,7 +391,13 @@ Layer 5.1 adds the smooth structure of the pinned link exterior.
 - **The PL groupoid** (`Geometry/Manifold/PLGroupoid/Basic.lean`, `Topology/PL/`):
   `TauCeti.IsPiecewiseAffineOn`, `TauCeti.IsPLOn`, `TauCeti.PLPregroupoid`,
   `TauCeti.PLGroupoid I`, `TauCeti.PLGroupoid_le_continuousGroupoid`, closure under restriction,
-  and the witness `TauCeti.doubleRight_mem_PLGroupoid` of a PL map that is not affine.
+  and the witness `TauCeti.doubleRight_mem_PLGroupoid` of a PL map that is not affine; PL maps
+  between PL manifolds `TauCeti.IsPLMap` with `TauCeti.IsPLMap.comp` (`PLGroupoid/Map.lean`),
+  products `TauCeti.hasGroupoid_PLGroupoid_prod` (`PLGroupoid/Product.lean`), the compact
+  comparison `TauCeti.IsPLOn.isPiecewiseAffineOn_of_isCompact` on `ι → ℝ`
+  (`Topology/PL/Compact.lean`)
+  and the inverse criterion `TauCeti.isPiecewiseAffineOn_inverse_of_finite_simplex_cover`
+  (`Topology/PL/Inverse.lean`).
 - **Locally flat embeddings** (`Geometry/Manifold/LocallyFlat/`): `TauCeti.IsSliceChart`,
   `TauCeti.IsSliceEmbedding`, `TauCeti.IsLocallyFlat F F' f` (slice charts with model `F × F'`)
   with restriction, composition with open embeddings and homeomorphisms on either side, and
@@ -561,7 +582,23 @@ Layer 5.1 adds the smooth structure of the pinned link exterior.
   `TauCeti.EulerClassOneConjecture` and `TauCeti.YazdiEulerClassOneTheorem` (`EulerClass.lean`).
 - **Simplicial complexes** (`AlgebraicTopology/SimplicialComplex/`, `Topology/`):
   `AbstractSimplicialComplex.Realization K` with face inclusions and barycentric coordinates,
-  the realization of maps, subcomplexes and locally finite complexes; `PreAbstractSimplicialComplex.closedStar`,
+  the realization of maps, subcomplexes and locally finite complexes;
+  `AbstractSimplicialComplex.instT2SpaceRealization`,
+  `AbstractSimplicialComplex.exists_finset_support_subset_of_isCompact`,
+  `PreAbstractSimplicialComplex.SimplicialMap.realizationMap` with `realizationMap_id` and
+  `realizationMap_comp` (`Realization/`); the CW structure
+  `AbstractSimplicialComplex.realizationCWComplex` (`Realization/CWComplex/Basic.lean`) and its
+  transport `Topology.IsClosedEmbedding.relCWComplex` (`Topology/CWComplex/Classical/Image.lean`);
+  the finite stellar homeomorphism
+  `PreAbstractSimplicialComplex.exists_homeomorph_stellarSubdivision`
+  (`Subdivision/Stellar/Homeomorph.lean`) and the point-set bijection of arbitrary stellar moves
+  (`Subdivision/Stellar/Realization.lean`, `Geometry.lean`); joins with the closed-star laws
+  `PreAbstractSimplicialComplex.map_closedStar_eq_join` and
+  `PreAbstractSimplicialComplex.map_closedStar_inf_deletion_eq_join` (`Join/`);
+  `PreAbstractSimplicialComplex.IsCombinatorialManifold.exists_chartedSpace_hasGroupoid_PLGroupoid`
+  (`CombinatorialManifold/PL.lean`); the smooth-triangulation predicate
+  `TauCeti.IsSmoothTriangulation` with secant approximation on edgewise subdivisions
+  (`Geometry/Manifold/SmoothTriangulation/`); `PreAbstractSimplicialComplex.closedStar`,
   `link`, `deletion` (`LinkStar.lean`); stellar subdivision (`Subdivision/`); the ordered
   cylinder `AbstractSimplicialComplex.orderedCylinder` (`Product.lean`);
   `PreAbstractSimplicialComplex.IsCombinatorialBall`, `IsCombinatorialSphere`,
@@ -591,6 +628,29 @@ domain (Layer 1); normal neighbourhoods and the Gauss lemma (Layer 2); the Hopf�
 H1 supplies the finite type-A Hecke algebras and H2 the Ocneanu trace and its braid-closure
 invariance. Layer 4 consumes them for the HOMFLY trace theorem and the low-strand
 Jones/Burau block comparisons; it owns the geometric closure and native-matrix adapters.
+
+### From TauCetiRoadmap.TemperleyLieb
+
+Layer 4: the comparison of the native `TauCeti.TemperleyLieb R δ n` with the diagram algebra, its
+diagram basis `exists_basis_planarMatching` (free of rank `catalan n` over every commutative ring),
+the strand inclusions, the closure trace and `existsUnique_isMarkovTrace` (exactly one Markov
+family at every `δ`, equal to the native `markovTrace q hδ` when `δ = −(q + q⁻¹)`); Layer 5: cell
+modules, Gram determinants and the semisimplicity criteria `isSemisimpleRing_of_qInt_ne_zero` and
+`isSemisimpleRing_iff_of_charZero`. Layers 4.5.1, 4.5.3 and 4.5.6 consume them for the diagram
+basis, base change, algebraic Markov uniqueness and generic blocks; nothing is assumed of them
+beyond their statements.
+
+### From TauCetiRoadmap.Subfactors
+
+§3.1: the conjugate-linear adjoint `†` on `TL_n(ℂ, δ)` for real `δ`, fixing every generator and
+compatible with strand inclusions. §3.2: Jones's positivity theorem `markovTrace_nonneg_iff` (for
+`δ > 0` and `δ = −(q + q⁻¹)`, `T_n(x† x) ≥ 0` for every `n` and `x` exactly when `δ` lies in
+`jonesLoopParameters = {2cos(π/m) : m ≥ 3} ∪ [2, ∞)`), the trace radical `R_n`, a two-sided
+`†`-stable ideal, and Cauchy–Schwarz, by which `R_n` is the null space of `x ↦ T_n(x† x)`. §3.3:
+the positive path representations `π_n` on the half-line for `δ ≥ 2` and on `A_(m−1)` for
+`δ = 2cos(π/m)`, with `ker π_n = R_n`, the quotient `Q_n = TL_n / R_n` a finite direct sum of
+matrix algebras with faithful positive trace, and `R_n = 0` for `δ ≥ 2`. Layer 4.5.6 consumes
+these at the parameters `δ = u + u⁻¹` it uses, with `q = −u`.
 
 ### From TauCetiRoadmap.ReductiveGroups
 
@@ -632,7 +692,8 @@ Layers 8 and 9. The smooth structure of the pinned exterior in Layer 5.1, built 
 3.3 and 4.1, precedes the Alexander module of Layer 4.4. The decomposition theorems of Layers 8.1–8.4, which need Layers 1,
 4.4, 5.1 and 11.2, precede the cyclic surgery theorem of Layer 5.4 and the finite-volume theory of
 Layer 7.3. With these edges the graph of targets is acyclic. Otherwise Layers 2 and 3 are
-independent of each other and of Layer 4; Layer 6 (concordance) needs Layers 1, 2 and 4; Layer 7
+independent of each other and of Layer 4; Layer 6 (concordance) needs Layers 1, 2 and 4, and
+the reduction of Levine's theorem in Layer 6.4 also Layers 5.2 and 11.3; Layer 7
 needs Layer 1 and the Riemannian suppliers, and for its finite-volume part the Dehn filling of
 Layer 5.2 and the irreducibility of Layer 8.2; Layer 9 (Heegaard splittings) needs Layers 1, 7, 8
 and 11; and Layer 10 (foliations) needs Layers 1, 5, 7, 8 and 9. Each layer ends with its examples
@@ -878,16 +939,23 @@ here. This section adds:
 ### 1.6 PL manifolds through charts
 
 A PL manifold is a charted space `M` with `HasGroupoid M (TauCeti.PLGroupoid I)` for the
-Euclidean or half-space model; a PL map is a continuous map that is `TauCeti.IsPLOn` in every
-pair of charts. Prove the compact comparison: for finite-dimensional real normed spaces
-`E, F`, a map `f : E → F` and a compact `K ⊆ E`, `TauCeti.IsPLOn f K` implies
-`TauCeti.IsPiecewiseAffineOn f K`, by choosing finitely many closed polyhedral neighbourhoods
-subordinate to the local witnesses and intersecting their cells with those neighbourhoods
-(Rourke–Sanderson, Chapter 2, local and finite polyhedral descriptions). Prove that products,
-open subsets and boundaries of PL manifolds are PL; that a PL homeomorphism between PL
-manifolds has a PL inverse (finite polyhedral neighbourhoods in charts, inversion on their
-image cells); and that gluing along a PL homeomorphism of boundaries with PL collars produces a
-PL manifold, parallel to Layer 1.3.
+Euclidean or half-space model; a PL map is the pinned `TauCeti.IsPLMap`, piecewise affine in
+charts of the maximal PL atlases. The pin has the compact comparison on coordinate spaces
+(`TauCeti.IsPLOn.isPiecewiseAffineOn_of_isCompact`: a map PL on a compact subset of `ι → ℝ` is
+piecewise affine there with finitely many cells), products of PL manifolds
+(`TauCeti.hasGroupoid_PLGroupoid_prod`), open subsets (Mathlib's
+`TopologicalSpace.Opens.instHasGroupoid` with the pinned closure of `TauCeti.PLGroupoid I` under
+restriction), composition of PL maps (`TauCeti.IsPLMap.comp`) and the inverse criterion for maps
+affine on the simplices of a finite cover
+(`TauCeti.isPiecewiseAffineOn_inverse_of_finite_simplex_cover`). Prove what it lacks: the compact
+comparison for finite-dimensional real normed spaces `E, F`, a map `f : E → F` and a compact
+`K ⊆ E`, that `TauCeti.IsPLOn f K` implies `TauCeti.IsPiecewiseAffineOn f K`, by transport along
+continuous linear equivalences with coordinate spaces, which carry convex polyhedra to convex
+polyhedra and affine maps to affine maps (Rourke–Sanderson, Chapter 2, local and finite
+polyhedral descriptions); that boundaries of PL manifolds are PL; that a PL homeomorphism between
+PL manifolds has a PL inverse (finite polyhedral neighbourhoods in charts, inversion on their
+image cells by the pinned criterion); and that gluing along a PL homeomorphism of boundaries with
+PL collars produces a PL manifold, parallel to Layer 1.3.
 
 - The forgetful map from PL to topological manifolds is
   `TauCeti.PLGroupoid_le_continuousGroupoid`.
@@ -904,7 +972,9 @@ PL manifold, parallel to Layer 1.3.
   radial-projection charts.
 
 *Needs:* Tau Ceti `TauCeti.PLGroupoid`, `TauCeti.IsPLOn`, `TauCeti.IsPiecewiseAffineOn`,
-Mathlib `HasGroupoid`, finite-dimensional compactness.
+`TauCeti.IsPLMap`, `TauCeti.IsPLOn.isPiecewiseAffineOn_of_isCompact`,
+`TauCeti.isPiecewiseAffineOn_inverse_of_finite_simplex_cover`; Mathlib `HasGroupoid`,
+`ContinuousLinearEquiv`, finite-dimensional compactness.
 
 ### 1.7 Compact smooth surfaces
 
@@ -1594,6 +1664,8 @@ standard presentations and strand map, see
 [Birman–Brendle, §1](https://www.math.columbia.edu/~jb/Handbook-21.pdf).
 
 ### 4.2.2 A signed three-strand braid calculation
+
+This section proves its statements from the constructions it states and cites no outside proof.
 
 Construct the mirror automorphism `M` of the native braid group, sending each generator to its
 inverse, with its relation, involution, product, strand-inclusion and exponent-sum laws. On
@@ -2334,6 +2406,8 @@ native integral S-equivalence, `Matrix.toQuadraticForm'`, `QuadraticMap.polarBil
 `.lift`; Mathlib coefficient change and singular homology.
 ### 4.3.2 Finite disc-band surfaces and canonical Seifert surfaces
 
+This section proves its statements from the constructions it states and cites no outside proof.
+
 A finite embedded disc-band presentation has d disjoint discs, b rectangular bands with two
 distinct attaching-interval occurrences each (also when both ends meet one disc), cyclic
 interval orders on the discs, side-pairing signs relative to chosen local disc orientations,
@@ -2411,6 +2485,9 @@ for `g(K)≤g_can(K)`, the realization and routing prefix preceding 4.3.4; nativ
 finite-presentation, embedded-spine and relative straightening adapters are built here.
 
 ### 4.3.3 Different spanning surfaces with the same boundary
+
+This section proves its statements from the constructions and named hypotheses it states and
+cites no outside proof.
 
 **Hypothesis 4.3.3 (Möbius strip spanning the trefoil).** For `R>ε>0` the map
 `((R+t cos(3s/2)) cos s, (R+t cos(3s/2)) sin s, −t sin(3s/2))` on `[0,2π]×[−ε,ε]` descends to
@@ -2611,6 +2688,8 @@ Seifert presentation the comparison proves the perfect-commutator criterion belo
 
 ### 4.4.1 Seifert determinants, degree and stabilization
 
+This section proves its statements from the constructions it states and cites no outside proof.
+
 For an integral Seifert matrix V of a knot of size 2g, distinguish `D_V(X)=det(XV−Vᵀ)∈ℤ[X]`,
 the native symmetric Laurent polynomial `Δ_V=T(−g)·D_V.toLaurent` and the determinant
 `d(K)=|Δ_V(−1)|`, compared with native `alexanderMatrix` and `alexander` through the
@@ -2727,6 +2806,8 @@ equivalences; Burde–Zieschang, *Knots*, §3.B, Corollary 3.6.
 
 ### 4.4.3 Countability and finite presentations of knot groups
 
+This section proves its statements from the constructions it states and cites no outside proof.
+
 For Mathlib's `Group.Presentation G ι` (generators indexed by ι, relators in `FreeGroup ι`
 whose `Subgroup.normalClosure` is the evaluation kernel), with
 `presentedGroupEquiv : PresentedGroup P.rel ≃* G` and `PresentedGroup.toGroup`, prove that the
@@ -2774,6 +2855,9 @@ Wirtinger construction in Layer 4.4; Layer 4.4.2 for the signed relators, the on
 relator identity and individual-relator deletion. The elimination lemma is built here.
 
 ### 4.4.4 The marked four-band Seifert example
+
+This section proves its statements from the constructions and named hypotheses it states and
+cites no outside proof.
 
 **Hypothesis 4.4.4 (marked four-band surface).** On 4.3.2's embedded disc-band carrier there
 is a connected orientable surface F with one boundary component and oriented curves
@@ -2929,6 +3013,10 @@ Seifert surfaces and relative tree moves; 4.4/4.4.1/4.4.2/4.4.5's Seifert/Fox/Al
 Conway comparison and genus lower bound.
 
 ### 4.4.7 Two-strand torus links and the cinquefoil group
+
+Items 1 and 3–7 are proved here from the constructions they state and cite no outside proof.
+Item 2's group is the torus-knot group `⟨a, b | aᵖ = b^q⟩` of the coprime pair `(p, q) = (2, 5)`
+(Hatcher, *Algebraic Topology*, Example 1.24, p. 47), recomputed here from item 1's presentation.
 
 For every integer n let L_n be the realized closure of `σ₁ⁿ∈B₂` by native
 `TauCeti.BraidWord.closure`, with orientations, mirror and basing paths read off the twist
@@ -3335,13 +3423,16 @@ native circle value −√2,
 linking ℓ with the rest gives `Arf(L_reversed)=Arf(L)+ℓ/2 mod2` (factor
 `i^(−3ℓ)=(−1)^(ℓ/2)`), and replacing u₄ by −u₄ multiplies the value by `(−1)^(μ−1)`.
 
-**Derivative and integral divisibility.** With the Laurent derivative `∂(t^k)=k t^(k−1)`
-on the native integral carrier (agreeing with analytic differentiation away from 0, and
-near t = 1 with the branch u(1) = 1) and `λ=Σ_(j<k)lk(L_j,L_k)`, every nonempty link has
-`H_L(1)=(−2)^(μ−1)` and `(∂H_L)(1)=3(−2)^(μ−1)λ`: by the native skein, a self-crossing
-change preserves the derivative and a mixed one changes it by `3(−2)^(μ−1)` and λ by 1,
-down to the unlink by the descending-diagram procedure. For a knot `V_K(1)=1` and
-`(∂V_K)(1)=0` over ℤ.
+**Derivative and integral divisibility.** Let `∂ = d/du` be the formal Laurent derivative
+`∂(u^k)=k u^(k−1)` in the variable `u = t^(1/2)` of the native carrier `ℤ[u,u⁻¹]` (the
+generator `T` of the pinned `jonesPolynomial`), and `λ=Σ_(j<k)lk(L_j,L_k)`. Every nonempty
+link has `H_L(1)=(−2)^(μ−1)` and `(∂H_L)(1)=3(−2)^(μ−1)λ`: differentiating the native skein
+`u⁻²H₊−u²H₋=(u−u⁻¹)H₀` at `u=1` gives `∂H₊(1)−∂H₋(1)=4(−2)^(μ−1)+2H₀(1)`, so a
+self-crossing change (`H₀(1)=(−2)^μ`) preserves the derivative and a mixed one
+(`H₀(1)=(−2)^(μ−2)`) changes it by `3(−2)^(μ−1)` and λ by 1, down to the unlink by the
+descending-diagram procedure. Since `d/du = 2u·d/dt`, the derivative in `t` at `t = 1` is
+half of this, `(3/2)(−2)^(μ−1)λ`. For a knot `V_K(1)=1` and `V_K′(1)=0` over ℤ, in either
+variable, since `H_K(u)=V_K(u²)`.
 
 In the standard skein `∇_+−∇_−=z∇_0`, converted from the existing Conway specialization,
 with `Δ_L(s²)=∇_L(s−s⁻¹)` (Layer 4.4) and compatibly with Layer 4.6's HOMFLY substitution,
@@ -3370,6 +3461,9 @@ value is 1 or 5 mod 8, unlike the unsigned criterion `±1` versus `±3`.
   of Arf `1` (by evaluation).
 - *Jones–Conway sign.* The positive Hopf link has `H(i) = −2i` while `∇(2i) = 2i` (by
   evaluation).
+- *Derivative variable.* The positive Hopf link has `H(u) = −u − u⁵`, so `(∂H)(1) = −6 =
+  3·(−2)·1` with `λ = 1`, whereas differentiating `−t^(1/2) − t^(5/2)` in `t` gives `−3` at
+  `t = 1`: the formula holds for `∂ = d/du` only (by evaluation).
 - *W of the trefoil.* `W_unknot = 0` and `W_(right trefoil) = 1`:
   `(1 − t³)(1 − t) = 1 − V` for `V = t + t³ − t⁴` (by evaluation).
 
@@ -3518,9 +3612,9 @@ polynomial/parity comparison; for the alternating and minimality conclusions, 4.
 Develop Jones's trace construction and his Theorems 8–11 (Jones, *A polynomial invariant for
 knots via von Neumann algebras*, Bull. Amer. Math. Soc. 12 (1985), p. 106) on the native TL
 algebra and realized oriented braid closures, with TemperleyLieb Layers 4–5 for the diagram
-basis, base change, algebraic Markov uniqueness and generic blocks. The positivity theorem below
-is stated by locator and consumed as stated; its proof belongs to the owners named in *Scope and
-ownership*.
+basis, base change, algebraic Markov uniqueness and generic blocks, and Subfactors §§3.1–3.3 for
+the analytic adjoint, Jones's positivity theorem, the trace radical and the positive Jones
+quotients.
 
 **Projection and native normalizations.** For u≠0, t=u², δ=u+u⁻¹ and native generators E_i
 (E_i²=δE_i; p_i=E_i/δ when δ≠0), construct the braid homomorphism ρ_u:B_n→(TL_n(ℂ,δ))ˣ,
@@ -3533,15 +3627,20 @@ half-variable Jones polynomial, by the native bracket trace and writhe compariso
 stabilization, conjugation and the geometric Markov theorem). Jones's A_r is the (r+1)-strand
 algebra.
 
-**Positive analytic comparison.** For real t>0 take u=√t>0; for k≥3 take u=exp(πi/k),
-t=exp(2πi/k), δ=2cos(π/k), the other roots transported by the sign isomorphism `u ↦ −u`. The
-positivity theorem: for k≥3, δ=2cos(π/k) and the involution fixing every E_i, the form
-(x,y)↦tr_n(xy*) on TL_n(ℂ,δ) is positive semidefinite, its radical R_n is a two-sided ideal, the
-quotient Q_n=TL_n/R_n is a finite direct sum of matrix algebras on which tr_n descends to a
-faithful normalized positive trace, and for real t>0 the form is positive definite on all of
-TL_n (Jones, *Index for subfactors*, Invent. Math. 72 (1983), §§4–5; Wenzl, *Hecke algebras of
-type Aₙ and subfactors*, Invent. Math. 92 (1988), §2; Goodman–de la Harpe–Jones, *Coxeter Graphs
-and Towers of Algebras*, Chapter 2). Construct the quotient braid map to Q_n.
+**Positive analytic comparison.** For real t>0 take u=√t>0, so δ=u+u⁻¹≥2; for k≥3 take
+u=exp(πi/k), t=exp(2πi/k), δ=2cos(π/k), the other roots transported by the sign isomorphism
+`u ↦ −u`. At these δ, with the native trace at q=−u and Subfactors §3.1's adjoint fixing every
+E_i, consume Jones's positivity theorem `markovTrace_nonneg_iff` (Subfactors §3.2): the form
+(x,y)↦tr_n(xy*) on TL_n(ℂ,δ) is positive semidefinite; its radical R_n is the trace radical, a
+two-sided ideal (§3.2); the quotient Q_n=TL_n/R_n is a finite direct sum of matrix algebras on
+which tr_n descends to a faithful normalized positive trace, and R_n=0 for δ≥2, so for real t>0
+the form is positive definite on all of TL_n (§3.3) (Jones, *Index for subfactors*, Invent. Math.
+72 (1983), §§4–5; Wenzl, *Hecke algebras of type Aₙ and subfactors*, Invent. Math. 92 (1988), §2;
+Goodman–de la Harpe–Jones, *Coxeter Graphs and Towers of Algebras*, Chapter 2). Prove that
+R_n=0 also at δ=2cos(π/k) when k≥n+2: every n-step path from 0 on the half-line stays among the
+vertices 0,…,n of A_(k−1), so the path algebra of Subfactors §3.3 has dimension
+Σ_t #paths(n,t)²=catalan n, the dimension of TL_n (TemperleyLieb Layer 4), and π_n is injective.
+Construct the quotient braid map to Q_n.
 
 **Braid-index prefix.** For every nonempty tame oriented link L, the set of positive strand
 counts of realized braid closures isotopic to L is nonempty (4.2's Alexander theorem); define
@@ -3581,8 +3680,9 @@ transcendental t has transcendental square roots, giving Jones's Corollary 11. J
 whether these kernels are trivial is open.
 
 *Needs:* 4.2's geometric braid closure, Alexander/Markov theorems and endpoint/component
-comparison; 4.5's geometric Jones invariant; TemperleyLieb Layers 4–5 and the positivity theorem
-stated above; native `BraidGroup`, `TemperleyLieb` and `markovTrace`; Mathlib matrices, positive
+comparison; 4.5's geometric Jones invariant; TemperleyLieb Layers 4–5; Subfactors §3.1 (the
+adjoint), §3.2 (`markovTrace_nonneg_iff`, the trace radical) and §3.3 (path models, `Q_n`, `R_n = 0`
+for `δ ≥ 2`); native `BraidGroup`, `TemperleyLieb` and `markovTrace`; Mathlib matrices, positive
 forms, rational functions and transcendence.
 
 **Checks.**
@@ -3593,6 +3693,9 @@ forms, rational functions and transcendence.
   braid index 1, not 3: the certificate needs δ>1 (by evaluation).
 - *One generator.* `tr_n(g_i) = u²·(1/δ) − u = −1/δ` since `uδ = u² + 1`, and the closure of `σ₁`
   on two strands gives `(−δ)·(−1/δ) = 1`, the unknot's value (by evaluation).
+- *Faithfulness threshold.* At `δ = √2` (`k = 4`) the path algebra on `A_3` has dimension
+  `1 + 1 = 2 = dim TL_2` at `n = 2`, so `R_2 = 0`, but `2² = 4 < 5 = dim TL_3` at `n = 3`, so
+  `R_3 ≠ 0`: the bound `k ≥ n + 2` cannot be lowered to `k ≥ n + 1` (by evaluation).
 
 ### 4.5.7 Nonexchange links and the five-strand cubic quotient
 
@@ -4135,6 +4238,8 @@ marked connected sums and two-braid closure. Compare
 
 ### 4.7.2 Transposition labels and the bridge bound
 
+This section proves its statements from the constructions it states and cites no outside proof.
+
 Group labels are native `Quandle.Conj G`, with `H(s,t)=(s t s⁻¹,s)` at a positive crossing and its
 inverse at a negative one. The signed Reidemeister colouring bijections preserve the subgroup
 generated by the labels; compare Layer 4.2's braid action with Layer 4.4's Wirtinger presentation.
@@ -4163,6 +4268,12 @@ generated by the labels; compare Layer 4.2's braid action with Layer 4.4's Wirti
   crossing equation but generates a group of order `2`, so it yields no bound.
 
 ### 4.7.3 Signed pretzel diagrams and transposition labelings
+
+The `S₃` criterion is the three-box case of the difference system for Fox colourings of a
+pretzel diagram, with determinant `pq + pr + qr` and its mod-`n` nullity (Kolay, *Knot colorings:
+coloring and Goeritz matrices*, arXiv 1910.08044, Exercise 16, p. 13, and Claims 17–20, p. 14);
+the `S₄` classification, the colouring bijections and the bridge statement are proved here from
+the constructions below and cite no outside proof.
 
 For p,q,r∈ℤ the marked standard pretzel diagram P(p,q,r) has three boxes, two-strand braids in
 downward local frames with p, q, r signed half twists (zero: two vertical arcs), top caps labelled
@@ -4218,6 +4329,8 @@ colourings and `ZMod 3` linear algebra.
 
 ### 4.7.4 Conjugation orbits of finite colourings
 
+This section proves its statements from the constructions it states and cites no outside proof.
+
 For every finite group G and finite realized link diagram, the signed Wirtinger colourings of 4.7
 form a finite set; through the finite native `Group.Presentation` (an assignment is a colouring iff
 every relator evaluates to 1) they are equivalent to the homomorphisms from the complement group to
@@ -4256,6 +4369,8 @@ subgroup centralizers, finite permutation cycle types, finite matrix groups and 
 
 ### 4.7.5 The complete `5₂` coloring calculation
 
+This section proves its statements from the constructions it states and cites no outside proof.
+
 The standard `5₂` PD model of 4.4.6, through 4.2's PD/arc comparison, calibrates the counts of 4.7
 and the Smith adapter of 4.7.1; its arcs `x₁,…,x₅` have over/under triples `(1;2,3)`, `(3;1,4)`,
 `(4;1,5)`, `(5;2,4)`, `(2;3,5)`.
@@ -4273,6 +4388,8 @@ and the Smith adapter of 4.7.1; its arcs `x₁,…,x₅` have over/under triples
   the `3` constant ones, and modulo `14` there are `14 · 7 = 98` (by evaluation).
 
 ### 4.7.6 The three permutation-labeling examples
+
+This section proves its statements from the constructions it states and cites no outside proof.
 
 Permutations use one-based cycle notation (letter i is native i−1 in `Equiv.Perm (Fin N)`) with
 right-to-left products; a G-labelling generates G and satisfies the crossing equations.
@@ -4556,6 +4673,8 @@ diagram/Jones–Wenzl theory. Compare the cabling with
 t = A⁻⁴), whose sign-normalized polynomial is `(-1)^r F_r`.
 
 ### 4.8.2 The complete braid-index-two classification
+
+This section proves its statements from the constructions it states and cites no outside proof.
 
 Use 4.8's braid index (minimum over every braid axis) and oriented-link equivalence. For m ∈ ℤ let
 L_m be the coherently oriented closure of σ₀^m in native BraidGroup 2 (4.2.1's B₂ ≃ ℤ): L_0 is the
@@ -4933,6 +5052,9 @@ Layers 4.7.3 and 4.8.1 for the pretzel comparison. Conventions follow [Conway,
 §2](https://homepages.math.uic.edu/~kauffman/rattl.pdf).
 
 ### 4.10.2 Equal Alexander polynomials and different transposition images
+
+This section proves its statements from the constructions and named hypotheses it states and
+cites no outside proof.
 
 The stevedore knot 6₁ (the closure of slope 9/5, compared with slope 9/2 through `2·5≡1 mod 9`) and
 the pretzel knot 9₄₆ = P(3,3,−3) (4.7.3's signed three-box model) have the same Alexander polynomial
@@ -6265,15 +6387,39 @@ slice (Freedman, *The topology of four-dimensional manifolds*, J. Differential G
 (1982); Freedman–Quinn, *Topology of 4-Manifolds*, Theorem 11.7B; Kirby's Problem 1.36).
 `Suggested.lean` states it as `freedman_slice_theorem`. Its proof, the disc embedding theorem
 in dimension four, is FourManifolds'; the equivalence of the two hypotheses is proved here.
-Prove Levine's theorem: there is a pattern knot `P` in the solid torus representing a generator
-of its first homology such that, for every knot `K ⊂ S³`, the satellite `P(K)` is not smoothly
-slice in any smooth homology `4`-ball; consequently there is a knot in an integral homology
-`3`-sphere `Y` that bounds no piecewise-linear disc in any contractible smooth `4`-manifold
-with boundary `Y`, and is not smoothly concordant to a knot in `S³` through a homology
-cobordism bounding a contractible manifold (Levine, *Non-surjective satellite operators and
-piecewise-linear concordance*, Forum Math. Sigma 4 (2016), abstract and §1; Kirby's
-Problem 1.31). Concordance of knots in homology spheres is an annulus in a smooth homology
-cobordism between the ambient manifolds, specializing to Layer 6.1 for `S³ × [0, 1]`.
+State Levine's theorem: there is a pattern knot `P ⊂ S¹ × D²` of winding number one such that,
+for every knot `K ⊂ S³`, the satellite `P(K)` (4.11, through the Seifert framing of `K`) bounds
+no smoothly embedded disc in any smooth rational homology `4`-ball with boundary `S³` (Levine,
+*Non-surjective satellite operators and piecewise-linear concordance*, Forum Math. Sigma 4
+(2016), numbered as in arXiv 1405.1125v2, Theorem 1.2; Kirby's Problem 1.45). Its proof
+computes `τ` and Hom's `ε` of the Mazur satellite from the knot Floer complex by bordered Floer
+homology (Levine, Theorem 1.6 and the paragraph before it); neither invariant is built in this
+roadmap, and the proof is GeometricTopology, Part II's.
+
+Prove here the reduction from Levine's theorem to knots in homology spheres (Levine,
+Proposition 1.3 and Remark 1.5). For a winding-number-one pattern `P`, let `X_P` be `S¹ × D³`
+with a `2`-handle attached along `P ⊂ S¹ × S²` with the framing induced by the Seifert framing
+of `P(unknot)`; `X_P` is a compact contractible smooth `4`-manifold, `Y_P = ∂X_P` an integral
+homology sphere, and `J_P = S¹ × {pt} ⊂ Y_P`. Prove: if no `P(K)` bounds a smooth disc in a
+smooth rational homology `4`-ball with boundary `S³`, then `J_P` bounds no piecewise-linear
+disc in any smooth rational homology `4`-ball `X` with `∂X = Y_P`, for the PL structure of
+Layer 11.3. Route (Levine, proof of Proposition 1.3): a PL disc may be taken smooth away from
+finitely many interior points at which it is the cone on a knot `K₁, …, K_n`, so tubing these
+points to the boundary along arcs of the disc makes `J_P # −K` smoothly slice in `X`, where
+`K = K₁ # ⋯ # K_n`; a `0`-framed `2`-handle along it gives `W`, a rational homology `S² × D²`
+whose boundary is the `0`-surgery on `P(−K)` (cut-and-paste of solid tori and exteriors,
+Layers 4.11 and 5.2); surgery
+(`TauCeti.SphereSurgery`) on the sphere formed by the slice disc and the core, whose normal
+bundle is trivial, gives a rational homology `S¹ × D³`, and a `0`-framed `2`-handle along the
+core of the surgery torus gives a smooth rational homology `4`-ball with boundary `S³` in which
+the cocore is a smooth slice disc for `P(−K)`. Concordance of knots in homology spheres is an
+annulus in a smooth homology cobordism between the ambient manifolds, specializing to Layer 6.1
+for `S³ × [0, 1]`; a knot in a homology sphere `Y` homology concordant to a knot `K' ⊂ S³`
+bounds a PL disc in the homology ball obtained by capping the cobordism with `D⁴`, the annulus
+followed by the cone on `K'`. Assuming Levine's theorem, for his pattern `P` the knot `J_P` in
+the homology sphere `Y_P` bounds no PL disc in any rational homology ball with boundary `Y_P`,
+the contractible `X_P` included, and is homology concordant to no knot in `S³` (Levine,
+Theorem 1.1, first part; Kirby's Problem 1.31).
 
 **Hypothesis 6.4 (the Whitehead double of the trefoil).** The positive-clasped untwisted
 Whitehead double `W = W_(+,0)(T)` of 4.11.3, with `T = T(2,3)` the right-handed trefoil of 4.11,
@@ -6296,10 +6442,19 @@ negative-clasped double `W_(−,0)(T)`, the mirror of `W_(+,0)` of the left-hand
 - *Clasp and handedness.* By Hedden's formula, `τ` of the positive-clasped `t`-twisted double of
   `K` is `1` exactly when `t < 2τ(K)`: with `τ(T) = 1`, `W_(+,0)(T)` has `τ = 1`, while
   `W_(+,0)(mirror T)` and `W_(−,0)(T)`, its mirror, have `τ = 0` (by evaluation).
+- *Trivial and Mazur patterns.* For the core pattern `S¹ × {0}` the two handles of `X_P` cancel,
+  `Y_P` is the `(0, 0)`-surgery on the Hopf link, `S³` by 5.2, and `J_P`, a `0`-framed push-off
+  of the surgery curve, bounds a disc: no contradiction, since the reduction's hypothesis fails
+  at `K` the unknot. The Mazur pattern `Q` has `Q(unknot)` the unknot, and `J_Q` is smoothly
+  slice in another contractible manifold with boundary `Y_Q` (Levine, Remark 1.4), so the
+  hypothesis on all satellites cannot be dropped.
 
 *Needs:* Tau Ceti `TauCeti.FreedmanSliceTheorem`,
-`TauCeti.SmoothCircleEmbedding.HasPerfectCommutatorSubgroup`, `TauCeti.IsTopologicallySlice`;
-Layer 4.4, Layer 6.1, Layer 6.2; Mathlib singular homology.
+`TauCeti.SmoothCircleEmbedding.HasPerfectCommutatorSubgroup`, `TauCeti.IsTopologicallySlice`,
+`TauCeti.SphereSurgery`; Layer 4.4, Layer 6.1, Layer 6.2 for Freedman's theorem; Layer 1.3
+(gluing and `2`-handles), Layer 1.5 (tubes), Layer 4.11 (satellites and their Seifert framing),
+Layer 5.2 (fillings and surgery), Layer 11.3 (smooth triangulations and PL structures) and
+Mathlib singular homology for the reduction; Levine's theorem as stated, for its consequence.
 
 ### Examples
 
@@ -6312,7 +6467,8 @@ the right-handed trefoil, topologically slice by Freedman's theorem and, assumin
 ### Dependencies
 
 Tau Ceti's concordance and slice carriers and matrix signatures; Layer 4 (knots, Seifert
-matrices, polynomials), Layer 1.3 (gluing concordances), Layer 2 (locally flat discs).
+matrices, polynomials), Layer 1.3 (gluing concordances), Layer 2 (locally flat discs); for the
+reduction of Levine's theorem in 6.4, Layer 5.2 (surgery) and Layer 11.3 (PL structures).
 
 ## Layer 7: hyperbolic structures, volume and rigidity
 
@@ -6321,11 +6477,15 @@ Hyperbolic metrics (`TauCeti.HyperbolicMetric`, `TauCeti.IsHyperbolic`), their v
 `TauCeti.UpperHalfSpace E`, the model geometries, the Weeks manifold and the Mostow,
 Gabai–Meyerhoff–Milley, virtual fibering and virtual Haken propositions are Tau Ceti's at the pin
 (*Exact supplier contracts*). This layer proves
-finite-volume Mostow–Prasad rigidity and its closed/cusped consequences, develops
+Mostow rigidity of closed hyperbolic manifolds in every dimension `n ≥ 3` and finite-volume
+Mostow–Prasad rigidity in dimension three with their closed and cusped consequences, develops
 finite-volume hyperbolic `3`-manifolds and the Appendix certificates, and states the Weeks and
 Agol theorems.
 
 ### 7.1 Hyperbolic space and its isometries
+
+This section proves its statements from the pinned carriers and the suppliers in its *Needs:*
+line by the routes it names, and cites no outside proof.
 
 The upper half space `TauCeti.UpperHalfSpace (EuclideanSpace ℝ (Fin (n−1)))` with the metric
 `(dx² + dy²)/y²` is Tau Ceti's complete metric of constant curvature `−1`,
@@ -6361,13 +6521,15 @@ HopfRinow Layers 1–3; DifferentialGeometry Layer 12.
 
 ### 7.2 Mostow rigidity
 
-State `TauCeti.MostowRigidity`: for closed connected hyperbolic manifolds of dimension `n ≥ 3`,
-any two hyperbolic metrics on the same manifold are related by an isometry; more strongly,
-a homotopy equivalence between closed hyperbolic manifolds of dimension `n ≥ 3` is homotopic
+Prove the pinned proposition `TauCeti.MostowRigidity`: for closed connected hyperbolic manifolds
+of dimension `n ≥ 3`, any two hyperbolic metrics on the same manifold are related by an
+isometry; more strongly, a homotopy equivalence between closed hyperbolic manifolds of dimension
+`n ≥ 3` is homotopic
 to an isometry (Mostow, *Quasi-conformal mappings in n-space and the rigidity of hyperbolic
 space forms*, Publ. Math. IHÉS 34 (1968); Ratcliffe, *Foundations of Hyperbolic Manifolds*,
-3rd ed., Theorem 11.8.5). `Suggested.lean` states it as `mostow_rigidity`.
-The proof route is Gromov–Thurston's for `n = 3` (Thurston, Chapter 6): the lift of the
+3rd ed., Theorem 11.8.5). `Suggested.lean` states it as `mostow_rigidity`; its proof is a
+target of this layer. The proof route is Gromov–Thurston's for `n = 3` (Thurston, Chapter 6):
+the lift of the
 homotopy equivalence extends to a quasi-conformal homeomorphism of the sphere at infinity, and
 straightening of singular chains with the maximal volume of the regular ideal simplex shows
 that it carries regular ideal simplices to regular ideal simplices almost everywhere, hence is
@@ -6863,7 +7025,10 @@ boundary, relative to specified boundary collars and peripheral markings: build 
 cut-and-glue records, incompressibility and boundary-parallelism tests, the minimal
 characteristic torus family, its Seifert pieces and atoroidal interiors, and prove existence and
 uniqueness up to ambient isotopy relative to the external boundary and that every homeomorphism
-carries one characteristic family to the other up to such isotopy. The proof belongs to the
+carries one characteristic family to the other up to such isotopy (existence and uniqueness up
+to isotopy of a minimal family for compact irreducible orientable `3`-manifolds, boundary allowed:
+Hatcher, *Notes on Basic 3-Manifold Topology*, Theorem 1.9, p. 15; Jaco–Shalen; Johannson, as in
+8.5). The proof belongs to the
 normal-surface and characteristic-annulus prefix of GeometricTopology, Part II, which extends
 8.5's Kneser, characteristic-Seifert and annulus arguments to boundary collars from 8.1–8.4 and
 11.2 alone. The pinned `TauCeti.JSJTheorem` is the closed case. `TauCeti.IsPeripheralTorus` and
@@ -7179,17 +7344,33 @@ states Manolescu's theorem and Zeeman's conjecture.
 
 ### 11.1 The realization and its CW structure
 
-Prove, for an abstract simplicial complex `K`, that `Realization K` is Hausdorff, that every
-compact subset lies in the realization of a finite subcomplex (Hatcher, *Algebraic Topology*,
-Appendix, Proposition A.1, for the CW structure built below), that simplicial maps realize to
-continuous maps functorially, that the realization of a stellar subdivision is canonically
-homeomorphic to the realization of `K`, and that for a face `σ` the closed star of `σ` is the join
-`σ ∗ Lk(σ)` and the boundary of a conical neighbourhood of the barycentre of `σ` is the join
-`∂σ ∗ Lk(σ)`, with the convention `∅ ∗ X = X` (Rourke–Sanderson, Chapter 2); for a vertex this
-boundary is the realized link itself. Construct the CW structure on `Realization K` whose closed
-cells are the realized simplices, as an instance of Mathlib's `Topology.CWComplex`, and prove that
-a homeomorphism `e : X ≃ₜ Y` transports a CW structure on `X` to one on `Y`, with the images of the
-cells and the pushed-forward characteristic maps.
+For an abstract simplicial complex `K`, the pin has: `Realization K` is Hausdorff
+(`AbstractSimplicialComplex.instT2SpaceRealization`); every compact subset uses finitely many
+vertices, so lies in the realization of a finite subcomplex
+(`AbstractSimplicialComplex.exists_finset_support_subset_of_isCompact`; Hatcher, *Algebraic
+Topology*, Appendix, Proposition A.1); simplicial maps realize to continuous maps functorially
+(`PreAbstractSimplicialComplex.SimplicialMap.realizationMap`, `realizationMap_id`,
+`realizationMap_comp`); the realization of a stellar subdivision of a finite complex is
+homeomorphic to it by the barycentric map
+(`PreAbstractSimplicialComplex.exists_homeomorph_stellarSubdivision`, under `K.faces.Finite`);
+after tagging vertices, the closed star of a face `σ` is the join `σ ∗ Lk(σ)` and its part avoiding
+`σ` is `∂σ ∗ Lk(σ)` (`PreAbstractSimplicialComplex.map_closedStar_eq_join`,
+`PreAbstractSimplicialComplex.map_closedStar_inf_deletion_eq_join`); the CW structure on
+`Realization K` whose closed cells are the realized simplices
+(`AbstractSimplicialComplex.realizationCWComplex`, an instance of Mathlib's `Topology.CWComplex`);
+and the transport of a CW structure along a closed embedding, a homeomorphism in particular,
+between spaces of one universe, with the cells of the source and the characteristic maps followed
+by the embedding (`Topology.IsClosedEmbedding.relCWComplex`). None of this is planned again here.
+Prove what the pin lacks: the stellar homeomorphism for an arbitrary, possibly infinite and not
+locally finite, complex, face by face in the weak topology, from the pinned point-set bijection
+(`PreAbstractSimplicialComplex.injOn_stellarSubdivisionLinearMap`,
+`PreAbstractSimplicialComplex.surjOn_stellarSubdivisionLinearMap`) and its simplexwise linear
+inverses (`Subdivision/Stellar/Geometry.lean`); and the geometric form of the join laws, that the
+closed star of `σ` is homeomorphic to the realization of `σ ∗ Lk(σ)` and the boundary of a conical
+neighbourhood of the barycentre of `σ` to the realization of `∂σ ∗ Lk(σ)`, with the convention
+`∅ ∗ X = X` (Rourke–Sanderson, Chapter 2). For a vertex the boundary is the realized link
+itself, and the statement is the pinned description of a closed vertex star as the cone on its
+link (`Realization/Star/Basic.lean`).
 
 **Checks.**
 - *The join law on an edge.* For one closed edge `e` with its vertices, `Lk(e) = ∅` while the
@@ -7198,11 +7379,16 @@ cells and the pushed-forward characteristic maps.
 - *Simplex boundary.* The realization of the boundary of the standard `n`-simplex is
   homeomorphic to `Sⁿ⁻¹` for `n ≥ 1`; for `n = 0` the boundary has no nonempty face and its
   realization is empty.
-- *Two points.* The realization of the complex of two vertices is the discrete space `S⁰`, whose
-  CW structure has two `0`-cells and no other cells.
+- *Infinite fan.* For the complex of the edges `{0, i}`, `i ≥ 1`, not locally finite at `0`,
+  starring `{0, 1}` changes only that edge, yet the pinned homeomorphism does not apply
+  (`K.faces` is infinite), and the coordinate topology, in which the points at parameter `1/i`
+  on the `i`-th edge converge to `0`, differs from the weak topology, in which they form a closed
+  set: the infinite case must be proved for the weak topology.
 
 *Needs:* Tau Ceti `AbstractSimplicialComplex.Realization`, `PreAbstractSimplicialComplex.link`,
-`closedStar`, stellar subdivision; Mathlib `Topology.CWComplex`, `AbstractSimplicialComplex`.
+`closedStar`, `join`, `PreAbstractSimplicialComplex.map_closedStar_eq_join`,
+`PreAbstractSimplicialComplex.map_closedStar_inf_deletion_eq_join`, the stellar point-set bijection
+and its simplexwise inverses; Mathlib `AbstractSimplicialComplex`.
 
 ### 11.2 Triangulations and PL structures in dimension three
 
@@ -7306,14 +7492,19 @@ smooth manifold); Mathlib `Homeomorph`, `IsManifold`.
 ### 11.3 Smooth triangulations and combinatorial manifolds
 
 Prove the Cairns–Whitehead theorem: every smooth manifold admits a smooth triangulation, a
-homeomorphism from a realization whose restriction to each closed simplex is a smooth embedding
-with injective differential, unique up to PL homeomorphism (Whitehead, *On C¹-complexes*, Ann. of
-Math. 41 (1940); Munkres, Theorems 10.5 and 10.6); hence every smooth manifold is a PL manifold in
-the sense of Layer 1.6, with a unique PL structure. Prove that the realization of a combinatorial
-`n`-manifold (`IsCombinatorialManifold K n`, locally finite with countably many vertices) is a PL
-`n`-manifold, and that every PL manifold admits a combinatorial triangulation (Rourke–Sanderson,
-*Introduction to Piecewise-Linear Topology*, Chapter 3), so that the chart-based and link-based
-definitions agree. Prove that the boundary of a combinatorial manifold, the vertices with ball
+homeomorphism `f : Realization K ≃ₜ M` with the pinned `TauCeti.IsSmoothTriangulation I n f` (on
+every closed simplex `f` is a `Cⁿ` immersion of the simplex), unique up to PL homeomorphism
+(Whitehead, *On C¹-complexes*, Ann. of Math. 41 (1940); Munkres, Theorems 10.5 and 10.6), with
+the pinned secant approximations on edgewise subdivisions
+(`Geometry/Manifold/SmoothTriangulation/`) as inputs; hence every smooth manifold is a PL
+manifold in the sense of Layer 1.6, with a unique PL structure. The pin has that the realization
+of a combinatorial `(n+1)`-manifold is a PL manifold with boundary, modelled on the half-space
+`(Fin n → ℝ) × ℝ≥0`, with no local-finiteness hypothesis
+(`PreAbstractSimplicialComplex.IsCombinatorialManifold.exists_chartedSpace_hasGroupoid_PLGroupoid`).
+Prove the converse, that every PL manifold admits a combinatorial triangulation
+(Rourke–Sanderson, *Introduction to Piecewise-Linear Topology*, Chapter 3), so that the
+chart-based and link-based definitions agree. Prove that the boundary of a combinatorial manifold,
+the vertices with ball
 links, is a combinatorial manifold of one dimension less.
 
 - The four predicates satisfy `smooth ⟹ PL ⟺ combinatorially triangulable ⟹ triangulable`, and
@@ -7336,7 +7527,9 @@ links, is a combinatorial manifold of one dimension less.
   homeomorphism is not smooth across edges, which the definition does not require.
 
 *Needs:* Tau Ceti `PreAbstractSimplicialComplex.IsCombinatorialManifold`, `IsCombinatorialSphere`,
-`IsCombinatorialBall`, `TauCeti.PLGroupoid`; Layer 1.6, Layer 11.1.
+`IsCombinatorialBall`, `TauCeti.PLGroupoid`, `TauCeti.IsSmoothTriangulation`,
+`PreAbstractSimplicialComplex.IsCombinatorialManifold.exists_chartedSpace_hasGroupoid_PLGroupoid`;
+Layer 1.6, Layer 11.1.
 
 ### 11.4 Manolescu's theorem
 
@@ -7403,8 +7596,10 @@ manifolds); Layer 1.1 (collars) and Layers 3.3 and 3.4 (the disc theorem and Sma
 for Layer 11.2.1; Mathlib CW complexes.
 ## Downstream consumers
 
-- **AlgebraicTopology** consumes Layer 11.1's CW structure on realizations and the transport
-  of CW structures along homeomorphisms, and Layer 1's boundary and collar constructions.
+- **AlgebraicTopology** consumes Layer 11.3's smooth triangulations, through which a smooth
+  manifold is homeomorphic to a simplicial realization, and Layer 1's boundary and collar
+  constructions; the CW structure of a realization and its transport along homeomorphisms, which
+  it also uses, are Tau Ceti's at the pin.
 - **CharacteristicClasses**, **GeneralizedCohomology**, **TopologicalKTheory**,
   **MorseTheory**, **RiemannianGeometry**, **IndexTheory**,
   **AffineMorseLefschetz** and **ComplexKahlerGeometry** consume Layer 1: collars, gluing,
@@ -7423,9 +7618,8 @@ for Layer 11.2.1; Mathlib CW complexes.
   and owns the four-dimensional theorems this roadmap states (the dimension-four annulus theorem
   and Freedman's theorem).
 - **TemperleyLiebOperatorAlgebras** consumes Layer 4.5.3's finite algebraic
-  Clifford map, scalar trace, radical quotient and braid phases; it and
-  **Subfactors** own the analytic-adjoint, C*-quotient, block/path and tower
-  comparisons and the proof of the positivity theorem stated in Layer 4.5.6.
+  Clifford map, scalar trace, radical quotient and braid phases, and Layer 4's Jones
+  polynomial of braid closures.
 - **TangentialBordism** consumes Layer 1's gluing, Layer 4.3.1's finite quadratic
   Arf algebra and Layer 11.3's smooth triangulations; its Spin-surface
   refinement and Spin bordism classification remain its own constructions.
