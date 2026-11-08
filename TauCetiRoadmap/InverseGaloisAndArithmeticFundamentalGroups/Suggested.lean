@@ -16,11 +16,13 @@ APIs; discharging them finishes neither a layer nor the roadmap.
 Layer IG.2 is represented by Hilbert irreducibility, including several parameters, full polynomial
 Galois groups, disjoint realizations, Weissauer's theorem, the failure of finite generation for
 absolute Galois groups of Hilbertian fields and the normal-subgroup theorem.
-Layer IG.3 contributes rational rigidity and the stable classification of generating braid orbits.
-Layer IG.4 contributes split nilpotent embedding problems, Shafarevich's theorem, supersolvable
-and quaternion Grunwald prescriptions and realizations over extensions of collectively coprime
-degrees. Layer IG.5's Abhyankar theorem is stated in the equivalent function-field language, using Tau Ceti's genus,
-places and ramification indices. Layer IG.6 contributes specialization of regular realizations and
+Layer IG.3 contributes rational rigidity, the stable classification of generating braid orbits and
+Schur–Zassenhaus conjugacy of coprime complements.
+Layer IG.4 contributes split nilpotent embedding problems, the Fitting subgroup with its basic
+theory, Shafarevich's theorem, supersolvable and quaternion Grunwald prescriptions and realizations
+over extensions of collectively coprime degrees. Layer IG.5's Abhyankar theorem is stated in the
+equivalent function-field language, using Tau Ceti's genus, places and ramification indices.
+Layer IG.6 contributes specialization of regular realizations and
 the implication between the named open inverse Galois problems.
 
 The trace formulas of IG.0 require compactly supported constructible étale cohomology with its
@@ -249,6 +251,17 @@ theorem LiftingInvariant.stable_classification {G : Type*} [Group G] [Finite G] 
           BranchTuple.generated (fun i => (t i).val) = ⊤ ∧ LiftingInvariant.tuple c hc t = z) := by
   sorry
 
+open scoped Pointwise in
+/-- Schur–Zassenhaus conjugacy: if a normal subgroup has order coprime to its index and either it
+or its quotient is solvable, any two complements are conjugate by an element of the normal
+subgroup (Layer IG.3, *Conjugacy of coprime complements*). Existence of a complement is
+Mathlib's `Subgroup.exists_right_complement'_of_coprime`. -/
+theorem exists_conj_eq_of_isComplement'_of_coprime {G : Type*} [Group G] {N : Subgroup G}
+    [N.Normal] (hN : Nat.Coprime (Nat.card N) N.index)
+    (hsol : Group.IsSolvable N ∨ Group.IsSolvable (G ⧸ N)) {H K : Subgroup G}
+    (hH : Subgroup.IsComplement' N H) (hK : Subgroup.IsComplement' N K) :
+    ∃ n ∈ N, MulAut.conj n • H = K := sorry
+
 /-! ## Layer IG.4: embedding problems, Shafarevich's theorem and unramified Γ-groups -/
 
 /-- Every finite split embedding problem over a number field with nilpotent kernel has a
@@ -257,6 +270,31 @@ theorem exists_proper_solution_of_split_nilpotent (K : Type*) [Field K] [NumberF
     (P : TauCeti.FiniteEmbeddingProblem (Field.absoluteGaloisGroup K))
     (s : P.Q →* P.E) (hs : P.α.comp s = MonoidHom.id P.Q) [Group.IsNilpotent P.α.ker] :
     ∃ β : Field.absoluteGaloisGroup K →* P.E, P.IsSolution β ∧ Function.Surjective β := sorry
+
+/-- The Fitting subgroup `F(G)`: the supremum of the nilpotent normal subgroups of `G`
+(Layer IG.4, *The Fitting subgroup*). The Fitting subgroup of a subgroup `H` is `fitting H`. -/
+def fitting (G : Type*) [Group G] : Subgroup G :=
+  ⨆ (N : Subgroup G) (_ : N.Normal) (_ : Group.IsNilpotent N), N
+
+/-- Fitting's theorem: the join of two nilpotent normal subgroups is nilpotent. -/
+theorem isNilpotent_sup_of_normal {G : Type*} [Group G] (N M : Subgroup G) [N.Normal]
+    [M.Normal] [Group.IsNilpotent N] [Group.IsNilpotent M] : Group.IsNilpotent ↥(N ⊔ M) :=
+  sorry
+
+/-- The Fitting subgroup is characteristic, hence normal. -/
+theorem fitting_characteristic (G : Type*) [Group G] : (fitting G).Characteristic := sorry
+
+/-- Every nilpotent normal subgroup lies in the Fitting subgroup. -/
+theorem le_fitting {G : Type*} [Group G] (N : Subgroup G) [N.Normal] [Group.IsNilpotent N] :
+    N ≤ fitting G := sorry
+
+/-- The Fitting subgroup of a finite group is nilpotent, so it is the largest nilpotent normal
+subgroup. -/
+theorem fitting_nilpotent (G : Type*) [Group G] [Finite G] : Group.IsNilpotent (fitting G) :=
+  sorry
+
+/-- The Frattini subgroup of a finite group lies in its Fitting subgroup. -/
+theorem frattini_le_fitting (G : Type*) [Group G] [Finite G] : frattini G ≤ fitting G := sorry
 
 /-- Shafarevich's theorem: every finite solvable group is a Galois group over every number
 field. -/

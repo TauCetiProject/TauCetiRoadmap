@@ -80,15 +80,16 @@ The roadmap owns:
   as `K(π, 1)` spaces, branch tuples, Nielsen classes, the Hurwitz braid action and the braid-orbit
   monoid, exterior epimorphisms and `T`-systems, realization of generating tuples, rational rigidity,
   the field-of-moduli obstruction, reduced Schur multipliers and covers, marked central extensions
-  and the universal marked extension `U(G, c)` with its kernel, the action of units and the
-  cyclotomic twist, lifting invariants and the stable classification of braid orbits (Layer IG.3);
+  and the universal marked extension `U(G, c)` with its kernel, Schur–Zassenhaus conjugacy of
+  coprime complements, the action of units and the cyclotomic twist, lifting invariants and the
+  stable classification of braid orbits (Layer IG.3);
 - proper embedding problems with local prescriptions over number fields, the abelian lifting
   obstruction, twisting of solutions, the restricted-ramification localization adapter
-  and auxiliary cokernel comparisons for Shafarevich shrinking, Shafarevich's theorem with Fitting
-  supplements and free operator groups, the Brauer–Manin set, Harpaz–Wittenberg density for
-  supersolvable stabilisers and the unramified Brauer classes it needs, supersolvable and quaternion
-  local prescriptions, unramified admissible `Γ`-groups, Property E, arithmetic lifting invariants
-  and the marked extension count (Layer IG.4);
+  and auxiliary cokernel comparisons for Shafarevich shrinking, Shafarevich's theorem with the Fitting
+  subgroup, Fitting supplements and free operator groups, the Brauer–Manin set, Harpaz–Wittenberg
+  density for supersolvable stabilisers and the unramified Brauer classes it needs, supersolvable
+  and quaternion local prescriptions, unramified admissible `Γ`-groups, Property E, arithmetic
+  lifting invariants and the marked extension count (Layer IG.4);
 - configuration spaces, topological and arithmetic Hurwitz spaces, tame and admissible `G`-covers,
   the cohomological comparisons and point estimates for Hurwitz spaces, component invariants,
   hyperelliptic quotient families, versal families, field patching over complete discrete
@@ -137,10 +138,6 @@ It does not own, and consumes by name:
   `TauCeti.FiniteEmbeddingProblem` and, for any abelian kernel,
   `TauCeti.FiniteEmbeddingProblem.exists_isSolution_iff_obstruction_eq_zero`), and continuous
   cohomology (**ProfiniteCohomology**, Layers 1, 5, 7 and 10);
-- conjugacy of coprime complements in finite groups when the normal Hall subgroup or the quotient is
-  solvable, and the Fitting subgroup with its nilpotence, characteristicity, maximality and the
-  inclusion `Φ(G) ≤ F(G)` (**LocalFiniteGroupTheory**, L1 and L2); what Layer IG.4 keeps is the
-  passage to profinite groups and the Fitting supplement theorem, both stated on these inputs;
 - general profinite full-image detection and openness of the Frattini subgroup for compact
   matrix groups (**ArithmeticGaloisRepresentations**, §6.4a). Detection requires a closed image;
   the finite-cover specialization application here assumes an open Frattini subgroup, and the
@@ -245,7 +242,7 @@ point estimate of Layer IG.5, where it is an explicit hypothesis of the statemen
 | Field Galois theory and splitting fields | `IntermediateField`, `IsGalois`, `IsGalois.card_aut_eq_finrank`, `IsGalois.normalAutEquivQuotient`, `IsGalois.of_separable_splitting_field`, `Polynomial.SplittingField`, `Polynomial.Gal`, `AlgEquiv.autCongr` | IG.0, IG.6 |
 | Finite étale algebras and Galois categories | `CommAlgCat.FiniteEtale`, `Algebra.Etale`, `CategoryTheory.GaloisCategory`, `CategoryTheory.PreGaloisCategory.FiberFunctor`, `CategoryTheory.PreGaloisCategory.functorToContAction` | IG.0 |
 | Scheme morphisms | `AlgebraicGeometry.Etale`, `AlgebraicGeometry.IsFinite`, `AlgebraicGeometry.Scheme.Etale` | IG.0–IG.1 |
-| Groups | `Subgroup`, `Subgroup.closure`, `FreeGroup`, `FreeGroup.lift`, `PresentedGroup`, `PresentedGroup.toGroup`, `MulAut.conj`, `frattini`, `frattini_nilpotent`, `Group.IsNilpotent`, `Group.IsSolvable`, `Subgroup.exists_right_complement'_of_coprime` (existence of complements only), `SemidirectProduct`, `DihedralGroup`, `QuaternionGroup`, `QuaternionGroup.card` (`Mathlib/GroupTheory/SpecificGroups/Quaternion.lean`) | IG.3, IG.4 |
+| Groups | `Subgroup`, `Subgroup.closure`, `Subgroup.Normal`, `Subgroup.Characteristic`, `FreeGroup`, `FreeGroup.lift`, `PresentedGroup`, `PresentedGroup.toGroup`, `MulAut.conj`, `frattini`, `frattini_nilpotent`, `Group.IsNilpotent`, `Group.IsSolvable`, `Subgroup.IsComplement'`, `Subgroup.exists_right_complement'_of_coprime` (existence of complements only), `Subgroup.QuotientDiff`, `Subgroup.exists_smul_eq`, `Sylow`, `Subgroup.lowerCentralSeries`, `Subgroup.isNilpotent_iff_lowerCentralSeries`, `SemidirectProduct`, `DihedralGroup`, `QuaternionGroup`, `QuaternionGroup.card` (`Mathlib/GroupTheory/SpecificGroups/Quaternion.lean`) | IG.3, IG.4 |
 | Group extensions and group homology | `GroupExtension`, `GroupExtension.Splitting`, `groupHomology.H2`, `groupHomology.H2π`, `groupHomology.cycles₂`, `groupHomology.map`, `Rep.trivial`, `Abelianization`, `Finsupp`, `Submodule.basisOfPid`, `AddCommGroup.equiv_directSum_zmod_of_finite` | IG.3 |
 | Number fields | `NumberField`, `NumberField.finrank_eq_one_of_unramified` | IG.2, IG.4 |
 | Frobenius of finite fields | `FiniteField.frobeniusAlgEquivOfAlgebraic` (the automorphism `a ↦ a^q` of an algebraic extension of `𝔽_q`), `FiniteField.bijective_frobeniusAlgEquivOfAlgebraic_pow` (every element of `Gal(𝔽_{q^n}/𝔽_q)` is one of its first `n` powers) | IG.1 |
@@ -260,10 +257,11 @@ The Schur multiplier `M(G)` is Mathlib's `groupHomology.H2 (Rep.trivial ℤ G �
 its carrier and additive-group API are used directly. No second multiplier carrier is introduced.
 
 `Subgroup.exists_right_complement'_of_coprime` gives existence of a complement to a normal subgroup
-of coprime order and index; conjugacy of complements in finite groups, under the solvability
-alternatives, is LocalFiniteGroupTheory L1, and only the profinite statement is a target of Layer
-IG.4. Mathlib has `frattini` but no Fitting subgroup; the Fitting subgroup is that of
-LocalFiniteGroupTheory L2. `RatFunc.eval` is total and returns `0` at a pole; its additive and multiplicative laws
+of coprime order and index, but not their conjugacy. Conjugacy of such complements, under the
+solvability alternatives, is the Layer IG.3 target *Conjugacy of coprime complements*, and Layer
+IG.4 *Coprime profinite complements* extends existence and conjugacy to profinite groups. Mathlib
+has `frattini` but no Fitting subgroup; the Fitting subgroup and its basic theory are the Layer IG.4
+target *The Fitting subgroup*. `RatFunc.eval` is total and returns `0` at a pole; its additive and multiplicative laws
 carry nonvanishing-denominator hypotheses, which is why Layer IG.2 introduces the regular subring.
 
 ### From Tau Ceti
@@ -420,11 +418,6 @@ EtaleCohomologyFoundations §§F.5–F.6 /
 purity and Poincaré duality); ReductiveGroupsPartII Layer RG2.0a (Weil restriction and
 norm tori); AdelicAlgebraicGroups Layer 4, §4.1 (*Hasse kernel and injectivity* for semisimple simply
 connected groups, and *Weak approximation*, `Approximation.hasWeakApproximation_of_simplyConnected`);
-LocalFiniteGroupTheory L1 (Schur–Zassenhaus conjugacy for a finite group when the normal Hall
-subgroup or the quotient is solvable; it conjugates by an element of the whole group, which gives an
-element of the normal subgroup because the group is the product of that subgroup and either
-complement) and L2 (the relative Fitting subgroup, whose value at the top subgroup is the `F(G)` of
-IG.4.3, with nilpotence, characteristicity, maximality and `Φ(G) ≤ F(G)`);
 ArithmeticGaloisRepresentations §§3.1, 3.4 (Swan conductors with finite coefficients over a
 complete discretely valued field with perfect residue field, such as `k((z))` with `k`
 algebraically closed, and their tame-base-change scaling, with the ramification filtrations of its
@@ -450,12 +443,13 @@ Layer IG.1 applies the supplied arithmetic sequence and inertia to tame quotient
 begins with elementary algebra over `K(T)` (the regular subring and polynomial specialization) and
 ends with Hilbert's irreducibility theorem and its refinements. Layer IG.3 is the geometry and combinatorics of branched covers of the line: Riemann
 existence, braid orbits, rigidity, descent, and the group theory of lifting invariants. Layer IG.4 is
-independent of IG.3 except for the reduced Schur covers it uses for central lifts: it is the
+independent of IG.3 except for the reduced Schur covers it uses for central lifts and the
+conjugacy of coprime complements: it is the
 arithmetic of embedding problems leading to Shafarevich's theorem and to the unramified groups of
-Liu–Wood–Zureick-Brown. The finite group theory under IG.3 and IG.4 beyond Mathlib, conjugacy of
-coprime complements and the Fitting subgroup, is LocalFiniteGroupTheory L1 and L2. Layer IG.5 needs
-IG.1 and IG.3 and builds Hurwitz spaces with their components and point counts. Layer IG.6 collects
-realizations. The layers are given in build order;
+Liu–Wood–Zureick-Brown. The finite group theory beyond Mathlib that IG.3 and IG.4 need, conjugacy of
+coprime complements and the Fitting subgroup, is stated here as targets of IG.3 and IG.4. Layer IG.5
+needs IG.1 and IG.3 and builds Hurwitz spaces with their components and point counts. Layer IG.6
+collects realizations. The layers are given in build order;
 within a layer, definitions precede the theorems that use them. In IG.1 the order is tame quotients and tangential fibres, Frobenius, henselian proper
 covers, proper descent, proper smooth specialization, relative-boundary specialization,
 characteristic-zero base-extension invariance, then IG.1.4. In IG.2.4, finite-extension permanence
@@ -3289,6 +3283,39 @@ Mathlib `MonoidHom.ker`, `Submodule.basisOfPid`.
 - For `G = C₂²` and `c = ∅`, the presentation has trivial kernel while `M(G, ∅) = C₂`.
   The kernel remains defined without generation, but the multiplier and product formulas do not apply.
 
+**Conjugacy of coprime complements.** Let `N` be a normal subgroup of a group `G` whose order is
+coprime to its index, `Nat.Coprime (Nat.card N) N.index` as in Mathlib's
+`Subgroup.exists_right_complement'_of_coprime`. For infinite `G` this forces `N = 1` or `N = G`, so
+the content is the finite case, in which `N` is a normal Hall subgroup. A complement of `N` is a
+subgroup `H` with `Subgroup.IsComplement' N H`, that is, `N ∩ H = 1` and `NH = G`; Mathlib proves
+that one exists. Prove that if `N` or `G/N` is solvable, any two complements `H` and `K` of `N` are
+conjugate by an element of `N`: `K = nHn⁻¹` for some `n ∈ N`. Since `G = NH`, conjugacy by an
+element of `G` already gives conjugacy by an element of `N`.
+
+*Proof sketch.* Induct on `|G|`. For abelian `N`, a complement is the stabiliser of its class in
+Mathlib's `Subgroup.QuotientDiff`, on which `N` acts transitively (`Subgroup.exists_smul_eq`). For
+solvable `N`, let `A` be the last nontrivial term of the derived series of `N`, an abelian normal
+subgroup of `G`: by induction the images of `H` and `K` in `G/A` are conjugate, and the abelian
+case inside `KA` finishes. For solvable `G/N`, let `M/N` be a minimal normal subgroup of `G/N`, a
+`p`-group with `p ∤ |N|`. Then `H ∩ M` and `K ∩ M` are Sylow `p`-subgroups of `M = N(H ∩ M)`,
+conjugate by an element of `N`; after that conjugation both `H` and `K` normalise `P = H ∩ M`.
+Apply induction in `N_G(P)` when it is proper, and in `G/P` when `P` is normal.
+
+Sources: Ribes–Zalesskii, *Profinite Groups* (2010), Theorem 2.3.15, for a finite group with the
+discrete topology; Aschbacher, *Finite Group Theory*, Chapter 6 (extensions of groups and modules).
+*Needs:* Mathlib `Subgroup.IsComplement'`, `Subgroup.exists_right_complement'_of_coprime`,
+`Subgroup.QuotientDiff`, `Subgroup.exists_smul_eq`, `Group.IsSolvable`, `Sylow`, `MulAut.conj`.
+
+*Lean:* `exists_conj_eq_of_isComplement'_of_coprime`.
+
+**Checks.**
+
+- `N = 1` has the single complement `G`, and `N = G` has the single complement `1`.
+- In `A₄` with `N = V₄`, the four subgroups of order three are complements of `V₄`, and `V₄` permutes
+  them transitively by conjugation.
+- Coprimality cannot be dropped: in `C₂ × C₂` with `N = C₂ × 1`, the complements `1 × C₂` and the
+  diagonal are not conjugate, because the group is abelian.
+
 **Coprime semidirect products and admissible inertia.** Let `H` and `Γ` be finite groups of coprime
 orders, `Γ` acting on `H`, and `G = H ⋊ Γ`.
 
@@ -3315,17 +3342,16 @@ differ by a homomorphism `H → M_Γ`, trivial by coprimality, and a subgroup of
 trivially to `S'/D`, hence equals `D`. For (3), each element of `c` is conjugate into `Γ` by the
 coprime splitting, uniquely up to `H`-conjugacy: for `x ∈ c` with image `γ`, the subgroups `⟨x⟩` and
 `⟨γ⟩` are complements of `H` in the finite group `H⟨x⟩` (since `x ∈ c`, `⟨x⟩ ∩ H = 1`), and they are
-conjugate by an element of `H` by LocalFiniteGroupTheory L1, the quotient `H⟨x⟩/H` being cyclic of
-order prime to `|H|`; each `h⁻¹γ(h)` is a commutator, so admissibility
+conjugate by an element of `H` by *Conjugacy of coprime complements*, the quotient `H⟨x⟩/H` being
+cyclic of order prime to `|H|`; each `h⁻¹γ(h)` is a commutator, so admissibility
 kills `H` in `G^{ab}`; generators of `Γ` lift through the embedded `Γ` to commuting pairs with first
 entry in `c`. Sources: [Liu–Wood–Zureick-Brown](https://arxiv.org/pdf/1907.05002v2), Lemma 12.10 and
 its proof and the proof of Theorem 10.4, arXiv v2 pp. 53–54 (published version pp. 62–64). The
 cover argument uses only finiteness and coprime orders; admissibility is used for the inertia classes
 and abelianisation. *Needs:* *Reduced Schur covers*, *The reduced Schur multiplier*, *The class degree
-map*; Mathlib `Subgroup.exists_right_complement'_of_coprime`, `SemidirectProduct`,
-`groupHomology.map`, `AddCommGroup.equiv_directSum_zmod_of_finite`;
-RepresentationTheory/InductionRestriction Layer 7; LocalFiniteGroupTheory L1 (conjugacy of coprime
-complements, for (3)).
+map*, *Conjugacy of coprime complements*; Mathlib `Subgroup.exists_right_complement'_of_coprime`,
+`SemidirectProduct`, `groupHomology.map`, `AddCommGroup.equiv_directSum_zmod_of_finite`;
+RepresentationTheory/InductionRestriction Layer 7.
 
 **Checks.**
 
@@ -3627,8 +3653,8 @@ homotopy long exact sequence and AlgebraicTopology Stage 8 the homotopy groups. 
 and inertia; Layer IG.1 supplies tangential base points and the Frobenius normalisation;
 Layer IG.0 Galois algebras. The braid group is Tau Ceti `TauCeti.BraidGroup`; free groups,
 presented groups, group extensions, group homology, existence of coprime complements and finitely
-supported functions are Mathlib's, and conjugacy of coprime complements is LocalFiniteGroupTheory
-L1; Schur covers are RepresentationTheory/InductionRestriction Layer 7; `ẑ` is
+supported functions are Mathlib's, and conjugacy of coprime complements is *Conjugacy of coprime
+complements* in IG.3.4; Schur covers are RepresentationTheory/InductionRestriction Layer 7; `ẑ` is
 ProfiniteArithmetic Layer 0; the Belyi dictionary for three points is BelyiMaps Layers 3, 5, 6 and 11.
 The complex topology contract uses separated finite type for global finite CW type, and Riemann existence and Artin comparison keep the shared fibre/deck convention.
 
@@ -3644,8 +3670,8 @@ alternative (the obstruction group has order one or two) and Wang's cyclic-eight
 ArithmeticGaloisDuality identifies the exceptional case exactly. The Schmidt–Wingberg proof of
 Shafarevich's theorem comes next:
 every finite solvable group is a Galois group over every number field. Its steps are free
-operator-group shrinking, induced and cyclic corrections, the split nilpotent embedding theorem and
-Fitting supplements.
+operator-group shrinking, induced and cyclic corrections, the split nilpotent embedding theorem, the
+Fitting subgroup and Fitting supplements.
 
 The second half covers four topics:
 
@@ -4181,11 +4207,52 @@ splitting section, nilpotent kernel and a surjective solution.
   contains the required roots of unity. Descent from that field gives the same prescribed splitting
   above infinity and `2`; these conditions are part of (i), not discarded by shrinking.
 
-**Fitting supplements for solvable groups.** Mathlib has the Frattini subgroup `frattini G` but no
-Fitting subgroup. For a finite group `G`, the Fitting subgroup `F(G)` is the subgroup generated by the
-nilpotent normal subgroups of `G`. It is the value at the top subgroup of the relative Fitting
-subgroup of LocalFiniteGroupTheory L2, which proves that it is characteristic and nilpotent, contains
-every nilpotent normal subgroup and contains `Φ(G)`; no second Fitting carrier is introduced here.
+**The Fitting subgroup.** Mathlib has the Frattini subgroup `frattini G` but no Fitting subgroup.
+For a group `G`, define the Fitting subgroup `F(G)`, `fitting G`, as the supremum of the nilpotent
+normal subgroups of `G`; like `frattini G`, it is a subgroup attached to every group. The Fitting
+subgroup of a subgroup `H ≤ G` is `fitting H`, a subgroup of `H`, viewed in `G` through the inclusion
+of `H`.
+
+The API:
+- Fitting's theorem: if `N` and `M` are nilpotent normal subgroups of a group `G`, then `N ⊔ M` is
+  nilpotent.
+- `F(G)` is characteristic, hence normal, in every group `G`.
+- Every nilpotent normal subgroup `N` of `G` satisfies `N ≤ F(G)`.
+- For finite `G`, `F(G)` is nilpotent, so it is the largest nilpotent normal subgroup of `G`.
+- For finite `G`, `Φ(G) ≤ F(G)`.
+
+*Proof sketch.* Write `γ_k(S)` for the `k`-th lower central term of a subgroup `S`, with
+`γ_1(S) = S`, computed in `G`; it is Mathlib's `S.lowerCentralSeries (k - 1)`. Let `N` and `M` have
+classes `c` and `d`. Since `N` and `M` are normal, `γ_k(NM)` is the product of the iterated
+commutator subgroups `[X_1, …, X_k]` with each `X_i ∈ {N, M}`. The lower central terms of `N` and
+`M` are normal in `G`, so such a subgroup with `i` entries `N` and `j` entries `M` lies in
+`γ_i(N) ∩ γ_j(M)` (with `γ_0 = G`). For `k = c + d + 1` either `i > c` or `j > d`, so
+`NM = N ⊔ M` is nilpotent of class at most `c + d`. An automorphism permutes the nilpotent normal
+subgroups, so `F(G)` is characteristic, and maximality is the defining property of the supremum. A
+finite group has finitely many subgroups, so `F(G)` is a finite join of nilpotent normal subgroups
+and Fitting's theorem applies. Finally `Φ(G)` is characteristic and nilpotent
+(`frattini_nilpotent`), so `Φ(G) ≤ F(G)`.
+
+Source: Huppert, *Endliche Gruppen I*, Kap. III, §4 (the Fitting subgroup).
+*Needs:* Mathlib `Subgroup.Normal`, `Subgroup.Characteristic`, `Group.IsNilpotent`,
+`Subgroup.lowerCentralSeries`, `Subgroup.isNilpotent_iff_lowerCentralSeries`, `frattini`,
+`frattini_nilpotent`.
+
+*Lean:* `fitting`, `isNilpotent_sup_of_normal`, `fitting_characteristic`, `le_fitting`,
+`fitting_nilpotent`, `frattini_le_fitting`.
+
+**Checks.**
+
+- For a finite `p`-group, `F(G) = G`; for `A₄`, `F(A₄) = V₄`.
+- Normality cannot be dropped from Fitting's theorem: two distinct subgroups of order two in `S₃` are
+  nilpotent, but they generate `S₃`, which is not nilpotent.
+- Finiteness cannot be dropped from nilpotence of `F(G)`: in the restricted direct product of the
+  dihedral groups of order `2^n`, `n ≥ 2`, each finite subproduct is a nilpotent normal subgroup, so
+  `F(G) = G`, but the classes are unbounded and `G` is not nilpotent.
+
+**Fitting supplements for solvable groups.** Let `F(G)` be the Fitting subgroup of a finite group `G`
+(*The Fitting subgroup*): characteristic, nilpotent, the largest nilpotent normal subgroup, and
+containing `Φ(G)`.
 
 Prove the following theorem of Huppert, as cited by Schmidt–Wingberg: for a nontrivial finite solvable
 group `G`, `Φ(G) < F(G)`. The inclusion `Φ(G) ≤ F(G)` holds for every finite `G`, because `Φ(G)` is a
@@ -4197,15 +4264,18 @@ is solvable. Let `U` act on `F(G)` by conjugation. Then the multiplication map `
 `(f, u) ↦ fu`, is a surjective homomorphism. In the induction of *Shafarevich solvable realization*,
 `F(G)` is the kernel of the embedding problem.
 
-The API (normality, nilpotence and maximality of `F(G)` are LocalFiniteGroupTheory L2's):
+The API (the first three items restate *The Fitting subgroup* for finite `G`; the last three are
+proved here):
+- `F(G)` is normal and characteristic.
+- For finite `G`, `F(G)` is nilpotent.
+- Every nilpotent normal subgroup `N` of a finite `G` satisfies `N ≤ F(G)`.
 - For a finite nontrivial solvable `G`, `Φ(G) < F(G)`.
 - A normal subgroup `N` of a finite group `G` with `N ⊄ Φ(G)` has a proper supplement `U < G`,
   `N ⊔ U = G`.
 - For a finite nontrivial solvable `G` there is `U < G` with
   `F(G) ⊔ U = G`, and the semidirect multiplication homomorphism is surjective.
 
-*Proof sketch.* `Φ(G) ≤ F(G)` is LocalFiniteGroupTheory L2; it also follows from Mathlib's
-`frattini_nilpotent` and the maximality of `F(G)`. For the strict inclusion,
+*Proof sketch.* `Φ(G) ≤ F(G)` is part of *The Fitting subgroup*. For the strict inclusion,
 `G/Φ(G)` is nontrivial and solvable, so it has a nontrivial abelian normal subgroup. Its preimage
 contains `Φ(G)` and is nilpotent by Frattini's argument, so it lies in `F(G)` and properly contains
 `Φ(G)`. For the supplement, a maximal subgroup `U` not containing `N` exists because `N ⊄ Φ(G)`, and
@@ -4215,9 +4285,8 @@ product is a homomorphism.
 Source: [Schmidt–Wingberg](https://arxiv.org/pdf/math/9809211v1), Propositions 16–17, arXiv v1 p. 32,
 stated without proof and cited from Huppert, *Endliche Gruppen I*, Kap. III, Satz 3.2(b) and
 Satz 4.2(c); the proof sketch above gives the arguments used here.
-*Needs:* Mathlib `Subgroup`, `frattini`, `frattini_nilpotent`, `Group.IsNilpotent`, `Group.IsSolvable`,
-`SemidirectProduct`; LocalFiniteGroupTheory L2 (the relative Fitting subgroup at the top subgroup,
-with its nilpotence, characteristicity, maximality and `Φ(G) ≤ F(G)`).
+*Needs:* *The Fitting subgroup*; Mathlib `Subgroup`, `frattini`, `frattini_nilpotent`,
+`Group.IsNilpotent`, `Group.IsSolvable`, `SemidirectProduct`.
 
 **Checks.**
 
@@ -4820,23 +4889,22 @@ sections give isomorphic `Γ`-groups, conjugation by that element being a `Γ`-e
 (Without the solvability hypothesis, conjugacy follows from the Feit–Thompson theorem, since one of two
 coprime orders is odd; that theorem is not part of this roadmap, and the conjugacy statement here
 carries the hypothesis.) For finite groups, Mathlib's
-`Subgroup.exists_right_complement'_of_coprime` gives existence and LocalFiniteGroupTheory L1 gives
-conjugacy. This target adds the profinite case.
+`Subgroup.exists_right_complement'_of_coprime` gives existence and Layer IG.3 *Conjugacy of coprime
+complements* gives conjugacy. This target adds the profinite case.
 
 *Proof sketch.* The open normal subgroups `U` of `E` contained in `N` are cofinal, and in each `E/U` the
 image `N/U` is a normal Hall subgroup, so Mathlib provides a complement. Conjugacy of complements in
-finite groups, when the normal Hall subgroup or the quotient is solvable, is the Schur–Zassenhaus
-conjugacy theorem of LocalFiniteGroupTheory L1. It conjugates by an element of `E/U`, hence by an
-element of `N/U`, since `E/U` is the product of `N/U` and either complement; the hypothesis here makes
-`N/U` or `Γ` solvable at every finite level. This target adds only the passage to profinite groups. At each
+finite groups, when the normal Hall subgroup or the quotient is solvable, is Layer IG.3 *Conjugacy of
+coprime complements*, which conjugates by an element of `N/U`; the hypothesis here makes `N/U` or
+`Γ` solvable at every finite level. This target adds only the passage to profinite groups. At each
 finite level, the sections and the conjugating elements form nonempty finite compatible sets, so
 compactness gives a continuous section of `E` and a conjugating element of `N`.
 
 Source: [Liu–Wood–Zureick-Brown](https://arxiv.org/pdf/1907.05002v2), paragraph before Definition 2.1,
 arXiv v2 p. 10, citing Ribes–Zalesskii (2010), Theorem 2.3.15. This is the section and conjugacy input
 that defines the arithmetic `Γ`-action.
-*Needs:* Mathlib `Subgroup.exists_right_complement'_of_coprime`; LocalFiniteGroupTheory L1
-(Schur–Zassenhaus conjugacy); ProfiniteProPGroups Layer 0.
+*Needs:* Layer IG.3 *Conjugacy of coprime complements*; Mathlib
+`Subgroup.exists_right_complement'_of_coprime`; ProfiniteProPGroups Layer 0.
 
 **Checks.**
 
@@ -5265,10 +5333,12 @@ This layer uses the following earlier layers of this roadmap:
 - Layer IG.2: *Hilbert subsets and Hilbertian fields*, *Hilbert irreducibility over number fields*
   for specialization and realization.
 - Layer IG.3: *Reduced Schur covers*, *Conjugacy classes lift bijectively*, *The kernel of the universal
-  marked extension*.
+  marked extension*, *Conjugacy of coprime complements*.
 
 From Mathlib it uses `frattini`, `frattini_nilpotent`, `Group.IsNilpotent`, `Group.IsSolvable`,
-`SemidirectProduct`, `Subgroup.exists_right_complement'_of_coprime`,
+`Subgroup.Characteristic`, `Subgroup.lowerCentralSeries`,
+`Subgroup.isNilpotent_iff_lowerCentralSeries`, `SemidirectProduct`,
+`Subgroup.exists_right_complement'_of_coprime`,
 `NumberField.finrank_eq_one_of_unramified`, `IsGalois.normalAutEquivQuotient` and, for local
 density of points on smooth varieties, `HasStrictFDerivAt.implicitFunctionOfProdDomain`.
 
@@ -5276,8 +5346,6 @@ From other roadmaps:
 
 - ProfiniteProPGroups Layers 0, 3, 4 and 5: profinite foundations, Frattini theory, free pro-`p`
   groups, finite embedding problems and the extension dictionary.
-- LocalFiniteGroupTheory L1 and L2: Schur–Zassenhaus conjugacy for *Coprime profinite complements*,
-  and the Fitting subgroup for *Fitting supplements for solvable groups*.
 - ArithmeticGaloisRepresentations §6.4a: closed-image detection by the Frattini quotient,
   used for the independence of the two `C₈`-lifts.
 - ProfiniteCohomology Layers 1, 5 and 7: continuous cohomology, inflation–restriction and Shapiro's
