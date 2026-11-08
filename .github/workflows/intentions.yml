@@ -29,7 +29,7 @@ jobs:
       group: TauCetiControl
       labels: tauceti-fleet-control
     concurrency:
-      group: intentions-${{ github.event.issue.number || github.event.pull_request.number || 'sweep' }}
+      group: ${{ github.event_name == 'issue_comment' && format('intentions-issue-{0}', github.event.issue.number) || (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && 'intentions-sweep' || format('intentions-item-{0}', github.event.issue.number || github.event.pull_request.number) }}
       cancel-in-progress: false
     steps:
       - name: Mint project token
