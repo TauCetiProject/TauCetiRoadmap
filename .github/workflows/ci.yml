@@ -38,9 +38,9 @@ concurrency:
 
 jobs:
   build:
-    # Merge candidates have one protected fleet slot. PR builds use shared
-    # Namespace capacity and cannot occupy the merge queue's runner.
-    runs-on: ${{ github.event_name == 'merge_group' && fromJSON('{"group":"TauCetiRoadmap","labels":"tauceti-fleet-roadmap"}') || fromJSON('["nscloud-ubuntu-24.04-amd64-8x16-with-features"]') }}
+    # Merge candidates share GitHub-hosted capacity with small automation.
+    # Ordinary PR and main builds use shared Namespace capacity.
+    runs-on: ${{ github.event_name == 'merge_group' && 'ubuntu-latest' || fromJSON('["nscloud-ubuntu-24.04-amd64-8x16-with-features"]') }}
     steps:
       # A merge-queue candidate that `main` has moved out from under can never merge, and GitHub does
       # not cancel its build. Whenever something lands on `main` outside the queue (a progress report,

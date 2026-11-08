@@ -26,7 +26,7 @@ jobs:
     # Same full SHA as progress-merge.yml uses; bump both together.
     uses: TauCetiProject/TauCetiProgress/.github/workflows/announce.yml@74d2a99278636a35a4b239bd63ba7b0a807bd6eb
     with:
-      runs_on: '{"group":"TauCetiRoadmap","labels":"tauceti-fleet-roadmap"}'
+      runs_on: '"ubuntu-latest"'
       progress_ref: 74d2a99278636a35a4b239bd63ba7b0a807bd6eb
       channel: Tau Ceti
       topic: Progress logs
