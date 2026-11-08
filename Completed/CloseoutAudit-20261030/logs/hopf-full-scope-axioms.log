@@ -1,0 +1,328 @@
+TauCeti.Manifold.exists_unit_speed_reparametrization_Icc.{u_1, u_2, u_3} {E : Type u_1} [NormedAddCommGroup E]
+  [NormedSpace ℝ E] {H : Type u_2} [TopologicalSpace H] {I : ModelWithCorners ℝ E H} {M : Type u_3} [TopologicalSpace M]
+  [ChartedSpace H M] [IsManifold I 1 M] [Bundle.RiemannianBundle fun x => TangentSpace I x]
+  [IsContinuousRiemannianBundle E fun x => TangentSpace I x] {γ : ℝ → M} {a b : ℝ} (hab : a < b)
+  (hγ : ContMDiffOn 𝓘(ℝ, ℝ) I 1 γ (Icc a b)) (hreg : ∀ t ∈ Icc a b, curveVelocityWithin I γ (Icc a b) t ≠ 0) :
+  ∃ ψ,
+    (∀ t ∈ Icc a b, ψ (∫ (r : ℝ) in a..t, ‖curveVelocityWithin I γ (Icc a b) r‖) = t) ∧
+      (∀ s ∈ Icc 0 (∫ (r : ℝ) in a..b, ‖curveVelocityWithin I γ (Icc a b) r‖),
+          ∫ (r : ℝ) in a..ψ s, ‖curveVelocityWithin I γ (Icc a b) r‖ = s) ∧
+        (∀ s ∈ Icc 0 (∫ (r : ℝ) in a..b, ‖curveVelocityWithin I γ (Icc a b) r‖), ψ s ∈ Icc a b) ∧
+          StrictMonoOn ψ (Icc 0 (∫ (r : ℝ) in a..b, ‖curveVelocityWithin I γ (Icc a b) r‖)) ∧
+            ContDiff ℝ 1 ψ ∧
+              ContMDiffOn 𝓘(ℝ, ℝ) I 1 (γ ∘ ψ) (Icc 0 (∫ (r : ℝ) in a..b, ‖curveVelocityWithin I γ (Icc a b) r‖)) ∧
+                (γ ∘ ψ) 0 = γ a ∧
+                  (γ ∘ ψ) (∫ (r : ℝ) in a..b, ‖curveVelocityWithin I γ (Icc a b) r‖) = γ b ∧
+                    (∀ s ∈ Icc 0 (∫ (r : ℝ) in a..b, ‖curveVelocityWithin I γ (Icc a b) r‖),
+                        ‖curveVelocityWithin I (γ ∘ ψ)
+                              (Icc 0 (∫ (r : ℝ) in a..b, ‖curveVelocityWithin I γ (Icc a b) r‖)) s‖ =
+                          1) ∧
+                      pathELength I (γ ∘ ψ) 0 (∫ (r : ℝ) in a..b, ‖curveVelocityWithin I γ (Icc a b) r‖) =
+                          pathELength I γ a b ∧
+                        ∫ (r : ℝ) in a..b, ‖curveVelocityWithin I γ (Icc a b) r‖ = (pathELength I γ a b).toReal
+'TauCeti.Manifold.exists_unit_speed_reparametrization_Icc' depends on axioms: [propext, Classical.choice, Quot.sound]
+TauCeti.Manifold.exists_unit_speed_reparametrization.{u_1, u_2, u_3} {E : Type u_1} [NormedAddCommGroup E]
+  [NormedSpace ℝ E] {H : Type u_2} [TopologicalSpace H] {I : ModelWithCorners ℝ E H} {M : Type u_3} [TopologicalSpace M]
+  [ChartedSpace H M] [IsManifold I 1 M] [Bundle.RiemannianBundle fun x => TangentSpace I x]
+  [IsContinuousRiemannianBundle E fun x => TangentSpace I x] {γ : ℝ → M} {J : Set ℝ} (hJ : IsOpen J)
+  (hγ : ContMDiffOn 𝓘(ℝ, ℝ) I 1 γ J) {a b : ℝ} (hab : a ≤ b) (hsub : Icc a b ⊆ J)
+  (hreg : ∀ t ∈ Icc a b, curveVelocity I γ t ≠ 0) :
+  ∃ ψ,
+    (∀ t ∈ Icc a b, ψ (∫ (r : ℝ) in a..t, ‖curveVelocity I γ r‖) = t) ∧
+      (∀ s ∈ Icc 0 (∫ (r : ℝ) in a..b, ‖curveVelocity I γ r‖), ∫ (r : ℝ) in a..ψ s, ‖curveVelocity I γ r‖ = s) ∧
+        (∀ s ∈ Icc 0 (∫ (r : ℝ) in a..b, ‖curveVelocity I γ r‖), ψ s ∈ Icc a b) ∧
+          StrictMonoOn ψ (Icc 0 (∫ (r : ℝ) in a..b, ‖curveVelocity I γ r‖)) ∧
+            ContDiffOn ℝ 1 ψ (Icc 0 (∫ (r : ℝ) in a..b, ‖curveVelocity I γ r‖)) ∧
+              ContMDiffOn 𝓘(ℝ, ℝ) I 1 (γ ∘ ψ) (Icc 0 (∫ (r : ℝ) in a..b, ‖curveVelocity I γ r‖)) ∧
+                (γ ∘ ψ) 0 = γ a ∧
+                  (γ ∘ ψ) (∫ (r : ℝ) in a..b, ‖curveVelocity I γ r‖) = γ b ∧
+                    (∀ s ∈ Icc 0 (∫ (r : ℝ) in a..b, ‖curveVelocity I γ r‖), ‖curveVelocity I (γ ∘ ψ) s‖ = 1) ∧
+                      pathELength I (γ ∘ ψ) 0 (∫ (r : ℝ) in a..b, ‖curveVelocity I γ r‖) = pathELength I γ a b ∧
+                        ∫ (r : ℝ) in a..b, ‖curveVelocity I γ r‖ = (pathELength I γ a b).toReal
+'TauCeti.Manifold.exists_unit_speed_reparametrization' depends on axioms: [propext, Classical.choice, Quot.sound]
+TauCeti.Manifold.pathELength_le_liminf_pathELength_of_tendstoUniformlyOn.{u_1, u_2, u_3, u_4} {E : Type u_1}
+  [NormedAddCommGroup E] [NormedSpace ℝ E] {H : Type u_2} [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
+  {M : Type u_3} [PseudoEMetricSpace M] [ChartedSpace H M] [Bundle.RiemannianBundle fun x => TangentSpace I x]
+  {γ : ℝ → M} {a b : ℝ} [IsRiemannianManifold I M] [IsManifold I 1 M]
+  [IsContinuousRiemannianBundle E fun x => TangentSpace I x] {ι : Type u_4} {l : Filter ι} {γi : ι → ℝ → M}
+  (hγi : ∀ᶠ (i : ι) in l, ContMDiffOn 𝓘(ℝ, ℝ) I 1 (γi i) (Icc a b)) (hγ : MDiff[Icc a b] γ)
+  (hconv : TendstoUniformlyOn γi γ l (Icc a b)) :
+  pathELength I γ a b ≤ Filter.liminf (fun i => pathELength I (γi i) a b) l
+'TauCeti.Manifold.pathELength_le_liminf_pathELength_of_tendstoUniformlyOn' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+TauCeti.Manifold.riemannianEDist_eq_iInf_pathELength_piecewise_zero_one.{u_1, u_2, u_3} {E : Type u_1}
+  [NormedAddCommGroup E] [NormedSpace ℝ E] {H : Type u_2} [TopologicalSpace H] (I : ModelWithCorners ℝ E H)
+  {M : Type u_3} [TopologicalSpace M] [ChartedSpace H M] [(x : M) → ENorm (TangentSpace I x)]
+  [∀ (x : M), ENormSMulClass ℝ (TangentSpace I x)] (x y : M) :
+  riemannianEDist I x y =
+    ⨅ γ, ⨅ (_ : IsPiecewiseContMDiffOn I 1 γ 0 1), ⨅ (_ : γ 0 = x), ⨅ (_ : γ 1 = y), pathELength I γ 0 1
+'TauCeti.Manifold.riemannianEDist_eq_iInf_pathELength_piecewise_zero_one' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+TauCeti.Manifold.ContMDiffNondegenerateMetric.contMDiff_inverse.{u_1, u_2, u_3} {E : Type u_1} [NormedAddCommGroup E]
+  [NormedSpace ℝ E] [FiniteDimensional ℝ E] {H : Type u_2} [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
+  {M : Type u_3} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M] (g : ContMDiffNondegenerateMetric) :
+  ContMDiff I (I.prod 𝓘(ℝ, (E →L[ℝ] ℝ) →L[ℝ] E)) ∞ fun x => ⟨x, (g.toContMDiffSection x).inverse⟩
+'TauCeti.Manifold.ContMDiffNondegenerateMetric.contMDiff_inverse' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+TauCeti.Manifold.ContMDiffNondegenerateMetric.isLocallyConstant_signature.{u_1, u_2, u_3} {E : Type u_1}
+  [NormedAddCommGroup E] [NormedSpace ℝ E] {H : Type u_2} [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
+  {M : Type u_3} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M] [FiniteDimensional ℝ E]
+  (g : ContMDiffNondegenerateMetric) : IsLocallyConstant g.signature
+'TauCeti.Manifold.ContMDiffNondegenerateMetric.isLocallyConstant_signature' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+TauCeti.Manifold.ContMDiffNondegenerateMetric.IsMetricCompatible.fderivWithin_chartMetric_apply.{u_1, u_2, u_3, u_4}
+  {E : Type u_1} [NormedAddCommGroup E] [NormedSpace ℝ E] {H : Type u_2} [TopologicalSpace H]
+  {I : ModelWithCorners ℝ E H} {M : Type u_3} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M]
+  {g : ContMDiffNondegenerateMetric} {x₀ y : M} [FiniteDimensional ℝ E] {ι : Type u_4} [Fintype ι]
+  (b : Module.Basis ι ℝ E) {cov : CovariantDerivative I E fun x => TangentSpace I x} (h : g.IsMetricCompatible cov)
+  (hy : y ∈ (extChartAt I x₀).source) (u v w : E) :
+  (((fderivWithin ℝ (g.chartMetric x₀) (extChartAt I x₀).target (↑(extChartAt I x₀) y)) u) v) w =
+    ((g.chartMetric x₀ (↑(extChartAt I x₀) y)) (((christoffelMap b ⋯ y) v) u)) w +
+      ((g.chartMetric x₀ (↑(extChartAt I x₀) y)) v) (((christoffelMap b ⋯ y) w) u)
+'TauCeti.Manifold.ContMDiffNondegenerateMetric.IsMetricCompatible.fderivWithin_chartMetric_apply' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+TauCeti.Manifold.ContMDiffNondegenerateMetric.IsLeviCivitaConnection.christoffelSymbol_eq_fderivWithin.{u_1, u_2, u_3,
+    u_4}
+  {E : Type u_1} [NormedAddCommGroup E] [NormedSpace ℝ E] {H : Type u_2} [TopologicalSpace H]
+  {I : ModelWithCorners ℝ E H} {M : Type u_3} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M]
+  {g : ContMDiffNondegenerateMetric} {x₀ y : M} [FiniteDimensional ℝ E] {ι : Type u_4} [Fintype ι]
+  (b : Module.Basis ι ℝ E) {cov : CovariantDerivative I E fun x => TangentSpace I x} [DecidableEq ι]
+  (h : g.IsLeviCivitaConnection cov) (hy : y ∈ (extChartAt I x₀).source) (i j k : ι) :
+  christoffelSymbol I b (trivializationAt E (TangentSpace I) x₀) (↑cov) i j k y =
+    2⁻¹ *
+      ∑ l,
+        ((LinearMap.toMatrix₂ b b) (g.chartMetric x₀ (↑(extChartAt I x₀) y)).toBilinForm)⁻¹ k l *
+          ((((fderivWithin ℝ (g.chartMetric x₀) (extChartAt I x₀).target (↑(extChartAt I x₀) y)) (b i)) (b j)) (b l) +
+              (((fderivWithin ℝ (g.chartMetric x₀) (extChartAt I x₀).target (↑(extChartAt I x₀) y)) (b j)) (b i))
+                (b l) -
+            (((fderivWithin ℝ (g.chartMetric x₀) (extChartAt I x₀).target (↑(extChartAt I x₀) y)) (b l)) (b i)) (b j))
+'TauCeti.Manifold.ContMDiffNondegenerateMetric.IsLeviCivitaConnection.christoffelSymbol_eq_fderivWithin' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+TauCeti.Manifold.ContMDiffNondegenerateMetricFamily.contMDiffAt_leviCivitaConnection_apply_inCoordinates.{u_1, u_2, u_3,
+    u_4, u_5, u_6}
+  {E : Type u_1} [NormedAddCommGroup E] [NormedSpace ℝ E] {H : Type u_2} [TopologicalSpace H]
+  {I : ModelWithCorners ℝ E H} {M : Type u_3} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M] {EP : Type u_4}
+  [NormedAddCommGroup EP] [NormedSpace ℝ EP] {HP : Type u_5} [TopologicalSpace HP] {IP : ModelWithCorners ℝ EP HP}
+  {P : Type u_6} [TopologicalSpace P] [ChartedSpace HP P] (g : ContMDiffNondegenerateMetricFamily I M IP P)
+  [FiniteDimensional ℝ E] [IsManifold IP 1 P] (a : M) {X Y : (x : M) → TangentSpace I x}
+  (hX : ContMDiffOn I I.tangent ∞ (T% X) (trivializationAt E (TangentSpace I) a).baseSet)
+  (hY : ContMDiffOn I I.tangent ∞ (T% Y) (trivializationAt E (TangentSpace I) a).baseSet) {q : P × M}
+  (hq : q.2 ∈ (trivializationAt E (TangentSpace I) a).baseSet) :
+  ContMDiffAt (IP.prod I) 𝓘(ℝ, E) ∞
+    (fun q =>
+      (Bundle.Trivialization.continuousLinearMapAt ℝ (trivializationAt E (TangentSpace I) a) q.2)
+        ((↑(g.metric q.1).leviCivitaConnection Y q.2) (X q.2)))
+    q
+'TauCeti.Manifold.ContMDiffNondegenerateMetricFamily.contMDiffAt_leviCivitaConnection_apply_inCoordinates' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+TauCeti.Manifold.ContMDiffNondegenerateMetricFamily.contMDiffAt_christoffelMap.{u_1, u_2, u_3, u_4, u_5, u_6, u_7}
+  {E : Type u_1} [NormedAddCommGroup E] [NormedSpace ℝ E] {H : Type u_2} [TopologicalSpace H]
+  {I : ModelWithCorners ℝ E H} {M : Type u_3} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M] {EP : Type u_4}
+  [NormedAddCommGroup EP] [NormedSpace ℝ EP] {HP : Type u_5} [TopologicalSpace HP] {IP : ModelWithCorners ℝ EP HP}
+  {P : Type u_6} [TopologicalSpace P] [ChartedSpace HP P] (g : ContMDiffNondegenerateMetricFamily I M IP P)
+  [FiniteDimensional ℝ E] [IsManifold IP 1 P] {ι : Type u_7} [Fintype ι] (b : Module.Basis ι ℝ E) (a : M) {q : P × M}
+  (hq : q.2 ∈ (extChartAt I a).source) :
+  ContMDiffAt (IP.prod I) 𝓘(ℝ, E →L[ℝ] E →L[ℝ] E) ∞ (fun q => christoffelMap b ⋯ q.2) q
+'TauCeti.Manifold.ContMDiffNondegenerateMetricFamily.contMDiffAt_christoffelMap' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+TauCeti.Manifold.ContMDiffNondegenerateMetricFamily.contMDiffOn_christoffelMap.{u_1, u_2, u_3, u_4, u_5, u_6, u_7}
+  {E : Type u_1} [NormedAddCommGroup E] [NormedSpace ℝ E] {H : Type u_2} [TopologicalSpace H]
+  {I : ModelWithCorners ℝ E H} {M : Type u_3} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M] {EP : Type u_4}
+  [NormedAddCommGroup EP] [NormedSpace ℝ EP] {HP : Type u_5} [TopologicalSpace HP] {IP : ModelWithCorners ℝ EP HP}
+  {P : Type u_6} [TopologicalSpace P] [ChartedSpace HP P] (g : ContMDiffNondegenerateMetricFamily I M IP P)
+  [FiniteDimensional ℝ E] [IsManifold IP 1 P] {ι : Type u_7} [Fintype ι] (b : Module.Basis ι ℝ E) (a : M) :
+  ContMDiffOn (IP.prod I) 𝓘(ℝ, E →L[ℝ] E →L[ℝ] E) ∞ (fun q => christoffelMap b ⋯ q.2)
+    (Prod.snd ⁻¹' (extChartAt I a).source)
+'TauCeti.Manifold.ContMDiffNondegenerateMetricFamily.contMDiffOn_christoffelMap' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+TauCeti.Manifold.ContMDiffNondegenerateMetricFamily.contMDiffAt_christoffelSymbol.{u_1, u_2, u_3, u_4, u_5, u_6, u_7}
+  {E : Type u_1} [NormedAddCommGroup E] [NormedSpace ℝ E] {H : Type u_2} [TopologicalSpace H]
+  {I : ModelWithCorners ℝ E H} {M : Type u_3} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M] {EP : Type u_4}
+  [NormedAddCommGroup EP] [NormedSpace ℝ EP] {HP : Type u_5} [TopologicalSpace HP] {IP : ModelWithCorners ℝ EP HP}
+  {P : Type u_6} [TopologicalSpace P] [ChartedSpace HP P] (g : ContMDiffNondegenerateMetricFamily I M IP P)
+  [FiniteDimensional ℝ E] [IsManifold IP 1 P] {ι : Type u_7} (b : Module.Basis ι ℝ E) (a : M) {q : P × M}
+  (hq : q.2 ∈ (extChartAt I a).source) (i j k : ι) :
+  ContMDiffAt (IP.prod I) 𝓘(ℝ, ℝ) ∞
+    (fun q =>
+      christoffelSymbol I b (trivializationAt E (TangentSpace I) a) (↑(g.metric q.1).leviCivitaConnection) i j k q.2)
+    q
+'TauCeti.Manifold.ContMDiffNondegenerateMetricFamily.contMDiffAt_christoffelSymbol' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+TauCeti.Manifold.ContMDiffNondegenerateMetricFamily.contMDiffOn_christoffelSymbol.{u_1, u_2, u_3, u_4, u_5, u_6, u_7}
+  {E : Type u_1} [NormedAddCommGroup E] [NormedSpace ℝ E] {H : Type u_2} [TopologicalSpace H]
+  {I : ModelWithCorners ℝ E H} {M : Type u_3} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M] {EP : Type u_4}
+  [NormedAddCommGroup EP] [NormedSpace ℝ EP] {HP : Type u_5} [TopologicalSpace HP] {IP : ModelWithCorners ℝ EP HP}
+  {P : Type u_6} [TopologicalSpace P] [ChartedSpace HP P] (g : ContMDiffNondegenerateMetricFamily I M IP P)
+  [FiniteDimensional ℝ E] [IsManifold IP 1 P] {ι : Type u_7} (b : Module.Basis ι ℝ E) (a : M) (i j k : ι) :
+  ContMDiffOn (IP.prod I) 𝓘(ℝ, ℝ) ∞
+    (fun q =>
+      christoffelSymbol I b (trivializationAt E (TangentSpace I) a) (↑(g.metric q.1).leviCivitaConnection) i j k q.2)
+    (Prod.snd ⁻¹' (extChartAt I a).source)
+'TauCeti.Manifold.ContMDiffNondegenerateMetricFamily.contMDiffOn_christoffelSymbol' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+TauCeti.Manifold.ContMDiffNondegenerateMetricFamily.contMDiff_variation.{u_1, u_2, u_3, u_4, u_5, u_6} {E : Type u_1}
+  [NormedAddCommGroup E] [NormedSpace ℝ E] {H : Type u_2} [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
+  {M : Type u_3} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M] {EP : Type u_4} [NormedAddCommGroup EP]
+  [NormedSpace ℝ EP] {HP : Type u_5} [TopologicalSpace HP] {IP : ModelWithCorners ℝ EP HP} {P : Type u_6}
+  [TopologicalSpace P] [ChartedSpace HP P] (g : ContMDiffNondegenerateMetricFamily I M IP P) [IsManifold IP 1 P] (p : P)
+  (u : TangentSpace IP p) : ContMDiff I (I.prod 𝓘(ℝ, E →L[ℝ] E →L[ℝ] ℝ)) ∞ fun y => ⟨y, g.variation p u y⟩
+'TauCeti.Manifold.ContMDiffNondegenerateMetricFamily.contMDiff_variation' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+TauCeti.Manifold.ContMDiffNondegenerateMetricFamily.two_mul_apply_deriv_eq_derivBilinearTensor_of_isLeviCivitaConnection.{u_1,
+    u_2, u_3, u_4, u_5, u_6}
+  {E : Type u_1} [NormedAddCommGroup E] [NormedSpace ℝ E] {H : Type u_2} [TopologicalSpace H]
+  {I : ModelWithCorners ℝ E H} {M : Type u_3} [TopologicalSpace M] [ChartedSpace H M] {t : ℝ} {x : M} [IsManifold I ∞ M]
+  {EP : Type u_4} [NormedAddCommGroup EP] [NormedSpace ℝ EP] {HP : Type u_5} [TopologicalSpace HP]
+  {IP : ModelWithCorners ℝ EP HP} {P : Type u_6} [TopologicalSpace P] [ChartedSpace HP P]
+  (g : ContMDiffNondegenerateMetricFamily I M IP P) {c : ℝ → P} {Y : (x : M) → TangentSpace I x} [FiniteDimensional ℝ E]
+  {cov : ℝ → CovariantDerivative I E fun x => TangentSpace I x} (hc : ContMDiffAt 𝓘(ℝ, ℝ) IP 2 c t)
+  (hcov : ∀ (s : ℝ), (g.metric (c s)).IsLeviCivitaConnection (cov s)) (hY : MDiffAt (T% Y) x) (v w : TangentSpace I x) :
+  2 * ((↑g (c t, x)) (deriv (fun s => (↑(cov s) Y x) v) t)) w =
+    ((((cov t).derivBilinearTensor (g.variation (c t) ((mfderiv% c t) 1)) x) (Y x)) w) v +
+        ((((cov t).derivBilinearTensor (g.variation (c t) ((mfderiv% c t) 1)) x) v) w) (Y x) -
+      ((((cov t).derivBilinearTensor (g.variation (c t) ((mfderiv% c t) 1)) x) v) (Y x)) w
+'TauCeti.Manifold.ContMDiffNondegenerateMetricFamily.two_mul_apply_deriv_eq_derivBilinearTensor_of_isLeviCivitaConnection' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+TauCeti.Manifold.ContMDiffNondegenerateMetricFamily.deriv_covariantDerivative_apply_eq_of_mfderiv_eq.{u_1, u_2, u_3,
+    u_4, u_5, u_6}
+  {E : Type u_1} [NormedAddCommGroup E] [NormedSpace ℝ E] {H : Type u_2} [TopologicalSpace H]
+  {I : ModelWithCorners ℝ E H} {M : Type u_3} [TopologicalSpace M] [ChartedSpace H M] {t : ℝ} {x : M} [IsManifold I ∞ M]
+  {EP : Type u_4} [NormedAddCommGroup EP] [NormedSpace ℝ EP] {HP : Type u_5} [TopologicalSpace HP]
+  {IP : ModelWithCorners ℝ EP HP} {P : Type u_6} [TopologicalSpace P] [ChartedSpace HP P]
+  (g : ContMDiffNondegenerateMetricFamily I M IP P) {Y : (x : M) → TangentSpace I x} [FiniteDimensional ℝ E]
+  {cov : P → CovariantDerivative I E fun x => TangentSpace I x}
+  (hcov : ∀ (p : P), (g.metric p).IsLeviCivitaConnection (cov p)) {c₁ c₂ : ℝ → P} (hc₁ : ContMDiffAt 𝓘(ℝ, ℝ) IP 2 c₁ t)
+  (hc₂ : ContMDiffAt 𝓘(ℝ, ℝ) IP 2 c₂ t) (h₀ : c₁ t = c₂ t) (h₁ : (mfderiv% c₁ t) 1 = (mfderiv% c₂ t) 1)
+  (hY : MDiffAt (T% Y) x) (v : TangentSpace I x) :
+  deriv (fun s => (↑(cov (c₁ s)) Y x) v) t = deriv (fun s => (↑(cov (c₂ s)) Y x) v) t
+'TauCeti.Manifold.ContMDiffNondegenerateMetricFamily.deriv_covariantDerivative_apply_eq_of_mfderiv_eq' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+TauCeti.Manifold.contMDiffOn_riemannianExp.{u_1, u_2, u_3} {E : Type u_1} [NormedAddCommGroup E] [NormedSpace ℝ E]
+  {H : Type u_2} [TopologicalSpace H] {I : ModelWithCorners ℝ E H} {M : Type u_3} [TopologicalSpace M]
+  [ChartedSpace H M] [FiniteDimensional ℝ E] [Bundle.RiemannianBundle fun x => TangentSpace I x] [IsManifold I ∞ M]
+  [IsContMDiffRiemannianBundle I ∞ E fun x => TangentSpace I x] [I.Boundaryless] [T2Space M] (p : M) :
+  ContMDiffOn 𝓘(ℝ, TangentSpace I p) I ∞ (riemannianExp I M p) (expDomain I M p)
+'TauCeti.Manifold.contMDiffOn_riemannianExp' depends on axioms: [propext, Classical.choice, Quot.sound]
+TauCeti.Manifold.mfderiv_riemannianExp_zero.{u_1, u_2, u_3} {E : Type u_1} [NormedAddCommGroup E] [NormedSpace ℝ E]
+  {H : Type u_2} [TopologicalSpace H] {I : ModelWithCorners ℝ E H} {M : Type u_3} [TopologicalSpace M]
+  [ChartedSpace H M] [FiniteDimensional ℝ E] [Bundle.RiemannianBundle fun x => TangentSpace I x] [IsManifold I ∞ M]
+  [IsContMDiffRiemannianBundle I ∞ E fun x => TangentSpace I x] [I.Boundaryless] [T2Space M] (p : M) :
+  mfderiv% (riemannianExp I M p) 0 = ↑(NormedSpace.fromTangentSpace 0)
+'TauCeti.Manifold.mfderiv_riemannianExp_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+TauCeti.Manifold.hasStrictFDerivAt_riemannianExp_zero.{u_1, u_2, u_3} {E : Type u_1} [NormedAddCommGroup E]
+  [NormedSpace ℝ E] {H : Type u_2} [TopologicalSpace H] {I : ModelWithCorners ℝ E H} {M : Type u_3} [TopologicalSpace M]
+  [ChartedSpace H M] [FiniteDimensional ℝ E] [Bundle.RiemannianBundle fun x => TangentSpace I x] [IsManifold I ∞ M]
+  [IsContMDiffRiemannianBundle I ∞ E fun x => TangentSpace I x] [I.Boundaryless] [T2Space M] (p : M) :
+  HasStrictFDerivAt (writtenInExtChartAt 𝓘(ℝ, TangentSpace I p) I 0 (riemannianExp I M p))
+    (↑(tangentSpaceCastModel I p)) 0
+'TauCeti.Manifold.hasStrictFDerivAt_riemannianExp_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+TauCeti.Manifold.isLocalDiffeomorphAt_riemannianExp_zero.{u_1, u_2, u_3} {E : Type u_1} [NormedAddCommGroup E]
+  [NormedSpace ℝ E] {H : Type u_2} [TopologicalSpace H] {I : ModelWithCorners ℝ E H} {M : Type u_3} [TopologicalSpace M]
+  [ChartedSpace H M] [FiniteDimensional ℝ E] [Bundle.RiemannianBundle fun x => TangentSpace I x] [IsManifold I ∞ M]
+  [IsContMDiffRiemannianBundle I ∞ E fun x => TangentSpace I x] [I.Boundaryless] [T2Space M] (p : M) :
+  IsLocalDiffeomorphAt 𝓘(ℝ, TangentSpace I p) I ∞ (riemannianExp I M p) 0
+'TauCeti.Manifold.isLocalDiffeomorphAt_riemannianExp_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+TauCeti.Manifold.exists_isGeodesicCurveOn_Icc_pathELength_eq_edist.{u_1, u_2, u_3} {E : Type u_1} [NormedAddCommGroup E]
+  [NormedSpace ℝ E] {H : Type u_2} [TopologicalSpace H] {I : ModelWithCorners ℝ E H} {M : Type u_3} [MetricSpace M]
+  [ChartedSpace H M] [FiniteDimensional ℝ E] [I.Boundaryless] [Bundle.RiemannianBundle fun x => TangentSpace I x]
+  [IsManifold I ∞ M] [IsContMDiffRiemannianBundle I ∞ E fun x => TangentSpace I x] [IsRiemannianManifold I M] {p : M}
+  (ha : expDomain I M p = univ) (q : M) :
+  ∃ γ,
+    IsGeodesicCurveOn I γ (Icc 0 1) ∧
+      γ 0 = p ∧
+        γ 1 = q ∧
+          pathELength I γ 0 1 = edist p q ∧
+            ∀ s ∈ Icc 0 1, ∀ t ∈ Icc 0 1, s ≤ t → pathELength I γ s t = edist (γ s) (γ t)
+'TauCeti.Manifold.exists_isGeodesicCurveOn_Icc_pathELength_eq_edist' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+TauCeti.Manifold.isEnergyCritical_iff_isGeodesicCurveOn.{u_1, u_2, u_3} {E : Type u_1} [NormedAddCommGroup E]
+  [NormedSpace ℝ E] {H : Type u_2} [TopologicalSpace H] {I : ModelWithCorners ℝ E H} {M : Type u_3} [TopologicalSpace M]
+  [ChartedSpace H M] {γ : ℝ → M} {a b : ℝ} {n : ℕ∞} [I.Boundaryless] [IsManifold I 2 M]
+  [Bundle.RiemannianBundle fun x => TangentSpace I x] [FiniteDimensional ℝ E]
+  [ContMDiffVectorBundle 1 E (TangentSpace I) I] [IsContMDiffRiemannianBundle I 1 E fun x => TangentSpace I x]
+  [IsManifold I (↑n) M] (hn : 2 ≤ n) (hγ : ∀ t ∈ uIcc a b, ContMDiffAt 𝓘(ℝ, ℝ) I (↑n) γ t) :
+  IsEnergyCritical I (↑n) γ a b ↔ IsGeodesicCurveOn I γ (uIoo a b)
+'TauCeti.Manifold.isEnergyCritical_iff_isGeodesicCurveOn' depends on axioms: [propext, Classical.choice, Quot.sound]
+TauCeti.Manifold.tfae_expDomain_eq_univ.{u_1, u_2, u_3} {E : Type u_1} [NormedAddCommGroup E] [NormedSpace ℝ E]
+  {H : Type u_2} [TopologicalSpace H] {I : ModelWithCorners ℝ E H} {M : Type u_3} [MetricSpace M] [ChartedSpace H M]
+  [FiniteDimensional ℝ E] [I.Boundaryless] [Bundle.RiemannianBundle fun x => TangentSpace I x] [IsManifold I ∞ M]
+  [IsContMDiffRiemannianBundle I ∞ E fun x => TangentSpace I x] [IsRiemannianManifold I M] (p : M) :
+  [expDomain I M p = univ, ProperSpace M, CompleteSpace M, ∀ (q : M), IsGeodesicallyCompleteAt I M q,
+      ∃ K,
+        (∀ (n : ℕ), IsCompact (K n)) ∧
+          Monotone K ∧
+            ⋃ n, K n = univ ∧
+              ∀ (q : ℕ → M),
+                (∀ (n : ℕ), q n ∉ K n) → Filter.Tendsto (fun n => dist p (q n)) Filter.atTop Filter.atTop].TFAE
+'TauCeti.Manifold.tfae_expDomain_eq_univ' depends on axioms: [propext, Classical.choice, Quot.sound]
+TauCeti.Manifold.expDomain_eq_univ_iff_forall.{u_1, u_2, u_3} {E : Type u_1} [NormedAddCommGroup E] [NormedSpace ℝ E]
+  {H : Type u_2} [TopologicalSpace H] {I : ModelWithCorners ℝ E H} {M : Type u_3} [MetricSpace M] [ChartedSpace H M]
+  [FiniteDimensional ℝ E] [I.Boundaryless] [Bundle.RiemannianBundle fun x => TangentSpace I x] [IsManifold I ∞ M]
+  [IsContMDiffRiemannianBundle I ∞ E fun x => TangentSpace I x] [IsRiemannianManifold I M] (p : M) :
+  expDomain I M p = univ ↔ ∀ (q : M), expDomain I M q = univ
+'TauCeti.Manifold.expDomain_eq_univ_iff_forall' depends on axioms: [propext, Classical.choice, Quot.sound]
+TauCeti.Manifold.isGeodesicallyCompleteAt_of_compactSpace.{u_1, u_2, u_3} {E : Type u_1} [NormedAddCommGroup E]
+  [NormedSpace ℝ E] {H : Type u_2} [TopologicalSpace H] {I : ModelWithCorners ℝ E H} {M : Type u_3} [TopologicalSpace M]
+  [ChartedSpace H M] [FiniteDimensional ℝ E] [I.Boundaryless] [Bundle.RiemannianBundle fun x => TangentSpace I x]
+  [IsManifold I ∞ M] [IsContMDiffRiemannianBundle I ∞ E fun x => TangentSpace I x] [T2Space M] [CompactSpace M]
+  (p : M) : IsGeodesicallyCompleteAt I M p
+'TauCeti.Manifold.isGeodesicallyCompleteAt_of_compactSpace' depends on axioms: [propext, Classical.choice, Quot.sound]
+TauCeti.Manifold.expDomain_model_space.{u_1} {F : Type u_1} [NormedAddCommGroup F] [InnerProductSpace ℝ F]
+  [FiniteDimensional ℝ F] (p : F) : expDomain 𝓘(ℝ, F) F p = univ
+'TauCeti.Manifold.expDomain_model_space' depends on axioms: [propext, Classical.choice, Quot.sound]
+TauCeti.Manifold.maximalGeodesic_model_space.{u_1} {F : Type u_1} [NormedAddCommGroup F] [InnerProductSpace ℝ F]
+  [FiniteDimensional ℝ F] (p v : F) (t : ℝ) : maximalGeodesic 𝓘(ℝ, F) F p v t = p + t • v
+'TauCeti.Manifold.maximalGeodesic_model_space' depends on axioms: [propext, Classical.choice, Quot.sound]
+TauCeti.Manifold.riemannianExp_model_space.{u_1} {F : Type u_1} [NormedAddCommGroup F] [InnerProductSpace ℝ F]
+  [FiniteDimensional ℝ F] (p : F) (v : TangentSpace 𝓘(ℝ, F) p) :
+  riemannianExp 𝓘(ℝ, F) F p v = p + (NormedSpace.fromTangentSpace p) v
+'TauCeti.Manifold.riemannianExp_model_space' depends on axioms: [propext, Classical.choice, Quot.sound]
+TauCeti.Manifold.mfderiv_riemannianExp_apply_model_space.{u_1} {F : Type u_1} [NormedAddCommGroup F]
+  [InnerProductSpace ℝ F] [FiniteDimensional ℝ F] (p : F) (v w : TangentSpace 𝓘(ℝ, F) p) :
+  (mfderiv% (riemannianExp 𝓘(ℝ, F) F p) v) w = (NormedSpace.fromTangentSpace p) w
+'TauCeti.Manifold.mfderiv_riemannianExp_apply_model_space' depends on axioms: [propext, Classical.choice, Quot.sound]
+TauCeti.Manifold.riemannianLog_ball_model_space.{u_1} {F : Type u_1} [NormedAddCommGroup F] [InnerProductSpace ℝ F]
+  [FiniteDimensional ℝ F] {p q : F} {r : ℝ} (hq : q ∈ Metric.ball p r) :
+  riemannianLog 𝓘(ℝ, F) F p (Metric.ball 0 r) q = (NormedSpace.fromTangentSpace p).symm (q - p)
+'TauCeti.Manifold.riemannianLog_ball_model_space' depends on axioms: [propext, Classical.choice, Quot.sound]
+TauCeti.RealOpenUnitBall.geodesicInterval_center_of_norm_eq_one
+  {v : TangentSpace 𝓘(ℝ, ℝ) TauCeti.RealOpenUnitBall.center} (hv : ‖v‖ = 1) :
+  geodesicInterval 𝓘(ℝ, ℝ) (↥TauCeti.realOpenUnitBall) TauCeti.RealOpenUnitBall.center v = Ioo (-1) 1
+'TauCeti.RealOpenUnitBall.geodesicInterval_center_of_norm_eq_one' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+TauCeti.RealOpenUnitBall.tendsto_abs_coe_maximalGeodesic_center
+  {v : TangentSpace 𝓘(ℝ, ℝ) TauCeti.RealOpenUnitBall.center} (hv : ‖v‖ = 1) :
+  Filter.Tendsto (fun t => |↑(maximalGeodesic 𝓘(ℝ, ℝ) (↥TauCeti.realOpenUnitBall) TauCeti.RealOpenUnitBall.center v t)|)
+    (nhdsWithin 1 (Iio 1)) (nhds 1)
+'TauCeti.RealOpenUnitBall.tendsto_abs_coe_maximalGeodesic_center' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+TauCeti.RealOpenUnitBall.exists_isGeodesicCurveOn_Icc_pathELength_eq_edist (q : ↥TauCeti.realOpenUnitBall) :
+  ∃ γ,
+    IsGeodesicCurveOn 𝓘(ℝ, ℝ) γ (Icc 0 1) ∧
+      γ 0 = TauCeti.RealOpenUnitBall.center ∧
+        γ 1 = q ∧ pathELength 𝓘(ℝ, ℝ) γ 0 1 = edist TauCeti.RealOpenUnitBall.center q
+'TauCeti.RealOpenUnitBall.exists_isGeodesicCurveOn_Icc_pathELength_eq_edist' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+TauCeti.RealOpenUnitBall.not_completeSpace : ¬CompleteSpace ↥TauCeti.realOpenUnitBall
+'TauCeti.RealOpenUnitBall.not_completeSpace' depends on axioms: [propext, Classical.choice, Quot.sound]
+TauCeti.RealOpenUnitBall.not_isCompact_closedBall_center (r : ℝ) (hr : 1 ≤ r) :
+  ¬IsCompact (Metric.closedBall TauCeti.RealOpenUnitBall.center r)
+'TauCeti.RealOpenUnitBall.not_isCompact_closedBall_center' depends on axioms: [propext, Classical.choice, Quot.sound]
