@@ -67,6 +67,7 @@ body:
         - FactorRigidity
         - FinancialMathematics
         - FiniteGroupExtensionSplitting
+        - FiniteSamplingDiscrepancy
         - FlagVarieties
         - FormalLaurentPuiseux
         - FreeGroupsAndLimitGroups
@@ -98,6 +99,7 @@ body:
         - LocalVariationalFieldTheory
         - MarkovChainsAndRenewal
         - MassFormula
+        - McKaySkewGroup
         - ModularCurves
         - ModularForms
         - MorseNovikov
@@ -138,6 +140,7 @@ body:
         - RestrictedPowerSeries
         - RiemannianGeometry
         - RigidAnalyticGeometry
+        - SNumbers
         - SchemeAndStackFoundations
         - SchubertGeometry
         - SeibergWittenTheory
