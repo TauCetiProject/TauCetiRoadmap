@@ -30,10 +30,12 @@ Clifford algebras are Mathlib's `CliffordAlgebra` with its grading and `SpinGrou
 ### From Mathlib
 
 - Schwartz space `SchwartzMap` (`𝓢(E,F)`), tempered distributions `TemperedDistribution` (`𝓢'(E,F)`) with their pointwise topology, the Fourier transform `FourierTransform.fourierCLM` on Schwartz space, test functions `TestFunction Ω F n` (`𝓓(Ω,F)`) with their LF topology and the inclusions `TestFunction.monoCLM`, the stagewise spaces `ContDiffMapSupportedIn`, and distributions `Distribution Ω F n` (`𝓓'(Ω,F)`, `Mathlib/Analysis/Distribution/Distribution.lean`), which are defined on real-valued tests and carry the topology of uniform convergence on compact sets of tests.
-- `CliffordAlgebra`, its grading, `SpinGroup`; `Matrix.GeneralLinearGroup.innerAut_surjective` and `ker_innerAut` for innerness of matrix automorphisms.
+- `CliffordAlgebra`, its grading, `SpinGroup`.
 - `PowerSeries`, `MvPowerSeries`, `HopfAlgebra`, `Complex.regularizedHGFun`, `GaussianFourier.integral_cexp_neg_sum_mul_add`, `MeromorphicAt` with `meromorphicOrderAt_ne_top_iff`, `tendsto_cobounded_of_meromorphicOrderAt_neg`, `tendsto_nhds_of_meromorphicOrderAt_nonneg` and `MeromorphicAt.analyticAt` (`Mathlib/Analysis/Meromorphic/Order.lean`).
 
 ### From Tau Ceti
+
+The Tau Ceti declarations and files named here are read at the revision pinned by the content repository's manifest (Tau Ceti `2fd255d9`, Mathlib `1b1ccf4b`), where the Levi-Civita `Nondegenerate/` and `HilbertSchmidt/` directories exist.
 
 - `TauCeti.heatKernel` (`TauCeti/Analysis/PDE/HeatKernel/Basic.lean`), the Gaussian kernel `(4πt)^(−n/2)exp(−|x|²/(4t))` on a finite-dimensional inner product space.
 - `TauCeti.exists_isCompl_of_isKilling` (`TauCeti/Algebra/Lie/HighestWeight/CompleteReducibility.lean`), complete reducibility for a Lie algebra with nondegenerate Killing form.
@@ -101,17 +103,29 @@ Clifford algebras are Mathlib's `CliffordAlgebra` with its grading and `SpinGrou
 
 ## How to read the build
 
-RQFT0 fixes conventions, test and distribution carriers and the real-line boundary values. RQFT1 builds the causal Green operators and the six scalar distributions; RQFT2 the spinor bundles; RQFT3 the free fields on Fock space, consuming D8 and QuantumFoundations §6.3–§6.4; RQFT4 the axiomatic frameworks and their consequences from RQFT1–RQFT3. RQFT5 builds graph combinatorics and the formal perturbative algebra; RQFT6 consumes RQFT5 and P8 for the extension and renormalization of graph distributions, with the regularization boundary GH2 local phase → K3.MeromorphicGermField → RQFT6.RadialExtension and RQFT6.TaylorAdapter, where RQFT6.RegulatorContinuation supplies RQFT6.ForestConvergence and RQFT6.TaylorAdapter, and with the open-graph chain RQFT5.OpenGraphSpecies → RQFT6.SwitchedRealization → RQFT6.ConnectedSubstitution. RQFT7 (Euclidean reconstruction and zero-mass limits) and RQFT8 (scattering) consume RQFT1–RQFT4 and RQFT6; RQFT9 consumes RQFT1–RQFT8 with QuantumFoundations §9.4–§9.5; RQFT10 consumes RQFT3 with D8 and OperatorIdeals; RQFT11 consumes RQFT6 and NoncompactQuantumSymmetry M4. The finite-jet covariance route is LieGroups Layers 2–3 → NoncompactQuantumSymmetry M0 → RQFT0 and RQFT6, and `TauCeti.exists_isCompl_of_isKilling` with NoncompactQuantumSymmetry P.4 → RQFT6 → RQFT9.
+RQFT0 fixes conventions, test and distribution carriers and the real-line boundary values. RQFT1 builds the causal Green operators and the six scalar distributions; RQFT2 the spinor bundles; RQFT3 the free fields on Fock space, consuming D8 and QuantumFoundations §6.3–§6.4; RQFT4 the axiomatic frameworks and their consequences from RQFT1–RQFT3. RQFT5 builds graph combinatorics and the formal perturbative algebra; RQFT6 consumes RQFT5 and P8 for the extension and renormalization of graph distributions, with the regularization boundary GH2 local phase → K3.MeromorphicGermField → RQFT6.RadialExtension and RQFT6.TaylorAdapter, where RQFT6.RegulatorContinuation supplies RQFT6.ForestConvergence and RQFT6.TaylorAdapter, and with the open-graph chain RQFT5.OpenGraphSpecies → RQFT6.SwitchedRealization → RQFT6.ConnectedSubstitution. RQFT7 (Euclidean reconstruction and zero-mass limits) and RQFT8 (scattering) consume RQFT1–RQFT4 and RQFT6; RQFT9 consumes RQFT1–RQFT8 with QuantumFoundations §9.4–§9.5; RQFT10 consumes RQFT3 with D8 and OperatorIdeals; RQFT11 consumes RQFT6 and NoncompactQuantumSymmetry M4. The finite-jet covariance route is LieGroups Layers 2–3 → NoncompactQuantumSymmetry M0 → RQFT0 and RQFT6, and `TauCeti.exists_isCompl_of_isKilling` with NoncompactQuantumSymmetry P.4 → RQFT6 → RQFT9. Each layer `k` is cited as `RQFTk` and is divided into subsections `k.n`; a target cited as `RQFTk.Name` is the subsection of Layer `k` whose heading carries `Name`. Each subsection states its definitions and theorems in prose with their locators, lists its unit tests under **Checks.**, and ends with a *Needs:* line naming the suppliers of its statement and proof route; every layer ends with its Examples and Dependencies.
 
-## Milestone RQFT0 — conventions, test functions and exact solution carriers
+## Layer 0: conventions, test functions and exact solution carriers
+
+### 0.1 Units, the dimensionful free Hamiltonian and the rational unit quotient
 
 Use the native integer module `Fin 3 → ℤ` for the mass, length and time exponents `(a,b,c)`. Setting the units c=ℏ=1 quotients by the speed and action vectors `(0,1,−1)` and `(1,2,−1)`; prove the quotient is ℤ via `M^a L^b T^c ↦ a−b−c`, sending mass to +1 and length/time to −1. Prove that the speed, action and mass vectors form a ℤ-basis (determinant1). For m,c,ℏ>0 this gives the unique dimensionally specified monomial of length in these three constants, `ℏ/(mc)`, up to a dimensionless multiplier. Convert `E_p²=c²|p|²+m²c⁴`. Define the dimensionful free Hamiltonian `H_ℏ=−ℏ²Δ/(2m)` on its self-adjoint domain and write its evolution as `iℏ∂_tψ=H_ℏψ`; prove the unitary dilation comparison with the fixed `H₀=−Δ/(2m)`, ℏ=1, of QuantumFoundations §8.2. Consume the coordinate-change unitary of QuantumFoundations §8.1 on `L²(ℝ³)` with `T=λ⁻¹I`, namely `D_λf(x)=λ^(3/2)f(λx)`, λ>0, and prove the specialization `D_ℏ H_ℏ D_ℏ⁻¹=H₀` as closed operators, hence `exp(−itH_ℏ/ℏ)=D_ℏ⁻¹ exp(−i(t/ℏ)H₀)D_ℏ`. This is the Hamiltonian form of the wave equation of UNSW p. 8.
 
 Extend the unit lattice to `Fin 3 → ℚ`; quotient by the ℚ-span of the same speed/action vectors and prove the resulting ℚ-linear equivalence with ℚ via `a−b−c`. Prove compatibility with the integer quotient under coordinate casting and `ℤ→ℚ`. RQFT6 alone owns the field/monomial engineering grading, using this rational quotient: half-integer physical exponents are allowed.
 
-The rational exponents agree with the rational-exponent `Dimension B` of Physlib's units library under `(a,b,c) ↦ (b,c,a,0,0)` in its ordered coordinates `(ℓ,t,m,q,θ)` (charge and temperature have exponent zero); nonnegative doubled field weights correspond under `w ↦ w/2`. This comparison is not an acceptance item and needs no Physlib import.
+**Checks.**
 
-Use the finite Hilbert direct sums `PiLp 2 (fun _ : Fin n => M)` for configuration-space Schwartz/Fourier carriers. Use Mathlib's native `TestFunction Ω F ⊤` and its LF topology for compactly supported smooth tests, and `SchwartzMap` for Schwartz tests. Construct the continuous linear inclusion of compactly supported smooth tests into Schwartz space on each open Euclidean domain, first on each compact support stage `ContDiffMapSupportedIn` and then on the LF space `TestFunction` by its universal property, shaped as in [the open Mathlib pull request on these inclusions](https://github.com/leanprover-community/mathlib4/pull/37350): each Schwartz seminorm is bounded on a compact support stage by a support-radius power times the corresponding derivative seminorm. Prove pointwise agreement, injectivity and compatibility with the support-stage inclusions. Fix real test space `𝒟(M)` and Schwartz space `𝒮(M)` with values in the chosen scalar/spinor/vector bundle; define distributions as continuous linear functionals on tests and tempered distributions as continuous linear functionals on `𝒮`. Fix the distribution/test pairing to be linear in u and in the scalar test, not a
+- The map `(a,b,c) ↦ a−b−c` sends the speed vector `(0,1,−1)` and the action vector `(1,2,−1)` to `0` and the mass vector `(1,0,0)` to `1`, so it is onto `ℤ` with the required kernel; the sign variant `a+b+c` sends the action vector to `2` and is not constant on the quotient.
+- The determinant of the matrix with rows `(0,1,−1)`, `(1,2,−1)`, `(1,0,0)` is `1`, so speed, action and mass form a `ℤ`-basis; replacing the mass vector by `(2,0,0)` gives determinant `2` and only a sublattice.
+- `ℏ^a m^b c^d` has `(M,L,T)`-exponents `(a+b, 2a+d, −a−d)`; length `(0,1,0)` forces `a=1`, `b=−1`, `d=−1`, so `ℏ/(mc)` is the unique length, while `ℏ/(mc²)` has exponents `(0,0,1)` and is a time.
+- With `D_λ f(x)=λ^(3/2)f(λx)` one has `D_λ Δ D_λ⁻¹=λ⁻²Δ`, so `D_ℏ H_ℏ D_ℏ⁻¹=−ℏ²ℏ⁻²Δ/(2m)=H₀`; the normalization `λ³f(λx)` would multiply norms by `λ^(3/2)` and is not unitary.
+- In the rational quotient the scalar exponent `(1/2,1/2,−1)` maps to `1` and the Dirac exponent `(0,−3/2,0)` to `3/2`; neither lies in the image of the integer lattice, which is why the rational extension is needed.
+
+*Needs:* Mathlib `Fin 3 → ℤ` and `Fin 3 → ℚ` as modules with their quotients; QuantumFoundations §8.1 (coordinate-change unitaries) and §8.2 (`H₀` and its domain); §0.2 for the Schrödinger carrier.
+
+### 0.2 Test functions, distributions and their pairings
+
+Use the finite Hilbert direct sums `PiLp 2 (fun _ : Fin n => M)` for configuration-space Schwartz/Fourier carriers. Use Mathlib's native `TestFunction Ω F ⊤` and its LF topology for compactly supported smooth tests, and `SchwartzMap` for Schwartz tests. Construct the continuous linear inclusion of compactly supported smooth tests into Schwartz space on each open Euclidean domain, first on each compact support stage `ContDiffMapSupportedIn` and then on the LF space `TestFunction` by its universal property: each Schwartz seminorm is bounded on a compact support stage by a support-radius power times the corresponding derivative seminorm. Prove pointwise agreement, injectivity and compatibility with the support-stage inclusions. Fix real test space `𝒟(M)` and Schwartz space `𝒮(M)` with values in the chosen scalar/spinor/vector bundle; define distributions as continuous linear functionals on tests and tempered distributions as continuous linear functionals on `𝒮`. Fix the distribution/test pairing to be linear in u and in the scalar test, not a
 Hilbert inner product. Mathlib native Distribution tests real scalar TestFunction against
 a real-continuous-linear map with values in the chosen real/complex output F. When F is complex, construct the canonical complex-linear extension to complex
 scalar tests, `u_ℂ(f+ig)=u(f)+i u(g)`, and prove its topological inverse by
@@ -129,6 +143,17 @@ locally integrable function on its full domain defines a distribution;
 The analytic hyperfunction alternative and its full configuration/quotient
 adapter are supplied at RQFT6.HyperfunctionAlternative.
 
+**Checks.**
+
+- The inclusion of compactly supported smooth tests into Schwartz space is injective and the identity pointwise; for a test supported in the unit ball every Schwartz seminorm `sup|x^α∂^βφ|` is at most `sup|∂^βφ|`, so the stage bound holds there with constant `1` and radius power `1`.
+- For `u=δ₀` the complex-linear extension gives `u_ℂ(f+ig)=f(0)+ig(0)`; a conjugate-linear extension would give `f(0)−ig(0)`, differing on `g` a bump positive at `0`.
+- With the sign `⟨∂u,f⟩=−⟨u,∂f⟩` the Heaviside function has `∂H=δ₀`, since `−∫_0^∞f′=f(0)`; the opposite sign gives `−δ₀`.
+- `exp(1/x²)` on `ℝ∖{0}` has no distributional extension to `ℝ`, while the locally integrable `|x|^(−1/2)` extends; `exp(x²)` is a distribution on `ℝ` that is not tempered, so the three growth phenomena are distinct.
+
+*Needs:* Mathlib `SchwartzMap`, `TestFunction`, `ContDiffMapSupportedIn`, `Distribution`, `TemperedDistribution`, `FourierTransform.fourierCLM`, `PiLp`; ComplexKahlerGeometry K5a and K5a.DistributionLocalStructure; PseudodifferentialOperators P8 (pullback and pushforward under their hypotheses).
+
+### 0.3 Local primitives and point jets of one-variable distributions
+
 For the one-dimensional local primitive of a distribution, consume
 ComplexKahlerGeometry K5a.DistributionLocalStructure.
 Its native finite-order C^k extension, two cutoff maps, H_m pairing/Fubini
@@ -139,21 +164,84 @@ a compact smooth test equal near0 to1/(1+2x) gives terms2^n. The analytic-
 functional exclusion and the sign-normalized factorial-square comparison
 are supplied by HF5 only at RQFT6.HyperfunctionAlternative.
 
+**Checks.**
+
+- On `(−1,1)` the continuous primitives of `δ₀` are `H+c`; the finite-order extension of `δ₀′` acts on `C¹` tests but not on `C⁰` tests, which fixes the order needed.
+- Against a compact test equal to `1/(1+2x)` near `0` the term `⟨δ^(n)/n!,f⟩=(−1)^n f^(n)(0)/n!` equals `2^n`, so the partial sums diverge; against `exp(x)` times a cutoff the terms are `(−1)^n/n!` and converge, which shows that convergence depends on the test and the series does not converge in `𝒟′`.
+- The primitive on a smaller relatively compact interval of a distribution of order `k` has order at most `k`; `PV(1/x)` has the primitive `log|x|`, of order `0`, and no smaller order.
+
+*Needs:* ComplexKahlerGeometry K5a.DistributionLocalStructure (finite-order extension, cutoffs, derivative theorem); Hyperfunctions HF5 only through RQFT6.HyperfunctionAlternative.
+
+### 0.4 The angular Fourier transform, Plancherel and the Schwartz Schur lemma
+
 For the angular Fourier convention `f̂(y)=∫e^(−i(x,y))f(x)dx` of Borcherds–Barnard §6 (p. 35), prove the transform on `𝒮(ℝⁿ)` maps to `𝒮`, the derivative and multiplication identities, convolution/product identities, inversion `F²f(x)=(2π)^n f(−x)`, and Plancherel with its exact `(2π)^n` factor. Derive every normalization directly from the declared transform. The identity `∫φ̂ ψ̄=∫φ overline(ψ̂)` displayed in Borcherds–Barnard §6 (p. 36) is false for this kernel: the correct identity is `∫φ̂ ψ̄=∫φ(x) overline(ψ̂(−x))dx`. Prove instead the bilinear Fourier-symmetry identity and the sesquilinear identity with the inverse transform, alongside Plancherel. Extend it to tempered distributions by duality. For `D_j=−i∂_j`, prove `[D_j,x_k]=−iδ_{jk}` and the remaining Heisenberg relations. Prove the global Schwartz Hadamard lemma: if φ(0)=0 then `φ=Σx_jφ_j` with every φ_j∈𝒮, using a near-zero cutoff and a separate rapidly decaying division construction away from zero. Merely smooth local φ_j do not allow a Schwartz functional to act on them. Use this to prove the Schur-type statement: a continuous linear endomorphism of `𝒮(ℝⁿ)` commuting with all `x_j,D_j` is scalar, including the nowhere-zero Schwartz test and pointwise evaluation argument. Convert every result to Mathlib's `2π`-normalized Fourier transform.
 
+**Checks.**
+
+- For shifted Gaussians `φ=exp(−(x−b)²/2)` and `ψ=exp(−(x−a)²/2)` both sides of the correct identity `∫φ̂ψ̄=∫φ(x) conj(ψ̂(−x))dx` equal `√2·π·exp(−(a²+b²)/4)exp(−iab/2)`, while the displayed identity without the reflection gives the conjugate phase `exp(+iab/2)`; they differ unless `ab∈2πℤ`.
+- Plancherel with the exact constant: `‖exp(−x²/2)‖²=√π` and `‖√(2π)exp(−y²/2)‖²=2π√π`, so `‖f̂‖²=2π‖f‖²` in one variable; inversion `F²f(x)=2πf(−x)` is confirmed on this even Gaussian.
+- `[D_j,x_k]f=−i∂_j(x_kf)+ix_k∂_jf=−iδ_(jk)f`; a transform with kernel `exp(+i(x,y))` reverses the sign of every derivative identity.
+- `φ(x)=sin(x)exp(−x²)` vanishes at `0` and `φ=x·φ₁` with `φ₁=(sin x/x)exp(−x²)` Schwartz; multiplication by a bounded nonconstant smooth function commutes with every `x_k` but not with `D_j`, so the Schur lemma needs both families.
+
+*Needs:* Mathlib `SchwartzMap`, `FourierTransform.fourierCLM`, `TemperedDistribution`; §0.2 for the pairing conventions; Borcherds–Barnard §6 (p. 35–36) for the convention compared.
+
+### 0.5 No Lebesgue measure in infinite dimensions, random fields and radial integrability
+
 Prove that an infinite-dimensional separable real Banach space admits no nonzero locally finite translation-invariant Borel measure. Use a finite-measure neighborhood of0, separability to show every smaller ball has positive measure, and infinitely many disjoint equal-radius ball translates within that neighborhood, supplied by Riesz separation. This rules out the stated Lebesgue-type carrier, not all random fields or probability measures. Consume StochasticCalculus S1.2 for Wiener laws on continuous path spaces; its native Gaussian/projective-law prerequisites alone do not give the continuous path law. A Gaussian scalar Z times any fixed smooth function ψ gives a smooth random field `X(x)=Zψ(x)` in every finite base dimension; this finite-rank example supplies no interacting Lorentzian path-integral construction. Prove the radial integrability criterion: in ℝⁿ, n≥1 and s∈ℝ, `|x|^(−s)` is locally integrable at0 exactly when s<n and integrable outside the unit ball exactly when s>n, including logarithmic divergence at equality; derive the case n=1 from the pinned improper-power integral lemmas.
+
+**Checks.**
+
+- In `ℓ²` the balls of radius `1/2` centred at the basis vectors `e_i` are pairwise disjoint (distance `√2`) and lie in the ball of radius `3/2`; a locally finite translation-invariant Borel measure would give them equal positive mass, contradicting finiteness of the larger ball.
+- In `ℝⁿ` the argument fails because only finitely many disjoint balls of a fixed radius fit in a bounded set, and Lebesgue measure exists.
+- In `ℝ³`, `|x|^(−2)` is locally integrable at `0` (`2<3`) and not integrable outside the unit ball (`∫_1^∞ r^(−2)r²dr=∞`); `|x|^(−4)` is integrable outside and not at `0`; in `ℝ¹` with `s=1` both integrals diverge logarithmically.
+- For `Z` a standard Gaussian and `ψ` smooth, `X(x)=Zψ(x)` is a smooth random field with covariance `ψ(x)ψ(y)`; it is a rank-one example and supplies no translation-invariant covariance.
+
+*Needs:* Mathlib separable Banach spaces and Riesz separation; StochasticCalculus S1.2 (Wiener laws); Mathlib improper power integrals for the radial criterion.
+
+### 0.6 Finite-dimensional Gaussian integration, formal series and the free kernel
 
 Implement finite-dimensional Gaussian integration and generating functions as ordinary finite-dimensional integrals/sums. Define the formal functional integral only as coefficientwise perturbation/diagram notation. The notations `Dφ`, `√π^∞/√det A`, vacuum constants and normalized ratios are not measures in infinite dimensions. Use native `PowerSeries`/`MvPowerSeries` over the declared ℚ-algebra of coefficients. Define the formal logarithm on the normalized unit-constant series Z/Z₀, with Z₀ a specified invertible constant, by the coefficientwise log(1+t) formula; its t-adic convergence is formal. Any additive log Z₀ requires a separately chosen real/complex branch and is not supplied by a formal logarithm of an arbitrary unit.
 
 For the free quadratic operator, state its nontrivial KG solution kernel and do not write `A⁻¹` as an actual inverse on the whole field space. A selected Green distribution is a right or two-sided inverse only between the specified source/solution spaces, with a boundary condition or quotient fixing its ambiguity. The normalized `Z(J)/Z(0)` cancels a formal vacuum factor; it does not define that factor. Keep UV divergence (singular extension at coincident points) distinct from IR divergence (large-distance/zero-momentum behavior). A positive mass removes the Euclidean zero-momentum singularity, but does not make a Lorentzian propagator rapidly decreasing in spacetime.
 
-**RQFT0.OrdinaryDistributionBoundary.** Consume ComplexKahlerGeometry K5a for the generic density-valued test/distribution, chart/frame, restriction/gluing and finite-order carriers, and PDO P1.0 for the density-transpose differential-operator core. Use native `Distribution Ω F ⊤=TestFunction Ω ℝ ⊤ →L_c[ℝ] F` with compact-convergence topology; for complex-valued distributions use K5a's unique continuous complex-linear extension from real tests, `u_ℂ(f+ig)=u(f)+iu(g)`, and prove its agreement with the native complex-test tempered convention. Keep the compact-convergence ordinary-distribution topology distinct from the pointwise topology of TemperedDistribution. RQFT owns its model-specific Fourier/sign, mass-shell, equation and diagonal adapters on these existing carriers; the generic dual definition is a comparison to that supplier, not a parallel library.
+**Checks.**
 
-**RQFT0.TestProductsAndFourierPhase — finite test products and the mass-shell convention.** This roadmap owns the proof route below. For every finite n, prove that the complex span of products `∏_(j<n)f_j(x_j)`, `f_j∈𝒮(ℝ⁴)`, is dense in `𝒮((ℝ⁴)^n)` in its full Schwartz topology, and prove the compact-support version on every product of open regions Ω_j: for a compactly supported test on that product choose χ_j∈C_c∞(Ω_j) equal to1 on the projection of its support, and approximate it by finite tensor tests with all supports in the fixed compact product ∏supp χ_j. Convergence there is in every derivative seminorm, hence in its LF stage. Do not assert support-preserving tensor factorization for an arbitrary nonrectangular compact set. Include n=0, whose test carrier is ℂ. Use product cutoffs to reduce finitely many Schwartz seminorms to a compact rectangle, expand a smooth periodic extension there in its Fourier series, prove rapid decay of its coefficients by integration by parts, and multiply the finite Fourier sums by product cutoffs. Diagonalize over seminorms and growing rectangles. Prove continuity of test products, complex conjugation, variable permutations and the linear changes used in successive-difference coordinates. This is the finite-test-product comparison used below; it neither presupposes a pointwise product of arbitrary distributions nor substitutes L² density for Schwartz density.
+- In one variable `∫exp(−ax²)dx=√(π/a)` for `a>0`; the formal logarithm of `Z/Z₀=1+t` is `t−t²/2+t³/3−…`, and `Z₀=−1` has no formal logarithm without a branch choice.
+- The Klein–Gordon operator on smooth fields has the nontrivial kernel of plane waves `exp(−iη(k,x))` with `η(k,k)=m²`, so no two-sided inverse exists on all fields; a retarded Green operator inverts it only between compactly supported sources and causally supported solutions.
+- In Euclidean momentum space `1/(p²+m²)` is bounded for `m>0` (no infrared divergence) and not integrable at large `p` in four dimensions (ultraviolet divergence); at `m=0` it is not integrable at `p=0` in two dimensions, which is the infrared phenomenon.
+
+*Needs:* Mathlib `PowerSeries`, `MvPowerSeries`, `PowerSeries.log`; §1.1 for the causal Green operators; §5.14 for the formal generating series.
+
+### 0.7 OrdinaryDistributionBoundary — native distributions, their topology and the complex extension
+
+Consume ComplexKahlerGeometry K5a for the generic density-valued test/distribution, chart/frame, restriction/gluing and finite-order carriers, and PDO P1.0 for the density-transpose differential-operator core. Use native `Distribution Ω F ⊤=TestFunction Ω ℝ ⊤ →L_c[ℝ] F` with compact-convergence topology; for complex-valued distributions use K5a's unique continuous complex-linear extension from real tests, `u_ℂ(f+ig)=u(f)+iu(g)`, and prove its agreement with the native complex-test tempered convention. Keep the compact-convergence ordinary-distribution topology distinct from the pointwise topology of TemperedDistribution. RQFT owns its model-specific Fourier/sign, mass-shell, equation and diagonal adapters on these existing carriers; the generic dual definition is a comparison to that supplier, not a parallel library.
+
+**Checks.**
+
+- The sequence `exp(n)·δ_n` of point masses at `x=n` tends to `0` in the compact-convergence topology of `𝒟′(ℝ)` but has no limit in `𝒮′(ℝ)`: paired with a Schwartz test equal to `exp(−x)` for `x≥1` every term is `1`.
+- For `u=δ₀` the extension `u_ℂ(f+ig)=f(0)+ig(0)` agrees with the native tempered evaluation on complex tests; a conjugate-linear variant evaluates `δ₀` at `conj f` and differs on `f=i·bump`.
+- The restriction of a tempered distribution to compactly supported tests is an ordinary distribution and the restriction map is injective, since compactly supported tests are dense in Schwartz space.
+
+*Needs:* Mathlib `Distribution`, `TestFunction`, `TemperedDistribution`; ComplexKahlerGeometry K5a (density-valued carriers, charts, restriction and gluing); PseudodifferentialOperators P1.0.
+
+### 0.8 TestProductsAndFourierPhase — finite test products and the mass-shell convention
+
+This roadmap owns the proof route below. For every finite n, prove that the complex span of products `∏_(j<n)f_j(x_j)`, `f_j∈𝒮(ℝ⁴)`, is dense in `𝒮((ℝ⁴)^n)` in its full Schwartz topology, and prove the compact-support version on every product of open regions Ω_j: for a compactly supported test on that product choose χ_j∈C_c∞(Ω_j) equal to1 on the projection of its support, and approximate it by finite tensor tests with all supports in the fixed compact product ∏supp χ_j. Convergence there is in every derivative seminorm, hence in its LF stage. Do not assert support-preserving tensor factorization for an arbitrary nonrectangular compact set. Include n=0, whose test carrier is ℂ. Use product cutoffs to reduce finitely many Schwartz seminorms to a compact rectangle, expand a smooth periodic extension there in its Fourier series, prove rapid decay of its coefficients by integration by parts, and multiply the finite Fourier sums by product cutoffs. Diagonalize over seminorms and growing rectangles. Prove continuity of test products, complex conjugation, variable permutations and the linear changes used in successive-difference coordinates. This is the finite-test-product comparison used below; it neither presupposes a pointwise product of arbitrary distributions nor substitutes L² density for Schwartz density.
 
 Use `EuclideanSpace ℝ (Fin 4)` for the native Schwartz Fourier transform, keeping the Lorentz form as separate data. For the coordinate carrier `Fin 4→ℝ` with its sup norm construct the continuous-linear-equivalence pullbacks on Schwartz functions and their distribution duals; equivalence of finite-dimensional norms does not supply an inner-product instance for its sup norm. With native `𝓕_-f(ξ)=∫exp(−2πi⟨x,ξ⟩_Eucl)f(x)dx`, prove the exact restriction identity `Kf(p)=𝓕_-f(−ηp/(2π))` for `Kf(p)=∫exp(iη(p,x))f(x)dx`, `η=diag(1,−1,−1,−1)`. Transport the mass-shell and forward-cone supports through this index-lowering/reflection map. The formula `p=2πξ` belongs to the Euclidean negative-phase kernel; it is not the Minkowski positive-phase identification. Prove the corresponding derivative, measure/Jacobian and distribution-duality conversions before using either convention in RQFT3/RQFT4.
 
-**RQFT0.RealLineBoundary — elementary real-line boundary values.** This roadmap owns the proof route below.
+**Checks.**
+
+- For `n=0` the test carrier is `ℂ` and the density statement is trivial; for `n=1` the statement is density of `𝒮(ℝ⁴)` in itself.
+- A test supported in the unit disc of `ℝ²` is approximated by finite sums of products supported in `[−1,1]²`, not by tensor tests supported in the disc; the rectangle `∏ supp χ_j` is the compact set the construction controls.
+- For `f(x)=exp(−|x|²/2)` on `ℝ⁴`, `Kf(p)=(2π)²exp(−|p|²/2)` and the native `𝓕f(ξ)=(2π)²exp(−2π²|ξ|²)` at `ξ=−η♭p/(2π)` gives the same value, confirming `Kf(p)=𝓕f(−η♭p/(2π))`.
+- Under `ξ=−η♭p/(2π)` the positive-energy mass shell `p⁰=√(|p⃗|²+m²)` is sent to `ξ⁰<0`, so positive physical energy is negative native time frequency; the Euclidean rule `p=2πξ` would send it to `ξ⁰>0`.
+
+*Needs:* Mathlib `SchwartzMap`, `FourierTransform.fourierCLM`, Fourier series on the torus (`fourierBasis`); §0.2 and §0.4; the coordinate reindexing `ι_M` of the Conventions.
+
+### 0.9 RealLineBoundary — elementary real-line boundary values
+
+This roadmap owns the proof route below.
 This phase uses only the preceding test-space and Fourier interfaces.
 Define PV(1/x) by the symmetric |x|>ε cutoff in the real test pairing.
 The wavefront-set and product assertions are the later RQFT6 phase.
@@ -194,6 +282,16 @@ same constants and signs with p replaced by ξ, whereas ∂ transforms as
 2πiξ rather than ip. Prove this conversion through RQFT0's single
 normalization adapter to the native Schwartz/tempered Fourier supplier.
 
+**Checks.**
+
+- `B_+−B_−=−2πiδ` and `B_++B_−=2PV(1/x)` follow from `B_±=PV(1/x)∓iπδ`; a definition with the signs of `iπδ` exchanged would give `B_+−B_−=+2πiδ`.
+- `b_(−,ε)(x)=i∫_0^∞exp(−εt)exp(−itx)dt=i/(ε+ix)=1/(x−iε)`, and `F_p(exp(−itx))=2πδ(p+t)` gives `F_p b_(−,ε)=2πi·exp(εp)1_(p<0)→2πi·1_(p<0)`.
+- `f_−+f_+=(B_−−B_+)/(2πi)=δ`, and `F_p f_−+F_p f_+=1_(p<0)+1_(p>0)=1=F_pδ` off `p=0`.
+- `PV(1/x)` is odd: it vanishes on even tests and pairs with `x·exp(−x²)` to `√π`; `δ` is even, so `B_+` is neither even nor odd.
+- Under `p=2πξ` the indicator formulas keep their constants, while `F_p(∂u)=ipF_pu` becomes `2πiξ` in the native convention.
+
+*Needs:* §0.2 (test carriers) and §0.4 (the angular transform); Mathlib `TemperedDistribution` and the Poisson kernel approximate identity; ComplexKahlerGeometry K5a for the compact-convergence dual topology.
+
 ### Examples
 
 - The Gaussian `e^(−x²/2)` on ℝ has angular transform `√(2π)e^(−y²/2)` and Mathlib transform `√(2π)e^(−2π²ξ²)`; the two agree under `y=2πξ`, and a transform without the `2π` rescaling would give a different Gaussian.
@@ -203,16 +301,63 @@ normalization adapter to the native Schwartz/tempered Fourier supplier.
 
 Mathlib `SchwartzMap`, `TemperedDistribution`, `TestFunction`, `Distribution`, `FourierTransform.fourierCLM`, `PowerSeries`; ComplexKahlerGeometry K5a and K5a.DistributionLocalStructure; PseudodifferentialOperators P1.0; QuantumFoundations §8.1–§8.2; StochasticCalculus S1.2; NoncompactQuantumSymmetry M0.
 
-## Milestone RQFT1 — Lorentzian equations and causal Green operators
+## Layer 1: Lorentzian equations and causal Green operators
+
+### 1.1 Klein–Gordon causal Green operators
 
 Own reusable equation/solution data over Minkowski space and explicit candidate Green operators; do not claim the missing PDE theory is supplied merely by an elliptic or positive-Riemannian result.
 
 * Klein–Gordon: for `m ≥ 0`, construct advanced and retarded Green operators `E_A,E_R : 𝒟(M) → C∞(M)` satisfying `P E_{A/R}f=f`, `E_{A/R}P f=f`, continuity into the stated smooth topology, and `supp(E_A f)⊆J⁻(supp f)`, `supp(E_R f)⊆J⁺(supp f)`. Prove uniqueness in these support classes and causal propagator `E=E_R−E_A`, with `P E=0` and the exact kernel/range quotient identifying spacelike-compact solutions with `𝒟(M)/P𝒟(M)`. Give the Fourier/mass-shell formulas under precise boundary-value prescriptions and prove equality to the PDE construction where established. The outputs are generally not compactly supported, so the target is smooth functions with the stated causal support, not `𝒟(M)`. `Suggested.lean` states existence and uniqueness of the retarded and advanced solutions for every compactly supported smooth source as `existsUnique_retardedSolution` and `existsUnique_advancedSolution`, with the operator `kleinGordon` on `Spacetime`, the form `minkowskiSquare` and the causal sets `causalFuture` and `causalPast` (Bär–Ginoux–Pfäffle, Definition 3.4.1, Theorem 3.1.1 and Corollary 3.4.3; their `G₊` is supported in the causal future).
-* Prove the flat hyperbolic Cauchy theory used by the KG construction. In source angular spatial momentum k, put `ω(k)=sqrt(|k|²+m²)` and construct the smooth zero-past solution by the spatial Fourier/Duhamel formula `û_R(t,k)=∫_{−∞}^t sin((t−s)ω(k))/ω(k) f̂(s,k)ds`, with the quotient continued as t−s at ω=0; the zero-future solution is `û_A(t,k)=−∫_t^∞ sin((t−s)ω(k))/ω(k) f̂(s,k)ds`. Prove the multiplier derivative estimates and differentiation/inversion on every compact time interval, the forced equation and zero Cauchy data. Establish the local energy identity with `e=(|∂_t u|²+|∇u|²+m²|u|²)/2`; integrate it on backward/forward truncated cones and use the nonnegative outward flux to prove finite propagation at speed one. Prove uniqueness for zero Cauchy data, including m=0 without assuming energy controls the constant mode; the initial value fixes that mode. Prove LF-to-C∞ continuity on each fixed compact-support stage by finite-time derivative estimates. Use the support and uniqueness results for both inverse identities and duality `E_R^*=E_A`. Construct the exact quotient/range theorem with a time cutoff on spacelike-compact solutions: the cutoff derivative is supported in a compact time slab intersected with J(K), hence gives a compactly supported source. These are RQFT1 targets and use RQFT0 Fourier/test functions and elementary energy/Stokes estimates, rather than an elliptic Green-function theorem. [Bär–Ginoux–Pfäffle, Chapters2–3](https://arxiv.org/abs/0806.1036) provides the Cauchy/Green proof reference; translate its plus/minus support labels into this chapter’s `E_R` (future-supported) and `E_A` (past-supported) before using its formulas; the flat Fourier construction and its native normalization comparison remain explicit targets here.
-* Dirac: for a fixed gamma representation obeying `{γ^μ,γ^ν}=2η^{μν}I`, show `(iγ·∂−m)(iγ·∂+m)=−(□+m²)I`. Derive advanced/retarded Dirac propagators from KG Green operators with left and right inverse identities and causal support. Distinguish classical commuting spinor fields, Grassmann/graded fields and Hilbert-space CAR quantization.
-* Maxwell: define the field strength `F=dA`, Maxwell operator and gauge transformation `A↦A+dχ`; state the gauge-fixed normally hyperbolic operator, the constraint on sources (`∂_μJ^μ=0`), residual gauge transformations, and the quotient or constrained solution carrier. Construct causal Green operators only after stating the Lorenz/Coulomb gauge and source/constraint hypotheses. Coulomb gauge additionally requires solving the spatial Poisson equation with boundary/decay conditions and proving the transverse-longitudinal decomposition; cite the PDE owner if a matching theorem exists, otherwise keep the exact target here. Consume LVF3’s fixed-external-current Maxwell variation and its source-free specialization, including its correction of UNSW p31’s omitted coupling; the causal solution construction remains here. For smooth conserved classical J_cl, prove `(∂_t²−Δ)A=j_T` in Coulomb gauge, where `j_T=j−∇Δ⁻¹ div j`; assume the chosen Poisson solution is unique under its decay/boundary conditions and prove its time-derivative compatibility from continuity of J_cl. For nonzero spatial momentum the projector is `P_T(k)=I−kkᵀ/|k|²`. On a spatial torus impose mean-zero charge for Gauss solvability and treat the harmonic zero modes separately. UNSW p30 writes full j in the spatial equation but transverse j in its Fourier equation; compare them through this projector rather than equating them.
 
-**RQFT1.KleinGordonNonrelativisticLimit — the UNSW p32 scalar comparison.**
+**Checks.**
+
+- For `f=0` the causal future of the empty set is empty and the unique retarded solution is `0`; `m=0` is allowed in the existence and uniqueness statements.
+- For the one-dimensional wave equation the retarded solution `u(t,x)=½∫_(s<t)∫_(|y−x|≤t−s)f(s,y)dyds` satisfies `(∂_t²−∂_x²)u=f`, vanishes for `t` below the time support of `f`, and `⟨E_Rf,g⟩=⟨f,E_Ag⟩` by exchanging the order of integration, which is the duality `E_R^*=E_A`.
+- `E=E_R−E_A` satisfies `PE=f−f=0` and `E_Rf` is not compactly supported in time: for `f≥0` nonzero the solution does not vanish for large `t`, so the target space is `C^∞(M)` with causal support, not `𝒟(M)`.
+- Fewster–Rejzner define the causal propagator as advanced minus retarded, so their `E` is the negative of the one here; the commutator in §3.3 changes sign under that convention.
+
+*Needs:* Mathlib `SchwartzMap`, `TestFunction`, `iteratedFDeriv`; §0.2 and §0.8; §1.2 for the Cauchy theory used in the proof; Bär–Ginoux–Pfäffle Theorem 3.1.1, Definition 3.4.1 and Corollary 3.4.3.
+
+### 1.2 The flat hyperbolic Cauchy theory and finite propagation speed
+
+Prove the flat hyperbolic Cauchy theory used by the KG construction. In source angular spatial momentum k, put `ω(k)=sqrt(|k|²+m²)` and construct the smooth zero-past solution by the spatial Fourier/Duhamel formula `û_R(t,k)=∫_{−∞}^t sin((t−s)ω(k))/ω(k) f̂(s,k)ds`, with the quotient continued as t−s at ω=0; the zero-future solution is `û_A(t,k)=−∫_t^∞ sin((t−s)ω(k))/ω(k) f̂(s,k)ds`. Prove the multiplier derivative estimates and differentiation/inversion on every compact time interval, the forced equation and zero Cauchy data. Establish the local energy identity with `e=(|∂_t u|²+|∇u|²+m²|u|²)/2`; integrate it on backward/forward truncated cones and use the nonnegative outward flux to prove finite propagation at speed one. Prove uniqueness for zero Cauchy data, including m=0 without assuming energy controls the constant mode; the initial value fixes that mode. Prove LF-to-C∞ continuity on each fixed compact-support stage by finite-time derivative estimates. Use the support and uniqueness results for both inverse identities and duality `E_R^*=E_A`. Construct the exact quotient/range theorem with a time cutoff on spacelike-compact solutions: the cutoff derivative is supported in a compact time slab intersected with J(K), hence gives a compactly supported source. These are RQFT1 targets and use RQFT0 Fourier/test functions and elementary energy/Stokes estimates, rather than an elliptic Green-function theorem. [Bär–Ginoux–Pfäffle, Chapters2–3](https://arxiv.org/abs/0806.1036) provides the Cauchy/Green proof reference; translate its plus/minus support labels into this chapter’s `E_R` (future-supported) and `E_A` (past-supported) before using its formulas; the flat Fourier construction and its native normalization comparison remain explicit targets here.
+
+**Checks.**
+
+- The quotient `sin((t−s)ω)/ω` is continued as `t−s` at `ω=0`, which is its limit; the massless constant spatial mode is then driven by `∫_(−∞)^t(t−s)f̂(s,0)ds`.
+- For a solution of `(□+m²)u=0` the local energy density `e=(|∂_tu|²+|∇u|²+m²|u|²)/2` satisfies `∂_te−div Re(∂_tū∇u)=Re(∂_tū(∂_t²u−Δu+m²u))=0`, so the flux through the lateral boundary of a backward cone is nonnegative and propagation has speed one.
+- For `m=0` the energy does not control the constant mode: `u=1` has `e=0`; uniqueness for zero Cauchy data still holds because the initial value fixes that mode.
+- The Duhamel solution of `(∂_t²+ω²)v=g` with zero past data is `∫_(−∞)^t sin((t−s)ω)g(s)ds/ω`, verified by differentiating twice under the integral.
+
+*Needs:* §0.2 (Schwartz tests), §0.4 (Fourier transform in the spatial variables); Mathlib `iteratedFDeriv` and dominated convergence; Bär–Ginoux–Pfäffle Chapters 2–3 for the Cauchy and Green theory compared.
+
+### 1.3 Dirac propagators from the Klein–Gordon Green operators
+
+Dirac: for a fixed gamma representation obeying `{γ^μ,γ^ν}=2η^{μν}I`, show `(iγ·∂−m)(iγ·∂+m)=−(□+m²)I`. Derive advanced/retarded Dirac propagators from KG Green operators with left and right inverse identities and causal support. Distinguish classical commuting spinor fields, Grassmann/graded fields and Hilbert-space CAR quantization.
+
+**Checks.**
+
+- `(iγ·∂−m)(iγ·∂+m)=−(γ·∂)²−m²=−(□+m²)I` because `(γ·∂)²=½{γ^μ,γ^ν}∂_μ∂_ν=η^(μν)∂_μ∂_ν=□`; with the opposite anticommutator sign `{γ^μ,γ^ν}=−2η^(μν)I` the product is `□−m²` instead.
+- `S_R=−(iγ·∂+m)E_R` satisfies `(iγ·∂−m)S_Rf=−(−(□+m²))E_Rf=f` and has causal future support; omitting the minus sign gives `−f`.
+- The classical commuting spinor solutions form a vector space with no anticommutation relations; the CAR quantization of §3.4 is a separate construction.
+
+*Needs:* §1.1; Mathlib `CliffordAlgebra` and the gamma conventions of §2.4; §2.12 for the matrix realization.
+
+### 1.4 Maxwell equations, gauge fixing and the Coulomb-gauge source problem
+
+Maxwell: define the field strength `F=dA`, Maxwell operator and gauge transformation `A↦A+dχ`; state the gauge-fixed normally hyperbolic operator, the constraint on sources (`∂_μJ^μ=0`), residual gauge transformations, and the quotient or constrained solution carrier. Construct causal Green operators only after stating the Lorenz/Coulomb gauge and source/constraint hypotheses. Coulomb gauge additionally requires solving the spatial Poisson equation with boundary/decay conditions and proving the transverse-longitudinal decomposition; cite the PDE owner if a matching theorem exists, otherwise keep the exact target here. Consume LVF3’s fixed-external-current Maxwell variation and its source-free specialization, including its correction of UNSW p31’s omitted coupling; the causal solution construction remains here. For smooth conserved classical J_cl, prove `(∂_t²−Δ)A=j_T` in Coulomb gauge, where `j_T=j−∇Δ⁻¹ div j`; assume the chosen Poisson solution is unique under its decay/boundary conditions and prove its time-derivative compatibility from continuity of J_cl. For nonzero spatial momentum the projector is `P_T(k)=I−kkᵀ/|k|²`. On a spatial torus impose mean-zero charge for Gauss solvability and treat the harmonic zero modes separately. UNSW p30 writes full j in the spatial equation but transverse j in its Fourier equation; compare them through this projector rather than equating them.
+
+**Checks.**
+
+- `F=dA` is unchanged by `A↦A+dχ` since `d²=0`; `∂_ν∂_μF^(μν)=0` by antisymmetry, so a source must satisfy `∂_μJ^μ=0`.
+- `P_T(k)=I−kkᵀ/|k|²` satisfies `P_T(k)k=0`, `P_T²=P_T` and `tr P_T=2`; a pure gradient current `j=∇χ` has `j_T=0`, and a divergence-free `j` has `j_T=j`.
+- On a spatial torus the Poisson equation `−Δφ=ρ` is solvable exactly when `∫ρ=0`, and the solution is unique up to a constant; on `ℝ³` with decay at infinity it is unique.
+- Writing full `j` in the spatial equation and transverse `j_T` in its Fourier form differ by the longitudinal part `kkᵀj/|k|²`, which is nonzero for a charge-conserving but non-transverse current.
+
+*Needs:* LocalVariationalFieldTheory Layer 3 (fixed-external-current Maxwell variation); §1.1 and §1.2; PDE elliptic theory for the Poisson problem where it supplies it, else the target here.
+
+### 1.5 KleinGordonNonrelativisticLimit — the scalar comparison of relativistic and Schrödinger evolutions
+
 For m,ℏ,c>0 use the Lebesgue L²(ℝ³;ℂ) carrier of QuantumFoundations §8.1–§8.2 and its momentum
 operator P=−iℏ∇. Construct the positive self-adjoint Fourier multiplier
 `H_KG,c=(m²c⁴+c²|P|²)^(1/2)` with its maximal square-moment domain,
@@ -236,13 +381,55 @@ by momentum truncation and the unitary norm bounds. Match U_NR to the
 Schrödinger evolution of QuantumFoundations §8.2 with ℏ restored; do not identify arbitrary two-branch
 KG Cauchy data with this first-order evolution.
 
-**Current and Coulomb convention bridge (LVF3 → RQFT1/RQFT4/RQFT9).** LVF3 fixes the classical convention `L_J=−F_{μν}F^{μν}/4−J_cl^μ A_μ`, hence `∂_μF^{μν}=J_cl^ν` for a smooth external source. Transfer the index/sign convention, not the classical source itself, to RQFT4: for its operator-valued current `𝒥^ν` in the Wightman field family write `∂_μF^{μν}=𝒥^ν` and set `j^{(4)}_μ:=−η_{μν}𝒥^ν`. Then `∂^νF_{μν}=j^{(4)}_μ` in the same `(+---)` metric. No c-number external source is identified with this operator current. In RQFT1's classical Euclidean three-vector equation, bold `j` means `(J_cl^i)_{i=1}^3` and bold `A` means `(A^i)_{i=1}^3`; `j_T` is the Euclidean transverse projection of those components. For comparison define the classical lower-current notation `j_cl,μ:=−J_cl,μ`; then `j_cl,i=J_cl^i` and RQFT9's charge is `ρ:=J_cl^0=J_cl,0=−j_cl,0`, with `A_0=A^0`. Distinguish the electric components: `E_phys^i=F_{0i}=−∂_tA^i−∂_iA^0`, while RQFT4's lower components are `E_i^{(4)}:=−F_{0i}=−E_phys^i`. Thus the operator equation is `Σ_i∂_i E_i^{(4)}=j^{(4)}_0`; in the classical comparison it reads `Σ_i∂_i E_i^{(4)}=j_cl,0=−ρ`, equivalently `div E_phys=ρ`. RQFT9's `E=−∇Φ` is this physical three-vector in the static case. In the static case, or in time-dependent Coulomb gauge `div A=0`, Gauss' equation yields `−ΔA_0=ρ`, consistent with `U=eA^0`. Prove these index, current-type and gauge reductions from the fixed convention. RQFT4's charged-potential consequence uses the operator current dictionary; the classical current and the two source-free/weak-locality obstruction targets remain separate.
+**Checks.**
+
+- `0≤r²/(2m)−(√(m²c⁴+c²r²)−mc²)≤r⁴/(8m³c²)`: at `r=0` both sides are `0`; at `r=mc` the middle term is `(1/2−(√2−1))mc²≈0.0858mc²` and the bound is `mc²/8=0.125mc²`.
+- `φ_c(t)=exp(−itH_(KG,c)/ℏ)f` satisfies the Klein–Gordon equation because `(iℏ∂_t)²=H²=m²c⁴+c²|P|²`; `exp(+itH/ℏ)f` also satisfies it, so the Cauchy problem has two branches and the comparison selects one.
+- On the spectral window `|P|≤κ` the phase difference obeys `|exp(−ita)−exp(−itb)|≤|t||a−b|≤|t|κ⁴/(8ℏm³c²)` with `a=(H_(KG,c)−mc²)/ℏ`, `b=H_NR/ℏ`.
+- For `f` with `∂_tφ_c(0)=−iH_(KG,c)f/ℏ` the derivative is an `L²` vector only for `f∈dom(H_(KG,c))`; for a general `L²` datum the equation holds distributionally.
+
+*Needs:* QuantumFoundations §8.1–§8.2 (Lebesgue carrier, `P=−iℏ∇`, Schrödinger evolution); UnboundedOperators UO-A01–A08 (spectral calculus of the multiplier); §1.2.
+
+### 1.6 The current and Coulomb convention bridge
+
+LVF3 fixes the classical convention `L_J=−F_{μν}F^{μν}/4−J_cl^μ A_μ`, hence `∂_μF^{μν}=J_cl^ν` for a smooth external source. Transfer the index/sign convention, not the classical source itself, to RQFT4: for its operator-valued current `𝒥^ν` in the Wightman field family write `∂_μF^{μν}=𝒥^ν` and set `j^{(4)}_μ:=−η_{μν}𝒥^ν`. Then `∂^νF_{μν}=j^{(4)}_μ` in the same `(+---)` metric. No c-number external source is identified with this operator current. In RQFT1's classical Euclidean three-vector equation, bold `j` means `(J_cl^i)_{i=1}^3` and bold `A` means `(A^i)_{i=1}^3`; `j_T` is the Euclidean transverse projection of those components. For comparison define the classical lower-current notation `j_cl,μ:=−J_cl,μ`; then `j_cl,i=J_cl^i` and RQFT9's charge is `ρ:=J_cl^0=J_cl,0=−j_cl,0`, with `A_0=A^0`. Distinguish the electric components: `E_phys^i=F_{0i}=−∂_tA^i−∂_iA^0`, while RQFT4's lower components are `E_i^{(4)}:=−F_{0i}=−E_phys^i`. Thus the operator equation is `Σ_i∂_i E_i^{(4)}=j^{(4)}_0`; in the classical comparison it reads `Σ_i∂_i E_i^{(4)}=j_cl,0=−ρ`, equivalently `div E_phys=ρ`. RQFT9's `E=−∇Φ` is this physical three-vector in the static case. In the static case, or in time-dependent Coulomb gauge `div A=0`, Gauss' equation yields `−ΔA_0=ρ`, consistent with `U=eA^0`. Prove these index, current-type and gauge reductions from the fixed convention. RQFT4's charged-potential consequence uses the operator current dictionary; the classical current and the two source-free/weak-locality obstruction targets remain separate.
+
+**Checks.**
+
+- From `L_J=−F_(μν)F^(μν)/4−J_cl^μA_μ` the Euler–Lagrange equation is `∂_μF^(μν)=J_cl^ν`; lowering gives `∂^νF_(μν)=−η_(μβ)J^β=j_μ`, as stated.
+- `F_(0i)=∂_0A_i−∂_iA_0=−∂_tA^i−∂_iA^0=E_phys^i`; in Coulomb gauge `div A=0` the time component of the sourced equation is `−ΔA^0=ρ`, equivalently `div E_phys=ρ`.
+- `E_i^((4))=−F_(0i)=−E_phys^i` and `Σ_i∂_iE_i^((4))=j_cl,0=−ρ`, so both bookkeepings give `div E_phys=ρ`; using `j_cl,0=+ρ` would flip the sign of Gauss' law.
+- `ρ=J_cl^0=J_cl,0=−j_cl,0` and `A_0=A^0` in the `(+,−,−,−)` metric; the spatial lowered components change sign, `j_cl,i=J_cl^i`.
+
+*Needs:* LocalVariationalFieldTheory Layer 3; the Conventions (metric and lowering); consumed by §1.4, §4.8 and §9.12.
+
+### 1.7 The oscillator normalization
 
 For the oscillator of UNSW p. 33, with `[q,p]=i`, prove that the operators with denominator `√(2mω)` have unit commutator and `H=ω(a⁺a+1/2)`, whereas the denominator `m√(2ω)` gives `[a,a⁺]=1/m`, and carry the unit normalization into the finite-volume field modes.
 
+**Checks.**
+
+- With `a=(mωq+ip)/√(2mω)` one computes `[mωq+ip,mωq−ip]=2mω`, hence `[a,a†]=1` and `H=p²/(2m)+mω²q²/2=ω(a†a+1/2)`.
+- With denominator `m√(2ω)` the commutator is `2mω/(2ωm²)=1/m`, so unit normalization fails unless `m=1`.
+- Carrying the unit normalization into box modes gives `[a_k,a_(k′)†]=δ_(kk′)` and the coefficient `1/√(2ω_kL³)` of §3.3.
+
+*Needs:* QuantumFoundations §6.3–§6.4; consumed by §3.3 and §3.6.
+
+### 1.8 Boundary-value distributions, the massless cone and the invariant classification
+
 The scalar Feynman two-point distribution, retarded/advanced distributions and positive/negative frequency mass-shell distributions are distinct objects. Define each by the precise `i0` boundary value, Fourier normalization and mass convention. Prove which solve the inhomogeneous equation, which solve the homogeneous equation, and their covariance/support/wavefront properties. In the massless case explicitly construct the light-cone boundary value; do not define it by an invalid limit of coalescing poles. Use the forward kernel `Kf(p)=∫exp(iη(p,x))f(x)dx` and inverse kernel `(2π)^(-d)exp(−iη(p,x))dp` for the angular physical four-momentum in this paragraph. The time-ordered scalar vacuum two-point function has symbol `i/(q(p)−m²+i0)` in this convention. Prove its distributional equation and transport its constants by `ξ=−η♭p/(2π)`. The Feynman quadratic symbol is unchanged by this sign/metric reflection, while the supports of the positive/negative-frequency distributions `W_±` must be transported separately; their energy labels cannot be carried through `p=2πξ`. The latter substitution applies only to the Euclidean negative-phase kernel specified in the conventions. For massless spacetime dimension d≥3 construct the position-space boundary value `C_d(−q(x)+i0)^(-(d−2)/2)`, with C_d computed from that Fourier prescription, and prove its homogeneous extension across zero. In d=2 construct the logarithmic fundamental solution with its additive scale ambiguity and the stated infrared prescription. Treat the d=1 ODE separately. The massless distributions are obtained by pulling back a one-variable boundary value along the quadratic form and extending across the vertex (Borcherds–Barnard §6.2, p. 40); derive the metric, sign and branch conversion of that pullback explicitly. Away from zero, dq is surjective and P8 supplies the pullback; the extension and its constants are additional targets. Prove Huygens' principle for the advanced and retarded massless solutions exactly in even spacetime dimensions `d≥4`, under the standard flat-space hypotheses (Borcherds–Barnard §6.2, p. 39, footnote 9). Classify Lorentz-invariant tempered fundamental solutions in the stated causal, spectral and boundary-value classes, determine the homogeneous ambiguity in each class, and derive the relation `Δ_A+Δ_R=Δ_F+Δ_D` of Borcherds–Barnard §6.2 (p. 40) after fixing normalization constants.
 
-**RQFT1.MassivePrescriptions — the six distributions and their exact relations.**
+**Checks.**
+
+- `G_R+G_A=G_F+G_aF` follows from the table of §1.9: the shell terms `±iπ(D_+−D_−)` and `±iπ(D_++D_−)` cancel and both sides equal `−2Q`.
+- In `d=4` the massless retarded solution is `θ(x⁰)δ(η(x,x))/(2π)`, supported on the cone (Huygens); in `d=3` it is `θ(x⁰)/(2π√η(x,x))` on the interior of the cone, so Huygens' principle fails there.
+- Away from the origin `dq=2η♭x≠0`, so the pullback of a one-variable boundary value along `q` is supplied by P8; at the origin `dq=0` and the extension is a separate target.
+- In `d=2` the logarithmic fundamental solution `log|η(x,x)|` terms change by a constant under rescaling, which is the additive scale ambiguity.
+
+*Needs:* §0.9 (one-variable boundary values), §1.9; PseudodifferentialOperators P8 (pullback); Borcherds–Barnard §6.2 (pp. 39–40).
+
+### 1.9 MassivePrescriptions — the six distributions and their exact relations
+
 In this paragraph take m>0 in four-dimensional Minkowski space. Use complex
 ordinary/tempered distributions and the preceding physical Fourier transform K.
 Set `h(p)=q(p)−m²`, `ω(k)=sqrt(|k|²+m²)`, and define shell distributions
@@ -310,7 +497,27 @@ classification supplies no classification across that singular vertex.
 `shellPairing`, `poleDenominator` and `regularizedPairing`), and the invariant classification
 as `existsUnique_shell_decomposition` (with `IsRestrictedLorentz` and `minkowskiSquare`).
 
-**RQFT1.FundamentalSolutionAffineCarrier.** For each declared linear distribution carrier 𝓔 stable under the fixed constant-coefficient operator P, with its distinguished delta source in that carrier, define Fund(P;𝓔)={E∈𝓔:PE=δ}. Given one E₀ in it, prove the exact affine equivalence `ker(P:𝓔→𝓔)≃Fund(P;𝓔)`, u↦E₀+u, with inverse E↦E−E₀. State the empty case when no fundamental solution exists. Apply separately to ordinary and tempered distributions and transport through the declared Fourier convention. Lorentz-invariant causal, spectral and selected boundary-value families are additional constrained subclasses; their named classification does not replace this general homogeneous-solution freedom. This concerns distributional fundamental solutions, not an inverse of P on all fields or an unrestricted Green-operator uniqueness statement.
+**Checks.**
+
+- For `ε>0`, `(p⁰+iε)²−ω²=0` would need `p⁰=0` and `ε²=−ω²≤0`, impossible; `h+iε` has imaginary part `ε`; so no denominator in the table vanishes.
+- Coarea: `δ(h)` with `h=(p⁰)²−ω²` equals `Σ_±δ(p⁰∓ω)/(2ω)`, so `D_±=1_(±p⁰>0)δ(h)` and `D_±(f)=∫f(±ω,k⃗)d³k/(2ω)` with no `2π`.
+- From the table `G_R−G_A=2πi(D_+−D_−)`, `G_F−G_A=2πiD_+=iW_+` and `G_F−G_R=2πiD_−=iW_−` with `W_±=K⁻¹(2πD_±)`; the span of `Q`, `D_+`, `D_−` has dimension `3`, so the four `G` kernels satisfy exactly one linear relation.
+- The regularization of `G_R` puts both energy poles at `p⁰=±ω−iε`; for `x⁰<0` the inverse kernel `exp(−iη(p,x))` decays in the upper half-plane, so closing there gives `0`: the retarded kernel vanishes in the past.
+- For `m>0` the invariant distributions on the shell `p²=m²`, `p⁰>0`, which is a single orbit with unimodular stabilizer `SO(3)`, are the scalar multiples of `D_+`; for `m=0` the point mass `δ₀` is invariant with `p²δ₀=0` and is neither `D_+` nor `D_−`, so the classification needs `m>0`.
+
+*Needs:* §0.9 (`B_±`), §0.8 (the transform `K`), §1.1 for the causal kernels compared; Mathlib `TemperedDistribution`; NoncompactQuantumSymmetry M0 for the connected Lorentz group; Borcherds–Barnard §6.2 (p. 40).
+
+### 1.10 FundamentalSolutionAffineCarrier — fundamental solutions as an affine space over the kernel
+
+For each declared linear distribution carrier 𝓔 stable under the fixed constant-coefficient operator P, with its distinguished delta source in that carrier, define Fund(P;𝓔)={E∈𝓔:PE=δ}. Given one E₀ in it, prove the exact affine equivalence `ker(P:𝓔→𝓔)≃Fund(P;𝓔)`, u↦E₀+u, with inverse E↦E−E₀. State the empty case when no fundamental solution exists. Apply separately to ordinary and tempered distributions and transport through the declared Fourier convention. Lorentz-invariant causal, spectral and selected boundary-value families are additional constrained subclasses; their named classification does not replace this general homogeneous-solution freedom. This concerns distributional fundamental solutions, not an inverse of P on all fields or an unrestricted Green-operator uniqueness statement.
+
+**Checks.**
+
+- `P=d/dx` on `𝒟′(ℝ)`: `E₀=H` and `ker P` is the constants, so `Fund(P)={H+c}`; `P=1` gives `Fund={δ}` with kernel `0`.
+- `P=0` has `Fund(0)=∅`, the empty case.
+- `P=d/dx−1`: in `𝒟′(ℝ)` the fundamental solutions form the affine line `H(x)exp(x)+c·exp(x)`, while in `𝒮′(ℝ)` the kernel is `0` and the unique tempered fundamental solution is `−H(−x)exp(x)`, since `exp(x)` is not tempered.
+
+*Needs:* §0.2 and §0.7 (the carriers); §1.9 for the Lorentz-invariant subclasses.
 
 ### Examples
 
@@ -321,13 +528,46 @@ as `existsUnique_shell_decomposition` (with `IsRestrictedLorentz` and `minkowski
 
 RQFT0; Mathlib distributions and Fourier transform; PseudodifferentialOperators P8; LocalVariationalFieldTheory Layer 3 (Maxwell variation); QuantumFoundations §8.1–§8.2; Bär–Ginoux–Pfäffle, Chapter 3; Borcherds–Barnard §6.2.
 
-## Milestone RQFT2 — Lorentz spinors and classical-to-quantum field bridges
+## Layer 2: Lorentz spinors and classical-to-quantum field bridges
+
+### 2.1 Lorentz covers, spinor bundles and the gamma conventions
 
 Consume D8's Fock carrier with the second-quantization API of QuantumFoundations §6.3–§6.4, LVF's finite Lorentz-module/gamma covariance carrier, and NoncompactQuantumSymmetry's group representation; prove the missing bridge for fields. Specify the connected cover `Spin₀(1,3)≅SL(2,ℂ)`, the full Lorentz group extension and action on scalar, vector, Dirac, Weyl and dual spinor bundles. Verify the chosen `η` signature and gamma anticommutator convention against LVF's `Q=−g` conversion.
 
-**Involutive anti-automorphisms of matrix algebras.** Consume native `Matrix.GeneralLinearGroup.innerAut_surjective` and `ker_innerAut` for the generic field-linear innerness and scalar ambiguity, then prove the finite-dimensional statement over `𝕂=ℝ` or `ℂ`, explicitly assuming `𝕂`-linearity: an involutive anti-automorphism of `M_n(𝕂)` has the form `A↦S⁻¹AᵀS` for invertible S, and `B(v,w)=vᵀSw` is nondegenerate with that anti-automorphism as adjoint. Derive from `τ²=id` that `Sᵀ=±S`; if the alternating case occurs, invertibility forces even `n` (over these characteristic-zero fields). This lemma is a concrete matrix-algebra prerequisite for the spinor pairing; it does not replace SpinRepresentations' Clifford classification or InductionRestriction's group-extension API.
+**Checks.**
+
+- `Spin₀(1,3)≅SL(2,ℂ)` has kernel `{±1}` over `SO₀(3,1)`; the full Lorentz group has four components and its extension by the cover is fixed by the `P` and `T` lifts of §2.5.
+- LocalVariationalFieldTheory's form `Q=−g` has a timelike unit vector squaring to `−1` under `v²=Q(v)`, while this layer's gamma relation gives `(γ⁰)²=+I`; the conversion is the sign of the form.
+- The scalar, vector and Dirac bundles have fibre dimensions `1`, `4`, `4`; the Weyl bundles have dimension `2` and are modules for the even Clifford algebra only.
+
+*Needs:* OperatorAlgebraDynamics D8; QuantumFoundations §6.3–§6.4; LocalVariationalFieldTheory Layer 3; NoncompactQuantumSymmetry M2 and M4; Tau Ceti `Spin(3,1) ≃ SL(2,ℂ)`.
+
+### 2.2 Involutive anti-automorphisms of matrix algebras
+
+Consume `TauCeti.exists_unit_conj_of_algEquiv` (Skolem–Noether, for a finite-dimensional central simple algebra) for the `𝕂`-linear innerness of the algebra automorphism `A↦τ(A)ᵀ`, and prove here the scalar ambiguity: two invertible matrices inducing the same inner automorphism of `M_n(𝕂)` differ by a nonzero scalar, since the centre of `M_n(𝕂)` is `𝕂`. Then prove the finite-dimensional statement over `𝕂=ℝ` or `ℂ`, explicitly assuming `𝕂`-linearity: an involutive anti-automorphism of `M_n(𝕂)` has the form `A↦S⁻¹AᵀS` for invertible S, and `B(v,w)=vᵀSw` is nondegenerate with that anti-automorphism as adjoint. Derive from `τ²=id` that `Sᵀ=±S`; if the alternating case occurs, invertibility forces even `n` (over these characteristic-zero fields). This lemma is a concrete matrix-algebra prerequisite for the spinor pairing; it does not replace SpinRepresentations' Clifford classification or InductionRestriction's group-extension API.
+
+**Checks.**
+
+- For `n=1` every anti-automorphism of `𝕂` is the identity, `S` is any nonzero scalar and `Sᵀ=S`.
+- For `n=2` and `S=[[0,1],[−1,0]]` the map `τ(A)=S⁻¹AᵀS` is the adjugate, `τ(A)=(det A)A⁻¹` on invertible `A`, which is involutive; here `Sᵀ=−S`.
+- An alternating invertible `S` of odd size is impossible since `det S=det(Sᵀ)=(−1)^n det S`; `S` and `2S` induce the same `τ`, which is the scalar ambiguity.
+- Complex conjugation on `M_n(ℂ)` is a ring automorphism that is not inner; the statement needs `𝕂`-linearity.
+
+*Needs:* Tau Ceti `TauCeti.exists_unit_conj_of_algEquiv` (Skolem–Noether); Mathlib `Matrix`, `Matrix.GeneralLinearGroup` and the centre of `M_n(𝕂)`; consumed by §2.10.
+
+### 2.3 First-order factorizations of scalar wave operators
 
 For first-order factorizations of scalar wave operators, work over ℂ with constant scalar first-order factors `(a·∂+α)(b·∂+β)` and compare every coefficient. The symmetric principal matrix is `(abᵀ+baᵀ)/2`, of rank at most two, so no nondegenerate scalar quadratic operator in dimension d≥3 has such a factorization, even at zero mass. In d=2 a nondegenerate principal matrix forces a,b independent; for nonzero mass the absence of a first-order term gives `βa+αb=0`, hence α=β=0, contradicting the nonzero constant term. In massless 1+1 dimensions `(∂_t−∂_x)(∂_t+∂_x)=∂_t²−∂_x²`; the exception is in d=2, not four-dimensional massless spacetime. For d=1 the complex scalar quadratic polynomial factors; a real-factor statement needs its discriminant condition. The ansatz `(a·∂−m)(b·∂+m)` gives the stronger rank-one obstruction when m≠0. Symmetrize its displayed coefficient equation in i,j; commutation of scalar derivatives, not diagonality of g alone, is the reason. In the `(−,+,+,+)` convention the equation reads `∂_i∂^iφ=m²φ`; negating that metric gives this chapter's `(□+m²)φ=0`. RQFT1's physical iγ factorization has matrix coefficients and is a separate construction.
+
+**Checks.**
+
+- `(a·∂+α)(b·∂+β)` has principal symmetric matrix `(abᵀ+baᵀ)/2` of rank at most `2`, so no nondegenerate quadratic operator in `d≥3` factors; in `d=2` the massive case forces `βa+αb=0` with `a,b` independent, hence `α=β=0`, contradicting the constant term `−m²`.
+- `(∂_t−∂_x)(∂_t+∂_x)=∂_t²−∂_x²` in `1+1` dimensions; for `d=1` the polynomial `ξ²+m²` factors over `ℂ` as `(ξ+im)(ξ−im)` and over `ℝ` only when `m=0`.
+- The ansatz `(a·∂−m)(b·∂+m)` with `m≠0` forces `a=b` (rank one), a stronger obstruction than the rank-two bound.
+
+*Needs:* Mathlib linear algebra of symmetric bilinear forms; the Conventions.
+
+### 2.4 Clifford algebra conventions and the grading
 
 For the Clifford algebra of Borcherds–Barnard §9.1 (p. 68) consume Mathlib's
 `CliffordAlgebra.lift`, `evenOdd`, graded-algebra instance, `equivExterior`
@@ -341,12 +581,21 @@ element `v(v²−1)=v³−v`. Derive the module structure, the ordered-monomial 
 graded-tensor comparisons from those native Clifford suppliers with their actual hypotheses;
 this metric-convention adapter is owned here.
 
+**Checks.**
+
+- With one generator and `Q(v)=1` the ideal generated by `v²−1` contains the odd element `v³−v=v(v²−1)`, so the ideal is graded but not contained in the even part.
+- `vw+wv=polar(Q)(v,w)` equals `2η(v,w)` for the physical form, which is the factor `2` of `{γ^μ,γ^ν}=2η^(μν)I`.
+- The ordered monomials in `n` generators give dimension `2^n`; `CliffordAlgebra.equivExterior` identifies the underlying module with the exterior algebra, and `prodEquiv` gives the graded tensor comparison.
+
+*Needs:* Mathlib `CliffordAlgebra.lift`, `evenOdd`, `equivExterior`, `prodEquiv`; SpinRepresentations Layers 0–2; Borcherds–Barnard §9.1 (p. 68).
+
+### 2.5 Isoclinism, twisted Pin covers and the real-structure actions
 
 Define isoclinism by compatible isomorphisms of G/Z(G) and [G,G] intertwining
 the commutator map; prove its equivalence relation and compute Q₈/D₈ explicitly.
 Consume SpinRepresentations Layer 7's
 full normalized real Clifford cover `N=±1`, with `v²=Q(v)` and `N(v)=−Q(v)`.
-Keep the norm-one group `Pin={x:N(x)=1}` of Borcherds–Barnard §9.2 (p. 70) and native `pinGroup` separate from
+Keep the norm-one group `Pin={x:N(x)=1}` of Borcherds–Barnard §9.1 (p. 70) and native `pinGroup` separate from
 the full `N=±1` cover. For `Q=realCliffordForm 3 1` a normalized timelike vector
 has Q=−1 and lift square −1; the opposite form gives square +1.
 In the complexified Clifford algebra define the phase cochain
@@ -364,8 +613,17 @@ isoclinism; central rescaling alone is not a real group isomorphism. Prove the
 finite spinor action, its continuity, and the norm-sign-twisted action commuting
 with the selected antilinear real structure on `S⊕S*`.
 
+**Checks.**
 
-**RQFT2.BorcherdsCliffordSource — the Clifford, Pin and spinor-norm statements of Borcherds–Barnard §9.**
+- `Q₈` and `D₈` are isoclinic: both have centre of order `2`, quotient `(ℤ/2)²` and derived subgroup equal to the centre, with the same commutator map; they are not isomorphic (`Q₈` has one involution).
+- `a_ε(g)a_ε(h)/a_ε(gh)=i^(ε(g)+ε(h)−(ε(g)+ε(h) mod 2))=i^(2ε(g)ε(h))=(−1)^(ε(g)ε(h))`, nonzero defect exactly when both parities are odd.
+- For `Q=realCliffordForm 3 1` a normalized timelike vector has `Q=−1` and lift square `−1`; the opposite form gives `+1`; the determinant twist exchanges these two squares.
+- The norm-sign twist makes every reflection lift square `−1`, so `P²=T²=−1` in that model, while in the untwisted model the squares are `Q(v)`.
+
+*Needs:* SpinRepresentations Layer 7 (the `N=±1` cover); InductionRestriction Layer 7 (factor sets); Mathlib `CliffordAlgebra` and `pinGroup`.
+
+### 2.6 BorcherdsCliffordSource — the Clifford, Pin and spinor-norm statements of Borcherds–Barnard §9
+
 Consume SpinRepresentations Layers0/1/2/4/7 and the actual native
 `CliffordAlgebra.reverse`, `involute`, their commuting relation, center/even-center
 and even/odd matrix equivalences. Include the zero-rank exceptions,
@@ -374,21 +632,31 @@ The finite group G of §9.1 (p. 69) is the group generated by the signed vectors
 set; odd volume elements give separate singleton conjugacy classes. G has `2^n+1` irreducible representations for even n and `2^n+2` for odd n.
 The spin representation depends on a chosen polarization, with its actual projective
 O-action; this is no obstruction to canonical regular modules. The spinor norm takes values
-in `k^×/(k^×)²` (§9.2, p. 70). With t=reverse, put u=x^t alpha(x). Transposing the
+in `k^×/(k^×)²` (§9.1, p. 70). With t=reverse, put u=x^t alpha(x). Transposing the
 normalizer equation gives u y=y alpha(u); the twisted scalar-kernel
 lemma then makes alpha(u)=bar(x)x scalar, and conjugation gives x bar(x).
 Consume OrthogonalSpinGroups (completed) items 1A–1E for its generic norm/kernel/reflection APIs;
 its reverse spinor norm theta_r has theta_r(reflection_v)=[Q(v)], whereas the
-star norm `N(x)=x x̄` of §9.2 has theta_s(reflection_v)=[-Q(v)]. Prove
+star norm `N(x)=x x̄` of §9.1 has theta_s(reflection_v)=[-Q(v)]. Prove
 `theta_s(g)=[-1]^(det-parity(g)) theta_r(g)`. Thus on positive real Q the
 star norm-sign equals the determinant, on negative real Q it is trivial, and
-on indefinite Q the two signs are independent; these are the three cases of §9.2 (p. 70).
+on indefinite Q the two signs are independent; these are the three cases of §9.1 (p. 70).
 An odd coset of norm-one Pin
 exists only when that group actually has an odd element; positive-definite
 real native Pin equals Spin. Keep the norm-one versus full N=±1 cover
 separate throughout.
 
-**RQFT2.QuaternionPauliModel — the explicit Pauli splitting of `ℂ⊗ℍ`.**
+**Checks.**
+
+- The finite group `G` generated by signed basis vectors has order `2^(n+1)`: for `n=1` it is `ℤ/4` or `(ℤ/2)²` with `4=2^1+2` irreducible representations; for `n=2` it is `D₈` or `Q₈` with `5=2^2+1`.
+- `θ_s(reflection_v)=[−Q(v)]` and `θ_r(reflection_v)=[Q(v)]`, so `θ_s=[−1]^(det-parity)θ_r`; on positive-definite real `Q` the star norm-sign is the determinant, on negative-definite `Q` it is trivial, on indefinite `Q` the two signs are independent.
+- `u=x^t α(x)` is scalar by the twisted-kernel lemma, and conjugation gives `x x̄`; for `x=v` a vector this is `v·(−v)=−Q(v)`, matching the star norm.
+- Positive-definite real native `Pin` equals `Spin`, so the odd coset is empty there; for the indefinite form `(3,1)` the odd coset is nonempty.
+
+*Needs:* SpinRepresentations Layers 0, 1, 2, 4, 7; OrthogonalSpinGroups items 1A–1E; Mathlib `CliffordAlgebra.reverse`, `involute`; Borcherds–Barnard §9.1 (pp. 69–70).
+
+### 2.7 QuaternionPauliModel — the explicit Pauli splitting of ℂ⊗ℍ
+
 For q=a+bI+cJ+dK in the native real quaternion algebra use
 `ρ(q)=[[a+ib,c+id],[−c+id,a−ib]]`.
 Prove this is a unital real-algebra map, with the displayed I,J,K
@@ -403,6 +671,16 @@ complex invertible matrix, using the native matrix inner-automorphism API
 or `TauCeti.exists_unit_conj_of_algEquiv`. An arbitrarily chosen splitting
 need not have the displayed generator values. Keep the separate existing
 `tensorSelfAlgEquivMatrix` and its conjugation/opposite action for ℍ⊗ℍ.
+
+**Checks.**
+
+- `ρ(I)=diag(i,−i)`, `ρ(J)=[[0,1],[−1,0]]`, `ρ(K)=[[0,i],[i,0]]` satisfy `ρ(J)²=ρ(K)²=−I` and `ρ(I)ρ(J)=ρ(K)`, the quaternion relations.
+- `I`, `ρ(I)`, `ρ(J)`, `ρ(K)` are linearly independent over `ℂ`, so their span is `M₂(ℂ)`; the inverse formulas are `a=tr(A)/2` and the other three coefficients by the matching traces.
+- The abstract splitting `TauCeti.Quaternion.complexTensorAlgEquivMatrix` need not send `I` to `diag(i,−i)`; the comparison is conjugation by a complex invertible matrix, unique up to scalar.
+
+*Needs:* Mathlib `Quaternion`, `Matrix`; Tau Ceti `TauCeti.Quaternion.complexTensorAlgEquivMatrix` and `TauCeti.exists_unit_conj_of_algEquiv`; §2.2 for the scalar ambiguity.
+
+### 2.8 The plane reduction and the real Clifford classification
 
 For the plane reduction behind the real classification (Borcherds–Barnard §9.2), let E have anisotropic orthogonal basis e1,e2,
 Delta=Q(e1)Q(e2) and volume z=e1e2. The generators fz for f in F commute with
@@ -419,6 +697,17 @@ fix all matrix sizes by dimension and the native base entries. Majorana means
 a real structure on the chosen complex module, not merely a module over a
 real algebra. Include the full/even and zero-rank distinctions before converting
 the one-negative-direction dimension conditions.
+
+**Checks.**
+
+- The index `k=q−p` modulo `8` gives the base types `ℝ,ℂ,ℍ,ℍ⊕ℍ,ℍ,ℂ,ℝ,ℝ⊕ℝ` at `k=0,…,7`: `Cl(0,1)` (`k=1`) is `ℂ`, `Cl(1,0)` (`k=7`) is `ℝ⊕ℝ`, `Cl(0,2)` (`k=2`) is `ℍ`.
+- The two Lorentz algebras differ: `(p,q)=(3,1)` has `k=6` and base `ℝ`, so `Cl(3,1)≅M₄(ℝ)`, while `(1,3)` has `k=2` and `Cl(1,3)≅M₂(ℍ)`; both complexify to `M₄(ℂ)`.
+- In the plane with `Δ=Q(e₁)Q(e₂)` the elements `fz` commute with `e₁,e₂` and square to `(−Δ)Q(f)`; for the hyperbolic plane `Δ=−1` the twisted form is `Q_F` itself.
+- The single volume element `z=e₁e₂` generates only the even subalgebra of the plane (dimension `2`), not all of `Cl(E)` (dimension `4`).
+
+*Needs:* SpinRepresentations Layer 7; Mathlib `CliffordAlgebra` universal property; Borcherds–Barnard §9.2 (p. 71).
+
+### 2.9 The chiral basis, γ⁵ and the C and T maps
 
 In the chiral Pauli basis of Borcherds–Barnard §9.3 (p. 72) compute all gamma relations,
 `gamma5=i gamma0 gamma1 gamma2 gamma3=diag(-I2,I2)`, and the rank5
@@ -439,24 +728,90 @@ lifts by i makes them commute with that real structure but changes the complex
 bilinear multiplier by i². Record both statements; no unproved simultaneous
 pairing invariance or genuine O-action follows after discarding the central lift.
 
-For the anti-involution target consume native
-`Matrix.GeneralLinearGroup.innerAut_surjective` and `ker_innerAut` for the
+**Checks.**
+
+- `(γ⁰γ¹γ²γ³)²=−I` from the anticommutation relations and `(γ⁰)²=I`, `(γ^i)²=−I`, so `γ⁵=iγ⁰γ¹γ²γ³` squares to `+I`; it anticommutes with every `γ^μ`.
+- `C=(−iγ²)K` is antilinear on numeric spinors, while on the doubled carrier `(S⊕S*)⊗ℂ` the corresponding `C` is linear; the two agree on real combinations only.
+- `diag(A,NA)` with `N=±1` preserves the off-diagonal bilinear form and commutes (`N=1`) or anticommutes (`N=−1`) with the antilinear copy swap; multiplying an `N=−1` lift by `i` restores commutation but multiplies the bilinear form by `i²=−1`.
+
+*Needs:* SpinRepresentations Layers 1 and 4; §2.13 for the physical basis intertwiner; Borcherds–Barnard §9.3 (p. 72) and §9.5.
+
+### 2.10 The anti-involution innerness step
+
+For the anti-involution target consume
+`TauCeti.exists_unit_conj_of_algEquiv` and the scalar-ambiguity lemma of the involutive anti-automorphism target above for the
 K-linear inner-automorphism step in the already specified anti-involution
 exercise. Use exact matrix units `Ekl Eij=delta_(l,i) E_kj`. The correct form
 identity is `tau(a)^T S=S a`, hence `tau(a)=S^(-T) a^T S^T`.
 After the involution condition gives `S^T=±S`, this becomes
 `tau(a)=S^-1 a^T S`. Do not extend innerness to semilinear ring automorphisms of the scalar field.
 
+**Checks.**
+
+- `τ(a)ᵀS=Sa` gives `τ(a)=S^(−T)aᵀSᵀ`; with `Sᵀ=±S` the two signs cancel and `τ(a)=S⁻¹aᵀS`.
+- Matrix units satisfy `E_(kl)E_(ij)=δ_(li)E_(kj)`; the automorphism `a↦τ(a)ᵀ` is `𝕂`-linear and so is conjugation by a unit, which the Skolem–Noether theorem supplies.
+- Complex conjugation composed with transpose is an anti-automorphism of `M_n(ℂ)` that is not of the form `S⁻¹aᵀS`; the `𝕂`-linearity hypothesis excludes it.
+
+*Needs:* Tau Ceti `TauCeti.exists_unit_conj_of_algEquiv`; §2.2 (scalar ambiguity); Mathlib `Matrix.stdBasisMatrix`.
+
+### 2.11 Central extensions of the Lorentz group
+
 For the central extensions of the Lorentz group (Borcherds–Barnard §9.5, p. 75) consume LieGroups Layer 5's connected finite-dimensional real Lie-group universal covering homomorphism with discrete central kernel. Keep that topological category distinct from InductionRestriction Layer 7's abstract perfect-group universal central extension. Prove the cover/lift comparison only in its stated category; neither connectedness nor perfectness alone classifies all central extensions.
 
+**Checks.**
+
+- `SL(2,ℂ)→SO₀(3,1)` is the universal cover with kernel `{±1}`, discrete and central.
+- `ℝ→SO(2)` is a cover with kernel `ℤ`, not finite: connectedness alone does not bound the kernel; the abstract universal central extension of a perfect group is a different object from the topological cover.
+
+*Needs:* LieGroups Layer 5; InductionRestriction Layer 7; NoncompactQuantumSymmetry M0; Borcherds–Barnard §9.5 (p. 75).
+
+### 2.12 Minimal gamma-matrix size and the Weyl modules
 
 Consume SpinRepresentations Layers1/4’s complex Clifford matrix-algebra classification for the nondegenerate four-dimensional form. Use native `CliffordAlgebra.equivBaseChange` to compare the complexification of the real Lorentz form with that complex algebra, explicitly converting LVF’s `Q=−g` and this chapter’s gamma-square convention. Prove UNSW p16’s minimal gamma-matrix size: a nonzero finite-dimensional unital complex module for the full Clifford algebra has dimension divisible by4, by decomposing it with the matrix units of `M₄(ℂ)`; the displayed four-dimensional Dirac model attains the minimum. A two-component Weyl module is a module for the even algebra, not a smaller representation of all four gamma generators.
 
+**Checks.**
+
+- `M₄(ℂ)` is simple, so every finite-dimensional unital module is `(ℂ⁴)^k` and has dimension divisible by `4`; the Dirac module attains `4`.
+- The even algebra is `M₂(ℂ)⊕M₂(ℂ)`, so the two-component Weyl modules are modules for the even part only and not for all four generators.
+- `Tr γ^μ=0` and `Tr(γ^μγ^ν)=4η^(μν)` from `{γ^μ,γ^ν}=2η^(μν)I` and `Tr I=4`.
+
+*Needs:* SpinRepresentations Layers 1 and 4; Mathlib `CliffordAlgebra.equivBaseChange`; LocalVariationalFieldTheory's `Q=−g` conversion.
+
+### 2.13 Gamma realizations, rotation and boost lifts
+
 In the fixed `(+---)` convention, check both UNSW p17 gamma-matrix realizations against the Clifford relation, the Pauli multiplication formula, `γ⁰(γ^μ)†γ⁰=γ^μ`, and the trace identities `Tr γ^μ=0`, `Tr(γ^μγ^ν)=4η^{μν}`. Use the displayed standard representation to define `α^i=γ⁰γ^i`; in the alternate representation compute `γ⁰γ^i` in the alternate realization (similar to, but not equal to, the displayed standard α). For unit spatial n prove `(Σ·n)²=(α·n)²=I`, derive the rotation lift `U_R=exp(iφΣ·n/2)` and `U_R(2π)=−I`, and the boost lift `U_B=exp(−θα·n/2)` with `α^i=γ⁰γ^i`. Derive the Lorentz matrices induced by `U⁻¹γU` with active/passive and upper/lower index conventions fixed. Compare them with the matrices of UNSW pp. 18–19: a time-space block `[[cosh θ,−sinh θ],[sinh θ,cosh θ]]` with off-diagonal entries of opposite sign has determinant `cosh(2θ)>1` for θ≠0 and is not a Lorentz matrix under any index or active/passive convention.
+
+**Checks.**
+
+- `(Σ·n)²=I` for unit `n` and `U_R(φ)=exp(iφΣ·n/2)` gives `U_R(2π)=cos(π)I=−I`.
+- The boost block `[[cosh θ,−sinh θ],[sinh θ,cosh θ]]` has determinant `cosh²θ+sinh²θ=cosh 2θ>1` for `θ≠0`, so it is not a Lorentz matrix; the Lorentz boost has both off-diagonal entries of the same sign.
+- `γ⁰(γ^μ)†γ⁰=γ^μ` holds in the standard representation because `γ⁰` is Hermitian and the `γ^i` are anti-Hermitian.
+
+*Needs:* §2.4 and §2.12; Mathlib matrix exponential; NoncompactQuantumSymmetry M0.
+
+### 2.14 Dirac solutions, the Dirac adjoint, chirality and P, C, T
 
 Build covariant first-order Dirac solutions and the Dirac adjoint with the invariant indefinite pairing `ψ̄=ψ†γ⁰`; do not conflate this finite-dimensional invariant pairing with a positive Hilbert inner product. Define chiral projectors after choosing the dimension/signature-dependent `γ⁵` normalization; prove anticommutation, idempotence and covariance under the stated connected subgroup. State Majorana reality as an antilinear equivariant structure with its exact signature condition; do not transfer the four-dimensional real-form classification to all signatures. Implement P, C and T as convention-pinned linear/antilinear maps, prove their action on the Dirac equation and bilinears, and separately record which group relations hold up to central phase.
 
+**Checks.**
+
+- `ψ̄ψ=ψ†γ⁰ψ` is Lorentz invariant while `ψ†ψ` is not, since boost lifts are not unitary; `ψ†ψ` is the time component of the current `ψ̄γ^μψ`.
+- `P_±=(1±γ⁵)/2` are idempotent, orthogonal and sum to `I`; they commute with the connected Lorentz lifts and are exchanged by parity.
+- A Majorana real structure exists for `Cl(3,1)≅M₄(ℝ)` and not for `Cl(1,3)≅M₂(ℍ)`, so the signature condition in the definition is not vacuous.
+
+*Needs:* §2.8, §2.9, §2.13; LocalVariationalFieldTheory Layer 3 (finite Dirac Clifford and Spin comparison).
+
+### 2.15 The one-particle positive-frequency Hilbert space
+
 From the covariant classical solution spaces define the one-particle positive-frequency Hilbert space using the declared invariant inner product and mass-shell measure; prove positivity, completeness, Lorentz covariance and the map to the selected positive-energy Poincaré representation. State separately the finite-volume mode normalization used by the UNSW notes and its continuum delta-normalized limit. Derive scalar and spinor mode expansions, charge and Hamiltonian on the finite-particle domain. A divergent vacuum-energy constant is handled by a stated normal-ordering/renormalization convention, not set to zero as an equality of unregularized infinite sums.
+
+**Checks.**
+
+- The mass-shell measure `d³p/(2ω)` is Lorentz invariant by the coarea formula of §1.9; the positive-frequency solutions with this inner product form a Hilbert space, while a negative-frequency solution has negative Klein–Gordon charge, so positivity needs the restriction.
+- The finite-volume normalization `1/√(2ω_kL³)` gives `[a_k,a_(k′)†]=δ_(kk′)` and the continuum limit `d³p/((2π)³2ω)` of §3.3.
+- The vacuum energy `Σ_kω_k/2` on the lattice diverges as the cutoff grows; normal ordering subtracts it as a convention, not as an identity of infinite sums.
+
+*Needs:* NoncompactQuantumSymmetry M2 and M4; QuantumFoundations §6.3–§6.4; §1.9; consumed by §3.3–§3.4.
 
 ### Examples
 
@@ -465,21 +820,99 @@ From the covariant classical solution spaces define the one-particle positive-fr
 
 ### Dependencies
 
-Mathlib `CliffordAlgebra`, `SpinGroup`, `Matrix.GeneralLinearGroup.innerAut_surjective`; Tau Ceti `Spin(3,1) ≃ SL(2,ℂ)`, `TauCeti.Quaternion.complexTensorAlgEquivMatrix`, `TauCeti.exists_unit_conj_of_algEquiv`; SpinRepresentations Layers 0–2, 4, 7; OrthogonalSpinGroups items 1A–1E; InductionRestriction Layer 7; LieGroups Layer 5; LocalVariationalFieldTheory Layer 3; NoncompactQuantumSymmetry M2, M4; QuantumFoundations §6.3–§6.4; OperatorAlgebraDynamics D8; Borcherds–Barnard §9.
+Mathlib `CliffordAlgebra`, `SpinGroup`; Tau Ceti `Spin(3,1) ≃ SL(2,ℂ)`, `TauCeti.Quaternion.complexTensorAlgEquivMatrix`, `TauCeti.exists_unit_conj_of_algEquiv`; SpinRepresentations Layers 0–2, 4, 7; OrthogonalSpinGroups items 1A–1E; InductionRestriction Layer 7; LieGroups Layer 5; LocalVariationalFieldTheory Layer 3; NoncompactQuantumSymmetry M2, M4; QuantumFoundations §6.3–§6.4; OperatorAlgebraDynamics D8; Borcherds–Barnard §9.
 
-## Milestone RQFT3 — free fields as operator-valued tempered distributions
+## Layer 3: free fields as operator-valued tempered distributions
+
+### 3.1 The common invariant domain and operator-valued tempered fields
 
 For each scalar/spinor/vector model construct a common invariant dense domain `D`: the algebraic span of finite creation-operator products on the vacuum with one-particle arguments in the complex span W of all `U₁(g)Kf`, `f∈𝒮(M)` and g in the selected spacetime group (and the analogous particle/antiparticle maps in the other models). For genuinely covariant scalar/field-strength test maps prove this equals the span of their test-created vectors; for a fixed-frame gauge potential use the displayed orbit span rather than assume its original test image invariant. Prove W dense and invariant under the specified spacetime action, and prove creation and annihilation with these arguments preserve D. Compactly supported smooth momentum functions supply density tests, but their finite-particle span alone is not preserved by creation of general Kf. Use D in the selected Fock space `H`. Initially define `E` and the field for compactly supported tests `f∈𝒟(M)`. Before indexing fields by `𝒮(M)`, prove the continuous extension in Schwartz seminorms and the tempered-distribution bounds. A field is an operator-valued distribution `φ(f):D→H` whose matrix coefficients are continuous tempered distributions in `f∈𝒮(M)`; state which estimates give closability and which larger domain is used for products. No pointwise operator `φ(x)` is presumed to exist. Prove covariance on D, the distributional field equation, vacuum cyclicity where claimed, and two-point/commutator functions with the exact normalizations.
 
-**Box/continuum one-particle comparison.** For a finite-dimensional complex Hilbert fiber V, let `h=2π/L` and `C_(h,k)=k+[−h/2,h/2)^3`, `k∈hℤ³`. Define `A_h:L²(ℝ³;V)→ℓ²(hℤ³;V)` by `A_h f(k)=h^(−3/2)∫_(C_(h,k))f(p)dp`, and `E_h:ℓ²(hℤ³;V)→L²(ℝ³;V)` by the cellwise constant value `h^(−3/2)a(k)`. Prove they are continuous linear maps, `E_h` is isometric, `A_h=E_h*`, `A_hE_h=id`, `‖A_h‖≤1`, and `E_hA_h f→f` strongly for every L² class. On Schwartz packets prove agreement in the limit with `h^(3/2)f(k)` and the Riemann-sum inner-product comparison. Define the finite-mode cutoff projections on each full box one-particle space and prove their strong convergence to identity at fixed h before taking h→0. The maps compare one-particle carriers; their field-theory applications are convergence of vacuum and finite-particle polynomial matrix elements, derived from the packet Gram limits and the Wick/Fock domain API.
+**Checks.**
 
-* Scalar field: take the one-particle space `h_m=L²(H_m^+,dμ_m)`, `H_m^+={p:p²=m²,p⁰>0}`, and fix `dμ_m=d³p/((2π)^3 2√(|p|²+m²))` (with the massless origin handled separately). Define the positive-frequency map `Kf(p)=∫_{M}e^{ip·x}f(x)d⁴x` with the declared Fourier convention and `φ(f)=a(K\bar f)+a†(Kf)`, with a conjugate-linear and a† complex-linear in their one-particle arguments. For real f this is `√2 Φ_D8(Kf)`, where QuantumFoundations §6.4 proves the D8 normalization adapter `Φ_D8(h)=(a(h)+a†(h))/√2` on the finite-particle core. Prove every vector of this core is analytic for `φ(f)` and use Nelson's theorem to identify the closure of `φ(f)`, initially defined on the finite-particle core, with `√2Φ_D8(Kf)`. Only after this closure equality infer `exp(iφ(f))=W_D8(√2Kf)` and its vacuum characteristic function `exp(−‖Kf‖²/2)`, consistent with `⟨Ω,W_D8(h)Ω⟩=exp(−‖h‖²/4)`. Show this rescaling before comparing normalizations. Prove f↦φ(f) complex-linear and `φ(f)*|D=φ(\bar f)` by the adjoint pairing on D. Prove this is independent of representative modulo the KG equation, continuous in the Schwartz test, and yields the chosen two-point distribution. Define the bilinear test pairing `E(f,g)=∫f(x)(Eg)(x)d⁴x`, with `E=E_R−E_A`, and establish `[φ(f),φ(g)] = −i E(f,g) I` on D. Derive the sign from the mass-shell sine kernel and check the equal-time field/momentum bracket; the alternative advanced-minus-retarded convention changes it to +i. Compute the vacuum two-point function with positive-energy spectrum support. Show microcausality from support of the causal propagator.
-* Dirac field: use CAR on the positive/negative energy spinor mass-shell space, spinor solutions of `(γ·p−m)u(p,s)=0`, and the analogous `v` solutions. Fix their normalization and completeness/spin-sum identities, define particle/antiparticle creation modes on the common finite-particle domain, and prove the anticommutator distribution and causal support. The classical commuting-spinor equations in the lecture notes do not themselves supply a fermionic quantum field; prove graded locality separately.
-* Photon/Maxwell field: over each nonzero future null k define the complex polarization quotient `P_k={ε∈ℂ⁴:k·ε=0}/ℂk`, with Hermitian form `−bar(ε)·ε′`. Prove it is well-defined, positive and dimension2, with the helicity ±1 decomposition (NoncompactQuantumSymmetry M4 labels ε_E=+1, ℓ=±2) and invariant mass-shell L² completion; do not assume a global continuous polarization frame. This is the physical one-photon supplier for the scattering examples. Specify separately whether the field realization uses this physical transverse-photon Hilbert space, a gauge-fixed indefinite-metric state space, or a local observable algebra. State Gauss law, constraints, test-function quotient and observable subalgebra; do not treat all four-potential components as independent positive-metric physical oscillators.
-* For UNSW pp50–51, construct the source-free Hermitian transverse potential in a fixed inertial frame with `A⁰=0` and `div A=0`, on a periodic box of side L with a finite negation-symmetric set of nonzero modes. Choose orthonormal transverse polarization vectors at these finitely many momenta, take `ω_k=|k|`, and derive the `1/√(2ω_k L³)` normalization with unit mode CCR. Derive the electric/magnetic expansions and `H=Σ_{k,α}ω_k(a†_{k,α}a_{k,α}+1/2)` on the finite-particle core; subtracting the finite vacuum scalar `Σω_k/2` gives the number-operator Hamiltonian. Pair spatial components by the Euclidean dot product and periodize spacetime tests in their spatial variables before pairing with the box field. For complex Schwartz vector tests f,g define `Kf(k)=∫e^{i(|k|t−k·x)}f(t,x)dtd³x`. Prove convergence of the vacuum sesquilinear two-point functions `⟨Ω,A(f)*A(g)Ω⟩` to `∫overline(Kf(k))·P_T(k)Kg(k) d³k/((2π)³2|k|)`, with `P_T(k)=I−kkᵀ/|k|²`. Remove the momentum cutoff first at fixed L, then take L→∞, proving convergence in the Schwartz-test topology through uniform seminorm bounds. The finite polarization sum equals P_T, so the limit is independent of those choices. Convert invariant-measure wavefunctions F to Lebesgue wavefunctions `f=F/√((2π)³2|k|)` and prove this rescaling is unitary. For smooth compactly supported transverse f with support away from zero, define point-sampled box coefficients `f_L(k)=(2π/L)^(3/2)f(k)` and prove convergence of their norms and inner products by Riemann sums. Use the full photon box one-particle space `ℓ²(hℤ³∖{0};k⊥)` with its finite-mode cutoff projections. Exhaust those projections at fixed h before h→0. Build the full L² comparison using the preceding cell-average map: at k≠0 take transverse coefficients `P_T(k)A_h f(k)` and set the zero-mode coefficient to zero. Prove this map is well-defined on L² equivalence classes and contractive. Reconstruct an ambient Lebesgue L² vector function by giving its k-cell the constant value `h^(−3/2)P_T(k)A_h f(k)` (zero on the zero-mode cell), and prove strong convergence to every transverse f as h→0. Use density of the smooth transverse core, convergence of ordinary cell averages, and bounded convergence for the cellwise projectors; control the omitted zero-mode cell by absolute continuity of the L² integral. On the smooth core prove the averaged and sampled coefficients differ by a norm tending to zero. Polarization frames give coordinates in each finite box fiber and preserve these norms. For a Schwartz spacetime test g, the field creates the chosen off-zero function `v_g(k)=P_T(k)Kg(k)/sqrt((2π)^3 2|k|)`. Its box coefficients are `h^(3/2)v_g(k)`, k≠0. Prove their ℓ² distance from `P_T(k)A_h v_g(k)` tends to zero: near zero use `Σ_(0<|k|<δ)h³/|k|≤Cδ²` and the corresponding continuum L² bound; away from zero use derivative and rapid-decay estimates. Then the reconstructed box one-particle field vector converges to the continuum vector. Sampling applies to these specified mass-shell representatives and the smooth packet core; arbitrary L² classes use cell averages. Deduce the vacuum and finite-particle polynomial matrix-element limits by Wick expansion and these Gram limits. In the fixed frame, `u∈k⊥⊂ℂ³ ↦ [(0,u)]∈P_k` is a unitary isomorphism; this Coulomb-gauge potential is frame-dependent and is not asserted local or Lorentz covariant. Second-quantize the Lorentz action on the physical polarization bundle from NQS M4's helicity ±1 representations, using the second-quantization functor of QuantumFoundations §6.3. Prove the potential's gauge-compensation intertwining law and deduce quantum field-strength covariance. Compute the field-strength commutator: differentiation cancels the nonlocal transverse-projector term and yields causal support and microcausality. RQFT1 supplies the classical gauge/solution comparison, not this quantum covariance theorem. At k=0 prove local integrability of the displayed `1/|k|` weight in three spatial dimensions; omit the box zero mode and prove it does not change this limit. Consume the Fock and domain API of QuantumFoundations §6.3–§6.4. UNSW states no volume convention, so compare its C-coefficients to normalized box modes rather than assigning unit CCR at arbitrary volume.
-* Prove Wick's theorem on the algebraic finite-particle domain with the chosen time-ordering and sign convention. Boson contractions use pairings; fermion contractions use graded permutations and a minus sign for every closed fermion loop. Establish the finite-dimensional Gaussian/Wick identity and recover the zero-dimensional `φ⁴` graph coefficients as a combinatorial check. For `n` disjoint isomorphic connected graphs `G`, prove `Aut(G^{⊔n})≅Aut(G)^n⋊S_n`, hence `|Aut(nG)|=n!|Aut(G)|^n` and the exponential coefficient `1/(n!|Aut(G)|^n)` of Borcherds–Barnard §5.2 (p. 29) when vertices/labels and weights use that convention; the shortcut `|Aut(nG)|=n!|Aut(G)|` fails already for `n=2` and `G` a single edge, where `|Aut(2G)|=8` but `2!|Aut(G)|=4`.
+- For real `f`, `φ(f)Ω=a†(Kf)Ω` has norm `‖Kf‖` and `⟨Ω,φ(f)Ω⟩=0`.
+- The finite-particle span of compactly supported momentum packets is not preserved by `a†(Kf)` for general `f`, whose `Kf` is not compactly supported; the orbit span `W` of §3.9 is.
+- No pointwise operator `φ(x)` exists: `‖φ(f_n)Ω‖=‖Kf_n‖→∞` for an approximate identity `f_n→δ_x`, since `|Kf_n|→1` on the shell and the shell measure is infinite.
 
-**RQFT3.PhysicalPhotonAndSmearing — complete one-particle and common-domain interface.** Put `V=EuclideanSpace ℂ (Fin 3)` and, for k≠0, `r=|k|`, `n=k/r`, `P_T(k)=I−n nᵀ`; at zero choose P_T(0)=0. Use the Borel measure `dμ(k)=d³k/((2π)³2|k|)` off zero, assigning the origin mass0. Prove local finiteness at zero and σ-finiteness. Define the physical one-photon Hilbert space as the range of the contractive orthogonal projection `F↦[k↦P_T(k)F(k)]` on native `MeasureTheory.Lp V 2 μ`. Prove measurability, representative independence, self-adjointness/idempotence of this projection, closedness/completeness of its range, and the equivalent a.e. condition `k·F(k)=0`. Multiplication by `1/sqrt((2π)³2|k|)` gives the unitary to the transverse subspace of Lebesgue L², with inverse multiplying by that square root; values at zero are null-set data. Prove density by applying P_T to smooth compactly supported approximants away from zero, first removing a small ball and large-momentum tails.
+*Needs:* OperatorAlgebraDynamics D8; QuantumFoundations §6.3–§6.4; §0.2 and §0.8; UnboundedOperators UO-E01.
+
+### 3.2 Box/continuum one-particle comparison
+
+For a finite-dimensional complex Hilbert fiber V, let `h=2π/L` and `C_(h,k)=k+[−h/2,h/2)^3`, `k∈hℤ³`. Define `A_h:L²(ℝ³;V)→ℓ²(hℤ³;V)` by `A_h f(k)=h^(−3/2)∫_(C_(h,k))f(p)dp`, and `E_h:ℓ²(hℤ³;V)→L²(ℝ³;V)` by the cellwise constant value `h^(−3/2)a(k)`. Prove they are continuous linear maps, `E_h` is isometric, `A_h=E_h*`, `A_hE_h=id`, `‖A_h‖≤1`, and `E_hA_h f→f` strongly for every L² class. On Schwartz packets prove agreement in the limit with `h^(3/2)f(k)` and the Riemann-sum inner-product comparison. Define the finite-mode cutoff projections on each full box one-particle space and prove their strong convergence to identity at fixed h before taking h→0. The maps compare one-particle carriers; their field-theory applications are convergence of vacuum and finite-particle polynomial matrix elements, derived from the packet Gram limits and the Wick/Fock domain API.
+
+**Checks.**
+
+- `E_h` is isometric: `‖E_ha‖²=Σ_k|a(k)|²h^(−3)h³=‖a‖²`; `A_hE_h=id` since the cell average of the constant `h^(−3/2)a(k)` over a cell of volume `h³` is `a(k)`.
+- `‖A_h‖≤1` by Cauchy–Schwarz on each cell; `E_hA_hf→f` strongly since cell averages of a continuous compactly supported `f` converge uniformly and such `f` are dense.
+- On a Schwartz packet `A_hf(k)=h^(3/2)f(k)+O(h^(5/2))`, so the sampled and averaged coefficients agree in the limit.
+
+*Needs:* Mathlib `MeasureTheory.Lp`, `lp`; consumed by §3.6 and §5.19.
+
+### 3.3 The free scalar field
+
+Scalar field: take the one-particle space `h_m=L²(H_m^+,dμ_m)`, `H_m^+={p:p²=m²,p⁰>0}`, and fix `dμ_m=d³p/((2π)^3 2√(|p|²+m²))` (with the massless origin handled separately). Define the positive-frequency map `Kf(p)=∫_{M}e^{ip·x}f(x)d⁴x` with the declared Fourier convention and `φ(f)=a(K\bar f)+a†(Kf)`, with a conjugate-linear and a† complex-linear in their one-particle arguments. For real f this is `√2 Φ_D8(Kf)`, where QuantumFoundations §6.4 proves the D8 normalization adapter `Φ_D8(h)=(a(h)+a†(h))/√2` on the finite-particle core. Prove every vector of this core is analytic for `φ(f)` and use Nelson's theorem to identify the closure of `φ(f)`, initially defined on the finite-particle core, with `√2Φ_D8(Kf)`. Only after this closure equality infer `exp(iφ(f))=W_D8(√2Kf)` and its vacuum characteristic function `exp(−‖Kf‖²/2)`, consistent with `⟨Ω,W_D8(h)Ω⟩=exp(−‖h‖²/4)`. Show this rescaling before comparing normalizations. Prove f↦φ(f) complex-linear and `φ(f)*|D=φ(\bar f)` by the adjoint pairing on D. Prove this is independent of representative modulo the KG equation, continuous in the Schwartz test, and yields the chosen two-point distribution. Define the bilinear test pairing `E(f,g)=∫f(x)(Eg)(x)d⁴x`, with `E=E_R−E_A`, and establish `[φ(f),φ(g)] = −i E(f,g) I` on D. Derive the sign from the mass-shell sine kernel and check the equal-time field/momentum bracket; the alternative advanced-minus-retarded convention changes it to +i. Compute the vacuum two-point function with positive-energy spectrum support. Show microcausality from support of the causal propagator.
+
+**Checks.**
+
+- For real `f`, `φ(f)=√2Φ_D8(Kf)`, so `exp(iφ(f))=W_D8(√2Kf)` and its vacuum value is `exp(−2‖Kf‖²/4)=exp(−‖Kf‖²/2)`, consistent with `⟨Ω,W_D8(h)Ω⟩=exp(−‖h‖²/4)`.
+- `[φ(f),φ(g)]=⟨Kf̄,Kg⟩−⟨Kḡ,Kf⟩` from `[a(h),a†(k)]=⟨h,k⟩`; for real tests this is `2i Im⟨Kf,Kg⟩`, the mass-shell sine kernel, and equals `−iE(f,g)`; the advanced-minus-retarded convention gives `+iE(f,g)`.
+- The two-point function `⟨Ω,φ(f)φ(g)Ω⟩=⟨Kf̄,Kg⟩` has Fourier support on the positive-energy shell; it vanishes for spacelike-separated supports only in its antisymmetric part.
+- `φ(f)*|_D=φ(f̄)` on `D`: for complex `f`, `a(Kf̄)+a†(Kf)` has adjoint `a†(Kf̄)+a(Kf)` on the finite-particle core.
+
+*Needs:* OperatorAlgebraDynamics D8; QuantumFoundations §6.4 (`Φ_D8` and the normalization adapter); §1.1 and §1.9; UnboundedOperators UO-E03 (Nelson's theorem).
+
+### 3.4 The free Dirac field
+
+Dirac field: use CAR on the positive/negative energy spinor mass-shell space, spinor solutions of `(γ·p−m)u(p,s)=0`, and the analogous `v` solutions. Fix their normalization and completeness/spin-sum identities, define particle/antiparticle creation modes on the common finite-particle domain, and prove the anticommutator distribution and causal support. The classical commuting-spinor equations in the lecture notes do not themselves supply a fermionic quantum field; prove graded locality separately.
+
+**Checks.**
+
+- The spin sums `Σ_s u_s(p)ū_s(p)=γ·p+m` and `Σ_s v_s(p)v̄_s(p)=γ·p−m` with the normalization `ū_su_t=2mδ_(st)`.
+- The anticommutator `{ψ(f),ψ̄(g)}` is the c-number Dirac causal propagator of §1.3 and vanishes for spacelike separation; `{ψ(f),ψ(g)}=0`.
+- The classical commuting spinor field has `ψ(f)ψ(g)=ψ(g)ψ(f)`, so it satisfies neither the CAR nor graded locality; the quantum field is a different object.
+
+*Needs:* OperatorAlgebraDynamics D8 (CAR); §1.3; §2.15; §2.12 for the spinor bases.
+
+### 3.5 The photon polarization quotient
+
+Photon/Maxwell field: over each nonzero future null k define the complex polarization quotient `P_k={ε∈ℂ⁴:k·ε=0}/ℂk`, with Hermitian form `−bar(ε)·ε′`. Prove it is well-defined, positive and dimension2, with the helicity ±1 decomposition (NoncompactQuantumSymmetry M4 labels ε_E=+1, ℓ=±2) and invariant mass-shell L² completion; do not assume a global continuous polarization frame. This is the physical one-photon supplier for the scattering examples. Specify separately whether the field realization uses this physical transverse-photon Hilbert space, a gauge-fixed indefinite-metric state space, or a local observable algebra. State Gauss law, constraints, test-function quotient and observable subalgebra; do not treat all four-potential components as independent positive-metric physical oscillators.
+
+**Checks.**
+
+- `{ε∈ℂ⁴:k·ε=0}` has dimension `3` and contains `k` (since `k·k=0`), so the quotient `P_k` has dimension `2`.
+- For `k=(1,0,0,1)` the representatives with `ε⁰=ε³=0` give `−η(ε̄,ε)=|ε¹|²+|ε²|²>0`, so the form is positive definite on the quotient.
+- The helicity `±1` decomposition corresponds to the NoncompactQuantumSymmetry labels `(ε_E,ℓ)=(+1,±2)`, since `ℓ=2h`; a global continuous polarization frame on the punctured cone would be a nonvanishing section of a bundle that has none.
+
+*Needs:* NoncompactQuantumSymmetry M4; §3.8 for the fibre maps and the Lorentz action.
+
+### 3.6 The box transverse potential and its continuum limit
+
+For UNSW pp50–51, construct the source-free Hermitian transverse potential in a fixed inertial frame with `A⁰=0` and `div A=0`, on a periodic box of side L with a finite negation-symmetric set of nonzero modes. Choose orthonormal transverse polarization vectors at these finitely many momenta, take `ω_k=|k|`, and derive the `1/√(2ω_k L³)` normalization with unit mode CCR. Derive the electric/magnetic expansions and `H=Σ_{k,α}ω_k(a†_{k,α}a_{k,α}+1/2)` on the finite-particle core; subtracting the finite vacuum scalar `Σω_k/2` gives the number-operator Hamiltonian. Pair spatial components by the Euclidean dot product and periodize spacetime tests in their spatial variables before pairing with the box field. For complex Schwartz vector tests f,g define `Kf(k)=∫e^{i(|k|t−k·x)}f(t,x)dtd³x`. Prove convergence of the vacuum sesquilinear two-point functions `⟨Ω,A(f)*A(g)Ω⟩` to `∫overline(Kf(k))·P_T(k)Kg(k) d³k/((2π)³2|k|)`, with `P_T(k)=I−kkᵀ/|k|²`. Remove the momentum cutoff first at fixed L, then take L→∞, proving convergence in the Schwartz-test topology through uniform seminorm bounds. The finite polarization sum equals P_T, so the limit is independent of those choices. Convert invariant-measure wavefunctions F to Lebesgue wavefunctions `f=F/√((2π)³2|k|)` and prove this rescaling is unitary. For smooth compactly supported transverse f with support away from zero, define point-sampled box coefficients `f_L(k)=(2π/L)^(3/2)f(k)` and prove convergence of their norms and inner products by Riemann sums. Use the full photon box one-particle space `ℓ²(hℤ³∖{0};k⊥)` with its finite-mode cutoff projections. Exhaust those projections at fixed h before h→0. Build the full L² comparison using the preceding cell-average map: at k≠0 take transverse coefficients `P_T(k)A_h f(k)` and set the zero-mode coefficient to zero. Prove this map is well-defined on L² equivalence classes and contractive. Reconstruct an ambient Lebesgue L² vector function by giving its k-cell the constant value `h^(−3/2)P_T(k)A_h f(k)` (zero on the zero-mode cell), and prove strong convergence to every transverse f as h→0. Use density of the smooth transverse core, convergence of ordinary cell averages, and bounded convergence for the cellwise projectors; control the omitted zero-mode cell by absolute continuity of the L² integral. On the smooth core prove the averaged and sampled coefficients differ by a norm tending to zero. Polarization frames give coordinates in each finite box fiber and preserve these norms. For a Schwartz spacetime test g, the field creates the chosen off-zero function `v_g(k)=P_T(k)Kg(k)/sqrt((2π)^3 2|k|)`. Its box coefficients are `h^(3/2)v_g(k)`, k≠0. Prove their ℓ² distance from `P_T(k)A_h v_g(k)` tends to zero: near zero use `Σ_(0<|k|<δ)h³/|k|≤Cδ²` and the corresponding continuum L² bound; away from zero use derivative and rapid-decay estimates. Then the reconstructed box one-particle field vector converges to the continuum vector. Sampling applies to these specified mass-shell representatives and the smooth packet core; arbitrary L² classes use cell averages. Deduce the vacuum and finite-particle polynomial matrix-element limits by Wick expansion and these Gram limits. In the fixed frame, `u∈k⊥⊂ℂ³ ↦ [(0,u)]∈P_k` is a unitary isomorphism; this Coulomb-gauge potential is frame-dependent and is not asserted local or Lorentz covariant. Second-quantize the Lorentz action on the physical polarization bundle from NQS M4's helicity ±1 representations, using the second-quantization functor of QuantumFoundations §6.3. Prove the potential's gauge-compensation intertwining law and deduce quantum field-strength covariance. Compute the field-strength commutator: differentiation cancels the nonlocal transverse-projector term and yields causal support and microcausality. RQFT1 supplies the classical gauge/solution comparison, not this quantum covariance theorem. At k=0 prove local integrability of the displayed `1/|k|` weight in three spatial dimensions; omit the box zero mode and prove it does not change this limit. Consume the Fock and domain API of QuantumFoundations §6.3–§6.4. UNSW states no volume convention, so compare its C-coefficients to normalized box modes rather than assigning unit CCR at arbitrary volume.
+
+**Checks.**
+
+- With `ω_k=|k|` and coefficient `1/√(2ω_kL³)` the mode CCR is `[a_(k,α),a_(k′,β)†]=δ_(kk′)δ_(αβ)` and `H=Σω_k(a†a+1/2)`; the finite vacuum scalar `Σω_k/2` is subtracted.
+- The sum over two orthonormal transverse polarizations is `P_T(k)=I−kkᵀ/|k|²`, so the limit of the two-point function is independent of the chosen frame.
+- Near zero `Σ_(0<|k|<δ)h³/|k|` is a Riemann sum of `∫_(|k|<δ)d³k/|k|=2πδ²`, so the zero-mode neighbourhood contributes `O(δ²)`.
+- The point-sampled coefficients `(2π/L)^(3/2)f(k)` and the cell averages differ on the smooth core by a norm tending to `0` as `L→∞`.
+
+*Needs:* §3.2, §3.5; QuantumFoundations §6.3–§6.4; Mathlib Riemann sums and `lp`.
+
+### 3.7 Wick's theorem and the automorphism count of disjoint unions
+
+Prove Wick's theorem on the algebraic finite-particle domain with the chosen time-ordering and sign convention. Boson contractions use pairings; fermion contractions use graded permutations and a minus sign for every closed fermion loop. Establish the finite-dimensional Gaussian/Wick identity and recover the zero-dimensional `φ⁴` graph coefficients as a combinatorial check. For `n` disjoint isomorphic connected graphs `G`, prove `Aut(G^{⊔n})≅Aut(G)^n⋊S_n`, hence `|Aut(nG)|=n!|Aut(G)|^n` and the exponential coefficient `1/(n!|Aut(G)|^n)` of Borcherds–Barnard §5.2 (p. 29) when vertices/labels and weights use that convention; the shortcut `|Aut(nG)|=n!|Aut(G)|` fails already for `n=2` and `G` a single edge, where `|Aut(2G)|=8` but `2!|Aut(G)|=4`.
+
+**Checks.**
+
+- `⟨Ω,φ(f₁)φ(f₂)φ(f₃)φ(f₄)Ω⟩=W₁₂W₃₄+W₁₃W₂₄+W₁₄W₂₃`, the three pairings, with `W_(ij)` the two-point function.
+- For `G` a single edge `|Aut(2G)|=8=2!·|Aut(G)|²`, while `2!|Aut(G)|=4`; in general `Aut(G^(⊔n))≅Aut(G)^n⋊S_n`.
+- A closed fermion loop with two Dirac propagators carries one factor `−1` from the reordering of the anticommuting fields.
+
+*Needs:* QuantumFoundations §6.3–§6.4; §5.14 for the zero-dimensional comparison; Borcherds–Barnard §5.2 (p. 29).
+
+### 3.8 PhysicalPhotonAndSmearing — complete one-particle and common-domain interface
+
+Put `V=EuclideanSpace ℂ (Fin 3)` and, for k≠0, `r=|k|`, `n=k/r`, `P_T(k)=I−n nᵀ`; at zero choose P_T(0)=0. Use the Borel measure `dμ(k)=d³k/((2π)³2|k|)` off zero, assigning the origin mass0. Prove local finiteness at zero and σ-finiteness. Define the physical one-photon Hilbert space as the range of the contractive orthogonal projection `F↦[k↦P_T(k)F(k)]` on native `MeasureTheory.Lp V 2 μ`. Prove measurability, representative independence, self-adjointness/idempotence of this projection, closedness/completeness of its range, and the equivalent a.e. condition `k·F(k)=0`. Multiplication by `1/sqrt((2π)³2|k|)` gives the unitary to the transverse subspace of Lebesgue L², with inverse multiplying by that square root; values at zero are null-set data. Prove density by applying P_T to smooth compactly supported approximants away from zero, first removing a small ball and large-momentum tails.
 
 For p=(r,k), identify this fibre with `p^⊥_ℂ/ℂp` by `u↦[(0,u)]`. Prove the quotient form `−η(conj ε,ε′)` is well-defined; subtract `(ε⁰/r)p` to obtain the unique temporal-zero representative. Its spatial part lies in k^⊥ and its norm is the Euclidean norm, proving positivity and complex dimension2. Define `C_n u=n×u` complex-linearly; `i C_n` is self-adjoint and squares to identity on k^⊥, so `(P_T±iC_n)/2` are measurable orthogonal rank-one projections. Prove their direct-sum decomposition and compute the two little-group rotation characters in the actual NQS M4 `δ(w,θ)` coordinates; identify the resulting unordered pair with its future-orbit labels `(ε_E,ℓ)=(+1,±2)`, including the coordinate/orientation and signed helicity dictionary. No global continuous polarization frame is assumed.
 
@@ -489,9 +922,38 @@ Prove it is unitary from k^⊥ to q_space^⊥, is measurable jointly, and obeys 
 
 For scalar mass m≥0 and for the transverse potential, prove the mass-shell restriction maps K are continuous from the declared Schwartz tests into their one-particle Hilbert spaces. A bound `|Kf(ω(k),k)|≤C_N p_N(f)(1+|k|)^(−N)` and `‖P_T‖≤1`, together with `∫_(|k|<1)|k|⁻¹d³k<∞`, gives an explicit finite-seminorm L² bound; derivatives and spinor/field-strength polynomial factors use higher seminorms. Prove density of the complex span of the test-created vectors by extending arbitrary smooth compact momentum packets off the mass shell inside a small frequency neighborhood. For field strength use its antisymmetric test components; division by ω only occurs on the off-zero packet core. The Fourier conversion is RQFT0.TestProductsAndFourierPhase, not an assumed identity of Euclidean and Minkowski phases.
 
+**Checks.**
+
+- `P_T(k)=I−nnᵀ` is idempotent with kernel `ℂn` and trace `2`; the measure `d³k/((2π)³2|k|)` is locally finite at `0` since `∫_(|k|<1)d³k/|k|=2π`.
+- `C_nu=n×u` satisfies `C_n²=−I` on `k^⊥`, so `(iC_n)²=I` and `(P_T±iC_n)/2` are orthogonal rank-one projections summing to `P_T`.
+- For a rotation `R` the fibre map is `T(R,k)u=Ru`, since `(R(0,u))⁰=0`; for a boost along `k` the subtraction of `((Λ(0,u))⁰/q⁰)q⃗` is nonzero and keeps the representative temporal-zero.
+- The bound `|Kf(ω(k),k)|≤C_Np_N(f)(1+|k|)^(−N)` together with `∫_(|k|<1)|k|⁻¹d³k<∞` gives `‖Kf‖_(L²(μ))≤C p_N(f)` for one finite seminorm, so `K` is continuous.
+
+*Needs:* Mathlib `MeasureTheory.Lp`, `EuclideanSpace`; NoncompactQuantumSymmetry M4; §0.8; §3.5.
+
+### 3.9 The common domain, Nelson's theorem and the n-point distributions
+
 On D8's full Fock carrier let W be the complex span of all U₁(g)Kf over the selected spacetime group and relevant test-created vectors, and take `D=span{a†(h₁)⋯a†(h_n)Ω:h_j∈W,n≥0}`, including the vacuum. For covariant scalar/field-strength maps compare this orbit span to their original test image. For the fixed-frame potential this choice supplies group invariance without a false assumption that its untransformed test image is invariant. Use the creation, annihilation, normalization and sector-domain API of QuantumFoundations §6.4 to prove density, invariance under the selected spacetime action and every chosen smeared field and its adjoint. For a vector with particle number at most N prove the real smeared-field bound `‖φ(f)^nψ‖≤(2‖Kf‖)^n sqrt((N+n)!/N!)‖ψ‖` in the scalar/potential normalization `φ(f)=a(Kf)+a†(Kf)`. Its series divided by n! converges for every real radius. Nelson's theorem therefore identifies its closure with `sqrt(2)Φ_D8(Kf)`; conclude `exp(iφ(f))=W_D8(sqrt(2)Kf)` and vacuum value `exp(−‖Kf‖²/2)`. For complex tests use `a(K(conj f))+a†(Kf)` and prove linearity and the adjoint pairing on D; density of the adjoint test domain gives closability. Products act on the specified invariant D, not on an unstated maximal product domain. Derive the matrix-coefficient Schwartz bounds and all vacuum n-point distributions from Wick pairings. Construct their joint tempered extensions by the explicit mass-shell product integrals with polynomial-growth bounds and use finite-test-product density for uniqueness; no invalid multiplication of distributions at coincident points is used.
 
+**Checks.**
+
+- `‖a(h)ψ‖≤√N‖h‖‖ψ‖` and `‖a†(h)ψ‖≤√(N+1)‖h‖‖ψ‖` on particle number `≤N` give the case `n=1` of `‖φ(f)^nψ‖≤(2‖Kf‖)^n√((N+n)!/N!)‖ψ‖`.
+- `Σ_n t^n(2‖Kf‖)^n√((N+n)!/N!)/n!` converges for every `t`, since the ratio of consecutive terms tends to `0`; hence every finite-particle vector is analytic for `φ(f)`.
+- The orbit span `W` is invariant under the group by construction, while the test image `{Kf}` of the fixed-frame potential is not, which is why `D` is built from `W`.
+
+*Needs:* OperatorAlgebraDynamics D8; QuantumFoundations §6.4; UnboundedOperators UO-E03; §0.8 for finite-test-product density; PseudodifferentialOperators P3.
+
+### 3.10 The quantum Maxwell field strength
+
 Construct the quantum Maxwell field strength from the differentiated potential smearings and prove the Bianchi/source-free equations, Lorentz covariance and the cancellation of gauge-compensation terms. Compute its commutator as the appropriate tensor of derivatives of RQFT1's causal propagator, with signs fixed from the potential and Fourier convention; hence prove causal support/locality. The fixed-frame Coulomb potential remains nonlocal and frame-dependent. State separately the positive-metric field-strength model, any indefinite-metric potential model and its subsidiary condition, and the gauge-invariant observable net. Verify the required vacuum cyclicity and spectrum/domain properties for each model for which the Wightman axioms are claimed. The Dooley positive-particle representation `⊕_(n≥1)Sym^n(h_ph)` is a reducing subrepresentation of Γ(U), but not a domain/carrier for creation or annihilation, which connect it with the vacuum. These facts construct the specified photon/free-field model without asserting that every quantum field is a Fock model.
+
+**Checks.**
+
+- In the commutator of two field strengths the nonlocal term `k_ik_j/|k|²` of `P_T` is killed by the antisymmetrized derivatives, so `[F(f),F(g)]` is a tensor of derivatives of `E` and vanishes at spacelike separation.
+- The potential commutator `[A_i(f),A_j(g)]` retains `P_T` and does not vanish at spacelike separation, so the Coulomb potential is nonlocal.
+- `⊕_(n≥1)Sym^n(h_ph)` is invariant under `Γ(U)` but `a†(h)` maps the vacuum into it, so it is not a domain for the creation operators.
+
+*Needs:* §3.8, §3.9; §1.4 for the classical comparison; NoncompactQuantumSymmetry M4.
 
 ### Examples
 
@@ -502,19 +964,60 @@ Construct the quantum Maxwell field strength from the differentiated potential s
 
 RQFT0–RQFT2; OperatorAlgebraDynamics D8; QuantumFoundations §6.3–§6.4; NoncompactQuantumSymmetry M2, M4; UnboundedOperators UO-E01, UO-E03.
 
-## Milestone RQFT4 — Wightman and Haag–Kastler models; theorem hypotheses
+## Layer 4: Wightman and Haag–Kastler models; theorem hypotheses
+
+### 4.1 Wightman models: definition and the free verifications
 
 Define a Wightman model as explicit data: positive Hilbert space, unique normalized vacuum, strongly continuous unitary Poincaré representation with joint spectrum in the closed forward cone, a common invariant dense domain, operator-valued tempered distributions, covariant transformation law, local commutation/graded commutation, and cyclicity. List any field-adjoint, finite-component, and domain assumptions used by each theorem. Verify the scalar Klein–Gordon model against these axioms under its stated mass, spectrum and domain hypotheses. The fixed-frame Coulomb-gauge potential in RQFT3 is not local or Lorentz covariant and is not an example satisfying the Wightman axioms. A covariant Maxwell field-strength/observable Wightman model remains a separate target: construct it on the gauge quotient, prove its constraints, covariance, locality and positive-metric domain before claiming the axioms. The classical Dirac model is not a quantum Wightman field. No interacting model is declared to exist unless all axioms are built and verified.
 
+**Checks.**
+
+- The free massive scalar field of §3.3 satisfies every axiom: positive Fock space, unique vacuum, spectrum in the forward cone, covariance, locality from `supp E`, cyclicity.
+- The fixed-frame Coulomb potential fails locality (§3.10) and covariance, so it is not a Wightman field although its field strength is.
+- The classical commuting Dirac field has no Hilbert space and no anticommutation relations; it is not a quantum field.
+
+*Needs:* §3.3, §3.4, §3.10; NoncompactQuantumSymmetry M2, M4; Streater–Wightman Chapter 3.
+
+### 4.2 Haag–Kastler nets and the free observable nets
+
 Define a Haag–Kastler net on bounded open regions with isotony, locality, Poincaré covariance, spectrum/vacuum conditions and the declared additivity/duality assumptions. Construct the free scalar/Dirac observable nets and prove only established Wightman-to-net implications; do not assert equivalence without the needed reconstruction, field-generation and charge assumptions. Give the exact field-to-net and net-to-field/reconstruction routes as named theorems with their hypotheses.
 
-**RQFT4.GenericReconstruction — moments, bounded nets and point fields.** Keep the following distinct constructive theorems; none asserts that every Haag–Kastler net is generated by point fields or that an observable vacuum representation contains all charged sectors. Use the existing native test/distribution, VNA predual/affiliation, D8 free-field and UO closure/analytic-vector carriers.
+**Checks.**
+
+- The free scalar net generated by `exp(iφ(f))`, `f` real with support in `O`, satisfies isotony, locality (from `supp E`) and covariance; its vacuum is cyclic for every region by Reeh–Schlieder.
+- Locality of the net does not give a field: the trivial net `O↦ℂ` satisfies all axioms and has no point fields.
+
+*Needs:* §3.3; VonNeumannAlgebras V4.Core; §4.4 and §4.5 for the two directions.
+
+### 4.3 GenericReconstruction — moment reconstruction from Wightman distributions
+
+Keep the following distinct constructive theorems; none asserts that every Haag–Kastler net is generated by point fields or that an observable vacuum representation contains all charged sectors. Use the existing native test/distribution, VNA predual/affiliation, D8 free-field and UO closure/analytic-vector carriers.
 
 **Moment reconstruction.** Fix a set of finite-component Lorentz multiplets, an adjoint involution and specified parities. For every finite component word supply a joint tempered distribution W_word, with W_empty=1, translation/cover covariance, future-cone support in the declared successive-difference Fourier convention, Hermiticity under reversed adjoint/conjugated tests, graded locality, and positivity `W(F*F)≥0` for every finite Borchers test polynomial F. Here the Borchers algebra is the algebraic direct sum over finite words of Schwartz configuration tests; multiplication is test tensor product/concatenation and star reverses the word, applies the component adjoint, and conjugates tests. For vacuum uniqueness require the precise spacetime Cesàro input: for all finite Borchers polynomials F,G, `(2T)^(-4)∫_[-T,T]^4 W(F* α_a(G)) da→conj(W(F))W(G)`. Prove with the joint translation PVM that these box averages converge strongly to its projection at0; the input therefore makes the translation-invariant subspace exactly ℂΩ. Construct the null left ideal N={F:W(F*F)=0}, the quotient inner product `⟨[F],[G]⟩=W(F*G)` in the second-linear convention, and its Hilbert completion. Prove the left-ideal property by positivity/Cauchy–Schwarz to F and A*AF, giving W(F* A* A F)=0; realize each smeared field by left multiplication on the common polynomial quotient. Prove the adjoint pairing and closability, invariance of this domain, and joint tempered vacuum coefficients. Construct the Poincaré representation by its action on tests, prove isometry, strong continuity, vacuum invariance and the PVM spectral condition. Prove cyclicity, the selected uniqueness/clustering conclusion, and uniqueness up to a vacuum-preserving unitary intertwining this polynomial field domain. This constructs the model from distributions, rather than postulating an already reconstructed model. Do not deduce self-adjointness of arbitrary real smearings or bounded-net locality solely from this construction. Consume PDO P3's ordinary kernel theorem for local test products; wherever separate field estimates are used to obtain joint tempered W_word, prove the global weighted Schwartz estimate by the cutoff/Fourier method, not merely density of finite test products.
 
-**Field-to-bounded-net theorem.** Start with the actual closable smearings on their declared dense invariant domain. For each O define the bounded generating data from the polar partial isometries and spectral projections of the moduli of their specified closures, for compact tests supported in O. Define M_phi(O) to be their generated von Neumann algebra. Require a usable strong-locality criterion: either the RQFT4.StrongLocalNet mixed-word factorial estimates for the real symmetric generating family, or affiliation of these closures with a fixed local net M(O). Prove the corresponding bounded generators commute for spacelike regions (for a graded charged family use twisted locality and take the even/gauge-fixed observable net). Prove isotony and covariance by graph transport of the closures, and the selected vacuum cyclicity by bounded spectral truncation with the needed graph-core comparison explicitly proved. In the fixed-net branch prove M_phi(O)⊂M(O). Recover equality only after proving a concrete field-generation condition: every contraction A∈M(O) can be approximated strongly and strongly on adjoints, on each finite list of Hilbert vectors, by uniformly contractive elements of the star algebra generated by those bounded local field data. Prove that this condition gives equality by strong closure/Kaplansky; it is an additional approximation theorem for the selected model, not a consequence of weak field locality. State first the PCT/field identities on the polynomial domain; transport them to other closed realizations only after an actual graph-core equality.
+**Checks.**
 
-**Net-to-point-field theorem — microscopic phase-space port.** On four-dimensional Minkowski space let O↦M(O) be an isotonic local von Neumann net, with a strongly continuous positive-energy representation of the connected Poincaré cover, invariant normalized vacuum unique up to scalar, and dense span of M(O)Ω for bounded O. Put H=P0≥0, L=1+H, R=L^(-1), Σ=B(HilbertSpace)_* using VNA's normal-functional/trace-class pairing, and `E_∞=⋂_(n≥0)R^n Σ R^n` with seminorms `||σ||_n=||L^n σ L^n||`. These are norms on the represented predual functionals, not formal multiplication of undefined unbounded operators. Define the damped embeddings by `(R^n σ R^n)(A)=σ(R^n A R^n)` and prove injectivity/compatibility; give E_∞ its projective locally convex topology. For a continuous linear ψ:E_∞→Σ define the extended nonnegative local seminorm on its actual domain by
+- The box average `(2T)^(−4)∫_([−T,T]^4)exp(ip·a)da=∏_μ sin(Tp_μ)/(Tp_μ)` tends to `1` for `p=0` and to `0` otherwise, so the averages converge strongly to the projection onto the translation-invariant subspace.
+- `W(F*F)=0` implies `W(F*A*AF)=0` by Cauchy–Schwarz, so `N` is a left ideal; the quotient of the free two-point data recovers Fock space.
+- `W_empty=1` normalizes `⟨Ω,Ω⟩=1`; for the free field the reconstructed representation is unitarily equivalent to the Fock representation of §3.3.
+
+*Needs:* §4.1; §0.8; PseudodifferentialOperators P3 (kernel theorem); Mathlib Hilbert completion and projection-valued measures.
+
+### 4.4 Field-to-bounded-net theorem
+
+Start with the actual closable smearings on their declared dense invariant domain. For each O define the bounded generating data from the polar partial isometries and spectral projections of the moduli of their specified closures, for compact tests supported in O. Define M_phi(O) to be their generated von Neumann algebra. Require a usable strong-locality criterion: either the RQFT4.StrongLocalNet mixed-word factorial estimates for the real symmetric generating family, or affiliation of these closures with a fixed local net M(O). Prove the corresponding bounded generators commute for spacelike regions (for a graded charged family use twisted locality and take the even/gauge-fixed observable net). Prove isotony and covariance by graph transport of the closures, and the selected vacuum cyclicity by bounded spectral truncation with the needed graph-core comparison explicitly proved. In the fixed-net branch prove M_phi(O)⊂M(O). Recover equality only after proving a concrete field-generation condition: every contraction A∈M(O) can be approximated strongly and strongly on adjoints, on each finite list of Hilbert vectors, by uniformly contractive elements of the star algebra generated by those bounded local field data. Prove that this condition gives equality by strong closure/Kaplansky; it is an additional approximation theorem for the selected model, not a consequence of weak field locality. State first the PCT/field identities on the polynomial domain; transport them to other closed realizations only after an actual graph-core equality.
+
+**Checks.**
+
+- For an essentially self-adjoint smearing the spectral projections of its closure generate the same von Neumann algebra as its unitary group.
+- Weak commutation on a common dense domain does not imply strong commutation of the closures (Nelson's example of two symmetric operators on the Riemann surface of `√z`), so the mixed-word estimate or the affiliation hypothesis is needed.
+- Equality `M_φ(O)=M(O)` needs the field-generation approximation; without it only `M_φ(O)⊂M(O)` holds, as the trivial field `φ=0` inside a nontrivial net shows.
+
+*Needs:* §4.16 (StrongLocalNet); VonNeumannAlgebras V10.Affiliation; UnboundedOperators UO-E03; Mathlib polar decomposition.
+
+### 4.5 Net-to-point-field theorem — the microscopic phase-space port
+
+On four-dimensional Minkowski space let O↦M(O) be an isotonic local von Neumann net, with a strongly continuous positive-energy representation of the connected Poincaré cover, invariant normalized vacuum unique up to scalar, and dense span of M(O)Ω for bounded O. Put H=P0≥0, L=1+H, R=L^(-1), Σ=B(HilbertSpace)_* using VNA's normal-functional/trace-class pairing, and `E_∞=⋂_(n≥0)R^n Σ R^n` with seminorms `||σ||_n=||L^n σ L^n||`. These are norms on the represented predual functionals, not formal multiplication of undefined unbounded operators. Define the damped embeddings by `(R^n σ R^n)(A)=σ(R^n A R^n)` and prove injectivity/compatibility; give E_∞ its projective locally convex topology. For a continuous linear ψ:E_∞→Σ define the extended nonnegative local seminorm on its actual domain by
 `||ψ||_(r,n)=sup_{τ∈E_∞, ||τ||_n≤1, A∈M(O_r), ||A||≤1}|ψ(τ)(A)|`,
 where O_r is the radius-r double cone at0; the value may be∞ for a small n. Make the weighted completion explicit: let `C_n:Σ→Σ`, `C_nσ=R^nσR^n`, and let `Σ_n=range C_n` with `||C_nσ||_n=||σ||_Σ`, using injectivity of C_n. Prove Σ_n is Banach and E_∞ is dense in Σ_n, with its norm-n unit ball dense in the Σ_n unit ball. With `P_m=1_[0,m](H)`, use `τ_m=P_mτP_m=C_n(P_mσP_m)` for τ=C_nσ: bounded spectral support puts τ_m in every weighted range, `||τ_m||_n≤||τ||_n`, and `||τ_m−τ||_n→0` by trace-norm convergence of spectral compressions. Prove this convergence using finite-rank trace-class approximation and strong convergence P_m→1, without a separability assumption.
 
@@ -536,7 +1039,18 @@ Here D is the same finite matrix representation used in RQFT4.WightmanDomainAndS
 `U(a,A)φ_i(f)U(a,A)*=Σ_j D(A⁻¹)_i^j φ_j(f_(a,Λ(A)))`,
 with `f_(a,Λ)(y)=f(Λ⁻¹(y−a))`, on the declared invariant D_∞. Transport the closed graphs of these displayed D_∞ restrictions; do not silently identify the closure of a linear combination with the sum of its maximal closed summands. Thus only the Lorentz/origin-stabilizing action has a finite-dimensional fiber at0, while the full Poincaré action is on the spacetime-labelled translated family. Prove tempered joint vacuum distributions with all required product bounds and the PDO P3/global Schwartz adapter. On `H_γ=closure(span{φ1(f1)…φm(fm)Ω:φj∈Φ_γ})`, prove that the reconstructed finite multiplet satisfies the Wightman axioms; prove independence of the nonempty open smearing region by the stated Reeh–Schlieder theorem. On the union of the Φ_γ use the analogous cyclic H_F. Construct the point-field subnet by the preceding bounded-closure data and prove its inclusion in M. Recover the entire original Hilbert space/net only when their separate cyclicity and bounded field-generation approximation conditions are proved. Bostelmann (arXiv:math-ph/0409070v3), Definitions 2.1 and 4.1, Theorems 3.3, 3.6 and 4.3 and the point-field subnet (4.7), supplies this conditional point-field route; the equivalence (4.8), which the paper expects but does not prove, is not invoked. Preserve nets with nonpointlike components and theories failing the microscopic condition as outside this theorem's sufficient hypotheses.
 
-**Charged-field reconstruction port.** The preceding observable-net vacuum construction does not recover a charged Dirac field from its even observable net. Retain a separate four-dimensional DHR/DR theorem with its actual additional data: a faithful vacuum observable net with Haag duality for double cones and Property B (each nonzero projection in M(O1) is the range projection of an isometry in M(O2) when closure O1⊂O2), and the full selected category of transportable double-cone-localized finite-statistics endomorphisms of its quasilocal algebra. Arrows are observable intertwiners; composition is the tensor product of objects, with `S⊗T=S ρ(T)=ρ′(T)S` for S:ρ→ρ′ and T:σ→σ′. Require simple unit, subobjects, finite direct sums, standard conjugates `R:1→barρρ` and `Rbar:1→ρbarρ` satisfying `(Rbar*⊗1ρ)(1ρ⊗R)=1ρ`, `(R*⊗1barρ)(1barρ⊗Rbar)=1barρ`, and `R*R=Rbar*Rbar=d(ρ)1`, and the symmetric unitary statistics from spacelike transport. These category closure, conjugate and statistics conditions are additional hypotheses of the DR construction theorem. To apply it to a selected observable net, construct and verify this structure on its full selected finite-statistics category from that model's actual sufficient assumptions; for finite direct sums supply the localized orthogonal isometries and prove their intertwiner and localization laws. Do not infer this structure from faithfulness, Haag duality and the displayed Property B alone. The trivial net on ℂ has its identity-sector/gauge-trivial model as a separate case; its category of actual unital endomorphisms does not contain id⊕id. Prove completeness for the category actually supplied, rather than treating an arbitrary sector list as complete.
+**Checks.**
+
+- `L=1+H≥1`, so `‖L^nσL^n‖≤‖L^(n+1)σL^(n+1)‖`: the seminorms increase with `n` and admissibility passes to larger `n`.
+- For the trivial net `M(O)=ℂ`, every `Φ_γ` is `ℂ·1` and `N_γ=1`; the reconstructed field is the constant.
+- `O_r+a` is not contained in `O_(cr)` for fixed `c` as `r↓0`, so origin preservation does not transfer to translations; the translated spaces `Φ_γ(x)=AdU(x)Φ_γ(0)` are defined instead.
+- For a linear coefficient map `φ(v)=Σv_iφ_i` the induced action on coefficients is the contragredient `D(A⁻¹)ᵀ`, checked on the composition `(a,A)(b,B)`.
+
+*Needs:* VonNeumannAlgebras V4.Core (predual) and V10.Affiliation; UnboundedOperators UO-A01–A08; §4.15 (Reeh–Schlieder); Bostelmann, Definitions 2.1 and 4.1, Theorems 3.3, 3.6 and 4.3, (4.6)–(4.8).
+
+### 4.6 Charged-field reconstruction port
+
+The preceding observable-net vacuum construction does not recover a charged Dirac field from its even observable net. Retain a separate four-dimensional DHR/DR theorem with its actual additional data: a faithful vacuum observable net with Haag duality for double cones and Property B (each nonzero projection in M(O1) is the range projection of an isometry in M(O2) when closure O1⊂O2), and the full selected category of transportable double-cone-localized finite-statistics endomorphisms of its quasilocal algebra. Arrows are observable intertwiners; composition is the tensor product of objects, with `S⊗T=S ρ(T)=ρ′(T)S` for S:ρ→ρ′ and T:σ→σ′. Require simple unit, subobjects, finite direct sums, standard conjugates `R:1→barρρ` and `Rbar:1→ρbarρ` satisfying `(Rbar*⊗1ρ)(1ρ⊗R)=1ρ`, `(R*⊗1barρ)(1barρ⊗Rbar)=1barρ`, and `R*R=Rbar*Rbar=d(ρ)1`, and the symmetric unitary statistics from spacelike transport. These category closure, conjugate and statistics conditions are additional hypotheses of the DR construction theorem. To apply it to a selected observable net, construct and verify this structure on its full selected finite-statistics category from that model's actual sufficient assumptions; for finite direct sums supply the localized orthogonal isometries and prove their intertwiner and localization laws. Do not infer this structure from faithfulness, Haag duality and the displayed Property B alone. The trivial net on ℂ has its identity-sector/gauge-trivial model as a separate case; its category of actual unital endomorphisms does not contain id⊕id. Prove completeness for the category actually supplied, rather than treating an arbitrary sector list as complete.
 
 Construct the compact graded gauge pair(G,z), z central with z²=1, and a faithful complex-linear star-preserving unitary tensor fiber functor E to finite-dimensional Hilbert spaces. Its symmetry compares with the Bose/Fermi graded flip; equivalently E preserves the bosonized symmetry `ε_b(ρ,σ)=(-1)^(pρ pσ)ε(ρ,σ)` on homogeneous sectors, extended blockwise over finite direct sums. Mixed even/odd direct sums have the central grading operator rather than a single scalar parity. Do not impose an ordinary-flip functor on fermionic statistics. The DR embedding/duality proof is an explicit RQFT4 prerequisite here, not an existing native theorem or a consequence of a character table. Construct the algebraic field coend from symbols(A,ρ,ξ), linear in A and ξ, with arrow relation `(AT,ρ,ξ)=(A,σ,E(T)ξ)` for T:ρ→σ (using the consistently typed coefficient-side convention). Its product uses Aρ(B) and E's tensor constraint; define star by the chosen conjugate/evaluation maps. Equivalently, for each nonzero unital sector construct charged multiplets ψ_ρ,i with `ψ_ρ,i A=ρ(A)ψ_ρ,i`, `ψ_ρ,i*ψ_ρ,j=δ_ij`, `Σ_iψ_ρ,iψ_ρ,i*=1`, and all tensor/intertwiner/conjugate relations; treat a formal zero object as a zero summand rather than imposing a zero sum equal to1; in standard conjugate bases `E(R_ρ)=Σ_i e_bar,i⊗e_i`, the evaluation relation reads `ψ_ρ,i*=R_ρ* ψ_barρ,i`. Prove consistency and positivity by the sector-sum representation, complete in its operator norm, and construct the local field algebras from localized multiplets. Prove normal graded spacelike commutation, the faithful compact G action on multiplets, a faithful locally normal observable embedding ι on the field Hilbert space and local fixed points `F(O)^G=ι_O(M(O))`, with the G-invariant subspace unitarily equal to the original vacuum Hilbert space and its compressed local action equal to M(O), and completeness/uniqueness for precisely the selected finite-statistics category. No claim about long-range Gauss-law charges or infinite-statistics sectors follows.
 
@@ -544,9 +1058,29 @@ Poincaré covariance/positive energy of the field system are additional explicit
 
 The original free scalar, CAR Dirac, Maxwell field-strength and gauge-invariant observable-net verifications all remain required. No part of this conditional generic reconstruction theorem identifies the nonlocal fixed-frame Coulomb potential as a local covariant Wightman field.
 
+**Checks.**
+
+- The trivial net on `ℂ` has only the identity sector; its category of unital endomorphisms does not contain `id⊕id`, so finite direct sums are an extra hypothesis.
+- Standard conjugates satisfy `R*R=d(ρ)1` with `d(ρ)` the statistical dimension; for the identity sector `d=1`.
+- For two odd sectors the bosonized symmetry is `ε_b=−ε`; a functor preserving the ordinary flip on fermionic sectors would contradict the fermionic statistics.
+
+*Needs:* §4.5; OperatorAlgebraDynamics D8 (CAR); Conti–Doplicher–Roberts §2–§3; Haag Chapter IV.
+
+### 4.7 Spin–statistics: statement and proof route
+
 Under the fixed dimension, positive-metric, spectrum, covariance, locality and field/domain assumptions, prove the spin-statistics theorem: for a field transforming in an irreducible finite-dimensional Lorentz representation of type `(j,k)`, including the adjoint fields in the field family, the wrong spacelike commutation/anticommutation choice forces the field to vanish. More precisely, for spacelike separated test supports write `φ_a(f)φ_b(g)*−ε φ_b(g)*φ_a(f)=0` on the common invariant domain, with `ε=+1` for commutation and `ε=−1` for anticommutation. Prove the Lorentz-cover central element acts on type `(j,k)` by `(-1)^(2(j+k))`; if `ε` differs from this sign, every component `φ_a(f)` vanishes on the common domain. Thus integer `j+k` requires commutation and half-integer `j+k` anticommutation for a nonzero field. Route the proof through the same forward-tube analyticity and Jost-point lemmas used for PCT, with the adjoint and positivity hypotheses stated at each use. From the vacuum matrix-element identity first obtain vanishing on the vacuum; use relative locality of the field family, cyclicity of the vacuum for the polynomial field algebra, and Reeh–Schlieder (with its spectrum, locality and domain hypotheses) to extend vanishing to the common field domain. Include Reeh–Schlieder as an explicit RQFT4 prerequisite/target, with the spectrum, locality, cyclicity and domain hypotheses stated above: the vacuum equation alone does not prove operator vanishing. Treat a classical commuting Dirac field separately, as a formal classical field.
 
-**Local Gauss-law charge obstruction.** Prove the following theorem and its charged-potential consequence in the four-dimensional Wightman setting. Keep the full field-family, domain, locality and charge-limit hypotheses explicit.
+**Checks.**
+
+- The central element of the Lorentz cover acts on type `(j,k)` by `(−1)^(2(j+k))`: `+1` on scalars `(0,0)` and vectors `(1/2,1/2)`, `−1` on Dirac components `(1/2,0)⊕(0,1/2)`.
+- For the free scalar the wrong choice `ε=−1` would force `‖φ(f)*Ω‖²=−‖φ(Rf)Ω‖²`, hence `Kf=0` for all `f`, which is false; so the theorem's conclusion is nonvacuous on the free model.
+- The vacuum identity alone gives `φ_a(f)Ω=0`; Reeh–Schlieder is what extends vanishing to the domain, and the trivial field `0` shows the implication is not reversible.
+
+*Needs:* §4.15; §4.14 for the shared tube and Jost lemmas; Streater–Wightman Chapter 4.
+
+### 4.8 Local Gauss-law charge obstruction
+
+Prove the following theorem and its charged-potential consequence in the four-dimensional Wightman setting. Keep the full field-family, domain, locality and charge-limit hypotheses explicit.
 
 Work in four-dimensional Minkowski space on a positive Hilbert space H. Let D be a common invariant dense domain containing the vacuum Ω for a local field family closed under adjoints, including electric fields E_i and current j_μ as operator-valued distributions. Require ordinary relative locality of E_i with every generating field and its adjoint (E_i is even in a graded family). All products and distributional derivatives below act on D. Fix s∈{−1,+1} and assume the distributional Gauss equation `j_0=s Σ_i ∂_i E_i` on D.
 
@@ -566,7 +1100,17 @@ Retain the charged-potential consequence as a named target. In a positive-metric
 
 The conclusions apply to the specified cyclic vacuum representation and local field family. They do not exclude charged sectors outside the cyclic vacuum representation of the observable algebra, fields not local relative to E_i (including dressed/Coulomb-gauge charged fields), or indefinite-metric gauges where the sourced Maxwell equation is not an operator identity on the whole auxiliary domain.
 
-**RQFT4.PotentialObstructions — covariance, vacuum weak locality and Maxwell.**
+**Checks.**
+
+- `Q_R=j_0(α⊗χ_R)=sΣ_i∂_iE_i(α⊗χ_R)=−sΣ_iE_i(α⊗∂_iχ_R)` by the derivative sign of §0.2; `∂_iχ_R` is supported in the shell `R≤|x|≤2R`.
+- For `R>ρ_B+T+T_B` the shell is spacelike to the support of `B`: time separations are at most `T+T_B` and spatial separations at least `R−ρ_B`.
+- The free charged scalar field carries nonzero charge; it satisfies no local Gauss equation with an `E_i` local relative to it, so no hypothesis of the theorem fails vacuously.
+- In Coulomb-gauge QED the dressed charged fields are not local relative to `E_i`, which is the hypothesis the theorem needs and the reason it does not exclude charged sectors there.
+
+*Needs:* §1.6 (the operator current dictionary); §4.1, §4.15 (cyclicity bridge); Strocchi 2023 §2.
+
+### 4.9 PotentialObstructions — covariance, vacuum weak locality and Maxwell
+
 Keep the following statements separate from the local charge theorem.
 Use four-dimensional Minkowski space with the fixed (+---) convention,
 an auxiliary space K and its possibly indefinite Hermitian metric pairing
@@ -593,7 +1137,17 @@ none is inferred from F covariance or from a classical gauge calculation.
 Use the native Lorentz/translation conventions of RQFT1–RQFT3, and prove
 the weak differentiation, adjoint and covariance transport lemmas on D.
 
-**1967 covariant-potential two-point theorem.** Following
+**Checks.**
+
+- `∂_λF_(μν)+∂_μF_(νλ)+∂_νF_(λμ)=0` follows from `F=dA` by `d²=0`; with `F_(μν)=∂_μA_ν−∂_νA_μ` the three terms cancel pairwise.
+- With `η=I` the metric adjoint is the Hilbert adjoint; with `η=diag(1,−1)` on `ℂ²` the matrix `[[0,1],[1,0]]` is metric-Hermitian but not Hilbert-Hermitian times `η`, showing the two notions differ.
+- `F` antisymmetric and covariant under the representation does not imply a vector law for `A`: `A↦A+∂χ` with a covariant scalar `χ` keeps `F` and changes `A` by a gradient.
+
+*Needs:* §1.6; §4.1; UnboundedOperators (indefinite-metric domains); Strocchi 1967 and 1970.
+
+### 4.10 The 1967 covariant-potential two-point theorem
+
+Following
 [Strocchi1967 §II, pp1431–1433](https://doi.org/10.1103/PhysRev.162.1429),
 assume A also transforms as a four-vector under the same Poincaré
 representation. Write ξ=x−y for this roadmap's two-point coordinate.
@@ -617,7 +1171,17 @@ infer an operator identity F=0 from this vanishing two-point distribution
 in an indefinite metric. Keep the paper's subsequent local/positive-domain
 corollaries distinct from this statement.
 
-**1970 covariant-potential obstruction.** Use
+**Checks.**
+
+- With `D_(μν)=g_(μν)C+∂_μ∂_νD₂`, the two-point function of `F` is a sum of terms `∂_μ∂_ρD_(νσ)` antisymmetrized in `μν` and `ρσ`: the constant `C` is killed by derivatives and `∂_μ∂_ρ∂_ν∂_σD₂` is symmetric in `μν`, so every term vanishes.
+- The lower tube `{ξ−iv}` in `ξ=x−y` is the upper tube `{ζ+iv}` in `ζ=y−x`; the two derivatives in `∂_μ∂_ν` contribute `(−1)²=1`, no net sign.
+- The free Maxwell field strength on Fock space has nonzero `F`–`F` two-point function, so its potential cannot transform as a four-vector on a positive-metric space, consistent with the theorem.
+
+*Needs:* §4.9; §4.15 (Fourier–Laplace and tube lemmas); Strocchi 1967 §II (pp. 1431–1433).
+
+### 4.11 The 1970 covariant-potential obstruction
+
+Use
 [Strocchi1970 §II–III, pp2334–2336](https://doi.org/10.1103/PhysRevD.2.2334),
 conditions (0)–(4), including the potential-distribution condition (1′):
 the preceding Maxwell/curl, field-strength covariance and vacuum data,
@@ -650,7 +1214,17 @@ Poincaré lemma there. This does not give a primitive for the original
 auxiliary potential. A gauge-compensation law instead of a four-vector
 law remains a different potential model.
 
-**1970 vacuum weak-locality theorem.** Retain conditions (0)–(4), but
+**Checks.**
+
+- For the Fock representation the distributional translation-spectrum condition agrees with the joint-PVM forward-cone condition, with the phase `exp(−ip·a)` matching the convention of §0.8.
+- Condition `(1′)` is tempered in the translation variable only; the NullSector example of §4.13 satisfies it with `A` bounded of rank `2`.
+- The induced potential on the quotient `D₀/N₀` has vanishing curl, so the Poincaré lemma gives `A=∂φ` there; the auxiliary potential of §4.13 has `F₀₁(f)Ω≠0` and no primitive.
+
+*Needs:* §4.9, §4.10, §4.13; Strocchi 1970 §II–§III (pp. 2334–2336).
+
+### 4.12 The 1970 vacuum weak-locality theorem
+
+Retain conditions (0)–(4), but
 do not require Lorentz covariance of A. Condition(7) is exactly
 
 ```text
@@ -674,7 +1248,16 @@ The field-strength, potential-covariance, vacuum-weak-locality and local
 charge results have different hypotheses and conclusions; none discharges
 another by the word “gauge.”
 
-**RQFT4.NullSector — vacuum vanishing versus auxiliary operators.**
+**Checks.**
+
+- The NullSector example satisfies the vacuum weak-locality condition trivially, since `A(f)A(g)Ω=0`, yet has `F₀₁(f)Ω≠0`: the conclusion `F=0` as an operator does not follow.
+- Positivity on `D₀` and vanishing of all positive-degree `F` Wightman functions make every `F`-polynomial vector null, so the observable quotient is `ℂΩ`.
+- In an indefinite metric a vector with `[v,v]=0` need not be zero, which is why the quotient steps are stated explicitly.
+
+*Needs:* §4.9, §4.11; Strocchi 1970 §V (pp. 2338–2339).
+
+### 4.13 NullSector — vacuum vanishing versus auxiliary operators
+
 Construct an explicit noncyclic auxiliary example satisfying the preceding
 covariant-potential and spectrum assumptions but with FΩ≠0. Over the
 nonzero forward light cone, with invariant measure, take the complex
@@ -717,9 +1300,20 @@ on a positive-measure cone patch. Identify the noncyclic isotropic sector and it
 physical vacuum quotient. This counterexample proves why a vacuum
 vanishing theorem alone is not an auxiliary operator-triviality theorem.
 
+**Checks.**
+
+- `[(c,x,α),(d,y,β)]=c̄d+β(x)+conj(α(y))` is nondegenerate, `Ω=(1,0,0)` has `[Ω,Ω]=1`, and `E`, `E†` are isotropic.
+- `A_μ(f)Ω=(0,w_μ(f),0)∈E` and `A_ν(g)A_μ(f)Ω=0` because the middle summand has `c=0` and `α=0`; every positive-degree `F` vacuum function vanishes.
+- Metric-Hermiticity on `v=(1,0,0)`, `w=(0,0,β)`: `[A(f)v,w]=β(w_μ(f))` and `[v,A(conj f)w]=β(w_μ(f))`.
+- At `p=(1,0,0,1)` the class `[e₁]` is nonzero modulo `ℂp`, so `F₀₁(f)Ω` has the nonzero component `i[e₁]f̂(p)` for a bump with `f̂(p)>0`; each `A_μ(f)` has rank at most `2`.
+
+*Needs:* Mathlib `MeasureTheory.Lp` on the cone, Riesz representation; §0.8; §4.9.
+
+### 4.14 PCT — a convention-pinned antiunitary theorem
+
 Prove PCT only after stating the Wightman field content, analyticity/tube domain, growth and locality hypotheses. The route must include complexified Lorentz covariance, spectral condition implying forward-tube analyticity, edge-of-the-wedge/Jost-point extension, analytic continuation of vacuum distributions, reconstruction of antiunitary PCT action, and involution/group-phase conventions. Cite exact primary theorems and prove the Lean-facing lemmas needed; a theorem name alone is not a deliverable.
 
-**RQFT4.PCT — a convention-pinned antiunitary theorem.** Represent the antiunitary by native `HilbertSpace ≃ₗᵢ⋆[ℂ] HilbertSpace`, not a second unbundled carrier. Use the positive-metric, unique-vacuum, spectral, common-domain, finite-multiplet covariance, joint temperedness and adjoint hypotheses of RQFT4.WightmanDomainAndSpinStatistics, together with its actual tube/Jost/edge-of-the-wedge prerequisites. Restrict first to the cyclic polynomial vacuum domain D_pol and the closures of its field restrictions. For any other declared field realization prove D_pol is a graph core and prove domain transport before asserting the same closed-operator identity. PCT does not grant invariance of an arbitrary larger original domain.
+Represent the antiunitary by native `HilbertSpace ≃ₗᵢ⋆[ℂ] HilbertSpace`, not a second unbundled carrier. Use the positive-metric, unique-vacuum, spectral, common-domain, finite-multiplet covariance, joint temperedness and adjoint hypotheses of RQFT4.WightmanDomainAndSpinStatistics, together with its actual tube/Jost/edge-of-the-wedge prerequisites. Restrict first to the cyclic polynomial vacuum domain D_pol and the closures of its field restrictions. For any other declared field realization prove D_pol is a graph core and prove domain transport before asserting the same closed-operator identity. PCT does not grant invariance of an arbitrary larger original domain.
 
 Fix two-spinor tensor coordinates: an irreducible symmetrized component type(k,l) has k undotted and l dotted indices, k,l nonnegative INTEGERS, corresponding to Lorentz highest weights(j_left,j_right)=(k/2,l/2). Fix the component adjoint identification by conjugation and dotted/undotted interchange, type(k,l)*=type(l,k), including any displayed finite multiplicity matrices. Put f_parity=(k+l) mod2 and η_(k,l)=(-1)^l i^(f_parity). The choice of the common +i sign is part of this theorem's convention; the consistent common -i version is separate. Reducible multiplets are treated blockwise with this fixed adjoint identification. Do not assert a basis-free universal spinor phase without these data.
 
@@ -737,7 +1331,18 @@ For a specified compact internal symmetry acting on the field family, preserving
 
 For the converse, if an antiunitary with these vacuum/field/covariance data exists, derive the reflected-adjoint vacuum identities, analytically continue them to Jost points and combine with complex Lorentz inversion to obtain the stated weak local commutativity. Thus the theorem identifies the precise Wightman/Jost criterion, not a PCT assertion for arbitrary Haag–Kastler nets. For the bounded field-generated net prove `Θ M_phi(O) Θ^-1=M_phi(-O)` by graph/polar/spectral transport; compare with an external net only under its proved field-generation equality. [Greenberg, actual HTML v1 §5, equations17–28](https://arxiv.org/html/hep-ph/0309309) supplies the chosen spinor phase and square comparison; [Borchers–Yngvason, §2.1](https://arxiv.org/html/math-ph/0012020) supplies the distinction between point-field and algebraic PCT assumptions. Its selected involutive convention(2.3) is not identified with the Greenberg full-fermion convention used here; any comparison must exhibit the required internal/Klein change or restrict to the appropriate even observable realization. The full analytic and reconstruction proofs above remain actual owned theorem targets, not axioms, opaque predicate fields, or consequences of the word PCT. Retain RQFT4.PotentialObstructions and RQFT7.OSGrowth with their distinct covariance, locality, metric and growth hypotheses.
 
-**RQFT4.WightmanDomainAndSpinStatistics — axioms, analytic prerequisites and noncircular conclusion.** Use a complete positive complex Hilbert space, a normalized vacuum Ω, and a strongly continuous unitary representation of `ℝ⁴⋊SL(2,ℂ)` whose joint translation PVM is supported in the closed future cone, with Ω invariant and unique up to scalar. Allow a set of finite-component field multiplets with a specified adjoint involution and specified parities p_r∈ℤ/2, not parity defined by the conclusion. For each component use RQFT0/RQFT3's `CommonDomain` and `OperatorValuedTemperedField` forms: one dense complex-linear D contains Ω, is invariant under the group and all field smearings/adjoint smearings, and the fields are complex-linear in tests. Require the adjoint pairing `⟨v,φ_r(f)w⟩=⟨φ_(r*)_(conj f)v,w⟩` with its finite-component adjoint identification. Fix covariance by `U(a,A)φ_α(f)U(a,A)*=Σ_βD(A⁻¹)_α^β φ_β(f_(a,Λ(A)))`, with `f_(a,Λ)(x)=f(Λ⁻¹(x−a))` and the chosen finite matrix representation D; verify the group and adjoint identities rather than treating point fields as operators.
+**Checks.**
+
+- `η_((k,l))=(−1)^l i^((k+l) mod 2)` gives `1` on scalars, `i` and `−i` on the two Weyl types, `−1` on vectors; `conj(η_r)η_(r*)=(−1)^(k+l)` is checked on each.
+- `Θ²=U(0,−I)`: on the even observable part it is `1`; on a Dirac field `Θ²ψΘ⁻²=−ψ`; a global phase on `Θ` does not change `Θ²`.
+- For `n=2` every spacelike `ξ` is a Jost point; for `n=3` the pair `ξ₁,ξ₂` spacelike with `ξ₁+ξ₂` timelike is not, so the Jost condition is stronger than pairwise spacelikeness.
+- `Θ` fixes the translation generators and negates the Lorentz generators, since it reverses `i` and conjugates `U(a,A)` to `U(−a,A)`.
+
+*Needs:* §4.15 (analytic prerequisites); Mathlib `≃ₗᵢ⋆[ℂ]`; NoncompactQuantumSymmetry M0; Greenberg §5 (17)–(28); Borchers–Yngvason §2.1; Streater–Wightman Chapter 4.
+
+### 4.15 WightmanDomainAndSpinStatistics — axioms, analytic prerequisites and the noncircular conclusion
+
+Use a complete positive complex Hilbert space, a normalized vacuum Ω, and a strongly continuous unitary representation of `ℝ⁴⋊SL(2,ℂ)` whose joint translation PVM is supported in the closed future cone, with Ω invariant and unique up to scalar. Allow a set of finite-component field multiplets with a specified adjoint involution and specified parities p_r∈ℤ/2, not parity defined by the conclusion. For each component use the common invariant dense domain and the operator-valued tempered field of RQFT3: one dense complex-linear D contains Ω, is invariant under the group and all field smearings/adjoint smearings, and the fields are complex-linear in tests. Require the adjoint pairing `⟨v,φ_r(f)w⟩=⟨φ_(r*)_(conj f)v,w⟩` with its finite-component adjoint identification. Fix covariance by `U(a,A)φ_α(f)U(a,A)*=Σ_βD(A⁻¹)_α^β φ_β(f_(a,Λ(A)))`, with `f_(a,Λ)(x)=f(Λ⁻¹(x−a))` and the chosen finite matrix representation D; verify the group and adjoint identities rather than treating point fields as operators.
 
 Require the vacuum span of finite field products to be dense and all vacuum n-point functions to extend to joint tempered distributions on the finite configuration space, agreeing with products on elementary tests. Require ordinary/graded relative locality of the whole family on D: for spacelike separated compact test supports, `φ_r(f)φ_s(g)−(−1)^(p_r p_s)φ_s(g)φ_r(f)=0`, including adjoint components with the same parity. This does not insert the spin-statistics conclusion into locality. The dense adjoint domains imply closability of individual smearings. Prove restriction to the polynomial vacuum domain, transport under unitary model intertwiners and covariance of all vacuum distributions. Verify the scalar Klein–Gordon, quantum CAR Dirac and physical Maxwell field-strength models individually under their stated masses/carriers; a classical commuting Dirac solution and the fixed-frame Coulomb potential are not such verifications.
 
@@ -750,7 +1355,27 @@ Prove Reeh–Schlieder for this field family: for every nonempty open region O, 
 For a multiplet of type `(j,k)`, with2j,2k nonnegative integers, take the given finite representation `Sym^(2j)(ℂ²)⊗Sym^(2k)(conj ℂ²)` and its adjoint family; prove the Lorentz-cover center acts by `s=(−1)^(2j+2k)`. If its self/adjoint spacelike sign is ε∈{+1,−1}, derive through the two-point extended-tube/Jost argument the reflection norm identity, in the declared test/adjoint convention. For real compact tests it has the form `‖φ_a(f)*Ω‖²=εs‖φ_a(Rf)Ω‖²`, `Rf(x)=f(−x)`. Positivity when ε≠s forces both vacuum vectors zero. For a compact f choose a nonempty spacelike separated O; relative locality makes φ_a(f) vanish on its polynomial vacuum span. Its density and closability make the closed operator's kernel all H, hence the original smearing vanishes on D. Extend to Schwartz f by compact cutoffs converging in Schwartz topology and weak field continuity. Thus a nonzero field requires ε=s, with integer j+k commuting and half-integer j+k anticommuting. The vacuum equation alone is not the operator theorem. Keep the full field-family, adjoint, positivity, spectrum, dimension and domain premises in the exported statement. [Fewster, §3.1, Eqs.16–22](https://arxiv.org/html/1603.01036#S3.SS1) records the Burgoyne route and its decisive hypotheses; it does not replace verification of the selected primary theorem's complete conventions.
 
 Use these same analytic prerequisites for the PCT construction, and state any further hypotheses of its reconstruction/involution theorem explicitly. Keep RQFT4.PotentialObstructions, the local Gauss-law charge theorem and RQFT7.OSGrowth as their distinct targets with the hypotheses specified there. Neither the present positive-metric field-strength model nor this spin-statistics statement proves those separate results.
-**RQFT4.StrongLocalNet — a sufficient field-to-net comparison.** This roadmap owns the proof route below; its analytic input is UnboundedOperators UO-E03. Weak commutation on an invariant domain alone is not strong commutation of self-adjoint closures. For Hermitian bosonic smeared fields use a common dense invariant domain and, for each spacelike-separated real test pair f,g, require the mixed-word analytic estimate ∥φ(f)^(n₁)φ(g)^(n₂)ψ∥≤C_ψ R_ψ^(n₁+n₂)(n₁+n₂)! for every ψ in that domain and n₁,n₂≥0. With commutation there consume UO-E03's explicit joint analytic-vector integration theorem to obtain essentially self-adjoint fields and commuting spectral projections of their closures. Define A(O) as the von Neumann algebra generated by exp(it closure(φ(f))) for real compactly supported f in O and t∈ℝ; prove isotony, covariance, locality and the selected vacuum-cyclicity statement from the field hypotheses. For the free Fock examples verify the criterion by the creation/annihilation bounds: the mixed word of length n is bounded by C^n√((N+n)!/N!) on a vector of particle degree≤N, which has a positive factorial analytic radius. For CAR fields use the bounded graded generators and their even observable subalgebra; do not infer locality of odd charged fields. A generic Wightman reconstruction from positive moment distributions and any converse net-to-point-field construction retain their full original scope and require their own explicit regularity hypotheses. This sufficient bounded-net comparison does not purport to reconstruct point fields from every Haag–Kastler net or prove that arbitrary Wightman fields satisfy the extra mixed-word estimate.
+
+**Checks.**
+
+- The free two-point function `W(ξ)=∫exp(−ip·ξ)dμ_m(p)` continues to `ξ−iy`, `y∈V_+`, with `|exp(−ip·(ξ−iy))|=exp(−p·y)≤1`, the Fourier–Laplace bound.
+- For the free field and a test `f` supported in a small region, `Kf` is the restriction of an entire function to the shell, so its vanishing on an open set forces `f=0`: Reeh–Schlieder holds for one-particle vectors.
+- The reflection identity `‖φ_a(f)*Ω‖²=εs‖φ_a(Rf)Ω‖²` is consistent for the scalar field (`ε=s=1`) and forces both sides to `0` when `ε≠s`.
+- The complexified action `X↦AXA†` on Hermitian matrices with `A↦(A,conj A)` recovers the real Lorentz action; replacing `conj A` by `A` would not preserve Hermiticity.
+
+*Needs:* §0.8 (Fourier conventions); §3.3, §3.4, §3.10 (the verified models); Mathlib several-variable holomorphy; NoncompactQuantumSymmetry M0; Fewster §3.1 (16)–(22); Streater–Wightman Chapters 2–4.
+
+### 4.16 StrongLocalNet — a sufficient field-to-net comparison
+
+This roadmap owns the proof route below; its analytic input is UnboundedOperators UO-E03. Weak commutation on an invariant domain alone is not strong commutation of self-adjoint closures. For Hermitian bosonic smeared fields use a common dense invariant domain and, for each spacelike-separated real test pair f,g, require the mixed-word analytic estimate ∥φ(f)^(n₁)φ(g)^(n₂)ψ∥≤C_ψ R_ψ^(n₁+n₂)(n₁+n₂)! for every ψ in that domain and n₁,n₂≥0. With commutation there consume UO-E03's explicit joint analytic-vector integration theorem to obtain essentially self-adjoint fields and commuting spectral projections of their closures. Define A(O) as the von Neumann algebra generated by exp(it closure(φ(f))) for real compactly supported f in O and t∈ℝ; prove isotony, covariance, locality and the selected vacuum-cyclicity statement from the field hypotheses. For the free Fock examples verify the criterion by the creation/annihilation bounds: the mixed word of length n is bounded by C^n√((N+n)!/N!) on a vector of particle degree≤N, which has a positive factorial analytic radius. For CAR fields use the bounded graded generators and their even observable subalgebra; do not infer locality of odd charged fields. A generic Wightman reconstruction from positive moment distributions and any converse net-to-point-field construction retain their full original scope and require their own explicit regularity hypotheses. This sufficient bounded-net comparison does not purport to reconstruct point fields from every Haag–Kastler net or prove that arbitrary Wightman fields satisfy the extra mixed-word estimate.
+
+**Checks.**
+
+- For the free Fock fields the mixed word of length `n` is bounded by `C^n√((N+n)!/N!)≤C^n(N+n)!` on particle degree `≤N`, a bound of the required factorial type.
+- Under the estimate, UO-E03 gives commuting spectral projections of the closures, hence commuting unitaries `exp(itφ(f))` and locality of the generated net.
+- CAR fields are bounded, so the net is generated directly; the odd fields anticommute at spacelike separation and are excluded from the observable algebra.
+
+*Needs:* UnboundedOperators UO-E03; §3.3, §3.4; §4.2.
 
 ### Examples
 
@@ -761,9 +1386,11 @@ Use these same analytic prerequisites for the PCT construction, and state any fu
 
 RQFT1–RQFT3; UnboundedOperators UO-E03; VonNeumannAlgebras V4.Core, V10.Affiliation; NoncompactQuantumSymmetry M0, M4; Bostelmann; Strocchi.
 
-## Milestone RQFT5 — graph combinatorics, amplitudes and formal perturbation theory
+## Layer 5: graph combinatorics, amplitudes and formal perturbation theory
 
-**Notation for RQFT5–6.** Use A_fld for the graded field-jet Hopf algebra (locally printed A), and A_sp for the arbitrary U-species in the general Free formula (there printed A); these are distinct objects. W_fld is its fixed-density module representative (locally W), and W_c its switched tensor module. The kernel normal-form carrier is 𝒥_Γ of TypedJetImage, not W_fld. W_π is the interblock distribution remainder at partition π. The bounded interaction carrier W (written W_B in its declared weight-bounded case), the full engineering-weight≤4 carrier W_eng, the uniform all-orders family W_* and the connected functional W_C retain their explicitly declared later local meanings.
+### 5.1 Notation for Layers 5 and 6
+
+Use A_fld for the graded field-jet Hopf algebra (locally printed A), and A_sp for the arbitrary U-species in the general Free formula (there printed A); these are distinct objects. W_fld is its fixed-density module representative (locally W), and W_c its switched tensor module. The kernel normal-form carrier is 𝒥_Γ of TypedJetImage, not W_fld. W_π is the interblock distribution remainder at partition π. The bounded interaction carrier W (written W_B in its declared weight-bounded case), the full engineering-weight≤4 carrier W_eng, the uniform all-orders family W_* and the connected functional W_C retain their explicitly declared later local meanings.
 
 Arbitrary graded scalar coefficient algebras are A_coeff; A_ct below is the specified complete counterterm coefficient algebra, an instance of A_coeff. A_ℂ means their complexification, not a prescription action. In TaylorAdapter **and** DiagonalStabilizer.RegularComparison the locally printed K is K_reg, the regulator meromorphic field, its printed O₀ is O_reg, and its printed B is B_reg=K_reg⊗ℂ A_ℂ. The printed B in ConnectedSubstitution is instead B_sm=C∞(M,ℂ). The Core kernel printed K is K_tan. BalancedJetModule's printed K is
 K_slots=Σ_s k_s for its declared physical field-slot list; coefficient/profile
@@ -773,21 +1400,75 @@ K_TA, its specified graph-level tangential totals held independent of P_Γ.
 Their relation to a vertex-slot sum is the actual flow/derivative transport of
 that clause; they are not identified by notation. Both differ from K_reg and K_tan. Write 𝒜_C for the prescription action locally printed A_C, distinct from A_ℂ and the free endomorphism 𝔄_C. These are aliases of the actual clause data, not additional coefficient rings or quotient carriers.
 
+*Needs:* §5.6 (A_fld), §5.8 (A_sp), §5.12 (W_c), §6.16 (𝒥_Γ), §6.26 (K_reg), §6.33 (B_sm), §6.29 (K_tan), §5.11 (K_slots); these are aliases of the clause data named there.
+
+### 5.2 Half-edge graphs and formal graph amplitudes
+
 Define finite labelled half-edge graphs with vertex types, external legs, edge decorations, connected components, contractions/subgraphs, quotient graphs, graph isomorphisms and automorphism groups. State the conventions for tadpoles, multiple edges, external labels, graph symmetry factors and whether loops are allowed. On the half-edge presentation compute valence from incidence, with loops contributing twice. Derive the internal-edge list by choosing the smaller half-edge in each two-element involution orbit, and the external-vertex list from its fixed points. Prove the incidence-count identity, recovery of loops/parallel edges and invariance up to edge order and orientation. Conversely construct the half-edge graph from finite internal/external lists; require any separately declared valence function to agree with the derived incidence count. A freely chosen degree function is decoration, not the actual graph valence. These are presentation adapters on the same graph scope, not a second graph theory. Define formal graph amplitudes coefficientwise on products of spacetime; RQFT5 owns the symbolic graph map and combinatorics, while RQFT6 owns distribution-valued realization and extension; for each internal edge assign the selected propagator and each vertex the specified local polynomial/differential coupling. Prove graph-isomorphism invariance, spacetime translation covariance, disjoint-union multiplicativity as the external tensor product on independent variable factors, edge-addition recursion where product exists, and compatibility under relabeling/diagonal maps. Distinguish this external tensor product (always defined for distributional factors) from same-variable multiplication (only defined under the wavefront criterion).
 
-**RQFT5.MarkedMetricRealization — metric realizations of graphs and their automorphisms.** This roadmap owns the proof route below. For each finite typed halfedge graph, choose strictly positive lengths on its internal edges and on its external-leg stubs. Form the compact interval realization: adjoin one terminal port point for each external flag, take the disjoint union of the vertex/port points and the intervals [0,ℓ_e], and identify their endpoints with the declared incidences. An orientation chosen to write each interval is auxiliary; prove reversal of that choice gives the canonical isometry. Equip each connected component with its path metric and put distance ∞ between components, on the native extended-metric carrier. Keep the original vertex subset distinguished setwise, every terminal port distinguished as a port, and the specified vertex/edge/port labels and end-germ decorations. Respect the graph's actual label convention: a label declared fixed is fixed, while unlabeled vertices/edges may permute. In particular, retain degree-two vertices and both distinct end germs of a loop; they are not erased by passage to an unmarked topological graph.
+**Checks.**
+
+- A self-loop contributes `2` to the valence of its vertex; the incidence identity `Σ_v deg(v)=2|E_int|+|E_ext|` holds on the single-edge graph (`1+1=2`) and on the one-vertex loop (`2=2`).
+- `|Aut|` is `2` for a single edge (swap of its two half-edges), `2` for a one-vertex loop (flip), `6` for the triangle.
+- A declared degree function assigning `3` to the vertex of a single loop disagrees with the incidence count `2` and is rejected as a valence.
+- The external tensor product of two amplitudes on disjoint variable sets is always defined, while the same-variable product of two Feynman propagators needs the criterion of §6.5.
+
+*Needs:* Mathlib finite types, `Equiv.Perm`, quotients of finite graphs; §6.5 for the product criterion; §5.3 for the metric comparison.
+
+### 5.3 MarkedMetricRealization — metric realizations of graphs and their automorphisms
+
+This roadmap owns the proof route below. For each finite typed halfedge graph, choose strictly positive lengths on its internal edges and on its external-leg stubs. Form the compact interval realization: adjoin one terminal port point for each external flag, take the disjoint union of the vertex/port points and the intervals [0,ℓ_e], and identify their endpoints with the declared incidences. An orientation chosen to write each interval is auxiliary; prove reversal of that choice gives the canonical isometry. Equip each connected component with its path metric and put distance ∞ between components, on the native extended-metric carrier. Keep the original vertex subset distinguished setwise, every terminal port distinguished as a port, and the specified vertex/edge/port labels and end-germ decorations. Respect the graph's actual label convention: a label declared fixed is fixed, while unlabeled vertices/edges may permute. In particular, retain degree-two vertices and both distinct end germs of a loop; they are not erased by passage to an unmarked topological graph.
 
 Prove the group equivalence between length-preserving typed incidence automorphisms and isometries of this realization preserving all these markings and decorations. An isometry permutes the marked vertices/ports and the open-edge components of their complement; its restriction to an edge preserves arc length and is one of the two interval orientations. Conversely, each incidence automorphism induces the corresponding marked isometry. Include loops, parallel edges, isolated vertices, disconnected graphs and the empty graph. With all lengths1 this recovers exactly the graph automorphism group used in symmetry factors; general lengths recover its length-preserving subgroup. An unmarked unit circle has rotations, so its full isometry group is not the two-element automorphism group of a one-vertex loop. Forgetting a marked degree-two vertex can likewise create additional isometries or identify different subdivisions; prove the comparison for the retained marking, not after this forgetting. Consume the preceding halfedge graph and native quotient/extended-metric/isometry vocabulary; this is its metric comparison, not a replacement by simple graphs or a second graph carrier for RQFT6. Use the finite incidence group for the labelled orbit–stabilizer proof and RQFT3's component wreath-product formula.
 
-**RQFT5.GroupLikeExample — group-like elements of a group algebra.** This roadmap owns the proof route below. For every group G, with no finiteness assumption, use the existing coalgebra on `MonoidAlgebra ℂ G` and native `IsGroupLikeElem`; prove for each x the equivalence `IsGroupLikeElem ℂ x ↔ ∃!g:G, x=MonoidAlgebra.single g 1`. Consume `MonoidAlgebra.instCoalgebra`, `counit_single`, `comul_single` and its native coefficient equivalence, not a second coalgebra. In a finite-support expansion x=Σ_g a_g[g], comparison of tensor coefficients gives a_g a_h=0 for g≠h and a_g²=a_g; counit1 gives Σ_g a_g=1, so over ℂ exactly one coefficient is1. Prove the converse and uniqueness, and identify multiplication of these basis elements with G by the native `single_mul_single` formula. Keep the separate warning that arbitrary UEA elements are not group-like: the Sweedler/antipode expansions in the prescription action use their full actual coproduct.
+**Checks.**
 
-**RQFT5.GraphCutFlags — labelled edge-cut and quotient flags.** For the finite halfedge graphs just defined, construct restriction to an edge subset and simultaneous contraction of its connected components, retaining all unchosen edges, original incidences, external ports and labels. Prove the nested flag bijection for E₁⊆E₂ and its relabeling/permutation compatibility, including extra edges becoming self-loops. This purely graph-level supplier precedes the typed coevaluation/jet transports; TypedHopf later proves admissibility and typed coassociativity. These edge-cut flags do not replace the intrinsic partition-stratum extension induction in RQFT6.
+- With all lengths `1` the marked realization of the one-vertex loop has isometry group `ℤ/2` (the reflection), while the unmarked unit circle has `O(2)`; the marking is essential.
+- Two parallel edges between two vertices with equal lengths have marked isometry group of order `4` (swap edges, swap vertices); with lengths `1` and `2` only the vertex swap survives, order `2`.
+- The empty graph has trivial automorphism group and empty realization; a disconnected graph of two isolated vertices has distance `∞` between them and automorphism group `S₂`.
 
-**RQFT5.FieldJets — the symmetric/graded field-jet Hopf carrier.** This roadmap owns the proof route below.
+*Needs:* Mathlib extended metric spaces, quotient topology, isometries; §5.2; §3.7 for the wreath-product count.
+
+### 5.4 GroupLikeExample — group-like elements of a group algebra
+
+This roadmap owns the proof route below. For every group G, with no finiteness assumption, use the existing coalgebra on `MonoidAlgebra ℂ G` and native `IsGroupLikeElem`; prove for each x the equivalence `IsGroupLikeElem ℂ x ↔ ∃!g:G, x=MonoidAlgebra.single g 1`. Consume `MonoidAlgebra.instCoalgebra`, `counit_single`, `comul_single` and its native coefficient equivalence, not a second coalgebra. In a finite-support expansion x=Σ_g a_g[g], comparison of tensor coefficients gives a_g a_h=0 for g≠h and a_g²=a_g; counit1 gives Σ_g a_g=1, so over ℂ exactly one coefficient is1. Prove the converse and uniqueness, and identify multiplication of these basis elements with G by the native `single_mul_single` formula. Keep the separate warning that arbitrary UEA elements are not group-like: the Sweedler/antipode expansions in the prescription action use their full actual coproduct.
+
+**Checks.**
+
+- `x=½([e]+[g])` with `g≠e` has `Δx=½([e]⊗[e]+[g]⊗[g])≠x⊗x`, so it is not group-like; `[g]` is group-like with `Δ[g]=[g]⊗[g]` and counit `1`.
+- In `U(𝔤)` the element `1+X` with `X` primitive has `Δ(1+X)=1⊗1+X⊗1+1⊗X≠(1+X)⊗(1+X)`, so Sweedler expansions in the prescription action use the full coproduct.
+- Multiplication of basis elements matches `G`: `single g 1 * single h 1 = single (gh) 1`.
+
+*Needs:* Mathlib `MonoidAlgebra.instCoalgebra`, `counit_single`, `comul_single`, `single_mul_single`, `IsGroupLikeElem`.
+
+### 5.5 GraphCutFlags — labelled edge-cut and quotient flags
+
+For the finite halfedge graphs just defined, construct restriction to an edge subset and simultaneous contraction of its connected components, retaining all unchosen edges, original incidences, external ports and labels. Prove the nested flag bijection for E₁⊆E₂ and its relabeling/permutation compatibility, including extra edges becoming self-loops. This purely graph-level supplier precedes the typed coevaluation/jet transports; TypedHopf later proves admissibility and typed coassociativity. These edge-cut flags do not replace the intrinsic partition-stratum extension induction in RQFT6.
+
+**Checks.**
+
+- For `E₁⊆E₂` contracting `E₁` and then `E₂∖E₁` equals contracting `E₂`; on the two-vertex two-edge graph contracting one edge makes the other a self-loop.
+- Contracting the three edges of a triangle one at a time passes through a two-vertex double edge and a one-vertex loop before reaching a single vertex.
+- Relabelling the vertices commutes with contraction: the flag bijection is natural for permutations of the vertex set.
+
+*Needs:* §5.2; Mathlib finite quotients; consumed by §6.18 (TypedHopf).
+
+### 5.6 FieldJets — the symmetric/graded field-jet Hopf carrier
+
+This roadmap owns the proof route below.
 
 Build the polynomial field algebra over the scalar field ℂ as the symmetric algebra on all formal field-jet generators, with the stated complex conjugation involution. Use LVF1's symmetric jet indices: `u_(a,I)`, I∈ℕ⁴, and total derivations `D_i u_(a,I)=u_(a,I+e_i)`. The constant-coefficient enveloping algebra acts by these commuting derivations; it is not a new coefficient ring whose derivatives are central scalars. Make every jet generator primitive, with counit0 and antipode minus, and prove `ΔD_i=(D_i⊗1+1⊗D_i)Δ`. Prove the iterated coproduct gives the exact multinomial allocations among all incident ports, and compare the graded version through the already fixed Koszul symmetry. Use it to split each interaction monomial among incident half-edges/vertices and derive the exact vertex-label combinatorics. Include derivative-labelled propagators `D₁D₂Δ_{φ₁,φ₂}` and the `φ⁴`, `φ²∂φ` and `D₁(φ²)D₂(φ²)` examples.
 
-**RQFT5.CompactDistributionAlgebra — compact distribution densities.**
+**Checks.**
+
+- `Δu=u⊗1+1⊗u` for every jet generator and `Δ(u²)=u²⊗1+2u⊗u+1⊗u²`; the iterated coproduct of `φ⁴` into four ports gives `4!` allocations `φ⊗φ⊗φ⊗φ`.
+- `ΔD_i=(D_i⊗1+1⊗D_i)Δ` on a generator: `D_iu_(a,I)=u_(a,I+e_i)` is again primitive.
+- For odd `ψ₁,ψ₂`, `Δ(ψ₁ψ₂)=ψ₁ψ₂⊗1+ψ₁⊗ψ₂−ψ₂⊗ψ₁+1⊗ψ₁ψ₂`, the Koszul sign; without it the coproduct would not be an algebra map.
+- The derivative-labelled propagator `D₁D₂Δ` arises from the allocation of one derivative to each of two ports of `φ²∂φ`-type vertices.
+
+*Needs:* LocalVariationalFieldTheory Layer 1 (jet indices and total derivatives); Mathlib `HopfAlgebra`, symmetric and exterior algebras.
+
+### 5.7 CompactDistributionAlgebra — compact distribution densities
 
 Implement the finite-set-indexed compact-support distribution algebra of Borcherds–Barnard §8.1 (pp. 56–59). Put `V(I)=𝓔′(M^I)`, using distribution densities dual to smooth scalar functions, the compact-convergence continuous-dual topology and the fixed Euclidean density for comparison with scalar distributions. Consume CK K5a.SmoothSectionMontel to identify this topology with the strong dual topology on these C∞ spaces. A map `f:I→J` induces `F_f:M^J→M^I`, `(F_f(x))_i=x_(f(i))`, and the map `f*:V(J)→V(I)` is **pushforward** `(F_f)_*`, defined by `⟨(F_f)_*u,φ⟩=⟨u,φ∘F_f⟩`. Compact support makes it defined for every f. Prove identity/composition, preservation of compact support, and the contravariant finite-set functor law. For injective f it integrates the omitted variables; for surjective f it pushes onto the repeated-coordinate diagonal. Prove the compatible `U(𝔤)^I` derivative action using the coproduct: diagonal pushforward sends a source derivative to the sum of derivatives in the corresponding target slots. Prove associative/commutative external tensor products on disjoint index sets and their naturality. Ordinary distribution pullback is a separate P8 operation; its wavefront criterion does not constrain this compact-support pushforward functor.
 
@@ -799,7 +1480,16 @@ balanced-module laws use the bialgebra compatibility. Prove identity/composition
 and permutation naturality from precisely these laws. The unordered functor needs these hypotheses;
 it is not defined for an arbitrary coalgebra.
 
-**RQFT5.GeneralFree — the all-map balanced adjunction.**
+**Checks.**
+
+- For `f:{1,2}→{1}` the map `F_f(x)=(x,x)` and `f^*u` is the pushforward onto the diagonal, `⟨f^*u,φ⟩=⟨u,φ(x,x)⟩`; for the injection `{1}→{1,2}` the pushforward integrates out the second variable.
+- The derivative action: `D` on the source corresponds to `D₁+D₂` on the diagonal pushforward, by Leibniz on `φ(x,x)`.
+- `V(∅)=ℂ`; compact support is preserved by every pushforward since `F_f` is continuous.
+- The unordered coproduct on an empty fibre uses the counit: for `f:{1}→{1,2}` the unhit slot `2` receives `ε(D)`, so `D₂↦0`.
+
+*Needs:* ComplexKahlerGeometry K5a.SmoothSectionMontel; Mathlib `Distribution`; Tau Ceti `TauCeti.UniversalEnvelopingAlgebra.instHopfAlgebra`; Borcherds–Barnard §8.1 (pp. 56–59).
+
+### 5.8 GeneralFree — the all-map balanced adjunction
 
 Define the category of distribution algebras by these all-map functor,
 U-action and unital external-product laws; morphisms preserve all three.
@@ -819,7 +1509,15 @@ Prove these operations are well-defined, satisfy the distribution-algebra laws,
 and give the left adjoint: a compatible map A→V extends uniquely by
 `[f,D⊗a]↦D f*(a)`.
 
-**RQFT5.OpenGraphSpecies — graded incidence action and Wick map.**
+**Checks.**
+
+- A bijection `f` acts on `Free(A)(I)` by relabelling and the identity map gives the inclusion `A(I)→Free(A)(I)`.
+- The balancing relation `[f,D·f_U^*(E)⊗a]=[f,D⊗E·a]` identifies the two ways of letting `E∈U^J` act; for `E=1` it is trivial.
+- The unique extension of a compatible map `A→V` sends `[f,D⊗a]` to `Df^*(a)`; checked on `[id,1⊗a]↦a`.
+
+*Needs:* §5.7; Mathlib tensor products over noncommutative rings (`TensorProduct` with the balancing relations).
+
+### 5.9 OpenGraphSpecies — graded incidence action and Wick map
 
 Define Fey₀(J) as the graded linear species of the actual finite half-edge
 graphs on the vertex set J. Internal halfedges are paired as edges, including
@@ -886,15 +1584,44 @@ algebra morphism only after product, **bijection** and exact U laws and an
 actual all-map target have been supplied. Unswitched noncompact amplitudes
 do not acquire that target merely from this algebraic Free construction.
 
-**RQFT5.FiniteOddPolarization — complete finite-stage jet separation.**
+**Checks.**
+
+- Wick is not an external-product morphism: for two one-vertex linear fields `φ(x₁)`, `φ(x₂)` the Wick sum of the product contains the cross edge `Δ(x₁−x₂)`, absent from the product of the two one-vertex Wick sums.
+- `D_(v,μ)` at a vertex with a self-loop acts on both incidences; on the residual-polynomial presentation it acts by total `D` on the residual polynomial plus the endpoint derivatives.
+- The abelian antipode sends `p(D)` to `p(−D)`: `S(D)=−D`, `S(D²)=D²`.
+- The edgeless corolla inclusion is an external-product morphism, so the two statements about Wick and about the corolla are not in conflict.
+
+*Needs:* Tau Ceti `TauCeti.Algebra.Lie.UniversalEnveloping.Abelian`, `Bialgebra`, `HopfAlgebra` (`antipode_ι`, `antipode_mul_antidistrib`, `mvPolynomialEquiv`); §5.6, §5.8; §3.7 for Wick signs.
+
+### 5.10 FiniteOddPolarization — complete finite-stage jet separation
 
 For each fixed finite field/fibre/ordered-slot/jet-order stage over ℝ orℂ, form its actual graded coefficient-tensor/jet space with precisely the declared Koszul and symmetric-jet relations. First fix a finite exterior coefficient stage Λ_M. For the finitely many odd input slots choose fresh independent exterior generators outside Λ_M; use independent commuting polarization parameters for even slots and independent tagged copies for every ordered input. Evaluate a slot jet by the derivative of its own smooth profile. Extracting the product of the fresh generators and the required commuting parameters recovers the multilinear coefficient with its fixed Koszul sign. For symmetric repeated slots prove the polarization/factorial comparison in characteristic0; an actual repeated odd generator vanishes by the declared exterior relation, not because a testing stage was too small.
 
 Use polynomial-times-compact-bump profiles equal to the chosen Taylor polynomials near an arbitrary point to realize every finite profile jet. Prove that this testing family separates the finite formal tensor space before any numerical physical identification or integration. Prove the canonical extension Λ_M→Λ_N into a larger coefficient/test stage is injective, the recovered coefficient is unchanged, and all jet operations, permutations, tensor products and finite coevaluation commute with this extension. Thus the separation theorem is stable as fresh odd stages and finite jet orders increase. It supplies TypedJetImage and the later tested SwitchedRealization; neither consumes a separation proof from the other. Auxiliary compact output-kernel tests are independent of these physical profile polarizations.
 
-**RQFT5.BalancedJetModule — total derivatives at fixed field degree.** At homogeneous physical field degree m≥1 use the ordered linear field-slot momentum symbols k_s for **all** physical field factors at that vertex, both internal incidences and open residual slots. A self-loop supplies two incident factors. Auxiliary output tests are not among these slots and contribute neither to m nor to their derivative degree. The linear change K=Σ_s k_s and κ_s=k_s−K/m, Σ_sκ_s=0 identifies their polynomial algebra with the tensor product of polynomials in total K and relative κ. Prove the comparison on the symmetric multi-index jet carrier, with all field fibres and graded permutation quotients. In characteristic0 the finite permutation relations commute with K and the relative split, so total D acts by K and the balanced coefficient factor is its degree-zero K part. Prove compatibility with finite jet filtrations, inclusions, field permutations and linear spacetime covariance. For an actual physical coefficient/profile differential module B_phys, form its tensor product with this free translation factor using the primitive coproduct; the explicit twist is `p⊗b↦Σ(p_(1)·b)⊗p_(2)` from the first-factor U-action to the diagonal one, with inverse `b⊗p↦Σp_(2)⊗(S(p_(1))·b)`. Tensor the balanced factor throughout and prove these are inverse U-module maps, including every derivative of b. The displayed switched tensor order and inverse use the cocommutativity of the abelian translation Hopf algebra U, as well as its antipode identities; no such inverse formula is asserted for a general noncocommutative Hopf algebra. Work first at compatible filtered stages; a fixed finite jet cutoff is not asserted D-stable by itself. Field degree0 is separate: use constant vacuum kernels with the smooth multiplier/module laws, not a false free-module assertion for the unit. This is a field-jet/total-derivative presentation, not a quotient by integrated Div or an equation of motion. For the controlled-extension consumer, prove compatibility with actual Wick contraction/proper-block restrictions and the declared class/tadpole constraints before prolonging balanced input extensions by D; numerical/EOM/Ward quotients require their separately checked stable relations.
+**Checks.**
 
-**RQFT5.WickCompact — switched Wick map and compact density carrier.** Put W_c=C_c∞(M,ℂ)⊗W and define
+- An odd generator satisfies `θ²=0`, so a repeated odd slot vanishes by the exterior relation; polarization of a symmetric bilinear `B` uses `B(x+y,x+y)−B(x,x)−B(y,y)=2B(x,y)` and needs characteristic `0`.
+- A finite exterior stage with `M` generators cannot detect an odd tensor of degree above `M`, since all its products vanish; fresh generators outside the stage are needed.
+- The extension `Λ_M→Λ_N` is injective and the recovered coefficient is unchanged, checked on a single odd slot with one fresh generator.
+
+*Needs:* Mathlib `ExteriorAlgebra`, polynomial-times-bump profiles; LocalVariationalFieldTheory Layer 1.
+
+### 5.11 BalancedJetModule — total derivatives at fixed field degree
+
+At homogeneous physical field degree m≥1 use the ordered linear field-slot momentum symbols k_s for **all** physical field factors at that vertex, both internal incidences and open residual slots. A self-loop supplies two incident factors. Auxiliary output tests are not among these slots and contribute neither to m nor to their derivative degree. The linear change K=Σ_s k_s and κ_s=k_s−K/m, Σ_sκ_s=0 identifies their polynomial algebra with the tensor product of polynomials in total K and relative κ. Prove the comparison on the symmetric multi-index jet carrier, with all field fibres and graded permutation quotients. In characteristic0 the finite permutation relations commute with K and the relative split, so total D acts by K and the balanced coefficient factor is its degree-zero K part. Prove compatibility with finite jet filtrations, inclusions, field permutations and linear spacetime covariance. For an actual physical coefficient/profile differential module B_phys, form its tensor product with this free translation factor using the primitive coproduct; the explicit twist is `p⊗b↦Σ(p_(1)·b)⊗p_(2)` from the first-factor U-action to the diagonal one, with inverse `b⊗p↦Σp_(2)⊗(S(p_(1))·b)`. Tensor the balanced factor throughout and prove these are inverse U-module maps, including every derivative of b. The displayed switched tensor order and inverse use the cocommutativity of the abelian translation Hopf algebra U, as well as its antipode identities; no such inverse formula is asserted for a general noncocommutative Hopf algebra. Work first at compatible filtered stages; a fixed finite jet cutoff is not asserted D-stable by itself. Field degree0 is separate: use constant vacuum kernels with the smooth multiplier/module laws, not a false free-module assertion for the unit. This is a field-jet/total-derivative presentation, not a quotient by integrated Div or an equation of motion. For the controlled-extension consumer, prove compatibility with actual Wick contraction/proper-block restrictions and the declared class/tadpole constraints before prolonging balanced input extensions by D; numerical/EOM/Ward quotients require their separately checked stable relations.
+
+**Checks.**
+
+- For `m=2` slots, `K=k₁+k₂` and `κ₁=(k₁−k₂)/2=−κ₂` identify `ℂ[k₁,k₂]` with `ℂ[K]⊗ℂ[κ₁]`; a self-loop supplies two incident factors.
+- The twist sends `D⊗b` to `(Db)⊗1+b⊗D` and the inverse returns it because `S(D)=−D` cancels the Leibniz term; the formulas use cocommutativity of the abelian `U`.
+- Field degree `0` has no slots and `K=0`; the constant vacuum kernels use the smooth multiplier laws, not a free module.
+
+*Needs:* §5.6; Tau Ceti `TauCeti.UniversalEnvelopingAlgebra.instHopfAlgebra`; consumed by §6.19.
+
+### 5.12 WickCompact — switched Wick map and compact density carrier
+
+Put W_c=C_c∞(M,ℂ)⊗W and define
 `Wick_J^c:W_c^⊗J→Fey₀^c(J)` on pure tensors by applying Wick_J to the w_v and attaching the single coefficient b_v to vertex v in every resulting graph, then extend multilinearly. Each b_v appears once, including in vacuum terms; there is no new b per contracted edge or open slot. The total D action differentiates b_v and all incident field slots. Prove U-equivariance by the complete Leibniz expansion, plus Koszul and bijective-relabeling laws, using the unswitched Wick theorem. Define its linear balanced extension explicitly by `[f,D⊗a]↦[f,D⊗Wick^c(a)]`; prove independence under U-balancing and bijections and compatibility with every finite-set map. This is a linear diagram map, generally not an external-product morphism, so no distribution-algebra adjunction is asserted for Wick^c. The switched corolla inclusion remains the distinct external-product morphism.
 
 With the fixed Euclidean density dx, let W_fld denote the field-jet polynomial density representatives and A_fld the field-jet Hopf algebra. The map a↦a dx is a canonical module/total-derivative equivalence, written W≅A; it is not multiplication of two density factors. Tensoring gives Ξ_c:W_c=C_c∞⊗W_fld≃C_c∞⊗A_fld=A_c. Prove Ξ_c commutes with jets, scalar/exterior coefficients and every vertex tensor power. ConnectedSubstitution applies Wick^c through Ξ_c⁻¹, retaining the single physical density and b_v at each vertex.
@@ -909,7 +1636,17 @@ family case the unhit slots give the coinvariants below; for a general graph
 family retain its actual balanced quotient, without assuming it factors as
 the same tensor-family symmetric algebra.
 
-**RQFT5.TensorCoinvariantNormalForm.** For the tensor species `A_sp(J)=W^{⊗J}`
+**Checks.**
+
+- Each `b_v` appears once in every graph of `Wick^c`, including vacuum terms; the total `D` differentiates `b_v` and all incident slots.
+- For `I={4,5,6}→J={1,2,3}`, `f(4)=f(5)=1`, `f(6)=2`: `D₁↦D₄+D₅`, `D₂↦D₆`, `D₃↦0`, and the unhit slot `3` is integrated; the counit law is what sends `D₃` to `0`.
+- `Ξ_c` commutes with jets and vertex tensor powers, checked on `b⊗u_(a,I)↦b⊗u_(a,I)dx`.
+
+*Needs:* §5.9, §5.12; §0.2 for the density convention.
+
+### 5.13 TensorCoinvariantNormalForm — surjection-plus-injection normal forms
+
+For the tensor species `A_sp(J)=W^{⊗J}`
 only, derive the surjection-plus-injection normal form. Splitting J into im(f) and
 unhit slots factors its tensor power; the unhit slots use the counit and yield the
 linear coinvariants `W_𝔤=W/span{Xw:X∈𝔤,w∈W}`. This is a vector-space quotient,
@@ -935,6 +1672,16 @@ of integrated slots. This is a derived universal-property formula. In particular
 the operation `I→I∪{1}` is included and kills total derivatives in the
 integrated slot. Build Fey=Free(Fey₀) and its coefficientwise graph operations in the graded Koszul category, with the induced corolla morphism Free(W^⊗)→Fey and the declared finite exterior-coefficient realizations. RQFT5 exports that algebra, graph map and combinatorial identities to RQFT6. RQFT6 alone constructs the distribution-valued realization, products, extensions and renormalization action. For integration of distributions (Borcherds–Barnard §8.2.4, p. 65), RQFT6 proves the proper-support/cutoff or Fourier-restriction hypotheses; compact support of the abstract graph model does not establish that analytic realization.
 
+**Checks.**
+
+- For `W=ℂ` with trivial action, `W_𝔤=ℂ` and `Free(W^⊗)(∅)≅Sym(ℂ)=ℂ[t]`, counting integrated slots.
+- For `W` the jets of one field with the translation action, `W_𝔤=W/DW` is the space of local functionals modulo divergences, which is what the integrated slot kills.
+- For `W` odd, the empty-index algebra is `Λ(W_𝔤)`, so a repeated integrated odd slot vanishes.
+- For `Fey₀` no `Sym(W_𝔤)` factorization holds: its closed-graph coinvariants are those of its own species.
+
+*Needs:* §5.8; Mathlib `Sym`, `ExteriorAlgebra`, coinvariants; Borcherds–Barnard §8.2.4 (p. 65).
+
+### 5.14 Symbolic generating functions, the Gaussian and quartic examples
 
 For a polynomial scalar interaction such as `L_int=−λφ⁴/4!`, RQFT5 owns symbolic
 Z(J), connected W(J)=log Z(J), and Γ on the completed Fey graph carrier, with a
@@ -957,7 +1704,18 @@ Consume **LVF3.Borcherds52Quadratic** for the classical comparison: write `S=(φ
 
 For the zero-dimensional quartic integral `Z(j,λ)=∫ℝexp(−φ²/2−λφ⁴/4!+jφ)dφ`, prove convergence on its actual parameter domain and derive the formal expansion coefficientwise. Prove the branch-order and essential-singularity assertion of Borcherds–Barnard §5 (p. 25) on the fourfold analytic continuation specified below; it is a statement about that continuation, while the original integral has a finite boundary value at λ=0. Likewise, the expansion `e^{jφ}=Σ(jφ)^{2k}/(2k)!` written in Borcherds–Barnard §5 (p. 25) omits odd powers and is false as a formal identity, although the even Gaussian measure makes odd integrals vanish after integration. Show the resulting perturbation series is formal/asymptotic and does not have a convergence theorem merely because every coefficient is defined. Define `W=log Z` and prove that it selects connected graphs; derive the effective-action Legendre relation and the one-loop `φ⁴` correction (Borcherds–Barnard §5.4). With `Γ=W−jφ` and `W=log Z`, compute `W=j²/2−λj⁴/24−λj²/4−λ/8+(1/2)log(2π)+O(λ²)` and `Γ=−φ²/2−λφ⁴/24−λφ²/4−λ/8+(1/2)log(2π)+O(λ²)`. A normalized vacuum subtraction changes the constant, so pin that choice. The one-loop diagram of Borcherds–Barnard §5.4 (p. 32) gives the mass correction `−λφ²/4`, in agreement with this formula, while the summary formula on the same page prints `−λφ²/8`; the Euler–Lagrange equation must be derived from the corrected `Γ`. Explain vacuum bubbles and the source-coupled `log(Z(j,λ)/Z(0,λ))` graph selection.
 
-**RQFT5.GaussianAdapters — finite Gaussian and formal Legendre adapters.**
+**Checks.**
+
+- `∫_(ℝⁿ)exp(−⟨x,Ax⟩)dx=π^(n/2)` for `A=I`; for `n=1` and `A=a>0` the Fresnel value `∫exp(iax²)dx=√(π/a)exp(iπ/4)` has signature `1`, and for `a<0` the phase is `exp(−iπ/4)`.
+- Completing the square gives `I(J)/I(0)=exp(−iJ²/(4a))` in one variable, the case `n=1` of `exp(−i⟨A⁻¹J,J⟩/4)`.
+- With `E[(j+ξ)⁴]=j⁴+6j²+3` for a standard Gaussian `ξ`, `log Z=½log(2π)+j²/2−λ(j⁴+6j²+3)/24+O(λ²)`, which is the displayed `W`; the one-loop mass term is `−λj²/4`, not `−λj²/8`.
+- `Γ=W−jφ` with `φ=W_j` gives `Γ=−φ²/2−λφ⁴/24−λφ²/4−λ/8+½log(2π)+O(λ²)`; the Euler–Lagrange equation `Γ_φ=−j` reproduces `j=φ+λφ³/6+λφ/2+O(λ²)`.
+- `A=−(□+m²)/2` has Hessian `H=2A`; `Δ=A⁻¹=−2E` and `H⁻¹=−E` when `E` inverts `□+m²`.
+
+*Needs:* LocalVariationalFieldTheory Layer 3 (`Borcherds52Quadratic`); §5.15 for the Gaussian theorem; §6.32 for the realization; Borcherds–Barnard §4–§5 (pp. 22–32).
+
+### 5.15 GaussianAdapters — finite Gaussian and formal Legendre adapters
+
 For the n-dimensional Gaussian example, n≥1, use volume on
 `EuclideanSpace ℝ (Fin n)` and transport it to product Lebesgue measure using
 `PiLp.volume_preserving_toLp`. Consume `integral_gaussian_complex`,
@@ -982,7 +1740,16 @@ Its proof already owns the finite-product/Fubini reduction; do not assign that
 native diagonal integral as new work. The real congruence and Euclidean/product
 volume transports remain RQFT5 adapters. This proves `I(A)²det A=π^n` and nonvanishing. Prove continuous dependence and holomorphy of I on the positive-real-part domain by locally uniform Gaussian domination. Its continuous determinant square root is `s(A)=π^(n/2)/I(A)`, positive on real positive A; connectedness of this convex domain makes that normalized root unique. Diagonal coordinates are valid by **real congruence** with this Jacobian; simultaneous real orthogonal diagonalization is not required, and the square-root branch is fixed by continuity as above. Keep the earlier Fresnel regulator theorem separate.
 
-**RQFT5.QuarticContinuation — the integral and its fourfold continuation.**
+**Checks.**
+
+- The unit sphere of `ℝⁿ` has area `2π^(n/2)/Γ(n/2)`: `2π` for `n=2`, `4π` for `n=3`; at `n=0` the empty Gaussian integral is `1` and the sphere is empty.
+- For `A=1+ic` in one variable, `∫exp(−(1+ic)x²)dx=√(π/(1+ic))` with the principal root, so `I(A)²A=π`.
+- `s(A)=π^(n/2)/I(A)` is positive on real positive `A` and continuous on the convex domain, which fixes the branch; the Fresnel regulator theorem of §5.14 is a different limit.
+
+*Needs:* Mathlib `integral_gaussian_complex`, `GaussianFourier.integral_cexp_neg_sum_mul_add`, `GaussianFourier.integral_cexp_neg_mul_sq_norm_add`, `MeasureTheory.integral_fun_norm_addHaar`, `EuclideanSpace.volume_ball`, `MeasureTheory.Measure.toSphere`, `PiLp.volume_preserving_toLp`.
+
+### 5.16 QuarticContinuation — the integral and its fourfold continuation
+
 For `Z(j,λ)=∫ℝ exp(−φ²/2−λφ⁴/24+jφ)dφ`, prove absolute convergence for every j∈ℂ exactly on Re λ≥0, joint continuity there, joint holomorphy for Re λ>0 and entire dependence on j at each such λ, including λ=0. The integral itself is defined on the closed half-plane, with `Z(j,0)=sqrt(2π)exp(j²/2)`. For each compact K⊂ℂ and N≥0, prove `|Z(j,λ)−Σ_(n<N)a_n(j)λ^n|≤C_(N,K)|λ|^N` for j∈K, Re λ≥0 and λ sufficiently small, where the coefficient functions are entire. Use the integral exponential remainder bound for Re(λφ⁴)≥0 and Gaussian domination of `|φ|^(4N)exp(−φ²/2+R|φ|)`. At j=0 put `b_n=(4n−1)!!/(24^n n!)`, b_0=1, for the normalized absolute coefficients. Then `a_n(0)=(−1)^n sqrt(2π)b_n` and `b_(n+1)/b_n=(4n+1)(4n+3)/(24(n+1))→∞`, so the formal perturbation series has radius zero.
 
 Own the analytic-continuation theorem on the punctured fourfold cover `ζ↦λ=ζ⁴`. Define
@@ -1006,6 +1773,17 @@ stalk/fraction-field and regular-evaluation comparison is supplied by
 ComplexKahlerGeometry K3.MeromorphicGermField. Neither scalar supplier is a prerequisite
 of the preceding native-order/oddness proof and neither is re-owned here.
 Radius-zero asymptotics alone are not the essential-singularity proof.
+
+**Checks.**
+
+- `b₁=1/8` and `b₂=105/1152=35/384`, so `Z(0,g)/√(2π)=1−g/8+35g²/384+O(g³)`; the ratio `b_(n+1)/b_n=(4n+1)(4n+3)/(24(n+1))` tends to `∞`, so the series has radius `0`.
+- `F(−ζ,j)=−F(ζ,j)` by `t↦−t`, while `ζ↦iζ` returns to `F` only after four steps; the monodromy has order exactly `4`.
+- Along `ζ→0^+` the limit is `√(2π)exp(j²/2)≠0`; a pole would diverge on that ray and a removable singularity would force the odd function to vanish at `0`, so the singularity is essential.
+- For `Re λ≥0` the bound `|exp(−x)−Σ_(n<N)(−x)^n/n!|≤|x|^N/N!` with `x=λφ⁴/24` and `∫φ^(4N)exp(−φ²/2)dφ=√(2π)(4N−1)!!` give the remainder `√(2π)b_N|λ|^N` at `j=0`.
+
+*Needs:* Mathlib `MeromorphicAt`, `meromorphicOrderAt_ne_top_iff`, `tendsto_cobounded_of_meromorphicOrderAt_neg`, `tendsto_nhds_of_meromorphicOrderAt_nonneg`, `MeromorphicAt.analyticAt`, `intervalIntegral`; GlobalHolomorphicFunctions GH2 and ComplexKahlerGeometry K3.MeromorphicGermField are not prerequisites; Borcherds–Barnard §5 (p. 25).
+
+### 5.17 The formal Legendre transform and the 1PI identity
 
 Normalize the Gaussian scalar and work coefficientwise in ℝ[[λ,j]] with
 Z_hat=Σ_(n,k≥0)(−λ)^n j^(2k)(4n+2k−1)!!/(24^n n!(2k)!), using(−1)!!=1.
@@ -1035,7 +1813,28 @@ For the free-source normalization fix a symmetric propagator kernel Δ_sym. If a
 `(i/2)^k Σ_pairings ΠΔ_sym`. Under the ordinary-coefficient convention `Z(J)=Σ_N i^N G_N(J,…,J)`, without `1/N!`,
 the conversion is `G_N=i^(−N)K_N/N!`.
 
+**Checks.**
+
+- At `V=1` the three graphs give `−λφ⁴/24` (`|Aut|=4!`), `−λφ²/4` (one loop, `|Aut|=4`) and `−λ/8` (the figure-eight, `|Aut|=8`), matching `Γ` of §5.14.
+- `(PowerSeries.log ℝ).subst (Z_hat−1)` is admissible since the total constant coefficient of `Z_hat−1` is `0`; `W_hat,jj(0,λ)=1+O(λ)` is a unit, so `j(φ,λ)` exists.
+- `∂_j(j^E)=Ej^(E−1)` with the `E=0` derivative `0`, without division by `j`.
+- `K_(2k)=(−i/2)^kΣ_pairings∏Δ_sym`: the degree-`2k` coefficient `(−i/4)^k(JΔJ)^k/k!` polarized over `2k` slots counts each pairing `2^kk!` times.
+
+*Needs:* Mathlib `PowerSeries.HasSubst.of_constantCoeff_zero`, `MvPowerSeries.pderiv`, `PowerSeries.substInvOfIsUnit` and its three identities; §5.2, §5.16.
+
+### 5.18 Time-ordered products and the Dyson series
+
 Define time-ordered products recursively with causal factorization on causally ordered supports, permutation symmetry with graded signs, unitarity/reality if chosen, Poincaré covariance, field equation and scaling/renormalization conditions. State the exact support-domain where products are defined. Derive the Dyson series `S(g)=T exp(i∫gL_int)` coefficientwise, and its relation to formal Green functions. Gauge theories need BRST/BV or an explicitly fixed gauge-fixing and ghost complex, Slavnov–Taylor/Ward identities and anomaly assumptions; ordinary scalar graph recursion does not prove gauge invariance.
+
+**Checks.**
+
+- Causal factorization at `n=2`: `T(f,g)=T(f)T(g)` when `supp f` is not in the past of `supp g`; permutation symmetry gives `T(f,g)=T(g,f)` for bosonic entries.
+- The first-order Dyson coefficient is `i∫gL_int`; the second-order one is the time-ordered double integral, defined only where the product exists.
+- A scalar graph recursion does not produce the ghost sector: the gauge-fixed Maxwell theory needs the ghost complex before Ward identities are stated.
+
+*Needs:* §5.14, §5.17; §6.10 for the extension at coincident supports; Epstein–Glaser; Bogoliubov–Shirkov.
+
+### 5.19 The torus external-potential model and the first Born rate
 
 For UNSW pp36–38 fix a spatial torus of side length L>0, m>0, a finite momentum set `K⊂(2π/L)ℤ³` stable under negation, with cutoff exhaustion by `K_Λ={k:|k|≤Λ}`, and real smooth periodic external U(t,x). Use RQFT2–3’s complex scalar particle/antiparticle modes restricted to K, with `ω_k=sqrt(|k|²+m²)` and coefficients `1/sqrt(2ω_k L³)`. Define both the unordered `V_K(t)=∫φ_K†Uφ_K dx` and its normal-ordered version on the finite-particle domain. Compute their finite scalar difference, vacuum expectation and diagonal one-particle correction before comparing with UNSW pp. 36–37. Prove `V_K(t)−⟨Ω,V_K(t)Ω⟩I=:V_K(t):` on the common domain; the scalar is `Û(t,0)Σ_(k∈K)(2ω_kL³)⁻¹` for `Û(t,q)=∫_[0,L]³ exp(−iq·x)U(t,x)dx`. Compute the one-particle and vacuum-to-pair matrix elements with a declared spatial Fourier transform; compare the opposite time-phase/momentum-transfer formulas of UNSW pp. 36 and 37 through Hermitian conjugation rather than treating them as the same ordered matrix element.
 
@@ -1051,7 +1850,19 @@ with `Û(q)=∫_ℝ³ exp(−iq·x)U(x)dx`, and cross-section `dσ=dℛ/v_p`, `v
 
 At a fixed time the continuum expression is only claimed as a quadratic form on the stated tests: normal ordering alone does not give a Hilbert-space vector `V(t)Ω`. Prove the unordered scalar diverges under K_Λ when the spatial mean of U(t,·) is nonzero, and its time-switched contribution diverges when `∫χ_T(t)Û(t,0)dt≠0`; when that coefficient vanishes the scalar contribution is zero. Subtract it before each convergence claim above. No convergence of the full Dyson series is asserted.
 
-**RQFT5.GeneralChannelRateNormalization — translation-invariant channels.** The box normalization of rates follows Weinberg, *The Quantum Theory of Fields I*, §3.4. Consume RQFT3's normalized scalar, Dirac and physical transverse-photon Fock modes and its box/continuum maps. Let n_i,n_f≥1 be the incoming/outgoing particle counts, with specified species, spin/polarization labels, masses and future on-shell momenta. On a regular compact momentum-test region take a smooth reduced connected coefficient M in the declared external-leg convention. This first theorem is a normalization lemma for such a supplied coefficient, not an existence or convergence theorem for interacting scattering. On the spatial torus of volume V=L³, with normalized external modes exp(ipx)/sqrt(2E V), and a real nonzero χ∈C_c∞(ℝ), define F_T(ω)=∫χ(t/T)exp(iωt)dt. For distinct ordered external modes prove the switched coefficient is
+**Checks.**
+
+- The scalar difference `V_K(t)−:V_K(t):=Û(t,0)Σ_(k∈K)(2ω_kL³)⁻¹I` comes from the `b_kb_k†` terms; it diverges under `K_Λ` when the spatial mean `Û(t,0)` is nonzero.
+- The one-particle-to-three-particle element has two outgoing particles and one antiparticle, so charge `+1` is conserved; there is no four-leg term at first order for a quadratic interaction.
+- For static `U` the spectator pair term needs `ω_k+ω_q=0`, impossible for `m>0`; for `U=cos(Ωt)U₀` with `Ω>2m` the pair term has support `δ(ω_k+ω_q−Ω)`, empty when `Ω≤2m`.
+- `|χ̂_T(E)|²/∫|χ_T|²dt→2πδ(E)`: by Plancherel the ratio has total mass `2π` and its width is `O(1/T)`.
+- The density-normalized rate `dℛ=2πδ(ω_(p′)−ω_p)|Û(p′−p)|²/(4ω_pω_(p′))d³p′/(2π)³` divided by `v_p=|p|/ω_p` is the first Born cross section; a fixed normalizable packet's probability divided by `∫|χ_T|²` tends to `0` instead.
+
+*Needs:* §2.15, §3.2, §3.3; QuantumFoundations §8.2; §0.4 for the spatial transform.
+
+### 5.20 GeneralChannelRateNormalization — translation-invariant channels
+
+The box normalization of rates follows Weinberg, *The Quantum Theory of Fields I*, §3.4. Consume RQFT3's normalized scalar, Dirac and physical transverse-photon Fock modes and its box/continuum maps. Let n_i,n_f≥1 be the incoming/outgoing particle counts, with specified species, spin/polarization labels, masses and future on-shell momenta. On a regular compact momentum-test region take a smooth reduced connected coefficient M in the declared external-leg convention. This first theorem is a normalization lemma for such a supplied coefficient, not an existence or convergence theorem for interacting scattering. On the spatial torus of volume V=L³, with normalized external modes exp(ipx)/sqrt(2E V), and a real nonzero χ∈C_c∞(ℝ), define F_T(ω)=∫χ(t/T)exp(iωt)dt. For distinct ordered external modes prove the switched coefficient is
 `−i V^(1−(n_i+n_f)/2) δ_(Σp_i,Σq_f) F_T(ΣE_f−ΣE_i) M / sqrt(Π_i2E_i Π_f2E_f)`
 in this convention, and derive its occupation-number version with the actual bosonic/fermionic normalized Fock states. Define the overall switch by the center-time/translation variable of the connected coefficient. It is not the assertion that independently switching every Dyson vertex produces exactly this factor at finite T. Own the comparison from the actual tested graph/Dyson coefficients, with their relative-variable cutoffs and limits, before using this normalization on those coefficients; the distribution-valued graph realizations consume RQFT6 at that later stage.
 
@@ -1069,6 +1880,16 @@ Own an explicit vertex-switch adapter as well. For a connected r-vertex term, r�
 
 These are finite-order/formal coefficient and phase-space statements. Their interpretation as physical transition probabilities, detector rates, cross sections or widths consumes the precise asymptotic/LSZ hypotheses of RQFT8 or the separately specified inclusive/dressed charged-sector comparison. The massive-scalar LSZ theorem supplies no charged massless-photon QED scattering theorem. RQFT9 specializes the normalization to its electron-electron, annihilation, scalar/electron Compton and real-emission channels, retaining each Ward identity, singular region and infrared qualification.
 
+**Checks.**
+
+- Each external box mode carries `1/√(2EV)` and the spatial integral of the plane-wave product gives `Vδ_K`, so the coefficient scales as `V^(1−(n_i+n_f)/2)`.
+- `|F_T(ω)|²/(T‖χ‖²)→2πδ(ω)` by Plancherel, with the energy pullback requiring the submersion condition; for `n_f=1` with fixed incoming momenta there is no final variable to pull back along.
+- For two massless head-on particles `√((p₁·p₂)²)=p₁·p₂=2E₁E₂`, so `v_M=2`; the two-body formula gives `dσ=|M|²dΦ/(S_f·4p₁·p₂)` there.
+- Two identical final photons give `S_f=2!`; a fixed `↑↓` spin ordering integrated over both momenta counts each state once and is not divided by `2`.
+- Switching `r` vertices independently gives the profile `χ(t/T)^r` and duration `T‖χ^r‖²`; for `r=2` and `χ` the indicator-like bump this differs from `T‖χ‖²`.
+
+*Needs:* §3.2, §3.3, §3.4, §3.5; §1.9 for the mass-shell measures; Weinberg, *The Quantum Theory of Fields I*, §3.4; §6.25 and §9 for the singular regions.
+
 ### Examples
 
 - `b₁=1/8` and `b₂=35/384`, so `Z(0,g)/√(2π)=1−g/8+35g²/384+O(g³)`, matching the expansion of Borcherds–Barnard §5 (p. 25).
@@ -1078,7 +1899,9 @@ These are finite-order/formal coefficient and phase-space statements. Their inte
 
 Mathlib `PowerSeries`, `MvPowerSeries`, `MeromorphicAt`, `GaussianFourier.integral_cexp_neg_sum_mul_add`, `MonoidAlgebra` coalgebra; Tau Ceti `TauCeti.UniversalEnvelopingAlgebra.instHopfAlgebra`; LocalVariationalFieldTheory Layers 1 and 3; GlobalHolomorphicFunctions GH2 local phase; RQFT0–RQFT3; Borcherds–Barnard §4–§5, §8.1.
 
-## Milestone RQFT6 — distribution products, extension and renormalization
+## Layer 6: distribution products, extension and renormalization
+
+### 6.1 Restriction to a closed submanifold and its transpose
 
 For a closed embedded submanifold M⊂N, prove restriction of scalar test
 functions `C_c∞(N)→C_c∞(M)` is continuous and construct its transpose
@@ -1086,14 +1909,54 @@ functions `C_c∞(N)→C_c∞(M)` is continuous and construct its transpose
 scalar conventions. Consume P8's proper-support pushforward and prove the
 inclusion specialization.
 
+**Checks.**
+
+- For `M={0}⊂ℝ` the transpose of restriction sends the number `c` to `cδ₀`; for `M` a line in the plane it sends `u` to the distribution `φ↦u(φ|_M)`, supported on `M`.
+- The inclusion of a closed submanifold is proper, so P8's proper-support pushforward applies and agrees with the transpose; for an open submanifold the restriction of a compactly supported test need not have compact support, and the construction fails, which is why closedness is required.
+- The density conventions: with the fixed Euclidean density the transpose of a scalar function `u` on `M` is `u·dvol_M`, and changing the density on `M` rescales the result by the smooth density ratio.
+
+*Needs:* PseudodifferentialOperators P8 (proper-support pushforward); ComplexKahlerGeometry K5a (density-valued carriers); §0.2.
+
+### 6.2 Engineering dimension and the superficial degree
 
 Own the generic engineering-dimension and superficial-degree API used in the later source examples. Use rational engineering degrees from RQFT0’s rational unit quotient; state the additive grading/scaling laws for fields, derivatives, monomials and couplings, including negative coupling degrees. Pin the dimensionful normalization by `x⁰=ct`, `∂₀=c⁻¹∂_t` and the spacetime measure `dt d³x`: take the scalar kinetic density `(∂_tφ)²/(2c²)−|∇φ|²/2`, the Maxwell density `−F_μνF^{μν}/4` with `F=dA` and no SI charge-unit factor, and the Dirac density `ψ̄(iℏcγ·∂−mc²)ψ`. Their action has dimension `(1,2,−1)`; prove the scalar/vector physical exponent `(1/2,1/2,−1)` maps to degree1 and the Dirac exponent `(0,−3/2,0)` maps to degree3/2; the derivative has degree1. The integer physical-unit sublattice does not contain these field exponents. In four dimensions normalized scalar and covariantly gauge-fixed vector kinetic terms give dimension1, and the first-order Dirac term gives dimension3/2; a vertex of total derivative count d_v and field dimension sum Δ_fields has coupling dimension `[g_v]=4−d_v−Δ_fields`. For a connected graph, define its nominal superficial degree from loop number L, internal propagator leading UV degrees `−r_e`, and total vertex derivative counts d_v as `ω=4L−Σ_e r_e+Σ_v d_v`. Prove its incidence identities and subgraph compatibility. When every second-order scalar/vector/ghost edge has UV order−2 and field dimension1, regardless of Grassmann parity, and every Dirac edge has UV order−1 and dimension3/2, derive `ω=4−E_B−(3/2)E_F−Σ_v[g_v]`, counting each vertex occurrence. A second-order kinetic operator alone does not imply that vector-propagator order; include gauge and numerator hypotheses explicitly. Use [Tong, §3](https://www.damtp.cam.ac.uk/user/tong/qft/qfthtml/S3.html) for the engineering-dimension convention.
+
+**Checks.**
+
+- The action exponent `(1,2,−1)` maps to `1−2+1=0`; the scalar exponent `(1/2,1/2,−1)` to `1`, the Dirac exponent `(0,−3/2,0)` to `3/2`, the derivative `(0,−1,0)` to `1`; the `φ⁴` coupling has `[λ]=4−4=0` and a `φ³` coupling `[g]=1`.
+- The `φ⁴` bubble (`L=1`, two edges of order `−2`, no vertex derivatives) has `ω=4−4=0`, and the formula `4−E_B` with `E_B=4` gives `0`; the sunset (`L=2`, three edges) has `ω=8−6=2=4−2`.
+- A Dirac edge has `r_e=1` (numerator degree `1`), so the QED vacuum polarization (`L=1`, two Dirac edges, `E_B=2`) has `ω=4−2=2`, consistent with `4−E_A−(3/2)E_ψ`.
+
+*Needs:* §0.1 (rational unit quotient); LocalVariationalFieldTheory Layer 1 (densities); Tong §3 for the convention compared.
+
+### 6.3 The Euclidean ultraviolet convergence criterion
 
 This degree is a leading UV count, not a pointwise estimate for Lorentzian i0 distributions on their mass shells. Prove the corresponding Euclidean ultraviolet bounds for rational propagators with the stated polynomial numerator bounds, and a comparison with position-space scaling degree under the proved Fourier/extension hypotheses. For a graph momentum routing fix a finite labelled rational presentation with A_e≥1 denominator factors at each original physical edge e: `D_(e,a)=|ℓ_e(k,p)|²+m_(e,a)²`, m_(e,a)>0 and positive integer s_(e,a). The integrand is `P(k,p)∏_e∏_(a=1)^A_e D_(e,a)^(−s_(e,a))`, where P is a polynomial valued in the finite-dimensional normed tensor space of uncontracted indices and includes every edge numerator N_e and vertex tensor. Each factor at edge e uses that edge’s same routed momentum ℓ_e. A_e counts labelled factors, not powers s_(e,a), and A_e=1 is the single-factor case. For each nonempty cycle-support subgraph γ (every edge varies along its cycle space), define `deg_γP` as the polynomial degree along `H₁(γ;ℝ)⊗ℝ⁴`, with external and complementary loop coordinates as parameters. Prove independence of cycle basis and routing. Factor the numerator into vertex tensors V_v and propagator numerators N_e, followed by the specified contractions, with derivative degrees d_v and numerator degrees n_e. Prove `deg_γP≤Σ_(v∈γ)d_v+Σ_(e∈γ)n_e`; the Dirac numerator contributes n_e=1 and cannot be omitted. For the fixed edge presentation use `r_e=2Σ_a s_(e,a)−n_e`. There is still one physical graph edge e with its original two incidences; denominator factors are not extra edges or cuts. Finite sums are handled on a fixed tensor/common-denominator presentation with proved routed numerator bounds, retaining any cancellation needed for its asserted order. For A_e=1 write s_e=s_(e,1), recovering `r_e=2s_e−n_e`. Define `ω_γ=4b₁(γ)−2Σ_(e∈γ)Σ_(a=1)^A_e s_(e,a)+deg_γP` and prove its upper bound by the corresponding nominal subgraph count. A cancellation can lower the actual degree, so a nominal upper bound does not prove divergence. Bridges carry fixed momenta along this cycle space and must not be counted as varying denominators. Prove the massive Euclidean convergence criterion: absolute convergence if every such γ, including the full loop-support core and disconnected cycle supports, has ω_γ<0. Use sector decomposition or equivalent simultaneous large-momentum estimates, handling arbitrary large-loop subspaces by their edge support; the positive masses control the infrared region.
 
 For massless internal edges define an auxiliary infrared-regulated Euclidean integrand by replacing each zero-mass labelled factor by `D_(e,a,μ)=|ℓ_e|²+μ²`, μ>0, retaining its exponent s_(e,a), all original positive-mass factors, every edge numerator and the same labelled factor presentation. The integrand is the corresponding `P∏_(e,a)D_(e,a,μ)^(−s_(e,a))`, with unchanged positive-mass factors understood. The ultraviolet degree uses `−2Σ_(e∈γ)Σ_a s_(e,a)` in exactly the preceding formula. RegulatorContinuation and ForestConvergence use this identical fixed-μ family and multiply each labelled denominator factor by `(D_(e,a,μ)/κ²)^(−z)`; factors remain labels within the original edge, not extra cuts. Prove the same ultraviolet-degree criterion for every fixed μ>0; the degrees and the sufficient criterion are independent of μ, while estimates may depend on μ. This introduces no physical photon/graviton mass, gauge-preserving regulator, or μ→0 theorem. Physical massless infrared limits and symmetry-compatible renormalization have their separate hypotheses. Keep ultraviolet convergence, local extension ambiguities and infrared convergence separate. Derive bounds before claiming convergence; symmetries/cancellations and nonzero divergence coefficients need separate proofs. RQFT9 and RQFT11 consume this generic API rather than redefining it.
 
+**Checks.**
+
+- The massive bubble has `ω_γ=0`, not negative, so the criterion does not assert convergence, and the integral `∫d⁴k/((k²+m²)((k+p)²+m²))` indeed diverges logarithmically; with one denominator squared (`s=2`) the degree is `−2` and the integral converges.
+- Two bubbles joined by a bridge: the bridge carries fixed momentum and lies in no cycle support; the two bubbles are disconnected cycle supports each of degree `0`.
+- The auxiliary mass `μ>0` on a massless edge leaves `ω_γ` unchanged: the degree formula counts `−2Σ_as_(e,a)` whatever the mass.
+- Omitting the Dirac numerator would give `r_e=2` for a fermion edge and the wrong degree `0` for vacuum polarization instead of `2`.
+
+*Needs:* §6.2; Mathlib absolute integrability and sector decomposition estimates; consumed by §6.23–§6.25, §9.20, §11.5.
+
+### 6.4 Wavefront sets of propagators and graph kernels
+
 Consume P8's generic Hörmander pullback/product theorem, including its conormal cancellation criterion. Prove QFT-specific wavefront bounds for each propagator and each graph kernel, including orientation of covectors, the positive-energy cone, light-cone singularities and diagonals. In particular derive or give a counterexample to the candidate graph cone: for graph vertices `x₁,…,x_m`, impose `Σ_{i:x_i≽x} t_i ≽ 0` for every spacetime point `x`, with the exact causal order and covector cone fixed by signature. Show whether this candidate contains `WF(F(Γ))` and is stable under edge addition, disconnected-component product and contraction. For a product, verify at every point that no nonzero covectors in the participating wavefront sets sum to zero. For pullback along f, use the sufficient condition `WF(u)∩N_f=∅`; it is not a necessary condition for every individually defined restriction. For spacetime fiber integration use P8's pushforward on distributions whose support is proper over the retained variables, with its exact wavefront bound; no additional noncharacteristic condition is needed for that distributional pushforward. For the alternative Fourier-space construction, restriction of the Fourier transform to zero internal momentum is a distinct pullback: prove the appropriate wavefront condition there and the inverse-transform/normalization comparison. Do not infer that a noncompact propagator can be integrated merely from its local wavefront set. Define compactly supported switching functions, prove integration for each switched graph, and state the convergence/topology assumptions for every cutoff-removal or adiabatic-limit theorem. Replace “nowhere tangent” by the criterion for the particular operation.
+
+**Checks.**
+
+- `WF(δ₀)={(0,ξ):ξ≠0}` and the square `δ₀²` is excluded because `(0,ξ)` and `(0,−ξ)` sum to zero; the tensor product `δ(x)⊗δ(y)` is always defined.
+- Pullback of `δ(t)` along the submersion `(t,x)↦t` gives `δ(t)⊗1`, whose wavefront is conormal to `{t=0}`; the sufficient condition `WF(u)∩N_f=∅` holds since `N_f=0` for a submersion.
+- Restriction of the Fourier transform to zero internal momentum is the pullback along the inclusion `q=0`, with a condition distinct from the position-space pushforward.
+
+*Needs:* PseudodifferentialOperators P8 (pullback, product and pushforward theorems); §1.9 for the distributions whose wavefront sets §6.8 computes.
+
+### 6.5 The directional description of wavefront sets and products of distributions
 
 For the directional description of wavefront sets (Borcherds–Barnard §6.3, pp. 40–43), first multiply an arbitrary
 distribution by a compact smooth cutoff nonzero at the chosen point. Only
@@ -1135,7 +1998,18 @@ singular product is asserted from wavefront exclusion alone. Preserve the
 full finite graph products and their causal, insertion, scaling,
 partition-stage and extension targets below.
 
-**RQFT6.SourceProductAdapters — filter cones, component conservation and the periodic example.** This roadmap owns the proof route below.
+**Checks.**
+
+- `B_+·B_+` is admissible (both wavefronts in `{p>0}`), while `B_+·B_−` is not, matching §6.8.
+- The three rays through `(2,0)`, `(−1,√3)`, `(−1,−√3)` contain no opposite pair yet sum to zero, so pairwise tests do not certify a triple product.
+- A convex pointed cone satisfies the no-zero-sum condition: if `Σξ_i=0` with all `ξ_i∈C` then `−ξ₁∈C`, hence `ξ₁=0`.
+- Constant factors `2` have empty wavefront but partial products `2^N` diverge; the factors `f_i=1+2^(−i)` satisfy the summable criterion and converge, while `f_i=1+1/i` do not.
+
+*Needs:* PseudodifferentialOperators P8; §0.9; Borcherds–Barnard §6.3 (pp. 40–43); Hörmander, Theorem 8.2.4.
+
+### 6.6 SourceProductAdapters — filter cones, component conservation and the periodic example
+
+This roadmap owns the proof route below.
 
 The P8 pullback hypothesis for the inclusion i:Y↪X is
 `WF(u)∩N*Y=∅`, with nonzero conormal covectors; RQFT6 owns the concrete graph/
@@ -1154,7 +2028,17 @@ For the periodic example fix n≥1 and angular period 2π. Use the explicit smoo
 
 Let h be probability Haar and v the angular Lebesgue volume, `v=(2π)^n h`. For `e_k(x)=exp(i k·x)`, prove `−Δe_k=|k|²e_k` and `∫|f|²dv=(2π)^n Σ_k|f̂_h(k)|²`. For m>0 construct the unique continuous inverse of `−Δ+m²` on the periodic distribution dual by the multiplier `(|k|²+m²)⁻¹`, proving both inverse identities. Its Haar-convolution kernel K_h has those Fourier coefficients and satisfies `(−Δ+m²)K_h=δ_0` under the h pairing. For the volume pairing the representing kernel is `K_v=(2π)^(−n)K_h`; prove this density conversion and the corresponding convolution identity. This kernel is a distribution with compact support because the torus is compact, and is not smooth since applying a differential operator to a smooth kernel cannot produce δ_0. For n=1, prove the continuous representative `K_h(x)=(π/m)cosh(m(π−|x|))/sinh(mπ)` on [−π,π]; this basic kernel needs no singular distribution extension. For n≥2 the diagonal point evaluation is not supplied by the Fourier distribution construction; in n=2 its basic singularity is logarithmic. Determine each actual graph product or self-loop by its dimension, derivative labels, product criterion and extension bounds. Compactness alone proves neither an admissible singular product nor an ultraviolet divergence for every instance. The zero mode is invertible because m>0.
 
-**RQFT6.RadialExtension — the annular normalizer and homogeneous kernel.**
+**Checks.**
+
+- For the edge tuple `t_i=κ`, `t_j=−κ` every future filter sums to `0` or `κ`, so `t` lies in the candidate cone, while `−t` has a filter summing to `−κ` and is excluded.
+- A bridge kernel contributes covectors `(κ,−κ)`, which cannot cancel the annihilator covectors of the two components since `κ≠0` has nonzero sum on each side.
+- The restriction `q=0` of `δ(Σp_i+Σq_j)a(p,q)` is `δ(Σp_i)a(p,0)` when at least one external slot remains; with no external slot the result would be `δ(0)` and the vacuum reduction is needed.
+- On the circle with `m>0` the kernel `K_h(x)=(π/m)cosh(m(π−|x|))/sinh(mπ)` has derivative jump `−2π` at `0`, so `(−∂²+m²)K_h=δ₀` under the probability Haar pairing, and its mean `∫K_hdh=1/m²` equals the `k=0` Fourier coefficient.
+- `−Δe_k=|k|²e_k` and `∫|f|²dv=(2π)^nΣ_k|f̂_h(k)|²`; the zero mode is invertible because `m>0`.
+
+*Needs:* PseudodifferentialOperators P8; Mathlib `fourier`, `fourierBasis`, `orthonormal_fourier`, `span_fourier_closure_eq_top`, `AddCircle.haarAddCircle`; ComplexKahlerGeometry K5a; §0.4, §0.8; consumed by §6.25 and §6.33.
+
+### 6.7 RadialExtension — the annular normalizer and homogeneous kernel
 
 For ambient n=m+1≥1 consume the native analytic sphere structure
 `EuclideanSpace.instChartedSpaceSphere`/`instIsManifoldSphere` in
@@ -1296,7 +2180,17 @@ line is inferred. For n=0 there is no
 sphere/radial construction: the punctured space is empty, and the one-point
 space has only degree0 nonzero distributions. Handle that case directly.
 
-**RQFT6.RealLineBoundary — real tests, Euler families and exact boundary products.**
+**Checks.**
+
+- `sd₀(δ₀)=n` and `sd₀(∂^αδ₀)=n+|α|`, since `s_λ^*(∂^αδ₀)=λ^(−n−|α|)∂^αδ₀`; `sd₀(|x|^(−a))=a` for `0<a<n`.
+- For `1/|x|` on `ℝ` the angular values are both `1`, the residue at `a=−1` is `2δ`, and `T=∂(sign(x)log|x|)` satisfies `(E+1)T=2δ` and `s_λ^*T=λ⁻¹(T+2logλ·δ)`; for `1/x` the angular values are opposite, the residue vanishes and `PV(1/x)` is homogeneous.
+- `ψ(x)=−(x·∂)χ(|x|)` for a cutoff `χ` equal to `1` near `0` satisfies `∫_0^∞ψ(rω)dr/r=χ(0)−χ(∞)=1`, so it is a radial normalizer.
+- `Res_(ν=−1−k)t_+^ν=(−1)^kδ^((k))/k!`: at `k=0` the residue of `t_+^ν` at `ν=−1` is `δ`, since `⟨t_+^ν,φ⟩=∫_0^1t^ν(φ(t)−φ(0))dt+φ(0)/(ν+1)+∫_1^∞t^νφ`.
+- For `n=0` the punctured space is empty and the only distributions are scalars, of degree `0`; the sphere construction does not apply.
+
+*Needs:* Mathlib `EuclideanSpace.instChartedSpaceSphere`, `instIsManifoldSphere`, `contMDiff_coe_sphere`; ComplexKahlerGeometry K5a, K5a.SmoothSectionMontel, K5a.DistributionLocalStructure, K3.MeromorphicGermField; GlobalHolomorphicFunctions GH2 local phase; Borcherds–Barnard §6.1 (pp. 37–38).
+
+### 6.8 RealLineBoundary — real tests, Euler families and exact boundary products
 
 Consume RQFT0.RealLineBoundary for B_± and their elementary Fourier/limit formulas. Consume the preceding RadialExtension degree convention, its construction of `T=∂(sign(x)log|x|)` and its logarithmic dilation anomaly, and ComplexKahlerGeometry K5a.DistributionLocalStructure's finite point-supported delta-jet theorem. Using the radial Euler identity, prove that the extensions of 1/|x| satisfying `(E+1)²u=0` are exactly `T+cδ`; the nonzero radial anomaly rules out a homogeneous extension. For 1/x prove `PV(1/x)=∂log|x|` and classify homogeneous degree−1 extensions, equivalently extensions of scaling degree at most1, as `PV(1/x)+cδ`. Reflection fixes δ and negates PV, so PV is the unique odd member of this bounded family. For unrestricted extensions, `PV(1/x)+cδ′` is odd for every c, so oddness alone gives no uniqueness. Use `s_λ(x)=λx` and `s_λ^*` for scalar-distribution pullback, reserving δ for point distributions; consume the radial real/complex orbit calculation rather than duplicating it. Keep the source's test-action shorthand and unspecified higher point jets distinct from these exact bounded classifications.
 
@@ -1377,9 +2271,19 @@ tangent vectors and interpret a future covector as `−η♭v`; every displayed
 covector inequality uses this negative dual cone. Derive or refute the
 candidate under exactly this convention.
 
-**RQFT6.ControlledExtension — transverse scaling and controlled-wavefront extension.**
+**Checks.**
 
-Consume CK K5a.DistributionLocalStructure for the generic locally finite normal-jet expression and its density/chart transport. This milestone owns its scaling-degree cutoff and controlled-wavefront consequences. The point case is the preceding sd₀ convention. Define the transverse scaling degree σ at a partial diagonal Δ of codimension q in normal coordinates `(y,z)`, `Δ={z=0}`, by scaling `(y,z)↦(y,λz)`. Require distribution estimates locally uniform on compact tangential sets, for every exponent greater than σ; estimates separately on each normal fiber do not suffice. For finite σ prove existence of an extension with the same transverse scaling degree. It is unique when σ<q. The point case `Δ={0}⊂ℝⁿ`, `q=n`, is Brunetti–Fredenhagen, Theorems 5.2–5.3: below `n` the extension of the same scaling degree is unique, and from `n` on extensions of the same scaling degree exist and are unique up to `Σ_(|α|≤σ−n)c_α∂^αδ`. `Suggested.lean` states the case `σ<n` for a distribution on `puncturedSpace` (that is, `ℝⁿ∖{0}`) that `ScalesBelow` every `d>σ`, as `existsUnique_extension_of_scalesBelow`; the dilation of tests is `dilateTest` and `ScalesBelow t d` is `λ^d s_λ^*t → 0` as `λ ↓ 0` (Brunetti–Fredenhagen, §5.1 and Theorem 5.2). When σ≥q, prove locally that any two such extensions differ by `Σ_(|α|≤floor(σ−q)) u_α(y)⊗∂_z^αδ(z)`, with `u_α` distributions on Δ. State the transformation law between normal-coordinate charts and glue the extension/ambiguity descriptions.
+- `B_(±,2)=lim(x±iε)^(−2)=−∂B_±` and `Pf(1/x²)=−∂PV(1/x)`, so `B_(±,2)=Pf(1/x²)∓iπ(−1)δ′`.
+- The equal-`ε` product `1/(x²+ε²)` pairs with `1` to `π/ε`, so the opposite-side product diverges like `(π/ε)δ`; subtracting it leaves `Pf(1/x²)`.
+- In the negative-phase convention `F_pB_−=2πi1_(p<0)`, so `WF(B_−)={(0,p):p<0}` and `WF(B_+)={(0,p):p>0}`.
+- At a nonzero null `x`, `G_F` has covectors `−λη♭x` with `λ>0`; `G_F²` is admissible there since two such covectors cannot sum to zero, while `G_R²` fails at `x⁰>0` where both signs of `λ` occur; `W_+W_−` fails on the cone.
+- At the origin `PG=δ` and `WF(Pu)⊆WF(u)` force the full punctured fibre for every fundamental solution `G`; for `W_+` the origin fibre is `{−η♭v:v≠0 future null}`.
+
+*Needs:* §0.9, §1.9, §6.7; PseudodifferentialOperators P8 (normal topology, hypocontinuity, conormal theorem); ComplexKahlerGeometry K5a.DistributionLocalStructure; Borcherds–Barnard §6.3 (p. 43).
+
+### 6.9 ControlledExtension — transverse scaling and controlled-wavefront extension
+
+Consume CK K5a.DistributionLocalStructure for the generic locally finite normal-jet expression and its density/chart transport. This target owns its scaling-degree cutoff and controlled-wavefront consequences. The point case is the preceding sd₀ convention. Define the transverse scaling degree σ at a partial diagonal Δ of codimension q in normal coordinates `(y,z)`, `Δ={z=0}`, by scaling `(y,z)↦(y,λz)`. Require distribution estimates locally uniform on compact tangential sets, for every exponent greater than σ; estimates separately on each normal fiber do not suffice. For finite σ prove existence of an extension with the same transverse scaling degree. It is unique when σ<q. The point case `Δ={0}⊂ℝⁿ`, `q=n`, is Brunetti–Fredenhagen, Theorems 5.2–5.3: below `n` the extension of the same scaling degree is unique, and from `n` on extensions of the same scaling degree exist and are unique up to `Σ_(|α|≤σ−n)c_α∂^αδ`. `Suggested.lean` states the case `σ<n` for a distribution on `puncturedSpace` (that is, `ℝⁿ∖{0}`) that `ScalesBelow` every `d>σ`, as `existsUnique_extension_of_scalesBelow`; the dilation of tests is `dilateTest` and `ScalesBelow t d` is `λ^d s_λ^*t → 0` as `λ ↓ 0` (Brunetti–Fredenhagen, §5.1 and Theorem 5.2). When σ≥q, prove locally that any two such extensions differ by `Σ_(|α|≤floor(σ−q)) u_α(y)⊗∂_z^αδ(z)`, with `u_α` distributions on Δ. State the transformation law between normal-coordinate charts and glue the extension/ambiguity descriptions.
 
 For microlocal extension, work on a product normal chart `U=U_y×U_z` with `λU_z⊆U_z` for `0<λ≤1`. Write `T°U=T*U∖0`, and choose a closed conic `Γ⊆T°(U∖Δ)` containing the wavefronts of the rescaled input family. Require scaling stability: `(y,z;η,ζ)∈Γ` implies `(y,z/λ;η,λζ)∈Γ` whenever its base point remains in U. Require `{λ^s t(y,λz):0<λ≤1}` to be bounded in `D′_Γ(U∖Δ)` for every s>σ, using P8's normal locally convex topology from its final pushforward/continuity paragraph: compact-local strong distribution seminorms and cone-separated localized Fourier seminorms. Here `t_λ=t(y,λz)` is the scalar-distribution pullback: `⟨t_λ,φ⟩=λ^(−q)⟨t,(y,z)↦φ(y,z/λ)⟩`, for compactly supported tests in the chart; the factor `λ^(−q)` uses the normal codimension q. P8's same paragraph supplies the proper-support pushforward wavefront bound and continuity; prove the normal-dilation family estimates here. Choose a smooth radial normal cutoff χ equal to1 for `|z|≤ε` and0 for `|z|≥2ε`, with the closed `2ε` normal ball inside U_z and strictly decreasing transition in between. The projection to U_y is proper on `supp χ`. Define `ψ=−(z·∂_z)χ`; its support lies in the normal annulus away from Δ and is proper over U_y. Define
 `Ξ_ψ={(y,0;η,ζ)≠0 : ∃z, (y,z)∈supp ψ and (y,z;η,0)∈Γ}`.
@@ -1391,7 +2295,16 @@ Prove this equality by carrying every nonconormal limit from `closure Γ` to the
 `WF(u_α⊗∂_z^αδ)⊆{(y,0;η,ζ)≠0 : (y,η)∈WF(u_α) or (η=0 and y∈supp u_α)}`,
 then the normal-saturation identity for Λ. Finite sums use the union of these cones. For a separately prescribed cone without that saturation property, state the coefficient pushforward necessity and tensor-lift sufficiency separately and prove the additional compatibility needed for an equivalence. A distribution supported on Δ has wavefront contained in `N*Δ` iff all its transverse-derivative coefficients are smooth, under K5a.DistributionLocalStructure's locally finite structure theorem. Use constant coefficients only after the appropriate translation-invariant total-diagonal reduction; partial diagonals retain other relative coordinates. The scaling/structure proof route is [Brunetti–Fredenhagen, §§5–6](https://arxiv.org/abs/math-ph/9903028); the controlled coefficient statement must include the preceding cone argument, in addition to [Dang, §8](https://arxiv.org/html/1412.2808v1#S8).
 
-**RQFT6.ControlledKernelStages — intrinsic partition-stage induction.**
+**Checks.**
+
+- In `ℝ⁴` the square of the Feynman propagator has scaling degree `4=n`, so its extensions of the same degree differ by `cδ`; the sunset kernel (three propagators) has degree `6` and ambiguity `Σ_(|α|≤2)c_α∂^αδ`; a kernel of degree `3<4` extends uniquely.
+- At the partial diagonal `{x₁=x₂}` in `M³` the codimension is `q=4` and the dilation pullback carries `λ^(−4)`; uniqueness holds for `σ<4` and the ambiguity for `σ≥4` has distribution coefficients `u_α(y)` on the diagonal.
+- `ψ=−(z·∂_z)χ` is supported in the normal annulus `ε≤|z|≤2ε` and is proper over `U_y`; for translation-invariant input `Γ` has `η=0`, so `Ξ_tan(ψ)=∅` and the output cone is `WF(t)∪N^*Δ`.
+- The exceptional degree `σ=q` carries a logarithmic scaling estimate (as `T` in §6.7), not a bounded endpoint seminorm.
+
+*Needs:* ComplexKahlerGeometry K5a.DistributionLocalStructure; PseudodifferentialOperators P8 (normal topology, pushforward bound); §6.7; Brunetti–Fredenhagen §5.1, Theorems 5.2–5.3, §6; Dang, Theorems 3.4–3.5 and §8.
+
+### 6.10 ControlledKernelStages — intrinsic partition-stage induction
 
 For a finite vertex set V, index collisions by partitions π. Set `Δ_π={x : x_i=x_j whenever i,j lie in the same block}` and `Δ_π°=Δ_π∖⋃_(ρ strictly coarser than π)Δ_ρ`; distinct blocks have distinct positions there. Set `c(π)=4Σ_(B∈π)(|B|−1)` and `U_k=M^V∖⋃_(c(π)>k)Δ_π`. Start on U_0, the distinct-point configuration space, and extend in increasing codimension. Equal-codimension strata are disjoint closed submanifolds of their stage. Stage0 takes the product of the non-self-loop propagator kernels, their derivative/numerator operators and the prescribed local vertex factors only after proving the no-zero-sum wavefront criterion for every participating product on U_0. Own this proof for the scalar Feynman class and the stated Dirac/vector kernels obtained by differential or smooth tensor operations. Advanced/retarded self-products that fail the criterion are not stage0 products; their renormalized prescriptions require a separately defined extension or causal construction and its estimates. A self-loop is evaluated by the local prescription below, not by a pullback to a zero separation.
 
@@ -1465,7 +2378,16 @@ condition fails, record the obstruction instead of asserting a canonical
 product. The stage0 scalar Feynman and stated differential/tensor systems remain
 owned here; TotalDegreeInsertion owns the additional intrinsic 𝓛/𝓕 verification. At each block with fresh freedom use an intrinsic translation-invariant extension in the controlled class proved above; preserve the full prepared input from all proper blocks. An alternative Taylor-cutoff map requires its own controlled wavefront proof. Prove these maps, switching and gluing preserve the estimates, with the prescribed logarithmic losses. For each new Δ_ρ°, the input includes the counterterms already fixed on finer strata; prove its scaling and wavefront estimates before applying extension. In the generic distribution theorem, extend tangential coefficient distributions at coarser partitions with the inherited bounds. For a supplied intrinsic graph-local operation system satisfying the hypotheses, propagate its more restrictive block tensors and insertion maps. Its actual construction and verification for 𝓛/𝓕 are owned later by TotalDegreeInsertion; arbitrary generic tangential coefficient extensions do not supply it. Prove compatibility on overlaps, preservation of already prescribed restrictions and commutation of fixed compatible operations on disjoint same-stage strata. This independence concerns the fixed prescription; the later graph-local verification must also establish its declared product rules and the generic controlled ambiguity bounds.
 
-**RQFT6.CommonOpenTensorData — open tensors and nominal degrees.**
+**Checks.**
+
+- For `V={1,2,3}` the partition `{12}{3}` has `c=4` and `{123}` has `c=8`; the strata `Δ_(12)°` and `Δ_(13)°` are disjoint since a common point would lie in `Δ_(123)`, which is coarser.
+- Stage `0` on `U_0` multiplies the propagators of a triangle graph, admissible for the Feynman class by the no-zero-sum criterion of §6.8; the advanced self-product is not a stage-`0` product.
+- A self-loop at a vertex adds no stratum: the configuration space is unchanged and the loop is evaluated by the tadpole map of §6.12.
+- The induction order is by `c(π)`: all codimension-`4` strata are extended before the codimension-`8` total diagonal of three points.
+
+*Needs:* §6.9; PseudodifferentialOperators P8; §6.12 for the intrinsic `𝓛/𝓕` operation systems.
+
+### 6.11 CommonOpenTensorData — open tensors and nominal degrees
 
 The analytic realization in this block is conditional on a supplied admissible
 ControlledStageOperations system and consumes ControlledKernelStages. Its formal
@@ -1548,7 +2470,16 @@ the sum of these flows at each original cut vertex, then acts by its full
 Leibniz operator before contraction and before quotient-loop integration.
 This is a different map from block summation on quotient momenta.
 
-**RQFT6.TotalDegreeInsertion — complete residue degree and typed budgets.**
+**Checks.**
+
+- `coev_V=Σ_ae_a⊗e^a` is independent of the basis; a spectator space passes through as `K⊗id_S`.
+- `N_γ=M^(V(γ))/diag M` has dimension `4(|V(γ)|−1)` and `P_γ={Σ_vp_v=0}`; a one-vertex graph has `P_γ=0` and `b=0`.
+- The `φ⁴` bubble with undifferentiated external ports has `ω^nom=0`, `e=0` and nominal jet space `Pol_(≤0)(P_γ)`, one constant; the one-vertex tadpole has `ω^nom=2`, `P_γ=0` and admits port allocations of degree `e_c≤2`, the mass and wave-function terms.
+- The nominal transverse bound `codim Δ_γ+ω_γ^nom−e_(γ,c)` for the bubble is `4+0−0=4`, matching the scaling degree of `G_F²`.
+
+*Needs:* §5.2, §5.6, §5.9 (Koszul braiding); §6.10; consumed by §6.12, §6.16, §6.18.
+
+### 6.12 TotalDegreeInsertion — complete residue degree and typed budgets
 
 Consume CommonOpenTensorData for the open tensors, boundary allocations and
 nominal counts, ControlledKernelStages for its conditional partition induction,
@@ -1655,6 +2586,18 @@ Each reference choice, cutoff and allowed local change depends only on the decor
 
 For a standalone translation-invariant block use its total centre y and relative z. Translation invariance makes every wavefront covector have tangential component η=0, so its scaling-stable input cone has `Ξ_tan(ψ)=∅` and conormal landing at the total diagonal. Apply the actual radial-cutoff controlled extension theorem with cutoff depending only on z; it supplies an intrinsic translation-invariant extension with `WF(R)⊆WF(R_off)∪N*Δ`. Finite constant jets stay in this class. This does not force conormal landing or constant coefficients at generic partial diagonals, where other relative variables remain tangential. A Taylor-cutoff extension may be used instead only after its controlled wavefront and scaling bounds are separately proved.
 
+**Checks.**
+
+- Inserting the degree-`0` residue of a bubble `γ` into `Γ` lowers the loop number by `1` and the edge count by `2`, so `ω_(Γ/γ)=ω_Γ−0+0=ω_Γ`; inserting a degree-`2` residue gives `ω_Γ+2`, the two derivatives at the new vertex.
+- The budget identity `(ω_γ−q_j)+(ω_(Γ/γ[j])−q_Γ)=ω_Γ−q_Γ` follows from the insertion formula by cancellation.
+- Two bubbles sharing a vertex: in `𝓕` the value is the product; in `𝓛` a fresh constant jet is allowed; the disconnected sunset pair (degree `12` at codimension `12`) and the bridge-joined pair (degree `14`) receive no fresh jet in either class.
+- Constant even pair contractions commute, so `exp(K_τ)exp(K_σ)=exp(K_(τ+σ))` on each polynomial vertex; `K_τ` on `φ⁴` with `τ` the self-pairing gives `6τφ²` and `exp(K_τ)φ⁴=φ⁴+6τφ²+3τ²`.
+- A graph with a bridge keeps the product of its bridge components in both classes; a connected bridgeless graph with an articulation vertex (two bubbles at a vertex) receives a fresh jet only in `𝓛`.
+
+*Needs:* §6.9, §6.10, §6.11; PseudodifferentialOperators P8; §5.9 (Koszul); consumed by §6.18 and §6.21.
+
+### 6.13 The finite-jet Lorentz covariance adapter
+
 Own the finite-jet connected Lorentz covariance adapter, consuming the finite-dimensional real Whitehead H¹ lemma of NoncompactQuantumSymmetry P.4 and the pinned `TauCeti.exists_isCompl_of_isKilling`, not reproving Whitehead here. Consume NoncompactQuantumSymmetry M0 item2's real `SL(2,ℂ)` and ordinary `SO₀(3,1)` LieGroup/connectedness/Killing interfaces, and LieGroups Layers2–3's closed-subgroup, automatic-smoothness, differentiation and connected-faithfulness interfaces. RQFT6 owns the remaining affine-target adapter: on the underlying finite-dimensional real C_γ identify `C_γ⋊GL_ℝ(C_γ)` with the closed subgroup `[[A,v],[0,1]]` of `GL_ℝ(C_γ⊕ℝ)`, realized after a real basis choice by native `Matrix.GeneralLinearGroup`; prove basis independence. Prove its closedness relative to GL, smooth group operations and `LeftInvariantDerivation` identification with the affine matrix Lie algebra; its representation on C_γ is the actual delta-jet/field-tensor action.
 
 RQFT6 owns the bounded group/jet carrier transport into the native spacetime M. Consume RQFT0’s named time-first continuous linear reindexing `ι_M:EuclideanSpace ℝ (Fin 4)≃L[ℝ]((Fin 1⊕Fin 3)→ℝ)` and its +--- form identity. Transport the M0 ordinary group's action through ι_M and the covered action through its already-owned Hermitian cover. RQFT0's time-last P is the inverse of M0's single signed map, composed with this reindexing. The delta-jet action on C_γ and its differentiated real module must be proved to use exactly this transported group, with the cotangent/derivative action and η musical identifications. Consume M0's transported IsKilling instance on LeftInvariantDerivation itself; a matrix IsKilling instance alone does not supply the hypothesis of the P.4 lemma.
@@ -1664,6 +2607,16 @@ Before computing a covariance defect, prove covariance of the selected stage0 ke
 For normalization constraints start with a nonempty invariant affine set A of extensions and a Lorentz-stable finite-dimensional real submodule `D⊆C_γ` parallel to A, with `g·R∈A` whenever R∈A. Prove `b_γ(g)∈D` and apply H¹ to D. Stability means a submodule, not the fixed-vector space `C_γ^G`; arbitrary vectors of D need not be invariant. Graph automorphisms and any additional symmetry averages must also preserve A and D. Inconsistent or nonstable constraints retain their obstruction. Parameter-regular corrections need a uniform construction and estimates, not only pointwise coboundaries. The tensor defect equations are illustrated by [Hollands–Wald, Lemma4.1, equations70–75](https://arxiv.org/html/gr-qc/0111108#S4.SS2); that theorem does not supply the graph-stage or insertion bounds, or vanishing of a Ward/gauge/dilation obstruction.
 
 For a finite component group, first prove the actual chosen kernel/prescription class is invariant, including stage0 kernels, tadpoles and every proper block, with its exact linear or semilinear field/test transport and i0 phases. Average the G₀-covariant extension over component representatives in the underlying real affine space. Prove the residual correction lies in `D^{G₀}`, representative independence, full covariance and preservation of all proper restrictions and bounds. Antilinear actions are real-linear, so finite real averaging works when this invariance hypothesis holds. If T or another component exchanges Feynman with anti-Feynman, or advanced with retarded data, construct the enlarged covariant kernel system, its exact semilinear transport and its admissible stage0 or separately defined causal-extension operations before averaging. Retain those cases and their estimates; do not claim a single noninvariant kernel class is covariant. For QED parity fix signature +--- and the linear spinor lift `P=γ⁰`, `P²=1`, with spatial inversion and the induced vector/adjoint-spinor actions; prove preservation of the actual Feynman kernels, tadpoles and proper blocks before using its two-element average.
+
+**Checks.**
+
+- `b_γ(gh)=(gh)·R−R=g·(h·R−R)+(g·R−R)=ρ(g)b_γ(h)+b_γ(g)`, the cocycle identity.
+- For the Lorentz Lie algebra the Killing form is nondegenerate and `H¹(𝔤,C_γ)=0`, so `b_γ` is a coboundary `ρ(g)v−v`; for the translation group `ℝ⁴` acting trivially on `ℝ⁴` the cocycle `b(a)=a` is not a coboundary, so the hypothesis is not vacuous.
+- The affine group `[[A,v],[0,1]]` is closed in `GL(C_γ⊕ℝ)` and its Lie algebra is the affine matrix algebra; the parity average `(R+P·R)/2` is `P`-invariant since `P²=1` and stays in a `P`-stable affine set.
+
+*Needs:* NoncompactQuantumSymmetry M0 and P.4; Tau Ceti `TauCeti.exists_isCompl_of_isKilling`; LieGroups Layers 2–3; §0.8 (the reindexing `ι_M`); Hollands–Wald Lemma 4.1.
+
+### 6.14 Collision induction, forests and the momentum-forest comparison
 
 Relate geometric collision induction to the complete graph/forest class without identifying the two combinatorics. For the direct geometric adapter take connected saturated (vertex-induced, including every parallel edge between its vertices) subgraphs γ with `|V(γ)|≥2`, after the local self-loop prescription has been separated. Let π_γ have V(γ) as its only nonsingleton block. Prove `Δ_π∩Δ_ρ=Δ_(π∨ρ)`; joins encode intersections only. A forest retains its labeled inclusion/contraction order and its disjoint-component data. For vertex-nested/disjoint saturated forests carry the labeled family `{π_γ:γ∈F}` with its inclusion order and contraction data, not only its total join. Use multi-block joins only for vertex-disjoint siblings; a join over all δ⊆γ including γ equals π_γ and does not encode the nesting. Prove that proper vertex nesting increases collision codimension, that inner counterterms are applied before the containing extension in the contracted configuration, and that disjoint operations commute under the fixed compatible prescription. Overlapping/shared-vertex subgraphs and repeated vertex sets retain their separate graph labels and multiplicities; their joined diagonal does not supply a missing operation or erase the forest order. For the separate labelled momentum Taylor-expansion convention, compatible subgraphs are edge-nested or edge-disjoint, with graph labels, external structures and contractions retained; its edge-disjoint siblings may share vertices. This convention is not the cut convention for the universal H coproduct below; the class quotients use that same coproduct. In that coproduct ordinary connected edge components sharing a vertex merge; its iterated-cut/antipode forests therefore do not include two such arms as separate simultaneous cut components. Relate the Taylor expansion to it only through the proved typed regrouping and factorization relations. For the direct saturated geometric forest convention, require vertex-nesting or vertex-disjointness. Own the regrouping between these explicitly different conventions, including shared-vertex and equal-vertex-set cases through the full recursion, rather than treating their diagonal join as a forest. [Bergbauer–Brunetti–Kreimer, §§2,4,6](https://arxiv.org/html/0908.0633) gives the saturated/nested-set mechanism for massless Euclidean scalar graphs without self-loops with at most logarithmic divergences in its main construction. Its §6.4 discusses nonlogarithmic amplitudes and regulators. Prove the massive, higher-degree, tensor and Lorentzian adapters here, including the loss of homogeneous massive propagators; do not treat that discussion as a proof of these wider adapters.
 
@@ -1725,7 +2678,16 @@ subtraction class.
 
 For compatible schemes prove the full 1PI forest sum, including non-saturated, overlapping, shared-vertex and repeated-vertex-set subgraphs and local tadpole insertions, recombines into a 𝓕 prescription up to a counterterm character preserving its product constraints. For every other admissible momentum scheme construct its coefficients recursively in the explicitly defined larger class 𝓛: an incompatible articulation projection can contribute `−T_U(R₁R₂)`, a scheme-determined bounded local jet at that connected bridgeless block. If γ is any connected spanning 1PI subgraph on B, then the induced Γ[B] is bridgeless because each old edge lies on a cycle and each added edge joins vertices already connected in γ. It may retain an articulation vertex: adding a parallel edge inside one arm of two vertex-joined bubbles does so. Thus its contribution is absorbed by the same allowed 𝓛 coefficient space at Γ[B], through the defined contracted-graph/tadpole insertion and the proved degree bound, whether or not Γ[B] has an articulation. Prove the intrinsic regrouping and degree/decoration compatibility. For the 𝓕 comparison prove separately that the compatible jet identities and complete forest regrouping force its articulation coefficients to be the product-determined ones; do not infer this from a false induced-2-connectedness assertion.
 
-**RQFT6.DiagonalAnnihilator — the constant-operator quotient.**
+**Checks.**
+
+- `Δ_π∩Δ_ρ=Δ_(π∨ρ)`: for `{12}{3}` and `{23}{1}` the join is `{123}`; two subgraphs sharing a vertex have `π_γ∨π_δ=π_(γ∪δ)`, which forgets that they are two subgraphs.
+- For two logarithmic arms `b₁=b₂=0` the criterion gives `b_U≤1`; the vertex-joined pair of bubbles has `ω_U=0` and `b_U=0`, so the Taylor scheme is compatible.
+- `R₁=x`, `R₂=y` has product vanishing to order `2` at `0` and `T₂(xy)=xy≠0`, so oversubtraction is not automatic.
+- The three-edge sunset contains three bubble subgraphs; the bubble counterterm `cδ(x₁−x₂)` times the remaining propagator `Δ_F(x₁−x₂)` is an undefined product (`δ` has every conormal covector and `Δ_F` the full fibre at `0`), so the sunset is extended on its full kernel.
+
+*Needs:* §6.12; §5.5; Bergbauer–Brunetti–Kreimer §2, §4, §6; Epstein–Glaser.
+
+### 6.15 DiagonalAnnihilator — the constant-operator quotient
 
 For M=ℝ⁴ and r≥1 let δ_Δ be integration over the full diagonal in M^r
 with the fixed density. In `Sym(⊕_(i=1)^r M)` write
@@ -1740,7 +2702,17 @@ universal operator relation. The canonical normal representative uses
 `D_i↦D_i−r⁻¹Σ_jD_j`. This lemma owns the diagonal-annihilator calculation;
 it requires neither a raw action nor a comparison theorem.
 
-**RQFT6.TypedJetImage — kernel-level local jets and complete auxiliary testing.** This roadmap owns the proof route below.
+**Checks.**
+
+- For `r=1`, `δ_Δ` is integration over `M` and `Ann=⟨∂_0,…,∂_3⟩`, since `∫∂_aφ=0`.
+- For `r=2`, `(∂_(1,a)+∂_(2,a))δ_Δ` tested gives `∫d/dx_a[φ(x,x)]dx=0`, while `(∂_(1,a)−∂_(2,a))δ_Δ` has Fourier transform `2ip_a` on the antidiagonal and is nonzero.
+- The normal representative `D_i−r⁻¹Σ_jD_j` is annihilated by the tangent sums and spans the complement; for `r=2` it is `±(D₁−D₂)/2`.
+
+*Needs:* Mathlib symmetric algebra, Fourier transform of tempered distributions; §0.4.
+
+### 6.16 TypedJetImage — kernel-level local jets and complete auxiliary testing
+
+This roadmap owns the proof route below.
 
 Work first over k=ℝ orℂ at a fixed finite field/port/fibre list, finite exterior coefficient stage and finite total differential order N. Consume RQFT5.FiniteOddPolarization, including its injective extension to larger fresh-generator stages. Keep the original incidence and every individual physical halfedge, field, coefficient and source/profile jet. Let T_c be the declared formal polarized coefficient/port-tensor space at physical boundary allocation c, of order e_c; impose its already declared graded tensor relations, not numerical coupling evaluation or equations of motion unless separately specified.
 
@@ -1776,13 +2748,33 @@ Construct the finite matrix from these actual differentiation/chain/product rule
 
 At a finite base-field stage the graded dual and coevaluation of 𝒥 are canonical. Only afterward extend scalars by the chosen graded commutative coefficient algebra, using flatness over k. Nominal restriction is the actual direct sum b+e_c≤ω_Γ^nom, so it is CommonOpenTensorData’s declared J^nom without counting auxiliary testing twice. Every full-cut corolla is the actual normal-form distribution with its independent output test; it requires no presentation lift. Keep the larger all-degree carrier, every port type and all graphs before the separately proved nominal/class/Ward/fixed-tad and physical specialization constraints.
 
-**RQFT6.KernelCutTransport — kernel-level flags and dual transport.**
+**Checks.**
+
+- The normal-form identity with `β=1` in one normal coordinate reads `F∂_zδ=F(0)∂_zδ−F′(0)δ`; for `F=z` it gives `z∂_zδ=−δ`.
+- The root splitting `y=x_root`, `z_i=x_i−x_root` has Jacobian `1`; the barycentric splitting has `dy=r^(−d/2)dY`, so for `r=2`, `d=1` the diagonal Haar is `dY/√2`.
+- For `r=1`, `P_Γ=0` and the carrier keeps all formal coefficient jets; for `r=0` the carrier is the normalized unit.
+- `D_y(a_β(y)∂_z^βδ)=(D_ya_β)∂_z^βδ` is nonzero for nonconstant `a_β`, so the bare annihilator relation of §6.15 must not be applied to variable coefficients.
+- On the angular-frequency Fourier side `𝓕(D_z^βδ)=(ip_z)^β`, so a physical monomial `p_z^β` is `i^(−|β|)D_z^βδ`.
+
+*Needs:* §5.10 (FiniteOddPolarization), §6.15; §0.4, §0.8; Mathlib compact-test fundamental lemma; consumed by §6.17, §6.18, §6.29.
+
+### 6.17 KernelCutTransport — kernel-level flags and dual transport
 
 For every cut and every nested flag retain arbitrary auxiliary output tests on each original and residue configuration. Form the finite transport on smooth test jets by the actual diagonal pullback, residue-slot substitution, full primitive derivative coproduct and the preceding normal-form multiplication formula. Include every original field/test/coefficient slot, uncut internal endpoint numerator and its derivative. The quotient variable at a contracted block has derivative equal to the sum over its original vertices under diagonal pullback; dually the Fourier block map is `(a_*p)_B=Σ_(v∈B)p_v`. Neither identity identifies each individual physical slot derivative with that sum. Prove the normal-form transition matrices, including both input-residue q and output q, agree on both sides of every nested flag; actual smooth diagonal substitutions compose, and the normal-form theorem is faithful. This proves transport on the intrinsic kernel carrier before its coideal/completion consequences. Define an iterated local insertion as the transpose of these finite smooth-jet maps followed by the single appropriate combined-diagonal pushforward; do not multiply arbitrary singular distributions. Actual insertion into a singular uncut graph kernel is the separate analytic consumer below.
 
 Use the canonical graded dual/coeval of the **whole kernel normal form** for scalar coefficient extraction. Field/tensor and physical coefficient jets are recovered once, then inserted by the proved typed map. All negative normal-index extractions vanish and all boundary allocations are summed with their actual chain-rule coefficients. The separate input-residue degree includes both internal and external allocations, while only the actual physical external allocation contributes to output e_c. Prove output-q preservation using these actual matrices. TypedHopf consumes this transport for its two nominal coideal weight cases, completed coaction and antipode proofs; ClassQuotients consumes it for the class-ideal proofs. These later consumers own those consequences. Integrated Div and local-functional descent occur only in ConnectedSubstitution; they are not relations in this kernel-level character algebra.
 
-**RQFT6.TypedHopf — the universal natural typed extraction–contraction algebra.** Compare [Connes–Kreimer §2, Eq6 and Theorem1](https://arxiv.org/html/hep-th/9912092) and [van Suijlekom §§2,4](https://arxiv.org/html/0807.0999) for the scalar/external-structure and typed coaction routes; the typed field/jet construction is owned here; the momentum-regulator continuation, forest-convergence and Taylor-scheme analytic adapters have their later separate owners. Fix the following Connes–Kreimer convention, independently of a chosen Taylor forest expansion. A cut is an internal-edge subset E′⊆E(Γ); take its ordinary graph connected components, with all incident vertices. Admissibility is purely graph-theoretic: every nonempty component is connected bridgeless/1PI with positive loop number. No field/residue whitelist removes a cut; convergence or a zero allowed local space enters through J_γ=0 and its empty coordinate sum only. Components sharing a vertex are one component, not two members of a cut. Thus the full edge set of a vertex-joined pair is its connected union once; do not add a separate product of its two arms for that same edge set. Distinct edge subsets, graph embeddings, external halfedges and residue choices retain their multiplicities. Non-saturated cuts and equal-vertex-set cuts remain. Local self-loop graphs are included as positive-loop graphs with the separately declared tadpole data; a residue corolla has loop degree0 and is an identity slot, not another free generator.
+**Checks.**
+
+- The quotient variable at a contracted block has derivative equal to the sum over its original vertices, by Leibniz on the diagonal pullback; dually `(a_*p)_B=Σ_(v∈B)p_v`.
+- For nested flags `E₁⊆E₂` the two normal-form transition matrices compose to the matrix of the one-step contraction, checked on the two-edge bubble inside a triangle.
+- Negative normal-index extractions vanish and output `q` is preserved under the Cauchy–Leibniz transport, checked for a degree-`1` boundary derivative moved outward.
+
+*Needs:* §6.16; §5.5; consumed by §6.18, §6.21, §6.26.
+
+### 6.18 TypedHopf — the universal natural typed extraction–contraction algebra
+
+Compare [Connes–Kreimer §2, Eq6 and Theorem1](https://arxiv.org/html/hep-th/9912092) and [van Suijlekom §§2,4](https://arxiv.org/html/0807.0999) for the scalar/external-structure and typed coaction routes; the typed field/jet construction is owned here; the momentum-regulator continuation, forest-convergence and Taylor-scheme analytic adapters have their later separate owners. Fix the following Connes–Kreimer convention, independently of a chosen Taylor forest expansion. A cut is an internal-edge subset E′⊆E(Γ); take its ordinary graph connected components, with all incident vertices. Admissibility is purely graph-theoretic: every nonempty component is connected bridgeless/1PI with positive loop number. No field/residue whitelist removes a cut; convergence or a zero allowed local space enters through J_γ=0 and its empty coordinate sum only. Components sharing a vertex are one component, not two members of a cut. Thus the full edge set of a vertex-joined pair is its connected union once; do not add a separate product of its two arms for that same edge set. Distinct edge subsets, graph embeddings, external halfedges and residue choices retain their multiplicities. Non-saturated cuts and equal-vertex-set cuts remain. Local self-loop graphs are included as positive-loop graphs with the separately declared tadpole data; a residue corolla has loop degree0 and is an identity slot, not another free generator.
 
 Use RQFT5's actual graded field/halfedge and derivative decorations. For each graph γ and ordered external field-port type c, use the already defined reduced vertex-momentum space P_γ, the finite-dimensional graded field-tensor port space T_c, and `J_(γ,c)=J_(γ,c)^nom=T_c⊗Pol_(≤N_γ^nom−e_(γ,c))(P_γ)`, with the homogeneous type-level count and formal decoration relations. The external-port type records its homogeneous boundary derivative allocation and indexes the tensor factor; its total local-symbol degree is q=deg_Pβ+e_(γ,c). It does not replace the vertex-relative normal space. Individual-port derivative slots and the original port-to-vertex incidence remain part of insertion. This definition is independent of actual numerator cancellations. TypedJetImage identifies the nominal pieces with actual kernel normal forms in 𝒥_Γ. External structures are elements of its whole graded dual, equivalently compatible functionals on 𝒫_γ modulo the proved kernel of its realization. Evaluation against its finite-dimensional coevaluation extracts scalar coefficients; auxiliary output testing is not part of c or e_c. Retain all mass, kinetic, derivative and tensor structures, including distinct two-point local residues. Represent two-point residues as typed local corollas; comparing an edge-residue convention requires its explicit contraction adapter. Do not identify all two-point residues or replace tensor entries by a scalar graph name.
 
@@ -1852,17 +2844,43 @@ is a finite recursive formula in each degree. Prove both antipode identities by 
 
 Let 𝒢 be the linear graded carrier of all actual typed graphs with the already defined coevaluation/open external/root ports and local residue symbols, including bridged/disconnected graphs and degree0 identity slots, modulo the common formal naturality relations. Define its left H-coaction by the same edge-cut sum, with the right term the actual contracted graph. The typed flags and naturality prove `(Δ⊗id)ρ=(id⊗ρ)ρ` and the counit law. Put `Z_χ=(χ⊗id)ρ`; then `Z_ψ Z_χ=Z_(χ⋆ψ)` for `χ⋆ψ=m_A(χ⊗ψ)Δ`. Evaluation gives the left action `χ·R=R∘Z_χ`, so `(χ⋆ψ)·R=χ·(ψ·R)` and the inverse is χ∘S. This universal natural action has not yet been asserted to preserve 𝓛: its already prescribed self-loop insertions require the tadpole quotient below. The analytic class action, comparison/transitivity and fixed-data stabilizer are proved only after those exact ideals are constructed.
 
-**RQFT6.InsertionDerivativeDescent.Kernel — derivative-natural kernel insertion.**
+**Checks.**
+
+- Admissible cuts of the three-edge sunset: any two edges (a bubble, loop `1`) and all three; a single edge is a tree and is not admissible; the vertex-joined pair of bubbles with all four edges cut is one component, not two.
+- In the coupling-stripped scalar toy `Δg=g⊗1+1⊗g+a⊗b+b⊗a`, `Sg=−g+2ab` from `S(g)=−g−S(a)b−S(b)a`, and `g−ab` is primitive.
+- The loop-degree cutoff is not a coideal: for a primitive `y`, `Δ(y²)` contains `2y⊗y`; `I_nom` is a coideal by the insertion identity, since a bubble output with `q=2>0` has `ω_quot=ω_Γ+2` for the quotient and the right coordinate lies in `I_nom`.
+- `w_total=w+2Σ_iq_i` on a proper multicut: each inserted residue degree occurs once as an output and once as an input, so a bounded target weight bounds every normal degree.
+- The parity of `x_(γ,λ)` is `|λ|+Σ_v|t_v|`; loop number adds no sign.
+
+*Needs:* §5.5, §5.9, §6.11, §6.12, §6.16, §6.17; Mathlib `HopfAlgebra`, graded completions; Connes–Kreimer §2 (equation 6, Theorem 1); van Suijlekom §2, §4.
+
+### 6.19 InsertionDerivativeDescent.Kernel — derivative-natural kernel insertion
 
 This generic unintegrated/kernel construction consumes no RegulatorContinuation, ForestConvergence or TaylorAdapter theorem. Consume the earlier RQFT5.BalancedJetModule and KernelCutTransport. For a **given** raw analytic kernel family, derivative-naturality is an explicit hypothesis at every contracted vertex: the total incidence action of RQFT5, including physical coefficient/profile jets, obeys `F(D_(v,μ)·Γ)=∂_(x_v^μ)F(Γ)` as distributions against all smooth output tests. Prove that this hypothesis and its corresponding residue/proper-block insertion identities imply the derivative-natural insertion/descent conclusion, using the full primitive coproduct and formal transpose.
 
 Separately own the **construction** for universal prescriptions in the declared controlled class. Construct extensions on the balanced inputs, then prolong by total D through the stated module comparison. Prove independence of the actual field/graph presentation, proper-block compatibility, and retention of the controlled scaling/WF and class/tadpole bounds. This construction supplies derivative-natural universal prescriptions before the typed quotient comparison; it is not an inference from an arbitrary raw family's coefficients. Numerical/EOM/Ward constraints retain their actual compatibility hypotheses. Raw families without derivative-naturality keep CourseRawComparison's larger-map action and are not silently discarded. The later TaylorAdapter must prove this hypothesis for its actual port-factored momentum realization; it supplies no premise of Core.
 
-**RQFT6.InsertionDerivativeDescent.Fourier — conservation and conditional internal integration.**
+**Checks.**
+
+- For the bare bubble `F=Δ(x₁−x₂)²`, `D_(1,μ)` acts on both incident ends and `∂_(x₁^μ)(Δ²)=2Δ∂Δ` is the sum of the two allocations.
+- A family assigning the counterterm `c` to the bubble and `0` to its derivative-labelled version violates derivative-naturality, since `∂_(x₁)(cδ(x₁−x₂))≠0`.
+- Prolonging a balanced extension by total `D` through §5.11 gives a derivative-natural universal prescription, checked on the bubble with one external derivative.
+
+*Needs:* §5.11 (BalancedJetModule), §6.17; consumed by §6.21, §6.26, §6.29.
+
+### 6.20 InsertionDerivativeDescent.Fourier — conservation and conditional internal integration
 
 In momentum space prove the exact Fourier conservation/derivative adapter before normal Taylor extraction and insertion. For a constant formal bare-delta coefficient kernel, conservation is Σ_vp_v=0 in RQFT0's angular-frequency convention and D has multiplier ip. After evaluating physical profiles their frequencies are independent: a mode exp(iΣ_s⟨k_s,x_(v(s))⟩) shifts that delta to `(2π)^dδ(Σ_vp_v−Σ_sk_s)` and hence its support to Σ_vp_v=Σ_sk_s. Total derivative and convolution must retain all these frequencies and the chosen outward-flow signs. Do not impose bare conservation on a fixed nontranslation-invariant physical profile or turn an uncut internal numerator into an external normal momentum. For an actual momentum-integral realization, require absolute integrability of every required differentiated integrand after the declared compact/Schwartz test pairings, with locally uniform parameter majorants jointly integrable in loop variables and every retained physical-profile frequency that is integrated. Require all loop-cutoff boundary terms to vanish. Specified finite Schwartz-seminorm bounds may supply this domination only after proving the resulting packet-weighted frequency integrals finite. For a proper-support position-space realization use P8’s transpose on compact tests and its actual properness hypothesis instead. Prove under these precise hypotheses that the derivative-module/IBP relations descend through the corresponding internal operation. The Kernel target supplies the generic Core reduction. TaylorAdapter later verifies these conditional internal-integration hypotheses for its actual momentum realization, consuming RegulatorContinuation’s convergence/continuation estimates. RegulatorContinuation alone is not claimed to prove the internal IBP/boundary or Taylor-scheme derivative-naturality conclusion, and this Fourier target does not construct or presume continuation. Pointwise scalar conservation alone supplies no such descent.
 
-**RQFT6.ClassQuotients — rooted defects, tadpoles and factorization.**
+**Checks.**
+
+- A profile mode `exp(iΣ_s⟨k_s,x_(v(s))⟩)` shifts the conservation delta to `(2π)^dδ(Σ_vp_v−Σ_sk_s)`; `D` has multiplier `ip` in the angular convention and `2πiξ` natively.
+- With a smooth loop cutoff `χ_R` the boundary terms contain `∂χ_R` and vanish when the differentiated integrand is dominated by an integrable majorant; without the majorant the Fubini step fails, as for a pointwise but non-integrable bound.
+- Pointwise conservation `Σp_v=0` on a translation-invariant kernel gives no descent for a fixed non-invariant profile, whose delta is shifted.
+
+*Needs:* §0.4, §0.8; §6.6 (conservation adapter); Mathlib dominated convergence and Fubini; consumed by §6.26.
+
+### 6.21 ClassQuotients — rooted defects, tadpoles and factorization
 
 Consume CommonOpenTensorData, TotalDegreeInsertion, KernelCutTransport
 and TypedHopf for the common coevaluation-root carrier, the actual 𝓛/𝓕
@@ -2056,7 +3074,17 @@ a theorem for all non-saturated/overlap/shared-vertex and tadpole occurrences;
 the coupling-stripped toy does not identify the vertex-sharing Taylor expansion
 with a quotient antipode.
 
-**RQFT6.CompletedBogoliubov — Birkhoff decomposition and the forest comparison.**
+**Checks.**
+
+- For zero or one positive-loop arm the defect `d_(t,C)` vanishes by spectator naturality; for two bubble arms joined at a root it is the top corolla coefficient of `D_t(χ)`.
+- In the scalar unit-root specialization the relation is `x_(tS)=x_tx_S`; for `S=ab` it is `x_(tab)=x_tx_(ab)`, leaving `x_(ab)` independent of `x_ax_b` in `H_𝓛`.
+- `I_(1v)` is a Hopf ideal: every edge cut of a one-vertex positive-loop graph leaves a one-vertex coordinate in some factor.
+- `g−ab` is primitive, so the ideal it generates in the toy is a Hopf ideal and `H_𝓕` identifies `g` with `ab`; `Δ(ab)` then equals `Δg`.
+- The identities `D_t(χ⋆ψ)=Z_ψD_t(χ)+D_t(ψ)(⊗Z_χ)` and `D_t(1)=0` are checked on the two-bubble join at loop order `2`.
+
+*Needs:* §6.11, §6.12, §6.17, §6.18, §6.10, §6.19; consumed by §6.29 and §6.35.
+
+### 6.22 CompletedBogoliubov — Birkhoff decomposition and the forest comparison
 
 Prove the algebraic Birkhoff/Bogoliubov theorem for the free homogeneous
 all-degree symbol algebra, its explicitly (L,w)-completed version, H and
@@ -2103,14 +3131,31 @@ prove by the same continuous induction that C and φ₊ kill it. Apply that
 statement only to ideals satisfying its actual input and continuity
 hypotheses. The Taylor bare rule below does not kill I_nom.
 
-**RQFT6.RegulatorContinuation — the upstream massive coefficient family.**
+**Checks.**
+
+- The pole projection on `K((ε))` satisfies the Rota–Baxter identity: for `a=b=ε⁻¹` both sides are `ε⁻²`; for `a=ε⁻¹`, `b=ε` both sides are `0`.
+- For a primitive `x`, `C(x)=−R(φ(x))` and `φ₊(x)=(1−R)φ(x)`; for the toy `g`, `C(g)=−R(φ(g)+C(a)φ(b)+C(b)φ(a))`.
+- `φ₊=C⋆φ` and `φ=C⁻¹⋆φ₊` are checked at loop order `1`, where `C⋆φ(x)=C(x)+φ(x)` for primitive `x`.
+- In the completed theorem every fixed coefficient is a finite sum because reduced cuts have strictly smaller loop degree and `w_total=w+2Σq_i` bounds the degrees.
+
+*Needs:* §6.18, §6.21; Mathlib Laurent series and completions; Connes–Kreimer §2–§3.
+
+### 6.23 RegulatorContinuation — the upstream massive coefficient family
 
 For every finite graph in the declared polynomial tensor-numerator class, fix its oriented routing, original field/test-port incidence, positive Euclidean masses, including RQFT6's preceding fixed-μ factor replacements,
 and κ>0. Use that preceding labelled-factor family `N_e∏_(a=1)^A_e D_(e,a)^(−s_(e,a))(D_(e,a)/κ²)^(−z)`, where `D_(e,a)=|ℓ_e(k,p)|²+m_(e,a)²`, A_e≥1 and s_(e,a)>0 are the fixed factor labels and integer powers, with the positive real logarithm on the real domain and its chosen holomorphic continuation for external p near the common subtraction point. Factor the stated homogeneous boundary operations before normal coefficient extraction. Prove absolute convergence and holomorphy for Re z sufficiently large, uniformly with every fixed external derivative near that point. A_e=1 gives the single-factor convention. Prove sector continuation and differentiated bounds with these finite factor labels retained under every cut. ForestConvergence and TaylorAdapter subsequently consume this identical family and own their respective convergence/removal and Taylor comparisons; no theorem from either is an input here. A common-denominator representation must keep the UV cancellations used in n_e; partial fraction terms are not assigned a better individual order without proof. The chosen factor presentation and its analytic regulator are part of the prescription data: cancelling a denominator factor or changing the presentation need not leave the z-dependent family unchanged, so compare such schemes by the actual relative adapter rather than an identity at nonzero z. Gauge parameters range in the stated positive-mass Euclidean domain; singular gauge limits are separate. Keep the same edge regulators under each typed cut: residue loop factors remain in the quotient numerator/vertex input and are not dropped by contraction.
 
 Resolve each finite graph's ultraviolet sectors, Taylor-subtract their smooth coefficients and integrate the monomial Mellin factors. Prove meromorphic continuation of every actual scalar/tensor coefficient to all of ℂ, with locally finite finite-order poles: for every R>0 construct it on the connected half-plane H_R={Re z>−R} by sufficiently many sector Taylor subtractions, locally uniformly on compact subsets of H_R, and integrate the finitely many monomial Mellin factors explicitly. Every H_R and every overlap H_R∩H_S contains the same large-Re-z convergence half-plane. Prove equality there from the actual integrals, then apply the meromorphic identity theorem on that connected overlap and glue the exhaustion ⋃_R H_R=ℂ. This upstream construction chooses no ε_Γ; ForestConvergence later chooses its pole-free subtracted half-plane. Positive masses control the remaining boundaries. Prove routing independence and compatibility with the full typed contraction/Leibniz/test differentiation, external normal coefficient extraction and finite forest regrouping wherever those integrals converge; uniqueness then extends these identities meromorphically. The target is the actual regulated graph coefficient family and its estimates, not a consequence of a scalar germ field. It precedes both ForestConvergence and TaylorAdapter and consumes neither. Massless removal and Lorentzian boundary values retain their separately stated hypotheses.
 
-**RQFT6.ForestConvergence — the full massive tensor remainder.**
+**Checks.**
+
+- The one-vertex tadpole `∫d⁴k(k²+m²)^(−1)((k²+m²)/κ²)^(−z)` converges for `Re z>1` and equals `π²m^(2−2z)κ^(2z)Γ(z−1)/Γ(1+z)`, meromorphic with poles at `z=1,0,−1,…`, all simple.
+- Shifting the loop momentum `k↦k+p` on a convergent integral leaves it unchanged, which is routing independence; the identity theorem extends it to the continuation.
+- Cancelling a denominator factor changes the `z`-family: `(k²+m²)^(−2)(…)^(−z)` and the same integrand with two labels `(k²+m²)^(−1)(…)^(−z)(k²+m²)^(−1)(…)^(−z)` have regulators `z` and `2z`.
+
+*Needs:* §6.3; Mathlib Mellin transforms, meromorphic continuation and the identity theorem; consumed by §6.24, §6.26.
+
+### 6.24 ForestConvergence — the full massive tensor remainder
 
 For each finite graph in the declared polynomial tensor-numerator class,
 including its scalar/Dirac/vector and higher-spin/derivative instances,
@@ -2191,7 +3236,16 @@ and adapters. Actual conic/scaling distribution bounds and the
 position/momentum comparison remain required; Euclidean integrability
 alone does not supply them.
 
-**RQFT6.MassiveEuclideanRegularity — full real external momenta.**
+**Checks.**
+
+- The bubble has `A_Γ=2`, so `ε_Γ=1/8`; at `Re z=−1/8` the regulator raises the degree by `2·(1/8)·2=1/2`, and the Taylor-subtracted integrand of order `0+1` keeps the margin `1−1/2=1/2`.
+- At `z=0` the subtracted bubble integrand behaves like `k^(−5)` and converges in four dimensions; the unsubtracted one does not.
+- For a tadpole with nonnegative budget `C_t` is minus the prepared coefficient and `φ₊(t)=0`; with negative budget no subtraction is made.
+- The sunset contains three overlapping bubble forests; the complete forest sum, not each expanded term, is absolutely integrable.
+
+*Needs:* §6.12, §6.23; Mathlib sector estimates and Fubini; consumed by §6.25, §6.26.
+
+### 6.25 MassiveEuclideanRegularity — full real external momenta
 
 For every finite graph in RegulatorContinuation and ForestConvergence's full
 polynomial tensor-numerator class, construct the renormalized reduced
@@ -2288,7 +3342,16 @@ regularity/comparison target, beyond the free-propagator
 calculation and beyond a merely conditional smooth-function-times-delta
 observation.
 
-**RQFT6.TaylorAdapter — all-degree coefficients and actual insertions.**
+**Checks.**
+
+- With `|A_eb|²<m²/2` one has `Re D(k,q+ib)=|L_ek+A_eq|²−|A_eb|²+m²≥(|L_ek+A_eq|²+m²)/2`.
+- The subtracted bubble coefficient `a(p)=∫d⁴k[(k²+m²)((k+p)²+m²)]^(−1)−a(0)` is real-analytic on `ℝ⁴` and grows like `log|p|`, within `C(1+|p|)^N`.
+- Two disconnected bubbles carry `δ(p₁+p₂)δ(p₃+p₄)`, one delta per component; a vacuum bubble carries `δ(0)` and needs the volume reduction.
+- A scheme change adds `c·1` to the bubble coefficient and leaves smoothness and growth unchanged.
+
+*Needs:* §6.6, §6.23, §6.24, §6.29, §6.31; Mathlib real-analytic functions and tempered distributions; consumed by §7.1.
+
+### 6.26 TaylorAdapter — all-degree coefficients and actual insertions
 
 Use the free all-degree homogeneous symbol algebra and its proved auxiliary
 completion before I_nom and formal degree-shifting naturality. Retain every
@@ -2410,13 +3473,32 @@ stated hypotheses. Compare [Connes–Kreimer §3](https://arxiv.org/html/hep-th/
 for the pole recursion; that renormalizable scalar example supplies no
 full field/jet, all-degree or analytic insertion proof.
 
+**Checks.**
+
+- The equal-mass bubble's `p²` coefficient is `−m²∫d⁴k/(k²+m²)^4=−π²/(6m²)` with Lebesgue measure and `−1/(96π²m²)` with `d⁴k/(2π)⁴`; it has `q=4`, `n=−2` and receives no counterterm.
+- The tadpole germ `m^(2−2z)κ^(2z)Γ(z−1)/Γ(1+z)` has a simple pole at `z=0`; with nonnegative budget `C` is minus its prepared value, so `C` does not kill `I_(1v)`.
+- `R` retaining `t^n` for `n≥0` is idempotent and Rota–Baxter because nonnegative and negative powers form subalgebras; the Taylor-germ lemma `R(ft^n)=T_n(f)t^n` with `T_n=0` for `n<0` is the holomorphic version.
+- `T_(b+1)(p_μa)=p_μT_b(a)` and `T_b(K_μa)=K_μT_b(a)` for a tangential parameter `K`, including `T_(−1)=0`, checked on `a=1`.
+
+*Needs:* §6.17, §6.18, §6.19, §6.20, §6.22, §6.23, §6.24; ComplexKahlerGeometry K3.MeromorphicGermField and K3.HolomorphicStalk; Connes–Kreimer §3.
+
+### 6.27 Normalization conditions and the prescription F(Γ)
+
 For a fixed chosen class and finite perturbative/jet bounds, place independent normalization conditions only on its free constant coefficient families (including tadpole data when these are variable). The fixed multiblock, disconnected and bridge values, and 𝓕's articulation values, are consequences of the product recursion; additional conditions on them must be proved to follow from the free conditions. Strip the overall momentum delta and use values/jets of the reduced amplitude only where it is smooth. Prove solvability by expressing the normalization map in graph order as block triangular, affine in each new free coefficient block with already fixed proper-graph terms, and with an invertible diagonal map on its allowed constant tensor space. For complete consistent target data this recursive map is invertible and gives a unique prescription, so equal complete conditions imply equality. Incomplete conditions retain their actual kernels and compatibility equations. Cross-graph Ward constraints require a separately proved compatible joint affine system, not arbitrary independent per-graph values. Conditions on a product block that contradict its fixed factorized value have no solution in 𝓕. For different realizable conditions use the action preserving their chosen class, or the full 𝓛 action between realized prescriptions and its inverse; the restricted factorization-preserving class alone cannot bridge inconsistent/nonfactorizing data. Prove support, temperedness and cutoff/infrared limits for each comparison independently of local wavefront control. Validate the sunset, non-saturated bubble, tadpole and compatible/incompatible articulation examples. Consume **RQFT6.RadialExtension** for the complete homogeneous-extension, annular-normalizer, angular-kernel, exceptional-degree and source-precision statements.
 
 Formalize the renormalisation prescription F(Γ) of Borcherds–Barnard §7.2 (p. 45) as a distribution-valued map on RQFT5's graded decorated graph carrier: unit/point and tadpole data, signed graph-isomorphism equivariance, disjoint-union and partition-stratum exterior products, edge insertion under the actual wavefront criterion, causal factorization away from collisions, field/derivative compatibility and the defined renormalized local insertions. References and changes are intrinsic and embedding-independent. Use exactly the two previously defined classes 𝓕⊆𝓛, their proper-block stage inputs and their distinct free coefficient families; products at bridges, disconnected graphs and multiblock strata remain fixed in both. Add symmetry covariance only under the proved equivariant-existence and stable-affine-constraint hypotheses. Prove existence and classify ambiguities by the compatible bounded constant tensor families, with the remaining values fixed by the relevant recursion. Keep the arbitrary generic u_α(y) controlled-distribution theorem distinct from both graph-local classes.
 
 Consume exactly the natural typed edge-set coaction and the proved class-preserving algebras H_𝓛,H_𝓕, with their fixed-tad quotients when appropriate; no second coproduct comes from the vertex-sharing Taylor convention. Prove the RQFT6 Birkhoff/Bogoliubov and complete forest comparison theorem above with its actual commutative Rota–Baxter target and typed subtraction adapter.
 
-**RQFT6.CourseRawComparison — the raw finite-renormalisation group and its action.**
+**Checks.**
+
+- In `φ⁴` at one loop the free constants are the bubble coupling and the tadpole mass; fixing their values at `p=0` determines the prescription uniquely, by the block-triangular recursion.
+- A condition on the two-bubble product block contradicting the product value has no solution in `𝓕`; in `𝓛` it is met by the fresh articulation jet.
+- Equal complete conditions give equal prescriptions; incomplete conditions (the coupling only) leave the mass free.
+
+*Needs:* §6.7, §6.12, §6.21, §6.29; Borcherds–Barnard §7.2 (p. 45).
+
+### 6.28 CourseRawComparison — the raw finite-renormalisation group and its action
 
 Retain all finite decorated graphs and all spanning edge-subgraphs γ,
 with isolated vertices as identity pieces; this raw carrier has no 1PI
@@ -2508,7 +3590,18 @@ an unconstrained raw family. This clause owns the raw group/action,
 faithfulness, cancellation and stabilizer definition. DiagonalStabilizer
 owns the subsequent reduction, lifting, kernel and effective comparison.
 
-**RQFT6.DiagonalStabilizer.Core — reduction and effective comparison.** This roadmap owns the proof route below. The name DiagonalStabilizer in the raw-reduction statements denotes this core. It consumes no regulator, Taylor or forest-convergence theorem.
+**Checks.**
+
+- On the single-edge graph the raw action has two terms: the empty subgraph (identity) and the edge contracted to a point with `C(edge)` acting; `C(•)=1` on the one-vertex graph and the scalar unit corolla has value `1`.
+- `A_(C₁⋆C₂)=A_(C₁)∘A_(C₂)` is checked on the single edge, where both sides equal `F(edge)+C₁(edge)F(•)+C₂(edge)F(•)` up to the lifted label action.
+- The identity family vanishes on positive-edge graphs, and the edge-count induction constructs inverses; the insertion cancellation `S_B(δ_Bu)=δ_B∂_(y_B)u` holds because the antipode contributes `−D` on labels.
+- `D·pt=0` and `C(pt)=1` at an undecorated point, so exact raw `U`-linearity cannot be imposed.
+
+*Needs:* §5.6, §5.9, §6.15, §6.16; Tau Ceti `TauCeti.UniversalEnvelopingAlgebra.instHopfAlgebra`; Borcherds–Barnard §7.3 (p. 47).
+
+### 6.29 DiagonalStabilizer.Core — reduction and effective comparison
+
+This roadmap owns the proof route below. The name DiagonalStabilizer in the raw-reduction statements denotes this core. It consumes no regulator, Taylor or forest-convergence theorem.
 
 Consume DiagonalAnnihilator, TypedJetImage, TypedHopf, ClassQuotients,
 TotalDegreeInsertion, ControlledKernelStages, ControlledExtension,
@@ -2563,14 +3656,31 @@ The diagonal calculation uses tangent sums S_a;
 individual normal derivatives are not annihilators. Under the universal
 hypotheses it is the effective quotient that acts simply transitively.
 
-**RQFT6.DiagonalStabilizer.RegularComparison — holomorphic relative evaluation.** Consume DiagonalStabilizer.Core for the effective comparison, and RegulatorContinuation, ForestConvergence and TaylorAdapter for the analytic family below. This owner alone adds holomorphic relative regularity and evaluation; SwitchedRealization and ConnectedSubstitution consume only Core.
+**Checks.**
+
+- A raw family supported on tangent sums `S_a` times constants has `C(Γ)δ_Δ=0` and acts trivially, so it lies in the kernel `K`.
+- Two prescriptions differing by `cδ` on the bubble are compared by the unique character with `χ(bubble)=c`; raw lifts of `χ` differ by `K`.
+- For a numerical `φ⁴` specialization a kinetic two-valent insertion preserves loop order and external type, so loop order alone does not bound the graph number in the stabilizer equations.
+
+*Needs:* §6.15, §6.16, §6.18, §6.21, §6.12, §6.10, §6.9, §6.19, §6.28.
+
+### 6.30 DiagonalStabilizer.RegularComparison — holomorphic relative evaluation
+
+Consume DiagonalStabilizer.Core for the effective comparison, and RegulatorContinuation, ForestConvergence and TaylorAdapter for the analytic family below. This owner alone adds holomorphic relative regularity and evaluation; SwitchedRealization and ConnectedSubstitution consume only Core.
 
 For the Taylor realization, distinguish pole-valued bare-to-renormalized C_i from scalar relative comparisons. Suppose the two prescriptions R_i(z)=C_i(z)·R_bare(z) extend holomorphically at z=0 on every fixed open graph/test stage, obey the same universal natural class conditions, and have the declared tadpole data at evaluation. Strip the auxiliary u,v,t gradings only after their previously proved finite graphwise calculation. Over K the pinned left-action relative character is χ(z)=C₂(z)⋆C₁(z)⁻¹. Prove regularity of χ by graph/loop induction, not by evaluating C_i individually: after removing the already regular proper-cut terms, the top local jet equals a difference of holomorphic distribution families. On its finite-dimensional allowed jet space choose finitely many compact tests separating the normal delta derivatives and open tensors; their constant invertible pairing matrix recovers every coefficient holomorphically. For numerical quotients use the actual open-jet evaluation kernel and choose a regular representative only under the separately proved lifting hypotheses, rather than infer regularity of invisible coordinates.
 
 Thus, on the universal coefficient carrier, χ takes values in the regular subring O₀⊗ℂ A_ℂ⊂K⊗ℂ A_ℂ. Apply ev₀⊗id coefficientwise; it is a ring map and commutes with each finite cut sum, so χ₀ is a genuine scalar relative character comparing R₁(0),R₂(0). The effective comparison theorem of DiagonalStabilizer.Core now applies. Equal tadpole data at z=0 imply χ₀ kills the fixed-tad relations; equality as holomorphic families gives the corresponding germ-valued assertion. Unequal bare/renormalized tadpoles give no such descent. General meromorphic C₂⋆C₁⁻¹ without the holomorphic-prescription hypotheses has no value-at-zero comparison asserted.
 
+**Checks.**
 
-**RQFT6.SwitchedRealization — compact all-map targets and tested open tensors.**
+- Two Taylor schemes differing by a finite constant on the bubble have pole-valued `C_i(z)` but `χ=C₂⋆C₁⁻¹` with `χ(bubble)=c` constant, hence regular at `z=0`.
+- `ev₀⊗id` is a ring map and commutes with finite cut sums, so `χ₀` is a character of `H`; equal tadpole data at `z=0` make it kill the fixed-tad relations.
+- With unequal bare and renormalized tadpoles no value-at-zero comparison is asserted, as the tadpole germ of §6.26 has a pole.
+
+*Needs:* §6.29, §6.23, §6.24, §6.26; ComplexKahlerGeometry K3.MeromorphicGermField.
+
+### 6.31 SwitchedRealization — compact all-map targets and tested open tensors
 
 Consume RQFT5's graded open-graph species, FiniteOddPolarization, WickCompact, total incidence U-action and algebraic all-map Free construction. For its switched species Fey₀ᶜ every
 vertex has an actual coefficient b_v∈C_c∞(M,ℂ). Its U-action differentiates
@@ -2682,7 +3792,17 @@ slots use the full coproduct. This is the precise free-carrier theorem
 consumed by ConnectedSubstitution; it does not extend the nonmultiplicative
 Wick sum by a distribution-algebra adjunction.
 
-**RQFT6.GaussianLegendreRealization — selected Green kernels and symbolic coefficients.**
+**Checks.**
+
+- `F_c^h(Γ)=(⊗_vb_v)F_h(Γ)` is supported in `∏_v supp b_v`; derivatives and diagonal insertions keep compactness.
+- For profiles `h_j(x)=z_jexp(i⟨t_j,x⟩)` a jet evaluates to `(it_j)^αz_jexp(i⟨t_j,x⟩)`, so the tested output is a polynomial in the `t_j` whose vanishing for all `t_j` forces every coefficient to vanish.
+- At `h=0` the terms with remaining open generators vanish while internal contractions and vacuum diagrams survive.
+- With two odd slots and fresh generators `θ₁,θ₂` outside `Λ_M`, the product `θ₁θ₂` is nonzero and separates the odd tensor; a single generator would give `θ²=0`.
+
+*Needs:* §5.9, §5.10, §5.12, §5.8; ComplexKahlerGeometry K5a.SmoothSectionMontel; §6.6; §6.15.
+
+### 6.32 GaussianLegendreRealization — selected Green kernels and symbolic coefficients
+
 Consume the symbolic RQFT5 Z/W/Γ and connected/1PI identities on completed Fey,
 and SwitchedRealization's actual graded all-map morphism F_c^h. Fix the RQFT1 Green
 kernel and its operator normalization: if E inverts P=□+m², the source quadratic
@@ -2702,7 +3822,15 @@ result remains the realized formal graph-coefficient identity; it is not an inve
 KG on the whole field space or an infinite-dimensional path-integral construction.
 This consumer has no role as a prerequisite of DiagonalStabilizer.Core.
 
-**RQFT6.ConnectedSubstitution — exact local interaction and source transform.**
+**Checks.**
+
+- With `A=−P/2` and `E` inverting `P=□+m²`, `A·(−2E)=PE=1`, so `Δ=−2E`; `H=2A` gives `H⁻¹=−E`.
+- The retarded kernel is not symmetric, `E_R(x,y)=E_A(y,x)`, so the commuting quadratic source pairing uses `(E_R+E_A)/2`.
+- Removing the compact switching needs the Fourier-restriction hypotheses of §6.6; the combinatorial Legendre identity of §5.17 holds coefficientwise before any removal.
+
+*Needs:* §5.14, §5.17, §6.31, §1.1; §6.6 for cutoff removal.
+
+### 6.33 ConnectedSubstitution — exact local interaction and source transform
 
 Consume RQFT5's scalar-base graded field-jet Hopf algebra A and LVF1's
 symmetric jet indices. Each linear jet generator is primitive. Write
@@ -2925,7 +4053,17 @@ integral invariance. Every cutoff-removal or adiabatic comparison retains its
 separate analytic assumptions; no convergence of a full perturbation series
 is asserted by the formal graph identity.
 
-**RQFT6.HyperfunctionAlternative — full graph spaces and translation quotients.**
+**Checks.**
+
+- For `L=λφ⁴/4!`, `Split_d` gives `λφ^(4−d)/(4−d)!`: the one-self-loop coefficient is `(1/2)·(λφ²/2)=λφ²/4` times the contraction, the double self-loop `(1/8)λ`, the two-vertex double edge `(1/4)(λφ²/2)⊗(λφ²/2)=λ²/16 φ²⊗φ²`.
+- For `L=gφ²ψ²/4` with one self-loop, the ordered two-port splits give `(g/4)(2c_(φφ)ψ²+2c_(ψψ)φ²+8c_(φψ)φψ)` and `|Aut|=2` yields `(g/4)(c_(φφ)ψ²+c_(ψψ)φ²+4c_(φψ)φψ)`.
+- `(ε⊗S)Δ=S` in `Free(·)(∅)`, so the local transpose sends `D_(v,μ)` to `−D_(v,μ)`; a degree-one normal delta derivative acquires a minus sign.
+- For a linear elementary source every connected positive-edge cut meeting it has a bridge, so `S_C(L+J)=S_C(L)+J` modulo divergences and `Green(A_(C_ζ)F,L)=Green(F,S_CL)`.
+- `S_1=id`, `S_(C⋆D)=S_D∘S_C` and `(S_C)^(−1)=S_(C^(−1))` are checked at first order on the self-loop with marker `ζ_E`.
+
+*Needs:* §5.6, §5.12, §6.6, §6.28, §6.29, §6.31; LocalVariationalFieldTheory Layer 1; Tau Ceti `TauCeti.UniversalEnvelopingAlgebra.instHopfAlgebra`; Borcherds–Barnard §8.2 (pp. 59–65).
+
+### 6.34 HyperfunctionAlternative — full graph spaces and translation quotients
 
 Consume Hyperfunctions HF3–HF5 after the distribution and controlled-extension
 foundation. For every finite graph vertex set V, its actual configuration
@@ -2968,11 +4106,28 @@ factorial-square point functional. RQFT0 consumes K5a’s single-owner theorem o
 ordinary analytic-germ convergence and the distinct signed factorial-square
 comparison.
 
-### RQFT6 invariant theory spaces, renormalization group and Ward identities
+**Checks.**
+
+- For `r=2`, `n=1`: `Y=(x₁+x₂)/√2`, `q=(x₁−x₂)/√2`, `dx₁dx₂=dYdq`, and `Y=√2a` on the diagonal, so `dμ_Q=√2dq=r^(1/2)dvol_Q`; in root coordinates `dμ_Q=dz` and `dvol_Q=dz/√2`.
+- A translation-invariant `u` on `p⁻¹U` is `p^*u_Q` with `u_Q` recovered by pairing with a centre test of integral `1`; two such tests give the same `u_Q`.
+- Every distribution on an open subset extends to a hyperfunction on the whole space (flabbiness), including `exp(1/x²)` on `ℝ∖{0}`, which has no distributional extension; the hyperfunction extension carries non-distributional ambiguities.
+- For `r=0` the configuration space and its quotient are a point.
+
+*Needs:* Hyperfunctions HF3 and HF5; ComplexKahlerGeometry K5a.DistributionLocalStructure (for §0.3); §6.9.
+
+### 6.35 Invariant theory spaces, renormalization group and Ward identities
 
 Consume **RQFT6.ConnectedSubstitution** for the actual interaction/source map, its contravariant composition law, and the invariant paired inverse action on prescriptions and Lagrangians. Prove that action with the specified counterterm group, field-algebra action and graph contraction. Use characters of H_𝓕 on 𝓕 or H_𝓛 on 𝓛, and their fixed-tad quotients for fixed data, after the full natural typed defect-ideal and insertion proofs above; prove preservation of that exact class and use inverse characters for the reverse comparison between realized prescriptions. For a specified continuous spacetime/internal symmetry G acting on the field algebra, diagonals and test spaces, prove existence of G-equivariant prescriptions and transitivity of renormalizations commuting with G under exact averaging/cohomological hypotheses; for a compact internal G use Haar averaging, and for noncompact spacetime symmetry own the equivariant extension obstruction and its vanishing conditions. The finite-jet connected Lorentz case is supplied by the defect/Whitehead adapter above under its Lorentz-stable-submodule and invariant-affine-set hypotheses; it does not remove obstructions for other groups or incompatible constraints. Questions 1–2 of Borcherds–Barnard §8.3 (p. 65) ask for these results; they are theorem targets with hypotheses, not assumed properties of every group.
 
-**RQFT6.InvariantInteractionCarrier — the finite source parameter spaces.**
+**Checks.**
+
+- For a compact internal `G`, Haar averaging of a prescription gives a `G`-equivariant one, and the comparison characters commuting with `G` act transitively on equivariant prescriptions.
+- For the connected Lorentz group the adapter of §6.13 supplies equivariance; for a noncompact group with nonzero `H¹` the obstruction can be nonzero, as the translation cocycle of §6.13 shows.
+
+*Needs:* §6.33, §6.21, §6.13; Borcherds–Barnard §8.3 (p. 65).
+
+### 6.36 InvariantInteractionCarrier — the finite source parameter spaces
+
 For its prescription-class/interaction application consume ClassQuotients and ConnectedSubstitution as in the preceding action theorem. The finite vector-space construction below is algebraic; stability retains its separately stated hypotheses.
 Fix the ground field k=ℝ or ℂ, finitely many field components and jet
 orders, and a specified coefficient algebra A₀ finite-dimensional over k.
@@ -3018,7 +4173,16 @@ are algebraic allowed-character witnesses, not assertions that a physical
 graph has a nonzero divergence coefficient or that a class survives every
 later Div/symmetry quotient.
 
-**RQFT6.InvariantCountertermGroup — the actual commuting characters.**
+**Checks.**
+
+- With one even generator of weight `1`, coefficients of weight `0` and bound `B=2` the monomials are `1,x,x²`: dimension `3=(2+1)^1`, matching the bound.
+- A generator of weight `0` gives infinitely many monomials `x^j` of weight `0`; the theorem's finiteness needs every weight at least `δ>0`.
+- Two `gφ⁶` vertices joined by two edges have eight external ports, `L=1`, `ω=0`, so a `q=0` counterterm `g²φ⁸` has weight `8>6`; a `φ⁴` bubble with residual coefficient `a` of weight `2` gives `aφ⁴` of weight `6>4`.
+
+*Needs:* Mathlib polynomial and exterior algebras, finite-dimensional invariants; §6.21, §6.33.
+
+### 6.37 InvariantCountertermGroup — the actual commuting characters
+
 Fix k_H=k, the Hopf scalar field ℝ or ℂ of the chosen typed construction.
 Specify one H_ad: H_𝓛, H_𝓕, or its already proved fixed-tad quotient,
 with the exact nominal, field/derivative and normalization relations used
@@ -3054,7 +4218,15 @@ G-equivariant prescription class. The star subscript records the chosen
 model/H_ad/coefficient data; Γ_*^G is not defined as the subgroup preserving
 V_*. Its uniform interaction-family preservation is the following theorem.
 
-**RQFT6.FiniteEngineeringClosure — a sufficient stable finite stage.**
+**Checks.**
+
+- `g·(C⋆D)=(g·C)⋆(g·D)` because `g_H` is a coalgebra map and `g_ct` an algebra map; the unit character is fixed.
+- For parity acting on a theory with `φ³` and `φ⁴` terms, characters with nonzero parity-odd coefficients are excluded from `Γ_*^G`.
+- For a complex model with `σ(g)=conjugation` the action `g·C` is again `k_H`-linear since both `g_H` and `g_ct` are semilinear through the same `σ`.
+
+*Needs:* §6.18, §6.21; Mathlib group actions on algebras.
+
+### 6.38 FiniteEngineeringClosure — a sufficient stable finite stage
 
 Use four-dimensional engineering field/derivative weights, finite field and internal tensor species, and the actual rational edge/numerator bounds with `r_e=4−2Δ_e` (second-order scalar/covariant-vector/ghost fields Δ_e=1, Dirac Δ_e=3/2). For each bare homogeneous vertex let `Δ_v=d_v+Σ_(ports at v)Δ_field`. Its physical coefficient a_v belongs to the declared finite homogeneous coefficient stage, with weight wt(a_v). Define W_eng as the span of **all** allowed monomials of total engineering weight≤4 in that stage, including vacuum, linear and quadratic terms. This is a finite carrier by InvariantInteractionCarrier, even when the finite coefficient stage has negative weights. When W_B uses the same field/jet generators, these engineering field/derivative weights and the same coefficient grading at the same stage, W_eng⊆W_B for B≥4. For other positive weight assignments no containment is asserted: w(φ)=10 and B=4 exclude φ although its engineering weight is1. Stability of those engineering ambient W_B for B>4 still requires its own proof. Require G to preserve the actual grading and compatible constraints.
 
@@ -3070,7 +4242,18 @@ This proves the connected interaction term, with its full derivative transpose, 
 
 This is not an all-orders finite operator-family theorem: negative coefficient weights can expose new field monomials as the perturbative stage increases. UniformFiniteParameters must supply one common W_* and its independent all-orders closure, rather than infer it from these finite stages.
 
-**RQFT6.UniformFiniteParameters — one finite operator family at every order.** This roadmap owns the proof route below.
+**Checks.**
+
+- The `φ⁴` bubble has `Δ_v=4`, `Δ_ext=4`, so `ω^nom=4−4−0=0`; the `φ³` bubble has `Δ_v=3`, `Δ_ext=2`, so `ω^nom=4−2−2=0`.
+- The massive `R_ξ` vector propagator has `n_e=2` and `Σ_as_(e,a)=2`, so `r_e=2`; the Proca propagator has leading order `0` and is excluded from the theorem.
+- With `wt(g)=−1`, `wt(x)=1` and `k[g]/(g^(N+1))`, the monomials `g^jx^j` for `j≤N` all have weight `0`: every stage is finite but new monomials appear at every order.
+- The complete weight estimate `wt(c)+Σ_vwt(a_v)+q+Δ_ext≤4` on the bubble with `wt(a_v)=0` reads `wt(c)+0+q+4≤4`, forcing `wt(c)=q=0`.
+
+*Needs:* §6.2, §6.33, §6.36, §6.37; §6.3.
+
+### 6.39 UniformFiniteParameters — one finite operator family at every order
+
+This roadmap owns the proof route below.
 InvariantInteractionCarrier’s dimension estimate is a finite-stage theorem. For each claimed
 all-orders finite-parameter family, construct one finite-dimensional,
 Z₂-graded G-stable space W_* of local density representatives over k₀,
@@ -3198,7 +4381,17 @@ give one all-orders formal theory space and prescription-independent formal
 parametrizations, with the source transform retained. For counterterms outside
 Γ_*^G use the full unbounded carrier and its existing action groupoid.
 
-**RQFT6.SymmetryStabilizers — exact and local-functional symmetries.**
+**Checks.**
+
+- For `φ⁴` in four dimensions with the symmetry `φ↦−φ`, `V_*` is spanned by `1`, `φ²`, `(∂φ)²`, `φ⁴` modulo divergences, so `d₀|d₁=4|0`.
+- The `ℏ`-module `V_*[[ℏ]]` truncated at order `N` has dimension `(d₀+d₁)(N+1)`, infinite-dimensional over `k₀` in the limit.
+- `ω_γ^nom=4−E_B−(3/2)E_F−Σ_v[g_v]` on QED vacuum polarization (`E_B=2`, two vertices of `[e]=0`) gives `2`; the residue coupling then has degree `4−Δ_output≥0`.
+- `f^(C⋆D)=f^D∘f^C` and `f^1=t` are checked at first order on the coupling coordinate of the bubble.
+
+*Needs:* §6.33, §6.36, §6.37, §6.38, §6.2; Mathlib formal power series over graded algebras.
+
+### 6.40 SymmetryStabilizers — exact and local-functional symmetries
+
 In the declared field/jet automorphism group, prove compatibility with total
 derivatives and density transport and hence stability of Div, before taking
 its local-functional quotient action. Construct both
@@ -3254,6 +4447,15 @@ The finite-stage, uniform-closure and action-groupoid targets above are the prec
 
 For the exact raw-operator, universal-natural and specialized stabilizer statements consume RQFT6.DiagonalStabilizer, with its different evaluation maps and class-preserving groups. Treat the restriction to one-particle-irreducible subgraphs and factorization at a one-valent articulation vertex as separate graph/scheme conditions; prove preservation by the selected factorization-preserving character class, and call it a subgroup only after the preceding closure proof. General momentum schemes retain their scheme-determined articulation coefficients and use the larger comparison action above. Model cutoffs as part of the prescription data, prove transitivity/invariance only for the exact admissible cutoff class, and prove cutoff transport preserves the same hypotheses and use ConnectedSubstitution’s paired inverse action, including its source-slot transform, to prove invariance of the Green-function series. Define the renormalization scale family `R_μ`, its composition law, beta function and anomalous dimensions where a differentiable scale action exists. Prove logarithmic scale dependence from extension ambiguities/scaling anomaly under the exact scaling hypotheses. Ward identities survive renormalization only under symmetry-compatible counterterms; state anomaly as the obstruction class and do not assert it vanishes for arbitrary gauge theories.
 
+**Checks.**
+
+- `L=φ∂φ` is a total divergence, so `[L]=0` is fixed by every automorphism while `φ↦2φ` moves `L`: `G_L≠G_[L]`.
+- `E=y∂_x` on `k[x,y]` has `E(x)=y`, `E²(x)=0`, so `x` is a generalized but not ordinary zero eigenvector.
+- Under the freeness hypotheses of §6.29, `C·R=R` forces `C=1`, so the pair stabilizer is trivial; after numerical specialization it can be nontrivial.
+- Ward identities survive only for symmetry-compatible counterterms; the obstruction is the anomaly class, not asserted to vanish.
+
+*Needs:* §6.29, §6.33, §6.39; Mathlib `Module.End.genEigenspace`; Borcherds–Barnard §8.3 (pp. 65–67).
+
 ### Examples
 
 - On `ℝ∖{0}` the function `|x|^(−a)`, `0<a<1`, has scaling degree `a<1` and its unique extension of that scaling degree is the locally integrable function; for `a=1` the extensions `T+cδ` exist but none is homogeneous.
@@ -3263,11 +4465,23 @@ For the exact raw-operator, universal-natural and specialized stabilizer stateme
 
 RQFT0–RQFT5; PseudodifferentialOperators P8; ComplexKahlerGeometry K3.MeromorphicGermField, K5a.DistributionLocalStructure, K5a.SmoothSectionMontel; GlobalHolomorphicFunctions GH2 local phase; Hyperfunctions HF3, HF5; NoncompactQuantumSymmetry M0, P.4; `TauCeti.exists_isCompl_of_isKilling`; LieGroups Layers 2–3; Brunetti–Fredenhagen §5–§6; Dang, Theorems 3.4–3.5.
 
-## Milestone RQFT7 — Euclidean continuation and analytic bridges
+## Layer 7: Euclidean continuation and analytic bridges
+
+### 7.1 Euclidean Green functions and the free Schwinger functions
 
 Define Euclidean Green functions separately from Lorentzian boundary values. For `−Δ+m²` on `ℝⁿ`, `m>0`, prove the unique tempered fundamental solution has Mathlib-normalized Fourier transform `(4π²‖ξ‖²+m²)⁻¹`; in the angular-momentum variable `p=2πξ` this is `(‖p‖²+m²)⁻¹` and compute the one-dimensional contour integral `∫ℝ e^(−ixp)/(p²+m²) dp = π e^(−m|x|)/m` for `m>0`. For `m=0`, classify the kernel ambiguity supported at zero in momentum space and the infrared behavior. For the massive Euclidean kernel consume PDE §6.3 (F26), the heat semigroup built on the pinned `TauCeti.heatKernel`, and prove `G_m(x)=∫_(t>0)(4πt)^(−n/2)exp(−m²t−|x|²/(4t))dt` for x≠0 and its distributional/Fourier agreement. For every multiindex α, ε>0 and 0<c<m, prove `|∂^αG_m(x)|≤C_(α,ε,c,m,n)exp(−c|x|)` when |x|≥ε. This is exterior rapid decay; it does not assert G_m∈𝒮 globally. In n=1 its derivative jumps at0, and in higher dimensions it is singular there. Smoothness of the momentum multiplier alone is not a decay theorem. Classify the massless ambiguity explicitly as `T=P(∂)δ_0` with P harmonic in the momentum-dual variable, equivalently an added harmonic polynomial in position. In n=1 only affine harmonic polynomials occur; in n≥2 there are harmonic examples of every degree. Under a fixed homogeneity/scaling-degree condition retain only the permitted degrees. Local integrability of |p|^(−2) at0 in n>2 is not a general theorem of IR finiteness for graph integrals. For the massless operator `−Δ`, give the exact radial fundamental solution `|x|^(2−n)/((n−2)|S^(n−1)|)` for `n≥3`, the even `n=1` solution `−|x|/2`, and `−log|x|/(2π)` in dimension two with its harmonic ambiguity; prove the scale ambiguity in dimension two. For a free massive scalar, prove reflection positivity, Euclidean invariance and growth bounds for the Schwinger functions; prove reconstruction of the positive-metric Wightman model using the corrected OS II §IV.1 Theorem `E′→R′`. Use the exact linear-growth input and output estimates of RQFT7.OSGrowth below on the paper's zero-diagonal Schwartz test space. Define that space as the closed complex submodule of `𝒮((ℝ⁴)^n,ℂ)` on which every full Fréchet derivative of every order, including order zero, vanishes at every coincidence `x_i=x_j` with `i≠j`. Use the inherited Schwartz topology, not the LF topology of tests supported away from diagonals; for n=0,1 the coincidence locus is empty and the carrier is the full Schwartz space. Prove the kernel-intersection/membership description, closedness, continuous inclusion, restriction of full Schwartz functionals, and the continuous map into this subspace from compactly supported off-diagonal tests. Prove that compactly supported off-diagonal tests are dense in this subspace: combine a cutoff at infinity with cutoffs near the finite union of diagonals and all-order flatness Taylor estimates in every Schwartz seminorm. Prove that restriction of full Schwartz functionals is surjective by complex Hahn–Banach, with kernel the tempered distributions supported on the coincidence locus; it is not injective for n≥2, as point evaluation at a coincidence shows. These latter tests are sufficient for flatness, not its definition. Prove the exact E0′ estimate for the free Schwinger functions through RQFT7.FreeGrowth, including its single parameter s=6 and factorial-controlled constants. State Euclidean covariance, permutation symmetry and clustering on the zero-diagonal carrier. For reflection positivity use finite sequences of scalar tests f_n whose supports lie in `0<x₁⁰<⋯<x_n⁰`, with `f_0∈ℂ`. Define time reflection `θ(t,x)=(−t,x)` and the antilinear reversed reflection `(Θf_n)(x₁,…,x_n)=conj(f_n(θx_n,…,θx₁))`. Prove `Θf_n⊗f_m` belongs to the required zero-diagonal carrier, and require `Σ_(n,m)S_(n+m)(Θf_n⊗f_m)` to be real and nonnegative. Prove the comparison with the positive-time formulation used by the selected OS theorem under permutation symmetry. Prove analytic continuation/reconstruction, uniqueness up to vacuum-preserving unitary equivalence, and the R0′ output bounds in RQFT7.OSGrowth; mere separate temperedness for each n is not the linear-growth condition. Use E′ as a sufficient condition, without claiming it necessary. Conversely, state the conditions under which Wightman functions continue to Euclidean Schwinger distributions. Treat the massive Euclidean torus case separately: compact support there follows from compactness of the underlying torus, while invertibility of the massive operator removes the constant zero mode; do not transfer either fact to noncompact Minkowski space. A smooth Euclidean momentum-space kernel multiplied by a conservation delta on a hyperplane is a distribution, not an ordinary smooth function on the full space. For the full finite massive Euclidean Feynman-diagram statement, consume RQFT6.MassiveEuclideanRegularity with its polynomial tensor-numerator/positive-mass graph class, full real external-momentum regularity, polynomial growth, graph-local scheme comparison and regulated configuration/Fourier identity. Retain one conservation delta per connected component and the separate vacuum-volume normalization when all its slots are integrated. The free-propagator calculations alone do not supply this graph theorem.
 
-**RQFT7.OSGrowth — the precise OS II linear-growth contract.**
+**Checks.**
+
+- `∫exp(−ixp)/(p²+m²)dp=πexp(−m|x|)/m` by the residue at `p=±im`, so `G_m(x)=exp(−m|x|)/(2m)` in one dimension; the heat representation `∫_0^∞(4πt)^(−1/2)exp(−m²t−x²/(4t))dt` gives the same value.
+- Massless kernels: `|x|^(2−n)/((n−2)|S^(n−1)|)` is `1/(4π|x|)` for `n=3`; `−|x|/2` has `(−|x|/2)″=−δ`; `−log|x|/(2π)` satisfies `−Δ=δ` in two dimensions and `Re(z^k)` gives harmonic ambiguities of every degree.
+- The exterior bound `|∂^αG_m(x)|≤C exp(−c|x|)` for `|x|≥ε` and `c<m` is checked on `n=1`, where `G_m=exp(−m|x|)/(2m)`; `G_m` is not Schwartz since it is singular at `0` for `n≥2`.
+- For `n=0,1` the zero-diagonal carrier is the full Schwartz space; for `n≥2` point evaluation at a coincidence kills the subspace, so restriction of functionals is not injective.
+
+*Needs:* §1.9 (Lorentzian boundary values compared), §6.7 (homogeneous extensions), §6.25 (graph regularity); Tau Ceti `TauCeti.heatKernel`; PDE §6.3 (heat semigroup); Mathlib `TemperedDistribution`, Fourier transform; Osterwalder–Schrader II §IV.1.
+
+### 7.2 OSGrowth — the precise OS II linear-growth contract
+
 Use [OS II, §II (2.1), p284 and §IV.1 (4.1), (4.3), p287](https://doi.org/10.1007/BF01608978).
 On the Euclidean coordinate space ℝ^(4n), with its ℓ² norm, define
 
@@ -3309,7 +4523,16 @@ growth or assert the E0′ input necessary. Any change to an equivalent
 seminorm must track its n-dependent comparison constants through these
 growth classes; equivalence at each fixed n alone does not suffice.
 
-**RQFT7.MasslessLimit — the zero-mass limit and its constant subtraction.**
+**Checks.**
+
+- For `n=2`, `s=6` the seminorm `N_(2,12)` has derivative order `12` and weight `(1+|x|²)^6`; it is not the pair-indexed `N_(2,6)`.
+- The free field of §7.7 satisfies E0′ with `s=6`, `A=exp(C_m)`, `B=3/2`.
+- The output growth `ω_n≤CD^(n²)` dominates every factorial growth `(n!)^B`, since `n!≤n^n≤exp(n²)`; replacing it by factorial growth would be a stronger, unproved statement.
+
+*Needs:* Mathlib `SchwartzMap.seminorm` on `EuclideanSpace ℝ (Fin n × Fin 4)`; §7.1 (zero-diagonal carrier); Osterwalder–Schrader II §II (2.1) and §IV.1 (4.1), (4.3).
+
+### 7.3 MasslessLimit — the zero-mass limit and its constant subtraction
+
 For the Euclidean kernels G_m fixed above, take m↓0 through positive values.
 Prove the following comparisons uniformly on every von Neumann-bounded set
 of Schwartz tests. These estimates imply convergence in the native
@@ -3356,7 +4579,18 @@ massless graph-integral convergence. `Suggested.lean` states the three limits as
 `greenOne_sub_const_tendstoUniformlyOn`, `greenTwo_sub_const_tendstoUniformlyOn` and
 `multiplier_tendstoUniformlyOn`, with `greenOne`, `greenTwo`, `Plane` and `unitPoint`.
 
-**RQFT7.TorusGreen — the compact Euclidean exception and its zero mode.** This roadmap owns the proof route below.
+**Checks.**
+
+- In one dimension `|(exp(−m|x|)−1)/(2m)+|x|/2|≤m|x|²/4`, from `0≤exp(−u)−1+u≤u²/2`, so the convergence is uniform on bounded test sets.
+- In two dimensions the Frullani integral gives `G_0(r)−G_0(R)=−log(r/R)/(2π)`, and `|G_m(r)−G_m(R)|≤|log(r/R)|/(2π)` since the integrand `exp(−r²/4t)−exp(−R²/4t)` has fixed sign and `exp(−m²t)≤1`.
+- `c_(m,R)=K₀(mR)/(2π)=log(1/m)/(2π)+O(1)` by the Bessel expansion `K₀(z)=−(log(z/2)+γ)I₀(z)+…`, and the heat-integral split at `t=m⁻²` gives the same coefficient `1/(2π)`.
+- In `n≥3` the multiplier difference `−m²/(4π²|ξ|²(4π²|ξ|²+m²))` is dominated by `(4π²|ξ|²)⁻¹`, locally integrable exactly for `n≥3`; in `n=1,2` the pairing of `G_m` with a test of positive integral tends to `+∞`.
+
+*Needs:* §7.1; Mathlib `TemperedDistribution`, dominated convergence, the Fourier transform of `TauCeti.heatKernel`; DLMF 10.31.2.
+
+### 7.4 TorusGreen — the compact Euclidean exception and its zero mode
+
+This roadmap owns the proof route below.
 For n≥1 and L>0 let T_Lⁿ=(ℝ/Lℤ)ⁿ, with its flat metric and physical
 volume V=Lⁿ. Compare this carrier with native `UnitAddTorus (Fin n)` by
 rescaling coordinates; its normalized Haar measure μ has dvol=V dμ.
@@ -3424,7 +4658,17 @@ its large-L local limit is `−|x|/2`. Specify these local tested limits and
 the order of limits rather than identifying the finite- and infinite-volume
 normalizations.
 
-**RQFT7.OSConstruction — the reconstruction maps and their domains.**
+**Checks.**
+
+- `∫G_(m,L)dvol=V·Ĝ(0)=1/m²`; testing `−ΔG=δ₀` against `1` gives `0=1`, so no periodic distribution solves it.
+- On the circle `G_(m,L)(d)=cosh(m(L/2−d))/(2msinh(mL/2))` has derivative jump `−1` at `0`, confirming `(−Δ+m²)G=δ₀`; for `m=0` the mean-zero kernel `L/12−d/2+d²/(2L)` has second derivative `1/L` and mean `0`, so `−ΔG_(0,L)=δ₀−1/L`.
+- `|Ĝ_(m,L)(k)−1/(Vλ_k)|=m²/(Vλ_k(λ_k+m²))≤m²/(Vλ_k²)`, and on the mean-zero subspace the operator-norm difference is `m²/(λ₁(λ₁+m²))`, attained at `|k|=1`.
+- As `L→∞` at fixed `m`, `cosh(m(L/2−d))/(2msinh(mL/2))→exp(−md)/(2m)`, the line kernel; the massless kernel minus `L/12` tends to `−d/2`.
+
+*Needs:* Mathlib `UnitAddTorus`, `UnitAddTorus.mFourier`, Haar measure on the torus; §7.1, §7.3; §6.9 for coincident products.
+
+### 7.5 OSConstruction — the reconstruction maps and their domains
+
 For the scalar bosonic E′→R′ theorem selected above, build the following
 intermediate constructions on that same zero-diagonal test carrier. Keep
 the exact OS II growth hypothesis as input; this proof route does not
@@ -3511,7 +4755,17 @@ Euclidean analytic continuation required here.
    original zero-diagonal distributions, whose contact-term kernel was
    identified above.
 
-**RQFT7.FreeReflection — the massive scalar covariance and its positive-time norm.**
+**Checks.**
+
+- Reflection positivity and translation invariance give `‖T_sf‖²=⟨f,T_(2s)f⟩≤‖f‖‖T_(2s)f‖`, and iterating with the polynomial bound proves `‖T_s‖≤1`; for the free field `T_s=Γ(exp(−sω))`.
+- `H≥0` is not the forward-cone condition: a representation with `H≥0` and spatial momentum unconstrained fails it; the cone follows only with the Lorentz covariance of step 3.
+- The radical `N` of the reflected form on `B₊` need not be a left ideal of the Euclidean Borchers algebra, so fields are not defined by left multiplication; the free model's Wick-ordered construction of §7.6 is the comparison.
+- The ten skew-symmetric generators span the Poincaré Lie algebra; the mixed-word estimate `‖A_(i₁)⋯A_(i_r)v‖≤C_vR_v^rr!` is the input to the local exponential, and individual analytic vectors would not suffice.
+
+*Needs:* §7.2; §4.3 (moment reconstruction); UnboundedOperators UO-E03; NoncompactQuantumSymmetry M4 (simply connected cover); §0.8 for the coordinate map; Osterwalder–Schrader II §IV.
+
+### 7.6 FreeReflection — the massive scalar covariance and its positive-time norm
+
 For m>0 work in the time-first presentation ℝ×ℝ³, transported from the
 chapter's Euclidean spacetime by RQFT0's coordinate equivalence. Put
 `ω(p)=sqrt(|p|²+m²)` and `dμ_m(p)=d³p/((2π)³2ω(p))`, the same
@@ -3608,7 +4862,19 @@ and flatness estimates, without changing that topology to an LF topology.
    temperedness estimates do not discharge the separate general OS II
    factorial-growth and reconstruction targets above.
 
-**RQFT7.FreeGrowth — a uniform free Schwinger estimate.** In Euclidean
+**Checks.**
+
+- `G̃_m(t,p)=exp(−ω(p)|t|)/(2ω(p))` with the inverse factor `1/(2π)`, from the one-dimensional residue formula of §7.1.
+- `‖K_Ef‖²≤∫|f̃|²dtd³p/((2π)³4ω²)≤‖f‖²/(4m²)`: Cauchy–Schwarz in `t` gives `|K_Ef(p)|²≤∫|f̃(t,p)|²dt/(2ω)`, and `ω≥m` with Plancherel in `x` gives the bound.
+- `K_E(T_sf)=exp(−sω)K_Ef` for the right translation `f(t−s,x)`; the advancing `f(t+s,x)` would give `exp(+sω)` and is not this semigroup.
+- The Wick Gram pairing of degree-`n` monomials is `Σ_(σ∈S_n)∏_jQ_m(f_j,g_(σj))`, so the monomial maps to `√(n!)P_sym(K_Ef₁⊗⋯⊗K_Ef_n)` without an extra `1/n!`; `c_a(p)=∫a(t)exp(−ω(p)t)dt>0` for a nonzero nonnegative `a`.
+- The real field normalization is `a+a†=√2Φ_D8`; using `Φ_D8` alone would halve the covariance.
+
+*Needs:* §0.8 (coordinate equivalence), §3.3, §7.1; OperatorAlgebraDynamics D8; QuantumFoundations §6.3–§6.4; Tau Ceti `TauCeti.heatKernel`; Mathlib `MeasureTheory.Lp`, Plancherel.
+
+### 7.7 FreeGrowth — a uniform free Schwinger estimate
+
+In Euclidean
 spacetime dimension4 with m>0, retain the full-Schwartz Gaussian Schwinger
 functions and normalization of FreeReflection. Give their growth in particle
 number explicitly, before comparing with the general OS II hypothesis.
@@ -3667,7 +4933,25 @@ FreeReflection's remaining Euclidean axioms supply the free-model input
 to the general reconstruction theorem; it is not a necessity condition
 on arbitrary Schwinger families.
 
+**Checks.**
+
+- `‖G_m‖_(L¹)=∫_0^∞exp(−m²t)dt=1/m²` by Tonelli and the unit mass of the heat kernel; `I₄=2π²∫_0^∞r³(1+r²)^(−3)dr=2π²·(1/4)=π²/2`.
+- The number of perfect matchings of `2r` slots is `(2r)!/(2^rr!)`: `1,1,3,15` for `r=0,1,2,3`; `((2r)!/(2^rr!))²≤(2r)!` holds at `r=2` as `9≤24`.
+- `σ_n=C_m^n√(n!)≤exp(C_m)(n!)^(3/2)` from `C_m^n/n!≤exp(C_m)`; with weight `(1+Σ|x_j|²)^(3n)=(1+|x|²)^(6n/2)` one has `p_n≤N_(n,6n)` with constant `1`, so `s=6`.
+- `q_n≤p_n` because `∏_j(1+|x_j|²)^3≤(1+Σ_j|x_j|²)^(3n)`.
+
+*Needs:* §7.1, §7.2, §7.6; Mathlib polar coordinates, Tonelli; the pairing count of §3.7.
+
+### 7.8 Analytic continuation of Feynman propagators and time-ordered products
+
 Prove analytic continuation of Feynman propagators and time-ordered products with specified contour/deformation and boundary value. Keep formal Wick rotation distinct from a theorem; Lorentzian massless cone singularities and Euclidean elliptic estimates use different hypotheses.
+
+**Checks.**
+
+- The Euclidean kernel `1/(4π²|x|²)` in four dimensions is the boundary value of `−1/(4π²(x²−i0))`-type Lorentzian kernels only after the specified rotation of the time contour; the Lorentzian kernel is singular on the whole light cone while the Euclidean one is singular only at `0`.
+- Formal Wick rotation of a time-ordered product with a derivative vertex changes the sign of each time derivative, which the contour statement records.
+
+*Needs:* §1.9, §6.8 (wavefront sets), §7.1; Reed–Simon II §X.7.
 
 ### Examples
 
@@ -3678,9 +4962,11 @@ Prove analytic continuation of Feynman propagators and time-ordered products wit
 
 RQFT0–RQFT4 and RQFT6; Tau Ceti `TauCeti.heatKernel`; PDE §6.3; Osterwalder–Schrader II.
 
-## Milestone RQFT8 — scattering, LSZ and asymptotic completeness boundaries
+## Layer 8: scattering, LSZ and asymptotic completeness boundaries
 
-**RQFT8.MassiveScattering — a definite Haag–Ruelle and wave-packet LSZ interface.** Work first with one stable neutral scalar species of mass m>0 in a positive-metric vacuum local net on four-dimensional Minkowski space: isotony, bounded local C*-algebras, spacelike commutativity, irreducible global action, strongly continuous positive-energy Poincaré covariance and a unique invariant unit vacuum. Let E be the translation PVM and H₁=E(H_m⁺)H, with the scalar massive representation of multiplicity one. Impose a spectral gap isolating both the vacuum and this mass shell: for some M>m the joint spectrum is contained in {0}∪H_m⁺∪{p∈V̄₊:p²≥M²}. This is an explicit sufficient massive theorem, not a necessity claim or a consequence of the Wightman axioms alone. Prove density of the local one-particle vectors E(H_m⁺)AΩ; equivalently this density may be retained as an explicit hypothesis if the chosen local-net axioms do not already supply Reeh–Schlieder.
+### 8.1 MassiveScattering — a definite Haag–Ruelle and wave-packet LSZ interface
+
+Work first with one stable neutral scalar species of mass m>0 in a positive-metric vacuum local net on four-dimensional Minkowski space: isotony, bounded local C*-algebras, spacelike commutativity, irreducible global action, strongly continuous positive-energy Poincaré covariance and a unique invariant unit vacuum. Let E be the translation PVM and H₁=E(H_m⁺)H, with the scalar massive representation of multiplicity one. Impose a spectral gap isolating both the vacuum and this mass shell: for some M>m the joint spectrum is contained in {0}∪H_m⁺∪{p∈V̄₊:p²≥M²}. This is an explicit sufficient massive theorem, not a necessity claim or a consequence of the Wightman axioms alone. Prove density of the local one-particle vectors E(H_m⁺)AΩ; equivalently this density may be retained as an explicit hypothesis if the chosen local-net axioms do not already supply Reeh–Schlieder.
 
 For a bounded local A first smear spacetime translations against a Schwartz χ whose compact Fourier support meets the spectrum only on a compact patch of H_m⁺ and which has the prescribed shell value there. Construct the resulting norm-smooth almost-local B and its energy-momentum transfer estimate. For a smooth compactly supported momentum packet h set ω_p=√(|p|²+m²), f_t(x)=∫h(p)e^(−iω_pt+ip·x)d³p/(2π)³ and B_t(h)=∫f_t(x)α_(t,x)(B)d³x as a strong operator integral with its norm bound. Derive B_t(h)Ω=h(P)BΩ, independent of t, and B_t(h)*Ω=0 from the transfer support; the packet convention here uses Lebesgue Fourier measure, with the invariant-measure one-particle normalization supplied by RQFT3. Define its closed velocity support as {p/ω_p:p∈supp h}. For products with pairwise disjoint velocity supports prove rapid norm decay of the commutators, including adjoints and time derivatives, by spacelike separation of the dominant cones and nonstationary-phase decay of their tails. Together with the polynomial operator bounds and ∂_t B_t(h)Ω=0, commuting each derivative to the vacuum gives an integrable Cook bound for the derivative of the product. Prove strong limits as t→±∞, independence of A,χ and packets once their one-particle vectors agree, and the permutation-sum inner-product formula. Prove that these disjoint-velocity simple tensors span a dense subspace of SymⁿH₁: the coincidence-velocity set is null for the massive non-atomic shell measure; use finite partitions and L² approximation. Thus obtain isometric vacuum-preserving, covariant maps W_in,W_out:F_s(H₁)→H and their closed scattering ranges. These estimates are owned here; do not substitute an assumed strong limit for their proof. The isolated-shell special case of [Dybalski, §1, Lemmas2.1–2.2 and Theorem1.1](https://arxiv.org/html/hep-th/0412226) guides the almost-local/Cook construction; its more general embedded-mass regularity assumptions are not silently asserted here.
 
@@ -3704,7 +4990,26 @@ For a reduction theorem assume specified tempered chronological distributions G_
 
 with r outgoing and s incoming packets. Fix the orientation of the chronological pairing by the displayed finite-current identity and verify the overall i factors against the free two-point normalization; add the disconnected contraction terms for the full matrix element. Derive the limit by repeated integration by parts, chronological differentiation and the contact-term hypothesis, and extend from disjoint-velocity packet products by the proven isometries. No pointwise restriction of a singular distribution to sharp on-shell momenta is presumed. [Collins, §§VIII–XII and XIV](https://arxiv.org/html/1904.10923) supplies a comparison of averaged and weak unaveraged limits; this roadmap's stated net, energy and contact hypotheses are part of the theorem, not an assertion that a Lagrangian alone provides them. Formal coefficientwise reduction and its counterterm matching remain separate perturbative targets. For QED retain RQFT8's separate infrared/dressed-state boundary; none of this massive neutral theorem supplies a charged-particle LSZ pole.
 
+**Checks.**
+
+- `B_t(h)Ω=h(P)BΩ` is independent of `t` because the packet phases cancel on the shell, and `B_t(h)^*Ω=0` since `B^*` lowers energy out of the spectrum; for the free field `W_in=W_out=1` and `S=1`.
+- `S=W_out^*W_in` is a contraction, and `‖Sv‖=‖v‖` for all `v` forces `ran W_in⊆ran W_out`, so unitarity holds exactly when the ranges agree; the free field has both ranges equal to Fock space.
+- `‖ad_H^j(B)‖≤‖A‖‖∂₀^jχ‖₁` since `ad_H` acts on `α_a(A)` as `−i∂_(a⁰)` and integrates by parts onto `χ`.
+- With `θ_T′=h_(−T)−h_(+T)` and `f` a positive-frequency solution, `(□+m²)(θ_Tf)=θ_T″f+2θ_T′∂_tf`, so `L_(+T)(f)−L_(−T)(f)=−iZ^(−1/2)φ((□+m²)(θ_Tf))`; for the free field `Z=1`.
+- The coincidence set of velocities `{p/ω_p=q/ω_q}` has measure zero for the massive shell measure, so disjoint-velocity tensors are dense in `Sym^nH₁`.
+
+*Needs:* §3.3 (mass-shell map `K`), §4.1, §4.15 (Reeh–Schlieder), §7.5 (the Wightman model); VonNeumannAlgebras V10.Affiliation; UnboundedOperators; NoncompactQuantumSymmetry M4; Dybalski §1, Lemmas 2.1–2.2, Theorem 1.1; Collins §VIII–§XII, §XIV; Haag Chapter VI.
+
+### 8.2 Boundaries of the scattering theorems
+
 Do not claim that the formal perturbative S-matrix converges, is unitary as an actual operator or defines a nonperturbative interacting four-dimensional theory. For QED, massless photons and infrared divergences invalidate massive-particle LSZ without an infrared prescription/dressed-state framework; state this explicitly and allocate any such construction to a separate precise target, not to the scalar theorem.
+
+**Checks.**
+
+- The massless photon has no isolated mass shell, so the hypotheses of §8.1 fail for QED and no charged LSZ pole is asserted.
+- Unitarity of the formal Dyson series is an order-by-order identity of formal coefficients, not an operator statement.
+
+*Needs:* §8.1; §9.21 for the bound-state alternative.
 
 ### Examples
 
@@ -3714,11 +5019,22 @@ Do not claim that the formal perturbative S-matrix converges, is unitary as an a
 
 RQFT3, RQFT4 and RQFT7; UnboundedOperators; NoncompactQuantumSymmetry M4.
 
-## Milestone RQFT9 — electromagnetic examples and perturbative QED
+## Layer 9: electromagnetic examples and perturbative QED
+
+### 9.1 Special-function and Lagrangian suppliers for the electromagnetic examples
 
 Consume the all-parameter regularized Kummer M and Tricomi U interface of QuantumFoundations §9.4, including the slit-plane/logarithmic branches, ODEs, Wronskians, integer-b logarithmic limits, connection and uniform asymptotic estimates, for the radial special-function comparison; RQFT9 owns its relativistic parameter/domain adapter.
 
 Use LVF's Maxwell/Dirac Lagrangian and Noether identities, then build the quantum model-specific bridge:
+
+**Checks.**
+
+- `M(a,b,z)=₁F₁(a;b;z)` for `b` outside the nonpositive integers; `M(0,b,z)=1` solves Kummer's equation trivially, and `M(−n,b,z)` is a polynomial of degree `n`.
+- LocalVariationalFieldTheory's Noether current for the `U(1)` phase symmetry of the charged scalar is the current of §9.4 up to the factor `i` fixed there.
+
+*Needs:* QuantumFoundations §9.4; LocalVariationalFieldTheory Layers 3–5.
+
+### 9.2 Radial Coulomb operators and their distinguished extensions
 
 For the radial models consume UO-D06's closed-form/Friedrichs representation,
 UO-D07's Hardy and singular endpoint/Green-boundary API, and PDE's local
@@ -3732,6 +5048,16 @@ treat the critical charge with its separate logarithmic domain. Use
 [Cassano–Pizzichillo, Theorems1.1–1.3 and Propositions1.7–1.8](https://arxiv.org/html/1710.08200)
 for these domain comparisons, translating their charge/sign and κ conventions.
 The Dirac operator is not semibounded and does not use the scalar Friedrichs theorem.
+
+**Checks.**
+
+- For `κ=±1` the Frobenius exponents are `±γ` with `γ=√(1−a²)`; `r^(−γ)` is square-integrable near `0` exactly when `γ<1/2`, so the limit-point regime is `a≤√3/2` and the distinguished extension is needed for `√3/2<a<1`.
+- The finite `r^(−1/2)` norm selects the `r^γ` branch in the subcritical range; at `a=1`, `γ=0` and both branches coincide up to a logarithm.
+- The Dirac operator is not semibounded (its spectrum contains `(−∞,−m]`), so the Friedrichs theorem does not apply to it.
+
+*Needs:* UnboundedOperators UO-D06–D07; PDE local weak-derivative theory; Cassano–Pizzichillo Theorems 1.1–1.3, Propositions 1.7–1.8.
+
+### 9.3 The regularized hypergeometric interface and the relativistic parameter adapter
 
 Consume native `Complex.regularizedHGFun` from
 `Mathlib.Analysis.SpecialFunctions.RegularizedHypergeometric`:
@@ -3759,17 +5085,58 @@ terminating a=−n_r family in the stated subcritical bound-state range;
 prove completeness of this quantization and first-order Dirac reconstruction,
 rather than assuming square integrability of a squared-equation solution.
 
+**Checks.**
 
-* Charged Klein–Gordon: covariant derivative `D_μ=∂_μ+ieA_μ`, gauge transform `A↦A−dα` or its explicitly converted sign convention, `φ↦e^{ieα}φ`; prove covariance of `Dφ`, current conservation on solutions and the scalar-QED one-photon and seagull two-photon vertices. Convert the one-photon and seagull vertices of UNSW p. 61, written for `∂−ieA`, to the pinned `D=∂+ieA` convention. Translate the equivalent `A↦A+dα`, `φ↦e^(−ieα)φ` convention explicitly (UNSW pp. 24–25). Derive the real scalar current with its factor i before expanding the action (UNSW p. 41).
+- `regularizedHGFunCoeff_eq_zero_left` with numerator `−m`, `m<k`, gives vanishing coefficients beyond degree `m`, so the series terminates; the degree is exactly `m` when the denominator avoids the nonpositive integers.
+- The radial change of variable sends the Klein–Gordon radial equation to Kummer's equation with `a=ν_l+1/2−aε/√(m²−ε²)` and `b=2ν_l+1`, and the bound-state condition `a=−n_r` gives the spectrum.
+- With `b` generally noninteger the connection formula has two terms with `Γ` coefficients; the integer-`b` logarithmic case arises only at integer `2ν_l+1`.
 
-**RQFT9.UNSW41CanonicalComparison — a matched regulated comparison.** Consume LVF3.UNSW41ScalarLegendre's real canonical covector and its exact unregulated identity `H_int=−L_int|_free velocities+e²A₀²φ̄φ`; consume its later UNSW41GaugeComparison only after LVF5. The minimally coupled scalar interaction has time derivatives, so the derivative-free sufficient theorem does not apply. At finite cutoff compare a matched regulated action, field/CCR kernel and its actual Legendre Hamiltonian, not two independently restricted continuum formulas.
+*Needs:* Mathlib `Complex.regularizedHGFun`, `regularizedHGFunCoeff_add_one`, `analyticOnNhd_regularizedHGFun_of_card_le`, `regularizedHGFunCoeff_eq_zero_left`, `regularizedHGFunCoeff_eq_zero_iff`, `radius_regularizedHGFunSeries_eq_top_of_finite`; QuantumFoundations §9.4.
+
+### 9.4 The charged Klein–Gordon field and its vertices
+
+Charged Klein–Gordon: covariant derivative `D_μ=∂_μ+ieA_μ`, gauge transform `A↦A−dα` or its explicitly converted sign convention, `φ↦e^{ieα}φ`; prove covariance of `Dφ`, current conservation on solutions and the scalar-QED one-photon and seagull two-photon vertices. Convert the one-photon and seagull vertices of UNSW p. 61, written for `∂−ieA`, to the pinned `D=∂+ieA` convention. Translate the equivalent `A↦A+dα`, `φ↦e^(−ieα)φ` convention explicitly (UNSW pp. 24–25). Derive the real scalar current with its factor i before expanding the action (UNSW p. 41).
+
+**Checks.**
+
+- With `D_μ=∂_μ+ieA_μ`, `φ↦exp(ieα)φ` and `A↦A−dα` give `D_μ(exp(ieα)φ)=exp(ieα)D_μφ`; the convention `∂−ieA` reverses the sign of `e` in every vertex.
+- Expanding `|Dφ|²` gives the one-photon term `ieA^μ(φ̄∂_μφ−∂_μφ̄φ)` and the seagull `e²A²|φ|²`; the vertex rules `−ie(p+p′)^μ` and `2ie²η^(μν)` follow, the `2` from the two identical photon legs.
+- The current `j_μ=i(φ̄D_μφ−(D_μφ)‾φ)` is conserved on solutions and the factor `i` makes it real.
+
+*Needs:* LocalVariationalFieldTheory Layer 3; §1.4; §3.3.
+
+### 9.5 UNSW41CanonicalComparison — a matched regulated comparison
+
+Consume LVF3.UNSW41ScalarLegendre's real canonical covector and its exact unregulated identity `H_int=−L_int|_free velocities+e²A₀²φ̄φ`; consume its later UNSW41GaugeComparison only after LVF5. The minimally coupled scalar interaction has time derivatives, so the derivative-free sufficient theorem does not apply. At finite cutoff compare a matched regulated action, field/CCR kernel and its actual Legendre Hamiltonian, not two independently restricted continuum formulas.
 On a spatial three-torus of side L, choose a finite Fourier-mode space V stable under conjugation and an orthogonal projection P commuting with spatial derivatives. For a real smooth external A₀ let M be multiplication by A₀, Q=1−P and B=PMP|_V. Restrict the local scalar action to `φ,v∈V`. Its time term is `||v+ieMφ||²=||v+ieBφ||²+e²||QMφ||²`. Prove the realified Legendre transform is the restriction of the continuum canonical Hamiltonian minus `e²||QMφ||²`; explicitly track the positive defect `D=PM²P−(PMP)²=PMQMP`. The spatial energy is the actual restricted `Σ_i||∂_iφ+ieA_iφ||²+m²||φ||²`, with its own projected multiplication kernels. Conversely restricting the continuum Hamiltonian corresponds to the action with the compressed time-seagull B², not PM²P. Prove this distinction before quantization. Include the constant-mode control `A₀=a cos(2πx₁/L)`, `φ=c/√Vol`: B=0 but `||QMφ||²=a²|c|²/2`, so naive restriction of the continuum Hamiltonian misses this nonzero term.
 Use the canonical and Fock operators of D8 and QuantumFoundations §6.4 on the finite-mode realified carrier and their common Schwartz/finite-particle core as applicable, with the selected RQFT3 mass and zero-mode convention. The canonical mode algebra itself has no positive-frequency premise; do not impose an oscillator vacuum on a massless zero mode without its separate carrier. Pin the equal-time field CCR with the projection kernel `δ_P(x,y)=Σ_j e_j(x)overline(e_j(y))`, so `[φ(x),π(y)]=[φ̄(x),π̄(y)]=iδ_P(x,y)` and the cross commutators vanish. For the chosen restricted action use the Hamiltonian with the displayed −e²D correction, and fix the same ordering/vacuum-scalar subtraction on its action and Hamiltonian sides. Derive the finite-cutoff order-e and order-e² external-background/tree coefficients from both descriptions, retaining the actual δ_P derivative/time-order contacts and the PM²P versus B² seagull terms. Prove equality of those matching regulated coefficients. Do not replace δ_P by a Dirac delta or the regulated rules by the unregulated local vertices at fixed cutoff.
 For dynamical photons use RQFT1/RQFT3's constrained Maxwell carrier. An ordinary spatial Fourier cutoff need not preserve local gauge multiplication or first-class Gauss closure. If it is used, derive its actual projected constraints and their defects. For scalar gauge multipliers `B_α=PM_αP`, track `[B_α,B_β]=PM_βQM_αP−PM_αQM_βP`; for projected `δφ=ieP(αφ)` and `δA_μ=−∂_μα` the unprojected covariant derivative has defect `δ(D_μφ)−ieαD_μφ=−ieD_μQ(αφ)`. Include any further photon/parameter-projection defects explicitly. Retain the A₀ primary sector, Gauss/Coulomb and boundary terms; on a torus enforce mean-zero total charge and separate harmonic modes. Either construct a specified regulator with exact compatible constraints or, for this Fourier regulator, prove coefficientwise removal of these computed constraint/Ward defects on the chosen physical tests; do not assert exact finite-cutoff local gauge invariance. Loop/counterterm Ward compatibility remains RQFT6/RQFT9's separate theorem with its stated hypotheses.
 At fixed L and on a fixed compact time window, prove the cutoff-removal limits at orders e and e² as distributional coefficient identities against the stated smooth spacetime tests and external wave packets. Supply Fourier-tail/weighted-seminorm estimates for the projected multiplication, defect and δ_P contact kernels, as well as the Wick/core pairings actually used; strong P→1 alone is insufficient and the defect need not tend to0 in operator norm. For real compactly supported smooth backgrounds/tests, then take the box-to-continuum comparison through RQFT3's periodization/packet maps, with the corresponding tested bounds; extend to Schwartz tests only after proving their uniform seminorm bounds. Recover the unregulated local covariant one-photon and seagull rules from these coefficientwise limits, including derivative/time-order contact terms and all factors, in the same charge/Fourier/gauge convention. These are formal perturbative coefficient comparisons; no nonperturbative interacting charged representation or pointwise equal-time current operator after cutoff removal is inferred. There is no full Dyson-series, vacuum-energy or long-time/LSZ limit without the separately stated RQFT3/5/8 hypotheses. Preserve both covariant vertices and the full constrained quantum comparison; neither follows from the derivative-free Hamiltonian theorem.
-* Dirac: minimal coupling, Hamiltonian form, current `ψ̄γ^μψ`, gauge covariance and exact gamma identities. For `H₀=α·p+βm`, derive `H=eΦ+α·(p−eA)+βm` and `H_int=eΦ−eα·A`; an additional α·p inside H_int would double-count the free momentum already in H₀. In particular prove `[γ^μ,γ^νγ^λ]=2(η^{μν}γ^λ−η^{μλ}γ^ν)`. Compute the square of `σ·(p−eA)` with commutators `[p_i−eA_i,p_j−eA_j]` to obtain the magnetic spin term and derive the stated weak constant-B energy shift under the specified nonrelativistic/weak-field assumptions. Do not suppress factors of `c`, charge, metric signature or Fourier normalization.
 
-**RQFT9.QuantitativePauliComparison — external fields and controlled remainders.** Consume RQFT3's two-spinor L² carrier, the Schrödinger comparison of QuantumFoundations §8.2 and the domains of UnboundedOperators Layers 1–5, spectral calculus and evolution. Own the following external-field adapters here. Take m>0 and the standard gamma block representation; convert other realizations by RQFT2's fixed intertwiner. In natural units put V=eΦ, T=σ·Π and Π=−i∇−eA. For the stationary operator argument take real bounded V and an actual self-adjoint T with its stated core/closure; construct that T and the block Dirac operator for the smooth growth class below. Singular Coulomb backgrounds retain the separate distinguished-domain/reconstruction adapter in the Coulomb targets. A stationary solution E=m+ε satisfies `(ε−V)f=Tg`, `(2m+ε−V)g=Tf`. If `||ε−V||∞≤δm`, 0≤δ<2, put r=(2m+ε−V)^−1 and prove `g=rTf` and `(ε−V)f=T r T f` on `{f∈D(T):rTf∈D(T)}`. On D(T) compare the actual Schur form `q_r(f)=⟨Tf,rTf⟩` with `||Tf||²/(2m)` and prove the error bound `δ||Tf||²/(2(2−δ)m)`. If additionally `||Tf||≤ηm||f||`, prove `||g||≤η||f||/(2−δ)`. Retain the reconstruction/domain condition and the noncommuting T r T order. At V=A=0 compute the positive-energy ratio `|p|/(sqrt(m²+|p|²)+m)` and its high-momentum limit1, with normalized box modes or L² wave packets as appropriate. This shows why a small potential alone is insufficient.
+**Checks.**
+
+- `‖v+ieMφ‖²=‖v+ieBφ‖²+e²‖QMφ‖²` by orthogonality of the ranges of `P` and `Q`; the defect `D=PM²P−(PMP)²=PMQMP` is positive.
+- For `A₀=a cos(2πx₁/L)` and constant `φ=c/√Vol` with `V` the constants, `B=0` but `‖QMφ‖²=a²|c|²/2`, so restricting the continuum Hamiltonian misses this term.
+- `[B_α,B_β]=PM_βQM_αP−PM_αQM_βP` since the multiplications commute and `P=1−Q`.
+- `δ_P(x,y)=Σ_je_j(x)conj(e_j(y))` is the reproducing kernel of `V`; replacing it by a Dirac delta at finite cutoff would violate the CCR on `V`.
+
+*Needs:* LocalVariationalFieldTheory Layer 3 (`UNSW41ScalarLegendre`) and Layer 5 (`UNSW41GaugeComparison`); OperatorAlgebraDynamics D8; QuantumFoundations §6.4; §1.4, §3.3, §3.6.
+
+### 9.6 The Dirac field in external electromagnetic fields
+
+Dirac: minimal coupling, Hamiltonian form, current `ψ̄γ^μψ`, gauge covariance and exact gamma identities. For `H₀=α·p+βm`, derive `H=eΦ+α·(p−eA)+βm` and `H_int=eΦ−eα·A`; an additional α·p inside H_int would double-count the free momentum already in H₀. In particular prove `[γ^μ,γ^νγ^λ]=2(η^{μν}γ^λ−η^{μλ}γ^ν)`. Compute the square of `σ·(p−eA)` with commutators `[p_i−eA_i,p_j−eA_j]` to obtain the magnetic spin term and derive the stated weak constant-B energy shift under the specified nonrelativistic/weak-field assumptions. Do not suppress factors of `c`, charge, metric signature or Fourier normalization.
+
+**Checks.**
+
+- `H=eΦ+α·(p−eA)+βm` and `H_int=eΦ−eα·A`; adding `α·p` to `H_int` would count the free momentum twice.
+- `[γ^μ,γ^νγ^λ]=2η^(μν)γ^λ−2η^(μλ)γ^ν` from moving `γ^μ` through the product.
+- `[Π_i,Π_j]=ieε_(ijk)B_k` for `Π=p−eA`, so `(σ·Π)²=Π²−eσ·B`, the magnetic spin term with `g_s=2`.
+
+*Needs:* §2.13, §2.14; LocalVariationalFieldTheory Layer 3; §9.7 for the quantitative statement.
+
+### 9.7 QuantitativePauliComparison — external fields and controlled remainders
+
+Consume RQFT3's two-spinor L² carrier, the Schrödinger comparison of QuantumFoundations §8.2 and the domains of UnboundedOperators Layers 1–5, spectral calculus and evolution. Own the following external-field adapters here. Take m>0 and the standard gamma block representation; convert other realizations by RQFT2's fixed intertwiner. In natural units put V=eΦ, T=σ·Π and Π=−i∇−eA. For the stationary operator argument take real bounded V and an actual self-adjoint T with its stated core/closure; construct that T and the block Dirac operator for the smooth growth class below. Singular Coulomb backgrounds retain the separate distinguished-domain/reconstruction adapter in the Coulomb targets. A stationary solution E=m+ε satisfies `(ε−V)f=Tg`, `(2m+ε−V)g=Tf`. If `||ε−V||∞≤δm`, 0≤δ<2, put r=(2m+ε−V)^−1 and prove `g=rTf` and `(ε−V)f=T r T f` on `{f∈D(T):rTf∈D(T)}`. On D(T) compare the actual Schur form `q_r(f)=⟨Tf,rTf⟩` with `||Tf||²/(2m)` and prove the error bound `δ||Tf||²/(2(2−δ)m)`. If additionally `||Tf||≤ηm||f||`, prove `||g||≤η||f||/(2−δ)`. Retain the reconstruction/domain condition and the noncommuting T r T order. At V=A=0 compute the positive-energy ratio `|p|/(sqrt(m²+|p|²)+m)` and its high-momentum limit1, with normalized box modes or L² wave packets as appropriate. This shows why a small potential alone is insufficient.
 
 Give a controlled time-dependent comparison, with units restored. For a fixed finite interval[0,T₀], take real smooth Φ(t,x),A(t,x), with Φ and its mixed derivatives bounded, A and its time derivatives at most linear in x, and every mixed derivative of A of positive spatial order bounded, uniformly on the interval. These backgrounds are independent of c; let c≥c₀>0. Put `Π_c=−iℏ∇−(e/c)A`, `Q_c=σ·Π_c`, `V=eΦ`, `H_D,c=cα·Π_c+βmc²+V` and `H_P,c=Q_c²/(2m)+V`. On the actual L²/Schwartz carriers prove essential self-adjointness, existence of the unitary nonautonomous propagators, their common Schwartz-domain comparison, and the weighted Schwartz-seminorm estimates for Pauli evolution uniform for c≥c₀. These external-field and time-dependent domain/propagation comparisons are theorem targets here, not an unnamed existing autonomous-evolution theorem.
 
@@ -3783,21 +5150,93 @@ On a common core compute `Q_c²=Π_c²−(eℏ/c)σ·B`. For constant B in symme
 `p²/(2m)+V−(e/(2mc))B·(L+ℏσ)+(e²/(8mc²))|B×x|²`.
 On the moment/form domain `|x|F∈L²`, bound the discarded quadratic form by `e²|B|²|||x|F||²/(8mc²)`; for eB≠0, translated packets show there is no uniform L² operator bound; at eB=0 the remainder is zero. Keep the orbital contribution of UNSW p. 27, with g_L=1, separate from the full spin contribution g_s=2 and the scalar potential. For a first-order spectral shift use an actual isolated finite-multiplicity bound-state cluster and prove the weighted form/resolvent perturbation hypotheses before diagonalizing its compressed linear Zeeman term. Work the QuantumFoundations §9.5 Coulomb bound clusters with their angular/spin multiplicities; handle free constant-B Landau branches through their magnetic operator spectrum rather than an invented isolated zero-field eigenstate.
 
-* Coulomb bound-state exercises (UNSW physical pp. 1–6): derive the static-field KG equation with `A⁰=Φ`, `Aᵢ=0`, then for `eΦ=−Zα/r` separate radial modes with `p²=p_r²+l(l+1)/r²`. Compute the effective Coulomb coefficients `E_e,l_e,Z_e`, write the unreduced mode as `R_l(r)Y_lm` and the reduced half-line amplitude as `u_l=rR_l∈L²((0,∞),dr)`. Derive `ν_l=sqrt((l+1/2)²−a²)`, `a=Zα`, and the origin exponents `R_l∼r^(−1/2±ν_l)`. For `a<l+1/2`, define the Friedrichs form domain by closing the form initially on C_c∞(0,∞),
+**Checks.**
+
+- With `‖ε−V‖∞≤δm`, `‖r‖≤1/((2−δ)m)`, and `‖Tf‖≤ηm‖f‖` gives `‖g‖≤η‖f‖/(2−δ)`; at `V=A=0` the positive-energy ratio `|p|/(√(m²+|p|²)+m)` is `0` at `p=0` and tends to `1`, so smallness of `V` alone does not make `g` small.
+- In symmetric gauge the Pauli Hamiltonian is `p²/(2m)+V−(e/(2mc))B·(L+ℏσ)+(e²/(8mc²))|B×x|²`; `ℏσ=2S` gives `g_s=2` against `g_L=1`.
+- The discarded quadratic form is bounded by `e²|B|²‖|x|F‖²/(8mc²)` on the moment domain and has no uniform `L²` bound for `eB≠0`, as translated packets show.
+- The spectral-window error `|t|κ⁴/(8m³)` agrees with §1.5 at `ℏ=c=1`; the residuals `r_f=O(c^(−2))`, `r_g=O(c^(−3))` give the Duhamel error `O(c^(−2))` on `[0,T₀]`.
+
+*Needs:* §1.5, §2.12, §3.4; QuantumFoundations §8.2, §9.5; UnboundedOperators Layers 1–5.
+
+### 9.8 Klein–Gordon Coulomb bound states
+
+Coulomb bound-state exercises (UNSW physical pp. 1–6): derive the static-field KG equation with `A⁰=Φ`, `Aᵢ=0`, then for `eΦ=−Zα/r` separate radial modes with `p²=p_r²+l(l+1)/r²`. Compute the effective Coulomb coefficients `E_e,l_e,Z_e`, write the unreduced mode as `R_l(r)Y_lm` and the reduced half-line amplitude as `u_l=rR_l∈L²((0,∞),dr)`. Derive `ν_l=sqrt((l+1/2)²−a²)`, `a=Zα`, and the origin exponents `R_l∼r^(−1/2±ν_l)`. For `a<l+1/2`, define the Friedrichs form domain by closing the form initially on C_c∞(0,∞),
 `q_ε(u)=∫(|u′|²+(l(l+1)−a²)|u|²/r²−2aε|u|²/r+(m²−ε²)|u|²)dr`,
 in a positively shifted form norm. Prove semiboundedness, closability and
 independence of its domain from the shift and real spectral parameter ε,
 using Hardy and the Coulomb form bound. Among local radial eigen-equation
 solutions, prove that this domain selects the Frobenius branch
 `u_l∼r^(1/2+ν_l)`; square-integrability alone need not select it. The selected R_l can be unbounded. Treat the coalescing logarithmic case `a=l+1/2` and the supercritical inverse-square regime separately, specifying any additional extension/short-distance data before claiming a spectrum. Impose exponential decay at infinity for `|ε|<m`, prove the confluent-hypergeometric quantization, and determine the discrete `ε(m,Z,α,l,n_r)` spectrum and its real/allowed parameter region for `ns` states, including the case `Z=69`: with α≈1/137.04, the l=0 coupling exceeds 1/2, so the subcritical real-exponent formula cannot be continued as a Friedrichs-semibounded point-Coulomb result. Prove the small-`Zα` expansion gives the Rydberg formula and its first correction. When consuming the attractive nonrelativistic Coulomb model of QuantumFoundations §9.5, distinguish its signed coefficient from the positive fine-structure constant: write the relative potential coefficient as `α_QF=−Zα` and consume its arbitrary-μ relative Coulomb operator with μ=m for the one-body external-field comparison. Separately, for the two-body model prove μ→m as the nuclear mass tends to infinity; this limit is not required to define the one-body comparison. Prove the mass/unit identification before consuming the Rydberg formula. Do not simply assume the assignment's effective noninteger angular-momentum formula: derive its radial ODE, boundary conditions and chosen branch.
-* For the same Coulomb problem, derive the squared Dirac equation from the first-order minimally coupled equation using `[p_μ−eA_μ,p_ν−eA_ν]` and verify the Pauli term/sign against the fixed metric and gamma convention. Specialize to static `E=−∇Φ`, decompose the Dirac bispinor into two Pauli spinors, and verify the `ie σ·E` term. For `ns_{1/2}` use `u(r)=[f(r)+i(σ·n)g(r)]u₀`; derive the coupled radial system, prove the proportional ansatz `g=λf` reduces it precisely when `Zαλ²−2λ+Zα=0`, compute `λ_−=a/(1+sqrt(1−a²))` and `λ_+=(1+sqrt(1−a²))/a`. Their effective angular momenta are respectively `γ−1` and γ, `γ=sqrt(1−a²)`. Derive the first-order central Dirac radial system with reduced components P,Q and coordinate amplitudes P/r,Q/r. Use its distinguished self-adjoint domain and reconstruction identities to select the ns channel and derive its energy spectrum. For `κ=±1`, the selected reduced components behave as r^γ, while the physical amplitudes behave as r^(γ−1); do not demand bounded amplitudes. Prove the limit-point regime `a≤sqrt(3)/2`, state the distinguished extension for `sqrt(3)/2<a<1`, and separate critical/supercritical domain data. Give the corresponding general nonzero κ radial API and coupling thresholds. Compare with the KG spectrum and prove the Rydberg limit and first relativistic correction. The λ+ ratio diverging as a→0 does not reject a normalized state: rescaling f leaves a finite P-like `σ·n` component. It is an opposite-parity candidate, outside the requested ns branch. Prove its exact κ=+1 reconstruction, allowed radial quantum numbers and spectrum, or identify its failure of the first-order/domain condition. Solving the squared equation alone is insufficient; prove reconstruction of every accepted eigenspinor and isolate extraneous squared-equation solutions.
-* Fix the external Coulomb convention with signed electron charge e, nuclear charge −Ze, Z>0: `A⁰=−Ze/(4πr)` and potential energy `U=eA⁰=−Ze²/(4πr)`. Use one electron vertex e with A⁰, or equivalently the already coupled potential U in the normal-ordered density interaction, with no additional e. Derive its Fourier sign and scattering normalization. Derive a consistent Ze² amplitude, fixing the power of e and the Fourier sign once (compare UNSW pp. 57 and 62).
-* For the static heavy Coulomb target in UNSW p62, first prove the Dirac counterpart of RQFT5's scalar first-Born rate theorem. Fix m>0, incoming spatial momentum p≠0 and spin labels, normalize positive-energy spinors by `u_s(p)†u_t(p)=2ε_p δ_st`, and derive the one-electron external-potential coefficient from RQFT3's Dirac modes. Use the continuous canonical-boost massive spin basis fixed by the external-leg target. For a real Schwartz potential energy U in the normal-ordered interaction `∫:ψ†Uψ:` (finite-cutoff vacuum subtraction before removing the cutoff), prove the density-normalized switched rate `2πδ(ε′−ε)|Û(p′−p) ū_{s′}(p′)γ⁰u_s(p)|²/(4ε′ε) d³p′/(2π)³` with the same box/packet normalization and order: remove mode cutoff, L→∞ at fixed switching time, then long-time limit. Keep fixed-spin rates separate from summing final spins and averaging the two initial spins. Coulomb is not Schwartz and its torus periodization is not this theorem's input. Use Heaviside–Lorentz charge normalization `e²=4πα`, and the real even Schwartz approximants defined by `Û_{κ,R}(q)=−Ze² exp(−|q|²/R²)/(|q|²+κ²)`, κ,R>0. After the rate limit for each approximant, take R→∞ and then κ→0 against final-momentum tests supported away from the forward point p′=p; prove the limiting Fourier Coulomb kernel and independence from these regularizations in that test class. Do not claim a finite total rate including forward scattering. For this angular differential rate, prove `ε′=ε`, `d³p′=|p′|²d|p′|dΩ′` and `|p′|d|p′|=ε′dε′`; integrate the energy delta and divide by incoming speed `|p|/ε`. With `M=Û(q)ūγ⁰u`, derive `dW=|p′||M|²dΩ′/(16π²ε)` and `dσ=|M|²dΩ′/(16π²)`. Compare the factor `|p′|/ε` under elastic kinematics and distinguish the rate from the cross section, which differ by that speed. Carry the fixed Coulomb potential-energy convention into M.
-* Coulomb gauge: solve Gauss' law `−Δ A₀=ρ` with boundary/decay assumptions, split transverse photon modes, derive the instantaneous Coulomb kernel and transverse photon exchange. Pin the instantaneous Fourier denominator as `|k⃗|²` and the covariant exchange denominator as `k_μk^μ` with its boundary prescription; UNSW p. 53 distinguishes these two squares. Prove equivalence with covariant-gauge amplitudes only after the Ward identity and constraint terms are included.
+
+**Checks.**
+
+- `ν_l=√((l+1/2)²−a²)` vanishes at `a=l+1/2`; for `l=0` the critical coupling is `a=1/2`, and `Z=69` with `α≈1/137.04` gives `a≈0.5035>1/2`.
+- Hardy's inequality `∫|u′|²≥(1/4)∫|u|²/r²` makes `q_ε` semibounded exactly when `l(l+1)−a²+1/4≥0`, that is `a≤l+1/2`.
+- The selected branch `u_l∼r^(1/2+ν_l)` gives `R_l∼r^(−1/2+ν_l)`, unbounded for `ν_l<1/2`; the spectrum expands as `ε=m−ma²/(2n²)+O(a⁴)`, the Rydberg formula with its first correction.
+- The coefficient of QuantumFoundations §9.5 is `α_QF=−Zα` with `μ=m` for the one-body comparison; the two-body reduced mass tends to `m` as the nuclear mass grows.
+
+*Needs:* §9.2, §9.3; QuantumFoundations §9.5; UnboundedOperators UO-D06–D07.
+
+### 9.9 The Dirac–Coulomb problem and the ns channel
+
+For the same Coulomb problem, derive the squared Dirac equation from the first-order minimally coupled equation using `[p_μ−eA_μ,p_ν−eA_ν]` and verify the Pauli term/sign against the fixed metric and gamma convention. Specialize to static `E=−∇Φ`, decompose the Dirac bispinor into two Pauli spinors, and verify the `ie σ·E` term. For `ns_{1/2}` use `u(r)=[f(r)+i(σ·n)g(r)]u₀`; derive the coupled radial system, prove the proportional ansatz `g=λf` reduces it precisely when `Zαλ²−2λ+Zα=0`, compute `λ_−=a/(1+sqrt(1−a²))` and `λ_+=(1+sqrt(1−a²))/a`. Their effective angular momenta are respectively `γ−1` and γ, `γ=sqrt(1−a²)`. Derive the first-order central Dirac radial system with reduced components P,Q and coordinate amplitudes P/r,Q/r. Use its distinguished self-adjoint domain and reconstruction identities to select the ns channel and derive its energy spectrum. For `κ=±1`, the selected reduced components behave as r^γ, while the physical amplitudes behave as r^(γ−1); do not demand bounded amplitudes. Prove the limit-point regime `a≤sqrt(3)/2`, state the distinguished extension for `sqrt(3)/2<a<1`, and separate critical/supercritical domain data. Give the corresponding general nonzero κ radial API and coupling thresholds. Compare with the KG spectrum and prove the Rydberg limit and first relativistic correction. The λ+ ratio diverging as a→0 does not reject a normalized state: rescaling f leaves a finite P-like `σ·n` component. It is an opposite-parity candidate, outside the requested ns branch. Prove its exact κ=+1 reconstruction, allowed radial quantum numbers and spectrum, or identify its failure of the first-order/domain condition. Solving the squared equation alone is insufficient; prove reconstruction of every accepted eigenspinor and isolate extraneous squared-equation solutions.
+
+**Checks.**
+
+- `aλ²−2λ+a=0` has roots `λ_±=(1±√(1−a²))/a` with `λ_−λ_+=1`; `λ_−→a/2` and `λ_+→2/a` as `a→0`.
+- The ground-state energy is `m√(1−a²)` for `a<1`; the physical amplitudes behave as `r^(γ−1)`, unbounded for `γ<1`, and the limit-point regime is `a≤√3/2`.
+- The `λ_+` solution is the `κ=+1` opposite-parity candidate; its first-order reconstruction, not the squared equation, decides whether it is an eigenspinor.
+
+*Needs:* §9.2, §9.3, §9.8; §2.14 for the gamma conventions.
+
+### 9.10 The external Coulomb convention
+
+Fix the external Coulomb convention with signed electron charge e, nuclear charge −Ze, Z>0: `A⁰=−Ze/(4πr)` and potential energy `U=eA⁰=−Ze²/(4πr)`. Use one electron vertex e with A⁰, or equivalently the already coupled potential U in the normal-ordered density interaction, with no additional e. Derive its Fourier sign and scattering normalization. Derive a consistent Ze² amplitude, fixing the power of e and the Fourier sign once (compare UNSW pp. 57 and 62).
+
+**Checks.**
+
+- `A⁰=−Ze/(4πr)` and `U=eA⁰=−Ze²/(4πr)<0` whatever the sign of `e`; `Û(q)=−Ze²/|q|²`.
+- The first Born amplitude is proportional to `Ze²`, one `e` from the vertex and `Ze` from the potential; `Ze` or `Ze³` would be wrong.
+
+*Needs:* §1.6; §5.19; consumed by §9.11.
+
+### 9.11 The Dirac static-target rate
+
+For the static heavy Coulomb target in UNSW p62, first prove the Dirac counterpart of RQFT5's scalar first-Born rate theorem. Fix m>0, incoming spatial momentum p≠0 and spin labels, normalize positive-energy spinors by `u_s(p)†u_t(p)=2ε_p δ_st`, and derive the one-electron external-potential coefficient from RQFT3's Dirac modes. Use the continuous canonical-boost massive spin basis fixed by the external-leg target. For a real Schwartz potential energy U in the normal-ordered interaction `∫:ψ†Uψ:` (finite-cutoff vacuum subtraction before removing the cutoff), prove the density-normalized switched rate `2πδ(ε′−ε)|Û(p′−p) ū_{s′}(p′)γ⁰u_s(p)|²/(4ε′ε) d³p′/(2π)³` with the same box/packet normalization and order: remove mode cutoff, L→∞ at fixed switching time, then long-time limit. Keep fixed-spin rates separate from summing final spins and averaging the two initial spins. Coulomb is not Schwartz and its torus periodization is not this theorem's input. Use Heaviside–Lorentz charge normalization `e²=4πα`, and the real even Schwartz approximants defined by `Û_{κ,R}(q)=−Ze² exp(−|q|²/R²)/(|q|²+κ²)`, κ,R>0. After the rate limit for each approximant, take R→∞ and then κ→0 against final-momentum tests supported away from the forward point p′=p; prove the limiting Fourier Coulomb kernel and independence from these regularizations in that test class. Do not claim a finite total rate including forward scattering. For this angular differential rate, prove `ε′=ε`, `d³p′=|p′|²d|p′|dΩ′` and `|p′|d|p′|=ε′dε′`; integrate the energy delta and divide by incoming speed `|p|/ε`. With `M=Û(q)ūγ⁰u`, derive `dW=|p′||M|²dΩ′/(16π²ε)` and `dσ=|M|²dΩ′/(16π²)`. Compare the factor `|p′|/ε` under elastic kinematics and distinguish the rate from the cross section, which differ by that speed. Carry the fixed Coulomb potential-energy convention into M.
+
+**Checks.**
+
+- `|p′|d|p′|=ε′dε′` from `ε′²=|p′|²+m²`, so integrating the energy delta gives `dW=|p′||M|²dΩ′/(16π²ε)` and `dσ=|M|²dΩ′/(16π²)` after dividing by `|p|/ε`.
+- At low velocity `ūγ⁰u≈2m` and `|q|=2|p|sin(θ/2)`, so `dσ/dΩ=Z²e⁴m²/(4π²|q|⁴)=(Zα)²/(4m²v⁴sin⁴(θ/2))`, the Rutherford formula.
+- The normalization `u_s†u_t=2εδ_(st)` and the Yukawa approximants `Û_(κ,R)` are even, real Schwartz functions converging to the Coulomb kernel away from `q=0`.
+
+*Needs:* §5.19 (scalar rate theorem), §3.4, §9.10; Weinberg §3.4.
+
+### 9.12 Coulomb gauge for the quantum potential
+
+Coulomb gauge: solve Gauss' law `−Δ A₀=ρ` with boundary/decay assumptions, split transverse photon modes, derive the instantaneous Coulomb kernel and transverse photon exchange. Pin the instantaneous Fourier denominator as `|k⃗|²` and the covariant exchange denominator as `k_μk^μ` with its boundary prescription; UNSW p. 53 distinguishes these two squares. Prove equivalence with covariant-gauge amplitudes only after the Ward identity and constraint terms are included.
+
+**Checks.**
+
+- `−ΔA₀=ρ` has the solution `A₀(x)=∫ρ(y)/(4π|x−y|)dy` with decay; its Fourier kernel is `1/|k⃗|²`, while the covariant denominator is `k_μk^μ=ω²−|k⃗|²`.
+- The transverse modes are two per momentum; the longitudinal and scalar modes are removed by the constraint and the gauge.
+
+*Needs:* §1.4, §1.6, §3.6; §9.14 for the equivalence with covariant exchange.
+
+### 9.13 The vector current of the free Dirac field
 
 For the vector current of Borcherds–Barnard §9.6 (pp. 75–76) use the free charged Dirac CAR field and its U(1)-invariant vacuum, with psi of weight+1 and its Dirac adjoint of weight-1. Prove same-charge two-point contractions vanish by U(1) covariance, while the two mixed orientations give their actual matrix-valued distributions and fermionic time-order signs. Fix the spinor/adjoint bases before identifying the16 scalar entries of a4x4 propagator. This is not a vanishing theorem for products of two propagator matrices, nor for a neutral Majorana field.
 
-**RQFT9.CoulombExchange — the UNSW pp52–55 cancellation.**
+**Checks.**
+
+- Same-charge contractions `⟨ψψ⟩` and `⟨ψ̄ψ̄⟩` vanish by `U(1)` covariance of the vacuum; the two mixed orientations differ by the fermionic sign and a transpose.
+- A Majorana field has `⟨ψψ⟩≠0`, so the vanishing is not a general propagator identity.
+
+*Needs:* §3.4; Borcherds–Barnard §9.6 (pp. 75–76).
+
+### 9.14 CoulombExchange — the Coulomb and transverse exchange cancellation
+
 Take `k=(ω,k⃗)`, `r=|k⃗|>0`, `d=ω²−r²`, and two complex currents
 `J_a=(ρ_a,j⃗_a)` satisfying `k⃗·j⃗_a=ωρ_a`. Spatial and spacetime
 contractions here are bilinear; conjugations from external states are
@@ -3836,13 +5275,87 @@ for the projector and conserved-current reduction, translating the
 metric and propagator factors. The boundary-value and canonical-amplitude comparisons are
 theorem targets.
 
-* State the exact QED graph rules: internal scalar/Dirac/photon propagators, vertex factors from action normalization, momentum conservation delta, loop momentum measure, symmetry factors, spinor-index contractions, orientation of fermion arrows, sign of permutations and `−1` for each closed fermion loop. Work the vacuum-polarization trace `tr(G(p+k)γ_μG(p)γ_ν)` and scalar-scattering examples. Use the explicit electron-electron, annihilation, real-emission kinematics and Dirac static-Coulomb targets; include both exchange time orderings and the instantaneous Coulomb term. General channel rates consume RQFT5.GeneralChannelRateNormalization, with the actual spin, flux, identical-state and singular-region hypotheses for each listed process. Scalar external-target rates consume the separate RQFT5 static theorem; the Dirac static-target rate has its own theorem above.
-* For m≥0 derive the Dirac Feynman distribution from the fixed scalar Feynman boundary value by Clifford factorization, pinning the numerator, overall i and Fourier measure. For m>0 prove `(γ·p−m+iεI)⁻¹=(γ·p+m−iεI)/(p²−m²+ε²+2imε)` and its distributional Feynman limit as ε↓0. For m=0 the matrix inverse is singular at real `p²=−ε²` for every ε>0 and supplies no Feynman prescription; define the massless propagator instead by `γ·p` times RQFT1's genuine scalar Feynman boundary value, with the fixed overall i. Do not use a negative-mass sign to infer the same limiting prescription. For m>0 derive all four external electron/positron leg rules with `u,v,ū,v̄`, physical momentum reversal and charge-arrow direction from RQFT3. In the standard gamma realization fix `C=iγ²γ⁰`, choose the two rest Pauli spinors `(1,0),(0,1)`, use the canonical rotation-free boosts to define positive-energy u-spinors, and define the v-basis by `v_s(p)=C bar(u_s(p))ᵀ`, where bar is the Dirac adjoint. Derive its spin relabelling and phases and the signed-energy comparison; do not identify spin labels from momentum reversal alone. Compare the negative-energy spinor `ū(−p′)` of UNSW p. 57 with this convention, and verify the external-field vertex in the same convention.
-* For electron Compton scattering on UNSW p58, take `p+k₁=p′+k₂` with positive-mass positive-energy on-shell electrons and nonzero future real on-shell photons. Derive both ordered Dirac propagator strings with internal momenta `p+k₁` and `p−k₂`, and the vertex/polarization factors. Prove the denominator signs `2p·k₁>0`, `−2p·k₂<0`; these physical denominators are nonsingular. Prove contraction with k₁ vanishes for arbitrary second polarization in ℂ⁴ using momentum conservation and the external Dirac equations, and the analogous second Ward identity for arbitrary first polarization, before descending to the physical photon quotient. This is a formal tree amplitude; its relation to physical scattering uses RQFT8's separate hypotheses.
-* Work the p59 direct-minus-exchange electron-electron amplitude, both Bhabha exchange/annihilation channels, and the two electron-positron-to-two-photon orderings. Derive the spinor strings, momentum deltas and signs from the fixed external Fock ordering and fermion permutation rule; identical-fermion antisymmetry in Møller scattering is distinct from crossing conventions in Bhabha scattering. Derive the one-loop electron self-energy integrand with both consistent loop-momentum routings, explicitly orienting the photon loop momentum; In four-dimensional Feynman-gauge QED with electron mass m>0 and massless photon, construct the position-space self-energy kernel `γ^μ S_F(x)γ^ν D_{μν,F}(x)` away from x=0 using RQFT6's wavefront-product criterion. Prove scaling degree at most5; its local extension ambiguity has derivative order at most1. Also construct the one-loop vertex three-point kernel with two electron propagators and one photon propagator on the complement of the total diagonal. Prove the products on partial diagonals are already well-defined, joint scaling degree at most8 in the eight relative coordinates, and hence derivative-order-zero ambiguity at the total diagonal. For each kernel choose a compactly supported χ equal to1 near its total diagonal and prove `(1−χ)t` acts continuously on Schwartz tests by polynomial boundary-value estimates, including along the light cone at infinity. For the vertex use the common-iε family of all three propagator factors and prove a uniform tested Schwartz-seminorm bound and convergence; a single-variable quadratic-form pullback is insufficient at collinear null configurations. Choose local extensions that do not increase scaling degree. Their compactly supported local parts have finite order and are tempered; combine these with the exterior estimate to obtain globally tempered extensions before taking Fourier transforms. The derivative-order bounds and cutoff independence are asserted within this scaling-degree-preserving class. Consume RQFT6's finite-jet connected-Lorentz/Whitehead adapter and its proved finite-component averaging for parity P=γ⁰, P²=1. RQFT9 owns the concrete modules: `C_Σ=End_ℂ(S)⊗_ℝ(ℝ⊕M)` for delta jets of order≤1 at the self-energy diagonal, and `C_Λ=End_ℂ(S)⊗_ℝM` for order0 upper-vector-indexed vertex jets (use the explicit η musical isomorphism for the lower-index convention), both with their actual underlying-real Lorentz, parity and graded field-tensor actions. Apply η’s musical isomorphism to the normal derivative index in C_Σ as well as to the vector/covector index in C_Λ. Derive the Fourier factors in these identifications. Prove kernel, tadpole and proper-block covariance and identify the allowed stable submodules and affine constraints; do not duplicate RQFT6's group-cocycle removal proof. Prove that the Fourier-transformed self-energy restricts on `{p:p²<m²}` to a real-analytic matrix-valued function and admits the stated Lorentz-covariant coefficient decomposition there; only then evaluate its coefficient functions at a spacelike subtraction point. In the Lorentz-covariant parity-preserving family the self-energy ambiguity has the mass/scalar and Dirac first-derivative terms, and the vertex ambiguity is `cγ^μ` at the total diagonal. Fix an off-shell subtraction scale ν>0: writing `Σ_R(p)=A_R(p²)slash(p)+m B_R(p²)`, normalize `A_R(−ν²)=B_R(−ν²)=0`. On the underlying-real modules, derive the scalar Lorentz invariants of End_ℂ(S) as `span_ℝ{I,iI,γ⁵,iγ⁵}`; parity leaves ℂ·I. The covariant first-derivative parity-even terms are ℂ·slash(p). Thus before spacelike normalization the self-energy correction space is `ℂ·mI⊕ℂ·slash(p)`, of real dimension4, and the vertex correction space is `ℂ·γ^μ`, of real dimension2. No Hermiticity/reality condition has been imposed here. The two constraints A_R(−ν²)=B_R(−ν²)=0 are two complex equations, equivalently four real equations, and their diagonal correction map is invertible. In the normalized Lorentz/parity-covariant affine family the self-energy parallel subspace is `D_Σ=0`; before the cross-graph Ward equation the vertex parallel subspace is `D_Λ=ℂ·γ^μ`. RQFT9 must identify the actual joint parallel kernel after imposing the Ward coefficient relation, rather than count these as one or two real directions. A separately desired Hermiticity reduction requires its own invariant-affine constraint and proof. Prove these spacelike scalar-value constraints define the indicated nonempty Lorentz-stable and parity-stable affine set and identify its exact parallel subspace. The fixed invariant p²=−ν² is essential; prove solvability of its two self-energy equations rather than imposing values on an arbitrary noncovariant matrix function. Prove existence of compatible vertex-extension choices and the relation between its c and the self-energy wavefunction counterterm (Z₁=Z₂) so that, after stripping the charge factor and writing the inverse electron operator as `slash(p)−m−Σ_R(p)` and vertex as `γ^μ+Λ_R^μ`, `k_μΛ_R^μ(p+k,p)=Σ_R(p)−Σ_R(p+k)`. RQFT9 owns this cross-graph compatible-existence theorem. Derive the pre-extension Ward identity with its contact terms, prove its extension defect is a local jet with the required bound, and identify and solve the joint Lorentz/parity-stable affine constraints relating the vertex coefficient to the self-energy wavefunction coefficient, together with the spacelike conditions. This is additional to RQFT6's per-free-graph normalization bijection and covariance H¹ theorem; it asserts neither an identity for arbitrary independent counterterms nor generic gauge-anomaly vanishing. Here m is a subtraction-scheme mass parameter. Prove the finite one-loop boundary value of `A_R(m²)+B_R(m²)` and the formal mass-shell shift `δm=m(A_R(m²)+B_R(m²))`, so `M=m+δm+O(e⁴)` in the perturbative mass-shell equation, before comparing with external on-shell conventions. Do not assert a nonperturbative isolated charged-particle pole or charged-particle LSZ theorem; RQFT8 retains that infrared distinction. Do not impose an infrared-divergent on-shell derivative subtraction in this massless-photon model. Keep the unintegrated loop expression distinct from the renormalized Fourier distribution; no unnamed regulator defines the latter. Do not apply RQFT6's negative-degree convergence criterion to the degree-one self-energy graph or treat its auxiliary infrared mass as an ultraviolet regulator. Prove that a free positive-mass on-shell electron cannot emit a nonzero real photon while remaining on shell; an external-background emission problem requires its background data.
-* For the scalar Compton process on UNSW p61, compute the formal tree-level amputated amplitude from both ordered scalar-exchange graphs and the contact/seagull graph. Consume the charged-KG bullet’s converted one-photon rule `−ie(p+p′)^μ`, seagull rule `2ie²η^{μν}`, RQFT1’s scalar propagator `i/(p²−m²+i0)` and RQFT3’s photon polarization quotient. Let charge-arrow momentum p be incoming and p′ outgoing; take photon k₁ incoming with ε₁ and photon k₂ outgoing with conjugate polarization bar(ε₂), with `p+k₁=p′+k₂`. Derive the antiparticle rule by reversing the charge arrow with the same momentum convention. For the algebraic Ward identities allow arbitrary ε₂∈ℂ⁴ before passing to the physical quotient. The factor2 belongs to the seagull; neither exchange channel has a factor1/2. Under momentum conservation, `p²=p′²=m²` and `k₁²=0`, prove contraction of the sum with k₁ vanishes for arbitrary second polarization at nonsingular exchange denominators, and prove the second Ward identity with the corresponding on-shell hypothesis on k₂. This is a formal tree amplitude; consume RQFT8 for any LSZ comparison.
-* Apply RQFT6’s engineering count to four-dimensional minimal scalar/Dirac QED with dimensionless e: derive `ω=4−E_A−E_scalar−(3/2)E_ψ`. Use its auxiliary μ>0 Euclidean criterion for UV bounds on massless photon edges. Ward identities and regulator compatibility require their separate proofs.
-**RQFT9.BoundStateRadiativeLevelMatrix — the UNSW Lamb-shift example.** Consume the actual distinguished point-Coulomb Dirac operator `D_a=α·p+βm−a/r`, m>0, 0<a<1, and its first-order/domain reconstruction above; consume QuantumFoundations §9.5 for the nonrelativistic comparison and RQFT3/6/9 for the free CAR/photon and renormalized-kernel interfaces. Keep a=Zα fixed as an external-background parameter while expanding in a separate formal radiative coupling g, identifying g with the physical charge only in the convention comparison. Let `h_e=1_(0,∞)(D_a)H` and `h_p=conj(1_(−∞,0)(D_a)H)` and construct the Furry electron–positron CAR carrier and its vacuum, with reference excitation energies |D_a|; this external-background splitting is not a theorem of interacting vacuum existence. Work the finite degenerate Dirac-Coulomb 2S_(1/2)/2P_(1/2) cluster, including all magnetic multiplicities, and later its stated nonrelativistic/unit conversion.
+**Checks.**
+
+- With `k⃗·j⃗_a=ωρ_a`, `j⃗₁·P_Tj⃗₂=j⃗₁·j⃗₂−ω²ρ₁ρ₂/r²`, so `(j⃗₁·P_Tj⃗₂)/d+ρ₁ρ₂/r²=(j⃗₁·j⃗₂−ρ₁ρ₂)/d=−η(J₁,J₂)/d`.
+- `((ω−r)⁻¹−(ω+r)⁻¹)/(2r)=1/d` away from the poles; with opposite pole sides `(ω−r+iε)(ω+r−iε)=d+2iεr+ε²`, which tends to `d+i0` because `r>0`.
+- With the same side on both poles the product is `ω²−r²+2iεω+…`, not a Feynman prescription for `ω<0`.
+
+*Needs:* §1.9 (boundary values), §3.5, §3.6, §5.20; Dine's Coulomb-gauge notes pp. 1–2.
+
+### 9.15 The QED graph rules
+
+State the exact QED graph rules: internal scalar/Dirac/photon propagators, vertex factors from action normalization, momentum conservation delta, loop momentum measure, symmetry factors, spinor-index contractions, orientation of fermion arrows, sign of permutations and `−1` for each closed fermion loop. Work the vacuum-polarization trace `tr(G(p+k)γ_μG(p)γ_ν)` and scalar-scattering examples. Use the explicit electron-electron, annihilation, real-emission kinematics and Dirac static-Coulomb targets; include both exchange time orderings and the instantaneous Coulomb term. General channel rates consume RQFT5.GeneralChannelRateNormalization, with the actual spin, flux, identical-state and singular-region hypotheses for each listed process. Scalar external-target rates consume the separate RQFT5 static theorem; the Dirac static-target rate has its own theorem above.
+
+**Checks.**
+
+- Each closed fermion loop carries `−1`; the vacuum polarization graph has symmetry factor `1` while the scalar bubble has `1/2`; the vertex factor `−ieγ^μ` is tied to `D=∂+ieA`.
+- The trace `tr(G(p+k)γ_μG(p)γ_ν)` is computed with `tr(γ^μγ^ν)=4η^(μν)` and the four-gamma trace identity.
+
+*Needs:* §1.9, §3.3, §3.4, §3.5, §5.20, §9.4, §9.6.
+
+### 9.16 The Dirac Feynman propagator and the external leg rules
+
+For m≥0 derive the Dirac Feynman distribution from the fixed scalar Feynman boundary value by Clifford factorization, pinning the numerator, overall i and Fourier measure. For m>0 prove `(γ·p−m+iεI)⁻¹=(γ·p+m−iεI)/(p²−m²+ε²+2imε)` and its distributional Feynman limit as ε↓0. For m=0 the matrix inverse is singular at real `p²=−ε²` for every ε>0 and supplies no Feynman prescription; define the massless propagator instead by `γ·p` times RQFT1's genuine scalar Feynman boundary value, with the fixed overall i. Do not use a negative-mass sign to infer the same limiting prescription. For m>0 derive all four external electron/positron leg rules with `u,v,ū,v̄`, physical momentum reversal and charge-arrow direction from RQFT3. In the standard gamma realization fix `C=iγ²γ⁰`, choose the two rest Pauli spinors `(1,0),(0,1)`, use the canonical rotation-free boosts to define positive-energy u-spinors, and define the v-basis by `v_s(p)=C bar(u_s(p))ᵀ`, where bar is the Dirac adjoint. Derive its spin relabelling and phases and the signed-energy comparison; do not identify spin labels from momentum reversal alone. Compare the negative-energy spinor `ū(−p′)` of UNSW p. 57 with this convention, and verify the external-field vertex in the same convention.
+
+**Checks.**
+
+- `(γ·p−m+iε)(γ·p+m−iε)=p²−m²+2imε+ε²`, which gives the displayed inverse; for `m=0` the matrix `γ·p+iε` is singular at real `p²=−ε²` for every `ε>0`.
+- `v_s(p)=C ū_s(p)ᵀ` with `C=iγ²γ⁰` satisfies `(γ·p+m)v_s(p)=0`.
+- The massless propagator `γ·p` times the scalar Feynman boundary value agrees with the `m→0` limit of the massive one as a distribution, which the negative-mass trick does not give.
+
+*Needs:* §1.9, §2.9, §2.13, §3.4.
+
+### 9.17 Electron Compton scattering
+
+For electron Compton scattering on UNSW p58, take `p+k₁=p′+k₂` with positive-mass positive-energy on-shell electrons and nonzero future real on-shell photons. Derive both ordered Dirac propagator strings with internal momenta `p+k₁` and `p−k₂`, and the vertex/polarization factors. Prove the denominator signs `2p·k₁>0`, `−2p·k₂<0`; these physical denominators are nonsingular. Prove contraction with k₁ vanishes for arbitrary second polarization in ℂ⁴ using momentum conservation and the external Dirac equations, and the analogous second Ward identity for arbitrary first polarization, before descending to the physical photon quotient. This is a formal tree amplitude; its relation to physical scattering uses RQFT8's separate hypotheses.
+
+**Checks.**
+
+- `2p·k₁>0` and `−2p·k₂<0` for future timelike `p` and future null `k`, so both denominators are nonsingular.
+- Replacing `ε₁` by `k₁` makes the two ordered strings cancel by `(γ·p−m)u(p)=0` and `k₁²=0`; the identity needs the external Dirac equations.
+
+*Needs:* §9.15, §9.16, §3.5; §8.1 for the scattering interpretation.
+
+### 9.18 Møller, Bhabha, pair annihilation and the one-loop self-energy and vertex
+
+Work the p59 direct-minus-exchange electron-electron amplitude, both Bhabha exchange/annihilation channels, and the two electron-positron-to-two-photon orderings. Derive the spinor strings, momentum deltas and signs from the fixed external Fock ordering and fermion permutation rule; identical-fermion antisymmetry in Møller scattering is distinct from crossing conventions in Bhabha scattering. Derive the one-loop electron self-energy integrand with both consistent loop-momentum routings, explicitly orienting the photon loop momentum; In four-dimensional Feynman-gauge QED with electron mass m>0 and massless photon, construct the position-space self-energy kernel `γ^μ S_F(x)γ^ν D_{μν,F}(x)` away from x=0 using RQFT6's wavefront-product criterion. Prove scaling degree at most5; its local extension ambiguity has derivative order at most1. Also construct the one-loop vertex three-point kernel with two electron propagators and one photon propagator on the complement of the total diagonal. Prove the products on partial diagonals are already well-defined, joint scaling degree at most8 in the eight relative coordinates, and hence derivative-order-zero ambiguity at the total diagonal. For each kernel choose a compactly supported χ equal to1 near its total diagonal and prove `(1−χ)t` acts continuously on Schwartz tests by polynomial boundary-value estimates, including along the light cone at infinity. For the vertex use the common-iε family of all three propagator factors and prove a uniform tested Schwartz-seminorm bound and convergence; a single-variable quadratic-form pullback is insufficient at collinear null configurations. Choose local extensions that do not increase scaling degree. Their compactly supported local parts have finite order and are tempered; combine these with the exterior estimate to obtain globally tempered extensions before taking Fourier transforms. The derivative-order bounds and cutoff independence are asserted within this scaling-degree-preserving class. Consume RQFT6's finite-jet connected-Lorentz/Whitehead adapter and its proved finite-component averaging for parity P=γ⁰, P²=1. RQFT9 owns the concrete modules: `C_Σ=End_ℂ(S)⊗_ℝ(ℝ⊕M)` for delta jets of order≤1 at the self-energy diagonal, and `C_Λ=End_ℂ(S)⊗_ℝM` for order0 upper-vector-indexed vertex jets (use the explicit η musical isomorphism for the lower-index convention), both with their actual underlying-real Lorentz, parity and graded field-tensor actions. Apply η’s musical isomorphism to the normal derivative index in C_Σ as well as to the vector/covector index in C_Λ. Derive the Fourier factors in these identifications. Prove kernel, tadpole and proper-block covariance and identify the allowed stable submodules and affine constraints; do not duplicate RQFT6's group-cocycle removal proof. Prove that the Fourier-transformed self-energy restricts on `{p:p²<m²}` to a real-analytic matrix-valued function and admits the stated Lorentz-covariant coefficient decomposition there; only then evaluate its coefficient functions at a spacelike subtraction point. In the Lorentz-covariant parity-preserving family the self-energy ambiguity has the mass/scalar and Dirac first-derivative terms, and the vertex ambiguity is `cγ^μ` at the total diagonal. Fix an off-shell subtraction scale ν>0: writing `Σ_R(p)=A_R(p²)slash(p)+m B_R(p²)`, normalize `A_R(−ν²)=B_R(−ν²)=0`. On the underlying-real modules, derive the scalar Lorentz invariants of End_ℂ(S) as `span_ℝ{I,iI,γ⁵,iγ⁵}`; parity leaves ℂ·I. The covariant first-derivative parity-even terms are ℂ·slash(p). Thus before spacelike normalization the self-energy correction space is `ℂ·mI⊕ℂ·slash(p)`, of real dimension4, and the vertex correction space is `ℂ·γ^μ`, of real dimension2. No Hermiticity/reality condition has been imposed here. The two constraints A_R(−ν²)=B_R(−ν²)=0 are two complex equations, equivalently four real equations, and their diagonal correction map is invertible. In the normalized Lorentz/parity-covariant affine family the self-energy parallel subspace is `D_Σ=0`; before the cross-graph Ward equation the vertex parallel subspace is `D_Λ=ℂ·γ^μ`. RQFT9 must identify the actual joint parallel kernel after imposing the Ward coefficient relation, rather than count these as one or two real directions. A separately desired Hermiticity reduction requires its own invariant-affine constraint and proof. Prove these spacelike scalar-value constraints define the indicated nonempty Lorentz-stable and parity-stable affine set and identify its exact parallel subspace. The fixed invariant p²=−ν² is essential; prove solvability of its two self-energy equations rather than imposing values on an arbitrary noncovariant matrix function. Prove existence of compatible vertex-extension choices and the relation between its c and the self-energy wavefunction counterterm (Z₁=Z₂) so that, after stripping the charge factor and writing the inverse electron operator as `slash(p)−m−Σ_R(p)` and vertex as `γ^μ+Λ_R^μ`, `k_μΛ_R^μ(p+k,p)=Σ_R(p)−Σ_R(p+k)`. RQFT9 owns this cross-graph compatible-existence theorem. Derive the pre-extension Ward identity with its contact terms, prove its extension defect is a local jet with the required bound, and identify and solve the joint Lorentz/parity-stable affine constraints relating the vertex coefficient to the self-energy wavefunction coefficient, together with the spacelike conditions. This is additional to RQFT6's per-free-graph normalization bijection and covariance H¹ theorem; it asserts neither an identity for arbitrary independent counterterms nor generic gauge-anomaly vanishing. Here m is a subtraction-scheme mass parameter. Prove the finite one-loop boundary value of `A_R(m²)+B_R(m²)` and the formal mass-shell shift `δm=m(A_R(m²)+B_R(m²))`, so `M=m+δm+O(e⁴)` in the perturbative mass-shell equation, before comparing with external on-shell conventions. Do not assert a nonperturbative isolated charged-particle pole or charged-particle LSZ theorem; RQFT8 retains that infrared distinction. Do not impose an infrared-divergent on-shell derivative subtraction in this massless-photon model. Keep the unintegrated loop expression distinct from the renormalized Fourier distribution; no unnamed regulator defines the latter. Do not apply RQFT6's negative-degree convergence criterion to the degree-one self-energy graph or treat its auxiliary infrared mass as an ultraviolet regulator. Prove that a free positive-mass on-shell electron cannot emit a nonzero real photon while remaining on shell; an external-background emission problem requires its background data.
+
+**Checks.**
+
+- Møller: direct minus exchange from fermion antisymmetry; Bhabha: exchange minus annihilation; these are different signs with different origins.
+- The self-energy kernel `γ^μS_F(x)γ^νD_(μν,F)(x)` has scaling degree `3+2=5` in four dimensions, hence ambiguity of derivative order `≤1`; the vertex kernel has joint degree `8` at codimension `8`, hence order `0`.
+- The Lorentz invariants of `End_ℂ(S)` are `span_ℝ{I,iI,γ⁵,iγ⁵}`, parity keeps `ℂ·I`, and the parity-even first-derivative terms are `ℂ·slash(p)`; `A_R(−ν²)=B_R(−ν²)=0` are two complex equations on the real four-dimensional space `ℂ·mI⊕ℂ·slash(p)`, so the normalization map is invertible.
+- `δm=m(A_R(m²)+B_R(m²))` since `Σ_R(p)=A_Rslash(p)+mB_R` reduces to `m(A_R+B_R)` at `slash(p)=m`; the Ward identity `k_μΛ_R^μ(p+k,p)=Σ_R(p)−Σ_R(p+k)` holds trivially at tree level.
+- A free on-shell electron cannot emit a real photon on shell: `(p−k)²=m²−2p·k<m²` for `k` nonzero null and `p` timelike.
+
+*Needs:* §6.8 (wavefront criterion), §6.9, §6.13 (Lorentz and parity averaging); §9.15, §9.16; §8.1, §8.2.
+
+### 9.19 Scalar Compton scattering
+
+For the scalar Compton process on UNSW p61, compute the formal tree-level amputated amplitude from both ordered scalar-exchange graphs and the contact/seagull graph. Consume the charged-KG bullet’s converted one-photon rule `−ie(p+p′)^μ`, seagull rule `2ie²η^{μν}`, RQFT1’s scalar propagator `i/(p²−m²+i0)` and RQFT3’s photon polarization quotient. Let charge-arrow momentum p be incoming and p′ outgoing; take photon k₁ incoming with ε₁ and photon k₂ outgoing with conjugate polarization bar(ε₂), with `p+k₁=p′+k₂`. Derive the antiparticle rule by reversing the charge arrow with the same momentum convention. For the algebraic Ward identities allow arbitrary ε₂∈ℂ⁴ before passing to the physical quotient. The factor2 belongs to the seagull; neither exchange channel has a factor1/2. Under momentum conservation, `p²=p′²=m²` and `k₁²=0`, prove contraction of the sum with k₁ vanishes for arbitrary second polarization at nonsingular exchange denominators, and prove the second Ward identity with the corresponding on-shell hypothesis on k₂. This is a formal tree amplitude; consume RQFT8 for any LSZ comparison.
+
+**Checks.**
+
+- The exchange denominators `2p·k₁` and `−2p·k₂` are nonzero; the seagull carries `2ie²η^(μν)` and neither exchange channel carries `1/2`.
+- With `p²=p′²=m²` and `k₁²=0`, the contraction of the sum with `k₁` vanishes for arbitrary `ε₂∈ℂ⁴`, using `(p+k₁)²−m²=2p·k₁` and `(p′−k₁)²−m²=−2p′·k₁`.
+
+*Needs:* §9.4, §1.9, §3.5; §8.1.
+
+### 9.20 Power counting for QED
+
+Apply RQFT6’s engineering count to four-dimensional minimal scalar/Dirac QED with dimensionless e: derive `ω=4−E_A−E_scalar−(3/2)E_ψ`. Use its auxiliary μ>0 Euclidean criterion for UV bounds on massless photon edges. Ward identities and regulator compatibility require their separate proofs.
+
+**Checks.**
+
+- `ω=4−E_A−E_scalar−(3/2)E_ψ` gives `2` for vacuum polarization, `1` for the electron self-energy, `0` for the vertex and `0` for light-by-light scattering.
+- The auxiliary photon mass `μ>0` gives the ultraviolet bounds of §6.3 and no infrared statement.
+
+*Needs:* §6.2, §6.3.
+
+### 9.21 BoundStateRadiativeLevelMatrix — the Lamb-shift level matrix
+
+Consume the actual distinguished point-Coulomb Dirac operator `D_a=α·p+βm−a/r`, m>0, 0<a<1, and its first-order/domain reconstruction above; consume QuantumFoundations §9.5 for the nonrelativistic comparison and RQFT3/6/9 for the free CAR/photon and renormalized-kernel interfaces. Keep a=Zα fixed as an external-background parameter while expanding in a separate formal radiative coupling g, identifying g with the physical charge only in the convention comparison. Let `h_e=1_(0,∞)(D_a)H` and `h_p=conj(1_(−∞,0)(D_a)H)` and construct the Furry electron–positron CAR carrier and its vacuum, with reference excitation energies |D_a|; this external-background splitting is not a theorem of interacting vacuum existence. Work the finite degenerate Dirac-Coulomb 2S_(1/2)/2P_(1/2) cluster, including all magnetic multiplicities, and later its stated nonrelativistic/unit conversion.
 
 Define a regulated operator comparison before removing regulators. Fix real even f∈C_c∞(ℝ) with f=1 on[−1,1] and supp(f)⊂[−2,2], and real radial ζ∈C_c∞(ℝ³) with ζ=1 on the unit ball. Choose Λ>max{|E|:E in the selected bound cluster}, so those energies lie in the unit plateau. Apply the separate fermion ultraviolet and spatial regulator `S_(Λ,R)=ζ(x/R)f(|D_a|/Λ)`, R>0, to the Furry field before forming currents. This is additional to the photon momentum cutoff: a photon band does not control arbitrary relative electron–positron loop momentum. Prove the actual localized Coulomb spectral trace/Hilbert–Schmidt estimates for S_(Λ,R) and the resulting pair-current kernels, for the distinguished domain in the stated coupling range. Choose nested finite-rank subspaces in h_e and h_p with vectors in the actual Coulomb operator domain, including the selected bound cluster on the electron side and exhausting declared graph cores. Use the compressed positive excitation operators on those subspaces, with the exact selected level projector preserved. For photons use transverse one-particle modes with λ≤|k|≤2Λ, 0<2λ<Λ, energy |k|, and the real radial smooth coupling cutoff `χ_(λ,Λ)(k)=f(|k|/Λ)(1−f(|k|/λ))` from the fixed plateau f above. It vanishes below λ and above2Λ and is1 on[2λ,Λ]. Derive the corresponding scale-dependent derivative bounds and pointwise cutoff-removal limits; this explicitly normalized family, rather than an arbitrary supported function or the zero coupling, is the regulator used below. Compress this spectrally and spatially regulated field to the finite fermion subspaces, and define the charge-free density `ρ_N=ψ_N†ψ_N` and spatial current `j_N=ψ_N†αψ_N` in the declared ordering prescription, with transverse coefficient `V=−∫j_N(x)·A_(λ,Λ)(x)dx` in the pinned Coulomb-gauge/sign convention. Insert the radiative coupling only through `H(g)=H₀+gV+g²W`, with g=e in the signed-charge comparison; the instantaneous term in W uses the charge-free density kernel once, with Fourier kernel `χ_(λ,Λ)(k)²/|k|²`. Match the counterterm and fixed-background bookkeeping to that same convention. Construct these operators on the finite-fermion times photon-Fock carrier, and prove their field-operator bounds, self-adjoint realization and common domains at each fixed regulator. Derive the charge-one constrained Hamiltonian from the matched canonical theory, rather than choosing its order-g² contact terms independently.
 
@@ -3858,7 +5371,24 @@ From the limiting finite-order level matrix derive its real level shifts, the al
 
 The scale `ℏ/(2mc²)` has the dimension of time; derive the relation of any time/energy estimate to the actual calculation rather than calling that time dimension inconsistent or accepting the “sum over all histories” slogan as a convergent formula. No numerical value of the Lamb shift is asserted.
 
+**Checks.**
+
+- The `2S_(1/2)` and `2P_(1/2)` levels are degenerate in the Dirac–Coulomb spectrum (same `n` and `j`), so the cluster has dimension `4` with magnetic multiplicities.
+- `PVP=0` for the linear transverse coupling since `V` changes the photon number by one; the cutoff `χ_(λ,Λ)` is `1` on `[2λ,Λ]`, `0` below `λ` and above `2Λ`.
+- An excited `E₀` lies in the continuum of a lower level plus a photon even with the infrared cutoff below the transition energy, so no gap of `QH₀Q` at `E₀` is available and the `+iε` resolvent is used.
+- `ℏ/(2mc²)` has the dimension of time, since `ℏ/energy` is a time.
+
+*Needs:* §9.2, §9.9; QuantumFoundations §9.5; §3.4, §3.6, §6.25, §9.18; OperatorAlgebraDynamics D8.
+
+### 9.22 Gauge fixing, BRST and renormalizability boundaries
+
 Gauge fixing, ghosts, BRST/BV, regularization, Ward/Slavnov–Taylor identities, anomaly cancellation and renormalizability each require proofs under an explicit regulator and gauge group/matter content.
+
+**Checks.**
+
+- The Ward identity of §9.18 is proved for the specified one-loop graphs; the all-orders Slavnov–Taylor identities and anomaly cancellation need their own regulator and matter content.
+
+*Needs:* §6.40; §9.18.
 
 ### Examples
 
@@ -3869,11 +5399,22 @@ Gauge fixing, ghosts, BRST/BV, regularization, Ward/Slavnov–Taylor identities,
 
 RQFT1–RQFT8; QuantumFoundations §8.2, §9.4–§9.5; UnboundedOperators UO-D06–D07; LocalVariationalFieldTheory Layer 3.
 
-## Milestone RQFT10 — Shale implementability and inequivalent free representations
+## Layer 10: Shale implementability and inequivalent free representations
+
+### 10.1 The field-theoretic Bogoliubov bridge
 
 Consume D8's CCR/Weyl algebra and regular bosonic Fock representation, and D8's carrier with the second-quantization API of QuantumFoundations §6.3–§6.4, but prove the field-theoretic Bogoliubov bridge: for a bounded real symplectic isomorphism `S` on the underlying real Hilbert space of a complex one-particle space `(h,J)`, write its complex-linear and antilinear parts relative to J and prove that the antilinear part `β` is Hilbert–Schmidt iff the induced Weyl automorphism is unitarily implementable in the bosonic Fock representation. Pin the strong/implementer topology and uniqueness up to phase. The proof route constructs implementers for finite-rank cutoffs, uses the Hilbert–Schmidt condition for convergence of squeezed vacua and second quantized maps, and proves necessity from the finite-particle/vacuum norm criterion. State the fermionic CAR criterion separately with its own covariance and implementer conventions; do not infer it from the bosonic proof. Deduce inequivalence of infinite-volume or time-dependent free-field representations only for transformations failing the criterion. Finite-dimensional Stone–von Neumann equivalence does not extend to infinitely many modes without this condition.
 
-**RQFT10.BosonicShale — restricted symplectic maps and the full implementability proof.** On an arbitrary complete complex Hilbert space h, including zero, finite-dimensional and nonseparable h, use D8's existing symplectic Weyl automorphism `α_S(W(f))=W(Sf)` and its regular symmetric Fock representation π₀ with the vacuum cyclicity, irreducibility and domain comparison. Let Jf=if and let S be a bounded real-linear continuous-linear equivalence preserving `σ(f,g)=Im⟨f,g⟩`. Put `P=(S−JSJ)/2` and `β=(S+JSJ)/2`, prove their complex-linearity/antilinearity and uniqueness, and derive composition/adjoint/inverse formulas from symplecticity. Use D8's antilinear-adjoint convention; do not give a real-linear map a complex-linear adjoint by notation alone. Interpret antilinear Hilbert–Schmidt class via its complex-linear map from the conjugate Hilbert space, equivalently `Σ_i‖βe_i‖²<∞` on a Hilbert basis. Consume OperatorIdeals Parts B–C for basis independence, completeness, ideal inequalities, compactness and the column identification; use the existing bounded-map and conjugate-linear carriers. The [Mathlib Hilbert–Schmidt41477](https://github.com/leanprover-community/mathlib4/pull/41477) and [Schatten44525](https://github.com/leanprover-community/mathlib4/pull/44525) APIs guide compatibility; the finite-dimensional Frobenius instance alone is not the infinite-dimensional criterion.
+**Checks.**
+
+- For `S=cosh(t)I+sinh(t)C` the antilinear part is `sinh(t)C`: Hilbert–Schmidt on finite-dimensional `h`, of infinite Hilbert–Schmidt norm on `ℓ²(ℕ)` for `t≠0`.
+- On finitely many modes every `S` is implementable, which is the Stone–von Neumann statement; the criterion is nontrivial only for infinitely many modes.
+
+*Needs:* OperatorAlgebraDynamics D8; QuantumFoundations §6.3–§6.4; §10.2, §10.3.
+
+### 10.2 BosonicShale — restricted symplectic maps and the full implementability proof
+
+On an arbitrary complete complex Hilbert space h, including zero, finite-dimensional and nonseparable h, use D8's existing symplectic Weyl automorphism `α_S(W(f))=W(Sf)` and its regular symmetric Fock representation π₀ with the vacuum cyclicity, irreducibility and domain comparison. Let Jf=if and let S be a bounded real-linear continuous-linear equivalence preserving `σ(f,g)=Im⟨f,g⟩`. Put `P=(S−JSJ)/2` and `β=(S+JSJ)/2`, prove their complex-linearity/antilinearity and uniqueness, and derive composition/adjoint/inverse formulas from symplecticity. Use D8's antilinear-adjoint convention; do not give a real-linear map a complex-linear adjoint by notation alone. Interpret antilinear Hilbert–Schmidt class via its complex-linear map from the conjugate Hilbert space, equivalently `Σ_i‖βe_i‖²<∞` on a Hilbert basis. Consume OperatorIdeals Parts B–C for basis independence, completeness, ideal inequalities, compactness and the column identification; use the existing bounded-map and conjugate-linear carriers. The finite-dimensional Frobenius instance alone is not the infinite-dimensional criterion.
 
 Prove the equivalence of `β∈HS`, `[S,J]∈HS` on the underlying real Hilbert space, and existence of an onto complex-linear unitary U on Γ_s(h) satisfying `Uπ₀(W(f))U*=π₀(W(Sf))` for every f. Prove uniqueness up to scalar phase from Fock irreducibility. This compares this representation with its α_S precomposition; it is not a classification of all CCR representations. The set of such S is a subgroup, with complex/antilinear composition formulas and the HS ideal estimates. Pin a usable topology: operator-norm convergence of P together with HS-norm convergence of β on this restricted group, and strong operator convergence of implementers with their phase convention. Do not replace strong by operator-norm continuity of Weyl generators.
 
@@ -3887,7 +5428,17 @@ From the normalized limiting squeezed vector Ψ construct U on the dense span of
 
 Choose the unique implementer with positive vacuum overlap; prove strong continuity in the stated restricted topology and the continuous scalar cocycle for products. Do not assert that this phase choice is a genuine group homomorphism. Deduce the inequivalence of the QuantumFoundations §9.9 family `S_t=cosh(t)I+sinh(t)C` on a separable infinite-dimensional h with conjugation C: the relative β is `sinh(t−s)C`, whose basis-column energy is infinite for t≠s, so the precomposed regular irreducible representations are pairwise inequivalent. Regularity and irreducibility are preserved under the bounded symplectic automorphisms. Finite-dimensional/zero h instead always satisfies the HS condition. Retain the separate CAR implementability theorem with its real-orthogonal, covariance, parity and implementer conventions; its proof and singular complex-linear part cannot be inferred from the bosonic P-invertible argument.
 
-### RQFT10.CAR — orthogonal implementability on the shared fermionic Fock carrier
+**Checks.**
+
+- For `S=cosh(t)I+sinh(t)C`, `JSJ=−cosh(t)I+sinh(t)C`, so `P=cosh(t)I`, `β=sinh(t)C`, `K=βP⁻¹=tanh(t)C` with `‖K‖=tanh t<1`.
+- The one-mode squeezed vector has `c₀=(1−κ²)^(1/4)` and even coefficients `c₀(−κ)^n√((2n)!)/(2^nn!)`; its norm is `c₀²Σ_nC(2n,n)κ^(2n)/4^n=c₀²(1−κ²)^(−1/2)=1`, and the vacuum overlap `|⟨Ω,UΩ⟩|²=c₀²=1/cosh t`.
+- The antilinear part of `S₁S₂` is `P₁β₂+β₁P₂`, Hilbert–Schmidt when both `β_i` are, so the restricted maps form a group.
+- For the family `S_t` on `ℓ²(ℕ)` the relative `β` of `S_t` and `S_s` is `sinh(t−s)C`, of infinite Hilbert–Schmidt norm for `t≠s`, so the representations are pairwise inequivalent.
+- `h=0`: the Fock space is `ℂ` and every `S` is implementable by a phase.
+
+*Needs:* OperatorAlgebraDynamics D8; QuantumFoundations §6.3–§6.4, §9.9; OperatorIdeals Parts B–C; VonNeumannAlgebras V2.RectangularL2; Tau Ceti Hilbert–Schmidt operators; Mathlib compact self-adjoint spectral theorem; Bruneau–Dereziński §3.1, Theorem 3.2.
+
+### 10.3 CAR — orthogonal implementability on the shared fermionic Fock carrier
 
 Consume OperatorAlgebraDynamics D8 for the universal CAR algebra, its completion comparison, antisymmetric Hilbert Fock space and bounded generators. Consume the occupation basis, vacuum cyclicity, irreducibility and second quantization on that same carrier, and OperatorIdeals OI-B32–B40/OI-C01–C14 for basis-independent Hilbert–Schmidt energy, the ideal estimates and compactness. RQFT10 owns the implementation theorem and the following realification, parity and topological comparisons; it does not construct another CAR algebra.
 
@@ -3915,6 +5466,16 @@ Check both displayed Majorana actions: the two factors (−1)^κ in the spectato
 
 Pin topology as well as existence. Give `O_res(h,J)={S∈O(h_ℝ):V_S is Hilbert–Schmidt}` the topology generated by strong operator convergence of S and the metric `‖V_S−V_T‖₂`; equivalently use the real Hilbert–Schmidt commutator difference together with strong convergence. Prove it is a topological group and that `S↦[W_S]` is continuous into PU(F_a(h)) with the quotient of the strong operator topology on its unitary group. Define the actual central extension as the pairs `(S,W)` satisfying the displayed implementation identity, with multiplication `(S,W)(T,Z)=(ST,WZ)` and kernel `(1,z·1)`, z∈𝕋; use the subspace topology from O_res×U(F_a(h)). Prove local continuous phase choices and that its projection is locally a principal 𝕋-bundle. Near the identity use `‖V‖₂<1`, so both `U*U=1−V*V` and `UU*=1−VV*` make U invertible with a locally uniform inverse bound; the paired vacuum has nonzero vacuum overlap, and choose that overlap positive. Hilbert–Schmidt convergence of its pair coefficient, strong continuity of the unitary part and creation-word density give strong continuity of this local implementer. Translate this chart to any S. Compare the topology with [Tener, Definition2.12/Theorem2.13](https://arxiv.org/html/1608.02095v1), keeping that paper's linear-creator and polarized charged-Fock conventions distinct from D8's antilinear annihilators and the present real-orthogonal Fock representation. Prove the present comparison on this carrier; a doubled charged Fock representation is not silently identified with it. No global phase section, honest representation of all O_res, or operator-norm continuity of implementers follows from this projective statement. In particular, individual Hilbert–Schmidt off-diagonal parts without Hilbert–Schmidt continuity do not suffice for the asserted continuous-family conclusion.
 
+**Checks.**
+
+- The one-mode particle–hole transformation exchanging `a` and `a†` has `U=0` on that mode, `V` the conjugation, `κ=1`, and its implementer maps the vacuum to the one-particle state: an odd implementer.
+- `U^*U=1−V^*V` with `V` Hilbert–Schmidt makes `U` Fredholm of index `0`, so `dim ker U=dim ker U^*<∞`; near the identity `‖V‖₂<1` makes `U` invertible.
+- `(J+J₁)S=JS+SJ=2JU` because `U` commutes and `V` anticommutes with `J`; hence `dim_ℝker(J+J₁)=2dim_ℂker U`.
+- For `h=0` the Fock space is `ℂ`, `κ=0`, every implementer is a phase; in finite dimension every `V` is Hilbert–Schmidt.
+- In the tensor implementer `W_K⊗(Π_(K⊥)^κΓ(U|_(K⊥)))` the two factors `(−1)^κ` in the spectator action cancel; omitting `Π^κ` implements the wrong map on `K⊥` when `κ=1`.
+
+*Needs:* OperatorAlgebraDynamics D8 (CAR, antilinear annihilators); QuantumFoundations §6.4; OperatorIdeals OI-B32–B40, OI-C01–C14; Mathlib Fredholm index, normal states; Bru–Metraud Theorem 2.8; Loizides–Meinrenken–Song Theorem 2.2; Tener Definition 2.12, Theorem 2.13.
+
 ### Examples
 
 - One mode, `S=cosh(t)I+sinh(t)C`: the antilinear part `sinh(t)C` is Hilbert–Schmidt, `S` is implementable and the vacuum overlap is `|⟨Ω,U_SΩ⟩|²=1/cosh t=(1−κ²)^(1/2)` with `κ=tanh t`.
@@ -3924,17 +5485,66 @@ Pin topology as well as existence. Give `O_res(h,J)={S∈O(h_ℝ):V_S is Hilbert
 
 OperatorAlgebraDynamics D8; QuantumFoundations §6.3–§6.4, §9.9; OperatorIdeals Parts B–C; Tau Ceti Hilbert–Schmidt operators; VonNeumannAlgebras V2.RectangularL2; RQFT3.
 
-## Milestone RQFT11 — the spin-2 field and power counting
+## Layer 11: the spin-2 field and power counting
+
+### 11.1 Spin and helicity labels of the free spin-2 field
 
 The spin labels of UNSW p. 8 mean massive SU(2) spin for m>0 and absolute helicity in the massless examples; the photon has helicities ±1. Consume NQS M4’s little-group representations and RQFT6’s generic power counting. Build the free spin2 example and the formal Einstein–Hilbert interaction below to distinguish a free higher-spin field from a specified interaction. The spin label alone supplies no theorem of nonrenormalizability.
 
+**Checks.**
+
+- The photon has helicities `±1`, labels `(ε_E,ℓ)=(+1,±2)`; the graviton has helicities `±2`, labels `(+1,±4)`; a massive spin-`2` field has `5` states.
+- The spin label gives no theorem: the free spin-`2` field and the interacting Einstein–Hilbert expansion of §11.5 have the same one-particle content and different power counting.
+
+*Needs:* NoncompactQuantumSymmetry M4; §6.2.
+
+### 11.2 The Einstein–Hilbert conventions and the gauge fixing
+
 Use `g_μν=η_μν+κh_μν`, η=(+---), with h symmetric, and the normalization `S_EH=(2/κ²)∫sqrt(−det g)R dx`; the physical coupling satisfies `κ²=32πG`. Fix `Γ^λ_μν=(1/2)g^{λρ}(∂_μg_ρν+∂_νg_ρμ−∂_ρg_μν)` and `R_μν=∂_νΓ^λ_μλ−∂_λΓ^λ_μν+Γ^σ_μλΓ^λ_νσ−Γ^σ_μνΓ^λ_λσ`, with `R=g^{μν}R_μν`. Consume SmoothBundlesConnections B3–B4 for generic connection/curvature identities and `CovariantDerivative.curvatureOperator`. Prove the coordinate comparison and the sign of this Ricci convention against that operator. Consume the nondegenerate-metric Levi-Civita theory of the completed HopfRinow, Layer 1 (`TauCeti.Manifold.ContMDiffNondegenerateMetric` and its families), including its fixed-signature family and coordinate-Christoffel theorem, and LVF6’s Lorentzian density/index adapter. RQFT11 owns the comparison of that smooth coordinate curvature with the formal jet expansion below. The positive-definite distance/minimizing-geodesic parts of HopfRinow are not used here. Use de Donder gauge `F_μ=∂^νh_μν−(1/2)∂_μh`, `h=η^{μν}h_μν`, and gauge-fixing density `F_μF^μ` (Feynman gauge parameter1). These are the action/curvature conventions of [Donoghue, §2](https://arxiv.org/abs/gr-qc/9405057); derive the quadratic density and propagator rather than importing a formula with a different sign.
+
+**Checks.**
+
+- With `g=η+κh` and `S_EH=(2/κ²)∫√(−det g)R`, the quadratic term is of order `κ⁰`; `[κ]=−1` since `κh` is dimensionless and `h` has dimension `1`.
+- In this Ricci convention the unit `2`-sphere has `R=−2`; a convention with `R=+2` differs by the overall sign, which the comparison with the curvature operator records.
+- De Donder gauge `F_μ=∂^νh_(μν)−½∂_μh` at linear order gives `Mξ=□ξ` for the gauge variation `δ_ξh=∂ξ+∂ξ`, since `∂^ν(∂_μξ_ν+∂_νξ_μ)−∂_μ∂·ξ=□ξ_μ`.
+
+*Needs:* SmoothBundlesConnections B3–B4 (`CovariantDerivative.curvatureOperator`); HopfRinow Layer 1 (Tau Ceti `TauCeti.Manifold.ContMDiffNondegenerateMetric`); LocalVariationalFieldTheory Layer 6; Donoghue 1994 §2.
+
+### 11.3 The formal jet carrier of the Einstein–Hilbert action
 
 Construct the formal carrier explicitly. Start with LVF1’s commutative polynomial jet algebra A on the symmetric h components. Form the metric coefficients in native `PowerSeries A` in formal κ, with total derivatives acting coefficientwise; extend the coefficient carrier by Grassmann ghost/antighost jets with LVF’s graded signs for the ghost action. Construct the inverse metric and the unique square-root series with constant term1 for `−det g`, prove their coefficient recursions and finite jet-order bounds. The raw density has a κ⁻¹ total-divergence term, so first form it in native Laurent series; prove that after quotienting densities by total divergences the Einstein–Hilbert action has a power-series representative starting at κ⁰. State compact-support boundary hypotheses when integrating coefficient identities. This formal construction, including the Ricci density, is owned here. For smooth compactly supported h and real κ in a neighborhood where η+κh remains nondegenerate, prove evaluation on h-jets sends each formal coefficient to the corresponding κ-Taylor coefficient of the smooth inverse metric, square-root density and Ricci scalar. Prove evaluation commutes with total derivatives and that the density identity modulo divergences agrees with coefficientwise integration under compact-support hypotheses. These are formal-to-smooth comparison theorems; smooth metric notation alone does not supply them.
 
+**Checks.**
+
+- `det(η+κh)=det η·(1+κη^(μν)h_(μν)+O(κ²))`, so `√(−det g)=1+κh/2+O(κ²)` with `h=η^(μν)h_(μν)`; the inverse metric is `η^(μν)−κh^(μν)+κ²h^(μλ)h_λ^ν−…`.
+- The order-`κ⁻¹` term of the raw density is linear in `h` and a total divergence, so the action has a representative starting at `κ⁰` modulo divergences.
+- For compactly supported `h` and small real `κ`, evaluation on jets sends each formal coefficient to the corresponding Taylor coefficient of the smooth quantities, checked on `√(−det g)` at first order.
+
+*Needs:* LocalVariationalFieldTheory Layer 1; Mathlib `PowerSeries`, `LaurentSeries`; §11.2.
+
+### 11.4 The free graviton one-particle space
+
 Derive the linearized equation and pure-gauge subspace on tempered solutions whose positive-frequency mass-shell data are smooth packets with compact support away from zero. Define the canonical bundle of solutions modulo residual gauge over the future null cone, its two helicity eigenline subbundles, and its positive inner product; covariant transverse-traceless tensors before the residual-gauge quotient are not a two-dimensional fiber. Pin its fiber form on de Donder plane waves as `B(ε,ε′)=bar(ε)^{μν}ε′_{μν}−(1/2)bar(tr_η ε)tr_η ε′`. Prove pure gauge `k_μξ_ν+k_νξ_μ` lies in its radical on the constrained solution space. Prove the descended form is positive and the quotient has dimension2; frame-dependent transverse-traceless tensors are representatives, with B their spatial sum-of-squares form. Normalize the two TT polarization representatives to B-norm1 and compare with the canonically normalized quadratic action. Construct its completion as L² sections of those helicity lines, with measure `d³p/((2π)^3 2|p|)` and zero momentum treated separately. Prove the gauge independence and frame independence of that inner product and identify the resulting unitary representation with NQS M4’s future-orbit helicity ±2 models (ε_E=+1, ℓ=±4). Do not assume a global continuous polarization frame. Use RQFT3’s invariant-domain/Fock construction for this physical free carrier; the gauge-fixed auxiliary fields and ghosts are separate graded carriers.
 
+**Checks.**
+
+- Pure gauge `k_μξ_ν+k_νξ_μ` lies in the radical of `B` on de Donder waves: `B(kξ+ξk,ε′)=2ξ^νk^με′_(μν)−(k·ξ)tr ε′=0` using `k^με′_(μν)=½k_νtr ε′`.
+- The quotient has dimension `10−4−4=2`, the two helicity lines; on transverse-traceless representatives `B` is the spatial sum of squares, positive.
+- The identification with the helicity `±2` models uses the labels `(+1,±4)` of NoncompactQuantumSymmetry M4; zero momentum is excluded from the measure `d³p/((2π)³2|p|)`.
+
+*Needs:* NoncompactQuantumSymmetry M4; §3.1, §3.8 (invariant-domain and Fock construction); §11.2.
+
+### 11.5 Gauge fixing, ghosts and graviton power counting
+
 For an infinitesimal coordinate shift κξ fix `δ_ξh_μν=∂_μξ_ν+∂_νξ_μ+κ(ξ^ρ∂_ρh_μν+h_ρν∂_μξ^ρ+h_μρ∂_νξ^ρ)`, with ξ lowered by η, and derive it from the Lie derivative of g. Define the Faddeev–Popov operator `Mξ=δ_ξF` and ghost density `bar(c)^μ(Mc)_μ`; its κ⁰ part is `bar(c)^μ□c_μ`. Prove the formal variation and graded coefficient identities. Prove the gauge-fixed graviton and ghost propagators have homogeneous UV order−2 and every Einstein–Hilbert/ghost interaction vertex has total derivative count2. Count all graviton and ghost internal edges and vertices; with `L=I−V+1`, RQFT6’s nominal degree is `ω=2L+2`. Prove `[κ]=−1` from the canonically normalized quadratic field and action. Construct the auxiliary μ>0 regulated Euclidean graviton/ghost integrands with RQFT6’s tensor-numerator convention; verify the edge and vertex degree hypotheses and derive their nominal subgraph bounds from its generic lemma. The nominal `2L+2` count gives the counterterm derivative-order bound; its positivity neither proves a nonzero divergence nor meets a negative-degree convergence hypothesis. No ultraviolet convergence theorem for graviton loops or μ→0 limit is asserted by this count, and it is not a pointwise bound on the Lorentzian light cone. Record the power-counting counterterm derivative orders without asserting a classification of diffeomorphism-invariant counterterms or a nonzero coefficient for a particular on-shell divergence. Define power-counting renormalizability separately from all-order closure under renormalization, and compare the quadratic free model, which has no interaction vertices, with this nonlinear formal action. [Donoghue, §4](https://arxiv.org/html/2211.09902#S4) supplies the derivative-expansion reference.
+
+**Checks.**
+
+- `Mξ=δ_ξF` has `κ⁰` part `□ξ_μ`, so the ghost density is `c̄^μ□c_μ+O(κ)`.
+- With propagators of order `−2` and two-derivative vertices, `ω=4L−2I+2V=4L−2(L−1)=2L+2`: `4` at one loop (curvature-squared counterterms), `6` at two loops.
+- `[κ]=−1` makes every additional vertex raise the degree, which is the power-counting nonrenormalizability statement; it asserts no nonzero coefficient.
+
+*Needs:* §6.2, §6.3, §11.2, §11.3; LocalVariationalFieldTheory Layers 1 and 6; Donoghue 2022 §4.
 
 ### Examples
 
@@ -3952,17 +5562,38 @@ No roadmap consumes a target of this roadmap. NoncompactQuantumSymmetry names RQ
 
 - R. E. Borcherds and A. Barnard, *Lectures on quantum field theory*, notes of a course of R. E. Borcherds, Berkeley 2001, arXiv:math-ph/0204014 (manifest key `borcherds-qft`): §4 (path integrals), §5 (zero-dimensional QFT, pp. 25–34), §6 (distributions and propagators, pp. 35–43), §7–§8 (renormalisation prescriptions and their group, pp. 44–67), §9 (Clifford algebras, gamma matrices, the Dirac equation and its symmetries, pp. 68–76).
 - UNSW course notes, *Relativistic quantum field theory* (manifest key `unsw-qft`), cited by page.
-- C. Bär, N. Ginoux and F. Pfäffle, *Wave equations on Lorentzian manifolds and quantization*, arXiv:0806.1036: Theorem 3.1.1 (uniqueness for past- or future-compact support), Definition 3.4.1 and Corollary 3.4.3 (Green operators).
-- R. Brunetti and K. Fredenhagen, *Microlocal analysis and interacting quantum field theories: renormalization on physical backgrounds*, Comm. Math. Phys. 208 (2000), arXiv:math-ph/9903028: §5.1 (scaling degree), Theorems 5.2–5.3 (extension at a point), §6 (transversal scaling degree).
+- C. Bär, N. Ginoux and F. Pfäffle, *Wave equations on Lorentzian manifolds and quantization*, arXiv:0806.1036 (manifest key `bgp08`): Theorem 3.1.1 (uniqueness for past- or future-compact support), Definition 3.4.1 and Corollary 3.4.3 (Green operators).
+- R. Brunetti and K. Fredenhagen, *Microlocal analysis and interacting quantum field theories: renormalization on physical backgrounds*, Comm. Math. Phys. 208 (2000), arXiv:math-ph/9903028 (manifest key `bf00`): §5.1 (scaling degree), Theorems 5.2–5.3 (extension at a point), §6 (transversal scaling degree).
 - N. V. Dang, *The extension of distributions on manifolds, a microlocal approach*, arXiv:1412.2808 (manifest key `dang14`): Theorems 3.4–3.5, §8.
-- H. Bostelmann, *Phase space properties and the short distance structure in quantum field theory*, J. Math. Phys. 46 (2005), arXiv:math-ph/0409070v3: the damped functionals (2.1)–(2.6), Theorems 3.3 and 3.6, Theorem 4.3 and (4.6)–(4.8).
-- H. Epstein and V. Glaser, *The role of locality in perturbation theory*, Ann. Inst. H. Poincaré A 19 (1973).
-- A. Connes and D. Kreimer, *Renormalization in quantum field theory and the Riemann–Hilbert problem I*, arXiv:hep-th/9912092: §2 (equation 6 and Theorem 1), §3.
-- K. Osterwalder and R. Schrader, *Axioms for Euclidean Green's functions II*, Comm. Math. Phys. 42 (1975): §II (2.1), §IV.1 and the reconstruction theorem E′→R′.
-- C. J. Fewster and K. Rejzner, *Algebraic quantum field theory — an introduction*, arXiv:1904.04051: §4.3 and Appendix C (their causal operator is advanced minus retarded, the opposite of RQFT1).
-- R. F. Streater and A. S. Wightman, *PCT, Spin and Statistics, and All That* (axioms, analyticity, spin–statistics and PCT).
-- R. Haag, *Local Quantum Physics* (nets and scattering).
-- M. Reed and B. Simon, *Methods of Modern Mathematical Physics II* (the free scalar field and the Wightman axioms).
-- L. Hörmander, *The Analysis of Linear Partial Differential Operators I*, Theorems 8.2.4 and 8.2.10 (pullback and product of distributions).
-- N. N. Bogoliubov and D. V. Shirkov, *Introduction to the Theory of Quantized Fields*, and S. Weinberg, *The Quantum Theory of Fields I* (perturbative conventions; §3.4 for the box normalization of rates).
-- J. F. Donoghue, *General relativity as an effective field theory*, arXiv:gr-qc/9405057, §2, and arXiv:2211.09902, §4.
+- H. Bostelmann, *Phase space properties and the short distance structure in quantum field theory*, J. Math. Phys. 46 (2005), arXiv:math-ph/0409070v3 (manifest key `bostelmann05`): the damped functionals (2.1)–(2.6), Theorems 3.3 and 3.6, Theorem 4.3 and (4.6)–(4.8).
+- H. Epstein and V. Glaser, *The role of locality in perturbation theory*, Ann. Inst. H. Poincaré A 19 (1973) (manifest key `eg73`).
+- A. Connes and D. Kreimer, *Renormalization in quantum field theory and the Riemann–Hilbert problem I*, arXiv:hep-th/9912092 (manifest key `ck00`): §2 (equation 6 and Theorem 1), §3.
+- K. Osterwalder and R. Schrader, *Axioms for Euclidean Green's functions II*, Comm. Math. Phys. 42 (1975), doi:10.1007/BF01608978 (manifest key `os75`): §II (2.1), §IV.1 and the reconstruction theorem E′→R′.
+- C. J. Fewster and K. Rejzner, *Algebraic quantum field theory — an introduction*, arXiv:1904.04051 (manifest key `fr19`): §4.3 and Appendix C (their causal operator is advanced minus retarded, the opposite of RQFT1).
+- R. F. Streater and A. S. Wightman, *PCT, Spin and Statistics, and All That* (axioms, analyticity, spin–statistics and PCT) (manifest key `sw64`).
+- R. Haag, *Local Quantum Physics* (nets and scattering) (manifest key `haag96`).
+- M. Reed and B. Simon, *Methods of Modern Mathematical Physics II* (the free scalar field and the Wightman axioms) (manifest key `rs75`).
+- L. Hörmander, *The Analysis of Linear Partial Differential Operators I*, Theorems 8.2.4 and 8.2.10 (pullback and product of distributions) (manifest key `hormander83`).
+- N. N. Bogoliubov and D. V. Shirkov, *Introduction to the Theory of Quantized Fields* (manifest key `bs80`), and S. Weinberg, *The Quantum Theory of Fields I* (manifest key `weinberg95`) (perturbative conventions; §3.4 for the box normalization of rates).
+- J. F. Donoghue, *General relativity as an effective field theory*, arXiv:gr-qc/9405057, §2, and arXiv:2211.09902, §4 (manifest key `donoghue94`, `donoghue22`).
+
+- R. Conti, S. Doplicher and J. E. Roberts, *Superselection theory for subsystems*, Comm. Math. Phys. 218 (2001), arXiv:math/0001139 (manifest key `cdr01`): §2–§3.
+- F. Strocchi, *Gauge problem in quantum field theory*, Phys. Rev. 162 (1967) 1429, doi:10.1103/PhysRev.162.1429 (manifest key `strocchi67`): §II, pp. 1431–1433.
+- F. Strocchi, *Gauge problem in quantum field theory. III*, Phys. Rev. D 2 (1970) 2334, doi:10.1103/PhysRevD.2.2334 (manifest key `strocchi70`): §II–§III, pp. 2334–2336, and §V, pp. 2338–2339.
+- F. Strocchi, *Gauss law, gauge symmetry breaking and the Higgs mechanism*, arXiv:2301.06543 (manifest key `strocchi23`): §2.
+- O. W. Greenberg, *Why is CPT fundamental?*, arXiv:hep-ph/0309309 (manifest key `greenberg03`): §5, equations (17)–(28).
+- H.-J. Borchers and J. Yngvason, *On the PCT-theorem in the theory of local observables*, arXiv:math-ph/0012020 (manifest key `by01`): §2.1 and (2.3).
+- C. J. Fewster, *The split property for quantum field theories in flat and curved spacetimes*, arXiv:1603.01036 (manifest key `fewster16`): §3.1, equations (16)–(22).
+- D. Tong, *Quantum field theory*, Cambridge lecture notes (manifest key `tong-qft`): §3, the engineering-dimension convention.
+- S. Hollands and R. M. Wald, *Existence of local covariant time ordered products of quantum fields in curved spacetime*, Comm. Math. Phys. 231 (2002), arXiv:gr-qc/0111108 (manifest key `hw01`): Lemma 4.1, equations (70)–(75).
+- C. Bergbauer, R. Brunetti and D. Kreimer, *Renormalization and resolution of singularities*, arXiv:0908.0633 (manifest key `bbk09`): §2, §4, §6.
+- W. D. van Suijlekom, *Renormalization of gauge fields using Hopf algebras*, arXiv:0807.0999 (manifest key `vs08`): §2, §4.
+- NIST Digital Library of Mathematical Functions, Chapter 10, equation 10.31.2 (manifest key `dlmf`): the modified-Bessel expansion of `K₀`.
+- W. Dybalski, *Haag–Ruelle scattering theory in presence of massless particles*, Lett. Math. Phys. 72 (2005), arXiv:hep-th/0412226 (manifest key `dybalski05`): §1, Lemmas 2.1–2.2, Theorem 1.1.
+- J. Collins, *A new and complete proof of the LSZ reduction formula*, arXiv:1904.10923 (manifest key `collins19`): §VIII–§XII and §XIV.
+- B. Cassano and F. Pizzichillo, *Self-adjoint extensions for the Dirac operator with Coulomb-type spherically symmetric potentials*, Lett. Math. Phys. 108 (2018), arXiv:1710.08200 (manifest key `cp17`): Theorems 1.1–1.3, Propositions 1.7–1.8.
+- M. Dine, *Coulomb gauge quantization*, lecture notes for Physics 218, UC Santa Cruz (manifest key `dine-coulomb`): pp. 1–2.
+- L. Bruneau and J. Dereziński, *Bogoliubov Hamiltonians and one-parameter groups of Bogoliubov transformations*, J. Math. Phys. 48 (2007), arXiv:math-ph/0511069 (manifest key `bd05`): §3.1, Theorem 3.2 (and Theorem 3.4, distinguished).
+- J.-B. Bru and N. Metraud, *Fermionic Bogoliubov transformations*, arXiv:2305.11697 (manifest key `bm23`): Theorem 2.8.
+- Y. Loizides, E. Meinrenken and Y. Song, *Spinor modules for Hamiltonian loop group spaces*, arXiv:1706.07493 (manifest key `lms17`): Theorem 2.2.
+- J. E. Tener, *Representation theory in chiral conformal field theory: from fields to lattices*, arXiv:1608.02095 (manifest key `tener16`): Definition 2.12 and Theorem 2.13.

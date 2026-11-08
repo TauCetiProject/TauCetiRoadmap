@@ -16,15 +16,15 @@ together with the few definitions those statements need.
 
 Stated here:
 
-* Milestone RQFT1: existence and uniqueness of the retarded and advanced solutions of the
+* Layer 1 (RQFT1): existence and uniqueness of the retarded and advanced solutions of the
   Klein–Gordon equation with causal support; the four massive boundary-value distributions and
   their relations with the two mass-shell distributions; the classification of Lorentz-invariant
   tempered solutions of `(p² − m²)U = 0`.
-* Milestone RQFT5: the asymptotic expansion of the zero-dimensional quartic integral, and its
+* Layer 5 (RQFT5): the asymptotic expansion of the zero-dimensional quartic integral, and its
   continuation to the fourfold cover `ζ ↦ ζ⁴` with an essential singularity at `ζ = 0`.
-* Milestone RQFT6: the unique extension across the origin of a distribution on `ℝⁿ ∖ {0}` whose
+* Layer 6 (RQFT6): the unique extension across the origin of a distribution on `ℝⁿ ∖ {0}` whose
   scaling degree is below `n`.
-* Milestone RQFT7: reflection positivity of the free massive Euclidean covariance and the density
+* Layer 7 (RQFT7): reflection positivity of the free massive Euclidean covariance and the density
   of its one-particle image; the zero-mass limits of the Euclidean Green functions.
 
 Headline theorems that are not statable at the pins, with the carrier each lacks:
@@ -57,7 +57,7 @@ open scoped Topology ContDiff ComplexConjugate SchwartzMap Distributions
 
 namespace TauCetiRoadmap.RelativisticQuantumFieldTheory
 
-/-! ## Milestone RQFT1: Lorentzian equations and causal Green operators -/
+/-! ## Layer 1: Lorentzian equations and causal Green operators -/
 
 /-- Minkowski space, and its momentum space, as `ℝ⁴` with coordinate `0` the time. -/
 abbrev Spacetime := EuclideanSpace ℝ (Fin 4)
@@ -165,7 +165,7 @@ theorem existsUnique_shell_decomposition (m : ℝ) (hm : 0 < m) (U : 𝓢'(Space
     ∃! c : ℂ × ℂ, ∀ f, U f = c.1 * shellPairing m true f + c.2 * shellPairing m false f := by
   sorry
 
-/-! ## Milestone RQFT5: graph combinatorics, amplitudes and formal perturbation theory -/
+/-! ## Layer 5: graph combinatorics, amplitudes and formal perturbation theory -/
 
 /-- The zero-dimensional quartic integral `Z(j, g) = ∫ exp(−φ²/2 − gφ⁴/24 + jφ) dφ`, absolutely
 convergent exactly for `Re g ≥ 0` (Borcherds–Barnard, §5, pp. 25–27). -/
@@ -206,7 +206,7 @@ theorem quarticContinuation_continuation (j : ℂ) :
       ¬ MeromorphicAt (fun ζ => quarticContinuation ζ j) 0 := by
   sorry
 
-/-! ## Milestone RQFT6: distribution products, extension and renormalisation -/
+/-! ## Layer 6: distribution products, extension and renormalisation -/
 
 /-- `ℝⁿ ∖ {0}`. -/
 def puncturedSpace (n : ℕ) : Opens (EuclideanSpace ℝ (Fin n)) :=
@@ -250,7 +250,7 @@ theorem existsUnique_extension_of_scalesBelow (n : ℕ) (t : 𝓓'(puncturedSpac
       ∀ d > σ, ScalesBelow ⊤ u d := by
   sorry
 
-/-! ## Milestone RQFT7: Euclidean continuation and analytic bridges -/
+/-! ## Layer 7: Euclidean continuation and analytic bridges -/
 
 /-- Euclidean Schwartz tests on `ℝ × ℝ³`, the first coordinate the Euclidean time. -/
 abbrev EuclideanTest := 𝓢(ℝ × Spatial, ℂ)
