@@ -538,7 +538,7 @@ Every milestone of this layer is Tau Ceti's, and the later layers consume it as 
   form splits off a hyperbolic plane (Lam I.3.4,
   `TauCeti.exists_hyperbolicPlane_prod_equivalent`), so a regular isotropic form is universal.
 
-  *Needs:* Layer 0's representation criterion; Mathlib `QuadraticMap.dualProd`,
+  *Needs:* Layer 0's representation criterion; Mathlib `QuadraticForm.dualProd`,
   `QuadraticMap.prod`.
 
 - **Witt decomposition** (Lam I.4.1; Tau Ceti's, consumed;
@@ -636,7 +636,7 @@ theorem for a general field.
 ### Dependencies
 
 Layer 0. Mathlib's `QuadraticMap.prod`, `QuadraticMap.Nondegenerate`, `QuadraticMap.radical`,
-`QuadraticMap.basisRepr`, `QuadraticMap.exists_orthogonal_basis` and `Module.finrank`. Tau
+`QuadraticMap.basisRepr`, `LinearMap.BilinForm.exists_orthogonal_basis` and `Module.finrank`. Tau
 Ceti's `TauCeti/LinearAlgebra/QuadraticForm/Hyperbolic.lean`,
 `TauCeti/LinearAlgebra/QuadraticForm/Witt/` (`Decomposition`, `Degenerate`, `Cancellation`,
 `Extension`, `TotallyIsotropic`, `BaseChange`),
@@ -795,6 +795,21 @@ stated here.
   `GlobalQuadraticForms` consumes it under that name. The signed discriminant is consumed as
   Tau Ceti's additive `TauCeti.RegularFormClass.signedDiscr`, read through the same
   equivalence where a multiplicative value is wanted.
+
+  **Checks.**
+
+  - The rank-zero class has `discr` equal to the class of `1`, the empty product; a reading
+    that takes the first weight of a diagonalization has no value there.
+  - On the class of `⟨1, −1⟩` the value is the class of `−1`, and on the class of `⟨1, 1⟩` it
+    is the class of `1`. The signed discriminant takes the opposite values on these two forms,
+    `[1]` and `[−1]`, because the sign `(−1)^(2·1/2)` is `−1` in rank two; so `discr` is the
+    plain convention and not the signed one.
+  - Over `ℚ` the classes of `⟨1⟩` and `⟨4⟩` coincide and `discr` gives the class of `1` on
+    both; a value in `Kˣ` instead of `Kˣ ⧸ (Kˣ)²` would separate two isometric forms.
+  - On the class of `⟨a⟩` the value is the coset of `a`, the element that the square-class
+    equivalence matches with Tau Ceti's additive `TauCeti.squareClass a`; the other candidate
+    reading, the coset of `a⁻¹`, is the same coset because `a⁻¹ = a · (a⁻¹)²`, so the two
+    square-class dictionaries cannot disagree here.
 
   *Needs:* Layer 0's carrier and square-class dictionary; Mathlib `QuadraticForm.discr'`.
 
@@ -1487,6 +1502,22 @@ Milestones, in this order, each Tau Ceti's:
    is empty. The two Layer 5 formulas hold in `{±1}`: `TauCeti.RegularFormClass.localHasse_add` and
    `TauCeti.RegularFormClass.localHasse_mk_rankOne_mul`, and O'Meara's `∏_{i≤j}` symbol is
    `TauCeti.RegularFormClass.omearaLocalHasseSymbol_eq`.
+
+   **Checks.**
+
+   - In ranks `0` and `1` the value is `+1` for every tuple, the product being empty. Over `ℚ_2`
+     the tuple `![−1]` has `(−1, −1)_2 = −1`, so a product that includes the diagonal pairs
+     gives `−1` there and is excluded.
+   - `localHasse ![a, −a] = +1` over every field, because `−a = 0² − a · 1²`.
+   - Over `ℚ_2`, `localHasse ![−1, 2] = (−1, 2)_2 = +1`, since `2 = 1² + 1²`; O'Meara's `∏_{i≤j}`
+     on the same tuple is `(−1,−1)_2 · (−1,2)_2 · (2,2)_2 = (−1) · (+1) · (+1) = −1`, with
+     `(2, 2)_2 = +1` from `2 = 2² − 2 · 1²`. The two conventions differ here, and the translation
+     `∏_{i≤j} = s · (d, −1)_2` holds with `d = −2` and `(−2, −1)_2 = −1`, since `x² + 2y² = −1`
+     has no solution in `ℚ_2` (for `x` a unit and `y` integral, `x² + 2y²` is `1` or `3 mod 8`;
+     otherwise its valuation is `2·v(x)` or `1 + 2·v(y)`, never `0`).
+   - `localHasse ![−1, −1]` is `−1` over `ℚ_2` and over `ℝ`, and `+1` over `ℚ_3`, where
+     `1² + 1² = 2 ≡ −1 mod 3` lifts; so the invariant is not constant, and the three values
+     match the ramification of Hamilton's quaternions at `2`, `∞` and `3`.
 8. **The symbol on a square-class basis.** Fix a uniformizer `π`. Then `Kˣ = π^ℤ × 𝒪[K]ˣ`, so by
    bimultiplicativity and square-class invariance the symbol is determined by `(u, u')_K` for units,
    `(u, π)_K` for a unit `u`, and `(π, π)_K = (π, −1)_K`, which is `TauCeti.hilbertSymbol_self`
@@ -1637,6 +1668,14 @@ in Brauer form `TauCeti.hilbertSymbol_eq_hilbertSign_kummerBrauerClass`. The equ
 stated: the vanishing statement `localSymbol (a) (b) = 0 ↔ (a,b)_K = +1`
 (`TauCeti.localSymbol_eq_zero_iff_hilbertSymbol_eq_one`) determines the sign only once one knows the
 target has two elements, and a consumer that needs the sign should not have to reprove that.
+Tau Ceti states the three declarations of this milestone, like `TauCeti.ClassFieldTheory.invMap`
+itself, for a local field `K : Type` in universe `0`, the universe of the whole development of
+TauCetiRoadmap.ClassFieldTheory (its Conventions); Milestone 1, the cup compatibility below and
+`TauCeti.hilbertSymbol_eq_cohomological` are universe-polymorphic. A consumer whose field lives in
+a higher universe takes the sign identity from `hilbertSymbol_eq_cohomological` and restates the
+invariant-map form of this milestone there; Layer 7B item 5's
+`TauCeti.brauerCohomologyEquiv_uliftEquiv` is the compatibility of the Brauer side with the
+universe lift.
 
 **Compatibility with the cup product** at the same normalization is then one step. By Layer 7B's
 `ι [(a,b)] = (a) ∪ (b)` and Milestone 1, the composite `ε ∘ ι⁻¹` carries `(a) ∪ (b)` to `(a,b)_K`; in
