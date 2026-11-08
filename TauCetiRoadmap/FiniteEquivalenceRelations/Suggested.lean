@@ -37,6 +37,14 @@ Headline theorems stated here:
   the obstruction.
 * README 3.4, `eq_differenceIdeal_of_isToric`: toric equivalence relations on affine toric
   varieties are effective.
+* README 4.1, `bijOn_baseChange` and `isAmitsurEqualizer_iff_bijOn`: under the Amitsur condition
+  for `N`, and only then, morphisms of descent data into `B ⊗[A] N` descend uniquely.
+* README 4.2, `forall_isAmitsurEqualizer_iff`, `full_faithful_comparison_iff` and
+  `nonempty_comonadicLeftAdjoint_iff`: the Amitsur condition for every module, descent and
+  effective descent of modules are each equivalent to purity of `A → B` (Joyal–Tierney).
+* README 4.3, `isAmitsurEqualizer_invariants` and `nonempty_comonadicLeftAdjoint_invariants`: the
+  quotient map `A^R → A` satisfies the Amitsur condition for `A^R`, and in the flat case
+  extension of scalars along it is comonadic.
 -/
 
 public section
@@ -285,5 +293,125 @@ theorem eq_differenceIdeal_of_isToric [IsAddFG σ] [IsCancelAdd σ] [IsAddTorsio
   sorry
 
 end Toric
+
+/-! ## Layer 4: descent of modules along the quotient map -/
+
+section ModuleDescent
+
+variable (A : Type u) (B : Type u) [CommRing A] [CommRing B] [Algebra A B]
+variable (N : Type u) [AddCommGroup N] [Module A N]
+
+/-- The first coface `B ⊗[A] N → (B ⊗[A] B) ⊗[A] N`, `b ⊗ n ↦ (b ⊗ 1) ⊗ n`. -/
+noncomputable def coface₁ : B ⊗[A] N →ₗ[A] (B ⊗[A] B) ⊗[A] N :=
+  (Algebra.TensorProduct.includeLeft (R := A) (S := A) (A := B) (B := B)).toLinearMap.rTensor N
+
+/-- The second coface `B ⊗[A] N → (B ⊗[A] B) ⊗[A] N`, `b ⊗ n ↦ (1 ⊗ b) ⊗ n`. -/
+noncomputable def coface₂ : B ⊗[A] N →ₗ[A] (B ⊗[A] B) ⊗[A] N :=
+  (Algebra.TensorProduct.includeRight (R := A) (A := B) (B := B)).toLinearMap.rTensor N
+
+/-- The Amitsur condition for `N`: `N → B ⊗[A] N ⇉ (B ⊗[A] B) ⊗[A] N`, with first map
+`n ↦ 1 ⊗ n` and the two cofaces, is an equalizer of `A`-modules (Mesablishvili 2000, p. 39,
+the unit of `f^* ⊣ f_*` at `N`; Stacks, Lemma 35.13.2, Tag 0EUA, condition (1) for one
+morphism). -/
+def IsAmitsurEqualizer : Prop :=
+  Function.Injective (TensorProduct.mk A B N 1) ∧
+    ∀ x : B ⊗[A] N, coface₁ A B N x = coface₂ A B N x → ∃ n : N, (1 : B) ⊗ₜ n = x
+
+variable {A B N} {M : Type u} [AddCommGroup M] [Module A M]
+
+/-- The base change of a `B`-linear `g : B ⊗[A] M → B ⊗[A] N` along `b ↦ 1 ⊗ b`, written on
+`(B ⊗[A] B) ⊗[A] M`. -/
+noncomputable def pullRight (g : B ⊗[A] M →ₗ[B] B ⊗[A] N) :
+    (B ⊗[A] B) ⊗[A] M →ₗ[A] (B ⊗[A] B) ⊗[A] N :=
+  (TensorProduct.assoc A B B N).symm.toLinearMap ∘ₗ (g.restrictScalars A).lTensor B ∘ₗ
+    (TensorProduct.assoc A B B M).toLinearMap
+
+/-- The base change of a `B`-linear `g : B ⊗[A] M → B ⊗[A] N` along `b ↦ b ⊗ 1`, written on
+`(B ⊗[A] B) ⊗[A] M`. -/
+noncomputable def pullLeft (g : B ⊗[A] M →ₗ[B] B ⊗[A] N) :
+    (B ⊗[A] B) ⊗[A] M →ₗ[A] (B ⊗[A] B) ⊗[A] N :=
+  (TensorProduct.comm A B B).toLinearMap.rTensor N ∘ₗ pullRight g ∘ₗ
+    (TensorProduct.comm A B B).toLinearMap.rTensor M
+
+/-- A `B`-linear `g : B ⊗[A] M → B ⊗[A] N` is a morphism of the canonical descent data when its
+two base changes to `B ⊗[A] B` agree (Stacks, Definition 35.4.15, Tag 08WY; Mesablishvili 2000,
+p. 39). -/
+def IsCompatible (g : B ⊗[A] M →ₗ[B] B ⊗[A] N) : Prop :=
+  pullLeft g = pullRight g
+
+/-- Under the Amitsur condition for `N`, base change `f ↦ B ⊗ f` is a bijection from
+`M →ₗ[A] N` onto the morphisms `B ⊗[A] M → B ⊗[A] N` of canonical descent data, for every
+`A`-module `M` (Mesablishvili 2000, Proposition 2, at the module `N`). -/
+theorem bijOn_baseChange (hN : IsAmitsurEqualizer A B N) :
+    Set.BijOn (fun f : M →ₗ[A] N ↦ f.baseChange B) Set.univ {g | IsCompatible g} := by
+  sorry
+
+/-- Conversely, bijectivity for `M = A` alone gives the Amitsur condition for `N`. -/
+theorem isAmitsurEqualizer_iff_bijOn :
+    IsAmitsurEqualizer A B N ↔
+      Set.BijOn (fun f : A →ₗ[A] N ↦ f.baseChange B) Set.univ {g | IsCompatible g} := by
+  sorry
+
+variable (A B)
+
+/-- The Amitsur condition holds for every `A`-module iff `A → B` is universally injective
+(pure): `P → B ⊗[A] P` is injective for every `A`-module `P` (Stacks, Section 35.4, Tag 08WE,
+Lemma 35.4.20 and Theorem 35.4.22, Tag 08XA). -/
+theorem forall_isAmitsurEqualizer_iff :
+    (∀ (P : Type u) [AddCommGroup P] [Module A P], IsAmitsurEqualizer A B P) ↔
+      ∀ (P : Type u) [AddCommGroup P] [Module A P],
+        Function.Injective (TensorProduct.mk A B P 1) := by
+  sorry
+
+/-- `A → B` is a descent morphism for modules (the comparison functor from `A`-modules to
+coalgebras of the comonad `B ⊗[A] -` is fully faithful) iff it is pure (Stacks, Theorem 35.4.22,
+Tag 08XA, (a) ⇔ (c); Mesablishvili 2000, Proposition 2). -/
+theorem full_faithful_comparison_iff :
+    ((Comonad.comparison
+        (ModuleCat.extendRestrictScalarsAdj.{u, u, u} (algebraMap A B))).Full ∧
+      (Comonad.comparison
+        (ModuleCat.extendRestrictScalarsAdj.{u, u, u} (algebraMap A B))).Faithful)
+      ↔ ∀ (P : Type u) [AddCommGroup P] [Module A P],
+        Function.Injective (TensorProduct.mk A B P 1) := by
+  sorry
+
+/-- `A → B` is an effective descent morphism for modules (extension of scalars is comonadic)
+iff it is pure: the Joyal–Tierney theorem (Mesablishvili 2000, Theorem 4; Stacks,
+Theorem 35.4.22, Tag 08XA, (b) ⇔ (c)). -/
+theorem nonempty_comonadicLeftAdjoint_iff :
+    Nonempty (ComonadicLeftAdjoint (ModuleCat.extendScalars.{u, u, u} (algebraMap A B))) ↔
+      ∀ (P : Type u) [AddCommGroup P] [Module A P],
+        Function.Injective (TensorProduct.mk A B P 1) := by
+  sorry
+
+end ModuleDescent
+
+section QuotientDescent
+
+variable (k : Type u) [CommRing k] (A : Type u) [CommRing A] [Algebra k A]
+
+/-- The quotient map `X → Spec A^R` satisfies the Amitsur condition for the structure sheaf:
+`A^R → A ⇉ A ⊗[A^R] A` is an equalizer, for every ideal `I`. -/
+theorem isAmitsurEqualizer_invariants (I : Ideal (A ⊗[k] A)) :
+    IsAmitsurEqualizer (invariants k A I) A (invariants k A I) := by
+  sorry
+
+end QuotientDescent
+
+section QuotientDescentFlat
+
+variable (k : Type u) [Field k] (A : Type u) [CommRing A] [Algebra k A]
+
+/-- In the flat case of 2.1, extension of scalars along `A^R → A` is comonadic: modules on
+`Spec A^R` are the `A`-modules with descent data along the quotient map (SGA 1, Exp. VIII,
+Théorème 1.1), from Tau Ceti's `RingHom.IsSpecEquivRel.faithfullyFlat` and Mathlib's
+`comonadicExtendScalars`. -/
+theorem nonempty_comonadicLeftAdjoint_invariants [FiniteDimensional k A] {I : Ideal (A ⊗[k] A)} (hI : IsEquivIdeal k A I)
+    (hflat : Module.Flat A ((A ⊗[k] A) ⧸ I)) :
+    Nonempty (ComonadicLeftAdjoint
+      (ModuleCat.extendScalars.{u, u, u} (algebraMap (invariants k A I) A))) := by
+  sorry
+
+end QuotientDescentFlat
 
 end TauCetiRoadmap.FiniteEquivalenceRelations

@@ -14,9 +14,14 @@ finite equivalence relation on `𝔸²_k` is not `X ×_Y X` for `Y = Spec A^R`, 
 its restriction to the finite local subscheme `Z = V(f₁², f₂², f₃²)`, `f₁ = x₁²`,
 `f₂ = x₁x₂ - x₂²`, `f₃ = x₂³`, is a closed equivalence relation on a finite local `k`-scheme which
 is not effective, over every field, with an explicit obstruction over `𝔽₃`; and toric equivalence
-relations on affine toric varieties are effective (Raicu 2010). The question whether every closed
-equivalence relation on a finite scheme over a field is effective is Grothendieck's (FGA III,
-§2, 1961).
+relations on affine toric varieties are effective (Raicu 2010). For modules, along any map of
+commutative rings `A → B`: base change is a bijection from `Hom_A(M, N)` onto the morphisms of
+descent data `B ⊗ M → B ⊗ N` for every `M` iff `N → B ⊗ N ⇉ (B ⊗ B) ⊗ N` is an equalizer; this
+holds for every `N` iff `A → B` is pure, iff extension of scalars is comonadic (the Joyal–Tierney
+theorem, Mesablishvili 2000); the quotient map `A^R → A` satisfies the equalizer for `N = A^R`
+for every `I`, and in the flat case modules on `Spec A^R` are the modules on `X` with descent data
+along the quotient map. The question whether every closed equivalence relation on a finite scheme
+over a field is effective is Grothendieck's (FGA III, §2, 1961).
 
 Suggested home: `TauCeti/AlgebraicGeometry/Quotient/FiniteEquivalenceRelation.lean`, beside
 Tau Ceti's `TauCeti/AlgebraicGeometry/Quotient/EquivalenceRelation.lean`.
@@ -28,7 +33,11 @@ schemes over a ring `k` and its comparison with Mathlib's internal equivalence r
 `Scheme`; the ring of invariants and the difference ideal `J(B)`; the categorical quotient and
 the effectivity criterion for `A` finite over a field; the restriction to closed subschemes;
 Raicu's examples (the non-effective relation on `𝔸²` and the toric theorem); the non-effective
-relation on a finite local scheme of Layer 3.
+relation on a finite local scheme of Layer 3; the Amitsur condition, descent of morphisms of
+modules and the Joyal–Tierney theorem for pure ring maps, with their application to the quotient
+map `A^R → A` (Layer 4). No roadmap on main or in an open pull request states descent along pure
+maps; this roadmap gives no name to purity itself and writes the condition out (`P → B ⊗[A] P`
+injective for every `A`-module `P`).
 
 **Owned elsewhere.**
 
@@ -45,11 +54,17 @@ relation on a finite local scheme of Layer 3.
   `IsCategoricalQuotient` and `IsGeometricQuotient`. This roadmap works with Mathlib's
   `CategoryTheory.IsEquivalenceRelation` in `Scheme` and with ideals; it does not restate those
   predicates, and their comparison with 0.3 and 1.2 is not a target here.
+- Faithfully flat descent of modules is Mathlib's (`comonadicExtendScalars`, extension of scalars
+  along a faithfully flat ring map is comonadic) and Tau Ceti's
+  (`Module.FaithfullyFlat.exact_mk_one_lTensor_sub_mk_one`, the Amitsur equalizer for every
+  module); SchemeAndStackFoundations §1.1 owns fpqc descent of quasi-coherent modules on schemes
+  as a stack. Layer 4 is the affine statement for pure maps, which contains the faithfully flat
+  case, and its adapter to the quotient map.
 
 **Not here.** Quotients by finite equivalence relations of schemes of finite type in positive
 characteristic, and the existence of geometric quotients (Kollár 2012, Theorem 6 and
-Question 8), are research context. Descent of modules along finite morphisms of Artin rings
-(Venken 1971) concerns modules, not relations, and is not stated.
+Question 8), are research context. Venken's example of a finite morphism of local artinian rings
+along which descent of flat modules is not effective (Venken 1971) is research context.
 
 ## Conventions
 
@@ -80,6 +95,13 @@ Question 8), are research context. Descent of modules along finite morphisms of 
   of the torus: for `σ` cancellative the map `k[σ] → k[σ^gp]` is injective, and over a field
   invariance under either coaction says that `I` is homogeneous for the grading by `s + t`.
   Witness: for `σ = ℕ`, `x - y ↦ (x - y) ⊗ χ¹`.
+- **Descent of modules** (Layer 4). For `A → B`, tensor products are over `A`, with `B` on the
+  left: the unit is `n ↦ 1 ⊗ n`, the cofaces are `coface₁ (b ⊗ n) = (b ⊗ 1) ⊗ n` and
+  `coface₂ (b ⊗ n) = (1 ⊗ b) ⊗ n`, and a descent datum is a coaction `M → B ⊗ M` as in
+  Mesablishvili 2000, p. 39, that is a coalgebra of the comonad of
+  `ModuleCat.extendRestrictScalarsAdj`. Witness: for `B = A × A`, `B ⊗ B = A⁴` indexed by
+  `(1, 1), (1, 2), (2, 1), (2, 2)`, and for `N = A`, `coface₁ (u, v) = (u, u, v, v)` and
+  `coface₂ (u, v) = (u, v, u, v)`.
 
 ## Exact supplier contracts
 
@@ -101,6 +123,16 @@ Question 8), are research context. Descent of modules along finite morphisms of 
 - `MvPolynomial`, `AddMonoidAlgebra` with `AddMonoidAlgebra.instBialgebra` and
   `Bialgebra.comulAlgHom` (`Mathlib/RingTheory/Bialgebra/MonoidAlgebra.lean`), `IsAddFG`,
   `IsCancelAdd`, `IsAddTorsionFree`, `ZMod`.
+- `TensorProduct.mk`, `TensorProduct.assoc`, `TensorProduct.comm`, `LinearMap.lTensor`,
+  `LinearMap.rTensor`, `LinearMap.baseChange`, `Set.BijOn`.
+- `CategoryTheory.Comonad.comparison`, `CategoryTheory.ComonadicLeftAdjoint`
+  (`Mathlib/CategoryTheory/Monad/Adjunction.lean`), `CategoryTheory.Functor.Full`,
+  `CategoryTheory.Functor.Faithful`; `ModuleCat.extendScalars`,
+  `ModuleCat.extendRestrictScalarsAdj` (`Mathlib/Algebra/Category/ModuleCat/ChangeOfRings.lean`);
+  `comonadicExtendScalars` for `f.FaithfullyFlat`
+  (`Mathlib/Algebra/Category/ModuleCat/Descent.lean`);
+  `RingHom.faithfullyFlat_algebraMap_iff` (`Mathlib/RingTheory/RingHom/FaithfullyFlat.lean`),
+  `Module.FaithfullyFlat`.
 
 **From Tau Ceti** (at the pinned revision).
 
@@ -111,7 +143,8 @@ Question 8), are research context. Descent of modules along finite morphisms of 
 - For `B` an `A`-algebra with `(algebraMap A B).IsSpecEquivRel t`, `[Module.Finite A B]` and
   `[Module.Projective A B]`, and `C = (algebraMap A B).eqLocus t`:
   `RingHom.IsSpecEquivRel.isPushout`, `RingHom.IsSpecEquivRel.bijective_tensorProductMap`,
-  `RingHom.IsSpecEquivRel.flat`, `RingHom.IsSpecEquivRel.finite`
+  `RingHom.IsSpecEquivRel.flat`, `RingHom.IsSpecEquivRel.faithfullyFlat`,
+  `RingHom.IsSpecEquivRel.finite`
   (`TauCeti/RingTheory/Invariant/EquivalenceRelation/Quotient.lean`), and
   `RingHom.IsSpecEquivRel.isPullback_SpecMap` (`Spec B` is the kernel pair of
   `Spec A ⟶ Spec C`), `RingHom.IsSpecEquivRel.isColimitCofork` (the coequalizer in schemes)
@@ -125,6 +158,9 @@ Question 8), are research context. Descent of modules along finite morphisms of 
   `AlgebraicGeometry.Scheme.Hom.surjective_affineCoequalizerπ`; and, for `R`, `X` affine and
   `[IsEquivalenceRelation p₁ p₂]` only, `AlgebraicGeometry.Scheme.Hom.isSpecEquivRel_appTop`
   (`TauCeti/AlgebraicGeometry/Quotient/EquivalenceRelation.lean`).
+- `Module.FaithfullyFlat.exact_mk_one_lTensor_sub_mk_one`: for `S` faithfully flat over `R`,
+  `M → S ⊗[R] M → S ⊗[R] (S ⊗[R] M)` is exact for every `R`-module `M`
+  (`TauCeti/RingTheory/Flat/EffectiveDescent.lean`).
 
 Nothing is consumed from another roadmap.
 
@@ -136,7 +172,9 @@ criterion `I = J(B)` for `A` finite over a field, with its linear-algebra form. 
 flat case from Tau Ceti's quotient by a finite locally free equivalence relation. Layer 3 gives the
 examples: Raicu's non-effective relation on `𝔸²`, its restriction to a finite local scheme, which
 answers Grothendieck's question over a field in the negative, an explicit obstruction over `𝔽₃`, and
-Raicu's toric theorem. The hardest targets are 1.2 (coequalizers in all schemes, not only affine
+Raicu's toric theorem. Layer 4 turns to modules: the Amitsur condition and descent of morphisms
+along any ring map, the Joyal–Tierney theorem for pure maps, and its application to the quotient
+map `A^R → A`. The hardest targets are 1.2 (coequalizers in all schemes, not only affine
 ones) and 3.4; 3.2 and 3.3 are finite computations.
 
 ## Layer 0: equivalence relations as ideals
@@ -468,6 +506,133 @@ Theorem 3.1). *Needs:* 0.1, 1.1, Mathlib `AddMonoidAlgebra`, `Bialgebra.comulAlg
 
 Layers 0 and 1; Mathlib `MvPolynomial`, `ZMod`, `AddMonoidAlgebra`.
 
+## Layer 4: descent of modules along the quotient map
+
+### 4.1 The Amitsur condition and descent of morphisms
+
+For a map of commutative rings `A → B` and an `A`-module `N`, define the cofaces
+`coface₁ (b ⊗ n) = (b ⊗ 1) ⊗ n` and `coface₂ (b ⊗ n) = (1 ⊗ b) ⊗ n` from `B ⊗[A] N` to
+`(B ⊗[A] B) ⊗[A] N`, and `IsAmitsurEqualizer A B N`: `N → B ⊗[A] N`, `n ↦ 1 ⊗ n`, is injective
+and its image is the equalizer of the two cofaces. This is the unit of the adjunction between
+`A`-modules and descent data at `N` (Mesablishvili 2000, p. 39), and condition (1) of Stacks,
+Lemma 35.13.2 (Tag 0EUA), for one morphism. For a `B`-linear `g : B ⊗[A] M → B ⊗[A] N` define
+`pullLeft g` and `pullRight g`, its base changes along `b ↦ b ⊗ 1` and `b ↦ 1 ⊗ b`, both written
+on `(B ⊗[A] B) ⊗[A] M`, and `IsCompatible g : pullLeft g = pullRight g`: `g` is a morphism of
+the canonical descent data on `B ⊗[A] M` and `B ⊗[A] N` (Stacks, Definition 35.4.15, Tag 08WY;
+Mesablishvili 2000, p. 39). Prove `bijOn_baseChange`: if `IsAmitsurEqualizer A B N`, then
+`f ↦ f.baseChange B` is a bijection from `M →ₗ[A] N` onto the compatible `g`, for every
+`A`-module `M`; and `isAmitsurEqualizer_iff_bijOn`: bijectivity for `M = A` alone gives
+`IsAmitsurEqualizer A B N`. This is the per-module form of Mesablishvili 2000, Proposition 2.
+Route: a `B`-linear `g` is determined by the `A`-linear `m ↦ g (1 ⊗ m)`, and `g` is compatible
+exactly when this map takes values in the equalizer of the two cofaces, which is `N`; no
+presentation of `M` is needed. Conversely, for `M = A` a compatible `g` is `x ↦ x • g (1 ⊗ 1)`
+with `g (1 ⊗ 1)` in the equalizer. *Needs:* Mathlib `Algebra.TensorProduct.includeLeft`,
+`Algebra.TensorProduct.includeRight`, `LinearMap.rTensor`, `LinearMap.lTensor`,
+`TensorProduct.mk`, `TensorProduct.assoc`, `TensorProduct.comm`, `LinearMap.baseChange`,
+`Set.BijOn`.
+
+**Checks.**
+
+- `ℤ → ℚ`, `N = ℤ`: `ℤ → ℚ` is injective, but `ℚ ⊗ ℚ = ℚ` and the two cofaces agree on all of
+  `ℚ`, so the equalizer is `ℚ ≠ ℤ` and `IsAmitsurEqualizer` fails. Correspondingly every
+  `ℚ`-linear `g : ℚ → ℚ` is compatible, and base change from `Hom(ℤ, ℤ) = ℤ` onto these is not
+  surjective. A definition by injectivity of `N → B ⊗ N` alone would accept it.
+- `ℤ → ℚ`, `N = ℤ/2`: `ℚ ⊗ ℤ/2 = 0`, so every element of `B ⊗ N` is `1 ⊗ 0` and the equalizer
+  clause holds, while injectivity fails. A definition by the equalizer clause alone would accept
+  it.
+- `B = A × A`, `M = N = A`: `B ⊗ B = A⁴` (Conventions), the equalizer of the cofaces is the
+  diagonal `A ⊆ A × A`, and `IsAmitsurEqualizer` holds. A `B`-linear `g` is multiplication by
+  some `(u, v)`; `pullLeft g` and `pullRight g` are multiplication by `(u, u, v, v)` and
+  `(u, v, u, v)`, so `g` is compatible iff `u = v`, that is iff `g` is the base change of
+  multiplication by `u`. A definition of morphisms of descent data by `B`-linearity alone would
+  accept `(1, 0)`.
+
+### 4.2 Pure maps: the Joyal–Tierney theorem
+
+Prove `forall_isAmitsurEqualizer_iff`: `IsAmitsurEqualizer A B P` holds for every `A`-module `P`
+iff `A → B` is universally injective, or pure: `P → B ⊗[A] P` is injective for every `A`-module
+`P` (Stacks, Definition 35.4.5, Tag 08WL). Prove `full_faithful_comparison_iff`: the comparison
+functor from `A`-modules to the coalgebras of the comonad of `ModuleCat.extendRestrictScalarsAdj`
+(the descent data of Mesablishvili 2000, p. 39) is full and faithful, that is `A → B` is a
+descent morphism for modules, iff `A → B` is pure (Mesablishvili 2000, Proposition 2; Stacks,
+Theorem 35.4.22, Tag 08XA, (a) ⇔ (c)). Prove `nonempty_comonadicLeftAdjoint_iff`:
+`ModuleCat.extendScalars (algebraMap A B)` is comonadic, that is `A → B` is an effective descent
+morphism for modules, iff `A → B` is pure (Mesablishvili 2000, Theorem 4; Stacks,
+Theorem 35.4.22, Tag 08XA, (b) ⇔ (c)). This is the theorem of Joyal and Tierney, unpublished,
+announced by Olivier; Mesablishvili 2000 gives the first published proof (Mesablishvili 2000,
+abstract; Stacks, Section 35.4, Tag 08WE). The modules are those of the universe of `A` and `B`,
+which contains every finitely presented module. Route: « pure ⇒ Amitsur » for `P` applies
+purity to `P` and to the cokernel `Q` of `P → B ⊗ P`: the map `(b₁ ⊗ b₂) ⊗ p ↦ b₂ ⊗ [b₁ ⊗ p]`,
+`(B ⊗ B) ⊗ P → B ⊗ Q`, sends `coface₁ x - coface₂ x` to `1 ⊗ [x]`, so an equalized `x` has
+`[x] = 0` in `Q`; the converse is the injectivity clause. Full faithfulness is then 4.1 for
+every `N`, and effectivity is Mesablishvili's split-coequalizer argument (Mesablishvili 2000,
+Lemma 1, Proposition 3 and Theorem 4; Stacks, Lemma 35.4.20, Tag 08X7). By Stacks,
+Lemma 35.13.2 (Tag 0EUA), the same conditions say that `Spec B → Spec A` is a universal
+effective epimorphism of affine schemes. *Needs:* 4.1, Mathlib `CategoryTheory.Comonad.comparison`,
+`CategoryTheory.ComonadicLeftAdjoint`, `ModuleCat.extendScalars`,
+`ModuleCat.extendRestrictScalarsAdj`, `CategoryTheory.Functor.Full`,
+`CategoryTheory.Functor.Faithful`; Tau Ceti `Module.FaithfullyFlat.exact_mk_one_lTensor_sub_mk_one`
+for the faithfully flat Checks.
+
+**Checks.**
+
+- `ℤ → ℤ[x]` is free, hence faithfully flat, hence pure (Stacks, Lemma 35.4.8, Tag 08WP); the
+  Amitsur condition holds for every `P` by Tau Ceti's
+  `Module.FaithfullyFlat.exact_mk_one_lTensor_sub_mk_one`.
+- `ℤ → ℚ` is flat, injective and an epimorphism of rings, and not pure: `ℤ/2 → ℚ ⊗ ℤ/2 = 0`. Its
+  comparison functor is not faithful: the zero map and the identity of `ℤ/2` become equal.
+- `ℤ → ℤ × ℤ/2` is split by the first projection, hence pure (Stacks, Example 35.4.6, Tag 08WM),
+  and not flat, since `ℤ/2` is not a flat `ℤ`-module: effective descent of modules holds without
+  flatness, where Mathlib's `comonadicExtendScalars` asks for faithful flatness.
+
+### 4.3 The quotient map
+
+Prove `isAmitsurEqualizer_invariants`: for every commutative ring `k`, `k`-algebra `A` and ideal
+`I ⊆ A ⊗[k] A`, the quotient map `A^R → A` satisfies `IsAmitsurEqualizer` for the module `A^R`:
+`A^R → A ⇉ A ⊗[A^R] A` is an equalizer. By 4.1, base change from `Hom_{A^R}(M, A^R)` onto the
+compatible maps `A ⊗[A^R] M → A` is bijective for every `A^R`-module `M`. Route: `A ⊗[A^R] A^R`
+is `A`; the map `A ⊗[k] A → (A ⊗[k] A) ⧸ I` factors through `A ⊗[A^R] A`, since
+`differenceIdeal I ≤ I` (1.1); so `a ⊗ 1 = 1 ⊗ a` in `A ⊗[A^R] A` gives `a ⊗ 1 - 1 ⊗ a ∈ I`, that
+is `a ∈ A^R`. In the language of 1.2, `Spec A^R` is the coequalizer of the kernel pair of
+`Spec A → Spec A^R` in affine schemes. Prove `nonempty_comonadicLeftAdjoint_invariants`: under
+the hypotheses of 2.1, extension of scalars along `A^R → A` is comonadic, so the modules on
+`Y = Spec A^R` are the `A`-modules with descent data along `X → Y`, whose kernel pair is `R` by
+2.1 (SGA 1, Exp. VIII, Théorème 1.1, for faithfully flat quasi-compact morphisms). Route: Tau
+Ceti's `RingHom.IsSpecEquivRel.faithfullyFlat`, applied as in 2.1, makes `A` faithfully flat
+over `A^R`, and Mathlib's `comonadicExtendScalars` with `RingHom.faithfullyFlat_algebraMap_iff`
+gives comonadicity; equivalently 4.2, since faithfully flat maps are pure. *Needs:* 1.1, 2.1,
+4.1, 4.2, Tau Ceti `RingHom.IsSpecEquivRel.faithfullyFlat`, Mathlib `comonadicExtendScalars`,
+`RingHom.faithfullyFlat_algebraMap_iff`, `Module.FaithfullyFlat`.
+
+**Checks.**
+
+- `I = ker μ`: `A^R = A`, `A ⊗[A] A = A`, and both statements are trivial. `I = ⊥` with `k` a
+  field and `A ≠ 0`: `A^R = k`, and `k → A` is faithfully flat, so modules descend.
+- The Amitsur condition for `A^R` alone does not give purity. For `C = k[x, y] ⧸ (xy)` and its
+  normalisation `A = k[s] × k[t]`, `x ↦ (s, 0)`, `y ↦ (0, t)`, take for `I` the ideal of
+  `A ⊗[C] A` in `A ⊗[k] A`: `k[s] ⊗[C] k[t] = k`, so the equalizer of `A ⇉ A ⊗[C] A` is
+  `{(f, g) | f(0) = g(0)} = C` and `A^R = C`. But `C → A` is not pure:
+  `C ⧸ (x + y) = k[x] ⧸ (x²)`, of dimension `2`, maps to `A ⧸ (x + y)A = k × k` with `x ↦ 0`.
+- Purity without flatness on a quotient: for `char k ≠ 2`, the relation `x ~ -x` on `𝔸²_k`,
+  `I = (x₁ - y₁, x₂ - y₂) ∩ (x₁ + y₁, x₂ + y₂)`, has `A^R = k[x₁², x₁x₂, x₂²]` (`a ⊗ 1 - 1 ⊗ a`
+  lies in the second ideal iff `a(x) = a(-x)`). The Reynolds operator `a ↦ (a(x) + a(-x)) ⁄ 2`
+  is an `A^R`-linear retraction, so `A^R → A` is pure (Stacks, Example 35.4.6, Tag 08WM) and 4.2
+  applies; `A` is not flat over `A^R`, since `A^R` is not regular at the origin while `k[x₁, x₂]`
+  is (Stacks, Lemma 10.110.9, Tag 00OF).
+
+### Examples
+
+- Finite products: for `f₁, …, fₙ` generating the unit ideal, `A → A_{f₁} × ⋯ × A_{fₙ}` is pure
+  (Stacks, Example 35.4.7, Tag 08WN), and 4.2 is Zariski descent of modules.
+- Kernel pairs of split subalgebras `C ⊆ A`, such as invariants of a finite group of invertible
+  order: `C → A` is pure and modules descend along `Spec A → Spec C`.
+
+### Dependencies
+
+Layers 1 and 2; Mathlib `ModuleCat.extendScalars`, `CategoryTheory.ComonadicLeftAdjoint`,
+`comonadicExtendScalars`; Tau Ceti `RingHom.IsSpecEquivRel.faithfullyFlat`,
+`Module.FaithfullyFlat.exact_mk_one_lTensor_sub_mk_one`.
+
 ## Downstream consumers
 
 No roadmap on main or in an open pull request cites this one.
@@ -483,7 +648,9 @@ characteristic zero (Kollár 2012, Question 8) and proved it in positive charact
 essentially of finite type (Theorem 6); Raicu's appendix answers the effectivity question on `𝔸²`
 and Raicu 2010 proves the toric case. Descent of flat modules along finite morphisms of local
 artinian rings need not be effective (Venken 1971), and Philippe 1973 studies descent along
-unramified morphisms.
+unramified morphisms. Without flatness, descent of all modules along a ring map is effective
+exactly when the map is pure: announced by Olivier, proved by Joyal and Tierney in unpublished
+work, with a first published proof by Mesablishvili (Mesablishvili 2000; Stacks, Section 35.4).
 
 Whether a non-effective closed equivalence relation exists on a finite scheme of length less
 than `15`, and whether every non-effective example comes, as in 3.2, from restricting one on an
@@ -507,7 +674,17 @@ affine space, is not known.
   arXiv:0905.4805). doi:10.1090/S0002-9939-2010-10416-1; Zbl 1203.14005.
 - The Stacks Project Authors, *The Stacks Project*, chapter « Groupoid Schemes »: Definition
   39.3.1 (Tag 022P), Section 39.23 (Tag 03BE), Lemma 39.23.4 (Tag 03BJ), Proposition 39.23.9
-  (Tag 03BM).
+  (Tag 03BM); chapter « Descent »: Section 35.4 (Tag 08WE), Definition 35.4.5 (Tag 08WL),
+  Examples 35.4.6 and 35.4.7 (Tags 08WM, 08WN), Lemma 35.4.8 (Tag 08WP), Definition 35.4.15
+  (Tag 08WY), Lemma 35.4.20 (Tag 08X7), Theorem 35.4.22 (Tag 08XA), Lemma 35.13.2 (Tag 0EUA);
+  chapter « Commutative Algebra »: Lemma 10.110.9 (Tag 00OF).
+- B. Mesablishvili, « Pure morphisms of commutative rings are effective descent morphisms for
+  modules — a new proof », *Theory Appl. Categ.* 7 (2000), no. 3, 38–42: Lemma 1, Propositions 2
+  and 3, Theorem 4, pp. 38–40. http://www.tac.mta.ca/tac/volumes/7/n3/7-03abs.html;
+  Zbl 0937.13002.
+- A. Grothendieck, *Revêtements étales et groupe fondamental (SGA 1)*, Exp. VIII, Théorème 1.1;
+  Lecture Notes in Math. 224, Springer, 1971; re-edition Documents Mathématiques 3, Soc. Math.
+  France, 2003, arXiv:math/0206203.
 - J. Venken, « Non effectivité de la descente de modules plats par un morphisme fini d'anneaux
   locaux artiniens », *C. R. Acad. Sci. Paris Sér. A–B* 272 (1971), A1553–A1554.
 - A. Philippe, « Morphisme net d'anneaux, et descente », *Bull. Sci. Math. (2)* 97 (1973), 57–64.
