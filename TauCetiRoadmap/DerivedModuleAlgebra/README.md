@@ -2429,11 +2429,16 @@ bounded-above finite-free model `P` of `K`, whose residue fibres are the termwis
   cohomology in every nonpositive degree. It has no finite Tor interval.
 - For `[k[[t]] --t→ k[[t]]]`, the residue fibre is `[k --0→ k]` in `[−1,0]`; the criterion keeps
   degree `−1` even though the original complex has zero `H^−1`.
+- For `A_n = k[t]/(t^(n+1))`, unit reflection holds: `1 + t` maps to `1 ∈ A_0 = k` and is a unit
+  of `k[[t]]`, while `t` maps to `0` and is not. The shifted tower `A_n = k[t]/(t^n)` has
+  `A_0 = 0` and the same limit `k[[t]]`; there `π_0(t) = 0` is a unit of the zero ring, but `t` is
+  not a unit. The hypothesis fails at `n = 0`: the kernel of `A_1 = k → A_0 = 0` contains the
+  non-nilpotent `1`, so the kernel hypothesis must include the first transition `A_1 → A_0`.
 
 ### 1.E.1 Effectivity of compatible perfect systems
 
-Prove effectivity of compatible perfect systems. Let `A = lim A_n` for an inverse sequence of rings with
-surjective transitions `A_(n+1) → A_n` whose kernels are locally nilpotent. Let `M_n` be perfect
+Prove effectivity of compatible perfect systems. Let `A = lim A_n` for an inverse sequence of rings
+`(A_n)_(n≥0)` with surjective transitions `A_(n+1) → A_n` whose kernels are locally nilpotent. Let `M_n` be perfect
 complexes in `D(A_n)`, with maps `M_(n+1) → M_n` in `D(A_(n+1))` inducing the specified
 isomorphisms `M_(n+1) ⊗^L_(A_(n+1)) A_n → M_n`. For any compatible finite-free lift from §1.E.0,
 restrict its strict tower along `A → A_n` and form `M = Rlim M_n` in `D(A)`. Then `M` is perfect,
@@ -2460,20 +2465,20 @@ model; its comparisons are natural for morphisms in the derived-diagram category
 **Checks.**
 
 - a constant ring and perfect complex with identity transitions are recovered by their derived limit.
-- for `A_n = k[t]/(t^n)` and `M_n = A_n` in degree zero, the limit is `k[[t]]` in degree zero and
+- for `A_n = k[t]/(t^(n+1))` and `M_n = A_n` in degree zero, the limit is `k[[t]]` in degree zero and
   its derived reductions recover `M_n`.
-- for a field `k`, `n ≥ 1`, `A_n = k[t]/(t^n)` and
+- for a field `k`, `A_n = k[t]/(t^(n+1))` and
   `M_n = [A_n --t→ A_n]` in `[−1,0]`, the limit is `[k[[t]] --t→ k[[t]]]` and its derived
-  reductions are `M_n`. Here `H^−1(M_n) = (t^(n−1)) ≅ k`, with zero transition maps, whereas
+  reductions are `M_n`. Here `H^−1(M_n) = (t^n) ≅ k`, with zero transition maps, whereas
   `H^−1(M) = 0`. In particular `H^−1(M) ⊗ A_n = 0` does not recover `H^−1(M_n)`;
   derived reduction of the whole complex does.
 - let `B = k[x₁, x₂, …]/(x_i² : i ≥ 1)` and `I = (x₁, x₂, …)`. `I` is locally nilpotent but
-  `I^r ≠ 0` for every `r`. The tower `A₁ = B/I = k`, `A_n = B` for `n ≥ 2`, with `M_n = A_n`,
+  `I^r ≠ 0` for every `r`. The tower `A₀ = B/I = k`, `A_n = B` for `n ≥ 1`, with `M_n = A_n`,
   satisfies the hypotheses and has limit `B`; globally nilpotent kernels would exclude it.
 
 ### Examples
 
-For a prime `p`, the compatible rank-one models over `ℤ/pⁿ` give `ℤ_p[0]`. The resolution
+For a prime `p`, the compatible rank-one models over `A_n = ℤ/p^(n+1)` give `ℤ_p[0]`. The resolution
 `[ℤ →p ℤ]` is perfect with residue `Tor` in degrees `−1` and `0`.
 
 ### Dependencies
@@ -2604,7 +2609,11 @@ The downstream consumers are EnhancedDerivedSheaves, EtaleCohomologyFoundations,
 DerivedDeRhamCohomology, CrystallineCohomology, PerfectoidSpaces, ArithmeticGaloisDuality,
 IntegralHeckeAndGaloisDeterminants, AlgebraicModuliForArithmeticGeometry,
 DeformationAndDerivedPatchingAlgebraPartII, ClassicalAdicEtaleCohomology,
-ArithmeticLocallySymmetricSpaces and KhovanovHomology. Sheaf enhancement,
+ArithmeticLocallySymmetricSpaces, KhovanovHomology, AdicEtaleGeometry, PurityOfBranchLocus,
+AdicSpacesPartIII, AdicSpacesPartIV and RepresentationTheory (Artin algebras). AdicEtaleGeometry
+and PurityOfBranchLocus use the Koszul complexes of §0.K.1; AdicSpacesPartIII uses the derived
+limits of §1.1 and, with AdicSpacesPartIV, the double-complex comparison of §S.1; the Artin-algebra
+roadmap of RepresentationTheory uses the Matlis duality of §1.M.2. Sheaf enhancement,
 point-site identification and the affine/Spec comparison use the scope contracts above. Arithmetic
 cochains, determinants, crystalline sites and period rings use these general module constructions.
 
