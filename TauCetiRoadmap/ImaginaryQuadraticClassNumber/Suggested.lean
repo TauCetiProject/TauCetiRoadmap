@@ -1,13 +1,20 @@
 import Mathlib
-import TauCeti.NumberTheory.NumberField.Quadratic.RingOfIntegers
+import TauCeti.NumberTheory.ClassNumberOne.HeegnerNumbers
+import TauCeti.NumberTheory.NumberField.Global.Orders.Discriminant
+import TauCeti.NumberTheory.NumberField.Global.Orders.Picard
 
 /-!
-Suggested forms only. README.md is the definitive specification, and these signatures
-are not an exhaustive checklist. Unproved targets use `sorry` honestly.
-The concrete quadratic model uses native QuadraticAlgebra, following the Qsqrtd
-shape of Mathlib PR36347; its nonsquare field adapter uses native inference.
-The H2.4 statements are the effective forms given by the exclusion of Landau–Siegel zeros
-stated in AnalyticNumberTheoryPartI §0.34, through its lower bound `L(1, χ) ≥ c / log q` (§0.9).
+# Imaginary quadratic class numbers: target signatures
+
+The roadmap is README.md; this file is not the roadmap. It states the roadmap's headline theorems
+against the pinned Mathlib and Tau Ceti, each with `sorry`: Siegel's ineffective lower bound for
+`L(1, χ)` over all primitive real characters and its two class-number consequences for every
+imaginary quadratic field (H2.4), the class-number-one theorem in its discriminant and radicand
+forms (H3.6), and the classification of the thirteen imaginary quadratic orders of Picard number
+one (H3.6). Every carrier is native: `NumberField.classNumber`, `NumberField.discr`,
+`DirichletCharacter.LFunction`, `TauCeti.heegnerDiscriminants`, `TauCeti.heegnerNumbers` and
+`TauCeti.GlobalNumberFields.NumberFieldOrder` with its discriminant and Picard group. No headline
+of the roadmap is unstatable at the pins.
 -/
 
 noncomputable section
@@ -16,110 +23,74 @@ open Polynomial
 
 namespace TauCetiRoadmap.ImaginaryQuadraticClassNumber
 
-universe u v
+universe u
 
-abbrev QuadraticModel (d : ℚ) := QuadraticAlgebra ℚ d 0
+/-! ## H2: Siegel's theorem and uniform finiteness -/
 
-def radicandDiscriminant (d : ℤ) : ℤ := if d % 4 = 1 then d else 4 * d
-
-def heegnerRadicands : Finset ℤ := {-1, -2, -3, -7, -11, -19, -43, -67, -163}
-def heegnerDiscriminants : Finset ℤ := {-3, -4, -7, -8, -11, -19, -43, -67, -163}
-def classNumberOneOrderDiscriminants : Finset ℤ :=
-  {-3, -4, -7, -8, -11, -12, -16, -19, -27, -28, -43, -67, -163}
-
-/-- The full model construction also supplies its field, embedding, scalar-parent,
-number-field, trace/norm, integral-basis and isomorphism APIs; this is only its field form. -/
-@[instance_reducible]
-def quadraticModelField (d : ℚ) (hd : ¬ IsSquare d) : Field (QuadraticModel d) := by
-  letI : Fact (¬ IsSquare d) := ⟨hd⟩
-  exact inferInstance
-
-variable (K : Type u) [Field K] [NumberField K]
-
-/-- Intrinsic imaginary quadratic fields have a negative squarefree integral presentation. -/
-theorem exists_negative_squarefree_presentation [NumberField.IsTotallyComplex K]
-    (hdeg : Module.finrank ℚ K = 2) :
-    ∃ (d : ℤ) (θ : 𝓞 K), d < 0 ∧ Squarefree d ∧
-      minpoly ℤ θ = X ^ 2 - C d ∧ Algebra.adjoin ℚ {(θ : K)} = ⊤ := by
-  sorry
-
-/-- Class-number transport must arise from the actual ring-of-integers/ideal maps. -/
-theorem classNumber_congr (L : Type v) [Field L] [NumberField L] (e : K ≃ₐ[ℚ] L) :
-    NumberField.classNumber K = NumberField.classNumber L := by
-  sorry
-
-/-- Siegel's theorem in its effective logarithmic form: one absolute constant, effectively
-computable, serves every primitive nonprincipal real character; native individual nonvanishing
-gives no such uniformity. Since `log q ≤ q ^ ε / (e ε)`, it gives `L(1, χ) ≥ e c ε q ^ (-ε)` for
-every `ε > 0`. It is AnalyticNumberTheoryPartI's `quadratic_LFunction_one_lower_bound` (§0.9);
-nontrivial characters exist only for `q ≥ 3`, so `log q > 0` whenever the hypotheses hold. -/
-theorem quadratic_LFunction_siegel :
+/-- **Siegel's theorem** (H2.4, Davenport Chapter 21). For every `ε > 0` there is `c_ε > 0` with
+`c_ε q^(-ε) ≤ Re L(1, χ)` for every primitive nonprincipal real character `χ` modulo `q`. One
+constant serves the whole family of conductors; it is ineffective. Native nonvanishing at `1`
+gives no such uniformity. -/
+theorem quadratic_LFunction_siegel (ε : ℝ) (hε : 0 < ε) :
     ∃ c : ℝ, 0 < c ∧ ∀ (q : ℕ) [NeZero q] (χ : DirichletCharacter ℂ q),
       χ.IsPrimitive → χ.IsQuadratic → χ ≠ 1 →
-        c / Real.log q ≤ (DirichletCharacter.LFunction χ 1).re := by
+        c * Real.rpow (q : ℝ) (-ε) ≤ (DirichletCharacter.LFunction χ 1).re := by
   sorry
 
-/-- Uniformity is over every imaginary quadratic field, not over one fixed class group. With
-`c` the constant of `quadratic_LFunction_siegel`, the class-number formula and `w ≥ 2` give the
-effective constant `c / π`; for every `ε > 0` this implies `h ≥ (e c ε / π) |D| ^ (1/2 - ε)`. -/
-theorem imaginary_classNumber_lower_bound :
+/-- **The uniform class-number lower bound** (H2.4): for every `ε > 0` there is `C_ε > 0` with
+`h(K) ≥ C_ε |disc K|^(1/2 - ε)` for every imaginary quadratic field `K`, from Siegel's theorem
+and the pinned class-number formula `h = w √|D| L(1, χ_D) / (2π)` with `w ≥ 2`. The constant is
+uniform over every imaginary quadratic field, not over one fixed class group. -/
+theorem imaginary_classNumber_lower_bound (ε : ℝ) (hε : 0 < ε) :
     ∃ c : ℝ, 0 < c ∧ ∀ (L : Type u) [Field L] [NumberField L]
       [NumberField.IsTotallyComplex L], Module.finrank ℚ L = 2 →
-      c * Real.sqrt (|NumberField.discr L| : ℝ) / Real.log (|NumberField.discr L| : ℝ) ≤
+      c * Real.rpow (|NumberField.discr L| : ℝ) (1 / 2 - ε) ≤
         (NumberField.classNumber L : ℝ) := by
   sorry
 
-/-- Effective finiteness: one constant `c`, for which any constant of
-`imaginary_classNumber_lower_bound` serves, bounds the discriminant explicitly for every
-class-number bound `B`. The bound is computable from `c` and of order `B² log² B`; it gives
-parameter/isomorphism finiteness through H1 and Hermite. -/
-theorem imaginary_discr_bounded_of_classNumber_le :
-    ∃ c : ℝ, 0 < c ∧ ∀ (B : ℕ) (L : Type u) [Field L] [NumberField L]
+/-- **Finiteness of imaginary quadratic fields of bounded class number** (H2.4): for each bound
+`B` there is a discriminant bound `C_B`, from the lower bound at `ε = 1/4`; isomorphism and
+radicand finiteness follow through H1.1 and Hermite. The bound is ineffective. -/
+theorem imaginary_discr_bounded_of_classNumber_le (B : ℕ) :
+    ∃ C : ℝ, ∀ (L : Type u) [Field L] [NumberField L]
       [NumberField.IsTotallyComplex L], Module.finrank ℚ L = 2 →
-      NumberField.classNumber L ≤ B →
-        (|NumberField.discr L| : ℝ) ≤ (4 * B / c) ^ 2 * Real.log (2 * B / c) ^ 2 := by
+      NumberField.classNumber L ≤ B → (|NumberField.discr L| : ℝ) ≤ C := by
   sorry
 
-/-- Actual level2 product convention; all convergence and modular/CM properties are targets. -/
-def siegelHalf (τ : UpperHalfPlane) : ℂ :=
-  2 * Complex.I * Complex.exp ((Real.pi : ℂ) * Complex.I * (τ : ℂ) / 6) *
-    ∏' n : ℕ, (1 + Complex.exp
-      (2 * (Real.pi : ℂ) * Complex.I * (τ : ℂ) * (n + 1))) ^ 2
+/-! ## H3: the nine fields and the thirteen orders -/
 
-def gammaTwo (τ : UpperHalfPlane) : ℂ := (siegelHalf τ ^ 12 + 16) / siegelHalf τ ^ 4
+variable (K : Type u) [Field K] [NumberField K]
 
-def cmTau (D : ℤ) (hD : D < 0) : UpperHalfPlane :=
-  ⟨if D % 4 = 0 then Complex.I * Real.sqrt (|D| : ℝ) / 2
-    else (3 + Complex.I * Real.sqrt (|D| : ℝ)) / 2, by
-      sorry⟩
-
-/-- This includes a globally exhaustive integer-equation proof and its full effective floor. -/
-theorem heegner_quartic_iff (u y : ℤ) :
-    y ^ 2 = 2 * u * (u ^ 3 + 1) ↔
-      ((u = -1 ∨ u = 0) ∧ y = 0) ∨
-      (u = 1 ∧ (y = 2 ∨ y = -2)) ∨
-      (u = 2 ∧ (y = 6 ∨ y = -6)) := by
-  sorry
-
-/-- Newton identities and the preceding quartic, before any CM classification is used. -/
-theorem cubic_coefficient_triples (a b c : ℤ) (hc : c = 2 ∨ c = -2)
-    (htrace : a ^ 4 - 4 * a ^ 2 * b + 2 * b ^ 2 + 4 * a * c = 0) :
-    (a, b, c) ∈ ({(-4,28,2), (-4,4,2), (-2,8,2), (-2,0,2), (0,0,2), (2,4,2),
-      (-2,4,-2), (0,0,-2), (2,8,-2), (2,0,-2), (4,28,-2), (4,4,-2)} :
-        Finset (ℤ × ℤ × ℤ)) := by
-  sorry
-
-/-- The exact field theorem is a separate target from the uniform finite-family theorem. -/
+/-- **The class-number-one theorem** (H3.6, Heegner–Stark): an imaginary quadratic field has
+class number one exactly when its discriminant is `-3, -4, -7, -8, -11, -19, -43, -67` or
+`-163`, the negatives of the pinned `TauCeti.heegnerDiscriminants`. The converse direction is
+the pinned `TauCeti.NumberField.classNumber_eq_one_of_mem_heegnerDiscriminants`. -/
 theorem classNumber_eq_one_iff_discr_mem [NumberField.IsTotallyComplex K]
     (hdeg : Module.finrank ℚ K = 2) :
-    NumberField.classNumber K = 1 ↔ NumberField.discr K ∈ heegnerDiscriminants := by
+    NumberField.classNumber K = 1 ↔
+      ∃ n ∈ TauCeti.heegnerDiscriminants, NumberField.discr K = -(n : ℤ) := by
   sorry
 
-/-- A presentation-free statement does not identify nonsquarefree radicands as different fields. -/
+/-- **The class-number-one theorem in radicand form** (H3.6): a field presented by an algebraic
+integer `θ` with `minpoly ℤ θ = X² - d`, `d` squarefree, has class number one exactly when `-d` is
+one of the nine pinned `TauCeti.heegnerNumbers` `1, 2, 3, 7, 11, 19, 43, 67, 163`. Squarefreeness
+is needed: `θ = 2i` presents `ℚ(i)` with `d = -4`. -/
 theorem classNumber_eq_one_iff_negative_squarefree_mem [NumberField.IsTotallyComplex K]
     (hdeg : Module.finrank ℚ K = 2) (d : ℤ) (θ : 𝓞 K) (hd : Squarefree d)
     (hmin : minpoly ℤ θ = X ^ 2 - C d) (hgen : Algebra.adjoin ℚ {(θ : K)} = ⊤) :
-    NumberField.classNumber K = 1 ↔ d ∈ heegnerRadicands := by
+    NumberField.classNumber K = 1 ↔ ∃ n ∈ TauCeti.heegnerNumbers, d = -(n : ℤ) := by
+  sorry
+
+/-- **The thirteen imaginary quadratic orders of Picard number one** (H3.6): an order `O` of an
+imaginary quadratic field has trivial Picard group exactly when its discriminant is one of
+`-3, -4, -7, -8, -11, -12, -16, -19, -27, -28, -43, -67, -163`. From the field theorem and the
+pinned conductor criterion `card_pic_intAddMulOrder_eq_one_iff`: the nonmaximal cases are
+`f = 2` in `ℚ(√-7)` (discriminant `-28`), `f = 2, 3` in `ℚ(√-3)` (`-12`, `-27`) and `f = 2` in
+`ℚ(i)` (`-16`). -/
+theorem pic_eq_one_iff_discr_mem [NumberField.IsTotallyComplex K]
+    (hdeg : Module.finrank ℚ K = 2) (O : TauCeti.GlobalNumberFields.NumberFieldOrder K) :
+    Nat.card (TauCeti.GlobalNumberFields.Pic O) = 1 ↔
+      O.discr ∈ ({-3, -4, -7, -8, -11, -12, -16, -19, -27, -28, -43, -67, -163} : Finset ℤ) := by
   sorry
 
 end TauCetiRoadmap.ImaginaryQuadraticClassNumber
