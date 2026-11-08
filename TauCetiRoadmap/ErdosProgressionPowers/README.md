@@ -55,9 +55,11 @@ rational-isogeny classification and uniformity, character PNT, zero-density and
 Mordell finiteness are supplier contracts, including the explicit gaps below.
 
 EllipticCurves Layers 2–4 own torsion, finite-field Hasse theory, and local
-minimality and reduction. The generic Frey–Hellegouarch equation is the pinned
-Tau Ceti `TauCeti.freyCurve`, and the geometric torsion subgroup is Mathlib's
-`AddSubgroup.torsionBy`; neither is a target of any roadmap.
+minimality and reduction. The Frey–Hellegouarch curve Y²=X(X−A)(X+B) of
+EllipticCurves §Worked examples is formalised at the pin as Tau Ceti
+`TauCeti.freyCurve`, with the same coefficients over any commutative ring, and
+the geometric torsion subgroup is Mathlib's `AddSubgroup.torsionBy`; this
+roadmap consumes both from the pins.
 EllipticCurveModularityPartII §5.1 owns the geometric-torsion module on that
 subgroup, its Galois representation and the full-two-torsion predicate.
 EllipticCurves Layer 6 owns the `x − θ` Kummer map with kernel 2E(K),
@@ -360,9 +362,10 @@ and Layer 4's integral-model minimality and good/multiplicative reduction.
 Consume Layer 6’s `x − θ` Kummer map and kernel 2E(K), and Layer 8’s
 semistable algorithmic–Artin conductor comparison (the Szpiro block). At an odd prime,
 a unit discriminant gives good reduction; a unit c₄ and positive discriminant
-valuation give minimal multiplicative reduction. The Frey–Hellegouarch model
-itself is the pinned `TauCeti.freyCurve` (From Tau Ceti), not a target of
-EllipticCurves; Layer 1 specializes the pinned curve at (a,c).
+valuation give minimal multiplicative reduction. The Frey–Hellegouarch curve
+of §Worked examples is formalised at the pin as `TauCeti.freyCurve`
+(From Tau Ceti), with the same coefficients (0,B−A,0,−AB,0); this roadmap
+consumes the pinned declaration, and Layer 1 specializes it at (a,c).
 
 ### From TauCetiRoadmap.ModularForms
 
