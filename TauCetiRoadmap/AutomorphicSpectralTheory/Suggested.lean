@@ -1,7 +1,7 @@
 import Mathlib
 
 /-!
-# Automorphic spectral theory: headline target statements
+# Automorphic spectral theory: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is
 `README.md`. Discharging these statements finishes neither a layer nor the roadmap.
@@ -24,8 +24,8 @@ fixed-degree trace and Higgs-mass comparison (Layer 6) need the corresponding re
 distribution and curve/Higgs carriers. Cyclic transfer, solvable base change and degree-one
 comparison (Layer 7) need local and global automorphic representations and transfer.
 The Rankin–Selberg estimates and standard-completion applications (§§3.6a–3.6d) likewise
-need canonical automorphic L-functions. These headline statements are deferred until their
-objects exist; scalar identities and arbitrary predicates do not replace them.
+need canonical automorphic L-functions. These headline theorems are therefore not statable at the
+pins, and no scalar identity or arbitrary predicate is stated in their place.
 -/
 
 noncomputable section
@@ -34,6 +34,8 @@ open MeasureTheory Filter Set
 open scoped Topology
 
 namespace TauCetiRoadmap.AutomorphicSpectralTheory
+
+/-! ## Layer 0: Hilbert fields, vector analysis and rank-one kernels -/
 
 /-- The invertible-point form of README §0.16's analytic_fredholm gives a meromorphic
 bounded inverse, isolated singularities, and finite-rank Laurent principal parts. -/
@@ -53,10 +55,6 @@ theorem analytic_fredholm {V : Type*} [NormedAddCommGroup V] [NormedSpace ℂ V]
           ∀ᶠ w in 𝓝[≠] z,
             R w = g w + ∑ j, (((w - z) ^ (j.val + 1))⁻¹ • A j) := by sorry
 
--- Supplied by AnalyticNumberTheoryPartI:
--- §2.1b `TauCetiRoadmap.AnalyticNumberTheoryPartI.nonholomorphic_eisenstein` and
--- `TauCetiRoadmap.AnalyticNumberTheoryPartI.completed_eisenstein_continuation`.
-
 namespace SpecialFunctions
 
 /-- The convergent integral for `Q_{s−1}(t)` when `0 < re s` and `1 < t` (§0.35). -/
@@ -69,6 +67,8 @@ def point_pair_invariant (s : ℂ) (z z' : UpperHalfPlane) : ℂ :=
   -2 * legendre_q s (1 + ‖(z : ℂ) - (z' : ℂ)‖ ^ 2 / (2 * z.im * z'.im))
 
 end SpecialFunctions
+
+/-! ## Layer 2: Meromorphic continuation, local normalization and residues -/
 
 namespace Modular
 
