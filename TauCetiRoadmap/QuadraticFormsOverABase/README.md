@@ -87,8 +87,9 @@ consumed by name; no second carrier is built.
   (`X Xᵀ = 1`) are Tau Ceti's `TauCeti.Orthogonal` and `TauCeti.SpecialOrthogonal`, with the
   smoothness of `SOₙ` when `2` is invertible; they are groups of a bilinear form, not of a
   quadratic form, and agree with `O(qₙ)` only up to a change of form when `2` is invertible.
-- Forms valued in an invertible module are not treated, and forms on locally free modules appear
-  only in 3.4: every other statement is about `Fin n → R`, to which they reduce Zariski-locally.
+- Forms valued in an invertible module (Bichsel–Knus 1994) are not treated, and forms on locally
+  free modules appear only in 3.4: every other statement is about `Fin n → R`, to which they reduce
+  Zariski-locally.
 
 ## Conventions
 
@@ -363,12 +364,15 @@ entries of `U + Uᵀ`. Prove `four_dvd_univSignedDisc_sub_sq`: for `n` even, `4`
 `det K ≡ (1 − n) det P (mod 4)`; `det K` is a square `r²` in `ℤ[U]` (an alternating matrix of even
 size over a field of characteristic `≠ 2` has square determinant, and `ℤ[U]` is integrally closed);
 modulo `2`, the determinant of a symmetric matrix with zero diagonal is the square of its matching
-sum, so `r ≡ B (mod 2)` and `det K ≡ B² (mod 4)`; finally `(−1)^(n/2) ≡ 1 − n (mod 4)`. No source is
-named for the congruence; the route is its proof. Define `univDiscConst n`, the coefficients of
-`(−1)^(n/2) det(U + Uᵀ) − B²` divided by `4`, and `discAlgebra Q`, the free quadratic algebra
-`QuadraticAlgebra R C B` at the values `C`, `B` of these polynomials at `coeffMatrix Q`. Prove
-`discr_discAlgebra`: for `n` even, its discriminant `B² + 4C` is `(−1)^(n/2) det(polarMatrix Q)`, by
-the divisibility above, evaluated at `coeffMatrix Q`.
+sum, so `r ≡ B (mod 2)` and `det K ≡ B² (mod 4)`; finally `(−1)^(n/2) ≡ 1 − n (mod 4)`. For an
+integer symmetric matrix with even diagonal and `4 ∣ n` the congruence is Auel–Biesel–Voight 2023,
+Proposition 3.20 (arXiv numbering), with the Pfaffian of `K`, which is `B` modulo `2`, in place of
+`B`; its Proposition 3.10 and Lemma 3.21 are the first-order step of the route. The universal form
+over `ℤ[U]`, the case `n ≡ 2 (mod 4)` and the sign are proved by the route. Define
+`univDiscConst n`, the coefficients of `(−1)^(n/2) det(U + Uᵀ) − B²` divided by `4`, and
+`discAlgebra Q`, the free quadratic algebra `QuadraticAlgebra R C B` at the values `C`, `B` of these
+polynomials at `coeffMatrix Q`. Prove `discr_discAlgebra`: for `n` even, its discriminant `B² + 4C`
+is `(−1)^(n/2) det(polarMatrix Q)`, by the divisibility above, evaluated at `coeffMatrix Q`.
 
 *Needs:* 0.1, 1.1; Mathlib `Matrix.det_transpose`, `Equiv.Perm`, `QuadraticAlgebra`,
 `QuadraticAlgebra.discr`, `IsIntegrallyClosed` of `MvPolynomial` over `ℤ`.
@@ -376,7 +380,9 @@ the divisibility above, evaluated at `coeffMatrix Q`.
 **Checks.**
 
 - `n = 2`, `q = a x² + b x y + c y²`: `B = b`, `(−1) det = b² − 4ac`, `C = −ac`, and
-  `discAlgebra q` is `R[ω]/(ω² − bω + ac)`, whose discriminant is `b² − 4ac`.
+  `discAlgebra q` is `R[ω]/(ω² − bω + ac)`, whose discriminant is `b² − 4ac`; `ω ↦ −τ` identifies
+  it with the algebra `τ² = −bτ − ac` that Wood attaches to `q` (Wood 2011, §2, Key
+  Construction).
 - `n = 0`: the empty matching gives `B = 1`, `det = 1`, `C = 0`, and `discAlgebra` is
   `R[ω]/(ω² − ω) ≅ R × R`.
 - The sign: with `(−1)^(n/2 + 1)` in place of `(−1)^(n/2)`, `n = 2` gives
@@ -390,6 +396,12 @@ the divisibility above, evaluated at `coeffMatrix Q`.
   Conrad's `q_{2m+1}`, which has the same `δ'` by the Conventions).
 - `det polarMatrix (standard (2m)) = (−1)^m`: the polar matrix is block diagonal with `m` blocks
   `!![0, 1; 1, 0]`, each of determinant `−1`.
+- Over a field `K` of characteristic two, at `f = Σᵢ (aᵢ xᵢ² + bᵢ xᵢ yᵢ + cᵢ yᵢ²)` with every
+  `bᵢ ≠ 0`: `B = ∏ bᵢ`, `C = Σᵢ aᵢcᵢ ∏_{j≠i} bⱼ²` (the reduction of
+  `(∏ (bᵢ² − 4aᵢcᵢ) − ∏ bᵢ²)/4`), and
+  `ω = B t` identifies `discAlgebra f` with `K[t]/(t² + t + Σ aᵢcᵢ/bᵢ²)`, the Artin–Schreier algebra
+  of Arf's invariant `Σ aᵢcᵢ/bᵢ² mod ℘(K)` (Arf 1941). For `bᵢ = 1` this is Dieudonné's
+  computation of the centre of `C₀(f)`, `z² + z = Σ aᵢcᵢ` (Dieudonné 1955, §2, pp. 908–909).
 
 ### Dependencies
 
@@ -551,6 +563,8 @@ base. No source is named for the comparison; the route is its proof.
   `!![t, 0; 0, t⁻¹]` and `!![0, t; t⁻¹, 0]` over a connected `A`; the bilinear relations
   `X C Xᵀ = C` of `TauCeti.ConstantForm` at the polar matrix `C = !![0, 1; 1, 0]` give the same
   points over `ℤ[1/2]` but over `𝔽₂` they also allow `!![1, 1; 0, 1]`, which is not in `O(x₀x₁)`.
+  Over `ℤ`, for `q₂ₘ`, the bilinear relations define a subscheme of `GL₂ₘ` that is not flat, and
+  `O(q₂ₘ)` is its largest `ℤ`-flat subscheme (Chaput–Romagny 2010, Remark 4.1.2, arXiv numbering).
 - The zero form: `orthogonalIdeal 0 = ⊥` and `O(0) = GLₙ`.
 - The `x₀x₁` Check agrees with OrthogonalTamagawaAndLatticeMass §0.1a's Check at `q = x y` on
   `𝔽₂²`: the points over `𝔽₂` are the identity and the swap, and the shear is excluded in both.
@@ -618,6 +632,10 @@ for the bijection; the route is its proof.
 - `n = 1`: `O(q₁) = μ₂`, and the classes are `H¹_fppf(R, μ₂)`, the forms `u x²` on invertible
   modules; over a field `k`, `k^×/k^{×2}`, also in characteristic two.
 - `n = 1` over `ℤ`: `H¹(ℤ, μ₂) = {±1}`, the forms `x²` and `−x²`.
+- `n = 8` over `ℤ`: the `E₈` lattice with `q(x) = x·x/2` has polar determinant `1`, so it is smooth,
+  and it is positive definite, so not isometric to the indefinite `q₈`: its class in
+  `H¹(ℤ, O(q₈))` is not trivial. The orthogonal groups of such positive-definite lattices give
+  non-split reductive `ℤ`-groups of types B and D (Conrad 2015).
 
 ### Examples
 
@@ -698,7 +716,13 @@ The discriminant of `A₁ * A₂` is `(b₁² + 4a₁)(b₂² + 4a₂)`. Route: 
 `(2 ω₁ω₂ − b₁ω₂ − b₂ω₁)² = a + b(2 ω₁ω₂ − b₁ω₂ − b₂ω₁)` holds in `A₁ ⊗ A₂` (expand and reduce
 with `ωᵢ² = aᵢ + bᵢωᵢ`); in the basis `ω₁^ε₁ ⊗ ω₂^ε₂` the invariants are computed by a `4 × 4`
 linear system whose solutions are spanned by `1` and the image of `ω` exactly when the ideal
-`(2, b₁, b₂)` is `R`. No source is named; the route is the proof.
+`(2, b₁, b₂)` is `R`. The product is Voight's monoid operation on quadratic algebras (Voight 2016,
+Construction 3.12 and (3.13), arXiv numbering): for `S = R ⊕ R x`, `x² = t x − n`, and
+`T = R ⊕ R y`, `y² = s y − m`, it is `S ∗ T = R ⊕ R w` with `w² = st w − (mt² + ns² − 4nm)`,
+satisfied by `w = x ⊗ y + σ(x) ⊗ σ(y)` in `S ⊗ T`. At `t = b₁`, `n = −a₁`, `s = b₂`, `m = −a₂`,
+`ω ↦ w − b₁b₂` identifies `A₁ * A₂` with `A₁ ∗ A₂`, and `w − b₁b₂` is the image of `ω` above.
+Voight 2016, Theorem A (iii), describes the invariants of `σ ⊗ σ` for separable `A₁`, `A₂`; the
+injectivity and the image under `(2, b₁, b₂) = R` are proved by the route.
 
 *Needs:* Mathlib `QuadraticAlgebra.lift`, `QuadraticAlgebra.omega`,
 `QuadraticAlgebra.starAlgEquiv`, `Algebra.TensorProduct.map`, `Algebra.TensorProduct.basis`.
@@ -787,13 +811,47 @@ The half-discriminant was found independently by Grothendieck and by M. Kneser (
 §C.1, p. 304). Grothendieck's notes on it are in the Montpellier fonds (folder 77, p. 68,
 https://grothendieck.umontpellier.fr/77.pdf).
 
+In even rank the two components of `O(Q)` are not separated by `det` at a prime of residue
+characteristic two, but by the Dickson invariant `O(Q) → ℤ/2`, the action of `O(Q)` on the centre
+of `C₀(Q)`, whose kernel `SO(Q)` is smooth with connected fibres for `Q` smooth of positive even
+rank (Conrad 2014, (C.2.2), p. 313, Theorem C.2.11 and Remark C.2.12, p. 318). Over a field `K`
+of characteristic two that centre is `K[z]/(z² + z − Δ)`, `Δ` being Arf's invariant in a symplectic
+basis (Arf 1941; Dieudonné 1955, §2, pp. 908–909); for `q₂ₘ` over `ℤ` the Dickson invariant is the
+function `δ` with `det = 1 + 2δ` on `O(q₂ₘ)` (Chaput–Romagny 2010, Lemma 4.1.4 and Definition
+4.1.6, arXiv numbering). The congruence of 1.4 has the shape of Stickelberger's theorem, which holds
+for every free algebra of finite rank over a commutative ring: its discriminant is a square modulo
+`4` (Auel–Biesel–Voight 2023, Theorem 3.28, arXiv numbering). Biesel and Gioia attach to every
+commutative algebra of rank `n` a quadratic algebra with the same discriminant form, multiplicative
+for the product of 5.2: `Δ(A × B) ≅ Δ(A) ∗ Δ(B)` (Biesel–Gioia 2016, §8).
+
 ## References
 
+- C. Arf, « Untersuchungen über quadratische Formen in Körpern der Charakteristik 2. (Teil I.) »,
+  *J. reine angew. Math.* 183 (1941), 148–167. doi:10.1515/crll.1941.183.148; Zbl 0025.01403.
+- A. Auel, O. Biesel, J. Voight, « Stickelberger's discriminant theorem for algebras », *Amer.
+  Math. Monthly* 130 (2023), 656–670. doi:10.1080/00029890.2023.2206326; Zbl 1522.11116;
+  arXiv:2208.06138.
+- W. Bichsel, M.-A. Knus, « Quadratic forms with values in line bundles », in *Recent advances in
+  real algebraic geometry and quadratic forms*, Contemp. Math. 155, Amer. Math. Soc., 1994,
+  293–306. doi:10.1090/conm/155/01386; Zbl 0810.11023.
+- O. Biesel, A. Gioia, « A new discriminant algebra construction », *Doc. Math.* 21 (2016),
+  1051–1088. doi:10.4171/dm/552; Zbl 1365.13010; arXiv:1503.05318.
+- P.-E. Chaput, M. Romagny, « On the adjoint quotient of Chevalley groups over arbitrary base
+  schemes », *J. Inst. Math. Jussieu* 9 (2010), 673–704. doi:10.1017/S1474748010000125;
+  Zbl 1202.13004; arXiv:0805.2140.
 - B. Conrad, « Reductive group schemes », in *Autour des schémas en groupes*, vol. I, Panoramas
   et Synthèses 42–43, Soc. Math. France, 2014, 93–444. Zbl 1349.14151. Author's version:
   https://math.stanford.edu/~conrad/papers/luminysga3.pdf (Appendix C, pp. 302–325); page
   numbers above are those of this version.
+- B. Conrad, « Non-split reductive groups over Z », in *Autour des schémas en groupes*, vol. II,
+  Panoramas et Synthèses 46, Soc. Math. France, 2015, 193–253. Zbl 1356.14033.
+- J. Dieudonné, « Pseudo-discriminant and Dickson invariant », *Pacific J. Math.* 5 (1955),
+  907–910. doi:10.2140/pjm.1955.5.907; Zbl 0067.00705.
 - M.-A. Knus, *Quadratic and Hermitian Forms over Rings*, Grundlehren der mathematischen
   Wissenschaften 294, Springer, 1991. doi:10.1007/978-3-642-75401-2.
 - J. Voight, « Characterizing quaternion rings over an arbitrary base », *J. reine angew. Math.*
   657 (2011), 113–134. doi:10.1515/crelle.2011.054; Zbl 1229.11146; arXiv:0904.4310.
+- J. Voight, « Discriminants and the monoid of quadratic rings », *Pacific J. Math.* 283 (2016),
+  483–510. doi:10.2140/pjm.2016.283.483; Zbl 1410.11032; arXiv:1504.05228.
+- M. M. Wood, « Gauss composition over an arbitrary base », *Adv. Math.* 226 (2011), 1756–1771.
+  doi:10.1016/j.aim.2010.08.018; Zbl 1262.11049; arXiv:1007.5285.
