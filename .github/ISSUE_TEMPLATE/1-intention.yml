@@ -141,10 +141,12 @@ body:
         - RiemannianGeometry
         - RigidAnalyticGeometry
         - SNumbers
+        - ScatteringDiagrams
         - SchemeAndStackFoundations
         - SchubertGeometry
         - SeibergWittenTheory
         - SmoothBundlesConnections
+        - SobolevPolynomialApproximation
         - SpinGeometry
         - SporadicOrders
         - StablePeriodicCurved
