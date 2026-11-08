@@ -359,7 +359,8 @@ The local-field module prefix is `TauCeti/NumberTheory/LocalField/…`.
 | Hasse–Arf, prime degree | `UpperJump.exists_eq_intCast_of_finrank_prime`, `UpperJump.eq_of_finrank_prime` (`Herbrand/HasseArf.lean`; the abelian theorem is Local fields and ramification Layer 3 *Hasse–Arf*, specified there as the abelian theorem) |
 | tame structure | `natCard_lowerRamificationGroup_one`, `lowerRamificationGroup_one_eq_bot_iff_isTamelyRamified`, `IsTotallyRamified.exists_pow_eq_uniformizer_of_isTamelyRamified`, `finrank_fixedField_lowerRamificationGroup_one` (`TamelyRamified/Basic.lean`, `TamelyRamified/Subextension.lean`); `IsTotallyRamified.isGalois_iff_exists_isPrimitiveRoot` and `IsTotallyRamified.isGalois_iff_ramificationIndex_dvd_card_residueField_sub_one` (`TamelyRamified/Galois.lean`) |
 | absolute inertia, wild inertia | `inertiaSubgroup`, `wildInertiaSubgroup`, `maximalTameExtension`, `restrictNormal_mem_lowerRamificationGroup_zero`, `map_wildInertiaSubgroup_restrictNormalHom` (`Unramified/Inertia/Basic.lean`, `WildInertia.lean`) |
-| finite intermediate fields | `finiteIntermediateFieldValuativeRel`, `finiteIntermediateFieldTopology`, `finiteIntermediateField_isNonarchimedeanLocalField`, `IntermediateField.valuativeExtension_of_isNonarchimedeanLocalField` (`FiniteExtension/IntermediateField.lean`) |
+| finite intermediate fields | `finiteIntermediateFieldValuativeRel`, `finiteIntermediateFieldTopology`, `finiteIntermediateField_isNonarchimedeanLocalField`, `finiteIntermediateField_valuativeExtension`, `IntermediateField.valuativeExtension_of_isNonarchimedeanLocalField` (`FiniteExtension/IntermediateField.lean`) |
+| finite extensions (spectral norm) | `algebraicExtensionValuativeRel`, `algebraicExtensionNormedFieldTopology`, `algebraicExtension_valuativeExtension` (`AlgebraicExtension/Basic.lean`), `finiteExtension_isNonarchimedeanLocalField` (`FiniteExtension/Basic.lean`); used for the splitting fields of `X^{p^i} − 1` in 6.7 |
 | roots of unity | `RootsOfUnity/Basic.lean`, `RootsOfUnity/Torsion.lean` |
 | Newton polygons (roadmap contract) | `lowerConvexEnvelope` (§0.1), `ConvexPolygon.FiniteSlopeData` (§0.6), `Polynomial.newtonPolygon` (§2.1); the finite slope multiset and its product law (§3.2), the root-valuation identification (§3.3) and the denominator theorems (§§6.1–6.2) are cited by section |
 | mass formula (roadmap contract) | `totallyRamifiedOfDegree`, `TauCetiRoadmap.MassFormula.wildExponent`, `intermediateFieldDiscriminantExponent_eq_of_algEquiv`, `eisensteinSet`, `measure_eisensteinSet`, `mem_eisensteinSet_iff`, `IsRepresentativeSet`, `ncard_isomorphic_mul_natCard_algEquiv`, `TauCetiRoadmap.MassFormula.card_aroots_eq` (its `Suggested.lean`) |
@@ -717,16 +718,10 @@ Layer 0; NewtonPolygons §§0.6, 2.1, 3.3 and 6.1; polynomial composition and re
 Standing hypotheses: `K`, `L` as in Convention 1, `L/K` finite separable, `M/K` finite Galois
 with `L ⊆ M` (a tower `K ⊆ L ⊆ M` of local fields, `[Algebra L M] [IsScalarTower K L M]`), `G =
 Gal(M/K)`, `H = Gal(M/L) = fixingSubgroup L ≤ G`, with the upper filtration `G^u` of Tau Ceti
-and the lower filtration `G_t`.
-
-### 2.0 Herbrand functions for non-Galois extensions
-
-The Herbrand function `ψ_{L/K} = φ_{M/L} ∘ ψ_{M/K}` of a finite separable `L/K` and its inverse
-`φ_{L/K}`, with their independence of the Galois closure `M`, the tower law, the finite-level
-subgroup identity and the integral formula, are RamificationOfCompleteDiscretelyValuedFields
-§4a.2 (see *Roadmap suppliers*); this roadmap does not restate them. Layer 2 adds the orbit count
-of 2.1 as the named integrand, the breaks of 2.2 and the reading of `ψ_{L/K}` off the
-ramification polygon in 2.5.
+and the lower filtration `G_t`. `ψ_{L/K} = φ_{M/L} ∘ ψ_{M/K}` on `[−1, ∞)` is the Herbrand
+function of the separable extension `L/K` and `φ_{L/K}` its inverse, independent of `M`
+(RamificationOfCompleteDiscretelyValuedFields §4a.2); for `ℚ_2(∜2)` with its `D_4`-closure,
+`ψ_{L/K}(2) = φ_{M/L}(ψ_{M/K}(2)) = φ_{M/L}(3) = 2` and `ψ_{L/K}(3) = φ_{M/L}(7) = 4`.
 
 ### 2.1 The orbit-count function
 
@@ -814,11 +809,13 @@ finally substitute `u = φ_{M/K}(t)`, `du = dt · #G_t/#G_0`, which turns the su
 integral over `u` with `G_t = G^{φ(t)}` (`upperRamificationGroup_herbrand`). This is Serre's
 Prop. 4 of IV §1 together with the change of variables of IV §3, not a statement about Artin
 conductors. Corollary, with `E = L` and `f ψ_{L/K}'(u) = [G : G^u H]` for almost every
-`u > −1` (the integral formula of RamificationOfCompleteDiscretelyValuedFields §4a.2):
+`u > −1` (for `u > 0` this is the integral formula of RamificationOfCompleteDiscretelyValuedFields
+§4a.2; on `(−1, 0)` both sides are `f`, since `ψ_{L/K}` is the identity on `[−1, 0]` by §4a.2 and
+the orbit count is `f` there by 2.1):
 `c(L/K) = f · ∫_{-1}^{∞} (e − ψ_{L/K}'(u)) du`, which 2.6
-evaluates as `f(e − 1 + e m_w)`. *Needs:* Tau Ceti `Different/Hilbert.lean`,
+evaluates as `f(e − 1 + e m_w)`. *Needs:* 2.1; Tau Ceti `Different/Hilbert.lean`,
 `Different/Tower.lean`, `LowerIndex.lean`, `Herbrand/Basic.lean` (`coe_herbrand`); Mathlib
-`intervalIntegral`.
+`intervalIntegral`; for the corollary, RamificationOfCompleteDiscretelyValuedFields §4a.2.
 
 The acceptance theorem is `discriminantExponent_eq_integral`; `embeddingSubgroup` is the
 fixing subgroup H used in `embeddingOrbitCount`.
@@ -1751,7 +1748,8 @@ The absolute specializations include `N_2(2,1) = 6`, `N_2(4,1) = 48`, `N_3(3,1) 
 *Needs:* §5.4; EtaleMassFormula §§1.1–1.2; LocalFieldsRamification Layer 1 (the principal-unit filtration);
 ClassFieldTheory Layers 6–7 (local reciprocity), Layer 8 (existence, uniqueness, quotient isomorphism and degree-index correspondence);
 Mathlib `Nat.totient`, `Nat.divisors`, `Polynomial.SplittingField`, `AlgEquiv`;
-Tau Ceti finite-extension structure adapters.
+Tau Ceti `algebraicExtensionValuativeRel`, `algebraicExtensionNormedFieldTopology`,
+`algebraicExtension_valuativeExtension` and `finiteExtension_isNonarchimedeanLocalField`.
 
 ### 6.8 Completeness of a totally ramified list by its mass
 

@@ -331,10 +331,10 @@ def IsInertiaRepresentativeSet (e f : ℕ)
 over `K`. In characteristic zero this is `K(ζ_(p^i))`, including `K` at `i = 0`. -/
 def cyclotomicInvariants (p i : ℕ) : ℕ × ℕ :=
   let M := (X ^ (p ^ i) - 1 : K[X]).SplittingField
-  letI := finiteExtensionValuativeRel K M
-  letI := finiteExtensionNormedFieldTopology K M
+  letI := algebraicExtensionValuativeRel K M
+  letI := algebraicExtensionNormedFieldTopology K M
   letI := finiteExtension_isNonarchimedeanLocalField K M
-  letI := finiteExtension_valuativeExtension K M
+  letI := algebraicExtension_valuativeExtension K M
   (ramificationIndex K M, inertiaDegree K M)
 
 /-- The sum in Monge's formula (6): its arguments in the count satisfy `p^s ∣ N`,
