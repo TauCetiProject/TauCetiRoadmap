@@ -816,7 +816,7 @@ transcendental, follows from the Schneider–Lang criterion for meromorphic func
 *Introduction to Transcendental Numbers*, 1966, Ch. IV §1, Theorem 1; Waldschmidt, *Diophantine
 Approximation on Linear Algebraic Groups*, Theorem 4.1 states the entire case and its footnote 10
 the meromorphic one); no roadmap owns
-that form of the criterion (LinearFormsInLogarithms 5.7 covers `ℂ^{d₀} × (ℂˣ)^{d₁}` only).
+that form of the criterion.
 Grothendieck's notes name it as the first visible case of the conjecture for curves without complex
 multiplication (Montpellier fonds, folder 18, pp. 10–12, https://grothendieck.umontpellier.fr/18.pdf).
 
