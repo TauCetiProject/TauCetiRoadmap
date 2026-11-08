@@ -917,7 +917,10 @@ and the explicit pairing identity, for every compact smooth ψ,
 `⟨F,ψ⟩=⟨w,χ̃(t)∫_ℝH_m(x−t)ψ(x)dx⟩`.
 Prove this Fubini interchange in the C^k test topology, even though H_m is
 noncompact and not infinitely differentiable. Its distribution derivative
-`D^mH_m=δ` and the pairing identity give `D^mF=w`, hence `D^mF=u` on J.
+`D^mH_m=δ` and the pairing identity give `D^mF=w`, hence `D^mF=u` on J
+(Hörmann–Steinbauer, *Lecture Notes on the Theory of Distributions*, Theorem
+4.22, pp. 89–90: the cutoff, finite order N and the fundamental solution
+`E_(N+2)` of `(∂₁⋯∂_n)^(N+2)`, whose one-variable case is `H_(N+2)`).
 Own this compact distribution–finite-regularity convolution API, not just
 the name of a convolution. The order is that of w, not of an unspecified
 uncut distribution.
@@ -926,19 +929,23 @@ Own the supported finite-jet structure on these same carriers. For a closed embe
 codimension q, in every product normal chart (y,z), prove that a distribution
 supported in S has a locally finite-order expression
 `u=Σ_(|α|≤N)u_α(y)⊗∂_z^αδ(z)` on compact chart stages, with unique
-tangential distribution coefficients. N may depend on the compact stage.
+tangential distribution coefficients (Hörmander, *The Analysis of Linear
+Partial Differential Operators I*, Theorem 2.3.5, in the product chart). N may
+depend on the compact stage.
 Construct coefficients by proper normal projection of z^β times u with a
 cutoff equal1 near S, giving `(-1)^|β|β!u_β`, and prove the Taylor/Hadamard
 remainder argument that the remaining distribution vanishes. Prove restriction,
 chart/density/bundle transport and compatibility of finite stages; coordinate
 normal jets transform by their actual normal-jet law. For S a point, deduce
-finite delta-derivative sums and linear independence. For scalar pullback under
+finite delta-derivative sums and linear independence (Hörmander, Theorem
+2.3.4; Hörmann–Steinbauer, Theorem 1.70, p. 35). For scalar pullback under
 positive dilation prove `∂^αδ` has degree−q−|α|. The generic support/structure
 theorem is supplied here; application-specific scaling and wavefront ambiguity
 bounds belong to their consumers.
 
 For every real n≥1 own the distribution nonextension example
-`exp(1/‖x‖²)` on the punctured Euclidean space. Choose a nonzero nonnegative
+`exp(1/‖x‖²)` on the punctured Euclidean space, this roadmap's own worked
+example, whose proof is the estimate that follows. Choose a nonzero nonnegative
 smooth bump φ supported in the unit ball and `0<c<1/4`, and put
 `φ_ε(x)=φ((x−εe₁)/(cε))`. All small supports lie in one fixed compact ball
 and avoid0. A finite-order extension would bound its value by `Cε^(−N)`,
@@ -1746,7 +1753,10 @@ relative integration theory that the analytic-cycle comparison uses, on top of
 DifferentialGeometry 8.3–8.5's absolute smoothing, chain integration and de Rham
 theorem, which do not treat pairs. Let M be a Hausdorff σ-compact
 finite-dimensional boundaryless manifold and U⊆M open; the cases used above are
-the compact ambient M and the regular locus V_reg.
+the compact ambient M and the regular locus V_reg. K6.1.RelativeIntegration
+owns these boundaryless open-pair statements; DeRhamCohomologyAndDuality
+§§2.4, 3.1–3.3 and 4.1, which extend them to models with corners, consume
+these instances.
 
 - (i) Relative smooth chains: the quotient of Tau Ceti's smooth singular chains
   of M (`smoothSingularSubcomplex`) by the image of those of U under
@@ -2163,7 +2173,9 @@ with the evaluation isomorphism of a finitely generated free module onto its
 double dual (Stage 6.5's intersection pairing on a closed oriented manifold
 of finite CW type). It is alternating: `integralCup_self_add_self_eq_zero`
 gives `2(a⌣a)=0` for `a` of degree one, and `H²(Σ;ℤ)≃ℤ` is torsion-free. Its rank
-is `b₁=2g`. Own the algebra target that fixes its normal form: a unimodular
+is `b₁=2g`. Own, as the unimodular case `d_i=1` of the elementary-divisor
+normal form that AbelianSchemesAndArithmeticModuli A5.4 states in general, the
+algebra target that fixes its normal form: a unimodular
 alternating bilinear form ω on a free ℤ-module L of finite rank r has even
 rank r=2h and a symplectic basis `a₁,b₁,…,a_h,b_h` with `ω(a_i,b_j)=δ_ij`
 and `ω(a_i,a_j)=ω(b_i,b_j)=0`. Route: for r>0 pick a primitive x; under the
@@ -2171,6 +2183,9 @@ adjoint isomorphism `L≃Hom(L,ℤ)` the functional `ω(x,−)` is primitive, he
 surjective, so `ω(x,y)=1` for some y; the plane P spanned by x and y has Gram
 matrix `[[0,1],[−1,0]]`, which is unimodular, so `L=P⊕P^⊥` with `P^⊥`
 unimodular alternating of rank r−2; induct, with the empty basis at r=0.
+Tau Ceti's `LinearMap.BilinForm.IsAlt.exists_basis_toMatrix_eq_J` is the same
+induction over a field, where every nonzero functional is surjective; the
+integral step is the primitivity of `ω(x,−)`.
 Applied to the cup pairing it gives a basis of `H¹(Σ;ℤ)` whose cup matrix is
 the block sum of g copies of `[[0,1],[−1,0]]`, for the complex orientation,
 and compatible with the smooth surface through the real de Rham comparison.
@@ -2471,6 +2486,12 @@ supplies the compatible triangulation in K6.
 - [Sakane, *On compact complex parallelisable solvmanifolds*](https://ir.library.osaka-u.ac.jp/repo/ouka/all/5964/ojm13_01_13.pdf), Theorem 1 and the nilpotent case, for the invariant Dolbeault comparison.
 - Wells, *Differential Analysis on Complex Manifolds*, for Dolbeault, elliptic
   Hodge theory and duality.
+- [Hörmann and Steinbauer, *Lecture Notes on the Theory of Distributions*, Universität Wien, 2009](https://mat.univie.ac.at/~stein/teaching/courses/SoSem09/distrvo.pdf),
+  Theorem 1.70, p. 35, and Theorem 4.22, pp. 89–90, for the point-supported
+  and continuous-primitive structure theorems in K5a.DistributionLocalStructure.
+- Hörmander, *The Analysis of Linear Partial Differential Operators I*,
+  Theorems 2.3.4 and 2.3.5, for distributions supported in a point and in a
+  submanifold in K5a.DistributionLocalStructure.
 - [Angella, *The cohomologies of the Iwasawa manifold and of its small deformations*](https://arxiv.org/abs/1212.4351),
   for the explicit non-Kähler cohomology comparison.
 - [Ballmann, *Lectures on Kähler Manifolds*, ESI Lectures in Mathematics and Physics, EMS, 2006](https://people.maths.ox.ac.uk/joyce/Nairobi2019/BallmannKahlerManifolds.pdf),
