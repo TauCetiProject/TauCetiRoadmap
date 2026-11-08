@@ -1,6 +1,10 @@
 module
 
 import Mathlib
+import TauCeti.RingTheory.LocalRing.RamificationGroup
+import TauCeti.NumberTheory.NumberField.Global.HeckeCharacter.FiniteComponent
+import TauCeti.NumberTheory.NumberField.Global.HeckeCharacter.InfinityType
+import TauCeti.NumberTheory.NumberField.Global.HeckeCharacter.Shift
 
 /-!
 # Analytic number theory, Part I: target signatures
@@ -19,17 +23,18 @@ Sathe–Selberg counts, Shiu's bound, both Halász mean theorems, the Dickman li
 the second and fourth zeta moments and the Beurling prime/integer remainder equivalence.
 All arithmetic cutoffs and zero multiplicities use the native library carriers.
 
-The canonical globally continued Hecke and finite-image Artin functions, their completed
-normalizations and general Artin conductors are absent at the pins. Thus the
-arithmetic comparisons of §§2.3,2.18, the CM endpoint estimates of §§2.33–2.51,
-the ray-character density theorem and the number-field effective Chebotarev theorem
-are deferred as Lean statements. The Hecke character carrier and qualitative prime
-counts alone do not supply these analytic objects. The quadratic period identities
-and Weyl bounds of §§2.23–2.47 also need the normalized nonholomorphic Eisenstein
-family, quadratic geodesics and oriented Nielsen surfaces. The generic Weil formula
-below uses actual meromorphic functions; its automorphic specialization needs the
-suppliers' completed Rankin–Selberg functions. None of these missing objects is
-replaced by a free predicate or a choice of unrelated analytic functions.
+Published finite computations are named propositions here (`SchoenfeldFiniteRangeInput`,
+`BMORFiniteInput`, `ZamanDigammaInput`, `BBRFiniteInput` and the others) and enter every theorem
+that rests on them as explicit hypotheses; nothing below proves or performs such a computation.
+
+The entire-function layer states Weierstrass primary products, equal-divisor factorization and the
+paired Hadamard theorem. Layer 2 states the K-Bessel kernel, the level-one nonholomorphic
+Eisenstein series, the lower Artin and Swan conductors with their integrality, and Hecke's
+continuation and functional equation for every unitary idele-class character on Tau Ceti's
+`HeckeCharacter`. The finite-image Artin `L`-functions of §2.18a, the real quadratic Nielsen
+surfaces of §2.1c and the period identities built on them are specified in the README; their
+carriers are not stated here, and no missing object is replaced by a free predicate or a choice of
+unrelated analytic functions.
 -/
 
 noncomputable section
@@ -107,6 +112,85 @@ def psiAP (q : ℕ) (a : ZMod q) (x : ℝ) : ℝ :=
 def primeCountAP (q : ℕ) (a : ZMod q) (x : ℝ) : ℕ :=
   ((Finset.Ioc 0 ⌊x⌋₊).filter fun p : ℕ => p.Prime ∧ (p : ZMod q) = a).card
 
+/-- The Chebyshev sum `θ(x; a, q)` of `log p` over primes `p ≤ x` with `p ≡ a mod q` (§0.2). -/
+def thetaAP (q : ℕ) (a : ZMod q) (x : ℝ) : ℝ :=
+  ∑ p ∈ (Nat.primesLE ⌊x⌋₊).filter (fun p : ℕ => (p : ZMod q) = a), Real.log p
+
+/-! ### Computational hypotheses of Layer 0
+
+Each proposition records a published finite computation; the theorems that rest on it carry it as
+an explicit hypothesis. The cutoff `exp 10000` separates the finite ranges from analytic tails. -/
+
+/-- Schoenfeld's finite range (§0.3): `θ(x) < 1.000081 x` for `0 < x < exp 10000`. -/
+def SchoenfeldFiniteRangeInput : Prop :=
+  ∀ x : ℝ, 0 < x → x < Real.exp 10000 → Chebyshev.theta x < 1.000081 * x
+
+/-- Rosser–Schoenfeld's finite range (§0.5): both prime-count bounds for `59 ≤ x < exp 10000`. -/
+def RosserSchoenfeldFiniteRangeInput : Prop :=
+  ∀ x : ℝ, 59 ≤ x → x < Real.exp 10000 →
+    x / Real.log x * (1 + 1 / (2 * Real.log x)) < (Nat.primeCounting ⌊x⌋₊ : ℝ) ∧
+      (Nat.primeCounting ⌊x⌋₊ : ℝ) < x / Real.log x * (1 + 3 / (2 * Real.log x))
+
+/-- The BMOR finite inputs (§0.7): no real zero in `(0, 1)` for conductors `3 ≤ q ≤ 400000`, and
+`√q L(1, χ) > 12` (that is, `h⁺ log η > 12`) for even conductors `400000 ≤ q < 2.65 · 10¹⁰`. -/
+def BMORFiniteInput : Prop :=
+  (∀ (q : ℕ) [NeZero q] (χ : DirichletCharacter ℂ q), 3 ≤ q → q ≤ 400000 →
+      χ.IsPrimitive → χ.IsQuadratic → χ ≠ 1 →
+      ∀ β : ℝ, 0 < β → β < 1 → DirichletCharacter.LFunction χ (β : ℂ) ≠ 0) ∧
+    ∀ (q : ℕ) [NeZero q] (χ : DirichletCharacter ℂ q), 400000 ≤ q → q < 26500000000 →
+      χ.IsPrimitive → χ.IsQuadratic → χ ≠ 1 → χ (-1) = 1 →
+        12 < Real.sqrt q * (DirichletCharacter.LFunction χ 1).re
+
+/-- The class-number input of BMOR (§0.7): `h(ℚ(√−q)) ≥ 46` for every negative fundamental
+discriminant `−q < −319867`, stated through the class-number formula as `√q L(1, χ) ≥ 46π`. -/
+def BMORClassNumberInput : Prop :=
+  ∀ (q : ℕ) [NeZero q] (χ : DirichletCharacter ℂ q), 319867 < q →
+    χ.IsPrimitive → χ.IsQuadratic → χ (-1) = -1 →
+      46 * Real.pi ≤ Real.sqrt q * (DirichletCharacter.LFunction χ 1).re
+
+/-- The mod-eight inputs (§0.16): Ramaré–Rumely's theta bound for the classes `3, 5` on
+`10¹⁰ ≤ x < exp 10000`, and the Riemann hypothesis to height `10000` for characters modulo 8. -/
+def ModEightFiniteInput : Prop :=
+  (∀ a : ZMod 8, (a = 3 ∨ a = 5) → ∀ x : ℝ, (10 : ℝ) ^ 10 ≤ x → x < Real.exp 10000 →
+      |thetaAP 8 a x - x / 4| ≤ 0.002811 * x / 4) ∧
+    ∀ χ : DirichletCharacter ℂ 8, ∀ s : ℂ, 0 < s.re → s.re < 1 → |s.im| ≤ 10000 →
+      DirichletCharacter.LFunction χ s = 0 → s.re = 1 / 2
+
+/-- The reciprocal-prime range of Rosser–Schoenfeld (§0.25) on `10⁸ ≤ x < exp 10000`. -/
+def PrimeProductFiniteInput : Prop :=
+  ∀ x : ℝ, (10 : ℝ) ^ 8 ≤ x → x < Real.exp 10000 →
+    ∑ p ∈ Nat.primesLE ⌊x⌋₊, (1 : ℝ) / p ≤ Real.log (Real.log x) + 0.27 + 5 / Real.log x
+
+/-- Schoenfeld's explicit Chebyshev bound (§0.3). -/
+theorem theta_lt_of_schoenfeld (h : SchoenfeldFiniteRangeInput) {x : ℝ} (hx : 0 < x) :
+    Chebyshev.theta x < 1.000081 * x := by
+  sorry
+
+/-- Rosser–Schoenfeld's two-sided prime-count bound for `x ≥ 59` (§0.5). -/
+theorem primeCounting_bounds_of_rosserSchoenfeld (h : RosserSchoenfeldFiniteRangeInput) {x : ℝ}
+    (hx : 59 ≤ x) :
+    x / Real.log x * (1 + 1 / (2 * Real.log x)) < (Nat.primeCounting ⌊x⌋₊ : ℝ) ∧
+      (Nat.primeCounting ⌊x⌋₊ : ℝ) < x / Real.log x * (1 + 3 / (2 * Real.log x)) := by
+  sorry
+
+/-- Separation of a real quadratic zero from one with the literal constant `40` (§0.7). -/
+theorem quadratic_real_zero_le_of_bmor (h₁ : BMORFiniteInput) (h₂ : BMORClassNumberInput) :
+    ∀ (q : ℕ) [NeZero q] (χ : DirichletCharacter ℂ q), 3 ≤ q → χ.IsQuadratic → χ ≠ 1 →
+      ∀ β : ℝ, 0 < β → DirichletCharacter.LFunction χ (β : ℂ) = 0 →
+        β ≤ 1 - 40 / (Real.sqrt q * Real.log q ^ 2) := by
+  sorry
+
+/-- The mod-eight prime mass on `(k/2, k]` (§0.16). -/
+theorem thetaAP_eight_interval_ge (h : ModEightFiniteInput) (a : ZMod 8) (ha : a = 3 ∨ a = 5)
+    {k : ℝ} (hk : 2 * (10 : ℝ) ^ 10 ≤ k) :
+    (1 - 3 * 0.002811) * k / 8 ≤ thetaAP 8 a k - thetaAP 8 a (k / 2) := by
+  sorry
+
+/-- The explicit prime Euler-product bound (§0.25). -/
+theorem prod_one_add_inv_prime_le (h : PrimeProductFiniteInput) {x : ℝ} (hx : (10 : ℝ) ^ 8 ≤ x) :
+    ∏ p ∈ Nat.primesLE ⌊x⌋₊, (1 + (1 : ℝ) / p) ≤ 2 * Real.log x := by
+  sorry
+
 /-- Siegel–Walfisz in ψ form, uniformly for `q ≤ (log x) ^ B` (§0.32). The README requires an
 effective constant and threshold, obtained from §0.34 through §0.18. -/
 theorem siegel_walfisz (A B : ℝ) (hA : 0 < A) (hB : 0 < B) :
@@ -124,6 +208,33 @@ theorem siegel_walfisz_primeCount (A B : ℝ) (hA : 0 < A) (hB : 0 < B) :
           C * x * Real.log x ^ (-A) := by
   sorry
 
+/-! ### Primary factors, products and the paired Hadamard theorem (§§0.15, 0.29) -/
+
+/-- Weierstrass's primary factor `E_p(w) = (1 - w) exp(w + ⋯ + w^p / p)`; `E₀(w) = 1 - w`. -/
+def elementaryFactor (p : ℕ) (w : ℂ) : ℂ :=
+  (1 - w) * Complex.exp (∑ k ∈ Finset.range p, w ^ (k + 1) / (k + 1))
+
+/-- Primary products over an arbitrary countable index with variable genera converge locally
+uniformly to an entire function whose analytic orders are the zero-fibre cardinalities (§0.15). -/
+theorem exists_entire_primary_product_exact (ι : Type*) [Countable ι]
+    (a : ι → ℂ) (p : ι → ℕ) (ha : ∀ i, a i ≠ 0)
+    (hEscape : Tendsto (fun i => ‖a i‖) (Filter.cofinite : Filter ι) atTop)
+    (hsum : ∀ R : ℝ, 0 < R → Summable (fun i => (R / ‖a i‖) ^ (p i + 1))) :
+    ∃ F : ℂ → ℂ,
+      HasProdLocallyUniformlyOn (fun i z => elementaryFactor (p i) (z / a i)) F Set.univ ∧
+      DifferentiableOn ℂ F Set.univ ∧
+      ∀ z, analyticOrderAt F z = (Nat.card {i // a i = z} : ℕ∞) := by
+  sorry
+
+/-- Two nonzero entire functions with the same divisor differ by an entire exponential
+factor (§0.15a). -/
+theorem exists_entire_exp_mul_of_divisor_eq (f F : ℂ → ℂ)
+    (hf : Differentiable ℂ f) (hF : Differentiable ℂ F)
+    (hf_ne : ∃ z, f z ≠ 0) (hF_ne : ∃ z, F z ≠ 0)
+    (hdiv : MeromorphicOn.divisor f Set.univ = MeromorphicOn.divisor F Set.univ) :
+    ∃ g : ℂ → ℂ, Differentiable ℂ g ∧ ∀ z, f z = Complex.exp (g z) * F z := by
+  sorry
+
 /-- Finite-order Hadamard factorization, including multiplicities, genus summability,
 locally uniform convergence and the degree of the polynomial exponential factor (§0.23). -/
 theorem finite_order_hadamard (f : ℂ → ℂ) (hf : Differentiable ℂ f)
@@ -131,15 +242,61 @@ theorem finite_order_hadamard (f : ℂ → ℂ) (hf : Differentiable ℂ f)
     (hgrowth : ∀ b : ℝ, ρ < b → ∃ C > 0, ∀ z : ℂ,
       ‖f z‖ ≤ C * Real.exp (‖z‖ ^ b)) :
     let E := fun (α : {a : ℂ // a ≠ 0}) (z : ℂ) =>
-      ((1 - z / α.val) * Complex.exp
-        (∑ j ∈ Finset.Icc 1 ⌊ρ⌋₊, (z / α.val) ^ j / (j : ℂ))) ^
-          (analyticOrderAt f α.val).toNat
+      elementaryFactor ⌊ρ⌋₊ (z / α.val) ^ (analyticOrderAt f α.val).toNat
     Summable (fun α : {a : ℂ // a ≠ 0} =>
       (analyticOrderAt f α.val).toNat * ‖α.val‖ ^ (-(⌊ρ⌋₊ + 1 : ℝ))) ∧
     ∃ (P : Polynomial ℂ) (g : ℂ → ℂ), P.natDegree ≤ ⌊ρ⌋₊ ∧
       TendstoLocallyUniformly
         (fun S : Finset {a : ℂ // a ≠ 0} => fun z => ∏ α ∈ S, E α z) g atTop ∧
       ∀ z : ℂ, f z = z ^ (analyticOrderAt f 0).toNat * Complex.exp (P.eval z) * g z := by
+  sorry
+
+/-- Entire growth of order at most one in the centered form `|f z| ≤ exp(C_ε (1 + |z|^(1+ε)))`,
+equivalent to entirety with `OrderLE f 1` (§0.29). -/
+def IsCenteredOrderOne (f : ℂ → ℂ) : Prop :=
+  Differentiable ℂ f ∧ ∀ ε : ℝ, 0 < ε → ∃ C : ℝ, 0 < C ∧
+    ∀ z : ℂ, ‖f z‖ ≤ Real.exp (C * (1 + ‖z‖ ^ (1 + ε)))
+
+/-- The paired Hadamard theorem (§0.29a). Zero entries of `γ` encode unused indices when the
+zero multiset is finite. -/
+theorem pairedHadamard_factorization (f : ℂ → ℂ) (δ : ℂ)
+    (hf : IsCenteredOrderOne f) (hδ : δ = 1 ∨ δ = -1)
+    (hparity : ∀ z, f (-z) = δ * f z)
+    (hzeros : ∀ z, f z = 0 → z.re = 0)
+    (hpositive : ∃ R : ℝ, ∀ x : ℝ, R ≤ x → (f (x : ℂ)).im = 0 ∧ 0 < (f (x : ℂ)).re) :
+    ∃ (m : ℕ) (c : ℝ) (γ : ℕ → ℝ), 0 < c ∧
+      (∀ n, 0 ≤ γ n) ∧ Summable (fun n => (γ n)⁻¹ ^ 2) ∧
+      δ = (-1 : ℂ) ^ m ∧
+      (∀ z : ℂ, Multipliable (fun n =>
+        if γ n = 0 then (1 : ℂ) else 1 + z ^ 2 / (γ n : ℂ) ^ 2)) ∧
+      (∀ z : ℂ, f z = (c : ℂ) * z ^ m * ∏' n,
+        if γ n = 0 then (1 : ℂ) else 1 + z ^ 2 / (γ n : ℂ) ^ 2) ∧
+      (∀ K : Set ℂ, IsCompact K → TendstoUniformlyOn
+        (fun s : Finset ℕ => fun z : ℂ => (c : ℂ) * z ^ m *
+          ∏ n ∈ s, if γ n = 0 then (1 : ℂ) else 1 + z ^ 2 / (γ n : ℂ) ^ 2)
+        f Filter.atTop K) := by
+  sorry
+
+/-- The paired product has real nonnegative derivatives on the nonnegative real axis (§0.29b). -/
+theorem pairedHadamard_derivatives_nonnegative (f : ℂ → ℂ) (δ : ℂ)
+    (hf : IsCenteredOrderOne f) (hδ : δ = 1 ∨ δ = -1)
+    (hparity : ∀ z, f (-z) = δ * f z)
+    (hzeros : ∀ z, f z = 0 → z.re = 0)
+    (hpositive : ∃ R : ℝ, ∀ x : ℝ, R ≤ x → (f (x : ℂ)).im = 0 ∧ 0 < (f (x : ℂ)).re)
+    (k : ℕ) (x : ℝ) (hx : 0 ≤ x) :
+    (iteratedDeriv k f (x : ℂ)).im = 0 ∧ 0 ≤ (iteratedDeriv k f (x : ℂ)).re := by
+  sorry
+
+/-- A nonpolynomial paired product has strictly positive derivatives at positive real
+points (§0.29). -/
+theorem pairedHadamard_derivatives_positive (f : ℂ → ℂ) (δ : ℂ)
+    (hf : IsCenteredOrderOne f) (hδ : δ = 1 ∨ δ = -1)
+    (hparity : ∀ z, f (-z) = δ * f z)
+    (hzeros : ∀ z, f z = 0 → z.re = 0)
+    (hpositive : ∃ R : ℝ, ∀ x : ℝ, R ≤ x → (f (x : ℂ)).im = 0 ∧ 0 < (f (x : ℂ)).re)
+    (hnonpoly : ¬ ∃ P : Polynomial ℂ, ∀ z, f z = P.eval z)
+    (k : ℕ) (x : ℝ) (hx : 0 < x) :
+    0 < (iteratedDeriv k f (x : ℂ)).re := by
   sorry
 
 /-! ## Layer 1: Explicit formulas and mean values -/
@@ -260,6 +417,186 @@ theorem weil_explicit_formula (c : ℝ) (F : ℝ → ℝ) (hF : WeilTestFunction
 
 open _root_.NumberField
 
+/-! ### The K-Bessel kernel and the level-one Eisenstein series (§§2.1a–2.1b) -/
+
+/-- The K-Bessel kernel `K_ν(c) = (1/2) ∫₀^∞ exp(−c(u + u⁻¹)/2) u^ν du/u` for complex order and
+positive real argument (§2.1a). -/
+def besselK (ν : ℂ) (c : ℝ) : ℂ :=
+  (1 / 2 : ℂ) * ∫ u : ℝ in Set.Ioi 0,
+    Complex.exp (-(c : ℂ) * ((u : ℂ) + (u : ℂ)⁻¹) / 2) *
+      Complex.exp (ν * (Real.log u : ℂ)) / (u : ℂ)
+
+/-- The kernel is even in the order (§2.1a). -/
+theorem besselK_neg (ν : ℂ) {c : ℝ} (hc : 0 < c) : besselK (-ν) c = besselK ν c := by
+  sorry
+
+/-- The half-order value `K_{1/2}(c) = √(π/(2c)) e^{−c}` (§2.1a). -/
+theorem besselK_one_half {c : ℝ} (hc : 0 < c) :
+    besselK (1 / 2) c = (Real.sqrt (Real.pi / (2 * c)) * Real.exp (-c) : ℝ) := by
+  sorry
+
+/-- The primitive-pair Eisenstein series for `PSL₂(ℤ)`, initially for `1 < re s`; the factor
+`1 / 2` counts each pair of opposite primitive vectors once (§2.1b). -/
+def nonholomorphic_eisenstein (z : UpperHalfPlane) (s : ℂ) : ℂ :=
+  1 / 2 * (z.im : ℂ) ^ s *
+    ∑' p : {p : ℤ × ℤ // p.1.gcd p.2 = 1},
+      (‖(p.val.1 : ℂ) * (z : ℂ) + p.val.2‖ : ℂ) ^ (-2 * s)
+
+/-- The completed Eisenstein series `E* = Λ(2s) E` continues meromorphically with simple poles at
+`0, 1`, residues `−1/2, 1/2`, and `E*(z, 1 − s) = E*(z, s)` (§2.1b). -/
+theorem completed_eisenstein_continuation :
+    ∃ E : UpperHalfPlane → ℂ → ℂ,
+      (∀ z, MeromorphicOn (E z) Set.univ) ∧
+      (∀ z, AnalyticOnNhd ℂ (E z) ({0, 1}ᶜ : Set ℂ)) ∧
+      (∀ z s, 1 < s.re →
+        E z s = completedRiemannZeta (2 * s) * nonholomorphic_eisenstein z s) ∧
+      (∀ z s, s ∉ ({0, 1} : Set ℂ) → E z (1 - s) = E z s) ∧
+      (∀ z, Tendsto (fun s => s * E z s) (𝓝[≠] 0) (𝓝 (-1 / 2))) ∧
+      (∀ z, Tendsto (fun s => (s - 1) * E z s) (𝓝[≠] 1) (𝓝 (1 / 2))) := by
+  sorry
+
+/-! ### Lower Artin and Swan conductors (§2.2a) -/
+
+section Conductor
+
+open TauCeti.IsLocalRing
+
+/-- The Artin conductor `Σ_{i ≥ 0} (|G_i| / |G_0|) · codim W^{G_i}` of a representation of a group
+acting on a local ring, over the lower ramification groups `G_i` (§2.2a). -/
+def lowerArtinConductor (G B : Type*) [Group G] [CommRing B] [IsLocalRing B]
+    [MulSemiringAction G B] {C W : Type*} [Field C] [AddCommGroup W] [Module C W]
+    (ρ : Representation C G W) : ℚ :=
+  ∑ᶠ i : ℕ, ((Nat.card (ramificationGroup G B i) : ℚ) / Nat.card (ramificationGroup G B 0)) *
+    Module.finrank C (W ⧸ Representation.invariants (ρ.comp (ramificationGroup G B i).subtype))
+
+/-- The Swan conductor `Σ_{i ≥ 1} (|G_i| / |G_0|) · codim W^{G_i}` (§2.2a). -/
+def lowerSwanConductor (G B : Type*) [Group G] [CommRing B] [IsLocalRing B]
+    [MulSemiringAction G B] {C W : Type*} [Field C] [AddCommGroup W] [Module C W]
+    (ρ : Representation C G W) : ℚ :=
+  ∑ᶠ i : ℕ, ((Nat.card (ramificationGroup G B (i + 1 : ℕ)) : ℚ) /
+      Nat.card (ramificationGroup G B 0)) *
+    Module.finrank C
+      (W ⧸ Representation.invariants (ρ.comp (ramificationGroup G B (i + 1 : ℕ)).subtype))
+
+/-- Artin's integrality theorem (§2.2a): for a finite group acting faithfully on a complete
+discrete valuation ring with perfect residue field, both conductors of a finite-dimensional
+representation over a field of characteristic zero, or of characteristic different from the
+residue characteristic, are natural numbers. -/
+theorem lowerConductors_integral {G B : Type*} [Group G] [Finite G] [CommRing B] [IsDomain B]
+    [IsDiscreteValuationRing B] [IsAdicComplete (IsLocalRing.maximalIdeal B) B]
+    [PerfectField (IsLocalRing.ResidueField B)] [MulSemiringAction G B] [FaithfulSMul G B]
+    {C W : Type*} [Field C] [AddCommGroup W] [Module C W] [FiniteDimensional C W]
+    (hC : ringChar C = 0 ∨ ringChar C ≠ ringChar (IsLocalRing.ResidueField B))
+    (ρ : Representation C G W) :
+    (∃ n : ℕ, lowerArtinConductor G B ρ = n) ∧ ∃ n : ℕ, lowerSwanConductor G B ρ = n := by
+  sorry
+
+end Conductor
+
+/-! ### Hecke continuation for unitary idele-class characters (§2.3a) -/
+
+section Hecke
+
+open IsDedekindDomain TauCeti.GlobalNumberFields
+
+variable {K : Type*} [Field K] [NumberField K]
+
+/-- The finite local factor at `v`, read through a uniformizer of the completion (§2.3a). -/
+def heckeFiniteFactor (χ : HeckeCharacter K)
+    (ϖ : (v : HeightOneSpectrum (𝓞 K)) → (v.adicCompletion K)ˣ)
+    (v : HeightOneSpectrum (𝓞 K)) (s : ℂ) : ℂ :=
+  if χ.conductorExponent v = 0 then
+    (1 - (χ.finiteComponent v (ϖ v) : ℂ) * (Ideal.absNorm v.asIdeal : ℂ) ^ (-s))⁻¹
+  else 1
+
+/-- The archimedean factors in the continuous infinity coordinates; the complex exponent uses
+the Euclidean absolute value, hence the division by two (§2.3a). -/
+def heckeArchFactor (χ : HeckeCharacter K) (s : ℂ) : ℂ := by
+  classical
+  letI := Fintype.ofFinite (NumberField.InfinitePlace K)
+  exact (∏ w : {w : NumberField.InfinitePlace K // w.IsReal},
+    Complex.Gammaℝ (s + χ.infinityType.realExponent w +
+      ((χ.infinityType.realParity w).val : ℂ))) *
+  ∏ w : {w : NumberField.InfinitePlace K // w.IsComplex},
+    Complex.Gammaℂ (s + χ.infinityType.complexExponent w / 2 +
+      ((χ.infinityType.complexAngularFrequency w).natAbs : ℂ) / 2)
+
+/-- The conductor scale `|D_K| N𝔣(χ)` of the balanced completion (§2.3a). -/
+def heckeConductorScale (χ : HeckeCharacter K) : ℝ :=
+  (NumberField.discr K).natAbs * Ideal.absNorm χ.finiteConductor
+
+/-- Hecke continuation and functional equation for every unitary idele-class character, with the
+translated poles of the unitary norm characters and complex norm twists (§2.3a). -/
+theorem heckeContinuation
+    (ϖ : (v : HeightOneSpectrum (𝓞 K)) → (v.adicCompletion K)ˣ)
+    (hϖ : ∀ v, Valued.v (ϖ v : v.adicCompletion K) = WithZero.exp (-1 : ℤ)) :
+    ∃ Λ : HeckeCharacter K → ℂ → ℂ,
+      ∀ χ : HeckeCharacter K, (∀ x, ‖(χ x : ℂ)‖ = 1) →
+        MeromorphicOn (Λ χ) Set.univ ∧
+        (∀ s : ℂ, 1 < s.re →
+          Summable (fun v => ‖heckeFiniteFactor χ ϖ v s - 1‖) ∧
+          HasProd (fun v => heckeFiniteFactor χ ϖ v s)
+            (∏' v, heckeFiniteFactor χ ϖ v s) ∧
+          Λ χ s = (heckeConductorScale χ : ℂ) ^ (s / 2) * heckeArchFactor χ s *
+            ∏' v, heckeFiniteFactor χ ϖ v s) ∧
+        (∃ W : ℂ, ‖W‖ = 1 ∧ ∀ s₀ : ℂ,
+          Λ χ =ᶠ[𝓝[≠] s₀] fun s => W * Λ χ⁻¹ (1 - s)) ∧
+        ((¬ ∃ t : ℝ, χ = HeckeCharacter.normPow K (Complex.I * (t : ℂ))) →
+          Differentiable ℂ (Λ χ)) ∧
+        (∀ t : ℝ, χ = HeckeCharacter.normPow K (Complex.I * (t : ℂ)) →
+          meromorphicOrderAt (Λ χ) (-Complex.I * (t : ℂ)) = -1 ∧
+          meromorphicOrderAt (Λ χ) (1 - Complex.I * (t : ℂ)) = -1 ∧
+          ∀ s : ℂ, s ≠ -Complex.I * (t : ℂ) → s ≠ 1 - Complex.I * (t : ℂ) →
+            AnalyticAt ℂ (Λ χ) s) ∧
+        (∀ t s₀ : ℂ, (Λ (χ * HeckeCharacter.normPow K t)) =ᶠ[𝓝[≠] s₀]
+          fun s => (heckeConductorScale χ : ℂ) ^ (-t / 2) * Λ χ (s + t)) := by
+  sorry
+
+end Hecke
+
+/-! ### Zaman's digamma input and the 35/19 prime-ideal count (§§2.9–2.9a) -/
+
+/-- `δ(x, t) = Re ψ((x + i t) / 2)` for the digamma function `ψ = Γ′/Γ` (§2.9a). -/
+def zamanDelta (x t : ℝ) : ℝ :=
+  (deriv Complex.Gamma (((x : ℂ) + (t : ℂ) * I) / 2) /
+    Complex.Gamma (((x : ℂ) + (t : ℂ) * I) / 2)).re
+
+/-- `G₁(α, t)` of §2.9a. -/
+def zamanG₁ (α t : ℝ) : ℝ :=
+  (zamanDelta (α + 1) 0 + zamanDelta (α + 1) t) / 2 - Real.log Real.pi
+
+/-- `G₂(α, t)` of §2.9a. -/
+def zamanG₂ (α t : ℝ) : ℝ :=
+  (zamanDelta (α + 1) 0 + zamanDelta (α + 2) 0 + zamanDelta (α + 1) t + zamanDelta (α + 2) t) / 4 -
+    Real.log Real.pi
+
+/-- `Q(α, t)` of §2.9a, with `W₁(α) = Σ (α + 1 + 2k)⁻²` and `W₂(α) = Σ (α + 1 + k)⁻²`. -/
+def zamanQ (α t : ℝ) : ℝ :=
+  (α + 1 / 2) ^ 2 / α * (1 / α + max 0 (max
+    ((zamanG₁ α t + α * ∑' k : ℕ, (α + 1 + 2 * k)⁻¹ ^ 2) / (α * Real.log 60))
+    ((zamanG₂ α t + α * (∑' k : ℕ, (α + 1 + k)⁻¹ ^ 2) / 2) / (α * Real.log 22))))
+
+/-- Zaman's finitely many digamma inequalities (§2.9a): `Q(α, T) < C/24` at the eleven listed
+`(T, α, C)` and the real-secondary-zero inequality at `α = 5.8`. -/
+def ZamanDigammaInput : Prop :=
+  (∀ r ∈ ([(1, 3.50, 31.4), (3.5, 3.77, 32.7), (8.7, 5.39, 35), (22, 7.30, 38.4),
+      (54, 8.92, 42), (134, 10.17, 45.9), (332, 11.21, 49.7), (825, 12.26, 53.6),
+      (2048, 13.22, 57.4), (5089, 14.17, 61.2), (12646, 15.23, 65)] : List (ℝ × ℝ × ℝ)),
+      zamanQ r.2.1 r.1 < r.2.2 / 24) ∧
+    (5.8 + 1) ^ 2 / (2 * 5.8) * (1 / 5.8 + max 0 (max
+      (zamanG₁ 5.8 0 / (5.8 * Real.log 60)) (zamanG₂ 5.8 0 / (5.8 * Real.log 22)))) < (0.6882 : ℝ)
+
+/-- Zaman's effective lower bound for prime ideals with the exponents `35` and `19` (§2.9): the
+threshold `D₀` is absolute and `c_n` depends only on the degree. -/
+theorem primeIdeal_lower_thirtyfive_nineteen (h : ZamanDigammaInput) :
+    ∃ D₀ : ℝ, 2 ≤ D₀ ∧ ∀ n : ℕ, 1 ≤ n → ∃ c : ℝ, 0 < c ∧
+      ∀ (k : Type) [Field k] [NumberField k], Module.finrank ℚ k = n →
+        D₀ ≤ |(discr k : ℝ)| → ∀ Y : ℝ, |(discr k : ℝ)| ^ (35 : ℝ) ≤ Y →
+          c * |(discr k : ℝ)| ^ (-19 : ℝ) * Y / Real.log Y ≤
+            (Nat.card {P : Ideal (𝓞 k) // P.IsPrime ∧ P ≠ ⊥ ∧
+              (Ideal.absNorm P : ℝ) ≤ Y} : ℝ) := by
+  sorry
+
 /-- Louboutin's bound for the Dedekind residue retains the degree and discriminant. -/
 theorem dedekindZeta_residue_le (K : Type*) [Field K] [NumberField K]
     (hd : 1 < Module.finrank ℚ K) :
@@ -276,6 +613,19 @@ theorem bounded_degree_brauer_siegel (n : ℕ) (hn : 1 ≤ n) {ε : ℝ} (hε : 
   sorry
 
 /-! ## Layer 3: Multiplicative means, smooth numbers and moments -/
+
+/-- The small-conductor input (§3.2): every primitive quadratic conductor `1 < N < 1.2 · 10¹⁰`
+has largest prime factor exceeding `0.94 log N`. -/
+def QuadraticConductorFiniteInput : Prop :=
+  ∀ (N : ℕ) [NeZero N] (χ : DirichletCharacter ℂ N), 1 < N → N < 12000000000 →
+    χ.IsPrimitive → χ.IsQuadratic → χ ≠ 1 → 0.94 * Real.log N < ((N.primeFactors.sup id : ℕ) : ℝ)
+
+/-- The largest prime factor of a primitive quadratic conductor exceeds `0.94 log N` (§3.2). -/
+theorem largest_prime_factor_quadratic_conductor (h₁ : SchoenfeldFiniteRangeInput)
+    (h₂ : QuadraticConductorFiniteInput) :
+    ∀ (N : ℕ) [NeZero N] (χ : DirichletCharacter ℂ N), 1 < N →
+      χ.IsPrimitive → χ.IsQuadratic → χ ≠ 1 → 0.94 * Real.log N < ((N.primeFactors.sup id : ℕ) : ℝ) := by
+  sorry
 
 /-- `D(f, g; x)`, a distance on prime data. -/
 def pretentiousDist (f g : ℕ → ℂ) (x : ℝ) : ℝ :=
@@ -412,8 +762,8 @@ def divisorCoprimeError (D : ℕ) (x : ℝ) : ℝ :=
 def divisorRemainderIntegral (D : ℕ) (T σ : ℝ) : ℝ :=
   ∫ u : ℝ in (1 : ℝ)..T, divisorCoprimeError D u * u ^ (-σ)
 
-/-- Finite divisor and integral inequalities for the BBR estimates, with the scaled
-`7/4` tail bound starting at `T = 2`. -/
+/-- The BBR finite divisor and integral inequalities (§3.23a), with the scaled `7/4` tail bound
+on `[1, 2]` and from `T = 2`. -/
 def BBRFiniteInput : Prop :=
   let κ₇ : ℝ := (riemannZeta (3 / 4)).re ^ 2 / (3 / 4) +
     8 * Real.eulerMascheroniConstant - 20
@@ -429,6 +779,8 @@ def BBRFiniteInput : Prop :=
   (∀ x : ℝ, 1 ≤ x → x ≤ (10 : ℝ) ^ 7 →
     |divisorCoprimeError 2 x| ≤ 0.883 * Real.sqrt x ∧
     |divisorCoprimeError 6 x| ≤ 0.927 * Real.sqrt x) ∧
+  (∀ T : ℝ, 1 ≤ T → T ≤ 2 →
+    T ^ (1 / 4 : ℝ) * |divisorRemainderIntegral 1 T (7 / 4) - κ₇| ≤ 1 / 2) ∧
   (∀ T : ℝ, 2 ≤ T → T ≤ (10 : ℝ) ^ 5 →
     T ^ (1 / 4 : ℝ) * |divisorRemainderIntegral 1 T (7 / 4) - κ₇| ≤ 0.302) ∧
   (∀ T : ℝ, 1260 ≤ T → T ≤ (10 : ℝ) ^ 7 →
