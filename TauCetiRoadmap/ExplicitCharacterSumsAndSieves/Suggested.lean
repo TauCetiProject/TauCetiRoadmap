@@ -20,7 +20,7 @@ Headline theorems stated here:
 * Layer 2: the first and second derivative tests for integer points near a curve
   (`first_derivative_test_points`, `second_derivative_test_points`).
 * Layer 3: the classical explicit Pólya–Vinogradov inequality (`polya_vinogradov_classical`),
-  Pomerance's (`polya_vinogradov_pomerance`), Lapkova's (`polya_vinogradov_lapkova`) and
+  Lapkova's (`polya_vinogradov_lapkova`), Pomerance's (`polya_vinogradov_pomerance`) and
   Frolenkov–Soundararajan's bound for nonprincipal characters
   (`polya_vinogradov_frolenkov_soundararajan`).
 * Layer 4: Burgess's moment bound (`burgess_moment_bound`), McGown's parametric Burgess
@@ -144,18 +144,6 @@ theorem polya_vinogradov_classical {q : ℕ} (χ : DirichletCharacter ℂ q) (h�
       2 / π * √q * (log q + log (4 / π) + π ^ 2 / (12 * (q : ℝ) ^ 2)) := by
   sorry
 
-/-- **Pomerance's explicit Pólya–Vinogradov inequality** (Pomerance 2011, Theorem 1). For a
-primitive character `χ` modulo `q > 1` and every interval sum,
-`|S_χ(M, N)| ≤ (2/π²)√q log q + (4/π²)√q log log q + (3/2)√q` if `χ` is even and
-`|S_χ(M, N)| ≤ (1/(2π))√q log q + (1/π)√q log log q + √q` if `χ` is odd. -/
-theorem polya_vinogradov_pomerance {q : ℕ} (χ : DirichletCharacter ℂ q) (hχ : χ.IsPrimitive)
-    (hq : 1 < q) :
-    (χ.Even → ∀ (M : ℤ) (N : ℕ), ‖charIntervalSum χ M N‖ ≤
-      2 / π ^ 2 * √q * log q + 4 / π ^ 2 * √q * log (log q) + 3 / 2 * √q) ∧
-    (χ.Odd → ∀ (M : ℤ) (N : ℕ), ‖charIntervalSum χ M N‖ ≤
-      1 / (2 * π) * √q * log q + 1 / π * √q * log (log q) + √q) := by
-  sorry
-
 /-- The two bounds of Lapkova's Lemma 3A for a character `χ` modulo `q`: every interval sum of
 `χ` is at most `(2/π²)√q log q + 0.9467√q + 1.668` if `χ` is even and at most
 `(1/(2π))√q log q + 0.8204√q + 1.0285` if `χ` is odd. -/
@@ -176,6 +164,21 @@ Frolenkov–Soundararajan). Under `LapkovaSmallModuliVerified`, every primitive 
 `q > 1` satisfies `LapkovaBound`. -/
 theorem polya_vinogradov_lapkova (hsmall : LapkovaSmallModuliVerified) {q : ℕ}
     (χ : DirichletCharacter ℂ q) (hχ : χ.IsPrimitive) (hq : 1 < q) : LapkovaBound χ := by
+  sorry
+
+/-- **Pomerance's explicit Pólya–Vinogradov inequality** (Pomerance 2011, Theorem 1). Under
+`LapkovaSmallModuliVerified`, for a primitive character `χ` modulo `q > 1` and every interval
+sum, `|S_χ(M, N)| ≤ (2/π²)√q log q + (4/π²)√q log log q + (3/2)√q` if `χ` is even and
+`|S_χ(M, N)| ≤ (1/(2π))√q log q + (1/π)√q log log q + √q` if `χ` is odd. The source's analytic
+argument covers even `q ≥ 21` and odd `q ≥ 45`; the classical bound covers even `q ≤ 20` and odd
+`q ≤ 10`, and Lapkova's odd bound, which rests on the hypothesis for `q ≤ 25`, covers odd
+`11 ≤ q ≤ 44`. -/
+theorem polya_vinogradov_pomerance (hsmall : LapkovaSmallModuliVerified) {q : ℕ}
+    (χ : DirichletCharacter ℂ q) (hχ : χ.IsPrimitive) (hq : 1 < q) :
+    (χ.Even → ∀ (M : ℤ) (N : ℕ), ‖charIntervalSum χ M N‖ ≤
+      2 / π ^ 2 * √q * log q + 4 / π ^ 2 * √q * log (log q) + 3 / 2 * √q) ∧
+    (χ.Odd → ∀ (M : ℤ) (N : ℕ), ‖charIntervalSum χ M N‖ ≤
+      1 / (2 * π) * √q * log q + 1 / π * √q * log (log q) + √q) := by
   sorry
 
 /-- **Frolenkov–Soundararajan's bound for nonprincipal characters** (Frolenkov–Soundararajan

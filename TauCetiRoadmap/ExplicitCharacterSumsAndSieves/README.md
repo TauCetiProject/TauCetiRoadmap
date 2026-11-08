@@ -48,9 +48,9 @@ Pólya–Vinogradov inequalities and the elementary character-sum identities the
 3), the explicit Burgess inequalities for a prime modulus together with Burgess's moment bound and
 McGown–Trudgian's refinement of it at `r = 2`, the multiplicative-energy counts and Burgess's
 amplification inequality (Layer 4), the Selberg diagonal carriers with the coprime comparison,
-Büthe's weight-mass asymptotic and the diagonal bound from `z = 3`, the weighted arithmetic large
-sieve and the explicit sieve upper bounds (Layer 5), and the named computational hypotheses
-(Layer 6).
+the explicit asymptotic for Büthe's weight mass and the diagonal bound from `z = 3`, the weighted
+arithmetic large sieve and the explicit sieve upper bounds (Layer 5), and the named computational
+hypotheses (Layer 6).
 
 **The van der Corput toolkit.** ExplicitZetaBounds, earlier in the order of supply, owns the
 Kusmin–Landau inequality in its symmetric and asymmetric forms (§4.1), the finite van der Corput
@@ -828,18 +828,34 @@ every character is principal).
 
 ### 3.4 Pomerance's explicit Pólya–Vinogradov inequality
 
-Prove `polya_vinogradov_pomerance`: for `χ` primitive modulo `q > 1` and every interval sum,
+Prove `polya_vinogradov_pomerance`: under `LapkovaSmallModuliVerified` (§6.1), for `χ` primitive
+modulo `q > 1` and every interval sum,
 
     |S_χ(M, N)| ≤ (2/π²)√q log q + (4/π²)√q log log q + (3/2)√q   (χ even),
     |S_χ(M, N)| ≤ (1/(2π))√q log q + (1/π)√q log log q + √q       (χ odd)
 
 (pomerance2011 Theorem 1, lines 78–86, stated for `S(χ) = M_χ`; proof §§3–4, lines 263–438).
-Proof route (the Landau–Bateman argument): for an initial interval `[0, N]`, write
-`Σ_{a=0}^{N} χ(a)` as `χ(N)/2 + Σ_a χ(a)Φ(2πa/q)` with `Φ` the indicator of `(0, 2πN/q)` taking
-the value `1/2` at the endpoints, expand `Φ` in its Fourier series (pointwise convergent at the
-points `2πa/q` by the closed forms of §3.3), truncate at `n`, evaluate the main part with §3.1's
-parity forms, bound it by Lemma 3 and the tail by Lemma 4, and choose `n`; for even `χ` double by
-§0.5, for odd `χ` use `M_χ ≤ 2 max_N |Σ_{a ≤ N} χ(a)|` and the sharper odd main term.
+The source's analytic argument gives the even bound for `q ≥ 21` and the odd bound for `q ≥ 45`
+(lines 351–357 and 424–432), and it settles the smaller conductors with Bober–Goldmakher's values
+of `M_χ` (lines 357–360 and 432–437); here those conductors come from §3.2 and §3.5, and the
+hypothesis is the one §3.5 consumes. Proof route:
+
+- *Even `χ`, `q ≥ 21`* (the Landau–Bateman argument, lines 263–361): for an initial interval
+  `[0, N]`, write `Σ_{a=0}^{N} χ(a)` as `χ(N)/2 + Σ_a χ(a)Φ(2πa/q)` with `Φ` the indicator of
+  `(0, 2πN/q)` taking the value `1/2` at the endpoints, expand `Φ` in its Fourier series (pointwise
+  convergent at the points `2πa/q` by the closed forms of §3.3), truncate at `n = ⌊2√q log q⌋`,
+  evaluate the main part with §3.1's parity forms and bound it by Lemma 3, bound the tail by
+  Lemma 4, and double by §0.5 (`M_χ = 2 max_N |Σ_{a ≤ N} χ(a)|` for even `χ`).
+- *Odd `χ`, `q ≥ 45`* (lines 362–438): treat a general interval `[M, N]` directly, not through
+  initial sums. The main part is `(iτ(χ)/π) Σ_{m ≤ n} χ(m)(cos mα − cos mβ)/m` with
+  `α = 2πN/q`, `β = 2πM/q`; write `cos mα − cos mβ` as `−2 sin(m(α + β)/2) sin(m(α − β)/2)`, apply
+  Cauchy–Schwarz, and bound each factor `Σ_{m ≤ n} (1 − cos mθ)/(2m)` by Lemma 2 and
+  `H_n < log n + γ + 1/n`; the two tails are bounded by Lemma 4, and `n = ⌊(4/π)√q log q⌋`.
+  Doubling an initial-sum bound instead would double the leading constant (Checks).
+- *Even `χ`, `q ≤ 20`, and odd `χ`, `q ≤ 10`*: §3.2, whose bound is below Pomerance's there.
+- *Odd `χ`, `11 ≤ q ≤ 44`*: §3.5, whose odd bound is below Pomerance's for every `q ≥ 7`, because
+  the difference `√q((1/π) log log q + 0.1796) − 1.0285` increases with `q` and is `0.0073` at
+  `q = 7`; for `q ≤ 25` §3.5 rests on `LapkovaSmallModuliVerified`.
 
 **Checks.**
 
@@ -848,8 +864,17 @@ parity forms, bound it by Lemma 3 and the tail by Lemma 4, and choose `n`; for e
 - `q = 5` (even, `M_χ = 2`): `0.2026 · 2.236 · 1.609 + 0.4053 · 2.236 · 0.4759 + 3.354 = 4.515 ≥ 2`.
 - `log log q` is defined and positive for `q ≥ 3`, the least primitive level above `1`; at
   `q = 2` (no primitive character) `log log 2 < 0`.
+- The case split is forced. At `q = 11` (odd) §3.2 gives `5.587`, above Pomerance's odd bound
+  `5.506`, while §3.5 gives `5.015`; at `q = 5` (the odd quartic characters) §3.5 gives `3.436`,
+  above Pomerance's `3.148`, while §3.2 gives `2.682`. At `q = 20`, §3.2's `9.223` is below the even
+  bound `11.412`, and at `q = 7` Lapkova's odd `4.0185` is below Pomerance's `4.0258`.
+- The odd case needs general intervals: at `q = 10⁶`, `n = ⌊(4/π)√q log q⌋ = 17590`, the bound
+  `(√q/π)(log n + γ + log 2 + 3/n) = 3515.9` for the main part of an initial sum, doubled, is
+  `7031.9`, above the whole odd bound `4034.6`; the leading term of the doubled bound is
+  `(1/π)√q log q`, twice Pomerance's `1/(2π)`.
 
-*Needs:* §§0.5, 3.1, 3.3; Mathlib `DirichletCharacter.Even`, `DirichletCharacter.Odd`.
+*Needs:* §§0.4, 0.5, 3.1, 3.2, 3.3, 3.5; Layer 6 `LapkovaSmallModuliVerified`; Mathlib
+`DirichletCharacter.Even`, `DirichletCharacter.Odd`.
 
 ### 3.5 Lapkova's constants and the rounded Frolenkov–Soundararajan forms
 
@@ -1253,12 +1278,29 @@ sum `S(u)` of ExplicitPrimeCounting §0.1, from which the sieves below take `S(z
 `z ≥ 6`.
 
 - *Coprime comparison.* For integers `k ≥ 1` and real `z ≥ 1`,
-  `S_k(z) ≥ (φ(k)/k) S(z)` (vanlintrichert1965, the inequality used in buthe2014 lines 226–236).
+  `S_k(z) ≥ (φ(k)/k) S(z)` (vanlintrichert1965; used in buthe2014 display (4.3), lines 340–345,
+  where `k₁ S_{k₁}(z) ≥ φ(k₁) S₁(z) = φ(k) S₁(z)` for `k₁ = lcm(k, 2)`).
   Proof: `S(z) = Σ_{e | k} μ²(e)/φ(e) · S_k(z/e) ≤ S_k(z) Σ_{e | k} μ²(e)/φ(e)` and
   `Σ_{e | k} μ²(e)/φ(e) = k/φ(k)`.
-- *Weight mass.* `H₁(z) = (15/π²) z + θ · 47√z` with `|θ| ≤ 1` for real `z ≥ 1` (buthe2014
-  Lemma 4.4, lines 365–367; proof lines 368–461, by Dirichlet convolution and explicit Euler
-  products with `ζ(2)` and `ζ(4)`).
+- *Weight mass.* `|H₁(z) − (15/π²) z| ≤ 200√z` for real `z ≥ 1`. This is buthe2014 Lemma 4.4
+  (lines 365–367) with `200` in place of `47`: the source's constant rests on a computer-assisted
+  bound `|Q(y) − 6y/π²| ≤ 0.68√y` for the squarefree count `Q(y)` (lines 419–425) and on a
+  numerical evaluation of a product over the primes below `10⁴` (lines 450–459), which the route
+  here replaces by elementary bounds. Proof (Büthe's convolution, lines 368–447): with
+  `h(s) = Σ_d c_d d^{−s} = ∏_p (1 + 2/((1 + p^s)(p − 1)))`, one has
+  `(ζ(s)/ζ(2s)) h(s) = Σ_n μ²(n)σ(n)φ(n)⁻¹ n^{−s}`, so `H₁(z) = Σ_{d ≤ z} c_d Q(z/d)` (display
+  (4.5)). From `Q(y) = Σ_{e ≤ √y} μ(e)⌊y/e²⌋`, `Σ_e μ(e)/e² = 1/ζ(2) = 6/π²` and
+  `Σ_{e > T} e^{−2} ≤ 1/(T + 1/2)`, `|Q(y) − 6y/π²| ≤ 2√y + 5/3 ≤ (11/3)√y` for `y ≥ 1`. Hence
+  `|H₁(z) − (6/π²) h(1) z| ≤ (11/3 + 6/π²) h̃(1/2) √z` with
+  `h̃(s) = Σ_d |c_d| d^{−s} = ∏_p (1 + 2/((p^s − 1)(p − 1)))`, as in display (4.7), and
+  `h(1) = ∏_p (p² + 1)/(p² − 1) = ζ(2)²/ζ(4) = 5/2`. For `p ≥ 17` the factor of `h̃(1/2)` is at
+  most `1 + 3p^{−3/2} ≤ (1 + p^{−3/2})³`, because `(√t − 1)(t − 1) ≥ (2/3) t^{3/2}` for `t ≥ 16`
+  (line 448), so `h̃(1/2) ≤ R (ζ(3/2)/ζ(3))³` with
+  `R = ∏_{p ≤ 13} (1 + 2/((√p − 1)(p − 1)))/(1 + p^{−3/2})³ = 3.660`; with
+  `ζ(3/2) ≤ 1 + 2^{−3/2} + √2 = 2.768` and `ζ(3) ≥ Σ_{n ≤ 5} n^{−3} + 1/72 = 1.1995` this gives
+  `h̃(1/2) ≤ 45` and the constant `4.275 · 45 = 192.4 ≤ 200`. §5.4 needs only
+  `H₁(z) ≤ 1.53z` for `z > 10⁹` (buthe2014 lines 617–622), which holds for every constant up to
+  `321`.
 - *The diagonal bound from `3`.* Under `MVDiagonalFiniteRange`, `S(z) ≥ log z + 0.89` for every
   real `z ≥ 3` (fan2022 lines 185–187, from montgomeryvaughan1973 Lemma 7 and the values of `S` on
   `[3, 6)`). Proof: for `z ≥ 6` the bound with `1.07` of ExplicitPrimeCounting §0.1; for
@@ -1274,9 +1316,19 @@ sum `S(u)` of ExplicitPrimeCounting §0.1, from which the sieves below take `S(z
 - `k = 6`, `z = 7`: `S_6(7) = 1 + 1/4 + 1/6 = 1.4167 ≥ (1/3) S(7) = (1/3)(3.4167) = 1.139`.
 - `H₁(1) = 1`, `H₁(2) = 1 + 3 = 4`, `H₁(3) = 4 + 4/2 = 6`: the weight `σ(n)/φ(n)` at the primes
   `2, 3` is `3` and `2`; with `σ` replaced by `d` the value at `n = 2` would be `2`.
+- The density of the weight mass: `H₁(10⁶)/10⁶ = 1.519818` against `15/π² = 1.519818`. The
+  squarefree count alone has density `6/π² = 0.608`; the factor `h(1) = 5/2` carries the weight
+  `σ(n)/φ(n)`, and the value `ζ(2)/ζ(4)` in place of `ζ(2)²/ζ(4)` would give `0.924`.
+- `z = 42`: `H₁(42) = 76.479` against `(15/π²) · 42 = 63.832`, a difference `12.65 = 1.95√42`,
+  within both `47√42` and `200√42`. With the constant `200`,
+  `15/π² + 200/√(10⁹) = 1.5261 ≤ 1.53`, the bound §5.4 uses.
 
 *Needs:* ExplicitPrimeCounting §0.1 (the diagonal bound under `MVDiagonalFiniteRange`); Mathlib
-`ArithmeticFunction.moebius`, `Nat.totient`, `ArithmeticFunction.sigma`.
+`ArithmeticFunction.moebius`, `Nat.totient`, `ArithmeticFunction.sigma`, `hasSum_zeta_two` and
+`hasSum_zeta_four` (`Mathlib/NumberTheory/ZetaValues.lean`, lines 453 and 458: `ζ(2) = π²/6`,
+`ζ(4) = π⁴/90`, so `ζ(2)²/ζ(4) = 5/2` and `(6/π²) · 5/2 = 15/π²`), `riemannZeta_eulerProduct_tprod`
+(`Mathlib/NumberTheory/EulerProduct/DirichletLSeries.lean`, line 98) for the Euler products of
+`h(1)` and of `ζ(3/2)/ζ(3) = ∏_p (1 + p^{−3/2})`.
 
 ### 5.2 Greaves's lower bound for Selberg's density sum
 
@@ -1368,8 +1420,8 @@ Results:
   `ButheMediumRangeVerified`, for every nonnegative absolutely continuous `f` on `I` with
   `ρ_I(f) > 1`, `Σ_{p ∈ I} f(p) < 2‖f‖₁/log ρ_I(f)` (buthe2014 Theorem 4.3, lines 354–362). Proof
   route (lines 602–655): for `Y = ρ_I(f) > 4 · 10^18`, §5.3's Selberg form with `z = √Y/2`,
-  §5.1's asymptotic for `H₁`, Büthe's asymptotic for `S` (ExplicitPrimeCounting §0.1) and
-  `π(z) ≤ z`; for `1 < Y < 20000`, §5.3's Eratosthenes form and
+  §5.1's bound for `H₁` (in the form `H₁(z) ≤ 1.53z` for `z > 10⁹`), Büthe's asymptotic for `S`
+  (ExplicitPrimeCounting §0.1) and `π(z) ≤ z`; for `1 < Y < 20000`, §5.3's Eratosthenes form and
   `ButheSmallRangeVerified`; for `20000 ≤ Y ≤ 4 · 10^18`, §5.3's Selberg form and
   `ButheMediumRangeVerified`. In each case the primes `p ≤ z` contribute at most `π(z)` after the
   normalisation `‖g‖_∞ ≤ 1`.
@@ -1464,12 +1516,12 @@ bound in `t` alone, to be compared with `2t/log t`.
 - The weighted sieve on the odd integers of `(0, 10]`: `Z = 5`, `ω(2) = 1` and `ω(p) = 0` for odd
   `p`, so at `Q = 2`, `L = 1/13 + 1/16` and `1/L = 7.17 ≥ 5`. For `𝒩` the whole interval,
   `ω(p) = 0` for every `p ≤ N`, and for `Q ≤ N` the bound is the trivial `N + (3/2)Q`.
-- The unweighted sieve does not reach the constant `2` (negative control): at `k = 1`,
-  `t = 1000`, the forbidden-residue sieve of SieveMethodsAndPrimePatterns §2.9 gives at best
+- The unweighted sieve does not reach the constant `2` at `t = 1000` (negative control): at
+  `k = 1`, the forbidden-residue sieve of SieveMethodsAndPrimePatterns §2.9 gives at best
   `min_Q ((t + Q²)/S(Q) + π(Q)) = 301.77` (at `Q = 15`), above `2t/log t = 289.53`; the weighted
-  sieve gives `1/L₁(22) + π(22) = 269.53` with `N = 1001`. With `S(Q) ≥ log Q + 1.07` and
-  `Q² = εt`, the unweighted form needs `εL − log ε ≤ 2.14` (`L = log t`, before adding `π(Q)`),
-  and the left side is at least `1 + log L`, which exceeds `2.14` for every `t > 23`.
+  sieve gives `1/L₁(22) + π(22) = 269.53` with `N = 1001`. The control is a statement at
+  `t = 1000`, not on a range: at `t = 24`, `Q = 2` gives `(24 + 4)/S(2) + π(2) = 14 + 1 = 15`,
+  below `2t/log t = 15.10`.
 - The Eratosthenes ranges: at `t = 318`, `(t + 1)/3 + 4 = 110.33 ≤ 2t/log t = 110.38`, and at
   `t = 319` the `z = 3` bound `110.67` exceeds `110.66`, where `z = 5` gives `96.33`.
 - `k = 1`, `x = 0`, `y = 10`: the primes up to `10` are `2, 3, 5, 7`, so the prime count is
@@ -1550,7 +1602,9 @@ theorem that consumes it.
 ### 6.1 small moduli in Lapkova's lemma
 
 `LapkovaSmallModuliVerified`: for every `q` with `2 ≤ q ≤ 25` and every primitive character `χ`
-modulo `q`, `LapkovaBound χ` holds (lapkova2018 lines 291–408, the Bober–Goldmakher data).
+modulo `q`, `LapkovaBound χ` holds (lapkova2018 lines 291–408, the Bober–Goldmakher data). §3.4
+consumes it through §3.5 for the odd conductors `11 ≤ q ≤ 25`, where pomerance2011 uses the same
+data (lines 432–437).
 
 **Checks.**
 
@@ -1733,7 +1787,7 @@ lines 1218–1265, is less than `c`.
 
 ### Dependencies
 
-None: Layer 6 states numerical facts. Its consumers are §§3.5, 4.4, 4.5, 5.4 and 5.6.
+None: Layer 6 states numerical facts. Its consumers are §§3.4, 3.5, 4.4, 4.5, 5.4 and 5.6.
 
 ## Downstream consumers
 
@@ -1790,8 +1844,9 @@ None: Layer 6 states numerical facts. Its consumers are §§3.5, 4.4, 4.5, 5.4 a
 - **frolenkovsoundararajan2013** — D. A. Frolenkov, K. Soundararajan, *A generalization of the
   Pólya–Vinogradov inequality*, Ramanujan J. 31 (2013), 271–279: Theorems 1, 2, Corollary 1.
 - **greaves2001** — G. Greaves, *Sieves in Number Theory*, Springer, 2001: Theorem 1, p. 52.
-- **hunter2016** — K. Hunter, *The least square-free primitive root modulo a prime*,
-  arXiv:1701.05980: Theorems 1.2, 1.3 (quotations of Frolenkov–Soundararajan).
+- **hunter2016** — M. Hunter, *The least square-free primitive root modulo a prime*, honours
+  thesis, Australian National University, 2016; arXiv:1701.05980: Theorems 1.2, 1.3 (quotations of
+  Frolenkov–Soundararajan).
 - **huxleysargos1995** — M. N. Huxley, P. Sargos, *Points entiers au voisinage d'une courbe plane
   de classe C^n*, Acta Arith. 69 (1995), 359–366: Théorème 1.
 - **jainsharmakhaleliu2021** — N. Jain-Sharma, T. Khale, M. Liu, *Explicit Burgess bound for
