@@ -19,8 +19,8 @@ inverted by étale sheafification, which makes Mathlib's sheaf tensor product an
 global instances on étale module sheaves; invertible objects of a monoidal category as the
 units of Mathlib's skeleton monoid; the converse of Kunz's theorem; the homological bounds for
 perfect algebras (the projective-dimension bound after perfection and the intrinsic Tor bound
-twice the Krull dimension); finite freeness of bounded saturated valuation lattices; and the
-telescope, classical-completeness and weak-Serre comparisons for derived-complete modules.
+twice the Krull dimension); and the telescope, classical-completeness and weak-Serre comparisons
+for derived-complete modules.
 
 Design choice made explicit: Mathlib's `DerivedCategory` of a Grothendieck abelian category, in
 particular of étale module sheaves `Sheaf X.smallEtaleTopology (ModuleCat.{u} Λ)`, uses the one
@@ -31,18 +31,27 @@ chosen instance.
 Results the roadmap consumes from the pinned Tau Ceti are not restated here: the dg nerve with
 its quasicategory instance, homotopy category, right mapping spaces and derived-category
 comparison for K-injective complexes (`TauCeti.dgNerve`,
-`TauCeti.KInjectiveDGCategory.dgNerveHomotopyCategoryEquiv`), the global-dimension bound for
-regular rings, Kunz's theorem, Frobenius-root ideals, Tor independence and the Tor bound of
-perfect presentations, pro-zero towers and pro-isomorphisms, replete categories, K-flat
-complexes and their resolutions, the Koszul braiding on complexes of modules, the K-injective
-replacement functor built from `TauCeti.HasKInjectiveResolutions` and the instance of that
-class for module categories. The README cites each by name.
+`TauCeti.KInjectiveDGCategory.dgNerveHomotopyCategoryEquiv`), the simplicial enrichment of a dg
+category (`TauCeti.DGSimplicialCategory`), joins, slices, right mapping spaces, cores and
+Cartesian edges of simplicial sets, full enhanced subcategories, weakly contractible simplicial
+sets, small space models and locally small quasicategories, cardinal-filtered simplicial sets,
+the free module sheaves on objects of a site with their representing property, separating family
+and flatness, exactness of sections over projective sheaves, quasicompact and quasiseparated
+objects of a topos, locally weakly contractible topoi, hypercovers of the terminal object, the
+module derived limit and derived Hom, the global-dimension bound for regular rings, Kunz's
+theorem, Frobenius-root ideals, Tor independence and the Tor bound of perfect presentations,
+saturated valuation modules and the finite freeness of bounded saturated lattices
+(`TauCeti.exists_basis_of_isValuationSaturated`), pro-zero towers and pro-isomorphisms, replete
+categories, K-flat complexes and their resolutions, the Koszul braiding on complexes of modules,
+the K-injective replacement functor built from `TauCeti.HasKInjectiveResolutions` and the
+instance of that class for module categories. The README cites each by name.
 
 The following headline families are not statable at the pins:
-* Layers E0, 0 and E1: the simplicial enrichment and homotopy-coherent comparison of the dg
-  nerve, its stable sign comparison, presentability and the enhanced sheaf comparisons lack the
-  supplied coherent mapping-space framework (right mapping spaces, categorical equivalences, the
-  stability predicate) and the enhanced ringed-site category D∞(O). The functorial K-flat
+* Layers E0, 0 and E1: the homotopy-coherent comparison of the dg nerve with the coherent nerve
+  of `TauCeti.DGSimplicialCategory`, its stable sign comparison, presentability and the enhanced
+  sheaf comparisons lack the supplied coherent mapping-space framework (the Kan property of
+  right mapping spaces, categorical equivalences, the stability predicate) and the enhanced
+  ringed-site category D∞(O). The functorial K-flat
   replacement of étale module sheaves and the derived tensor product on their derived category
   lack `MonoidalPreadditive` and the Koszul braiding for the étale tensor product on complexes of
   `ModuleCat`-valued étale sheaves and a monoidal structure on Mathlib's `DerivedCategory`; the
@@ -56,7 +65,8 @@ The following headline families are not statable at the pins:
 * Layer E2:towers: multiplicative limit filtrations lack coherent stable towers and mapping
   spectra. Layer E2: the slice and cover permanence of `TauCeti.IsReplete` (E2.1) are lemmas
   kept in the README, not headlines; enhanced Postnikov convergence, the Milnor sequence and
-  hypercover/h-descent lack D∞(O), sheaves of spaces and coherent hypercovers.
+  hypercover/h-descent lack D∞(O), sheaves of spaces and the enhanced derived category of a
+  simplicial topos.
 * Layer E4: sheaf completion and coefficient-system reconstruction lack local enhanced
   completion, completed tensor and coherent coefficient-system categories.
 * Layers E5:abstract, E5:presentability and E5:descent: Barr–Beck–Lurie, Ind comparisons,
@@ -218,46 +228,6 @@ theorem perfect_torDimension_le_two_mul_dim
   sorry
 
 end PerfectRings
-
-section ValuationModules
-
-/-- The multiplication map `M → Hom_V(𝔪, M)`, `x ↦ (a ↦ a • x)` (`valuationSaturationMap`,
-Section E1.7). -/
-def valuationSaturationMap (V : Type u) [CommRing V] (m : Ideal V)
-    (M : Type v) [AddCommGroup M] [Module V M] : M →ₗ[V] (m →ₗ[V] M) where
-  toFun x :=
-    { toFun := fun a => (a : V) • x
-      map_add' := fun a b => by simp [add_smul]
-      map_smul' := fun c a => by simp [mul_smul] }
-  map_add' x y := by ext a; simp [smul_add]
-  map_smul' c x := by ext a; simp [smul_comm (a : V) c x]
-
-/-- **`𝔪`-saturated modules** (`IsValuationSaturated`, Section E1.7, BS17 Lemma 6.14): the
-multiplication map `M → Hom_V(𝔪, M)` is bijective. For a nonarchimedean field with
-`|K×| = ℝ_{>0}`, a nonzero open ball of finite positive radius fails this, while a closed
-ball satisfies it. An open ball with radius outside the value group can be saturated. -/
-def IsValuationSaturated (V : Type u) [CommRing V] (m : Ideal V)
-    (M : Type v) [AddCommGroup M] [Module V M] : Prop :=
-  Function.Bijective (valuationSaturationMap V m M)
-
-/-- A bounded saturated submodule of a finite-dimensional space over a spherically complete
-nonarchimedean field with full positive-real value group is finite free over its valuation ring,
-of rank at most the ambient dimension (BS17 Lemma 6.14, p. 26). The unit-ball identification
-fixes the norm and valuation-ring compatibility. -/
-theorem valuationSaturated_finite_free
-    (K : Type u) [NontriviallyNormedField K] [CompleteSpace K]
-    (hballs : ∀ S : Set (Set K), S.Nonempty → IsChain (· ⊆ ·) S →
-      (∀ s ∈ S, ∃ x : K, ∃ r : ℝ, 0 ≤ r ∧ s = Metric.closedBall x r) →
-      (⋂₀ S).Nonempty)
-    (hvalues : ∀ r : ℝ, 0 < r → ∃ x : K, ‖x‖ = r)
-    (V : ValuationSubring K) (hV : ∀ x : K, x ∈ V ↔ ‖x‖ ≤ 1)
-    (r : ℕ) (M : Submodule V (Fin r → K))
-    (hbounded : Bornology.IsBounded (M : Set (Fin r → K)))
-    (hsat : IsValuationSaturated V (IsLocalRing.maximalIdeal V) M) :
-    ∃ n : ℕ, n ≤ r ∧ Nonempty (M ≃ₗ[V] (Fin n → V)) := by
-  sorry
-
-end ValuationModules
 
 /-! ## Layer E4: Derived completion of sheaves and coefficient reconstruction -/
 
