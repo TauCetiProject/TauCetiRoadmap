@@ -40,11 +40,10 @@ their minus signs: `-g' = (-g)^n` and `S_n = -∑ ω_i^n`. In Layer 6 the Teichm
 Not statable at the pins, and therefore stated in `README.md` only: the Gross–Koblitz evaluation
 6.4–6.5, whose Gamma function `Γ_p` and formula are `DirichletPadicLFunctions`' carriers, not at the
 pins (the identification of `ω_𝔓` with the local Teichmüller lift in 6.4 is a step of that
-transport, not a headline); the sign of
-the quadratic Gauss sum over the prime field (1.4), which is proved in `AnalyticNumberTheoryPartI`
-§2.30; the identification of `kloostermanSum 1 ψ a b` with the rank-two hyper-Kloosterman sum
-of `CongruenceSpectralGap` §4.2a and of `S(m, n; c)` with `AutomorphicSpectralTheory` §1.16's sum
-(7.3), neither of whose carriers is at the pins; and 7.7, which only names characters.
+transport, not a headline); the identification of `kloostermanSum 1 ψ a b` with the rank-two
+hyper-Kloosterman sum of `CongruenceSpectralGap` §4.2a and of `S(m, n; c)` with
+`AutomorphicSpectralTheory` §1.16's sum (7.3), neither of whose carriers is at the pins; and 7.7,
+which only names characters.
 
 Recorded in `README.md` as background and not a target, and so not stated here: the
 trace-function interpretation 3.6 of the `L`-series as `L`-functions of rank-one étale sheaves on
@@ -176,6 +175,14 @@ theorem jacobsthalPhi_two_one (p : ℕ) [Fact p.Prime] (hp : p % 4 = 1) {a b : �
     (hab : a ^ 2 + b ^ 2 = p) (ha : a % 4 = 1) :
     jacobsthalPhi (F := ZMod p) 2 1 = -2 * a := sorry
 
+/-- **2.5.** Jacobsthal's two-squares identity: over a finite field with `q ≡ 1 (mod 4)` elements,
+`q = (φ_2(1)/2)² + (φ_2(r)/2)²` for every non-square `r` (Jacobsthal 1907, §2, formula 3), p. 240,
+for `F = ZMod p`; his second-moment proof applies over every such field). -/
+theorem jacobsthalPhi_two_sq_add_sq [DecidableEq F] (hq : Nat.card F % 4 = 1) {r : F}
+    (hr : ¬ IsSquare r) :
+    (jacobsthalPhi (F := F) 2 1 / 2) ^ 2 + (jacobsthalPhi (F := F) 2 r / 2) ^ 2 =
+      (Nat.card F : ℂ) := sorry
+
 end Layer2
 
 /-! ## Layer 3: the polynomial `L`-series and Hasse–Davenport -/
@@ -220,8 +227,8 @@ theorem hasseDavenport_lift (χ : MulChar F ℂ) (ψ : AddChar F ℂ) (h : χ �
       (-gaussSum χ ψ) ^ Module.finrank F E := sorry
 
 /-- **3.3.** The sign of the quadratic Gauss sum over `𝔽_q`, `q = p^f`:
-`g(η) = (−1)^{f−1} (ε_p √p)^f`, from the prime-field sign (`AnalyticNumberTheoryPartI` §2.30,
-consumed in 1.4) and the lifting relation. -/
+`g(η) = (−1)^{f−1} (ε_p √p)^f`, from the lifting relation and the prime-field sign 1.4, which is
+Tau Ceti's `TauCeti.sum_range_cexp_two_pi_I_sq_div` at `N = p` (the case `f = 1`). -/
 theorem gauss_quadChar_eq [DecidableEq F] (hF : ringChar F ≠ 2) {p f : ℕ} [Fact p.Prime]
     (hq : Nat.card F = p ^ f) :
     gauss (quadChar (F := F)) =

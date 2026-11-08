@@ -37,9 +37,11 @@ consumes those milestones by number (Layer 1, 1.55 and 7.12 there) and proves no
 elements or reciprocity. The [theta-series roadmap](../ThetaSeries/README.md) owns the Gauss sums
 of a lattice and their reciprocity law, which are sums of `e(a‖y‖²/2c)` over `L/cL` and not
 character sums; it states in its scope that Gauss's sign determination is never needed there and is
-not its target. `AnalyticNumberTheoryPartI` §2.30 owns the sign of the quadratic Gauss sum of a
-fundamental discriminant, deduced from the Dedekind functional equation; 1.4 consumes its prime
-case and this roadmap proves no sign over the prime field. The
+not its target. Gauss's evaluation `∑_{r<N} e(r²/N) = (1 + i)/2 · (1 + (−i)^N) · √N` for every
+`N` is Tau Ceti's `TauCeti.sum_range_cexp_two_pi_I_sq_div`; 1.4 reads it at an odd prime and this
+roadmap proves no sign over the prime field. `AnalyticNumberTheoryPartI` §2.30 owns the sign of
+the Gauss sum of the primitive quadratic character of a fundamental discriminant, deduced from the
+Dedekind functional equation; nothing here consumes it. The
 [multiquadratic roadmap](../../Completed/Multiquadratic/README.md) owns the Kronecker symbol and
 genus theory; [Chebotarev](../../Completed/Chebotarev/README.md) and
 [arithmetic Dirichlet series](../../Completed/ArithmeticDirichletSeries/README.md) are the analytic
@@ -104,7 +106,9 @@ smooth conic has zeta numerator `1` and two rational points at infinity.
   the field of definition `ℚ(ζ_m, ζ_p)` and the Galois action on it (Layer 1); the sign over the
   prime field is consumed (1.4) and the sign over every `𝔽_q` is derived from it (3.3).
 - **Jacobi sums**, **multiple Jacobi sums**, the counts of points on diagonal equations they give,
-  and **Jacobsthal sums** with Jacobsthal's theorem on `p = a² + b²` (Layer 2).
+  and **Jacobsthal sums** with Jacobsthal's two-squares identity
+  `q = (φ_2(1)/2)² + (φ_2(r)/2)²` over every `𝔽_q` with `q ≡ 1 (mod 4)` and his sign of `a` in
+  `p = a² + b²` (Layer 2).
 - The **`L`-series of a completely multiplicative function on monic polynomials**, its Euler
   product, the identity between its logarithmic derivative and the lifted sums over `𝔽_{q^n}`, and
   the root-power identity `S_n = −∑ ω_i^n` for an `L`-polynomial; the **Hasse–Davenport lifting
@@ -161,10 +165,6 @@ smooth conic has zeta numerator `1` and two rational points at infinity.
   `orderOf_powerResidueSymbol` instantiates; 6.1 reads that carrier at `n = q − 1`. Its §7.29 supplies the full Hasse–Davenport product
   formula for every multiplicative character and every nontrivial additive character; 3.4
   records its duplication consequence and normalization Checks.
-- From `AnalyticNumberTheoryPartI` §2.30 (ii): the Gauss sum of the primitive quadratic character
-  `ε_D` of a fundamental discriminant `D` equals `κ(D) |D|^{1/2}`, `κ(D) = 1` for `D > 0` and `i`
-  for `D < 0`. At `D = (−1)^{(p−1)/2} p` for an odd prime `p` this is the sign `g(η_p) = ε_p √p` of
-  1.4, consumed there and not reproved.
 - From `DirichletPadicLFunctions`: §4.1 (the signed Morita Gamma function `Γ_p : ℤ_p → ℤ_p^×`,
   `existsUnique_moritaGamma`, with `Γ_p(0) = 1`, `Γ_p(x + 1) = −x Γ_p(x)` for units `x` and
   `Γ_p(x + 1) = −Γ_p(x)` for `x ∈ pℤ_p`, `moritaGamma_unit_step` and `moritaGamma_nonunit_step`),
@@ -175,8 +175,12 @@ smooth conic has zeta numerator `1` and two rational points at infinity.
   `π^{p−1} = −p` with `π ≡ ζ_p − 1 (mod (ζ_p − 1)²)`, the negative Gauss sum
   `g_q(a) = −∑_x ω(x)^{−a} ζ_p^{Tr x}` equals `π^{S_p(a)} ∏_{j<f} Γ_p(a_j/(q − 1))` for
   `0 ≤ a < q − 1`). Layer 6 consumes these three sections and defines no Gamma function.
-- From Tau Ceti: `gaussSum_mul_gaussSum_inv_eq_card_of_isPrimitive` and
-  `gaussSumOfPrimitiveRoot` (`TauCeti.NumberTheory.DirichletCharacter.GaussSum`), used in 7.1;
+- From Tau Ceti: Gauss's evaluation `TauCeti.sum_range_cexp_two_pi_I_sq_div`
+  (`TauCeti.NumberTheory.ModularForms.JacobiTheta.GaussSum`), which is the sign of 1.4; the
+  primitive Dirichlet Gauss-sum identities `gaussSum_mul_gaussSum_inv_eq_card_of_isPrimitive`,
+  `gaussSum_mul_gaussSum_inv_eq_neg_one_mul_card_of_isPrimitive`, `IsPrimitive.norm_gaussSum` and
+  `gaussSum_ne_zero_of_isPrimitive`, with `gaussSumOfPrimitiveRoot`
+  (`TauCeti.NumberTheory.DirichletCharacter.GaussSum`), used in 7.1, 7.2 and 7.7;
   the local Teichmüller lifts `TauCeti.teichmuller` (`TauCeti.RingTheory.Henselian.Teichmuller`)
   and `TauCeti.teichmullerLift` (`TauCeti.NumberTheory.LocalField.Teichmuller`), which 6.1 and 6.4
   compare with the global character `ω_𝔓`.
@@ -207,7 +211,8 @@ smooth conic has zeta numerator `1` and two rational points at infinity.
   theta-series roadmap, Layer 6. The one-dimensional quadratic exponential sum
   `∑_{y mod c} e(a y²/c)` for a composite modulus `c`, and the Landsberg–Schaar identity, are not
   targets of this roadmap; the prime case `c = p` is the classical arithmetic roadmap's 4.19
-  (as a Gauss sum) and its sign is `AnalyticNumberTheoryPartI` §2.30's, consumed in 1.4.
+  (as a Gauss sum), and Gauss's evaluation of `∑_{y mod c} e(y²/c)` for every `c` is Tau Ceti's
+  `TauCeti.sum_range_cexp_two_pi_I_sq_div`, consumed in 1.4.
 - **Morita's `p`-adic Gamma function and the Gross–Koblitz formula**: `DirichletPadicLFunctions`
   §§4.1, 4.4 and 4.5. Layer 6 consumes them; what it owns is the comparison of carriers and the
   evaluation of this roadmap's Gauss and Jacobi sums.
@@ -302,7 +307,7 @@ Additive characters: `AddChar`, `AddChar.mulShift`, `mulShift_mul`, `inv_mulShif
 (`ψ⁻¹ = ψ.mulShift (−1)`), `AddChar.IsPrimitive`, `to_mulShift_inj_of_isPrimitive`,
 `IsPrimitive.of_ne_one` (on a field every nontrivial additive character is primitive),
 `AddChar.sum_eq_zero_of_ne_one`, `sum_mulShift`, `AddChar.card_eq` (`#AddChar α ℂ = #α`),
-`sum_apply_eq_ite` (dual orthogonality), `ZMod.stdAddChar`, `ZMod.stdAddChar_apply`,
+`sum_apply_eq_ite` (dual orthogonality), `ZMod.stdAddChar`, `ZMod.stdAddChar_apply`, `ZMod.stdAddChar_coe`,
 `ZMod.isPrimitive_stdAddChar`, `AddChar.zmodChar`, `FiniteField.primitiveChar`,
 `FiniteField.primitiveChar_to_Complex` and its primitivity.
 
@@ -365,8 +370,20 @@ Arithmetic functions: `ArithmeticFunction.sigma 0` (`τ(c)`), `ArithmeticFunctio
 
 ### From Tau Ceti
 
-`gaussSum_mul_gaussSum_inv_eq_card_of_isPrimitive` (`gaussSum χ e * gaussSum χ⁻¹ e⁻¹ = N` for a
-primitive `χ` modulo `N` and a primitive `e`) and `gaussSum_sq_of_isPrimitive_of_isQuadratic`,
+Gauss's evaluation of the quadratic exponential sum, `TauCeti.sum_range_cexp_two_pi_I_sq_div`
+(`∑_{r < N} cexp(2πi r²/N) = (1 + i)/2 · (1 + (−i)^N) · √N` for every `N : ℕ`, proved through the
+functional equation of the Jacobi theta function;
+`TauCeti.NumberTheory.ModularForms.JacobiTheta.GaussSum`); at an odd prime `N = p` the right side
+is `ε_p √p`, the sign of 1.4.
+
+Primitive Dirichlet Gauss sums (`TauCeti.NumberTheory.DirichletCharacter.GaussSum`), for a
+primitive `χ` modulo `N ≠ 0` and a primitive additive character `e` of `ZMod N`:
+`gaussSum_mul_gaussSum_inv_eq_card_of_isPrimitive` (`gaussSum χ e * gaussSum χ⁻¹ e⁻¹ = N`, values
+in a domain), `gaussSum_mul_gaussSum_inv_eq_neg_one_mul_card_of_isPrimitive`
+(`gaussSum χ e * gaussSum χ⁻¹ e = χ(−1) N`, values in a domain),
+`DirichletCharacter.IsPrimitive.norm_gaussSum` (`‖gaussSum χ e‖ = √N`, complex values),
+`gaussSum_ne_zero_of_isPrimitive` (`gaussSum χ e ≠ 0` when `(N : R) ≠ 0`) and
+`gaussSum_sq_of_isPrimitive_of_isQuadratic`, consumed in 7.1, 7.2 and 7.7;
 `gaussSumOfPrimitiveRoot` with `map_gaussSumOfPrimitiveRoot`, `gaussSumOfPrimitiveRoot_ne_zero`
 and `stabilizer_gaussSumOfPrimitiveRoot` (`TauCeti.NumberTheory.DirichletCharacter.GaussSum`);
 `FiniteField.primitiveChar_to_Complex_ne_one` (`TauCeti.NumberTheory.LegendreSymbol.Complex`);
@@ -430,7 +447,14 @@ the quartic identities for `K = ℚ(i)`, `P = (π)` with `π` a primary Gaussian
 (`TauCeti.IsPrimaryGaussian`) and `χ = (·/P)_4`: `jacobiSum_powerResidueSymbol_four_eq`
 (`J(χ, χ) = −χ(−1) π`, `TauCeti.NumberTheory.NumberField.Cyclotomic.Four.JacobiSum`) and
 `gaussSum_powerResidueSymbol_four_pow_four_eq` (`g(χ ∘ f, ψ)⁴ = N P · f(π)²`,
-`TauCeti.NumberTheory.NumberField.Cyclotomic.Four.GaussSum`). The cyclotomic splitting law
+`TauCeti.NumberTheory.NumberField.Cyclotomic.Four.GaussSum`). For an arbitrary character of order
+`3` or `4` on a finite field: `TauCeti.isPrimaryEisenstein_jacobiSum` (`J(χ, χ) ≡ 2 (mod 3)` for
+`orderOf χ = 3`, values in a domain; `TauCeti.NumberTheory.NumberField.Cyclotomic.Three.JacobiSum`),
+`TauCeti.norm_jacobiSum_eq_card_of_orderOf_eq_four` (`Algebra.norm ℤ (J(χ, χ)) = q` for
+`orderOf χ = 4`, values in `𝓞 K`, `K = ℚ(i)`) and
+`TauCeti.isPrimaryGaussian_neg_apply_neg_one_mul_jacobiSum` (`−χ(−1) J(χ, χ)` is primary for
+`χ^4 = 1` and `4 ∣ q − 1`, values in the same `𝓞 K`) (`TauCeti.NumberTheory.NumberField.Cyclotomic.Four.JacobiSum`); consumed
+in 2.3. The cyclotomic splitting law
 `IsPrimitiveRoot.inertiaDeg_eq_orderOf_of_val_eq_absNorm`
 (`TauCeti.NumberTheory.NumberField.Cyclotomic.ResidueDegree`): for a cyclotomic extension `F/K` of
 order `m`, a prime `𝔭` of `K` not containing `m`, a nonzero prime `Q` of `F` above it at which
@@ -443,16 +467,16 @@ instantiate.
 Diagonal quadrics: `TauCeti.card_sum_mul_sq_eq_of_card_eq_two_mul_add_one` and
 `card_sum_mul_sq_eq_of_card_eq_two_mul_add_two` (the number of solutions of `∑ w_i x_i² = c` with
 all `w_i ≠ 0` over `F` with `ringChar F ≠ 2`, in rank `2m + 1` and `2m + 2`,
-`TauCeti.NumberTheory.LegendreSymbol.QuadraticChar.Quadric`); the case `d_i = 2` of 2.4.
+`TauCeti.NumberTheory.LegendreSymbol.QuadraticChar.Quadric`); the case `d_i = 2` of 2.4. The
+quadratic Jacobi sum `TauCeti.sum_quadraticChar_mul_sub` (`∑_u η(u (c − u)) = η(−1)(q − 1)` for
+`c = 0` and `−η(−1)` otherwise, `ringChar F ≠ 2`;
+`TauCeti.NumberTheory.LegendreSymbol.QuadraticChar.Basic`); consumed in 2.5.
 
 Conrey labels: `TauCeti.conreyCharacter N : (ZMod N)ˣ ≃* DirichletCharacter ℂ N` with
 `conreyPairing`, `conreyGenerator` and `conreyCharacter_apply`
 (`TauCeti.NumberTheory.DirichletCharacter.Conrey`) and the orbit index
 `DirichletCharacter.galoisOrbitIndex` (`TauCeti.NumberTheory.DirichletCharacter.GaloisOrbitLabel`);
 7.7 and the worked examples name characters by them.
-
-Tau Ceti has no evaluation of Gauss's quadratic exponential sum at the pin: 1.4 consumes
-`AnalyticNumberTheoryPartI`.
 
 ### From ClassicalArithmeticCompletion
 
@@ -470,13 +494,6 @@ with `stickelbergerPhi_prime`, 1.19 and 1.60 are `gaussSum_powerResidueSymbol_th
 the pin and is consumed as that roadmap's statement.
 §7.29 supplies `g(χ^m) ∏_{1≤j<m} g(λ^j) = χ(m)^m ∏_{0≤j<m} g(χλ^j)`
 for exact-order `λ`, `m ∣ q − 1`, and nontrivial additive character, including `χ = 1`.
-
-### From AnalyticNumberTheoryPartI
-
-§2.30 (ii): `∑_{n mod δ} ε_D(n) e(n/δ) = κ(D) δ^{1/2}` for a fundamental discriminant `D ≠ 1`,
-`δ = |D|`, `ε_D` the primitive quadratic character of conductor `δ`, `κ(D) ∈ {1, i}` according to
-the sign of `D`; and the shifted form `∑_n ε_D(n) e(rn/δ) = ε_D(r) κ(D) δ^{1/2}`. Consumed in 1.4
-at `D = (−1)^{(p−1)/2} p`, where `ε_D` is the Legendre symbol modulo `p`.
 
 ### From DirichletPadicLFunctions
 
@@ -801,14 +818,14 @@ is 6.5.)
 For `p ≠ 2`: `g(η)² = η(−1) q` (`gaussSum_sq` with the primitivity proved in 0.1). For `F = ZMod p`:
 `g(η_p) = ∑_{r mod p} e(r²/p)` (4.19 (iii) of the classical arithmetic roadmap,
 `quadraticExpSum_one_eq_gaussSum`, read against `ZMod.stdAddChar`, which is `ψ_{ZMod p}` by 0.1).
-The **sign** is consumed from `AnalyticNumberTheoryPartI` §2.30 (ii): for the fundamental
-discriminant `D = (−1)^{(p−1)/2} p`, whose primitive quadratic character `ε_D` of conductor `p` is
-the Legendre symbol `η_p` (the unique primitive quadratic character modulo an odd prime; prove this
-identification here), `∑_{n mod p} ε_D(n) e(n/p) = κ(D) √p` with `κ(D) = 1` for `D > 0`, that is
-`p ≡ 1 (mod 4)`, and `κ(D) = i` for `D < 0`, that is `p ≡ 3 (mod 4)`. Hence **`g(η_p) = ε_p √p`**:
-`√p` for `p ≡ 1 (mod 4)` and `i√p` for `p ≡ 3 (mod 4)`. This roadmap proves no sign over the prime
-field; the sign over `𝔽_q` for `f > 1` is 3.3, derived from this one. *Needs:* 1.2, the classical
-arithmetic roadmap 4.19, `AnalyticNumberTheoryPartI` §2.30.
+The **sign** is Tau Ceti's `TauCeti.sum_range_cexp_two_pi_I_sq_div` at `N = p`: the sum over
+`ZMod p` is the sum over `r ∈ range p` of `cexp(2πi r²/p)` (`ZMod.stdAddChar_coe` term by term),
+and `(1 + i)/2 · (1 + (−i)^p)` is `(1 + i)(1 − i)/2 = 1` for `p ≡ 1 (mod 4)` and
+`(1 + i)(1 + i)/2 = i` for `p ≡ 3 (mod 4)`. Hence **`g(η_p) = ε_p √p`**: `√p` for
+`p ≡ 1 (mod 4)` and `i√p` for `p ≡ 3 (mod 4)`. This roadmap proves no sign over the prime field;
+the sign over `𝔽_q` for `f > 1` is 3.3, derived from this one, and the case `f = 1` of
+`gauss_quadChar_eq` is this statement. *Needs:* 1.2, the classical arithmetic roadmap 4.19,
+Tau Ceti's `JacobiTheta.GaussSum`.
 
 ### 1.5 Gauss sums of characters of small order
 
@@ -833,15 +850,16 @@ Mathlib's `gaussSum_pow_eq_prod_jacobiSum` and Tau Ceti's `JacobiSum.Cubic`, `Ja
 Over `𝔽_7`: `g(1) = −1`; for `ω` of order `6` with `ω(3) = e(1/6)`, `g(ω) = −2.4401 + 1.0226 i`
 with `|g(ω)|² = 7`, `g_2(ω) = ω(2)⁻¹ g(ω) = 2.1057 + 1.6019 i`, `g(ω⁷) = g(ω)` (Frobenius
 invariance at `p = 7`, trivially), and `g(ω)⁶ = −7 ∏_{i=1}^{4} J(ω, ω^i)`. The quadratic Gauss sums
-`g(η_3) = i√3`, `g(η_5) = √5`, `g(η_7) = i√7`, `g(η_11) = i√11` are the consumed signs of 1.4.
+`g(η_3) = i√3`, `g(η_5) = √5`, `g(η_7) = i√7`, `g(η_11) = i√11` are the signs of 1.4, each equal
+to `(1 + i)/2 · (1 + (−i)^p) · √p`; at `N = 4` the same native gives `(1 + i)/2 · 2 · 2 = 2 + 2i`,
+which is no Gauss sum of a character modulo `4`, and is why 1.4 reads it at odd primes only.
 
 ### Dependencies
 
 Layer 0 (0.1, 0.2, 0.5); Mathlib's `GaussSum.lean` and cyclotomic fields; Tau Ceti's
 `GaussSum.Basic` (1.2, 1.3), `PowerResidueSymbol.StickelbergerPhi` (1.3), `JacobiSum.Cubic`,
 `JacobiSum.Quartic` and the `Cyclotomic.Three` and `Cyclotomic.Four` Gauss- and Jacobi-sum files
-(1.5); the classical
-arithmetic roadmap's 4.19 and `AnalyticNumberTheoryPartI` §2.30 for 1.4.
+(1.5); the classical arithmetic roadmap's 4.19 and Tau Ceti's `JacobiTheta.GaussSum` for 1.4.
 
 ## Layer 2: Jacobi and Jacobsthal sums
 
@@ -862,16 +880,22 @@ check** on the hypothesis `χψ ≠ 1`. *Needs:* 1.2, Mathlib.
 
 ### 2.3 Powers of Gauss sums and the two-squares theorem
 
-Restate `gaussSum_pow_eq_prod_jacobiSum` against `ψ_F` and deduce: for `q = p ≡ 1 (mod 4)` and `χ`
-of order `4`, `J(χ, χ) = a + b i ∈ ℤ[i]` with `a² + b² = p` (2.2), and `a` is odd and `b` even
-(`J(χ, χ) ≡ χ(4)⁻¹ = χ(−1) (mod 2)`: the terms `x` and `1 − x` of `∑_x χ(x(1 − x))` agree and pair
-off, leaving the fixed point `x = 1/2`); for `q = p ≡ 1 (mod 3)` and `χ` of order `3`,
-`J(χ, χ) = a + b ω ∈ ℤ[ω]` with `a² − ab + b² = p`. The normalizations
+Restate `gaussSum_pow_eq_prod_jacobiSum` against `ψ_F`. The two-squares shape of the quartic and
+cubic Jacobi sums is in Tau Ceti and is cited, not reproved: for `q ≡ 1 (mod 4)` and `χ` of order
+`4` with values in `𝓞_{ℚ(i)} = ℤ[i]`, `J(χ, χ) = a + b i` has norm `a² + b² = q`
+(`TauCeti.norm_jacobiSum_eq_card_of_orderOf_eq_four`) and `−χ(−1) J(χ, χ)` is primary, that is
+`≡ 1 (mod (1 + i)³)` (`TauCeti.isPrimaryGaussian_neg_apply_neg_one_mul_jacobiSum`), so `a` is odd
+and `b` even; for `q ≡ 1 (mod 3)` and `χ` of order `3` with values in a domain, `J(χ, χ) ≡ 2 (mod 3)`
+(`TauCeti.isPrimaryEisenstein_jacobiSum`), and `J(χ, χ) = a + b ω ∈ ℤ[ω]` has `a² − ab + b² = q` by
+2.2. Over `𝔽_5` with `χ(2) = i`, `J(χ, χ) = −1 − 2i`: norm `5`, and `−χ(−1) J(χ, χ) = −1 − 2i`
+with `(−1 − 2i) − 1 = −2(1 + i)`, divisible by `(1 + i)³ = −2 + 2i` since the quotient is
+`−2(1 + i)/(−2 + 2i) = i`. The normalizations
 `J(χ, χ) = −(−1)^{(p−1)/4} π` and `J(χ, χ) = π` for the residue characters of a primary `π` are
 Tau Ceti's `jacobiSum_powerResidueSymbol_four_eq` and `jacobiSum_powerResidueSymbol_three_eq` (the
 classical arithmetic roadmap's 1.36 and 1.53); the weaker `J(χ^a, χ^b) ∈ P` for `a, b ≠ 0` with
 `a + b < n`, for the `n`-th power residue character `χ` of any prime `P` of norm prime to `n`, is
-`jacobiSum_powerResidueSymbol_pow_mem`. *Needs:* 2.2, 1.5.
+`jacobiSum_powerResidueSymbol_pow_mem`. *Needs:* 2.2, 1.5, Tau Ceti's `Cyclotomic.Three.JacobiSum` and
+`Cyclotomic.Four.JacobiSum`.
 
 ### 2.4 Multiple Jacobi sums and diagonal equations
 
@@ -933,24 +957,38 @@ For `p ≠ 2` and `n ≥ 0` define `φ_n(a) = ∑_{x ∈ F} η(x) η(x^n + a)` (
 `φ_n(a) = η(a) ∑_{χ^n = η} χ(−a) J(χ, η)` (`jacobsthalPhi_eq_sum_jacobiSum`), the sum over the
 characters `χ` with `χ^n = η`, which is empty, so `φ_n(a) = 0`, unless `η` is trivial on the `n`-th
 roots of unity of `F` (from `∑_{x^n = y} η(x) = ∑_{χ^n = η} χ(y)`). Record the closed forms:
-`ψ_2(a) = −1` for `a ≠ 0`, `φ_1(a) = −1`, and `φ_2(a s²) = η(s) φ_2(a)`. **Jacobsthal's theorem**
-(`F = ZMod p`, `p ≡ 1 (mod 4)`): `φ_2(1) = −2a` where `p = a² + b²` with `a ≡ 1 (mod 4)` (this pins
-the sign of `a`; `jacobsthalPhi_two_one`), and `φ_2(r) = ±2b` for every non-square `r`
-(Jacobsthal 1907, §2, formula 3), p. 240: `p = (φ(r)/2)² + (φ(n)/2)²` for a square `r` and a
-non-square `n`, in his notation `φ(e) = ∑_m (m/p)((m² + e)/p) = φ_2(e)`; his sign normalization
-5), p. 241, `a_J ≡ (p − 3)/2 (mod 8)` for `a_J = φ(−1)/2`, becomes `a ≡ 1 (mod 4)` for
-`a = −φ(1)/2` through his scaling 2), `φ(1) = (i/p) φ(−1)` with `i² ≡ −1`, since `(i/p) = 1`
-exactly when `p ≡ 1 (mod 8)`). **Elliptic
+`ψ_2(a) = −1` for `a ≠ 0`, `φ_1(a) = −1`, and `φ_2(a s²) = η(s) φ_2(a)`. **Jacobsthal's
+two-squares identity** (`jacobsthalPhi_two_sq_add_sq`): for every finite field `F` with
+`q ≡ 1 (mod 4)` and every non-square `r ∈ F`, `q = (φ_2(1)/2)² + (φ_2(r)/2)²` (Jacobsthal 1907,
+§2, formula 3), p. 240, for `F = ZMod p`: `p = (φ(r)/2)² + (φ(n)/2)²`
+for a square `r` and a non-square `n`, in his notation `φ(e) = ∑_m (m/p)((m² + e)/p) = φ_2(e)`).
+His second-moment proof holds verbatim over `F`: by the scaling, `φ_2²` is constant on each of the
+two classes of `F^× / F^{×2}`, and `φ_2(0) = ∑_x η(x)³ = 0`; and
+`∑_e φ_2(e)² = ∑_{x, y} η(x y) ∑_e η((e + x²)(e + y²)) = q (q − 1)(1 + η(−1))`, since the inner sum is
+`q − 1` when `y = ±x` and `−1` otherwise (Tau Ceti's `sum_quadraticChar_mul_sub` at
+`c = x² − y²`, after the shift `u = e + x²`). At `η(−1) = 1` this reads
+`((q − 1)/2)(φ_2(1)² + φ_2(r)²) = 2q(q − 1)`. Equivalently, at `n = 2` the expansion above gives
+`φ_2(1) = 2 Re(χ(−1) J(χ, η))` and `φ_2(r) = ±2 Im(χ(−1) J(χ, η))` for `χ` of order `4`, and
+`|J(χ, η)|² = q` (2.2). **The sign of `a`** (`F = ZMod p`, `p ≡ 1 (mod 4)`): `φ_2(1) = −2a`
+where `p = a² + b²` with `a ≡ 1 (mod 4)` (`jacobsthalPhi_two_one`), so that `φ_2(r) = ±2b` for
+every non-square `r` by the identity. Jacobsthal's sign normalization 5), p. 241,
+`a_J ≡ (p − 3)/2 (mod 8)` for `a_J = φ(−1)/2`, becomes `a ≡ 1 (mod 4)` for `a = −φ(1)/2` through
+his scaling 2), `φ(1) = (i/p) φ(−1)` with `i² ≡ −1`, since `(i/p) = 1` exactly when
+`p ≡ 1 (mod 8)`. The sign statement is about primes: a prime has one representation `a² + b²` up to
+order and signs, and with `a` odd and `a ≡ 1 (mod 4)` this fixes `a`, while `q = 25` has two,
+`(−3)² + 4²` and `5² + 0²`, with `−3 ≡ 5 ≡ 1 (mod 4)`. **Elliptic
 reading**: `η(x³ + a x) = η(x) η(x² + a)`, so `∑_x η(x³ + a x) = φ_2(a)` and the projective point
 count of `y² = x³ + a x` is `q + 1 + φ_2(a)`, its trace `−φ_2(a)`, by the character-sum count of
 `EllipticLegendreCharacterInterfaces` 5.1; the vanishing `φ_2(a) = 0` for `η(−1) = −1` is that
 roadmap's `symmetric_cubic_trace_zero` (count `q + 1`, trace `0` for `q ≡ 3 (mod 4)`). *Needs:*
-2.2, 2.3, 0.4; `EllipticLegendreCharacterInterfaces` 5.1 for the elliptic reading.
+2.1, 2.2, 2.3, 0.4, Tau Ceti's `QuadraticChar.Basic`; `EllipticLegendreCharacterInterfaces` 5.1 for
+the elliptic reading.
 
 The supporting API comprises:
 
 - For `n ≥ 1` and `a ≠ 0`, the two sums have the stated Jacobi expansions.
 - For `a ≠ 0`, the closed forms are `ψ_2(a) = −1` and `φ_1(a) = −1`; scaling `a` by `s²` scales `φ_2(a)` by `η(s)`, including `s = 0` when both sides vanish.
+- Over every finite field with `q ≡ 1 (mod 4)` and for every non-square `r`, the halves of `φ_2(1)` and `φ_2(r)` are the two parts of a representation of `q` as a sum of two squares: `jacobsthalPhi_two_sq_add_sq`.
 - At primes congruent to one modulo four, the signed two-squares evaluation is `jacobsthalPhi_two_one`.
 
 **Checks.**
@@ -963,6 +1001,13 @@ The supporting API comprises:
 - (sign of `a`) `p = 13 = (−3)² + 2²` with `a = −3 ≡ 1 (mod 4)`: `φ_2(1) = 6 = −2a`; a statement
   with `a = 3` or with `+2a` predicts `−6`. The values at `p = 17, 29, 37, 41` are `−2, −10, −2, −10`
   with `a = 1, 5, 1, 5`.
+- (two squares beyond the prime field) over `𝔽_9`, `φ_2(1) = 6` and `φ_2(r) = 0` for each of the
+  four non-squares, so `9 = 3² + 0²`; over `𝔽_25`, `φ_2(1) = 6` and `φ_2(r) = ±8`, so
+  `25 = 3² + 4²`. The sign statement does not extend: `25 = 5² + 0²` with `5 ≡ 1 (mod 4)`, and
+  `−2 · 5 = −10 ≠ 6`.
+- (non-square needed) over `𝔽_13` with the square `r = 3`, `φ_2(3) = φ_2(1) = 6` and
+  `3² + 3² = 18 ≠ 13`; over `𝔽_7`, `𝔽_11` and `𝔽_27`, where `q ≡ 3 (mod 4)`, both `φ_2(1)` and
+  `φ_2(r)` vanish and the left side is `0`, so the identity needs `q ≡ 1 (mod 4)`.
 - (scaling) over `𝔽_5`, `φ_2(4) = φ_2(1 · 2²) = η(2) φ_2(1) = 2`: the four terms are
   `0, 1, 1, 0`.
 - (vanishing) over `𝔽_7`, where `η(−1) = −1`, `φ_2(1) = 0`, and `y² = x³ + x` has `8 = q + 1`
@@ -981,7 +1026,8 @@ Over `𝔽_7` with `ω(3) = e(1/6)`: `J(ω, 1) = −1`, `J(ω, ω) = 2.5 − 0.8
 
 Layer 1 (1.2, 1.5) and Layer 0 (0.3, 0.4); Mathlib's `JacobiSum/Basic.lean`; Tau Ceti's
 `PowerResidueSymbol.JacobiSum`, `Cyclotomic.Three.JacobiSum` and `Cyclotomic.Four.JacobiSum` for the
-normalizations of 2.3, and `LegendreSymbol.QuadraticChar.Quadric` for the quadric case of 2.4;
+normalizations of 2.3, `LegendreSymbol.QuadraticChar.Quadric` for the quadric case of 2.4 and
+`LegendreSymbol.QuadraticChar.Basic` for the two-squares identity of 2.5;
 `EllipticLegendreCharacterInterfaces` 5.1 for the elliptic reading of 2.5 only.
 
 ## Layer 3: the polynomial `L`-series and the Hasse–Davenport relations
@@ -1875,12 +1921,13 @@ page of `χ`; for prime `c` they are the sums of Layers 1, 2 and 5 over `F = ZMo
 ### 7.1 Gauss sums of Dirichlet characters
 
 `τ_a(χ) := gaussSum χ (ψ_N.mulShift a)`, `τ(χ) := τ_1(χ)`, the LMFDB's `character.dirichlet.gauss_sum`.
-Record and prove: for `χ` primitive, `τ_a(χ) = χ(a)⁻¹ τ(χ)` for every `a` (Mathlib
-`gaussSum_mulShift_of_isPrimitive`, including `a` a non-unit, where both sides are `0`);
-`τ(χ) τ(χ⁻¹) = χ(−1) N` and `|τ(χ)| = √N`, as a one-line corollary of Tau Ceti's
-`gaussSum_mul_gaussSum_inv_eq_card_of_isPrimitive` (`τ(χ) · gaussSum χ⁻¹ ψ_N⁻¹ = N`) with
-`ψ_N⁻¹ = ψ_N.mulShift (−1)` (`inv_mulShift`) and `gaussSum χ⁻¹ (ψ_N.mulShift (−1)) = χ(−1) τ(χ⁻¹)`
-(`gaussSum_mulShift_of_isPrimitive` for `χ⁻¹`, which is primitive with `χ`); for `χ` of conductor
+For `χ` primitive the following are in the libraries and are cited, not reproved:
+`τ_a(χ) = χ(a)⁻¹ τ(χ)` for every `a` (Mathlib's `gaussSum_mulShift_of_isPrimitive`, including `a`
+a non-unit, where both sides are `0`); `τ(χ) τ(χ⁻¹) = χ(−1) N` (Tau Ceti's
+`gaussSum_mul_gaussSum_inv_eq_neg_one_mul_card_of_isPrimitive` at `e = ψ_N`, which is primitive by
+Mathlib's `ZMod.isPrimitive_stdAddChar`); `|τ(χ)| = √N` (Tau Ceti's
+`DirichletCharacter.IsPrimitive.norm_gaussSum`, for every primitive `e`); and `τ(χ) ≠ 0` (Tau
+Ceti's `gaussSum_ne_zero_of_isPrimitive`, with `(N : ℂ) ≠ 0`). Prove: for `χ` of conductor
 `f` with primitive character `χ^∗` (`DirichletCharacter.primitiveCharacter`), the **imprimitive
 formula** `τ(χ) = μ(N/f) χ^∗(N/f) τ(χ^∗)` (`gaussSum_eq_moebius_mul`; `τ(χ^∗)` is read on
 `ZMod f`, which needs `f ≠ 0`: Mathlib's `DirichletCharacter.conductor_ne_zero`, recorded as the
@@ -1903,7 +1950,8 @@ formula** `τ(χ) = χ₁(c₂) χ₂(c₁) τ(χ₁) τ(χ₂)` for `N = c₁ c
 `character.dirichlet.jacobi_sum`; Mathlib's definition applies to every finite commutative ring).
 Prove: the Chinese-remainder multiplicativity `J(χ, ψ) = J(χ₁, ψ₁) J(χ₂, ψ₂)` for `N = c₁ c₂`
 coprime; and `J(χ, ψ) = τ(χ) τ(ψ) / τ(χψ)` **whenever `χψ` is primitive modulo `N`**
-(`jacobiSum_eq_gaussSum_div_of_isPrimitive`; then `τ(χψ) ≠ 0`; the proof compares
+(`jacobiSum_eq_gaussSum_div_of_isPrimitive`; the denominator `τ(χψ)` is nonzero by Tau Ceti's
+`gaussSum_ne_zero_of_isPrimitive` with `(N : ℂ) ≠ 0`, cited in 7.1; the proof compares
 `τ(χ)τ(ψ) = ∑_s ψ_N(s) ∑_{x+y=s} χ(x)ψ(y)` with the vanishing of the inner sum at non-units `s`,
 which uses primitivity of `χψ`). The hypothesis is sharp: for `N = 9`, `χ` primitive of order `6`
 and `ψ = χ⁻¹`, `J(χ, χ⁻¹) = 0` while `τ(χ)τ(χ⁻¹) = −9` and `τ(χψ) = τ(1_9) = μ(9) = 0`. For prime
@@ -2041,11 +2089,14 @@ is the Conrey pairing `conreyPairing q n`; for prime `q` this is the character w
 modulo `q²`, and `n ≡ g^a`; the labelling is consumed, and no construction of the pairing is a
 target), the three displayed quantities: `τ_2(χ)` (7.1), `J(χ, χ_q(1, ·))` (7.2) and
 `K(1, 2, χ) = S_χ(1, 2; q)` (7.3), together with the theorems that evaluate them: `|τ_2(χ)| = √q`
-for `χ` primitive and `q` odd; for primitive `χ` and even `q`, `τ_2(χ) = 0`
+for `χ` primitive and `q` odd, which is Tau Ceti's `DirichletCharacter.IsPrimitive.norm_gaussSum`
+at `e = ψ_q.mulShift 2`, a primitive character because `2` is a unit modulo odd `q` (equivalently
+`τ_2(χ) = χ(2)⁻¹ τ(χ)` with `|χ(2)| = 1`); for primitive `χ` and even `q`, `τ_2(χ) = 0`
 by `DirichletCharacter.gaussSum_mulShift_of_isPrimitive`. The primitive character modulo `4`
 has `τ_2 = −1 + 1 = 0`, while the quartic character modulo `5` has `|τ_2| = √5`. Also `J(χ, 1) = −1` for prime `q` and `χ ≠ 1`, `|K(1, 2, χ)| ≤ τ(q) 𝔠_χ^{1/2} √q`, and
 `|K(1, 2, χ)| ≤ τ(q) √q` for cube-free `q` (7.6). Nothing here depends on the Conrey labelling
-beyond naming the character. *Needs:* 7.1–7.3, 7.6, Tau Ceti's `DirichletCharacter.Conrey`.
+beyond naming the character. *Needs:* 7.1–7.3, 7.6, Tau Ceti's `DirichletCharacter.GaussSum` and
+`DirichletCharacter.Conrey`.
 
 ### Examples
 
@@ -2059,8 +2110,9 @@ every character modulo `12, 15, 18, 20` and every coprime pair `(3, 5)`, `(4, 5)
 ### Dependencies
 
 0.7, 1.1, 1.4, 2.2, 5.1, 5.5, 5.6; Mathlib's Dirichlet characters and `ZMod.chineseRemainder`;
-Tau Ceti's `gaussSum_mul_gaussSum_inv_eq_card_of_isPrimitive` and `DirichletCharacter.Conrey`
-(7.7); `AutomorphicSpectralTheory` §1.16 for the comparison in 7.3; Knightly–Li for the twisted
+Tau Ceti's `DirichletCharacter.GaussSum` (`gaussSum_mul_gaussSum_inv_eq_neg_one_mul_card_of_isPrimitive`,
+`IsPrimitive.norm_gaussSum` and `gaussSum_ne_zero_of_isPrimitive`; 7.1, 7.2, 7.7) and
+`DirichletCharacter.Conrey` (7.7); `AutomorphicSpectralTheory` §1.16 for the comparison in 7.3; Knightly–Li for the twisted
 bounds of 7.5–7.6.
 
 ## Downstream consumers
@@ -2141,7 +2193,8 @@ with Conrey index `n` (Tau Ceti's `conreyCharacter q n`); for prime `q` this is 
 
 `φ_2(1) = 6, −2, −10, −2, −10` and the representations `p = a² + b²` with `a ≡ 1 (mod 4)` are
 `a = −3, 1, 5, 1, 5`: `φ_2(1) = −2a` in every case. `φ_2(r)` for the least non-square `r` is
-`−4, 8, −4, 12, −8 = ±2b`. `ψ_2(1) = −1` throughout.
+`−4, 8, −4, 12, −8 = ±2b`, and `(φ_2(1)/2)² + (φ_2(r)/2)²` is `9 + 4, 1 + 16, 25 + 4, 1 + 36,
+25 + 16 = p` (`jacobsthalPhi_two_sq_add_sq`). `ψ_2(1) = −1` throughout.
 
 ### Over `𝔽_9`, `𝔽_25`, `𝔽_27`, `𝔽_49`: the Hasse–Davenport sign
 
