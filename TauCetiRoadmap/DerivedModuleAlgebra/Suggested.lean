@@ -2,9 +2,10 @@ module
 
 public import Mathlib
 public import TauCeti.Algebra.Module.Injective.Envelope.Basic
-public import TauCeti.Algebra.Homology.Monoidal.KFlat.Basic
 public import TauCeti.Algebra.Homology.SpectralSequence.Bicomplex
 public import TauCeti.Algebra.Category.ModuleCat.Tower.DerivedLimit
+public import TauCeti.AlgebraicTopology.SimplicialObject.AlexanderWhitney
+public import TauCeti.AlgebraicTopology.SimplicialObject.Bisimplicial
 
 /-!
 # DerivedModuleAlgebra: target signatures
@@ -16,41 +17,55 @@ definitions those statements need. The README carries every target, API list and
 Headline results that the pinned Tau Ceti already provides are not restated: Roby representability
 and the augmentation theory of §§0.DP.1–0.DP.3 (`DividedPowerAlgebra.homogeneousLawEquiv`,
 `DividedPowerAlgebra.augmentationIdeal_eq_span`,
-`DividedPowerAlgebra.map_algebraMap_inf_augmentationIdeal_eq_mul`), the module K-injective
-replacement of §0.I.1 (`CochainComplex.exists_quasiIso_isKInjective`, `TauCeti.kInjectiveReplacement`),
-the K-flat replacement of §0.2 without its termwise-flat clause
-(`CochainComplex.exists_quasiIso_isKFlat_moduleCat`), Lazard's theorem of §0.2.1
-(`TauCeti.flatModuleFilteredFree`), the convergence of the spectral sequence of a first-quadrant
-bicomplex to the homology of its total complex in §S.1
+`DividedPowerAlgebra.map_algebraMap_inf_augmentationIdeal_eq_mul`); the Koszul complex of §0.K.1
+with its functoriality, tensor decomposition, homotopy, zeroth homology and acyclicity for weakly
+regular sequences (`TauCeti.koszulComplex`, `TauCeti.koszulComplex.map`,
+`TauCeti.koszulComplex.tensorIso`, `TauCeti.koszulComplex.tensorIsoAppend`,
+`TauCeti.koszulComplex.smulHomotopy`, `TauCeti.koszulComplex.homologyZeroEquivSpan`,
+`TauCeti.koszulComplex.exactAt_of_isWeaklyRegular`); the module K-injective replacement of §0.I.1
+(`CochainComplex.exists_quasiIso_isKInjective`, `TauCeti.kInjectiveReplacement`); the K-flat
+replacement of §0.2 with flat terms (`CochainComplex.kFlatResolution` with its instances
+`CochainComplex.kFlatResolution.quasiIso_π`, `CochainComplex.isKFlat_kFlatResolution` and
+`CochainComplex.preservesFiniteLimits_tensorLeft_kFlatResolution_X`); Lazard's theorem of §0.2.1
+(`TauCeti.flatModuleFilteredFree`); the natural Alexander–Whitney maps of §0.2.2
+(`CategoryTheory.SimplicialObject.alexanderWhitney`,
+`CategoryTheory.SimplicialObject.diagAlexanderWhitney`); the convergence of the spectral sequence
+of a first-quadrant bicomplex to the homology of its total complex in §S.1
 (`HomologicalComplex₂.columnFiltrationAbutmentIso`,
-`HomologicalComplex₂.rowFiltrationSpectralSequencePageXIsoEInfty`), the derived limit of §1.1 with
-its localization comparison and shift isomorphisms (`TauCeti.ModuleTower.derivedLimit`), and the
-derived Hom of §1.1.1 with the identification of its cohomology with morphisms in `D(R)`
-(`TauCeti.derivedHom`, `TauCeti.derivedHomHomologyLinearEquiv`).
+`HomologicalComplex₂.rowFiltrationSpectralSequencePageXIsoEInfty`); the derived limit of §1.1 with
+its localization comparison and shift isomorphisms (`TauCeti.ModuleTower.derivedLimit`); the derived
+Hom of §1.1.1 with the identification of its cohomology with morphisms in `D(R)`
+(`TauCeti.derivedHom`, `TauCeti.derivedHomHomologyLinearEquiv`); complete flatness of flat modules
+for every ideal in §1.7 (`ModuleCat.isZero_Tor_succ_of_flat` with Mathlib's `Module.Flat.baseChange`); and
+the injective hulls, completion action, finite-length biduality and Artinian criterion of §1.M.2
+(`TauCeti.exists_isInjectiveEnvelope`, `TauCeti.AdicCompletion.torsionModule`,
+`TauCeti.IsInjectiveEnvelope.bijective_applyₗ`,
+`TauCeti.IsInjectiveEnvelope.isArtinian_of_finite_adicCompletion_linearMap`).
 
 Headline theorems that are not statable at the pins, and the carrier each lacks:
 
 * the unbounded module derived tensor `⊗^L` on `D(R)` (§0.2) and the
   derived scalar extension and restriction functors with their adjunction (§1.E.0): no derived
   tensor bifunctor or derived extension of scalars on `DerivedCategory (ModuleCat R)` exists at
-  the pin; the termwise-flat K-flat replacement of §0.2 is stated below;
+  the pin;
 * the cohomological first-quadrant spectral sequence, its edge morphisms and the five-term and
   extended exact sequences (§S.1): the pinned spectral sequence of a bicomplex is the homological
   one of `HomologicalComplex₂ C (down ℕ) (down ℕ)`, no column filtration of the total complex of a
   cochain bicomplex is constructed to feed the pinned filtered-complex spectral sequence, and no
   edge morphism from the second page to the abutment is constructed; the identification of the
   classical second page in the homological form is stated below;
-* the bisimplicial diagonal comparison (§0.2.2): the diagonal and double alternating-face
-  comparison functors are not constructed at the pin; the simplicial tensor comparison is stated below;
 * the cotangent complex, its powers and the deformation classes (§§0.1–0.25): the simplicial
   polynomial resolution and the full complex `L_(B/A)` are targets of §§0.1 and 0.4;
 * the tensor–Hom adjunction of §1.1.1: it pairs the pinned derived Hom with the derived tensor
   above; the exactness of the pinned derived limit (§1.1) is stated below;
-* the completion reflector with its unit, adjunction and derived Nakayama (§1.3), the Koszul
-  completion tower (§1.4) and the ordinary-quotient comparison (§1.5): all are built from the
-  derived tensor above;
-* completion of simplicial commutative algebras (§1.6): built from the completion reflector;
-* complete faithful-flat descent and complete Tor-amplitude (§§1.8–1.9): built from `⊗^L`;
+* derived Nakayama (§1.3), the Koszul completion tower (§1.4) and the ordinary-quotient comparison
+  (§1.5): each statement contains `M ⊗^L_A A/I` or `M ⊗^L_A K(f)`; the existence of the completion
+  reflector of §1.3 is stated below;
+* completion of simplicial commutative algebras (§1.6): the localized category of simplicial
+  commutative algebras with its underlying-module functor to `D(A)` is a construction of §1.6;
+* complete flatness of complexes, complete Tor-amplitude and complete faithful-flat descent
+  (§§1.7–1.9): built from `⊗^L`; the module form of the bounded-torsion criterion of §1.8 is
+  stated below;
 * compatible finite-free models, strict-tower limits and perfect inverse-system effectivity
   (§§1.E.0–1.E.1): their statements mention derived scalar extension.
 
@@ -73,16 +88,6 @@ universe u v w w'
 
 namespace DerivedDeRham
 
-/-- **Every unbounded module complex has a termwise flat K-flat replacement** (README 0.2; Stacks,
-Lemma 15.60.10, Tag 06Y4): a quasi-isomorphism `P → K` from a complex `P` that is K-flat in Tau
-Ceti's sense (tensoring with an acyclic complex is acyclic) and flat in every degree. Without the
-last clause this is `CochainComplex.exists_quasiIso_isKFlat_moduleCat`. -/
-theorem moduleKFlatReplacement (R : Type u) [CommRing R]
-    (K : CochainComplex (ModuleCat.{u} R) ℤ) :
-    ∃ (P : CochainComplex (ModuleCat.{u} R) ℤ) (f : P ⟶ K),
-      QuasiIso f ∧ P.IsKFlat ∧ ∀ i, Module.Flat R (P.X i) := by
-  sorry
-
 /-- **The second page of a first-quadrant bicomplex** (README S.1, homological form; NSW,
 Proposition 2.1.1). Let `K` be a first-quadrant bicomplex with homological differentials in an
 abelian category, `K.X p` its columns. In the spectral sequence of its column filtration, whose
@@ -97,10 +102,13 @@ theorem nonempty_bicomplexSecondPageIso {C : Type u} [Category.{v} C] [Abelian C
   sorry
 
 open CategoryTheory.MonoidalCategory in
-/-- The Eilenberg–Zilber equivalences for arbitrary simplicial modules form a jointly natural
-family in both directions. The shuffle is the identity on degree zero and is the signed
-sum of the two shuffles on bidegree (1,1), fixing its normalization without flatness
-(README 0.2.2; Dold–Puppe, §2, Theorems 2.9 and 2.15). -/
+/-- **Eilenberg–Zilber theorem for simplicial modules** (README 0.2.2; Dold–Puppe, §2, Satz 2.9
+and Satz 2.15). For simplicial modules `X, Y` over a commutative ring there is a family of chain
+homotopy equivalences between the tensor product of the alternating face complexes and the
+alternating face complex of the degreewise tensor product, natural in both variables, whose
+inverse is Tau Ceti's Alexander–Whitney map and whose forward map, the shuffle map, is the identity
+in degree zero and the signed sum of the two shuffles in bidegree `(1,1)`. No flatness is
+assumed. -/
 theorem simplicialTensorComparison (R : Type u) [CommRing R] :
     let s := AlgebraicTopology.alternatingFaceMapComplex (ModuleCat.{u} R)
     ∃ e : ∀ X Y : SimplicialObject (ModuleCat.{u} R),
@@ -109,15 +117,28 @@ theorem simplicialTensorComparison (R : Type u) [CommRing R] :
       (∀ (X Y X' Y' : SimplicialObject (ModuleCat.{u} R)) (f : X ⟶ X') (g : Y ⟶ Y'),
         HomologicalComplex.tensorHom (s.map f) (s.map g) ≫ (e X' Y').hom =
           (e X Y).hom ≫ s.map (f ⊗ₘ g)) ∧
-      (∀ (X Y X' Y' : SimplicialObject (ModuleCat.{u} R)) (f : X ⟶ X') (g : Y ⟶ Y'),
-        s.map (f ⊗ₘ g) ≫ (e X' Y').inv =
-          (e X Y).inv ≫ HomologicalComplex.tensorHom (s.map f) (s.map g)) ∧
+      (∀ X Y : SimplicialObject (ModuleCat.{u} R),
+        (e X Y).inv = SimplicialObject.alexanderWhitney X Y) ∧
       (∀ X Y : SimplicialObject (ModuleCat.{u} R),
         HomologicalComplex.ιTensorObj (s.obj X) (s.obj Y) 0 0 0 rfl ≫
           (e X Y).hom.f 0 = 𝟙 _) ∧
       (∀ X Y : SimplicialObject (ModuleCat.{u} R),
         HomologicalComplex.ιTensorObj (s.obj X) (s.obj Y) 1 1 2 rfl ≫
           (e X Y).hom.f 2 = (X.σ 1 ⊗ₘ Y.σ 0) - (X.σ 0 ⊗ₘ Y.σ 1)) := by
+  sorry
+
+/-- **Generalized Eilenberg–Zilber theorem** (README 0.2.2; Dold–Puppe, §2, Satz 2.15). For every
+bisimplicial module `Z` over a commutative ring, Tau Ceti's Alexander–Whitney map from the
+alternating face complex of the diagonal `n ↦ Z_(n,n)` to the total complex of the double complex
+of `Z`, with total differential `d₁ + (-1)^p d₂`, is a chain homotopy equivalence. No flatness is
+assumed. -/
+theorem bisimplicialDiagonalComparison (R : Type u) [CommRing R]
+    (Z : SimplicialObject (SimplicialObject (ModuleCat.{u} R))) :
+    ∃ e : HomotopyEquiv
+        ((AlgebraicTopology.alternatingFaceMapComplex (ModuleCat.{u} R)).obj
+          ((SimplicialObject.diag (ModuleCat.{u} R)).obj Z))
+        (((SimplicialObject.doubleComplex (ModuleCat.{u} R)).obj Z).total (ComplexShape.down ℕ)),
+      e.hom = SimplicialObject.diagAlexanderWhitney Z := by
   sorry
 
 end DerivedDeRham
@@ -153,8 +174,6 @@ abbrev mod0 (R : Type u) [Ring R] (M : ModuleCat.{u} R) : D R :=
 /-- Cohomology in the indicated cohomological degree. -/
 abbrev H (R : Type u) [Ring R] (n : ℤ) (M : D R) : ModuleCat.{u} R :=
   (DerivedCategory.homologyFunctor (ModuleCat R) n).obj M
-
-
 
 /-- **Derived `I`-completeness** of `M ∈ D(A)`: every morphism from a shifted localization
 `A[1/f][n]`, `f ∈ I`, to `M` is zero (Stacks, Lemma 15.93.1, Tag 091P, and Definition 15.93.4,
@@ -193,6 +212,13 @@ theorem isDerivedComplete_triangle (A : Type u) [CommRing A] (I : Ideal A)
     derivedCompleteness A I T.obj₃ ∧ ∀ n : ℤ, derivedCompleteness A I (T.obj₁⟦n⟧) := by
   sorry
 
+/-- **Derived completion is a reflector** (README 1.3; Stacks, Lemma 15.93.10, Tag 091V). For a
+finitely generated ideal `I`, the inclusion of the full subcategory of derived `I`-complete objects
+into `D(A)` has a left adjoint, the derived completion. -/
+theorem derivedCompleteness_isRightAdjoint (A : Type u) [CommRing A] (I : Ideal A) (hI : I.FG) :
+    (ObjectProperty.ι (derivedCompleteness A I)).IsRightAdjoint := by
+  sorry
+
 /-- **Complete flatness of a module** (README 1.7). A module `M` is `I`-completely flat when its
 derived reduction `M ⊗^L_A A/I` is a flat `A/I`-module in degree zero: the higher `Tor_n^A(M, A/I)`
 vanish and `A/I ⊗_A M` is flat over `A/I`. The predicate does not require `M` to be complete
@@ -202,11 +228,38 @@ def IsCompletelyFlatModule (A : Type u) [CommRing A] (I : Ideal A) (M : ModuleCa
       IsZero (((CategoryTheory.Tor (ModuleCat.{u} A) n).obj M).obj (ModuleCat.of A (A ⧸ I)))) ∧
     Module.Flat (A ⧸ I) ((A ⧸ I) ⊗[A] M)
 
-/-- **A flat module is `I`-completely flat** (README 1.7): higher `Tor` against `A/I`
-vanishes by flatness, and ordinary base change makes its reduction flat over `A/I`.
-This holds for every ideal; [BMS19], Definition 4.1, p. 220, uses the case `I = (p)`. -/
-theorem isCompletelyFlatModule_of_flat (A : Type u) [CommRing A] (I : Ideal A)
-    (M : ModuleCat.{u} A) [Module.Flat A M] : IsCompletelyFlatModule A I M := by
+/-- **A derived complete, completely flat module has flat reductions and bounded torsion**
+(README 1.8; [BMS19], Lemma 4.7(1), pp. 221–222). Let `A` have bounded `p`-power torsion and let
+`M` be an `A`-module that is derived `p`-complete and `p`-completely flat. Then `M` is classically
+`p`-adically complete, has bounded `p`-power torsion, and for every `n ≥ 1` its reduction
+`M/pⁿM` is flat over `A/pⁿ` and the multiplication map `M ⊗_A A[pⁿ] → M`, `m ⊗ a ↦ a • m`, is
+injective with image `M[pⁿ]`. -/
+theorem isAdicComplete_of_isCompletelyFlatModule (A : Type u) [CommRing A] (p : ℕ) (hp : p.Prime)
+    (hA : ∃ c : ℕ, ∀ (a : A) (n : ℕ), (p : A) ^ n * a = 0 → (p : A) ^ c * a = 0)
+    (M : ModuleCat.{u} A) (hc : derivedCompleteness A (Ideal.span {(p : A)}) (mod0 A M))
+    (hM : IsCompletelyFlatModule A (Ideal.span {(p : A)}) M) :
+    IsAdicComplete (Ideal.span {(p : A)}) M ∧
+      (∃ c : ℕ, ∀ (x : M) (n : ℕ), (p : A) ^ n • x = 0 → (p : A) ^ c • x = 0) ∧
+      ∀ n : ℕ, 0 < n →
+        Module.Flat (A ⧸ Ideal.span {(p : A) ^ n}) ((A ⧸ Ideal.span {(p : A) ^ n}) ⊗[A] M) ∧
+        Function.Injective (TensorProduct.lift ((LinearMap.lsmul A M).flip.compl₂
+          (Submodule.torsionBy A A ((p : A) ^ n)).subtype)) ∧
+        LinearMap.range (TensorProduct.lift ((LinearMap.lsmul A M).flip.compl₂
+          (Submodule.torsionBy A A ((p : A) ^ n)).subtype)) =
+          Submodule.torsionBy A M ((p : A) ^ n) := by
+  sorry
+
+/-- **Flat reductions and bounded torsion give complete flatness** (README 1.8; [BMS19],
+Lemma 4.7(2), p. 222). Let `A` have bounded `p`-power torsion and let `M` be a classically
+`p`-adically complete `A`-module with bounded `p`-power torsion whose reductions `M/pⁿM` are flat
+over `A/pⁿ` for all `n ≥ 1`. Then `M` is `p`-completely flat. -/
+theorem isCompletelyFlatModule_of_isAdicComplete (A : Type u) [CommRing A] (p : ℕ) (hp : p.Prime)
+    (hA : ∃ c : ℕ, ∀ (a : A) (n : ℕ), (p : A) ^ n * a = 0 → (p : A) ^ c * a = 0)
+    (M : ModuleCat.{u} A) [IsAdicComplete (Ideal.span {(p : A)}) M]
+    (hM : ∃ c : ℕ, ∀ (x : M) (n : ℕ), (p : A) ^ n • x = 0 → (p : A) ^ c • x = 0)
+    (hflat : ∀ n : ℕ, 0 < n →
+      Module.Flat (A ⧸ Ideal.span {(p : A) ^ n}) ((A ⧸ Ideal.span {(p : A) ^ n}) ⊗[A] M)) :
+    IsCompletelyFlatModule A (Ideal.span {(p : A)}) M := by
   sorry
 
 /-! ## Layer 4: perfect complexes, finite models and effectivity -/
