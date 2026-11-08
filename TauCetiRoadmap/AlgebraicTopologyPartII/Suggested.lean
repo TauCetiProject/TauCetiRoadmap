@@ -241,8 +241,9 @@ open scoped Topology Manifold ContDiff
 /-- **Equivariant Ehresmann transport** (§16.1). Let `f : M → B` be a proper smooth map of
 Hausdorff second-countable boundaryless manifolds, let `σM` and `σB` be smooth involutions with
 `f ∘ σM = σB ∘ f`, and let `b` be a regular value of `f` fixed by `σB`, whose fibre carries a
-smooth structure of dimension `n - k` for which its inclusion into `M` is a smooth embedding (for
-instance the regular-fibre atlas `TauCeti.regularFiberChartedSpace`). Then `f` has a local
+smooth structure modelled on `Fin (n - k) → ℝ` for which its inclusion into `M` is a smooth
+embedding (for instance the regular-fibre atlas `TauCeti.regularFiberChartedSpace`, whose model
+`finrank_euclideanSpace_fin` rewrites to `Fin (n - k) → ℝ`). Then `f` has a local
 trivialization over a `σB`-invariant open neighbourhood of `b` with that fibre. The
 trivialization is a diffeomorphism onto its image and intertwines `σM` with `σB` on the base and
 with `σM` on the fibre. The fibre may be empty (B19 Proposition 6.6 proof; DIMCA Lemma 4). -/
@@ -256,13 +257,15 @@ theorem equivariantEhresmannTransport {n k : ℕ}
     (hσB : ContMDiff (𝓡 k) (𝓡 k) ∞ σB) (hσM2 : ∀ x, σM (σM x) = x)
     (hσB2 : ∀ c, σB (σB c) = c) (hfσ : ∀ x, f (σM x) = σB (f x))
     (b : B) (hb : σB b = b) (hreg : TauCeti.IsRegularValue (𝓡 n) (𝓡 k) f b)
-    [ChartedSpace (EuclideanSpace ℝ (Fin (n - k))) {x : M // f x = b}]
-    [IsManifold (𝓡 (n - k)) ∞ {x : M // f x = b}]
-    (hF : Manifold.IsSmoothEmbedding (𝓡 (n - k)) (𝓡 n) ∞ (Subtype.val : {x : M // f x = b} → M)) :
+    [ChartedSpace (Fin (n - k) → ℝ) {x : M // f x = b}]
+    [IsManifold 𝓘(ℝ, Fin (n - k) → ℝ) ∞ {x : M // f x = b}]
+    (hF : Manifold.IsSmoothEmbedding 𝓘(ℝ, Fin (n - k) → ℝ) (𝓡 n) ∞
+      (Subtype.val : {x : M // f x = b} → M)) :
     ∃ e : Bundle.Trivialization {x : M // f x = b} f, b ∈ e.baseSet ∧
       σB ⁻¹' e.baseSet = e.baseSet ∧
-      ContMDiffOn (𝓡 n) ((𝓡 k).prod (𝓡 (n - k))) ∞ e e.source ∧
-      ContMDiffOn ((𝓡 k).prod (𝓡 (n - k))) (𝓡 n) ∞ e.toOpenPartialHomeomorph.symm e.target ∧
+      ContMDiffOn (𝓡 n) ((𝓡 k).prod 𝓘(ℝ, Fin (n - k) → ℝ)) ∞ e e.source ∧
+      ContMDiffOn ((𝓡 k).prod 𝓘(ℝ, Fin (n - k) → ℝ)) (𝓡 n) ∞
+        e.toOpenPartialHomeomorph.symm e.target ∧
       ∀ x ∈ e.source, ((e (σM x)).2 : M) = σM (e x).2 := by
   sorry
 
