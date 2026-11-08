@@ -1,21 +1,24 @@
 module
 
 import Mathlib
+import TauCeti.NumberTheory.LFunctions.Data.Basic
+import TauCeti.NumberTheory.LFunctions.Data.RiemannZeta
 
 /-!
 # Explicit bounds for the zeta function and Dirichlet L-functions: target signatures
 
-The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
-theorems against the pinned Mathlib, each with `sorry`, together with the definitions they need:
+The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline theorems
+against the pinned Mathlib and Tau Ceti, each with `sorry`, together with the definitions they need:
 the bounded-height Riemann hypotheses `RiemannHypothesisUpTo` and `DirichletGRHUpTo` of Layer 0.2,
-Platt's heights `plattHeight` of Layer 0.3, the records of
-Layers 0.4 and 0.4b that a theorem here takes as a hypothesis, the Riemann–Siegel theta function
-`riemannSiegelTheta` of Layer 0.4a, Vinogradov's count `vinogradovCount` of Layer 4.9a, the zero
-counts `zetaZeroCount` and `dirichletZeroCount` of Layer 5 with the zero-count predicate
-`ZetaZeroCountBound` of 5.2a, the density counts `zetaZeroCountRight` and `zetaZeroDensityCount`
-of Layer 8 (each written with the meromorphic order, in the rectangle of the source it serves),
-and the count `primitiveLZeroCount` with the largest real zero `largestRealZero` of the family of
-primitive L-functions of Layer 8.4. Every constant below is a literal decimal of its source.
+Platt's heights `plattHeight` of Layer 0.3, the records of Layers 0.4 and 0.4b that a theorem here
+takes as a hypothesis, the Riemann–Siegel theta function `riemannSiegelTheta` of Layer 0.4a, the
+continued L-function `continuedL` of a Tau Ceti analytic record (Layer 3.2), Vinogradov's count
+`vinogradovCount` of Layer 4.9a, the zero counts `zetaZeroCount` and `dirichletZeroCount` of Layer 5
+with the zero-count predicate `ZetaZeroCountBound` of 5.2a, the density counts `zetaZeroCountRight`
+and `zetaZeroDensityCount` of Layer 8 (each written with the meromorphic order, in the rectangle of
+the source it serves), and the count `primitiveLZeroCount` with the largest real zero
+`largestRealZero` of the family of primitive L-functions of Layer 8.4. Every constant below is a
+literal decimal of its source.
 
 Stated here:
 
@@ -25,7 +28,8 @@ Stated here:
   continuation of `ζ` to `Re s > 0` by the first-order formula from any real `a > 0`, and its case
   `a = 1`;
 * Layer 2.5, the two-sided bound for `‖Γ(σ + it)‖` on vertical lines;
-* Layer 3.2, Rademacher's convexity bound for primitive Dirichlet L-functions; Layer 3.2a, the
+* Layer 3.2, Rademacher's convexity bound for an analytic record of finite-order type and its
+  instance for primitive Dirichlet L-functions; Layer 3.2a, the
   linear bound for `ζ` on `Re z > 0` and on the discs about `3/2 + it`; Layer 3.4, `ζ` greater
   than `1` and strictly decreasing on `(1, ∞)`, and the alternating Laurent expansion of
   `−ζ′/ζ` at `1`, given Kalmynin's record;
@@ -65,11 +69,9 @@ small heights; nothing here proves one. The other numerical steps of the sources
 parameters and the evaluation of their closed-form constants there, are inequalities between
 explicit real numbers inside the proofs.
 
-Not statable at the pins:
-
-* Rademacher's bound (3.2) at the generality of an analytic record of finite-order type, which
-  needs the record `AnalyticLFunctionData` of the L-functions roadmap and its continued
-  L-function, absent from Mathlib and Tau Ceti; its Dirichlet instance is stated.
+Every headline theorem of the README is statable at the pins: the analytic records of 3.2 are
+Tau Ceti's `TauCeti.LFunctions.AnalyticLFunctionData`, and the finite order of their completion is
+written out as an explicit growth bound.
 
 Not stated: the README instances that rest on unrefereed preprints (the region of 7.3 with
 `R₀ = 4.896`, the real-zero gaps of 7.9 without a conductor cap, Banks's and Guo's, and Lee and
@@ -370,6 +372,58 @@ theorem norm_Gamma_bounds (s : ℂ) (hσ : 0 < s.re) (ht : s.im ≠ 0) :
         Real.exp (-(π * |s.im| / 2)) * Real.exp (1 / (6 * ‖s‖)) := sorry
 
 /-! ## Layer 3: explicit convexity and pointwise bounds -/
+
+/-- **Layer 3.2, the continued L-function of an analytic record.** For a Tau Ceti record `d` with
+conductor `N`, completed function `Λ` and gamma factor `γ`, the value at `s` is the limit at `s`,
+through `z ≠ s`, of `N^{−z/2} Λ(z)/γ(z)`. Where this quotient extends analytically across `s`,
+that is its value there, also at a common pole of `Λ` and `γ` (at `riemannZetaData` the value at
+`0` is `ζ(0) = −1/2`, while the quotient itself is `0` there); so it agrees with *continuedL* of
+`ZerosOfLFunctions` 1.6 at every point where that function is analytic. At `dirichletData χ hχ`
+the factor `N^{−z/2}` cancels the conductor power of the completion and the value is
+`L(s, χ)`. -/
+noncomputable def continuedL (d : TauCeti.LFunctions.AnalyticLFunctionData) (s : ℂ) : ℂ :=
+  Filter.limUnder (nhdsWithin s {s}ᶜ) fun z ↦
+    ((d.conductor : ℕ) : ℂ) ^ (-z / 2) * d.completed z / d.gammaFactor z
+
+/-- At the `ζ` record, `continuedL` is `ζ(0) = −1/2` at the common pole `0` of
+`completedRiemannZeta` and `Gammaℝ`, where the quotient itself is `0`: near `0` the quotient is
+`ζ`, which is continuous at `0`. -/
+example : continuedL TauCeti.LFunctions.riemannZetaData 0 = -1 / 2 := by
+  rw [← riemannZeta_zero]
+  apply Filter.Tendsto.limUnder_eq
+  have hc : ContinuousAt riemannZeta 0 :=
+    (differentiableAt_riemannZeta (by norm_num)).continuousAt
+  refine (hc.tendsto.mono_left nhdsWithin_le_nhds).congr' ?_
+  filter_upwards [self_mem_nhdsWithin] with z hz
+  simp [riemannZeta_def_of_ne_zero hz]
+
+/-- **Layer 3.2, Rademacher's convexity bound for a record of finite-order type.** Let `d` satisfy
+`HasDirichletAgreement`, `HasMeromorphicContinuation` and `HasFunctionalEquation`, have real gamma
+shifts in `{0, 1}` and complex gamma shifts `0`, and have its polar divisor supported in `{0, 1}`
+with order at most `1`, `γ` having a pole at `0` when `Λ` has one, so that the only pole of
+`continuedL d` on the strip is at `1`. Let `s (s − 1) Λ(s)` have finite order, and let the
+coefficients satisfy `Σ_m |a_m| m^{−σ} ≤ ζ(σ)^n` for real `σ > 1`, where `n` is the degree and
+`N` the conductor. Then for `0 < η ≤ 1/2` and `s ≠ 1` with `−η ≤ Re s ≤ 1 + η`,
+`|continuedL d s| ≤ P(s) (N (|1 + s|/(2π))^n)^{(1 + η − Re s)/2} ζ(1 + η)^n`, where
+`P(s) = 3 |(1 + s)/(1 − s)|` if `Λ` has a pole at `1` and `P(s) = 1` otherwise (Rademacher 1959,
+Theorems 3 and 4, in the common form of both). The edges come from the majorant and the functional
+equation with the gamma quotients of 2.8; the strip is filled by the explicit Phragmén–Lindelöf
+principle of 3.1. -/
+theorem norm_continuedL_le_rademacher (d : TauCeti.LFunctions.AnalyticLFunctionData)
+    (hD : d.HasDirichletAgreement) (hM : d.HasMeromorphicContinuation)
+    (hF : d.HasFunctionalEquation) (hR : ∀ μ ∈ d.gammaR, μ = 0 ∨ μ = 1)
+    (hC : ∀ ν ∈ d.gammaC, ν = 0)
+    (hP : ∀ p : ℂ, d.polarOrder p ≤ 1 ∧ (d.polarOrder p ≠ 0 → p = 0 ∨ p = 1))
+    (hP₀ : d.polarOrder 0 ≠ 0 → 0 ∈ d.gammaR ∨ d.gammaC ≠ 0)
+    (hfin : ∃ A : ℝ, ∀ s : ℂ, ‖s * (s - 1) * d.completed s‖ ≤ A * Real.exp (A * ‖s‖ ^ A))
+    (hmaj : ∀ σ : ℝ, 1 < σ →
+      ∑' m : ℕ, ‖d.coeff m‖ * (m : ℝ) ^ (-σ) ≤ (riemannZeta σ).re ^ d.degree)
+    (η : ℝ) (hη₀ : 0 < η) (hη₁ : η ≤ 1 / 2) (s : ℂ) (hσ₀ : -η ≤ s.re) (hσ₁ : s.re ≤ 1 + η)
+    (hs : s ≠ 1) :
+    ‖continuedL d s‖ ≤ (if d.polarOrder 1 ≠ 0 then 3 * ‖(1 + s) / (1 - s)‖ else 1) *
+      (((d.conductor : ℕ) : ℝ) * (‖1 + s‖ / (2 * π)) ^ d.degree) ^ ((1 + η - s.re) / 2) *
+        (riemannZeta (1 + η)).re ^ d.degree :=
+  sorry
 
 /-- **Layer 3.2 at a primitive Dirichlet character, Rademacher's convexity bound.** For `χ`
 primitive modulo `q > 1`, `0 < η ≤ 1/2` and `−η ≤ Re s ≤ 1 + η`,

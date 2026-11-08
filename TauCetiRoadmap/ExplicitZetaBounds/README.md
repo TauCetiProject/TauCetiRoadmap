@@ -4,7 +4,8 @@
 [zeros of L-functions roadmap](../ZerosOfLFunctions/README.md), which proves every shape used here
 with existential constants and leaves decimal constants out of its scope. On Mathlib's `riemannZeta`
 and `DirichletCharacter.LFunction`, on the analytic records of the
-[L-functions roadmap](../LFunctions/README.md), and on Mathlib's `Complex.Gamma`, it builds: the
+[L-functions roadmap](../LFunctions/README.md) as Tau Ceti realizes them
+(`TauCeti.LFunctions.AnalyticLFunctionData`), and on Mathlib's `Complex.Gamma`, it builds: the
 explicit error calculus `f = g + O*(h)`; the bounded-height Riemann hypotheses `RH(H)` and
 `GRH(q, H)` with their bridge to Platt's finite-conductor theorem; the Euler–Maclaurin formula;
 Stirling's series for
@@ -116,9 +117,11 @@ that the same route uses differs from those of 4.3 and is that roadmap's.
 
 ### Consumed, not redefined
 
-- analytic records, continuation, functional equation, the average coefficient growth predicate,
-  `riemannZetaData`, `dirichletData`, `dedekindZetaData` and the Dirichlet factorizations: the
-  [L-functions roadmap](../LFunctions/README.md), Layers 0, 3 and 4;
+- the analytic records with their degree, gamma factor, dual and the predicates of continuation
+  and functional equation, the `ζ` record `riemannZetaData` and the primitive Dirichlet records
+  `dirichletData`: Tau Ceti, as it realizes them from Layers 0 and 4 of the
+  [L-functions roadmap](../LFunctions/README.md); the average coefficient growth predicate,
+  `dedekindZetaData` and the Dirichlet factorizations: that roadmap, Layers 0, 3 and 4;
 - the entire completion, *IsFiniteOrder*, the sector branch of `log Γ`, *continuedL*, the analytic
   conductor, the pole-cleared continued L-function, `zeroCount` with `N(T)` and `N±(T)`, Jensen's
   bound, Hadamard's factorization and its L-function corollaries, the exceptional-zero predicate,
@@ -328,15 +331,40 @@ that the same route uses differs from those of 4.3 and is that roadmap's.
   (`TauCeti/NumberTheory/ArithmeticDirichletSeries/Perron/`): for `x > 0`, `c > 0`, `T > 0`, `x` off
   the support's integers and absolute convergence on `Re s = c`, the truncated integral differs from
   `Σ_{n < x} f(n)` by at most `Σ ‖f(n)‖ (x/n)^c/(πT|log(x/n)|)`.
+- `TauCeti.LFunctions.AnalyticLFunctionData` (`TauCeti/NumberTheory/LFunctions/Data/Basic.lean`),
+  the analytic record with fields `coeff`, `conductor : ℕ+`, `gammaR`, `gammaC`, `rootNumber`,
+  `completed` and `polarOrder`; `AnalyticLFunctionData.degree` (`#gammaR + 2 #gammaC`),
+  `AnalyticLFunctionData.gammaFactor` (`γ(s) = ∏ Gammaℝ(s + μ) ∏ Gammaℂ(s + ν)`),
+  `AnalyticLFunctionData.dual`; and the predicates `HasDirichletAgreement` (`coeff 1 = 1`, positive
+  degree, and `completed s = N^{s/2} γ(s) LSeries coeff s` for `Re s > 1`, so that the conductor
+  power is part of `completed`), `HasMeromorphicContinuation` (meromorphic on `ℂ`, a pole of exactly
+  the recorded order at each point of the polar divisor, analytic elsewhere) and
+  `HasFunctionalEquation` (`‖rootNumber‖ = 1`, the polar divisor symmetric under `s ↦ 1 − conj s`,
+  and `completed s = rootNumber · dual.completed (1 − s)` where neither `s` nor `1 − conj s` is a
+  pole).
+- `TauCeti.LFunctions.riemannZetaData` (`TauCeti/NumberTheory/LFunctions/Data/RiemannZeta.lean`):
+  coefficients `1`, conductor `1`, `gammaR = {0}`, no complex shift, root number `1`,
+  `completed = completedRiemannZeta` and simple poles at `0` and `1`, with
+  `riemannZetaData_hasDirichletAgreement`, `riemannZetaData_hasMeromorphicContinuation` and
+  `riemannZetaData_hasFunctionalEquation`.
+- `TauCeti.LFunctions.dirichletData χ hχ` (`TauCeti/NumberTheory/LFunctions/Dirichlet/Basic.lean`)
+  for `χ` primitive modulo `N`: coefficients `χ(n)`, conductor `N`, `gammaR = {a}`, root number
+  `DirichletCharacter.rootNumber χ`,
+  `completed s = N^{s/2} · DirichletCharacter.completedLFunction χ s` (Mathlib's completed function
+  carries no conductor power), no poles for `N > 1`, and the
+  `riemannZetaData` record for `N = 1` (`dirichletData_modOne`); with
+  `dirichletData_hasDirichletAgreement`, `dirichletData_hasMeromorphicContinuation` and
+  `dirichletData_hasFunctionalEquation`.
 
 ### From TauCetiRoadmap.LFunctions
 
-- Layer 0: `AnalyticLFunctionData` with `coeff`, `conductor`, `gammaR`, `gammaC`, `rootNumber`,
-  `completed`, `polarOrder`; `AnalyticLFunctionData.degree`, `AnalyticLFunctionData.gammaFactor`,
-  `AnalyticLFunctionData.dual`; the predicates `HasDirichletAgreement`, `HasMeromorphicContinuation`,
-  `HasFunctionalEquation` and the average coefficient growth predicate; `riemannZetaData`.
+- Layer 0: the average coefficient growth predicate. The records, their degree, gamma factor and
+  dual, the three predicates and `riemannZetaData` of the same layer are consumed as Tau Ceti
+  realizes them (above).
 - Layer 3: `dedekindZetaData` (named only where a Dedekind instance is a Check).
-- Layer 4: `dirichletData`, with conductor `q`, real gamma shift `a` and Mathlib's completed function.
+- Layer 4: `dirichletData`, consumed as Tau Ceti realizes it (above): conductor `q`, real gamma
+  shift `a`, and completed function `q^{s/2}` times Mathlib's
+  `DirichletCharacter.completedLFunction χ s`.
 
 ### From TauCetiRoadmap.ZerosOfLFunctions
 
@@ -410,8 +438,9 @@ and 5.
 
 Define *BigOStar* `a b e`, written `a = b + O*(e)`, for `a b` in a normed additive group `E` and
 `e : ℝ`, as `‖a − b‖ ≤ e`; and for functions `f g : α → E`, `h : α → ℝ` and a set `S ⊆ α`, the
-statement "`f = g + O*(h)` on `S`" as `∀ x ∈ S, f x = g x + O*(h x)` (Ramaré, *Excursions* §1, which
-introduced the notation; `ramare2022excursions`).
+statement "`f = g + O*(h)` on `S`" as `∀ x ∈ S, f x = g x + O*(h x)` (the notation of the
+explicit literature, defined for instance in `kadiri2005` line 257 and in `ramare2016density`
+line 207; Ramaré, *Excursions* §1, `ramare2022excursions`).
 
 - If `a = b + O*(e)` then `0 ≤ e`; and `a = a + O*(e)` holds if and only if `0 ≤ e`.
 - Symmetry: `a = b + O*(e)` if and only if `b = a + O*(e)`.
@@ -1187,23 +1216,37 @@ damping), then bisection and continuity (`fiori2025` Lemma 5, lines 110–114).
 
 ### 3.2 Rademacher's convexity bound
 
-Call a record `d` of the L-functions roadmap of *finite-order type* when: `d` satisfies
-`HasDirichletAgreement`, `HasMeromorphicContinuation` and `HasFunctionalEquation`; every element of
-`d.gammaR` lies in `{0, 1}` and every element of `d.gammaC` is `0`; the polar divisor is supported in
-`{0, 1}` with order at most `1`; `ZerosOfLFunctions` *IsFiniteOrder* `d` holds; and the coefficients
-admit the majorant `Σ_m |d.coeff m| m^{−σ} ≤ ζ(σ)^n` for every real `σ > 1`, with `n = d.degree` and
-`N = d.conductor`. For such `d`, `0 < η ≤ 1/2` and `s = σ + it` with `−η ≤ σ ≤ 1 + η` and `s ≠ 1`,
-prove `‖continuedL d s‖ ≤ P(s) (N (|1 + s|/(2π))^n)^{(1+η−σ)/2} ζ(1 + η)^n`, where
+Call a record `d : TauCeti.LFunctions.AnalyticLFunctionData` of *finite-order type* when: `d`
+satisfies `HasDirichletAgreement`, `HasMeromorphicContinuation` and `HasFunctionalEquation`; every
+element of `d.gammaR` lies in `{0, 1}` and every element of `d.gammaC` is `0` (a factor `Gammaℂ(s)`,
+as in the Dedekind records); the polar divisor is supported in `{0, 1}` with order at most `1`, and
+if it contains `0` then the gamma factor has a pole at `0`, that is `0 ∈ d.gammaR` or `d.gammaC` is
+nonempty; `ZerosOfLFunctions` *IsFiniteOrder* `d` holds; and the coefficients admit the majorant
+`Σ_m |d.coeff m| m^{−σ} ≤ ζ(σ)^n` for every real `σ > 1`, with `n = d.degree` and
+`N = d.conductor`. The pole condition makes `1` the only pole of *continuedL* `d` on the strip
+`−1/2 ≤ σ ≤ 3/2`: the poles of `γ` there lie at `0`, and a pole of `Λ` at `0` that `γ` does not
+cancel is a pole of *continuedL* `d`. For such `d`, `0 < η ≤ 1/2` and `s = σ + it` with
+`−η ≤ σ ≤ 1 + η` and `s ≠ 1`, prove
+`‖continuedL d s‖ ≤ P(s) (N (|1 + s|/(2π))^n)^{(1+η−σ)/2} ζ(1 + η)^n`, where
 `P(s) = 3|(1 + s)/(1 − s)|` if `d.polarOrder 1 ≠ 0` and `P(s) = 1` otherwise (Rademacher,
-Theorems 3 and 4, `rademacher1959`, at this generality as the common form of both).
+Theorems 3 and 4, `rademacher1959`, at this generality as the common form of both). This is
+`norm_continuedL_le_rademacher`. [`Suggested.lean`](Suggested.lean) writes *continuedL* `d s`
+(`ZerosOfLFunctions` 1.6) as `continuedL d s`, the limit at `s`, through `z ≠ s`, of
+`N^{−z/2} Λ(z)/γ(z)`: it agrees with *continuedL* `d` at every point where that function is
+analytic, so on the whole range of the statement. It writes *IsFiniteOrder* `d` as the bound
+`‖s (s − 1) Λ(s)‖ ≤ A exp(A ‖s‖^A)` for one real `A` and every `s`, which is equivalent for these
+polar divisors: the clearing polynomial of `ZerosOfLFunctions` Layer 0 is `s (s − 1)` or `1`, the
+divisor being symmetric under `s ↦ 1 − conj s`, and a nonzero polynomial factor preserves finite
+order in both directions.
 
 - Primitive Dirichlet characters: for `χ` primitive of conductor `q > 1`,
   `|L(s, χ)| ≤ (q|1 + s|/(2π))^{(1+η−σ)/2} ζ(1 + η)` on the same range (Theorem 3), the record being
-  `dirichletData χ` with `n = 1`, `N = q`, `gammaR = {a}`; the statement is quoted in `bmor2021`
-  Lemma 5.6, lines 569–577, and is `norm_LFunction_le_rademacher`.
+  `dirichletData χ hχ` with `n = 1`, `N = q`, `gammaR = {a}` and no poles, whose `continuedL` is
+  `L(s, χ)` because `q^{−z/2}` cancels the conductor power of its completion; the statement is
+  quoted in `bmor2021` Lemma 5.6, lines 569–577, and is `norm_LFunction_le_rademacher`.
 - The Riemann zeta function: `|ζ(s)| ≤ 3|(1 + s)/(1 − s)| (|1 + s|/(2π))^{(1+η−σ)/2} ζ(1 + η)` for
   `−η ≤ σ ≤ 1 + η`, `s ≠ 1`, the general form at `riemannZetaData` (`n = N = 1`, polar order `1`
-  at `1`).
+  at `0` and `1`, and `0 ∈ gammaR`).
 
 Route: the right edge `σ = 1 + η` by the majorant; the left edge `σ = −η` by the functional equation
 against the dual record,
@@ -1213,9 +1256,10 @@ power `N^{1/2+η}`; then 3.1 with `G₁ = N^{1/2}` constant and `G₂(s) = (1 + 
 on the right edge and at most `(1 + η)/(1 − η) ≤ 3` on the left edge. Finite order on the strip is
 `ZerosOfLFunctions` 3.4 (*poleClearedContinuedL*).
 
-*Needs:* 2.8, 3.1; L-functions Layer 0 predicates, Layer 4 `dirichletData`; `ZerosOfLFunctions`
-1.6 (*continuedL* and its functional equation against the dual record), 3.4, Layer 0
-*IsFiniteOrder*; Mathlib `Complex.Gammaℝ_mul_Gammaℝ_add_one`, `riemannZeta`.
+*Needs:* 2.8, 3.1; Tau Ceti `TauCeti.LFunctions.AnalyticLFunctionData` with its three predicates,
+`riemannZetaData` and `dirichletData`; `ZerosOfLFunctions` 1.6 (*continuedL* and its functional
+equation against the dual record), 3.4, Layer 0 *IsFiniteOrder*; Mathlib
+`Complex.Gammaℝ_mul_Gammaℝ_add_one`, `riemannZeta`, `Filter.limUnder`.
 
 **Checks.**
 
@@ -1229,6 +1273,26 @@ on the right edge and at most `(1 + η)/(1 − η) ≤ 3` on the left edge. Fini
   is therefore not asserted.
 - `η > 1/2` is excluded: the left-edge factor `(1 + η)/(1 − η)` exceeds `3`, and at `η = 1` it is
   infinite.
+- `continuedL riemannZetaData 0 = ζ(0) = −1/2`, while the quotient `completedRiemannZeta 0/Gammaℝ 0`
+  is `0` (`Gammaℝ 0 = Γ(0) = 0` in Mathlib, and division by `0` is `0`): at a common pole of `Λ` and
+  `γ` the limit, not the quotient, is the L-function. At `η = 1/2` the bound there is
+  `3 (1/(2π))^{3/4} ζ(3/2) = 1.97479`.
+- The factor `N^{−z/2}` in `continuedL` is needed: without it the value at `dirichletData χ hχ`
+  would be `q^{s/2} L(s, χ)`, at `q = 3`, `s = 1/2` the value `L(1/2, χ₋₃)` multiplied by
+  `3^{1/4} = 1.31607`, and the bound would no longer be Rademacher's.
+- The Dedekind record of `ℚ(i)`, with `gammaR` empty, `gammaC = {0}`, `N = 4`, `n = 2` and
+  `continuedL = ζ(s) L(s, χ₋₄)`, is of finite-order type: its pole at `0` is cancelled by that of
+  `Gammaℂ(s)`, and reading the gamma condition as "`gammaC` is empty" would exclude it. At
+  `η = 1/2` the bound is `0.172867` at `s = −1/2` against `|ζ(−1/2) L(−1/2, χ₋₄)| = 0.057206`, and
+  `3.67678` at `s = 0` against `|ζ(0) L(0, χ₋₄)| = 1/4`.
+- The pole condition cannot be dropped from the route: for a record whose `Λ` has simple poles at
+  `0` and `1` and whose gamma factor is `Gammaℝ(s + 1)`, regular at `0` with value `Gammaℝ(1) = 1`,
+  the functional equation
+  `γ(s) continuedL d s = ε N^{1/2−s} γ_dual(1 − s) continuedL d.dual (1 − s)`, with
+  `γ_dual(1) = Gammaℝ(2) = 1/π`, carries the pole of `continuedL d.dual` at `1` to a pole of
+  `continuedL d` at `0`, inside the strip, where the right side of the bound stays bounded (at
+  `η = 1/2` it tends to `3 (N/(2π))^{3/4} ζ(3/2)` as `s → 0`); the Phragmén–Lindelöf step needs a
+  function holomorphic on the strip.
 
 ### 3.2a A linear bound in the right half-plane
 
@@ -1384,7 +1448,8 @@ controlling the passage to the unbounded strip.
 
 ### Dependencies
 
-Layers 1–2; 0.5a. L-functions Layers 0 and 4; `ZerosOfLFunctions` Layer 0, 1.6 and 3.4; Mathlib
+Layers 1–2; 0.5a. Tau Ceti's analytic records (`TauCeti.LFunctions.AnalyticLFunctionData`,
+`riemannZetaData`, `dirichletData`); `ZerosOfLFunctions` Layer 0, 1.6 and 3.4; Mathlib
 three-lines and Phragmén–Lindelöf theorems.
 
 ## Layer 4: explicit exponential sums and the size of `ζ` on vertical lines
@@ -1815,8 +1880,8 @@ Prove:
   analytic on discs, Lemma 3.2, and the representation `χ(1 + C₁x) = e(L̃x/D₁)` on residue classes,
   Lemma 3.3), with 4.1–4.3.
 
-*Needs:* 4.1–4.6, 3.3, 3.5, 2.8; 0.3 (the representation of `ζ` for `Re s > 0`); L-functions
-Layer 4 `dirichletData`; Mathlib `DirichletCharacter.IsPrimitive.completedLFunction_one_sub`,
+*Needs:* 4.1–4.6, 3.3, 3.5, 2.8; 0.3 (the representation of `ζ` for `Re s > 0`); Tau Ceti
+`dirichletData`; Mathlib `DirichletCharacter.IsPrimitive.completedLFunction_one_sub`,
 `ArithmeticFunction.sigma`; 0.4b (`HiaryRecord`).
 
 **Checks.**
@@ -1991,7 +2056,7 @@ inequalities for `t ≥ 3`; they hold for `t ≤ −3` by `ζ(conj s, u) = conj 
 ### Dependencies
 
 Layers 2–3; 0.3, 0.4a, 0.4b (`HiaryRecord`, `PatelRecord`, `YangRecord`) and 0.5a;
-`ZerosOfLFunctions` 7.1–7.2 (for 4.5b); L-functions Layer 4;
+`ZerosOfLFunctions` 7.1–7.2 (for 4.5b); Tau Ceti `dirichletData`;
 Mathlib `hardyZ`, exponential sums over `Real.fourierChar`, `ArithmeticFunction.sigma`,
 `HurwitzZeta.hurwitzZeta`; 4.10 depends on 4.9a.
 
@@ -2013,7 +2078,7 @@ convexity bound on the far side of the critical line, is the form used by 5.2 an
 (`bmor2021` Proposition 5.4, lines 473–475, which also records the constraints `1 < c < r`,
 `0 ≤ 2c − σ₁ − 1/2 < 9/2` that an earlier application omitted).
 
-The lemma is stated for an arbitrary holomorphic `f`; for a record `d` of the L-functions roadmap it
+The lemma is stated for an arbitrary holomorphic `f`; for a Tau Ceti analytic record `d` it
 applies to *poleClearedContinuedL* `d P` (`ZerosOfLFunctions` 3.4) on any disc avoiding the poles,
 with `M` bounded by 3.2. The degree and the conductor of `d` enter only through that bound, which is
 how `ExplicitNumberFields` specializes it to Dedekind zeta functions.
@@ -2244,7 +2309,7 @@ verification of the generalized Riemann hypothesis gives it: `PlattRecord` place
 but does not count them. It does contain their Lemma 6.1(a), the verification up to height
 `2πe⁶/q − 2` (lines 1021 and 1032–1033), since `2πe⁶/q − 2 < 10⁸/q`.
 
-*Needs:* 5.1, 2.1, 3.2; `ZerosOfLFunctions` 7.2, 6.5; L-functions Layer 4; Mathlib
+*Needs:* 5.1, 2.1, 3.2; `ZerosOfLFunctions` 7.2, 6.5; Tau Ceti `dirichletData`; Mathlib
 `DirichletCharacter.completedLFunction`; 0.4b (`BennettMartinOBryantRechnitzerRecord`); `bmor2021`
 §6.
 
@@ -3692,7 +3757,7 @@ record.
 
 ### Dependencies
 
-Layers 0–3 and 7.8 (for 9.3); L-functions Layer 4; Mathlib Gauss sums and Dirichlet
+Layers 0–3 and 7.8 (for 9.3); Tau Ceti `dirichletData`; Mathlib Gauss sums and Dirichlet
 L-functions; the records of 0.4b.
 
 ## Downstream consumers
@@ -3728,11 +3793,12 @@ L-functions; the records of 0.4b.
   below that height) and the recorded verification `RH(3 000 175 332 800)` of 0.4, its
   verified-zero hypothesis, as the proposition `RH(H)` of 0.2 through `ExplicitPrimeCounting` §1.1.
 - `ExplicitNumberFields` takes 3.2 at `dedekindZetaData K` (the Dedekind instance of Rademacher's
-  bound), 5.1 with 3.2 for the argument of Dedekind zeta functions of any degree, 2.1 and 2.5 for
-  the gamma factors, 6.1a (the iterated Perron identity), 0.2–0.3 (`GRH(q, H)`), 0.5 (admissible
-  cosine polynomials), 7.7 (the Siegel-shape bound `6.035/√d`), 7.9 (the real-zero gap
-  *HasLandauSiegelGap*, with Guo's instance `(1/100) ∞`) and 9.1 (Ramaré's bounds for `L(1, χ)`);
-  its own polynomial certificates are listed under "Not owned here".
+  bound, whose gamma factor has a pole at `0` because `r₁ + r₂ ≥ 1` of its shifts are `0`, so that
+  the pole condition of 3.2 holds), 5.1 with 3.2 for the argument of Dedekind zeta functions of any
+  degree, 2.1 and 2.5 for the gamma factors, 6.1a (the iterated Perron identity), 0.2–0.3
+  (`GRH(q, H)`), 0.5 (admissible cosine polynomials), 7.7 (the Siegel-shape bound `6.035/√d`), 7.9
+  (the real-zero gap *HasLandauSiegelGap*, with Guo's instance `(1/100) ∞`) and 9.1 (Ramaré's
+  bounds for `L(1, χ)`); its own polynomial certificates are listed under "Not owned here".
 - A Part II of this roadmap placed after `ExplicitCharacterSumsAndSieves` takes Layer 9 for the
   quadratic `L(1, χ)` bounds that need explicit Pólya–Vinogradov inequalities.
 
