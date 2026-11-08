@@ -180,7 +180,9 @@ Checked against the pin; re-grep before citing anything in code.
 - **Manifold calculus**: `Geometry/Manifold/VectorBundle/` (`ContMDiffVectorBundle`, `Hom.lean`,
   `ContMDiffSection`, `Pullback`, `LocalFrame`, `Tensoriality`), `MFDeriv/` (`mfderiv`, `mvfderiv`),
   `VectorField/` (`mlieBracket`, `mpullback`),
-  `{Immersion,LocalDiffeomorph,Diffeomorph,SmoothEmbedding}.lean`.
+  `{Immersion,LocalDiffeomorph,Diffeomorph,SmoothEmbedding}.lean`
+  (`IsLocalDiffeomorph.mfderivToContinuousLinearEquiv`, the differential of a `C^n` local
+  diffeomorphism, `n ≠ 0`, as a continuous linear equivalence, which 2.2 inverts).
 - **Integral curves**:
   `Geometry/Manifold/IntegralCurve/{Basic,ExistUnique,Transform,UniformTime}.lean`
   (`IsMIntegralCurve`/`On`/`At`, uniqueness on `[T2Space M]`, uniform-time globalization =
@@ -192,8 +194,9 @@ Checked against the pin; re-grep before citing anything in code.
   `{PartitionOfUnity,BumpFunction,SmoothApprox,WhitneyEmbedding}.lean`.
 - **Flat integration and fiberwise orientation**: `MeasureTheory/Integral/DivergenceTheorem.lean`,
   `MeasureTheory/Function/Jacobian.lean`, `CurveIntegral/`, `IntervalIntegral/`,
-  `LinearAlgebra/{Orientation,Ray}.lean`, `Orientation.volumeForm`, `Basis.addHaar`; none of it
-  manifold-level.
+  `LinearAlgebra/{Orientation,Ray}.lean` (`Orientation.map`, `Basis.orientation`, with
+  `Module.finBasisOfFinrankEq` supplying the basis behind the model orientation of 2.2),
+  `Orientation.volumeForm`, `Basis.addHaar`; none of it manifold-level.
 - **Covering spaces**: `Topology/Covering/{Basic,Quotient}.lean`, `Topology/Homotopy/Lifting.lean`,
   `Geometry/Manifold/Instances/Quotient.lean` (charts on a quotient *below* an action, the only
   covering–manifold bridge in the pin; 2.3 builds the other direction).
@@ -608,12 +611,25 @@ Geometric Topology.
     atlas exists (*Statements that must not enter the library*).
 - **2.2 Preserving maps and top forms.** `IsOrientationPreservingAt`, its reversing twin (the
   differential carries `orientationAt o x` to `−orientationAt o' (f x)`), the pullback
-  orientation along local diffeomorphisms (`exists_isOrientationPreservingAt_pullback`, with the
-  chosen orientation `Manifold.Orientation.pullback`) and product orientations
-  [Lee, Prop. 15.15]. The pullback along `f : M → M'` of an orientation of `M'` indexed by `ι`
-  requires `Fintype.card ι = finrank ℝ E`, the dimension of the source: for nonempty `M` this
-  follows from the invertible differential of `f`, and for empty `M` it is exactly the condition
-  for an orientation of `M` indexed by `ι` to exist. Nowhere-vanishing continuous top forms ↔
+  orientation along local diffeomorphisms (`exists_isOrientationPreservingAt_pullback`) and
+  product orientations [Lee, Prop. 15.15]. The pullback along `f : M → M'` of an orientation of
+  `M'` indexed by `ι` requires `Fintype.card ι = finrank ℝ E`, the dimension of the source: for
+  nonempty `M` this follows from the invertible differential of `f`, and for empty `M` it is
+  exactly the condition for an orientation of `M` indexed by `ι` to exist. The pullback is
+  constructed, not chosen. For `f` a `C^n` local diffeomorphism with `1 ≤ n`, `M` and `M'`
+  `C^n` manifolds, `E'` finite-dimensional and `μ` an orientation of `E` indexed by `ι`, the chart
+  sign `Manifold.Orientation.pullbackSign` of the chart at `x` at a point `y` of its source is the
+  product of two signs. The first is `+1` exactly when `μ` is `orientationAt o' (f y)` carried
+  back by the inverse differential of `f` at `y`. The second is the sign of the Jacobian
+  determinant, within `range I`, of the change from the chart at `y` to the chart at `x`. Prove
+  that these signs are locally constant on the chart source
+  (`Manifold.Orientation.continuous_pullbackSign`). Prove that they satisfy the coordinate-change
+  law of 2.1 (`Manifold.Orientation.pullbackSign_mul_pullbackSign`): the tangent factors cancel
+  and the transition factors compose by the chain rule within `range I`, so this law needs only
+  the `C¹` atlas of `M`. `Manifold.Orientation.pullback` is the class of the lift with these signs
+  whose model orientation is that of a basis of `E` reindexed by `ι`. Prove that `f` preserves
+  orientation from it at every point, which proves the existence theorem. Nowhere-vanishing
+  continuous top forms ↔
   orientations (`exists_orientation_of_topForm`), the smooth direction under
   `[T2Space M] [SigmaCompactSpace M]` (`exists_topForm_of_orientation`) [Lee, Prop. 15.5]; the
   oriented-atlas criterion as a theorem for boundaryless `M` (`orientable_iff_exists_atlas`)
@@ -623,6 +639,21 @@ Geometric Topology.
     diffeomorphism and `ℝ` has an orientation indexed by `Fin 1`, but the empty manifold has none
     indexed by `Fin 1` (`card_eq` would force `1 = 2`); the pullback statement without the
     dimension hypothesis is false.
+  - Independence of the basis: replacing `μ` by `−μ` negates the tangent factor at every point
+    (the carried-back orientation is `μ` or `−μ`, and `μ ≠ −μ`) and leaves the transition factor
+    unchanged. So every pulled-back chart sign is negated, which is the diagonal flip, and the
+    class is unchanged.
+  - Base point: at `y = x` the transition factor is `+1`, because the change of chart is the
+    identity near `extChartAt I x x` within `range I`, where derivatives are unique. So the
+    pulled-back tangent orientation at `x` is `orientationAt o' (f x)` carried back by the inverse
+    differential. For the reflection `t ↦ −t` of `ℝ` and the standard orientation, this is
+    `(−1)⁻¹ · (+) = −`, the opposite orientation.
+  - The transition factor is needed. Give `ℝ` the atlas whose chart is `t ↦ t` at points `≥ 0`
+    and `t ↦ −t` at points `< 0`, and pull back the standard orientation along the identity with
+    `μ` standard. At `y = 1` the chart at `0` gets the sign `(+1)(+1) = +1` and the chart at `−1`
+    gets `(+1)(−1) = −1`. Their product, `−1`, is the sign of the transition `t ↦ −t` from the
+    chart at `0` to the chart at `−1`. With the tangent factor alone both signs would be `+1`,
+    and the coordinate-change law would fail.
   - The covering map `ℝ → S¹`, `t ↦ (cos t, sin t)`, pulls the counterclockwise orientation back
     to the standard orientation of `ℝ`; the reflection `t ↦ −t` reverses it.
   - The antipodal map of `S¹` preserves the orientation and that of `S²` reverses it (2.4).

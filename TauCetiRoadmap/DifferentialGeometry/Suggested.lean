@@ -637,16 +637,67 @@ theorem exists_isOrientationPreservingAt_pullback [FiniteDimensional ℝ E'] [Is
     ∃ o : Manifold.Orientation I M ι, ∀ x, IsOrientationPreservingAt o o' f x :=
   sorry
 
-/-- **Layer 2.2.** The pullback orientation along a local diffeomorphism: the orientation chosen
-from the existence theorem `exists_isOrientationPreservingAt_pullback`, characterized by making `f`
-orientation-preserving everywhere (the characterization determines it, by
-`Manifold.Orientation.ext`). The dimension hypothesis is discharged by `simp` for Euclidean
-sources indexed by `Fin m`. -/
+open Classical in
+/-- **Layer 2.2.** The chart signs of the pullback orientation relative to a model orientation
+`μ` of `E`. At a point `y` of the source of the preferred chart at `x` the sign is a product of
+two signs. The first is `+1` exactly when `μ` is the orientation of `T_y M` (read in the chart at
+`y`) carried back from `orientationAt o' (f y)` by the inverse of the differential of `f` at `y`.
+The second is the sign of the Jacobian determinant, within `range I`, of the change from the
+chart at `y` to the chart at `x`. -/
+noncomputable def Manifold.Orientation.pullbackSign [FiniteDimensional ℝ E'] {f : M → M'}
+    (hf : IsLocalDiffeomorph I I' n f) (hn : 1 ≤ n) (o' : Manifold.Orientation I' M' ι)
+    (μ : _root_.Orientation ℝ E ι) (x : M) (y : (chartAt H x).source) : ℤˣ :=
+  (if _root_.Orientation.map ι
+        (hf.mfderivToContinuousLinearEquiv (zero_lt_one.trans_le hn).ne' (y : M)).symm.toLinearEquiv
+        (orientationAt o' (f y)) = μ then 1 else -1) *
+    (if 0 < LinearMap.det (fderivWithin ℝ (extChartAt I x ∘ (extChartAt I (y : M)).symm)
+        (range I) (extChartAt I (y : M) y) : E →ₗ[ℝ] E) then 1 else -1)
+
+/-- **Layer 2.2.** The pulled-back chart signs are locally constant on the chart source: in a
+fixed chart of `M'` near `f y₀` the tangent orientation of `o'` is constant, and the inverse of
+the derivative of `f` written in that chart and the chart at `x` is continuous and invertible, so
+its determinant keeps its sign [Lee, Prop. 15.15]. -/
+theorem Manifold.Orientation.continuous_pullbackSign [FiniteDimensional ℝ E'] [IsManifold I n M]
+    [IsManifold I' n M'] {f : M → M'} (hf : IsLocalDiffeomorph I I' n f) (hn : 1 ≤ n)
+    (o' : Manifold.Orientation I' M' ι) (μ : _root_.Orientation ℝ E ι) (x : M) :
+    Continuous (Manifold.Orientation.pullbackSign hf hn o' μ x) :=
+  sorry
+
+/-- **Layer 2.2.** The pulled-back chart signs satisfy the coordinate-change law of an
+orientation lift: the tangent factors cancel in the product, and the two transition factors
+multiply to the sign of the transition from the chart at `x` to the chart at `x'` by the chain
+rule within `range I`. -/
+theorem Manifold.Orientation.pullbackSign_mul_pullbackSign [FiniteDimensional ℝ E']
+    [IsManifold I n M] {f : M → M'} (hf : IsLocalDiffeomorph I I' n f) (hn : 1 ≤ n)
+    (o' : Manifold.Orientation I' M' ι) (μ : _root_.Orientation ℝ E ι) (x x' y : M)
+    (hy : y ∈ (chartAt H x).source) (hy' : y ∈ (chartAt H x').source) :
+    ((Manifold.Orientation.pullbackSign hf hn o' μ x ⟨y, hy⟩ *
+        Manifold.Orientation.pullbackSign hf hn o' μ x' ⟨y, hy'⟩ : ℤˣ) : ℤ) =
+      (SignType.sign (LinearMap.det
+        (fderivWithin ℝ (extChartAt I x' ∘ (extChartAt I x).symm) (range I)
+          (extChartAt I x y) : E →ₗ[ℝ] E)) : ℤ) :=
+  sorry
+
+/-- **Layer 2.2.** The pullback orientation along a local diffeomorphism [Lee, Prop. 15.15]: the
+class of the lift whose model orientation `μ` is the orientation of a basis of `E` indexed by `ι`
+and whose chart signs are `Manifold.Orientation.pullbackSign hf hn o' μ`. The class does not
+depend on the basis: replacing `μ` by `−μ` negates every chart sign, which is the diagonal flip.
+Its tangent orientation at `x` is `orientationAt o' (f x)` carried back by the inverse of the
+differential of `f` at `x`, so it is the witness of `exists_isOrientationPreservingAt_pullback`.
+The dimension hypothesis is discharged by `simp` for Euclidean sources indexed by `Fin m`. -/
 noncomputable def Manifold.Orientation.pullback [FiniteDimensional ℝ E'] [IsManifold I n M]
     [IsManifold I' n M'] {f : M → M'} (hf : IsLocalDiffeomorph I I' n f) (hn : 1 ≤ n)
     (o' : Manifold.Orientation I' M' ι)
     (hcard : Fintype.card ι = Module.finrank ℝ E := by simp) : Manifold.Orientation I M ι :=
-  Classical.choose (exists_isOrientationPreservingAt_pullback hf hn o' hcard)
+  letI : DecidableEq ι := Classical.decEq ι
+  let μ : _root_.Orientation ℝ E ι :=
+    ((Module.finBasisOfFinrankEq ℝ E hcard.symm).reindex (Fintype.equivFin ι).symm).orientation
+  Quotient.mk OrientationLift.setoid
+    { modelOrientation := μ
+      card_eq := hcard
+      sign := Manifold.Orientation.pullbackSign hf hn o' μ
+      continuous_sign := Manifold.Orientation.continuous_pullbackSign hf hn o' μ
+      sign_mul_sign := Manifold.Orientation.pullbackSign_mul_pullbackSign hf hn o' μ }
 
 /-- **Layer 2.2.** A nowhere-vanishing continuous top form determines an orientation: the one
 for which the form is positive on positively oriented bases. -/
