@@ -149,8 +149,10 @@ that the same route uses differs from those of 4.3 and is that roadmap's.
   factor, which carries the zeros of `ζ`, enters it, and Liu and Wang's paper is not among the
   sources here, so `ExplicitPrimeCounting` states the bound from that paper with the theorem that
   needs it. Ramaré and Rumely's region for the zeros of `L(s, χ)` with `|γ| ≥ 1000`, with the
-  constant `C₁(k, H)`, is not of this kind: it is owned here (7.5, fifth item), and
-  `ExplicitPrimeCounting` takes it from there;
+  conductor `k` and the constant `C₁(k, H)`, is not of this kind: it is owned here (7.5, fifth
+  item), and `ExplicitPrimeCounting` takes it from there. The passage from it to a modulus `q`, with
+  `q|γ|` in place of `k|γ|` and one constant for all the characters modulo `q` (Dusart's), is
+  `ExplicitPrimeCounting`'s (its §6.1, *RamareRumelyRegion*);
 - Ramaré's explicit density theorem (`ramare2016density` Theorem 1.1, lines 83–97): its averaged
   bound for `T ≥ 2000`, `T ≥ Q ≥ 10` and `σ ≥ 0.52`,
   `Σ_{q≤Q} (q/φ(q)) Σ_{χ mod* q} N(σ, T, χ) ≤ 20 (56 Q⁵ T³)^{1−σ} log^{5−2σ}(Q²T) + 32 Q² log²(Q²T)`
@@ -182,12 +184,14 @@ that the same route uses differs from those of 4.3 and is that roadmap's.
   Trudgian's bound in the normalization with `7/8`, which `bellottiwong2025` lines 61 and 83–84
   re-establish only in the normalization without `7/8` (5.2);
 - the nonnegative trigonometric polynomials for Dedekind zeta functions that `ExplicitNumberFields`
-  uses (Kadiri's for Dedekind zeta functions and those of Das, Gaba, Lee, Savalia and Wong, whose
-  coefficients are optimised together with the other parameters of the region they serve): each is
-  a polynomial certificate (the Prop of 0.5 at literal coefficients) of one of its theorems, and by
-  the Conventions it is named with that theorem. The certificates of the regions here, Kadiri's
-  polynomial `(0.91 + cos φ)²(0.265 + cos φ)²` and Mossinghoff and Trudgian's `F₁₆`, are named in
-  7.3, where a consumer that uses the same polynomial cites them.
+  uses (Kadiri's for her Dedekind regions, in its 4.5, which are not her polynomial for `ζ`, and
+  those of Das, Gaba, Lee, Savalia and Wong, whose coefficients are optimised together with the
+  other parameters of the region they serve, in its 4.8): each is a polynomial certificate (the
+  Prop of 0.5 at literal coefficients) of one of its theorems, and by the Conventions it is named
+  with that theorem. The certificates of the regions here, Kadiri's polynomial
+  `(0.91 + cos φ)²(0.265 + cos φ)²` and Mossinghoff and Trudgian's `F₁₆`, are named in 7.3, where a
+  consumer that uses the same polynomial (`F₁₆` in Lee's argument, `ExplicitNumberFields` 4.6) cites
+  them.
 
 ## Conventions
 
@@ -2026,7 +2030,10 @@ branch is the minimum in `J`, the narrower region
 `J(t) = (1/6) log t + log log t + log 3` (the form recorded in `mty2024` lines 107–112), which the
 first implies since there `c₆(t) < 0.0196/(J(t) + 1.15)` and `0.675 < 0.685`; and for `|t| ≥ 3`,
 `ζ(σ + it) ≠ 0` for `σ ≥ 1 − 1/(8.464 log|t|)` (Theorem 4, lines 104–106: the bound of Theorem 3
-times `log t` decreases in `t`, and below `5.45·10⁸` the hypothesis applies). With the input
+times `log t` increases in `t`, from `0.118151` at `t = 5.45·10⁸`, which exceeds
+`1/8.464 = 0.118147`, towards `6 · 0.04962 = 0.29772` (line 104 states the opposite direction,
+under which the corollary would fail above `5.45·10⁸`); and below `5.45·10⁸` the hypothesis
+applies). With the input
 `0.618 t^{1/6} log t` of 4.7 in place of `3t^{1/6} log t`, the same argument gives Theorem 3 with
 `log 0.618` in place of `log 3` in `J` (the substitution of `yang2024` lines 79–80), in which the
 second branch is the minimum for every `t > 1`, since `log L − L/12 ≤ log 12 − 1 = 1.4849` lies
@@ -2271,11 +2278,7 @@ left of the boundary (at least `1 − 1/(6.4355 log 2) = 0.7758`), and for `|t| 
   `D = D*(k, 1 + Δ)`, the sum over the primes `p ∣ k` of `log p` times the local constants
   `D*_p` of their (3.4.2)–(3.4.3); `C₁(k, H) ≥ C₁`, since `G₁/G₂ ≥ 0` (their Lemma 3.6.1). The
   zeros of an imprimitive character are those of its primitive character together with zeros on
-  `Re s = 0`, which satisfy both bounds. Hence the form for a modulus: for `q ≥ 1`, `H ≥ 1000` and
-  `0 < C ≤ C₁(k, H)` for the conductor `k` of every character modulo `q`, every zero `β + iγ` with
-  `0 < β < 1` and `|γ| ≥ H` of `L(s, χ)`, `χ` modulo `q`, satisfies `1 − β ≥ 1/(R log(q|γ|/C))`,
-  since `q|γ|/C ≥ k|γ|/C₁(k, H)` (`k ≤ q`) and `R log(k|γ|/C₁(k, H)) ≥ 15` (the proof of their
-  Theorem 3.6.3, line 843), so that the logarithm is positive and only grows.
+  `Re s = 0`, which satisfy both bounds.
 
 Route: the analogue of 7.3 with `−Re L'/L` from 7.1 summed over `χ^k`, the real-character case
 handled by the positivity of `ζ(s)L(s, χ)`'s Dirichlet coefficients, the verified heights for small
@@ -2311,10 +2314,13 @@ the named certificate of `ramare-rumely-1996` Lemma 3.6.1.
   `1/(9.645908801 log(3·10⁴)) = 0.010056` there and Kadiri's `5.60` region `0.017322`. Dividing by
   `C₁(k, H) > 1` inside the logarithm is what widens the region; a reading with `k|γ| C₁` would
   give `0.007766`, narrower than McCurley's.
-- The form for a modulus is weaker at an imprimitive character: modulo `6`, for the character
-  induced by `χ₋₃` (`k = 3`) at `|γ| = 10⁴` with `C = 20.92`, it gives
-  `1/(R log(6·10⁴/20.92)) = 0.013022`, below the `0.014264` of the conductor form; replacing `k` by
-  `q` only enlarges the logarithm.
+- `C₁(k, H)` depends on the conductor (through `Δ` and `D*`), so one character's constant does not
+  serve another of the same modulus: at `k = 1`, where `D* = 0`, the source's
+  `C₁(1, 5.45·10⁸) = 38.31` fixes `G(1 + Δ) = 0.73057` at `Δ(1, 5.45·10⁸) = 0.018141`; `G(1 + Δ)`
+  decreases in `Δ` (Lemma 3.6.1), and `G₁/G₂` is a quotient of two affine functions of `G` with
+  determinant `1/x² > 0`, so it increases in `G`; hence at `Δ(1, 10⁴) = 0.043564` the constant
+  `C₁(1, 10⁴)` lies in `[10.816, 20.114]` (`G` between `0` and `0.73057`), below
+  `C₁(3, 10⁴) = 20.92`.
 - At `k = 1`, `|γ| = 5.45·10⁸` the source's `C₁ = 38.31` (line 845) gives `0.0062943`, wider than
   Ford's `1/(8.464 log|γ|) = 0.0058732` (7.2) and narrower than the region `0.0089428` of 7.3.
 
@@ -2800,10 +2806,11 @@ L-functions; the named numerical certificates.
   form (4.2) for its real-part form and its iterated inequality (its §§0.3 and 1.1, variants built
   on 4.2 that no route here uses), and Montgomery–Vaughan's weighted large sieve of 6.5.
 - `ExplicitMultiplicativeFunctions` takes 4.1 (the Kusmin–Landau inequality, for its §7.4), 6.1
-  (Perron), 7.10 (the bounds for `1/ζ` that its §1.9 uses, each given `RH(3 000 175 332 800)`: in
-  the classical region above that height, on `σ ≥ 1` for `t ≥ 13`, on `σ ≥ 3/4` up to half a unit
-  below that height, and in the classical region from `t = 13`) and `RH(H)` of 0.2, its
-  verified-zero hypothesis, through `ExplicitPrimeCounting` §1.1.
+  (Perron), 7.3 (the `5.558691` region, used at `R₀ = 5.56`), 7.10 (the bounds for `1/ζ` that its
+  §1.9 uses, each given `RH(3 000 175 332 800)`: Leong's on the line one for `t ≥ 2`, Lee and
+  Leong's in the classical region above that height, and theirs on `σ ≥ 3/4` for `14 ≤ t` up to
+  half a unit below that height) and the recorded verification `RH(3 000 175 332 800)` of 0.4, its
+  verified-zero hypothesis, as the proposition `RH(H)` of 0.2 through `ExplicitPrimeCounting` §1.1.
 - `ExplicitNumberFields` takes 3.2 at `dedekindZetaData K` (the Dedekind instance of Rademacher's
   bound), 5.1 with 3.2 for the argument of Dedekind zeta functions of any degree, 2.1 and 2.5 for the
   gamma factors, 6.1a (the iterated Perron identity), 0.2–0.3 (`GRH(q, H)`), 0.5 (admissible cosine
