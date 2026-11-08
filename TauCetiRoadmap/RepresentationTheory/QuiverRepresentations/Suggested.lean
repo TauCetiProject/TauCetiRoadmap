@@ -19,10 +19,12 @@ Path algebras and their module equivalence, Krull–Schmidt, projective covers, 
 and minimal injective copresentations, Morita reduction to a basic corner, the bound-quiver
 surjection with admissible kernel, the Ext-Euler characteristic as the Euler form of dimension
 vectors with its inverse-Cartan form, the standard bimodule resolution of a path algebra, the
-Hom-cocycle computation of Ext¹, BGP reflection and Coxeter survival, the finite-dimensional
-Gabriel correspondence, the module-level Auslander–Reiten translate, Auslander–Reiten duality,
-almost-split existence with the translate as left end, and the quiver of irreducible morphisms
-with its k-dimensional mesh relation are supplied by Tau Ceti; the README specifies the exact
+Hom-cocycle computation of Ext¹, the classification of quiver extensions with fixed end terms by
+arrow families modulo the Hom differential, Baer-sum additivity of extension classes, BGP
+reflection and Coxeter survival, the finite-dimensional Gabriel correspondence, the module-level
+Auslander–Reiten translate, Auslander–Reiten duality, almost-split existence with the translate
+as left end, and the quiver of irreducible morphisms with its k-dimensional mesh relation are
+supplied by Tau Ceti; the README specifies the exact
 declarations. The Euler–Hom–Ext identity is a corollary of the pinned Hom-minus-cokernel identity
 and the Ext comparison stated here, so it is not stated separately. None is restated as an
 admitted theorem.
@@ -64,7 +66,10 @@ theorem exists_admissible_presentation (k A : Type u) [Field k] [IsAlgClosed k] 
 
 /-- The path algebra of a finite quiver is hereditary: all module Ext groups in degrees at least
 two vanish, including for modules that are not finite-dimensional and for quivers with oriented
-cycles. The route is the pinned standard bimodule resolution tensored with the module. -/
+cycles. The route is the pinned standard bimodule resolution tensored with the module.
+Crawley-Boevey, *Lectures on Representations of Quivers*, §1, the standard resolution, p.7, and
+its consequence (1), p.8; Assem–Simson–Skowroński VII.1.7(a) is the finite connected acyclic
+case. -/
 theorem pathAlgebra_higher_ext_vanish (k Q : Type u) [Field k] [Quiver Q] [Fintype Q]
     [∀ i j : Q, Fintype (i ⟶ j)]
     (M N : ModuleCat.{u} (TauCeti.pathAlgebra k Q)) (n : ℕ) (hn : 2 ≤ n) :
@@ -73,7 +78,8 @@ theorem pathAlgebra_higher_ext_vanish (k Q : Type u) [Field k] [Quiver Q] [Finty
 /-- The cokernel of the vertex-to-arrow Hom differential computes native module-category Ext¹,
 for every finite quiver. This is an equivalence of vector spaces, not just an equality of
 dimensions; the README names the canonical map, the pinned Hom-cocycle equivalence composed with
-the identification of the tensored bimodule resolution. -/
+the identification of the tensored bimodule resolution. Crawley-Boevey, *Lectures on
+Representations of Quivers*, §1, the exact sequence in the proof of consequence (3), p.8. -/
 theorem nonempty_homDifferential_coker_linearEquiv_ext (k Q : Type u) [Field k] [Quiver Q]
     [Fintype Q] [∀ i j : Q, Fintype (i ⟶ j)]
     (M N : TauCeti.QuiverRep.{u, u, u, u} k Q) :

@@ -34,7 +34,9 @@ The following mathematics is already in the pinned libraries and is consumed, no
   with admissible kernel onto a basic algebra over an algebraically closed field, and the generic
   composition-multiplicity Cartan matrix.
 - Tau Ceti supplies dimension vectors, Euler/Tits forms, Hom differentials with the
-  Hom-minus-cokernel dimension identity, the standard bimodule resolution of a path algebra and
+  Hom-minus-cokernel dimension identity, the classification of extensions with fixed end terms by
+  arrow families modulo the range of the Hom differential, Baer-sum additivity of native extension
+  classes, the standard bimodule resolution of a path algebra and
   the Hom-cocycle computation of Ext¹ of a cokernel, projective dimension at most one for
   finite-length modules over a finite acyclic path algebra, the Ext-Euler characteristic of finitely generated
   modules over a finite-dimensional path algebra as the Euler form of dimension vectors, the
@@ -119,6 +121,8 @@ and for the algebraically closed case. The arbitrary-field forms are theorems ab
 algebras; ARS is cited for them by locator: the reduced form (ARS II.2.6), injective envelopes
 (ARS II.4.1), the Auslander–Reiten formula as an equality of lengths (ARS IV.4.1, p.129, and
 IV.4.6, p.131) and almost-split existence with its D Tr endpoint (ARS V.1.14–1.15).
+Crawley-Boevey also fixes an algebraically closed field (§1, p.3); the standard
+resolution and its consequences (1) and (3), cited in §4.1, do not use it.
 Where Tau Ceti already proves an arbitrary-field statement, the pinned declaration is the
 authority.
 All module universes can be chosen together with k and A; the acceptance signatures use
@@ -238,6 +242,23 @@ Paths below are relative to `TauCeti/`.
   `TauCeti.QuiverRep.eulerForm_eq_finrank_hom_sub_finrank_coker`, for any finite quiver and
   finite-dimensional vertex spaces. It is an input to, not a replacement for, the comparison with
   native Ext.
+- `TauCeti.QuiverRep.arrowExtension`, in
+  `RepresentationTheory/Quiver/Representation/ArrowExtension/Basic.lean`, is, for an arrow family
+  c, the extension 0 → N → E → M → 0 with vertex spaces Nᵢ × Mᵢ on which an arrow a : i → j acts by
+  the upper triangular matrix with diagonal entries N(a), M(a) and corner c(a). In
+  `ArrowExtension/Classification.lean` there,
+  `TauCeti.QuiverRep.exists_arrowExtension_iso_fixing_ends` makes every short exact sequence of
+  representations isomorphic to such an extension with both end terms fixed,
+  `TauCeti.QuiverRep.exists_arrowExtension_hom_fixing_ends_iff` makes two arrow extensions of M by
+  N equivalent with both end terms fixed exactly when their arrow families have the same class in
+  the cokernel of the Hom differential, and
+  `TauCeti.QuiverRep.homDifferential_surjective_iff_all_extensions_split` makes that differential
+  surjective exactly when every extension of M by N splits; all three hold over any field, with no
+  finiteness or acyclicity.
+  `CategoryTheory.ShortComplex.ShortExact.extClass_baerSum`, in
+  `Algebra/Homology/Ext/BaerSum.lean`, makes the native extension class of a Baer sum the sum of
+  the two classes, in any abelian category with native Ext (`CategoryTheory.HasExt`). None of these
+  mentions native Ext¹ of quiver representations; that comparison is §4.1.
 - `TauCeti.extEuler_eq_eulerForm_dimVector` and `TauCeti.isEulerAdmissibleOn_isFG_pathAlgebra`,
   in `RepresentationTheory/GrothendieckGroup/Quiver/ExtEuler.lean`, give for a finite quiver with
   finite-dimensional path algebra and finitely generated modules the alternating sum of the Ext
@@ -619,7 +640,8 @@ Layer 3 does not use Layer 4, and Layer 4 does not use the matrix identity of §
 
 For finite Q over any field, with or without oriented cycles, the two-term projective resolution
 of an arbitrary representation M, with degree-zero term ⊕ᵢ Pᵢ⊗ₖMᵢ and degree-one term
-⊕ₐ:ᵢ→ⱼ Pⱼ⊗ₖMᵢ, is the pinned standard bimodule resolution of kQ
+⊕ₐ:ᵢ→ⱼ Pⱼ⊗ₖMᵢ (Crawley-Boevey, §1, the standard resolution, p.7), is the pinned standard
+bimodule resolution of kQ
 (`TauCeti.PathAlgebra.exact_arrowTensorDifferential_vertexTensorMul`, with the injectivity,
 surjectivity and projectivity statements beside it) tensored over kQ with M. Prove that
 identification: the bimodule sequence is split exact as a sequence of right kQ-modules, since its
@@ -627,9 +649,10 @@ three terms are projective right modules, so tensoring with M keeps it exact; it
 projective left modules; the construction is natural in maps of representations; and its
 differential on the arrow summand is the difference between path concatenation and the action of
 the arrow on M. `pathAlgebra_higher_ext_vanish` states Extⁿ(M,N)=0 for n≥2 on the native module
-category of every finite quiver (ASS VII.1.4 and VII.1.7(a), pp.245–248, state heredity for finite acyclic Q;
-the path-space resolution needs neither acyclicity nor a particular field, and the one-loop Check
-below shows that acyclicity is not a hypothesis). The pinned
+category of every finite quiver (Crawley-Boevey, §1, consequence (1) of the standard resolution,
+p.8, for every finite quiver, oriented cycles allowed; ASS VII.1.4 and VII.1.7(a), pp.245–248,
+state the finite connected acyclic case; the one-loop Check below shows that acyclicity is not a
+hypothesis). The pinned
 `TauCeti.hasProjectiveDimensionLT_two_pathAlgebra` is the case of finite-length modules over a
 finite acyclic quiver; the target removes both restrictions. Acyclicity, equivalently finite-dimensionality
 of kQ (`TauCeti.finiteDimensional_pathAlgebra_of_isAcyclic`), is used in this layer only to
@@ -640,13 +663,17 @@ the Hom cocycle quotient `LinearMap.HomCocycleQuotient` of the resolution's diff
 cokernel of the Hom differential: the differential is injective, so every map out of the arrow
 term is a cocycle, and the coboundaries are exactly its image. Then
 `nonempty_homDifferential_coker_linearEquiv_ext` identifies that cokernel k-linearly with native
-Ext¹: the map is the pinned `LinearMap.homCocycleQuotientEquivExt`, transported along the
-isomorphism from the cokernel of the resolution's differential to M, and compatibility with the
-class of a short exact extension is `LinearMap.homCocycleQuotientEquivExt_mk`. The target
+Ext¹ (Crawley-Boevey, §1, the exact sequence in the proof of consequence (3), p.8, obtained by
+applying Hom(−,N) to the standard resolution; finite-dimensionality there serves only the
+dimension count, not the exactness): the map is the pinned
+`LinearMap.homCocycleQuotientEquivExt`, transported along the isomorphism from the cokernel of
+the resolution's differential to M, and compatibility with the class of a short exact extension
+is `LinearMap.homCocycleQuotientEquivExt_mk`. The target
 permits arbitrary vertex spaces; finite-dimensionality is needed for the numerical identity, not
 this comparison.
 For pointwise finite-dimensional M, N the identity E(dM,dN) = dim Hom(M,N) − dim Ext¹(M,N), both
-dimensions cast to ℤ before subtraction, is a corollary and not a separate target: the pinned
+dimensions cast to ℤ before subtraction (Crawley-Boevey, §1, consequence (3), p.8), is a
+corollary and not a separate target: the pinned
 `TauCeti.QuiverRep.eulerForm_eq_finrank_hom_sub_finrank_coker` gives E(dM,dN) as dim Hom minus
 the dimension of the cokernel of the Hom differential, for every finite quiver, and
 `nonempty_homDifferential_coker_linearEquiv_ext` identifies that cokernel with Ext¹. For finite
@@ -659,7 +686,12 @@ API for the resolution and comparison:
 - Augmentation evaluates paths on M; the two consecutive maps compose to zero, and the sequence
   is the pinned bimodule resolution tensored with M.
 - The resolution is exact at every vertex and natural in maps of representations.
-- Cokernel classes classify extensions with fixed endpoints, and addition agrees with Baer sum.
+- The comparison sends the cokernel class of an arrow family c to the native extension class of
+  the pinned arrow extension with corner c, the pushout of the resolution's extension along the
+  map that c defines on the arrow term. With the pinned classification of extensions with fixed
+  end terms by cokernel classes and the pinned Baer-sum additivity of extension classes, it
+  therefore identifies equivalence classes of extensions of M by N with Ext¹(M,N), and Baer sum
+  with addition.
 - The comparison is natural contravariantly in M and covariantly in N, from the pinned naturality
   of the Hom-cocycle equivalence; all higher Ext vanish.
 
@@ -672,6 +704,12 @@ API for the resolution and comparison:
   For the dual-number simple, Ext²(k,k) has dimension 1: relations cannot be ignored in heredity.
 - The A₂ nonsplit extension has middle arrow 1 and class 1 in a one-dimensional cokernel;
   the split extension has middle arrow 0 and class 0. A zero comparison map would identify them.
+- For A₂ with M=S₁, N=S₂ the resolution's extension is 0→P₂→P₁→S₁→0 with e₂ ↦ a, and the arrow
+  family c=λ gives P₂→S₂, e₂ ↦ λ; the pushout identifies a with λ times the generator of S₂, so
+  its middle arrow is λ and the class λ goes to the arrow extension with corner λ. With the
+  differential's sign reversed the middle arrow would be −λ; for λ ≠ 0 and char k ≠ 2 that
+  extension is not equivalent to the corner-λ one with both end terms fixed, although both
+  middle terms are isomorphic to P₁.
 - The one-loop quiver is finite and not acyclic; its path algebra k[X] is a principal ideal
   domain, so submodules of projectives are projective and Extⁿ(M,N)=0 for n≥2 and all M, N.
   Heredity stated with an acyclicity hypothesis would exclude this true case. The Euler identity
@@ -682,7 +720,9 @@ API for the resolution and comparison:
 *Needs:* Layer 1, native vertex projectives, the pinned standard bimodule resolution of the path
 algebra, the Hom differential and its Hom-minus-cokernel identity, the pinned Hom-cocycle
 equivalence with Ext¹ and its naturality, Mathlib projective resolutions, native Ext and short
-exact sequences. Exactness and comparison, not the Euler matrix inverse, are the proof inputs.
+exact sequences; for the extension reading of the comparison, also the pinned arrow extensions,
+their classification with fixed end terms and Baer-sum additivity of extension classes.
+Exactness and comparison, not the Euler matrix inverse, are the proof inputs.
 
 ### 4.2 Reflection and Coxeter interfaces
 
@@ -990,6 +1030,10 @@ and not a supplier here.
 - **BGP:** I. N. Bernstein, I. M. Gelfand, V. A. Ponomarev, *Coxeter functors and Gabriel's
   theorem*, Russian Mathematical Surveys 28:2 (1973), 17–32. Theorem 1.1, Lemma 2.3 and
   Theorem 3.1. [Author-hosted English translation](https://www.math.tau.ac.il/~bernstei/Publication_list/publication_texts/BGG-CoxeterF-Usp.pdf).
+- **Crawley-Boevey:** W. Crawley-Boevey, *Lectures on Representations of Quivers*, notes of a
+  lecture course, Oxford, 1992. §1, the standard resolution of a module over the path algebra of a
+  finite quiver, p.7, and its consequences (1) and (3), p.8.
+  [Author-hosted copy](https://www.math.uni-bielefeld.de/~wcrawley/quivlecs.pdf).
 - **Etingof v5:** P. Etingof et al., *Introduction to Representation Theory*,
   [arXiv:0901.0827v5](https://arxiv.org/abs/0901.0827v5), 2011, Example 1.19 and §§5.4–5.6.
   Numbers refer to this preprint version, not to a different published edition.
