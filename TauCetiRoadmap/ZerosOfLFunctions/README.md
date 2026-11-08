@@ -535,10 +535,9 @@ logDeriv riemannZeta s + logDeriv riemannZeta (1 − s)
   = −logDeriv Gammaℝ s − logDeriv Gammaℝ (1 − s),
 ```
 
-whose right side is `log π − ψ(s/2)/2 − ψ((1 − s)/2)/2` by 1.4. This is
-`logDeriv_riemannZeta_add_logDeriv_one_sub`. The hypotheses keep `s` and `1 − s` off the poles of
-`Gammaℝ`, since a negative even integer is a trivial zero. Route: off those poles
-(`Complex.Gammaℝ_eq_zero_iff`), `riemannZeta_def_of_ne_zero` gives
+whose right side is `log π − ψ(s/2)/2 − ψ((1 − s)/2)/2` by 1.4. The hypotheses keep `s` and
+`1 − s` off the poles of `Gammaℝ`, since a negative even integer is a trivial zero. Route: off those
+poles (`Complex.Gammaℝ_eq_zero_iff`), `riemannZeta_def_of_ne_zero` gives
 `completedRiemannZeta = Gammaℝ · riemannZeta` on a neighbourhood of `s` and of `1 − s`, with both
 factors analytic and nonzero there (`differentiableAt_riemannZeta`,
 `Complex.differentiable_Gammaℝ_inv`); apply `logDeriv_congr_nhds`, `logDeriv_mul` and
@@ -1148,7 +1147,8 @@ at `0`; so 5.3 gives `∑_ρ m_ρ ‖ρ − 2‖^{−2} < ∞`. For `0 ≤ Re ρ
 ### Dependencies
 
 Mathlib infinite products, `Complex.borelCaratheodory`, `Complex.exists_continuousOn_eqOn_exp_comp`.
-Layer 0 `OrderLE`, Layer 4.3; 5.6 additionally Layers 3.1 and 4.4 and L-functions Layers 3, 5.
+Layer 0 `OrderLE`, Layer 4.3; 5.6 additionally Layers 3.1 and 4.4 and L-functions Layers 3, 5;
+5.6a additionally Layers 1.5 and 4.2, Layer 0 *entireCompletion* and L-functions Layer 0.
 
 ## Layer 6: zero-free regions
 
@@ -1315,7 +1315,8 @@ Layer 5 `completedHeckeLFunction_one_sub_eventuallyEq`; 1.5–1.6.
 
 ### Dependencies
 
-L-functions Layers 3, 5, 7, 8. Layers 2, 4, 5.6. Global Number Fields Layer 2 ray-class finiteness.
+L-functions Layers 3, 5, 7, 8. Layers 1.4–1.6, 2, 4, 5.6. Global Number Fields Layer 2 ray-class
+finiteness.
 
 ## Layer 7: the Riemann–von Mangoldt formula
 

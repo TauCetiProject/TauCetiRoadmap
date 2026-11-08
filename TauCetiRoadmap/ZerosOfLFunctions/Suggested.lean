@@ -4,14 +4,13 @@ import Mathlib
 # Zeros of L-functions: target signatures
 
 The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
-theorems, and the `ζ` instances of three lemmas behind them, against the pinned Mathlib, each with
+theorems, and the `ζ` instances of two lemmas behind them, against the pinned Mathlib, each with
 `sorry`, together with the three definitions they need: the order predicate `OrderLE` of Layer 0,
 the zero count `zeroCount` of Layer 4, and the entire completion `zetaEntireCompletion` of the
 Riemann zeta function (the `ζ` instance of the entire completion of Layer 0).
 
 Stated here:
 
-* Layer 1, the functional equation of `ζ'/ζ` in symmetric form, at the integers as well (1.4a);
 * Layer 3, the convexity bound on the critical line, uniform over primitive Dirichlet characters;
 * Layer 5, Hadamard's factorization of an entire function of order at most one, its instance
   `zetaEntireCompletion`, and the summability of `m_ρ / (1 + (Im ρ)²)` over the zeros of the
@@ -70,19 +69,6 @@ genuine entire function with the correct value `1` at `s = 0` and `s = 1`, where
 poles. It is twice Riemann's `ξ`, whose normalization carries a factor `1/2`. -/
 noncomputable def zetaEntireCompletion (s : ℂ) : ℂ :=
   s * (s - 1) * completedRiemannZeta₀ s + 1
-
-/-! ## Layer 1: the logarithmic derivative of ζ -/
-
-/-- **Layer 1.4a, the functional equation of `ζ'/ζ` in symmetric form.** For `s ≠ 0, 1` with
-`ζ(s) ≠ 0` and `ζ(1 − s) ≠ 0`, `ζ'/ζ(s) + ζ'/ζ(1 − s) = −(Γℝ'/Γℝ)(s) − (Γℝ'/Γℝ)(1 − s)`, whose
-right side is `log π − ψ(s/2)/2 − ψ((1 − s)/2)/2`. Mathlib's `logDeriv_riemannZeta_one_sub` is the
-asymmetric form off the integers; this form holds at integers such as `s = 2` as well. The
-hypotheses keep `s` and `1 − s` off the poles of `Γℝ`, since a negative even integer is a trivial
-zero. -/
-theorem logDeriv_riemannZeta_add_logDeriv_one_sub {s : ℂ} (hs₀ : s ≠ 0) (hs₁ : s ≠ 1)
-    (hs : riemannZeta s ≠ 0) (hs' : riemannZeta (1 - s) ≠ 0) :
-    logDeriv riemannZeta s + logDeriv riemannZeta (1 - s) =
-      -logDeriv Gammaℝ s - logDeriv Gammaℝ (1 - s) := sorry
 
 /-! ## Layer 3: convexity -/
 
