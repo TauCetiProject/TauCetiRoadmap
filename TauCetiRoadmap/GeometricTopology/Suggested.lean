@@ -5,7 +5,6 @@ public import TauCeti.Geometry.Diffeomorphism.Disc
 public import TauCeti.Geometry.Manifold.LocallyFlat.Annulus
 public import TauCeti.Geometry.Manifold.Irreducible
 public import TauCeti.Geometry.Manifold.Haken
-public import TauCeti.Geometry.Manifold.Orientation.Basic
 public import TauCeti.KnotTheory.Slice.Freedman
 public import TauCeti.KnotTheory.SmoothLink.Isotopy
 public import TauCeti.Geometry.Manifold.Riemannian.Hyperbolic.Mostow
@@ -118,12 +117,16 @@ theorem alexander_sphere_bounds_ball :
 /-- The sphere theorem (Papakyriakopoulos; Hatcher, *Notes on Basic 3-Manifold Topology*,
 Theorem 3.8, orientable case): if a smooth orientable `3`-manifold without boundary has
 nontrivial `π₂` at some base point, it contains a locally flat embedded `2`-sphere that is
-homotopic to no constant map. Orientability is the pinned `TauCeti.Orientable`, the existence
-of an orientation of the tangent spaces compatible with the chart Jacobians; without it the
-statement fails for `S¹ × ℝP²`. -/
+homotopic to no constant map. Orientability is the existence of an oriented smooth atlas
+(`TauCeti.IsOrientedAtlas`): charts of the maximal smooth atlas covering `M` whose coordinate
+changes have derivatives of positive determinant. Such an atlas makes `M` orientable, and since
+the model `ℝ³` has no boundary every orientable `M` has one; without orientability the statement
+fails for `S¹ × ℝP²`. -/
 theorem sphere_theorem (M : Type u) [TopologicalSpace M]
     [ChartedSpace (EuclideanSpace ℝ (Fin 3)) M] [IsManifold (𝓡 3) ∞ M] [T2Space M]
-    [SecondCountableTopology M] [TauCeti.Orientable (𝓡 3) M]
+    [SecondCountableTopology M]
+    (hor : ∃ A : Set (OpenPartialHomeomorph M (EuclideanSpace ℝ (Fin 3))),
+      TauCeti.IsOrientedAtlas (𝓡 3) ∞ A)
     (x : M) (h : Nontrivial (HomotopyGroup.Pi 2 M x)) :
     ∃ f : C((TopCat.sphere 2 : TopCat.{u}), M), Topology.IsClosedEmbedding f ∧
       TauCeti.IsLocallyFlat (EuclideanSpace ℝ (Fin 2)) ℝ f ∧
@@ -154,11 +157,15 @@ theorem gordon_luecke
 /-- Waldhausen's theorem: a homotopy equivalence between closed orientable Haken
 `3`-manifolds (irreducible, containing a closed bicollared incompressible surface of infinite
 fundamental group) is homotopic to a homeomorphism. The pinned Haken predicate carries the
-closed connected `3`-manifold package; orientability is the pinned `TauCeti.Orientable`. -/
+closed connected `3`-manifold package; orientability is the existence of an oriented smooth
+atlas (`TauCeti.IsOrientedAtlas`), as in `sphere_theorem`. -/
 theorem waldhausen_theorem (M N : Type u) [TopologicalSpace M] [TopologicalSpace N]
     [ChartedSpace (EuclideanSpace ℝ (Fin 3)) M] [ChartedSpace (EuclideanSpace ℝ (Fin 3)) N]
     [IsManifold (𝓡 3) ∞ M] [IsManifold (𝓡 3) ∞ N]
-    [TauCeti.Orientable (𝓡 3) M] [TauCeti.Orientable (𝓡 3) N]
+    (horM : ∃ A : Set (OpenPartialHomeomorph M (EuclideanSpace ℝ (Fin 3))),
+      TauCeti.IsOrientedAtlas (𝓡 3) ∞ A)
+    (horN : ∃ A : Set (OpenPartialHomeomorph N (EuclideanSpace ℝ (Fin 3))),
+      TauCeti.IsOrientedAtlas (𝓡 3) ∞ A)
     (hM : TauCeti.IsPossiblyNonorientableClosedHakenThreeManifold M)
     (hN : TauCeti.IsPossiblyNonorientableClosedHakenThreeManifold N)
     (e : ContinuousMap.HomotopyEquiv M N) :

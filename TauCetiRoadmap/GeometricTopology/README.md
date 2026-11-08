@@ -434,7 +434,18 @@ constructs the compact link exterior.
   `TauCeti.IsVirtuallyHaken`; `TauCeti.Orientable I M` (`Geometry/Manifold/Orientation/Basic.lean`),
   the existence of a manifold orientation, an orientation of the tangent spaces compatible
   with the chart Jacobians, for a model over a finite-dimensional space; it takes no
-  smoothness index and needs no `IsManifold` instance.
+  smoothness index and needs no `IsManifold` instance. `TauCeti.IsOrientedAtlas I n A`
+  (`Geometry/Manifold/Orientation/OrientedAtlas.lean`), for `n ≠ 0`: `A` is a set of charts of
+  the maximal `C^n` atlas covering `M` whose coordinate changes lie in
+  `TauCeti.orientationPreservingGroupoid I`, that is, have derivatives of positive determinant
+  read through `I`; `TauCeti.IsOrientedAtlas.orientable`
+  (`Geometry/Manifold/Orientation/Atlas.lean`) makes a `C¹` manifold `M` (`IsManifold I 1 M`)
+  orientable from such an atlas. The converse holds for a boundaryless model `ℝⁿ` with
+  `n ≥ 1`: given an orientation, restrict each chart of the maximal atlas to the connected
+  components of its domain, and compose it with the reflection `x₁ ↦ −x₁` of the model where
+  it reverses the orientation. With boundary the converse fails (the Check under 8.1).
+  `sphere_theorem` and `waldhausen_theorem` state orientability as the existence of an
+  oriented smooth atlas.
 - **Torus decompositions** (`LowDimTopology/JSJDecomposition.lean`,
   `LowDimTopology/Geometrization.lean`): `TauCeti.IsPeripheralTorus`, `TauCeti.IsAtoroidal`,
   `TauCeti.IsTorusDecomposition`, `TauCeti.IsJSJDecomposition` (minimality under inclusion),
@@ -12318,11 +12329,14 @@ GeometricTopology, Part II's. It states the sphere theorem as `sphere_theorem`: 
 orientable `3`-manifold without boundary whose `π₂` at some base point is nontrivial, in the
 sense of Mathlib's `HomotopyGroup`, there is a locally flat closed embedding of `S²` (the shape
 of sphere that `TauCeti.IsSphereBoundsBall` tests, `TauCeti.IsLocallyFlat`) that is homotopic
-to no constant map. The smooth structure is there because the pinned `TauCeti.Orientable` reads
-orientations off the Jacobians of the chart transition maps, which express orientability only
-for an atlas whose transition maps are differentiable; by Layer 11.2 it costs no generality, and
-two-sidedness is automatic for a sphere in an orientable manifold. Its proof is a target of
-this layer.
+to no constant map. Orientability is stated as the existence of an oriented smooth atlas,
+`TauCeti.IsOrientedAtlas (𝓡 3) ∞ A` for some set `A` of charts. Such an atlas makes `M`
+orientable (`TauCeti.IsOrientedAtlas.orientable`). Conversely, the model `ℝ³` has no boundary,
+so every orientable `M` has one (*From Tau Ceti*), and the statement is the orientable sphere
+theorem. The smooth structure is there because orientations are read off the Jacobians of the
+chart transition maps, which express orientability only for an atlas whose transition maps are
+differentiable; by Layer 11.2 it costs no generality, and two-sidedness is automatic for a
+sphere in an orientable manifold. Its proof is a target of this layer.
 
 **Meridian uniqueness and actual filling extensions.** Prove the full Gordon–Luecke
 filling statement: for every nontrivial tame knot K in `S³` and every slope r on its
@@ -12354,13 +12368,24 @@ independent of 8.5.2's group rigidity. Reference:
   embedded sphere in it bounds a ball and is null-homotopic (Hatcher, Proposition 1.13 and the
   remark after Theorem 3.8): the orientability hypothesis of the sphere theorem cannot be
   dropped, and the non-orientable form allows a two-sided projective plane instead.
+- The orientability hypothesis asks that some oriented atlas exist, not that the given one be
+  oriented. The two stereographic charts of `S³` change coordinates by the inversion
+  `y ↦ y/|y|²` of `ℝ³ ∖ {0}`. Its derivative is `|y|⁻²(1 − 2ŷŷᵀ)`, of determinant
+  `−|y|⁻⁶ < 0`, so that atlas is not oriented. Composing the chart from the south pole with
+  `y₁ ↦ −y₁` gives an oriented atlas.
+- The converse, from an orientation to an oriented atlas, needs a boundaryless model. The
+  interval `[0, 1]`, modelled on the half-line `[0, ∞)`, is orientable, but it has no oriented
+  atlas. A chart at `0` sends `0` to `0`, so it is increasing in `t`; a chart at `1` sends `1`
+  to `0`, so it is decreasing. Along a chain of charts across `(0, 1)` whose transitions have
+  positive derivative, the sign of each chart's derivative in `t` cannot change.
 - The granny and square knots have isomorphic knot groups but are not equivalent even up to
   mirror image (signatures `−4` and `0`), so by the Gordon–Luecke theorem their complements
   are not homeomorphic: the theorem is about complements, not about groups.
 
 *Needs:* Layer 11.2 (PL structures in dimension three), Layer 5.1, Layer 4.4; Tau Ceti
 `TauCeti.IsSphereBoundsBall`, `TauCeti.IsIncompressible`, `TauCeti.IsLocallyFlat`,
-`TauCeti.Orientable`; Mathlib `FundamentalGroup`, `HomotopyGroup`.
+`TauCeti.Orientable`, `TauCeti.IsOrientedAtlas`, `TauCeti.IsOrientedAtlas.orientable`; Mathlib
+`FundamentalGroup`, `HomotopyGroup`.
 
 ### 8.2 Prime decomposition
 
@@ -12427,8 +12452,9 @@ between closed Haken manifolds is homotopic to a homeomorphism (Waldhausen, *On 
 as `waldhausen_theorem`, for closed orientable Haken manifolds: the pinned
 `TauCeti.IsPossiblyNonorientableClosedHakenThreeManifold` (irreducible, with a closed
 bicollared incompressible surface of infinite fundamental group, whose witness carries the
-closed connected `3`-manifold package) together with `TauCeti.Orientable` on a smooth
-structure, the conclusion being a homeomorphism homotopic to the given homotopy equivalence.
+closed connected `3`-manifold package) together with an oriented smooth atlas on each
+manifold (`TauCeti.IsOrientedAtlas (𝓡 3) ∞`), which is orientability as in 8.1, the conclusion
+being a homeomorphism homotopic to the given homotopy equivalence.
 Its proof is a target of this layer.
 
 **Checks.**
@@ -12445,7 +12471,8 @@ Its proof is a target of this layer.
 
 *Needs:* Tau Ceti `TauCeti.IsIncompressible`, `TauCeti.IsHakenSurfaceEmbedding`,
 `TauCeti.IsPossiblyNonorientableHakenThreeManifold`,
-`TauCeti.IsPossiblyNonorientableClosedHakenThreeManifold`, `TauCeti.Orientable`; Layer 8.2,
+`TauCeti.IsPossiblyNonorientableClosedHakenThreeManifold`, `TauCeti.Orientable`,
+`TauCeti.IsOrientedAtlas`, `TauCeti.IsOrientedAtlas.orientable`; Layer 8.2,
 Layer 11.2.
 
 ### 8.3.1 Compact Haken manifolds and relative rigidity
