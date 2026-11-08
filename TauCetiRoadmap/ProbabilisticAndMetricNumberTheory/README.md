@@ -101,7 +101,7 @@ Begin with the coprime-product law. Prime-power representation then determines w
 Define `IsAdditive`. For f:ArithmeticFunction R with R an additive commutative monoid, IsAdditive f means
 f(1)=0 and f(mn)=f(m)+f(n) for positive coprime m,n. Native f(0)=0 is retained; multiplication is on inputs,
 not Dirichlet convolution. ([ElsholtzTao2011](#references) Appendix A, additive convention and Lemma A.2,
-physical pp.37–38.)
+physical pp.37–38; [PNTPlus](#references) `IwaniecKowalskiCh1.lean`, `IsAdditive`.)
 
 Its basic API consists of these facts.
 
@@ -7160,6 +7160,8 @@ The locators above use the linked author, preprint or published version. Page nu
 - **KoymansPagano2022** — Peter Koymans and Carlo Pagano, [On Stevenhagen's conjecture](https://arxiv.org/pdf/2201.13424v1). arXiv:2201.13424v1 (2022)
 
 - **IK2004** — Henryk Iwaniec and Emmanuel Kowalski, *Analytic Number Theory*, American Mathematical Society Colloquium Publications 53, 2004, Chapter 1, additive, completely additive and multiplicative arithmetic functions; cited by locator.
+
+- **PNTPlus** — Alex Kontorovich, Terence Tao and contributors, [Prime Number Theorem and More (PrimeNumberTheoremAnd)](https://github.com/AlexKontorovich/PrimeNumberTheoremAnd). Lean formalisation, GitHub repository, file `PrimeNumberTheoremAnd/IwaniecKowalskiCh1.lean`; cited for §0.1.
 
 - **ElsholtzTao2011** — Christian Elsholtz and Terence Tao, [Counting the number of solutions to the Erdős–Straus equation on unit fractions](https://terrytao.wordpress.com/wp-content/uploads/2011/07/egyptian-count13.pdf). Author manuscript, egyptian-count13 (2011)
 
