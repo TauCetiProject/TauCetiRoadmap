@@ -42,7 +42,9 @@ jobs:
     # not a statement about the branch, and neither is a `merge_group` run, which describes a
     # candidate rather than the branch.
     if: ${{ github.event.workflow_run.event == 'push' }}
-    runs-on: ubuntu-latest
+    runs-on:
+      group: TauCetiRoadmap
+      labels: tauceti-fleet-roadmap
     steps:
       - name: Announce a change of state
         env:

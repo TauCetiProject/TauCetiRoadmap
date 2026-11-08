@@ -30,7 +30,9 @@ concurrency: sync-roadmap-dropdowns
 
 jobs:
   sync:
-    runs-on: ubuntu-latest
+    runs-on:
+      group: TauCetiRoadmap
+      labels: tauceti-fleet-roadmap
     steps:
       # Actions are pinned to commit SHAs (not tags): this job runs repository
       # code with a token that can bypass branch protection, so a moved tag must

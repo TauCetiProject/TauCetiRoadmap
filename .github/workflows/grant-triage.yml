@@ -39,7 +39,9 @@ permissions:
 
 jobs:
   grant:
-    runs-on: ubuntu-latest
+    runs-on:
+      group: TauCetiRoadmap
+      labels: tauceti-fleet-roadmap
     steps:
       - name: Mint App token (organization Members write)
         id: token
