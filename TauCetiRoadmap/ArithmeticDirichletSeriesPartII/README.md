@@ -26,8 +26,9 @@ The end theorems are `delangeLaplace` (Layer 3) and its counting forms `delangeD
 special cases of the parent's Wiener–Ikehara layer; the new content is `k ≥ 1`, that is, a
 generating series with a pole of order `m = k + 1 ≥ 2` at its abscissa of convergence. This is the
 situation of Wood's totally real counts: for `r ≥ 1`, the series `F_r` counts continuous
-homomorphisms from the absolute Galois group of ℚ to `C₂^(r+1)` whose finite-prime inertia images
-meet `C₂^r × {1}` trivially and whose complex conjugation is trivial. The index is the absolute
+homomorphisms from the absolute Galois group of ℚ to `C₂^(r+1)` (with `C₂ = ℤ/2ℤ` written
+additively) whose finite-prime inertia images meet the subgroup `C₂^r × {0}` trivially and whose
+complex conjugation is trivial. The index is the absolute
 discriminant of the quadratic character projected to the last factor, with the trivial
 homomorphism treated separately. The pole has order `2^r`, and the count grows like
 `X (log X)^(2^r − 1)` (Wood 2019, §7, pp. 416–417; wood2019 line 1652).
@@ -75,7 +76,8 @@ layer. `Suggested.lean` states the definitions and the main theorems in the name
   invariance under finitely many altered coefficients, and the lower-pole perturbation theorem, at
   the scale `X^a (log X)^k`.
 - The Dirichlet series `ζ(s)^k` of the divisor functions `d_k = ζ^k` for every `k`, with absolute
-  convergence, the counts of `d_(k+1)` as checks, and the dyadic counterexample.
+  convergence; the leading term of the counts of `d_(k+1)`, derived from §4.2 as the test of its
+  factorial normalisation; and the dyadic counterexample.
 
 **Consumed.** Mathlib's `LSeries`, `LSeriesHasSum` and `LSeries.term`; Bochner integration,
 Fubini, dominated convergence, Fatou's lemma and differentiation under the integral sign; the
@@ -106,8 +108,19 @@ supplier contracts*.
   that the boundary extension is holomorphic rather than continuous; they prove nothing new at
   `k = 0`, and their `k = 0` instances serve only as consistency checks. Layer 9 does not state
   the smoothed form or the interval form for complex coefficients; those are §2.2a, owned here.
+- The smoothed Wiener–Ikehara asymptotic for nonnegative coefficients is Tau Ceti's
+  `TauCeti.LSeries.tendsto_inv_mul_tsum_mul_div_atTop`
+  (`TauCeti/NumberTheory/LSeries/WienerIkehara/SharpCutoff.lean`, line 125): for `a ≥ 0` with
+  summability on `σ > 1`, boundary data `(G, A)` and a smooth `Ψ` whose support is a compact subset
+  of `(0, ∞)`, `x⁻¹ ∑ a(n) Ψ(n/x) → A ∫_(0,∞) Ψ`. The kept variant `wienerIkehara_smoothed` of
+  §2.2a differs by allowing complex coefficients under a Chebyshev bound and continuous `ψ` that
+  need not vanish near `0`.
 - Arithmetic functions on ideals, ideal Euler products, prime counting functions and Dirichlet
   density are the parent's Layers 0–8 and 10.
+- The asymptotic expansion of `∑_{n≤X} d_(k+1)(n)` with error terms is AnalyticNumberTheoryPartI
+  §3.12a (at `f = τ_(k+1)`, `α = k + 1`) and, for `k = 1`, AnalyticNumberTheoryPartI §3.22; the
+  elementary upper bounds for `d_k = τ_k` are SieveMethodsAndPrimePatterns §1.1. Section 5.1 keeps
+  only the leading term, derived from §4.2 (Layer 5).
 - For counts of abelian extensions, the local factors, continuation, positivity of the leading
   coefficient and arithmetic majorants for non-surjective homomorphisms are input to an
   application of Layer 4. This roadmap owns the generic analytic implication, with these inputs
@@ -153,7 +166,7 @@ The conventions carry explicit witnesses:
 
 ## Exact supplier contracts
 
-### From Mathlib (pinned 6b7abb3c)
+### From Mathlib (pinned 1b1ccf4b)
 
 - `LSeriesHasSum f s a` and `LSeries.term` (`Mathlib/NumberTheory/LSeries/Basic.lean`): the
   Dirichlet-series hypothesis of Layers 4–5, always on an open half-plane. Summability in
@@ -218,7 +231,7 @@ The conventions carry explicit witnesses:
   (`Mathlib/Analysis/Normed/Module/FiniteDimension.lean`): the series of `d_k = ζ^k` in §5.1.
 - `Northcott` (`Mathlib/Order/Northcott.lean`).
 
-### From Tau Ceti (pinned a91d3aaf)
+### From Tau Ceti (pinned 2fd255d9)
 
 - `TauCeti.summatory N w X` (`TauCeti/Order/Northcott/Basic.lean`): for a natural-valued height
   `N : ι → ℕ` with a `Northcott N` instance, the sum of `w` over the finite set
@@ -243,10 +256,14 @@ The conventions carry explicit witnesses:
   series of norm at most `M C (1 + 2π²)`, uniformly in `x`);
   `TauCeti.LSeries.tendsto_tsum_term_mul_atTop_of_approx_fourier` and
   `TauCeti.LSeries.tendsto_tsum_term_mul_fourier_schwartz_atTop` (`Approximation.lean`; their
-  nonnegative versions, whose arguments §2.2a reruns); and
+  nonnegative versions, whose arguments §2.2a reruns);
+  `TauCeti.LSeries.tendsto_inv_mul_tsum_mul_div_atTop` (`SharpCutoff.lean`, line 125; for `a ≥ 0`,
+  summability on `σ > 1`, boundary data `(G, A)` and smooth `Ψ` with compact support inside
+  `(0, ∞)`, the limit `x⁻¹ ∑ a(n) Ψ(n/x) → A ∫_(0,∞) Ψ`: the nonnegative case of step 4 of §2.2a,
+  whose argument is rerun there); and
   `TauCeti.LSeries.isBigO_sum_Icc_norm_id_of_boundary` (`Chebyshev.lean`; nonnegative `a` with
   summability on `σ > 1` and boundary data satisfy `∑_{1≤n≤t} ‖a n‖ = O(t)`).
-- `TauCeti.exists_sum_Icc_le_mul_of_isBigO` (`TauCeti/Analysis/Asymptotics/SumWindow.lean`: an
+- `TauCeti.exists_sum_Icc_le_mul_of_isBigO` (`TauCeti/Analysis/Asymptotics/Sum/Window.lean`: an
   `O(x)` bound on the partial sums gives `∑_{1≤n≤N} f n ≤ C N` at every `N`),
   `TauCeti.sum_range_mul_le_sum_range_mul` (`TauCeti/Algebra/Order/BigOperators/Sum/ByParts.lean`:
   Abel's inequality against a nonnegative antitone weight) and
@@ -429,6 +446,13 @@ elsewhere), `f'` is integrable there, and the fundamental theorem of calculus
 primitive form. *Needs:* §0.1; Mathlib `MeasureTheory.integral_integral_swap`,
 `MeasureTheory.intervalIntegral_tendsto_integral_Ioi`,
 `intervalIntegral.integral_eq_sub_of_hasDerivAt_of_le`.
+
+*Source.* Lebl, *Notes on Diffy Qs*, version 6.11, §6.2.1, p. 300 and Table 6.2 (lebl-diffyqs
+line 14907): `ℒ{g′}(s) = s ℒ{g}(s) − g(0)` for a differentiable `g` of exponential order,
+`|g(t)| ≤ M e^(ct)`, at real `s > c`, by one integration by parts. Derived here and not taken from
+the source: the form with only the two integrabilities in place of exponential order, complex `s`
+with no condition on `Re s`, a primitive in place of a derivative, and values in a complex Banach
+space; the boundary-term argument of the proof sketch supplies it.
 
 **Checks.**
 
@@ -899,7 +923,9 @@ which the smoothed form does not.
    support, so `(f(n)/n) W(log(n/x)/2π) = f(n) ψ(n/x)/x`. As a Schwartz function
    (`HasCompactSupport.toSchwartzMap`), `W = 𝓕φ₀` with `φ₀ = 𝓕⁻¹W` Schwartz
    (`FourierTransform.fourier_fourierInv_eq`). Step 3 gives the limit
-   `2π A φ₀(0) = 2π A ∫ W = A ∫₀^∞ ψ`, by the substitution `y = e^(2πv)`.
+   `2π A φ₀(0) = 2π A ∫ W = A ∫₀^∞ ψ`, by the substitution `y = e^(2πv)`. This is the argument
+   of `TauCeti.LSeries.tendsto_inv_mul_tsum_mul_div_atTop`, the case `f ≥ 0`, rerun with step 3
+   in place of its nonnegative Schwartz-weight input.
 5. *Continuous `ψ`.* Let `ψ` vanish outside `[−R, R]`, and fix `δ > 0` and `ε > 0`. Mollifying
    `ψ η`, where `η` is a continuous cutoff vanishing on `(−∞, δ/2]` and equal to `1` on `[δ, ∞)`,
    by a bump of radius less than `δ/4` (`ContDiffBump.dist_normed_convolution_le`, uniform since
@@ -927,8 +953,17 @@ also summable on `Re s > 1` by comparison. The smoothed form then holds for `f` 
 `TauCeti.summatory`; Mathlib `HasCompactSupport.toSchwartzMap`,
 `FourierTransform.fourier_fourierInv_eq`, `ContDiffBump.dist_normed_convolution_le`.
 
-*Source.* Korevaar (2004), Chapter III, for the Wiener–Ikehara theorem by Wiener's method. The
-majorant form of the sharp cutoffs and the first Check below are not taken from the source.
+*Source.* Kontorovich, Tao et al., PrimeNumberTheoremAnd, `PrimeNumberTheoremAnd/Wiener.lean`
+at revision `2667e414c38e5a5dc9aa1946f16f13001e5cd3ed`: the smoothed theorem
+`wiener_ikehara_smooth` (blueprint label “WienerIkeharaSmooth”; pnt-wiener line 1877) for complex
+`f` with a Chebyshev bound `∑_{n<N} ‖f n‖ ≤ C N`, summability of `∑ ‖f n‖ n^(−σ)` for `σ > 1`,
+continuous boundary data with a real residue `A`, and smooth `Ψ` whose support has closure in
+`(0, ∞)`; and the interval form `WienerIkeharaInterval` (pnt-wiener line 2147) for real `f ≥ 0`
+and `0 < a ≤ b`, with the cutoff `1_[a,b)`.
+Derived here and not taken from the source: the complex residue `A`; continuous `ψ` with
+`ψ(0) ≠ 0` allowed (step 5); summability on `Re s > 1` as a consequence of the Chebyshev bound
+(step 1) rather than a hypothesis; the interval form for complex `f` under a majorant `g` with its
+own boundary data; the endpoint `a = 0`; and the first Check below.
 
 **Checks.**
 
@@ -1130,15 +1165,16 @@ leading coefficient; `m = k + 1 ≥ 1`.
 `PoleBoundary (F/s) 1 k A`. §3.2 gives `α(t)/(eᵗ tᵏ) → A/k!`; substitute `t = log X` for
 `X > 1`, using `e^(log X) = X` and `log X → ∞`. *Needs:* §0.2, §3.2, §4.1.
 
-*Source.* Delange (1954), Theorem III, §5.2.1, pp. 235–238. Wood (2019), §7, p. 417: for the
+*Source.* Delange (1954), Theorem III, §5.2.1, pp. 235–238. Wood (2019), §7, p. 416: for the
 series `F_r`, for `r ≥ 1`, the coefficients count continuous homomorphisms from the absolute
-Galois group of ℚ to `C₂^(r+1)` whose finite-prime inertia images meet `C₂^r × {1}` trivially
-and whose complex conjugation is trivial (wood2019 line 1652). The index is the absolute
+Galois group of ℚ to `C₂^(r+1)` whose finite-prime inertia images meet `C₂^r × {0}` trivially
+and whose complex conjugation is trivial (wood2019 line 1652; Wood writes `C₂` multiplicatively,
+with `1` for `{0}`). The index is the absolute
 discriminant of the quadratic character projected to the last factor, with the trivial
 homomorphism treated separately (§7, p. 416; wood2019 line 1617). Its pole at `1` has order
 `2^r` and its partial sums are asymptotic to a constant times `X (log X)^(2^r − 1)`
-(wood2019 line 1692). Variants allowing nontrivial complex conjugation are separate applications
-with their own series. The analytic hypotheses needed for this step are explicit here.
+(§7, p. 417; wood2019 line 1692). Variants allowing nontrivial complex conjugation are separate
+applications with their own series. The analytic hypotheses needed for this step are explicit here.
 
 **Checks.**
 
@@ -1249,7 +1285,7 @@ proof of its hypotheses are arithmetic input to the application.
 ### Examples
 
 - Wood's totally real counts (Wood 2019, §7, pp. 416–417; wood2019 line 1652), for `r ≥ 1`:
-  continuous homomorphisms into `C₂^(r+1)` with finite-prime inertia meeting `C₂^r × {1}`
+  continuous homomorphisms into `C₂^(r+1)` with finite-prime inertia meeting `C₂^r × {0}`
   trivially and trivial complex conjugation give the series `F_r`, indexed by the absolute
   discriminant of the last-factor quadratic character, with the trivial homomorphism treated
   separately. It has pole order `2^r` at `s = 1`, so `k = 2^r − 1`; §4.2 gives the main term
@@ -1273,8 +1309,15 @@ For `k ∈ ℕ` let `d_k = ζ^k` be the `k`-th power of Mathlib's arithmetic fun
 arithmetic function, not `riemannZeta`). So `d_k(n)` is the number of ordered `k`-tuples of positive
 integers with product `n`, and `d_k(0) = 0`; `d_0 = 1` is the unit (value `1` at `n = 1` and `0`
 elsewhere), `d_1(n) = 1` for `n ≥ 1`, and `d_2 = σ₀`, so `d_2(n) = #(Nat.divisors n)`. The same
-function is the `τ_k` of SieveMethodsAndPrimePatterns §1.1, which owns its elementary upper bounds;
-this section owns its Dirichlet series and the asymptotic of its partial sums.
+function is the `τ_k` of SieveMethodsAndPrimePatterns §1.1, which owns its elementary upper bounds.
+The asymptotic of the partial sums of `d_(k+1)`, with error terms, is AnalyticNumberTheoryPartI
+§3.12a (compact-parameter multiplicative transfer, at the single function `f = τ_(k+1)` with
+`α = k + 1`: the prime sum is `(k + 1) θ(x)`, with Chebyshev's `θ(x) = ∑_{p≤x} log p`, the first Taylor coefficient is
+`q_0 = lim_(s→1) (s − 1)^(k+1) ζ(s)^(k+1) = 1`, and the main term is `X (log X)^k/k!`) and, at
+`k = 1`, AnalyticNumberTheoryPartI §3.22 (`∑_{n≤X} τ(n) = X log X + (2γ − 1) X + O(√X)`). This
+section owns the Dirichlet series of `d_k` for every `k ∈ ℕ`; `zetaPow_counting` rederives only
+the leading term, through §4.2 and without an error term, as the test of the factorial
+normalisation of §4.2 on a series whose count is known independently.
 
 **`LSeriesHasSum_zeta_pow`.** For every `k ∈ ℕ` and every `s` with `Re s > 1`, the Dirichlet
 series of `d_k` converges absolutely and has sum `ζ(s)^k`:
@@ -1303,7 +1346,9 @@ multiplicative (`ArithmeticFunction.natCoe_mul`), and `ArithmeticFunction.LSerie
 - `∑_{1≤n≤X} d_(k+1)(n) / (X (log X)^k) → 1/k!` as `X → ∞`.
 
 At `k = 1` this is the divisor sum `∑_{1≤n≤X} #(Nat.divisors n) / (X log X) → 1`; at `k = 3` it
-is the `d₄` normalisation of Conventions.
+is the `d₄` normalisation of Conventions. The limit agrees with the main terms of
+AnalyticNumberTheoryPartI §3.12a and §3.22; the second statement is the leading term of those
+expansions, obtained here from the analytic data of `ζ^(k+1)` alone.
 
 *Proof sketch.* `analyticOn_riemannZeta` gives the interior and the germs away from `1`. The residue
 limit `riemannZeta_residue_one` and
@@ -1332,7 +1377,7 @@ factorisations would give `d_3(4) = 2`.
 - `d₄ = σ₀ * σ₀` has series `ζ(s)⁴`, a pole of order four with
   numerator value `1`, so `∑_{n≤X} d₄(n) / (X (log X)³) → 1/6 = 1/3!`. Normalising by `k`,
   `(k − 1)!` or `(k + 1)!` would give `1/3`, `1/2` or `1/24`. This is the pole order of Wood's
-  totally real count into `C₂³`, with finite-prime inertia meeting `C₂² × {1}` trivially and
+  totally real count into `C₂³`, with finite-prime inertia meeting `C₂² × {0}` trivially and
   trivial complex conjugation (`r = 2`; wood2019 line 1652).
 
 ### 5.2 A local pole is not enough: the dyadic series
@@ -1405,8 +1450,15 @@ Layer 4 (§5.1) and Layer 0 (§5.2). Mathlib `riemannZeta` and arithmetic functi
   [numdam](https://www.numdam.org/item/ASENS_1954_3_71_3_213_0.pdf). Standing hypotheses p. 213;
   regularisation and smoothing §§3–4.1, pp. 220–229; Lemmas 3–4, §5.1, pp. 231–233; Theorem III,
   §5.2.1, pp. 235–238; remarks §5.3, p. 242. The primary source for Layers 0–4.
-- J. Korevaar, *Tauberian Theory: A Century of Developments*, Grundlehren der mathematischen
-  Wissenschaften **329**, Springer (2004); Chapter III for the Wiener–Ikehara theorem (§2.2a).
+- A. Kontorovich, T. Tao and contributors, *PrimeNumberTheoremAnd*, file
+  `PrimeNumberTheoremAnd/Wiener.lean` at revision `2667e414c38e5a5dc9aa1946f16f13001e5cd3ed`
+  (2026, Apache-2.0),
+  [source](https://github.com/AxiomMath/PrimeNumberTheoremAnd/blob/2667e414c38e5a5dc9aa1946f16f13001e5cd3ed/PrimeNumberTheoremAnd/Wiener.lean):
+  `wiener_ikehara_smooth` (pnt-wiener line 1877) and `WienerIkeharaInterval` (pnt-wiener
+  line 2147), for the smoothed and interval forms of the Wiener–Ikehara theorem (§2.2a).
+- J. Lebl, *Notes on Diffy Qs: Differential Equations for Engineers*, version 6.11 (2026),
+  [author page](https://www.jirka.org/diffyqs/); §6.2.1, p. 300 and Table 6.2, for the transform
+  of a derivative (§0.1a).
 - M. M. Wood, *Nonabelian Cohen–Lenstra moments*, Duke Math. J. **168** (2019), 377–427,
   [author version](https://par.nsf.gov/servlets/purl/10152050); §7, pp. 415–417, for the
   higher-order pole counts and the removal of non-surjective homomorphisms.

@@ -15,7 +15,7 @@ The Gamma model is supplied by AnalyticNumberTheoryPartII §4.5c.
 Layer 0 also states the rule for the transform of a derivative (README §0.1a), and Layer 2 the
 smoothed and interval forms of Wiener–Ikehara at a simple pole for complex coefficients
 (README §2.2a). The final layer states the Dirichlet series of the divisor functions `ζ ^ k` and
-their counts; the dyadic counterexample of README §5.2
+the leading term of their counts; the dyadic counterexample of README §5.2
 is a negative control (a README target with its Checks) and is not an acceptance theorem here.
 
 `HasLaplace` uses the ordinary one-sided integral of a function with convergence included.
@@ -61,7 +61,9 @@ variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E] [CompleteSpace E
 
 /-- The transform of a derivative, primitive form (README §0.1a): if `f` is a primitive of `g`
 on `[0, ∞)`, `f` has transform `z` at `s` and `exp (-s t) • g t` is integrable on `(0, ∞)`, then
-`g` has transform `s • z - f 0`. No condition on `Re s` is imposed. -/
+`g` has transform `s • z - f 0`. No condition on `Re s` is imposed. The textbook rule assumes
+exponential order and real `s` beyond it (Lebl, *Notes on Diffy Qs*, version 6.11, §6.2.1,
+p. 300); this integrability-only form is derived in the README's proof sketch. -/
 theorem hasLaplace_deriv_of_primitive {f g : ℝ → E} {s : ℂ} {z : E}
     (hfg : ∀ t ∈ Ici (0 : ℝ), f t = f 0 + ∫ u in (0 : ℝ)..t, g u)
     (hf : HasLaplace f s z)
@@ -71,7 +73,8 @@ theorem hasLaplace_deriv_of_primitive {f g : ℝ → E} {s : ℂ} {z : E}
 
 /-- The transform of a derivative (README §0.1a): for `f` continuous at `0` from the right and
 differentiable on `(0, ∞)`, if `f` has transform `z` at `s` and the transform integral of `f'`
-converges absolutely, then `f'` has transform `s • z - f 0`. -/
+converges absolutely, then `f'` has transform `s • z - f 0` (compare Lebl, *Notes on Diffy Qs*,
+version 6.11, §6.2.1, p. 300, under exponential order). -/
 theorem hasLaplace_deriv {f f' : ℝ → E} {s : ℂ} {z : E}
     (hf0 : ContinuousWithinAt f (Ici 0) 0)
     (hderiv : ∀ t ∈ Ioi (0 : ℝ), HasDerivAt f (f' t) t)
@@ -168,7 +171,9 @@ theorem delangeSmoothedLimit {α : ℝ → ℝ} {F : ℂ → ℂ} {a A : ℝ} {k
 /-- **Smoothed Wiener–Ikehara for complex coefficients** (README §2.2a). Under the Chebyshev
 bound `∑_{1 ≤ n ≤ x} ‖f n‖ = O(x)` and continuous boundary data `G = LSeries f - A / (s - 1)` on
 `Re s ≥ 1`, for every continuous compactly supported `ψ`,
-`(1 / x) ∑_{n ≥ 1} f n ψ (n / x) → A ∫₀^∞ ψ`. No sign of `f` is assumed. -/
+`(1 / x) ∑_{n ≥ 1} f n ψ (n / x) → A ∫₀^∞ ψ`. No sign of `f` is assumed. Compare
+`wiener_ikehara_smooth` in PrimeNumberTheoremAnd, `Wiener.lean` (revision `2667e414`), for smooth
+`ψ` supported away from `0`, a real residue and a separate summability hypothesis. -/
 theorem wienerIkehara_smoothed {f : ℕ → ℂ} {G : ℂ → ℂ} {A : ℂ}
     (hcheby : Asymptotics.IsBigO atTop
       (fun x : ℝ ↦ ∑ n ∈ Finset.Icc 1 ⌊x⌋₊, ‖f n‖) (fun x : ℝ ↦ x))
@@ -183,7 +188,8 @@ theorem wienerIkehara_smoothed {f : ℕ → ℂ} {G : ℂ → ℂ} {A : ℂ}
 for a majorant `g` that has its own summability and continuous boundary data on `Re s ≥ 1`, and
 `f` has boundary data `G = LSeries f - A / (s - 1)`, then
 `(S_f (b x) - S_f (a x)) / x → A (b - a)` for `0 ≤ a ≤ b`. A Chebyshev bound on `f` alone does
-not suffice. -/
+not suffice. Compare `WienerIkeharaInterval` in PrimeNumberTheoremAnd, `Wiener.lean` (revision
+`2667e414`), for `f ≥ 0` and `0 < a ≤ b`. -/
 theorem wienerIkehara_interval {f : ℕ → ℂ} {g : ℕ → ℝ} {G H : ℂ → ℂ} {A B : ℂ} {a b : ℝ}
     (hfg : ∀ n, ‖f n‖ ≤ g n)
     (hgsum : ∀ σ : ℝ, 1 < σ → LSeriesSummable (fun n ↦ (g n : ℂ)) σ)
@@ -304,7 +310,9 @@ theorem LSeriesHasSum_zeta_pow (k : ℕ) {s : ℂ} (hs : 1 < s.re) :
   sorry
 
 /-- `ζ ^ (k + 1)` has a pole of order `k + 1` at `1` with numerator value `1`, and
-`∑_{n ≤ X} d_(k+1)(n) ~ X (log X) ^ k / k!`. At `k = 1` this is `∑_{n ≤ X} d(n) ~ X log X`. -/
+`∑_{n ≤ X} d_(k+1)(n) ~ X (log X) ^ k / k!`. At `k = 1` this is `∑_{n ≤ X} d(n) ~ X log X`.
+Only the leading term is stated, derived through `delangeDirichlet` as the test of its factorial
+normalisation; the expansion with error terms is AnalyticNumberTheoryPartI §3.12a and §3.22. -/
 theorem zetaPow_counting (k : ℕ) :
     PoleBoundary (fun s ↦ riemannZeta s ^ (k + 1)) 1 k 1 ∧
     Tendsto (fun X : ℝ ↦ TauCeti.summatory (fun n : ℕ ↦ n)
