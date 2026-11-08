@@ -112,7 +112,10 @@ inverse limit of the finite groups `G_1`; `K′` is the completion of `K^ur`.
 ### From Mathlib and Tau Ceti
 
 Use Mathlib `IsDiscreteValuationRing`, `IsDiscreteValuationRing.addVal`, `IsAdicComplete`,
-`Algebra.IsInvariant`, `differentIdeal` and `conductor_mul_differentIdeal`,
+`Algebra.IsInvariant`, the fixed subring `FixedPoints.subalgebra` with the action of `G ⧸ H` on
+the fixed ring of a normal subgroup `H` and its invariants `A` (both instances in
+`Mathlib/RingTheory/Invariant/Basic.lean`), `QuotientGroup.mk'`, `differentIdeal` and
+`conductor_mul_differentIdeal`,
 `Polynomial.IsEisensteinAt` with its irreducibility criterion, adic completion of a Noetherian
 local ring, `intervalIntegral`, `IsGalois.normalAutEquivQuotient`, `Field.absoluteGaloisGroup`,
 `FiniteGaloisIntermediateField`, `IntermediateField.fixingSubgroup`, `AlgEquiv.restrictNormalHom`,
@@ -128,12 +131,15 @@ Use Tau Ceti `TauCeti.IsLocalRing.ramificationGroup`, `TauCeti.IsLocalRing.ramif
 `TauCeti.IsLocalRing.subgroupOf_ramificationGroup`,
 `TauCeti.IsLocalRing.sum_addVal_smul_sub_eq_finsum_card_ramificationGroup_sub_one`,
 `TauCeti.IsLocalRing.sum_min_lowerIndex_natCast`,
-`TauCeti.IsLocalRing.lowerIndex_eq_addVal_of_adjoin_singleton_eq_top`,
-`TauCeti.IsDiscreteValuationRing.exists_adjoin_eq_top`, `TauCeti.inertiaSubgroup` and
-`TauCeti.fixingSubgroup_fixedField`. These are the carriers on which Layer 3a is stated; none of
-them assumes a finite residue field, and the local-field objects below are their instances.
-For the agreement of §4a.3 on a local field, use Tau Ceti `TauCeti.maximalUnramifiedExtension`
-and `IntermediateField.le_maximalUnramifiedExtension_iff`.
+`TauCeti.IsLocalRing.lowerIndex_eq_addVal_of_adjoin_singleton_eq_top` and
+`TauCeti.IsDiscreteValuationRing.exists_adjoin_eq_top`. These are the carriers on which Layer 3a
+is stated; none of them assumes a finite residue field, and the local-field objects below are
+their instances. Layer 4a also uses `TauCeti.fixingSubgroup_fixedField` (a closed subgroup of the
+Galois group of a normal extension is the fixing subgroup of its fixed field), which involves no
+valuation. For the agreements of §4a.1 and §4a.3 on a local field, use Tau Ceti's local-field
+declarations listed under *Absolute Galois group* and *Unramified extensions* below, among them
+`TauCeti.inertiaSubgroup`, `TauCeti.maximalUnramifiedExtension` and
+`IntermediateField.le_maximalUnramifiedExtension_iff`; these assume `IsNonarchimedeanLocalField`.
 
 ### From TauCetiRoadmap.LocalFieldsRamification
 
@@ -198,10 +204,14 @@ closure `B` of `A` in `L`; each section ends with its *Needs* and with Checks th
 the general statement from its local-field instance, usually on `F̄_p((t))` or `Frac W(F̄_p)`,
 where the residue field is infinite, and on `ℚ_2(ζ_8)/ℚ_2`, where the completed roadmap already
 fixes the answer. Layer 4a assumes a perfect residue field and works in `Field.absoluteGaloisGroup K`
-through its finite levels. `Suggested.lean` states the two Layer 3a headlines on the general carriers,
-Hilbert's different formula and the lower-numbering Hasse–Arf; the Herbrand objects of §3a.2 and
-the Layer 4a objects are README targets whose carriers it does not yet have, and its module
-docstring lists them.
+through its finite levels. `Suggested.lean` states the Layer 3a headlines on the general
+carriers: Hilbert's different formula, the Herbrand function with its inverse and the upper
+numbering, Herbrand's quotient theorem, tower transitivity and the lower-numbering Hasse–Arf. The
+Layer 4a headlines are defined through the integer rings of all finite levels of
+`AlgebraicClosure K`, which the pinned libraries do not make local rings, and through inertia
+subgroups and a maximal unramified extension that they provide only for nonarchimedean local
+fields; they are README targets, and the module docstring of `Suggested.lean` says what each
+lacks.
 
 ## Layer 3a: ramification over complete discretely valued fields
 
@@ -329,23 +339,37 @@ local-field instance).
 
 ### 3a.2 Herbrand functions and the upper numbering
 
-For a finite group `G` acting on a local ring `S`, define the Herbrand function
-`φ(u) = ∫_0^u #G_t / #G_0 dt` for `u ≥ −1`, with `G_t = ramificationGroupReal G S t`, as an order
+For a group `G` acting on a local ring `S`, define the Herbrand function
+`herbrandFun G S u = ∫_0^u #G_t / #G_0 dt` for real `u`, with `G_t = ramificationGroupReal G S t`;
+its inverse `inverseHerbrandFun G S v`, the least `u` with `v ≤ herbrandFun G S u`; and the upper
+groups `upperRamificationGroup G S v = G_(ψ(v))`, writing `φ` and `ψ` for the first two. Only their
+values on `[−1, ∞)` carry meaning. For finite `G`, prove that `φ` is continuous, strictly
+increasing, piecewise linear and concave, the identity on `[−1, 0]`, with
+`φ(m) = (#G_1 + ⋯ + #G_m)/#G_0` at every integer `m ≥ 0`; that it restricts to an order
 automorphism of `TauCeti.LocalFieldsRamification.RamificationIndexDomain`, the interval `[−1, ∞)`,
-with forward map `φ`, inverse `ψ` and upper groups `G^v = G_(ψ(v))`. Prove that `φ` is continuous,
-strictly increasing, piecewise linear and concave, the identity on `[−1, 0]`, with
-`φ(m) = (#G_1 + ⋯ + #G_m)/#G_0` at every integer `m ≥ 0`; that `ψ(n)` is a natural number for
-every natural number `n`; the two inverse identities; and `G^(φ(u)) = G_u`. In the setting of
-3a.1, with `S = B` and `φ_(L/K)`, `ψ_(L/K)` for these functions, prove:
+with inverse `ψ`; that `ψ(n)` is a natural number for every natural number `n`; the two inverse
+identities; and `G^(φ(u)) = G_u`. In the setting of 3a.1, with `S = B` and `φ_(L/K)`, `ψ_(L/K)`
+for these functions, prove:
 
 - `ψ` carries the jumps of the upper filtration to those of the lower one;
 - when the residue extension of `L/K` is separable (a hypothesis the residue extensions of
   `L/K′` and `K′/K` inherit for every intermediate field `K′`), Herbrand's theorem: for `H`
-  normal in `G`, `(G/H)^v = G^v H/H`, and its field form through Mathlib's
-  `IsGalois.normalAutEquivQuotient` for `K′ = L^H`;
+  normal in `G` and `v ≥ −1`, `(G/H)^v = G^v H/H`, and its field form through Mathlib's
+  `IsGalois.normalAutEquivQuotient` for `K′ = L^H`. Here `G/H` acts by Mathlib's quotient action
+  on the fixed ring `B^H = FixedPoints.subalgebra A B H`, the integer ring of `K′`. It is a
+  discrete valuation ring: by 3a.1 for the Galois extension `K′/K`, and, without completeness, as
+  the valuation ring of the restriction of `v_L` to `K′`, whose value group is a nonzero subgroup
+  of `ℤ`. The statement is `upperRamificationGroup_quotient_eq_map` in `Suggested.lean`, for
+  discrete valuation rings `A` and `B` with `Algebra.IsInvariant A B G`, `FaithfulSMul G B` and
+  separable residue extension, without completeness of `A`; the local-ring structure of `B^H`,
+  which the pinned libraries do not infer, is a hypothesis there and is discharged by the
+  preceding sentence;
 - under the same separability hypothesis, tower transitivity: for `M/K` finite Galois with
   separable residue extension and `L` intermediate with `L/K` Galois,
-  `φ_(M/K) = φ_(L/K) ∘ φ_(M/L)` and `ψ_(M/K) = ψ_(M/L) ∘ ψ_(L/K)`;
+  `φ_(M/K) = φ_(L/K) ∘ φ_(M/L)` and `ψ_(M/K) = ψ_(M/L) ∘ ψ_(L/K)` on `[−1, ∞)`. The first is
+  `herbrandFun_tower` in `Suggested.lean`, in the setting of the preceding statement with
+  `G = Gal(M/K)` acting on the integer ring of `M`, `H = Gal(M/L)` acting on it by restriction and
+  `G/H` acting on its fixed ring; the second follows by inverting;
 - for the same tower, `Gal(M/L) ∩ Gal(M/K)^v = Gal(M/L)^(ψ_(L/K)(v))` for `v ≥ −1`;
 - agreement: for nonarchimedean local fields, `G = L ≃ₐ[K] L` and `S = 𝒪[L]`, these are
   `TauCeti.LocalFieldsRamification.herbrandOrderIso K L`,
@@ -379,7 +403,8 @@ formula and all three statements fail without it. The truncated count
 transitivity, and the lemma with transitivity gives the theorem in upper numbering. The
 intersection formula follows from `H_i = H ∩ G_i` of 3a.1 and transitivity.
 
-*Needs:* 3a.1; Mathlib `intervalIntegral` and `IsGalois.normalAutEquivQuotient`; Tau Ceti
+*Needs:* 3a.1; Mathlib `intervalIntegral`, `IsGalois.normalAutEquivQuotient`,
+`FixedPoints.subalgebra` with its quotient action, and `QuotientGroup.mk'`; Tau Ceti
 `TauCeti.IsLocalRing.ramificationGroupReal` and `TauCeti.IsLocalRing.sum_min_lowerIndex_natCast`;
 the completed roadmap's *Herbrand functions and upper numbering* (for the local-field instance).
 
@@ -390,9 +415,18 @@ the completed roadmap's *Herbrand functions and upper numbering* (for the local-
   `ψ(2) = p + 1`.
 - For `K(ζ_p)/K` with `K = Frac W(F̄_p)` and `p` odd, `φ(u) = u/(p − 1)` for `u ≥ 0`, and
   `ψ(1) = p − 1` is an integer although `φ(1) = 1/(p − 1)` is not.
-- If `G_0 = 1`, then `φ` and `ψ` are the identity and `G^v = 1` for every `v > −1`.
+- If `G_0 = 1`, then `φ` and `ψ` are the identity on `[−1, ∞)` and `G^v = 1` for every `v > −1`.
+- Below `−1` the functions leave the identity. For a finite unramified quadratic `L/K`, the
+  integrand is `#G/#G_0 = 2` on `(−2, −1]` and `1` on `(−1, 0]`, so `φ(−2) = −3` and
+  `ψ(−2) = −3/2`; every statement is therefore made for arguments `≥ −1`, where `ψ(−1) = −1` and
+  `G^(−1) = G`.
 - For the trivial action of `C_2` on `ℤ_2`, all lower groups are `C_2` and the density is
   constantly `1`, not eventually `1/2`; nevertheless `φ` and `ψ` are the identity.
+- On `ℚ_2(ζ_8)/ℚ_2`, `G^v` is `G` for `−1 ≤ v ≤ 1`, `{1, 5}` for `1 < v ≤ 2` and trivial for
+  `v > 2`, while the lower group `G_3` is still `{1, 5}`: reading `G^v` as `G_v` fails at `v = 3`.
+  For `H = {1, 7} = Gal(ℚ_2(ζ_8)/ℚ_2(√2))`, the image of `G^2 = {1, 5}` in `G/H` is all of `G/H`,
+  and so is `(G/H)^2 = (G/H)_2`, since the generator of `Gal(ℚ_2(√2)/ℚ_2)` moves `√2` by `−2√2`,
+  of valuation `3`.
 - For `M = ℚ_2(ζ_8)` and `L = ℚ_2(√2)` over `K = ℚ_2`, `ψ_(L/K)(3) = 4` and
   `ψ_(M/L)(4) = 7 = ψ_(M/K)(3)`, while `ψ_(L/K)(ψ_(M/L)(3)) = ψ_(L/K)(5) = 8`: composing in the
   other order is wrong.
@@ -419,9 +453,10 @@ the completed roadmap's *Herbrand functions and upper numbering* (for the local-
 
 ### 3a.3 Hasse–Arf over a separable residue extension
 
-If `G` is abelian, every jump of the upper filtration `v ↦ G^v` of §3a.2 on `B`, that is every
-`u` with `G^v ≠ G^u` for all `v > u`, is an integer. By the finite-sum formula of 3a.2 this says:
-whenever `G_j ≠ G_(j+1)` for an integer `j ≥ 0`, `#G_0` divides `#G_1 + ⋯ + #G_j`. That
+If `G` is abelian, every jump of the upper filtration `upperRamificationGroup G B` of §3a.2,
+that is every `u ≥ −1` with `G^v ≠ G^u` for all `v > u`, is an integer. A jump other than `−1` is
+`φ(j)` for an integer `j ≥ 0` with `G_j ≠ G_(j+1)`, so by the finite-sum formula of 3a.2 this
+says: whenever `G_j ≠ G_(j+1)` for an integer `j ≥ 0`, `#G_0` divides `#G_1 + ⋯ + #G_j`. That
 lower-numbering form is stated in `Suggested.lean` as `hasseArf_dvd_sum_card_ramificationGroup`,
 on Mathlib's discrete valuation rings with `Algebra.IsInvariant A B G` and Tau Ceti's
 `TauCeti.IsLocalRing.ramificationGroup`, without completeness of `A`. No finiteness of the
@@ -475,9 +510,18 @@ connected. For finite Galois `E/F` with group `H`, the norm is a surjective proa
 `U_E → U_F`. Put `V = ker N` and `I_H U_E = ⟨σ(a)/a : σ ∈ H, a ∈ U_E⟩`. Prove `V⁰ = I_H U_E` and
 the canonical isomorphism `H/[H,H] ≅ π₀(V)`, sending `σ` to the component of `σ(π_E)/π_E`,
 independently of `π_E`. Sources: Serre 1961, §1, n° 1.1–1.6, printed pp. 106–113, and §2,
-n° 2.1–2.3, especially Propositions 2–3 and their corollaries, printed pp. 118–120. This target
-includes the specialized quasialgebraic and proalgebraic group and component-group theory used
-by those statements. Use ReductiveGroups Layer 3 for finite-type closed subgroups, normal
+n° 2.1–2.3, especially Propositions 2–3 and their corollaries, printed pp. 118–120, for the unit
+groups, the norm and its kernel. This target includes the specialized quasialgebraic and
+proalgebraic group and component-group theory used by those statements, which Serre 1961 takes
+from Serre, [Groupes proalgébriques](#source-serre-groupes-proalgébriques): quasialgebraic
+groups with their induced and quotient structures (n° 1.2, Definition 2, printed p. 8); perfect
+groups as quasialgebraic groups (n° 1.4, Proposition 10, printed p. 11); closed subgroups,
+kernels, images and quotients in the abelian category of proalgebraic groups (n° 2.4,
+Propositions 6–7, printed pp. 17–18); the exactness of projective limits and their
+compatibility with images (n° 2.5, Proposition 10 with Corollaries 1 and 2, printed p. 19); and
+the identity component `H⁰`, the component group `π₀(H) = H/H⁰`, the right exactness of `π₀` and
+the commutation of `π₀` and of `H ↦ H⁰` with projective limits (n° 5.1, Propositions 1–2,
+printed p. 35). Use ReductiveGroups Layer 3 for finite-type closed subgroups, normal
 quotients and identity components; SchemeAndStackFoundations §0.24 for perfection in
 characteristic `p`; and AdicSpacesPartII §R0.19.9 for the generic pro-category and its
 limit–colimit Hom formula. Identify perfect quasialgebraic groups with the perfections of the
@@ -825,6 +869,13 @@ clos](http://www.numdam.org/item?id=BSMF_1961__89__105_0), Bulletin de la Socié
 France 89 (1961), 105–154. Located by numbered paragraph and printed page; its n° 3.1 treats
 totally ramified extensions of an arbitrary complete discretely valued field, and from n° 3.2 on
 it assumes an algebraically closed residue field.
+
+### Source: Serre, *Groupes proalgébriques*
+
+Jean-Pierre Serre, [Groupes proalgébriques](http://www.numdam.org/item?id=PMIHES_1960__7__5_0),
+Publications mathématiques de l'IHÉS 7 (1960), 5–67, reference [21] of the 1961 article. Located
+by numbered paragraph and printed page; it builds quasialgebraic and proalgebraic groups over an
+algebraically closed field, their abelian category, connected components and homotopy groups.
 
 ### Source: Grothendieck, *Éléments de géométrie algébrique III, première partie*
 
