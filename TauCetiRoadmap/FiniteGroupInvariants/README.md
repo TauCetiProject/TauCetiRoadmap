@@ -6,32 +6,31 @@ display and that neither Mathlib nor Tau Ceti states, on Mathlib's carriers (`Su
 Ceti's character table (`TauCeti.irreducibleCharacters`). From the lattice of normal subgroups it
 builds chief and composition series with their factor multisets, the socle, the solvable radical
 and the invariant factors of a finite abelian group; it defines the classes of groups a database
-filters on (supersolvable, metacyclic, A-groups, rational, almost simple, complete, monomial) and
-proves the implications between them; it defines divisions and the cyclotomic action on classes,
-commutator length, isoclinism and stem groups, the Möbius functions of the subgroup and
-normal-subgroup lattices, Hall's Eulerian functions and the minimal faithful permutation degree;
-rational characters, Schur indices and faithful character degrees; Gassmann equivalence of
-finite-index subgroups and its arithmetic meaning; elusive permutation groups; integral
-representations of cyclic groups of prime order and the unit index of biquadratic fields; and the
-finite subgroups of `GL_n(ℤ)`, `GL_n(ℚ)`, `GL_n(ℂ)`. The end theorems are Jordan–Hölder for chief
-and composition series, Huppert's criterion, Hall's converse, Brauer's permutation lemma with the
-rational character basis, Brauer–Speiser, the classification of irreducible rational
-representations, Taketa's theorem, Gaschütz's faithfulness criterion, Perlis' theorem,
-Diederichsen–Reiner, Jordan–Zassenhaus, Kuroda's class number formula, Minkowski's theorem and the
-dimension `2`, `3`, `4` class counts, and Jordan's theorem over every field of characteristic zero
-with the optimal constant.
+filters on (supersolvable, metacyclic, A-groups, rational, almost simple, quasisimple, complete,
+monomial) and proves the implications between them; it defines Hall subgroups, divisions and the
+cyclotomic action on classes, commutator length, isoclinism and stem groups, the Möbius functions
+of the subgroup and normal-subgroup lattices, Hall's Eulerian functions and the minimal faithful
+permutation degree; rational characters, Schur indices and faithful character degrees; Gassmann
+equivalence of finite-index subgroups and its arithmetic meaning; elusive permutation groups;
+integral representations of orders and of cyclic groups of prime order, Galois-equivariant units
+and the unit types of biquadratic fields; and the finite subgroups of `GL_n(ℤ)`, `GL_n(ℚ)`,
+`GL_n(ℂ)`. The end theorems are Jordan–Hölder for chief and composition series, Huppert's
+criterion, Hall's theorem and its converse, Brauer's permutation lemma with the rational character
+basis, Brauer–Speiser, the classification of irreducible rational representations, Taketa's
+theorem, Gaschütz's faithfulness criterion, Bauer's and Perlis' theorems, Jordan–Zassenhaus,
+Diederichsen–Reiner, Herbrand's unit theorem, Kuroda's class number formula with Kuroda's list
+and Kubota's theorem on unit types, Minkowski's theorem and the dimension `2`, `3`, `4` class
+counts, and Jordan's theorem over every field of characteristic zero with the optimal constant.
 
 ## Scope and ownership
 
 This roadmap owns the invariants named in the summary, in Layers 0–10 below. It consumes, by name
 and section, and does not plan again:
 
-- **LocalFiniteGroupTheory** L1 (Hall's theorem: existence, conjugacy and the covering property of
-  Hall `π`-subgroups of a solvable group; Schur–Zassenhaus conjugacy) and L2 (the Fitting subgroup
-  `F(G)` with its nilpotence, characteristicity and `C_G(F(G)) ≤ F(G)` for solvable `G`;
-  quasisimple groups; components; the layer `E(G)`; the generalized Fitting subgroup `F*(G)`;
-  Bender's theorem `C_G(F*(G)) ≤ F*(G)`). The Fitting subgroup, quasisimple groups and `F*(G)`
-  displayed by a database are these objects at the top subgroup.
+- **InverseGaloisAndArithmeticFundamentalGroups** IG.4.3, target *The Fitting subgroup* (`fitting`,
+  the join of the nilpotent normal subgroups; Fitting's theorem `isNilpotent_sup_of_normal`;
+  `fitting_characteristic`, `le_fitting`, and `fitting_nilpotent` for finite groups). The Fitting
+  subgroup displayed by a database is `fitting G`.
 - **RepresentationTheory/CharacterTheory** §4.4 (the Galois action of `Gal(ℚ(ζ_e)/ℚ)` on
   irreducible characters, its value law `(σ · χ)(g) = χ(g^j)`, preservation of irreducibility,
   and the field-of-values theorem `fieldOfValues_eq_map_fixedField_stabilizer`) and Layer 7 (the
@@ -48,28 +47,32 @@ and section, and does not plan again:
   the Schur covers are those sections'; Layer 4 here owns isoclinism and stem groups.
 - **ArithmeticStatisticsPartV** §3.9 *Malle invariants of a permutation group* (the index
   `ind(g)`, `ind(G)`, `a(G)` and `b(H, G)`). Malle's conjecture is that roadmap's.
-- **Completed/NumberFieldArithmetic** 1.4 (the double-coset law for primes of a non-Galois
-  subfield) and 2.1–2.3 (Frobenius elements and the Artin symbol), and **Completed/Chebotarev**
-  Layer 10 (`hasDirichletDensity_frobeniusPrimeSet`), for Perlis' theorem.
+- **ClassicalArithmeticCompletion** Layer 7: §7.4 (orders in finite-dimensional algebras,
+  `IntegralOrder.IsOrder`, `IntegralOrder.groupRing_isOrder`), §7.10 (the reduced norm of a
+  semisimple number-field algebra), §7.21 (maximal orders, `IntegralOrder.IsMaximalOrder`), §7.49
+  (one trace-dual lattice bounds every overorder) and §7.56 (every order with nondegenerate regular
+  trace lies in a maximal order), for Jordan–Zassenhaus.
 - Mathlib and Tau Ceti as listed in the supplier contracts; in particular Mathlib's
   `commProb_def'` (the commuting probability is the class number over the order) and
   `IsCyclic.card_mulAut` (a cyclic group of order `n` has `φ(n)` automorphisms) are consumed, not
-  restated.
+  restated, and so are Tau Ceti's double-coset law for the primes of a non-Galois subfield, its
+  Frobenius splitting types, its complete-splitting criteria in composita and Galois closures and
+  its Chebotarev density theorem, the arithmetic inputs of Bauer's and Perlis' theorems (the
+  pinned declarations realizing Completed/NumberFieldArithmetic 1.4, 1.5 and 2.1–2.3 and
+  Completed/Chebotarev Layer 10).
 
 This roadmap is the owner of: series and factor multisets of finite groups (no roadmap on main or
 among the open roadmaps defines chief or composition factors of a group, the socle or the solvable
-radical); the group classes of Layer 1 with Huppert's criterion (InverseGaloisAndArithmeticFundamentalGroups
-states its Grunwald theorem with its own supersolvability hypothesis and proves nothing about the
-class); Hall's converse; divisions; commutator length, isoclinism and stem groups; the Möbius
+radical); the group classes of Layer 1 with Huppert's criterion, including quasisimple groups
+(InverseGaloisAndArithmeticFundamentalGroups states its Grunwald theorem with its own
+supersolvability hypothesis and proves nothing about the class); Hall subgroups, Hall's theorem
+and Hall's converse; divisions; commutator length, isoclinism and stem groups; the Möbius
 functions, Eulerian functions and permutation degrees; rational characters and Schur indices;
-Gassmann equivalence of finite-index subgroups of an arbitrary group and Perlis' theorem;
-elusive groups; the integral representation theory of Layer 9; and the finite subgroups of
-general linear groups of Layer 10. The coefficient-level sufficient direction of Gassmann's theorem
-(almost-conjugate subgroups of a Galois group have fixed fields with the same number of ideals of
-every norm) is also stated by PolynomialGaloisGroups §4.1, which leaves the equivalence, the shared
-invariants and the count of arithmetically equivalent fields to Layer 7 here; the route (⇐) of 7.4
-is that section's argument, and an implementation of 7.4 may take that direction from §4.1 rather
-than prove it again.
+Gassmann equivalence of finite-index subgroups of an arbitrary group, Bauer's theorem and both
+directions of Perlis' theorem; elusive groups; the integral representation theory of Layer 9,
+including Jordan–Zassenhaus for `ℤ`-orders in semisimple `ℚ`-algebras (no roadmap on main states
+it; ClassicalArithmeticCompletion Layer 7 supplies orders and maximal orders but no finiteness of
+lattice classes); and the finite subgroups of general linear groups of Layer 10.
 
 Not owned: identifiers, orderings and stored lists of a database (labels beyond the intrinsic
 prefix `Nat.card G`, the order of divisions or characters, hashes, presentations); character
@@ -85,11 +88,15 @@ of integers; continuous automorphisms of profinite groups (Completed/ProfiniteAr
   signature. Order is `Nat.card G`, exponent `Monoid.exponent G`, "abelian" is `IsMulCommutative`,
   "perfect" is `Group.IsPerfect`, "Z-group" is `IsZGroup`, nilpotency class is
   `Group.nilpotencyClass`, the Frattini subgroup is `frattini G`.
-- **Normal subgroups.** `NormalSubgroup G` is the subtype of normal subgroups with the lattice
-  structure of `Subgroup G`; chief series are `CompositionSeries` in it, and composition series
-  of a group are the separate structure `GroupCompositionSeries G`, because in `Subgroup G`
-  Mathlib's covering relation means maximal subgroup, not maximal normal subgroup of the next
-  term.
+- **Normal subgroups.** `NormalSubgroup G` is the subtype of normal subgroups with the complete
+  lattice structure of `Subgroup G`; chief series are `CompositionSeries` in it, and composition
+  series of a group are the separate structure `GroupCompositionSeries G`, because in
+  `Subgroup G` Mathlib's covering relation means maximal subgroup, not maximal normal subgroup of
+  the next term. Mathlib's `FiniteIndexNormalSubgroup G`
+  (`Mathlib/GroupTheory/FiniteIndexNormalSubgroup.lean`) has the same elements when `G` is finite,
+  but at the pin it carries only a `Lattice` instance, with no `⊥` and no complete lattice
+  structure (for infinite `G` the trivial subgroup has infinite index); chief series need `⊥` and
+  `⊤`, and `mobiusQuo` needs the bottom element, so `NormalSubgroup G` is used.
 - **Factor multisets** are multisets of `IsoClass`, the isomorphism classes of finite groups in
   `Type` (`FinGrp`); `IsoClass.mk` sends a finite group in any universe to its class through a
   copy on `Fin (Nat.card H)`.
@@ -127,8 +134,9 @@ of integers; continuous automorphisms of profinite groups (Completed/ProfiniteAr
 | finite abelian groups | `AddCommGroup.equiv_directSum_zmod_of_finite`, `ZMod` |
 | lattices and Möbius | `IncidenceAlgebra.mu`, `Fintype.toLocallyFiniteOrder` |
 | representations | `Representation`, `Representation.character`, `Representation.IsIrreducible`, `IntermediateField.adjoin`, `IntermediateField.relfinrank`, `IsCyclotomicExtension.autEquivPow`, `MonoidAlgebra` |
-| number fields | `NumberField.dedekindZeta`, `LSeries_eq_iff_of_abscissaOfAbsConv_lt_top`, `NumberField.discr`, `NumberField.InfinitePlace.nrRealPlaces`, `NumberField.classNumber`, `NumberField.Units.regulator`, `NumberField.IsTotallyReal`, `NumberField.RingOfIntegers`, `CyclotomicField`, `IntermediateField.fixedField` |
-| matrices | `Matrix.GeneralLinearGroup`, `Matrix.ProjGenLinGroup.mk`, `RingHom.mapMatrix`, `Units.map`, `Module.Free`, `Module.Finite`, `Module.finrank` |
+| orders and lattices | `Subalgebra`, `Submodule.span`, `IsSemisimpleRing`, Maschke's theorem (`MonoidAlgebra.Submodule.exists_isCompl`, with the `IsSemisimpleRing` instance on `MonoidAlgebra k G` when `#G` is invertible in `k`), `MeasureTheory.exists_ne_zero_mem_lattice_of_measure_mul_two_pow_lt_measure` |
+| number fields | `NumberField.dedekindZeta`, `LSeries_eq_iff_of_abscissaOfAbsConv_lt_top`, `NumberField.discr`, `NumberField.InfinitePlace.nrRealPlaces`, `NumberField.classNumber`, `NumberField.Units.regulator`, `NumberField.Units.unitLattice_rank`, `NumberField.IsTotallyReal`, `NumberField.RingOfIntegers`, `NumberField.RingOfIntegers.mapAlgEquiv`, the action of `Gal(L/K)` on `NumberField.InfinitePlace L` (`NumberField.InfinitePlace.smul_eq_comap`: `σ • w = w.comap σ⁻¹`), `CyclotomicField`, `IntermediateField.fixedField`, `IntermediateField.normalClosure`, `AlgebraicClosure` |
+| matrices | `Matrix.GeneralLinearGroup`, `Matrix.ProjGenLinGroup.mk`, `RingHom.mapMatrix`, `Units.map`, `Module.Free`, `Module.Finite`, `Module.finrank`, `Subgroup.FiniteIndex` |
 | permutations | `Equiv.Perm`, `Equiv.Perm.isConj_iff_cycleType_eq`, `MulAction.IsPretransitive`, `alternatingGroup` |
 
 ### From Tau Ceti
@@ -142,13 +150,18 @@ of integers; continuous automorphisms of profinite groups (Completed/ProfiniteAr
 | elementary groups | `TauCeti.IsPElementary`, `TauCeti.IsElementary`, `TauCeti.IsHyperelementary`, `TauCeti.isElementary_of_isCyclic` |
 | indecomposable modules | `TauCeti.IsIndecomposableModule` |
 | simple groups | `TauCeti.ClassificationStatement` (a proposition; used only as a hypothesis) |
+| characters determine representations | `Representation.nonempty_equiv_of_character_eq` (`TauCeti/RepresentationTheory/CharacterTable/Determined.lean`: over a field of characteristic zero, finite-dimensional representations of a finite group with equal characters are equivalent) |
+| primes of a non-Galois subfield | `Ideal.doubleCosetQuotientEquivPrimesOverOfIsIntegralClosure`, `Ideal.ramificationIdx_mul_inertiaDeg_under_smul_eq_relIndex_of_isIntegralClosure`, `Ideal.ramificationIdx_under_smul_eq_relIndex_inertia_of_isIntegralClosure` (`TauCeti/NumberTheory/RamificationInertia/DoubleCoset/IntegralClosure.lean`: the primes of `M ^ H` above `p` are indexed by `H \ G / D`, with `e · f` and `e` as relative indices of the conjugated decomposition and inertia groups) |
+| Frobenius splitting types | `NumberField.Chebotarev.frobeniusPrimeSet`, `NumberField.Chebotarev.map_inertiaDeg_eq_fullCycleType_of_mem_frobeniusPrimeSet` (`TauCeti/NumberTheory/Chebotarev/Density/SplittingType.lean`: at an unramified prime with Frobenius class `[σ]` the residue degrees of the primes of `L ^ H` are the cycle lengths of `σ` on `Gal(L/K) ⧸ H`) |
+| complete splitting | `Ideal.ncard_primesOver_normalClosure_eq_finrank_iff`, `Ideal.ncard_primesOver_sup_eq_finrank_iff` (`TauCeti/NumberTheory/NumberField/SplitsCompletely/GaloisClosure.lean`: a prime splits completely in `E` iff in its normal closure, and in `E₁ ⊔ E₂` iff in both) |
+| Chebotarev density | `NumberField.Chebotarev.hasDirichletDensity_frobeniusPrimeSet`, `NumberField.Chebotarev.infinite_frobeniusPrimeSet` (`TauCeti/NumberTheory/Chebotarev/Density/Chebotarev.lean`: each conjugacy class `C` is the Frobenius class of a set of primes of density `#C / #G`, in particular of infinitely many), `NumberField.Chebotarev.hasDirichletDensity_setOf_ncard_primesOver_eq_finrank` (`TauCeti/NumberTheory/Chebotarev/Density/SplitsCompletely.lean`: the primes splitting completely in `E` have density `1 / [N : K]` for `N` the normal closure of `E`) |
 
-### From LocalFiniteGroupTheory
+### From InverseGaloisAndArithmeticFundamentalGroups
 
-L1: Hall's theorem for solvable groups (`exists_isHallSubgroup`, `exists_conj_eq_of_isHallSubgroup`,
-`exists_le_isHallSubgroup`) and its notion of Hall `π`-subgroup, which `IsHallFor` restates here so
-that Hall's converse can be stated. L2: the relative Fitting subgroup `fitting`, `IsQuasisimple`,
-`layer`, `generalizedFitting` and `centralizer_generalizedFitting_le`, used at the top subgroup.
+IG.4.3, target *The Fitting subgroup*: `fitting G`, the join of the nilpotent normal subgroups of
+`G`; Fitting's theorem `isNilpotent_sup_of_normal` (the join of two nilpotent normal subgroups is
+nilpotent); `fitting_characteristic`; `le_fitting` (every nilpotent normal subgroup lies in
+`fitting G`); `fitting_nilpotent` (`fitting G` is nilpotent for finite `G`). Used in 0.8.
 
 ### From RepresentationTheory/CharacterTheory
 
@@ -165,20 +178,24 @@ InductionRestriction §2.1 (`Gassmann.almostConjugate_iff_permutation_equiv`), �
 
 §3.9 *Malle invariants of a permutation group*: `ind(g)`, `ind(G)`, `a(G)`, `b(H, G)`.
 
-### From Completed/NumberFieldArithmetic and Completed/Chebotarev
+### From ClassicalArithmeticCompletion
 
-NumberFieldArithmetic 1.4 (`doubleCosetEquiv` and its `e · f` and inertia formulas), 2.1–2.3
-(Frobenius elements); Chebotarev Layer 10 (`hasDirichletDensity_frobeniusPrimeSet`: each
-conjugacy class has Dirichlet density `#C / #G > 0` among the unramified primes).
+Layer 7: §7.4 (an `R`-order in a finite-dimensional `F`-algebra is a subring that is an `R`-lattice
+spanning the algebra; `IntegralOrder.IsOrder`, `IntegralOrder.IsOrder.isIntegral`,
+`IntegralOrder.groupRing_isOrder`), §7.10 (the reduced norm of a semisimple algebra over a number
+field, multiplicative and compatible with completions), §7.21 (`IntegralOrder.IsMaximalOrder`),
+§7.49 (for an order `Λ` in an algebra with nondegenerate regular trace there is `r ≠ 0` with
+`r Λ' ⊆ Λ` for every overorder `Λ'`) and §7.56 (every such order lies in a maximal order). Used in
+9.1.
 
 ## How to read the build
 
 Layer 0 builds series and characteristic subgroups on the normal-subgroup lattice; Layer 1 the
-group classes; Layer 2 Hall's converse; Layer 3 automorphism invariants and divisions; Layer 4
-commutator length, isoclinism and stem groups; Layer 5 the lattice invariants and permutation
-degrees; Layer 6 the rational character theory, resting on Layer 3's divisions and Layer 1's
-classes; Layer 7 Gassmann and arithmetic equivalence; Layer 8 elusive groups and the Malle
-bridge; Layer 9 integral representations; Layer 10 finite matrix groups, resting on Layer 9's
+group classes; Layer 2 Hall's theorem and its converse; Layer 3 automorphism invariants and
+divisions; Layer 4 commutator length, isoclinism and stem groups; Layer 5 the lattice invariants
+and permutation degrees; Layer 6 the rational character theory, resting on Layer 3's divisions and
+Layer 1's classes; Layer 7 Gassmann and arithmetic equivalence; Layer 8 elusive groups and the
+Malle bridge; Layer 9 integral representations; Layer 10 finite matrix groups, resting on Layer 9's
 Jordan–Zassenhaus. Layers 0, 3, 4, 5 and 7 start in parallel. Each subsection says what it
 defines and proves; its `*Needs:*` line lists what the statement and the indicated route use, item
 by item, and a proof by another route is not bound by it. Backticked names of this roadmap are
@@ -213,7 +230,8 @@ Define `ChiefSeries G` as `CompositionSeries (NormalSubgroup G)` for Mathlib's
 conventions, and `chiefFactors s` as the multiset of the classes of the successive quotients
 `s (i+1) ⧸ s i`. Prove `chiefFactors_eq`: two chief series of a finite group from `⊥` to `⊤` have
 the same factor multiset, from `CompositionSeries.jordan_holder` and the second isomorphism
-theorem, which identifies isomorphic intervals of normal subgroups with isomorphic quotients.
+theorem, which identifies isomorphic intervals of normal subgroups with isomorphic quotients
+(milne-gt, Example 6.29(a), p. 98: Jordan–Hölder for `G` acting on itself by conjugation).
 *Needs:* 0.1; Mathlib `CompositionSeries.jordan_holder`, `QuotientGroup` isomorphism theorems.
 
 - Every finite group has a chief series from `⊥` to `⊤`; the chief length is the length of any of
@@ -262,21 +280,31 @@ by refining a chief series through 0.3. *Needs:* 0.2, 0.3.
 
 ### 0.5 Jordan–Hölder for composition series
 
-Define `GroupCompositionSeries.factors`, `compositionFactors G` (the factors of a chosen series)
-and `compositionLength G`. Prove `GroupCompositionSeries.factors_eq` (any two composition series of
-a finite group have the same factor multiset), and `compositionLength_quotient_add`:
-`compositionLength (G ⧸ N) + compositionLength N = compositionLength G` for normal `N`.
-*Needs:* 0.4; Mathlib isomorphism theorems.
+Define `GroupCompositionSeries.factors`, the multiset of the classes of the simple successive
+quotients. Prove `GroupCompositionSeries.factors_eq`: any two composition series of a finite group
+have the same factor multiset (milne-gt, Theorem 6.2, p. 88). Prove
+`GroupCompositionSeries.factors_add`: for a normal subgroup `N` of a finite group `G`, the factors
+of a composition series of `G ⧸ N` together with those of a composition series of `N` are the
+factors of a composition series of `G`; a composition series of `N` followed by the preimages of
+the terms of one of `G ⧸ N` is a composition series of `G` (third isomorphism theorem), and
+`factors_eq` compares it with any other. The composition factors of `G` are the factors of any
+composition series and the composition length `ℓ(G)` is their number; both are well defined by
+`factors_eq`, and `ℓ(G ⧸ N) + ℓ(N) = ℓ(G)` for normal `N`. *Needs:* 0.4; Mathlib isomorphism
+theorems.
 
-- `compositionLength G = 0` iff `G` is trivial; for solvable `G` the factors are the cyclic groups
-  of prime order over the prime factorization of `Nat.card G` with multiplicity.
-- `compositionLength G` is the sum of the exponents `k` of the chief factors `S^k` (0.3).
+- `ℓ(G) = 0` iff `G` is trivial; for solvable `G` the factors are the cyclic groups of prime order
+  over the prime factorization of `Nat.card G` with multiplicity.
+- `ℓ(G)` is the sum of the exponents `k` of the chief factors `S^k` (0.3).
 
 **Checks.**
 - `C₁₂`: factors `{C₂, C₂, C₃}`, length `3`, the number of prime factors of `12` with multiplicity.
-- `S₄`: length `4`, with `compositionLength (S₄ ⧸ V₄) + compositionLength V₄ = 2 + 2`.
+- `S₄` with `N = V₄`: the factors `{C₂, C₃}` of `S₄ ⧸ V₄ ≅ S₃` and `{C₂, C₂}` of `V₄` add up to
+  `{C₂, C₂, C₂, C₃}`, the factors of `S₄`, and `ℓ`: `2 + 2 = 4`; a model taking the union of the
+  supports would give `{C₂, C₃}`.
 - `A₅ × C₂`: factors `{A₅, C₂}`, length `2`; a model counting prime factors of `120` with
   multiplicity would give `5`.
+- `N = ⊤`: `G ⧸ ⊤` is trivial, its only series has no factors, and the identity reduces to
+  `factors_eq` for `N ≅ G`.
 
 ### 0.6 Derived length
 
@@ -286,7 +314,7 @@ Define the derived length `d(G)` as the least `n` with `derivedSeries G n = ⊥`
 - `d(G) = 0` iff `G` is trivial or not solvable; `d(G) = 1` iff `G` is nontrivial abelian; `d(G) = 2`
   iff `G` is metabelian and nonabelian.
 - For solvable `G`: `derivedSeries G (d(G)) = ⊥`; `d(G) ≤ n ↔ derivedSeries G n = ⊥`; for `H ≤ G`,
-  `d(H) ≤ d(G)`; for normal `N`, `d(G ⧸ N) ≤ d(G)`; `d(G) ≤ compositionLength G`.
+  `d(H) ≤ d(G)`; for normal `N`, `d(G ⧸ N) ≤ d(G)`; `d(G) ≤ ℓ(G)`.
 - For nilpotent `G` of class `c`, `d(G) ≤ ⌊log₂ c⌋ + 1`, because `G^(k) ≤ γ_{2^k}(G)`.
 
 *Needs:* Mathlib `derivedSeries`, `Group.nilpotencyClass`, `lowerCentralSeries`.
@@ -317,24 +345,31 @@ socle of a finite solvable group is abelian. *Needs:* 0.3.
 
 Define the solvable radical `R(G)` as the join of the normal solvable subgroups. Prove that `R(G)`
 is solvable and characteristic, `R(G) = ⊤` iff `G` is solvable, `R(G) = ⊥` iff no minimal normal
-subgroup is abelian, and `R(G ⧸ R(G)) = ⊥`. The Fitting subgroup is LocalFiniteGroupTheory L2's
-`fitting ⊤`; prove `fitting ⊤ ≤ R(G)`. *Needs:* 0.3; Mathlib `Group.IsSolvable` closure under
-extensions; LocalFiniteGroupTheory L2.
+subgroup is abelian, and `R(G ⧸ R(G)) = ⊥`. The Fitting subgroup is
+InverseGaloisAndArithmeticFundamentalGroups IG.4.3's `fitting G`; prove `fitting G ≤ R(G)` for
+finite `G`: `fitting G` is normal (`fitting_characteristic`) and nilpotent (`fitting_nilpotent`),
+hence solvable. *Needs:* 0.3; Mathlib `Group.IsSolvable` closure under extensions;
+InverseGaloisAndArithmeticFundamentalGroups IG.4.3 (*The Fitting subgroup*).
 
 **Checks.**
 - `R(S₄) = S₄`, `R(A₅) = ⊥`, `R(A₅ × C₂) = C₂`.
 - `R(SL(2,5)) = Z ≅ C₂`, since the quotient by the centre is `A₅`.
 - `R(G ⧸ R(G)) = ⊥` at `G = A₅ × C₂`: the quotient `A₅` has trivial radical.
+- `fitting S₄ = V₄ < R(S₄) = S₄` (`A₄` is not nilpotent), `fitting S₃ = A₃ < S₃ = R(S₃)`, and
+  `fitting A₅ = ⊥ = R(A₅)`: the inclusion is strict for the first two and an equality for `A₅`.
 
 ### 0.9 Invariant factors of a finite abelian group
 
-Define `smithInvariants A` for a finite additive abelian group: the list `d₁ ∣ d₂ ∣ ⋯` of integers
-`> 1` presenting `A` as `∏ ZMod dᵢ`, `[]` for the trivial group. Prove existence,
-`nonempty_addEquiv_pi_smithInvariants`, from `AddCommGroup.equiv_directSum_zmod_of_finite` by
-grouping prime powers, and uniqueness, `smithInvariants_unique`, by counting the elements killed
-by each integer. *Needs:* Mathlib `AddCommGroup.equiv_directSum_zmod_of_finite`.
+Prove `existsUnique_invariantFactors`: a finite additive abelian group `A` is `∏ ZMod dᵢ` for
+exactly one list `d₁ ∣ d₂ ∣ ⋯` of integers `> 1`, the invariant factors of `A`, the empty list for
+the trivial group. Existence follows from `AddCommGroup.equiv_directSum_zmod_of_finite` by
+grouping prime powers (the largest power of each prime goes into the last factor, the next
+largest into the one before, and so on); uniqueness by counting, for each integer `m`, the
+elements killed by `m`, which determines the list. Mathlib has the prime-power decomposition and
+Smith normal forms of submodules (`Submodule.smithNormalForm`) but not this divisibility-chain
+form. *Needs:* Mathlib `AddCommGroup.equiv_directSum_zmod_of_finite`.
 
-- The product of `smithInvariants A` is `Nat.card A`; for nontrivial `A` the last entry is the
+- The product of the invariant factors is `Nat.card A`; for nontrivial `A` the last one is the
   exponent of `A`; the list is invariant under `≃+`.
 - The primary invariants (the prime powers) and the invariant factors determine each other.
 
@@ -352,8 +387,8 @@ radical `⊥`. `Q₈`: chief factors `{C₂, C₂, C₂}`, derived length `2`, s
 
 ### Dependencies
 
-Mathlib (lattices, series, isomorphism theorems, finite abelian groups); LocalFiniteGroupTheory
-L2 (0.8 only).
+Mathlib (lattices, series, isomorphism theorems, finite abelian groups);
+InverseGaloisAndArithmeticFundamentalGroups IG.4.3 (0.8 only).
 
 ## Layer 1: classes of finite groups
 
@@ -384,8 +419,8 @@ huppert-eg1, Kapitel VI, Hauptsatz 9.5; robinson, §5.4). *Needs:* 0.3, 0.6; Mat
 
 ### 1.2 Metacyclic groups
 
-Define `IsMetacyclic G`: a cyclic normal subgroup with cyclic quotient. A finite group with all
-Sylow subgroups cyclic is metacyclic (Hölder–Burnside–Zassenhaus; robinson, §10.1), and this is
+Define the metacyclic groups as the predicate on `G` asking for a cyclic normal subgroup with
+cyclic quotient. A finite group with all Sylow subgroups cyclic is metacyclic (Hölder–Burnside–Zassenhaus; robinson, §10.1), and this is
 consumed from Mathlib rather than proved here: `IsZGroup.isCyclic_commutator` and
 `IsZGroup.isCyclic_abelianization` make `commutator G` a cyclic normal subgroup with cyclic
 quotient. *Needs:* Mathlib `IsZGroup`, `IsZGroup.isCyclic_commutator`,
@@ -425,28 +460,37 @@ criterion is 6.6. *Needs:* Mathlib `IsConj`, `orderOf`.
   `A₄` is not ((123) and (132) are not conjugate in `A₄`).
 - The trivial group is rational: the only `n` coprime to the order `1` of the identity give `1`.
 
-### 1.5 Almost simple groups
+### 1.5 Almost simple and quasisimple groups
 
 Define `IsAlmostSimple G`: a nonabelian simple normal subgroup with trivial centralizer. Prove
 `isAlmostSimple_iff`: equivalently `G` embeds in `MulAut S` for a nonabelian simple `S` with image
-containing the inner automorphisms. *Needs:* 0.3, 0.7; Mathlib `MulAut.conj`.
+containing the inner automorphisms. Define the quasisimple groups as the predicate on `G` asking
+that `G` be perfect (Mathlib `Group.IsPerfect`) with simple central quotient `G ⧸ Z(G)`
+(`IsSimpleGroup`, which includes nontriviality). *Needs:* 0.3, 0.7; Mathlib `MulAut.conj`,
+`Group.IsPerfect`, `IsSimpleGroup`, `Subgroup.center`.
 
 - The simple normal subgroup is `socle G`; an almost simple group has trivial centre and trivial
   solvable radical.
+- A quasisimple group is nontrivial and nonabelian; a nonabelian simple group is quasisimple with
+  trivial centre; a quotient of a quasisimple group by a central subgroup is quasisimple.
 
 **Checks.**
 - `A₅` and `S₅` are almost simple (`S₅ ≅ MulAut A₅`).
-- `SL(2,5)` is not: its normal subgroups are `1`, its centre and itself, none nonabelian simple;
-  it is quasisimple (LocalFiniteGroupTheory L2).
-- `A₅ × A₅` is not: each factor is centralized by the other; the trivial group is not.
+- `SL(2,5)` is not almost simple: its normal subgroups are `1`, its centre and itself, none
+  nonabelian simple; it is quasisimple, perfect with central quotient `A₅`.
+- `A₅ × A₅` is not almost simple (each factor is centralized by the other) and not quasisimple
+  (perfect with trivial centre, but not simple); the trivial group is neither (`IsSimpleGroup`
+  requires nontriviality).
+- `C₂` is not quasisimple: it is not perfect, and its central quotient is trivial; `S₅` is not
+  quasisimple: its commutator subgroup is `A₅`.
 
 ### 1.6 Complete groups
 
-Define `IsComplete G`: trivial centre and every automorphism inner. Prove Hölder's theorem
-`isComplete_perm_fin`: `Sₙ` is complete for `n ∉ {2, 6}`, because an automorphism preserving the
-class of transpositions is inner, and for `n ≠ 6` the transpositions form the only class of
-involutions of their size (huppert-eg1, Kapitel II, §5, pp. 173–177). *Needs:* Mathlib
-`MulAut.conj`, `Equiv.Perm.isConj_iff_cycleType_eq`.
+Define `IsCompleteGroup G`: trivial centre and every automorphism inner. Prove Hölder's theorem
+`isCompleteGroup_perm_fin`: `Sₙ` is complete for `n ∉ {2, 6}`, because an automorphism preserving
+the class of transpositions is inner, and for `n ≠ 6` the transpositions form the only class of
+involutions of their size (huppert-eg1, Kapitel II, §5, pp. 173–177; milne-gt, Definition 3.3 and
+Example 3.4(a), p. 44). *Needs:* Mathlib `MulAut.conj`, `Equiv.Perm.isConj_iff_cycleType_eq`.
 
 **Checks.**
 - `S₃`, `S₄`, `S₅` and the trivial group (`n = 0, 1`) are complete.
@@ -465,8 +509,7 @@ is `p`-elementary for a prime `p` not dividing its order is cyclic, and a nontri
 
 **Checks.**
 - The trivial group: no prime factors, product `1`, and it is elementary (cyclic); both sides of the
-  corrected criterion are true, while the uncorrected "`e(G) = 1` iff not elementary" would be
-  false.
+  criterion are true, while "`e(G) = 1` iff not elementary" would fail here (true and false).
 - `C₃`: product `3`, elementary; `C₆`: product `6`.
 - `S₃`: product `1` and not elementary (`C₃ × C₂` is abelian, `S₃` is not).
 
@@ -475,8 +518,8 @@ is `p`-elementary for a prime `p` not dividing its order is cyclic, and a nontri
 Prove for finite groups: cyclic → abelian → nilpotent → supersolvable → solvable; cyclic → Z-group
 → metacyclic → metabelian → solvable; Z-group → A-group; elementary → nilpotent; elementary →
 hyperelementary → solvable; nonabelian simple → perfect, quasisimple and almost simple; perfect and
-nontrivial → not solvable; squarefree order → Z-group. *Needs:* 1.1–1.7; LocalFiniteGroupTheory L2
-(quasisimple); Tau Ceti elementary groups.
+nontrivial → not solvable; squarefree order → Z-group. *Needs:* 1.1–1.7; Tau Ceti elementary
+groups.
 
 **Checks.** Each non-implication has a witness:
 - supersolvable, not nilpotent: `S₃` (order `6`); solvable, not supersolvable: `A₄` (order `12`);
@@ -496,33 +539,45 @@ rational no.
 
 ### Dependencies
 
-Layer 0; Mathlib; Tau Ceti `TauCeti.GroupTheory.Elementary`; LocalFiniteGroupTheory L2.
+Layer 0; Mathlib; Tau Ceti `TauCeti.GroupTheory.Elementary`.
 
-## Layer 2: Hall's converse
+## Layer 2: Hall's theorem and its converse
 
-### 2.1 Hall subgroups and Hall's converse
+### 2.1 Hall subgroups, Hall's theorem and Hall's converse
 
-Define `IsHallFor π H`: every prime dividing `Nat.card H` lies in `π` and no prime dividing
-`H.index` does (LocalFiniteGroupTheory L1's Hall `π`-subgroups, restated). Prove
-`isSolvable_of_forall_exists_isHallFor_compl`: a finite group with a `p`-complement for every prime
-`p` is solvable (robinson, §9.1). Route (Wielandt): induction on the order. With at most two prime
-divisors, Burnside's `pᵃqᵇ` theorem applies. Otherwise take complements `H₁, H₂, H₃` for three
-distinct primes; each `Hᵢ` inherits the hypothesis (its intersections with the other complements
-are complements in it), so is solvable by induction; a minimal normal subgroup `N` of `H₁` is a
-`q`-group, and as `G = H₁ Hⱼ` for a complement `Hⱼ` with `q ∤ [G : Hⱼ]`, the normal closure of `N`
-lies in `Hⱼ`, giving a nontrivial solvable normal subgroup of `G`; conclude by induction on
-`G` modulo it. With LocalFiniteGroupTheory L1 this gives: `G` is solvable iff it has a
-`p`-complement for every `p`. *Needs:* Tau Ceti `TauCeti.isSolvable_of_card_eq_prime_pow_mul_prime_pow`;
-LocalFiniteGroupTheory L1; 0.3.
+Define `IsHallFor π H` for a set of primes `π`: every prime dividing `Nat.card H` lies in `π` and
+no prime dividing `H.index` does. Prove Hall's theorem `exists_isHallFor_of_isSolvable`: a finite
+solvable group has a Hall `π`-subgroup for every `π` (robinson, §9.1). Route: induction on the
+order. A minimal normal subgroup `N` of `G` is an elementary abelian `p`-group (0.3), and `G ⧸ N`
+has a Hall `π`-subgroup `K ⧸ N` by induction. If `p ∈ π`, then `K` is a Hall `π`-subgroup of `G`.
+If `p ∉ π`, then `N` is a normal subgroup of `K` whose order is prime to its index, so it has a
+complement `H` in `K` (Mathlib `Subgroup.exists_right_complement'_of_coprime`), and `H ≅ K ⧸ N` is a
+Hall `π`-subgroup of `G`. Conjugacy of Hall subgroups is not used here.
+
+Prove Hall's converse `isSolvable_of_forall_exists_isHallFor_compl`: a finite group with a
+`p`-complement for every prime `p` is solvable (robinson, §9.1). Route (Wielandt): induction on
+the order. With at most two prime divisors, Burnside's `pᵃqᵇ` theorem applies. Otherwise take
+complements `H₁, H₂, H₃` for three distinct primes; each `Hᵢ` inherits the hypothesis (its
+intersections with the other complements are complements in it), so is solvable by induction; a
+minimal normal subgroup `N` of `H₁` is a `q`-group, and as `G = H₁ Hⱼ` for a complement `Hⱼ` with
+`q ∤ [G : Hⱼ]`, the normal closure of `N` lies in `Hⱼ`, giving a nontrivial solvable normal
+subgroup of `G`; conclude by induction on `G` modulo it. Together with Hall's theorem at
+`π = {q | q ≠ p}`: a finite group is solvable iff it has a `p`-complement for every prime `p`.
+*Needs:* Mathlib `Subgroup.exists_right_complement'_of_coprime`; Tau Ceti
+`TauCeti.isSolvable_of_card_eq_prime_pow_mul_prime_pow`; 0.3.
 
 - `IsHallFor {p} H` iff `H` is a Sylow `p`-subgroup; `Nat.Coprime (Nat.card H) H.index` iff
   `IsHallFor π H` for some `π`.
+- `IsHallFor π ⊤` iff every prime factor of `Nat.card G` lies in `π`; `IsHallFor π ⊥` iff none
+  does.
 
 **Checks.**
 - In `S₃`, `A₃` is a Hall `{3}`-subgroup and each `⟨(ij)⟩` a Hall `{2}`-subgroup; `⊥` is a Hall
   `π`-subgroup exactly when no prime factor of `6` lies in `π`.
-- `A₅` has no `3`-complement (no subgroup of order `20`), consistent with Hall's converse.
+- Solvability is needed in Hall's theorem: `A₅` has no Hall `{3, 5}`-subgroup (no subgroup of order
+  `15`) and no `3`-complement (no subgroup of order `20`), consistent with Hall's converse.
 - `S₄` has a `2`-complement (order `3`) and a `3`-complement (order `8`), and is solvable.
+- The trivial group: `⊥ = ⊤` is a Hall `π`-subgroup for every `π` (order and index `1`).
 
 ### Examples
 
@@ -531,7 +586,7 @@ LocalFiniteGroupTheory L1; 0.3.
 
 ### Dependencies
 
-Layer 0; Tau Ceti (Burnside); LocalFiniteGroupTheory L1.
+Layer 0; Mathlib (Schur–Zassenhaus); Tau Ceti (Burnside).
 
 ## Layer 3: automorphisms, autjugacy and divisions
 
@@ -575,10 +630,18 @@ Autjugacy of subgroups is the orbit relation of `MulAut G` on `Subgroup G`. *Nee
 
 ### 3.4 Subgroup counts
 
-Count subgroups, conjugacy classes of subgroups, normal subgroups and characteristic subgroups,
-with the inequalities between them. *Needs:* Mathlib.
+Define the counts `s(G)` of subgroups (`Nat.card (Subgroup G)`), `c(G)` of conjugacy classes of
+subgroups (orbits of `MulAut.conj` acting on `Subgroup G`), `n(G)` of normal subgroups
+(`Nat.card (NormalSubgroup G)`) and `ch(G)` of characteristic subgroups. Prove
+`ch(G) ≤ n(G) ≤ c(G) ≤ s(G)`: a characteristic subgroup is normal, a normal subgroup is a class
+by itself, and the classes partition the subgroups. Prove that `n(G) = c(G)` iff `c(G) = s(G)` iff
+every subgroup of `G` is normal, and that the four counts are invariant under `≃*`.
+*Needs:* Mathlib `Subgroup.Normal`, `Subgroup.Characteristic`, `MulAut.conj`,
+`MulAction.orbitRel.Quotient`.
 
 **Checks.**
+- The chain on `Q₈` is `3 ≤ 6 ≤ 6 ≤ 6` and on `S₃` it is `3 ≤ 3 ≤ 4 ≤ 6`; on the trivial group all
+  four counts are `1`.
 - `Q₈`: `6` subgroups in `6` classes, `6` normal, `3` characteristic (`⊥`, the centre, `⊤`;
   `MulAut Q₈` permutes `⟨i⟩, ⟨j⟩, ⟨k⟩`).
 - `C_n`: each count is the number of divisors of `n`.
@@ -586,10 +649,18 @@ with the inequalities between them. *Needs:* Mathlib.
 
 ### 3.5 Power maps and order statistics
 
-The power map `[g] ↦ [g^n]` on `ConjClasses G` and the multiset of element orders, with total `|G|`,
-one element of order `1`, and exponent the lcm of its support. *Needs:* Mathlib.
+Define the power map `P_n : ConjClasses G → ConjClasses G`, `[g] ↦ [g^n]`, well defined because
+conjugation commutes with powers, and the order statistics `o_G(m) = #{g : orderOf g = m}`. Prove:
+`∑_m o_G(m) = |G|`; `o_G(1) = 1`; `o_G(m) = 0` unless `m ∣ Monoid.exponent G`, and the exponent is
+the lcm of the `m` with `o_G(m) ≠ 0`; `φ(m) ∣ o_G(m)`, since the elements of order `m` are the
+generators of the cyclic subgroups of order `m`; `P_n ∘ P_{n'} = P_{n n'}`, `P_n = P_{n'}` when
+`n ≡ n'` modulo the exponent, and `P_n` is a bijection when `n` is prime to the exponent; `o_G` and
+the power maps are invariant under `≃*`. *Needs:* Mathlib `orderOf`, `Monoid.exponent`, `IsConj`,
+`Nat.totient`.
 
 **Checks.**
+- `φ(m) ∣ o_G(m)`: in `S₄`, `o(3) = 8` and `o(4) = 6` are even, and in `C₄ × C₄`, `o(4) = 12`; a
+  model counting cyclic subgroups instead of elements gives `4`, `3` and `6`.
 - `S₄`: orders `1¹ 2⁹ 3⁸ 4⁶` (`9 = 6` transpositions `+ 3` double transpositions).
 - `Q₈`: `1¹ 2¹ 4⁶`; `C₄ × C₄`: `1¹ 2³ 4¹²`.
 - The power map by `2` on `S₃` sends the class of `3`-cycles to itself and transpositions to `1`.
@@ -611,15 +682,23 @@ a division, that `ConjClasses G` maps onto `Division G`, that `x` and `y` lie in
 
 ### 3.7 Divisions as orbits of the cyclotomic action
 
-Define the action of `(ZMod (Monoid.exponent G))ˣ` on `ConjClasses G` by powering and prove
-`nonempty_division_equiv_orbits`: the divisions are its orbits. Route: an exponent `n` prime to
-`orderOf x` lifts, by the Chinese remainder theorem, to a unit modulo the exponent with the same
-residue modulo `orderOf x`. Through `IsCyclotomicExtension.autEquivPow`, this is the action of
-`Gal(ℚ(ζ_e)/ℚ)` on classes. *Needs:* 3.6; Mathlib `ZMod`, `Monoid.exponent`.
+Define the action of `(ZMod (Monoid.exponent G))ˣ` on `ConjClasses G` by powering,
+`u • [g] = [g^(u.val)]`, and prove `divisionSetoid_iff_exists_smul`: for finite `G`, `x` and `y`
+lie in one division iff some unit `u` carries the class of `x` to the class of `y`, so the
+divisions are the orbits of the action and correspond to them class by class. Route: a unit
+modulo the exponent `e` is prime to `orderOf x`, which divides `e`; conversely an exponent `n`
+prime to `orderOf x` lifts, by the Chinese remainder theorem, to a unit modulo `e` with the same
+residue modulo `orderOf x`. Hence the number of divisions is the number of orbits. Through
+`IsCyclotomicExtension.autEquivPow`, this is the action of `Gal(ℚ(ζ_e)/ℚ)` on classes.
+*Needs:* 3.6; Mathlib `ZMod`, `Monoid.exponent`.
 
 **Checks.**
-- `A₄`, `e = 6`: the unit `5` sends `[(123)]` to `[(132)]`; orbits `{1}`, `{V₄ ∖ 1}`, the two
-  `3`-cycle classes: `3`, the division count.
+- `A₄`, `e = 6`: `(123)` and `(132)` lie in one division (`(123)² = (132)`) and the unit `5` sends
+  `[(123)]` to `[(132)]`, true and true; `(123)` and `(12)(34)` have orders `3` and `2`, so they lie
+  in different divisions and no unit relates their classes, false and false. The orbits are `{1}`,
+  `{V₄ ∖ 1}` and the two `3`-cycle classes: `3`, the division count. A statement only equating the
+  two counts would also hold for a bijection pairing the division `{1}` with the orbit of the
+  `3`-cycle classes.
 - `C₃`, `e = 3`: the unit `2` swaps `[g]` and `[g²]`.
 - The trivial group: `e = 1`, `ZMod 1` has one unit, one orbit, one division.
 
@@ -729,14 +808,17 @@ contain `frattini G` (hall-1936, Eulerian formula). *Needs:* Mathlib `IncidenceA
 
 Define `eulerian G k`, the number of `k`-tuples generating `G`. Prove Hall's formula
 `eulerian_eq_sum_mobiusSub`: `φ_k(G) = ∑_H μ(H, G) |H|^k`, by Möbius inversion of
-`|G|^k = ∑_H φ_k(H)` (hall-1936, Eulerian formula). Also: `φ_k(G) ≠ 0` iff `G` has a generating set
-of size `k`; `MulAut G` acts freely on generating tuples, so `|MulAut G|` divides `φ_k(G)`.
-*Needs:* 5.1.
+`|G|^k = ∑_H φ_k(H)` (hall-1936, Eulerian formula). Also: `φ_k(G) ≠ 0` iff `G` is generated by at
+most `k` elements, equivalently by the entries of some `k`-tuple (a tuple may repeat entries);
+`MulAut G` acts freely on generating tuples, so `|MulAut G|` divides `φ_k(G)`. *Needs:* 5.1.
 
 **Checks.**
 - `S₃`, `k = 2`: `36 − 9 − 3 · 4 + 3 · 1 = 18 = 6 · 3`, divisible by `|MulAut S₃| = 6`.
 - `C₂ × C₂`, `k = 2`: `16 − 3 · 4 + 2 · 1 = 6 = |GL₂(𝔽₂)|`.
 - `k = 0`: `φ_0(G) = ∑_H μ(H, G) = 0` for nontrivial `G`, and `1` for the trivial group.
+- `C₂`: `φ_0 = 0`, `φ_1 = 2 − 1 = 1` and `φ_5 = 2⁵ − 1 = 31`; `C₂` is generated by at most `1` and
+  at most `5` elements but not by `0`, so the criterion gives true/true at `k = 1, 5` and
+  false/false at `k = 0`, while "a generating set of exactly `k` elements" would fail at `k = 5`.
 
 ### 5.3 Faithful irreducible characters by Möbius inversion
 
@@ -833,8 +915,11 @@ realizes every `χ`, Tau Ceti's Brauer splitting field through CharacterTheory �
 over `ℚ` (isaacs, Chapter 10, p. 171). Also: the Schur index over `ℂ` is `1`; over `ℝ` it is `1` iff
 the Frobenius–Schur indicator is not `−1` (CharacterTheory Layer 7,
 `Representation.frobeniusSchurIndicator_eq_one_iff_isRealizableOverReal`); it divides `[E : F(χ)]`
-for every realization field `E` (isaacs, Corollary 10.2). *Needs:* 6.1; CharacterTheory §4.5 and
-Layer 7.
+for every realization field `E` (isaacs, Corollary 10.2); and Galois-conjugate characters have the
+same Schur index over `ℚ`, since applying an embedding `τ : E → ℂ` extending
+`σ ∈ Gal(ℚ(ζ_e)/ℚ)` to the matrices of a realization of `χ` over `E` realizes `σ · χ` over `τ(E)`,
+with `[τ(E) : ℚ(σ · χ)] = [E : ℚ(χ)]`. *Needs:* 6.1;
+CharacterTheory §4.4, §4.5 and Layer 7.
 
 **Checks.**
 - The degree-two character of `Q₈` has Schur index `2` over `ℚ` and over `ℝ` (indicator `−1`;
@@ -847,17 +932,28 @@ Layer 7.
 
 Prove `exists_character_eq_schurIndex_mul_rationalCharacter`: the character of an irreducible
 `Representation ℚ G V` on a finite-dimensional `V` is `m_ℚ(χ) · ∑_{ψ ∈ o} ψ` for an irreducible
-`χ` with orbit `o`. Conversely each orbit arises, and two irreducible rational representations with
-the same orbit are isomorphic, so irreducible rational representations correspond to Galois
-orbits, with `dim V = m_ℚ(χ) · |o| · χ(1)` (curtis-reiner-1962, §70, (70.15)). Route: decompose
-`V ⊗ ℂ`; its constituents form a Galois-stable set, hence full orbits, each with the same
-multiplicity, which is the Schur index. *Needs:* 6.3, 6.4.
+`χ` with orbit `o`. Prove the converse `exists_isIrreducible_character_eq_schurIndex_mul`: for
+every irreducible `χ` there is an irreducible rational representation with character
+`m_ℚ(χ) · ∑_{ψ ∈ o} ψ`, `o` the orbit of `χ`. Two irreducible rational representations with the
+same orbit then have the same character and are equivalent (Tau Ceti
+`Representation.nonempty_equiv_of_character_eq`), so irreducible rational representations
+correspond to Galois orbits, with `dim V = m_ℚ(χ) · |o| · χ(1)` (curtis-reiner-1962, §70,
+(70.15)). Route: decompose `V ⊗ ℂ`; its constituents form a Galois-stable set, hence full orbits,
+each with the same multiplicity, which is the Schur index. For the converse, `χ` is a constituent
+of `ℂ[G] = ℚ[G] ⊗ ℂ`, hence of `V ⊗ ℂ` for a simple summand `V` of the semisimple `ℚ[G]` (Maschke),
+whose orbit is then that of `χ`; the Schur index over `ℚ` is constant on the orbit (6.4).
+*Needs:* 6.3, 6.4; Mathlib Maschke's theorem; Tau Ceti
+`Representation.nonempty_equiv_of_character_eq`.
 
 **Checks.**
 - `Q₈`: the irreducible rational representation on the quaternions has dimension `4` and character
   `2 χ` (`χ` of degree `2`).
 - `C₃`: rotation by `2π/3` on `ℚ²` has character `(2, −1, −1)`, Schur index `1`, orbit of size `2`.
-- The trivial representation has character `1 · 1`.
+- The trivial representation has character `1 · 1`; for the trivial group the converse gives the
+  trivial representation of `ℚ`, with Schur index `1` and rational character `1`.
+- `C₃`, `χ` the character with `χ(g) = ω`: the converse gives the rotation representation on `ℚ²`
+  above, not a one-dimensional rational representation (there is none with character `χ`, whose
+  values are not rational).
 
 ### 6.6 Rational groups by characters
 
@@ -937,13 +1033,22 @@ classes of conjugacy classes of subgroups under Gassmann equivalence. *Needs:* I
 
 A Gassmann triple is a group with two Gassmann equivalent, non-conjugate subgroups. Prove that in
 `GL₃(𝔽₂)` the stabilizers of a point and of a line of the Fano plane form a Gassmann triple of
-index `7`: they are not conjugate (one fixes a point, the other no point), and the
-inverse-transpose automorphism exchanges the two actions while preserving every conjugacy class,
-so the permutation characters agree. *Needs:* 7.1; Mathlib `Matrix.GeneralLinearGroup`.
+index `7`: they are not conjugate (one fixes a point, the other no point), and every `g` fixes as
+many points as lines. The points fixed by `g` are the nonzero vectors of `ker(g − 1)`; a line is
+the kernel of a nonzero functional `f`, and `g` fixes it iff `f ∘ g⁻¹ = f` (over `𝔽₂` the only
+nonzero scalar is `1`), iff `gᵀ` fixes `f`; as `dim ker(gᵀ − 1) = dim ker(g − 1)`, both counts are
+`2^(dim ker(g − 1)) − 1`, so the permutation characters agree. The inverse-transpose automorphism
+exchanges the two actions but does not preserve every conjugacy class, so it does not by itself
+give the equality. *Needs:* 7.1; Mathlib `Matrix.GeneralLinearGroup`, `Matrix.rank_transpose`.
 
 **Checks.**
-- Every element of `GL₃(𝔽₂)` fixes as many points as lines (for an element of order `7`: `0` and
-  `0`; for an involution: `3` and `3`).
+- Every element of `GL₃(𝔽₂)` fixes as many points as lines: for an element of order `7`,
+  `dim ker(g − 1) = 0` and both counts are `0`; for a transvection, `dim ker(g − 1) = 2` and both
+  counts are `3`.
+- The inverse-transpose automorphism `g ↦ (gᵀ)⁻¹` exchanges the two classes of elements of order
+  `7`: for `g` the companion matrix of `x³ + x + 1`, `gᵀ` is conjugate to `g`, so `(gᵀ)⁻¹` is
+  conjugate to `g⁻¹`, whose characteristic polynomial is the reciprocal `x³ + x² + 1`; a route
+  through "the automorphism fixes every class" fails here.
 - The point and line stabilizers have order `24`, index `7`.
 - For index `2` no triple exists: subgroups of index `2` are normal (7.1).
 
@@ -964,21 +1069,26 @@ contained in `H` and `K`, the relation holds iff it holds for the images in `Γ 
 
 ### 7.4 Bauer's theorem and Perlis' theorem
 
-Prove Bauer's theorem: two number fields `F`, `F'` with `ζ_F = ζ_{F'}` have the same Galois closure
-inside a common algebraic closure (perlis-1977, §1). Route: equal zeta functions have equal
-coefficients (`LSeries_eq_iff_of_abscissaOfAbsConv_lt_top`, with `NumberField.dedekindZeta` the
-L-series of the ideal-counting function); an ideal of prime norm `p` is a prime of residue degree
-one, so the coefficient of `p^{−s}` is the number of degree-one primes above `p`, which is at most
-`[F : ℚ]` with equality iff `p` is totally split (`Ideal.sum_ramification_inertia_eq_finrank`);
-hence `[F : ℚ] = [F' : ℚ]` and the two fields have the same totally split primes; total splitting in
-`F` is total splitting in its Galois closure `F̃` (NumberFieldArithmetic 1.5), so `F̃` and `F̃'` have
-the same totally split primes, hence so does their compositum (NumberFieldArithmetic 1.5); the
-totally split primes of a Galois field `M` have Dirichlet density `1 / [M : ℚ]` (Chebotarev
-Layer 10 at the class of `1`), so `[F̃ F̃' : ℚ] = [F̃ : ℚ] = [F̃' : ℚ]` and `F̃ = F̃'`. In particular
-every field arithmetically equivalent to `F` embeds in `F̃`, so arithmetic equivalence is tested
-among the subgroups of one Galois group. *Needs:* NumberFieldArithmetic 1.5; Chebotarev Layer 10;
-Mathlib `NumberField.dedekindZeta`, `LSeries_eq_iff_of_abscissaOfAbsConv_lt_top`,
-`Ideal.sum_ramification_inertia_eq_finrank`, `IntermediateField.normalClosure`.
+Prove Bauer's theorem `normalClosure_eq_of_dedekindZeta_eq`: two number fields `F`, `F'` inside an
+algebraic closure `ℚ̄` of `ℚ` with `ζ_F = ζ_{F'}` have the same Galois closure in `ℚ̄`
+(perlis-1977, §1). Route: equal zeta functions have equal coefficients
+(`LSeries_eq_iff_of_abscissaOfAbsConv_lt_top`, with `NumberField.dedekindZeta` the L-series of the
+ideal-counting function); an ideal of prime norm `p` is a prime of residue degree one, so the
+coefficient of `p^{−s}` is the number of degree-one primes above `p`, which is at most `[F : ℚ]`
+with equality iff `p` splits completely (`Ideal.sum_ramification_inertia_eq_finrank`); hence
+`[F : ℚ] = [F' : ℚ]` and the two fields have the same completely split primes. Complete splitting
+in `F` is complete splitting in its Galois closure `F̃` (Tau Ceti
+`Ideal.ncard_primesOver_normalClosure_eq_finrank_iff`), so `F̃` and `F̃'` have the same completely
+split primes, and so does their compositum `F̃ F̃'` (`Ideal.ncard_primesOver_sup_eq_finrank_iff`);
+the completely split primes of a field have Dirichlet density `1 / [N : ℚ]` for `N` its Galois
+closure (`NumberField.Chebotarev.hasDirichletDensity_setOf_ncard_primesOver_eq_finrank`), so
+`[F̃ F̃' : ℚ] = [F̃ : ℚ] = [F̃' : ℚ]` and `F̃ = F̃'`. In particular every field arithmetically
+equivalent to `F` embeds in `F̃`, so arithmetic equivalence is tested among the subgroups of one
+Galois group. *Needs:* Tau Ceti `Ideal.ncard_primesOver_normalClosure_eq_finrank_iff`,
+`Ideal.ncard_primesOver_sup_eq_finrank_iff`,
+`NumberField.Chebotarev.hasDirichletDensity_setOf_ncard_primesOver_eq_finrank`; Mathlib
+`NumberField.dedekindZeta`, `LSeries_eq_iff_of_abscissaOfAbsConv_lt_top`,
+`Ideal.sum_ramification_inertia_eq_finrank`, `IntermediateField.normalClosure`, `AlgebraicClosure`.
 
 **Checks.**
 - `ℚ(⁸√−15)` and `ℚ(⁸√−240)` have equal zeta functions and one Galois closure, of degree `32`
@@ -986,7 +1096,10 @@ Mathlib `NumberField.dedekindZeta`, `LSeries_eq_iff_of_abscissaOfAbsConv_lt_top`
   of that closure.
 - `ℚ(√2)` and `ℚ(√3)`: the coefficients of `2^{−s}` agree (`1` and `1`, both ramified) and those of
   `3^{−s}` differ (`0`: `3` is inert in `ℚ(√2)`; `1`: `3` ramifies in `ℚ(√3)`), so the hypothesis
-  fails and no common closure is asserted, although both fields are their own Galois closure.
+  fails; their Galois closures are the two fields themselves, which differ, so the hypothesis
+  cannot be dropped.
+- `F = F'`: both sides hold trivially; a field and its image under an automorphism of `ℚ̄` have the
+  same zeta function and the same Galois closure, which is normal.
 - A Galois field `F` is its own Galois closure, so a field arithmetically equivalent to `F` is a
   subfield of `F` of the same degree, hence `F` itself: arithmetically equivalent Galois fields are
   isomorphic.
@@ -995,14 +1108,24 @@ Prove `dedekindZeta_eq_iff_almostConjugate`: for `L/ℚ` finite Galois and subgr
 Galois group, the fixed fields have the same Dedekind zeta function iff `H` and `K` are Gassmann
 equivalent (perlis-1977, Theorem 1). Route (⇐): the Euler factor of `ζ_{L^H}` at a prime `p` with
 decomposition group `D` and inertia `I` is `det(1 − φ p^{−s} | ℂ[G ⧸ H]^I)^{−1}`, `φ` a Frobenius:
-by NumberFieldArithmetic 1.4 the primes above `p` correspond to the `D`-orbits on `G ⧸ H`, each with
-residue degree the number of `I`-orbits in it, and the determinant is a function of the
+the primes above `p` correspond to the double cosets `H \ G / D`, that is to the `D`-orbits on
+`G ⧸ H`, with `e · f` and `e` the relative indices of the conjugated decomposition and inertia
+groups (Tau Ceti `Ideal.doubleCosetQuotientEquivPrimesOverOfIsIntegralClosure`,
+`Ideal.ramificationIdx_mul_inertiaDeg_under_smul_eq_relIndex_of_isIntegralClosure`,
+`Ideal.ramificationIdx_under_smul_eq_relIndex_inertia_of_isIntegralClosure`), so each residue
+degree is the number of `I`-orbits in the `D`-orbit, and the determinant is a function of the
 permutation character restricted to `D`; equal Euler factors give equal coefficients. Route (⇒):
 equal zeta functions have equal coefficients (`LSeries_eq_iff_of_abscissaOfAbsConv_lt_top`); at an
-unramified `p` with Frobenius class `C`, the number of primes of degree one above `p` is the number
-of fixed points of `C` on `G ⧸ H`; every class is a Frobenius class at infinitely many unramified
-primes (Chebotarev Layer 10). *Needs:* 7.1, 7.3; NumberFieldArithmetic 1.4, 2.1–2.3; Chebotarev
-Layer 10; Mathlib `NumberField.dedekindZeta`. Bauer's theorem is not an input of this equivalence,
+unramified `p` with Frobenius class `[σ]`, the residue degrees of the primes above `p` are the
+cycle lengths of `σ` on `G ⧸ H` (Tau Ceti
+`NumberField.Chebotarev.map_inertiaDeg_eq_fullCycleType_of_mem_frobeniusPrimeSet`), so the number
+of primes of degree one is the number of fixed points of `σ`; every class is the Frobenius class
+of infinitely many unramified primes (`NumberField.Chebotarev.infinite_frobeniusPrimeSet`).
+*Needs:* 7.1, 7.3; Tau Ceti `Ideal.doubleCosetQuotientEquivPrimesOverOfIsIntegralClosure` and its
+`e · f` and inertia formulas, `NumberField.Chebotarev.frobeniusPrimeSet`,
+`NumberField.Chebotarev.map_inertiaDeg_eq_fullCycleType_of_mem_frobeniusPrimeSet`,
+`NumberField.Chebotarev.infinite_frobeniusPrimeSet`; Mathlib `NumberField.dedekindZeta`,
+`LSeries_eq_iff_of_abscissaOfAbsConv_lt_top`. Bauer's theorem is not an input of this equivalence,
 whose two subgroups live in one Galois group; it is what lets 7.5 and 7.6 apply the equivalence to
 two arbitrary arithmetically equivalent fields.
 
@@ -1030,7 +1153,8 @@ when `ℚ(ζ_m) ⊆ F̃` this says `ζ_m ∈ F` iff `ζ_m ∈ F'`, and when `ℚ
 **Checks.**
 - A field and itself: all four equalities hold.
 - `ℚ(⁸√−15)` and `ℚ(⁸√−240)` are arithmetically equivalent and non-isomorphic, with class number
-  ratio `2` (desmit-perlis lines 21, 52–53): the theorem cannot add the class number.
+  ratio `2` (desmit-perlis line 21; the fields at lines 52–53, the ratio at lines 35–36
+  numerically and lines 72–75 in the proof): the theorem cannot add the class number.
 - `ℚ(√2)` and `ℚ(√3)` have equal degree and number of real places but discriminants `8` and `12`:
   different zeta functions.
 
@@ -1057,7 +1181,8 @@ triples; the corresponding fields share degree, discriminant, signature and `h �
 
 ### Dependencies
 
-InductionRestriction §§2.1–2.2; NumberFieldArithmetic 1.4, 2.1–2.3; Chebotarev Layer 10; Mathlib.
+InductionRestriction §§2.1–2.2; Tau Ceti (the double-coset law, Frobenius splitting types,
+complete splitting in composita and Galois closures, Chebotarev density); Mathlib.
 
 ## Layer 8: elusive permutation groups and Malle invariants
 
@@ -1075,19 +1200,19 @@ under coprime powers (ArithmeticStatisticsPartV §3.9). *Needs:* 3.7; Arithmetic
 - `C₃ ≤ S₃`: two classes of index `2` forming one division; `b = 1`, while counting classes gives `2`.
 - `C₂ × C₂` acting regularly: three divisions of index `2`; `b = 3`.
 
-### 8.2 `d(G)` and concentrated groups
+### 8.2 `d_ind(G)` and concentrated groups
 
-Define `d(G)` as the lcm of the orders of the nontrivial elements of minimal index, the
+Define `d_ind(G)` as the lcm of the orders of the nontrivial elements of minimal index, the
 minimal-index subgroup as the subgroup they generate (normal in `G`), `G` concentrated when that
 subgroup is proper, and semiconcentrated when some minimal-index element has proper normal
 closure; concentrated implies semiconcentrated. *Needs:* 8.1.
 
 **Checks.**
-- `S_n`, `n ≥ 2`: `d = 2`, neither concentrated nor semiconcentrated (transpositions generate).
+- `S_n`, `n ≥ 2`: `d_ind = 2`, neither concentrated nor semiconcentrated (transpositions generate).
 - `C₃ ≀ C₂ ≤ S₆` (order `18`): minimal index `2`, attained by the elements `(a, 1)`, `(1, a)` with
-  one `3`-cycle, which generate `C₃ × C₃`; concentrated, `d = 3`.
+  one `3`-cycle, which generate `C₃ × C₃`; concentrated, `d_ind = 3`.
 - `A₄` on `4` points: minimal index `2`, attained by `3`-cycles and double transpositions;
-  `d = 6`, and they generate `A₄`: not concentrated.
+  `d_ind = 6`, and they generate `A₄`: not concentrated.
 
 ### 8.3 Elusive groups
 
@@ -1109,8 +1234,8 @@ Their proof reduces to almost simple groups and uses the classification there. *
 
 ### Examples
 
-`S₄` on `4` points: `ind = 1`, `b = 1`, `d = 2`, not elusive. `C₃ ≀ C₂` on `6` points: `ind = 2`,
-`b = 1`, `d = 3`, concentrated, not elusive.
+`S₄` on `4` points: `ind = 1`, `b = 1`, `d_ind = 2`, not elusive. `C₃ ≀ C₂` on `6` points: `ind = 2`,
+`b = 1`, `d_ind = 3`, concentrated, not elusive.
 
 ### Dependencies
 
@@ -1118,24 +1243,57 @@ Layer 3 (3.7); ArithmeticStatisticsPartV §3.9; Mathlib; Tau Ceti `TauCeti.Class
 
 ## Layer 9: integral representations
 
-### 9.1 `ℤ[G]`-lattices and Jordan–Zassenhaus
+### 9.1 Orders, `ℤ[G]`-lattices and Jordan–Zassenhaus
 
-A `ℤ[G]`-lattice is a `Module (MonoidAlgebra ℤ G) L` that is free and finite over `ℤ`;
-indecomposability is `TauCeti.IsIndecomposableModule`. Every lattice is a finite direct sum of
-indecomposables. Prove `jordan_zassenhaus`: for each `n` the `ℤ[G]`-lattices of rank `n` fall into
-finitely many isomorphism classes (reiner-maximal-orders, §26). Route: finitely many
-`ℚ[G]`-modules of dimension `n` (Maschke); for a fixed `ℚ[G]`-module `V`, every full `ℤ[G]`-lattice
-in `V` contains `|G| · Λ L` for the maximal order `Λ ⊇ ℤ[G]` of `ℚ[G]`; the `Λ`-lattices in `V`
-fall into finitely many classes by Minkowski's convex body theorem applied to the reduced norm, and
-the lattices between `|G| Λ L` and `Λ L` are finitely many. The statement covers all lattices, not
-only locally free ones. *Needs:* Mathlib `MonoidAlgebra`, `Module.Free`, Minkowski's convex body
-theorem (`MeasureTheory.exists_ne_zero_mem_lattice_of_measure_mul_two_pow_lt_measure`).
+A `ℤ`-order in a finite-dimensional `ℚ`-algebra `A` is a subring `Λ` (a `Subalgebra ℤ A`) that is
+finitely generated over `ℤ` and spans `A` over `ℚ` (ClassicalArithmeticCompletion §7.4); a
+`Λ`-lattice is a `Λ`-module free and finite over `ℤ`. A `ℤ[G]`-lattice is a
+`Module (MonoidAlgebra ℤ G) L` that is free and finite over `ℤ`; indecomposability is
+`TauCeti.IsIndecomposableModule`. Every lattice is a finite direct sum of indecomposables.
+
+Prove Jordan–Zassenhaus `jordan_zassenhaus_order`: for a `ℤ`-order `Λ` in a finite-dimensional
+semisimple `ℚ`-algebra `A` and each `n`, the `Λ`-lattices of rank `n` fall into finitely many
+isomorphism classes (reiner-maximal-orders, §26). An order over the integers `𝓞_K` of a number
+field `K` in a semisimple `K`-algebra is a `ℤ`-order in the same algebra viewed over `ℚ`, and its
+lattices are the same modules, so the statement covers that case. Route:
+
+- `A ⊗ ℚ`-modules: a `Λ`-lattice `M` of rank `n` is a full `Λ`-lattice in the `A`-module
+  `V = ℚ ⊗ M` of dimension `n`, and a semisimple `A` has finitely many modules of each dimension.
+- Reduction to a maximal order: `Λ` lies in a maximal order `Λ'` (ClassicalArithmeticCompletion
+  §7.56; the regular trace of a semisimple `ℚ`-algebra is nondegenerate), and there is `r ≠ 0`
+  with `r Λ' ⊆ Λ` (§7.49). For a `Λ`-lattice `M`, `Λ' M` is a `Λ'`-lattice with
+  `r Λ' M ⊆ M ⊆ Λ' M`, and for a fixed `Λ'`-lattice `N` there are finitely many `Λ`-lattices
+  between `r N` and `N`, as `N ⧸ r N` is finite.
+- Maximal orders: a maximal order contains the central idempotents of `A` (adjoining one to it
+  gives an order), so it is the product of maximal orders in the simple components and its
+  lattices split accordingly; for a maximal order in a simple algebra, the lattices in `V` fall
+  into finitely many classes by Minkowski's convex body theorem applied to the reduced norm
+  (ClassicalArithmeticCompletion §7.10) on the lattices `Hom_Λ'(L₀, L)` of the simple algebra
+  `End_A(V)`, for a fixed lattice `L₀`.
+
+Semisimplicity is needed: in `A = ℚ[x] ⧸ (x²)` with `Λ = ℤ[x] ⧸ (x²)`, the lattices `ℤ²` with `x`
+acting by `[[0, a], [0, 0]]`, `a ≥ 1`, are pairwise non-isomorphic (the cokernel of `x` is
+`ℤ ⊕ ℤ ⧸ a`). Prove the group-ring case `jordan_zassenhaus`: for a finite group `Γ` and each `n`,
+the `ℤ[Γ]`-lattices of rank `n` fall into finitely many isomorphism classes; `ℤ[Γ]` is a `ℤ`-order
+in `ℚ[Γ]` (ClassicalArithmeticCompletion §7.4, `IntegralOrder.groupRing_isOrder`), which is
+semisimple by Maschke's theorem. For `ℤ[Γ]` the bound of §7.49 can be taken to be `|Γ|`: the
+regular trace of `λ g` lies in `ℤ` for `λ` in an overorder, and the coefficient of `λ` at `g⁻¹` is
+that trace divided by `|Γ|`, so `|Γ| Λ' ⊆ ℤ[Γ]`. The statement covers all lattices, not only
+locally free ones. *Needs:* ClassicalArithmeticCompletion §7.4, §7.10, §7.21, §7.49, §7.56; Mathlib
+`Subalgebra`, `IsSemisimpleRing`, `MonoidAlgebra`, Maschke's theorem, `Module.Free`, Minkowski's
+convex body theorem (`MeasureTheory.exists_ne_zero_mem_lattice_of_measure_mul_two_pow_lt_measure`).
 
 **Checks.**
 - Rank `1` over `ℤ[C₂]`: exactly two classes, the trivial and the sign lattice.
 - The trivial rank-one `ℤ[C₂]`-lattice has generic rank `1` and is not a locally free
   `ℤ[C₂]`-lattice (those have rank divisible by `2`); Jordan–Zassenhaus covers it.
-- Rank `0`: one class, the zero lattice.
+- Rank `0`: one class, the zero lattice; for the zero algebra `A = 0` every lattice is zero.
+- The non-semisimple `ℤ[x] ⧸ (x²)` in `ℚ[x] ⧸ (x²)` has infinitely many classes in rank `2`, as
+  above: the hypothesis that `A` be semisimple cannot be dropped.
+- `ℤ[C₂] ⊆ ℤ × ℤ`, the maximal order of `ℚ[C₂] ≅ ℚ × ℚ` (by `g ↦ (1, −1)`), contains
+  `2 (ℤ × ℤ)`, the bound `|C₂| = 2`; the maximal order is not unique in general (in
+  `ℚ[S₃] ≅ ℚ × ℚ × M₂(ℚ)` the `GL₂(ℚ)`-conjugates of `ℤ × ℤ × M₂(ℤ)` are maximal), which is why the
+  route takes a maximal order containing `Λ`.
 
 ### 9.2 Diederichsen–Reiner
 
@@ -1153,23 +1311,40 @@ determined by the ideal class, the `ℤ[ζ_p]`-rank of its `N`-torsion part and 
 - `p = 3`: `h = 1`, three classes: `ℤ`, `ℤ[ζ₃]`, `ℤ[C₃]`.
 - `p = 23`: `h = 3`, seven classes; no bound on `p` enters the statement.
 
-### 9.3 The unit lattice of a Galois number field
+### 9.3 The unit lattice of a Galois number field and Herbrand's theorem
 
-For `K/ℚ` finite Galois with group `G`, construct the `ℤ[G]`-module structure on
-`(𝓞 K)ˣ ⧸ torsion` from the Galois action on `𝓞 K`; it is a lattice of rank `r₁ + r₂ − 1`. Prove
-Herbrand's theorem: the character of its rationalization is the permutation character of `G` on
-the infinite places minus the trivial character (sutherland-18785, Theorem 24.6: units `ε_w`
-indexed by the infinite places `w`, permuted by `G` as the places are, generating a subgroup of
-finite index, with `∏_w ε_w = 1` the only relation). Route: the logarithmic embedding is
-`G`-equivariant onto a full lattice in the trace-zero hyperplane of `ℝ^{places}`. *Needs:* 9.1;
-Mathlib `NumberField.Units`, `NumberField.InfinitePlace`, `NumberField.Units.dirichletUnitTheorem.unitLattice_rank`.
+For a finite Galois extension `L/K` of number fields with group `G`, construct the `ℤ[G]`-module
+structure on `(𝓞 L)ˣ ⧸ torsion` from the Galois action on `𝓞 L`
+(`NumberField.RingOfIntegers.mapAlgEquiv`); it is a lattice of rank `r₁ + r₂ − 1`, the number of
+infinite places of `L` minus one (`NumberField.Units.unitLattice_rank`). Prove Herbrand's unit
+theorem `exists_herbrand_units` (sutherland-18785, Theorem 24.6): there are units `ε_w` of `𝓞 L`,
+one for each infinite place `w` of `L`, with `σ(ε_w) = ε_{σ • w}` for `σ ∈ G` (Mathlib's action
+`σ • w = w.comap σ⁻¹`), `∏_w ε_w = 1`, every relation `∏_w ε_w^{a_w} = 1` having all `a_w` equal,
+and generating a subgroup of finite index. When `L` has at least two infinite places, the relation
+clause makes `w ↦ ε_w` injective, so `σ(ε_w) = ε_{w'}` exactly when `σ • w = w'`, as in the source.
+Corollary (the character form): the character of `(𝓞 L)ˣ ⊗ ℚ` is the permutation character of `G`
+on the infinite places minus the trivial character, since the units `ε_w` span
+`ℚ[places] ⧸ ℚ · ∑_w w`. Route (sutherland-18785, lines 128–194): for each `w` choose a unit `u_w`
+with `‖u_w‖_{w'} < 1` for all `w' ≠ w` (the construction in Dirichlet's unit theorem); take the
+product of the conjugates of `u_w` under the decomposition group of `w`, and transport it along
+coset representatives to get units `β_w` with `σ(β_w) = β_{σ • w}`; any `r₁ + r₂ − 1` of them are
+independent, because their logarithmic vectors form a matrix with positive diagonal, negative
+off-diagonal entries and positive row sums, so their relations form a rank-one group with a
+generator `(n_w)` whose entries are nonzero and constant on Galois orbits, and `ε_w = β_w^{n_w}`.
+*Needs:* 9.1; Mathlib `NumberField.Units`, `NumberField.InfinitePlace` with its Galois action,
+`NumberField.RingOfIntegers.mapAlgEquiv`, `NumberField.Units.unitLattice_rank`,
+`NumberField.Units.logEmbedding`.
 
 **Checks.**
-- `K` imaginary quadratic: rank `0`; the permutation character on the single infinite place is
-  trivial, minus the trivial character gives `0`.
-- `K` real quadratic: rank `1`, character of `C₂` on two real places minus trivial gives the sign
-  character: `σ(ε) = ±ε⁻¹`.
-- `K` totally real biquadratic: `ρ_reg − 1`, the sum of the three nontrivial characters.
+- `L = K = ℚ`: one infinite place, `ε = 1`, which generates the subgroup `{1}` of index `2` in
+  `{±1}`; all relations are multiples of the trivial one.
+- `L` imaginary quadratic over `ℚ`: one infinite place fixed by `G`, `ε_w = 1`, finite unit group;
+  rank `0`, and the permutation character minus the trivial character is `0`.
+- `L = ℚ(√2)` over `ℚ`, `η = 1 + √2` with `σ(η) = −η⁻¹`: `ε_{w₁} = η²`, `ε_{w₂} = σ(η²) = η⁻²` has
+  product `1`, generates `⟨η²⟩` of index `4` in `±η^ℤ`, and the relation `η^{2a₁ − 2a₂} = 1` forces
+  `a₁ = a₂`; the choice `ε = (η, σ(η))` fails, with product `−1`. The character is the sign
+  character of `C₂`.
+- `L` totally real biquadratic over `ℚ`: `ρ_reg − 1`, the sum of the three nontrivial characters.
 
 ### 9.4 Biquadratic fields: Kuroda's formula and unit types
 
@@ -1177,14 +1352,26 @@ Define `unitIndex K k₁ k₂ k₃`, the index in `(𝓞 K)ˣ` of the subgroup g
 three subfields. Prove Kuroda's class number formula `classNumber_mul_eq_unitIndex_mul`: for a
 biquadratic `K/ℚ` (Galois of degree `4` with group of exponent `2`) with quadratic subfields
 `k₁, k₂, k₃`, `4 h(K) = q(K) h₁ h₂ h₃` when `K` is totally real and `2 h(K) = q(K) h₁ h₂ h₃` when it is
-totally complex (lemmermeyer line 102, Theorem 1, and lines 110–113). For totally real `K` with
-fundamental units `εᵢ` of `kᵢ`, every unit squared lies in `±⟨ε₁, ε₂, ε₃⟩`, so the unit group modulo
-`±⟨ε₁, ε₂, ε₃⟩` is a subgroup of `(ZMod 2)³` of order `q(K) ∈ {1, 2, 4}`; this subgroup determines the
-`ℤ[C₂ × C₂]`-module type of the unit lattice (9.3). Kuroda's list: up to permutation of the `kᵢ`,
-exactly seven such subgroups occur (kubota lines 13–19, citing Kuroda); Kubota's theorem: each of
-the seven occurs for infinitely many `K` (kubota lines 19–21).
-*Needs:* 9.3; Mathlib `NumberField.classNumber`, `NumberField.RingOfIntegers`,
-`NumberField.IsTotallyReal`.
+totally complex (lemmermeyer line 102, Theorem 1, and lines 110–113).
+
+For totally real `K` with fundamental units `εᵢ` of `kᵢ`, every unit squared lies in
+`±⟨ε₁, ε₂, ε₃⟩`, because `u² = ± N_{K/k₁}(u) N_{K/k₂}(u) N_{K/k₃}(u)`. Define `unitType K k`, for
+`k : Fin 3 → IntermediateField ℚ K`, as the set of parity vectors `a ∈ (ZMod 2)³` such that some unit
+`u` of `K` has `u² = η₀ η₁ η₂` with `ηᵢ` a unit of `kᵢ` that is a square up to sign exactly when
+`aᵢ = 0`. For totally real biquadratic `K` with its three quadratic subfields it is an additive
+subgroup, `u ↦ a` identifies `(𝓞 K)ˣ ⧸ (E₁ E₂ E₃)` with it (the decomposition `u² = η₀ η₁ η₂` is
+unique up to signs, the three unit groups being independent modulo `±1`), so
+`unitIndex = #unitType`, and it records which of the products `±ε₁^{a₁} ε₂^{a₂} ε₃^{a₃}` are squares
+in `K`: it is Kubota's type. Prove Kuroda's list `unitIndex_dvd_four`: for totally real
+biquadratic `K`, `q(K)` divides `4`, so the type is a subgroup of `(ZMod 2)³` of order at most `4`;
+up to permutation of the `kᵢ` these are exactly seven subgroups, Kubota's types i–vii (kubota
+lines 13–19, citing Kuroda). Prove Kubota's theorem `infinite_setOf_unitType_eq`: every subgroup of
+`(ZMod 2)³` of order at most `4` is the type, for a suitable labelling of the quadratic subfields,
+of infinitely many real biquadratic subfields of `ℝ`, so each of the seven types occurs infinitely
+often (kubota lines 19–21, proved in its §3). Distinct Galois subfields of `ℝ` are non-isomorphic,
+so the statement counts fields up to isomorphism. The type determines the `ℤ[C₂ × C₂]`-module
+structure of the unit lattice (9.3). *Needs:* 9.3; Mathlib `NumberField.classNumber`,
+`NumberField.RingOfIntegers`, `NumberField.IsTotallyReal`, `Algebra.norm`.
 
 **Checks.**
 - `K = ℚ(√2, √3)`: `h(K) = h₁ = h₂ = h₃ = 1`, so `q = 4`; indeed `2 + √3 = ((1 + √3)/√2)²` and
@@ -1194,6 +1381,10 @@ the seven occurs for infinitely many `K` (kubota lines 19–21).
 - The seven orbits of subgroups of `(ZMod 2)³` of order at most `4` under coordinate permutations:
   `{0}`; three of order `2` (generated by `(1,0,0)`, `(1,1,0)`, `(1,1,1)`); three of order `4`; Kubota's
   types i–vii (kubota lines 17–18) with `q = 1, 2, 4, 2, 4, 4, 2`.
+- `ℚ(√2, √3)` with `k = (ℚ(√2), ℚ(√3), ℚ(√6))`: `ε₁ = 1 + √2` has norm `−1`, so `±ε₁` is not a square
+  in the real field `K`, while `ε₂ = 2 + √3` and `ε₃ = 5 + 2√6` are; the type is
+  `{0, (0,1,0), (0,0,1), (0,1,1)}`, of order `4 = q`, which divides `4`. The whole group `(ZMod 2)³`
+  is not a type (Kuroda's list), so Kubota's theorem is stated only for order at most `4`.
 
 ### Examples
 
@@ -1201,14 +1392,16 @@ the seven occurs for infinitely many `K` (kubota lines 19–21).
 
 ### Dependencies
 
-Mathlib; Tau Ceti `TauCeti.IsIndecomposableModule`.
+ClassicalArithmeticCompletion §§7.4, 7.10, 7.21, 7.49, 7.56 (9.1); Mathlib; Tau Ceti
+`TauCeti.IsIndecomposableModule`.
 
 ## Layer 10: finite subgroups of `GL_n(ℤ)`, `GL_n(ℚ)` and `GL_n(ℂ)`
 
 ### 10.1 Finite subgroups of `GL_n(ℚ)` stabilize lattices
 
 Prove `exists_conj_le_range_int`: a finite `H ≤ GL (Fin n) ℚ` is conjugate in `GL (Fin n) ℚ` into
-the image of `GL (Fin n) ℤ`, because `∑_{h ∈ H} h ℤ^n` is an `H`-stable full lattice. Hence the
+the image of `GL (Fin n) ℤ`, because `∑_{h ∈ H} h ℤ^n` is an `H`-stable full lattice
+(serre-bounds, §1.3.1, p. 4, lines 189–192). Hence the
 `ℚ`-classes of finite subgroups of `GL (Fin n) ℚ` are the `GL (Fin n) ℚ`-classes of finite subgroups
 of `GL (Fin n) ℤ`, and each `ℚ`-class is a finite union of `ℤ`-classes (9.1). *Needs:* 9.1;
 Mathlib `Matrix.GeneralLinearGroup`, `RingHom.mapMatrix`.
@@ -1284,9 +1477,12 @@ has an abelian normal subgroup of index at most `J`. Prove:
   because commutators shrink (`‖⁅g, h⁆ − 1‖ ≤ 2 ‖g − 1‖ ‖h − 1‖`), and a packing count bounds the
   index (curtis-reiner-1962, §36).
 - `jordan_exists_abelian_normal_index_le_of_finite_map`: a subgroup `B ≤ GL (Fin n) F` with finite
-  image under `Matrix.ProjGenLinGroup.mk` has an abelian normal subgroup of index at most
-  `jordanBound n`. Route: over an algebraic closure, `Γ₁ = F̄ˣ B ∩ SL_n` is finite and
-  `F̄ˣ B = F̄ˣ Γ₁`; for `A₁ ⊴ Γ₁` abelian of index at most `jordanBound n`, `B ∩ F̄ˣ A₁` works.
+  image under `Matrix.ProjGenLinGroup.mk` has an abelian normal subgroup of finite index at most
+  `jordanBound n`. `B` itself may be infinite, and `Subgroup.index` is `0` on subgroups of infinite
+  index, so the finiteness of the index is part of the conclusion. Route: over an algebraic
+  closure, `Γ₁ = F̄ˣ B ∩ SL_n` is finite (its image in `PGL_n` is finite and its scalars are `n`-th
+  roots of unity) and `F̄ˣ B = F̄ˣ Γ₁`; for `A₁ ⊴ Γ₁` abelian of index at most `jordanBound n`,
+  `F̄ˣ A₁` is abelian and normal in `F̄ˣ B` of index at most `[Γ₁ : A₁]`, so `B ∩ F̄ˣ A₁` works.
 - `finrank_le_jordanBound`: over an algebraically closed field of characteristic zero, an
   irreducible representation of such `B` has dimension at most `jordanBound n`: a common
   eigenvector of the abelian normal subgroup and its translates by coset representatives span a
@@ -1307,6 +1503,11 @@ has an abelian normal subgroup of index at most `J`. Prove:
   subgroups `1` and its centre only, of index `120` and `60`.
 - Characteristic zero is needed: for `p ≥ 5` the abelian normal subgroups of `SL(2, p)` lie in
   `{±1}`, of index `p(p² − 1)/2`, unbounded in `p`.
+- `B = GL₁(ℚ) ≅ ℚˣ` has trivial image in `PGL₁(ℚ)`; `⊥` is abelian and normal with
+  `Subgroup.index ⊥ = 0 ≤ jordanBound 1` but has infinite index, so the finite-index clause of
+  `jordan_exists_abelian_normal_index_le_of_finite_map` excludes it, and `A = B` (index
+  `1 ≤ jordanBound 1 = 1`) satisfies it; without that clause `⊥` would satisfy the conclusion for
+  every infinite `B`, whatever its image in `PGL_n`.
 
 ### Examples
 
@@ -1356,6 +1557,8 @@ the abstract group from here.
   65–85.
 - lemmermeyer: F. Lemmermeyer, *Kuroda's class number formula*, Acta Arith. 66 (1994), 245–260
   (arXiv v1), Theorem 1.
+- milne-gt: J. S. Milne, *Group Theory*, course notes, version 4.01, 2025: Example 3.4(a), p. 44;
+  Theorem 6.2, p. 88; Example 6.29(a), p. 98.
 - perlis-1977: R. Perlis, *On the equation `ζ_K(s) = ζ_{K'}(s)`*, J. Number Theory 9 (1977),
   342–360: §1, Theorem 1.
 - reiner-1957: I. Reiner, *Integral representations of cyclic groups of prime order*, Proc. AMS 8
@@ -1364,6 +1567,6 @@ the abstract group from here.
 - robinson: D. J. S. Robinson, *A Course in the Theory of Groups*, 2nd ed., Springer, 1996: 3.3.15,
   §5.4, §9.1, §10.1.
 - serre-bounds: J.-P. Serre, *Bounds for the orders of the finite subgroups of `G(k)`*,
-  arXiv:1011.0346v1, §1: Theorem 1, p. 3; Remarks 1–2, p. 3; Lemma 1, p. 4.
+  arXiv:1011.0346v1, §1: Theorem 1, p. 3; Remarks 1–2, p. 3; Lemma 1, p. 4; §1.3.1, p. 4.
 - sutherland-18785: A. Sutherland, *18.785 Number Theory I, Lecture 24: the Herbrand unit theorem*,
   MIT, 2021, Theorem 24.6.

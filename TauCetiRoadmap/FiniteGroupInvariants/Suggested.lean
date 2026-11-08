@@ -13,17 +13,14 @@ theorems against the pinned Mathlib and Tau Ceti, each with `sorry`, together wi
 definitions, all with real bodies, that those statements need. Every other target, with its API
 and its Checks, is specified in `README.md` only.
 
-Two headline theorems of the README are not statable at the pins:
-
-* Herbrand's unit theorem (README 9.3), that the character of `(𝓞 K)ˣ ⊗ ℚ` for a Galois number
-  field `K` with group `G` is the permutation character of `G` on the infinite places minus the
-  trivial character;
-* the Kuroda–Kubota classification of the unit types of real biquadratic fields (README 9.4).
-
-Both need the `ℤ[Gal(K/ℚ)]`-module structure of the unit group modulo torsion, which is not a
-declaration of the pinned Mathlib or Tau Ceti; constructing it is the first target of README 9.3,
-not a simple definition. Kuroda's class number formula (README 9.4), which needs only the unit
-index, is stated below.
+One headline theorem of the README is not statable at the pins: the character form of Herbrand's
+unit theorem (README 9.3), that for a finite Galois extension `L/K` of number fields the character
+of `(𝓞 L)ˣ ⊗ ℚ` is the permutation character of `Gal(L/K)` on the infinite places of `L` minus the
+trivial character. It needs the `ℤ[Gal(L/K)]`-module structure of `(𝓞 L)ˣ` modulo torsion, which is
+not a declaration of the pinned Mathlib or Tau Ceti; constructing it is the first target of
+README 9.3, not a simple definition. Herbrand's theorem in its unit form, a Galois-equivariant
+family of units indexed by the infinite places, from which the character form follows, is stated
+below as `exists_herbrand_units`.
 -/
 
 @[expose] public section
@@ -139,17 +136,12 @@ noncomputable def GroupCompositionSeries.factors [Finite G] (s : GroupCompositio
 theorem GroupCompositionSeries.factors_eq [Finite G] (s t : GroupCompositionSeries G) :
     s.factors = t.factors := sorry
 
-/-- The composition factors of `G`, well defined by `GroupCompositionSeries.factors_eq`
-(README 0.5). -/
-noncomputable def compositionFactors [Finite G] : Multiset IsoClass :=
-  (nonempty_groupCompositionSeries G).some.factors
-
-/-- The composition length (README 0.5). -/
-noncomputable def compositionLength [Finite G] : ℕ := (compositionFactors G).card
-
-/-- Composition length is additive over a normal subgroup (README 0.5). -/
-theorem compositionLength_quotient_add [Finite G] (N : Subgroup G) [N.Normal] :
-    compositionLength (G ⧸ N) + compositionLength N = compositionLength G := sorry
+/-- Composition factors are additive over a normal subgroup `N`: the factors of a composition
+series of `G ⧸ N` together with those of a composition series of `N` are the factors of a
+composition series of `G` (README 0.5). -/
+theorem GroupCompositionSeries.factors_add [Finite G] (N : Subgroup G) [N.Normal]
+    (s : GroupCompositionSeries (G ⧸ N)) (t : GroupCompositionSeries N)
+    (u : GroupCompositionSeries G) : s.factors + t.factors = u.factors := sorry
 
 /-- The socle, the join of the minimal normal subgroups (README 0.7). -/
 def socle : Subgroup G := sSup {N | IsMinimalNormal N}
@@ -158,26 +150,11 @@ def socle : Subgroup G := sSup {N | IsMinimalNormal N}
 theorem isMulCommutative_socle [Finite G] [Group.IsSolvable G] : IsMulCommutative (socle G) :=
   sorry
 
-/-- The invariant factors `d₁ ∣ d₂ ∣ ⋯` (all `> 1`) of a finite abelian group, `[]` for the
-trivial group; `smithInvariants_unique` says this is the only such list presenting `A`
-(README 0.9). -/
-noncomputable def smithInvariants (A : Type*) [AddCommGroup A] [Finite A] : List ℕ :=
-  open scoped Classical in
-  if h : ∃ l : List ℕ, l.Pairwise (· ∣ ·) ∧ (∀ d ∈ l, 1 < d) ∧
-      Nonempty (A ≃+ ((i : Fin l.length) → ZMod (l.get i))) then h.choose else []
-
-/-- The invariant factors present the group (README 0.9). -/
-theorem nonempty_addEquiv_pi_smithInvariants (A : Type*) [AddCommGroup A] [Finite A] :
-    (smithInvariants A).Pairwise (· ∣ ·) ∧ (∀ d ∈ smithInvariants A, 1 < d) ∧
-      Nonempty (A ≃+ ((i : Fin (smithInvariants A).length) → ZMod ((smithInvariants A).get i))) :=
-  sorry
-
-/-- Uniqueness of invariant factors: a divisibility chain of integers `> 1` presenting `A` is
-`smithInvariants A` (README 0.9). -/
-theorem smithInvariants_unique (A : Type*) [AddCommGroup A] [Finite A] (l : List ℕ)
-    (hdvd : l.Pairwise (· ∣ ·)) (hone : ∀ d ∈ l, 1 < d)
-    (he : Nonempty (A ≃+ ((i : Fin l.length) → ZMod (l.get i)))) : l = smithInvariants A :=
-  sorry
+/-- Invariant factors: a finite abelian group is `∏ ZMod dᵢ` for exactly one divisibility chain
+`d₁ ∣ d₂ ∣ ⋯` of integers `> 1`, the empty chain for the trivial group (README 0.9). -/
+theorem existsUnique_invariantFactors (A : Type*) [AddCommGroup A] [Finite A] :
+    ∃! l : List ℕ, l.Pairwise (· ∣ ·) ∧ (∀ d ∈ l, 1 < d) ∧
+      Nonempty (A ≃+ ((i : Fin l.length) → ZMod (l.get i))) := sorry
 
 /-! ## Layer 1: classes of finite groups -/
 
@@ -192,9 +169,6 @@ class IsSupersolvable : Prop where
 prime index (README 1.1; Huppert 1954). -/
 theorem isSupersolvable_iff_forall_isCoatom_index_prime [Finite G] :
     IsSupersolvable G ↔ ∀ H : Subgroup G, IsCoatom H → H.index.Prime := sorry
-
-/-- A metacyclic group has a cyclic normal subgroup with cyclic quotient (README 1.2). -/
-def IsMetacyclic : Prop := ∃ (N : Subgroup G) (_ : N.Normal), IsCyclic N ∧ IsCyclic (G ⧸ N)
 
 /-- An A-group: every Sylow subgroup is abelian (README 1.3, mirroring Mathlib's `IsZGroup`). -/
 class IsAGroup : Prop where
@@ -217,13 +191,14 @@ theorem isAlmostSimple_iff [Finite G] :
   sorry
 
 /-- A complete group: trivial centre and only inner automorphisms (README 1.6). -/
-def IsComplete : Prop := center G = ⊥ ∧ Function.Surjective (MulAut.conj : G →* MulAut G)
+def IsCompleteGroup : Prop := center G = ⊥ ∧ Function.Surjective (MulAut.conj : G →* MulAut G)
 
 /-- Hölder: `Sₙ` is complete for `n ∉ {2, 6}` (README 1.6). -/
-theorem isComplete_perm_fin (n : ℕ) (h2 : n ≠ 2) (h6 : n ≠ 6) : IsComplete (Equiv.Perm (Fin n)) :=
+theorem isCompleteGroup_perm_fin (n : ℕ) (h2 : n ≠ 2) (h6 : n ≠ 6) :
+    IsCompleteGroup (Equiv.Perm (Fin n)) :=
   sorry
 
-/-! ## Layer 2: Hall's converse -/
+/-! ## Layer 2: Hall's theorem and its converse -/
 
 variable {G} in
 /-- A Hall `π`-subgroup, for a set of primes `π`: every prime dividing its order lies in `π` and
@@ -231,13 +206,18 @@ no prime dividing its index does (README 2.1). -/
 def IsHallFor (π : Set ℕ) (H : Subgroup G) : Prop :=
   (∀ p, p.Prime → p ∣ Nat.card H → p ∈ π) ∧ (∀ p, p.Prime → p ∣ H.index → p ∉ π)
 
+/-- Hall's theorem: a finite solvable group has a Hall `π`-subgroup for every set of primes `π`
+(README 2.1). -/
+theorem exists_isHallFor_of_isSolvable [Finite G] [Group.IsSolvable G] (π : Set ℕ) :
+    ∃ H : Subgroup G, IsHallFor π H := sorry
+
 /-- Hall's converse: a finite group with a `p`-complement for every prime `p` is solvable
 (README 2.1). -/
 theorem isSolvable_of_forall_exists_isHallFor_compl [Finite G]
     (h : ∀ p : ℕ, p.Prime → ∃ H : Subgroup G, IsHallFor {q | q ≠ p} H) : Group.IsSolvable G :=
   sorry
 
-/-! ## Layer 3: divisions -/
+/-! ## Layer 3: automorphisms, autjugacy and divisions -/
 
 /-- The division (rational conjugacy) relation: `x ∼ y` when a power of `x` of exponent prime to
 its order is conjugate to `y` (README 3.6). -/
@@ -290,10 +270,12 @@ noncomputable instance : MulAction (ZMod (Monoid.exponent G))ˣ (ConjClasses G) 
       Quotient.mk'' ((g ^ (Units.val v).val) ^ (Units.val u).val)
     rw [Units.val_mul, ZMod.val_mul, ← Monoid.pow_eq_mod_exponent, ← pow_mul, mul_comm]
 
-/-- Divisions are the orbits of the cyclotomic action on conjugacy classes (README 3.7). -/
-theorem nonempty_division_equiv_orbits [Finite G] :
-    Nonempty (Division G ≃ MulAction.orbitRel.Quotient (ZMod (Monoid.exponent G))ˣ (ConjClasses G)) :=
-  sorry
+/-- Divisions are the orbits of the cyclotomic action on conjugacy classes: `x` and `y` lie in
+one division exactly when a unit modulo the exponent carries the class of `x` to the class of `y`
+(README 3.7). -/
+theorem divisionSetoid_iff_exists_smul [Finite G] (x y : G) :
+    divisionSetoid G x y ↔
+      ∃ u : (ZMod (Monoid.exponent G))ˣ, u • ConjClasses.mk x = ConjClasses.mk y := sorry
 
 /-! ## Layer 4: commutators, isoclinism and stem groups -/
 
@@ -371,16 +353,14 @@ noncomputable def eulerian [Finite G] (k : ℕ) : ℕ :=
 
 /-- Hall's formula: `φ_k(G) = Σ_H μ(H, G) |H|^k` (README 5.2; Hall 1936). -/
 theorem eulerian_eq_sum_mobiusSub [Finite G] (k : ℕ) :
-    letI : Fintype (Subgroup G) := Fintype.ofFinite _
-    (eulerian G k : ℤ) = ∑ H : Subgroup G, mobiusSub H * (Nat.card H : ℤ) ^ k := sorry
+    (eulerian G k : ℤ) = ∑ᶠ H : Subgroup G, mobiusSub H * (Nat.card H : ℤ) ^ k := sorry
 
 /-- The number of faithful irreducible complex characters by Möbius inversion over the normal
 subgroups: `Σ_N μ(1, N) k(G ⧸ N)` (README 5.3). -/
 theorem card_faithful_irreducibleCharacters [Finite G] :
-    letI : Fintype (NormalSubgroup G) := Fintype.ofFinite _
     (Nat.card {χ : TauCeti.irreducibleCharacters ℂ G //
         ∀ g : G, (χ : G → ℂ) g = (χ : G → ℂ) 1 → g = 1} : ℤ) =
-      ∑ N : NormalSubgroup G, mobiusQuo N * (Nat.card (ConjClasses (G ⧸ N.1)) : ℤ) := sorry
+      ∑ᶠ N : NormalSubgroup G, mobiusQuo N * (Nat.card (ConjClasses (G ⧸ N.1)) : ℤ) := sorry
 
 /-- The minimal faithful permutation degree (README 5.4). -/
 noncomputable def permutationDegree : ℕ :=
@@ -393,7 +373,7 @@ theorem permutationDegree_eq_sInf_sum_index [Finite G] :
       sInf {n | ∃ s : Finset (Subgroup G), (⨅ H ∈ s, H.normalCore) = ⊥ ∧ ∑ H ∈ s, H.index = n} :=
   sorry
 
-/-! ## Layer 6: rational characters, Schur indices and faithful linear degrees -/
+/-! ## Layer 6: rational characters, Schur indices and faithful degrees -/
 
 section Characters
 
@@ -452,6 +432,16 @@ theorem exists_character_eq_schurIndex_mul_rationalCharacter [Finite G] (V : Typ
       ((ρ.character g : ℚ) : ℂ) = (schurIndex ⊥ χ : ℂ) * rationalCharacter G (Quot.mk _ χ) g :=
   sorry
 
+/-- Every Galois orbit of irreducible characters arises: for each irreducible `χ` there is an
+irreducible rational representation whose character is the Schur index over `ℚ` times the
+rational character of the orbit of `χ` (README 6.5). -/
+theorem exists_isIrreducible_character_eq_schurIndex_mul [Finite G]
+    (χ : TauCeti.irreducibleCharacters ℂ G) :
+    ∃ (V : Type) (_ : AddCommGroup V) (_ : Module ℚ V) (_ : FiniteDimensional ℚ V)
+      (ρ : Representation ℚ G V), ρ.IsIrreducible ∧ ∀ g : G,
+        ((ρ.character g : ℚ) : ℂ) = (schurIndex ⊥ χ : ℂ) * rationalCharacter G (Quot.mk _ χ) g :=
+  sorry
+
 /-- A finite group is rational exactly when every irreducible character is rational-valued
 (README 6.6). -/
 theorem isRationalGroup_iff_forall_mem_range [Finite G] :
@@ -504,6 +494,14 @@ theorem almostConjugateOfFiniteIndex_iff_map {Γ : Type*} [Group Γ] (H K N : Su
       AlmostConjugateOfFiniteIndex (H.map (QuotientGroup.mk' N)) (K.map (QuotientGroup.mk' N)) :=
   sorry
 
+/-- Bauer's theorem: two number fields inside an algebraic closure of `ℚ` with the same Dedekind
+zeta function have the same Galois closure (README 7.4). -/
+theorem normalClosure_eq_of_dedekindZeta_eq (F F' : IntermediateField ℚ (AlgebraicClosure ℚ))
+    [NumberField F] [NumberField F']
+    (h : NumberField.dedekindZeta F = NumberField.dedekindZeta F') :
+    IntermediateField.normalClosure ℚ F (AlgebraicClosure ℚ) =
+      IntermediateField.normalClosure ℚ F' (AlgebraicClosure ℚ) := sorry
+
 /-- Perlis' theorem: two subfields of a Galois extension `L/ℚ` have the same Dedekind zeta
 function exactly when their fixed groups are Gassmann equivalent (README 7.4). -/
 theorem dedekindZeta_eq_iff_almostConjugate (L : Type*) [Field L] [NumberField L] [IsGalois ℚ L]
@@ -521,7 +519,7 @@ theorem invariants_eq_of_dedekindZeta_eq (F F' : Type*) [Field F] [NumberField F
       NumberField.classNumber F * NumberField.Units.regulator F =
         NumberField.classNumber F' * NumberField.Units.regulator F' := sorry
 
-/-! ## Layer 8: elusive permutation groups -/
+/-! ## Layer 8: elusive permutation groups and Malle invariants -/
 
 /-- An elusive permutation group has no fixed-point-free element of prime order (README 8.3). -/
 def IsElusive {α : Type*} (P : Subgroup (Equiv.Perm α)) : Prop :=
@@ -542,6 +540,17 @@ theorem exists_fixedPointFree_isPrimePow_of_classification
     ∃ g ∈ P, IsPrimePow (orderOf g) ∧ ∀ x, g x ≠ x := sorry
 
 /-! ## Layer 9: integral representations -/
+
+/-- Jordan–Zassenhaus: for a `ℤ`-order `Λ` in a finite-dimensional semisimple `ℚ`-algebra `A` (a
+subring, finitely generated over `ℤ`, spanning `A` over `ℚ`) and each `n`, the `Λ`-modules free of
+rank `n` over `ℤ` fall into finitely many isomorphism classes (README 9.1). -/
+theorem jordan_zassenhaus_order (A : Type) [Ring A] [Algebra ℚ A] [FiniteDimensional ℚ A]
+    [IsSemisimpleRing A] (Λ : Subalgebra ℤ A) [Module.Finite ℤ Λ]
+    (hΛ : Submodule.span ℚ (Λ : Set A) = ⊤) (n : ℕ) :
+    ∃ (ι : Type) (_ : Finite ι) (L : ι → Type) (_ : ∀ i, AddCommGroup (L i))
+      (_ : ∀ i, Module Λ (L i)),
+      ∀ (M : Type) [AddCommGroup M] [Module Λ M] [Module.Free ℤ M] [Module.Finite ℤ M],
+        Module.finrank ℤ M = n → ∃ i, Nonempty (M ≃ₗ[Λ] L i) := sorry
 
 /-- Jordan–Zassenhaus for group rings: for a finite group `Γ` and each `n`, the `ℤ[Γ]`-lattices of
 `ℤ`-rank `n` fall into finitely many isomorphism classes (README 9.1). -/
@@ -566,6 +575,20 @@ theorem diederichsen_reiner (p : ℕ) [Fact p.Prime] [NeZero p] :
         [Module.Free ℤ M] [Module.Finite ℤ M],
         TauCeti.IsIndecomposableModule (MonoidAlgebra ℤ (Multiplicative (ZMod p))) M →
         ∃ i, Nonempty (M ≃ₗ[MonoidAlgebra ℤ (Multiplicative (ZMod p))] L i) := sorry
+
+/-- Herbrand's unit theorem: for a finite Galois extension `L/K` of number fields there are units
+`ε w` of `𝓞 L`, one for each infinite place `w` of `L`, permuted by `Gal(L/K)` as the places are,
+whose product is `1`, with every relation among them a multiple of that one, and generating a
+subgroup of finite index (README 9.3; Sutherland, Theorem 24.6). -/
+theorem exists_herbrand_units (K L : Type*) [Field K] [NumberField K] [Field L] [NumberField L]
+    [Algebra K L] [IsGalois K L] :
+    ∃ ε : NumberField.InfinitePlace L → (NumberField.RingOfIntegers L)ˣ,
+      (∀ (σ : L ≃ₐ[K] L) (w : NumberField.InfinitePlace L),
+        Units.map (NumberField.RingOfIntegers.mapAlgEquiv σ :
+          NumberField.RingOfIntegers L →* NumberField.RingOfIntegers L) (ε w) = ε (σ • w)) ∧
+      ∏ w, ε w = 1 ∧
+      (∀ a : NumberField.InfinitePlace L → ℤ, ∏ w, ε w ^ a w = 1 → ∃ m : ℤ, ∀ w, a w = m) ∧
+      (Subgroup.closure (Set.range ε)).FiniteIndex := sorry
 
 /-- The unit index `q(K) = [E_K : E₁ E₂ E₃]` of a number field `K` relative to three subfields:
 the index in `(𝓞 K)ˣ` of the subgroup generated by the images of their unit groups (README 9.4). -/
@@ -594,7 +617,37 @@ theorem classNumber_mul_eq_unitIndex_mul (K : Type*) [Field K] [NumberField K] [
       unitIndex K k₁ k₂ k₃ * NumberField.classNumber k₁ * NumberField.classNumber k₂ *
         NumberField.classNumber k₃) := sorry
 
-/-! ## Layer 10: finite subgroups of general linear groups -/
+/-- Kuroda's list of unit types: for a totally real biquadratic field the unit index divides `4`,
+so the unit group modulo the units of the three quadratic subfields is a subgroup of `(ZMod 2)³`
+of order at most `4`, one of seven up to permuting the subfields (README 9.4). -/
+theorem unitIndex_dvd_four (K : Type*) [Field K] [NumberField K] [IsGalois ℚ K]
+    [NumberField.IsTotallyReal K] (hK : Module.finrank ℚ K = 4)
+    (hexp : ∀ σ : K ≃ₐ[ℚ] K, σ * σ = 1) (k₁ k₂ k₃ : IntermediateField ℚ K)
+    (h₁ : Module.finrank ℚ k₁ = 2) (h₂ : Module.finrank ℚ k₂ = 2) (h₃ : Module.finrank ℚ k₃ = 2)
+    (h₁₂ : k₁ ≠ k₂) (h₁₃ : k₁ ≠ k₃) (h₂₃ : k₂ ≠ k₃) : unitIndex K k₁ k₂ k₃ ∣ 4 := sorry
+
+/-- The unit type of a number field `K` relative to subfields `k 0, k 1, k 2`: the parity vectors
+`a` such that some unit of `K` squares to a product `η 0 * η 1 * η 2` of units of the `k i` in
+which `η i` is, up to sign, a square in `k i` exactly when `a i = 0`. For a real biquadratic field
+with its three quadratic subfields this is Kubota's type, the subgroup of `(ZMod 2)³` recording
+which products of the fundamental units `εᵢ` have square roots in `K` (README 9.4). -/
+def unitType (K : Type*) [Field K] [NumberField K] (k : Fin 3 → IntermediateField ℚ K) :
+    Set (Fin 3 → ZMod 2) :=
+  {a | ∃ (u : (NumberField.RingOfIntegers K)ˣ) (η : (i : Fin 3) → (NumberField.RingOfIntegers (k i))ˣ),
+    u ^ 2 = ∏ i, Units.map (algebraMap (NumberField.RingOfIntegers (k i))
+      (NumberField.RingOfIntegers K)).toMonoidHom (η i) ∧
+    ∀ i, (a i = 0 ↔ ∃ v : (NumberField.RingOfIntegers (k i))ˣ, η i = v ^ 2 ∨ η i = -v ^ 2)}
+
+/-- Kubota: every subgroup of `(ZMod 2)³` of order at most `4` is the unit type of infinitely many
+real biquadratic fields, for a suitable labelling of their quadratic subfields; with Kuroda's list,
+each of the seven types occurs infinitely often (README 9.4; Kubota 1956, §3). -/
+theorem infinite_setOf_unitType_eq (S : AddSubgroup (Fin 3 → ZMod 2)) (hS : Nat.card S ≤ 4) :
+    {K : IntermediateField ℚ ℝ | ∃ (_ : NumberField K), IsGalois ℚ K ∧ Module.finrank ℚ K = 4 ∧
+      (∀ σ : K ≃ₐ[ℚ] K, σ * σ = 1) ∧ ∃ k : Fin 3 → IntermediateField ℚ K, Function.Injective k ∧
+        (∀ i, Module.finrank ℚ (k i) = 2) ∧ unitType K k = (S : Set (Fin 3 → ZMod 2))}.Infinite :=
+  sorry
+
+/-! ## Layer 10: finite subgroups of `GL_n(ℤ)`, `GL_n(ℚ)` and `GL_n(ℂ)` -/
 
 /-- A finite subgroup of `GL_n(ℚ)` is conjugate in `GL_n(ℚ)` into `GL_n(ℤ)` (README 10.1). -/
 theorem exists_conj_le_range_int (n : ℕ) (H : Subgroup (GL (Fin n) ℚ)) [Finite H] :
@@ -662,10 +715,12 @@ theorem jordan_exists_abelian_normal_index_le {F : Type*} [Field F] [CharZero F]
     ∃ A : Subgroup H, A.Normal ∧ IsMulCommutative A ∧ A.index ≤ jordanBound n := sorry
 
 /-- A subgroup of `GL_n(F)` that is finite modulo scalars (finite image in `PGL(n, F)`) has an
-abelian normal subgroup of index at most `jordanBound n` (README 10.5). -/
+abelian normal subgroup of finite index at most `jordanBound n`; the subgroup `B` itself may be
+infinite, so finiteness of the index is part of the conclusion (README 10.5). -/
 theorem jordan_exists_abelian_normal_index_le_of_finite_map {F : Type*} [Field F] [CharZero F]
     (n : ℕ) (B : Subgroup (GL (Fin n) F)) [Finite (B.map Matrix.ProjGenLinGroup.mk)] :
-    ∃ A : Subgroup B, A.Normal ∧ IsMulCommutative A ∧ A.index ≤ jordanBound n := sorry
+    ∃ A : Subgroup B, A.Normal ∧ IsMulCommutative A ∧ A.FiniteIndex ∧ A.index ≤ jordanBound n :=
+  sorry
 
 /-- Over an algebraically closed field of characteristic zero, an irreducible finite-dimensional
 representation of a subgroup of `GL_n(F)` finite modulo scalars has dimension at most
