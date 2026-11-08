@@ -19,7 +19,7 @@ The following boundaries fix the carriers and prevent parallel versions of exist
 - The finite nonabelian simple-group large-subgroup theorem is owned in §3.29, as a general group-theoretic prerequisite of the unconditional Galois count. CFSGStatement, **Workstreams, dependencies, and review units**, owns concrete classification-list carriers and a classification proposition, not their exhaustiveness or the subgroup-size theorem; none of those proof obligations is attributed to that roadmap.
 - GenericDoublePointInterpolation §4.8 owns the double-point (Alexander–Hirschowitz) rank theorem in every degree and §1.4 its homogeneous-partial form. The mixed-trace target here consumes it with projective dimension `r−1` and does not restate it; the mixed-trace Jacobian, minor selection, arithmetic exclusion of the exceptions and the finite-fibre bound are owned here.
 
-AnalyticNumberTheoryPartI §§0–3 and AnalyticNumberTheoryPartII §5 supply the analytic inputs. Through the uniform exclusion of Landau–Siegel zeros (AnalyticNumberTheoryPartI §0.34) every Siegel-type constant in this part is effective: the four-rank moments use effective Siegel–Walfisz (§0.32), and the torsion bounds in quadratic towers use the effective residue lower bound of AnalyticNumberTheoryPartII §5.7a, built there from the quadratic zero gap (§0.31b). GeometryOfNumbersAndQuadraticArithmetic §§0.2–0.3, 1.2–1.3 and 4.1, AdelicAlgebraicGroups AA.0–AA.4, DiophantineApproximationAndTranscendence §2.4, InductionRestrictionPartII RS.1–RS.6 and InverseGaloisAndArithmeticFundamentalGroups IG.2–IG.4 supply the geometric, group-theoretic and arithmetic inputs specified below.
+AnalyticNumberTheoryPartI §§0–3, AnalyticNumberTheoryPartII §5 and SieveMethodsAndPrimePatterns §5.6 supply the analytic inputs. Through the uniform exclusion of Landau–Siegel zeros (AnalyticNumberTheoryPartI §0.34) every Siegel-type constant in this part is effective: the four-rank moments use effective Siegel–Walfisz (§0.32), and the torsion bounds in quadratic towers use the effective residue lower bound of AnalyticNumberTheoryPartII §5.7a, built there from the quadratic zero gap (§0.31b). GeometryOfNumbersAndQuadraticArithmetic §§0.2–0.3, 1.2–1.3 and 4.1, AdelicAlgebraicGroups AA.0–AA.4, DiophantineApproximationAndTranscendence §2.4, InductionRestrictionPartII RS.1–RS.6 and InverseGaloisAndArithmeticFundamentalGroups IG.2–IG.4 supply the geometric, group-theoretic and arithmetic inputs specified below.
 
 ## Conventions
 
@@ -57,6 +57,8 @@ From AnalyticNumberTheoryPartI require the [uniform exclusion of Landau–Siegel
 
 From AnalyticNumberTheoryPartII require the [AnalyticNumberTheoryPartII: binary-cubic action and discriminant](../AnalyticNumberTheoryPartII/README.md#54-binary-cubic-action-discriminant-and-local-orbit-data) (§5.4), [AnalyticNumberTheoryPartII: projective cubic-algebra equivalence](../AnalyticNumberTheoryPartII/README.md#55-cubic-algebras-and-projective-forms) (§5.5), [AnalyticNumberTheoryPartII: finite weighted cubic coefficients](../AnalyticNumberTheoryPartII/README.md#56-discriminant-fibres-and-weighted-cubic-coefficients) (§5.6), [AnalyticNumberTheoryPartII: uniform small-degree field bound](../AnalyticNumberTheoryPartII/README.md#57-uniform-small-degree-field-discriminant-count) (§5.7), [AnalyticNumberTheoryPartII: effective fixed-degree residue lower bound](../AnalyticNumberTheoryPartII/README.md#57a-effective-fixed-degree-residue-lower-bound) (§5.7a), [AnalyticNumberTheoryPartII: cubic continuation and residues](../AnalyticNumberTheoryPartII/README.md#521-the-two-cubic-poles-and-their-residues) (§5.21), [AnalyticNumberTheoryPartII: pole-aware cubic convexity](../AnalyticNumberTheoryPartII/README.md#528-pole-aware-cubic-convexity-bound) (§5.28), and [AnalyticNumberTheoryPartII: quadratic large sieve and real-character moment](../AnalyticNumberTheoryPartII/README.md#529-quadratic-large-sieve-and-primitive-real-character-moment) (§5.29). The projective equivalence includes nonprincipal rank-two modules, stabilizers and determinant-line discriminants; restricting to the free coefficient lattice does not discard those general inputs. The cubic descriptions below are import and compatibility contracts for those objects, with the displayed basis/sign adapters, rather than a second construction of them. The source-specific local selectors, sieve estimates and statistical applications remain the targets here. The pointwise bound of §5.7 enters the first range of the [relative three torsion piecewise bound](#relative-three-torsion-piecewise-bound) and the [thin two group torsion](#thin-two-group-torsion) count; require it with an effective constant `C(d,ε)`. §5.7 also states, as a local target of its count, the relative regulator-ratio bound: for each `m≥1` an effective `c>0` with `R_E/R_F≥c` for every extension `E/F` of number fields with `[E:ℚ]=m`, rank-zero regulators read as 1; the [relative small-split-prime torsion bound](#relative-small-split-prime-torsion-bound) uses it. §5.7a supplies, for every `n≥2`, an effective `c_n>0` with `κ_K≥c_n/log D_K` for every number field `K` with `2≤[K:ℚ]≤n`, where `κ_K` is `NumberField.dedekindZeta_residue K` and `D_K=|disc K|`, together with the subpower form `κ_K≥e·a·c_n D_K^(−a)` for every `a>0` and the class-number–regulator form `h_K R_K≥(2c_n/(2π)^n)D_K^(1/2)/log D_K`; it excludes `ℚ`, whose residue is `κ_ℚ=1`, and is built there from the Stark reduction of AnalyticNumberTheoryPartI §2.31e and the quadratic zero gap of §0.31b. Every residue lower bound and every lower bound for `h_K R_K` in this part is taken from §5.7a. Completed ArithmeticDirichletSeries Layers 3, 6 and 9 supply convergent Euler products, Abel/Perron summation and Wiener–Ikehara with their convergence and coefficient hypotheses. DiophantineApproximationAndTranscendence §2.4 supplies the finite-`rank` unit-equation bound for the invariant-order fibre theorem; the order/cross-ratio application is new here.
 
+From [TauCetiRoadmap.SieveMethodsAndPrimePatterns §5.6](../SieveMethodsAndPrimePatterns/README.md#56-ideal-residue-symbols-joint-spins-and-their-oscillation) require the quadratic ideal residue symbol and the joint-spin chain of a finite Galois `M/ℚ` of degree `n` with nonempty `S⊆Gal(M/ℚ)` and `S∩S⁻¹=∅`: the joint-spin coefficient sequence `s_a` and its generator independence, kernel reciprocity, the Type I estimate uniform in the dividing ideal, the Type II estimate, and the conditional joint-spin prime bound `|Σ_(N𝔭≤X)s_𝔭|≪_(M,ψ,S,ε)X^(1−δ/(54|S|²n(12n+1))+ε)` under `C_(|S|n)` with saving `δ`. For `d≥3`, `C_d` is the uniform-modulus short real-character-sum conjecture stated there under [Short-character conjecture owned in Layer 5](../SieveMethodsAndPrimePatterns/README.md#short-character-conjecture-owned-in-layer-5), imprimitive characters included; its §5.3 derives the progression form. These are README targets of that roadmap, with no Lean declaration.
+
 ### Secondary cubic supplier contracts
 
 Use [ArithmeticStatisticsPartIII §2.11, refinement-cubic-secondary-congruence-count](../ArithmeticStatisticsPartIII/README.md#211-secondary-cubic-densities) for the dyadic averaged lattice count, including `m⁴≤X`, the `m/T` error and the separate translated coefficient. Use [refinement-cubic-secondary-sieve-error](../ArithmeticStatisticsPartIII/README.md#211-secondary-cubic-densities) for strongly acceptable specifications, the primitive-index local integrals, projective-root switching and the optimized error. Their source is [[91]](#ref-91), Theorem27 and Remark3 pp.19–20, §7 pp.21–22 and §9 pp.27–36. The cumulative field and class-group specializations are §3.5; no cumulative estimate for a noninvariant lattice is required here.
@@ -90,7 +92,7 @@ The thematic section numbers are stable locators. The supporting targets occur b
 | AnalyticNumberTheoryPartII §5.7a effective residue lower bound and §5.7 regulator-ratio bound → relative small-split-prime bound → uniform quadratic/order bounds → torsion propagation → five-range bound → tower tail | Thin two-groups and wreath means (§§3.25–3.26) |
 | Integer-lattice largest minimum → small square-ideal generators → square-norm count → general two-torsion saving; elliptic point/rank bounds → cubic two-torsion bound | General wreath means, mixed-trace count (§3.28) and quartic torsion applications (§3.29) |
 | Finite nonabelian simple-group large-subgroup theorem → direct-power core-free subgroup | Unconditional three-eighths Galois count (§3.29) |
-| Principality transfer → sixteen-rank spin criterion; the joint-spin prime bound from Type I → Type II → prime extraction | Conditional absence of a sixteen-rank governing field (§3.30) |
+| Principality transfer → sixteen-rank spin criterion; SieveMethodsAndPrimePatterns §5.6 conditional joint-spin prime bound | Conditional absence of a sixteen-rank governing field (§3.30) |
 
 ## Layer 3: Fields and class-group statistics
 
@@ -2120,9 +2122,9 @@ For every intermediate field `L⊆E`, the unique prime over two is totally ramif
 
 Assume the integral-basis, discriminant, local-factorization and class-number-one data for `E` in §3.30 above. Fix `r` of order4 in `Gal(E/ℚ)`. There are `F>0` and `ψ₀:(O_E/F O_E)ˣ→C` invariant under multiplication by unit squares, such that for odd `p∤F` splitting completely in `E` and any generator `π` of a prime over `p,16|h(−4p)` iff `ψ₀(π modF)(r(π)/π)_{E,2}=1`. Generator independence, the2-adic residue correction and the fixed `r` convention are part of the assertion.
 
-Proof: Import the corrected quadratic residue-symbol and joint-spin convention. Use the preceding principality transfer for all subfields, then Bruin–Hemenway [134], TheoremA, p.64, proved on pp.75–76. Its finite-residue conversion is [135], Proposition6.1, pp.20–21, (6.6)–(6.7), p.21, and Proposition6.2, p.22. Define `ψ₀` by its three involution-spin corrections and the quadratic character of `√(1+i)`; quadratic reciprocity makes each correction depend only on the residue modulo `F`. Formula (6.7) verifies unit-square invariance, while Proposition6.2 applies to every generator. The modulus in (3.1), p.7, includes the discriminant and the selected auxiliary prime norms.
+Proof: Import the quadratic ideal residue symbol and joint-spin convention of [SieveMethodsAndPrimePatterns §5.6](../SieveMethodsAndPrimePatterns/README.md#56-ideal-residue-symbols-joint-spins-and-their-oscillation). Use the preceding principality transfer for all subfields, then Bruin–Hemenway [134], TheoremA, p.64, proved on pp.75–76. Its finite-residue conversion is [135], Proposition6.1, pp.20–21, (6.6)–(6.7), p.21, and Proposition6.2, p.22. Define `ψ₀` by its three involution-spin corrections and the quadratic character of `√(1+i)`; quadratic reciprocity makes each correction depend only on the residue modulo `F`. Formula (6.7) verifies unit-square invariance, while Proposition6.2 applies to every generator. The modulus in (3.1), p.7, includes the discriminant and the selected auxiliary prime norms.
 
-*Needs:* [eight rank governing field](#eight-rank-governing-field), [prime character-sum estimates](#support-character-sums), `TauCetiRoadmap.ClassFieldTheory` Layer 13.
+*Needs:* [eight rank governing field](#eight-rank-governing-field), [prime character-sum estimates](#support-character-sums), SieveMethodsAndPrimePatterns §5.6 quadratic ideal residue symbol, `TauCetiRoadmap.ClassFieldTheory` Layer 13.
 
 ([[134]](#ref-134), TheoremA,p.64, proof pp.75–76; [[135]](#ref-135), Proposition6.1 and (6.6)–(6.7),pp.20–21; Proposition6.2,p.22; [[103]](#ref-103), §5,(5.1),p.22.)
 
@@ -2132,44 +2134,13 @@ Proof: Import the corrected quadratic residue-symbol and joint-spin convention. 
 - For a unit `β`, replacing `π` by `πβ²` leaves each quadratic-symbol correction unchanged because `σ(β)²` is a square; this fixes the direction `r(π)/π`.
 - For `p=3` the complete-splitting condition fails already in `ℚ(ζ₈)`. Even a chosen residue class modulo `F` cannot bring that prime into the criterion.
 
-#### Conditional joint-spin prime bound
-
-For an integer d≥3, let C_d denote the following short real-character-sum conjecture. There exists a real δ(d)>0 such that for every ε>0 there exists a constant C(d,ε)>0 for which, simultaneously for all integers Q≥3, M∈ℤ, integers 1≤N≤Q^(1/d), and every real nonprincipal Dirichlet character χ modulo an integer 1≤q≤Q,
-
-`|Σ_(M<m≤M+N) χ(m)| ≤ C(d,ε) Q^((1−δ(d))/d+ε)`.
-
-The witness δ(d) is chosen before ε; the constant is chosen before Q,M,N,q,χ. No primitivity assumption is imposed. This is a conjectural hypothesis, not a cancellation theorem ([103], arXiv:1809.09597v1, Conjecture C_n, p.7).
-
-Use a fixed finite Galois `M/ℚ` of degree `n`, and a nonempty `S⊂Gal(M/ℚ)` with `S∩S⁻¹=∅`. If `M` is totally real, assume that every totally positive unit is a square; no such unit hypothesis is imposed in the totally complex case. Fix the ideal-class representatives and modulus `F` of [[103]](#ref-103), §2.2, and a finite residue function `ψ:(O_M/F)ˣ→ℂ` invariant under unit squares. Fix a decomposition `O_Mˣ=T_M×V_M`. For an odd principal ideal `a=(α)` prime to `F`, define
-
-`s_a=Σ_(t∈T_M)Σ_(v∈V_M/V_M²) 1_(tvα totally positive) ψ(tvα modF) ∏_(σ∈S) (tvα/σ(tvα))_(M,2)`.
-
-Set `s_a=0` for nonprincipal ideals and those not prime to `F`. Prove generator independence. Assume C_d for d=|S|n and fix δ=δ(d)>0 witnessing the quantified bound above. For `X≥2` and every `ε>0`, prove
-
-`|Σ_(p prime,Np≤X) s_p|≪_(M,ψ,S,ε) X^(1−δ/(54|S|²n(12n+1))+ε)`.
-
-All auxiliary choices are fixed; the implied constant may depend on those choices. The required analytic chain is owned here: Type I (2.5), uniformly in a nonzero ideal `m`, bounds `Σ_(Na≤X,m|a)s_a` by `O_ε(X^(1−δ/(54n|S|²)+ε))`; Type II (2.6) bounds `Σ_(Na≤x,Nb≤y)v_a w_b s_ab` by `O_ε((x^(−1/(6n))+y^(−1/(6n)))(xy)^(1+ε))` for `|v_a|,|w_b|≤1`. Prove Type I by the unit-domain lattice decomposition, quadratic reciprocity, and short progression sums from `C_(|S|n)`, retaining the common-divisor exceptional locus. Prove Type II by reciprocity, Cauchy–Schwarz and the nonsquare ideal-pair estimate. Implement the prime-extraction sieve of §2.6 from these two bounds, including higher prime powers, to obtain exactly the displayed saving. A rational character-sum hypothesis alone does not assert cancellation over number-field primes.
-
-*Needs:* the conjecture `C_n` and quadratic residue corrections in [prime character-sum estimates](#support-character-sums), GlobalNumberFields Layers3 and11, `ClassFieldTheory` Layer13.
-
-Source: [[103]](#ref-103), Theorem1 p.2, §2.3 (2.4) pp.5–6, §2.6 (2.5)–(2.6) p.7 and §§3–4 pp.8–21.
-
-**Checks.**
-
-- For the nonprincipal character modulo 3, χ(1)=1, χ(2)=−1 and χ(3)=0. With M=0 the sums for N=1 and N=3 are 1 and 0. For d=3 take Q=27 so both intervals satisfy N≤Q^(1/d), although q=3 is smaller than Q.
-- For the principal character modulo 3 and N=3k the sum is 2k. Taking Q=N^d gives a proposed bound `2N/3≤C(d,ε)N^(1−δ(d)+dε)`, impossible as N tends to infinity when ε<δ(d)/d. This tests nonprincipality and uniformity in Q separately from q.
-
-- For a singleton containing an order-four automorphism, `S∩S⁻¹=∅`; a singleton involution fails the hypothesis.
-- The empty `S` gives no asserted cancellation and is excluded; the disjointness condition implies `n≥3` for every allowed `S`.
-- In a totally complex field the positivity indicator is identically one. Replacing `α` by a unit multiple permutes `T_M×V_M/V_M²` and preserves `s_a`.
-
 #### No sixteen rank governing field
 
-Assume the `E` arithmetic data of the spin criterion and C_d as defined in the conditional joint-spin prime bound for every integer d≥3 (with a witness δ(d)>0 for each d). Then no finite normal `M/ℚ` with a class function governs the `16-rank` of `Cl⁺(ℚ(√−4p))` as odd `p≡1 mod4` varies. The conclusion remains conditional; it is not a Chebotarev theorem or a proved unconditional counterexample.
+Assume the `E` arithmetic data of the spin criterion and the short-character conjecture C_d of [SieveMethodsAndPrimePatterns](../SieveMethodsAndPrimePatterns/README.md#short-character-conjecture-owned-in-layer-5) for every integer d≥3 (with a witness δ(d)>0 for each d). Then no finite normal `M/ℚ` with a class function governs the `16-rank` of `Cl⁺(ℚ(√−4p))` as odd `p≡1 mod4` varies. The conclusion remains conditional; it is not a Chebotarev theorem or a proved unconditional counterexample.
 
-Proof: Enlarge a hypothetical governing field to contain `E`. Take `S` to be the inverse image of the fixed order4 element `r; S` is disjoint from `S⁻¹`. Use the norm identity for the joint spin and the finite residue selector to express it on degree-one principal primes as `2|T_M||V_M/V_M²|(1_{16|h(−4p)}−1/2)`. The governing class function makes the sign constant on degree-one primes. The conditional joint-spin estimate gives a power saving, while prime-ideal Chebotarev gives a positive main term, a contradiction.
+Proof: Enlarge a hypothetical governing field to contain `E`. Take `S` to be the inverse image of the fixed order4 element `r; S` is disjoint from `S⁻¹`. Use the norm identity for the joint spin and the finite residue selector to express it on degree-one principal primes as `2|T_M||V_M/V_M²|(1_{16|h(−4p)}−1/2)`. The governing class function makes the sign constant on degree-one primes. The conditional joint-spin prime bound of SieveMethodsAndPrimePatterns §5.6 gives a power saving, while prime-ideal Chebotarev gives a positive main term, a contradiction.
 
-*Needs:* [conditional joint-spin prime bound](#conditional-joint-spin-prime-bound), [governing field interface](#governing-field-interface), [sixteen rank spin criterion](#sixteen-rank-spin-criterion), [prime character-sum estimates](#support-character-sums), [mixed-trace and character-sum estimates](#support-character-sums), AnalyticNumberTheoryPartI §2.49.
+*Needs:* [SieveMethodsAndPrimePatterns §5.6 conditional joint-spin prime bound](../SieveMethodsAndPrimePatterns/README.md#56-ideal-residue-symbols-joint-spins-and-their-oscillation), [governing field interface](#governing-field-interface), [sixteen rank spin criterion](#sixteen-rank-spin-criterion), [prime character-sum estimates](#support-character-sums), [mixed-trace and character-sum estimates](#support-character-sums), AnalyticNumberTheoryPartI §2.49.
 
 ([[103]](#ref-103), Theorem3,p.3; proof §5,pp.22–23.)
 
@@ -2177,7 +2148,7 @@ Proof: Enlarge a hypothetical governing field to contain `E`. Take `S` to be the
 
 - One fixed conjecture `C₃` is insufficient: the extension degree after enlarging a hypothetical governing field is unbounded. The proof therefore quantifies `C_n` over every `n≥3`.
 
-- The compositum with `E` is totally complex, so the totally-real unit hypothesis in the joint-spin theorem is unnecessary for this application.
+- The compositum with `E` is totally complex, so the totally-real unit hypothesis in the joint-spin prime bound of SieveMethodsAndPrimePatterns §5.6 is unnecessary for this application.
 
 - A putative governing field for eight-divisibility exists by the complete-splitting criterion above; the contradiction uses the sixteen-rank spin sign and does not exclude that field.
 
@@ -2720,7 +2691,7 @@ For quadratic four-ranks prove the Jacobi expansion in each of the six fundament
 
 For mixed traces prove that the chosen rn monomials have a nonzero Jacobian on `r` ordered `n`-tuples and that outside its discriminant hypersurface the fibre has degree at most the product of coordinate degrees. Quantitative exclusion and lattice counting then use the small trace-zero generator bound and successive minima. The nonzero Jacobian is a polynomial identity and must be witnessed, not assumed from the number of coordinates. Sources: Lemke Oliver–Thorne, mixed-trace lemmas and the proof of their field-count theorem; the exact numerical ranges are those in the targets above.
 
-For the spin/governing-field application use the fully quantified C_d hypothesis in [conditional joint-spin prime bound](#conditional-joint-spin-prime-bound), for every d≥3 in the governing-field theorem. Koymans–Milović [103], arXiv:1809.09597v1, §2.5, Conjecture C_n and Corollary2.2 p.7, supplies the interval-to-progression implication; the saving in the spin theorem is the fixed witness δ(|S|n). The corrected finite residue factor comes from [135], Proposition6.1, (6.6)–(6.7), pp.20–21, and Proposition6.2, p.22.
+For the spin/governing-field application use the fully quantified short-character conjecture C_d of [SieveMethodsAndPrimePatterns](../SieveMethodsAndPrimePatterns/README.md#short-character-conjecture-owned-in-layer-5), for every d≥3 in the governing-field theorem. Its §5.3 supplies the interval-to-progression implication (Koymans–Milović [103], arXiv:1809.09597v1, §2.5, Conjecture C_n and Corollary2.2 p.7); the saving in its §5.6 joint-spin prime bound is the fixed witness δ(|S|n). The corrected finite residue factor comes from [135], Proposition6.1, (6.6)–(6.7), pp.20–21, and Proposition6.2, p.22.
 
 #### support embedded types
 
@@ -2743,11 +2714,11 @@ For `G=C₃≀C₂≤S₆`, an element rotating one block has index two. The qua
 
 ### Dependencies
 
-Layers 0–2 and the finite statistical tools constructed earlier in this layer; ClassFieldTheory, GlobalNumberFields, NumberFieldArithmetic and PolynomialGaloisGroups; GeometryOfNumbersAndQuadraticArithmetic §§0–1, 4.1; GenericDoublePointInterpolation §§1.4, 4.8; IG.2–IG.5; the companion analytic Dirichlet-series and character-sum interfaces, with the uniform exclusion of Landau–Siegel zeros of AnalyticNumberTheoryPartI §0.34 (through §§0.31b and 0.32), the effective residue lower bound of AnalyticNumberTheoryPartII §5.7a and the regulator-ratio bound of its §5.7 for every effective constant; and the marked embedded-type comparisons above. Scalar moment determinacy remains an imported boundary; the discrete group/rank moment estimates are local work.
+Layers 0–2 and the finite statistical tools constructed earlier in this layer; ClassFieldTheory, GlobalNumberFields, NumberFieldArithmetic and PolynomialGaloisGroups; GeometryOfNumbersAndQuadraticArithmetic §§0–1, 4.1; GenericDoublePointInterpolation §§1.4, 4.8; SieveMethodsAndPrimePatterns §5.6 for the conditional joint-spin chain; IG.2–IG.5; the companion analytic Dirichlet-series and character-sum interfaces, with the uniform exclusion of Landau–Siegel zeros of AnalyticNumberTheoryPartI §0.34 (through §§0.31b and 0.32), the effective residue lower bound of AnalyticNumberTheoryPartII §5.7a and the regulator-ratio bound of its §5.7 for every effective constant; and the marked embedded-type comparisons above. Scalar moment determinacy remains an imported boundary; the discrete group/rank moment estimates are local work.
 
 ## Downstream consumers
 
-The later arithmetic-statistics parts use the exact targets supplied here. Field and Selmer comparisons identify their family, height, equivalence relation and local weights before applying an arithmetic average. Probability convergence alone supplies no unbounded moment identity. ArithmeticStatisticsPartVI–PartVIII are downstream consumers; AnalyticNumberTheoryPartI §§0–3 and AnalyticNumberTheoryPartII §5 are suppliers.
+The later arithmetic-statistics parts use the exact targets supplied here. Field and Selmer comparisons identify their family, height, equivalence relation and local weights before applying an arithmetic average. Probability convergence alone supplies no unbounded moment identity. ArithmeticStatisticsPartVI–PartVIII are downstream consumers; AnalyticNumberTheoryPartI §§0–3, AnalyticNumberTheoryPartII §5 and SieveMethodsAndPrimePatterns §5.6 are suppliers.
 
 ## References
 

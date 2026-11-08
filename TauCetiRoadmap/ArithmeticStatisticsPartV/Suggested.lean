@@ -28,7 +28,8 @@ the refined moments additionally need reduced Schur covers and their arithmetic
 lifting invariant. Abelian discriminant-series continuation needs the conductor height on continuous idele-class characters.
 Fixed cubic-resolvent quartic estimates need a quartic resolvent map on fields.
 Spin criteria and the conditional absence of a sixteen-rank governing field need
-the number-field residue-symbol and joint-spin interfaces. These objects are absent from the pinned libraries.
+the number-field residue-symbol and joint-spin interfaces, which
+SieveMethodsAndPrimePatterns §5.6 owns. These objects are absent from the pinned libraries.
 These carrier-dependent refinements are not statable at the pins; their full
 mathematical statements and prerequisites are in README.md. The even-degree
 binary-field and alternating-extension bounds are conditional on the quantified
