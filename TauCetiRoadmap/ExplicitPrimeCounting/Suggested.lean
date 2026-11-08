@@ -48,23 +48,29 @@ Headline theorems that are not statable at the pins, and what each lacks:
 * Rosser–Schoenfeld's `ψ(x) < 1.03883 x` and `θ(x) < 1.01624 x` for `x > 0`, Schoenfeld's
   Theorems 6* and 11, Dusart's `|ψ(x) − x| ≤ 0.006409 x/log x` and his rows `η_k`, and Trudgian's
   bound for `ψ`: these are the Layer 3 bounds themselves, whose every route beyond `10¹⁹` passes
-  through a table proposition of README §3.1(b) (`DusartThesisTable`, `Dusart1999Row`,
-  `FaberKadiriTable`), a numerical inequality on the error function of Rosser–Schoenfeld's
-  scheme, built from the integrals `K_ν(z, x) = (1/2) ∫ₓ^∞ t^{ν−1} exp(−(z/2)(t + 1/t)) dt` and a
-  dozen auxiliary quantities. That function is not a simple definition, and stating the
+  through a table proposition of README §3.1(b) (`DusartThesisTable`, `Dusart1999Row`) or, for
+  Trudgian's middle range, §3.1(c) (`FaberKadiriTable`), a numerical inequality on the error
+  function of Rosser–Schoenfeld's scheme, built from the integrals
+  `K_ν(z, x) = (1/2) ∫ₓ^∞ t^{ν−1} exp(−(z/2)(t + 1/t)) dt` and a dozen auxiliary quantities, or on
+  the smoothed zero-density error function of the Faber–Kadiri corrigendum. That function is not a simple definition, and stating the
   inequality without it would assert more than the roadmap proves. Their consequences for `π`,
   `p_n` and short intervals are stated above from pointwise inputs where they are headlines.
 * Fiori–Kadiri–Swidinsky's bounds for `ψ` and `π`, Broadbent–Kadiri–Lumley–Ng–Wilk's
   `θ(x) ≤ (1 + 1.93378·10⁻⁸) x` and their `θ`-tables, Platt–Trudgian's and Johnston–Yang's bounds,
   Faber–Kadiri's bound, and Ramaré's bounds for `∑ Λ(n)/n`: they rest on the table propositions
-  of README §3.1(c), numerical inequalities on the zero-density error function of display (3.9)
-  of the Faber–Kadiri corrigendum, which is not a simple definition either.
+  of README §3.1(c) and (d) and of Büthe's general theorem (README §2.3), numerical inequalities
+  on the zero-density error function of display (3.9) of the Faber–Kadiri corrigendum, on the
+  Pintz-form error function of a truncated explicit formula, itself bounded through the table
+  proposition of README §2.1, and on Büthe's smoothed error, none of which is a simple definition
+  either; Johnston–Yang's and Fiori–Kadiri–Swidinsky's further rest on the zero inputs of README
+  §3.4.
 * Bennett–Martin–O'Bryant–Rechnitzer's `|ψ(x; q, a) − x/φ(q)| < x/(840 log x)`, Ramaré–Rumely's
   and Dusart's rows in progressions, McCurley's rows, Ramaré's Mertens theorem in progressions
   and Kadiri's intervals in progressions: they rest on the table propositions of README §§6.1,
   6.3, 6.4 and 6.6, numerical inequalities on the error functions of those papers.
 * Kadiri–Lumley's, Cully-Hugill–Lee's and Ramaré–Saouter's intervals `(x(1 − Δ⁻¹), x]`: they rest
-  on the positivity of the explicit quantity (2.64) of Kadiri–Lumley at tabulated parameters.
+  on the positivity of the explicit quantity (2.64) of Kadiri–Lumley at tabulated parameters, and
+  Cully-Hugill–Lee's also on a zero density recomputed at the height `3·10¹²` (README §7.3).
 * Dudek's and Cully-Hugill's primes between consecutive powers: they assume a zero-density bound
   whose constants `C₁(σ)`, `C₂(σ)` are tabulated in `σ`.
 -/
