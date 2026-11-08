@@ -148,11 +148,11 @@ or Faddeeva function. Mathlib pull request
 [#34053](https://github.com/leanprover-community/mathlib4/pull/34053) (real `erf`, `erfc`) is
 prior art; Tau Ceti's `Erf.lean` follows its names, and the complex `erf` here restricts to it.
 
-Two roadmaps under review define special cases of these functions for their own use:
+Two other roadmaps define special cases of these functions for their own use:
 - QSeriesPartitionsAndMockModularForms §5.3 defines the entire kernel `E(w) = 2∫₀ʷ e^{−πt²} dt`,
   and its §8.4 defines `H_k(w) = e^{−w} Γ(1 − k, −2w)` for real `k` and real `w ≠ 0`, on the upper
   bank of the cut when `w > 0`.
-- AutomorphicLFunctionsAndLocalFactors defines `AL0.negativeEi r = −∫_r^∞ e^{−t}/t dt`.
+- AutomorphicLFunctionsAndLocalFactors §AL.0.5 defines `AL0.negativeEi r = −∫_r^∞ e^{−t}/t dt`.
 
 These stay there as those roadmaps' own adapters. This roadmap owns the general functions, and it
 proves the identifications in its own terms: `2∫₀ʷ e^{−πt²} dt = erf(√π w)` (11.1); the boundary
@@ -615,8 +615,10 @@ DLMF 8.8.13, 8.8.15–8.8.19. 8.8.13 on `slitPlane` (`hasDerivAt_upperIncomplete
 
 ### 2.6 Sums
 
-DLMF 8.15.1. `γ(a, λx) = λ^a ∑ γ(a + k, x)(1 − λ)^k/k!` for `Re a > 0`, `x > 0` and
-`|1 − λ| < 1`, which is the region of convergence used.
+DLMF 8.15.1. `γ(a, λx) = λ^a ∑ γ(a + k, x)(1 − λ)^k/k!` for `a ∉ −ℕ`, `x > 0` and every
+`λ ∈ slitPlane`, with principal powers. The series converges absolutely for every complex `λ`,
+since `|γ(a + k, x)| ≤ x^{Re a + k}/(Re a + k)` for large `k`; both sides are holomorphic in `λ`
+on `slitPlane` and agree near `λ = 1`.
 
 *Needs:* 1.2, 2.4.
 
@@ -946,9 +948,18 @@ minimal solution of 4.2 (rescaled) applies; at `p ∈ −ℕ` it terminates. 8.1
 
 ### 7.5 Integrals
 
-DLMF 8.19.23–8.19.27. 8.19.23 on `slitPlane` for every `p`, along the ray. 8.19.24 for `n ≥ 1`
-and `Re a > −1`. 8.19.25 for `Re a > −½` and `Re(p + b) > 1`, where `a/(1 + a)` lies in the unit
-disc. 8.19.26–8.19.27 with `F(1, 1; 1 + p; ½)` as Mathlib's `ordinaryHypergeometric`.
+DLMF 8.19.23–8.19.27. 8.19.23 on `slitPlane` for every `p`, along the ray. 8.19.24 for `n ≥ 1`,
+`Re a > −1` and `a ≠ 0`, with the value `∫₀^∞ E_n(t) dt = 1/n` at `a = 0` stated separately (as
+8.5 does for 6.14.1). 8.19.25 for `Re a > −½`, `Re b > 0` and `Re(p + b) > 1`, where `a/(1 + a)`
+lies in the unit disc (`integral_exp_mul_rpow_mul_expIntegralE`); DLMF omits `Re b > 0`, which
+is needed because `E_p(0) = 1/(p − 1) ≠ 0` makes the integrand `≍ t^{b−1}` at `0`.
+8.19.26–8.19.27 with `F(1, 1; 1 + p; ½)` as Mathlib's `ordinaryHypergeometric`.
+
+**Checks.**
+- 8.19.25 at `p = 2`, `b = 1`, `a = ½`: both sides equal `0.37813 95675…`.
+- 8.19.25 at `p = 3`, `b = −½`, `a = 0`, a negative control: `E₃(0) = ½`, so the integral
+  diverges at `0`, although DLMF's hypotheses hold and its right side is finite.
+- 8.19.24 at `a → 0`: the right side tends to `1/n = ∫₀^∞ E_n(t) dt`.
 
 *Needs:* 7.1–7.2, 3.4; Mathlib `ordinaryHypergeometric`.
 
@@ -1162,7 +1173,8 @@ DLMF 6.16.1–6.16.4. The Fourier series 6.16.1 converges pointwise on `(−π, 
 values, and the identity 6.16.2 holds. For each `0 < b < π`, `R_n(x) = O(n⁻¹)` uniformly for
 `|x| ≤ b` (6.16.4, corrected): integrate 6.16.3 by parts once, with the kernel
 `1/sin t − 1/t`, whose derivative is bounded on `[−b, b]`. The first positive maximum of `Si` is
-at `π`, and `S_n(π/(2n)) → Si(π)/2` as `n → ∞` (take `b = π/2`).
+at `π`, and `S_n(π/(2n)) → Si(π)/2` as `n → ∞` (take `b = π/2`;
+`tendsto_sum_sin_odd_div_odd_gibbs`).
 
 **Checks.**
 - `R_n(π) → −π/4`: every term of `S_n(π)` vanishes and `½ Si(2nπ) → π/4`. So the uniform bound
@@ -1206,8 +1218,10 @@ On the positive axis, the principal values are those of 8.21.1–8.21.2 with the
 
 ### 10.2 Integral representations and interrelations
 
-DLMF 8.21.4–8.21.9. 8.21.4–8.21.7 for real `x > 0`, with the stated ranges of `Re a`, as improper
-integrals in 8.21.4–8.21.5 (`generalizedSinIntegral_ofReal` for 8.21.6). 8.21.8 for `a ∉ −ℕ`
+DLMF 8.21.4–8.21.9. 8.21.4–8.21.7 for `z ∈ slitPlane`, with the stated ranges of `Re a` and
+principal powers: 8.21.4–8.21.5 as improper integrals along the horizontal ray `z + t`, `t ≥ 0`,
+as 10.4 does for 8.21.22–8.21.23; 8.21.6–8.21.7 along the segment from `0` to `z`
+(`generalizedSinIntegral_eq_integral` for 8.21.6). 8.21.8 for `a ∉ −ℕ`
 (`generalizedSinIntegral_add_tail`), and its limiting form at `a = −2n`. 8.21.9 for `a ∉ −ℕ`, and
 its limiting form at `a = −(2n + 1)`.
 
@@ -1252,7 +1266,8 @@ ray, for every `z`. 7.2.6 holds for `ℱ` as an improper integral along the
 real axis. The auxiliary functions `f`, `g` (`fresnelAuxF`, `fresnelAuxG`) are 7.2.10–7.2.11 by
 definition. The integral defining `G` (`goodwinStaton`, 7.2.12) converges absolutely for
 `z ∈ slitPlane`, and `G` is holomorphic there. Conjugation: `erf`, `erfc`, `C`, `S` commute with
-`z ↦ z̄`, `w(−z̄) = conj w(z)`, and `G(z̄) = conj G(z)` on `slitPlane`.
+`z ↦ z̄`, `w(−z̄) = conj w(z)`, and `G(z̄) = conj G(z)` on `slitPlane`. For every `w`,
+`2∫₀ʷ e^{−πt²} dt` along the segment equals `erf(√π w)`.
 
 **Checks.**
 - `erf(−z) = −erf z` and `erf(z) = 2z/√π + O(z³)` as `z → 0`.
@@ -1272,13 +1287,12 @@ definition. The integral defining `G` (`goodwinStaton`, 7.2.12) converges absolu
 
 DLMF 7.2.4, 7.2.9, 7.4.1–7.4.8. 7.2.4 in `|ph z| ≤ π/4 − δ`. 7.2.9 for the real parts
 (`tendsto_fresnelC_atTop`). 7.4.1–7.4.8 as identities of entire functions. `C`, `S` and `erf`
-are real on the real axis (`fresnelC_ofReal_im`).
+are real on the real axis.
 
 Dawson's integral `F = TauCeti.dawson`, its entirety, `F′ = 1 − 2zF` and `F(0) = 0` are consumed
 from
 [SpecialFunctionsParabolicCylinder §5.1](../SpecialFunctionsParabolicCylinder/README.md#51-hermite-cases).
-Prove here that `F` is odd, that `F(z̄) = conj F(z)` (`dawson_conj`), and that `F` is real on the
-real line.
+Prove here that `F` is odd, that `F(z̄) = conj F(z)`, and that `F` is real on the real line.
 
 *Needs:* 11.1; Tau Ceti `TauCeti.Real.tendsto_erf_atTop`; Mathlib `integral_gaussian_complex`;
 SpecialFunctionsParabolicCylinder §5.1 (`differentiable_dawson`, `hasDerivAt_dawson`).
@@ -1315,7 +1329,6 @@ DLMF 8.4.1, 8.4.3, 8.4.6, 8.4.14. 8.4.1 and 8.4.6 for `Re z > 0`. 8.4.3 for `z �
 - `erf(iy) = i (2/√π) e^{y²} F(y)` for real `y`, with `F = TauCeti.dawson`.
 - `w(x) = e^{−x²} + (2i/√π) F(x)` for real `x`, from 7.5.1.
 - 8.4.6 at `z = 1`: `Γ(½, 1) = √π erfc 1`.
-- `2∫₀ʷ e^{−πt²} dt = erf(√π w)` for every `w`, along the segment.
 
 ### Dependencies
 

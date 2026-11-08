@@ -402,6 +402,13 @@ theorem expIntegralE_eq_integral (p : ℂ) {z : ℂ} (hz : 0 < z.re) :
 theorem expIntegralE_add_one (p : ℂ) {z : ℂ} (hz : z ∈ slitPlane) :
     p * expIntegralE (p + 1) z + z * expIntegralE p z = cexp (-z) := sorry
 
+/-- **7.5** DLMF 8.19.25, with the hypothesis `Re b > 0` that DLMF omits. -/
+theorem integral_exp_mul_rpow_mul_expIntegralE {a b p : ℂ} (ha : -(1 / 2 : ℝ) < a.re)
+    (hb : 0 < b.re) (hpb : 1 < (p + b).re) :
+    ∫ t in Ioi (0 : ℝ), cexp (-(a * t)) * (t : ℂ) ^ (b - 1) * expIntegralE p t =
+      Complex.Gamma b * (1 + a) ^ (-b) / (p + b - 1) *
+        ordinaryHypergeometric (1 : ℂ) b (p + b) (a / (1 + a)) := sorry
+
 open Classical in
 /-- **7.6** DLMF 8.20.6 as a normalized remainder, `p → +∞` through real values, uniformly for
 `λ ≥ 0`, with `E_p(0)` the continuous extension `1/(p − 1)` and `A_k` from DLMF 8.20.4. -/
@@ -459,15 +466,24 @@ theorem existsUnique_expIntegralEi_eq_zero :
 
 /-! ## Layer 9: sine and cosine integrals -/
 
+/-- **9.7** The Gibbs phenomenon (DLMF §6.16(i)): at `x = π/(2n)` the partial sums of
+`∑ sin((2k + 1)x)/(2k + 1)` tend to `Si(π)/2`, not to `π/4`. -/
+theorem tendsto_sum_sin_odd_div_odd_gibbs :
+    Tendsto (fun n : ℕ => ∑ k ∈ range n,
+        Real.sin ((2 * k + 1) * (π / (2 * n))) / (2 * k + 1))
+      atTop (𝓝 ((sinIntegral π).re / 2)) := sorry
+
 /-- **9.3** DLMF 6.5.5. -/
 theorem sinIntegral_eq_expIntegralE {z : ℂ} (hz : 0 < z.re) :
     sinIntegral z = I / 2 * (expIntegralE 1 (-I * z) - expIntegralE 1 (I * z)) + π / 2 := sorry
 
 /-! ## Layer 10: generalized sine and cosine integrals -/
 
-/-- **10.2** DLMF 8.21.6 on the positive axis. -/
-theorem generalizedSinIntegral_ofReal {a : ℂ} (ha : -1 < a.re) {x : ℝ} (hx : 0 < x) :
-    generalizedSinIntegral a x = ∫ t in (0 : ℝ)..x, (t : ℂ) ^ (a - 1) * Complex.sin t := sorry
+/-- **10.2** DLMF 8.21.6 along the segment from `0` to `z`. -/
+theorem generalizedSinIntegral_eq_integral {a : ℂ} (ha : -1 < a.re) {z : ℂ}
+    (hz : z ∈ slitPlane) :
+    generalizedSinIntegral a z =
+      ∫ s in (0 : ℝ)..1, z * ((s : ℂ) * z) ^ (a - 1) * Complex.sin ((s : ℂ) * z) := sorry
 
 /-- **10.2** DLMF 8.21.8 away from the poles of `Γ`; at `a = −2n` the right side is replaced
 by its limiting value, stated separately. -/
@@ -515,15 +531,9 @@ theorem fresnelC_add_I_mul_fresnelS (z : ℂ) :
     fresnelC z + I * fresnelS z =
       (1 + I) / 2 * Complex.erf ((Real.sqrt π : ℂ) * (1 - I) / 2 * z) := sorry
 
-/-- **11.2** The Fresnel integrals are real on the real line. -/
-theorem fresnelC_ofReal_im (x : ℝ) : (fresnelC x).im = 0 := sorry
-
 /-- **11.2** DLMF 7.2.9. -/
 theorem tendsto_fresnelC_atTop : Tendsto (fun x : ℝ => (fresnelC x).re) atTop (𝓝 (1 / 2)) :=
   sorry
-
-/-- **11.6** Dawson's integral commutes with conjugation. -/
-theorem dawson_conj (z : ℂ) : dawson (conj z) = conj (dawson z) := sorry
 
 /-! ## Layer 12: integral representations, inequalities and integrals of error functions -/
 
