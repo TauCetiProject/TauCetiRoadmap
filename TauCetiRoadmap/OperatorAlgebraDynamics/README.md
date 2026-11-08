@@ -416,7 +416,16 @@ positive characters: `f̂(χ)=∫ f(g)χ(g) dμ(g)` and
     left-invariant mean on the bounded uniformly continuous functions
     `TauCeti.UCB G`, the primary definition of AmenableGroups, with the instance
     `TauCeti.Amenable.of_commGroup` for commutative groups.
-  - Also `ContRepresentation.IsUnitary`, used by D4.LCAWeyl, and
+  - Also `ContRepresentation.IsUnitary`
+    (`TauCeti/RepresentationTheory/Continuous/Unitary/Basic.lean`), used by
+    D4.LCAWeyl; `ContRepresentation.integratedOperatorL1`
+    (`TauCeti/RepresentationTheory/Continuous/Integrated/Basic.lean`), the
+    L¹ integrated form `f↦∫f(g)π(g)dμ(g)` of a bounded strongly continuous
+    representation of an additive group on a Banach space, for a measure
+    that is inner regular on compact sets, which is the scalar operator on
+    the right of the comparison
+    `integratedOperator_eq_coefficient_mul_integratedOperatorL1` above and
+    the scalar case of D1's integrated form; and
     `TauCeti.circleEquivPontryaginDualInt` (the dual of ℤ is the circle),
     used by D4.Harmonic's Checks.
 - BanachAlgebras A7 supplies, for locally compact abelian G, the character
@@ -3439,16 +3448,31 @@ of a positive-definite matrix through the Hermitian functional calculus).
   `twistedMonoidAlgebra` comparison, universal property, twisted regular
   representation `(λ_c(x)h)(y)=c(x,y−x)h(y−x)`, canonical trace, gauge
   action and full=reduced theorem are D1.CentralTwists' and
-  D2.CentralTwists' (its §3.1 states the same algebra in the same
-  conventions).
+  D2.CentralTwists', the instance at `A=ℂ`, trivial action, scalar cocycle
+  `ω=c` and counting Haar measure: its §3.1 states that instance in the
+  same conventions and consumes it from here rather than building it.
 - CompactQuantumMetricSpaces keeps its quantum tori `A_Θ=C*_r(ℤᵈ,σ_Θ)`
   with their Lip-norms and metric continuity (§6.0 and Layer 6); the
   twisted group C*-algebra it specializes, with the twisted regular model
   `λ_Θ(p)δ_q=σ_Θ(p,q)δ_(p+q)`, the trace, the gauge action of `𝕋ᵈ` and the
   full=reduced theorem, is D1.CentralTwists' and D2.CentralTwists' at
-  `L=ℤᵈ`, `c=σ_Θ`, with D2's amenable norm comparison.
+  `L=ℤᵈ`, `c=σ_Θ`, with D2's amenable norm comparison. It reaches that
+  instance through HeisenbergImprimitivity §3.1 (the algebra, its trace and
+  its full=reduced theorem) and OperatorKTheory K7.5 (the point-norm
+  continuity of the gauge action), both of which state the instance owned
+  here.
 - OperatorKTheory K7 consumes the crossed products of D1–D2 and the duality
-  of D4.
+  of D4. Its K7.5 states the twisted group C*-algebra `C*(L,c)` of a
+  discrete abelian L with a circle-valued factor set c, on Tau Ceti's
+  `twistedMonoidAlgebra` in the twisted regular representation
+  `W_xδ_z=c(x,z)δ_(x+z)` on `ℓ²(L)`, with the trace `⟨δ_0,aδ_0⟩`, the gauge
+  action `α_χ=Ad(M_χ)` of the dual and the universal property. That algebra
+  is the instance of D1.CentralTwists and D2.CentralTwists at `A=ℂ`, trivial
+  action, scalar `ω=c` and counting Haar measure, consumed from here:
+  D2.CentralTwists' projective unitary `V_xξ(z)=c(x,z−x)ξ(z−x)` is `W_x`
+  (`V_xδ_y=c(x,y)δ_(x+y)`), its expectation `E` is that trace and `α̂_χ` is
+  that gauge action. K7.5's own content is the commutator bicharacter, the
+  centre and the simplicity criterion.
 - LieGroupoidsPoisson names D5 as the consumer of its topological groupoid
   layer G0.
 - SelfAdjointSpectralTheory names D5 as a consumer of SA-B85's diagonal
