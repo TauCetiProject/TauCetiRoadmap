@@ -21,14 +21,12 @@ integral lattice (Layer 1), atomic normal forms over DVRs of any characteristic 
 hermitian embedding counts (Layer 3), Henk's lattice-point bound, Davenport's multiset estimate,
 Howe–Moore and Moore ergodicity, Ratner's three theorems, Oppenheim, Duke, Gauss's three-square
 formula, Siegel's three-square lower bound, Mahler compactness and critical-lattice existence,
-Dani–Margulis nondivergence, Siegel's mean value theorem, Banaszczyk's transference bound, the
-covering transference bound, Campbell's formula, and the uniqueness, existence and restriction
-theorems for Poisson random measures of σ-finite intensity (Layer 4), the LLL short-vector
-approximation factor (Layer 5), and Arf's theorems over a finite field of characteristic two
-(Layer 6). The definitions below specify only the Euclidean unit ball as a convex body, finite
-counts, bounded-format multiplicities, strong continuity, shells, intensity and Campbell measures,
-the Poisson property, the covering radius, star bodies, lattice transforms, reducedness and the
-Arf class used in these statements. All have real bodies on native
+Dani–Margulis nondivergence, Siegel's mean value theorem, Banaszczyk's transference bound and the
+covering transference bound (Layer 4), the LLL short-vector approximation factor (Layer 5), and
+Arf's theorems over a finite field of characteristic two (Layer 6). The definitions below specify
+only the Euclidean unit ball as a convex body, finite counts, bounded-format multiplicities, strong
+continuity, shells, the covering radius, star bodies, lattice transforms, reducedness and the Arf
+class used in these statements. All have real bodies on native
 carriers; the real model, both kinds of successive minima, semialgebraicity, unitarity and Hurwitz
 class numbers use Tau Ceti.
 
@@ -47,10 +45,9 @@ which the pins lack.
 Hermitian delooping (§6.7.19), derived localization (§6.9), periodicity, finite-field comparisons
 and integral L-theory (§§6.10–6.11) are not statable at the pins, which have no hermitian
 Q/Grothendieck–Witt spaces, hermitian suspension, common spectrum category or Poincaré
-structures. Exact structures and DG categories alone do not supply those objects. The stable
-stems of §6.1a need the reduced suspension of a pointed space, which is not at the pins; the
-integral Wall form and formation groups of §6.8 and their calculations feed only the integral
-L-theory above and are stated in the README with it. The number-ring homotopy-limit comparison
+structures. Exact structures and DG categories alone do not supply those objects. The integral
+Wall form and formation groups of §6.8 and their calculations feed only the integral L-theory
+above and are stated in the README with it. The number-ring homotopy-limit comparison
 and the higher integer Grothendieck–Witt groups are outside this roadmap.
 -/
 
@@ -322,70 +319,6 @@ theorem ratner_equidistribution (u : ℝ → G) (hu : Continuous u) (hu0 : u 0 =
             Filter.atTop (nhds (∫ y, f y ∂ν)) := by sorry
 
 end Ratner
-
-section PoissonRandomMeasures
-open ProbabilityTheory
-variable {Ω X T : Type*} [MeasurableSpace Ω] [MeasurableSpace X] [MeasurableSpace T]
-
-/-- The intensity measure `A ↦ ∫ N ω A ∂P` of a random measure `N : Ω → Measure X` (4.2). -/
-def intensityMeasure (P : Measure Ω) (N : Ω → Measure X) : Measure X := P.bind N
-
-/-- The Campbell measure of a random measure `N` and a jointly observed `Y` (4.2): the mass of
-`A ×ˢ B` is the `P`-integral of `N ω A` over the event `Y ω ∈ B`. -/
-def campbellMeasure (P : Measure Ω) (N : Ω → Measure X) (Y : Ω → T) : Measure (X × T) :=
-  P.bind fun ω => (N ω).map fun x => (x, Y ω)
-
-/-- The first marginal of the Campbell measure is the intensity measure (4.2). -/
-theorem campbellMeasure_fst (P : Measure Ω) {N : Ω → Measure X} {Y : Ω → T}
-    (hN : Measurable N) (hY : Measurable Y) [SigmaFinite (intensityMeasure P N)] :
-    (campbellMeasure P N Y).fst = intensityMeasure P N := by sorry
-
-/-- **Campbell's formula** (4.2), for a random measure of σ-finite intensity over an arbitrary
-measure `P` and a jointly observed random element. -/
-theorem lintegral_campbellMeasure (P : Measure Ω) {N : Ω → Measure X} {Y : Ω → T}
-    (hN : Measurable N) (hY : Measurable Y) [SigmaFinite (intensityMeasure P N)]
-    {g : X × T → ℝ≥0∞} (hg : Measurable g) :
-    ∫⁻ p, g p ∂campbellMeasure P N Y = ∫⁻ ω, ∫⁻ x, g (x, Y ω) ∂N ω ∂P := by sorry
-
-/-- The Poisson property with intensity `Λ` (4.2): `N` is measurable, and on every finite family
-of pairwise disjoint measurable sets of finite `Λ`-measure its counts are independent with
-Poisson laws of parameters `Λ (A i)`. -/
-def IsPoissonRandomMeasure (P : Measure Ω) (N : Ω → Measure X) (Λ : Measure X) : Prop :=
-  Measurable N ∧
-    ∀ (n : ℕ) (A : Fin n → Set X), (∀ i, MeasurableSet (A i) ∧ Λ (A i) < ∞) →
-      Pairwise (Function.onFun Disjoint A) →
-        iIndepFun (fun i ω => N ω (A i)) P ∧
-          ∀ i, HasLaw (fun ω => N ω (A i))
-            ((poissonMeasure (Λ (A i)).toNNReal).map (Nat.cast : ℕ → ℝ≥0∞)) P
-
-/-- **Uniqueness of the Poisson law** (4.2): two Poisson random measures with the same σ-finite
-intensity, on possibly different spaces, have the same law. -/
-theorem IsPoissonRandomMeasure.map_eq {Ω' : Type*} [MeasurableSpace Ω'] {P : Measure Ω}
-    {P' : Measure Ω'} {N : Ω → Measure X} {N' : Ω' → Measure X} {Λ : Measure X} [SigmaFinite Λ]
-    (h : IsPoissonRandomMeasure P N Λ) (h' : IsPoissonRandomMeasure P' N' Λ) :
-    P.map N = P'.map N' := by sorry
-
-/-- **The Poisson law** (4.2): for a σ-finite intensity on any measurable space there is exactly
-one probability measure on `Measure X` under which the identity is a Poisson random measure. -/
-theorem exists_unique_poissonLaw (Λ : Measure X) [SigmaFinite Λ] :
-    ∃! ν : Measure (Measure X), IsProbabilityMeasure ν ∧ IsPoissonRandomMeasure ν id Λ := by
-  sorry
-
-/-- **Restriction** (4.2): the restriction of a Poisson random measure to a measurable set is a
-Poisson random measure with the restricted intensity; no σ-finiteness is needed. -/
-theorem IsPoissonRandomMeasure.restrict {P : Measure Ω} {N : Ω → Measure X} {Λ : Measure X}
-    (h : IsPoissonRandomMeasure P N Λ) {B : Set X} (hB : MeasurableSet B) :
-    IsPoissonRandomMeasure P (fun ω => (N ω).restrict B) (Λ.restrict B) := by sorry
-
-/-- **Independent restrictions** (4.2): for a σ-finite intensity, the restrictions of a Poisson
-random measure to finitely many pairwise disjoint measurable sets are independent. -/
-theorem IsPoissonRandomMeasure.iIndepFun_restrict {P : Measure Ω} {N : Ω → Measure X}
-    {Λ : Measure X} [SigmaFinite Λ] (h : IsPoissonRandomMeasure P N Λ) {n : ℕ}
-    {B : Fin n → Set X} (hB : ∀ i, MeasurableSet (B i))
-    (hd : Pairwise (Function.onFun Disjoint B)) :
-    iIndepFun (fun i ω => (N ω).restrict (B i)) P := by sorry
-
-end PoissonRandomMeasures
 
 section Oppenheim
 
