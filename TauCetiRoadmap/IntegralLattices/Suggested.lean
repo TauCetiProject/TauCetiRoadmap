@@ -739,17 +739,17 @@ example : ¬ ∃ b : Module.Basis (Fin 2) ℤ_[2] (Fin 2 → ℤ_[2]),
       (Int.cast : ℤ → ℤ_[2]))).iIsOrtho b :=
   sorry
 
-/-- **Layer 3G, the constraint on genus symbols.** QFI identifies its local
-norm-equation/quaternion symbol with CFT's cohomological symbol and exports this sign form of
-Hilbert reciprocity. The oddity formula and sign-product conditions specialize this exact
-supplier theorem; there is no local Hilbert-symbol package. -/
+open scoped Classical in
+/-- **Layer 3G, the constraint on genus symbols.** QFI exports Hilbert reciprocity for its local
+norm-equation/quaternion symbol, read in the completions at the finite places and in `ℝ` at the
+real place. The oddity formula and sign-product conditions specialize this exact supplier theorem;
+there is no local Hilbert-symbol package. -/
 example (a b : ℚˣ) :
-    (∏ v ∈ ClassFieldTheory.finiteHilbertSupport ℚ a b,
-        QuadraticFormInvariants.hilbertSign
-          (ClassFieldTheory.finiteHilbertInvariantAt ℚ v a b)) *
-      ∏ w : InfinitePlace ℚ,
-        QuadraticFormInvariants.hilbertSign
-          (ClassFieldTheory.infiniteHilbertInvariantAt ℚ w a b) = 1 :=
+    (∏ᶠ v : IsDedekindDomain.HeightOneSpectrum (𝓞 ℚ),
+        QuadraticFormInvariants.hilbertSymbol (v.unitAtFinitePlace a) (v.unitAtFinitePlace b)) *
+      ∏ w : {w : InfinitePlace ℚ // w.IsReal},
+        QuadraticFormInvariants.hilbertSymbol (TauCeti.unitAtRealPlace w a)
+          (TauCeti.unitAtRealPlace w b) = 1 :=
   QuadraticFormInvariants.hilbertSymbol_productFormula ℚ a b
 
 end Layer3
