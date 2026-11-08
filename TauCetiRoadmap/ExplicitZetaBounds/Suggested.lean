@@ -9,14 +9,13 @@ The roadmap is `README.md`; this file is not the roadmap. It states the roadmap'
 theorems against the pinned Mathlib, each with `sorry`, together with the definitions they need:
 the bounded-height Riemann hypotheses `RiemannHypothesisUpTo` and `DirichletGRHUpTo` of Layer 0.2,
 Platt's heights `plattHeight` of Layer 0.3, the records of
-Layers 0.4 and 0.4b, the Riemann–Siegel theta function `riemannSiegelTheta` of Layer 0.4a,
-Vinogradov's count `vinogradovCount` of Layer 4.9a, the zero counts `zetaZeroCount` and
-`dirichletZeroCount` of Layer 5 with the zero-count predicate `ZetaZeroCountBound` of 5.2a, the
-region predicate `ClassicalZeroFreeRegion` of 7.3a, the density counts `zetaZeroCountRight` and
-`zetaZeroDensityCount` of Layer 8 (each written with the meromorphic order, in the rectangle of
-the source it serves) with the density predicate `ZetaZeroDensityBound` of 8.3a, and the count
-`primitiveLZeroCount` with the largest real zero `largestRealZero` of the family of primitive
-L-functions of Layer 8.4. Every constant below is a literal decimal of its source.
+Layers 0.4 and 0.4b that a theorem here takes as a hypothesis, the Riemann–Siegel theta function
+`riemannSiegelTheta` of Layer 0.4a, Vinogradov's count `vinogradovCount` of Layer 4.9a, the zero
+counts `zetaZeroCount` and `dirichletZeroCount` of Layer 5 with the zero-count predicate
+`ZetaZeroCountBound` of 5.2a, the density counts `zetaZeroCountRight` and `zetaZeroDensityCount`
+of Layer 8 (each written with the meromorphic order, in the rectangle of the source it serves),
+and the count `primitiveLZeroCount` with the largest real zero `largestRealZero` of the family of
+primitive L-functions of Layer 8.4. Every constant below is a literal decimal of its source.
 
 Stated here:
 
@@ -76,9 +75,11 @@ The Stirling, polygamma, convexity, exponential-sum, Perron, mean-value, large-s
 weighted-zero-sum statements of Layers 1–6 and the general criteria of Layer 7 are README targets:
 they are the lemmas on the way to the theorems below. Among them are the first-derivative test and
 the partial fractions of `π/sin πz` and `π²/sin² πz` of 4.5c, the extremal approximants of the
-one-sided exponential of 6.3a, Kadiri's smoothed explicit formula of 7.3a and the
-Kadiri–Lumley–Ng density of 8.3 at an arbitrary verification height, whose closed-form constants
-are not transcribed here. So are the remaining instances of Layers 3–9:
+one-sided exponential of 6.3a, the region predicate and Kadiri's smoothed explicit formula of
+7.3a, the density predicate of 8.3a and the Kadiri–Lumley–Ng density of 8.3 at an arbitrary
+verification height, whose closed-form constants are not transcribed here; and so are the records
+of 0.4 and 0.4b that no theorem here takes (the zero-free height `14`, Leong's and Platt and Saad
+Eddin's). So are the remaining instances of Layers 3–9:
 inputs to the theorems below (3.3, the bounds of 3.4 right of the line one, 4.9, the further
 critical-line bounds of 4.7, 5.4, 7.2, the arithmetic sums of 8.3 and 8.5, Hoffstein's lemma of
 9.3), and other constants and ranges for the quantities bounded below (the further forms of the
@@ -135,11 +136,6 @@ theorem LFunction_ne_zero_of_platt (hP : PlattRecord) (hC : PlattCentralRecord) 
     [NeZero q] (hq : q ≤ 400000) (χ : DirichletCharacter ℂ q) (hχ : χ.IsPrimitive)
     (s : ℝ) (hs₀ : 0 < s) (hs₁ : s < 1) :
     DirichletCharacter.LFunction χ s ≠ 0 := sorry
-
-/-- **Layer 0.4, no zeros of `ζ` up to height `H`.** No zero `ρ` of `ζ` in the open critical
-strip has `|Im ρ| ≤ H`. The record is `ZetaZeroFreeUpTo 14` (`kadiri2005`, `thornerzaman2024`). -/
-def ZetaZeroFreeUpTo (H : ℝ) : Prop :=
-  ∀ ρ : ℂ, riemannZeta ρ = 0 → 0 < ρ.re → ρ.re < 1 → H < |ρ.im|
 
 /-- **Layer 0.4a, the Riemann–Siegel theta function.**
 `ϑ(T) = ∫₀^T (Re ψ(1/4 + it/2) − log π)/2 dt`, with `ψ = Complex.digamma` the logarithmic
@@ -199,16 +195,6 @@ def HiaryLeongYangRecord : Prop :=
   ∀ t : ℝ, 3 ≤ t → t ≤ 500 →
     ‖riemannZeta (1 + t * I)‖⁻¹ ≤ 431.7 * Real.log t / Real.log (Real.log t)
 
-/-- **Layer 0.4b, Leong's record.** For `t ≤ 500`: `1/|ζ(1 + it)| ≤ 29.388 log t` if `t ≥ 2`; and,
-if `t ≥ 13`, `1/|ζ(σ + it)| ≤ 30.812 log t` for `σ ≥ 1` and
-`1/|ζ(σ + it)| ≤ 7.59·10³¹ log t` for `σ ≥ 1 − 1/(5.56 log t)` (`leong2026` (49)). -/
-def LeongRecord : Prop :=
-  (∀ t : ℝ, 2 ≤ t → t ≤ 500 → ‖riemannZeta (1 + t * I)‖⁻¹ ≤ 29.388 * Real.log t) ∧
-    (∀ σ t : ℝ, 1 ≤ σ → 13 ≤ t → t ≤ 500 →
-      ‖riemannZeta (σ + t * I)‖⁻¹ ≤ 30.812 * Real.log t) ∧
-    ∀ σ t : ℝ, 13 ≤ t → t ≤ 500 → 1 - 1 / (5.56 * Real.log t) ≤ σ →
-      ‖riemannZeta (σ + t * I)‖⁻¹ ≤ 7.59 * 10 ^ 31 * Real.log t
-
 /-- **Layer 0.4b, the sum `Σ_{γ > 0} γ⁻²`.** The sum of `m_ρ/γ²` over the zeros `ρ = β + iγ` of
 `ζ` in the open critical strip with `γ > 0`, `m_ρ` the multiplicity. -/
 noncomputable def zetaOrdinateInvSqSum : ℝ :=
@@ -242,16 +228,6 @@ def MossinghoffStarichkovaTrudgianRecord : Prop :=
   ∀ (q : ℕ) [NeZero q], 2 ≤ q → q ≤ 10 ^ 6 → ∀ χ : DirichletCharacter ℂ q, χ.IsPrimitive →
     ¬ MulChar.IsQuadratic χ →
       1 / (9.690292 * Real.log (q / π)) ≤ ‖DirichletCharacter.LFunction χ 1‖
-
-/-- **Layer 0.4b, Platt and Saad Eddin's record.** For `1 < q ≤ 2·10⁶` and `χ` primitive modulo
-`q`: `|L(1, χ)| ≤ (1/3) log q + 0.368296` if `3 ∣ q` and `χ` is even,
-`≤ (1/3) log q + 0.838374` if `3 ∣ q` and `χ` is odd, and `≤ (1/2) log q − 0.02012` if `χ` is
-even with `χ(2) = 1` (`plattsaadeddin2013` §5, `saadeddin2016`). -/
-def PlattSaadEddinRecord : Prop :=
-  ∀ (q : ℕ) [NeZero q], 1 < q → q ≤ 2 * 10 ^ 6 → ∀ χ : DirichletCharacter ℂ q, χ.IsPrimitive →
-    (3 ∣ q → χ.Even → ‖DirichletCharacter.LFunction χ 1‖ ≤ Real.log q / 3 + 0.368296) ∧
-      (3 ∣ q → χ.Odd → ‖DirichletCharacter.LFunction χ 1‖ ≤ Real.log q / 3 + 0.838374) ∧
-      (χ.Even → χ 2 = 1 → ‖DirichletCharacter.LFunction χ 1‖ ≤ Real.log q / 2 - 0.02012)
 
 /-- **Layer 0.4b, the class-number record of Bordignon's bounds.** For every real primitive `χ`
 of conductor `q > 4·10⁵`: `L(1, χ) ≥ 46π/√q` if `χ` is odd (Watkins' class numbers,
@@ -582,12 +558,6 @@ theorem riemannZeta_ne_zero_classical (hRH : RiemannHypothesisUpTo (3 * 10 ^ 12)
     (hσ : 1 - 1 / (5.558691 * Real.log |s.im|) ≤ s.re) :
     riemannZeta s ≠ 0 := sorry
 
-/-- **Layer 7.3a, the classical-region predicate.** Every zero `s` of `ζ` with `|Im s| ≥ t₀` has
-`Re s < 1 − 1/(R log |Im s|)`: `ζ` has no zero with `|t| ≥ t₀` and `σ ≥ 1 − 1/(R log |t|)`. The
-region of `riemannZeta_ne_zero_classical` is `ClassicalZeroFreeRegion 5.558691 2`. -/
-def ClassicalZeroFreeRegion (R t₀ : ℝ) : Prop :=
-  ∀ s : ℂ, riemannZeta s = 0 → t₀ ≤ |s.im| → s.re < 1 - 1 / (R * Real.log |s.im|)
-
 /-- **Layer 7.4, the Littlewood-type region.** Given the Riemann hypothesis up to height
 `30 610 046 000`, the record for `Σ_{γ>0} γ⁻²` and the records of Hiary, Patel and Yang,
 `ζ(σ + it) ≠ 0` for `|t| ≥ 3` and `σ > 1 − log log |t|/(21.233 log |t|)` (Yang, Corollary 1.2).
@@ -722,14 +692,6 @@ theorem zetaZeroDensityCount_nine_tenths_lt (hRH : RiemannHypothesisUpTo 3061004
     (zetaZeroDensityCount (9 / 10) T : ℝ) <
       11.499 * Real.log T ^ ((16 : ℝ) / 5) * T ^ ((4 : ℝ) / 15) + 3.186 * Real.log T ^ 2 :=
   sorry
-
-/-- **Layer 8.3a, the density predicate.** For every `T ≥ T₀` and `σ ∈ S`,
-`N°(σ, T) ≤ c₁(σ) T^{p(σ)} (log T)^{q(σ)} + c₂(σ) (log T)²`, with `N°` the count
-`zetaZeroDensityCount`: the shape of the Kadiri–Lumley–Ng densities, at `k = 1` with
-`p(σ) = 8(1 − σ)/3` and `q(σ) = 5 − 2σ`. -/
-def ZetaZeroDensityBound (T₀ : ℝ) (S : Set ℝ) (c₁ c₂ p q : ℝ → ℝ) : Prop :=
-  ∀ T : ℝ, T₀ ≤ T → ∀ σ ∈ S,
-    (zetaZeroDensityCount σ T : ℝ) ≤ c₁ σ * T ^ p σ * Real.log T ^ q σ + c₂ σ * Real.log T ^ 2
 
 /-- **Layer 8.4, zeros of the primitive L-functions of conductor at most `Q`.** For real `Q` and
 `S ⊆ ℂ`, the number of zeros in `S` of the product `𝓛(s, Q)` of the `L(s, χ)` over the primitive

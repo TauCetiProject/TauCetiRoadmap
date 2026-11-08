@@ -546,7 +546,7 @@ theorem that uses it.
   Theorem 5.1, line 527).
 - `RiemannHypothesisUpTo 3000175332800`, that is `RH(3 000 175 332 800)`, hence `RH(3·10¹²)` by
   0.2 (`platttrudgian2021`, Theorem 1, line 48).
-- `ZetaZeroFreeUpTo 14`: `ζ` has no zero `ρ` with `0 < Re ρ < 1` and `|Im ρ| ≤ 14` (`kadiri2005`
+- *ZetaZeroFreeUpTo* `14`: `ζ` has no zero `ρ` with `0 < Re ρ < 1` and `|Im ρ| ≤ 14` (`kadiri2005`
   line 992; `thornerzaman2024` line 305).
 - `ZetaArgumentBoundUpTo 30610046000 2.5167`: `|N(T) − ϑ(T)/π − 1| ≤ 2.5167` for
   `0 ≤ T ≤ 30 610 046 000`, with `ϑ = riemannSiegelTheta` (0.4a) (`bellottiwong2025` (1.2),
@@ -602,7 +602,7 @@ Each item is a named proposition and an explicit hypothesis of every theorem tha
   these L-functions with `ℓ ≤ 6` located and `N(T, χ)` computed between consecutive zeros).
 - `HiaryLeongYangRecord`: `1/|ζ(1 + it)| ≤ 431.7 log t/log log t` for `3 ≤ t ≤ 500`
   (`hiaryleongyang2025` lines 1171–1175).
-- `LeongRecord`: for `t ≤ 500`, `1/|ζ(1 + it)| ≤ 29.388 log t` if `t ≥ 2`, and, if `t ≥ 13`,
+- *LeongRecord*: for `t ≤ 500`, `1/|ζ(1 + it)| ≤ 29.388 log t` if `t ≥ 2`, and, if `t ≥ 13`,
   `1/|ζ(σ + it)| ≤ 30.812 log t` for `σ ≥ 1` and `1/|ζ(σ + it)| ≤ 7.59·10³¹ log t` for
   `σ ≥ 1 − 1/(5.56 log t)` (`leong2026` (49), lines 1520–1545).
 - `BrentPlattTrudgianRecord`: `Σ_{γ>0} γ^{−2} = 0.0231049931154189707889338104 + O*(5·10^{−28})`,
@@ -615,7 +615,7 @@ Each item is a named proposition and an explicit hypothesis of every theorem tha
 - `MossinghoffStarichkovaTrudgianRecord`: `|L(1, χ)| ≥ 1/(9.690292 log(q/π))` for `2 ≤ q ≤ 10⁶`
   and `χ` primitive and not quadratic modulo `q` (`mossinghoffstarichkovatrudgian2022`
   lines 442–446 and 475–478).
-- `PlattSaadEddinRecord`: for `1 < q ≤ 2·10⁶` and `χ` primitive modulo `q`,
+- *PlattSaadEddinRecord*: for `1 < q ≤ 2·10⁶` and `χ` primitive modulo `q`,
   `|L(1, χ)| ≤ (1/3) log q + 0.368296` if `3 ∣ q` and `χ` is even, `≤ (1/3) log q + 0.838374` if
   `3 ∣ q` and `χ` is odd, and `≤ (1/2) log q − 0.02012` if `χ` is even with `χ(2) = 1`
   (`plattsaadeddin2013` §5; `saadeddin2016` lines 791–799).
@@ -2267,8 +2267,8 @@ unrefereed preprint, for this Fourier-side form of Graham and Vaaler's functions
 - extremality: every entire `F` of exponential type `2π` with `F ≥ I_ν` on `ℝ` has
   `∫_ℝ (F − I_ν) ≥ 1/(1 − e^{−ν}) − 1/ν`, with equality only for `F = F^+_ν`, and every such `F`
   with `F ≤ I_ν` has `∫_ℝ (I_ν − F) ≥ 1/ν − 1/(e^ν − 1)`, with equality only for `F = F^−_ν`
-  (Graham and Vaaler, `grahamvaaler1981` Theorem 9; the values as in `chirrehelfgott2025`
-  Proposition 4.1);
+  (Graham and Vaaler, `grahamvaaler1981` Theorem 9, lines 407–408; the values as in
+  `chirrehelfgott2025` Proposition 4.1);
 - the closed forms: the interpolation formula
   `F^+_ν(x) = (sin πx/π)² (Σ_{n≥1} (e^{−νn}/(x − n)² − νe^{−νn}/(x − n) + νe^{−νn}/x) + 1/x²)` and
   `F^−_ν(x) = F^+_ν(x) − (sin πx/(πx))²` for `x ∉ ℤ` (`chirrehelfgott2025` (4.6) and (4.12)),
@@ -2614,7 +2614,7 @@ sources' polynomials and parameters.
 
 Define *ClassicalZeroFreeRegion* `R t₀`, for reals `R` and `t₀`, as: every `s` with
 `riemannZeta s = 0` and `|Im s| ≥ t₀` has `Re s < 1 − 1/(R log |Im s|)`; that is, `ζ` has no zero
-with `|t| ≥ t₀` and `σ ≥ 1 − 1/(R log |t|)` (`ClassicalZeroFreeRegion`). Prove:
+with `|t| ≥ t₀` and `σ ≥ 1 − 1/(R log |t|)`. Prove:
 
 - monotonicity: for `0 < R ≤ R'` and `1 < t₀ ≤ t₀'`, *ClassicalZeroFreeRegion* `R t₀` implies
   *ClassicalZeroFreeRegion* `R' t₀'`;
@@ -2642,9 +2642,9 @@ of the smoothing `h` of 7.3), and let `F(w) = ∫_0^d e^{−wt} f(t) dt` and
   continuously differentiable on `ℝ`, with `∫_0^∞ φ_s(y) e^{−zy} dy = f(0)/(s + z) − F(s + z)` for
   `Re(s + z) > 0`;
 - (`kadiri2005` Proposition 2.1) for every complex `s` with `Re s > 1/2`,
-  `Re Σ_{n≥1} Λ(n) n^{−s} f(log n) = f(0)(−(1/2) log π + (1/2) Re ψ(s/2 + 1)) + Re F(s − 1)
-  − Σ_ρ m_ρ Re F(s − ρ)
-  + Re((1/2πi) ∫_{1/2−i∞}^{1/2+i∞} Re ψ(z/2) F₂(s − z)/(s − z)² dz + F₂(s)/s²)`,
+  `Re Σ_{n≥1} Λ(n) n^{−s} f(log n) = f(0)(−(1/2) log π + (1/2) Re ψ(s/2 + 1)) + Re F(s − 1)`
+  `− Σ_ρ m_ρ Re F(s − ρ)`
+  `+ Re((1/2πi) ∫_{1/2−i∞}^{1/2+i∞} Re ψ(z/2) F₂(s − z)/(s − z)² dz + F₂(s)/s²)`,
   where the left side is a finite sum (`f(log n) = 0` once `log n ≥ d`), the sum runs over the zeros
   of `ζ` in the critical strip with multiplicity and converges absolutely, and so does the integral.
   The source states the identity for every complex `s`; the statement here is on `Re s > 1/2`,
@@ -2753,16 +2753,30 @@ McCurley's region and Lu–Zaman–Zhao's, since `log max(q, q|t|) ≥ log|t|` a
 `8.464 < 9.645908801 < 10`. The first item is stated given `RH(3·10¹²)` and
 `BrentPlattTrudgianRecord`, the hypotheses of the `5.558691` region of 7.3: below height `2` the
 first puts the zeros of `ζ` on `Re s = 1/2`, left of the boundary (at least
-`1 − 1/(6.4355 log 2) = 0.7758`), and for `|t| ≥ 2`,
-`6.4355 log max(q, q|t|) ≥ 6.4355 log(2|t|) ≥ 5.558691 log|t|` puts its region inside the `5.558691`
-region of 7.3.
+`1 − 1/(6.4355 log(3/1.7367)) = 0.7157` in the source's form, for `q ≥ 3`, and at least
+`1 − 1/(6.4355 log 2) = 0.7758` in the narrower form, for `q ≥ 2`), and for `|t| ≥ 2`,
+`6.4355 log(max(q, q|t|)/1.7367) ≥ 6.4355 log(3|t|/1.7367) ≥ 5.558691 log|t|` for `q ≥ 3` and
+`6.4355 log max(q, q|t|, 1.7367) ≥ 6.4355 log(2|t|) ≥ 5.558691 log|t|` for `q ≥ 2` put both
+regions inside the `5.558691` region of 7.3.
 
-- (Kadiri, Théorème 11.1, `kadiri2002thesis` lines 1958–1980, English form (115) at lines 2063–2068)
-  given `RH(3·10¹²)`, `BrentPlattTrudgianRecord` and `PlattRecord`, for `q ≥ 2`, the product
-  `L_q(s) = ∏_{χ mod q} L(s, χ)` has at most one zero with
-  `σ > 1 − 1/(6.4355 log max(q, q|t|, 1.7367))`, and such a zero is real, simple and belongs to a
+- (Kadiri, Théorème 11.1, `kadiri2002thesis` lines 1976–1980, English form (115) at lines 2063–2068)
+  given `RH(3·10¹²)`, `BrentPlattTrudgianRecord` and `PlattRecord`, for `q ≥ 3`, the product
+  `L_q(s) = ∏_{χ mod q} L(s, χ)` has at most one zero in the region
+  `σ ≥ 1 − 1/(6.4355 log(max(q, q|t|)/1.7367))`, and such a zero is real, simple and belongs to a
   real non-principal character; its input is Rumely's verified heights, which `PlattRecord`
-  implies (0.3).
+  implies (0.3). The constant `1.7367` divides the argument of the logarithm (the fraction under
+  `log` in (111) and (115)); for `q ≥ 3` that logarithm is at least `log(3/1.7367) = 0.5466`, so
+  the region lies in `σ ≥ 0.7157` and contains no zero on `Re s = 0`, where the `L(s, χ)` of the
+  imprimitive characters vanish. Hence, for `q ≥ 2`, `L_q(s)` has at most one zero with
+  `σ > 1 − 1/(6.4355 log max(q, q|t|, 1.7367))`, real, simple and of a real non-principal
+  character when it exists, a region inside the source's one since
+  `max(q, q|t|, 1.7367) ≥ max(q, q|t|)/1.7367`: for `q ≥ 3` by the source's statement, and for
+  `q = 2`, where `L_2(s) = (1 − 2^{−s}) ζ(s)`, from `RH(3·10¹²)` and the `5.558691` region of 7.3
+  alone (the paragraph above), with no zero at all. The source states its theorem for `q ≥ 2`
+  (line 1960), but at `q = 2` its region contains `s = 0` (its boundary there is
+  `1 − 1/(6.4355 log(2/1.7367)) = −0.101`), where `(1 − 2^{−s}) ζ(s)` vanishes, a zero of the
+  principal character; so at `q = 2` only the narrower form, whose boundary at `t = 0` is
+  `0.7758`, is stated here.
 - (Kadiri, Theorem 1.1, `kadiri2018` lines 16–18; `LFunction_ne_zero_kadiri`) given
   `RH(545 439 823)`, `PlattRecord` and the records of the zero counts it uses
   (`BennettMartinOBryantRechnitzerRecord` for 5.3; `HiaryRecord`, `PatelRecord` and `YangRecord`
@@ -2982,7 +2996,7 @@ Prove:
   The proof uses Yang's region at every height from `t₀ = 500` on (lines 1013–1017 and 1157), so it
   needs the hypotheses of 7.4.
 - (Leong, Corollary 4, `leong2026` lines 140–176, arXiv v5) given `RH(3 000 175 332 800)` (0.4),
-  `BrentPlattTrudgianRecord` (for the region of 7.3) and `LeongRecord` (0.4b),
+  `BrentPlattTrudgianRecord` (for the region of 7.3) and *LeongRecord* (0.4b),
   `1/|ζ(1 + it)| ≤ 29.388 log t` for `t ≥ 2`; `1/|ζ(σ + it)| ≤ 30.812 log t` for every real
   `σ ≥ 1` and `t ≥ 13`; and `1/|ζ(σ + it)| ≤ 7.59·10³¹ log t` for `t ≥ 13` and
   `σ ≥ 1 − 1/(5.56 log t)` (the row `W = 5.56` of his Table 4, line 1547, quoted as (12) in
@@ -3012,7 +3026,7 @@ Ramaré for `|ζ'/ζ|` near the line one (`ramare2016density`), and `HiaryLeongY
 lines 1300–1315), the first term by a nonnegative trigonometric polynomial (0.5) and 3.4, the
 integral by bounds for `|ζ'/ζ|` inside zero-free regions: by Borel–Carathéodory from bounds for
 `|ζ|` near the line one (4.8, 4.10) in the region of 7.3 above the verified height, and from the
-verification below it; for the second item `LeongRecord` for `t ≤ 500`; for the third, Lee and
+verification below it; for the second item *LeongRecord* for `t ≤ 500`; for the third, Lee and
 Leong's splitting of the integral into short steps across the region, each with a locally
 optimised bound for `ζ'/ζ` (`leeLeong2022` lines 249–257).
 
@@ -3171,7 +3185,7 @@ notes (their references [23] and [6], lines 358, 385–386, 1347 and 1370).
 
 Define *ZetaZeroDensityBound* `T₀ S c₁ c₂ p q`, for a real `T₀`, a set `S ⊆ ℝ` and functions
 `c₁ c₂ p q : ℝ → ℝ`, as: for every `T ≥ T₀` and `σ ∈ S`,
-`N°(σ, T) ≤ c₁(σ) T^{p(σ)} (log T)^{q(σ)} + c₂(σ) log² T` (`ZetaZeroDensityBound`), the shape of the
+`N°(σ, T) ≤ c₁(σ) T^{p(σ)} (log T)^{q(σ)} + c₂(σ) log² T`, the shape of the
 Kadiri–Lumley–Ng densities and of their recomputations at other heights, with the count `N°` of
 this layer. Prove:
 
@@ -3341,11 +3355,11 @@ Mathlib `Fourier.fourierIntegral`.
 Prove (Platt and Saad Eddin, Theorem 1.1, `plattsaadeddin2013` lines 27–37): if `3 | q`, then
 `|L(1, χ)| ≤ (1/3) log q + 0.368296` for even `χ` and `≤ (1/3) log q + 0.838374` for odd `χ`; and (Saad
 Eddin, Theorem 1, `saadeddin2016` lines 29–31): if `χ` is even and `χ(2) = 1`, then
-`|L(1, χ)| ≤ (1/2) log q − 0.02012`; both given `PlattSaadEddinRecord` (0.4b), which is the range
+`|L(1, χ)| ≤ (1/2) log q − 0.02012`; both given *PlattSaadEddinRecord* (0.4b), which is the range
 `q ≤ 2·10⁶`. Above it each follows from Ramaré's method (`q > 2·10⁶`, and the ranges
 `2·10⁶ < q ≤ 2·10¹⁰` and `q > 2·10¹⁰` of Saad Eddin).
 
-*Needs:* 9.1 (the approximate formula); 0.4b (`PlattSaadEddinRecord`).
+*Needs:* 9.1 (the approximate formula); 0.4b (*PlattSaadEddinRecord*).
 
 **Checks.**
 
@@ -3414,7 +3428,7 @@ L-functions; the records of 0.4b.
 
 - `ExplicitPrimeCounting` takes 0.2–0.4 (`RH(H)` and `GRH(q, H)` with the passage to imprimitive
   characters, the Platt bridge, whose ranges contain Rumely's, and the records of 0.4, among them
-  `ZetaZeroFreeUpTo 14`), 0.4b (`PlattRecord`, `BrentPlattTrudgianRecord` for `Σ γ^{−2}` and
+  *ZetaZeroFreeUpTo* `14`), 0.4b (`PlattRecord`, `BrentPlattTrudgianRecord` for `Σ γ^{−2}` and
   `LuZamanZhaoRecord`), 5.2 (Rosser's bound for `T ≥ 2`, Bellotti and Wong's, Trudgian's in the
   normalization without `7/8`, and the form with `7/8` and `9.3675`), 5.3 (the count for primitive
   Dirichlet L-functions), 5.4 (Lehman's lemma and Brent–Platt–Trudgian's form), 6.1–6.2 (Perron),
@@ -3436,7 +3450,7 @@ L-functions; the records of 0.4b.
 - `ExplicitMultiplicativeFunctions` takes 4.1 (the Kusmin–Landau inequality, for its §7.4), 6.1
   (Perron), 7.3 (the `5.558691` region, used at `R₀ = 5.56`), 7.10 (the bounds for `1/ζ` that its
   §1.9 uses, each given `RH(3 000 175 332 800)` and `BrentPlattTrudgianRecord`, and, for Leong's and
-  for those on `σ ≥ 3/4`, `LeongRecord`: Leong's on the line one for `t ≥ 2`, Lee and Leong's in
+  for those on `σ ≥ 3/4`, *LeongRecord*: Leong's on the line one for `t ≥ 2`, Lee and Leong's in
   the classical region above that height, and theirs on `σ ≥ 3/4` for `14 ≤ t` up to half a unit
   below that height) and the recorded verification `RH(3 000 175 332 800)` of 0.4, its
   verified-zero hypothesis, as the proposition `RH(H)` of 0.2 through `ExplicitPrimeCounting` §1.1.
@@ -3479,7 +3493,7 @@ refer to the text of the version listed, the arXiv version where one is given.
 - `platt2016grh`: David Platt, *Numerical computations concerning the GRH*, Mathematics of Computation 85 (2016); doi:10.1090/mcom/3077, arXiv:1305.3087v1. Cited for: Theorems 7.1 and 7.2.
 - `alzer1997`: H. Alzer, *On some inequalities for the gamma and psi functions* (1997). Cited for: Theorems 8 and 9.
 - `chenggraham2004`: Y. Cheng, S. W. Graham, *Explicit estimates for the Riemann zeta function*, Rocky Mountain J. Math. 34 (2004). Cited for: Lemma 2.
-- `kadiri2002thesis`: H. Kadiri, *Une région explicite sans zéros pour les fonctions L de Dirichlet*, thèse de doctorat (2002). Cited for: Théorème 11.1 and its English form (115) (`R₁ = 6.4355`).
+- `kadiri2002thesis`: H. Kadiri, *Une région explicite sans zéros pour les fonctions L de Dirichlet*, thèse de doctorat (2002). Cited for: Théorème 11.1 and its English form (115) (`R₁ = 6.4355`, `c = 1.7367` dividing the argument of the logarithm).
 - `kadiri2018`: Habiba Kadiri, *An explicit zero-free region for the Dirichlet L-functions*, Mathematika 64 (2018), no. 2, 445–474; arXiv:math/0510570v2. Cited for: Theorem 1.1 (R = 5.60 for 3 <= q <= 400000); §2 (Theorems 2.1–2.2, its inputs).
 - `logan1988`: B. F. Logan, *An interference problem for exponentials* (1988). Cited for: Theorem 1.
 - `hiary2016hybrid`: Ghaith A. Hiary, *An explicit hybrid estimate for L(1/2+it,χ)* (2015); arXiv:1510.00950v2. Cited for: Theorem 1.2; Corollary 1.1.
