@@ -1,12 +1,14 @@
 import Mathlib
 import TauCeti.Geometry.Manifold.Boundary.Charts
-import TauCeti.Geometry.Manifold.Orientation
+import TauCeti.Geometry.Diffeomorphism.Disc
 
 /-!
 # High-dimensional differential topology and homotopy spheres: target signatures
 
 This file is not the roadmap: the roadmap is README.md. This file states the roadmap's headline
-theorems against the pinned Mathlib and Tau Ceti, each with `sorry`.
+theorems against the pinned Mathlib and Tau Ceti, each with `sorry`. The oriented-atlas
+declarations `TauCeti.IsOrientedAtlas` and `TauCeti.orientationPreservingGroupoid` are reached
+through `TauCeti.Geometry.Diffeomorphism.Disc`, whose public imports re-export them.
 
 Stated here:
 
