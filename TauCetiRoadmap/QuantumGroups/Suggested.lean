@@ -27,11 +27,13 @@ modules.
 
 Not statable at the pins:
 
-* Layer 0: Hilbert-module adjointable and compact operators, interior tensor products,
-  C*-categories with standard conjugates, the unitary Temperley–Lieb category and the minimal
-  C*-tensor product are constructions of the roadmap or of VonNeumannAlgebras; no carrier for
-  any of them exists at the pins. The bicommutant theorem, Tomita–Takesaki theory and full left
-  Hilbert algebras are VonNeumannAlgebras' targets and are not restated here.
+* Layer 0: the free-module coaction legs, the C*-categories with standard conjugates and the
+  unitary Temperley–Lieb category are constructions of the roadmap; the Hilbert-module
+  adjointable and compact operators and interior tensor products they rest on are
+  HilbertModules' targets, the minimal C*-tensor product is VonNeumannAlgebras', and its
+  functoriality, flip and commutative identifications are CStarAlgebras'. No carrier for any of
+  them exists at the pins. The bicommutant theorem, Tomita–Takesaki theory and full left Hilbert
+  algebras are VonNeumannAlgebras' targets and are not restated here.
 * Layer 1 existence and uniqueness of the Haar state of a compact quantum group, and every
   Layer 1, 2, 4 and 7 statement about a C*-bialgebra `Δ : A → A ⊗_min A`: neither Mathlib nor Tau
   Ceti has the minimal (spatial) C*-tensor product of two C*-algebras.
