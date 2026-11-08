@@ -202,7 +202,11 @@ Separable closures: `IsSepClosed.lift` (an embedding over `K` of a separable alg
 `ValuationSubring.valuation`, `ValuationSubring.ValueGroup`, `ValuationSubring.subtype`,
 `HenselianLocalRing` and `HenselianLocalRing.TFAE` (monic simple-root lifting,
 `RingTheory/Henselian.lean`), `IsLocalRing.ResidueField`, and `ValuativeRel.ofValuation` (the
-valuative relation `x ≤ y ↔ v(x) ≤ v(y)` of a valuation, `RingTheory/Valuation/ValuativeRel/Basic.lean`). Cohomology: `continuousCohomology`.
+valuative relation `x ≤ y ↔ v(x) ≤ v(y)` of a valuation, `RingTheory/Valuation/ValuativeRel/Basic.lean`).
+Étale algebras: `Algebra.IsEtaleAt.exists_isStandardEtale` (a finitely presented algebra étale at a
+prime is standard étale on a neighbourhood of it, `RingTheory/Unramified/LocalStructure.lean`) and
+`StandardEtalePair` (a monic `f` and a `g` with `f′` invertible in `R[X][1/g]/(f)`,
+`RingTheory/Etale/StandardEtale.lean`). Cohomology: `continuousCohomology`.
 Inverse limits: `nonempty_sections_of_finite_inverse_system` (`CategoryTheory/CofilteredSystem.lean`:
 an inverse system of nonempty finite sets over a directed preorder has a compatible section; the
 transition maps need not be surjective).
@@ -958,7 +962,7 @@ the uniformizer, not discarded. *Needs:* 0.2, 0.3, 0.5, 2.1; Mathlib `HenselianL
 
 State `quadraticSimilarity_tfae`: for a nondegenerate even-dimensional `q` and a nonzero
 `f ∈ F[T] = F[t₁, …, tₙ]`, the conditions `f* f ∈ G(q_{F(T)})` (with `f*` the leading coefficient of
-`f` in the lexicographic order of EKM, p. 77, in which `t₁` is the most significant variable; this is
+`f` in the lexicographic order of EKM, §18, p. 75, in which `t₁` is the most significant variable; this is
 Mathlib's `MonomialOrder.lex` on `Fin n`, index `0` being `t₁`), `a f ∈ G(q_{F(T)})` for some `a ∈ Fˣ`,
 and hyperbolicity of `q_{F(p)}` for every irreducible `p` dividing `f` to an odd power (Mathlib's
 `multiplicity p f` odd), are equivalent (EKM, Lemma 20.15 and Theorem 20.16, pp. 86–87). The last
@@ -1947,14 +1951,21 @@ For `w ∈ Val_F` let `F_w^h` be the henselization (`LocalFieldsRamificationPart
 
 Prove: for every finite extension `E/F`, the set of `w` such that `E` admits an `F`-embedding into `F_w^h`
 is patch open; it does not depend on the choice of henselization, and it is empty unless `E/F` is
-separable (Dittmann–Pop, Lemma 3.9(1), p. 11). A finite subextension of `F_w^h` lies in an étale
-neighbourhood (`SchemeAndStackFoundations` §0.12), so `E = F(η)` with `η` integral, monic minimal polynomial
-`p` with `w`-integral coefficients and `w(p′(η)) = 0`; since `F_w^h/F` is immediate there is `x ∈ F` with
-`w(x − η) > 0`, hence `w(p(x)) > 0` and `w(p′(x)) = 0`. The finitely many
-clopen conditions `ŵ(aᵢ) ≥ 0`, `ŵ(p(x)) > 0`, `ŵ(p′(x)) = 0` define a neighbourhood of `w` on which `p` has
-a simple Hensel root in `F_ŵ^h`. *Needs:* Tau Ceti `TauCeti.ValuationSpectrum`,
+separable (Dittmann–Pop, Lemma 3.9(1), p. 11). The finitely many generators of a finite subextension
+`E` of `F_w^h` lie in the image of one étale neighbourhood `B` of `(O_w, m_w)`, the henselization being
+their filtered colimit (`SchemeAndStackFoundations` §0.12), and `B` is standard étale near its prime over
+`m_w` (Mathlib `Algebra.IsEtaleAt.exists_isStandardEtale`, `StandardEtalePair`): so `E ⊆ F(η)` for an
+`η ∈ F_w^h` that is a root of a monic `f ∈ O_w[X]` with `w(f′(η)) = 0`. The minimal polynomial `p` of `η`
+over `F` is a monic factor of `f`, hence in `O_w[X]` because `O_w` is integrally closed, and
+`w(p′(η)) = 0` because `f′(η) = p′(η) · (f/p)(η)` with both factors `w`-integral. Since `F_w^h/F` is
+immediate there is `x ∈ F` with `w(x − η) > 0`, hence `w(p(x)) > 0` and `w(p′(x)) = 0`. The finitely many
+clopen conditions `ŵ(aᵢ) ≥ 0`, `ŵ(p(x)) > 0`, `ŵ(p′(x)) = 0` on the coefficients `aᵢ` of `p` define a
+neighbourhood of `w` on which `p` has a simple Hensel root in `F_ŵ^h`, so `F(η)`, and with it `E`, embeds
+into `F_ŵ^h`. (Dittmann–Pop take the stronger `E = F(η)` from Kuhlmann–Novacoski's theory of henselian
+elements; the openness needs only the inclusion.) *Needs:* Tau Ceti `TauCeti.ValuationSpectrum`,
 `TauCeti.ValuationSpectrum.patchTopology`, `TauCeti.ValuationSpectrum.isClopen_patchTopology_basicOpen`;
-`AdicSpaces` Layer 1; `LocalFieldsRamificationPartII` §GF.1; `SchemeAndStackFoundations` §0.12.
+Mathlib `Algebra.IsEtaleAt.exists_isStandardEtale`, `StandardEtalePair`; `AdicSpaces` Layer 1;
+`LocalFieldsRamificationPartII` §GF.1; `SchemeAndStackFoundations` §0.12.
 
 **Checks.**
 
@@ -2046,7 +2057,7 @@ in every henselization; the trivial valuation lies outside, and so does every `p
   Proposition 7.19, Example 7.23, Propositions 7.29 and 7.31, pp. 40–46), §8 (Theorems 8.3–8.5, (8.7),
   Lemma 8.16, Remarks 8.17–8.18, pp. 47–51), §9 (Examples 9.3–9.4, (9.5), Proposition 9.8, Corollaries 9.9–9.10,
   Lemma 9.11, pp. 52–54), §16 (Proposition 16.1, Fact 16.2, pp. 67–68), §17 (Theorem 17.3, Corollary 17.7,
-  Proposition 17.9, Theorem 17.12, pp. 71–74), §18 (Theorem 18.3, Corollary 18.5, pp. 76–77), §19
+  Proposition 17.9, Theorem 17.12, pp. 71–74), §18 (the lexicographic order and the leading coefficient `f*`, Theorem 18.3, Corollary 18.5, pp. 75–77), §19
   (Lemmas 19.2–19.5, Propositions 19.7–19.8, pp. 79–80), §20 (Lemma 20.1 to Corollary 20.13, Theorems 20.14
   and 20.16, pp. 83–87), §22 (Propositions 22.1 and 22.4, Example 22.2, Theorem 22.5, pp. 93–94), §23
   (Theorem 23.7, p. 100), §97 (Lemma 97.1 and Theorem 97.2, p. 385; Corollaries 97.5–97.6 and Theorem 97.7, p. 386), §101 (pp. 402–404).

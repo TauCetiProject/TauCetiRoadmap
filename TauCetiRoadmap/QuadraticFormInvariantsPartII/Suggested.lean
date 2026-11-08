@@ -149,7 +149,7 @@ theorem smul_equivalent_of_smul_equivalent_extendScalars {K : Type u} [Field K] 
 /-- **The quadratic similarity theorem** (EKM, Theorem 20.16, pp. 86–87), in every characteristic.
 Let `Q` be a nondegenerate quadratic form of even dimension `2k` and `f` a nonzero polynomial in
 `t₁, …, tₙ` (the variable `t₁`, index `0`, is the most significant in the lexicographic order, as in
-EKM, p. 77). The following are equivalent: `f* f` is a similarity factor of `Q` over `K(T)`, where
+EKM, §18, p. 75). The following are equivalent: `f* f` is a similarity factor of `Q` over `K(T)`, where
 `f*` is the lexicographic leading coefficient; `a f` is one for some `a ∈ Kˣ`; and for every
 irreducible `p` dividing `f` to an odd power, `Q` is hyperbolic over the residue field `K(p)`. The
 last clause is phrased through every field receiving `K[T]` with kernel exactly `(p)`: such a field
