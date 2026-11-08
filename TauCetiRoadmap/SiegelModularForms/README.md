@@ -161,7 +161,7 @@ literature are each a source of silent error.
 | Index type | All `2g × 2g` matrices are indexed by `Fin g ⊕ Fin g`, matching Mathlib's `Matrix.J` and Tau Ceti's `GLSymplectic`; the blocks are `Matrix.toBlocks₁₁ … toBlocks₂₂`, written `A, B, C, D`. The `Fin (2g)` presentation is reached only through `TauCeti.GLSymplecticFin.mulEquivGLSymplectic` and is never a carrier. |
 | The symplectic form | Mathlib's `J = fromBlocks 0 (−1) 1 0`; `M ∈ Sp` means `M J Mᵀ = J` (`GLSymplectic.mem_iff`), equivalently `Mᵀ J M = J` (`mem_iff'`). The group is the same as for the classical `[[0, 1], [−1, 0]]`; no second `J` is introduced. |
 | `Sp_{2g}(R)` | `TauCeti.GLSymplectic (Fin g) R`, a subgroup of `GL (Fin g ⊕ Fin g) R`. `Sp_{2g}(ℤ)` acts through `GLSymplectic.map (Int.castRingHom ℝ)`, and `Γ_g` denotes its image, a subgroup of `Sp_{2g}(ℝ)`. Arithmetic subgroups are subgroups of `Sp_{2g}(ℝ)`, as Mathlib's degree-one groups are subgroups of `GL (Fin 2) ℝ`. |
-| Similitudes | `GSp⁺_{2g}(R)` is the subgroup of `GL (Fin g ⊕ Fin g) R` of `M` with `M J Mᵀ = μ • J` for some `0 < μ`: the `R`-points of `ClassicalGroupsPartII` CG.0.1's similitude group with positive multiplier. `μ = μ(M)` is CG.0.1's **multiplier** `ν(M)`, a homomorphism to `R_{>0}` on `GSp⁺_{2g}(R)` with kernel `Sp_{2g}(R)`; `Suggested.lean` declares no multiplier and states every law through the defining equation `M J Mᵀ = μ • J`. The set `O_g(m)` is `{M ∈ GSp⁺_{2g}(ℚ) : M integral, μ(M) = m}`; it is not a semigroup (the multiplier is multiplicative, `O_g(m) O_g(n) ⊆ O_g(mn)`), and `O_g(1) = Sp_{2g}(ℤ)`. |
+| Similitudes | `GSp⁺_{2g}(R)` is the subgroup of `GL (Fin g ⊕ Fin g) R` of `M` with `M J Mᵀ = μ • J` for some `0 < μ`: the `R`-points of `ClassicalGroupsPartII` CG.0.1's similitude group with positive multiplier. `μ = μ(M)` is CG.0.1's **multiplier** `ν(M)`, a homomorphism to `R_{>0}` on `GSp⁺_{2g}(R)` with kernel `Sp_{2g}(R)`; `Suggested.lean` declares the multiplier as `GSpPos.mult`, read off the `(inl 0, inr 0)` entry of `M J Mᵀ`, which is `−μ(M)` for Mathlib's `J = fromBlocks 0 (−1) 1 0` (and `1` for `g = 0`), and proves `M J Mᵀ = μ(M) • J` (`GSpPos.mat_mul_J_mul_transpose`) and `μ(M) > 0` (`GSpPos.mult_pos`); the homomorphism law and the kernel are targets of 0.2. The set `O_g(m)` is `{M ∈ GSp⁺_{2g}(ℚ) : M integral, μ(M) = m}`; it is not a semigroup (the multiplier is multiplicative, `O_g(m) O_g(n) ⊆ O_g(mn)`), and `O_g(1) = Sp_{2g}(ℤ)`. |
 | `ℍ_g` | `{τ ∈ Sym g : (τ.map im).PosDef}` as a subtype of the complex vector space `Sym g` of symmetric matrices, with the subspace topology and the charted-space structure of an open subset (as `UpperHalfPlane.Manifold`); **holomorphic** (`Holomorphic f`) means `DifferentiableOn ℂ` of the zero extension of `f` on the open subset `ℍ_g ⊆ Sym g`, which is the holomorphy of `f` and avoids a second topology on the model space (for `g = 1` it is Mathlib's `MDifferentiable 𝓘(ℂ) 𝓘(ℂ)`). Positivity is strict; `τ = X + iY` with `X = τ.re`, `Y = τ.im` real symmetric. |
 | The action | `γ • τ = (Aτ + B)(Cτ + D)⁻¹` for `γ ∈ GSp⁺_{2g}(ℝ)`, a left action; `Im(γ • τ) = μ(γ) (C τ̄ + D)⁻ᵀ Y (Cτ + D)⁻¹`. `Sp_{2g}(ℚ)` and `Γ_g` act through their images in `GSp⁺_{2g}(ℝ)`. |
 | Weights | A weight is a **holomorphic** finite-dimensional representation `ρ : GL_g(ℂ) → GL(V)`: `Representation ℂ (GL (Fin g) ℂ) V` on a finite-dimensional normed `ℂ`-space whose matrix coefficients are holomorphic on the open set of invertible matrices. Scalar weight `k` is `det^k`. For `g = 2`, `ρ_{k,j} := Sym^j(std) ⊗ det^k`, realized on the homogeneous polynomials of degree `j` in `ℂ[X₀, X₁]` with `A` acting by the substitution `X_i ↦ ∑_l A_{l i} X_l` and the scalar `(det A)^k`; as a normed space the carrier is the coefficient vectors `Fin (j + 1) → ℂ` in the monomial basis `X₀^{j−i} X₁^i` (sup norm), so that the Lean carrier of a weight is always a normed space and the polynomial picture is the definition of the action; its highest weight is `(k + j, k)`, and `(k, j)` is the LMFDB weight. The exponent `e(ρ) := ∑ λ_i − g(g+1)/2` of a weight with highest weight `(λ_1 ≥ … ≥ λ_g)` is `gk − g(g+1)/2` for `det^k` and `2k + j − 3` for `ρ_{k,j}`. |
@@ -475,7 +475,10 @@ For a linearly ordered field `R` (of characteristic zero, so a `ℚ`-algebra), c
 changes neither the condition nor `ν`), the multiplier `ν` is a homomorphism, unique for `g ≥ 1`,
 and its fibre `ν = 1` is `Sp_{2g}(R)`. Define `GSp⁺_{2g}(R)` as the subgroup of these `M` with
 `ν(M) > 0`, and write `μ` for `ν` restricted to it, a homomorphism `GSp⁺_{2g}(R) →* R_{>0}` with
-kernel `Sp_{2g}(R)`. Prove: `det M = μ(M)^g` for every `g`, an owned target (from
+kernel `Sp_{2g}(R)`; in `Suggested.lean` it is `GSpPos.mult`, the negative of the `(inl 0, inr 0)`
+entry of `M J Mᵀ`, which the defining equation makes `−μ(M)` (that entry of Mathlib's `J` is `−1`),
+with `M J Mᵀ = μ(M) • J` and `μ(M) > 0` proved there and the homomorphism law a target.
+Prove: `det M = μ(M)^g` for every `g`, an owned target (from
 `Mᵀ J M = μ(M) J`, equivalent to `M J Mᵀ = μ(M) J` for invertible `M`: taking determinants gives
 only `det(M)² = μ^{2g}`, so the sign is fixed by the Pfaffian, `Pf(Mᵀ J M) = det(M) Pf(J)` and
 `Pf(μ J) = μ^g Pf(J)`, or by reducing `M` to a block-diagonal `diag(A, μ A⁻ᵀ)` by symplectic row
@@ -502,7 +505,10 @@ bridge check; `AutomorphicFormsOnReductiveGroups` §6.4 for the degree-two compa
 
 - `diag(1_g, m·1_g)` satisfies `M J Mᵀ = m J`: multiplier `m`, determinant `m^g` (`4` for `g = 2`,
   `m = 2`, a value no rank-two lemma covers); the scalar `c·1` has `μ = c²` and `det = c^{2g}`;
-  `M^∨` carries `diag(1, m)` to `diag(m, 1)` with the same multiplier.
+  `M^∨` carries `diag(1, m)` to `diag(m, 1)` with the same multiplier. For `diag(1, 2)` and
+  `g = 1`, `M J Mᵀ = [[0, −2], [2, 0]]`, whose `(inl 0, inr 0)` entry is `−2`: the multiplier read
+  off by `GSpPos.mult` is its negative, `2`; the entry taken without the sign, or the
+  `(inr 0, inl 0)` entry `+2` taken with it, would give `−2`, rejected by positivity.
 - `diag(1, 2) ∈ O₁(2)` and `diag(1, 2)² = diag(1, 4) ∈ O₁(4) ∖ O₁(2)`: a fixed-multiplier piece
   is not closed under multiplication; `O_g(1) = Sp_{2g}(ℤ)` since the inverse `−J Mᵀ J` of an
   integral symplectic matrix is integral.
@@ -2657,7 +2663,9 @@ equivariance (9.4) and the Satake computation. Acceptance: `χ₁₀ = SK(f₁�
 (`|α₀| = p^{k−2} ≠ p^{(2k−3)/2}`), which is why 8.2 states that bound only off the Maass space.
 The knowl `mf.siegel.lift.saito_kurokawa`'s "`f ∈ S_{2k}` with `k` odd lifts to weight `k + 1`"
 is this theorem with `k + 1` in place of `k`. The eigenvalue form
-`λ_F(T(p)) = a_p(f) + p^{k−1} + p^{k−2}` is the statement `saito_kurokawa` of `Suggested.lean`.
+`λ_F(T(p)) = a_p(f) + p^{k−1} + p^{k−2}` is the statement `saito_kurokawa` of `Suggested.lean`,
+written as `T(p) F = (a_p(f) + p^{k−1} + p^{k−2}) F`, which determines the scalar because an
+eigenform is nonzero (7.2).
 
 *Needs:* 7.4, 8.1, 8.2, 9.3, 9.4; the sibling `HalfIntegralWeightModularForms`
 (Kohnen's isomorphism and the theta decomposition as a Hecke-module isomorphism).
@@ -3155,7 +3163,12 @@ This assertion concerns `T(m)`, not every rationally normalized double coset:
 `T₂(p²)` acts by `p^{2k−6}` and needs `k ≥ 3` for this scalar to be integral.
 At weight zero the constant form instead has `λ(T(p)) = (p+1)(p²+1)/p³`;
 weight one is a zero space by 6.3. At every weight the rational Hecke action implies that the **coefficient field** `ℚ(F) := ℚ(λ_F(T(p)), λ_F(T₁(p²)) : p)` is a number
-field (the knowl `mf.siegel.coefficient_field`). If its simultaneous eigenspace in the
+field (the knowl `mf.siegel.coefficient_field`); `Suggested.lean` states this as
+`finiteDimensional_coefficientField` for `coefficientField`, the field generated by the scalars
+`c` with `T(m) F = c F` for some `m ≥ 1`, which for an eigenform `F` are its eigenvalues
+`λ_F(T(m))` and generate `ℚ(F)`, since over `ℚ` each local algebra is generated by `T(p)` and
+`T(p²)` (7.4) and the `T(p)` with `T₁(p²)` generate it equally; its algebraic-integrality statement
+`eigenvalue_isIntegral` takes the eigenvalue as the scalar `c` with `T(m) F = c F`. If its simultaneous eigenspace in the
 chosen rational Hecke module is one-dimensional, prove it is defined over this field:
 normalizing `a(T₀) = 1` at a nonzero coefficient gives all Fourier coefficients in `ℚ(F)`,
 and conversely the eigenvalue equations recover the eigenvalues from those coefficients.

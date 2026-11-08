@@ -150,6 +150,38 @@ variable {g : ℕ}
 def GSpPos.mat (M : GSpPos g R) : Matrix (Fin g ⊕ Fin g) (Fin g ⊕ Fin g) R :=
   ((M : GL (Fin g ⊕ Fin g) R) : Matrix (Fin g ⊕ Fin g) (Fin g ⊕ Fin g) R)
 
+/-- The **multiplier** `μ(M)` of a similitude (0.2), read off the defining equation
+`M J Mᵀ = μ • J`: for `g ≥ 1` the `(inl 0, inr 0)` entry of Mathlib's `J = fromBlocks 0 (−1) 1 0`
+is `−1`, so that entry of `M J Mᵀ` is `−μ(M)`; for `g = 0` the group is trivial and the
+multiplier is `1`. On `diag(1, 2) ∈ GSp⁺₂(ℚ)` the entry is `−2` and the multiplier `2`. -/
+def GSpPos.mult (M : GSpPos g R) : R :=
+  if h : 0 < g then
+    -(GSpPos.mat M * Matrix.J (Fin g) R * (GSpPos.mat M)ᵀ) (Sum.inl ⟨0, h⟩) (Sum.inr ⟨0, h⟩)
+  else 1
+
+/-- The defining equation of a similitude holds with its multiplier: `M J Mᵀ = μ(M) • J` (0.2). -/
+theorem GSpPos.mat_mul_J_mul_transpose (M : GSpPos g R) :
+    GSpPos.mat M * Matrix.J (Fin g) R * (GSpPos.mat M)ᵀ = GSpPos.mult M • Matrix.J (Fin g) R := by
+  obtain ⟨μ, -, hM⟩ := M.2
+  have hM' : GSpPos.mat M * Matrix.J (Fin g) R * (GSpPos.mat M)ᵀ = μ • Matrix.J (Fin g) R := hM
+  unfold GSpPos.mult
+  split_ifs with h
+  · rw [hM']
+    congr 1
+    simp [Matrix.J, Matrix.fromBlocks_apply₁₂]
+  · have : IsEmpty (Fin g) := ⟨fun i => h (lt_of_le_of_lt (Nat.zero_le _) i.2)⟩
+    exact Subsingleton.elim _ _
+
+/-- The multiplier is positive (0.2). -/
+theorem GSpPos.mult_pos (M : GSpPos g R) : 0 < GSpPos.mult M := by
+  obtain ⟨μ, hμ, hM⟩ := M.2
+  have hM' : GSpPos.mat M * Matrix.J (Fin g) R * (GSpPos.mat M)ᵀ = μ • Matrix.J (Fin g) R := hM
+  unfold GSpPos.mult
+  split_ifs with h
+  · rw [hM']
+    simpa [Matrix.J, Matrix.fromBlocks_apply₁₂] using hμ
+  · exact one_pos
+
 /-- `Sp_{2g}(R) → GSp⁺_{2g}(R)`, the kernel of the multiplier (0.2). -/
 def Sp.toGSpPos : Sp g R →* GSpPos g R where
   toFun γ := ⟨γ, 1, one_pos, by simpa using TauCeti.GLSymplectic.mem_iff.mp γ.2⟩
@@ -515,12 +547,9 @@ def slash (ρ : Weight g V) (γ : GSpPos g ℝ) (f : ℍ[g] → V) : ℍ[g] → 
   fun τ => ρ.rep (autFactor γ τ)⁻¹ (f (γ • τ))
 
 /-- The slash operator with exponent `e` for rational similitudes,
-`(f ∣_{ρ,e} γ)(τ) = μ(γ)^e ρ(Cτ + D)⁻¹ f(γ • τ)` (1.2). The scalar `μ(γ)` is the one in the
-membership witness of `γ`, which is the multiplier for `g ≥ 1`. -/
+`(f ∣_{ρ,e} γ)(τ) = μ(γ)^e ρ(Cτ + D)⁻¹ f(γ • τ)` (1.2), with the multiplier `GSpPos.mult`. -/
 def slashE (ρ : Weight g V) (e : ℤ) (γ : GSpPos g ℚ) (f : ℍ[g] → V) : ℍ[g] → V :=
-  fun τ => ((Classical.choose (show ∃ μ : ℚ, 0 < μ ∧
-      GSpPos.mat γ * Matrix.J (Fin g) ℚ * (GSpPos.mat γ)ᵀ = μ • Matrix.J (Fin g) ℚ from γ.2) : ℚ) :
-        ℂ) ^ e • slash ρ (GSpPos.ratToReal γ) f τ
+  fun τ => ((GSpPos.mult γ : ℚ) : ℂ) ^ e • slash ρ (GSpPos.ratToReal γ) f τ
 
 theorem slash_add (ρ : Weight g V) (γ : GSpPos g ℝ) (f h : ℍ[g] → V) :
     slash ρ γ (f + h) = slash ρ γ f + slash ρ γ h := by
@@ -1353,10 +1382,6 @@ def IsHeckeEigenform (ρ : Weight g V) (e : ℤ) (f : SiegelModularForm (Gamma g
   f ≠ 0 ∧ (∀ m : ℕ, ∃ c : ℂ, heckeT ρ e m f = c • f) ∧
     ∀ p i : ℕ, ∃ c : ℂ, heckeTi ρ e p i f = c • f
 
-/-- The eigenvalue `λ_f(T(m))` of an eigenform (7.2). -/
-def eigenvalue {ρ : Weight g V} {e : ℤ} {f : SiegelModularForm (Gamma g) ρ} (hf : IsHeckeEigenform ρ e f)
-    (m : ℕ) : ℂ := Classical.choose (hf.2.1 m)
-
 /-- Cusp forms have a basis of eigenforms (7.2), for every holomorphic weight `ρ` (so for
 `det^k` and for `ρ_{k,j}` alike) and every exponent `e`: the Hecke operators are commuting
 self-adjoint operators for the Petersson product on a finite-dimensional space, and changing
@@ -1436,13 +1461,14 @@ theorem finrank_maassSubmodule_inf_cusp (k : ℕ) (hk : Even k) (hk4 : 4 ≤ k) 
 `F = SK(f)` in the Maass space of cusp forms `S_k^*(Γ₂)` with
 `λ_F(T(p)) = a_p(f) + p^{k−1} + p^{k−2}` for every prime `p`, that is,
 `L(s, F, spin) = ζ(s − k + 1) ζ(s − k + 2) L(s, f)`; for `χ₁₀ = SK(f₁₈)`,
-`λ(2) = −528 + 512 + 256 = 240`. -/
+`λ(2) = −528 + 512 + 256 = 240`. The eigenvalue identity is stated as
+`T(p) F = (a_p(f) + p^{k−1} + p^{k−2}) • F`, which determines the scalar since `F ≠ 0`. -/
 theorem saito_kurokawa (k : ℕ) (hk : Even k) (hk4 : 4 ≤ k)
     (f : HeckeRing.GL2.Newform 1 (2 * (k : ℤ) - 2)) :
     ∃ F : SiegelModularForm (Gamma 2) (detWeight 2 k), IsCuspForm F ∧ IsMaassForm F ∧
-      ∃ hF : IsHeckeEigenform _ (scalarExponent 2 k) F, ∀ p : ℕ, p.Prime →
-        eigenvalue hF p =
-          (qExpansion 1 f.toCuspForm).coeff p + (p : ℂ) ^ (k - 1) + (p : ℂ) ^ (k - 2) := sorry
+      IsHeckeEigenform _ (scalarExponent 2 k) F ∧ ∀ p : ℕ, p.Prime →
+        heckeT _ (scalarExponent 2 k) p F =
+          ((qExpansion 1 f.toCuspForm).coeff p + (p : ℂ) ^ (k - 1) + (p : ℂ) ^ (k - 2)) • F := sorry
 
 /-! ## Layer 10: paramodular forms -/
 
@@ -1524,18 +1550,22 @@ theorem finrank_cusp_paramodular (k p : ℕ) (hp : p.Prime) (hk : 5 ≤ k) :
 
 /-- The eigenvalues of `T(m)` on a scalar level-one eigenform of weight `k ≥ 2`
 are algebraic integers (11.2): the Hecke operators
-preserve the lattice of forms with integral coefficients. -/
+preserve the lattice of forms with integral coefficients. The eigenvalue `λ_f(T(m))` is the
+scalar `c` with `T(m) f = c • f`, unique since `f ≠ 0`. -/
 theorem eigenvalue_isIntegral (k : ℤ) (hk : 2 ≤ k) {f : SiegelModularForm (Gamma 2) (detWeight 2 k)}
-    (hf : IsHeckeEigenform _ (scalarExponent 2 k) f) (m : ℕ) : _root_.IsIntegral ℤ (eigenvalue hf m) :=
-  sorry
+    (hf : IsHeckeEigenform _ (scalarExponent 2 k) f) (m : ℕ) (c : ℂ)
+    (hc : heckeT _ (scalarExponent 2 k) m f = c • f) : _root_.IsIntegral ℤ c := sorry
 
-/-- The **coefficient field** `ℚ(λ_F(T(m)) : m)` of an eigenform (11.2). -/
-def coefficientField (k : ℤ) {f : SiegelModularForm (Gamma 2) (detWeight 2 k)}
-    (hf : IsHeckeEigenform _ (scalarExponent 2 k) f) : IntermediateField ℚ ℂ :=
-  IntermediateField.adjoin ℚ (Set.range fun m : ℕ => eigenvalue hf m)
+/-- The **coefficient field** `ℚ(λ_f(T(m)) : m)` of a scalar level-one form `f` (11.2): the
+field generated by the scalars `c` with `T(m) f = c • f` for some `m`. For an eigenform these
+are exactly its eigenvalues `λ_f(T(m))`, since `f ≠ 0`; the eigenform hypothesis of 7.2 is
+carried by the theorem about it. -/
+def coefficientField (k : ℤ) (f : SiegelModularForm (Gamma 2) (detWeight 2 k)) :
+    IntermediateField ℚ ℂ :=
+  IntermediateField.adjoin ℚ {c : ℂ | ∃ m : ℕ, heckeT _ (scalarExponent 2 k) m f = c • f}
 
-/-- The coefficient field is a number field (11.2). -/
+/-- The coefficient field of an eigenform is a number field (11.2). -/
 theorem finiteDimensional_coefficientField (k : ℤ) {f : SiegelModularForm (Gamma 2) (detWeight 2 k)}
-    (hf : IsHeckeEigenform _ (scalarExponent 2 k) f) : FiniteDimensional ℚ (coefficientField k hf) := sorry
+    (hf : IsHeckeEigenform _ (scalarExponent 2 k) f) : FiniteDimensional ℚ (coefficientField k f) := sorry
 
 end TauCetiRoadmap.SiegelModularForms
